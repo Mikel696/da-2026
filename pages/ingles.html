@@ -1,272 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Inglés Técnico · DA-2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇺🇸</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="../css/main.css"/>
 <style>
-.vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 14px; }
-.vocab-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rad); padding: 18px; transition: all .2s; cursor: pointer; }
-.vocab-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-.vocab-card.flipped .vc-front { display: none; }
-.vocab-card.flipped .vc-back { display: block; }
-.vc-back { display: none; }
-.vc-en { font-family: var(--fh); font-size: 1.2rem; font-weight: 800; color: var(--acid); }
-.vc-pron { font-family: var(--fm); font-size: .7rem; color: var(--txt3); margin: 2px 0 6px; }
-.vc-es { font-size: .88rem; color: var(--txt2); }
-.vc-ex { font-size: .8rem; color: var(--txt3); font-style: italic; border-left: 2px solid var(--acid); padding-left: 8px; margin-top: 8px; }
-.quiz-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--rad2); padding: 28px; text-align: center; max-width: 500px; margin: 0 auto; }
-.quiz-question { font-family: var(--fh); font-size: 1.5rem; font-weight: 800; color: var(--acid); margin-bottom: 8px; }
-.quiz-pron { font-family: var(--fm); font-size: .75rem; color: var(--txt3); margin-bottom: 20px; }
-.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.quiz-opt { background: var(--ink3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; font-family: var(--fb); font-size: .9rem; transition: all .18s; text-align: center; }
-.quiz-opt:hover { border-color: var(--acid); background: var(--acid-d); color: var(--acid); }
-.quiz-opt.correct { border-color: var(--mint); background: var(--mint-d); color: var(--mint); }
-.quiz-opt.wrong { border-color: var(--rose); background: rgba(255,77,126,.1); color: var(--rose); }
-.quiz-score { font-family: var(--fh); font-size: 2rem; font-weight: 800; color: var(--acid); }
+.tabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:8px;font-family:var(--fm);font-size:.74rem;cursor:pointer;border:1px solid var(--border);background:var(--ink3);color:var(--txt3);transition:all .18s}
+.tab.active{background:var(--acid-d);border-color:rgba(200,255,0,.3);color:var(--acid)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* flip cards */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.flip-card{height:160px;perspective:800px;cursor:pointer}
+.flip-inner{width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d;position:relative}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;border-radius:var(--rad);padding:18px;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center}
+.flip-front{background:var(--card);border:1px solid var(--border)}
+.flip-back{background:var(--ink3);border:1px solid rgba(200,255,0,.2);transform:rotateY(180deg)}
+.flip-en{font-family:var(--fh);font-size:1.05rem;font-weight:800;color:var(--acid);margin-bottom:4px}
+.flip-pron{font-family:var(--fm);font-size:.65rem;color:var(--txt3)}
+.flip-es{font-family:var(--fh);font-size:.95rem;font-weight:700;color:var(--txt);margin-bottom:6px}
+.flip-ex{font-size:.75rem;color:var(--txt3);font-style:italic;line-height:1.5}
+
+/* quiz */
+.quiz-q{font-family:var(--fh);font-size:1.1rem;font-weight:700;margin-bottom:16px}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quiz-opt{padding:12px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--ink3);font-size:.88rem;cursor:pointer;transition:all .2s;text-align:left}
+.quiz-opt:hover{border-color:var(--acid);background:var(--acid-d);color:var(--acid)}
+.quiz-opt.correct{border-color:var(--mint);background:var(--mint-d);color:var(--mint)}
+.quiz-opt.wrong{border-color:var(--rose);background:rgba(255,77,126,.08);color:var(--rose)}
+.quiz-result{margin-top:12px;font-family:var(--fh);font-size:.9rem;font-weight:700;min-height:24px}
+
+/* phrase cards */
+.phrase-section{margin-bottom:28px}
+.phrase-section h3{font-family:var(--fh);font-size:1rem;font-weight:800;margin-bottom:12px;color:var(--sky)}
+.phrase{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);padding:14px 16px;margin-bottom:8px;transition:border-color .2s}
+.phrase:hover{border-color:var(--border2)}
+.ph-en{font-family:var(--fh);font-size:.92rem;font-weight:700;color:var(--acid);margin-bottom:3px}
+.ph-es{font-size:.82rem;color:var(--txt2);margin-bottom:3px}
+.ph-ctx{font-size:.75rem;color:var(--txt3);font-style:italic}
+
+/* interview */
+.interview-qa{background:var(--card);border:1px solid var(--border);border-radius:var(--rad2);padding:20px;margin-bottom:14px}
+.iq-q{font-family:var(--fh);font-size:.95rem;font-weight:800;color:var(--sky);margin-bottom:10px}
+.iq-a{font-size:.87rem;color:var(--txt2);line-height:1.75;border-left:2px solid var(--sky);padding-left:12px}
+.iq-tip{font-family:var(--fm);font-size:.67rem;color:var(--acid);background:var(--acid-d);border:1px solid rgba(200,255,0,.2);border-radius:20px;padding:3px 10px;display:inline-block;margin-top:10px}
 </style>
 </head>
 <body>
-<div class="orb o1"></div>
-<nav class="sidebar" id="sb">
-  <div class="sb-top">
-    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
-    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
-    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
-  </div>
-  <div class="sb-nav">
-    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
-    <a href="ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
-    <a href="sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
-    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
-    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
-    <a href="prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
-    <a href="ingles.html" class="nav-link active"><span>🇺🇸</span>Inglés Técnico</a>
-    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
-    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
-    <a href="configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
-  </div>
-  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
-</nav>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
 <button class="ham" id="ham"><span></span><span></span><span></span></button>
-
 <main class="main">
   <div class="topbar">
-    <div class="topbar-left">
-      <h1 class="page-title">🇺🇸 Inglés Técnico para Datos</h1>
-      <span class="page-sub">Vocabulario, frases para CV e inglés para entrevistas</span>
-    </div>
+    <div><h1 class="page-title">🇺🇸 Inglés Técnico</h1><span class="page-sub" id="greeting">...</span></div>
     <div class="topbar-right">
-      <div class="global-progress-mini"><span class="gp-pct" id="gp-pct">0%</span><div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div></div>
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
     </div>
   </div>
-
   <div class="section-body">
-    <div class="box box-a" style="margin-bottom:24px;">
-      <strong>Por qué el inglés importa:</strong> El 70% de las vacantes remotas bien pagadas para analistas de datos requieren inglés B2+. La documentación técnica de Pandas, SQL y Power BI está en inglés. Aprenderlo no es opcional — es infraestructura de carrera.
+
+    <div class="box box-a" style="margin-bottom:20px;">
+      <strong>Por qué importa:</strong> El 70% de los trabajos de datos bien pagados en LATAM requieren inglés B2+. Leer documentación técnica en inglés desde hoy acelera tanto el idioma como el conocimiento técnico.
     </div>
 
     <!-- TABS -->
-    <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
-      <button class="filter-btn active" onclick="showTab('vocab', this)" style="font-family:var(--fm);font-size:.72rem;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .18s;">📚 Vocabulario</button>
-      <button class="filter-btn" onclick="showTab('quiz', this)" style="font-family:var(--fm);font-size:.72rem;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .18s;">🧠 Quiz</button>
-      <button class="filter-btn" onclick="showTab('cv', this)" style="font-family:var(--fm);font-size:.72rem;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .18s;">📄 Frases para CV</button>
-      <button class="filter-btn" onclick="showTab('interview', this)" style="font-family:var(--fm);font-size:.72rem;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--txt3);cursor:pointer;transition:all .18s;">🎤 Entrevistas en Inglés</button>
+    <div class="tabs">
+      <button class="tab active" data-panel="vocab">📚 Vocabulario (20)</button>
+      <button class="tab" data-panel="quiz">🧠 Quiz</button>
+      <button class="tab" data-panel="cv">📄 Frases para CV</button>
+      <button class="tab" data-panel="interview">🎤 Entrevistas</button>
     </div>
 
-    <!-- VOCAB TAB -->
-    <div id="tab-vocab">
-      <p style="color:var(--txt2);font-size:.88rem;margin-bottom:16px;">Haz clic en cada tarjeta para ver el ejemplo en contexto.</p>
-      <div class="vocab-grid" id="vocab-grid"></div>
-    </div>
-
-    <!-- QUIZ TAB -->
-    <div id="tab-quiz" style="display:none;">
-      <div class="quiz-card">
-        <div style="font-family:var(--fm);font-size:.68rem;color:var(--txt3);margin-bottom:16px;">PREGUNTA <span id="q-num">1</span> / 10 · Score: <span id="q-score" style="color:var(--acid);">0</span></div>
-        <div class="quiz-question" id="q-word">Loading...</div>
-        <div class="quiz-pron" id="q-pron"></div>
-        <p style="color:var(--txt2);font-size:.85rem;margin-bottom:16px;">¿Cuál es la traducción/significado?</p>
-        <div class="quiz-options" id="q-options"></div>
-        <div id="q-result" style="margin-top:14px;font-family:var(--fh);font-size:.9rem;min-height:20px;"></div>
-        <button class="btn btn-acid" id="q-next" onclick="nextQuestion()" style="margin-top:14px;display:none;">Siguiente →</button>
+    <!-- VOCAB -->
+    <div class="tab-panel active" id="panel-vocab">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+        <p style="color:var(--txt2);font-size:.88rem;">Haz clic en cada tarjeta para voltear y ver el significado.</p>
+        <button onclick="resetFlips()" class="btn btn-ghost" style="font-size:.75rem;padding:7px 14px;">↻ Resetear</button>
       </div>
+      <div class="cards-grid" id="vocab-grid"></div>
     </div>
 
-    <!-- CV PHRASES TAB -->
-    <div id="tab-cv" style="display:none;">
-      <div class="grid-2c">
-        <div class="tactic">
-          <span class="tac-label tl-acid">💼 Títulos para LinkedIn/CV</span>
-          <h3>Títulos optimizados para ATS</h3>
-          <div class="cw"><div class="cb" id="cv-titles">Junior Data Analyst | SQL · Python · Power BI | Google Certified
-Data Analyst Jr. | SQL · Pandas · Tableau | Remote-Ready
-Business Intelligence Analyst | SQL · Power BI · DAX | LATAM
-Entry-Level Data Analyst | Python · Pandas · BigQuery | Available Now</div><button class="cp" onclick="cp('cv-titles',this)">Copiar</button></div>
+    <!-- QUIZ -->
+    <div class="tab-panel" id="panel-quiz">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h3 style="font-family:var(--fh);font-size:1.1rem;font-weight:800;">Quiz de Vocabulario</h3>
+          <p style="color:var(--txt2);font-size:.85rem;">Pregunta <span id="q-num">1</span> de 10 · <span id="q-score" style="color:var(--acid);">0 puntos</span></p>
         </div>
-        <div class="tactic">
-          <span class="tac-label tl-sky">📊 Bullets de Logros para CV</span>
-          <h3>Frases con impacto cuantificado</h3>
-          <div class="cw"><div class="cb" id="cv-bullets">• Identified $200K in slow-moving inventory through SQL analysis, enabling a 35% reduction in holding costs
-• Built an automated ETL pipeline processing 500K daily records, reducing manual reporting time by 80%
-• Developed a Power BI dashboard tracking 8 KPIs across 5 regions, used by 15 stakeholders weekly
-• Cleaned and imputed a corrupted dataset with 77% null values, recovering 80% of records for model training
-• Created a semantic SQL query library using GenAI prompts, reducing ad-hoc analysis time by 40%</div><button class="cp" onclick="cp('cv-bullets',this)">Copiar</button></div>
-        </div>
-        <div class="tactic">
-          <span class="tac-label tl-mint">🔑 Skills Section para CV</span>
-          <h3>Sección de habilidades técnicas</h3>
-          <div class="cw"><div class="cb" id="cv-skills">Technical Skills:
-• Languages: SQL (PostgreSQL, BigQuery), Python (Pandas, NumPy, Matplotlib)
-• BI Tools: Power BI (DAX, Star Schema), Tableau Public, Google Data Studio
-• Databases: PostgreSQL, Google BigQuery, MySQL
-• Tools: Git/GitHub, Google Colab, Jupyter Notebook, Excel/Google Sheets
-• AI: Prompt Engineering (GPT-4, Claude, Gemini for data workflows)
+        <button onclick="startQuiz()" class="btn btn-ghost" style="font-size:.75rem;padding:7px 14px;">↻ Nuevo quiz</button>
+      </div>
+      <div id="quiz-area"></div>
+    </div>
 
-Methodologies:
-• EDA, Data Wrangling, ETL Processes, KPI Reporting, A/B Analysis</div><button class="cp" onclick="cp('cv-skills',this)">Copiar</button></div>
-        </div>
-        <div class="tactic">
-          <span class="tac-label tl-ember">📧 Cover Letter Template</span>
-          <h3>Carta de presentación en inglés</h3>
-          <div class="cw"><div class="cb" id="cv-cover">Dear Hiring Manager,
-
-I am applying for the Junior Data Analyst position at [Company]. With hands-on experience in SQL, Python (Pandas), and Power BI, I have built a portfolio of 3 real-world projects that demonstrate my ability to extract business value from messy, real-world data.
-
-In my most recent project, I [describe your best project result with a metric]. I am particularly drawn to [Company] because [specific reason related to their industry/product].
-
-I would welcome the opportunity to discuss how my skills in [SQL/Python/Power BI] could contribute to [Company]'s data team.
-
-Best regards,
-[Your Name]</div><button class="cp" onclick="cp('cv-cover',this)">Copiar</button></div>
+    <!-- CV PHRASES -->
+    <div class="tab-panel" id="panel-cv">
+      <div class="phrase-section">
+        <h3>Títulos de LinkedIn / CV</h3>
+        <div class="phrase"><div class="ph-en">Junior Data Analyst | SQL · Python · Power BI | Open to Remote Opportunities</div><div class="ph-es">Título del perfil · combina rol + stack + disponibilidad</div></div>
+        <div class="phrase"><div class="ph-en">Data & Analytics Specialist | Transforming Raw Data into Business Insights</div><div class="ph-es">Propuesta de valor en una línea</div></div>
+        <div class="phrase"><div class="ph-en">Aspiring Data Analyst | Building expertise in SQL, Python & BI | LATAM Remote</div><div class="ph-es">Para perfiles que están en formación activa</div></div>
+      </div>
+      <div class="phrase-section">
+        <h3>Bullets de logros cuantificados</h3>
+        <div class="phrase"><div class="ph-en">Analyzed 500K+ transaction records using Python & Pandas, identifying 3 revenue leakage patterns worth $120K annually</div><div class="ph-es">Análisis de datos de transacciones con hallazgos cuantificados</div></div>
+        <div class="phrase"><div class="ph-en">Built interactive Power BI dashboard tracking 8 KPIs, reducing weekly reporting time from 4 hours to 20 minutes</div><div class="ph-es">Dashboard con impacto en tiempo ahorrado</div></div>
+        <div class="phrase"><div class="ph-en">Designed and optimized 15 SQL queries in BigQuery processing 1M+ rows, reducing execution time by 40%</div><div class="ph-es">Optimización de SQL con métrica de mejora</div></div>
+        <div class="phrase"><div class="ph-en">Developed ETL pipeline automating data ingestion from 3 sources, eliminating 6 hours of manual work weekly</div><div class="ph-es">Pipeline de datos con ahorro de tiempo cuantificado</div></div>
+        <div class="phrase"><div class="ph-en">Conducted cohort analysis revealing 35% higher retention for users who completed onboarding in first 7 days</div><div class="ph-es">Análisis de cohortes con hallazgo de negocio</div></div>
+      </div>
+      <div class="phrase-section">
+        <h3>Sección Skills del CV</h3>
+        <div class="phrase"><div class="ph-en">Technical Skills: SQL (PostgreSQL, BigQuery), Python (Pandas, NumPy, Matplotlib), Power BI, Tableau, Google Sheets, Excel (Advanced), Git/GitHub</div><div class="ph-es">Lista técnica para ATS — usa los nombres exactos que piden en la oferta</div></div>
+        <div class="phrase"><div class="ph-en">Analytical Skills: Data wrangling, exploratory data analysis (EDA), statistical analysis, data visualization, A/B testing fundamentals</div><div class="ph-es">Habilidades analíticas que los reclutadores buscan</div></div>
+      </div>
+      <div class="phrase-section">
+        <h3>Cover Letter / Email de presentación</h3>
+        <div class="phrase">
+          <div class="ph-en">I am a data analyst with hands-on experience in SQL, Python, and Power BI, looking for a remote opportunity where I can turn complex datasets into clear business decisions. My recent project [PROJECT NAME] resulted in [OUTCOME], which demonstrates my ability to [SKILL].</div>
+          <div class="ph-es">Apertura de cover letter · personaliza las partes en mayúsculas</div>
         </div>
       </div>
     </div>
 
-    <!-- INTERVIEW TAB -->
-    <div id="tab-interview" style="display:none;">
-      <div style="display:flex;flex-direction:column;gap:14px;" id="interview-qa"></div>
+    <!-- INTERVIEWS -->
+    <div class="tab-panel" id="panel-interview">
+      <div class="box box-s" style="margin-bottom:20px;">
+        <strong>Método STAR en inglés:</strong> Situation (contexto) → Task (tu objetivo) → Action (lo que hiciste) → Result (número). Siempre termina con una métrica.
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"Tell me about yourself."</div>
+        <div class="iq-a">I'm a data analyst focused on [SQL / Python / Power BI]. I'm currently building my portfolio on GitHub, where I've completed projects including [PROJECT 1] and [PROJECT 2]. Before transitioning to data, I worked in [BACKGROUND], which gave me strong business context for analytical work. I'm particularly interested in [INDUSTRY] because [REASON].</div>
+        <span class="iq-tip">Fórmula: quién eres + stack + proyectos + por qué datos</span>
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"Describe a time you used data to solve a business problem."</div>
+        <div class="iq-a">In my project [NAME], the situation was that [BUSINESS PROBLEM — e.g. "the team had no visibility into which products caused the most returns"]. My task was to build a dashboard that surfaced the root cause. I cleaned 80,000+ records in Python, built a star schema in Power BI, and created a DAX measure tracking return rate by SKU. The result was identifying 3 product categories responsible for 70% of returns, which informed a pricing change that reduced returns by 18%.</div>
+        <span class="iq-tip">STAR completo · adapta el número al proyecto real</span>
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"What is the difference between INNER JOIN and LEFT JOIN?"</div>
+        <div class="iq-a">An INNER JOIN returns only the rows that have matching values in both tables. A LEFT JOIN returns all rows from the left table plus the matching rows from the right table — unmatched rows on the right appear as NULL. I use LEFT JOINs when I need to preserve all records from the primary table, for example when analyzing all customers including those who haven't made a purchase yet.</div>
+        <span class="iq-tip">Técnica + cuándo usarlo = respuesta completa</span>
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"How do you handle missing data?"</div>
+        <div class="iq-a">My approach depends on the context. First, I profile the missingness: is it random, or is there a pattern? If missing values represent less than 5% of rows and appear random, I consider removing them. For numerical columns with higher missingness, I evaluate imputation strategies — mean or median for symmetric distributions, mode for categorical data, or KNN imputation when relationships between variables are strong. I always document the decision and validate that the post-imputation distribution is consistent with the original data.</div>
+        <span class="iq-tip">Muestra proceso estructurado · no solo "elimino los nulos"</span>
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"Why do you want to work at our company?"</div>
+        <div class="iq-a">I've been following [COMPANY] because of your work in [SPECIFIC PRODUCT/INITIATIVE]. From a data perspective, the challenges in [INDUSTRY/DOMAIN] are particularly interesting to me — specifically [SPECIFIC CHALLENGE, e.g. "attribution modeling in a multi-channel funnel"]. I believe my background in [SKILLS] aligns well with the technical requirements I've seen, and I'm excited about the opportunity to contribute to [SPECIFIC TEAM GOAL].</div>
+        <span class="iq-tip">Investigación real + conexión con el rol = diferenciarte</span>
+      </div>
+      <div class="interview-qa">
+        <div class="iq-q">"What's your experience with Python for data analysis?"</div>
+        <div class="iq-a">I work primarily with Pandas for data wrangling and Matplotlib/Seaborn for visualization. In my most recent project, I processed a dataset of [N] rows, using groupby and merge operations to analyze [TOPIC], and built visualizations that revealed [INSIGHT]. I've also used NumPy for numerical operations and have basic familiarity with scikit-learn for exploratory modeling. I'm comfortable working in Google Colab and Jupyter notebooks.</div>
+        <span class="iq-tip">Nombra las librerías + proyecto concreto + números</span>
+      </div>
     </div>
+
   </div>
 </main>
-
 <div id="toast"></div>
 <script src="../js/core.js"></script>
 <script>
 // TABS
-window.showTab = function(name, btn) {
-  ['vocab','quiz','cv','interview'].forEach(t => document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none');
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (name === 'quiz') initQuiz();
-};
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    if (tab.dataset.panel === 'vocab') buildCards();
+    if (tab.dataset.panel === 'quiz') startQuiz();
+  });
+});
 
-// VOCAB
-function renderVocab() {
-  const el = document.getElementById('vocab-grid');
-  if (!el) return;
-  el.innerHTML = VOCAB.map((w, i) => `
-    <div class="vocab-card" id="vc-${i}" onclick="flipCard(${i})">
-      <div class="vc-front">
-        <div class="vc-en">${w.en}</div>
-        <div class="vc-pron">${w.pron}</div>
-        <div class="vc-es">→ ${w.es}</div>
-        <div style="font-family:var(--fm);font-size:.63rem;color:var(--txt3);margin-top:8px;">Clic para ver ejemplo →</div>
-      </div>
-      <div class="vc-back">
-        <div class="vc-en">${w.en}</div>
-        <div class="vc-pron">${w.pron}</div>
-        <div class="vc-ex">${w.ex}</div>
-        <div style="font-family:var(--fm);font-size:.63rem;color:var(--txt3);margin-top:8px;">← Clic para volver</div>
+// VOCAB CARDS
+document.addEventListener('DOMContentLoaded', buildCards);
+function buildCards() {
+  const grid = document.getElementById('vocab-grid'); if (!grid) return;
+  grid.innerHTML = VOCAB.map((w,i) => `
+    <div class="flip-card" id="fc-${i}" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-en">${w.en}</div>
+          <div class="flip-pron">${w.pron}</div>
+          <div style="margin-top:8px;font-family:var(--fm);font-size:.62rem;color:var(--txt3);">← clic para voltear</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-es">→ ${w.es}</div>
+          <div class="flip-ex">${w.ex}</div>
+        </div>
       </div>
     </div>`).join('');
 }
-
-window.flipCard = function(i) { document.getElementById('vc-'+i)?.classList.toggle('flipped'); };
+window.resetFlips = () => document.querySelectorAll('.flip-card').forEach(c => c.classList.remove('flipped'));
 
 // QUIZ
-let qIdx = 0, qScore = 0, qAsked = [];
-function initQuiz() {
-  qIdx = 0; qScore = 0; qAsked = [];
-  document.getElementById('q-score').textContent = 0;
-  showQuestion();
+let quizState = { questions:[], idx:0, score:0, answered:false };
+window.startQuiz = function() {
+  const shuffled = [...VOCAB].sort(() => Math.random() - .5).slice(0, 10);
+  quizState = { questions: shuffled, idx: 0, score: 0, answered: false };
+  renderQuestion();
+};
+function renderQuestion() {
+  const { questions, idx, score } = quizState;
+  document.getElementById('q-num').textContent   = idx + 1;
+  document.getElementById('q-score').textContent = score + ' pts';
+  if (idx >= questions.length) { showFinalScore(); return; }
+  const q = questions[idx];
+  // 3 wrong options
+  const wrong = VOCAB.filter(v => v.en !== q.en).sort(() => Math.random() - .5).slice(0, 3);
+  const opts = [...wrong.map(w => w.es), q.es].sort(() => Math.random() - .5);
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = `<div class="quiz-q">¿Qué significa "<span style="color:var(--acid);">${q.en}</span>"?</div>
+    <div class="quiz-opts">
+      ${opts.map(opt => `<button class="quiz-opt" onclick="checkAnswer(this,'${opt.replace(/'/g,"\\'")}','${q.es.replace(/'/g,"\\'")}')">${opt}</button>`).join('')}
+    </div>
+    <div class="quiz-result" id="quiz-res"></div>`;
 }
-
-function showQuestion() {
-  if (qIdx >= 10) { showFinalScore(); return; }
-  const avail = VOCAB.filter((_, i) => !qAsked.includes(i));
-  const wordIdx = VOCAB.indexOf(avail[Math.floor(Math.random() * avail.length)]);
-  qAsked.push(wordIdx);
-  const word = VOCAB[wordIdx];
-  document.getElementById('q-word').textContent = word.en;
-  document.getElementById('q-pron').textContent = word.pron;
-  document.getElementById('q-num').textContent = qIdx + 1;
-  document.getElementById('q-result').textContent = '';
-  document.getElementById('q-next').style.display = 'none';
-
-  const wrong = VOCAB.filter((_, i) => i !== wordIdx).sort(() => .5 - Math.random()).slice(0, 3);
-  const opts = [...wrong, word].sort(() => .5 - Math.random());
-  document.getElementById('q-options').innerHTML = opts.map(o =>
-    `<button class="quiz-opt" onclick="answerQuiz(this, '${o.es}', '${word.es}')">${o.es}</button>`
-  ).join('');
-}
-
-window.answerQuiz = function(btn, chosen, correct) {
-  document.querySelectorAll('.quiz-opt').forEach(b => b.onclick = null);
-  if (chosen === correct) {
-    btn.classList.add('correct');
-    qScore++;
-    document.getElementById('q-result').innerHTML = `<span style="color:var(--mint)">✓ Correcto! +10 XP</span>`;
-    XP.award(10);
-  } else {
+window.checkAnswer = function(btn, chosen, correct) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const isCorrect = chosen === correct;
+  if (isCorrect) { btn.classList.add('correct'); quizState.score += 10; XP.award(10); toast('✓ +10 XP'); }
+  else {
     btn.classList.add('wrong');
     document.querySelectorAll('.quiz-opt').forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
-    document.getElementById('q-result').innerHTML = `<span style="color:var(--rose)">✗ Era: ${correct}</span>`;
   }
-  document.getElementById('q-score').textContent = qScore;
-  document.getElementById('q-next').style.display = 'flex';
-  qIdx++;
+  setEl('quiz-res', el => el.innerHTML = isCorrect ? '<span style="color:var(--mint);">✓ Correcto</span>' : `<span style="color:var(--rose);">✗ Era: ${correct}</span>`);
+  setTimeout(() => { quizState.idx++; quizState.answered = false; renderQuestion(); }, 1400);
 };
-
-window.nextQuestion = showQuestion;
-
 function showFinalScore() {
-  const el = document.querySelector('.quiz-card');
-  el.innerHTML = `<div class="quiz-score">${qScore}/10</div>
-    <p style="color:var(--txt2);margin:10px 0 20px;">${qScore >= 8 ? '🎉 ¡Excelente! Vocabulario sólido' : qScore >= 6 ? '👍 Bien. Sigue practicando' : '💪 Sigue estudiando las tarjetas'}</p>
-    <button class="btn btn-acid" onclick="initQuiz()">Volver a intentar</button>`;
+  document.getElementById('quiz-area').innerHTML = `<div style="text-align:center;padding:30px;">
+    <div style="font-family:var(--fh);font-size:2.5rem;font-weight:800;color:var(--acid);">${quizState.score}/100</div>
+    <p style="color:var(--txt2);margin:10px 0 20px;">${quizState.score >= 80 ? '🎉 Excelente dominio' : quizState.score >= 50 ? '👍 Buen progreso, sigue practicando' : '📚 Repasa las tarjetas y vuelve a intentarlo'}</p>
+    <button onclick="startQuiz()" class="btn btn-acid">↻ Repetir quiz</button>
+  </div>`;
 }
-
-// INTERVIEW QA
-const IQA = [
-  { q: 'Tell me about yourself.', a: 'I\'m a data analyst with hands-on experience in SQL, Python (Pandas), and Power BI. I\'ve built [X] projects analyzing real business data, including [your best project]. I\'m passionate about turning messy data into clear business insights.' },
-  { q: 'What\'s your SQL experience?', a: 'I\'m proficient in SQL with PostgreSQL and BigQuery. I regularly write queries using JOINs, CTEs, and Window Functions like ROW_NUMBER() and LAG(). For example, in my [project name] I used CTEs to calculate rolling inventory metrics that identified $200K in inefficiency.' },
-  { q: 'How do you handle missing data?', a: 'First I diagnose: how many nulls, what pattern (random vs systematic). Then I decide by column: if nulls are <5% and random, I drop. If systematic or >10%, I use imputation — KNN or conditional business rules. I always validate the post-cleaning distribution matches the original.' },
-  { q: 'Describe a challenging analysis you did.', a: 'In my real estate pricing project, I had a dataset with 77% null values in the property type column. I developed a conditional imputation strategy using KNN and business domain rules, recovered 80% of records, and validated with a KS test. The result enabled a pricing model with 12% lower RMSE.' },
-  { q: 'What\'s your experience with Power BI?', a: 'I\'ve built dashboards using Power BI Desktop with star schema models, DAX measures including CALCULATE, SUMX, and time intelligence functions. I follow the one-metric-per-visual rule to keep dashboards readable for non-technical stakeholders.' },
-  { q: 'How do you communicate findings to non-technical stakeholders?', a: 'I never lead with methodology. I start with the business impact: "We\'re losing $X per month because of Y." Then they ask how I know, and I explain in business terms. Visuals use plain language, no jargon, and always include a recommended action.' }
-];
-
-function renderInterviewQA() {
-  const el = document.getElementById('interview-qa');
-  if (!el) return;
-  el.innerHTML = IQA.map((item, i) => `
-    <div class="tactic">
-      <div style="font-family:var(--fm);font-size:.68rem;color:var(--txt3);margin-bottom:8px;">PREGUNTA TÍPICA ${i+1}</div>
-      <div class="box box-e" style="margin-bottom:12px;font-family:var(--fh);font-weight:700;">"${item.q}"</div>
-      <div class="box box-a">
-        <strong>Respuesta modelo:</strong><br><span style="font-family:var(--fb);font-size:.88rem;line-height:1.7;">${item.a}</span>
-      </div>
-    </div>`).join('');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderVocab();
-  renderInterviewQA();
-});
 </script>
 </body>
 </html>

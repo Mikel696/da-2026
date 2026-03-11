@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>DA-2026 · Centro de Operaciones</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,95 +10,47 @@
 </head>
 <body>
 <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
-
-<!-- SIDEBAR -->
-<nav class="sidebar" id="sb">
-  <div class="sb-top">
-    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
-    <div class="sb-user" id="sb-user">
-      <div class="avatar" id="user-avatar">?</div>
-      <div><div class="user-name" id="user-name-display">Tu Nombre</div><div class="user-level" id="user-level-display">Nivel 0 · Iniciando</div></div>
-    </div>
-    <div class="xp-bar-wrap">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-        <span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span>
-        <span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0 / 100</span>
-      </div>
-      <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
-    </div>
-  </div>
-  <div class="sb-nav">
-    <a href="index.html" class="nav-link active"><span>🏠</span>Dashboard</a>
-    <a href="pages/ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
-    <a href="pages/sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
-    <a href="pages/recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
-    <a href="pages/empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
-    <a href="pages/prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
-    <a href="pages/ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
-    <a href="pages/proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
-    <a href="pages/tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
-    <a href="pages/configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
-  </div>
-  <div class="sb-bottom">
-    <div class="streak-box">
-      <span class="streak-fire">🔥</span>
-      <div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA ACTUAL</div>
-      <div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div>
-    </div>
-  </div>
-</nav>
+<nav class="sidebar" id="sb"></nav>
 <button class="ham" id="ham"><span></span><span></span><span></span></button>
 
-<!-- MAIN -->
 <main class="main">
-
-  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-left">
+    <div>
       <h1 class="page-title">Centro de Operaciones</h1>
       <span class="page-sub" id="greeting">Cargando...</span>
     </div>
     <div class="topbar-right">
-      <div class="global-progress-mini">
-        <span class="gp-pct" id="gp-pct">0%</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
         <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
         <span style="font-size:.7rem;color:var(--txt3);font-family:var(--fm);">RUTA</span>
       </div>
-      <button class="btn-study" onclick="window.location.href='pages/sesion.html'">▶ Estudiar Ahora</button>
+      <button class="btn-study" id="btn-estudiar">▶ Estudiar Ahora</button>
     </div>
   </div>
 
   <div class="content">
 
-    <!-- ONBOARDING (si no hay perfil) -->
+    <!-- ONBOARDING -->
     <div id="onboarding" class="onboarding-card" style="display:none;">
       <h2>👋 ¡Bienvenido al Sistema DA-2026!</h2>
-      <p>Antes de empezar, cuéntame un poco sobre ti para personalizar tu experiencia.</p>
+      <p>Configura tu perfil para personalizar la experiencia desde el primer día.</p>
       <div class="onboarding-form">
-        <div class="form-group">
-          <label>¿Cuál es tu nombre?</label>
-          <input type="text" id="ob-name" placeholder="Tu nombre" class="input-field"/>
-        </div>
-        <div class="form-group">
-          <label>¿Cuál es tu nivel actual en datos?</label>
+        <div class="form-group"><label>¿Cuál es tu nombre?</label>
+          <input type="text" id="ob-name" placeholder="Tu nombre" class="input-field"/></div>
+        <div class="form-group"><label>Nivel actual en datos</label>
           <select id="ob-level" class="input-field">
-            <option value="0">Absoluto principiante</option>
+            <option value="0">Principiante absoluto</option>
             <option value="1">Sé Excel básico</option>
             <option value="2">He tocado SQL alguna vez</option>
             <option value="3">Tengo algo de Python</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>¿Cuántas horas diarias puedes dedicar?</label>
+          </select></div>
+        <div class="form-group"><label>Horas diarias disponibles</label>
           <select id="ob-hours" class="input-field">
-            <option value="1">1 hora</option>
-            <option value="2">2 horas</option>
-            <option value="3" selected>3 horas (recomendado)</option>
-            <option value="4">4+ horas</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>¿Qué industria te interesa más?</label>
+            <option value="1">1 hora</option><option value="2">2 horas</option>
+            <option value="3" selected>3 horas (recomendado)</option><option value="4">4+ horas</option>
+          </select></div>
+        <div class="form-group"><label>Industria objetivo</label>
           <select id="ob-industry" class="input-field">
             <option value="fintech">Fintech / Banca</option>
             <option value="ecommerce">E-commerce / Retail</option>
@@ -107,61 +58,45 @@
             <option value="logistica">Logística</option>
             <option value="salud">Salud</option>
             <option value="otro">Otra / No sé aún</option>
-          </select>
-        </div>
+          </select></div>
         <button class="btn btn-acid" onclick="saveOnboarding()">Comenzar mi ruta →</button>
       </div>
     </div>
 
-    <!-- DASHBOARD PRINCIPAL -->
-    <div id="dashboard-main">
-
-      <!-- STATS ROW -->
+    <!-- DASHBOARD -->
+    <div id="dash-main">
       <div class="stats-grid">
-        <div class="stat-card stat-acid">
-          <div class="sc-icon">📅</div>
-          <div class="sc-val" id="days-active">0</div>
-          <div class="sc-lbl">Días activo</div>
-        </div>
-        <div class="stat-card stat-sky">
-          <div class="sc-icon">⏱️</div>
-          <div class="sc-val" id="hours-studied">0h</div>
-          <div class="sc-lbl">Horas estudiadas</div>
-        </div>
-        <div class="stat-card stat-mint">
-          <div class="sc-icon">✅</div>
-          <div class="sc-val" id="tasks-done">0</div>
-          <div class="sc-lbl">Hitos completados</div>
-        </div>
-        <div class="stat-card stat-ember">
-          <div class="sc-icon">🔥</div>
-          <div class="sc-val" id="streak-stat">0</div>
-          <div class="sc-lbl">Días de racha</div>
-        </div>
+        <div class="stat-card stat-acid"><div class="sc-icon">📅</div><div class="sc-val" id="days-active">0</div><div class="sc-lbl">Días activo</div></div>
+        <div class="stat-card stat-sky"><div class="sc-icon">⏱️</div><div class="sc-val" id="hours-studied">0h</div><div class="sc-lbl">Horas estudiadas</div></div>
+        <div class="stat-card stat-mint"><div class="sc-icon">✅</div><div class="sc-val" id="tasks-done">0</div><div class="sc-lbl">Hitos completados</div></div>
+        <div class="stat-card stat-ember"><div class="sc-icon">🔥</div><div class="sc-val" id="streak-stat">0</div><div class="sc-lbl">Días de racha</div></div>
       </div>
 
-      <!-- MAIN GRID -->
       <div class="dash-grid">
 
-        <!-- HOY: SESION RAPIDA -->
+        <!-- SESIÓN HOY -->
         <div class="dash-card span-2">
           <div class="dc-header">
             <h3>⚡ Sesión de Hoy</h3>
             <span class="dc-badge" id="today-date"></span>
           </div>
           <div class="today-session">
-            <div class="session-timer-mini">
-              <div class="timer-ring">
-                <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="4"/><circle cx="40" cy="40" r="34" fill="none" stroke="var(--acid)" stroke-width="4" stroke-dasharray="213.6" stroke-dashoffset="213.6" id="ring-offset" stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
-                <div class="timer-inner"><span id="mini-timer">03:00:00</span><span style="font-size:.55rem;color:var(--txt3);font-family:var(--fm);">restante</span></div>
+            <div class="timer-ring" style="flex-shrink:0;">
+              <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="4"/>
+                <circle cx="40" cy="40" r="34" fill="none" stroke="var(--acid)" stroke-width="4"
+                  stroke-dasharray="213.6" stroke-dashoffset="213.6" id="ring-offset"
+                  stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
+              <div class="timer-inner">
+                <span id="mini-timer" style="font-family:var(--fm);font-size:.75rem;color:var(--acid);">3h</span>
+                <span style="font-size:.55rem;color:var(--txt3);font-family:var(--fm);">hoy</span>
               </div>
             </div>
-            <div class="session-tasks-today">
-              <div class="today-phase" id="today-phase">Cargando fase actual...</div>
-              <div class="today-task" id="today-task">Determinar próxima tarea...</div>
+            <div>
+              <div class="today-phase" id="today-phase">Cargando...</div>
+              <div class="today-task" id="today-task">Determinando próxima tarea...</div>
               <div class="today-actions">
-                <button class="btn btn-acid" onclick="window.location.href='pages/sesion.html'">▶ Iniciar Sesión</button>
-                <button class="btn btn-ghost" onclick="window.location.href='pages/ruta.html'">Ver Ruta Completa</button>
+                <button class="btn btn-acid" id="btn-sesion">▶ Iniciar Sesión</button>
+                <button class="btn btn-ghost" id="btn-ruta">Ver Ruta</button>
               </div>
             </div>
           </div>
@@ -169,59 +104,187 @@
 
         <!-- PROGRESO FASES -->
         <div class="dash-card">
-          <div class="dc-header"><h3>🗺️ Progreso por Fase</h3></div>
+          <div class="dc-header"><h3>🗺️ Progreso</h3><a id="lnk-ruta" class="dc-link" href="#">Ver todo →</a></div>
           <div id="phases-progress"></div>
         </div>
 
         <!-- HACK DEL DÍA -->
         <div class="dash-card hack-card">
-          <div class="dc-header"><h3>⚡ Hack del Día</h3><button onclick="nextHack()" class="btn-icon" title="Siguiente">↻</button></div>
-          <div class="hack-content" id="hack-content"></div>
-          <div class="hack-category" id="hack-cat"></div>
+          <div class="dc-header">
+            <h3>⚡ Hack del Día</h3>
+            <button onclick="nextHack()" class="btn-icon" title="Siguiente hack">↻</button>
+          </div>
+          <div class="hack-content" id="hack-content">Cargando...</div>
+          <span class="hack-category" id="hack-cat"></span>
         </div>
 
-        <!-- RECURSOS RÁPIDOS -->
+        <!-- QUICK LINKS -->
         <div class="dash-card">
-          <div class="dc-header"><h3>🚀 Abrir Ahora</h3></div>
+          <div class="dc-header"><h3>🚀 Herramientas</h3></div>
           <div class="quick-links">
-            <a href="https://colab.research.google.com" target="_blank" class="ql-item"><span>🔬</span><div><b>Google Colab</b><small>Notebook Python</small></div></a>
+            <a href="https://colab.research.google.com" target="_blank" class="ql-item"><span>🔬</span><div><b>Google Colab</b><small>Python gratis</small></div></a>
             <a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" class="ql-item"><span>🗃️</span><div><b>SQLZoo</b><small>Practica SQL</small></div></a>
-            <a href="https://www.kaggle.com/datasets" target="_blank" class="ql-item"><span>📦</span><div><b>Kaggle Datasets</b><small>Datos reales</small></div></a>
-            <a href="https://www.hackerrank.com/domains/sql" target="_blank" class="ql-item"><span>⚔️</span><div><b>HackerRank SQL</b><small>Desafíos</small></div></a>
-            <a href="https://public.tableau.com" target="_blank" class="ql-item"><span>📊</span><div><b>Tableau Public</b><small>Publicar viz</small></div></a>
-            <a href="https://cloud.google.com/bigquery/docs/sandbox" target="_blank" class="ql-item"><span>☁️</span><div><b>BigQuery</b><small>SQL en cloud</small></div></a>
+            <a href="https://www.kaggle.com/datasets" target="_blank" class="ql-item"><span>📦</span><div><b>Kaggle</b><small>Datasets reales</small></div></a>
+            <a href="https://www.hackerrank.com/domains/sql" target="_blank" class="ql-item"><span>⚔️</span><div><b>HackerRank</b><small>SQL challenges</small></div></a>
+            <a href="https://public.tableau.com" target="_blank" class="ql-item"><span>📊</span><div><b>Tableau Public</b><small>Viz online</small></div></a>
+            <a href="https://console.cloud.google.com/bigquery" target="_blank" class="ql-item"><span>☁️</span><div><b>BigQuery</b><small>SQL en cloud</small></div></a>
           </div>
         </div>
 
-        <!-- NOTICIAS DE EMPLEO (via RSS proxy) -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>💼 Empleos Recientes</h3><a href="pages/empleos.html" class="dc-link">Ver todos →</a></div>
-          <div id="jobs-feed">
-            <div class="job-item"><div class="ji-title">Junior Data Analyst — Remoto LATAM</div><div class="ji-meta">Cargando fuentes... <span class="ji-tag">SQL</span></div></div>
-            <div class="job-item"><div class="ji-title">Data Analyst Jr. · Python + Power BI</div><div class="ji-meta">Actualizado hoy <span class="ji-tag">Python</span></div></div>
+        <!-- EMPLEOS EN VIVO -->
+        <div class="dash-card span-2">
+          <div class="dc-header">
+            <h3><span class="live-badge"><span class="live-dot"></span>LIVE</span>Empleos Remotos · Data</h3>
+            <a id="lnk-empleos" class="dc-link" href="#">Ver todos →</a>
           </div>
-          <a href="pages/empleos.html" class="btn btn-ghost" style="margin-top:12px;font-size:.8rem;">Ver tablero de empleos →</a>
+          <div id="jobs-feed"></div>
         </div>
 
-        <!-- INGLÉS TÉCNICO - PALABRA DEL DÍA -->
+        <!-- INGLÉS DEL DÍA -->
         <div class="dash-card">
-          <div class="dc-header"><h3>🇺🇸 Inglés del Día</h3><a href="pages/ingles.html" class="dc-link">Practicar →</a></div>
+          <div class="dc-header"><h3>🇺🇸 Inglés del Día</h3><a id="lnk-ingles" class="dc-link" href="#">Practicar →</a></div>
           <div id="word-of-day"></div>
         </div>
 
-        <!-- PROMPT DEL DÍA -->
+        <!-- NOTICIAS EN VIVO -->
         <div class="dash-card span-2">
-          <div class="dc-header"><h3>🤖 Prompt del Día</h3><a href="pages/prompts.html" class="dc-link">Ver librería →</a></div>
+          <div class="dc-header">
+            <h3>
+              <span class="live-badge" style="color:var(--sky);background:var(--sky-d);border-color:rgba(56,191,255,.2);">
+                <span class="live-dot" style="background:var(--sky);box-shadow:0 0 6px var(--sky);"></span>NOTICIAS
+              </span>
+              Datos &amp; IA
+            </h3>
+            <span id="news-ts" style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);">cargando...</span>
+          </div>
+          <div id="news-feed"></div>
+        </div>
+
+        <!-- PROMPT DEL DÍA -->
+        <div class="dash-card span-3">
+          <div class="dc-header">
+            <h3>🤖 Prompt del Día</h3>
+            <a id="lnk-prompts" class="dc-link" href="#">Ver librería →</a>
+          </div>
           <div id="prompt-of-day"></div>
         </div>
 
-      </div><!-- /dash-grid -->
-    </div><!-- /dashboard-main -->
-  </div><!-- /content -->
+      </div>
+    </div>
+  </div>
 </main>
 
 <div id="toast"></div>
 <script src="js/core.js"></script>
-<script src="js/dashboard.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Fix all internal links using BASE_URL
+  document.getElementById('btn-estudiar').onclick = () => location.href = url('pages/sesion.html');
+  document.getElementById('btn-sesion').onclick   = () => location.href = url('pages/sesion.html');
+  document.getElementById('btn-ruta').onclick     = () => location.href = url('pages/ruta.html');
+  document.getElementById('lnk-ruta').href        = url('pages/ruta.html');
+  document.getElementById('lnk-empleos').href     = url('pages/empleos.html');
+  document.getElementById('lnk-ingles').href      = url('pages/ingles.html');
+  document.getElementById('lnk-prompts').href     = url('pages/prompts.html');
+
+  const td = document.getElementById('today-date');
+  if (td) td.textContent = new Date().toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'short'});
+
+  if (!Profile.exists()) {
+    document.getElementById('onboarding').style.display = 'block';
+    document.getElementById('dash-main').style.display  = 'none';
+  } else {
+    initDash();
+  }
+});
+
+window.saveOnboarding = () => {
+  const name = document.getElementById('ob-name')?.value?.trim();
+  if (!name) { toast('⚠️ Ingresa tu nombre'); return; }
+  Profile.set({
+    name, level: +document.getElementById('ob-level').value,
+    hours: +document.getElementById('ob-hours').value,
+    industry: document.getElementById('ob-industry').value,
+    startDate: new Date().toISOString()
+  });
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('dash-main').style.display  = 'block';
+  renderProfile(); Streak.update(); initDash();
+  toast('🎉 ¡Bienvenido, ' + name + '! Tu ruta comienza hoy.');
+};
+
+function initDash() {
+  renderPhases();
+  renderHack();
+  renderWord();
+  renderPrompt();
+  renderTodayTask();
+  loadLiveJobs(document.getElementById('jobs-feed'));
+  loadLiveNews(document.getElementById('news-feed'));
+}
+
+function renderPhases() {
+  const el = document.getElementById('phases-progress'); if (!el) return;
+  el.innerHTML = Object.entries(CURRICULUM).map(([,p]) => {
+    const pct = Progress.phasePct(p.tasks.map(t => t.id));
+    return `<div class="phase-row">
+      <span class="ph-name">${p.name}</span>
+      <div class="ph-track"><div class="ph-fill" style="width:${pct}%"></div></div>
+      <span class="ph-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+}
+
+let hackIdx = (() => {
+  const s = DB.get('hackday');
+  const today = new Date().toDateString();
+  if (s?.date === today) return s.idx;
+  const idx = new Date().getDate() % HACKS.length;
+  DB.set('hackday', { date: today, idx });
+  return idx;
+})();
+
+function renderHack() {
+  const h = HACKS[hackIdx];
+  setEl('hack-content', el => el.innerHTML  = h.text);
+  setEl('hack-cat',     el => el.textContent = h.cat);
+}
+window.nextHack = () => {
+  hackIdx = (hackIdx + 1) % HACKS.length;
+  DB.set('hackday', { date: new Date().toDateString(), idx: hackIdx });
+  renderHack();
+};
+
+function renderWord() {
+  const el = document.getElementById('word-of-day'); if (!el) return;
+  const w = VOCAB[new Date().getDate() % VOCAB.length];
+  el.innerHTML = `<div class="word-card">
+    <div class="word-en">${w.en}</div>
+    <div class="word-pron">${w.pron}</div>
+    <div class="word-es">→ ${w.es}</div>
+    <div class="word-example">${w.ex}</div>
+  </div>`;
+}
+
+function renderPrompt() {
+  const el = document.getElementById('prompt-of-day'); if (!el) return;
+  const p = PROMPTS_DATA[new Date().getDate() % PROMPTS_DATA.length];
+  el.innerHTML = `<div class="pod-cat">${p.cat} · ${p.use}</div>
+    <div class="pod-wrap" id="pod-txt">${p.text}<button class="cp-btn" onclick="cp('pod-txt',this)">Copiar</button></div>`;
+}
+
+function renderTodayTask() {
+  for (const [,phase] of Object.entries(CURRICULUM)) {
+    const next = phase.tasks.find(t => !Progress.isChecked(t.id));
+    if (next) {
+      setEl('today-phase', el => el.textContent = `${phase.name}: ${phase.label}`);
+      setEl('today-task',  el => el.textContent = next.text);
+      return;
+    }
+  }
+  setEl('today-phase', el => el.textContent = '🎉 RUTA COMPLETADA');
+  setEl('today-task',  el => el.textContent = 'Estás listo para el mercado. Aplica empleos.');
+}
+</script>
 </body>
 </html>

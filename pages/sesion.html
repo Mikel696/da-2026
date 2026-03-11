@@ -1,460 +1,239 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Sesión de Estudio · DA-2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="../css/main.css"/>
 <style>
-.timer-center { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
-.timer-display { font-family: var(--fh); font-size: clamp(3.5rem,10vw,6rem); font-weight: 800; color: var(--acid); letter-spacing: -3px; line-height: 1; text-shadow: 0 0 60px rgba(200,255,0,.3); transition: color .3s; }
-.timer-display.paused { color: var(--txt3); text-shadow: none; }
-.timer-display.break { color: var(--sky); text-shadow: 0 0 40px rgba(56,191,255,.3); }
-.timer-phase-label { font-family: var(--fm); font-size: .8rem; color: var(--txt3); letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 30px; text-align: center; }
-.timer-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; }
-.timer-ring-big { position: relative; width: 200px; height: 200px; margin: 0 auto 20px; }
-.timer-ring-big svg { width: 200px; height: 200px; transform: rotate(-90deg); }
-.timer-ring-big .timer-display { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: clamp(1.8rem,6vw,2.4rem); }
-.session-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
-.session-main { }
-.session-side { display: flex; flex-direction: column; gap: 16px; }
-.block-selector { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
-.bs-item { padding: 14px 10px; border-radius: var(--rad); border: 2px solid var(--border); text-align: center; cursor: pointer; transition: all .2s; }
-.bs-item.active { border-color: var(--acid); background: var(--acid-d); }
-.bs-item .bs-pct { font-family: var(--fh); font-size: 1.4rem; font-weight: 800; }
-.bs-item .bs-name { font-family: var(--fm); font-size: .65rem; color: var(--txt3); margin-top: 2px; }
-.bs-item .bs-min { font-family: var(--fm); font-size: .7rem; }
-.bs-teoria .bs-pct { color: var(--ember); }
-.bs-feedback .bs-pct { color: var(--sky); }
-.bs-practica .bs-pct { color: var(--acid); }
-.notes-area { width: 100%; background: var(--ink3); border: 1px solid var(--border); border-radius: var(--rad); color: var(--txt); padding: 12px; font-family: var(--fm); font-size: .82rem; line-height: 1.7; resize: vertical; min-height: 120px; transition: border-color .2s; }
-.notes-area:focus { outline: none; border-color: var(--acid); }
-.note-item { background: var(--ink3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; position: relative; }
-.note-item .n-text { font-size: .84rem; color: var(--txt); line-height: 1.5; margin-bottom: 4px; }
-.note-item .n-meta { font-family: var(--fm); font-size: .65rem; color: var(--txt3); display: flex; gap: 8px; }
-.note-item .n-tag { color: var(--acid); }
-.note-del { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--txt3); font-size: .8rem; cursor: pointer; transition: color .2s; }
-.note-del:hover { color: var(--rose); }
-.session-log-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: .82rem; }
-.sl-time { font-family: var(--fm); font-size: .68rem; color: var(--txt3); min-width: 45px; }
-.sl-text { color: var(--txt2); }
-.sl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.dot-a { background: var(--acid); }
-.dot-s { background: var(--sky); }
-.dot-e { background: var(--ember); }
-.dot-m { background: var(--mint); }
-.progress-ring-path { transition: stroke-dashoffset .5s linear; }
-.today-checklist { }
-.tcl-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-.tcl-item:last-child { border-bottom: none; }
-.tcl-item input { accent-color: var(--acid); margin-top: 3px; flex-shrink: 0; }
-.tcl-item label { font-size: .84rem; color: var(--txt2); cursor: pointer; }
-.tcl-item.tdone label { text-decoration: line-through; color: var(--txt3); }
+.block-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.block-tab{padding:8px 16px;border-radius:20px;font-family:var(--fm);font-size:.72rem;border:1px solid var(--border);background:var(--ink3);color:var(--txt3);cursor:pointer;transition:all .18s}
+.block-tab.active{background:var(--acid-d);border-color:rgba(200,255,0,.3);color:var(--acid)}
+.timer-center{display:flex;flex-direction:column;align-items:center;padding:40px 0 30px;}
+.timer-display{font-family:var(--fh);font-size:clamp(4rem,12vw,7rem);font-weight:800;color:var(--acid);letter-spacing:-3px;line-height:1;text-shadow:0 0 60px rgba(200,255,0,.3)}
+.timer-phase{font-family:var(--fm);font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:12px}
+.timer-controls{display:flex;gap:12px;margin-top:20px}
+.progress-bar{width:100%;max-width:400px;height:6px;background:var(--border);border-radius:3px;margin-top:16px;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--acid),var(--mint));border-radius:3px;transition:width .5s}
+.note-area{display:flex;gap:10px;margin-bottom:8px}
+.note-input{flex:1;background:var(--ink3);border:1px solid var(--border);border-radius:8px;color:var(--txt);padding:10px 14px;font-family:var(--fb);font-size:.88rem;resize:none}
+.note-input:focus{outline:none;border-color:var(--acid)}
+.note-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.note-tag{font-family:var(--fm);font-size:.62rem;padding:2px 8px;border-radius:10px;flex-shrink:0;border:1px solid}
+.nt-sql{color:var(--sky);border-color:rgba(56,191,255,.3);background:var(--sky-d)}
+.nt-python{color:var(--acid);border-color:rgba(200,255,0,.3);background:var(--acid-d)}
+.nt-pbi{color:var(--ember);border-color:rgba(255,107,53,.3);background:var(--ember-d)}
+.nt-general{color:var(--txt3);border-color:var(--border);background:var(--ink3)}
 </style>
 </head>
 <body>
 <div class="orb o1"></div><div class="orb o2"></div>
-<nav class="sidebar" id="sb">
-  <div class="sb-top">
-    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
-    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
-    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
-  </div>
-  <div class="sb-nav">
-    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
-    <a href="ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
-    <a href="sesion.html" class="nav-link active"><span>⏱️</span>Sesión de Estudio</a>
-    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
-    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
-    <a href="prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
-    <a href="ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
-    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
-    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
-    <a href="configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
-  </div>
-  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
-</nav>
+<nav class="sidebar" id="sb"></nav>
 <button class="ham" id="ham"><span></span><span></span><span></span></button>
-
 <main class="main">
   <div class="topbar">
-    <div class="topbar-left">
-      <h1 class="page-title">⏱️ Sesión de Estudio</h1>
-      <span class="page-sub">Método 70/20/10 · 3 bloques cronometrados</span>
-    </div>
+    <div><h1 class="page-title">⏱️ Sesión de Estudio</h1><span class="page-sub" id="greeting">...</span></div>
     <div class="topbar-right">
-      <div class="global-progress-mini">
-        <span class="gp-pct" id="gp-pct">0%</span>
-        <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
-        <span style="font-size:.7rem;color:var(--txt3);font-family:var(--fm);">RUTA</span>
-      </div>
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
     </div>
   </div>
-
   <div class="section-body">
-    <div class="session-layout">
-      <!-- MAIN TIMER -->
-      <div>
-        <!-- BLOCK SELECTOR -->
-        <div class="block-selector">
-          <div class="bs-item bs-teoria" id="bs-0" onclick="selectBlock(0)">
-            <div class="bs-pct">10%</div>
-            <div class="bs-min" id="bm-0">18 min</div>
-            <div class="bs-name">📘 TEORÍA</div>
-          </div>
-          <div class="bs-item bs-feedback active" id="bs-1" onclick="selectBlock(1)">
-            <div class="bs-pct">20%</div>
-            <div class="bs-min" id="bm-1">36 min</div>
-            <div class="bs-name">🔄 FEEDBACK</div>
-          </div>
-          <div class="bs-item bs-practica" id="bs-2" onclick="selectBlock(2)">
-            <div class="bs-pct">70%</div>
-            <div class="bs-min" id="bm-2">126 min</div>
-            <div class="bs-name">💻 PRÁCTICA</div>
-          </div>
-        </div>
+    <div class="dash-grid">
 
-        <!-- TIMER RING -->
+      <!-- TIMER -->
+      <div class="dash-card span-2">
+        <div class="dc-header">
+          <h3>⏱️ Timer Pomodoro 70/20/10</h3>
+          <span class="dc-badge" id="sessions-today">0 sesiones hoy</span>
+        </div>
+        <div class="block-tabs" id="block-tabs">
+          <button class="block-tab active" data-mins="70" data-label="🧠 Estudio profundo" onclick="selectBlock(this)">🧠 70 min · Estudio</button>
+          <button class="block-tab" data-mins="20" data-label="🛠️ Práctica activa" onclick="selectBlock(this)">🛠️ 20 min · Práctica</button>
+          <button class="block-tab" data-mins="10" data-label="🔁 Repaso activo" onclick="selectBlock(this)">🔁 10 min · Repaso</button>
+          <button class="block-tab" data-mins="5" data-label="☕ Descanso" onclick="selectBlock(this)">☕ 5 min · Descanso</button>
+        </div>
         <div class="timer-center">
-          <div class="timer-ring-big">
-            <svg viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="88" fill="none" stroke="var(--border)" stroke-width="6"/>
-              <circle cx="100" cy="100" r="88" fill="none" stroke="var(--acid)" stroke-width="6"
-                stroke-dasharray="552.9" stroke-dashoffset="0" id="ring-path"
-                stroke-linecap="round" class="progress-ring-path"/>
-            </svg>
-            <div class="timer-display" id="timer-display">36:00</div>
-          </div>
-          <div class="timer-phase-label" id="timer-label">🔄 FEEDBACK ACTIVO — Active Recall</div>
+          <div class="timer-phase" id="timer-phase">🧠 ESTUDIO PROFUNDO</div>
+          <div class="timer-display" id="timer-display">70:00</div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="t-progress" style="width:100%"></div></div>
           <div class="timer-controls">
             <button class="btn btn-acid" id="btn-start" onclick="startTimer()">▶ Iniciar</button>
             <button class="btn btn-ghost" id="btn-pause" onclick="pauseTimer()" style="display:none;">⏸ Pausar</button>
-            <button class="btn btn-ghost" onclick="resetTimer()">↺ Reiniciar</button>
-            <button class="btn" style="background:var(--mint);color:var(--ink);" onclick="finishSession()">✓ Sesión Completa</button>
+            <button class="btn btn-ghost" onclick="resetTimer()">↺ Reset</button>
           </div>
         </div>
-
-        <!-- CHECKLIST DEL DÍA -->
-        <div class="dash-card" style="margin-top:0;">
-          <div class="dc-header"><h3>📋 Tareas de Hoy</h3><span id="tcl-pct" class="dc-badge">0 completadas</span></div>
-          <div id="today-checklist"></div>
-        </div>
-
-        <!-- NOTES -->
-        <div class="dash-card" style="margin-top:16px;">
-          <div class="dc-header"><h3>📝 Notas Rápidas</h3><span style="font-family:var(--fm);font-size:.68rem;color:var(--txt3);">Se guardan automáticamente</span></div>
-          <div style="display:flex;gap:8px;margin-bottom:10px;">
-            <select id="note-tag" class="input-field" style="max-width:140px;">
-              <option value="SQL">SQL</option>
-              <option value="Python">Python</option>
-              <option value="Power BI">Power BI</option>
-              <option value="Concepto">Concepto</option>
-              <option value="Duda">Duda</option>
-              <option value="Hack">Hack</option>
-              <option value="General">General</option>
-            </select>
-            <textarea id="note-input" class="notes-area" style="min-height:60px;flex:1;" placeholder="Escribe lo que aprendiste hoy..."></textarea>
-          </div>
-          <button class="btn btn-acid" onclick="saveNote()" style="font-size:.8rem;padding:8px 16px;">💾 Guardar nota</button>
-          <div id="notes-list" style="margin-top:14px;"></div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;text-align:center;">
+          <span id="today-block" style="font-family:var(--fm);font-size:.72rem;color:var(--txt2);">Tarea actual: <strong id="current-task-label" style="color:var(--acid);">cargando...</strong></span>
         </div>
       </div>
 
-      <!-- SIDE PANEL -->
-      <div class="session-side">
-        <!-- SESIÓN LOG -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>📊 Log de Hoy</h3></div>
-          <div id="session-log">
-            <div style="font-family:var(--fm);font-size:.75rem;color:var(--txt3);text-align:center;padding:20px;">Inicia un bloque para registrar</div>
-          </div>
-          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
-            <div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">TIEMPO HOY</div>
-            <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--acid);" id="time-today">0 min</div>
-          </div>
-        </div>
+      <!-- TAREA ACTUAL -->
+      <div class="dash-card">
+        <div class="dc-header"><h3>✅ Tareas Pendientes</h3><a id="lnk-ruta" class="dc-link" href="#">Ver ruta →</a></div>
+        <ul class="tasks" id="pending-tasks"></ul>
+      </div>
 
-        <!-- HACK DEL DÍA -->
-        <div class="dash-card" style="background:linear-gradient(135deg,var(--card),rgba(200,255,0,.03));border-color:rgba(200,255,0,.15);">
-          <div class="dc-header"><h3>⚡ Recuerda</h3></div>
-          <div id="side-hack" style="font-size:.85rem;color:var(--txt);line-height:1.65;"></div>
+      <!-- NOTAS RÁPIDAS -->
+      <div class="dash-card span-2">
+        <div class="dc-header"><h3>📝 Notas Rápidas</h3>
+          <select id="note-tag" class="input-field" style="width:auto;padding:5px 10px;font-size:.75rem;">
+            <option value="sql">SQL</option><option value="python">Python</option>
+            <option value="pbi">Power BI</option><option value="general" selected>General</option>
+          </select>
         </div>
+        <div class="note-area">
+          <textarea id="note-input" class="note-input" rows="2" placeholder="Escribe una nota o concepto que aprendiste hoy..."></textarea>
+          <button class="btn btn-acid" onclick="addNote()" style="align-self:flex-end;">Guardar</button>
+        </div>
+        <div id="notes-list"></div>
+      </div>
 
-        <!-- RECURSOS PARA HOY -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>🔗 Abrir para estudiar</h3></div>
-          <div style="display:flex;flex-direction:column;gap:7px;" id="study-links"></div>
+      <!-- ESTADÍSTICAS DE SESIÓN -->
+      <div class="dash-card">
+        <div class="dc-header"><h3>📊 Estadísticas</h3></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:var(--ink3);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--acid);" id="stat-total-h">0h</div>
+            <div style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);text-transform:uppercase;">Total estudiado</div>
+          </div>
+          <div style="background:var(--ink3);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--sky);" id="stat-sessions">0</div>
+            <div style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);text-transform:uppercase;">Sesiones totales</div>
+          </div>
+          <div style="background:var(--ink3);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--mint);" id="stat-streak">0</div>
+            <div style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);text-transform:uppercase;">Racha días</div>
+          </div>
+          <div style="background:var(--ink3);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:var(--ember);" id="stat-tasks">0</div>
+            <div style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);text-transform:uppercase;">Hitos completados</div>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </main>
-
 <div id="toast"></div>
 <script src="../js/core.js"></script>
 <script>
-/* TIMER ENGINE */
-const BLOCKS = [
-  { name: '📘 TEORÍA — Consumo focalizado', mins: 18, color: 'var(--ember)' },
-  { name: '🔄 FEEDBACK — Active Recall', mins: 36, color: 'var(--sky)' },
-  { name: '💻 PRÁCTICA — Codificación activa', mins: 126, color: 'var(--acid)' }
-];
-const PROFILE = Profile.get();
-const HOURS = PROFILE?.hours || 3;
-// Adjust minutes proportionally
-BLOCKS[0].mins = Math.round(HOURS * 60 * 0.10);
-BLOCKS[1].mins = Math.round(HOURS * 60 * 0.20);
-BLOCKS[2].mins = Math.round(HOURS * 60 * 0.70);
+document.getElementById('lnk-ruta').href = url('pages/ruta.html');
 
-let currentBlock = 1;
-let totalSecs = BLOCKS[1].mins * 60;
-let remaining = totalSecs;
-let interval = null;
-let running = false;
-let sessionMins = 0;
-const CIRCUMFERENCE = 2 * Math.PI * 88; // r=88
+// TIMER
+let timerState = { running: false, totalSecs: 70*60, remainSecs: 70*60, interval: null, label: '🧠 ESTUDIO PROFUNDO' };
 
-const logItems = [];
-
-function updateBlockLabels() {
-  BLOCKS.forEach((b, i) => {
-    const el = document.getElementById('bm-' + i);
-    if (el) el.textContent = b.mins + ' min';
-  });
-}
-
-function selectBlock(i) {
-  if (running) { toast('⚠️ Pausa el timer antes de cambiar bloque'); return; }
-  currentBlock = i;
-  document.querySelectorAll('.bs-item').forEach((el, j) => el.classList.toggle('active', j === i));
-  totalSecs = BLOCKS[i].mins * 60;
-  remaining = totalSecs;
-  updateDisplay();
-  document.getElementById('timer-label').textContent = BLOCKS[i].name;
-  const ring = document.getElementById('ring-path');
-  ring.style.stroke = BLOCKS[i].color;
-  ring.style.strokeDashoffset = 0;
-}
-
-function updateDisplay() {
-  const m = Math.floor(remaining / 60);
-  const s = remaining % 60;
-  const el = document.getElementById('timer-display');
-  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  // Ring
-  const pct = 1 - (remaining / totalSecs);
-  const offset = CIRCUMFERENCE * pct;
-  const ring = document.getElementById('ring-path');
-  ring.style.strokeDashoffset = -offset;
-}
-
-function startTimer() {
-  if (running) return;
-  running = true;
-  document.getElementById('btn-start').style.display = 'none';
-  document.getElementById('btn-pause').style.display = 'flex';
-  const bname = BLOCKS[currentBlock].name;
-  addLog('▶ Iniciado: ' + bname.split('—')[0].trim(), 'dot-a');
-  interval = setInterval(() => {
-    if (remaining <= 0) {
-      clearInterval(interval); running = false;
-      document.getElementById('btn-start').style.display = 'flex';
-      document.getElementById('btn-pause').style.display = 'none';
-      addLog('✓ Bloque completado', 'dot-m');
-      toast('✅ ¡Bloque completado! +' + BLOCKS[currentBlock].mins + ' XP');
-      XP.award(BLOCKS[currentBlock].mins);
-      sessionMins += BLOCKS[currentBlock].mins;
-      updateTimeToday();
-      // Auto next block
-      if (currentBlock < 2) { setTimeout(() => selectBlock(currentBlock + 1), 1000); }
-      return;
-    }
-    remaining--;
-    sessionMins += 1/60;
-    updateDisplay();
-    updateTimeToday();
-  }, 1000);
-}
-
-function pauseTimer() {
-  clearInterval(interval); running = false;
-  document.getElementById('btn-start').style.display = 'flex';
-  document.getElementById('btn-pause').style.display = 'none';
-  addLog('⏸ Pausado', 'dot-s');
-}
-
-function resetTimer() {
-  clearInterval(interval); running = false;
-  remaining = BLOCKS[currentBlock].mins * 60;
-  document.getElementById('timer-display').classList.remove('paused','break');
-  document.getElementById('btn-start').style.display = 'flex';
-  document.getElementById('btn-pause').style.display = 'none';
-  updateDisplay();
-}
-
-function finishSession() {
-  clearInterval(interval); running = false;
-  const mins = Math.round(sessionMins);
-  if (mins > 0) {
-    Sessions.add(mins);
-    Streak.update();
-    XP.award(mins);
-    addLog('🎉 Sesión completada: ' + mins + ' min', 'dot-m');
-    toast('🎉 ¡Sesión registrada! ' + mins + ' minutos · Racha actualizada');
-  }
-}
-
-function addLog(text, dotClass) {
-  const now = new Date();
-  const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-  logItems.unshift({ text, time, dotClass });
-  renderLog();
-}
-
-function renderLog() {
-  const el = document.getElementById('session-log');
-  if (!el) return;
-  if (!logItems.length) { el.innerHTML = '<div style="font-family:var(--fm);font-size:.75rem;color:var(--txt3);text-align:center;padding:20px;">Inicia un bloque para registrar</div>'; return; }
-  el.innerHTML = logItems.slice(0, 8).map(l =>
-    `<div class="session-log-item"><span class="sl-time">${l.time}</span><div class="sl-dot ${l.dotClass}"></div><span class="sl-text">${l.text}</span></div>`
-  ).join('');
-}
-
-function updateTimeToday() {
-  const el = document.getElementById('time-today');
-  if (el) el.textContent = Math.round(sessionMins) + ' min';
-}
-
-// TODAY CHECKLIST
-function renderTodayChecklist() {
-  const el = document.getElementById('today-checklist');
-  if (!el) return;
-  let items = [];
-  let count = 0;
-  for (const [, phase] of Object.entries(CURRICULUM)) {
-    const pending = phase.tasks.filter(t => !Progress.isChecked(t.id));
-    items = [...items, ...pending.slice(0, 2)];
-    if (items.length >= 4) break;
-  }
-  if (!items.length) { el.innerHTML = '<p style="color:var(--acid);font-family:var(--fm);font-size:.8rem;">🎉 Todas las tareas completadas</p>'; return; }
-  let done = 0;
-  el.innerHTML = items.map(t => {
-    const checked = Progress.isChecked(t.id);
-    if (checked) done++;
-    return `<div class="tcl-item${checked ? ' tdone' : ''}" id="tcl-${t.id}">
-      <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleTCL('${t.id}', this)">
-      <label>${t.text}</label>
-    </div>`;
-  }).join('');
-  updateTCLCount(done, items.length);
-}
-
-window.toggleTCL = function(id, cb) {
-  const li = document.getElementById('tcl-' + id);
-  if (li) li.classList.toggle('tdone', cb.checked);
-  Progress.check(id, cb.checked);
-  renderGlobalProgress();
-  if (cb.checked) { XP.award(5); toast('✅ Tarea completada +5 XP'); }
-  const done = document.querySelectorAll('.tcl-item.tdone').length;
-  const total = document.querySelectorAll('.tcl-item').length;
-  updateTCLCount(done, total);
+window.selectBlock = function(btn) {
+  if (timerState.running) { toast('⚠️ Detén el timer antes de cambiar el bloque'); return; }
+  document.querySelectorAll('.block-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const mins = +btn.dataset.mins;
+  timerState.totalSecs = timerState.remainSecs = mins * 60;
+  timerState.label = btn.dataset.label;
+  setEl('timer-phase', el => el.textContent = btn.dataset.label.toUpperCase());
+  updateTimerDisplay();
+  setEl('t-progress', el => el.style.width = '100%');
 };
 
-function updateTCLCount(done, total) {
-  const el = document.getElementById('tcl-pct');
-  if (el) el.textContent = done + ' / ' + total + ' completadas';
+function updateTimerDisplay() {
+  const m = Math.floor(timerState.remainSecs / 60).toString().padStart(2,'0');
+  const s = (timerState.remainSecs % 60).toString().padStart(2,'0');
+  setEl('timer-display', el => el.textContent = m + ':' + s);
+}
+
+window.startTimer = function() {
+  if (timerState.running) return;
+  timerState.running = true;
+  setEl('btn-start', el => el.style.display = 'none');
+  setEl('btn-pause', el => el.style.display = 'inline-flex');
+  timerState.interval = setInterval(() => {
+    timerState.remainSecs--;
+    updateTimerDisplay();
+    const pct = timerState.remainSecs / timerState.totalSecs * 100;
+    setEl('t-progress', el => el.style.width = pct + '%');
+    if (timerState.remainSecs <= 0) {
+      clearInterval(timerState.interval);
+      timerState.running = false;
+      Sessions.add(Math.round(timerState.totalSecs / 60));
+      Streak.update();
+      toast('🎉 ¡Sesión completada! +' + Math.round(timerState.totalSecs/60) + ' minutos registrados');
+      setEl('btn-start', el => el.style.display = 'inline-flex');
+      setEl('btn-pause', el => el.style.display = 'none');
+      refreshStats();
+    }
+  }, 1000);
+};
+
+window.pauseTimer = function() {
+  clearInterval(timerState.interval); timerState.running = false;
+  setEl('btn-start', el => el.style.display = 'inline-flex');
+  setEl('btn-pause', el => el.style.display = 'none');
+};
+
+window.resetTimer = function() {
+  clearInterval(timerState.interval); timerState.running = false;
+  timerState.remainSecs = timerState.totalSecs;
+  updateTimerDisplay();
+  setEl('t-progress', el => el.style.width = '100%');
+  setEl('btn-start', el => el.style.display = 'inline-flex');
+  setEl('btn-pause', el => el.style.display = 'none');
+};
+
+// PENDING TASKS
+function renderPendingTasks() {
+  const el = document.getElementById('pending-tasks'); if (!el) return;
+  const pending = [];
+  for (const [,phase] of Object.entries(CURRICULUM)) {
+    for (const t of phase.tasks) {
+      if (!Progress.isChecked(t.id)) { pending.push({ ...t, phase: phase.name }); }
+      if (pending.length >= 5) break;
+    }
+    if (pending.length >= 5) break;
+  }
+  el.innerHTML = pending.map(t => `
+    <li class="ti ${Progress.isChecked(t.id)?'done':''}" id="li-${t.id}">
+      <input type="checkbox" class="tc" id="${t.id}" ${Progress.isChecked(t.id)?'checked':''}>
+      <label for="${t.id}"><strong>${t.text}</strong><span style="font-family:var(--fm);font-size:.63rem;color:var(--txt3);">${t.phase}</span></label>
+    </li>`).join('') || '<li style="padding:12px;color:var(--txt3);font-family:var(--fm);font-size:.78rem;">🎉 ¡Ruta completada!</li>';
+  initTasks();
+  if (pending.length) setEl('current-task-label', el => el.textContent = pending[0].text.slice(0,50) + '...');
 }
 
 // NOTES
-window.saveNote = function() {
-  const input = document.getElementById('note-input');
-  const tag = document.getElementById('note-tag')?.value || 'General';
-  const text = input?.value?.trim();
-  if (!text) { toast('⚠️ Escribe algo primero'); return; }
-  Notes.add(text, tag);
-  input.value = '';
-  renderNotes();
-  toast('📝 Nota guardada');
-};
-
+function addNote() {
+  const inp = document.getElementById('note-input');
+  const tag = document.getElementById('note-tag').value;
+  const text = inp?.value?.trim();
+  if (!text) return;
+  Notes.add(text, tag); inp.value = ''; renderNotes();
+  toast('✓ Nota guardada');
+}
 function renderNotes() {
-  const el = document.getElementById('notes-list');
-  if (!el) return;
-  const notes = Notes.get().slice(0, 10);
-  if (!notes.length) { el.innerHTML = ''; return; }
-  el.innerHTML = notes.map(n => `
-    <div class="note-item" id="note-${n.id}">
-      <button class="note-del" onclick="delNote(${n.id})">✕</button>
-      <div class="n-text">${n.text}</div>
-      <div class="n-meta"><span class="n-tag">${n.tag}</span><span>${new Date(n.date).toLocaleDateString('es-CO')}</span></div>
-    </div>`).join('');
+  const el = document.getElementById('notes-list'); if (!el) return;
+  const ns = Notes.get().slice(0, 10);
+  el.innerHTML = ns.map(n => `
+    <div class="note-item">
+      <span class="note-tag nt-${n.tag}">${n.tag}</span>
+      <span style="font-size:.86rem;color:var(--txt);flex:1;">${n.text}</span>
+      <button onclick="delNote(${n.id})" style="background:none;border:none;color:var(--txt3);cursor:pointer;font-size:.85rem;">✕</button>
+    </div>`).join('') || '<p style="font-family:var(--fm);font-size:.72rem;color:var(--txt3);padding:8px 0;">Sin notas aún · escribe algo arriba</p>';
+}
+window.delNote = (id) => { Notes.del(id); renderNotes(); };
+
+function refreshStats() {
+  setEl('stat-total-h', el => el.textContent = (Sessions.totalMins()/60).toFixed(1)+'h');
+  setEl('stat-sessions', el => el.textContent = Sessions.get().length);
+  setEl('stat-streak', el => el.textContent = Streak.get().count);
+  setEl('stat-tasks', el => el.textContent = Progress.totalDone());
 }
 
-window.delNote = function(id) { Notes.del(id); renderNotes(); };
-
-// STUDY LINKS based on current phase
-function renderStudyLinks() {
-  const el = document.getElementById('study-links');
-  if (!el) return;
-  // Find current phase
-  let phase = 'fase1';
-  for (const [key, p] of Object.entries(CURRICULUM)) {
-    const pending = p.tasks.filter(t => !Progress.isChecked(t.id));
-    if (pending.length) { phase = key; break; }
-  }
-  const links = {
-    fase1: [
-      { name: 'Google Sheets', url: 'https://sheets.google.com', ico: '📗' },
-      { name: 'Kaggle Datasets', url: 'https://www.kaggle.com/datasets', ico: '📦' }
-    ],
-    fase2: [
-      { name: 'SQLZoo', url: 'https://sqlzoo.net/wiki/SQL_Tutorial', ico: '🗃️' },
-      { name: 'BigQuery Sandbox', url: 'https://console.cloud.google.com/bigquery', ico: '☁️' },
-      { name: 'HackerRank SQL', url: 'https://www.hackerrank.com/domains/sql', ico: '⚔️' }
-    ],
-    fase3: [
-      { name: 'Google Colab', url: 'https://colab.research.google.com', ico: '🔬' },
-      { name: 'freeCodeCamp Python', url: 'https://www.freecodecamp.org/learn/data-analysis-with-python/', ico: '🏕️' }
-    ],
-    fase4: [
-      { name: 'Power BI Desktop', url: 'https://powerbi.microsoft.com/es-es/desktop/', ico: '🟡' },
-      { name: 'Tableau Public', url: 'https://public.tableau.com', ico: '📊' }
-    ],
-    fase5: [
-      { name: 'Claude AI', url: 'https://claude.ai', ico: '🤖' },
-      { name: 'ChatGPT', url: 'https://chat.openai.com', ico: '💬' },
-      { name: 'Gemini', url: 'https://gemini.google.com', ico: '✨' }
-    ],
-    fase6: [
-      { name: 'LinkedIn Jobs', url: 'https://www.linkedin.com/jobs/search/?keywords=data+analyst', ico: '💼' },
-      { name: 'GitHub', url: 'https://github.com', ico: '🐙' }
-    ]
-  };
-  const items = links[phase] || links.fase1;
-  el.innerHTML = items.map(l => `
-    <a href="${l.url}" target="_blank" class="ql-item" style="text-decoration:none;">
-      <span>${l.ico}</span><div><b style="font-family:var(--fh);font-size:.84rem;">${l.name}</b></div>
-    </a>`).join('');
-}
-
-// SIDE HACK
-function renderSideHack() {
-  const el = document.getElementById('side-hack');
-  if (!el) return;
-  const h = HACKS[Math.floor(Math.random() * HACKS.length)];
-  el.innerHTML = h.text;
-}
-
-// INIT
 document.addEventListener('DOMContentLoaded', () => {
-  updateBlockLabels();
-  selectBlock(1);
-  renderTodayChecklist();
+  renderPendingTasks();
   renderNotes();
-  renderStudyLinks();
-  renderSideHack();
+  refreshStats();
+  updateTimerDisplay();
 });
 </script>
 </body>

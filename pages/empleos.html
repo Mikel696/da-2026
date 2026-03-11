@@ -1,219 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DA-2026</title>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Empleos & Mercado · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="../css/main.css"/>
 </head>
 <body>
-<div class="orb o1"></div>
-<nav class="sidebar" id="sb">
-  <div class="sb-top">
-    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
-    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
-    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
-  </div>
-  <div class="sb-nav">
-    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
-    <a href="ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
-    <a href="sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
-    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
-    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
-    <a href="prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
-    <a href="ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
-    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
-    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
-    <a href="configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
-  </div>
-  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
-</nav>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
 <button class="ham" id="ham"><span></span><span></span><span></span></button>
 <main class="main">
   <div class="topbar">
-    <div class="topbar-left"><h1 class="page-title" id="page-heading">Cargando...</h1><span class="page-sub" id="page-sub">DA-2026</span></div>
-    <div class="topbar-right"><div class="global-progress-mini"><span class="gp-pct" id="gp-pct">0%</span><div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div></div></div>
+    <div><h1 class="page-title">💼 Empleos & Mercado</h1><span class="page-sub" id="greeting">...</span></div>
+    <div class="topbar-right">
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
+    </div>
   </div>
-  <div class="section-body" id="page-body">Cargando contenido...</div>
+  <div class="section-body">
+
+    <!-- LIVE JOBS BOARD -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <h2 style="font-family:var(--fh);font-size:1.4rem;font-weight:800;">Vacantes Remotas en Vivo</h2>
+      <span class="live-badge"><span class="live-dot"></span>RemoteOK API · actualiza cada hora</span>
+      <button onclick="refreshJobs()" class="btn btn-ghost" style="font-size:.78rem;padding:7px 14px;margin-left:auto;">↻ Actualizar</button>
+    </div>
+
+    <!-- FILTERS -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;" id="tag-filters">
+      <button class="filter-btn active" data-tag="all">Todos</button>
+      <button class="filter-btn" data-tag="sql">SQL</button>
+      <button class="filter-btn" data-tag="python">Python</button>
+      <button class="filter-btn" data-tag="analytics">Analytics</button>
+      <button class="filter-btn" data-tag="power bi">Power BI</button>
+      <button class="filter-btn" data-tag="tableau">Tableau</button>
+      <button class="filter-btn" data-tag="junior">Junior</button>
+    </div>
+
+    <div id="jobs-full-feed" style="margin-bottom:40px;"></div>
+
+    <!-- FUENTES DIRECTAS -->
+    <h2 style="font-family:var(--fh);font-size:1.2rem;font-weight:800;margin-bottom:14px;">🎯 Busca directamente en:</h2>
+    <div class="grid-3c" style="margin-bottom:40px;">
+      <a href="https://www.linkedin.com/jobs/search/?keywords=junior+data+analyst&f_WT=2&f_E=2" target="_blank" class="res-item">
+        <span class="ri-ico">💼</span><div><div class="ri-name">LinkedIn Jobs</div><div class="ri-desc">Junior Data Analyst remoto · Filtrado por experiencia entry-level</div></div>
+      </a>
+      <a href="https://remoteok.com/remote-data-analyst-jobs" target="_blank" class="res-item">
+        <span class="ri-ico">🌍</span><div><div class="ri-name">RemoteOK</div><div class="ri-desc">Data jobs remotos con salarios publicados. LATAM friendly.</div></div>
+      </a>
+      <a href="https://weworkremotely.com/remote-jobs/search?term=data+analyst" target="_blank" class="res-item">
+        <span class="ri-ico">🏠</span><div><div class="ri-name">WeWorkRemotely</div><div class="ri-desc">Empresas americanas que contratan remoto internacional.</div></div>
+      </a>
+      <a href="https://remotive.com/remote-jobs/data" target="_blank" class="res-item">
+        <span class="ri-ico">🚀</span><div><div class="ri-name">Remotive</div><div class="ri-desc">Curado de trabajos remotos en data, incluye salarios.</div></div>
+      </a>
+      <a href="https://www.indeed.com/jobs?q=junior+data+analyst&l=remote" target="_blank" class="res-item">
+        <span class="ri-ico">🔍</span><div><div class="ri-name">Indeed · Remoto</div><div class="ri-desc">Muchas vacantes de empresas latinoamericanas en español.</div></div>
+      </a>
+      <a href="https://www.getmanfred.com/ofertas-empleo?stack=Data+%26+BI" target="_blank" class="res-item">
+        <span class="ri-ico">🇪🇸</span><div><div class="ri-name">Manfred</div><div class="ri-desc">Plataforma europea con roles de datos que aceptan LATAM.</div></div>
+      </a>
+    </div>
+
+    <!-- SALARIOS LATAM -->
+    <h2 style="font-family:var(--fh);font-size:1.2rem;font-weight:800;margin-bottom:14px;">💰 Salarios Data Analyst · LATAM 2026</h2>
+    <div class="box box-s" style="margin-bottom:16px;">
+      <strong>Fuente:</strong> Encuesta Stack Overflow 2024, Glassdoor LATAM, LinkedIn Salary Insights, comunidades de datos en español. Cifras en USD/mes para roles remotos.
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Rol</th><th>Stack principal</th><th>Experiencia</th>
+            <th>Colombia</th><th>México</th><th>Argentina</th><th>Chile</th><th>Remoto Global</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Data Analyst Jr.</td><td>SQL + Excel</td><td>0–1 año</td><td>$600–900</td><td>$700–1,000</td><td>$400–700</td><td>$700–1,100</td><td>$800–1,500</td></tr>
+          <tr><td>Data Analyst</td><td>SQL + Python + BI</td><td>1–3 años</td><td>$1,000–1,800</td><td>$1,100–2,000</td><td>$700–1,300</td><td>$1,200–2,000</td><td>$2,000–4,000</td></tr>
+          <tr><td>BI Analyst Jr.</td><td>Power BI / Tableau</td><td>0–1 año</td><td>$700–1,100</td><td>$800–1,200</td><td>$500–800</td><td>$800–1,200</td><td>$1,000–1,800</td></tr>
+          <tr><td>BI Analyst Sr.</td><td>Power BI + DAX + SQL</td><td>3–5 años</td><td>$1,500–2,500</td><td>$1,800–3,000</td><td>$1,000–2,000</td><td>$2,000–3,500</td><td>$3,500–6,000</td></tr>
+          <tr><td>Analytics Engineer</td><td>dbt + SQL + Python</td><td>2–4 años</td><td>$1,800–3,000</td><td>$2,000–3,500</td><td>$1,200–2,500</td><td>$2,500–4,000</td><td>$4,000–7,000</td></tr>
+          <tr><td>Data Engineer Jr.</td><td>Python + SQL + Cloud</td><td>1–2 años</td><td>$1,200–2,000</td><td>$1,300–2,200</td><td>$800–1,500</td><td>$1,500–2,500</td><td>$2,500–4,500</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box box-a" style="margin-top:14px;">
+      <strong>💡 Estrategia:</strong> El salto de Jr. a mid-level (año 1→2) es el mayor en LATAM: +60–100% si tienes proyectos públicos en GitHub y puedes demostrar impacto cuantificado.
+    </div>
+
+    <!-- STACKS MÁS PEDIDOS -->
+    <h2 style="font-family:var(--fh);font-size:1.2rem;font-weight:800;margin:32px 0 14px;">📊 Stacks más pedidos en LATAM 2026</h2>
+    <div id="skills-chart">
+      <div class="skill-row"><span class="sk-n">SQL</span><div class="sk-t"><div class="sk-f sk-f-a" style="width:95%;"></div></div><span class="sk-tag sk-c">95% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">Excel / Sheets</span><div class="sk-t"><div class="sk-f sk-f-a" style="width:88%;"></div></div><span class="sk-tag sk-c">88% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">Python (Pandas)</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:76%;"></div></div><span class="sk-tag sk-p">76% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">Power BI</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:68%;"></div></div><span class="sk-tag sk-p">68% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">Tableau</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:52%;"></div></div><span class="sk-tag sk-p">52% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">BigQuery / Cloud</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:44%;"></div></div><span class="sk-tag sk-p">44% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">dbt</span><div class="sk-t"><div class="sk-f sk-f-e" style="width:28%;"></div></div><span class="sk-tag" style="color:var(--ember);border-color:rgba(255,107,53,.3);background:var(--ember-d);">28% vacantes</span></div>
+      <div class="skill-row"><span class="sk-n">Looker / Metabase</span><div class="sk-t"><div class="sk-f sk-f-e" style="width:24%;"></div></div><span class="sk-tag" style="color:var(--ember);border-color:rgba(255,107,53,.3);background:var(--ember-d);">24% vacantes</span></div>
+    </div>
+
+  </div>
 </main>
 <div id="toast"></div>
 <script src="../js/core.js"></script>
 <script>
-const PAGE_ID = document.location.pathname.split('/').pop().replace('.html','');
-const PAGES_CONTENT = {
-  empleos: {
-    title: '💼 Empleos & Mercado Laboral',
-    sub: 'Tablero de oportunidades y datos de salarios LATAM 2026',
-    html: `
-    <div class="grid-2c" style="margin-bottom:20px;">
-      <div class="tactic">
-        <span class="tac-label tl-acid">💰 Salarios LATAM Remotos 2026</span>
-        <h3>Rangos USD/mes según nivel</h3>
-        <table style="margin-top:12px;">
-          <thead><tr><th>Nivel</th><th>Exp.</th><th>USD/mes</th></tr></thead>
-          <tbody>
-            <tr><td>Junior Analyst</td><td>0–2 años</td><td style="color:var(--acid);font-family:var(--fm);font-weight:700;">$600–$1,400</td></tr>
-            <tr><td>Mid Analyst</td><td>2–4 años</td><td style="color:var(--acid);font-family:var(--fm);font-weight:700;">$1,400–$2,800</td></tr>
-            <tr><td>Senior Analyst</td><td>4–7 años</td><td style="color:var(--acid);font-family:var(--fm);font-weight:700;">$2,800–$5,000</td></tr>
-            <tr><td>Lead / Manager</td><td>7+ años</td><td style="color:var(--acid);font-family:var(--fm);font-weight:700;">$5,000–$9,000+</td></tr>
-          </tbody>
-        </table>
-        <div class="box box-a" style="margin-top:14px;"><strong>Táctica de negociación:</strong> Siempre da un rango, no un número. El piso del rango debe ser tu mínimo aceptable. Ancla con impacto: "Dado que mis proyectos demostraron X de valor..."</div>
-      </div>
-      <div class="tactic">
-        <span class="tac-label tl-sky">🏭 Industrias con Mayor Demanda</span>
-        <h3>Dónde buscar en 2026</h3>
-        <table style="margin-top:12px;">
-          <thead><tr><th>Industria</th><th>Demanda</th><th>Keywords</th></tr></thead>
-          <tbody>
-            <tr><td>Fintech / Banca</td><td style="color:var(--acid);">🔥 Muy alta</td><td style="color:var(--sky);font-family:var(--fm);font-size:.78rem;">cohortes, LTV, riesgo</td></tr>
-            <tr><td>E-commerce</td><td style="color:var(--acid);">🔥 Muy alta</td><td style="color:var(--sky);font-family:var(--fm);font-size:.78rem;">funnel, CAC, conversión</td></tr>
-            <tr><td>SaaS / Tech</td><td style="color:var(--acid);">🔥 Alta</td><td style="color:var(--sky);font-family:var(--fm);font-size:.78rem;">churn, MRR, product</td></tr>
-            <tr><td>Logística</td><td style="color:var(--sky);">📈 Media-alta</td><td style="color:var(--sky);font-family:var(--fm);font-size:.78rem;">KPIs ops, rutas</td></tr>
-            <tr><td>Salud</td><td style="color:var(--sky);">📈 Media-alta</td><td style="color:var(--sky);font-family:var(--fm);font-size:.78rem;">clinical, compliance</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="tactic">
-      <span class="tac-label tl-mint">🔍 Buscar Empleos Ahora</span>
-      <h3>Links directos a búsquedas filtradas</h3>
-      <div class="grid-3c" style="margin-top:14px;">
-        <a href="https://www.linkedin.com/jobs/search/?keywords=junior+data+analyst&f_WT=2" target="_blank" class="res-item"><span class="ri-ico">💼</span><div><div class="ri-name">LinkedIn — Jr. DA Remoto</div><div class="ri-desc">Filtro: Junior + Remote</div></div></a>
-        <a href="https://www.linkedin.com/jobs/search/?keywords=data+analyst+sql+python" target="_blank" class="res-item"><span class="ri-ico">🐍</span><div><div class="ri-name">LinkedIn — SQL + Python</div><div class="ri-desc">Stack técnico filtrado</div></div></a>
-        <a href="https://www.indeed.com/jobs?q=junior+data+analyst&l=remote" target="_blank" class="res-item"><span class="ri-ico">🔎</span><div><div class="ri-name">Indeed — Remote DA</div><div class="ri-desc">Búsqueda en Indeed</div></div></a>
-        <a href="https://www.glassdoor.com/Job/junior-data-analyst-jobs-SRCH_KO0,20.htm" target="_blank" class="res-item"><span class="ri-ico">🚪</span><div><div class="ri-name">Glassdoor — DA Junior</div><div class="ri-desc">Incluye reviews de empresas</div></div></a>
-        <a href="https://remoteok.com/remote-data-jobs" target="_blank" class="res-item"><span class="ri-ico">🌍</span><div><div class="ri-name">RemoteOK — Data Jobs</div><div class="ri-desc">Solo empleos remotos</div></div></a>
-        <a href="https://weworkremotely.com/remote-jobs/search?term=data+analyst" target="_blank" class="res-item"><span class="ri-ico">💻</span><div><div class="ri-name">WeWorkRemotely</div><div class="ri-desc">Data analyst remoto global</div></div></a>
-      </div>
-    </div>
-    <div class="tactic" style="margin-top:16px;">
-      <span class="tac-label tl-ember">📋 Keywords para tu CV (ATS)</span>
-      <h3>Palabras que los sistemas de filtrado buscan en 2026</h3>
-      <p>Incluye exactamente estos términos en tu CV y LinkedIn para pasar el filtro ATS.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
-        ${['Data Wrangling','EDA','Business Intelligence','KPI Tracking','Data Pipeline','Ad Hoc Analysis','Stakeholder Reporting','Data-driven','SQL','Python','Pandas','Power BI','Tableau','Google BigQuery','ETL','Data Cleaning','Data Visualization','Statistical Analysis','A/B Testing','Dashboard Development'].map(k => `<span style="background:var(--sky-d);border:1px solid rgba(56,191,255,.25);color:var(--sky);font-family:var(--fm);font-size:.7rem;padding:4px 12px;border-radius:20px;">${k}</span>`).join('')}
-      </div>
-    </div>`
-  },
-  recursos: {
-    title: '📦 Arsenal de Recursos Gratuitos',
-    sub: 'Todo lo que necesitas para completar la ruta. Costo total: $0',
-    html: `
-    <div class="box box-a" style="margin-bottom:22px;"><strong>Regla de Oro:</strong> No necesitas pagar nada para completar esta ruta. Todo el stack puede aprenderse con recursos gratuitos. Los únicos costos opcionales son las certificaciones de Coursera — que también pueden obtenerse con Financial Aid.</div>
-    <h3 style="font-family:var(--fh);margin-bottom:16px;font-size:1.1rem;">📚 Plataformas de Aprendizaje</h3>
-    <div class="grid-auto" style="margin-bottom:24px;">
-      <a href="https://www.freecodecamp.org/learn/data-analysis-with-python" target="_blank" class="res-item"><span class="ri-ico">🏕️</span><div><div class="ri-name">freeCodeCamp Python</div><div class="ri-desc">Currículo completo Data Analysis. Certificado verificable.</div><div class="ri-cost rc-free">● 100% Gratuito · Certificado</div></div></a>
-      <a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" class="res-item"><span class="ri-ico">🎓</span><div><div class="ri-name">Google Data Analytics</div><div class="ri-desc">8 cursos. Solicitar Financial Aid curso por curso.</div><div class="ri-cost rc-beca">◆ Gratuito con beca · 15 días</div></div></a>
-      <a href="https://www.coursera.org/professional-certificates/ibm-data-analyst" target="_blank" class="res-item"><span class="ri-ico">🔵</span><div><div class="ri-name">IBM Data Analyst</div><div class="ri-desc">9 cursos: Python, SQL, Tableau, Cognos Analytics.</div><div class="ri-cost rc-beca">◆ Gratuito con beca</div></div></a>
-      <a href="https://www.kaggle.com/learn" target="_blank" class="res-item"><span class="ri-ico">🐾</span><div><div class="ri-name">Kaggle Learn</div><div class="ri-desc">Micro-cursos: Python, SQL, ML, Pandas. Todos certificados.</div><div class="ri-cost rc-free">● 100% Gratuito · Certificado</div></div></a>
-    </div>
-    <h3 style="font-family:var(--fh);margin-bottom:16px;font-size:1.1rem;">🛠️ Herramientas</h3>
-    <div class="grid-auto" style="margin-bottom:24px;">
-      <a href="https://colab.research.google.com" target="_blank" class="res-item"><span class="ri-ico">🔬</span><div><div class="ri-name">Google Colab</div><div class="ri-desc">Jupyter en la nube. GPU disponible. Sin instalación.</div><div class="ri-cost rc-free">● Gratuito</div></div></a>
-      <a href="https://cloud.google.com/bigquery/docs/sandbox" target="_blank" class="res-item"><span class="ri-ico">☁️</span><div><div class="ri-name">BigQuery Sandbox</div><div class="ri-desc">1TB queries/mes gratis. SQL en cloud a escala real.</div><div class="ri-cost rc-free">● Gratuito (sandbox)</div></div></a>
-      <a href="https://powerbi.microsoft.com/es-es/desktop/" target="_blank" class="res-item"><span class="ri-ico">🟡</span><div><div class="ri-name">Power BI Desktop</div><div class="ri-desc">Versión desktop Windows gratuita. 100+ conectores.</div><div class="ri-cost rc-free">● Gratuito (desktop)</div></div></a>
-      <a href="https://public.tableau.com" target="_blank" class="res-item"><span class="ri-ico">📊</span><div><div class="ri-name">Tableau Public</div><div class="ri-desc">Publica dashboards online. URL pública para portafolio.</div><div class="ri-cost rc-free">● Gratuito (público)</div></div></a>
-      <a href="https://supabase.com" target="_blank" class="res-item"><span class="ri-ico">⚡</span><div><div class="ri-name">Supabase</div><div class="ri-desc">PostgreSQL en la nube gratis. Ideal para proyectos portafolio.</div><div class="ri-cost rc-free">● Free tier</div></div></a>
-      <a href="https://github.com" target="_blank" class="res-item"><span class="ri-ico">🐙</span><div><div class="ri-name">GitHub</div><div class="ri-desc">Repositorios públicos ilimitados. Tu portafolio vive aquí.</div><div class="ri-cost rc-free">● Gratuito (público)</div></div></a>
-    </div>
-    <h3 style="font-family:var(--fh);margin-bottom:16px;font-size:1.1rem;">⚔️ Práctica SQL</h3>
-    <div class="grid-auto">
-      <a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" class="res-item"><span class="ri-ico">🗃️</span><div><div class="ri-name">SQLZoo</div><div class="ri-desc">Práctica interactiva en el navegador. Sin instalación.</div><div class="ri-cost rc-free">● 100% Gratuito</div></div></a>
-      <a href="https://www.hackerrank.com/domains/sql" target="_blank" class="res-item"><span class="ri-ico">⚔️</span><div><div class="ri-name">HackerRank SQL</div><div class="ri-desc">Las empresas usan esta plataforma para pruebas técnicas.</div><div class="ri-cost rc-free">● 100% Gratuito</div></div></a>
-      <a href="https://mode.com/sql-tutorial/" target="_blank" class="res-item"><span class="ri-ico">📖</span><div><div class="ri-name">Mode SQL Tutorial</div><div class="ri-desc">Tutorial interactivo con editor SQL en línea. Muy completo.</div><div class="ri-cost rc-free">● Gratuito</div></div></a>
-      <a href="https://www.w3schools.com/sql/" target="_blank" class="res-item"><span class="ri-ico">📚</span><div><div class="ri-name">W3Schools SQL</div><div class="ri-desc">Referencia rápida de sintaxis. Ideal para consultar mientras codeas.</div><div class="ri-cost rc-free">● Gratuito</div></div></a>
-    </div>`
-  },
-  proyectos: {
-    title: '🔬 Laboratorio de Proyectos',
-    sub: '3 proyectos reales que demuestran valor de negocio — no tutoriales copiados',
-    html: `
-    <div class="box box-e" style="margin-bottom:22px;"><strong>🚨 Regla de los Proyectos:</strong> Cada proyecto debe tener: datos sucios (no datasets perfectos), decisiones de metodología documentadas, e impacto cuantificado en dinero/tiempo/riesgo. Sin esto es un tutorial, no un proyecto.</div>
-    
-    <div class="tactic" style="margin-bottom:18px;">
-      <span class="tac-label tl-acid">Proyecto 01 · SQL + Power BI · Mes 4</span>
-      <h3>Dashboard de KPIs Financieros y Logísticos</h3>
-      <p><strong>El problema:</strong> Una empresa de retail no sabe qué regiones o métodos de envío "sangran" dinero. Las decisiones se toman sin visibilidad de datos.</p>
-      <p><strong>Tu misión:</strong> PostgreSQL + Power BI. Limpiar inconsistencias temporales (fechas nulas, monedas mixtas, duplicados), modelo estrella, dashboard con KPIs de inventario y logística.</p>
-      <p><strong>El diferenciador:</strong> Calcular el costo de ignorar el problema. "El inventario en zona Norte tiene 47 días de rotación vs 22 días del benchmark. Costo de holding estimado: $X/mes."</p>
-      <div class="box box-a"><strong>README STAR:</strong> "Identifiqué $200K atrapados en inventario de baja rotación zona Este. Dashboard habilitó alertas que redujeron stock inmovilizado un 35%."</div>
-      <div class="grid-3c" style="margin-top:14px;">
-        <a href="https://www.kaggle.com/datasets/vivek468/superstore-dataset-final" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">📦 Dataset Superstore →</a>
-        <a href="https://public.tableau.com/app/discover" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">📊 Inspiración Tableau →</a>
-        <a href="https://claude.ai" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">🤖 Generar DAX con IA →</a>
-      </div>
-    </div>
-
-    <div class="tactic" style="margin-bottom:18px;">
-      <span class="tac-label tl-sky">Proyecto 02 · Python + Limpieza · Mes 3-4</span>
-      <h3>Recuperación de Pipeline de Precios Inmobiliarios</h3>
-      <p><strong>El problema:</strong> Dataset inmobiliario con 77% de nulos en columna tipo de propiedad y tipos inconsistentes. Sin limpieza, ningún modelo de pricing funciona.</p>
-      <p><strong>Tu misión:</strong> Imputación condicional por reglas de negocio, validación con test KS, informe de calidad de datos antes/después.</p>
-      <p><strong>El diferenciador:</strong> Crear un "informe de calidad" antes/después. % de completitud por columna, distribuciones comparadas, decisiones justificadas. Esto demuestra madurez analítica que el 90% no tiene.</p>
-      <div class="box box-s"><strong>README STAR:</strong> "Salvaguardé el 80% de 15K registros mediante imputación KNN + reglas de dominio. Modelo de pricing resultante con RMSE 12% inferior al baseline."</div>
-      <div class="grid-3c" style="margin-top:14px;">
-        <a href="https://www.kaggle.com/datasets/kanchana1990/colorado-real-estate-market-2026" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">🏠 Dataset Inmobiliario →</a>
-        <a href="https://colab.research.google.com" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">🔬 Abrir Colab →</a>
-        <a href="https://claude.ai" target="_blank" class="btn btn-ghost" style="font-size:.8rem;justify-content:center;">🤖 Estrategia limpieza IA →</a>
-      </div>
-    </div>
-
-    <div class="tactic">
-      <span class="tac-label tl-mint">Proyecto 03 · IA + SQL + RRHH · Mes 5</span>
-      <h3>Motor de Queries Semántico para RRHH</h3>
-      <p><strong>El problema:</strong> El equipo de RRHH necesita métricas pero no sabe SQL. Cada análisis tarda días. La empresa necesita democratizar el acceso a insights.</p>
-      <p><strong>Tu misión:</strong> Diseñar schema SQL con IA, construir librería de prompts validados que traduzcan preguntas de negocio a SQL ejecutable, documentar la tasa de precisión.</p>
-      <div class="box box-m"><strong>README STAR:</strong> "Construí librería de 15 prompts validados que reducen tiempo de extracción de métricas de RRHH de 2 días a 15 minutos. Tasa de precisión: 94%."</div>
-      <div class="cw" style="margin-top:14px;">
-        <span class="clbl">Prompt base — Schema RRHH</span>
-        <div class="cb" id="proj3-prompt">Actúa como Database Architect.
-Diseña un schema PostgreSQL para RRHH de empresa mediana (500 empleados).
-Incluye: employees, departments, performance_reviews, salaries, leaves.
-Genera:
-1. SQL CREATE TABLE completo con FK y constraints
-2. Índices para las 5 consultas más frecuentes de RRHH
-3. 3 queries de ejemplo: retención, headcount por depto, evolución salarial<button class="cp" onclick="cp('proj3-prompt',this)">Copiar</button></div>
-      </div>
-    </div>`
-  },
-  tacticas: {
-    title: '⚡ Tácticas Ocultas de Empleabilidad',
-    sub: 'Los hacks que los tutoriales no te dicen — basados en patrones reales de contratación',
-    html: `
-    <div id="tactics-list"></div>
-    <div class="tactic" style="margin-top:20px;background:linear-gradient(135deg,var(--card),rgba(200,255,0,.03));border-color:rgba(200,255,0,.2);">
-      <span class="tac-label tl-acid">📅 El Hack Más Importante</span>
-      <h3>Aplica cuando tengas el 60% del stack</h3>
-      <p>El error más frecuente es esperar a estar "listo". La verdad: nunca vas a sentirte listo. El proceso de reclutamiento tarda semanas — si aplicas cuando tengas SQL + Python básico (mes 3), cuando llegue la entrevista habrás avanzado el 40% restante.</p>
-      <div class="box box-a"><strong>Empieza a aplicar a partir del mes 3</strong> — en paralelo al estudio, no después.</div>
-    </div>`
-  }
-};
+let allJobs = [];
+let activeTag = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const pc = PAGES_CONTENT[PAGE_ID];
-  if (pc) {
-    document.getElementById('page-heading').textContent = pc.title;
-    document.getElementById('page-sub').textContent = pc.sub;
-    document.title = pc.title.replace(/[^\w\s]/gi,'').trim() + ' · DA-2026';
-    document.getElementById('page-body').innerHTML = pc.html;
-    // Render hacks for tacticas
-    if (PAGE_ID === 'tacticas') {
-      const tl = document.getElementById('tactics-list');
-      if (tl) tl.innerHTML = HACKS.map((h, i) => `
-        <div class="tactic" style="margin-bottom:14px;">
-          <div class="tac-label tl-acid">⚡ Hack ${String(i+1).padStart(2,'0')} · ${h.cat}</div>
-          <div style="font-size:.93rem;color:var(--txt);line-height:1.75;margin-top:10px;">${h.text}</div>
-        </div>`).join('');
-    }
-    // Mark active nav
-    document.querySelectorAll('.nav-link').forEach(l => {
-      if (l.getAttribute('href').includes(PAGE_ID)) l.classList.add('active');
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTag = btn.dataset.tag;
+      renderFilteredJobs();
     });
-  }
+  });
+  loadAllJobs();
 });
+
+async function loadAllJobs() {
+  const el = document.getElementById('jobs-full-feed');
+  el.innerHTML = `<div style="display:flex;gap:8px;align-items:center;padding:12px 0;font-family:var(--fm);font-size:.75rem;color:var(--txt3);"><div class="spinner"></div>Conectando a RemoteOK API...</div>`;
+
+  const CACHE_KEY = 'jobs_full_v4', TTL = 3600000;
+  const cached = DB.get(CACHE_KEY);
+  if (cached && (Date.now() - cached.ts) < TTL) { allJobs = cached.jobs; renderFilteredJobs(); return; }
+
+  try {
+    const res  = await fetch('https://remoteok.com/api?tag=data', { headers:{'Accept':'application/json'} });
+    const raw  = await res.json();
+    allJobs = raw.slice(1).filter(j => j.position).slice(0, 30).map(j => ({
+      title:   j.position,
+      company: j.company || 'Empresa Remota',
+      tags:    (j.tags || []).slice(0, 5),
+      link:    j.url || `https://remoteok.com/l/${j.id}`,
+      date:    j.date ? timeAgo(j.date * 1000) : 'reciente',
+      salary:  j.salary_min ? `$${Math.round(j.salary_min/1000)}k–$${Math.round(j.salary_max/1000)}k/yr` : null,
+      desc:    j.description ? j.description.replace(/<[^>]+>/g,'').slice(0,120) : ''
+    }));
+    DB.set(CACHE_KEY, { ts: Date.now(), jobs: allJobs });
+    renderFilteredJobs();
+  } catch {
+    allJobs = JOBS_CURATED.map(j => ({...j, tags: j.tags || [], desc: ''}));
+    renderFilteredJobs();
+  }
+}
+
+window.refreshJobs = () => { DB.del('jobs_full_v4'); loadAllJobs(); };
+
+function renderFilteredJobs() {
+  const el = document.getElementById('jobs-full-feed'); if (!el) return;
+  const filtered = activeTag === 'all'
+    ? allJobs
+    : allJobs.filter(j => (j.tags||[]).some(t => t.toLowerCase().includes(activeTag)) || j.title.toLowerCase().includes(activeTag));
+
+  if (!filtered.length) { el.innerHTML = '<p style="color:var(--txt3);font-family:var(--fm);padding:12px 0;">No hay vacantes con ese filtro ahora. Prueba otro tag.</p>'; return; }
+
+  el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;">
+    ${filtered.slice(0, 18).map(j => `
+      <a href="${j.link}" target="_blank" rel="noopener" class="res-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
+        <div style="width:100%;">
+          <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;margin-bottom:4px;color:var(--txt);">${j.title}</div>
+          <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-family:var(--fm);font-size:.66rem;margin-bottom:8px;">
+            <span style="color:var(--txt2);">${j.company}</span>
+            ${j.salary ? `<span style="color:var(--acid);font-weight:600;">${j.salary}</span>` : ''}
+            <span style="color:var(--txt3);">${j.date}</span>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            ${(j.tags||[]).map(t=>`<span style="background:var(--sky-d);color:var(--sky);border:1px solid rgba(56,191,255,.2);border-radius:10px;padding:2px 7px;font-family:var(--fm);font-size:.63rem;">${t}</span>`).join('')}
+          </div>
+        </div>
+      </a>`).join('')}
+  </div>
+  <p style="font-family:var(--fm);font-size:.67rem;color:var(--txt3);margin-top:14px;">Mostrando ${Math.min(filtered.length,18)} de ${filtered.length} · Fuente: RemoteOK</p>`;
+}
 </script>
+<style>
+.filter-btn{background:var(--ink3);border:1px solid var(--border);color:var(--txt3);font-family:var(--fm);font-size:.72rem;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .18s}
+.filter-btn:hover,.filter-btn.active{background:var(--acid-d);border-color:rgba(200,255,0,.3);color:var(--acid)}
+</style>
 </body>
 </html>

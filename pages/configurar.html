@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Mi Perfil · DA-2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -9,254 +9,203 @@
 <link rel="stylesheet" href="../css/main.css"/>
 </head>
 <body>
-<div class="orb o1"></div>
-<nav class="sidebar" id="sb">
-  <div class="sb-top">
-    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
-    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
-    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
-  </div>
-  <div class="sb-nav">
-    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
-    <a href="ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
-    <a href="sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
-    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
-    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
-    <a href="prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
-    <a href="ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
-    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
-    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
-    <a href="configurar.html" class="nav-link active"><span>⚙️</span>Mi Perfil</a>
-  </div>
-  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
-</nav>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
 <button class="ham" id="ham"><span></span><span></span><span></span></button>
-
 <main class="main">
   <div class="topbar">
-    <div class="topbar-left">
-      <h1 class="page-title">⚙️ Mi Perfil</h1>
-      <span class="page-sub">Configura tu experiencia y exporta / importa tu progreso</span>
-    </div>
+    <div><h1 class="page-title">⚙️ Mi Perfil</h1><span class="page-sub" id="greeting">...</span></div>
     <div class="topbar-right">
-      <div class="global-progress-mini"><span class="gp-pct" id="gp-pct">0%</span><div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div></div>
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
     </div>
   </div>
-
   <div class="section-body">
-    <div class="grid-2c" style="margin-bottom:20px;">
-      <!-- EDIT PROFILE -->
-      <div class="tactic">
-        <span class="tac-label tl-acid">👤 Datos Personales</span>
-        <h3>Editar Perfil</h3>
-        <div class="onboarding-form" style="margin-top:14px;">
+    <div class="dash-grid">
+
+      <!-- PERFIL -->
+      <div class="dash-card span-2">
+        <div class="dc-header"><h3>👤 Mi Perfil</h3></div>
+        <div class="onboarding-form">
           <div class="form-group"><label>Nombre</label><input type="text" id="p-name" class="input-field" placeholder="Tu nombre"/></div>
           <div class="form-group"><label>Nivel actual</label>
             <select id="p-level" class="input-field">
-              <option value="0">Principiante absoluto</option>
-              <option value="1">Sé Excel básico</option>
-              <option value="2">He tocado SQL</option>
-              <option value="3">Tengo Python básico</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Horas diarias de estudio</label>
+              <option value="0">Principiante absoluto</option><option value="1">Sé Excel básico</option>
+              <option value="2">He tocado SQL alguna vez</option><option value="3">Tengo algo de Python</option>
+            </select></div>
+          <div class="form-group"><label>Horas diarias disponibles</label>
             <select id="p-hours" class="input-field">
-              <option value="1">1 hora</option>
-              <option value="2">2 horas</option>
-              <option value="3">3 horas (recomendado)</option>
-              <option value="4">4+ horas</option>
-            </select>
-          </div>
+              <option value="1">1 hora</option><option value="2">2 horas</option>
+              <option value="3">3 horas</option><option value="4">4+ horas</option>
+            </select></div>
           <div class="form-group"><label>Industria objetivo</label>
             <select id="p-industry" class="input-field">
-              <option value="fintech">Fintech / Banca</option>
-              <option value="ecommerce">E-commerce / Retail</option>
-              <option value="saas">SaaS / Tech</option>
-              <option value="logistica">Logística</option>
-              <option value="salud">Salud</option>
-              <option value="otro">Otra / No sé aún</option>
-            </select>
-          </div>
-          <div class="form-group"><label>URL de LinkedIn (opcional)</label><input type="text" id="p-linkedin" class="input-field" placeholder="https://linkedin.com/in/tu-perfil"/></div>
-          <div class="form-group"><label>URL de GitHub (opcional)</label><input type="text" id="p-github" class="input-field" placeholder="https://github.com/tu-usuario"/></div>
-          <button class="btn btn-acid" onclick="saveProfile()">💾 Guardar Cambios</button>
+              <option value="fintech">Fintech / Banca</option><option value="ecommerce">E-commerce / Retail</option>
+              <option value="saas">SaaS / Tech</option><option value="logistica">Logística</option>
+              <option value="salud">Salud</option><option value="otro">Otra / No sé aún</option>
+            </select></div>
+          <button class="btn btn-acid" onclick="saveProfile()">Guardar cambios</button>
         </div>
       </div>
 
       <!-- STATS -->
-      <div>
-        <div class="tactic" style="margin-bottom:16px;">
-          <span class="tac-label tl-sky">📊 Mi Progreso</span>
-          <h3>Estadísticas Completas</h3>
-          <div id="full-stats" style="margin-top:14px;"></div>
-        </div>
+      <div class="dash-card">
+        <div class="dc-header"><h3>📊 Mis Estadísticas</h3></div>
+        <div id="profile-stats"></div>
+      </div>
 
-        <!-- BACKUP -->
-        <div class="tactic">
-          <span class="tac-label tl-ember">💾 Backup de Datos</span>
-          <h3>Exportar / Importar Progreso</h3>
-          <p style="font-size:.85rem;margin-bottom:14px;">Guarda tu progreso en un archivo para no perderlo si cambias de navegador o dispositivo.</p>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <button class="btn btn-acid" onclick="exportData()">⬇️ Exportar mi progreso (.json)</button>
-            <label class="btn btn-ghost" style="cursor:pointer;justify-content:center;">
-              ⬆️ Importar progreso
-              <input type="file" accept=".json" onchange="importData(this)" style="display:none;">
-            </label>
-            <button class="btn" style="background:rgba(255,77,126,.15);border:1px solid var(--rose);color:var(--rose);" onclick="confirmReset()">🗑️ Resetear TODO el progreso</button>
-          </div>
+      <!-- BACKUP -->
+      <div class="dash-card span-2">
+        <div class="dc-header"><h3>💾 Backup de Progreso</h3></div>
+        <div class="box box-s" style="margin-bottom:16px;"><strong>Importante:</strong> Tu progreso se guarda en este navegador. Haz backup semanal para no perder tus avances si limpias el caché o cambias de dispositivo.</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-acid" onclick="exportBackup()">⬇️ Exportar progreso (.json)</button>
+          <label class="btn btn-ghost" style="cursor:pointer;">⬆️ Importar backup <input type="file" accept=".json" onchange="importBackup(event)" style="display:none;"/></label>
         </div>
       </div>
-    </div>
 
-    <!-- LINKS DE PERFIL -->
-    <div class="tactic">
-      <span class="tac-label tl-mint">🔗 Mis Perfiles Públicos</span>
-      <h3>Acceso Rápido a tus Plataformas</h3>
-      <div id="profile-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;"></div>
-    </div>
-
-    <!-- PROMPT DE RECUPERACIÓN -->
-    <div class="tactic" style="margin-top:20px;">
-      <span class="tac-label tl-acid">🔄 Prompt de Recuperación</span>
-      <h3>Cómo recuperar este proyecto si pierdes el acceso</h3>
-      <p>Copia y guarda este prompt. Con él puedes pedirle a Claude que reconstruya o mejore este sistema desde cero.</p>
-      <div class="cw">
-        <span class="clbl">Prompt de recuperación — Guárdalo en un lugar seguro</span>
-        <div class="cb" id="recovery-prompt">Necesito que reconstruyas mi "Sistema DA-2026", una aplicación web multi-página (HTML/CSS/JS puro, sin frameworks) que funciona como segundo cerebro para convertirme en analista de datos empleable.
-
-El sistema tiene estas páginas:
-- index.html (Dashboard principal con stats, hack del día, prompt del día, palabra en inglés del día)
-- pages/ruta.html (Ruta curricular de 6 meses con checkboxes de progreso)
-- pages/sesion.html (Timer de estudio con bloques 70/20/10, notas guardables, log de sesión)
-- pages/prompts.html (Biblioteca de prompts de IA + colección personal)
-- pages/ingles.html (Vocabulario técnico, quiz, frases para CV, frases para entrevistas)
-- pages/proyectos.html (3 proyectos de portafolio con guía táctica)
-- pages/tacticas.html (16+ hacks de empleabilidad)
-- pages/empleos.html (Links a empleo + tabla de salarios)
-- pages/recursos.html (Arsenal de recursos gratuitos)
-- pages/configurar.html (Perfil, backup/import, stats)
-
-Tecnología:
-- CSS con design tokens dark/neon (--acid: #c8ff00, --sky: #38bfff, etc.)
-- Fuentes: Bricolage Grotesque + Fira Code + DM Sans
-- LocalStorage para persistencia (DB engine con namespace 'da2026_')
-- Sistemas: XP, racha, sesiones, notas, mis prompts
-- Datos: CURRICULUM (6 fases), HACKS (16 tácticas), VOCAB (20 palabras), PROMPTS_DATA (8 prompts)
-
-El sistema es 100% offline-first, se despliega en GitHub Pages (gratis).
-Reconstruye el archivo que necesite mejoras o que se perdió, manteniendo consistencia de diseño y datos.</div>
-        <button class="cp" onclick="cp('recovery-prompt',this)">Copiar</button>
+      <!-- RESET -->
+      <div class="dash-card">
+        <div class="dc-header"><h3>⚠️ Resetear Sistema</h3></div>
+        <p style="font-size:.88rem;color:var(--txt2);margin-bottom:16px;">Borra <strong>todo</strong> el progreso, notas y perfil. Esta acción es irreversible.</p>
+        <button class="btn" style="background:var(--rose);color:#fff;" onclick="resetAll()">🗑️ Borrar todo el progreso</button>
       </div>
+
+      <!-- PROMPT RECUPERACIÓN -->
+      <div class="dash-card span-3">
+        <div class="dc-header"><h3>🔄 Prompt de Recuperación</h3><span class="dc-badge">Guárdalo en Google Drive</span></div>
+        <p style="font-size:.85rem;color:var(--txt2);margin-bottom:14px;">Si necesitas que Claude reconstruya o mejore cualquier parte del sistema, usa este prompt:</p>
+        <div class="pod-wrap" id="recovery-prompt">Necesito reconstruir/mejorar mi "Sistema DA-2026" — app web multi-página desplegada en GitHub Pages.
+
+URL del sitio: https://mikel696.github.io/da-2026/
+
+Stack técnico:
+  - HTML/CSS/JS puro (sin frameworks)
+  - LocalStorage con namespace 'da2026_'
+  - GitHub Pages (estático)
+
+Design System:
+  - Dark neon: --acid:#c8ff00, --sky:#38bfff, --mint:#00e5b0, --ember:#ff6b35
+  - Fuentes: Bricolage Grotesque + Fira Code + DM Sans (Google Fonts)
+
+Estructura de archivos:
+  - index.html (Dashboard con APIs en vivo: empleos RemoteOK, noticias KDNuggets)
+  - css/main.css (todos los estilos)
+  - js/core.js (motor: BASE_URL, CURRICULUM, HACKS, VOCAB, PROMPTS_DATA + funciones)
+  - pages/ruta.html, sesion.html, prompts.html, ingles.html
+  - pages/proyectos.html, tacticas.html, recursos.html, configurar.html
+
+Sistemas implementados:
+  - XP/nivel, racha diaria, sesiones cronometradas (timer 70/20/10)
+  - Notas con tag, colección personal de prompts
+  - Exportar/importar backup JSON (cross-device)
+  - BASE_URL fija que resuelve el bug de links rotos
+
+BUG CRÍTICO RESUELTO: todos los links usan url() helper que construye rutas
+desde BASE_URL = 'https://mikel696.github.io/da-2026'
+
+[Describe aquí qué página o función necesitas mejorar o añadir]<button class="cp-btn" onclick="cp('recovery-prompt',this)">Copiar</button></div>
+      </div>
+
     </div>
   </div>
 </main>
-
 <div id="toast"></div>
 <script src="../js/core.js"></script>
 <script>
-function loadProfileForm() {
-  const p = Profile.get() || {};
-  const fields = { 'p-name': 'name', 'p-level': 'level', 'p-hours': 'hours', 'p-industry': 'industry', 'p-linkedin': 'linkedin', 'p-github': 'github' };
-  Object.entries(fields).forEach(([id, key]) => {
-    const el = document.getElementById(id);
-    if (el && p[key] !== undefined) el.value = p[key];
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+  renderProfileStats();
+});
+
+function loadProfile() {
+  const p = Profile.get(); if (!p) return;
+  setEl('p-name', el => el.value = p.name || '');
+  const lvl = document.getElementById('p-level');
+  const hrs = document.getElementById('p-hours');
+  const ind = document.getElementById('p-industry');
+  if (lvl) lvl.value = p.level ?? 0;
+  if (hrs) hrs.value = p.hours ?? 3;
+  if (ind) ind.value = p.industry ?? 'otro';
 }
 
 window.saveProfile = function() {
-  const p = {
-    name: document.getElementById('p-name')?.value?.trim(),
-    level: +document.getElementById('p-level')?.value,
-    hours: +document.getElementById('p-hours')?.value,
-    industry: document.getElementById('p-industry')?.value,
-    linkedin: document.getElementById('p-linkedin')?.value?.trim(),
-    github: document.getElementById('p-github')?.value?.trim(),
-    startDate: Profile.get()?.startDate || new Date().toISOString()
-  };
-  Profile.set(p);
+  const name = document.getElementById('p-name')?.value?.trim();
+  if (!name) { toast('⚠️ Ingresa tu nombre'); return; }
+  Profile.update({
+    name, level: +document.getElementById('p-level').value,
+    hours: +document.getElementById('p-hours').value,
+    industry: document.getElementById('p-industry').value
+  });
   renderProfile();
-  renderProfileLinks();
-  toast('✅ Perfil actualizado');
+  toast('✓ Perfil actualizado');
 };
 
-function renderFullStats() {
-  const el = document.getElementById('full-stats');
-  if (!el) return;
-  const xp = XP.get();
-  const s = Streak.get();
-  const totalMins = Sessions.totalMins();
-  const pct = Progress.totalPct();
-  const done = Progress.totalDone();
-  const total = Progress.totalTasks();
-  el.innerHTML = `
-    <div class="skill-row"><span class="sk-n">Progreso Ruta</span><div class="sk-t"><div class="sk-f sk-f-a" style="width:${pct}%"></div></div><span class="sk-tag sk-c">${pct}%</span></div>
-    <div class="skill-row"><span class="sk-n">Hitos</span><div class="sk-t"><div class="sk-f sk-f-a" style="width:${Math.round(done/total*100)}%"></div></div><span class="sk-tag sk-c">${done}/${total}</span></div>
-    <div class="skill-row"><span class="sk-n">XP Total</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:${Math.min(xp.total/500*100,100)}%"></div></div><span class="sk-tag sk-p">${xp.total} XP</span></div>
-    <div class="skill-row"><span class="sk-n">Horas Estudiadas</span><div class="sk-t"><div class="sk-f sk-f-s" style="width:${Math.min(totalMins/18000*100,100)}%"></div></div><span class="sk-tag sk-p">${Math.round(totalMins/60*10)/10}h</span></div>
-    <div class="skill-row"><span class="sk-n">Racha Actual</span><div class="sk-t"><div class="sk-f sk-f-e" style="width:${Math.min(s.count/30*100,100)}%"></div></div><span class="sk-tag" style="color:var(--ember);border-color:rgba(255,107,53,.3);background:var(--ember-d);">${s.count} días</span></div>
-    <div class="skill-row"><span class="sk-n">Nivel</span><div class="sk-t"><div class="sk-f sk-f-a" style="width:${xp.total%100}%"></div></div><span class="sk-tag sk-c">Nivel ${xp.level}</span></div>`;
-}
-
-function renderProfileLinks() {
-  const el = document.getElementById('profile-links');
-  if (!el) return;
+function renderProfileStats() {
+  const el = document.getElementById('profile-stats'); if (!el) return;
   const p = Profile.get() || {};
-  const links = [
-    { name: 'GitHub', url: p.github || 'https://github.com', ico: '🐙' },
-    { name: 'LinkedIn', url: p.linkedin || 'https://linkedin.com', ico: '💼' },
-    { name: 'Kaggle', url: 'https://www.kaggle.com', ico: '🐾' },
-    { name: 'Google Colab', url: 'https://colab.research.google.com', ico: '🔬' },
-    { name: 'Tableau Public', url: 'https://public.tableau.com', ico: '📊' }
-  ];
-  el.innerHTML = links.map(l => `<a href="${l.url}" target="_blank" class="btn btn-ghost" style="font-size:.8rem;">${l.ico} ${l.name}</a>`).join('');
+  const x = XP.get();
+  const s = Streak.get();
+  const days = p.startDate ? Math.max(1, Math.floor((Date.now() - new Date(p.startDate)) / 86400000) + 1) : 0;
+  const pct  = Progress.totalPct();
+  const done = Progress.totalDone();
+  const total = Object.values(CURRICULUM).flatMap(ph => ph.tasks).length;
+  const hours = (Sessions.totalMins() / 60).toFixed(1);
+  const LEVEL_NAMES = ['Iniciando','Explorador','Aprendiz','Analista Jr','Analista','Analista Sr','Expert','Master DA'];
+
+  el.innerHTML = [
+    ['🗓️','Días activo', days],
+    ['⏱️','Horas estudiadas', hours + 'h'],
+    ['✅','Hitos completados', `${done} / ${total}`],
+    ['🔥','Racha actual', s.count + ' días'],
+    ['⚡','XP acumulado', x.total + ' XP'],
+    ['🎖️','Nivel', `${x.level} · ${LEVEL_NAMES[Math.min(x.level, LEVEL_NAMES.length-1)]}`]
+  ].map(([icon,label,val]) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:.88rem;color:var(--txt2);">${icon} ${label}</span>
+      <span style="font-family:var(--fh);font-weight:700;color:var(--acid);">${val}</span>
+    </div>`).join('') +
+  `<div style="margin-top:14px;">
+    <div style="display:flex;justify-content:space-between;font-family:var(--fm);font-size:.68rem;color:var(--txt3);margin-bottom:6px;">
+      <span>Progreso total</span><span style="color:var(--acid);">${pct}%</span>
+    </div>
+    <div class="ph-track"><div class="ph-fill" style="width:${pct}%"></div></div>
+  </div>`;
 }
 
-window.exportData = function() {
+window.exportBackup = function() {
   const data = {};
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('da2026_')) data[key] = localStorage.getItem(key);
-  }
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  Object.keys(localStorage).filter(k => k.startsWith('da2026_')).forEach(k => {
+    data[k] = localStorage.getItem(k);
+  });
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'da2026-backup-' + new Date().toISOString().split('T')[0] + '.json';
+  a.download = `da2026-backup-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
-  toast('✅ Backup exportado');
+  toast('✓ Backup exportado');
 };
 
-window.importData = function(input) {
-  const file = input.files[0];
-  if (!file) return;
+window.importBackup = function(e) {
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => {
+  reader.onload = (ev) => {
     try {
-      const data = JSON.parse(e.target.result);
+      const data = JSON.parse(ev.target.result);
       Object.entries(data).forEach(([k, v]) => localStorage.setItem(k, v));
-      toast('✅ Progreso restaurado. Recargando...');
+      toast('✓ Progreso restaurado — recarga la página');
       setTimeout(() => location.reload(), 1500);
     } catch { toast('⚠️ Archivo inválido'); }
   };
   reader.readAsText(file);
 };
 
-window.confirmReset = function() {
-  if (confirm('¿Resetear TODO el progreso? Esta acción no se puede deshacer.')) {
-    const keys = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      if (localStorage.key(i).startsWith('da2026_')) keys.push(localStorage.key(i));
-    }
-    keys.forEach(k => localStorage.removeItem(k));
-    toast('🗑️ Progreso reseteado. Recargando...');
-    setTimeout(() => window.location.href = '../index.html', 1500);
-  }
+window.resetAll = function() {
+  if (!confirm('¿Seguro? Se borrará TODO tu progreso, notas y perfil. Esta acción no se puede deshacer.')) return;
+  DB.clear();
+  toast('Sistema reseteado — redirigiendo...');
+  setTimeout(() => location.href = url(''), 1500);
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadProfileForm();
-  renderFullStats();
-  renderProfileLinks();
-});
 </script>
 </body>
 </html>
