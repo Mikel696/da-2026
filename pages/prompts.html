@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Biblioteca de IA · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/main.css"/>
+<style>
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.filter-btn { padding: 6px 16px; border-radius: 20px; font-family: var(--fm); font-size: .72rem; border: 1px solid var(--border); background: transparent; color: var(--txt3); cursor: pointer; transition: all .18s; }
+.filter-btn.active, .filter-btn:hover { border-color: var(--acid); color: var(--acid); background: var(--acid-d); }
+.prompt-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--rad2); padding: 22px; margin-bottom: 14px; transition: border-color .2s; }
+.prompt-card:hover { border-color: var(--border2); }
+.pc-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; gap: 12px; }
+.pc-cat { font-family: var(--fm); font-size: .66rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+.pc-cat-sql { color: var(--sky); background: var(--sky-d); border: 1px solid rgba(56,191,255,.25); }
+.pc-cat-python { color: var(--acid); background: var(--acid-d); border: 1px solid rgba(200,255,0,.25); }
+.pc-cat-limpieza { color: var(--ember); background: var(--ember-d); border: 1px solid rgba(255,107,53,.25); }
+.pc-cat-dashboard { color: var(--mint); background: var(--mint-d); border: 1px solid rgba(0,229,176,.25); }
+.pc-cat-entrevistas { color: var(--purple); background: rgba(167,139,250,.1); border: 1px solid rgba(167,139,250,.25); }
+.pc-cat-readme { color: var(--acid); background: var(--acid-d); border: 1px solid rgba(200,255,0,.25); }
+.pc-cat-inglés { color: var(--sky); background: var(--sky-d); border: 1px solid rgba(56,191,255,.25); }
+.pc-title { font-family: var(--fh); font-size: 1.05rem; font-weight: 800; }
+.pc-use { font-size: .84rem; color: var(--txt2); margin: 6px 0 12px; }
+.my-prompts-input { background: var(--ink3); border: 1px solid var(--border); border-radius: var(--rad); padding: 14px; width: 100%; font-family: var(--fm); font-size: .78rem; color: var(--txt); resize: vertical; min-height: 100px; transition: border-color .2s; }
+.my-prompts-input:focus { outline: none; border-color: var(--acid); }
+.my-prompt-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--rad); padding: 14px; margin-bottom: 10px; position: relative; }
+.mp-del { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--txt3); cursor: pointer; transition: color .2s; font-size: .8rem; }
+.mp-del:hover { color: var(--rose); }
+</style>
+</head>
+<body>
+<div class="orb o1"></div>
+<nav class="sidebar" id="sb">
+  <div class="sb-top">
+    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
+    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
+    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
+  </div>
+  <div class="sb-nav">
+    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
+    <a href="ruta.html" class="nav-link"><span>🗺️</span>Ruta 6 Meses</a>
+    <a href="sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
+    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
+    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
+    <a href="prompts.html" class="nav-link active"><span>🤖</span>Biblioteca de IA</a>
+    <a href="ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
+    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
+    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
+    <a href="configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
+  </div>
+  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
+</nav>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 class="page-title">🤖 Biblioteca de Prompts de IA</h1>
+      <span class="page-sub">Prompts probados para producción + tu colección personal</span>
+    </div>
+    <div class="topbar-right">
+      <div class="global-progress-mini"><span class="gp-pct" id="gp-pct">0%</span><div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div></div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="box box-a" style="margin-bottom:22px;">
+      <strong>Principio de Oro:</strong> Siempre incluye (1) tu rol/contexto, (2) esquema exacto de tablas, (3) pregunta de negocio en lenguaje llano, (4) restricciones técnicas. Sin estos 4 elementos, el resultado será genérico e incorrecto.
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterPrompts('all', this)">Todos</button>
+      <button class="filter-btn" onclick="filterPrompts('SQL', this)">SQL</button>
+      <button class="filter-btn" onclick="filterPrompts('Python', this)">Python</button>
+      <button class="filter-btn" onclick="filterPrompts('Dashboard', this)">Dashboard</button>
+      <button class="filter-btn" onclick="filterPrompts('Entrevistas', this)">Entrevistas</button>
+      <button class="filter-btn" onclick="filterPrompts('README', this)">README</button>
+      <button class="filter-btn" onclick="filterPrompts('Inglés', this)">Inglés</button>
+    </div>
+
+    <!-- PROMPTS LIST -->
+    <div id="prompts-list"></div>
+
+    <!-- MIS PROMPTS -->
+    <div class="tactic" style="margin-top:30px;">
+      <span class="tac-label tl-mint">⭐ Mi Colección Personal</span>
+      <h3>Agrega tus propios prompts</h3>
+      <p>Cuando encuentres un prompt que funciona bien, guárdalo aquí para tenerlo siempre disponible.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+        <input type="text" id="my-p-title" class="input-field" placeholder="Título del prompt"/>
+        <input type="text" id="my-p-cat" class="input-field" placeholder="Categoría (ej: SQL, Python...)"/>
+        <textarea id="my-p-text" class="my-prompts-input" placeholder="Pega tu prompt aquí..."></textarea>
+        <button class="btn btn-acid" onclick="saveMyPrompt()" style="align-self:flex-start;">💾 Guardar Prompt</button>
+      </div>
+      <div id="my-prompts-list" style="margin-top:16px;"></div>
+    </div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="../js/core.js"></script>
+<script>
+let currentFilter = 'all';
+
+function renderPrompts() {
+  const el = document.getElementById('prompts-list');
+  if (!el) return;
+  const filtered = currentFilter === 'all' ? PROMPTS_DATA : PROMPTS_DATA.filter(p => p.cat.toLowerCase() === currentFilter.toLowerCase());
+  el.innerHTML = filtered.map((p, i) => {
+    const catKey = p.cat.toLowerCase().replace(/\s/g,'-');
+    return `<div class="prompt-card" data-cat="${p.cat}">
+      <div class="pc-header">
+        <div>
+          <span class="pc-cat pc-cat-${catKey}">${p.cat}</span>
+          <div class="pc-title" style="margin-top:8px;">${p.title}</div>
+        </div>
+      </div>
+      <div class="pc-use">${p.use}</div>
+      <div class="cw">
+        <span class="clbl">Prompt — Copia y personaliza los [ ]</span>
+        <div class="cb" id="pr-${i}">${p.text}<button class="cp" onclick="cp('pr-${i}',this)">Copiar</button></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <a href="https://claude.ai" target="_blank" class="btn btn-ghost" style="font-size:.75rem;padding:6px 14px;">Usar en Claude →</a>
+        <a href="https://chat.openai.com" target="_blank" class="btn btn-ghost" style="font-size:.75rem;padding:6px 14px;">Usar en ChatGPT →</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.filterPrompts = function(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPrompts();
+};
+
+// MY PROMPTS
+const MY_PROMPTS_KEY = 'my_prompts';
+
+window.saveMyPrompt = function() {
+  const title = document.getElementById('my-p-title')?.value?.trim();
+  const cat = document.getElementById('my-p-cat')?.value?.trim() || 'Personal';
+  const text = document.getElementById('my-p-text')?.value?.trim();
+  if (!title || !text) { toast('⚠️ Completa título y prompt'); return; }
+  const ps = DB.get(MY_PROMPTS_KEY, []);
+  ps.unshift({ id: Date.now(), title, cat, text, date: new Date().toISOString() });
+  DB.set(MY_PROMPTS_KEY, ps);
+  document.getElementById('my-p-title').value = '';
+  document.getElementById('my-p-cat').value = '';
+  document.getElementById('my-p-text').value = '';
+  renderMyPrompts();
+  toast('✅ Prompt guardado en tu colección');
+  XP.award(10);
+};
+
+function renderMyPrompts() {
+  const el = document.getElementById('my-prompts-list');
+  if (!el) return;
+  const ps = DB.get(MY_PROMPTS_KEY, []);
+  if (!ps.length) { el.innerHTML = '<p style="color:var(--txt3);font-size:.85rem;">Aún no tienes prompts guardados.</p>'; return; }
+  el.innerHTML = ps.map(p => `
+    <div class="my-prompt-item" id="mp-${p.id}">
+      <button class="mp-del" onclick="delMyPrompt(${p.id})">✕</button>
+      <div style="font-family:var(--fh);font-size:.9rem;font-weight:700;margin-bottom:4px;">${p.title}</div>
+      <div style="font-family:var(--fm);font-size:.65rem;color:var(--acid);margin-bottom:8px;">${p.cat}</div>
+      <div class="cw">
+        <div class="cb" id="mp-text-${p.id}" style="font-size:.76rem;">${p.text}<button class="cp" onclick="cp('mp-text-${p.id}',this)">Copiar</button></div>
+      </div>
+    </div>`).join('');
+}
+
+window.delMyPrompt = function(id) {
+  const ps = DB.get(MY_PROMPTS_KEY, []).filter(p => p.id !== id);
+  DB.set(MY_PROMPTS_KEY, ps);
+  renderMyPrompts();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderPrompts();
+  renderMyPrompts();
+});
+</script>
+</body>
+</html>

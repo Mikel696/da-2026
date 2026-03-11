@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ruta 6 Meses · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb">
+  <div class="sb-top">
+    <div class="sb-logo"><span class="logo-dot"></span>DA·2026</div>
+    <div class="sb-user"><div class="avatar" id="user-avatar">?</div><div><div class="user-name" id="user-name-display">...</div><div class="user-level" id="user-level-display">...</div></div></div>
+    <div class="xp-bar-wrap"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.65rem;color:var(--txt3);font-family:var(--fm);">XP</span><span style="font-size:.65rem;color:var(--acid);font-family:var(--fm);" id="xp-display">0/100</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div></div>
+  </div>
+  <div class="sb-nav">
+    <a href="../index.html" class="nav-link"><span>🏠</span>Dashboard</a>
+    <a href="ruta.html" class="nav-link active"><span>🗺️</span>Ruta 6 Meses</a>
+    <a href="sesion.html" class="nav-link"><span>⏱️</span>Sesión de Estudio</a>
+    <a href="recursos.html" class="nav-link"><span>📦</span>Recursos Gratis</a>
+    <a href="empleos.html" class="nav-link"><span>💼</span>Empleos & Mercado</a>
+    <a href="prompts.html" class="nav-link"><span>🤖</span>Biblioteca de IA</a>
+    <a href="ingles.html" class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
+    <a href="proyectos.html" class="nav-link"><span>🔬</span>Proyectos</a>
+    <a href="tacticas.html" class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
+    <a href="configurar.html" class="nav-link"><span>⚙️</span>Mi Perfil</a>
+  </div>
+  <div class="sb-bottom"><div class="streak-box"><span class="streak-fire">🔥</span><div><div style="font-family:var(--fm);font-size:.7rem;color:var(--txt3);">RACHA</div><div style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="streak-count">0 días</div></div></div></div>
+</nav>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1 class="page-title">🗺️ Ruta Curricular de 6 Meses</h1>
+      <span class="page-sub" id="greeting">...</span>
+    </div>
+    <div class="topbar-right">
+      <div class="global-progress-mini">
+        <span class="gp-pct" id="gp-pct">0%</span>
+        <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
+      </div>
+      <button class="btn-study" onclick="window.location.href='sesion.html'">▶ Estudiar</button>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="box box-e" style="margin-bottom:22px;">
+      <strong>🚨 Hito de Salida por Fase:</strong> No avances al siguiente mes sin completar el hito final de la fase. La velocidad sin solidez se hunde en las entrevistas técnicas.
+    </div>
+
+    <div id="phases-container"></div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="../js/core.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  renderPhases();
+});
+
+function renderPhases() {
+  const el = document.getElementById('phases-container');
+  if (!el) return;
+  const colors = ['var(--acid)', 'var(--sky)', 'var(--ember)', 'var(--mint)', 'var(--purple)', 'var(--acid)'];
+  el.innerHTML = Object.entries(CURRICULUM).map(([key, phase], idx) => {
+    const ids = phase.tasks.map(t => t.id);
+    const pct = Progress.phasePct(ids);
+    return `<div class="tactic" style="margin-bottom:18px;" id="phase-${key}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div>
+          <span class="tac-label tl-acid" style="color:${colors[idx]};background:${colors[idx]}18;border-color:${colors[idx]}40;">Mes ${idx+1} · ${phase.label}</span>
+          <h3 style="margin-bottom:0;">${phase.name}: ${phase.label}</h3>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:${colors[idx]};">${pct}%</div>
+          <div style="font-family:var(--fm);font-size:.65rem;color:var(--txt3);">completado</div>
+        </div>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px;">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,${colors[idx]},var(--mint));border-radius:2px;transition:width .8s;"></div>
+      </div>
+      <ul class="tasks">
+        ${phase.tasks.map(t => `
+          <li class="ti ${Progress.isChecked(t.id) ? 'done' : ''}" id="li-${t.id}">
+            <input type="checkbox" class="tc" id="${t.id}" ${Progress.isChecked(t.id) ? 'checked' : ''}>
+            <label for="${t.id}">
+              <strong>${t.text}</strong>
+              ${t.detail}
+            </label>
+          </li>`).join('')}
+      </ul>
+    </div>`;
+  }).join('');
+  initTasks();
+}
+</script>
+</body>
+</html>
