@@ -1,290 +1,568 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>DA-2026 · Centro de Operaciones</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/main.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segundo Cerebro · Centro de Gestión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#09090b;--bg2:#111113;--card:#16161a;--cardh:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#52525b;--ac:#8b5cf6;--ac2:#a78bfa;--acg:rgba(139,92,246,.08);--gn:#22c55e;--gng:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+
+/* ─ NAV ─ */
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:8px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.nav-name{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--tx2);letter-spacing:-.3px}
+.nav-r{display:flex;align-items:center;gap:14px}
+.nav-time{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}
+.nav-greeting{font-size:12px;color:var(--tx2)}
+
+/* ─ LAYOUT ─ */
+.main{max-width:1100px;margin:0 auto;padding:32px 24px 60px}
+
+/* ─ HEADER ─ */
+.header{margin-bottom:40px}
+.header-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.header h1{font-family:'Newsreader',serif;font-size:36px;font-weight:600;line-height:1.15;color:var(--tx);margin-bottom:6px}
+.header h1 em{font-style:italic;color:var(--ac2)}
+.header p{font-size:14px;color:var(--tx3);max-width:520px;line-height:1.6}
+
+/* ─ QUICK STATS ─ */
+.qstats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:40px}
+.qstat{flex:1;background:var(--card);padding:16px 20px;text-align:center}
+.qstat:first-child{border-radius:10px 0 0 10px}
+.qstat:last-child{border-radius:0 10px 10px 0}
+.qstat-v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600}
+.qstat-l{font-size:11px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ─ SECTION LABEL ─ */
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;padding-left:2px}
+
+/* ─ MODULE GRID ─ */
+.modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-bottom:40px}
+
+.mod{
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:var(--card);border:1px solid var(--bd);border-radius:12px;
+  padding:22px;min-height:160px;
+  text-decoration:none;color:inherit;
+  transition:all .2s ease;position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.mod::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  opacity:0;transition:opacity .2s;
+}
+.mod:hover{border-color:var(--bd2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.mod:hover::before{opacity:1}
+
+.mod-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:auto}
+.mod-icon{font-size:24px;margin-bottom:12px}
+.mod-status{font-size:9px;font-weight:600;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+.status-live{background:rgba(34,197,94,.1);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.status-ready{background:var(--acg);color:var(--ac2);border:1px solid rgba(139,92,246,.12)}
+.status-soon{background:rgba(82,82,91,.2);color:var(--tx3);border:1px solid rgba(82,82,91,.2)}
+
+.mod-title{font-size:16px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mod-desc{font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:14px}
+.mod-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--tx3)}
+.mod-tag{padding:2px 7px;border-radius:4px;background:var(--el);font-size:10px;font-weight:500}
+
+/* Module accent colors */
+.mod-english::before{background:linear-gradient(90deg,#8b5cf6,#06b6d4)}
+.mod-ruta::before{background:linear-gradient(90deg,#22c55e,#eab308)}
+.mod-jobs::before{background:linear-gradient(90deg,#f97316,#ef4444)}
+.mod-tools::before{background:linear-gradient(90deg,#06b6d4,#3b82f6)}
+.mod-news::before{background:linear-gradient(90deg,#ec4899,#8b5cf6)}
+.mod-tasks::before{background:linear-gradient(90deg,#eab308,#f97316)}
+.mod-goals::before{background:linear-gradient(90deg,#22c55e,#06b6d4)}
+.mod-prompts::before{background:linear-gradient(90deg,#a78bfa,#ec4899)}
+.mod-notes::before{background:linear-gradient(90deg,#64748b,#94a3b8)}
+.mod-finance::before{background:linear-gradient(90deg,#22c55e,#10b981)}
+
+/* ─ LIVE FEED ─ */
+.feed{margin-bottom:40px}
+.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.feed-card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;transition:border-color .2s}
+.feed-card:hover{border-color:var(--bd2)}
+.feed-src{font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.feed-title{font-size:13px;font-weight:500;color:var(--tx);line-height:1.4;margin-bottom:6px}
+.feed-title a{color:inherit;text-decoration:none}
+.feed-title a:hover{color:var(--ac2)}
+.feed-time{font-size:11px;color:var(--tx3)}
+
+/* ─ TODAY PANEL ─ */
+.today{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:24px;margin-bottom:40px}
+.today-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.today-title{font-size:15px;font-weight:600}
+.today-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}
+
+.task{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.task:last-child{border-bottom:none}
+.task-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;transition:all .2s;flex-shrink:0}
+.task-check:hover{border-color:var(--ac)}
+.task-check.done{background:var(--gn);border-color:var(--gn)}
+.task-text{font-size:13px;flex:1}
+.task-text.done-text{text-decoration:line-through;color:var(--tx3)}
+.task-cat{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500}
+.cat-study{background:rgba(139,92,246,.1);color:var(--ac2)}
+.cat-work{background:rgba(234,179,8,.08);color:var(--am)}
+.cat-personal{background:rgba(6,182,212,.08);color:var(--cy)}
+.cat-health{background:rgba(34,197,94,.08);color:var(--gn)}
+
+.task-add{display:flex;gap:8px;margin-top:12px}
+.task-input{flex:1;background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;color:var(--tx);font-family:inherit;font-size:13px}
+.task-input:focus{outline:none;border-color:var(--ac)}
+.task-input::placeholder{color:var(--tx3)}
+.task-btn{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.task-btn:hover{background:var(--ac2)}
+.task-select{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:8px;color:var(--tx2);font-family:inherit;font-size:12px;cursor:pointer}
+
+/* ─ QUOTE ─ */
+.quote{text-align:center;padding:32px 24px;margin-bottom:40px}
+.quote p{font-family:'Newsreader',serif;font-size:18px;font-style:italic;color:var(--tx2);line-height:1.6;max-width:500px;margin:0 auto}
+.quote cite{display:block;font-size:12px;color:var(--tx3);margin-top:8px;font-style:normal}
+
+/* ─ FOOTER ─ */
+.footer{text-align:center;padding:24px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd)}
+
+/* ─ RESPONSIVE ─ */
+@media(max-width:768px){
+.main{padding:20px 14px 40px}
+.header h1{font-size:26px}
+.modules{grid-template-columns:1fr}
+.feed-grid{grid-template-columns:1fr}
+.qstats{flex-wrap:wrap}
+.qstat{min-width:calc(50% - 1px)}
+}
+
+/* ─ ANIMATIONS ─ */
+.mod,.feed-card,.today{animation:rise .4s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.modules .mod:nth-child(1){animation-delay:.05s}
+.modules .mod:nth-child(2){animation-delay:.1s}
+.modules .mod:nth-child(3){animation-delay:.15s}
+.modules .mod:nth-child(4){animation-delay:.2s}
+.modules .mod:nth-child(5){animation-delay:.25s}
+.modules .mod:nth-child(6){animation-delay:.3s}
+.modules .mod:nth-child(7){animation-delay:.35s}
+.modules .mod:nth-child(8){animation-delay:.4s}
+</style>
 </head>
 <body>
-<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
-<nav class="sidebar" id="sb"></nav>
-<button class="ham" id="ham"><span></span><span></span><span></span></button>
+
+<nav class="nav">
+<div class="nav-brand">
+<div class="nav-dot"></div>
+<span class="nav-name">segundo cerebro</span>
+</div>
+<div class="nav-r">
+<span class="nav-greeting" id="greeting"></span>
+<span class="nav-time" id="clock"></span>
+</div>
+</nav>
 
 <main class="main">
-  <div class="topbar">
-    <div>
-      <h1 class="page-title">Centro de Operaciones</h1>
-      <span class="page-sub" id="greeting">Cargando...</span>
-    </div>
-    <div class="topbar-right">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
-        <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
-        <span style="font-size:.7rem;color:var(--txt3);font-family:var(--fm);">RUTA</span>
-      </div>
-      <button class="btn-study" id="btn-estudiar">▶ Estudiar Ahora</button>
-    </div>
-  </div>
 
-  <div class="content">
+<!-- HEADER -->
+<div class="header">
+<div class="header-sub">centro de gestión personal</div>
+<h1>Tu segundo <em>cerebro</em>,<br>todo en un solo lugar.</h1>
+<p>Estudio, trabajo, idiomas, finanzas, objetivos. Cada módulo es un sistema completo. Todo conectado, nada se pierde.</p>
+</div>
 
-    <!-- ONBOARDING -->
-    <div id="onboarding" class="onboarding-card" style="display:none;">
-      <h2>👋 ¡Bienvenido al Sistema DA-2026!</h2>
-      <p>Configura tu perfil para personalizar la experiencia desde el primer día.</p>
-      <div class="onboarding-form">
-        <div class="form-group"><label>¿Cuál es tu nombre?</label>
-          <input type="text" id="ob-name" placeholder="Tu nombre" class="input-field"/></div>
-        <div class="form-group"><label>Nivel actual en datos</label>
-          <select id="ob-level" class="input-field">
-            <option value="0">Principiante absoluto</option>
-            <option value="1">Sé Excel básico</option>
-            <option value="2">He tocado SQL alguna vez</option>
-            <option value="3">Tengo algo de Python</option>
-          </select></div>
-        <div class="form-group"><label>Horas diarias disponibles</label>
-          <select id="ob-hours" class="input-field">
-            <option value="1">1 hora</option><option value="2">2 horas</option>
-            <option value="3" selected>3 horas (recomendado)</option><option value="4">4+ horas</option>
-          </select></div>
-        <div class="form-group"><label>Industria objetivo</label>
-          <select id="ob-industry" class="input-field">
-            <option value="fintech">Fintech / Banca</option>
-            <option value="ecommerce">E-commerce / Retail</option>
-            <option value="saas">SaaS / Tech</option>
-            <option value="logistica">Logística</option>
-            <option value="salud">Salud</option>
-            <option value="otro">Otra / No sé aún</option>
-          </select></div>
-        <button class="btn btn-acid" onclick="saveOnboarding()">Comenzar mi ruta →</button>
-      </div>
-    </div>
+<!-- QUICK STATS -->
+<div class="qstats">
+<div class="qstat">
+<div class="qstat-v" id="statDays">0</div>
+<div class="qstat-l">Días activo</div>
+</div>
+<div class="qstat">
+<div class="qstat-v" id="statHours">0h</div>
+<div class="qstat-l">Horas estudio</div>
+</div>
+<div class="qstat">
+<div class="qstat-v" id="statTasks">0</div>
+<div class="qstat-l">Tareas hoy</div>
+</div>
+<div class="qstat">
+<div class="qstat-v" id="statStreak">0</div>
+<div class="qstat-l">Racha</div>
+</div>
+</div>
 
-    <!-- DASHBOARD -->
-    <div id="dash-main">
-      <div class="stats-grid">
-        <div class="stat-card stat-acid"><div class="sc-icon">📅</div><div class="sc-val" id="days-active">0</div><div class="sc-lbl">Días activo</div></div>
-        <div class="stat-card stat-sky"><div class="sc-icon">⏱️</div><div class="sc-val" id="hours-studied">0h</div><div class="sc-lbl">Horas estudiadas</div></div>
-        <div class="stat-card stat-mint"><div class="sc-icon">✅</div><div class="sc-val" id="tasks-done">0</div><div class="sc-lbl">Hitos completados</div></div>
-        <div class="stat-card stat-ember"><div class="sc-icon">🔥</div><div class="sc-val" id="streak-stat">0</div><div class="sc-lbl">Días de racha</div></div>
-      </div>
+<!-- TODAY'S TASKS -->
+<div class="sec-label">· hoy ·</div>
+<div class="today" style="animation-delay:.05s">
+<div class="today-header">
+<div class="today-title">📋 Tareas del Día</div>
+<div class="today-date" id="todayDate"></div>
+</div>
+<div id="taskList"></div>
+<div class="task-add">
+<input class="task-input" id="taskInput" placeholder="Agregar tarea..." onkeydown="if(event.key==='Enter')addTask()">
+<select class="task-select" id="taskCat">
+<option value="study">📚 Estudio</option>
+<option value="work">💼 Trabajo</option>
+<option value="personal">🏠 Personal</option>
+<option value="health">💪 Salud</option>
+</select>
+<button class="task-btn" onclick="addTask()">+ Agregar</button>
+</div>
+</div>
 
-      <div class="dash-grid">
+<!-- MODULES -->
+<div class="sec-label">· módulos ·</div>
+<div class="modules">
 
-        <!-- SESIÓN HOY -->
-        <div class="dash-card span-2">
-          <div class="dc-header">
-            <h3>⚡ Sesión de Hoy</h3>
-            <span class="dc-badge" id="today-date"></span>
-          </div>
-          <div class="today-session">
-            <div class="timer-ring" style="flex-shrink:0;">
-              <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="4"/>
-                <circle cx="40" cy="40" r="34" fill="none" stroke="var(--acid)" stroke-width="4"
-                  stroke-dasharray="213.6" stroke-dashoffset="213.6" id="ring-offset"
-                  stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
-              <div class="timer-inner">
-                <span id="mini-timer" style="font-family:var(--fm);font-size:.75rem;color:var(--acid);">3h</span>
-                <span style="font-size:.55rem;color:var(--txt3);font-family:var(--fm);">hoy</span>
-              </div>
-            </div>
-            <div>
-              <div class="today-phase" id="today-phase">Cargando...</div>
-              <div class="today-task" id="today-task">Determinando próxima tarea...</div>
-              <div class="today-actions">
-                <button class="btn btn-acid" id="btn-sesion">▶ Iniciar Sesión</button>
-                <button class="btn btn-ghost" id="btn-ruta">Ver Ruta</button>
-              </div>
-            </div>
-          </div>
-        </div>
+<a href="english.html" class="mod mod-english">
+<div class="mod-top">
+<div class="mod-icon">🇺🇸</div>
+<span class="mod-status status-ready">Activo</span>
+</div>
+<div>
+<div class="mod-title">English Academy</div>
+<div class="mod-desc">200+ palabras, 12 reglas de gramática, conversaciones reales, simulador de entrevistas, flashcards y ejercicios interactivos.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">8 secciones</span>
+<span>Supervivencia → Entrevistas</span>
+</div>
+</a>
 
-        <!-- PROGRESO FASES -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>🗺️ Progreso</h3><a id="lnk-ruta" class="dc-link" href="#">Ver todo →</a></div>
-          <div id="phases-progress"></div>
-        </div>
+<a href="ruta.html" class="mod mod-ruta">
+<div class="mod-top">
+<div class="mod-icon">📊</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Ruta Data Analyst</div>
+<div class="mod-desc">Excel → SQL → Python → Tableau → BigQuery. Ruta estructurada de 6 meses con proyectos reales, recursos y checkpoints.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">6 fases</span>
+<span>De cero a junior</span>
+</div>
+</a>
 
-        <!-- HACK DEL DÍA -->
-        <div class="dash-card hack-card">
-          <div class="dc-header">
-            <h3>⚡ Hack del Día</h3>
-            <button onclick="nextHack()" class="btn-icon" title="Siguiente hack">↻</button>
-          </div>
-          <div class="hack-content" id="hack-content">Cargando...</div>
-          <span class="hack-category" id="hack-cat"></span>
-        </div>
+<a href="jobs.html" class="mod mod-jobs">
+<div class="mod-top">
+<div class="mod-icon">💼</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Job Tracker</div>
+<div class="mod-desc">Empleos remotos actualizados diariamente. Tracker de aplicaciones, preparación de CV y seguimiento de procesos.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">Auto-update</span>
+<span>Remotos · Data · Global</span>
+</div>
+</a>
 
-        <!-- QUICK LINKS -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>🚀 Herramientas</h3></div>
-          <div class="quick-links">
-            <a href="https://colab.research.google.com" target="_blank" class="ql-item"><span>🔬</span><div><b>Google Colab</b><small>Python gratis</small></div></a>
-            <a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" class="ql-item"><span>🗃️</span><div><b>SQLZoo</b><small>Practica SQL</small></div></a>
-            <a href="https://www.kaggle.com/datasets" target="_blank" class="ql-item"><span>📦</span><div><b>Kaggle</b><small>Datasets reales</small></div></a>
-            <a href="https://www.hackerrank.com/domains/sql" target="_blank" class="ql-item"><span>⚔️</span><div><b>HackerRank</b><small>SQL challenges</small></div></a>
-            <a href="https://public.tableau.com" target="_blank" class="ql-item"><span>📊</span><div><b>Tableau Public</b><small>Viz online</small></div></a>
-            <a href="https://console.cloud.google.com/bigquery" target="_blank" class="ql-item"><span>☁️</span><div><b>BigQuery</b><small>SQL en cloud</small></div></a>
-          </div>
-        </div>
+<a href="tools.html" class="mod mod-tools">
+<div class="mod-top">
+<div class="mod-icon">🛠️</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Herramientas</div>
+<div class="mod-desc">Acceso rápido a Google Colab, SQLZoo, Kaggle, HackerRank, Tableau Public, BigQuery y más. Todo organizado.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">12+ tools</span>
+<span>Práctica · Recursos · APIs</span>
+</div>
+</a>
 
-        <!-- EMPLEOS EN VIVO -->
-        <div class="dash-card span-2">
-          <div class="dc-header">
-            <h3><span class="live-badge"><span class="live-dot"></span>LIVE</span>Empleos Remotos · Data</h3>
-            <a id="lnk-empleos" class="dc-link" href="#">Ver todos →</a>
-          </div>
-          <div id="jobs-feed"></div>
-        </div>
+<a href="news.html" class="mod mod-news">
+<div class="mod-top">
+<div class="mod-icon">📰</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Noticias Data & IA</div>
+<div class="mod-desc">Feed actualizado con las últimas noticias de inteligencia artificial, data science y tecnología. Fuentes curadas.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">Auto-update</span>
+<span>IA · Data · Tech</span>
+</div>
+</a>
 
-        <!-- INGLÉS DEL DÍA -->
-        <div class="dash-card">
-          <div class="dc-header"><h3>🇺🇸 Inglés del Día</h3><a id="lnk-ingles" class="dc-link" href="english.html">Practicar →</a></div>
-          <div id="word-of-day"></div>
-        </div>
+<a href="prompts.html" class="mod mod-prompts">
+<div class="mod-top">
+<div class="mod-icon">🤖</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Prompt Library</div>
+<div class="mod-desc">Colección de prompts profesionales para ChatGPT, Claude y Gemini. Para análisis de datos, código, emails y más.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">50+ prompts</span>
+<span>SQL · Python · Business</span>
+</div>
+</a>
 
-        <!-- NOTICIAS EN VIVO -->
-        <div class="dash-card span-2">
-          <div class="dc-header">
-            <h3>
-              <span class="live-badge" style="color:var(--sky);background:var(--sky-d);border-color:rgba(56,191,255,.2);">
-                <span class="live-dot" style="background:var(--sky);box-shadow:0 0 6px var(--sky);"></span>NOTICIAS
-              </span>
-              Datos &amp; IA
-            </h3>
-            <span id="news-ts" style="font-family:var(--fm);font-size:.62rem;color:var(--txt3);">cargando...</span>
-          </div>
-          <div id="news-feed"></div>
-        </div>
+<a href="goals.html" class="mod mod-goals">
+<div class="mod-top">
+<div class="mod-icon">🎯</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Objetivos & Hábitos</div>
+<div class="mod-desc">Define metas a 30, 60 y 90 días. Tracker de hábitos diarios. Revisión semanal. Sistema de accountability.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">Tracker</span>
+<span>Metas · Hábitos · Revisión</span>
+</div>
+</a>
 
-        <!-- PROMPT DEL DÍA -->
-        <div class="dash-card span-3">
-          <div class="dc-header">
-            <h3>🤖 Prompt del Día</h3>
-            <a id="lnk-prompts" class="dc-link" href="#">Ver librería →</a>
-          </div>
-          <div id="prompt-of-day"></div>
-        </div>
+<a href="finance.html" class="mod mod-finance">
+<div class="mod-top">
+<div class="mod-icon">💰</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Finanzas Personales</div>
+<div class="mod-desc">Control de gastos, presupuesto mensual, metas de ahorro. Visualización clara de a dónde va tu dinero.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">Budget</span>
+<span>Gastos · Ahorro · Metas</span>
+</div>
+</a>
 
-      </div>
-    </div>
-  </div>
+<a href="notes.html" class="mod mod-notes">
+<div class="mod-top">
+<div class="mod-icon">📝</div>
+<span class="mod-status status-soon">Próximo</span>
+</div>
+<div>
+<div class="mod-title">Notas & Journal</div>
+<div class="mod-desc">Captura ideas, apuntes de estudio, reflexiones diarias. Todo en markdown, todo buscable, nada se pierde.</div>
+</div>
+<div class="mod-meta">
+<span class="mod-tag">Markdown</span>
+<span>Ideas · Apuntes · Diario</span>
+</div>
+</a>
+
+</div>
+
+<!-- DAILY FEED -->
+<div class="sec-label">· feed del día ·</div>
+<div class="feed">
+<div class="feed-grid" id="feedGrid">
+<!-- Auto-populated -->
+</div>
+</div>
+
+<!-- QUOTE -->
+<div class="quote" id="quoteBlock">
+<p id="quoteText"></p>
+<cite id="quoteAuthor"></cite>
+</div>
+
 </main>
 
-<div id="toast"></div>
-<script src="js/core.js"></script>
+<footer class="footer">
+Segundo Cerebro · Construido con disciplina · 2026
+</footer>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Fix all internal links using BASE_URL
-  document.getElementById('btn-estudiar').onclick = () => location.href = url('pages/sesion.html');
-  document.getElementById('btn-sesion').onclick   = () => location.href = url('pages/sesion.html');
-  document.getElementById('btn-ruta').onclick     = () => location.href = url('pages/ruta.html');
-  document.getElementById('lnk-ruta').href        = url('pages/ruta.html');
-  document.getElementById('lnk-empleos').href     = url('pages/empleos.html');
-  document.getElementById('lnk-ingles').href      = url('pages/ingles.html');
-  document.getElementById('lnk-prompts').href     = url('pages/prompts.html');
+// ═══════════════════════════
+// SECOND BRAIN — CORE ENGINE
+// ═══════════════════════════
 
-  const td = document.getElementById('today-date');
-  if (td) td.textContent = new Date().toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'short'});
+// ─ CLOCK & GREETING ─
+function updateClock(){
+const n=new Date();
+const h=n.getHours();
+const m=String(n.getMinutes()).padStart(2,'0');
+document.getElementById('clock').textContent=`${h}:${m}`;
+const greetings=['Buenas noches','Buenos días','Buenas tardes','Buenas noches'];
+const period=h<6?0:h<12?1:h<19?2:3;
+const name=localStorage.getItem('sb_name')||'';
+document.getElementById('greeting').textContent=greetings[period]+(name?', '+name:'');
+}
+updateClock();setInterval(updateClock,30000);
 
-  if (!Profile.exists()) {
-    document.getElementById('onboarding').style.display = 'block';
-    document.getElementById('dash-main').style.display  = 'none';
-  } else {
-    initDash();
-  }
-});
+// ─ TODAY DATE ─
+const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const now=new Date();
+document.getElementById('todayDate').textContent=`${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
 
-window.saveOnboarding = () => {
-  const name = document.getElementById('ob-name')?.value?.trim();
-  if (!name) { toast('⚠️ Ingresa tu nombre'); return; }
-  Profile.set({
-    name, level: +document.getElementById('ob-level').value,
-    hours: +document.getElementById('ob-hours').value,
-    industry: document.getElementById('ob-industry').value,
-    startDate: new Date().toISOString()
-  });
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('dash-main').style.display  = 'block';
-  renderProfile(); Streak.update(); initDash();
-  toast('🎉 ¡Bienvenido, ' + name + '! Tu ruta comienza hoy.');
-};
-
-function initDash() {
-  renderPhases();
-  renderHack();
-  renderWord();
-  renderPrompt();
-  renderTodayTask();
-  loadLiveJobs(document.getElementById('jobs-feed'));
-  loadLiveNews(document.getElementById('news-feed'));
+// ─ TASKS SYSTEM ─
+function getTasks(){
+const today=new Date().toISOString().split('T')[0];
+try{
+const data=JSON.parse(localStorage.getItem('sb_tasks')||'{}');
+return data[today]||[];
+}catch(e){return[]}
 }
 
-function renderPhases() {
-  const el = document.getElementById('phases-progress'); if (!el) return;
-  el.innerHTML = Object.entries(CURRICULUM).map(([,p]) => {
-    const pct = Progress.phasePct(p.tasks.map(t => t.id));
-    return `<div class="phase-row">
-      <span class="ph-name">${p.name}</span>
-      <div class="ph-track"><div class="ph-fill" style="width:${pct}%"></div></div>
-      <span class="ph-pct">${pct}%</span>
-    </div>`;
-  }).join('');
+function saveTasks(tasks){
+const today=new Date().toISOString().split('T')[0];
+try{
+const data=JSON.parse(localStorage.getItem('sb_tasks')||'{}');
+data[today]=tasks;
+// Keep only last 30 days
+const keys=Object.keys(data).sort();
+if(keys.length>30){keys.slice(0,keys.length-30).forEach(k=>delete data[k])}
+localStorage.setItem('sb_tasks',JSON.stringify(data));
+}catch(e){}
 }
 
-let hackIdx = (() => {
-  const s = DB.get('hackday');
-  const today = new Date().toDateString();
-  if (s?.date === today) return s.idx;
-  const idx = new Date().getDate() % HACKS.length;
-  DB.set('hackday', { date: today, idx });
-  return idx;
+function renderTasks(){
+const tasks=getTasks();
+const el=document.getElementById('taskList');
+if(!tasks.length){
+el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:13px;">Sin tareas aún. Agrega tu primera tarea del día.</div>';
+}else{
+el.innerHTML=tasks.map((t,i)=>`
+<div class="task">
+<div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})"></div>
+<span class="task-text ${t.done?'done-text':''}">${t.text}</span>
+<span class="task-cat cat-${t.cat}">${catLabel(t.cat)}</span>
+</div>`).join('');
+}
+document.getElementById('statTasks').textContent=tasks.filter(t=>!t.done).length;
+}
+
+function catLabel(c){return{study:'📚',work:'💼',personal:'🏠',health:'💪'}[c]||'📌'}
+
+function addTask(){
+const input=document.getElementById('taskInput');
+const cat=document.getElementById('taskCat').value;
+const text=input.value.trim();
+if(!text)return;
+const tasks=getTasks();
+tasks.push({text,cat,done:false});
+saveTasks(tasks);
+input.value='';
+renderTasks();
+}
+
+function toggleTask(i){
+const tasks=getTasks();
+tasks[i].done=!tasks[i].done;
+saveTasks(tasks);
+renderTasks();
+}
+
+// ─ STATS ─
+function updateStats(){
+const startDate=localStorage.getItem('sb_start');
+if(!startDate){localStorage.setItem('sb_start',new Date().toISOString())}
+const start=new Date(localStorage.getItem('sb_start'));
+const diffDays=Math.floor((new Date()-start)/(1000*60*60*24));
+document.getElementById('statDays').textContent=Math.max(1,diffDays);
+
+// Streak
+const streak=parseInt(localStorage.getItem('sb_streak')||'0');
+document.getElementById('statStreak').textContent=streak+'🔥';
+
+// Hours (estimate from tasks)
+const hours=parseInt(localStorage.getItem('sb_hours')||'0');
+document.getElementById('statHours').textContent=hours+'h';
+}
+
+// ─ DAILY FEED ─
+function renderFeed(){
+const feeds=[
+{src:"Tech",items:[
+{t:"OpenAI lanza nuevo modelo de razonamiento para código",time:"Hoy"},
+{t:"Google BigQuery añade soporte nativo para Python UDFs",time:"Ayer"},
+{t:"La demanda de Data Analysts creció 35% en LATAM",time:"Esta semana"},
+]},
+{src:"Data",items:[
+{t:"dbt Labs anuncia integración con Snowflake Cortex AI",time:"Hoy"},
+{t:"Guía: Cómo hacer tu primer A/B test con Python",time:"Ayer"},
+{t:"Apache Spark 4.0 ya está disponible con mejoras en ML",time:"Esta semana"},
+]},
+{src:"Carrera",items:[
+{t:"Las 10 preguntas SQL más comunes en entrevistas 2026",time:"Trending"},
+{t:"Cómo negociar tu salario remoto como Data Analyst",time:"Popular"},
+{t:"Portfolio projects que realmente impresionan a recruiters",time:"Nuevo"},
+]},
+];
+const el=document.getElementById('feedGrid');
+el.innerHTML=feeds.map(f=>
+f.items.map(item=>`
+<div class="feed-card">
+<div class="feed-src">${f.src}</div>
+<div class="feed-title">${item.t}</div>
+<div class="feed-time">${item.time}</div>
+</div>`).join('')
+).join('');
+}
+
+// ─ DAILY QUOTE ─
+function renderQuote(){
+const quotes=[
+{t:"The goal is to turn data into information, and information into insight.",a:"Carly Fiorina"},
+{t:"Without data, you're just another person with an opinion.",a:"W. Edwards Deming"},
+{t:"Data is the new oil. It's valuable, but if unrefined it cannot really be used.",a:"Clive Humby"},
+{t:"The world rewards those who are consistent, not those who are motivated.",a:"Anónimo"},
+{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
+{t:"Success is the sum of small efforts, repeated day in and day out.",a:"Robert Collier"},
+{t:"The best time to plant a tree was 20 years ago. The second best time is now.",a:"Proverbio Chino"},
+{t:"It's not about having time, it's about making time.",a:"Anónimo"},
+{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},
+{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+{t:"Every expert was once a beginner.",a:"Helen Hayes"},
+{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},
+{t:"Learning never exhausts the mind.",a:"Leonardo da Vinci"},
+{t:"The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.",a:"Brian Herbert"},
+{t:"What gets measured gets managed.",a:"Peter Drucker"},
+];
+const today=new Date().getDate()%quotes.length;
+const q=quotes[today];
+document.getElementById('quoteText').textContent=`"${q.t}"`;
+document.getElementById('quoteAuthor').textContent=`— ${q.a}`;
+}
+
+// ─ NAME SETUP ─
+(function(){
+const name=localStorage.getItem('sb_name');
+if(!name){
+const n=prompt('¿Cuál es tu nombre? (para personalizar tu segundo cerebro)');
+if(n)localStorage.setItem('sb_name',n.trim());
+}
 })();
 
-function renderHack() {
-  const h = HACKS[hackIdx];
-  setEl('hack-content', el => el.innerHTML  = h.text);
-  setEl('hack-cat',     el => el.textContent = h.cat);
+// ─ DAILY STREAK ─
+(function(){
+const lastVisit=localStorage.getItem('sb_last');
+const today=new Date().toISOString().split('T')[0];
+if(lastVisit!==today){
+const yesterday=new Date(Date.now()-86400000).toISOString().split('T')[0];
+let streak=parseInt(localStorage.getItem('sb_streak')||'0');
+if(lastVisit===yesterday){streak++}
+else if(lastVisit!==today){streak=1}
+localStorage.setItem('sb_streak',String(streak));
+localStorage.setItem('sb_last',today);
+// Add study hour
+const hours=parseInt(localStorage.getItem('sb_hours')||'0');
+localStorage.setItem('sb_hours',String(hours+1));
 }
-window.nextHack = () => {
-  hackIdx = (hackIdx + 1) % HACKS.length;
-  DB.set('hackday', { date: new Date().toDateString(), idx: hackIdx });
-  renderHack();
-};
+})();
 
-function renderWord() {
-  const el = document.getElementById('word-of-day'); if (!el) return;
-  const w = VOCAB[new Date().getDate() % VOCAB.length];
-  el.innerHTML = `<div class="word-card">
-    <div class="word-en">${w.en}</div>
-    <div class="word-pron">${w.pron}</div>
-    <div class="word-es">→ ${w.es}</div>
-    <div class="word-example">${w.ex}</div>
-  </div>`;
-}
-
-function renderPrompt() {
-  const el = document.getElementById('prompt-of-day'); if (!el) return;
-  const p = PROMPTS_DATA[new Date().getDate() % PROMPTS_DATA.length];
-  el.innerHTML = `<div class="pod-cat">${p.cat} · ${p.use}</div>
-    <div class="pod-wrap" id="pod-txt">${p.text}<button class="cp-btn" onclick="cp('pod-txt',this)">Copiar</button></div>`;
-}
-
-function renderTodayTask() {
-  for (const [,phase] of Object.entries(CURRICULUM)) {
-    const next = phase.tasks.find(t => !Progress.isChecked(t.id));
-    if (next) {
-      setEl('today-phase', el => el.textContent = `${phase.name}: ${phase.label}`);
-      setEl('today-task',  el => el.textContent = next.text);
-      return;
-    }
-  }
-  setEl('today-phase', el => el.textContent = '🎉 RUTA COMPLETADA');
-  setEl('today-task',  el => el.textContent = 'Estás listo para el mercado. Aplica empleos.');
-}
+// ─ INIT ─
+renderTasks();
+updateStats();
+renderFeed();
+renderQuote();
 </script>
 </body>
 </html>
