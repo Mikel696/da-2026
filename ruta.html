@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Ruta Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08);--pk:#ec4899;--pg:rgba(236,72,153,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nav-r{display:flex;gap:8px}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-phase{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
+.bdg-pct{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+/* HERO */
+.rt-hero{margin-bottom:28px}
+.rt-hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.rt-hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
+.rt-hero h1 em{font-style:italic;color:var(--gn)}
+.rt-hero p{font-size:13px;color:var(--t3);max-width:600px}
+/* STATS */
+.rt-stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:28px}
+.rt-stat{flex:1;background:var(--c1);padding:14px;text-align:center}
+.rt-stat:first-child{border-radius:10px 0 0 10px}.rt-stat:last-child{border-radius:0 10px 10px 0}
+.rt-stat-v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600}
+.rt-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+/* PROGRESS BAR GLOBAL */
+.rt-progress{margin-bottom:28px}
+.rt-progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.rt-progress-label span{font-size:12px;color:var(--t2)}
+.rt-progress-label b{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--gn)}
+.rt-bar{width:100%;height:8px;background:var(--el);border-radius:4px;overflow:hidden}
+.rt-bar-fill{height:100%;border-radius:4px;transition:width .6s ease;background:linear-gradient(90deg,var(--gn),var(--cy))}
+/* ROADMAP VISUAL */
+.rt-roadmap{display:flex;gap:4px;margin-bottom:28px;overflow-x:auto;padding-bottom:8px}
+.rt-rm-phase{flex:1;min-width:120px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.rt-rm-phase:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.rt-rm-phase.active{border-color:var(--gn);box-shadow:0 0 0 1px var(--gn)}
+.rt-rm-phase.completed{border-color:var(--gn);background:rgba(34,197,94,.04)}
+.rt-rm-phase.completed::after{content:'✓';position:absolute;top:6px;right:8px;color:var(--gn);font-size:12px;font-weight:700}
+.rt-rm-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:2px}
+.rt-rm-icon{font-size:20px;margin-bottom:4px}
+.rt-rm-name{font-size:11px;font-weight:600;color:var(--tx)}
+.rt-rm-weeks{font-size:10px;color:var(--t3)}
+/* SECTION LABEL */
+.rt-sl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+/* PHASE PANEL */
+.rt-phase{display:none;animation:fu .3s ease}.rt-phase.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* CARD */
+.rt-card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:12px;transition:border-color .2s}
+.rt-card:hover{border-color:var(--bd2)}
+.rt-card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.rt-card-t{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+/* PILL */
+.rt-pill{font-size:9px;font-weight:600;padding:2px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+.rt-pill-w{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.rt-pill-p{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.rt-pill-d{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+/* LESSON */
+.rt-lesson{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--el);border-radius:8px;margin-bottom:5px;border:1px solid transparent;transition:all .15s}
+.rt-lesson:hover{border-color:rgba(34,197,94,.15)}
+.rt-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;transition:all .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:1px}
+.rt-check:hover{border-color:var(--gn)}
+.rt-check.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.rt-lesson-body{flex:1;min-width:0}
+.rt-lesson-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.rt-lesson-title.done-text{text-decoration:line-through;color:var(--t3)}
+.rt-lesson-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.rt-lesson-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-top:3px}
+/* RESOURCE LINK */
+.rt-link{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:4px;text-decoration:none;color:var(--tx);transition:all .2s}
+.rt-link:hover{border-color:var(--ac);transform:translateX(3px)}
+.rt-link-icon{font-size:18px;flex-shrink:0}
+.rt-link-body{flex:1;min-width:0}
+.rt-link-name{font-size:13px;font-weight:600}
+.rt-link-desc{font-size:11px;color:var(--t2)}
+.rt-link-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:var(--gg);color:var(--gn);text-transform:uppercase}
+/* PROJECT */
+.rt-project{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(6,182,212,.03));border:1px solid rgba(139,92,246,.12);border-radius:10px;padding:20px;margin-bottom:12px}
+.rt-project-t{font-size:14px;font-weight:700;color:var(--a2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.rt-project p{font-size:12px;color:var(--t2);margin-bottom:8px}
+.rt-project-steps{list-style:none;counter-reset:step}
+.rt-project-steps li{counter-increment:step;padding:4px 0;font-size:12px;color:var(--tx);display:flex;align-items:baseline;gap:8px}
+.rt-project-steps li::before{content:counter(step);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--ag);color:var(--a2);width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+/* TIP */
+.rt-tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:14px;margin-bottom:12px}
+.rt-tip b{color:var(--am);font-size:12px;display:block;margin-bottom:3px}
+.rt-tip p{font-size:12px;color:var(--t2)}.rt-tip strong{color:var(--tx)}
+/* SKILL BADGE */
+.rt-skills{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.rt-skill{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--el);border:1px solid var(--bd);color:var(--t2)}
+.rt-skill.unlocked{background:var(--gg);border-color:rgba(34,197,94,.15);color:var(--gn)}
+/* PHASE NAV */
+.rt-phase-nav{display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)}
+.rt-phase-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.rt-phase-btn-prev{background:var(--el);color:var(--t2)}.rt-phase-btn-prev:hover{color:var(--tx)}
+.rt-phase-btn-next{background:var(--gn);color:#fff}.rt-phase-btn-next:hover{background:#16a34a}
+/* WEEKLY LOG */
+.rt-log{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:12px}
+.rt-log-input{width:100%;min-height:50px;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:inherit;font-size:13px;resize:vertical}
+.rt-log-input:focus{outline:none;border-color:var(--gn);box-shadow:0 0 0 2px var(--gg)}
+.rt-log-entry{padding:10px;background:var(--el);border-radius:7px;margin-bottom:4px;font-size:12px}
+.rt-log-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:2px}
+/* RESPONSIVE */
+@media(max-width:768px){.wrap{padding:16px 12px}.rt-hero h1{font-size:22px}.rt-stats{flex-wrap:wrap}.rt-stat{min-width:calc(50% - 1px)}.rt-roadmap{gap:3px}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Ruta Data Analyst</span></div><div class="nav-r"><div class="bdg bdg-phase">📍 Fase <span id="currentPhase">1</span>/6</div><div class="bdg bdg-pct"><span id="globalPct">0</span>%</div></div></nav>
+
+<div class="wrap">
+
+<div class="rt-hero">
+<div class="rt-hero-sub">ruta de aprendizaje · 26 semanas</div>
+<h1>De cero a <em>Data Analyst</em><br>en 6 meses.</h1>
+<p>Ruta estructurada con metodología probada. Cada fase tiene lecciones, recursos gratuitos, proyectos prácticos y checkpoints. Tu progreso se guarda automáticamente.</p>
+</div>
+
+<div class="rt-stats">
+<div class="rt-stat"><div class="rt-stat-v" id="stLessons">0/0</div><div class="rt-stat-l">Lecciones</div></div>
+<div class="rt-stat"><div class="rt-stat-v" id="stPhase">1</div><div class="rt-stat-l">Fase actual</div></div>
+<div class="rt-stat"><div class="rt-stat-v" id="stProjects">0</div><div class="rt-stat-l">Proyectos</div></div>
+<div class="rt-stat"><div class="rt-stat-v" id="stDays">0</div><div class="rt-stat-l">Días activo</div></div>
+</div>
+
+<div class="rt-progress">
+<div class="rt-progress-label"><span>Progreso total de la ruta</span><b id="pctLabel">0%</b></div>
+<div class="rt-bar"><div class="rt-bar-fill" id="globalBar" style="width:0%"></div></div>
+</div>
+
+<div class="rt-roadmap" id="roadmap"></div>
+
+<div id="phaseContainer"></div>
+
+<!-- WEEKLY LOG -->
+<div class="rt-sl" style="margin-top:32px">· diario de aprendizaje ·</div>
+<div class="rt-log">
+<div style="font-size:13px;font-weight:600;margin-bottom:8px">📝 ¿Qué aprendiste hoy?</div>
+<textarea class="rt-log-input" id="logInput" placeholder="Escribe lo que estudiaste, dudas que tienes, o logros del día..."></textarea>
+<div style="margin-top:6px"><button class="rt-phase-btn rt-phase-btn-next" onclick="addLog()" style="font-size:11px;padding:6px 12px">💾 Guardar entrada</button></div>
+<div id="logEntries" style="margin-top:12px"></div>
+</div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════
+// RUTA DATA ANALYST — CORE ENGINE
+// ══════════════════════════════════════
+
+// ─── PHASES DATA ───
+const PHASES = [
+{
+  id:1, icon:"📊", name:"Fundamentos & Excel", weeks:"Semanas 1–4", color:"var(--gn)",
+  desc:"Domina las bases: pensamiento analítico, estadística básica y Excel como herramienta profesional de datos.",
+  tip:"No subestimes Excel. Muchas empresas lo usan diariamente. Un analista que domina Excel avanzado ya puede agregar valor desde el día 1.",
+  lessons:[
+    {id:"1-1",title:"¿Qué hace un Data Analyst?",desc:"Roles, responsabilidades, industrias, salarios y día a día real. Diferencia entre Analyst, Engineer y Scientist.",time:"1h"},
+    {id:"1-2",title:"Pensamiento Analítico",desc:"Cómo plantear preguntas de negocio, definir KPIs, y pensar con datos antes de tocar herramientas.",time:"2h"},
+    {id:"1-3",title:"Estadística Descriptiva",desc:"Media, mediana, moda, desviación estándar, percentiles, distribuciones. Los números que cuentan la historia.",time:"3h"},
+    {id:"1-4",title:"Excel: Navegación y Fórmulas Básicas",desc:"SUM, AVERAGE, COUNT, IF, CONCATENATE. Formato condicional. Atajos de teclado esenciales.",time:"3h"},
+    {id:"1-5",title:"Excel: Fórmulas Avanzadas",desc:"VLOOKUP, INDEX-MATCH, SUMIFS, COUNTIFS, TEXT, DATE functions. Named ranges.",time:"4h"},
+    {id:"1-6",title:"Excel: Tablas Dinámicas (Pivot Tables)",desc:"Crear, configurar y analizar datos con pivot tables. Slicers, grouping, calculated fields.",time:"4h"},
+    {id:"1-7",title:"Excel: Gráficos y Visualización",desc:"Tipos de gráficos, cuándo usar cada uno, mejores prácticas de diseño. Sparklines, combo charts.",time:"3h"},
+    {id:"1-8",title:"Excel: Limpieza de Datos",desc:"Text to Columns, Find/Replace, Remove Duplicates, Data Validation. Preparar datos sucios.",time:"3h"},
+    {id:"1-9",title:"Proyecto: Análisis de Ventas con Excel",desc:"Dataset real de ventas → limpieza → análisis con pivots → dashboard con gráficos → presentación de insights.",time:"6h"},
+  ],
+  resources:[
+    {icon:"📹",name:"Excel Skills for Business (Coursera)",desc:"Curso gratuito de Macquarie University — el mejor para empezar.",url:"https://www.coursera.org/specializations/excel",tag:"Curso"},
+    {icon:"📹",name:"Estadística para Data Science (Khan Academy)",desc:"Estadística descriptiva interactiva y gratuita.",url:"https://www.khanacademy.org/math/statistics-probability",tag:"Curso"},
+    {icon:"📊",name:"Práctica: Excel Exercises",desc:"Ejercicios prácticos organizados por nivel.",url:"https://exceljet.net/formulas",tag:"Práctica"},
+    {icon:"📦",name:"Dataset: Sample Superstore (Kaggle)",desc:"Dataset clásico para tu primer análisis de ventas.",url:"https://www.kaggle.com/datasets/vivek468/superstore-dataset-final",tag:"Dataset"},
+  ],
+  skills:["Excel Fórmulas","Pivot Tables","Gráficos","Estadística Básica","Pensamiento Analítico","Limpieza de Datos"]
+},
+{
+  id:2, icon:"🗃️", name:"SQL", weeks:"Semanas 5–10", color:"var(--cy)",
+  desc:"SQL es el idioma de los datos. Es la habilidad #1 que piden en TODAS las ofertas de Data Analyst.",
+  tip:"SQL es lo que más te van a preguntar en entrevistas. Practica TODOS los días al menos 30 minutos. SQLZoo y HackerRank son tus mejores amigos.",
+  lessons:[
+    {id:"2-1",title:"Bases de Datos: Conceptos",desc:"Qué es una BD relacional, tablas, filas, columnas, tipos de datos, claves primarias y foráneas.",time:"2h"},
+    {id:"2-2",title:"SELECT, FROM, WHERE",desc:"Tu primera consulta. Filtrar datos, operadores de comparación, LIKE, IN, BETWEEN, IS NULL.",time:"3h"},
+    {id:"2-3",title:"ORDER BY, LIMIT, DISTINCT",desc:"Ordenar resultados, limitar filas, eliminar duplicados. Combinaciones prácticas.",time:"2h"},
+    {id:"2-4",title:"Funciones de Agregación",desc:"COUNT, SUM, AVG, MIN, MAX. GROUP BY y HAVING. La base del análisis con SQL.",time:"3h"},
+    {id:"2-5",title:"JOINs: Conectar Tablas",desc:"INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN. Diagramas de Venn. Cuándo usar cada uno.",time:"4h"},
+    {id:"2-6",title:"Subqueries y CTEs",desc:"Consultas dentro de consultas. WITH (CTE) para organizar queries complejas y legibles.",time:"4h"},
+    {id:"2-7",title:"Window Functions",desc:"ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM OVER, AVG OVER. El nivel avanzado.",time:"5h"},
+    {id:"2-8",title:"CASE WHEN y Lógica Condicional",desc:"Crear columnas calculadas, categorizar datos, lógica de negocio dentro de queries.",time:"3h"},
+    {id:"2-9",title:"Date Functions y String Functions",desc:"Manipular fechas, extraer partes, calcular diferencias. Funciones de texto.",time:"3h"},
+    {id:"2-10",title:"Query Optimization",desc:"EXPLAIN, índices, evitar SELECT *, optimizar JOINs. Escribir queries eficientes.",time:"3h"},
+    {id:"2-11",title:"Proyecto: Análisis de E-commerce con SQL",desc:"Base de datos de e-commerce → queries de negocio → métricas clave → reporte con insights.",time:"8h"},
+    {id:"2-12",title:"Proyecto: Dashboard de Métricas SaaS",desc:"Calcular MRR, Churn, LTV, cohort analysis usando solo SQL. Nivel entrevista.",time:"8h"},
+  ],
+  resources:[
+    {icon:"🗃️",name:"SQLZoo",desc:"Tutorial interactivo paso a paso. El mejor para empezar.",url:"https://sqlzoo.net/wiki/SQL_Tutorial",tag:"Tutorial"},
+    {icon:"⚔️",name:"HackerRank SQL",desc:"Desafíos SQL por dificultad. Perfecto para practicar diario.",url:"https://www.hackerrank.com/domains/sql",tag:"Práctica"},
+    {icon:"📹",name:"SQL for Data Analysis (Mode Analytics)",desc:"Tutorial gratuito con sandbox SQL integrado.",url:"https://mode.com/sql-tutorial/",tag:"Tutorial"},
+    {icon:"🎓",name:"LeetCode Database",desc:"Problemas SQL nivel entrevista. Empieza por Easy.",url:"https://leetcode.com/problemset/database/",tag:"Entrevista"},
+    {icon:"☁️",name:"Google BigQuery Sandbox",desc:"SQL en la nube gratis. 1 TB de queries/mes sin tarjeta.",url:"https://console.cloud.google.com/bigquery",tag:"Herramienta"},
+    {icon:"📦",name:"Dataset: Brazilian E-commerce (Kaggle)",desc:"Base relacional real para practicar JOINs y análisis.",url:"https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",tag:"Dataset"},
+  ],
+  skills:["SELECT/WHERE","JOINs","GROUP BY","Subqueries","CTEs","Window Functions","CASE WHEN","Date Functions","Query Optimization"]
+},
+{
+  id:3, icon:"🐍", name:"Python para Datos", weeks:"Semanas 11–16", color:"var(--am)",
+  desc:"Python te da superpoderes: automatización, análisis avanzado y machine learning básico.",
+  tip:"No intentes aprender TODO Python. Enfócate en pandas, matplotlib y el flujo de análisis de datos. Lo demás lo irás aprendiendo según lo necesites.",
+  lessons:[
+    {id:"3-1",title:"Python Básico: Variables y Tipos",desc:"Strings, integers, floats, booleans, listas, diccionarios. Print, input, f-strings.",time:"3h"},
+    {id:"3-2",title:"Control de Flujo",desc:"if/elif/else, for loops, while loops, list comprehensions. Lógica de programación.",time:"3h"},
+    {id:"3-3",title:"Funciones y Módulos",desc:"Definir funciones, parámetros, return. Importar módulos. Organizar tu código.",time:"3h"},
+    {id:"3-4",title:"Pandas: Series y DataFrames",desc:"Crear, leer (CSV, Excel), inspeccionar datos. head(), info(), describe(), dtypes.",time:"4h"},
+    {id:"3-5",title:"Pandas: Filtrar y Seleccionar",desc:"loc, iloc, boolean indexing, query(). Seleccionar columnas, filtrar filas.",time:"3h"},
+    {id:"3-6",title:"Pandas: Transformar Datos",desc:"apply(), map(), replace(), fillna(), dropna(), astype(). Limpieza profesional.",time:"4h"},
+    {id:"3-7",title:"Pandas: GroupBy y Agregaciones",desc:"groupby(), agg(), pivot_table(), crosstab(). El equivalente de pivot tables en código.",time:"4h"},
+    {id:"3-8",title:"Pandas: Merge y Concat",desc:"merge(), join(), concat(). Combinar DataFrames como JOINs en SQL.",time:"3h"},
+    {id:"3-9",title:"Matplotlib y Seaborn",desc:"Gráficos de línea, barras, scatter, histogramas, heatmaps, boxplots. Personalización.",time:"4h"},
+    {id:"3-10",title:"Análisis Exploratorio (EDA)",desc:"El proceso completo: cargar → limpiar → explorar → visualizar → contar la historia.",time:"4h"},
+    {id:"3-11",title:"Proyecto: EDA Completo en Google Colab",desc:"Dataset de Kaggle → notebook completo con limpieza, análisis, visualizaciones e insights.",time:"10h"},
+  ],
+  resources:[
+    {icon:"🔬",name:"Google Colab",desc:"Jupyter notebooks gratis en la nube. Cero instalación.",url:"https://colab.research.google.com",tag:"Herramienta"},
+    {icon:"📹",name:"Python for Everybody (Coursera)",desc:"El curso de Python más popular del mundo. Gratuito.",url:"https://www.coursera.org/specializations/python",tag:"Curso"},
+    {icon:"🐼",name:"Pandas Documentation",desc:"Documentación oficial con ejemplos. Tu referencia diaria.",url:"https://pandas.pydata.org/docs/getting_started/intro_tutorials/",tag:"Docs"},
+    {icon:"📦",name:"Kaggle Learn: Pandas",desc:"Micro-curso gratuito e interactivo de pandas.",url:"https://www.kaggle.com/learn/pandas",tag:"Tutorial"},
+    {icon:"📦",name:"Kaggle Learn: Data Visualization",desc:"Matplotlib y Seaborn paso a paso.",url:"https://www.kaggle.com/learn/data-visualization",tag:"Tutorial"},
+    {icon:"📊",name:"Datasets para EDA (Kaggle)",desc:"Miles de datasets reales para practicar.",url:"https://www.kaggle.com/datasets",tag:"Datasets"},
+  ],
+  skills:["Python Básico","Pandas","Matplotlib","Seaborn","EDA","Google Colab","Data Cleaning","Data Wrangling"]
+},
+{
+  id:4, icon:"📈", name:"Visualización", weeks:"Semanas 17–20", color:"var(--a2)",
+  desc:"Crear dashboards profesionales que cuenten historias con datos.",
+  tip:"Un buen dashboard NO muestra todos los datos. Muestra los INSIGHTS correctos para tomar DECISIONES. Menos es más.",
+  lessons:[
+    {id:"4-1",title:"Principios de Visualización",desc:"Tipos de gráficos, cuándo usar cada uno, principios de Tufte, data-ink ratio, storytelling.",time:"3h"},
+    {id:"4-2",title:"Tableau: Conexión y Navegación",desc:"Conectar datos, drag-and-drop, sheets, filtros, sorts. Interfaz completa.",time:"3h"},
+    {id:"4-3",title:"Tableau: Gráficos Esenciales",desc:"Bar, line, scatter, map, treemap, heatmap, dual axis. Cuándo usar cada uno.",time:"4h"},
+    {id:"4-4",title:"Tableau: Cálculos y LOD",desc:"Calculated fields, table calculations, LOD expressions (FIXED, INCLUDE, EXCLUDE).",time:"5h"},
+    {id:"4-5",title:"Tableau: Dashboards Interactivos",desc:"Combinar sheets, agregar filtros, acciones, parámetros. Dashboard actions.",time:"4h"},
+    {id:"4-6",title:"Power BI: Fundamentos",desc:"Importar datos, Power Query, modelo de datos, DAX básico, visualizaciones.",time:"4h"},
+    {id:"4-7",title:"Storytelling con Datos",desc:"Estructura narrativa, executive summary, actionable insights. Presentar como un pro.",time:"3h"},
+    {id:"4-8",title:"Proyecto: Dashboard Ejecutivo en Tableau",desc:"Dataset real → dashboard interactivo con KPIs, filtros, drill-down → publicar en Tableau Public.",time:"10h"},
+  ],
+  resources:[
+    {icon:"📊",name:"Tableau Public",desc:"Versión gratuita de Tableau. Publica tus dashboards online.",url:"https://public.tableau.com",tag:"Herramienta"},
+    {icon:"📹",name:"Tableau Free Training Videos",desc:"Cursos oficiales gratuitos de Tableau.",url:"https://www.tableau.com/learn/training",tag:"Curso"},
+    {icon:"📹",name:"Storytelling with Data (libro/blog)",desc:"El mejor recurso de visualización que existe.",url:"https://www.storytellingwithdata.com",tag:"Referencia"},
+    {icon:"📦",name:"Makeover Monday Datasets",desc:"Datasets semanales para practicar visualización.",url:"https://www.makeovermonday.co.uk/data/",tag:"Práctica"},
+  ],
+  skills:["Tableau","Power BI Básico","Dashboard Design","Data Storytelling","LOD Expressions","DAX Básico"]
+},
+{
+  id:5, icon:"☁️", name:"Cloud & Herramientas", weeks:"Semanas 21–22", color:"var(--cy)",
+  desc:"Herramientas del mundo real: BigQuery, Git, línea de comandos y flujos de trabajo.",
+  tip:"BigQuery es gratis hasta 1 TB/mes de queries. Úsalo como tu playground de SQL en la nube con datos masivos reales.",
+  lessons:[
+    {id:"5-1",title:"Google BigQuery",desc:"Crear proyecto, cargar datos, ejecutar queries, costos, datasets públicos.",time:"4h"},
+    {id:"5-2",title:"Git & GitHub Básico",desc:"init, add, commit, push, pull, branches. Control de versiones para tus proyectos.",time:"3h"},
+    {id:"5-3",title:"Línea de Comandos Básica",desc:"cd, ls, mkdir, cp, mv, cat. Navegar archivos como un pro.",time:"2h"},
+    {id:"5-4",title:"APIs y JSON",desc:"Qué es una API, cómo hacer requests con Python, parsear JSON. Obtener datos del mundo real.",time:"3h"},
+    {id:"5-5",title:"Automatización con Python",desc:"Scripts, cron jobs, scheduling. Automatizar reportes y pipelines simples.",time:"3h"},
+  ],
+  resources:[
+    {icon:"☁️",name:"BigQuery Sandbox",desc:"SQL en la nube gratis. Datasets públicos masivos.",url:"https://console.cloud.google.com/bigquery",tag:"Herramienta"},
+    {icon:"🐙",name:"GitHub",desc:"Tu portafolio de código. Donde mostrarás tus proyectos.",url:"https://github.com",tag:"Herramienta"},
+    {icon:"📹",name:"Git & GitHub Crash Course (freeCodeCamp)",desc:"Aprende Git en 1 hora.",url:"https://www.youtube.com/watch?v=RGOj5yH7evk",tag:"Video"},
+  ],
+  skills:["BigQuery","Git/GitHub","CLI Basics","APIs","JSON","Automatización"]
+},
+{
+  id:6, icon:"🚀", name:"Portfolio & Job Hunt", weeks:"Semanas 23–26", color:"var(--or)",
+  desc:"Prepara tu portafolio, CV, LinkedIn y estrategia de búsqueda de empleo.",
+  tip:"Tu portafolio es más importante que cualquier certificado. 3 proyectos bien hechos > 10 certificados. Muestra proceso, no solo resultado.",
+  lessons:[
+    {id:"6-1",title:"Construir tu Portafolio",desc:"3 proyectos completos: Excel, SQL+Python, Dashboard. README profesional en GitHub.",time:"8h"},
+    {id:"6-2",title:"CV para Data Analyst",desc:"Formato ATS-friendly, action verbs, métricas cuantificables. Una página.",time:"3h"},
+    {id:"6-3",title:"LinkedIn Optimization",desc:"Headline, About, Experience con keywords. Networking estratégico.",time:"3h"},
+    {id:"6-4",title:"Preparación de Entrevistas",desc:"Preguntas SQL en vivo, behavioral (STAR), case studies, take-home assignments.",time:"5h"},
+    {id:"6-5",title:"Estrategia de Búsqueda",desc:"Dónde buscar, cómo aplicar, follow-up, negociación. Trabajo remoto internacional.",time:"3h"},
+    {id:"6-6",title:"Proyecto Final: End-to-End",desc:"Problema → datos → SQL → Python → Dashboard → Presentación. Tu obra maestra.",time:"15h"},
+  ],
+  resources:[
+    {icon:"💼",name:"LinkedIn Jobs — Data Analyst Remote",desc:"Búsqueda filtrada de empleos remotos.",url:"https://www.linkedin.com/jobs/search/?keywords=data%20analyst%20remote",tag:"Empleos"},
+    {icon:"📄",name:"Enhancv Resume Builder",desc:"Templates ATS-friendly gratuitos.",url:"https://enhancv.com",tag:"Herramienta"},
+    {icon:"🎯",name:"Glassdoor Interview Questions",desc:"Preguntas reales de entrevistas por empresa.",url:"https://www.glassdoor.com/Interview/data-analyst-interview-questions-SRCH_KO0,12.htm",tag:"Entrevista"},
+  ],
+  skills:["Portfolio","CV/Resume","LinkedIn","Entrevistas SQL","Behavioral","Negociación","Networking"]
+},
+];
+
+// ─── STATE ───
+function getState(){try{return JSON.parse(localStorage.getItem('ruta_state')||'{}')}catch(e){return{}}}
+function saveState(s){localStorage.setItem('ruta_state',JSON.stringify(s))}
+function isChecked(id){return !!getState()[id]}
+function toggleLesson(id){const s=getState();s[id]=!s[id];saveState(s);renderAll()}
+
+// ─── LOGS ───
+function getLogs(){try{return JSON.parse(localStorage.getItem('ruta_logs')||'[]')}catch(e){return[]}}
+function addLog(){
+const t=document.getElementById('logInput').value.trim();if(!t)return;
+const logs=getLogs();
+logs.push({text:t,date:new Date().toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})});
+localStorage.setItem('ruta_logs',JSON.stringify(logs));
+document.getElementById('logInput').value='';
+renderLogs();
+}
+function renderLogs(){
+const logs=getLogs();
+document.getElementById('logEntries').innerHTML=logs.slice().reverse().slice(0,20).map(l=>
+'<div class="rt-log-entry"><div class="rt-log-date">'+l.date+'</div><div>'+l.text+'</div></div>'
+).join('');
+}
+
+// ─── CALCULATE PROGRESS ───
+function calcProgress(){
+const s=getState();
+let total=0,done=0;
+PHASES.forEach(p=>p.lessons.forEach(l=>{total++;if(s[l.id])done++}));
+return{total,done,pct:total?Math.round(done/total*100):0};
+}
+function calcPhaseProgress(phase){
+const s=getState();
+let total=phase.lessons.length,done=0;
+phase.lessons.forEach(l=>{if(s[l.id])done++});
+return{total,done,pct:total?Math.round(done/total*100):0};
+}
+
+// ─── ACTIVE PHASE ───
+let activePhase=0;
+function setActivePhase(i){activePhase=i;renderAll()}
+
+// ─── RENDER ROADMAP ───
+function renderRoadmap(){
+document.getElementById('roadmap').innerHTML=PHASES.map((p,i)=>{
+const prog=calcPhaseProgress(p);
+const isActive=i===activePhase;
+const isComplete=prog.pct===100;
+return '<div class="rt-rm-phase'+(isActive?' active':'')+(isComplete?' completed':'')+'" onclick="setActivePhase('+i+')">'+
+'<div class="rt-rm-num">FASE '+p.id+'</div><div class="rt-rm-icon">'+p.icon+'</div><div class="rt-rm-name">'+p.name+'</div><div class="rt-rm-weeks">'+p.weeks+'</div>'+
+'<div class="rt-bar" style="margin-top:6px"><div class="rt-bar-fill" style="width:'+prog.pct+'%;background:'+p.color+'"></div></div>'+
+'</div>';
+}).join('');
+}
+
+// ─── RENDER PHASE CONTENT ───
+function renderPhaseContent(){
+const p=PHASES[activePhase];
+const prog=calcPhaseProgress(p);
+document.getElementById('phaseContainer').innerHTML=
+'<div class="rt-phase on">'+
+'<div class="rt-card"><div class="rt-card-h"><div class="rt-card-t">'+p.icon+' Fase '+p.id+': '+p.name+'</div><span class="rt-pill rt-pill-w">'+p.weeks+'</span></div>'+
+'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+p.desc+'</p>'+
+'<div class="rt-bar" style="margin-bottom:8px"><div class="rt-bar-fill" style="width:'+prog.pct+'%;background:'+p.color+'"></div></div>'+
+'<div style="font-size:12px;color:var(--t2)">'+prog.done+'/'+prog.total+' lecciones completadas ('+prog.pct+'%)</div>'+
+'<div class="rt-skills">'+p.skills.map(sk=>{
+const unlocked=prog.pct>=50;
+return '<span class="rt-skill'+(unlocked?' unlocked':'')+'">'+sk+'</span>';
+}).join('')+'</div></div>'+
+
+'<div class="rt-tip"><b>💡 Tip de fase</b><p>'+p.tip+'</p></div>'+
+
+'<div class="rt-sl">· lecciones ·</div>'+
+p.lessons.map(l=>{
+const checked=isChecked(l.id);
+return '<div class="rt-lesson"><div class="rt-check'+(checked?' done':'')+'" onclick="toggleLesson(\''+l.id+'\')">'+( checked?'✓':'')+'</div><div class="rt-lesson-body"><div class="rt-lesson-title'+(checked?' done-text':'')+'">'+l.title+'</div><div class="rt-lesson-desc">'+l.desc+'</div><div class="rt-lesson-time">⏱ '+l.time+'</div></div></div>';
+}).join('')+
+
+'<div class="rt-sl" style="margin-top:20px">· recursos gratuitos ·</div>'+
+p.resources.map(r=>
+'<a href="'+r.url+'" target="_blank" rel="noopener" class="rt-link"><div class="rt-link-icon">'+r.icon+'</div><div class="rt-link-body"><div class="rt-link-name">'+r.name+'</div><div class="rt-link-desc">'+r.desc+'</div></div><span class="rt-link-tag">'+r.tag+'</span></a>'
+).join('')+
+
+'<div class="rt-sl" style="margin-top:20px">· proyecto de fase ·</div>'+
+'<div class="rt-project"><div class="rt-project-t">🏗️ '+p.lessons[p.lessons.length-1].title+'</div><p>'+p.lessons[p.lessons.length-1].desc+'</p></div>'+
+
+'<div class="rt-phase-nav">'+
+(activePhase>0?'<button class="rt-phase-btn rt-phase-btn-prev" onclick="setActivePhase('+(activePhase-1)+')">← Fase '+(activePhase)+'</button>':'<div></div>')+
+(activePhase<PHASES.length-1?'<button class="rt-phase-btn rt-phase-btn-next" onclick="setActivePhase('+(activePhase+1)+')">Fase '+(activePhase+2)+' →</button>':'<div style="font-size:12px;color:var(--gn);font-weight:600">🎉 ¡Última fase!</div>')+
+'</div></div>';
+}
+
+// ─── RENDER STATS ───
+function renderStats(){
+const prog=calcProgress();
+const phaseProg=calcPhaseProgress(PHASES[activePhase]);
+document.getElementById('stLessons').textContent=prog.done+'/'+prog.total;
+document.getElementById('stPhase').textContent=activePhase+1;
+document.getElementById('stProjects').textContent=PHASES.reduce((acc,p)=>{
+const s=getState();
+return acc+(s[p.lessons[p.lessons.length-1].id]?1:0);
+},0);
+document.getElementById('globalPct').textContent=prog.pct;
+document.getElementById('pctLabel').textContent=prog.pct+'%';
+document.getElementById('globalBar').style.width=prog.pct+'%';
+document.getElementById('currentPhase').textContent=activePhase+1;
+// Days active
+const start=localStorage.getItem('ruta_start');
+if(!start)localStorage.setItem('ruta_start',new Date().toISOString());
+const days=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('ruta_start')))/(864e5)));
+document.getElementById('stDays').textContent=days;
+}
+
+// ─── RENDER ALL ───
+function renderAll(){
+renderRoadmap();
+renderPhaseContent();
+renderStats();
+renderLogs();
+}
+
+renderAll();
+</script>
+</body>
+</html>
