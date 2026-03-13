@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Job Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nav-r{display:flex;gap:8px}.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-g{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
+.bdg-a{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.jt-hero{margin-bottom:24px}.jt-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.jt-hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}.jt-hero h1 em{font-style:italic;color:var(--gn)}
+.jt-hero p{font-size:13px;color:var(--t3);max-width:600px}
+/* STATS */
+.jt-stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:24px}
+.jt-st{flex:1;background:var(--c1);padding:12px;text-align:center}.jt-st:first-child{border-radius:10px 0 0 10px}.jt-st:last-child{border-radius:0 10px 10px 0}
+.jt-sv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}.jt-sl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+/* TABS */
+.jt-tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
+.jt-tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.jt-tab:hover{color:var(--tx);background:var(--el)}.jt-tab.on{color:#fff;background:var(--ac);box-shadow:0 2px 8px rgba(139,92,246,.25)}
+.jt-pnl{display:none;animation:fu .3s ease}.jt-pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.jt-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px}
+/* CARD */
+.jt-card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:12px;transition:border-color .2s}
+.jt-card:hover{border-color:var(--bd2)}
+/* JOB LISTING */
+.jt-job{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px;transition:all .2s}
+.jt-job:hover{border-color:var(--bd2);transform:translateX(2px)}
+.jt-job-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.jt-job-title{font-size:14px;font-weight:600}
+.jt-job-title a{color:var(--tx);text-decoration:none}.jt-job-title a:hover{color:var(--a2)}
+.jt-job-company{font-size:12px;color:var(--a2);margin-bottom:2px}
+.jt-job-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.jt-job-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.3px}
+.jt-tag-remote{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.jt-tag-match{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.jt-tag-new{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
+.jt-tag-loc{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.jt-tag-lang{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.jt-job-date{font-size:10px;color:var(--t3);flex-shrink:0}
+.jt-job-desc{font-size:12px;color:var(--t2);margin-top:4px;line-height:1.5}
+.jt-job-actions{display:flex;gap:6px;margin-top:8px}
+.jt-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.jt-btn-p{background:var(--ac);color:#fff}.jt-btn-p:hover{background:var(--a2)}
+.jt-btn-o{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.jt-btn-o:hover{border-color:var(--ac);color:var(--a2)}
+.jt-btn-g{background:var(--gn);color:#fff}.jt-btn-g:hover{background:#16a34a}
+.jt-btn-s{padding:5px 9px;font-size:10px}
+/* SEARCH LINK */
+.jt-search{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--el);border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;text-decoration:none;color:var(--tx);transition:all .2s}
+.jt-search:hover{border-color:var(--ac);transform:translateX(3px)}
+.jt-search-icon{font-size:22px;flex-shrink:0}
+.jt-search-body{flex:1}.jt-search-name{font-size:13px;font-weight:600}.jt-search-desc{font-size:11px;color:var(--t2)}
+.jt-search-badge{font-size:9px;font-weight:600;padding:3px 8px;border-radius:6px;flex-shrink:0;text-transform:uppercase}
+/* KANBAN */
+.jt-kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:900px){.jt-kanban{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.jt-kanban{grid-template-columns:1fr}}
+.jt-col{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;min-height:200px}
+.jt-col-head{font-size:12px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.jt-col-count{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 6px;border-radius:8px;background:var(--el)}
+.jt-app{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:6px;cursor:default;transition:border-color .2s;position:relative}
+.jt-app:hover{border-color:var(--bd2)}
+.jt-app-title{font-size:12px;font-weight:600;margin-bottom:1px}
+.jt-app-company{font-size:11px;color:var(--a2)}
+.jt-app-date{font-size:10px;color:var(--t3);margin-top:3px}
+.jt-app-actions{display:flex;gap:3px;margin-top:5px}
+.jt-app-btn{font-size:9px;padding:2px 6px;border-radius:4px;border:1px solid var(--bd);background:var(--c1);color:var(--t2);cursor:pointer;font-family:inherit}
+.jt-app-btn:hover{border-color:var(--ac);color:var(--a2)}
+.jt-app-del{position:absolute;top:6px;right:6px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s}
+.jt-app:hover .jt-app-del{opacity:1}.jt-app-del:hover{color:var(--rd)}
+/* PROFILE */
+.jt-profile{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(6,182,212,.03));border:1px solid rgba(139,92,246,.12);border-radius:10px;padding:20px;margin-bottom:12px}
+.jt-profile-name{font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin-bottom:4px}
+.jt-profile-role{font-size:13px;color:var(--a2);margin-bottom:10px}
+.jt-profile-skills{display:flex;flex-wrap:wrap;gap:4px}
+.jt-skill{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--gg);border:1px solid rgba(34,197,94,.12);color:var(--gn)}
+/* INPUTS */
+.jt-input{width:100%;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:13px}
+.jt-input:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ag)}
+.jt-select{padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:12px;cursor:pointer}
+/* TIP */
+.jt-tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:14px;margin-bottom:12px}
+.jt-tip b{color:var(--am);font-size:12px;display:block;margin-bottom:3px}
+.jt-tip p{font-size:12px;color:var(--t2)}.jt-tip strong{color:var(--tx)}
+/* LOADING */
+.jt-loading{text-align:center;padding:30px;color:var(--t3);font-size:13px}
+.jt-spin{display:inline-block;width:20px;height:20px;border:2px solid var(--bd);border-top-color:var(--gn);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* LIVE DOT */
+.jt-live{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--gn);font-weight:600}
+.jt-live-dot{width:6px;height:6px;border-radius:50%;background:var(--gn);animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:768px){.wrap{padding:14px 12px}.jt-hero h1{font-size:22px}.jt-stats{flex-wrap:wrap}.jt-st{min-width:calc(50% - 1px)}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Job Tracker</span></div><div class="nav-r"><div class="bdg bdg-g"><span class="jt-live"><span class="jt-live-dot"></span> LIVE</span></div><div class="bdg bdg-a"><span id="totalApps">0</span> aplicaciones</div></div></nav>
+<div class="wrap">
+
+<div class="jt-hero"><div class="jt-sub">búsqueda de empleo inteligente</div><h1>Tu centro de <em>operaciones</em><br>para conseguir trabajo.</h1><p>Empleos actualizados en tiempo real, tracker de aplicaciones, búsquedas filtradas para tu perfil y estrategia de búsqueda personalizada.</p></div>
+
+<div class="jt-stats"><div class="jt-st"><div class="jt-sv" id="stJobs">—</div><div class="jt-sl">Empleos encontrados</div></div><div class="jt-st"><div class="jt-sv" id="stApplied">0</div><div class="jt-sl">Aplicaciones</div></div><div class="jt-st"><div class="jt-sv" id="stInterview">0</div><div class="jt-sl">Entrevistas</div></div><div class="jt-st"><div class="jt-sv" id="stOffer">0</div><div class="jt-sl">Ofertas</div></div></div>
+
+<div class="jt-tabs"><button class="jt-tab on" data-p="feed">📡 Empleos en Vivo</button><button class="jt-tab" data-p="search">🔍 Búsqueda Inteligente</button><button class="jt-tab" data-p="tracker">📋 Mis Aplicaciones</button><button class="jt-tab" data-p="profile">👤 Mi Perfil</button><button class="jt-tab" data-p="strategy">🎯 Estrategia</button></div>
+
+<!-- ═══ PANEL 1: LIVE FEED ═══ -->
+<div class="jt-pnl on" id="p-feed">
+<div class="jt-label">· empleos remotos en tiempo real — actualizados automáticamente ·</div>
+<div class="jt-tip"><b>⚡ Actualización automática</b><p>Estos empleos se obtienen de <strong>APIs de empleo en tiempo real</strong> cada vez que abres esta página. Los resultados están filtrados para tu perfil: Data Analyst, SQL, Python, Power BI, remoto.</p></div>
+<div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter on" data-f="all" onclick="filterJobs('all',this)">Todos</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="data" onclick="filterJobs('data',this)">📊 Data Analyst</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="bi" onclick="filterJobs('bi',this)">⚡ BI / Power BI</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="sql" onclick="filterJobs('sql',this)">🗃️ SQL</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="python" onclick="filterJobs('python',this)">🐍 Python</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="finance" onclick="filterJobs('finance',this)">💰 Finanzas</button>
+<button class="jt-btn jt-btn-o jt-btn-s jt-filter" data-f="junior" onclick="filterJobs('junior',this)">🌱 Junior Friendly</button>
+</div>
+<div id="jobFeed"><div class="jt-loading"><span class="jt-spin"></span> Buscando empleos remotos...</div></div>
+<div style="text-align:center;margin-top:14px"><button class="jt-btn jt-btn-p" onclick="fetchJobs()">🔄 Actualizar empleos</button></div>
+</div>
+
+<!-- ═══ PANEL 2: SMART SEARCH ═══ -->
+<div class="jt-pnl" id="p-search">
+<div class="jt-label">· búsquedas pre-filtradas para tu perfil ·</div>
+<div class="jt-tip"><b>🎯 Links inteligentes</b><p>Cada enlace abre una <strong>búsqueda ya filtrada</strong> con las keywords exactas para tu perfil. Los resultados siempre son frescos porque se buscan en el momento. <strong>Abre al menos 3 plataformas al día.</strong></p></div>
+
+<div class="jt-label">· data analyst — remoto ·</div>
+<a href="https://www.linkedin.com/jobs/search/?keywords=data%20analyst%20remote&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">💼</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Data Analyst Remote</div><div class="jt-search-desc">Filtrado por remoto, ordenado por más reciente. La plataforma #1 para aplicar.</div></div><span class="jt-search-badge" style="background:var(--ag);color:var(--a2)">Prioridad</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=data%20analyst%20SQL%20Python&f_WT=2&f_E=3%2C4&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">💼</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Data Analyst SQL + Python (Mid-Senior)</div><div class="jt-search-desc">Filtrado por experiencia mid-senior y keywords técnicas.</div></div><span class="jt-search-badge" style="background:var(--gg);color:var(--gn)">Match alto</span></a>
+<a href="https://www.indeed.com/jobs?q=data+analyst+remote&l=Remote&fromage=7&sort=date" target="_blank" class="jt-search"><div class="jt-search-icon">🔍</div><div class="jt-search-body"><div class="jt-search-name">Indeed — Data Analyst Remote (últimos 7 días)</div><div class="jt-search-desc">Solo empleos publicados en la última semana.</div></div><span class="jt-search-badge" style="background:var(--og);color:var(--or)">Reciente</span></a>
+<a href="https://remoteok.com/remote-data-analyst-jobs" target="_blank" class="jt-search"><div class="jt-search-icon">🌍</div><div class="jt-search-body"><div class="jt-search-name">RemoteOK — Data Analyst</div><div class="jt-search-desc">Solo empleos 100% remotos. Muchas startups internacionales.</div></div><span class="jt-search-badge" style="background:var(--gg);color:var(--gn)">Remote</span></a>
+<a href="https://weworkremotely.com/categories/remote-data-jobs" target="_blank" class="jt-search"><div class="jt-search-icon">🏠</div><div class="jt-search-body"><div class="jt-search-name">We Work Remotely — Data Jobs</div><div class="jt-search-desc">Curado, alta calidad. Empresas como Automattic, GitLab, Zapier.</div></div><span class="jt-search-badge" style="background:var(--cg);color:var(--cy)">Curado</span></a>
+
+<div class="jt-label">· power bi & business intelligence ·</div>
+<a href="https://www.linkedin.com/jobs/search/?keywords=power%20bi%20analyst%20remote&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">⚡</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Power BI Analyst Remote</div><div class="jt-search-desc">Empresas que usan Power BI como herramienta principal de BI.</div></div><span class="jt-search-badge" style="background:var(--og);color:var(--or)">Power BI</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=business%20intelligence%20analyst%20remote&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">📊</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — BI Analyst Remote</div><div class="jt-search-desc">Business Intelligence Analyst — combina SQL + visualización.</div></div><span class="jt-search-badge" style="background:var(--ag);color:var(--a2)">BI</span></a>
+
+<div class="jt-label">· finanzas & cuentas (tu experiencia directa) ·</div>
+<a href="https://www.linkedin.com/jobs/search/?keywords=financial%20data%20analyst%20remote&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">💰</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Financial Data Analyst Remote</div><div class="jt-search-desc">Tu perfil exacto: análisis de datos en contexto financiero.</div></div><span class="jt-search-badge" style="background:var(--gg);color:var(--gn)">Match exacto</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=accounts%20payable%20analyst%20remote&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">🏦</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — AP Analyst Remote</div><div class="jt-search-desc">Cuentas por pagar con componente analítico. Tu experiencia en Brinks aplica directo.</div></div><span class="jt-search-badge" style="background:var(--amg);color:var(--am)">Experiencia</span></a>
+<a href="https://www.indeed.com/jobs?q=financial+analyst+SQL+remote&fromage=14&sort=date" target="_blank" class="jt-search"><div class="jt-search-icon">🔍</div><div class="jt-search-body"><div class="jt-search-name">Indeed — Financial Analyst SQL Remote</div><div class="jt-search-desc">Analistas financieros que usan SQL — tu intersección ideal.</div></div><span class="jt-search-badge" style="background:var(--og);color:var(--or)">Reciente</span></a>
+
+<div class="jt-label">· latam & español / portugués ·</div>
+<a href="https://www.linkedin.com/jobs/search/?keywords=data%20analyst&location=Latin%20America&f_WT=2&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">🌎</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Data Analyst LATAM Remote</div><div class="jt-search-desc">Empresas que buscan en Latinoamérica. Tu zona horaria es ventaja.</div></div><span class="jt-search-badge" style="background:var(--cg);color:var(--cy)">LATAM</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista%20de%20datos%20remoto&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">🇪🇸</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Analista de Datos (Español)</div><div class="jt-search-desc">Empresas hispanohablantes que buscan analistas remotos.</div></div><span class="jt-search-badge" style="background:var(--amg);color:var(--am)">Español</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista%20de%20dados%20remoto&sortBy=DD" target="_blank" class="jt-search"><div class="jt-search-icon">🇧🇷</div><div class="jt-search-body"><div class="jt-search-name">LinkedIn — Analista de Dados (Portugués)</div><div class="jt-search-desc">Tu portugués avanzado es una ventaja competitiva enorme para empresas brasileñas.</div></div><span class="jt-search-badge" style="background:var(--gg);color:var(--gn)">Portugués</span></a>
+
+<div class="jt-label">· plataformas especializadas ·</div>
+<a href="https://www.getonbrd.com/empleos/data?remote=true" target="_blank" class="jt-search"><div class="jt-search-icon">🚀</div><div class="jt-search-body"><div class="jt-search-name">Get on Board — Data Jobs LATAM</div><div class="jt-search-desc">La mejor plataforma tech de LATAM. Muchas empresas colombianas.</div></div><span class="jt-search-badge" style="background:var(--gg);color:var(--gn)">LATAM</span></a>
+<a href="https://www.torre.ai/jobs?q=data+analyst&remote=true" target="_blank" class="jt-search"><div class="jt-search-icon">🗼</div><div class="jt-search-body"><div class="jt-search-name">Torre — Data Analyst Remote</div><div class="jt-search-desc">Plataforma colombiana con empleos tech remotos.</div></div><span class="jt-search-badge" style="background:var(--cg);color:var(--cy)">Colombia</span></a>
+<a href="https://wellfound.com/role/r/data-analyst?remote=true" target="_blank" class="jt-search"><div class="jt-search-icon">👼</div><div class="jt-search-body"><div class="jt-search-name">Wellfound (ex AngelList) — Startups</div><div class="jt-search-desc">Startups que buscan Data Analysts. Suelen ser más flexibles con ubicación.</div></div><span class="jt-search-badge" style="background:var(--ag);color:var(--a2)">Startups</span></a>
+<a href="https://www.turing.com/remote-developer-jobs/remote-data-analyst-jobs" target="_blank" class="jt-search"><div class="jt-search-icon">🤖</div><div class="jt-search-body"><div class="jt-search-name">Turing — Remote Data Analyst</div><div class="jt-search-desc">Plataforma que conecta devs LATAM con empresas de Silicon Valley.</div></div><span class="jt-search-badge" style="background:var(--og);color:var(--or)">US Companies</span></a>
+</div>
+
+<!-- ═══ PANEL 3: APPLICATION TRACKER ═══ -->
+<div class="jt-pnl" id="p-tracker">
+<div class="jt-label">· tracker de aplicaciones ·</div>
+<div class="jt-tip"><b>📋 Tu pipeline de empleo</b><p>Agrega cada empleo al que apliques. Mueve las tarjetas entre columnas según avances en el proceso. <strong>Meta: aplica a 5-10 empleos por semana.</strong></p></div>
+
+<div class="jt-card" style="margin-bottom:16px">
+<div style="font-size:13px;font-weight:600;margin-bottom:10px">➕ Agregar Aplicación</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input class="jt-input" id="appTitle" placeholder="Título del puesto...">
+<input class="jt-input" id="appCompany" placeholder="Empresa...">
+<input class="jt-input" id="appUrl" placeholder="URL del empleo (opcional)...">
+<select class="jt-select" id="appStatus" style="width:100%">
+<option value="saved">💾 Guardado</option>
+<option value="applied">📤 Aplicado</option>
+<option value="interview">🎯 Entrevista</option>
+<option value="offer">🎉 Oferta</option>
+</select>
+</div>
+<button class="jt-btn jt-btn-g" style="margin-top:8px" onclick="addApp()">+ Agregar al Tracker</button>
+</div>
+
+<div class="jt-kanban" id="kanban"></div>
+</div>
+
+<!-- ═══ PANEL 4: PROFILE ═══ -->
+<div class="jt-pnl" id="p-profile">
+<div class="jt-label">· tu perfil profesional ·</div>
+<div class="jt-profile">
+<div class="jt-profile-name">Miguel Ángel Barros</div>
+<div class="jt-profile-role">Financial Data Analyst & Developer · Bogotá, Colombia</div>
+<p style="font-size:12px;color:var(--t2);margin-bottom:12px">8+ años de experiencia en análisis de datos financieros. Especialista en SQL avanzado, Python/Pandas, Power BI. Experiencia en Brinks International (AP Analyst para Brasil/Caribe). Estudiante de Ingeniería de Sistemas (8° semestre). Trilingüe: Español, Portugués, Inglés.</p>
+<div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Skills que destacar</div>
+<div class="jt-profile-skills">
+<span class="jt-skill">SQL Avanzado</span><span class="jt-skill">Python / Pandas</span><span class="jt-skill">Power BI</span><span class="jt-skill">Power Query</span><span class="jt-skill">Excel Avanzado</span><span class="jt-skill">MySQL / PostgreSQL</span><span class="jt-skill">ClickHouse (OLAP)</span><span class="jt-skill">Matplotlib</span><span class="jt-skill">Modelado de Datos</span><span class="jt-skill">Automatización</span><span class="jt-skill">Finanzas / CxP</span><span class="jt-skill">Prototipado</span>
+</div>
+</div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:10px">🎯 Empleos donde TU perfil es ideal</div>
+<p style="font-size:12px;color:var(--t2);margin-bottom:12px">Basado en tu CV, experiencia y habilidades, estos son los roles donde tienes mayor probabilidad de éxito:</p>
+
+<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--gn);margin-bottom:4px">🟢 Match Perfecto (aplica con confianza)</div>
+<div style="font-size:12px;color:var(--t2);padding-left:12px">• <strong>Financial Data Analyst</strong> — Tu experiencia directa en Brinks + SQL + finanzas<br>• <strong>Accounts Payable Analyst</strong> — 7 años de experiencia exacta en el rol<br>• <strong>BI Analyst / Power BI Developer</strong> — Power BI + Power Query + SQL<br>• <strong>Data Analyst (Remote, LATAM)</strong> — SQL + Python + BI + trilingüe</div></div>
+
+<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--am);margin-bottom:4px">🟡 Match Alto (necesitas prepararte un poco)</div>
+<div style="font-size:12px;color:var(--t2);padding-left:12px">• <strong>Revenue Analyst</strong> — Combina finanzas + data. Practica revenue metrics<br>• <strong>FP&A Analyst</strong> — Financial Planning & Analysis. Tu background contable es ventaja<br>• <strong>Analytics Engineer</strong> — Necesitas aprender dbt + más Python. Tu SQL ya es fuerte<br>• <strong>Operations Analyst</strong> — Análisis operacional, tu experiencia en procesos aplica</div></div>
+
+<div><div style="font-size:13px;font-weight:600;color:var(--cy);margin-bottom:4px">🔵 Recomendados (amplían tu búsqueda)</div>
+<div style="font-size:12px;color:var(--t2);padding-left:12px">• <strong>Junior Data Engineer</strong> — Tu background en desarrollo + SQL + Python te da entrada<br>• <strong>Report Developer</strong> — Crear reportes automatizados (SSRS, Power BI, etc.)<br>• <strong>Procurement Analyst</strong> — Análisis de compras, tu experiencia en CxP es directa<br>• <strong>Process Analyst</strong> — Optimización de procesos, lo hiciste en Brinks (15% mejora)</div></div>
+</div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:10px">💡 Ventajas Competitivas que DEBES mencionar</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+• <strong>Trilingüe</strong>: Español + Portugués avanzado + Inglés. Esto te abre empresas brasileñas, portuguesas y multinacionales que operan en LATAM.<br>
+• <strong>8+ años en sector financiero</strong>: No eres un analista genérico — entiendes el contexto de negocio financiero profundamente.<br>
+• <strong>Brinks International</strong>: Empresa multinacional reconocida. Manejaste Brasil/Caribe = experiencia multicultural.<br>
+• <strong>Full stack de datos</strong>: SQL → Python → Power BI → Automatización. Puedes construir soluciones end-to-end.<br>
+• <strong>Ingeniería de Sistemas</strong>: En 8° semestre te da credibilidad técnica adicional.<br>
+• <strong>Resolución real</strong>: 60% de discrepancias históricas resueltas, 15% de optimización en pagos. USA estos números en cada aplicación.
+</div>
+</div>
+</div>
+
+<!-- ═══ PANEL 5: STRATEGY ═══ -->
+<div class="jt-pnl" id="p-strategy">
+<div class="jt-label">· estrategia de búsqueda ·</div>
+
+<div class="jt-tip"><b>🎯 Plan Semanal de Búsqueda</b><p><strong>Meta: 5-10 aplicaciones por semana.</strong> No apliques a todo — sé estratégico. Mejor 5 aplicaciones personalizadas que 50 genéricas.</p></div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">📅 Rutina Diaria de Búsqueda (30 min/día)</div>
+<div style="font-size:12px;color:var(--t2);line-height:2">
+<strong>Lunes:</strong> Revisar LinkedIn Jobs (Data Analyst + Financial Analyst) → aplicar a 2<br>
+<strong>Martes:</strong> Revisar Indeed + RemoteOK → aplicar a 2<br>
+<strong>Miércoles:</strong> Networking en LinkedIn — comenta 3 posts de recruiters/analistas<br>
+<strong>Jueves:</strong> Revisar Get on Board + Torre → aplicar a 2 (LATAM)<br>
+<strong>Viernes:</strong> Buscar en portugués (Analista de Dados) → aplicar a 1-2<br>
+<strong>Sábado:</strong> Revisar el tracker, hacer follow-up de aplicaciones de la semana<br>
+<strong>Domingo:</strong> Mejorar portafolio o preparar para entrevistas
+</div>
+</div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">✉️ Template de Cover Letter Personalizable</div>
+<div style="background:var(--el);border-radius:8px;padding:14px;font-size:12px;color:var(--t2);line-height:1.7;font-style:italic">
+Dear Hiring Manager,<br><br>
+I am writing to express my interest in the <strong>[Job Title]</strong> position at <strong>[Company]</strong>. With over 8 years of experience in financial data analysis and a strong foundation in software development, I bring a unique combination of business acumen and technical expertise.<br><br>
+At Brinks International, I implemented complex SQL queries that optimized payment processes by 15% and resolved 60% of historical discrepancies across the Brazil/Caribbean region. I am proficient in SQL, Python (Pandas), Power BI, and Excel, and I am passionate about turning raw data into actionable business insights.<br><br>
+What sets me apart is my ability to bridge finance and technology — I don't just analyze data, I build end-to-end solutions. I am also trilingual (Spanish, Portuguese, English), which enables effective collaboration across multicultural teams.<br><br>
+I would welcome the opportunity to discuss how my experience can contribute to <strong>[Company]</strong>'s data-driven strategy.<br><br>
+Kind regards,<br>Miguel Ángel Barros
+</div>
+<div style="margin-top:8px"><button class="jt-btn jt-btn-o jt-btn-s" onclick="navigator.clipboard.writeText(document.querySelector('#p-strategy .jt-card:nth-child(3) div[style] div').textContent.replace(/\n\s+/g,'\n')).then(()=>this.textContent='✅ Copiado!').catch(()=>{})">📋 Copiar template</button></div>
+</div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">🔑 Keywords para tu CV y LinkedIn</div>
+<p style="font-size:12px;color:var(--t2);margin-bottom:8px">Los ATS (sistemas automáticos) filtran por keywords. Asegúrate de que estas palabras estén en tu CV y LinkedIn:</p>
+<div class="jt-profile-skills">
+<span class="jt-skill">Data Analyst</span><span class="jt-skill">Financial Analysis</span><span class="jt-skill">SQL</span><span class="jt-skill">Python</span><span class="jt-skill">Pandas</span><span class="jt-skill">Power BI</span><span class="jt-skill">Power Query</span><span class="jt-skill">DAX</span><span class="jt-skill">Excel</span><span class="jt-skill">ETL</span><span class="jt-skill">Data Modeling</span><span class="jt-skill">OLAP</span><span class="jt-skill">ClickHouse</span><span class="jt-skill">MySQL</span><span class="jt-skill">PostgreSQL</span><span class="jt-skill">Matplotlib</span><span class="jt-skill">KPI</span><span class="jt-skill">Dashboard</span><span class="jt-skill">Automation</span><span class="jt-skill">Accounts Payable</span><span class="jt-skill">Financial Reporting</span><span class="jt-skill">Data Integrity</span><span class="jt-skill">Process Optimization</span><span class="jt-skill">Stakeholder Management</span>
+</div>
+</div>
+
+<div class="jt-card">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">💰 Rango Salarial de Referencia (USD remoto)</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+• <strong>Data Analyst Junior (remoto LATAM)</strong>: $25,000 – $45,000/año<br>
+• <strong>Data Analyst Mid (remoto global)</strong>: $45,000 – $75,000/año<br>
+• <strong>Financial Data Analyst</strong>: $50,000 – $85,000/año<br>
+• <strong>BI Analyst / Power BI Developer</strong>: $45,000 – $80,000/año<br>
+• <strong>Data Analyst en empresa US (contratista LATAM)</strong>: $3,000 – $6,000/mes<br>
+• <strong>AP Analyst con SQL (remoto)</strong>: $35,000 – $55,000/año<br><br>
+<span style="color:var(--am)">💡 Con tu experiencia de 8+ años y perfil trilingüe, apunta a <strong>$50,000–$70,000 USD/año</strong> para posiciones remotas globales.</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+// ═══════════════════════════════
+// JOB TRACKER ENGINE
+// ═══════════════════════════════
+
+// ─── TABS ───
+document.querySelectorAll('.jt-tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.jt-tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.jt-pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');
+document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+
+// ─── LIVE JOB FEED (Remotive API) ───
+let allJobs=[];
+async function fetchJobs(){
+document.getElementById('jobFeed').innerHTML='<div class="jt-loading"><span class="jt-spin"></span> Buscando empleos remotos...</div>';
+try{
+const queries=['data+analyst','power+bi','sql+analyst','financial+analyst','business+intelligence'];
+const allResults=[];
+for(const q of queries){
+try{
+const r=await fetch('https://remotive.com/api/remote-jobs?search='+q+'&limit=15');
+if(r.ok){const d=await r.json();if(d.jobs)allResults.push(...d.jobs)}
+}catch(e){}
+}
+// Deduplicate by id
+const seen=new Set();
+allJobs=allResults.filter(j=>{if(seen.has(j.id))return false;seen.add(j.id);return true});
+allJobs.sort((a,b)=>new Date(b.publication_date)-new Date(a.publication_date));
+document.getElementById('stJobs').textContent=allJobs.length;
+renderJobs(allJobs);
+}catch(e){
+document.getElementById('jobFeed').innerHTML='<div class="jt-card"><p style="font-size:13px;color:var(--t2)">No se pudieron cargar empleos en vivo. Usa la pestaña <strong>Búsqueda Inteligente</strong> para acceder a links pre-filtrados que siempre están actualizados.</p></div>';
+document.getElementById('stJobs').textContent='—';
+}
+}
+
+function renderJobs(jobs){
+if(!jobs.length){document.getElementById('jobFeed').innerHTML='<div class="jt-card" style="text-align:center;color:var(--t3)">No se encontraron empleos con ese filtro.</div>';return}
+document.getElementById('jobFeed').innerHTML=jobs.slice(0,30).map(j=>{
+const tags=[];
+if(/remote/i.test(j.candidate_required_location||''))tags.push('<span class="jt-job-tag jt-tag-remote">🌍 Remote</span>');
+if(/data|analy|bi |power/i.test(j.title))tags.push('<span class="jt-job-tag jt-tag-match">📊 Data</span>');
+if(/sql/i.test(j.title+' '+j.description))tags.push('<span class="jt-job-tag jt-tag-loc">SQL</span>');
+if(/python/i.test(j.title+' '+j.description))tags.push('<span class="jt-job-tag jt-tag-lang">Python</span>');
+if(/junior|entry|jr/i.test(j.title))tags.push('<span class="jt-job-tag jt-tag-new">🌱 Junior</span>');
+const ago=timeAgo(j.publication_date);
+const desc=(j.description||'').replace(/<[^>]*>/g,'').substring(0,200)+'...';
+return '<div class="jt-job" data-tags="'+j.title.toLowerCase()+' '+j.category.toLowerCase()+' '+(j.description||'').toLowerCase().substring(0,500)+'"><div class="jt-job-top"><div><div class="jt-job-company">'+j.company_name+'</div><div class="jt-job-title"><a href="'+j.url+'" target="_blank" rel="noopener">'+j.title+'</a></div></div><div class="jt-job-date">'+ago+'</div></div><div class="jt-job-desc">'+desc+'</div><div class="jt-job-meta">'+tags.join('')+'<span class="jt-job-tag jt-tag-loc">'+(j.candidate_required_location||'Worldwide')+'</span></div><div class="jt-job-actions"><a href="'+j.url+'" target="_blank" class="jt-btn jt-btn-p jt-btn-s">Ver empleo →</a><button class="jt-btn jt-btn-o jt-btn-s" onclick="saveJob(\''+j.title.replace(/'/g,"\\'")+'\',\''+j.company_name.replace(/'/g,"\\'")+'\',\''+j.url+'\')">💾 Guardar</button></div></div>';
+}).join('');
+}
+
+function filterJobs(f,btn){
+document.querySelectorAll('.jt-filter').forEach(b=>{b.classList.remove('on');b.style.background='';b.style.borderColor=''});
+btn.classList.add('on');btn.style.background='var(--ag)';btn.style.borderColor='rgba(139,92,246,.25)';
+if(f==='all'){renderJobs(allJobs);return}
+const map={data:'data analy',bi:'power bi business intelligence',sql:'sql',python:'python pandas',finance:'financ account payab',junior:'junior entry jr associate'};
+const kw=map[f]||f;
+const filtered=allJobs.filter(j=>{const txt=(j.title+' '+j.category+' '+(j.description||'').substring(0,1000)).toLowerCase();return kw.split(' ').some(k=>txt.includes(k))});
+renderJobs(filtered);
+}
+
+function timeAgo(d){
+const diff=Math.floor((new Date()-new Date(d))/1000);
+if(diff<3600)return Math.floor(diff/60)+'m';
+if(diff<86400)return Math.floor(diff/3600)+'h';
+if(diff<604800)return Math.floor(diff/86400)+'d';
+return Math.floor(diff/604800)+'w';
+}
+
+function saveJob(title,company,url){
+const apps=getApps();
+apps.push({title,company,url,status:'saved',date:new Date().toLocaleDateString('es',{day:'numeric',month:'short'})});
+setApps(apps);renderKanban();updateStats();
+alert('✅ Guardado en tu tracker');
+}
+
+// ─── APPLICATION TRACKER ───
+function getApps(){try{return JSON.parse(localStorage.getItem('jt_apps')||'[]')}catch(e){return[]}}
+function setApps(a){localStorage.setItem('jt_apps',JSON.stringify(a))}
+
+function addApp(){
+const title=document.getElementById('appTitle').value.trim();
+const company=document.getElementById('appCompany').value.trim();
+const url=document.getElementById('appUrl').value.trim();
+const status=document.getElementById('appStatus').value;
+if(!title||!company)return;
+const apps=getApps();
+apps.push({title,company,url,status,date:new Date().toLocaleDateString('es',{day:'numeric',month:'short'})});
+setApps(apps);
+document.getElementById('appTitle').value='';
+document.getElementById('appCompany').value='';
+document.getElementById('appUrl').value='';
+renderKanban();updateStats();
+}
+
+function moveApp(idx,newStatus){
+const apps=getApps();
+apps[idx].status=newStatus;
+setApps(apps);renderKanban();updateStats();
+}
+
+function delApp(idx){
+const apps=getApps();apps.splice(idx,1);setApps(apps);renderKanban();updateStats();
+}
+
+function renderKanban(){
+const apps=getApps();
+const cols={saved:{label:'💾 Guardados',color:'var(--t2)'},applied:{label:'📤 Aplicados',color:'var(--a2)'},interview:{label:'🎯 Entrevista',color:'var(--am)'},offer:{label:'🎉 Oferta',color:'var(--gn)'}};
+const statuses=['saved','applied','interview','offer'];
+const nextStatus={saved:'applied',applied:'interview',interview:'offer'};
+
+document.getElementById('kanban').innerHTML=statuses.map(s=>{
+const col=cols[s];
+const items=apps.map((a,i)=>({...a,idx:i})).filter(a=>a.status===s);
+return '<div class="jt-col"><div class="jt-col-head" style="color:'+col.color+'">'+col.label+'<span class="jt-col-count">'+items.length+'</span></div>'+
+items.map(a=>'<div class="jt-app"><button class="jt-app-del" onclick="delApp('+a.idx+')">✕</button><div class="jt-app-title">'+(a.url?'<a href="'+a.url+'" target="_blank" style="color:var(--tx);text-decoration:none">'+a.title+'</a>':a.title)+'</div><div class="jt-app-company">'+a.company+'</div><div class="jt-app-date">'+a.date+'</div>'+(nextStatus[s]?'<div class="jt-app-actions"><button class="jt-app-btn" onclick="moveApp('+a.idx+',\''+nextStatus[s]+'\')">Mover a '+cols[nextStatus[s]].label+' →</button></div>':'')+'</div>').join('')+
+'</div>';
+}).join('');
+}
+
+function updateStats(){
+const apps=getApps();
+document.getElementById('totalApps').textContent=apps.length;
+document.getElementById('stApplied').textContent=apps.filter(a=>a.status==='applied').length;
+document.getElementById('stInterview').textContent=apps.filter(a=>a.status==='interview').length;
+document.getElementById('stOffer').textContent=apps.filter(a=>a.status==='offer').length;
+}
+
+// ─── INIT ───
+fetchJobs();
+renderKanban();
+updateStats();
+// Auto-refresh every 5 minutes
+setInterval(fetchJobs,300000);
+</script>
+</body>
+</html>
