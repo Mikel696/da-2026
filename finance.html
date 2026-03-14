@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Finanzas Personales</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--or:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:900px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+@media(max-width:600px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi-v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700}.kpi-l{font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:2px}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bg{background:var(--gn);color:#fff}.br{background:var(--rd);color:#fff}
+.bs{padding:5px 9px;font-size:10px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+.sel{padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:11px;width:100%}
+.bar{height:8px;background:var(--el);border-radius:4px;overflow:hidden}.bar-f{height:100%;border-radius:4px;transition:width .5s}
+/* TRANSACTION */
+.tx-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(39,39,42,.5);font-size:12px}
+.tx-row:last-child{border-bottom:none}
+.tx-icon{font-size:16px;flex-shrink:0}
+.tx-info{flex:1}.tx-desc{font-weight:500}.tx-cat{font-size:10px;color:var(--t3)}
+.tx-amt{font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0}
+.tx-date{font-size:10px;color:var(--t3);flex-shrink:0;width:50px;text-align:right}
+.tx-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;flex-shrink:0}.tx-row:hover .tx-del{opacity:1}
+/* CHART */
+.chart{display:flex;align-items:flex-end;gap:4px;height:140px;padding:10px 0;margin-bottom:8px}
+.chart-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.chart-fill{width:100%;border-radius:4px 4px 0 0;min-height:2px;transition:height .4s}
+.chart-lbl{font-size:8px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+/* CATEGORY */
+.cat-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.cat-icon{font-size:16px}.cat-name{flex:1;font-size:12px}.cat-amt{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+.cat-pct{font-size:10px;color:var(--t3);width:40px;text-align:right}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Finanzas</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Controla tu <em>dinero</em>.</h1><p>Ingresos, gastos por categoría, balance mensual y metas de ahorro. Cada peso cuenta.</p></div>
+
+<div class="kpis">
+<div class="kpi"><div class="kpi-v" style="color:var(--gn)" id="kInc">$0</div><div class="kpi-l">Ingresos</div></div>
+<div class="kpi"><div class="kpi-v" style="color:var(--rd)" id="kExp">$0</div><div class="kpi-l">Gastos</div></div>
+<div class="kpi"><div class="kpi-v" id="kBal">$0</div><div class="kpi-l">Balance</div></div>
+<div class="kpi"><div class="kpi-v" style="color:var(--am)" id="kSav">$0</div><div class="kpi-l">Ahorro</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab on" data-p="add">➕ Registrar</button>
+<button class="tab" data-p="list">📋 Historial</button>
+<button class="tab" data-p="cats">📊 Categorías</button>
+<button class="tab" data-p="chart">📈 Gráfico</button>
+<button class="tab" data-p="save">🎯 Meta Ahorro</button>
+</div>
+
+<div class="pnl on" id="p-add">
+<div class="cd">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">Registrar movimiento</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Monto ($)</div><input class="inp" id="fAmt" type="number" placeholder="100000"></div>
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Descripción</div><input class="inp" id="fDesc" placeholder="Salario, almuerzo, etc."></div>
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Categoría</div>
+<select class="sel" id="fCat">
+<option value="salary">💰 Salario</option>
+<option value="freelance">💻 Freelance</option>
+<option value="other_inc">📦 Otro Ingreso</option>
+<option value="food">🍔 Comida</option>
+<option value="transport">🚌 Transporte</option>
+<option value="housing">🏠 Vivienda/Arriendo</option>
+<option value="services">📱 Servicios</option>
+<option value="education">📚 Educación</option>
+<option value="health">🏥 Salud</option>
+<option value="entertainment">🎮 Entretenimiento</option>
+<option value="clothing">👕 Ropa</option>
+<option value="savings">🏦 Ahorro</option>
+<option value="other_exp">📎 Otro Gasto</option>
+</select></div>
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Tipo</div>
+<select class="sel" id="fType">
+<option value="inc">📈 Ingreso</option>
+<option value="exp">📉 Gasto</option>
+</select></div>
+</div>
+<div style="display:flex;gap:6px;margin-top:10px">
+<button class="btn bg" onclick="addTx()">💾 Registrar</button>
+<button class="btn bo" onclick="quickExp()">⚡ Gasto rápido</button>
+</div>
+</div>
+<div class="lb">· últimos movimientos ·</div>
+<div id="recentTx"></div>
+</div>
+
+<div class="pnl" id="p-list">
+<div class="lb">· todos los movimientos del mes ·</div>
+<div id="allTx"></div>
+</div>
+
+<div class="pnl" id="p-cats">
+<div class="lb">· gastos por categoría ·</div>
+<div class="cd" id="catBreak"></div>
+</div>
+
+<div class="pnl" id="p-chart">
+<div class="lb">· gráfico mensual ·</div>
+<div class="cd">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px">
+<span style="font-size:12px;font-weight:600">Ingresos vs Gastos por día</span>
+<div><span style="font-size:10px;color:var(--gn)">● Ingreso</span> <span style="font-size:10px;color:var(--rd)">● Gasto</span></div>
+</div>
+<div class="chart" id="dayChart"></div>
+</div>
+</div>
+
+<div class="pnl" id="p-save">
+<div class="lb">· meta de ahorro ·</div>
+<div class="cd">
+<div style="font-size:14px;font-weight:600;margin-bottom:8px">🎯 Define tu meta</div>
+<div style="display:flex;gap:6px;margin-bottom:10px">
+<input class="inp" id="savGoal" type="number" placeholder="Meta en $..." style="flex:1">
+<input class="inp" id="savName" placeholder="Para qué..." style="flex:2">
+<button class="btn bp" onclick="setSavGoal()">Guardar</button>
+</div>
+<div id="savInfo"></div>
+</div>
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on')}));
+
+const mo=new Date().toISOString().slice(0,7);
+const catIcons={salary:'💰',freelance:'💻',other_inc:'📦',food:'🍔',transport:'🚌',housing:'🏠',services:'📱',education:'📚',health:'🏥',entertainment:'🎮',clothing:'👕',savings:'🏦',other_exp:'📎'};
+const catNames={salary:'Salario',freelance:'Freelance',other_inc:'Otro Ingreso',food:'Comida',transport:'Transporte',housing:'Vivienda',services:'Servicios',education:'Educación',health:'Salud',entertainment:'Entretenimiento',clothing:'Ropa',savings:'Ahorro',other_exp:'Otro Gasto'};
+const incCats=['salary','freelance','other_inc'];
+
+function getTx(){try{return JSON.parse(localStorage.getItem('fin_'+mo)||'[]')}catch(e){return[]}}
+function setTx(t){localStorage.setItem('fin_'+mo,JSON.stringify(t))}
+
+function addTx(){
+const amt=parseFloat(document.getElementById('fAmt').value);
+const desc=document.getElementById('fDesc').value.trim();
+const cat=document.getElementById('fCat').value;
+const type=document.getElementById('fType').value;
+if(!amt||amt<=0||!desc)return alert('Completa monto y descripción');
+const tx=getTx();tx.push({amt,desc,cat,type,date:new Date().toISOString()});setTx(tx);
+document.getElementById('fAmt').value='';document.getElementById('fDesc').value='';
+renderAll();
+}
+
+function quickExp(){
+const desc=prompt('¿En qué gastaste?');if(!desc)return;
+const amt=parseFloat(prompt('¿Cuánto?'));if(!amt||amt<=0)return;
+const tx=getTx();tx.push({amt,desc,cat:'other_exp',type:'exp',date:new Date().toISOString()});setTx(tx);renderAll();
+}
+
+function delTx(i){const tx=getTx();tx.splice(i,1);setTx(tx);renderAll()}
+
+function renderAll(){
+const tx=getTx();
+let inc=0,exp=0,sav=0;
+tx.forEach(t=>{if(t.type==='inc')inc+=t.amt;else exp+=t.amt;if(t.cat==='savings')sav+=t.amt});
+const bal=inc-exp;
+document.getElementById('kInc').textContent='$'+inc.toLocaleString();
+document.getElementById('kExp').textContent='$'+exp.toLocaleString();
+document.getElementById('kBal').textContent='$'+bal.toLocaleString();
+document.getElementById('kBal').style.color=bal>=0?'var(--gn)':'var(--rd)';
+document.getElementById('kSav').textContent='$'+sav.toLocaleString();
+
+// Recent
+const recent=tx.slice().reverse().slice(0,8);
+document.getElementById('recentTx').innerHTML=recent.length?recent.map((t,ri)=>{
+const idx=tx.length-1-ri;
+const isInc=t.type==='inc';
+return '<div class="tx-row"><div class="tx-icon">'+(catIcons[t.cat]||'📎')+'</div><div class="tx-info"><div class="tx-desc">'+t.desc+'</div><div class="tx-cat">'+(catNames[t.cat]||t.cat)+'</div></div><div class="tx-amt" style="color:'+(isInc?'var(--gn)':'var(--rd)') +'">'+(isInc?'+':'-')+'$'+t.amt.toLocaleString()+'</div><div class="tx-date">'+new Date(t.date).toLocaleDateString('es',{day:'numeric',month:'short'})+'</div><button class="tx-del" onclick="delTx('+idx+')">✕</button></div>';
+}).join(''):'<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin movimientos este mes.</div>';
+
+// All
+document.getElementById('allTx').innerHTML=tx.slice().reverse().map((t,ri)=>{
+const idx=tx.length-1-ri;const isInc=t.type==='inc';
+return '<div class="tx-row"><div class="tx-icon">'+(catIcons[t.cat]||'📎')+'</div><div class="tx-info"><div class="tx-desc">'+t.desc+'</div><div class="tx-cat">'+(catNames[t.cat]||t.cat)+'</div></div><div class="tx-amt" style="color:'+(isInc?'var(--gn)':'var(--rd)') +'">'+(isInc?'+':'-')+'$'+t.amt.toLocaleString()+'</div><div class="tx-date">'+new Date(t.date).toLocaleDateString('es',{day:'numeric',month:'short'})+'</div><button class="tx-del" onclick="delTx('+idx+')">✕</button></div>';
+}).join('')||'<div style="text-align:center;padding:20px;color:var(--t3)">Sin movimientos.</div>';
+
+// Categories
+const expTx=tx.filter(t=>t.type==='exp');
+const catTotals={};expTx.forEach(t=>{catTotals[t.cat]=(catTotals[t.cat]||0)+t.amt});
+const sorted=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+const maxCat=sorted.length?sorted[0][1]:1;
+document.getElementById('catBreak').innerHTML=sorted.length?sorted.map(([cat,amt])=>{
+const pct=exp>0?Math.round(amt/exp*100):0;
+return '<div class="cat-row"><div class="cat-icon">'+(catIcons[cat]||'📎')+'</div><div class="cat-name">'+(catNames[cat]||cat)+'</div><div class="cat-amt" style="color:var(--rd)">$'+amt.toLocaleString()+'</div><div class="cat-pct">'+pct+'%</div></div><div class="bar"><div class="bar-f" style="width:'+Math.round(amt/maxCat*100)+'%;background:var(--rd)"></div></div>';
+}).join(''):'<div style="text-align:center;padding:20px;color:var(--t3)">Sin gastos este mes.</div>';
+
+// Chart
+const dayData={};
+tx.forEach(t=>{const d=new Date(t.date).getDate();if(!dayData[d])dayData[d]={inc:0,exp:0};if(t.type==='inc')dayData[d].inc+=t.amt;else dayData[d].exp+=t.amt});
+const daysInMonth=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
+let maxDay=1;
+for(let d=1;d<=daysInMonth;d++){const dd=dayData[d]||{inc:0,exp:0};maxDay=Math.max(maxDay,dd.inc,dd.exp)}
+document.getElementById('dayChart').innerHTML=Array.from({length:Math.min(daysInMonth,31)},(_,i)=>{
+const d=i+1;const dd=dayData[d]||{inc:0,exp:0};
+const hI=dd.inc?Math.max(4,Math.round(dd.inc/maxDay*120)):0;
+const hE=dd.exp?Math.max(4,Math.round(dd.exp/maxDay*120)):0;
+return '<div class="chart-bar"><div class="chart-fill" style="height:'+hI+'px;background:var(--gn)"></div><div class="chart-fill" style="height:'+hE+'px;background:var(--rd)"></div><div class="chart-lbl">'+d+'</div></div>';
+}).join('');
+
+// Savings goal
+renderSavGoal(sav);
+}
+
+function setSavGoal(){
+const goal=parseFloat(document.getElementById('savGoal').value);
+const name=document.getElementById('savName').value.trim();
+if(!goal)return;
+localStorage.setItem('fin_sav_goal',JSON.stringify({goal,name:name||'Ahorro'}));
+renderAll();
+}
+
+function renderSavGoal(currentSav){
+const data=JSON.parse(localStorage.getItem('fin_sav_goal')||'null');
+if(!data){document.getElementById('savInfo').innerHTML='<div style="color:var(--t3);font-size:12px">Define tu meta arriba.</div>';return}
+const pct=Math.min(100,Math.round(currentSav/data.goal*100));
+const color=pct>=100?'var(--gn)':pct>=50?'var(--am)':'var(--ac)';
+document.getElementById('savInfo').innerHTML='<div style="font-size:14px;font-weight:600;margin-bottom:6px">'+data.name+'</div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>$'+currentSav.toLocaleString()+' / $'+data.goal.toLocaleString()+'</span><span style="color:'+color+';font-weight:600">'+pct+'%</span></div><div class="bar"><div class="bar-f" style="width:'+pct+'%;background:'+color+'"></div></div>'+(pct>=100?'<div style="text-align:center;padding:12px;color:var(--gn);font-size:14px;font-weight:700;margin-top:8px">🎉 ¡Meta cumplida!</div>':'<div style="font-size:11px;color:var(--t3);margin-top:6px">Faltan $'+(data.goal-currentSav).toLocaleString()+'</div>');
+}
+
+// Auto-set type based on category
+document.getElementById('fCat').addEventListener('change',function(){
+document.getElementById('fType').value=incCats.includes(this.value)?'inc':'exp';
+});
+
+renderAll();
+</script>
+</body>
+</html>
