@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Herramientas & Ventajas</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:1100px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3);max-width:620px}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;white-space:nowrap;font-family:inherit;transition:all .2s}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:12px;margin-bottom:10px}
+.tip b{color:var(--am);font-size:11px;display:block;margin-bottom:2px}.tip p{font-size:11px;color:var(--t2)}.tip strong{color:var(--tx)}
+.tool{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--el);border:1px solid var(--bd);border-radius:10px;margin-bottom:5px;text-decoration:none;color:var(--tx);transition:all .2s}
+.tool:hover{border-color:var(--ac);transform:translateX(3px)}
+.tool-i{font-size:22px;flex-shrink:0}.tool-b{flex:1;min-width:0}.tool-n{font-size:13px;font-weight:600}.tool-d{font-size:10px;color:var(--t2);line-height:1.4}
+.tool-t{font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;text-transform:uppercase;flex-shrink:0}
+.tg{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.ta{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.to{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
+.tc{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.ty{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.tr{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
+.hack{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(6,182,212,.03));border:1px solid rgba(139,92,246,.12);border-radius:10px;padding:16px;margin-bottom:10px}
+.hack-title{font-size:14px;font-weight:700;color:var(--a2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.hack-body{font-size:12px;color:var(--t2);line-height:1.7}
+.hack-body strong{color:var(--tx)}
+.cert{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s}
+.cert:hover{border-color:var(--bd2)}
+.cert-icon{font-size:28px;flex-shrink:0}
+.cert-body{flex:1}
+.cert-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.cert-org{font-size:11px;color:var(--a2);margin-bottom:4px}
+.cert-info{font-size:11px;color:var(--t2);line-height:1.6}
+.cert-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.cert-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Herramientas & Ventajas</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Tu arsenal de <em>ventajas competitivas</em>.</h1><p>Certificaciones gratis, herramientas, hacks, plataformas de práctica, IA y recursos que la mayoría no conoce. Todo verificado y actualizado.</p></div>
+
+<div class="tabs">
+<button class="tab on" data-p="cert">🎓 Certificaciones</button>
+<button class="tab" data-p="tools">🛠️ Herramientas</button>
+<button class="tab" data-p="practice">⚔️ Práctica</button>
+<button class="tab" data-p="ai">🤖 IA</button>
+<button class="tab" data-p="hacks">🧠 Hacks</button>
+<button class="tab" data-p="free">🎁 Gratis</button>
+</div>
+
+<!-- ═══ CERTIFICACIONES ═══ -->
+<div class="pnl on" id="p-cert">
+<div class="lb">· certificaciones que importan ·</div>
+<div class="tip"><b>🎓 Estrategia óptima 2026</b><p>Solo necesitas <strong>2 certificaciones máximo</strong>: 1 comprehensiva (Google o IBM) + 1 de herramienta (Power BI o Tableau). Más de eso = tiempo perdido. Mejor invierte en portafolio.</p></div>
+
+<div class="lb">· gratis o casi gratis — alto impacto ·</div>
+<div class="cert"><div class="cert-icon">🟢</div><div class="cert-body"><div class="cert-name">Google Data Analytics Professional Certificate</div><div class="cert-org">Google · Coursera</div><div class="cert-info">El estándar de oro para career changers. SQL, Python, Tableau, R. <strong>Hack: usa el trial de 7 días de Coursera y completa lo máximo posible. O aplica a Financial Aid (aprobación en 15 días, 100% gratis).</strong></div><div class="cert-meta"><span class="cert-tag tg">Gratis con Aid</span><span class="cert-tag ty">6 meses</span><span class="cert-tag ta">Top #1</span></div></div></div>
+<a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Ir a Google Data Analytics Certificate</div><div class="tool-d">Aplica Financial Aid al inscribirte. Es gratis.</div></div><span class="tool-t tg">Ir</span></a>
+
+<div class="cert"><div class="cert-icon">🔵</div><div class="cert-body"><div class="cert-name">IBM Data Analyst Professional Certificate</div><div class="cert-org">IBM · Coursera</div><div class="cert-info">Más técnico que Google. Excel, Python, Pandas, SQL, Cognos, Jupyter. <strong>Te da IBM Digital Badge y hasta 12 créditos universitarios.</strong> Mismo hack: Financial Aid = gratis.</div><div class="cert-meta"><span class="cert-tag tg">Gratis con Aid</span><span class="cert-tag ty">4 meses</span><span class="cert-tag tc">IBM Badge</span></div></div></div>
+<a href="https://www.coursera.org/professional-certificates/ibm-data-analyst" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Ir a IBM Data Analyst Certificate</div><div class="tool-d">Financial Aid disponible. Badge verificable de IBM.</div></div><span class="tool-t tg">Ir</span></a>
+
+<div class="cert"><div class="cert-icon">⚡</div><div class="cert-body"><div class="cert-name">Microsoft Power BI Data Analyst (PL-300)</div><div class="cert-org">Microsoft</div><div class="cert-info">La certificación de Power BI más reconocida. Examen: $165 USD. <strong>Pero la preparación es 100% gratis en Microsoft Learn.</strong> Se renueva gratis cada año con assessment online. Para tu perfil es la más estratégica.</div><div class="cert-meta"><span class="cert-tag to">$165 examen</span><span class="cert-tag tg">Prep gratis</span><span class="cert-tag ta">Top empresas</span></div></div></div>
+<a href="https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Microsoft Learn — PL-300 Prep (Gratis)</div><div class="tool-d">Todo el material de estudio oficial, gratis.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="cert"><div class="cert-icon">📊</div><div class="cert-body"><div class="cert-name">Tableau Desktop Specialist</div><div class="cert-org">Tableau / Salesforce</div><div class="cert-info">$100 USD el examen. El ROI más alto de todas las certificaciones. Rápida de obtener. <strong>Prep gratis en Tableau eLearning.</strong></div><div class="cert-meta"><span class="cert-tag to">$100 examen</span><span class="cert-tag tg">Prep gratis</span><span class="cert-tag ty">ROI alto</span></div></div></div>
+<a href="https://www.tableau.com/learn/certification/desktop-specialist" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Tableau Certification Info</div><div class="tool-d">Examen $100. Prep en Tableau Public + eLearning.</div></div><span class="tool-t to">$100</span></a>
+
+<div class="lb">· 100% gratis — alto valor ·</div>
+<div class="cert"><div class="cert-icon">🆓</div><div class="cert-body"><div class="cert-name">Alteryx Designer Core Certification</div><div class="cert-org">Alteryx</div><div class="cert-info"><strong>100% gratis.</strong> Certificación oficial de Alteryx. ETL y data prep. Se renueva gratis cada 2 años. Buena para LinkedIn.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag tc">ETL</span></div></div></div>
+<a href="https://community.alteryx.com/t5/Certification/bd-p/product-certification" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Alteryx Core Certification</div><div class="tool-d">Gratis. Examen online.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="cert"><div class="cert-icon">📈</div><div class="cert-body"><div class="cert-name">Google Analytics Individual Qualification (GAIQ)</div><div class="cert-org">Google Skillshop</div><div class="cert-info"><strong>100% gratis.</strong> Certificación oficial de Google Analytics 4. Complétala en 1-2 días. Queda bien en LinkedIn.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag ty">1-2 días</span></div></div></div>
+<a href="https://skillshop.exceedlms.com/student/catalog/list?category_ids=6431-google-analytics-4" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Google Skillshop — Analytics</div><div class="tool-d">Curso + examen gratis. Certificado oficial Google.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="cert"><div class="cert-icon">📊</div><div class="cert-body"><div class="cert-name">HubSpot Data Analytics Certification</div><div class="cert-org">HubSpot Academy</div><div class="cert-info"><strong>100% gratis.</strong> Buena para combinar datos + marketing. Complétala en menos de 1 semana.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag ty">1 semana</span></div></div></div>
+<a href="https://academy.hubspot.com/" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">HubSpot Academy</div><div class="tool-d">Certificaciones gratis de data, marketing, ventas.</div></div><span class="tool-t tg">Gratis</span></a>
+</div>
+
+<!-- ═══ HERRAMIENTAS ═══ -->
+<div class="pnl" id="p-tools">
+<div class="lb">· tu stack de herramientas — todo gratis ·</div>
+
+<div class="lb">· escribir código y datos ·</div>
+<a href="https://colab.research.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🔬</div><div class="tool-b"><div class="tool-n">Google Colab</div><div class="tool-d">Jupyter notebooks gratis en la nube. GPU incluida. Cero instalación. Python + Pandas + todo.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://console.cloud.google.com/bigquery" target="_blank" rel="noopener" class="tool"><div class="tool-i">☁️</div><div class="tool-b"><div class="tool-n">Google BigQuery Sandbox</div><div class="tool-d">SQL en la nube. 1 TB de queries/mes gratis. Datasets públicos masivos. Sin tarjeta.</div></div><span class="tool-t tg">1 TB/mes gratis</span></a>
+<a href="https://public.tableau.com/app/discover" target="_blank" rel="noopener" class="tool"><div class="tool-i">📊</div><div class="tool-b"><div class="tool-n">Tableau Public</div><div class="tool-d">Versión completa de Tableau, gratis. Publica dashboards como portafolio online.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://powerbi.microsoft.com/es-es/desktop/" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚡</div><div class="tool-b"><div class="tool-n">Power BI Desktop</div><div class="tool-d">Gratis para Windows. La herramienta de BI #1 en empresas. Publica en Power BI Service gratis.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://vscode.dev" target="_blank" rel="noopener" class="tool"><div class="tool-i">💻</div><div class="tool-b"><div class="tool-n">VS Code (Web)</div><div class="tool-d">Editor de código completo en el navegador. Sin instalar nada. Python, SQL, todo.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://github.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐙</div><div class="tool-b"><div class="tool-n">GitHub</div><div class="tool-d">Tu portafolio de código. Repos ilimitados gratis. GitHub Pages para publicar proyectos.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="lb">· productividad y organización ·</div>
+<a href="https://notion.so" target="_blank" rel="noopener" class="tool"><div class="tool-i">📝</div><div class="tool-b"><div class="tool-n">Notion</div><div class="tool-d">Todo-en-uno: notas, bases de datos, kanban, calendario. Plan personal gratis e ilimitado.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.canva.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎨</div><div class="tool-b"><div class="tool-n">Canva</div><div class="tool-d">Diseño de presentaciones, infografías, CV. Plan gratis generoso. Hack: versión Pro gratis con email .edu.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://excalidraw.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">✏️</div><div class="tool-b"><div class="tool-n">Excalidraw</div><div class="tool-d">Diagramas y wireframes estilo pizarra. Perfecto para diseñar dashboards antes de construirlos.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="lb">· cv y búsqueda de empleo ·</div>
+<a href="https://enhancv.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📄</div><div class="tool-b"><div class="tool-n">Enhancv</div><div class="tool-d">CVs ATS-friendly. Templates profesionales. 1 CV gratis.</div></div><span class="tool-t tg">1 gratis</span></a>
+<a href="https://resumeworded.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🔍</div><div class="tool-b"><div class="tool-n">Resume Worded</div><div class="tool-d">IA que analiza tu CV y LinkedIn. Te dice exactamente qué mejorar. Score gratis.</div></div><span class="tool-t tg">Score gratis</span></a>
+<a href="https://www.jobscan.co" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎯</div><div class="tool-b"><div class="tool-n">Jobscan</div><div class="tool-d">Compara tu CV vs la descripción del empleo. Te dice qué keywords faltan para pasar el ATS.</div></div><span class="tool-t ty">5 scans gratis</span></a>
+</div>
+
+<!-- ═══ PRÁCTICA ═══ -->
+<div class="pnl" id="p-practice">
+<div class="lb">· plataformas de práctica — nivel entrevista ·</div>
+<div class="tip"><b>⚔️ Practica 30 min diarios mínimo</b><p>SQL diario = empleo seguro. <strong>SQLZoo para aprender, HackerRank para practicar, LeetCode para nivel entrevista, StrataScratch para preguntas reales.</strong></p></div>
+
+<div class="lb">· sql (prioridad #1) ·</div>
+<a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" rel="noopener" class="tool"><div class="tool-i">🗃️</div><div class="tool-b"><div class="tool-n">SQLZoo</div><div class="tool-d">Tutorial interactivo paso a paso. El mejor para empezar desde cero.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.hackerrank.com/domains/sql" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚔️</div><div class="tool-b"><div class="tool-n">HackerRank SQL</div><div class="tool-d">Desafíos por dificultad. Perfecto para práctica diaria. Badges en tu perfil.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://leetcode.com/problemset/database/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏆</div><div class="tool-b"><div class="tool-n">LeetCode Database</div><div class="tool-d">Problemas nivel entrevista. Empieza por Easy, sube a Medium. Las empresas usan estos mismos problemas.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.stratascratch.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎯</div><div class="tool-b"><div class="tool-n">StrataScratch</div><div class="tool-d">Preguntas SQL REALES de entrevistas en Amazon, Meta, Google. El más realista que existe.</div></div><span class="tool-t ty">Free tier</span></a>
+<a href="https://mode.com/sql-tutorial/" target="_blank" rel="noopener" class="tool"><div class="tool-i">📚</div><div class="tool-b"><div class="tool-n">Mode SQL Tutorial</div><div class="tool-d">Tutorial completo con sandbox integrado. Desde básico hasta Window Functions.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://8weeksqlchallenge.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📅</div><div class="tool-b"><div class="tool-n">8 Week SQL Challenge</div><div class="tool-d">8 case studies reales. Perfecto para portafolio. Danny Ma lo creó y los recruiters lo conocen.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="lb">· python ·</div>
+<a href="https://www.kaggle.com/learn" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐼</div><div class="tool-b"><div class="tool-n">Kaggle Learn</div><div class="tool-d">Micro-cursos gratuitos: Python, Pandas, Data Viz, SQL, ML. Certificados al completar.</div></div><span class="tool-t tg">Gratis + cert</span></a>
+<a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener" class="tool"><div class="tool-i">📦</div><div class="tool-b"><div class="tool-n">Kaggle Datasets</div><div class="tool-d">Miles de datasets reales para practicar. Úsalos para proyectos de portafolio.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.datacamp.com/promo/free-week" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎒</div><div class="tool-b"><div class="tool-n">DataCamp Free Week</div><div class="tool-d">Periódicamente dan semanas gratis. Aprovecha para completar cursos de Python/SQL.</div></div><span class="tool-t to">Periódico</span></a>
+
+<div class="lb">· excel & power bi ·</div>
+<a href="https://exceljet.net/formulas" target="_blank" rel="noopener" class="tool"><div class="tool-i">📊</div><div class="tool-b"><div class="tool-n">ExcelJet</div><div class="tool-d">La mejor referencia de fórmulas Excel que existe. Ejemplos claros para cada función.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://dax.guide" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚡</div><div class="tool-b"><div class="tool-n">DAX Guide</div><div class="tool-d">Referencia completa de todas las funciones DAX para Power BI. Tu biblia de DAX.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.makeovermonday.co.uk/data/" target="_blank" rel="noopener" class="tool"><div class="tool-i">📈</div><div class="tool-b"><div class="tool-n">Makeover Monday</div><div class="tool-d">Dataset nuevo cada semana para practicar visualización. Comunidad global. Portafolio.</div></div><span class="tool-t tg">Gratis</span></a>
+</div>
+
+<!-- ═══ IA ═══ -->
+<div class="pnl" id="p-ai">
+<div class="lb">· herramientas de ia — tu ventaja #1 en 2026 ·</div>
+<div class="tip"><b>🤖 La IA no te va a reemplazar. Alguien que USE IA sí.</b><p>Un analista que usa IA bien <strong>produce 3x más rápido</strong>. Estas herramientas son tu multiplicador de productividad.</p></div>
+
+<a href="https://claude.ai" target="_blank" rel="noopener" class="tool"><div class="tool-i">🧠</div><div class="tool-b"><div class="tool-n">Claude (Anthropic)</div><div class="tool-d">Yo. Úsame para: escribir SQL, depurar código, analizar datos, preparar entrevistas, optimizar CV. Plan gratis generoso.</div></div><span class="tool-t ta">Este cerebro</span></a>
+<a href="https://chat.openai.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">💬</div><div class="tool-b"><div class="tool-n">ChatGPT</div><div class="tool-d">Bueno para brainstorming, redacción, y Code Interpreter para análisis rápido de datos.</div></div><span class="tool-t tg">Free tier</span></a>
+<a href="https://gemini.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">✨</div><div class="tool-b"><div class="tool-n">Google Gemini</div><div class="tool-d">Acceso a Google Search en tiempo real. Útil para investigar empresas antes de aplicar.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://github.com/features/copilot" target="_blank" rel="noopener" class="tool"><div class="tool-i">🤖</div><div class="tool-b"><div class="tool-n">GitHub Copilot</div><div class="tool-d">Autocompletado de código con IA. Gratis para estudiantes (con tu email universitario).</div></div><span class="tool-t tg">Gratis .edu</span></a>
+<a href="https://gamma.app" target="_blank" rel="noopener" class="tool"><div class="tool-i">📽️</div><div class="tool-b"><div class="tool-n">Gamma</div><div class="tool-d">Genera presentaciones profesionales con IA. Describe tu tema y crea slides en segundos.</div></div><span class="tool-t tg">Free tier</span></a>
+<a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📓</div><div class="tool-b"><div class="tool-n">NotebookLM (Google)</div><div class="tool-d">Sube documentos/PDFs y Google los analiza. Perfecto para estudiar material técnico rápido.</div></div><span class="tool-t tg">Gratis</span></a>
+</div>
+
+<!-- ═══ HACKS ═══ -->
+<div class="pnl" id="p-hacks">
+<div class="lb">· hacks y ventajas competitivas ·</div>
+
+<div class="hack"><div class="hack-title">🎓 Coursera Financial Aid = Todo gratis</div><div class="hack-body">Cualquier curso en Coursera tiene opción de <strong>Financial Aid</strong>. Responde 2 preguntas cortas explicando que necesitas el curso para tu carrera. <strong>Se aprueba en 15 días. 100% gratis, con certificado.</strong> Funciona para Google, IBM, Meta, etc. Aplica a varios simultáneamente.</div></div>
+
+<div class="hack"><div class="hack-title">🎒 GitHub Student Developer Pack</div><div class="hack-body">Con tu email universitario (.edu) obtienes: <strong>GitHub Copilot gratis, Canva Pro gratis, dominio .tech gratis, créditos de Azure y AWS, Notion premium</strong> y +100 herramientas. Todo gratis mientras seas estudiante. <a href="https://education.github.com/pack" target="_blank" rel="noopener" style="color:var(--a2)">→ Aplica aquí</a></div></div>
+
+<div class="hack"><div class="hack-title">☁️ Google Cloud Free Tier = BigQuery gratis</div><div class="hack-body">Google Cloud da <strong>$300 USD en créditos gratis</strong> por 90 días. Después, BigQuery Sandbox es siempre gratis hasta 1 TB/mes de queries. No necesitas tarjeta para el sandbox. Usa esto para practicar SQL sobre datasets de millones de filas.</div></div>
+
+<div class="hack"><div class="hack-title">💼 LinkedIn Learning = Gratis con biblioteca pública</div><div class="hack-body">Muchas bibliotecas públicas (incluyendo en Colombia) dan acceso <strong>gratis a LinkedIn Learning</strong>. Consulta en tu biblioteca local o en la <a href="https://www.biblored.gov.co" target="_blank" rel="noopener" style="color:var(--a2)">Red de Bibliotecas de Bogotá (BibloRed)</a>. Miles de cursos profesionales sin pagar.</div></div>
+
+<div class="hack"><div class="hack-title">📊 Tableau para estudiantes = Gratis 1 año</div><div class="hack-body">Tableau Desktop (versión completa, no Public) es <strong>gratis para estudiantes</strong> por 1 año renovable. Necesitas email universitario. <a href="https://www.tableau.com/academic/students" target="_blank" rel="noopener" style="color:var(--a2)">→ Aplica aquí</a>. Esto vale $840 USD/año normalmente.</div></div>
+
+<div class="hack"><div class="hack-title">🏆 El hack del portafolio con 8 Week SQL Challenge</div><div class="hack-body">Completa los 8 case studies de <a href="https://8weeksqlchallenge.com" target="_blank" rel="noopener" style="color:var(--a2)">8weeksqlchallenge.com</a>, publícalos en GitHub con READMEs profesionales. <strong>Los recruiters de data conocen este challenge.</strong> Es la forma más rápida de tener un portafolio SQL respetable.</div></div>
+
+<div class="hack"><div class="hack-title">🇧🇷 Tu portugués = Acceso a mercado brasileño</div><div class="hack-body">Brasil tiene <strong>5x más ofertas de data analyst</strong> que Colombia. Tu portugués avanzado te da acceso a un mercado que la mayoría de analistas colombianos no pueden tocar. <strong>Busca en LinkedIn en portugués: "analista de dados remoto".</strong> Menos competencia, más oportunidades.</div></div>
+
+<div class="hack"><div class="hack-title">📧 El hack del networking en LinkedIn</div><div class="hack-body"><strong>Conecta con 5 recruiters por semana</strong> que publiquen roles de data. No les pidas trabajo directamente. Comenta en sus posts con insights inteligentes. Después de 2-3 interacciones, te reconocen. Cuando publiquen un rol, serás el primero en su mente. Esto funciona mejor que aplicar por el portal.</div></div>
+
+<div class="hack"><div class="hack-title">💰 Upwork: El hack del precio hora</div><div class="hack-body">No empieces cobrando barato. Pon tu rate a <strong>$25-35 USD/hora para Excel/SQL</strong>. Acepta 1-2 proyectos pequeños con descuento para obtener reviews. Después sube. Los clientes que buscan barato no son buenos clientes. Los que pagan $30+/hr valoran tu trabajo y repiten.</div></div>
+
+<div class="hack"><div class="hack-title">🔍 El hack de "I noticed..." en cover letters</div><div class="hack-body">Antes de aplicar, investiga la empresa. En tu cover letter, escribe: <strong>"I noticed that [Company] recently [lanzó producto/abrió mercado/etc.]. I believe my experience in [skill] could help [objetivo específico]."</strong> Esto muestra que investigaste y no mandaste un copy-paste. Te diferencia del 95% de aplicantes.</div></div>
+</div>
+
+<!-- ═══ GRATIS ═══ -->
+<div class="pnl" id="p-free">
+<div class="lb">· recursos 100% gratis — cursos completos ·</div>
+
+<div class="lb">· cursos completos gratis ·</div>
+<a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" rel="noopener" class="tool"><div class="tool-i">📐</div><div class="tool-b"><div class="tool-n">Khan Academy — Estadística</div><div class="tool-d">Estadística descriptiva e inferencial. Interactivo. El mejor recurso gratis de estadística.</div></div><span class="tool-t tg">100% Gratis</span></a>
+<a href="https://www.freecodecamp.org/learn/data-analysis-with-python/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐍</div><div class="tool-b"><div class="tool-n">freeCodeCamp — Data Analysis with Python</div><div class="tool-d">Curso completo de análisis de datos con Python. Certificado al final. 300 horas.</div></div><span class="tool-t tg">100% Gratis</span></a>
+<a href="https://cs50.harvard.edu/sql/2024/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏛️</div><div class="tool-b"><div class="tool-n">Harvard CS50 SQL</div><div class="tool-d">Curso de SQL de Harvard. Completamente gratis. Certificado disponible. Prestigio máximo.</div></div><span class="tool-t tg">Harvard gratis</span></a>
+<a href="https://cs50.harvard.edu/python/2022/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏛️</div><div class="tool-b"><div class="tool-n">Harvard CS50 Python</div><div class="tool-d">Introducción a Python de Harvard. Gratis. El curso de programación más famoso del mundo.</div></div><span class="tool-t tg">Harvard gratis</span></a>
+<a href="https://www.youtube.com/@AlexTheAnalyst" target="_blank" rel="noopener" class="tool"><div class="tool-i">📹</div><div class="tool-b"><div class="tool-n">Alex The Analyst (YouTube)</div><div class="tool-d">El mejor canal de YouTube para Data Analysts. SQL, Excel, Tableau, Power BI, portafolio. Todo gratis.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.youtube.com/@LukeBarousse" target="_blank" rel="noopener" class="tool"><div class="tool-i">📹</div><div class="tool-b"><div class="tool-n">Luke Barousse (YouTube)</div><div class="tool-d">Proyectos de datos reales, Python para data. Muy práctico y actualizado.</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="lb">· libros y referencias gratis ·</div>
+<a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener" class="tool"><div class="tool-i">📖</div><div class="tool-b"><div class="tool-n">Storytelling with Data — Chart Guide</div><div class="tool-d">La referencia #1 de visualización. Qué gráfico usar y cuándo. Gratis online.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐼</div><div class="tool-b"><div class="tool-n">Pandas Official Tutorials</div><div class="tool-d">Tutoriales oficiales de Pandas. Mejor que cualquier curso pago.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://seaborn.pydata.org/examples/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎨</div><div class="tool-b"><div class="tool-n">Seaborn Gallery</div><div class="tool-d">Galería de gráficos con código. Copia y adapta para tus proyectos.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://cloud.google.com/bigquery/public-data" target="_blank" rel="noopener" class="tool"><div class="tool-i">☁️</div><div class="tool-b"><div class="tool-n">BigQuery Public Datasets</div><div class="tool-d">Datasets masivos gratuitos: GitHub, Stack Overflow, Wikipedia, Bitcoin, clima, y más.</div></div><span class="tool-t tg">Gratis</span></a>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+</script>
+</body>
+</html>
