@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Objetivos & Hábitos</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:900px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3)}
+.stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:20px}
+.st{flex:1;background:var(--c1);padding:12px;text-align:center}.st:first-child{border-radius:10px 0 0 10px}.st:last-child{border-radius:0 10px 10px 0}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}.sl{font-size:9px;color:var(--t3);text-transform:uppercase}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.tp{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:12px;margin-bottom:10px}
+.tp b{color:var(--am);font-size:11px;display:block;margin-bottom:2px}.tp p{font-size:11px;color:var(--t2)}.tp strong{color:var(--tx)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bg{background:var(--gn);color:#fff}
+.bs{padding:5px 9px;font-size:10px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+.sel{padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:11px}
+.bar{height:8px;background:var(--el);border-radius:4px;overflow:hidden;margin:6px 0}.bar-f{height:100%;border-radius:4px;transition:width .5s}
+/* GOAL CARD */
+.goal{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:8px;position:relative}
+.goal:hover{border-color:var(--bd2)}
+.goal-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.goal-t{font-size:14px;font-weight:600}.goal-dl{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+.goal-desc{font-size:12px;color:var(--t2);margin-bottom:6px}
+.goal-pct{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+.goal-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0}.goal:hover .goal-del{opacity:1}
+.goal-actions{display:flex;gap:4px;margin-top:6px}
+/* HABIT */
+.habit{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:5px}
+.habit:hover{border-color:var(--bd2)}
+.habit-icon{font-size:18px;flex-shrink:0}
+.habit-info{flex:1}.habit-name{font-size:13px;font-weight:600}.habit-streak{font-size:10px;color:var(--t3)}
+.habit-days{display:flex;gap:3px}
+.habit-day{width:24px;height:24px;border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);cursor:pointer;transition:all .2s;font-family:'IBM Plex Mono',monospace}
+.habit-day:hover{border-color:var(--gn)}.habit-day.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.habit-day.today{border-color:var(--ac);color:var(--ac)}
+.habit-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0;flex-shrink:0}.habit:hover .habit-del{opacity:1}
+/* REVIEW */
+.review{background:var(--el);border-radius:8px;padding:12px;margin-bottom:6px}
+.review-d{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-bottom:4px}
+.review-t{font-size:12px;line-height:1.6;white-space:pre-wrap}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.st{min-width:calc(50% - 1px)}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Objetivos & Hábitos</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Define el rumbo. <em>Ejecuta</em> cada día.</h1><p>Objetivos a 30, 60 y 90 días. Hábitos diarios con rachas. Revisión semanal para ajustar el plan.</p></div>
+<div class="stats"><div class="st"><div class="sv" id="sG">0</div><div class="sl">Objetivos</div></div><div class="st"><div class="sv" id="sH">0</div><div class="sl">Hábitos</div></div><div class="st"><div class="sv" id="sR">—</div><div class="sl">Racha máx</div></div><div class="st"><div class="sv" id="sP">0%</div><div class="sl">Completado</div></div></div>
+
+<div class="tabs">
+<button class="tab on" data-p="goals">🎯 Objetivos</button>
+<button class="tab" data-p="habits">🔁 Hábitos</button>
+<button class="tab" data-p="review">📝 Revisión</button>
+</div>
+
+<!-- GOALS -->
+<div class="pnl on" id="p-goals">
+<div class="tp"><b>🎯 Sistema 30-60-90</b><p>Define metas claras con deadline. <strong>Regla: máximo 3 objetivos activos por periodo.</strong> Menos = más enfoque.</p></div>
+<div class="cd">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:end">
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Objetivo</div><input class="inp" id="gText" placeholder="Ej: Completar curso Google Data Analytics"></div>
+<div><div style="font-size:10px;color:var(--t3);margin-bottom:2px">Plazo</div><select class="sel" id="gPeriod"><option value="30">30 días</option><option value="60">60 días</option><option value="90">90 días</option></select></div>
+<button class="btn bg" onclick="addGoal()">+ Agregar</button>
+</div>
+</div>
+<div class="lb">· 30 días — urgente ·</div><div id="g30"></div>
+<div class="lb">· 60 días — importante ·</div><div id="g60"></div>
+<div class="lb">· 90 días — estratégico ·</div><div id="g90"></div>
+</div>
+
+<!-- HABITS -->
+<div class="pnl" id="p-habits">
+<div class="tp"><b>🔁 Hábitos diarios</b><p>Marca los hábitos que completes hoy. Los últimos <strong>7 días</strong> son visibles. La racha se acumula automáticamente.</p></div>
+<div class="cd">
+<div style="display:flex;gap:6px">
+<input class="inp" id="hText" placeholder="Ej: Practicar SQL 30 min" style="flex:1">
+<input class="inp" id="hIcon" placeholder="🎯" style="width:50px;text-align:center">
+<button class="btn bg" onclick="addHabit()">+ Agregar</button>
+</div>
+</div>
+<div id="habitList"></div>
+</div>
+
+<!-- REVIEW -->
+<div class="pnl" id="p-review">
+<div class="tp"><b>📝 Revisión semanal</b><p>Cada semana reflexiona: ¿Qué logré? ¿Qué no hice? ¿Qué ajusto? <strong>Esto es lo que separa a los que avanzan de los que se estancan.</strong></p></div>
+<div class="cd">
+<textarea class="inp" id="revText" style="min-height:100px;resize:vertical" placeholder="¿Qué logré esta semana? ¿Qué no logré? ¿Qué cambio para la próxima?"></textarea>
+<button class="btn bp" style="margin-top:6px" onclick="addReview()">💾 Guardar revisión</button>
+</div>
+<div class="lb">· revisiones anteriores ·</div>
+<div id="revList"></div>
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on')}));
+
+const today=new Date().toISOString().split('T')[0];
+const dayNames=['D','L','M','X','J','V','S'];
+
+// ═══ GOALS ═══
+function getGoals(){try{return JSON.parse(localStorage.getItem('sb_goals')||'[]')}catch(e){return[]}}
+function setGoals(g){localStorage.setItem('sb_goals',JSON.stringify(g))}
+function addGoal(){
+const text=document.getElementById('gText').value.trim();
+const period=parseInt(document.getElementById('gPeriod').value);
+if(!text)return;
+const g=getGoals();
+const deadline=new Date();deadline.setDate(deadline.getDate()+period);
+g.push({text,period,deadline:deadline.toISOString().split('T')[0],progress:0,created:today,done:false});
+setGoals(g);document.getElementById('gText').value='';renderGoals();
+}
+function updateGoalProgress(i,delta){const g=getGoals();g[i].progress=Math.max(0,Math.min(100,g[i].progress+delta));if(g[i].progress===100)g[i].done=true;setGoals(g);renderGoals()}
+function delGoal(i){const g=getGoals();g.splice(i,1);setGoals(g);renderGoals()}
+
+function renderGoals(){
+const g=getGoals();
+[30,60,90].forEach(p=>{
+const el=document.getElementById('g'+p);
+const items=g.map((x,i)=>({...x,idx:i})).filter(x=>x.period===p);
+if(!items.length){el.innerHTML='<div style="text-align:center;padding:12px;color:var(--t3);font-size:11px">Sin objetivos de '+p+' días. Agrega uno arriba.</div>';return}
+el.innerHTML=items.map(x=>{
+const daysLeft=Math.ceil((new Date(x.deadline)-new Date())/(864e5));
+const color=x.done?'var(--gn)':daysLeft<7?'var(--rd)':daysLeft<15?'var(--am)':'var(--ac)';
+return '<div class="goal"><button class="goal-del" onclick="delGoal('+x.idx+')">✕</button><div class="goal-h"><div class="goal-t">'+(x.done?'✅ ':'')+ x.text+'</div><div class="goal-dl" style="color:'+color+'">'+(x.done?'Completado':daysLeft>0?daysLeft+' días':'¡Venció!')+'</div></div><div class="bar"><div class="bar-f" style="width:'+x.progress+'%;background:'+color+'"></div></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="goal-pct" style="color:'+color+'">'+x.progress+'%</span><div class="goal-actions"><button class="btn bo bs" onclick="updateGoalProgress('+x.idx+',-10)">−10%</button><button class="btn bo bs" onclick="updateGoalProgress('+x.idx+',10)">+10%</button><button class="btn bg bs" onclick="updateGoalProgress('+x.idx+',25)">+25%</button></div></div></div>';
+}).join('');
+});
+updateStats();
+}
+
+// ═══ HABITS ═══
+function getHabits(){try{return JSON.parse(localStorage.getItem('sb_habits')||'[]')}catch(e){return[]}}
+function setHabits(h){localStorage.setItem('sb_habits',JSON.stringify(h))}
+function addHabit(){
+const text=document.getElementById('hText').value.trim();
+const icon=document.getElementById('hIcon').value.trim()||'🎯';
+if(!text)return;
+const h=getHabits();h.push({text,icon,log:{}});setHabits(h);
+document.getElementById('hText').value='';document.getElementById('hIcon').value='';renderHabits();
+}
+function toggleHabit(i,day){const h=getHabits();if(!h[i].log)h[i].log={};h[i].log[day]=!h[i].log[day];setHabits(h);renderHabits()}
+function delHabit(i){const h=getHabits();h.splice(i,1);setHabits(h);renderHabits()}
+
+function renderHabits(){
+const h=getHabits();
+const last7=[];for(let d=6;d>=0;d--){const dt=new Date();dt.setDate(dt.getDate()-d);last7.push(dt.toISOString().split('T')[0])}
+document.getElementById('habitList').innerHTML=h.length?h.map((hab,i)=>{
+const streak=calcStreak(hab.log);
+return '<div class="habit"><div class="habit-icon">'+hab.icon+'</div><div class="habit-info"><div class="habit-name">'+hab.text+'</div><div class="habit-streak">🔥 Racha: '+streak+' días</div></div><div class="habit-days">'+last7.map(d=>{
+const done=hab.log&&hab.log[d];
+const isToday=d===today;
+const dt=new Date(d+'T12:00:00');
+return '<div class="habit-day'+(done?' done':'')+(isToday?' today':'')+'" onclick="toggleHabit('+i+',\''+d+'\')">'+dayNames[dt.getDay()]+'</div>';
+}).join('')+'</div><button class="habit-del" onclick="delHabit('+i+')">✕</button></div>';
+}).join(''):'<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin hábitos aún. Agrega tu primer hábito diario.</div>';
+updateStats();
+}
+
+function calcStreak(log){
+if(!log)return 0;
+let streak=0;const d=new Date();
+for(let i=0;i<365;i++){
+const key=d.toISOString().split('T')[0];
+if(log[key])streak++;else break;
+d.setDate(d.getDate()-1);
+}
+return streak;
+}
+
+// ═══ REVIEWS ═══
+function getRevs(){try{return JSON.parse(localStorage.getItem('sb_reviews')||'[]')}catch(e){return[]}}
+function addReview(){
+const text=document.getElementById('revText').value.trim();if(!text)return;
+const r=getRevs();r.push({text,date:new Date().toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'})});
+localStorage.setItem('sb_reviews',JSON.stringify(r));
+document.getElementById('revText').value='';renderRevs();
+}
+function renderRevs(){
+const r=getRevs();
+document.getElementById('revList').innerHTML=r.length?r.slice().reverse().map(x=>'<div class="review"><div class="review-d">'+x.date+'</div><div class="review-t">'+x.text+'</div></div>').join(''):'<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin revisiones aún.</div>';
+}
+
+// ═══ STATS ═══
+function updateStats(){
+const g=getGoals(),h=getHabits();
+document.getElementById('sG').textContent=g.length;
+document.getElementById('sH').textContent=h.length;
+const maxStreak=h.reduce((max,hab)=>Math.max(max,calcStreak(hab.log)),0);
+document.getElementById('sR').textContent=maxStreak+'🔥';
+const completed=g.filter(x=>x.done).length;
+document.getElementById('sP').textContent=g.length?Math.round(completed/g.length*100)+'%':'0%';
+}
+
+renderGoals();renderHabits();renderRevs();
+</script>
+</body>
+</html>
