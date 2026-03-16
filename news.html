@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Noticias Data & IA</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nv-r{display:flex;gap:8px;align-items:center}
+.live{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--gn);font-weight:600;padding:3px 9px;border-radius:14px;background:var(--gg);border:1px solid rgba(34,197,94,.15)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gn);animation:bk 1.5s infinite}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.3}}
+.wr{max-width:1000px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--cy)}.hero p{font-size:12px;color:var(--t3)}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:7px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s;white-space:nowrap}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--bd);border-top-color:var(--cy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* ARTICLE */
+.art{display:flex;gap:14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px;transition:all .2s;text-decoration:none;color:inherit}
+.art:hover{border-color:var(--bd2);transform:translateX(3px)}
+.art-img{width:100px;height:70px;border-radius:6px;object-fit:cover;flex-shrink:0;background:var(--el)}
+.art-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.art-src{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.art-title{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-desc{font-size:11px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.art-footer{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.art-date{font-size:10px;color:var(--t3)}
+.art-actions{display:flex;gap:4px}
+.art-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--bd);background:var(--el);color:var(--t2);font-family:inherit;font-size:9px;font-weight:600;cursor:pointer;transition:all .2s}
+.art-btn:hover{border-color:var(--ac);color:var(--a2)}
+.art-btn-go{background:var(--ac);border-color:var(--ac);color:#fff}.art-btn-go:hover{background:var(--a2)}
+/* SOURCE BADGE */
+.src-data{color:var(--cy)}.src-ai{color:var(--a2)}.src-tech{color:var(--gn)}.src-career{color:var(--am)}.src-python{color:var(--or)}
+.loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
+.error{text-align:center;padding:30px;color:var(--t3);font-size:12px;background:var(--c1);border:1px solid var(--bd);border-radius:10px}
+.refresh{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}
+.saved{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:6px}
+.saved-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.saved-meta{font-size:10px;color:var(--t3)}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.art{flex-direction:column}.art-img{width:100%;height:140px}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Noticias</span></div><div class="nv-r"><span class="live"><span class="live-dot"></span> LIVE</span><span style="font-size:10px;color:var(--t3)" id="lastUp">—</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Noticias <em>Data & IA</em> en tiempo real.</h1><p>Artículos reales de las mejores fuentes del mundo. Auto-actualización cada 5 minutos. Click en cualquier noticia para leerla completa.</p></div>
+
+<div class="tabs">
+<button class="tab on" data-p="all">🌐 Todas</button>
+<button class="tab" data-p="data">📊 Data</button>
+<button class="tab" data-p="ai">🤖 IA</button>
+<button class="tab" data-p="tech">💻 Tech</button>
+<button class="tab" data-p="python">🐍 Python</button>
+<button class="tab" data-p="career">💼 Carrera</button>
+<button class="tab" data-p="saved">💾 Guardadas</button>
+</div>
+
+<div class="pnl on" id="p-all"><div id="feedAll"><div class="loading"><span class="spin"></span> Cargando noticias...</div></div></div>
+<div class="pnl" id="p-data"><div id="feedData"><div class="loading"><span class="spin"></span> Cargando...</div></div></div>
+<div class="pnl" id="p-ai"><div id="feedAi"><div class="loading"><span class="spin"></span> Cargando...</div></div></div>
+<div class="pnl" id="p-tech"><div id="feedTech"><div class="loading"><span class="spin"></span> Cargando...</div></div></div>
+<div class="pnl" id="p-python"><div id="feedPython"><div class="loading"><span class="spin"></span> Cargando...</div></div></div>
+<div class="pnl" id="p-career"><div id="feedCareer"><div class="loading"><span class="spin"></span> Cargando...</div></div></div>
+<div class="pnl" id="p-saved"><div class="lb">· noticias guardadas ·</div><div id="savedList"></div></div>
+
+<div class="refresh">
+<button class="btn bp" onclick="loadAll()">🔄 Actualizar noticias</button>
+<span style="font-size:10px;color:var(--t3);align-self:center">Auto-refresh: 5 min</span>
+</div>
+</div>
+
+<script>
+// TABS
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+
+// ═══ RSS FEEDS CONFIG ═══
+const FEEDS=[
+{url:'https://towardsdatascience.com/feed',cat:'data',src:'Towards Data Science',cls:'src-data'},
+{url:'https://machinelearningmastery.com/feed/',cat:'ai',src:'ML Mastery',cls:'src-ai'},
+{url:'https://feeds.feedburner.com/kdnuggets-data-mining-analytics',cat:'data',src:'KDnuggets',cls:'src-data'},
+{url:'https://realpython.com/atom.xml',cat:'python',src:'Real Python',cls:'src-python'},
+{url:'https://blog.pragmaticengineer.com/rss/',cat:'tech',src:'Pragmatic Engineer',cls:'src-tech'},
+{url:'https://stackoverflow.blog/feed/',cat:'tech',src:'Stack Overflow Blog',cls:'src-tech'},
+{url:'https://netflixtechblog.com/feed',cat:'tech',src:'Netflix Tech Blog',cls:'src-tech'},
+{url:'https://medium.com/feed/tag/data-science',cat:'data',src:'Medium Data Science',cls:'src-data'},
+{url:'https://medium.com/feed/tag/artificial-intelligence',cat:'ai',src:'Medium AI',cls:'src-ai'},
+{url:'https://medium.com/feed/tag/career-advice',cat:'career',src:'Medium Career',cls:'src-career'},
+{url:'https://medium.com/feed/tag/sql',cat:'data',src:'Medium SQL',cls:'src-data'},
+{url:'https://medium.com/feed/tag/python',cat:'python',src:'Medium Python',cls:'src-python'},
+];
+
+const API='https://api.rss2json.com/v1/api.json?rss_url=';
+let allArticles=[];
+
+async function fetchFeed(feed){
+try{
+const r=await fetch(API+encodeURIComponent(feed.url));
+if(!r.ok)return[];
+const d=await r.json();
+if(d.status!=='ok'||!d.items)return[];
+return d.items.slice(0,8).map(item=>({
+title:item.title||'',
+desc:(item.description||'').replace(/<[^>]*>/g,'').substring(0,200),
+link:item.link||'',
+date:item.pubDate||'',
+img:item.thumbnail||item.enclosure?.link||'',
+src:feed.src,
+cat:feed.cat,
+cls:feed.cls
+}));
+}catch(e){return[]}
+}
+
+async function loadAll(){
+document.getElementById('feedAll').innerHTML='<div class="loading"><span class="spin"></span> Cargando noticias de '+FEEDS.length+' fuentes...</div>';
+const results=await Promise.allSettled(FEEDS.map(f=>fetchFeed(f)));
+allArticles=[];
+results.forEach(r=>{if(r.status==='fulfilled')allArticles.push(...r.value)});
+// Deduplicate by title
+const seen=new Set();
+allArticles=allArticles.filter(a=>{if(!a.title||seen.has(a.title))return false;seen.add(a.title);return true});
+// Sort by date
+allArticles.sort((a,b)=>new Date(b.date)-new Date(a.date));
+// Cache
+localStorage.setItem('news_cache',JSON.stringify({articles:allArticles,time:Date.now()}));
+renderFeeds();
+document.getElementById('lastUp').textContent='Actualizado: '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderFeeds(){
+renderList('feedAll',allArticles.slice(0,30));
+renderList('feedData',allArticles.filter(a=>a.cat==='data').slice(0,20));
+renderList('feedAi',allArticles.filter(a=>a.cat==='ai').slice(0,20));
+renderList('feedTech',allArticles.filter(a=>a.cat==='tech').slice(0,20));
+renderList('feedPython',allArticles.filter(a=>a.cat==='python').slice(0,20));
+renderList('feedCareer',allArticles.filter(a=>a.cat==='career').slice(0,20));
+renderSaved();
+}
+
+function renderList(elId,articles){
+const el=document.getElementById(elId);
+if(!articles.length){el.innerHTML='<div class="error">No se encontraron artículos para esta categoría. Intenta actualizar.</div>';return}
+el.innerHTML=articles.map((a,i)=>{
+const ago=timeAgo(a.date);
+const safeTitle=a.title.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+return '<div class="art"><img class="art-img" src="'+(a.img||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 70%22><rect fill=%22%23222228%22 width=%22100%22 height=%2270%22/><text x=%2250%22 y=%2240%22 text-anchor=%22middle%22 fill=%22%23a1a1aa%22 font-size=%2212%22>📰</text></svg>')+'" alt="" onerror="this.style.display=\'none\'"><div class="art-body"><div class="art-src '+a.cls+'">'+a.src+'</div><div class="art-title">'+a.title+'</div><div class="art-desc">'+a.desc+'</div><div class="art-footer"><div class="art-date">'+ago+'</div><div class="art-actions"><a href="'+a.link+'" target="_blank" rel="noopener" class="art-btn art-btn-go" onclick="event.stopPropagation()">Leer →</a><button class="art-btn" onclick="event.stopPropagation();saveArticle(\''+safeTitle+'\',\''+a.link+'\',\''+a.src+'\')">💾</button><button class="art-btn" onclick="event.stopPropagation();toTask(\''+safeTitle+'\')">+ Tarea</button></div></div></div></div>';
+}).join('');
+}
+
+function timeAgo(d){
+if(!d)return '';
+const s=Math.floor((Date.now()-new Date(d))/1000);
+if(s<3600)return Math.floor(s/60)+'m';
+if(s<86400)return Math.floor(s/3600)+'h';
+if(s<604800)return Math.floor(s/86400)+'d';
+return Math.floor(s/604800)+'sem';
+}
+
+// ═══ SAVE ARTICLE ═══
+function getSaved(){try{return JSON.parse(localStorage.getItem('news_saved')||'[]')}catch(e){return[]}}
+function saveArticle(title,link,src){
+const saved=getSaved();
+if(saved.some(s=>s.title===title)){alert('Ya está guardada');return}
+saved.push({title,link,src,date:new Date().toISOString()});
+localStorage.setItem('news_saved',JSON.stringify(saved));
+renderSaved();
+alert('✅ Artículo guardado');
+}
+function delSaved(i){const s=getSaved();s.splice(i,1);localStorage.setItem('news_saved',JSON.stringify(s));renderSaved()}
+function renderSaved(){
+const saved=getSaved();
+document.getElementById('savedList').innerHTML=saved.length?saved.slice().reverse().map((s,ri)=>{
+const idx=saved.length-1-ri;
+return '<div class="saved"><div style="display:flex;justify-content:space-between"><div class="saved-title"><a href="'+s.link+'" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none">'+s.title+'</a></div><button style="background:none;border:none;color:var(--t3);cursor:pointer" onclick="delSaved('+idx+')">✕</button></div><div class="saved-meta">'+s.src+' · '+new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short'})+'</div></div>';
+}).join(''):'<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px">Sin artículos guardados. Haz click en 💾 en cualquier noticia.</div>';
+}
+
+// ═══ TO TASK (saves to dashboard tasks) ═══
+function toTask(title){
+const today=new Date().toISOString().split('T')[0];
+try{
+const data=JSON.parse(localStorage.getItem('sb_tasks')||'{}');
+if(!data[today])data[today]=[];
+data[today].push({text:'📰 Investigar: '+title,cat:'study',done:false});
+localStorage.setItem('sb_tasks',JSON.stringify(data));
+alert('✅ Agregado a tus tareas de hoy en el Dashboard');
+}catch(e){alert('Error guardando tarea')}
+}
+
+// ═══ LOAD FROM CACHE OR FETCH ═══
+function init(){
+const cache=JSON.parse(localStorage.getItem('news_cache')||'null');
+if(cache&&cache.articles&&(Date.now()-cache.time)<300000){
+allArticles=cache.articles;
+renderFeeds();
+document.getElementById('lastUp').textContent='Cache: '+new Date(cache.time).toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+}else{
+loadAll();
+}
+renderSaved();
+}
+
+init();
+// Auto-refresh every 5 minutes
+setInterval(loadAll,300000);
+</script>
+</body>
+</html>
