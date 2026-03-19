@@ -1,0 +1,133 @@
+[
+  {
+    "id": "tier1_q1_ownership",
+    "title": "Ambiguity & Ownership",
+    "turns": [
+      { "role": "interviewer", "text": "Tell me about a time you had to work on a project with unclear responsibilities. How did you handle the ambiguity?" },
+      { "role": "user_svo", "meaning": "Identifiqué grandes vacíos de roles en el proyecto de dashboards.", "s": "I", "v": "identified", "o": "major role gaps in the dashboard project" },
+      { "role": "user_svo", "meaning": "Nadie sabía quién era dueño del pipeline de datos.", "s": "Nobody", "v": "knew", "o": "who owned the data pipeline" },
+      { "role": "interviewer", "text": "That sounds chaotic. What did you do to fix it?" },
+      { "role": "user_svo", "meaning": "Creé una matriz RACI para todo el equipo.", "s": "I", "v": "created", "o": "a RACI matrix for the entire team" },
+      { "role": "user_svo", "meaning": "Asigné responsabilidades claras a cada ingeniero.", "s": "I", "v": "assigned", "o": "clear responsibilities to each engineer" },
+      { "role": "interviewer", "text": "And what was the outcome of taking that initiative?" },
+      { "role": "user_svo", "meaning": "Entregamos el proyecto dos días antes de tiempo.", "s": "We", "v": "delivered", "o": "the project two days early" }
+    ]
+  },
+  {
+    "id": "tier1_q2_failure",
+    "title": "Failure, Mistakes & Learning",
+    "turns": [
+      { "role": "interviewer", "text": "Can you describe a situation where you made a significant mistake at work?" },
+      { "role": "user_svo", "meaning": "Presenté un reporte de KPI incorrecto al Vicepresidente.", "s": "I", "v": "presented", "o": "an incorrect KPI report to the VP" },
+      { "role": "user_svo", "meaning": "La consulta SQL omitió un mes de datos cruciales.", "s": "The SQL query", "v": "missed", "o": "one month of crucial data" },
+      { "role": "interviewer", "text": "How did you react once you realized the error?" },
+      { "role": "user_svo", "meaning": "Notifiqué inmediatamente a todos los stakeholders clave.", "s": "I", "v": "notified", "o": "all key stakeholders immediately" },
+      { "role": "user_svo", "meaning": "Proporcioné el panel de control corregido en una hora.", "s": "I", "v": "provided", "o": "the corrected dashboard within one hour" },
+      { "role": "interviewer", "text": "Did you implement any preventative measures?" },
+      { "role": "user_svo", "meaning": "Escribí pruebas unitarias automatizadas para todas las consultas futuras.", "s": "I", "v": "wrote", "o": "automated unit tests for all future queries" }
+    ]
+  },
+  {
+    "id": "tier1_q3_conflict",
+    "title": "Conflict & Disagreement",
+    "turns": [
+      { "role": "interviewer", "text": "Tell me about a time you disagreed with a teammate or manager regarding a technical decision." },
+      { "role": "user_svo", "meaning": "Mi gerente quería usar un conjunto de datos antiguo y estático.", "s": "My manager", "v": "wanted to use", "o": "an old and static dataset" },
+      { "role": "user_svo", "meaning": "Yo sugerí una nueva conexión a base de datos en tiempo real.", "s": "I", "v": "suggested", "o": "a new real-time database connection" },
+      { "role": "interviewer", "text": "How did you convince them to change their mind?" },
+      { "role": "user_svo", "meaning": "Realicé una prueba estadística A/B entre ambos métodos.", "s": "I", "v": "conducted", "o": "a statistical A/B test between both methods" },
+      { "role": "user_svo", "meaning": "Presenté los hallazgos basados en datos al equipo.", "s": "I", "v": "presented", "o": "the data-driven findings to the team" },
+      { "role": "interviewer", "text": "What was the final result?" },
+      { "role": "user_svo", "meaning": "Nuestra precisión del modelo aumentó en un 15 por ciento.", "s": "Our model accuracy", "v": "increased", "o": "by 15 percent" }
+    ]
+  },
+  {
+    "id": "tier1_q4_customer",
+    "title": "Customer Focus (Non-Tech Stakeholders)",
+    "turns": [
+      { "role": "interviewer", "text": "Give me an example of a time you went above and beyond for a customer or internal stakeholder." },
+      { "role": "user_svo", "meaning": "El equipo de marketing batallaba para entender un modelo predictivo complejo.", "s": "The marketing team", "v": "struggled to understand", "o": "a complex predictive model" },
+      { "role": "interviewer", "text": "What proactive steps did you take?" },
+      { "role": "user_svo", "meaning": "Creé un resumen simplificado libre de jerga técnica.", "s": "I", "v": "created", "o": "a simplified summary free of technical jargon" },
+      { "role": "user_svo", "meaning": "Grabé un video explicativo de 10 minutos para el equipo.", "s": "I", "v": "recorded", "o": "a 10-minute video walkthrough for the team" },
+      { "role": "interviewer", "text": "Did that help them leverage the data better?" },
+      { "role": "user_svo", "meaning": "Ellos lanzaron exitosamente una campaña usando mis insights.", "s": "They", "v": "successfully launched", "o": "a campaign using my insights" }
+    ]
+  },
+  {
+    "id": "tier1_q5_limited",
+    "title": "Decisions with Limited Data",
+    "turns": [
+      { "role": "interviewer", "text": "We often lack perfect data. Tell me about a time you had to make a decision with limited or missing data." },
+      { "role": "user_svo", "meaning": "El equipo solicitó el tamaño del mercado para un producto completamente nuevo.", "s": "The team", "v": "requested", "o": "market sizing for a brand-new product" },
+      { "role": "user_svo", "meaning": "Nosotros teníamos cero datos históricos de ventas.", "s": "We", "v": "had", "o": "zero historical sales data" },
+      { "role": "interviewer", "text": "How did you arrive at a reasonable estimate?" },
+      { "role": "user_svo", "meaning": "Utilicé métricas proxy de análisis de competidores.", "s": "I", "v": "used", "o": "proxy metrics from competitor analysis" },
+      { "role": "interviewer", "text": "How did leadership respond safely to your estimate?" },
+      { "role": "user_svo", "meaning": "Proporcioné una línea base realista con un análisis de sensibilidad bajo.", "s": "I", "v": "provided", "o": "a realistic baseline with a low sensitivity analysis" }
+    ]
+  },
+  {
+    "id": "tier1_q6_metrics",
+    "title": "Product Metrics & Guardrails",
+    "turns": [
+      { "role": "interviewer", "text": "Let's say we are launching a new 'Stories' feature. How would you measure its success?" },
+      { "role": "user_svo", "meaning": "Consideraría la métrica North Star principal primero.", "s": "I", "v": "would consider", "o": "the primary North Star metric first" },
+      { "role": "user_svo", "meaning": "Nosotros deberíamos rastrear los Usuarios Activos Diarios interactuando con las Historias.", "s": "We", "v": "should track", "o": "Daily Active Users interacting with Stories" },
+      { "role": "interviewer", "text": "What about potential negative impacts on the rest of the app?" },
+      { "role": "user_svo", "meaning": "Configuraría métricas de protección para evitar canibalización del feed principal.", "s": "I", "v": "would set up", "o": "guardrail metrics to avoid cannibalizing the main feed" },
+      { "role": "interviewer", "text": "Excellent structure." },
+      { "role": "user_svo", "meaning": "Finalmente construiría un dashboard de lanzamiento holístico conectando ambos lados.", "s": "I", "v": "would finally build", "o": "a holistic launch dashboard connecting both sides" }
+    ]
+  },
+  {
+    "id": "tier1_q7_rca",
+    "title": "Root Cause Analysis (RCA)",
+    "turns": [
+      { "role": "interviewer", "text": "Our dashboard suddenly shows a 10% drop in active users today. Walk me through your investigation process." },
+      { "role": "user_svo", "meaning": "Confirmaría inmediatamente si el origen de datos está corrupto.", "s": "I", "v": "would immediately confirm", "o": "if the data source is corrupted" },
+      { "role": "interviewer", "text": "The data pipeline is healthy. What next?" },
+      { "role": "user_svo", "meaning": "Yo segmentaría la caída por plataforma, región y versión de la aplicación.", "s": "I", "v": "would segment", "o": "the drop by platform, region, and app version" },
+      { "role": "user_svo", "meaning": "Noté un error de registro severo limitado a usuarios de Android.", "s": "I", "v": "noticed", "o": "a severe logging bug limited to Android users" },
+      { "role": "interviewer", "text": "How do you close the incident?" },
+      { "role": "user_svo", "meaning": "Coordiné una solución rápida con el equipo de ingeniería móvil.", "s": "I", "v": "coordinated", "o": "a hotfix with the mobile engineering team" }
+    ]
+  },
+  {
+    "id": "tier1_q8_messy",
+    "title": "Handling Messy Data Under Pressure",
+    "turns": [
+      { "role": "interviewer", "text": "Describe a time you had to deal with extremely messy, unstructured data for an urgent business request." },
+      { "role": "user_svo", "meaning": "El CFO demandó un análisis financiero consolidado urgente.", "s": "The CFO", "v": "demanded", "o": "an urgent consolidated financial analysis" },
+      { "role": "user_svo", "meaning": "Los datos sin procesar tenían formatos de moneda horriblemente mixtos.", "s": "The raw data", "v": "had", "o": "horribly mixed currency formats" },
+      { "role": "interviewer", "text": "With such a tight deadline, how did you clean it?" },
+      { "role": "user_svo", "meaning": "Desarrollé un script de limpieza automatizado usando Regex en Python.", "s": "I", "v": "developed", "o": "an automated cleaning script using Regex in Python" },
+      { "role": "interviewer", "text": "Were you able to meet the deadline?" },
+      { "role": "user_svo", "meaning": "Entregué un reporte de alta precisión dentro de 24 horas.", "s": "I", "v": "delivered", "o": "a high-accuracy report within 24 hours" }
+    ]
+  },
+  {
+    "id": "tier1_q9_translation",
+    "title": "Tech to Non-Tech Communication",
+    "turns": [
+      { "role": "interviewer", "text": "Explain the concept of statistical significance or a P-value to a non-technical Marketing Director." },
+      { "role": "user_svo", "meaning": "Evito pura jerga matemática durante presentaciones de negocios.", "s": "I", "v": "avoid", "o": "pure mathematical jargon during business presentations" },
+      { "role": "user_svo", "meaning": "Utilizo analogías muy simples relacionadas con lanzar monedas.", "s": "I", "v": "use", "o": "very simple analogies related to flipping coins" },
+      { "role": "interviewer", "text": "Can you give me an example of what you tell them?" },
+      { "role": "user_svo", "meaning": "Traduzco la significancia estadística como pura probabilidad de riesgo.", "s": "I", "v": "translate", "o": "statistical significance as pure risk probability" },
+      { "role": "user_svo", "meaning": "Esto les permite tomar una decisión segura y confiable de lanzamiento.", "s": "This", "v": "allows them to make", "o": "a confident and safe go-to-market decision" }
+    ]
+  },
+  {
+    "id": "tier1_q10_stakeholder",
+    "title": "Stakeholder Management & Deadlines",
+    "turns": [
+      { "role": "interviewer", "text": "A VP asks for a massive, complex report just one hour before a critical board meeting. What do you do?" },
+      { "role": "user_svo", "meaning": "Yo manejo las expectativas del stakeholder de manera inmediata y honesta.", "s": "I", "v": "manage", "o": "the stakeholder expectations immediately and honestly" },
+      { "role": "user_svo", "meaning": "Explico la gran complejidad detrás de la gran extracción de datos.", "s": "I", "v": "explain", "o": "the high complexity behind the huge data pull" },
+      { "role": "interviewer", "text": "But they still need something for the meeting. How do you compromise?" },
+      { "role": "user_svo", "meaning": "Proporciono tenencias métricas de alto nivel momentáneamente para la reunión.", "s": "I", "v": "provide", "o": "high-level metric trends momentarily for the meeting" },
+      { "role": "user_svo", "meaning": "Negocio la entrega del reporte analítico profundo para el día siguiente.", "s": "I", "v": "negotiate", "o": "the deep analytical report delivery for the next day" }
+    ]
+  }
+]

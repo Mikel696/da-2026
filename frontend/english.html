@@ -160,7 +160,27 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 @media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.tab{font-size:10px;padding:6px 8px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}}
 
 
+
 /* Premium Refactor Overrides */
+/* Dialogue Chat */
+.chat-box { flex:1; display:flex; flex-direction:column; gap:12px; max-height:400px; overflow-y:auto; padding-right:10px; margin-bottom:16px; border-bottom:1px solid hsla(0,0%,100%,0.05); }
+.chat-msg { display:inline-block; padding:10px 14px; border-radius:12px; font-size:13px; line-height:1.5; max-width:85%; animation: fu .3s ease; }
+.chat-interviewer { background:var(--el); color:var(--tx); align-self:flex-start; border-bottom-left-radius:2px; border:1px solid var(--bd);}
+.chat-user { background:hsla(265, 89%, 66%, 0.15); border:1px solid hsla(265, 89%, 66%, 0.3); color:var(--tx); align-self:flex-end; border-bottom-right-radius:2px; }
+
+/* SVO Builder */
+.svo-area { background:hsla(240, 10%, 8%, 0.6); backdrop-filter:blur(12px); border:1px solid hsla(0,0%,100%,0.07); padding:16px; border-radius:10px; }
+.svo-target { display:flex; gap:8px; margin-bottom:12px; min-height:44px; padding:8px; background:var(--bg); border-radius:6px; border:1px dashed var(--bd2); }
+.svo-slot { flex:1; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--t3); border-radius:4px; padding:4px; text-transform:uppercase; letter-spacing:1px; text-align:center;}
+.svo-slot.filled { background:hsla(142, 71%, 45%, 0.15); color:hsl(142, 71%, 45%); border:1px solid hsla(142, 71%, 45%, 0.3); text-transform:none; font-size:13px;}
+
+.svo-blocks { display:flex; flex-wrap:wrap; gap:8px; }
+.svo-block { padding:8px 12px; background:var(--c1); border:1px solid var(--bd2); border-radius:6px; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+.svo-block:hover { border-color:var(--ac); transform:translateY(-2px); box-shadow: 0 6px 12px rgba(139,92,246,0.3); background:var(--el);}
+.svo-block.wrong { background:hsla(0, 84%, 60%, 0.15) !important; border-color:hsl(0, 84%, 60%) !important; color:hsl(0, 84%, 60%) !important; animation: shake 0.4s; }
+
+@keyframes shake { 0%, 100% {transform:translateX(0);} 25% {transform:translateX(-4px);} 75% {transform:translateX(4px);} }
+
 /* SRS Buttons */
 .btn-srs-hard { background: hsla(25, 95%, 53%, 0.15) !important; color: hsl(25, 95%, 53%) !important; border: 1px solid hsla(25, 95%, 53%, 0.3) !important; font-size: 11px !important; }
 .btn-srs-hard:hover { background: hsl(25, 95%, 53%) !important; color: #fff !important; transform: scale(1.05); }
@@ -200,7 +220,51 @@ body { font-family: 'Inter', sans-serif !important; background: var(--bg) !impor
 <div class="pnl on" id="p-surv"><div class="sl">· supervivencia ·</div><div class="sd">Click en 🔊 para escuchar (click de nuevo para detener). Pasa el mouse sobre la palabra para ver la traducción. Click en la fila para ver el ejemplo.</div><div class="tipbox"><b>💡 Método rápido</b><p><strong>Lee cada ejemplo en voz alta 3 veces.</strong> Usa 🔊 para comparar. Tu cerebro retiene contextos, no listas.</p></div><div class="cp" id="sC"></div><div id="sL"></div></div>
 <div class="pnl" id="p-gram"><div class="sl">· 12 reglas ·</div><div class="sd">Domina las primeras 5 antes de avanzar. Cada ejemplo tiene 🔊.</div><div id="gL"></div></div>
 <div class="pnl" id="p-und"><div class="sl">· comprensión ·</div><div id="uL"></div></div>
-<div class="pnl" id="p-conv"><div class="sl">· conversaciones ·</div><div class="sd">Usa 🔊 en cada línea. Practica ambos roles.</div><div class="cp" id="cC"></div><div id="cL"></div></div>
+<div class="pnl" id="p-conv">
+  <div class="sl" style="color:var(--a2)">· deep conversational simulator ·</div>
+  
+  <div id="convMenu">
+    <div style="font-size:13px;color:var(--t2);margin-bottom:12px">Selecciona un escenario interactivo Tier 1 (Aplica método STAR):</div>
+    <div id="convList" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+
+  <div id="convApp" style="display:none; flex-direction:column; min-height:500px">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <button class="btn bo bs" onclick="exitConv()">← Volver</button>
+      <div id="convTitle" style="font-size:13px; font-weight:600; color:var(--a2)"></div>
+      <div id="convProgress" style="font-size:11px; color:var(--t3)">Turno 1/X</div>
+    </div>
+
+    <div class="chat-box" id="convChat"></div>
+
+    <div class="svo-area" id="convSvoArea">
+      <div style="font-size:11px;color:var(--am);margin-bottom:4px;font-weight:600">🎯 SVO Visualizer: Ensambla la oración con sintaxis estricta</div>
+      <div style="font-size:12px;color:var(--tx);margin-bottom:10px;font-style:italic" id="convMeaning"></div>
+      
+      <div class="svo-target" id="svoTarget">
+        <div class="svo-slot" id="slot-s">Sujeto</div>
+        <div class="svo-slot" id="slot-v">Verbo</div>
+        <div class="svo-slot" id="slot-o">Objeto</div>
+      </div>
+
+      <div class="svo-blocks" id="svoBlocks"></div>
+      
+      <div style="display:none;margin-top:10px;justify-content:flex-end" id="svoSendBtn">
+         <button class="btn bp" onclick="submitConvTurn()">Continuar ➔</button>
+      </div>
+    </div>
+    
+    <div id="convResults" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:30px; background:hsla(142, 71%, 45%, 0.05); border:1px solid hsla(142, 71%, 45%, 0.2); border-radius:12px; margin-top:20px;">
+       <div style="font-size:24px; font-weight:600; margin-bottom:6px; color:var(--gn)">¡Escenario Completado!</div>
+       <div style="font-size:13px; color:var(--t2); margin-bottom:20px">Evalúa tu fluidez para programar la curva de olvido FSRS.</div>
+       <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+          <button class="btn bs btn-srs-hard" onclick="rateConv('hard')">😰 Difícil (Me trabé)</button>
+          <button class="btn bs btn-srs-good" onclick="rateConv('good')">🤔 Bien (Dudé un poco)</button>
+          <button class="btn bs btn-srs-easy" onclick="rateConv('easy')">😎 Fácil (Fluido)</button>
+       </div>
+    </div>
+  </div>
+</div>
 <div class="pnl" id="p-pro"><div class="sl">· profesional ·</div><div class="cp" id="pC"></div><div id="pL"></div></div>
 <div class="pnl" id="p-ex"><div class="sl">· ejercicios ·</div><div class="daily"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;font-weight:700;color:var(--am)">🏆 Desafío Diario +25XP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am)" id="tmr">--:--:--</span></div><div id="dC"></div></div><div id="eL"></div><div style="text-align:center;margin-top:16px"><button class="btn bp" onclick="moreEx()">Más ejercicios →</button></div></div>
 <div class="pnl" id="p-fc"><div class="sl">· flashcards (srs) ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">0</b>/<b id="fT">0</b></span><div class="prg" style="width:100px"><div class="prf" id="fP" style="width:0%"></div></div></div><div id="fcDueBadge" style="font-size:10px;font-weight:600;padding:4px 8px;background:hsla(25, 95%, 53%, 0.15);color:hsl(25, 95%, 53%);border:1px solid hsla(25, 95%, 53%, 0.3);border-radius:6px;box-shadow: 0 0 10px hsla(25, 95%, 53%, 0.2)">🔥 Due: <span id="fDue">0</span></div><button class="btn bs bo" onclick="buildFC()">🔀 Refrescar</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW" style="font-size:18px;">Cargando Mazo SRS...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA" style="font-size:14px;"></div><div class="fcd" id="fD"></div></div></div></div><div id="srsControls" style="display:none;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs btn-srs-hard" onclick="rateFC('hard')">😰 Hard (1d)</button><button class="btn bs btn-srs-good" onclick="rateFC('good')">🤔 Good</button><button class="btn bs btn-srs-easy" onclick="rateFC('easy')">😎 Easy</button></div><div class="fc-empty" id="fcEmpty" style="display:none; text-align:center; padding: 20px 0; color:var(--tx2); font-style:italic; font-size:12px">¡Mazo al día! Vuelve mañana para repasar.</div></div>
@@ -505,6 +569,154 @@ const d=convDB[cat]||convDB.greetings;
 document.getElementById('cL').innerHTML=d.map(x=>'<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:10px">'+x.t+'</div>'+x.m.map(m=>'<div class="msg"><div class="msg-av '+m.w+'">'+( m.w==='a'?'👤':'🎤')+'</div><div class="msg-body"><div class="msg-name '+m.w+'">'+m.n+'</div><span class="msg-text '+m.w+'">'+m.t+' <button class="tts" onclick="event.stopPropagation();speak(\''+m.t.replace(/'/g,"\\'")+'\',this)" style="width:18px;height:18px;font-size:8px">🔊</button></span><div class="msg-tr">'+m.r+'</div></div></div>').join('')+'<div style="margin-top:8px;padding:8px;background:var(--ag);border-radius:7px;border:1px solid rgba(139,92,246,.1)"><div style="font-size:9px;font-weight:600;color:var(--a2);margin-bottom:3px">🔑 Vocabulario</div>'+x.v.map(v=>'<div style="font-size:11px;color:var(--t2)">• '+v+'</div>').join('')+'</div></div>').join('');
 }
 
+
+let convData = [];
+let currentConvId = null;
+let currentTurn = 0;
+let currentSvoMap = {};
+let currentSvoState = 0; // 0: S, 1: V, 2: O
+
+async function loadConvEngine() {
+  try {
+    const res = await fetch('data/conv_engine.json');
+    convData = await res.json();
+    renderConvMenu();
+  } catch(e) { console.error('No conv_engine.json'); }
+}
+
+function renderConvMenu() {
+  const cfsrs = JSON.parse(localStorage.getItem('eng_conv_fsrs')||'{}');
+  document.getElementById('convList').innerHTML = convData.map(c => {
+    const st = cfsrs[c.id];
+    let dueHtml = '';
+    if(st) {
+        if(Date.now() >= st.nextDue) dueHtml = '<span style="font-size:10px;color:hsl(30,100%,60%);margin-left:8px;background:hsla(30,100%,60%,0.15);padding:2px 6px;border-radius:10px;">🔥 Due</span>';
+        else dueHtml = `<span style="font-size:10px;color:var(--gn);margin-left:8px;">✔ Repaso en ${st.interval}d</span>`;
+    }
+    return '<div class="card" style="cursor:pointer;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;transition:transform 0.2s;border-left:3px solid var(--ac)" onclick="startConv(\''+c.id+'\')"><div style="font-size:13px;font-weight:600">'+c.title+'</div><div>'+dueHtml+'</div></div>';
+  }).join('');
+}
+
+function startConv(id) {
+  document.getElementById('convMenu').style.display = 'none';
+  document.getElementById('convApp').style.display = 'flex';
+  document.getElementById('convResults').style.display = 'none';
+  expectingSvo = false;
+  currentConvId = id;
+  currentTurn = 0;
+  
+  const conv = convData.find(c => c.id === id);
+  document.getElementById('convTitle').textContent = conv.title;
+  document.getElementById('convChat').innerHTML = '';
+  
+  nextConvTurn();
+}
+
+function exitConv() {
+  document.getElementById('convMenu').style.display = 'block';
+  document.getElementById('convApp').style.display = 'none';
+}
+
+function nextConvTurn() {
+  const conv = convData.find(c => c.id === currentConvId);
+  const turn = conv.turns[currentTurn];
+  
+  document.getElementById('convProgress').textContent = 'Turno '+(currentTurn+1)+'/'+conv.turns.length;
+
+  if (!turn) {
+     document.getElementById('convSvoArea').style.display = 'none';
+     document.getElementById('convResults').style.display = 'flex';
+     return;
+  }
+
+  if (turn.role === 'interviewer') {
+     document.getElementById('convSvoArea').style.display = 'none';
+     appendChat(turn.text, 'interviewer');
+     speak(turn.text);
+     setTimeout(() => {
+        currentTurn++;
+        nextConvTurn();
+     }, 2000);
+  } else {
+     document.getElementById('convSvoArea').style.display = 'block';
+     document.getElementById('svoSendBtn').style.display = 'none';
+     document.getElementById('convMeaning').innerHTML = `"Objetivo: `+turn.meaning+`"`;
+     
+     document.getElementById('slot-s').className = 'svo-slot'; document.getElementById('slot-s').textContent = 'Sujeto';
+     document.getElementById('slot-v').className = 'svo-slot'; document.getElementById('slot-v').textContent = 'Verbo';
+     document.getElementById('slot-o').className = 'svo-slot'; document.getElementById('slot-o').textContent = 'Objeto';
+     
+     currentSvoMap = { s: turn.s, v: turn.v, o: turn.o };
+     currentSvoState = 0;
+     
+     let blocks = [
+        {type: 's', txt: turn.s},
+        {type: 'v', txt: turn.v},
+        {type: 'o', txt: turn.o}
+     ].sort(() => Math.random() - 0.5);
+     
+     document.getElementById('svoBlocks').innerHTML = blocks.map(b => '<div class="svo-block" onclick="clickSvoBlock(this, \''+b.type+'\', \''+b.txt.replace(/'/g,"\\'")+'\')">'+b.txt+'</div>').join('');
+  }
+}
+
+function appendChat(text, role) {
+  const chat = document.getElementById('convChat');
+  // If role is user, add checkmark automatically
+  chat.innerHTML += '<div class="chat-msg chat-'+role+'">' + (role === 'user' ? '👤 ' : '💼 ') + text + '</div>';
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function clickSvoBlock(el, type, txt) {
+   const expectedType = currentSvoState === 0 ? 's' : currentSvoState === 1 ? 'v' : 'o';
+   if (type === expectedType) {
+       el.style.display = 'none';
+       const slotId = 'slot-' + type;
+       const slot = document.getElementById(slotId);
+       slot.textContent = txt;
+       slot.classList.add('filled');
+       speak(txt);
+       
+       currentSvoState++;
+       if (currentSvoState === 3) {
+           document.getElementById('svoSendBtn').style.display = 'flex';
+       }
+   } else {
+       el.classList.remove('wrong');
+       setTimeout(() => el.classList.add('wrong'), 10);
+   }
+}
+
+function submitConvTurn() {
+   const s = document.getElementById('slot-s').textContent;
+   const v = document.getElementById('slot-v').textContent;
+   const o = document.getElementById('slot-o').textContent;
+   
+   appendChat(s + ' ' + v + ' ' + o + '.', 'user');
+   
+   currentTurn++;
+   // Slight delay for realism
+   document.getElementById('convSvoArea').style.display = 'none';
+   setTimeout(() => nextConvTurn(), 1000);
+}
+
+function rateConv(rate) {
+   let fsrs = JSON.parse(localStorage.getItem('eng_conv_fsrs')||'{}');
+   let c = fsrs[currentConvId] || { interval:0, ease:2.5, reps:0 };
+   
+   if(rate === 'hard') { c.interval=1; c.ease=Math.max(1.3, c.ease-0.2); c.reps=0; }
+   else if(rate === 'good') { c.interval=Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease)); c.reps++; addXP(50); S.r++; }
+   else if(rate === 'easy') { c.interval=Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3)); c.ease+=0.15; c.reps++; addXP(100); S.r++; }
+   
+   c.nextDue = Date.now() + (c.interval * 86400000);
+   fsrs[currentConvId] = c;
+   localStorage.setItem('eng_conv_fsrs', JSON.stringify(fsrs));
+   
+   save(); upd();
+   exitConv();
+   renderConvMenu();
+}
+// ═══════════════════════════
+
 // Professional
 const proDB={data:[{en:"Dashboard",es:"Panel de control",ex:"The <b>dashboard</b> shows KPIs.",tp:"noun"},{en:"Query",es:"Consulta",ex:"I wrote a <b>query</b>.",tp:"noun"},{en:"Dataset",es:"Conjunto de datos",ex:"2 million row <b>dataset</b>.",tp:"noun"},{en:"Insight",es:"Hallazgo",ex:"Key <b>insight</b>: churn peaks Q3.",tp:"noun"},{en:"Pipeline",es:"Flujo de datos",ex:"<b>Pipeline</b> runs nightly.",tp:"noun"},{en:"Stakeholder",es:"Parte interesada",ex:"Present to <b>stakeholders</b>.",tp:"noun"},{en:"Metric",es:"Métrica",ex:"LTV is our top <b>metric</b>.",tp:"noun"},{en:"Revenue",es:"Ingresos",ex:"<b>Revenue</b> grew 15%.",tp:"noun"},{en:"Churn rate",es:"Tasa de abandono",ex:"<b>Churn</b> dropped to 3%.",tp:"noun"},{en:"Scalable",es:"Escalable",ex:"Must be <b>scalable</b>.",tp:"adj"},{en:"To deploy",es:"Desplegar",ex:"<b>Deploy</b> on Friday.",tp:"verb"},{en:"To automate",es:"Automatizar",ex:"<b>Automated</b> reports.",tp:"verb"},{en:"To optimize",es:"Optimizar",ex:"<b>Optimized</b> 60% faster.",tp:"verb"},{en:"To leverage",es:"Aprovechar",ex:"<b>Leverage</b> data.",tp:"verb"},{en:"ETL",es:"Extract Transform Load",ex:"<b>ETL</b> at 2AM.",tp:"noun"},{en:"Cohort",es:"Cohorte",ex:"<b>Cohort</b> by month.",tp:"noun"},{en:"Anomaly",es:"Anomalía",ex:"Detected <b>anomaly</b>.",tp:"noun"},{en:"To iterate",es:"Iterar",ex:"<b>Iterate</b> on dashboard.",tp:"verb"}],email:[{en:"I hope this finds you well.",es:"Espero que esté bien",ex:"Hi, <b>I hope this finds you well</b>.",tp:"open"},{en:"Following up on...",es:"Dando seguimiento",ex:"<b>Following up on</b> our call.",tp:"phrase"},{en:"Please find attached...",es:"Adjunto...",ex:"<b>Please find attached</b>.",tp:"phrase"},{en:"At your earliest convenience",es:"Cuando pueda",ex:"Review <b>at your earliest convenience</b>.",tp:"phrase"},{en:"Looking forward to hearing from you.",es:"Quedo atento",ex:"<b>Looking forward</b>.",tp:"close"},{en:"Kind regards",es:"Saludos cordiales",ex:"<b>Kind regards</b>, Miguel.",tp:"close"}],meetings:[{en:"Yesterday I worked on...",es:"Ayer trabajé en...",ex:"<b>Yesterday I worked on</b> churn.",tp:"standup"},{en:"Today I will focus on...",es:"Hoy me enfocaré",ex:"<b>Today I will focus on</b> validation.",tp:"standup"},{en:"I have a blocker.",es:"Tengo impedimento",ex:"<b>Blocker</b>: need API access.",tp:"standup"},{en:"Could you elaborate?",es:"¿Elaborar más?",ex:"<b>Could you elaborate</b>?",tp:"phrase"},{en:"Let me share my screen.",es:"Comparto pantalla",ex:"<b>Let me share my screen</b>.",tp:"phrase"}],slack:[{en:"Quick question",es:"Pregunta rápida",ex:"<b>Quick question</b> — got dataset?",tp:"msg"},{en:"Heads up",es:"Aviso",ex:"<b>Heads up:</b> pipeline down.",tp:"msg"},{en:"I will circle back.",es:"Retomo después",ex:"<b>I will circle back</b>.",tp:"msg"},{en:"Thanks for flagging!",es:"Gracias por avisar",ex:"<b>Thanks for flagging!</b>",tp:"msg"},{en:"Hop on a quick call?",es:"¿Llamada rápida?",ex:"<b>Hop on a call</b>?",tp:"msg"}],presenting:[{en:"As you can see...",es:"Como pueden ver",ex:"<b>As you can see</b>, up 15%.",tp:"phrase"},{en:"The data suggests...",es:"Los datos sugieren",ex:"<b>Data suggests</b> correlation.",tp:"phrase"},{en:"Based on our analysis...",es:"Según análisis",ex:"<b>Based on analysis</b>, I recommend...",tp:"phrase"},{en:"Let me break this down.",es:"Déjenme desglosar",ex:"<b>Break this down</b>.",tp:"phrase"},{en:"Any questions so far?",es:"¿Preguntas?",ex:"<b>Any questions so far</b>?",tp:"phrase"}]};
 
@@ -680,12 +892,12 @@ function init(){
 load();
 buildPills('sC',Object.keys(surv),true);
 buildPills('pC',Object.keys(proDB),true);
-buildNamedPills('cC',[{c:'greetings',label:'👋 Saludos'},{c:'shopping',label:'🛒 Compras'},{c:'food',label:'🍽️ Comida'},{c:'directions',label:'🗺️ Direcciones'},{c:'phone',label:'📱 Teléfono'},{c:'smalltalk',label:'☕ Small Talk'}]);
+
 buildNamedPills('iC',[{c:'behavioral',label:'🎭 Behavioral'},{c:'technical',label:'🔧 Technical'},{c:'situational',label:'🧩 Situational'}]);
 renderVocab(surv,'sL');
-renderGrammar();renderUnderstand();renderConv('greetings');renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
+renderGrammar();renderUnderstand();loadConvEngine();renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
 updTimer();setInterval(updTimer,1000);
-setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('cC',renderConv);setupFilter('iC',renderIV);
+setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('iC',renderIV);
 upd();
 }
 init();
