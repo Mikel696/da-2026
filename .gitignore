@@ -1,0 +1,27 @@
+# Sensitive files — NEVER commit
+.env
+*.env
+*.env.local
+*.env.production
+secrets.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories
+.vscode/
+.idea/
+
+# Node modules (if ever added)
+node_modules/
+
+# Temporary files
+*.tmp
+*.log
