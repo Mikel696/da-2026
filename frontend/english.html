@@ -8,7 +8,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:hsl(240, 10%, 4%);--card:hsl(240, 10%, 8%);--el:hsl(240, 10%, 12%);--bd:hsl(240, 10%, 16%);--bd2:hsl(240, 10%, 25%);--tx:hsl(0, 0%, 98%);--tx2:hsl(240, 5%, 65%);--tx3:hsl(240, 5%, 45%);--ac:hsl(265, 89%, 66%);--ac2:hsl(265, 100%, 75%);--acg:hsla(265, 89%, 66%, 0.15);--gn:hsl(142, 71%, 45%);--gng:hsla(142, 71%, 45%, 0.1);--am:hsl(43, 96%, 58%);--amg:hsla(43, 96%, 58%, 0.1);--rd:hsl(0, 84%, 60%);--cy:hsl(188, 86%, 53%);--or:hsl(25, 95%, 53%)}
+:root{
+  --bg:hsl(240, 10%, 4%);
+  --card:hsla(240, 10%, 8%, 0.6);
+  --el:hsla(240, 10%, 12%, 0.4);
+  --bd:hsla(240, 10%, 20%, 0.5);
+  --bd2:hsla(240, 10%, 30%, 0.4);
+  --tx:hsl(0, 0%, 98%);
+  --t2:hsl(240, 5%, 80%);
+  --t3:hsl(240, 5%, 60%);
+  
+  /* DS - Violeta */
+  --ac:hsl(263, 70%, 58%);
+  --a2:hsl(263, 90%, 75%);
+  --ag:hsla(263, 70%, 58%, 0.15);
+  
+  /* ACCT - Esmeralda */
+  --em:hsl(160, 84%, 39%);
+  --e2:hsl(160, 90%, 60%);
+  --eg:hsla(160, 84%, 39%, 0.1);
+
+  --gn:hsl(142, 71%, 45%);
+  --am:hsl(43, 96%, 58%);
+  --rd:hsl(0, 84%, 60%);
+  --cy:hsl(188, 86%, 53%);
+}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
@@ -208,6 +232,30 @@ body { font-family: 'Inter', sans-serif !important; background: var(--bg) !impor
 .task-check { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
 .task-check:hover { transform: scale(1.15) !important; box-shadow: 0 0 10px hsla(142, 71%, 45%, 0.3) !important; }
 
+/* MODE SWITCHER */
+.mode-switch{display:flex;gap:4px;background:var(--el);padding:4px;border-radius:12px;margin-bottom:28px;border:1px solid var(--bd)}
+.mode-btn{flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:none;color:var(--t3);transition:all .3s}
+.mode-btn.on[data-mode="ds"]{background:var(--ac);color:#fff;box-shadow:0 4px 15px var(--ag)}
+.mode-btn.on[data-mode="acct"]{background:var(--em);color:#fff;box-shadow:0 4px 15px var(--eg)}
+
+/* ACCOUNTING SPECIFIC */
+.acct-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.acct-tab{padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:10px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--t3);transition:all .2s}
+.acct-tab.on{border-color:var(--em);background:var(--eg);color:var(--e2);box-shadow:0 0 15px var(--eg)}
+.acct-pnl{display:none}.acct-pnl.on{display:block;animation:fu .4s ease}
+
+.res-card{display:block;padding:20px;background:var(--card);border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--tx);transition:all .3s}
+.res-card:hover{transform:translateY(-5px);border-color:var(--rc);box-shadow:0 10px 25px color-mix(in srgb, var(--rc) 20%, transparent)}
+
+/* THEME OVERRIDES */
+body{transition:background .3s ease}
+body.mode-acct {
+  --ac: var(--em);
+  --a2: var(--e2);
+  --ag: var(--eg);
+}
+.mode-switch, .tabs, .acct-tabs, .card, .pnl, .acct-pnl { transition: all .3s ease; }
+
 </style>
 </head>
 <body>
@@ -215,6 +263,12 @@ body { font-family: 'Inter', sans-serif !important; background: var(--bg) !impor
 <div class="wrap">
 <div class="hero"><div class="hero-sub">sistema total de inglés</div><h1>Speak fast. <em>Understand</em> everything.</h1><p>200+ palabras, 12 reglas, conversaciones, ejercicios, pronunciación con audio, notas y entrevistas. Pasa el mouse sobre cualquier palabra en inglés para ver su traducción.</p></div>
 <div class="hst"><div class="hs"><div class="hsv" id="sw">0</div><div class="hsl">Palabras</div></div><div class="hs"><div class="hsv" id="sr">0</div><div class="hsl">Reglas</div></div><div class="hs"><div class="hsv" id="se">0</div><div class="hsl">Ejercicios</div></div><div class="hs"><div class="hsv" id="sn">0</div><div class="hsl">Notas</div></div></div>
+<div class="mode-switch">
+  <button class="mode-btn on" data-mode="ds" onclick="switchMode('ds')">💻 Data Science</button>
+  <button class="mode-btn" data-mode="acct" onclick="switchMode('acct')">📊 Accounting associate</button>
+</div>
+
+<div id="ds-section">
 <div class="tabs"><button class="tab on" data-p="surv">🗣️ Supervivencia</button><button class="tab" data-p="gram">🧠 Reglas</button><button class="tab" data-p="und">👂 Entender</button><button class="tab" data-p="conv">💬 Conversaciones</button><button class="tab" data-p="pro">💼 Profesional</button><button class="tab" data-p="ex">✏️ Ejercicios</button><button class="tab" data-p="fc">🃏 Flashcards</button><button class="tab" data-p="iv">🎯 Entrevistas</button><button class="tab" data-p="notes">📓 Mis Notas</button></div>
 
 <div class="pnl on" id="p-surv"><div class="sl">· supervivencia ·</div><div class="sd">Click en 🔊 para escuchar (click de nuevo para detener). Pasa el mouse sobre la palabra para ver la traducción. Click en la fila para ver el ejemplo.</div><div class="tipbox"><b>💡 Método rápido</b><p><strong>Lee cada ejemplo en voz alta 3 veces.</strong> Usa 🔊 para comparar. Tu cerebro retiene contextos, no listas.</p></div><div class="cp" id="sC"></div><div id="sL"></div></div>
@@ -270,6 +324,25 @@ body { font-family: 'Inter', sans-serif !important; background: var(--bg) !impor
 <div class="pnl" id="p-fc"><div class="sl">· flashcards (srs) ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">0</b>/<b id="fT">0</b></span><div class="prg" style="width:100px"><div class="prf" id="fP" style="width:0%"></div></div></div><div id="fcDueBadge" style="font-size:10px;font-weight:600;padding:4px 8px;background:hsla(25, 95%, 53%, 0.15);color:hsl(25, 95%, 53%);border:1px solid hsla(25, 95%, 53%, 0.3);border-radius:6px;box-shadow: 0 0 10px hsla(25, 95%, 53%, 0.2)">🔥 Due: <span id="fDue">0</span></div><button class="btn bs bo" onclick="buildFC()">🔀 Refrescar</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW" style="font-size:18px;">Cargando Mazo SRS...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA" style="font-size:14px;"></div><div class="fcd" id="fD"></div></div></div></div><div id="srsControls" style="display:none;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs btn-srs-hard" onclick="rateFC('hard')">😰 Hard (1d)</button><button class="btn bs btn-srs-good" onclick="rateFC('good')">🤔 Good</button><button class="btn bs btn-srs-easy" onclick="rateFC('easy')">😎 Easy</button></div><div class="fc-empty" id="fcEmpty" style="display:none; text-align:center; padding: 20px 0; color:var(--tx2); font-style:italic; font-size:12px">¡Mazo al día! Vuelve mañana para repasar.</div></div>
 <div class="pnl" id="p-iv"><div class="sl">· entrevistas ·</div><div class="cp" id="iC"></div><div id="iL"></div></div>
 <div class="pnl" id="p-notes"><div class="sl">· mis notas ·</div><div class="sd">Escribe oraciones para practicar. Se guardan automáticamente. Usa sellos para organizar.</div><div id="notesArea"></div></div>
+</div>
+
+<div id="acct-section" style="display:none">
+  <div class="acct-tabs">
+    <div class="acct-tab on" data-p="script">📋 Pitch</div>
+    <div class="acct-tab" data-p="glossary">📚 Glossary</div>
+    <div class="acct-tab" data-p="excel">📊 Excel</div>
+    <div class="acct-tab" data-p="resources">🔗 Links</div>
+    <div class="acct-tab" data-p="sim">🤖 Recruiter</div>
+    <div class="acct-tab" data-p="iv">🎯 STAR Prep</div>
+  </div>
+  
+  <div class="acct-pnl on" id="ap-script"><div id="acct-script"></div></div>
+  <div class="acct-pnl" id="ap-glossary"><div id="acct-glossary"></div></div>
+  <div class="acct-pnl" id="ap-excel"><div id="acct-excel"></div></div>
+  <div class="acct-pnl" id="ap-resources"><div id="acct-resources"></div></div>
+  <div class="acct-pnl" id="ap-sim"><div id="acct-simulator"></div></div>
+  <div class="acct-pnl" id="ap-iv"><div id="acct-interview"></div></div>
+</div>
 </div>
 
 <script>
@@ -898,9 +971,12 @@ renderVocab(surv,'sL');
 renderGrammar();renderUnderstand();loadConvEngine();renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
 updTimer();setInterval(updTimer,1000);
 setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('iC',renderIV);
+initAcctTabs();
+switchMode('ds');
 upd();
 }
 init();
 </script>
+<script src="acct_module.js"></script>
 </body>
 </html>

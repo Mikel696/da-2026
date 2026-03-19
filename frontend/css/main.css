@@ -2,6 +2,9 @@
    DA-2026 · DESIGN SYSTEM v3
    mikel696.github.io/da-2026
 ═══════════════════════════════════════════════ */
+/* [HYBRID-VALIDATION] 2026-03-18 · Claude Code escribió este comentario
+   Antigravity (Gemini Flash) verificó el renderizado via Browser Subagent.
+   Permisos E:\ confirmados: Modify+Synchronize ✓ */
 :root{
   --ink:#07101a;--ink2:#0d1b2a;--ink3:#172335;--surface:#111e2f;--card:#0e1a28;
   --border:#1c3048;--border2:#284a6e;
