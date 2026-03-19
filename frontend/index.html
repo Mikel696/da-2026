@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Segundo Cerebro · Centro de Gestión</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090b;--card:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#52525b;--ac:#8b5cf6;--ac2:#a78bfa;--acg:rgba(139,92,246,.08);--gn:#22c55e;--gng:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316}
+:root{--bg:hsl(240, 10%, 4%);--card:hsl(240, 10%, 8%);--el:hsl(240, 10%, 12%);--bd:hsl(240, 10%, 16%);--bd2:hsl(240, 10%, 25%);--tx:hsl(0, 0%, 98%);--tx2:hsl(240, 5%, 65%);--tx3:hsl(240, 5%, 45%);--ac:hsl(265, 89%, 66%);--ac2:hsl(265, 100%, 75%);--acg:hsla(265, 89%, 66%, 0.15);--gn:hsl(142, 71%, 45%);--gng:hsla(142, 71%, 45%, 0.1);--am:hsl(43, 96%, 58%);--amg:hsla(43, 96%, 58%, 0.1);--rd:hsl(0, 84%, 60%);--cy:hsl(188, 86%, 53%);--or:hsl(25, 95%, 53%)}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between}
@@ -84,6 +85,28 @@
 .quote p{font-family:'Newsreader',serif;font-size:18px;font-style:italic;line-height:1.6;color:var(--tx2)}.quote cite{font-size:12px;color:var(--tx3);display:block;margin-top:10px}
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd)}
 @media(max-width:768px){.main{padding:20px 14px}.header{flex-direction:column;text-align:center}.header h1{font-size:24px}.header-video{width:160px;height:160px;order:-1}.modules{grid-template-columns:1fr}.feed-grid{grid-template-columns:1fr}.qstats{flex-wrap:wrap}.qstat{min-width:calc(50% - 1px)}}
+
+/* Premium Refactor Overrides */
+body { font-family: 'Inter', sans-serif !important; background: var(--bg) !important; color: var(--tx) !important; }
+.nav { background: hsla(240, 10%, 4%, 0.7) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-bottom: 1px solid hsla(0,0%,100%,0.05) !important; }
+.mod, .today, .qstat, .feed-card, .pomo, .fin, .quote { 
+    background: hsla(240, 10%, 8%, 0.6) !important; 
+    backdrop-filter: blur(12px) !important; 
+    -webkit-backdrop-filter: blur(12px) !important; 
+    border: 1px solid hsla(0,0%,100%,0.07) !important; 
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
+}
+.mod:hover, .feed-card:hover { 
+    transform: translateY(-6px) !important; 
+    border-color: var(--ac) !important; 
+    box-shadow: 0 16px 40px hsla(265, 89%, 66%, 0.25), 0 0 15px hsla(265, 89%, 66%, 0.1) inset !important; 
+}
+.task-btn, .pomo-start, .fin-btn-i { transition: transform 0.3s ease, filter 0.3s ease !important; }
+.task-btn:hover, .pomo-start:hover, .fin-btn-i:hover { transform: scale(1.04) !important; filter: brightness(1.2) !important; }
+.header h1 { font-family: 'Inter', sans-serif !important; font-weight: 700 !important; letter-spacing: -1.5px !important; }
+.task-check { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+.task-check:hover { transform: scale(1.15) !important; box-shadow: 0 0 10px hsla(142, 71%, 45%, 0.3) !important; }
+
 </style>
 </head>
 <body>

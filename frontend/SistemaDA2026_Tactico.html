@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sistema DA-2026 — Hoja de Ruta Táctica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM — TERMINAL MEETS EDITORIAL
+═══════════════════════════════════════════ */
+:root{--bg:hsl(240, 10%, 4%);--card:hsl(240, 10%, 8%);--el:hsl(240, 10%, 12%);--bd:hsl(240, 10%, 16%);--bd2:hsl(240, 10%, 25%);--tx:hsl(0, 0%, 98%);--tx2:hsl(240, 5%, 65%);--tx3:hsl(240, 5%, 45%);--ac:hsl(265, 89%, 66%);--ac2:hsl(265, 100%, 75%);--acg:hsla(265, 89%, 66%, 0.15);--gn:hsl(142, 71%, 45%);--gng:hsla(142, 71%, 45%, 0.1);--am:hsl(43, 96%, 58%);--amg:hsla(43, 96%, 58%, 0.1);--rd:hsl(0, 84%, 60%);--cy:hsl(188, 86%, 53%);--or:hsl(25, 95%, 53%)}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--txt);
+  font-family:var(--fb);
+  font-size:1rem;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* CURSOR */
+body{cursor:crosshair;}
+a,button,label,[role="button"]{cursor:pointer!important;}
+
+/* SCAN-LINE OVERLAY */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.03) 3px,rgba(0,0,0,.03) 4px);
+  pointer-events:none;z-index:9999;
+}
+
+/* GLOW ORBS */
+.orb{
+  position:fixed;border-radius:50%;
+  filter:blur(130px);pointer-events:none;z-index:0;
+  animation:orb 15s ease-in-out infinite alternate;
+}
+.o1{width:700px;height:700px;top:-300px;left:-200px;background:rgba(200,255,0,.04);animation-delay:0s;}
+.o2{width:500px;height:500px;bottom:0;right:-200px;background:rgba(56,191,255,.05);animation-delay:-5s;}
+.o3{width:400px;height:400px;top:50%;left:45%;background:rgba(255,107,53,.04);animation-delay:-10s;}
+@keyframes orb{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,30px) scale(1.08);}}
+
+/* ─── LAYOUT ──────────────────────────────── */
+.page{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+/* ─── SIDEBAR ─────────────────────────────── */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:240px;
+  background:rgba(10,14,23,.96);
+  border-right:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  padding:28px 18px;gap:4px;z-index:200;
+  transition:transform .3s ease;
+}
+.sb-logo{
+  font-family:var(--fm);font-size:.72rem;letter-spacing:3px;
+  color:var(--acid);text-transform:uppercase;
+  border-bottom:1px solid var(--border);
+  padding-bottom:20px;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.sb-logo::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--acid);box-shadow:0 0 10px var(--acid);
+  animation:blink 2s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+.nav-link{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 13px;border-radius:8px;
+  font-family:var(--fm);font-size:.76rem;
+  color:var(--txt3);text-decoration:none;
+  border:1px solid transparent;
+  transition:all .2s;letter-spacing:.3px;
+}
+.nav-link:hover,.nav-link.active{
+  color:var(--acid);background:var(--acid-d);
+  border-color:rgba(200,255,0,.2);
+  text-decoration:none;
+}
+.nav-link .ni{font-size:.95rem;min-width:18px;}
+
+.sb-progress{
+  margin-top:auto;padding-top:18px;
+  border-top:1px solid var(--border);
+}
+.sb-progress p{font-family:var(--fm);font-size:.68rem;color:var(--txt3);margin-bottom:7px;}
+.sb-progress strong{color:var(--acid);}
+.mini-track{height:5px;background:var(--ink3);border-radius:3px;overflow:hidden;}
+.mini-bar{height:100%;background:linear-gradient(90deg,var(--acid),var(--mint));width:0%;transition:width .6s ease;border-radius:3px;}
+
+/* HAM */
+.ham{
+  display:none;position:fixed;top:14px;left:14px;z-index:300;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:10px 12px;
+  flex-direction:column;gap:5px;
+}
+.ham span{display:block;width:20px;height:2px;background:var(--txt);border-radius:2px;transition:.3s;}
+
+/* ─── MAIN ────────────────────────────────── */
+.main{margin-left:240px;}
+
+/* ─── HERO ────────────────────────────────── */
+.hero{
+  padding:90px 40px 70px;
+  position:relative;overflow:hidden;
+}
+.hero-eyebrow{
+  font-family:var(--fm);font-size:.72rem;letter-spacing:4px;
+  text-transform:uppercase;color:var(--acid);
+  display:flex;align-items:center;gap:12px;margin-bottom:26px;
+}
+.hero-eyebrow::before{content:'';flex:1;max-width:60px;height:1px;background:var(--acid);opacity:.5;}
+
+.hero h1{
+  font-family:var(--fh);font-size:clamp(2.6rem,5vw,4.8rem);
+  font-weight:800;line-height:1.0;letter-spacing:-2px;
+  color:var(--txt);margin-bottom:18px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--acid);
+  text-shadow:0 0 40px rgba(200,255,0,.3);
+}
+.hero-sub{
+  font-family:var(--fb);font-size:1.1rem;font-style:italic;
+  color:var(--txt2);max-width:600px;margin-bottom:40px;line-height:1.8;
+}
+
+/* WARNING BANNER */
+.warning-banner{
+  background:rgba(255,107,53,.06);
+  border:1px solid rgba(255,107,53,.3);
+  border-left:4px solid var(--ember);
+  border-radius:0 var(--rad) var(--rad) 0;
+  padding:16px 22px;
+  font-family:var(--fm);font-size:.82rem;
+  color:var(--txt);line-height:1.7;
+  margin-bottom:40px;
+}
+.warning-banner strong{color:var(--ember);}
+
+/* STATS */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:0;}
+.stat-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad);padding:18px 16px;text-align:center;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.stat-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--acid),var(--mint));
+  opacity:0;transition:opacity .3s;
+}
+.stat-box:hover{border-color:var(--border2);transform:translateY(-3px);}
+.stat-box:hover::before{opacity:1;}
+.stat-num{font-family:var(--fh);font-size:2.2rem;font-weight:800;color:var(--acid);line-height:1;}
+.stat-lbl{font-family:var(--fm);font-size:.68rem;color:var(--txt3);margin-top:5px;letter-spacing:.5px;}
+
+/* ─── STICKY PROGRESS ─────────────────────── */
+.prog-bar{
+  position:sticky;top:0;z-index:150;
+  background:rgba(10,14,23,.93);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:14px 40px;
+  display:flex;align-items:center;gap:18px;
+}
+.prog-pct{
+  font-family:var(--fh);font-size:2rem;font-weight:800;
+  color:var(--acid);min-width:90px;line-height:1;
+  text-shadow:0 0 20px rgba(200,255,0,.3);
+}
+.prog-track{flex:1;height:8px;background:var(--ink3);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+.prog-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--acid),var(--mint),var(--acid));
+  background-size:200%;
+  animation:flow 3s linear infinite;
+  width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);
+  border-radius:4px;
+}
+@keyframes flow{0%{background-position:0%;}100%{background-position:200%;}}
+.prog-label{font-family:var(--fm);font-size:.75rem;color:var(--txt3);flex:1;}
+.prog-counts{font-family:var(--fm);font-size:.75rem;color:var(--txt3);text-align:right;white-space:nowrap;}
+.prog-counts strong{color:var(--txt);font-size:.95rem;}
+
+/* ─── SECTION HEADERS ─────────────────────── */
+section{padding:64px 40px 20px;position:relative;z-index:1;}
+.sec-header{display:flex;align-items:flex-start;gap:18px;margin-bottom:8px;}
+.sec-num{
+  font-family:var(--fm);font-size:.68rem;color:var(--acid);
+  letter-spacing:2px;background:var(--acid-d);
+  border:1px solid rgba(200,255,0,.2);
+  border-radius:6px;padding:4px 10px;white-space:nowrap;
+  margin-top:5px;
+}
+.sec-title{
+  font-family:var(--fh);font-size:1.9rem;font-weight:800;
+  letter-spacing:-.5px;color:var(--txt);
+}
+.sec-desc{
+  font-family:var(--fb);font-style:italic;
+  font-size:.95rem;color:var(--txt2);
+  margin-bottom:30px;margin-left:0;line-height:1.7;
+}
+
+/* ─── CARDS ───────────────────────────────── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:26px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .25s ease;
+}
+.card:hover{border-color:var(--border2);background:#12202f;transform:translateY(-4px);box-shadow:var(--sh);}
+.card-accent{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--acid),var(--mint));
+  opacity:0;transition:opacity .3s;
+}
+.card:hover .card-accent{opacity:1;}
+.card-ghost-num{
+  position:absolute;bottom:-10px;right:16px;
+  font-family:var(--fh);font-size:5rem;font-weight:800;
+  color:rgba(255,255,255,.025);line-height:1;user-select:none;
+}
+.card-tag{
+  font-family:var(--fm);font-size:.68rem;letter-spacing:2px;
+  color:var(--acid);text-transform:uppercase;margin-bottom:8px;
+}
+.card h3{
+  font-family:var(--fh);font-size:1.15rem;font-weight:700;
+  margin-bottom:6px;color:var(--txt);
+}
+.card>p{font-size:.88rem;color:var(--txt2);margin-bottom:16px;font-style:italic;}
+
+/* ─── TASK LIST ───────────────────────────── */
+.tasks{list-style:none;margin-top:10px;flex-grow:1;}
+.ti{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 13px;border-radius:9px;
+  margin-bottom:7px;border:1px solid transparent;
+  background:rgba(255,255,255,.022);
+  transition:all .18s;
+}
+.ti:hover{background:rgba(200,255,0,.05);border-color:rgba(200,255,0,.12);}
+.ti input[type=checkbox]{
+  width:18px;height:18px;border-radius:4px;
+  accent-color:var(--acid);flex-shrink:0;margin-top:3px;
+}
+.ti label{
+  font-family:var(--fb);font-size:.9rem;
+  color:#98b8cc;line-height:1.5;cursor:pointer;
+}
+.ti label strong{
+  display:block;font-family:var(--fh);font-weight:700;
+  color:var(--txt);font-size:.92rem;margin-bottom:2px;
+}
+.ti.done{opacity:.5;}
+.ti.done label{text-decoration:line-through;}
+
+/* ─── CALLOUT BOXES ───────────────────────── */
+.box-acid{
+  background:var(--acid-d);border-left:3px solid var(--acid);
+  border-radius:0 var(--rad) var(--rad) 0;
+  padding:18px 20px;margin:16px 0;font-size:.9rem;
+  font-family:var(--fb);
+}
+.box-acid strong{color:var(--acid);font-family:var(--fh);}
+.box-acid code{background:rgba(200,255,0,.15);border-radius:4px;padding:1px 7px;font-family:var(--fm);font-size:.82em;color:var(--acid);}
+
+.box-ember{
+  background:var(--ember-d);border-left:3px solid var(--ember);
+  border-radius:0 var(--rad) var(--rad) 0;
+  padding:18px 20px;margin:16px 0;font-size:.9rem;
+}
+.box-ember strong{color:var(--ember);}
+
+.box-sky{
+  background:var(--sky-d);border-left:3px solid var(--sky);
+  border-radius:0 var(--rad) var(--rad) 0;
+  padding:18px 20px;margin:16px 0;font-size:.9rem;
+}
+.box-sky strong{color:var(--sky);}
+
+.box-mint{
+  background:var(--mint-d);border-left:3px solid var(--mint);
+  border-radius:0 var(--rad) var(--rad) 0;
+  padding:18px 20px;margin:16px 0;font-size:.9rem;
+}
+.box-mint strong{color:var(--mint);}
+
+/* ─── TACTIC CARDS (special) ─────────────── */
+.tactic{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:28px;margin-bottom:18px;
+  position:relative;overflow:hidden;transition:all .25s;
+}
+.tactic:hover{border-color:var(--border2);box-shadow:var(--sh);}
+.tactic-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fm);font-size:.68rem;letter-spacing:2px;
+  text-transform:uppercase;padding:5px 14px;
+  border-radius:30px;border:1px solid;margin-bottom:14px;
+}
+.tl-acid{color:var(--acid);background:var(--acid-d);border-color:rgba(200,255,0,.3);}
+.tl-sky{color:var(--sky);background:var(--sky-d);border-color:rgba(56,191,255,.3);}
+.tl-ember{color:var(--ember);background:var(--ember-d);border-color:rgba(255,107,53,.3);}
+.tl-mint{color:var(--mint);background:var(--mint-d);border-color:rgba(0,229,176,.3);}
+.tl-rose{color:var(--rose);background:rgba(255,77,126,.08);border-color:rgba(255,77,126,.3);}
+
+.tactic h3{font-family:var(--fh);font-size:1.3rem;font-weight:800;margin-bottom:10px;}
+.tactic p{font-family:var(--fb);font-size:.92rem;color:var(--txt2);line-height:1.75;margin-bottom:10px;}
+.tactic p:last-child{margin-bottom:0;}
+.tactic strong{color:var(--txt);}
+.tactic em{color:var(--acid);font-style:normal;font-family:var(--fm);font-size:.88em;}
+
+/* ─── CODE BLOCKS ─────────────────────────── */
+.code-wrap{position:relative;margin:14px 0;}
+.code-lbl{
+  display:inline-block;background:var(--border);
+  color:var(--sky);font-family:var(--fm);font-size:.66rem;
+  letter-spacing:1px;padding:5px 14px;
+  border-radius:6px 6px 0 0;
+}
+.codeblock{
+  background:#07111a;border:1px solid var(--border);
+  border-radius:0 var(--rad) var(--rad) var(--rad);
+  padding:22px 22px 22px 22px;
+  font-family:var(--fm);font-size:.8rem;
+  line-height:1.85;color:#b0d0e8;
+  overflow-x:auto;position:relative;white-space:pre-wrap;
+  word-break:break-word;
+}
+.codeblock .c-key{color:var(--acid);}
+.codeblock .c-str{color:var(--mint);}
+.codeblock .c-cmnt{color:var(--txt3);font-style:italic;}
+.codeblock .c-fn{color:var(--sky);}
+.codeblock .c-num{color:var(--ember);}
+
+.copy-btn{
+  position:absolute;top:10px;right:10px;
+  background:var(--ink3);border:1px solid var(--border);
+  color:var(--txt3);font-family:var(--fm);font-size:.68rem;
+  padding:5px 12px;border-radius:6px;cursor:pointer;
+  transition:all .2s;
+}
+.copy-btn:hover{background:var(--acid-d);color:var(--acid);border-color:rgba(200,255,0,.3);}
+
+/* ─── TIMELINE ────────────────────────────── */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{
+  content:'';position:absolute;left:10px;top:8px;bottom:8px;
+  width:2px;background:linear-gradient(180deg,var(--acid),var(--sky),var(--mint));
+  opacity:.25;
+}
+.tl-row{display:flex;gap:18px;margin-bottom:24px;position:relative;}
+.tl-dot{
+  position:absolute;left:-31px;top:4px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--ink);border:2px solid var(--acid);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fm);font-size:.6rem;color:var(--acid);
+  flex-shrink:0;z-index:1;
+}
+.tl-body h4{font-family:var(--fh);font-size:.97rem;font-weight:700;margin-bottom:3px;}
+.tl-body p{font-size:.85rem;color:var(--txt2);}
+
+/* ─── SKILL METER ─────────────────────────── */
+.skill-row{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+}
+.skill-row:last-child{border-bottom:none;}
+.sk-name{font-family:var(--fh);font-size:.88rem;font-weight:700;min-width:160px;}
+.sk-track{flex:1;height:6px;background:var(--ink3);border-radius:3px;overflow:hidden;}
+.sk-fill{height:100%;border-radius:3px;transition:width 1.2s ease;}
+.sk-fill-acid{background:linear-gradient(90deg,var(--acid),var(--mint));}
+.sk-fill-sky{background:linear-gradient(90deg,var(--sky),var(--mint));}
+.sk-fill-ember{background:linear-gradient(90deg,var(--ember),var(--rose));}
+.sk-tag{
+  font-family:var(--fm);font-size:.65rem;padding:3px 9px;
+  border-radius:20px;border:1px solid;white-space:nowrap;
+}
+.sk-core{color:var(--acid);border-color:rgba(200,255,0,.3);background:var(--acid-d);}
+.sk-plus{color:var(--sky);border-color:rgba(56,191,255,.3);background:var(--sky-d);}
+.sk-bonus{color:var(--mint);border-color:rgba(0,229,176,.3);background:var(--mint-d);}
+
+/* ─── PROMPT LIBRARY ──────────────────────── */
+.prompt-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:24px;margin-bottom:16px;
+  transition:all .2s;
+}
+.prompt-card:hover{border-color:var(--border2);}
+.prompt-card h4{
+  font-family:var(--fh);font-size:1rem;font-weight:700;
+  margin-bottom:6px;display:flex;align-items:center;gap:10px;
+}
+.prompt-card>p{font-size:.85rem;color:var(--txt2);margin-bottom:12px;}
+
+/* ─── SALARY TABLE ────────────────────────── */
+table{width:100%;border-collapse:collapse;margin:16px 0;}
+thead th{
+  background:rgba(200,255,0,.06);color:var(--acid);
+  font-family:var(--fm);font-size:.7rem;letter-spacing:1.5px;
+  text-transform:uppercase;padding:13px 16px;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+tbody td{
+  padding:12px 16px;border-bottom:1px solid var(--border);
+  color:#a8c8e0;font-family:var(--fb);font-size:.9rem;
+}
+tbody tr:hover td{background:rgba(255,255,255,.02);}
+tbody tr:last-child td{border-bottom:none;}
+.td-acid{color:var(--acid);font-family:var(--fm);font-weight:600;}
+.td-sky{color:var(--sky);}
+
+/* ─── RESOURCE GRID ───────────────────────── */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+.res-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad);padding:16px 18px;
+  display:flex;gap:12px;align-items:flex-start;
+  text-decoration:none;color:var(--txt);
+  transition:all .2s;
+}
+.res-item:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.5);text-decoration:none;color:var(--txt);}
+.r-ico{font-size:1.5rem;flex-shrink:0;}
+.r-name{font-family:var(--fh);font-size:.9rem;font-weight:700;margin-bottom:2px;}
+.r-desc{font-family:var(--fb);font-size:.78rem;color:var(--txt2);line-height:1.45;}
+.r-tag{font-family:var(--fm);font-size:.65rem;margin-top:4px;}
+.r-free{color:var(--acid);}
+.r-beca{color:var(--sky);}
+
+/* ─── FAQ ─────────────────────────────────── */
+.faq{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);margin-bottom:8px;overflow:hidden;transition:border-color .2s;}
+.faq:hover{border-color:var(--border2);}
+.faq-btn{
+  width:100%;background:none;border:none;
+  padding:17px 22px;color:var(--txt);
+  font-family:var(--fh);font-size:.95rem;font-weight:700;
+  text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.faq-btn::after{content:'+';color:var(--acid);font-size:1.5rem;font-weight:300;transition:transform .2s;flex-shrink:0;}
+.faq-btn.open::after{transform:rotate(45deg);}
+.faq-body{display:none;padding:0 22px 18px;font-family:var(--fb);font-size:.9rem;color:var(--txt2);line-height:1.75;}
+.faq-body.vis{display:block;}
+
+/* ─── BUTTONS ─────────────────────────────── */
+a{color:var(--sky);text-decoration:none;font-weight:600;transition:color .2s;}
+a:hover{color:#fff;text-decoration:underline;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;border-radius:8px;font-weight:700;
+  font-size:.85rem;border:none;cursor:pointer;
+  transition:all .2s;text-decoration:none;
+  font-family:var(--fh);margin-top:14px;
+}
+.btn-acid{background:var(--acid);color:var(--ink);}
+.btn-acid:hover{background:#e8ff40;transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,255,0,.35);text-decoration:none;color:var(--ink);}
+.btn-ghost{background:transparent;border:1.5px solid var(--acid);color:var(--acid);}
+.btn-ghost:hover{background:var(--acid-d);color:#fff;text-decoration:none;transform:translateY(-2px);}
+
+/* ─── TOAST ───────────────────────────────── */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--ink2);border:1px solid var(--acid);
+  color:var(--acid);font-family:var(--fm);font-size:.8rem;
+  padding:11px 20px;border-radius:8px;
+  opacity:0;transform:translateY(8px);
+  transition:all .3s;z-index:1000;
+  box-shadow:0 0 20px rgba(200,255,0,.2);
+}
+#toast.on{opacity:1;transform:translateY(0);}
+
+/* ─── HELL-O-METER ────────────────────────── */
+.hell-meter{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:28px;margin-bottom:20px;
+}
+.hell-meter h3{font-family:var(--fh);font-size:1.2rem;font-weight:800;margin-bottom:6px;}
+.hell-meter>p{font-size:.9rem;color:var(--txt2);margin-bottom:20px;}
+.hm-item{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 14px;border-radius:8px;margin-bottom:8px;
+  background:rgba(255,255,255,.022);border:1px solid transparent;
+  font-family:var(--fb);font-size:.88rem;cursor:pointer;
+  transition:all .18s;
+}
+.hm-item:hover{background:rgba(255,107,53,.06);border-color:rgba(255,107,53,.2);}
+.hm-item input{width:18px;height:18px;accent-color:var(--rose);flex-shrink:0;}
+.hm-item label{cursor:pointer;color:#98b8cc;}
+.hm-item label strong{color:var(--txt);display:block;font-family:var(--fh);font-size:.9rem;}
+.hell-result{
+  padding:16px 20px;border-radius:var(--rad);margin-top:16px;
+  font-family:var(--fh);font-size:1rem;font-weight:700;
+  text-align:center;display:none;
+}
+.hell-safe{background:var(--mint-d);border:1px solid rgba(0,229,176,.3);color:var(--mint);}
+.hell-warn{background:var(--ember-d);border:1px solid rgba(255,107,53,.3);color:var(--ember);}
+.hell-danger{background:rgba(255,77,126,.08);border:1px solid rgba(255,77,126,.3);color:var(--rose);}
+
+/* ─── EMPLOYABILITY CALC ──────────────────── */
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:20px;}
+.calc-item{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);padding:18px 20px;}
+.calc-item label{display:block;font-family:var(--fh);font-size:.85rem;font-weight:700;margin-bottom:8px;}
+.calc-item select,.calc-item input[type=range]{
+  width:100%;background:var(--ink3);border:1px solid var(--border);
+  border-radius:6px;color:var(--txt);padding:8px 12px;
+  font-family:var(--fm);font-size:.82rem;
+}
+.calc-item select:focus,.calc-item input:focus{outline:1px solid var(--acid);}
+input[type=range]{padding:4px 0;accent-color:var(--acid);}
+.range-val{font-family:var(--fm);font-size:.75rem;color:var(--acid);margin-top:5px;}
+.calc-result{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:var(--rad2);padding:28px;text-align:center;
+}
+.score-circle{
+  width:110px;height:110px;border-radius:50%;
+  border:3px solid var(--acid);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 0 30px rgba(200,255,0,.2);
+}
+.score-num{font-family:var(--fh);font-size:2rem;font-weight:800;color:var(--acid);}
+.score-lbl{font-family:var(--fm);font-size:.6rem;color:var(--txt3);letter-spacing:1px;}
+.score-desc{font-family:var(--fb);font-size:.9rem;color:var(--txt2);line-height:1.7;}
+.score-tips{margin-top:14px;text-align:left;}
+.score-tips li{
+  font-family:var(--fb);font-size:.85rem;color:var(--txt2);
+  margin-bottom:6px;padding-left:16px;position:relative;
+}
+.score-tips li::before{content:'→';position:absolute;left:0;color:var(--acid);}
+
+/* ─── FOOTER ──────────────────────────────── */
+footer{
+  padding:40px 40px;margin-left:0;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-family:var(--fm);font-size:.7rem;color:var(--txt3);
+  line-height:2;
+}
+footer span{color:var(--acid);}
+
+/* ─── RESPONSIVE ──────────────────────────── */
+@media(max-width:920px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .ham{display:flex;}
+  section{padding:50px 20px 16px;}
+  .prog-bar{padding:12px 20px;}
+  .hero{padding:72px 20px 50px;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .prog-label{display:none;}
+}
+@media(max-width:540px){
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hero h1{font-size:2.2rem;}
+  .prog-counts{display:none;}
+}
+
+/* Premium Refactor Overrides */
+body { font-family: 'Inter', sans-serif !important; background: var(--bg) !important; color: var(--tx) !important; }
+.nav { background: hsla(240, 10%, 4%, 0.7) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-bottom: 1px solid hsla(0,0%,100%,0.05) !important; }
+.mod, .today, .qstat, .feed-card, .pomo, .fin, .quote { 
+    background: hsla(240, 10%, 8%, 0.6) !important; 
+    backdrop-filter: blur(12px) !important; 
+    -webkit-backdrop-filter: blur(12px) !important; 
+    border: 1px solid hsla(0,0%,100%,0.07) !important; 
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
+}
+.mod:hover, .feed-card:hover { 
+    transform: translateY(-6px) !important; 
+    border-color: var(--ac) !important; 
+    box-shadow: 0 16px 40px hsla(265, 89%, 66%, 0.25), 0 0 15px hsla(265, 89%, 66%, 0.1) inset !important; 
+}
+.task-btn, .pomo-start, .fin-btn-i { transition: transform 0.3s ease, filter 0.3s ease !important; }
+.task-btn:hover, .pomo-start:hover, .fin-btn-i:hover { transform: scale(1.04) !important; filter: brightness(1.2) !important; }
+.header h1 { font-family: 'Inter', sans-serif !important; font-weight: 700 !important; letter-spacing: -1.5px !important; }
+.task-check { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
+.task-check:hover { transform: scale(1.15) !important; box-shadow: 0 0 10px hsla(142, 71%, 45%, 0.3) !important; }
+
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- ═══ SIDEBAR ═══════════════════════════════════════════ -->
+<nav class="sidebar" id="sb">
+  <div class="sb-logo">Sistema DA-2026</div>
+  <a href="#s0" class="nav-link active"><span class="ni">⚡</span>Diagnóstico</a>
+  <a href="#s1" class="nav-link"><span class="ni">🧠</span>Mentalidad</a>
+  <a href="#s2" class="nav-link"><span class="ni">🗺️</span>Ruta 6 Meses</a>
+  <a href="#s3" class="nav-link"><span class="ni">🎯</span>Tácticas Ocultas</a>
+  <a href="#s4" class="nav-link"><span class="ni">🤖</span>Prompts de IA</a>
+  <a href="#s5" class="nav-link"><span class="ni">🔬</span>Proyectos</a>
+  <a href="#s6" class="nav-link"><span class="ni">💼</span>Portafolio & Empleo</a>
+  <a href="#s7" class="nav-link"><span class="ni">💰</span>Mercado & Salarios</a>
+  <a href="#s8" class="nav-link"><span class="ni">📦</span>Recursos Gratuitos</a>
+  <a href="#s9" class="nav-link"><span class="ni">📄</span>Beca Coursera</a>
+  <a href="#s10" class="nav-link"><span class="ni">❓</span>FAQ Táctica</a>
+  <div class="sb-progress">
+    <p>Progreso: <strong id="sb-pct">0%</strong></p>
+    <div class="mini-track"><div class="mini-bar" id="sb-bar"></div></div>
+  </div>
+</nav>
+<button class="ham" id="ham" aria-label="Menú"><span></span><span></span><span></span></button>
+
+<!-- ═══ MAIN ═══════════════════════════════════════════════ -->
+<div class="main">
+<div class="hero">
+  <div class="page">
+    <div class="hero-eyebrow">Sistema táctico · Versión 2026</div>
+    <h1>Analista de Datos:<br>La Ruta <em>Real</em><br>al Primer Empleo</h1>
+    <p class="hero-sub">No otro curso de "aprende SQL en 30 días". Este es el sistema completo — con los hacks que los tutoriales no te dicen, los errores que comete el 90% de los aprendices y las tácticas exactas para conseguir el trabajo con $0 de inversión.</p>
+    <div class="warning-banner">
+      <strong>⚠️ Advertencia previa:</strong> Esta ruta asume que prefieres la verdad incómoda a la motivación vacía. El camino tiene fricciones reales y este sistema las nombra sin eufemismos. Si ejecutas el 80% de esto consistentemente durante 6 meses, estás en el mercado. Garantizado no existe — pero la probabilidad sube dramáticamente con sistema vs. improvisación.
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">HITOS TOTALES</div></div>
+      <div class="stat-box"><div class="stat-num" id="st-done">0</div><div class="stat-lbl">COMPLETADOS</div></div>
+      <div class="stat-box"><div class="stat-num" id="st-pct">0%</div><div class="stat-lbl">PROGRESO</div></div>
+      <div class="stat-box"><div class="stat-num">540</div><div class="stat-lbl">HORAS DE PRÁCTICA</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY PROGRESS -->
+<div class="prog-bar">
+  <div class="prog-pct" id="pp">0%</div>
+  <div style="flex:1;">
+    <div class="prog-label" id="plbl">Comienza el día 1 — el mejor momento para arrancar es ahora.</div>
+    <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+  </div>
+  <div class="prog-counts"><strong id="pd">0</strong> / <span id="pt">0</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     S0: DIAGNÓSTICO — DETECTOR DE TUTORIAL HELL
+═══════════════════════════════════════════════════════ -->
+<section id="s0">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">00 · DIAGNÓSTICO</span>
+    <h2 class="sec-title">¿Ya estás en Tutorial Hell?</h2>
+  </div>
+  <p class="sec-desc">Antes de arrancar la ruta, diagnostica tu situación actual. El "Tutorial Hell" es el estado donde consumes educación sin producir nada. Es la trampa número uno de los aprendices de datos.</p>
+
+  <div class="hell-meter">
+    <h3>🔥 Detector de Tutorial Hell</h3>
+    <p>Marca los síntomas que reconoces en ti mismo:</p>
+    <ul class="tasks" id="hell-list">
+      <li class="hm-item"><input type="checkbox" id="h1"><label for="h1"><strong>Llevas más de 2 semanas en el mismo curso</strong> sin haber creado nada fuera del tutorial.</label></li>
+      <li class="hm-item"><input type="checkbox" id="h2"><label for="h2"><strong>Cuando terminas un video "entiendes todo"</strong> pero no puedes replicarlo solo al día siguiente.</label></li>
+      <li class="hm-item"><input type="checkbox" id="h3"><label for="h3"><strong>Tienes 3+ cursos "en progreso"</strong> al mismo tiempo pero ninguno terminado.</label></li>
+      <li class="hm-item"><input type="checkbox" id="h4"><label for="h4"><strong>Tu carpeta de "proyectos"</strong> solo tiene archivos de ejercicios de tutoriales, no proyectos propios.</label></li>
+      <li class="hm-item"><input type="checkbox" id="h5"><label for="h5"><strong>Cambias de tecnología</strong> cada vez que ves un post de LinkedIn diciendo "SQL está muerto, aprende X".</label></li>
+      <li class="hm-item"><input type="checkbox" id="h6"><label for="h6"><strong>Sientes que "no estás listo"</strong> para aplicar a trabajos aunque llevas meses estudiando.</label></li>
+    </ul>
+    <div id="hell-result" class="hell-result"></div>
+    <button class="btn btn-acid" onclick="evalHell()" style="margin-top:16px;">Diagnosticarme ahora →</button>
+  </div>
+
+  <div class="box-acid">
+    <strong>💡 El antídoto al Tutorial Hell:</strong> La regla de las 48 horas. Cada concepto nuevo que aprendas, debes aplicarlo a un dataset DIFERENTE al del tutorial en las próximas 48 horas. Sin esta regla, el 80% del conocimiento se evapora. Con ella, se consolida. Es el principio más importante de esta ruta.
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S1: MENTALIDAD
+═══════════════════════════════════════════════════════ -->
+<section id="s1">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">01 · MENTALIDAD</span>
+    <h2 class="sec-title">El Marco Mental del Analista Empleable</h2>
+  </div>
+  <p class="sec-desc">Las habilidades técnicas te hacen capaz. La mentalidad correcta te hace contratado. Aquí está lo que diferencia a quien consigue el trabajo de quien sigue "preparándose".</p>
+
+  <div class="grid" style="margin-bottom:20px;">
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-acid">🧠 Marco Fundamental</span>
+      <h3>Regla 70/20/10 — La Arquitectura de 3 Horas</h3>
+      <p><strong>70% Práctica (126 min):</strong> Código real, datos reales, errores reales. No videos. Tus manos en el teclado produciendo output.</p>
+      <p><strong>20% Feedback (36 min):</strong> Active Recall obligatorio. Escribe de memoria lo que aprendiste ayer. Revisa tus errores. Lee foros de problemas reales.</p>
+      <p><strong>10% Teoría (18 min):</strong> Videos a 1.5x, docs oficiales. Solo lo suficiente para saber qué practicar hoy.</p>
+      <div class="box-acid" style="margin-top:14px;">
+        <strong>Protocolo de Arranque:</strong> Los primeros 10 minutos de cada sesión escribe en papel — sin mirar — la sintaxis de ayer. Un <code>LEFT JOIN</code>, un <code>groupby()</code>, una medida DAX. Esto activa la memoria de recuperación y duplica la retención.
+      </div>
+    </div>
+
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-ember">🎯 Mentalidad de Negocio</span>
+      <h3>Piensa en Dinero, No en Técnica</h3>
+      <p>El error más común: "Hice un análisis de sentimiento con Python". El reclutador no entiende eso.</p>
+      <p><strong>La traducción correcta:</strong> "Analicé 50K reseñas de clientes e identifiqué que el 34% de las quejas se concentraban en tiempos de entrega, ahorrando $80K en costos de soporte al priorizar ese área."</p>
+      <p>Cada proyecto que hagas, pregúntate: <em>¿cuánto dinero ahorró esto, cuánto tiempo redujo, o qué riesgo eliminó?</em> Esa es la pregunta del reclutador.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-sky">📊 El Ciclo Analítico</span>
+      <h3>Framework PPAAÇA (6 Pasos)</h3>
+      <div class="timeline" style="margin-top:14px;">
+        <div class="tl-row"><div class="tl-dot">1</div><div class="tl-body"><h4>Preguntar</h4><p>¿Qué decisión tomará alguien con este análisis? Define el KPI de éxito antes de tocar los datos.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">2</div><div class="tl-body"><h4>Preparar</h4><p>¿Qué datos necesito? ¿Son confiables? ¿Hay sesgos en la recolección?</p></div></div>
+        <div class="tl-row"><div class="tl-dot">3</div><div class="tl-body"><h4>Procesar</h4><p>Limpieza antes que análisis. Siempre. Un dataset sucio produce insights sucios.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">4</div><div class="tl-body"><h4>Analizar</h4><p>Patrones, correlaciones, outliers. Formula hipótesis y trata de refutarlas.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">5</div><div class="tl-body"><h4>Compartir</h4><p>La visualización es para la audiencia, no para ti. Simplifica hasta que un no-técnico lo entienda en 30 segundos.</p></div></div>
+        <div class="tl-row" style="margin-bottom:0;"><div class="tl-dot" style="border-color:var(--acid);color:var(--acid);">6</div><div class="tl-body"><h4>Actuar</h4><p>El análisis sin recomendación es entretenimiento. Siempre termina con: "Por lo tanto, recomiendo X porque generará Y."</p></div></div>
+      </div>
+    </div>
+
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-mint">⏱️ Gestión del Tiempo</span>
+      <h3>El Sistema Pomodoro Analítico</h3>
+      <p>3 horas parecen mucho. Divididas mal, son nada. El sistema que funciona para datos:</p>
+      <div class="box-mint">
+        <strong>Bloque A (50 min):</strong> SQL o Python — una sola tarea. Sin Spotify con letra. Sin redes. Timer visible.
+      </div>
+      <div class="box-sky">
+        <strong>Break (10 min):</strong> Alejarte del computador. Camina. Bebe agua. Tu cerebro consolida en el descanso.
+      </div>
+      <div class="box-mint">
+        <strong>Bloque B (50 min):</strong> Continúa la misma tarea o pasa a visualización. Termina con algo publicable.
+      </div>
+      <div class="box-sky">
+        <strong>Break (10 min):</strong> Igual que antes.
+      </div>
+      <div class="box-mint">
+        <strong>Bloque C (30 min):</strong> Documentación, GitHub commit, README. Este bloque construye tu portafolio.
+      </div>
+      <p style="margin-top:12px;"><strong>Regla de oro:</strong> Nunca termines una sesión sin un commit en GitHub. Aunque sea una línea. La consistencia visible importa más que la cantidad.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S2: RUTA CURRICULAR 6 MESES
+═══════════════════════════════════════════════════════ -->
+<section id="s2">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">02 · RUTA</span>
+    <h2 class="sec-title">La Ruta Curricular de 6 Meses</h2>
+  </div>
+  <p class="sec-desc">Cada fase tiene un objetivo de empleabilidad concreto, no solo un conjunto de videos completados. No avances hasta completar el hito de salida.</p>
+
+  <div class="box-ember" style="margin-bottom:24px;">
+    <strong>🚨 Hito de Salida Obligatorio:</strong> Cada fase tiene un "entregable mínimo". Si no lo tienes al finalizar el mes, repite la semana más débil antes de avanzar. La velocidad sin solidez te hundes en las entrevistas.
+  </div>
+
+  <div class="grid">
+    <!-- FASE 1 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">01</div>
+      <div class="card-tag">Mes 1 · Fundamentos</div>
+      <h3>Fase 1: Datos y Negocio</h3>
+      <p>Google Data Analytics + Excel/Sheets avanzado</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r1"><label for="r1"><strong>Solicitar Financial Aid — Curso 1 Google DA</strong> Aplicar al curso individual en Coursera con la plantilla de la Sección 9. No a la certificación completa.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r2"><label for="r2"><strong>Dominar Excel/Sheets para datos</strong> Tablas dinámicas, VLOOKUP, INDEX/MATCH, TRIM/CLEAN, validación de datos, filtros avanzados.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r3"><label for="r3"><strong>Interiorizar el ciclo PPAAÇA</strong> Aplicarlo a un dataset de práctica de Kaggle. Documentar cada paso.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r4"><label for="r4"><strong>Crear cuenta en GitHub y Kaggle</strong> Subir tu primer archivo de análisis aunque sea básico. El historial empieza hoy.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r5"><label for="r5"><strong>Hito de Salida:</strong> Un análisis completo en Google Sheets con tabla dinámica, gráfico y al menos 3 conclusiones de negocio documentadas en GitHub.</label></li>
+      </ul>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">02</div>
+      <div class="card-tag">Mes 2 · SQL</div>
+      <h3>Fase 2: Bases de Datos</h3>
+      <p>PostgreSQL, BigQuery y modelado relacional</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r6"><label for="r6"><strong>SQL básico a intermedio</strong> SELECT, WHERE, GROUP BY, HAVING, ORDER BY, JOINs (INNER/LEFT/RIGHT/FULL). Practicar en SQLZoo diariamente.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r7"><label for="r7"><strong>SQL avanzado: CTEs y Window Functions</strong> WITH…AS, ROW_NUMBER(), RANK(), DENSE_RANK(), LAG()/LEAD(), OVER(PARTITION BY). Estos aparecen en todas las pruebas técnicas.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r8"><label for="r8"><strong>Google BigQuery Sandbox</strong> Subir un dataset, ejecutar consultas complejas, exportar resultados a CSV para visualizar.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r9"><label for="r9"><strong>Modelado relacional básico</strong> Diseñar esquema ER de 3 tablas (clientes/pedidos/productos), implementar en PostgreSQL local o Supabase (gratis).</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r10"><label for="r10"><strong>Hito de Salida:</strong> Resolver 10 ejercicios de HackerRank SQL (nivel Medium) y subirlos a GitHub con explicación de la lógica.</label></li>
+      </ul>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">03</div>
+      <div class="card-tag">Mes 3 · Python</div>
+      <h3>Fase 3: Python Analítico</h3>
+      <p>freeCodeCamp — Data Analysis with Python</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r11"><label for="r11"><strong>Currículo freeCodeCamp Python</strong> Iniciar y completar el track de <a href="https://www.freecodecamp.org/learn/data-analysis-with-python" target="_blank">Data Analysis with Python</a>. 100% gratis, certificado verificable.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r12"><label for="r12"><strong>NumPy — Operaciones vectorizadas</strong> Arrays, broadcasting, slicing, estadística (mean, std, percentiles, correlación). Sin loops cuando NumPy puede hacerlo.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r13"><label for="r13"><strong>Pandas — Dominar DataFrames</strong> read_csv/json, fillna/dropna, boolean indexing, groupby, merge, pivot_table, apply(). EDA completo en menos de 20 líneas.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r14"><label for="r14"><strong>Matplotlib/Seaborn</strong> Histogramas, scatter plots, box plots, heatmaps de correlación. Títulos y labels siempre. Un gráfico sin contexto no dice nada.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r15"><label for="r15"><strong>Hito de Salida:</strong> Aprobar "Demographic Data Analyzer" y "Medical Data Visualizer" de freeCodeCamp. Subirlos a GitHub con README en formato STAR.</label></li>
+      </ul>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">04</div>
+      <div class="card-tag">Mes 4 · BI</div>
+      <h3>Fase 4: Visualización de Negocios</h3>
+      <p>Power BI Desktop + Tableau Public + IBM</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r16"><label for="r16"><strong>Solicitar Beca IBM en Coursera</strong> Aplicar al módulo 1 del <a href="https://www.coursera.org/professional-certificates/ibm-data-analyst" target="_blank">IBM Data Analyst Certificate</a>. Esperar 15 días sin activar Free Trial.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r17"><label for="r17"><strong>Power BI: Modelo Estrella + DAX</strong> Implementar schema estrella (hechos + dimensiones). Dominar CALCULATE, SUMX, DIVIDE, DATEADD, ALL(). El modelo correcto es el 70% de Power BI.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r18"><label for="r18"><strong>Regla visual: 1 métrica, 1 gráfico</strong> No más de 5 visualizaciones por página. Siempre incluir contexto comparativo (vs. período anterior, vs. objetivo). Un dashboard confuso es un dashboard inútil.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r19"><label for="r19"><strong>Publicar en Tableau Public</strong> Un dashboard completo publicado online. URL en tu LinkedIn y GitHub. Esto es tu primera muestra pública.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r20"><label for="r20"><strong>Hito de Salida:</strong> Dashboard interactivo publicado en Tableau Public con al menos 4 KPIs, filtros funcionales y narrativa de 3 conclusiones de negocio.</label></li>
+      </ul>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">05</div>
+      <div class="card-tag">Mes 5 · IA</div>
+      <h3>Fase 5: IA como Copiloto</h3>
+      <p>Prompt Engineering para analistas de datos</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r21"><label for="r21"><strong>Método CCC para SQL</strong> Clarificar contexto → Confirmar esquema → Completar consulta. Nunca pedir SQL sin dar el esquema exacto de tablas.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r22"><label for="r22"><strong>Automatizar tareas repetitivas</strong> Usar GPT-4o/Claude para generar EDA templates, expresiones RegEx, transformaciones de datos, esquemas SQL desde descripciones de negocio.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r23"><label for="r23"><strong>Gemini en BigQuery</strong> Activar Gemini integrado para generar SQL desde lenguaje natural, explicar planes de ejecución y sugerir índices de optimización.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r24"><label for="r24"><strong>Documentación asistida por IA</strong> Generar READMEs, comentarios de código, resúmenes ejecutivos y narrativas de dashboards. La IA amplifica tu output, no lo reemplaza.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r25"><label for="r25"><strong>Hito de Salida:</strong> Construir y documentar una librería personal de 10+ prompts específicos para análisis de datos en tu industria objetivo. Subirla a GitHub como referencia.</label></li>
+      </ul>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-ghost-num">06</div>
+      <div class="card-tag">Mes 6 · Empleo</div>
+      <h3>Fase 6: Empleabilidad Real</h3>
+      <p>Portafolio, LinkedIn, GitHub y entrevistas</p>
+      <ul class="tasks">
+        <li class="ti"><input type="checkbox" class="tc" id="r26"><label for="r26"><strong>Pulir los 3 proyectos del portafolio</strong> Código comentado, READMEs en formato STAR, capturas de pantalla, métricas de impacto cuantificadas. Ver Sección 5.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r27"><label for="r27"><strong>GitHub con actividad visible</strong> Contribuciones diarias visible en el heatmap. Reclutadores técnicos miran esto. Un heatmap verde es una carta de presentación silenciosa.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r28"><label for="r28"><strong>LinkedIn optimizado para ATS</strong> Foto profesional + banner de datos, titular con keywords exactas ("Junior Data Analyst | SQL · Python · Power BI"), 3+ publicaciones de proyectos.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r29"><label for="r29"><strong>Preparar respuestas STAR para entrevistas</strong> 5 historias de análisis (con datos, metodología y resultado cuantificado) listas para adaptar a cualquier pregunta conductual.</label></li>
+        <li class="ti"><input type="checkbox" class="tc" id="r30"><label for="r30"><strong>Hito de Salida:</strong> 10 aplicaciones enviadas, 3 conexiones con analistas senior en LinkedIn y al menos 1 entrevista técnica completada (aunque no resulte en oferta — la práctica vale).</label></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S3: TÁCTICAS OCULTAS
+═══════════════════════════════════════════════════════ -->
+<section id="s3">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">03 · TÁCTICAS</span>
+    <h2 class="sec-title">Los Hacks que Nadie te Dice</h2>
+  </div>
+  <p class="sec-desc">Estos son mis aportes tácticos directos — información que deriva de analizar patrones de contratación, errores comunes y lo que realmente diferencia a candidatos equivalentes en técnica.</p>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-acid">⚡ Táctica #1 — El Stack Mínimo Viable</span>
+    <h3>Cuándo Dejar de Aprender y Empezar a Aplicar</h3>
+    <p>El error más frecuente: seguir estudiando porque "no me siento listo". La verdad: nunca vas a sentirte "listo". El mercado laboral no espera la perfección.</p>
+    <p><strong>El Stack Mínimo Viable (SMV) para aplicar es:</strong> SQL intermedio (JOINs + GROUP BY + subconsultas) + Python básico (Pandas) + Power BI o Tableau. Con esto puedes aplicar a posiciones Junior.</p>
+    <p>A partir del mes 3, deberías estar aplicando empleos EN PARALELO al estudio. No después. Las entrevistas fallidas son el mejor curriculum del mundo — te dicen exactamente qué aprender.</p>
+    <div class="box-acid">
+      <strong>Regla de la Aplicación Temprana:</strong> Aplica cuando tengas el 60% del stack, no el 100%. El proceso de entrevista tarda semanas — cuando llegue la entrevista habrás avanzado el otro 40%.
+    </div>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-sky">🐙 Táctica #2 — GitHub como Portafolio Activo</span>
+    <h3>El Heatmap Verde que Convence a Reclutadores Técnicos</h3>
+    <p>Los reclutadores técnicos (no los de RR.HH.) van directamente a tu GitHub antes de leer tu CV. Lo que buscan no son proyectos perfectos — buscan <strong>actividad consistente</strong>.</p>
+    <p><strong>Estrategia del commit diario:</strong> Aunque sea actualizar un README, agregar un comentario a un script o subir un ejercicio de SQL. El heatmap verde dice "este candidato trabaja todos los días". Eso es oro.</p>
+    <p><strong>El README en formato STAR que funciona:</strong></p>
+    <div class="code-wrap">
+      <span class="code-lbl">README.md — Plantilla STAR para proyectos de datos</span>
+      <div class="codeblock" id="readme-star"><button class="copy-btn" onclick="cp('readme-star',this)">Copiar</button><span class="c-cmnt"># 📊 Nombre del Proyecto</span>
+
+<span class="c-cmnt">## 🔍 Situación (el problema de negocio)</span>
+Una empresa de retail acumulaba $X en inventario sin rotación en Q4 2025.
+Sin visibilidad de qué SKUs eran el problema, las decisiones de compra
+eran reactivas y costosas.
+
+<span class="c-cmnt">## 🎯 Tarea (mi objetivo)</span>
+Construir un pipeline SQL + dashboard Power BI que identificara los
+productos de baja rotación por región y método de envío.
+
+<span class="c-cmnt">## ⚙️ Acción (lo que hice, técnicamente)</span>
+- Limpié inconsistencias temporales en SQL (CTEs + Window Functions)
+- Construí modelo estrella en Power BI con 4 tablas
+- Diseñé KPIs: Rotación por SKU, Días de Inventario, Costo de Holding
+
+<span class="c-cmnt">## 📈 Resultado (el impacto cuantificado)</span>
+Identifiqué $200K atrapados en inventario de baja rotación zona Este.
+El dashboard habilitó decisiones de compra que redujeron stock inmovilizado 35%.
+
+<span class="c-cmnt">## 🛠️ Stack Técnico</span>
+PostgreSQL · Power BI Desktop · DAX · Git</div>
+    </div>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-ember">🏆 Táctica #3 — LinkedIn para Analistas, No para Managers</span>
+    <h3>Cómo los Reclutadores te Encuentran (y Cómo Aparecer Primero)</h3>
+    <p>LinkedIn usa algoritmo de búsqueda. Los reclutadores buscan con keywords específicas. Si esas palabras no están exactamente en tu perfil, no existes.</p>
+    <p><strong>Keywords obligatorias en tu titular 2026:</strong></p>
+    <div class="code-wrap">
+      <span class="code-lbl">Titular óptimo para LinkedIn (copia y adapta)</span>
+      <div class="codeblock" id="li-title"><button class="copy-btn" onclick="cp('li-title',this)">Copiar</button>Junior Data Analyst | SQL · Python · Power BI | Google Data Analytics Certified | Disponible para trabajo remoto</div>
+    </div>
+    <p><strong>La estrategia de contenido que atrae reclutadores:</strong> Publica 1 vez por semana sobre TU proceso de aprendizaje. No motivación. No noticias de IA. Tu proceso real: "Esta semana limpié un dataset con 70% de nulos usando imputación KNN. Aquí está lo que aprendí…" Eso posiciona.</p>
+    <div class="box-sky">
+      <strong>Hack del comentario estratégico:</strong> Comenta con insights reales en posts de Senior Analysts y Data Leaders. No "¡Excelente post!". Di algo sustancial. Las personas que contratan ven sus notificaciones. Tu nombre aparecerá como alguien que piensa.
+    </div>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-mint">🎓 Táctica #4 — Kaggle como Ventaja Competitiva</span>
+    <h3>El Portafolio Público que los Reclutadores Verifican</h3>
+    <p>Kaggle no es solo datasets. Es una red social de datos donde los reclutadores de empresas tech <strong>buscan activamente</strong> candidatos por su actividad.</p>
+    <p><strong>El sistema de niveles de Kaggle:</strong> Novice → Contributor → Expert → Master → Grandmaster. Llegar a <em>Expert</em> en Notebooks (publicar 5 notebooks con upvotes) es un diferenciador en el CV.</p>
+    <p><strong>Cómo subir de nivel rápido:</strong> Toma un dataset popular de Kaggle, haz un EDA más completo y mejor visualizado que los notebooks más votados, publícalo. Si es mejor que lo que existe, la comunidad lo vota.</p>
+    <div class="box-mint">
+      <strong>Hack de visibilidad:</strong> Cuando subas un notebook a Kaggle, comparte el link en LinkedIn con 3 insights no obvios que encontraste. Esto crea tráfico cruzado entre ambas plataformas y multiplica tu visibilidad.
+    </div>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-rose">⚡ Táctica #5 — El Protocolo de 48h para Entrevistas Técnicas</span>
+    <h3>Qué Hacer Cuando te Llaman para una Prueba</h3>
+    <p>La mayoría improvisa. Los que consiguen el trabajo siguen un protocolo. Cuando recibes una invitación a prueba técnica de datos, tienes 48 horas antes de que empiece (normalmente). Úsalas así:</p>
+    <div class="box-ember">
+      <strong>Hora 1–4:</strong> Investiga la empresa. Busca su stack de datos en ofertas de trabajo, presentaciones de LinkedIn, entrevistas de su equipo de datos en YouTube. Entiende qué herramientas usan y qué problemas resuelven.
+    </div>
+    <div class="box-sky">
+      <strong>Hora 5–12:</strong> Repasa los conceptos más frecuentes en pruebas de ese tipo de empresa. Para Fintech: cohortes, métricas de retención. Para Retail: inventory turnover, demand forecasting. Para SaaS: CAC, LTV, churn.
+    </div>
+    <div class="box-acid">
+      <strong>Hora 13–24:</strong> Practica el mismo tipo de dataset que usaría esa industria. Si es una empresa de logística, trabaja con datasets de envíos. El contexto mental importa tanto como la técnica.
+    </div>
+    <p style="margin-top:12px;"><strong>Durante la prueba:</strong> Antes de escribir código, escribe en comentarios tu plan de análisis. Los evaluadores quieren ver que piensas antes de ejecutar. Un analista que planea vale más que uno que ejecuta rápido sin dirección.</p>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-acid">🧮 Táctica #6 — Calculadora de Empleabilidad</span>
+    <h3>¿Cuánto Vale tu Perfil Hoy?</h3>
+    <p>Evalúa tu nivel actual en las dimensiones que los reclutadores priorizan para estimar tu probabilidad de pasar a entrevista.</p>
+
+    <div class="calc-grid">
+      <div class="calc-item">
+        <label>Nivel SQL</label>
+        <select id="c-sql">
+          <option value="0">No lo conozco</option>
+          <option value="15">Básico (SELECT, WHERE, GROUP BY)</option>
+          <option value="25">Intermedio (JOINs, subconsultas)</option>
+          <option value="35">Avanzado (CTEs, Window Functions)</option>
+        </select>
+      </div>
+      <div class="calc-item">
+        <label>Nivel Python/Pandas</label>
+        <select id="c-py">
+          <option value="0">No lo conozco</option>
+          <option value="10">Básico (leer CSV, filtrar)</option>
+          <option value="18">Intermedio (groupby, merge, limpieza)</option>
+          <option value="25">Avanzado (EDA completo, visualizaciones)</option>
+        </select>
+      </div>
+      <div class="calc-item">
+        <label>Visualización (Power BI / Tableau)</label>
+        <select id="c-bi">
+          <option value="0">No tengo</option>
+          <option value="8">Básico (gráficos simples)</option>
+          <option value="14">Intermedio (modelo de datos, DAX básico)</option>
+          <option value="18">Avanzado (modelo estrella, dashboard publicado)</option>
+        </select>
+      </div>
+      <div class="calc-item">
+        <label>Proyectos en GitHub</label>
+        <select id="c-gh">
+          <option value="0">Sin proyectos</option>
+          <option value="5">1 proyecto con README básico</option>
+          <option value="10">2–3 proyectos con README STAR</option>
+          <option value="15">3+ proyectos con impacto cuantificado</option>
+        </select>
+      </div>
+      <div class="calc-item">
+        <label>Certificaciones</label>
+        <select id="c-cert">
+          <option value="0">Sin certificaciones</option>
+          <option value="3">1 certificación (freeCodeCamp)</option>
+          <option value="6">Google Data Analytics</option>
+          <option value="9">Google + IBM Data Analyst</option>
+        </select>
+      </div>
+      <div class="calc-item">
+        <label>Horas de práctica diaria</label>
+        <input type="range" id="c-hrs" min="1" max="5" value="3" oninput="document.getElementById('c-hrs-val').textContent=this.value+'h/día'">
+        <div class="range-val" id="c-hrs-val">3h/día</div>
+      </div>
+    </div>
+
+    <button class="btn btn-acid" onclick="calcEmpl()">Calcular mi empleabilidad →</button>
+
+    <div class="calc-result" id="calc-result" style="display:none;margin-top:20px;">
+      <div class="score-circle">
+        <div class="score-num" id="sc-num">0</div>
+        <div class="score-lbl">/ 100</div>
+      </div>
+      <div class="score-desc" id="sc-desc"></div>
+      <ul class="score-tips" id="sc-tips"></ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S4: BIBLIOTECA DE PROMPTS DE IA
+═══════════════════════════════════════════════════════ -->
+<section id="s4">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">04 · PROMPTS</span>
+    <h2 class="sec-title">Biblioteca de Prompts para Analistas</h2>
+  </div>
+  <p class="sec-desc">Los prompts mal construidos producen SQL alucinado y análisis inútil. Estos son los prompts estructurados que yo usaría — probados para producir outputs de calidad de producción.</p>
+
+  <div class="box-acid" style="margin-bottom:24px;">
+    <strong>Principio de oro para prompts de datos:</strong> Siempre incluye (1) tu rol/contexto, (2) el esquema exacto de las tablas, (3) la pregunta de negocio en lenguaje llano, (4) las restricciones técnicas (motor SQL, versión de Python). Sin estos 4 elementos, el resultado será genérico y probablemente incorrecto.
+  </div>
+
+  <div class="prompt-card">
+    <h4><span style="color:var(--acid)">▶</span> Prompt 1 — SQL desde Pregunta de Negocio</h4>
+    <p>Para convertir requerimientos en lenguaje natural a SQL optimizado y auditado.</p>
+    <div class="code-wrap">
+      <span class="code-lbl">SQL Generator — Producción</span>
+      <div class="codeblock" id="p1"><button class="copy-btn" onclick="cp('p1',this)">Copiar</button>Actúa como Senior Data Analyst especializado en PostgreSQL.
+
+Contexto del negocio: [descripción de la empresa y el área]
+
+Esquema de tablas disponibles:
+- employees(id INT, name VARCHAR, dept_id INT, hire_date DATE, salary DECIMAL, status VARCHAR)
+- departments(id INT, name VARCHAR, manager_id INT, budget DECIMAL)
+- performance(emp_id INT, review_date DATE, score INT, category VARCHAR)
+
+Pregunta de negocio: [escribe tu pregunta en español natural]
+
+Restricciones:
+- Motor: PostgreSQL 15
+- Debe ejecutarse en menos de 2 segundos con 500K registros
+- Sin subqueries anidadas si hay alternativa con CTE
+
+Por favor:
+1. Escribe la consulta SQL completa
+2. Explica CADA cláusula con su propósito de negocio
+3. Señala si necesita un índice para optimizar
+4. Propón 2 variaciones útiles de la misma consulta</div>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <h4><span style="color:var(--sky)">▶</span> Prompt 2 — EDA Automatizado con Python</h4>
+    <p>Para generar análisis exploratorio de datos completo y reproducible.</p>
+    <div class="code-wrap">
+      <span class="code-lbl">Python EDA — Template de Producción</span>
+      <div class="codeblock" id="p2"><button class="copy-btn" onclick="cp('p2',this)">Copiar</button>Actúa como Data Scientist experimentado con Python.
+
+Tengo un DataFrame de pandas llamado `df` con las siguientes columnas:
+[lista tus columnas con tipo de dato: ej. customer_id (int), purchase_date (datetime), amount (float)]
+
+El objetivo del análisis es: [describe el objetivo de negocio]
+
+Genera un script Python completo para EDA que incluya:
+1. Resumen estadístico con interpretación de negocio (no solo df.describe())
+2. Detección y visualización de valores nulos con heatmap
+3. Distribuciones de variables numéricas con histogramas + KDE
+4. Detección de outliers con método IQR y box plots
+5. Matriz de correlación con Seaborn heatmap (solo variables relevantes)
+6. Mínimo 3 insights no obvios que buscar basado en el contexto
+
+Requisitos del código:
+- Comentarios en español explicando cada bloque
+- Visualizaciones con títulos descriptivos y labels
+- Guardar outputs en carpeta /outputs/
+- Compatible con Google Colab</div>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <h4><span style="color:var(--mint)">▶</span> Prompt 3 — Limpieza de Datos Corrupta</h4>
+    <p>Para enfrentar datasets sucios del mundo real con estrategia clara.</p>
+    <div class="code-wrap">
+      <span class="code-lbl">Data Cleaning — Estrategia + Código</span>
+      <div class="codeblock" id="p3"><button class="copy-btn" onclick="cp('p3',this)">Copiar</button>Actúa como Data Engineer especializado en calidad de datos.
+
+Descripción del dataset:
+- Fuente: [ej. scraping de precios inmobiliarios, exportación de CRM]
+- Filas: [número aproximado]
+- Problema principal: [ej. 70% de nulos en columna 'precio', tipos inconsistentes]
+
+Adjunto muestra del dataset (primeras 5 filas):
+[pega aquí las primeras filas]
+
+Genera una estrategia de limpieza en Python que:
+1. Diagnostique el problema: profile completo de nulos, tipos, duplicados
+2. Decida estrategia por columna (eliminar / imputar / transformar)
+3. Justifique estadísticamente cada decisión de imputación
+4. Valide que la distribución post-limpieza preserva la original (test KS)
+5. Documente el registro de cambios (data lineage básico)
+
+Importante: NO elimines filas como primera opción. Prefiere imputación inteligente.</div>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <h4><span style="color:var(--ember)">▶</span> Prompt 4 — Narrativa para Dashboard</h4>
+    <p>Para convertir hallazgos técnicos en insights de negocio que los directivos entienden.</p>
+    <div class="code-wrap">
+      <span class="code-lbl">Dashboard Narrative Generator</span>
+      <div class="codeblock" id="p4"><button class="copy-btn" onclick="cp('p4',this)">Copiar</button>Actúa como Business Intelligence Analyst con experiencia en comunicación ejecutiva.
+
+Métricas del dashboard:
+- KPI 1: [nombre y valor, ej. "Ventas Q4: $1.2M, +15% vs Q3"]
+- KPI 2: [nombre y valor]
+- KPI 3: [nombre y valor]
+- Outlier detectado: [describe la anomalía más importante]
+
+Audiencia: [ej. "Director de Operaciones, no técnico, le interesa el impacto en costos"]
+
+Genera:
+1. Titular de 1 línea que capture el hallazgo más importante (máx. 15 palabras)
+2. Párrafo ejecutivo de 3 oraciones: situación → hallazgo → implicación
+3. 3 recomendaciones accionables con verbo de acción + métrica de éxito
+4. 1 pregunta de seguimiento que debería hacerse el stakeholder
+
+Tono: directo, sin jerga técnica, orientado a decisión.</div>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <h4><span style="color:var(--acid)">▶</span> Prompt 5 — Preparación para Entrevista Técnica</h4>
+    <p>Para simular entrevistas técnicas de datos y detectar brechas antes del día real.</p>
+    <div class="code-wrap">
+      <span class="code-lbl">Interview Prep Simulator</span>
+      <div class="codeblock" id="p5"><button class="copy-btn" onclick="cp('p5',this)">Copiar</button>Actúa como entrevistador técnico Senior de [empresa objetivo] para una posición de Junior Data Analyst.
+
+Mi stack actual: SQL (nivel intermedio), Python/Pandas (básico-intermedio), Power BI (intermedio)
+
+El rol aplica a: [descripción del rol y empresa]
+
+Simula una entrevista técnica de 30 minutos:
+1. Haz 3 preguntas de SQL con dificultad progresiva (básica → avanzada)
+2. Haz 2 preguntas de Python/Pandas con un dataset ejemplo
+3. Haz 1 pregunta de caso de negocio: dame datos confusos y pide que diseñe el análisis
+4. Después de mis respuestas, dime:
+   - Qué fue correcto
+   - Qué optimizaría
+   - Qué pregunta de seguimiento haría un entrevistador real
+   - Puntuación 1-10 con justificación
+
+Sé exigente pero justo. No suavices el feedback.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S5: PROYECTOS
+═══════════════════════════════════════════════════════ -->
+<section id="s5">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">05 · PROYECTOS</span>
+    <h2 class="sec-title">El Laboratorio de Portafolio</h2>
+  </div>
+  <p class="sec-desc">3 proyectos que demuestran exactamente lo que los reclutadores buscan: datos sucios, decisiones de metodología, impacto cuantificado. No tutoriales clonados.</p>
+
+  <div class="tactic" style="margin-bottom:18px;">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-acid">Proyecto 01 · SQL + Power BI</span>
+    <h3>Dashboard de KPIs Financieros y Logísticos</h3>
+    <p><strong>El problema de negocio:</strong> Una empresa de retail no sabe qué regiones o métodos de envío "sangran" dinero. Las decisiones se toman sin visibilidad de datos.</p>
+    <p><strong>Tu misión técnica:</strong> Conectar PostgreSQL con Power BI, limpiar inconsistencias temporales (fechas nulas, monedas mixtas, duplicados de pedidos), construir modelo estrella y crear dashboard con KPIs de inventario, logística y rentabilidad.</p>
+    <p><strong>El diferenciador:</strong> No solo mostrar el problema — mostrar el costo de ignorarlo. "El inventario en zona Norte tiene 47 días de rotación vs. 22 días del benchmark. Costo de holding estimado: $X/mes."</p>
+    <div class="box-acid">
+      <strong>Impacto para el README:</strong> "Identifiqué $200K atrapados en inventario de baja rotación en zona Este. El dashboard habilitó alertas logísticas que redujeron stock inmovilizado un 35%."
+    </div>
+    <a href="https://www.kaggle.com/datasets/vivek468/superstore-dataset-final" target="_blank" class="btn btn-ghost">📦 Dataset Superstore en Kaggle →</a>
+  </div>
+
+  <div class="tactic" style="margin-bottom:18px;">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-sky">Proyecto 02 · Python + Limpieza Avanzada</span>
+    <h3>Recuperación de Pipeline de Precios Inmobiliarios</h3>
+    <p><strong>El problema de negocio:</strong> Un dataset de precios inmobiliarios extraído por scraping tiene 77% de nulos en columna de tipo de propiedad y tipos de datos inconsistentes. Sin limpieza, ningún modelo de pricing funciona.</p>
+    <p><strong>Tu misión técnica:</strong> Aplicar imputación condicional por reglas de negocio (no solo fillna con media — eso arruina la distribución), validar con test de Kolmogorov-Smirnov, documentar el "linaje" de cada decisión de limpieza.</p>
+    <p><strong>El diferenciador que no hace nadie:</strong> Crear un "informe de calidad de datos" antes y después de la limpieza. Porcentaje de completitud por columna, distribuciones comparadas, decisiones justificadas. Esto demuestra madurez analítica.</p>
+    <div class="box-sky">
+      <strong>Impacto para el README:</strong> "Salvaguardé el 80% de un pipeline de 15K registros mediante imputación algorítmica condicional (KNN + reglas de dominio), habilitando modelo de pricing con RMSE 12% inferior al baseline."
+    </div>
+    <a href="https://www.kaggle.com/datasets/kanchana1990/colorado-real-estate-market-2026" target="_blank" class="btn btn-ghost">🏠 Dataset Inmobiliario Colorado →</a>
+  </div>
+
+  <div class="tactic">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-mint">Proyecto 03 · IA + SQL + Impacto en RRHH</span>
+    <h3>Motor de Queries Semántico para Analítica de RRHH</h3>
+    <p><strong>El problema de negocio:</strong> El equipo de RRHH necesita métricas pero no sabe SQL. Cada análisis tarda días esperando al equipo de datos. La empresa necesita democratizar el acceso a insights.</p>
+    <p><strong>Tu misión técnica:</strong> Diseñar esquema SQL de base de datos de RRHH con IA, construir librería de prompts validados que traduzcan preguntas de negocio ("¿cuál es la tasa de retención por departamento?") a SQL ejecutable, documentar el proceso de validación.</p>
+    <p><strong>El diferenciador que pocos tienen en 2026:</strong> Demostrar que sabes usar IA como herramienta de producción, no como juguete. Los reclutadores de empresas tech buscan activamente esto.</p>
+    <div class="box-mint">
+      <strong>Impacto para el README:</strong> "Construí una librería de 15 prompts validados que reducen el tiempo de extracción de métricas de RRHH de 2 días a 15 minutos, con tasa de precisión del 94% en queries generados."
+    </div>
+    <div class="code-wrap" style="margin-top:14px;">
+      <span class="code-lbl">Prompt base para el proyecto 3</span>
+      <div class="codeblock" id="p-hr"><button class="copy-btn" onclick="cp('p-hr',this)">Copiar</button>Tengo este esquema de RRHH en PostgreSQL:
+employees(id, name, dept_id, hire_date, termination_date, salary, manager_id)
+departments(id, name, location, budget)
+
+Pregunta de negocio: ¿Cuál es la tasa de retención por departamento en los últimos 24 meses?
+
+Genera:
+1. La consulta SQL completa con CTE
+2. Definición exacta de "retención" que usas (activos al final del período / activos al inicio)
+3. Manejo del edge case: empleados contratados durante el período
+4. Índice recomendado para optimizar
+5. Variación: tasa de retención por manager (no solo departamento)</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S6: PORTAFOLIO & EMPLEO
+═══════════════════════════════════════════════════════ -->
+<section id="s6">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">06 · EMPLEO</span>
+    <h2 class="sec-title">El Sistema de Búsqueda de Empleo</h2>
+  </div>
+  <p class="sec-desc">No apliques a trabajos como si fuera una lotería. Aplica con sistema. La diferencia entre el que consigue entrevistas y el que no está en los detalles.</p>
+
+  <div class="grid">
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-acid">📋 Stack de Habilidades</span>
+      <h3>Qué Miden los ATS en 2026</h3>
+      <div class="skill-row"><div class="sk-name">SQL</div><div class="sk-track"><div class="sk-fill sk-fill-acid" style="width:95%"></div></div><span class="sk-tag sk-core">Indispensable</span></div>
+      <div class="skill-row"><div class="sk-name">Python / Pandas</div><div class="sk-track"><div class="sk-fill sk-fill-acid" style="width:88%"></div></div><span class="sk-tag sk-core">Indispensable</span></div>
+      <div class="skill-row"><div class="sk-name">Power BI / Tableau</div><div class="sk-track"><div class="sk-fill sk-fill-acid" style="width:82%"></div></div><span class="sk-tag sk-core">Indispensable</span></div>
+      <div class="skill-row"><div class="sk-name">Excel / Sheets</div><div class="sk-track"><div class="sk-fill sk-fill-acid" style="width:78%"></div></div><span class="sk-tag sk-core">Indispensable</span></div>
+      <div class="skill-row"><div class="sk-name">Google BigQuery</div><div class="sk-track"><div class="sk-fill sk-fill-sky" style="width:70%"></div></div><span class="sk-tag sk-plus">Muy valorado</span></div>
+      <div class="skill-row"><div class="sk-name">Git / GitHub</div><div class="sk-track"><div class="sk-fill sk-fill-sky" style="width:65%"></div></div><span class="sk-tag sk-plus">Muy valorado</span></div>
+      <div class="skill-row"><div class="sk-name">Prompt Engineering</div><div class="sk-track"><div class="sk-fill sk-fill-sky" style="width:60%"></div></div><span class="sk-tag sk-plus">Tendencia 2026</span></div>
+      <div class="skill-row"><div class="sk-name">Estadística</div><div class="sk-track"><div class="sk-fill sk-fill-acid" style="width:75%"></div></div><span class="sk-tag sk-core">Indispensable</span></div>
+      <div class="skill-row"><div class="sk-name">Scikit-learn básico</div><div class="sk-track"><div class="sk-fill sk-fill-ember" style="width:42%"></div></div><span class="sk-tag sk-bonus">Diferenciador</span></div>
+    </div>
+
+    <div class="tactic">
+      <div class="card-accent"></div>
+      <span class="tactic-label tl-sky">💼 Sistema de Aplicación</span>
+      <h3>El Protocolo de Aplicación con Sistema</h3>
+      <p><strong>Regla de las 10 aplicaciones semanales:</strong> No 50 aplicaciones genéricas. 10 aplicaciones personalizadas donde adaptas el CV y la carta a la empresa específica.</p>
+      <p><strong>El tracker de aplicaciones (crea esto en Google Sheets):</strong></p>
+      <div class="box-sky">
+        Columnas: Empresa | Rol | Fecha | Canal | Status | Próximo paso | Notas de la empresa
+      </div>
+      <p><strong>Canales por prioridad de efectividad:</strong></p>
+      <div class="timeline" style="margin-top:10px;">
+        <div class="tl-row"><div class="tl-dot">1</div><div class="tl-body"><h4>Referido directo</h4><p>Tasa de entrevista: ~60%. Cultiva esto con networking activo en LinkedIn.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">2</div><div class="tl-body"><h4>Aplicación directa en web empresa</h4><p>Tasa de entrevista: ~15%. Mejor que portales porque el ATS es directo.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">3</div><div class="tl-body"><h4>LinkedIn Jobs</h4><p>Tasa de entrevista: ~8%. Útil para volumen, personaliza siempre.</p></div></div>
+        <div class="tl-row" style="margin-bottom:0;"><div class="tl-dot">4</div><div class="tl-body"><h4>Otros portales (Indeed, etc.)</h4><p>Tasa de entrevista: ~4%. Solo para volumen, nunca como canal principal.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tactic" style="margin-top:18px;">
+    <div class="card-accent"></div>
+    <span class="tactic-label tl-ember">🎤 Entrevistas: Respuestas STAR para Datos</span>
+    <h3>Las 5 Preguntas que Siempre Hacen (y las Respuestas que Funcionan)</h3>
+
+    <div class="box-ember" style="margin-bottom:12px;">
+      <strong>"Cuéntame de un análisis complejo que hayas hecho"</strong><br>
+      S: "En mi proyecto de retail, el cliente tenía inventario inmovilizado sin visibilidad de causa."<br>
+      T: "Debía identificar qué productos, regiones y métodos de envío concentraban el problema."<br>
+      A: "Construí un pipeline SQL con CTEs para calcular días de rotación por SKU y región, y un dashboard Power BI con alertas de umbral."<br>
+      R: "Se identificaron $200K en inventario de baja rotación. Las alertas habilitaron decisiones que redujeron stock inmovilizado un 35%."
+    </div>
+    <div class="box-sky" style="margin-bottom:12px;">
+      <strong>"¿Cómo manejas datos sucios o incompletos?"</strong><br>
+      "Primero diagnostico: cuántos nulos, distribución, si hay patrón en los faltantes (MCAR/MAR/MNAR). Luego decido estrategia por columna: si los nulos son aleatorios y <5%, elimino. Si son sistemáticos o &gt;10%, imputo con KNN o reglas de negocio. Siempre documento las decisiones y valido que la distribución post-limpieza sea coherente con la original."
+    </div>
+    <div class="box-acid">
+      <strong>"¿Cómo explicas un análisis a alguien no técnico?"</strong><br>
+      "Nunca empiezo con la metodología. Empiezo con el impacto: 'Encontré que estamos perdiendo $X por mes debido a Y.' Luego el stakeholder pregunta '¿cómo lo sabes?' y ahí explico la metodología en términos de negocio, no técnicos."
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S7: MERCADO & SALARIOS
+═══════════════════════════════════════════════════════ -->
+<section id="s7">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">07 · MERCADO</span>
+    <h2 class="sec-title">Mercado Laboral y Salarios 2026</h2>
+  </div>
+  <p class="sec-desc">Datos para negociar con información, no con intuición. Conocer el mercado te pone en una posición de poder en la conversación salarial.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-accent"></div>
+      <h3>Salarios — Modalidad Remota (USD/mes)</h3>
+      <table>
+        <thead><tr><th>Nivel</th><th>Exp.</th><th>Rango USD</th></tr></thead>
+        <tbody>
+          <tr><td>Junior Analyst</td><td>0–2 años</td><td class="td-acid">$600–$1,400</td></tr>
+          <tr><td>Mid Analyst</td><td>2–4 años</td><td class="td-acid">$1,400–$2,800</td></tr>
+          <tr><td>Senior Analyst</td><td>4–7 años</td><td class="td-acid">$2,800–$5,000</td></tr>
+          <tr><td>Lead / Manager</td><td>7+ años</td><td class="td-acid">$5,000–$9,000+</td></tr>
+        </tbody>
+      </table>
+      <div class="box-acid" style="margin-top:14px;">
+        <strong>Tácticas de negociación salarial:</strong><br>
+        (1) Siempre da un rango, no un número. El piso del rango debe ser tu mínimo aceptable.<br>
+        (2) Ancla con impacto: "Dado que mis proyectos han demostrado impacto de $200K…"<br>
+        (3) No aceptes la primera oferta. Pide 24h para "evaluar" aunque vayas a aceptar.<br>
+        (4) Negocia también: flexibilidad horaria, presupuesto de cursos, días de vacaciones.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-accent"></div>
+      <h3>Industrias con Mayor Demanda de Analistas</h3>
+      <table>
+        <thead><tr><th>Industria</th><th>Demanda</th><th>Keywords clave</th></tr></thead>
+        <tbody>
+          <tr><td>Fintech / Banca</td><td class="td-acid">🔥 Muy alta</td><td class="td-sky">cohortes, LTV, riesgo</td></tr>
+          <tr><td>E-commerce / Retail</td><td class="td-acid">🔥 Muy alta</td><td class="td-sky">funnel, conversión, CAC</td></tr>
+          <tr><td>SaaS / Tech</td><td class="td-acid">🔥 Alta</td><td class="td-sky">churn, MRR, product analytics</td></tr>
+          <tr><td>Salud / Pharma</td><td class="td-acid">📈 Media-alta</td><td class="td-sky">clinical data, compliance</td></tr>
+          <tr><td>Logística</td><td class="td-acid">📈 Media-alta</td><td class="td-sky">KPIs operativos, rutas</td></tr>
+          <tr><td>Consultoría</td><td class="td-acid">📊 Media</td><td class="td-sky">generalist, Excel power user</td></tr>
+        </tbody>
+      </table>
+      <div class="box-sky" style="margin-top:14px;">
+        <strong>Mi recomendación táctica:</strong> Apunta a Fintech o E-commerce como primera industria. Tienen alta demanda, pagan mejor, y los datos son más ricos para aprender. Una vez tienes experiencia ahí, puedes moverte a cualquier vertical.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S8: RECURSOS GRATUITOS
+═══════════════════════════════════════════════════════ -->
+<section id="s8">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">08 · RECURSOS</span>
+    <h2 class="sec-title">Arsenal de Recursos $0</h2>
+  </div>
+  <p class="sec-desc">Todo lo que necesitas para completar la ruta sin gastar un peso. Plataformas, herramientas, datasets y comunidades.</p>
+
+  <div class="res-grid">
+    <a href="https://www.freecodecamp.org/learn/data-analysis-with-python" target="_blank" class="res-item">
+      <span class="r-ico">🏕️</span>
+      <div><div class="r-name">freeCodeCamp Python</div><div class="r-desc">Currículo completo de análisis con Python. Certificado verificable y gratuito.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" class="res-item">
+      <span class="r-ico">🎓</span>
+      <div><div class="r-name">Google Data Analytics</div><div class="r-desc">8 cursos. Solicitar Financial Aid individualmente.</div><div class="r-tag r-beca">◆ Gratuito con beca</div></div>
+    </a>
+    <a href="https://www.coursera.org/professional-certificates/ibm-data-analyst" target="_blank" class="res-item">
+      <span class="r-ico">🔵</span>
+      <div><div class="r-name">IBM Data Analyst</div><div class="r-desc">9 cursos con Python, SQL, Tableau y Cognos Analytics.</div><div class="r-tag r-beca">◆ Gratuito con beca</div></div>
+    </a>
+    <a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" class="res-item">
+      <span class="r-ico">🗃️</span>
+      <div><div class="r-name">SQLZoo</div><div class="r-desc">Práctica SQL interactiva en el navegador. Sin instalación.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://www.hackerrank.com/domains/sql" target="_blank" class="res-item">
+      <span class="r-ico">⚔️</span>
+      <div><div class="r-name">HackerRank SQL</div><div class="r-desc">Challenges de SQL con dificultad graduada. Las empresas usan su plataforma para pruebas técnicas.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://www.kaggle.com" target="_blank" class="res-item">
+      <span class="r-ico">🐾</span>
+      <div><div class="r-name">Kaggle</div><div class="r-desc">Datasets reales, Notebooks gratuitos con GPU y micro-cursos.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://colab.research.google.com" target="_blank" class="res-item">
+      <span class="r-ico">🔬</span>
+      <div><div class="r-name">Google Colab</div><div class="r-desc">Jupyter Notebooks en la nube. GPU disponible. Sin instalación local.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://cloud.google.com/bigquery/docs/sandbox" target="_blank" class="res-item">
+      <span class="r-ico">☁️</span>
+      <div><div class="r-name">BigQuery Sandbox</div><div class="r-desc">1TB de queries/mes gratuito. SQL en la nube a escala real.</div><div class="r-tag r-free">● Gratuito (sandbox)</div></div>
+    </a>
+    <a href="https://public.tableau.com" target="_blank" class="res-item">
+      <span class="r-ico">📊</span>
+      <div><div class="r-name">Tableau Public</div><div class="r-desc">Publica dashboards públicos para tu portafolio.</div><div class="r-tag r-free">● 100% Gratuito</div></div>
+    </a>
+    <a href="https://powerbi.microsoft.com/es-es/desktop/" target="_blank" class="res-item">
+      <span class="r-ico">🟡</span>
+      <div><div class="r-name">Power BI Desktop</div><div class="r-desc">Versión desktop gratuita para Windows. Más de 100 conectores de datos.</div><div class="r-tag r-free">● Gratuito (desktop)</div></div>
+    </a>
+    <a href="https://supabase.com" target="_blank" class="res-item">
+      <span class="r-ico">⚡</span>
+      <div><div class="r-name">Supabase (PostgreSQL)</div><div class="r-desc">PostgreSQL en la nube gratis. Perfecto para proyectos del portafolio.</div><div class="r-tag r-free">● Free tier disponible</div></div>
+    </a>
+    <a href="https://github.com" target="_blank" class="res-item">
+      <span class="r-ico">🐙</span>
+      <div><div class="r-name">GitHub</div><div class="r-desc">Repositorios públicos ilimitados. Tu portafolio vive aquí.</div><div class="r-tag r-free">● Gratuito (público)</div></div>
+    </a>
+  </div>
+
+  <div class="box-acid" style="margin-top:24px;">
+    <strong>Comunidades donde aprender + hacer networking:</strong><br>
+    <a href="https://www.reddit.com/r/dataanalysis/" target="_blank">r/dataanalysis</a> · 
+    <a href="https://www.reddit.com/r/learnpython/" target="_blank">r/learnpython</a> · 
+    <a href="https://discord.gg/kaggle" target="_blank">Discord de Kaggle</a> · 
+    <a href="https://discord.gg/freecodecamp" target="_blank">Discord freeCodeCamp</a> · 
+    LinkedIn grupos de Data Analytics LATAM
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S9: BECA COURSERA
+═══════════════════════════════════════════════════════ -->
+<section id="s9">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">09 · BECA</span>
+    <h2 class="sec-title">Protocolo de Financial Aid en Coursera</h2>
+  </div>
+  <p class="sec-desc">Acceder a certificaciones de $300–$500 sin costo. Paso a paso sin errores que cancelen tu aplicación.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-accent"></div>
+      <h3>Reglas Críticas del Sistema</h3>
+      <div class="box-ember">
+        <strong>🚨 Límite de 10 solicitudes simultáneas.</strong> Tardan 15 días calendario exactos en procesarse. Si activas "Free Trial" mientras esperas, anulas la solicitud.
+      </div>
+      <div class="box-acid">
+        <strong>💡 Estrategia óptima:</strong> Aplica al curso individual 1, NO a la certificación completa. Cuando lo aprueben (día 15), aplica al curso 2. Así mantienes el flujo sin perder acceso.
+      </div>
+      <ol style="margin-left:20px;color:var(--txt2);line-height:2.2;font-size:.9rem;margin-top:16px;">
+        <li>Ir al <strong style="color:var(--txt)">curso individual</strong> (no la especialización)</li>
+        <li>Clic en <em>"Financial aid available"</em> (texto gris, debajo del botón azul)</li>
+        <li>Llenar educación e ingresos. Puedes poner $0 si estás desempleado</li>
+        <li>Pegar ensayo de +150 palabras (plantillas abajo)</li>
+        <li>Esperar 15 días. <strong style="color:var(--rose)">NO activar Free Trial</strong></li>
+        <li>Al aprobar: inscribirse en las 24h siguientes</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="card-accent"></div>
+      <h3>Orden de Aplicación Recomendado</h3>
+      <div class="timeline" style="margin-top:14px;">
+        <div class="tl-row"><div class="tl-dot">1</div><div class="tl-body"><h4>Google DA — Curso 1</h4><p>Foundations: Data, Data, Everywhere. Aplicar día 1 de la ruta.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">2</div><div class="tl-body"><h4>Google DA — Curso 2</h4><p>Ask Questions to Make Data-Driven Decisions. Aplicar día 15.</p></div></div>
+        <div class="tl-row"><div class="tl-dot">3</div><div class="tl-body"><h4>IBM DA — Curso 1</h4><p>Introduction to Data Analytics. Aplicar semana 6 de la ruta.</p></div></div>
+        <div class="tl-row" style="margin-bottom:0;"><div class="tl-dot">4</div><div class="tl-body"><h4>Continuar secuencialmente</h4><p>Cada 15 días aplicar al siguiente curso mientras estudias el aprobado.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="code-wrap">
+      <span class="code-lbl">ENSAYO EN INGLÉS — Más de 150 palabras (copia y edita [ ])</span>
+      <div class="codeblock" id="essay-en"><button class="copy-btn" onclick="cp('essay-en',this)">Copiar</button>I am formally applying for financial assistance to access this specific Data Analytics module because my current financial situation severely limits my ability to pay for educational programs. [Describe your situation briefly: unemployment, low income, currency devaluation in your country, family responsibilities, etc.] This makes self-funded education structurally impossible without causing serious financial hardship to my household.
+
+I maintain a firm and unwavering commitment to transitioning professionally into the data analytics field. Obtaining this specific certification is a critical technical milestone required to achieve that goal. The competencies covered in this course — including structured database querying with SQL, data wrangling with Python, and professional-grade visualization — are directly required for the roles I am targeting.
+
+Receiving this financial aid will allow me to develop these skills without compromising my family's financial stability. I commit to completing all coursework diligently, submitting all assignments on time, and adhering fully to the Coursera Honor Code. I understand the value of this opportunity and I will not take it for granted. Thank you sincerely for your consideration.</div>
+    </div>
+
+    <div class="code-wrap" style="margin-top:20px;">
+      <span class="code-lbl">ENSAYO EN ESPAÑOL — Más de 150 palabras (copia y edita [ ])</span>
+      <div class="codeblock" id="essay-es"><button class="copy-btn" onclick="cp('essay-es',this)">Copiar</button>Solicito formalmente asistencia financiera para acceder a este módulo de Análisis de Datos porque mi situación económica actual restringe seriamente mi capacidad de costear programas educativos. [Describe tu situación: desempleo, ingresos limitados, devaluación de moneda local, responsabilidades familiares, etc.] Esto hace que la educación autofinanciada sea estructuralmente imposible sin poner en riesgo la estabilidad financiera de mi familia.
+
+Mantengo un compromiso firme e inquebrantable de transición profesional hacia el campo del análisis de datos. Obtener esta certificación es un hito técnico fundamental para alcanzar ese objetivo. Las competencias de este curso — consultas SQL, análisis con Python y visualización profesional — son exactamente las requeridas para los roles a los que aspiro.
+
+Recibir esta ayuda me permitirá desarrollar estas habilidades sin comprometer la economía familiar. Me comprometo a completar todas las actividades con dedicación, entregar todos los trabajos a tiempo y cumplir íntegramente con el código de honor de la plataforma. Agradezco profundamente esta oportunidad.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     S10: FAQ TÁCTICA
+═══════════════════════════════════════════════════════ -->
+<section id="s10">
+<div class="page">
+  <div class="sec-header">
+    <span class="sec-num">10 · FAQ</span>
+    <h2 class="sec-title">Preguntas Tácticas Frecuentes</h2>
+  </div>
+  <p class="sec-desc">Las preguntas reales que importan — con respuestas directas sin condescendencia.</p>
+
+  <div class="faq"><button class="faq-btn">¿Cuándo empezar a aplicar empleos? ¿Al final de los 6 meses?</button><div class="faq-body">No. Empieza a aplicar en el mes 3, cuando tengas SQL intermedio + el primer proyecto. Las entrevistas de exploración (aunque no resulten en oferta) son parte del proceso de aprendizaje — te dicen qué brecha exacta tienes. El proceso de reclutamiento tarda semanas; si aplicas en el mes 3 y te llaman en el mes 4, habrás avanzado significativamente.</div></div>
+
+  <div class="faq"><button class="faq-btn">¿Necesito saber machine learning para ser analista de datos Junior?</button><div class="faq-body">No. Los puestos Junior de Data Analyst raramente requieren ML. Sí requieren estadística descriptiva sólida: media, mediana, desviación estándar, percentiles, correlación, y entender cuándo un resultado es estadísticamente significativo vs. ruido. El ML viene en posiciones de Data Scientist o Senior Analyst. No adelantes esa batalla — consolida primero el stack de analista.</div></div>
+
+  <div class="faq"><button class="faq-btn">Power BI o Tableau — ¿cuál aprendo primero?</button><div class="faq-body">Power BI si tu mercado objetivo es LATAM, España o empresas medianas. Tableau si apuntas a empresas tech grandes o mercado anglosajón. La buena noticia: los principios de diseño de dashboards y el pensamiento de modelo de datos son los mismos. Si dominas uno bien, el otro se aprende en 2 semanas. Recomiendo: Power BI primero (gratis, más demanda en LATAM), Tableau Public como segundo para el portafolio online.</div></div>
+
+  <div class="faq"><button class="faq-btn">¿Cómo demuestro experiencia sin haberla tenido?</button><div class="faq-body">Con proyectos de portafolio documentados como si fueran trabajo real. El truco: no digas "hice un proyecto académico". Di "analicé un dataset de 50K registros de ventas de retail e identifiqué $200K en inventario inmovilizado". La experiencia en proyectos propios bien documentados es equivalente a trabajo real en el mercado Junior. Lo que el reclutador evalúa es tu capacidad de pensar y ejecutar, no si alguien te pagó por hacerlo.</div></div>
+
+  <div class="faq"><button class="faq-btn">¿Qué hago si me rechazan la beca de Coursera?</button><div class="faq-body">Opciones en orden: (1) Vuelve a aplicar después de 180 días con el ensayo modificado. (2) freeCodeCamp es 100% gratuito sin restricciones y el certificado es reconocido. (3) Kaggle Learn tiene micro-cursos certificados gratis. (4) Los contenidos de Google Data Analytics están parcialmente disponibles en YouTube. Con freeCodeCamp + Kaggle + BigQuery Sandbox cubres el 80% del stack sin Coursera.</div></div>
+
+  <div class="faq"><button class="faq-btn">¿Cómo manejo no tener experiencia laboral previa en datos?</button><div class="faq-body">Reencuadra tu experiencia previa en términos de datos. ¿Trabajaste en ventas? "Analicé tendencias de clientes para priorizar seguimiento". ¿Administración? "Optimicé reportes de KPIs reduciendo tiempo de elaboración un 40%". Todo trabajo involucra datos de alguna forma. El trabajo está en encontrar la intersección entre lo que hiciste y el lenguaje del análisis de datos. En la entrevista, esa narrativa vale tanto como proyectos técnicos.</div></div>
+
+  <div class="faq"><button class="faq-btn">¿Cuánto tarda realmente en conseguir el primer empleo?</button><div class="faq-body">Con esta ruta ejecutada consistentemente: entre 6 y 10 meses desde cero. Las variables que más impactan: (1) consistencia diaria — las 3 horas son no negociables; (2) calidad del portafolio — 3 proyectos con impacto cuantificado vs. tutoriales copiados; (3) networking activo — el 40-60% de las posiciones Junior se cubren por referidos; (4) mercado regional — algunas ciudades tienen más demanda que otras. El promedio sin sistema es 18+ meses. Con sistema: 6-10 meses.</div></div>
+</div>
+</section>
+
+<footer>
+  <div class="page">
+    <p>Sistema DA-2026 · Hoja de Ruta Táctica · Presupuesto <span>$0</span> · 3h diarias · 6 meses</p>
+    <p style="margin-top:6px;font-size:.65rem;">Documento autocontenido — funciona sin conexión a internet después de cargado. Progreso guardado en el navegador.</p>
+  </div>
+</footer>
+</div><!-- /main -->
+
+<div id="toast">✓ Copiado al portapapeles</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ── PROGRESS ENGINE ─────────────────────────────────────── */
+const cbs = document.querySelectorAll('.tc');
+const KEY = 'da2026v2';
+
+const saved = (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })();
+
+cbs.forEach(cb => {
+  if (saved[cb.id]) cb.checked = true;
+  const li = cb.closest('.ti');
+  if (cb.checked) li.classList.add('done');
+  cb.addEventListener('change', () => {
+    li.classList.toggle('done', cb.checked);
+    save(); tick();
+  });
+  li.addEventListener('click', e => {
+    if (e.target !== cb && e.target.tagName !== 'A' && e.target.tagName !== 'CODE') {
+      cb.checked = !cb.checked;
+      li.classList.toggle('done', cb.checked);
+      save(); tick();
+    }
+  });
+});
+
+function save() {
+  const s = {};
+  cbs.forEach(c => s[c.id] = c.checked);
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {}
+}
+
+function tick() {
+  const total = cbs.length;
+  const done = [...cbs].filter(c => c.checked).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+
+  document.getElementById('pf').style.width = pct + '%';
+  document.getElementById('pp').textContent = pct + '%';
+  document.getElementById('pd').textContent = done;
+  document.getElementById('pt').textContent = total;
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-done').textContent = done;
+  document.getElementById('st-pct').textContent = pct + '%';
+  document.getElementById('sb-bar').style.width = pct + '%';
+  document.getElementById('sb-pct').textContent = pct + '%';
+
+  const lbl = document.getElementById('plbl');
+  if (pct === 100) { lbl.textContent = '🎉 Ruta completada. Listo para entrevistas.'; document.getElementById('pp').style.color = 'var(--mint)'; }
+  else if (pct >= 75) { lbl.textContent = '🔥 Recta final — el empleo está cerca.'; }
+  else if (pct >= 50) { lbl.textContent = '⚡ Más de la mitad completada. Mantén el ritmo.'; }
+  else if (pct >= 25) { lbl.textContent = '📈 Buen progreso. La consistencia es todo.'; }
+  else { lbl.textContent = `${done} de ${total} hitos — cada checkbox es un paso real hacia el empleo.`; }
+}
+
+tick();
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+const sb = document.getElementById('sb');
+const ham = document.getElementById('ham');
+ham.addEventListener('click', () => sb.classList.toggle('open'));
+document.addEventListener('click', e => {
+  if (!sb.contains(e.target) && !ham.contains(e.target)) sb.classList.remove('open');
+});
+document.querySelectorAll('.nav-link').forEach(l => {
+  l.addEventListener('click', () => { if (window.innerWidth < 920) sb.classList.remove('open'); });
+});
+
+/* ── ACTIVE NAV ──────────────────────────────────────────── */
+const secs = document.querySelectorAll('section[id]');
+const navs = document.querySelectorAll('.nav-link');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navs.forEach(n => n.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 }).observe && secs.forEach(s => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navs.forEach(n => n.classList.remove('active'));
+        const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.2 }).observe(s);
+});
+
+/* ── COPY ────────────────────────────────────────────────── */
+function cp(id, btn) {
+  const el = document.getElementById(id);
+  const text = [...el.childNodes]
+    .filter(n => n.nodeType === 3 || (n.nodeType === 1 && n.tagName !== 'BUTTON'))
+    .map(n => n.textContent).join('').trim();
+  const exec = () => { btn.textContent = '✓ Copiado'; toast(); setTimeout(() => btn.textContent = 'Copiar', 2200); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(exec).catch(exec); }
+  else { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); exec(); }
+}
+function toast() {
+  const t = document.getElementById('toast');
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 2500);
+}
+
+/* ── FAQ ─────────────────────────────────────────────────── */
+document.querySelectorAll('.faq-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const open = b.classList.contains('open');
+    document.querySelectorAll('.faq-btn').forEach(x => { x.classList.remove('open'); x.nextElementSibling.classList.remove('vis'); });
+    if (!open) { b.classList.add('open'); b.nextElementSibling.classList.add('vis'); }
+  });
+});
+
+/* ── HELL DETECTOR ───────────────────────────────────────── */
+function evalHell() {
+  const checks = ['h1','h2','h3','h4','h5','h6'];
+  const count = checks.filter(id => document.getElementById(id).checked).length;
+  const el = document.getElementById('hell-result');
+  el.style.display = 'block';
+  el.className = 'hell-result';
+  if (count <= 1) {
+    el.classList.add('hell-safe');
+    el.textContent = '✅ Perfil saludable (' + count + '/6 síntomas). Estás en buen camino. Mantén la regla 70/20/10.';
+  } else if (count <= 3) {
+    el.classList.add('hell-warn');
+    el.textContent = '⚠️ Riesgo moderado (' + count + '/6 síntomas). Aplica la regla de las 48h ahora mismo: usa el concepto más reciente que aprendiste en un dataset diferente al del tutorial.';
+  } else {
+    el.classList.add('hell-danger');
+    el.textContent = '🔥 Tutorial Hell confirmado (' + count + '/6 síntomas). Para inmediatamente. Abre Google Colab ahora y escribe 10 líneas de código sobre un dataset real de Kaggle. Eso rompe el ciclo.';
+  }
+}
+
+/* ── EMPLOYABILITY CALCULATOR ────────────────────────────── */
+function calcEmpl() {
+  const sql  = +document.getElementById('c-sql').value;
+  const py   = +document.getElementById('c-py').value;
+  const bi   = +document.getElementById('c-bi').value;
+  const gh   = +document.getElementById('c-gh').value;
+  const cert = +document.getElementById('c-cert').value;
+  const hrs  = +document.getElementById('c-hrs').value;
+  const hrsBonus = hrs >= 3 ? 3 : hrs >= 2 ? 1 : 0;
+  const total = Math.min(100, sql + py + bi + gh + cert + hrsBonus);
+
+  const el = document.getElementById('calc-result');
+  el.style.display = 'block';
+  document.getElementById('sc-num').textContent = total;
+
+  const tips = [];
+  let desc = '';
+
+  if (total >= 75) {
+    desc = 'Perfil competitivo para posiciones Junior. Debes estar aplicando activamente ahora mismo.';
+    if (gh < 10) tips.push('Añade más proyectos al portafolio con impacto cuantificado');
+    if (cert < 6) tips.push('Consigue la certificación Google Data Analytics (beca Coursera)');
+    tips.push('Activa tu búsqueda: 10 aplicaciones/semana con CV personalizado');
+  } else if (total >= 50) {
+    desc = 'Perfil en desarrollo. Faltan 1-2 meses para alcanzar el umbral competitivo. Sigue con la ruta.';
+    if (sql < 25) tips.push('SQL es tu prioridad #1 — practica diariamente en HackerRank o SQLZoo');
+    if (gh < 5)  tips.push('Crea tu primer proyecto en GitHub esta semana — aunque sea básico');
+    if (bi < 8)  tips.push('Publica un dashboard en Tableau Public para tener presencia online');
+  } else if (total >= 25) {
+    desc = 'Etapa inicial de la ruta. Enfócate en el Stack Mínimo Viable: SQL + Python básico.';
+    if (sql < 15) tips.push('SQL primero: completa todos los módulos de SQLZoo esta semana');
+    if (py < 10)  tips.push('Empieza el currículo de Python en freeCodeCamp hoy');
+    tips.push('Crea una cuenta en GitHub ahora mismo aunque no tengas nada que subir');
+  } else {
+    desc = 'Punto de partida. El día 1 es hoy. El Stack Mínimo Viable empieza con SQL.';
+    tips.push('Ve a SQLZoo ahora mismo y completa el primer módulo');
+    tips.push('Abre Google Colab y escribe tu primer código Python');
+    tips.push('Solicita la beca de Google Data Analytics en Coursera hoy');
+  }
+
+  document.getElementById('sc-desc').textContent = desc;
+  const tipsEl = document.getElementById('sc-tips');
+  tipsEl.innerHTML = '';
+  tips.forEach(t => { const li = document.createElement('li'); li.textContent = t; tipsEl.appendChild(li); });
+
+  document.getElementById('sc-num').closest('.score-circle').style.borderColor =
+    total >= 75 ? 'var(--acid)' : total >= 50 ? 'var(--sky)' : total >= 25 ? 'var(--ember)' : 'var(--rose)';
+  document.getElementById('sc-num').style.color =
+    total >= 75 ? 'var(--acid)' : total >= 50 ? 'var(--sky)' : total >= 25 ? 'var(--ember)' : 'var(--rose)';
+}
+</script>
+</body>
+</html>
