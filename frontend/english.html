@@ -159,7 +159,15 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .note-area:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ag)}
 @media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.tab{font-size:10px;padding:6px 8px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}}
 
+
 /* Premium Refactor Overrides */
+/* SRS Buttons */
+.btn-srs-hard { background: hsla(25, 95%, 53%, 0.15) !important; color: hsl(25, 95%, 53%) !important; border: 1px solid hsla(25, 95%, 53%, 0.3) !important; font-size: 11px !important; }
+.btn-srs-hard:hover { background: hsl(25, 95%, 53%) !important; color: #fff !important; transform: scale(1.05); }
+.btn-srs-good { background: hsla(142, 71%, 45%, 0.15) !important; color: hsl(142, 71%, 45%) !important; border: 1px solid hsla(142, 71%, 45%, 0.3) !important; font-size: 11px !important; }
+.btn-srs-good:hover { background: hsl(142, 71%, 45%) !important; color: #fff !important; transform: scale(1.05); }
+.btn-srs-easy { background: hsla(188, 86%, 53%, 0.15) !important; color: hsl(188, 86%, 53%) !important; border: 1px solid hsla(188, 86%, 53%, 0.3) !important; font-size: 11px !important; }
+.btn-srs-easy:hover { background: hsl(188, 86%, 53%) !important; color: #fff !important; transform: scale(1.05); }
 body { font-family: 'Inter', sans-serif !important; background: var(--bg) !important; color: var(--tx) !important; }
 .nav { background: hsla(240, 10%, 4%, 0.7) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-bottom: 1px solid hsla(0,0%,100%,0.05) !important; }
 .mod, .today, .qstat, .feed-card, .pomo, .fin, .quote { 
@@ -195,7 +203,7 @@ body { font-family: 'Inter', sans-serif !important; background: var(--bg) !impor
 <div class="pnl" id="p-conv"><div class="sl">· conversaciones ·</div><div class="sd">Usa 🔊 en cada línea. Practica ambos roles.</div><div class="cp" id="cC"></div><div id="cL"></div></div>
 <div class="pnl" id="p-pro"><div class="sl">· profesional ·</div><div class="cp" id="pC"></div><div id="pL"></div></div>
 <div class="pnl" id="p-ex"><div class="sl">· ejercicios ·</div><div class="daily"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;font-weight:700;color:var(--am)">🏆 Desafío Diario +25XP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am)" id="tmr">--:--:--</span></div><div id="dC"></div></div><div id="eL"></div><div style="text-align:center;margin-top:16px"><button class="btn bp" onclick="moreEx()">Más ejercicios →</button></div></div>
-<div class="pnl" id="p-fc"><div class="sl">· flashcards ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">1</b>/<b id="fT">0</b></span><div class="prg" style="width:160px"><div class="prf" id="fP" style="width:0%"></div></div></div><button class="btn bs bo" onclick="shuffleFC()">🔀</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW">...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA"></div><div class="fcd" id="fD"></div></div></div></div><div style="display:flex;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs" style="background:var(--rd);color:#fff" onclick="rateFC(1)">😰 No sé</button><button class="btn bs" style="background:var(--am);color:#000" onclick="rateFC(2)">🤔 Algo</button><button class="btn bs" style="background:var(--gn);color:#fff" onclick="rateFC(3)">😎 Lo sé</button></div></div>
+<div class="pnl" id="p-fc"><div class="sl">· flashcards (srs) ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">0</b>/<b id="fT">0</b></span><div class="prg" style="width:100px"><div class="prf" id="fP" style="width:0%"></div></div></div><div id="fcDueBadge" style="font-size:10px;font-weight:600;padding:4px 8px;background:hsla(25, 95%, 53%, 0.15);color:hsl(25, 95%, 53%);border:1px solid hsla(25, 95%, 53%, 0.3);border-radius:6px;box-shadow: 0 0 10px hsla(25, 95%, 53%, 0.2)">🔥 Due: <span id="fDue">0</span></div><button class="btn bs bo" onclick="buildFC()">🔀 Refrescar</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW" style="font-size:18px;">Cargando Mazo SRS...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA" style="font-size:14px;"></div><div class="fcd" id="fD"></div></div></div></div><div id="srsControls" style="display:none;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs btn-srs-hard" onclick="rateFC('hard')">😰 Hard (1d)</button><button class="btn bs btn-srs-good" onclick="rateFC('good')">🤔 Good</button><button class="btn bs btn-srs-easy" onclick="rateFC('easy')">😎 Easy</button></div><div class="fc-empty" id="fcEmpty" style="display:none; text-align:center; padding: 20px 0; color:var(--tx2); font-style:italic; font-size:12px">¡Mazo al día! Vuelve mañana para repasar.</div></div>
 <div class="pnl" id="p-iv"><div class="sl">· entrevistas ·</div><div class="cp" id="iC"></div><div id="iL"></div></div>
 <div class="pnl" id="p-notes"><div class="sl">· mis notas ·</div><div class="sd">Escribe oraciones para practicar. Se guardan automáticamente. Usa sellos para organizar.</div><div id="notesArea"></div></div>
 </div>
@@ -550,12 +558,68 @@ function renderDaily(){const i=new Date().getDate()%exDB.length,e=exDB[i],el=doc
 function chkDaily(i,o,el){const e=exDB[i],os=el.closest('.daily').querySelectorAll('.eop'),fb=document.getElementById('fd');os.forEach(x=>x.style.pointerEvents='none');if(o===e.c){el.classList.add('ok');fb.className='efb sh suc';fb.innerHTML='🏆 +25XP! '+e.w;addXP(25)}else{el.classList.add('no');os[e.c].classList.add('ok');fb.className='efb sh err';fb.innerHTML='❌ "'+e.o[e.c]+'". '+e.w}S.e++;upd();save()}
 function chkDailyT(i){const e=exDB[i],v=document.getElementById('id').value.trim().toLowerCase(),fb=document.getElementById('fd');if(v===e.a.toLowerCase()||(e.al||[]).some(a=>v===a.toLowerCase())){fb.className='efb sh suc';fb.innerHTML='🏆 +25XP! '+e.w;addXP(25)}else{fb.className='efb sh inf';fb.innerHTML='💡 "'+e.a+'" — '+e.w}S.e++;upd();save()}
 
-// Flashcards
-function buildFC(){S.fs=[];Object.values(surv).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));Object.values(proDB).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));shuffleFC()}
-function shuffleFC(){for(let i=S.fs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[S.fs[i],S.fs[j]]=[S.fs[j],S.fs[i]]}S.fi=0;showFC()}
-function showFC(){if(!S.fs.length)return;const c=S.fs[S.fi];document.getElementById('fW').textContent=c.f;document.getElementById('fH').textContent=c.h+' — click voltear';document.getElementById('fA').textContent=c.b;document.getElementById('fD').textContent=c.d;document.getElementById('fN').textContent=S.fi+1;document.getElementById('fT').textContent=S.fs.length;document.getElementById('fP').style.width=((S.fi+1)/S.fs.length*100)+'%';document.getElementById('mainFC').classList.remove('fl')}
-function flipFC(){document.getElementById('mainFC').classList.toggle('fl')}
-function rateFC(r){if(r===3){addXP(5);S.w++}else if(r===2)addXP(2);S.fi++;if(S.fi>=S.fs.length){S.fi=0;shuffleFC()}showFC();upd();save()}
+// SRS Flashcards Engine
+async function buildFC(){
+  let deck=JSON.parse(localStorage.getItem('eng_srs_deck')||'[]');
+  let m=[];
+  try{const res=await fetch('data/srs_deck.json');const dj=await res.json();m=m.concat(dj);}catch(e){}
+  Object.values(surv).flat().forEach(w=>m.push({q:w.en,a:w.es,h:w.tp,d:w.ex.replace(/<\/?b>/g,'')}));
+  Object.values(proDB).flat().forEach(w=>m.push({q:w.en,a:w.es,h:w.tp,d:w.ex.replace(/<\/?b>/g,'')}));
+  let newC=0;
+  m.forEach(i=>{if(!deck.find(c=>c.q===i.q)){deck.push({id:Math.random().toString(36).substr(2,9),q:i.q,a:i.a,h:i.h,d:i.d,interval:0,ease:2.5,reps:0,nextDue:0});newC++;}});
+  if(newC>0)localStorage.setItem('eng_srs_deck',JSON.stringify(deck));
+  const now=Date.now();
+  S.fcDue=deck.filter(c=>c.nextDue<=now);
+  S.fcAll=deck;
+  document.getElementById('fDue').textContent=S.fcDue.length;
+  shuffleFC();
+}
+function shuffleFC(){if(!S.fcDue)return;for(let i=S.fcDue.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[S.fcDue[i],S.fcDue[j]]=[S.fcDue[j],S.fcDue[i]]}S.fi=0;showFC()}
+function showFC(){
+  document.getElementById('mainFC').classList.remove('fl');
+  document.getElementById('srsControls').style.display='none';
+  if(!S.fcDue || !S.fcDue.length || S.fi>=S.fcDue.length){
+    document.getElementById('fW').textContent='¡Al Día!';
+    document.getElementById('fH').textContent='No hay más repasos pendientes.';
+    document.getElementById('fA').textContent='';
+    document.getElementById('fD').textContent='';
+    document.getElementById('fcEmpty').style.display='block';
+    document.getElementById('mainFC').style.pointerEvents='none';
+    document.getElementById('fN').textContent='0';document.getElementById('fT').textContent='0';document.getElementById('fP').style.width='100%';
+    return;
+  }
+  document.getElementById('fcEmpty').style.display='none';
+  document.getElementById('mainFC').style.pointerEvents='auto';
+  const c=S.fcDue[S.fi];
+  document.getElementById('fW').textContent=c.q;
+  document.getElementById('fH').textContent=c.h+' — click voltear';
+  document.getElementById('fA').textContent=c.a;
+  document.getElementById('fD').textContent=c.d;
+  document.getElementById('fN').textContent=S.fi+1;
+  document.getElementById('fT').textContent=S.fcDue.length;
+  document.getElementById('fP').style.width=((S.fi)/S.fcDue.length*100)+'%';
+}
+function flipFC(){
+  if(!S.fcDue || S.fi>=S.fcDue.length) return;
+  document.getElementById('mainFC').classList.add('fl');
+  document.getElementById('srsControls').style.display='flex';
+  const c=S.fcDue[S.fi];
+  document.querySelector('.btn-srs-good').textContent=`🤔 Good (${Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease))}d)`;
+  document.querySelector('.btn-srs-easy').textContent=`😎 Easy (${Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3))}d)`;
+}
+function rateFC(r){
+  const c=S.fcDue[S.fi];
+  if(r==='hard'){ c.interval=1; c.ease=Math.max(1.3, c.ease-0.2); c.reps=0; }
+  else if(r==='good'){ c.interval=Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease)); c.reps++; addXP(2); S.w++; }
+  else if(r==='easy'){ c.interval=Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3)); c.ease+=0.15; c.reps++; addXP(5); S.w++; }
+  c.nextDue = Date.now() + (c.interval * 86400000);
+  const deckIndex = S.fcAll.findIndex(x=>x.id===c.id);
+  if(deckIndex!==-1) S.fcAll[deckIndex]=c;
+  localStorage.setItem('eng_srs_deck',JSON.stringify(S.fcAll));
+  S.fi++;
+  document.getElementById('fDue').textContent = S.fcDue.length - S.fi;
+  showFC();upd();save();
+}
 
 // Interview
 const ivDB={behavioral:[{q:"Tell me about yourself.",m:"I am a data analyst with experience in SQL, Python, and Tableau. I specialize in turning raw data into actionable insights. In my previous role, I built automated dashboards saving 15 hours per week.",t:["90 seg","Presente+Pasado+Futuro"],k:["experience","specialize","automated"]},{q:"Greatest strength?",m:"Translating complex data into clear stories for non-technical stakeholders. I presented a segmentation analysis to the C-suite resulting in 20% higher retention.",t:["Ejemplo con números","STAR method"],k:["translating","stakeholders","retention"]},{q:"Tell me about a failure.",m:"I built a dashboard without validating data. A wrong decision was made. I took ownership, corrected it, implemented validation. Now data quality is my strongest area.",t:["Fallo superado","Lo que aprendiste"],k:["ownership","implemented","validation"]},{q:"Why should we hire you?",m:"I combine SQL, Python, and Tableau with business acumen. What sets me apart is connecting insights to business outcomes that impact revenue directly.",t:["Skills+necesidades","Diferencial"],k:["sets me apart","outcomes","impacted"]}],technical:[{q:"What tools do you use?",m:"Core: SQL for extraction, Python with pandas for transformation, Tableau for visualization. Also BigQuery and Git. Learning dbt.",t:["Herramientas","Ganas de aprender"],k:["extraction","transformation"]},{q:"Messy data?",m:"Assess extent, impute or investigate root causes, always document cleaning decisions for transparency and reproducibility.",t:["Proceso sistemático"],k:["assess","root cause","reproducibility"]}],situational:[{q:"Multiple urgent requests?",m:"Assess impact and deadlines, communicate expectations, deliver quick wins while working deeper analysis in parallel.",t:["Priorización","Comunicación"],k:["communicate","parallel"]},{q:"Error in shared report?",m:"Immediately notify, correct, understand root cause, send updated version, implement prevention.",t:["Transparencia"],k:["notify","prevention"]}]};
