@@ -156,8 +156,6 @@ function togglePomo(){if(pomoOn){clearInterval(pomoInt);pomoOn=false;document.ge
 function resetPomo(){clearInterval(pomoInt);pomoOn=false;pomoSec=1500;document.getElementById('pomoTime').textContent='25:00';document.getElementById('pomoBtn').innerHTML='▶ Iniciar';document.getElementById('ratePanel').style.display='none'}
 function rateSess(v){document.querySelectorAll('.rate-star').forEach((s,i)=>s.classList.toggle('on',i<v));const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');r.push({v,d:new Date().toISOString()});localStorage.setItem('sb_ratings',JSON.stringify(r));setTimeout(()=>document.getElementById('ratePanel').style.display='none',600);updateStats()}
 const pt=new Date().toISOString().split('T')[0];document.getElementById('pomoCount').textContent=localStorage.getItem('sb_pomo_'+pt)||'0';document.getElementById('pomoTotal').textContent=localStorage.getItem('sb_pomo_total')||'0';
-}
-function renderFin(){const d=getFin();let inc=0,exp=0;d.forEach(x=>{if(x.type==='inc')inc+=x.amt;else exp+=x.amt});const bal=inc-exp,pct=inc>0?Math.round(exp/inc*100):0;document.getElementById('finInc').textContent='$'+inc.toLocaleString();document.getElementById('finExp').textContent='$'+exp.toLocaleString();document.getElementById('finBal').textContent='$'+bal.toLocaleString();document.getElementById('finBal').style.color=bal>=0?'var(--gn)':'var(--rd)';document.getElementById('finBar').style.width=Math.min(100,pct)+'%';document.getElementById('finBar').style.background=pct>80?'var(--rd)':pct>60?'var(--am)':'var(--gn)'}
 function updateStats(){if(!localStorage.getItem('sb_start'))localStorage.setItem('sb_start',new Date().toISOString());document.getElementById('statDays').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('sb_start')))/864e5));document.getElementById('statStreak').textContent=(localStorage.getItem('sb_streak')||'0')+'🔥';document.getElementById('statHours').textContent=(localStorage.getItem('sb_hours')||'0')+'h';const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');if(r.length){document.getElementById('statProd').textContent=(r.reduce((a,x)=>a+x.v,0)/r.length).toFixed(1)+'⭐'}}
 function renderFeed(){
 const el=document.getElementById('feedGrid');
@@ -232,7 +230,7 @@ async function renderEnglish() {
 }
 renderDeals();
 renderEnglish();
-renderFin();
 </script>
 </body>
 </html>
+```
