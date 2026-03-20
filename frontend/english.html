@@ -180,15 +180,11 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">English Total System</span></div><div class="nav-r"><div class="bdg bdg-s">🔥 <span id="strk">0</span></div><div class="bdg bdg-x">⚡ <span id="xp">0</span> XP</div></div></nav>
 <div class="wrap">
 <div class="hero"><div class="hero-sub">sistema total de inglés · dual system</div><h1>Speak fast. <em>Understand</em> everything.</h1><p>200+ palabras, 12 reglas, conversaciones, ejercicios, pronunciación con audio, notas y entrevistas. <strong>NEW: Accounting Associate Interview Prep.</strong></p></div>
-<!-- MODE SWITCHER -->
-<div class="mode-sw">
-<button class="mode-btn on" data-mode="ds" onclick="switchMode('ds')"><span>💻</span> Data Science</button>
-<button class="mode-btn" data-mode="acct" onclick="switchMode('acct')"><span class="mode-dot" style="background:var(--em)"></span><span>📊</span> Accounting <span class="pl" style="background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.15);font-size:8px;margin-left:2px">PRIORITY</span></button>
-</div>
+<!-- MODO STANDALONE: ENGLISH TOTAL SYSTEM -->
 <!-- ═══ DATA SCIENCE SECTION ═══ -->
 <div id="ds-section">
 <div class="hst"><div class="hs"><div class="hsv" id="sw">0</div><div class="hsl">Palabras</div></div><div class="hs"><div class="hsv" id="sr">0</div><div class="hsl">Reglas</div></div><div class="hs"><div class="hsv" id="se">0</div><div class="hsl">Ejercicios</div></div><div class="hs"><div class="hsv" id="sn">0</div><div class="hsl">Notas</div></div></div>
-<div class="tabs"><button class="tab on" data-p="surv">🗣️ Supervivencia</button><button class="tab" data-p="gram">🧠 Reglas</button><button class="tab" data-p="und">👂 Entender</button><button class="tab" data-p="conv">💬 Conversaciones</button><button class="tab" data-p="pro">💼 Profesional</button><button class="tab" data-p="ex">✏️ Ejercicios</button><button class="tab" data-p="fc">🃏 Flashcards</button><button class="tab" data-p="iv">🎯 Entrevistas</button><button class="tab" data-p="notes">📓 Mis Notas</button></div>
+<div class="tabs"><button class="tab on" data-p="surv">🗣️ Supervivencia</button><button class="tab" data-p="gram">🧠 Reglas</button><button class="tab" data-p="und">👂 Entender</button><button class="tab" data-p="conv">💬 Conversaciones</button><button class="tab" data-p="pro">💼 Profesional</button><button class="tab" data-p="ex">✏️ Ejercicios</button><button class="tab" data-p="fc">🃏 Flashcards</button><button class="tab" data-p="iv">🎯 Entrevistas</button><button class="tab" data-p="notes">📓 Mis Notas</button><button class="tab" data-p="script"><span style="color:var(--em);font-weight:700">📋 Acct Pitch</span></button><button class="tab" data-p="glossary"><span style="color:var(--em);font-weight:700">📚 Acct Words</span></button></div>
 
 <div class="pnl on" id="p-surv"><div class="sl">· supervivencia ·</div><div class="sd">Click en 🔊 para escuchar (click de nuevo para detener). Pasa el mouse sobre la palabra para ver la traducción. Click en la fila para ver el ejemplo.</div><div class="tipbox"><b>💡 Método rápido</b><p><strong>Lee cada ejemplo en voz alta 3 veces.</strong> Usa 🔊 para comparar. Tu cerebro retiene contextos, no listas.</p></div><div class="cp" id="sC"></div><div id="sL"></div></div>
 <div class="pnl" id="p-gram"><div class="sl">· 12 reglas ·</div><div class="sd">Domina las primeras 5 antes de avanzar. Cada ejemplo tiene 🔊.</div><div id="gL"></div></div>
@@ -199,28 +195,10 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="pnl" id="p-fc"><div class="sl">· flashcards ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">1</b>/<b id="fT">0</b></span><div class="prg" style="width:160px"><div class="prf" id="fP" style="width:0%"></div></div></div><button class="btn bs bo" onclick="shuffleFC()">🔀</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW">...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA"></div><div class="fcd" id="fD"></div></div></div></div><div style="display:flex;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs" style="background:var(--rd);color:#fff" onclick="rateFC(1)">😰 No sé</button><button class="btn bs" style="background:var(--am);color:#000" onclick="rateFC(2)">🤔 Algo</button><button class="btn bs" style="background:var(--gn);color:#fff" onclick="rateFC(3)">😎 Lo sé</button></div></div>
 <div class="pnl" id="p-iv"><div class="sl">· entrevistas ·</div><div class="cp" id="iC"></div><div id="iL"></div></div>
 <div class="pnl" id="p-notes"><div class="sl">· mis notas ·</div><div class="sd">Escribe oraciones para practicar. Se guardan automáticamente. Usa sellos para organizar.</div><div id="notesArea"></div></div>
+<div class="pnl" id="p-script"><div id="acct-script"></div></div>
+<div class="pnl" id="p-glossary"><div id="acct-glossary"></div></div>
 </div><!-- /ds-section -->
-<!-- ═══ ACCOUNTING SECTION ═══ -->
-<div id="acct-section" style="display:none">
-<div class="hst" style="border:1px solid rgba(16,185,129,.12)"><div class="hs"><div class="hsv" style="color:var(--em)">38</div><div class="hsl">Glossary Terms</div></div><div class="hs"><div class="hsv" style="color:var(--em)">24</div><div class="hsl">Excel Terms</div></div><div class="hs"><div class="hsv" style="color:var(--em)">7</div><div class="hsl">Interview Q's</div></div><div class="hs"><div class="hsv" style="color:var(--em)">4</div><div class="hsl">Resources</div></div></div>
-<div class="acct-tabs">
-<button class="acct-tab on" data-p="script">📋 Script</button>
-<button class="acct-tab" data-p="career">🚀 Career Route</button>
-<button class="acct-tab" data-p="glossary">📚 Glossary</button>
-<button class="acct-tab" data-p="excel">📊 Excel</button>
-<button class="acct-tab" data-p="resources">🔗 Resources</button>
-<button class="acct-tab" data-p="simulator">🤖 Simulator</button>
-<button class="acct-tab" data-p="interview">🎯 Interview</button>
-</div>
-<div class="acct-pnl on" id="ap-script"><div id="acct-script"></div></div>
-<div class="acct-pnl" id="ap-career"><div id="acct-career"></div></div>
-<div class="acct-pnl" id="ap-glossary"><div id="acct-glossary"></div></div>
-<div class="acct-pnl" id="ap-excel"><div id="acct-excel"></div></div>
-<div class="acct-pnl" id="ap-resources"><div id="acct-resources"></div></div>
-<div class="acct-pnl" id="ap-simulator"><div id="acct-simulator"></div></div>
-<div class="acct-pnl" id="ap-interview"><div id="acct-interview"></div></div>
-</div><!-- /acct-section -->
-</div>
+<!-- Hybrid Accounting Section removed (now in accounting.html) -->
 
 <script src="acct_module.js"></script>
 <script>
@@ -645,7 +623,7 @@ renderVocab(surv,'sL');
 renderGrammar();renderUnderstand();renderConv('greetings');renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
 updTimer();setInterval(updTimer,1000);
 setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('cC',renderConv);setupFilter('iC',renderIV);
-initAcctTabs();
+// Accounting initialization handled by DOMContentLoaded in acct_module.js
 upd();
 }
 init();

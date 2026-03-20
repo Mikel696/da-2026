@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090b;--card:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#52525b;--ac:#8b5cf6;--ac2:#a78bfa;--acg:rgba(139,92,246,.08);--gn:#22c55e;--gng:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316}
+:root{--bg:#09090b;--card:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#52525b;--ac:#8b5cf6;--ac2:#a78bfa;--acg:rgba(139,92,246,.08);--gn:#22c55e;--gng:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316;--em:#10b981;--emg:rgba(16,185,129,.08)}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between}
@@ -52,15 +52,18 @@
 .rate-stars{display:flex;gap:4px;justify-content:center}
 .rate-star{font-size:20px;cursor:pointer;filter:grayscale(1);opacity:.4;transition:all .1s}
 .rate-star:hover,.rate-star.on{filter:none;opacity:1;transform:scale(1.2)}
-.fin{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
-.fin-title{font-size:12px;font-weight:600;margin-bottom:8px}
-.fin-row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px}
-.fin-val{font-family:'IBM Plex Mono',monospace;font-weight:600}
-.fin-bar{height:6px;background:var(--el);border-radius:3px;margin:6px 0;overflow:hidden}.fin-fill{height:100%;border-radius:3px}
-.fin-add{display:flex;gap:4px;margin-top:8px}
-.fin-input{flex:1;padding:6px 8px;background:var(--el);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-family:inherit;font-size:11px}.fin-input:focus{outline:none;border-color:var(--ac)}
-.fin-btn{padding:5px 10px;border-radius:6px;border:none;font-family:inherit;font-size:10px;font-weight:600;cursor:pointer}
-.fin-btn-i{background:var(--gn);color:#fff}.fin-btn-e{background:var(--rd);color:#fff}
+.cajita{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.cajita-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cajita-title{font-size:12px;font-weight:600;color:var(--em)}
+.cajita-link{font-size:10px;color:var(--tx3);text-decoration:none}.cajita-link:hover{color:var(--em)}
+.cj-deal{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:all .2s}.cj-deal:hover{background:var(--emg);border-radius:6px;padding-left:4px}.cj-deal:last-child{border-bottom:none;padding-bottom:0}
+.cj-icon{flex-shrink:0;width:24px;height:24px;background:var(--emg);color:var(--em);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;border:1px solid rgba(16,185,129,.15)}
+.cj-info{flex:1;min-width:0}
+.cj-title{font-size:11px;font-weight:500;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cj-meta{display:flex;gap:4px}
+.cj-tag{font-size:8px;padding:2px 4px;border-radius:3px;font-weight:600;text-transform:uppercase}
+.cj-free{background:var(--gng);color:var(--gn);border:1px solid rgba(34,197,94,.15)}
+.cj-hot{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.15)}
 .modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:28px}
 .mod{display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;min-height:150px;text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden;cursor:pointer}
 .mod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
@@ -96,7 +99,7 @@
 <div class="today"><div class="today-header"><div class="today-title">📋 Tareas del Día</div><div class="today-date" id="todayDate"></div></div><div id="taskList"></div><div class="task-add"><input class="task-input" id="taskInput" placeholder="Agregar tarea..." onkeydown="if(event.key==='Enter')addTask()"><select class="task-select" id="taskCat"><option value="study">📚 Estudio</option><option value="work">💼 Trabajo</option><option value="personal">🏠 Personal</option><option value="health">💪 Salud</option></select><button class="task-btn" onclick="addTask()">+ Agregar</button></div></div>
 <div class="sidebar">
 <div class="pomo"><div class="pomo-title">🍅 Temporizador de Estudio</div><div class="pomo-time" id="pomoTime">25:00</div><div class="pomo-btns"><button class="pomo-btn pomo-start" id="pomoBtn" onclick="togglePomo()">▶ Iniciar</button><button class="pomo-btn pomo-reset" onclick="resetPomo()">↺ Reset</button></div><div class="pomo-log">Sesiones hoy: <strong id="pomoCount">0</strong> · Total: <strong id="pomoTotal">0</strong></div><div class="rate-panel" id="ratePanel"><div class="rate-q">¿Qué tan productiva fue esta sesión?</div><div class="rate-stars"><span class="rate-star" onclick="rateSess(1)">⭐</span><span class="rate-star" onclick="rateSess(2)">⭐</span><span class="rate-star" onclick="rateSess(3)">⭐</span><span class="rate-star" onclick="rateSess(4)">⭐</span><span class="rate-star" onclick="rateSess(5)">⭐</span></div></div></div>
-<div class="fin"><div class="fin-title">💰 Finanzas del Mes</div><div class="fin-row"><span>Ingresos</span><span class="fin-val" style="color:var(--gn)" id="finInc">$0</span></div><div class="fin-row"><span>Gastos</span><span class="fin-val" style="color:var(--rd)" id="finExp">$0</span></div><div class="fin-bar"><div class="fin-fill" id="finBar" style="width:0%"></div></div><div class="fin-row"><span>Balance</span><span class="fin-val" id="finBal">$0</span></div><div class="fin-add"><input class="fin-input" id="finAmt" placeholder="Monto..." type="number"><input class="fin-input" id="finDesc" placeholder="Descripción..." style="flex:2"><button class="fin-btn fin-btn-i" onclick="addFin('inc')">+ Ing</button><button class="fin-btn fin-btn-e" onclick="addFin('exp')">− Gas</button></div></div>
+<div class="cajita"><div class="cajita-header"><div class="cajita-title">🎁 Cajita Tech</div><a href="https://promocajita.com/gratis" target="_blank" class="cajita-link">Ver más →</a></div><div id="cajitaDeals"></div></div>
 </div></div>
 <div class="sec-label">· módulos ·</div>
 <div class="modules">
@@ -107,7 +110,7 @@
 <a href="news.html" class="mod mod-news"><div class="mod-top"><div class="mod-icon">📰</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Noticias Data & IA</div><div class="mod-desc">Noticias reales de 12 fuentes RSS. Auto-actualización cada 5 min. Click para leer.</div></div><div class="mod-meta"><span class="mod-tag">Live RSS</span><span>IA · Data · Tech</span></div></a>
 <a href="prompts.html" class="mod mod-prompts"><div class="mod-top"><div class="mod-icon">🤖</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Prompt Lab</div><div class="mod-desc">Optimizador de prompts, librería, guía para dominar Claude.</div></div><div class="mod-meta"><span class="mod-tag">14 prompts</span><span>SQL · Python · Business</span></div></a>
 <a href="goals.html" class="mod mod-goals"><div class="mod-top"><div class="mod-icon">🎯</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Objetivos & Hábitos</div><div class="mod-desc">Metas 30/60/90 días. Hábitos diarios. Revisión semanal.</div></div><div class="mod-meta"><span class="mod-tag">Tracker</span><span>Metas · Hábitos</span></div></a>
-<a href="finance.html" class="mod mod-finance"><div class="mod-top"><div class="mod-icon">💰</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Finanzas Personales</div><div class="mod-desc">Gastos, presupuesto, metas de ahorro.</div></div><div class="mod-meta"><span class="mod-tag">Budget</span><span>Gastos · Ahorro</span></div></a>
+<a href="accounting.html" class="mod mod-accounting" style="border-color:rgba(16,185,129,.15)"><div class="mod-top"><div class="mod-icon">📊</div><span class="mod-status status-ready" style="color:var(--em);background:rgba(16,185,129,.1)">Prioridad</span></div><div><div class="mod-title" style="color:var(--tx)">Accounting Associate</div><div class="mod-desc">Ruta 2026, ADP Master Tax, Excel Deep Dive y Entrevistas STAR.</div></div><div class="mod-meta"><span class="mod-tag" style="background:var(--em);color:#fff;border:none">Senior Lvl</span><span>Brinks Focus</span></div></a>
 <a href="notes.html" class="mod mod-notes"><div class="mod-top"><div class="mod-icon">📝</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Notas & Journal</div><div class="mod-desc">Ideas, apuntes, reflexiones diarias.</div></div><div class="mod-meta"><span class="mod-tag">Markdown</span><span>Ideas · Diario</span></div></a>
 </div>
 <div class="sec-label">· feed en vivo — noticias reales · <a href="news.html" style="color:var(--a2);text-decoration:none;font-size:10px">Ver todas →</a> ·</div>
@@ -133,10 +136,20 @@ function togglePomo(){if(pomoOn){clearInterval(pomoInt);pomoOn=false;document.ge
 function resetPomo(){clearInterval(pomoInt);pomoOn=false;pomoSec=1500;document.getElementById('pomoTime').textContent='25:00';document.getElementById('pomoBtn').innerHTML='▶ Iniciar';document.getElementById('ratePanel').style.display='none'}
 function rateSess(v){document.querySelectorAll('.rate-star').forEach((s,i)=>s.classList.toggle('on',i<v));const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');r.push({v,d:new Date().toISOString()});localStorage.setItem('sb_ratings',JSON.stringify(r));setTimeout(()=>document.getElementById('ratePanel').style.display='none',600);updateStats()}
 const pt=new Date().toISOString().split('T')[0];document.getElementById('pomoCount').textContent=localStorage.getItem('sb_pomo_'+pt)||'0';document.getElementById('pomoTotal').textContent=localStorage.getItem('sb_pomo_total')||'0';
-function getFin(){const m=new Date().toISOString().slice(0,7);try{return JSON.parse(localStorage.getItem('sb_fin_'+m)||'[]')}catch(e){return[]}}
-function saveFin(d){localStorage.setItem('sb_fin_'+new Date().toISOString().slice(0,7),JSON.stringify(d))}
-function addFin(type){const amt=parseFloat(document.getElementById('finAmt').value),desc=document.getElementById('finDesc').value.trim();if(!amt||amt<=0)return;const d=getFin();d.push({type,amt,desc,d:new Date().toISOString()});saveFin(d);document.getElementById('finAmt').value='';document.getElementById('finDesc').value='';renderFin()}
-function renderFin(){const d=getFin();let inc=0,exp=0;d.forEach(x=>{if(x.type==='inc')inc+=x.amt;else exp+=x.amt});const bal=inc-exp,pct=inc>0?Math.round(exp/inc*100):0;document.getElementById('finInc').textContent='$'+inc.toLocaleString();document.getElementById('finExp').textContent='$'+exp.toLocaleString();document.getElementById('finBal').textContent='$'+bal.toLocaleString();document.getElementById('finBal').style.color=bal>=0?'var(--gn)':'var(--rd)';document.getElementById('finBar').style.width=Math.min(100,pct)+'%';document.getElementById('finBar').style.background=pct>80?'var(--rd)':pct>60?'var(--am)':'var(--gn)'}
+function renderDeals(){
+  const el = document.getElementById('cajitaDeals');
+  el.innerHTML = '<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">Cargando ofertas...</div>';
+  fetch('data/recommendations.json').then(r=>r.json()).then(data=>{
+    if(!data||!data.length){ el.innerHTML='<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">No hay ofertas nuevas</div>';return; }
+    el.innerHTML = data.slice(0,5).map((d,i)=>{
+      const tags = (d.isFree ? '<span class="cj-tag cj-free">Gratis</span>' : '') + (d.isEarlyAlert ? '<span class="cj-tag cj-hot">Hot '+d.temp+'°</span>' : (!d.isFree ? '<span class="cj-tag" style="background:var(--el);border:1px solid var(--bd2)">'+d.temp+'°</span>' : ''));
+      const icon = i===0 ? '🔥' : (d.isFree ? '🎁' : '⚡');
+      return '<a href="'+d.link+'" target="_blank" rel="noopener" class="cj-deal"><div class="cj-icon">'+icon+'</div><div class="cj-info"><div class="cj-title">'+d.title+'</div><div class="cj-meta">'+tags+'</div></div></a>';
+    }).join('');
+  }).catch(()=>{
+    el.innerHTML='<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">Error de conexión</div>';
+  });
+}
 function updateStats(){if(!localStorage.getItem('sb_start'))localStorage.setItem('sb_start',new Date().toISOString());document.getElementById('statDays').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('sb_start')))/864e5));document.getElementById('statStreak').textContent=(localStorage.getItem('sb_streak')||'0')+'🔥';document.getElementById('statHours').textContent=(localStorage.getItem('sb_hours')||'0')+'h';const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');if(r.length){document.getElementById('statProd').textContent=(r.reduce((a,x)=>a+x.v,0)/r.length).toFixed(1)+'⭐'}}
 function renderFeed(){
 const el=document.getElementById('feedGrid');
@@ -164,7 +177,7 @@ function feedToTask(t){addTask('📰 '+t,'study');alert('✅ Agregado a tareas')
 function renderQuote(){const q=[{t:"The goal is to turn data into information, and information into insight.",a:"Carly Fiorina"},{t:"Without data, you're just another person with an opinion.",a:"W. Edwards Deming"},{t:"The world rewards those who are consistent, not those who are motivated.",a:"Anónimo"},{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},{t:"Success is the sum of small efforts, repeated day in and day out.",a:"Robert Collier"},{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},{t:"Every expert was once a beginner.",a:"Helen Hayes"},{t:"What gets measured gets managed.",a:"Peter Drucker"},{t:"Learning never exhausts the mind.",a:"Leonardo da Vinci"},{t:"In God we trust. All others must bring data.",a:"W. Edwards Deming"}];const today=new Date().getDate()%q.length;document.getElementById('quoteText').textContent='"'+q[today].t+'"';document.getElementById('quoteAuthor').textContent='— '+q[today].a}
 (function(){if(!localStorage.getItem('sb_name')){const n=prompt('¿Cuál es tu nombre?');if(n)localStorage.setItem('sb_name',n.trim())}})();
 (function(){const last=localStorage.getItem('sb_last'),today=new Date().toISOString().split('T')[0];if(last!==today){const y=new Date(Date.now()-864e5).toISOString().split('T')[0];let s=parseInt(localStorage.getItem('sb_streak')||'0');if(last===y)s++;else s=1;localStorage.setItem('sb_streak',String(s));localStorage.setItem('sb_last',today)}})();
-renderTasks();updateStats();renderFeed();renderQuote();renderFin();
+renderTasks();updateStats();renderFeed();renderQuote();renderDeals();
 </script>
 </body>
 </html>

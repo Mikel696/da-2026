@@ -448,29 +448,25 @@ window.showAcctAns = function(i){
   fb.className='efb sh inf';fb.innerHTML='💡 Model Answer: "'+e.a+'" — '+e.w;
 };
 
-// ─── MODE SWITCHING ───
-function switchMode(mode){
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));
-  document.querySelector('.mode-btn[data-mode="'+mode+'"]').classList.add('on');
-  document.getElementById('ds-section').style.display=mode==='ds'?'block':'none';
-  document.getElementById('acct-section').style.display=mode==='acct'?'block':'none';
-  if(mode==='acct'&&!window._acctInit){
-    window._acctInit=true;
-    renderAcctScript();
-    renderAcctCareer();
-    renderAcctGlossary();
-    renderExcelVocab();
-    renderResources();
-    renderSimulator();
-    renderAcctInterviewPanel();
+// ─── DYNAMIC INITIALIZATION ───
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('acct-script')) renderAcctScript();
+  if (document.getElementById('acct-career')) renderAcctCareer();
+  if (document.getElementById('acct-glossary')) renderAcctGlossary();
+  if (document.getElementById('acct-excel')) renderExcelVocab();
+  if (document.getElementById('acct-resources')) renderResources();
+  if (document.getElementById('acct-simulator')) renderSimulator();
+  if (document.getElementById('acct-interview')) renderAcctInterviewPanel();
+  
+  // Standalone Accounting Tabs logic
+  const acctTabs = document.querySelectorAll('.acct-tab');
+  if (acctTabs.length > 0) {
+    acctTabs.forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.acct-tab').forEach(x => x.classList.remove('on'));
+      document.querySelectorAll('.acct-pnl').forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+      const pnl = document.getElementById('ap-' + t.dataset.p);
+      if(pnl) pnl.classList.add('on');
+    }));
   }
-}
-
-function initAcctTabs(){
-  document.querySelectorAll('.acct-tab').forEach(t=>t.addEventListener('click',()=>{
-    document.querySelectorAll('.acct-tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.acct-pnl').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    document.getElementById('ap-'+t.dataset.p).classList.add('on');
-  }));
-}
+});
