@@ -3,15 +3,15 @@
 // 8 Years Experience (Brinks) · Financial Automation Specialist
 // ═══════════════════════════════════════════════════
 
-// ─── SENIOR ACCOUNTING PITCH SCRIPT ───
+// ─── SENIOR ACCOUNTING PITCH SCRIPT (Expert Edition) ───
 const eliteScript = [
-  {en:"Good day. I am Miguel, a Senior Accounting Specialist with 8 years of experience at Brinks and a technological edge.", es:"Buen día. Soy Miguel, Especialista Sénior en Contabilidad con 8 años de experiencia en Brinks y una ventaja tecnológica."},
-  {en:"I am currently in my 8th semester of Systems Engineering, which I use to bridge the gap between financial requirements and automated implementation.", es:"Actualmente curso 8vo semestre de Ingeniería de Sistemas, la cual uso para cerrar la brecha entre requerimientos financieros e implementación automatizada."},
-  {en:"During my tenure at Brinks, I specialized in complex multi-database reconciliations, successfully reducing unresolved discrepancies by 60%.", es:"Durante mi tiempo en Brinks, me especialicé en conciliaciones complejas multi-base de datos, reduciendo exitosamente las discrepancias en un 60%."},
-  {en:"I don't just record transactions; I optimize the workflows behind them using systems logic, Power Query, and advanced macros.", es:"No solo registro transacciones; optimizo los flujos de trabajo detrás de ellas usando lógica de sistemas, Power Query y macros avanzadas."},
-  {en:"This technical approach led to a 15% improvement in processing times for payroll tax liabilities and payment cycles.", es:"Este enfoque técnico llevó a una mejora del 15% en los tiempos de procesamiento para pasivos de impuestos de nómina y ciclos de pago."},
-  {en:"My core toolkit includes ADP Master Tax and V-ficcient, paired with a developer's mindset for data cleaning and validation.", es:"Mi kit de herramientas principal incluye ADP Master Tax y V-ficcient, junto con una mentalidad de desarrollador para la limpieza y validación de datos."},
-  {en:"I am ready to bring this hybrid 'Tech-Accountant' profile to the BR Accounting team to ensure accuracy through automation.", es:"Estoy listo para llevar este perfil de 'Contador Tecnológico' al equipo de BR Accounting para asegurar precisión a través de la automatización."}
+  {en:"Good day. I am Miguel, a Senior Accounting Associate with over 8 years of specialized experience in financial reconciliation and cash logistics at Brinks.", es:"Buen día. Soy Miguel, Especialista Sénior en Contabilidad con más de 8 años de experiencia especializada en conciliación financiera y logística de efectivo en Brinks."},
+  {en:"Throughout my tenure, I led a root-cause analysis project that successfully resolved 60% of historical discrepancies that had been pending for several quarters.", es:"Durante mi trayectoria, lideré un proyecto de análisis de causa raíz que resolvió con éxito el 60% de las discrepancias históricas que habían estado pendientes durante varios trimestres."},
+  {en:"I am currently in my 8th semester of Systems Engineering, which I treat as a powerful technical tool to bridge the gap between ledger requirements and automation.", es:"Actualmente curso el 8vo semestre de Ingeniería de Sistemas, la cual trato como una poderosa herramienta técnica para cerrar la brecha entre los requerimientos contables y la automatización."},
+  {en:"I specialize in implementing Power Query workflows and advanced Excel systematization to eliminate human error in complex tax liability processing.", es:"Me especializo en implementar flujos de trabajo de Power Query y sistematización avanzada en Excel para eliminar el error humano en el procesamiento de pasivos fiscales complejos."},
+  {en:"This technical edge resulted in a 15% optimization of monthly payment cycles and improved accuracy in payroll tax reporting.", es:"Esta ventaja técnica resultó en una optimización del 15% en los ciclos de pago mensuales y mejoró la precisión en los reportes de impuestos de nómina."},
+  {en:"My core toolkit includes Master Tax and V-ficcient, paired with a focus on data integrity that only a senior auditor can provide.", es:"Mi kit de herramientas principal incluye Master Tax y V-ficcient, sumado a un enfoque en la integridad de datos que solo un auditor sénior puede proporcionar."},
+  {en:"I am ready to bring this 'Tech-Accounting' expertise to the BR Accounting team to ensure 100% compliance through robust automation.", es:"Estoy listo para aportar esta experiencia en 'Contabilidad Tecnológica' al equipo de BR Accounting para asegurar un cumplimiento del 100% mediante una automatización robusta."}
 ];
 
 // ─── ADP / PAYROLL GLOSSARY ───
@@ -194,17 +194,17 @@ function renderResources(){
 // ─── RECRUITMENT SIMULATOR ───
 const chatDB = [
   {q:"Tell me about yourself as an accounting professional.", category:"intro",
-   model:"I am a Senior Accounting Specialist with 8 years of experience at Brinks. Currently, I am in my 8th semester of Systems Engineering, which allows me to automate complex financial processes. At Brinks, I reduced reconciliation discrepancies by 60% by building custom Power Query workflows.",
-   keywords:["senior","8 years","brinks","systems engineering","automate","reconciliation","60%"],
-   tips:["Lead with your seniority","Mention the 8 years","Highlight the 60% metric"]},
-  {q:"How have you used your technical engineering skills in accounting?", category:"star",
-   model:"I identify manual, error-prone tasks and resolve them with systems logic. For example, at Brinks, I used advanced macros and Power Query to consolidate cross-database data, which optimized our payment cycles by 15% and eliminated the human error factor in tax liability calculations.",
-   keywords:["macros","power query","systems logic","15%","automation","tax liability"],
-   tips:["Show ROI: 15% faster","Focus on 'human error' reduction","Connect systems logic to accounting"]},
-  {q:"How do you handle payroll tax reconciliation discrepancies?", category:"technical",
-   model:"I perform a root cause analysis using VLOOKUP cross-matching. I verify the payroll register against Form 941 filings and bank deposits. My goal is always 100% accuracy, reflecting the high standard for cash logistics I maintained at Brinks for 8 years.",
-   keywords:["root cause","vlookup","form 941","deposits","accuracy","brinks"],
-   tips:["Focus on 'Root Cause'","Mention forms (941)","Reference Brinks standards"]}
+   model:"I am a Senior Accounting Associate with over 8 years of specialized experience at Brinks. My focus is on financial accuracy and discrepancy resolution. I currently use my 8th-semester Systems Engineering knowledge as a tool to automate reconciliation workflows, resulting in a 60% reduction in historic variances.",
+   keywords:["senior","8 years","brinks","accountant","accuracy"],
+   tips:["Emphasize the 8-year tenure","Mention the 60% resolution achievement"]},
+  {q:"How do you use technology to improve accounting processes?", category:"star",
+   model:"I treat systems engineering as a technical lever. At Brinks, I implemented Power Query and advanced Excel automation to consolidate ledger data, which optimized payment cycles by 15% and ensured 100% accuracy in payroll tax liabilities.",
+   keywords:["power query","automation","15%","accuracy","systems logic"],
+   tips:["Focus on the 15% optimization","Treat tech as a tool for accuracy"]},
+  {q:"How do you handle payroll tax reconciliation?", category:"technical",
+   model:"I conduct root-cause analysis by cross-referencing Master Tax data with Form 941 filings. My 8 years of experience allows me to spot anomalies that purely automated systems might miss, ensuring total compliance through a hybrid approach.",
+   keywords:["root cause","master tax","941","compliance","anomalies"],
+   tips:["Highlight the 'Senior Eye' for anomalies","Mention specific compliance forms"]}
 ];
 
 let chatState={qIdx:0,msgs:[]};
