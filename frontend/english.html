@@ -5,36 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DA-2026 · English Total System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:hsl(240, 10%, 4%);
-  --card:hsla(240, 10%, 8%, 0.6);
-  --el:hsla(240, 10%, 12%, 0.4);
-  --bd:hsla(240, 10%, 20%, 0.5);
-  --bd2:hsla(240, 10%, 30%, 0.4);
-  --tx:hsl(0, 0%, 98%);
-  --t2:hsl(240, 5%, 80%);
-  --t3:hsl(240, 5%, 60%);
-  
-  /* DS - Violeta */
-  --ac:hsl(263, 70%, 58%);
-  --a2:hsl(263, 90%, 75%);
-  --ag:hsla(263, 70%, 58%, 0.15);
-  
-  /* ACCT - Esmeralda */
-  --em:hsl(160, 84%, 39%);
-  --e2:hsl(160, 90%, 60%);
-  --eg:hsla(160, 84%, 39%, 0.1);
-
-  --gn:hsl(142, 71%, 45%);
-  --am:hsl(43, 96%, 58%);
-  --rd:hsl(0, 84%, 60%);
-  --cy:hsl(188, 86%, 53%);
-}
+:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--pk:#ec4899;--em:#10b981;--e2:#34d399;--eg:rgba(16,185,129,.08)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 /* NAV */
 .nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
@@ -181,170 +156,73 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .note-text{font-size:13px;line-height:1.5;white-space:pre-wrap}
 .note-area{width:100%;min-height:60px;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:inherit;font-size:13px;resize:vertical}
 .note-area:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ag)}
-@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.tab{font-size:10px;padding:6px 8px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}}
-
-
-
-/* Premium Refactor Overrides */
-/* Dialogue Chat */
-.chat-box { flex:1; display:flex; flex-direction:column; gap:12px; max-height:400px; overflow-y:auto; padding-right:10px; margin-bottom:16px; border-bottom:1px solid hsla(0,0%,100%,0.05); }
-.chat-msg { display:inline-block; padding:10px 14px; border-radius:12px; font-size:13px; line-height:1.5; max-width:85%; animation: fu .3s ease; }
-.chat-interviewer { background:var(--el); color:var(--tx); align-self:flex-start; border-bottom-left-radius:2px; border:1px solid var(--bd);}
-.chat-user { background:hsla(265, 89%, 66%, 0.15); border:1px solid hsla(265, 89%, 66%, 0.3); color:var(--tx); align-self:flex-end; border-bottom-right-radius:2px; }
-
-/* SVO Builder */
-.svo-area { background:hsla(240, 10%, 8%, 0.6); backdrop-filter:blur(12px); border:1px solid hsla(0,0%,100%,0.07); padding:16px; border-radius:10px; }
-.svo-target { display:flex; gap:8px; margin-bottom:12px; min-height:44px; padding:8px; background:var(--bg); border-radius:6px; border:1px dashed var(--bd2); }
-.svo-slot { flex:1; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--t3); border-radius:4px; padding:4px; text-transform:uppercase; letter-spacing:1px; text-align:center;}
-.svo-slot.filled { background:hsla(142, 71%, 45%, 0.15); color:hsl(142, 71%, 45%); border:1px solid hsla(142, 71%, 45%, 0.3); text-transform:none; font-size:13px;}
-
-.svo-blocks { display:flex; flex-wrap:wrap; gap:8px; }
-.svo-block { padding:8px 12px; background:var(--c1); border:1px solid var(--bd2); border-radius:6px; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-.svo-block:hover { border-color:var(--ac); transform:translateY(-2px); box-shadow: 0 6px 12px rgba(139,92,246,0.3); background:var(--el);}
-.svo-block.wrong { background:hsla(0, 84%, 60%, 0.15) !important; border-color:hsl(0, 84%, 60%) !important; color:hsl(0, 84%, 60%) !important; animation: shake 0.4s; }
-
-@keyframes shake { 0%, 100% {transform:translateX(0);} 25% {transform:translateX(-4px);} 75% {transform:translateX(4px);} }
-
-/* SRS Buttons */
-.btn-srs-hard { background: hsla(25, 95%, 53%, 0.15) !important; color: hsl(25, 95%, 53%) !important; border: 1px solid hsla(25, 95%, 53%, 0.3) !important; font-size: 11px !important; }
-.btn-srs-hard:hover { background: hsl(25, 95%, 53%) !important; color: #fff !important; transform: scale(1.05); }
-.btn-srs-good { background: hsla(142, 71%, 45%, 0.15) !important; color: hsl(142, 71%, 45%) !important; border: 1px solid hsla(142, 71%, 45%, 0.3) !important; font-size: 11px !important; }
-.btn-srs-good:hover { background: hsl(142, 71%, 45%) !important; color: #fff !important; transform: scale(1.05); }
-.btn-srs-easy { background: hsla(188, 86%, 53%, 0.15) !important; color: hsl(188, 86%, 53%) !important; border: 1px solid hsla(188, 86%, 53%, 0.3) !important; font-size: 11px !important; }
-.btn-srs-easy:hover { background: hsl(188, 86%, 53%) !important; color: #fff !important; transform: scale(1.05); }
-body { font-family: 'Inter', sans-serif !important; background: var(--bg) !important; color: var(--tx) !important; }
-.nav { background: hsla(240, 10%, 4%, 0.7) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-bottom: 1px solid hsla(0,0%,100%,0.05) !important; }
-.mod, .today, .qstat, .feed-card, .pomo, .fin, .quote { 
-    background: hsla(240, 10%, 8%, 0.6) !important; 
-    backdrop-filter: blur(12px) !important; 
-    -webkit-backdrop-filter: blur(12px) !important; 
-    border: 1px solid hsla(0,0%,100%,0.07) !important; 
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
-}
-.mod:hover, .feed-card:hover { 
-    transform: translateY(-6px) !important; 
-    border-color: var(--ac) !important; 
-    box-shadow: 0 16px 40px hsla(265, 89%, 66%, 0.25), 0 0 15px hsla(265, 89%, 66%, 0.1) inset !important; 
-}
-.task-btn, .pomo-start, .fin-btn-i { transition: transform 0.3s ease, filter 0.3s ease !important; }
-.task-btn:hover, .pomo-start:hover, .fin-btn-i:hover { transform: scale(1.04) !important; filter: brightness(1.2) !important; }
-.header h1 { font-family: 'Inter', sans-serif !important; font-weight: 700 !important; letter-spacing: -1.5px !important; }
-.task-check { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; }
-.task-check:hover { transform: scale(1.15) !important; box-shadow: 0 0 10px hsla(142, 71%, 45%, 0.3) !important; }
-
 /* MODE SWITCHER */
-.mode-switch{display:flex;gap:4px;background:var(--el);padding:4px;border-radius:12px;margin-bottom:28px;border:1px solid var(--bd)}
-.mode-btn{flex:1;padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:none;color:var(--t3);transition:all .3s}
-.mode-btn.on[data-mode="ds"]{background:var(--ac);color:#fff;box-shadow:0 4px 15px var(--ag)}
-.mode-btn.on[data-mode="acct"]{background:var(--em);color:#fff;box-shadow:0 4px 15px var(--eg)}
-
-/* ACCOUNTING SPECIFIC */
-.acct-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-.acct-tab{padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:10px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--t3);transition:all .2s}
-.acct-tab.on{border-color:var(--em);background:var(--eg);color:var(--e2);box-shadow:0 0 15px var(--eg)}
-.acct-pnl{display:none}.acct-pnl.on{display:block;animation:fu .4s ease}
-
-.res-card{display:block;padding:20px;background:var(--card);border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--tx);transition:all .3s}
-.res-card:hover{transform:translateY(-5px);border-color:var(--rc);box-shadow:0 10px 25px color-mix(in srgb, var(--rc) 20%, transparent)}
-
-/* THEME OVERRIDES */
-body{transition:background .3s ease}
-body.mode-acct {
-  --ac: var(--em);
-  --a2: var(--e2);
-  --ag: var(--eg);
-}
-.mode-switch, .tabs, .acct-tabs, .card, .pnl, .acct-pnl { transition: all .3s ease; }
-
+.mode-sw{display:flex;gap:3px;background:var(--c1);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:20px}
+.mode-btn{flex:1;padding:10px 16px;border-radius:9px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-align:center;transition:all .25s;border:none;background:none;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.mode-btn:hover{color:var(--tx);background:var(--el)}
+.mode-btn.on[data-mode="ds"]{color:#fff;background:var(--ac);box-shadow:0 2px 12px rgba(139,92,246,.3)}
+.mode-btn.on[data-mode="acct"]{color:#fff;background:var(--em);box-shadow:0 2px 12px rgba(16,185,129,.3)}
+.mode-btn .mode-dot{width:8px;height:8px;border-radius:50%;animation:pulse 1.5s infinite}
+/* ACCT TABS */
+.acct-tabs{display:flex;gap:2px;background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
+.acct-tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.acct-tab:hover{color:var(--tx);background:var(--el)}.acct-tab.on{color:#fff;background:var(--em);box-shadow:0 2px 8px rgba(16,185,129,.25)}
+.acct-pnl{display:none;animation:fu .3s ease}.acct-pnl.on{display:block}
+/* RESOURCE CARDS */
+.res-card{display:block;background:rgba(22,22,26,.7);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:12px;padding:20px;text-decoration:none;color:var(--tx);transition:all .25s;position:relative;overflow:hidden}
+.res-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 4%,transparent),transparent);opacity:0;transition:opacity .25s}
+.res-card:hover{border-color:var(--rc);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}.res-card:hover::before{opacity:1}
+.res-card>*{position:relative;z-index:1}
+@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.tab{font-size:10px;padding:6px 8px}.acct-tab{font-size:10px;padding:6px 8px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.mode-btn{font-size:11px;padding:8px 10px}}
 </style>
 </head>
 <body>
 <nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">English Total System</span></div><div class="nav-r"><div class="bdg bdg-s">🔥 <span id="strk">0</span></div><div class="bdg bdg-x">⚡ <span id="xp">0</span> XP</div></div></nav>
 <div class="wrap">
-<div class="hero"><div class="hero-sub">sistema total de inglés</div><h1>Speak fast. <em>Understand</em> everything.</h1><p>200+ palabras, 12 reglas, conversaciones, ejercicios, pronunciación con audio, notas y entrevistas. Pasa el mouse sobre cualquier palabra en inglés para ver su traducción.</p></div>
-<div class="hst"><div class="hs"><div class="hsv" id="sw">0</div><div class="hsl">Palabras</div></div><div class="hs"><div class="hsv" id="sr">0</div><div class="hsl">Reglas</div></div><div class="hs"><div class="hsv" id="se">0</div><div class="hsl">Ejercicios</div></div><div class="hs"><div class="hsv" id="sn">0</div><div class="hsl">Notas</div></div></div>
-<div class="mode-switch">
-  <button class="mode-btn on" data-mode="ds" onclick="switchMode('ds')">💻 Data Science</button>
-  <button class="mode-btn" data-mode="acct" onclick="switchMode('acct')">📊 Accounting associate</button>
+<div class="hero"><div class="hero-sub">sistema total de inglés · dual system</div><h1>Speak fast. <em>Understand</em> everything.</h1><p>200+ palabras, 12 reglas, conversaciones, ejercicios, pronunciación con audio, notas y entrevistas. <strong>NEW: Accounting Associate Interview Prep.</strong></p></div>
+<!-- MODE SWITCHER -->
+<div class="mode-sw">
+<button class="mode-btn on" data-mode="ds" onclick="switchMode('ds')"><span>💻</span> Data Science</button>
+<button class="mode-btn" data-mode="acct" onclick="switchMode('acct')"><span class="mode-dot" style="background:var(--em)"></span><span>📊</span> Accounting <span class="pl" style="background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.15);font-size:8px;margin-left:2px">PRIORITY</span></button>
 </div>
-
+<!-- ═══ DATA SCIENCE SECTION ═══ -->
 <div id="ds-section">
+<div class="hst"><div class="hs"><div class="hsv" id="sw">0</div><div class="hsl">Palabras</div></div><div class="hs"><div class="hsv" id="sr">0</div><div class="hsl">Reglas</div></div><div class="hs"><div class="hsv" id="se">0</div><div class="hsl">Ejercicios</div></div><div class="hs"><div class="hsv" id="sn">0</div><div class="hsl">Notas</div></div></div>
 <div class="tabs"><button class="tab on" data-p="surv">🗣️ Supervivencia</button><button class="tab" data-p="gram">🧠 Reglas</button><button class="tab" data-p="und">👂 Entender</button><button class="tab" data-p="conv">💬 Conversaciones</button><button class="tab" data-p="pro">💼 Profesional</button><button class="tab" data-p="ex">✏️ Ejercicios</button><button class="tab" data-p="fc">🃏 Flashcards</button><button class="tab" data-p="iv">🎯 Entrevistas</button><button class="tab" data-p="notes">📓 Mis Notas</button></div>
 
 <div class="pnl on" id="p-surv"><div class="sl">· supervivencia ·</div><div class="sd">Click en 🔊 para escuchar (click de nuevo para detener). Pasa el mouse sobre la palabra para ver la traducción. Click en la fila para ver el ejemplo.</div><div class="tipbox"><b>💡 Método rápido</b><p><strong>Lee cada ejemplo en voz alta 3 veces.</strong> Usa 🔊 para comparar. Tu cerebro retiene contextos, no listas.</p></div><div class="cp" id="sC"></div><div id="sL"></div></div>
 <div class="pnl" id="p-gram"><div class="sl">· 12 reglas ·</div><div class="sd">Domina las primeras 5 antes de avanzar. Cada ejemplo tiene 🔊.</div><div id="gL"></div></div>
 <div class="pnl" id="p-und"><div class="sl">· comprensión ·</div><div id="uL"></div></div>
-<div class="pnl" id="p-conv">
-  <div class="sl" style="color:var(--a2)">· deep conversational simulator ·</div>
-  
-  <div id="convMenu">
-    <div style="font-size:13px;color:var(--t2);margin-bottom:12px">Selecciona un escenario interactivo Tier 1 (Aplica método STAR):</div>
-    <div id="convList" style="display:flex;flex-direction:column;gap:8px"></div>
-  </div>
-
-  <div id="convApp" style="display:none; flex-direction:column; min-height:500px">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn bo bs" onclick="exitConv()">← Volver</button>
-      <div id="convTitle" style="font-size:13px; font-weight:600; color:var(--a2)"></div>
-      <div id="convProgress" style="font-size:11px; color:var(--t3)">Turno 1/X</div>
-    </div>
-
-    <div class="chat-box" id="convChat"></div>
-
-    <div class="svo-area" id="convSvoArea">
-      <div style="font-size:11px;color:var(--am);margin-bottom:4px;font-weight:600">🎯 SVO Visualizer: Ensambla la oración con sintaxis estricta</div>
-      <div style="font-size:12px;color:var(--tx);margin-bottom:10px;font-style:italic" id="convMeaning"></div>
-      
-      <div class="svo-target" id="svoTarget">
-        <div class="svo-slot" id="slot-s">Sujeto</div>
-        <div class="svo-slot" id="slot-v">Verbo</div>
-        <div class="svo-slot" id="slot-o">Objeto</div>
-      </div>
-
-      <div class="svo-blocks" id="svoBlocks"></div>
-      
-      <div style="display:none;margin-top:10px;justify-content:flex-end" id="svoSendBtn">
-         <button class="btn bp" onclick="submitConvTurn()">Continuar ➔</button>
-      </div>
-    </div>
-    
-    <div id="convResults" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:30px; background:hsla(142, 71%, 45%, 0.05); border:1px solid hsla(142, 71%, 45%, 0.2); border-radius:12px; margin-top:20px;">
-       <div style="font-size:24px; font-weight:600; margin-bottom:6px; color:var(--gn)">¡Escenario Completado!</div>
-       <div style="font-size:13px; color:var(--t2); margin-bottom:20px">Evalúa tu fluidez para programar la curva de olvido FSRS.</div>
-       <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-          <button class="btn bs btn-srs-hard" onclick="rateConv('hard')">😰 Difícil (Me trabé)</button>
-          <button class="btn bs btn-srs-good" onclick="rateConv('good')">🤔 Bien (Dudé un poco)</button>
-          <button class="btn bs btn-srs-easy" onclick="rateConv('easy')">😎 Fácil (Fluido)</button>
-       </div>
-    </div>
-  </div>
-</div>
+<div class="pnl" id="p-conv"><div class="sl">· conversaciones ·</div><div class="sd">Usa 🔊 en cada línea. Practica ambos roles.</div><div class="cp" id="cC"></div><div id="cL"></div></div>
 <div class="pnl" id="p-pro"><div class="sl">· profesional ·</div><div class="cp" id="pC"></div><div id="pL"></div></div>
 <div class="pnl" id="p-ex"><div class="sl">· ejercicios ·</div><div class="daily"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;font-weight:700;color:var(--am)">🏆 Desafío Diario +25XP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am)" id="tmr">--:--:--</span></div><div id="dC"></div></div><div id="eL"></div><div style="text-align:center;margin-top:16px"><button class="btn bp" onclick="moreEx()">Más ejercicios →</button></div></div>
-<div class="pnl" id="p-fc"><div class="sl">· flashcards (srs) ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">0</b>/<b id="fT">0</b></span><div class="prg" style="width:100px"><div class="prf" id="fP" style="width:0%"></div></div></div><div id="fcDueBadge" style="font-size:10px;font-weight:600;padding:4px 8px;background:hsla(25, 95%, 53%, 0.15);color:hsl(25, 95%, 53%);border:1px solid hsla(25, 95%, 53%, 0.3);border-radius:6px;box-shadow: 0 0 10px hsla(25, 95%, 53%, 0.2)">🔥 Due: <span id="fDue">0</span></div><button class="btn bs bo" onclick="buildFC()">🔀 Refrescar</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW" style="font-size:18px;">Cargando Mazo SRS...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA" style="font-size:14px;"></div><div class="fcd" id="fD"></div></div></div></div><div id="srsControls" style="display:none;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs btn-srs-hard" onclick="rateFC('hard')">😰 Hard (1d)</button><button class="btn bs btn-srs-good" onclick="rateFC('good')">🤔 Good</button><button class="btn bs btn-srs-easy" onclick="rateFC('easy')">😎 Easy</button></div><div class="fc-empty" id="fcEmpty" style="display:none; text-align:center; padding: 20px 0; color:var(--tx2); font-style:italic; font-size:12px">¡Mazo al día! Vuelve mañana para repasar.</div></div>
+<div class="pnl" id="p-fc"><div class="sl">· flashcards ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">1</b>/<b id="fT">0</b></span><div class="prg" style="width:160px"><div class="prf" id="fP" style="width:0%"></div></div></div><button class="btn bs bo" onclick="shuffleFC()">🔀</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW">...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA"></div><div class="fcd" id="fD"></div></div></div></div><div style="display:flex;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs" style="background:var(--rd);color:#fff" onclick="rateFC(1)">😰 No sé</button><button class="btn bs" style="background:var(--am);color:#000" onclick="rateFC(2)">🤔 Algo</button><button class="btn bs" style="background:var(--gn);color:#fff" onclick="rateFC(3)">😎 Lo sé</button></div></div>
 <div class="pnl" id="p-iv"><div class="sl">· entrevistas ·</div><div class="cp" id="iC"></div><div id="iL"></div></div>
 <div class="pnl" id="p-notes"><div class="sl">· mis notas ·</div><div class="sd">Escribe oraciones para practicar. Se guardan automáticamente. Usa sellos para organizar.</div><div id="notesArea"></div></div>
-</div>
-
+</div><!-- /ds-section -->
+<!-- ═══ ACCOUNTING SECTION ═══ -->
 <div id="acct-section" style="display:none">
-  <div class="acct-tabs">
-    <div class="acct-tab on" data-p="script">📋 Pitch</div>
-    <div class="acct-tab" data-p="glossary">📚 Glossary</div>
-    <div class="acct-tab" data-p="excel">📊 Excel</div>
-    <div class="acct-tab" data-p="resources">🔗 Links</div>
-    <div class="acct-tab" data-p="sim">🤖 Recruiter</div>
-    <div class="acct-tab" data-p="iv">🎯 STAR Prep</div>
-  </div>
-  
-  <div class="acct-pnl on" id="ap-script"><div id="acct-script"></div></div>
-  <div class="acct-pnl" id="ap-glossary"><div id="acct-glossary"></div></div>
-  <div class="acct-pnl" id="ap-excel"><div id="acct-excel"></div></div>
-  <div class="acct-pnl" id="ap-resources"><div id="acct-resources"></div></div>
-  <div class="acct-pnl" id="ap-sim"><div id="acct-simulator"></div></div>
-  <div class="acct-pnl" id="ap-iv"><div id="acct-interview"></div></div>
+<div class="hst" style="border:1px solid rgba(16,185,129,.12)"><div class="hs"><div class="hsv" style="color:var(--em)">38</div><div class="hsl">Glossary Terms</div></div><div class="hs"><div class="hsv" style="color:var(--em)">24</div><div class="hsl">Excel Terms</div></div><div class="hs"><div class="hsv" style="color:var(--em)">7</div><div class="hsl">Interview Q's</div></div><div class="hs"><div class="hsv" style="color:var(--em)">4</div><div class="hsl">Resources</div></div></div>
+<div class="acct-tabs">
+<button class="acct-tab on" data-p="script">📋 Script</button>
+<button class="acct-tab" data-p="career">🚀 Career Route</button>
+<button class="acct-tab" data-p="glossary">📚 Glossary</button>
+<button class="acct-tab" data-p="excel">📊 Excel</button>
+<button class="acct-tab" data-p="resources">🔗 Resources</button>
+<button class="acct-tab" data-p="simulator">🤖 Simulator</button>
+<button class="acct-tab" data-p="interview">🎯 Interview</button>
 </div>
+<div class="acct-pnl on" id="ap-script"><div id="acct-script"></div></div>
+<div class="acct-pnl" id="ap-career"><div id="acct-career"></div></div>
+<div class="acct-pnl" id="ap-glossary"><div id="acct-glossary"></div></div>
+<div class="acct-pnl" id="ap-excel"><div id="acct-excel"></div></div>
+<div class="acct-pnl" id="ap-resources"><div id="acct-resources"></div></div>
+<div class="acct-pnl" id="ap-simulator"><div id="acct-simulator"></div></div>
+<div class="acct-pnl" id="ap-interview"><div id="acct-interview"></div></div>
+</div><!-- /acct-section -->
 </div>
 
+<script src="acct_module.js"></script>
 <script>
 // ═══════════════════════════
 // STATE
@@ -642,154 +520,6 @@ const d=convDB[cat]||convDB.greetings;
 document.getElementById('cL').innerHTML=d.map(x=>'<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:10px">'+x.t+'</div>'+x.m.map(m=>'<div class="msg"><div class="msg-av '+m.w+'">'+( m.w==='a'?'👤':'🎤')+'</div><div class="msg-body"><div class="msg-name '+m.w+'">'+m.n+'</div><span class="msg-text '+m.w+'">'+m.t+' <button class="tts" onclick="event.stopPropagation();speak(\''+m.t.replace(/'/g,"\\'")+'\',this)" style="width:18px;height:18px;font-size:8px">🔊</button></span><div class="msg-tr">'+m.r+'</div></div></div>').join('')+'<div style="margin-top:8px;padding:8px;background:var(--ag);border-radius:7px;border:1px solid rgba(139,92,246,.1)"><div style="font-size:9px;font-weight:600;color:var(--a2);margin-bottom:3px">🔑 Vocabulario</div>'+x.v.map(v=>'<div style="font-size:11px;color:var(--t2)">• '+v+'</div>').join('')+'</div></div>').join('');
 }
 
-
-let convData = [];
-let currentConvId = null;
-let currentTurn = 0;
-let currentSvoMap = {};
-let currentSvoState = 0; // 0: S, 1: V, 2: O
-
-async function loadConvEngine() {
-  try {
-    const res = await fetch('data/conv_engine.json');
-    convData = await res.json();
-    renderConvMenu();
-  } catch(e) { console.error('No conv_engine.json'); }
-}
-
-function renderConvMenu() {
-  const cfsrs = JSON.parse(localStorage.getItem('eng_conv_fsrs')||'{}');
-  document.getElementById('convList').innerHTML = convData.map(c => {
-    const st = cfsrs[c.id];
-    let dueHtml = '';
-    if(st) {
-        if(Date.now() >= st.nextDue) dueHtml = '<span style="font-size:10px;color:hsl(30,100%,60%);margin-left:8px;background:hsla(30,100%,60%,0.15);padding:2px 6px;border-radius:10px;">🔥 Due</span>';
-        else dueHtml = `<span style="font-size:10px;color:var(--gn);margin-left:8px;">✔ Repaso en ${st.interval}d</span>`;
-    }
-    return '<div class="card" style="cursor:pointer;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;transition:transform 0.2s;border-left:3px solid var(--ac)" onclick="startConv(\''+c.id+'\')"><div style="font-size:13px;font-weight:600">'+c.title+'</div><div>'+dueHtml+'</div></div>';
-  }).join('');
-}
-
-function startConv(id) {
-  document.getElementById('convMenu').style.display = 'none';
-  document.getElementById('convApp').style.display = 'flex';
-  document.getElementById('convResults').style.display = 'none';
-  expectingSvo = false;
-  currentConvId = id;
-  currentTurn = 0;
-  
-  const conv = convData.find(c => c.id === id);
-  document.getElementById('convTitle').textContent = conv.title;
-  document.getElementById('convChat').innerHTML = '';
-  
-  nextConvTurn();
-}
-
-function exitConv() {
-  document.getElementById('convMenu').style.display = 'block';
-  document.getElementById('convApp').style.display = 'none';
-}
-
-function nextConvTurn() {
-  const conv = convData.find(c => c.id === currentConvId);
-  const turn = conv.turns[currentTurn];
-  
-  document.getElementById('convProgress').textContent = 'Turno '+(currentTurn+1)+'/'+conv.turns.length;
-
-  if (!turn) {
-     document.getElementById('convSvoArea').style.display = 'none';
-     document.getElementById('convResults').style.display = 'flex';
-     return;
-  }
-
-  if (turn.role === 'interviewer') {
-     document.getElementById('convSvoArea').style.display = 'none';
-     appendChat(turn.text, 'interviewer');
-     speak(turn.text);
-     setTimeout(() => {
-        currentTurn++;
-        nextConvTurn();
-     }, 2000);
-  } else {
-     document.getElementById('convSvoArea').style.display = 'block';
-     document.getElementById('svoSendBtn').style.display = 'none';
-     document.getElementById('convMeaning').innerHTML = `"Objetivo: `+turn.meaning+`"`;
-     
-     document.getElementById('slot-s').className = 'svo-slot'; document.getElementById('slot-s').textContent = 'Sujeto';
-     document.getElementById('slot-v').className = 'svo-slot'; document.getElementById('slot-v').textContent = 'Verbo';
-     document.getElementById('slot-o').className = 'svo-slot'; document.getElementById('slot-o').textContent = 'Objeto';
-     
-     currentSvoMap = { s: turn.s, v: turn.v, o: turn.o };
-     currentSvoState = 0;
-     
-     let blocks = [
-        {type: 's', txt: turn.s},
-        {type: 'v', txt: turn.v},
-        {type: 'o', txt: turn.o}
-     ].sort(() => Math.random() - 0.5);
-     
-     document.getElementById('svoBlocks').innerHTML = blocks.map(b => '<div class="svo-block" onclick="clickSvoBlock(this, \''+b.type+'\', \''+b.txt.replace(/'/g,"\\'")+'\')">'+b.txt+'</div>').join('');
-  }
-}
-
-function appendChat(text, role) {
-  const chat = document.getElementById('convChat');
-  // If role is user, add checkmark automatically
-  chat.innerHTML += '<div class="chat-msg chat-'+role+'">' + (role === 'user' ? '👤 ' : '💼 ') + text + '</div>';
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function clickSvoBlock(el, type, txt) {
-   const expectedType = currentSvoState === 0 ? 's' : currentSvoState === 1 ? 'v' : 'o';
-   if (type === expectedType) {
-       el.style.display = 'none';
-       const slotId = 'slot-' + type;
-       const slot = document.getElementById(slotId);
-       slot.textContent = txt;
-       slot.classList.add('filled');
-       speak(txt);
-       
-       currentSvoState++;
-       if (currentSvoState === 3) {
-           document.getElementById('svoSendBtn').style.display = 'flex';
-       }
-   } else {
-       el.classList.remove('wrong');
-       setTimeout(() => el.classList.add('wrong'), 10);
-   }
-}
-
-function submitConvTurn() {
-   const s = document.getElementById('slot-s').textContent;
-   const v = document.getElementById('slot-v').textContent;
-   const o = document.getElementById('slot-o').textContent;
-   
-   appendChat(s + ' ' + v + ' ' + o + '.', 'user');
-   
-   currentTurn++;
-   // Slight delay for realism
-   document.getElementById('convSvoArea').style.display = 'none';
-   setTimeout(() => nextConvTurn(), 1000);
-}
-
-function rateConv(rate) {
-   let fsrs = JSON.parse(localStorage.getItem('eng_conv_fsrs')||'{}');
-   let c = fsrs[currentConvId] || { interval:0, ease:2.5, reps:0 };
-   
-   if(rate === 'hard') { c.interval=1; c.ease=Math.max(1.3, c.ease-0.2); c.reps=0; }
-   else if(rate === 'good') { c.interval=Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease)); c.reps++; addXP(50); S.r++; }
-   else if(rate === 'easy') { c.interval=Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3)); c.ease+=0.15; c.reps++; addXP(100); S.r++; }
-   
-   c.nextDue = Date.now() + (c.interval * 86400000);
-   fsrs[currentConvId] = c;
-   localStorage.setItem('eng_conv_fsrs', JSON.stringify(fsrs));
-   
-   save(); upd();
-   exitConv();
-   renderConvMenu();
-}
-// ═══════════════════════════
-
 // Professional
 const proDB={data:[{en:"Dashboard",es:"Panel de control",ex:"The <b>dashboard</b> shows KPIs.",tp:"noun"},{en:"Query",es:"Consulta",ex:"I wrote a <b>query</b>.",tp:"noun"},{en:"Dataset",es:"Conjunto de datos",ex:"2 million row <b>dataset</b>.",tp:"noun"},{en:"Insight",es:"Hallazgo",ex:"Key <b>insight</b>: churn peaks Q3.",tp:"noun"},{en:"Pipeline",es:"Flujo de datos",ex:"<b>Pipeline</b> runs nightly.",tp:"noun"},{en:"Stakeholder",es:"Parte interesada",ex:"Present to <b>stakeholders</b>.",tp:"noun"},{en:"Metric",es:"Métrica",ex:"LTV is our top <b>metric</b>.",tp:"noun"},{en:"Revenue",es:"Ingresos",ex:"<b>Revenue</b> grew 15%.",tp:"noun"},{en:"Churn rate",es:"Tasa de abandono",ex:"<b>Churn</b> dropped to 3%.",tp:"noun"},{en:"Scalable",es:"Escalable",ex:"Must be <b>scalable</b>.",tp:"adj"},{en:"To deploy",es:"Desplegar",ex:"<b>Deploy</b> on Friday.",tp:"verb"},{en:"To automate",es:"Automatizar",ex:"<b>Automated</b> reports.",tp:"verb"},{en:"To optimize",es:"Optimizar",ex:"<b>Optimized</b> 60% faster.",tp:"verb"},{en:"To leverage",es:"Aprovechar",ex:"<b>Leverage</b> data.",tp:"verb"},{en:"ETL",es:"Extract Transform Load",ex:"<b>ETL</b> at 2AM.",tp:"noun"},{en:"Cohort",es:"Cohorte",ex:"<b>Cohort</b> by month.",tp:"noun"},{en:"Anomaly",es:"Anomalía",ex:"Detected <b>anomaly</b>.",tp:"noun"},{en:"To iterate",es:"Iterar",ex:"<b>Iterate</b> on dashboard.",tp:"verb"}],email:[{en:"I hope this finds you well.",es:"Espero que esté bien",ex:"Hi, <b>I hope this finds you well</b>.",tp:"open"},{en:"Following up on...",es:"Dando seguimiento",ex:"<b>Following up on</b> our call.",tp:"phrase"},{en:"Please find attached...",es:"Adjunto...",ex:"<b>Please find attached</b>.",tp:"phrase"},{en:"At your earliest convenience",es:"Cuando pueda",ex:"Review <b>at your earliest convenience</b>.",tp:"phrase"},{en:"Looking forward to hearing from you.",es:"Quedo atento",ex:"<b>Looking forward</b>.",tp:"close"},{en:"Kind regards",es:"Saludos cordiales",ex:"<b>Kind regards</b>, Miguel.",tp:"close"}],meetings:[{en:"Yesterday I worked on...",es:"Ayer trabajé en...",ex:"<b>Yesterday I worked on</b> churn.",tp:"standup"},{en:"Today I will focus on...",es:"Hoy me enfocaré",ex:"<b>Today I will focus on</b> validation.",tp:"standup"},{en:"I have a blocker.",es:"Tengo impedimento",ex:"<b>Blocker</b>: need API access.",tp:"standup"},{en:"Could you elaborate?",es:"¿Elaborar más?",ex:"<b>Could you elaborate</b>?",tp:"phrase"},{en:"Let me share my screen.",es:"Comparto pantalla",ex:"<b>Let me share my screen</b>.",tp:"phrase"}],slack:[{en:"Quick question",es:"Pregunta rápida",ex:"<b>Quick question</b> — got dataset?",tp:"msg"},{en:"Heads up",es:"Aviso",ex:"<b>Heads up:</b> pipeline down.",tp:"msg"},{en:"I will circle back.",es:"Retomo después",ex:"<b>I will circle back</b>.",tp:"msg"},{en:"Thanks for flagging!",es:"Gracias por avisar",ex:"<b>Thanks for flagging!</b>",tp:"msg"},{en:"Hop on a quick call?",es:"¿Llamada rápida?",ex:"<b>Hop on a call</b>?",tp:"msg"}],presenting:[{en:"As you can see...",es:"Como pueden ver",ex:"<b>As you can see</b>, up 15%.",tp:"phrase"},{en:"The data suggests...",es:"Los datos sugieren",ex:"<b>Data suggests</b> correlation.",tp:"phrase"},{en:"Based on our analysis...",es:"Según análisis",ex:"<b>Based on analysis</b>, I recommend...",tp:"phrase"},{en:"Let me break this down.",es:"Déjenme desglosar",ex:"<b>Break this down</b>.",tp:"phrase"},{en:"Any questions so far?",es:"¿Preguntas?",ex:"<b>Any questions so far</b>?",tp:"phrase"}]};
 
@@ -843,68 +573,12 @@ function renderDaily(){const i=new Date().getDate()%exDB.length,e=exDB[i],el=doc
 function chkDaily(i,o,el){const e=exDB[i],os=el.closest('.daily').querySelectorAll('.eop'),fb=document.getElementById('fd');os.forEach(x=>x.style.pointerEvents='none');if(o===e.c){el.classList.add('ok');fb.className='efb sh suc';fb.innerHTML='🏆 +25XP! '+e.w;addXP(25)}else{el.classList.add('no');os[e.c].classList.add('ok');fb.className='efb sh err';fb.innerHTML='❌ "'+e.o[e.c]+'". '+e.w}S.e++;upd();save()}
 function chkDailyT(i){const e=exDB[i],v=document.getElementById('id').value.trim().toLowerCase(),fb=document.getElementById('fd');if(v===e.a.toLowerCase()||(e.al||[]).some(a=>v===a.toLowerCase())){fb.className='efb sh suc';fb.innerHTML='🏆 +25XP! '+e.w;addXP(25)}else{fb.className='efb sh inf';fb.innerHTML='💡 "'+e.a+'" — '+e.w}S.e++;upd();save()}
 
-// SRS Flashcards Engine
-async function buildFC(){
-  let deck=JSON.parse(localStorage.getItem('eng_srs_deck')||'[]');
-  let m=[];
-  try{const res=await fetch('data/srs_deck.json');const dj=await res.json();m=m.concat(dj);}catch(e){}
-  Object.values(surv).flat().forEach(w=>m.push({q:w.en,a:w.es,h:w.tp,d:w.ex.replace(/<\/?b>/g,'')}));
-  Object.values(proDB).flat().forEach(w=>m.push({q:w.en,a:w.es,h:w.tp,d:w.ex.replace(/<\/?b>/g,'')}));
-  let newC=0;
-  m.forEach(i=>{if(!deck.find(c=>c.q===i.q)){deck.push({id:Math.random().toString(36).substr(2,9),q:i.q,a:i.a,h:i.h,d:i.d,interval:0,ease:2.5,reps:0,nextDue:0});newC++;}});
-  if(newC>0)localStorage.setItem('eng_srs_deck',JSON.stringify(deck));
-  const now=Date.now();
-  S.fcDue=deck.filter(c=>c.nextDue<=now);
-  S.fcAll=deck;
-  document.getElementById('fDue').textContent=S.fcDue.length;
-  shuffleFC();
-}
-function shuffleFC(){if(!S.fcDue)return;for(let i=S.fcDue.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[S.fcDue[i],S.fcDue[j]]=[S.fcDue[j],S.fcDue[i]]}S.fi=0;showFC()}
-function showFC(){
-  document.getElementById('mainFC').classList.remove('fl');
-  document.getElementById('srsControls').style.display='none';
-  if(!S.fcDue || !S.fcDue.length || S.fi>=S.fcDue.length){
-    document.getElementById('fW').textContent='¡Al Día!';
-    document.getElementById('fH').textContent='No hay más repasos pendientes.';
-    document.getElementById('fA').textContent='';
-    document.getElementById('fD').textContent='';
-    document.getElementById('fcEmpty').style.display='block';
-    document.getElementById('mainFC').style.pointerEvents='none';
-    document.getElementById('fN').textContent='0';document.getElementById('fT').textContent='0';document.getElementById('fP').style.width='100%';
-    return;
-  }
-  document.getElementById('fcEmpty').style.display='none';
-  document.getElementById('mainFC').style.pointerEvents='auto';
-  const c=S.fcDue[S.fi];
-  document.getElementById('fW').textContent=c.q;
-  document.getElementById('fH').textContent=c.h+' — click voltear';
-  document.getElementById('fA').textContent=c.a;
-  document.getElementById('fD').textContent=c.d;
-  document.getElementById('fN').textContent=S.fi+1;
-  document.getElementById('fT').textContent=S.fcDue.length;
-  document.getElementById('fP').style.width=((S.fi)/S.fcDue.length*100)+'%';
-}
-function flipFC(){
-  if(!S.fcDue || S.fi>=S.fcDue.length) return;
-  document.getElementById('mainFC').classList.add('fl');
-  document.getElementById('srsControls').style.display='flex';
-  const c=S.fcDue[S.fi];
-  document.querySelector('.btn-srs-good').textContent=`🤔 Good (${Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease))}d)`;
-  document.querySelector('.btn-srs-easy').textContent=`😎 Easy (${Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3))}d)`;
-}
-function rateFC(r){
-  const c=S.fcDue[S.fi];
-  if(r==='hard'){ c.interval=1; c.ease=Math.max(1.3, c.ease-0.2); c.reps=0; }
-  else if(r==='good'){ c.interval=Math.max(1, Math.round(c.interval===0?1:c.interval*c.ease)); c.reps++; addXP(2); S.w++; }
-  else if(r==='easy'){ c.interval=Math.max(2, Math.round(c.interval===0?2:c.interval*c.ease*1.3)); c.ease+=0.15; c.reps++; addXP(5); S.w++; }
-  c.nextDue = Date.now() + (c.interval * 86400000);
-  const deckIndex = S.fcAll.findIndex(x=>x.id===c.id);
-  if(deckIndex!==-1) S.fcAll[deckIndex]=c;
-  localStorage.setItem('eng_srs_deck',JSON.stringify(S.fcAll));
-  S.fi++;
-  document.getElementById('fDue').textContent = S.fcDue.length - S.fi;
-  showFC();upd();save();
-}
+// Flashcards
+function buildFC(){S.fs=[];Object.values(surv).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));Object.values(proDB).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));shuffleFC()}
+function shuffleFC(){for(let i=S.fs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[S.fs[i],S.fs[j]]=[S.fs[j],S.fs[i]]}S.fi=0;showFC()}
+function showFC(){if(!S.fs.length)return;const c=S.fs[S.fi];document.getElementById('fW').textContent=c.f;document.getElementById('fH').textContent=c.h+' — click voltear';document.getElementById('fA').textContent=c.b;document.getElementById('fD').textContent=c.d;document.getElementById('fN').textContent=S.fi+1;document.getElementById('fT').textContent=S.fs.length;document.getElementById('fP').style.width=((S.fi+1)/S.fs.length*100)+'%';document.getElementById('mainFC').classList.remove('fl')}
+function flipFC(){document.getElementById('mainFC').classList.toggle('fl')}
+function rateFC(r){if(r===3){addXP(5);S.w++}else if(r===2)addXP(2);S.fi++;if(S.fi>=S.fs.length){S.fi=0;shuffleFC()}showFC();upd();save()}
 
 // Interview
 const ivDB={behavioral:[{q:"Tell me about yourself.",m:"I am a data analyst with experience in SQL, Python, and Tableau. I specialize in turning raw data into actionable insights. In my previous role, I built automated dashboards saving 15 hours per week.",t:["90 seg","Presente+Pasado+Futuro"],k:["experience","specialize","automated"]},{q:"Greatest strength?",m:"Translating complex data into clear stories for non-technical stakeholders. I presented a segmentation analysis to the C-suite resulting in 20% higher retention.",t:["Ejemplo con números","STAR method"],k:["translating","stakeholders","retention"]},{q:"Tell me about a failure.",m:"I built a dashboard without validating data. A wrong decision was made. I took ownership, corrected it, implemented validation. Now data quality is my strongest area.",t:["Fallo superado","Lo que aprendiste"],k:["ownership","implemented","validation"]},{q:"Why should we hire you?",m:"I combine SQL, Python, and Tableau with business acumen. What sets me apart is connecting insights to business outcomes that impact revenue directly.",t:["Skills+necesidades","Diferencial"],k:["sets me apart","outcomes","impacted"]}],technical:[{q:"What tools do you use?",m:"Core: SQL for extraction, Python with pandas for transformation, Tableau for visualization. Also BigQuery and Git. Learning dbt.",t:["Herramientas","Ganas de aprender"],k:["extraction","transformation"]},{q:"Messy data?",m:"Assess extent, impute or investigate root causes, always document cleaning decisions for transparency and reproducibility.",t:["Proceso sistemático"],k:["assess","root cause","reproducibility"]}],situational:[{q:"Multiple urgent requests?",m:"Assess impact and deadlines, communicate expectations, deliver quick wins while working deeper analysis in parallel.",t:["Priorización","Comunicación"],k:["communicate","parallel"]},{q:"Error in shared report?",m:"Immediately notify, correct, understand root cause, send updated version, implement prevention.",t:["Transparencia"],k:["notify","prevention"]}]};
@@ -965,18 +639,16 @@ function init(){
 load();
 buildPills('sC',Object.keys(surv),true);
 buildPills('pC',Object.keys(proDB),true);
-
+buildNamedPills('cC',[{c:'greetings',label:'👋 Saludos'},{c:'shopping',label:'🛒 Compras'},{c:'food',label:'🍽️ Comida'},{c:'directions',label:'🗺️ Direcciones'},{c:'phone',label:'📱 Teléfono'},{c:'smalltalk',label:'☕ Small Talk'}]);
 buildNamedPills('iC',[{c:'behavioral',label:'🎭 Behavioral'},{c:'technical',label:'🔧 Technical'},{c:'situational',label:'🧩 Situational'}]);
 renderVocab(surv,'sL');
-renderGrammar();renderUnderstand();loadConvEngine();renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
+renderGrammar();renderUnderstand();renderConv('greetings');renderPro('all');renderEx();renderDaily();buildFC();renderIV('behavioral');renderNotes();
 updTimer();setInterval(updTimer,1000);
-setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('iC',renderIV);
+setupFilter('sC',null);setupFilter('pC',renderPro);setupFilter('cC',renderConv);setupFilter('iC',renderIV);
 initAcctTabs();
-switchMode('ds');
 upd();
 }
 init();
 </script>
-<script src="acct_module.js"></script>
 </body>
 </html>
