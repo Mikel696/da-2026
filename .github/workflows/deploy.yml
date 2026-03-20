@@ -30,7 +30,7 @@ jobs:
       - name: Upload Frontend as Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Deploy ONLY the frontend/ folder to the web root
+          # Deploy the whole repo root so /frontend/ is accessible
           path: './'
 
       - name: Deploy to GitHub Pages
