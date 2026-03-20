@@ -92,18 +92,14 @@ t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('o
 
 // ═══ RSS FEEDS CONFIG ═══
 const FEEDS=[
-{url:'https://towardsdatascience.com/feed',cat:'data',src:'Towards Data Science',cls:'src-data'},
-{url:'https://machinelearningmastery.com/feed/',cat:'ai',src:'ML Mastery',cls:'src-ai'},
-{url:'https://feeds.feedburner.com/kdnuggets-data-mining-analytics',cat:'data',src:'KDnuggets',cls:'src-data'},
-{url:'https://realpython.com/atom.xml',cat:'python',src:'Real Python',cls:'src-python'},
-{url:'https://blog.pragmaticengineer.com/rss/',cat:'tech',src:'Pragmatic Engineer',cls:'src-tech'},
-{url:'https://stackoverflow.blog/feed/',cat:'tech',src:'Stack Overflow Blog',cls:'src-tech'},
-{url:'https://netflixtechblog.com/feed',cat:'tech',src:'Netflix Tech Blog',cls:'src-tech'},
-{url:'https://medium.com/feed/tag/data-science',cat:'data',src:'Medium Data Science',cls:'src-data'},
-{url:'https://medium.com/feed/tag/artificial-intelligence',cat:'ai',src:'Medium AI',cls:'src-ai'},
-{url:'https://medium.com/feed/tag/career-advice',cat:'career',src:'Medium Career',cls:'src-career'},
-{url:'https://medium.com/feed/tag/sql',cat:'data',src:'Medium SQL',cls:'src-data'},
-{url:'https://medium.com/feed/tag/python',cat:'python',src:'Medium Python',cls:'src-python'},
+{url:'https://www.xataka.com/rss.xml',cat:'tech',src:'Xataka',cls:'src-tech'},
+{url:'https://www.genbeta.com/rss.xml',cat:'tech',src:'Genbeta',cls:'src-tech'},
+{url:'https://www.portafolio.co/rss/tecnologia',cat:'career',src:'Portafolio Tech',cls:'src-career'},
+{url:'https://medium.com/feed/tag/analisis-de-datos',cat:'data',src:'Medium Data ES',cls:'src-data'},
+{url:'https://medium.com/feed/tag/inteligencia-artificial',cat:'ai',src:'Medium IA',cls:'src-ai'},
+{url:'https://medium.com/feed/tag/power-bi',cat:'data',src:'Medium Power BI',cls:'src-data'},
+{url:'https://medium.com/feed/tag/python-en-espanol',cat:'python',src:'Medium Python ES',cls:'src-python'},
+{url:'https://www.eleconomista.es/rss/rss-tecnologia',cat:'career',src:'El Economista',cls:'src-career'}
 ];
 
 const API='https://api.rss2json.com/v1/api.json?rss_url=';
@@ -115,9 +111,10 @@ const r=await fetch(API+encodeURIComponent(feed.url));
 if(!r.ok)return[];
 const d=await r.json();
 if(d.status!=='ok'||!d.items)return[];
+const esc=s=>{const e=document.createElement('div');e.textContent=s||'';return e.innerHTML};
 return d.items.slice(0,8).map(item=>({
-title:item.title||'',
-desc:(item.description||'').replace(/<[^>]*>/g,'').substring(0,200),
+title:esc(item.title),
+desc:esc((item.description||'').replace(/<[^>]*>/g,'')).substring(0,200),
 link:item.link||'',
 date:item.pubDate||'',
 img:item.thumbnail||item.enclosure?.link||'',

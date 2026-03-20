@@ -154,15 +154,16 @@ function updateStats(){if(!localStorage.getItem('sb_start'))localStorage.setItem
 function renderFeed(){
 const el=document.getElementById('feedGrid');
 el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:11px">Cargando noticias...</div>';
-const feeds=['https://towardsdatascience.com/feed','https://machinelearningmastery.com/feed/','https://realpython.com/atom.xml','https://stackoverflow.blog/feed/','https://medium.com/feed/tag/data-science','https://medium.com/feed/tag/artificial-intelligence'];
-const srcMap={'towardsdatascience.com':'Data Science','machinelearningmastery.com':'ML Mastery','realpython.com':'Python','stackoverflow.blog':'Stack Overflow','medium.com':'Medium'};
+const feeds=['https://www.xataka.com/rss.xml','https://www.genbeta.com/rss.xml','https://www.portafolio.co/rss/tecnologia','https://www.eleconomista.es/rss/rss-tecnologia'];
+const srcMap={'xataka.com':'Xataka','genbeta.com':'Genbeta','portafolio.co':'Portafolio','eleconomista.es':'El Economista'};
 const API='https://api.rss2json.com/v1/api.json?rss_url=';
 Promise.allSettled(feeds.map(url=>fetch(API+encodeURIComponent(url)).then(r=>r.json()))).then(results=>{
 let items=[];
+const esc=s=>{const el=document.createElement('div');el.textContent=s||'';return el.innerHTML};
 results.forEach(r=>{if(r.status==='fulfilled'&&r.value.status==='ok'&&r.value.items){
 const host=r.value.feed?.link||'';
 const src=Object.entries(srcMap).find(([k])=>host.includes(k));
-r.value.items.slice(0,4).forEach(it=>items.push({t:it.title,l:it.link,s:src?src[1]:'Tech',d:it.pubDate}));
+r.value.items.slice(0,4).forEach(it=>items.push({t:esc(it.title),l:it.link,s:src?src[1]:'Tech',d:it.pubDate}));
 }});
 const seen=new Set();items=items.filter(i=>{if(seen.has(i.t))return false;seen.add(i.t);return true});
 items.sort((a,b)=>new Date(b.d)-new Date(a.d));

@@ -416,18 +416,18 @@ function renderAcctCareer(){
     </div>
   `;
 
-  // Technical Test Simulator for Accounting
+  // Technical Test Simulator for Accounting (Colombia/Power Query)
   const acctExDB = [
-    {q:"Reconciliation: You have a $500 variance between the Payroll Register and the General Ledger (GL). What is your first diagnostic step?", a:"Verify the clearing account", al:["Check the clearing account","Look at clearing account"], w:"The payroll clearing account should net to zero. Variances usually sit there."},
-    {q:"FICA/FUTA: The employer's liability for FUTA is calculated on the first $7,000 of wages. If an employee earns $8,000 in Q1 and $2,000 in Q2, what is the Q2 FUTA taxable wage?", a:"0", al:["$0","Zero"], w:"FUTA is capped at the first $7k per year. They already passed $7k in Q1."},
-    {q:"Discrepancies: A terminated employee was overpaid by $200. The direct deposit already cleared. How do you adjust the General Ledger?", a:"Record an accounts receivable", al:["Create accounts receivable","Accounts receivable"], w:"The overpayment implies the employee owes the company, becoming a receivable until recouped."}
+    {q:"Conciliación Power Query: Al cruzar el extracto bancario con el libro mayor, descubres que las fechas del banco vienen en texto 'DD/MM/YYYY' y el sistema exporta 'MM-DD-YYYY'. ¿Qué función/transformación de Power Query usas para arreglarlo de forma segura?", a:"Usar configuración regional", al:["Configuración regional", "Using locale", "Change type with locale", "Regional settings"], w:"Las fechas con formatos invertidos fallan al hacer un cambio de tipo directo. Debes usar 'Change Type > Using Locale' (Con configuración regional) para parsear el string correctamente."},
+    {q:"Nómina Colombiana: Un empleado tiene un salario base de $2.500.000 COP. Este mes generó $200.000 en horas extras. Dado que el Salario Mínimo en 2024 es $1.300.000 (Tope de auxilio = $2.600.000), ¿Se le debe pagar auxilio de transporte en esta quincena?", a:"Sí", al:["Si", "Se paga", "Tiene derecho"], w:"El auxilio de transporte en Colombia se otorga a quienes su salario ordinario o fijo no supere los 2 SMLMV. Las horas extras no constituyen salario fijo continuo para el cómputo de este tope."},
+    {q:"Automatización Excel: Tienes que conciliar los pagos de 50 sucursales, cada sucursal envía un archivo Excel diario a una carpeta. ¿Cuál es el origen de datos correcto en Power Query para no tener que abrir los archivos nunca más?", a:"Desde carpeta", al:["From folder", "Obtener datos desde carpeta", "Folder", "Carpeta"], w:"La consulta 'Desde carpeta' (From Folder) se conecta al directorio y anexa automáticamente todos los binarios, combinando la data estructurada de los 50 Excel en una sola tabla matriz."}
   ];
 
   const exHtml = acctExDB.map((e,i)=>{
-    return '<div class="exr" style="border-color:rgba(16,185,129,.15)"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--em)">Test Simulator</span><span class="pl" style="background:rgba(239,68,68,.08);color:var(--rd);border:1px solid rgba(239,68,68,.15)">Senior Lvl</span></div><div class="eq">'+e.q+'</div><input class="ein" id="acct-i'+i+'" placeholder="Tu respuesta (English)..." onkeydown="if(event.key===\'Enter\')chkAcctTrans('+i+')"><div style="margin-top:6px"><button class="btn bp bs" style="background:var(--em)" onclick="chkAcctTrans('+i+')">Verificar</button> <button class="btn bo bs" onclick="showAcctAns('+i+')">Ver respuesta</button></div><div class="efb" id="acct-f'+i+'"></div></div>';
+    return '<div class="exr" style="border-color:rgba(16,185,129,.15)"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--em)">Simulador Técnico</span><span class="pl" style="background:rgba(239,68,68,.08);color:var(--rd);border:1px solid rgba(239,68,68,.15)">LATAM Senior</span></div><div class="eq">'+e.q+'</div><input class="ein" id="acct-i'+i+'" placeholder="Tu respuesta técnica..." onkeydown="if(event.key===\'Enter\')chkAcctTrans('+i+')"><div style="margin-top:6px"><button class="btn bp bs" style="background:var(--em)" onclick="chkAcctTrans('+i+')">Verificar</button> <button class="btn bo bs" onclick="showAcctAns('+i+')">Ver respuesta</button></div><div class="efb" id="acct-f'+i+'"></div></div>';
   }).join('');
 
-  document.getElementById('acct-career').innerHTML = pathHtml + '<div class="sl" style="color:var(--em);margin-top:20px">· technical test simulator ·</div>' + exHtml;
+  document.getElementById('acct-career').innerHTML = pathHtml + '<div class="sl" style="color:var(--em);margin-top:20px">· laboratorio de conciliación y nómina ·</div>' + exHtml;
   window._acctExDB = acctExDB; // Store for checks
 }
 
@@ -436,16 +436,16 @@ window.chkAcctTrans = function(i){
   const v = document.getElementById('acct-i'+i).value.trim().toLowerCase();
   const fb = document.getElementById('acct-f'+i);
   if(v===e.a.toLowerCase()||(e.al||[]).some(a=>v===a.toLowerCase())){
-    fb.className='efb sh suc';fb.innerHTML='✅ Correct! '+e.w;addXP(20);
+    fb.className='efb sh suc';fb.innerHTML='✅ ¡Correcto! '+e.w;addXP(20);
   } else {
-    fb.className='efb sh inf';fb.innerHTML='💡 Model Answer: "'+e.a+'" — '+e.w;
+    fb.className='efb sh inf';fb.innerHTML='💡 Respuesta Esperada: "'+e.a+'" — '+e.w;
   }
   upd();save();
 };
 window.showAcctAns = function(i){
   const e = window._acctExDB[i];
   const fb = document.getElementById('acct-f'+i);
-  fb.className='efb sh inf';fb.innerHTML='💡 Model Answer: "'+e.a+'" — '+e.w;
+  fb.className='efb sh inf';fb.innerHTML='💡 Respuesta Esperada: "'+e.a+'" — '+e.w;
 };
 
 // ─── DYNAMIC INITIALIZATION ───

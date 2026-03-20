@@ -192,7 +192,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="pnl" id="p-conv"><div class="sl">· conversaciones ·</div><div class="sd">Usa 🔊 en cada línea. Practica ambos roles.</div><div class="cp" id="cC"></div><div id="cL"></div></div>
 <div class="pnl" id="p-pro"><div class="sl">· profesional ·</div><div class="cp" id="pC"></div><div id="pL"></div></div>
 <div class="pnl" id="p-ex"><div class="sl">· ejercicios ·</div><div class="daily"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;font-weight:700;color:var(--am)">🏆 Desafío Diario +25XP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am)" id="tmr">--:--:--</span></div><div id="dC"></div></div><div id="eL"></div><div style="text-align:center;margin-top:16px"><button class="btn bp" onclick="moreEx()">Más ejercicios →</button></div></div>
-<div class="pnl" id="p-fc"><div class="sl">· flashcards ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">1</b>/<b id="fT">0</b></span><div class="prg" style="width:160px"><div class="prf" id="fP" style="width:0%"></div></div></div><button class="btn bs bo" onclick="shuffleFC()">🔀</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="flipFC()"><div class="fcf fcfr"><div class="fcwd" id="fW">...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA"></div><div class="fcd" id="fD"></div></div></div></div><div style="display:flex;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs" style="background:var(--rd);color:#fff" onclick="rateFC(1)">😰 No sé</button><button class="btn bs" style="background:var(--am);color:#000" onclick="rateFC(2)">🤔 Algo</button><button class="btn bs" style="background:var(--gn);color:#fff" onclick="rateFC(3)">😎 Lo sé</button></div></div>
+<div class="pnl" id="p-fc"><div class="sl">· flashcards ·</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:11px;color:var(--t2)"><b id="fN">1</b>/<b id="fT">0</b></span><div class="prg" style="width:160px"><div class="prf" id="fP" style="width:0%"></div></div></div><button class="btn bs bo" onclick="shuffleFC()">🔀</button></div><div class="fcw"><div class="fc" id="mainFC" onclick="handleFcClick()" ondblclick="handleFcDblClick()"><div class="fcf fcfr"><div class="fcwd" id="fW">...</div><div class="fch" id="fH"></div></div><div class="fcf fcbk"><div class="fca" id="fA"></div><div class="fcd" id="fD"></div></div></div></div><div style="display:flex;justify-content:center;gap:8px;margin-top:12px"><button class="btn bs" style="background:var(--rd);color:#fff" onclick="rateFC(1)">😰 No sé</button><button class="btn bs" style="background:var(--am);color:#000" onclick="rateFC(2)">🤔 Algo</button><button class="btn bs" style="background:var(--gn);color:#fff" onclick="rateFC(3)">😎 Lo sé</button></div></div>
 <div class="pnl" id="p-iv"><div class="sl">· entrevistas ·</div><div class="cp" id="iC"></div><div id="iL"></div></div>
 <div class="pnl" id="p-notes"><div class="sl">· mis notas ·</div><div class="sd">Escribe oraciones para practicar. Se guardan automáticamente. Usa sellos para organizar.</div><div id="notesArea"></div></div>
 <div class="pnl" id="p-script"><div id="acct-script"></div></div>
@@ -554,9 +554,30 @@ function chkDailyT(i){const e=exDB[i],v=document.getElementById('id').value.trim
 // Flashcards
 function buildFC(){S.fs=[];Object.values(surv).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));Object.values(proDB).flat().forEach(w=>S.fs.push({f:w.en,h:w.tp,b:w.es,d:w.ex.replace(/<\/?b>/g,'')}));shuffleFC()}
 function shuffleFC(){for(let i=S.fs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[S.fs[i],S.fs[j]]=[S.fs[j],S.fs[i]]}S.fi=0;showFC()}
-function showFC(){if(!S.fs.length)return;const c=S.fs[S.fi];document.getElementById('fW').textContent=c.f;document.getElementById('fH').textContent=c.h+' — click voltear';document.getElementById('fA').textContent=c.b;document.getElementById('fD').textContent=c.d;document.getElementById('fN').textContent=S.fi+1;document.getElementById('fT').textContent=S.fs.length;document.getElementById('fP').style.width=((S.fi+1)/S.fs.length*100)+'%';document.getElementById('mainFC').classList.remove('fl')}
+function showFC(){if(!S.fs.length)return;const c=S.fs[S.fi];document.getElementById('fW').textContent=c.f;document.getElementById('fH').textContent=c.h+' — click=TTS | doble click=Girar';document.getElementById('fA').textContent=c.b;document.getElementById('fD').textContent=c.d;document.getElementById('fN').textContent=S.fi+1;document.getElementById('fT').textContent=S.fs.length;document.getElementById('fP').style.width=((S.fi+1)/S.fs.length*100)+'%';document.getElementById('mainFC').classList.remove('fl')}
+
+let fcClickTimer=null;
+function handleFcClick(){
+  clearTimeout(fcClickTimer);
+  fcClickTimer = setTimeout(()=>{
+    if(!document.getElementById('mainFC').classList.contains('fl')){
+      speak(document.getElementById('fW').textContent);
+    }
+  }, 250);
+}
+function handleFcDblClick(){
+  clearTimeout(fcClickTimer);
+  flipFC();
+}
 function flipFC(){document.getElementById('mainFC').classList.toggle('fl')}
-function rateFC(r){if(r===3){addXP(5);S.w++}else if(r===2)addXP(2);S.fi++;if(S.fi>=S.fs.length){S.fi=0;shuffleFC()}showFC();upd();save()}
+
+function rateFC(r){
+  if(r===3){addXP(5);S.w++}
+  else if(r===2){addXP(2)}
+  S.fi++;
+  if(S.fi>=S.fs.length){S.fi=0;shuffleFC()}
+  showFC();upd();save();
+}
 
 // Interview
 const ivDB={behavioral:[{q:"Tell me about yourself.",m:"I am a data analyst with experience in SQL, Python, and Tableau. I specialize in turning raw data into actionable insights. In my previous role, I built automated dashboards saving 15 hours per week.",t:["90 seg","Presente+Pasado+Futuro"],k:["experience","specialize","automated"]},{q:"Greatest strength?",m:"Translating complex data into clear stories for non-technical stakeholders. I presented a segmentation analysis to the C-suite resulting in 20% higher retention.",t:["Ejemplo con números","STAR method"],k:["translating","stakeholders","retention"]},{q:"Tell me about a failure.",m:"I built a dashboard without validating data. A wrong decision was made. I took ownership, corrected it, implemented validation. Now data quality is my strongest area.",t:["Fallo superado","Lo que aprendiste"],k:["ownership","implemented","validation"]},{q:"Why should we hire you?",m:"I combine SQL, Python, and Tableau with business acumen. What sets me apart is connecting insights to business outcomes that impact revenue directly.",t:["Skills+necesidades","Diferencial"],k:["sets me apart","outcomes","impacted"]}],technical:[{q:"What tools do you use?",m:"Core: SQL for extraction, Python with pandas for transformation, Tableau for visualization. Also BigQuery and Git. Learning dbt.",t:["Herramientas","Ganas de aprender"],k:["extraction","transformation"]},{q:"Messy data?",m:"Assess extent, impute or investigate root causes, always document cleaning decisions for transparency and reproducibility.",t:["Proceso sistemático"],k:["assess","root cause","reproducibility"]}],situational:[{q:"Multiple urgent requests?",m:"Assess impact and deadlines, communicate expectations, deliver quick wins while working deeper analysis in parallel.",t:["Priorización","Comunicación"],k:["communicate","parallel"]},{q:"Error in shared report?",m:"Immediately notify, correct, understand root cause, send updated version, implement prevention.",t:["Transparencia"],k:["notify","prevention"]}]};
