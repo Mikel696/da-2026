@@ -20,6 +20,9 @@ const SYS = (() => {
     { id: 'software', name: 'Refinamiento en Producción de Software', icon: '⚙️', color: 'hsl(142,60%,45%)', credits: 3, type: 'Desarrollo de Software', desc: 'CI/CD, DevOps, testing, refactoring, patrones de diseño, calidad de código.', resources: ['https://refactoring.guru/', 'https://www.freecodecamp.org/learn/quality-assurance/'] },
     { id: 'bdd', name: 'Administración de Base de Datos', icon: '🗄️', color: 'hsl(35,90%,55%)', credits: 4, type: 'Desarrollo de Software', desc: 'DBA, optimización de queries, índices, backup/recovery, seguridad, replicación.', resources: ['https://www.w3schools.com/sql/', 'https://sqlbolt.com/'] },
     { id: 'redes', name: 'Redes Inalámbricas', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
+    { id: 'ecuaciones', name: 'Ecuaciones Diferenciales', icon: '∫', color: 'hsl(320,60%,50%)', credits: 3, type: 'Ciencia Básica', desc: 'EDO de primer y segundo orden, transformadas de Laplace, sistemas de ecuaciones diferenciales, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/'] },
+    { id: 'negocios', name: 'Plan de Negocios II', icon: '📈', color: 'hsl(45,85%,50%)', credits: 2, type: 'Emprendimiento', desc: 'Modelo de negocio, plan financiero, estudio de mercado, pitch deck, viabilidad de proyectos tecnológicos.', resources: ['https://www.coursera.org/learn/business-plan', 'https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan'] },
+    { id: 'electiva1', name: 'Electiva de Profundización I', icon: '🎯', color: 'hsl(15,70%,50%)', credits: 2, type: 'Electiva', desc: 'Materia electiva de profundización según línea de énfasis elegida. Consulta opciones disponibles en SGA Campus.', resources: ['https://sigwt.cun.edu.co/sgacampus/#home'] },
   ];
 
   // ── CALENDAR 2026 (extracted from official PDF) ──
@@ -513,6 +516,10 @@ const SYS = (() => {
         { id: 5, text: 'Práctica de optimización de queries SQL', subj: 'bdd', priority: 'p2', due: '2026-04-08', done: false, created: todayStr() },
         { id: 6, text: 'Laboratorio de configuración WiFi empresarial', subj: 'redes', priority: 'p3', due: '2026-04-20', done: false, created: todayStr() },
         { id: 7, text: 'Revisar conceptos de seguridad wireless para quiz', subj: 'redes', priority: 'p1', due: '2026-03-27', done: false, created: todayStr() },
+        { id: 8, text: 'Resolver ejercicios EDO de primer orden — Capítulo 3', subj: 'ecuaciones', priority: 'p2', due: '2026-04-10', done: false, created: todayStr() },
+        { id: 9, text: 'Transformadas de Laplace — Preparar para parcial', subj: 'ecuaciones', priority: 'p3', due: '2026-04-25', done: false, created: todayStr() },
+        { id: 10, text: 'Avance del plan de negocios — Estudio de mercado', subj: 'negocios', priority: 'p2', due: '2026-04-15', done: false, created: todayStr() },
+        { id: 11, text: 'Revisar material de la electiva de profundización', subj: 'electiva1', priority: 'p3', due: '2026-04-18', done: false, created: todayStr() },
       ];
       saveTasks(sampleTasks);
     }
