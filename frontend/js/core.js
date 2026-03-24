@@ -219,6 +219,7 @@ function injectSidebar() {
     <a href="${url('pages/prompts.html')}"   class="nav-link"><span>🤖</span>Biblioteca de IA</a>
     <a href="${url('pages/ingles.html')}"    class="nav-link"><span>🇺🇸</span>Inglés Técnico</a>
     <a href="${url('pages/proyectos.html')}" class="nav-link"><span>🔬</span>Proyectos</a>
+    <a href="${url('frontend/systems.html')}" class="nav-link"><span>⚙️</span>Ing. de Sistemas</a>
     <a href="${url('pages/tacticas.html')}"  class="nav-link"><span>⚡</span>Tácticas Ocultas</a>
     <a href="${url('pages/configurar.html')}"class="nav-link"><span>⚙️</span>Mi Perfil</a>
   </div>

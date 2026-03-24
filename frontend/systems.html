@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Ingeniería de Sistemas — Mission Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--pk:#ec4899;--em:#10b981;--eg:rgba(16,185,129,.08);--vi:#7c3aed;--vi2:#a78bfa;--vg:rgba(124,58,237,.08);--tl:#2dd4bf;--tlg:rgba(45,212,191,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+
+/* GLASSMORPHISM ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;opacity:.4}
+.orb-1{width:400px;height:400px;background:hsl(142,72%,29%);top:-100px;left:-100px}
+.orb-2{width:350px;height:350px;background:hsl(263,70%,50%);bottom:-80px;right:-80px}
+.orb-3{width:250px;height:250px;background:hsl(172,66%,50%);top:40%;right:10%;opacity:.2}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px;transition:color .2s}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--em)}
+.nav-r{display:flex;gap:8px}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-sem{background:var(--vg);border:1px solid rgba(124,58,237,.2);color:var(--vi2)}
+.bdg-period{background:var(--eg);border:1px solid rgba(16,185,129,.15);color:var(--em)}
+
+/* MAIN */
+.wrap{max-width:1200px;margin:0 auto;padding:28px 24px 60px;position:relative;z-index:1}
+
+/* HERO */
+.hero{margin-bottom:28px;position:relative}
+.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
+.hero h1 em{font-style:italic;color:var(--em)}
+.hero p{font-size:13px;color:var(--t3);max-width:580px}
+.hero-name{color:var(--vi2);font-weight:600}
+
+/* STATS BAR */
+.hst{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:24px;border:1px solid rgba(124,58,237,.15)}
+.hs{flex:1;background:var(--c1);padding:12px;text-align:center}
+.hs:first-child{border-radius:10px 0 0 10px}.hs:last-child{border-radius:0 10px 10px 0}
+.hsv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--em)}
+.hsl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid rgba(124,58,237,.15);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--tx);background:var(--el)}
+.tab.on{color:#fff;background:linear-gradient(135deg,var(--vi),var(--em));box-shadow:0 2px 12px rgba(124,58,237,.3)}
+
+/* PANELS */
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION LABELS */
+.sl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.sd{font-size:13px;color:var(--t2);margin-bottom:16px}
+
+/* GLASS CARD */
+.gc{background:rgba(22,22,26,.75);backdrop-filter:blur(12px);border:1px solid rgba(124,58,237,.12);border-radius:12px;padding:20px;margin-bottom:12px;transition:all .25s}
+.gc:hover{border-color:rgba(124,58,237,.25);transform:translateY(-1px);box-shadow:0 8px 32px rgba(124,58,237,.08)}
+.gc-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.gc-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
+
+/* PRIORITY SEMAPHORE */
+.sem{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.sem-p0{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.2);animation:pulse-red 1.5s infinite}
+.sem-p1{background:rgba(249,115,22,.12);color:#f97316;border:1px solid rgba(249,115,22,.2)}
+.sem-p2{background:rgba(234,179,8,.1);color:#eab308;border:1px solid rgba(234,179,8,.2)}
+.sem-p3{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
+.sem-p4{background:rgba(139,92,246,.08);color:var(--a2);border:1px solid rgba(139,92,246,.15)}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.3)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+
+/* SUBJECT CARD */
+.subj{background:rgba(22,22,26,.8);backdrop-filter:blur(8px);border:1px solid rgba(124,58,237,.1);border-radius:10px;padding:16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer}
+.subj:hover{border-color:rgba(124,58,237,.25);background:rgba(28,28,33,.9)}
+.subj-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.subj-body{flex:1;min-width:0}
+.subj-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.subj-meta{font-size:11px;color:var(--t3)}
+.subj-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.subj-pct{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+
+/* PROGRESS BAR */
+.pbar{width:100%;height:6px;background:var(--el);border-radius:3px;overflow:hidden;margin-top:6px}
+.pbar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.pbar-em{background:linear-gradient(90deg,var(--em),var(--tl))}
+.pbar-vi{background:linear-gradient(90deg,var(--vi),var(--a2))}
+.pbar-am{background:linear-gradient(90deg,var(--am),var(--or))}
+
+/* CALENDAR TIMELINE */
+.tl{position:relative;padding-left:24px}
+.tl::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--vi),var(--em))}
+.tl-item{position:relative;padding:12px 0;padding-left:16px}
+.tl-dot{position:absolute;left:-20px;top:16px;width:12px;height:12px;border-radius:50%;border:2px solid var(--vi);background:var(--bg)}
+.tl-dot.active{background:var(--em);border-color:var(--em);box-shadow:0 0 8px rgba(16,185,129,.4)}
+.tl-dot.done{background:var(--gn);border-color:var(--gn)}
+.tl-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--em);margin-bottom:2px}
+.tl-label{font-size:13px;font-weight:500}
+.tl-sub{font-size:11px;color:var(--t3)}
+
+/* QUICK ACCESS */
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.qa{display:flex;align-items:center;gap:10px;padding:14px 16px;background:rgba(22,22,26,.8);backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:10px;text-decoration:none;color:var(--tx);transition:all .25s}
+.qa:hover{border-color:rgba(124,58,237,.3);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.qa-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.qa-info{flex:1;min-width:0}.qa-title{font-size:12px;font-weight:600}.qa-desc{font-size:10px;color:var(--t3)}
+
+/* CERT CARD */
+.cert{background:rgba(22,22,26,.8);backdrop-filter:blur(8px);border:1px solid rgba(124,58,237,.1);border-radius:10px;padding:16px;margin-bottom:8px;transition:all .2s}
+.cert:hover{border-color:rgba(124,58,237,.25)}
+.cert-h{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cert-logo{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cert-info{flex:1}.cert-name{font-size:13px;font-weight:600}.cert-issuer{font-size:11px;color:var(--t3)}
+.cert-body{font-size:12px;color:var(--t2);line-height:1.6}
+.cert-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.cert-tag{font-size:9px;padding:2px 6px;border-radius:6px;background:var(--el);color:var(--t2);border:1px solid var(--bd)}
+.cert-link{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:600;text-decoration:none;color:#fff;background:var(--vi);transition:all .2s}
+.cert-link:hover{opacity:.85;transform:translateY(-1px)}
+
+/* TASK INPUT */
+.task-form{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tf-input{flex:1;min-width:200px;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px}
+.tf-input:focus{outline:none;border-color:var(--vi);box-shadow:0 0 0 2px rgba(124,58,237,.15)}
+.tf-select{padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--t2);font-family:inherit;font-size:11px}
+.tf-btn{padding:8px 16px;background:linear-gradient(135deg,var(--vi),var(--em));color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.tf-btn:hover{opacity:.9;transform:translateY(-1px)}
+.tf-date{padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--t2);font-family:inherit;font-size:11px}
+
+/* TASK LIST */
+.atask{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--el);border-radius:8px;margin-bottom:4px;transition:all .2s;border:1px solid transparent}
+.atask:hover{border-color:rgba(124,58,237,.15)}
+.atask-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+.atask-check:hover{border-color:var(--gn)}.atask-check.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.atask-text{font-size:12px;flex:1}.atask-text.crossed{text-decoration:line-through;color:var(--t3)}
+.atask-due{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)}
+.atask-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;transition:opacity .2s}.atask:hover .atask-del{opacity:1}
+
+/* COLLAPSIBLE */
+.coll-btn{width:100%;text-align:left;padding:12px 16px;background:rgba(22,22,26,.8);border:1px solid rgba(124,58,237,.1);border-radius:10px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;transition:all .2s}
+.coll-btn:hover{border-color:rgba(124,58,237,.25)}
+.coll-btn .arrow{transition:transform .2s;font-size:10px;color:var(--t3)}
+.coll-btn.open .arrow{transform:rotate(180deg)}
+.coll-body{display:none;padding:12px 16px;background:rgba(22,22,26,.6);border:1px solid rgba(124,58,237,.08);border-top:none;border-radius:0 0 10px 10px;margin-top:-6px;margin-bottom:8px}
+.coll-body.vis{display:block}
+
+/* MALLA GRID */
+.malla{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.malla-sem{background:rgba(22,22,26,.8);border:1px solid rgba(124,58,237,.1);border-radius:10px;padding:14px;transition:all .2s}
+.malla-sem:hover{border-color:rgba(124,58,237,.2)}
+.malla-sem.current{border-color:rgba(16,185,129,.3);box-shadow:0 0 16px rgba(16,185,129,.08)}
+.malla-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.malla-title{font-size:11px;font-weight:600;color:var(--em);margin-bottom:6px}
+.malla-list{list-style:none;padding:0}
+.malla-list li{font-size:11px;color:var(--t2);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:6px}
+.malla-list li:last-child{border-bottom:none}
+.malla-cr{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);margin-left:auto}
+
+/* RESPONSIVE */
+@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<nav class="nav">
+<div class="nav-l">
+<a href="index.html">← Cerebro</a>
+<div class="nav-sep"></div>
+<span class="nav-logo">⚙️ Ingeniería de Sistemas</span>
+</div>
+<div class="nav-r">
+<span class="bdg bdg-sem">8vo Semestre</span>
+<span class="bdg bdg-period" id="periodBadge">26V01</span>
+</div>
+</nav>
+
+<main class="wrap">
+<div class="hero">
+<div class="hero-sub">Mission Control · CUN Virtual</div>
+<h1>Ingeniería de <em>Sistemas</em>,<br>tu centro de comando.</h1>
+<p>Bienvenido, <span class="hero-name">MIGUEL ANGEL BARROS TORRES</span>. Aquí controlas materias, deadlines, accesos y tu ruta profesional. Todo el semestre en un solo panel.</p>
+</div>
+
+<div class="hst">
+<div class="hs"><div class="hsv" id="statMaterias">5</div><div class="hsl">Materias</div></div>
+<div class="hs"><div class="hsv" id="statCredits">16</div><div class="hsl">Créditos</div></div>
+<div class="hs"><div class="hsv" id="statProgress">0%</div><div class="hsl">Avance</div></div>
+<div class="hs"><div class="hsv" id="statPending">0</div><div class="hsl">Pendientes</div></div>
+<div class="hs"><div class="hsv" id="statDaysLeft">0</div><div class="hsl">Días restantes</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab on" onclick="showTab(0)">📡 Dashboard</button>
+<button class="tab" onclick="showTab(1)">📚 Materias</button>
+<button class="tab" onclick="showTab(2)">📅 Calendario</button>
+<button class="tab" onclick="showTab(3)">🔗 Accesos</button>
+<button class="tab" onclick="showTab(4)">🗺️ Malla Curricular</button>
+<button class="tab" onclick="showTab(5)">🏆 Certificaciones</button>
+</div>
+
+<!-- ═══════ TAB 0: DASHBOARD ═══════ -->
+<div class="pnl on" id="pnl0">
+<div class="sl">· semáforo de prioridad ·</div>
+<div class="sd">Organizado por urgencia. Rojo = crítico (&lt;48h), Naranja = esta semana, Amarillo = en camino.</div>
+<div id="semaphoreList"></div>
+
+<div style="margin-top:24px">
+<div class="sl">· agregar tarea académica ·</div>
+<div class="task-form">
+<input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Álgebra Moderna...">
+<select class="tf-select" id="newTaskSubj">
+<option value="discretas">Matemáticas Discretas</option>
+<option value="algebra">Álgebra Moderna</option>
+<option value="software">Refinamiento Software</option>
+<option value="bdd">Admin. Base de Datos</option>
+<option value="redes">Redes Inalámbricas</option>
+<option value="general">General</option>
+</select>
+<select class="tf-select" id="newTaskPriority">
+<option value="p2">🟡 P2 — On track</option>
+<option value="p1">🟠 P1 — Esta semana</option>
+<option value="p0">🔴 P0 — Urgente</option>
+<option value="p3">🟢 P3 — Futuro</option>
+<option value="p4">🟣 P4 — Opcional</option>
+</select>
+<input class="tf-date" id="newTaskDue" type="date">
+<button class="tf-btn" onclick="SYS.addTask()">+ Agregar</button>
+</div>
+</div>
+
+<div style="margin-top:24px">
+<div class="sl">· estado por materia ·</div>
+<div id="subjectCards"></div>
+</div>
+
+<div style="margin-top:24px">
+<div class="sl">· qué sigue — próximas acciones ·</div>
+<div class="gc" id="nextActions">
+<div class="gc-t">⚡ Cargando recomendaciones...</div>
+</div>
+</div>
+</div>
+
+<!-- ═══════ TAB 1: MATERIAS ═══════ -->
+<div class="pnl" id="pnl1">
+<div class="sl">· materias 8vo semestre — ingeniería de sistemas ·</div>
+<div class="sd">Click en cada materia para ver detalles, recursos y tareas asociadas.</div>
+<div id="subjectDetail"></div>
+</div>
+
+<!-- ═══════ TAB 2: CALENDARIO ═══════ -->
+<div class="pnl" id="pnl2">
+<div class="sl">· calendario virtual 2026 — período 26V01 ·</div>
+<div class="sd">Timeline basado en el calendario oficial de la CUN. Las fechas se actualizan según el período activo.</div>
+<div id="calendarTimeline"></div>
+
+<div style="margin-top:24px">
+<div class="sl">· todos los períodos 2026 ·</div>
+<div id="allPeriods"></div>
+</div>
+</div>
+
+<!-- ═══════ TAB 3: ACCESOS DIRECTOS ═══════ -->
+<div class="pnl" id="pnl3">
+<div class="sl">· accesos directos — portales académicos ·</div>
+<div class="sd">Todo lo que necesitas a un click. Sin buscar, sin perder tiempo.</div>
+<div class="qa-grid" id="quickAccess"></div>
+
+<div style="margin-top:24px">
+<div class="sl">· recursos de estudio ·</div>
+<div class="qa-grid" id="studyResources"></div>
+</div>
+</div>
+
+<!-- ═══════ TAB 4: MALLA CURRICULAR ═══════ -->
+<div class="pnl" id="pnl4">
+<div class="sl">· malla curricular — ingeniería de sistemas virtual ·</div>
+<div class="sd">155 créditos · 10 semestres · 3 niveles (Técnica → Tecnología → Ingeniería). Tu semestre actual está resaltado.</div>
+<div class="malla" id="mallaGrid"></div>
+</div>
+
+<!-- ═══════ TAB 5: CERTIFICACIONES ═══════ -->
+<div class="pnl" id="pnl5">
+<div class="sl">· ruta de certificaciones — perfil 8vo semestre ·</div>
+<div class="sd">Certificaciones estratégicas para complementar tu título. Ordenadas por impacto en empleabilidad.</div>
+<div id="certList"></div>
+</div>
+</main>
+
+<footer style="text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--bd);position:relative;z-index:1">
+Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
+</footer>
+
+<script src="systems_logic.js"></script>
+</body>
+</html>
