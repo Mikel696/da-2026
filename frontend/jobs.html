@@ -171,12 +171,16 @@
 
 <!-- ═══ TRACKER ═══ -->
 <div class="pnl" id="p-tr">
-<div class="lb">· tracker de aplicaciones ·</div>
+<div class="lb">· vacantes perfiladas (guardadas desde application command center) ·</div>
+<div class="tip tip-v"><b>🔗 INTEGRACIÓN BIDIRECCIONAL</b><p>Las vacantes analizadas en el <a href="apply.html" style="color:var(--a2)">Application Command Center</a> aparecen aquí. Click <strong>"Abrir Perfilación"</strong> para recargar toda la info (CV, Cover, Entrevista) de cualquier vacante guardada.</p></div>
+<div id="savedVacancies"></div>
+
+<div class="lb" style="margin-top:24px">· tracker manual — kanban ·</div>
 <div class="card" style="margin-bottom:12px">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><input class="inp" id="aT" placeholder="Puesto..."><input class="inp" id="aC" placeholder="Empresa..."><input class="inp" id="aU" placeholder="URL (opc)..."><select class="inp" id="aS"><option value="saved">💾 Guardado</option><option value="applied" selected>📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="offer">🎉 Oferta</option></select></div>
 <div style="display:flex;gap:6px;margin-top:6px">
 <button class="btn bg bs" onclick="addA()">+ Agregar</button>
-<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar</button>
+<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker manual?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar</button>
 </div>
 </div>
 <div class="kanban" id="kb"></div>
@@ -307,6 +311,73 @@
 </div>
 
 <script>
+// ══════════════════════════════════════════════════════════════
+// VACANCY DATABASE — SHARED STORAGE LAYER (mirrors apply.html)
+// ══════════════════════════════════════════════════════════════
+const VDB={
+  KEY:'da_vacancies',
+  getAll(){try{return JSON.parse(localStorage.getItem(this.KEY)||'[]');}catch(e){return[];}},
+  save(v){const all=this.getAll();const idx=all.findIndex(x=>x.id===v.id);if(idx>=0)all[idx]=v;else all.push(v);localStorage.setItem(this.KEY,JSON.stringify(all));return v;},
+  get(id){return this.getAll().find(x=>x.id===id)||null;},
+  del(id){localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id)));},
+  updateStatus(id,status){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.status=status;if(status==='applied')v.appliedDate=Date.now();localStorage.setItem(this.KEY,JSON.stringify(all));}},
+  updateNotes(id,notes){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.notes=notes;localStorage.setItem(this.KEY,JSON.stringify(all));}}
+};
+
+// ══════════════════════════════════════════════════════════════
+// RENDER SAVED VACANCIES
+// ══════════════════════════════════════════════════════════════
+function renderSavedVacancies(){
+  const vacancies=VDB.getAll().sort((a,b)=>(b.updatedAt||b.ts)-(a.updatedAt||a.ts));
+  const el=document.getElementById('savedVacancies');
+
+  if(!vacancies.length){
+    el.innerHTML='<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px"><div style="font-size:32px;margin-bottom:8px;opacity:.4">📋</div>No hay vacantes guardadas aún.<br>Analiza una vacante en el <a href="apply.html" style="color:var(--a2)">Application Command Center</a> y guárdala aquí.</div>';
+    return;
+  }
+
+  const statusLabels={saved:{l:'💾 Guardado',c:'var(--t2)'},applied:{l:'📤 Aplicado',c:'var(--a2)'},interview:{l:'🎯 Entrevista',c:'var(--am)'},offer:{l:'🎉 Oferta',c:'var(--gn)'},rejected:{l:'❌ Descartado',c:'var(--rd)'}};
+  const statusOpts=['saved','applied','interview','offer','rejected'];
+
+  el.innerHTML=vacancies.map(v=>{
+    const st=statusLabels[v.status]||statusLabels.saved;
+    const mc=v.match?.pct>=70?'var(--gn)':v.match?.pct>=40?'var(--am)':'var(--rd)';
+    const age=v.ts?Math.floor((Date.now()-v.ts)/864e5):0;
+    const topSkills=(v.match?.found||[]).slice(0,5).map(s=>s.name||s).join(', ');
+    return`<div class="card" style="border-left:3px solid ${mc}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--tx)">${v.role||'Sin cargo'}</div>
+        <div style="font-size:12px;color:var(--a2)">${v.company||'Sin empresa'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:${mc}">${v.match?.pct||0}%</span>
+        <select class="inp" style="width:auto;padding:3px 6px;font-size:10px" onchange="changeVStatus('${v.id}',this.value)">
+          ${statusOpts.map(s=>`<option value="${s}"${v.status===s?' selected':''}>${statusLabels[s].l}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--t3);margin-bottom:6px">
+      Guardado hace ${age} día${age!==1?'s':''} · ATS: ${v.match?.ats||0}% · Foco: ${v.match?.focusArea||'general'} ${v.profile?.toneMatch?'· Tono: '+v.profile.toneMatch:''} ${v.profile?.timezone?'· TZ: '+v.profile.timezone:''}
+    </div>
+    ${topSkills?'<div style="margin-bottom:6px">'+topSkills.split(', ').map(s=>'<span class="sk sk-g">'+s+'</span>').join(' ')+'</div>':''}
+    ${v.match?.missing?.length?'<div style="margin-bottom:6px">'+v.match.missing.slice(0,3).map(s=>'<span class="sk" style="background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)">'+s+'</span>').join(' ')+(v.match.missing.length>3?' <span style="font-size:10px;color:var(--t3)">+'+( v.match.missing.length-3)+' más</span>':'')+'</div>':''}
+    <div style="margin-bottom:6px"><textarea class="inp" style="min-height:30px;font-size:10px;resize:vertical" placeholder="Notas..." onchange="saveVNotes('${v.id}',this.value)">${v.notes||''}</textarea></div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <a href="apply.html?v=${v.id}" class="btn bp bs">🔍 Abrir Perfilación</a>
+      ${v.url?'<a href="'+v.url+'" target="_blank" rel="noopener" class="btn bo bs">🔗 Ver oferta</a>':''}
+      <button class="btn bo bs" style="color:var(--rd);border-color:rgba(239,68,68,.2)" onclick="if(confirm('¿Eliminar esta vacante?')){VDB.del('${v.id}');renderSavedVacancies();}">🗑️</button>
+    </div></div>`;
+  }).join('')+`<div style="text-align:center;padding:8px;color:var(--t3);font-size:10px">${vacancies.length} vacante${vacancies.length!==1?'s':''} guardada${vacancies.length!==1?'s':''}</div>`;
+}
+
+function changeVStatus(id,status){
+  VDB.updateStatus(id,status);
+  renderSavedVacancies();
+  uS();
+}
+function saveVNotes(id,notes){ VDB.updateNotes(id,notes); }
+
 // TABS
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
@@ -350,14 +421,33 @@ const a=getA();const cols={saved:{l:'💾 Guardados',cl:'var(--t2)'},applied:{l:
 const sts=['saved','applied','interview','offer'];const nx={saved:'applied',applied:'interview',interview:'offer'};
 document.getElementById('kb').innerHTML=sts.map(s=>{const col=cols[s];const items=a.map((x,i)=>({...x,idx:i})).filter(x=>x.s===s);return`<div class="kcol"><div class="kh" style="color:${col.cl}">${col.l}<span style="font-size:10px;padding:1px 5px;border-radius:5px;background:var(--el)">${items.length}</span></div>${items.map(x=>`<div class="ka"><button class="ka-del" onclick="dlA(${x.idx})">✕</button><div class="ka-t">${x.u?`<a href="${x.u}" target="_blank" style="color:var(--tx);text-decoration:none">${x.t}</a>`:x.t}</div><div class="ka-c">${x.c}</div><div class="ka-d">${x.d}</div>${nx[s]?`<button class="ka-btn" onclick="mvA(${x.idx},'${nx[s]}')">→ ${cols[nx[s]].l}</button>`:''}</div>`).join('')}</div>`}).join('');
 }
-function uS(){const a=getA();document.getElementById('tA').textContent=a.length;document.getElementById('sA').textContent=a.filter(x=>x.s==='applied').length;document.getElementById('sI').textContent=a.filter(x=>x.s==='interview').length;document.getElementById('sO').textContent=a.filter(x=>x.s==='offer').length}
+function uS(){
+  const a=getA();const vdb=VDB.getAll();
+  const totalApplied=a.filter(x=>x.s==='applied').length + vdb.filter(x=>x.status==='applied').length;
+  const totalInterview=a.filter(x=>x.s==='interview').length + vdb.filter(x=>x.status==='interview').length;
+  const totalOffer=a.filter(x=>x.s==='offer').length + vdb.filter(x=>x.status==='offer').length;
+  document.getElementById('tA').textContent=a.length+vdb.length;
+  document.getElementById('sA').textContent=totalApplied;
+  document.getElementById('sI').textContent=totalInterview;
+  document.getElementById('sO').textContent=totalOffer;
+}
 
 // ═══ DAYS ═══
 if(!localStorage.getItem('jt_s8'))localStorage.setItem('jt_s8',new Date().toISOString());
 document.getElementById('sD').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('jt_s8')))/864e5));
 
 // INIT
-renderCmp();rK();uS();
+renderCmp();rK();renderSavedVacancies();uS();
+
+// Hash navigation (from apply.html links)
+function goTab(hash){
+  const map={'#tracker':'Tracker','#estrategia':'Estrategia','#experiencia':'Experiencia','#ruta':'Ruta Data','#ingresos':'Ingresos','#empresas':'Empresas'};
+  const t=map[hash];if(!t)return;
+  document.querySelectorAll('.tab').forEach(b=>{b.classList.toggle('active',b.textContent.trim()===t);});
+  document.querySelectorAll('.pnl').forEach(p=>{p.classList.toggle('active',p.dataset.p===t);});
+}
+if(location.hash)goTab(location.hash);
+window.addEventListener('hashchange',()=>goTab(location.hash));
 </script>
 </body>
 </html>
