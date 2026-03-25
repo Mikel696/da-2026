@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Application Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08);--em:#10b981;--eg:rgba(16,185,129,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nav-r{display:flex;gap:8px;align-items:center}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-v{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.bdg-g{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.hero{margin-bottom:24px}
+.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
+.hero h1 em{font-style:italic;color:var(--a2)}
+.hero p{font-size:13px;color:var(--t3);max-width:600px}
+/* STATS */
+.hst{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:20px}
+.hs{flex:1;background:var(--c1);padding:12px;text-align:center}
+.hs:first-child{border-radius:10px 0 0 10px}.hs:last-child{border-radius:0 10px 10px 0}
+.hsv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}
+.hsl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac);box-shadow:0 2px 8px rgba(139,92,246,.25)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* LABELS */
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px}
+.sd{font-size:13px;color:var(--t2);margin-bottom:14px}
+/* CARDS */
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.cd:hover{border-color:var(--bd2)}
+.cd-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cd-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
+/* PILLS */
+.pl{font-size:9px;font-weight:600;padding:2px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
+.pl-g{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.pl-a{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.pl-w{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.pl-r{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
+.pl-c{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bp:hover{background:var(--a2)}
+.bo{background:transparent;color:var(--t2);border:1px solid var(--bd)}.bo:hover{border-color:var(--ac);color:var(--a2)}
+.bg{background:var(--gn);color:#fff}.bg:hover{opacity:.9}
+.bs{padding:5px 9px;font-size:10px}
+/* INPUTS */
+.inp{width:100%;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:13px;resize:vertical}
+.inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ag)}
+/* TIPBOX */
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:14px;margin-bottom:12px}
+.tip b{color:var(--am);font-size:12px;display:block;margin-bottom:3px}
+.tip p{font-size:12px;color:var(--t2)}.tip strong{color:var(--tx)}
+.tip-g{background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(16,185,129,.02));border-color:rgba(34,197,94,.1)}
+.tip-g b{color:var(--gn)}
+.tip-v{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(124,58,237,.02));border-color:rgba(139,92,246,.1)}
+.tip-v b{color:var(--a2)}
+/* CV FRAME */
+.cv-frame{background:#fff;color:#1a1a1a;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.cv-hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;padding:24px 28px}
+.cv-hdr-top{display:flex;justify-content:space-between;align-items:center}
+.cv-name{font-family:'Newsreader',serif;font-size:24px;font-weight:600}
+.cv-role{font-size:12px;color:#c7d2fe;margin-top:2px}
+.cv-contact{text-align:right;font-size:10px;color:#c7d2fe;line-height:1.8}
+.cv-contact a{color:#c7d2fe;text-decoration:none}
+.cv-body{padding:22px 28px}
+.cv-cols{display:flex;gap:24px}
+.cv-main{flex:1;min-width:0}
+.cv-side{width:230px;flex-shrink:0;border-left:1px solid #e5e7eb;padding-left:20px}
+.cv-h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#312e81;border-bottom:2px solid #e0e7ff;padding-bottom:3px;margin:14px 0 8px}
+.cv-h3:first-child{margin-top:0}
+.cv-p{font-size:11px;line-height:1.6;color:#374151;margin-bottom:6px}
+.cv-xt{font-size:12px;font-weight:600;color:#1a1a1a}
+.cv-xc{font-size:11px;color:#6366f1;font-weight:500}
+.cv-xd{font-size:10px;color:#6b7280}
+.cv-ul{list-style:none;margin:4px 0 10px;padding:0}
+.cv-ul li{font-size:10px;color:#374151;padding:1px 0 1px 10px;position:relative;line-height:1.5}
+.cv-ul li::before{content:'▸';position:absolute;left:0;color:#6366f1}
+.cv-h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#312e81;margin:12px 0 6px}
+.cv-h4:first-child{margin-top:0}
+.cv-skl{list-style:none;padding:0}.cv-skl li{font-size:10px;color:#374151;padding:1px 0;display:flex;align-items:center;gap:5px}
+.cv-dot{width:5px;height:5px;border-radius:50%;background:#6366f1;flex-shrink:0}
+.cv-bar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:1px}.cv-fill{height:100%;border-radius:2px;background:#6366f1}
+/* COVER LETTER */
+.letter{background:#fff;color:#1a1a1a;border-radius:10px;padding:32px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.8;margin-bottom:14px}
+.letter h4{color:#312e81;font-size:14px;margin-bottom:12px}
+.letter .sign{margin-top:18px;font-weight:600}
+/* COLLAPSIBLE */
+.clh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;cursor:pointer;margin-bottom:3px}
+.clh:hover{border-color:var(--bd2)}.clh h3{font-size:13px;font-weight:600}
+.cla{transition:transform .3s;color:var(--t3);font-size:11px}.clh.op .cla{transform:rotate(180deg)}
+.clb{max-height:0;overflow:hidden;transition:max-height .4s ease}.clb.op{max-height:9000px}.cli{padding:12px 16px}
+/* INTERVIEW Q */
+.iq{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px}
+.iq:hover{border-color:var(--bd2)}
+.iq-q{font-size:14px;font-weight:600;margin-bottom:6px;display:flex;gap:8px}
+.iq-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ac);min-width:24px}
+.iq-a{font-size:12px;color:var(--t2);line-height:1.7;display:none;padding-top:8px;border-top:1px solid var(--bd)}
+.iq-a.sh{display:block}
+.iq-a b{color:var(--tx);font-weight:600}
+.iq-lang{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase}
+.iq-en{background:var(--cg);color:var(--cy)}.iq-es{background:var(--ag);color:var(--a2)}
+/* CHECKLIST */
+.chk{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(39,39,42,.3)}
+.chk:last-child{border-bottom:none}
+.chk input{margin-top:3px;accent-color:var(--ac)}
+.chk-t{font-size:12px;flex:1}
+.chk-t.done{text-decoration:line-through;color:var(--t3)}
+/* COMPANY INFO */
+.ci{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:14px}
+.ci-card{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.ci-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.ci-val{font-size:14px;font-weight:600}
+.ci-desc{font-size:11px;color:var(--t2);margin-top:2px}
+/* SALARY TABLE */
+.sal-row{display:flex;justify-content:space-between;padding:8px 12px;border-radius:7px;font-size:12px;margin-bottom:2px}
+.sal-row:nth-child(odd){background:var(--el)}
+.sal-time{color:var(--t2)}.sal-amt{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--gn)}
+/* COPY BTN */
+.copy-wrap{position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;padding:4px 10px;border-radius:6px;background:var(--el);border:1px solid var(--bd);color:var(--t2);font-family:inherit;font-size:10px;font-weight:600;cursor:pointer;transition:all .2s;z-index:2}
+.copy-btn:hover{border-color:var(--ac);color:var(--a2)}
+.copy-btn.copied{background:var(--gg);border-color:rgba(34,197,94,.2);color:var(--gn)}
+/* PROGRESS */
+.prg{width:100%;height:6px;background:var(--el);border-radius:3px;overflow:hidden;margin:6px 0}
+.prf{height:100%;background:linear-gradient(90deg,var(--ac),var(--cy));border-radius:3px;transition:width .5s}
+@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.tab{font-size:10px;padding:6px 8px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.cv-cols{flex-direction:column}.cv-side{width:100%;border-left:none;border-top:1px solid #e5e7eb;padding-left:0;padding-top:12px}.ci{grid-template-columns:1fr}.letter{padding:20px 16px}}
+@media print{body{background:#fff}.nav,.tabs,.btn,.copy-btn,.tip,.hst{display:none!important}.wrap{padding:0;max-width:100%}.cv-frame{box-shadow:none;border-radius:0}.pnl{display:block!important}}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div class="nav-l"><a href="index.html">&larr; Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Application Command Center</span></div>
+<div class="nav-r"><div class="bdg bdg-v">🎯 Estimator Asst</div><div class="bdg bdg-g">WBN</div></div>
+</nav>
+<div class="wrap">
+
+<div class="hero">
+<div class="hero-sub">application command center &middot; preparaci&oacute;n integral</div>
+<h1>Land the job. <em>Own</em> the interview.</h1>
+<p>Investigaci&oacute;n de empresa, CV perfilado biling&uuml;e, cover letter, mensajes, preparaci&oacute;n de entrevista y checklist de aplicaci&oacute;n. Todo para <strong>MIGUEL &Aacute;NGEL BARROS TORRES</strong>.</p>
+</div>
+
+<div class="hst">
+<div class="hs"><div class="hsv" style="color:var(--gn)">$1,200</div><div class="hsl">Salario Inicial USD</div></div>
+<div class="hs"><div class="hsv" style="color:var(--cy)">100%</div><div class="hsl">Remoto</div></div>
+<div class="hs"><div class="hsv" style="color:var(--am)">18</div><div class="hsl">D&iacute;as Vacaciones</div></div>
+<div class="hs"><div class="hsv" style="color:var(--a2)">Top 2%</div><div class="hsl">Selecci&oacute;n WBN</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab on" data-p="intel">🔍 Intel Empresa</button>
+<button class="tab" data-p="cv-en">📄 CV English</button>
+<button class="tab" data-p="cv-es">📄 CV Espa&ntilde;ol</button>
+<button class="tab" data-p="cover">✉️ Cover Letter</button>
+<button class="tab" data-p="msg">💬 Mensajes</button>
+<button class="tab" data-p="interview">🎯 Entrevista EN</button>
+<button class="tab" data-p="interview-es">🎯 Entrevista ES</button>
+<button class="tab" data-p="checklist">✅ Checklist</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 1: INTEL DE EMPRESA                    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl on" id="p-intel">
+<div class="lb">&middot; investigaci&oacute;n de WorkBetterNow &middot;</div>
+
+<div class="ci">
+<div class="ci-card"><div class="ci-label">Empresa</div><div class="ci-val">WorkBetterNow (WBN)</div><div class="ci-desc">Nearshore staffing para empresas US</div></div>
+<div class="ci-card"><div class="ci-label">Fundada</div><div class="ci-val">2018</div><div class="ci-desc">New York, NY &mdash; Rob Levin (Chairman) &amp; Andrew Cohen (CEO)</div></div>
+<div class="ci-card"><div class="ci-label">Glassdoor</div><div class="ci-val" style="color:var(--gn)">4.3 / 5</div><div class="ci-desc">88% recomienda &middot; 88 reviews</div></div>
+<div class="ci-card"><div class="ci-label">Modelo</div><div class="ci-val">Top 2% Filter&trade;</div><div class="ci-desc">Solo aceptan el 2% de 4,000+ aplicantes/mes</div></div>
+<div class="ci-card"><div class="ci-label">Reconocimientos</div><div class="ci-val">Inc. 5000 x2</div><div class="ci-desc">Inc. Power Partner 2025 &middot; Dos a&ntilde;os consecutivos</div></div>
+<div class="ci-card"><div class="ci-label">Industrias</div><div class="ci-val">Construcci&oacute;n &middot; HVAC &middot; Log&iacute;stica</div><div class="ci-desc">El rol de Estimator es para cliente del sector construcci&oacute;n</div></div>
+</div>
+
+<div class="tip tip-g">
+<b>🎯 Por qu&eacute; ENCAJAS perfecto</b>
+<p><strong>Tu perfil tiene 5 ventajas competitivas directas:</strong><br>
+1. <strong>7+ a&ntilde;os manejando spreadsheets y datos financieros</strong> en Brinks &mdash; el rol pide exactamente esto<br>
+2. <strong>Excel Avanzado + SQL</strong> &mdash; superan lo que piden (MS Office Suite proficiency)<br>
+3. <strong>Experiencia con bases de datos y cost analysis</strong> &mdash; mapea directamente a "cost databases" y "cost breakdowns"<br>
+4. <strong>Atenci&oacute;n al detalle comprobada</strong> &mdash; resolviste 60% de discrepancias hist&oacute;ricas = prueba tangible<br>
+5. <strong>Trilingue</strong> &mdash; diferenciador vs otros candidatos LATAM (PT es raro en construcci&oacute;n)
+</p>
+</div>
+
+<div class="lb">&middot; escala salarial &middot;</div>
+<div class="cd">
+<div class="sal-row"><span class="sal-time">0-3 meses (prueba)</span><span class="sal-amt">$1,200/mes</span></div>
+<div class="sal-row"><span class="sal-time">Despu&eacute;s de 3 meses (+Wellness Bonus)</span><span class="sal-amt">$1,250/mes</span></div>
+<div class="sal-row"><span class="sal-time">Despu&eacute;s de 1 a&ntilde;o</span><span class="sal-amt">$1,340/mes</span></div>
+<div class="sal-row"><span class="sal-time">Despu&eacute;s de 2 a&ntilde;os</span><span class="sal-amt">$1,480/mes</span></div>
+<div class="sal-row"><span class="sal-time">Despu&eacute;s de 3 a&ntilde;os</span><span class="sal-amt">$1,540/mes</span></div>
+<div class="sal-row"><span class="sal-time">Despu&eacute;s de 4 a&ntilde;os</span><span class="sal-amt">$1,600/mes</span></div>
+<div class="sal-row" style="background:var(--ag)"><span class="sal-time" style="color:var(--a2);font-weight:600">En COP (TRM ~$4,200)</span><span class="sal-amt" style="color:var(--a2)">~$5,040,000 - $6,720,000</span></div>
+</div>
+
+<div class="lb">&middot; valores de la empresa &middot;</div>
+<div class="tip tip-v">
+<b>🏛️ Core Values &mdash; Mem&oacute;rizalos para la entrevista</b>
+<p>
+1. <strong>Put our Talent first</strong> &mdash; Mencionalo: "I value companies that prioritize their people"<br>
+2. <strong>Pursuit of excellence / continuous learning</strong> &mdash; Tu 8&deg; semestre de Ing. Sistemas lo demuestra<br>
+3. <strong>Integrity and transparency</strong> &mdash; Tu experiencia financiera requiere esto<br>
+4. <strong>Ownership mentality</strong> &mdash; Cuenta c&oacute;mo manejaste Brasil/Caribe solo<br>
+5. <strong>Pursuit of growth</strong> &mdash; Estudias + trabajas + aprendes idiomas<br>
+6. <strong>Excellent attitude</strong> &mdash; Sonr&iacute;e, s&eacute; positivo, muestra energ&iacute;a en la entrevista
+</p>
+</div>
+
+<div class="lb">&middot; proceso de selecci&oacute;n WBN &middot;</div>
+<div class="cd">
+<div class="cd-t">📋 Etapas del proceso</div>
+<div style="margin-top:10px;font-size:12px;color:var(--t2);line-height:1.8">
+<strong style="color:var(--cy)">Paso 1:</strong> Aplicaci&oacute;n online &mdash; CV + perfil<br>
+<strong style="color:var(--cy)">Paso 2:</strong> Top Talent Filter&trade; &mdash; evaluaci&oacute;n de habilidades (Excel, ingl&eacute;s, l&oacute;gica)<br>
+<strong style="color:var(--cy)">Paso 3:</strong> Entrevista con WBN &mdash; cultural fit + competencias<br>
+<strong style="color:var(--cy)">Paso 4:</strong> PrecisionMatch&trade; &mdash; matching con el cliente de construcci&oacute;n<br>
+<strong style="color:var(--cy)">Paso 5:</strong> Entrevista con el cliente final &mdash; 60 min, 3 candidatos<br>
+<strong style="color:var(--gn)">Timeline:</strong> Proceso completo en ~2-3 semanas<br>
+<strong style="color:var(--gn)">Dificultad:</strong> 2.8/5 seg&uacute;n Glassdoor &middot; 84% experiencia positiva
+</div>
+</div>
+
+<div class="lb">&middot; an&aacute;lisis de la vacante &middot;</div>
+<div class="cd">
+<div class="cd-t">🎯 Skills Match Analysis</div>
+<div style="margin-top:10px">
+<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span>Match general con tu perfil</span><span style="color:var(--gn);font-weight:600">82%</span></div>
+<div class="prg"><div class="prf" style="width:82%"></div></div>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+<div><span class="pl pl-g">MATCH</span> MS Office Suite (Excel avanzado)</div>
+<div><span class="pl pl-g">MATCH</span> Spreadsheets &amp; reports</div>
+<div><span class="pl pl-g">MATCH</span> Cost databases / data management</div>
+<div><span class="pl pl-g">MATCH</span> Attention to detail</div>
+<div><span class="pl pl-g">MATCH</span> Time management / deadlines</div>
+<div><span class="pl pl-g">MATCH</span> Administrative support experience</div>
+<div><span class="pl pl-g">MATCH</span> Strong organizational skills</div>
+<div><span class="pl pl-g">MATCH</span> Multiple tasks simultaneously</div>
+<div><span class="pl pl-w">PARTIAL</span> Construction industry knowledge</div>
+<div><span class="pl pl-w">PARTIAL</span> Estimating software (Procore/Xactimate)</div>
+<div><span class="pl pl-c">BONUS</span> Trilingual (ES/PT/EN)</div>
+<div><span class="pl pl-c">BONUS</span> Systems Engineering student</div>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 2: CV ENGLISH (TAILORED)               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-cv-en">
+<div class="lb">&middot; cv perfilado para estimator assistant &middot;</div>
+<div class="sd">CV optimizado para ATS y el rol espec&iacute;fico. Keywords del job description integradas.</div>
+<div style="display:flex;gap:8px;margin-bottom:14px">
+<button class="btn bp" onclick="printCV('tailored-en')">📥 Download PDF</button>
+<button class="btn bo" onclick="copyEl('cv-tailored-en')">📋 Copy Text</button>
+</div>
+
+<div class="tip">
+<b>💡 Cambios vs tu CV original</b>
+<p>
+&bull; <strong>Rol cambiado:</strong> "Estimating &amp; Data Analyst" en vez de "Data Analyst"<br>
+&bull; <strong>Summary reescrito:</strong> Enfocado en estimating, cost analysis, data management<br>
+&bull; <strong>Bullets reordenados:</strong> Los m&aacute;s relevantes para construcci&oacute;n primero<br>
+&bull; <strong>Keywords ATS:</strong> cost databases, spreadsheets, project documentation, cost breakdowns<br>
+&bull; <strong>Skills reordenadas:</strong> Excel y data management primero, Python/SQL segundo
+</p>
+</div>
+
+<div class="cv-frame" id="cv-tailored-en">
+<div class="cv-hdr"><div class="cv-hdr-top"><div><div class="cv-name">Miguel &Aacute;ngel Barros Torres</div><div class="cv-role">Estimating Support &amp; Data Analysis | Cost Management | Excel &middot; SQL &middot; Databases</div></div><div class="cv-contact">📱 +57 314 437 3585<br>📧 <a href="mailto:miguelbarros2416@gmail.com">miguelbarros2416@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/miguel-ángel-barros-torres-6b2460159" target="_blank">LinkedIn Profile</a><br>📍 Bogot&aacute;, Colombia &middot; Open to Remote</div></div></div>
+<div class="cv-body"><div class="cv-cols"><div class="cv-main">
+<div class="cv-h3">Professional Summary</div>
+<div class="cv-p">Detail-oriented professional with 8+ years of experience in financial data management, cost analysis, and administrative operations. Expert in Excel, databases, and data-driven reporting. Proven ability to manage high-volume documentation, maintain cost databases, and deliver accurate reports under tight deadlines. Currently pursuing a Systems Engineering degree (8th semester). Trilingual: Spanish (native), Portuguese (advanced), English (professional).</div>
+
+<div class="cv-h3">Professional Experience</div>
+<div class="cv-xt">Content Moderator &mdash; Spanish &amp; Portuguese</div><div class="cv-xc">Teleperformance</div><div class="cv-xd">August 2025 &ndash; Present &middot; Bogot&aacute;, Colombia (Remote)</div>
+<ul class="cv-ul">
+<li>Analyze and process high volumes of content using data-driven quality metrics, maintaining 95%+ accuracy rate</li>
+<li>Manage cross-regional queues across multiple platforms, demonstrating strong organizational and multitasking skills</li>
+<li>Collaborate with QA teams to maintain documentation standards and compliance protocols</li>
+</ul>
+
+<div class="cv-xt">Accounts Payable Analyst &mdash; Cost &amp; Data Management</div><div class="cv-xc">Brinks Incorporated</div><div class="cv-xd">June 2018 &ndash; January 2025 &middot; Bogot&aacute;, Colombia</div>
+<ul class="cv-ul">
+<li>Managed cost databases and financial spreadsheets for Brazil &amp; Caribbean operations, handling 500+ monthly transactions with zero tolerance for error</li>
+<li>Prepared detailed cost breakdowns, variance reports, and financial documentation for management review</li>
+<li>Implemented data queries (SQL) to analyze large transactional datasets, optimizing payment processes by 15%</li>
+<li>Resolved 60% of historical cost discrepancies through meticulous data reconciliation and documentation review</li>
+<li>Coordinated with multiple vendors and internal departments to gather pricing, verify invoices, and maintain accurate records</li>
+<li>Built automated Excel reports and data models (OLTP/OLAP) for financial decision-making</li>
+</ul>
+
+<div class="cv-xt">Control Desk Assistant &mdash; Data &amp; Administrative Support</div><div class="cv-xc">Express Microfinanzas</div><div class="cv-xd">September 2016 &ndash; May 2018</div>
+<ul class="cv-ul">
+<li>Developed data-driven risk analyses using spreadsheets and databases, directly impacting portfolio quality</li>
+<li>Managed incoming communications and coordinated follow-ups across multiple departments</li>
+<li>Collaborated on internal tool prototype that reduced administrative response times by 30%</li>
+</ul>
+
+<div class="cv-h3">Education</div>
+<div class="cv-xt">Systems Engineering (In Progress &mdash; 8th Semester)</div><div class="cv-xd">CUN &middot; Expected 2026</div>
+<div class="cv-xt" style="margin-top:4px">Software Analysis &amp; Development Technologist &mdash; SENA</div>
+<div class="cv-xt" style="margin-top:4px">Accounting Technician &mdash; Campo Alto</div>
+</div><div class="cv-side">
+<div class="cv-h4">Core Competencies</div>
+<ul class="cv-skl">
+<li><span class="cv-dot"></span>MS Excel (Advanced: PivotTables, VLOOKUP, macros)</li>
+<li><span class="cv-dot"></span>MS Office Suite (Word, Outlook, PowerPoint)</li>
+<li><span class="cv-dot"></span>Database Management (SQL, MySQL, PostgreSQL)</li>
+<li><span class="cv-dot"></span>Cost Analysis &amp; Reporting</li>
+<li><span class="cv-dot"></span>Data Entry &amp; Accuracy</li>
+<li><span class="cv-dot"></span>Spreadsheet Design &amp; Automation</li>
+<li><span class="cv-dot"></span>Project Documentation</li>
+<li><span class="cv-dot"></span>Power BI &amp; Data Visualization</li>
+<li><span class="cv-dot"></span>Python (Pandas, automation)</li>
+</ul>
+<div class="cv-h4">Languages</div>
+<div style="font-size:10px;color:#374151">Spanish &mdash; Native</div><div class="cv-bar"><div class="cv-fill" style="width:100%"></div></div>
+<div style="font-size:10px;color:#374151;margin-top:4px">Portuguese &mdash; Advanced (C1)</div><div class="cv-bar"><div class="cv-fill" style="width:85%"></div></div>
+<div style="font-size:10px;color:#374151;margin-top:4px">English &mdash; Professional Working (B2)</div><div class="cv-bar"><div class="cv-fill" style="width:65%"></div></div>
+<div class="cv-h4">Key Achievements</div>
+<ul class="cv-skl">
+<li><span class="cv-dot" style="background:#22c55e"></span>15% cost process optimization</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>60% discrepancies resolved</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>30% response time reduction</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>500+ monthly transactions managed</li>
+</ul>
+<div class="cv-h4">Certifications</div>
+<ul class="cv-skl">
+<li><span class="cv-dot"></span>SQL for Data Science &mdash; UC Davis</li>
+<li><span class="cv-dot"></span>Data Analysis with Python &mdash; Udemy</li>
+</ul>
+<div class="cv-h4">Technical Environment</div>
+<ul class="cv-skl">
+<li><span class="cv-dot"></span>Microsoft 365</li>
+<li><span class="cv-dot"></span>Google Workspace</li>
+<li><span class="cv-dot"></span>Remote collaboration tools</li>
+</ul>
+</div></div></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 3: CV ESPAÑOL (TAILORED)               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-cv-es">
+<div class="lb">&middot; cv perfilado en espa&ntilde;ol &middot;</div>
+<div class="sd">Versi&oacute;n en espa&ntilde;ol adaptada al rol de Asistente de Estimaci&oacute;n.</div>
+<div style="display:flex;gap:8px;margin-bottom:14px">
+<button class="btn bp" onclick="printCV('tailored-es')">📥 Descargar PDF</button>
+<button class="btn bo" onclick="copyEl('cv-tailored-es')">📋 Copiar Texto</button>
+</div>
+
+<div class="cv-frame" id="cv-tailored-es">
+<div class="cv-hdr"><div class="cv-hdr-top"><div><div class="cv-name">Miguel &Aacute;ngel Barros Torres</div><div class="cv-role">Soporte en Estimaci&oacute;n y An&aacute;lisis de Datos | Gesti&oacute;n de Costos | Excel &middot; SQL &middot; Bases de Datos</div></div><div class="cv-contact">📱 +57 314 437 3585<br>📧 <a href="mailto:miguelbarros2416@gmail.com">miguelbarros2416@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/miguel-ángel-barros-torres-6b2460159" target="_blank">Perfil LinkedIn</a><br>📍 Bogot&aacute;, Colombia &middot; Disponible Remoto</div></div></div>
+<div class="cv-body"><div class="cv-cols"><div class="cv-main">
+<div class="cv-h3">Perfil Profesional</div>
+<div class="cv-p">Profesional orientado al detalle con m&aacute;s de 8 a&ntilde;os de experiencia en gesti&oacute;n de datos financieros, an&aacute;lisis de costos y operaciones administrativas. Experto en Excel, bases de datos y reportes basados en datos. Capacidad comprobada para gestionar documentaci&oacute;n de alto volumen, mantener bases de datos de costos y entregar reportes precisos bajo plazos exigentes. Cursando Ingenier&iacute;a de Sistemas (8&deg; semestre). Triling&uuml;e: Espa&ntilde;ol, Portugu&eacute;s, Ingl&eacute;s.</div>
+
+<div class="cv-h3">Experiencia Profesional</div>
+<div class="cv-xt">Moderador de Contenido &mdash; Espa&ntilde;ol y Portugu&eacute;s</div><div class="cv-xc">Teleperformance</div><div class="cv-xd">Agosto 2025 &ndash; Presente &middot; Bogot&aacute;, Colombia (Remoto)</div>
+<ul class="cv-ul">
+<li>An&aacute;lisis y procesamiento de altos vol&uacute;menes de contenido con m&eacute;tricas de calidad, manteniendo 95%+ de precisi&oacute;n</li>
+<li>Gesti&oacute;n de colas multiregionales demostrando habilidades organizativas y multitarea</li>
+<li>Colaboraci&oacute;n con equipos de calidad para mantener est&aacute;ndares documentales</li>
+</ul>
+
+<div class="cv-xt">Analista de Cuentas por Pagar &mdash; Gesti&oacute;n de Costos y Datos</div><div class="cv-xc">Brinks Incorporated</div><div class="cv-xd">Junio 2018 &ndash; Enero 2025 &middot; Bogot&aacute;, Colombia</div>
+<ul class="cv-ul">
+<li>Gesti&oacute;n de bases de datos de costos y hojas de c&aacute;lculo financieras para operaciones de Brasil y Caribe, procesando 500+ transacciones mensuales</li>
+<li>Preparaci&oacute;n de desgloses de costos detallados, reportes de variaciones y documentaci&oacute;n financiera para revisi&oacute;n gerencial</li>
+<li>Implementaci&oacute;n de consultas SQL para analizar grandes vol&uacute;menes de datos, optimizando procesos de pago en un 15%</li>
+<li>Resoluci&oacute;n del 60% de discrepancias hist&oacute;ricas de costos mediante reconciliaci&oacute;n meticulosa de datos</li>
+<li>Coordinaci&oacute;n con proveedores y departamentos internos para obtener precios, verificar facturas y mantener registros precisos</li>
+<li>Automatizaci&oacute;n de reportes Excel y modelos de datos (OLTP/OLAP) para toma de decisiones financieras</li>
+</ul>
+
+<div class="cv-xt">Auxiliar Mesa de Control &mdash; Soporte Administrativo y de Datos</div><div class="cv-xc">Express Microfinanzas</div><div class="cv-xd">Septiembre 2016 &ndash; Mayo 2018</div>
+<ul class="cv-ul">
+<li>An&aacute;lisis de riesgo crediticio basado en datos usando hojas de c&aacute;lculo y bases de datos</li>
+<li>Gesti&oacute;n de comunicaciones entrantes y coordinaci&oacute;n de seguimientos interdepartamentales</li>
+<li>Colaboraci&oacute;n en prototipo de herramienta interna que redujo tiempos de respuesta en 30%</li>
+</ul>
+
+<div class="cv-h3">Educaci&oacute;n</div>
+<div class="cv-xt">Ingenier&iacute;a de Sistemas (En curso &mdash; 8&deg; Semestre)</div><div class="cv-xd">CUN &middot; Graduaci&oacute;n esperada 2026</div>
+<div class="cv-xt" style="margin-top:4px">Tecn&oacute;logo en An&aacute;lisis y Desarrollo de Software &mdash; SENA</div>
+<div class="cv-xt" style="margin-top:4px">T&eacute;cnico en Contabilidad &mdash; Campo Alto</div>
+</div><div class="cv-side">
+<div class="cv-h4">Competencias Clave</div>
+<ul class="cv-skl">
+<li><span class="cv-dot"></span>MS Excel (Avanzado: tablas din&aacute;micas, BUSCARV, macros)</li>
+<li><span class="cv-dot"></span>MS Office Suite (Word, Outlook, PowerPoint)</li>
+<li><span class="cv-dot"></span>Gesti&oacute;n de Bases de Datos (SQL, MySQL, PostgreSQL)</li>
+<li><span class="cv-dot"></span>An&aacute;lisis de Costos y Reportes</li>
+<li><span class="cv-dot"></span>Digitaci&oacute;n y Precisi&oacute;n de Datos</li>
+<li><span class="cv-dot"></span>Dise&ntilde;o y Automatizaci&oacute;n de Hojas de C&aacute;lculo</li>
+<li><span class="cv-dot"></span>Documentaci&oacute;n de Proyectos</li>
+<li><span class="cv-dot"></span>Power BI y Visualizaci&oacute;n de Datos</li>
+<li><span class="cv-dot"></span>Python (Pandas, automatizaci&oacute;n)</li>
+</ul>
+<div class="cv-h4">Idiomas</div>
+<div style="font-size:10px;color:#374151">Espa&ntilde;ol &mdash; Nativo</div><div class="cv-bar"><div class="cv-fill" style="width:100%"></div></div>
+<div style="font-size:10px;color:#374151;margin-top:4px">Portugu&eacute;s &mdash; Avanzado (C1)</div><div class="cv-bar"><div class="cv-fill" style="width:85%"></div></div>
+<div style="font-size:10px;color:#374151;margin-top:4px">Ingl&eacute;s &mdash; Profesional (B2)</div><div class="cv-bar"><div class="cv-fill" style="width:65%"></div></div>
+<div class="cv-h4">Logros Clave</div>
+<ul class="cv-skl">
+<li><span class="cv-dot" style="background:#22c55e"></span>15% optimizaci&oacute;n procesos de costos</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>60% discrepancias resueltas</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>30% reducci&oacute;n tiempos de respuesta</li>
+<li><span class="cv-dot" style="background:#22c55e"></span>500+ transacciones mensuales gestionadas</li>
+</ul>
+<div class="cv-h4">Certificaciones</div>
+<ul class="cv-skl">
+<li><span class="cv-dot"></span>SQL for Data Science &mdash; UC Davis</li>
+<li><span class="cv-dot"></span>An&aacute;lisis de Datos con Python &mdash; Udemy</li>
+</ul>
+</div></div></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 4: COVER LETTER                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-cover">
+<div class="lb">&middot; cover letter &middot;</div>
+<div class="sd">Cover letter personalizada para WorkBetterNow &mdash; Estimator Assistant. Lista para copiar y enviar.</div>
+
+<div style="display:flex;gap:8px;margin-bottom:14px">
+<button class="btn bo" onclick="copyEl('cl-en')">📋 Copy English</button>
+<button class="btn bo" onclick="copyEl('cl-es')">📋 Copiar Espa&ntilde;ol</button>
+</div>
+
+<div class="lb">&middot; english version &middot;</div>
+<div class="copy-wrap">
+<div class="letter" id="cl-en">
+<h4>Cover Letter &mdash; Estimator Assistant Position</h4>
+<p>Dear WorkBetterNow Hiring Team,</p>
+<p>I am writing to express my strong interest in the Estimator Assistant position. With over 8 years of experience managing financial data, cost databases, and detailed spreadsheets at Brinks Incorporated, I bring precisely the organizational rigor and analytical skills this role demands.</p>
+<p>In my role as Accounts Payable Analyst, I managed cost documentation for operations spanning Brazil and the Caribbean, processing 500+ monthly transactions while maintaining zero-error standards. I prepared detailed cost breakdowns, variance reports, and financial documentation for management review &mdash; skills that translate directly to preparing estimates, maintaining cost databases, and supporting quantity takeoffs in a construction environment.</p>
+<p>Key qualifications that align with your requirements:</p>
+<p>&bull; <strong>Advanced MS Excel proficiency</strong> with PivotTables, VLOOKUP, macros, and automated reporting<br>
+&bull; <strong>Database management expertise</strong> (SQL, MySQL, PostgreSQL) for organizing and querying cost data<br>
+&bull; <strong>Proven attention to detail</strong>: resolved 60% of historical cost discrepancies through meticulous reconciliation<br>
+&bull; <strong>Multi-project coordination</strong>: managed vendor communications, invoice verification, and record-keeping simultaneously<br>
+&bull; <strong>Trilingual communication</strong>: Spanish (native), Portuguese (advanced), English (professional working)</p>
+<p>I am currently completing my Systems Engineering degree (8th semester), which strengthens my analytical and technical problem-solving capabilities. I am deeply aligned with WorkBetterNow's core values &mdash; particularly the pursuit of excellence and the ownership mentality that defined my years managing international financial operations independently.</p>
+<p>I am confident that my combination of financial data management experience, technical skills, and meticulous work ethic would make me a valuable addition to your estimating team. I look forward to the opportunity to discuss how my background can contribute to your client's success.</p>
+<p>Thank you for your time and consideration.</p>
+<div class="sign">Best regards,<br>Miguel &Aacute;ngel Barros Torres<br>miguelbarros2416@gmail.com &middot; +57 314 437 3585</div>
+</div>
+</div>
+
+<div class="lb">&middot; versi&oacute;n espa&ntilde;ol &middot;</div>
+<div class="copy-wrap">
+<div class="letter" id="cl-es">
+<h4>Carta de Presentaci&oacute;n &mdash; Asistente de Estimaci&oacute;n</h4>
+<p>Estimado equipo de contrataci&oacute;n de WorkBetterNow,</p>
+<p>Me dirijo a ustedes para expresar mi fuerte inter&eacute;s en la posici&oacute;n de Estimator Assistant. Con m&aacute;s de 8 a&ntilde;os de experiencia gestionando datos financieros, bases de datos de costos y hojas de c&aacute;lculo detalladas en Brinks Incorporated, aporto precisamente el rigor organizativo y las habilidades anal&iacute;ticas que este rol exige.</p>
+<p>En mi cargo como Analista de Cuentas por Pagar, gestion&eacute; documentaci&oacute;n de costos para operaciones en Brasil y el Caribe, procesando m&aacute;s de 500 transacciones mensuales manteniendo est&aacute;ndares de cero errores. Prepar&eacute; desgloses de costos detallados, reportes de variaciones y documentaci&oacute;n financiera para revisi&oacute;n gerencial &mdash; habilidades que se traducen directamente a la preparaci&oacute;n de estimados, mantenimiento de bases de datos de costos y soporte en mediciones en un entorno de construcci&oacute;n.</p>
+<p>Cualificaciones clave alineadas con sus requisitos:</p>
+<p>&bull; <strong>Dominio avanzado de MS Excel</strong> con tablas din&aacute;micas, BUSCARV, macros y reportes automatizados<br>
+&bull; <strong>Experiencia en gesti&oacute;n de bases de datos</strong> (SQL, MySQL, PostgreSQL)<br>
+&bull; <strong>Atenci&oacute;n al detalle comprobada</strong>: resolv&iacute; el 60% de discrepancias hist&oacute;ricas de costos<br>
+&bull; <strong>Coordinaci&oacute;n multi-proyecto</strong>: gesti&oacute;n simult&aacute;nea de proveedores, verificaci&oacute;n de facturas y mantenimiento de registros<br>
+&bull; <strong>Comunicaci&oacute;n triling&uuml;e</strong>: Espa&ntilde;ol (nativo), Portugu&eacute;s (avanzado), Ingl&eacute;s (profesional)</p>
+<p>Actualmente curso Ingenier&iacute;a de Sistemas (8&deg; semestre), lo que fortalece mis capacidades anal&iacute;ticas y de resoluci&oacute;n de problemas t&eacute;cnicos. Estoy profundamente alineado con los valores de WorkBetterNow, particularmente la b&uacute;squeda de la excelencia y la mentalidad de propiedad que defini&oacute; mis a&ntilde;os gestionando operaciones financieras internacionales de manera independiente.</p>
+<p>Quedo atento a la oportunidad de conversar sobre c&oacute;mo mi experiencia puede contribuir al &eacute;xito del equipo.</p>
+<div class="sign">Cordialmente,<br>Miguel &Aacute;ngel Barros Torres<br>miguelbarros2416@gmail.com &middot; +57 314 437 3585</div>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 5: MENSAJES                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-msg">
+<div class="lb">&middot; mensajes de aplicaci&oacute;n &middot;</div>
+<div class="sd">Mensajes listos para LinkedIn, email y plataformas. Click para copiar.</div>
+
+<div class="cd copy-wrap">
+<button class="copy-btn" onclick="copyEl('msg-linkedin')">📋 Copy</button>
+<div class="cd-t">💼 LinkedIn Connection Message</div>
+<div id="msg-linkedin" style="margin-top:8px;font-size:12px;color:var(--t2);line-height:1.7">Hi! I recently applied for the Estimator Assistant position through WorkBetterNow. With 8+ years in financial data management at Brinks (Brazil/Caribbean operations), advanced Excel, and SQL expertise, I'm confident I can bring strong value to your estimating team. I'd love to connect and learn more about the role. Thank you!</div>
+</div>
+
+<div class="cd copy-wrap">
+<button class="copy-btn" onclick="copyEl('msg-email')">📋 Copy</button>
+<div class="cd-t">📧 Follow-up Email</div>
+<div id="msg-email" style="margin-top:8px;font-size:12px;color:var(--t2);line-height:1.7">
+<strong style="color:var(--tx)">Subject: Estimator Assistant Application &mdash; Miguel Barros | 8+ Years Financial Data Management</strong><br><br>
+Dear Hiring Team,<br><br>
+I recently submitted my application for the Estimator Assistant position and wanted to follow up to express my continued interest. My background in managing cost databases, preparing detailed financial reports, and coordinating multi-regional operations at Brinks aligns directly with the role's requirements.<br><br>
+I'm particularly drawn to WorkBetterNow's commitment to putting talent first and the pursuit of excellence &mdash; values I've lived throughout my career. I would welcome the opportunity to discuss how my skills can support your client's estimating needs.<br><br>
+Best regards,<br>
+Miguel &Aacute;ngel Barros Torres<br>
++57 314 437 3585 | miguelbarros2416@gmail.com</div>
+</div>
+
+<div class="cd copy-wrap">
+<button class="copy-btn" onclick="copyEl('msg-short')">📋 Copy</button>
+<div class="cd-t">⚡ Short Application Message (Platforms)</div>
+<div id="msg-short" style="margin-top:8px;font-size:12px;color:var(--t2);line-height:1.7">Hello! I'm Miguel Barros, a financial data professional with 8+ years at Brinks managing cost databases, spreadsheets, and vendor coordination for Brazil &amp; Caribbean ops. Advanced Excel, SQL, and trilingual (ES/PT/EN). Currently completing Systems Engineering. I'd love to support your estimating team. Available for remote work from Bogot&aacute;, Colombia.</div>
+</div>
+
+<div class="cd copy-wrap">
+<button class="copy-btn" onclick="copyEl('msg-thank')">📋 Copy</button>
+<div class="cd-t">🙏 Post-Interview Thank You</div>
+<div id="msg-thank" style="margin-top:8px;font-size:12px;color:var(--t2);line-height:1.7">
+<strong style="color:var(--tx)">Subject: Thank You &mdash; Estimator Assistant Interview</strong><br><br>
+Dear [Interviewer Name],<br><br>
+Thank you for taking the time to speak with me today about the Estimator Assistant position. I truly enjoyed learning more about the role and your team's approach to project estimation.<br><br>
+Our conversation reinforced my enthusiasm for this opportunity. My experience managing cost databases and financial documentation at Brinks, combined with my advanced Excel and SQL skills, positions me well to contribute meaningfully to your estimating team from day one.<br><br>
+I'm excited about the possibility of joining WorkBetterNow and supporting your client's success. Please don't hesitate to reach out if you need any additional information.<br><br>
+Best regards,<br>
+Miguel &Aacute;ngel Barros Torres</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 6: INTERVIEW PREP (ENGLISH)            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-interview">
+<div class="lb">&middot; interview preparation &mdash; english &middot;</div>
+<div class="sd">15 questions with tailored answers based on YOUR experience. Click each question to reveal the answer. Practice out loud.</div>
+
+<div class="tip">
+<b>💡 Interview Strategy for WBN</b>
+<p>
+&bull; <strong>Difficulty is 2.8/5</strong> &mdash; focus on being clear and confident, not overly complex<br>
+&bull; <strong>They test cultural fit first</strong> &mdash; mention their values naturally<br>
+&bull; <strong>Speak slowly and clearly</strong> &mdash; they evaluate English proficiency live<br>
+&bull; <strong>Use the STAR method</strong> (Situation, Task, Action, Result) for behavioral questions<br>
+&bull; <strong>Have examples ready</strong> about: managing multiple priorities, attention to detail, working remotely
+</p>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">01</span><span>Tell me about yourself.</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"I'm Miguel Barros, a financial data professional with over 8 years of experience. Most recently, I spent nearly 7 years at Brinks Incorporated as an Accounts Payable Analyst, where I managed cost databases and financial documentation for operations in Brazil and the Caribbean. I processed over 500 monthly transactions, prepared detailed cost breakdowns, and resolved 60% of historical discrepancies through meticulous data reconciliation. I'm proficient in advanced Excel, SQL, and database management. Currently, I'm completing my Systems Engineering degree in my 8th semester. I'm trilingual &mdash; Spanish, Portuguese, and English &mdash; and I'm excited about applying my data management and cost analysis skills to support an estimating team."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">02</span><span>Why are you interested in this Estimator Assistant role?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"The role aligns perfectly with my strengths. I've spent years managing cost databases, preparing detailed financial reports, and coordinating with vendors &mdash; which are core responsibilities of this position. I'm drawn to the construction industry because it combines data management with tangible, real-world outcomes. I also admire WorkBetterNow's commitment to putting talent first and continuous learning, which matches my own mindset of always growing professionally."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">03</span><span>How do you ensure accuracy when working with large amounts of data?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"At Brinks, I managed 500+ transactions monthly across multiple countries, so accuracy was non-negotiable. My approach has three layers: First, I use Excel formulas and SQL queries to cross-validate data automatically. Second, I follow a systematic review process &mdash; I never submit a report without reviewing it at least twice. Third, I maintain organized documentation so I can trace any discrepancy back to its source. This approach helped me resolve 60% of historical discrepancies that had been unaddressed for years."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">04</span><span>Describe your experience with Excel. What advanced functions do you use?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"Excel has been my primary tool for 8+ years. I regularly use PivotTables to summarize large datasets, VLOOKUP and INDEX-MATCH for cross-referencing cost data, conditional formatting for quick data validation, and I've built macros to automate repetitive reporting tasks. At Brinks, I designed automated financial reports that pulled data from multiple sources and generated cost breakdowns with a single click. I'm also comfortable with Power Query for data transformation and Power Pivot for data modeling."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">05</span><span>How do you handle multiple tasks and tight deadlines?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"At Brinks, I simultaneously managed accounts payable for Brazil and the Caribbean, each with different currencies, regulations, and deadlines. I use a priority matrix &mdash; I categorize tasks by urgency and impact, tackle critical deadlines first, and batch similar tasks together. I also set personal deadlines ahead of official ones to build in a buffer for review. The key is staying organized and communicating proactively if priorities shift."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">06</span><span>Tell me about a time you found and corrected an error that others had missed.</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"At Brinks, I discovered that payment records for the Caribbean region had accumulated discrepancies over several years that no one had addressed. I took ownership of the problem, created a systematic SQL-based reconciliation process, and cross-referenced every transaction against source documents. Over several months, I resolved 60% of these historical discrepancies, saving the company significant time and resources. My manager recognized this as one of the most impactful contributions to the department."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">07</span><span>What experience do you have with cost analysis or cost databases?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"Cost analysis was central to my role at Brinks. I maintained cost databases for international operations, tracked vendor pricing, prepared variance reports comparing actual costs against budgets, and identified cost optimization opportunities. I optimized payment processes by 15% through data analysis. While my experience is in financial services rather than construction, the fundamental skills are identical: managing cost data accurately, maintaining organized records, and producing reliable reports for decision-making."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">08</span><span>How would you handle gathering pricing from subcontractors and suppliers?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"At Brinks, I regularly coordinated with vendors across Brazil and the Caribbean to verify invoices, negotiate terms, and gather pricing. My approach would be similar: I'd create a systematic tracking spreadsheet for all supplier quotes, follow up consistently with clear and professional communication, compare pricing across multiple sources for accuracy, and maintain organized records so the estimating team always has current pricing data. My experience working with international vendors in multiple languages is a strong advantage here."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">09</span><span>Are you comfortable working remotely? How do you stay productive?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"Absolutely. I currently work remotely at Teleperformance and have developed strong remote work habits. I maintain a dedicated workspace, follow a consistent schedule aligned with U.S. time zones, and use proactive communication &mdash; I over-communicate status updates rather than waiting to be asked. I use task management tools to track my work and always document my progress so my team has visibility. My internet connection exceeds 50 Mbps and my equipment meets all technical requirements."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">10</span><span>What do you know about WorkBetterNow?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"WorkBetterNow was founded in 2018 by Rob Levin and is led by CEO Andrew Cohen. It's a nearshore staffing company that connects top LATAM talent with U.S. businesses, primarily in construction, home services, and logistics. What impresses me most is the Top Talent Filter &mdash; only accepting the top 2% of applicants shows a commitment to quality. The company has been recognized as an Inc. 5000 company two years in a row and received the Inc. Power Partner award in 2025. I'm particularly aligned with the values of putting talent first and continuous learning."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">11</span><span>How do you handle a situation where you don't have construction industry experience?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"While I don't have direct construction experience, my 8 years in financial data management give me all the core skills this role requires: spreadsheet mastery, cost database management, vendor coordination, documentation accuracy, and working under deadlines. The construction-specific knowledge &mdash; like reading plans, understanding materials, and using estimating software &mdash; are learnable, and I'm a fast learner. I'm already pursuing a Systems Engineering degree alongside work, which shows my ability to learn new domains quickly while performing at a high level."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">12</span><span>Where do you see yourself in 2-3 years?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"In 2-3 years, I see myself having grown into a skilled estimator with solid construction industry knowledge, possibly taking on more complex estimation projects independently. I'd like to leverage my data analysis background to bring efficiency improvements to the estimating process &mdash; perhaps automating routine calculations or building better cost tracking systems. WorkBetterNow's compensation growth structure and career support tell me this is a company that invests in long-term development, which is exactly what I'm looking for."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">13</span><span>Can you describe your database and SQL experience?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"I've worked with MySQL, PostgreSQL, and ClickHouse. At Brinks, I wrote complex SQL queries to extract, analyze, and reconcile financial data across multiple databases. I'm comfortable with JOINs, subqueries, aggregation functions, and data transformation. I also have experience with data modeling in both OLTP and OLAP environments. For this role, I can leverage SQL skills to efficiently query and organize cost data, create reports from estimating databases, and automate data extraction tasks."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">14</span><span>How do you handle feedback or correction from your team?</span></div>
+<div class="iq-a"><b>Your answer:</b><br>"I welcome feedback because it's the fastest way to improve. At Brinks, working across international operations meant I had to adapt to different working styles and expectations constantly. When I receive correction, I listen carefully, ask clarifying questions if needed, implement the changes immediately, and make sure I don't repeat the same mistake. I see feedback as a gift, not criticism &mdash; it aligns with WorkBetterNow's value of continuous learning."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">15</span><span>Do you have any questions for us?</span></div>
+<div class="iq-a"><b>Smart questions to ask:</b><br>
+1. "What does a typical day look like for the Estimator Assistant in this role?"<br>
+2. "What estimating software does the client currently use, and would there be training provided?"<br>
+3. "How does the Talent Coordinator support ongoing professional development?"<br>
+4. "What are the key performance indicators for success in the first 90 days?"<br>
+5. "Can you tell me more about the team I'd be supporting and their communication style?"</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 7: INTERVIEW PREP (SPANISH)            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-interview-es">
+<div class="lb">&middot; preparaci&oacute;n de entrevista &mdash; espa&ntilde;ol &middot;</div>
+<div class="sd">Las mismas 15 preguntas con respuestas en espa&ntilde;ol para prepararte en tu idioma primero.</div>
+
+<div class="tip tip-v">
+<b>🧠 Estrategia de preparaci&oacute;n</b>
+<p>
+&bull; <strong>Paso 1:</strong> Lee cada respuesta en espa&ntilde;ol para entender el contenido<br>
+&bull; <strong>Paso 2:</strong> Practica dici&eacute;ndola en ingl&eacute;s con tus propias palabras<br>
+&bull; <strong>Paso 3:</strong> Gr&aacute;bate y escucha tu pronunciaci&oacute;n<br>
+&bull; <strong>Paso 4:</strong> La entrevista WBN dura ~60 min, practica tiempos de respuesta (1-2 min por pregunta)
+</p>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">01</span><span>Cu&eacute;ntame sobre ti.</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"Soy Miguel Barros, profesional en gesti&oacute;n de datos financieros con m&aacute;s de 8 a&ntilde;os de experiencia. Trabaj&eacute; casi 7 a&ntilde;os en Brinks como Analista de Cuentas por Pagar, donde gestion&eacute; bases de datos de costos y documentaci&oacute;n financiera para operaciones en Brasil y el Caribe. Procesaba m&aacute;s de 500 transacciones mensuales, preparaba desgloses de costos detallados y resolv&iacute; el 60% de discrepancias hist&oacute;ricas mediante reconciliaci&oacute;n meticulosa. Domino Excel avanzado, SQL y gesti&oacute;n de bases de datos. Actualmente curso 8&deg; semestre de Ingenier&iacute;a de Sistemas y soy triling&uuml;e: espa&ntilde;ol, portugu&eacute;s e ingl&eacute;s."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">02</span><span>&iquest;Por qu&eacute; te interesa este rol de Asistente de Estimaci&oacute;n?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"El rol se alinea perfectamente con mis fortalezas. He pasado a&ntilde;os gestionando bases de datos de costos, preparando reportes financieros detallados y coordinando con proveedores &mdash; que son responsabilidades centrales de esta posici&oacute;n. Me atrae la industria de la construcci&oacute;n porque combina gesti&oacute;n de datos con resultados tangibles del mundo real. Adem&aacute;s, admiro el compromiso de WorkBetterNow con poner al talento primero y el aprendizaje continuo."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">03</span><span>&iquest;C&oacute;mo aseguras la precisi&oacute;n al trabajar con grandes vol&uacute;menes de datos?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"En Brinks gestionaba 500+ transacciones mensuales en m&uacute;ltiples pa&iacute;ses, as&iacute; que la precisi&oacute;n era innegociable. Mi enfoque tiene tres capas: Primero, uso f&oacute;rmulas de Excel y consultas SQL para validar datos autom&aacute;ticamente. Segundo, sigo un proceso de revisi&oacute;n sistem&aacute;tico &mdash; nunca env&iacute;o un reporte sin revisarlo al menos dos veces. Tercero, mantengo documentaci&oacute;n organizada para poder rastrear cualquier discrepancia hasta su origen."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">04</span><span>Describe tu experiencia con Excel.</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"Excel ha sido mi herramienta principal por 8+ a&ntilde;os. Uso regularmente tablas din&aacute;micas, BUSCARV e INDEX-MATCH para cruzar datos de costos, formato condicional para validaci&oacute;n r&aacute;pida, y he creado macros para automatizar reportes repetitivos. En Brinks, dise&ntilde;&eacute; reportes financieros automatizados que extra&iacute;an datos de m&uacute;ltiples fuentes y generaban desgloses de costos con un solo click. Tambi&eacute;n domino Power Query y Power Pivot."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">05</span><span>&iquest;C&oacute;mo manejas m&uacute;ltiples tareas y plazos ajustados?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"En Brinks gestionaba simult&aacute;neamente cuentas por pagar para Brasil y el Caribe, cada uno con diferentes monedas, regulaciones y plazos. Uso una matriz de prioridad: categorizo tareas por urgencia e impacto, ataco plazos cr&iacute;ticos primero y agrupo tareas similares. Tambi&eacute;n establezco plazos personales antes de los oficiales para tener margen de revisi&oacute;n."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">06</span><span>Cuenta una vez que encontraste un error que otros no vieron.</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"En Brinks, descubr&iacute; que los registros de pago del Caribe hab&iacute;an acumulado discrepancias durante a&ntilde;os que nadie hab&iacute;a abordado. Tom&eacute; responsabilidad del problema, cre&eacute; un proceso de reconciliaci&oacute;n sistem&aacute;tico basado en SQL y verifiqu&eacute; cada transacci&oacute;n contra documentos fuente. En varios meses, resolv&iacute; el 60% de estas discrepancias hist&oacute;ricas. Mi gerente reconoci&oacute; esto como una de las contribuciones m&aacute;s impactantes al departamento."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">07</span><span>&iquest;Qu&eacute; experiencia tienes con an&aacute;lisis de costos?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"El an&aacute;lisis de costos fue central en mi rol en Brinks. Manten&iacute;a bases de datos de costos para operaciones internacionales, rastreaba precios de proveedores, preparaba reportes de variaciones comparando costos reales contra presupuestos, e identificaba oportunidades de optimizaci&oacute;n. Optimic&eacute; procesos de pago en un 15%. Aunque mi experiencia es en servicios financieros, las habilidades fundamentales son id&eacute;nticas: gestionar datos de costos con precisi&oacute;n y producir reportes confiables."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">08</span><span>&iquest;C&oacute;mo recopilar&iacute;as precios de subcontratistas y proveedores?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"En Brinks coordinaba regularmente con proveedores en Brasil y el Caribe. Mi enfoque ser&iacute;a similar: crear&iacute;a un spreadsheet sistem&aacute;tico para rastrear cotizaciones, dar&iacute;a seguimiento consistente con comunicaci&oacute;n clara y profesional, comparar&iacute;a precios de m&uacute;ltiples fuentes, y mantendr&iacute;a registros organizados para que el equipo de estimaci&oacute;n siempre tenga datos actualizados."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">09</span><span>&iquest;Te sientes c&oacute;modo trabajando remoto?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"Absolutamente. Actualmente trabajo remoto en Teleperformance y he desarrollado h&aacute;bitos s&oacute;lidos de trabajo remoto. Mantengo un espacio dedicado, sigo un horario consistente alineado con zonas horarias de EE.UU., y uso comunicaci&oacute;n proactiva. Mi conexi&oacute;n a internet supera 50 Mbps y mi equipo cumple todos los requisitos t&eacute;cnicos."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">10</span><span>&iquest;Qu&eacute; sabes de WorkBetterNow?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"WorkBetterNow fue fundada en 2018 por Rob Levin y liderada por el CEO Andrew Cohen. Es una empresa de staffing nearshore que conecta talento top de LATAM con empresas de EE.UU., principalmente en construcci&oacute;n, servicios del hogar y log&iacute;stica. Lo que m&aacute;s me impresiona es el Top Talent Filter: solo aceptan el 2% de m&aacute;s de 4,000 aplicantes mensuales. Han sido reconocidos como empresa Inc. 5000 dos a&ntilde;os consecutivos."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">11</span><span>&iquest;C&oacute;mo manejas no tener experiencia en construcci&oacute;n?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"Aunque no tengo experiencia directa en construcci&oacute;n, mis 8 a&ntilde;os en gesti&oacute;n de datos financieros me dan todas las habilidades centrales que este rol requiere: dominio de spreadsheets, gesti&oacute;n de bases de datos de costos, coordinaci&oacute;n con proveedores, precisi&oacute;n documental y trabajo bajo presi&oacute;n. El conocimiento espec&iacute;fico de construcci&oacute;n es aprendible, y el hecho de que estoy cursando Ingenier&iacute;a de Sistemas mientras trabajo demuestra mi capacidad de aprender r&aacute;pidamente."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">12</span><span>&iquest;D&oacute;nde te ves en 2-3 a&ntilde;os?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"En 2-3 a&ntilde;os me veo habiendo crecido como estimador con conocimiento s&oacute;lido de la industria de construcci&oacute;n, posiblemente tomando proyectos de estimaci&oacute;n m&aacute;s complejos de forma independiente. Quisiera aprovechar mi background en an&aacute;lisis de datos para traer mejoras de eficiencia al proceso &mdash; quiz&aacute;s automatizando c&aacute;lculos rutinarios o construyendo mejores sistemas de seguimiento de costos."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">13</span><span>Describe tu experiencia con bases de datos y SQL.</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"He trabajado con MySQL, PostgreSQL y ClickHouse. En Brinks, escrib&iacute;a consultas SQL complejas para extraer, analizar y reconciliar datos financieros. Manejo JOINs, subconsultas, funciones de agregaci&oacute;n y transformaci&oacute;n de datos. Para este rol, puedo usar SQL para consultar y organizar datos de costos, crear reportes desde bases de datos de estimaci&oacute;n y automatizar tareas de extracci&oacute;n."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">14</span><span>&iquest;C&oacute;mo manejas la retroalimentaci&oacute;n o correcci&oacute;n?</span></div>
+<div class="iq-a"><b>Tu respuesta:</b><br>"Agradezco la retroalimentaci&oacute;n porque es la forma m&aacute;s r&aacute;pida de mejorar. En Brinks, trabajar con operaciones internacionales signific&oacute; adaptarme constantemente a diferentes estilos de trabajo. Cuando recibo correcci&oacute;n, escucho con atenci&oacute;n, hago preguntas si es necesario, implemento los cambios inmediatamente y me aseguro de no repetir el mismo error. Veo la retroalimentaci&oacute;n como un regalo, no una cr&iacute;tica."</div>
+</div>
+
+<div class="iq" onclick="this.querySelector('.iq-a').classList.toggle('sh')">
+<div class="iq-q"><span class="iq-num">15</span><span>&iquest;Tienes preguntas para nosotros?</span></div>
+<div class="iq-a"><b>Preguntas inteligentes:</b><br>
+1. "&iquest;C&oacute;mo es un d&iacute;a t&iacute;pico para el Asistente de Estimaci&oacute;n?"<br>
+2. "&iquest;Qu&eacute; software de estimaci&oacute;n usa el cliente y habr&iacute;a capacitaci&oacute;n?"<br>
+3. "&iquest;C&oacute;mo apoya el Talent Coordinator el desarrollo profesional continuo?"<br>
+4. "&iquest;Cu&aacute;les son los KPIs de &eacute;xito en los primeros 90 d&iacute;as?"<br>
+5. "&iquest;Puede contarme m&aacute;s sobre el equipo que estar&iacute;a apoyando?"</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB 8: CHECKLIST                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="pnl" id="p-checklist">
+<div class="lb">&middot; checklist de aplicaci&oacute;n &middot;</div>
+<div class="sd">Marca cada paso a medida que lo completes. Tu progreso se guarda autom&aacute;ticamente.</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<span style="font-size:11px;color:var(--t2)">Progreso: <strong id="chkPct" style="color:var(--gn)">0%</strong></span>
+<button class="btn bs bo" onclick="resetChecklist()">Reiniciar</button>
+</div>
+<div class="prg" style="margin-bottom:16px"><div class="prf" id="chkBar" style="width:0%"></div></div>
+
+<div class="cd">
+<div class="cd-t">📋 Antes de aplicar</div>
+<div style="margin-top:8px" id="chk-pre">
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Revisar y personalizar CV en ingl&eacute;s para el rol</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Preparar cover letter (tab Cover Letter)</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Verificar que LinkedIn est&eacute; actualizado y en ingl&eacute;s</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Verificar requisitos t&eacute;cnicos: CPU, RAM 16GB, Internet 25-50 Mbps</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Preparar espacio de trabajo limpio para video entrevista</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Tener el email miguelbarros2416@gmail.com activo y revisado</div></div>
+</div>
+</div>
+
+<div class="cd">
+<div class="cd-t">🚀 Aplicaci&oacute;n</div>
+<div style="margin-top:8px" id="chk-apply">
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Aplicar en la plataforma de WorkBetterNow</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Subir CV tailored en ingl&eacute;s (PDF)</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Enviar LinkedIn connection message al recruiter</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Guardar confirmaci&oacute;n de aplicaci&oacute;n</div></div>
+</div>
+</div>
+
+<div class="cd">
+<div class="cd-t">🎯 Preparaci&oacute;n de entrevista</div>
+<div style="margin-top:8px" id="chk-prep">
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Estudiar los valores de WBN (tab Intel)</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Practicar "Tell me about yourself" en ingl&eacute;s (3 veces en voz alta)</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Practicar las 15 preguntas de entrevista en ingl&eacute;s</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Preparar 5 preguntas inteligentes para hacerles</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Investigar t&eacute;rminos b&aacute;sicos de construcci&oacute;n: takeoff, bid, estimate, subcontractor</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Investigar Procore y Xactimate (videos b&aacute;sicos en YouTube)</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Grabarme respondiendo preguntas y revisar pronunciaci&oacute;n</div></div>
+</div>
+</div>
+
+<div class="cd">
+<div class="cd-t">📞 Post-entrevista</div>
+<div style="margin-top:8px" id="chk-post">
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Enviar thank you email dentro de 24 horas</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Follow up si no hay respuesta en 5 d&iacute;as h&aacute;biles</div></div>
+<div class="chk"><input type="checkbox" onchange="saveChk()"><div class="chk-t">Documentar preguntas que hicieron para mejorar pr&oacute;xima vez</div></div>
+</div>
+</div>
+
+<div class="tip tip-g">
+<b>🔑 Vocabulario de construcci&oacute;n que debes conocer</b>
+<p>
+<strong>Takeoff:</strong> Medici&oacute;n de cantidades de materiales desde planos<br>
+<strong>Bid:</strong> Propuesta de precio para un proyecto<br>
+<strong>Estimate:</strong> C&aacute;lculo del costo total de un proyecto<br>
+<strong>Subcontractor:</strong> Empresa externa contratada para parte del trabajo<br>
+<strong>Change order:</strong> Modificaci&oacute;n al alcance original del contrato<br>
+<strong>RFI (Request for Information):</strong> Solicitud de aclaraci&oacute;n sobre planos<br>
+<strong>Scope of work:</strong> Descripci&oacute;n detallada del trabajo a realizar<br>
+<strong>Unit cost:</strong> Costo por unidad de material o labor<br>
+<strong>Overhead:</strong> Costos indirectos (seguros, administraci&oacute;n, etc.)<br>
+<strong>Markup:</strong> Porcentaje a&ntilde;adido para ganancia
+</p>
+</div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ═══ TABS ═══
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');
+document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+
+// ═══ CV PRINT ═══
+function printCV(id){
+const cv=document.getElementById('cv-'+id);if(!cv)return;
+const w=window.open('','_blank');
+w.document.write('<html><head><title>CV Miguel Barros - Estimator Assistant</title><style>');
+w.document.write('*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif}');
+w.document.write('.cv-hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;padding:24px 28px}');
+w.document.write('.cv-hdr-top{display:flex;justify-content:space-between;align-items:center}');
+w.document.write('.cv-name{font-size:22px;font-weight:700}.cv-role{font-size:11px;color:#c7d2fe;margin-top:2px}');
+w.document.write('.cv-contact{text-align:right;font-size:9px;color:#c7d2fe;line-height:1.8}.cv-contact a{color:#c7d2fe;text-decoration:none}');
+w.document.write('.cv-body{padding:20px 28px}.cv-cols{display:flex;gap:20px}');
+w.document.write('.cv-main{flex:1;min-width:0}.cv-side{width:220px;flex-shrink:0;border-left:1px solid #e5e7eb;padding-left:18px}');
+w.document.write('.cv-h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#312e81;border-bottom:2px solid #e0e7ff;padding-bottom:3px;margin:12px 0 7px}.cv-h3:first-child{margin-top:0}');
+w.document.write('.cv-p{font-size:10px;line-height:1.6;color:#374151;margin-bottom:5px}');
+w.document.write('.cv-xt{font-size:11px;font-weight:600;color:#1a1a1a}.cv-xc{font-size:10px;color:#6366f1;font-weight:500}.cv-xd{font-size:9px;color:#6b7280}');
+w.document.write('.cv-ul{list-style:none;margin:3px 0 8px;padding:0}.cv-ul li{font-size:9px;color:#374151;padding:1px 0 1px 10px;position:relative;line-height:1.5}.cv-ul li::before{content:"▸";position:absolute;left:0;color:#6366f1}');
+w.document.write('.cv-h4{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#312e81;margin:10px 0 5px}.cv-h4:first-child{margin-top:0}');
+w.document.write('.cv-skl{list-style:none;padding:0}.cv-skl li{font-size:9px;color:#374151;padding:1px 0;display:flex;align-items:center;gap:4px}');
+w.document.write('.cv-dot{width:4px;height:4px;border-radius:50%;background:#6366f1;flex-shrink:0}');
+w.document.write('.cv-bar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:1px}.cv-fill{height:100%;border-radius:2px;background:#6366f1}');
+w.document.write('@media print{@page{size:A4;margin:0}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}');
+w.document.write('</style></head><body>');
+w.document.write(cv.innerHTML);
+w.document.write('</body></html>');
+w.document.close();
+setTimeout(()=>w.print(),300);
+}
+
+// ═══ COPY TEXT ═══
+function copyEl(id){
+const el=document.getElementById(id);
+const text=el.innerText;
+navigator.clipboard.writeText(text).then(()=>{
+const btn=el.closest('.copy-wrap')?.querySelector('.copy-btn');
+if(btn){btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copy';btn.classList.remove('copied')},2000)}
+else{alert('Copied!')}
+}).catch(()=>{
+const range=document.createRange();range.selectNode(el);
+window.getSelection().removeAllRanges();window.getSelection().addRange(range);
+document.execCommand('copy');window.getSelection().removeAllRanges();
+alert('Copied!');
+});
+}
+
+// ═══ COLLAPSIBLE ═══
+function togColl(el){el.classList.toggle('op');el.nextElementSibling.classList.toggle('op')}
+
+// ═══ CHECKLIST ═══
+function saveChk(){
+const checks=[];
+document.querySelectorAll('.chk input').forEach((c,i)=>{
+checks.push(c.checked);
+c.closest('.chk').querySelector('.chk-t').classList.toggle('done',c.checked);
+});
+localStorage.setItem('apply_chk',JSON.stringify(checks));
+updChkPct();
+}
+function loadChk(){
+try{
+const d=JSON.parse(localStorage.getItem('apply_chk')||'[]');
+document.querySelectorAll('.chk input').forEach((c,i)=>{
+if(d[i]){c.checked=true;c.closest('.chk').querySelector('.chk-t').classList.add('done')}
+});
+updChkPct();
+}catch(e){}
+}
+function updChkPct(){
+const all=document.querySelectorAll('.chk input');
+const done=[...all].filter(c=>c.checked).length;
+const pct=Math.round((done/all.length)*100);
+document.getElementById('chkPct').textContent=pct+'%';
+document.getElementById('chkBar').style.width=pct+'%';
+}
+function resetChecklist(){
+document.querySelectorAll('.chk input').forEach(c=>{
+c.checked=false;
+c.closest('.chk').querySelector('.chk-t').classList.remove('done');
+});
+localStorage.removeItem('apply_chk');
+updChkPct();
+}
+loadChk();
+</script>
+</body>
+</html>
