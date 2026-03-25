@@ -65,12 +65,35 @@
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media(max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
 @media(max-width:600px){.kanban{grid-template-columns:1fr}}
-.kcol{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:10px;min-height:120px}
-.kh{font-size:11px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between}
-.ka{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:8px;margin-bottom:4px;position:relative;font-size:11px}
-.ka:hover{border-color:var(--bd2)}.ka-t{font-weight:600}.ka-c{color:var(--a2);font-size:10px}.ka-d{color:var(--t3);font-size:9px;margin-top:2px}
-.ka-del{position:absolute;top:4px;right:6px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0}.ka:hover .ka-del{opacity:1}
+.kcol{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:10px;min-height:120px;max-height:420px;display:flex;flex-direction:column}
+.kh{font-size:11px;font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;flex-shrink:0;margin-bottom:8px}
+.kh-cnt{font-size:10px;padding:1px 6px;border-radius:5px;background:var(--el);font-weight:600;min-width:18px;text-align:center}
+.k-scroll{overflow-y:auto;flex:1;scrollbar-width:thin}
+.ka{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:8px;margin-bottom:4px;position:relative;font-size:11px;cursor:pointer;transition:all .2s}
+.ka:hover{border-color:var(--a2);background:rgba(139,92,246,.04)}.ka.ka-sel{border-color:var(--ac);background:rgba(139,92,246,.06);box-shadow:0 0 0 1px var(--ac)}
+.ka-t{font-weight:600}.ka-c{color:var(--a2);font-size:10px}.ka-d{color:var(--t3);font-size:9px;margin-top:2px}
+.ka-m{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;margin-top:3px}
+.ka-del{position:absolute;top:4px;right:6px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;z-index:2}.ka:hover .ka-del{opacity:1}
 .ka-btn{font-size:8px;padding:2px 5px;border-radius:3px;border:1px solid var(--bd);background:var(--c1);color:var(--t2);cursor:pointer;font-family:inherit;margin-top:3px}.ka-btn:hover{border-color:var(--ac);color:var(--a2)}
+/* Detail Viewer */
+.dv{background:linear-gradient(135deg,rgba(139,92,246,.03),rgba(6,182,212,.02));border:1px solid rgba(139,92,246,.15);border-radius:12px;padding:0;margin-bottom:14px;overflow:hidden;display:none;animation:fu .3s ease}
+.dv.open{display:block}
+.dv-head{display:flex;justify-content:space-between;align-items:flex-start;padding:16px 18px 0;gap:12px}
+.dv-info{flex:1}.dv-role{font-size:16px;font-weight:700;margin-bottom:2px}.dv-co{font-size:12px;color:var(--a2);margin-bottom:4px}
+.dv-close{background:none;border:none;color:var(--t3);cursor:pointer;font-size:18px;padding:0 2px;line-height:1}.dv-close:hover{color:var(--tx)}
+.dv-meters{display:flex;gap:16px;padding:12px 18px;flex-wrap:wrap}
+.dv-meter{text-align:center}.dv-meter-v{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700}.dv-meter-l{font-size:9px;color:var(--t3);text-transform:uppercase}
+.dv-body{padding:0 18px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.dv-body{grid-template-columns:1fr}}
+.dv-sec{background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:10px}
+.dv-sec h5{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px}
+.dv-actions{display:flex;gap:6px;padding:0 18px 16px;flex-wrap:wrap;align-items:center}
+.dv-advance{background:linear-gradient(135deg,var(--ac),var(--a2));color:#fff;border:none;padding:7px 16px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
+.dv-advance:hover{filter:brightness(1.15);transform:translateY(-1px)}
+/* Drag styles */
+.ka[draggable]{user-select:none}
+.ka.dragging{opacity:.4;border-style:dashed}
+.kcol.drag-over{background:rgba(139,92,246,.05);border-color:var(--a2)}
 .inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
 @media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.grid-2{grid-template-columns:1fr}}
 </style>
@@ -79,7 +102,7 @@
 <nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Job Tracker</span></div><div class="nv-r"><div class="badge badge-a"><span id="tA">0</span> apps</div></div></nav>
 <div class="wr">
 <div class="hero"><h1>Tu sistema para <em>conseguir</em> trabajo.</h1><p>5 categorías de empleo remoto LATAM, empresas rotativas, tracker kanban y estrategia competitiva.</p></div>
-<div class="stats"><div class="stat"><div class="sv" id="sD">1</div><div class="sl2">Días</div></div><div class="stat"><div class="sv" id="sA">0</div><div class="sl2">Aplicado</div></div><div class="stat"><div class="sv" id="sI">0</div><div class="sl2">Entrevista</div></div><div class="stat"><div class="sv" id="sO">0</div><div class="sl2">Oferta</div></div></div>
+<div class="stats"><div class="stat"><div class="sv" id="sD">1</div><div class="sl2">Días</div></div><div class="stat"><div class="sv" id="sA">0</div><div class="sl2">Aplicado</div></div><div class="stat"><div class="sv" id="sI">0</div><div class="sl2">Entrevista</div></div><div class="stat"><div class="sv" id="sO">0</div><div class="sl2">Finalista</div></div></div>
 
 <div class="tabs">
 <button class="tab on" data-p="exp">🏦 Experiencia</button>
@@ -95,25 +118,29 @@
 <div class="lb">· empleos remotos basados en tu experiencia contable ·</div>
 <div class="tip"><b>🏦 Match directo — CxP, contabilidad, finanzas 100% remoto LATAM</b><p><strong>7 años Brinks + trilingüe + SQL.</strong> Filtra por roles que puedas ganar realistamente.</p></div>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=accounts+payable+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏦</div><div class="jl-b"><div class="jl-n">AP Analyst Remoto — LATAM (LinkedIn)</div><div class="jl-d">Tu core: 7 años CxP. Filtra remoto LATAM.</div></div><span class="jl-t tg">95%</span></a>
+<div class="tip tip-g" style="margin-bottom:8px"><b>⚡ WIN-RATE: Perfil cruzado Contabilidad + Data Entry ágil = ventaja competitiva</b><p>Estas búsquedas priorizan vacantes 100% remotas con <strong>menor fricción de entrada</strong> donde tu perfil trilingüe + 7 años CxP + velocidad de digitación te ponen por delante del candidato promedio.</p></div>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar+remoto&location=Colombia&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇨🇴</div><div class="jl-b"><div class="jl-n">CxP Remoto — Colombia (LinkedIn)</div><div class="jl-d">Mercado local, tu zona horaria. Ventaja idioma.</div></div><span class="jl-t tg">93%</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=accounts+payable+remote&location=Latin+America&f_WT=2&f_E=2%2C3&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏦</div><div class="jl-b"><div class="jl-n">AP Analyst Remoto LATAM — Entry/Mid</div><div class="jl-d">Core match. Filtro: niveles donde 7 años = sobrecalificado = ventaja.</div></div><span class="jl-t tg">95%</span></a>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+financiero+SQL+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">💰</div><div class="jl-b"><div class="jl-n">Analista Financiero + SQL Remoto LATAM</div><div class="jl-d">Finanzas + SQL = tu combinación ganadora.</div></div><span class="jl-t tg">90%</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar+remoto&location=Colombia&f_WT=2&f_TPR=r604800&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇨🇴</div><div class="jl-b"><div class="jl-n">CxP Remoto — Colombia (últimos 7 días)</div><div class="jl-d">Solo vacantes frescas. Tu zona horaria + idioma nativo = win.</div></div><span class="jl-t tg">Fresco</span></a>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Contas a Pagar Remoto — Brasil</div><div class="jl-d">CxP + portugués avanzado = poca competencia.</div></div><span class="jl-t tg">Ventaja</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+%22data+entry%22+remote&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">⚡</div><div class="jl-b"><div class="jl-n">AP + Data Entry Remoto (combo)</div><div class="jl-d">Tu perfil cruzado exacto. Pocos candidatos tienen ambas. Baja fricción.</div></div><span class="jl-t tg">Win-Rate</span></a>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=bookkeeper+remote+spanish&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📒</div><div class="jl-b"><div class="jl-n">Bookkeeper Remoto (Bilingüe ES/EN)</div><div class="jl-d">Empresas US buscando contadores LATAM. $1,500-$3,000 USD.</div></div><span class="jl-t ty">USD</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=bookkeeper+remote+bilingual+spanish&f_WT=2&f_TPR=r2592000&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📒</div><div class="jl-b"><div class="jl-n">Bookkeeper Bilingüe Remoto (US clients)</div><div class="jl-d">Empresas US buscando contadores LATAM. $1,500-$3,000 USD. Alta demanda.</div></div><span class="jl-t ty">USD</span></a>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=accounting+analyst+remote+latam&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Accounting Analyst Remoto LATAM</div><div class="jl-d">Contabilidad general + análisis. Tu técnico en contabilidad aplica.</div></div><span class="jl-t ta">Contable</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Contas a Pagar Remoto — Brasil</div><div class="jl-d">CxP + portugués avanzado = poquísima competencia desde CO.</div></div><span class="jl-t tg">Ventaja PT</span></a>
 
-<a href="https://www.linkedin.com/jobs/search/?keywords=shared+services+finance+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏢</div><div class="jl-b"><div class="jl-n">Shared Services Finance — LATAM Remoto</div><div class="jl-d">Tu modelo en Brinks. Multinacionales con SS en LATAM.</div></div><span class="jl-t tc">SS</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=invoice+processing+remote+OR+%22accounts+payable%22+remote&f_WT=2&f_E=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📄</div><div class="jl-b"><div class="jl-n">Invoice Processing / AP Remoto (Associate)</div><div class="jl-d">Roles de entrada: procesamiento de facturas. Tu velocidad de digitación destaca.</div></div><span class="jl-t tg">Fácil</span></a>
 
-<a href="https://co.indeed.com/jobs?q=cuentas+por+pagar+remoto&fromage=7" target="_blank" rel="noopener" class="jl"><div class="jl-i">🔍</div><div class="jl-b"><div class="jl-n">Indeed CO — CxP Remoto (últimos 7 días)</div><div class="jl-d">Ofertas recientes. Indeed tiene buen filtro remoto.</div></div><span class="jl-t to">Reciente</span></a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=shared+services+finance+accounts+payable+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏢</div><div class="jl-b"><div class="jl-n">Shared Services AP — LATAM</div><div class="jl-d">Tu modelo Brinks. Multinacionales con centros en LATAM. Match directo.</div></div><span class="jl-t tc">SS</span></a>
 
-<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=remoto" target="_blank" rel="noopener" class="jl"><div class="jl-i">💻</div><div class="jl-b"><div class="jl-n">Computrabajo — CxP Remoto Colombia</div><div class="jl-d">Portal popular CO. Muchas vacantes no llegan a LinkedIn.</div></div><span class="jl-t tg">CxP</span></a>
+<a href="https://co.indeed.com/jobs?q=%22cuentas+por+pagar%22+remoto&fromage=7" target="_blank" rel="noopener" class="jl"><div class="jl-i">🔍</div><div class="jl-b"><div class="jl-n">Indeed CO — CxP Remoto (últimos 7 días)</div><div class="jl-d">Ofertas recientes con match exacto "cuentas por pagar".</div></div><span class="jl-t to">Reciente</span></a>
 
-<a href="https://torre.ai/jobs?q=accounts+payable&remote=true" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗼</div><div class="jl-b"><div class="jl-n">Torre.ai — AP Remoto</div><div class="jl-d">Plataforma LATAM-first. Skills matching automático.</div></div><span class="jl-t ta">Torre</span></a>
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=remoto" target="_blank" rel="noopener" class="jl"><div class="jl-i">💻</div><div class="jl-b"><div class="jl-n">Computrabajo — CxP Remoto Colombia</div><div class="jl-d">Portal popular CO. Vacantes que no llegan a LinkedIn.</div></div><span class="jl-t tg">CxP</span></a>
+
+<a href="https://torre.ai/jobs?q=accounts+payable+remote&remote=true" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗼</div><div class="jl-b"><div class="jl-n">Torre.ai — AP Remoto</div><div class="jl-d">Plataforma LATAM-first. Auto-matching por skills.</div></div><span class="jl-t ta">Torre</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+%22excel%22+%22SQL%22+remote&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🎯</div><div class="jl-b"><div class="jl-n">AP + Excel + SQL Remoto (perfil exacto)</div><div class="jl-d">Búsqueda ultra-específica de tu combinación exacta de skills.</div></div><span class="jl-t tg">Exacto</span></a>
 </div>
 
 <!-- ═══ RUTA DATA ═══ -->
@@ -171,19 +198,38 @@
 
 <!-- ═══ TRACKER ═══ -->
 <div class="pnl" id="p-tr">
-<div class="lb">· vacantes perfiladas (guardadas desde application command center) ·</div>
-<div class="tip tip-v"><b>🔗 INTEGRACIÓN BIDIRECCIONAL</b><p>Las vacantes analizadas en el <a href="apply.html" style="color:var(--a2)">Application Command Center</a> aparecen aquí. Click <strong>"Abrir Perfilación"</strong> para recargar toda la info (CV, Cover, Entrevista) de cualquier vacante guardada.</p></div>
-<div id="savedVacancies"></div>
+<div class="lb">· pipeline de vacantes · master-detail ·</div>
 
-<div class="lb" style="margin-top:24px">· tracker manual — kanban ·</div>
+<!-- DETAIL VIEWER (hidden until card click) -->
+<div class="dv" id="detailViewer">
+<div class="dv-head">
+<div class="dv-info">
+<div class="dv-role" id="dvRole">—</div>
+<div class="dv-co" id="dvCompany">—</div>
+<div style="font-size:10px;color:var(--t3)" id="dvMeta"></div>
+</div>
+<button class="dv-close" onclick="closeDetail()" title="Cerrar">✕</button>
+</div>
+<div class="dv-meters" id="dvMeters"></div>
+<div class="dv-body" id="dvBody"></div>
+<div class="dv-actions" id="dvActions"></div>
+</div>
+
+<!-- ADD MANUAL ENTRY -->
 <div class="card" style="margin-bottom:12px">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><input class="inp" id="aT" placeholder="Puesto..."><input class="inp" id="aC" placeholder="Empresa..."><input class="inp" id="aU" placeholder="URL (opc)..."><select class="inp" id="aS"><option value="saved">💾 Guardado</option><option value="applied" selected>📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="offer">🎉 Oferta</option></select></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><input class="inp" id="aT" placeholder="Puesto..."><input class="inp" id="aC" placeholder="Empresa..."><input class="inp" id="aU" placeholder="URL (opc)..."><select class="inp" id="aS"><option value="saved">💾 Guardado</option><option value="applied" selected>📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="finalist">🏆 Finalista</option></select></div>
 <div style="display:flex;gap:6px;margin-top:6px">
 <button class="btn bg bs" onclick="addA()">+ Agregar</button>
-<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker manual?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar</button>
+<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker manual?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar manual</button>
 </div>
 </div>
+
+<!-- KANBAN PIPELINE -->
 <div class="kanban" id="kb"></div>
+
+<div style="text-align:center;padding:12px;font-size:10px;color:var(--t3)">
+Arrastra tarjetas entre columnas o usa los botones para avanzar. Click en una tarjeta para ver detalles.
+</div>
 </div>
 
 <!-- ═══ ESTRATEGIA ═══ -->
@@ -320,63 +366,197 @@ const VDB={
   save(v){const all=this.getAll();const idx=all.findIndex(x=>x.id===v.id);if(idx>=0)all[idx]=v;else all.push(v);localStorage.setItem(this.KEY,JSON.stringify(all));return v;},
   get(id){return this.getAll().find(x=>x.id===id)||null;},
   del(id){localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id)));},
-  updateStatus(id,status){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.status=status;if(status==='applied')v.appliedDate=Date.now();localStorage.setItem(this.KEY,JSON.stringify(all));}},
+  updateStatus(id,status){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.status=status;if(status==='applied'&&!v.appliedDate)v.appliedDate=Date.now();localStorage.setItem(this.KEY,JSON.stringify(all));}},
   updateNotes(id,notes){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.notes=notes;localStorage.setItem(this.KEY,JSON.stringify(all));}}
 };
 
 // ══════════════════════════════════════════════════════════════
-// RENDER SAVED VACANCIES
+// PIPELINE COLUMNS CONFIG
 // ══════════════════════════════════════════════════════════════
-function renderSavedVacancies(){
-  const vacancies=VDB.getAll().sort((a,b)=>(b.updatedAt||b.ts)-(a.updatedAt||a.ts));
-  const el=document.getElementById('savedVacancies');
+const COLS=[
+  {id:'saved',   label:'💾 Guardados',  color:'var(--t2)', next:'applied'},
+  {id:'applied', label:'📤 Aplicados',  color:'var(--a2)', next:'interview'},
+  {id:'interview',label:'🎯 Entrevista', color:'var(--am)', next:'finalist'},
+  {id:'finalist', label:'🏆 Finalista',  color:'var(--gn)', next:null}
+];
+const COL_MAP=Object.fromEntries(COLS.map(c=>[c.id,c]));
+// Map legacy "offer" status to "finalist"
+function normStatus(s){return s==='offer'?'finalist':(COL_MAP[s]?s:'saved');}
 
-  if(!vacancies.length){
-    el.innerHTML='<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px"><div style="font-size:32px;margin-bottom:8px;opacity:.4">📋</div>No hay vacantes guardadas aún.<br>Analiza una vacante en el <a href="apply.html" style="color:var(--a2)">Application Command Center</a> y guárdala aquí.</div>';
-    return;
+let selectedCard=null; // {type:'vdb'|'manual', id:string|number}
+
+// ══════════════════════════════════════════════════════════════
+// UNIFIED KANBAN RENDER
+// ══════════════════════════════════════════════════════════════
+function getAllCards(){
+  const cards=[];
+  // VDB vacancies
+  VDB.getAll().forEach(v=>{
+    cards.push({
+      type:'vdb', id:v.id, title:v.role||'Sin cargo', company:v.company||'Sin empresa',
+      status:normStatus(v.status), url:v.url, date:v.ts,
+      matchPct:v.match?.pct||0, ats:v.match?.ats||0, focusArea:v.match?.focusArea||'general',
+      found:v.match?.found||[], missing:v.match?.missing||[],
+      toneMatch:v.profile?.toneMatch, timezone:v.profile?.timezone,
+      cultureFit:v.profile?.cultureFit||0, remoteReady:v.profile?.remoteReady||0,
+      priority:v.profile?.applicationPriority||'',
+      notes:v.notes||'', raw:v
+    });
+  });
+  // Manual entries
+  getA().forEach((x,i)=>{
+    cards.push({
+      type:'manual', id:i, title:x.t, company:x.c, status:normStatus(x.s),
+      url:x.u, date:null, dateLabel:x.d,
+      matchPct:0, ats:0, notes:'', raw:x
+    });
+  });
+  return cards;
+}
+
+function mcColor(pct){return pct>=70?'var(--gn)':pct>=40?'var(--am)':pct>0?'var(--rd)':'var(--t3)';}
+
+function rK(){
+  const cards=getAllCards();
+  const kb=document.getElementById('kb');
+
+  kb.innerHTML=COLS.map(col=>{
+    const items=cards.filter(c=>c.status===col.id);
+    return`<div class="kcol" data-col="${col.id}"
+      ondragover="event.preventDefault();this.classList.add('drag-over')"
+      ondragleave="this.classList.remove('drag-over')"
+      ondrop="handleDrop(event,'${col.id}');this.classList.remove('drag-over')">
+      <div class="kh" style="color:${col.color}">${col.label}<span class="kh-cnt">${items.length}</span></div>
+      <div class="k-scroll">${items.map(c=>{
+        const sel=selectedCard&&selectedCard.type===c.type&&String(selectedCard.id)===String(c.id);
+        const mc=mcColor(c.matchPct);
+        return`<div class="ka${sel?' ka-sel':''}" draggable="true"
+          ondragstart="startDrag(event,'${c.type}','${c.id}')"
+          ondragend="this.classList.remove('dragging')"
+          onclick="showDetail('${c.type}','${c.id}')">
+          <button class="ka-del" onclick="event.stopPropagation();delCard('${c.type}','${c.id}')" title="Eliminar">✕</button>
+          <div class="ka-t">${c.url?'<a href="'+c.url+'" target="_blank" style="color:var(--tx);text-decoration:none" onclick="event.stopPropagation()">'+c.title+'</a>':c.title}</div>
+          <div class="ka-c">${c.company}</div>
+          ${c.matchPct?'<div class="ka-m" style="color:'+mc+'">'+c.matchPct+'% match · ATS '+c.ats+'%</div>':''}
+          <div class="ka-d">${c.dateLabel||( c.date?Math.floor((Date.now()-c.date)/864e5)+'d ago':'')}</div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// DETAIL VIEWER
+// ══════════════════════════════════════════════════════════════
+function showDetail(type,id){
+  selectedCard={type,id:type==='manual'?parseInt(id):id};
+  const card=getAllCards().find(c=>c.type===type&&String(c.id)===String(id));
+  if(!card){closeDetail();return;}
+
+  const dv=document.getElementById('detailViewer');
+  document.getElementById('dvRole').textContent=card.title;
+  document.getElementById('dvCompany').textContent=card.company;
+
+  const age=card.date?Math.floor((Date.now()-card.date)/864e5):null;
+  let meta=[];
+  if(age!==null)meta.push('Guardado hace '+age+' día'+(age!==1?'s':''));
+  if(card.focusArea&&card.focusArea!=='general')meta.push('Foco: '+card.focusArea);
+  if(card.toneMatch)meta.push('Tono: '+card.toneMatch);
+  if(card.timezone)meta.push('TZ: '+card.timezone);
+  if(card.priority)meta.push('Prioridad: '+card.priority);
+  document.getElementById('dvMeta').textContent=meta.join(' · ');
+
+  // Meters
+  const meters=document.getElementById('dvMeters');
+  if(card.type==='vdb'){
+    const mc=mcColor(card.matchPct);
+    meters.innerHTML=`
+      <div class="dv-meter"><div class="dv-meter-v" style="color:${mc}">${card.matchPct}%</div><div class="dv-meter-l">Match</div></div>
+      <div class="dv-meter"><div class="dv-meter-v" style="color:${card.ats>=60?'var(--gn)':'var(--am)'}">${card.ats}%</div><div class="dv-meter-l">ATS</div></div>
+      <div class="dv-meter"><div class="dv-meter-v" style="color:${card.cultureFit>=60?'var(--gn)':'var(--am)'}">${card.cultureFit}%</div><div class="dv-meter-l">Culture</div></div>
+      <div class="dv-meter"><div class="dv-meter-v" style="color:${card.remoteReady>=60?'var(--gn)':'var(--am)'}">${card.remoteReady}%</div><div class="dv-meter-l">Remote</div></div>`;
+  } else {
+    meters.innerHTML='<div style="font-size:11px;color:var(--t3);padding:4px 0">Entrada manual — analízala en el Application Command Center para obtener métricas.</div>';
   }
 
-  const statusLabels={saved:{l:'💾 Guardado',c:'var(--t2)'},applied:{l:'📤 Aplicado',c:'var(--a2)'},interview:{l:'🎯 Entrevista',c:'var(--am)'},offer:{l:'🎉 Oferta',c:'var(--gn)'},rejected:{l:'❌ Descartado',c:'var(--rd)'}};
-  const statusOpts=['saved','applied','interview','offer','rejected'];
+  // Body
+  const body=document.getElementById('dvBody');
+  const topSkills=(card.found||[]).slice(0,8).map(s=>s.name||s);
+  const missingSkills=(card.missing||[]).slice(0,5);
+  body.innerHTML=`
+    <div class="dv-sec"><h5>Skills encontrados</h5>
+      ${topSkills.length?topSkills.map(s=>'<span class="sk sk-g">'+s+'</span> ').join(''):'<span style="font-size:11px;color:var(--t3)">—</span>'}
+    </div>
+    <div class="dv-sec"><h5>Skills faltantes</h5>
+      ${missingSkills.length?missingSkills.map(s=>'<span class="sk" style="background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)">'+s+'</span> ').join(''):'<span style="font-size:11px;color:var(--gn)">✓ Sin gaps detectados</span>'}
+    </div>
+    <div class="dv-sec" style="grid-column:1/-1"><h5>Notas</h5>
+      <textarea class="inp" style="min-height:40px;font-size:11px;resize:vertical" placeholder="Agrega notas sobre esta vacante..."
+        onchange="saveNotes('${type}','${id}',this.value)">${card.notes}</textarea>
+    </div>`;
 
-  el.innerHTML=vacancies.map(v=>{
-    const st=statusLabels[v.status]||statusLabels.saved;
-    const mc=v.match?.pct>=70?'var(--gn)':v.match?.pct>=40?'var(--am)':'var(--rd)';
-    const age=v.ts?Math.floor((Date.now()-v.ts)/864e5):0;
-    const topSkills=(v.match?.found||[]).slice(0,5).map(s=>s.name||s).join(', ');
-    return`<div class="card" style="border-left:3px solid ${mc}">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-      <div>
-        <div style="font-size:14px;font-weight:700;color:var(--tx)">${v.role||'Sin cargo'}</div>
-        <div style="font-size:12px;color:var(--a2)">${v.company||'Sin empresa'}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:${mc}">${v.match?.pct||0}%</span>
-        <select class="inp" style="width:auto;padding:3px 6px;font-size:10px" onchange="changeVStatus('${v.id}',this.value)">
-          ${statusOpts.map(s=>`<option value="${s}"${v.status===s?' selected':''}>${statusLabels[s].l}</option>`).join('')}
-        </select>
-      </div>
-    </div>
-    <div style="font-size:10px;color:var(--t3);margin-bottom:6px">
-      Guardado hace ${age} día${age!==1?'s':''} · ATS: ${v.match?.ats||0}% · Foco: ${v.match?.focusArea||'general'} ${v.profile?.toneMatch?'· Tono: '+v.profile.toneMatch:''} ${v.profile?.timezone?'· TZ: '+v.profile.timezone:''}
-    </div>
-    ${topSkills?'<div style="margin-bottom:6px">'+topSkills.split(', ').map(s=>'<span class="sk sk-g">'+s+'</span>').join(' ')+'</div>':''}
-    ${v.match?.missing?.length?'<div style="margin-bottom:6px">'+v.match.missing.slice(0,3).map(s=>'<span class="sk" style="background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)">'+s+'</span>').join(' ')+(v.match.missing.length>3?' <span style="font-size:10px;color:var(--t3)">+'+( v.match.missing.length-3)+' más</span>':'')+'</div>':''}
-    <div style="margin-bottom:6px"><textarea class="inp" style="min-height:30px;font-size:10px;resize:vertical" placeholder="Notas..." onchange="saveVNotes('${v.id}',this.value)">${v.notes||''}</textarea></div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap">
-      <a href="apply.html?v=${v.id}" class="btn bp bs">🔍 Abrir Perfilación</a>
-      ${v.url?'<a href="'+v.url+'" target="_blank" rel="noopener" class="btn bo bs">🔗 Ver oferta</a>':''}
-      <button class="btn bo bs" style="color:var(--rd);border-color:rgba(239,68,68,.2)" onclick="if(confirm('¿Eliminar esta vacante?')){VDB.del('${v.id}');renderSavedVacancies();}">🗑️</button>
-    </div></div>`;
-  }).join('')+`<div style="text-align:center;padding:8px;color:var(--t3);font-size:10px">${vacancies.length} vacante${vacancies.length!==1?'s':''} guardada${vacancies.length!==1?'s':''}</div>`;
+  // Actions
+  const actions=document.getElementById('dvActions');
+  const col=COL_MAP[card.status];
+  const nextCol=col?.next?COL_MAP[col.next]:null;
+  actions.innerHTML=`
+    ${card.type==='vdb'?'<a href="apply.html?v='+card.id+'" class="btn bp" style="font-size:12px">🔍 Abrir Perfilación Completa</a>':''}
+    ${card.url?'<a href="'+card.url+'" target="_blank" rel="noopener" class="btn bo">🔗 Ver oferta original</a>':''}
+    ${nextCol?'<button class="dv-advance" onclick="advanceCard(\''+type+'\',\''+id+'\',\''+nextCol.id+'\')">→ Avanzar a '+nextCol.label+'</button>':'<span class="sk sk-g" style="font-size:11px">🏆 Etapa final</span>'}
+    <button class="btn bo bs" style="color:var(--rd);border-color:rgba(239,68,68,.2)" onclick="delCard('${type}','${id}')">🗑️ Eliminar</button>`;
+
+  dv.classList.add('open');
+  rK(); // re-render to highlight selected
 }
 
-function changeVStatus(id,status){
-  VDB.updateStatus(id,status);
-  renderSavedVacancies();
-  uS();
+function closeDetail(){
+  selectedCard=null;
+  document.getElementById('detailViewer').classList.remove('open');
+  rK();
 }
-function saveVNotes(id,notes){ VDB.updateNotes(id,notes); }
+
+// ══════════════════════════════════════════════════════════════
+// STATE TRANSITIONS
+// ══════════════════════════════════════════════════════════════
+function advanceCard(type,id,newStatus){
+  if(type==='vdb'){
+    VDB.updateStatus(id,newStatus);
+  } else {
+    const a=getA();const idx=parseInt(id);
+    if(a[idx]){a[idx].s=newStatus;setA(a);}
+  }
+  rK();uS();
+  if(selectedCard)showDetail(type,id);
+}
+
+function delCard(type,id){
+  if(!confirm('¿Eliminar esta vacante?'))return;
+  if(type==='vdb'){VDB.del(id);}
+  else{const a=getA();a.splice(parseInt(id),1);setA(a);}
+  closeDetail();rK();uS();
+}
+
+function saveNotes(type,id,notes){
+  if(type==='vdb')VDB.updateNotes(id,notes);
+  // manual entries don't support notes in jt8 schema
+}
+
+// ══════════════════════════════════════════════════════════════
+// DRAG & DROP
+// ══════════════════════════════════════════════════════════════
+let dragData=null;
+function startDrag(e,type,id){
+  dragData={type,id};
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain','');
+}
+function handleDrop(e,colId){
+  e.preventDefault();
+  if(!dragData)return;
+  advanceCard(dragData.type,dragData.id,colId);
+  dragData=null;
+}
 
 // TABS
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
@@ -410,26 +590,17 @@ return`<div class="cmp"><div style="display:flex;justify-content:space-between;a
 }).join('')+'<div style="text-align:center;padding:10px;color:var(--t3);font-size:11px">🔄 Pool de '+CMP.length+' empresas. Rotan diariamente.</div>';
 }
 
-// ═══ TRACKER ═══
+// ═══ TRACKER (manual) ═══
 function getA(){try{return JSON.parse(localStorage.getItem('jt8')||'[]')}catch(e){return[]}}
 function setA(a){localStorage.setItem('jt8',JSON.stringify(a))}
 function addA(){const t=document.getElementById('aT').value.trim(),c=document.getElementById('aC').value.trim(),u=document.getElementById('aU').value.trim(),s=document.getElementById('aS').value;if(!t||!c)return;const a=getA();a.push({t,c,u,s,d:new Date().toLocaleDateString('es',{day:'numeric',month:'short'})});setA(a);document.getElementById('aT').value='';document.getElementById('aC').value='';document.getElementById('aU').value='';rK();uS()}
-function mvA(i,s){const a=getA();a[i].s=s;setA(a);rK();uS()}
-function dlA(i){const a=getA();a.splice(i,1);setA(a);rK();uS()}
-function rK(){
-const a=getA();const cols={saved:{l:'💾 Guardados',cl:'var(--t2)'},applied:{l:'📤 Aplicados',cl:'var(--a2)'},interview:{l:'🎯 Entrevista',cl:'var(--am)'},offer:{l:'🎉 Oferta',cl:'var(--gn)'}};
-const sts=['saved','applied','interview','offer'];const nx={saved:'applied',applied:'interview',interview:'offer'};
-document.getElementById('kb').innerHTML=sts.map(s=>{const col=cols[s];const items=a.map((x,i)=>({...x,idx:i})).filter(x=>x.s===s);return`<div class="kcol"><div class="kh" style="color:${col.cl}">${col.l}<span style="font-size:10px;padding:1px 5px;border-radius:5px;background:var(--el)">${items.length}</span></div>${items.map(x=>`<div class="ka"><button class="ka-del" onclick="dlA(${x.idx})">✕</button><div class="ka-t">${x.u?`<a href="${x.u}" target="_blank" style="color:var(--tx);text-decoration:none">${x.t}</a>`:x.t}</div><div class="ka-c">${x.c}</div><div class="ka-d">${x.d}</div>${nx[s]?`<button class="ka-btn" onclick="mvA(${x.idx},'${nx[s]}')">→ ${cols[nx[s]].l}</button>`:''}</div>`).join('')}</div>`}).join('');
-}
+
 function uS(){
-  const a=getA();const vdb=VDB.getAll();
-  const totalApplied=a.filter(x=>x.s==='applied').length + vdb.filter(x=>x.status==='applied').length;
-  const totalInterview=a.filter(x=>x.s==='interview').length + vdb.filter(x=>x.status==='interview').length;
-  const totalOffer=a.filter(x=>x.s==='offer').length + vdb.filter(x=>x.status==='offer').length;
-  document.getElementById('tA').textContent=a.length+vdb.length;
-  document.getElementById('sA').textContent=totalApplied;
-  document.getElementById('sI').textContent=totalInterview;
-  document.getElementById('sO').textContent=totalOffer;
+  const cards=getAllCards();
+  document.getElementById('tA').textContent=cards.length;
+  document.getElementById('sA').textContent=cards.filter(c=>c.status==='applied').length;
+  document.getElementById('sI').textContent=cards.filter(c=>c.status==='interview').length;
+  document.getElementById('sO').textContent=cards.filter(c=>c.status==='finalist').length;
 }
 
 // ═══ DAYS ═══
@@ -437,14 +608,14 @@ if(!localStorage.getItem('jt_s8'))localStorage.setItem('jt_s8',new Date().toISOS
 document.getElementById('sD').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('jt_s8')))/864e5));
 
 // INIT
-renderCmp();rK();renderSavedVacancies();uS();
+renderCmp();rK();uS();
 
 // Hash navigation (from apply.html links)
 function goTab(hash){
-  const map={'#tracker':'Tracker','#estrategia':'Estrategia','#experiencia':'Experiencia','#ruta':'Ruta Data','#ingresos':'Ingresos','#empresas':'Empresas'};
-  const t=map[hash];if(!t)return;
-  document.querySelectorAll('.tab').forEach(b=>{b.classList.toggle('active',b.textContent.trim()===t);});
-  document.querySelectorAll('.pnl').forEach(p=>{p.classList.toggle('active',p.dataset.p===t);});
+  const map={'#tracker':'tr','#estrategia':'str','#experiencia':'exp','#ruta':'data','#ingresos':'quick','#empresas':'co'};
+  const p=map[hash];if(!p)return;
+  document.querySelectorAll('.tab').forEach(b=>{b.classList.toggle('on',b.dataset.p===p);});
+  document.querySelectorAll('.pnl').forEach(el=>{el.classList.toggle('on',el.id==='p-'+p);});
 }
 if(location.hash)goTab(location.hash);
 window.addEventListener('hashchange',()=>goTab(location.hash));
