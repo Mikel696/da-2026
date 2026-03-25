@@ -125,20 +125,41 @@ cls:feed.cls
 }catch(e){return[]}
 }
 
+let retryCount=0;
 async function loadAll(){
 document.getElementById('feedAll').innerHTML='<div class="loading"><span class="spin"></span> Cargando noticias de '+FEEDS.length+' fuentes...</div>';
+try{
 const results=await Promise.allSettled(FEEDS.map(f=>fetchFeed(f)));
 allArticles=[];
-results.forEach(r=>{if(r.status==='fulfilled')allArticles.push(...r.value)});
+let successCount=0;
+results.forEach(r=>{if(r.status==='fulfilled'&&r.value.length>0){allArticles.push(...r.value);successCount++}});
 // Deduplicate by title
 const seen=new Set();
 allArticles=allArticles.filter(a=>{if(!a.title||seen.has(a.title))return false;seen.add(a.title);return true});
 // Sort by date
 allArticles.sort((a,b)=>new Date(b.date)-new Date(a.date));
+if(allArticles.length>0){
 // Cache
 localStorage.setItem('news_cache',JSON.stringify({articles:allArticles,time:Date.now()}));
+retryCount=0;
 renderFeeds();
-document.getElementById('lastUp').textContent='Actualizado: '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+document.getElementById('lastUp').textContent='Actualizado: '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'})+' ('+successCount+'/'+FEEDS.length+' fuentes)';
+}else{
+// No articles but had cache - show cache
+const cache=JSON.parse(localStorage.getItem('news_cache')||'null');
+if(cache&&cache.articles&&cache.articles.length>0){
+allArticles=cache.articles;
+renderFeeds();
+document.getElementById('lastUp').textContent='Offline — mostrando cache del '+new Date(cache.time).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+}else{
+document.getElementById('feedAll').innerHTML='<div class="error">📡 Sin conexión a las fuentes RSS. Verifica tu conexión a internet y vuelve a intentar.</div>';
+}
+}
+}catch(e){
+const cache=JSON.parse(localStorage.getItem('news_cache')||'null');
+if(cache&&cache.articles){allArticles=cache.articles;renderFeeds();document.getElementById('lastUp').textContent='Offline — cache';}
+else{document.getElementById('feedAll').innerHTML='<div class="error">❌ Error de red. <button class="btn bp bs" onclick="loadAll()" style="margin-left:8px">Reintentar</button></div>';}
+}
 }
 
 function renderFeeds(){
