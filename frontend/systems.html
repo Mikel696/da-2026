@@ -203,6 +203,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <button class="tab" onclick="showTab(3)">🔗 Accesos</button>
 <button class="tab" onclick="showTab(4)">🗺️ Malla Curricular</button>
 <button class="tab" onclick="showTab(5)">🏆 Certificaciones</button>
+<button class="tab" onclick="showTab(6)">🧠 CUN Hub</button>
 </div>
 
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
@@ -294,6 +295,78 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="sl">· ruta de certificaciones — perfil 8vo semestre ·</div>
 <div class="sd">Certificaciones estratégicas para complementar tu título. Ordenadas por impacto en empleabilidad.</div>
 <div id="certList"></div>
+</div>
+<!-- ═══════ TAB 6: CUN HUB ═══════ -->
+<div class="pnl" id="pnl6">
+<div class="sl">· cun hub — tu ecosistema académico completo ·</div>
+<div class="sd">Mapa de plataformas, metodología de estudio y sistema de actualización rápida.</div>
+
+<!-- ECOSYSTEM MAP -->
+<div class="gc">
+<div class="gc-t" style="margin-bottom:14px">🗺️ Mapa del Ecosistema CUN</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:16px">Todas las plataformas que necesitas como estudiante virtual. Cada una tiene un rol específico.</div>
+<div class="qa-grid" id="cunEcosystem"></div>
+</div>
+
+<!-- METHODOLOGY -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:14px">📖 Metodología de Estudio CUN Virtual</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+<div style="padding:10px 14px;background:var(--eg);border:1px solid rgba(16,185,129,.15);border-radius:8px;margin-bottom:10px;color:var(--em)">
+<strong>Modalidad 100% flexible:</strong> No hay horarios fijos de clase. Tú coordinas directamente con cada profesor los encuentros sincrónicos.
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-top:12px" id="methodSteps"></div>
+</div>
+</div>
+
+<!-- QUICK UPDATE -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:14px">⚡ Actualización Rápida — Importar desde CUN Digital</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.6">
+<strong>¿Cómo funciona?</strong> Entra a <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--vi2)">tu curso en CUN Digital</a>, copia los nombres de las tareas pendientes y pégalos aquí. Una tarea por línea. El sistema las procesará automáticamente.
+</div>
+<textarea id="bulkImport" placeholder="Pega aquí las tareas de CUN Digital (una por línea).&#10;Ejemplo:&#10;Taller 3 - Grafos y árboles&#10;Quiz semana 8 - Ecuaciones diferenciales&#10;Foro de discusión - Redes inalámbricas" style="width:100%;min-height:120px;padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical"></textarea>
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+<select class="tf-select" id="bulkSubj">
+<option value="discretas">Matemáticas Discretas</option>
+<option value="algebra">Álgebra Moderna</option>
+<option value="software">Refinamiento Software</option>
+<option value="bdd">Admin. Base de Datos</option>
+<option value="redes">Redes Inalámbricas</option>
+<option value="ecuaciones">Ecuaciones Diferenciales</option>
+<option value="negocios">Plan de Negocios II</option>
+<option value="electiva1">Electiva Profundización I</option>
+<option value="general">General</option>
+</select>
+<select class="tf-select" id="bulkPriority">
+<option value="p2">🟡 P2 — On track</option>
+<option value="p1">🟠 P1 — Esta semana</option>
+<option value="p0">🔴 P0 — Urgente</option>
+<option value="p3">🟢 P3 — Futuro</option>
+</select>
+<input class="tf-date" id="bulkDue" type="date">
+<button class="tf-btn" onclick="SYS.bulkImport()">📥 Importar tareas</button>
+</div>
+<div id="bulkResult" style="margin-top:8px;font-size:11px;color:var(--gn);display:none"></div>
+</div>
+
+<!-- EXPORT/BACKUP -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:14px">💾 Respaldo de Datos</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:12px">Exporta tus tareas para respaldo o importa un respaldo anterior. Tus datos se guardan en localStorage del navegador.</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="tf-btn" onclick="SYS.exportData()" style="background:var(--vi)">📤 Exportar JSON</button>
+<button class="tf-btn" onclick="document.getElementById('importFile').click()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📥 Importar JSON</button>
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="SYS.importData(event)">
+<button class="tf-btn" onclick="SYS.clearCompleted()" style="background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.2)">🗑️ Limpiar completadas</button>
+</div>
+</div>
+
+<!-- WORKFLOW -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:14px">🔄 Tu Flujo de Trabajo Semanal</div>
+<div id="weeklyWorkflow"></div>
+</div>
 </div>
 </main>
 

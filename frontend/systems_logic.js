@@ -89,6 +89,41 @@ const SYS = (() => {
     { title: 'Repositorio GitHub', desc: 'Código fuente del proyecto DA-2026', icon: '🐙', color: 'hsl(0,0%,60%)', url: 'https://github.com/Mikel696/da-2026' },
   ];
 
+  // ── CUN ECOSYSTEM MAP ──
+  const CUN_ECOSYSTEM = [
+    { title: 'CUN 360', desc: 'App central: carnet digital, horarios, tickets CAMI, pagos y chatbot 24/7', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
+    { title: 'CUN Digital (Moodle)', desc: 'LMS: materiales, foros, entregas, calificaciones. Aquí vives académicamente', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/' },
+    { title: 'Curso Activo (28494)', desc: 'Tu aula virtual del semestre actual — acceso directo a contenido', icon: '📖', color: 'hsl(142,60%,45%)', url: 'https://cdigital.cun.edu.co/course/view.php?id=28494&expand#section-1' },
+    { title: 'SGA Campus (SINU)', desc: 'Matrícula, notas oficiales, historial académico, certificados', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
+    { title: 'Gmail CUN', desc: 'Correo institucional — comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
+    { title: 'CamiTicket', desc: 'Sistema de soporte: solicitudes académicas, financieras y técnicas', icon: '🎫', color: 'hsl(35,90%,55%)', url: 'https://cdigital.cun.edu.co/' },
+    { title: 'Inducción Virtual', desc: 'Onboarding, guías, kit de bienvenida, tutoriales de plataformas', icon: '🚀', color: 'hsl(172,60%,45%)', url: 'https://cun.edu.co/induccion-virtual/' },
+    { title: 'Campus Digital (Alt)', desc: 'Punto de entrada alternativo al LMS — mismo contenido que CDigital', icon: '🔄', color: 'hsl(45,90%,50%)', url: 'https://campusdigital.cun.edu.co/' },
+    { title: 'Calendario 2026 (PDF)', desc: 'Documento oficial con fechas de los 6 períodos académicos', icon: '📅', color: 'hsl(320,60%,50%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
+    { title: 'Plan de Estudios (PDF)', desc: 'Malla curricular oficial — Ing. de Sistemas Virtual', icon: '📋', color: 'hsl(15,70%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
+    { title: 'CUN App (Google Play)', desc: 'Descarga la app móvil CUN 360 para Android', icon: '🤖', color: 'hsl(120,50%,40%)', url: 'https://play.google.com/store/apps/details?id=co.edu.cun.cun360' },
+    { title: 'DA-2026 GitHub', desc: 'Código fuente de este proyecto — tu segundo cerebro', icon: '🐙', color: 'hsl(0,0%,55%)', url: 'https://github.com/Mikel696/da-2026' },
+  ];
+
+  // ── METHODOLOGY STEPS ──
+  const METHOD_STEPS = [
+    { step: 1, title: 'Revisa CUN Digital', desc: 'Entra al aula virtual de cada materia. Revisa materiales nuevos, foros y actividades del bloque actual.', icon: '📖', action: 'Diario o cada 2 días' },
+    { step: 2, title: 'Coordina con profesores', desc: 'No hay horario fijo. Tú y tu profesor acuerdan encuentros sincrónicos por chat o correo.', icon: '🤝', action: 'Inicio de cada bloque' },
+    { step: 3, title: 'Registra deadlines aquí', desc: 'Cada tarea que veas en CUN Digital, agrégala al semáforo con fecha límite. El sistema la prioriza.', icon: '🚦', action: 'Cada vez que revises CUN Digital' },
+    { step: 4, title: 'Trabaja por prioridad', desc: 'Resuelve P0 (rojo) primero, luego P1 (naranja). Los P2 son tu flujo normal de trabajo.', icon: '⚡', action: 'Diario' },
+    { step: 5, title: 'Entrega en CUN Digital', desc: 'Sube tus trabajos en el LMS. Marca la tarea como completada aquí para trackear tu avance.', icon: '✅', action: 'Antes del deadline' },
+    { step: 6, title: 'Revisa notas en SGA', desc: 'Las calificaciones oficiales aparecen en SGA Campus / SINU. Verifica que coincidan con lo entregado.', icon: '📊', action: 'Después de cierre de notas' },
+  ];
+
+  // ── WEEKLY WORKFLOW ──
+  const WEEKLY_WORKFLOW = [
+    { day: 'Lunes', tasks: ['Revisar CUN Digital — materiales nuevos de todas las materias', 'Actualizar semáforo con tareas descubiertas', 'Planificar la semana'] },
+    { day: 'Martes-Miércoles', tasks: ['Trabajar en tareas P0 y P1', 'Estudiar contenido teórico (Discretas, Álgebra, Ecuaciones)', 'Coordinar encuentros sincrónicos'] },
+    { day: 'Jueves-Viernes', tasks: ['Completar talleres y laboratorios (Software, BD, Redes)', 'Participar en foros de discusión', 'Avanzar en Plan de Negocios II'] },
+    { day: 'Sábado', tasks: ['Entregar pendientes antes de deadlines dominicales', 'Revisar recursos de certificaciones', 'Respaldo de datos (exportar JSON)'] },
+    { day: 'Domingo', tasks: ['Revisión semanal — ¿qué completé? ¿qué falta?', 'Limpiar tareas completadas', 'Preparar prioridades de la siguiente semana'] },
+  ];
+
   const STUDY_RESOURCES = [
     { title: 'Refactoring Guru', desc: 'Patrones de diseño y refactoring', icon: '🔧', color: 'hsl(15,70%,50%)', url: 'https://refactoring.guru/' },
     { title: 'SQLBolt', desc: 'Tutorial interactivo de SQL', icon: '⚡', color: 'hsl(45,90%,50%)', url: 'https://sqlbolt.com/' },
@@ -484,6 +519,132 @@ const SYS = (() => {
     document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('on', i === n));
   }
 
+  // ── RENDER: CUN HUB (Tab 6) ──
+  function renderCUNHub() {
+    const ecoEl = document.getElementById('cunEcosystem');
+    if (ecoEl) {
+      ecoEl.innerHTML = CUN_ECOSYSTEM.map(q => `
+        <a href="${q.url}" target="_blank" rel="noopener" class="qa">
+          <div class="qa-icon" style="background:${q.color}18;border:1px solid ${q.color}30">${q.icon}</div>
+          <div class="qa-info"><div class="qa-title">${q.title}</div><div class="qa-desc">${q.desc}</div></div>
+        </a>
+      `).join('');
+    }
+
+    const methEl = document.getElementById('methodSteps');
+    if (methEl) {
+      methEl.innerHTML = METHOD_STEPS.map(s => `
+        <div style="background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:16px">${s.icon}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2)">PASO ${s.step}</span>
+          </div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">${s.title}</div>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:6px">${s.desc}</div>
+          <div style="font-size:10px;padding:3px 8px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:6px;color:var(--vi2);display:inline-block">⏰ ${s.action}</div>
+        </div>
+      `).join('');
+    }
+
+    const wfEl = document.getElementById('weeklyWorkflow');
+    if (wfEl) {
+      wfEl.innerHTML = WEEKLY_WORKFLOW.map(d => `
+        <div style="margin-bottom:10px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--em);font-weight:600;margin-bottom:6px">${d.day.toUpperCase()}</div>
+          ${d.tasks.map(t => `<div style="font-size:12px;color:var(--t2);padding:4px 0 4px 12px;border-left:2px solid var(--bd)">· ${t}</div>`).join('')}
+        </div>
+      `).join('');
+    }
+
+    // Set default date for bulk import
+    const bulkDate = document.getElementById('bulkDue');
+    if (bulkDate && !bulkDate.value) {
+      bulkDate.value = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+    }
+  }
+
+  // ── BULK IMPORT ──
+  function bulkImport() {
+    const textarea = document.getElementById('bulkImport');
+    const text = textarea?.value?.trim();
+    if (!text) return;
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    if (lines.length === 0) return;
+
+    const subj = document.getElementById('bulkSubj')?.value || 'general';
+    const priority = document.getElementById('bulkPriority')?.value || 'p2';
+    const due = document.getElementById('bulkDue')?.value || '';
+    const tasks = getTasks();
+    let count = 0;
+
+    lines.forEach(line => {
+      tasks.push({ id: Date.now() + count, text: line, subj, priority, due, done: false, created: todayStr() });
+      count++;
+    });
+
+    saveTasks(tasks);
+    textarea.value = '';
+    const result = document.getElementById('bulkResult');
+    if (result) {
+      result.textContent = `✅ ${count} tarea${count !== 1 ? 's' : ''} importada${count !== 1 ? 's' : ''} exitosamente.`;
+      result.style.display = 'block';
+      setTimeout(() => result.style.display = 'none', 4000);
+    }
+    render();
+  }
+
+  // ── EXPORT DATA ──
+  function exportData() {
+    const tasks = getTasks();
+    const data = { version: 1, exported: new Date().toISOString(), tasks };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sys_backup_${todayStr()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── IMPORT DATA ──
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.tasks && Array.isArray(data.tasks)) {
+          const existing = getTasks();
+          const existingIds = new Set(existing.map(t => t.text));
+          let imported = 0;
+          data.tasks.forEach(t => {
+            if (!existingIds.has(t.text)) {
+              existing.push({ ...t, id: Date.now() + imported });
+              imported++;
+            }
+          });
+          saveTasks(existing);
+          render();
+          alert(`✅ Importadas ${imported} tareas nuevas (${data.tasks.length - imported} duplicadas omitidas).`);
+        }
+      } catch { alert('❌ Error al leer el archivo. Asegúrate de que sea un JSON válido.'); }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // ── CLEAR COMPLETED ──
+  function clearCompleted() {
+    const tasks = getTasks();
+    const pending = tasks.filter(t => !t.done);
+    const removed = tasks.length - pending.length;
+    if (removed === 0) { alert('No hay tareas completadas para limpiar.'); return; }
+    if (!confirm(`¿Eliminar ${removed} tarea${removed !== 1 ? 's' : ''} completada${removed !== 1 ? 's' : ''}?`)) return;
+    saveTasks(pending);
+    render();
+  }
+
   // ── MAIN RENDER ──
   function render() {
     renderStats();
@@ -495,6 +656,7 @@ const SYS = (() => {
     renderMalla();
     renderCerts();
     renderNextActions();
+    renderCUNHub();
   }
 
   // ── INIT ──
@@ -537,5 +699,5 @@ const SYS = (() => {
     init();
   }
 
-  return { addTask, toggleTask, deleteTask, render };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render };
 })();
