@@ -209,6 +209,7 @@ Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta in
 <a href="jobs.html#tracker" class="btn bo bs">📋 Ir al Tracker</a>
 </div>
 
+<script src="js/ats-engine.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
 // VACANCY DATABASE — SHARED STORAGE LAYER
@@ -495,10 +496,21 @@ function runAnalysis(){
   S.company=company||detectCompany(jd); S.role=role||detectRole(jd); S.url=url; S.jd=jd; S.salaryInput=salaryInput;
   const jdL=jd.toLowerCase();
 
-  // Core skill matching
-  const found=[], missing=[], langs=[];
-  Object.keys(P.skills).forEach(sk=>{ if(jdL.includes(sk)) found.push({name:sk,lv:P.skills[sk].lv,yr:P.skills[sk].yr,cat:P.skills[sk].cat}); });
-  P.gaps.forEach(g=>{ if(jdL.includes(g.trim())) missing.push(g.trim()); });
+  // ── ATS ENGINE v2: Synonym-aware matching ──
+  let found, missing, atsResult;
+  if(ATS.isReady()){
+    atsResult=ATS.match(jd);
+    found=atsResult.found.map(f=>({name:f.name,lv:f.lv,yr:f.yr,cat:f.cat==='core_accounting'?'fin':f.cat==='data_tech'?'tech':f.cat==='data_entry_ops'?'tech':'soft',matchedAs:f.matchedAs,weight:f.weight,catLabel:f.catLabel,catIcon:f.catIcon,catColor:f.catColor}));
+    missing=atsResult.missing;
+  } else {
+    // Fallback: legacy literal matching
+    found=[]; missing=[];
+    Object.keys(P.skills).forEach(sk=>{ if(jdL.includes(sk)) found.push({name:sk,lv:P.skills[sk].lv,yr:P.skills[sk].yr,cat:P.skills[sk].cat}); });
+    P.gaps.forEach(g=>{ if(jdL.includes(g.trim())) missing.push(g.trim()); });
+    atsResult=null;
+  }
+
+  const langs=[];
   const langKws=['spanish','español','portuguese','portugués','english','inglés','bilingual','trilingual'];
   langKws.forEach(l=>{ if(jdL.includes(l)) langs.push(l); });
 
@@ -516,15 +528,24 @@ function runAnalysis(){
 
   // Advanced profiling
   const tactical=matchTactical(jdL);
-  const totalReq=found.length+missing.length;
-  let pct=totalReq>0?Math.round((found.length/totalReq)*100):50;
-  pct+=langs.length*3; pct+=tactical.length*1;
-  if(isRemote)pct+=3;
-  pct=Math.min(95,Math.max(10,pct));
 
-  const atsScore=calculateATS(found,missing,langs,tactical);
+  // ── Scoring: use ATS engine if available, else legacy ──
+  let pct, atsScore;
+  if(atsResult){
+    const sc=ATS.score(atsResult,langs.length,tactical.length,isRemote);
+    pct=sc.matchPct; atsScore=sc.atsPct;
+  } else {
+    const totalReq=found.length+missing.length;
+    pct=totalReq>0?Math.round((found.length/totalReq)*100):50;
+    pct+=langs.length*3; pct+=tactical.length*1;
+    if(isRemote)pct+=3;
+    pct=Math.min(95,Math.max(10,pct));
+    atsScore=calculateATS(found,missing,langs,tactical);
+  }
   const level=isSenior?'senior':isJunior?'junior':'mid';
 
+  // Store ATS result for semaphore renderer
+  window._lastAtsResult=atsResult||null;
   S.match={pct,ats:atsScore,found,missing,langs,remote:isRemote,hybrid:isHybrid,level,focusArea};
   S.profile={
     toneMatch:detectTone(jd), timezone:detectTimezone(jd),
@@ -584,13 +605,18 @@ function renderAnalysis(){
 
   <div style="font-size:11px;color:var(--t2);line-height:1.8">`;
 
-  if(m.found.length){
-    h+=`<div style="font-size:12px;font-weight:700;color:var(--gn);margin-bottom:6px">✓ SKILLS QUE TIENES (${m.found.length})</div>`;
-    h+=m.found.map(s=>`<span class="sk sk-g">${s.name} ${'★'.repeat(s.lv)}</span>`).join(' ')+'<br><br>';
-  }
-  if(m.missing.length){
-    h+=`<div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:6px">⚠ GAPS (${m.missing.length})</div>`;
-    h+=m.missing.map(s=>`<span class="sk sk-r">${s}</span>`).join(' ')+'<br><br>';
+  // ── ATS Semaphore: synonym-aware rendering ──
+  if(ATS.isReady() && window._lastAtsResult){
+    h+=ATS.renderSemaphore(window._lastAtsResult, null);
+  } else {
+    if(m.found.length){
+      h+=`<div style="font-size:12px;font-weight:700;color:var(--gn);margin-bottom:6px">✓ SKILLS QUE TIENES (${m.found.length})</div>`;
+      h+=m.found.map(s=>`<span class="sk sk-g">${s.name} ${'★'.repeat(s.lv)}</span>`).join(' ')+'<br><br>';
+    }
+    if(m.missing.length){
+      h+=`<div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:6px">⚠ GAPS (${m.missing.length})</div>`;
+      h+=m.missing.map(s=>`<span class="sk sk-r">${s}</span>`).join(' ')+'<br><br>';
+    }
   }
   if(pr.tacticalSkills.length){
     h+=`<div style="font-size:12px;font-weight:700;color:var(--cy);margin-bottom:6px">🎯 VENTAJAS TÁCTICAS (${pr.tacticalSkills.length})</div>`;
@@ -854,7 +880,9 @@ function capitalize(s){ return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.s
 // ══════════════════════════════════════════════════════════════
 // INIT — Check URL params for loading a saved vacancy
 // ══════════════════════════════════════════════════════════════
-(function(){
+// ── Initialize ATS Engine, then check URL params ──
+(async function(){
+  await ATS.init();
   const params=new URLSearchParams(window.location.search);
   const vid=params.get('v');
   if(vid){ setTimeout(()=>loadVacancy(vid),100); }

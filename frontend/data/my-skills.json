@@ -1,0 +1,289 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-03-25",
+  "categories": {
+    "core_accounting": {
+      "label": "Core Accounting",
+      "icon": "🏦",
+      "color": "var(--gn)",
+      "skills": {
+        "accounts payable": {
+          "lv": 5, "yr": 7, "weight": 10,
+          "syn": ["AP","a/p","cuentas por pagar","contas a pagar","payables","accounts payables"]
+        },
+        "invoice processing": {
+          "lv": 5, "yr": 7, "weight": 8,
+          "syn": ["invoice validation","invoice management","invoice review","facturación","procesamiento de facturas","invoice intake","invoice coding","3-way match","three-way match","2-way match","po matching"]
+        },
+        "supplier reconciliation": {
+          "lv": 5, "yr": 7, "weight": 8,
+          "syn": ["vendor reconciliation","account reconciliation","reconciliación","conciliación de proveedores","statement reconciliation","balance reconciliation"]
+        },
+        "vendor management": {
+          "lv": 5, "yr": 7, "weight": 7,
+          "syn": ["supplier management","vendor relations","gestión de proveedores","vendor onboarding","supplier onboarding","vendor master"]
+        },
+        "aging reports": {
+          "lv": 5, "yr": 7, "weight": 6,
+          "syn": ["aging analysis","reportes de antigüedad","aged payables","aging schedule"]
+        },
+        "monthly close": {
+          "lv": 5, "yr": 7, "weight": 7,
+          "syn": ["month-end close","month end close","cierre mensual","period close","closing process","financial close"]
+        },
+        "payment processing": {
+          "lv": 5, "yr": 7, "weight": 7,
+          "syn": ["payment execution","payment runs","procesamiento de pagos","disbursements","payment cycle"]
+        },
+        "bank reconciliation": {
+          "lv": 5, "yr": 7, "weight": 7,
+          "syn": ["conciliación bancaria","bank rec","bank statement reconciliation"]
+        },
+        "general ledger": {
+          "lv": 3, "yr": 3, "weight": 6,
+          "syn": ["GL","g/l","libro mayor","ledger maintenance","general accounting"]
+        },
+        "accounts receivable": {
+          "lv": 3, "yr": 2, "weight": 5,
+          "syn": ["AR","a/r","cuentas por cobrar","receivables"]
+        },
+        "journal entries": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["journal posting","asientos contables","JE","adjusting entries"]
+        },
+        "financial analysis": {
+          "lv": 5, "yr": 8, "weight": 8,
+          "syn": ["análisis financiero","financial reporting","financial review","variance analysis"]
+        },
+        "financial reporting": {
+          "lv": 4, "yr": 5, "weight": 7,
+          "syn": ["reportes financieros","financial statements","P&L","balance sheet","income statement"]
+        },
+        "tax compliance": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["cumplimiento tributario","tax reporting","tax filings","withholding tax","retención en la fuente","IVA"]
+        },
+        "audit": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["auditoría","internal audit","audit support","audit readiness","SOX","SOX compliance"]
+        },
+        "compliance": {
+          "lv": 4, "yr": 5, "weight": 5,
+          "syn": ["cumplimiento","regulatory compliance","internal controls","controles internos"]
+        },
+        "accounting": {
+          "lv": 5, "yr": 8, "weight": 9,
+          "syn": ["contabilidad","contable","bookkeeping","teneduría de libros","accounting operations"]
+        },
+        "bookkeeping": {
+          "lv": 4, "yr": 3, "weight": 6,
+          "syn": ["teneduría","registro contable","full-cycle bookkeeping","full cycle bookkeeping"]
+        },
+        "cash flow": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["flujo de caja","cash management","cash forecasting","cash flow projection"]
+        },
+        "budgeting": {
+          "lv": 3, "yr": 3, "weight": 5,
+          "syn": ["presupuesto","budget management","budget analysis","forecasting","budget forecasting"]
+        },
+        "cost analysis": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["análisis de costos","cost accounting","cost control","cost management"]
+        },
+        "billing": {
+          "lv": 5, "yr": 7, "weight": 6,
+          "syn": ["facturación","billing operations","invoicing","billing cycle"]
+        },
+        "reconciliation": {
+          "lv": 5, "yr": 7, "weight": 7,
+          "syn": ["conciliación","recs","account recs"]
+        },
+        "kpi": {
+          "lv": 5, "yr": 5, "weight": 5,
+          "syn": ["KPIs","key performance indicators","indicadores","metrics","métricas"]
+        },
+        "shared services": {
+          "lv": 5, "yr": 7, "weight": 6,
+          "syn": ["SSC","shared service center","centro de servicios compartidos","GBS","global business services"]
+        },
+        "multi-currency": {
+          "lv": 4, "yr": 7, "weight": 5,
+          "syn": ["multicurrency","multi currency","multiple currencies","foreign currency","multi-moneda","FX"]
+        }
+      }
+    },
+    "data_tech": {
+      "label": "Data & Tech",
+      "icon": "📊",
+      "color": "var(--a2)",
+      "skills": {
+        "sql": {
+          "lv": 5, "yr": 5, "weight": 9,
+          "syn": ["SQL server","T-SQL","PL/SQL","structured query language","consultas SQL","transact-sql"]
+        },
+        "excel": {
+          "lv": 5, "yr": 8, "weight": 8,
+          "syn": ["advanced excel","excel avanzado","MS Excel","Microsoft Excel","spreadsheets","spreadsheet","hojas de cálculo","Google Sheets","google sheets"]
+        },
+        "power bi": {
+          "lv": 4, "yr": 3, "weight": 7,
+          "syn": ["PowerBI","power-bi","dashboards power bi"]
+        },
+        "power query": {
+          "lv": 4, "yr": 3, "weight": 5,
+          "syn": ["power query","M language","data transformation"]
+        },
+        "python": {
+          "lv": 3, "yr": 2, "weight": 6,
+          "syn": ["python3","python 3","scripting python"]
+        },
+        "pandas": {
+          "lv": 3, "yr": 2, "weight": 4,
+          "syn": ["pandas library","python pandas","dataframes"]
+        },
+        "mysql": {
+          "lv": 4, "yr": 4, "weight": 5,
+          "syn": ["my sql","maria db","mariadb"]
+        },
+        "postgresql": {
+          "lv": 4, "yr": 3, "weight": 5,
+          "syn": ["postgres","postgre","pgSQL"]
+        },
+        "data analysis": {
+          "lv": 4, "yr": 5, "weight": 8,
+          "syn": ["análisis de datos","data analytics","analítica de datos","analytics"]
+        },
+        "data modeling": {
+          "lv": 3, "yr": 2, "weight": 5,
+          "syn": ["modelado de datos","data model","dimensional modeling","OLAP","OLTP"]
+        },
+        "reporting": {
+          "lv": 5, "yr": 7, "weight": 6,
+          "syn": ["report generation","report building","generación de reportes","informes"]
+        },
+        "automation": {
+          "lv": 3, "yr": 2, "weight": 5,
+          "syn": ["automatización","process automation","RPA","automate","automated"]
+        },
+        "data entry": {
+          "lv": 5, "yr": 5, "weight": 6,
+          "syn": ["ingreso de datos","data input","data capture","captura de datos","data processing"]
+        },
+        "dashboard": {
+          "lv": 4, "yr": 3, "weight": 5,
+          "syn": ["dashboards","tablero","tableros","visualization","data visualization","visualización"]
+        },
+        "pivot tables": {
+          "lv": 5, "yr": 7, "weight": 5,
+          "syn": ["tablas dinámicas","pivot table","pivots"]
+        },
+        "erp": {
+          "lv": 4, "yr": 5, "weight": 6,
+          "syn": ["ERP system","ERP systems","enterprise resource planning","sistema ERP"]
+        },
+        "microsoft office": {
+          "lv": 5, "yr": 8, "weight": 4,
+          "syn": ["MS Office","Microsoft 365","Office 365","M365","microsoft 365","suite office","Word","Outlook","Office Suite"]
+        }
+      }
+    },
+    "data_entry_ops": {
+      "label": "Data Entry & Ops",
+      "icon": "⌨️",
+      "color": "var(--cy)",
+      "skills": {
+        "high-speed typing": {
+          "lv": 5, "yr": 5, "weight": 5,
+          "syn": ["fast typing","typing speed","WPM","words per minute","digitación","digitación rápida","typing skills","mecanografía","70+ WPM","80+ WPM","touch typing"]
+        },
+        "data accuracy": {
+          "lv": 5, "yr": 7, "weight": 6,
+          "syn": ["accuracy","precisión","data quality","data integrity","integridad de datos","quality control","QC","99% accuracy","95% accuracy","data validation"]
+        },
+        "sla compliance": {
+          "lv": 5, "yr": 3, "weight": 5,
+          "syn": ["SLA","SLAs","service level agreement","service level","cumplimiento SLA","performance targets","KPI targets"]
+        },
+        "queue management": {
+          "lv": 5, "yr": 3, "weight": 4,
+          "syn": ["multi-queue","multiple queues","task queue","workflow management","workload management","colas de trabajo","high volume","alto volumen"]
+        },
+        "content moderation": {
+          "lv": 4, "yr": 1, "weight": 3,
+          "syn": ["moderación de contenido","trust & safety","content review","content analysis"]
+        },
+        "quality assurance": {
+          "lv": 4, "yr": 2, "weight": 4,
+          "syn": ["QA","quality control","control de calidad","aseguramiento de calidad"]
+        }
+      }
+    },
+    "remote_soft": {
+      "label": "Remote & Soft Skills",
+      "icon": "🌍",
+      "color": "var(--or)",
+      "skills": {
+        "remote work": {
+          "lv": 5, "yr": 3, "weight": 5,
+          "syn": ["work from home","WFH","trabajo remoto","teletrabajo","home office","distributed team","virtual team","remote-first","fully remote","100% remote","100% remoto"]
+        },
+        "async communication": {
+          "lv": 5, "yr": 3, "weight": 4,
+          "syn": ["asynchronous","comunicación asíncrona","Slack","Microsoft Teams","Teams","Zoom","Google Meet","video calls","virtual meetings"]
+        },
+        "attention to detail": {
+          "lv": 5, "yr": 8, "weight": 5,
+          "syn": ["detail-oriented","detail oriented","orientado al detalle","meticuloso","meticulous","eagle eye","keen eye"]
+        },
+        "problem solving": {
+          "lv": 5, "yr": 8, "weight": 4,
+          "syn": ["resolución de problemas","troubleshooting","critical thinking","pensamiento crítico","analytical thinking","pensamiento analítico"]
+        },
+        "communication": {
+          "lv": 4, "yr": 8, "weight": 4,
+          "syn": ["comunicación","written communication","verbal communication","comunicación escrita","interpersonal"]
+        },
+        "teamwork": {
+          "lv": 4, "yr": 8, "weight": 3,
+          "syn": ["collaboration","trabajo en equipo","collaborative","team player","cross-functional"]
+        },
+        "time management": {
+          "lv": 4, "yr": 8, "weight": 4,
+          "syn": ["gestión del tiempo","self-management","autogestión","prioritization","deadline management","meet deadlines"]
+        },
+        "process improvement": {
+          "lv": 4, "yr": 5, "weight": 5,
+          "syn": ["mejora de procesos","continuous improvement","mejora continua","process optimization","optimización de procesos","lean","six sigma"]
+        },
+        "multitasking": {
+          "lv": 5, "yr": 3, "weight": 4,
+          "syn": ["multi-tasking","multiple tasks","múltiples tareas","juggling priorities"]
+        },
+        "self-motivated": {
+          "lv": 5, "yr": 8, "weight": 4,
+          "syn": ["self-starter","proactive","proactivo","autonomous","autónomo","self-directed","independent"]
+        },
+        "adaptability": {
+          "lv": 5, "yr": 8, "weight": 3,
+          "syn": ["flexible","flexibilidad","fast learner","rápido aprendizaje","quick learner","versatile"]
+        },
+        "trilingual": {
+          "lv": 5, "yr": 10, "weight": 7,
+          "syn": ["bilingual","bilingüe","trilingüe","multilingual","spanish and english","english and spanish","spanish english","portuguese","español inglés","inglés español"]
+        }
+      }
+    }
+  },
+  "gaps": [
+    "tableau","dbt","snowflake","bigquery","r programming","spark","airflow",
+    "aws","azure","gcp","machine learning","looker","docker","scala",
+    "mongodb","redshift","databricks","sas","spss","react","java",
+    "hadoop","kafka","tensorflow","sap","oracle","netsuite","salesforce",
+    "quickbooks","workday","jira","figma","node","angular","vue",
+    "ruby","c++","c#","swift","kotlin","go lang","rust","terraform",
+    "kubernetes","jenkins","ci/cd","product management","ux design",
+    "adobe creative","confluence","hyperion","peoplesoft","sage","xero",
+    "freshbooks","zoho","tally","ADP","ceridian","bamboohr"
+  ]
+}
