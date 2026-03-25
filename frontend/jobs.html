@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DA-2026 · Job Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
 .nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
 .nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
 .nv-r{display:flex;gap:8px}.badge{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
 .badge-a{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.badge-g{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
 .wr{max-width:1100px;margin:0 auto;padding:24px 24px 60px}
 .hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3)}
 .stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:20px}
@@ -26,8 +27,11 @@
 @keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
 .card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.card-t{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:12px;margin-bottom:10px}
 .tip b{color:var(--am);font-size:11px;display:block;margin-bottom:2px}.tip p{font-size:11px;color:var(--t2)}.tip strong{color:var(--tx)}
+.tip-v{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(168,139,250,.02));border:1px solid rgba(139,92,246,.12)}.tip-v b{color:var(--a2)}
+.tip-g{background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(16,185,129,.02));border:1px solid rgba(34,197,94,.12)}.tip-g b{color:var(--gn)}
 .jl{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--el);border:1px solid var(--bd);border-radius:10px;margin-bottom:5px;text-decoration:none;color:var(--tx);transition:all .2s;font-size:12px}
 .jl:hover{border-color:var(--ac);transform:translateX(3px)}
 .jl-i{font-size:18px;flex-shrink:0}.jl-b{flex:1}.jl-n{font-size:12px;font-weight:600}.jl-d{font-size:10px;color:var(--t2)}
@@ -37,63 +41,44 @@
 .to{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
 .tc{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
 .ty{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.tr{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
 .btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
 .bp{background:var(--ac);color:#fff}.bp:hover{background:var(--a2)}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{border-color:var(--ac);color:var(--a2)}.bg{background:var(--gn);color:#fff}
 .bs{padding:5px 9px;font-size:10px}
-.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
-.txa{width:100%;min-height:100px;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical}.txa:focus{outline:none;border-color:var(--ac)}
+.cmp{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:10px}
+.cmp-n{font-size:16px;font-weight:700;margin-bottom:2px}
+.cmp-r{font-size:11px;color:var(--a2);margin-bottom:8px}
+.cmp-i{font-size:11px;color:var(--t2);line-height:1.7}
+.mbar{height:6px;background:var(--el);border-radius:3px;margin-top:8px;overflow:hidden}.mfill{height:100%;border-radius:3px}
 .sk{font-size:10px;font-weight:600;padding:3px 7px;border-radius:6px;display:inline-block;margin:1px}
 .sk-g{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
-.sk-r{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
+.sk-v{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
 .sk-y{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
-/* KANBAN */
+.sk-c{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.str-card{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:14px}
+.str-card h4{font-size:12px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.str-card p,.str-card li{font-size:11px;color:var(--t2);line-height:1.7}
+.str-card ul{list-style:none;padding:0}.str-card ul li{padding:2px 0}
+.str-card ul li::before{content:'▸ ';color:var(--a2)}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-@media(max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.kanban{grid-template-columns:1fr}}
+@media(max-width:900px){.kanban{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
+@media(max-width:600px){.kanban{grid-template-columns:1fr}}
 .kcol{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:10px;min-height:120px}
 .kh{font-size:11px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between}
 .ka{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:8px;margin-bottom:4px;position:relative;font-size:11px}
 .ka:hover{border-color:var(--bd2)}.ka-t{font-weight:600}.ka-c{color:var(--a2);font-size:10px}.ka-d{color:var(--t3);font-size:9px;margin-top:2px}
 .ka-del{position:absolute;top:4px;right:6px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0}.ka:hover .ka-del{opacity:1}
 .ka-btn{font-size:8px;padding:2px 5px;border-radius:3px;border:1px solid var(--bd);background:var(--c1);color:var(--t2);cursor:pointer;font-family:inherit;margin-top:3px}.ka-btn:hover{border-color:var(--ac);color:var(--a2)}
-/* COMPANY */
-.cmp{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:10px}
-.cmp-n{font-size:16px;font-weight:700;margin-bottom:2px}
-.cmp-r{font-size:11px;color:var(--a2);margin-bottom:8px}
-.cmp-i{font-size:11px;color:var(--t2);line-height:1.7}
-.mbar{height:6px;background:var(--el);border-radius:3px;margin-top:8px;overflow:hidden}.mfill{height:100%;border-radius:3px}
-/* CV */
-.cv-frame{background:#fff;color:#1a1a1a;border-radius:10px;overflow:hidden;margin-bottom:16px}
-.cv-hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;padding:24px 28px}
-.cv-hdr-top{display:flex;justify-content:space-between;align-items:center}
-.cv-name{font-family:'Newsreader',serif;font-size:24px;font-weight:600}
-.cv-role{font-size:12px;color:#c7d2fe;margin-top:2px}
-.cv-contact{text-align:right;font-size:10px;color:#c7d2fe;line-height:1.8}
-.cv-contact a{color:#c7d2fe;text-decoration:none}
-.cv-body{padding:22px 28px}
-.cv-cols{display:flex;gap:24px}
-.cv-main{flex:1;min-width:0}
-.cv-side{width:230px;flex-shrink:0;border-left:1px solid #e5e7eb;padding-left:20px}
-.cv-h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#312e81;border-bottom:2px solid #e0e7ff;padding-bottom:3px;margin:14px 0 8px}
-.cv-h3:first-child{margin-top:0}
-.cv-p{font-size:11px;line-height:1.6;color:#374151;margin-bottom:6px}
-.cv-xt{font-size:12px;font-weight:600;color:#1a1a1a}
-.cv-xc{font-size:11px;color:#6366f1;font-weight:500}
-.cv-xd{font-size:10px;color:#6b7280}
-.cv-ul{list-style:none;margin:4px 0 10px;padding:0}
-.cv-ul li{font-size:10px;color:#374151;padding:1px 0 1px 10px;position:relative;line-height:1.5}
-.cv-ul li::before{content:'▸';position:absolute;left:0;color:#6366f1}
-.cv-h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#312e81;margin:12px 0 6px}
-.cv-h4:first-child{margin-top:0}
-.cv-skl{list-style:none;padding:0}.cv-skl li{font-size:10px;color:#374151;padding:1px 0;display:flex;align-items:center;gap:5px}
-.cv-dot{width:5px;height:5px;border-radius:50%;background:#6366f1;flex-shrink:0}
-.cv-bar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:1px}.cv-fill{height:100%;border-radius:2px;background:#6366f1}
-@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.cv-cols{flex-direction:column}.cv-side{width:100%;border-left:none;border-top:1px solid #e5e7eb;padding-left:0;padding-top:12px}}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.grid-2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Job Tracker</span></div><div class="nv-r"><div class="badge badge-a"><span id="tA">0</span> apps</div></div></nav>
 <div class="wr">
-<div class="hero"><h1>Tu sistema para <em>conseguir</em> trabajo.</h1><p>CV bilingüe, 3 categorías de empleo, 12 empresas rotativas, analizador inteligente de ofertas y tracker.</p></div>
+<div class="hero"><h1>Tu sistema para <em>conseguir</em> trabajo.</h1><p>5 categorías de empleo remoto LATAM, empresas rotativas, tracker kanban y estrategia competitiva.</p></div>
 <div class="stats"><div class="stat"><div class="sv" id="sD">1</div><div class="sl2">Días</div></div><div class="stat"><div class="sv" id="sA">0</div><div class="sl2">Aplicado</div></div><div class="stat"><div class="sv" id="sI">0</div><div class="sl2">Entrevista</div></div><div class="stat"><div class="sv" id="sO">0</div><div class="sl2">Oferta</div></div></div>
 
 <div class="tabs">
@@ -101,194 +86,224 @@
 <button class="tab" data-p="data">📊 Ruta Data</button>
 <button class="tab" data-p="quick">💸 Ingresos</button>
 <button class="tab" data-p="co">🏢 Empresas</button>
-<button class="tab" data-p="az">🔍 Analizar</button>
-<button class="tab" data-p="cv">📄 CV</button>
 <button class="tab" data-p="tr">📋 Tracker</button>
-<button class="tab" data-p="tpl">✉️ Templates</button>
+<button class="tab" data-p="str">🧠 Estrategia</button>
 </div>
 
 <!-- ═══ EXPERIENCIA ═══ -->
 <div class="pnl on" id="p-exp">
-<div class="lb">· empleos basados en tu experiencia ·</div>
-<div class="tip"><b>🏦 Match directo — aplica con confianza</b><p><strong>CxP 7 años Brinks, contabilidad, SQL avanzado.</strong></p></div>
-<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar+analista&location=Colombia&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏦</div><div class="jl-b"><div class="jl-n">Analista CxP — LinkedIn Colombia</div><div class="jl-d">7 años experiencia directa en Brinks.</div></div><span class="jl-t tg">95%</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+financiero+SQL&location=Colombia&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">💰</div><div class="jl-b"><div class="jl-n">Analista Financiero + SQL Remoto</div><div class="jl-d">Finanzas + SQL. Tu combinación en LATAM.</div></div><span class="jl-t tg">90%</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Contas a Pagar Remoto (Brasil)</div><div class="jl-d">CxP + portugués avanzado = poca competencia.</div></div><span class="jl-t tg">Ventaja</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+bilingue+portugues+espanol&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🌎</div><div class="jl-b"><div class="jl-n">Analista Bilingüe (ES/PT) LATAM</div><div class="jl-d">Roles que valoran tus 2 idiomas fuertes.</div></div><span class="jl-t ty">Bilingüe</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=content+moderator+portuguese&location=Colombia&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🛡️</div><div class="jl-b"><div class="jl-n">Moderador de Contenido PT</div><div class="jl-d">Tu rol actual. Busca mejor pago.</div></div><span class="jl-t tc">Actual</span></a>
-<a href="https://co.indeed.com/jobs?q=cuentas+por+pagar&l=Bogot%C3%A1&fromage=7" target="_blank" rel="noopener" class="jl"><div class="jl-i">🔍</div><div class="jl-b"><div class="jl-n">Indeed CO — CxP Bogotá (7 días)</div><div class="jl-d">Ofertas recientes en tu ciudad.</div></div><span class="jl-t to">Reciente</span></a>
-<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar" target="_blank" rel="noopener" class="jl"><div class="jl-i">💻</div><div class="jl-b"><div class="jl-n">Computrabajo — CxP Colombia</div><div class="jl-d">Tu experiencia directa.</div></div><span class="jl-t tg">CxP</span></a>
-<a href="https://www.computrabajo.com.co/trabajo-de-analista-financiero" target="_blank" rel="noopener" class="jl"><div class="jl-i">💻</div><div class="jl-b"><div class="jl-n">Computrabajo — Analista Financiero</div><div class="jl-d">Finanzas + técnico en Bogotá.</div></div><span class="jl-t tc">Finanzas</span></a>
+<div class="lb">· empleos remotos basados en tu experiencia contable ·</div>
+<div class="tip"><b>🏦 Match directo — CxP, contabilidad, finanzas 100% remoto LATAM</b><p><strong>7 años Brinks + trilingüe + SQL.</strong> Filtra por roles que puedas ganar realistamente.</p></div>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=accounts+payable+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏦</div><div class="jl-b"><div class="jl-n">AP Analyst Remoto — LATAM (LinkedIn)</div><div class="jl-d">Tu core: 7 años CxP. Filtra remoto LATAM.</div></div><span class="jl-t tg">95%</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar+remoto&location=Colombia&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇨🇴</div><div class="jl-b"><div class="jl-n">CxP Remoto — Colombia (LinkedIn)</div><div class="jl-d">Mercado local, tu zona horaria. Ventaja idioma.</div></div><span class="jl-t tg">93%</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista+financiero+SQL+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">💰</div><div class="jl-b"><div class="jl-n">Analista Financiero + SQL Remoto LATAM</div><div class="jl-d">Finanzas + SQL = tu combinación ganadora.</div></div><span class="jl-t tg">90%</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Contas a Pagar Remoto — Brasil</div><div class="jl-d">CxP + portugués avanzado = poca competencia.</div></div><span class="jl-t tg">Ventaja</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=bookkeeper+remote+spanish&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📒</div><div class="jl-b"><div class="jl-n">Bookkeeper Remoto (Bilingüe ES/EN)</div><div class="jl-d">Empresas US buscando contadores LATAM. $1,500-$3,000 USD.</div></div><span class="jl-t ty">USD</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=accounting+analyst+remote+latam&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Accounting Analyst Remoto LATAM</div><div class="jl-d">Contabilidad general + análisis. Tu técnico en contabilidad aplica.</div></div><span class="jl-t ta">Contable</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=shared+services+finance+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏢</div><div class="jl-b"><div class="jl-n">Shared Services Finance — LATAM Remoto</div><div class="jl-d">Tu modelo en Brinks. Multinacionales con SS en LATAM.</div></div><span class="jl-t tc">SS</span></a>
+
+<a href="https://co.indeed.com/jobs?q=cuentas+por+pagar+remoto&fromage=7" target="_blank" rel="noopener" class="jl"><div class="jl-i">🔍</div><div class="jl-b"><div class="jl-n">Indeed CO — CxP Remoto (últimos 7 días)</div><div class="jl-d">Ofertas recientes. Indeed tiene buen filtro remoto.</div></div><span class="jl-t to">Reciente</span></a>
+
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=remoto" target="_blank" rel="noopener" class="jl"><div class="jl-i">💻</div><div class="jl-b"><div class="jl-n">Computrabajo — CxP Remoto Colombia</div><div class="jl-d">Portal popular CO. Muchas vacantes no llegan a LinkedIn.</div></div><span class="jl-t tg">CxP</span></a>
+
+<a href="https://torre.ai/jobs?q=accounts+payable&remote=true" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗼</div><div class="jl-b"><div class="jl-n">Torre.ai — AP Remoto</div><div class="jl-d">Plataforma LATAM-first. Skills matching automático.</div></div><span class="jl-t ta">Torre</span></a>
 </div>
 
 <!-- ═══ RUTA DATA ═══ -->
 <div class="pnl" id="p-data">
-<div class="lb">· camino a data analyst ·</div>
-<div class="tip"><b>📊 Tu objetivo — SQL, Python, Power BI, Tableau</b><p>Tu SQL avanzado + exp financiera te posiciona bien. Filtra LATAM/España (sin inglés nativo).</p></div>
-<a href="https://www.linkedin.com/jobs/search/?keywords=data+analyst+SQL&location=Colombia&f_E=2%2C3&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Data Analyst SQL (Colombia)</div><div class="jl-d">Nivel Entry-Mid.</div></div><span class="jl-t ta">Objetivo</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=junior+data+analyst&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🌱</div><div class="jl-b"><div class="jl-n">Junior Data Analyst Remoto (LATAM)</div><div class="jl-d">Junior en data ≠ sin experiencia general.</div></div><span class="jl-t tg">Ganable</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+power+bi&location=Colombia&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">⚡</div><div class="jl-b"><div class="jl-n">Analista Power BI (Colombia)</div><div class="jl-d">Power BI + finanzas = tú.</div></div><span class="jl-t to">Power BI</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+bi&location=Colombia&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📈</div><div class="jl-b"><div class="jl-n">Analista BI (Bogotá)</div><div class="jl-d">Business Intelligence. SQL + Viz.</div></div><span class="jl-t ta">BI</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+de+dados+sql&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Analista de Dados SQL Remoto (PT)</div><div class="jl-d">Empresas brasileñas. Menos competencia.</div></div><span class="jl-t tg">Portugués</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=analista+financeiro+power+bi&location=Brazil&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Analista Financeiro + Power BI (PT)</div><div class="jl-d">Tu intersección perfecta en portugués.</div></div><span class="jl-t ty">Finance PT</span></a>
-<a href="https://www.getonbrd.com/empleos/data?remote=true" target="_blank" rel="noopener" class="jl"><div class="jl-i">🚀</div><div class="jl-b"><div class="jl-n">Get on Board — Data LATAM</div><div class="jl-d">Plataforma tech #1 LATAM. Sin inglés forzoso.</div></div><span class="jl-t ta">LATAM</span></a>
+<div class="lb">· camino a data analyst · 100% remoto ·</div>
+<div class="tip"><b>📊 Tu puente: finanzas → data. SQL avanzado + Power BI + finanzas = ventaja</b><p>Filtra LATAM/ES/PT. Prioriza "financial data analyst" — tu intersección perfecta.</p></div>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=financial+data+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Financial Data Analyst Remoto LATAM</div><div class="jl-d">Tu intersección perfecta: finanzas + data.</div></div><span class="jl-t tg">Ideal</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=data+analyst+SQL+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗃️</div><div class="jl-b"><div class="jl-n">Data Analyst SQL Remoto LATAM</div><div class="jl-d">Tu SQL avanzado es el skill #1 pedido.</div></div><span class="jl-t ta">SQL</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=junior+data+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🌱</div><div class="jl-b"><div class="jl-n">Junior Data Analyst Remoto LATAM</div><div class="jl-d">Junior en data ≠ sin experiencia general. Ganable.</div></div><span class="jl-t tg">Ganable</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista+power+bi+remoto&location=Colombia&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">⚡</div><div class="jl-b"><div class="jl-n">Analista Power BI Remoto Colombia</div><div class="jl-d">Power BI + finanzas = tú.</div></div><span class="jl-t to">Power BI</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista+de+dados+sql+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">🇧🇷</div><div class="jl-b"><div class="jl-n">Analista de Dados SQL Remoto (Brasil)</div><div class="jl-d">Mercado brasileño. Tu PT = menos competencia.</div></div><span class="jl-t tg">Portugués</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista+bi+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📈</div><div class="jl-b"><div class="jl-n">Analista BI Remoto LATAM</div><div class="jl-d">Business Intelligence. SQL + Viz + tu exp financiera.</div></div><span class="jl-t ta">BI</span></a>
+
+<a href="https://www.getonbrd.com/empleos/data?remote=true" target="_blank" rel="noopener" class="jl"><div class="jl-i">🚀</div><div class="jl-b"><div class="jl-n">Get on Board — Data Remoto LATAM</div><div class="jl-d">Plataforma tech #1 LATAM. Sin inglés forzoso.</div></div><span class="jl-t ta">LATAM</span></a>
+
+<a href="https://remoteok.com/remote-analyst-jobs" target="_blank" rel="noopener" class="jl"><div class="jl-i">🌍</div><div class="jl-b"><div class="jl-n">RemoteOK — Analyst Jobs</div><div class="jl-d">Global remote. Muchos pagan en USD.</div></div><span class="jl-t ty">USD</span></a>
 </div>
 
 <!-- ═══ INGRESOS RÁPIDO ═══ -->
 <div class="pnl" id="p-quick">
-<div class="lb">· generar ingresos rápido ·</div>
-<div class="tip"><b>💸 Empieza esta semana</b><p><strong>Freelance, data entry, virtual assistant, soporte.</strong> Tu Excel + SQL + idiomas valen dinero en Upwork/Fiverr.</p></div>
-<a href="https://www.upwork.com/nx/search/jobs/?q=data+entry&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">💼</div><div class="jl-b"><div class="jl-n">Upwork — Data Entry</div><div class="jl-d">Proyectos inmediatos. Pago por proyecto.</div></div><span class="jl-t tg">Freelance</span></a>
-<a href="https://www.upwork.com/nx/search/jobs/?q=excel+spreadsheet&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Upwork — Excel / Spreadsheets</div><div class="jl-d">Tu Excel avanzado vale $20-50/hr aquí.</div></div><span class="jl-t tg">Excel</span></a>
-<a href="https://www.upwork.com/nx/search/jobs/?q=SQL+query+database&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗃️</div><div class="jl-b"><div class="jl-n">Upwork — SQL / Database</div><div class="jl-d">Queries, reportes, optimización.</div></div><span class="jl-t ta">SQL</span></a>
-<a href="https://www.upwork.com/nx/search/jobs/?q=virtual+assistant+bilingual+spanish&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">🤖</div><div class="jl-b"><div class="jl-n">Upwork — Virtual Assistant Bilingüe</div><div class="jl-d">Tus idiomas son ventaja masiva.</div></div><span class="jl-t ty">Trilingüe</span></a>
-<a href="https://www.upwork.com/nx/search/jobs/?q=power+bi+dashboard&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">⚡</div><div class="jl-b"><div class="jl-n">Upwork — Power BI Dashboards</div><div class="jl-d">Crea dashboards por encargo. $30-80/hr.</div></div><span class="jl-t to">Power BI</span></a>
-<a href="https://www.fiverr.com/search/gigs?query=data+entry&source=top-bar&ref_ctx_id=data_entry" target="_blank" rel="noopener" class="jl"><div class="jl-i">🎯</div><div class="jl-b"><div class="jl-n">Fiverr — Data Entry & Analysis</div><div class="jl-d">Crea gigs de análisis de datos.</div></div><span class="jl-t to">Gigs</span></a>
-<a href="https://www.fiverr.com/search/gigs?query=excel+dashboard&source=top-bar" target="_blank" rel="noopener" class="jl"><div class="jl-i">📈</div><div class="jl-b"><div class="jl-n">Fiverr — Excel Dashboards</div><div class="jl-d">Dashboards Excel/Power BI por encargo.</div></div><span class="jl-t tg">Dashboards</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=customer+support+remote+spanish&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📞</div><div class="jl-b"><div class="jl-n">Customer Support Spanish Remote</div><div class="jl-d">Inicio rápido. $800-1500/mes.</div></div><span class="jl-t tg">Inmediato</span></a>
-<a href="https://www.linkedin.com/jobs/search/?keywords=data+entry+remote&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">⌨️</div><div class="jl-b"><div class="jl-n">Data Entry Remote — LinkedIn</div><div class="jl-d">Entrada de datos remoto.</div></div><span class="jl-t tc">Entry</span></a>
+<div class="lb">· generar ingresos rápido · freelance remoto ·</div>
+<div class="tip"><b>💸 Empieza esta semana — Excel, SQL, data entry, VA, contabilidad freelance</b><p><strong>Tu Excel + SQL + idiomas valen $20-80/hr en Upwork/Fiverr.</strong> Crea gigs y empieza a cotizar.</p></div>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=bookkeeping+spanish&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">📒</div><div class="jl-b"><div class="jl-n">Upwork — Bookkeeping / Contabilidad</div><div class="jl-d">Tu técnico en contabilidad. $15-40/hr. Clientes US/LATAM.</div></div><span class="jl-t tg">Contable</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=accounts+payable&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">🏦</div><div class="jl-b"><div class="jl-n">Upwork — Accounts Payable Projects</div><div class="jl-d">Proyectos AP freelance. Tu experiencia directa.</div></div><span class="jl-t tg">AP</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=excel+spreadsheet+financial&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">📊</div><div class="jl-b"><div class="jl-n">Upwork — Excel / Financial Spreadsheets</div><div class="jl-d">Tu Excel avanzado vale $20-50/hr aquí.</div></div><span class="jl-t tg">Excel</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=SQL+query+database+report&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">🗃️</div><div class="jl-b"><div class="jl-n">Upwork — SQL / Database Reports</div><div class="jl-d">Queries, reportes, optimización. $30-60/hr.</div></div><span class="jl-t ta">SQL</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=power+bi+dashboard&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">⚡</div><div class="jl-b"><div class="jl-n">Upwork — Power BI Dashboards</div><div class="jl-d">Dashboards por encargo. $30-80/hr.</div></div><span class="jl-t to">Power BI</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=virtual+assistant+bilingual+spanish&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">🤖</div><div class="jl-b"><div class="jl-n">Upwork — Virtual Assistant Bilingüe</div><div class="jl-d">Tus 3 idiomas son ventaja masiva. $10-25/hr.</div></div><span class="jl-t ty">Trilingüe</span></a>
+
+<a href="https://www.upwork.com/nx/search/jobs/?q=data+entry&sort=recency" target="_blank" rel="noopener" class="jl"><div class="jl-i">⌨️</div><div class="jl-b"><div class="jl-n">Upwork — Data Entry</div><div class="jl-d">Entrada rápida. Proyectos inmediatos. Pago por proyecto.</div></div><span class="jl-t tc">Entry</span></a>
+
+<a href="https://www.fiverr.com/search/gigs?query=financial+analysis+excel&source=top-bar" target="_blank" rel="noopener" class="jl"><div class="jl-i">🎯</div><div class="jl-b"><div class="jl-n">Fiverr — Financial Analysis & Excel</div><div class="jl-d">Crea gigs de análisis financiero y Excel.</div></div><span class="jl-t to">Gigs</span></a>
+
+<a href="https://www.linkedin.com/jobs/search/?keywords=customer+support+remote+spanish&f_WT=2&sortBy=DD" target="_blank" rel="noopener" class="jl"><div class="jl-i">📞</div><div class="jl-b"><div class="jl-n">Customer Support Spanish Remote</div><div class="jl-d">Inicio rápido si necesitas ingresos ya. $800-1500/mes.</div></div><span class="jl-t tg">Inmediato</span></a>
 </div>
 
 <!-- ═══ EMPRESAS ═══ -->
 <div class="pnl" id="p-co">
 <div class="lb">· empresas recomendadas — rotación diaria ·</div>
-<div class="tip"><b>🏢 3 empresas diferentes cada día</b><p>Pool de <strong>12 empresas verificadas</strong> en Colombia/LATAM. Se rotan diariamente.</p></div>
+<div class="tip"><b>🏢 3 empresas diferentes cada día</b><p>Pool de <strong>12 empresas verificadas</strong> en Colombia/LATAM que contratan roles contables, financieros y de datos remotos. Se rotan diariamente.</p></div>
 <div id="cmpList"></div>
-</div>
-
-<!-- ═══ ANALIZAR ═══ -->
-<div class="pnl" id="p-az">
-<div class="lb">· analizador inteligente de ofertas ·</div>
-<div class="tip"><b>🔍 Pega la descripción COMPLETA de cualquier empleo</b><p>El sistema analiza: <strong>compatibilidad por skill, nivel, modalidad, salario estimado, plan de aplicación paso a paso, preguntas de entrevista probables y preparación específica.</strong></p></div>
-<div class="card">
-<textarea class="txa" id="jTxt" style="min-height:140px" placeholder="Copia y pega aquí la descripción COMPLETA del empleo que quieres analizar. Entre más texto pegues, mejor será el análisis..."></textarea>
-<button class="btn bp" style="margin-top:8px" onclick="analyze()">🔍 Analizar Oferta</button>
-<div id="azResult"></div>
-</div>
-</div>
-
-<!-- ═══ CV ═══ -->
-<div class="pnl" id="p-cv">
-<div class="lb">· cv profesional bilingüe ·</div>
-<div style="display:flex;gap:6px;margin-bottom:12px">
-<button class="btn bp" onclick="printCV('en')">📥 Download English CV (PDF)</button>
-<button class="btn bg" onclick="printCV('es')">📥 Descargar CV Español (PDF)</button>
-</div>
-<div class="tip"><b>💡 Cómo descargar</b><p>Click → se abre ventana de impresión → selecciona <strong>"Guardar como PDF"</strong>. El CV está diseñado para 1 página A4.</p></div>
-
-<div class="lb">· english version ·</div>
-<div class="cv-frame" id="cv-en">
-<div class="cv-hdr"><div class="cv-hdr-top"><div><div class="cv-name">Miguel Ángel Barros</div><div class="cv-role">Data Analyst | Financial Analysis | SQL · Python · Power BI</div></div><div class="cv-contact">📱 +57 314 437 3585<br>📧 <a href="mailto:miguelbarros2416@gmail.com">miguelbarros2416@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/miguel-ángel-barros-torres-6b2460159" target="_blank">LinkedIn Profile</a><br>📍 Bogotá, Colombia · Open to Remote</div></div></div>
-<div class="cv-body"><div class="cv-cols"><div class="cv-main">
-<div class="cv-h3">Professional Summary</div>
-<div class="cv-p">Data Analyst with 8+ years in the financial sector. Expert in SQL, Python, and Power BI. Optimized payment processes by 15% and resolved 60% of historical discrepancies at Brinks International (Brazil/Caribbean). Currently pursuing Systems Engineering (8th semester). Trilingual: Spanish, Portuguese, English.</div>
-<div class="cv-h3">Professional Experience</div>
-<div class="cv-xt">Content Moderator — Spanish & Portuguese</div><div class="cv-xc">Teleperformance</div><div class="cv-xd">August 2025 – Present · Bogotá, Colombia</div>
-<ul class="cv-ul"><li>Moderate and analyze content across platforms in Spanish and Portuguese, maintaining 95%+ accuracy</li><li>Leverage bilingual skills (ES/PT) to handle cross-regional content queues, improving team throughput</li><li>Collaborate with QA teams using data-driven metrics for quality assurance</li></ul>
-<div class="cv-xt">Accounts Payable Analyst</div><div class="cv-xc">Brinks Incorporated</div><div class="cv-xd">June 2018 – January 2025 · Bogotá, Colombia</div>
-<ul class="cv-ul"><li>Implemented complex SQL queries analyzing large transactional datasets, optimizing payment processes by 15%</li><li>Designed and automated financial reports by querying databases directly, ensuring data integrity and accuracy</li><li>Managed the full AP cycle for Brazil and Caribbean operations, resolving 60% of historical discrepancies</li><li>Built data models in OLTP/OLAP environments to support financial decision-making</li></ul>
-<div class="cv-xt">Control Desk Assistant</div><div class="cv-xc">Express Microfinanzas</div><div class="cv-xd">September 2016 – May 2018</div>
-<ul class="cv-ul"><li>Developed data-driven credit risk analyses impacting loan portfolio quality</li><li>Collaborated on internal tool prototype that reduced response times by 30%</li></ul>
-<div class="cv-h3">Education</div>
-<div class="cv-xt">Systems Engineering (In Progress — 8th Semester)</div><div class="cv-xd">Expected 2026</div>
-<div class="cv-xt" style="margin-top:4px">Software Analysis & Development Technologist — SENA</div>
-<div class="cv-xt" style="margin-top:4px">Accounting Technician — Campo Alto</div>
-</div><div class="cv-side">
-<div class="cv-h4">Technical Skills</div>
-<ul class="cv-skl"><li><span class="cv-dot"></span>SQL (Advanced)</li><li><span class="cv-dot"></span>Python / Pandas / Matplotlib</li><li><span class="cv-dot"></span>Power BI & Power Query</li><li><span class="cv-dot"></span>Excel (Advanced)</li><li><span class="cv-dot"></span>MySQL / PostgreSQL</li><li><span class="cv-dot"></span>ClickHouse (OLAP)</li><li><span class="cv-dot"></span>Data Modeling</li><li><span class="cv-dot"></span>Task Automation</li><li><span class="cv-dot"></span>Software Prototyping</li></ul>
-<div class="cv-h4">Languages</div>
-<div style="font-size:10px;color:#374151">Spanish — Native</div><div class="cv-bar"><div class="cv-fill" style="width:100%"></div></div>
-<div style="font-size:10px;color:#374151;margin-top:4px">Portuguese — Advanced</div><div class="cv-bar"><div class="cv-fill" style="width:85%"></div></div>
-<div style="font-size:10px;color:#374151;margin-top:4px">English — Intermediate</div><div class="cv-bar"><div class="cv-fill" style="width:55%"></div></div>
-<div class="cv-h4">Key Achievements</div>
-<ul class="cv-skl"><li><span class="cv-dot" style="background:#22c55e"></span>15% payment process optimization</li><li><span class="cv-dot" style="background:#22c55e"></span>60% historical discrepancies resolved</li><li><span class="cv-dot" style="background:#22c55e"></span>30% reduction in response times</li></ul>
-<div class="cv-h4">Certifications</div>
-<ul class="cv-skl"><li><span class="cv-dot"></span>SQL for Data Science — UC Davis</li><li><span class="cv-dot"></span>Data Analysis with Python — Udemy</li></ul>
-</div></div></div></div>
-
-<div class="lb">· versión español ·</div>
-<div class="cv-frame" id="cv-es">
-<div class="cv-hdr"><div class="cv-hdr-top"><div><div class="cv-name">Miguel Ángel Barros</div><div class="cv-role">Analista de Datos | Análisis Financiero | SQL · Python · Power BI</div></div><div class="cv-contact">📱 +57 314 437 3585<br>📧 <a href="mailto:miguelbarros2416@gmail.com">miguelbarros2416@gmail.com</a><br>🔗 <a href="https://linkedin.com/in/miguel-ángel-barros-torres-6b2460159" target="_blank">Perfil LinkedIn</a><br>📍 Bogotá, Colombia · Disponible Remoto</div></div></div>
-<div class="cv-body"><div class="cv-cols"><div class="cv-main">
-<div class="cv-h3">Perfil Profesional</div>
-<div class="cv-p">Analista de Datos con más de 8 años de experiencia en el sector financiero. Experto en SQL, Python y Power BI. Optimicé procesos de pago en un 15% y resolví el 60% de discrepancias históricas en Brinks International (Brasil/Caribe). Cursando Ingeniería de Sistemas (8° semestre). Trilingüe: Español, Portugués, Inglés.</div>
-<div class="cv-h3">Experiencia Profesional</div>
-<div class="cv-xt">Moderador de Contenido — Español y Portugués</div><div class="cv-xc">Teleperformance</div><div class="cv-xd">Agosto 2025 – Presente · Bogotá, Colombia</div>
-<ul class="cv-ul"><li>Moderación y análisis de contenido en plataformas digitales en español y portugués, precisión superior al 95%</li><li>Uso de habilidades bilingües (ES/PT) para gestionar colas multiregionales</li><li>Colaboración con equipos de calidad usando métricas basadas en datos</li></ul>
-<div class="cv-xt">Analista de Cuentas por Pagar</div><div class="cv-xc">Brinks Incorporated</div><div class="cv-xd">Junio 2018 – Enero 2025 · Bogotá, Colombia</div>
-<ul class="cv-ul"><li>Implementación de consultas SQL complejas para analizar grandes volúmenes de datos, optimizando procesos de pago en un 15%</li><li>Diseño y automatización de reportes financieros consultando bases de datos directamente</li><li>Gestión del ciclo completo de CxP para Brasil/Caribe, resolviendo 60% de discrepancias históricas</li><li>Modelado de datos en entornos OLTP/OLAP para apoyar decisiones financieras</li></ul>
-<div class="cv-xt">Auxiliar Mesa de Control</div><div class="cv-xc">Express Microfinanzas</div><div class="cv-xd">Septiembre 2016 – Mayo 2018</div>
-<ul class="cv-ul"><li>Análisis de riesgo crediticio basado en datos impactando la calidad de la cartera</li><li>Colaboración en prototipo de herramienta interna que redujo tiempos de respuesta en 30%</li></ul>
-<div class="cv-h3">Educación</div>
-<div class="cv-xt">Ingeniería de Sistemas (En curso — 8° Semestre)</div><div class="cv-xd">Graduación esperada 2026</div>
-<div class="cv-xt" style="margin-top:4px">Tecnólogo en Análisis y Desarrollo de Software — SENA</div>
-<div class="cv-xt" style="margin-top:4px">Técnico en Contabilidad — Institución Educativa Campo Alto</div>
-</div><div class="cv-side">
-<div class="cv-h4">Habilidades Técnicas</div>
-<ul class="cv-skl"><li><span class="cv-dot"></span>SQL (Avanzado)</li><li><span class="cv-dot"></span>Python / Pandas / Matplotlib</li><li><span class="cv-dot"></span>Power BI & Power Query</li><li><span class="cv-dot"></span>Excel Avanzado</li><li><span class="cv-dot"></span>MySQL / PostgreSQL</li><li><span class="cv-dot"></span>ClickHouse (OLAP)</li><li><span class="cv-dot"></span>Modelado de Datos</li><li><span class="cv-dot"></span>Automatización</li><li><span class="cv-dot"></span>Prototipado de Software</li></ul>
-<div class="cv-h4">Idiomas</div>
-<div style="font-size:10px;color:#374151">Español — Nativo</div><div class="cv-bar"><div class="cv-fill" style="width:100%"></div></div>
-<div style="font-size:10px;color:#374151;margin-top:4px">Portugués — Avanzado</div><div class="cv-bar"><div class="cv-fill" style="width:85%"></div></div>
-<div style="font-size:10px;color:#374151;margin-top:4px">Inglés — Intermedio</div><div class="cv-bar"><div class="cv-fill" style="width:55%"></div></div>
-<div class="cv-h4">Logros Clave</div>
-<ul class="cv-skl"><li><span class="cv-dot" style="background:#22c55e"></span>15% optimización en procesos de pago</li><li><span class="cv-dot" style="background:#22c55e"></span>60% discrepancias históricas resueltas</li><li><span class="cv-dot" style="background:#22c55e"></span>30% reducción en tiempos de respuesta</li></ul>
-<div class="cv-h4">Certificaciones</div>
-<ul class="cv-skl"><li><span class="cv-dot"></span>SQL for Data Science — UC Davis</li><li><span class="cv-dot"></span>Análisis de Datos con Python — Udemy</li></ul>
-</div></div></div></div>
 </div>
 
 <!-- ═══ TRACKER ═══ -->
 <div class="pnl" id="p-tr">
-<div class="lb">· tracker ·</div>
+<div class="lb">· tracker de aplicaciones ·</div>
 <div class="card" style="margin-bottom:12px">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><input class="inp" id="aT" placeholder="Puesto..."><input class="inp" id="aC" placeholder="Empresa..."><input class="inp" id="aU" placeholder="URL (opc)..."><select class="inp" id="aS"><option value="saved">💾 Guardado</option><option value="applied" selected>📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="offer">🎉 Oferta</option></select></div>
-<button class="btn bg bs" style="margin-top:6px" onclick="addA()">+ Agregar</button>
+<div style="display:flex;gap:6px;margin-top:6px">
+<button class="btn bg bs" onclick="addA()">+ Agregar</button>
+<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar</button>
+</div>
 </div>
 <div class="kanban" id="kb"></div>
 </div>
 
-<!-- ═══ TEMPLATES ═══ -->
-<div class="pnl" id="p-tpl">
-<div class="lb">· templates ·</div>
-<div class="card"><div style="font-size:12px;font-weight:600;margin-bottom:6px">✉️ Cover Letter — English</div>
-<div style="background:var(--el);border-radius:8px;padding:12px;font-size:11px;color:var(--t2);line-height:1.7;white-space:pre-wrap" id="tEN">Dear Hiring Manager,
+<!-- ═══ ESTRATEGIA ═══ -->
+<div class="pnl" id="p-str">
+<div class="lb">· ventaja competitiva · estrategia de búsqueda ·</div>
 
-I am writing to express my interest in the [Job Title] position at [Company]. With 8+ years of experience in financial data analysis and strong skills in SQL, Python, and Power BI, I offer a unique combination of business acumen and technical expertise.
+<div class="tip-g tip"><b>🧠 TU POSICIONAMIENTO ÚNICO VS OTROS CANDIDATOS REMOTOS</b>
+<p>La mayoría de candidatos remotos LATAM tienen <strong>1 idioma + 1 skill</strong>. Tú tienes: <strong>3 idiomas + finanzas + SQL/BI + Ing. Sistemas</strong>. Eso te pone en el top 5% de candidatos para roles contables/financieros remotos.</p></div>
 
-At Brinks International, I implemented SQL queries that optimized payment processes by 15% and resolved 60% of historical discrepancies across Brazil and Caribbean operations.
+<div class="card"><div class="card-t">🎯 Mapa de Ventajas Competitivas</div>
+<div class="grid-3">
+<div class="str-card"><h4>🏆 Tier 1 — Ganable</h4>
+<ul>
+<li>AP/CxP Analyst remoto LATAM</li>
+<li>Bookkeeper bilingüe para empresas US</li>
+<li>Financial Analyst + SQL</li>
+<li>Shared Services Finance</li>
+<li>Data Entry + Excel (freelance)</li>
+</ul>
+<p style="margin-top:6px;color:var(--gn);font-weight:600">Tu match: 85-95%</p></div>
+<div class="str-card"><h4>🎯 Tier 2 — Alcanzable</h4>
+<ul>
+<li>Financial Data Analyst</li>
+<li>Junior/Mid Data Analyst</li>
+<li>Power BI / BI Analyst</li>
+<li>Accounting Analyst</li>
+<li>VA financiero especializado</li>
+</ul>
+<p style="margin-top:6px;color:var(--am);font-weight:600">Tu match: 65-84%</p></div>
+<div class="str-card"><h4>⚡ Tier 3 — Stretch</h4>
+<ul>
+<li>AP Lead / Manager</li>
+<li>Senior Data Analyst</li>
+<li>Analytics Engineer</li>
+<li>Finance Manager</li>
+</ul>
+<p style="margin-top:6px;color:var(--or);font-weight:600">Tu match: 45-64%</p></div>
+</div></div>
 
-I am trilingual (Spanish, Portuguese, English) and currently completing my Systems Engineering degree.
+<div class="card"><div class="card-t">📅 Sprint Semanal de Búsqueda</div>
+<div class="grid-2">
+<div class="str-card"><h4>📌 Lunes-Miércoles</h4>
+<ul>
+<li><strong>5 aplicaciones/día</strong> a roles Tier 1</li>
+<li>Usar <a href="apply.html" style="color:var(--a2)">Application Command Center</a> para perfilar cada CV</li>
+<li>Personalizar cover letter por empresa</li>
+<li>Guardar cada aplicación en el Tracker</li>
+</ul></div>
+<div class="str-card"><h4>📌 Jueves-Viernes</h4>
+<ul>
+<li><strong>3 aplicaciones/día</strong> a roles Tier 2</li>
+<li><strong>2 mensajes LinkedIn</strong> a recruiters/hiring managers</li>
+<li>Revisar empresas del pool (pestaña Empresas)</li>
+<li>Follow-up a aplicaciones de la semana anterior</li>
+</ul></div>
+<div class="str-card"><h4>📌 Sábado</h4>
+<ul>
+<li><strong>1-2 propuestas Upwork/Fiverr</strong> (freelance)</li>
+<li>Actualizar perfil LinkedIn con keywords</li>
+<li>Practicar 3 preguntas de entrevista en inglés</li>
+<li>Revisar métricas del Tracker</li>
+</ul></div>
+<div class="str-card"><h4>📌 Domingo</h4>
+<ul>
+<li>Estudiar 1 skill gap (Tableau, NetSuite, etc.)</li>
+<li>Preparar lista de empresas para la semana</li>
+<li>Revisar vacantes nuevas del fin de semana</li>
+<li>Descansar — burnout = peor enemigo</li>
+</ul></div>
+</div></div>
 
-Kind regards,
-Miguel Ángel Barros
-miguelbarros2416@gmail.com</div>
-<button class="btn bo bs" style="margin-top:6px" onclick="cpEl('tEN')">📋 Copiar</button></div>
+<div class="card"><div class="card-t">💰 Salary Intel — Remotos LATAM 2025-2026</div>
+<div class="grid-2">
+<div class="str-card"><h4>🏦 AP/CxP Remoto</h4>
+<ul>
+<li>Colombia: $3M-$6M COP/mes</li>
+<li>LATAM (USD): $1,200-$2,500/mes</li>
+<li>US-based remote: $2,000-$4,000/mes</li>
+</ul></div>
+<div class="str-card"><h4>📊 Data Analyst Remoto</h4>
+<ul>
+<li>Colombia: $4M-$8M COP/mes</li>
+<li>LATAM (USD): $1,500-$3,500/mes</li>
+<li>US-based remote: $3,000-$5,000/mes</li>
+</ul></div>
+<div class="str-card"><h4>📒 Bookkeeper Bilingüe</h4>
+<ul>
+<li>Clientes US: $1,500-$3,000 USD/mes</li>
+<li>Freelance: $20-40/hr USD</li>
+<li>Tu PT = premium +20%</li>
+</ul></div>
+<div class="str-card"><h4>⚡ Freelance Rates</h4>
+<ul>
+<li>Excel/Spreadsheets: $20-50/hr</li>
+<li>SQL/Database: $30-60/hr</li>
+<li>Power BI: $30-80/hr</li>
+<li>Data Entry: $10-20/hr</li>
+</ul></div>
+</div></div>
 
-<div class="card"><div style="font-size:12px;font-weight:600;margin-bottom:6px">✉️ Carta — Español</div>
-<div style="background:var(--el);border-radius:8px;padding:12px;font-size:11px;color:var(--t2);line-height:1.7;white-space:pre-wrap" id="tES">Estimado equipo de selección,
+<div class="card"><div class="card-t">🔑 Optimización LinkedIn para ATS</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">
+<div class="grid-2">
+<div class="str-card"><h4>📝 Headline</h4>
+<p>Actual: probablemente "Analyst" genérico.<br><strong>Ideal:</strong> "Accounts Payable Analyst | SQL & Power BI | Financial Data Analysis | Trilingual ES/PT/EN | Open to Remote"</p>
+<p style="margin-top:4px;color:var(--am)">Los recruiters buscan por keywords en el headline.</p></div>
+<div class="str-card"><h4>📋 About Section</h4>
+<p>Incluir: <strong>accounts payable, SQL, Power BI, financial analysis, Excel, data analysis, reconciliation, process improvement, trilingual</strong>.</p>
+<p style="margin-top:4px;color:var(--am)">Repetir keywords 2-3 veces naturalmente.</p></div>
+<div class="str-card"><h4>🛠️ Skills Section</h4>
+<p>Agregar exactamente estas skills (LinkedIn las indexa):</p>
+<div style="margin-top:4px"><span class="sk sk-g">Accounts Payable</span> <span class="sk sk-g">SQL</span> <span class="sk sk-g">Power BI</span> <span class="sk sk-g">Financial Analysis</span> <span class="sk sk-g">Excel</span> <span class="sk sk-v">Data Analysis</span> <span class="sk sk-v">Python</span> <span class="sk sk-y">Reconciliation</span></div></div>
+<div class="str-card"><h4>🚩 Red Flags en Ofertas</h4>
+<ul>
+<li style="color:var(--rd)">❌ "Unpaid trial" = scam</li>
+<li style="color:var(--rd)">❌ Sin nombre de empresa = sospechoso</li>
+<li style="color:var(--rd)">❌ "Requiere inversión inicial" = fraude</li>
+<li style="color:var(--am)">⚠ Glassdoor < 3.0 = investigar</li>
+<li style="color:var(--am)">⚠ Salario "competitivo" sin rango = negociar</li>
+<li style="color:var(--gn)">✅ Rango salarial visible = transparencia</li>
+</ul></div>
+</div></div></div>
 
-Me dirijo a ustedes para expresar mi interés en la posición de [Cargo] en [Empresa]. Cuento con más de 8 años de experiencia en análisis de datos financieros y sólida formación técnica en SQL, Python y Power BI.
-
-En Brinks International, implementé consultas SQL que optimizaron procesos de pago en un 15% y resolví el 60% de discrepancias históricas en operaciones de Brasil y el Caribe.
-
-Soy profesional trilingüe (Español, Portugués, Inglés) y actualmente curso Ingeniería de Sistemas (8° semestre).
-
-Cordial saludo,
-Miguel Ángel Barros
-miguelbarros2416@gmail.com</div>
-<button class="btn bo bs" style="margin-top:6px" onclick="cpEl('tES')">📋 Copiar</button></div>
-
-<div class="card"><div style="font-size:12px;font-weight:600;margin-bottom:6px">💬 LinkedIn Networking</div>
-<div style="background:var(--el);border-radius:8px;padding:12px;font-size:11px;color:var(--t2);line-height:1.7;white-space:pre-wrap" id="tNet">Hi [Name],
-
-I noticed [Company] is doing impressive work in [area]. As a Data Analyst with 8+ years in financial analysis (SQL, Python, Power BI) and trilingual capabilities, I'd love to learn about opportunities.
-
-Would you be open to a brief chat?
-
-Best, Miguel</div>
-<button class="btn bo bs" style="margin-top:6px" onclick="cpEl('tNet')">📋 Copiar</button></div>
 </div>
-
 </div>
 
 <script>
@@ -301,17 +316,17 @@ t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('o
 
 // ═══ COMPANIES — ROTATION ═══
 const CMP=[
-{n:"ScotiaGBS Colombia",r:"Centro Servicios Scotiabank · 4000+ empleados · Bogotá",i:"Unidades de Finanzas, ScotiaTech, Analytics. Contrato indefinido. Operan en 30+ países (tus idiomas son ventaja). <strong>Publicaron Data Analyst hace 1 día.</strong>",m:92,c:"var(--gn)",ro:"Financial Analyst, AP Analyst, Data Analyst",lk:[["Portal Scotiabank","https://jobs.scotiabank.com/search/?q=analyst&locationsearch=bogota&locale=es_ES"],["LinkedIn ScotiaGBS","https://www.linkedin.com/jobs/search/?keywords=ScotiaGBS+analyst&location=Bogota&sortBy=DD"]]},
-{n:"Globant",r:"Tech multinacional NYSE · 30K empleados · Bogotá",i:"Studios de Data & AI. Clientes: Disney, Google, Santander. <strong>$5M-$9M COP.</strong> Tu combo dev + datos + finanzas encaja.",m:78,c:"var(--a2)",ro:"Data Analyst, BI Developer, Analytics Consultant",lk:[["Careers Globant","https://board.globant.com/jobs?q=data+analyst&location=Colombia"],["LinkedIn Globant","https://www.linkedin.com/jobs/search/?keywords=Globant+data&location=Colombia&sortBy=DD"]]},
-{n:"Bancolombia",r:"Banco #1 Colombia · 35K empleados",i:"Inversión masiva en datos e IA. Ecosistema Nequi. <strong>$4M-$8M COP.</strong> Tu contabilidad + Ing. Sistemas = combo perfecto para banca.",m:85,c:"var(--am)",ro:"Analista de Datos, Analista BI, Analista Financiero",lk:[["LinkedIn Bancolombia","https://www.linkedin.com/jobs/search/?keywords=Bancolombia+analista&sortBy=DD"],["Indeed","https://co.indeed.com/jobs?q=bancolombia+analista"]]},
-{n:"Rappi",r:"Unicornio colombiano · Tech · Bogotá",i:"Equipo de datos masivo. Growth analytics, product analytics. <strong>$4M-$8M COP.</strong> Remote-friendly.",m:72,c:"var(--or)",ro:"Data Analyst, Product Analyst, BI Analyst",lk:[["Careers Rappi","https://boards.greenhouse.io/rappi"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Rappi+analyst&sortBy=DD"]]},
-{n:"Mercado Libre",r:"E-commerce #1 LATAM · Colombia",i:"Data-driven. Tu portugués = ventaja para Brasil. <strong>$5M-$10M COP o USD.</strong>",m:70,c:"var(--cy)",ro:"Data Analyst, Financial Analyst, BI Engineer",lk:[["Jobs MeLi","https://mercadolibre.eightfold.ai/careers?query=analyst&location=Colombia"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Mercado+Libre+analyst+Colombia&sortBy=DD"]]},
-{n:"Accenture Colombia",r:"Consultoría global · 10K+ en CO",i:"Proyectos para Fortune 500. <strong>$3.5M-$7M COP.</strong> Contratan masivamente analistas SQL + BI.",m:75,c:"var(--gn)",ro:"Data Analyst, Analytics Consultant, BI Developer",lk:[["Careers","https://www.accenture.com/co-es/careers/jobsearch?jk=analyst&sb=1"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Accenture+analyst+Colombia&sortBy=DD"]]},
+{n:"ScotiaGBS Colombia",r:"Centro Servicios Scotiabank · 4000+ empleados · Bogotá",i:"Unidades de Finanzas, ScotiaTech, Analytics. Contrato indefinido. Operan en 30+ países. <strong>Buscan AP Analysts y Data Analysts frecuentemente.</strong>",m:92,c:"var(--gn)",ro:"Financial Analyst, AP Analyst, Data Analyst",lk:[["Portal Scotiabank","https://jobs.scotiabank.com/search/?q=analyst&locationsearch=bogota&locale=es_ES"],["LinkedIn ScotiaGBS","https://www.linkedin.com/jobs/search/?keywords=ScotiaGBS+analyst&location=Bogota&sortBy=DD"]]},
+{n:"Globant",r:"Tech multinacional NYSE · 30K empleados · Bogotá",i:"Studios de Data & AI. Clientes: Disney, Google, Santander. <strong>$5M-$9M COP. Remoto posible.</strong>",m:78,c:"var(--a2)",ro:"Data Analyst, BI Developer, Analytics Consultant",lk:[["Careers Globant","https://board.globant.com/jobs?q=data+analyst&location=Colombia"],["LinkedIn Globant","https://www.linkedin.com/jobs/search/?keywords=Globant+data&location=Colombia&sortBy=DD"]]},
+{n:"Bancolombia",r:"Banco #1 Colombia · 35K empleados",i:"Inversión masiva en datos e IA. Nequi. <strong>$4M-$8M COP.</strong> Contabilidad + Ing. Sistemas = combo perfecto.",m:85,c:"var(--am)",ro:"Analista de Datos, Analista BI, Analista Financiero",lk:[["LinkedIn Bancolombia","https://www.linkedin.com/jobs/search/?keywords=Bancolombia+analista&sortBy=DD"],["Indeed","https://co.indeed.com/jobs?q=bancolombia+analista"]]},
+{n:"Rappi",r:"Unicornio colombiano · Tech · Bogotá",i:"Equipo de datos masivo. <strong>$4M-$8M COP. Remote-friendly.</strong>",m:72,c:"var(--or)",ro:"Data Analyst, Financial Analyst, BI Analyst",lk:[["Careers Rappi","https://boards.greenhouse.io/rappi"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Rappi+analyst&sortBy=DD"]]},
+{n:"Mercado Libre",r:"E-commerce #1 LATAM · Colombia",i:"Data-driven. Tu portugués = ventaja Brasil. <strong>$5M-$10M COP o USD.</strong>",m:70,c:"var(--cy)",ro:"Data Analyst, Financial Analyst, BI Engineer",lk:[["Jobs MeLi","https://mercadolibre.eightfold.ai/careers?query=analyst&location=Colombia"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Mercado+Libre+analyst+Colombia&sortBy=DD"]]},
+{n:"Accenture Colombia",r:"Consultoría global · 10K+ en CO",i:"Proyectos Fortune 500. <strong>$3.5M-$7M COP. Contratan masivamente analistas SQL + BI.</strong>",m:75,c:"var(--gn)",ro:"Data Analyst, Analytics Consultant, BI Developer",lk:[["Careers","https://www.accenture.com/co-es/careers/jobsearch?jk=analyst&sb=1"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Accenture+analyst+Colombia&sortBy=DD"]]},
 {n:"NTT DATA",r:"Consultoría IT · Bogotá",i:"Proyectos BI para bancos y telcos. <strong>$3.5M-$6.5M COP.</strong> Tu exp financiera + SQL es ideal.",m:74,c:"var(--a2)",ro:"Analista de Datos, Consultor BI",lk:[["Careers","https://careers.nttdata.com/location/colombia-jobs/26089/27/2/3"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=NTT+DATA+analyst+Colombia&sortBy=DD"]]},
-{n:"Endava",r:"Tech UK/Colombia · Bogotá + Medellín",i:"Desarrollo + datos. Crecimiento rápido. <strong>$5M-$9M COP.</strong>",m:68,c:"var(--cy)",ro:"Data Analyst, BI Developer",lk:[["Careers","https://www.endava.com/careers"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Endava+analyst+Colombia&sortBy=DD"]]},
+{n:"Endava",r:"Tech UK/Colombia · Bogotá + Medellín",i:"Desarrollo + datos. <strong>$5M-$9M COP. Remoto.</strong>",m:68,c:"var(--cy)",ro:"Data Analyst, BI Developer",lk:[["Careers","https://www.endava.com/careers"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Endava+analyst+Colombia&sortBy=DD"]]},
 {n:"Grupo Nutresa",r:"Alimentos #1 CO · Medellín/Bogotá",i:"Analytics en crecimiento. <strong>$3.5M-$6M COP.</strong> Estabilidad, beneficios excelentes.",m:70,c:"var(--gn)",ro:"Analista de Datos, Analista Financiero",lk:[["Talento Humano","https://www.gruponutresa.com/talento-humano/"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Nutresa+analista&sortBy=DD"]]},
-{n:"Teleperformance (movilidad interna)",r:"Tu empresa actual · BPO global",i:"Ya estás adentro. Busca movilidad a roles de datos/reporting/BI. <strong>Ventaja: conoces la cultura.</strong>",m:80,c:"var(--am)",ro:"Reporting Analyst, BI Analyst, Quality Analyst",lk:[["Careers TP","https://www.teleperformance.com/en-us/careers/"],["LinkedIn TP","https://www.linkedin.com/jobs/search/?keywords=Teleperformance+analyst+Bogota&sortBy=DD"]]},
-{n:"Brinks (volver)",r:"Tu ex empresa · Seguridad · Bogotá",i:"Ya conoces sistemas, procesos, personas. <strong>Negocia mejor salario con tu nuevo perfil.</strong> Contacta ex colegas.",m:88,c:"var(--gn)",ro:"Financial Analyst, Data Analyst, AP Senior",lk:[["Careers Brinks","https://careers.brinksinc.com/"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Brinks+analyst+Colombia&sortBy=DD"]]},
+{n:"Teleperformance (movilidad)",r:"Tu empresa actual · BPO global",i:"Ya estás adentro. Busca movilidad a datos/reporting/BI. <strong>Ventaja: conoces la cultura.</strong>",m:80,c:"var(--am)",ro:"Reporting Analyst, BI Analyst, Quality Analyst",lk:[["Careers TP","https://www.teleperformance.com/en-us/careers/"],["LinkedIn TP","https://www.linkedin.com/jobs/search/?keywords=Teleperformance+analyst+Bogota&sortBy=DD"]]},
+{n:"Brinks (volver)",r:"Tu ex empresa · Seguridad · Bogotá",i:"Conoces todo. <strong>Negocia mejor salario con tu nuevo perfil.</strong> Contacta ex colegas.",m:88,c:"var(--gn)",ro:"Financial Analyst, Data Analyst, AP Senior",lk:[["Careers Brinks","https://careers.brinksinc.com/"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Brinks+analyst+Colombia&sortBy=DD"]]},
 {n:"Sophos Solutions",r:"Fintech CO · Core bancario · Bogotá",i:"Tech para bancos. <strong>$4M-$7M COP.</strong> Tu contable + técnico = ideal.",m:76,c:"var(--a2)",ro:"Analista de Datos, Analista Funcional, BI",lk:[["Careers","https://sophossolutions.com/trabaja-con-nosotros/"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Sophos+Solutions+analyst&sortBy=DD"]]},
 ];
 
@@ -323,112 +338,6 @@ const mc=c.m>=85?'var(--gn)':c.m>=70?'var(--am)':'var(--t2)';
 return`<div class="cmp"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="cmp-n" style="color:${c.c}">${i+1}. ${c.n}</div><div class="cmp-r">${c.r}</div></div><span style="font-family:monospace;font-size:14px;font-weight:700;color:${mc}">${c.m}%</span></div><div class="cmp-i">${c.i}<br><br><strong>Roles:</strong> ${c.ro}</div><div class="mbar"><div class="mfill" style="width:${c.m}%;background:${mc}"></div></div><div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">${c.lk.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener" class="btn bo bs">🔗 ${l[0]}</a>`).join('')}</div></div>`;
 }).join('')+'<div style="text-align:center;padding:10px;color:var(--t3);font-size:11px">🔄 Pool de '+CMP.length+' empresas. Rotan diariamente.</div>';
 }
-
-// ═══ ADVANCED JOB ANALYZER ═══
-function analyze(){
-const text=document.getElementById('jTxt').value.trim().toLowerCase();
-if(!text||text.length<50){alert('Pega la descripción completa del empleo.');return}
-const el=document.getElementById('azResult');
-
-// Skills matching
-const myHard={sql:5,python:3,pandas:3,'power bi':4,'power query':4,excel:5,mysql:4,postgresql:4,clickhouse:3,olap:3,'data modeling':3,'financial analysis':5,'accounts payable':5,automation:3,matplotlib:3};
-const myLangs=['spanish','español','portuguese','portugués','inglés','english'];
-const mySoft=['communication','teamwork','problem solving','analytical','detail-oriented','proactive'];
-
-const foundHard=[],foundSoft=[],foundLang=[],missing=[];
-Object.keys(myHard).forEach(s=>{if(text.includes(s))foundHard.push({name:s,level:myHard[s]})});
-myLangs.forEach(l=>{if(text.includes(l))foundLang.push(l)});
-mySoft.forEach(s=>{if(text.includes(s))foundSoft.push(s)});
-
-const checkMissing=['tableau','dbt','snowflake','bigquery','r ','spark','airflow','aws','azure','gcp','machine learning','statistics','a/b testing','looker','jira','git','docker','scala','mongodb','redshift','databricks','sas','spss','etl','javascript','react','java','hadoop','kafka','tensorflow'];
-checkMissing.forEach(s=>{if(text.includes(s)&&!myHard[s])missing.push(s)});
-
-// Detect attributes
-const isRemote=/remote|remoto|work from home|teletrabajo|100% remoto|fully remote|anywhere/i.test(text);
-const isHybrid=/hybrid|híbrido/i.test(text);
-const isSenior=/senior|lead|principal|manager|director|staff|10\+ years|8\+ years/i.test(text);
-const isJunior=/junior|entry|trainee|intern|jr\.|0-2 years|1-3 years/i.test(text);
-
-const hasAdvEnglish=/(inglés|ingles) (avanzado|fluido|c1|c2|b2)|advanced english|fluent english/i.test(text);
-
-// Salary detection
-let salaryInfo='No detectado';
-const salaryMatch=text.match(/\$[\d,.]+[kK]?(?:\s*[-–]\s*\$[\d,.]+[kK]?)?(?:\s*(?:usd|cop|per year|annually|al año|mensual|monthly))?/i);
-if(salaryMatch)salaryInfo=salaryMatch[0];
-
-// Calculate match
-const totalReq=foundHard.length+missing.length;
-let pct=totalReq>0?Math.min(95,Math.round((foundHard.length/totalReq)*100+(foundLang.length*5))):50;
-if(hasAdvEnglish)pct=Math.max(0,pct-30); // Penalty for advanced English
-const viable=pct>=35;
-
-let h=`<div class="card" style="margin-top:12px">
-<div style="font-size:16px;font-weight:700;margin-bottom:10px;color:${pct>=70?'var(--gn)':pct>=40?'var(--am)':'var(--rd)'}">
-${pct>=70?'✅ EXCELENTE MATCH':pct>=40?'🟡 MATCH VIABLE':'🔴 MATCH BAJO'} — Compatibilidad: ${pct}%
-</div>
-<div class="mbar" style="margin-bottom:14px"><div class="mfill" style="width:${pct}%;background:${pct>=70?'var(--gn)':pct>=40?'var(--am)':'var(--rd)'}"></div></div>
-
-<div style="font-size:11px;color:var(--t2);line-height:1.8">
-${hasAdvEnglish?'<div style="font-size:12px;font-weight:700;color:var(--rd);margin-bottom:6px">⛔ ADVERTENCIA LINGÜÍSTICA</div><span class="sk sk-r">Requiere Inglés Avanzado (-30% Match)</span><br><br>':''}
-<div style="font-size:12px;font-weight:700;color:var(--gn);margin-bottom:6px">✓ SKILLS QUE TIENES (${foundHard.length})</div>
-${foundHard.length?foundHard.map(s=>`<span class="sk sk-g">${s.name} ${'★'.repeat(s.level)}</span>`).join(' '):'<span style="color:var(--t3)">Ninguna skill técnica detectada en la descripción</span>'}
-<br><br>
-
-${missing.length?`<div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:6px">⚠ PIDEN Y NO TIENES (${missing.length})</div>
-${missing.map(s=>`<span class="sk sk-r">${s}</span>`).join(' ')}<br><br>`:''}
-
-${foundLang.length?`<div style="font-size:12px;font-weight:700;color:var(--cy);margin-bottom:6px">🌎 IDIOMAS QUE PIDEN Y TIENES</div>
-${foundLang.map(l=>`<span class="sk sk-y">${l}</span>`).join(' ')}<br><br>`:''}
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0">
-<div style="padding:8px;background:var(--el);border-radius:6px"><strong>Modalidad:</strong> ${isRemote?'<span style="color:var(--gn)">✅ Remoto</span>':isHybrid?'<span style="color:var(--am)">🟡 Híbrido</span>':'<span style="color:var(--rd)">❌ Presencial/No detectado</span>'}</div>
-<div style="padding:8px;background:var(--el);border-radius:6px"><strong>Nivel:</strong> ${isSenior?'<span style="color:var(--am)">⚠️ Senior+</span>':isJunior?'<span style="color:var(--gn)">✅ Junior — Perfecto</span>':'<span style="color:var(--gn)">✅ Mid — Alcanzable</span>'}</div>
-<div style="padding:8px;background:var(--el);border-radius:6px"><strong>Salario:</strong> ${salaryInfo}</div>
-<div style="padding:8px;background:var(--el);border-radius:6px"><strong>Decisión:</strong> ${viable?'<span style="color:var(--gn)">APLICA ✅</span>':'<span style="color:var(--am)">CONSIDERA ⚠️</span>'}</div>
-</div>`;
-
-if(viable){
-h+=`<div style="margin-top:12px;padding:14px;background:rgba(139,92,246,.04);border:1px solid rgba(139,92,246,.12);border-radius:8px">
-<div style="font-size:13px;font-weight:700;color:var(--a2);margin-bottom:8px">🎯 PLAN DE APLICACIÓN</div>
-
-<div style="font-size:12px;font-weight:600;color:var(--tx);margin:8px 0 4px">Paso 1 — CV</div>
-<div>Personaliza tu CV enfatizando: ${foundHard.slice(0,4).map(s=>s.name).join(', ')}. Pon tus logros numéricos arriba: 15% optimización, 60% discrepancias, 30% reducción.</div>
-
-<div style="font-size:12px;font-weight:600;color:var(--tx);margin:8px 0 4px">Paso 2 — Cover Letter</div>
-<div>Abre tu template de la pestaña Templates. Reemplaza [Job Title] y [Company]. En el segundo párrafo, conecta tu experiencia directamente con lo que piden: ${foundHard.slice(0,2).map(s=>s.name).join(' y ')}.</div>
-
-${missing.length?`<div style="font-size:12px;font-weight:600;color:var(--tx);margin:8px 0 4px">Paso 3 — Skills Gap</div>
-<div>Te faltan: <strong>${missing.slice(0,3).join(', ')}</strong>. En tu cover letter, menciona: "Estoy en formación activa en [skill] como parte de mi ruta de desarrollo profesional." NO lo ocultes, pero posiciónalo como crecimiento.</div>`:''}
-
-<div style="font-size:12px;font-weight:600;color:var(--tx);margin:8px 0 4px">Paso ${missing.length?'4':'3'} — Diferenciadores</div>
-<div>Menciona SIEMPRE: trilingüe (ES/PT/EN), 8 años sector financiero, Brinks (multinacional), Ingeniería de Sistemas en curso.</div>
-
-<div style="font-size:12px;font-weight:600;color:var(--tx);margin:8px 0 4px">Paso ${missing.length?'5':'4'} — Preparación Entrevista</div>
-<div>Preguntas probables para este tipo de rol:<br>
-• "Tell me about yourself" → usa tu módulo de Inglés<br>
-• "Walk me through a project where you used ${foundHard.length?foundHard[0].name:'data analysis'}" → Brinks: query SQL que optimizó 15% pagos<br>
-• "How do you handle messy data?" → proceso de limpieza documentado<br>
-${foundHard.some(s=>s.name==='sql')?'• <strong>SQL en vivo:</strong> Practica JOINs, GROUP BY, Window Functions en LeetCode/HackerRank<br>':''}
-${foundHard.some(s=>s.name==='power bi')?'• <strong>Power BI:</strong> Prepara un dashboard de ejemplo para mostrar<br>':''}
-</div>
-</div>`;
-}
-
-h+=`</div></div>`;
-el.innerHTML=h;
-el.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-// ═══ CV PRINT ═══
-function printCV(l){
-const cv=document.getElementById('cv-'+l);if(!cv)return;
-const w=window.open('','','width=900,height=1200');
-w.document.write(`<html><head><title>CV Miguel Barros</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"IBM Plex Sans",sans-serif;background:#fff}@page{size:A4;margin:0}a{color:#6366f1;text-decoration:none}.cv-frame{background:#fff;color:#1a1a1a}.cv-hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;padding:24px 28px}.cv-hdr-top{display:flex;justify-content:space-between;align-items:center}.cv-name{font-family:"Newsreader",serif;font-size:24px;font-weight:600}.cv-role{font-size:12px;color:#c7d2fe;margin-top:2px}.cv-contact{text-align:right;font-size:10px;color:#c7d2fe;line-height:1.8}.cv-contact a{color:#c7d2fe}.cv-body{padding:22px 28px}.cv-cols{display:flex;gap:24px}.cv-main{flex:1}.cv-side{width:230px;border-left:1px solid #e5e7eb;padding-left:20px}.cv-h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#312e81;border-bottom:2px solid #e0e7ff;padding-bottom:3px;margin:14px 0 8px}.cv-h3:first-child{margin-top:0}.cv-p{font-size:11px;line-height:1.6;color:#374151;margin-bottom:6px}.cv-xt{font-size:12px;font-weight:600}.cv-xc{font-size:11px;color:#6366f1;font-weight:500}.cv-xd{font-size:10px;color:#6b7280}.cv-ul{list-style:none;margin:4px 0 10px;padding:0}.cv-ul li{font-size:10px;color:#374151;padding:1px 0 1px 10px;position:relative;line-height:1.5}.cv-ul li::before{content:"▸";position:absolute;left:0;color:#6366f1}.cv-h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#312e81;margin:12px 0 6px}.cv-h4:first-child{margin-top:0}.cv-skl{list-style:none;padding:0}.cv-skl li{font-size:10px;color:#374151;padding:1px 0;display:flex;align-items:center;gap:5px}.cv-dot{width:5px;height:5px;border-radius:50%;background:#6366f1;flex-shrink:0}.cv-bar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:1px}.cv-fill{height:100%;border-radius:2px;background:#6366f1}</style></head><body>${cv.outerHTML}</body></html>`);
-w.document.close();setTimeout(()=>w.print(),600);
-}
-
-// ═══ COPY ═══
-function cpEl(id){navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(()=>alert('✅ Copiado'))}
 
 // ═══ TRACKER ═══
 function getA(){try{return JSON.parse(localStorage.getItem('jt8')||'[]')}catch(e){return[]}}
