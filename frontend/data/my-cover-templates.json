@@ -1,0 +1,51 @@
+{
+  "templates": {
+    "formal": {
+      "tone_match": ["formal", "tech"],
+      "en": {
+        "greeting": "Dear {company} Hiring Team,",
+        "intro": "I am writing to express my strong interest in the {role} position at {company}. With 8+ years of experience in {kw:financial operations} and {kw:data analysis}, I bring a proven combination of {focus_skill} expertise and technical capabilities that align closely with your requirements.",
+        "body_p1": "As {kw:AP Analyst} at Brinks International, I independently led end-to-end {kw:accounts payable} operations for Brazil and Caribbean regions in a shared services environment — managing {kw:invoice validation}, {kw:supplier reconciliation}, {kw:aging reports}, and {kw:monthly close} across 15+ vendors and multiple currencies. I resolved 60% of historical billing discrepancies and built {kw:SQL}-based {kw:automations} that optimized payment tracking by 15%.",
+        "body_p2": "What differentiates me is my technical edge: {kw:Power BI} dashboards for {kw:KPI} monitoring and {kw:SQL} queries for {kw:data analysis} — capabilities rare among finance professionals. My trilingual skills (Spanish, Portuguese, English) add further value for multi-regional operations.",
+        "close": "I am excited about the opportunity to contribute to {company} and would welcome the chance to discuss how my experience aligns with your needs.\n\nBest regards,\nMiguel Ángel Barros Torres\nmiguelbarros2416@gmail.com | +57 314 437 3585"
+      },
+      "es": {
+        "greeting": "Estimado equipo de selección de {company},",
+        "intro": "Expreso mi interés en la posición de {role} en {company}. Con más de 8 años en {kw:operaciones financieras} y {kw:análisis de datos}, aporto una combinación sólida de expertise en {focus_skill} y capacidades técnicas alineadas con sus requerimientos.",
+        "body_p1": "En Brinks International (7 años), lideré operaciones end-to-end de {kw:Cuentas por Pagar} para Brasil y Caribe en shared services. {kw:Validación de facturas}, {kw:conciliación} con 15+ proveedores, {kw:reportes de antigüedad} y {kw:cierre mensual} multi-moneda. Resolví 60% de discrepancias históricas. {kw:Automatizaciones} {kw:SQL} optimizaron pagos en 15%.",
+        "body_p2": "Mi diferenciador: dashboards {kw:Power BI} para {kw:KPIs} y consultas {kw:SQL} para {kw:análisis de datos} — capacidades poco comunes en profesionales de finanzas. Trilingüe (Español, Portugués, Inglés) para operaciones multi-regionales.",
+        "close": "Me entusiasma la oportunidad de contribuir a {company} y estaría encantado de discutir cómo mi experiencia se alinea con sus necesidades.\n\nCordial saludo,\nMiguel Ángel Barros Torres\nmiguelbarros2416@gmail.com | +57 314 437 3585"
+      }
+    },
+    "startup": {
+      "tone_match": ["casual"],
+      "en": {
+        "greeting": "Hi {company} team!",
+        "intro": "I saw your {role} opening and got genuinely excited — it's exactly the kind of role where my 8+ years in {kw:financial operations} combined with hands-on {kw:data analysis} can make a real impact.",
+        "body_p1": "Quick highlights: at Brinks International, I managed {kw:AP} operations across Brazil and Caribbean, handling everything from {kw:invoice processing} to {kw:vendor reconciliation}. I'm not your typical finance person — I built {kw:SQL} automations that cut payment tracking time by 15% and created {kw:Power BI} dashboards that gave leadership real-time visibility into {kw:KPIs}.",
+        "body_p2": "I'm trilingual (ES/PT/EN), remote-ready with a dedicated home office and 50+ Mbps in Bogotá (UTC-5), and I'm currently finishing my Systems Engineering degree. I thrive in fast-paced environments — currently maintaining 95%+ accuracy under strict SLAs at Teleperformance.",
+        "close": "Would love to chat about how I can contribute!\n\nBest,\nMiguel Barros\nmiguelbarros2416@gmail.com"
+      },
+      "es": {
+        "greeting": "¡Hola equipo de {company}!",
+        "intro": "Vi su vacante de {role} y me entusiasmé de verdad — es exactamente el tipo de rol donde mis 8+ años en {kw:operaciones financieras} combinados con {kw:análisis de datos} pueden generar impacto real.",
+        "body_p1": "Resumen rápido: en Brinks International gestioné operaciones de {kw:CxP} para Brasil y Caribe, desde {kw:procesamiento de facturas} hasta {kw:conciliación de proveedores}. No soy el típico perfil financiero — construí {kw:automatizaciones} {kw:SQL} que redujeron tiempos en 15% y dashboards {kw:Power BI} con {kw:KPIs} en tiempo real.",
+        "body_p2": "Soy trilingüe (ES/PT/EN), 100% remote-ready con oficina dedicada y 50+ Mbps en Bogotá (UTC-5), y estoy terminando Ingeniería de Sistemas. Me desenvuelvo en entornos ágiles — actualmente 95%+ precisión bajo SLAs estrictos en Teleperformance.",
+        "close": "¡Me encantaría conversar sobre cómo puedo aportar!\n\nSaludos,\nMiguel Barros\nmiguelbarros2416@gmail.com"
+      }
+    }
+  },
+  "linkedin_message": {
+    "en": "Hi {name},\n\nI noticed {company} has an opening for {role}. As a financial analyst with 8+ years at Brinks International plus {kw:SQL}/{kw:Power BI} skills and trilingual capabilities (ES/PT/EN), I believe I could add strong value.\n\nWould you be open to a brief chat?\n\nBest, Miguel",
+    "es": "Hola {name},\n\nVi que {company} tiene una vacante de {role}. Como analista financiero con 8+ años en Brinks International, con {kw:SQL}/{kw:Power BI} y trilingüe (ES/PT/EN), creo que podría aportar mucho valor.\n\n¿Estarías abierto/a a una breve conversación?\n\nSaludos, Miguel"
+  },
+  "application_message": {
+    "en": "I'm excited to apply for the {role} role at {company}. With 8+ years in financial operations at Brinks International (Brazil & Caribbean), I bring deep expertise plus a technical edge — {kw:SQL} automations (15% optimization), {kw:Power BI} dashboards, and 60% discrepancy reduction.\n\nKey highlights:\n→ 7yr financial operations (Brinks multinational)\n→ {kw:SQL} + {kw:Power BI} + {kw:Excel} (rare for finance roles)\n→ Trilingual: Spanish, Portuguese, English\n→ Systems Engineering student\n→ Remote-ready: dedicated office, 50+ Mbps, UTC-5\n\nMiguel Ángel Barros Torres | Bogotá, Colombia",
+    "es": "Me entusiasma aplicar al puesto de {role} en {company}. Con 8+ años en operaciones financieras en Brinks International (Brasil y Caribe), aporto expertise profundo más una ventaja técnica — {kw:automatizaciones} {kw:SQL} (15% optimización), dashboards {kw:Power BI}, y 60% reducción de discrepancias.\n\nDestacados:\n→ 7 años operaciones financieras (Brinks multinacional)\n→ {kw:SQL} + {kw:Power BI} + {kw:Excel} (raro en perfiles financieros)\n→ Trilingüe: Español, Portugués, Inglés\n→ Ingeniería de Sistemas en curso\n→ Remote-ready: oficina dedicada, 50+ Mbps, UTC-5\n\nMiguel Ángel Barros Torres | Bogotá, Colombia"
+  },
+  "focus_skills": {
+    "accounting": { "en": "AP management and process optimization", "es": "gestión de CxP y optimización de procesos" },
+    "data_entry": { "en": "high-volume data processing and accuracy", "es": "procesamiento de datos de alto volumen y precisión" },
+    "hybrid": { "en": "analytical skills and technical proficiency", "es": "habilidades analíticas y competencia técnica" }
+  }
+}

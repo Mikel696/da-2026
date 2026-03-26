@@ -71,8 +71,14 @@
 
 <!-- TAB 3: COVER & MSGS -->
 <div class="pnl" id="p-cover">
-<div class="sl">· cover letter & mensajes ·</div>
-<div id="coverContent"><div class="empty"><div class="empty-icon">✉️</div><h3>Cover Letter pendiente</h3><p>Analiza una vacante primero. Se generarán cover letters EN/ES y mensajes personalizados.</p></div></div>
+<div class="sl">· cover weaver — cartas & mensajes dinámicos ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="CoverWeaver.autoRedact()">⚙️ Auto-Redactar Cover</button>
+</div>
+<div id="coverWeaverContent">
+<div class="empty"><div class="empty-icon">✉️</div><h3>Cover Letter pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Redactar Cover" para generar cartas con keywords ATS tejidas.</p></div>
+</div>
+<div id="coverContent" style="display:none"></div>
 </div>
 
 <!-- TAB 4: ENTREVISTA -->
@@ -135,6 +141,7 @@ Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta in
 
 <script src="js/ats-engine.js"></script>
 <script src="js/cv-weaver.js"></script>
+<script src="js/cover-weaver.js"></script>
 <script src="js/apply.js"></script>
 </body>
 </html>

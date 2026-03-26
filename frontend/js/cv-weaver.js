@@ -219,7 +219,8 @@ const CVWeaver = {
         scrollY: 0,
         windowWidth: document.documentElement.offsetWidth
       },
-      jsPDF: { unit:'mm', format:'a4', orientation:'portrait' }
+      jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
+      pagebreak: { mode: 'avoid-all' }
     }).from(canvas).save();
   }
 };

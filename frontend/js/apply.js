@@ -352,6 +352,7 @@ function runAnalysis(){
   // Render all sections
   renderAnalysis(); renderCV(); renderCover(); renderInterview(); updateNavState();
   if(typeof CVWeaver!=='undefined'&&CVWeaver.ready) CVWeaver.autoProfile();
+  if(typeof CoverWeaver!=='undefined'&&CoverWeaver.ready) CoverWeaver.autoRedact();
   document.getElementById('nCV').classList.add('on');
   document.getElementById('nCover').classList.add('on');
   document.getElementById('nInt').classList.add('on');
