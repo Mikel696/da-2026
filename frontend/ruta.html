@@ -6,6 +6,7 @@
 <title>DA-2026 · Ruta Data Analyst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ruta.css">
 <style>
 :root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -104,6 +105,7 @@
 <div id="phaseBox"></div>
 <div class="rt-label" style="margin-top:32px">· diario de aprendizaje ·</div>
 <div class="rt-card"><div style="font-size:13px;font-weight:600;margin-bottom:8px">📝 ¿Qué aprendiste hoy?</div><textarea class="rt-log-area" id="logIn" placeholder="Escribe lo que estudiaste, dudas, logros..."></textarea><div style="margin-top:6px"><button class="rt-pbtn rt-next" onclick="addLog()" style="font-size:11px;padding:6px 12px">💾 Guardar</button></div><div id="logBox" style="margin-top:10px"></div></div>
+<div id="excelDojoStub"></div>
 </div>
 
 <script>
@@ -516,5 +518,6 @@ renderLogs();
 }
 render();
 </script>
+<script src="js/ruta.js"></script>
 </body>
 </html>

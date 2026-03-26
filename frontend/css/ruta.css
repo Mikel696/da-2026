@@ -1,0 +1,10 @@
+/* ══════════════════════════════════════════════════════════════
+   DA-2026 · RUTA MODULE — Excel Dojo Styles (Stub)
+   Module 4-RUT: Excel Technical Simulator — PLANNED
+══════════════════════════════════════════════════════════════ */
+.excel-stub{background:var(--c1,#16161a);border:1px solid var(--bd,#27272a);border-radius:12px;padding:28px;text-align:center;margin-top:28px;position:relative;overflow:hidden}
+.excel-stub::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#22c55e,#eab308)}
+.excel-stub-icon{font-size:40px;margin-bottom:12px}
+.excel-stub-title{font-size:18px;font-weight:700;margin-bottom:6px}
+.excel-stub-desc{font-size:12px;color:var(--t3,#52525b);max-width:400px;margin:0 auto;line-height:1.6}
+.excel-stub-badge{display:inline-block;margin-top:12px;padding:4px 12px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(234,179,8,.08);color:#eab308;border:1px solid rgba(234,179,8,.15)}
