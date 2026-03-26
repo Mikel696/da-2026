@@ -1,6 +1,6 @@
 // ══════════════════════════════════════════════════════════════
-// DA-2026 · MODULE 4-RUT — Excel Technical Test Simulator
-// Interactive AP/Finance assessment practice with formula validation
+// DA-2026 · MODULE 4-RUT — Excel Technical Test Simulator v2
+// Interactive engine with DOM cell updates & step-by-step pedagogy
 // ══════════════════════════════════════════════════════════════
 const ExcelDojo = {
   data: null,
@@ -42,16 +42,25 @@ const ExcelDojo = {
     }));
   },
 
+  // ── Find scenario by id ─────────────────────────
+  findScenario(id){
+    for(const cat of this.data.categories){
+      const found = cat.scenarios.find(s => s.id === id);
+      if(found) return found;
+    }
+    return null;
+  },
+
   // ── Render Shell ────────────────────────────────
   renderShell(container){
     const totalQ = this.data.categories.reduce((a,c) => a+c.scenarios.length, 0);
 
     container.innerHTML = `
       <div class="xl-stats">
-        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--a2)">${totalQ}</div><div class="xl-stat-l">Scenarios</div></div>
-        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--gn)" id="xlSolved">${this.solved.size}</div><div class="xl-stat-l">Solved</div></div>
-        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--am)" id="xlAttempts">${this.attempts}</div><div class="xl-stat-l">Attempts</div></div>
-        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--cy)" id="xlAccuracy">${this.attempts?Math.round(this.correct/this.attempts*100):0}%</div><div class="xl-stat-l">Accuracy</div></div>
+        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--a2)">${totalQ}</div><div class="xl-stat-l">Escenarios</div></div>
+        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--gn)" id="xlSolved">${this.solved.size}</div><div class="xl-stat-l">Resueltos</div></div>
+        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--am)" id="xlAttempts">${this.attempts}</div><div class="xl-stat-l">Intentos</div></div>
+        <div class="xl-stat"><div class="xl-stat-v" style="color:var(--cy)" id="xlAccuracy">${this.attempts?Math.round(this.correct/this.attempts*100):0}%</div><div class="xl-stat-l">Precisión</div></div>
       </div>
       <div class="excel-sim">
         <div class="xl-sidebar" id="xlSidebar"></div>
@@ -91,21 +100,17 @@ const ExcelDojo = {
     ws.innerHTML = `<div class="xl-empty">
       <div class="xl-empty-icon">📊</div>
       <h3>Excel Technical Test Simulator</h3>
-      <p>Select a scenario from the left panel to begin. Each test simulates a real AP/Finance technical assessment with mock data tables and formula validation.</p>
+      <p>Selecciona un escenario del panel izquierdo para comenzar. Cada prueba simula un assessment técnico real de AP/Finanzas con tablas de datos y validación de fórmulas.</p>
     </div>`;
   },
 
   // ── Load Scenario ───────────────────────────────
   loadScenario(id){
-    let scenario = null;
-    for(const cat of this.data.categories){
-      const found = cat.scenarios.find(s => s.id === id);
-      if(found){ scenario = found; break; }
-    }
+    const scenario = this.findScenario(id);
     if(!scenario) return;
 
     this.currentId = id;
-    this.renderSidebar(); // update active state
+    this.renderSidebar();
     this.renderWorkspace(scenario);
   },
 
@@ -114,36 +119,42 @@ const ExcelDojo = {
     const ws = document.getElementById('xlWorkspace');
     if(!ws) return;
 
-    // Build column headers from mock_data keys
     const cols = Object.keys(sc.mock_data[0]);
-    const colLetters = cols; // A, B, C, D...
 
-    // Build table
-    let tableHTML = '<table class="xl-table"><thead><tr><th>#</th>';
-    colLetters.forEach(c => { tableHTML += `<th class="xl-col-header">${c}</th>`; });
+    // Build table with data-target markers on ? cells
+    let tableHTML = '<table class="xl-table" id="xlTable-'+sc.id+'"><thead><tr><th>#</th>';
+    cols.forEach(c => { tableHTML += `<th class="xl-col-header">${c}</th>`; });
     tableHTML += '</tr></thead><tbody>';
 
+    let targetIdx = 0;
     sc.mock_data.forEach((row, i) => {
       tableHTML += `<tr><td class="xl-row-num">${i+1}</td>`;
-      colLetters.forEach(c => {
+      cols.forEach(c => {
         const val = row[c] || '';
         const isTarget = val === '?';
-        tableHTML += `<td${isTarget?' class="xl-target"':''}>${isTarget ? '← Your formula' : this.esc(String(val))}</td>`;
+        if(isTarget){
+          tableHTML += `<td class="xl-target" data-target-idx="${targetIdx}">← tu fórmula</td>`;
+          targetIdx++;
+        } else {
+          tableHTML += `<td>${this.esc(String(val))}</td>`;
+        }
       });
       tableHTML += '</tr>';
     });
     tableHTML += '</tbody></table>';
 
-    // Functions hint
-    const funcHint = sc.key_functions.map(f => `<code style="background:var(--el);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--am)">${f}</code>`).join(' ');
+    // Functions hint pills
+    const funcHint = sc.key_functions.map(f =>
+      `<code style="background:var(--el);padding:2px 7px;border-radius:4px;font-size:11px;color:var(--am);font-weight:600">${f}</code>`
+    ).join(' ');
 
     ws.innerHTML = `
       <div class="xl-ws-title">📝 ${this.esc(sc.title)}</div>
       <div class="xl-ws-case">${this.esc(sc.business_case)}</div>
-      <div style="font-size:10px;color:var(--t3);margin-bottom:8px">Key functions: ${funcHint}</div>
+      <div style="font-size:10px;color:var(--t3);margin-bottom:10px">Funciones clave: ${funcHint}</div>
       <div class="xl-table-wrap">${tableHTML}</div>
       <div class="xl-formula-section">
-        <div class="xl-formula-label">📐 Type your Excel formula for the yellow "?" cells:</div>
+        <div class="xl-formula-label">📐 Escribe tu fórmula de Excel para las celdas amarillas:</div>
         <div class="xl-formula-bar">
           <div class="xl-formula-prefix">fx</div>
           <input class="xl-formula-input" id="xlFormula-${sc.id}" placeholder="=XLOOKUP(B2,E:E,F:F,...)" onkeydown="if(event.key==='Enter')ExcelDojo.verify('${sc.id}')">
@@ -155,58 +166,85 @@ const ExcelDojo = {
         </div>
       </div>
       <div class="xl-solution" id="xlSolution-${sc.id}">
-        <div class="xl-sol-label">✅ Solution</div>
+        <div class="xl-sol-label">✅ Solución Completa</div>
         <div class="xl-sol-formula">${this.esc(sc.target_formula)}</div>
         <div class="xl-sol-explain">${this.formatExplanation(sc.explanation)}</div>
       </div>`;
   },
 
+  // ── Populate Target Cells with expected_results ─
+  populateCells(id){
+    const sc = this.findScenario(id);
+    if(!sc || !sc.expected_results) return;
+
+    const table = document.getElementById('xlTable-'+id);
+    if(!table) return;
+
+    const targets = table.querySelectorAll('td[data-target-idx]');
+    targets.forEach((td, i) => {
+      const val = sc.expected_results[i] || '';
+      // Stagger animation for "calculating" effect
+      setTimeout(() => {
+        td.textContent = val;
+        td.classList.remove('xl-target');
+        td.classList.add('xl-cell-solved');
+      }, i * 120);
+    });
+  },
+
   // ── Verify Formula ──────────────────────────────
   verify(id){
-    let scenario = null;
-    for(const cat of this.data.categories){
-      const found = cat.scenarios.find(s => s.id === id);
-      if(found){ scenario = found; break; }
-    }
-    if(!scenario) return;
+    const sc = this.findScenario(id);
+    if(!sc) return;
 
     const input = document.getElementById('xlFormula-'+id);
     if(!input) return;
     const userFormula = input.value.trim().toUpperCase();
 
     if(!userFormula){
-      this.toast('Type a formula first!', 'err');
+      this.toast('Escribe una fórmula primero.', 'err');
       return;
     }
 
     this.attempts++;
 
-    // Check key functions with regex
+    // Check key functions
     const matched = [];
     const missed = [];
-    scenario.key_functions.forEach(fn => {
+    sc.key_functions.forEach(fn => {
       const regex = new RegExp(fn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-      if(regex.test(userFormula)){
-        matched.push(fn);
-      } else {
-        missed.push(fn);
-      }
+      if(regex.test(userFormula)) matched.push(fn);
+      else missed.push(fn);
     });
 
     const allMatch = missed.length === 0;
 
     if(allMatch){
+      // ✅ CORRECT — animate cells
       this.correct++;
       this.solved.add(id);
-      this.toast('✅ Correct! Your formula contains all required functions.', 'ok');
       input.style.borderColor = 'var(--gn)';
       input.style.boxShadow = '0 0 0 2px rgba(34,197,94,.2)';
+
+      this.toast('✅ ¡Correcto! La fórmula contiene todas las funciones requeridas.', 'ok');
+      this.populateCells(id);
+
     } else if(matched.length > 0){
-      this.toast(`⚠️ Partial match! Found: ${matched.join(', ')}. Missing: ${missed.join(', ')}`, 'warn');
+      // ⚠️ PARTIAL — show specific hints for missing functions
+      const hintMsgs = missed.map(fn => {
+        if(sc.hints && sc.hints[fn]) return sc.hints[fn];
+        return `Te falta usar la función ${fn}.`;
+      });
+      this.toast(`⚠️ Parcial (${matched.length}/${sc.key_functions.length}): ${hintMsgs[0]}`, 'warn');
       input.style.borderColor = 'var(--am)';
       input.style.boxShadow = '0 0 0 2px rgba(234,179,8,.15)';
+
     } else {
-      this.toast(`❌ Missing key functions: ${missed.join(', ')}. Try again!`, 'err');
+      // ❌ WRONG — show hint for first missing function
+      const firstHint = (sc.hints && sc.hints[missed[0]])
+        ? sc.hints[missed[0]]
+        : `Te falta usar la función ${missed[0]} en tu fórmula.`;
+      this.toast(`❌ ${firstHint}`, 'err');
       input.style.borderColor = 'var(--rd)';
       input.style.boxShadow = '0 0 0 2px rgba(239,68,68,.15)';
     }
@@ -221,8 +259,14 @@ const ExcelDojo = {
     const el = document.getElementById('xlSolution-'+id);
     const btn = document.getElementById('xlShowBtn-'+id);
     if(!el) return;
+
     const showing = el.classList.toggle('show');
     if(btn) btn.innerHTML = showing ? '🙈 Ocultar Solución' : '👁️ Mostrar Solución';
+
+    // When revealing solution, also populate cells so user sees what it does
+    if(showing){
+      this.populateCells(id);
+    }
   },
 
   // ── Next Scenario ───────────────────────────────
@@ -245,7 +289,7 @@ const ExcelDojo = {
     t.className = `xl-toast xl-toast-${type}`;
     t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3500);
+    setTimeout(() => t.remove(), 4000);
   },
 
   // ── Update Stats UI ─────────────────────────────
@@ -258,12 +302,15 @@ const ExcelDojo = {
     if(el3) el3.textContent = this.attempts ? Math.round(this.correct/this.attempts*100)+'%' : '0%';
   },
 
-  // ── Format Explanation ──────────────────────────
+  // ── Format Explanation — Step-by-step blocks ────
   formatExplanation(text){
     return text
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/`(.+?)`/g, '<code style="background:var(--el);padding:1px 4px;border-radius:3px;font-size:11px;color:var(--am)">$1</code>')
-      .replace(/\n/g, '<br>');
+      .replace(/`(.+?)`/g, '<code style="background:var(--el);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--am)">$1</code>')
+      .replace(/→/g, '<span style="color:var(--gn)">→</span>')
+      .replace(/\n\n/g, '</div><div class="xl-sol-step">')
+      .replace(/^/, '<div class="xl-sol-step">')
+      + '</div>';
   },
 
   esc(text){

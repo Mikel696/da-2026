@@ -34,18 +34,21 @@
   - ✅ Data layer: `data/english-dojo.json` (15 Q&A con tips y tags)
   - ✅ Modular: `css/english.css` + `js/english.js` (additive, no rompe el English Total System existente)
 
-- **Módulo 4-RUT (Excel Technical Test Simulator) — ✅ 100% FEATURE COMPLETE**
+- **Módulo 4-RUT (Excel Technical Test Simulator) — ✅ 100% FEATURE COMPLETE + INTERACTIVE ENGINE**
   - ✅ Split-panel UI: sidebar con lista de escenarios + workspace con mock Excel table
-  - ✅ 9 escenarios realistas AP/Finance en 3 categorías:
-    - Data Cleaning (TRIM, UPPER, VALUE, SUBSTITUTE, MID, DATE)
-    - Reconciliation / Lookups (XLOOKUP, INDEX/MATCH, IFERROR)
-    - Aging & Logic (nested IFs, TODAY, SUMIFS, COUNTIFS, AND)
+  - ✅ 15 escenarios realistas AP/Finance en 3 categorías:
+    - Data Cleaning (TRIM, UPPER, VALUE, SUBSTITUTE, MID, DATE, LEFT, FIND, PROPER)
+    - Reconciliation / Lookups (XLOOKUP, INDEX/MATCH, IFERROR, VLOOKUP)
+    - Aging & Logic (nested IFs, TODAY, SUMIFS, AND, OR, LEN, LEFT)
   - ✅ Mock data tables estilo Excel con headers A/B/C, row numbers, gridlines, yellow target cells
   - ✅ Formula input bar con prefix `fx` y validación regex de funciones clave
-  - ✅ Toast feedback (success/warning/error) con animación
-  - ✅ Solution panel con formula + explicación paso a paso con markdown formatting
+  - ✅ **INTERACTIVE ENGINE v2:** celdas se actualizan dinámicamente con `expected_results` + green flash animation
+  - ✅ **Hint-based errors:** mensajes específicos en español por función faltante (campo `hints` en JSON)
+  - ✅ **Solution slide-down:** panel se desliza con CSS transition + auto-popula celdas al revelar
+  - ✅ **Pedagogía paso a paso:** explicaciones en español con bloques visuales (Paso 1, Paso 2...) y code highlighting
+  - ✅ Staggered cell animation (120ms por celda) simula cálculo secuencial de Excel
   - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
-  - ✅ Data layer: `data/excel-tests.json` (9 escenarios con business_case, mock_data, target_formula, explanation)
+  - ✅ Data layer: `data/excel-tests.json` (15 escenarios con business_case, mock_data, expected_results, hints, explanation)
 
 - **Siguiente fase sugerida (próxima sesión):**
   1. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
