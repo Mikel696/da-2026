@@ -276,12 +276,48 @@ function calculateMetrics(){
   document.getElementById('analyticsUpdate').textContent='Actualizado · '+new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
 }
 
+// ═══ WIN-RATE OPTIMIZER: Quick Searches ═══
+const QUICK_SEARCHES=[
+  {label:'🏦 AP Remoto LATAM',tag:'tg',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+OR+%22bookkeeper%22+OR+%22accounts+receivable%22+remote&location=Latin+America&f_WT=2&sortBy=DD'},
+  {label:'📊 Data Entry + Excel',tag:'tc',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=%22data+entry%22+OR+%22virtual+assistant%22+%22excel%22+OR+%22spreadsheets%22+remote&f_WT=2&sortBy=DD'},
+  {label:'💰 Bookkeeper Bilingüe',tag:'ty',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=bookkeeper+remote+bilingual+spanish&f_WT=2&f_TPR=r2592000&sortBy=DD'},
+  {label:'🇧🇷 CxP Brasil (PT)',tag:'tg',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar+remoto+OR+%22accounts+payable%22&location=Brazil&f_WT=2&sortBy=DD'},
+  {label:'⚡ AP + SQL + Excel',tag:'tg',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+%22excel%22+%22SQL%22+remote&f_WT=2&sortBy=DD'},
+  {label:'🔍 Indeed CxP CO',tag:'to',platform:'Indeed',
+   url:'https://co.indeed.com/jobs?q=%22cuentas+por+pagar%22+remoto&fromage=7'},
+  {label:'💻 Computrabajo CxP',tag:'to',platform:'Computrabajo',
+   url:'https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=remoto'},
+  {label:'🗼 Torre AP Remoto',tag:'ta',platform:'Torre',
+   url:'https://torre.ai/jobs?q=accounts+payable+remote&remote=true'},
+  {label:'🌍 RemoteOK Analyst',tag:'ty',platform:'RemoteOK',
+   url:'https://remoteok.com/remote-analyst-jobs'},
+  {label:'📒 Upwork Bookkeeping',tag:'tg',platform:'Upwork',
+   url:'https://www.upwork.com/nx/search/jobs/?q=bookkeeping+spanish+OR+%22accounts+payable%22&sort=recency'},
+  {label:'🎯 Financial Analyst LATAM',tag:'tg',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=financial+data+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD'},
+  {label:'🌱 Jr Data Analyst',tag:'ta',platform:'LinkedIn',
+   url:'https://www.linkedin.com/jobs/search/?keywords=junior+data+analyst+remote&location=Latin+America&f_WT=2&sortBy=DD'},
+];
+
+function renderQuickSearches(){
+  const el=document.getElementById('quickSearchBtns');
+  if(!el) return;
+  el.innerHTML=QUICK_SEARCHES.map(s=>
+    `<a href="${s.url}" target="_blank" rel="noopener" class="btn bo bs" style="font-size:10px;text-decoration:none;display:inline-flex;align-items:center;gap:3px" title="${s.platform}: ${s.label}">${s.label} <span style="font-size:8px;color:var(--t3)">${s.platform}</span></a>`
+  ).join('');
+}
+
 // ═══ DAYS ═══
 if(!localStorage.getItem('jt_s8'))localStorage.setItem('jt_s8',new Date().toISOString());
 document.getElementById('sD').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('jt_s8')))/864e5));
 
 // INIT
-renderCmp();rK();uS();calculateMetrics();
+renderCmp();rK();uS();calculateMetrics();renderQuickSearches();
 
 // Hash navigation (from apply.html links)
 function goTab(hash){

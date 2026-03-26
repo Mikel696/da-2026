@@ -13,9 +13,10 @@
   - ✅ **Modularización apply.html** — CSS → `css/apply.css`, JS → `js/apply.js`. HTML shell: 8 KB (era 84 KB)
   - ✅ **Modularización jobs.html** — CSS → `css/jobs.css`, JS → `js/jobs.js`. HTML shell: 24 KB (era 52 KB)
   - ✅ **Dashboard Analytics** — Panel de métricas en tiempo real: contadores por columna, tasa de aplicación, tasa de entrevista, win rate. Se actualiza con cada movimiento de tarjeta.
+  - ✅ **Win-Rate Optimizer** — 12 búsquedas booleanas preconfiguradas en LinkedIn, Indeed, Computrabajo, Torre, RemoteOK, Upwork. Optimizadas para perfil cruzado Contabilidad + Data Entry + Remoto LATAM.
 
 - **Siguiente paso sugerido:**
-  1. **Win-Rate Optimizer** — Refinar filtros de búsqueda del Job Tracker para priorizar vacantes 100% remotas LATAM con menor fricción de entrada (perfil cruzado Contabilidad + Data Entry).
+  1. **Cross-module integration: Link CVMaker to Tracker** — Conectar el generador de CV perfilado directamente con las vacantes del Tracker para one-click profiling.
   2. **Módulo de Alertas** — Notificaciones de follow-up para vacantes aplicadas sin respuesta después de X días.
 
 ## Arquitectura de Archivos Clave
