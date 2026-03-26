@@ -354,6 +354,7 @@ function runAnalysis(){
   if(typeof CVWeaver!=='undefined'&&CVWeaver.ready) CVWeaver.autoProfile();
   if(typeof CoverWeaver!=='undefined'&&CoverWeaver.ready) CoverWeaver.autoRedact();
   if(typeof InterviewWeaver!=='undefined'&&InterviewWeaver.ready) InterviewWeaver.autoPrep();
+  if(typeof PromptWeaver!=='undefined') PromptWeaver.generate();
   document.getElementById('nCV').classList.add('on');
   document.getElementById('nCover').classList.add('on');
   document.getElementById('nInt').classList.add('on');

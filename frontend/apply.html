@@ -96,45 +96,13 @@
 
 <!-- TAB 5: PROMPT LAB -->
 <div class="pnl" id="p-prompt">
-<div class="sl">· prompt lab — perfilar con IA ·</div>
-<div class="prompt-box">
-<h3>🤖 Para vacantes complejas, usa Claude/ChatGPT</h3>
-<div style="font-size:12px;color:var(--t2);line-height:1.8">Copia el prompt, pégalo en tu IA preferida, reemplaza <strong>[PEGAR VACANTE AQUÍ]</strong> con la descripción + link.</div>
+<div class="sl">· prompt weaver — prompts IA dinámicos ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="PromptWeaver.generate()">⚙️ Generar Prompts</button>
 </div>
-<div class="card"><div class="card-t">📋 Prompt Maestro</div>
-<div class="tpl" id="master-prompt">Actúa como Career Strategy Expert y ATS Optimizer. Mi perfil es:
-
-MIGUEL ÁNGEL BARROS TORRES
-- 8+ años experiencia en análisis de datos financieros (Brinks International)
-- Analista CxP para Brasil y Caribe: SQL avanzado, Excel experto, Power BI
-- Logros: 60% reducción discrepancias, 15% optimización pagos, 30% mejora tiempos
-- Actual: Content Moderator en Teleperformance (ES/PT, 95%+ accuracy, remoto)
-- Educación: Ing. Sistemas 8° semestre, SENA Tecnólogo Software, Técnico Contabilidad
-- Idiomas: Español (nativo), Portugués (C1), Inglés (B2+)
-- Tech: SQL, Python, Power BI, Excel avanzado, MySQL, PostgreSQL, Microsoft 365
-- Ubicación: Bogotá, Colombia. 100% remoto ready. 50+ Mbps. Zona horaria: UTC-5 (EST-adjacent).
-- Tactical: Data entry alta velocidad, digitación rápida, multitasking bajo SLAs
-
-VACANTE A PERFILAR:
-[PEGAR AQUÍ LA DESCRIPCIÓN COMPLETA DE LA VACANTE]
-
-LINK DE LA OFERTA:
-[PEGAR AQUÍ EL LINK]
-
-GENERA:
-1. MATCH ANALYSIS: % compatibilidad, ATS score, skills match, gaps, ventajas tácticas
-2. CV PERFILADO EN INGLÉS: Reescrito con keywords ATS de la oferta, 1 página
-3. CV PERFILADO EN ESPAÑOL: Lo mismo en español
-4. COVER LETTER EN INGLÉS: Personalizada, max 300 palabras, tono apropiado
-5. MENSAJE DE APLICACIÓN: 150 palabras para portal/LinkedIn
-6. INVESTIGACIÓN EMPRESA: Qué hacen, cultura, Glassdoor, red flags
-7. PREPARACIÓN ENTREVISTA (EN): 8 preguntas con respuestas basadas en MI experiencia
-8. PREPARACIÓN ENTREVISTA (ES): Las mismas en español
-9. CHECKLIST: Paso a paso con timeline
-
-IMPORTANTE: Todo optimizado para ATS. Usa keywords exactas de la oferta.
-Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta información.</div>
-<button class="btn bp" style="margin-top:8px" onclick="cpTxt('master-prompt')">📋 Copiar Prompt Maestro</button></div>
+<div id="promptWeaverContent">
+<div class="empty"><div class="empty-icon">🤖</div><h3>Prompt Lab pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Generar Prompts" para crear 3 prompts IA personalizados para la vacante.</p></div>
+</div>
 </div>
 
 </div>
@@ -150,6 +118,7 @@ Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta in
 <script src="js/cv-weaver.js"></script>
 <script src="js/cover-weaver.js"></script>
 <script src="js/interview-weaver.js"></script>
+<script src="js/prompt-weaver.js"></script>
 <script src="js/apply.js"></script>
 </body>
 </html>
