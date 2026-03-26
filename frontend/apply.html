@@ -83,8 +83,15 @@
 
 <!-- TAB 4: ENTREVISTA -->
 <div class="pnl" id="p-interview">
-<div class="sl">· preparación de entrevista ·</div>
-<div id="interviewContent"><div class="empty"><div class="empty-icon">🎯</div><h3>Prep de Entrevista pendiente</h3><p>Analiza una vacante primero. Se generarán preguntas y respuestas relevantes EN/ES.</p></div></div>
+<div class="sl">· interview weaver — preparación con TTS ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="InterviewWeaver.autoPrep()">⚙️ Auto-Preparar Entrevista</button>
+<button class="btn bo" onclick="if(speechSynthesis.speaking){speechSynthesis.cancel();}">⏹️ Detener Audio</button>
+</div>
+<div id="interviewWeaverContent">
+<div class="empty"><div class="empty-icon">🎯</div><h3>Prep de Entrevista pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Preparar" para generar preguntas rankeadas con TTS.</p></div>
+</div>
+<div id="interviewContent" style="display:none"></div>
 </div>
 
 <!-- TAB 5: PROMPT LAB -->
@@ -142,6 +149,7 @@ Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta in
 <script src="js/ats-engine.js"></script>
 <script src="js/cv-weaver.js"></script>
 <script src="js/cover-weaver.js"></script>
+<script src="js/interview-weaver.js"></script>
 <script src="js/apply.js"></script>
 </body>
 </html>

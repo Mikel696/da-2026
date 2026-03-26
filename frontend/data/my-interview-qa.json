@@ -1,0 +1,123 @@
+{
+  "behavioral": [
+    {
+      "id": "b1",
+      "q_en": "Tell me about yourself.",
+      "q_es": "Cuéntame sobre ti.",
+      "a_en": "I have 8+ years in financial operations, 7 at Brinks International where I managed end-to-end Accounts Payable for Brazil and Caribbean regions. I handle the full AP cycle — invoice validation, supplier reconciliation, aging reports, monthly close. My differentiator: I combine finance expertise with technical skills — SQL automations that optimized payment tracking by 15%, Power BI dashboards for real-time KPI monitoring. I'm trilingual (Spanish, Portuguese, English) and currently completing my Systems Engineering degree. I'm passionate about bringing this hybrid financial-technical perspective to data-driven roles.",
+      "a_es": "Tengo 8+ años en operaciones financieras, 7 en Brinks International donde gestioné Cuentas por Pagar end-to-end para Brasil y Caribe. Ciclo completo AP: validación de facturas, conciliación de proveedores, aging reports, cierre mensual. Mi diferenciador: combino expertise financiero con habilidades técnicas — automatizaciones SQL que optimizaron seguimiento de pagos en 15%, dashboards Power BI para KPIs en tiempo real. Trilingüe y cursando Ingeniería de Sistemas.",
+      "tags": ["all"],
+      "category": "general"
+    },
+    {
+      "id": "b2",
+      "q_en": "Tell me about a time you solved a difficult problem.",
+      "q_es": "Cuéntame sobre una vez que resolviste un problema difícil.",
+      "a_en": "Situation: When I joined the Brazil/Caribbean AP team at Brinks, I inherited a backlog with 60% unresolved billing discrepancies across 15+ vendors. Task: I needed to clear this backlog while maintaining current operations. Action: I categorized discrepancies by type and amount, prioritized high-value items, applied systematic three-way matching (invoice, PO, receiving report), and built SQL queries to cross-reference payment records automatically. Result: Resolved the entire backlog within 18 months. The new process kept discrepancies near zero going forward.",
+      "a_es": "Situación: Al unirme al equipo AP de Brasil/Caribe en Brinks, heredé 60% de discrepancias de facturación sin resolver con 15+ proveedores. Tarea: Limpiar el backlog sin descuidar operaciones actuales. Acción: Categoricé por tipo y monto, prioricé alto valor, apliqué three-way matching sistemático y construí queries SQL para cruzar registros automáticamente. Resultado: Resolví todo en 18 meses. El nuevo proceso mantuvo discrepancias cerca de cero.",
+      "tags": ["problem", "challenge", "resolve", "conflict"],
+      "category": "behavioral"
+    },
+    {
+      "id": "b3",
+      "q_en": "Describe a process improvement you implemented.",
+      "q_es": "Describe una mejora de proceso que implementaste.",
+      "a_en": "Situation: Payment tracking at Brinks was entirely manual — spreadsheets updated by hand, prone to errors and delays. Task: Find a way to automate tracking without new software purchases. Action: I built SQL queries that cross-referenced invoices against payment confirmations in our database, flagging discrepancies in real-time. Then I created a Power BI dashboard showing AP aging, throughput, and exceptions — giving leadership instant visibility. Result: Reduced tracking time by 15%, eliminated manual errors that were causing delayed payments, and the dashboard became a standard reporting tool for the department.",
+      "a_es": "Situación: El seguimiento de pagos en Brinks era totalmente manual — hojas de cálculo actualizadas a mano, propensas a errores. Tarea: Automatizar sin comprar software nuevo. Acción: Construí queries SQL que cruzaban facturas contra confirmaciones de pago, señalando discrepancias en tiempo real. Luego creé un dashboard Power BI de aging, throughput y excepciones. Resultado: Redujo tiempo 15%, eliminó errores manuales, y el dashboard se convirtió en herramienta estándar del departamento.",
+      "tags": ["process", "improvement", "automation", "optimize", "efficiency"],
+      "category": "behavioral"
+    },
+    {
+      "id": "b4",
+      "q_en": "How do you handle working under pressure or tight deadlines?",
+      "q_es": "¿Cómo manejas trabajar bajo presión o plazos ajustados?",
+      "a_en": "Situation: At Brinks, monthly close had strict 3-day deadlines for AP reconciliation across two regions with different currencies and tax regulations. Task: Ensure zero delays while managing high volume. Action: I developed a prioritization system — critical items (high-value invoices, expiring discounts) first, then systematic queue processing. I pre-built SQL templates for recurring reconciliation checks. For unexpected spikes, I communicated proactively with the team. Currently at Teleperformance, I manage multiple queues simultaneously maintaining 95%+ accuracy under strict SLAs. Result: Never missed a single close deadline in 7 years at Brinks.",
+      "a_es": "Situación: En Brinks, el cierre mensual tenía deadline de 3 días para conciliación AP de dos regiones con diferentes monedas e impuestos. Tarea: Cero retrasos con alto volumen. Acción: Desarrollé sistema de priorización — críticos primero, luego procesamiento sistemático. Pre-construí templates SQL para chequeos recurrentes. Actualmente en Teleperformance mantengo 95%+ precisión bajo SLAs estrictos. Resultado: Nunca fallé un solo cierre en 7 años.",
+      "tags": ["pressure", "deadline", "time management", "stress", "sla"],
+      "category": "behavioral"
+    },
+    {
+      "id": "b5",
+      "q_en": "Why do you want to work at [Company]?",
+      "q_es": "¿Por qué quieres trabajar en [Company]?",
+      "a_en": "I've researched [Company] and I'm drawn to [specific aspect — mention their mission, product, or recent achievement]. My 7+ years in financial operations at a multinational, combined with SQL and Power BI skills, align directly with what you need. What excites me most is the opportunity to bring my hybrid financial-technical perspective — something rare in traditional finance candidates. As a Systems Engineering student, I'm constantly building my analytical toolkit, and I see [Company] as the ideal environment to apply both my proven expertise and my growing technical capabilities.",
+      "a_es": "He investigado [Company] y me atrae [aspecto específico — mencionar misión, producto o logro reciente]. Mis 7+ años en operaciones financieras en una multinacional, combinados con SQL y Power BI, se alinean directamente con lo que necesitan. Lo que más me entusiasma es aportar mi perspectiva híbrida financiera-técnica — algo raro en candidatos de finanzas tradicionales. Como estudiante de Ingeniería de Sistemas, estoy construyendo mi toolkit analítico constantemente.",
+      "tags": ["all"],
+      "category": "motivation"
+    },
+    {
+      "id": "b6",
+      "q_en": "How do you manage your time working remotely?",
+      "q_es": "¿Cómo gestionas tu tiempo trabajando remoto?",
+      "a_en": "I'm currently working fully remotely at Teleperformance, maintaining 95%+ accuracy under strict SLAs — so this is proven, not theoretical. My system: dedicated home office with 50+ Mbps, structured daily schedule with time blocks, proactive communication on Slack/Teams, daily prioritization using a simple system of urgency vs. importance. I'm in UTC-5 (Bogotá), which overlaps perfectly with US Eastern time and most LATAM operations. I track my own KPIs weekly to ensure consistency.",
+      "a_es": "Trabajo 100% remoto en Teleperformance actualmente, con 95%+ precisión bajo SLAs estrictos — comprobado, no teórico. Mi sistema: oficina dedicada con 50+ Mbps, horario estructurado con bloques, comunicación proactiva en Slack/Teams, priorización diaria. Estoy en UTC-5 (Bogotá), overlap perfecto con EST y la mayoría de operaciones LATAM.",
+      "tags": ["remote", "work from home", "virtual", "distributed", "asynchronous"],
+      "category": "remote"
+    }
+  ],
+  "technical": [
+    {
+      "id": "t1",
+      "q_en": "Walk me through your AP experience.",
+      "q_es": "Cuéntame tu experiencia en Cuentas por Pagar.",
+      "a_en": "For 7 years at Brinks, I managed the complete AP cycle for Brazil and Caribbean in a shared services model. That means: invoice intake and validation, three-way matching against POs and receiving reports, proper GL coding, supplier reconciliation, payment execution coordinated with Treasury, aging report management, and monthly close. Multi-currency environment with different tax regulations per country, 15+ active vendors. I also built the KPI monitoring layer — SQL queries feeding Power BI dashboards for aging buckets, processing throughput, exception rates. This gave leadership real-time visibility they never had before.",
+      "a_es": "7 años en Brinks: ciclo completo de CxP para Brasil y Caribe en shared services. Recepción y validación de facturas, three-way matching contra OC y recibos, codificación GL, conciliación de proveedores, ejecución de pagos con Tesorería, gestión de aging reports, cierre mensual. Multi-moneda con diferentes regulaciones tributarias, 15+ proveedores activos. Además construí la capa de monitoreo de KPIs — queries SQL alimentando dashboards Power BI.",
+      "tags": ["accounts payable", "invoice", "reconciliation", "finance", "accounting", "payment", "vendor"],
+      "category": "finance"
+    },
+    {
+      "id": "t2",
+      "q_en": "Tell me about a project where you used SQL for data analysis.",
+      "q_es": "Cuéntame un proyecto donde usaste SQL para análisis de datos.",
+      "a_en": "Situation: Payment tracking at Brinks was manual and error-prone. Task: Build an automated system using existing tools. Action: I wrote complex SQL queries with JOINs across invoice, payment, and vendor tables — cross-referencing expected vs. actual payments, flagging discrepancies in real-time. I used window functions for running totals and aging calculations, CTEs for readable multi-step logic. Connected the output to Power BI for dashboard visualization. Result: 15% reduction in tracking time, zero manual errors, and leadership gained real-time KPI visibility for the first time.",
+      "a_es": "Situación: Seguimiento de pagos en Brinks era manual y propenso a errores. Tarea: Construir sistema automatizado con herramientas existentes. Acción: Escribí queries SQL complejos con JOINs entre tablas de facturas, pagos y proveedores — cruzando pagos esperados vs. reales, señalando discrepancias en tiempo real. Window functions para totales acumulados, CTEs para lógica multi-paso. Conecté a Power BI para dashboards. Resultado: 15% reducción en tiempo, cero errores manuales, visibilidad de KPIs en tiempo real.",
+      "tags": ["sql", "data", "analysis", "query", "database", "automation", "power bi"],
+      "category": "tech"
+    },
+    {
+      "id": "t3",
+      "q_en": "How do you ensure data accuracy in your work?",
+      "q_es": "¿Cómo aseguras la precisión de los datos en tu trabajo?",
+      "a_en": "Three layers: prevention, detection, correction. Prevention: I build validation rules directly into SQL queries and Excel templates — data type checks, range validations, duplicate detection. Detection: automated reconciliation scripts that flag mismatches before they reach reports. At Brinks, I ran daily validation queries comparing our records against bank statements. Correction: when issues are found, I trace them to the source — was it a data entry error, a system sync issue, or a genuine discrepancy? Currently at Teleperformance, I maintain 95%+ accuracy processing high-volume data under SLAs, which reinforces this discipline.",
+      "a_es": "Tres capas: prevención, detección, corrección. Prevención: reglas de validación en queries SQL y plantillas Excel — verificación de tipos, rangos, duplicados. Detección: scripts de conciliación automática que señalan discrepancias antes de llegar a reportes. En Brinks ejecutaba validaciones diarias contra extractos bancarios. Corrección: rastreo hasta la fuente. Actualmente en Teleperformance, 95%+ precisión bajo SLAs refuerza esta disciplina.",
+      "tags": ["data", "accuracy", "quality", "validation", "reconciliation", "detail"],
+      "category": "tech"
+    },
+    {
+      "id": "t4",
+      "q_en": "What experience do you have with Power BI or dashboards?",
+      "q_es": "¿Qué experiencia tienes con Power BI o dashboards?",
+      "a_en": "At Brinks, I designed and built Power BI dashboards from scratch for the AP department. The main dashboard tracked: aging buckets (current, 30, 60, 90+ days), payment throughput by week and month, exception rates by vendor and region, discount capture rate, and processing cost per invoice. I connected it directly to our SQL database using DirectQuery for near-real-time data. I also used Power Query for data transformation — cleaning messy exports from different regional systems into a unified model. The dashboard became the primary tool for leadership's monthly AP review meetings.",
+      "a_es": "En Brinks diseñé y construí dashboards Power BI desde cero para el departamento AP. El dashboard principal rastreaba: aging buckets (corriente, 30, 60, 90+ días), throughput de pagos semanal/mensual, tasa de excepciones por proveedor y región, captura de descuentos, costo por factura. Conecté directamente a nuestra base SQL con DirectQuery. Usé Power Query para transformar datos — limpiando exports de diferentes sistemas regionales. Se convirtió en la herramienta principal para las reuniones mensuales de AP.",
+      "tags": ["power bi", "dashboard", "reporting", "kpi", "visualization", "analytics"],
+      "category": "tech"
+    },
+    {
+      "id": "t5",
+      "q_en": "How do you handle vendor disputes or billing discrepancies?",
+      "q_es": "¿Cómo manejas disputas con proveedores o discrepancias de facturación?",
+      "a_en": "Systematic approach. First, verify the data — three-way matching between invoice, purchase order, and receiving report. 80% of disputes resolve at this stage because the discrepancy is usually a missing document or a pricing error. For genuine disputes: I compile documented evidence (emails, PO terms, delivery confirmations), present it clearly to the vendor, and negotiate professionally. At Brinks, I used this approach to resolve 60% of historical outstanding items. Key principle: always approach vendors as partners, not adversaries — you need them for future business.",
+      "a_es": "Enfoque sistemático. Primero, verificar datos — three-way matching entre factura, orden de compra y reporte de recepción. 80% se resuelve ahí porque la discrepancia suele ser un documento faltante o error de precio. Para disputas genuinas: compilo evidencia documentada (emails, términos de OC, confirmaciones de entrega), la presento claramente y negocio profesionalmente. En Brinks resolví 60% de discrepancias históricas con este enfoque. Principio clave: tratar proveedores como socios, no adversarios.",
+      "tags": ["vendor", "supplier", "billing", "dispute", "accounts payable", "negotiation"],
+      "category": "finance"
+    },
+    {
+      "id": "t6",
+      "q_en": "What ERP systems have you worked with?",
+      "q_es": "¿Con qué sistemas ERP has trabajado?",
+      "a_en": "At Brinks, I worked with the company's financial ERP for invoice processing, payment execution, vendor management, and reporting across Brazil and Caribbean operations. I extracted data from the ERP via SQL for my Power BI dashboards — essentially building an analytics layer on top of the transactional system. I'm comfortable learning new ERPs quickly — my Systems Engineering background gives me a strong foundation for understanding any software architecture. I've also worked with Excel-based and custom internal tools at Express Microfinanzas for credit risk analysis.",
+      "a_es": "En Brinks trabajé con el ERP financiero para procesamiento de facturas, ejecución de pagos, gestión de proveedores y reporting para Brasil y Caribe. Extraía datos del ERP vía SQL para mis dashboards Power BI — construyendo una capa analítica sobre el sistema transaccional. Mi formación en Ingeniería de Sistemas me permite aprender ERPs nuevos rápidamente. También trabajé con herramientas Excel y sistemas internos en Express Microfinanzas.",
+      "tags": ["erp", "sap", "oracle", "netsuite", "system", "software"],
+      "category": "tech"
+    },
+    {
+      "id": "t7",
+      "q_en": "What questions do you have for us?",
+      "q_es": "¿Qué preguntas tienes para nosotros?",
+      "a_en": "• How has the team evolved over the past year?\n• What does success look like in the first 90 days for this role?\n• What tools and systems does the team currently use for daily operations?\n• What are the biggest challenges the team is facing right now?\n• Are there any automation or process improvement initiatives planned?",
+      "a_es": "• ¿Cómo ha evolucionado el equipo en el último año?\n• ¿Cómo se ve el éxito en los primeros 90 días?\n• ¿Qué herramientas y sistemas usa el equipo diariamente?\n• ¿Cuáles son los mayores desafíos actuales?\n• ¿Hay iniciativas de automatización o mejora de procesos planeadas?",
+      "tags": ["all"],
+      "category": "closing"
+    }
+  ]
+}

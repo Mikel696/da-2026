@@ -221,7 +221,11 @@ const CVWeaver = {
       },
       jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
       pagebreak: { mode: 'avoid-all' }
-    }).from(canvas).save();
+    }).from(canvas).toPdf().get('pdf').then(function(pdf){
+      // Bulletproof phantom page killer
+      const totalPages = pdf.internal.getNumberOfPages();
+      for(let i = totalPages; i > 1; i--){ pdf.deletePage(i); }
+    }).save();
   }
 };
 

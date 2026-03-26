@@ -16,10 +16,12 @@
   - ✅ **Win-Rate Optimizer** — 12 búsquedas booleanas preconfiguradas en LinkedIn, Indeed, Computrabajo, Torre, RemoteOK, Upwork. Optimizadas para perfil cruzado Contabilidad + Data Entry + Remoto LATAM.
   - ✅ **Smart CV Weaver** — CV dinámico con keywords ATS tejidas, 3 perfiles (accounting/data_entry/hybrid), auto-detección de foco, contenteditable preview, export PDF via html2pdf.js. Datos base en `data/my-base-cv.json`.
   - ✅ **Cover & Msgs Weaver** — Cover letters dinámicas con 2 templates (formal/startup), selección por tono, mensajes de aplicación y LinkedIn. Datos en `data/my-cover-templates.json`, lógica en `js/cover-weaver.js`.
+  - ✅ **PDF Phantom Page Fix** — Intercepta jsPDF pipeline para eliminar páginas fantasma via `pdf.deletePage()`.
+  - ✅ **Interview Weaver + TTS** — 13 preguntas STAR (6 conductuales + 7 técnicas), rankeadas por relevancia al JD. Web Speech API con Play/Pause/Resume, voz española auto-detectada. Datos en `data/my-interview-qa.json`, lógica en `js/interview-weaver.js`.
 
 - **Siguiente paso sugerido:**
-  1. **Deep Interview Prep Module with Web Speech API TTS (Play/Pause)** — Módulo de preparación de entrevista con síntesis de voz para practicar respuestas.
-  2. **Cross-module integration: Link CVMaker to Tracker** — Conectar el generador de CV perfilado directamente con las vacantes del Tracker para one-click profiling.
+  1. **Cross-module integration: Link CVMaker to Tracker** — Conectar el generador de CV perfilado directamente con las vacantes del Tracker para one-click profiling.
+  2. **English Interview Mode** — Añadir voz inglesa al TTS para practicar entrevistas en inglés.
 
 ## Arquitectura de Archivos Clave
 
@@ -35,6 +37,8 @@
 | `frontend/js/cover-weaver.js` | Cover Weaver: cartas y mensajes dinámicos con tono |
 | `frontend/data/my-base-cv.json` | Base CV modular: summaries, bullets con {kw:} placeholders |
 | `frontend/data/my-cover-templates.json` | Templates de cover letter (formal/startup) + msgs |
+| `frontend/js/interview-weaver.js` | Interview Weaver: prep rankeada + Web Speech API TTS |
+| `frontend/data/my-interview-qa.json` | 13 Q&A STAR-method (behavioral + technical) |
 | `frontend/js/ats-engine.js` | Motor ATS v2 con matching por sinónimos |
 | `frontend/data/my-skills.json` | Inventario de skills con categorías y sinónimos |
 | `frontend/index.html` | Dashboard principal |
