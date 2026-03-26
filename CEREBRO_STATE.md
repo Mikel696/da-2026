@@ -16,9 +16,26 @@
   - ✅ Interview Weaver + TTS — 13 Q&A STAR-method, relevancia por JD, Web Speech API Play/Pause (`js/interview-weaver.js` + `data/my-interview-qa.json`)
   - ✅ Prompt Lab Weaver — 3 prompts IA dinámicos: Mock Interviewer, Tech Assessment Solver, Salary Negotiator (`js/prompt-weaver.js`)
 
+- **Módulo 1-IND (Global Dashboard & Mission Control) — ✅ 100% FEATURE COMPLETE**
+  - ✅ Modularización index.html — CSS → `css/index.css`, JS → `js/index.js`. HTML shell: 10.5 KB (era 32 KB, -67%)
+  - ✅ Mission Control: 4 widgets (Pipeline Overview, Meta Semanal, Actividad Reciente, Acciones Rápidas)
+  - ✅ Pipeline Overview — contadores por columna (Saved/Applied/Interview/Offer/Rejected), barra de progreso, tasas de conversión
+  - ✅ Meta Semanal — ring SVG animado, conteo de apps esta semana vs target (10/semana), desglose Lun–Dom
+  - ✅ Actividad Reciente — timeline de últimos movimientos del VacancyDB con timeAgo
+  - ✅ Acciones Rápidas — links directos a Command Center, Tracker, Kanban, CV Weaver, Ruta DA, English
+  - ✅ Lectura en tiempo real de VacancyDB (`da_vacancies` localStorage) — datos sincronizados con jobs.html y apply.html
+
 - **Siguiente fase sugerida (próxima sesión):**
-  1. **Module 1-IND: Global Dashboard & Analytics Hub** — Visualizar datos del Tracker, próximas entrevistas, metas diarias de aplicación, métricas de conversión globales.
-  2. **Cross-module integration** — Conectar CVMaker directamente con Tracker para one-click profiling desde cualquier vacante guardada.
+  1. **Cross-module integration** — Conectar CVMaker directamente con Tracker para one-click profiling desde cualquier vacante guardada.
+  2. **Module 3-EDU: Learning Path Tracker** — Progreso en Ruta DA, English Academy, con métricas de avance.
+
+## Arquitectura de Archivos — Module 1-IND
+
+| Archivo | Función |
+|---|---|
+| `frontend/index.html` | Global Dashboard — HTML shell (10.5 KB) |
+| `frontend/css/index.css` | Estilos del Dashboard + Mission Control widgets |
+| `frontend/js/index.js` | Clock, tasks, pomodoro, RSS feed, Mission Control engine |
 
 ## Arquitectura de Archivos — Module 2-APP
 
@@ -39,4 +56,4 @@
 | `frontend/jobs.html` | Job Tracker — HTML shell (24 KB) |
 | `frontend/css/jobs.css` | Estilos del Job Tracker + Kanban |
 | `frontend/js/jobs.js` | Kanban, VDB, analytics, drag-and-drop, win-rate optimizer |
-| `frontend/index.html` | Dashboard principal |
+| `frontend/index.html` | Global Dashboard + Mission Control — HTML shell (10.5 KB) |
