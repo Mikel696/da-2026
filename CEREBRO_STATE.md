@@ -11,11 +11,12 @@
   - ✅ Cover Letter + LinkedIn Msg generados por tono
 
   - ✅ **Modularización apply.html** — CSS → `css/apply.css`, JS → `js/apply.js`. HTML shell: 8 KB (era 84 KB)
+  - ✅ **Modularización jobs.html** — CSS → `css/jobs.css`, JS → `js/jobs.js`. HTML shell: 24 KB (era 52 KB)
+  - ✅ **Dashboard Analytics** — Panel de métricas en tiempo real: contadores por columna, tasa de aplicación, tasa de entrevista, win rate. Se actualiza con cada movimiento de tarjeta.
 
 - **Siguiente paso sugerido:**
   1. **Win-Rate Optimizer** — Refinar filtros de búsqueda del Job Tracker para priorizar vacantes 100% remotas LATAM con menor fricción de entrada (perfil cruzado Contabilidad + Data Entry).
-  2. **Dashboard Analytics** — Agregar métricas de conversión al Tracker (tasa guardado→aplicado→entrevista→finalista).
-  3. **Modularización de jobs.html** — Extraer CSS y JS a archivos separados como se hizo con apply.html.
+  2. **Módulo de Alertas** — Notificaciones de follow-up para vacantes aplicadas sin respuesta después de X días.
 
 ## Arquitectura de Archivos Clave
 
@@ -24,7 +25,9 @@
 | `frontend/apply.html` | Application Command Center — HTML shell (8 KB) |
 | `frontend/css/apply.css` | Estilos del Application Command Center (12 KB) |
 | `frontend/js/apply.js` | Lógica completa: VDB, profiling, CV, cover, interview (68 KB) |
-| `frontend/jobs.html` | Job Tracker + Kanban + Estrategia (52KB) |
+| `frontend/jobs.html` | Job Tracker — HTML shell (24 KB) |
+| `frontend/css/jobs.css` | Estilos del Job Tracker + Kanban (92 líneas) |
+| `frontend/js/jobs.js` | Lógica: Kanban, VDB, analytics, drag-and-drop (295 líneas) |
 | `frontend/js/ats-engine.js` | Motor ATS v2 con matching por sinónimos |
 | `frontend/data/my-skills.json` | Inventario de skills con categorías y sinónimos |
 | `frontend/index.html` | Dashboard principal |
