@@ -6,6 +6,7 @@
 <title>DA-2026 · Application Command Center</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/apply.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 </head>
 <body>
 <nav class="nav">
@@ -55,8 +56,17 @@
 
 <!-- TAB 2: CV PERFILADO -->
 <div class="pnl" id="p-cv">
-<div class="sl">· cv perfilado dinámico ·</div>
-<div id="cvContent"><div class="empty"><div class="empty-icon">📄</div><h3>CV Perfilado pendiente</h3><p>Analiza una vacante en la pestaña "Analizador" y el CV se generará automáticamente con keywords ATS de la oferta.</p></div></div>
+<div class="sl">· smart cv weaver — perfilado dinámico ·</div>
+<div id="cvWeaverToolbar">
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="CVWeaver.autoProfile()">⚙️ Auto-Perfilar CV</button>
+<button class="btn bo" onclick="CVWeaver.exportPDF()">📄 Descargar PDF</button>
+</div>
+</div>
+<div id="cv-preview-canvas" contenteditable="true" style="background:#fff;border-radius:10px;overflow:hidden;min-height:200px;box-shadow:0 4px 24px rgba(0,0,0,.3)">
+<div class="empty"><div class="empty-icon">📄</div><h3>CV Perfilado pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Perfilar CV" para generar un CV dinámico con keywords ATS tejidas.</p></div>
+</div>
+<div id="cvContent" style="display:none"></div>
 </div>
 
 <!-- TAB 3: COVER & MSGS -->
@@ -124,6 +134,7 @@ Además, actualiza el módulo apply.html en el proyecto da-2026 con toda esta in
 </div>
 
 <script src="js/ats-engine.js"></script>
+<script src="js/cv-weaver.js"></script>
 <script src="js/apply.js"></script>
 </body>
 </html>

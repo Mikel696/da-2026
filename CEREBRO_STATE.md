@@ -14,6 +14,7 @@
   - ✅ **Modularización jobs.html** — CSS → `css/jobs.css`, JS → `js/jobs.js`. HTML shell: 24 KB (era 52 KB)
   - ✅ **Dashboard Analytics** — Panel de métricas en tiempo real: contadores por columna, tasa de aplicación, tasa de entrevista, win rate. Se actualiza con cada movimiento de tarjeta.
   - ✅ **Win-Rate Optimizer** — 12 búsquedas booleanas preconfiguradas en LinkedIn, Indeed, Computrabajo, Torre, RemoteOK, Upwork. Optimizadas para perfil cruzado Contabilidad + Data Entry + Remoto LATAM.
+  - ✅ **Smart CV Weaver** — CV dinámico con keywords ATS tejidas, 3 perfiles (accounting/data_entry/hybrid), auto-detección de foco, contenteditable preview, export PDF via html2pdf.js. Datos base en `data/my-base-cv.json`.
 
 - **Siguiente paso sugerido:**
   1. **Cross-module integration: Link CVMaker to Tracker** — Conectar el generador de CV perfilado directamente con las vacantes del Tracker para one-click profiling.
@@ -29,6 +30,8 @@
 | `frontend/jobs.html` | Job Tracker — HTML shell (24 KB) |
 | `frontend/css/jobs.css` | Estilos del Job Tracker + Kanban (92 líneas) |
 | `frontend/js/jobs.js` | Lógica: Kanban, VDB, analytics, drag-and-drop (295 líneas) |
+| `frontend/js/cv-weaver.js` | Smart CV Weaver: perfilado dinámico + PDF export |
+| `frontend/data/my-base-cv.json` | Base CV modular: summaries, bullets con {kw:} placeholders |
 | `frontend/js/ats-engine.js` | Motor ATS v2 con matching por sinónimos |
 | `frontend/data/my-skills.json` | Inventario de skills con categorías y sinónimos |
 | `frontend/index.html` | Dashboard principal |

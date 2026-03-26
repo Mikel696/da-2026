@@ -351,6 +351,7 @@ function runAnalysis(){
 
   // Render all sections
   renderAnalysis(); renderCV(); renderCover(); renderInterview(); updateNavState();
+  if(typeof CVWeaver!=='undefined'&&CVWeaver.ready) CVWeaver.autoProfile();
   document.getElementById('nCV').classList.add('on');
   document.getElementById('nCover').classList.add('on');
   document.getElementById('nInt').classList.add('on');
