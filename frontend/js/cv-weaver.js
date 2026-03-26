@@ -206,11 +206,19 @@ const CVWeaver = {
       ? `CV_MiguelBarros_${S.company.replace(/\s+/g,'_')}`
       : 'CV_MiguelBarros_Profiled';
 
+    // Fix scroll offset white gap
+    window.scrollTo(0, 0);
+
     html2pdf().set({
       margin: 0,
       filename: name + '.pdf',
-      image: { type:'jpeg', quality:0.98 },
-      html2canvas: { scale:2, useCORS:true, letterRendering:true },
+      image: { type:'jpeg', quality:1 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth
+      },
       jsPDF: { unit:'mm', format:'a4', orientation:'portrait' }
     }).from(canvas).save();
   }
