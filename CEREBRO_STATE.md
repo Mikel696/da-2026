@@ -34,13 +34,21 @@
   - ✅ Data layer: `data/english-dojo.json` (15 Q&A con tips y tags)
   - ✅ Modular: `css/english.css` + `js/english.js` (additive, no rompe el English Total System existente)
 
-- **Módulo 4-RUT (Excel Technical Simulator) — 🟡 PLANNED (stub ready)**
-  - ✅ Architecture ready: `css/ruta.css` + `js/ruta.js` linked to ruta.html
-  - ✅ Placeholder "Coming Soon: Excel Technical Simulator" visible en ruta.html
-  - 🔲 Next sprint: VLOOKUP/INDEX-MATCH simulator, pivot table exercises, timed assessments
+- **Módulo 4-RUT (Excel Technical Test Simulator) — ✅ 100% FEATURE COMPLETE**
+  - ✅ Split-panel UI: sidebar con lista de escenarios + workspace con mock Excel table
+  - ✅ 9 escenarios realistas AP/Finance en 3 categorías:
+    - Data Cleaning (TRIM, UPPER, VALUE, SUBSTITUTE, MID, DATE)
+    - Reconciliation / Lookups (XLOOKUP, INDEX/MATCH, IFERROR)
+    - Aging & Logic (nested IFs, TODAY, SUMIFS, COUNTIFS, AND)
+  - ✅ Mock data tables estilo Excel con headers A/B/C, row numbers, gridlines, yellow target cells
+  - ✅ Formula input bar con prefix `fx` y validación regex de funciones clave
+  - ✅ Toast feedback (success/warning/error) con animación
+  - ✅ Solution panel con formula + explicación paso a paso con markdown formatting
+  - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
+  - ✅ Data layer: `data/excel-tests.json` (9 escenarios con business_case, mock_data, target_formula, explanation)
 
 - **Siguiente fase sugerida (próxima sesión):**
-  1. **Module 4-RUT: Excel Technical Simulator** — VLOOKUP, INDEX-MATCH, pivot tables, timed assessment engine.
+  1. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
   2. **Cross-module integration** — Conectar CVMaker directamente con Tracker para one-click profiling desde cualquier vacante guardada.
 
 ## Arquitectura de Archivos — Module 1-IND
@@ -60,13 +68,14 @@
 | `frontend/js/english.js` | Dojo engine: TTS, STT, categories, rendering |
 | `frontend/data/english-dojo.json` | 15 Q&A (3 categorías × 5 preguntas) con ideal STAR answers |
 
-## Arquitectura de Archivos — Module 4-RUT (Stub)
+## Arquitectura de Archivos — Module 4-RUT
 
 | Archivo | Función |
 |---|---|
-| `frontend/ruta.html` | Ruta Data Analyst + Excel Dojo stub |
-| `frontend/css/ruta.css` | Estilos del Excel Simulator (stub) |
-| `frontend/js/ruta.js` | ExcelDojo placeholder engine (stub) |
+| `frontend/ruta.html` | Ruta Data Analyst + Excel Technical Test Simulator |
+| `frontend/css/ruta.css` | Estilos del Excel Simulator (split-panel, Excel-style tables, toast) |
+| `frontend/js/ruta.js` | ExcelDojo engine: fetch, render, validate, progress tracking |
+| `frontend/data/excel-tests.json` | 9 AP/Finance scenarios (3 categorías × 3 escenarios) con mock data |
 
 ## Arquitectura de Archivos — Module 2-APP
 

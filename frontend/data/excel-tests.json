@@ -1,0 +1,165 @@
+{
+  "categories": [
+    {
+      "id": "cleaning",
+      "name": "Data Cleaning",
+      "icon": "🧹",
+      "scenarios": [
+        {
+          "id": "c1",
+          "title": "Clean Vendor Names with Extra Spaces",
+          "business_case": "The AP team imported a vendor master list from the legacy ERP. Vendor names have leading/trailing spaces and inconsistent casing, causing duplicate matches during reconciliation. Clean column B so all names are trimmed and uppercase.",
+          "mock_data": [
+            {"A": "ID", "B": "Vendor Name (Raw)", "C": "Vendor Name (Clean)"},
+            {"A": "V-001", "B": "  Distribuciones Andina  ", "C": "?"},
+            {"A": "V-002", "B": " café EL SOL ltda ", "C": "?"},
+            {"A": "V-003", "B": "TRANSPORTES del   Valle", "C": "?"},
+            {"A": "V-004", "B": "   papelería MODERNA  s.a.s ", "C": "?"}
+          ],
+          "target_formula": "=UPPER(TRIM(B2))",
+          "key_functions": ["UPPER", "TRIM"],
+          "explanation": "**Step 1:** `TRIM(B2)` removes all leading, trailing, and extra internal spaces from the vendor name.\n**Step 2:** `UPPER(...)` converts the cleaned text to uppercase for consistent matching.\n**Result:** '  Distribuciones Andina  ' → 'DISTRIBUCIONES ANDINA'\n\n**Why it matters:** Duplicate vendor records in AP systems cause double payments. Standardizing names before VLOOKUP/XLOOKUP prevents #N/A errors from invisible spaces."
+        },
+        {
+          "id": "c2",
+          "title": "Convert Text Numbers to Actual Values",
+          "business_case": "Accounts exported from SAP have invoice amounts stored as text (left-aligned, can't SUM). The team needs to convert column C from text-formatted numbers to real numbers so they can calculate the total payable.",
+          "mock_data": [
+            {"A": "Invoice #", "B": "Vendor", "C": "Amount (Text)", "D": "Amount (Number)"},
+            {"A": "INV-4401", "B": "Papelería Moderna", "C": "'1,250,000", "D": "?"},
+            {"A": "INV-4402", "B": "Café El Sol", "C": "'890,500", "D": "?"},
+            {"A": "INV-4403", "B": "Transportes Valle", "C": "'3,475,200", "D": "?"},
+            {"A": "INV-4404", "B": "Dist. Andina", "C": "'15,000", "D": "?"}
+          ],
+          "target_formula": "=VALUE(SUBSTITUTE(C2,\",\",\"\"))",
+          "key_functions": ["VALUE", "SUBSTITUTE"],
+          "explanation": "**Step 1:** `SUBSTITUTE(C2,\",\",\"\")` removes the comma thousands separators (SAP/ERP exports often include them as text).\n**Step 2:** `VALUE(...)` converts the resulting text string to a real number that Excel can SUM, AVERAGE, etc.\n**Result:** '1,250,000' → 1250000\n\n**Pro tip:** If the source uses periods as thousands separators (European format), use `SUBSTITUTE(C2,\".\",\"\")` instead. Always check the regional format of the ERP export."
+        },
+        {
+          "id": "c3",
+          "title": "Extract Invoice Date from Concatenated Code",
+          "business_case": "The procurement system generates invoice codes in the format 'INV-YYYYMMDD-XXXX'. Finance needs the date extracted into a proper DATE column for aging calculations. Extract the date from column A.",
+          "mock_data": [
+            {"A": "Invoice Code", "B": "Extracted Date"},
+            {"A": "INV-20260115-0042", "B": "?"},
+            {"A": "INV-20260203-0108", "B": "?"},
+            {"A": "INV-20260228-0215", "B": "?"},
+            {"A": "INV-20260310-0301", "B": "?"}
+          ],
+          "target_formula": "=DATE(MID(A2,5,4),MID(A2,9,2),MID(A2,11,2))",
+          "key_functions": ["DATE", "MID"],
+          "explanation": "**Step 1:** `MID(A2,5,4)` extracts the year (positions 5-8: '2026').\n**Step 2:** `MID(A2,9,2)` extracts the month (positions 9-10: '01').\n**Step 3:** `MID(A2,11,2)` extracts the day (positions 11-12: '15').\n**Step 4:** `DATE(year,month,day)` constructs a proper Excel date from the parts.\n**Result:** 'INV-20260115-0042' → January 15, 2026\n\n**Why it matters:** With proper dates, you can calculate aging buckets (Current, 30, 60, 90+ days) and run SUMIFS by period for month-end close."
+        }
+      ]
+    },
+    {
+      "id": "lookups",
+      "name": "Reconciliation / Lookups",
+      "icon": "🔍",
+      "scenarios": [
+        {
+          "id": "l1",
+          "title": "Three-Way Match: PO vs Invoice vs GRN",
+          "business_case": "You need to verify that the invoice amount matches the Purchase Order. Use XLOOKUP to pull the PO amount from the PO table (columns E:F) and flag any discrepancy. The PO table has PO numbers in column E and amounts in column F.",
+          "mock_data": [
+            {"A": "Invoice #", "B": "PO Number", "C": "Invoice Amt", "D": "PO Amt (Lookup)", "E": "PO Number", "F": "PO Amount"},
+            {"A": "INV-301", "B": "PO-1001", "C": "5200000", "D": "?", "E": "PO-1001", "F": "5200000"},
+            {"A": "INV-302", "B": "PO-1002", "C": "1800000", "D": "?", "E": "PO-1002", "F": "1750000"},
+            {"A": "INV-303", "B": "PO-1003", "C": "3400000", "D": "?", "E": "PO-1003", "F": "3400000"},
+            {"A": "INV-304", "B": "PO-1009", "C": "920000", "D": "?", "E": "PO-1004", "F": "6100000"}
+          ],
+          "target_formula": "=XLOOKUP(B2,E:E,F:F,\"NOT FOUND\")",
+          "key_functions": ["XLOOKUP"],
+          "explanation": "**Step 1:** `XLOOKUP(B2, E:E, F:F, \"NOT FOUND\")` searches for the PO number (B2) in the PO table's lookup column (E:E).\n**Step 2:** When found, it returns the corresponding PO Amount from column F.\n**Step 3:** If the PO doesn't exist (like PO-1009), it returns 'NOT FOUND' instead of #N/A.\n\n**Next step:** Add a discrepancy flag: `=IF(C2=D2,\"✓ Match\",\"⚠ Discrepancy\")` to identify invoices that don't match their PO.\n\n**Why XLOOKUP over VLOOKUP:** XLOOKUP can look left, doesn't need column index numbers, and has a built-in 'not found' parameter — critical for AP reconciliation where missing POs must be flagged, not hidden."
+        },
+        {
+          "id": "l2",
+          "title": "Vendor Reconciliation with INDEX/MATCH",
+          "business_case": "You're reconciling vendor statements against your AP ledger. The vendor sent a statement (columns E:G) and you need to match each of your AP entries to find the vendor's reference number. Some invoices may not appear on the vendor's statement.",
+          "mock_data": [
+            {"A": "Our Invoice #", "B": "Amount", "C": "Vendor Ref#", "D": " ", "E": "Vendor Inv#", "F": "Vendor Amt", "G": "Vendor Ref"},
+            {"A": "AP-2201", "B": "3500000", "C": "?", "D": " ", "E": "AP-2201", "F": "3500000", "G": "VR-8801"},
+            {"A": "AP-2202", "B": "1200000", "C": "?", "D": " ", "E": "AP-2203", "F": "7800000", "G": "VR-8803"},
+            {"A": "AP-2203", "B": "7800000", "C": "?", "D": " ", "E": "AP-2205", "F": "450000", "G": "VR-8805"},
+            {"A": "AP-2204", "B": "2100000", "C": "?", "D": " ", "E": "AP-2204", "F": "2100000", "G": "VR-8804"}
+          ],
+          "target_formula": "=IFERROR(INDEX(G:G,MATCH(A2,E:E,0)),\"NO MATCH\")",
+          "key_functions": ["INDEX", "MATCH", "IFERROR"],
+          "explanation": "**Step 1:** `MATCH(A2, E:E, 0)` finds the row position of our invoice number in the vendor's statement column. The `0` means exact match.\n**Step 2:** `INDEX(G:G, ...)` returns the Vendor Reference from column G at that row position.\n**Step 3:** `IFERROR(..., \"NO MATCH\")` catches #N/A errors when our invoice doesn't appear on the vendor's statement (like AP-2202).\n\n**Why INDEX/MATCH:** Unlike VLOOKUP, it works regardless of column order and is more flexible for complex reconciliation layouts where the return column is to the left of the lookup column."
+        },
+        {
+          "id": "l3",
+          "title": "Cross-Reference Payment Status",
+          "business_case": "Finance needs to check which invoices have been paid. The payments table (columns E:F) has invoice numbers and payment dates. Use XLOOKUP to pull the payment date, showing 'PENDING' for unpaid invoices.",
+          "mock_data": [
+            {"A": "Invoice #", "B": "Amount", "C": "Payment Date", "D": " ", "E": "Paid Invoice", "F": "Pay Date"},
+            {"A": "INV-5001", "B": "4200000", "C": "?", "D": " ", "E": "INV-5001", "F": "2026-03-01"},
+            {"A": "INV-5002", "B": "1850000", "C": "?", "D": " ", "E": "INV-5003", "F": "2026-03-10"},
+            {"A": "INV-5003", "B": "6700000", "C": "?", "D": " ", "E": "INV-5005", "F": "2026-03-15"},
+            {"A": "INV-5004", "B": "3300000", "C": "?", "D": " ", "E": "INV-5004", "F": "2026-03-18"},
+            {"A": "INV-5005", "B": "990000", "C": "?", "D": " ", "E": "", "F": ""}
+          ],
+          "target_formula": "=XLOOKUP(A2,E:E,F:F,\"PENDING\")",
+          "key_functions": ["XLOOKUP"],
+          "explanation": "**Step 1:** `XLOOKUP(A2, E:E, F:F, \"PENDING\")` searches for the invoice number in the payments table.\n**Step 2:** If found, it returns the payment date from column F.\n**Step 3:** If not found (INV-5002 has no payment record), it returns 'PENDING'.\n\n**Follow-up analysis:** Combine with `=IF(C2=\"PENDING\", TODAY()-B_DUE_DATE, \"\")` to calculate days overdue for unpaid invoices. This feeds directly into your aging report."
+        }
+      ]
+    },
+    {
+      "id": "aging",
+      "name": "Aging & Logic",
+      "icon": "📅",
+      "scenarios": [
+        {
+          "id": "a1",
+          "title": "AP Aging Bucket Classification",
+          "business_case": "You need to classify each open invoice into aging buckets for the month-end AP aging report: Current (0-30 days), 31-60, 61-90, or 90+ days overdue. Column B has the invoice date. Today is 2026-03-25.",
+          "mock_data": [
+            {"A": "Invoice #", "B": "Invoice Date", "C": "Amount", "D": "Days Outstanding", "E": "Aging Bucket"},
+            {"A": "INV-7001", "B": "2026-03-10", "C": "2500000", "D": "?", "E": "?"},
+            {"A": "INV-7002", "B": "2026-02-15", "C": "4800000", "D": "?", "E": "?"},
+            {"A": "INV-7003", "B": "2026-01-05", "C": "1200000", "D": "?", "E": "?"},
+            {"A": "INV-7004", "B": "2025-12-01", "C": "7500000", "D": "?", "E": "?"},
+            {"A": "INV-7005", "B": "2026-03-20", "C": "950000", "D": "?", "E": "?"}
+          ],
+          "target_formula": "=IF(TODAY()-B2<=30,\"Current\",IF(TODAY()-B2<=60,\"31-60\",IF(TODAY()-B2<=90,\"61-90\",\"90+\")))",
+          "key_functions": ["IF", "TODAY"],
+          "explanation": "**Column D formula:** `=TODAY()-B2` calculates days outstanding (e.g., March 25 - March 10 = 15 days).\n\n**Column E formula (nested IFs):**\n- `IF(TODAY()-B2<=30, \"Current\", ...)` → 0-30 days = Current\n- `IF(TODAY()-B2<=60, \"31-60\", ...)` → 31-60 days\n- `IF(TODAY()-B2<=90, \"61-90\", ...)` → 61-90 days\n- Else → \"90+\"\n\n**Results:**\n- INV-7001 (Mar 10): 15 days → Current\n- INV-7002 (Feb 15): 38 days → 31-60\n- INV-7003 (Jan 5): 79 days → 61-90\n- INV-7004 (Dec 1): 114 days → 90+\n\n**Why it matters:** The aging report is the #1 deliverable in AP month-end close. Controllers and CFOs use it to assess liquidity risk and vendor payment priority."
+        },
+        {
+          "id": "a2",
+          "title": "SUMIFS: Total Payables by Vendor and Period",
+          "business_case": "Management wants to know the total outstanding payables per vendor for Q1 2026 only. Use SUMIFS to sum amounts where the vendor matches AND the invoice date falls within Q1 (Jan 1 - Mar 31, 2026).",
+          "mock_data": [
+            {"A": "Invoice #", "B": "Vendor", "C": "Date", "D": "Amount"},
+            {"A": "INV-801", "B": "Dist. Andina", "C": "2026-01-15", "D": "3200000"},
+            {"A": "INV-802", "B": "Café El Sol", "C": "2026-02-10", "D": "1500000"},
+            {"A": "INV-803", "B": "Dist. Andina", "C": "2026-03-05", "D": "4800000"},
+            {"A": "INV-804", "B": "Café El Sol", "C": "2025-12-20", "D": "2200000"},
+            {"A": "INV-805", "B": "Dist. Andina", "C": "2026-02-28", "D": "1100000"},
+            {"A": "INV-806", "B": "Transp. Valle", "C": "2026-01-30", "D": "6700000"}
+          ],
+          "target_formula": "=SUMIFS(D:D,B:B,\"Dist. Andina\",C:C,\">=\"&DATE(2026,1,1),C:C,\"<=\"&DATE(2026,3,31))",
+          "key_functions": ["SUMIFS", "DATE"],
+          "explanation": "**Breakdown:**\n- `D:D` → Sum range (invoice amounts)\n- `B:B, \"Dist. Andina\"` → Criteria 1: vendor must be 'Dist. Andina'\n- `C:C, \">=\"&DATE(2026,1,1)` → Criteria 2: date must be on or after Jan 1, 2026\n- `C:C, \"<=\"&DATE(2026,3,31)` → Criteria 3: date must be on or before Mar 31, 2026\n\n**Result for Dist. Andina:** 3,200,000 + 4,800,000 + 1,100,000 = **9,100,000 COP**\n(INV-804 from Dec 2025 is excluded because it's outside Q1)\n\n**Pro tip:** Use `DATE()` instead of hardcoded date strings to avoid regional format issues (MM/DD vs DD/MM). This is critical when sharing workbooks across LATAM and US teams."
+        },
+        {
+          "id": "a3",
+          "title": "COUNTIFS + Conditional: Overdue Invoice Alert",
+          "business_case": "The AP manager wants a dashboard cell that counts how many invoices are overdue (past their 30-day payment term) AND above 2,000,000 COP. Flag high-risk payables for the weekly review meeting.",
+          "mock_data": [
+            {"A": "Invoice #", "B": "Invoice Date", "C": "Amount", "D": "Days Out", "E": "Risk Flag"},
+            {"A": "INV-901", "B": "2026-02-10", "C": "5500000", "D": "43", "E": "?"},
+            {"A": "INV-902", "B": "2026-03-15", "C": "800000", "D": "10", "E": "?"},
+            {"A": "INV-903", "B": "2026-01-20", "C": "3200000", "D": "64", "E": "?"},
+            {"A": "INV-904", "B": "2026-03-01", "C": "4100000", "D": "24", "E": "?"},
+            {"A": "INV-905", "B": "2026-02-01", "C": "1500000", "D": "52", "E": "?"}
+          ],
+          "target_formula": "=IF(AND(D2>30,C2>2000000),\"⚠ HIGH RISK\",IF(D2>30,\"⏰ Overdue\",\"✓ OK\"))",
+          "key_functions": ["IF", "AND"],
+          "explanation": "**Logic chain:**\n1. `AND(D2>30, C2>2000000)` → Both conditions true? → **\"⚠ HIGH RISK\"**\n2. `D2>30` alone → Overdue but small amount → **\"⏰ Overdue\"**\n3. Else → **\"✓ OK\"**\n\n**Results:**\n- INV-901: 43 days, 5.5M → ⚠ HIGH RISK\n- INV-902: 10 days, 800K → ✓ OK\n- INV-903: 64 days, 3.2M → ⚠ HIGH RISK\n- INV-904: 24 days, 4.1M → ✓ OK (not overdue yet)\n- INV-905: 52 days, 1.5M → ⏰ Overdue (small amount)\n\n**Dashboard summary formula:** `=COUNTIFS(D2:D100,\">30\",C2:C100,\">2000000\")` gives the total HIGH RISK count for the weekly meeting."
+        }
+      ]
+    }
+  ]
+}
