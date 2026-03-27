@@ -29,6 +29,33 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
 3. **Sub-Menú de Tareas:** Una vez que yo elija el módulo (ej. "2-APP"), analiza rápidamente los archivos de ese módulo e imprímeme un menú de opciones sobre qué hacer (Ej: A. UI/CSS, B. Lógica JS, C. Base de Datos/IndexedDB, D. Nueva Funcionalidad).
 4. **Espera mi orden:** No empieces a codificar hasta que yo elija una opción del sub-menú.
 
+## 🎓 PROTOCOLO 10-SYS: ESCANEO ACADÉMICO EN VIVO (CUN SCANNER)
+Cuando el usuario elija `10-SYS` del menú principal, seguir este flujo:
+1. **Preguntar:** "¿Quieres que escanee tus páginas de la CUN? Pega el prompt `CEREBRO: SCAN CUN` cuando tengas las páginas abiertas y logueadas en Chrome."
+2. **Al recibir `CEREBRO: SCAN CUN`**, ejecutar el protocolo de escaneo:
+   a. Llamar `tabs_context_mcp` para obtener todas las tabs abiertas.
+   b. Identificar tabs de la CUN por URL (cdigital.cun.edu.co, sigwt.cun.edu.co, mail.google.com).
+   c. Leer cada tab CUN con `get_page_text` y `read_page`.
+   d. Extraer: materias activas, tareas pendientes, calificaciones, foros, fechas de entrega.
+   e. Generar un reporte estructurado con:
+      - Estado de cada materia (notas, pendientes, riesgo)
+      - Tareas ordenadas por prioridad/urgencia
+      - Plan de acción semanal con orden de ejecución
+   f. Actualizar `frontend/data/academic-8vo.json` con los datos extraídos.
+   g. Sincronizar el módulo `10-SYS` con la data fresca.
+
+### Links que el usuario debe abrir antes de escanear:
+1. **CUN Digital (Moodle):** https://cdigital.cun.edu.co/
+2. **Curso Activo 28494:** https://cdigital.cun.edu.co/course/view.php?id=28494
+3. **SGA Campus (Notas):** https://sigwt.cun.edu.co/sgacampus/#home
+4. **Gmail CUN:** https://mail.google.com/mail/u/3/?ogbl#inbox
+
+### Variantes del prompt de escaneo:
+- `CEREBRO: SCAN CUN` — Escaneo completo (todas las tabs CUN)
+- `CEREBRO: SCAN NOTAS` — Solo SGA Campus (calificaciones)
+- `CEREBRO: SCAN TAREAS` — Solo CUN Digital (entregas pendientes)
+- `CEREBRO: SCAN EMAIL` — Solo Gmail CUN (comunicación profesores)
+
 ## 🚨 REGLAS ESTRICTAS DE CÓDIGO Y TOKENS (AHORRO EXTREMO)
 1. **PROHIBIDO LEER ARCHIVOS GIGANTES:** NUNCA leas archivos de más de 200 líneas enteros. 
 2. **Exploración obligatoria:** Usa `bash` y `grep -n` para encontrar líneas exactas antes de leer.
