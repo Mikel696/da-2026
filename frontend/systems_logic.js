@@ -14,15 +14,16 @@ const SYS = (() => {
   };
 
   // ── SUBJECTS (8vo Semestre) ──
+  // ── SUBJECTS (Período 26V02 — Datos reales SGA/SINU) ──
   const SUBJECTS = [
-    { id: 'discretas', name: 'Matemáticas Discretas', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', desc: 'Grafos, árboles, combinatoria, lógica proposicional, teoría de conjuntos y relaciones.', resources: ['https://brilliant.org/courses/discrete-mathematics/', 'https://www.khanacademy.org/computing/computer-science/algorithms'] },
-    { id: 'algebra', name: 'Álgebra Moderna', icon: '📐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Ciencia Básica', desc: 'Grupos, anillos, campos, homomorfismos, estructuras algebraicas abstractas.', resources: ['https://www.khanacademy.org/math/linear-algebra', 'https://ocw.mit.edu/courses/18-703-modern-algebra-spring-2013/'] },
-    { id: 'software', name: 'Refinamiento en Producción de Software', icon: '⚙️', color: 'hsl(142,60%,45%)', credits: 3, type: 'Desarrollo de Software', desc: 'CI/CD, DevOps, testing, refactoring, patrones de diseño, calidad de código.', resources: ['https://refactoring.guru/', 'https://www.freecodecamp.org/learn/quality-assurance/'] },
-    { id: 'bdd', name: 'Administración de Base de Datos', icon: '🗄️', color: 'hsl(35,90%,55%)', credits: 4, type: 'Desarrollo de Software', desc: 'DBA, optimización de queries, índices, backup/recovery, seguridad, replicación.', resources: ['https://www.w3schools.com/sql/', 'https://sqlbolt.com/'] },
-    { id: 'redes', name: 'Redes Inalámbricas', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
-    { id: 'ecuaciones', name: 'Ecuaciones Diferenciales', icon: '∫', color: 'hsl(320,60%,50%)', credits: 3, type: 'Ciencia Básica', desc: 'EDO de primer y segundo orden, transformadas de Laplace, sistemas de ecuaciones diferenciales, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/'] },
-    { id: 'negocios', name: 'Plan de Negocios II', icon: '📈', color: 'hsl(45,85%,50%)', credits: 2, type: 'Emprendimiento', desc: 'Modelo de negocio, plan financiero, estudio de mercado, pitch deck, viabilidad de proyectos tecnológicos.', resources: ['https://www.coursera.org/learn/business-plan', 'https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan'] },
-    { id: 'electiva1', name: 'Electiva de Profundización I', icon: '🎯', color: 'hsl(15,70%,50%)', credits: 2, type: 'Electiva', desc: 'Materia electiva de profundización según línea de énfasis elegida. Consulta opciones disponibles en SGA Campus.', resources: ['https://sigwt.cun.edu.co/sgacampus/#home'] },
+    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', desc: 'Transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
+    { id: 'calidad_sw', code: 'DIS32', name: 'Calidad del Software', group: '52278', icon: '⚙️', color: 'hsl(142,60%,45%)', credits: 3, type: 'Desarrollo de Software', desc: 'Testing, QA, estándares ISO, métricas de calidad, pruebas unitarias, integración continua, cobertura de código.', resources: ['https://www.freecodecamp.org/learn/quality-assurance/', 'https://refactoring.guru/'] },
+    { id: 'admin_bd', code: 'DIS33', name: 'Administración de Bases de Datos', group: '52291', icon: '🗄️', color: 'hsl(35,90%,55%)', credits: 3, type: 'Desarrollo de Software', desc: 'DBA, optimización de queries, índices, backup/recovery, seguridad, replicación, administración de servidores.', resources: ['https://www.w3schools.com/sql/', 'https://sqlbolt.com/'] },
+    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
+    { id: 'redes', code: 'DIS35', name: 'Redes Inalámbricas', group: '52226', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT, configuración de redes.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
+    { id: 'inv_ciencia', code: 'DIS36', name: 'Inv. Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', desc: 'Metodología de investigación, estado del arte, formulación de proyectos, artículos científicos, normas APA.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
+    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
+    { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/'] },
   ];
 
   // ── CALENDAR 2026 (extracted from official PDF) ──
@@ -125,12 +126,12 @@ const SYS = (() => {
   ];
 
   const STUDY_RESOURCES = [
-    { title: 'Refactoring Guru', desc: 'Patrones de diseño y refactoring', icon: '🔧', color: 'hsl(15,70%,50%)', url: 'https://refactoring.guru/' },
-    { title: 'SQLBolt', desc: 'Tutorial interactivo de SQL', icon: '⚡', color: 'hsl(45,90%,50%)', url: 'https://sqlbolt.com/' },
+    { title: 'SQLBolt', desc: 'Tutorial interactivo de SQL (Admin BD)', icon: '⚡', color: 'hsl(45,90%,50%)', url: 'https://sqlbolt.com/' },
     { title: 'Cisco NetAcad', desc: 'Cursos de redes y networking', icon: '🌐', color: 'hsl(200,80%,50%)', url: 'https://www.netacad.com/' },
-    { title: 'Brilliant.org', desc: 'Matemáticas discretas interactivas', icon: '💡', color: 'hsl(35,90%,55%)', url: 'https://brilliant.org/courses/discrete-mathematics/' },
-    { title: 'MIT OCW Algebra', desc: 'Álgebra moderna (MIT)', icon: '🏫', color: 'hsl(0,70%,55%)', url: 'https://ocw.mit.edu/courses/18-703-modern-algebra-spring-2013/' },
     { title: 'FreeCodeCamp QA', desc: 'Quality Assurance y testing', icon: '✅', color: 'hsl(142,60%,45%)', url: 'https://www.freecodecamp.org/learn/quality-assurance/' },
+    { title: 'MDN Web Docs', desc: 'Referencia completa de Ingeniería Web', icon: '📚', color: 'hsl(35,90%,55%)', url: 'https://developer.mozilla.org/en-US/docs/Learn' },
+    { title: 'Khan Academy', desc: 'Matemáticas Especiales y cálculo', icon: '💡', color: 'hsl(263,70%,55%)', url: 'https://www.khanacademy.org/math' },
+    { title: 'Google Scholar', desc: 'Búsqueda de artículos para Investigación', icon: '🔬', color: 'hsl(320,60%,50%)', url: 'https://scholar.google.com/' },
   ];
 
   // ── HELPER FUNCTIONS ──
@@ -671,17 +672,18 @@ const SYS = (() => {
     // Add sample tasks if first time
     if (getTasks().length === 0) {
       const sampleTasks = [
-        { id: 1, text: 'Revisar material Bloque 2 — Matemáticas Discretas', subj: 'discretas', priority: 'p1', due: '2026-03-29', done: false, created: todayStr() },
-        { id: 2, text: 'Entregar taller de grafos y árboles', subj: 'discretas', priority: 'p2', due: '2026-04-05', done: false, created: todayStr() },
-        { id: 3, text: 'Estudiar grupos y anillos para parcial', subj: 'algebra', priority: 'p1', due: '2026-03-28', done: false, created: todayStr() },
-        { id: 4, text: 'Configurar pipeline CI/CD del proyecto final', subj: 'software', priority: 'p2', due: '2026-04-12', done: false, created: todayStr() },
-        { id: 5, text: 'Práctica de optimización de queries SQL', subj: 'bdd', priority: 'p2', due: '2026-04-08', done: false, created: todayStr() },
-        { id: 6, text: 'Laboratorio de configuración WiFi empresarial', subj: 'redes', priority: 'p3', due: '2026-04-20', done: false, created: todayStr() },
-        { id: 7, text: 'Revisar conceptos de seguridad wireless para quiz', subj: 'redes', priority: 'p1', due: '2026-03-27', done: false, created: todayStr() },
-        { id: 8, text: 'Resolver ejercicios EDO de primer orden — Capítulo 3', subj: 'ecuaciones', priority: 'p2', due: '2026-04-10', done: false, created: todayStr() },
-        { id: 9, text: 'Transformadas de Laplace — Preparar para parcial', subj: 'ecuaciones', priority: 'p3', due: '2026-04-25', done: false, created: todayStr() },
-        { id: 10, text: 'Avance del plan de negocios — Estudio de mercado', subj: 'negocios', priority: 'p2', due: '2026-04-15', done: false, created: todayStr() },
-        { id: 11, text: 'Revisar material de la electiva de profundización', subj: 'electiva1', priority: 'p3', due: '2026-04-18', done: false, created: todayStr() },
+        { id: 1, text: 'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)', subj: 'mat_especiales', priority: 'p1', due: '2026-04-05', done: false, created: todayStr() },
+        { id: 2, text: 'Estudiar transformadas y series para primer corte', subj: 'mat_especiales', priority: 'p2', due: '2026-04-15', done: false, created: todayStr() },
+        { id: 3, text: 'Revisar estándares de calidad ISO para entrega', subj: 'calidad_sw', priority: 'p1', due: '2026-04-03', done: false, created: todayStr() },
+        { id: 4, text: 'Configurar entorno de pruebas unitarias — proyecto QA', subj: 'calidad_sw', priority: 'p2', due: '2026-04-12', done: false, created: todayStr() },
+        { id: 5, text: 'Práctica de optimización de queries SQL — Admin BD', subj: 'admin_bd', priority: 'p2', due: '2026-04-08', done: false, created: todayStr() },
+        { id: 6, text: 'Desarrollar proyecto web con API REST — Ingeniería Web', subj: 'ing_web', priority: 'p2', due: '2026-04-20', done: false, created: todayStr() },
+        { id: 7, text: 'Revisar HTML/CSS/JS y frameworks para quiz', subj: 'ing_web', priority: 'p1', due: '2026-04-01', done: false, created: todayStr() },
+        { id: 8, text: 'Laboratorio de configuración WiFi empresarial', subj: 'redes', priority: 'p3', due: '2026-04-20', done: false, created: todayStr() },
+        { id: 9, text: 'Revisar protocolos wireless y seguridad para quiz', subj: 'redes', priority: 'p1', due: '2026-04-02', done: false, created: todayStr() },
+        { id: 10, text: 'Definir tema y estado del arte — Investigación', subj: 'inv_ciencia', priority: 'p2', due: '2026-04-10', done: false, created: todayStr() },
+        { id: 11, text: 'Completar actividad de inducción — English Beginner', subj: 'english_beginner', priority: 'p3', due: '2026-04-18', done: false, created: todayStr() },
+        { id: 12, text: 'Realizar Placement Test BE Plus', subj: 'placement_test', priority: 'p2', due: '2026-04-05', done: false, created: todayStr() },
       ];
       saveTasks(sampleTasks);
     }

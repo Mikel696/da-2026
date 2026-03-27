@@ -50,9 +50,31 @@
   - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
   - ✅ Data layer: `data/excel-tests.json` (15 escenarios con business_case, mock_data, expected_results, hints, explanation)
 
+- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES**
+  - ✅ Protocolo CUN Scanner integrado en CLAUDE.md (SCAN CUN / NOTAS / TAREAS / EMAIL)
+  - ✅ Escaneo real vía Chrome MCP: SGA Campus, CUN Digital, Gmail CUN
+  - ✅ Extracción de PDFs de notas (notr29.pdf) con PyPDF2
+  - ✅ `data/academic-8vo.json` con datos REALES del SGA/SINU:
+    - Estudiante: BARROS TORRES MIGUEL ANGEL (1063955980)
+    - Período: 26V02 (no 26V01 como estaba hardcodeado)
+    - 3 programas activos: VP15G (Ing. Sistemas), IV001 (Inglés), IV002 (Placement Test)
+  - ✅ `systems_logic.js` SUBJECTS actualizado con materias REALES del período 26V02:
+    - DIS31 Matemáticas Especiales (Grupo 52247)
+    - DIS32 Calidad del Software (Grupo 52278)
+    - DIS33 Administración de Bases de Datos (Grupo 52291)
+    - DIS34 Ingeniería Web (Grupo 52211)
+    - DIS35 Redes Inalámbricas (Grupo 52226)
+    - DIS36 Inv. Ciencia y Tecnología (Grupo 52218)
+    - A1I01 Virtual English Beginner 1 (Grupo 50608)
+    - CE1026 Placement Test BE Plus (Grupo 5TB01)
+  - ✅ Eliminadas materias incorrectas: Álgebra Moderna, Ecuaciones Diferenciales, Plan de Negocios II, Electiva Prof. I
+  - ✅ Sample tasks, study resources y selectores HTML actualizados
+  - ✅ systems.html selectores de materia actualizados (newTaskSubj + bulkSubj)
+
 - **Siguiente fase sugerida (próxima sesión):**
-  1. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
-  2. **Cross-module integration** — Conectar CVMaker directamente con Tracker para one-click profiling desde cualquier vacante guardada.
+  1. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"
+  2. **10-SYS: CUN Digital courses** — Navegar a "Mis cursos" para vincular las aulas virtuales reales
+  3. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
 
 ## Arquitectura de Archivos — Module 1-IND
 
