@@ -50,10 +50,16 @@
   - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
   - ✅ Data layer: `data/excel-tests.json` (15 escenarios con business_case, mock_data, expected_results, hints, explanation)
 
-- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES**
+- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES + HISTORIAL COMPLETO**
   - ✅ Protocolo CUN Scanner integrado en CLAUDE.md (SCAN CUN / NOTAS / TAREAS / EMAIL)
-  - ✅ Escaneo real vía Chrome MCP: SGA Campus, CUN Digital, Gmail CUN
+  - ✅ Escaneo real vía Chrome MCP: SGA Campus, CUN Digital, Gmail CUN, **CUN 360**
   - ✅ Extracción de PDFs de notas (notr29.pdf) con PyPDF2
+  - ✅ **CUN 360 Dashboard scraped** — 52 materias históricas extraídas página por página
+  - ✅ `data/academic-history.json` — HISTORIAL ACADÉMICO COMPLETO:
+    - 52 materias aprobadas (semestres 1-7)
+    - GPA acumulado histórico: 4.49/5.0
+    - 2 títulos obtenidos: Técnico Profesional (Sem 4) + Tecnólogo en Desarrollo de SW (Sem 7)
+    - Deuda $0, documentos pendientes por cargar
   - ✅ `data/academic-8vo.json` con datos REALES del SGA/SINU:
     - Estudiante: BARROS TORRES MIGUEL ANGEL (1063955980)
     - Período: 26V02 (no 26V01 como estaba hardcodeado)

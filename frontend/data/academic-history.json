@@ -1,0 +1,90 @@
+{
+  "source": "CUN 360 — https://360.cunapp.pro/#/estudiante/dashboard",
+  "scan_date": "2026-03-27",
+  "student": "BARROS TORRES MIGUEL ANGEL",
+  "student_id": "1063955980",
+  "program": "VP15G — Ingeniería de Sistemas",
+  "total_subjects_passed": 52,
+  "cumulative_gpa": 4.49,
+  "alerts": {
+    "pending_documents": true,
+    "pending_documents_msg": "Tienes documentos pendientes por cargar en la plataforma",
+    "total_debt": 0,
+    "camiticket_requests": 0
+  },
+  "history": [
+    {"code":"TI001","name":"Cátedra de Pensamiento Cunista I","grade":5.0,"semester":1,"status":"Aprobado"},
+    {"code":"DIS02","name":"Fundamentos de Programación","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"TICO3","name":"Habilidades Comunicativas","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"TI010","name":"Informática y Convergencia Tecnológica","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"DIS03","name":"Introducción a los Sistemas Informáticos","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"TI004","name":"Proyecto de Vida","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"DIS04","name":"Circuitos Básicos y Laboratorio","grade":4.5,"semester":1,"status":"Aprobado"},
+    {"code":"DIS01","name":"Lógica para Escuela de Ingeniería","grade":4.5,"semester":1,"status":"Aprobado"},
+
+    {"code":"DIS07","name":"Programación Orientada a Objetos I","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"ELSC1","name":"Electiva Complementaria I","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"DIS09","name":"Arquitectura y Mantenimiento de Computadores","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"DIS08","name":"Redes 1","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"TISH1","name":"Formación Ciudadana","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"DIS06","name":"Física Mecánica y Laboratorio","grade":4.5,"semester":2,"status":"Aprobado"},
+    {"code":"DIS05","name":"Cálculo Diferencial","grade":4.5,"semester":2,"status":"Aprobado"},
+
+    {"code":"CBIS2","name":"Razonamiento Cuantitativo","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"TI007","name":"Explorar para Investigar","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"DIS14","name":"Mantenimiento de Sistemas Operativos","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"DIS13","name":"Mantenimiento de Dispositivos Móviles","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"DIS12","name":"Redes 2","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"DIS11","name":"Programación Orientada a Objetos II","grade":4.5,"semester":3,"status":"Aprobado"},
+    {"code":"DIS10","name":"Fundamentos de Física Eléctrica","grade":4.5,"semester":3,"status":"Aprobado"},
+
+    {"code":"DIS16","name":"Cableado Estructurado","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"ISP01","name":"Programación Avanzada","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"DIS48","name":"Opción de Grado Técnico","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"DIS15","name":"Bases de Datos","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"ELSP1","name":"Electiva Profundización I","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"ISP02","name":"Teoría General de Sistemas","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"DIS45","name":"Práctica Técnico","grade":4.5,"semester":4,"status":"Aprobado"},
+    {"code":"DIS24","name":"Estadística Descriptiva para Escuela de Ingenierías","grade":4.5,"semester":4,"status":"Aprobado"},
+
+    {"code":"DIS22","name":"Plan de Negocio para Escuela de Ingenierías","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS20","name":"Programación Web","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS21","name":"Enrutamiento y Conmutación en Redes","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS19","name":"Bases de Datos Avanzadas","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS18","name":"Requerimientos de Software","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS17","name":"Álgebra Lineal","grade":4.5,"semester":5,"status":"Aprobado"},
+    {"code":"DIS52","name":"Cálculo Integral","grade":4.5,"semester":5,"status":"Aprobado"},
+
+    {"code":"DIS28","name":"Creatividad y Pensamiento Innovador para Escuela de Ingeniería","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"DIS25","name":"Diseño de Software","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"ELSC2","name":"Electiva Complementaria II","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"TIE05","name":"Espíritu Emprendedor","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"DIS27","name":"Seguridad en Redes","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"DIS26","name":"Desarrollo Web","grade":4.5,"semester":6,"status":"Aprobado"},
+    {"code":"DIS23","name":"Cálculo Multivariado","grade":4.5,"semester":6,"status":"Aprobado"},
+
+    {"code":"TI002","name":"Cátedra de Pensamiento Cunista II","grade":5.0,"semester":7,"status":"Aprobado"},
+    {"code":"DIS30","name":"Gestión de Base de Datos","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"ISP04","name":"Arquitectura de Software","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"ISP03","name":"Innovación Tecnológica de Redes","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"ELSP2","name":"Electiva Profundización II","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"DIS29","name":"Ecuaciones Diferenciales","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"DIS49","name":"Opción de Grado Tecnológico","grade":4.5,"semester":7,"status":"Aprobado"},
+    {"code":"DIS46","name":"Práctica Tecnológico","grade":4.5,"semester":7,"status":"Aprobado"}
+  ],
+  "by_semester": {
+    "1": {"subjects": 8, "avg": 4.56, "level": "Técnica Profesional"},
+    "2": {"subjects": 7, "avg": 4.50, "level": "Técnica Profesional"},
+    "3": {"subjects": 7, "avg": 4.50, "level": "Técnica Profesional"},
+    "4": {"subjects": 8, "avg": 4.50, "level": "Técnica Profesional"},
+    "5": {"subjects": 7, "avg": 4.50, "level": "Tecnología en Desarrollo de Software"},
+    "6": {"subjects": 7, "avg": 4.50, "level": "Tecnología en Desarrollo de Software"},
+    "7": {"subjects": 8, "avg": 4.56, "level": "Tecnología en Desarrollo de Software"},
+    "8": {"subjects": 0, "avg": null, "level": "Ingeniería de Sistemas", "note": "Cursando 26V02 — sin notas aún"}
+  },
+  "milestones": [
+    {"semester": 4, "title": "Título Técnico Profesional", "status": "COMPLETADO"},
+    {"semester": 7, "title": "Título Tecnológico en Desarrollo de Software", "status": "COMPLETADO"},
+    {"semester": 10, "title": "Título Ingeniero de Sistemas", "status": "EN PROGRESO — faltan sem 8, 9, 10"}
+  ]
+}
