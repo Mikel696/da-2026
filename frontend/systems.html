@@ -301,8 +301,45 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="sl">· cun hub — tu ecosistema académico completo ·</div>
 <div class="sd">Mapa de plataformas, metodología de estudio y sistema de actualización rápida.</div>
 
+<!-- CUN SCANNER — Open All Portals -->
+<div class="gc" style="border:1px solid rgba(139,92,246,.2);background:rgba(139,92,246,.03)">
+<div class="gc-t" style="margin-bottom:8px">🔄 CUN Scanner — Abrir Portales para Escaneo</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.7">
+Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y luego pega el prompt correspondiente en Claude Code para que escanee y actualice este módulo automáticamente.
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+<button class="tf-btn" onclick="openCUNPortals()" style="background:var(--vi);font-size:13px;padding:10px 18px">🚀 Abrir Todos los Portales CUN</button>
+<button class="tf-btn" onclick="openSinglePortal('https://360.cunapp.pro/#/estudiante/dashboard')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📊 CUN 360</button>
+<button class="tf-btn" onclick="openSinglePortal('https://sigwt.cun.edu.co/sgacampus/#notr29')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📋 SGA Notas</button>
+<button class="tf-btn" onclick="openSinglePortal('https://cdigital.cun.edu.co/')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">🎓 CUN Digital</button>
+<button class="tf-btn" onclick="openSinglePortal('https://mail.google.com/mail/u/3/')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📧 Gmail CUN</button>
+</div>
+<div style="background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:14px">
+<div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Prompts para Claude Code</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">1. Escaneo completo:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-8vo.json y academic-history.json.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">2. Solo notas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">3. Solo historial:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN HISTORIAL — Lee la tab CUN 360 Dashboard y extrae las 52+ materias del historial completo. Actualiza academic-history.json con notas y promedios.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div><strong style="color:var(--tx)">4. Solo tareas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+</div>
+</div>
+</div>
+
+<!-- ACADEMIC HISTORY -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:8px">📊 Historial Académico Completo</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:14px">Datos extraídos del CUN 360. 52 materias aprobadas en 7 semestres.</div>
+<div style="display:flex;gap:1px;background:var(--bd);border-radius:8px;overflow:hidden;margin-bottom:14px">
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gn)">4.49</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">GPA</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--vi2)">52</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Aprobadas</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--am)">7/10</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Semestres</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--cy)">2</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Títulos</div></div>
+</div>
+<div id="historyTimeline"></div>
+</div>
+
 <!-- ECOSYSTEM MAP -->
-<div class="gc">
+<div class="gc" style="margin-top:12px">
 <div class="gc-t" style="margin-bottom:14px">🗺️ Mapa del Ecosistema CUN</div>
 <div style="font-size:12px;color:var(--t2);margin-bottom:16px">Todas las plataformas que necesitas como estudiante virtual. Cada una tiene un rol específico.</div>
 <div class="qa-grid" id="cunEcosystem"></div>

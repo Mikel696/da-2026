@@ -557,6 +557,9 @@ const SYS = (() => {
       `).join('');
     }
 
+    // Render academic history timeline
+    renderHistoryTimeline();
+
     // Set default date for bulk import
     const bulkDate = document.getElementById('bulkDue');
     if (bulkDate && !bulkDate.value) {
@@ -691,8 +694,65 @@ const SYS = (() => {
     render();
   }
 
+  // ── CUN PORTAL OPENER ──
+  function openCUNPortals() {
+    const portals = [
+      'https://360.cunapp.pro/#/estudiante/dashboard',
+      'https://sigwt.cun.edu.co/sgacampus/#notr29',
+      'https://cdigital.cun.edu.co/',
+      'https://mail.google.com/mail/u/3/'
+    ];
+    portals.forEach((url, i) => setTimeout(() => window.open(url, '_blank'), i * 400));
+  }
+
+  function openSinglePortal(url) {
+    window.open(url, '_blank');
+  }
+
+  // ── ACADEMIC HISTORY TIMELINE ──
+  function renderHistoryTimeline() {
+    const el = document.getElementById('historyTimeline');
+    if (!el) return;
+
+    const HISTORY = [
+      { sem: 1, level: 'Técnica Profesional', subjects: 8, avg: 4.56, highlight: '5.0 en Cátedra Cunista I' },
+      { sem: 2, level: 'Técnica Profesional', subjects: 7, avg: 4.50, highlight: 'POO I, Cálculo Diferencial' },
+      { sem: 3, level: 'Técnica Profesional', subjects: 7, avg: 4.50, highlight: 'POO II, Redes 2, Física Eléctrica' },
+      { sem: 4, level: 'Técnica Profesional', subjects: 8, avg: 4.50, highlight: '🎓 TÍTULO TÉCNICO PROFESIONAL', milestone: true },
+      { sem: 5, level: 'Tecnología', subjects: 7, avg: 4.50, highlight: 'Prog. Web, BD Avanzadas, Álgebra Lineal' },
+      { sem: 6, level: 'Tecnología', subjects: 7, avg: 4.50, highlight: 'Diseño SW, Desarrollo Web, Cálc. Multivariado' },
+      { sem: 7, level: 'Tecnología', subjects: 8, avg: 4.56, highlight: '🎓 TÍTULO TECNÓLOGO EN DESARROLLO DE SOFTWARE', milestone: true },
+      { sem: 8, level: 'Ingeniería', subjects: 8, avg: null, highlight: '⏳ CURSANDO — Período 26V02', current: true }
+    ];
+
+    el.innerHTML = HISTORY.map(h => {
+      const barWidth = h.avg ? Math.round((h.avg / 5.0) * 100) : 0;
+      const barColor = h.milestone ? 'var(--gn)' : h.current ? 'var(--am)' : 'var(--vi2)';
+      const borderStyle = h.milestone ? 'border-left:3px solid var(--gn)' : h.current ? 'border-left:3px solid var(--am)' : 'border-left:3px solid var(--bd)';
+
+      return `<div style="display:flex;gap:12px;padding:10px 14px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:6px;${borderStyle};align-items:center">
+        <div style="min-width:40px;text-align:center">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:${barColor}">S${h.sem}</div>
+          <div style="font-size:8px;color:var(--t3)">${h.level}</div>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:11px;color:var(--t2)">${h.subjects} materias</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:${h.avg?'var(--gn)':'var(--am)'}">${h.avg || '—'}</span>
+          </div>
+          <div style="background:var(--c1);border-radius:3px;height:4px;overflow:hidden${h.current?'':''};margin-bottom:4px">
+            <div style="width:${barWidth}%;height:100%;background:${barColor};border-radius:3px;transition:width .5s"></div>
+          </div>
+          <div style="font-size:10px;color:${h.milestone?'var(--gn)':h.current?'var(--am)':'var(--t3)'};font-weight:${h.milestone||h.current?'600':'400'}">${h.highlight}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
   // Expose globally
   window.showTab = showTab;
+  window.openCUNPortals = openCUNPortals;
+  window.openSinglePortal = openSinglePortal;
 
   // Run on load
   if (document.readyState === 'loading') {

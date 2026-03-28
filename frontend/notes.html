@@ -70,6 +70,7 @@
 <button class="tab on" data-p="new">✍️ Nueva Nota</button>
 <button class="tab" data-p="all">📋 Todas</button>
 <button class="tab" data-p="journal">📓 Journal</button>
+<button class="tab" data-p="prompts">🤖 Prompts Cerebro</button>
 </div>
 
 <!-- NEW NOTE -->
@@ -104,6 +105,97 @@
 </div>
 <div class="lb">· entradas anteriores ·</div>
 <div id="journalList"></div>
+</div>
+
+<!-- PROMPTS CEREBRO -->
+<div class="pnl" id="p-prompts">
+<div class="cd" style="border-color:rgba(139,92,246,.2);background:rgba(139,92,246,.02)">
+<div style="font-size:16px;font-weight:700;margin-bottom:4px">🤖 Manual de Prompts — Segundo Cerebro</div>
+<div style="font-size:12px;color:var(--t3);margin-bottom:16px">Copia y pega estos prompts en Claude Code para activar cada protocolo. Inicia sesión en las plataformas antes de ejecutar los escaneos.</div>
+
+<div class="lb">· 🚀 inicio de sesión ·</div>
+<div class="note" style="border-left:3px solid var(--ac)">
+<div class="note-h"><div class="note-title">P0 — Protocolo Cerebro (Inicio de Sesión)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">Inicia el protocolo Cerebro. Lee el CLAUDE.md, revisa el CEREBRO_STATE.md y muéstrame el menú principal de módulos. ¿En qué módulo trabajamos hoy?</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📋 Usar al inicio de cada sesión nueva de Claude Code. Carga el contexto completo del proyecto.</div>
+</div>
+
+<div class="lb">· 🔄 10-SYS — escaneos CUN ·</div>
+<div class="note" style="border-left:3px solid var(--gn)">
+<div class="note-h"><div class="note-title">P1 — Escaneo Completo CUN</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-8vo.json y academic-history.json.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🔑 Requisito: Abrir portales CUN desde el módulo 10-SYS → CUN Hub → "Abrir Todos los Portales CUN" e iniciar sesión.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--gn)">
+<div class="note-h"><div class="note-title">P2 — Solo Notas Actuales</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 Para cuando solo necesitas actualizar calificaciones del semestre actual.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--gn)">
+<div class="note-h"><div class="note-title">P3 — Historial Completo CUN 360</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN HISTORIAL — Lee la tab CUN 360 Dashboard y extrae las 52+ materias del historial completo. Actualiza academic-history.json con notas y promedios.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 Pagina automáticamente por el Angular Material paginator para extraer las 52 materias.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--gn)">
+<div class="note-h"><div class="note-title">P4 — Tareas de CUN Digital</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📚 Importa tareas directamente del Moodle de la CUN al sistema de tareas del módulo.</div>
+</div>
+
+<div class="lb">· 💼 2-APP — job hunting ·</div>
+<div class="note" style="border-left:3px solid var(--rd)">
+<div class="note-h"><div class="note-title">P5 — Analizar Vacante</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: ANALIZAR VACANTE — Abre el módulo 2-APP (apply.html), pega el job description en el analizador y ejecuta runAnalysis(). Genera CV perfilado, cover letter, prep de entrevista y prompts de IA automáticamente.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🎯 El ATS Engine cruza el JD contra my-skills.json y genera todo el material personalizado.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--rd)">
+<div class="note-h"><div class="note-title">P6 — Buscar Vacantes</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: BUSCAR TRABAJO — Abre el módulo Job Tracker (jobs.html). Usa las 12 Quick Searches optimizadas para LinkedIn, Indeed y Google Jobs. Guarda vacantes interesantes en el Kanban.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🔍 12 búsquedas preconfiguradas para AP/AR Specialist, Data Entry, Finance roles LATAM remoto.</div>
+</div>
+
+<div class="lb">· 🇺🇸 3-ENG — english practice ·</div>
+<div class="note" style="border-left:3px solid var(--cy)">
+<div class="note-h"><div class="note-title">P7 — Practicar Entrevista en Inglés</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: ENGLISH DOJO — Abre el módulo 3-ENG (english.html). Usa el TTS para escuchar preguntas del recruiter y el STT (micrófono) para grabar tus respuestas en inglés. Compara con la respuesta ideal STAR.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🎙️ Usa Web Speech API: TTS (voz US English) + STT (webkitSpeechRecognition para transcribir).</div>
+</div>
+
+<div class="lb">· 📊 4-RUT — excel practice ·</div>
+<div class="note" style="border-left:3px solid var(--am)">
+<div class="note-h"><div class="note-title">P8 — Practicar Excel Técnico</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: EXCEL DOJO — Abre el módulo 4-RUT (ruta.html). Practica los 15 escenarios de AP/Finance: XLOOKUP, INDEX/MATCH, SUMIFS, aging buckets. Las celdas se animan al resolver correctamente.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📝 15 escenarios realistas con validación de fórmulas y explicaciones paso a paso en español.</div>
+</div>
+
+<div class="lb">· 🛠️ mantenimiento ·</div>
+<div class="note" style="border-left:3px solid var(--t3)">
+<div class="note-h"><div class="note-title">P9 — Auditar Todos los Módulos</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: AUDITAR — Lee el CEREBRO_STATE.md y audita el estado de todos los módulos del sistema. Identifica módulos pendientes, bugs conocidos y próximas mejoras. Muestra un reporte completo.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🔧 Para verificar integridad del sistema y planificar sprints de mejora.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--t3)">
+<div class="note-h"><div class="note-title">P10 — Commit y Push</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: DEPLOY — Haz git add, commit con mensaje descriptivo y push al repositorio. Actualiza CEREBRO_STATE.md con los cambios realizados en esta sesión.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🚀 Siempre hacer al final de cada sesión de trabajo para no perder progreso.</div>
+</div>
+
+<div style="margin-top:16px;padding:14px;background:var(--el);border:1px solid var(--bd);border-radius:8px">
+<div style="font-size:12px;font-weight:600;margin-bottom:6px">📖 Flujo de trabajo recomendado:</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">
+1. Abrir Claude Code → Pegar <strong>P0</strong> (Protocolo Cerebro)<br>
+2. Claude carga el contexto y muestra el menú de módulos<br>
+3. Elegir módulo → Si es 10-SYS: abrir portales CUN, iniciar sesión, pegar <strong>P1-P4</strong><br>
+4. Trabajar en el módulo seleccionado<br>
+5. Al terminar → Pegar <strong>P10</strong> (Deploy) para guardar todo
+</div>
+</div>
+</div>
 </div>
 </div>
 
