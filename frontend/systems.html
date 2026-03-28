@@ -148,6 +148,31 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .coll-body{display:none;padding:12px 16px;background:rgba(22,22,26,.6);border:1px solid rgba(124,58,237,.08);border-top:none;border-radius:0 0 10px 10px;margin-top:-6px;margin-bottom:8px}
 .coll-body.vis{display:block}
 
+/* TASK GUIDE MODAL */
+.tg-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;animation:fu .2s ease}
+.tg-overlay.vis{display:flex}
+.tg-modal{background:var(--c1);border:1px solid rgba(139,92,246,.25);border-radius:16px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative}
+.tg-modal::-webkit-scrollbar{width:4px}.tg-modal::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.tg-header{padding:20px 24px 16px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--c1);z-index:1;border-radius:16px 16px 0 0}
+.tg-close{position:absolute;top:16px;right:16px;background:var(--el);border:1px solid var(--bd);color:var(--t2);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.tg-close:hover{background:var(--rd);color:#fff;border-color:var(--rd)}
+.tg-body{padding:20px 24px 24px}
+.tg-step{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s}
+.tg-step:hover{border-color:rgba(139,92,246,.25)}
+.tg-step-num{min-width:28px;height:28px;border-radius:8px;background:var(--vi);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0}
+.tg-step-content{flex:1}
+.tg-step-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.tg-step-desc{font-size:11px;color:var(--t2);line-height:1.6}
+.tg-link{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:6px;font-size:10px;font-weight:600;text-decoration:none;color:#fff;background:var(--vi);margin-top:6px;transition:all .2s}
+.tg-link:hover{opacity:.85}
+.tg-section{margin-bottom:16px}
+.tg-section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.tg-task-item{background:var(--el);border-radius:8px;padding:10px 14px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.tg-task-item .atask-check{width:16px;height:16px;min-width:16px}
+.tg-badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:700}
+.tg-info{background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.15);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--cy);line-height:1.7;margin-bottom:12px}
+.tg-warn{background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.12);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--am);line-height:1.7;margin-bottom:12px}
+
 /* MALLA GRID */
 .malla{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
 .malla-sem{background:rgba(22,22,26,.8);border:1px solid rgba(124,58,237,.1);border-radius:10px;padding:14px;transition:all .2s}
@@ -214,7 +239,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- SUBJECT HEALTH — Compact Grid -->
 <div class="sl">· salud por materia ·</div>
-<div class="sd">Estado real de cada asignatura. Toca una materia para ver detalle en la pestaña Materias.</div>
+<div class="sd">Toca cualquier materia para ver la <strong style="color:var(--vi2)">guía paso a paso</strong>: qué hacer, dónde entregar, y cómo presentar las evidencias.</div>
 <div id="subjectHealth" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:16px"></div>
 
 <!-- STUDY PLAN -->
@@ -276,7 +301,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 2: CALENDARIO ═══════ -->
 <div class="pnl" id="pnl2">
-<div class="sl">· calendario virtual 2026 — período 26V01 ·</div>
+<div class="sl">· calendario virtual 2026 — período 26V02 ·</div>
 <div class="sd">Timeline basado en el calendario oficial de la CUN. Las fechas se actualizan según el período activo.</div>
 <div id="calendarTimeline"></div>
 
@@ -425,6 +450,17 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <footer style="text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--bd);position:relative;z-index:1">
 Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 </footer>
+
+<!-- TASK GUIDE MODAL -->
+<div class="tg-overlay" id="taskGuideOverlay" onclick="if(event.target===this)SYS.closeGuide()">
+<div class="tg-modal">
+<div class="tg-header">
+  <button class="tg-close" onclick="SYS.closeGuide()">✕</button>
+  <div id="tgHeader"></div>
+</div>
+<div class="tg-body" id="tgBody"></div>
+</div>
+</div>
 
 <script src="systems_logic.js"></script>
 </body>

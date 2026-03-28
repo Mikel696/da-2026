@@ -85,6 +85,14 @@
   - ✅ **detectPeriod()** — Prioriza 26V02 (enrolled period) incluyendo pre-periodo de 7 días
   - ✅ **Prompts Cerebro** — 11 prompts documentados (P0-P10) en notes.html con click-to-copy
   - ✅ WEEKLY_WORKFLOW actualizado con materias reales 26V02
+  - ✅ **Task Guide Modal** — Ventana emergente por materia con guía paso a paso:
+    - Info box: ¿Dónde está? + Tipo de evidencia + ¿Cómo se entrega?
+    - Tareas pendientes con estado y vencimiento
+    - 5 pasos semanales numerados (Revisa aula → Estudia → Desarrolla → Arma entrega → Sube a Moodle)
+    - Tips importantes específicos por materia
+    - Links rápidos: CUN Digital + recursos externos
+    - Se abre desde: Subject Health grid, Subject Cards, y botón 📖 en semáforo
+  - ✅ `SUBJECT_GUIDES` — 8 guías completas (1 por materia) con plataforma, evidenceType, submitMethod, tips, weeklySteps
 
 - **Siguiente fase sugerida (próxima sesión):**
   1. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"

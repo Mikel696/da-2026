@@ -256,8 +256,9 @@ const SYS = (() => {
           return `<div class="atask">
             <div class="atask-check" onclick="SYS.toggleTask(${t.id})"></div>
             <span class="atask-text">${esc(t.text)}</span>
-            <span style="font-size:10px;color:var(--t3)">${subjLabel}</span>
+            <span style="font-size:10px;color:var(--t3);cursor:pointer" onclick="SYS.showTaskGuide('${t.subj}')">${subjLabel}</span>
             ${dueLabel ? `<span class="atask-due">${dueLabel} · ${daysText}</span>` : ''}
+            ${subjData ? `<button style="background:none;border:none;color:var(--vi2);cursor:pointer;font-size:11px;padding:2px 4px;opacity:.7;transition:opacity .2s" onclick="SYS.showTaskGuide('${t.subj}')" title="Ver guía de la materia">📖</button>` : ''}
             <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
           </div>`;
         }).join('');
@@ -295,7 +296,7 @@ const SYS = (() => {
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
       const pending = subjTasks.filter(t => !t.done).length;
       const urgent = subjTasks.filter(t => !t.done && ['p0','p1'].includes(getTaskPriority(t))).length;
-      return `<div class="subj" onclick="showTab(1)">
+      return `<div class="subj" onclick="SYS.showTaskGuide('${s.id}')">
         <div class="subj-icon" style="background:${s.color}22;border:1px solid ${s.color}33">${s.icon}</div>
         <div class="subj-body">
           <div class="subj-name">${s.name}</div>
@@ -737,7 +738,7 @@ const SYS = (() => {
 
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
 
-      return `<div onclick="showTab(1)" style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;border-left:3px solid ${s.color}" onmouseover="this.style.borderColor='${s.color}'" onmouseout="this.style.borderColor='var(--bd)'">
+      return `<div onclick="SYS.showTaskGuide('${s.id}')" style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;border-left:3px solid ${s.color}" onmouseover="this.style.borderColor='${s.color}'" onmouseout="this.style.borderColor='var(--bd)'">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
           <div style="display:flex;align-items:center;gap:6px">
             <span style="font-size:16px">${s.icon}</span>
@@ -962,6 +963,270 @@ const SYS = (() => {
     }).join('');
   }
 
+  // ── SUBJECT GUIDES — Step-by-step instructions per subject ──
+  const SUBJECT_GUIDES = {
+    mat_especiales: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Matemáticas Especiales (DIS31, Grupo 52247)',
+      evidenceType: 'Talleres PDF/Word + Quizzes online en la plataforma',
+      submitMethod: 'Subir archivo en la actividad correspondiente dentro del aula virtual. Los quizzes se responden directamente en Moodle.',
+      tips: [
+        'Revisa los materiales de cada semana ANTES de intentar los talleres',
+        'Los talleres normalmente se suben como PDF o Word — nombra el archivo con tu nombre y la actividad',
+        'Los quizzes tienen tiempo límite — prepárate antes de abrirlos',
+        'Si tienes dudas, contacta al profesor por el foro del curso o por correo CUN'
+      ],
+      weeklySteps: [
+        { title: 'Entra al aula virtual', desc: 'Ve a CUN Digital → Mis cursos → Matemáticas Especiales. Revisa si hay materiales nuevos o actividades habilitadas.', action: 'Cada lunes' },
+        { title: 'Estudia el material teórico', desc: 'Lee las guías, PDFs o videos que el profesor suba. Toma notas de transformadas de Laplace, series de Fourier y variable compleja.', action: 'Martes-Miércoles' },
+        { title: 'Resuelve el taller/actividad', desc: 'Descarga el taller, resuélvelo paso a paso. Usa herramientas como Wolfram Alpha o Symbolab para verificar tus respuestas.', action: 'Jueves-Viernes' },
+        { title: 'Sube tu evidencia', desc: 'En la sección de la actividad, clic en "Agregar entrega" → Sube tu archivo PDF/Word → Clic en "Guardar cambios".', action: 'Antes del deadline' },
+        { title: 'Verifica la calificación', desc: 'Después del cierre, revisa en SGA Campus → notr29 si la nota fue registrada.', action: 'Después del cierre' }
+      ]
+    },
+    calidad_sw: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Calidad del Software (DIS32, Grupo 52278)',
+      evidenceType: 'Documentos de QA, casos de prueba, reportes de testing, participación en foros',
+      submitMethod: 'Subir documentos en Moodle. Foros de discusión se responden directamente en la plataforma.',
+      tips: [
+        'Lee los estándares ISO 9126 y ISO 25010 — son base de esta materia',
+        'Practica creando casos de prueba con formato profesional',
+        'Los foros suelen tener fecha límite — participa ANTES del cierre',
+        'Usa herramientas como Selenium o JUnit para prácticas de testing'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Calidad del Software. Verifica nuevas actividades, foros y materiales.', action: 'Cada lunes' },
+        { title: 'Estudia la teoría QA', desc: 'Lee sobre testing, métricas de calidad, estándares ISO, y tipos de pruebas (unitarias, integración, aceptación).', action: 'Martes-Miércoles' },
+        { title: 'Desarrolla la actividad', desc: 'Crea documentos de planes de prueba, matrices de trazabilidad o reportes según lo que pida el profesor.', action: 'Jueves-Viernes' },
+        { title: 'Sube tu entrega', desc: 'Actividad → "Agregar entrega" → Sube PDF/Word → "Guardar cambios". Para foros: escribe tu participación directamente.', action: 'Antes del deadline' },
+        { title: 'Revisa retroalimentación', desc: 'El profesor puede dejar comentarios en tu entrega. Revísalos para mejorar en la siguiente actividad.', action: 'Después de calificación' }
+      ]
+    },
+    admin_bd: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Administración de Bases de Datos (DIS33, Grupo 52291)',
+      evidenceType: 'Scripts SQL, capturas de pantalla de resultados, documentos de diseño de BD',
+      submitMethod: 'Subir archivos .sql, PDFs con capturas, o documentos Word en la actividad de Moodle.',
+      tips: [
+        'Instala MySQL/PostgreSQL o usa un entorno online como db-fiddle.com',
+        'Siempre incluye capturas de pantalla de tus queries ejecutándose correctamente',
+        'Practica con SQLBolt (sqlbolt.com) para reforzar conceptos',
+        'Nombra tus archivos: "BarrosTorres_Taller1_AdminBD.pdf"'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Admin. Bases de Datos. Verifica actividades de la semana: talleres SQL, laboratorios, foros.', action: 'Cada lunes' },
+        { title: 'Estudia teoría DBA', desc: 'Optimización de queries, índices, backup/recovery, replicación, seguridad de bases de datos.', action: 'Martes' },
+        { title: 'Practica con SQL', desc: 'Ejecuta los ejercicios en tu SGBD local o en db-fiddle.com. Captura pantalla de cada resultado.', action: 'Miércoles-Jueves' },
+        { title: 'Arma tu entrega', desc: 'Crea un PDF con: portada, desarrollo, scripts SQL, capturas de resultados, y conclusiones.', action: 'Viernes' },
+        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube tu PDF → "Guardar cambios".', action: 'Antes del deadline' }
+      ]
+    },
+    ing_web: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Ingeniería Web (DIS34, Grupo 52211)',
+      evidenceType: 'Proyectos web (HTML/CSS/JS), repositorios GitHub, documentación técnica',
+      submitMethod: 'Subir ZIP del proyecto o link a repositorio GitHub en Moodle. Incluir README con instrucciones.',
+      tips: [
+        'Usa GitHub para versionar tu código — los profesores valoran esto',
+        'Siempre incluye un README.md explicando cómo ejecutar tu proyecto',
+        'Practica con MDN Web Docs y FreeCodeCamp',
+        'Despliega tus proyectos en GitHub Pages para demostración en vivo'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Ingeniería Web. Verifica proyectos, talleres y entregas de la semana.', action: 'Cada lunes' },
+        { title: 'Estudia la tecnología', desc: 'HTML5, CSS3, JavaScript, APIs REST, frameworks (React/Angular/Vue), patrones MVC, seguridad web.', action: 'Martes-Miércoles' },
+        { title: 'Desarrolla el proyecto', desc: 'Crea tu código en VS Code, prueba localmente, versiona en GitHub con commits descriptivos.', action: 'Miércoles-Viernes' },
+        { title: 'Prepara la entrega', desc: 'Haz ZIP del proyecto + README.md, o proporciona el link de GitHub. Incluye capturas de funcionamiento.', action: 'Antes del deadline' },
+        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube ZIP o pega link GitHub → "Guardar cambios".', action: 'Antes del deadline' }
+      ]
+    },
+    redes: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Redes Inalámbricas (DIS35, Grupo 52226)',
+      evidenceType: 'Informes de laboratorio, configuraciones de red, capturas de Packet Tracer/simuladores',
+      submitMethod: 'Subir PDF con informe + capturas en Moodle. Archivos de simulación (.pkt) si aplica.',
+      tips: [
+        'Instala Cisco Packet Tracer para las simulaciones de red',
+        'Toma capturas de CADA paso de configuración — los profesores quieren ver el proceso',
+        'Estudia los protocolos: WiFi (802.11), Bluetooth, 5G, seguridad WPA3',
+        'Los laboratorios suelen tener pasos muy específicos — síguelos al pie de la letra'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Redes Inalámbricas. Busca guías de laboratorio, quizzes y foros habilitados.', action: 'Cada lunes' },
+        { title: 'Estudia la teoría', desc: 'Protocolos inalámbricos, WiFi empresarial, seguridad wireless, IoT, configuración de APs.', action: 'Martes' },
+        { title: 'Realiza el laboratorio', desc: 'Abre Packet Tracer o el simulador indicado. Sigue la guía paso a paso. Captura pantalla de cada configuración.', action: 'Miércoles-Jueves' },
+        { title: 'Redacta el informe', desc: 'PDF con: portada, objetivo, desarrollo paso a paso con capturas, resultados y conclusiones.', action: 'Viernes' },
+        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube PDF + archivo .pkt si aplica → "Guardar cambios".', action: 'Antes del deadline' }
+      ]
+    },
+    inv_ciencia: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Inv. Ciencia y Tecnología (DIS36, Grupo 52218)',
+      evidenceType: 'Documentos de investigación: estado del arte, marco teórico, artículos con normas APA',
+      submitMethod: 'Subir documentos Word/PDF en Moodle. Los avances del proyecto de investigación se suben por etapas.',
+      tips: [
+        'Usa Google Scholar y Scielo para buscar artículos científicos',
+        'Aplica normas APA 7ª edición para todas las referencias',
+        'El proyecto de investigación se construye por entregas parciales — no dejes todo para el final',
+        'Usa Zotero o Mendeley para gestionar tus referencias bibliográficas'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Inv. Ciencia y Tecnología. Verifica qué entrega parcial corresponde esta semana.', action: 'Cada lunes' },
+        { title: 'Investiga en fuentes', desc: 'Busca artículos en Google Scholar, Scielo, IEEE. Lee y extrae ideas relevantes para tu tema.', action: 'Martes-Miércoles' },
+        { title: 'Redacta tu avance', desc: 'Escribe la sección correspondiente: planteamiento, marco teórico, metodología, etc. Usa normas APA.', action: 'Jueves-Viernes' },
+        { title: 'Sube tu entrega', desc: 'Actividad → "Agregar entrega" → Sube Word/PDF con normas APA → "Guardar cambios".', action: 'Antes del deadline' },
+        { title: 'Participa en foros', desc: 'Si hay foros de discusión sobre temas de investigación, participa con aportes fundamentados.', action: 'Cuando estén habilitados' }
+      ]
+    },
+    english_beginner: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Virtual English - Beginner 1 (A1I01, Grupo 50608)',
+      evidenceType: 'Actividades interactivas, quizzes de vocabulario, grabaciones de audio, foros en inglés',
+      submitMethod: 'Completar actividades directamente en Moodle. Algunas requieren grabación de audio o video.',
+      tips: [
+        'Practica diariamente con Duolingo o BBC Learning English además del curso',
+        'Las grabaciones de audio: usa un ambiente silencioso, habla claro',
+        'Lee las instrucciones EN INGLÉS — es parte del aprendizaje',
+        'Participa en los foros escribiendo en inglés aunque sea básico'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → English Beginner 1. Verifica lecciones y actividades de la semana.', action: 'Cada lunes' },
+        { title: 'Estudia el vocabulario', desc: 'Repasa las palabras y frases nuevas. Usa flashcards o apps como Anki.', action: 'Diario (15 min)' },
+        { title: 'Completa las actividades', desc: 'Quizzes, ejercicios de gramática, listening activities — todo se hace dentro de Moodle.', action: 'Martes-Jueves' },
+        { title: 'Graba audio/video si aplica', desc: 'Algunas actividades piden pronunciación. Graba con tu celular y sube el archivo.', action: 'Cuando se requiera' },
+        { title: 'Participa en foros', desc: 'Escribe en inglés. No importa si cometes errores — la participación cuenta.', action: 'Antes del cierre del foro' }
+      ]
+    },
+    placement_test: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Placement Test BE Plus (CE1026, Grupo 5TB01)',
+      evidenceType: 'Test de ubicación online — se presenta una sola vez',
+      submitMethod: 'El test se realiza directamente en la plataforma. No hay archivo que subir.',
+      tips: [
+        'Este test determina tu nivel de inglés — no lo presentes sin prepararte',
+        'Tiene secciones de reading, listening, grammar y writing',
+        'Una vez lo inicies, debes completarlo — no se puede pausar',
+        'Tu resultado define en qué nivel de inglés te ubican'
+      ],
+      weeklySteps: [
+        { title: 'Verifica disponibilidad', desc: 'Entra a CUN Digital → Placement Test. Revisa si el test ya está habilitado.', action: 'Inicio del período' },
+        { title: 'Prepárate', desc: 'Repasa gramática básica, vocabulario general, y practica listening con BBC o podcasts.', action: '2-3 días antes' },
+        { title: 'Presenta el test', desc: 'Asegúrate de tener buena conexión a internet. El test tiene tiempo límite. Lee cada pregunta cuidadosamente.', action: 'Cuando estés listo' },
+        { title: 'Revisa tu resultado', desc: 'El resultado aparece automáticamente. Te ubicarán en el nivel que corresponda.', action: 'Después del test' }
+      ]
+    }
+  };
+
+  // ── SHOW TASK GUIDE MODAL ──
+  function showTaskGuide(subjId) {
+    const subj = SUBJECTS.find(s => s.id === subjId);
+    if (!subj) return;
+    const guide = SUBJECT_GUIDES[subjId];
+    if (!guide) return;
+
+    const tasks = getTasks();
+    const subjTasks = tasks.filter(t => t.subj === subjId);
+    const pending = subjTasks.filter(t => !t.done);
+    const done = subjTasks.filter(t => t.done);
+    const overdue = pending.filter(t => t.due && daysBetween(todayStr(), t.due) < 0);
+
+    // Header
+    const headerEl = document.getElementById('tgHeader');
+    headerEl.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span style="font-size:28px">${subj.icon}</span>
+        <div>
+          <div style="font-size:16px;font-weight:700">${subj.name}</div>
+          <div style="font-size:11px;color:var(--t3)">${subj.code} · Grupo ${subj.group} · ${subj.credits} créditos · ${subj.type}</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--t2);margin-top:4px">${subj.desc}</div>`;
+
+    // Body
+    let html = '';
+
+    // Status badges
+    html += `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="tg-badge" style="background:${pending.length?'rgba(234,179,8,.1)':'rgba(34,197,94,.1)'};color:${pending.length?'var(--am)':'var(--gn)'};border:1px solid ${pending.length?'rgba(234,179,8,.2)':'rgba(34,197,94,.2)'}">📝 ${pending.length} pendientes</span>
+      <span class="tg-badge" style="background:rgba(34,197,94,.1);color:var(--gn);border:1px solid rgba(34,197,94,.2)">✅ ${done.length} completadas</span>
+      ${overdue.length ? `<span class="tg-badge" style="background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.2)">🔴 ${overdue.length} vencidas</span>` : ''}
+    </div>`;
+
+    // Info box — how to access
+    html += `<div class="tg-info">
+      <strong>📍 ¿Dónde está?</strong> ${guide.howToAccess}<br>
+      <strong>📎 Tipo de evidencia:</strong> ${guide.evidenceType}<br>
+      <strong>📤 ¿Cómo se entrega?</strong> ${guide.submitMethod}
+    </div>`;
+
+    // Pending tasks with guide
+    if (pending.length > 0) {
+      html += `<div class="tg-section">
+        <div class="tg-section-title">📋 Tareas pendientes</div>`;
+      pending.forEach(t => {
+        const daysLeft = t.due ? daysBetween(todayStr(), t.due) : null;
+        const dueColor = daysLeft !== null ? (daysLeft < 0 ? 'var(--rd)' : daysLeft <= 2 ? 'var(--or)' : 'var(--t3)') : 'var(--t3)';
+        const dueText = daysLeft !== null ? (daysLeft < 0 ? `Vencida hace ${Math.abs(daysLeft)}d` : daysLeft === 0 ? 'HOY' : `${daysLeft}d restantes`) : 'Sin fecha';
+        html += `<div class="tg-task-item">
+          <div class="atask-check${t.done?' done':''}" onclick="SYS.toggleTask(${t.id});SYS.showTaskGuide('${subjId}')" style="cursor:pointer">${t.done?'✓':''}</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:500">${esc(t.text)}</div>
+            <div style="font-size:10px;color:${dueColor};margin-top:2px">${t.due ? formatDate(t.due) + ' · ' : ''}${dueText}</div>
+          </div>
+          <button onclick="SYS.deleteTask(${t.id});SYS.showTaskGuide('${subjId}')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px">✕</button>
+        </div>`;
+      });
+      html += '</div>';
+    }
+
+    // Weekly workflow steps
+    html += `<div class="tg-section">
+      <div class="tg-section-title">📅 ¿Qué hacer cada semana? — Paso a paso</div>`;
+    guide.weeklySteps.forEach((step, i) => {
+      html += `<div class="tg-step">
+        <div class="tg-step-num">${i + 1}</div>
+        <div class="tg-step-content">
+          <div class="tg-step-title">${step.title}</div>
+          <div class="tg-step-desc">${step.desc}</div>
+          <div style="margin-top:4px;font-size:9px;padding:2px 7px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:4px;color:var(--vi2);display:inline-block">⏰ ${step.action}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+
+    // Tips
+    html += `<div class="tg-section">
+      <div class="tg-section-title">💡 Tips importantes</div>
+      <div class="tg-warn">
+        ${guide.tips.map(t => `<div style="padding:2px 0">• ${t}</div>`).join('')}
+      </div>
+    </div>`;
+
+    // Quick links
+    html += `<div style="display:flex;gap:6px;flex-wrap:wrap">
+      <a href="${guide.courseUrl}" target="_blank" rel="noopener" class="tg-link">🎓 Abrir CUN Digital</a>
+      ${subj.resources.map(r => `<a href="${r}" target="_blank" rel="noopener" class="tg-link" style="background:var(--el);color:var(--vi2);border:1px solid rgba(124,58,237,.15)">📎 ${new URL(r).hostname.replace('www.','')}</a>`).join('')}
+    </div>`;
+
+    document.getElementById('tgBody').innerHTML = html;
+    document.getElementById('taskGuideOverlay').classList.add('vis');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGuide() {
+    document.getElementById('taskGuideOverlay').classList.remove('vis');
+    document.body.style.overflow = '';
+  }
+
   // Expose globally
   window.showTab = showTab;
   window.openCUNPortals = openCUNPortals;
@@ -975,5 +1240,5 @@ const SYS = (() => {
     init();
   }
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide };
 })();
