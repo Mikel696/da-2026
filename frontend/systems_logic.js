@@ -16,12 +16,12 @@ const SYS = (() => {
   // ── SUBJECTS (8vo Semestre) ──
   // ── SUBJECTS (Período 26V02 — Datos reales SGA/SINU) ──
   const SUBJECTS = [
-    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', desc: 'Transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
+    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'CORTES CRUZ JUAN SEBASTIAN', desc: 'Transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
     { id: 'calidad_sw', code: 'DIS32', name: 'Calidad del Software', group: '52278', icon: '⚙️', color: 'hsl(142,60%,45%)', credits: 3, type: 'Desarrollo de Software', desc: 'Testing, QA, estándares ISO, métricas de calidad, pruebas unitarias, integración continua, cobertura de código.', resources: ['https://www.freecodecamp.org/learn/quality-assurance/', 'https://refactoring.guru/'] },
     { id: 'admin_bd', code: 'DIS33', name: 'Administración de Bases de Datos', group: '52291', icon: '🗄️', color: 'hsl(35,90%,55%)', credits: 3, type: 'Desarrollo de Software', desc: 'DBA, optimización de queries, índices, backup/recovery, seguridad, replicación, administración de servidores.', resources: ['https://www.w3schools.com/sql/', 'https://sqlbolt.com/'] },
-    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
+    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
     { id: 'redes', code: 'DIS35', name: 'Redes Inalámbricas', group: '52226', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT, configuración de redes.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
-    { id: 'inv_ciencia', code: 'DIS36', name: 'Inv. Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', desc: 'Metodología de investigación, estado del arte, formulación de proyectos, artículos científicos, normas APA.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
+    { id: 'inv_ciencia', code: 'DIS36', name: 'Inv. Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', desc: 'Metodología de investigación, estado del arte, formulación de proyectos, artículos científicos, normas APA.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
     { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
     { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/'] },
   ];
@@ -684,7 +684,11 @@ const SYS = (() => {
     if (isPreSemester) {
       heroMsg = `⏳ El semestre inicia en ${daysToStart} día${daysToStart!==1?'s':''}`;
       heroSub = 'Período 26V02 · Bloque 1: 30 Mar — 24 May. Usa este tiempo para prepararte.';
-      heroAction = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      heroAction = `<div style="margin-top:8px;padding:8px 12px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:8px;font-size:11px;color:var(--am)">
+        <strong>⚠️ PENDIENTE:</strong> Completar curso <strong>"Inducción TICS - Estudiantes"</strong> en CUN Digital (0% completado, 7 secciones).
+        <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--cy);font-weight:600;margin-left:4px">Ir al curso →</a>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
         <a href="#" onclick="showTab(6);return false" style="font-size:11px;padding:6px 12px;background:var(--vi);color:#fff;border-radius:6px;text-decoration:none;font-weight:600">🔄 Abrir Portales CUN</a>
         <a href="#" onclick="showTab(1);return false" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">📚 Ver Materias</a>
         <a href="https://cdigital.cun.edu.co/my/" target="_blank" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">🎓 CUN Digital</a>
@@ -1146,7 +1150,7 @@ const SYS = (() => {
         <span style="font-size:28px">${subj.icon}</span>
         <div>
           <div style="font-size:16px;font-weight:700">${subj.name}</div>
-          <div style="font-size:11px;color:var(--t3)">${subj.code} · Grupo ${subj.group} · ${subj.credits} créditos · ${subj.type}</div>
+          <div style="font-size:11px;color:var(--t3)">${subj.code} · Grupo ${subj.group} · ${subj.credits} créditos · ${subj.type}${subj.professor ? ` · 👨‍🏫 ${subj.professor}` : ''}</div>
         </div>
       </div>
       <div style="font-size:12px;color:var(--t2);margin-top:4px">${subj.desc}</div>`;

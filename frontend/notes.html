@@ -116,40 +116,46 @@
 <div class="lb">· 🚀 inicio de sesión ·</div>
 <div class="note" style="border-left:3px solid var(--ac)">
 <div class="note-h"><div class="note-title">P0 — Protocolo Cerebro (Inicio de Sesión)</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">Inicia el protocolo Cerebro. Lee el CLAUDE.md, revisa el CEREBRO_STATE.md y muéstrame el menú principal de módulos. ¿En qué módulo trabajamos hoy?</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">📋 Usar al inicio de cada sesión nueva de Claude Code. Carga el contexto completo del proyecto.</div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">Inicia el protocolo Cerebro. Lee el CLAUDE.md, revisa el CEREBRO_STATE.md y muéstrame el menú principal de módulos. Antes de preguntar, ejecuta automáticamente: (1) Actualiza data/deals.json con las mejores ofertas GRATIS del momento buscando en Cajita Tech, Epic Games Store, Udemy cupones gratis, Amazon Luna, GOG giveaways, Steam free-to-play, y tiendas Colombia (MercadoLibre, Éxito). (2) Actualiza las búsquedas de empleo: busca vacantes nuevas para AP/AR Specialist, Data Analyst, Finance remoto LATAM y agrega las mejores al VacancyDB. (3) Muéstrame el menú de módulos.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📋 Al inicio de cada sesión: auto-actualiza ofertas gratis (deals.json) + vacantes nuevas (VacancyDB) + carga contexto.</div>
 </div>
 
 <div class="lb">· 🔄 10-SYS — escaneos CUN ·</div>
 <div class="note" style="border-left:3px solid var(--gn)">
-<div class="note-h"><div class="note-title">P1 — Escaneo Completo CUN</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-8vo.json y academic-history.json.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">🔑 Requisito: Abrir portales CUN desde el módulo 10-SYS → CUN Hub → "Abrir Todos los Portales CUN" e iniciar sesión.</div>
+<div class="note-h"><div class="note-title">P1 — Escaneo Completo CUN (4 plataformas)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN CUN — Escanea las 4 plataformas CUN abiertas en Chrome: (1) CUN Digital → Mis cursos → entrar a cada curso, extraer actividades y % completado. (2) SGA Campus → notr29 → notas por materia del 26V02. (3) CUN 360 → Dashboard (deuda, docs) + clic "Consultar Materias Virtuales" (docentes) + Historial. (4) Gmail CUN → inbox alertas. Actualiza academic-8vo.json, systems_logic.js (SUBJECTS con docentes) y CEREBRO_STATE.md. Además: actualiza data/deals.json con ofertas GRATIS frescas y actualiza el VacancyDB con vacantes nuevas. Actualiza prompts si hay cambios.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🔑 Requisito: Abrir portales CUN desde 10-SYS → CUN Hub → "Abrir Todos" e iniciar sesión en las 4 plataformas.</div>
 </div>
 
 <div class="note" style="border-left:3px solid var(--gn)">
-<div class="note-h"><div class="note-title">P2 — Solo Notas Actuales</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 Para cuando solo necesitas actualizar calificaciones del semestre actual.</div>
+<div class="note-h"><div class="note-title">P2 — Solo Notas Actuales (SGA)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones, promedios y risk_level por materia. Si hay notas nuevas, actualiza el CEREBRO_STATE.md.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 Para actualizar calificaciones. Haz doble clic en el período 26V02 para ver sub-notas.</div>
 </div>
 
 <div class="note" style="border-left:3px solid var(--gn)">
-<div class="note-h"><div class="note-title">P3 — Historial Completo CUN 360</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN HISTORIAL — Lee la tab CUN 360 Dashboard y extrae las 52+ materias del historial completo. Actualiza academic-history.json con notas y promedios.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 Pagina automáticamente por el Angular Material paginator para extraer las 52 materias.</div>
+<div class="note-h"><div class="note-title">P3 — Historial + Docentes (CUN 360)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN HISTORIAL — Lee CUN 360: (1) Académico → Historial de notas (52+ materias, paginar con Angular paginator). (2) Dashboard → clic "Consultar Materias Virtuales" → extraer docentes asignados. (3) Financiero → verificar deuda. Actualiza academic-history.json y academic-8vo.json (professors). Actualiza CEREBRO_STATE.md.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📊 CUN 360 es Angular SPA. Usar read_page + computer (clicks) para navegar modales y paginación.</div>
 </div>
 
 <div class="note" style="border-left:3px solid var(--gn)">
-<div class="note-h"><div class="note-title">P4 — Tareas de CUN Digital</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">📚 Importa tareas directamente del Moodle de la CUN al sistema de tareas del módulo.</div>
+<div class="note-h"><div class="note-title">P4 — Tareas de CUN Digital (Moodle)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN TAREAS — Lee CUN Digital → "Mis cursos" → entrar a CADA curso activo → extraer actividades pendientes (tareas, foros, quizzes) con fechas de entrega y estado. Agrégalas al task manager del módulo 10-SYS vía bulkImport o addTask. Actualiza CEREBRO_STATE.md con las tareas encontradas.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📚 Navega cada sección del Moodle. Las tareas se importan al semáforo con materia + fecha límite.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--gn)">
+<div class="note-h"><div class="note-title">P4b — Actualizar Docentes (CUN 360)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: SCAN DOCENTES — Abre CUN 360 Dashboard → scroll hasta "Consultar Materias Virtuales" → clic → extraer nombres de docentes asignados a cada materia. Actualiza SUBJECTS[] en systems_logic.js (campo professor) y academic-8vo.json. Actualiza CEREBRO_STATE.md.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">👨‍🏫 Los docentes aparecen en el modal "Horario - Modalidad Virtual" de CUN 360.</div>
 </div>
 
 <div class="lb">· 💼 2-APP — job hunting ·</div>
 <div class="note" style="border-left:3px solid var(--rd)">
 <div class="note-h"><div class="note-title">P5 — Analizar Vacante</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: ANALIZAR VACANTE — Abre el módulo 2-APP (apply.html), pega el job description en el analizador y ejecuta runAnalysis(). Genera CV perfilado, cover letter, prep de entrevista y prompts de IA automáticamente.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">🎯 El ATS Engine cruza el JD contra my-skills.json y genera todo el material personalizado.</div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: ANALIZAR VACANTE — Abre el módulo 2-APP (apply.html). Pega el job description en el Analizador tab → runAnalysis(). Genera automáticamente en los 5 tabs: (1) Análisis ATS con score por sinónimos, (2) CV Perfilado con keywords tejidas y 3 perfiles, (3) Cover Letter con 2 templates (formal/startup) + app msg + LinkedIn msg, (4) Interview Prep con 13 Q&A STAR rankeadas por JD + TTS, (5) Prompt Lab con 3 prompts IA (Mock Interviewer, Tech Assessment, Salary Negotiator).</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🎯 Motor ATS v2 cruza JD contra my-skills.json con sinónimos. Export PDF disponible en CV Weaver.</div>
 </div>
 
 <div class="note" style="border-left:3px solid var(--rd)">
@@ -175,14 +181,20 @@
 <div class="lb">· 🛠️ mantenimiento ·</div>
 <div class="note" style="border-left:3px solid var(--t3)">
 <div class="note-h"><div class="note-title">P9 — Auditar Todos los Módulos</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: AUDITAR — Lee el CEREBRO_STATE.md y audita el estado de todos los módulos del sistema. Identifica módulos pendientes, bugs conocidos y próximas mejoras. Muestra un reporte completo.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">🔧 Para verificar integridad del sistema y planificar sprints de mejora.</div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: AUDITAR — Lee el CEREBRO_STATE.md y audita el estado de todos los módulos del sistema. Identifica módulos pendientes, bugs conocidos y próximas mejoras. Verifica que los prompts en CLAUDE.md y notes.html reflejen las capacidades actuales. Muestra un reporte completo.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🔧 Para verificar integridad del sistema, prompts actualizados, y planificar sprints de mejora.</div>
 </div>
 
 <div class="note" style="border-left:3px solid var(--t3)">
 <div class="note-h"><div class="note-title">P10 — Commit y Push</div></div>
-<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: DEPLOY — Haz git add, commit con mensaje descriptivo y push al repositorio. Actualiza CEREBRO_STATE.md con los cambios realizados en esta sesión.</div>
-<div style="font-size:10px;color:var(--t3);margin-top:6px">🚀 Siempre hacer al final de cada sesión de trabajo para no perder progreso.</div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: DEPLOY — Haz git add, commit con mensaje descriptivo y push al repositorio. Antes de hacer push: actualiza CEREBRO_STATE.md con los cambios, y verifica que los prompts (CLAUDE.md + notes.html) estén al día con las funcionalidades implementadas.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">🚀 Siempre hacer al final de cada sesión. Incluye verificación de prompts actualizados.</div>
+</div>
+
+<div class="note" style="border-left:3px solid var(--or)">
+<div class="note-h"><div class="note-title">P11 — Guía de Materia (Task Guide)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: GUÍA [materia] — Abre el módulo 10-SYS y muestra la guía paso a paso de la materia indicada. El Task Guide Modal muestra: docente asignado, dónde está el aula virtual, tipo de evidencia, cómo entregar, 5 pasos semanales y tips importantes. Materias disponibles: mat_especiales, calidad_sw, admin_bd, ing_web, redes, inv_ciencia, english_beginner, placement_test.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📖 También puedes tocar cualquier materia en el Subject Health Grid del Dashboard para ver la guía.</div>
 </div>
 
 <div style="margin-top:16px;padding:14px;background:var(--el);border:1px solid var(--bd);border-radius:8px">
@@ -190,9 +202,10 @@
 <div style="font-size:11px;color:var(--t2);line-height:1.8">
 1. Abrir Claude Code → Pegar <strong>P0</strong> (Protocolo Cerebro)<br>
 2. Claude carga el contexto y muestra el menú de módulos<br>
-3. Elegir módulo → Si es 10-SYS: abrir portales CUN, iniciar sesión, pegar <strong>P1-P4</strong><br>
+3. Elegir módulo → Si es 10-SYS: abrir portales CUN, iniciar sesión, pegar <strong>P1-P4b</strong><br>
 4. Trabajar en el módulo seleccionado<br>
-5. Al terminar → Pegar <strong>P10</strong> (Deploy) para guardar todo
+5. Para ver guía de materia → Pegar <strong>P11</strong> o tocar materia en Dashboard<br>
+6. Al terminar → Pegar <strong>P10</strong> (Deploy) — actualiza código, CEREBRO_STATE y prompts
 </div>
 </div>
 </div>

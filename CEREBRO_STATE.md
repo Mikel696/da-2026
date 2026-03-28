@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-03-28
+- **Última actualización:** 2026-03-27
 - **Módulo 2-APP (Application Command Center & Motor ATS) — ✅ 100% FEATURE COMPLETE**
   - ✅ Analizador de Vacantes con 5 tabs (Analizador, CV Perfilado, Cover & Msgs, Entrevista, Prompt Lab)
   - ✅ Motor ATS v2 con sinónimos (`js/ats-engine.js` + `data/my-skills.json`)
@@ -16,14 +16,26 @@
   - ✅ Interview Weaver + TTS — 13 Q&A STAR-method, relevancia por JD, Web Speech API Play/Pause (`js/interview-weaver.js` + `data/my-interview-qa.json`)
   - ✅ Prompt Lab Weaver — 3 prompts IA dinámicos: Mock Interviewer, Tech Assessment Solver, Salary Negotiator (`js/prompt-weaver.js`)
 
-- **Módulo 1-IND (Global Dashboard & Mission Control) — ✅ 100% FEATURE COMPLETE**
-  - ✅ Modularización index.html — CSS → `css/index.css`, JS → `js/index.js`. HTML shell: 10.5 KB (era 32 KB, -67%)
+- **Módulo 1-IND (Global Dashboard & Mission Control) — ✅ 100% FEATURE COMPLETE + DEALS & URGENT TASKS**
+  - ✅ Modularización index.html — CSS → `css/index.css`, JS → `js/index.js`. HTML shell optimizado
   - ✅ Mission Control: 4 widgets (Pipeline Overview, Meta Semanal, Actividad Reciente, Acciones Rápidas)
   - ✅ Pipeline Overview — contadores por columna (Saved/Applied/Interview/Offer/Rejected), barra de progreso, tasas de conversión
   - ✅ Meta Semanal — ring SVG animado, conteo de apps esta semana vs target (10/semana), desglose Lun–Dom
   - ✅ Actividad Reciente — timeline de últimos movimientos del VacancyDB con timeAgo
   - ✅ Acciones Rápidas — links directos a Command Center, Tracker, Kanban, CV Weaver, Ruta DA, English
   - ✅ Lectura en tiempo real de VacancyDB (`da_vacancies` localStorage) — datos sincronizados con jobs.html y apply.html
+  - ✅ **Gratis & Ofertas Colombia** (reemplazó "Tareas del Día"):
+    - Panel principal con ofertas GRATIS organizadas por tienda (Cajita Tech, Amazon, Epic Games, Udemy, GOG, MercadoLibre, Éxito, Steam)
+    - Chips de tiendas clickeables con links directos
+    - Cada deal: icono por tienda, tag GRATIS, fecha de vencimiento
+    - Data layer: `data/deals.json` (sources + deals con categorías)
+    - Se actualiza automáticamente con P0 al inicio de cada sesión
+  - ✅ **Tareas Urgentes** (reemplazó "Cajita Tech" en sidebar):
+    - Lee tareas del sistema 10-SYS (sys_tasks localStorage) + alertas estáticas del scan
+    - Muestra tareas vencidas, de hoy y próximas 7 días con colores por urgencia
+    - Alertas fijas: Inducción TICS pendiente, documentos CUN 360
+    - Lee VacancyDB para follow-up de vacantes aplicadas
+    - Links directos "Ir →" a cada módulo/plataforma relevante
 
 - **Módulo 3-ENG (English Interview Dojo) — ✅ 100% FEATURE COMPLETE**
   - ✅ Interview Dojo tab añadido a english.html (nuevo tab 🎙️ Interview Dojo)
@@ -93,11 +105,41 @@
     - Links rápidos: CUN Digital + recursos externos
     - Se abre desde: Subject Health grid, Subject Cards, y botón 📖 en semáforo
   - ✅ `SUBJECT_GUIDES` — 8 guías completas (1 por materia) con plataforma, evidenceType, submitMethod, tips, weeklySteps
+  - ✅ **SCAN COMPLETO 2026-03-27** — Escaneo exhaustivo de las 4 plataformas CUN vía Chrome MCP:
+    - ✅ **CUN Digital**: Solo curso "INDUCCION TICS - ESTUDIANTES" (course 28494, 0% completado, 7 secciones). Cursos 26V02 NO publicados aún (inician 30 Mar).
+    - ✅ **SGA Campus (notr29)**: 3 programas activos (VP15G/26V02, IV001/26I02, IV002/26I32). Sin notas aún.
+    - ✅ **Gmail CUN**: 13 emails (Mar 11-24), setup/bienvenida, sin alertas urgentes.
+    - ✅ **CUN 360 Dashboard**: Deuda $0, 52 materias históricas, docs pendientes por cargar.
+    - ✅ **CUN 360 Materias Virtuales**: 6 materias modalidad virtual confirmadas con docentes:
+      - REDES INALAMBRICAS — Docente: No registra
+      - MATEMATICAS ESPECIALES — Docente: CORTES CRUZ JUAN SEBASTIAN
+      - ADMINISTRACION DE BASES DE DATOS — Docente: No registra
+      - CALIDAD DEL SOFTWARE — Docente: No registra
+      - INVESTIGACION CIENCIA Y TECNOLOGIA — Docente: CORTES TOBAR DARIO FERNANDO
+      - INGENIERIA WEB — Docente: BECERRA RAMIREZ HEYNER LEONEL
+    - ✅ **CUN 360 Financiero**: Transacciones $0, sin pagos pendientes.
+    - ✅ **CUN 360 Links de Interés**: 15 enlaces de recursos (SINU, Campus Digital, Biblioteca, Calendario, etc.)
+  - ✅ **Docentes en SUBJECTS** — 3 profesores confirmados agregados a `SUBJECTS[]` y `academic-8vo.json`
+  - ✅ **Docente en Task Guide Modal** — El nombre del profesor se muestra en el header del modal
+  - ✅ **Prompts actualizados (CLAUDE.md + notes.html P0-P11):**
+    - CLAUDE.md reescrito: ecosistema 4 plataformas, datos período 26V02, funcionalidades 10-SYS, regla de oro "actualizar siempre"
+    - P1 expandido: escaneo 4 plataformas con instrucciones detalladas por paso
+    - P2 actualizado: incluye risk_level y doble clic en período
+    - P3 actualizado: historial + docentes + financiero en un solo scan
+    - P4 actualizado: navegar cada sección del Moodle, importar tareas con materia + fecha
+    - P4b NUEVO: Scan solo docentes (CUN 360 → Materias Virtuales)
+    - P5 expandido: describe los 5 tabs del Application Command Center
+    - P9 actualizado: incluye verificación de prompts actualizados
+    - P10 actualizado: incluye verificación de prompts antes de push
+    - P11 NUEVO: Guía de Materia (Task Guide Modal) con las 8 materias disponibles
+    - Flujo de trabajo: 6 pasos (antes 5), incluye P4b y P11
 
 - **Siguiente fase sugerida (próxima sesión):**
-  1. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"
-  2. **10-SYS: CUN Digital courses** — Navegar a "Mis cursos" para vincular las aulas virtuales reales
-  3. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
+  1. **10-SYS: Completar Inducción TICS** — Curso pendiente 0% en CUN Digital (URGENTE antes de que inicie 26V02)
+  2. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"
+  3. **10-SYS: Re-scan CUN Digital** — Cuando 26V02 inicie (30 Mar), escanear "Mis cursos" para vincular aulas virtuales reales
+  4. **10-SYS: Documentos pendientes** — Subir documentos requeridos en CUN 360
+  5. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
 
 ## Arquitectura de Archivos — Module 1-IND
 

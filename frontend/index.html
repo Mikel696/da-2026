@@ -39,12 +39,22 @@
 </div>
 </div>
 
-<div class="sec-label">· hoy ·</div>
+<div class="sec-label">· ofertas & tareas urgentes ·</div>
 <div class="dash-grid">
-<div class="today"><div class="today-header"><div class="today-title">📋 Tareas del Día</div><div class="today-date" id="todayDate"></div></div><div id="taskList"></div><div class="task-add"><input class="task-input" id="taskInput" placeholder="Agregar tarea..." onkeydown="if(event.key==='Enter')addTask()"><select class="task-select" id="taskCat"><option value="study">📚 Estudio</option><option value="work">💼 Trabajo</option><option value="personal">🏠 Personal</option><option value="health">💪 Salud</option></select><button class="task-btn" onclick="addTask()">+ Agregar</button></div></div>
+<div class="deals-panel">
+<div class="deals-header">
+<div class="deals-title">🔥 Gratis & Ofertas — Colombia</div>
+<div class="deals-date" id="todayDate"></div>
+</div>
+<div class="deals-sources" id="dealsSources"></div>
+<div class="deals-list" id="dealsList"></div>
+</div>
 <div class="sidebar">
+<div class="urgent-panel">
+<div class="urgent-header"><div class="urgent-title">🚨 Tareas Urgentes</div><div class="urgent-badge" id="urgentCount">0</div></div>
+<div id="urgentTasks"></div>
+</div>
 <div class="pomo"><div class="pomo-title">🍅 Temporizador de Estudio</div><div class="pomo-time" id="pomoTime">25:00</div><div class="pomo-btns"><button class="pomo-btn pomo-start" id="pomoBtn" onclick="togglePomo()">▶ Iniciar</button><button class="pomo-btn pomo-reset" onclick="resetPomo()">↺ Reset</button></div><div class="pomo-log">Sesiones hoy: <strong id="pomoCount">0</strong> · Total: <strong id="pomoTotal">0</strong></div><div class="rate-panel" id="ratePanel"><div class="rate-q">¿Qué tan productiva fue esta sesión?</div><div class="rate-stars"><span class="rate-star" onclick="rateSess(1)">⭐</span><span class="rate-star" onclick="rateSess(2)">⭐</span><span class="rate-star" onclick="rateSess(3)">⭐</span><span class="rate-star" onclick="rateSess(4)">⭐</span><span class="rate-star" onclick="rateSess(5)">⭐</span></div></div></div>
-<div class="cajita"><div class="cajita-header"><div class="cajita-title">🎁 Cajita Tech</div><a href="https://promocajita.com/gratis" target="_blank" class="cajita-link">Ver más →</a></div><div id="cajitaDeals"></div></div>
 </div></div>
 
 <div class="sec-label">· módulos ·</div>

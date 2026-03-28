@@ -1,58 +1,23 @@
-[
-  {
-    "title": "OJO SOLO QUEDAN 10 CUPOS DE 100 CORRAN YouTube Marketing with Dekker",
-    "link": "https://www.udemy.com/course/youtube-marketing-dekker/?couponCode=93600F94E5A9B1BCCB9A&im_ref=wBuVnq0UCxyZRlEWHbVMY0yOUkuwwg3edzVE2o0&sharedid=&irpid=2729436&utm_medium=affiliate&utm_source=impact&utm_audience=mx&utm_tactic=%22Content%22%2C%22ROW%22&utm_content=3227798&utm_campaign=2729436&irgwc=1&afsrc=1",
-    "temp": "13",
-    "isFree": true,
-    "isEarlyAlert": false
-  },
-  {
-    "title": "Email Marketing with Dekker: Cold Email Marketing & More!",
-    "link": "https://www.udemy.com/course/cold-email-cold-emailing/?couponCode=40E5F55D7EBA1A75577F&im_ref=wBuVnq0UCxyZRlEWHbVMY0yOUkuwwg3edzVE2o0&sharedid=&irpid=2729436&utm_medium=affiliate&utm_source=impact&utm_audience=mx&utm_tactic=%22Content%22%2C%22ROW%22&utm_content=3227798&utm_campaign=2729436&irgwc=1&afsrc=1",
-    "temp": "8",
-    "isFree": true,
-    "isEarlyAlert": false
-  },
-  {
-    "title": "Alarma de Batería Completa",
-    "link": "https://play.google.com/store/apps/details?id=com.lightstar.batteryalarmpro",
-    "temp": "8",
-    "isFree": true,
-    "isEarlyAlert": false
-  },
-  {
-    "title": "Conversor de Números a Palabras Offline",
-    "link": "https://play.google.com/store/apps/details?id=com.light.numbertoword",
-    "temp": "5",
-    "isFree": true,
-    "isEarlyAlert": false
-  },
-  {
-    "title": "Próximamente en Game Pass: Clair Obscur: Expedition 33, Towerborne, Call of Duty: Modern Warfare II y mucho más.",
-    "link": "https://news.xbox.com/en-us/2025/04/15/xbox-game-pass-april-2025-wave-2/",
-    "temp": "7",
-    "isFree": false,
-    "isEarlyAlert": true
-  },
-  {
-    "title": "Solo por hoy y mañana 2X1 en WHOPPER® Clásica a nivel nacional.",
-    "link": "https://www.promocajita.com/deal/solo-por-hoy-y-manana-2x1-en-whopperr-clasica-a-nivel-nacional-67a4ed0f6f8c7d0398d19c1b",
-    "temp": "7",
-    "isFree": false,
-    "isEarlyAlert": true
-  },
-  {
-    "title": "10% DE DESCUENTO ADICIONAL HASTA EL DIA DE MAÑANA EN IMUSA,SAMURAI Y TEFAL",
-    "link": "https://ad.soicos.com/redireccion.php?publicacion=630138&link=40958",
-    "temp": "6",
-    "isFree": false,
-    "isEarlyAlert": true
-  },
-  {
-    "title": "OFERTA DEL 40% EN FARMATODO SOLO HOY 27 Y MAÑANA 28 FEB EN CATEGORIAS SELECCIONADAS",
-    "link": "https://www.farmatodo.com.co/",
-    "temp": "6",
-    "isFree": false,
-    "isEarlyAlert": true
-  }
-]
+{
+  "last_updated": "2026-03-27",
+  "sources": [
+    {"id": "cajita", "name": "Cajita Tech", "icon": "🎁", "color": "#10b981", "url": "https://promocajita.com/gratis", "desc": "Cursos, juegos y software gratis"},
+    {"id": "amazon", "name": "Amazon", "icon": "📦", "color": "#ff9900", "url": "https://www.amazon.com.co/deals", "desc": "Envío a Colombia — ofertas y Luna Gaming"},
+    {"id": "epic", "name": "Epic Games", "icon": "🎮", "color": "#0078f2", "url": "https://store.epicgames.com/es-ES/free-games", "desc": "Juegos gratis cada semana"},
+    {"id": "udemy", "name": "Udemy", "icon": "🎓", "color": "#a435f0", "url": "https://www.udemy.com/courses/free/", "desc": "Cursos gratis con cupón"},
+    {"id": "gog", "name": "GOG", "icon": "🕹️", "color": "#86328a", "url": "https://www.gog.com/#giveaway", "desc": "Juegos DRM-free, giveaways"},
+    {"id": "mercadolibre", "name": "Mercado Libre", "icon": "🛒", "color": "#ffe600", "url": "https://www.mercadolibre.com.co/ofertas", "desc": "Ofertas Colombia — envío gratis"},
+    {"id": "exito", "name": "Éxito", "icon": "🏬", "color": "#ffd100", "url": "https://www.exito.com/tecnologia", "desc": "Tecnología con descuento — Colombia"},
+    {"id": "steam", "name": "Steam", "icon": "🎮", "color": "#1b2838", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "desc": "Free-to-play y promos"}
+  ],
+  "deals": [
+    {"title": "CURSO: Recompensas Totales — Compensación y Beneficios", "source": "udemy", "link": "https://www.udemy.com/course/total-rewards-recompensas-totales-compensacion-y-beneficios/?couponCode=PAPAHR_MAR_04", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"},
+    {"title": "PETI Estratégico: Conectando Tecnología y Negocio", "source": "udemy", "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"},
+    {"title": "I Need Spirit! Off-Road Edition", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/need-for-spirit-offroad-edition-7eee16", "isFree": true, "tag": "GRATIS", "expires": "2026-04-03"},
+    {"title": "Turmoil — Amazon Luna", "source": "amazon", "link": "https://luna.amazon.com/claims/turmoil-epic/dp/amzn1.pg.item.d7d941e2-d63a-41cb-9ebb-1ca172de03b0", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Mahokenshi — The Samurai Deckbuilder", "source": "gog", "link": "https://luna.amazon.com/claims/mahokenshi-the-samurai-deckbuilder-gog/dp/amzn1.pg.item.63d1e16c-0f19-4672-b3d6-128f62e58a3f", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Total War: Rome II — Emperor Edition", "source": "epic", "link": "https://luna.amazon.com/claims/total-war-rome-ii-emperor-edition-epic/dp/amzn1.pg.item.e39ffc2d-d79a-4f43-946d-47c9f6949d9b", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Veil of Darkness — GOG", "source": "gog", "link": "https://luna.amazon.com/claims/veil-of-darkness-gog/dp/amzn1.pg.item.837b8893-53b0-4072-8f3f-24037351b77d", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Sir Questionnaire — GOG", "source": "gog", "link": "https://luna.amazon.com/claims/sir-questionnaire-gog/dp/amzn1.pg.item.6dd1d038-96ea-4b01-af91-64731bfa55ef", "isFree": true, "tag": "GRATIS", "expires": null}
+  ]
+}

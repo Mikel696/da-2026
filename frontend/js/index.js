@@ -19,28 +19,132 @@ const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov',
 const now=new Date();
 document.getElementById('todayDate').textContent=days[now.getDay()]+' '+now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
 
-// ── TASKS ─────────────────────────────────────────
-function getTasks(){
+// ── DEALS & OFFERS ───────────────────────────────
+function renderDealsPanel(){
+  const srcEl=document.getElementById('dealsSources');
+  const listEl=document.getElementById('dealsList');
+  if(!srcEl||!listEl)return;
+
+  fetch('data/deals.json').then(r=>r.json()).then(data=>{
+    // Source chips
+    const sources=data.sources||[];
+    srcEl.innerHTML=sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener" class="ds-chip" title="${s.desc}"><span class="ds-chip-icon">${s.icon}</span>${s.name}</a>`).join('');
+
+    // Group deals by source
+    const deals=data.deals||[];
+    const grouped={};
+    deals.forEach(d=>{
+      if(!grouped[d.source])grouped[d.source]=[];
+      grouped[d.source].push(d);
+    });
+
+    const srcMap={};
+    sources.forEach(s=>srcMap[s.id]=s);
+
+    let html='';
+    for(const [srcId,items] of Object.entries(grouped)){
+      const src=srcMap[srcId]||{name:srcId,icon:'🔗',color:'#888',url:'#'};
+      html+=`<div class="dl-section">
+        <div class="dl-section-head">
+          <div class="dl-section-name"><span>${src.icon}</span> ${src.name}</div>
+          <a href="${src.url}" target="_blank" class="dl-section-link">Ver más →</a>
+        </div>`;
+      items.forEach(d=>{
+        const expTag=d.expires?`<span class="dl-tag dl-tag-exp">Vence ${d.expires}</span>`:'';
+        const freeTag=d.isFree?`<span class="dl-tag dl-tag-free">${d.tag||'GRATIS'}</span>`:`<span class="dl-tag dl-tag-hot">${d.tag||'OFERTA'}</span>`;
+        html+=`<a href="${d.link}" target="_blank" rel="noopener" class="dl-item">
+          <div class="dl-icon" style="background:${src.color}15;color:${src.color};border-color:${src.color}25">${src.icon}</div>
+          <div class="dl-info">
+            <div class="dl-name">${d.title}</div>
+            <div class="dl-tags">${freeTag}${expTag}</div>
+          </div>
+        </a>`;
+      });
+      html+='</div>';
+    }
+
+    if(!deals.length) html='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:11px">No hay ofertas disponibles. Usa P0 para actualizar.</div>';
+    listEl.innerHTML=html;
+  }).catch(()=>{
+    listEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:11px">No se pudieron cargar las ofertas.</div>';
+  });
+}
+
+// ── URGENT TASKS ─────────────────────────────────
+function renderUrgentTasks(){
+  const el=document.getElementById('urgentTasks');
+  const badge=document.getElementById('urgentCount');
+  if(!el)return;
+
+  const urgentItems=[];
   const today=new Date().toISOString().split('T')[0];
-  try{return(JSON.parse(localStorage.getItem('sb_tasks')||'{}'))[today]||[]}catch(e){return[]}
+
+  // 1. Academic tasks from 10-SYS (sys_ localStorage)
+  try{
+    const sysTasks=JSON.parse(localStorage.getItem('sys_tasks')||'[]');
+    const pending=sysTasks.filter(t=>!t.done);
+    pending.forEach(t=>{
+      const daysLeft=t.due?Math.floor((new Date(t.due)-new Date(today))/(864e5)):99;
+      if(daysLeft<=7){
+        urgentItems.push({
+          text:t.text,
+          meta:(t.subj||'CUN')+(t.due?' · '+t.due:''),
+          daysLeft,
+          type:daysLeft<0?'overdue':daysLeft===0?'today':'soon',
+          link:'systems.html'
+        });
+      }
+    });
+  }catch(e){}
+
+  // 2. Static alerts from scan data
+  const staticAlerts=[
+    {text:'Completar curso "Inducción TICS - Estudiantes" en CUN Digital',meta:'CUN Digital · 0% completado · 7 secciones',daysLeft:2,type:'action',link:'https://cdigital.cun.edu.co/course/view.php?id=28494'},
+    {text:'Subir documentos pendientes en CUN 360',meta:'CUN 360 · Documentos requeridos',daysLeft:5,type:'action',link:'https://360.cunapp.pro/#/estudiante/dashboard'},
+  ];
+  urgentItems.push(...staticAlerts);
+
+  // 3. Job hunting tasks (vacancies that need follow-up)
+  try{
+    const vdb=JSON.parse(localStorage.getItem('da_vacancies')||'[]');
+    const applied=vdb.filter(v=>(v.column||'').toLowerCase()==='applied');
+    if(applied.length>0){
+      urgentItems.push({
+        text:`${applied.length} vacante${applied.length>1?'s':''} aplicada${applied.length>1?'s':''} — hacer follow-up`,
+        meta:'Job Tracker · Pipeline activo',
+        daysLeft:3,
+        type:'action',
+        link:'jobs.html'
+      });
+    }
+  }catch(e){}
+
+  // Sort by urgency
+  urgentItems.sort((a,b)=>a.daysLeft-b.daysLeft);
+
+  if(badge)badge.textContent=urgentItems.length;
+  document.getElementById('statTasks').textContent=urgentItems.length;
+
+  if(!urgentItems.length){
+    el.innerHTML='<div style="text-align:center;padding:16px;color:var(--gn);font-size:11px">✅ ¡Todo al día! Sin tareas urgentes.</div>';
+    return;
+  }
+
+  el.innerHTML=urgentItems.map(t=>{
+    const dotClass='urg-dot-'+(t.type||'soon');
+    const timeLabel=t.daysLeft<0?`<span style="color:var(--rd);font-weight:600">Vencida hace ${Math.abs(t.daysLeft)}d</span>`:
+      t.daysLeft===0?'<span style="color:var(--or);font-weight:600">HOY</span>':
+      t.daysLeft<=2?`<span style="color:var(--am)">${t.daysLeft}d restantes</span>`:
+      `${t.daysLeft}d`;
+    return `<div class="urg-item">
+      <div class="urg-dot ${dotClass}"></div>
+      <div class="urg-info">
+        <div class="urg-text">${t.text}</div>
+        <div class="urg-meta">${t.meta} · ${timeLabel} · <a href="${t.link}" class="urg-link">Ir →</a></div>
+      </div>
+    </div>`;
+  }).join('');
 }
-function saveTasks(tasks){
-  const today=new Date().toISOString().split('T')[0];
-  try{const d=JSON.parse(localStorage.getItem('sb_tasks')||'{}');d[today]=tasks;const k=Object.keys(d).sort();if(k.length>30)k.slice(0,k.length-30).forEach(x=>delete d[x]);localStorage.setItem('sb_tasks',JSON.stringify(d))}catch(e){}
-}
-function renderTasks(){
-  const tasks=getTasks(),el=document.getElementById('taskList');
-  if(!tasks.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--tx3);font-size:12px">Sin tareas aún.</div>'}
-  else{el.innerHTML=tasks.map((t,i)=>'<div class="task"><div class="task-check'+(t.done?' done':'')+'" onclick="toggleTask('+i+')">'+(t.done?'✓':'')+'</div><span class="task-text'+(t.done?' done-text':'')+'">'+t.text+'</span><span class="task-cat">'+catL(t.cat)+'</span><button class="task-del" onclick="delTask('+i+')">✕</button></div>').join('')}
-  document.getElementById('statTasks').textContent=tasks.filter(t=>!t.done).length;
-}
-function catL(c){return{study:'📚',work:'💼',personal:'🏠',health:'💪'}[c]||'📌'}
-function addTask(text,cat){
-  const input=document.getElementById('taskInput'),t=text||input.value.trim(),c=cat||document.getElementById('taskCat').value;
-  if(!t)return;const tasks=getTasks();tasks.push({text:t,cat:c,done:false});saveTasks(tasks);if(!text)input.value='';renderTasks();
-}
-function toggleTask(i){const t=getTasks();t[i].done=!t[i].done;saveTasks(t);renderTasks()}
-function delTask(i){const t=getTasks();t.splice(i,1);saveTasks(t);renderTasks()}
 
 // ── POMODORO ──────────────────────────────────────
 let pomoInt=null,pomoSec=1500,pomoOn=false;
@@ -75,21 +179,7 @@ const pt=new Date().toISOString().split('T')[0];
 document.getElementById('pomoCount').textContent=localStorage.getItem('sb_pomo_'+pt)||'0';
 document.getElementById('pomoTotal').textContent=localStorage.getItem('sb_pomo_total')||'0';
 
-// ── CAJITA TECH ───────────────────────────────────
-function renderDeals(){
-  const el=document.getElementById('cajitaDeals');
-  el.innerHTML='<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">Cargando ofertas...</div>';
-  fetch('data/recommendations.json').then(r=>r.json()).then(data=>{
-    if(!data||!data.length){el.innerHTML='<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">No hay ofertas nuevas</div>';return}
-    el.innerHTML=data.slice(0,5).map((d,i)=>{
-      const tags=(d.isFree?'<span class="cj-tag cj-free">Gratis</span>':'')+(d.isEarlyAlert?'<span class="cj-tag cj-hot">Hot '+d.temp+'°</span>':(!d.isFree?'<span class="cj-tag" style="background:var(--el);border:1px solid var(--bd2)">'+d.temp+'°</span>':''));
-      const icon=i===0?'🔥':(d.isFree?'🎁':'⚡');
-      return '<a href="'+d.link+'" target="_blank" rel="noopener" class="cj-deal"><div class="cj-icon">'+icon+'</div><div class="cj-info"><div class="cj-title">'+d.title+'</div><div class="cj-meta">'+tags+'</div></div></a>';
-    }).join('');
-  }).catch(()=>{
-    el.innerHTML='<div style="text-align:center;padding:10px;color:var(--tx3);font-size:10px">Error de conexión</div>';
-  });
-}
+// ── (Legacy Cajita — replaced by renderDealsPanel) ──
 
 // ── STATS ─────────────────────────────────────────
 function updateStats(){
@@ -126,7 +216,7 @@ function renderFeed(){
     }).join('');
   }).catch(()=>{el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:11px">Feed offline. <a href="news.html" style="color:var(--ac2)">Ver noticias →</a></div>'});
 }
-function feedToTask(t){addTask('📰 '+t,'study');alert('✅ Agregado a tareas')}
+function feedToTask(t){alert('📰 '+t+'\n\nAbre el módulo 10-SYS para agregar tareas.')}
 
 // ── QUOTE ─────────────────────────────────────────
 function renderQuote(){
@@ -322,7 +412,7 @@ function initMissionControl(){
 }
 
 // ── ONBOARDING ────────────────────────────────────
-(function(){if(!localStorage.getItem('sb_name')){const n=prompt('¿Cuál es tu nombre?');if(n)localStorage.setItem('sb_name',n.trim())}})();
+(function(){if(!localStorage.getItem('sb_name')){localStorage.setItem('sb_name','Miguel')}})();
 
 // ── STREAK ────────────────────────────────────────
 (function(){
@@ -336,4 +426,4 @@ function initMissionControl(){
 })();
 
 // ── BOOT ──────────────────────────────────────────
-renderTasks();updateStats();renderFeed();renderQuote();renderDeals();initMissionControl();
+setTimeout(()=>{renderDealsPanel();renderUrgentTasks();updateStats();renderFeed();renderQuote();initMissionControl()},0);
