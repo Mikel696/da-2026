@@ -119,8 +119,8 @@ const SYS = (() => {
   // ── WEEKLY WORKFLOW ──
   const WEEKLY_WORKFLOW = [
     { day: 'Lunes', tasks: ['Revisar CUN Digital — materiales nuevos de todas las materias', 'Actualizar semáforo con tareas descubiertas', 'Planificar la semana'] },
-    { day: 'Martes-Miércoles', tasks: ['Trabajar en tareas P0 y P1', 'Estudiar contenido teórico (Discretas, Álgebra, Ecuaciones)', 'Coordinar encuentros sincrónicos'] },
-    { day: 'Jueves-Viernes', tasks: ['Completar talleres y laboratorios (Software, BD, Redes)', 'Participar en foros de discusión', 'Avanzar en Plan de Negocios II'] },
+    { day: 'Martes-Miércoles', tasks: ['Trabajar en tareas P0 y P1', 'Estudiar contenido teórico (Mat. Especiales, Calidad SW, Inv. Ciencia)', 'Coordinar encuentros sincrónicos'] },
+    { day: 'Jueves-Viernes', tasks: ['Completar talleres y laboratorios (Admin BD, Ing. Web, Redes)', 'Participar en foros de discusión', 'Avanzar en proyectos y entregas'] },
     { day: 'Sábado', tasks: ['Entregar pendientes antes de deadlines dominicales', 'Revisar recursos de certificaciones', 'Respaldo de datos (exportar JSON)'] },
     { day: 'Domingo', tasks: ['Revisión semanal — ¿qué completé? ¿qué falta?', 'Limpiar tareas completadas', 'Preparar prioridades de la siguiente semana'] },
   ];
@@ -157,10 +157,19 @@ const SYS = (() => {
 
   function detectPeriod() {
     const today = todayStr();
+    // Student is enrolled in 26V02 — prioritize it when active or within 7 days
+    const enrolled = '26V02';
+    const enrolledCal = CALENDAR[enrolled];
+    if (enrolledCal?.academic) {
+      const daysToStart = daysBetween(today, enrolledCal.academic.start);
+      if (today >= enrolledCal.academic.start && today <= enrolledCal.academic.end) return enrolled;
+      if (daysToStart > 0 && daysToStart <= 7) return enrolled;
+    }
+    // Fallback: find any active period
     for (const [id, cal] of Object.entries(CALENDAR)) {
       if (cal.academic && today >= cal.academic.start && today <= cal.academic.end) return id;
     }
-    return '26V01';
+    return enrolled;
   }
 
   function esc(s) {
@@ -650,8 +659,177 @@ const SYS = (() => {
   }
 
   // ── MAIN RENDER ──
+  // ── RENDER: ACTION NOW (What to do right now) ──
+  function renderActionNow() {
+    const el = document.getElementById('actionNow');
+    if (!el) return;
+    const tasks = getTasks().filter(t => !t.done);
+    const period = detectPeriod();
+    const cal = CALENDAR[period] || CALENDAR['26V02'];
+    const today = new Date();
+    const blockStart = new Date(cal.block1?.start || cal.academic?.start || '2026-03-30');
+    const daysToStart = daysBetween(todayStr(), blockStart.toISOString().split('T')[0]);
+    const isPreSemester = daysToStart > 0;
+
+    // Find most urgent task
+    const urgents = tasks.filter(t => ['p0','p1'].includes(getTaskPriority(t)));
+    const nextTask = urgents.sort((a,b) => (a.due||'9999') > (b.due||'9999') ? 1 : -1)[0];
+
+    // Count by status
+    const overdue = tasks.filter(t => t.due && daysBetween(todayStr(), t.due) < 0).length;
+    const thisWeek = tasks.filter(t => { const d = t.due ? daysBetween(todayStr(), t.due) : 99; return d >= 0 && d <= 7; }).length;
+
+    let heroMsg, heroSub, heroAction;
+    if (isPreSemester) {
+      heroMsg = `⏳ El semestre inicia en ${daysToStart} día${daysToStart!==1?'s':''}`;
+      heroSub = 'Período 26V02 · Bloque 1: 30 Mar — 24 May. Usa este tiempo para prepararte.';
+      heroAction = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+        <a href="#" onclick="showTab(6);return false" style="font-size:11px;padding:6px 12px;background:var(--vi);color:#fff;border-radius:6px;text-decoration:none;font-weight:600">🔄 Abrir Portales CUN</a>
+        <a href="#" onclick="showTab(1);return false" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">📚 Ver Materias</a>
+        <a href="https://cdigital.cun.edu.co/my/" target="_blank" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">🎓 CUN Digital</a>
+      </div>`;
+    } else if (overdue > 0) {
+      heroMsg = `🚨 ${overdue} tarea${overdue!==1?'s':''} vencida${overdue!==1?'s':''}`;
+      heroSub = nextTask ? `Más urgente: "${nextTask.text}"` : 'Revisa el semáforo abajo para ponerte al día.';
+      heroAction = `<div style="margin-top:8px;font-size:11px;color:var(--rd);font-weight:600">Acción: Completa las tareas vencidas ANTES de las nuevas.</div>`;
+    } else if (thisWeek > 0) {
+      heroMsg = `📋 ${thisWeek} tarea${thisWeek!==1?'s':''} para esta semana`;
+      heroSub = nextTask ? `Siguiente: "${nextTask.text}" — ${nextTask.due ? formatDate(nextTask.due) : 'sin fecha'}` : '';
+      heroAction = '';
+    } else {
+      heroMsg = '✅ ¡Todo al día!';
+      heroSub = 'No tienes tareas pendientes urgentes. Buen momento para adelantar material.';
+      heroAction = '';
+    }
+
+    el.innerHTML = `
+      <div style="font-size:18px;font-weight:700;margin-bottom:4px">${heroMsg}</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.6">${heroSub}</div>
+      ${heroAction}
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div style="font-size:10px;padding:4px 10px;border-radius:6px;background:${overdue?'rgba(239,68,68,.1)':'var(--el)'};color:${overdue?'var(--rd)':'var(--t3)'};border:1px solid ${overdue?'rgba(239,68,68,.2)':'var(--bd)'}">🔴 ${overdue} vencidas</div>
+        <div style="font-size:10px;padding:4px 10px;border-radius:6px;background:${thisWeek?'rgba(249,115,22,.1)':'var(--el)'};color:${thisWeek?'var(--or)':'var(--t3)'};border:1px solid ${thisWeek?'rgba(249,115,22,.2)':'var(--bd)'}">🟠 ${thisWeek} esta semana</div>
+        <div style="font-size:10px;padding:4px 10px;border-radius:6px;background:var(--el);color:var(--t3);border:1px solid var(--bd)">📝 ${tasks.length} pendientes total</div>
+      </div>`;
+  }
+
+  // ── RENDER: SUBJECT HEALTH (Compact Visual Grid) ──
+  function renderSubjectHealth() {
+    const el = document.getElementById('subjectHealth');
+    if (!el) return;
+    const tasks = getTasks();
+
+    el.innerHTML = SUBJECTS.map(s => {
+      const subjTasks = tasks.filter(t => t.subj === s.id);
+      const done = subjTasks.filter(t => t.done).length;
+      const total = subjTasks.length;
+      const pending = subjTasks.filter(t => !t.done).length;
+      const overdue = subjTasks.filter(t => !t.done && t.due && daysBetween(todayStr(), t.due) < 0).length;
+      const urgent = subjTasks.filter(t => !t.done && ['p0','p1'].includes(getTaskPriority(t))).length;
+
+      // Health status
+      let status, statusColor, statusBg;
+      if (overdue > 0) { status = '🔴 ATRASADO'; statusColor = 'var(--rd)'; statusBg = 'rgba(239,68,68,.08)'; }
+      else if (urgent > 0) { status = '🟠 URGENTE'; statusColor = 'var(--or)'; statusBg = 'rgba(249,115,22,.08)'; }
+      else if (pending > 0) { status = '🟡 AL DÍA'; statusColor = 'var(--am)'; statusBg = 'rgba(234,179,8,.06)'; }
+      else if (done > 0) { status = '✅ COMPLETO'; statusColor = 'var(--gn)'; statusBg = 'rgba(34,197,94,.06)'; }
+      else { status = '⬜ SIN TAREAS'; statusColor = 'var(--t3)'; statusBg = 'var(--el)'; }
+
+      const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+      return `<div onclick="showTab(1)" style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;border-left:3px solid ${s.color}" onmouseover="this.style.borderColor='${s.color}'" onmouseout="this.style.borderColor='var(--bd)'">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:16px">${s.icon}</span>
+            <span style="font-size:12px;font-weight:600">${s.name}</span>
+          </div>
+          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:${statusBg};color:${statusColor}">${status}</span>
+        </div>
+        <div style="display:flex;gap:4px;align-items:center;margin-bottom:4px">
+          <div style="flex:1;background:var(--el);border-radius:3px;height:5px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:${s.color};border-radius:3px;transition:width .5s"></div>
+          </div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:30px;text-align:right">${pct}%</span>
+        </div>
+        <div style="font-size:10px;color:var(--t3)">${s.credits} cr · ${s.type}${pending ? ' · <strong style=\"color:'+statusColor+'\">'+pending+' pendiente'+(pending!==1?'s':'')+'</strong>' : ''}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── RENDER: STUDY PLAN ──
+  function renderStudyPlan() {
+    const el = document.getElementById('studyPlan');
+    if (!el) return;
+    const tasks = getTasks().filter(t => !t.done);
+    const today = new Date();
+    const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+    // Group tasks by due date into next 7 days
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      const dateStr = d.toISOString().split('T')[0];
+      const dayTasks = tasks.filter(t => t.due === dateStr);
+      const isToday = i === 0;
+      days.push({ date: dateStr, label: isToday ? '📌 HOY' : dayNames[d.getDay()], day: d.getDate(), month: d.getMonth()+1, tasks: dayTasks, isToday });
+    }
+
+    // Also get overdue
+    const overdue = tasks.filter(t => t.due && daysBetween(todayStr(), t.due) < 0);
+
+    // Unscheduled
+    const unscheduled = tasks.filter(t => !t.due);
+
+    // Build recommendations based on subjects without tasks
+    const activeSubjIds = new Set(tasks.map(t => t.subj));
+    const neglected = SUBJECTS.filter(s => !activeSubjIds.has(s.id) && s.credits > 0);
+
+    let html = '';
+
+    if (overdue.length > 0) {
+      html += `<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;color:var(--rd);margin-bottom:4px">⚠️ VENCIDAS — Resolver primero</div>
+        ${overdue.map(t => {
+          const subj = SUBJECTS.find(s => s.id === t.subj);
+          return `<div style="font-size:11px;color:var(--t2);padding:2px 0">${subj?.icon||'📌'} ${esc(t.text)} <span style="color:var(--rd);font-size:10px">(vencida ${formatDate(t.due)})</span></div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    html += days.map(d => {
+      if (d.tasks.length === 0 && !d.isToday) return '';
+      const border = d.isToday ? 'border-left:3px solid var(--vi)' : 'border-left:3px solid var(--bd)';
+      return `<div style="background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:4px;${border}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:${d.tasks.length?'6':'0'}px">
+          <span style="font-size:11px;font-weight:600;color:${d.isToday?'var(--vi2)':'var(--tx)'}">${d.label} · ${d.day}/${d.month}</span>
+          <span style="font-size:10px;color:var(--t3)">${d.tasks.length} tarea${d.tasks.length!==1?'s':''}</span>
+        </div>
+        ${d.tasks.length > 0 ? d.tasks.map(t => {
+          const subj = SUBJECTS.find(s => s.id === t.subj);
+          return `<div style="font-size:11px;color:var(--t2);padding:2px 0;display:flex;align-items:center;gap:4px">
+            <span class="atask-check" onclick="SYS.toggleTask(${t.id})" style="width:14px;height:14px;min-width:14px"></span>
+            ${subj?.icon||'📌'} ${esc(t.text)}
+          </div>`;
+        }).join('') : d.isToday ? '<div style="font-size:11px;color:var(--t3);padding:2px 0">Sin tareas programadas para hoy</div>' : ''}
+      </div>`;
+    }).filter(Boolean).join('');
+
+    if (neglected.length > 0) {
+      html += `<div style="background:rgba(234,179,8,.04);border:1px solid rgba(234,179,8,.12);border-radius:8px;padding:10px 12px;margin-top:8px">
+        <div style="font-size:11px;font-weight:700;color:var(--am);margin-bottom:4px">💡 Materias sin tareas — agrega actividades</div>
+        ${neglected.map(s => `<div style="font-size:11px;color:var(--t2);padding:2px 0">${s.icon} ${s.name} <span style="color:var(--t3)">— ${s.credits} cr, ${s.type}</span></div>`).join('')}
+      </div>`;
+    }
+
+    el.innerHTML = html || '<div style="text-align:center;padding:16px;color:var(--t3);font-size:12px">Sin tareas programadas esta semana. ¡Agrega tareas desde el formulario abajo!</div>';
+  }
+
   function render() {
     renderStats();
+    renderActionNow();
+    renderSubjectHealth();
+    renderStudyPlan();
     renderSemaphore();
     renderSubjectCards();
     renderSubjectDetail();
@@ -695,14 +873,49 @@ const SYS = (() => {
   }
 
   // ── CUN PORTAL OPENER ──
+  // Portal queue — opens one at a time to bypass popup blocker
+  let _portalQueue = [];
+  let _portalIdx = 0;
+
   function openCUNPortals() {
-    const portals = [
-      'https://360.cunapp.pro/#/estudiante/dashboard',
-      'https://sigwt.cun.edu.co/sgacampus/#notr29',
-      'https://cdigital.cun.edu.co/',
-      'https://mail.google.com/mail/u/3/'
+    _portalQueue = [
+      { url: 'https://360.cunapp.pro/#/estudiante/dashboard', name: 'CUN 360' },
+      { url: 'https://sigwt.cun.edu.co/sgacampus/#notr29', name: 'SGA Notas' },
+      { url: 'https://cdigital.cun.edu.co/', name: 'CUN Digital' },
+      { url: 'https://mail.google.com/mail/u/3/', name: 'Gmail CUN' }
     ];
-    portals.forEach((url, i) => setTimeout(() => window.open(url, '_blank'), i * 400));
+    _portalIdx = 0;
+    // Open first immediately (user-triggered, won't be blocked)
+    window.open(_portalQueue[0].url, '_blank');
+    _portalIdx = 1;
+    // Show the "next portal" UI
+    showNextPortalBtn();
+  }
+
+  function showNextPortalBtn() {
+    let el = document.getElementById('portalProgress');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'portalProgress';
+      el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;background:var(--c1);border:2px solid var(--vi);border-radius:12px;padding:16px 20px;box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:320px';
+      document.body.appendChild(el);
+    }
+    if (_portalIdx >= _portalQueue.length) {
+      el.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--gn);margin-bottom:4px">✅ Todos los portales abiertos</div><div style="font-size:11px;color:var(--t2)">Inicia sesión en cada tab. Luego pega el prompt de escaneo en Claude Code.</div><button onclick="this.parentElement.remove()" style="margin-top:8px;padding:5px 12px;border:none;border-radius:6px;background:var(--el);color:var(--t2);font-family:inherit;font-size:11px;cursor:pointer">Cerrar</button>';
+      return;
+    }
+    const next = _portalQueue[_portalIdx];
+    el.innerHTML = `<div style="font-size:11px;color:var(--t3);margin-bottom:4px">Portal ${_portalIdx}/${_portalQueue.length} abierto</div>
+      <div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">Siguiente: ${next.name}</div>
+      <button onclick="openNextPortal()" style="padding:8px 16px;border:none;border-radius:8px;background:var(--vi);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;width:100%">🚀 Abrir ${next.name}</button>`;
+  }
+
+  function openNextPortal() {
+    if (_portalIdx < _portalQueue.length) {
+      window.open(_portalQueue[_portalIdx].url, '_blank');
+      _portalIdx++;
+      showNextPortalBtn();
+    }
   }
 
   function openSinglePortal(url) {
@@ -753,6 +966,7 @@ const SYS = (() => {
   window.showTab = showTab;
   window.openCUNPortals = openCUNPortals;
   window.openSinglePortal = openSinglePortal;
+  window.openNextPortal = openNextPortal;
 
   // Run on load
   if (document.readyState === 'loading') {

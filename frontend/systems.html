@@ -208,8 +208,23 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
 <div class="pnl on" id="pnl0">
-<div class="sl">· semáforo de prioridad ·</div>
-<div class="sd">Organizado por urgencia. Rojo = crítico (&lt;48h), Naranja = esta semana, Amarillo = en camino.</div>
+
+<!-- ACTION NOW — Hero Card -->
+<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
+
+<!-- SUBJECT HEALTH — Compact Grid -->
+<div class="sl">· salud por materia ·</div>
+<div class="sd">Estado real de cada asignatura. Toca una materia para ver detalle en la pestaña Materias.</div>
+<div id="subjectHealth" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:16px"></div>
+
+<!-- STUDY PLAN -->
+<div class="sl">· plan de estudio — esta semana ·</div>
+<div class="sd">Plan generado automáticamente según tus deadlines y prioridades.</div>
+<div id="studyPlan" style="margin-bottom:16px"></div>
+
+<!-- SEMAPHORE — Compact -->
+<div class="sl">· semáforo de tareas ·</div>
+<div class="sd">🔴 Crítico (&lt;48h) · 🟠 Esta semana · 🟡 En camino · 🟢 Futuro</div>
 <div id="semaphoreList"></div>
 
 <div style="margin-top:24px">

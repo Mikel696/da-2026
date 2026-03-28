@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-03-25
+- **Última actualización:** 2026-03-28
 - **Módulo 2-APP (Application Command Center & Motor ATS) — ✅ 100% FEATURE COMPLETE**
   - ✅ Analizador de Vacantes con 5 tabs (Analizador, CV Perfilado, Cover & Msgs, Entrevista, Prompt Lab)
   - ✅ Motor ATS v2 con sinónimos (`js/ats-engine.js` + `data/my-skills.json`)
@@ -50,7 +50,7 @@
   - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
   - ✅ Data layer: `data/excel-tests.json` (15 escenarios con business_case, mock_data, expected_results, hints, explanation)
 
-- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES + HISTORIAL COMPLETO**
+- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES + DASHBOARD INTELIGENTE**
   - ✅ Protocolo CUN Scanner integrado en CLAUDE.md (SCAN CUN / NOTAS / TAREAS / EMAIL)
   - ✅ Escaneo real vía Chrome MCP: SGA Campus, CUN Digital, Gmail CUN, **CUN 360**
   - ✅ Extracción de PDFs de notas (notr29.pdf) con PyPDF2
@@ -76,6 +76,15 @@
   - ✅ Eliminadas materias incorrectas: Álgebra Moderna, Ecuaciones Diferenciales, Plan de Negocios II, Electiva Prof. I
   - ✅ Sample tasks, study resources y selectores HTML actualizados
   - ✅ systems.html selectores de materia actualizados (newTaskSubj + bulkSubj)
+  - ✅ **Dashboard Inteligente v2:**
+    - ✅ Hero Card "¿Qué hacer AHORA?" — countdown pre-semestre, alertas vencidas, resumen semanal
+    - ✅ Subject Health Grid — 8 materias con status visual (🔴 ATRASADO, 🟠 URGENTE, 🟡 AL DÍA, ✅ COMPLETO, ⬜ SIN TAREAS)
+    - ✅ Study Plan auto-generado — plan semanal dinámico con overdue, hoy, próximos días, materias descuidadas
+    - ✅ Semáforo compacto — reubicado debajo del plan de estudio
+  - ✅ **Portal Opener v2** — Queue-based sequential opener (bypass popup blocker) con floating progress UI
+  - ✅ **detectPeriod()** — Prioriza 26V02 (enrolled period) incluyendo pre-periodo de 7 días
+  - ✅ **Prompts Cerebro** — 11 prompts documentados (P0-P10) en notes.html con click-to-copy
+  - ✅ WEEKLY_WORKFLOW actualizado con materias reales 26V02
 
 - **Siguiente fase sugerida (próxima sesión):**
   1. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"
