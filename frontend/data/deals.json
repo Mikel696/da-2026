@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-03-27",
+  "last_updated": "2026-03-30",
   "sources": [
     {"id": "cajita", "name": "Cajita Tech", "icon": "🎁", "color": "#10b981", "url": "https://promocajita.com/gratis", "desc": "Cursos, juegos y software gratis"},
-    {"id": "amazon", "name": "Amazon", "icon": "📦", "color": "#ff9900", "url": "https://www.amazon.com.co/deals", "desc": "Envío a Colombia — ofertas y Luna Gaming"},
+    {"id": "amazon", "name": "Amazon", "icon": "📦", "color": "#ff9900", "url": "https://gaming.amazon.com/home", "desc": "Prime Gaming — juegos gratis con Prime"},
     {"id": "epic", "name": "Epic Games", "icon": "🎮", "color": "#0078f2", "url": "https://store.epicgames.com/es-ES/free-games", "desc": "Juegos gratis cada semana"},
     {"id": "udemy", "name": "Udemy", "icon": "🎓", "color": "#a435f0", "url": "https://www.udemy.com/courses/free/", "desc": "Cursos gratis con cupón"},
     {"id": "gog", "name": "GOG", "icon": "🕹️", "color": "#86328a", "url": "https://www.gog.com/#giveaway", "desc": "Juegos DRM-free, giveaways"},
@@ -11,13 +11,17 @@
     {"id": "steam", "name": "Steam", "icon": "🎮", "color": "#1b2838", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "desc": "Free-to-play y promos"}
   ],
   "deals": [
+    {"title": "Havendock — Colony Sim oceánico (Very Positive)", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/havendock-a9a498", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
+    {"title": "Hyper Echelon — Arcade shooter espacial", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/hyper-echelon-3c42b4", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
+    {"title": "Total War: Three Kingdoms — Estrategia épica", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
+    {"title": "Deep Sky Derelicts — RPG táctico sci-fi", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
+    {"title": "Chimp Quest: Spirit Isle", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
+    {"title": "Phantasie Memorial Set — RPG clásico", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
+    {"title": "Ferret Quest — Plataformas 2D (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Bomb's Lair — Acción indie (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Granblue Fantasy — JRPG party-based (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Novel Haven — Cozy pixel-art bookshop (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
     {"title": "CURSO: Recompensas Totales — Compensación y Beneficios", "source": "udemy", "link": "https://www.udemy.com/course/total-rewards-recompensas-totales-compensacion-y-beneficios/?couponCode=PAPAHR_MAR_04", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"},
-    {"title": "PETI Estratégico: Conectando Tecnología y Negocio", "source": "udemy", "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"},
-    {"title": "I Need Spirit! Off-Road Edition", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/need-for-spirit-offroad-edition-7eee16", "isFree": true, "tag": "GRATIS", "expires": "2026-04-03"},
-    {"title": "Turmoil — Amazon Luna", "source": "amazon", "link": "https://luna.amazon.com/claims/turmoil-epic/dp/amzn1.pg.item.d7d941e2-d63a-41cb-9ebb-1ca172de03b0", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Mahokenshi — The Samurai Deckbuilder", "source": "gog", "link": "https://luna.amazon.com/claims/mahokenshi-the-samurai-deckbuilder-gog/dp/amzn1.pg.item.63d1e16c-0f19-4672-b3d6-128f62e58a3f", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Total War: Rome II — Emperor Edition", "source": "epic", "link": "https://luna.amazon.com/claims/total-war-rome-ii-emperor-edition-epic/dp/amzn1.pg.item.e39ffc2d-d79a-4f43-946d-47c9f6949d9b", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Veil of Darkness — GOG", "source": "gog", "link": "https://luna.amazon.com/claims/veil-of-darkness-gog/dp/amzn1.pg.item.837b8893-53b0-4072-8f3f-24037351b77d", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Sir Questionnaire — GOG", "source": "gog", "link": "https://luna.amazon.com/claims/sir-questionnaire-gog/dp/amzn1.pg.item.6dd1d038-96ea-4b01-af91-64731bfa55ef", "isFree": true, "tag": "GRATIS", "expires": null}
+    {"title": "PETI Estratégico: Conectando Tecnología y Negocio", "source": "udemy", "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"}
   ]
 }
