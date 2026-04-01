@@ -4,27 +4,46 @@
 
 ---
 
-## 🔜 PRÓXIMO SPRINT — Supabase Integration (PLAN.md — AWAITING APPROVAL)
+## ☁ Supabase Integration Sprint (PLAN.md)
 
 **Objetivo:** Migrar de localStorage puro → localStorage + Supabase (cloud sync + auth).
 **Plan completo:** `PLAN.md` en raíz del proyecto.
-
-**Hallazgos del audit:**
-- Toda la persistencia es localStorage (JSON.parse/stringify). No hay IndexedDB real.
-- 3 namespaces: `da_vacancies` (VacancyDB), `sys_*` (SYS module), `sb_*`/`jt8` (sidebar stats)
-- VDB está duplicado en jobs.js y apply.js (mismo objeto, misma key)
-- Zero auth / zero user identity
-
-**Plan de 5 fases (ver PLAN.md para SQL completo y código):**
-- **Fase 1:** CDN Supabase JS v2 + `js/supabase-client.js` (singleton)
-- **Fase 2:** `js/auth.js` — modal Login/Signup Vanilla JS, widget flotante, `onAuthStateChange`
-- **Fase 3:** `js/cloud-sync.js` — capa genérica CLOUD.push/pull/remove/syncDown/syncUp + augmentar VDB + SYS tasks con write-through
-- **Fase 4:** Schema PostgreSQL — 4 tablas: `vacancies`, `sys_tasks`, `class_sessions`, `user_prefs` (con RLS)
-- **Fase 5:** Configuración Supabase dashboard (URL redirect, Site URL) + fill credentials
-
-**Archivos nuevos:** 3 (`supabase-client.js`, `auth.js`, `cloud-sync.js`)
-**Archivos editados:** `jobs.js`, `apply.js`, `systems_logic.js` (additive, no breaking changes) + 14 HTML shells (2 script tags cada uno)
+**Proyecto Supabase:** Mikel696's Project — `mbuhlxypuvlxxylryjzi.supabase.co` (Free Tier)
 **Estrategia:** Offline-first write-through — localStorage es L1 cache, Supabase es L2 truth. App funciona sin internet.
+
+### Fase 1 — CDN Integration ✅ COMPLETADA (2026-04-01)
+- `frontend/js/supabase-client.js` (19 líneas) — singleton `window.SB` con project URL + anon public key
+- CDN `@supabase/supabase-js@2` (UMD) inyectado en las **14 HTML shells** antes de los scripts de cada módulo
+- Anon key extraída del Supabase Dashboard → Settings → API Keys (Legacy) vía browser automation
+
+### Fase 2 — Auth Module ✅ COMPLETADA (2026-04-01)
+- `frontend/js/auth.js` (146 líneas) — IIFE `AUTH` con:
+  - `init()` → auto-inyecta CSS, crea widget, registra `onAuthStateChange`
+  - `signUp/signIn/signOut` → llamadas directas a `SB.auth.*`
+  - Widget flotante top-right: muestra "☁ Sync" (no logueado) o "● synced + email + Salir" (logueado)
+  - Modal Login/Signup: dark theme, validación client-side, Enter-to-submit, auto-focus
+  - Eventos custom: `sb:signed_in` y `sb:signed_out` disparados en `window` (Phase 3 los escuchará)
+  - CSS auto-inyectado dinámicamente desde `_injectCSS()` → `/css/auth.css`
+- `frontend/css/auth.css` (34 líneas) — dark theme, animación `sb-pop`, responsive `min(380px,90vw)`
+- Script tags inyectados en 14 HTML: CDN → supabase-client.js → auth.js (en ese orden, antes de scripts de módulo)
+
+**Decisiones de diseño Auth UI:**
+- CSS se inyecta dinámicamente desde auth.js (no requiere `<link>` manual en cada HTML)
+- Widget usa `position:fixed` — no interfiere con layouts existentes de ningún módulo
+- Modal se crea en DOM on-demand (no existe hasta que el usuario hace clic en "☁ Sync")
+- Escape HTML en email display para prevenir XSS (`_escHtml`)
+- Supabase `persistSession:true` → sesión sobrevive refresh sin re-login
+
+### Fase 3 — Cloud Sync Layer ⏳ PENDIENTE (awaiting approval)
+- `js/cloud-sync.js` — CLOUD.push/pull/remove/syncDown/syncUp
+- Augmentar VDB en jobs.js + apply.js
+- Augmentar SYS tasks en systems_logic.js
+
+### Fase 4 — PostgreSQL Schema ⏳ PENDIENTE
+- 4 tablas: `vacancies`, `sys_tasks`, `class_sessions`, `user_prefs` (con RLS)
+
+### Fase 5 — Supabase Dashboard Config ⏳ PENDIENTE
+- Site URL, redirect URLs, email templates
 
 ---
 
