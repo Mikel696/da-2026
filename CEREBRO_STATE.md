@@ -1,5 +1,33 @@
 # ESTADO DEL CEREBRO DA-2026
 
+- **Última actualización:** 2026-04-01
+
+---
+
+## 🔜 PRÓXIMO SPRINT — Supabase Integration (PLAN.md — AWAITING APPROVAL)
+
+**Objetivo:** Migrar de localStorage puro → localStorage + Supabase (cloud sync + auth).
+**Plan completo:** `PLAN.md` en raíz del proyecto.
+
+**Hallazgos del audit:**
+- Toda la persistencia es localStorage (JSON.parse/stringify). No hay IndexedDB real.
+- 3 namespaces: `da_vacancies` (VacancyDB), `sys_*` (SYS module), `sb_*`/`jt8` (sidebar stats)
+- VDB está duplicado en jobs.js y apply.js (mismo objeto, misma key)
+- Zero auth / zero user identity
+
+**Plan de 5 fases (ver PLAN.md para SQL completo y código):**
+- **Fase 1:** CDN Supabase JS v2 + `js/supabase-client.js` (singleton)
+- **Fase 2:** `js/auth.js` — modal Login/Signup Vanilla JS, widget flotante, `onAuthStateChange`
+- **Fase 3:** `js/cloud-sync.js` — capa genérica CLOUD.push/pull/remove/syncDown/syncUp + augmentar VDB + SYS tasks con write-through
+- **Fase 4:** Schema PostgreSQL — 4 tablas: `vacancies`, `sys_tasks`, `class_sessions`, `user_prefs` (con RLS)
+- **Fase 5:** Configuración Supabase dashboard (URL redirect, Site URL) + fill credentials
+
+**Archivos nuevos:** 3 (`supabase-client.js`, `auth.js`, `cloud-sync.js`)
+**Archivos editados:** `jobs.js`, `apply.js`, `systems_logic.js` (additive, no breaking changes) + 14 HTML shells (2 script tags cada uno)
+**Estrategia:** Offline-first write-through — localStorage es L1 cache, Supabase es L2 truth. App funciona sin internet.
+
+---
+
 - **Última actualización:** 2026-03-31
 
 - **SCAN CUN — 2026-03-31 (Día 2 de 26V02) — ✅ COMPLETADO**
