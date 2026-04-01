@@ -197,6 +197,28 @@
 <div style="font-size:10px;color:var(--t3);margin-top:6px">📖 También puedes tocar cualquier materia en el Subject Health Grid del Dashboard para ver la guía.</div>
 </div>
 
+<div class="note" style="border-left:3px solid var(--cy)">
+<div class="note-h"><div class="note-title">P12 — Analizar Clase Perdida (Video)</div></div>
+<div class="note-body" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);cursor:pointer;background:var(--bg);padding:8px;border-radius:6px;white-space:pre-wrap" onclick="navigator.clipboard.writeText(this.textContent);this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',2000)">CEREBRO: ANALIZA CLASE
+URL: [pegar link del video aquí]
+Materia: [nombre de la materia]
+
+Protocolo:
+1. Abre la URL en Chrome MCP o extrae su contenido (título, descripción, transcript/captions).
+2. Busca en web los temas típicos de esa materia en la CUN (Ingeniería de Sistemas Virtual).
+3. Genera informe estructurado:
+   - Resumen ejecutivo (qué se vio en la clase)
+   - Temas principales (lista de conceptos)
+   - Qué debo hacer (actividades/tareas detectadas o inferidas)
+   - Cómo y dónde entregar (evidencia, plataforma Moodle, método)
+   - Cuándo entregar (deadline si se menciona, sino indicar "consultar aula")
+   - Recursos recomendados para estudiar el tema
+4. Navega a http://localhost:3456/systems.html tab "Clases Perdidas" e inyecta con:
+   SYS.injectClassSession({ url, subject_id, subject_name, date, title, summary, topics:[], assignments:[{title,desc,due_date,submit_where,submit_how,evidence_type,moodle_url}], resources:[] })
+5. Confirma guardado y muestra el informe completo.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:6px">📹 10-SYS → Tab "Clases Perdidas" → genera el prompt automáticamente al pegar la URL. O usa este prompt copiando y editando el link.</div>
+</div>
+
 <div style="margin-top:16px;padding:14px;background:var(--el);border:1px solid var(--bd);border-radius:8px">
 <div style="font-size:12px;font-weight:600;margin-bottom:6px">📖 Flujo de trabajo recomendado:</div>
 <div style="font-size:11px;color:var(--t2);line-height:1.8">
@@ -205,7 +227,8 @@
 3. Elegir módulo → Si es 10-SYS: abrir portales CUN, iniciar sesión, pegar <strong>P1-P4b</strong><br>
 4. Trabajar en el módulo seleccionado<br>
 5. Para ver guía de materia → Pegar <strong>P11</strong> o tocar materia en Dashboard<br>
-6. Al terminar → Pegar <strong>P10</strong> (Deploy) — actualiza código, CEREBRO_STATE y prompts
+6. Para analizar clase perdida → 10-SYS → "📹 Clases Perdidas" → pegar URL → copiar prompt → pegar en Claude (<strong>P12</strong>)<br>
+7. Al terminar → Pegar <strong>P10</strong> (Deploy) — actualiza código, CEREBRO_STATE y prompts
 </div>
 </div>
 </div>

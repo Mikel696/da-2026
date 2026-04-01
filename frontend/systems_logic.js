@@ -844,6 +844,7 @@ const SYS = (() => {
     renderCerts();
     renderNextActions();
     renderCUNHub();
+    renderClassSessions();
   }
 
   // ── INIT ──
@@ -1231,6 +1232,112 @@ const SYS = (() => {
     document.body.style.overflow = '';
   }
 
+  // ── CLASS SESSION STORE ──
+  const CS_KEY = 'sys_class_sessions';
+  function getClassSessions() { return db.get(CS_KEY, []); }
+  function saveClassSessions(arr) { db.set(CS_KEY, arr); }
+
+  function deleteClassSession(id) {
+    saveClassSessions(getClassSessions().filter(s => s.id !== id));
+    renderClassSessions();
+  }
+
+  function updateClassStatus(id, status) {
+    const arr = getClassSessions();
+    const s = arr.find(x => x.id === id);
+    if (s) { s.status = status; saveClassSessions(arr); renderClassSessions(); }
+  }
+
+  // Called by Claude via JS injection after analysis
+  function injectClassSession(data) {
+    const arr = getClassSessions();
+    const existing = arr.findIndex(s => s.url === data.url);
+    const session = { id: data.id || Date.now(), url: data.url || '', subject_id: data.subject_id || 'general',
+      subject_name: data.subject_name || '', date: data.date || todayStr(), title: data.title || 'Clase sin título',
+      summary: data.summary || '', topics: data.topics || [], assignments: data.assignments || [],
+      resources: data.resources || [], status: data.status || 'pending', saved_at: new Date().toISOString() };
+    if (existing >= 0) arr[existing] = session; else arr.unshift(session);
+    saveClassSessions(arr);
+    renderClassSessions();
+    return '✅ Sesión guardada: ' + session.title;
+  }
+
+  function copyClassPrompt() {
+    const url = (document.getElementById('classUrl') || {}).value || '';
+    const subjEl = document.getElementById('classSubjSel');
+    const subj = subjEl ? SUBJECTS.find(s => s.id === subjEl.value) : null;
+    const subjName = subj ? subj.name + ' (' + subj.code + ')' : 'la materia';
+    const prompt = `CEREBRO: ANALIZA CLASE\nURL: ${url || '[pega la URL aquí]'}\nMateria: ${subjName}\n\nProtocolo:\n1. Abre la URL en Chrome MCP o extrae su contenido (título, descripción, transcript/captions).\n2. Busca en web qué temas cubre este tipo de clase de ${subjName} en la CUN.\n3. Genera informe estructurado:\n   - Resumen ejecutivo (qué se vio)\n   - Temas principales (lista)\n   - Qué debo hacer (actividades/tareas detectadas)\n   - Cómo y dónde entregar (evidencia, plataforma, método)\n   - Cuándo entregar (deadline si se menciona)\n4. Llama SYS.injectClassSession(data) en http://localhost:3456/systems.html con la estructura:\n   { url, subject_id: '${subj ? subj.id : ''}', subject_name: '${subjName}', date: 'YYYY-MM-DD', title, summary, topics:[], assignments:[{title,desc,due_date,submit_where,submit_how,evidence_type,moodle_url}], resources:[], status:'pending' }\n5. Confirma guardado y muestra el informe completo.`;
+    if (navigator.clipboard) navigator.clipboard.writeText(prompt).catch(() => {});
+    const preview = document.getElementById('classPromptPreview');
+    const textEl = document.getElementById('classPromptText');
+    const copiedEl = document.getElementById('classPromptCopied');
+    if (preview) preview.style.display = 'block';
+    if (textEl) textEl.textContent = prompt;
+    if (copiedEl) { copiedEl.style.display = 'block'; setTimeout(() => copiedEl.style.display = 'none', 3000); }
+  }
+
+  function renderClassSessions() {
+    const el = document.getElementById('classSessionsList');
+    const countEl = document.getElementById('classSessionCount');
+    if (!el) return;
+    const sessions = getClassSessions();
+    if (countEl) countEl.textContent = sessions.length + ' sesión' + (sessions.length !== 1 ? 'es' : '');
+    if (!sessions.length) {
+      el.innerHTML = `<div class="cs-empty">📹 Aún no hay clases guardadas.<br><span style="font-size:11px">Pega el link de un video de clase arriba y copia el prompt para Claude.</span></div>`;
+      return;
+    }
+    const statusIcon = { pending: '⏳', in_progress: '🔄', done: '✅' };
+    const statusLabel = { pending: 'Pendiente', in_progress: 'En proceso', done: 'Completado' };
+    const statusCls = { pending: 'cs-status-pending', in_progress: 'cs-status-inprogress', done: 'cs-status-done' };
+    el.innerHTML = sessions.map(s => {
+      const subj = SUBJECTS.find(x => x.id === s.subject_id);
+      const clsCls = s.status === 'done' ? 'cs-done' : s.status === 'in_progress' ? 'cs-inprogress' : '';
+      const assigns = (s.assignments || []).map(a => `
+        <div class="cs-assign">
+          <div class="cs-assign-title">📌 ${esc(a.title)}</div>
+          ${a.desc ? `<div class="cs-assign-row"><span class="cs-assign-label">Descripción:</span>${esc(a.desc)}</div>` : ''}
+          ${a.due_date ? `<div class="cs-assign-row"><span class="cs-assign-label">Entrega:</span><strong style="color:var(--am)">${a.due_date}</strong></div>` : ''}
+          ${a.submit_where ? `<div class="cs-assign-row"><span class="cs-assign-label">Dónde:</span>${esc(a.submit_where)}</div>` : ''}
+          ${a.submit_how ? `<div class="cs-assign-row"><span class="cs-assign-label">Cómo:</span>${esc(a.submit_how)}</div>` : ''}
+          ${a.evidence_type ? `<div class="cs-assign-row"><span class="cs-assign-label">Evidencia:</span>${esc(a.evidence_type)}</div>` : ''}
+          ${a.moodle_url ? `<div class="cs-assign-row"><span class="cs-assign-label">Link:</span><a href="${a.moodle_url}" target="_blank" style="color:var(--cy)">${esc(a.moodle_url)}</a></div>` : ''}
+        </div>`).join('');
+      const topics = (s.topics || []).map(t => `<span class="cs-topic">${esc(t)}</span>`).join('');
+      return `
+      <div class="cs-card ${clsCls}" id="cs-${s.id}">
+        <div class="cs-head" onclick="SYS.toggleCS(${s.id})">
+          <div class="cs-icon">${subj ? subj.icon : '📹'}</div>
+          <div class="cs-info">
+            <div class="cs-title">${esc(s.title)}</div>
+            <div class="cs-meta">
+              <span>${subj ? subj.name : s.subject_name}</span>
+              <span>·</span><span>${s.date}</span>
+              <span>·</span><span class="${statusCls[s.status] || 'cs-status-pending'}">${statusIcon[s.status] || '⏳'} ${statusLabel[s.status] || 'Pendiente'}</span>
+              ${(s.assignments||[]).length ? `<span>· ${s.assignments.length} tarea${s.assignments.length!==1?'s':''}</span>` : ''}
+            </div>
+          </div>
+          <div class="cs-actions" onclick="event.stopPropagation()">
+            ${s.status !== 'done' ? `<button class="cs-btn cs-btn-status" onclick="SYS.updateClassStatus(${s.id},'${s.status==='pending'?'in_progress':'done'}')">${s.status==='pending'?'▶ Iniciar':'✅ Listo'}</button>` : `<button class="cs-btn cs-btn-status" onclick="SYS.updateClassStatus(${s.id},'pending')">↩ Reabrir</button>`}
+            <button class="cs-btn cs-btn-del" onclick="if(confirm('¿Eliminar esta sesión?'))SYS.deleteClassSession(${s.id})">🗑</button>
+          </div>
+        </div>
+        <div class="cs-body" id="csb-${s.id}">
+          ${s.url ? `<div style="margin-bottom:10px"><a href="${esc(s.url)}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--cy);word-break:break-all">🔗 ${esc(s.url)}</a></div>` : ''}
+          ${s.summary ? `<div class="cs-summary">${esc(s.summary)}</div>` : ''}
+          ${topics ? `<div class="cs-topics">${topics}</div>` : ''}
+          ${assigns || '<div style="font-size:11px;color:var(--t3);padding:8px 0">Sin actividades detectadas.</div>'}
+          ${(s.resources||[]).length ? `<div style="margin-top:10px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Recursos recomendados</div>${s.resources.map(r=>`<a href="${esc(r)}" target="_blank" style="display:block;font-size:11px;color:var(--cy);margin-bottom:3px;word-break:break-all">📎 ${esc(r)}</a>`).join('')}` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleCS(id) {
+    const body = document.getElementById('csb-' + id);
+    if (body) body.classList.toggle('open');
+  }
+
   // Expose globally
   window.showTab = showTab;
   window.openCUNPortals = openCUNPortals;
@@ -1244,5 +1351,5 @@ const SYS = (() => {
     init();
   }
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS };
 })();

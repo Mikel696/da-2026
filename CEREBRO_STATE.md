@@ -151,6 +151,17 @@
     - P11 NUEVO: Guía de Materia (Task Guide Modal) con las 8 materias disponibles
     - Flujo de trabajo: 6 pasos (antes 5), incluye P4b y P11
 
+- **Módulo 10-SYS — Tab 7 "Clases Perdidas" — ✅ IMPLEMENTADO 2026-03-31**
+  - ✅ Nueva tab `📹 Clases Perdidas` (Tab 7) en systems.html
+  - ✅ Panel pnl7: input URL + selector materia + generador de prompt con copy-to-clipboard
+  - ✅ Session cards: título, materia, fecha, estado, resumen, temas (tags), assignments con deadline/evidencia/cómo entregar, recursos
+  - ✅ Status workflow: Pendiente → En proceso → Completado (con botones de transición)
+  - ✅ localStorage: `sys_class_sessions` — persiste entre sesiones
+  - ✅ `SYS.injectClassSession(data)` — Claude llama esta función para guardar el informe
+  - ✅ CSS `.cs-*` classes — diseño consistente con el sistema
+  - ✅ P12 prompt en notes.html: `CEREBRO: ANALIZA CLASE [URL]`
+  - ✅ Memoria guardada: `project_class_analyzer.md`
+
 - **Siguiente fase sugerida (próxima sesión):**
   1. **10-SYS: Completar Inducción TICS** — 14% completado, 7 secciones. URGENTE completar al 100%.
   2. **10-SYS: Completar Acuerdo Pedagógico Ing. Web** — Pendiente en Moodle del curso 104362.
