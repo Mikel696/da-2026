@@ -7,12 +7,12 @@
   "block2": {"start": "2026-05-25", "end": "2026-07-19"},
   "passing_grade": 3.0,
   "max_grade": 5.0,
-  "last_scan": "2026-03-27T22:30:00",
+  "last_scan": "2026-03-30T19:00:00",
   "scan_source": "SGA-SINU-NOTR29 + CUN360 + CUN-Digital + Gmail-CUN",
   "cumulative_gpa_history": 4.49,
   "subjects_passed_total": 52,
   "titles_earned": ["Técnico Profesional (Sem 4)", "Tecnólogo en Desarrollo de Software (Sem 7)"],
-  "alerts": {"pending_documents": true, "total_debt": 0, "induccion_tics_pending": true, "courses_not_published_yet": true, "no_grades_yet": true},
+  "alerts": {"pending_documents": true, "total_debt": 0, "induccion_tics_pct": 14, "induccion_tics_pending": true, "courses_not_published_yet": ["calidad_sw","admin_bd","redes"], "no_grades_yet": true, "acuerdo_pedagogico_ing_web": true, "terminos_condiciones_english": true},
   "student": {
     "name": "BARROS TORRES MIGUEL ANGEL",
     "id": "1063955980",
@@ -54,7 +54,8 @@
       "credits": 3,
       "program": "VP15G",
       "professor": "CORTES CRUZ JUAN SEBASTIAN",
-      "schedule": null,
+      "moodle_course_id": 101285,
+      "schedule": "Miércoles+Viernes 6:15pm-7:45pm | Martes 31-Mar extra",
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
       "current_average": null,
@@ -73,6 +74,7 @@
       "credits": 3,
       "program": "VP15G",
       "professor": null,
+      "moodle_course_id": null,
       "schedule": null,
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
@@ -82,7 +84,7 @@
       "fallas": 0,
       "risk_level": "unknown",
       "pending_tasks": [],
-      "notes": ""
+      "notes": "Aula no publicada aún en CUN Digital (30-Mar-2026)"
     },
     {
       "id": "admin_bd",
@@ -92,6 +94,7 @@
       "credits": 3,
       "program": "VP15G",
       "professor": null,
+      "moodle_course_id": null,
       "schedule": null,
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
@@ -101,7 +104,7 @@
       "fallas": 0,
       "risk_level": "unknown",
       "pending_tasks": [],
-      "notes": ""
+      "notes": "Aula no publicada aún en CUN Digital (30-Mar-2026)"
     },
     {
       "id": "ing_web",
@@ -111,7 +114,8 @@
       "credits": 3,
       "program": "VP15G",
       "professor": "BECERRA RAMIREZ HEYNER LEONEL",
-      "schedule": null,
+      "moodle_course_id": 104362,
+      "schedule": "Martes 6:15pm-7:45pm (Mar31-May17)",
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
       "current_average": null,
@@ -119,7 +123,7 @@
       "grade_needed_to_pass": null,
       "fallas": 0,
       "risk_level": "unknown",
-      "pending_tasks": [],
+      "pending_tasks": [{"task": "Completar Acuerdo Pedagógico en Moodle", "priority": "high"}],
       "notes": ""
     },
     {
@@ -130,6 +134,7 @@
       "credits": 3,
       "program": "VP15G",
       "professor": null,
+      "moodle_course_id": null,
       "schedule": null,
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
@@ -139,7 +144,7 @@
       "fallas": 0,
       "risk_level": "unknown",
       "pending_tasks": [],
-      "notes": ""
+      "notes": "Aula no publicada aún en CUN Digital (30-Mar-2026)"
     },
     {
       "id": "inv_ciencia",
@@ -149,6 +154,7 @@
       "credits": 3,
       "program": "VP15G",
       "professor": "CORTES TOBAR DARIO FERNANDO",
+      "moodle_course_id": 104253,
       "schedule": null,
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
@@ -167,8 +173,9 @@
       "group": "50608",
       "credits": 0,
       "program": "IV001",
-      "professor": null,
-      "schedule": null,
+      "professor": "CINDY PAOLA MORENO",
+      "moodle_course_id": 100774,
+      "schedule": "Lunes 7pm",
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
       "current_average": null,
@@ -176,8 +183,8 @@
       "grade_needed_to_pass": null,
       "fallas": 0,
       "risk_level": "unknown",
-      "pending_tasks": [],
-      "notes": "Programa de Inglés General - Virtual Nacional"
+      "pending_tasks": [{"task": "Aceptar Términos y Condiciones en Moodle", "priority": "high"}],
+      "notes": "Programa de Inglés General - Virtual Nacional. Sesión de inducción: 30-Mar-2026 7pm (CINDY PAOLA MORENO)"
     },
     {
       "id": "placement_test",
@@ -187,6 +194,7 @@
       "credits": 0,
       "program": "IV002",
       "professor": null,
+      "moodle_course_id": 106289,
       "schedule": null,
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],

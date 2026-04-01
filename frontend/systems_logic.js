@@ -22,7 +22,7 @@ const SYS = (() => {
     { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
     { id: 'redes', code: 'DIS35', name: 'Redes Inalámbricas', group: '52226', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT, configuración de redes.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
     { id: 'inv_ciencia', code: 'DIS36', name: 'Inv. Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', desc: 'Metodología de investigación, estado del arte, formulación de proyectos, artículos científicos, normas APA.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
-    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
+    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', professor: 'CINDY PAOLA MORENO', desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
     { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/'] },
   ];
 
@@ -685,7 +685,7 @@ const SYS = (() => {
       heroMsg = `⏳ El semestre inicia en ${daysToStart} día${daysToStart!==1?'s':''}`;
       heroSub = 'Período 26V02 · Bloque 1: 30 Mar — 24 May. Usa este tiempo para prepararte.';
       heroAction = `<div style="margin-top:8px;padding:8px 12px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:8px;font-size:11px;color:var(--am)">
-        <strong>⚠️ PENDIENTE:</strong> Completar curso <strong>"Inducción TICS - Estudiantes"</strong> en CUN Digital (0% completado, 7 secciones).
+        <strong>⚠️ EN PROGRESO:</strong> Completar curso <strong>"Inducción TICS - Estudiantes"</strong> en CUN Digital (14% completado, 7 secciones).
         <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--cy);font-weight:600;margin-left:4px">Ir al curso →</a>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">

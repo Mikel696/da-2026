@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-03-30",
+  "last_updated": "2026-03-31",
   "sources": [
     {"id": "cajita", "name": "Cajita Tech", "icon": "🎁", "color": "#10b981", "url": "https://promocajita.com/gratis", "desc": "Cursos, juegos y software gratis"},
     {"id": "amazon", "name": "Amazon", "icon": "📦", "color": "#ff9900", "url": "https://gaming.amazon.com/home", "desc": "Prime Gaming — juegos gratis con Prime"},
     {"id": "epic", "name": "Epic Games", "icon": "🎮", "color": "#0078f2", "url": "https://store.epicgames.com/es-ES/free-games", "desc": "Juegos gratis cada semana"},
-    {"id": "udemy", "name": "Udemy", "icon": "🎓", "color": "#a435f0", "url": "https://www.udemy.com/courses/free/", "desc": "Cursos gratis con cupón"},
+    {"id": "udemy", "name": "Udemy", "icon": "🎓", "color": "#a435f0", "url": "https://www.freecourses.me/", "desc": "Cursos gratis con cupón — freecourses.me"},
     {"id": "gog", "name": "GOG", "icon": "🕹️", "color": "#86328a", "url": "https://www.gog.com/#giveaway", "desc": "Juegos DRM-free, giveaways"},
     {"id": "mercadolibre", "name": "Mercado Libre", "icon": "🛒", "color": "#ffe600", "url": "https://www.mercadolibre.com.co/ofertas", "desc": "Ofertas Colombia — envío gratis"},
     {"id": "exito", "name": "Éxito", "icon": "🏬", "color": "#ffd100", "url": "https://www.exito.com/tecnologia", "desc": "Tecnología con descuento — Colombia"},
@@ -17,11 +17,13 @@
     {"title": "Deep Sky Derelicts — RPG táctico sci-fi", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
     {"title": "Chimp Quest: Spirit Isle", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
     {"title": "Phantasie Memorial Set — RPG clásico", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
+    {"title": "Deep Sky Derelicts — RPG + roguelike (keep forever)", "source": "gog", "link": "https://www.gog.com/#giveaway", "isFree": true, "tag": "GRATIS", "expires": "2026-04-03"},
     {"title": "Ferret Quest — Plataformas 2D (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
     {"title": "Bomb's Lair — Acción indie (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Granblue Fantasy — JRPG party-based (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Novel Haven — Cozy pixel-art bookshop (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "CURSO: Recompensas Totales — Compensación y Beneficios", "source": "udemy", "link": "https://www.udemy.com/course/total-rewards-recompensas-totales-compensacion-y-beneficios/?couponCode=PAPAHR_MAR_04", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"},
-    {"title": "PETI Estratégico: Conectando Tecnología y Negocio", "source": "udemy", "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450", "isFree": true, "tag": "GRATIS", "expires": "2026-03-31"}
+    {"title": "Spector Hideout — Multijugador asimétrico (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Dream Stories Online — MMORPG PvP+PvE (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "Pirate Ships — Autobattler PvP náutico (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": ">SYS//PURGE_ — Boomer shooter roguelike (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
+    {"title": "CURSO GRATIS HOY — Ver cupones 100% off del día", "source": "udemy", "link": "https://www.freecourses.me/", "isFree": true, "tag": "GRATIS", "expires": null}
   ]
 }

@@ -1,5 +1,22 @@
 # ESTADO DEL CEREBRO DA-2026
 
+- **Última actualización:** 2026-03-31
+
+- **SCAN CUN — 2026-03-30 (Primer día 26V02) — ✅ COMPLETADO**
+  - ✅ **CUN Digital (Moodle):** 6 cursos publicados para 26V02. IDs: Ing Web=104362, Inv C&T=104253, Mat Especiales=101285, Placement Test=106289, English=100774, Induccion TICS=28494. Pendientes: Acuerdo Pedagógico (Ing Web), Términos y Condiciones (English). Calidad SW, Admin BD, Redes: NO publicados aún.
+  - ✅ **Inducción TICS:** 14% completado (era 0%). Actualizado en systems_logic.js y academic-8vo.json.
+  - ✅ **SGA Campus:** 3 programas activos, sin notas (primer día del período).
+  - ✅ **Gmail CUN:** 7 no leídos. CINDY PAOLA MORENO = profesora de English Beginner 1 (confirmado). Becerra Ramirez = Ing Web (Martes 6:15pm). Cortes Cruz = Mat. Especiales (Miérc+Viernes 6:15pm + Martes 31-Mar extra). Escuela de Idiomas: Prueba de Reconocimiento disponible.
+  - ✅ **CUN 360:** Período 26V02, Deuda $0.00, Promedio 0.00. Documentos pendientes por cargar (alerta persistente). Materias Virtuales confirmadas (mismos 6 docentes).
+  - ✅ **Docentes completos en academic-8vo.json y systems_logic.js:** mat_especiales=Cortes Cruz, ing_web=Becerra Ramirez, inv_ciencia=Cortes Tobar, english_beginner=CINDY PAOLA MORENO (NUEVO).
+  - ✅ **Horarios confirmados:** Mat. Especiales → Miérc+Viernes 6:15pm | Ing. Web → Martes 6:15pm | English → Lunes 7pm.
+  - ✅ **Moodle course IDs** agregados a academic-8vo.json para 6 cursos publicados.
+  - ⚠️ **Pendientes CUN:** Subir documentos a CUN 360 | Acuerdo Pedagógico Ing. Web | Términos y Condiciones English | Completar Inducción TICS (14% → 100%)
+
+- **Actualizaciones 2026-03-31 (Sesión P0)**
+  - ✅ **deals.json** actualizado: Epic (Havendock+Hyper Echelon hasta Apr 2), Amazon Prime (4 juegos hasta May 26), GOG (Deep Sky Derelicts hasta Apr 3), Steam (6 juegos keep forever), Udemy (link a freecourses.me)
+  - ✅ **VacancyDB** +4 vacantes: AR/AP Specialist (Remote Talent LATAM $1.5K/mes), AP/AR Specialist (Legal Tech US EST), Data Analyst LATAM (Indeed 275+ vacantes), Financial Analyst FP&A LATAM (Remote Rocketship). Total: 12 vacantes.
+
 - **Última actualización:** 2026-03-27
 - **Módulo 2-APP (Application Command Center & Motor ATS) — ✅ 100% FEATURE COMPLETE**
   - ✅ Analizador de Vacantes con 5 tabs (Analizador, CV Perfilado, Cover & Msgs, Entrevista, Prompt Lab)
@@ -135,11 +152,13 @@
     - Flujo de trabajo: 6 pasos (antes 5), incluye P4b y P11
 
 - **Siguiente fase sugerida (próxima sesión):**
-  1. **10-SYS: Completar Inducción TICS** — Curso pendiente 0% en CUN Digital (URGENTE antes de que inicie 26V02)
-  2. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, implementar cálculo predictivo "¿cuánto necesito para pasar?"
-  3. **10-SYS: Re-scan CUN Digital** — Cuando 26V02 inicie (30 Mar), escanear "Mis cursos" para vincular aulas virtuales reales
-  4. **10-SYS: Documentos pendientes** — Subir documentos requeridos en CUN 360
-  5. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
+  1. **10-SYS: Completar Inducción TICS** — 14% completado, 7 secciones. URGENTE completar al 100%.
+  2. **10-SYS: Completar Acuerdo Pedagógico Ing. Web** — Pendiente en Moodle del curso 104362.
+  3. **10-SYS: Aceptar Términos y Condiciones English** — Pendiente en Moodle del curso 100774.
+  4. **10-SYS: Subir documentos CUN 360** — Alerta persistente de documentos faltantes.
+  5. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, cálculo predictivo "¿cuánto necesito para pasar?"
+  6. **10-SYS: Re-scan CUN Digital** — En ~1-2 semanas re-escanear para ver si Calidad SW, Admin BD y Redes publican sus aulas.
+  7. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
 
 ## Arquitectura de Archivos — Module 1-IND
 
