@@ -180,7 +180,10 @@ const SYS = (() => {
 
   // ── TASK MANAGEMENT ──
   function getTasks() { return db.get('tasks', []); }
-  function saveTasks(t) { db.set('tasks', t); }
+  function saveTasks(t) {
+    db.set('tasks', t);
+    if (window.CLOUD) t.forEach(task => CLOUD.push('sys_tasks', { ...task, id: String(task.id), updated_at: new Date().toISOString() }));
+  }
 
   function addTask() {
     const text = document.getElementById('newTaskText')?.value?.trim();
@@ -204,6 +207,7 @@ const SYS = (() => {
   }
 
   function deleteTask(id) {
+    if (window.CLOUD) CLOUD.remove('sys_tasks', String(id));
     saveTasks(getTasks().filter(x => x.id !== id));
     render();
   }
@@ -1235,9 +1239,13 @@ const SYS = (() => {
   // ── CLASS SESSION STORE ──
   const CS_KEY = 'sys_class_sessions';
   function getClassSessions() { return db.get(CS_KEY, []); }
-  function saveClassSessions(arr) { db.set(CS_KEY, arr); }
+  function saveClassSessions(arr) {
+    db.set(CS_KEY, arr);
+    if (window.CLOUD) arr.forEach(s => CLOUD.push('class_sessions', { ...s, id: String(s.id), updated_at: new Date().toISOString() }));
+  }
 
   function deleteClassSession(id) {
+    if (window.CLOUD) CLOUD.remove('class_sessions', String(id));
     saveClassSessions(getClassSessions().filter(s => s.id !== id));
     renderClassSessions();
   }
@@ -1350,6 +1358,15 @@ const SYS = (() => {
   } else {
     init();
   }
+
+  // ── Cloud Sync: pull tasks + sessions on sign-in ──
+  window.addEventListener('sb:signed_in', async () => {
+    if (!window.CLOUD) return;
+    await CLOUD.fullSync('sys_tasks', 'sys_tasks');
+    await CLOUD.fullSync('class_sessions', 'sys_class_sessions');
+    render();
+    renderClassSessions();
+  });
 
   return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS };
 })();

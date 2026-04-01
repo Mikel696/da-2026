@@ -34,10 +34,36 @@
 - Escape HTML en email display para prevenir XSS (`_escHtml`)
 - Supabase `persistSession:true` → sesión sobrevive refresh sin re-login
 
-### Fase 3 — Cloud Sync Layer ⏳ PENDIENTE (awaiting approval)
-- `js/cloud-sync.js` — CLOUD.push/pull/remove/syncDown/syncUp
-- Augmentar VDB en jobs.js + apply.js
-- Augmentar SYS tasks en systems_logic.js
+### Fase 3 — Cloud Sync Layer ✅ COMPLETADA (2026-04-01)
+- `frontend/js/cloud-sync.js` (175 líneas) — IIFE `CLOUD` con:
+  - `push(table, record)` → upsert fire-and-forget con retry queue
+  - `pull(table)` → fetch all records for current user
+  - `remove(table, id)` → delete by id + user_id
+  - `syncDown(table, localKey, strategy)` → pull + merge (cloud_wins | latest_wins)
+  - `syncUp(table, localKey)` → push all localStorage records to cloud
+  - `fullSync(table, localKey)` → bidirectional: pull → merge → push orphans
+  - Retry queue: failed pushes auto-enqueue and flush on 3s timer or sign-in
+  - `_mergeByUpdatedAt()` — deduplication por id, gana el record con updated_at más reciente
+- **VDB augmented** (jobs.js + apply.js):
+  - `save()` → adds `updated_at`, calls `CLOUD.push('vacancies', v)` after localStorage write
+  - `del()` → calls `CLOUD.remove('vacancies', id)`
+  - `updateStatus()` / `updateNotes()` → same pattern
+  - `sb:signed_in` listener → `CLOUD.fullSync('vacancies', VDB.KEY)` + re-render
+- **SYS augmented** (systems_logic.js):
+  - `saveTasks()` → pushes each task to `CLOUD.push('sys_tasks', ...)`
+  - `saveClassSessions()` → pushes each session to `CLOUD.push('class_sessions', ...)`
+  - `deleteTask()` / `deleteClassSession()` → calls `CLOUD.remove()`
+  - `sb:signed_in` listener → `CLOUD.fullSync()` for both tables + re-render
+- Script tag `cloud-sync.js` inyectado en 14 HTML (después de auth.js, antes de módulos)
+- **Load order per page:** CDN → supabase-client.js → auth.js → cloud-sync.js → [module].js
+
+**Decisiones de diseño Cloud Sync:**
+- Offline-first: todas las operaciones escriben localStorage primero, UI nunca espera al cloud
+- `CLOUD.push()` es non-blocking (fire-and-forget con retry); jamás bloquea el render
+- Guarda `if(window.CLOUD)` en cada call — app funciona idéntica si cloud-sync.js no carga
+- Retry queue en memoria (no persistida) — se pierde al cerrar tab, pero datos locales están a salvo
+- `fullSync()` on sign-in: bidireccional, sube records locales que no existen en cloud
+- IDs se convierten a String antes de push (Supabase TEXT primary key vs JS number)
 
 ### Fase 4 — PostgreSQL Schema ⏳ PENDIENTE
 - 4 tablas: `vacancies`, `sys_tasks`, `class_sessions`, `user_prefs` (con RLS)

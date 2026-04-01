@@ -4,11 +4,19 @@
 const VDB={
   KEY:'da_vacancies',
   getAll(){try{return JSON.parse(localStorage.getItem(this.KEY)||'[]');}catch(e){return[];}},
-  save(v){const all=this.getAll();const idx=all.findIndex(x=>x.id===v.id);if(idx>=0)all[idx]=v;else all.push(v);localStorage.setItem(this.KEY,JSON.stringify(all));return v;},
+  save(v){
+    v.updated_at=new Date().toISOString();
+    const all=this.getAll();const idx=all.findIndex(x=>x.id===v.id);if(idx>=0)all[idx]=v;else all.push(v);localStorage.setItem(this.KEY,JSON.stringify(all));
+    if(window.CLOUD)CLOUD.push('vacancies',v);
+    return v;
+  },
   get(id){return this.getAll().find(x=>x.id===id)||null;},
-  del(id){localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id)));},
-  updateStatus(id,status){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.status=status;if(status==='applied'&&!v.appliedDate)v.appliedDate=Date.now();localStorage.setItem(this.KEY,JSON.stringify(all));}},
-  updateNotes(id,notes){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.notes=notes;localStorage.setItem(this.KEY,JSON.stringify(all));}}
+  del(id){
+    localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id)));
+    if(window.CLOUD)CLOUD.remove('vacancies',id);
+  },
+  updateStatus(id,status){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.status=status;if(status==='applied'&&!v.appliedDate)v.appliedDate=Date.now();v.updated_at=new Date().toISOString();localStorage.setItem(this.KEY,JSON.stringify(all));if(window.CLOUD)CLOUD.push('vacancies',v);}},
+  updateNotes(id,notes){const all=this.getAll();const v=all.find(x=>x.id===id);if(v){v.notes=notes;v.updated_at=new Date().toISOString();localStorage.setItem(this.KEY,JSON.stringify(all));if(window.CLOUD)CLOUD.push('vacancies',v);}}
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -328,3 +336,10 @@ function goTab(hash){
 }
 if(location.hash)goTab(location.hash);
 window.addEventListener('hashchange',()=>goTab(location.hash));
+
+// ── Cloud Sync: pull vacancies on sign-in ──
+window.addEventListener('sb:signed_in',async()=>{
+  if(!window.CLOUD)return;
+  await CLOUD.fullSync('vacancies',VDB.KEY);
+  renderCmp();rK();uS();calculateMetrics();
+});

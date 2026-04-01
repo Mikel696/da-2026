@@ -4,10 +4,18 @@
 const VDB = {
   KEY: 'da_vacancies',
   getAll(){ try { return JSON.parse(localStorage.getItem(this.KEY)||'[]'); } catch(e){ return []; } },
-  save(v){ const all=this.getAll(); const idx=all.findIndex(x=>x.id===v.id); if(idx>=0) all[idx]=v; else all.push(v); localStorage.setItem(this.KEY,JSON.stringify(all)); return v; },
+  save(v){
+    v.updated_at=new Date().toISOString();
+    const all=this.getAll(); const idx=all.findIndex(x=>x.id===v.id); if(idx>=0) all[idx]=v; else all.push(v); localStorage.setItem(this.KEY,JSON.stringify(all));
+    if(window.CLOUD)CLOUD.push('vacancies',v);
+    return v;
+  },
   get(id){ return this.getAll().find(x=>x.id===id)||null; },
-  del(id){ localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id))); },
-  updateStatus(id,status){ const all=this.getAll(); const v=all.find(x=>x.id===id); if(v){ v.status=status; if(status==='applied') v.appliedDate=Date.now(); localStorage.setItem(this.KEY,JSON.stringify(all)); } },
+  del(id){
+    localStorage.setItem(this.KEY,JSON.stringify(this.getAll().filter(x=>x.id!==id)));
+    if(window.CLOUD)CLOUD.remove('vacancies',id);
+  },
+  updateStatus(id,status){ const all=this.getAll(); const v=all.find(x=>x.id===id); if(v){ v.status=status; if(status==='applied') v.appliedDate=Date.now(); v.updated_at=new Date().toISOString(); localStorage.setItem(this.KEY,JSON.stringify(all)); if(window.CLOUD)CLOUD.push('vacancies',v); } },
   genId(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,6); }
 };
 
@@ -678,3 +686,9 @@ function capitalize(s){ return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.s
   const vid=params.get('v');
   if(vid){ setTimeout(()=>loadVacancy(vid),100); }
 })();
+
+// ── Cloud Sync: pull vacancies on sign-in ──
+window.addEventListener('sb:signed_in',async()=>{
+  if(!window.CLOUD)return;
+  await CLOUD.fullSync('vacancies',VDB.KEY);
+});
