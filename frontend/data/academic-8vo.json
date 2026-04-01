@@ -7,12 +7,12 @@
   "block2": {"start": "2026-05-25", "end": "2026-07-19"},
   "passing_grade": 3.0,
   "max_grade": 5.0,
-  "last_scan": "2026-03-30T19:00:00",
+  "last_scan": "2026-03-31T20:00:00",
   "scan_source": "SGA-SINU-NOTR29 + CUN360 + CUN-Digital + Gmail-CUN",
   "cumulative_gpa_history": 4.49,
   "subjects_passed_total": 52,
   "titles_earned": ["Técnico Profesional (Sem 4)", "Tecnólogo en Desarrollo de Software (Sem 7)"],
-  "alerts": {"pending_documents": true, "total_debt": 0, "induccion_tics_pct": 14, "induccion_tics_pending": true, "courses_not_published_yet": ["calidad_sw","admin_bd","redes"], "no_grades_yet": true, "acuerdo_pedagogico_ing_web": true, "terminos_condiciones_english": true},
+  "alerts": {"pending_documents": true, "total_debt": 0, "induccion_tics_pct": 14, "induccion_tics_pending": true, "courses_not_published_yet": ["calidad_sw","admin_bd","redes"], "no_grades_yet": true, "acuerdo_pedagogico_ing_web": true, "acuerdo_pedagogico_inv_ciencia": true, "terminos_condiciones_english": true},
   "student": {
     "name": "BARROS TORRES MIGUEL ANGEL",
     "id": "1063955980",
@@ -155,7 +155,7 @@
       "program": "VP15G",
       "professor": "CORTES TOBAR DARIO FERNANDO",
       "moodle_course_id": 104253,
-      "schedule": null,
+      "schedule": "Jueves 6pm-7pm (semanal, desde 31-Mar-2026)",
       "evaluation": [{"name": "NOTA ÚNICA", "weight": 100}],
       "grades": [],
       "current_average": null,
@@ -163,8 +163,8 @@
       "grade_needed_to_pass": null,
       "fallas": 0,
       "risk_level": "unknown",
-      "pending_tasks": [],
-      "notes": ""
+      "pending_tasks": [{"task": "Completar Acuerdo Pedagógico en Moodle", "priority": "high"}],
+      "notes": "Clase virtual semanal Jueves 6pm-7pm. Docente: DARIO FERNANDO CORTES TOBAR"
     },
     {
       "id": "english_beginner",
@@ -184,7 +184,7 @@
       "fallas": 0,
       "risk_level": "unknown",
       "pending_tasks": [{"task": "Aceptar Términos y Condiciones en Moodle", "priority": "high"}],
-      "notes": "Programa de Inglés General - Virtual Nacional. Sesión de inducción: 30-Mar-2026 7pm (CINDY PAOLA MORENO)"
+      "notes": "Programa de Inglés General - Virtual Nacional. Sesiones de inducción: 31-Mar-2026 7pm y 8pm (CINDY PAOLA MORENO)"
     },
     {
       "id": "placement_test",

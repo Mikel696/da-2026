@@ -2,20 +2,28 @@
 
 - **Última actualización:** 2026-03-31
 
-- **SCAN CUN — 2026-03-30 (Primer día 26V02) — ✅ COMPLETADO**
-  - ✅ **CUN Digital (Moodle):** 6 cursos publicados para 26V02. IDs: Ing Web=104362, Inv C&T=104253, Mat Especiales=101285, Placement Test=106289, English=100774, Induccion TICS=28494. Pendientes: Acuerdo Pedagógico (Ing Web), Términos y Condiciones (English). Calidad SW, Admin BD, Redes: NO publicados aún.
-  - ✅ **Inducción TICS:** 14% completado (era 0%). Actualizado en systems_logic.js y academic-8vo.json.
-  - ✅ **SGA Campus:** 3 programas activos, sin notas (primer día del período).
-  - ✅ **Gmail CUN:** 7 no leídos. CINDY PAOLA MORENO = profesora de English Beginner 1 (confirmado). Becerra Ramirez = Ing Web (Martes 6:15pm). Cortes Cruz = Mat. Especiales (Miérc+Viernes 6:15pm + Martes 31-Mar extra). Escuela de Idiomas: Prueba de Reconocimiento disponible.
-  - ✅ **CUN 360:** Período 26V02, Deuda $0.00, Promedio 0.00. Documentos pendientes por cargar (alerta persistente). Materias Virtuales confirmadas (mismos 6 docentes).
-  - ✅ **Docentes completos en academic-8vo.json y systems_logic.js:** mat_especiales=Cortes Cruz, ing_web=Becerra Ramirez, inv_ciencia=Cortes Tobar, english_beginner=CINDY PAOLA MORENO (NUEVO).
-  - ✅ **Horarios confirmados:** Mat. Especiales → Miérc+Viernes 6:15pm | Ing. Web → Martes 6:15pm | English → Lunes 7pm.
-  - ✅ **Moodle course IDs** agregados a academic-8vo.json para 6 cursos publicados.
-  - ⚠️ **Pendientes CUN:** Subir documentos a CUN 360 | Acuerdo Pedagógico Ing. Web | Términos y Condiciones English | Completar Inducción TICS (14% → 100%)
+- **SCAN CUN — 2026-03-31 (Día 2 de 26V02) — ✅ COMPLETADO**
+  - ✅ **Gmail CUN (31-Mar):** 2 emails nuevos: (1) DARIO FERNANDO CORTES TOBAR → **Inv. C&T horario confirmado: Jueves 6pm-7pm semanal** (invitación Google Calendar). (2) CINDY PAOLA MORENO → 2 sesiones de inducción English: 31-Mar 7pm y 8pm.
+  - ✅ **CUN Digital — Actividades por curso:**
+    - **Ing. Web (104362):** Link clase, Grabaciones, Material, Acuerdo Pedagógico (PENDIENTE), Avisos
+    - **Inv. C&T (104253):** Avisos, Acuerdo Pedagógico (PENDIENTE — NUEVO)
+    - **Mat. Especiales (101285):** Calendario, Link reuniones Miérc+Viernes 6:15pm, Syllabus, Grabaciones, Material, Avisos
+    - **English Beginner (100774):** Avisos, Términos y Condiciones (PENDIENTE), Link al curso de inglés
+    - **Inducción TICS (28494):** 7 secciones — Bienvenida, Para tus clases, Aprendiendo C-Digital, etc. Progress: 14%
+  - ✅ **CUN 360:** Deuda $0.00. Mismos 6 docentes confirmados. Calidad SW / Admin BD / Redes: sin docente registrado aún.
+  - ✅ **SGA Campus:** Sin notas (esperado — día 2 del semestre).
+  - ✅ **academic-8vo.json actualizado:** last_scan→31-Mar, inv_ciencia.schedule→"Jueves 6pm-7pm", inv_ciencia.pending_tasks→Acuerdo Pedagógico, alert acuerdo_pedagogico_inv_ciencia→true
+  - ⚠️ **Pendientes CUN:** Acuerdo Pedagógico (Ing. Web + Inv. C&T) | Términos y Condiciones English | Inducción TICS 14%→100% | Subir documentos CUN 360
 
-- **Actualizaciones 2026-03-31 (Sesión P0)**
-  - ✅ **deals.json** actualizado: Epic (Havendock+Hyper Echelon hasta Apr 2), Amazon Prime (4 juegos hasta May 26), GOG (Deep Sky Derelicts hasta Apr 3), Steam (6 juegos keep forever), Udemy (link a freecourses.me)
-  - ✅ **VacancyDB** +4 vacantes: AR/AP Specialist (Remote Talent LATAM $1.5K/mes), AP/AR Specialist (Legal Tech US EST), Data Analyst LATAM (Indeed 275+ vacantes), Financial Analyst FP&A LATAM (Remote Rocketship). Total: 12 vacantes.
+- **SCAN CUN — 2026-03-30 (Primer día 26V02) — ✅ COMPLETADO**
+  - ✅ **CUN Digital (Moodle):** 6 cursos publicados. IDs: Ing Web=104362, Inv C&T=104253, Mat Especiales=101285, Placement Test=106289, English=100774, Induccion TICS=28494. Calidad SW, Admin BD, Redes: NO publicados aún.
+  - ✅ **Inducción TICS:** 14% completado. Docentes completos. Horarios: Mat.Especiales→Miérc+Viernes 6:15pm | Ing.Web→Martes 6:15pm | English→Lunes 7pm | Inv.C&T→Jueves 6pm (confirmado 31-Mar).
+  - ✅ **CUN 360:** Período 26V02, Deuda $0.00.
+
+- **Actualizaciones 2026-03-31 (Sesión P0 + SCAN)**
+  - ✅ **deals.json** actualizado: Epic (Havendock+Hyper Echelon hasta Apr 2, Clone Drone in the Danger Zone Apr 2-9), Amazon Prime (4 juegos hasta May 26), GOG (Deep Sky Derelicts hasta Apr 3), Steam (6 juegos keep forever), Udemy (link a freecourses.me)
+  - ✅ **VacancyDB** +5 vacantes totales sesión: AR/AP Specialist (Remote Talent LATAM), AP/AR Specialist (Legal Tech US EST), Data Analyst LATAM, Financial Analyst FP&A LATAM, AP/AR Specialist (Activate Talent, NetSuite, LATAM remote). Total: **13 vacantes**.
+  - ✅ **Tab 7 Clases Perdidas (10-SYS):** Feature completa — CSS+JS+HTML+Prompt P12. Sesión Reinducción Pregrado guardada.
 
 - **Última actualización:** 2026-03-27
 - **Módulo 2-APP (Application Command Center & Motor ATS) — ✅ 100% FEATURE COMPLETE**

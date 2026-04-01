@@ -11,6 +11,7 @@
     {"id": "steam", "name": "Steam", "icon": "🎮", "color": "#1b2838", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "desc": "Free-to-play y promos"}
   ],
   "deals": [
+    {"title": "Clone Drone in the Danger Zone — Robot roguelike (Overwhelmingly Positive, $19.99)", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/clone-drone-in-the-danger-zone", "isFree": true, "tag": "PRÓXIMO", "expires": "2026-04-09"},
     {"title": "Havendock — Colony Sim oceánico (Very Positive)", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/havendock-a9a498", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
     {"title": "Hyper Echelon — Arcade shooter espacial", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/hyper-echelon-3c42b4", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
     {"title": "Total War: Three Kingdoms — Estrategia épica", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
