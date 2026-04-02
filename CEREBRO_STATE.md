@@ -103,6 +103,11 @@
 | 5. Dashboard | Site URL + Redirect URLs | ✅ Configured by admin |
 | Deploy | `git push` to GitHub Pages | ✅ Production live |
 
+### Hotfix — Auth email redirect (2026-04-01)
+- **Bug:** Supabase confirmation email linked to `localhost` instead of production URL
+- **Fix:** Added `emailRedirectTo: 'https://mikel696.github.io/da-2026/frontend/index.html'` to `signUp()` options in `auth.js`
+- **Root cause:** Supabase defaults to the Site URL but the signUp call wasn't passing an explicit redirect, causing fallback to localhost in some configurations
+
 ---
 
 - **Última actualización:** 2026-03-31

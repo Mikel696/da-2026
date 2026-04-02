@@ -31,7 +31,10 @@ const AUTH = (() => {
 
   /* ── Auth actions ── */
   async function signUp(email, password) {
-    return await SB.auth.signUp({ email, password });
+    return await SB.auth.signUp({
+      email, password,
+      options: { emailRedirectTo: 'https://mikel696.github.io/da-2026/frontend/index.html' }
+    });
   }
 
   async function signIn(email, password) {
