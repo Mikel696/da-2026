@@ -21,9 +21,9 @@ const AUTH = (() => {
       _user = session?.user ?? null;
       _renderWidget();
       // INITIAL_SESSION fires on page load when session exists (e.g., second device, refresh)
-      // SIGNED_IN fires on explicit login. Both must trigger cloud sync.
-      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
-        console.log('[AUTH] session event:', event, _user?.email);
+      // SIGNED_IN fires on explicit login. Both must trigger cloud sync — but only if user exists.
+      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && _user) {
+        console.log('[AUTH] session event:', event, _user.email);
         window.dispatchEvent(new CustomEvent('sb:signed_in',  { detail: _user }));
       }
       if (event === 'SIGNED_OUT') window.dispatchEvent(new CustomEvent('sb:signed_out'));
