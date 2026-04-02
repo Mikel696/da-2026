@@ -90,7 +90,10 @@
 - Configuración realizada manualmente por el admin en Supabase Dashboard → Authentication → URL Configuration
 - Email templates: defaults de Supabase (confirmación de email, reset password)
 
-### ✅ SUPABASE MIGRATION COMPLETE — 5 de 5 fases ejecutadas
+### Post-migration fix — CSS path (2026-04-01)
+- `auth.js` _injectCSS: `/css/auth.css` → `css/auth.css` (relative path, GitHub Pages compatible)
+
+### ✅ SUPABASE MIGRATION COMPLETE — 5 de 5 fases + deployed
 | Fase | Archivo(s) clave | Estado |
 |---|---|---|
 | 1. CDN | `js/supabase-client.js` + CDN en 14 HTML | ✅ Committed |
@@ -98,6 +101,7 @@
 | 3. Cloud Sync | `js/cloud-sync.js` + VDB/SYS augmentation | ✅ Committed |
 | 4. Schema SQL | `database/schema.sql` (4 tablas + RLS) | ✅ Executed in Supabase |
 | 5. Dashboard | Site URL + Redirect URLs | ✅ Configured by admin |
+| Deploy | `git push` to GitHub Pages | ✅ Production live |
 
 ---
 
