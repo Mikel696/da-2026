@@ -65,11 +65,39 @@
 - `fullSync()` on sign-in: bidireccional, sube records locales que no existen en cloud
 - IDs se convierten a String antes de push (Supabase TEXT primary key vs JS number)
 
-### Fase 4 — PostgreSQL Schema ⏳ PENDIENTE
-- 4 tablas: `vacancies`, `sys_tasks`, `class_sessions`, `user_prefs` (con RLS)
+### Fase 4 — PostgreSQL Schema ✅ COMPLETADA (2026-04-01)
+- `database/schema.sql` (210 líneas) — schema completo listo para ejecutar en Supabase SQL Editor
+- **4 tablas con RLS estricto** (SELECT/INSERT/UPDATE/DELETE donde `auth.uid() = user_id`):
 
-### Fase 5 — Supabase Dashboard Config ⏳ PENDIENTE
-- Site URL, redirect URLs, email templates
+| Tabla | PK | localStorage mirror | Campos clave |
+|---|---|---|---|
+| `vacancies` | `(id, user_id)` | `da_vacancies` | title, company, role, url, jd, status, column, salary, match (JSONB), profile (JSONB), tags (JSONB), focus_area, applied_date |
+| `sys_tasks` | `(id, user_id)` | `sys_tasks` | text, subj, priority (p1/p2/p3), due, done |
+| `class_sessions` | `(id, user_id)` | `sys_class_sessions` | url, subject_id, title, summary, topics (JSONB), assignments (JSONB), resources (JSONB), status |
+| `user_prefs` | `user_id` | `sb_*` keys | display_name, pomo_total, hours_total, streak, ratings (JSONB) |
+
+- Todas las tablas tienen `user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE`
+- Índices: `(user_id, updated_at DESC)` en vacancies/tasks/sessions + `(user_id, status)` en vacancies + `(user_id, subj)` en tasks
+- JSONB para campos polimórficos: match, profile, tags, topics, assignments, resources, ratings
+- IDs tipo TEXT (el JS genera con `Date.now()` que se convierte a String en cloud-sync.js)
+- Verificación al final del SQL: `SELECT` confirma RLS habilitado en las 4 tablas
+
+**Ejecutado por admin:** SQL script corrido exitosamente en Supabase SQL Editor (2026-04-01). 4 tablas creadas, RLS habilitado.
+
+### Fase 5 — Supabase Dashboard Config ✅ COMPLETADA (2026-04-01, manual por admin)
+- **Site URL:** `https://mikel696.github.io/da-2026/frontend/index.html`
+- **Redirect URLs configuradas:** `https://mikel696.github.io/**`, `http://localhost:3456/**`
+- Configuración realizada manualmente por el admin en Supabase Dashboard → Authentication → URL Configuration
+- Email templates: defaults de Supabase (confirmación de email, reset password)
+
+### ✅ SUPABASE MIGRATION COMPLETE — 5 de 5 fases ejecutadas
+| Fase | Archivo(s) clave | Estado |
+|---|---|---|
+| 1. CDN | `js/supabase-client.js` + CDN en 14 HTML | ✅ Committed |
+| 2. Auth UI | `js/auth.js` + `css/auth.css` | ✅ Committed |
+| 3. Cloud Sync | `js/cloud-sync.js` + VDB/SYS augmentation | ✅ Committed |
+| 4. Schema SQL | `database/schema.sql` (4 tablas + RLS) | ✅ Executed in Supabase |
+| 5. Dashboard | Site URL + Redirect URLs | ✅ Configured by admin |
 
 ---
 
