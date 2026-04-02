@@ -134,7 +134,7 @@ const AUTH = (() => {
     const link = document.createElement('link');
     link.id = 'sb-auth-css';
     link.rel = 'stylesheet';
-    link.href = '/css/auth.css';
+    link.href = 'css/auth.css';
     document.head.appendChild(link);
   }
 
