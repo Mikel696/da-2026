@@ -108,6 +108,31 @@
 - **Fix:** Added `emailRedirectTo: 'https://mikel696.github.io/da-2026/frontend/index.html'` to `signUp()` options in `auth.js`
 - **Root cause:** Supabase defaults to the Site URL but the signUp call wasn't passing an explicit redirect, causing fallback to localhost in some configurations
 
+### CRITICAL FIX — Cross-device sync failure (2026-04-01)
+- **Symptom:** Data saved on PC never appeared on phone (and vice versa). Bidirectional sync completely non-functional.
+- **3 root causes found and fixed:**
+
+**Bug 1: `INITIAL_SESSION` not triggering sync (auth.js)**
+- `onAuthStateChange` only dispatched `sb:signed_in` for `event === 'SIGNED_IN'` (explicit login)
+- Supabase v2 fires `INITIAL_SESSION` on page load when a session already exists (refresh, second device)
+- **Fix:** `if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')` → now dispatches `sb:signed_in` on both events
+- **Impact:** This was the primary blocker — without it, `fullSync()` never ran on the second device
+
+**Bug 2: camelCase ↔ snake_case field mismatch (cloud-sync.js)**
+- JS VDB objects use camelCase: `salaryInput`, `focusArea`, `appliedDate`, `followUpDate`, `foundDate`
+- PostgreSQL schema uses snake_case: `salary_input`, `focus_area`, `applied_date`, `follow_up_date`, `found_date`
+- PostgREST silently ignored unknown camelCase columns → data saved with NULLs for those fields
+- On pull, DB returned snake_case but UI read camelCase → pulled records rendered broken
+- **Fix:** Added `_V_TO_DB` / `_V_TO_JS` bidirectional field maps + `_toDb()`/`_toLocal()` converters
+- `push()` and `_flushQueue()` now call `_toDb()` before upsert
+- `pull()` now maps results through `_toLocal()` before returning
+
+**Bug 3: Silent error swallowing (cloud-sync.js)**
+- All `catch` blocks were empty or just re-enqueued — zero `console.error` output
+- Schema/RLS errors were completely invisible, making debugging impossible
+- **Fix:** Added `[CLOUD]`-prefixed `console.log/warn/error` in every code path:
+  - `push OK/error`, `pull OK/error`, `remove OK/error`, `fullSync START/DONE`, `syncDown`, `flush queue`
+
 ---
 
 - **Última actualización:** 2026-03-31
