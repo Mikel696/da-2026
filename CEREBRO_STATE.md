@@ -4,7 +4,7 @@
 
 ---
 
-## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03
+## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03 ✅ COMPLETE
 
 ### Architecture
 - **`app_state` table** — Generic JSONB store: composite PK `(user_id, store_key)`, `payload JSONB`, `updated_at`
@@ -40,6 +40,14 @@
 - **Symptom:** `fullSyncAll` crashed with `RangeError: Invalid time value` at `_mergeByUpdatedAt`
 - **Root cause:** Records with UUID-based `id` fields and no `updated_at`/`saved_at`/`created` fell through to `new Date(rec.id).toISOString()` — UUID strings produce `Invalid Date`, and `.toISOString()` throws `RangeError`
 - **Fix:** Added `_safeTs(val)` helper that returns 0 for any unparseable date. Fallback chain: `saved_at → created → ts → now()`. All date comparisons use `_safeTs()` instead of raw `new Date()`
+
+### Production Verification — 2026-04-03
+- **Status:** FULLY OPERATIONAL
+- fullSyncAll completed in 7515ms on first run
+- Dedicated tables: `vacancies` (2 records synced, 1 uploaded), `sys_tasks` OK
+- JSONB app_state: `sb_notes2`, `fin_2026-03` + all other local keys pushed (first-sync upload)
+- Zero crashes after `_safeTs()` hotfix
+- `cloud:sync_complete` event dispatched successfully
 
 ### Files Modified
 - `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS
