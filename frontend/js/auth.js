@@ -151,4 +151,5 @@ const AUTH = (() => {
   return { init, getUser, getUserId, isLoggedIn, signUp, signIn, signOut, openModal, closeModal, _submit };
 })();
 
+window.AUTH = AUTH;
 document.addEventListener('DOMContentLoaded', AUTH.init);

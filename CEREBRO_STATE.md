@@ -133,6 +133,14 @@
 - **Fix:** Added `[CLOUD]`-prefixed `console.log/warn/error` in every code path:
   - `push OK/error`, `pull OK/error`, `remove OK/error`, `fullSync START/DONE`, `syncDown`, `flush queue`
 
+**Bug 4 (ROOT CAUSE): `window.AUTH` never assigned (auth.js) — 2026-04-03**
+- `auth.js` declared `const AUTH = (() => { ... })();` — JavaScript `const` at script top-level creates a global binding but does NOT attach to `window`
+- `cloud-sync.js` checks `window.AUTH?.getUserId()` in `_uid()` — always returned `undefined` → `_ready()` always `false`
+- **This was the true root cause of ALL sync failures**: every `push()`, `pull()`, `fullSync()` silently skipped because `_ready()` never returned `true`
+- Compare: `supabase-client.js` had `window.SB = SB;`, `cloud-sync.js` had `window.CLOUD = CLOUD;`, but `auth.js` was missing the equivalent
+- **Fix:** Added `window.AUTH = AUTH;` after the IIFE (1 line)
+- **Verified locally:** `window.AUTH` now resolves to `object` with `getUserId: function`
+
 ---
 
 - **Última actualización:** 2026-03-31
