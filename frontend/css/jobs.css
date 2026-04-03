@@ -89,4 +89,29 @@
 .inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
 .meter{text-align:center;padding:10px;background:var(--el);border-radius:8px;border:1px solid var(--bd)}
 .meter-v{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700}.meter-l{font-size:9px;color:var(--t3);text-transform:uppercase;margin-top:2px}
-@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.grid-2{grid-template-columns:1fr}}
+/* ── Profile Toggle Bar ── */
+.pbar{display:flex;gap:3px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:12px}
+.pbar-btn{flex:1;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s;white-space:nowrap}
+.pbar-btn:hover{color:var(--tx);background:var(--el)}
+.pbar-btn.on{color:#fff;background:var(--ac)}
+.pbar-cnt{font-size:9px;opacity:.7;margin-left:3px}
+/* ── Enriched Form ── */
+.form-card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px}
+.form-toggle{display:flex;align-items:center;gap:5px;padding:6px 0 2px;cursor:pointer;font-size:10px;color:var(--t2);border:none;background:none;font-family:inherit;width:100%}
+.form-toggle:hover{color:var(--a2)}
+.form-toggle-arrow{transition:transform .2s;font-size:8px}.form-toggle-arrow.open{transform:rotate(90deg)}
+.form-extra{display:none;animation:fu .2s ease}.form-extra.open{display:block}
+.form-chk{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);cursor:pointer;padding:4px 0}
+.form-chk input[type="checkbox"]{accent-color:var(--ac);width:14px;height:14px}
+.form-actions{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+/* ── Tag Chips ── */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:3px;min-height:30px;padding:5px 8px;background:var(--el);border:1px solid var(--bd);border-radius:7px;align-items:center;cursor:text}
+.chip-wrap:focus-within{border-color:var(--ac)}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:5px;font-size:10px;font-weight:600;background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.15)}
+.chip-x{cursor:pointer;font-size:9px;opacity:.6}.chip-x:hover{opacity:1;color:var(--rd)}
+.chip-input{background:none;border:none;outline:none;color:var(--tx);font-size:11px;font-family:inherit;min-width:60px;flex:1}
+/* ── Focus Area Badge on Kanban Cards ── */
+.ka-fa{font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;text-transform:uppercase;margin-top:3px;display:inline-block}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.grid-2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}}

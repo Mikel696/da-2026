@@ -1,6 +1,37 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-01
+- **Última actualización:** 2026-04-03
+
+---
+
+## Job Tracker UI Enhancement (PLAN_TRACKER_UI.md) — 2026-04-03
+
+### Implemented Features
+1. **Profile Toggle System** — `[🏦 Contabilidad] [📊 Data / Tech] [🌐 Todos]` bar above kanban
+   - Filters kanban cards, stats, and metrics by `focusArea`
+   - Active profile persisted in `localStorage('jt_profile')`
+   - PROFILES config maps focus areas to Accountant vs Data/Tech categories
+
+2. **Enriched Add-Vacancy Form** — Replaces old 4-field manual form
+   - 12 fields: title*, company*, URL, source, type, status, focus area, english level, salary USD, requires CPA, QA exposure, priority
+   - Tag chips input with Enter-to-add
+   - Collapsible "Perfil, salario y tags" section (state persisted)
+   - Saves directly to VDB → auto cloud sync via `CLOUD.push()`
+
+3. **Kanban Enhancements**
+   - Focus-area color badges on cards (AP=green, Data=purple, etc.)
+   - Card sorting: priority (high first) → match% → date (newest)
+   - Profile filtering applied to all views
+
+4. **jt8 → VDB Migration** — "Migrar manual a VDB" button
+   - Copies legacy `jt8` entries to VDB with `crypto.randomUUID()` IDs
+   - Auto cloud sync on migration
+   - Button only visible when `jt8` entries exist
+
+### Cloud Sync Bug — RESOLVED (2026-04-03)
+- **Root cause:** `auth.js` used `const AUTH = (IIFE)()` without `window.AUTH = AUTH` — `cloud-sync.js` checked `window.AUTH?.getUserId()` which was always `undefined`
+- **Fix:** Added `window.AUTH = AUTH;` (1 line)
+- **Also fixed:** `INITIAL_SESSION` event handling, camelCase↔snake_case field mapping, console logging
 
 ---
 

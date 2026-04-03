@@ -155,12 +155,44 @@
 <div class="dv-actions" id="dvActions"></div>
 </div>
 
-<!-- ADD MANUAL ENTRY -->
-<div class="card" style="margin-bottom:12px">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><input class="inp" id="aT" placeholder="Puesto..."><input class="inp" id="aC" placeholder="Empresa..."><input class="inp" id="aU" placeholder="URL (opc)..."><select class="inp" id="aS"><option value="saved">💾 Guardado</option><option value="applied" selected>📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="finalist">🏆 Finalista</option></select></div>
-<div style="display:flex;gap:6px;margin-top:6px">
-<button class="btn bg bs" onclick="addA()">+ Agregar</button>
-<button class="btn bo bs" onclick="if(confirm('¿Borrar todo el tracker manual?')){localStorage.removeItem('jt8');rK();uS();}">🗑️ Limpiar manual</button>
+<!-- PROFILE TOGGLE BAR -->
+<div class="pbar" id="profileBar"></div>
+
+<!-- ADD VACANCY FORM -->
+<div class="form-card" id="addForm">
+<div class="form-grid">
+<input class="inp" id="fTitle" placeholder="Puesto *">
+<input class="inp" id="fCompany" placeholder="Empresa *">
+<input class="inp" id="fUrl" placeholder="URL (opc)" type="url">
+</div>
+<div class="form-grid" style="margin-top:5px">
+<select class="inp" id="fSource"><option value="">Fuente...</option><option>LinkedIn</option><option>Indeed</option><option>Computrabajo</option><option>Upwork</option><option>Torre</option><option>RemoteOK</option><option>Referral</option><option>Other</option></select>
+<select class="inp" id="fType"><option value="">Tipo...</option><option value="full-time">Full-time</option><option value="part-time">Part-time</option><option value="contract">Contract</option><option value="freelance">Freelance</option></select>
+<select class="inp" id="fStatus"><option value="saved">💾 Guardado</option><option value="applied">📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="finalist">🏆 Finalista</option></select>
+</div>
+<button class="form-toggle" onclick="toggleFormExtra()"><span class="form-toggle-arrow" id="fArrow">▸</span> Perfil, salario y tags</button>
+<div class="form-extra" id="formExtra">
+<div class="form-grid">
+<select class="inp" id="fFocus"><option value="general">Foco: General</option><option value="AP">AP (Cuentas por Pagar)</option><option value="AR">AR (Cuentas por Cobrar)</option><option value="Bookkeeper">Bookkeeper</option><option value="Financial Analyst">Financial Analyst</option><option value="Data Analyst">Data Analyst</option><option value="Data Entry">Data Entry</option><option value="BI">BI / Power BI</option><option value="VA">Virtual Assistant</option></select>
+<select class="inp" id="fEnglish"><option value="">Inglés...</option><option value="not_required">No requerido</option><option value="basic">Básico</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option><option value="native">Nativo</option></select>
+<input class="inp" id="fSalary" type="number" placeholder="Salario USD/mes" min="0">
+</div>
+<div class="form-row" style="margin-top:5px">
+<div style="display:flex;gap:12px">
+<label class="form-chk"><input type="checkbox" id="fCpa"> Requiere CPA</label>
+<label class="form-chk"><input type="checkbox" id="fQa"> QA Exposure</label>
+</div>
+<select class="inp" id="fPriority"><option value="">Prioridad...</option><option value="high">Alta</option><option value="medium">Media</option><option value="low">Baja</option></select>
+</div>
+<div style="margin-top:5px">
+<div class="chip-wrap" id="chipWrap" onclick="document.getElementById('chipInput').focus()">
+<input class="chip-input" id="chipInput" placeholder="Tags (Enter para agregar)..." onkeydown="handleChipKey(event)">
+</div>
+</div>
+</div>
+<div class="form-actions">
+<button class="btn bg bs" onclick="addVacancy()">+ Agregar a VDB</button>
+<button class="btn bo bs" onclick="migrateManual()" id="btnMigrate" style="display:none">🔄 Migrar manual a VDB</button>
 </div>
 </div>
 

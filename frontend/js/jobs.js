@@ -35,6 +35,40 @@ function normStatus(s){return s==='offer'?'finalist':(COL_MAP[s]?s:'saved');}
 let selectedCard=null; // {type:'vdb'|'manual', id:string|number}
 
 // ══════════════════════════════════════════════════════════════
+// PROFILE TOGGLE SYSTEM
+// ══════════════════════════════════════════════════════════════
+const PROFILES=[
+  {id:'accountant',label:'🏦 Contabilidad',areas:['AP','AR','Bookkeeper','Financial Analyst','Auditor','fin']},
+  {id:'data_entry',label:'📊 Data / Tech',areas:['Data Analyst','Data Entry','BI','SQL','VA','Power BI','data']},
+  {id:'all',label:'🌐 Todos',areas:null}
+];
+function getActiveProfile(){return localStorage.getItem('jt_profile')||'all';}
+function setActiveProfile(id){localStorage.setItem('jt_profile',id);renderProfileBar();rK();uS();calculateMetrics();}
+
+function matchesProfile(card){
+  const pid=getActiveProfile();
+  if(pid==='all')return true;
+  const prof=PROFILES.find(p=>p.id===pid);
+  if(!prof||!prof.areas)return true;
+  const fa=(card.focusArea||card.raw?.focusArea||card.raw?.focus_area||'general').toLowerCase();
+  return prof.areas.some(a=>fa.includes(a.toLowerCase()));
+}
+
+function renderProfileBar(){
+  const el=document.getElementById('profileBar');
+  if(!el)return;
+  const active=getActiveProfile();
+  const allCards=getAllCards();
+  el.innerHTML=PROFILES.map(p=>{
+    const cnt=p.areas?allCards.filter(c=>{
+      const fa=(c.focusArea||c.raw?.focusArea||c.raw?.focus_area||'general').toLowerCase();
+      return p.areas.some(a=>fa.includes(a.toLowerCase()));
+    }).length:allCards.length;
+    return`<button class="pbar-btn${p.id===active?' on':''}" onclick="setActiveProfile('${p.id}')">${p.label}<span class="pbar-cnt">(${cnt})</span></button>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
 // UNIFIED KANBAN RENDER
 // ══════════════════════════════════════════════════════════════
 function getAllCards(){
@@ -42,9 +76,9 @@ function getAllCards(){
   // VDB vacancies
   VDB.getAll().forEach(v=>{
     cards.push({
-      type:'vdb', id:v.id, title:v.role||'Sin cargo', company:v.company||'Sin empresa',
+      type:'vdb', id:v.id, title:v.role||v.title||'Sin cargo', company:v.company||'Sin empresa',
       status:normStatus(v.status), url:v.url, date:v.ts,
-      matchPct:v.match?.pct||0, ats:v.match?.ats||0, focusArea:v.match?.focusArea||'general',
+      matchPct:v.match?.pct||0, ats:v.match?.ats||0, focusArea:v.focusArea||v.focus_area||v.match?.focusArea||'general',
       found:v.match?.found||[], missing:v.match?.missing||[],
       toneMatch:v.profile?.toneMatch, timezone:v.profile?.timezone,
       cultureFit:v.profile?.cultureFit||0, remoteReady:v.profile?.remoteReady||0,
@@ -65,12 +99,21 @@ function getAllCards(){
 
 function mcColor(pct){return pct>=70?'var(--gn)':pct>=40?'var(--am)':pct>0?'var(--rd)':'var(--t3)';}
 
+const FA_COLORS={AP:'tg',AR:'tg',Bookkeeper:'tg','Financial Analyst':'ty',fin:'ty',Auditor:'ty','Data Analyst':'ta','Data Entry':'tc',BI:'ta',SQL:'ta',VA:'tc','Power BI':'to',data:'ta',general:'',};
+function faClass(fa){return FA_COLORS[fa]||'';}
+
+function sortCards(cards){
+  const prio={high:3,medium:2,low:1,'':0};
+  return cards.sort((a,b)=>(prio[b.priority||'']||0)-(prio[a.priority||'']||0) || (b.matchPct||0)-(a.matchPct||0) || (b.date||0)-(a.date||0));
+}
+
 function rK(){
-  const cards=getAllCards();
+  const allCards=getAllCards();
+  const cards=allCards.filter(matchesProfile);
   const kb=document.getElementById('kb');
 
   kb.innerHTML=COLS.map(col=>{
-    const items=cards.filter(c=>c.status===col.id);
+    const items=sortCards(cards.filter(c=>c.status===col.id));
     return`<div class="kcol" data-col="${col.id}"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
@@ -79,6 +122,8 @@ function rK(){
       <div class="k-scroll">${items.map(c=>{
         const sel=selectedCard&&selectedCard.type===c.type&&String(selectedCard.id)===String(c.id);
         const mc=mcColor(c.matchPct);
+        const fa=c.focusArea&&c.focusArea!=='general'?c.focusArea:'';
+        const fc=faClass(fa);
         return`<div class="ka${sel?' ka-sel':''}" draggable="true"
           ondragstart="startDrag(event,'${c.type}','${c.id}')"
           ondragend="this.classList.remove('dragging')"
@@ -87,7 +132,8 @@ function rK(){
           <div class="ka-t">${c.url?'<a href="'+c.url+'" target="_blank" style="color:var(--tx);text-decoration:none" onclick="event.stopPropagation()">'+c.title+'</a>':c.title}</div>
           <div class="ka-c">${c.company}</div>
           ${c.matchPct?'<div class="ka-m" style="color:'+mc+'">'+c.matchPct+'% match · ATS '+c.ats+'%</div>':''}
-          <div class="ka-d">${c.dateLabel||( c.date?Math.floor((Date.now()-c.date)/864e5)+'d ago':'')}</div>
+          ${fa?'<span class="ka-fa '+fc+'">'+fa+'</span>':''}
+          <div class="ka-d">${c.dateLabel||(c.date?Math.floor((Date.now()-c.date)/864e5)+'d ago':'')}</div>
         </div>`;
       }).join('')}</div>
     </div>`;
@@ -239,13 +285,119 @@ return`<div class="cmp"><div style="display:flex;justify-content:space-between;a
 }).join('')+'<div style="text-align:center;padding:10px;color:var(--t3);font-size:11px">🔄 Pool de '+CMP.length+' empresas. Rotan diariamente.</div>';
 }
 
-// ═══ TRACKER (manual) ═══
+// ═══ TRACKER (manual — legacy, kept for backward compat) ═══
 function getA(){try{return JSON.parse(localStorage.getItem('jt8')||'[]')}catch(e){return[]}}
 function setA(a){localStorage.setItem('jt8',JSON.stringify(a))}
-function addA(){const t=document.getElementById('aT').value.trim(),c=document.getElementById('aC').value.trim(),u=document.getElementById('aU').value.trim(),s=document.getElementById('aS').value;if(!t||!c)return;const a=getA();a.push({t,c,u,s,d:new Date().toLocaleDateString('es',{day:'numeric',month:'short'})});setA(a);document.getElementById('aT').value='';document.getElementById('aC').value='';document.getElementById('aU').value='';rK();uS();calculateMetrics()}
+
+// ═══ ENRICHED ADD-VACANCY FORM ═══
+let _chipTags=[];
+
+function toggleFormExtra(){
+  const extra=document.getElementById('formExtra');
+  const arrow=document.getElementById('fArrow');
+  const open=extra.classList.toggle('open');
+  arrow.classList.toggle('open',open);
+  localStorage.setItem('jt_form_expanded',open?'1':'0');
+}
+
+function handleChipKey(e){
+  if(e.key!=='Enter'&&e.key!==',')return;
+  e.preventDefault();
+  const inp=document.getElementById('chipInput');
+  const val=inp.value.trim().replace(/,$/,'');
+  if(!val||_chipTags.includes(val))return;
+  _chipTags.push(val);
+  inp.value='';
+  renderChips();
+}
+function removeChip(idx){_chipTags.splice(idx,1);renderChips();}
+function renderChips(){
+  const wrap=document.getElementById('chipWrap');
+  const inp=document.getElementById('chipInput');
+  wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+  _chipTags.forEach((t,i)=>{
+    const span=document.createElement('span');
+    span.className='chip';
+    span.innerHTML=t+'<span class="chip-x" onclick="removeChip('+i+')">✕</span>';
+    wrap.insertBefore(span,inp);
+  });
+}
+
+function addVacancy(){
+  const title=document.getElementById('fTitle').value.trim();
+  const company=document.getElementById('fCompany').value.trim();
+  if(!title||!company){alert('Puesto y Empresa son obligatorios.');return;}
+
+  const url=document.getElementById('fUrl').value.trim();
+  const source=document.getElementById('fSource').value;
+  const type=document.getElementById('fType').value;
+  const status=document.getElementById('fStatus').value;
+  const focusArea=document.getElementById('fFocus').value;
+  const english=document.getElementById('fEnglish').value;
+  const salary=document.getElementById('fSalary').value;
+  const cpa=document.getElementById('fCpa').checked;
+  const qa=document.getElementById('fQa').checked;
+  const priority=document.getElementById('fPriority').value;
+
+  const tags=[..._chipTags];
+  if(english)tags.push('english:'+english);
+  if(cpa)tags.push('requires_cpa');
+  if(qa)tags.push('qa_exposure');
+
+  const vacancy={
+    id:crypto.randomUUID(),
+    ts:Date.now(),
+    updated_at:new Date().toISOString(),
+    title, role:title, company, url:url||'',
+    source:source||'', type:type||'',
+    status:status||'saved',
+    focusArea:focusArea||'general',
+    salaryInput:salary||'',
+    priority:priority||'',
+    tags,
+    match:{}, profile:{},
+    notes:'',
+    foundDate:new Date().toISOString().slice(0,10),
+    appliedDate:status==='applied'?new Date().toISOString().slice(0,10):''
+  };
+
+  VDB.save(vacancy);
+  // Reset form
+  ['fTitle','fCompany','fUrl','fSalary'].forEach(id=>{document.getElementById(id).value='';});
+  ['fSource','fType','fEnglish','fPriority'].forEach(id=>{document.getElementById(id).selectedIndex=0;});
+  document.getElementById('fStatus').value='saved';
+  document.getElementById('fFocus').value='general';
+  document.getElementById('fCpa').checked=false;
+  document.getElementById('fQa').checked=false;
+  _chipTags=[];renderChips();
+  renderProfileBar();rK();uS();calculateMetrics();
+}
+
+// ═══ jt8 → VDB MIGRATION ═══
+function migrateManual(){
+  const manual=getA();
+  if(!manual.length){alert('No hay entradas manuales para migrar.');return;}
+  if(!confirm('Migrar '+manual.length+' entrada(s) manual(es) a VDB (con sync cloud). ¿Continuar?'))return;
+  manual.forEach(entry=>{
+    VDB.save({
+      id:crypto.randomUUID(), ts:Date.now(), updated_at:new Date().toISOString(),
+      title:entry.t, role:entry.t, company:entry.c, url:entry.u||'',
+      status:normStatus(entry.s), focusArea:'general', source:'manual',
+      tags:[], match:{}, profile:{}, notes:'',
+      foundDate:entry.d||''
+    });
+  });
+  localStorage.removeItem('jt8');
+  renderProfileBar();rK();uS();calculateMetrics();
+}
+
+function updateMigrateBtn(){
+  const btn=document.getElementById('btnMigrate');
+  if(btn)btn.style.display=getA().length>0?'inline-flex':'none';
+}
 
 function uS(){
-  const cards=getAllCards();
+  const cards=getAllCards().filter(matchesProfile);
   document.getElementById('tA').textContent=cards.length;
   document.getElementById('sA').textContent=cards.filter(c=>c.status==='applied').length;
   document.getElementById('sI').textContent=cards.filter(c=>c.status==='interview').length;
@@ -254,7 +406,7 @@ function uS(){
 
 // ═══ DASHBOARD ANALYTICS ═══
 function calculateMetrics(){
-  const cards=getAllCards();
+  const cards=getAllCards().filter(matchesProfile);
   const total=cards.length;
   const saved=cards.filter(c=>c.status==='saved').length;
   const applied=cards.filter(c=>c.status==='applied').length;
@@ -325,7 +477,9 @@ if(!localStorage.getItem('jt_s8'))localStorage.setItem('jt_s8',new Date().toISOS
 document.getElementById('sD').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('jt_s8')))/864e5));
 
 // INIT
-renderCmp();rK();uS();calculateMetrics();renderQuickSearches();
+renderProfileBar();renderCmp();rK();uS();calculateMetrics();renderQuickSearches();updateMigrateBtn();
+// Restore form expanded state
+if(localStorage.getItem('jt_form_expanded')==='1'){document.getElementById('formExtra')?.classList.add('open');document.getElementById('fArrow')?.classList.add('open');}
 
 // Hash navigation (from apply.html links)
 function goTab(hash){
@@ -341,5 +495,5 @@ window.addEventListener('hashchange',()=>goTab(location.hash));
 window.addEventListener('sb:signed_in',async()=>{
   if(!window.CLOUD)return;
   await CLOUD.fullSync('vacancies',VDB.KEY);
-  renderCmp();rK();uS();calculateMetrics();
+  renderProfileBar();renderCmp();rK();uS();calculateMetrics();updateMigrateBtn();
 });
