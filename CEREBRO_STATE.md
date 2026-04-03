@@ -36,9 +36,14 @@
 4. **First-sync safety** — If cloud is empty but local has data, local uploads (never overwrites with nothing)
 5. **Retry queue** — Failed pushes (state_upsert action) enqueued and flushed on 3s timer
 
+### Bug Fix: RangeError in _mergeByUpdatedAt (2026-04-03)
+- **Symptom:** `fullSyncAll` crashed with `RangeError: Invalid time value` at `_mergeByUpdatedAt`
+- **Root cause:** Records with UUID-based `id` fields and no `updated_at`/`saved_at`/`created` fell through to `new Date(rec.id).toISOString()` — UUID strings produce `Invalid Date`, and `.toISOString()` throws `RangeError`
+- **Fix:** Added `_safeTs(val)` helper that returns 0 for any unparseable date. Fallback chain: `saved_at → created → ts → now()`. All date comparisons use `_safeTs()` instead of raw `new Date()`
+
 ### Files Modified
 - `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS
-- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey)
+- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey), safe date parsing
 
 ---
 

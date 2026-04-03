@@ -197,17 +197,26 @@ const CLOUD = (() => {
   }
 
   /* ── Merge helper ── */
+  function _safeTs(val) {
+    if (!val) return 0;
+    const d = new Date(val);
+    return isNaN(d.getTime()) ? 0 : d.getTime();
+  }
+
   function _mergeByUpdatedAt(local, cloud) {
     const map = new Map();
     for (const r of local) {
       const rec = { ...r };
-      if (!rec.updated_at) rec.updated_at = rec.saved_at || rec.created || new Date(rec.id || 0).toISOString();
+      if (!rec.updated_at) {
+        const fallback = rec.saved_at || rec.created || rec.ts;
+        rec.updated_at = _safeTs(fallback) ? new Date(fallback).toISOString() : new Date().toISOString();
+      }
       map.set(String(rec.id), rec);
     }
     for (const r of cloud) {
       const key = String(r.id);
       const existing = map.get(key);
-      if (!existing || new Date(r.updated_at || 0) >= new Date(existing.updated_at || 0)) {
+      if (!existing || _safeTs(r.updated_at) >= _safeTs(existing.updated_at)) {
         map.set(key, r);
       }
     }
