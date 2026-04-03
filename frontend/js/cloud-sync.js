@@ -4,12 +4,23 @@
    Strategy:
      WRITE → localStorage (instant) → Supabase (async, non-blocking)
      READ  → localStorage (immediate render) + Supabase pull (merge)
+
+   Two sync tiers:
+     1. DEDICATED tables (vacancies, sys_tasks, class_sessions, user_prefs)
+        — record-level merge via _mergeByUpdatedAt
+     2. GENERIC app_state table (JSONB payload, one row per key)
+        — whole-key last-write-wins for everything else
+
+   localStorage.setItem proxy intercepts writes → auto-pushes to cloud.
    Depends on: window.SB (supabase-client.js), window.AUTH (auth.js)
 ═══════════════════════════════════════════════════════════════ */
 
 const CLOUD = (() => {
 
-  /* ── Table name mapping ── */
+  /* ══════════════════════════════════════════════════════════════
+     TIER 1 — Dedicated tables (existing logic, unchanged)
+  ══════════════════════════════════════════════════════════════ */
+
   const TABLES = {
     vacancies:      'vacancies',
     sys_tasks:      'sys_tasks',
@@ -28,19 +39,16 @@ const CLOUD = (() => {
   };
   const _V_TO_JS = Object.fromEntries(Object.entries(_V_TO_DB).map(([k,v])=>[v,k]));
 
-  /** Convert a record to DB shape (camelCase → snake_case) before push */
   function _toDb(table, record) {
     if (table !== 'vacancies') return { ...record };
     const out = {};
     for (const [k, v] of Object.entries(record)) {
       out[_V_TO_DB[k] || k] = v;
     }
-    // Mirror status → "column" for kanban DB field
     if (out.status && !out['column']) out['column'] = out.status;
     return out;
   }
 
-  /** Convert a record from DB shape (snake_case → camelCase) after pull */
   function _toLocal(table, record) {
     if (table !== 'vacancies') return { ...record };
     const out = {};
@@ -84,6 +92,9 @@ const CLOUD = (() => {
         } else if (item.action === 'delete') {
           const { error } = await SB.from(TABLES[item.table]).delete().eq('id', item.record.id).eq('user_id', _uid());
           if (error) console.error('[CLOUD] flush delete error:', item.table, error);
+        } else if (item.action === 'state_upsert') {
+          // Retry for app_state pushes
+          await _pushStateRaw(item.record.key, item.record.payload);
         }
       } catch (e) { console.error('[CLOUD] flush exception:', item.table, e); _queue.push(item); }
     }
@@ -92,13 +103,9 @@ const CLOUD = (() => {
   }
 
   /* ══════════════════════════════════════════════════════════════
-     PUBLIC API
+     TIER 1 — Public API (dedicated tables)
   ══════════════════════════════════════════════════════════════ */
 
-  /**
-   * push — Upsert a single record to Supabase (fire-and-forget).
-   * If offline or not authenticated, enqueues for later retry.
-   */
   async function push(table, record) {
     if (!_ready()) { console.warn('[CLOUD] push queued (not ready):', table, record.id); _enqueue(table, record, 'upsert'); return { error: 'not_ready' }; }
     try {
@@ -116,9 +123,6 @@ const CLOUD = (() => {
     }
   }
 
-  /**
-   * pull — Fetch all records for the current user from a Supabase table.
-   */
   async function pull(table) {
     if (!_ready()) { console.warn('[CLOUD] pull skipped (not ready):', table); return { data: null, error: 'not_ready' }; }
     try {
@@ -136,9 +140,6 @@ const CLOUD = (() => {
     }
   }
 
-  /**
-   * remove — Delete a record from Supabase by id.
-   */
   async function remove(table, id) {
     if (!_ready()) { console.warn('[CLOUD] remove queued (not ready):', table, id); _enqueue(table, { id }, 'delete'); return; }
     try {
@@ -151,21 +152,14 @@ const CLOUD = (() => {
     }
   }
 
-  /**
-   * syncDown — Pull cloud data and merge into localStorage.
-   * Returns the merged data array.
-   */
   async function syncDown(table, localKey, mergeStrategy) {
     console.log('[CLOUD] syncDown:', table, mergeStrategy || 'latest_wins');
     const { data, error } = await pull(table);
     if (error || !data) return null;
-
     if (mergeStrategy === 'cloud_wins') {
       localStorage.setItem(localKey, JSON.stringify(data));
       return data;
     }
-
-    // Default: 'latest_wins' — merge by updated_at
     let local = [];
     try { local = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch { /* skip */ }
     const merged = _mergeByUpdatedAt(local, data);
@@ -174,9 +168,6 @@ const CLOUD = (() => {
     return merged;
   }
 
-  /**
-   * syncUp — Push all localStorage records to Supabase.
-   */
   async function syncUp(table, localKey) {
     if (!_ready()) return;
     let local = [];
@@ -186,23 +177,15 @@ const CLOUD = (() => {
     }
   }
 
-  /**
-   * fullSync — Bidirectional sync: pull, merge, then push orphans.
-   * Returns the merged data array.
-   */
   async function fullSync(table, localKey) {
     if (!_ready()) { console.warn('[CLOUD] fullSync skipped (not ready):', table); return null; }
     console.log('[CLOUD] fullSync START:', table);
-    // 1. Pull cloud (already mapped to local shape by pull())
     const { data: cloud, error } = await pull(table);
     if (error) { console.error('[CLOUD] fullSync pull failed:', table, error); return null; }
-    // 2. Merge with local
     let local = [];
     try { local = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch { /* skip */ }
     const merged = _mergeByUpdatedAt(local, cloud || []);
-    // 3. Write merged back to localStorage
     localStorage.setItem(localKey, JSON.stringify(merged));
-    // 4. Push any local-only records to cloud
     const cloudIds = new Set((cloud || []).map(r => String(r.id)));
     const localOnly = merged.filter(r => !cloudIds.has(String(r.id)));
     console.log('[CLOUD] fullSync:', table, '| local:', local.length, '| cloud:', (cloud||[]).length, '| merged:', merged.length, '| toUpload:', localOnly.length);
@@ -231,13 +214,284 @@ const CLOUD = (() => {
     return [...map.values()];
   }
 
-  /* ── Flush queue when auth state changes ── */
+
+  /* ══════════════════════════════════════════════════════════════
+     TIER 2 — Generic app_state (JSONB payload, one row per key)
+  ══════════════════════════════════════════════════════════════ */
+
+  /* ── Sync Registry: static keys to sync via app_state ── */
+  const SYNC_REGISTRY = [
+    // Arrays — user-generated data
+    'sb_goals', 'sb_habits', 'sb_reviews', 'sb_notes2', 'sb_ratings',
+    'eng_notes', 'eng_srs_deck',
+    'plab_h', 'ruta_log5', 'news_saved',
+    // Opaque state objects
+    'e4', 'ruta5', 'dojo_stats', 'excel_dojo',
+    // Config / prefs (small scalars)
+    'jt_profile', 'jt_form_expanded',
+    'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'
+  ];
+
+  /* ── Dynamic key prefixes discovered at runtime ── */
+  const DYNAMIC_PREFIXES = ['fin_', 'sb_pomo_'];
+
+  /* ── Keys explicitly excluded from sync ── */
+  const SKIP_KEYS = new Set([
+    'news_cache',
+    // Dedicated-table keys handled by Tier 1:
+    'da_vacancies', 'sys_tasks', 'sys_class_sessions'
+  ]);
+
+  const _registrySet = new Set(SYNC_REGISTRY);
+
+  /** Check if a localStorage key should sync via app_state */
+  function _shouldSync(key) {
+    if (SKIP_KEYS.has(key)) return false;
+    if (_registrySet.has(key)) return true;
+    for (const p of DYNAMIC_PREFIXES) {
+      if (key.startsWith(p)) return true;
+    }
+    return false;
+  }
+
+  /** Safely parse a localStorage string value into JSONB-safe data */
+  function _safeParse(value) {
+    if (value === null || value === undefined) return null;
+    try { return JSON.parse(value); } catch { return value; }
+  }
+
+  /* ── app_state CRUD ── */
+
+  /** Push a single key's payload to app_state (fire-and-forget) */
+  async function _pushStateRaw(storeKey, payload) {
+    const { error } = await SB.from('app_state')
+      .upsert({
+        user_id:    _uid(),
+        store_key:  storeKey,
+        payload:    payload,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'user_id,store_key' });
+    if (error) throw error;
+  }
+
+  async function pushState(storeKey, payload) {
+    if (!_ready()) {
+      _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+      return;
+    }
+    try {
+      await _pushStateRaw(storeKey, payload);
+      console.log('[CLOUD] pushState OK:', storeKey);
+    } catch (e) {
+      console.error('[CLOUD] pushState error:', storeKey, e);
+      _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+    }
+  }
+
+  /** Pull ALL app_state rows for the current user in one query */
+  async function _pullAllStates() {
+    if (!_ready()) return null;
+    try {
+      const { data, error } = await SB.from('app_state')
+        .select('store_key, payload, updated_at')
+        .eq('user_id', _uid());
+      if (error) { console.error('[CLOUD] pullAllStates error:', error); return null; }
+      // Convert to Map<storeKey, {payload, updated_at}>
+      const map = new Map();
+      for (const row of (data || [])) {
+        map.set(row.store_key, { payload: row.payload, updated_at: row.updated_at });
+      }
+      console.log('[CLOUD] pullAllStates OK:', map.size, 'keys');
+      return map;
+    } catch (e) {
+      console.error('[CLOUD] pullAllStates exception:', e);
+      return null;
+    }
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     fullSyncAll — Master orchestrator (called on sign-in)
+  ══════════════════════════════════════════════════════════════ */
+
+  let _syncing = false;
+
+  async function fullSyncAll() {
+    if (!_ready()) { console.warn('[CLOUD] fullSyncAll skipped (not ready)'); return; }
+    if (_syncing) { console.warn('[CLOUD] fullSyncAll already in progress'); return; }
+    _syncing = true;
+    const t0 = performance.now();
+    console.log('[CLOUD] ══ fullSyncAll START ══');
+
+    try {
+      // ── Step 1: Dedicated tables (existing logic) ──
+      await fullSync('vacancies', 'da_vacancies');
+      await fullSync('sys_tasks', 'sys_tasks');
+
+      // ── Step 2: Pull all app_state rows in one query ──
+      const cloudMap = await _pullAllStates();
+      if (!cloudMap) { console.warn('[CLOUD] fullSyncAll: pullAllStates failed, skipping JSONB sync'); return; }
+
+      // ── Step 3: Reconcile static registry keys ──
+      for (const key of SYNC_REGISTRY) {
+        await _reconcileKey(key, cloudMap);
+      }
+
+      // ── Step 4: Discover and reconcile dynamic keys ──
+      // 4a. Local dynamic keys → push if not in cloud
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+        if (_registrySet.has(key)) continue; // already handled above
+        if (!_shouldSync(key)) continue;
+        await _reconcileKey(key, cloudMap);
+        cloudMap.delete(key); // mark as handled
+      }
+      // 4b. Cloud dynamic keys not in localStorage → pull down
+      for (const [key, cloud] of cloudMap.entries()) {
+        if (_registrySet.has(key)) continue; // already handled
+        if (SKIP_KEYS.has(key)) continue;
+        // This is a cloud-only dynamic key — write to localStorage
+        const matchesDynamic = DYNAMIC_PREFIXES.some(p => key.startsWith(p));
+        if (matchesDynamic) {
+          console.log('[CLOUD] fullSyncAll: cloud→local (new device):', key);
+          _origSetItem(key, JSON.stringify(cloud.payload));
+        }
+      }
+
+      // ── Step 5: Flush any queued items ──
+      if (_queue.length > 0) _scheduleFlush();
+
+      console.log('[CLOUD] ══ fullSyncAll DONE ══ (' + Math.round(performance.now() - t0) + 'ms)');
+
+      // ── Step 6: Notify modules to re-render ──
+      window.dispatchEvent(new CustomEvent('cloud:sync_complete'));
+
+    } catch (e) {
+      console.error('[CLOUD] fullSyncAll exception:', e);
+    } finally {
+      _syncing = false;
+    }
+  }
+
+  /**
+   * Reconcile a single localStorage key against the cloud map.
+   * First-sync safe: local data uploads if cloud is empty.
+   */
+  async function _reconcileKey(key, cloudMap) {
+    const localRaw = localStorage.getItem(key);
+    const cloud    = cloudMap.get(key) || null;
+
+    const localExists = localRaw !== null && localRaw !== '' && localRaw !== 'undefined';
+    const cloudExists = cloud !== null;
+
+    if (cloudExists && localExists) {
+      // Both exist — compare timestamps
+      // Local updated_at: we track this per-key in a metadata store
+      const localTs = _getLocalTs(key);
+      const cloudTs = new Date(cloud.updated_at || 0).getTime();
+
+      if (cloudTs > localTs) {
+        // Cloud is newer → overwrite local
+        console.log('[CLOUD] reconcile cloud→local:', key);
+        _origSetItem(key, JSON.stringify(cloud.payload));
+        _setLocalTs(key, cloudTs);
+      } else {
+        // Local is newer (or equal) → push to cloud
+        console.log('[CLOUD] reconcile local→cloud:', key);
+        await pushState(key, _safeParse(localRaw));
+      }
+    } else if (cloudExists && !localExists) {
+      // Cloud only → pull down (new device scenario)
+      console.log('[CLOUD] reconcile cloud→local (new):', key);
+      _origSetItem(key, JSON.stringify(cloud.payload));
+      _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+    } else if (!cloudExists && localExists) {
+      // Local only → first sync upload
+      console.log('[CLOUD] reconcile local→cloud (first):', key);
+      await pushState(key, _safeParse(localRaw));
+      _setLocalTs(key, Date.now());
+    }
+    // else: neither exists → skip
+  }
+
+  /* ── Per-key timestamp tracking (stored in one localStorage key) ── */
+  const _TS_META_KEY = '_cloud_ts';
+
+  function _getTsMeta() {
+    try { return JSON.parse(localStorage.getItem(_TS_META_KEY) || '{}'); } catch { return {}; }
+  }
+  function _getLocalTs(key) {
+    return _getTsMeta()[key] || 0;
+  }
+  function _setLocalTs(key, ts) {
+    const meta = _getTsMeta();
+    meta[key] = ts;
+    _origSetItem(_TS_META_KEY, JSON.stringify(meta));
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     localStorage.setItem Proxy — Automatic write-through
+  ══════════════════════════════════════════════════════════════ */
+
+  const _origSetItem = localStorage.setItem.bind(localStorage);
+
+  // Debounce map: key → timeoutId (avoid flooding Supabase on rapid writes)
+  const _debounceMap = new Map();
+  const _DEBOUNCE_MS = 1500;
+
+  localStorage.setItem = function(key, value) {
+    // Always write to actual localStorage immediately
+    _origSetItem(key, value);
+
+    // Skip non-syncable keys and our own metadata key
+    if (key === _TS_META_KEY) return;
+    if (!_shouldSync(key)) return;
+
+    // Update local timestamp
+    _setLocalTs(key, Date.now());
+
+    // Debounced push to cloud
+    if (_debounceMap.has(key)) clearTimeout(_debounceMap.get(key));
+    _debounceMap.set(key, setTimeout(() => {
+      _debounceMap.delete(key);
+      pushState(key, _safeParse(value));
+    }, _DEBOUNCE_MS));
+  };
+
+
+  /* ══════════════════════════════════════════════════════════════
+     Event listeners
+  ══════════════════════════════════════════════════════════════ */
+
   window.addEventListener('sb:signed_in', () => {
-    console.log('[CLOUD] sb:signed_in received — flushing queue if needed');
-    if (_queue.length > 0) _scheduleFlush();
+    console.log('[CLOUD] sb:signed_in received — starting fullSyncAll');
+    // Small delay to ensure AUTH state is fully settled
+    setTimeout(() => fullSyncAll(), 300);
   });
 
-  return { push, pull, remove, syncDown, syncUp, fullSync, TABLES };
+  window.addEventListener('sb:signed_out', () => {
+    console.log('[CLOUD] sb:signed_out — clearing queue');
+    _queue.length = 0;
+    _syncing = false;
+  });
+
+
+  /* ══════════════════════════════════════════════════════════════
+     Public API
+  ══════════════════════════════════════════════════════════════ */
+
+  return {
+    // Tier 1 — dedicated tables
+    push, pull, remove, syncDown, syncUp, fullSync, TABLES,
+    // Tier 2 — app_state (JSONB)
+    pushState, fullSyncAll,
+    // Utilities
+    SYNC_REGISTRY, DYNAMIC_PREFIXES
+  };
 })();
 
 window.CLOUD = CLOUD;

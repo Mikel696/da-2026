@@ -4,6 +4,44 @@
 
 ---
 
+## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03
+
+### Architecture
+- **`app_state` table** — Generic JSONB store: composite PK `(user_id, store_key)`, `payload JSONB`, `updated_at`
+- **RLS enforced** — 4 policies: SELECT/INSERT/UPDATE/DELETE all require `auth.uid() = user_id`
+- **Two-tier sync** in `cloud-sync.js`:
+  - **Tier 1 (dedicated tables):** `vacancies`, `sys_tasks` — record-level merge via `_mergeByUpdatedAt` (unchanged)
+  - **Tier 2 (app_state JSONB):** All other localStorage keys — whole-key last-write-wins
+
+### Synced Modules (24 keys via app_state)
+- **Super Brain:** `sb_goals`, `sb_habits`, `sb_reviews`, `sb_notes2`, `sb_ratings`, `sb_name`, `sb_streak`, `sb_start`, `sb_last`, `sb_hours`, `sb_pomo_total`
+- **Finance:** `fin_MONTH` (dynamic prefix `fin_`)
+- **English:** `eng_notes`, `eng_srs_deck`, `e4`
+- **Plan B:** `plab_h`
+- **Ruta:** `ruta_log5`, `ruta5`
+- **Dojo:** `dojo_stats`, `excel_dojo`
+- **News:** `news_saved`
+- **Job Tracker config:** `jt_profile`, `jt_form_expanded`
+- **Dynamic:** `sb_pomo_YYYY-MM-DD` (prefix `sb_pomo_`)
+
+### Key Mechanisms
+1. **`localStorage.setItem` proxy** — Intercepts ALL writes; if key matches `SYNC_REGISTRY` or `DYNAMIC_PREFIXES`, auto-pushes to `app_state` (debounced 1.5s)
+2. **`fullSyncAll()`** — Master orchestrator on `sb:signed_in`:
+   - Step 1: Dedicated table fullSync (vacancies, sys_tasks)
+   - Step 2: Pull ALL app_state rows in one query
+   - Step 3: Reconcile each key (first-sync safe: local→cloud if cloud empty)
+   - Step 4: Discover dynamic keys, reconcile both directions
+   - Step 5: Dispatch `cloud:sync_complete` for module re-renders
+3. **Per-key timestamps** — `_cloud_ts` metadata key tracks last-write time per key for conflict resolution
+4. **First-sync safety** — If cloud is empty but local has data, local uploads (never overwrites with nothing)
+5. **Retry queue** — Failed pushes (state_upsert action) enqueued and flushed on 3s timer
+
+### Files Modified
+- `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS
+- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey)
+
+---
+
 ## Job Tracker UI Enhancement (PLAN_TRACKER_UI.md) — 2026-04-03
 
 ### Implemented Features
