@@ -43,11 +43,16 @@
 
 ### Production Verification — 2026-04-03
 - **Status:** FULLY OPERATIONAL
-- fullSyncAll completed in 7515ms on first run
-- Dedicated tables: `vacancies` (2 records synced, 1 uploaded), `sys_tasks` OK
-- JSONB app_state: `sb_notes2`, `fin_2026-03` + all other local keys pushed (first-sync upload)
+- fullSyncAll completed in 7515ms on first run (push), 4337ms on second run
+- Dedicated tables: `vacancies` (4 records), `sys_tasks` (11 records) — bidirectional merge OK
+- JSONB app_state: 14 keys synced across all modules
 - Zero crashes after `_safeTs()` hotfix
 - `cloud:sync_complete` event dispatched successfully
+
+### Bug Fix: Proxy timestamp poisoning on fresh device (2026-04-03)
+- **Symptom:** Option D QA (incognito pull test) showed `local→cloud` for ALL 14 keys instead of `cloud→local`, even though `pullAllStates OK: 14 keys` confirmed cloud had data
+- **Root cause:** Module init scripts call `localStorage.setItem(key, '[]')` on DOMContentLoaded (empty defaults). The proxy intercepted these, stamped `_setLocalTs(key, Date.now())` — making local appear "newer" than cloud. When `fullSyncAll` ran 300ms later, `_reconcileKey` saw `localTs > cloudTs` and pushed empty arrays to cloud, overwriting real data
+- **Fix:** Added `_initialSyncDone` flag + `_syncing` guard. Proxy early-returns (skips timestamp + push) while `!_initialSyncDone || _syncing`. Flag set to `true` only after `fullSyncAll` completes. localStorage writes still happen immediately via `_origSetItem` — only cloud push is deferred
 
 ### Files Modified
 - `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS

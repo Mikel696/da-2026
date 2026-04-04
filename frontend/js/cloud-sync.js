@@ -326,6 +326,7 @@ const CLOUD = (() => {
   ══════════════════════════════════════════════════════════════ */
 
   let _syncing = false;
+  let _initialSyncDone = false;
 
   async function fullSyncAll() {
     if (!_ready()) { console.warn('[CLOUD] fullSyncAll skipped (not ready)'); return; }
@@ -373,6 +374,7 @@ const CLOUD = (() => {
       // ── Step 5: Flush any queued items ──
       if (_queue.length > 0) _scheduleFlush();
 
+      _initialSyncDone = true;
       console.log('[CLOUD] ══ fullSyncAll DONE ══ (' + Math.round(performance.now() - t0) + 'ms)');
 
       // ── Step 6: Notify modules to re-render ──
@@ -459,6 +461,12 @@ const CLOUD = (() => {
     // Skip non-syncable keys and our own metadata key
     if (key === _TS_META_KEY) return;
     if (!_shouldSync(key)) return;
+
+    // CRITICAL: Do NOT stamp timestamps or push while initial sync is running.
+    // Module init scripts write empty defaults on page load — if we stamp those
+    // with Date.now(), fullSyncAll will think local is newer than cloud and
+    // overwrite real cloud data with empty arrays on a fresh device.
+    if (_syncing || !_initialSyncDone) return;
 
     // Update local timestamp
     _setLocalTs(key, Date.now());
