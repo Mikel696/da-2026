@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-03
+- **Última actualización:** 2026-04-04
 
 ---
 
@@ -54,9 +54,17 @@
 - **Root cause:** Module init scripts call `localStorage.setItem(key, '[]')` on DOMContentLoaded (empty defaults). The proxy intercepted these, stamped `_setLocalTs(key, Date.now())` — making local appear "newer" than cloud. When `fullSyncAll` ran 300ms later, `_reconcileKey` saw `localTs > cloudTs` and pushed empty arrays to cloud, overwriting real data
 - **Fix:** Added `_initialSyncDone` flag + `_syncing` guard. Proxy early-returns (skips timestamp + push) while `!_initialSyncDone || _syncing`. Flag set to `true` only after `fullSyncAll` completes. localStorage writes still happen immediately via `_origSetItem` — only cloud push is deferred
 
+### Option D QA: Cross-Device Pull Verification — 2026-04-04 ✅ PASSED
+- **Test:** Fresh incognito window, zero localStorage, logged in
+- **Results:** `pullAllStates OK: 17 keys` → all keys reconciled as `cloud→local (new)` or `cloud→local`
+- **Dedicated tables:** vacancies (5 pulled, 0 uploaded), sys_tasks (11 pulled, 0 uploaded)
+- **JSONB keys:** sb_goals, sb_reviews, sb_notes2, eng_notes, fin_2026-03 — all pulled from cloud
+- **Sync time:** 1744ms
+- **Verdict:** Bidirectional sync is bulletproof. Push (PC→cloud) and pull (cloud→fresh device) both verified.
+
 ### Files Modified
 - `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS
-- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey), safe date parsing
+- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey), safe date parsing, sync-lock proxy guard
 
 ---
 
