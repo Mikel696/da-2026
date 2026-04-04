@@ -1,0 +1,124 @@
+/* ═══════════════════════════════════════════════════════════════
+   DA-2026 · Finance Module — Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ── */
+:root {
+  --bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;
+  --tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;
+  --ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);
+  --gn:#22c55e;--gg:rgba(34,197,94,.08);
+  --am:#eab308;--amg:rgba(234,179,8,.06);
+  --rd:#ef4444;--rg:rgba(239,68,68,.08);
+  --cy:#06b6d4;--or:#f97316;
+}
+
+/* ── Reset ── */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+
+/* ── Navbar ── */
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}
+.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}
+.nv-sep{width:1px;height:16px;background:var(--bd)}
+.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+
+/* ── Layout ── */
+.wr{max-width:900px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}
+.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}
+.hero h1 em{font-style:italic;color:var(--gn)}
+.hero p{font-size:12px;color:var(--t3)}
+
+/* ── Month Navigation ── */
+.month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:16px}
+.mn-btn{background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-size:16px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:all .2s}
+.mn-btn:hover{color:var(--tx);border-color:var(--ac)}
+.mn-btn:disabled{opacity:.3;cursor:default;border-color:var(--bd)}
+.mn-label{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--a2);min-width:140px;text-align:center}
+
+/* ── KPIs ── */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.kpi{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi-v{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700}
+.kpi-l{font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:2px}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s}
+.tab:hover{color:var(--tx);background:var(--el)}
+.tab.on{color:#fff;background:var(--ac)}
+
+/* ── Panels ── */
+.pnl{display:none;animation:fu .3s ease}
+.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Labels ── */
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+
+/* ── Cards ── */
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}
+.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}
+.bg{background:var(--gn);color:#fff}
+.br{background:var(--rd);color:#fff}
+.bs{padding:5px 9px;font-size:10px}
+
+/* ── Inputs ── */
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}
+.inp:focus{outline:none;border-color:var(--ac)}
+.sel{padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:11px;width:100%}
+
+/* ── Progress Bar ── */
+.bar{height:8px;background:var(--el);border-radius:4px;overflow:hidden}
+.bar-f{height:100%;border-radius:4px;transition:width .5s}
+
+/* ── Transaction Rows ── */
+.tx-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(39,39,42,.5);font-size:12px}
+.tx-row:last-child{border-bottom:none}
+.tx-icon{font-size:16px;flex-shrink:0}
+.tx-info{flex:1}
+.tx-desc{font-weight:500}
+.tx-cat{font-size:10px;color:var(--t3)}
+.tx-amt{font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0}
+.tx-date{font-size:10px;color:var(--t3);flex-shrink:0;width:50px;text-align:right}
+.tx-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;flex-shrink:0}
+.tx-row:hover .tx-del{opacity:1}
+
+/* ── Chart ── */
+.chart{display:flex;align-items:flex-end;gap:4px;height:140px;padding:10px 0;margin-bottom:8px}
+.chart-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.chart-fill{width:100%;border-radius:4px 4px 0 0;min-height:2px;transition:height .4s}
+.chart-lbl{font-size:8px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+
+/* ── Category Breakdown ── */
+.cat-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.cat-icon{font-size:16px}
+.cat-name{flex:1;font-size:12px}
+.cat-amt{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+.cat-pct{font-size:10px;color:var(--t3);width:40px;text-align:right}
+
+/* ── Category Toggle ── */
+.cat-toggle{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:2px;margin-bottom:12px;width:fit-content}
+.cat-btn{padding:5px 12px;border-radius:6px;font-size:10px;font-weight:600;color:var(--t2);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .2s}
+.cat-btn.on{color:#fff;background:var(--ac)}
+
+/* ── Quick Expense Inline ── */
+.quick-form{display:flex;gap:6px;margin-top:8px;align-items:center}
+.quick-form .inp{flex:1}
+
+/* ── Responsive ── */
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}}
+@media(max-width:600px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .tabs{flex-wrap:wrap}
+  .tab{min-width:calc(33% - 2px)}
+}

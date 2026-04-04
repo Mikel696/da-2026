@@ -4,12 +4,23 @@
 
 ---
 
-## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 🔧 IN PROGRESS
+## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 ✅ COMPLETE
 
-### Objective
-Refactor monolithic finance.html (250 lines, all embedded) into separated architecture: HTML shell + `css/finance.css` + `js/finance.js`. Add month navigation, UUID-based transactions, inline quick expense, and cloud sync re-render.
+### Architecture
+- **`frontend/finance.html`** — Clean HTML shell (structure only, zero logic)
+- **`frontend/css/finance.css`** — Extracted + enhanced styles (month-nav, cat-toggle, quick-form)
+- **`frontend/js/finance.js`** — All logic: FIN data layer + pure compute + rendering + events
 
-### Status: PLANNING — Awaiting approval
+### Implemented Features
+1. **FIN data singleton** — `getAll()`, `save()`, `add()`, `del()`, `setMonth()`, `getGoal()`, `setGoal()`
+2. **UUID-based transactions** — `crypto.randomUUID()` on every new tx, delete by ID (not index)
+3. **Month navigation** — `‹ Abril 2026 ›` arrows to browse past months, right arrow disabled on current month
+4. **Inline quick expense** — Toggle form replaces old `prompt()` — no thread blocking
+5. **Category toggle** — Expenses/Income toggle in category breakdown tab
+6. **Backward compat** — `migrateIds()` backfills UUIDs on legacy transactions without IDs
+7. **Cloud sync** — `fin_` prefix in `DYNAMIC_PREFIXES`, `cloud:sync_complete` listener re-renders
+8. **Strict separation** — Pure compute functions (`calcMetrics`, `calcCategoryBreakdown`, `calcDailyData`) have zero DOM access
+9. **XSS protection** — `_esc()` helper escapes user input in rendered HTML
 
 ---
 
