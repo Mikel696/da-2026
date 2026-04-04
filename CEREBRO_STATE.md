@@ -4,6 +4,15 @@
 
 ---
 
+## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 🔧 IN PROGRESS
+
+### Objective
+Refactor monolithic finance.html (250 lines, all embedded) into separated architecture: HTML shell + `css/finance.css` + `js/finance.js`. Add month navigation, UUID-based transactions, inline quick expense, and cloud sync re-render.
+
+### Status: PLANNING — Awaiting approval
+
+---
+
 ## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03 ✅ COMPLETE
 
 ### Architecture
