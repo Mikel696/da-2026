@@ -22,6 +22,13 @@
 8. **Strict separation** — Pure compute functions (`calcMetrics`, `calcCategoryBreakdown`, `calcDailyData`) have zero DOM access
 9. **XSS protection** — `_esc()` helper escapes user input in rendered HTML
 
+### Production Verification — 2026-04-04 ✅ PASSED
+- fullSyncAll completed in 1007ms
+- `fin_2026-04` pulled from cloud → local (cross-device verified)
+- `fin_sav_goal` pulled from cloud → local
+- `fin_2026-03` pushed local → cloud (historical month preserved)
+- UI rendering, transaction CRUD, month navigation, category toggle all functional
+
 ---
 
 ## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03 ✅ COMPLETE
