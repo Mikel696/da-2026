@@ -24,6 +24,12 @@
 9. **Cloud sync** — `sb_notes2` and `eng_srs_deck` in SYNC_REGISTRY, `cloud:sync_complete` listener
 10. **Prompts Cerebro** — P0–P12 preserved exactly, copy-to-clipboard functional
 
+### Production Verification — 2026-04-04 ✅ PASSED
+- fullSyncAll completed in 3327ms
+- `sb_notes2` reconciled cloud→local, then pushState OK on user edit
+- `eng_srs_deck` reconciled cloud→local, then pushState OK after import/review
+- All 6 tabs functional, Leitner review UI operational, search/filter/pin working
+
 ---
 
 ## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 ✅ COMPLETE
