@@ -439,8 +439,36 @@ function migrateManual(){
 }
 
 function updateMigrateBtn(){
+  const hasJt8=getA().length>0;
+  // Original inline button
   const btn=document.getElementById('btnMigrate');
-  if(btn)btn.style.display=getA().length>0?'inline-flex':'none';
+  if(btn)btn.style.display=hasJt8?'inline-flex':'none';
+  // Floating FAB — impossible to miss
+  let fab=document.getElementById('fabMigrate');
+  if(hasJt8 && !fab){
+    fab=document.createElement('button');
+    fab.id='fabMigrate';
+    fab.onclick=migrateManual;
+    fab.textContent='🔄 Migrar jt8 → VDB ('+getA().length+' entradas)';
+    Object.assign(fab.style,{
+      position:'fixed',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
+      zIndex:'99999',padding:'24px 40px',fontSize:'20px',fontWeight:'700',
+      background:'linear-gradient(135deg,#f59e0b,#ef4444)',color:'#fff',
+      border:'4px solid #fff',borderRadius:'20px',cursor:'pointer',
+      boxShadow:'0 0 60px rgba(245,158,11,.6),0 8px 32px rgba(0,0,0,.4)',
+      animation:'fabPulse 1.5s ease-in-out infinite',whiteSpace:'nowrap'
+    });
+    // Inject keyframes if not present
+    if(!document.getElementById('fabPulseStyle')){
+      const st=document.createElement('style');
+      st.id='fabPulseStyle';
+      st.textContent='@keyframes fabPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.06)}}';
+      document.head.appendChild(st);
+    }
+    document.body.appendChild(fab);
+  } else if(!hasJt8 && fab){
+    fab.remove();
+  }
 }
 
 function uS(){
