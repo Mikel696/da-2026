@@ -4,6 +4,18 @@
 
 ---
 
+## jt8 → VDB Legacy Migration (PLAN_MIGRATION.md) — 2026-04-04 ✅ COMPLETE
+
+### Hardened `migrateManual()` in jobs.js
+- **Duplicate detection** — `_isDuplicate()` checks title+company case-insensitive before insert
+- **Verification step** — Counts `source='manual_migrated'` entries in VDB after insertion; aborts jt8 deletion if mismatch
+- **Safe cleanup** — jt8 removed only after verification passes
+- **Malformed entry handling** — Defaults to 'Sin título' / 'Sin empresa' for missing fields
+- **Migration report** — Alert shows migrated count, duplicates skipped, total VDB size
+- **Source tagging** — Migrated entries tagged `source: 'manual_migrated'` for traceability
+
+---
+
 ## Notes & SRS Flashcards Module (PLAN_NOTES_UI.md) — 2026-04-04 ✅ COMPLETE
 
 ### Architecture

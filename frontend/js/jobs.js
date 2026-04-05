@@ -373,22 +373,69 @@ function addVacancy(){
   renderProfileBar();rK();uS();calculateMetrics();
 }
 
-// ═══ jt8 → VDB MIGRATION ═══
+// ═══ jt8 → VDB MIGRATION (Hardened) ═══
+function _isDuplicate(entry) {
+  const all = VDB.getAll();
+  const t = (entry.t || '').toLowerCase().trim();
+  const c = (entry.c || '').toLowerCase().trim();
+  return all.some(v =>
+    (v.title || '').toLowerCase().trim() === t &&
+    (v.company || '').toLowerCase().trim() === c
+  );
+}
+
 function migrateManual(){
-  const manual=getA();
-  if(!manual.length){alert('No hay entradas manuales para migrar.');return;}
-  if(!confirm('Migrar '+manual.length+' entrada(s) manual(es) a VDB (con sync cloud). ¿Continuar?'))return;
-  manual.forEach(entry=>{
+  const manual = getA();
+  if (!manual.length) { alert('No hay entradas manuales para migrar.'); return; }
+
+  // Pre-flight: show what will be migrated
+  const preview = manual.map(e => (e.t || 'Sin título') + ' @ ' + (e.c || 'Sin empresa')).join('\n');
+  if (!confirm('Migrar ' + manual.length + ' entrada(s) manual(es) a VDB:\n\n' + preview + '\n\n¿Continuar?')) return;
+
+  let migrated = 0, skipped = 0;
+
+  for (const entry of manual) {
+    // Duplicate check
+    if (_isDuplicate(entry)) { skipped++; continue; }
+
     VDB.save({
-      id:crypto.randomUUID(), ts:Date.now(), updated_at:new Date().toISOString(),
-      title:entry.t, role:entry.t, company:entry.c, url:entry.u||'',
-      status:normStatus(entry.s), focusArea:'general', source:'manual',
-      tags:[], match:{}, profile:{}, notes:'',
-      foundDate:entry.d||''
+      id: crypto.randomUUID(),
+      ts: Date.now(),
+      updated_at: new Date().toISOString(),
+      title: entry.t || 'Sin título',
+      role: entry.t || 'Sin título',
+      company: entry.c || 'Sin empresa',
+      url: entry.u || '',
+      status: normStatus(entry.s),
+      focusArea: 'general',
+      source: 'manual_migrated',
+      tags: [],
+      match: {},
+      profile: {},
+      notes: '',
+      foundDate: entry.d || ''
     });
-  });
+    migrated++;
+  }
+
+  // Verification: count migrated entries in VDB
+  const vdbMigrated = VDB.getAll().filter(v => v.source === 'manual_migrated').length;
+  if (vdbMigrated < migrated) {
+    alert('⚠️ Verificación falló: solo ' + vdbMigrated + ' de ' + migrated + ' aparecen en VDB. jt8 NO fue eliminado.');
+    return;
+  }
+
+  // Safe cleanup
   localStorage.removeItem('jt8');
-  renderProfileBar();rK();uS();calculateMetrics();
+
+  // Report
+  alert('✅ Migración completada\n\n' +
+    '• Migrados: ' + migrated + '\n' +
+    '• Duplicados omitidos: ' + skipped + '\n' +
+    '• Total en VDB: ' + VDB.getAll().length + '\n' +
+    '• jt8 legacy: eliminado');
+
+  renderProfileBar(); rK(); uS(); calculateMetrics(); updateMigrateBtn();
 }
 
 function updateMigrateBtn(){
