@@ -1,10 +1,16 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-04
+- **Última actualización:** 2026-04-05
 
 ---
 
-## jt8 → VDB Legacy Migration (PLAN_MIGRATION.md) — 2026-04-04 ✅ COMPLETE
+## jt8 → VDB Legacy Migration (PLAN_MIGRATION.md) — 2026-04-05 ✅ COMPLETE
+### Production QA — DEFINITIVE PASS
+- **Test date:** 2026-04-05
+- **Environment:** https://mikel696.github.io/da-2026/frontend/jobs.html
+- **Alert output:** Migración completada. Migrados: 2. Duplicados omitidos: 0. Total en VDB: 8. jt8 legacy: eliminado.
+- **Console:** push OK for both new UUIDs → fullSyncAll DONE (0 errors)
+- **FAB button fix:** Added pulsing fixed-center FAB (z-index 99999) for visibility — auto-removes when jt8 is empty
 
 ### Hardened `migrateManual()` in jobs.js
 - **Duplicate detection** — `_isDuplicate()` checks title+company case-insensitive before insert
