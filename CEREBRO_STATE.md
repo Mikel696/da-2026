@@ -4,6 +4,15 @@
 
 ---
 
+## Notes & SRS Flashcards Module (PLAN_NOTES_UI.md) — 2026-04-04 🔧 IN PROGRESS
+
+### Objective
+Refactor monolithic notes.html into separated architecture + add Leitner SRS flashcard engine. 6 tabs: Nueva Nota, Todas, Journal, Flashcards, Nueva Carta, Prompts Cerebro.
+
+### Status: PLANNING — Awaiting approval
+
+---
+
 ## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 ✅ COMPLETE
 
 ### Architecture
