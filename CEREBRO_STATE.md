@@ -4,12 +4,25 @@
 
 ---
 
-## Notes & SRS Flashcards Module (PLAN_NOTES_UI.md) — 2026-04-04 🔧 IN PROGRESS
+## Notes & SRS Flashcards Module (PLAN_NOTES_UI.md) — 2026-04-04 ✅ COMPLETE
 
-### Objective
-Refactor monolithic notes.html into separated architecture + add Leitner SRS flashcard engine. 6 tabs: Nueva Nota, Todas, Journal, Flashcards, Nueva Carta, Prompts Cerebro.
+### Architecture
+- **`frontend/notes.html`** — Clean HTML shell (6 tabs, zero logic, Prompts Cerebro preserved)
+- **`frontend/css/notes.css`** — Extracted styles + SRS card flip (CSS 3D transforms), box viz, responsive
+- **`frontend/js/notes.js`** — NOTES singleton + search/filter/pin + journal + tag picker
+- **`frontend/js/srs.js`** — SRS singleton + Leitner 5-box algorithm + card flip review UI + seed loader
 
-### Status: PLANNING — Awaiting approval
+### Implemented Features
+1. **NOTES data singleton** — `getAll()`, `save()`, `add()`, `del()`, `pin()`, `update()` with UUID-based records
+2. **Search + filter + pin** — Real-time search, tag filter toggle, pinned notes float to top
+3. **Journal** — Daily entry with auto-load of today's existing entry, streak counter
+4. **Leitner 5-box SRS** — Box 1 (1d) → Box 2 (3d) → Box 3 (7d) → Box 4 (14d) → Box 5 (30d)
+5. **Card flip review UI** — CSS 3D perspective transform, tap to flip, Hard/Good/Easy rating
+6. **Deck management** — Add custom cards, import seed deck (deduplicates by `q` field), delete cards
+7. **Box visualization** — 5-column display with card counts and interval labels
+8. **Backward compat** — `migrateNotes()` backfills IDs + pinned; `migrateSrs()` converts old format to Leitner state
+9. **Cloud sync** — `sb_notes2` and `eng_srs_deck` in SYNC_REGISTRY, `cloud:sync_complete` listener
+10. **Prompts Cerebro** — P0–P12 preserved exactly, copy-to-clipboard functional
 
 ---
 
