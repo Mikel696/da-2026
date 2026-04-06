@@ -1,0 +1,92 @@
+/* ═══ GOALS & HABITS — goals.css ═══ */
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+
+/* ── NAV ── */
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+
+/* ── LAYOUT ── */
+.wr{max-width:900px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3)}
+
+/* ── STATS BAR ── */
+.stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:20px}
+.st{flex:1;background:var(--c1);padding:12px;text-align:center}.st:first-child{border-radius:10px 0 0 10px}.st:last-child{border-radius:0 10px 10px 0}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}.sl{font-size:9px;color:var(--t3);text-transform:uppercase}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:7px 10px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+
+/* ── PANELS ── */
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SHARED ── */
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:10px}
+.tp{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:12px;margin-bottom:10px}
+.tp b{color:var(--am);font-size:11px;display:block;margin-bottom:2px}.tp p{font-size:11px;color:var(--t2)}.tp strong{color:var(--tx)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bg{background:var(--gn);color:#fff}
+.bs{padding:5px 9px;font-size:10px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+.sel{padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:11px}
+.bar{height:8px;background:var(--el);border-radius:4px;overflow:hidden;margin:6px 0}.bar-f{height:100%;border-radius:4px;transition:width .5s}
+
+/* ── GOAL CARD ── */
+.goal{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:8px;position:relative}
+.goal:hover{border-color:var(--bd2)}
+.goal-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.goal-t{font-size:14px;font-weight:600}.goal-dl{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+.goal-desc{font-size:12px;color:var(--t2);margin-bottom:6px}
+.goal-pct{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+.goal-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s}.goal:hover .goal-del{opacity:1}
+.goal-actions{display:flex;gap:4px;margin-top:6px}
+.goal-category{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;margin-left:8px}
+.goal-cat-30{background:rgba(239,68,68,.15);color:var(--rd)}
+.goal-cat-60{background:rgba(234,179,8,.15);color:var(--am)}
+.goal-cat-90{background:rgba(139,92,246,.15);color:var(--ac)}
+
+/* ── HABIT ── */
+.habit{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:5px}
+.habit:hover{border-color:var(--bd2)}
+.habit-icon{font-size:18px;flex-shrink:0}
+.habit-info{flex:1}.habit-name{font-size:13px;font-weight:600}.habit-streak{font-size:10px;color:var(--t3)}
+.habit-days{display:flex;gap:3px}
+.habit-day{width:24px;height:24px;border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);cursor:pointer;transition:all .2s;font-family:'IBM Plex Mono',monospace}
+.habit-day:hover{border-color:var(--gn)}
+.habit-day.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.habit-day.today{border-color:var(--ac);color:var(--ac)}
+.habit-day.done.today{color:#fff}
+.habit-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0;flex-shrink:0;transition:opacity .2s}.habit:hover .habit-del{opacity:1}
+
+/* ── STREAK BADGE ── */
+.streak-fire{color:var(--or);font-weight:700}
+.streak-badge{display:inline-flex;align-items:center;gap:2px;font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(249,115,22,.12);color:var(--or);font-weight:600}
+.streak-badge.hot{animation:streakPulse 1.2s ease-in-out infinite}
+@keyframes streakPulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* ── REVIEW ── */
+.review{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:6px}
+.review:hover{border-color:var(--bd2)}
+.review-d{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-bottom:4px}
+.review-t{font-size:12px;line-height:1.6;white-space:pre-wrap}
+.review-del{float:right;background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;transition:opacity .2s}.review:hover .review-del{opacity:1}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:20px;color:var(--t3);font-size:12px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .wr{padding:14px 12px}
+  .hero h1{font-size:20px}
+  .stats{flex-wrap:wrap}.st{min-width:calc(50% - 1px)}
+  .habit{flex-wrap:wrap;gap:6px}
+  .habit-days{width:100%;justify-content:flex-end}
+}

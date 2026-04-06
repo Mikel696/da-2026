@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Interview Prep — Pi3.AI</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--gn:#22c55e;--am:#eab308;--rd:#ef4444;--cy:#06b6d4;--or:#f97316}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.7}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:920px;margin:0 auto;padding:24px 24px 80px}
+.hero{margin-bottom:24px;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(34,197,94,.04));border:1px solid rgba(139,92,246,.15);border-radius:14px;padding:24px}
+.hero h1{font-family:'Newsreader',serif;font-size:28px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}
+.hero-sub{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.hero p{font-size:12px;color:var(--t2)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.hero-tag{font-size:10px;padding:3px 10px;border-radius:5px;font-weight:600}
+.ht-green{background:rgba(34,197,94,.12);color:var(--gn)}.ht-amber{background:rgba(234,179,8,.12);color:var(--am)}.ht-violet{background:rgba(139,92,246,.12);color:var(--a2)}.ht-cyan{background:rgba(6,182,212,.12);color:var(--cy)}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px;flex-wrap:wrap}
+.tab{flex:1;padding:7px 6px;border-radius:7px;font-size:10px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:all .2s;min-width:80px}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:12px}
+.cd h3{font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 8px}
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.05),rgba(249,115,22,.03));border:1px solid rgba(234,179,8,.12);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:var(--t2)}
+.tip b{color:var(--am);display:block;font-size:11px;margin-bottom:2px}
+.qa{background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.qa-q{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.qa-q:hover{background:rgba(139,92,246,.06)}
+.qa-q .arrow{font-size:10px;color:var(--t3);transition:transform .2s}
+.qa.open .qa-q .arrow{transform:rotate(90deg)}
+.qa-a{display:none;padding:0 14px 14px;font-size:12px;color:var(--t2);line-height:1.7}
+.qa.open .qa-a{display:block}
+.lang-tag{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;vertical-align:middle;margin-left:4px}
+.lang-es{background:rgba(239,68,68,.15);color:var(--rd)}.lang-en{background:rgba(6,182,212,.15);color:var(--cy)}.lang-pt{background:rgba(34,197,94,.15);color:var(--gn)}
+.star{background:var(--el);border-radius:8px;padding:12px;margin-bottom:8px;border-left:3px solid var(--ac)}
+.star b{font-size:11px;color:var(--a2);text-transform:uppercase}
+.star p{font-size:12px;color:var(--t2);margin-top:4px}
+.fit{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--el);border-radius:8px;margin-bottom:6px}
+.fit-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.fit-skill{font-size:13px;font-weight:600}
+.fit-ev{font-size:11px;color:var(--t2);margin-top:2px}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:6px 0;font-size:12px;color:var(--t2);display:flex;align-items:flex-start;gap:8px}
+.checklist li::before{content:'';width:14px;height:14px;border:1px solid var(--bd2);border-radius:4px;flex-shrink:0;margin-top:2px;cursor:pointer}
+.checklist li.done::before{background:var(--gn);border-color:var(--gn)}
+.checklist li.done{color:var(--t3);text-decoration:line-through}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th{text-align:left;padding:6px 8px;background:var(--el);color:var(--t3);font-weight:600;text-transform:uppercase;font-size:10px;border-bottom:1px solid var(--bd)}
+td{padding:6px 8px;border-bottom:1px solid rgba(39,39,42,.5);color:var(--t2)}
+tr:hover td{background:rgba(139,92,246,.03)}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:22px}.tabs{flex-wrap:wrap}.tab{min-width:45%}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">&larr; Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--or);font-weight:600">INTERVIEW PREP</span></div></nav>
+
+<div class="wr">
+<div class="hero">
+<div class="hero-sub">entrevista virtual &middot; 7 de abril 2026</div>
+<h1>Pi3.AI &mdash; <em>Especialista em Implementacao</em></h1>
+<p>Especialista em Implementacao Financeira (Dados e Conciliacoes) &mdash; Junior. Plataforma No-Code/Low-Code lider en conciliaciones financieras via Simetrik.</p>
+<div class="hero-meta">
+<span class="hero-tag ht-green">Excel Test PASSED</span>
+<span class="hero-tag ht-amber">100% Remoto &middot; PJ</span>
+<span class="hero-tag ht-violet">Sao Paulo, Brasil</span>
+<span class="hero-tag ht-cyan">ES + EN + PT</span>
+</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+<button class="tab on" data-p="intel">🏢 Company Intel</button>
+<button class="tab" data-p="fit">🎯 Tu Fit</button>
+<button class="tab" data-p="questions">💬 Preguntas</button>
+<button class="tab" data-p="star">⭐ Respuestas STAR</button>
+<button class="tab" data-p="technical">🔧 Tecnico</button>
+<button class="tab" data-p="checklist">✅ Checklist</button>
+</div>
+
+<!-- ═══ TAB 1: COMPANY INTEL ═══ -->
+<div class="pnl on" id="p-intel">
+<div class="cd">
+<h3>🏢 Pi3.AI — Quienes Son</h3>
+<table>
+<tr><th>Dato</th><th>Detalle</th></tr>
+<tr><td>Nombre</td><td><strong>Pi3.AI</strong> (pi3ai.com)</td></tr>
+<tr><td>Sede</td><td>Sao Paulo, Brasil</td></tr>
+<tr><td>Fundada</td><td>2024</td></tr>
+<tr><td>Tamano</td><td>11-50 empleados (~29 en LinkedIn)</td></tr>
+<tr><td>Industria</td><td>Professional Services / FinTech</td></tr>
+<tr><td>Seguidores LinkedIn</td><td>17,372</td></tr>
+<tr><td>Modalidad</td><td>100% Remoto &mdash; Contrato PJ</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>🎯 Mision y Posicionamiento</h3>
+<p style="font-size:12px;color:var(--t2)"><strong style="color:var(--am)">"Pioneers of trust in digital transformation."</strong><br>
+Pi3.AI se posiciona como partner de confianza para soluciones de conciliacion transaccional. Su mision: impulsar negocios hacia la excelencia operativa con tecnologia robusta.</p>
+<p style="font-size:12px;color:var(--t2);margin-top:8px"><strong style="color:var(--tx)">Slogan:</strong> "Empower Progress, Ensure Trust: Your partner in automated financial and accounting control."</p>
+</div>
+
+<div class="cd">
+<h3>🔗 Alianza Clave: Simetrik</h3>
+<div class="tip"><b>DATO CRITICO PARA LA ENTREVISTA</b>Pi3.AI es un <strong>Implementation Partner autorizado de Simetrik</strong> &mdash; la plataforma No-Code/Low-Code de conciliacion financiera mas grande de LATAM.</div>
+<table>
+<tr><th>Simetrik</th><th>Detalle</th></tr>
+<tr><td>Que es</td><td>Plataforma AI de conciliacion no-code que procesa <strong>1B+ registros/dia</strong> en <strong>40+ paises</strong></td></tr>
+<tr><td>Sede</td><td>San Francisco, USA</td></tr>
+<tr><td>Funding</td><td>$85M+ recaudados</td></tr>
+<tr><td>Clientes</td><td>Mercado Libre, Nubank, Rappi, PayU, EBANX, FEMSA, OXXO, Banco Pichincha</td></tr>
+<tr><td>Valor</td><td>Ahorra hasta 5 dias en cierre contable. Auditorias 50% mas rapidas.</td></tr>
+<tr><td>Tu rol</td><td>Implementar Simetrik en clientes B2B de Pi3 &mdash; configurar, estabilizar, documentar</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>⚙️ Metodologia de Implementacion</h3>
+<p style="font-size:12px;color:var(--t2);margin-bottom:8px">Como Implementation Partner, Pi3 sigue la metodologia certificada de Simetrik:</p>
+<table>
+<tr><th>#</th><th>Fase</th><th>Que implica</th></tr>
+<tr><td>1</td><td>Discovery</td><td>Entender fuentes de datos del cliente (ERP, payment gateways, bancos)</td></tr>
+<tr><td>2</td><td>Solution Design (SDD)</td><td>Documentar el diseno de la solucion de conciliacion</td></tr>
+<tr><td>3</td><td>Scope of Work (SOW)</td><td>Definir alcance, timeline, entregables</td></tr>
+<tr><td>4</td><td>Configuracion</td><td>Configurar reglas de conciliacion en Simetrik (no-code)</td></tr>
+<tr><td>5</td><td>Estabilizacion</td><td>Aplicar logica de estabilizacion del caso de uso</td></tr>
+<tr><td>6</td><td>Documentacion</td><td>Documentar todo el proceso para el cliente</td></tr>
+<tr><td>7</td><td>Entrega</td><td>Handover al cliente con soporte post-implementacion</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>📋 Servicios Pi3.AI</h3>
+<ul style="font-size:12px;color:var(--t2);padding-left:18px">
+<li>Automatizacion de conciliacion bancaria</li>
+<li>Auditoria de comisiones de merchant processing</li>
+<li>Diagnosticos AI para datos y procesos financieros</li>
+<li>Soluciones AI customizadas para operaciones financieras</li>
+<li>Integracion ERP, payment gateway y datos bancarios</li>
+<li>Inteligencia operativa y control financiero</li>
+</ul>
+</div>
+</div>
+
+<!-- ═══ TAB 2: TU FIT ═══ -->
+<div class="pnl" id="p-fit">
+<div class="tip"><b>ESTRATEGIA CENTRAL</b>Tu perfil es casi perfecto para este rol. Tienes TODO lo que piden (Excel avanzado PROBADO, SQL, Power BI, conciliacion, remoto, portugues). La clave: posicionarte como alguien que ya hacia esto manualmente en Brinks, y ahora quiere hacerlo a escala con tecnologia no-code.</div>
+
+<div class="lb">&middot; fortalezas directas &middot;</div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Excel Avanzado (PRUEBA APROBADA)</div><div class="fit-ev">Pasaste la prueba tecnica de Pi3. 8+ anos usando Excel en entornos financieros de alta complejidad.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">SQL Avanzado (Diferencial que tu SI tienes)</div><div class="fit-ev">Consultas complejas en Brinks sobre datasets transaccionales masivos. Automatizaciones SQL que mejoraron eficiencia 15%. MySQL/PostgreSQL.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Power BI (Diferencial que tu SI tienes)</div><div class="fit-ev">Dashboards de KPIs de Accounts Payable con visibilidad en tiempo real. Power Query para ETL.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Conciliacion Financiera — Experiencia Real</div><div class="fit-ev">Ciclo completo AP para Brasil y Caribe: facturas, conciliacion, pagos, cierre mensual. <strong>60% reduccion de discrepancias historicas</strong> con analisis data-driven.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Bases Relacionales & Claves de Cruce</div><div class="fit-ev">Cruce de multiples datasets transaccionales via SQL. Entiendes INNER JOIN, llaves primarias/foraneas, integridad referencial.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Trilinguee: ES + PT (C1) + EN (B2+)</div><div class="fit-ev">Empresa brasilena con operacion global. Tu portugues avanzado es un diferenciador enorme. Gestionaste AP para Brasil en Brinks.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">6+ Anos Full Remote</div><div class="fit-ev">Brinks Shared Services Global 100% remoto. Autodisciplina comprobada con equipos distribuidos.</div></div></div>
+
+<div class="fit"><div class="fit-icon">✅</div><div><div class="fit-skill">Orientacion B2B / Cliente</div><div class="fit-ev">Gestion multi-region (Brasil, Caribe) en Shared Services. Comunicacion con stakeholders internacionales.</div></div></div>
+
+<div class="lb">&middot; areas de crecimiento (y como mitigarlas) &middot;</div>
+
+<div class="fit"><div class="fit-icon">📈</div><div><div class="fit-skill">Plataforma Simetrik (No la conozco aun)</div><div class="fit-ev"><strong>Mitigacion:</strong> Es no-code/low-code = curva de aprendizaje corta. Tu Excel + SQL avanzado te dan la logica fundamental. Solo falta aprender la interfaz.</div></div></div>
+
+<div class="fit"><div class="fit-icon">📈</div><div><div class="fit-skill">Implementacion SaaS B2B (Primera vez formal)</div><div class="fit-ev"><strong>Mitigacion:</strong> En Brinks hacias onboarding de procesos para nuevas regiones (Brasil/Caribe) = mismo mindset de implementacion: entender requerimientos, configurar, documentar, entregar.</div></div></div>
+</div>
+
+<!-- ═══ TAB 3: PREGUNTAS PROBABLES ═══ -->
+<div class="pnl" id="p-questions">
+<div class="tip"><b>NOTA</b>Prepara respuestas en los 3 idiomas. La entrevista puede ser en portugues (empresa brasilena), espanol (tu origen) o ingles (equipo global). Cada pregunta tiene respuestas sugeridas en ES/EN/PT.</div>
+
+<div class="lb">&middot; sobre ti y tu motivacion &middot;</div>
+
+<div class="qa">
+<div class="qa-q">1. Cuentanos sobre ti y por que te interesa este puesto. <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"Soy Miguel Barros, profesional con 8 anos combinando contabilidad y analisis de datos. En Brinks International gestioné el ciclo completo de Accounts Payable para Brasil y Caribe — conciliaciones, pagos multi-moneda, cierre mensual. Logré reducir discrepancias historicas en un 60% usando analisis basado en datos y SQL. Cuando vi esta posicion en Pi3, me emocione porque es exactamente la interseccion de lo que ya hago — conciliacion financiera — pero llevado al siguiente nivel con tecnologia no-code y automatizacion. Ademas, mi portugues avanzado y experiencia con operaciones en Brasil me hacen un fit natural."
+<br><br>
+<strong><span class="lang-tag lang-en">EN</span></strong><br>
+"I'm Miguel Barros, a financial professional with 8+ years combining accounting and data analysis. At Brinks International I managed the full AP cycle for Brazil and the Caribbean — reconciliations, multi-currency payments, monthly close. I reduced historical discrepancies by 60% using data-driven analysis and SQL. When I saw this role at Pi3, I was excited because it's the exact intersection of what I already do — financial reconciliation — but taken to the next level with no-code technology and automation. Plus, my advanced Portuguese and experience with Brazilian operations make me a natural fit."
+<br><br>
+<strong><span class="lang-tag lang-pt">PT</span></strong><br>
+"Sou Miguel Barros, profissional com 8+ anos combinando contabilidade e analise de dados. Na Brinks International gerenciei o ciclo completo de Contas a Pagar para Brasil e Caribe — conciliacoes, pagamentos multi-moeda, fechamento mensal. Reduzi discrepancias historicas em 60% usando analise baseada em dados e SQL. Quando vi esta posicao na Pi3, fiquei empolgado porque e exatamente a intersecao do que ja faco — conciliacao financeira — mas levado ao proximo nivel com tecnologia no-code e automacao. Alem disso, meu portugues avancado e experiencia com operacoes no Brasil me fazem um fit natural."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">2. Que sabes sobre Pi3.AI y Simetrik? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"Investigue bastante. Pi3.AI es un partner de implementacion autorizado de Simetrik, una plataforma no-code/low-code que procesa mas de mil millones de registros diarios en mas de 40 paises. Clientes como Mercado Libre, Nubank y Rappi la usan para automatizar conciliaciones. Pi3 se enfoca en llevar esa tecnologia a los clientes B2B — el rol de implementacion es entender las fuentes de datos del cliente, configurar las reglas de conciliacion en la plataforma, estabilizar el caso de uso y documentar todo el proceso. Me atrajo especialmente la filosofia de 'Empower Progress, Ensure Trust'."
+<br><br>
+<strong><span class="lang-tag lang-en">EN</span></strong><br>
+"I did extensive research. Pi3.AI is an authorized implementation partner of Simetrik, a no-code/low-code platform processing over one billion records daily across 40+ countries. Clients like Mercado Libre, Nubank, and Rappi use it to automate reconciliations. Pi3 focuses on bringing that technology to B2B clients — the implementation role involves understanding the client's data sources, configuring reconciliation rules in the platform, stabilizing the use case, and documenting the entire process."
+<br><br>
+<strong><span class="lang-tag lang-pt">PT</span></strong><br>
+"Pesquisei bastante. A Pi3.AI e um parceiro de implementacao autorizado da Simetrik, uma plataforma no-code/low-code que processa mais de um bilhao de registros diarios em mais de 40 paises. Clientes como Mercado Livre, Nubank e Rappi usam para automatizar conciliacoes. A Pi3 foca em levar essa tecnologia aos clientes B2B — o papel de implementacao envolve entender as fontes de dados do cliente, configurar as regras de conciliacao na plataforma, estabilizar o caso de uso e documentar todo o processo."
+</div>
+</div>
+
+<div class="lb">&middot; tecnicas y de dominio &middot;</div>
+
+<div class="qa">
+<div class="qa-q">3. Explicame que es una conciliacion financiera y como la harias. <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"La conciliacion financiera es el proceso de comparar dos o mas fuentes de datos para verificar que los registros coinciden. Por ejemplo, cruzar los movimientos bancarios con los registros del ERP. En mi experiencia en Brinks, yo cruzaba extractos bancarios de multiples paises con nuestro sistema SAP usando claves de cruce como numero de factura, monto y fecha. Las discrepancias se clasificaban, se investigaban y se resolvian sistematicamente. En una plataforma no-code como Simetrik, ese mismo proceso se automatiza: defines las reglas de matching, las claves robustas, y la plataforma hace el cruce a escala masiva."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">4. Que son las 'claves robustas' en un proceso de conciliacion? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"Las claves robustas son los campos o combinaciones de campos que usas para cruzar registros entre dos fuentes de datos. Deben ser unicas y confiables. Por ejemplo: numero de transaccion + monto + fecha es una clave robusta. Solo un numero de referencia puede ser debil si hay duplicados. En SQL seria el equivalente a las columnas de un JOIN. En Simetrik, imagino que defines estas claves en la configuracion de la regla de conciliacion para que el matching automatico sea preciso."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">5. Describe una situacion donde encontraste una discrepancia compleja. <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"En Brinks, descubri que teniamos discrepancias historicas acumuladas en AP de la region Caribe que nadie habia podido resolver. Use SQL para cruzar 3 fuentes: el extracto bancario, el registro SAP y los recibos del proveedor. Encontre que el problema era una diferencia de tipo de cambio que se acumulaba en cada pago — el sistema usaba la tasa del dia de registro en vez de la tasa del dia de pago. Documente el hallazgo, propuse una correccion al workflow, y resolvimos el 60% de las discrepancias historicas. Eso es exactamente el pensamiento analitico que este rol requiere."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">6. Que experiencia tienes con SQL y como lo usarias en implementacion? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"SQL es mi herramienta principal de analisis. En Brinks escribia consultas complejas con JOINs, subqueries, CTEs y window functions para analizar datasets transaccionales grandes. Cree automatizaciones que redujeron procesamiento manual en 15%. Para implementacion en Pi3, SQL seria clave para: entender la estructura de datos del cliente antes de configurar Simetrik, validar que los resultados de conciliacion automatica son correctos, y diagnosticar discrepancias cuando el matching no funciona como se espera."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">7. Como manejas la comunicacion con clientes B2B que no son tecnicos? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"En Brinks trabajaba con stakeholders financieros de Brasil y Caribe que no eran tecnicos. Mi enfoque: traduzco los hallazgos de datos a impacto de negocio. En vez de decir 'el JOIN entre tablas tiene mismatch en el campo currency_rate', digo 'encontre que la diferencia en sus pagos viene de usar una tasa de cambio diferente entre el registro y el pago — esto les esta costando X dolares mensuales'. Uso visuales en Power BI cuando es posible. En Pi3, ese mismo enfoque seria vital para explicar a los clientes como funciona su conciliacion y que resultados estan obteniendo."
+</div>
+</div>
+
+<div class="lb">&middot; sobre el trabajo y equipo &middot;</div>
+
+<div class="qa">
+<div class="qa-q">8. Como te organizas trabajando 100% remoto? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"Llevo 6+ anos trabajando full remote en Brinks Shared Services Global. Mi sistema: bloque de trabajo enfocado con objetivos diarios claros, comunicacion asincrona proactiva (no espero a que me pregunten, yo reporto avances), y documentacion de todo lo que hago. Uso herramientas de tracking para asegurar que nada se pierda. Para Pi3, donde cada implementacion tiene un timeline definido, esa disciplina de autoorganizacion es critica."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">9. Por que deberíamos contratarte? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong><span class="lang-tag lang-es">ES</span></strong><br>
+"Tres razones. Primero, ya hago conciliacion financiera — 6 anos en Brinks cruzando datos bancarios, ERP y proveedores a nivel multi-region. No necesito aprender el dominio, solo la herramienta. Segundo, tengo los diferenciales que piden: SQL avanzado Y Power BI, no solo uno de los dos. Tercero, hablo portugues avanzado, espanol nativo e ingles intermedio-avanzado — en una empresa brasilena con operacion global, eso multiplica mi utilidad. Y ya pase su prueba de Excel, que valida que no solo lo digo, lo demuestro."
+<br><br>
+<strong><span class="lang-tag lang-pt">PT</span></strong><br>
+"Tres razoes. Primeiro, ja faco conciliacao financeira — 6 anos na Brinks cruzando dados bancarios, ERP e fornecedores a nivel multi-regiao. Nao preciso aprender o dominio, so a ferramenta. Segundo, tenho os diferenciais que pedem: SQL avancado E Power BI, nao so um dos dois. Terceiro, falo portugues avancado, espanhol nativo e ingles intermediario-avancado — numa empresa brasileira com operacao global, isso multiplica minha utilidade."
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-q">10. Tienes alguna pregunta para nosotros? <span class="arrow">&#9654;</span></div>
+<div class="qa-a">
+<strong>Preguntas inteligentes para hacer TU al entrevistador:</strong><br><br>
+1. "Como es el proceso tipico de onboarding para un nuevo especialista de implementacion? Hay un periodo de certificacion en Simetrik?"<br>
+2. "Cuantos proyectos de implementacion maneja un especialista junior en paralelo?"<br>
+3. "Cual es el perfil tipico de los clientes que atiende Pi3 — fintechs, bancos tradicionales, retailers?"<br>
+4. "Que herramientas usan internamente para gestionar los proyectos de implementacion?"<br>
+5. "Como se mide el exito de una implementacion — tiempo de entrega, satisfaccion del cliente, reduccion de errores?"
+</div>
+</div>
+</div>
+
+<!-- ═══ TAB 4: RESPUESTAS STAR ═══ -->
+<div class="pnl" id="p-star">
+<div class="tip"><b>METODO STAR</b>Situation &rarr; Task &rarr; Action &rarr; Result. Usa estas historias reales de tu experiencia para responder preguntas conductuales.</div>
+
+<div class="star">
+<b>STAR #1: Resolucion de discrepancias (60% reduccion)</b>
+<p><strong>S:</strong> En Brinks, la region Caribe tenia discrepancias historicas acumuladas en AP que ningun equipo habia logrado resolver en meses.<br>
+<strong>T:</strong> Me asignaron investigar y resolver el mayor numero posible de discrepancias pendientes.<br>
+<strong>A:</strong> Escribi consultas SQL complejas cruzando 3 fuentes de datos (banco, SAP, proveedores). Identifique que el root cause era una discrepancia en tasas de cambio entre el dia de registro y el dia de pago. Documente el hallazgo y propuse una correccion sistematica al workflow.<br>
+<strong>R:</strong> Resolvi el 60% de las discrepancias historicas. Se implemento mi correccion y se previno la recurrencia.</p>
+</div>
+
+<div class="star">
+<b>STAR #2: Optimizacion de pagos (15% mejora)</b>
+<p><strong>S:</strong> El proceso de pagos AP en Brinks tenia cuellos de botella que causaban retrasos y errores manuales.<br>
+<strong>T:</strong> Mejorar la eficiencia del proceso de pagos sin aumentar headcount.<br>
+<strong>A:</strong> Disene automatizaciones SQL para validar pagos antes del procesamiento. Cree reportes automaticos que eliminaron pasos manuales de verificacion. Implemente dashboards Power BI para monitoreo en tiempo real.<br>
+<strong>R:</strong> 15% de optimizacion en procesos de pago. Reduccion significativa de errores manuales. Visibilidad en tiempo real para el equipo.</p>
+</div>
+
+<div class="star">
+<b>STAR #3: Gestion multi-region remota (Brasil + Caribe)</b>
+<p><strong>S:</strong> Me asignaron gestionar AP para dos regiones simultaneamente: Brasil y Caribe, cada una con monedas, regulaciones y proveedores diferentes.<br>
+<strong>T:</strong> Mantener el cierre mensual de ambas regiones en tiempo y sin errores, trabajando 100% remoto.<br>
+<strong>A:</strong> Cree un sistema de tracking con prioridades por fecha de vencimiento. Estandarice los procesos de conciliacion entre ambas regiones. Documente los procedimientos para cada pais. Comunicacion proactiva con stakeholders en portugues (Brasil) y espanol/ingles (Caribe).<br>
+<strong>R:</strong> Cierres mensuales consistentes. Stakeholders satisfechos. Demostracion de que un solo analista puede manejar multiples regiones con el sistema correcto.</p>
+</div>
+
+<div class="star">
+<b>STAR #4: Velocidad y precision en data entry (95%+)</b>
+<p><strong>S:</strong> En Teleperformance, gestionaba multiples colas de moderacion de contenido con SLAs estrictos.<br>
+<strong>T:</strong> Mantener precision de 95%+ mientras procesaba alto volumen bajo presion de tiempo.<br>
+<strong>A:</strong> Desarrolle un sistema personal de verificacion rapida. Priorizaba por urgencia y tipo. Usaba patrones para identificar rapidamente los casos criticos.<br>
+<strong>R:</strong> Mantuve precision de 95%+ consistentemente. Experiencia transferible a la implementacion: atencion al detalle bajo presion de timeline.</p>
+</div>
+</div>
+
+<!-- ═══ TAB 5: TECNICO ═══ -->
+<div class="pnl" id="p-technical">
+<div class="tip"><b>CONCEPTOS QUE DEBES DOMINAR</b>Si te hacen preguntas tecnicas, estas son las areas clave. Ya sabes la mayoria — aqui esta el refresh rapido.</div>
+
+<div class="cd">
+<h3>🔑 Conciliacion — Conceptos Clave</h3>
+<table>
+<tr><th>Concepto</th><th>Definicion rapida</th></tr>
+<tr><td>Conciliacion bancaria</td><td>Comparar extracto bancario vs registros internos (ERP/contabilidad) para verificar que coinciden</td></tr>
+<tr><td>Claves robustas</td><td>Campos unicos o combinaciones (ID transaccion + monto + fecha) usados para cruzar registros entre fuentes</td></tr>
+<tr><td>Matching rules</td><td>Reglas que definen cuando dos registros de fuentes diferentes representan la misma transaccion</td></tr>
+<tr><td>Discrepancia</td><td>Diferencia entre fuentes que requiere investigacion — puede ser error, timing, o fraude</td></tr>
+<tr><td>Estabilizacion</td><td>Fase donde ajustas las reglas de conciliacion hasta que el matching funcione consistentemente con minimas excepciones</td></tr>
+<tr><td>Cierre contable</td><td>Proceso mensual/trimestral donde se verifican, ajustan y cierran todos los saldos</td></tr>
+<tr><td>Multi-moneda</td><td>Conciliacion que involucra conversion de divisas — tasas del dia de registro vs pago</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>📊 SQL — Lo que pueden preguntar</h3>
+<table>
+<tr><th>Tema</th><th>Ejemplo rapido</th></tr>
+<tr><td>JOIN para conciliacion</td><td><code>SELECT * FROM banco b LEFT JOIN erp e ON b.ref = e.ref AND b.monto = e.monto WHERE e.ref IS NULL</code> — encuentra transacciones sin match</td></tr>
+<tr><td>Agregacion</td><td><code>GROUP BY proveedor HAVING SUM(monto) &lt;&gt; saldo_esperado</code> — detecta discrepancias por proveedor</td></tr>
+<tr><td>Window functions</td><td><code>ROW_NUMBER() OVER (PARTITION BY ref ORDER BY fecha)</code> — detecta duplicados</td></tr>
+<tr><td>CTE</td><td><code>WITH sin_match AS (...) SELECT * FROM sin_match WHERE dias_pendiente > 30</code> — partidas antiguas</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>📈 Power BI — Lo que pueden preguntar</h3>
+<table>
+<tr><th>Tema</th><th>Tu experiencia</th></tr>
+<tr><td>Dashboards AP</td><td>KPIs en tiempo real: aging, volumen, precisión de pagos</td></tr>
+<tr><td>Power Query (ETL)</td><td>Transformacion y limpieza de datos antes de visualizar</td></tr>
+<tr><td>DAX basico</td><td>Medidas calculadas para % de discrepancias, tendencias mensuales</td></tr>
+</table>
+</div>
+
+<div class="cd">
+<h3>🔧 No-Code/Low-Code — Que saber de Simetrik</h3>
+<ul style="font-size:12px;color:var(--t2);padding-left:18px">
+<li>Simetrik permite configurar reglas de conciliacion SIN codigo — usas la interfaz grafica</li>
+<li>Conecta multiples fuentes: ERP, bancos, payment gateways, archivos CSV/Excel</li>
+<li>Procesa millones de transacciones al dia en tiempo T+0</li>
+<li>Genera reportes de cumplimiento regulatorio automaticamente</li>
+<li>Preconfigured solutions para casos comunes (acquirers, fintechs, retailers)</li>
+<li>Tu logica de Excel + SQL se traduce directamente a reglas de Simetrik</li>
+</ul>
+</div>
+</div>
+
+<!-- ═══ TAB 6: CHECKLIST ═══ -->
+<div class="pnl" id="p-checklist">
+<div class="cd">
+<h3>📋 Checklist Pre-Entrevista (6 abril noche)</h3>
+<ul class="checklist" id="checkPre">
+<li>Revisar todas las tabs de esta pagina (Intel, Fit, Preguntas, STAR, Tecnico)</li>
+<li>Practicar pregunta 1 (presentacion) en voz alta en ES, EN y PT</li>
+<li>Practicar pregunta 2 (sobre Pi3/Simetrik) — demuestra que investigaste</li>
+<li>Practicar STAR #1 (60% discrepancias) — es tu historia mas fuerte</li>
+<li>Repasar conceptos de conciliacion y claves robustas</li>
+<li>Tener 2-3 preguntas listas para hacerle al entrevistador (tab Preguntas, Q10)</li>
+<li>Preparar tu espacio: luz, camara, audio, fondo limpio</li>
+<li>Tener tu CV abierto en otra tab como referencia</li>
+<li>Tener LinkedIn de Pi3.AI abierto como referencia</li>
+<li>Vestirte profesional (parte superior visible en camara)</li>
+</ul>
+</div>
+
+<div class="cd">
+<h3>🎯 Checklist Dia de Entrevista (7 abril)</h3>
+<ul class="checklist" id="checkDay">
+<li>Conectarte 5 minutos antes del horario</li>
+<li>Probar camara + microfono + internet antes</li>
+<li>Sonreir, saludar con confianza (en portugues si el entrevistador es brasileno)</li>
+<li>Mencionar que ya pasaste la prueba de Excel (valida tu competencia)</li>
+<li>Mencionar Simetrik por nombre — demuestra investigacion profunda</li>
+<li>Usar numeros concretos: 60%, 15%, 6 anos, 3 idiomas</li>
+<li>Cerrar con tus preguntas preparadas</li>
+<li>Agradecer y preguntar sobre los siguientes pasos del proceso</li>
+</ul>
+</div>
+
+<div class="cd">
+<h3>💡 Tips de Oro</h3>
+<div class="tip"><b>NO DIGAS que eres developer</b>El anuncio dice explicitamente "esta vaga NAO e voltada para perfis de desenvolvimento". Enfocate 100% en datos, analisis, conciliacion y comunicacion con clientes.</div>
+<div class="tip"><b>POSICIONATE como bridge</b>Eres el puente entre datos financieros complejos y soluciones comprensibles para el cliente. Ese es el valor del implementation specialist.</div>
+<div class="tip"><b>USA PORTUGUES cuando puedas</b>Si el entrevistador habla portugues, responde en portugues. Tu C1 es un diferenciador masivo vs otros candidatos de LATAM.</div>
+<div class="tip"><b>MENCION tu experiencia con Brasil</b>Gestionaste AP para Brasil en Brinks. Eso demuestra que ya entiendes el contexto financiero brasileno.</div>
+</div>
+</div>
+
+</div><!-- /wr -->
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+
+// Accordion Q&A
+document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>{
+  q.parentElement.classList.toggle('open');
+}));
+
+// Checklist click-to-toggle
+document.querySelectorAll('.checklist li').forEach(li=>li.addEventListener('click',()=>{
+  li.classList.toggle('done');
+}));
+</script>
+</body>
+</html>

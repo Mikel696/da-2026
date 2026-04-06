@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "company": "Pi3.AI",
+    "role": "Especialista em Implementação Financeira (Dados e Conciliações) — Junior",
+    "linkedin_url": "https://www.linkedin.com/jobs/view/4397945688/",
+    "interview_date": "2026-04-07",
+    "modality": "Virtual — 100% Remoto — PJ",
+    "status": "Excel test PASSED → Virtual interview scheduled",
+    "created": "2026-04-06"
+  },
+
+  "company_intel": {
+    "name": "Pi3.AI",
+    "website": "https://www.pi3ai.com",
+    "linkedin": "https://www.linkedin.com/company/pi3-ai",
+    "hq": "São Paulo, Brasil",
+    "founded": 2024,
+    "size": "11-50 empleados (~29 en LinkedIn)",
+    "industry": "Professional Services / FinTech",
+    "followers_linkedin": 17372,
+    "mission": "Propel businesses to operational greatness with robust and unwavering technology. We are the trusted pillar that guides success in the digital age.",
+    "slogan": "Empower Progress, Ensure Trust: Your partner in automated financial and accounting control.",
+    "description": "Pioneers of trust in digital transformation. Your trusted partner for transactional reconciliation solutions through SIMETRIK.",
+    "core_product": "Automated Banking Optimization — reconciliation of all income sources using AI",
+    "services": [
+      "Bank Reconciliation automation",
+      "Merchant Processing Fee Auditing",
+      "AI diagnostics for financial data and processes",
+      "Customized AI solutions for financial operations",
+      "ERP, payment gateway, and banking data integration",
+      "Operational intelligence and financial control"
+    ],
+    "key_partnership": {
+      "partner": "Simetrik",
+      "description": "Simetrik is an AI-based no-code/low-code reconciliation platform processing 1B+ records/day in 40+ countries. Pi3 is an authorized Implementation Partner of Simetrik.",
+      "simetrik_hq": "San Francisco, USA",
+      "simetrik_clients": ["Mercado Libre", "PayU", "Rappi", "FEMSA", "Banco Pichincha", "Naranja", "EBANX", "Nubank", "Bold", "OXXO", "Niubiz", "Neon"],
+      "simetrik_value": "Saves up to 5 days in accounting close. 50% faster audits. Processes millions of multi-platform transactions daily at T+0."
+    },
+    "implementation_methodology": {
+      "documents": ["Solution Design Document (SDD)", "Scope of Work (SOW)"],
+      "roles": ["Senior Implementation Specialist (SIS)", "Integrations Engineer (IE)"],
+      "certification": "Only Simetrik-certified personnel can be assigned to implementation roles",
+      "timeline": "Solutions delivered in weeks, not months",
+      "process": "Register → Profile evaluation → Onboarding & training → Certification → Client deployment"
+    }
+  },
+
+  "role_analysis": {
+    "title": "Especialista em Implementação Financeira (Dados e Conciliações)",
+    "level": "Junior",
+    "NOT_dev": "Esta vaga NÃO é voltada para perfis de desenvolvimento (Dev, DevOps ou Fullstack). Foco em análise e manipulação de dados, implementação e interação com clientes B2B.",
+    "responsibilities": [
+      "Implementar eficientemente o escopo do projeto dentro de um prazo definido",
+      "Aplicar a lógica de estabilização do caso de uso",
+      "Documentar o suporte ao processo de implementação",
+      "Entregar o processo de implementação finalizado"
+    ],
+    "requirements": {
+      "mandatory": ["Conocimiento avanzado de Excel (PASSED TEST)"],
+      "differential": ["SQL", "Power BI"],
+      "domain": ["Procesos de conciliación", "Bases relacionais", "Chaves robustas (claves de cruce)"]
+    },
+    "skills": [
+      "Alto nivel de pensamiento analítico",
+      "Buena orientación al cliente (B2B)",
+      "Capacidad de resolver problemas eficientemente",
+      "Dinamismo y proactividad"
+    ]
+  },
+
+  "candidate_fit": {
+    "strong_matches": [
+      {"skill": "Excel Avanzado", "evidence": "PASSED la prueba técnica de Excel de Pi3. 8+ años usando Excel en entornos financieros."},
+      {"skill": "SQL Avanzado", "evidence": "Consultas complejas en Brinks para datasets transaccionales. Automatizaciones SQL que mejoraron eficiencia 15%."},
+      {"skill": "Power BI", "evidence": "Dashboards de KPIs de AP con visibilidad en tiempo real en Brinks."},
+      {"skill": "Conciliación financiera", "evidence": "Ciclo completo AP para Brasil/Caribe: facturas, conciliación, pagos, cierre mensual. 60% reducción de discrepancias."},
+      {"skill": "B2B / Orientación al cliente", "evidence": "Gestión multi-región (Brasil, Caribe) en Shared Services Global de Brinks."},
+      {"skill": "Bases relacionales & claves de cruce", "evidence": "Implementó consultas SQL cruzando múltiples datasets transaccionales. Modelado de datos."},
+      {"skill": "Trilingüe", "evidence": "ES nativo, PT avanzado C1, EN B2+. Ideal para empresa brasileña con operación global."},
+      {"skill": "Trabajo remoto", "evidence": "6+ años full remote en Brinks. Autodisciplina comprobada."},
+      {"skill": "Documentación de procesos", "evidence": "Diseñó y automatizó reportes financieros en Brinks."}
+    ],
+    "growth_areas": [
+      {"area": "Plataforma Simetrik", "mitigation": "No-code/low-code = curva de aprendizaje corta. Excel + SQL avanzado facilitan transición."},
+      {"area": "Implementación SaaS B2B", "mitigation": "Experiencia en onboarding y ciclo de vida en Shared Services Global (procesos similares)."}
+    ]
+  }
+}
