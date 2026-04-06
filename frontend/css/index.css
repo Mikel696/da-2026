@@ -31,22 +31,12 @@
 .ds-chip:hover,.ds-chip.active{border-color:var(--ac);color:var(--ac2);background:var(--acg)}
 .ds-chip-icon{font-size:12px}
 .deals-list{display:flex;flex-direction:column;gap:0}
-.dl-section{margin-bottom:14px}
-.dl-section:last-child{margin-bottom:0}
-.dl-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.04)}
-.dl-section-name{font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
-.dl-section-link{font-size:9px;color:var(--tx3);text-decoration:none}.dl-section-link:hover{color:var(--ac2)}
-.dl-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.03);text-decoration:none;color:inherit;transition:all .15s}
-.dl-item:hover{background:rgba(139,92,246,.04);border-radius:6px;padding-left:6px}
-.dl-item:last-child{border-bottom:none}
-.dl-icon{flex-shrink:0;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;border:1px solid rgba(255,255,255,.06)}
-.dl-info{flex:1;min-width:0}
-.dl-name{font-size:11px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dl-tags{display:flex;gap:4px;flex-wrap:wrap}
-.dl-tag{font-size:8px;padding:2px 5px;border-radius:3px;font-weight:600;text-transform:uppercase}
-.dl-tag-free{background:var(--gng);color:var(--gn);border:1px solid rgba(34,197,94,.15)}
-.dl-tag-hot{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.15)}
-.dl-tag-exp{background:rgba(239,68,68,.08);color:var(--rd);border:1px solid rgba(239,68,68,.12);font-size:7px}
+.dl-cat{margin-bottom:12px}
+.dl-cat:last-child{margin-bottom:0}
+.dl-cat-label{font-size:10px;font-weight:600;color:var(--tx3);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.dl-cat-grid{display:flex;flex-wrap:wrap;gap:5px}
+.dl-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--bd);background:var(--el);font-size:10px;font-weight:500;color:var(--tx2);text-decoration:none;transition:all .2s;white-space:nowrap}
+.dl-btn:hover{border-color:var(--ac);color:var(--ac2);background:var(--acg)}
 /* ── Urgent Tasks (right sidebar) ── */
 .urgent-panel{background:var(--card);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:16px}
 .urgent-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}

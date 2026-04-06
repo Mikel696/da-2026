@@ -1,30 +1,50 @@
 {
-  "last_updated": "2026-03-31",
+  "last_updated": "2026-04-06",
   "sources": [
-    {"id": "cajita", "name": "Cajita Tech", "icon": "🎁", "color": "#10b981", "url": "https://promocajita.com/gratis", "desc": "Cursos, juegos y software gratis"},
-    {"id": "amazon", "name": "Amazon", "icon": "📦", "color": "#ff9900", "url": "https://gaming.amazon.com/home", "desc": "Prime Gaming — juegos gratis con Prime"},
-    {"id": "epic", "name": "Epic Games", "icon": "🎮", "color": "#0078f2", "url": "https://store.epicgames.com/es-ES/free-games", "desc": "Juegos gratis cada semana"},
-    {"id": "udemy", "name": "Udemy", "icon": "🎓", "color": "#a435f0", "url": "https://www.freecourses.me/", "desc": "Cursos gratis con cupón — freecourses.me"},
-    {"id": "gog", "name": "GOG", "icon": "🕹️", "color": "#86328a", "url": "https://www.gog.com/#giveaway", "desc": "Juegos DRM-free, giveaways"},
-    {"id": "mercadolibre", "name": "Mercado Libre", "icon": "🛒", "color": "#ffe600", "url": "https://www.mercadolibre.com.co/ofertas", "desc": "Ofertas Colombia — envío gratis"},
-    {"id": "exito", "name": "Éxito", "icon": "🏬", "color": "#ffd100", "url": "https://www.exito.com/tecnologia", "desc": "Tecnología con descuento — Colombia"},
-    {"id": "steam", "name": "Steam", "icon": "🎮", "color": "#1b2838", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "desc": "Free-to-play y promos"}
+    {"id": "elearn", "label": "E-Learning Gratis", "icon": "🎓"},
+    {"id": "cupones", "label": "Cupones & Descuentos", "icon": "🏷️"},
+    {"id": "tools", "label": "Software & Tools", "icon": "🛠️"},
+    {"id": "gaming", "label": "Gaming Gratis", "icon": "🎮"},
+    {"id": "co", "label": "Colombia", "icon": "🇨🇴"}
   ],
-  "deals": [
-    {"title": "Clone Drone in the Danger Zone — Robot roguelike (Overwhelmingly Positive, $19.99)", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/clone-drone-in-the-danger-zone", "isFree": true, "tag": "PRÓXIMO", "expires": "2026-04-09"},
-    {"title": "Havendock — Colony Sim oceánico (Very Positive)", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/havendock-a9a498", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
-    {"title": "Hyper Echelon — Arcade shooter espacial", "source": "epic", "link": "https://store.epicgames.com/es-ES/p/hyper-echelon-3c42b4", "isFree": true, "tag": "GRATIS", "expires": "2026-04-02"},
-    {"title": "Total War: Three Kingdoms — Estrategia épica", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
-    {"title": "Deep Sky Derelicts — RPG táctico sci-fi", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
-    {"title": "Chimp Quest: Spirit Isle", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
-    {"title": "Phantasie Memorial Set — RPG clásico", "source": "amazon", "link": "https://gaming.amazon.com/home", "isFree": true, "tag": "GRATIS", "expires": "2026-05-26"},
-    {"title": "Deep Sky Derelicts — RPG + roguelike (keep forever)", "source": "gog", "link": "https://www.gog.com/#giveaway", "isFree": true, "tag": "GRATIS", "expires": "2026-04-03"},
-    {"title": "Ferret Quest — Plataformas 2D (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Bomb's Lair — Acción indie (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Spector Hideout — Multijugador asimétrico (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Dream Stories Online — MMORPG PvP+PvE (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "Pirate Ships — Autobattler PvP náutico (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": ">SYS//PURGE_ — Boomer shooter roguelike (keep forever)", "source": "steam", "link": "https://store.steampowered.com/genre/Free%20to%20Play/", "isFree": true, "tag": "GRATIS", "expires": null},
-    {"title": "CURSO GRATIS HOY — Ver cupones 100% off del día", "source": "udemy", "link": "https://www.freecourses.me/", "isFree": true, "tag": "GRATIS", "expires": null}
+  "sites": [
+    {"name": "Coursera Free", "url": "https://www.coursera.org/courses?query=free", "cat": "elearn", "desc": "Cursos gratis de Stanford, Google, IBM"},
+    {"name": "edX Free", "url": "https://www.edx.org/search?tab=course&price=Free", "cat": "elearn", "desc": "Harvard, MIT — auditar gratis"},
+    {"name": "Udemy Gratis", "url": "https://www.udemy.com/courses/free/", "cat": "elearn", "desc": "Cursos 100% gratis en Udemy"},
+    {"name": "FreeCourses.me", "url": "https://www.freecourses.me/", "cat": "elearn", "desc": "Cupones Udemy 100% off del dia"},
+    {"name": "Khan Academy", "url": "https://www.khanacademy.org", "cat": "elearn", "desc": "100% gratis — math, CS, economia"},
+    {"name": "freeCodeCamp", "url": "https://www.freecodecamp.org", "cat": "elearn", "desc": "Full-stack, data science — gratis"},
+    {"name": "Platzi Gratis", "url": "https://platzi.com/cursos-gratis/", "cat": "elearn", "desc": "Cursos gratis en espanol (Colombia)"},
+    {"name": "Google Skillshop", "url": "https://skillshop.withgoogle.com", "cat": "elearn", "desc": "Certs gratis: Ads, Analytics, Cloud"},
+    {"name": "MIT OCW", "url": "https://ocw.mit.edu", "cat": "elearn", "desc": "Todo MIT abierto — lectures, exams"},
+    {"name": "Alison", "url": "https://alison.com", "cat": "elearn", "desc": "4000+ cursos gratis con certificado"},
+    {"name": "SENA Sofia+", "url": "https://oferta.senasofiaplus.edu.co", "cat": "elearn", "desc": "Cursos gratis SENA — Colombia"},
+    {"name": "Capacitate", "url": "https://capacitateparaelempleo.org", "cat": "elearn", "desc": "Fund. Carlos Slim — gratis LATAM"},
+
+    {"name": "Honey", "url": "https://www.joinhoney.com", "cat": "cupones", "desc": "Extension: cupones auto en 30K+ tiendas"},
+    {"name": "RetailMeNot", "url": "https://www.retailmenot.com", "cat": "cupones", "desc": "Cupones + cashback verificados"},
+    {"name": "Slickdeals", "url": "https://slickdeals.net", "cat": "cupones", "desc": "Comunidad de deals — votados por users"},
+    {"name": "Picodi CO", "url": "https://www.picodi.com/co/", "cat": "cupones", "desc": "Cupones para tiendas colombianas"},
+    {"name": "CuponStar CO", "url": "https://www.cuponstar.com.co", "cat": "cupones", "desc": "Beneficios y cupones — Colombia"},
+    {"name": "DealNews", "url": "https://www.dealnews.com", "cat": "cupones", "desc": "Deals curados por editores"},
+    {"name": "AppSumo", "url": "https://appsumo.com", "cat": "cupones", "desc": "Lifetime deals en SaaS — 90%+ off"},
+
+    {"name": "GitHub Student", "url": "https://education.github.com/pack", "cat": "tools", "desc": "100+ tools gratis para estudiantes"},
+    {"name": "JetBrains Edu", "url": "https://www.jetbrains.com/community/education/", "cat": "tools", "desc": "IDEs pro gratis para estudiantes"},
+    {"name": "Notion Edu", "url": "https://www.notion.so/product/notion-for-education", "cat": "tools", "desc": "Plan Plus gratis para estudiantes"},
+    {"name": "Figma Free", "url": "https://www.figma.com/pricing/", "cat": "tools", "desc": "Diseno gratis — 3 proyectos"},
+    {"name": "Product Hunt", "url": "https://www.producthunt.com", "cat": "tools", "desc": "Nuevos tools y apps — launches diarios"},
+    {"name": "AlternativeTo", "url": "https://alternativeto.net", "cat": "tools", "desc": "Alternativas gratis a software pago"},
+    {"name": "SharewareOnSale", "url": "https://sharewareonsale.com", "cat": "tools", "desc": "Software pago gratis cada dia"},
+
+    {"name": "Epic Games", "url": "https://store.epicgames.com/es-ES/free-games", "cat": "gaming", "desc": "Juegos gratis cada semana"},
+    {"name": "Steam F2P", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "cat": "gaming", "desc": "Free-to-play y promos"},
+    {"name": "GOG Giveaway", "url": "https://www.gog.com/#giveaway", "cat": "gaming", "desc": "Juegos DRM-free gratis"},
+    {"name": "Prime Gaming", "url": "https://gaming.amazon.com/home", "cat": "gaming", "desc": "Juegos gratis con Amazon Prime"},
+
+    {"name": "MercadoLibre", "url": "https://www.mercadolibre.com.co/ofertas", "cat": "co", "desc": "Ofertas Colombia — envio gratis"},
+    {"name": "Exito Tech", "url": "https://www.exito.com/tecnologia", "cat": "co", "desc": "Tecnologia con descuento"},
+    {"name": "Rappi", "url": "https://www.rappi.com.co", "cat": "co", "desc": "Cupones y envio gratis frecuente"},
+    {"name": "Cajita Tech", "url": "https://promocajita.com/gratis", "cat": "co", "desc": "Cursos, juegos y software gratis"}
   ]
 }

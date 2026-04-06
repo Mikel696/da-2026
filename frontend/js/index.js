@@ -26,47 +26,43 @@ function renderDealsPanel(){
   if(!srcEl||!listEl)return;
 
   fetch('data/deals.json').then(r=>r.json()).then(data=>{
-    // Source chips
-    const sources=data.sources||[];
-    srcEl.innerHTML=sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener" class="ds-chip" title="${s.desc}"><span class="ds-chip-icon">${s.icon}</span>${s.name}</a>`).join('');
+    const cats=data.sources||[];
+    const sites=data.sites||[];
 
-    // Group deals by source
-    const deals=data.deals||[];
-    const grouped={};
-    deals.forEach(d=>{
-      if(!grouped[d.source])grouped[d.source]=[];
-      grouped[d.source].push(d);
-    });
+    // Category filter chips
+    srcEl.innerHTML=`<button class="ds-chip active" data-cat="all"><span class="ds-chip-icon">📌</span>Todos</button>`+
+      cats.map(c=>`<button class="ds-chip" data-cat="${c.id}"><span class="ds-chip-icon">${c.icon}</span>${c.label}</button>`).join('');
 
-    const srcMap={};
-    sources.forEach(s=>srcMap[s.id]=s);
+    function renderSites(filter){
+      const filtered=filter==='all'?sites:sites.filter(s=>s.cat===filter);
+      const catMap={};cats.forEach(c=>catMap[c.id]=c);
+      const grouped={};
+      filtered.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s)});
 
-    let html='';
-    for(const [srcId,items] of Object.entries(grouped)){
-      const src=srcMap[srcId]||{name:srcId,icon:'🔗',color:'#888',url:'#'};
-      html+=`<div class="dl-section">
-        <div class="dl-section-head">
-          <div class="dl-section-name"><span>${src.icon}</span> ${src.name}</div>
-          <a href="${src.url}" target="_blank" class="dl-section-link">Ver más →</a>
-        </div>`;
-      items.forEach(d=>{
-        const expTag=d.expires?`<span class="dl-tag dl-tag-exp">Vence ${d.expires}</span>`:'';
-        const freeTag=d.isFree?`<span class="dl-tag dl-tag-free">${d.tag||'GRATIS'}</span>`:`<span class="dl-tag dl-tag-hot">${d.tag||'OFERTA'}</span>`;
-        html+=`<a href="${d.link}" target="_blank" rel="noopener" class="dl-item">
-          <div class="dl-icon" style="background:${src.color}15;color:${src.color};border-color:${src.color}25">${src.icon}</div>
-          <div class="dl-info">
-            <div class="dl-name">${d.title}</div>
-            <div class="dl-tags">${freeTag}${expTag}</div>
-          </div>
-        </a>`;
-      });
-      html+='</div>';
+      let html='';
+      for(const [catId,items] of Object.entries(grouped)){
+        const cat=catMap[catId]||{label:catId,icon:'🔗'};
+        html+=`<div class="dl-cat"><div class="dl-cat-label">${cat.icon} ${cat.label}</div><div class="dl-cat-grid">`;
+        items.forEach(s=>{
+          html+=`<a href="${s.url}" target="_blank" rel="noopener" class="dl-btn" title="${s.desc}">${s.name}</a>`;
+        });
+        html+='</div></div>';
+      }
+      if(!filtered.length) html='<div style="text-align:center;padding:16px;color:var(--tx3);font-size:11px">Sin sitios en esta categoria.</div>';
+      listEl.innerHTML=html;
     }
 
-    if(!deals.length) html='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:11px">No hay ofertas disponibles. Usa P0 para actualizar.</div>';
-    listEl.innerHTML=html;
+    renderSites('all');
+
+    srcEl.querySelectorAll('.ds-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        srcEl.querySelectorAll('.ds-chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        renderSites(chip.dataset.cat);
+      });
+    });
   }).catch(()=>{
-    listEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx3);font-size:11px">No se pudieron cargar las ofertas.</div>';
+    listEl.innerHTML='<div style="text-align:center;padding:16px;color:var(--tx3);font-size:11px">No se pudieron cargar las ofertas.</div>';
   });
 }
 
