@@ -102,24 +102,31 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
   - Sem 8 (18-24/5): Cierre de Notas · 100%
 - **Archivos clave:** `frontend/systems_logic.js` (SUBJECTS, BLOCK_ACTIVITIES, ACADEMIC_SUBJ_IDS, SUBJECT_GUIDES, CALENDAR, MALLA, CERTS), `frontend/systems.html` (estructura sólo)
 
-### Arquitectura 10-SYS (post-cleanup 2026-04-08):
-- **`SUBJECTS`** — 5 materias con campos: `id, code, name, group, professor, cdigital_id, schedule, subject_links{clase,grabaciones,material,reglas}, desc, resources`
-- **`BLOCK_ACTIVITIES`** — Array de 8 semanas con `{week, start, end, name, weight, type, cut, cutLabel}` — usado por `renderBlockActivities()` (Dashboard) y `renderSubjectDetail()` (Materias) para el plan inline
-- **`ACADEMIC_SUBJ_IDS`** = `['ing_web','mat_especiales','inv_ciencia']` — flag que excluye English/Placement del calendario académico
-- **Seed migration v2** — `db.get('seed_version')` < 2 → limpia tareas con materias falsas + seeds parciales v1, re-siembra 21 tareas reales (6 evaluaciones × 3 académicas + asistir clase + English + Placement)
+### Arquitectura 10-SYS (post-purge hallucination 2026-04-08):
+- **`SUBJECTS`** — 5 materias con campos: `id, code, name, group, professor, cdigital_id, schedule, subject_links{clase,grabaciones,material,reglas}, desc, resources`. Solo `ing_web` tiene `subject_links` extraídos.
+- **`BLOCK_ACTIVITIES`** — Array de 8 semanas. ⚠️ Reservado SOLO para uso interno de `renderActionNow()` (detectar semana actual). NO se renderiza en UI porque solo Ing Web tiene el calendario verificado contra ese template oficial. Las otras materias podrían tener calendarios distintos.
+- **`ACADEMIC_SUBJ_IDS`** = `['ing_web','mat_especiales','inv_ciencia']` — flag para futuro uso si se confirma que aplica el mismo calendario.
+- **Seed migration v3** — `db.get('seed_version')` < 3 → purga tareas con materias falsas + seeds extrapoladas v1/v2, re-siembra **SOLO 7 tareas reales de Ing Web** (6 evaluaciones + asistir clase). Las demás materias quedan vacías esperando syllabus real del usuario.
 - **Class Sessions store** — `CS_KEY = 'class_sessions'` (NO `sys_class_sessions` para evitar doble prefijo `sys_sys_*`); migración one-time movió data del key viejo
 
-### Dashboard depurado (10-SYS Tab 0):
-- ✅ `actionNow` — hero contextual ("Semana N/8 · [actividad actual]")
-- ✅ `blockActivities` — timeline visual 8 semanas con estado COMPLETADO/EN CURSO/en Xd y badges por corte
-- ✅ `studyPlan` — agenda 7 días con tareas por fecha
-- ✅ `semaphoreList` — semáforo P0-P4
+### Dashboard MINIMAL (10-SYS Tab 0):
+- ✅ `actionNow` — hero contextual ("Semana N/8 · [actividad de Ing Web]")
+- ✅ `semaphoreList` — semáforo P0-P4 (única vista de tareas)
 - ✅ `task-form` — alta de tareas (select limpio: solo 5 materias reales + general)
-- ❌ Removidos: `subjectHealth` (movido a Tab 1 Materias), `subjectCards` (redundante), `nextActions` (redundante con actionNow)
+- ❌ REMOVED: `blockActivities` (extrapolaba calendario Ing Web a todas), `studyPlan` (redundante con semáforo), `subjectHealth`, `subjectCards`, `nextActions`
 
-### Materias depurado (10-SYS Tab 1):
-- `subjectHealth` — grid compacto con status badges
-- `subjectDetail` — tarjetas con profesor, horario, **Plan de Evaluaciones inline (8 mini-cards)** sólo para académicas, tareas de la materia, botones deep-link a CDigital (Abrir curso, Clase, Grabaciones, Material, Reglas)
+### Materias MINIMAL (10-SYS Tab 1):
+- `subjectDetail` — tarjetas compactas con: profesor, horario, progress bar (solo si hay tareas), warning "⏳ Sin syllabus cargado" para materias sin datos, lista de tareas, deep-links a CDigital. **NO** muestra plan de evaluaciones (era extrapolación falsa).
+- ❌ REMOVED: `subjectHealth` grid (duplicaba subjectDetail), `evalPlan` inline (extrapolación)
+
+### 🟡 ESTADO INTERACTIVO (esperando syllabus del usuario)
+Solo **Ing Web** tiene calendario verificado. Para crear tareas en estas materias hay que pedir el syllabus al usuario:
+- 🔢 Matemáticas Especiales (DIS31, cdigital_id 101285) — HUERTAS CARDOZO DANIEL JOVANNY — **PRÓXIMA**
+- 🔬 Investigación Ciencia y Tecnología (DIS36, cdigital_id 104253) — CORTES TOBAR DARIO FERNANDO
+- 🇺🇸 Virtual English Beginner 1 (A1I01, cdigital_id 100774)
+- 📝 Placement Test BE Plus (CE1026, cdigital_id 106289)
+
+**REGLA:** NO inventar fechas de Quiz/Parcial/ACA para estas materias. Esperar a que el usuario pegue el calendario o navegue a CDigital.
 
 ### Funcionalidades 10-SYS disponibles:
 - **Tab 7 Clases Perdidas** — Pegar URL video de Drive → Copiar prompt optimizado (extrae transcripción, NO ve el video) → Claude analiza → `SYS.injectClassSession()` guarda en localStorage

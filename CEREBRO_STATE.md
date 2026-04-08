@@ -4,7 +4,35 @@
 
 ---
 
-## 10-SYS · Auditoría 26V02 + Calendario Real + Dashboard Cleanup — 2026-04-08 ✅ COMPLETE
+## 10-SYS · 🔴 CORRECCIÓN: Purga de datos hallucinados + Bloat removido — 2026-04-08
+
+### Por qué hubo que corregir
+El commit anterior (`8df8185`) extrapoló el calendario de evaluaciones de **Ing Web** (la única materia con datos verificados) a **Mat Especiales** y **Inv C&T**, generando 18 tareas seed (6 evaluaciones × 3 académicas) cuando solo había evidencia para 6. Esto es **fabricación de datos**. Además, el render duplicaba el timeline 8-semanas adentro de cada tarjeta de materia académica, causando bloat visual.
+
+### Acciones de corrección
+1. **Seed purgado** — Solo Ing Web tiene seed tasks reales (7 tareas: Quiz 1/Parcial 1/Quiz 2/Parcial 2/ACA/Quiz 3+Coev+Auto + Asistir clase). Mat Esp / Inv C&T / English / Placement quedan vacíos esperando syllabus real del usuario.
+2. **`SEED_VERSION = 3`** — Detecta tareas extrapoladas v2 (textos como "Quiz X — Matemáticas Especiales" / "— Investigación C&T") y las purga del localStorage en el próximo load. Preserva tareas creadas por el usuario.
+3. **`renderSubjectDetail()` simplificado** — Eliminada sección `evalPlan` (8 mini-cards inline). Ahora cada tarjeta muestra solo: profesor, horario, progress bar (si hay tareas), warning "⏳ Sin syllabus cargado" para materias sin datos verificados, lista de tareas, deep-links a CDigital.
+4. **Dashboard minimalista (Tab 0)** — KEEP: `actionNow` + `semaphoreList` + `task-form`. REMOVED: `blockActivities` (timeline 8-semanas), `studyPlan` (agenda 7 días con materias sin tareas), redundancia con semáforo.
+5. **Materias minimalista (Tab 1)** — KEEP: `subjectDetail`. REMOVED: `subjectHealth` (grid de status duplicaba subjectDetail).
+6. **Funciones muertas eliminadas:** `renderSubjectCards`, `renderNextActions`, `renderBlockActivities`, `renderSubjectHealth`, `renderStudyPlan`. SUBJECT_GUIDES purgados de `calidad_sw` / `admin_bd` / `redes` (materias falsas).
+7. **Selects fixed** — `bulkSubj` y `classSubjSel` ya no listan materias falsas.
+8. **Tamaños:** `systems_logic.js` 1531 → 1228 líneas (-303). `systems.html` 535 → 513 líneas (-22).
+
+### 🟡 ESPERANDO DATOS DEL USUARIO
+Quedan **4 materias sin syllabus verificado** que requieren datos del usuario para crear tareas reales. NO inventar.
+| Materia | Profesor | cdigital_id | Estado |
+|---|---|---|---|
+| 🔢 Matemáticas Especiales (DIS31) | HUERTAS CARDOZO DANIEL JOVANNY | 101285 | **PRÓXIMA** — pedir syllabus |
+| 🔬 Investigación Ciencia y Tecnología (DIS36) | CORTES TOBAR DARIO FERNANDO | 104253 | Pendiente |
+| 🇺🇸 Virtual English Beginner 1 (A1I01) | IV001 | 100774 | Pendiente |
+| 📝 Placement Test BE Plus (CE1026) | IV002 | 106289 | Pendiente |
+
+**Modo interactivo activo:** próxima sesión debe pedir el syllabus de **Mat Especiales** primero (URL: https://cdigital.cun.edu.co/course/view.php?id=101285) antes de crear cualquier tarea para esa materia.
+
+---
+
+## 10-SYS · Auditoría 26V02 + Calendario Real + Dashboard Cleanup — 2026-04-08 ⚠️ SUPERSEDED por la corrección de arriba
 
 ### Contexto
 Usuario reportó "me pierdo en tanta cosa, hay info repetida". Auditoría completa contra CDigital + calendario académico oficial CUN 2026A. Detectadas 3 materias falsas en `SUBJECTS` y 8 semanas de calendario inexistentes.

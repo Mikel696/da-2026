@@ -273,17 +273,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ACTION NOW — Hero Card -->
 <div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
 
-<!-- BLOCK 1 ACTIVITIES — Real 8-week timeline -->
-<div class="sl">· bloque 1 · 8 semanas — calendario oficial 26V02 ·</div>
-<div class="sd">Quiz 1 (10%) → Parcial 1 (20%) → Quiz 2 (10%) → Parcial 2 (20%) → ACA Pitch (34%) → Quiz 3 (6%). Cierre 24 mayo.</div>
-<div id="blockActivities" style="margin-bottom:16px"></div>
-
-<!-- STUDY PLAN — 7 días -->
-<div class="sl">· plan de estudio — esta semana ·</div>
-<div class="sd">Tareas agendadas para los próximos 7 días, ordenadas por fecha.</div>
-<div id="studyPlan" style="margin-bottom:16px"></div>
-
-<!-- SEMAPHORE — Lista priorizada -->
+<!-- SEMAPHORE — Lista priorizada (única vista de tareas en el dashboard) -->
 <div class="sl">· semáforo de tareas ·</div>
 <div class="sd">🔴 Crítico (&lt;48h) · 🟠 Esta semana · 🟡 En camino · 🟢 Futuro</div>
 <div id="semaphoreList"></div>
@@ -316,13 +306,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
 <div class="pnl" id="pnl1">
 <div class="sl">· materias 26V02 — período actual ·</div>
-<div class="sd">5 materias activas en CDigital. Click cualquier tarjeta para abrir la <strong style="color:var(--vi2)">guía paso a paso</strong>: qué hacer, dónde entregar y cómo presentar evidencias.</div>
-
-<!-- SALUD POR MATERIA — grid compacto -->
-<div id="subjectHealth" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:24px"></div>
-
-<div class="sl">· detalle por materia ·</div>
-<div class="sd">Profesor, horario, links directos a CDigital (clase / grabaciones / material / reglas) y recursos externos.</div>
+<div class="sd">5 materias activas en CDigital. Solo Ing Web tiene calendario verificado; el resto espera tu syllabus.</div>
 <div id="subjectDetail"></div>
 </div>
 
@@ -432,11 +416,8 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <textarea id="bulkImport" placeholder="Pega aquí las tareas de CUN Digital (una por línea).&#10;Ejemplo:&#10;Taller 3 - Grafos y árboles&#10;Quiz semana 8 - Ecuaciones diferenciales&#10;Foro de discusión - Redes inalámbricas" style="width:100%;min-height:120px;padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical"></textarea>
 <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
 <select class="tf-select" id="bulkSubj">
-<option value="mat_especiales">Matemáticas Especiales</option>
-<option value="calidad_sw">Calidad del Software</option>
-<option value="admin_bd">Admin. Bases de Datos</option>
 <option value="ing_web">Ingeniería Web</option>
-<option value="redes">Redes Inalámbricas</option>
+<option value="mat_especiales">Matemáticas Especiales</option>
 <option value="inv_ciencia">Inv. Ciencia y Tecnología</option>
 <option value="english_beginner">English Beginner 1</option>
 <option value="placement_test">Placement Test BE</option>
@@ -483,11 +464,8 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
   <input class="cs-url-input" id="classUrl" placeholder="https://drive.google.com/... o https://zoom.us/rec/... o https://meet.google.com/...">
   <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
     <select class="tf-select" id="classSubjSel">
-      <option value="mat_especiales">Matemáticas Especiales (DIS31)</option>
-      <option value="calidad_sw">Calidad del Software (DIS32)</option>
-      <option value="admin_bd">Admin. Bases de Datos (DIS33)</option>
       <option value="ing_web">Ingeniería Web (DIS34)</option>
-      <option value="redes">Redes Inalámbricas (DIS35)</option>
+      <option value="mat_especiales">Matemáticas Especiales (DIS31)</option>
       <option value="inv_ciencia">Inv. Ciencia y Tecnología (DIS36)</option>
       <option value="english_beginner">English Beginner 1 (A1I01)</option>
       <option value="placement_test">Placement Test BE (CE1026)</option>

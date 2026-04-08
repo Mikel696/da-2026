@@ -132,8 +132,8 @@ const SYS = (() => {
   // ── WEEKLY WORKFLOW ──
   const WEEKLY_WORKFLOW = [
     { day: 'Lunes', tasks: ['Revisar CUN Digital — materiales nuevos de todas las materias', 'Actualizar semáforo con tareas descubiertas', 'Planificar la semana'] },
-    { day: 'Martes-Miércoles', tasks: ['Trabajar en tareas P0 y P1', 'Estudiar contenido teórico (Mat. Especiales, Calidad SW, Inv. Ciencia)', 'Coordinar encuentros sincrónicos'] },
-    { day: 'Jueves-Viernes', tasks: ['Completar talleres y laboratorios (Admin BD, Ing. Web, Redes)', 'Participar en foros de discusión', 'Avanzar en proyectos y entregas'] },
+    { day: 'Martes-Miércoles', tasks: ['Trabajar en tareas P0 y P1', 'Estudiar contenido teórico (Mat. Especiales, Inv. Ciencia)', 'Coordinar encuentros sincrónicos'] },
+    { day: 'Jueves-Viernes', tasks: ['Completar talleres y laboratorios (Ing. Web)', 'Participar en foros de discusión', 'Avanzar en proyectos y entregas'] },
     { day: 'Sábado', tasks: ['Entregar pendientes antes de deadlines dominicales', 'Revisar recursos de certificaciones', 'Respaldo de datos (exportar JSON)'] },
     { day: 'Domingo', tasks: ['Revisión semanal — ¿qué completé? ¿qué falta?', 'Limpiar tareas completadas', 'Preparar prioridades de la siguiente semana'] },
   ];
@@ -301,40 +301,11 @@ const SYS = (() => {
     el.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin tareas registradas. Agrega tu primera tarea arriba.</div>';
   }
 
-  // ── RENDER: SUBJECT CARDS (dashboard) ──
-  function renderSubjectCards() {
-    const el = document.getElementById('subjectCards');
-    if (!el) return;
-    const tasks = getTasks();
-    el.innerHTML = SUBJECTS.map(s => {
-      const subjTasks = tasks.filter(t => t.subj === s.id);
-      const done = subjTasks.filter(t => t.done).length;
-      const total = subjTasks.length;
-      const pct = total > 0 ? Math.round(done / total * 100) : 0;
-      const pending = subjTasks.filter(t => !t.done).length;
-      const urgent = subjTasks.filter(t => !t.done && ['p0','p1'].includes(getTaskPriority(t))).length;
-      return `<div class="subj" onclick="SYS.showTaskGuide('${s.id}')">
-        <div class="subj-icon" style="background:${s.color}22;border:1px solid ${s.color}33">${s.icon}</div>
-        <div class="subj-body">
-          <div class="subj-name">${s.name}</div>
-          <div class="subj-meta">${s.credits} créditos · ${s.type}${pending > 0 ? ` · <strong>${pending} pendiente${pending !== 1 ? 's' : ''}</strong>` : ''}${urgent > 0 ? ` · <span style="color:var(--rd)">${urgent} urgente${urgent !== 1 ? 's' : ''}</span>` : ''}</div>
-          <div class="pbar"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
-        </div>
-        <div class="subj-right">
-          <div class="subj-pct" style="color:${pct === 100 ? 'var(--gn)' : 'var(--vi2)'}">${pct}%</div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
   // ── RENDER: SUBJECT DETAIL (Tab 1) ──
   function renderSubjectDetail() {
     const el = document.getElementById('subjectDetail');
     if (!el) return;
     const tasks = getTasks();
-    const today = todayStr();
-    const typeIcon = { session: '📖', quiz: '📝', exam: '🎯', project: '🚀', closing: '🏁' };
-    const typeColor = { session: 'var(--cy)', quiz: 'var(--am)', exam: 'var(--rd)', project: 'var(--vi2)', closing: 'var(--gn)' };
 
     el.innerHTML = SUBJECTS.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
@@ -343,42 +314,21 @@ const SYS = (() => {
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
-      const isAcademic = ACADEMIC_SUBJ_IDS.includes(s.id);
-
-      // Per-subject 8-week plan (only for academic subjects)
-      const evalPlan = isAcademic ? `<div style="margin:12px 0 14px;padding:10px 12px;background:var(--vg);border:1px solid rgba(124,58,237,.18);border-radius:8px">
-        <div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">📅 Plan de evaluaciones · Bloque 1 · 8 semanas</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px">
-          ${BLOCK_ACTIVITIES.map(a => {
-            const isPast = today > a.end;
-            const isNow = today >= a.start && today <= a.end;
-            const stateBg = isNow ? `${typeColor[a.type]}22` : isPast ? 'rgba(34,197,94,.06)' : 'var(--el)';
-            const stateBorder = isNow ? typeColor[a.type] : isPast ? 'rgba(34,197,94,.3)' : 'var(--bd)';
-            const stateLabel = isNow ? '◉ AHORA' : isPast ? '✓' : `${formatDate(a.start)}`;
-            return `<div style="padding:6px 8px;border-radius:6px;background:${stateBg};border:1px solid ${stateBorder};font-size:9px;line-height:1.3">
-              <div style="color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:8px">SEM ${a.week} · ${stateLabel}</div>
-              <div style="color:var(--tx);font-weight:600;margin-top:2px">${typeIcon[a.type]} ${a.name.replace(' · Pitch Disciplinares-NIP','').replace(' (2%) + Coevaluación (2%) + Autoevaluación (2%)','+Coev+Auto')}</div>
-              ${a.weight ? `<div style="color:${typeColor[a.type]};font-weight:700;margin-top:2px">${a.weight}%</div>` : ''}
-            </div>`;
-          }).join('')}
-        </div>
-      </div>` : '';
+      const hasRealCalendar = s.id === 'ing_web'; // SOLO Ing Web tiene calendario verificado
 
       return `<div class="gc" style="border-left:3px solid ${s.color}">
         <div class="gc-h">
-          <div class="gc-t"><span style="font-size:20px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code} · Grupo ${s.group}</span></div>
-          <span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>
+          <div class="gc-t"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
+          ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
         </div>
-        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:4px">👨‍🏫 <strong>${s.professor}</strong></div>` : ''}
+        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}</div>` : ''}
         ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>` : ''}
-        <p style="font-size:12px;color:var(--t2);margin-bottom:12px">${s.desc}</p>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        ${total > 0 ? `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
           <div class="pbar" style="flex:1"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--vi2)">${pct}% (${done}/${total})</span>
-        </div>
-        ${evalPlan}
-        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Área: ${s.type}</div>
-        ${subjTasks.length > 0 ? `<div style="margin-bottom:10px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--vi2)">${pct}% · ${done}/${total}</span>
+        </div>` : ''}
+        ${!hasRealCalendar ? `<div style="margin:8px 0;padding:8px 10px;background:rgba(234,179,8,.06);border:1px dashed rgba(234,179,8,.25);border-radius:6px;font-size:11px;color:var(--am)">⏳ Sin syllabus cargado. Pega el calendario real desde CDigital para crear tareas.</div>` : ''}
+        ${subjTasks.length > 0 ? `<div style="margin:8px 0">
           ${subjTasks.map(t => `<div class="atask">
             <div class="atask-check${t.done ? ' done' : ''}" onclick="SYS.toggleTask(${t.id})">${t.done ? '✓' : ''}</div>
             <span class="atask-text${t.done ? ' crossed' : ''}">${esc(t.text)}</span>
@@ -386,13 +336,11 @@ const SYS = (() => {
             <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
           </div>`).join('')}
         </div>` : ''}
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 Abrir en CDigital</a>` : ''}
-          ${sl.clase ? `<a href="${sl.clase}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Link de clase</a>` : ''}
-          ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
-          ${sl.material ? `<a href="${sl.material}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📂 Material</a>` : ''}
-          ${sl.reglas ? `<a href="${sl.reglas}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📜 Reglas</a>` : ''}
-          ${s.resources.map(r => `<a href="${r}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--el);border:1px solid var(--bd);border-radius:6px;color:var(--t3);text-decoration:none">🔗 ${new URL(r).hostname.replace('www.','')}</a>`).join('')}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+          ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 CDigital</a>` : ''}
+          ${sl.clase ? `<a href="${sl.clase}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Clase</a>` : ''}
+          ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
+          ${sl.material ? `<a href="${sl.material}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📂 Material</a>` : ''}
         </div>
       </div>`;
     }).join('');
@@ -516,45 +464,6 @@ const SYS = (() => {
         <a href="${c.link}" target="_blank" rel="noopener" class="cert-link">Ver certificación →</a>
       </div>
     `).join('');
-  }
-
-  // ── RENDER: NEXT ACTIONS ──
-  function renderNextActions() {
-    const el = document.getElementById('nextActions');
-    if (!el) return;
-    const period = detectPeriod();
-    const cal = CALENDAR[period] || CALENDAR['26V01'];
-    const today = todayStr();
-    const tasks = getTasks().filter(t => !t.done);
-    const urgentCount = tasks.filter(t => ['p0','p1'].includes(getTaskPriority(t))).length;
-
-    let blockStatus = '';
-    if (cal.block1 && today >= cal.block1.start && today <= cal.block1.end) {
-      const daysLeft = daysBetween(today, cal.block1.end);
-      blockStatus = `Estás en el <strong>Primer Bloque</strong>. Quedan <strong>${daysLeft} días</strong> para el cierre.`;
-    } else if (cal.block2 && today >= cal.block2.start && today <= cal.block2.end) {
-      const daysLeft = daysBetween(today, cal.block2.end);
-      blockStatus = `Estás en el <strong>Segundo Bloque</strong>. Quedan <strong>${daysLeft} días</strong> para el cierre.`;
-    } else {
-      blockStatus = 'Período entre bloques o fuera del rango académico.';
-    }
-
-    const tips = [];
-    if (urgentCount > 0) tips.push(`⚠️ Tienes <strong>${urgentCount} tarea${urgentCount > 1 ? 's' : ''} urgente${urgentCount > 1 ? 's' : ''}</strong>. Resuélvelas primero.`);
-    if (tasks.length === 0) tips.push('✅ No tienes tareas pendientes. Revisa <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--vi2)">CUN Digital</a> para nuevas actividades.');
-    tips.push('📡 Revisa el aula virtual regularmente para no perder entregas.');
-    tips.push('🏆 Considera obtener una certificación AWS o Azure para destacar en tu perfil profesional.');
-
-    el.innerHTML = `
-      <div class="gc-t" style="margin-bottom:12px">⚡ Estado Actual & Recomendaciones</div>
-      <div style="padding:10px 14px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:8px;font-size:12px;color:var(--vi2);margin-bottom:10px">
-        📅 ${blockStatus}
-      </div>
-      ${tips.map(t => `<div style="padding:8px 0;font-size:12px;color:var(--t2);border-bottom:1px solid rgba(255,255,255,.03)">${t}</div>`).join('')}
-      <div style="margin-top:12px;padding:10px 14px;background:var(--eg);border:1px solid rgba(16,185,129,.15);border-radius:8px;font-size:12px;color:var(--em)">
-        💡 <strong>Tip de carrera:</strong> Con 8vo semestre, enfócate en proyectos reales para tu portafolio. Integra las certificaciones cloud con tus materias de Redes y Base de Datos para un perfil competitivo.
-      </div>
-    `;
   }
 
   // ── RENDER: STATS BAR ──
@@ -782,161 +691,10 @@ const SYS = (() => {
       </div>`;
   }
 
-  // ── RENDER: BLOCK ACTIVITIES (8-week timeline — Quiz/Parcial/ACA) ──
-  function renderBlockActivities() {
-    const el = document.getElementById('blockActivities');
-    if (!el) return;
-    const today = todayStr();
-    const tasks = getTasks();
-
-    const typeIcon = { session: '📖', quiz: '📝', exam: '🎯', project: '🚀', closing: '🏁' };
-    const typeColor = { session: 'var(--cy)', quiz: 'var(--am)', exam: 'var(--rd)', project: 'var(--vi2)', closing: 'var(--gn)' };
-    const cutColor = { 1: 'var(--am)', 2: 'var(--or)', 3: 'var(--rd)' };
-
-    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px">
-      ${BLOCK_ACTIVITIES.map(a => {
-        const isPast = today > a.end;
-        const isNow = today >= a.start && today <= a.end;
-        const isFuture = today < a.start;
-        const daysToStart = daysBetween(today, a.start);
-        const daysToEnd = daysBetween(today, a.end);
-        const stateColor = isNow ? typeColor[a.type] : isPast ? 'var(--gn)' : 'var(--bd)';
-        const stateLabel = isNow ? 'EN CURSO' : isPast ? 'COMPLETADO' : `en ${daysToStart}d`;
-        const stateBg = isNow ? 'rgba(139,92,246,.08)' : isPast ? 'rgba(34,197,94,.05)' : 'var(--el)';
-        return `<div style="background:${stateBg};border:1px solid ${stateColor};border-left:3px solid ${typeColor[a.type]};border-radius:8px;padding:10px 12px;${isNow ? 'box-shadow:0 0 18px rgba(139,92,246,.15)' : ''}">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);font-weight:600">SEM ${a.week} · ${formatDate(a.start)}-${formatDate(a.end)}</span>
-            ${a.weight ? `<span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${typeColor[a.type]}22;color:${typeColor[a.type]}">${a.weight}%</span>` : ''}
-          </div>
-          <div style="font-size:12px;font-weight:600;color:var(--tx);line-height:1.3;margin-bottom:6px">${typeIcon[a.type]} ${a.name}</div>
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px">
-            <span style="color:${isNow ? typeColor[a.type] : isPast ? 'var(--gn)' : 'var(--t3)'};font-weight:${isNow ? '700' : '500'}">${stateLabel}</span>
-            ${a.cutLabel ? `<span style="padding:1px 5px;border-radius:3px;background:${cutColor[a.cut]}18;color:${cutColor[a.cut]};font-weight:600">${a.cutLabel}</span>` : ''}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-  }
-
-  // ── RENDER: SUBJECT HEALTH (Compact Visual Grid) ──
-  function renderSubjectHealth() {
-    const el = document.getElementById('subjectHealth');
-    if (!el) return;
-    const tasks = getTasks();
-
-    el.innerHTML = SUBJECTS.map(s => {
-      const subjTasks = tasks.filter(t => t.subj === s.id);
-      const done = subjTasks.filter(t => t.done).length;
-      const total = subjTasks.length;
-      const pending = subjTasks.filter(t => !t.done).length;
-      const overdue = subjTasks.filter(t => !t.done && t.due && daysBetween(todayStr(), t.due) < 0).length;
-      const urgent = subjTasks.filter(t => !t.done && ['p0','p1'].includes(getTaskPriority(t))).length;
-
-      // Health status
-      let status, statusColor, statusBg;
-      if (overdue > 0) { status = '🔴 ATRASADO'; statusColor = 'var(--rd)'; statusBg = 'rgba(239,68,68,.08)'; }
-      else if (urgent > 0) { status = '🟠 URGENTE'; statusColor = 'var(--or)'; statusBg = 'rgba(249,115,22,.08)'; }
-      else if (pending > 0) { status = '🟡 AL DÍA'; statusColor = 'var(--am)'; statusBg = 'rgba(234,179,8,.06)'; }
-      else if (done > 0) { status = '✅ COMPLETO'; statusColor = 'var(--gn)'; statusBg = 'rgba(34,197,94,.06)'; }
-      else { status = '⬜ SIN TAREAS'; statusColor = 'var(--t3)'; statusBg = 'var(--el)'; }
-
-      const pct = total > 0 ? Math.round(done / total * 100) : 0;
-
-      return `<div onclick="SYS.showTaskGuide('${s.id}')" style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;border-left:3px solid ${s.color}" onmouseover="this.style.borderColor='${s.color}'" onmouseout="this.style.borderColor='var(--bd)'">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:16px">${s.icon}</span>
-            <span style="font-size:12px;font-weight:600">${s.name}</span>
-          </div>
-          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:${statusBg};color:${statusColor}">${status}</span>
-        </div>
-        <div style="display:flex;gap:4px;align-items:center;margin-bottom:4px">
-          <div style="flex:1;background:var(--el);border-radius:3px;height:5px;overflow:hidden">
-            <div style="width:${pct}%;height:100%;background:${s.color};border-radius:3px;transition:width .5s"></div>
-          </div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:30px;text-align:right">${pct}%</span>
-        </div>
-        <div style="font-size:10px;color:var(--t3)">${s.credits} cr · ${s.type}${pending ? ' · <strong style=\"color:'+statusColor+'\">'+pending+' pendiente'+(pending!==1?'s':'')+'</strong>' : ''}</div>
-      </div>`;
-    }).join('');
-  }
-
-  // ── RENDER: STUDY PLAN ──
-  function renderStudyPlan() {
-    const el = document.getElementById('studyPlan');
-    if (!el) return;
-    const tasks = getTasks().filter(t => !t.done);
-    const today = new Date();
-    const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-
-    // Group tasks by due date into next 7 days
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(today);
-      d.setDate(d.getDate() + i);
-      const dateStr = d.toISOString().split('T')[0];
-      const dayTasks = tasks.filter(t => t.due === dateStr);
-      const isToday = i === 0;
-      days.push({ date: dateStr, label: isToday ? '📌 HOY' : dayNames[d.getDay()], day: d.getDate(), month: d.getMonth()+1, tasks: dayTasks, isToday });
-    }
-
-    // Also get overdue
-    const overdue = tasks.filter(t => t.due && daysBetween(todayStr(), t.due) < 0);
-
-    // Unscheduled
-    const unscheduled = tasks.filter(t => !t.due);
-
-    // Build recommendations based on subjects without tasks
-    const activeSubjIds = new Set(tasks.map(t => t.subj));
-    const neglected = SUBJECTS.filter(s => !activeSubjIds.has(s.id) && s.credits > 0);
-
-    let html = '';
-
-    if (overdue.length > 0) {
-      html += `<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:10px 12px;margin-bottom:8px">
-        <div style="font-size:11px;font-weight:700;color:var(--rd);margin-bottom:4px">⚠️ VENCIDAS — Resolver primero</div>
-        ${overdue.map(t => {
-          const subj = SUBJECTS.find(s => s.id === t.subj);
-          return `<div style="font-size:11px;color:var(--t2);padding:2px 0">${subj?.icon||'📌'} ${esc(t.text)} <span style="color:var(--rd);font-size:10px">(vencida ${formatDate(t.due)})</span></div>`;
-        }).join('')}
-      </div>`;
-    }
-
-    html += days.map(d => {
-      if (d.tasks.length === 0 && !d.isToday) return '';
-      const border = d.isToday ? 'border-left:3px solid var(--vi)' : 'border-left:3px solid var(--bd)';
-      return `<div style="background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:4px;${border}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:${d.tasks.length?'6':'0'}px">
-          <span style="font-size:11px;font-weight:600;color:${d.isToday?'var(--vi2)':'var(--tx)'}">${d.label} · ${d.day}/${d.month}</span>
-          <span style="font-size:10px;color:var(--t3)">${d.tasks.length} tarea${d.tasks.length!==1?'s':''}</span>
-        </div>
-        ${d.tasks.length > 0 ? d.tasks.map(t => {
-          const subj = SUBJECTS.find(s => s.id === t.subj);
-          return `<div style="font-size:11px;color:var(--t2);padding:2px 0;display:flex;align-items:center;gap:4px">
-            <span class="atask-check" onclick="SYS.toggleTask(${t.id})" style="width:14px;height:14px;min-width:14px"></span>
-            ${subj?.icon||'📌'} ${esc(t.text)}
-          </div>`;
-        }).join('') : d.isToday ? '<div style="font-size:11px;color:var(--t3);padding:2px 0">Sin tareas programadas para hoy</div>' : ''}
-      </div>`;
-    }).filter(Boolean).join('');
-
-    if (neglected.length > 0) {
-      html += `<div style="background:rgba(234,179,8,.04);border:1px solid rgba(234,179,8,.12);border-radius:8px;padding:10px 12px;margin-top:8px">
-        <div style="font-size:11px;font-weight:700;color:var(--am);margin-bottom:4px">💡 Materias sin tareas — agrega actividades</div>
-        ${neglected.map(s => `<div style="font-size:11px;color:var(--t2);padding:2px 0">${s.icon} ${s.name} <span style="color:var(--t3)">— ${s.credits} cr, ${s.type}</span></div>`).join('')}
-      </div>`;
-    }
-
-    el.innerHTML = html || '<div style="text-align:center;padding:16px;color:var(--t3);font-size:12px">Sin tareas programadas esta semana. ¡Agrega tareas desde el formulario abajo!</div>';
-  }
-
   function render() {
     renderStats();
     renderActionNow();
-    renderBlockActivities();
-    renderStudyPlan();
     renderSemaphore();
-    renderSubjectHealth();   // ahora vive en Tab 1 (Materias)
     renderSubjectDetail();
     renderCalendar();
     renderQuickAccess();
@@ -956,19 +714,20 @@ const SYS = (() => {
     }
 
     // ── Migración de seeds ──
-    // v1: tareas con materias falsas (calidad_sw/admin_bd/redes) — abr 2026
-    // v2: seeds parciales que solo cubrían Ing Web (faltaban Quiz 2/Parcial 2/ACA para Mat Esp e Inv C&T)
-    const SEED_VERSION = 2;
+    // v1: tareas con materias falsas (calidad_sw/admin_bd/redes)
+    // v2: seeds parciales — Ing Web + extrapolaciones inventadas para Mat Esp / Inv C&T (PURGADO)
+    // v3: SOLO Ing Web tiene calendario real verificado. Resto pendiente de syllabus del usuario.
+    const SEED_VERSION = 3;
     const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
     const currentSeedVer = db.get('seed_version', 0);
     const existing = getTasks();
     const hasStale = existing.some(t => STALE_IDS.has(t.subj));
-    // Detect old partial seed (v1): exactly 12 seeds with the original v1 texts
-    const v1SeedTexts = new Set([
+    // Textos de seeds previas (v1, v2 — todas con datos extrapolados/inventados que hay que purgar)
+    const oldSeedTexts = new Set([
+      // v1
       'Quiz 1 — Ingeniería Web (10%)',
       'Quiz 1 — Matemáticas Especiales (10%)',
       'Quiz 1 — Investigación Ciencia y Tecnología (10%)',
-      'Asistir a clase Ing Web — Miércoles 6:15 PM',
       'Parcial 1 — Ingeniería Web (20%) → 1er Corte 30%',
       'Parcial 1 — Matemáticas Especiales (20%)',
       'Parcial 1 — Investigación C&T (20%)',
@@ -977,62 +736,60 @@ const SYS = (() => {
       'ACA · Pitch Disciplinares-NIP (34%) — preparar presentación',
       'Completar inducción Week 2 — Virtual English Beginner',
       'Presentar Placement Test BE Plus (única actividad)',
+      // v2 — extrapoladas (HALLUCINADAS) para Mat Esp e Inv C&T
+      'Quiz 1 — Matemáticas Especiales (10%)',
+      'Parcial 1 — Matemáticas Especiales (20% → 1er Corte 30%)',
+      'Quiz 2 — Matemáticas Especiales (10%)',
+      'Parcial 2 — Matemáticas Especiales (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Matemáticas Especiales (34%)',
+      'Quiz 3 + Coevaluación + Autoevaluación — Matemáticas Especiales (6% → 3er Corte 40%)',
+      'Quiz 1 — Investigación C&T (10%)',
+      'Parcial 1 — Investigación C&T (20% → 1er Corte 30%)',
+      'Quiz 2 — Investigación C&T (10%)',
+      'Parcial 2 — Investigación C&T (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Investigación C&T (34%)',
+      'Quiz 3 + Coevaluación + Autoevaluación — Investigación C&T (6% → 3er Corte 40%)',
+      // viejos placeholders v0
+      'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)',
+      'Estudiar transformadas y series para primer corte',
+      'Revisar estándares de calidad ISO para entrega',
+      'Configurar entorno de pruebas unitarias — proyecto QA',
+      'Práctica de optimización de queries SQL — Admin BD',
+      'Desarrollar proyecto web con API REST — Ingeniería Web',
+      'Revisar HTML/CSS/JS y frameworks para quiz',
+      'Laboratorio de configuración WiFi empresarial',
+      'Revisar protocolos wireless y seguridad para quiz',
+      'Definir tema y estado del arte — Investigación',
+      'Completar actividad de inducción — English Beginner',
+      'Realizar Placement Test BE Plus',
     ]);
     if (hasStale || currentSeedVer < SEED_VERSION) {
-      // Preserve user-created tasks (anything not matching either v1 seed nor stale subj)
-      const oldFakeSeedTexts = new Set([
-        'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)',
-        'Estudiar transformadas y series para primer corte',
-        'Revisar estándares de calidad ISO para entrega',
-        'Configurar entorno de pruebas unitarias — proyecto QA',
-        'Práctica de optimización de queries SQL — Admin BD',
-        'Desarrollar proyecto web con API REST — Ingeniería Web',
-        'Revisar HTML/CSS/JS y frameworks para quiz',
-        'Laboratorio de configuración WiFi empresarial',
-        'Revisar protocolos wireless y seguridad para quiz',
-        'Definir tema y estado del arte — Investigación',
-        'Completar actividad de inducción — English Beginner',
-        'Realizar Placement Test BE Plus',
-      ]);
+      // Preserve user-created tasks; purge stale subjects + all old seed texts
       const userTasks = existing.filter(t =>
         !STALE_IDS.has(t.subj) &&
-        !oldFakeSeedTexts.has(t.text) &&
-        !v1SeedTexts.has(t.text)
+        !oldSeedTexts.has(t.text) &&
+        // Drop any text that contains the names of fabricated subject seeds
+        !/— Matemáticas Especiales \(/.test(t.text) &&
+        !/— Investigación C&T \(/.test(t.text)
       );
       saveTasks(userTasks);
       db.set('seed_version', SEED_VERSION);
     }
 
-    // Add seed tasks if first time — basadas en calendario oficial CUN 2026A Bloque 1
-    // Cada materia académica (ing_web, mat_especiales, inv_ciencia) recibe el mismo set:
-    // Quiz 1 (10%) → Parcial 1 (20%) → Quiz 2 (10%) → Parcial 2 (20%) → ACA (34%) → Quiz 3+Coev+Auto (6%)
+    // Seed tasks — SOLO datos verificados.
+    // Ing Web es la ÚNICA materia con calendario/evaluaciones confirmadas por el usuario.
+    // Mat Especiales, Inv C&T, English Beginner y Placement Test esperan que el usuario
+    // proporcione los syllabus reales (NO inventar).
     if (getTasks().length === 0) {
-      const academicSubjects = [
-        { id: 'ing_web', label: 'Ingeniería Web' },
-        { id: 'mat_especiales', label: 'Matemáticas Especiales' },
-        { id: 'inv_ciencia', label: 'Investigación C&T' },
+      const seedTasks = [
+        { id: 1, text: 'Quiz 1 — Ingeniería Web (10%)',                                  subj: 'ing_web', priority: 'p0', due: '2026-04-12', done: false, created: todayStr() },
+        { id: 2, text: 'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',               subj: 'ing_web', priority: 'p1', due: '2026-04-19', done: false, created: todayStr() },
+        { id: 3, text: 'Quiz 2 — Ingeniería Web (10%)',                                  subj: 'ing_web', priority: 'p2', due: '2026-04-26', done: false, created: todayStr() },
+        { id: 4, text: 'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',               subj: 'ing_web', priority: 'p2', due: '2026-05-03', done: false, created: todayStr() },
+        { id: 5, text: 'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',           subj: 'ing_web', priority: 'p3', due: '2026-05-16', done: false, created: todayStr() },
+        { id: 6, text: 'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',     subj: 'ing_web', priority: 'p3', due: '2026-05-16', done: false, created: todayStr() },
+        { id: 7, text: 'Asistir a clase Ing Web — Miércoles 6:15 PM',                    subj: 'ing_web', priority: 'p0', due: '2026-04-08', done: false, created: todayStr() },
       ];
-      const evalTemplate = [
-        { name: 'Quiz 1', pct: '10%', due: '2026-04-12', priority: 'p0' },
-        { name: 'Parcial 1', pct: '20% → 1er Corte 30%', due: '2026-04-19', priority: 'p1' },
-        { name: 'Quiz 2', pct: '10%', due: '2026-04-26', priority: 'p2' },
-        { name: 'Parcial 2', pct: '20% → 2do Corte 30%', due: '2026-05-03', priority: 'p2' },
-        { name: 'ACA · Pitch Disciplinares-NIP', pct: '34%', due: '2026-05-16', priority: 'p3' },
-        { name: 'Quiz 3 + Coevaluación + Autoevaluación', pct: '6% → 3er Corte 40%', due: '2026-05-16', priority: 'p3' },
-      ];
-      const seedTasks = [];
-      let id = 1;
-      // Académicas: 3 × 6 evaluaciones = 18 tareas
-      for (const subj of academicSubjects) {
-        for (const ev of evalTemplate) {
-          seedTasks.push({ id: id++, text: `${ev.name} — ${subj.label} (${ev.pct})`, subj: subj.id, priority: ev.priority, due: ev.due, done: false, created: todayStr() });
-        }
-      }
-      // Asistir clase Ing Web (HOY)
-      seedTasks.push({ id: id++, text: 'Asistir a clase Ing Web — Miércoles 6:15 PM', subj: 'ing_web', priority: 'p0', due: '2026-04-08', done: false, created: todayStr() });
-      // Idiomas (flujo independiente)
-      seedTasks.push({ id: id++, text: 'Completar inducción Week 2 — Virtual English Beginner', subj: 'english_beginner', priority: 'p2', due: '2026-04-19', done: false, created: todayStr() });
-      seedTasks.push({ id: id++, text: 'Presentar Placement Test BE Plus (única actividad)', subj: 'placement_test', priority: 'p1', due: '2026-04-15', done: false, created: todayStr() });
       saveTasks(seedTasks);
     }
 
@@ -1151,46 +908,6 @@ const SYS = (() => {
         { title: 'Verifica la calificación', desc: 'Después del cierre, revisa en SGA Campus → notr29 si la nota fue registrada.', action: 'Después del cierre' }
       ]
     },
-    calidad_sw: {
-      platform: 'CUN Digital (Moodle)',
-      courseUrl: 'https://cdigital.cun.edu.co/',
-      howToAccess: 'CUN Digital → Mis cursos → Calidad del Software (DIS32, Grupo 52278)',
-      evidenceType: 'Documentos de QA, casos de prueba, reportes de testing, participación en foros',
-      submitMethod: 'Subir documentos en Moodle. Foros de discusión se responden directamente en la plataforma.',
-      tips: [
-        'Lee los estándares ISO 9126 y ISO 25010 — son base de esta materia',
-        'Practica creando casos de prueba con formato profesional',
-        'Los foros suelen tener fecha límite — participa ANTES del cierre',
-        'Usa herramientas como Selenium o JUnit para prácticas de testing'
-      ],
-      weeklySteps: [
-        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Calidad del Software. Verifica nuevas actividades, foros y materiales.', action: 'Cada lunes' },
-        { title: 'Estudia la teoría QA', desc: 'Lee sobre testing, métricas de calidad, estándares ISO, y tipos de pruebas (unitarias, integración, aceptación).', action: 'Martes-Miércoles' },
-        { title: 'Desarrolla la actividad', desc: 'Crea documentos de planes de prueba, matrices de trazabilidad o reportes según lo que pida el profesor.', action: 'Jueves-Viernes' },
-        { title: 'Sube tu entrega', desc: 'Actividad → "Agregar entrega" → Sube PDF/Word → "Guardar cambios". Para foros: escribe tu participación directamente.', action: 'Antes del deadline' },
-        { title: 'Revisa retroalimentación', desc: 'El profesor puede dejar comentarios en tu entrega. Revísalos para mejorar en la siguiente actividad.', action: 'Después de calificación' }
-      ]
-    },
-    admin_bd: {
-      platform: 'CUN Digital (Moodle)',
-      courseUrl: 'https://cdigital.cun.edu.co/',
-      howToAccess: 'CUN Digital → Mis cursos → Administración de Bases de Datos (DIS33, Grupo 52291)',
-      evidenceType: 'Scripts SQL, capturas de pantalla de resultados, documentos de diseño de BD',
-      submitMethod: 'Subir archivos .sql, PDFs con capturas, o documentos Word en la actividad de Moodle.',
-      tips: [
-        'Instala MySQL/PostgreSQL o usa un entorno online como db-fiddle.com',
-        'Siempre incluye capturas de pantalla de tus queries ejecutándose correctamente',
-        'Practica con SQLBolt (sqlbolt.com) para reforzar conceptos',
-        'Nombra tus archivos: "BarrosTorres_Taller1_AdminBD.pdf"'
-      ],
-      weeklySteps: [
-        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Admin. Bases de Datos. Verifica actividades de la semana: talleres SQL, laboratorios, foros.', action: 'Cada lunes' },
-        { title: 'Estudia teoría DBA', desc: 'Optimización de queries, índices, backup/recovery, replicación, seguridad de bases de datos.', action: 'Martes' },
-        { title: 'Practica con SQL', desc: 'Ejecuta los ejercicios en tu SGBD local o en db-fiddle.com. Captura pantalla de cada resultado.', action: 'Miércoles-Jueves' },
-        { title: 'Arma tu entrega', desc: 'Crea un PDF con: portada, desarrollo, scripts SQL, capturas de resultados, y conclusiones.', action: 'Viernes' },
-        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube tu PDF → "Guardar cambios".', action: 'Antes del deadline' }
-      ]
-    },
     ing_web: {
       platform: 'CUN Digital (Moodle)',
       courseUrl: 'https://cdigital.cun.edu.co/',
@@ -1209,26 +926,6 @@ const SYS = (() => {
         { title: 'Desarrolla el proyecto', desc: 'Crea tu código en VS Code, prueba localmente, versiona en GitHub con commits descriptivos.', action: 'Miércoles-Viernes' },
         { title: 'Prepara la entrega', desc: 'Haz ZIP del proyecto + README.md, o proporciona el link de GitHub. Incluye capturas de funcionamiento.', action: 'Antes del deadline' },
         { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube ZIP o pega link GitHub → "Guardar cambios".', action: 'Antes del deadline' }
-      ]
-    },
-    redes: {
-      platform: 'CUN Digital (Moodle)',
-      courseUrl: 'https://cdigital.cun.edu.co/',
-      howToAccess: 'CUN Digital → Mis cursos → Redes Inalámbricas (DIS35, Grupo 52226)',
-      evidenceType: 'Informes de laboratorio, configuraciones de red, capturas de Packet Tracer/simuladores',
-      submitMethod: 'Subir PDF con informe + capturas en Moodle. Archivos de simulación (.pkt) si aplica.',
-      tips: [
-        'Instala Cisco Packet Tracer para las simulaciones de red',
-        'Toma capturas de CADA paso de configuración — los profesores quieren ver el proceso',
-        'Estudia los protocolos: WiFi (802.11), Bluetooth, 5G, seguridad WPA3',
-        'Los laboratorios suelen tener pasos muy específicos — síguelos al pie de la letra'
-      ],
-      weeklySteps: [
-        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Redes Inalámbricas. Busca guías de laboratorio, quizzes y foros habilitados.', action: 'Cada lunes' },
-        { title: 'Estudia la teoría', desc: 'Protocolos inalámbricos, WiFi empresarial, seguridad wireless, IoT, configuración de APs.', action: 'Martes' },
-        { title: 'Realiza el laboratorio', desc: 'Abre Packet Tracer o el simulador indicado. Sigue la guía paso a paso. Captura pantalla de cada configuración.', action: 'Miércoles-Jueves' },
-        { title: 'Redacta el informe', desc: 'PDF con: portada, objetivo, desarrollo paso a paso con capturas, resultados y conclusiones.', action: 'Viernes' },
-        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube PDF + archivo .pkt si aplica → "Guardar cambios".', action: 'Antes del deadline' }
       ]
     },
     inv_ciencia: {
