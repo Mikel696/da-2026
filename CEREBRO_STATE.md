@@ -4,6 +4,35 @@
 
 ---
 
+## 10-SYS · 🟢 INJECTION: Mat Especiales (DIS31) — Syllabus verificado — 2026-04-08
+
+### Datos cargados desde syllabus real (pegado por el usuario)
+- **Profesor:** Juan Sebastián Cortés Cruz · `juan_cortesc@cun.edu.co`
+- **Horario:** Miércoles y Viernes · 6:15-7:45 PM (Google Meet)
+- **Subject links:**
+  - `clase` → `https://meet.google.com/tcx-apcm-dey`
+  - `grabaciones` → Drive folder `1blfMmlYoI9r30v11cLFNef9rYV41qHHT`
+  - `material` → Drive folder `1kDKLX_mVXxHJZDdD7wT4p3jnLZhp-4ju`
+- **Calendario verificado:** El syllabus confirma calendario idéntico al de Ing Web (mismo período 26V02, misma estructura 8 semanas / 3 cortes).
+
+### Cambios en código
+1. **`SUBJECTS[mat_especiales]`** — `professor`, `professor_email`, `schedule`, `subject_links` actualizados con datos reales.
+2. **`SEED_VERSION = 4`** — Bump para re-disparar migración. Migración v3→v4 elimina mat_especiales del filtro de purga (ya no necesita purgar tareas extrapoladas; ahora son tareas reales).
+3. **`SEED_TASKS`** — 7 tareas nuevas para mat_especiales (Quiz 1, Parcial 1, Quiz 2, Parcial 2, ACA, Quiz 3+Coev+Auto, sesión sincrónica). Mismo template de fechas/pesos que Ing Web.
+4. **`VERIFIED_SUBJECTS`** Set en `renderSubjectDetail()` — añadido `mat_especiales`. Ahora la tarjeta muestra plan de evaluaciones sin warning "⏳ Sin syllabus cargado".
+5. **Verificación en preview:** `{by_subject:{general:1, ing_web:7, mat_especiales:7}, seed_version:4, task_count:15, user_task_survived:true}` — migración v3→v4 preserva tareas creadas por el usuario.
+
+### Estado actualizado: 3 materias siguen esperando syllabus
+| Materia | Profesor | cdigital_id | Estado |
+|---|---|---|---|
+| ✅ DIS34 Ing Web | BECERRA RAMIREZ HEYNER LEONEL | 104362 | Verificado |
+| ✅ DIS31 Mat Especiales | Juan Sebastián Cortés Cruz | 101285 | **Verificado 2026-04-08** |
+| 🔬 DIS36 Inv Ciencia y Tecnología | CORTES TOBAR DARIO FERNANDO | 104253 | **PRÓXIMA** — pedir syllabus |
+| 🇺🇸 A1I01 Virtual English Beginner 1 | IV001 | 100774 | Pendiente |
+| 📝 CE1026 Placement Test BE Plus | IV002 | 106289 | Pendiente |
+
+---
+
 ## 10-SYS · 🔴 CORRECCIÓN: Purga de datos hallucinados + Bloat removido — 2026-04-08
 
 ### Por qué hubo que corregir

@@ -16,7 +16,7 @@ const SYS = (() => {
   // ── SUBJECTS (Período 26V02 — Datos reales CDigital, verificados 2026-04-08) ──
   const SUBJECTS = [
     { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', cdigital_id: 104362, schedule: 'Miércoles 6:15 PM', subject_links: { clase: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524', grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525', material: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526', reglas: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282' }, desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
-    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'HUERTAS CARDOZO DANIEL JOVANNY', cdigital_id: 101285, schedule: 'Reuniones por convocatoria', desc: 'Números complejos, transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
+    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'Juan Sebastián Cortés Cruz', professor_email: 'juan_cortesc@cun.edu.co', cdigital_id: 101285, schedule: 'Miércoles y Viernes · 6:15-7:45 PM (Google Meet)', subject_links: { clase: 'https://meet.google.com/tcx-apcm-dey', grabaciones: 'https://drive.google.com/drive/folders/1blfMmlYoI9r30v11cLFNef9rYV41qHHT?usp=sharing', material: 'https://drive.google.com/drive/folders/1kDKLX_mVXxHJZDdD7wT4p3jnLZhp-4ju?usp=sharing' }, desc: 'Números complejos, transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
     { id: 'inv_ciencia', code: 'DIS36', name: 'Investigación Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', cdigital_id: 104253, desc: 'Metodología de investigación, estado del arte, proyecto de aula, artículos científicos, normas APA, desinformación.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
     { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', cdigital_id: 100774, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
     { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', cdigital_id: 106289, desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/course/view.php?id=106289'] },
@@ -314,14 +314,16 @@ const SYS = (() => {
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
-      const hasRealCalendar = s.id === 'ing_web'; // SOLO Ing Web tiene calendario verificado
+      // Materias con syllabus verificado por el usuario (no inventado).
+      const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales']);
+      const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id);
 
       return `<div class="gc" style="border-left:3px solid ${s.color}">
         <div class="gc-h">
           <div class="gc-t"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
           ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
         </div>
-        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}</div>` : ''}
+        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}${s.professor_email ? ` · <a href="mailto:${s.professor_email}" style="color:var(--vi2);text-decoration:none">${s.professor_email}</a>` : ''}</div>` : ''}
         ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>` : ''}
         ${total > 0 ? `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
           <div class="pbar" style="flex:1"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
@@ -717,7 +719,8 @@ const SYS = (() => {
     // v1: tareas con materias falsas (calidad_sw/admin_bd/redes)
     // v2: seeds parciales — Ing Web + extrapolaciones inventadas para Mat Esp / Inv C&T (PURGADO)
     // v3: SOLO Ing Web tiene calendario real verificado. Resto pendiente de syllabus del usuario.
-    const SEED_VERSION = 3;
+    // v4: Mat Especiales (DIS31) syllabus verificado por usuario — calendario idéntico al de Ing Web (Cortés Cruz, mié/vie 6:15 PM)
+    const SEED_VERSION = 4;
     const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
     const currentSeedVer = db.get('seed_version', 0);
     const existing = getTasks();
@@ -764,33 +767,46 @@ const SYS = (() => {
       'Realizar Placement Test BE Plus',
     ]);
     if (hasStale || currentSeedVer < SEED_VERSION) {
-      // Preserve user-created tasks; purge stale subjects + all old seed texts
+      // Preserve user-created tasks; purge stale subjects + all old seed texts.
+      // Only filter Inv C&T fabricated tasks (still no real syllabus). Mat Esp now has verified data.
       const userTasks = existing.filter(t =>
         !STALE_IDS.has(t.subj) &&
         !oldSeedTexts.has(t.text) &&
-        // Drop any text that contains the names of fabricated subject seeds
-        !/— Matemáticas Especiales \(/.test(t.text) &&
         !/— Investigación C&T \(/.test(t.text)
       );
       saveTasks(userTasks);
       db.set('seed_version', SEED_VERSION);
     }
 
-    // Seed tasks — SOLO datos verificados.
-    // Ing Web es la ÚNICA materia con calendario/evaluaciones confirmadas por el usuario.
-    // Mat Especiales, Inv C&T, English Beginner y Placement Test esperan que el usuario
-    // proporcione los syllabus reales (NO inventar).
-    if (getTasks().length === 0) {
-      const seedTasks = [
-        { id: 1, text: 'Quiz 1 — Ingeniería Web (10%)',                                  subj: 'ing_web', priority: 'p0', due: '2026-04-12', done: false, created: todayStr() },
-        { id: 2, text: 'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',               subj: 'ing_web', priority: 'p1', due: '2026-04-19', done: false, created: todayStr() },
-        { id: 3, text: 'Quiz 2 — Ingeniería Web (10%)',                                  subj: 'ing_web', priority: 'p2', due: '2026-04-26', done: false, created: todayStr() },
-        { id: 4, text: 'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',               subj: 'ing_web', priority: 'p2', due: '2026-05-03', done: false, created: todayStr() },
-        { id: 5, text: 'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',           subj: 'ing_web', priority: 'p3', due: '2026-05-16', done: false, created: todayStr() },
-        { id: 6, text: 'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',     subj: 'ing_web', priority: 'p3', due: '2026-05-16', done: false, created: todayStr() },
-        { id: 7, text: 'Asistir a clase Ing Web — Miércoles 6:15 PM',                    subj: 'ing_web', priority: 'p0', due: '2026-04-08', done: false, created: todayStr() },
-      ];
-      saveTasks(seedTasks);
+    // Seed tasks — SOLO datos verificados por el usuario.
+    // Ing Web (DIS34) y Mat Especiales (DIS31) tienen calendario confirmado.
+    // Inv C&T, English Beginner y Placement Test siguen esperando syllabus real (NO inventar).
+    const SEED_TASKS = [
+      // ── Ing Web (DIS34) — verificado 2026-04-08 ──
+      { id: 1,  text: 'Quiz 1 — Ingeniería Web (10%)',                                  subj: 'ing_web',        priority: 'p0', due: '2026-04-12' },
+      { id: 2,  text: 'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',               subj: 'ing_web',        priority: 'p1', due: '2026-04-19' },
+      { id: 3,  text: 'Quiz 2 — Ingeniería Web (10%)',                                  subj: 'ing_web',        priority: 'p2', due: '2026-04-26' },
+      { id: 4,  text: 'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',               subj: 'ing_web',        priority: 'p2', due: '2026-05-03' },
+      { id: 5,  text: 'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',           subj: 'ing_web',        priority: 'p3', due: '2026-05-16' },
+      { id: 6,  text: 'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',     subj: 'ing_web',        priority: 'p3', due: '2026-05-16' },
+      { id: 7,  text: 'Asistir a clase Ing Web — Miércoles 6:15 PM',                    subj: 'ing_web',        priority: 'p0', due: '2026-04-08' },
+      // ── Mat Especiales (DIS31) — verificado 2026-04-08 (syllabus Cortés Cruz, mismo calendario 26V02) ──
+      { id: 8,  text: 'Quiz 1 — Mat Especiales (10%)',                                  subj: 'mat_especiales', priority: 'p0', due: '2026-04-12' },
+      { id: 9,  text: 'Parcial 1 — Mat Especiales (20% → 1er Corte 30%)',               subj: 'mat_especiales', priority: 'p1', due: '2026-04-19' },
+      { id: 10, text: 'Quiz 2 — Mat Especiales (10%)',                                  subj: 'mat_especiales', priority: 'p2', due: '2026-04-26' },
+      { id: 11, text: 'Parcial 2 — Mat Especiales (20% → 2do Corte 30%)',               subj: 'mat_especiales', priority: 'p2', due: '2026-05-03' },
+      { id: 12, text: 'ACA — Mat Especiales (34%)',                                     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
+      { id: 13, text: 'Quiz 3 + Coev + Auto — Mat Especiales (6% → 3er Corte 40%)',     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
+      { id: 14, text: 'Sesión sincrónica Mat Especiales — Mié/Vie 6:15 PM',             subj: 'mat_especiales', priority: 'p0', due: '2026-04-08' },
+    ].map(t => ({ ...t, done: false, created: todayStr() }));
+
+    // Re-seed when version bumps OR when DB is empty. Dedupe by text so user tasks survive.
+    const needSeed = currentSeedVer < SEED_VERSION || getTasks().length === 0;
+    if (needSeed) {
+      const current = getTasks();
+      const seedTextSet = new Set(SEED_TASKS.map(s => s.text));
+      const userKept = current.filter(t => !seedTextSet.has(t.text));
+      saveTasks([...SEED_TASKS, ...userKept]);
     }
 
     render();

@@ -85,8 +85,8 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
 - **Inicio:** 2026-03-30 | **Fin:** 2026-07-19
 - **Bloque 1:** 30 Mar — 24 May | **Bloque 2:** 25 May — 19 Jul
 - **5 materias REALES (auditadas en CDigital):**
-  - DIS34 Ing. Web · 52211 · BECERRA RAMIREZ HEYNER LEONEL · Mié 6:15 PM · cdigital_id 104362
-  - DIS31 Mat. Especiales · 52247 · HUERTAS CARDOZO DANIEL JOVANNY · Reuniones por convocatoria · cdigital_id 101285
+  - DIS34 Ing. Web · 52211 · BECERRA RAMIREZ HEYNER LEONEL · Mié 6:15 PM · cdigital_id 104362 ✅ syllabus verificado
+  - DIS31 Mat. Especiales · 52247 · Juan Sebastián Cortés Cruz (juan_cortesc@cun.edu.co) · Mié/Vie 6:15-7:45 PM (Meet tcx-apcm-dey) · cdigital_id 101285 ✅ syllabus verificado 2026-04-08
   - DIS36 Inv. Ciencia y Tecnología · 52218 · CORTES TOBAR DARIO FERNANDO · cdigital_id 104253
   - A1I01 Virtual English Beginner 1 · 50608 · IV001 · cdigital_id 100774
   - CE1026 Placement Test BE Plus · 5TB01 · IV002 · cdigital_id 106289
@@ -120,9 +120,9 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
 - ❌ REMOVED: `subjectHealth` grid (duplicaba subjectDetail), `evalPlan` inline (extrapolación)
 
 ### 🟡 ESTADO INTERACTIVO (esperando syllabus del usuario)
-Solo **Ing Web** tiene calendario verificado. Para crear tareas en estas materias hay que pedir el syllabus al usuario:
-- 🔢 Matemáticas Especiales (DIS31, cdigital_id 101285) — HUERTAS CARDOZO DANIEL JOVANNY — **PRÓXIMA**
-- 🔬 Investigación Ciencia y Tecnología (DIS36, cdigital_id 104253) — CORTES TOBAR DARIO FERNANDO
+**Verificadas (`VERIFIED_SUBJECTS` Set):** `ing_web`, `mat_especiales` — calendario y subject_links cargados desde syllabus real.
+Para crear tareas en estas materias hay que pedir el syllabus al usuario:
+- 🔬 Investigación Ciencia y Tecnología (DIS36, cdigital_id 104253) — CORTES TOBAR DARIO FERNANDO — **PRÓXIMA**
 - 🇺🇸 Virtual English Beginner 1 (A1I01, cdigital_id 100774)
 - 📝 Placement Test BE Plus (CE1026, cdigital_id 106289)
 
