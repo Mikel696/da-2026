@@ -81,20 +81,53 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
 - `CEREBRO: SCAN DOCENTES` — Solo CUN 360 → "Consultar Materias Virtuales" (actualizar docentes)
 - `CEREBRO: SCAN HISTORIAL` — Solo CUN 360 → Histórico de notas (52 materias, GPA, títulos)
 
-### Datos del período actual (26V02):
+### Datos del período actual (26V02) — verificados 2026-04-08:
 - **Inicio:** 2026-03-30 | **Fin:** 2026-07-19
 - **Bloque 1:** 30 Mar — 24 May | **Bloque 2:** 25 May — 19 Jul
-- **8 materias:** DIS31 Mat. Especiales, DIS32 Calidad SW, DIS33 Admin BD, DIS34 Ing. Web, DIS35 Redes, DIS36 Inv. C&T, A1I01 English, CE1026 Placement Test
-- **Docentes confirmados:** Cortes Cruz (Mat. Especiales), Cortes Tobar (Inv. C&T), Becerra Ramirez (Ing. Web). Resto: pendiente.
-- **Archivos clave:** `data/academic-8vo.json` (datos reales), `systems_logic.js` (SUBJECTS, SUBJECT_GUIDES, CALENDAR, MALLA, CERTS)
+- **5 materias REALES (auditadas en CDigital):**
+  - DIS34 Ing. Web · 52211 · BECERRA RAMIREZ HEYNER LEONEL · Mié 6:15 PM · cdigital_id 104362
+  - DIS31 Mat. Especiales · 52247 · HUERTAS CARDOZO DANIEL JOVANNY · Reuniones por convocatoria · cdigital_id 101285
+  - DIS36 Inv. Ciencia y Tecnología · 52218 · CORTES TOBAR DARIO FERNANDO · cdigital_id 104253
+  - A1I01 Virtual English Beginner 1 · 50608 · IV001 · cdigital_id 100774
+  - CE1026 Placement Test BE Plus · 5TB01 · IV002 · cdigital_id 106289
+- **Materias eliminadas (eran falsas):** DIS32 Calidad SW, DIS33 Admin BD, DIS35 Redes
+- **Calendario oficial Bloque 1 (8 semanas, aplica solo a las 3 académicas):**
+  - Sem 1 (30/3-5/4): Introducción · 0%
+  - Sem 2 (6-12/4): Quiz 1 · 10% ← HOY 2026-04-08
+  - Sem 3 (13-19/4): Parcial 1 · 20% → **1er Corte 30%**
+  - Sem 4 (20-26/4): Quiz 2 · 10%
+  - Sem 5 (27/4-3/5): Parcial 2 · 20% → **2do Corte 30%**
+  - Sem 6 (4-16/5): ACA · Pitch Disciplinares-NIP · 34%
+  - Sem 7 (11-16/5): Quiz 3 (2%) + Coev (2%) + Auto (2%) → **3er Corte 40%**
+  - Sem 8 (18-24/5): Cierre de Notas · 100%
+- **Archivos clave:** `frontend/systems_logic.js` (SUBJECTS, BLOCK_ACTIVITIES, ACADEMIC_SUBJ_IDS, SUBJECT_GUIDES, CALENDAR, MALLA, CERTS), `frontend/systems.html` (estructura sólo)
+
+### Arquitectura 10-SYS (post-cleanup 2026-04-08):
+- **`SUBJECTS`** — 5 materias con campos: `id, code, name, group, professor, cdigital_id, schedule, subject_links{clase,grabaciones,material,reglas}, desc, resources`
+- **`BLOCK_ACTIVITIES`** — Array de 8 semanas con `{week, start, end, name, weight, type, cut, cutLabel}` — usado por `renderBlockActivities()` (Dashboard) y `renderSubjectDetail()` (Materias) para el plan inline
+- **`ACADEMIC_SUBJ_IDS`** = `['ing_web','mat_especiales','inv_ciencia']` — flag que excluye English/Placement del calendario académico
+- **Seed migration v2** — `db.get('seed_version')` < 2 → limpia tareas con materias falsas + seeds parciales v1, re-siembra 21 tareas reales (6 evaluaciones × 3 académicas + asistir clase + English + Placement)
+- **Class Sessions store** — `CS_KEY = 'class_sessions'` (NO `sys_class_sessions` para evitar doble prefijo `sys_sys_*`); migración one-time movió data del key viejo
+
+### Dashboard depurado (10-SYS Tab 0):
+- ✅ `actionNow` — hero contextual ("Semana N/8 · [actividad actual]")
+- ✅ `blockActivities` — timeline visual 8 semanas con estado COMPLETADO/EN CURSO/en Xd y badges por corte
+- ✅ `studyPlan` — agenda 7 días con tareas por fecha
+- ✅ `semaphoreList` — semáforo P0-P4
+- ✅ `task-form` — alta de tareas (select limpio: solo 5 materias reales + general)
+- ❌ Removidos: `subjectHealth` (movido a Tab 1 Materias), `subjectCards` (redundante), `nextActions` (redundante con actionNow)
+
+### Materias depurado (10-SYS Tab 1):
+- `subjectHealth` — grid compacto con status badges
+- `subjectDetail` — tarjetas con profesor, horario, **Plan de Evaluaciones inline (8 mini-cards)** sólo para académicas, tareas de la materia, botones deep-link a CDigital (Abrir curso, Clase, Grabaciones, Material, Reglas)
 
 ### Funcionalidades 10-SYS disponibles:
-- **Dashboard Inteligente:** Hero card con countdown/alertas, Subject Health Grid (toca para ver guía), Study Plan auto-generado, Semáforo de tareas
-- **Task Guide Modal:** Se abre al tocar cualquier materia. Muestra: docente, info box (dónde/cómo/qué), tareas pendientes, 5 pasos semanales, tips, links rápidos
-- **Portal Opener v2:** Abre los 4 portales CUN secuencialmente (bypass popup blocker)
-- **Task Manager:** Crear, completar, eliminar, bulk import, export/import JSON
-- **Malla Curricular:** 10 semestres completos con subjects por nivel
-- **Certificaciones:** 8 certs recomendadas con links y tiempos estimados
+- **Tab 7 Clases Perdidas** — Pegar URL video de Drive → Copiar prompt optimizado (extrae transcripción, NO ve el video) → Claude analiza → `SYS.injectClassSession()` guarda en localStorage
+- **Task Guide Modal** — Click en cualquier materia: docente, info box, tareas pendientes, 5 pasos semanales, tips, links
+- **Portal Opener v2** — Abre los 4 portales CUN secuencialmente
+- **Task Manager** — CRUD, bulk import, export/import JSON
+- **Malla Curricular** — 10 semestres
+- **Certificaciones** — 8 certs con links
 
 ## 🚨 REGLAS ESTRICTAS DE CÓDIGO Y TOKENS (AHORRO EXTREMO)
 1. **PROHIBIDO LEER ARCHIVOS GIGANTES:** NUNCA leas archivos de más de 200 líneas enteros.

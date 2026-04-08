@@ -1,6 +1,84 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-05
+- **Última actualización:** 2026-04-08
+
+---
+
+## 10-SYS · Auditoría 26V02 + Calendario Real + Dashboard Cleanup — 2026-04-08 ✅ COMPLETE
+
+### Contexto
+Usuario reportó "me pierdo en tanta cosa, hay info repetida". Auditoría completa contra CDigital + calendario académico oficial CUN 2026A. Detectadas 3 materias falsas en `SUBJECTS` y 8 semanas de calendario inexistentes.
+
+### Auditoría CDigital (5 cursos REALES verificados)
+| ID | Curso | Profesor | Horario | cdigital_id |
+|---|---|---|---|---|
+| `ing_web` | DIS34 Ingeniería Web · 52211 | BECERRA RAMIREZ HEYNER LEONEL | Mié 6:15 PM | 104362 |
+| `mat_especiales` | DIS31 Matemáticas Especiales · 52247 | HUERTAS CARDOZO DANIEL JOVANNY | Reuniones por convocatoria | 101285 |
+| `inv_ciencia` | DIS36 Investigación Ciencia y Tecnología · 52218 | CORTES TOBAR DARIO FERNANDO | — | 104253 |
+| `english_beginner` | A1I01 Virtual English Beginner 1 · 50608 | (IV001) | — | 100774 |
+| `placement_test` | CE1026 Placement Test BE Plus · 5TB01 | (IV002) | — | 106289 |
+
+**Materias eliminadas (no existen en CDigital):** `calidad_sw` (DIS32), `admin_bd` (DIS33), `redes` (DIS35).
+
+### Subject Links extraídos (Ing Web — el resto pendiente)
+```js
+subject_links: {
+  clase:       'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524',
+  grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525',
+  material:    'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526',
+  reglas:      'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282',
+}
+```
+
+### Calendario oficial Bloque 1 — 8 semanas (`BLOCK_ACTIVITIES`)
+Aplica solo a las **3 materias académicas** (`ACADEMIC_SUBJ_IDS = ['ing_web','mat_especiales','inv_ciencia']`). English (IV001) y Placement (IV002) van por flujos separados.
+
+| Sem | Fechas | Actividad | % | Tipo | Corte |
+|---|---|---|---|---|---|
+| 1 | 30/3-5/4 | Introducción | 0% | session | 1 |
+| 2 | 6-12/4 | Quiz 1 | 10% | quiz | 1 |
+| 3 | 13-19/4 | Parcial 1 | 20% | exam | **1er Corte 30%** |
+| 4 | 20-26/4 | Quiz 2 | 10% | quiz | 2 |
+| 5 | 27/4-3/5 | Parcial 2 | 20% | exam | **2do Corte 30%** |
+| 6 | 4-16/5 | ACA · Pitch Disciplinares-NIP | 34% | project | 3 |
+| 7 | 11-16/5 | Quiz 3 (2%) + Coev (2%) + Auto (2%) | 6% | quiz | **3er Corte 40%** |
+| 8 | 18-24/5 | Cierre de Notas | — | closing | 100% |
+
+### Cambios de código en `frontend/systems_logic.js`
+1. **`SUBJECTS`** → 5 entradas (de 8). Añadidos campos `cdigital_id`, `schedule`, `subject_links`. Profesor de Mat Especiales corregido a HUERTAS CARDOZO (era CORTES CRUZ).
+2. **`BLOCK_ACTIVITIES`** — nueva constante con las 8 semanas oficiales.
+3. **`ACADEMIC_SUBJ_IDS`** — flag para excluir English/Placement del plan académico.
+4. **`renderBlockActivities()`** — nuevo render para el timeline visual del Dashboard (8 cards con estado COMPLETADO/EN CURSO/en Xd, badges por corte, colores por tipo).
+5. **`renderActionNow()`** — reescrito: detecta `currentActivity` de `BLOCK_ACTIVITIES`, muestra "Semana N/8 · [actividad]" en lugar del mensaje obsoleto de "Inducción TICS".
+6. **`renderSubjectDetail()`** — añadida sección **Plan de Evaluaciones** inline (8 mini-cards) sólo para académicas. Tarjetas ahora muestran professor, schedule, deep-links a CDigital (Abrir, Clase, Grabaciones, Material, Reglas).
+7. **Seed migration v2** — `db.get('seed_version')` < 2 → re-siembra 21 tareas reales (6 evaluaciones × 3 académicas + asistir clase Ing Web + English + Placement). Preserva tareas creadas por el usuario.
+8. **`renderStats()`** — ahora dinámico: `SUBJECTS.length` → `statMaterias`, `SUBJECTS.reduce(credits)` → `statCredits` (antes hardcoded 8/23, ahora 5/9).
+9. **`copyClassPrompt()`** — optimizado para extraer SOLO transcripción (no ver el video, ahorra tokens).
+10. **`CS_KEY = 'class_sessions'`** — antes `'sys_class_sessions'`, causaba doble-prefijo `sys_sys_class_sessions`. Migración one-time corrige el bug.
+
+### Dashboard depurado (Tab 0)
+- ✅ KEEP: `actionNow`, `blockActivities` (NUEVO), `studyPlan`, `semaphoreList`, `task-form`
+- ❌ REMOVE: `subjectHealth` (movido a Tab 1 Materias), `subjectCards` (redundante), `nextActions` (redundante con actionNow)
+- Task-form select limpio: solo 5 materias reales + general
+
+### Materias (Tab 1) reorganizado
+- `subjectHealth` (grid compacto) ahora vive aquí
+- `subjectDetail` con Plan de Evaluaciones inline + 5 botones deep-link
+
+### Verificación en preview (http://localhost:3456/systems.html)
+- statMaterias=5, statCredits=9, statPending=21 ✅
+- BLOCK_ACTIVITIES renderiza 8 cards: Sem 1 COMPLETADO, Sem 2 EN CURSO, Sem 3 en 5d Primer Corte 30%, etc. ✅
+- Sem 6 fechas: 4 May - 16 May ✅ (corregido de 4-10 May)
+- Sem 7 fechas: 11 May - 16 May ✅ (corregido de 11-17 May)
+- Plan de Evaluaciones aparece en las 3 académicas, NO en English/Placement ✅
+- Migración v2 ejecutó: `seedVersion=2`, distribución `{ing_web:7, mat_especiales:6, inv_ciencia:6, english:1, placement:1}` ✅
+- Subject_links de Ing Web: 4 botones funcionales (clase 6403524, grabaciones 6403525, material 6403526, reglas 6104282) ✅
+- Sin errores en consola ✅
+
+### Pendiente para próxima sesión
+- Extraer `subject_links` (clase/grabaciones/material/reglas) de las otras 4 materias en CDigital. Prompt template guardado en CLAUDE.md (`CEREBRO: EXTRAE LINKS DE CURSO`).
+- Verificar si English Beginner / Placement Test tienen evaluaciones específicas que merezcan su propio mini-plan en la subject card.
+- Considerar generar Google Calendar events para los Quiz/Parciales/ACA.
 
 ---
 

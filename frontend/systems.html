@@ -249,8 +249,8 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <div class="hst">
-<div class="hs"><div class="hsv" id="statMaterias">8</div><div class="hsl">Materias</div></div>
-<div class="hs"><div class="hsv" id="statCredits">23</div><div class="hsl">Créditos</div></div>
+<div class="hs"><div class="hsv" id="statMaterias">5</div><div class="hsl">Materias</div></div>
+<div class="hs"><div class="hsv" id="statCredits">9</div><div class="hsl">Créditos</div></div>
 <div class="hs"><div class="hsv" id="statProgress">0%</div><div class="hsl">Avance</div></div>
 <div class="hs"><div class="hsv" id="statPending">0</div><div class="hsl">Pendientes</div></div>
 <div class="hs"><div class="hsv" id="statDaysLeft">0</div><div class="hsl">Días restantes</div></div>
@@ -273,17 +273,17 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ACTION NOW — Hero Card -->
 <div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
 
-<!-- SUBJECT HEALTH — Compact Grid -->
-<div class="sl">· salud por materia ·</div>
-<div class="sd">Toca cualquier materia para ver la <strong style="color:var(--vi2)">guía paso a paso</strong>: qué hacer, dónde entregar, y cómo presentar las evidencias.</div>
-<div id="subjectHealth" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:16px"></div>
+<!-- BLOCK 1 ACTIVITIES — Real 8-week timeline -->
+<div class="sl">· bloque 1 · 8 semanas — calendario oficial 26V02 ·</div>
+<div class="sd">Quiz 1 (10%) → Parcial 1 (20%) → Quiz 2 (10%) → Parcial 2 (20%) → ACA Pitch (34%) → Quiz 3 (6%). Cierre 24 mayo.</div>
+<div id="blockActivities" style="margin-bottom:16px"></div>
 
-<!-- STUDY PLAN -->
+<!-- STUDY PLAN — 7 días -->
 <div class="sl">· plan de estudio — esta semana ·</div>
-<div class="sd">Plan generado automáticamente según tus deadlines y prioridades.</div>
+<div class="sd">Tareas agendadas para los próximos 7 días, ordenadas por fecha.</div>
 <div id="studyPlan" style="margin-bottom:16px"></div>
 
-<!-- SEMAPHORE — Compact -->
+<!-- SEMAPHORE — Lista priorizada -->
 <div class="sl">· semáforo de tareas ·</div>
 <div class="sd">🔴 Crítico (&lt;48h) · 🟠 Esta semana · 🟡 En camino · 🟢 Futuro</div>
 <div id="semaphoreList"></div>
@@ -291,17 +291,14 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div style="margin-top:24px">
 <div class="sl">· agregar tarea académica ·</div>
 <div class="task-form">
-<input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Álgebra Moderna...">
+<input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Ingeniería Web...">
 <select class="tf-select" id="newTaskSubj">
-<option value="mat_especiales">Matemáticas Especiales</option>
-<option value="calidad_sw">Calidad del Software</option>
-<option value="admin_bd">Admin. Bases de Datos</option>
-<option value="ing_web">Ingeniería Web</option>
-<option value="redes">Redes Inalámbricas</option>
-<option value="inv_ciencia">Inv. Ciencia y Tecnología</option>
-<option value="english_beginner">English Beginner 1</option>
-<option value="placement_test">Placement Test BE</option>
-<option value="general">General</option>
+<option value="ing_web">🌐 Ingeniería Web</option>
+<option value="mat_especiales">🔢 Matemáticas Especiales</option>
+<option value="inv_ciencia">🔬 Investigación C&amp;T</option>
+<option value="english_beginner">🇺🇸 English Beginner 1</option>
+<option value="placement_test">📝 Placement Test BE</option>
+<option value="general">📌 General</option>
 </select>
 <select class="tf-select" id="newTaskPriority">
 <option value="p2">🟡 P2 — On track</option>
@@ -314,24 +311,18 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <button class="tf-btn" onclick="SYS.addTask()">+ Agregar</button>
 </div>
 </div>
-
-<div style="margin-top:24px">
-<div class="sl">· estado por materia ·</div>
-<div id="subjectCards"></div>
-</div>
-
-<div style="margin-top:24px">
-<div class="sl">· qué sigue — próximas acciones ·</div>
-<div class="gc" id="nextActions">
-<div class="gc-t">⚡ Cargando recomendaciones...</div>
-</div>
-</div>
 </div>
 
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
 <div class="pnl" id="pnl1">
-<div class="sl">· materias 8vo semestre — ingeniería de sistemas ·</div>
-<div class="sd">Click en cada materia para ver detalles, recursos y tareas asociadas.</div>
+<div class="sl">· materias 26V02 — período actual ·</div>
+<div class="sd">5 materias activas en CDigital. Click cualquier tarjeta para abrir la <strong style="color:var(--vi2)">guía paso a paso</strong>: qué hacer, dónde entregar y cómo presentar evidencias.</div>
+
+<!-- SALUD POR MATERIA — grid compacto -->
+<div id="subjectHealth" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:24px"></div>
+
+<div class="sl">· detalle por materia ·</div>
+<div class="sd">Profesor, horario, links directos a CDigital (clase / grabaciones / material / reglas) y recursos externos.</div>
 <div id="subjectDetail"></div>
 </div>
 

@@ -13,17 +13,13 @@ const SYS = (() => {
     set(k, v) { try { localStorage.setItem(NS + k, JSON.stringify(v)); } catch {} },
   };
 
-  // ── SUBJECTS (8vo Semestre) ──
-  // ── SUBJECTS (Período 26V02 — Datos reales SGA/SINU) ──
+  // ── SUBJECTS (Período 26V02 — Datos reales CDigital, verificados 2026-04-08) ──
   const SUBJECTS = [
-    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'CORTES CRUZ JUAN SEBASTIAN', desc: 'Transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
-    { id: 'calidad_sw', code: 'DIS32', name: 'Calidad del Software', group: '52278', icon: '⚙️', color: 'hsl(142,60%,45%)', credits: 3, type: 'Desarrollo de Software', desc: 'Testing, QA, estándares ISO, métricas de calidad, pruebas unitarias, integración continua, cobertura de código.', resources: ['https://www.freecodecamp.org/learn/quality-assurance/', 'https://refactoring.guru/'] },
-    { id: 'admin_bd', code: 'DIS33', name: 'Administración de Bases de Datos', group: '52291', icon: '🗄️', color: 'hsl(35,90%,55%)', credits: 3, type: 'Desarrollo de Software', desc: 'DBA, optimización de queries, índices, backup/recovery, seguridad, replicación, administración de servidores.', resources: ['https://www.w3schools.com/sql/', 'https://sqlbolt.com/'] },
-    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
-    { id: 'redes', code: 'DIS35', name: 'Redes Inalámbricas', group: '52226', icon: '📡', color: 'hsl(172,60%,45%)', credits: 3, type: 'Telecomunicaciones', desc: 'WiFi, Bluetooth, 5G, protocolos inalámbricos, seguridad wireless, IoT, configuración de redes.', resources: ['https://www.netacad.com/', 'https://www.coursera.org/learn/computer-networking'] },
-    { id: 'inv_ciencia', code: 'DIS36', name: 'Inv. Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', desc: 'Metodología de investigación, estado del arte, formulación de proyectos, artículos científicos, normas APA.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
-    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', professor: 'CINDY PAOLA MORENO', desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
-    { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/'] },
+    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', cdigital_id: 104362, schedule: 'Miércoles 6:15 PM', subject_links: { clase: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524', grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525', material: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526', reglas: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282' }, desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
+    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'HUERTAS CARDOZO DANIEL JOVANNY', cdigital_id: 101285, schedule: 'Reuniones por convocatoria', desc: 'Números complejos, transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
+    { id: 'inv_ciencia', code: 'DIS36', name: 'Investigación Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', cdigital_id: 104253, desc: 'Metodología de investigación, estado del arte, proyecto de aula, artículos científicos, normas APA, desinformación.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
+    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', cdigital_id: 100774, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
+    { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', cdigital_id: 106289, desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/course/view.php?id=106289'] },
   ];
 
   // ── CALENDAR 2026 (extracted from official PDF) ──
@@ -45,12 +41,29 @@ const SYS = (() => {
         { label: 'Matrícula extraordinaria (+20%)', start: '2026-01-25', end: '2026-01-31' },
       ]
     },
-    '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' } },
+    '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' }, gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' } },
     '26V03': { label: 'Período 26V03', academic: { start: '2026-05-25', end: '2026-09-27' }, block1: { start: '2026-05-25', end: '2026-07-19', label: 'Primer Bloque' }, block2: { start: '2026-07-20', end: '2026-09-27', label: 'Segundo Bloque' } },
     '26V04': { label: 'Período 26V04', academic: { start: '2026-08-03', end: '2026-11-22' }, block1: { start: '2026-08-03', end: '2026-09-27', label: 'Primer Bloque' }, block2: { start: '2026-09-28', end: '2026-11-22', label: 'Segundo Bloque' } },
     '26V05': { label: 'Período 26V05', academic: { start: '2026-09-28', end: '2027-01-17' }, block1: { start: '2026-09-28', end: '2026-11-22', label: 'Primer Bloque' }, block2: { start: '2026-11-23', end: '2027-01-17', label: 'Segundo Bloque' } },
     '26V06': { label: 'Período 26V06', academic: { start: '2026-11-23', end: '2027-03-28' }, block1: { start: '2026-11-23', end: '2027-01-17', label: 'Primer Bloque' }, block2: { start: '2027-01-18', end: '2027-03-28', label: 'Segundo Bloque' } },
   };
+
+  // ── BLOCK 1 ACTIVITIES (Período 26V02 — Calendario oficial CUN 2026A, verificado contra PDF) ──
+  // Aplica a las 3 materias académicas: ing_web, mat_especiales, inv_ciencia
+  // English Beginner (IV001) y Placement Test (IV002) usan flujos separados
+  const BLOCK_ACTIVITIES = [
+    { week: 1, start: '2026-03-30', end: '2026-04-05', name: 'Introducción',                                            weight: 0,  type: 'session', cut: 1 },
+    { week: 2, start: '2026-04-06', end: '2026-04-12', name: 'Quiz 1',                                                  weight: 10, type: 'quiz',    cut: 1 },
+    { week: 3, start: '2026-04-13', end: '2026-04-19', name: 'Parcial 1',                                               weight: 20, type: 'exam',    cut: 1, cutLabel: 'Primer Corte 30%' },
+    { week: 4, start: '2026-04-20', end: '2026-04-26', name: 'Quiz 2',                                                  weight: 10, type: 'quiz',    cut: 2 },
+    { week: 5, start: '2026-04-27', end: '2026-05-03', name: 'Parcial 2',                                               weight: 20, type: 'exam',    cut: 2, cutLabel: 'Segundo Corte 30%' },
+    { week: 6, start: '2026-05-04', end: '2026-05-16', name: 'ACA · Pitch Disciplinares-NIP',                           weight: 34, type: 'project', cut: 3 },
+    { week: 7, start: '2026-05-11', end: '2026-05-16', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)',    weight: 6,  type: 'quiz',    cut: 3, cutLabel: 'Tercer Corte 40%' },
+    { week: 8, start: '2026-05-18', end: '2026-05-24', name: 'Cierre de Notas',                                         weight: 0,  type: 'closing', cut: 3, cutLabel: '100%' },
+  ];
+
+  // Subjects que siguen este calendario académico estándar
+  const ACADEMIC_SUBJ_IDS = ['ing_web', 'mat_especiales', 'inv_ciencia'];
 
   // ── MALLA CURRICULAR (10 semesters, from official PDF) ──
   const MALLA = [
@@ -319,21 +332,51 @@ const SYS = (() => {
     const el = document.getElementById('subjectDetail');
     if (!el) return;
     const tasks = getTasks();
+    const today = todayStr();
+    const typeIcon = { session: '📖', quiz: '📝', exam: '🎯', project: '🚀', closing: '🏁' };
+    const typeColor = { session: 'var(--cy)', quiz: 'var(--am)', exam: 'var(--rd)', project: 'var(--vi2)', closing: 'var(--gn)' };
+
     el.innerHTML = SUBJECTS.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
       const total = subjTasks.length;
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
-      return `<div class="gc">
+      const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
+      const sl = s.subject_links || {};
+      const isAcademic = ACADEMIC_SUBJ_IDS.includes(s.id);
+
+      // Per-subject 8-week plan (only for academic subjects)
+      const evalPlan = isAcademic ? `<div style="margin:12px 0 14px;padding:10px 12px;background:var(--vg);border:1px solid rgba(124,58,237,.18);border-radius:8px">
+        <div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">📅 Plan de evaluaciones · Bloque 1 · 8 semanas</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px">
+          ${BLOCK_ACTIVITIES.map(a => {
+            const isPast = today > a.end;
+            const isNow = today >= a.start && today <= a.end;
+            const stateBg = isNow ? `${typeColor[a.type]}22` : isPast ? 'rgba(34,197,94,.06)' : 'var(--el)';
+            const stateBorder = isNow ? typeColor[a.type] : isPast ? 'rgba(34,197,94,.3)' : 'var(--bd)';
+            const stateLabel = isNow ? '◉ AHORA' : isPast ? '✓' : `${formatDate(a.start)}`;
+            return `<div style="padding:6px 8px;border-radius:6px;background:${stateBg};border:1px solid ${stateBorder};font-size:9px;line-height:1.3">
+              <div style="color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:8px">SEM ${a.week} · ${stateLabel}</div>
+              <div style="color:var(--tx);font-weight:600;margin-top:2px">${typeIcon[a.type]} ${a.name.replace(' · Pitch Disciplinares-NIP','').replace(' (2%) + Coevaluación (2%) + Autoevaluación (2%)','+Coev+Auto')}</div>
+              ${a.weight ? `<div style="color:${typeColor[a.type]};font-weight:700;margin-top:2px">${a.weight}%</div>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>` : '';
+
+      return `<div class="gc" style="border-left:3px solid ${s.color}">
         <div class="gc-h">
-          <div class="gc-t"><span style="font-size:20px">${s.icon}</span> ${s.name}</div>
+          <div class="gc-t"><span style="font-size:20px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code} · Grupo ${s.group}</span></div>
           <span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>
         </div>
+        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:4px">👨‍🏫 <strong>${s.professor}</strong></div>` : ''}
+        ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>` : ''}
         <p style="font-size:12px;color:var(--t2);margin-bottom:12px">${s.desc}</p>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
           <div class="pbar" style="flex:1"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--vi2)">${pct}% (${done}/${total})</span>
         </div>
+        ${evalPlan}
         <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Área: ${s.type}</div>
         ${subjTasks.length > 0 ? `<div style="margin-bottom:10px">
           ${subjTasks.map(t => `<div class="atask">
@@ -344,7 +387,12 @@ const SYS = (() => {
           </div>`).join('')}
         </div>` : ''}
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${s.resources.map(r => `<a href="${r}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 8px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:6px;color:var(--vi2);text-decoration:none;transition:all .2s">📎 ${new URL(r).hostname.replace('www.','')}</a>`).join('')}
+          ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 Abrir en CDigital</a>` : ''}
+          ${sl.clase ? `<a href="${sl.clase}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Link de clase</a>` : ''}
+          ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
+          ${sl.material ? `<a href="${sl.material}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📂 Material</a>` : ''}
+          ${sl.reglas ? `<a href="${sl.reglas}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📜 Reglas</a>` : ''}
+          ${s.resources.map(r => `<a href="${r}" target="_blank" rel="noopener" style="font-size:10px;padding:5px 10px;background:var(--el);border:1px solid var(--bd);border-radius:6px;color:var(--t3);text-decoration:none">🔗 ${new URL(r).hostname.replace('www.','')}</a>`).join('')}
         </div>
       </div>`;
     }).join('');
@@ -521,6 +569,9 @@ const SYS = (() => {
     const daysLeft = cal.academic ? Math.max(0, daysBetween(todayStr(), cal.academic.end)) : 0;
 
     const setV = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    const totalCredits = SUBJECTS.reduce((sum, s) => sum + (s.credits || 0), 0);
+    setV('statMaterias', SUBJECTS.length);
+    setV('statCredits', totalCredits);
     setV('statProgress', pct + '%');
     setV('statPending', pending);
     setV('statDaysLeft', daysLeft);
@@ -684,18 +735,27 @@ const SYS = (() => {
     const overdue = tasks.filter(t => t.due && daysBetween(todayStr(), t.due) < 0).length;
     const thisWeek = tasks.filter(t => { const d = t.due ? daysBetween(todayStr(), t.due) : 99; return d >= 0 && d <= 7; }).length;
 
+    // Detect current Block 1 week (8-week structure)
+    const todayS = todayStr();
+    const currentActivity = (BLOCK_ACTIVITIES || []).find(a => todayS >= a.start && todayS <= a.end);
+    const nextActivity = (BLOCK_ACTIVITIES || []).find(a => todayS < a.start);
+
     let heroMsg, heroSub, heroAction;
     if (isPreSemester) {
       heroMsg = `⏳ El semestre inicia en ${daysToStart} día${daysToStart!==1?'s':''}`;
       heroSub = 'Período 26V02 · Bloque 1: 30 Mar — 24 May. Usa este tiempo para prepararte.';
-      heroAction = `<div style="margin-top:8px;padding:8px 12px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:8px;font-size:11px;color:var(--am)">
-        <strong>⚠️ EN PROGRESO:</strong> Completar curso <strong>"Inducción TICS - Estudiantes"</strong> en CUN Digital (14% completado, 7 secciones).
-        <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--cy);font-weight:600;margin-left:4px">Ir al curso →</a>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      heroAction = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
         <a href="#" onclick="showTab(6);return false" style="font-size:11px;padding:6px 12px;background:var(--vi);color:#fff;border-radius:6px;text-decoration:none;font-weight:600">🔄 Abrir Portales CUN</a>
         <a href="#" onclick="showTab(1);return false" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">📚 Ver Materias</a>
         <a href="https://cdigital.cun.edu.co/my/" target="_blank" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">🎓 CUN Digital</a>
+      </div>`;
+    } else if (currentActivity) {
+      heroMsg = `📍 Semana ${currentActivity.week}/8 · ${currentActivity.name}`;
+      heroSub = `Bloque 1 · 26V02. ${currentActivity.weight ? `Peso: ${currentActivity.weight}%. ` : ''}${nextActivity ? `Siguiente (Sem ${nextActivity.week}): ${nextActivity.name}.` : 'Última actividad del bloque.'}`;
+      heroAction = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+        <a href="#" onclick="showTab(1);return false" style="font-size:11px;padding:6px 12px;background:var(--vi);color:#fff;border-radius:6px;text-decoration:none;font-weight:600">📚 Ver Materias</a>
+        <a href="https://cdigital.cun.edu.co/my/courses.php" target="_blank" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">🎓 Mis Cursos CDigital</a>
+        <a href="#" onclick="showTab(7);return false" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">📹 Clases Perdidas</a>
       </div>`;
     } else if (overdue > 0) {
       heroMsg = `🚨 ${overdue} tarea${overdue!==1?'s':''} vencida${overdue!==1?'s':''}`;
@@ -720,6 +780,42 @@ const SYS = (() => {
         <div style="font-size:10px;padding:4px 10px;border-radius:6px;background:${thisWeek?'rgba(249,115,22,.1)':'var(--el)'};color:${thisWeek?'var(--or)':'var(--t3)'};border:1px solid ${thisWeek?'rgba(249,115,22,.2)':'var(--bd)'}">🟠 ${thisWeek} esta semana</div>
         <div style="font-size:10px;padding:4px 10px;border-radius:6px;background:var(--el);color:var(--t3);border:1px solid var(--bd)">📝 ${tasks.length} pendientes total</div>
       </div>`;
+  }
+
+  // ── RENDER: BLOCK ACTIVITIES (8-week timeline — Quiz/Parcial/ACA) ──
+  function renderBlockActivities() {
+    const el = document.getElementById('blockActivities');
+    if (!el) return;
+    const today = todayStr();
+    const tasks = getTasks();
+
+    const typeIcon = { session: '📖', quiz: '📝', exam: '🎯', project: '🚀', closing: '🏁' };
+    const typeColor = { session: 'var(--cy)', quiz: 'var(--am)', exam: 'var(--rd)', project: 'var(--vi2)', closing: 'var(--gn)' };
+    const cutColor = { 1: 'var(--am)', 2: 'var(--or)', 3: 'var(--rd)' };
+
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px">
+      ${BLOCK_ACTIVITIES.map(a => {
+        const isPast = today > a.end;
+        const isNow = today >= a.start && today <= a.end;
+        const isFuture = today < a.start;
+        const daysToStart = daysBetween(today, a.start);
+        const daysToEnd = daysBetween(today, a.end);
+        const stateColor = isNow ? typeColor[a.type] : isPast ? 'var(--gn)' : 'var(--bd)';
+        const stateLabel = isNow ? 'EN CURSO' : isPast ? 'COMPLETADO' : `en ${daysToStart}d`;
+        const stateBg = isNow ? 'rgba(139,92,246,.08)' : isPast ? 'rgba(34,197,94,.05)' : 'var(--el)';
+        return `<div style="background:${stateBg};border:1px solid ${stateColor};border-left:3px solid ${typeColor[a.type]};border-radius:8px;padding:10px 12px;${isNow ? 'box-shadow:0 0 18px rgba(139,92,246,.15)' : ''}">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);font-weight:600">SEM ${a.week} · ${formatDate(a.start)}-${formatDate(a.end)}</span>
+            ${a.weight ? `<span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:${typeColor[a.type]}22;color:${typeColor[a.type]}">${a.weight}%</span>` : ''}
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx);line-height:1.3;margin-bottom:6px">${typeIcon[a.type]} ${a.name}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:9px">
+            <span style="color:${isNow ? typeColor[a.type] : isPast ? 'var(--gn)' : 'var(--t3)'};font-weight:${isNow ? '700' : '500'}">${stateLabel}</span>
+            ${a.cutLabel ? `<span style="padding:1px 5px;border-radius:3px;background:${cutColor[a.cut]}18;color:${cutColor[a.cut]};font-weight:600">${a.cutLabel}</span>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
   }
 
   // ── RENDER: SUBJECT HEALTH (Compact Visual Grid) ──
@@ -837,16 +933,15 @@ const SYS = (() => {
   function render() {
     renderStats();
     renderActionNow();
-    renderSubjectHealth();
+    renderBlockActivities();
     renderStudyPlan();
     renderSemaphore();
-    renderSubjectCards();
+    renderSubjectHealth();   // ahora vive en Tab 1 (Materias)
     renderSubjectDetail();
     renderCalendar();
     renderQuickAccess();
     renderMalla();
     renderCerts();
-    renderNextActions();
     renderCUNHub();
     renderClassSessions();
   }
@@ -860,23 +955,85 @@ const SYS = (() => {
       dateInput.value = nextWeek;
     }
 
-    // Add sample tasks if first time
+    // ── Migración de seeds ──
+    // v1: tareas con materias falsas (calidad_sw/admin_bd/redes) — abr 2026
+    // v2: seeds parciales que solo cubrían Ing Web (faltaban Quiz 2/Parcial 2/ACA para Mat Esp e Inv C&T)
+    const SEED_VERSION = 2;
+    const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
+    const currentSeedVer = db.get('seed_version', 0);
+    const existing = getTasks();
+    const hasStale = existing.some(t => STALE_IDS.has(t.subj));
+    // Detect old partial seed (v1): exactly 12 seeds with the original v1 texts
+    const v1SeedTexts = new Set([
+      'Quiz 1 — Ingeniería Web (10%)',
+      'Quiz 1 — Matemáticas Especiales (10%)',
+      'Quiz 1 — Investigación Ciencia y Tecnología (10%)',
+      'Asistir a clase Ing Web — Miércoles 6:15 PM',
+      'Parcial 1 — Ingeniería Web (20%) → 1er Corte 30%',
+      'Parcial 1 — Matemáticas Especiales (20%)',
+      'Parcial 1 — Investigación C&T (20%)',
+      'Quiz 2 — Ingeniería Web (10%)',
+      'Parcial 2 — Ingeniería Web (20%) → 2do Corte 30%',
+      'ACA · Pitch Disciplinares-NIP (34%) — preparar presentación',
+      'Completar inducción Week 2 — Virtual English Beginner',
+      'Presentar Placement Test BE Plus (única actividad)',
+    ]);
+    if (hasStale || currentSeedVer < SEED_VERSION) {
+      // Preserve user-created tasks (anything not matching either v1 seed nor stale subj)
+      const oldFakeSeedTexts = new Set([
+        'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)',
+        'Estudiar transformadas y series para primer corte',
+        'Revisar estándares de calidad ISO para entrega',
+        'Configurar entorno de pruebas unitarias — proyecto QA',
+        'Práctica de optimización de queries SQL — Admin BD',
+        'Desarrollar proyecto web con API REST — Ingeniería Web',
+        'Revisar HTML/CSS/JS y frameworks para quiz',
+        'Laboratorio de configuración WiFi empresarial',
+        'Revisar protocolos wireless y seguridad para quiz',
+        'Definir tema y estado del arte — Investigación',
+        'Completar actividad de inducción — English Beginner',
+        'Realizar Placement Test BE Plus',
+      ]);
+      const userTasks = existing.filter(t =>
+        !STALE_IDS.has(t.subj) &&
+        !oldFakeSeedTexts.has(t.text) &&
+        !v1SeedTexts.has(t.text)
+      );
+      saveTasks(userTasks);
+      db.set('seed_version', SEED_VERSION);
+    }
+
+    // Add seed tasks if first time — basadas en calendario oficial CUN 2026A Bloque 1
+    // Cada materia académica (ing_web, mat_especiales, inv_ciencia) recibe el mismo set:
+    // Quiz 1 (10%) → Parcial 1 (20%) → Quiz 2 (10%) → Parcial 2 (20%) → ACA (34%) → Quiz 3+Coev+Auto (6%)
     if (getTasks().length === 0) {
-      const sampleTasks = [
-        { id: 1, text: 'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)', subj: 'mat_especiales', priority: 'p1', due: '2026-04-05', done: false, created: todayStr() },
-        { id: 2, text: 'Estudiar transformadas y series para primer corte', subj: 'mat_especiales', priority: 'p2', due: '2026-04-15', done: false, created: todayStr() },
-        { id: 3, text: 'Revisar estándares de calidad ISO para entrega', subj: 'calidad_sw', priority: 'p1', due: '2026-04-03', done: false, created: todayStr() },
-        { id: 4, text: 'Configurar entorno de pruebas unitarias — proyecto QA', subj: 'calidad_sw', priority: 'p2', due: '2026-04-12', done: false, created: todayStr() },
-        { id: 5, text: 'Práctica de optimización de queries SQL — Admin BD', subj: 'admin_bd', priority: 'p2', due: '2026-04-08', done: false, created: todayStr() },
-        { id: 6, text: 'Desarrollar proyecto web con API REST — Ingeniería Web', subj: 'ing_web', priority: 'p2', due: '2026-04-20', done: false, created: todayStr() },
-        { id: 7, text: 'Revisar HTML/CSS/JS y frameworks para quiz', subj: 'ing_web', priority: 'p1', due: '2026-04-01', done: false, created: todayStr() },
-        { id: 8, text: 'Laboratorio de configuración WiFi empresarial', subj: 'redes', priority: 'p3', due: '2026-04-20', done: false, created: todayStr() },
-        { id: 9, text: 'Revisar protocolos wireless y seguridad para quiz', subj: 'redes', priority: 'p1', due: '2026-04-02', done: false, created: todayStr() },
-        { id: 10, text: 'Definir tema y estado del arte — Investigación', subj: 'inv_ciencia', priority: 'p2', due: '2026-04-10', done: false, created: todayStr() },
-        { id: 11, text: 'Completar actividad de inducción — English Beginner', subj: 'english_beginner', priority: 'p3', due: '2026-04-18', done: false, created: todayStr() },
-        { id: 12, text: 'Realizar Placement Test BE Plus', subj: 'placement_test', priority: 'p2', due: '2026-04-05', done: false, created: todayStr() },
+      const academicSubjects = [
+        { id: 'ing_web', label: 'Ingeniería Web' },
+        { id: 'mat_especiales', label: 'Matemáticas Especiales' },
+        { id: 'inv_ciencia', label: 'Investigación C&T' },
       ];
-      saveTasks(sampleTasks);
+      const evalTemplate = [
+        { name: 'Quiz 1', pct: '10%', due: '2026-04-12', priority: 'p0' },
+        { name: 'Parcial 1', pct: '20% → 1er Corte 30%', due: '2026-04-19', priority: 'p1' },
+        { name: 'Quiz 2', pct: '10%', due: '2026-04-26', priority: 'p2' },
+        { name: 'Parcial 2', pct: '20% → 2do Corte 30%', due: '2026-05-03', priority: 'p2' },
+        { name: 'ACA · Pitch Disciplinares-NIP', pct: '34%', due: '2026-05-16', priority: 'p3' },
+        { name: 'Quiz 3 + Coevaluación + Autoevaluación', pct: '6% → 3er Corte 40%', due: '2026-05-16', priority: 'p3' },
+      ];
+      const seedTasks = [];
+      let id = 1;
+      // Académicas: 3 × 6 evaluaciones = 18 tareas
+      for (const subj of academicSubjects) {
+        for (const ev of evalTemplate) {
+          seedTasks.push({ id: id++, text: `${ev.name} — ${subj.label} (${ev.pct})`, subj: subj.id, priority: ev.priority, due: ev.due, done: false, created: todayStr() });
+        }
+      }
+      // Asistir clase Ing Web (HOY)
+      seedTasks.push({ id: id++, text: 'Asistir a clase Ing Web — Miércoles 6:15 PM', subj: 'ing_web', priority: 'p0', due: '2026-04-08', done: false, created: todayStr() });
+      // Idiomas (flujo independiente)
+      seedTasks.push({ id: id++, text: 'Completar inducción Week 2 — Virtual English Beginner', subj: 'english_beginner', priority: 'p2', due: '2026-04-19', done: false, created: todayStr() });
+      seedTasks.push({ id: id++, text: 'Presentar Placement Test BE Plus (única actividad)', subj: 'placement_test', priority: 'p1', due: '2026-04-15', done: false, created: todayStr() });
+      saveTasks(seedTasks);
     }
 
     render();
@@ -1237,7 +1394,9 @@ const SYS = (() => {
   }
 
   // ── CLASS SESSION STORE ──
-  const CS_KEY = 'sys_class_sessions';
+  const CS_KEY = 'class_sessions';
+  // One-time migration: fix double-prefix bug (sys_sys_class_sessions → sys_class_sessions)
+  (() => { try { const old = localStorage.getItem('sys_sys_class_sessions'); if (old && !localStorage.getItem('sys_class_sessions')) { localStorage.setItem('sys_class_sessions', old); localStorage.removeItem('sys_sys_class_sessions'); } else if (old) { const merged = [...JSON.parse(old), ...JSON.parse(localStorage.getItem('sys_class_sessions') || '[]')]; const unique = merged.filter((s, i, a) => a.findIndex(x => x.id === s.id) === i); localStorage.setItem('sys_class_sessions', JSON.stringify(unique)); localStorage.removeItem('sys_sys_class_sessions'); } } catch {} })();
   function getClassSessions() { return db.get(CS_KEY, []); }
   function saveClassSessions(arr) {
     db.set(CS_KEY, arr);
@@ -1275,7 +1434,7 @@ const SYS = (() => {
     const subjEl = document.getElementById('classSubjSel');
     const subj = subjEl ? SUBJECTS.find(s => s.id === subjEl.value) : null;
     const subjName = subj ? subj.name + ' (' + subj.code + ')' : 'la materia';
-    const prompt = `CEREBRO: ANALIZA CLASE\nURL: ${url || '[pega la URL aquí]'}\nMateria: ${subjName}\n\nProtocolo:\n1. Abre la URL en Chrome MCP o extrae su contenido (título, descripción, transcript/captions).\n2. Busca en web qué temas cubre este tipo de clase de ${subjName} en la CUN.\n3. Genera informe estructurado:\n   - Resumen ejecutivo (qué se vio)\n   - Temas principales (lista)\n   - Qué debo hacer (actividades/tareas detectadas)\n   - Cómo y dónde entregar (evidencia, plataforma, método)\n   - Cuándo entregar (deadline si se menciona)\n4. Llama SYS.injectClassSession(data) en http://localhost:3456/systems.html con la estructura:\n   { url, subject_id: '${subj ? subj.id : ''}', subject_name: '${subjName}', date: 'YYYY-MM-DD', title, summary, topics:[], assignments:[{title,desc,due_date,submit_where,submit_how,evidence_type,moodle_url}], resources:[], status:'pending' }\n5. Confirma guardado y muestra el informe completo.`;
+    const prompt = `CEREBRO: ANALIZA CLASE\nURL: ${url || '[pega la URL aquí]'}\nMateria: ${subjName}\n\nProtocolo (RÁPIDO — solo transcripción, NO ver el video):\n1. Abre la URL en Chrome MCP → navega al video de Google Drive.\n2. EXTRAE LA TRANSCRIPCIÓN así (NO screenshots del video):\n   a) Busca el botón/icono de transcripción (texto "Transcripción" o ícono de subtítulos en los controles del video).\n   b) Si hay panel de transcripción, ejecuta JS: document.querySelector('[aria-label*=\"ranscripci\"]')?.closest('[role=\"complementary\"]')?.innerText || document.querySelector('[aria-label*=\"ranscript\"]')?.closest('[role=\"complementary\"]')?.innerText\n   c) Si no funciona, intenta: document.querySelectorAll('[data-purpose*=\"transcript\"], .transcript-segment, [class*=\"transcript\"]') y extrae .innerText de cada uno.\n   d) ÚLTIMO RECURSO: get_page_text() de toda la página y filtra la sección de transcripción.\n3. Con la transcripción completa, genera informe:\n   - Resumen ejecutivo (qué se vio)\n   - Temas principales (lista detallada)\n   - Qué debo hacer (actividades/tareas detectadas)\n   - Cómo y dónde entregar (evidencia, plataforma, método)\n   - Cuándo entregar (deadline si se menciona)\n4. Guarda automáticamente ejecutando en http://localhost:3456/systems.html:\n   SYS.injectClassSession({ url:'${url}', subject_id:'${subj ? subj.id : ''}', subject_name:'${subjName}', date:'YYYY-MM-DD', title:'...', summary:'...', topics:[], assignments:[{title,desc,due_date,submit_where,submit_how,evidence_type,moodle_url}], resources:[], status:'pending' })\n5. Confirma guardado y muestra el informe completo.\n\nIMPORTANTE: NO veas el video frame por frame. Solo extrae y analiza la transcripción de texto. Es 100x más rápido y no gasta tokens.`;
     if (navigator.clipboard) navigator.clipboard.writeText(prompt).catch(() => {});
     const preview = document.getElementById('classPromptPreview');
     const textEl = document.getElementById('classPromptText');
