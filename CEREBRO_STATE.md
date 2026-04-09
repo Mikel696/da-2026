@@ -6,10 +6,10 @@
 
 ---
 
-## 🟢 10-SYS · Ingeniería de Sistemas — COMPLETADO Y EN PRODUCCIÓN — 2026-04-09
+## 🔒 10-SYS · Ingeniería de Sistemas — 100% COMPLETO Y CERRADO — 2026-04-09
 
 ### Estado final del módulo
-El módulo está cerrado y listo para uso diario. La inyección manual de syllabus se detuvo por decisión del operador. Todo lo que está cargado es **dato real, verificado por el usuario** — cero extrapolación, cero invención.
+**MÓDULO CERRADO PERMANENTEMENTE.** Listo para uso diario. La inyección manual de syllabus se detuvo por decisión del operador. Todo lo que está cargado es **dato real, verificado por el usuario** — cero extrapolación, cero invención. El Direct-Fetch Protocol para Tab 7 quedó verificado end-to-end (Mat Especiales en producción). No hay trabajo pendiente en este módulo: cualquier nueva sesión de clase usa el protocolo Modo A o Modo B ya documentado, sin necesidad de modificar código.
 
 ### Datos académicos cargados (período 26V02)
 | Materia | cdigital_id | Estado | Datos cargados |
@@ -111,15 +111,23 @@ El módulo está cerrado y listo para uso diario. La inyección manual de syllab
 6. **Direct-Fetch de transcripts de Drive:** SIEMPRE reusar la pestaña que el usuario ya abrió (`tabs_context_mcp`). NUNCA `navigate` a Drive ni `curl/fetch` — Drive responde 401 sin la sesión del usuario.
 7. **Pre-procesar transcripts en el browser, no en mi contexto.** 100K+ caracteres revientan la ventana. Filtrado por keywords + slice de últimos N segmentos van por `javascript_tool` y solo los hits regresan.
 8. **Inyectar siempre en la pestaña real de `mikel696.github.io`**, no en localhost ni preview. Solo ahí está la sesión de Supabase del usuario y el proxy hace push automático.
+9. **Borrar entradas de stores `prepend`-orientados por `id`, no por índice.** `SYS.injectClassSession` (y otros stores que insertan al frente) hacen `arr.unshift(...)`. Si después haces `arr[arr.length-1]` para "quedarte con la entrada nueva" vas a tomar la MÁS VIEJA y borrarla. Patrón seguro: capturar el `id` que retorna/genera `inject*` y pasárselo a `delete*`. Aplica a `sys_class_sessions`, `sys_tasks`, `not_cards`, `fin_transactions` y cualquier store con `unshift` semantics. Lección registrada el 2026-04-09 después de borrar accidentalmente la sesión Mat Especiales del preview por usar índice.
 
 ---
 
-## ✅ HANDOVER A USO PRODUCTIVO
+## 🔒 HANDOVER A USO PRODUCTIVO — 10-SYS CERRADO
 
 El operador (Miguel) puede ahora:
 - Usar el módulo 10-SYS como su Mission Control académico diario.
 - Marcar tareas como completadas, agregar nuevas via task-form.
-- Cuando pierda una clase: pegar URL en Tab 7 → copiar prompt → ejecutar Claude.
+- Cuando pierda una clase: pegar URL en Tab 7 → copiar prompt → ejecutar Claude (Modo B), o pegármela directamente en el chat con Chrome MCP disponible (Modo A).
 - Sync automático con Supabase para multi-device.
 
-**El sistema es production-ready. A estudiar.**
+**El sistema es production-ready. 10-SYS queda CERRADO. A estudiar.**
+
+---
+
+## 🎯 PRÓXIMA FASE — Reanudar UI de módulos del dashboard
+Con 10-SYS cerrado, el siguiente foco vuelve a los módulos del dashboard que quedaron en pausa cuando pivoteamos a la auditoría universitaria.
+- **Candidato A — 9-GOA · Objetivos & Hábitos:** ya teníamos `PLAN_HABITS_UI.md` aprobado. El último step ejecutado fue la estructura HTML; el siguiente era generar `frontend/css/goals.css`. Reanudar exactamente desde ahí.
+- **Candidato B — Otro módulo del dashboard** (2-APP polish, 8-PRO Prompt Lab v2, etc.) — requiere planning previo en una sesión nueva.
