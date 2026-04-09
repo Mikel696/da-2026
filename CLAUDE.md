@@ -120,10 +120,12 @@ Al iniciar CADA NUEVA SESIÓN, debes seguir este flujo EXACTO antes de programar
 - ❌ REMOVED: `subjectHealth` grid (duplicaba subjectDetail), `evalPlan` inline (extrapolación)
 
 ### 🟡 ESTADO INTERACTIVO (esperando syllabus del usuario)
-**Verificadas (`VERIFIED_SUBJECTS` Set):** `ing_web`, `mat_especiales` — calendario y subject_links cargados desde syllabus real.
-Para crear tareas en estas materias hay que pedir el syllabus al usuario:
-- 🔬 Investigación Ciencia y Tecnología (DIS36, cdigital_id 104253) — CORTES TOBAR DARIO FERNANDO — **PRÓXIMA**
-- 🇺🇸 Virtual English Beginner 1 (A1I01, cdigital_id 100774)
+**Verificadas (`VERIFIED_SUBJECTS` Set):** `ing_web`, `mat_especiales`, `inv_ciencia` — calendario cargado desde datos reales.
+- `ing_web` y `mat_especiales`: cronograma completo + subject_links.
+- `inv_ciencia`: SOLO Corte 1 parcial (Tarea 1, Quiz 1, Tarea 2 — 12-19 abr). Sin pesos, sin Cortes 2-3, sin subject_links. Usuario confirmó que no hay más info disponible.
+
+Pendientes de syllabus:
+- 🇺🇸 Virtual English Beginner 1 (A1I01, cdigital_id 100774) — **PRÓXIMA**
 - 📝 Placement Test BE Plus (CE1026, cdigital_id 106289)
 
 **REGLA:** NO inventar fechas de Quiz/Parcial/ACA para estas materias. Esperar a que el usuario pegue el calendario o navegue a CDigital.

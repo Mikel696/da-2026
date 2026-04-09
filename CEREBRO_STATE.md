@@ -1,6 +1,38 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-08
+- **Última actualización:** 2026-04-09
+
+---
+
+## 10-SYS · 🟡 INJECTION PARCIAL: Inv C&T (DIS36) — Solo Corte 1 — 2026-04-09
+
+### Datos cargados (imagen del cronograma + decisión del usuario)
+Usuario confirmó que **no hay más información disponible** para esta materia. Se inyectó SOLO Corte 1, sin pesos, sin Cortes 2-3, sin email/horario/links del profesor.
+
+| Tarea | Fecha |
+|---|---|
+| Tarea 1 — Inv C&T (Corte 1) | 12 abr |
+| Quiz 1 — Inv C&T (Corte 1) | 19 abr |
+| Tarea 2 — Inv C&T (Corte 1) | 19 abr |
+
+### Cambios en código
+1. **`SEED_VERSION = 5`** — bump para re-disparar migración.
+2. **Migración v4→v5** — eliminado el filtro `/— Investigación C&T \(/` (las nuevas tareas son verificadas, no extrapoladas).
+3. **`SEED_TASKS`** — añadidas 3 entradas para `inv_ciencia` (ids 15, 16, 17). Sin pesos en el texto (no inventar).
+4. **`VERIFIED_SUBJECTS`** Set ahora incluye `inv_ciencia` → ya no muestra "Sin syllabus cargado".
+5. **NO se actualizó** `SUBJECTS[inv_ciencia]` con `professor_email`, `schedule`, ni `subject_links` — usuario no los proporcionó. La tarjeta solo muestra el deep-link a CDigital.
+
+### Verificación en preview
+`{by_subject:{ing_web:7, mat_especiales:7, inv_ciencia:3}, seed_version:5, total:17}`. Visual confirmado: 0/3, sin warning.
+
+### Estado actualizado
+| Materia | Estado |
+|---|---|
+| ✅ DIS34 Ing Web | Completo |
+| ✅ DIS31 Mat Especiales | Completo |
+| 🟡 DIS36 Inv C&T | **Parcial** — solo Corte 1 |
+| 🇺🇸 A1I01 Virtual English Beginner 1 | **PRÓXIMA** |
+| 📝 CE1026 Placement Test BE Plus | Pendiente |
 
 ---
 

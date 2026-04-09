@@ -315,7 +315,7 @@ const SYS = (() => {
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
       // Materias con syllabus verificado por el usuario (no inventado).
-      const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales']);
+      const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales', 'inv_ciencia']);
       const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id);
 
       return `<div class="gc" style="border-left:3px solid ${s.color}">
@@ -720,7 +720,8 @@ const SYS = (() => {
     // v2: seeds parciales — Ing Web + extrapolaciones inventadas para Mat Esp / Inv C&T (PURGADO)
     // v3: SOLO Ing Web tiene calendario real verificado. Resto pendiente de syllabus del usuario.
     // v4: Mat Especiales (DIS31) syllabus verificado por usuario — calendario idéntico al de Ing Web (Cortés Cruz, mié/vie 6:15 PM)
-    const SEED_VERSION = 4;
+    // v5: Inv C&T (DIS36) — Corte 1 parcial confirmado por usuario (Tarea 1 12-abr, Quiz 1 19-abr, Tarea 2 19-abr). Sin pesos ni Cortes 2-3.
+    const SEED_VERSION = 5;
     const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
     const currentSeedVer = db.get('seed_version', 0);
     const existing = getTasks();
@@ -768,19 +769,19 @@ const SYS = (() => {
     ]);
     if (hasStale || currentSeedVer < SEED_VERSION) {
       // Preserve user-created tasks; purge stale subjects + all old seed texts.
-      // Only filter Inv C&T fabricated tasks (still no real syllabus). Mat Esp now has verified data.
+      // Mat Esp e Inv C&T (parcial) ahora tienen datos verificados — ya no se filtran sus textos.
       const userTasks = existing.filter(t =>
         !STALE_IDS.has(t.subj) &&
-        !oldSeedTexts.has(t.text) &&
-        !/— Investigación C&T \(/.test(t.text)
+        !oldSeedTexts.has(t.text)
       );
       saveTasks(userTasks);
       db.set('seed_version', SEED_VERSION);
     }
 
     // Seed tasks — SOLO datos verificados por el usuario.
-    // Ing Web (DIS34) y Mat Especiales (DIS31) tienen calendario confirmado.
-    // Inv C&T, English Beginner y Placement Test siguen esperando syllabus real (NO inventar).
+    // Ing Web (DIS34) y Mat Especiales (DIS31): calendario completo confirmado.
+    // Inv C&T (DIS36): SOLO Corte 1 parcial (Tarea 1, Quiz 1, Tarea 2). Sin pesos. Cortes 2-3 pendientes.
+    // English Beginner y Placement Test: siguen esperando syllabus real (NO inventar).
     const SEED_TASKS = [
       // ── Ing Web (DIS34) — verificado 2026-04-08 ──
       { id: 1,  text: 'Quiz 1 — Ingeniería Web (10%)',                                  subj: 'ing_web',        priority: 'p0', due: '2026-04-12' },
@@ -798,6 +799,10 @@ const SYS = (() => {
       { id: 12, text: 'ACA — Mat Especiales (34%)',                                     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
       { id: 13, text: 'Quiz 3 + Coev + Auto — Mat Especiales (6% → 3er Corte 40%)',     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
       { id: 14, text: 'Sesión sincrónica Mat Especiales — Mié/Vie 6:15 PM',             subj: 'mat_especiales', priority: 'p0', due: '2026-04-08' },
+      // ── Inv C&T (DIS36) — Corte 1 parcial verificado 2026-04-09 (sin pesos; Cortes 2-3 TBD) ──
+      { id: 15, text: 'Tarea 1 — Inv C&T (Corte 1)',                                    subj: 'inv_ciencia',    priority: 'p0', due: '2026-04-12' },
+      { id: 16, text: 'Quiz 1 — Inv C&T (Corte 1)',                                     subj: 'inv_ciencia',    priority: 'p1', due: '2026-04-19' },
+      { id: 17, text: 'Tarea 2 — Inv C&T (Corte 1)',                                    subj: 'inv_ciencia',    priority: 'p1', due: '2026-04-19' },
     ].map(t => ({ ...t, done: false, created: todayStr() }));
 
     // Re-seed when version bumps OR when DB is empty. Dedupe by text so user tasks survive.
