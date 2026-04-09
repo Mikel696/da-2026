@@ -1,705 +1,106 @@
 # ESTADO DEL CEREBRO DA-2026
 
 - **Última actualización:** 2026-04-09
+- **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
+- **Live URL:** https://mikel696.github.io/da-2026/frontend/
 
 ---
 
-## 10-SYS · 🟡 INJECTION PARCIAL: Inv C&T (DIS36) — Solo Corte 1 — 2026-04-09
+## 🟢 10-SYS · Ingeniería de Sistemas — COMPLETADO Y EN PRODUCCIÓN — 2026-04-09
 
-### Datos cargados (imagen del cronograma + decisión del usuario)
-Usuario confirmó que **no hay más información disponible** para esta materia. Se inyectó SOLO Corte 1, sin pesos, sin Cortes 2-3, sin email/horario/links del profesor.
+### Estado final del módulo
+El módulo está cerrado y listo para uso diario. La inyección manual de syllabus se detuvo por decisión del operador. Todo lo que está cargado es **dato real, verificado por el usuario** — cero extrapolación, cero invención.
 
-| Tarea | Fecha |
-|---|---|
-| Tarea 1 — Inv C&T (Corte 1) | 12 abr |
-| Quiz 1 — Inv C&T (Corte 1) | 19 abr |
-| Tarea 2 — Inv C&T (Corte 1) | 19 abr |
-
-### Cambios en código
-1. **`SEED_VERSION = 5`** — bump para re-disparar migración.
-2. **Migración v4→v5** — eliminado el filtro `/— Investigación C&T \(/` (las nuevas tareas son verificadas, no extrapoladas).
-3. **`SEED_TASKS`** — añadidas 3 entradas para `inv_ciencia` (ids 15, 16, 17). Sin pesos en el texto (no inventar).
-4. **`VERIFIED_SUBJECTS`** Set ahora incluye `inv_ciencia` → ya no muestra "Sin syllabus cargado".
-5. **NO se actualizó** `SUBJECTS[inv_ciencia]` con `professor_email`, `schedule`, ni `subject_links` — usuario no los proporcionó. La tarjeta solo muestra el deep-link a CDigital.
-
-### Verificación en preview
-`{by_subject:{ing_web:7, mat_especiales:7, inv_ciencia:3}, seed_version:5, total:17}`. Visual confirmado: 0/3, sin warning.
-
-### Estado actualizado
-| Materia | Estado |
-|---|---|
-| ✅ DIS34 Ing Web | Completo |
-| ✅ DIS31 Mat Especiales | Completo |
-| 🟡 DIS36 Inv C&T | **Parcial** — solo Corte 1 |
-| 🇺🇸 A1I01 Virtual English Beginner 1 | **PRÓXIMA** |
-| 📝 CE1026 Placement Test BE Plus | Pendiente |
-
----
-
-## 10-SYS · 🟢 INJECTION: Mat Especiales (DIS31) — Syllabus verificado — 2026-04-08
-
-### Datos cargados desde syllabus real (pegado por el usuario)
-- **Profesor:** Juan Sebastián Cortés Cruz · `juan_cortesc@cun.edu.co`
-- **Horario:** Miércoles y Viernes · 6:15-7:45 PM (Google Meet)
-- **Subject links:**
-  - `clase` → `https://meet.google.com/tcx-apcm-dey`
-  - `grabaciones` → Drive folder `1blfMmlYoI9r30v11cLFNef9rYV41qHHT`
-  - `material` → Drive folder `1kDKLX_mVXxHJZDdD7wT4p3jnLZhp-4ju`
-- **Calendario verificado:** El syllabus confirma calendario idéntico al de Ing Web (mismo período 26V02, misma estructura 8 semanas / 3 cortes).
-
-### Cambios en código
-1. **`SUBJECTS[mat_especiales]`** — `professor`, `professor_email`, `schedule`, `subject_links` actualizados con datos reales.
-2. **`SEED_VERSION = 4`** — Bump para re-disparar migración. Migración v3→v4 elimina mat_especiales del filtro de purga (ya no necesita purgar tareas extrapoladas; ahora son tareas reales).
-3. **`SEED_TASKS`** — 7 tareas nuevas para mat_especiales (Quiz 1, Parcial 1, Quiz 2, Parcial 2, ACA, Quiz 3+Coev+Auto, sesión sincrónica). Mismo template de fechas/pesos que Ing Web.
-4. **`VERIFIED_SUBJECTS`** Set en `renderSubjectDetail()` — añadido `mat_especiales`. Ahora la tarjeta muestra plan de evaluaciones sin warning "⏳ Sin syllabus cargado".
-5. **Verificación en preview:** `{by_subject:{general:1, ing_web:7, mat_especiales:7}, seed_version:4, task_count:15, user_task_survived:true}` — migración v3→v4 preserva tareas creadas por el usuario.
-
-### Estado actualizado: 3 materias siguen esperando syllabus
-| Materia | Profesor | cdigital_id | Estado |
+### Datos académicos cargados (período 26V02)
+| Materia | cdigital_id | Estado | Datos cargados |
 |---|---|---|---|
-| ✅ DIS34 Ing Web | BECERRA RAMIREZ HEYNER LEONEL | 104362 | Verificado |
-| ✅ DIS31 Mat Especiales | Juan Sebastián Cortés Cruz | 101285 | **Verificado 2026-04-08** |
-| 🔬 DIS36 Inv Ciencia y Tecnología | CORTES TOBAR DARIO FERNANDO | 104253 | **PRÓXIMA** — pedir syllabus |
-| 🇺🇸 A1I01 Virtual English Beginner 1 | IV001 | 100774 | Pendiente |
-| 📝 CE1026 Placement Test BE Plus | IV002 | 106289 | Pendiente |
+| ✅ DIS34 Ing. Web | 104362 | COMPLETO | Profesor, horario, 4 subject_links, 7 tareas (Cortes 1-3) |
+| ✅ DIS31 Mat. Especiales | 101285 | COMPLETO | Profesor (Cortés Cruz), email, horario Mié/Vie, 3 subject_links, 7 tareas |
+| 🟡 DIS36 Inv. C&T | 104253 | PARCIAL | Solo 3 tareas Corte 1 (Tarea 1, Quiz 1, Tarea 2). Sin pesos, sin Cortes 2-3 |
+| ⚪ A1I01 English Beginner 1 | 100774 | PENDIENTE | Solo placeholder en SUBJECTS — sin syllabus |
+| ⚪ CE1026 Placement Test BE+ | 106289 | PENDIENTE | Solo placeholder en SUBJECTS — sin syllabus |
+
+`VERIFIED_SUBJECTS = {ing_web, mat_especiales, inv_ciencia}` — únicas materias que NO muestran el warning "⏳ Sin syllabus cargado".
+
+### Funcionalidades activas (8 tabs)
+- **Tab 0 — Dashboard:** `actionNow` hero contextual + `semaphoreList` P0-P4 + `task-form` (alta de tareas con select limpio de 5 materias).
+- **Tab 1 — Materias:** `subjectDetail` cards (profesor, email, horario, progress bar, tareas, deep-links). Sin warning para verificadas.
+- **Tab 2 — Calendario:** Calendario académico 26V02 oficial.
+- **Tab 3 — Accesos:** Portal Opener v2 (CDigital, SGA, CUN 360, Gmail).
+- **Tab 4 — Malla Curricular:** 10 semestres.
+- **Tab 5 — Certificaciones:** 8 certs con links.
+- **Tab 6 — CUN Hub:** Recursos del ecosistema CUN.
+- **Tab 7 — Clases Perdidas:** ✅ VERIFICADO HOY. Pega URL de video → Copia prompt optimizado para Claude (extrae transcripción, NO ve el video frame por frame) → `SYS.injectClassSession()` guarda en `sys_class_sessions`. Render con `renderClassSessions()`. Cloud sync via `CLOUD.push('class_sessions', ...)`.
+
+### Arquitectura interna (post-hardening)
+- **`SUBJECTS`** — 5 materias reales (auditadas contra CDigital). 3 falsas eliminadas (`calidad_sw`, `admin_bd`, `redes`).
+- **`SEED_VERSION = 5`** — Sistema de migración versionado:
+  - v1→v2: purga materias falsas
+  - v2→v3: purga extrapolaciones inventadas
+  - v3→v4: incorpora Mat Especiales verificada
+  - v4→v5: incorpora Inv C&T parcial
+  - Migración preserva tareas creadas por el usuario (dedupe by text)
+- **`SEED_TASKS`** — 17 tareas reales: 7 Ing Web + 7 Mat Esp + 3 Inv C&T
+- **Class Sessions store** — `CS_KEY = 'class_sessions'` (sin doble prefijo `sys_sys_*`); migración one-time del key viejo.
+- **Tamaños actuales:** `systems_logic.js` ~1240 líneas, `systems.html` ~513 líneas
 
 ---
 
-## 10-SYS · 🔴 CORRECCIÓN: Purga de datos hallucinados + Bloat removido — 2026-04-08
+## 📜 RESUMEN DE HITOS RECIENTES (Q1-Q2 2026)
 
-### Por qué hubo que corregir
-El commit anterior (`8df8185`) extrapoló el calendario de evaluaciones de **Ing Web** (la única materia con datos verificados) a **Mat Especiales** y **Inv C&T**, generando 18 tareas seed (6 evaluaciones × 3 académicas) cuando solo había evidencia para 6. Esto es **fabricación de datos**. Además, el render duplicaba el timeline 8-semanas adentro de cada tarjeta de materia académica, causando bloat visual.
+### 🔐 Supabase Auth + JSONB Global Sync
+- **`frontend/js/supabase-client.js`** — Cliente Supabase v2 (CDN UMD).
+- **`frontend/js/auth.js`** — Sign-in/sign-up con email + password.
+- **`frontend/js/cloud-sync.js`** — Offline-first JSONB payload sync. Cada módulo declara su key, el proxy intercepta `localStorage.setItem` y dispara `CLOUD.push()`.
+- **Hardening:** sync-lock para evitar timestamp poisoning en device fresco; safe date parsing en `_mergeByUpdatedAt` para no crashear sync.
+- **Estado:** ✅ Producción verificada, multi-device pull QA pasado.
 
-### Acciones de corrección
-1. **Seed purgado** — Solo Ing Web tiene seed tasks reales (7 tareas: Quiz 1/Parcial 1/Quiz 2/Parcial 2/ACA/Quiz 3+Coev+Auto + Asistir clase). Mat Esp / Inv C&T / English / Placement quedan vacíos esperando syllabus real del usuario.
-2. **`SEED_VERSION = 3`** — Detecta tareas extrapoladas v2 (textos como "Quiz X — Matemáticas Especiales" / "— Investigación C&T") y las purga del localStorage en el próximo load. Preserva tareas creadas por el usuario.
-3. **`renderSubjectDetail()` simplificado** — Eliminada sección `evalPlan` (8 mini-cards inline). Ahora cada tarjeta muestra solo: profesor, horario, progress bar (si hay tareas), warning "⏳ Sin syllabus cargado" para materias sin datos verificados, lista de tareas, deep-links a CDigital.
-4. **Dashboard minimalista (Tab 0)** — KEEP: `actionNow` + `semaphoreList` + `task-form`. REMOVED: `blockActivities` (timeline 8-semanas), `studyPlan` (agenda 7 días con materias sin tareas), redundancia con semáforo.
-5. **Materias minimalista (Tab 1)** — KEEP: `subjectDetail`. REMOVED: `subjectHealth` (grid de status duplicaba subjectDetail).
-6. **Funciones muertas eliminadas:** `renderSubjectCards`, `renderNextActions`, `renderBlockActivities`, `renderSubjectHealth`, `renderStudyPlan`. SUBJECT_GUIDES purgados de `calidad_sw` / `admin_bd` / `redes` (materias falsas).
-7. **Selects fixed** — `bulkSubj` y `classSubjSel` ya no listan materias falsas.
-8. **Tamaños:** `systems_logic.js` 1531 → 1228 líneas (-303). `systems.html` 535 → 513 líneas (-22).
+### 💰 12-FIN · Finance Module
+- **`frontend/finance.html`** + capa de datos `FIN`.
+- Presupuesto, ahorro, transacciones — arquitectura separada (no monolito).
+- **Estado:** ✅ Producción verificada.
 
-### 🟡 ESPERANDO DATOS DEL USUARIO
-Quedan **4 materias sin syllabus verificado** que requieren datos del usuario para crear tareas reales. NO inventar.
-| Materia | Profesor | cdigital_id | Estado |
-|---|---|---|---|
-| 🔢 Matemáticas Especiales (DIS31) | HUERTAS CARDOZO DANIEL JOVANNY | 101285 | **PRÓXIMA** — pedir syllabus |
-| 🔬 Investigación Ciencia y Tecnología (DIS36) | CORTES TOBAR DARIO FERNANDO | 104253 | Pendiente |
-| 🇺🇸 Virtual English Beginner 1 (A1I01) | IV001 | 100774 | Pendiente |
-| 📝 Placement Test BE Plus (CE1026) | IV002 | 106289 | Pendiente |
+### 📓 13-NOT · Notes & SRS Leitner
+- **`frontend/notes.html`** — Markdown + Journal + Flashcards SRS Leitner.
+- 5 cajas Leitner, intervalos progresivos, modo estudio.
+- **Estado:** ✅ Producción.
 
-**Modo interactivo activo:** próxima sesión debe pedir el syllabus de **Mat Especiales** primero (URL: https://cdigital.cun.edu.co/course/view.php?id=101285) antes de crear cualquier tarea para esa materia.
+### 💼 5-JOB · Job Tracker (jt8 Migration)
+- Migración de schema antiguo a `jt8` con detección de duplicados y verificación.
+- Botón FAB de migración bidireccional VacancyDB ↔ Job Tracker.
+- Master-detail viewer + Kanban pipeline con drag-and-drop (commit reciente `6ce874c`).
+- **Estado:** ✅ QA pasado, migración hardened.
 
----
+### 🎓 10-SYS · 26V02 Cleanup + Hallucination Purge
+- Auditoría completa contra CDigital → 3 materias falsas eliminadas, 5 reales verificadas.
+- Purga total de calendario extrapolado (commit `400b1e5`).
+- Inyección manual de Mat Especiales (commit `4af10d4`).
+- Inyección parcial de Inv C&T (commit `4334d12`).
+- **Hoy (2026-04-09):** Finalización + verificación Tab 7 + overhaul de documentación.
 
-## 10-SYS · Auditoría 26V02 + Calendario Real + Dashboard Cleanup — 2026-04-08 ⚠️ SUPERSEDED por la corrección de arriba
-
-### Contexto
-Usuario reportó "me pierdo en tanta cosa, hay info repetida". Auditoría completa contra CDigital + calendario académico oficial CUN 2026A. Detectadas 3 materias falsas en `SUBJECTS` y 8 semanas de calendario inexistentes.
-
-### Auditoría CDigital (5 cursos REALES verificados)
-| ID | Curso | Profesor | Horario | cdigital_id |
-|---|---|---|---|---|
-| `ing_web` | DIS34 Ingeniería Web · 52211 | BECERRA RAMIREZ HEYNER LEONEL | Mié 6:15 PM | 104362 |
-| `mat_especiales` | DIS31 Matemáticas Especiales · 52247 | HUERTAS CARDOZO DANIEL JOVANNY | Reuniones por convocatoria | 101285 |
-| `inv_ciencia` | DIS36 Investigación Ciencia y Tecnología · 52218 | CORTES TOBAR DARIO FERNANDO | — | 104253 |
-| `english_beginner` | A1I01 Virtual English Beginner 1 · 50608 | (IV001) | — | 100774 |
-| `placement_test` | CE1026 Placement Test BE Plus · 5TB01 | (IV002) | — | 106289 |
-
-**Materias eliminadas (no existen en CDigital):** `calidad_sw` (DIS32), `admin_bd` (DIS33), `redes` (DIS35).
-
-### Subject Links extraídos (Ing Web — el resto pendiente)
-```js
-subject_links: {
-  clase:       'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524',
-  grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525',
-  material:    'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526',
-  reglas:      'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282',
-}
-```
-
-### Calendario oficial Bloque 1 — 8 semanas (`BLOCK_ACTIVITIES`)
-Aplica solo a las **3 materias académicas** (`ACADEMIC_SUBJ_IDS = ['ing_web','mat_especiales','inv_ciencia']`). English (IV001) y Placement (IV002) van por flujos separados.
-
-| Sem | Fechas | Actividad | % | Tipo | Corte |
-|---|---|---|---|---|---|
-| 1 | 30/3-5/4 | Introducción | 0% | session | 1 |
-| 2 | 6-12/4 | Quiz 1 | 10% | quiz | 1 |
-| 3 | 13-19/4 | Parcial 1 | 20% | exam | **1er Corte 30%** |
-| 4 | 20-26/4 | Quiz 2 | 10% | quiz | 2 |
-| 5 | 27/4-3/5 | Parcial 2 | 20% | exam | **2do Corte 30%** |
-| 6 | 4-16/5 | ACA · Pitch Disciplinares-NIP | 34% | project | 3 |
-| 7 | 11-16/5 | Quiz 3 (2%) + Coev (2%) + Auto (2%) | 6% | quiz | **3er Corte 40%** |
-| 8 | 18-24/5 | Cierre de Notas | — | closing | 100% |
-
-### Cambios de código en `frontend/systems_logic.js`
-1. **`SUBJECTS`** → 5 entradas (de 8). Añadidos campos `cdigital_id`, `schedule`, `subject_links`. Profesor de Mat Especiales corregido a HUERTAS CARDOZO (era CORTES CRUZ).
-2. **`BLOCK_ACTIVITIES`** — nueva constante con las 8 semanas oficiales.
-3. **`ACADEMIC_SUBJ_IDS`** — flag para excluir English/Placement del plan académico.
-4. **`renderBlockActivities()`** — nuevo render para el timeline visual del Dashboard (8 cards con estado COMPLETADO/EN CURSO/en Xd, badges por corte, colores por tipo).
-5. **`renderActionNow()`** — reescrito: detecta `currentActivity` de `BLOCK_ACTIVITIES`, muestra "Semana N/8 · [actividad]" en lugar del mensaje obsoleto de "Inducción TICS".
-6. **`renderSubjectDetail()`** — añadida sección **Plan de Evaluaciones** inline (8 mini-cards) sólo para académicas. Tarjetas ahora muestran professor, schedule, deep-links a CDigital (Abrir, Clase, Grabaciones, Material, Reglas).
-7. **Seed migration v2** — `db.get('seed_version')` < 2 → re-siembra 21 tareas reales (6 evaluaciones × 3 académicas + asistir clase Ing Web + English + Placement). Preserva tareas creadas por el usuario.
-8. **`renderStats()`** — ahora dinámico: `SUBJECTS.length` → `statMaterias`, `SUBJECTS.reduce(credits)` → `statCredits` (antes hardcoded 8/23, ahora 5/9).
-9. **`copyClassPrompt()`** — optimizado para extraer SOLO transcripción (no ver el video, ahorra tokens).
-10. **`CS_KEY = 'class_sessions'`** — antes `'sys_class_sessions'`, causaba doble-prefijo `sys_sys_class_sessions`. Migración one-time corrige el bug.
-
-### Dashboard depurado (Tab 0)
-- ✅ KEEP: `actionNow`, `blockActivities` (NUEVO), `studyPlan`, `semaphoreList`, `task-form`
-- ❌ REMOVE: `subjectHealth` (movido a Tab 1 Materias), `subjectCards` (redundante), `nextActions` (redundante con actionNow)
-- Task-form select limpio: solo 5 materias reales + general
-
-### Materias (Tab 1) reorganizado
-- `subjectHealth` (grid compacto) ahora vive aquí
-- `subjectDetail` con Plan de Evaluaciones inline + 5 botones deep-link
-
-### Verificación en preview (http://localhost:3456/systems.html)
-- statMaterias=5, statCredits=9, statPending=21 ✅
-- BLOCK_ACTIVITIES renderiza 8 cards: Sem 1 COMPLETADO, Sem 2 EN CURSO, Sem 3 en 5d Primer Corte 30%, etc. ✅
-- Sem 6 fechas: 4 May - 16 May ✅ (corregido de 4-10 May)
-- Sem 7 fechas: 11 May - 16 May ✅ (corregido de 11-17 May)
-- Plan de Evaluaciones aparece en las 3 académicas, NO en English/Placement ✅
-- Migración v2 ejecutó: `seedVersion=2`, distribución `{ing_web:7, mat_especiales:6, inv_ciencia:6, english:1, placement:1}` ✅
-- Subject_links de Ing Web: 4 botones funcionales (clase 6403524, grabaciones 6403525, material 6403526, reglas 6104282) ✅
-- Sin errores en consola ✅
-
-### Pendiente para próxima sesión
-- Extraer `subject_links` (clase/grabaciones/material/reglas) de las otras 4 materias en CDigital. Prompt template guardado en CLAUDE.md (`CEREBRO: EXTRAE LINKS DE CURSO`).
-- Verificar si English Beginner / Placement Test tienen evaluaciones específicas que merezcan su propio mini-plan en la subject card.
-- Considerar generar Google Calendar events para los Quiz/Parciales/ACA.
+### 🔧 Otros módulos en producción
+- **2-APP** Application Command Center: refactor profundo, profiling AP Lead Monks/S4, prep Pi3.AI.
+- **6-TOO** Tools: redesign deals panel — botones compactos.
+- **9-GOA** Goals & Habits: refactor plan documentado.
 
 ---
 
-## jt8 → VDB Legacy Migration (PLAN_MIGRATION.md) — 2026-04-05 ✅ COMPLETE
-### Production QA — DEFINITIVE PASS
-- **Test date:** 2026-04-05
-- **Environment:** https://mikel696.github.io/da-2026/frontend/jobs.html
-- **Alert output:** Migración completada. Migrados: 2. Duplicados omitidos: 0. Total en VDB: 8. jt8 legacy: eliminado.
-- **Console:** push OK for both new UUIDs → fullSyncAll DONE (0 errors)
-- **FAB button fix:** Added pulsing fixed-center FAB (z-index 99999) for visibility — auto-removes when jt8 is empty
+## 🧠 LECCIONES APRENDIDAS (no repetir)
 
-### Hardened `migrateManual()` in jobs.js
-- **Duplicate detection** — `_isDuplicate()` checks title+company case-insensitive before insert
-- **Verification step** — Counts `source='manual_migrated'` entries in VDB after insertion; aborts jt8 deletion if mismatch
-- **Safe cleanup** — jt8 removed only after verification passes
-- **Malformed entry handling** — Defaults to 'Sin título' / 'Sin empresa' for missing fields
-- **Migration report** — Alert shows migrated count, duplicates skipped, total VDB size
-- **Source tagging** — Migrated entries tagged `source: 'manual_migrated'` for traceability
+1. **NO extrapolar calendarios entre materias.** Una vez basta para hallucinaciones masivas (ver corrección `400b1e5`).
+2. **Toda materia inyectada requiere `VERIFIED_SUBJECTS` Set** para que la UI sepa si mostrar warning o calendario.
+3. **`SEED_VERSION` SIEMPRE bumpea** cuando se cambia `SEED_TASKS`, con dedupe by text para preservar tareas del usuario.
+4. **Worktrees del harness:** las edits van al main repo via absolute paths, no al worktree. `pwd` ≠ donde se commitea.
+5. **Class Sessions key:** usar `'class_sessions'` (db.get/set añade `sys_` automáticamente). El bug `sys_sys_class_sessions` ya tiene migración one-time.
 
 ---
 
-## Notes & SRS Flashcards Module (PLAN_NOTES_UI.md) — 2026-04-04 ✅ COMPLETE
-
-### Architecture
-- **`frontend/notes.html`** — Clean HTML shell (6 tabs, zero logic, Prompts Cerebro preserved)
-- **`frontend/css/notes.css`** — Extracted styles + SRS card flip (CSS 3D transforms), box viz, responsive
-- **`frontend/js/notes.js`** — NOTES singleton + search/filter/pin + journal + tag picker
-- **`frontend/js/srs.js`** — SRS singleton + Leitner 5-box algorithm + card flip review UI + seed loader
-
-### Implemented Features
-1. **NOTES data singleton** — `getAll()`, `save()`, `add()`, `del()`, `pin()`, `update()` with UUID-based records
-2. **Search + filter + pin** — Real-time search, tag filter toggle, pinned notes float to top
-3. **Journal** — Daily entry with auto-load of today's existing entry, streak counter
-4. **Leitner 5-box SRS** — Box 1 (1d) → Box 2 (3d) → Box 3 (7d) → Box 4 (14d) → Box 5 (30d)
-5. **Card flip review UI** — CSS 3D perspective transform, tap to flip, Hard/Good/Easy rating
-6. **Deck management** — Add custom cards, import seed deck (deduplicates by `q` field), delete cards
-7. **Box visualization** — 5-column display with card counts and interval labels
-8. **Backward compat** — `migrateNotes()` backfills IDs + pinned; `migrateSrs()` converts old format to Leitner state
-9. **Cloud sync** — `sb_notes2` and `eng_srs_deck` in SYNC_REGISTRY, `cloud:sync_complete` listener
-10. **Prompts Cerebro** — P0–P12 preserved exactly, copy-to-clipboard functional
-
-### Production Verification — 2026-04-04 ✅ PASSED
-- fullSyncAll completed in 3327ms
-- `sb_notes2` reconciled cloud→local, then pushState OK on user edit
-- `eng_srs_deck` reconciled cloud→local, then pushState OK after import/review
-- All 6 tabs functional, Leitner review UI operational, search/filter/pin working
-
----
-
-## Finance Module UI Refactor (PLAN_FINANCE_UI.md) — 2026-04-04 ✅ COMPLETE
-
-### Architecture
-- **`frontend/finance.html`** — Clean HTML shell (structure only, zero logic)
-- **`frontend/css/finance.css`** — Extracted + enhanced styles (month-nav, cat-toggle, quick-form)
-- **`frontend/js/finance.js`** — All logic: FIN data layer + pure compute + rendering + events
-
-### Implemented Features
-1. **FIN data singleton** — `getAll()`, `save()`, `add()`, `del()`, `setMonth()`, `getGoal()`, `setGoal()`
-2. **UUID-based transactions** — `crypto.randomUUID()` on every new tx, delete by ID (not index)
-3. **Month navigation** — `‹ Abril 2026 ›` arrows to browse past months, right arrow disabled on current month
-4. **Inline quick expense** — Toggle form replaces old `prompt()` — no thread blocking
-5. **Category toggle** — Expenses/Income toggle in category breakdown tab
-6. **Backward compat** — `migrateIds()` backfills UUIDs on legacy transactions without IDs
-7. **Cloud sync** — `fin_` prefix in `DYNAMIC_PREFIXES`, `cloud:sync_complete` listener re-renders
-8. **Strict separation** — Pure compute functions (`calcMetrics`, `calcCategoryBreakdown`, `calcDailyData`) have zero DOM access
-9. **XSS protection** — `_esc()` helper escapes user input in rendered HTML
-
-### Production Verification — 2026-04-04 ✅ PASSED
-- fullSyncAll completed in 1007ms
-- `fin_2026-04` pulled from cloud → local (cross-device verified)
-- `fin_sav_goal` pulled from cloud → local
-- `fin_2026-03` pushed local → cloud (historical month preserved)
-- UI rendering, transaction CRUD, month navigation, category toggle all functional
-
----
-
-## Global Cloud Sync (PLAN_GLOBAL_SYNC.md) — 2026-04-03 ✅ COMPLETE
-
-### Architecture
-- **`app_state` table** — Generic JSONB store: composite PK `(user_id, store_key)`, `payload JSONB`, `updated_at`
-- **RLS enforced** — 4 policies: SELECT/INSERT/UPDATE/DELETE all require `auth.uid() = user_id`
-- **Two-tier sync** in `cloud-sync.js`:
-  - **Tier 1 (dedicated tables):** `vacancies`, `sys_tasks` — record-level merge via `_mergeByUpdatedAt` (unchanged)
-  - **Tier 2 (app_state JSONB):** All other localStorage keys — whole-key last-write-wins
-
-### Synced Modules (24 keys via app_state)
-- **Super Brain:** `sb_goals`, `sb_habits`, `sb_reviews`, `sb_notes2`, `sb_ratings`, `sb_name`, `sb_streak`, `sb_start`, `sb_last`, `sb_hours`, `sb_pomo_total`
-- **Finance:** `fin_MONTH` (dynamic prefix `fin_`)
-- **English:** `eng_notes`, `eng_srs_deck`, `e4`
-- **Plan B:** `plab_h`
-- **Ruta:** `ruta_log5`, `ruta5`
-- **Dojo:** `dojo_stats`, `excel_dojo`
-- **News:** `news_saved`
-- **Job Tracker config:** `jt_profile`, `jt_form_expanded`
-- **Dynamic:** `sb_pomo_YYYY-MM-DD` (prefix `sb_pomo_`)
-
-### Key Mechanisms
-1. **`localStorage.setItem` proxy** — Intercepts ALL writes; if key matches `SYNC_REGISTRY` or `DYNAMIC_PREFIXES`, auto-pushes to `app_state` (debounced 1.5s)
-2. **`fullSyncAll()`** — Master orchestrator on `sb:signed_in`:
-   - Step 1: Dedicated table fullSync (vacancies, sys_tasks)
-   - Step 2: Pull ALL app_state rows in one query
-   - Step 3: Reconcile each key (first-sync safe: local→cloud if cloud empty)
-   - Step 4: Discover dynamic keys, reconcile both directions
-   - Step 5: Dispatch `cloud:sync_complete` for module re-renders
-3. **Per-key timestamps** — `_cloud_ts` metadata key tracks last-write time per key for conflict resolution
-4. **First-sync safety** — If cloud is empty but local has data, local uploads (never overwrites with nothing)
-5. **Retry queue** — Failed pushes (state_upsert action) enqueued and flushed on 3s timer
-
-### Bug Fix: RangeError in _mergeByUpdatedAt (2026-04-03)
-- **Symptom:** `fullSyncAll` crashed with `RangeError: Invalid time value` at `_mergeByUpdatedAt`
-- **Root cause:** Records with UUID-based `id` fields and no `updated_at`/`saved_at`/`created` fell through to `new Date(rec.id).toISOString()` — UUID strings produce `Invalid Date`, and `.toISOString()` throws `RangeError`
-- **Fix:** Added `_safeTs(val)` helper that returns 0 for any unparseable date. Fallback chain: `saved_at → created → ts → now()`. All date comparisons use `_safeTs()` instead of raw `new Date()`
-
-### Production Verification — 2026-04-03
-- **Status:** FULLY OPERATIONAL
-- fullSyncAll completed in 7515ms on first run (push), 4337ms on second run
-- Dedicated tables: `vacancies` (4 records), `sys_tasks` (11 records) — bidirectional merge OK
-- JSONB app_state: 14 keys synced across all modules
-- Zero crashes after `_safeTs()` hotfix
-- `cloud:sync_complete` event dispatched successfully
-
-### Bug Fix: Proxy timestamp poisoning on fresh device (2026-04-03)
-- **Symptom:** Option D QA (incognito pull test) showed `local→cloud` for ALL 14 keys instead of `cloud→local`, even though `pullAllStates OK: 14 keys` confirmed cloud had data
-- **Root cause:** Module init scripts call `localStorage.setItem(key, '[]')` on DOMContentLoaded (empty defaults). The proxy intercepted these, stamped `_setLocalTs(key, Date.now())` — making local appear "newer" than cloud. When `fullSyncAll` ran 300ms later, `_reconcileKey` saw `localTs > cloudTs` and pushed empty arrays to cloud, overwriting real data
-- **Fix:** Added `_initialSyncDone` flag + `_syncing` guard. Proxy early-returns (skips timestamp + push) while `!_initialSyncDone || _syncing`. Flag set to `true` only after `fullSyncAll` completes. localStorage writes still happen immediately via `_origSetItem` — only cloud push is deferred
-
-### Option D QA: Cross-Device Pull Verification — 2026-04-04 ✅ PASSED
-- **Test:** Fresh incognito window, zero localStorage, logged in
-- **Results:** `pullAllStates OK: 17 keys` → all keys reconciled as `cloud→local (new)` or `cloud→local`
-- **Dedicated tables:** vacancies (5 pulled, 0 uploaded), sys_tasks (11 pulled, 0 uploaded)
-- **JSONB keys:** sb_goals, sb_reviews, sb_notes2, eng_notes, fin_2026-03 — all pulled from cloud
-- **Sync time:** 1744ms
-- **Verdict:** Bidirectional sync is bulletproof. Push (PC→cloud) and pull (cloud→fresh device) both verified.
-
-### Files Modified
-- `database/global_schema.sql` — NEW: app_state CREATE TABLE + RLS
-- `frontend/js/cloud-sync.js` — Refactored: added Tier 2 (SYNC_REGISTRY, proxy, fullSyncAll, pushState, _reconcileKey), safe date parsing, sync-lock proxy guard
-
----
-
-## Job Tracker UI Enhancement (PLAN_TRACKER_UI.md) — 2026-04-03
-
-### Implemented Features
-1. **Profile Toggle System** — `[🏦 Contabilidad] [📊 Data / Tech] [🌐 Todos]` bar above kanban
-   - Filters kanban cards, stats, and metrics by `focusArea`
-   - Active profile persisted in `localStorage('jt_profile')`
-   - PROFILES config maps focus areas to Accountant vs Data/Tech categories
-
-2. **Enriched Add-Vacancy Form** — Replaces old 4-field manual form
-   - 12 fields: title*, company*, URL, source, type, status, focus area, english level, salary USD, requires CPA, QA exposure, priority
-   - Tag chips input with Enter-to-add
-   - Collapsible "Perfil, salario y tags" section (state persisted)
-   - Saves directly to VDB → auto cloud sync via `CLOUD.push()`
-
-3. **Kanban Enhancements**
-   - Focus-area color badges on cards (AP=green, Data=purple, etc.)
-   - Card sorting: priority (high first) → match% → date (newest)
-   - Profile filtering applied to all views
-
-4. **jt8 → VDB Migration** — "Migrar manual a VDB" button
-   - Copies legacy `jt8` entries to VDB with `crypto.randomUUID()` IDs
-   - Auto cloud sync on migration
-   - Button only visible when `jt8` entries exist
-
-### Cloud Sync Bug — RESOLVED (2026-04-03)
-- **Root cause:** `auth.js` used `const AUTH = (IIFE)()` without `window.AUTH = AUTH` — `cloud-sync.js` checked `window.AUTH?.getUserId()` which was always `undefined`
-- **Fix:** Added `window.AUTH = AUTH;` (1 line)
-- **Also fixed:** `INITIAL_SESSION` event handling, camelCase↔snake_case field mapping, console logging
-
----
-
-## ☁ Supabase Integration Sprint (PLAN.md)
-
-**Objetivo:** Migrar de localStorage puro → localStorage + Supabase (cloud sync + auth).
-**Plan completo:** `PLAN.md` en raíz del proyecto.
-**Proyecto Supabase:** Mikel696's Project — `mbuhlxypuvlxxylryjzi.supabase.co` (Free Tier)
-**Estrategia:** Offline-first write-through — localStorage es L1 cache, Supabase es L2 truth. App funciona sin internet.
-
-### Fase 1 — CDN Integration ✅ COMPLETADA (2026-04-01)
-- `frontend/js/supabase-client.js` (19 líneas) — singleton `window.SB` con project URL + anon public key
-- CDN `@supabase/supabase-js@2` (UMD) inyectado en las **14 HTML shells** antes de los scripts de cada módulo
-- Anon key extraída del Supabase Dashboard → Settings → API Keys (Legacy) vía browser automation
-
-### Fase 2 — Auth Module ✅ COMPLETADA (2026-04-01)
-- `frontend/js/auth.js` (146 líneas) — IIFE `AUTH` con:
-  - `init()` → auto-inyecta CSS, crea widget, registra `onAuthStateChange`
-  - `signUp/signIn/signOut` → llamadas directas a `SB.auth.*`
-  - Widget flotante top-right: muestra "☁ Sync" (no logueado) o "● synced + email + Salir" (logueado)
-  - Modal Login/Signup: dark theme, validación client-side, Enter-to-submit, auto-focus
-  - Eventos custom: `sb:signed_in` y `sb:signed_out` disparados en `window` (Phase 3 los escuchará)
-  - CSS auto-inyectado dinámicamente desde `_injectCSS()` → `/css/auth.css`
-- `frontend/css/auth.css` (34 líneas) — dark theme, animación `sb-pop`, responsive `min(380px,90vw)`
-- Script tags inyectados en 14 HTML: CDN → supabase-client.js → auth.js (en ese orden, antes de scripts de módulo)
-
-**Decisiones de diseño Auth UI:**
-- CSS se inyecta dinámicamente desde auth.js (no requiere `<link>` manual en cada HTML)
-- Widget usa `position:fixed` — no interfiere con layouts existentes de ningún módulo
-- Modal se crea en DOM on-demand (no existe hasta que el usuario hace clic en "☁ Sync")
-- Escape HTML en email display para prevenir XSS (`_escHtml`)
-- Supabase `persistSession:true` → sesión sobrevive refresh sin re-login
-
-### Fase 3 — Cloud Sync Layer ✅ COMPLETADA (2026-04-01)
-- `frontend/js/cloud-sync.js` (175 líneas) — IIFE `CLOUD` con:
-  - `push(table, record)` → upsert fire-and-forget con retry queue
-  - `pull(table)` → fetch all records for current user
-  - `remove(table, id)` → delete by id + user_id
-  - `syncDown(table, localKey, strategy)` → pull + merge (cloud_wins | latest_wins)
-  - `syncUp(table, localKey)` → push all localStorage records to cloud
-  - `fullSync(table, localKey)` → bidirectional: pull → merge → push orphans
-  - Retry queue: failed pushes auto-enqueue and flush on 3s timer or sign-in
-  - `_mergeByUpdatedAt()` — deduplication por id, gana el record con updated_at más reciente
-- **VDB augmented** (jobs.js + apply.js):
-  - `save()` → adds `updated_at`, calls `CLOUD.push('vacancies', v)` after localStorage write
-  - `del()` → calls `CLOUD.remove('vacancies', id)`
-  - `updateStatus()` / `updateNotes()` → same pattern
-  - `sb:signed_in` listener → `CLOUD.fullSync('vacancies', VDB.KEY)` + re-render
-- **SYS augmented** (systems_logic.js):
-  - `saveTasks()` → pushes each task to `CLOUD.push('sys_tasks', ...)`
-  - `saveClassSessions()` → pushes each session to `CLOUD.push('class_sessions', ...)`
-  - `deleteTask()` / `deleteClassSession()` → calls `CLOUD.remove()`
-  - `sb:signed_in` listener → `CLOUD.fullSync()` for both tables + re-render
-- Script tag `cloud-sync.js` inyectado en 14 HTML (después de auth.js, antes de módulos)
-- **Load order per page:** CDN → supabase-client.js → auth.js → cloud-sync.js → [module].js
-
-**Decisiones de diseño Cloud Sync:**
-- Offline-first: todas las operaciones escriben localStorage primero, UI nunca espera al cloud
-- `CLOUD.push()` es non-blocking (fire-and-forget con retry); jamás bloquea el render
-- Guarda `if(window.CLOUD)` en cada call — app funciona idéntica si cloud-sync.js no carga
-- Retry queue en memoria (no persistida) — se pierde al cerrar tab, pero datos locales están a salvo
-- `fullSync()` on sign-in: bidireccional, sube records locales que no existen en cloud
-- IDs se convierten a String antes de push (Supabase TEXT primary key vs JS number)
-
-### Fase 4 — PostgreSQL Schema ✅ COMPLETADA (2026-04-01)
-- `database/schema.sql` (210 líneas) — schema completo listo para ejecutar en Supabase SQL Editor
-- **4 tablas con RLS estricto** (SELECT/INSERT/UPDATE/DELETE donde `auth.uid() = user_id`):
-
-| Tabla | PK | localStorage mirror | Campos clave |
-|---|---|---|---|
-| `vacancies` | `(id, user_id)` | `da_vacancies` | title, company, role, url, jd, status, column, salary, match (JSONB), profile (JSONB), tags (JSONB), focus_area, applied_date |
-| `sys_tasks` | `(id, user_id)` | `sys_tasks` | text, subj, priority (p1/p2/p3), due, done |
-| `class_sessions` | `(id, user_id)` | `sys_class_sessions` | url, subject_id, title, summary, topics (JSONB), assignments (JSONB), resources (JSONB), status |
-| `user_prefs` | `user_id` | `sb_*` keys | display_name, pomo_total, hours_total, streak, ratings (JSONB) |
-
-- Todas las tablas tienen `user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE`
-- Índices: `(user_id, updated_at DESC)` en vacancies/tasks/sessions + `(user_id, status)` en vacancies + `(user_id, subj)` en tasks
-- JSONB para campos polimórficos: match, profile, tags, topics, assignments, resources, ratings
-- IDs tipo TEXT (el JS genera con `Date.now()` que se convierte a String en cloud-sync.js)
-- Verificación al final del SQL: `SELECT` confirma RLS habilitado en las 4 tablas
-
-**Ejecutado por admin:** SQL script corrido exitosamente en Supabase SQL Editor (2026-04-01). 4 tablas creadas, RLS habilitado.
-
-### Fase 5 — Supabase Dashboard Config ✅ COMPLETADA (2026-04-01, manual por admin)
-- **Site URL:** `https://mikel696.github.io/da-2026/frontend/index.html`
-- **Redirect URLs configuradas:** `https://mikel696.github.io/**`, `http://localhost:3456/**`
-- Configuración realizada manualmente por el admin en Supabase Dashboard → Authentication → URL Configuration
-- Email templates: defaults de Supabase (confirmación de email, reset password)
-
-### Post-migration fix — CSS path (2026-04-01)
-- `auth.js` _injectCSS: `/css/auth.css` → `css/auth.css` (relative path, GitHub Pages compatible)
-
-### ✅ SUPABASE MIGRATION COMPLETE — 5 de 5 fases + deployed
-| Fase | Archivo(s) clave | Estado |
-|---|---|---|
-| 1. CDN | `js/supabase-client.js` + CDN en 14 HTML | ✅ Committed |
-| 2. Auth UI | `js/auth.js` + `css/auth.css` | ✅ Committed |
-| 3. Cloud Sync | `js/cloud-sync.js` + VDB/SYS augmentation | ✅ Committed |
-| 4. Schema SQL | `database/schema.sql` (4 tablas + RLS) | ✅ Executed in Supabase |
-| 5. Dashboard | Site URL + Redirect URLs | ✅ Configured by admin |
-| Deploy | `git push` to GitHub Pages | ✅ Production live |
-
-### Hotfix — Auth email redirect (2026-04-01)
-- **Bug:** Supabase confirmation email linked to `localhost` instead of production URL
-- **Fix:** Added `emailRedirectTo: 'https://mikel696.github.io/da-2026/frontend/index.html'` to `signUp()` options in `auth.js`
-- **Root cause:** Supabase defaults to the Site URL but the signUp call wasn't passing an explicit redirect, causing fallback to localhost in some configurations
-
-### CRITICAL FIX — Cross-device sync failure (2026-04-01)
-- **Symptom:** Data saved on PC never appeared on phone (and vice versa). Bidirectional sync completely non-functional.
-- **3 root causes found and fixed:**
-
-**Bug 1: `INITIAL_SESSION` not triggering sync (auth.js)**
-- `onAuthStateChange` only dispatched `sb:signed_in` for `event === 'SIGNED_IN'` (explicit login)
-- Supabase v2 fires `INITIAL_SESSION` on page load when a session already exists (refresh, second device)
-- **Fix:** `if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')` → now dispatches `sb:signed_in` on both events
-- **Impact:** This was the primary blocker — without it, `fullSync()` never ran on the second device
-
-**Bug 2: camelCase ↔ snake_case field mismatch (cloud-sync.js)**
-- JS VDB objects use camelCase: `salaryInput`, `focusArea`, `appliedDate`, `followUpDate`, `foundDate`
-- PostgreSQL schema uses snake_case: `salary_input`, `focus_area`, `applied_date`, `follow_up_date`, `found_date`
-- PostgREST silently ignored unknown camelCase columns → data saved with NULLs for those fields
-- On pull, DB returned snake_case but UI read camelCase → pulled records rendered broken
-- **Fix:** Added `_V_TO_DB` / `_V_TO_JS` bidirectional field maps + `_toDb()`/`_toLocal()` converters
-- `push()` and `_flushQueue()` now call `_toDb()` before upsert
-- `pull()` now maps results through `_toLocal()` before returning
-
-**Bug 3: Silent error swallowing (cloud-sync.js)**
-- All `catch` blocks were empty or just re-enqueued — zero `console.error` output
-- Schema/RLS errors were completely invisible, making debugging impossible
-- **Fix:** Added `[CLOUD]`-prefixed `console.log/warn/error` in every code path:
-  - `push OK/error`, `pull OK/error`, `remove OK/error`, `fullSync START/DONE`, `syncDown`, `flush queue`
-
-**Bug 4 (ROOT CAUSE): `window.AUTH` never assigned (auth.js) — 2026-04-03**
-- `auth.js` declared `const AUTH = (() => { ... })();` — JavaScript `const` at script top-level creates a global binding but does NOT attach to `window`
-- `cloud-sync.js` checks `window.AUTH?.getUserId()` in `_uid()` — always returned `undefined` → `_ready()` always `false`
-- **This was the true root cause of ALL sync failures**: every `push()`, `pull()`, `fullSync()` silently skipped because `_ready()` never returned `true`
-- Compare: `supabase-client.js` had `window.SB = SB;`, `cloud-sync.js` had `window.CLOUD = CLOUD;`, but `auth.js` was missing the equivalent
-- **Fix:** Added `window.AUTH = AUTH;` after the IIFE (1 line)
-- **Verified locally:** `window.AUTH` now resolves to `object` with `getUserId: function`
-
----
-
-- **Última actualización:** 2026-03-31
-
-- **SCAN CUN — 2026-03-31 (Día 2 de 26V02) — ✅ COMPLETADO**
-  - ✅ **Gmail CUN (31-Mar):** 2 emails nuevos: (1) DARIO FERNANDO CORTES TOBAR → **Inv. C&T horario confirmado: Jueves 6pm-7pm semanal** (invitación Google Calendar). (2) CINDY PAOLA MORENO → 2 sesiones de inducción English: 31-Mar 7pm y 8pm.
-  - ✅ **CUN Digital — Actividades por curso:**
-    - **Ing. Web (104362):** Link clase, Grabaciones, Material, Acuerdo Pedagógico (PENDIENTE), Avisos
-    - **Inv. C&T (104253):** Avisos, Acuerdo Pedagógico (PENDIENTE — NUEVO)
-    - **Mat. Especiales (101285):** Calendario, Link reuniones Miérc+Viernes 6:15pm, Syllabus, Grabaciones, Material, Avisos
-    - **English Beginner (100774):** Avisos, Términos y Condiciones (PENDIENTE), Link al curso de inglés
-    - **Inducción TICS (28494):** 7 secciones — Bienvenida, Para tus clases, Aprendiendo C-Digital, etc. Progress: 14%
-  - ✅ **CUN 360:** Deuda $0.00. Mismos 6 docentes confirmados. Calidad SW / Admin BD / Redes: sin docente registrado aún.
-  - ✅ **SGA Campus:** Sin notas (esperado — día 2 del semestre).
-  - ✅ **academic-8vo.json actualizado:** last_scan→31-Mar, inv_ciencia.schedule→"Jueves 6pm-7pm", inv_ciencia.pending_tasks→Acuerdo Pedagógico, alert acuerdo_pedagogico_inv_ciencia→true
-  - ⚠️ **Pendientes CUN:** Acuerdo Pedagógico (Ing. Web + Inv. C&T) | Términos y Condiciones English | Inducción TICS 14%→100% | Subir documentos CUN 360
-
-- **SCAN CUN — 2026-03-30 (Primer día 26V02) — ✅ COMPLETADO**
-  - ✅ **CUN Digital (Moodle):** 6 cursos publicados. IDs: Ing Web=104362, Inv C&T=104253, Mat Especiales=101285, Placement Test=106289, English=100774, Induccion TICS=28494. Calidad SW, Admin BD, Redes: NO publicados aún.
-  - ✅ **Inducción TICS:** 14% completado. Docentes completos. Horarios: Mat.Especiales→Miérc+Viernes 6:15pm | Ing.Web→Martes 6:15pm | English→Lunes 7pm | Inv.C&T→Jueves 6pm (confirmado 31-Mar).
-  - ✅ **CUN 360:** Período 26V02, Deuda $0.00.
-
-- **Actualizaciones 2026-03-31 (Sesión P0 + SCAN)**
-  - ✅ **deals.json** actualizado: Epic (Havendock+Hyper Echelon hasta Apr 2, Clone Drone in the Danger Zone Apr 2-9), Amazon Prime (4 juegos hasta May 26), GOG (Deep Sky Derelicts hasta Apr 3), Steam (6 juegos keep forever), Udemy (link a freecourses.me)
-  - ✅ **VacancyDB** +5 vacantes totales sesión: AR/AP Specialist (Remote Talent LATAM), AP/AR Specialist (Legal Tech US EST), Data Analyst LATAM, Financial Analyst FP&A LATAM, AP/AR Specialist (Activate Talent, NetSuite, LATAM remote). Total: **13 vacantes**.
-  - ✅ **Tab 7 Clases Perdidas (10-SYS):** Feature completa — CSS+JS+HTML+Prompt P12. Sesión Reinducción Pregrado guardada.
-
-- **Última actualización:** 2026-03-27
-- **Módulo 2-APP (Application Command Center & Motor ATS) — ✅ 100% FEATURE COMPLETE**
-  - ✅ Analizador de Vacantes con 5 tabs (Analizador, CV Perfilado, Cover & Msgs, Entrevista, Prompt Lab)
-  - ✅ Motor ATS v2 con sinónimos (`js/ats-engine.js` + `data/my-skills.json`)
-  - ✅ Integración bidireccional VacancyDB (apply.html ↔ jobs.html)
-  - ✅ Job Tracker con Master-Detail viewer + Kanban pipeline drag-and-drop
-  - ✅ Motor de perfilamiento avanzado (tono, timezone, salario, urgencia, culture fit, ATS score)
-  - ✅ Modularización apply.html — CSS → `css/apply.css`, JS → `js/apply.js`. HTML shell: 8 KB (era 84 KB)
-  - ✅ Modularización jobs.html — CSS → `css/jobs.css`, JS → `js/jobs.js`. HTML shell: 24 KB (era 52 KB)
-  - ✅ Dashboard Analytics — Métricas en tiempo real: contadores por columna, tasas de conversión, win rate
-  - ✅ Win-Rate Optimizer — 12 búsquedas booleanas en 6 plataformas (LinkedIn, Indeed, Computrabajo, Torre, RemoteOK, Upwork)
-  - ✅ Smart CV Weaver — CV dinámico con {kw:} tejidas, 3 perfiles, contenteditable, export PDF (`js/cv-weaver.js` + `data/my-base-cv.json`)
-  - ✅ Cover & Msgs Weaver — 2 templates (formal/startup), selección por tono, app msg, LinkedIn msg (`js/cover-weaver.js` + `data/my-cover-templates.json`)
-  - ✅ Interview Weaver + TTS — 13 Q&A STAR-method, relevancia por JD, Web Speech API Play/Pause (`js/interview-weaver.js` + `data/my-interview-qa.json`)
-  - ✅ Prompt Lab Weaver — 3 prompts IA dinámicos: Mock Interviewer, Tech Assessment Solver, Salary Negotiator (`js/prompt-weaver.js`)
-
-- **Módulo 1-IND (Global Dashboard & Mission Control) — ✅ 100% FEATURE COMPLETE + DEALS & URGENT TASKS**
-  - ✅ Modularización index.html — CSS → `css/index.css`, JS → `js/index.js`. HTML shell optimizado
-  - ✅ Mission Control: 4 widgets (Pipeline Overview, Meta Semanal, Actividad Reciente, Acciones Rápidas)
-  - ✅ Pipeline Overview — contadores por columna (Saved/Applied/Interview/Offer/Rejected), barra de progreso, tasas de conversión
-  - ✅ Meta Semanal — ring SVG animado, conteo de apps esta semana vs target (10/semana), desglose Lun–Dom
-  - ✅ Actividad Reciente — timeline de últimos movimientos del VacancyDB con timeAgo
-  - ✅ Acciones Rápidas — links directos a Command Center, Tracker, Kanban, CV Weaver, Ruta DA, English
-  - ✅ Lectura en tiempo real de VacancyDB (`da_vacancies` localStorage) — datos sincronizados con jobs.html y apply.html
-  - ✅ **Gratis & Ofertas Colombia** (reemplazó "Tareas del Día"):
-    - Panel principal con ofertas GRATIS organizadas por tienda (Cajita Tech, Amazon, Epic Games, Udemy, GOG, MercadoLibre, Éxito, Steam)
-    - Chips de tiendas clickeables con links directos
-    - Cada deal: icono por tienda, tag GRATIS, fecha de vencimiento
-    - Data layer: `data/deals.json` (sources + deals con categorías)
-    - Se actualiza automáticamente con P0 al inicio de cada sesión
-  - ✅ **Tareas Urgentes** (reemplazó "Cajita Tech" en sidebar):
-    - Lee tareas del sistema 10-SYS (sys_tasks localStorage) + alertas estáticas del scan
-    - Muestra tareas vencidas, de hoy y próximas 7 días con colores por urgencia
-    - Alertas fijas: Inducción TICS pendiente, documentos CUN 360
-    - Lee VacancyDB para follow-up de vacantes aplicadas
-    - Links directos "Ir →" a cada módulo/plataforma relevante
-
-- **Módulo 3-ENG (English Interview Dojo) — ✅ 100% FEATURE COMPLETE**
-  - ✅ Interview Dojo tab añadido a english.html (nuevo tab 🎙️ Interview Dojo)
-  - ✅ TTS Engine — Web Speech API `speechSynthesis` con voz US English, Play/Pause/Resume
-  - ✅ STT Engine — `webkitSpeechRecognition` API, transcripción en tiempo real, continuous mode
-  - ✅ 3 categorías: Recruiter Screening (5 Q&A), Finance & Data Vocabulary (5 Q&A), Remote LATAM Idioms (5 Q&A)
-  - ✅ Cada pregunta: Listen (TTS) → Record (STT) → Compare (Ideal STAR Answer)
-  - ✅ Data layer: `data/english-dojo.json` (15 Q&A con tips y tags)
-  - ✅ Modular: `css/english.css` + `js/english.js` (additive, no rompe el English Total System existente)
-
-- **Módulo 4-RUT (Excel Technical Test Simulator) — ✅ 100% FEATURE COMPLETE + INTERACTIVE ENGINE**
-  - ✅ Split-panel UI: sidebar con lista de escenarios + workspace con mock Excel table
-  - ✅ 15 escenarios realistas AP/Finance en 3 categorías:
-    - Data Cleaning (TRIM, UPPER, VALUE, SUBSTITUTE, MID, DATE, LEFT, FIND, PROPER)
-    - Reconciliation / Lookups (XLOOKUP, INDEX/MATCH, IFERROR, VLOOKUP)
-    - Aging & Logic (nested IFs, TODAY, SUMIFS, AND, OR, LEN, LEFT)
-  - ✅ Mock data tables estilo Excel con headers A/B/C, row numbers, gridlines, yellow target cells
-  - ✅ Formula input bar con prefix `fx` y validación regex de funciones clave
-  - ✅ **INTERACTIVE ENGINE v2:** celdas se actualizan dinámicamente con `expected_results` + green flash animation
-  - ✅ **Hint-based errors:** mensajes específicos en español por función faltante (campo `hints` en JSON)
-  - ✅ **Solution slide-down:** panel se desliza con CSS transition + auto-popula celdas al revelar
-  - ✅ **Pedagogía paso a paso:** explicaciones en español con bloques visuales (Paso 1, Paso 2...) y code highlighting
-  - ✅ Staggered cell animation (120ms por celda) simula cálculo secuencial de Excel
-  - ✅ Progress tracking persistente (solved set, attempts, accuracy) en localStorage
-  - ✅ Data layer: `data/excel-tests.json` (15 escenarios con business_case, mock_data, expected_results, hints, explanation)
-
-- **Módulo 10-SYS (Ingeniería de Sistemas) — ✅ CUN SCANNER + DATOS REALES + DASHBOARD INTELIGENTE**
-  - ✅ Protocolo CUN Scanner integrado en CLAUDE.md (SCAN CUN / NOTAS / TAREAS / EMAIL)
-  - ✅ Escaneo real vía Chrome MCP: SGA Campus, CUN Digital, Gmail CUN, **CUN 360**
-  - ✅ Extracción de PDFs de notas (notr29.pdf) con PyPDF2
-  - ✅ **CUN 360 Dashboard scraped** — 52 materias históricas extraídas página por página
-  - ✅ `data/academic-history.json` — HISTORIAL ACADÉMICO COMPLETO:
-    - 52 materias aprobadas (semestres 1-7)
-    - GPA acumulado histórico: 4.49/5.0
-    - 2 títulos obtenidos: Técnico Profesional (Sem 4) + Tecnólogo en Desarrollo de SW (Sem 7)
-    - Deuda $0, documentos pendientes por cargar
-  - ✅ `data/academic-8vo.json` con datos REALES del SGA/SINU:
-    - Estudiante: BARROS TORRES MIGUEL ANGEL (1063955980)
-    - Período: 26V02 (no 26V01 como estaba hardcodeado)
-    - 3 programas activos: VP15G (Ing. Sistemas), IV001 (Inglés), IV002 (Placement Test)
-  - ✅ `systems_logic.js` SUBJECTS actualizado con materias REALES del período 26V02:
-    - DIS31 Matemáticas Especiales (Grupo 52247)
-    - DIS32 Calidad del Software (Grupo 52278)
-    - DIS33 Administración de Bases de Datos (Grupo 52291)
-    - DIS34 Ingeniería Web (Grupo 52211)
-    - DIS35 Redes Inalámbricas (Grupo 52226)
-    - DIS36 Inv. Ciencia y Tecnología (Grupo 52218)
-    - A1I01 Virtual English Beginner 1 (Grupo 50608)
-    - CE1026 Placement Test BE Plus (Grupo 5TB01)
-  - ✅ Eliminadas materias incorrectas: Álgebra Moderna, Ecuaciones Diferenciales, Plan de Negocios II, Electiva Prof. I
-  - ✅ Sample tasks, study resources y selectores HTML actualizados
-  - ✅ systems.html selectores de materia actualizados (newTaskSubj + bulkSubj)
-  - ✅ **Dashboard Inteligente v2:**
-    - ✅ Hero Card "¿Qué hacer AHORA?" — countdown pre-semestre, alertas vencidas, resumen semanal
-    - ✅ Subject Health Grid — 8 materias con status visual (🔴 ATRASADO, 🟠 URGENTE, 🟡 AL DÍA, ✅ COMPLETO, ⬜ SIN TAREAS)
-    - ✅ Study Plan auto-generado — plan semanal dinámico con overdue, hoy, próximos días, materias descuidadas
-    - ✅ Semáforo compacto — reubicado debajo del plan de estudio
-  - ✅ **Portal Opener v2** — Queue-based sequential opener (bypass popup blocker) con floating progress UI
-  - ✅ **detectPeriod()** — Prioriza 26V02 (enrolled period) incluyendo pre-periodo de 7 días
-  - ✅ **Prompts Cerebro** — 11 prompts documentados (P0-P10) en notes.html con click-to-copy
-  - ✅ WEEKLY_WORKFLOW actualizado con materias reales 26V02
-  - ✅ **Task Guide Modal** — Ventana emergente por materia con guía paso a paso:
-    - Info box: ¿Dónde está? + Tipo de evidencia + ¿Cómo se entrega?
-    - Tareas pendientes con estado y vencimiento
-    - 5 pasos semanales numerados (Revisa aula → Estudia → Desarrolla → Arma entrega → Sube a Moodle)
-    - Tips importantes específicos por materia
-    - Links rápidos: CUN Digital + recursos externos
-    - Se abre desde: Subject Health grid, Subject Cards, y botón 📖 en semáforo
-  - ✅ `SUBJECT_GUIDES` — 8 guías completas (1 por materia) con plataforma, evidenceType, submitMethod, tips, weeklySteps
-  - ✅ **SCAN COMPLETO 2026-03-27** — Escaneo exhaustivo de las 4 plataformas CUN vía Chrome MCP:
-    - ✅ **CUN Digital**: Solo curso "INDUCCION TICS - ESTUDIANTES" (course 28494, 0% completado, 7 secciones). Cursos 26V02 NO publicados aún (inician 30 Mar).
-    - ✅ **SGA Campus (notr29)**: 3 programas activos (VP15G/26V02, IV001/26I02, IV002/26I32). Sin notas aún.
-    - ✅ **Gmail CUN**: 13 emails (Mar 11-24), setup/bienvenida, sin alertas urgentes.
-    - ✅ **CUN 360 Dashboard**: Deuda $0, 52 materias históricas, docs pendientes por cargar.
-    - ✅ **CUN 360 Materias Virtuales**: 6 materias modalidad virtual confirmadas con docentes:
-      - REDES INALAMBRICAS — Docente: No registra
-      - MATEMATICAS ESPECIALES — Docente: CORTES CRUZ JUAN SEBASTIAN
-      - ADMINISTRACION DE BASES DE DATOS — Docente: No registra
-      - CALIDAD DEL SOFTWARE — Docente: No registra
-      - INVESTIGACION CIENCIA Y TECNOLOGIA — Docente: CORTES TOBAR DARIO FERNANDO
-      - INGENIERIA WEB — Docente: BECERRA RAMIREZ HEYNER LEONEL
-    - ✅ **CUN 360 Financiero**: Transacciones $0, sin pagos pendientes.
-    - ✅ **CUN 360 Links de Interés**: 15 enlaces de recursos (SINU, Campus Digital, Biblioteca, Calendario, etc.)
-  - ✅ **Docentes en SUBJECTS** — 3 profesores confirmados agregados a `SUBJECTS[]` y `academic-8vo.json`
-  - ✅ **Docente en Task Guide Modal** — El nombre del profesor se muestra en el header del modal
-  - ✅ **Prompts actualizados (CLAUDE.md + notes.html P0-P11):**
-    - CLAUDE.md reescrito: ecosistema 4 plataformas, datos período 26V02, funcionalidades 10-SYS, regla de oro "actualizar siempre"
-    - P1 expandido: escaneo 4 plataformas con instrucciones detalladas por paso
-    - P2 actualizado: incluye risk_level y doble clic en período
-    - P3 actualizado: historial + docentes + financiero en un solo scan
-    - P4 actualizado: navegar cada sección del Moodle, importar tareas con materia + fecha
-    - P4b NUEVO: Scan solo docentes (CUN 360 → Materias Virtuales)
-    - P5 expandido: describe los 5 tabs del Application Command Center
-    - P9 actualizado: incluye verificación de prompts actualizados
-    - P10 actualizado: incluye verificación de prompts antes de push
-    - P11 NUEVO: Guía de Materia (Task Guide Modal) con las 8 materias disponibles
-    - Flujo de trabajo: 6 pasos (antes 5), incluye P4b y P11
-
-- **Módulo 10-SYS — Tab 7 "Clases Perdidas" — ✅ IMPLEMENTADO 2026-03-31**
-  - ✅ Nueva tab `📹 Clases Perdidas` (Tab 7) en systems.html
-  - ✅ Panel pnl7: input URL + selector materia + generador de prompt con copy-to-clipboard
-  - ✅ Session cards: título, materia, fecha, estado, resumen, temas (tags), assignments con deadline/evidencia/cómo entregar, recursos
-  - ✅ Status workflow: Pendiente → En proceso → Completado (con botones de transición)
-  - ✅ localStorage: `sys_class_sessions` — persiste entre sesiones
-  - ✅ `SYS.injectClassSession(data)` — Claude llama esta función para guardar el informe
-  - ✅ CSS `.cs-*` classes — diseño consistente con el sistema
-  - ✅ P12 prompt en notes.html: `CEREBRO: ANALIZA CLASE [URL]`
-  - ✅ Memoria guardada: `project_class_analyzer.md`
-
-- **Siguiente fase sugerida (próxima sesión):**
-  1. **10-SYS: Completar Inducción TICS** — 14% completado, 7 secciones. URGENTE completar al 100%.
-  2. **10-SYS: Completar Acuerdo Pedagógico Ing. Web** — Pendiente en Moodle del curso 104362.
-  3. **10-SYS: Aceptar Términos y Condiciones English** — Pendiente en Moodle del curso 100774.
-  4. **10-SYS: Subir documentos CUN 360** — Alerta persistente de documentos faltantes.
-  5. **10-SYS: Grade Tracker Engine** — Cuando haya notas registradas, cálculo predictivo "¿cuánto necesito para pasar?"
-  6. **10-SYS: Re-scan CUN Digital** — En ~1-2 semanas re-escanear para ver si Calidad SW, Admin BD y Redes publican sus aulas.
-  7. **Global System Polish & Finetuning** — UI consistency pass, cross-module navigation, responsive fixes.
-
-## Arquitectura de Archivos — Module 1-IND
-
-| Archivo | Función |
-|---|---|
-| `frontend/index.html` | Global Dashboard — HTML shell (10.5 KB) |
-| `frontend/css/index.css` | Estilos del Dashboard + Mission Control widgets |
-| `frontend/js/index.js` | Clock, tasks, pomodoro, RSS feed, Mission Control engine |
-
-## Arquitectura de Archivos — Module 3-ENG
-
-| Archivo | Función |
-|---|---|
-| `frontend/english.html` | English Total System + Interview Dojo tab |
-| `frontend/css/english.css` | Estilos del Interview Dojo (TTS/STT UI) |
-| `frontend/js/english.js` | Dojo engine: TTS, STT, categories, rendering |
-| `frontend/data/english-dojo.json` | 15 Q&A (3 categorías × 5 preguntas) con ideal STAR answers |
-
-## Arquitectura de Archivos — Module 4-RUT
-
-| Archivo | Función |
-|---|---|
-| `frontend/ruta.html` | Ruta Data Analyst + Excel Technical Test Simulator |
-| `frontend/css/ruta.css` | Estilos del Excel Simulator (split-panel, Excel-style tables, toast) |
-| `frontend/js/ruta.js` | ExcelDojo engine: fetch, render, validate, progress tracking |
-| `frontend/data/excel-tests.json` | 9 AP/Finance scenarios (3 categorías × 3 escenarios) con mock data |
-
-## Arquitectura de Archivos — Module 2-APP
-
-| Archivo | Función |
-|---|---|
-| `frontend/apply.html` | Application Command Center — HTML shell (8 KB) |
-| `frontend/css/apply.css` | Estilos del Application Command Center |
-| `frontend/js/apply.js` | Lógica core: VDB, profiling engine, state management |
-| `frontend/js/ats-engine.js` | Motor ATS v2 con matching por sinónimos |
-| `frontend/js/cv-weaver.js` | Smart CV Weaver: perfilado dinámico + PDF export |
-| `frontend/js/cover-weaver.js` | Cover Weaver: cartas y mensajes dinámicos con tono |
-| `frontend/js/interview-weaver.js` | Interview Weaver: prep rankeada + Web Speech API TTS |
-| `frontend/js/prompt-weaver.js` | Prompt Weaver: 3 prompts IA dinámicos por vacante |
-| `frontend/data/my-skills.json` | Inventario de skills con categorías y sinónimos |
-| `frontend/data/my-base-cv.json` | Base CV modular con {kw:} placeholders |
-| `frontend/data/my-cover-templates.json` | Templates cover letter (formal/startup) + msgs |
-| `frontend/data/my-interview-qa.json` | 13 Q&A STAR-method (behavioral + technical) |
-| `frontend/jobs.html` | Job Tracker — HTML shell (24 KB) |
-| `frontend/css/jobs.css` | Estilos del Job Tracker + Kanban |
-| `frontend/js/jobs.js` | Kanban, VDB, analytics, drag-and-drop, win-rate optimizer |
-| `frontend/index.html` | Global Dashboard + Mission Control — HTML shell (10.5 KB) |
+## ✅ HANDOVER A USO PRODUCTIVO
+
+El operador (Miguel) puede ahora:
+- Usar el módulo 10-SYS como su Mission Control académico diario.
+- Marcar tareas como completadas, agregar nuevas via task-form.
+- Cuando pierda una clase: pegar URL en Tab 7 → copiar prompt → ejecutar Claude.
+- Sync automático con Supabase para multi-device.
+
+**El sistema es production-ready. A estudiar.**
