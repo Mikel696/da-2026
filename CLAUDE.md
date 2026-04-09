@@ -125,13 +125,31 @@ Estas reglas existen porque ya hubo incidentes de hallucinación masiva (ver lec
 
 `VERIFIED_SUBJECTS = {ing_web, mat_especiales, inv_ciencia}`.
 
-### Tab 7 · Clases Perdidas (Missed Classes Analyzer)
-Feature operativa para cuando el usuario pierde una clase:
-1. Pega la URL del video grabado (Drive/Zoom/Meet) en `#classUrl`.
-2. Selecciona la materia en `#classSubjSel`.
-3. Click "📋 Copiar Prompt para Claude" → genera prompt optimizado que extrae **solo la transcripción** del video (no análisis frame por frame — 100x más rápido).
-4. Pegar el prompt en otra sesión de Claude → Claude analiza y ejecuta `SYS.injectClassSession({ ... })` que persiste en `sys_class_sessions`.
-5. La sesión aparece en `#classSessionsList` con resumen, temas, asignaciones, deadlines, links de evidencia.
+### Tab 7 · Clases Perdidas (Missed Classes Analyzer) — DIRECT-FETCH PROTOCOL v2
+
+Feature operativa para cuando el usuario pierde una clase. Hay **dos modos** para alimentar el store `sys_class_sessions`:
+
+**Modo A — Direct Fetch autónomo (preferido cuando estoy disponible vía Chrome MCP):**
+1. El usuario me pega la URL del video grabado de Google Drive en el chat (no necesita usar la UI del Tab 7).
+2. Prerrequisito del usuario: tener abierta en su Chrome (la misma ventana donde corre la extensión Claude/Chrome MCP) una pestaña con el video y el panel lateral de **Transcripción** activado (⋮ → Transcripción). Drive solo expone el transcript en el DOM cuando ese panel está visible.
+3. Yo hago `tabs_context_mcp` → identifico la pestaña ya abierta del video (NO navego a Drive con `navigate` — fallaría con 401 o pediría login). Reuso la sesión autenticada del usuario.
+4. Yo hago `javascript_tool` → extraigo el `innerText` del panel `[role="complementary"]` con `aria-label*="ranscripci"`, filtro las etiquetas de UI ("Copiar enlace en esta transcripción", "Cerrar hoja lateral", "Transcripción") y lo guardo en `window.__transcript`.
+5. Pre-proceso EN LA PÁGINA (no en mi contexto) — parseo a `[timestamp, texto]`, filtro por keywords (`tarea|entrega|parcial|examen|quiz|fecha|plazo|abril|mayo|cdigital|drive|http|recuerden|no olviden|para el|hasta el`) y me devuelvo solo los excerpts relevantes + los últimos ~25 segmentos (donde están los anuncios de cierre). **Esto es clave**: 100K+ caracteres de transcript reventarían mi context window — el filtrado se hace en el browser y solo regresan los hits.
+6. Genero el informe estructurado **solo con datos verbatim** (cada tarea cita la frase del profesor + timestamp como evidencia).
+7. **Ejecuto `SYS.injectClassSession({ ... })` directamente en la pestaña REAL del usuario en `https://mikel696.github.io/da-2026/frontend/systems.html`**, NO en localhost ni en preview. Esa es la única vía para que llegue al Supabase del usuario y aparezca en sus otros devices. El proxy `cloud-sync.js` intercepta el `setItem` y dispara `CLOUD.push('class_sessions', ...)` automáticamente.
+8. Verifico visualmente: `showTab(7)` → screenshot → confirmo que la tarjeta aparece en "Sesiones guardadas".
+
+**Modo B — Prompt portable (fallback cuando no tengo Chrome MCP en esta sesión):**
+1. Usuario pega la URL en `#classUrl` + selecciona materia en `#classSubjSel`.
+2. Click "📋 Copiar Prompt para Claude" → `systems_logic.js` genera el prompt actualizado (que incluye el prerrequisito del panel de transcripción y el SOP completo de Chrome MCP).
+3. El usuario pega ese prompt en otra sesión de Claude (Desktop con Chrome MCP) → esa instancia ejecuta el Modo A.
+
+### 🚨 Reglas anti-hallucinación de Tab 7
+1. **Nunca extrapolar.** Si la transcripción está vacía o el panel no está visible, NO inventar — pedir al usuario que active el panel y reintentar.
+2. **Nunca usar `curl`/`fetch` contra Drive** — falla con 401. Solo via la sesión autenticada del browser del usuario (Chrome MCP).
+3. **Toda tarea detectada debe llevar timestamp + verbatim** del profesor en el campo de evidencia. Sin verbatim, no se inyecta.
+4. **Inyectar siempre en la pestaña REAL del live site** (`mikel696.github.io/da-2026/frontend/systems.html`), nunca en localhost ni preview — el push a Supabase requiere la sesión autenticada del usuario.
+5. **Una sesión por video.** Si el video ya tiene una sesión guardada (mismo `url` o `subject_id + date`), update en vez de duplicar.
 
 ---
 

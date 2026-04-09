@@ -30,7 +30,10 @@ El módulo está cerrado y listo para uso diario. La inyección manual de syllab
 - **Tab 4 — Malla Curricular:** 10 semestres.
 - **Tab 5 — Certificaciones:** 8 certs con links.
 - **Tab 6 — CUN Hub:** Recursos del ecosistema CUN.
-- **Tab 7 — Clases Perdidas:** ✅ VERIFICADO HOY. Pega URL de video → Copia prompt optimizado para Claude (extrae transcripción, NO ve el video frame por frame) → `SYS.injectClassSession()` guarda en `sys_class_sessions`. Render con `renderClassSessions()`. Cloud sync via `CLOUD.push('class_sessions', ...)`.
+- **Tab 7 — Clases Perdidas:** ✅ VERIFICADO HOY + EJECUTADO end-to-end con DATOS REALES. Soporta dos modos:
+  - **Modo A (Direct Fetch):** El usuario me pega la URL en el chat con la pestaña del video ya abierta y el panel de Transcripción de Drive activado. Yo uso Chrome MCP (`tabs_context_mcp` + `javascript_tool`) para extraer el transcript del DOM (`[role="complementary"][aria-label*="ranscripci"]`), pre-proceso EN LA PÁGINA (filtrado por keywords + últimos segmentos para evitar reventar mi context), genero el informe verbatim, y ejecuto `SYS.injectClassSession()` directamente en la pestaña real del live site (`mikel696.github.io/da-2026/frontend/systems.html`). El proxy de `cloud-sync.js` empuja a Supabase automáticamente.
+  - **Modo B (Prompt portable):** Si no tengo Chrome MCP, el botón "📋 Copiar Prompt" genera el SOP completo (con prerrequisito de panel de transcripción visible y reglas anti-hallucinación) para que otra sesión de Claude lo ejecute.
+  - **Hoy 2026-04-09:** ejecuté Modo A end-to-end con la grabación de **DIS31 Matemáticas Especiales** (108K caracteres de transcript), inyecté la sesión en producción, verifiqué visualmente que la tarjeta aparece en "Sesiones guardadas" (`#classSessionsList`) y que el counter del card sube a "1 sesión".
 
 ### Arquitectura interna (post-hardening)
 - **`SUBJECTS`** — 5 materias reales (auditadas contra CDigital). 3 falsas eliminadas (`calidad_sw`, `admin_bd`, `redes`).
@@ -76,7 +79,20 @@ El módulo está cerrado y listo para uso diario. La inyección manual de syllab
 - Purga total de calendario extrapolado (commit `400b1e5`).
 - Inyección manual de Mat Especiales (commit `4af10d4`).
 - Inyección parcial de Inv C&T (commit `4334d12`).
-- **Hoy (2026-04-09):** Finalización + verificación Tab 7 + overhaul de documentación.
+- **Hoy (2026-04-09):** Finalización + verificación Tab 7 + overhaul de documentación + **primera ejecución end-to-end del Direct-Fetch Protocol** (Mat Especiales clase grabada en Drive → transcript extraído por Chrome MCP → informe inyectado en producción y verificado visualmente).
+
+### 📹 Direct-Fetch Protocol para Tab 7 — formalizado 2026-04-09
+- **Trigger:** El usuario pega la URL de Drive del video en el chat (ya no necesita pasar por la UI del Tab 7).
+- **Prerrequisito del usuario:** abrir la pestaña del video en su Chrome (con la extensión Claude/Chrome MCP) y activar el panel de Transcripción del reproductor de Drive (⋮ → Transcripción).
+- **Mi flujo:**
+  1. `tabs_context_mcp` → identifico la pestaña existente del video (NO `navigate` — Drive responde 401 sin la sesión del usuario).
+  2. `javascript_tool` → extraigo `innerText` de `[role="complementary"][aria-label*="ranscripci"]` y filtro etiquetas de UI.
+  3. Pre-proceso EN LA PÁGINA: parseo `[timestamp, texto]`, filtro por keywords (`tarea|entrega|parcial|examen|quiz|fecha|plazo|abril|mayo|cdigital|drive|http|recuerden|no olviden|para el|hasta el`) + últimos ~25 segmentos. Solo los hits regresan a mi contexto.
+  4. Genero informe **solo con verbatim + timestamps**. Sin verbatim no se inyecta nada (regla anti-hallucinación).
+  5. `SYS.injectClassSession({ ... })` directamente en la pestaña real de `mikel696.github.io/da-2026/frontend/systems.html`. El proxy de `cloud-sync.js` hace push a Supabase automáticamente.
+  6. `showTab(7)` + screenshot para verificación visual.
+- **Prompt actualizado en `systems_logic.js`:** el botón "📋 Copiar Prompt" ahora genera la versión nueva con el prerrequisito del panel de transcripción, el SOP completo de Chrome MCP y las reglas anti-hallucinación. Sirve como fallback portable cuando otra sesión de Claude debe ejecutar el protocolo sin que yo esté presente.
+- **Por qué este protocolo:** transcripts de 1 hora son ~100K+ caracteres. Si los traigo crudos a mi context, revientan la ventana. El filtrado y la generación del informe se hacen EN EL BROWSER y solo viajan los hits relevantes a mi memoria.
 
 ### 🔧 Otros módulos en producción
 - **2-APP** Application Command Center: refactor profundo, profiling AP Lead Monks/S4, prep Pi3.AI.
@@ -92,6 +108,9 @@ El módulo está cerrado y listo para uso diario. La inyección manual de syllab
 3. **`SEED_VERSION` SIEMPRE bumpea** cuando se cambia `SEED_TASKS`, con dedupe by text para preservar tareas del usuario.
 4. **Worktrees del harness:** las edits van al main repo via absolute paths, no al worktree. `pwd` ≠ donde se commitea.
 5. **Class Sessions key:** usar `'class_sessions'` (db.get/set añade `sys_` automáticamente). El bug `sys_sys_class_sessions` ya tiene migración one-time.
+6. **Direct-Fetch de transcripts de Drive:** SIEMPRE reusar la pestaña que el usuario ya abrió (`tabs_context_mcp`). NUNCA `navigate` a Drive ni `curl/fetch` — Drive responde 401 sin la sesión del usuario.
+7. **Pre-procesar transcripts en el browser, no en mi contexto.** 100K+ caracteres revientan la ventana. Filtrado por keywords + slice de últimos N segmentos van por `javascript_tool` y solo los hits regresan.
+8. **Inyectar siempre en la pestaña real de `mikel696.github.io`**, no en localhost ni preview. Solo ahí está la sesión de Supabase del usuario y el proxy hace push automático.
 
 ---
 
