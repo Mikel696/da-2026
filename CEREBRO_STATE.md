@@ -134,4 +134,4 @@ Con 10-SYS y 9-GOA cerrados, el foco continúa en los módulos del dashboard pen
 - **Candidato C — 6-TOO · Tools refresh:** seguir el redesign del panel de deals.
 - **Candidato D — 11-ACC · Accounting Associate:** módulo nuevo con baja cobertura actual.
 
-Selección pendiente del operador.
+**Operador seleccionó D (11-ACC).** Planning phase iniciada 2026-04-10. Plan en `PLAN_ACCOUNTING.md`. Pendiente aprobación del operador antes de escribir código.
