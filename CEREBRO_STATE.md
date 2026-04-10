@@ -97,7 +97,7 @@
 ### 🔧 Otros módulos en producción
 - **2-APP** Application Command Center: refactor profundo, profiling AP Lead Monks/S4, prep Pi3.AI.
 - **6-TOO** Tools: redesign deals panel — botones compactos.
-- **9-GOA** Goals & Habits: refactor plan documentado.
+- **9-GOA** Goals & Habits: ✅ **COMPLETO Y DESPLEGADO — 2026-04-09**. Refactor a arquitectura de 4 capas ejecutado según `PLAN_HABITS_UI.md`. `frontend/goals.html` queda como shell puro (84 líneas). Toda la lógica vive en `frontend/js/goals.js` (~500 líneas) como IIFE `GOA` con 3 singletons (`GOALS/HABITS/REVIEWS`) sobre `sb_goals/sb_habits/sb_reviews`. Todos los registros usan `crypto.randomUUID()` — deletes por `filter(id !== target)`, sin `splice` ni ordering bugs. Migración idempotente `migrateGoalsAndHabits()` back-fillea UUIDs en registros legacy sin perder contenido. `_esc()` aplicado a todo texto de usuario (XSS verified). Listener `cloud:sync_complete` → `renderAll()`. QA en vivo pasado: `pullAllStates OK: 19 keys`, `reconcile local→cloud: sb_goals`, `reconcile local→cloud: sb_reviews`, `pushState OK: sb_goals`, `pushState OK: sb_habits`, `pushState OK: sb_reviews`, `fullSyncAll DONE` — cero crashes de sync, cero errores de consola.
 
 ---
 
@@ -127,7 +127,11 @@ El operador (Miguel) puede ahora:
 
 ---
 
-## 🎯 PRÓXIMA FASE — Reanudar UI de módulos del dashboard
-Con 10-SYS cerrado, el siguiente foco vuelve a los módulos del dashboard que quedaron en pausa cuando pivoteamos a la auditoría universitaria.
-- **Candidato A — 9-GOA · Objetivos & Hábitos:** ya teníamos `PLAN_HABITS_UI.md` aprobado. El último step ejecutado fue la estructura HTML; el siguiente era generar `frontend/css/goals.css`. Reanudar exactamente desde ahí.
-- **Candidato B — Otro módulo del dashboard** (2-APP polish, 8-PRO Prompt Lab v2, etc.) — requiere planning previo en una sesión nueva.
+## 🎯 PRÓXIMA FASE — Seguir construyendo módulos del dashboard
+Con 10-SYS y 9-GOA cerrados, el foco continúa en los módulos del dashboard pendientes de refactor o construcción.
+- **Candidato A — 2-APP · Application Command Center:** polish + posibles features nuevas sobre el refactor existente.
+- **Candidato B — 8-PRO · Prompt Lab v2:** biblioteca de prompts con weavers dinámicos.
+- **Candidato C — 6-TOO · Tools refresh:** seguir el redesign del panel de deals.
+- **Candidato D — 11-ACC · Accounting Associate:** módulo nuevo con baja cobertura actual.
+
+Selección pendiente del operador.
