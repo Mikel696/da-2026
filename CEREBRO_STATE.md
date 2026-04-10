@@ -97,6 +97,7 @@
 ### 🔧 Otros módulos en producción
 - **2-APP** Application Command Center: refactor profundo, profiling AP Lead Monks/S4, prep Pi3.AI.
 - **6-TOO** Tools: redesign deals panel — botones compactos.
+- **11-ACC** Accounting Associate: ✅ **COMPLETO Y DESPLEGADO — 2026-04-10**. Refactor completo a arquitectura de 4 capas según `PLAN_ACCOUNTING.md`. Shell puro `accounting.html` (65 líneas) + `css/accounting.css` (144 líneas) + `js/accounting.js` (742 líneas IIFE `ACC`) + `data/accounting-data.json` (138 líneas, 8 top-level keys). Un solo localStorage key `sb_accounting` (JSONB opaco) con sub-stores: `progress`, `exerciseLog`, `chatHistory`, `mastered`, `practiced`, `careerDone`. Registrado en `SYNC_REGISTRY` de `cloud-sync.js`. 6 tabs: Ruta (career path + 7 ejercicios técnicos), Glosario (62 términos EN/ES con TTS + mastery toggle), Excel Lab (24 vocab items + link a Ruta DA Dojo), Recursos (4 links externos), Simulador (chat recruiter con keyword scoring + historial persistido), STAR Prep (7 Q&A con practiced toggle). `_esc()` en todo texto de usuario (XSS verified). `cloud:sync_complete` → `renderAll()`. Legacy `acct_module.js` eliminado. Employer-agnostic (antes era solo Brinks).
 - **9-GOA** Goals & Habits: ✅ **COMPLETO Y DESPLEGADO — 2026-04-09**. Refactor a arquitectura de 4 capas ejecutado según `PLAN_HABITS_UI.md`. `frontend/goals.html` queda como shell puro (84 líneas). Toda la lógica vive en `frontend/js/goals.js` (~500 líneas) como IIFE `GOA` con 3 singletons (`GOALS/HABITS/REVIEWS`) sobre `sb_goals/sb_habits/sb_reviews`. Todos los registros usan `crypto.randomUUID()` — deletes por `filter(id !== target)`, sin `splice` ni ordering bugs. Migración idempotente `migrateGoalsAndHabits()` back-fillea UUIDs en registros legacy sin perder contenido. `_esc()` aplicado a todo texto de usuario (XSS verified). Listener `cloud:sync_complete` → `renderAll()`. QA en vivo pasado: `pullAllStates OK: 19 keys`, `reconcile local→cloud: sb_goals`, `reconcile local→cloud: sb_reviews`, `pushState OK: sb_goals`, `pushState OK: sb_habits`, `pushState OK: sb_reviews`, `fullSyncAll DONE` — cero crashes de sync, cero errores de consola.
 
 ---
@@ -134,4 +135,4 @@ Con 10-SYS y 9-GOA cerrados, el foco continúa en los módulos del dashboard pen
 - **Candidato C — 6-TOO · Tools refresh:** seguir el redesign del panel de deals.
 - **Candidato D — 11-ACC · Accounting Associate:** módulo nuevo con baja cobertura actual.
 
-**Operador seleccionó D (11-ACC).** Planning phase iniciada 2026-04-10. Plan en `PLAN_ACCOUNTING.md`. Pendiente aprobación del operador antes de escribir código.
+**11-ACC completado y desplegado 2026-04-10.** Siguiente módulo pendiente de selección por el operador.

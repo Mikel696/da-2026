@@ -5,194 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DA-2026 · Accounting Professional System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--pk:#ec4899;--em:#10b981;--e2:#34d399;--eg:rgba(16,185,129,.08)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
-.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
-.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
-.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
-.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--em)}
-.nav-r{display:flex;gap:8px}
-.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
-.bdg-s{background:var(--amg);border:1px solid rgba(234,179,8,.12);color:var(--am)}
-.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
-.hero{margin-bottom:28px}
-.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--em);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
-.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
-.hero h1 em{font-style:italic;color:var(--em)}
-.hero p{font-size:13px;color:var(--t3);max-width:580px}
-.hst{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:24px;border:1px solid rgba(16,185,129,.15)}
-.hs{flex:1;background:var(--c1);padding:12px;text-align:center}
-.hs:first-child{border-radius:10px 0 0 10px}.hs:last-child{border-radius:0 10px 10px 0}
-.hsv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--em)}
-.hsl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
-/* TABS */
-.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
-.tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
-.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--em);box-shadow:0 2px 8px rgba(16,185,129,.25)}
-/* PANELS */
-.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
-@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-/* SECTION */
-.sl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--em);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
-.sd{font-size:13px;color:var(--t2);margin-bottom:16px}
-/* CARD */
-.card{background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:20px;margin-bottom:12px}
-.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.card-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
-/* PILLS */
-.pl{font-size:9px;font-weight:600;padding:2px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px}
-.pl-e{background:rgba(16,185,129,.08);color:var(--em);border:1px solid rgba(16,185,129,.15)}
-.cp{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
-.cpi{padding:4px 10px;border-radius:14px;font-size:11px;font-weight:500;background:var(--el);border:1px solid var(--bd);color:var(--t2);cursor:pointer;transition:all .2s}
-.cpi:hover,.cpi.on{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25);color:var(--em)}
-/* VOCAB WORD */
-.word{display:flex;align-items:flex-start;gap:10px;padding:11px;background:var(--el);border-radius:7px;margin-bottom:4px;border:1px solid transparent;transition:all .15s}
-.word:hover{border-color:rgba(16,185,129,.2)}
-.word-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--em);min-width:20px;padding-top:4px}
-.word-body{flex:1;min-width:0}
-.word-en{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:1px;cursor:help;position:relative;display:inline-block}
-.word-en[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:110%;left:0;background:var(--c1);border:1px solid var(--bd);padding:4px 8px;border-radius:6px;font-size:11px;font-weight:400;color:var(--em);white-space:nowrap;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.4);pointer-events:none}
-.word-tp{font-size:8px;font-weight:600;padding:1px 4px;border-radius:3px;text-transform:uppercase;background:var(--c1);color:var(--t3);margin-left:6px;vertical-align:middle}
-.word-ph{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--em)}
-.word-es{font-size:12px;color:var(--t2);margin-top:1px}
-.word-ex{font-size:12px;color:var(--t3);font-style:italic;padding:6px 10px;background:rgba(16,185,129,.04);border-left:2px solid var(--em);border-radius:0 7px 7px 0;margin-top:5px;display:none}
-.word-ex.show{display:block}
-.word-ex b{color:var(--em);font-style:normal}
-/* TTS */
-.tts{width:24px;height:24px;border-radius:50%;border:1px solid var(--bd);background:var(--c1);color:var(--t3);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;flex-shrink:0;vertical-align:middle}
-.tts:hover{border-color:var(--em);color:var(--em);background:rgba(16,185,129,.08)}
-/* EXERCISE */
-.exr{background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:20px;margin-bottom:12px}
-.eq{font-size:14px;font-weight:500;margin:10px 0;line-height:1.5}
-.efb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;display:none}
-.efb.sh{display:block}
-.efb.suc{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
-.efb.inf{background:rgba(16,185,129,.08);color:var(--em);border:1px solid rgba(16,185,129,.12)}
-.efb.err{background:rgba(239,68,68,.08);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
-.ein{width:100%;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:13px}
-.ein:focus{outline:none;border-color:var(--em);box-shadow:0 0 0 2px rgba(16,185,129,.15)}
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
-.bp{background:var(--em);color:#fff}.bp:hover{background:var(--em);opacity:.9}
-.bo{background:transparent;color:var(--t2);border:1px solid var(--bd)}.bo:hover{border-color:var(--em);color:var(--em)}
-.bs{padding:5px 9px;font-size:10px}
-/* COLLAPSIBLE */
-.clh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;cursor:pointer;margin-bottom:3px}
-.clh:hover{border-color:var(--em)}.clh h3{font-size:13px;font-weight:600}
-.cla{transition:transform .3s;color:var(--t3);font-size:11px}.clh.op .cla{transform:rotate(180deg)}
-.clb{max-height:0;overflow:hidden;transition:max-height .4s ease}.clb.op{max-height:9000px}.cli{padding:12px 16px}
-/* INTERVIEW */
-.ivs{background:var(--el);border-radius:10px;padding:16px;margin-bottom:8px;border:1px solid rgba(16,185,129,.15)}
-.ivr{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.ivr.iw{color:var(--em)}.ivr.you{color:var(--em)}
-.ivt{margin-top:6px;padding:7px 10px;background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.1);border-radius:7px;font-size:11px;color:var(--em)}
-.msg{display:flex;gap:8px;margin-bottom:8px}
-.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.msg-av.a{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
-.msg-av.b{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15)}
-.msg-body{flex:1}.msg-name{font-size:10px;font-weight:600;margin-bottom:1px}
-.msg-name.a{color:var(--t2)}.msg-name.b{color:var(--em)}
-.msg-text{font-size:12px;padding:8px 12px;border-radius:7px;line-height:1.5;display:inline-block}
-.msg-text.a{background:var(--el)}.msg-text.b{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.1)}
-/* RESOURCES */
-.res-card{display:block;background:rgba(22,22,26,.7);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:12px;padding:20px;text-decoration:none;color:var(--tx);transition:all .25s;position:relative;overflow:hidden}
-.res-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 4%,transparent),transparent);opacity:0;transition:opacity .25s}
-.res-card:hover{border-color:var(--rc);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}.res-card:hover::before{opacity:1}
-.tipbox{background:linear-gradient(135deg,rgba(16,185,129,.04),rgba(5,150,105,.02));border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:14px;margin-bottom:12px}
-.tipbox b{color:var(--em);font-size:12px;display:block;margin-bottom:3px}
-.tipbox p{font-size:12px;color:var(--t2)}.tipbox strong{color:var(--tx)}
-@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.tabs{overflow-x:auto;gap:0}.tab{font-size:10px;padding:6px 8px}.word{flex-wrap:wrap}.msg{flex-direction:column}.res-card{padding:14px}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/accounting.css">
 </head>
 <body>
-<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">Senior Accounting</span></div><div class="nav-r"><div class="bdg bdg-s">🔥 <span>10</span></div></div></nav>
+
+<nav class="nav">
+  <div class="nav-l">
+    <a href="index.html">← Cerebro</a>
+    <div class="nav-sep"></div>
+    <span class="nav-logo">Accounting Associate</span>
+  </div>
+  <div class="nav-r">
+    <div class="bdg bdg-xp"><span id="navXP">🔥 0</span></div>
+  </div>
+</nav>
+
 <div class="wrap">
-<div class="hero"><div class="hero-sub">sistema profesional senior</div><h1>From numbers to <em>strategic systems</em>.</h1><p>Master Tax, Excel Deep Dive, automation y preparación de entrevistas guiada. Específico para el rol de Senior Accounting Associate en Brinks.</p></div>
 
-<div class="hst">
-  <div class="hs"><div class="hsv">24</div><div class="hsl">Temas Master Tax</div></div>
-  <div class="hs"><div class="hsv">16</div><div class="hsl">Fórmulas Críticas</div></div>
-  <div class="hs"><div class="hsv">7</div><div class="hsl">Entrevistas STAR</div></div>
+  <div class="hero">
+    <div class="hero-sub">sistema profesional · AP/AR · LATAM remote</div>
+    <h1>From numbers to <em>strategic systems</em>.</h1>
+    <p>Glosario contable, Excel deep dive, simulador técnico y preparación de entrevistas STAR. Para cualquier rol AP/AR/Accounting Associate remoto.</p>
+  </div>
+
+  <div class="hst">
+    <div class="hs"><div class="hsv" id="sGloss">0/0</div><div class="hsl">Glosario</div></div>
+    <div class="hs"><div class="hsv" id="sExerc">0/0</div><div class="hsl">Ejercicios</div></div>
+    <div class="hs"><div class="hsv" id="sXP">0 XP</div><div class="hsl">Experiencia</div></div>
+    <div class="hs"><div class="hsv" id="sStreak">0🔥</div><div class="hsl">Racha</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="career">🚀 Ruta</button>
+    <button class="tab" data-p="glossary">📖 Glosario</button>
+    <button class="tab" data-p="excel">📊 Excel Lab</button>
+    <button class="tab" data-p="resources">🔗 Recursos</button>
+    <button class="tab" data-p="simulator">🤖 Simulador</button>
+    <button class="tab" data-p="interview">🎯 STAR Prep</button>
+  </div>
+
+  <!-- ─── PANELS ─── -->
+  <div class="pnl on" id="p-career"><div id="acct-career"></div></div>
+  <div class="pnl" id="p-glossary"><div id="acct-glossary"></div></div>
+  <div class="pnl" id="p-excel"><div id="acct-excel"></div></div>
+  <div class="pnl" id="p-resources"><div id="acct-resources"></div></div>
+  <div class="pnl" id="p-simulator"><div id="acct-simulator"></div></div>
+  <div class="pnl" id="p-interview"><div id="acct-interview"></div></div>
+
 </div>
 
-<div class="tabs">
-  <button class="tab on" data-p="career">🚀 Ruta de Maestría 2026</button>
-  <button class="tab" data-p="excel">📊 Laboratorio de Excel</button>
-  <button class="tab" data-p="resources">🔗 Recursos V-ficcient</button>
-  <button class="tab" data-p="simulator">🤖 Simulador de Pruebas</button>
-  <button class="tab" data-p="interview">🎯 Entrevista STAR</button>
-</div>
-
-<div class="pnl on" id="p-career"><div id="acct-career"></div></div>
-<div class="pnl" id="p-excel"><div id="acct-excel"></div></div>
-<div class="pnl" id="p-resources"><div id="acct-resources"></div></div>
-<div class="pnl" id="p-simulator"><div id="acct-simulator"></div></div>
-<div class="pnl" id="p-interview"><div id="acct-interview"></div></div>
-
-</div>
-
+<!-- ─── Scripts (load order matters) ─── -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js"></script>
-<script src="acct_module.js"></script>
-<script>
-// Mock the upd/save accounting functions for XP
-function addXP(n){} function upd(){} function save(){}
-
-// Audio Speech Logic copy from Acct
-let ttsVoice=null,currentBtn=null;
-function initTTS(){
-  if(!window.speechSynthesis)return;
-  const loadV=()=>{
-    const v=speechSynthesis.getVoices();
-    ttsVoice=v.find(x=>x.name.includes('Google US English')||x.lang.includes('en-US'))||v[0];
-  };
-  loadV();speechSynthesis.onvoiceschanged=loadV;
-}
-function speak(text,btn){
-  if(!window.speechSynthesis)return;
-  if(btn && btn===currentBtn && speechSynthesis.speaking){
-    speechSynthesis.cancel();
-    btn.classList.remove('playing');
-    currentBtn=null;
-    return;
-  }
-  speechSynthesis.cancel();
-  if(currentBtn)currentBtn.classList.remove('playing');
-  const clean=text.replace(/<[^>]*>/g,'').replace(/\(.*?\)/g,'').trim();
-  const u=new SpeechSynthesisUtterance(clean);
-  if(ttsVoice)u.voice=ttsVoice;
-  u.lang='en-US';u.rate=0.82;
-  if(btn){
-    btn.classList.add('playing');currentBtn=btn;
-    u.onend=()=>{btn.classList.remove('playing');currentBtn=null};
-    u.onerror=()=>{btn.classList.remove('playing');currentBtn=null};
-  }
-  speechSynthesis.speak(u);
-}
-function toggleEx(el){
-  const ex=el.querySelector('.word-ex');
-  if(ex)ex.classList.toggle('show');
-}
-function togColl(el){
-  el.classList.toggle('op');
-  const b=el.nextElementSibling;
-  b.classList.toggle('op');
-}
-initTTS();
-
-// Tabs System Native
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-  document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
-  t.classList.add('on');
-  document.getElementById('p-'+t.dataset.p).classList.add('on');
-}));
-</script>
+<script src="js/accounting.js"></script>
 </body>
 </html>
