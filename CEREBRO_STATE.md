@@ -128,11 +128,28 @@ El operador (Miguel) puede ahora:
 
 ---
 
-## 🎯 PRÓXIMA FASE — Seguir construyendo módulos del dashboard
-Con 10-SYS y 9-GOA cerrados, el foco continúa en los módulos del dashboard pendientes de refactor o construcción.
-- **Candidato A — 2-APP · Application Command Center:** polish + posibles features nuevas sobre el refactor existente.
-- **Candidato B — 8-PRO · Prompt Lab v2:** biblioteca de prompts con weavers dinámicos.
-- **Candidato C — 6-TOO · Tools refresh:** seguir el redesign del panel de deals.
-- **Candidato D — 11-ACC · Accounting Associate:** módulo nuevo con baja cobertura actual.
+## 🤖 8-PRO · Prompt Lab v2 — EN PLANIFICACIÓN — 2026-04-10
 
-**11-ACC completado y desplegado 2026-04-10.** Siguiente módulo pendiente de selección por el operador.
+### Estado actual
+**PLAN REDACTADO, PENDIENTE APROBACIÓN DEL OPERADOR.** Documento completo en `PLAN_PROMPT_LAB.md`.
+
+### Resumen del plan
+- Refactor completo del monolito `prompts.html` (418 líneas inline) a arquitectura de 4 capas.
+- Shell puro `prompts.html` (~70 líneas) + `css/prompts.css` + `js/prompts.js` (IIFE `PRO`) + `data/prompts-data.json`.
+- Un solo localStorage key `sb_prompts` (JSONB opaco) con sub-stores: `library`, `history`, `settings`.
+- Migración idempotente de `plab_h` (historial actual) y `custom_prompts` (colección legacy).
+- Taxonomía de 8 categorías + tags libres + template variables (`{{VAR}}`).
+- 5 tabs: Librería, Optimizar, Crear, Guía, Historial.
+- ~25-30 seed prompts consolidados de `prompts.html` lib[] + `PROMPTS_DATA` en core.js (deduplicados).
+- Weavers de job pipeline (`prompt-weaver.js`, `cover-weaver.js`, etc.) no se tocan — pertenecen a 2-APP/5-JOB.
+
+### Siguiente paso
+Esperando comando **"Approved"** del operador para iniciar ejecución.
+
+---
+
+## 🎯 PRÓXIMA FASE — Seguir construyendo módulos del dashboard
+Con 10-SYS, 9-GOA, y 11-ACC cerrados, y 8-PRO en planificación, el backlog restante es:
+- **8-PRO · Prompt Lab v2:** ⏳ Plan listo, pendiente aprobación → ejecución.
+- **2-APP · Application Command Center:** polish + posibles features nuevas.
+- **6-TOO · Tools refresh:** seguir el redesign del panel de deals.
