@@ -233,9 +233,9 @@ const CLOUD = (() => {
     // Arrays — user-generated data
     'sb_goals', 'sb_habits', 'sb_reviews', 'sb_notes2', 'sb_ratings',
     'eng_notes', 'eng_srs_deck',
-    'plab_h', 'ruta_log5', 'news_saved',
+    'ruta_log5', 'news_saved',
     // Opaque state objects
-    'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo',
+    'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
     'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'

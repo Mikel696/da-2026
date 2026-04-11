@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-09
+- **Última actualización:** 2026-04-10
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 
@@ -128,23 +128,20 @@ El operador (Miguel) puede ahora:
 
 ---
 
-## 🤖 8-PRO · Prompt Lab v2 — EN PLANIFICACIÓN — 2026-04-10
+## 🤖 8-PRO · Prompt Lab v2 — COMPLETO Y DESPLEGADO — 2026-04-10
 
-### Estado actual
-**PLAN REDACTADO, PENDIENTE APROBACIÓN DEL OPERADOR.** Documento completo en `PLAN_PROMPT_LAB.md`.
+### Estado final del módulo
+**MÓDULO COMPLETADO.** Refactor del monolito `prompts.html` (418 líneas inline) a arquitectura de 4 capas. QA pasado en preview: 21 prompts renderizan, optimizador genera output con syntax highlighting, category filters funcionan, `sb_prompts` registrado en `SYNC_REGISTRY`, cero errores de consola.
 
-### Resumen del plan
-- Refactor completo del monolito `prompts.html` (418 líneas inline) a arquitectura de 4 capas.
-- Shell puro `prompts.html` (~70 líneas) + `css/prompts.css` + `js/prompts.js` (IIFE `PRO`) + `data/prompts-data.json`.
+### Arquitectura
+- Shell puro `prompts.html` (~130 líneas) + `css/prompts.css` (230 líneas) + `js/prompts.js` (~530 líneas IIFE `PRO`) + `data/prompts-data.json` (21 seed prompts, 8 categorías, optimizer config).
 - Un solo localStorage key `sb_prompts` (JSONB opaco) con sub-stores: `library`, `history`, `settings`.
-- Migración idempotente de `plab_h` (historial actual) y `custom_prompts` (colección legacy).
-- Taxonomía de 8 categorías + tags libres + template variables (`{{VAR}}`).
-- 5 tabs: Librería, Optimizar, Crear, Guía, Historial.
-- ~25-30 seed prompts consolidados de `prompts.html` lib[] + `PROMPTS_DATA` en core.js (deduplicados).
-- Weavers de job pipeline (`prompt-weaver.js`, `cover-weaver.js`, etc.) no se tocan — pertenecen a 2-APP/5-JOB.
-
-### Siguiente paso
-Esperando comando **"Approved"** del operador para iniciar ejecución.
+- Migración idempotente de `plab_h` (historial) y `custom_prompts` (colección legacy). `plab_h` removido de `SYNC_REGISTRY`.
+- Taxonomía de 8 categorías (`data`, `code`, `finance`, `career`, `learning`, `writing`, `system`, `custom`) + tags libres + template variables (`{{VAR}}`).
+- 5 tabs: Librería (search + filter + sort + fav + variables), Optimizar (engine refactored), Crear (CRUD custom), Guía (10 rules), Historial.
+- Seed version bumping (`seedVersion: 1`). Custom prompts usan `crypto.randomUUID()`, deletes por `filter(id !== target)`.
+- `_esc()` en todo texto de usuario (XSS verified). `cloud:sync_complete` → `PRO.renderAll()`.
+- Weavers de job pipeline (`prompt-weaver.js`, `cover-weaver.js`, etc.) no se tocaron — pertenecen a 2-APP/5-JOB.
 
 ---
 
