@@ -5,161 +5,418 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DA-2026 · Prompt Lab</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/prompts.css">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 24px 60px}
+.hero{margin-bottom:24px}.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:28px;font-weight:600;line-height:1.15;margin-bottom:6px}.hero h1 em{font-style:italic;color:var(--a2)}.hero p{font-size:13px;color:var(--t3);max-width:600px}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:24px}
+.tab{flex:1;padding:8px 14px;border-radius:7px;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;font-family:inherit}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac);box-shadow:0 2px 8px rgba(139,92,246,.25)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px}
+.card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:12px}
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:14px;margin-bottom:12px}
+.tip b{color:var(--am);font-size:12px;display:block;margin-bottom:3px}.tip p{font-size:12px;color:var(--t2)}.tip strong{color:var(--tx)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.bp{background:var(--ac);color:#fff}.bp:hover{background:var(--a2)}.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{border-color:var(--ac);color:var(--a2)}.bg{background:var(--gn);color:#fff}
+.bs{padding:5px 10px;font-size:11px}
+.textarea{width:100%;min-height:100px;background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;line-height:1.6}
+.textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ag)}.textarea::placeholder{color:var(--t3)}
+.select{padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--t2);font-family:inherit;font-size:12px;cursor:pointer}
+.result{background:#0d0f14;border:1px solid var(--bd);border-radius:10px;padding:16px;margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;color:var(--gn);position:relative}
+.result .tag{color:var(--am)}.result .role{color:var(--a2)}.result .inst{color:var(--tx)}.result .note{color:var(--t3);font-style:italic}
+.result-actions{display:flex;gap:6px;margin-top:10px}
+.prompt-card{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.prompt-card:hover{border-color:var(--ac);transform:translateX(3px)}
+.prompt-cat{font-size:9px;font-weight:600;padding:2px 6px;border-radius:5px;text-transform:uppercase;display:inline-block;margin-bottom:6px}
+.c-data{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.c-code{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.c-biz{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.c-write{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
+.c-learn{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.c-claude{background:rgba(249,115,22,.08);color:#f97316;border:1px solid rgba(249,115,22,.12)}
+.prompt-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.prompt-desc{font-size:12px;color:var(--t2)}
+.prompt-body{display:none;margin-top:10px;background:var(--c1);border-radius:8px;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:var(--a2);white-space:pre-wrap}
+.prompt-card.open .prompt-body{display:block}
+.rule{background:var(--el);border-radius:8px;padding:14px;margin-bottom:8px;border-left:3px solid var(--ac)}
+.rule h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.rule p{font-size:12px;color:var(--t2);line-height:1.6}
+.rule code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--c1);padding:1px 5px;border-radius:4px;color:var(--a2)}
+.hist-item{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:6px;position:relative}
+.hist-date{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-bottom:4px}
+.hist-input{font-size:12px;color:var(--t2);margin-bottom:6px}
+.hist-output{font-size:12px;color:var(--a2);font-family:'IBM Plex Mono',monospace;white-space:pre-wrap;max-height:80px;overflow:hidden;cursor:pointer;transition:max-height .3s}
+.hist-output.exp{max-height:none}
+.hist-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px}.hist-del:hover{color:var(--rd)}
+@media(max-width:768px){.wrap{padding:14px 12px}.hero h1{font-size:22px}.tabs{flex-wrap:wrap}}
+</style>
 </head>
 <body>
-
-<nav class="nav">
-  <div class="nav-l">
-    <a href="index.html">&larr; Cerebro</a>
-    <div class="nav-sep"></div>
-    <span class="nav-logo">DA-2026</span>
-    <div class="nav-sep"></div>
-    <span style="font-size:12px;color:var(--t3)">Prompt Lab</span>
-  </div>
-  <div class="nav-r" id="auth-status"></div>
-</nav>
-
+<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Prompt Lab</span></div></nav>
 <div class="wrap">
-  <div class="hero">
-    <div class="hero-sub">laboratorio de prompts</div>
-    <h1>Tu idea &rarr; <em>prompt perfecto</em>.</h1>
-    <p>Almacena, busca y optimiza prompts de IA. 21 prompts de produccion, variables rellenables, historial con sync.</p>
-  </div>
+<div class="hero"><div class="hero-sub">laboratorio de prompts</div><h1>Tu idea → <em>prompt perfecto</em>.</h1><p>Escribe tu idea en bruto y el sistema la transforma en un prompt optimizado con las mejores prácticas de prompt engineering. 100% instantáneo, sin API, sin costo.</p></div>
 
-  <div class="tabs">
-    <button class="tab on" data-p="lib">📚 Libreria</button>
-    <button class="tab" data-p="opt">⚡ Optimizar</button>
-    <button class="tab" data-p="new">✏️ Crear</button>
-    <button class="tab" data-p="guide">🧠 Guia</button>
-    <button class="tab" data-p="hist">📜 Historial</button>
-  </div>
+<div class="tabs">
+<button class="tab on" data-p="opt">⚡ Optimizar</button>
+<button class="tab" data-p="lib">📚 Librería</button>
+<button class="tab" data-p="master">🧠 Dominar Claude</button>
+<button class="tab" data-p="history">📜 Historial</button>
+</div>
 
-  <!-- ══════ LIBRERIA ══════ -->
-  <div class="pnl on" id="p-lib">
-    <div class="search-bar">
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" id="lib-search" placeholder="Buscar prompts...">
-      </div>
-      <select class="sort-select" id="lib-sort">
-        <option value="recent">Recientes</option>
-        <option value="az">A → Z</option>
-        <option value="used">Mas usados</option>
-        <option value="fav">Favoritos</option>
-      </select>
-    </div>
-    <div class="stats-bar" id="lib-stats"></div>
-    <div class="cat-filters" id="cat-filters"></div>
-    <div id="lib-list"></div>
-  </div>
+<!-- ══════ OPTIMIZAR ══════ -->
+<div class="pnl on" id="p-opt">
+<div class="tip"><b>⚡ Cómo funciona</b><p>Escribe tu idea. Selecciona contexto y tono. El motor aplica <strong>10 reglas de prompt engineering</strong> y genera un prompt estructurado con rol, contexto XML, tarea, formato y restricciones. <strong>Instantáneo, sin conexión, sin tokens.</strong></p></div>
 
-  <!-- ══════ OPTIMIZAR ══════ -->
-  <div class="pnl" id="p-opt">
-    <div class="tip"><b>⚡ Como funciona</b><p>Escribe tu idea. Selecciona contexto y tono. El motor aplica <strong>10 reglas de prompt engineering</strong> y genera un prompt estructurado. <strong>Instantaneo, sin conexion, sin tokens.</strong></p></div>
-    <div class="card">
-      <div class="card-t">Tu idea (en bruto)</div>
-      <textarea class="textarea" id="rawIdea" placeholder="Ejemplo: quiero analizar las ventas de mi tienda online para saber que productos vender mas y en que meses vendo menos..."></textarea>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
-        <select class="select" id="pCtx">
-          <option value="general">🎯 General</option>
-          <option value="data">📊 Datos</option>
-          <option value="code">💻 Codigo</option>
-          <option value="business">💼 Negocio</option>
-          <option value="writing">✍️ Escritura</option>
-          <option value="learning">📚 Aprendizaje</option>
-          <option value="career">🎯 Carrera</option>
-        </select>
-        <select class="select" id="pTone">
-          <option value="professional">Profesional</option>
-          <option value="concise">Conciso</option>
-          <option value="detailed">Detallado</option>
-          <option value="creative">Creativo</option>
-        </select>
-        <select class="select" id="pLang">
-          <option value="es">🇪🇸 Espanol</option>
-          <option value="en">🇺🇸 English</option>
-        </select>
-        <button class="btn bp" onclick="PRO.optimize()">⚡ Optimizar</button>
-      </div>
-    </div>
-    <div id="optResult" style="display:none">
-      <div class="lbl">· prompt optimizado &mdash; listo para usar ·</div>
-      <div class="result" id="optOutput"></div>
-      <div class="result-actions">
-        <button class="btn bg bs" onclick="PRO.copyOpt()">📋 Copiar</button>
-        <button class="btn bo bs" onclick="PRO.saveToHistory()">💾 Historial</button>
-        <button class="btn bo bs" onclick="PRO.saveOptToLibrary()">📚 Libreria</button>
-        <button class="btn bo bs" onclick="document.getElementById('optResult').style.display='none'">✕ Cerrar</button>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<div style="font-size:14px;font-weight:600;margin-bottom:12px">Tu idea (en bruto)</div>
+<textarea class="textarea" id="rawIdea" placeholder="Ejemplo: quiero analizar las ventas de mi tienda online para saber qué productos vender más y en qué meses vendo menos..."></textarea>
+<div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+<select class="select" id="pCtx">
+<option value="general">🎯 General</option>
+<option value="data">📊 Análisis de Datos</option>
+<option value="code">💻 Código / SQL / Python</option>
+<option value="business">💼 Negocio / Estrategia</option>
+<option value="writing">✍️ Escritura / Contenido</option>
+<option value="learning">📚 Aprendizaje</option>
+<option value="career">🎯 Carrera / CV / Entrevista</option>
+</select>
+<select class="select" id="pTone">
+<option value="professional">Profesional</option>
+<option value="concise">Conciso (ahorra tokens)</option>
+<option value="detailed">Detallado</option>
+<option value="creative">Creativo</option>
+</select>
+<select class="select" id="pLang">
+<option value="es">🇪🇸 Español</option>
+<option value="en">🇺🇸 English</option>
+</select>
+<button class="btn bp" onclick="optimize()">⚡ Optimizar Prompt</button>
+</div>
+</div>
 
-  <!-- ══════ CREAR ══════ -->
-  <div class="pnl" id="p-new">
-    <div id="create-form"></div>
-  </div>
+<div id="optResult" style="display:none">
+<div class="lbl">· prompt optimizado — listo para usar ·</div>
+<div class="result" id="optOutput"></div>
+<div class="result-actions">
+<button class="btn bg bs" onclick="copyOpt()">📋 Copiar prompt</button>
+<button class="btn bo bs" onclick="saveHist()">💾 Guardar en historial</button>
+<button class="btn bo bs" onclick="document.getElementById('optResult').style.display='none'">✕ Cerrar</button>
+</div>
+</div>
+</div>
 
-  <!-- ══════ GUIA ══════ -->
-  <div class="pnl" id="p-guide">
-    <div class="lbl">· 10 reglas para sacarle el maximo a la IA ·</div>
-    <div class="tip"><b>🧠 Aplica estas reglas y tus resultados mejoraran inmediatamente</b><p>La diferencia entre un resultado mediocre y uno espectacular esta en <strong>como pides las cosas</strong>.</p></div>
-    <div class="rule"><h4>1. Define un ROL especifico</h4><p>❌ "Ayudame con datos"<br>✅ <code>Actua como un Data Analyst senior con 10 anos de experiencia en e-commerce</code></p></div>
-    <div class="rule"><h4>2. CONTEXTO antes de la tarea</h4><p>Primero cuenta la situacion, luego que quieres.<br>✅ <code>Tengo un dataset de 50K filas. Columnas: order_id, date, product, revenue. Necesito saber por que cayeron ventas en Q3.</code></p></div>
-    <div class="rule"><h4>3. Especifica el FORMATO de salida</h4><p>✅ <code>Responde con: 1) Hallazgo, 2) Evidencia, 3) Accion. Maximo 5 lineas por punto.</code></p></div>
-    <div class="rule"><h4>4. Usa XML tags para estructura</h4><p>✅ <code>&lt;contexto&gt;...&lt;/contexto&gt; &lt;tarea&gt;...&lt;/tarea&gt; &lt;formato&gt;...&lt;/formato&gt;</code></p></div>
-    <div class="rule"><h4>5. "Piensa paso a paso"</h4><p>Para problemas complejos: <code>Antes de responder, piensa paso a paso: primero analiza X, luego evalua Y, finalmente concluye.</code></p></div>
-    <div class="rule"><h4>6. Da EJEMPLOS de lo que quieres</h4><p>Un ejemplo vale mas que 100 palabras:<br>✅ <code>Quiero que se vea asi: "Insight: Clientes de lunes tienen 2x retencion. Accion: Campana email lunes."</code></p></div>
-    <div class="rule"><h4>7. Pon LIMITES para ahorrar tokens</h4><p>✅ <code>Maximo 200 palabras. Solo los 3 puntos mas importantes. Sin introducciones ni despedidas.</code></p></div>
-    <div class="rule"><h4>8. ITERA en vez de reiniciar</h4><p>Si la respuesta no es perfecta: <code>Bien pero el punto 2 necesita mas detalle tecnico y agrega un ejemplo SQL.</code></p></div>
-    <div class="rule"><h4>9. Restricciones NEGATIVAS</h4><p>✅ <code>No uses jerga. No repitas lo obvio. No incluyas disclaimers de IA. No hagas introducciones.</code></p></div>
-    <div class="rule"><h4>10. El MEGA-PROMPT</h4><p>Para tareas complejas, un solo prompt bien armado supera a 5 pequenos:<br><code>ROL + CONTEXTO + TAREA + FORMATO + RESTRICCIONES + EJEMPLO</code></p></div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-t">📐 Plantilla del Prompt Perfecto</div>
-      <div class="result" id="tpl-perfect" style="color:var(--a2)">Actua como [ROL con experiencia especifica].
+<!-- ══════ LIBRERÍA ══════ -->
+<div class="pnl" id="p-lib">
+<div class="lbl">· prompts listos para usar · click para expandir ·</div>
+<div id="libContent"></div>
+</div>
+
+<!-- ══════ DOMINAR CLAUDE ══════ -->
+<div class="pnl" id="p-master">
+<div class="lbl">· 10 reglas para sacarme el máximo ·</div>
+<div class="tip"><b>🧠 Aplica estas reglas y tus resultados mejorarán inmediatamente</b><p>La diferencia entre un resultado mediocre y uno espectacular está en <strong>cómo me pides las cosas</strong>.</p></div>
+
+<div class="rule"><h4>1. Define un ROL específico</h4><p>❌ "Ayúdame con datos"<br>✅ <code>Actúa como un Data Analyst senior con 10 años de experiencia en e-commerce</code><br>Esto ajusta mi vocabulario, profundidad y enfoque completamente.</p></div>
+
+<div class="rule"><h4>2. CONTEXTO antes de la tarea</h4><p>Primero cuéntame la situación, luego qué quieres.<br>✅ <code>Tengo un dataset de 50K filas de transacciones. Columnas: order_id, date, product, revenue. Necesito identificar por qué las ventas cayeron en Q3.</code></p></div>
+
+<div class="rule"><h4>3. Especifica el FORMATO de salida</h4><p>✅ <code>Responde con: 1) Hallazgo, 2) Evidencia, 3) Acción. Máximo 5 líneas por punto.</code><br>Esto evita respuestas largas e irrelevantes y ahorra tokens.</p></div>
+
+<div class="rule"><h4>4. Usa XML tags para estructura</h4><p>✅ <code>&lt;contexto&gt;...&lt;/contexto&gt; &lt;tarea&gt;...&lt;/tarea&gt; &lt;formato&gt;...&lt;/formato&gt;</code><br>Me ayuda a separar las partes de tu solicitud sin confusión.</p></div>
+
+<div class="rule"><h4>5. "Piensa paso a paso"</h4><p>Para problemas complejos: <code>Antes de responder, piensa paso a paso: primero analiza X, luego evalúa Y, finalmente concluye.</code><br>Mejora dramáticamente la calidad en razonamiento.</p></div>
+
+<div class="rule"><h4>6. Da EJEMPLOS de lo que quieres</h4><p>Un ejemplo vale más que 100 palabras:<br>✅ <code>Quiero que se vea así: "Insight: Clientes de lunes tienen 2x retención. Acción: Campaña email lunes."</code></p></div>
+
+<div class="rule"><h4>7. Pon LÍMITES para ahorrar tokens</h4><p>✅ <code>Máximo 200 palabras. Solo los 3 puntos más importantes. Sin introducciones ni despedidas.</code><br>Reduce consumo de tokens entre 40-60%.</p></div>
+
+<div class="rule"><h4>8. ITERA en vez de reiniciar</h4><p>Si mi respuesta no es perfecta, dime: <code>Bien pero el punto 2 necesita más detalle técnico y agrega un ejemplo SQL.</code><br>Iterar es más barato y mejor que empezar de cero.</p></div>
+
+<div class="rule"><h4>9. Restricciones NEGATIVAS</h4><p>✅ <code>No uses jerga. No repitas lo obvio. No incluyas disclaimers de IA. No hagas introducciones.</code><br>Soy muy bueno siguiendo instrucciones de lo que NO debo hacer.</p></div>
+
+<div class="rule"><h4>10. El MEGA-PROMPT</h4><p>Para tareas complejas, un solo prompt bien armado supera a 5 pequeños:<br><code>ROL + CONTEXTO + TAREA + FORMATO + RESTRICCIONES + EJEMPLO</code> todo en uno.<br>Ahorra API calls y da mejor coherencia.</p></div>
+
+<div class="card" style="margin-top:16px">
+<div style="font-size:14px;font-weight:600;margin-bottom:10px">📐 Plantilla del Prompt Perfecto</div>
+<div class="result" id="templatePrompt" style="color:var(--a2)">Actúa como [ROL con experiencia específica].
 
 &lt;contexto&gt;
-[Situacion actual, datos disponibles, objetivo]
+[Situación actual, datos disponibles, objetivo]
 &lt;/contexto&gt;
 
 &lt;tarea&gt;
-[Que quieres exactamente, paso a paso si es necesario]
+[Qué quieres exactamente, paso a paso si es necesario]
 &lt;/tarea&gt;
 
 &lt;formato&gt;
-[Estructura: lista, tabla, parrafos, codigo]
-[Longitud maxima]
+[Estructura: lista, tabla, párrafos, código]
+[Longitud máxima]
 &lt;/formato&gt;
 
 &lt;restricciones&gt;
 - No hagas X
 - Prioriza Y
-- Maximo Z palabras
+- Máximo Z palabras
 &lt;/restricciones&gt;
 
 &lt;ejemplo&gt;
-[Como deberia verse el output ideal]
+[Cómo debería verse el output ideal]
 &lt;/ejemplo&gt;</div>
-      <button class="btn bo bs" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('tpl-perfect').textContent).then(()=>PRO._toast&&PRO._toast('Copiado'))">📋 Copiar plantilla</button>
-    </div>
-  </div>
-
-  <!-- ══════ HISTORIAL ══════ -->
-  <div class="pnl" id="p-hist">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="lbl">· historial de prompts ·</div>
-      <button class="btn br bs" onclick="PRO.clearHistory()">🗑 Borrar todo</button>
-    </div>
-    <div id="hist-list"></div>
-  </div>
+<button class="btn bo bs" style="margin-top:8px" onclick="copyEl('templatePrompt')">📋 Copiar plantilla</button>
+</div>
 </div>
 
-<div class="toast" id="pro-toast"></div>
+<!-- ══════ HISTORIAL ══════ -->
+<div class="pnl" id="p-history">
+<div class="lbl">· historial de prompts ·</div>
+<div id="histList"></div>
+</div>
 
-<script src="js/prompts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="js/supabase-client.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/cloud-sync.js"></script>
+</div>
+
+<script>
+// ══════════════════════════
+// TABS
+// ══════════════════════════
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+
+// ══════════════════════════
+// PROMPT OPTIMIZER ENGINE (100% client-side)
+// ══════════════════════════
+const roles={
+general:{es:'un asistente experto y preciso',en:'an expert and precise assistant'},
+data:{es:'un Data Analyst senior con 10 años de experiencia en SQL, Python, Power BI y análisis de negocio',en:'a senior Data Analyst with 10 years of experience in SQL, Python, Power BI and business analysis'},
+code:{es:'un ingeniero de software senior experto en SQL, Python, arquitectura de datos y mejores prácticas de código limpio',en:'a senior software engineer expert in SQL, Python, data architecture and clean code best practices'},
+business:{es:'un consultor de estrategia empresarial con MBA y experiencia en startups y Fortune 500',en:'a business strategy consultant with MBA and experience in startups and Fortune 500'},
+writing:{es:'un escritor profesional y copywriter con experiencia en contenido digital',en:'a professional writer and copywriter with experience in digital content'},
+learning:{es:'un profesor universitario experto en pedagogía y aprendizaje acelerado',en:'a university professor expert in pedagogy and accelerated learning'},
+career:{es:'un career coach y recruiter senior de empresas tech con 15 años de experiencia',en:'a senior career coach and tech recruiter with 15 years of experience'}
+};
+
+const toneInst={
+professional:{es:'Mantén un tono profesional y directo.',en:'Keep a professional and direct tone.'},
+concise:{es:'Sé ultra conciso. Máximo 200 palabras. Sin relleno, sin introducciones, sin despedidas. Solo lo esencial.',en:'Be ultra concise. Maximum 200 words. No filler, no introductions, no goodbyes. Only essentials.'},
+detailed:{es:'Sé detallado y exhaustivo. Incluye ejemplos concretos y explicaciones paso a paso.',en:'Be detailed and thorough. Include concrete examples and step-by-step explanations.'},
+creative:{es:'Sé creativo e innovador. Propón ideas fuera de lo convencional. Sorpréndeme.',en:'Be creative and innovative. Propose unconventional ideas. Surprise me.'}
+};
+
+const formatInst={
+general:{es:'Responde de forma estructurada y clara.',en:'Respond in a structured and clear way.'},
+data:{es:'Estructura: 1) Hallazgo → 2) Evidencia en datos → 3) Acción recomendada con impacto estimado.',en:'Structure: 1) Finding → 2) Data evidence → 3) Recommended action with estimated impact.'},
+code:{es:'Devuelve código funcional con comentarios breves. Incluye ejemplo de uso.',en:'Return functional code with brief comments. Include usage example.'},
+business:{es:'Usa framework: Situación → Análisis → Opciones → Recomendación con ROI estimado.',en:'Use framework: Situation → Analysis → Options → Recommendation with estimated ROI.'},
+writing:{es:'Usa formato scannable: párrafos cortos, subtítulos, bullets cuando sea necesario.',en:'Use scannable format: short paragraphs, subheadings, bullets when needed.'},
+learning:{es:'Estructura: Concepto simple → Ejemplo práctico → Ejercicio → Error común a evitar.',en:'Structure: Simple concept → Practical example → Exercise → Common mistake to avoid.'},
+career:{es:'Incluye: contexto del rol, preparación específica, respuestas modelo con método STAR, y red flags.',en:'Include: role context, specific preparation, model answers with STAR method, and red flags.'}
+};
+
+function optimize(){
+const idea=document.getElementById('rawIdea').value.trim();
+if(!idea){alert('Escribe tu idea primero.');return}
+const ctx=document.getElementById('pCtx').value;
+const tone=document.getElementById('pTone').value;
+const lang=document.getElementById('pLang').value;
+
+const L=lang;
+const role=roles[ctx][L];
+const toneText=toneInst[tone][L];
+const formatText=formatInst[ctx][L];
+
+// Extract key concepts from the idea
+const words=idea.split(/\s+/);
+const isLong=words.length>30;
+
+// Build optimized prompt
+let prompt='';
+
+if(L==='es'){
+prompt=`Actúa como ${role}.
+
+<contexto>
+${idea}
+</contexto>
+
+<tarea>
+${extractTask(idea,L)}
+</tarea>
+
+<formato>
+${formatText}
+${toneText}
+</formato>
+
+<restricciones>
+- No incluyas introducciones genéricas ni despedidas
+- No repitas información que ya proporcioné en el contexto
+- Prioriza información accionable sobre teoría
+- Si no tienes suficiente información, pregunta antes de asumir${isLong?'':'\n- Máximo 300 palabras'}
+</restricciones>`;
+}else{
+prompt=`Act as ${role}.
+
+<context>
+${idea}
+</context>
+
+<task>
+${extractTask(idea,L)}
+</task>
+
+<format>
+${formatText}
+${toneText}
+</format>
+
+<constraints>
+- Do not include generic introductions or goodbyes
+- Do not repeat information already in the context
+- Prioritize actionable information over theory
+- If you lack information, ask before assuming${isLong?'':'\n- Maximum 300 words'}
+</constraints>`;
+}
+
+// Display result
+const resultDiv=document.getElementById('optResult');
+const output=document.getElementById('optOutput');
+resultDiv.style.display='block';
+
+// Syntax highlight XML tags
+const highlighted=prompt
+.replace(/</g,'&lt;').replace(/>/g,'&gt;')
+.replace(/&lt;(\/?)(contexto|context|tarea|task|formato|format|restricciones|constraints|ejemplo|example)&gt;/g,'<span class="tag">&lt;$1$2&gt;</span>')
+.replace(/^(Actúa como|Act as)(.+)$/m,'<span class="role">$1$2</span>');
+
+output.innerHTML=highlighted;
+output.dataset.raw=prompt;
+output.dataset.input=idea;
+
+// Scroll to result
+resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function extractTask(idea,lang){
+// Analyze the idea and create a structured task
+const lower=idea.toLowerCase();
+const hasQuestion=idea.includes('?');
+const hasData=/datos|data|dataset|csv|tabla|table|excel/i.test(idea);
+const hasCode=/código|code|sql|python|script|query|función|function/i.test(idea);
+const hasBiz=/negocio|business|empresa|company|estrategia|strategy|ventas|sales|cliente|customer/i.test(idea);
+
+if(lang==='es'){
+let task='Basándote en el contexto proporcionado, necesito que:\n';
+if(hasData)task+='1. Analices los datos mencionados e identifiques patrones clave\n2. Proporciones insights accionables con evidencia\n3. Recomiendes acciones concretas con impacto estimado';
+else if(hasCode)task+='1. Generes código limpio, funcional y bien comentado\n2. Incluyas manejo de errores donde sea necesario\n3. Agregues un ejemplo de uso al final';
+else if(hasBiz)task+='1. Analices la situación desde perspectiva de negocio\n2. Identifiques oportunidades y riesgos principales\n3. Propongas un plan de acción con timeline y métricas';
+else if(hasQuestion)task+='1. Respondas de forma directa y precisa\n2. Proporciones contexto necesario para entender la respuesta\n3. Incluyas ejemplos prácticos si es relevante';
+else task+='1. Abordes lo solicitado de forma directa y estructurada\n2. Proporciones valor concreto y accionable\n3. Incluyas ejemplos o pasos claros cuando sea útil';
+return task;
+}else{
+let task='Based on the context provided, I need you to:\n';
+if(hasData)task+='1. Analyze the mentioned data and identify key patterns\n2. Provide actionable insights with evidence\n3. Recommend concrete actions with estimated impact';
+else if(hasCode)task+='1. Generate clean, functional, well-commented code\n2. Include error handling where necessary\n3. Add a usage example at the end';
+else if(hasBiz)task+='1. Analyze the situation from a business perspective\n2. Identify main opportunities and risks\n3. Propose an action plan with timeline and metrics';
+else if(hasQuestion)task+='1. Answer directly and precisely\n2. Provide necessary context to understand the answer\n3. Include practical examples if relevant';
+else task+='1. Address the request directly and structurally\n2. Provide concrete, actionable value\n3. Include examples or clear steps when useful';
+return task;
+}
+}
+
+function copyOpt(){
+const raw=document.getElementById('optOutput').dataset.raw;
+if(raw)navigator.clipboard.writeText(raw).then(()=>alert('✅ Prompt copiado'));
+}
+
+function copyEl(id){
+const el=document.getElementById(id);
+navigator.clipboard.writeText(el.textContent).then(()=>alert('✅ Copiado'));
+}
+
+// ══════════════════════════
+// HISTORY
+// ══════════════════════════
+function getHist(){try{return JSON.parse(localStorage.getItem('plab_h')||'[]')}catch(e){return[]}}
+function setHist(h){localStorage.setItem('plab_h',JSON.stringify(h))}
+
+function saveHist(){
+const o=document.getElementById('optOutput');
+if(!o.dataset.raw)return;
+const h=getHist();
+h.push({input:o.dataset.input,output:o.dataset.raw,date:new Date().toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})});
+setHist(h);renderHist();
+alert('✅ Guardado');
+}
+
+function delHist(i){const h=getHist();h.splice(i,1);setHist(h);renderHist()}
+
+function renderHist(){
+const h=getHist();
+const el=document.getElementById('histList');
+if(!h.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">Sin prompts guardados. Optimiza uno y guárdalo aquí.</div>';return}
+el.innerHTML=h.slice().reverse().map((item,ri)=>{
+const idx=h.length-1-ri;
+return '<div class="hist-item"><button class="hist-del" onclick="delHist('+idx+')">✕</button><div class="hist-date">'+item.date+'</div><div class="hist-input"><strong>💡 Idea:</strong> '+esc(item.input).substring(0,120)+(item.input.length>120?'...':'')+'</div><div class="hist-output" onclick="this.classList.toggle(\'exp\')">'+esc(item.output)+'</div><button class="btn bo bs" style="margin-top:6px" onclick="navigator.clipboard.writeText(decodeURIComponent(\''+encodeURIComponent(item.output)+'\')).then(()=>alert(\'✅ Copiado\'))">📋 Copiar</button></div>';
+}).join('');
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+// ══════════════════════════
+// PROMPT LIBRARY
+// ══════════════════════════
+const lib=[
+{cat:'data',cls:'c-data',title:'Análisis Exploratorio Completo',desc:'Analiza cualquier CSV y da insights accionables',prompt:`Actúa como un Data Analyst senior con experiencia en e-commerce y finanzas.\n\n<contexto>\n[Pega aquí las primeras 20 filas o describe columnas]\n</contexto>\n\n<tarea>\n1. Identifica las 5 métricas más importantes\n2. Detecta patrones, anomalías y tendencias\n3. Sugiere 3 visualizaciones específicas\n4. Dame 3 insights accionables con impacto estimado\n</tarea>\n\n<formato>\nPara cada insight: HALLAZGO → EVIDENCIA → ACCIÓN\nMáximo 300 palabras. Sin introducciones.\n</formato>`},
+{cat:'data',cls:'c-data',title:'Query SQL Optimizado',desc:'Genera queries limpios y eficientes',prompt:`Actúa como DBA senior experto en PostgreSQL/BigQuery.\n\n<tablas>\n- orders (order_id, customer_id, order_date, total, status)\n- customers (customer_id, name, email, signup_date, country)\n- products (product_id, name, category, price)\n- order_items (order_id, product_id, quantity, unit_price)\n</tablas>\n\n<tarea>\n[Qué necesitas consultar]\n</tarea>\n\n<restricciones>\n- CTEs sobre subqueries\n- Comentarios breves\n- Evita SELECT *\n- Explica window functions si las usas\n</restricciones>`},
+{cat:'data',cls:'c-data',title:'Dashboard Strategy',desc:'Planifica un dashboard antes de construirlo',prompt:`Actúa como experto en Data Visualization y BI.\n\n<contexto>\nAudiencia: [Ejecutivos / Operaciones / Marketing]\nHerramienta: [Tableau / Power BI]\nDatos: [Describe brevemente]\nObjetivo: [Qué decisión facilita]\n</contexto>\n\n<tarea>\n1. KPIs principales (máximo 4)\n2. Gráficos con justificación\n3. Filtros e interactividad\n4. Layout de pantalla\n</tarea>`},
+{cat:'data',cls:'c-data',title:'DAX Formula Helper',desc:'Genera fórmulas DAX para Power BI',prompt:`Actúa como experto en DAX y Power BI.\n\n<modelo>\nHechos: Sales (Date, ProductID, CustomerID, Amount)\nDimensiones: Products (ProductID, Category), Calendar (Date, Month, Year)\n</modelo>\n\n<tarea>\n[Qué measure necesitas]\n</tarea>\n\n<formato>\n1. Fórmula DAX completa\n2. Explicación breve\n3. Contexto de filtro que asume\n</formato>`},
+{cat:'data',cls:'c-data',title:'Limpieza de Datos con Pandas',desc:'Plan de limpieza paso a paso con código',prompt:`Actúa como Data Engineer de data quality.\n\n<datos>\n[Describe: columnas, tipos, tamaño, problemas]\n</datos>\n\n<tarea>\nPlan de limpieza con código Python/Pandas:\n1. Diagnóstico: qué revisar\n2. Nulos: estrategia por columna\n3. Duplicados: detectar y resolver\n4. Tipos: conversiones\n5. Outliers: método\n6. Validación final\n</tarea>\n\n<restricciones>\nCódigo funcional, no pseudocódigo.\n</restricciones>`},
+{cat:'code',cls:'c-code',title:'Python Script Profesional',desc:'Scripts limpios y documentados',prompt:`Actúa como Python dev senior (PEP 8).\n\n<tarea>\n[Qué debe hacer el script]\n</tarea>\n\n<restricciones>\n- Código modular con funciones\n- Docstrings breves\n- Try/except para errores\n- Type hints\n- Ejemplo de uso al final\n</restricciones>`},
+{cat:'code',cls:'c-code',title:'Depurar Error',desc:'Encuentra y arregla bugs rápido',prompt:`Actúa como debugger experto.\n\n<error>\n[Pega error + código relevante]\n</error>\n\n<tarea>\n1. Causa en 1 línea\n2. Código corregido\n3. Qué cambió y por qué\n</tarea>\n\n<restricciones>\nSolo muestra líneas que cambiaron.\n</restricciones>`},
+{cat:'biz',cls:'c-biz',title:'Análisis de Negocio',desc:'Framework para cualquier problema',prompt:`Actúa como consultor de estrategia McKinsey.\n\n<problema>\n[Describe el problema]\n</problema>\n\n<tarea>\nSituación → Complicación → Resolución:\n1. Define problema en 1 oración\n2. 3 causas raíz más probables\n3. 3 soluciones con pros/contras/ROI\n4. Mejor opción con plan 30-60-90 días\n</tarea>\n\n<formato>\nBullets claros. Máximo 400 palabras.\n</formato>`},
+{cat:'biz',cls:'c-biz',title:'Modelo de Negocio',desc:'Evalúa con Business Model Canvas',prompt:`Actúa como emprendedor serial tech.\n\n<idea>\n[Describe la idea]\n</idea>\n\n<tarea>\nBusiness Model Canvas:\n1. Propuesta de valor\n2. Segmento de clientes\n3. Canales\n4. Monetización\n5. Métricas clave\n6. Riesgos y mitigación\n7. Competidores y diferenciador\n</tarea>\n\n<restricciones>\nSé realista. Si tiene problemas, dilo directo.\n</restricciones>`},
+{cat:'learn',cls:'c-learn',title:'Explicar Concepto Complejo',desc:'Entiende cualquier tema',prompt:`Actúa como profesor universitario de pedagogía.\n\n<tema>\n[El concepto]\n</tema>\n\n<tarea>\n1. Explícalo como si tuviera 10 años\n2. Explícalo como profesional junior\n3. 1 ejemplo práctico real\n4. Errores comunes\n</tarea>\n\n<restricciones>\nMáximo 250 palabras. Sin jerga.\n</restricciones>`},
+{cat:'learn',cls:'c-learn',title:'Plan de Estudio Personalizado',desc:'Ruta de aprendizaje en 4 semanas',prompt:`Actúa como learning designer tech.\n\n<objetivo>\n[Qué aprender]\n</objetivo>\n\n<nivel>\n[Tu nivel actual]\n</nivel>\n\n<tiempo>\n[Horas por día/semana]\n</tiempo>\n\n<tarea>\nPlan de 4 semanas:\n- Temas por día\n- Recursos gratuitos para cada tema\n- Proyecto práctico semanal\n- Checkpoint: cómo sé que lo dominé\n</tarea>`},
+{cat:'biz',cls:'c-biz',title:'Preparar Entrevista de Trabajo',desc:'Plan personalizado con respuestas STAR',prompt:`Actúa como career coach tech senior.\n\n<puesto>\n[Título y empresa]\n</puesto>\n\n<perfil>\n[Tu experiencia y skills]\n</perfil>\n\n<tarea>\n1. 5 preguntas más probables\n2. Respuesta STAR para cada una con MIS datos\n3. Preguntas que debo hacer yo\n4. Red flags a observar\n</tarea>`},
+{cat:'biz',cls:'c-biz',title:'LinkedIn Post Viral',desc:'Posts que generan engagement',prompt:`Actúa como LinkedIn strategist con 100K seguidores.\n\n<tema>\n[Sobre qué publicar]\n</tema>\n\n<tarea>\nPost de LinkedIn:\n1. Hook irresistible (primera línea)\n2. Historia o valor concreto\n3. Formato scannable\n4. CTA que genere comentarios\n5. 3-5 hashtags\n</tarea>\n\n<restricciones>\nMáximo 1300 caracteres. Sin emojis excesivos.\n</restricciones>`},
+// ═══ CLAUDE CODE — Best Practices & Interaction Tips ═══
+{cat:'claude',cls:'c-claude',title:'Recovery Prompt — Token Exhaustion',desc:'Continue work after running out of tokens',prompt:`ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).\nREPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nARCH: 4-layer pattern: thin HTML shell + css/<module>.css + js/<module>.js IIFE + data/<module>-data.json\nAUTH: Supabase + auth.js + cloud-sync.js (SYNC_REGISTRY). Every page needs these 4 script tags before module JS.\nSTATE: Read CEREBRO_STATE.md for full module status. Read MEMORY.md for user context.\n\nTASK: I ran out of tokens. The previous session was working on: [DESCRIBE TASK HERE].\nContinue from where it left off. Read the relevant files first, then execute. Commit and push to main when done. No approval needed.`},
+{cat:'claude',cls:'c-claude',title:'Token Conservation Rules',desc:'How to save tokens and interact efficiently with Claude',prompt:`TOKEN CONSERVATION RULES — Claude Code Best Practices\n\n1. ONE TASK PER MESSAGE: Send a single, clear request. Don't bundle 5 things.\n2. USE MODULE CODES: Reference modules by code (3-ENG, 5-JOB, 8-PRO, 9-GOA, 10-SYS, 11-ACC, 12-FIN, 13-NOT) instead of full descriptions.\n3. SKIP THE RECAP: Say "do X" not "I'd like you to please do X and here's why..."\n4. NO "ARE YOU SURE?": If you want something done, say "do it" not "can you do it?"\n5. BATCH APPROVALS: Say "commit and push, no approval needed" to skip back-and-forth.\n6. AVOID RE-READS: Don't ask Claude to re-read files it just edited.\n7. SHORT ANSWERS: Add "short answer" or "just do it" to prevent verbose explanations.\n8. CONTEXT RECOVERY: If tokens run low, use the Recovery Prompt (copy it, start new session, paste it).\n9. FILE REFERENCES: Use "index.html line 95" instead of describing what the file contains.\n10. PARALLEL COMMANDS: Say "do A, B, and C" — Claude can run them simultaneously.`},
+{cat:'claude',cls:'c-claude',title:'Optimal Prompt Structure',desc:'The ideal way to write prompts for Claude',prompt:`OPTIMAL CLAUDE PROMPT STRUCTURE\n\nBest format for maximum efficiency:\n\nROLE: [who Claude should be]\nCONTEXT: [relevant background — files, architecture, constraints]\nTASK: [exactly what to do — be specific]\nFORMAT: [how you want the output]\nCONSTRAINTS: [limits — e.g., "max 200 words", "no tests", "commit when done"]\n\nPRO TIPS:\n- Start with the verb: "Fix", "Add", "Refactor", "Explain"\n- Give file paths when you know them\n- Say what NOT to do if it matters\n- "Deploy after" = commit + push in one step\n- Use "like X but for Y" to reference patterns Claude already knows\n- For code: specify language, framework, and target file\n- For analysis: specify depth ("quick scan" vs "deep audit")\n\nANTI-PATTERNS (waste tokens):\n- "Hello, how are you?" — skip pleasantries\n- "Can you maybe..." — just say what you want\n- "I was thinking about..." — state the task directly\n- Repeating the same request differently — trust the first one`},
+{cat:'claude',cls:'c-claude',title:'Claude Code Power Features',desc:'Hidden features most people miss',prompt:`CLAUDE CODE POWER FEATURES\n\n1. SLASH COMMANDS: /commit (auto-commit), /review-pr, /help\n2. WORKTREES: Claude can work in isolated git branches without affecting main\n3. MEMORY: Claude remembers preferences across sessions via MEMORY.md\n4. PARALLEL AGENTS: Claude can spawn sub-agents for research while working on code\n5. PREVIEW: Claude can start dev servers and take screenshots to verify changes\n6. HOOKS: Automate actions — e.g., "run tests after every edit"\n7. PLANS: Ask Claude to "plan first" for complex tasks before executing\n8. TODO TRACKING: Claude tracks progress with checkboxes during multi-step tasks\n9. MCP TOOLS: Chrome control, Google Calendar, Gmail — all accessible\n10. FAST MODE: /fast for quicker responses (same model, faster output)\n\nBEST WORKFLOWS:\n- "Plan the implementation, show me, then execute" — for complex features\n- "Fix and deploy" — for quick patches\n- "Research X, then implement" — for unfamiliar codebases\n- "Read [file], then explain [specific thing]" — for code understanding`},
+{cat:'claude',cls:'c-claude',title:'Module Quick Reference',desc:'Module codes and architecture for fast interaction',prompt:`DA-2026 MODULE QUICK REFERENCE\n\nMODULE CODES:\n3-ENG  English Academy    — english.html + js/eng.js + data/english-data.json\n5-JOB  Job Tracker        — jobs.html (jt8 schema, kanban, VacancyDB)\n8-PRO  Prompt Lab         — prompts.html (hardcoded lib + custom prompts)\n9-GOA  Goals & Habits     — goals.html + js/goals.js (3 stores: goals/habits/reviews)\n10-SYS Engineering Systems — systems.html + js/systems_logic.js (CLOSED MODULE)\n11-ACC Accounting         — accounting.html + js/accounting.js + data/accounting-data.json\n12-FIN Finance            — finance.html\n13-NOT Notes & Journal    — notes.html (sb_notes2 key)\n\nCOMMAND PATTERNS:\n"Work on 3-ENG: add 5 more grammar rules" → Claude reads english-data.json, adds rules, commits\n"Fix 5-JOB: kanban drag broken" → Claude reads jobs.html, debugs, fixes, deploys\n"Update main page: change hero text" → Claude reads index.html, edits, updates CEREBRO_STATE.md\n\nALWAYS: commit + push when done. Update CEREBRO_STATE.md for significant changes.`},
+{cat:'claude',cls:'c-claude',title:'Context Recovery Template',desc:'Full recovery prompt when starting a new session',prompt:`CONTEXT RECOVERY — New Session Template\n\nPaste this at the start of any new Claude Code session:\n\n---\nROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).\nREPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\n\nARCHITECTURE:\n- 4-layer: HTML shell + CSS + JS IIFE + JSON data\n- Auth: Supabase CDN → supabase-client.js → auth.js → cloud-sync.js\n- State: localStorage keys synced via SYNC_REGISTRY in cloud-sync.js\n- XSS: _esc() on all user text, _escAttr() for attributes\n\nPRIOR STATE: Read CEREBRO_STATE.md and MEMORY.md for full context.\n\nRULES:\n- Deploy without asking: commit + push to main\n- Update CEREBRO_STATE.md after significant changes\n- Short responses, no recaps\n- Use module codes: 3-ENG, 5-JOB, 8-PRO, etc.\n\nTASK: [YOUR TASK HERE]\n---`},
+];
+
+function renderLib(){
+const el=document.getElementById('libContent');
+const cats=[{key:'data',label:'📊 Análisis de Datos'},{key:'code',label:'💻 Código & SQL'},{key:'biz',label:'💼 Negocio & Carrera'},{key:'learn',label:'📚 Aprendizaje'},{key:'claude',label:'🤖 Claude Code — Best Practices'}];
+
+el.innerHTML=cats.map(c=>{
+const items=lib.filter(p=>p.cat===c.key);
+if(!items.length)return '';
+return '<div class="lbl">· '+c.label.toLowerCase()+' ·</div>'+items.map(p=>
+'<div class="prompt-card" onclick="this.classList.toggle(\'open\')"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span><div class="prompt-title">'+p.title+'</div><div class="prompt-desc">'+p.desc+'</div><div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();navigator.clipboard.writeText(\''+encodeURIComponent(p.prompt)+'\'.split(\'%\').map(decodeURIComponent).join(\'%\')).catch(()=>{});alert(\'✅ Copiado\')">📋 Copiar</button></div></div></div>'
+).join('');
+}).join('');
+}
+
+// ══════════════════════════
+// INIT
+// ══════════════════════════
+renderLib();
+renderHist();
+</script>
 </body>
 </html>
