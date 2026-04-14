@@ -1247,3 +1247,222 @@ const SYS = (() => {
 
   return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS };
 })();
+
+// ═══════════════════════════════════════
+// NB — Notebook Module (Tab 8)
+// ═══════════════════════════════════════
+const NB = (function() {
+  const SUBJECTS = [
+    { id: 'ing_web', icon: '🌐', name: 'Ingeniería Web' },
+    { id: 'mat_especiales', icon: '🔢', name: 'Matemáticas Especiales' },
+    { id: 'inv_ciencia', icon: '🔬', name: 'Investigación C&T' },
+    { id: 'english_beginner', icon: '🇺🇸', name: 'English Beginner 1' },
+    { id: 'placement_test', icon: '📝', name: 'Placement Test BE' },
+  ];
+  const KEY = 'sys_notebook';
+  let current = null; // { subjectId, pageId }
+  let saveTimer = null;
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
+  function save(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
+
+  function getSubjectData(sid) {
+    const d = load();
+    if (!d[sid]) d[sid] = { pages: [], links: [], images: [] };
+    return d;
+  }
+
+  function init() {
+    const el = document.getElementById('nbSubjects');
+    if (!el) return;
+    el.innerHTML = SUBJECTS.map(s =>
+      `<button class="nb-subj" data-sid="${s.id}" onclick="NB.selectSubject('${s.id}')">${s.icon} ${s.name}</button>`
+    ).join('');
+  }
+
+  function selectSubject(sid) {
+    current = { subjectId: sid, pageId: null };
+    document.querySelectorAll('.nb-subj').forEach(b => b.classList.toggle('on', b.dataset.sid === sid));
+    document.getElementById('nbEditor').style.display = 'block';
+    document.getElementById('nbActivePage').style.display = 'none';
+    renderPageList();
+  }
+
+  function newPage() {
+    if (!current) return;
+    const d = getSubjectData(current.subjectId);
+    const sub = d[current.subjectId];
+    const page = { id: Date.now(), title: '', body: '', links: [], images: [], created: new Date().toISOString(), updated: new Date().toISOString() };
+    sub.pages.unshift(page);
+    save(d);
+    openPage(page.id);
+    renderPageList();
+  }
+
+  function openPage(pid) {
+    if (!current) return;
+    current.pageId = pid;
+    const d = load();
+    const sub = d[current.subjectId];
+    if (!sub) return;
+    const page = sub.pages.find(p => p.id === pid);
+    if (!page) return;
+    document.getElementById('nbActivePage').style.display = 'block';
+    document.getElementById('nbPageTitle').value = page.title || '';
+    document.getElementById('nbBody').textContent = page.body || '';
+    document.getElementById('nbPageDate').textContent = new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    renderLinks(page);
+    renderImages(page);
+    renderPageList();
+  }
+
+  function autoSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      if (!current || !current.pageId) return;
+      const d = load();
+      const sub = d[current.subjectId];
+      if (!sub) return;
+      const page = sub.pages.find(p => p.id === current.pageId);
+      if (!page) return;
+      page.title = document.getElementById('nbPageTitle').value;
+      page.body = document.getElementById('nbBody').textContent;
+      page.updated = new Date().toISOString();
+      save(d);
+      renderPageList();
+    }, 500);
+  }
+
+  function deletePage(pid) {
+    if (!current || !confirm('¿Eliminar esta página?')) return;
+    const d = load();
+    const sub = d[current.subjectId];
+    sub.pages = sub.pages.filter(p => p.id !== pid);
+    save(d);
+    if (current.pageId === pid) {
+      current.pageId = null;
+      document.getElementById('nbActivePage').style.display = 'none';
+    }
+    renderPageList();
+  }
+
+  function addLink() {
+    if (!current || !current.pageId) return alert('Primero abre o crea una página.');
+    const url = prompt('URL del link de estudio:');
+    if (!url) return;
+    const label = prompt('Nombre del link (opcional):') || url;
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    if (!page.links) page.links = [];
+    page.links.push({ url, label, added: new Date().toISOString() });
+    page.updated = new Date().toISOString();
+    save(d);
+    renderLinks(page);
+  }
+
+  function removeLink(idx) {
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    page.links.splice(idx, 1);
+    page.updated = new Date().toISOString();
+    save(d);
+    renderLinks(page);
+  }
+
+  function renderLinks(page) {
+    const el = document.getElementById('nbLinkList');
+    if (!page.links || !page.links.length) { el.innerHTML = '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin links aún. Usa el botón "🔗 Agregar link".</div>'; return; }
+    el.innerHTML = page.links.map((l, i) =>
+      `<div class="nb-link"><span class="nb-link-icon">🔗</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(l.label)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener" class="nb-link-url">${esc(l.url)}</a></div><button onclick="NB.removeLink(${i})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px">✕</button></div>`
+    ).join('');
+  }
+
+  function addImage() {
+    if (!current || !current.pageId) return alert('Primero abre o crea una página.');
+    document.getElementById('nbImgInput').click();
+  }
+
+  function handleImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const caption = prompt('Descripción de la imagen (opcional):') || file.name;
+      const d = load();
+      const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+      if (!page.images) page.images = [];
+      // Resize to save localStorage space
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const maxW = 600;
+        const scale = Math.min(1, maxW / img.width);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        page.images.push({ data: dataUrl, caption, added: new Date().toISOString() });
+        page.updated = new Date().toISOString();
+        save(d);
+        renderImages(page);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  function removeImage(idx) {
+    if (!confirm('¿Eliminar esta imagen?')) return;
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    page.images.splice(idx, 1);
+    page.updated = new Date().toISOString();
+    save(d);
+    renderImages(page);
+  }
+
+  function renderImages(page) {
+    const el = document.getElementById('nbImageGrid');
+    if (!page.images || !page.images.length) { el.innerHTML = '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin imágenes. Usa "🖼️ Agregar imagen".</div>'; return; }
+    el.innerHTML = page.images.map((im, i) =>
+      `<div class="nb-img-card"><button class="nb-img-del" onclick="NB.removeImage(${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="window.open(this.src)"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
+    ).join('');
+  }
+
+  function renderPageList() {
+    if (!current) return;
+    const d = load();
+    const sub = d[current.subjectId];
+    const el = document.getElementById('nbPageList');
+    const count = document.getElementById('nbPageCount');
+    if (!sub || !sub.pages.length) {
+      el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin páginas. Crea tu primera página con "+ Nueva página".</div>';
+      count.textContent = '0 páginas';
+      return;
+    }
+    count.textContent = sub.pages.length + ' página' + (sub.pages.length !== 1 ? 's' : '');
+    el.innerHTML = sub.pages.map(p => {
+      const isActive = current.pageId === p.id;
+      const preview = (p.body || '').substring(0, 80).replace(/\n/g, ' ');
+      return `<div class="nb-entry${isActive ? ' open' : ''}">
+        <div class="nb-entry-h" onclick="NB.openPage(${p.id})">
+          <div><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px">${esc(preview)}${preview.length >= 80 ? '...' : ''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day: 'numeric', month: 'short' })}</span>
+            <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length ? '🔗'+p.links.length : ''} ${(p.images||[]).length ? '🖼'+p.images.length : ''}</span>
+            <button onclick="event.stopPropagation();NB.deletePage(${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Init on DOM ready
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else setTimeout(init, 0);
+
+  return { selectSubject, newPage, openPage, autoSave, deletePage, addLink, removeLink, addImage, handleImage, removeImage, renderPageList, init };
+})();
