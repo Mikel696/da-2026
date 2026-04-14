@@ -29,9 +29,21 @@
     }
   ],
   "quickLinks": [
-    { "label": "🎮 Epic Games", "url": "https://store.epicgames.com/es-ES/free-games", "color": "#8b5cf6" },
+    { "label": "🎮 Epic Games Free", "url": "https://store.epicgames.com/es-ES/free-games", "color": "#8b5cf6" },
     { "label": "📚 Udemy Gratis", "url": "https://www.udemy.com/courses/free/", "color": "#22c55e" },
     { "label": "🛒 PromoCajita", "url": "https://promocajita.com/gratis", "color": "#f97316" },
-    { "label": "🤖 Pi3.AI", "url": "https://pi.ai", "color": "#06b6d4" }
+    { "label": "🤖 Pi3.AI", "url": "https://pi.ai", "color": "#06b6d4" },
+    { "label": "🛍️ Amazon Colombia", "url": "https://www.amazon.com.co/deals", "color": "#ff9900" },
+    { "label": "💰 Linio Ofertas", "url": "https://www.linio.com.co/ofertas", "color": "#e91e63" },
+    { "label": "📦 MercadoLibre Ofertas", "url": "https://www.mercadolibre.com.co/ofertas", "color": "#ffe600" },
+    { "label": "🏷️ Falabella Cyber", "url": "https://www.falabella.com.co/falabella-co/collection/ofertas", "color": "#8cc63f" },
+    { "label": "💻 Alkosto Tech", "url": "https://www.alkosto.com/computadores-tablets", "color": "#e74c3c" },
+    { "label": "🎓 Coursera Gratis", "url": "https://www.coursera.org/courses?query=free", "color": "#0056d2" },
+    { "label": "📊 Kaggle Learn", "url": "https://www.kaggle.com/learn", "color": "#20beff" },
+    { "label": "🆓 FreeCodeCamp", "url": "https://www.freecodecamp.org/", "color": "#0a0a23" },
+    { "label": "🔥 Amazon US Deals", "url": "https://www.amazon.com/deals", "color": "#ff9900" },
+    { "label": "📱 Exito Ofertas", "url": "https://www.exito.com/tecnologia", "color": "#ffdd00" },
+    { "label": "🎮 Steam Sales", "url": "https://store.steampowered.com/specials/", "color": "#1b2838" },
+    { "label": "🏪 Rappi Tienda", "url": "https://www.rappi.com.co/", "color": "#ff441f" }
   ]
 }
