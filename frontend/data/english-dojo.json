@@ -1,0 +1,133 @@
+{
+  "categories": [
+    {
+      "id": "recruiter",
+      "name": "Recruiter Screening",
+      "icon": "📞",
+      "description": "Common screening call questions. Practice your pitch and salary negotiation in English.",
+      "questions": [
+        {
+          "id": "r1",
+          "recruiter_says": "Tell me about yourself and your professional background.",
+          "ideal_answer": "Sure! I'm Miguel, a financial operations specialist with over 8 years of experience at Brinks International. I managed end-to-end accounts payable processes across Brazil and the Caribbean, including invoice validation, vendor reconciliation, and monthly close. I'm also proficient in SQL, Power BI, and advanced Excel, which is rare in finance profiles. I'm currently finishing my Systems Engineering degree and looking for remote opportunities where I can combine my finance expertise with data analysis skills.",
+          "tips": "Keep it under 90 seconds. Lead with years of experience, then highlight what makes you unique (trilingual, tech + finance combo).",
+          "tags": ["intro", "pitch", "background"]
+        },
+        {
+          "id": "r2",
+          "recruiter_says": "What are your salary expectations for this role?",
+          "ideal_answer": "Based on my research for similar remote roles in the LATAM market, and considering my 8 years of experience in financial operations plus my technical skills in SQL and Power BI, I'm targeting a range between 3,000 and 4,500 USD per month. However, I'm flexible and open to discussing the full compensation package, including benefits and growth opportunities.",
+          "tips": "Always give a range, never a single number. Anchor high. Mention 'full compensation package' to open negotiation doors.",
+          "tags": ["salary", "negotiation", "compensation"]
+        },
+        {
+          "id": "r3",
+          "recruiter_says": "Why are you looking to leave your current position?",
+          "ideal_answer": "I'm grateful for my time at Teleperformance — it sharpened my attention to detail and remote work discipline. However, I'm looking to return to financial operations, which is where my core expertise lies. I want a role where I can leverage my 8 years of AP experience along with my data analysis skills to drive real impact.",
+          "tips": "Never badmouth your current employer. Frame it as growth, not escape. Show gratitude, then pivot to ambition.",
+          "tags": ["motivation", "career"]
+        },
+        {
+          "id": "r4",
+          "recruiter_says": "Can you describe your experience working remotely?",
+          "ideal_answer": "Absolutely. I've been working fully remote for over two years at Teleperformance, maintaining a 95% accuracy rate. I'm disciplined with my schedule, I use async communication tools like Slack and Notion daily, and I'm comfortable with timezone differences — I've worked with teams across the Americas. I have a dedicated home office with reliable internet and a backup connection.",
+          "tips": "Mention specific tools, your accuracy metrics, and that you have backup internet. Remote employers need to trust your setup.",
+          "tags": ["remote", "async", "discipline"]
+        },
+        {
+          "id": "r5",
+          "recruiter_says": "Where do you see yourself in two to three years?",
+          "ideal_answer": "In two to three years, I see myself in a senior analyst or team lead role, combining financial operations expertise with advanced data analytics. I want to be the person who bridges the gap between the finance team and the data team — someone who can build dashboards, automate reconciliation processes, and mentor junior analysts.",
+          "tips": "Show ambition but stay realistic. Tie your growth to the company's needs. Mention leadership and mentoring.",
+          "tags": ["growth", "ambition", "leadership"]
+        }
+      ]
+    },
+    {
+      "id": "finance_vocab",
+      "name": "Finance & Data Vocabulary",
+      "icon": "💰",
+      "description": "Key terms for AP, data analysis, and Excel interviews. Practice pronouncing technical vocabulary.",
+      "questions": [
+        {
+          "id": "f1",
+          "recruiter_says": "Can you walk me through your accounts payable process?",
+          "ideal_answer": "Sure. In my AP workflow at Brinks, I would receive invoices from vendors, validate them against purchase orders and receiving reports — that's the three-way match. Then I'd code them to the correct GL accounts, get approval from the budget owner, and schedule payment based on the payment terms — typically net 30 or net 60. At month-end, I'd run an aging report to identify any outstanding payables and ensure accurate accruals for the close.",
+          "tips": "Use specific terms: three-way match, GL coding, aging report, accruals. This shows you know the process deeply.",
+          "tags": ["accounts payable", "invoice", "reconciliation", "three-way match"]
+        },
+        {
+          "id": "f2",
+          "recruiter_says": "How do you use VLOOKUP or INDEX-MATCH in your daily work?",
+          "ideal_answer": "I use INDEX-MATCH extensively because it's more flexible than VLOOKUP — it can look up values to the left, and it handles large datasets more efficiently. For example, I use it to match vendor IDs across different systems to reconcile payments. I also combine it with IFERROR to handle missing data gracefully. For simpler lookups, I'll use VLOOKUP with an exact match, but INDEX-MATCH is my go-to for anything complex.",
+          "tips": "Mentioning INDEX-MATCH over VLOOKUP shows advanced Excel skills. Always explain WHY you prefer one over the other.",
+          "tags": ["excel", "vlookup", "index-match", "data"]
+        },
+        {
+          "id": "f3",
+          "recruiter_says": "Tell me about a time you used pivot tables to solve a business problem.",
+          "ideal_answer": "At Brinks, we had a recurring issue where certain vendors were consistently paid late. I built a pivot table from our AP aging data, slicing by vendor, region, and payment terms. This revealed that the late payments were concentrated in the Caribbean region due to a manual approval bottleneck. I presented this analysis to management, and we implemented an automated approval threshold that reduced late payments by 40%.",
+          "tips": "Use STAR method: Situation (late payments), Task (analyze why), Action (pivot table analysis), Result (40% reduction).",
+          "tags": ["pivot tables", "analysis", "STAR", "business intelligence"]
+        },
+        {
+          "id": "f4",
+          "recruiter_says": "How would you explain a reconciliation discrepancy to a non-finance stakeholder?",
+          "ideal_answer": "I'd keep it simple and visual. I'd say something like: 'We found a difference between what our system says we owe and what the vendor says we owe. Think of it like checking your bank statement against your receipts — sometimes a transaction hasn't cleared yet, or there's a duplicate charge. I've identified the specific items causing the difference and here's my plan to resolve each one.' Then I'd show them a clean summary, not the raw data.",
+          "tips": "This tests communication skills. Use analogies. Avoid jargon. Show you can translate finance into plain English.",
+          "tags": ["reconciliation", "communication", "stakeholder"]
+        },
+        {
+          "id": "f5",
+          "recruiter_says": "What SQL queries do you write most frequently in your work?",
+          "ideal_answer": "My most common queries involve JOINs across multiple tables — for example, joining the invoices table with vendors and payments to create a complete AP aging view. I use GROUP BY with aggregate functions for summary reports, window functions like ROW_NUMBER and LAG for identifying duplicates and tracking changes over time, and CTEs to break down complex queries into readable steps. I'm also comfortable with subqueries and CASE statements for conditional logic.",
+          "tips": "Name specific SQL concepts: JOINs, CTEs, window functions, GROUP BY. Give a real use case for each one.",
+          "tags": ["sql", "queries", "joins", "window functions", "CTE"]
+        }
+      ]
+    },
+    {
+      "id": "remote_latam",
+      "name": "Remote LATAM Idioms",
+      "icon": "🌎",
+      "description": "Essential phrases for remote work: timezone coordination, internet issues, async communication.",
+      "questions": [
+        {
+          "id": "l1",
+          "recruiter_says": "How do you handle timezone differences with your team?",
+          "ideal_answer": "I always set my calendar to show multiple timezones — usually Eastern, Pacific, and my local time in Colombia. I overlap with US Eastern time for about 6 to 7 hours, which gives us plenty of synchronous time for meetings. For anything outside those hours, I'm a big fan of async communication — detailed Slack messages, Loom videos for walkthroughs, and well-documented Notion pages so no one is blocked waiting for me to come online.",
+          "tips": "Mention specific overlap hours. Name async tools: Loom, Notion, Slack. Show you've thought about this proactively.",
+          "tags": ["timezone", "async", "overlap", "remote"]
+        },
+        {
+          "id": "l2",
+          "recruiter_says": "What happens if your internet goes down during a critical meeting?",
+          "ideal_answer": "Great question — I've planned for that. I have a backup mobile hotspot that I can switch to within 30 seconds. I also keep my phone ready to join the call from the mobile app if needed. If I anticipate any connectivity issues, I'll message the team beforehand and share my key points in writing so the meeting can proceed even without me. Reliability is non-negotiable when you work remotely.",
+          "tips": "Always mention your backup plan. Say 'reliability is non-negotiable' — it shows you take remote work seriously.",
+          "tags": ["internet", "backup", "reliability", "contingency"]
+        },
+        {
+          "id": "l3",
+          "recruiter_says": "Can you give an example of effective async communication you've used?",
+          "ideal_answer": "Sure. At Teleperformance, when I needed to escalate a complex case to a supervisor in a different timezone, instead of waiting for them to come online, I'd write a structured message: the issue summary, what I'd already tried, my recommended action, and the deadline. I'd tag them with the priority level. Nine times out of ten, they could approve or adjust my recommendation without a meeting. This saved hours of back-and-forth.",
+          "tips": "Structure matters in async: summary, context, recommendation, deadline. Show you reduce meetings, not create them.",
+          "tags": ["async", "communication", "escalation", "efficiency"]
+        },
+        {
+          "id": "l4",
+          "recruiter_says": "How do you stay productive and avoid distractions working from home?",
+          "ideal_answer": "I treat remote work like an office job. I have a dedicated workspace, a fixed schedule, and I use the Pomodoro technique — 25 minutes of deep work, 5-minute break. I block distracting websites during focus hours and I set my Slack status to 'deep work' so colleagues know not to expect instant replies. I also track my daily output, which keeps me accountable.",
+          "tips": "Mention specific productivity techniques by name: Pomodoro, time-blocking, Slack status management.",
+          "tags": ["productivity", "discipline", "focus", "home office"]
+        },
+        {
+          "id": "l5",
+          "recruiter_says": "What tools do you use for remote collaboration?",
+          "ideal_answer": "For daily communication, Slack is my primary tool. For project management, I've used Jira, Trello, and Notion. For video calls, Zoom and Google Meet. For documentation, I prefer Notion or Confluence because they support structured wikis. For file sharing, Google Drive and SharePoint. And for quick screen recordings to explain something visually, I use Loom — it's a game-changer for async communication.",
+          "tips": "List tools by category (communication, PM, docs, calls). Mention Loom — it shows you're proactive about clarity.",
+          "tags": ["tools", "collaboration", "slack", "notion", "loom"]
+        }
+      ]
+    }
+  ]
+}
