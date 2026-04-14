@@ -1,0 +1,491 @@
+{
+  "version": 1,
+  "vocabCategories": {
+    "workplace": { "icon": "🏢", "name": "Workplace Phrases", "nameEs": "Frases de Oficina" },
+    "questions": { "icon": "❓", "name": "Key Questions", "nameEs": "Preguntas Clave" },
+    "responses": { "icon": "💬", "name": "Smart Responses", "nameEs": "Respuestas Útiles" },
+    "time": { "icon": "⏰", "name": "Time & Frequency", "nameEs": "Tiempo y Frecuencia" },
+    "actions": { "icon": "⚡", "name": "Action Verbs", "nameEs": "Verbos de Acción" },
+    "describe": { "icon": "🎨", "name": "Describing Things", "nameEs": "Describir Cosas" },
+    "connect": { "icon": "🔗", "name": "Connectors", "nameEs": "Conectores" },
+    "idioms": { "icon": "💎", "name": "Professional Idioms", "nameEs": "Expresiones Profesionales" }
+  },
+  "vocabulary": {
+    "workplace": [
+      {"en":"I'm in charge of...","es":"Estoy a cargo de...","ph":"","ex":"<b>I'm in charge of</b> the monthly reports.","tp":"phrase"},
+      {"en":"Could you walk me through...?","es":"¿Me explicas paso a paso?","ph":"","ex":"<b>Could you walk me through</b> the new process?","tp":"phrase"},
+      {"en":"Let me get back to you on that","es":"Déjame responderte después","ph":"","ex":"I'm not sure yet. <b>Let me get back to you on that</b>.","tp":"phrase"},
+      {"en":"I'll keep you posted","es":"Te mantendré informado","ph":"","ex":"We're still investigating. <b>I'll keep you posted</b>.","tp":"phrase"},
+      {"en":"What's the status on...?","es":"¿Cuál es el estado de...?","ph":"","ex":"<b>What's the status on</b> the migration?","tp":"phrase"},
+      {"en":"Moving forward...","es":"De aquí en adelante...","ph":"","ex":"<b>Moving forward</b>, we'll use the new template.","tp":"phrase"},
+      {"en":"I'll take the lead on this","es":"Yo lidero esto","ph":"","ex":"Don't worry, <b>I'll take the lead on this</b>.","tp":"phrase"},
+      {"en":"Can we push this to next week?","es":"¿Podemos moverlo a la siguiente semana?","ph":"","ex":"I have a conflict. <b>Can we push this to next week</b>?","tp":"phrase"},
+      {"en":"Let's touch base later","es":"Hablemos después","ph":"","ex":"I need more data. <b>Let's touch base later</b>.","tp":"phrase"},
+      {"en":"I need to escalate this","es":"Necesito escalar esto","ph":"","ex":"This is critical. <b>I need to escalate this</b> to management.","tp":"phrase"},
+      {"en":"That's out of scope","es":"Eso está fuera del alcance","ph":"","ex":"Adding that feature <b>is out of scope</b> for this sprint.","tp":"phrase"},
+      {"en":"Let's align on this","es":"Alineémonos en esto","ph":"","ex":"Before we start, <b>let's align on</b> the requirements.","tp":"phrase"},
+      {"en":"I'll flag this for the team","es":"Lo señalaré al equipo","ph":"","ex":"Good catch. <b>I'll flag this for the team</b>.","tp":"phrase"},
+      {"en":"I'll prioritize this","es":"Priorizaré esto","ph":"","ex":"Understood, <b>I'll prioritize this</b> today.","tp":"phrase"},
+      {"en":"I need your input on...","es":"Necesito tu opinión sobre...","ph":"","ex":"<b>I need your input on</b> the dashboard layout.","tp":"phrase"},
+      {"en":"Let's schedule a sync","es":"Agendemos una reunión rápida","ph":"","ex":"There are open questions. <b>Let's schedule a sync</b>.","tp":"phrase"},
+      {"en":"That's a fair point","es":"Buen punto / Es justo","ph":"","ex":"<b>That's a fair point</b>. Let me reconsider.","tp":"phrase"},
+      {"en":"I'll follow up on this","es":"Le daré seguimiento","ph":"","ex":"<b>I'll follow up on this</b> after the meeting.","tp":"phrase"},
+      {"en":"Just to clarify...","es":"Solo para aclarar...","ph":"","ex":"<b>Just to clarify</b>, are we using the old or new API?","tp":"phrase"},
+      {"en":"As per our discussion...","es":"Según lo que hablamos...","ph":"","ex":"<b>As per our discussion</b>, I've updated the report.","tp":"phrase"}
+    ],
+    "questions": [
+      {"en":"What?","es":"¿Qué?","ph":"/wʌt/","ex":"<b>What</b> do you need?","tp":"q"},
+      {"en":"Where?","es":"¿Dónde?","ph":"/wer/","ex":"<b>Where</b> is the meeting?","tp":"q"},
+      {"en":"When?","es":"¿Cuándo?","ph":"/wen/","ex":"<b>When</b> is the deadline?","tp":"q"},
+      {"en":"Who?","es":"¿Quién?","ph":"/huː/","ex":"<b>Who</b> is in charge?","tp":"q"},
+      {"en":"Why?","es":"¿Por qué?","ph":"/waɪ/","ex":"<b>Why</b> did the pipeline fail?","tp":"q"},
+      {"en":"How?","es":"¿Cómo?","ph":"/haʊ/","ex":"<b>How</b> does this work?","tp":"q"},
+      {"en":"How much / How many?","es":"¿Cuánto / Cuántos?","ph":"","ex":"<b>How many</b> people are in the team?","tp":"q"},
+      {"en":"Which?","es":"¿Cuál?","ph":"/wɪtʃ/","ex":"<b>Which</b> file do you mean?","tp":"q"},
+      {"en":"How long?","es":"¿Cuánto tiempo?","ph":"","ex":"<b>How long</b> will this take?","tp":"q"},
+      {"en":"What time?","es":"¿A qué hora?","ph":"","ex":"<b>What time</b> is the standup?","tp":"q"},
+      {"en":"Can I...?","es":"¿Puedo...?","ph":"","ex":"<b>Can I</b> ask a question?","tp":"phrase"},
+      {"en":"Do you...?","es":"¿Tú...?","ph":"","ex":"<b>Do you</b> have the file?","tp":"phrase"},
+      {"en":"Is there...?","es":"¿Hay...?","ph":"","ex":"<b>Is there</b> a meeting today?","tp":"phrase"},
+      {"en":"What does ... mean?","es":"¿Qué significa...?","ph":"","ex":"<b>What does</b> churn <b>mean</b>?","tp":"phrase"},
+      {"en":"Would it be possible to...?","es":"¿Sería posible...?","ph":"","ex":"<b>Would it be possible to</b> extend the deadline?","tp":"phrase"}
+    ],
+    "responses": [
+      {"en":"I understand","es":"Entiendo","ph":"","ex":"<b>I understand</b>, I will fix it.","tp":"phrase"},
+      {"en":"I don't understand","es":"No entiendo","ph":"","ex":"<b>I don't understand</b>. Could you explain?","tp":"phrase"},
+      {"en":"Could you repeat that?","es":"¿Podrías repetir?","ph":"","ex":"Sorry, <b>could you repeat that</b>?","tp":"phrase"},
+      {"en":"Could you speak slower?","es":"¿Más lento por favor?","ph":"","ex":"<b>Could you speak slower</b>, please?","tp":"phrase"},
+      {"en":"Of course / Sure","es":"Por supuesto / Claro","ph":"","ex":"<b>Sure</b>, I can help with that.","tp":"phrase"},
+      {"en":"I agree","es":"Estoy de acuerdo","ph":"","ex":"<b>I agree</b> with your approach.","tp":"phrase"},
+      {"en":"I disagree","es":"No estoy de acuerdo","ph":"","ex":"<b>I disagree</b>, I think we should wait.","tp":"phrase"},
+      {"en":"That makes sense","es":"Tiene sentido","ph":"","ex":"<b>That makes sense</b>. Let us proceed.","tp":"phrase"},
+      {"en":"Let me check","es":"Déjame revisar","ph":"","ex":"<b>Let me check</b> and I will get back to you.","tp":"phrase"},
+      {"en":"No problem","es":"No hay problema","ph":"","ex":"<b>No problem</b>, take your time.","tp":"phrase"},
+      {"en":"Exactly","es":"Exacto","ph":"","ex":"<b>Exactly</b>, that is what I meant.","tp":"phrase"},
+      {"en":"Sounds good","es":"Suena bien","ph":"","ex":"Meeting at 3? <b>Sounds good</b>!","tp":"phrase"},
+      {"en":"Got it","es":"Entendido","ph":"","ex":"<b>Got it</b>, I will send the file.","tp":"phrase"},
+      {"en":"I will take care of it","es":"Yo me encargo","ph":"","ex":"<b>I will take care of it</b>.","tp":"phrase"},
+      {"en":"I am not sure","es":"No estoy seguro","ph":"","ex":"<b>I am not sure</b>, let me verify.","tp":"phrase"}
+    ],
+    "time": [
+      {"en":"Today / Tomorrow / Yesterday","es":"Hoy / Mañana / Ayer","ph":"","ex":"The report is due <b>today</b>.","tp":"adv"},
+      {"en":"Now / Later / Soon","es":"Ahora / Después / Pronto","ph":"","ex":"I will do it <b>later</b>.","tp":"adv"},
+      {"en":"Always / Usually / Sometimes / Never","es":"Siempre / Usualmente / A veces / Nunca","ph":"","ex":"I <b>always</b> check the data before submitting.","tp":"adv"},
+      {"en":"Before / After / During","es":"Antes / Después / Durante","ph":"","ex":"<b>Before</b> the meeting, review the slides.","tp":"prep"},
+      {"en":"Already / Yet / Still","es":"Ya / Todavía / Aún","ph":"","ex":"I have <b>already</b> finished the analysis.","tp":"adv"},
+      {"en":"Early / Late / On time","es":"Temprano / Tarde / A tiempo","ph":"","ex":"We delivered the project <b>on time</b>.","tp":"adj"},
+      {"en":"Every day / Once a week","es":"Cada día / Una vez por semana","ph":"","ex":"I practice English <b>every day</b>.","tp":"phrase"},
+      {"en":"Last week / Next month","es":"Semana pasada / Próximo mes","ph":"","ex":"We launched the feature <b>last week</b>.","tp":"phrase"},
+      {"en":"Ago / In (future)","es":"Hace / En (futuro)","ph":"","ex":"3 months <b>ago</b>. <b>In</b> 2 days.","tp":"prep"},
+      {"en":"By (deadline)","es":"Para (fecha límite)","ph":"/baɪ/","ex":"I need it <b>by</b> Friday.","tp":"prep"},
+      {"en":"Within","es":"Dentro de","ph":"/wɪˈðɪn/","ex":"I'll finish <b>within</b> two hours.","tp":"prep"},
+      {"en":"Throughout","es":"A lo largo de","ph":"/θruːˈaʊt/","ex":"<b>Throughout</b> the quarter, revenue grew steadily.","tp":"prep"}
+    ],
+    "actions": [
+      {"en":"To be","es":"Ser / Estar","ph":"/biː/","ex":"I <b>am</b> a data analyst. She <b>is</b> busy.","tp":"verb"},
+      {"en":"To have","es":"Tener","ph":"/hæv/","ex":"I <b>have</b> 2 years of experience.","tp":"verb"},
+      {"en":"To do","es":"Hacer","ph":"/duː/","ex":"What do you <b>do</b> for work?","tp":"verb"},
+      {"en":"To know","es":"Saber / Conocer","ph":"/noʊ/","ex":"I <b>know</b> SQL very well.","tp":"verb"},
+      {"en":"To think","es":"Pensar","ph":"/θɪŋk/","ex":"I <b>think</b> the data is correct.","tp":"verb"},
+      {"en":"To need","es":"Necesitar","ph":"/niːd/","ex":"I <b>need</b> database access.","tp":"verb"},
+      {"en":"To want","es":"Querer","ph":"/wɑːnt/","ex":"I <b>want</b> to learn Python.","tp":"verb"},
+      {"en":"To learn","es":"Aprender","ph":"/lɝːn/","ex":"I am <b>learning</b> data visualization.","tp":"verb"},
+      {"en":"To understand","es":"Entender","ph":"/ˌʌn.dɚˈstænd/","ex":"I <b>understand</b> the problem now.","tp":"verb"},
+      {"en":"To try","es":"Intentar","ph":"/traɪ/","ex":"Let me <b>try</b> another approach.","tp":"verb"},
+      {"en":"To help","es":"Ayudar","ph":"/help/","ex":"Can I <b>help</b> you with the query?","tp":"verb"},
+      {"en":"To work","es":"Trabajar","ph":"/wɝːk/","ex":"I <b>work</b> from home on Mondays.","tp":"verb"},
+      {"en":"To use","es":"Usar","ph":"/juːz/","ex":"I <b>use</b> Python and SQL every day.","tp":"verb"},
+      {"en":"To make","es":"Hacer / Crear","ph":"/meɪk/","ex":"I <b>made</b> a new dashboard last week.","tp":"verb"},
+      {"en":"To give","es":"Dar","ph":"/ɡɪv/","ex":"<b>Give</b> me a moment to check.","tp":"verb"},
+      {"en":"To take","es":"Tomar / Llevar","ph":"/teɪk/","ex":"<b>Take</b> a look at this chart.","tp":"verb"},
+      {"en":"To get","es":"Obtener / Conseguir","ph":"/ɡet/","ex":"I need to <b>get</b> the updated data.","tp":"verb"},
+      {"en":"To send","es":"Enviar","ph":"/send/","ex":"I will <b>send</b> you the file tonight.","tp":"verb"},
+      {"en":"To find","es":"Encontrar","ph":"/faɪnd/","ex":"I <b>found</b> a bug in the pipeline.","tp":"verb"},
+      {"en":"To start / To finish","es":"Empezar / Terminar","ph":"","ex":"Let us <b>start</b> with the summary.","tp":"verb"},
+      {"en":"To change / To fix","es":"Cambiar / Arreglar","ph":"","ex":"I need to <b>fix</b> this query.","tp":"verb"},
+      {"en":"To build","es":"Construir","ph":"/bɪld/","ex":"We <b>built</b> an automated ETL pipeline.","tp":"verb"},
+      {"en":"To run","es":"Ejecutar / Correr","ph":"/rʌn/","ex":"<b>Run</b> the pipeline and check the logs.","tp":"verb"},
+      {"en":"To set up","es":"Configurar","ph":"","ex":"I <b>set up</b> the development environment.","tp":"verb"},
+      {"en":"To figure out","es":"Descifrar / Resolver","ph":"","ex":"I need to <b>figure out</b> why the query is slow.","tp":"verb"},
+      {"en":"To look into","es":"Investigar","ph":"","ex":"I'll <b>look into</b> the data discrepancy.","tp":"verb"},
+      {"en":"To come up with","es":"Idear / Proponer","ph":"","ex":"We need to <b>come up with</b> a solution.","tp":"verb"},
+      {"en":"To carry out","es":"Llevar a cabo","ph":"","ex":"We <b>carried out</b> the analysis last quarter.","tp":"verb"},
+      {"en":"To point out","es":"Señalar","ph":"","ex":"She <b>pointed out</b> a flaw in the logic.","tp":"verb"},
+      {"en":"To break down","es":"Desglosar","ph":"","ex":"Let me <b>break down</b> the numbers for you.","tp":"verb"}
+    ],
+    "describe": [
+      {"en":"New / Old","es":"Nuevo / Viejo","ph":"","ex":"This is a <b>new</b> feature request.","tp":"adj"},
+      {"en":"Easy / Hard (Difficult)","es":"Fácil / Difícil","ph":"","ex":"SQL is <b>easy</b> to learn but hard to master.","tp":"adj"},
+      {"en":"Fast / Slow","es":"Rápido / Lento","ph":"","ex":"The query is too <b>slow</b>. We need to optimize it.","tp":"adj"},
+      {"en":"Right / Wrong","es":"Correcto / Incorrecto","ph":"","ex":"Is this the <b>right</b> dataset?","tp":"adj"},
+      {"en":"Important / Urgent","es":"Importante / Urgente","ph":"","ex":"This is <b>urgent</b>. Prioritize it.","tp":"adj"},
+      {"en":"Ready / Busy / Available","es":"Listo / Ocupado / Disponible","ph":"","ex":"I am <b>available</b> after 3 PM.","tp":"adj"},
+      {"en":"Different / Same","es":"Diferente / Igual","ph":"","ex":"Let us try a <b>different</b> approach.","tp":"adj"},
+      {"en":"Better / Worse / Best","es":"Mejor / Peor / El mejor","ph":"","ex":"This version is much <b>better</b>.","tp":"adj"},
+      {"en":"First / Last / Next","es":"Primero / Último / Siguiente","ph":"","ex":"The <b>next</b> step is data cleaning.","tp":"adj"},
+      {"en":"Possible / Impossible","es":"Posible / Imposible","ph":"","ex":"Is it <b>possible</b> to finish today?","tp":"adj"},
+      {"en":"Necessary / Optional","es":"Necesario / Opcional","ph":"","ex":"This step is <b>necessary</b> before deployment.","tp":"adj"},
+      {"en":"Relevant / Irrelevant","es":"Relevante / Irrelevante","ph":"","ex":"That data is not <b>relevant</b> to our analysis.","tp":"adj"},
+      {"en":"Accurate / Inaccurate","es":"Preciso / Impreciso","ph":"/ˈæk.jɚ.ət/","ex":"The numbers must be <b>accurate</b>.","tp":"adj"},
+      {"en":"Efficient / Inefficient","es":"Eficiente / Ineficiente","ph":"","ex":"This process is not very <b>efficient</b>.","tp":"adj"},
+      {"en":"Complex / Simple","es":"Complejo / Simple","ph":"","ex":"The query is too <b>complex</b>. Simplify it.","tp":"adj"},
+      {"en":"Consistent / Inconsistent","es":"Consistente / Inconsistente","ph":"","ex":"The data is <b>inconsistent</b> across tables.","tp":"adj"}
+    ],
+    "connect": [
+      {"en":"Because / Since","es":"Porque / Ya que","ph":"","ex":"I used Python <b>because</b> it is faster for this task.","tp":"conj"},
+      {"en":"So / Therefore","es":"Entonces / Por lo tanto","ph":"","ex":"The data was wrong, <b>so</b> I corrected it.","tp":"conj"},
+      {"en":"If / Then","es":"Si / Entonces","ph":"","ex":"<b>If</b> you need help, just ask me.","tp":"conj"},
+      {"en":"Also / In addition","es":"También / Además","ph":"","ex":"I <b>also</b> know Tableau. <b>In addition</b>, I automated reports.","tp":"adv"},
+      {"en":"However / Nevertheless","es":"Sin embargo / No obstante","ph":"","ex":"The data looks good; <b>however</b>, there is one outlier.","tp":"conj"},
+      {"en":"Although / Even though","es":"Aunque","ph":"","ex":"<b>Although</b> it is complex, I can handle it.","tp":"conj"},
+      {"en":"For example / Such as","es":"Por ejemplo / Tales como","ph":"","ex":"Tools <b>such as</b> Python and SQL.","tp":"phrase"},
+      {"en":"First / Then / Finally","es":"Primero / Luego / Finalmente","ph":"","ex":"<b>First</b>, clean the data. <b>Then</b>, analyze.","tp":"adv"},
+      {"en":"Instead of","es":"En vez de","ph":"","ex":"Use BigQuery <b>instead of</b> Excel for large datasets.","tp":"phrase"},
+      {"en":"According to","es":"Según","ph":"","ex":"<b>According to</b> the data, sales are up 15%.","tp":"phrase"},
+      {"en":"In order to","es":"Para / Con el fin de","ph":"","ex":"I wrote a script <b>in order to</b> automate the process.","tp":"phrase"},
+      {"en":"As a result","es":"Como resultado","ph":"","ex":"<b>As a result</b>, we saved 10 hours per week.","tp":"phrase"},
+      {"en":"On the other hand","es":"Por otro lado","ph":"","ex":"<b>On the other hand</b>, costs increased slightly.","tp":"phrase"},
+      {"en":"Meanwhile / In the meantime","es":"Mientras tanto","ph":"","ex":"<b>Meanwhile</b>, the team finished the testing phase.","tp":"adv"},
+      {"en":"Whereas / While","es":"Mientras que","ph":"","ex":"Python is great for ML, <b>whereas</b> SQL is better for querying.","tp":"conj"},
+      {"en":"Not only ... but also","es":"No solo ... sino también","ph":"","ex":"<b>Not only</b> did we fix the bug, <b>but</b> we <b>also</b> improved performance.","tp":"phrase"}
+    ],
+    "idioms": [
+      {"en":"To be on the same page","es":"Estar en sintonía / de acuerdo","ph":"","ex":"Let's make sure we're all <b>on the same page</b>.","tp":"idiom"},
+      {"en":"To get the ball rolling","es":"Poner las cosas en marcha","ph":"","ex":"Let's <b>get the ball rolling</b> on the migration project.","tp":"idiom"},
+      {"en":"To think outside the box","es":"Pensar de forma creativa","ph":"","ex":"We need to <b>think outside the box</b> for this problem.","tp":"idiom"},
+      {"en":"To cut corners","es":"Tomar atajos (saltarse pasos)","ph":"","ex":"Don't <b>cut corners</b> on data validation.","tp":"idiom"},
+      {"en":"To keep an eye on","es":"Vigilar / Estar pendiente de","ph":"","ex":"<b>Keep an eye on</b> the dashboard metrics this week.","tp":"idiom"},
+      {"en":"The bottom line","es":"Lo esencial / En resumen","ph":"","ex":"<b>The bottom line</b> is: we need more data.","tp":"idiom"},
+      {"en":"To be up to speed","es":"Estar al día / Actualizado","ph":"","ex":"Let me <b>get you up to speed</b> on the project.","tp":"idiom"},
+      {"en":"To go the extra mile","es":"Hacer un esfuerzo extra","ph":"","ex":"She always <b>goes the extra mile</b> on her analyses.","tp":"idiom"},
+      {"en":"A ballpark figure","es":"Una cifra aproximada","ph":"","ex":"Can you give me <b>a ballpark figure</b> for the budget?","tp":"idiom"},
+      {"en":"To be swamped","es":"Estar saturado de trabajo","ph":"","ex":"I'm <b>swamped</b> this week. Can we reschedule?","tp":"idiom"},
+      {"en":"To hit the ground running","es":"Empezar con todo desde el día uno","ph":"","ex":"I want to <b>hit the ground running</b> in my new role.","tp":"idiom"},
+      {"en":"To circle back","es":"Retomar un tema después","ph":"","ex":"Let's <b>circle back</b> on this after the meeting.","tp":"idiom"},
+      {"en":"A steep learning curve","es":"Una curva de aprendizaje empinada","ph":"","ex":"Snowflake has <b>a steep learning curve</b> but it's worth it.","tp":"idiom"},
+      {"en":"To drop the ball","es":"Fallar / No cumplir","ph":"","ex":"I <b>dropped the ball</b> on that deadline. It won't happen again.","tp":"idiom"},
+      {"en":"To wear many hats","es":"Hacer de todo / Tener muchos roles","ph":"","ex":"In a startup, you <b>wear many hats</b>.","tp":"idiom"}
+    ]
+  },
+  "grammar": [
+    {
+      "id": 1, "t": "#1 — SVO: The Sacred Order", "s": "Subject + Verb + Object",
+      "l": "b", "i": "🔤",
+      "x": "In English, sentence order NEVER changes: Subject first, then Verb, then Object. Unlike Spanish, you cannot move the object before the subject. This is the single most important rule — if you get this right, you will be understood even with mistakes elsewhere.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">Verb</span> + <span class=\"o\">Object</span>",
+      "ok": [{"e":"I need the report.","t":"Necesito el reporte."},{"e":"She sent the email yesterday.","t":"Ella envió el email ayer."},{"e":"They finished the project on time.","t":"Terminaron el proyecto a tiempo."}],
+      "no": [{"t":"Need I the report.","w":"Subject first: I need"},{"t":"The report I need.","w":"Object never goes first in statements"}]
+    },
+    {
+      "id": 2, "t": "#2 — To Be: Two Spanish Verbs in One", "s": "I am / You are / He-She-It is",
+      "l": "b", "i": "🌟",
+      "x": "English uses ONE verb ('to be') where Spanish uses TWO ('ser' and 'estar'). Memorize the conjugation: I AM, you/we/they ARE, he/she/it IS. Never combine 'to be' with another verb that isn't -ING form. 'I am agree' is WRONG because 'agree' is already a verb.",
+      "f": "<span class=\"s\">I</span> <span class=\"v\">am</span> | <span class=\"s\">You/We/They</span> <span class=\"v\">are</span> | <span class=\"s\">He/She/It</span> <span class=\"v\">is</span>",
+      "ok": [{"e":"I am ready for the meeting.","t":"Estoy listo para la reunión."},{"e":"She is a senior analyst at Google.","t":"Es analista senior en Google."},{"e":"They are working on the migration.","t":"Están trabajando en la migración."}],
+      "no": [{"t":"I am have a question.","w":"Drop 'am': I have a question"},{"t":"She is agree with the plan.","w":"'Agree' is a verb: She agrees"}]
+    },
+    {
+      "id": 3, "t": "#3 — The Deadly -S (Present Simple)", "s": "He/She/It ALWAYS gets -S",
+      "l": "b", "i": "🔄",
+      "x": "This is the #1 mistake Spanish speakers make. In present simple, when the subject is he/she/it (third person singular), you MUST add -S to the verb. I work → She workS. I write → He writeS. Rules: consonant+y → -ies (study→studies), -sh/-ch/-x/-o → -es (go→goes, watch→watches). This rule ONLY applies to present simple affirmative.",
+      "f": "<span class=\"s\">I/You/We/They</span> + <span class=\"v\">verb</span> | <span class=\"s\">He/She/It</span> + <span class=\"v\">verb+s</span>",
+      "ok": [{"e":"She writes SQL queries daily.","t":"Escribe queries SQL a diario."},{"e":"He manages the entire data pipeline.","t":"Él administra todo el pipeline."},{"e":"The script runs every morning at 6 AM.","t":"El script corre cada mañana a las 6."}],
+      "no": [{"t":"She work from home.","w":"She workS from home"},{"t":"He don't like meetings.","w":"He DOESN'T like meetings"}]
+    },
+    {
+      "id": 4, "t": "#4 — Negations: Don't / Doesn't", "s": "NEVER put 'no' before the verb",
+      "l": "b", "i": "🚫",
+      "x": "Spanish negation is simple: put 'no' before the verb. English is different — you need an auxiliary. I/You/We/They + DON'T + base verb. He/She/It + DOESN'T + base verb (NO -S on the main verb!). Past tense: DIDN'T + base verb for ALL subjects. The main verb stays in base form after don't/doesn't/didn't.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">don't / doesn't</span> + <span class=\"o\">verb (base form)</span>",
+      "ok": [{"e":"I don't have the file yet.","t":"No tengo el archivo aún."},{"e":"She doesn't work on Fridays.","t":"Ella no trabaja los viernes."},{"e":"We didn't finish the report.","t":"No terminamos el reporte."}],
+      "no": [{"t":"I no have the file.","w":"I DON'T have the file"},{"t":"She doesn't works on Fridays.","w":"Base form after doesn't: work (no -S)"}]
+    },
+    {
+      "id": 5, "t": "#5 — Questions: Auxiliary First", "s": "Do / Does / Can / Will + Subject + Verb",
+      "l": "b", "i": "❓",
+      "x": "In English, you CANNOT make a question just by changing intonation (unlike Spanish). You need an auxiliary verb at the beginning. Do/Does for present, Did for past, Will for future, Can/Could for ability/requests. After the auxiliary, use the BASE form of the verb (no -S, no -ED). With 'to be', invert: 'You are ready' → 'Are you ready?'",
+      "f": "<span class=\"v\">Auxiliary</span> + <span class=\"s\">Subject</span> + <span class=\"o\">Verb (base)</span> + ?",
+      "ok": [{"e":"Do you have experience with Python?","t":"¿Tienes experiencia con Python?"},{"e":"Can you send the file by tomorrow?","t":"¿Puedes enviar el archivo para mañana?"},{"e":"Did she finish the analysis?","t":"¿Ella terminó el análisis?"}],
+      "no": [{"t":"You have experience?","w":"DO you have experience?"},{"t":"Does she works here?","w":"Does she WORK here? (base form)"}]
+    },
+    {
+      "id": 6, "t": "#6 — Past Simple: Achievements", "s": "Verb+ed (regular) or irregular form",
+      "l": "b", "i": "⏮️",
+      "x": "Use past simple for completed actions with a specific time. Regular verbs add -ED (worked, created, analyzed). Irregular verbs change form entirely — you MUST memorize them. Key irregulars: go→went, build→built, make→made, see→saw, have→had, do→did, get→got, take→took, find→found, write→wrote, speak→spoke, give→gave, run→ran, come→came, think→thought, send→sent, know→knew, say→said.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">verb+ed / irregular past</span> + <span class=\"o\">complement</span>",
+      "ok": [{"e":"I created a dashboard that saved 20 hours per week.","t":"Creé un dashboard que ahorró 20 horas/semana."},{"e":"We built an automated pipeline in Q3.","t":"Construimos un pipeline automatizado en Q3."},{"e":"She found a critical bug in the data.","t":"Ella encontró un bug crítico en los datos."}],
+      "no": [{"t":"I builded the pipeline.","w":"Irregular: I BUILT the pipeline"},{"t":"She goed to the meeting.","w":"Irregular: She WENT to the meeting"}]
+    },
+    {
+      "id": 7, "t": "#7 — Present Continuous: Right Now", "s": "am/is/are + verb-ING",
+      "l": "i", "i": "▶️",
+      "x": "Use this for actions happening RIGHT NOW or temporary projects in progress. Structure: subject + am/is/are + verb-ING. You MUST include the auxiliary 'to be' — 'I working' is WRONG. Also used for planned future actions: 'I am presenting tomorrow.' Do NOT use with state verbs (know, want, need, like, believe, understand) — say 'I know' not 'I am knowing.'",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">am/is/are</span> + <span class=\"o\">verb+ing</span>",
+      "ok": [{"e":"I am working on the churn analysis right now.","t":"Estoy trabajando en el análisis de churn ahora."},{"e":"We are migrating the database to Snowflake.","t":"Estamos migrando la base de datos."},{"e":"She is presenting the results tomorrow.","t":"Ella presenta los resultados mañana."}],
+      "no": [{"t":"I working on it.","w":"I AM working on it (need auxiliary)"},{"t":"I am knowing the answer.","w":"State verb: I KNOW the answer"}]
+    },
+    {
+      "id": 8, "t": "#8 — Future: Will vs Going To", "s": "Will = spontaneous / Going to = planned",
+      "l": "i", "i": "🔮",
+      "x": "Both express future, but with nuance. WILL: spontaneous decisions, promises, predictions ('I'll send it now'). GOING TO: planned intentions, evidence-based predictions ('I'm going to present on Friday'). After WILL, use base form — NEVER 'to'. In conversation, they're often interchangeable. Contraction: I will → I'll, we will → we'll.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">will / am going to</span> + <span class=\"o\">verb (base form)</span>",
+      "ok": [{"e":"I will send the report tonight.","t":"Enviaré el reporte esta noche."},{"e":"I am going to present at the standup tomorrow.","t":"Voy a presentar en el standup mañana."},{"e":"We'll fix the bug before the release.","t":"Arreglaremos el bug antes del release."}],
+      "no": [{"t":"I will to send it.","w":"No 'to' after will: I will send"},{"t":"She will sends the email.","w":"Base form: She will SEND"}]
+    },
+    {
+      "id": 9, "t": "#9 — Present Perfect: Experience Without Dates", "s": "Have/Has + Past Participle",
+      "l": "i", "i": "📊",
+      "x": "Use present perfect for experience, achievements, and actions with no specific time. 'I have worked with Python for 3 years' (still relevant now). Key signal words: ever, never, already, yet, for, since, recently, just. If you mention a SPECIFIC date, switch to past simple: 'I worked there in 2022' (NOT 'I have worked'). Has = he/she/it. Have = I/you/we/they.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">have/has</span> + <span class=\"o\">past participle</span>",
+      "ok": [{"e":"I have worked with Python for 3 years.","t":"He trabajado con Python por 3 años."},{"e":"She has led multiple cross-functional projects.","t":"Ha liderado múltiples proyectos."},{"e":"We have already deployed the fix.","t":"Ya desplegamos la corrección."}],
+      "no": [{"t":"I have work with Python.","w":"Past participle: I have WORKED"},{"t":"I have worked there in 2022.","w":"Specific date → past simple: I worked there in 2022"}]
+    },
+    {
+      "id": 10, "t": "#10 — First Conditional: If → Will", "s": "If + present → will + base verb",
+      "l": "i", "i": "🔀",
+      "x": "For real, possible future situations. The IF clause uses present simple (NEVER will), and the result clause uses WILL + base verb. You can swap the order: 'We will save time if we automate.' This is the conditional you'll use most in business: 'If we launch early, we'll capture more market share.'",
+      "f": "<span class=\"v\">If</span> + <span class=\"o\">present simple</span>, <span class=\"s\">subject</span> + <span class=\"v\">will</span> + <span class=\"o\">base verb</span>",
+      "ok": [{"e":"If we automate this process, we will save 10 hours.","t":"Si automatizamos este proceso, ahorraremos 10 horas."},{"e":"If the data is clean, the model will be accurate.","t":"Si los datos están limpios, el modelo será preciso."}],
+      "no": [{"t":"If we will automate this...","w":"No 'will' in the IF clause: If we automate..."}]
+    },
+    {
+      "id": 11, "t": "#11 — Modals: Can / Could / Should / Would", "s": "All modals + base verb (never 'to')",
+      "l": "i", "i": "🎭",
+      "x": "Modal verbs express ability, possibility, advice, or polite requests. CAN = ability/permission ('I can write SQL'). COULD = polite request or past ability ('Could you review this?'). SHOULD = advice/recommendation ('You should validate the data'). WOULD = hypothetical or polite preference ('I would recommend BigQuery'). After ALL modals: base verb only. No 'to', no -S, no -ING.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">modal</span> + <span class=\"o\">verb (base form)</span>",
+      "ok": [{"e":"I can write complex SQL queries.","t":"Puedo escribir queries SQL complejas."},{"e":"Could you review my pull request?","t":"¿Podrías revisar mi pull request?"},{"e":"We should schedule a meeting.","t":"Deberíamos agendar una reunión."},{"e":"I would recommend using Python for this.","t":"Recomendaría usar Python para esto."}],
+      "no": [{"t":"I can to write SQL.","w":"No 'to': I can write SQL"},{"t":"She can writes code.","w":"Base form: She can WRITE code"}]
+    },
+    {
+      "id": 12, "t": "#12 — Passive Voice: Focus on the Action", "s": "Subject + to be + Past Participle",
+      "l": "a", "i": "📝",
+      "x": "Use passive voice when the action matters more than who did it. Very common in reports and technical writing. 'The data was cleaned' (we don't care who did it). 'Metrics are tracked in real time.' Form: subject + to be (conjugated) + past participle. To mention the doer, add 'by': 'The report was created by the analytics team.'",
+      "f": "<span class=\"o\">Object (becomes subject)</span> + <span class=\"v\">to be</span> + <span class=\"o\">past participle</span>",
+      "ok": [{"e":"The data was cleaned and validated.","t":"Los datos fueron limpiados y validados."},{"e":"Metrics are tracked in real time.","t":"Las métricas se rastrean en tiempo real."},{"e":"The report will be shared by Friday.","t":"El reporte será compartido para el viernes."}],
+      "no": [{"t":"The data was clean by the team.","w":"Past participle: was CLEANED by the team"}]
+    },
+    {
+      "id": 13, "t": "#13 — Articles: A / An / The / Zero", "s": "The most missed words by Spanish speakers",
+      "l": "i", "i": "📌",
+      "x": "Articles are tiny but critical. A/AN = one non-specific item (a report, an error). THE = specific item both speaker and listener know (the report I sent you). ZERO article = general categories or uncountable nouns (Data is important. People are diverse.). Use AN before vowel SOUNDS (an hour, an SQL query) not just vowel letters (a university, a European).",
+      "f": "<span class=\"v\">a/an</span> = non-specific | <span class=\"v\">the</span> = specific | <span class=\"v\">Ø</span> = general/uncountable",
+      "ok": [{"e":"I found an error in the dataset.","t":"Encontré un error en el dataset."},{"e":"The meeting is at 3 PM.","t":"La reunión es a las 3."},{"e":"Data is the new oil.","t":"Los datos son el nuevo petróleo. (general = no article)"}],
+      "no": [{"t":"I need a information.","w":"Uncountable: I need information (no article)"},{"t":"She is best analyst.","w":"Superlative needs THE: She is THE best analyst"}]
+    },
+    {
+      "id": 14, "t": "#14 — Comparatives & Superlatives", "s": "Short: -er/-est | Long: more/most",
+      "l": "i", "i": "📐",
+      "x": "To compare two things: short adjectives (1-2 syllables) add -ER + than (faster than, bigger than). Long adjectives (3+ syllables) use MORE + than (more efficient than). For superlatives (the best of all): short → THE + -EST (the fastest), long → THE MOST (the most important). Irregulars: good→better→best, bad→worse→worst, far→farther→farthest.",
+      "f": "<span class=\"s\">A</span> is <span class=\"v\">adj+er / more adj</span> <span class=\"o\">than B</span> | <span class=\"s\">A</span> is <span class=\"v\">the adj+est / the most adj</span>",
+      "ok": [{"e":"Python is faster than Excel for large datasets.","t":"Python es más rápido que Excel para datasets grandes."},{"e":"This is the most efficient pipeline we've built.","t":"Este es el pipeline más eficiente que hemos construido."},{"e":"My SQL skills are better than last year.","t":"Mis habilidades SQL son mejores que el año pasado."}],
+      "no": [{"t":"Python is more faster than Excel.","w":"Never double: Python is FASTER (not more faster)"},{"t":"This is the most good solution.","w":"Irregular: the BEST solution"}]
+    },
+    {
+      "id": 15, "t": "#15 — Gerunds vs Infinitives", "s": "Some verbs + -ING, others + TO",
+      "l": "i", "i": "⚖️",
+      "x": "Some verbs are followed by -ING (gerund): enjoy, avoid, consider, finish, mind, keep, suggest, recommend, practice. Others by TO + verb (infinitive): want, need, decide, plan, hope, agree, expect, offer, refuse, learn. Some accept both with no change: like, love, hate, start, begin, continue. Some change meaning: 'stop smoking' (quit) vs 'stop to smoke' (pause to do it).",
+      "f": "<span class=\"v\">Verb</span> + <span class=\"o\">-ING</span> | <span class=\"v\">Verb</span> + <span class=\"o\">to + base</span>",
+      "ok": [{"e":"I enjoy working with data.","t":"Disfruto trabajar con datos."},{"e":"I decided to learn Python.","t":"Decidí aprender Python."},{"e":"We need to consider changing the approach.","t":"Necesitamos considerar cambiar el enfoque."}],
+      "no": [{"t":"I enjoy to work with data.","w":"Enjoy + ING: I enjoy WORKING"},{"t":"I decided learning Python.","w":"Decide + TO: I decided TO LEARN"}]
+    },
+    {
+      "id": 16, "t": "#16 — Relative Clauses: Who / Which / That", "s": "Connect ideas within one sentence",
+      "l": "i", "i": "🔗",
+      "x": "Relative clauses add information about a noun. WHO = people ('The analyst who built the dashboard'). WHICH = things ('The report which was sent yesterday'). THAT = both, in defining clauses ('The tool that we use'). WHERE = places ('The team where I worked'). WHOSE = possession ('The client whose data was lost'). In informal English, THAT often replaces WHO/WHICH.",
+      "f": "<span class=\"s\">Noun</span> + <span class=\"v\">who/which/that</span> + <span class=\"o\">clause</span>",
+      "ok": [{"e":"The analyst who built this dashboard is on my team.","t":"El analista que construyó este dashboard está en mi equipo."},{"e":"The tool that we use for ETL is Airflow.","t":"La herramienta que usamos para ETL es Airflow."},{"e":"The company where I worked had 500 employees.","t":"La empresa donde trabajé tenía 500 empleados."}],
+      "no": [{"t":"The analyst which built this.","w":"People → WHO: The analyst WHO built this"},{"t":"The tool who we use.","w":"Things → THAT/WHICH: The tool that we use"}]
+    },
+    {
+      "id": 17, "t": "#17 — Second Conditional: Hypothetical", "s": "If + past simple → would + base verb",
+      "l": "a", "i": "💭",
+      "x": "Use for imaginary or unlikely situations in the present/future. 'If I had more time, I would learn R.' The past simple in the IF clause does NOT mean past time — it signals unreality. WOULD + base verb in the result. Special: with 'to be', use WERE for all subjects in formal English: 'If I were you, I would...' (not 'was'). Common in interviews: 'What would you do if...?'",
+      "f": "<span class=\"v\">If</span> + <span class=\"o\">past simple</span>, <span class=\"s\">subject</span> + <span class=\"v\">would</span> + <span class=\"o\">base verb</span>",
+      "ok": [{"e":"If I had more time, I would learn machine learning.","t":"Si tuviera más tiempo, aprendería ML."},{"e":"If we were a bigger team, we would split the work.","t":"Si fuéramos un equipo más grande, dividiríamos el trabajo."}],
+      "no": [{"t":"If I would have more time...","w":"No 'would' in IF clause: If I HAD more time"}]
+    },
+    {
+      "id": 18, "t": "#18 — Phrasal Verbs: The English Superpower", "s": "Verb + Preposition = New Meaning",
+      "l": "a", "i": "🚀",
+      "x": "Phrasal verbs combine a simple verb with a preposition to create a completely new meaning. They are EVERYWHERE in business English. You cannot guess the meaning from the individual words. 'Look up' ≠ mirar arriba (it means buscar/investigar). 'Figure out' ≠ figurar fuera (it means descifrar). Master these 10 and you'll sound much more natural.",
+      "f": "<span class=\"v\">Simple verb</span> + <span class=\"o\">preposition</span> = <span class=\"s\">new meaning</span>",
+      "ok": [{"e":"I need to figure out why the query is slow.","t":"Necesito descifrar por qué el query es lento."},{"e":"Can you set up the development environment?","t":"¿Puedes configurar el entorno de desarrollo?"},{"e":"Let me break down the numbers for you.","t":"Déjame desglosar los números."},{"e":"We need to follow up on the client's request.","t":"Necesitamos dar seguimiento al pedido del cliente."}],
+      "no": [{"t":"I need to out figure this.","w":"Don't split: figure OUT (or figure this out)"},{"t":"Can you up set the server?","w":"Correct order: set UP the server"}]
+    },
+    {
+      "id": 19, "t": "#19 — Reported Speech: What They Said", "s": "He said (that) + backshift tense",
+      "l": "a", "i": "🗣️",
+      "x": "When reporting what someone said, the verb tense shifts back (backshift). Present → Past: 'I work here' → She said she worked there. Past → Past Perfect: 'I finished' → He said he had finished. Will → Would: 'I will send it' → She said she would send it. Can → Could. For questions: 'Do you...?' → She asked if/whether I... No question mark in reported questions.",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">said (that)</span> + <span class=\"o\">backshifted clause</span>",
+      "ok": [{"e":"She said she would send the report by Friday.","t":"Dijo que enviaría el reporte para el viernes."},{"e":"He told me he had already finished the analysis.","t":"Me dijo que ya había terminado el análisis."},{"e":"They asked if we could join the meeting.","t":"Preguntaron si podíamos unirnos a la reunión."}],
+      "no": [{"t":"She said she will send it.","w":"Backshift will→would: She said she WOULD send it"},{"t":"He asked do I have the file?","w":"No question form: He asked IF I had the file"}]
+    },
+    {
+      "id": 20, "t": "#20 — Used To / Would: Past Habits", "s": "Things you did regularly but no longer do",
+      "l": "a", "i": "🔙",
+      "x": "USED TO + base verb: past habits or states that are no longer true. 'I used to work in accounting' (but now I'm in data). WOULD + base verb: repeated past actions only (NOT states). 'I would always double-check the numbers.' You CANNOT say 'I would be an accountant' for a past state — use 'used to' for states. Negative: 'I didn't use to...' (no D). Question: 'Did you use to...?'",
+      "f": "<span class=\"s\">Subject</span> + <span class=\"v\">used to / would</span> + <span class=\"o\">base verb</span>",
+      "ok": [{"e":"I used to work in accounting before switching to data.","t":"Solía trabajar en contabilidad antes de pasar a datos."},{"e":"We would always review the data before presentations.","t":"Siempre revisábamos los datos antes de presentaciones."}],
+      "no": [{"t":"I use to work there.","w":"Past form: I USED to work there"},{"t":"I would be an accountant.","w":"States need 'used to': I USED TO BE an accountant"}]
+    }
+  ],
+  "conversations": {
+    "greetings": [{"t":"Casual Office Chat","m":[{"w":"a","n":"Alex","t":"Hey! How is it going?","r":"¿Cómo va?"},{"w":"b","n":"You","t":"Pretty good, thanks! Busy week though.","r":"Bastante bien, semana ocupada."},{"w":"a","n":"Alex","t":"Same here. Lots of deadlines.","r":"Igual. Muchas fechas límite."},{"w":"b","n":"You","t":"Yeah, I've been swamped with the migration project.","r":"Sí, he estado saturado con la migración."}],"v":["How is it going = ¿Cómo va?","Pretty good = Bastante bien","Same here = Igual","Swamped = Saturado de trabajo"]}],
+    "standup": [{"t":"Daily Standup","m":[{"w":"a","n":"Manager","t":"Let's go around. Miguel, what's your update?","r":"Hagamos la ronda. Miguel, ¿tu actualización?"},{"w":"b","n":"You","t":"Yesterday I finished the churn analysis dashboard.","r":"Ayer terminé el dashboard de análisis de churn."},{"w":"b","n":"You","t":"Today I'll focus on validating the Q3 metrics.","r":"Hoy me enfocaré en validar las métricas de Q3."},{"w":"a","n":"Manager","t":"Any blockers?","r":"¿Algún impedimento?"},{"w":"b","n":"You","t":"I need access to the production database. Could you approve that?","r":"Necesito acceso a la base de producción."}],"v":["Yesterday I finished... = Ayer terminé...","Today I'll focus on... = Hoy me enfocaré en...","Any blockers? = ¿Algún impedimento?","Could you approve that? = ¿Podrías aprobarlo?"]}],
+    "food": [{"t":"Restaurant","m":[{"w":"a","n":"Waiter","t":"Welcome! Table for how many?","r":"¿Mesa para cuántos?"},{"w":"b","n":"You","t":"Two, please.","r":"Dos, por favor."},{"w":"a","n":"Waiter","t":"Can I get you something to drink?","r":"¿Algo de tomar?"},{"w":"b","n":"You","t":"I'll have a water, please.","r":"Un agua, por favor."},{"w":"a","n":"Waiter","t":"Ready to order?","r":"¿Listos para ordenar?"},{"w":"b","n":"You","t":"I'll have the chicken pasta. That's all, thanks!","r":"La pasta con pollo. ¡Eso es todo!"}],"v":["I'll have... = Quiero... (para pedir)","That's all = Eso es todo","Can I get you...? = ¿Puedo traerle...?"]}],
+    "interview": [{"t":"Job Interview Opening","m":[{"w":"a","n":"Recruiter","t":"Thanks for coming in. Tell me a little about yourself.","r":"Gracias por venir. Cuéntame un poco de ti."},{"w":"b","n":"You","t":"Sure! I'm a data analyst with 3 years of experience in SQL, Python, and Tableau.","r":"Claro, soy analista de datos con 3 años de experiencia."},{"w":"a","n":"Recruiter","t":"What attracted you to this role?","r":"¿Qué te atrajo de este puesto?"},{"w":"b","n":"You","t":"I'm excited about the opportunity to work with large-scale datasets and drive business decisions through data.","r":"Me emociona la oportunidad de trabajar con datasets grandes."},{"w":"a","n":"Recruiter","t":"Great. What's your greatest strength?","r":"Genial. ¿Cuál es tu mayor fortaleza?"},{"w":"b","n":"You","t":"I'd say it's my ability to translate complex data into clear, actionable insights for non-technical stakeholders.","r":"Diría que es mi habilidad para traducir datos complejos en insights claros."}],"v":["Tell me about yourself = Cuéntame de ti","What attracted you to...? = ¿Qué te atrajo de...?","I'd say it's... = Diría que es...","Actionable insights = Información aplicable"]}],
+    "phone": [{"t":"Phone Call","m":[{"w":"a","n":"Caller","t":"May I speak with Miguel?","r":"¿Puedo hablar con Miguel?"},{"w":"b","n":"You","t":"Speaking! How can I help?","r":"¡Soy yo! ¿En qué te puedo ayudar?"},{"w":"a","n":"Caller","t":"Could you send the Q3 report by end of day?","r":"¿Podrías enviar el reporte de Q3 hoy?"},{"w":"b","n":"You","t":"Absolutely. I'll have it to you by 5 PM.","r":"Por supuesto. Te lo envío a las 5."}],"v":["Speaking! = ¡Soy yo! (al teléfono)","By end of day = Para hoy / antes de terminar el día","I'll have it to you by... = Te lo envío para las..."]}],
+    "smalltalk": [{"t":"Weekend Chat","m":[{"w":"a","n":"Colleague","t":"How was your weekend?","r":"¿Cómo estuvo tu fin de semana?"},{"w":"b","n":"You","t":"Great! I went hiking and practiced some Python.","r":"¡Genial! Fui de excursión y practiqué Python."},{"w":"a","n":"Colleague","t":"Nice! I just binge-watched a series on Netflix.","r":"¡Bien! Yo vi una serie completa en Netflix."},{"w":"b","n":"You","t":"Sounds relaxing! Which one?","r":"¡Suena relajante! ¿Cuál?"}],"v":["How was your weekend? = ¿Cómo estuvo tu finde?","Sounds relaxing! = ¡Suena relajante!","Binge-watched = Ver de corrido (una serie)"]}]
+  },
+  "professional": {
+    "data": [
+      {"en":"Dashboard","es":"Panel de control","ex":"The <b>dashboard</b> shows real-time KPIs.","tp":"noun"},
+      {"en":"Query","es":"Consulta","ex":"I wrote a <b>query</b> to extract the data.","tp":"noun"},
+      {"en":"Dataset","es":"Conjunto de datos","ex":"A 2 million row <b>dataset</b>.","tp":"noun"},
+      {"en":"Insight","es":"Hallazgo / Información clave","ex":"Key <b>insight</b>: churn peaks in Q3.","tp":"noun"},
+      {"en":"Pipeline","es":"Flujo de datos","ex":"The <b>pipeline</b> runs nightly at 2 AM.","tp":"noun"},
+      {"en":"Stakeholder","es":"Parte interesada","ex":"Present findings to <b>stakeholders</b>.","tp":"noun"},
+      {"en":"Metric / KPI","es":"Métrica / Indicador clave","ex":"LTV is our most important <b>metric</b>.","tp":"noun"},
+      {"en":"Revenue","es":"Ingresos","ex":"<b>Revenue</b> grew 15% quarter over quarter.","tp":"noun"},
+      {"en":"Churn rate","es":"Tasa de abandono","ex":"<b>Churn</b> dropped to 3% after the campaign.","tp":"noun"},
+      {"en":"ETL","es":"Extract Transform Load","ex":"The <b>ETL</b> job starts at 2 AM.","tp":"noun"},
+      {"en":"Cohort","es":"Cohorte","ex":"Analyze users by monthly <b>cohort</b>.","tp":"noun"},
+      {"en":"Anomaly / Outlier","es":"Anomalía / Valor atípico","ex":"We detected an <b>anomaly</b> in the revenue data.","tp":"noun"},
+      {"en":"Scalable","es":"Escalable","ex":"The solution must be <b>scalable</b>.","tp":"adj"},
+      {"en":"To deploy","es":"Desplegar","ex":"We'll <b>deploy</b> the fix on Friday.","tp":"verb"},
+      {"en":"To automate","es":"Automatizar","ex":"I <b>automated</b> the weekly reports.","tp":"verb"},
+      {"en":"To optimize","es":"Optimizar","ex":"I <b>optimized</b> the query — 60% faster.","tp":"verb"},
+      {"en":"To leverage","es":"Aprovechar","ex":"<b>Leverage</b> existing data before collecting new.","tp":"verb"},
+      {"en":"To iterate","es":"Iterar","ex":"We'll <b>iterate</b> on the dashboard based on feedback.","tp":"verb"}
+    ],
+    "email": [
+      {"en":"I hope this email finds you well.","es":"Espero que se encuentre bien","ex":"Hi Sarah, <b>I hope this email finds you well</b>.","tp":"opening"},
+      {"en":"Following up on...","es":"Dando seguimiento a...","ex":"<b>Following up on</b> our call last Tuesday.","tp":"phrase"},
+      {"en":"Please find attached...","es":"Adjunto encontrará...","ex":"<b>Please find attached</b> the Q3 report.","tp":"phrase"},
+      {"en":"At your earliest convenience","es":"Cuando le sea posible","ex":"Please review <b>at your earliest convenience</b>.","tp":"phrase"},
+      {"en":"Looking forward to hearing from you.","es":"Quedo atento a su respuesta","ex":"<b>Looking forward to hearing from you</b>.","tp":"closing"},
+      {"en":"Kind regards / Best regards","es":"Saludos cordiales","ex":"<b>Best regards</b>, Miguel.","tp":"closing"}
+    ],
+    "meetings": [
+      {"en":"Yesterday I worked on...","es":"Ayer trabajé en...","ex":"<b>Yesterday I worked on</b> the churn analysis.","tp":"standup"},
+      {"en":"Today I will focus on...","es":"Hoy me enfocaré en...","ex":"<b>Today I will focus on</b> data validation.","tp":"standup"},
+      {"en":"I have a blocker.","es":"Tengo un impedimento.","ex":"<b>Blocker</b>: I need API access.","tp":"standup"},
+      {"en":"Could you elaborate on that?","es":"¿Podrías elaborar más?","ex":"Interesting point. <b>Could you elaborate</b>?","tp":"phrase"},
+      {"en":"Let me share my screen.","es":"Déjame compartir mi pantalla","ex":"<b>Let me share my screen</b> so you can see the data.","tp":"phrase"}
+    ],
+    "slack": [
+      {"en":"Quick question:","es":"Pregunta rápida:","ex":"<b>Quick question</b> — do you have the dataset?","tp":"msg"},
+      {"en":"Heads up:","es":"Aviso:","ex":"<b>Heads up:</b> the pipeline is down.","tp":"msg"},
+      {"en":"I'll circle back on this.","es":"Retomo esto después.","ex":"Busy now. <b>I'll circle back</b>.","tp":"msg"},
+      {"en":"Thanks for flagging!","es":"¡Gracias por avisar!","ex":"<b>Thanks for flagging!</b> I'll look into it.","tp":"msg"},
+      {"en":"Hop on a quick call?","es":"¿Llamada rápida?","ex":"This is complex. <b>Hop on a quick call</b>?","tp":"msg"}
+    ],
+    "presenting": [
+      {"en":"As you can see...","es":"Como pueden ver...","ex":"<b>As you can see</b>, revenue is up 15%.","tp":"phrase"},
+      {"en":"The data suggests...","es":"Los datos sugieren...","ex":"<b>The data suggests</b> a strong correlation.","tp":"phrase"},
+      {"en":"Based on our analysis...","es":"Según nuestro análisis...","ex":"<b>Based on our analysis</b>, I recommend option B.","tp":"phrase"},
+      {"en":"Let me break this down.","es":"Déjenme desglosar esto.","ex":"<b>Let me break this down</b> by region.","tp":"phrase"},
+      {"en":"Any questions so far?","es":"¿Alguna pregunta hasta ahora?","ex":"<b>Any questions so far</b>?","tp":"phrase"}
+    ]
+  },
+  "profCategories": {
+    "data": { "icon": "🔬", "name": "Data & Analytics" },
+    "email": { "icon": "📧", "name": "Emails" },
+    "meetings": { "icon": "🎙️", "name": "Meetings / Standups" },
+    "slack": { "icon": "💬", "name": "Slack & Chat" },
+    "presenting": { "icon": "📊", "name": "Presenting Results" }
+  },
+  "exercises": [
+    {"ty":"f","d":"A2","q":"I _____ a data analyst with 3 years of experience.","o":["am","is","are","be"],"c":0,"w":"I AM (to be, first person)."},
+    {"ty":"f","d":"A2","q":"She _____ automated reports every Friday.","o":["send","sends","sending","sended"],"c":1,"w":"He/She/It + verb+S: sends."},
+    {"ty":"f","d":"A2","q":"I _____ 28 years old.","o":["have","am","has","is"],"c":1,"w":"Age uses TO BE: I AM 28 years old."},
+    {"ty":"f","d":"A2","q":"_____ you speak English fluently?","o":["Are","Do","Is","Have"],"c":1,"w":"DO + subject + base verb for questions."},
+    {"ty":"f","d":"A2","q":"I do _____ have the updated file.","o":["no","not","none","nothing"],"c":1,"w":"do NOT have (negation with auxiliary)."},
+    {"ty":"f","d":"B1","q":"I _____ with SQL for 3 years.","o":["have worked","has worked","working","worked"],"c":0,"w":"Present perfect: have + past participle."},
+    {"ty":"f","d":"B1","q":"If we _____ the pipeline, it will be faster.","o":["will optimize","optimize","optimized","would optimize"],"c":1,"w":"First conditional: If + present simple (no will)."},
+    {"ty":"f","d":"B1","q":"I am currently _____ on the churn analysis.","o":["work","worked","working","works"],"c":2,"w":"Present continuous: am + verb-ING."},
+    {"ty":"f","d":"B1","q":"The data _____ cleaned before the analysis began.","o":["was","were","is","did"],"c":0,"w":"Passive voice, singular: was cleaned."},
+    {"ty":"f","d":"B1","q":"I _____ a dashboard that saved 20 hours per week.","o":["builded","built","have build","building"],"c":1,"w":"Build is irregular: built (past)."},
+    {"ty":"f","d":"B2","q":"Could you _____ me through the new process?","o":["walk","walking","walked","walks"],"c":0,"w":"Walk me through = explain step by step. Modal + base."},
+    {"ty":"f","d":"B1","q":"She _____ to the conference last week.","o":["goed","went","has gone","going"],"c":1,"w":"Go is irregular: went (past simple)."},
+    {"ty":"f","d":"B1","q":"I enjoy _____ with large datasets.","o":["work","to work","working","worked"],"c":2,"w":"Enjoy + gerund (-ING): enjoy working."},
+    {"ty":"f","d":"B1","q":"The analyst _____ built the dashboard is on my team.","o":["which","who","what","whom"],"c":1,"w":"WHO for people in relative clauses."},
+    {"ty":"f","d":"B2","q":"If I _____ more time, I would learn machine learning.","o":["have","had","would have","having"],"c":1,"w":"Second conditional: If + past simple."},
+    {"ty":"f","d":"B1","q":"Python is _____ than Excel for large datasets.","o":["more fast","fastest","faster","most fast"],"c":2,"w":"Short adjective: fast → FASTER (not more fast)."},
+    {"ty":"f","d":"B1","q":"She said she _____ send the report by Friday.","o":["will","would","can","is going to"],"c":1,"w":"Reported speech: will → WOULD."},
+    {"ty":"f","d":"B1","q":"I _____ work in accounting before switching to data.","o":["use to","used to","was used to","would"],"c":1,"w":"Past habits/states: USED TO + base verb."},
+    {"ty":"t","d":"A2","q":"Traduce: Necesito el reporte para mañana.","a":"I need the report by tomorrow.","al":["I need the report for tomorrow."],"w":"SVO: Subject + Verb + Object. 'By' = deadline."},
+    {"ty":"t","d":"B1","q":"Traduce: ¿Puedes enviarme el archivo?","a":"Can you send me the file?","al":["Could you send me the file?"],"w":"Modal + subject + base verb + object."},
+    {"ty":"t","d":"B1","q":"Traduce: No entiendo. ¿Podrías repetir?","a":"I don't understand. Could you repeat that?","al":["I do not understand. Could you repeat?","I don't understand. Could you repeat that?"],"w":"Don't + base. Could + base."},
+    {"ty":"t","d":"B1","q":"Traduce: Ella ha trabajado con Python 3 años.","a":"She has worked with Python for 3 years.","al":["She's worked with Python for three years."],"w":"Present perfect: has + past participle + for (duration)."},
+    {"ty":"t","d":"B2","q":"Traduce: Si automatizamos, ahorraremos tiempo.","a":"If we automate, we will save time.","al":["If we automate, we'll save time."],"w":"First conditional: If + present, will + base."},
+    {"ty":"t","d":"A2","q":"Traduce: Estoy trabajando en un proyecto nuevo.","a":"I am working on a new project.","al":["I'm working on a new project."],"w":"Present continuous: am + verb-ING."},
+    {"ty":"t","d":"B1","q":"Traduce: Ella no trabaja los viernes.","a":"She does not work on Fridays.","al":["She doesn't work on Fridays."],"w":"Doesn't + base verb (no -S)."},
+    {"ty":"t","d":"B1","q":"Traduce: El analista que construyó el dashboard es de mi equipo.","a":"The analyst who built the dashboard is on my team.","al":["The analyst that built the dashboard is on my team."],"w":"Relative clause: WHO for people. Built = irregular past."},
+    {"ty":"t","d":"B2","q":"Traduce: Ella dijo que enviaría el reporte el viernes.","a":"She said she would send the report on Friday.","al":["She said that she would send the report on Friday."],"w":"Reported speech: will → would."},
+    {"ty":"t","d":"A2","q":"Traduce: ¿Dónde es la reunión?","a":"Where is the meeting?","al":[],"w":"Question word + is + subject."}
+  ],
+  "interviews": {
+    "behavioral": [
+      {"q":"Tell me about yourself.","m":"I am a data analyst with experience in SQL, Python, and Tableau. I specialize in turning raw data into actionable insights. In my previous role, I built automated dashboards that saved 15 hours per week for the operations team.","t":["Keep it under 90 seconds","Present → Past → Future structure"],"k":["experience","specialize","actionable insights","automated"]},
+      {"q":"What is your greatest strength?","m":"I'd say it's my ability to translate complex data into clear stories for non-technical stakeholders. For example, I presented a customer segmentation analysis to the C-suite that led to a targeted campaign, resulting in 20% higher retention.","t":["Give a specific example with numbers","Use the STAR method"],"k":["translate","stakeholders","segmentation","retention"]},
+      {"q":"Tell me about a time you failed.","m":"Early in my career, I built a dashboard without validating the source data. A wrong business decision was made based on it. I took full ownership, corrected the data, rebuilt the dashboard with automated validation checks, and presented the corrected insights. Now data quality is my strongest area.","t":["Show what you learned","End with growth"],"k":["ownership","validation","corrected","rebuilt"]},
+      {"q":"Why should we hire you?","m":"I combine strong technical skills in SQL, Python, and visualization tools with genuine business acumen. What sets me apart is my ability to connect data insights directly to business outcomes that impact revenue and efficiency.","t":["Skills + company needs","Your differentiator"],"k":["sets me apart","business acumen","outcomes","impact"]}
+    ],
+    "technical": [
+      {"q":"What tools do you use for data analysis?","m":"My core stack is SQL for data extraction and transformation, Python with pandas and scikit-learn for analysis and modeling, and Tableau for visualization. I also work with BigQuery, Git for version control, and I'm currently learning dbt for data transformation.","t":["Be specific about tools","Show willingness to learn"],"k":["extraction","transformation","visualization","version control"]},
+      {"q":"How do you handle messy data?","m":"I follow a systematic approach. First, I assess the extent of the issues — missing values, duplicates, inconsistent formats. Then I investigate root causes with the data engineering team. I document every cleaning decision for transparency and reproducibility, and I always validate the cleaned data against known business rules.","t":["Show a systematic process","Mention documentation"],"k":["systematic","root causes","transparency","reproducibility"]}
+    ],
+    "situational": [
+      {"q":"How do you handle multiple urgent requests?","m":"I assess each request by business impact and deadline, then communicate clearly with all stakeholders about realistic timelines. I deliver quick wins where possible while working deeper analyses in parallel. If I truly can't handle everything, I escalate early rather than delivering late.","t":["Prioritization framework","Communication is key"],"k":["assess","communicate","quick wins","escalate"]},
+      {"q":"What would you do if you found an error in a shared report?","m":"I would immediately notify all stakeholders who received the report, clearly explain the error and its impact, correct the data, send the updated version with a summary of changes, and implement automated validation to prevent recurrence.","t":["Transparency first","Prevention for the future"],"k":["notify","correct","summary","prevention"]}
+    ]
+  },
+  "understand": {
+    "contractions": [
+      {"formal":"I am","real":"I'm","sound":"/aɪm/","es":"Soy/Estoy"},
+      {"formal":"You are","real":"You're","sound":"/jʊr/","es":"Eres/Estás"},
+      {"formal":"He/She is","real":"He's/She's","sound":"/hiːz/","es":"Es/Está"},
+      {"formal":"We/They are","real":"We're/They're","sound":"/wɪr/","es":"Somos/Son"},
+      {"formal":"I have","real":"I've","sound":"/aɪv/","es":"He (hecho)"},
+      {"formal":"I will","real":"I'll","sound":"/aɪl/","es":"Haré"},
+      {"formal":"I would","real":"I'd","sound":"/aɪd/","es":"Haría"},
+      {"formal":"Do not","real":"Don't","sound":"/doʊnt/","es":"No (hacer)"},
+      {"formal":"Does not","real":"Doesn't","sound":"/dʌznt/","es":"No (3ª persona)"},
+      {"formal":"Cannot","real":"Can't","sound":"/kænt/","es":"No puedo"},
+      {"formal":"Going to","real":"Gonna","sound":"/ɡɑːnə/","es":"Voy a"},
+      {"formal":"Want to","real":"Wanna","sound":"/wɑːnə/","es":"Quiero"},
+      {"formal":"Got to","real":"Gotta","sound":"/ɡɑːtə/","es":"Tengo que"},
+      {"formal":"Let me","real":"Lemme","sound":"/lemi/","es":"Déjame"},
+      {"formal":"Give me","real":"Gimme","sound":"/ɡɪmi/","es":"Dame"},
+      {"formal":"Kind of","real":"Kinda","sound":"/kaɪndə/","es":"Algo así"}
+    ],
+    "hispanicErrors": [
+      {"wrong":"I have 25 years","right":"I am 25 years old","why":"Age uses TO BE, not TO HAVE"},
+      {"wrong":"I am agree","right":"I agree","why":"'Agree' is already a verb — no 'to be' needed"},
+      {"wrong":"Is very important","right":"It is very important","why":"English always needs a subject (even 'it')"},
+      {"wrong":"I am interesting","right":"I am interested","why":"-ED = how you feel, -ING = what causes the feeling"},
+      {"wrong":"Actually (meaning 'ahora')","right":"Currently","why":"'Actually' = 'en realidad', NOT 'actualmente'"},
+      {"wrong":"I no can","right":"I can't","why":"Use can't / cannot, never 'no' before modals"},
+      {"wrong":"People is","right":"People are","why":"'People' is ALWAYS plural in English"},
+      {"wrong":"Assist to a meeting","right":"Attend a meeting","why":"'Assist' = help, 'attend' = go to"},
+      {"wrong":"Make a question","right":"Ask a question","why":"Questions are 'asked', not 'made'"},
+      {"wrong":"I am boring","right":"I am bored","why":"-ING = the cause (boring movie), -ED = the feeling"},
+      {"wrong":"Depend of","right":"Depend on","why":"The preposition is always ON, not OF"}
+    ],
+    "strategies": [
+      {"title":"Don't translate word by word","desc":"Capture the general idea. Understanding 60% of a sentence is enough to follow the conversation."},
+      {"title":"Listen for STRESSED words","desc":"In 'I NEED the REPORT by FRIDAY', the capitalized words carry the meaning. Function words are swallowed."},
+      {"title":"Ask them to repeat — no shame","desc":"'Could you repeat that?' or 'Sorry, I didn't catch that.' Native speakers expect this."},
+      {"title":"English subtitles (not Spanish!)","desc":"Watch YouTube or Netflix with English subtitles. 30 minutes per day. Your brain links sound to text."},
+      {"title":"Shadowing technique","desc":"Repeat what you hear 1 second later, imitating intonation and rhythm. Best exercise for pronunciation."}
+    ]
+  },
+  "stamps": [
+    {"id":"grammar","label":"🧠 Gramática","cls":"stamp-grammar"},
+    {"id":"vocab","label":"📚 Vocabulario","cls":"stamp-vocab"},
+    {"id":"phrase","label":"💬 Frase","cls":"stamp-phrase"},
+    {"id":"idea","label":"💡 Idea","cls":"stamp-idea"},
+    {"id":"mistake","label":"⚠️ Error","cls":"stamp-mistake"}
+  ]
+}
