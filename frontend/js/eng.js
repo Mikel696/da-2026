@@ -525,6 +525,13 @@ const ENG = (function(){
 
     _updStats();
 
+    // Re-render after cloud sync
+    window.addEventListener('cloud:sync_complete', () => {
+      load();
+      _renderNotes();
+      _updStats();
+    });
+
     // Init Dojo if present
     if(typeof Dojo !== 'undefined' && Dojo.init) Dojo.init();
   }
