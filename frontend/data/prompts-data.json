@@ -1,5 +1,5 @@
 {
-  "seedVersion": 1,
+  "seedVersion": 2,
   "categories": [
     { "key": "data", "label": "Análisis de Datos", "icon": "📊" },
     { "key": "code", "label": "Código & Dev", "icon": "💻" },
@@ -293,6 +293,126 @@
       "variables": [
         { "key": "{{TABLAS}}", "label": "Esquema de tablas (nombre, columnas, tipos)", "type": "textarea" },
         { "key": "{{CONSULTA}}", "label": "Qué necesitas consultar", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-022",
+      "title": "Recovery Prompt — Token Exhaustion",
+      "category": "system",
+      "tags": ["claude", "recovery"],
+      "description": "Continue work after running out of tokens mid-task",
+      "body": "ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).\nREPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nARCH: 4-layer pattern: thin HTML shell + css/<module>.css + js/<module>.js IIFE + data/<module>-data.json\nAUTH: Supabase + auth.js + cloud-sync.js (SYNC_REGISTRY). Every page needs these 4 script tags before module JS.\nSTATE: Read CEREBRO_STATE.md for full module status. Read MEMORY.md for user context.\n\nTASK: I ran out of tokens. The previous session was working on: {{TASK}}.\nContinue from where it left off. Read the relevant files first, then execute. Commit and push to main when done. No approval needed.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "Describe what the previous session was doing", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-023",
+      "title": "3-ENG English Academy",
+      "category": "system",
+      "tags": ["claude", "english"],
+      "description": "Work on the English Academy module",
+      "body": "Work on the English Academy module (frontend/english.html). Architecture: english.html shell + css/english.css + js/eng.js (ENG IIFE) + data/english-data.json + js/english.js (Dojo) + data/english-dojo.json. State key: e4, eng_notes, eng_srs_deck, dojo_stats. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the English module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-024",
+      "title": "5-JOB Job Tracker",
+      "category": "system",
+      "tags": ["claude", "jobs"],
+      "description": "Work on the Job Tracker module",
+      "body": "Work on Job Tracker module (frontend/jobs.html). Uses jt8 localStorage schema. Has bidirectional VacancyDB integration. Master-detail + kanban drag-and-drop. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Job Tracker module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-025",
+      "title": "8-PRO Prompt Lab",
+      "category": "system",
+      "tags": ["claude", "prompts"],
+      "description": "Work on the Prompt Lab module",
+      "body": "Work on Prompt Lab module (frontend/prompts.html). Architecture: prompts.html shell + css/prompts.css + js/prompts.js (PRO IIFE) + data/prompts-data.json. State key: sb_prompts. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Prompt Lab module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-026",
+      "title": "9-GOA Goals & Habits",
+      "category": "system",
+      "tags": ["claude", "goals"],
+      "description": "Work on the Goals & Habits module",
+      "body": "Work on Goals & Habits module (frontend/goals.html). Architecture: goals.html shell + js/goals.js (GOA IIFE). State keys: sb_goals, sb_habits, sb_reviews. Uses crypto.randomUUID(), delete by filter. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Goals module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-027",
+      "title": "10-SYS Engineering Systems",
+      "category": "system",
+      "tags": ["claude", "systems"],
+      "description": "Work on the Systems module (CLOSED — only touch if explicitly requested)",
+      "body": "Work on Systems module (frontend/systems.html + js/systems_logic.js). CLOSED MODULE — only touch if explicitly requested. 5 verified subjects, SEED_VERSION=5, 8 tabs. State key: sys_*. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Systems module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-028",
+      "title": "11-ACC Accounting",
+      "category": "system",
+      "tags": ["claude", "accounting"],
+      "description": "Work on the Accounting module",
+      "body": "Work on Accounting module (frontend/accounting.html). Architecture: accounting.html shell + css/accounting.css + js/accounting.js (ACC IIFE) + data/accounting-data.json. State key: sb_accounting. 6 tabs. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Accounting module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-029",
+      "title": "12-FIN Finance",
+      "category": "system",
+      "tags": ["claude", "finance"],
+      "description": "Work on the Finance module",
+      "body": "Work on Finance module (frontend/finance.html). State managed by FIN IIFE. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Finance module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-030",
+      "title": "13-NOT Notes & Journal",
+      "category": "system",
+      "tags": ["claude", "notes"],
+      "description": "Work on the Notes module",
+      "body": "Work on Notes module (frontend/notes.html). Has Markdown + Journal + SRS Leitner flashcards. State key: sb_notes2. Read CEREBRO_STATE.md first. {{TASK}}. Commit and push when done.",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to do on the Notes module", "type": "textarea" }
+      ],
+      "source": "seed"
+    },
+    {
+      "id": "seed-031",
+      "title": "Main Page Update",
+      "category": "system",
+      "tags": ["claude", "index"],
+      "description": "Update the main page with CEREBRO_STATE.md sync",
+      "body": "ROLE: Lead Frontend Architect for DA-2026.\nTASK: Update the main page (frontend/index.html). After changes:\n1. Update CEREBRO_STATE.md with what changed and current date.\n2. Ensure all auth scripts load (supabase, auth.js, cloud-sync.js).\n3. Commit and push to main.\n{{TASK}}",
+      "variables": [
+        { "key": "{{TASK}}", "label": "What to change on the main page", "type": "textarea" }
       ],
       "source": "seed"
     }

@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-10
+- **Última actualización:** 2026-04-13
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 
@@ -93,6 +93,25 @@
   6. `showTab(7)` + screenshot para verificación visual.
 - **Prompt actualizado en `systems_logic.js`:** el botón "📋 Copiar Prompt" ahora genera la versión nueva con el prerrequisito del panel de transcripción, el SOP completo de Chrome MCP y las reglas anti-hallucinación. Sirve como fallback portable cuando otra sesión de Claude debe ejecutar el protocolo sin que yo esté presente.
 - **Por qué este protocolo:** transcripts de 1 hora son ~100K+ caracteres. Si los traigo crudos a mi context, revientan la ventana. El filtrado y la generación del informe se hacen EN EL BROWSER y solo viajan los hits relevantes a mi memoria.
+
+### 🇺🇸 3-ENG · English Academy v2 — COMPLETO 2026-04-13
+- Refactored 653-line monolith `english.html` into 4-layer architecture: thin HTML shell (~135 lines) + `css/english.css` (~200 lines) + `js/eng.js` (~500 lines ENG IIFE) + `data/english-data.json` (all content).
+- 10 tabs: Vocabulary, Grammar, Understand, Conversations, Professional, Exercises, Flashcards, Interviews, Notes, Dojo.
+- Content overhaul: 20 grammar rules with structured formulas/examples (up from 12), 139 professional vocabulary items across 8 categories, 6 conversation scenarios, 5 professional contexts, 28 exercises (A2-B2), interview prep (behavioral/technical/situational), comprehension strategies, hispanic error patterns.
+- Dojo TTS+STT engine (`js/english.js` + `data/english-dojo.json`) integrated — renders into `#dojoContent`.
+- Full Supabase auth stack restored (4 script tags). `cloud:sync_complete` listener re-renders after cloud pull.
+- State keys: `e4`, `eng_notes`, `eng_srs_deck`, `dojo_stats` — all in SYNC_REGISTRY.
+
+### 🏠 Main Page Updates — 2026-04-13
+- Cajita Tech section redesigned: categorized Quick Links buttons (Epic Games, Udemy, PromoCajita, Pi3.AI) replacing outdated deals list.
+- `data/recommendations.json` restructured with categories (games/learning/tools) + quickLinks format.
+- Pi3.AI interview practice card added.
+- Prompt Lab card updated: "14 prompts" → "31 prompts", tags include "System · Recovery".
+
+### 🤖 8-PRO · Prompt Lab v2 — 2026-04-13
+- Added 10 operational prompts (seed-022 to seed-031): recovery prompt, 8 module-specific prompts, main page update prompt.
+- All in English, optimized for token conservation.
+- seedVersion bumped from 1 to 2. Total: 31 prompts.
 
 ### 🔧 Otros módulos en producción
 - **2-APP** Application Command Center: refactor profundo, profiling AP Lead Monks/S4, prep Pi3.AI.
