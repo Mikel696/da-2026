@@ -213,6 +213,13 @@ d.setDate(d.getDate()-1);
 document.getElementById('sS').textContent=streak+'🔥';
 }
 
+// Cleanup: remove Claude seed notes if they exist
+(function(){
+const notes=getNotes();
+const cleaned=notes.filter(n=>!(n.title&&n.title.startsWith('Claude Code')));
+if(cleaned.length!==notes.length){setNotes(cleaned);localStorage.removeItem('sb_notes_seed_v2')}
+})();
+
 renderNotes();renderJournal();updateStats();
 </script>
 </body>

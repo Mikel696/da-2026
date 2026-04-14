@@ -228,15 +228,18 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .nb-subj.on{background:linear-gradient(135deg,var(--vi),var(--em));color:#fff;border-color:transparent;box-shadow:0 2px 12px rgba(124,58,237,.3)}
 .nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .nb-toolbar .tf-btn{font-size:11px;padding:6px 12px}
-.nb-page{background:var(--c1);border:1px solid var(--bd);border-radius:12px;overflow:hidden;position:relative}
-.nb-margin{position:absolute;left:60px;top:0;bottom:0;width:1px;background:rgba(239,68,68,.25);z-index:1;pointer-events:none}
-.nb-holes{position:absolute;left:12px;top:0;bottom:0;width:20px;z-index:1;pointer-events:none}
-.nb-hole{width:14px;height:14px;border-radius:50%;background:var(--bg);border:1px solid var(--bd);position:absolute;left:3px}
-.nb-content{min-height:400px;padding:16px 20px 16px 76px;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(139,92,246,.06) 31px,rgba(139,92,246,.06) 32px);background-size:100% 32px;line-height:32px;font-size:14px;color:var(--tx);outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2}
-.nb-content:empty::before{content:attr(data-placeholder);color:var(--t3);pointer-events:none}
-.nb-header{background:var(--el);border-bottom:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-.nb-title-inp{background:none;border:none;color:var(--tx);font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1}
-.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)}
+.nb-page{background:#f5f0e8;border:1px solid var(--bd);border-radius:12px;overflow:hidden;position:relative;box-shadow:2px 4px 16px rgba(0,0,0,.3),inset 0 0 60px rgba(0,0,0,.03)}
+.nb-spine{position:absolute;left:36px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#c4b5a0,#a89880,#c4b5a0);z-index:3;pointer-events:none;box-shadow:1px 0 3px rgba(0,0,0,.15)}
+.nb-margin{position:absolute;left:72px;top:0;bottom:0;width:2px;background:rgba(220,80,80,.35);z-index:1;pointer-events:none}
+.nb-margin::after{content:'';position:absolute;left:4px;top:0;bottom:0;width:1px;background:rgba(220,80,80,.18)}
+.nb-holes{position:absolute;left:10px;top:0;bottom:0;width:24px;z-index:4;pointer-events:none}
+.nb-hole{width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid #b8a890;position:absolute;left:4px;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)}
+.nb-content{min-height:480px;padding:0 24px 16px 88px;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(80,120,200,.12) 31px,rgba(80,120,200,.12) 32px);background-size:100% 32px;background-position:0 0;line-height:32px;font-size:14px;color:#1a1a2e;outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2;caret-color:#1a1a2e}
+.nb-content:empty::before{content:attr(data-placeholder);color:#a09080;pointer-events:none}
+.nb-header{background:linear-gradient(135deg,#e8dfd0,#ddd4c4);border-bottom:2px solid #c4b5a0;padding:12px 16px 12px 88px;display:flex;align-items:center;justify-content:space-between}
+.nb-title-inp{background:none;border:none;color:#2a2a3e;font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1}
+.nb-title-inp::placeholder{color:#a09080}
+.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8a7a6a}
 .nb-entries{margin-top:16px}
 .nb-entry{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s}
 .nb-entry:hover{border-color:var(--bd2)}
@@ -262,7 +265,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .nb-add-inp{flex:1;padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}
 .nb-add-inp:focus{outline:none;border-color:var(--vi)}
 .nb-add-btn{padding:7px 14px;background:var(--vi);color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer}
-@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}.nb-content{padding-left:50px}.nb-margin{left:40px}.nb-images{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
+@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}.nb-content{padding-left:56px}.nb-margin{left:48px}.nb-spine{left:24px}.nb-header{padding-left:56px}.nb-images{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 </style>
 </head>
 <body>
@@ -552,7 +555,8 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <input class="nb-title-inp" id="nbPageTitle" placeholder="Título de la página..." oninput="NB.autoSave()">
 <span class="nb-date" id="nbPageDate"></span>
 </div>
-<div class="nb-holes"><div class="nb-hole" style="top:20px"></div><div class="nb-hole" style="top:60px"></div><div class="nb-hole" style="top:100px"></div><div class="nb-hole" style="top:140px"></div><div class="nb-hole" style="top:180px"></div><div class="nb-hole" style="top:220px"></div><div class="nb-hole" style="top:260px"></div><div class="nb-hole" style="top:300px"></div><div class="nb-hole" style="top:340px"></div><div class="nb-hole" style="top:380px"></div><div class="nb-hole" style="top:420px"></div></div>
+<div class="nb-spine"></div>
+<div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div><div class="nb-hole" style="top:408px"></div><div class="nb-hole" style="top:456px"></div></div>
 <div class="nb-margin"></div>
 <div class="nb-content" id="nbBody" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave()"></div>
 </div>
