@@ -140,6 +140,41 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .atask-due{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)}
 .atask-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:0;transition:opacity .2s}.atask:hover .atask-del{opacity:1}
 
+/* CLASS SESSION CARDS */
+.cs-card{background:rgba(22,22,26,.85);backdrop-filter:blur(8px);border:1px solid rgba(124,58,237,.15);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:all .25s}
+.cs-card:hover{border-color:rgba(124,58,237,.3)}
+.cs-card.cs-done{border-color:rgba(34,197,94,.2);opacity:.75}
+.cs-card.cs-inprogress{border-color:rgba(234,179,8,.25)}
+.cs-head{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.cs-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2)}
+.cs-info{flex:1;min-width:0}
+.cs-title{font-size:13px;font-weight:600;margin-bottom:3px;line-height:1.3}
+.cs-meta{font-size:10px;color:var(--t3);display:flex;gap:8px;flex-wrap:wrap}
+.cs-actions{display:flex;gap:4px;flex-shrink:0}
+.cs-btn{padding:5px 10px;border-radius:6px;font-size:10px;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
+.cs-btn-save{background:linear-gradient(135deg,var(--vi),var(--em));color:#fff}
+.cs-btn-del{background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.2)}
+.cs-btn-del:hover{background:rgba(239,68,68,.1)}
+.cs-btn-status{background:var(--el);color:var(--t2);border:1px solid var(--bd)}
+.cs-body{padding:0 16px 16px;display:none}
+.cs-body.open{display:block}
+.cs-summary{font-size:12px;color:var(--t2);line-height:1.7;padding:10px 12px;background:var(--el);border-radius:8px;margin-bottom:10px}
+.cs-topics{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.cs-topic{font-size:9px;padding:2px 8px;border-radius:10px;background:var(--vg);border:1px solid rgba(124,58,237,.15);color:var(--vi2)}
+.cs-assign{background:rgba(234,179,8,.05);border:1px solid rgba(234,179,8,.15);border-radius:8px;padding:12px;margin-bottom:8px}
+.cs-assign-title{font-size:12px;font-weight:600;color:var(--am);margin-bottom:6px}
+.cs-assign-row{font-size:11px;color:var(--t2);margin-bottom:4px;display:flex;gap:6px}
+.cs-assign-label{color:var(--t3);min-width:80px;flex-shrink:0}
+.cs-status-pending{color:var(--or)}
+.cs-status-inprogress{color:var(--am)}
+.cs-status-done{color:var(--gn)}
+.cs-prompt-box{background:rgba(6,182,212,.04);border:1px solid rgba(6,182,212,.2);border-radius:10px;padding:14px;margin-bottom:16px}
+.cs-prompt-code{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--am);background:var(--el);padding:10px 12px;border-radius:7px;white-space:pre-wrap;word-break:break-all;cursor:pointer;border:1px solid var(--bd);line-height:1.6}
+.cs-prompt-code:hover{border-color:var(--cy);background:rgba(6,182,212,.04)}
+.cs-empty{text-align:center;padding:40px 20px;color:var(--t3);font-size:13px}
+.cs-url-input{width:100%;padding:10px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px}
+.cs-url-input:focus{outline:none;border-color:var(--cy);box-shadow:0 0 0 2px rgba(6,182,212,.1)}
+
 /* COLLAPSIBLE */
 .coll-btn{width:100%;text-align:left;padding:12px 16px;background:rgba(22,22,26,.8);border:1px solid rgba(124,58,237,.1);border-radius:10px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;transition:all .2s}
 .coll-btn:hover{border-color:rgba(124,58,237,.25)}
@@ -147,6 +182,31 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .coll-btn.open .arrow{transform:rotate(180deg)}
 .coll-body{display:none;padding:12px 16px;background:rgba(22,22,26,.6);border:1px solid rgba(124,58,237,.08);border-top:none;border-radius:0 0 10px 10px;margin-top:-6px;margin-bottom:8px}
 .coll-body.vis{display:block}
+
+/* TASK GUIDE MODAL */
+.tg-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;animation:fu .2s ease}
+.tg-overlay.vis{display:flex}
+.tg-modal{background:var(--c1);border:1px solid rgba(139,92,246,.25);border-radius:16px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative}
+.tg-modal::-webkit-scrollbar{width:4px}.tg-modal::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.tg-header{padding:20px 24px 16px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--c1);z-index:1;border-radius:16px 16px 0 0}
+.tg-close{position:absolute;top:16px;right:16px;background:var(--el);border:1px solid var(--bd);color:var(--t2);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.tg-close:hover{background:var(--rd);color:#fff;border-color:var(--rd)}
+.tg-body{padding:20px 24px 24px}
+.tg-step{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s}
+.tg-step:hover{border-color:rgba(139,92,246,.25)}
+.tg-step-num{min-width:28px;height:28px;border-radius:8px;background:var(--vi);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0}
+.tg-step-content{flex:1}
+.tg-step-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.tg-step-desc{font-size:11px;color:var(--t2);line-height:1.6}
+.tg-link{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:6px;font-size:10px;font-weight:600;text-decoration:none;color:#fff;background:var(--vi);margin-top:6px;transition:all .2s}
+.tg-link:hover{opacity:.85}
+.tg-section{margin-bottom:16px}
+.tg-section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.tg-task-item{background:var(--el);border-radius:8px;padding:10px 14px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.tg-task-item .atask-check{width:16px;height:16px;min-width:16px}
+.tg-badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:700}
+.tg-info{background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.15);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--cy);line-height:1.7;margin-bottom:12px}
+.tg-warn{background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.12);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--am);line-height:1.7;margin-bottom:12px}
 
 /* MALLA GRID */
 .malla{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
@@ -161,7 +221,48 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .malla-cr{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);margin-left:auto}
 
 /* RESPONSIVE */
-@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}}
+/* ═══ NOTEBOOK ═══ */
+.nb-subjects{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+.nb-subj{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--el);color:var(--t2);transition:all .2s}
+.nb-subj:hover{border-color:var(--vi);color:var(--tx)}
+.nb-subj.on{background:linear-gradient(135deg,var(--vi),var(--em));color:#fff;border-color:transparent;box-shadow:0 2px 12px rgba(124,58,237,.3)}
+.nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.nb-toolbar .tf-btn{font-size:11px;padding:6px 12px}
+.nb-page{background:var(--c1);border:1px solid var(--bd);border-radius:12px;overflow:hidden;position:relative}
+.nb-margin{position:absolute;left:60px;top:0;bottom:0;width:1px;background:rgba(239,68,68,.25);z-index:1;pointer-events:none}
+.nb-holes{position:absolute;left:12px;top:0;bottom:0;width:20px;z-index:1;pointer-events:none}
+.nb-hole{width:14px;height:14px;border-radius:50%;background:var(--bg);border:1px solid var(--bd);position:absolute;left:3px}
+.nb-content{min-height:400px;padding:16px 20px 16px 76px;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(139,92,246,.06) 31px,rgba(139,92,246,.06) 32px);background-size:100% 32px;line-height:32px;font-size:14px;color:var(--tx);outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2}
+.nb-content:empty::before{content:attr(data-placeholder);color:var(--t3);pointer-events:none}
+.nb-header{background:var(--el);border-bottom:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.nb-title-inp{background:none;border:none;color:var(--tx);font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1}
+.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)}
+.nb-entries{margin-top:16px}
+.nb-entry{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s}
+.nb-entry:hover{border-color:var(--bd2)}
+.nb-entry-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer}
+.nb-entry-h:hover{background:var(--el)}
+.nb-entry-title{font-size:13px;font-weight:600}
+.nb-entry-date{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+.nb-entry-body{display:none;padding:0 14px 14px 14px}
+.nb-entry.open .nb-entry-body{display:block}
+.nb-links{margin-top:16px}
+.nb-link{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:6px;text-decoration:none;color:var(--tx);font-size:12px;transition:all .2s}
+.nb-link:hover{border-color:var(--vi);background:var(--vg)}
+.nb-link-icon{font-size:16px;flex-shrink:0}
+.nb-link-url{color:var(--t3);font-size:10px;font-family:'IBM Plex Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:12px}
+.nb-img-card{background:var(--el);border:1px solid var(--bd);border-radius:8px;overflow:hidden;position:relative;cursor:pointer;transition:all .2s}
+.nb-img-card:hover{border-color:var(--vi);transform:translateY(-2px)}
+.nb-img-card img{width:100%;height:120px;object-fit:cover;display:block}
+.nb-img-caption{padding:6px 8px;font-size:10px;color:var(--t2)}
+.nb-img-del{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);border:none;color:#fff;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center}
+.nb-img-card:hover .nb-img-del{display:flex}
+.nb-add-row{display:flex;gap:6px;margin-top:8px}
+.nb-add-inp{flex:1;padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}
+.nb-add-inp:focus{outline:none;border-color:var(--vi)}
+.nb-add-btn{padding:7px 14px;background:var(--vi);color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer}
+@media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}.nb-content{padding-left:50px}.nb-margin{left:40px}.nb-images{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
 </style>
 </head>
 <body>
@@ -176,7 +277,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <span class="nav-logo">⚙️ Ingeniería de Sistemas</span>
 </div>
 <div class="nav-r">
-<span class="bdg bdg-sem">8vo Semestre</span>
+<span class="bdg bdg-sem">8vo Sem · 26V02</span>
 <span class="bdg bdg-period" id="periodBadge">26V01</span>
 </div>
 </nav>
@@ -189,8 +290,8 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <div class="hst">
-<div class="hs"><div class="hsv" id="statMaterias">8</div><div class="hsl">Materias</div></div>
-<div class="hs"><div class="hsv" id="statCredits">23</div><div class="hsl">Créditos</div></div>
+<div class="hs"><div class="hsv" id="statMaterias">5</div><div class="hsl">Materias</div></div>
+<div class="hs"><div class="hsv" id="statCredits">9</div><div class="hsl">Créditos</div></div>
 <div class="hs"><div class="hsv" id="statProgress">0%</div><div class="hsl">Avance</div></div>
 <div class="hs"><div class="hsv" id="statPending">0</div><div class="hsl">Pendientes</div></div>
 <div class="hs"><div class="hsv" id="statDaysLeft">0</div><div class="hsl">Días restantes</div></div>
@@ -204,28 +305,32 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <button class="tab" onclick="showTab(4)">🗺️ Malla Curricular</button>
 <button class="tab" onclick="showTab(5)">🏆 Certificaciones</button>
 <button class="tab" onclick="showTab(6)">🧠 CUN Hub</button>
+<button class="tab" onclick="showTab(7)">📹 Clases Perdidas</button>
+<button class="tab" onclick="showTab(8)">📓 Cuaderno</button>
 </div>
 
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
 <div class="pnl on" id="pnl0">
-<div class="sl">· semáforo de prioridad ·</div>
-<div class="sd">Organizado por urgencia. Rojo = crítico (&lt;48h), Naranja = esta semana, Amarillo = en camino.</div>
+
+<!-- ACTION NOW — Hero Card -->
+<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
+
+<!-- SEMAPHORE — Lista priorizada (única vista de tareas en el dashboard) -->
+<div class="sl">· semáforo de tareas ·</div>
+<div class="sd">🔴 Crítico (&lt;48h) · 🟠 Esta semana · 🟡 En camino · 🟢 Futuro</div>
 <div id="semaphoreList"></div>
 
 <div style="margin-top:24px">
 <div class="sl">· agregar tarea académica ·</div>
 <div class="task-form">
-<input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Álgebra Moderna...">
+<input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Ingeniería Web...">
 <select class="tf-select" id="newTaskSubj">
-<option value="discretas">Matemáticas Discretas</option>
-<option value="algebra">Álgebra Moderna</option>
-<option value="software">Refinamiento Software</option>
-<option value="bdd">Admin. Base de Datos</option>
-<option value="redes">Redes Inalámbricas</option>
-<option value="ecuaciones">Ecuaciones Diferenciales</option>
-<option value="negocios">Plan de Negocios II</option>
-<option value="electiva1">Electiva Profundización I</option>
-<option value="general">General</option>
+<option value="ing_web">🌐 Ingeniería Web</option>
+<option value="mat_especiales">🔢 Matemáticas Especiales</option>
+<option value="inv_ciencia">🔬 Investigación C&amp;T</option>
+<option value="english_beginner">🇺🇸 English Beginner 1</option>
+<option value="placement_test">📝 Placement Test BE</option>
+<option value="general">📌 General</option>
 </select>
 <select class="tf-select" id="newTaskPriority">
 <option value="p2">🟡 P2 — On track</option>
@@ -238,30 +343,18 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <button class="tf-btn" onclick="SYS.addTask()">+ Agregar</button>
 </div>
 </div>
-
-<div style="margin-top:24px">
-<div class="sl">· estado por materia ·</div>
-<div id="subjectCards"></div>
-</div>
-
-<div style="margin-top:24px">
-<div class="sl">· qué sigue — próximas acciones ·</div>
-<div class="gc" id="nextActions">
-<div class="gc-t">⚡ Cargando recomendaciones...</div>
-</div>
-</div>
 </div>
 
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
 <div class="pnl" id="pnl1">
-<div class="sl">· materias 8vo semestre — ingeniería de sistemas ·</div>
-<div class="sd">Click en cada materia para ver detalles, recursos y tareas asociadas.</div>
+<div class="sl">· materias 26V02 — período actual ·</div>
+<div class="sd">5 materias activas en CDigital. Solo Ing Web tiene calendario verificado; el resto espera tu syllabus.</div>
 <div id="subjectDetail"></div>
 </div>
 
 <!-- ═══════ TAB 2: CALENDARIO ═══════ -->
 <div class="pnl" id="pnl2">
-<div class="sl">· calendario virtual 2026 — período 26V01 ·</div>
+<div class="sl">· calendario virtual 2026 — período 26V02 ·</div>
 <div class="sd">Timeline basado en el calendario oficial de la CUN. Las fechas se actualizan según el período activo.</div>
 <div id="calendarTimeline"></div>
 
@@ -301,8 +394,45 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="sl">· cun hub — tu ecosistema académico completo ·</div>
 <div class="sd">Mapa de plataformas, metodología de estudio y sistema de actualización rápida.</div>
 
+<!-- CUN SCANNER — Open All Portals -->
+<div class="gc" style="border:1px solid rgba(139,92,246,.2);background:rgba(139,92,246,.03)">
+<div class="gc-t" style="margin-bottom:8px">🔄 CUN Scanner — Abrir Portales para Escaneo</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.7">
+Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y luego pega el prompt correspondiente en Claude Code para que escanee y actualice este módulo automáticamente.
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+<button class="tf-btn" onclick="openCUNPortals()" style="background:var(--vi);font-size:13px;padding:10px 18px">🚀 Abrir Todos los Portales CUN</button>
+<button class="tf-btn" onclick="openSinglePortal('https://360.cunapp.pro/#/estudiante/dashboard')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📊 CUN 360</button>
+<button class="tf-btn" onclick="openSinglePortal('https://sigwt.cun.edu.co/sgacampus/#notr29')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📋 SGA Notas</button>
+<button class="tf-btn" onclick="openSinglePortal('https://cdigital.cun.edu.co/')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">🎓 CUN Digital</button>
+<button class="tf-btn" onclick="openSinglePortal('https://mail.google.com/mail/u/3/')" style="background:var(--el);border:1px solid var(--bd);color:var(--t2)">📧 Gmail CUN</button>
+</div>
+<div style="background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:14px">
+<div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Prompts para Claude Code</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">1. Escaneo completo:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-8vo.json y academic-history.json.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">2. Solo notas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">3. Solo historial:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN HISTORIAL — Lee la tab CUN 360 Dashboard y extrae las 52+ materias del historial completo. Actualiza academic-history.json con notas y promedios.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div><strong style="color:var(--tx)">4. Solo tareas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+</div>
+</div>
+</div>
+
+<!-- ACADEMIC HISTORY -->
+<div class="gc" style="margin-top:12px">
+<div class="gc-t" style="margin-bottom:8px">📊 Historial Académico Completo</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:14px">Datos extraídos del CUN 360. 52 materias aprobadas en 7 semestres.</div>
+<div style="display:flex;gap:1px;background:var(--bd);border-radius:8px;overflow:hidden;margin-bottom:14px">
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gn)">4.49</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">GPA</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--vi2)">52</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Aprobadas</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--am)">7/10</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Semestres</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--cy)">2</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Títulos</div></div>
+</div>
+<div id="historyTimeline"></div>
+</div>
+
 <!-- ECOSYSTEM MAP -->
-<div class="gc">
+<div class="gc" style="margin-top:12px">
 <div class="gc-t" style="margin-bottom:14px">🗺️ Mapa del Ecosistema CUN</div>
 <div style="font-size:12px;color:var(--t2);margin-bottom:16px">Todas las plataformas que necesitas como estudiante virtual. Cada una tiene un rol específico.</div>
 <div class="qa-grid" id="cunEcosystem"></div>
@@ -328,14 +458,11 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <textarea id="bulkImport" placeholder="Pega aquí las tareas de CUN Digital (una por línea).&#10;Ejemplo:&#10;Taller 3 - Grafos y árboles&#10;Quiz semana 8 - Ecuaciones diferenciales&#10;Foro de discusión - Redes inalámbricas" style="width:100%;min-height:120px;padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical"></textarea>
 <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
 <select class="tf-select" id="bulkSubj">
-<option value="discretas">Matemáticas Discretas</option>
-<option value="algebra">Álgebra Moderna</option>
-<option value="software">Refinamiento Software</option>
-<option value="bdd">Admin. Base de Datos</option>
-<option value="redes">Redes Inalámbricas</option>
-<option value="ecuaciones">Ecuaciones Diferenciales</option>
-<option value="negocios">Plan de Negocios II</option>
-<option value="electiva1">Electiva Profundización I</option>
+<option value="ing_web">Ingeniería Web</option>
+<option value="mat_especiales">Matemáticas Especiales</option>
+<option value="inv_ciencia">Inv. Ciencia y Tecnología</option>
+<option value="english_beginner">English Beginner 1</option>
+<option value="placement_test">Placement Test BE</option>
 <option value="general">General</option>
 </select>
 <select class="tf-select" id="bulkPriority">
@@ -368,12 +495,109 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div id="weeklyWorkflow"></div>
 </div>
 </div>
+<!-- ═══════ TAB 7: CLASES PERDIDAS ═══════ -->
+<div class="pnl" id="pnl7">
+<div class="sl">· clases perdidas — analizador de videos ·</div>
+<div class="sd">Pega el link de una clase grabada, copia el prompt para Claude y recibe el informe completo: qué se vio, qué debes hacer, cómo entregar y cuándo. Todo se guarda aquí.</div>
+
+<!-- PROMPT GENERATOR -->
+<div class="cs-prompt-box">
+  <div style="font-size:11px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🤖 Paso 1 — Genera el prompt para Claude Code</div>
+  <input class="cs-url-input" id="classUrl" placeholder="https://drive.google.com/... o https://zoom.us/rec/... o https://meet.google.com/...">
+  <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+    <select class="tf-select" id="classSubjSel">
+      <option value="ing_web">Ingeniería Web (DIS34)</option>
+      <option value="mat_especiales">Matemáticas Especiales (DIS31)</option>
+      <option value="inv_ciencia">Inv. Ciencia y Tecnología (DIS36)</option>
+      <option value="english_beginner">English Beginner 1 (A1I01)</option>
+      <option value="placement_test">Placement Test BE (CE1026)</option>
+    </select>
+    <button class="tf-btn" style="background:var(--cy);color:#000;font-weight:700" onclick="SYS.copyClassPrompt()">📋 Copiar Prompt para Claude</button>
+  </div>
+  <div id="classPromptPreview" style="display:none">
+    <div style="font-size:10px;color:var(--t3);margin-bottom:4px">Prompt generado (click para copiar de nuevo):</div>
+    <div class="cs-prompt-code" id="classPromptText" onclick="SYS.copyClassPrompt()"></div>
+    <div style="font-size:10px;color:var(--gn);margin-top:6px" id="classPromptCopied" style="display:none">✅ Copiado al portapapeles — pégalo en Claude Code</div>
+  </div>
+</div>
+
+<!-- SESSIONS LIST -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+  <div class="sl" style="margin-bottom:0">· sesiones guardadas ·</div>
+  <span id="classSessionCount" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">0 sesiones</span>
+</div>
+<div id="classSessionsList"></div>
+</div>
+
+<!-- ═══════ TAB 8: CUADERNO ═══════ -->
+<div class="pnl" id="pnl8">
+<div class="sl">· cuaderno de apuntes ·</div>
+<div class="sd">Tu cuaderno digital con cuadrícula. Escoge una materia, toma apuntes, guarda imágenes y links de estudio. Todo se guarda en tu navegador y se sincroniza con la nube.</div>
+
+<div class="nb-subjects" id="nbSubjects"></div>
+
+<div id="nbEditor" style="display:none">
+<!-- Toolbar -->
+<div class="nb-toolbar">
+<button class="tf-btn" onclick="NB.newPage()" style="background:var(--vi)">+ Nueva página</button>
+<button class="tf-btn" onclick="NB.addLink()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Agregar link</button>
+<button class="tf-btn" onclick="NB.addImage()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Agregar imagen</button>
+<span style="margin-left:auto;font-size:10px;color:var(--t3)" id="nbPageCount"></span>
+</div>
+
+<!-- Active Page (notebook look) -->
+<div id="nbActivePage" style="display:none">
+<div class="nb-page">
+<div class="nb-header">
+<input class="nb-title-inp" id="nbPageTitle" placeholder="Título de la página..." oninput="NB.autoSave()">
+<span class="nb-date" id="nbPageDate"></span>
+</div>
+<div class="nb-holes"><div class="nb-hole" style="top:20px"></div><div class="nb-hole" style="top:60px"></div><div class="nb-hole" style="top:100px"></div><div class="nb-hole" style="top:140px"></div><div class="nb-hole" style="top:180px"></div><div class="nb-hole" style="top:220px"></div><div class="nb-hole" style="top:260px"></div><div class="nb-hole" style="top:300px"></div><div class="nb-hole" style="top:340px"></div><div class="nb-hole" style="top:380px"></div><div class="nb-hole" style="top:420px"></div></div>
+<div class="nb-margin"></div>
+<div class="nb-content" id="nbBody" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave()"></div>
+</div>
+
+<!-- Study Links -->
+<div class="nb-links" id="nbLinks">
+<div class="sl" style="margin-top:16px">· links de estudio ·</div>
+<div id="nbLinkList"></div>
+</div>
+
+<!-- Images -->
+<div class="nb-links" id="nbImagesSection">
+<div class="sl" style="margin-top:16px">· imágenes ·</div>
+<div class="nb-images" id="nbImageGrid"></div>
+<input type="file" id="nbImgInput" accept="image/*" style="display:none" onchange="NB.handleImage(event)">
+</div>
+</div>
+
+<!-- Saved Pages -->
+<div class="sl" style="margin-top:20px">· páginas guardadas ·</div>
+<div class="nb-entries" id="nbPageList"></div>
+</div>
+</div>
+
 </main>
 
 <footer style="text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--bd);position:relative;z-index:1">
 Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 </footer>
 
+<!-- TASK GUIDE MODAL -->
+<div class="tg-overlay" id="taskGuideOverlay" onclick="if(event.target===this)SYS.closeGuide()">
+<div class="tg-modal">
+<div class="tg-header">
+  <button class="tg-close" onclick="SYS.closeGuide()">✕</button>
+  <div id="tgHeader"></div>
+</div>
+<div class="tg-body" id="tgBody"></div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js"></script>
 <script src="systems_logic.js"></script>
 </body>
 </html>
