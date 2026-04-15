@@ -1,8 +1,35 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-14
+- **Última actualización:** 2026-04-15
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🎯 Interview Simulation · Simetrik — ITERACIÓN 3 (walkthrough REAL) — 2026-04-15
+
+### Qué cambió
+Miguel descargó y compartió su archivo **`Miguel_Barros.xlsx`** (el archivo real entregado en el test). Analizamos hoja por hoja con `openpyxl` y reescribimos el Tab 2 del simulador con **nombres exactos de las 5 hojas + las fórmulas que realmente usó**:
+
+1. **DB DOTA Normalizada** (56.152 filas) — base del procesador/gateway (lado libro). Columnas creadas AK (CONCATENATE BIN+XXX+ULT4), AM (IF/SEARCH Mastercard/Visa → TD/PRISMA), AN (IFS por BIN → MARCA), AO (IF cascade para merchant), AP (DATEVALUE + 1 día), AQ (VLOOKUP a COMERCIO_1), AR (LLAVE compuesta de 5 atributos), AS (COUNTIF → CONCILIADO).
+2. **FD Normalizado** (33.421 filas) — extracto del adquirente (First Data/Fiserv, lado banco). Columnas AB (LEFT 6 de tarjeta), AC (RIGHT 4), AD (LLAVE simétrica), AE (COUNTIF bidireccional).
+3. **COMERCIO_1** (1.000 filas) — maestro con COMERCIO/TIPO_COMERCIO/FEE/FECHA INI/FECHA FIN.
+4. **Control Cash In** (20.104 filas) — matriz de comisiones por rangos (≤20k=0, 20k-40k=1%×1.21, >40k=base+3%×1.21 IVA).
+5. **Resumen Conciliacion** (20 métricas) — dashboard con COUNTA/COUNTIF/SUMIF/TEXT.
+
+### Resultados reales del test (que Miguel puede citar en la entrevista)
+- **DB DOTA:** 23.458 conciliados / 56.152 = **41,78%** · Monto conciliado **$56.388.293,60** · No conciliado $81.923.293,78
+- **FD:** 18.008 conciliados / 33.421 = **53,88%** · Monto conciliado **$42.384.434,00** · No conciliado $35.919.382,90
+- **Control Cash In:** 20.101 colectores (19.046 Rango 1 / 637 Rango 2 / 418 Rango 3) · **Comisión total $1.392.404,73**
+
+### Fórmulas EN INGLÉS (rectifico iteración 2)
+El archivo real usa fórmulas **en inglés** (Google Sheets/Excel locale EN): `VLOOKUP`, `COUNTIF`, `DATEVALUE`, `TEXT`, `IFS`, `CONCATENATE`, `LEFT`, `RIGHT`, `ISNUMBER(SEARCH(...))`, `UPPER`, `SUMIF`, `COUNTA`. La iteración 2 (traducción a BUSCARV/etc.) se revirtió donde aplicaba. Tab 1 (El Rol), Tab 3 (Q&A — COUNTIF/SUMIF), Tab 4 (STAR) actualizados.
+
+### Decisión técnica clave defendible
+**COUNTIF bidireccional** (no VLOOKUP) para conciliar — porque solo importa verificar existencia, no traer valor. VLOOKUP queda para enriquecer contra el maestro COMERCIO_1. La llave compuesta tiene 5 atributos: comercio | BIN | ult4 | fecha (DD/MM/YYYY con +1 día en DB DOTA por desfase T+1 de liquidación) | monto.
+
+### Archivos tocados
+- `frontend/interview-sim.html` — Tab 2 reescrito completo (8 pasos con nombres reales + interpretación entre paréntesis + glosario), Tab 1/3/4 alineados a inglés.
 
 ---
 
