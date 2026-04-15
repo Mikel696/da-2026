@@ -6,6 +6,38 @@
 
 ---
 
+## 🎯 Interview Simulation · Simetrik (Pi3Ai) — NUEVA FEATURE — 2026-04-14
+
+### Contexto
+Entrevista agendada **miércoles 15 abril 4:00–4:30pm COT** con Juan Henao / Aide López / Angie García (Simetrik staff) para validar rol **Implementation Specialist COL** del proceso Pi3Ai. Miguel ya pasó el test técnico (conciliación bancaria en Excel) y este es el último filtro.
+
+### Qué se creó
+Página `frontend/interview-sim.html` — módulo completo de preparación 360° con 7 tabs:
+1. **🏢 Simetrik** — Perfil corporativo (fundada 2019, Y Combinator W18, $114M raised, Goldman Sachs, clientes Nubank/Rappi/Mercado Libre), arquitectura del producto (ingestión → matching → excepciones), casos de uso, diferenciadores vs BlackLine/Trintech.
+2. **💼 El Rol** — Responsabilidades traducidas, pitch de 30 seg memorizable, skills blandas, preguntas sobre compensación PJ (rango USD 1,800–2,500).
+3. **🧪 Test Técnico (Walkthrough)** — **7 pasos** de explicación para compartir pantalla: entendimiento → limpieza → diseño de llave compuesta → matching XLOOKUP → clasificación de excepciones → tabla dinámica → reporte final. Defiende el concepto "llave robusta" (exigido literalmente en JD).
+4. **❓ Q&A Técnico** — 12 preguntas probables con respuesta modelo (VLOOKUP vs XLOOKUP, llave robusta, FULL OUTER JOIN en SQL, matching 1:N/N:M, Power Query, conciliación bancaria vs switch, 4x1000 colombiano, query de duplicados, levantamiento de requerimientos semana 1, debugging, Power BI para 10 implementaciones, SUMIFS).
+5. **🗣️ Q&A Personal / STAR** — 10 preguntas comportamentales con framework STAR (presentación, por qué Simetrik, proyecto difícil, cliente difícil, error cometido, múltiples clientes, 3 años, preguntas para ellos, contrapropuestas, pretensión salarial).
+6. **🇧🇷 Português BR** — 6 Q&A bilingües ES/PT-BR + glosario de 19 términos técnicos + tips de pronunciación (por si Juan/team BR cambia de idioma para validar).
+7. **✅ Checklist** — Preparación T-24h / T-2h / T-10min / durante / post-entrevista con checkboxes persistentes en localStorage (key `sim_interview_chks`).
+
+### Archivos tocados
+- **`frontend/interview-sim.html`** (NUEVO, ~600 líneas) — módulo self-contained matching design de apply.html.
+- **`frontend/index.html`** — agregado link destacado en Quick Workshop: "🎯 Simetrik Interview · 15 Abr" con border rojo/violeta para destacar urgencia.
+
+### Research realizado
+- WebFetch a `getsimetrik.com/es/platform` → arquitectura 3 pasos + 4,990 integraciones
+- WebSearch `Simetrik founders funding` → Alejandro Casas + Santiago Gómez, ex-YC W18, pivot de Ropeo, Series B $55M + extensión $30M en 2025 con Goldman Sachs
+- WebFetch a `simetrik.com` → use cases (fees, disputas, FX, liquidity, merchant reporting, cierre)
+
+### Cloud sync status
+✅ Checkboxes del checklist se guardan en localStorage (`sim_interview_chks`). **Pendiente agregar key al SYNC_REGISTRY** si Miguel quiere que el progreso del checklist se sincronice entre dispositivos.
+
+### Deep link
+`https://mikel696.github.io/da-2026/frontend/interview-sim.html` — accesible desde Quick Workshop en la home.
+
+---
+
 ## 📓 10-SYS · Tab 8 "Cuaderno" — NUEVA FEATURE — 2026-04-14
 
 ### Qué se agregó

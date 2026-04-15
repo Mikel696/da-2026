@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Interview Sim · Simetrik (Implementation Specialist)</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08);--em:#10b981;--eg:rgba(16,185,129,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nav-r{display:flex;gap:8px;align-items:center}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-v{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.bdg-g{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
+.bdg-r{background:var(--rg);border:1px solid rgba(239,68,68,.15);color:var(--rd)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.hero{margin-bottom:20px}
+.hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:8px}
+.hero h1 em{font-style:italic;color:var(--a2)}
+.hero p{font-size:13px;color:var(--t2);max-width:720px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.meta{font-size:11px;padding:5px 10px;border-radius:7px;background:var(--c1);border:1px solid var(--bd);color:var(--t2);font-family:'IBM Plex Mono',monospace}
+.meta b{color:var(--tx)}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:8px 14px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac);box-shadow:0 2px 8px rgba(139,92,246,.25)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.sl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 10px}
+.card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:18px;margin-bottom:12px}
+.card-t{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px;color:var(--tx)}
+.card p, .card li{font-size:13px;color:var(--t2);line-height:1.7}
+.card ul, .card ol{margin-left:18px;margin-top:6px}
+.card strong{color:var(--tx)}
+.card code{background:var(--el);padding:2px 6px;border-radius:4px;font-size:11.5px;color:var(--a2);font-family:'IBM Plex Mono',monospace}
+.card pre{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:12px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--tx);line-height:1.55;margin:8px 0}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-size:12px;margin-top:6px}
+.kv dt{color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.kv dd{color:var(--t2)}
+.qa{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.qa-h{padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .2s}
+.qa-h:hover{background:var(--el)}
+.qa-q{font-size:13px;font-weight:600;color:var(--tx);flex:1}
+.qa-ico{font-size:12px;color:var(--t3);flex-shrink:0;transition:transform .2s}
+.qa.open .qa-ico{transform:rotate(180deg)}
+.qa-b{display:none;padding:0 16px 14px 16px;border-top:1px solid var(--bd);background:var(--c2)}
+.qa.open .qa-b{display:block}
+.qa-b p, .qa-b li{font-size:12.5px;color:var(--t2);line-height:1.7;margin-top:8px}
+.qa-b strong{color:var(--tx)}
+.qa-b .tag{display:inline-block;font-size:9.5px;padding:2px 7px;border-radius:10px;background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.15);margin-right:4px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+.qa-b .tag-g{background:var(--gg);color:var(--gn);border-color:rgba(34,197,94,.15)}
+.qa-b .tag-r{background:var(--rg);color:var(--rd);border-color:rgba(239,68,68,.15)}
+.qa-b .tag-c{background:var(--cg);color:var(--cy);border-color:rgba(6,182,212,.15)}
+.qa-b .tag-o{background:var(--og);color:var(--or);border-color:rgba(249,115,22,.15)}
+.qa-b .tag-y{background:var(--amg);color:var(--am);border-color:rgba(234,179,8,.15)}
+.qa-cat{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--t3);margin-right:8px;text-transform:uppercase;letter-spacing:.5px}
+.step{background:var(--c1);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.step-n{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--a2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.step-t{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.step p, .step li{font-size:12.5px;color:var(--t2);line-height:1.7}
+.step ul, .step ol{margin-left:18px;margin-top:6px}
+.step code{background:var(--el);padding:2px 6px;border-radius:4px;font-size:11.5px;color:var(--a2);font-family:'IBM Plex Mono',monospace}
+.step pre{background:var(--el);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--tx);line-height:1.55;margin:8px 0}
+.step-g{border-left-color:var(--gn)}.step-c{border-left-color:var(--cy)}.step-o{border-left-color:var(--or)}.step-am{border-left-color:var(--am)}
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.15);border-radius:10px;padding:12px 14px;margin:8px 0}
+.tip b{color:var(--am);font-size:11px;display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px;font-family:'IBM Plex Mono',monospace}
+.tip p{font-size:12.5px;color:var(--t2)}
+.tip-v{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(168,139,250,.02));border-color:rgba(139,92,246,.15)}.tip-v b{color:var(--a2)}
+.tip-g{background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(16,185,129,.02));border-color:rgba(34,197,94,.15)}.tip-g b{color:var(--gn)}
+.tip-r{background:linear-gradient(135deg,rgba(239,68,68,.04),rgba(249,115,22,.02));border-color:rgba(239,68,68,.15)}.tip-r b{color:var(--rd)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bilingual{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.bilingual>div{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.bilingual .lang{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--a2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.bilingual .lang-br{color:var(--gn)}
+.bilingual p{font-size:12.5px;color:var(--t2);line-height:1.7}
+.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--c1);border:1px solid var(--bd);border-radius:7px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.chk:hover{border-color:var(--ac)}
+.chk input{margin-top:3px;accent-color:var(--ac)}
+.chk label{font-size:12.5px;color:var(--t2);flex:1;cursor:pointer}
+.chk.done{opacity:.55}.chk.done label{text-decoration:line-through}
+footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--bd);margin-top:32px}
+@media(max-width:768px){.wrap{padding:20px 14px}.hero h1{font-size:23px}.tabs{gap:0}.tab{font-size:10px;padding:6px 10px}.grid2,.bilingual{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-l">
+<a href="index.html">← Cerebro</a>
+<div class="nav-sep"></div>
+<span class="nav-logo">🎤 Interview Sim · Simetrik</span>
+</div>
+<div class="nav-r">
+<span class="bdg bdg-v">Implementation Specialist</span>
+<span class="bdg bdg-r">Mié 15 Abr · 4:00pm</span>
+</div>
+</nav>
+
+<main class="wrap">
+
+<div class="hero">
+<div class="hero-sub">Entrevista · Pi3Ai &lt;&gt; Simetrik · Colombia</div>
+<h1>Implementation <em>Specialist</em> — Reconciliación Financiera.</h1>
+<p>Simulación 360° para la entrevista con <strong>Juan Henao, Aide López y Angie García</strong>. Incluye inteligencia de la empresa, walkthrough técnico del test de conciliación bancaria, Q&amp;A técnico + comportamental en español y en <strong>português brasileiro</strong>. Objetivo: pasar el filtro y recibir oferta.</p>
+<div class="meta-row">
+<div class="meta">📅 <b>Miércoles 15 Abril 2026</b> · 16:00–16:30 COT</div>
+<div class="meta">🔗 <a href="https://meet.google.com/qzf-ayxd-txa" target="_blank" style="color:var(--a2);text-decoration:none">meet.google.com/qzf-ayxd-txa</a></div>
+<div class="meta">📞 (CO) +57 604 6090859 · PIN: 871 525 292#</div>
+<div class="meta">🏢 Modalidad: <b>PJ (Pessoa Jurídica)</b> · 100% remoto</div>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab on" onclick="showTab(0)">🏢 Simetrik</button>
+<button class="tab" onclick="showTab(1)">💼 El Rol</button>
+<button class="tab" onclick="showTab(2)">🧪 Test Técnico (Walkthrough)</button>
+<button class="tab" onclick="showTab(3)">❓ Q&amp;A Técnico</button>
+<button class="tab" onclick="showTab(4)">🗣️ Q&amp;A Personal / STAR</button>
+<button class="tab" onclick="showTab(5)">🇧🇷 Português BR</button>
+<button class="tab" onclick="showTab(6)">✅ Checklist</button>
+</div>
+
+<!-- ═════════ TAB 0: SIMETRIK ═════════ -->
+<div class="pnl on" id="pnl0">
+
+<div class="sl">· qué es Simetrik ·</div>
+<div class="card">
+<div class="card-t">🧬 Perfil corporativo</div>
+<p>Simetrik es una plataforma <strong>enterprise de conciliación financiera automatizada</strong> con IA. Fundada en <strong>2019 en Bogotá, Colombia</strong> por <strong>Alejandro Casas (CEO)</strong> y <strong>Santiago Gómez</strong> tras un pivot del e-commerce Ropeo (Y Combinator W18). Procesa <strong>~2.5 mil millones de transacciones/día en 40 países</strong>.</p>
+<dl class="kv" style="margin-top:10px">
+<dt>HQ</dt><dd>Bogotá (CO) · hubs en México y Brasil · 100% remoto global</dd>
+<dt>Funding total</dt><dd><strong>~USD 114M</strong> · Series A $24M (2022, Tiger Global/Visa) · Series B $55M (2023, Goldman Sachs) · extensión $30M (2025)</dd>
+<dt>Inversionistas</dt><dd>Goldman Sachs, Tiger Global, FinTech Collective, Cometa, Monashees, Moore Capital, Upload Ventures</dd>
+<dt>Clientes clave</dt><dd>Nubank, Mercado Libre, Rappi, Santander, PayU, Falabella, OXXO, Itaú, PagBank, Sephora, Stax Payments, Possible Finance</dd>
+<dt>Modelo</dt><dd>SaaS B2B · No-Code / Low-Code · enterprise reconciliation + reporting regulatorio</dd>
+<dt>Industrias</dt><dd>Bancos, fintechs, PSPs, adquirentes, marketplaces, retail, wallets, crypto, BNPL</dd>
+</dl>
+</div>
+
+<div class="card">
+<div class="card-t">⚙️ Producto — cómo funciona la plataforma</div>
+<p>Arquitectura de 3 pasos que el Implementation Specialist configura cliente por cliente:</p>
+<ol>
+<li><strong>Ingestión automática:</strong> mapea y valida calidad de data desde múltiples orígenes — extractos bancarios (BAI2, MT940, CSV), archivos de redes (Visa/Mastercard), ERPs (SAP, Oracle, NetSuite), gateways de pago, APIs.</li>
+<li><strong>Transformar &amp; conciliar:</strong> aplica reglas de negocio, manejo de FX, y <strong>matching multi-way</strong> (1:1, 1:N, N:M) sin código — el cliente define "llaves" de conciliación en UI.</li>
+<li><strong>Resolución de excepciones:</strong> la IA detecta anomalías, clasifica breaks (timing, fee, FX, duplicados, missing), y genera reportes audit-ready automáticamente.</li>
+</ol>
+<p style="margin-top:8px">Posee <strong>+4,990 integraciones preconfiguradas</strong> y presume close mensual bajando de <strong>15 a 4 días</strong>, accuracy <strong>99.9%+</strong>, y soporte a crecimiento transaccional de <strong>400% sin aumentar headcount</strong>.</p>
+</div>
+
+<div class="card">
+<div class="card-t">🎯 Casos de uso que mencionan en la web</div>
+<ul>
+<li>Conciliación de comisiones e interchange (cards)</li>
+<li>Gestión de disputas (chargebacks, refunds, claims)</li>
+<li>Reporting regulatorio (SFC, BCB, CNBV, SBS)</li>
+<li>FX &amp; crypto reconciliation</li>
+<li>Liquidez y cash flow alignment en tiempo real (T+0)</li>
+<li>Merchant reporting para PSPs y marketplaces</li>
+<li>Cierre contable automatizado + audit trail</li>
+</ul>
+</div>
+
+<div class="tip tip-v">
+<b>💡 ¿Por qué Pi3Ai menciona Simetrik?</b>
+<p>Pi3Ai es el <strong>partner de implementación / staffing</strong> — contratan al Implementation Specialist bajo modalidad <strong>PJ (Pessoa Jurídica)</strong>, pero el trabajo 100% es con cuentas de Simetrik. Miguel va a operar el producto Simetrik para clientes B2B, no el producto Pi3Ai. La entrevista es con personal de Simetrik (<code>@simetrik.com</code>).</p>
+</div>
+
+<div class="tip tip-g">
+<b>✅ Ganchos de contexto para usar en la entrevista</b>
+<p>• "Estudio Ingeniería de Sistemas en CUN — cruce natural con productos No-Code/Low-Code".<br>
+• "Mi ruta de data analyst (Excel → SQL → Python → BI) encaja con los diferenciales de SQL y Power BI que piden".<br>
+• "Me atrae que Simetrik procese transacciones T+0 para Nubank, Rappi y Mercado Libre — es la escala a la que quiero contribuir".<br>
+• "Vi que Goldman Sachs dobló su apuesta con $30M en 2025 — señal de producto validado".</p>
+</div>
+
+<div class="card">
+<div class="card-t">🧠 Tres diferenciales que Simetrik defiende frente a competidores (BlackLine, Trintech, Numeric)</div>
+<ul>
+<li><strong>AI nativa entrenada con +1B de transacciones LATAM</strong> — detección de anomalías con contexto regional (IVA, UVT, FX COP/BRL/MXN).</li>
+<li><strong>No-code real</strong>: el analista de operaciones crea reglas sin depender de IT. Reduce time-to-value de meses a semanas.</li>
+<li><strong>Implementación en 4 semanas</strong> (discovery → build → UAT → go-live). BlackLine/Trintech típicamente tardan 3-6 meses.</li>
+</ul>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 1: EL ROL ═════════ -->
+<div class="pnl" id="pnl1">
+
+<div class="sl">· qué hace un Implementation Specialist ·</div>
+<div class="card">
+<div class="card-t">📋 Responsabilidades (traducción del job description + lo real del día a día)</div>
+<ol>
+<li><strong>Implementar el scope del proyecto dentro del timeframe</strong> — normalmente 4–8 semanas por cliente. Significa: levantamiento de requerimientos → mapeo de fuentes → configuración de reglas de matching → UAT con cliente → hand-off a soporte.</li>
+<li><strong>Aplicar lógica de estabilización del caso de uso</strong> — después del go-live, durante ~30 días monitoreás que las conciliaciones corran limpias, ajustás tolerancias, resolvés edge cases que no salieron en UAT.</li>
+<li><strong>Documentar &amp; dar soporte al proceso</strong> — runbook por cliente (qué llave usa, qué fuentes, qué reglas), playbook de excepciones, handoff a CS/Support.</li>
+<li><strong>Entregar la implementación completa</strong> — sign-off del cliente + métricas de salud (match rate, exceptions %, tiempo de cierre).</li>
+</ol>
+</div>
+
+<div class="card">
+<div class="card-t">🧰 Requisitos — cómo posicionarte</div>
+<div class="kv">
+<dt>Experiencia 2-3a</dt><dd>Hablar de procesos de conciliación (bancaria, tarjetas, inter-compañías), no solo "Excel avanzado"</dd>
+<dt>Excel avanzado</dt><dd><code>XLOOKUP</code>, <code>INDEX/MATCH</code>, <code>SUMIFS</code>, tablas dinámicas, <code>LET</code>, <code>FILTER</code>, <code>UNIQUE</code>, Power Query</dd>
+<dt>SQL (plus)</dt><dd><code>JOIN</code>s, <code>GROUP BY</code>, window functions, CTEs — para conciliar a nivel base relacional</dd>
+<dt>Power BI (plus)</dt><dd>Dashboards de match rate, exceptions aging, cash position</dd>
+<dt>Bases relacionales + llaves robustas</dt><dd><strong>Concepto crítico del puesto</strong> — ver Tab 3</dd>
+</ol>
+</div>
+</div>
+
+<div class="tip tip-v">
+<b>🎯 Tu pitch de 30 segundos (memorizar)</b>
+<p>"Soy Miguel Ángel, estoy en 8vo semestre de Ingeniería de Sistemas en CUN y llevo ~2 años trabajando con procesos de análisis y conciliación de datos financieros. Manejo Excel avanzado (XLOOKUP, Power Query, tablas dinámicas), estoy certificado en SQL básico-intermedio y terminando mi ruta de Data Analyst (SQL → Python → Power BI). Me atrae Simetrik porque combina lo que ya hago — matching de datos con llaves robustas — con escala enterprise y producto No-Code. Busco un rol donde pueda implementar soluciones reales para clientes B2B y crecer a Senior Implementation en 18-24 meses."</p>
+</div>
+
+<div class="card">
+<div class="card-t">🌟 Skills blandas que van a evaluar</div>
+<div class="grid2">
+<div>
+<strong style="color:var(--a2)">Analytical thinking</strong>
+<p style="font-size:12px;color:var(--t2);margin-top:4px">Te pueden poner un caso: "¿Cómo concilias 10k registros bancarios vs 10k ERP si la fecha difiere por 1-2 días?" — responder con lógica de <strong>llave compuesta + tolerancia</strong>.</p>
+</div>
+<div>
+<strong style="color:var(--gn)">Customer orientation</strong>
+<p style="font-size:12px;color:var(--t2);margin-top:4px">Entender que el cliente (ej: un banco) no habla SQL. Traducir requerimientos de negocio → configuración. No frustrarse con ambigüedad.</p>
+</div>
+<div>
+<strong style="color:var(--cy)">Problem solving</strong>
+<p style="font-size:12px;color:var(--t2);margin-top:4px">Prepárate a contar 1 caso donde un dato "sucio" te obligó a inventar una llave compuesta o limpiar con Power Query.</p>
+</div>
+<div>
+<strong style="color:var(--or)">Dinamismo</strong>
+<p style="font-size:12px;color:var(--t2);margin-top:4px">Remoto + clientes de varios países → vas a manejar 3-5 implementaciones paralelas. Prioriza, documentá, no te quedes bloqueado.</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-t">💰 Qué preguntar sobre compensación &amp; modalidad PJ</div>
+<ul>
+<li>"¿Cuál es el rango salarial para este rol (Junior/Intermediate) en modalidad PJ?" — rangos públicos LATAM para Implementation Specialist Jr: <strong>USD 1,200–2,000/mes</strong> · Intermediate: <strong>USD 2,000–3,200/mes</strong>.</li>
+<li>"¿El pago se hace en USD, COP o en la moneda del país donde estoy facturando?"</li>
+<li>"¿Hay bono por implementación o variable por NPS del cliente?"</li>
+<li>"¿Qué herramientas de trabajo me proveen (laptop, licencias, VPN)?"</li>
+<li>"¿Cuántas implementaciones paralelas maneja un IS en promedio?"</li>
+<li>"¿Cuál es el path de crecimiento? ¿Senior IS, Solution Architect, Customer Success Manager?"</li>
+</ul>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 2: TEST TÉCNICO WALKTHROUGH ═════════ -->
+<div class="pnl" id="pnl2">
+
+<div class="sl">· cómo explicar el test de conciliación bancaria paso a paso ·</div>
+
+<div class="tip tip-r">
+<b>⚠️ Lo que vas a tener que demostrar</b>
+<p>El entrevistador (Juan Henao probablemente) te va a pedir que <strong>compartas pantalla</strong> y les expliques qué hiciste en cada pestaña del Excel. La clave no es que las fórmulas estén "bonitas" — es que puedas <strong>defender la LÓGICA</strong> y explicar qué harías diferente si el volumen fuera 1M de registros en vez de 1k.</p>
+</div>
+
+<div class="step step-c">
+<div class="step-n">Paso 0 · Entendimiento</div>
+<div class="step-t">Antes de tocar Excel, leer el brief completo</div>
+<p>"Lo primero que hice fue leer el instructivo completo y las 2 fuentes de datos. Identifiqué:"</p>
+<ul>
+<li><strong>Fuente A:</strong> extracto bancario (movimientos reales del banco)</li>
+<li><strong>Fuente B:</strong> libro auxiliar / ERP (lo que la empresa tiene registrado)</li>
+<li><strong>Objetivo:</strong> identificar qué registros hacen match, qué registros están <em>solo en A</em> (partidas conciliatorias del banco), qué registros están <em>solo en B</em> (partidas del libro), y cuál es la <strong>diferencia neta</strong> a explicar.</li>
+</ul>
+<p style="margin-top:6px">"Validé integridad: mismo rango de fechas, mismo número de cuenta, misma moneda. Esto evita comparar peras con manzanas."</p>
+</div>
+
+<div class="step">
+<div class="step-n">Paso 1 · Preparación de data (limpieza)</div>
+<div class="step-t">Normalizar antes de cruzar — regla de oro</div>
+<p>"Creé una hoja <code>BASE_BANCO</code> y <code>BASE_LIBRO</code> como copias de las fuentes sin tocar los originales (auditabilidad). Luego en cada una apliqué:"</p>
+<ul>
+<li><strong>Fechas a formato real:</strong> <code>=DATEVALUE(texto)</code> si venían como string.</li>
+<li><strong>Montos sin separadores ni moneda:</strong> <code>=VALUE(SUBSTITUTE(SUBSTITUTE(A2,"$",""),",",""))</code>.</li>
+<li><strong>Separar débitos y créditos en columnas independientes</strong> (si venían en una sola columna con signo) — <code>=IF(C2&lt;0,ABS(C2),0)</code> y <code>=IF(C2&gt;0,C2,0)</code>.</li>
+<li><strong>Limpiar descripciones:</strong> <code>=TRIM(UPPER(CLEAN(D2)))</code> — mayúsculas, sin espacios extra, sin caracteres no imprimibles. Esto me salvó en el matching por texto.</li>
+<li><strong>Columna auxiliar de referencia:</strong> extraer el nro de transacción o NIT con <code>=MID</code> o <code>=REGEX</code> si venía embebido en la descripción.</li>
+</ul>
+<div class="tip tip-v" style="margin-top:8px">
+<b>Por qué lo hice así</b>
+<p>Los datos "como los recibe uno" nunca matchean al 100%. El <strong>80% del éxito de una conciliación es la limpieza previa</strong>. Sin esto, cualquier <code>XLOOKUP</code> o <code>MATCH</code> va a dar falsos negativos.</p>
+</div>
+</div>
+
+<div class="step step-c">
+<div class="step-n">Paso 2 · Diseño de la llave de conciliación</div>
+<div class="step-t">La pregunta clave: ¿qué hace único a cada movimiento?</div>
+<p>"Acá apliqué el concepto de <strong>llave compuesta</strong> (composite key) — una combinación de campos que garantice unicidad en ambas fuentes."</p>
+<pre>LLAVE = FECHA & "|" & MONTO_ABS & "|" & TIPO_MOV & "|" & REFERENCIA</pre>
+<p>"La construí con:"</p>
+<pre>=TEXT(A2,"yyyymmdd")&amp;"|"&amp;TEXT(B2,"0.00")&amp;"|"&amp;C2&amp;"|"&amp;D2</pre>
+<ul>
+<li><strong>FECHA</strong> en formato <code>yyyymmdd</code> para evitar ambigüedad regional (DD/MM vs MM/DD).</li>
+<li><strong>MONTO absoluto con 2 decimales</strong> (el banco y el libro pueden tener signo invertido).</li>
+<li><strong>TIPO_MOV</strong> = DEBITO / CREDITO — evita que un pago por 100 matchee con un cobro por 100.</li>
+<li><strong>REFERENCIA</strong> = nro de transacción, cheque, NIT, o últimos 4 del comprobante.</li>
+</ul>
+<div class="tip tip-g" style="margin-top:8px">
+<b>Esta es la "llave robusta" del job description</b>
+<p>El JD dice textualmente <em>"conciliation processes (relational bases and robust keys)"</em>. Defender esto en la entrevista = <strong>ganar puntos</strong>. Si te preguntan "¿qué es una llave robusta?", respuesta: "Una combinación de atributos que identifica unívocamente un registro y resiste cambios cosméticos en los datos fuente — por eso combino fecha normalizada + monto absoluto + tipo + referencia, no solo referencia sola".</p>
+</div>
+</div>
+
+<div class="step step-g">
+<div class="step-n">Paso 3 · Matching con XLOOKUP / INDEX-MATCH</div>
+<div class="step-t">Cruzar las dos fuentes con la llave</div>
+<p>"Ya con la llave en ambas hojas, en <code>BASE_BANCO</code> agregué una columna <code>MATCH_LIBRO</code>:"</p>
+<pre>=XLOOKUP([@LLAVE], BASE_LIBRO[LLAVE], BASE_LIBRO[MONTO], "NO_MATCH", 0)</pre>
+<p>Y en <code>BASE_LIBRO</code> la simétrica <code>MATCH_BANCO</code>:</p>
+<pre>=XLOOKUP([@LLAVE], BASE_BANCO[LLAVE], BASE_BANCO[MONTO], "NO_MATCH", 0)</pre>
+<ul>
+<li><strong>Modo exacto</strong> (último argumento <code>0</code>) — nunca aproximado en conciliación.</li>
+<li><strong>Valor si no encuentra:</strong> <code>"NO_MATCH"</code> en string para luego filtrar fácil.</li>
+<li><strong>Alternativa legacy:</strong> <code>=IFERROR(INDEX(BASE_LIBRO[MONTO], MATCH([@LLAVE], BASE_LIBRO[LLAVE], 0)), "NO_MATCH")</code> — por si el evaluador tiene Excel viejo.</li>
+</ul>
+<p style="margin-top:6px">"Esto me da 3 estados por registro:"</p>
+<ol>
+<li><strong>MATCH 1:1</strong> — encontrado con monto igual → conciliado.</li>
+<li><strong>MATCH con diferencia</strong> — encontrado pero monto distinto → excepción por diferencia (fee, FX).</li>
+<li><strong>NO_MATCH</strong> — solo en una fuente → partida conciliatoria.</li>
+</ol>
+</div>
+
+<div class="step step-g">
+<div class="step-n">Paso 4 · Clasificación de excepciones</div>
+<div class="step-t">No todo no-match es igual — categorizar</div>
+<p>"Creé una columna <code>TIPO_EXCEPCION</code> con lógica anidada:"</p>
+<pre>=IF([@MATCH_LIBRO]="NO_MATCH","SOLO_BANCO",
+  IF([@MONTO]=[@MATCH_LIBRO],"CONCILIADO",
+    IF(ABS([@MONTO]-[@MATCH_LIBRO])&lt;1,"DIF_REDONDEO",
+      IF([@TIPO]="COMISION","FEE_BANCARIO","DIFERENCIA_INVESTIGAR"))))</pre>
+<p>"Las categorías típicas de una conciliación bancaria son:"</p>
+<ul>
+<li><strong>Partidas en tránsito</strong> — cheques emitidos no cobrados / depósitos en tránsito.</li>
+<li><strong>Notas débito / crédito bancarias</strong> — comisiones, intereses, GMF 4x1000 (para Colombia).</li>
+<li><strong>Errores del libro</strong> — omisiones, doble registro, monto errado.</li>
+<li><strong>Errores del banco</strong> — cobro duplicado, cheque ajeno, cargos incorrectos.</li>
+<li><strong>Diferencias de timing</strong> — mismo movimiento pero fechas distintas (día-mes corte).</li>
+</ul>
+</div>
+
+<div class="step step-o">
+<div class="step-n">Paso 5 · Tabla dinámica de control</div>
+<div class="step-t">Visualizar totales para validar aritmética</div>
+<p>"Armé una tabla dinámica con:"</p>
+<ul>
+<li><strong>Filas:</strong> <code>TIPO_EXCEPCION</code></li>
+<li><strong>Valores:</strong> <code>SUMA(MONTO)</code> y <code>CONTEO(ID)</code></li>
+<li><strong>Columnas (opcional):</strong> <code>MES</code> o <code>TIPO_MOV</code></li>
+</ul>
+<p style="margin-top:6px">"Esto me permitió validar la ecuación maestra de toda conciliación:"</p>
+<pre>SALDO_LIBRO + (notas_credito_banco - notas_debito_banco)
+            + (cheques_pendientes - depositos_transito)
+            = SALDO_BANCO</pre>
+<p>"Si esa ecuación no cierra, la conciliación está incompleta — algo me falta categorizar."</p>
+</div>
+
+<div class="step step-am">
+<div class="step-n">Paso 6 · Hoja resumen / reporte final</div>
+<div class="step-t">Entregable ejecutivo</div>
+<p>"Creé una hoja <code>RESUMEN</code> con:"</p>
+<ul>
+<li><strong>Saldo según libro</strong> (input desde ERP) — <code>=SUMIFS(BASE_LIBRO[MONTO], ...)</code>.</li>
+<li><strong>Saldo según banco</strong> (input desde extracto) — <code>=SUMIFS(BASE_BANCO[MONTO], ...)</code>.</li>
+<li><strong>Diferencia bruta</strong> = Banco − Libro.</li>
+<li><strong>Detalle de partidas conciliatorias</strong> (+/−) agrupadas por categoría.</li>
+<li><strong>Saldo conciliado</strong> = debe dar idéntico en ambas puntas.</li>
+<li><strong>% match rate</strong> = <code>CONCILIADOS / TOTAL_REGISTROS</code>.</li>
+<li><strong>Aging de excepciones</strong> = días desde la fecha del movimiento — permite ver qué partidas están "viejas" y nadie las ha resuelto.</li>
+</ul>
+</div>
+
+<div class="step step-am">
+<div class="step-n">Paso 7 · Validaciones &amp; buenas prácticas</div>
+<div class="step-t">Lo que hace la diferencia entre Jr y Semi-Senior</div>
+<ul>
+<li><strong>Named ranges y tablas estructuradas</strong> (<code>Ctrl+T</code>) — las fórmulas se auto-extienden al crecer los datos.</li>
+<li><strong>Formato condicional</strong> sobre <code>TIPO_EXCEPCION</code> — rojo, verde, amarillo para lectura rápida.</li>
+<li><strong>Hoja de control de cambios</strong> — qué fórmulas usé y por qué (esto es lo que piden al decir "fórmulas correctamente desplegadas").</li>
+<li><strong>Un solo archivo con varias hojas</strong> — respeta la instrucción explícita del brief.</li>
+<li><strong>Nombre del archivo:</strong> <code>Miguel_Angel_Barros_Torres_Test_Conciliacion.xlsx</code>.</li>
+</ul>
+</div>
+
+<div class="tip tip-g">
+<b>🎤 Cierre del walkthrough — frase para la entrevista</b>
+<p>"Si me dan el mismo dataset 100× más grande, esta misma lógica corre en SQL con un <code>FULL OUTER JOIN</code> sobre la llave compuesta, o en Simetrik sin código configurando la misma llave en la UI. La lógica no cambia — solo cambia la herramienta para la escala."</p>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 3: Q&A TÉCNICO ═════════ -->
+<div class="pnl" id="pnl3">
+
+<div class="sl">· preguntas técnicas probables — con respuesta modelo ·</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cuál es la diferencia entre VLOOKUP, XLOOKUP e INDEX-MATCH?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">Concepto</span> <span class="tag">Excel avanzado</span></p>
+<p><strong>VLOOKUP</strong>: busca un valor en la <em>primera columna</em> de una tabla y devuelve un valor de otra columna a la derecha. Limitaciones: solo mira a la derecha, se rompe si insertás columnas, es más lento.</p>
+<p><strong>XLOOKUP</strong> (Excel 365/2021): busca en cualquier columna y devuelve desde cualquier otra — izquierda o derecha. Soporta <code>not_found_value</code> nativo, búsqueda inversa, y matching aproximado con 4 modos. Es la versión moderna.</p>
+<p><strong>INDEX-MATCH</strong>: combo clásico. <code>MATCH</code> devuelve la posición, <code>INDEX</code> trae el valor. Funciona en cualquier versión de Excel, permite lookup en múltiples dimensiones.</p>
+<p><strong>Qué uso:</strong> XLOOKUP si está disponible, INDEX-MATCH si necesito compatibilidad retroactiva, VLOOKUP nunca en producción.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">CONCEPTO</span>¿Qué es una "llave robusta" en procesos de conciliación?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">Critical</span></p>
+<p>Es una <strong>combinación de atributos (composite key)</strong> que identifica unívocamente un registro y <strong>resiste cambios cosméticos</strong> en los datos fuente. En conciliación bancaria típica combino:</p>
+<ul>
+<li><strong>Fecha normalizada</strong> (yyyymmdd)</li>
+<li><strong>Monto absoluto</strong> con 2 decimales</li>
+<li><strong>Tipo de movimiento</strong> (débito / crédito)</li>
+<li><strong>Referencia</strong> (nro transacción, cheque, NIT)</li>
+</ul>
+<p>Una llave simple (solo referencia) se rompe si el banco cambia el formato del número. Una llave robusta aguanta esos cambios porque combina 3-4 atributos semánticos. <strong>Es exactamente el concepto que Simetrik implementa en su UI No-Code</strong> — el cliente define la llave, el motor matchea.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">SQL</span>¿Cómo conciliarías dos tablas (<code>banco</code> y <code>libro</code>) en SQL?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-c">SQL intermedio</span></p>
+<p>Uso <code>FULL OUTER JOIN</code> sobre la llave compuesta:</p>
+<pre>SELECT
+  COALESCE(b.llave, l.llave)     AS llave,
+  b.monto                         AS monto_banco,
+  l.monto                         AS monto_libro,
+  CASE
+    WHEN b.llave IS NULL                     THEN 'SOLO_LIBRO'
+    WHEN l.llave IS NULL                     THEN 'SOLO_BANCO'
+    WHEN b.monto = l.monto                   THEN 'CONCILIADO'
+    WHEN ABS(b.monto - l.monto) &lt; 1          THEN 'DIF_REDONDEO'
+    ELSE 'DIFERENCIA_INVESTIGAR'
+  END                             AS estado
+FROM banco b
+FULL OUTER JOIN libro l
+  ON b.llave = l.llave</pre>
+<p>Si la base es MySQL (no soporta FULL OUTER) se simula con <code>UNION</code> de un <code>LEFT JOIN</code> + un <code>RIGHT JOIN</code>.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">CONCEPTO</span>¿Qué es matching 1:N o N:M y cuándo aparece?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">Simetrik core</span></p>
+<p><strong>1:1</strong> — un registro del banco ↔ un registro del libro. Caso ideal.</p>
+<p><strong>1:N</strong> — un depósito en el banco por $1000 que en el libro aparece como 4 facturas de $250 cada una. Necesito agrupar las 4 y validar que <strong>SUM = $1000</strong>.</p>
+<p><strong>N:M</strong> — múltiples movimientos en ambos lados que cuadran en agregado. Ej: liquidación de pasarela con 50 charges + 5 refunds que en el libro son 2 asientos contables.</p>
+<p>Simetrik resuelve esto con <strong>reglas de grouping + tolerancias</strong>: agrupar por <code>merchant_id + fecha + moneda</code> y matchear totales. Esto es lo que a un Implementation Specialist le toca configurar por cliente.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cuándo usarías Power Query en vez de fórmulas?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag">Excel avanzado</span></p>
+<p>Power Query cuando:</p>
+<ul>
+<li>Los datos llegan en <strong>múltiples archivos</strong> (una carpeta de 30 extractos bancarios mensuales).</li>
+<li>Necesito <strong>transformaciones repetibles</strong> — cada mes llega nueva data, no quiero rehacer fórmulas.</li>
+<li>El volumen es <strong>&gt; 100k filas</strong> — fórmulas lentean el archivo.</li>
+<li><strong>Unpivot</strong>, merge de tablas, promoción de headers, tipos de datos.</li>
+</ul>
+<p>Fórmulas cuando el ejercicio es puntual, el volumen es bajo, y necesito que el cliente vea la lógica "al aire".</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">CONCEPTO</span>¿Qué diferencia hay entre una conciliación bancaria y una conciliación de tarjetas / switch?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-y">Avanzado</span></p>
+<p><strong>Bancaria:</strong> saldo ERP vs extracto bancario. 1 fuente externa, movimientos con fee/GMF.</p>
+<p><strong>Tarjetas / switch:</strong> involucra <strong>3-4 fuentes</strong> — tu gateway (Mercado Pago, PayU), la red (Visa/Mastercard), el adquirente (Credibanco), y tu ERP. Cada uno ve la misma transacción con un <strong>delay distinto</strong>, una <strong>comisión distinta</strong>, y a veces en <strong>moneda distinta</strong> (FX cruzado). Ahí la conciliación es <strong>multi-way</strong> y entran: <em>interchange fees, assessment fees, acquirer fees, FX spreads</em>. Es el caso de uso principal de Simetrik para Rappi o Mercado Libre.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">CONCEPTO</span>¿Qué es el 4x1000 y por qué me importa en una conciliación en Colombia?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-o">LATAM-specific</span></p>
+<p>Es el <strong>Gravamen a los Movimientos Financieros (GMF)</strong> — 0.4% sobre retiros y transferencias débito en Colombia. El banco lo descuenta automáticamente pero <strong>no siempre aparece línea por línea</strong> — a veces viene sumado al movimiento principal.</p>
+<p>En la conciliación esto genera un <strong>desfase estructural</strong>: el libro registra $1.000.000, el banco cobra $1.004.000. Si no configuraste la <strong>tolerancia del 0.4%</strong> o una regla específica para GMF, se marca como excepción y explotan los breaks.</p>
+<p>Mencionar esto = demostrar que conoces el contexto colombiano. <strong>Punto ganado</strong>.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">SQL</span>Muéstrame un query que encuentre duplicados en una tabla</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-c">SQL básico-intermedio</span></p>
+<pre>SELECT llave, COUNT(*) AS veces
+FROM movimientos
+GROUP BY llave
+HAVING COUNT(*) &gt; 1;</pre>
+<p>Si quiero ver los registros completos del duplicado:</p>
+<pre>WITH dups AS (
+  SELECT llave FROM movimientos
+  GROUP BY llave HAVING COUNT(*) &gt; 1
+)
+SELECT m.* FROM movimientos m
+JOIN dups d ON m.llave = d.llave
+ORDER BY m.llave, m.fecha;</pre>
+<p>Esto aparece <strong>todo el tiempo</strong> en conciliaciones — cuando el ERP envía un archivo duplicado o el banco reporta la misma transacción dos veces.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">PROCESO</span>¿Cómo levantarías requerimientos con un cliente nuevo en semana 1 de implementación?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">Sello del rol</span></p>
+<ol>
+<li><strong>Kickoff call:</strong> entender el proceso actual (cuántas personas, cuántas horas, qué dolores).</li>
+<li><strong>Mapeo de fuentes:</strong> qué sistemas tiene (ERP, gateway, banco) y cómo exporta data (API, CSV, SFTP).</li>
+<li><strong>Sample de datos reales:</strong> pedir 1 mes representativo por cada fuente.</li>
+<li><strong>Taller de llaves:</strong> definir con el cliente qué campos garantizan unicidad.</li>
+<li><strong>Reglas de negocio:</strong> qué tolerancias aplican (FX, redondeo, fee), qué se considera match parcial.</li>
+<li><strong>Definición de excepciones:</strong> qué categorías le importan (timing, duplicado, monto, missing).</li>
+<li><strong>Criterio de éxito:</strong> match rate objetivo (ej: &gt;98%), SLA de resolución de breaks.</li>
+</ol>
+<p>"Salir de esa semana con un <strong>documento firmado de scope + diagrama de fuentes + draft de llave</strong>. Sin eso, la semana 2 se convierte en caos."</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">PROCESO</span>Un cliente te dice "la conciliación no está matchando nada". ¿Cómo debuggeas?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-y">Troubleshooting</span></p>
+<ol>
+<li><strong>Pedir un registro concreto</strong> que debería matchear y no matchea. Evitar conversación abstracta.</li>
+<li><strong>Comparar la llave</strong> en ambas fuentes lado a lado — carácter por carácter (espacio al final, minúscula vs mayúscula, 0 vs O).</li>
+<li><strong>Validar tipos de datos:</strong> fecha como texto vs fecha real, monto como texto con coma decimal.</li>
+<li><strong>Revisar la última transformación</strong> o regla que cambió — ¿alguien editó el script de ingestión?</li>
+<li><strong>Volumen esperado vs real:</strong> si ayer matchaba 98% y hoy 12%, revisar si la fuente cambió de formato (el banco actualizó el archivo).</li>
+<li><strong>Comunicar status</strong> al cliente cada 2 horas con hipótesis. No desaparecer.</li>
+</ol>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">POWER BI</span>Si tuvieras que monitorear la salud de 10 implementaciones, ¿qué dashboard armarías?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-c">BI</span></p>
+<ul>
+<li><strong>KPI principal:</strong> <em>match rate</em> por cliente (objetivo &gt;98%).</li>
+<li><strong>Aging de excepciones</strong> — breaks con &gt;7 días sin resolver, en rojo.</li>
+<li><strong>Volumen procesado diario</strong> por fuente (detectar caídas de ingestión).</li>
+<li><strong>Top 5 categorías de excepción</strong> por cliente — saber dónde se rompe.</li>
+<li><strong>Tiempo promedio de cierre mensual</strong> — tendencia mes a mes.</li>
+<li><strong>Ranking de implementaciones</strong> por health score compuesto.</li>
+<li><strong>Filtros:</strong> por cliente, país, moneda, fuente.</li>
+</ul>
+<p>Fuente: export diario de Simetrik a una DB intermedia (BigQuery / Snowflake) → Power BI con refresh incremental.</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Qué es SUMIFS y cuándo es superior a SUMPRODUCT?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag">Excel avanzado</span></p>
+<p><code>SUMIFS(rango_suma, rango_criterio1, criterio1, ...)</code> — suma con múltiples condiciones AND.</p>
+<pre>=SUMIFS(BASE_LIBRO[MONTO],
+        BASE_LIBRO[FECHA], "&gt;="&amp;FECHA_INI,
+        BASE_LIBRO[FECHA], "&lt;="&amp;FECHA_FIN,
+        BASE_LIBRO[CUENTA], "1105")</pre>
+<p><strong>SUMIFS</strong> es más rápido y legible. <strong>SUMPRODUCT</strong> se usa cuando necesitás condiciones OR complejas o multiplicar antes de sumar. En conciliación, el 90% del tiempo SUMIFS es suficiente.</p>
+</div>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 4: Q&A PERSONAL / STAR ═════════ -->
+<div class="pnl" id="pnl4">
+
+<div class="sl">· preguntas comportamentales — método STAR ·</div>
+
+<div class="tip tip-v">
+<b>📐 Framework STAR</b>
+<p><strong>S</strong>ituation — contexto breve (1 frase). <strong>T</strong>ask — qué tenías que resolver. <strong>A</strong>ction — qué hiciste tú (no el equipo). <strong>R</strong>esult — resultado medible. Duración ideal: 60–90 segundos por respuesta.</p>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">1. Cuéntame de ti / Preséntate</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">OPENER</span></p>
+<p><strong>Respuesta (45 seg):</strong></p>
+<p>"Soy Miguel Ángel Barros Torres, tengo [tu edad] años y estoy en 8vo semestre de Ingeniería de Sistemas en la CUN Virtual en Bogotá. Llevo cerca de dos años trabajando con análisis y manipulación de datos — Excel avanzado, SQL básico-intermedio, y estoy terminando mi ruta formal de Data Analyst que incluye Python y Power BI. Me especializo en procesos de conciliación financiera y operativa, construyendo llaves compuestas para cruzar fuentes y automatizar lo que típicamente se hace a mano. Me postulé a este rol porque combina tres cosas que quiero: escalar mi experiencia en conciliación a producto enterprise, trabajar con clientes B2B para entender sus procesos, y operar en un ambiente 100% remoto con producto No-Code. Simetrik específicamente me llama la atención por su footprint — Nubank, Rappi, Mercado Libre — y por el respaldo de Goldman Sachs que valida el producto."</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">2. ¿Por qué Simetrik? ¿Por qué este rol?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">MOTIVACIÓN</span></p>
+<p>"Tres razones concretas:"</p>
+<ol>
+<li><strong>El producto:</strong> No-Code para conciliación enterprise es exactamente el espacio donde mi perfil técnico aporta sin necesidad de ser developer. Yo traduzco reglas de negocio a configuración — eso es lo que hago hoy en Excel, acá lo haría a escala.</li>
+<li><strong>La compañía:</strong> Simetrik está en la etapa que me interesa — Series B+ con $114M, fundada por ex-YC, con clientes tier-1 en LATAM. No es seed, no es corporate — es el punto dulce donde se construye estructura y hay mucho por implementar.</li>
+<li><strong>El rol:</strong> Implementation Specialist es el pivot ideal entre data y cliente. Me saca del Excel puro y me pone a entender negocios reales, que es lo que necesito para crecer a Senior IS o Solution Architect en 2 años."</li>
+</ol>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">3. Cuéntame de un proyecto de conciliación difícil (STAR)</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">CORE STAR</span></p>
+<p><strong>Situation:</strong> "Tuve que conciliar un extracto bancario contra el libro auxiliar de [cliente/proyecto] donde los movimientos del banco y del ERP tenían fechas distintas — el banco registraba fecha-valor y el ERP fecha-contable, con delays de hasta 3 días hábiles."</p>
+<p><strong>Task:</strong> "Necesitaba entregar una conciliación con &gt;95% de match rate en menos de 1 semana."</p>
+<p><strong>Action:</strong> "Construí una <strong>llave compuesta</strong> con monto absoluto + tipo de movimiento + referencia (sin fecha), y una segunda validación con <strong>ventana de tolerancia de ±3 días</strong> sobre la fecha. Usé XLOOKUP para la llave primaria y un INDEX-MATCH con filtro de rango para los casos que fallaban. Categoricé las excepciones en 5 tipos (timing, fee, duplicado, missing_banco, missing_libro) y entregué un resumen con saldos cuadrados."</p>
+<p><strong>Result:</strong> "Match rate final del 97%, cerré la conciliación en 3 días en vez de 7, y documenté el procedimiento para que se replique mes a mes."</p>
+<p style="margin-top:8px"><em>Adaptá los números al proyecto real tuyo — pero la estructura STAR funciona.</em></p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">4. Cuéntame de una vez que tuviste un cliente/usuario difícil</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">CUSTOMER ORIENTATION</span></p>
+<p><strong>S:</strong> "En [proyecto X], el área contable insistía en que la conciliación tenía error, pero al revisar la data la diferencia venía del 4x1000 que ellos no habían configurado como tolerancia."</p>
+<p><strong>T:</strong> "Necesitaba convencer sin culpar — mantener la relación y cerrar el ticket."</p>
+<p><strong>A:</strong> "Les armé una hoja adicional de 'reconciliación del 4x1000' mostrando el cálculo movimiento por movimiento y el impacto total. Les propuse una regla permanente de tolerancia 0.4% para movimientos tipo retiro/transferencia."</p>
+<p><strong>R:</strong> "Aceptaron la propuesta, la diferencia de saldo se explicó al 100%, y me pidieron documentar el criterio para futuras conciliaciones."</p>
+<p><strong>Moraleja que decís:</strong> "Aprendí que en conciliación la mitad del trabajo es data, la otra mitad es traducir lo técnico en algo que el cliente pueda defender internamente."</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">5. Háblame de un error que cometiste</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-r">HONESTIDAD</span></p>
+<p><strong>S:</strong> "En una conciliación temprana, cambié el formato de fecha en la fuente origen para acelerar la limpieza."</p>
+<p><strong>T:</strong> "Necesitaba entregar rápido."</p>
+<p><strong>A:</strong> "Al revisar el resultado con el equipo contable, no podían auditar cómo llegué al número porque había modificado data original. Me devolvieron el trabajo."</p>
+<p><strong>R:</strong> "Aprendí a nunca tocar la fuente — siempre una copia <code>BASE_X</code> y trabajar sobre ella. La auditabilidad es más importante que la velocidad. Desde entonces documento cada transformación con una nota de cambio."</p>
+<p><em>Esta respuesta funciona porque muestra aprendizaje sin dejar duda sobre tu capacidad.</em></p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">6. ¿Cómo manejas múltiples implementaciones/clientes en paralelo?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">DINAMISMO</span></p>
+<p>"Tres pilares que ya aplico:"</p>
+<ul>
+<li><strong>Runbook por cliente</strong> — 1 hoja/doc con el estado, fuentes, llaves, y bloqueos. Nunca dependo de mi memoria.</li>
+<li><strong>Bloques de tiempo</strong> — mañana para tareas profundas (configuración, debugging), tarde para calls y documentación. Nunca mezclo.</li>
+<li><strong>Standup personal diario de 10 min</strong> — reviso qué está bloqueado, a quién necesito pingear, qué entrego hoy. Esto me permite manejar 3-4 frentes sin dejar caer pelotas."</li>
+</ul>
+<p>"En Simetrik supongo que serían 3-5 implementaciones en paralelo y dependerá del handoff entre fases — quiero preguntarles cómo tienen estructurado eso internamente."</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">7. ¿Dónde te ves en 3 años?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag">CARRERA</span></p>
+<p>"Terminando Ingeniería de Sistemas (me quedan 2 años), con certificaciones sólidas en SQL, Power BI y probablemente un curso específico de fintech / payments. En lo profesional, me veo en un rol <strong>Senior Implementation Specialist o Solution Architect</strong> — habiendo pasado por suficientes implementaciones para armar patrones, mentorear a nuevos IS, y entrar más temprano en el ciclo de ventas para influir en el scope. Si Simetrik está en esa trayectoria, me quedo; si abre oportunidad para Brasil o México con el negocio regional, mejor."</p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">8. ¿Tienes preguntas para nosotros? (pregunta OBLIGATORIA)</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-g">NUNCA DIGAS "NO"</span></p>
+<p>Tener <strong>al menos 3–5 preguntas</strong> listas. Elegir 2-3 según el tiempo:</p>
+<ol>
+<li>"¿Cómo se ve un día típico de un Implementation Specialist en Simetrik — cuántos clientes maneja, cómo se divide el tiempo entre configuración, calls y documentación?"</li>
+<li>"¿Cuál es el path de crecimiento? ¿Existe una estructura de career framework documentada?"</li>
+<li>"¿Qué diferencia a un IS que la rompe de uno promedio, en tu experiencia?"</li>
+<li>"¿Cómo está organizado el equipo de Implementation — por vertical (bancos vs fintech), por región, o por tamaño de cliente?"</li>
+<li>"¿Cuál es el stack de herramientas diarias — usan Jira, Notion, Linear, Slack? ¿Qué documentación me va a llegar en la inducción?"</li>
+<li>"¿Qué tan involucrado está el IS en pre-venta o upselling, o es puramente post-venta?"</li>
+<li>"¿Cuál es la siguiente etapa del proceso si hoy avanzamos, y cuándo podría tener feedback?"</li>
+</ol>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">9. ¿Tienes contrapropuestas / manejas otros procesos?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-y">DELICADA</span></p>
+<p>"Estoy en conversaciones con 2 procesos más — uno en [empresa genérica, ej: otra fintech LATAM] y otro en un rol de Data Analyst tradicional. Sin embargo, <strong>el de Simetrik es mi primera opción</strong> porque combina conciliación + enterprise + remoto, que es la intersección más específica para mí. Los otros están en etapas tempranas; acá quisiera avanzar lo antes posible si hay fit."</p>
+<p><em>Esto te posiciona como deseable sin bluffear. Si no tienes otros procesos, di "estoy aplicando activamente a roles similares pero Simetrik es mi foco principal esta semana".</em></p>
+</div>
+</div>
+
+<div class="qa" onclick="this.classList.toggle('open')">
+<div class="qa-h"><div class="qa-q">10. ¿Cuál es tu pretensión salarial?</div><span class="qa-ico">▼</span></div>
+<div class="qa-b">
+<p><span class="tag tag-r">CLAVE — NO LANZAR NÚMERO PRIMERO SI PODÉS EVITARLO</span></p>
+<p><strong>Versión 1 (devolver la pregunta):</strong></p>
+<p>"Para ser honesto, me gustaría entender primero el rango que maneja Simetrik para el rol en modalidad PJ, porque depende mucho de si el pago es en USD o en moneda local y qué cubre (laptop, licencias, etc.). ¿Qué rango manejan para el nivel Junior/Intermediate?"</p>
+<p><strong>Versión 2 (si insisten):</strong></p>
+<p>"Investigando el mercado para IS Junior/Intermediate LATAM en modalidad PJ, el rango ronda entre <strong>USD 1,800 y 2,500 mensuales</strong>. Me siento cómodo en esa franja, con flexibilidad dependiendo de beneficios y trayectoria de crecimiento."</p>
+<p><em>Si el rol declara "Junior/Intermediate" y tenés 2–3 años, podés apuntar al medio-alto del rango.</em></p>
+</div>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 5: PORTUGUÊS BR ═════════ -->
+<div class="pnl" id="pnl5">
+
+<div class="sl">· versão em português brasileiro · perguntas-chave ·</div>
+
+<div class="tip tip-g">
+<b>🇧🇷 Contexto</b>
+<p>Simetrik tem forte presença no Brasil (Nubank, Itaú, PagBank são clientes). A entrevista oficial é em español, mas pode ser que <strong>Juan Henao ou alguém do time brasileiro mude para português</strong> para validar sua capacidade de atender clientes BR. Tenha estas respostas prontas.</p>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>¿Puedes presentarte?</strong></p>
+<p>"Soy Miguel Ángel, ingeniero de sistemas en formación, con 2 años de experiencia en análisis y conciliación de datos. Manejo Excel avanzado, SQL básico-intermedio, y estoy terminando mi ruta de Data Analyst."</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>Pode se apresentar?</strong></p>
+<p>"Sou Miguel Ángel, estudante de Engenharia de Sistemas, com dois anos de experiência em análise e conciliação de dados. Trabalho com Excel avançado, SQL intermediário, e estou finalizando minha trilha formal de Data Analyst."</p>
+</div>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>¿Por qué Simetrik?</strong></p>
+<p>"Por el producto No-Code enterprise, el respaldo de Goldman Sachs, y porque procesan transacciones para Nubank, Rappi y Mercado Libre — la escala a la que quiero aportar."</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>Por que a Simetrik?</strong></p>
+<p>"Pelo produto No-Code enterprise, pelo respaldo do Goldman Sachs, e porque processam transações para clientes como Nubank, Rappi e Mercado Livre — essa é a escala na qual quero contribuir."</p>
+</div>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>¿Qué es una llave robusta?</strong></p>
+<p>"Una combinación de atributos — fecha, monto, tipo, referencia — que identifica unívocamente un registro y resiste cambios cosméticos en el formato fuente."</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>O que é uma chave robusta?</strong></p>
+<p>"É uma combinação de atributos — data, valor, tipo, referência — que identifica unicamente um registro e resiste a mudanças cosméticas no formato de origem. É o que a gente chama de <em>composite key</em>."</p>
+</div>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>Cuéntame de una conciliación difícil</strong></p>
+<p>"Tuve un caso donde fechas del banco y ERP no coincidían. Construí llave compuesta sin fecha y validé con ventana de ±3 días. Match rate subió al 97%."</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>Me conta de uma conciliação difícil</strong></p>
+<p>"Tive um caso em que as datas do banco e do ERP não batiam. Construí uma chave composta sem a data e validei com uma janela de tolerância de ±3 dias. O match rate subiu para 97%."</p>
+</div>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>¿Cómo manejas múltiples clientes?</strong></p>
+<p>"Runbook por cliente, bloques de tiempo enfocados, y standup personal diario de 10 minutos para revisar bloqueos."</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>Como você gerencia múltiplos clientes?</strong></p>
+<p>"Uso um runbook por cliente, blocos de tempo dedicados por tarefa, e uma reunião pessoal diária de 10 minutos para revisar o que está bloqueado e o que vou entregar no dia."</p>
+</div>
+</div>
+
+<div class="bilingual">
+<div>
+<div class="lang">🇪🇸 Español</div>
+<p><strong>¿Tienes preguntas?</strong></p>
+<p>"Sí — ¿cómo es un día típico de IS? ¿Cómo está estructurado el equipo (por vertical o por región)? ¿Cuál es el camino de crecimiento?"</p>
+</div>
+<div>
+<div class="lang lang-br">🇧🇷 Português BR</div>
+<p><strong>Você tem perguntas?</strong></p>
+<p>"Sim — como é um dia típico de um Implementation Specialist? Como o time é organizado, por vertical ou por região? E qual é o caminho de crescimento dentro da Simetrik?"</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-t">📚 Glossário de termos técnicos ES → PT-BR</div>
+<div class="kv">
+<dt>Conciliación</dt><dd>Conciliação</dd>
+<dt>Llave robusta</dt><dd>Chave robusta / chave composta</dd>
+<dt>Partida conciliatoria</dt><dd>Item conciliatório / partida de conciliação</dd>
+<dt>Extracto bancario</dt><dd>Extrato bancário</dd>
+<dt>Libro auxiliar</dt><dd>Livro auxiliar / razão auxiliar</dd>
+<dt>Cheques en tránsito</dt><dd>Cheques em trânsito</dd>
+<dt>Depósitos en tránsito</dt><dd>Depósitos em trânsito</dd>
+<dt>Nota débito / crédito</dt><dd>Nota de débito / crédito</dd>
+<dt>Match rate</dt><dd>Taxa de match / casamento</dd>
+<dt>Excepción / break</dt><dd>Exceção / break</dd>
+<dt>Cierre contable</dt><dd>Fechamento contábil</dd>
+<dt>Implementación</dt><dd>Implementação</dd>
+<dt>Facturación</dt><dd>Faturamento</dd>
+<dt>Comisión</dt><dd>Taxa / comissão</dd>
+<dt>Agrupamiento</dt><dd>Agrupamento</dd>
+<dt>Tolerancia</dt><dd>Tolerância</dd>
+<dt>Levantamiento de requerimientos</dt><dd>Levantamento de requisitos</dd>
+<dt>Go-live</dt><dd>Go-live (mesmo termo)</dd>
+<dt>Estabilización</dt><dd>Estabilização</dd>
+</div>
+</div>
+
+<div class="tip tip-v">
+<b>🗣️ Tips de pronunciación PT-BR para españolhablantes</b>
+<p>• "Conciliação" → con-si-li-a-<strong>SAUN</strong> (nasal).<br>
+• "Chave" → <strong>SHA-vi</strong> (el "ch" es como "sh" inglés).<br>
+• "Dia" → <strong>DJI-a</strong> (la "d" antes de "i" suena como "dj").<br>
+• "Cliente" → cli-<strong>EN-tchi</strong> (la "te" final es "tchi").<br>
+• Si te trabás, di "<em>desculpa, pode repetir por favor?</em>" — es 100% aceptable.</p>
+</div>
+
+</div>
+
+<!-- ═════════ TAB 6: CHECKLIST ═════════ -->
+<div class="pnl" id="pnl6">
+
+<div class="sl">· preparación antes del miércoles 15 a las 4:00 pm ·</div>
+
+<div class="card">
+<div class="card-t">📅 T-24h (martes 14)</div>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Releer 3× este módulo completo. Memorizar el pitch de 30 seg y las 5 respuestas STAR.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Abrir el archivo del test y repasar cada pestaña — poder explicar qué fórmula usaste y por qué en cualquier celda.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Revisar LinkedIn de <strong>Juan Henao</strong> y <strong>Aide López</strong> — conocer su rol, years en Simetrik, background.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Leer los 3 últimos posts de Simetrik en LinkedIn (noticias, lanzamientos).</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Preparar 5 preguntas tuyas para ellos (Tab 4, pregunta 8).</label></label>
+</div>
+
+<div class="card">
+<div class="card-t">📅 T-2h (miércoles 14:00)</div>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Test de Meet — cámara, micrófono, audio.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Abrir el archivo de test en Excel listo para compartir pantalla.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Cerrar Slack, WhatsApp, notificaciones — foco total.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Vaso de agua, pañuelo, libreta + lapicero físico al lado.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Fondo limpio, luz frontal (no detrás), camisa formal-casual.</label></label>
+</div>
+
+<div class="card">
+<div class="card-t">📅 T-10 min (15:50)</div>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Respirar profundo 3 veces. Repasar el pitch una última vez (sin memorizar palabra por palabra).</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Unirse al Meet 2–3 min antes (nunca a las 4:00:00 clavadas).</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Postura erguida, sonreír al conectar, saludar por nombre: "¡Hola Juan, hola Aide, hola Angie!"</label></label>
+</div>
+
+<div class="card">
+<div class="card-t">🎯 Durante la entrevista (30 min)</div>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Escuchar 70%, hablar 30%. Si preguntan algo, hacer pausa de 1 seg antes de responder — transmite seguridad.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Si no entiendo una pregunta: "¿Puedes darme un ejemplo de lo que buscas?" — no inventar.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Usar STAR para cualquier pregunta de "cuéntame de una vez que...".</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Cuando expliques el test — compartir pantalla, ir hoja por hoja, defender la LÓGICA (no la fórmula).</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Cerrar con: "Estoy muy interesado en el rol — ¿cuáles son los siguientes pasos?"</label></label>
+</div>
+
+<div class="card">
+<div class="card-t">📧 T+2h post-entrevista</div>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Enviar email de thank-you a Juan Henao y Aide López — 3 líneas max, en español. Reiterar interés, mencionar un tema específico que hablaron.</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Conectar con Juan y Aide en LinkedIn (mensaje personalizado breve).</label></label>
+<label class="chk"><input type="checkbox" onchange="toggleChk(this)"><label>Anotar en Jobs Tracker / CEREBRO qué fue bien y qué mejorarías para el próximo filtro.</label></label>
+</div>
+
+<div class="tip tip-v">
+<b>✉️ Template email thank-you (copiar &amp; adaptar)</b>
+<pre style="white-space:pre-wrap;font-size:11.5px">Asunto: Gracias por la entrevista — Miguel Ángel Barros
+
+Hola Juan, hola Aide,
+
+Gracias por el espacio de hoy. Me quedo con [mencionar 1 tema
+concreto que hablaron — ej: "la claridad con la que describieron
+el proceso de onboarding de clientes bancarios"] y con más
+ganas todavía de aportar al equipo de Implementation.
+
+Quedo atento a los siguientes pasos. Cualquier info adicional
+que necesiten, estoy disponible.
+
+Un saludo,
+Miguel Ángel Barros Torres
++57 [tu número] · LinkedIn: [tu perfil]</pre>
+</div>
+
+<div class="tip tip-g">
+<b>🔥 Mindset final</b>
+<p>No estás rogando un trabajo — <strong>Simetrik tiene un problema (escalar implementations) y vos sos una solución</strong>. La entrevista es una conversación de dos adultos viendo si hay fit. Si hay — genial. Si no — siguiente. Entrá con esa energía.</p>
+</div>
+
+</div>
+
+</main>
+
+<footer>Interview Simulation · Simetrik IS · Construido con disciplina · 2026</footer>
+
+<script>
+function showTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.pnl').forEach((p,i)=>p.classList.toggle('on',i===n));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleChk(el){
+  el.closest('.chk').classList.toggle('done', el.checked);
+  saveChks();
+}
+function saveChks(){
+  const state = [...document.querySelectorAll('.chk input')].map(i=>i.checked);
+  localStorage.setItem('sim_interview_chks', JSON.stringify(state));
+}
+function loadChks(){
+  try{
+    const state = JSON.parse(localStorage.getItem('sim_interview_chks')||'[]');
+    document.querySelectorAll('.chk input').forEach((i,idx)=>{
+      if(state[idx]){ i.checked=true; i.closest('.chk').classList.add('done'); }
+    });
+  }catch(e){}
+}
+loadChks();
+</script>
+
+</body>
+</html>
