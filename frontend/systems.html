@@ -221,25 +221,41 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .malla-cr{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);margin-left:auto}
 
 /* RESPONSIVE */
-/* ═══ NOTEBOOK ═══ */
+/* ═══ NOTEBOOK (dark theme) ═══ */
 .nb-subjects{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
-.nb-subj{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--el);color:var(--t2);transition:all .2s}
+.nb-subj{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--el);color:var(--t2);transition:all .2s;display:flex;align-items:center;gap:6px}
 .nb-subj:hover{border-color:var(--vi);color:var(--tx)}
 .nb-subj.on{background:linear-gradient(135deg,var(--vi),var(--em));color:#fff;border-color:transparent;box-shadow:0 2px 12px rgba(124,58,237,.3)}
+.nb-subj-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .nb-toolbar .tf-btn{font-size:11px;padding:6px 12px}
-.nb-page{background:#f5f0e8;border:1px solid var(--bd);border-radius:12px;overflow:hidden;position:relative;box-shadow:2px 4px 16px rgba(0,0,0,.3),inset 0 0 60px rgba(0,0,0,.03)}
-.nb-spine{position:absolute;left:36px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#c4b5a0,#a89880,#c4b5a0);z-index:3;pointer-events:none;box-shadow:1px 0 3px rgba(0,0,0,.15)}
-.nb-margin{position:absolute;left:72px;top:0;bottom:0;width:2px;background:rgba(220,80,80,.35);z-index:1;pointer-events:none}
-.nb-margin::after{content:'';position:absolute;left:4px;top:0;bottom:0;width:1px;background:rgba(220,80,80,.18)}
+.nb-page{background:linear-gradient(180deg,#1a1f2e 0%,#161a28 100%);border:1px solid #2a3144;border-radius:12px;overflow:hidden;position:relative;box-shadow:2px 4px 20px rgba(0,0,0,.5),inset 0 0 80px rgba(0,0,0,.25)}
+.nb-page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(124,58,237,.04),transparent 60%);pointer-events:none;z-index:0}
+.nb-spine{position:absolute;left:36px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#4a3820,#6b5230,#4a3820);z-index:3;pointer-events:none;box-shadow:1px 0 4px rgba(0,0,0,.5),inset 1px 0 1px rgba(255,200,100,.1)}
+.nb-margin{position:absolute;left:72px;top:0;bottom:0;width:2px;background:rgba(255,80,100,.45);z-index:1;pointer-events:none;box-shadow:0 0 6px rgba(255,80,100,.25)}
+.nb-margin::after{content:'';position:absolute;left:4px;top:0;bottom:0;width:1px;background:rgba(255,80,100,.2)}
 .nb-holes{position:absolute;left:10px;top:0;bottom:0;width:24px;z-index:4;pointer-events:none}
-.nb-hole{width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid #b8a890;position:absolute;left:4px;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)}
-.nb-content{min-height:480px;padding:0 24px 16px 88px;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(80,120,200,.12) 31px,rgba(80,120,200,.12) 32px);background-size:100% 32px;background-position:0 0;line-height:32px;font-size:14px;color:#1a1a2e;outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2;caret-color:#1a1a2e}
-.nb-content:empty::before{content:attr(data-placeholder);color:#a09080;pointer-events:none}
-.nb-header{background:linear-gradient(135deg,#e8dfd0,#ddd4c4);border-bottom:2px solid #c4b5a0;padding:12px 16px 12px 88px;display:flex;align-items:center;justify-content:space-between}
-.nb-title-inp{background:none;border:none;color:#2a2a3e;font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1}
-.nb-title-inp::placeholder{color:#a09080}
-.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8a7a6a}
+.nb-hole{width:16px;height:16px;border-radius:50%;background:#0a0d16;border:2px solid #2a3144;position:absolute;left:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.03)}
+.nb-content{min-height:480px;padding:0 24px 16px 88px;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(120,160,230,.18) 31px,rgba(120,160,230,.18) 32px);background-size:100% 32px;background-position:0 0;line-height:32px;font-size:14px;color:#e4e8f4;outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2;caret-color:#8bb4ff;letter-spacing:.2px}
+.nb-content:empty::before{content:attr(data-placeholder);color:#5a6478;pointer-events:none;font-style:italic}
+.nb-content:focus{background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(139,180,255,.28) 31px,rgba(139,180,255,.28) 32px)}
+.nb-header{background:linear-gradient(135deg,#1f2638,#181d2c);border-bottom:2px solid #2a3144;padding:12px 16px 12px 88px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.nb-header::before{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.4),transparent)}
+.nb-title-inp{background:none;border:none;color:#f0f2fa;font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1;letter-spacing:.3px}
+.nb-title-inp::placeholder{color:#5a6478;font-style:italic}
+.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7a8399;background:rgba(0,0,0,.25);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.04)}
+.nb-saved{font-size:10px;color:var(--em);margin-left:8px;opacity:0;transition:opacity .3s;font-family:'IBM Plex Mono',monospace}
+.nb-saved.on{opacity:1}
+/* Lightbox */
+.nb-lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);z-index:9998;display:none;align-items:center;justify-content:center;padding:40px;cursor:zoom-out}
+.nb-lb-overlay.on{display:flex}
+.nb-lb-img{max-width:95vw;max-height:85vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.8);cursor:default}
+.nb-lb-caption{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:6px;max-width:80vw}
+.nb-lb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.nb-lb-close:hover{background:rgba(255,255,255,.18)}
+.nb-lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.nb-lb-nav:hover{background:rgba(255,255,255,.18)}
+.nb-lb-prev{left:20px} .nb-lb-next{right:20px}
 .nb-entries{margin-top:16px}
 .nb-entry{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s}
 .nb-entry:hover{border-color:var(--bd2)}
@@ -553,6 +569,7 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div class="nb-page">
 <div class="nb-header">
 <input class="nb-title-inp" id="nbPageTitle" placeholder="Título de la página..." oninput="NB.autoSave()">
+<span class="nb-saved" id="nbSavedBadge">✓ guardado</span>
 <span class="nb-date" id="nbPageDate"></span>
 </div>
 <div class="nb-spine"></div>
@@ -586,6 +603,15 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <footer style="text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--bd);position:relative;z-index:1">
 Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 </footer>
+
+<!-- NOTEBOOK LIGHTBOX -->
+<div class="nb-lb-overlay" id="nbLightbox" onclick="if(event.target===this)NB.closeImage()">
+  <button class="nb-lb-close" onclick="NB.closeImage()" title="Cerrar (Esc)">✕</button>
+  <button class="nb-lb-nav nb-lb-prev" onclick="NB.prevImage()" title="Anterior (←)">‹</button>
+  <img class="nb-lb-img" id="nbLbImg" src="" alt="">
+  <button class="nb-lb-nav nb-lb-next" onclick="NB.nextImage()" title="Siguiente (→)">›</button>
+  <div class="nb-lb-caption" id="nbLbCaption"></div>
+</div>
 
 <!-- TASK GUIDE MODAL -->
 <div class="tg-overlay" id="taskGuideOverlay" onclick="if(event.target===this)SYS.closeGuide()">

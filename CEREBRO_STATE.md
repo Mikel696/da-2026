@@ -1,8 +1,39 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-13
+- **Última actualización:** 2026-04-14
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 📓 10-SYS · Tab 8 "Cuaderno" — NUEVA FEATURE — 2026-04-14
+
+### Qué se agregó
+Cuaderno digital con apariencia de cuaderno real (tema oscuro para cuidar la vista del operador) dentro del módulo de Ingeniería de Sistemas. 5 secciones/materias, páginas con título + cuerpo contenteditable sobre cuadrícula con renglones azules, links de estudio, galería de imágenes con **lightbox** (visor con navegación ←/→/Esc), autoguardado 500 ms + badge "✓ guardado", contadores de páginas por materia.
+
+### Archivos tocados
+- **`frontend/systems.html`** — CSS notebook re-escrito en tema oscuro (#1a1f2e base, tinta `#e4e8f4`, renglones `rgba(120,160,230,.18)`, margen rojo, lomo bronce, agujeros con sombra interna). Lightbox modal agregado al final del body (`#nbLightbox` con botones prev/next/close). Badge "✓ guardado" en header. Tab 8 "📓 Cuaderno" visible en la tira de tabs.
+- **`frontend/systems_logic.js`** — Módulo `NB` IIFE (~230 líneas). Nuevas funciones: `viewImage`, `closeImage`, `prevImage`, `nextImage` (lightbox). `init` ahora pinta puntos de color por materia + contador de páginas. `autoSave` dispara el badge de guardado. Shortcuts teclado Esc/←/→ para el lightbox.
+- **`frontend/js/cloud-sync.js`** — `SYNC_REGISTRY` incluye `sys_notebook` → sincronización automática vía proxy de `localStorage.setItem`.
+
+### Fix crítico aplicado en esta sesión
+- **Imagen abría pestaña en blanco** al hacer click — era `window.open(this.src)` con data URLs base64. Reemplazado por lightbox modal in-page con navegación entre imágenes.
+- **Fondo claro lastimaba la vista** — migrado a paleta oscura completa (paper → #1a1f2e, header gradient → #1f2638/#181d2c, spine → bronce #4a3820, holes → #0a0d16).
+
+### Polish aplicado
+- Gradiente radial sutil violeta en la página
+- Glow en margen rojo y brillo en spine
+- Focus-state: líneas de cuadrícula más visibles al escribir
+- Placeholder itálico gris suave
+- Caret azul suave (`#8bb4ff`)
+- Puntos de color por materia (violeta, cian, verde, ámbar, rojo)
+- Contador de páginas por materia en los chips
+
+### Estado cloud sync
+✅ `sys_notebook` registrado en `SYNC_REGISTRY` (línea 232 de `cloud-sync.js`). Al modificar una página, el proxy de `localStorage.setItem` dispara `CLOUD.push()` automáticamente. Disponible desde cualquier dispositivo al hacer login.
+
+### Claves localStorage
+- `sys_notebook` — objeto `{ [subjectId]: { pages: [...], links: [], images: [] } }`
 
 ---
 

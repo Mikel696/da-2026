@@ -1253,15 +1253,16 @@ const SYS = (() => {
 // ═══════════════════════════════════════
 const NB = (function() {
   const SUBJECTS = [
-    { id: 'ing_web', icon: '🌐', name: 'Ingeniería Web' },
-    { id: 'mat_especiales', icon: '🔢', name: 'Matemáticas Especiales' },
-    { id: 'inv_ciencia', icon: '🔬', name: 'Investigación C&T' },
-    { id: 'english_beginner', icon: '🇺🇸', name: 'English Beginner 1' },
-    { id: 'placement_test', icon: '📝', name: 'Placement Test BE' },
+    { id: 'ing_web', icon: '🌐', name: 'Ingeniería Web', color: '#8b5cf6' },
+    { id: 'mat_especiales', icon: '🔢', name: 'Matemáticas Especiales', color: '#06b6d4' },
+    { id: 'inv_ciencia', icon: '🔬', name: 'Investigación C&T', color: '#10b981' },
+    { id: 'english_beginner', icon: '🇺🇸', name: 'English Beginner 1', color: '#f59e0b' },
+    { id: 'placement_test', icon: '📝', name: 'Placement Test BE', color: '#ef4444' },
   ];
   const KEY = 'sys_notebook';
   let current = null; // { subjectId, pageId }
   let saveTimer = null;
+  let lbIndex = 0; // lightbox current index
 
   function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
@@ -1277,9 +1278,21 @@ const NB = (function() {
   function init() {
     const el = document.getElementById('nbSubjects');
     if (!el) return;
-    el.innerHTML = SUBJECTS.map(s =>
-      `<button class="nb-subj" data-sid="${s.id}" onclick="NB.selectSubject('${s.id}')">${s.icon} ${s.name}</button>`
-    ).join('');
+    const d = load();
+    el.innerHTML = SUBJECTS.map(s => {
+      const pageCount = (d[s.id] && d[s.id].pages) ? d[s.id].pages.length : 0;
+      return `<button class="nb-subj" data-sid="${s.id}" onclick="NB.selectSubject('${s.id}')"><span class="nb-subj-dot" style="background:${s.color}"></span>${s.icon} ${s.name}${pageCount ? ` <span style="opacity:.6;font-size:10px">· ${pageCount}</span>` : ''}</button>`;
+    }).join('');
+    // Keyboard shortcuts for lightbox
+    document.addEventListener('keydown', handleKeydown);
+  }
+
+  function handleKeydown(e) {
+    const lb = document.getElementById('nbLightbox');
+    if (!lb || !lb.classList.contains('on')) return;
+    if (e.key === 'Escape') closeImage();
+    else if (e.key === 'ArrowLeft') prevImage();
+    else if (e.key === 'ArrowRight') nextImage();
   }
 
   function selectSubject(sid) {
@@ -1332,6 +1345,16 @@ const NB = (function() {
       page.updated = new Date().toISOString();
       save(d);
       renderPageList();
+      // Flash saved badge
+      const badge = document.getElementById('nbSavedBadge');
+      if (badge) {
+        badge.classList.add('on');
+        clearTimeout(badge._t);
+        badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
+      }
+      // Refresh subject counters
+      init();
+      document.querySelectorAll('.nb-subj').forEach(b => b.classList.toggle('on', b.dataset.sid === current.subjectId));
     }, 500);
   }
 
@@ -1428,8 +1451,47 @@ const NB = (function() {
     const el = document.getElementById('nbImageGrid');
     if (!page.images || !page.images.length) { el.innerHTML = '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin imágenes. Usa "🖼️ Agregar imagen".</div>'; return; }
     el.innerHTML = page.images.map((im, i) =>
-      `<div class="nb-img-card"><button class="nb-img-del" onclick="NB.removeImage(${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="window.open(this.src)"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
+      `<div class="nb-img-card"><button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage(${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage(${i})"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
     ).join('');
+  }
+
+  function viewImage(idx) {
+    if (!current || !current.pageId) return;
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    if (!page || !page.images || !page.images[idx]) return;
+    lbIndex = idx;
+    const lb = document.getElementById('nbLightbox');
+    const img = document.getElementById('nbLbImg');
+    const cap = document.getElementById('nbLbCaption');
+    img.src = page.images[idx].data;
+    cap.textContent = `${idx + 1}/${page.images.length} — ${page.images[idx].caption || ''}`;
+    lb.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImage() {
+    const lb = document.getElementById('nbLightbox');
+    if (lb) lb.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
+  function prevImage() {
+    if (!current || !current.pageId) return;
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    if (!page || !page.images || !page.images.length) return;
+    lbIndex = (lbIndex - 1 + page.images.length) % page.images.length;
+    viewImage(lbIndex);
+  }
+
+  function nextImage() {
+    if (!current || !current.pageId) return;
+    const d = load();
+    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    if (!page || !page.images || !page.images.length) return;
+    lbIndex = (lbIndex + 1) % page.images.length;
+    viewImage(lbIndex);
   }
 
   function renderPageList() {
@@ -1464,5 +1526,5 @@ const NB = (function() {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else setTimeout(init, 0);
 
-  return { selectSubject, newPage, openPage, autoSave, deletePage, addLink, removeLink, addImage, handleImage, removeImage, renderPageList, init };
+  return { selectSubject, newPage, openPage, autoSave, deletePage, addLink, removeLink, addImage, handleImage, removeImage, renderPageList, init, viewImage, closeImage, prevImage, nextImage };
 })();
