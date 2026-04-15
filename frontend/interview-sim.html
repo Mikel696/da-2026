@@ -211,7 +211,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="card-t">🧰 Requisitos — cómo posicionarte</div>
 <div class="kv">
 <dt>Experiencia 2-3a</dt><dd>Hablar de procesos de conciliación (bancaria, tarjetas, inter-compañías), no solo "Excel avanzado"</dd>
-<dt>Excel avanzado</dt><dd><code>BUSCARV</code>, <code>BUSCARX</code>, <code>INDICE+COINCIDIR</code>, <code>SI</code> anidados, <code>SI.ERROR</code>, <code>SUMAR.SI.CONJUNTO</code>, <code>CONTAR.SI</code>, <code>TEXTO</code>, <code>ESPACIOS</code>, <code>MAYUSC</code>, <code>LIMPIAR</code>, <code>VALOR</code>, tablas dinámicas</dd>
+<dt>Excel avanzado</dt><dd><code>VLOOKUP</code>, <code>COUNTIF</code> bidireccional, <code>SUMIF</code>, <code>IFS</code>, <code>IF</code> anidados, <code>CONCATENATE</code>, <code>TEXT</code>, <code>DATEVALUE</code>, <code>LEFT</code>/<code>RIGHT</code>, <code>ISNUMBER(SEARCH(...))</code>, <code>UPPER</code>, <code>COUNTA</code>, tablas dinámicas</dd>
 <dt>SQL (plus)</dt><dd><code>JOIN</code>s, <code>GROUP BY</code>, window functions, CTEs — para conciliar a nivel base relacional</dd>
 <dt>Power BI (plus)</dt><dd>Dashboards de match rate, exceptions aging, cash position</dd>
 <dt>Bases relacionales + llaves robustas</dt><dd><strong>Concepto crítico del puesto</strong> — ver Tab 3</dd>
@@ -221,7 +221,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 
 <div class="tip tip-v">
 <b>🎯 Tu pitch de 30 segundos (memorizar)</b>
-<p>"Soy Miguel Ángel, estoy en 8vo semestre de Ingeniería de Sistemas en CUN y llevo ~2 años trabajando con procesos de análisis y conciliación de datos financieros. Manejo Excel avanzado (BUSCARV, BUSCARX, SUMAR.SI.CONJUNTO, tablas dinámicas), estoy certificado en SQL básico-intermedio y terminando mi ruta de Data Analyst (SQL → Python → Power BI). Me atrae Simetrik porque combina lo que ya hago — matching de datos con llaves robustas — con escala enterprise y producto No-Code. Busco un rol donde pueda implementar soluciones reales para clientes B2B y crecer a Senior Implementation en 18-24 meses."</p>
+<p>"Soy Miguel Ángel, estoy en 8vo semestre de Ingeniería de Sistemas en CUN y llevo ~2 años trabajando con procesos de análisis y conciliación de datos financieros. Manejo Excel avanzado (VLOOKUP, COUNTIF bidireccional, SUMIF, IFS, tablas dinámicas), estoy certificado en SQL básico-intermedio y terminando mi ruta de Data Analyst (SQL → Python → Power BI). Me atrae Simetrik porque combina lo que ya hago — matching de datos con llaves robustas — con escala enterprise y producto No-Code. Busco un rol donde pueda implementar soluciones reales para clientes B2B y crecer a Senior Implementation en 18-24 meses."</p>
 </div>
 
 <div class="card">
@@ -263,155 +263,207 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <!-- ═════════ TAB 2: TEST TÉCNICO WALKTHROUGH ═════════ -->
 <div class="pnl" id="pnl2">
 
-<div class="sl">· cómo explicar el test de conciliación bancaria paso a paso ·</div>
+<div class="sl">· walkthrough REAL de tu archivo Miguel_Barros.xlsx — nombres exactos de hojas + fórmulas en inglés ·</div>
 
-<div class="tip tip-r">
-<b>⚠️ AJUSTA ESTA SECCIÓN A LO QUE REALMENTE HICISTE</b>
-<p>Este walkthrough está en <strong>Excel español (BUSCARV, SI, SUMAR.SI.CONJUNTO, etc.)</strong> — el idioma que manejás. No pude acceder a tu archivo real (está privado en Drive), así que incluyo <strong>solo el set mínimo de fórmulas que un test de conciliación bancaria razonable exige</strong>. Si usaste alguna variante (ej. <code>INDICE</code>+<code>COINCIDIR</code> en vez de <code>BUSCARV</code>, o Tabla Dinámica en vez de <code>SUMAR.SI.CONJUNTO</code>), reemplazá el texto — la LÓGICA es la misma, lo que cambia es la herramienta.</p>
+<div class="tip tip-g">
+<b>✅ Esta versión está sincronizada con tu archivo real</b>
+<p>Analicé <code>Miguel_Barros.xlsx</code> hoja por hoja. Las <strong>5 hojas</strong>, las <strong>columnas creadas</strong> (AM–AS en DB DOTA, AB–AE en FD), y las <strong>fórmulas exactas</strong> que usaste están abajo. Las fórmulas vienen <strong>en inglés</strong> porque así las escribiste (Google Sheets / Excel en inglés): <code>VLOOKUP</code>, <code>COUNTIF</code>, <code>DATEVALUE</code>, <code>IFS</code>, <code>TEXT</code>. Cuando menciones una hoja, decí el nombre real y entre paréntesis la interpretación para que Juan/Aide/Angie te entiendan sin mirar el archivo.</p>
 </div>
 
 <div class="tip tip-v">
-<b>🎯 Principio rector que debes defender</b>
-<p>"La clave no es qué fórmula usé, es <strong>por qué</strong> la usé. El evaluador quiere escuchar: <em>problema → decisión → resultado</em>. Cada fórmula responde a un problema puntual: limpiar, llavear, cruzar, clasificar, cuantificar."</p>
+<b>🎯 Principio rector — repetilo tal cual</b>
+<p>"La clave no es qué fórmula usé, es <strong>por qué</strong> la usé. Cada columna que creé responde a un problema puntual: reconstruir la tarjeta, deducir el acquirer real, normalizar la fecha, armar la llave compuesta, y cruzar las dos bases con <code>COUNTIF</code> bidireccional."</p>
 </div>
 
 <div class="step step-c">
-<div class="step-n">Paso 0 · Entendimiento del brief</div>
-<div class="step-t">Antes de tocar Excel, leer todo</div>
-<p>"Lo primero que hice fue leer el instructivo completo y las hojas de datos que me entregaron. Identifiqué:"</p>
+<div class="step-n">Paso 0 · Estructura del archivo entregado</div>
+<div class="step-t">5 hojas — qué es cada una</div>
+<p>"El archivo tiene 5 hojas. Antes de tocar una fórmula, identifiqué qué representaba cada una:"</p>
 <ul>
-<li><strong>Fuente A:</strong> extracto bancario (movimientos reales del banco).</li>
-<li><strong>Fuente B:</strong> libro auxiliar / ERP (lo que la empresa tiene registrado).</li>
-<li><strong>Objetivo:</strong> detectar qué registros hacen match, qué registros están solo en una de las dos fuentes, y cuál es la diferencia neta a explicar entre saldos.</li>
+<li><strong>DB DOTA Normalizada</strong> <em>(base de movimientos del procesador / lado "libro" — 56.152 transacciones de pago con tarjeta con datos de autorización, captura y purchase del gateway)</em> — es la fuente principal del lado de la empresa.</li>
+<li><strong>FD Normalizado</strong> <em>(extracto del adquirente — presumiblemente First Data/Fiserv, 33.421 registros de liquidación con número de tarjeta enmascarado, número de establecimiento y arancel)</em> — es el lado banco/adquirente.</li>
+<li><strong>COMERCIO_1</strong> <em>(maestro de comercios — 1.000 filas con COMERCIO, TIPO_COMERCIO, FEE, FECHA INICIO, FECHA FIN)</em> — catálogo de apoyo para el <code>VLOOKUP</code> de tipo de comercio.</li>
+<li><strong>Control Cash In</strong> <em>(matriz de comisiones por rangos de importe — 20.104 colectores clasificados en Rango 1/2/3 con comisión escalonada + IVA)</em> — ejercicio separado de cálculo de fees.</li>
+<li><strong>Resumen Conciliacion</strong> <em>(dashboard ejecutivo — 20 métricas finales: totales, conciliados, % match, montos, comisión total Cash In)</em> — entregable.</li>
 </ul>
-<p style="margin-top:6px">"Validé integridad antes de tocar una fórmula: mismo rango de fechas, misma cuenta bancaria, misma moneda. Esto evita que compare datos que no son comparables."</p>
+<p style="margin-top:6px">"El objetivo era <strong>cruzar DB DOTA contra FD</strong> con una llave compuesta y clasificar cada registro como <code>CONCILIADO</code> o <code>NO CONCILIADO</code> en ambas direcciones."</p>
 </div>
 
 <div class="step">
-<div class="step-n">Paso 1 · Preparación de data (limpieza)</div>
-<div class="step-t">Normalizar antes de cruzar — regla de oro</div>
-<p>"Dupliqué las fuentes en hojas de trabajo (<code>BASE_BANCO</code> y <code>BASE_LIBRO</code>) para no alterar los originales — eso es <strong>auditabilidad básica</strong>. Sobre esas copias:"</p>
+<div class="step-n">Paso 1 · Normalización en DB DOTA — reconstrucción de la tarjeta</div>
+<div class="step-t">Columnas AM, AN, AK — mismo idioma en ambas bases</div>
+<p>"El problema de entrada: <strong>DB DOTA trae la tarjeta partida en dos columnas</strong> (D = primeros 6 dígitos/BIN, A = últimos 4), mientras que <strong>FD trae la tarjeta completa enmascarada</strong> (M, formato <code>558766XXXXXX9569</code>). Para poder cruzarlas tuve que hablar el mismo idioma en las dos bases."</p>
+<p>En <strong>DB DOTA Normalizada</strong> <em>(base del procesador)</em> creé la columna <strong>CARD_NUMBER (AK)</strong> reconstruida:</p>
+<pre>=CONCATENATE('DB DOTA Normalizada'!$D2,"XXXXXX",'DB DOTA Normalizada'!$A2)</pre>
+<p>Y para marcas / adquirentes usé lógica condicional sobre los campos de autorización (V), captura (AC) y purchase (M):</p>
 <ul>
-<li><strong>Convertir texto a fecha</strong> si venía como cadena:<br><code>=FECHANUMERO(A2)</code></li>
-<li><strong>Normalizar montos</strong> quitando separador de miles y símbolo de moneda:<br><code>=VALOR(SUSTITUIR(SUSTITUIR(A2;"$";"");".";""))</code></li>
-<li><strong>Limpiar descripciones</strong> (mayúsculas, sin espacios dobles, sin caracteres invisibles):<br><code>=ESPACIOS(MAYUSC(LIMPIAR(D2)))</code></li>
-<li><strong>Tomar el valor absoluto del monto</strong> (porque el banco y el libro a veces manejan signos opuestos):<br><code>=ABS(C2)</code></li>
+<li><strong>Columna AM (GTWT_ACQUIRER — adquirente deducido):</strong> si hay rastro de "Mastercard", "Firstdata" o "Diners" en cualquiera de las 3 fuentes → <code>"TD"</code>; si aparece "Visa" → <code>"PRISMA"</code>; en otro caso, el texto del adquirente en mayúsculas.
+<pre>=IF(OR(ISNUMBER(SEARCH("Mastercard",V2)),ISNUMBER(SEARCH("Firstdata",V2)),
+       ISNUMBER(SEARCH("Diners",V2)),ISNUMBER(SEARCH("Mastercard",AC2)),…),"TD",
+   IF(OR(ISNUMBER(SEARCH("Visa",V2)),ISNUMBER(SEARCH("Visa",AC2)),
+         ISNUMBER(SEARCH("Visa",M2))),"PRISMA",
+      UPPER(IF(V2&lt;&gt;"",V2,IF(AC2&lt;&gt;"",AC2,M2)))))</pre>
+</li>
+<li><strong>Columna AN (BRAND — marca por BIN):</strong> clasifica la tarjeta por el primer dígito del CARD_NUMBER.
+<pre>=IFS(OR(UPPER(K2)="MASTER",UPPER(K2)="MAESTRO",UPPER(K2)="MASTERCARD"),"MASTERCARD",
+     OR(LEFT(TEXT(AK2,"000000"),2)="34",LEFT(TEXT(AK2,"000000"),2)="37"),"AMERICAN EXPRESS",
+     OR(LEFT(TEXT(AK2,"000000"),1)="5",LEFT(TEXT(AK2,"000000"),1)="2"),"MASTERCARD",
+     LEFT(TEXT(AK2,"000000"),1)="4","VISA",
+     TRUE,"PENDIENTE")</pre>
+</li>
 </ul>
 <div class="tip tip-v" style="margin-top:8px">
-<b>Por qué lo hice así</b>
-<p>Los datos nunca matchean al 100% "como vienen". Un espacio oculto, una fecha con formato distinto, o una coma decimal tumban cualquier <code>BUSCARV</code>. El <strong>80% del éxito de una conciliación es la limpieza previa</strong>.</p>
+<b>Por qué importa esto en la entrevista</b>
+<p>"Si me preguntan <strong>por qué reconstruí la tarjeta</strong>, la respuesta es: <em>sin un identificador común entre DB DOTA y FD, cualquier cruce es imposible. La tarjeta es el atributo de mayor cardinalidad que comparten ambas fuentes — por eso la normalicé primero</em>."</p>
 </div>
 </div>
 
 <div class="step step-c">
-<div class="step-n">Paso 2 · Diseño de la llave compuesta</div>
-<div class="step-t">¿Qué hace único a cada movimiento?</div>
-<p>"Construí una <strong>llave compuesta (composite key)</strong> — una combinación de campos que identifica unívocamente cada registro en las dos fuentes."</p>
-<pre>LLAVE = FECHA & "|" & MONTO_ABS & "|" & TIPO_MOV & "|" & REFERENCIA</pre>
-<p>"La fórmula que escribí fue:"</p>
-<pre>=TEXTO(A2;"aaaammdd")&amp;"|"&amp;TEXTO(B2;"0.00")&amp;"|"&amp;C2&amp;"|"&amp;D2</pre>
-<ul>
-<li><strong>FECHA en formato <code>aaaammdd</code></strong> → evita ambigüedad entre DD/MM/AAAA y MM/DD/AAAA.</li>
-<li><strong>MONTO absoluto con 2 decimales</strong> → uniforma el signo y la cantidad de decimales.</li>
-<li><strong>TIPO_MOV</strong> (débito / crédito) → evita que un pago de $100 se cruce con un cobro de $100.</li>
-<li><strong>REFERENCIA</strong> → número de transacción, cheque o NIT. Agrega unicidad real.</li>
-</ul>
-<div class="tip tip-g" style="margin-top:8px">
-<b>Esto es exactamente la "llave robusta" del job description</b>
-<p>El JD pide literalmente <em>"conciliation processes (relational bases and robust keys)"</em>. Si te preguntan "¿qué es una llave robusta?", tu respuesta debe ser: <strong>"Una combinación de atributos que identifica unívocamente un registro y resiste cambios cosméticos en los datos fuente — por eso combino fecha normalizada + monto absoluto + tipo + referencia, no solo la referencia sola"</strong>.</p>
+<div class="step-n">Paso 2 · Deducción del merchant y la fecha corregida</div>
+<div class="step-t">Columnas AO (GTWT_MERCHANT_NUMBER) y AP (MOV_CREATION_DATE) en DB DOTA</div>
+<p>"DB DOTA <em>(base del procesador)</em> tiene el número de comercio repartido en <strong>3 columnas distintas</strong> (AH, AA, S) según el flujo de la transacción — Purchase, Capture o Authorization. Para colapsarlo a una sola columna usé una cadena de <code>IF</code> priorizada:"</p>
+<pre>=IF(AH2&lt;&gt;"",AH2,IF(AA2&lt;&gt;"",AA2,IF(S2&lt;&gt;"",S2,"")))</pre>
+<p>"Y la fecha venía como string ISO-8601 con zona horaria (<code>2022-01-02T23:13:36-04:00</code>). La convertí a serial de Excel y le sumé 1 día para alinear con la fecha de liquidación del adquirente:"</p>
+<pre>=+DATEVALUE(LEFT(F2,10))+1</pre>
+<div class="tip tip-y" style="margin-top:8px">
+<b>⚠️ Si te preguntan "¿por qué sumás +1?"</b>
+<p>"Porque las transacciones de DB DOTA (gateway) tienen <strong>fecha de autorización</strong>, pero FD (adquirente) registra con <strong>fecha de liquidación / compensación T+1</strong>. Es el desfase operativo típico entre capture y settlement — alinearlo es lo que permite que la llave compuesta matchee."</p>
 </div>
 </div>
 
 <div class="step step-g">
-<div class="step-n">Paso 3 · Matching con BUSCARV (o BUSCARX)</div>
-<div class="step-t">Cruzar las dos fuentes con la llave</div>
-<p>"Con la llave construida en ambas tablas, agregué en <code>BASE_BANCO</code> una columna que trae el monto del libro:"</p>
-<pre>=SI.ERROR(BUSCARV([@LLAVE];BASE_LIBRO!A:F;6;FALSO);"NO_MATCH")</pre>
-<p>"Y simétricamente en <code>BASE_LIBRO</code> una columna que trae el monto del banco:"</p>
-<pre>=SI.ERROR(BUSCARV([@LLAVE];BASE_BANCO!A:F;6;FALSO);"NO_MATCH")</pre>
+<div class="step-n">Paso 3 · Enriquecimiento con el maestro COMERCIO_1</div>
+<div class="step-t">Columna AQ (TIPO_COMERCIO) — VLOOKUP contra el catálogo</div>
+<p>"Para traer el <strong>tipo de comercio</strong> (ESTANDAR, etc.) y la FEE desde la hoja <strong>COMERCIO_1</strong> <em>(maestro de comercios)</em>, hice un VLOOKUP con coincidencia exacta:"</p>
+<pre>=+VLOOKUP('DB DOTA Normalizada'!$AO2,COMERCIO_1!$A:$E,2,0)</pre>
 <ul>
-<li><strong><code>FALSO</code> (coincidencia exacta)</strong> → nunca aproximada en conciliación.</li>
-<li><strong><code>SI.ERROR</code></strong> → cuando no encuentra, devuelve <code>"NO_MATCH"</code> en texto para poder filtrar.</li>
-<li><strong>Si usaste BUSCARX</strong> (Excel 365): <code>=BUSCARX([@LLAVE];BASE_LIBRO[LLAVE];BASE_LIBRO[MONTO];"NO_MATCH";0)</code> — más limpia, mismo resultado.</li>
+<li><strong>Valor buscado:</strong> AO2 = número de comercio consolidado.</li>
+<li><strong>Rango:</strong> <code>COMERCIO_1!$A:$E</code> — toda la tabla maestro.</li>
+<li><strong>Columna devuelta:</strong> 2 = TIPO_COMERCIO.</li>
+<li><strong>Match:</strong> <code>0</code> (FALSE) — <em>nunca</em> aproximado en un cruce financiero.</li>
 </ul>
-<p style="margin-top:6px">"Esto me da 3 estados posibles por registro:"</p>
-<ol>
-<li><strong>Match exacto</strong> (monto igual) → conciliado.</li>
-<li><strong>Match con diferencia</strong> (encontrado pero monto distinto) → excepción por diferencia.</li>
-<li><strong>NO_MATCH</strong> (solo en una fuente) → partida conciliatoria.</li>
-</ol>
-</div>
-
-<div class="step step-g">
-<div class="step-n">Paso 4 · Clasificación de excepciones</div>
-<div class="step-t">No todo no-match es igual</div>
-<p>"Agregué una columna <code>ESTADO</code> con una función <code>SI</code> anidada para clasificar:"</p>
-<pre>=SI([@MATCH_LIBRO]="NO_MATCH";"SOLO_BANCO";
-   SI([@MONTO]=[@MATCH_LIBRO];"CONCILIADO";
-      SI(ABS([@MONTO]-[@MATCH_LIBRO])&lt;1;"DIF_REDONDEO";
-         "DIFERENCIA_INVESTIGAR")))</pre>
-<p>"Las categorías típicas de conciliación bancaria son:"</p>
-<ul>
-<li><strong>Partidas en tránsito</strong> — cheques emitidos no cobrados, depósitos en tránsito.</li>
-<li><strong>Notas débito / crédito del banco</strong> — comisiones, intereses, GMF 4x1000.</li>
-<li><strong>Errores del libro</strong> — omisiones, doble registro, monto errado.</li>
-<li><strong>Errores del banco</strong> — cobro duplicado, cargos incorrectos.</li>
-<li><strong>Diferencias de timing</strong> — mismo movimiento con fechas distintas por corte.</li>
-</ul>
+<p style="margin-top:6px">"Este paso me permitió además <strong>filtrar el Resumen solo para tipo ESTANDAR</strong> — que era el subset que pedía el brief."</p>
 </div>
 
 <div class="step step-o">
-<div class="step-n">Paso 5 · Totales por categoría con SUMAR.SI.CONJUNTO</div>
-<div class="step-t">Cuantificar cada tipo de diferencia</div>
-<p>"Para cuantificar cada categoría usé <code>SUMAR.SI.CONJUNTO</code> y <code>CONTAR.SI</code>:"</p>
-<pre>=SUMAR.SI.CONJUNTO(BASE_BANCO[MONTO];BASE_BANCO[ESTADO];"SOLO_BANCO")</pre>
-<pre>=CONTAR.SI(BASE_BANCO[ESTADO];"CONCILIADO")</pre>
-<p>Alternativa equivalente (si lo hiciste con tabla dinámica):</p>
+<div class="step-n">Paso 4 · Construcción de la LLAVE compuesta</div>
+<div class="step-t">Columna AR en DB DOTA ↔ Columna AD en FD — mismo esquema, 5 atributos</div>
+<p>"Con las columnas normalizadas ya listas, construí la <strong>llave compuesta</strong> en las dos bases con la <em>misma</em> estructura:"</p>
+<p><strong>En DB DOTA Normalizada (AR):</strong></p>
+<pre>=AO2&amp;"|"&amp;D2&amp;"|"&amp;A2&amp;"|"&amp;TEXT(AP2,"DD/MM/YYYY")&amp;"|"&amp;E2</pre>
+<p><strong>En FD Normalizado (AD):</strong></p>
+<pre>=Z2&amp;"|"&amp;AB2&amp;"|"&amp;AC2&amp;"|"&amp;TEXT(N2,"DD/MM/YYYY")&amp;"|"&amp;O2</pre>
+<p>"Donde, en FD, las columnas auxiliares AB y AC las calculé partiendo el número de tarjeta completo (M):"</p>
+<pre>AB (LIQ_6_TARJETA):  =LEFT(TEXT('FD Normalizado'!$M2,"0"),6)
+AC (LIQ_4_TARJETA):  =RIGHT(TEXT('FD Normalizado'!$M2,"0"),4)</pre>
+<p><strong>Los 5 atributos de la llave — idénticos en ambas bases:</strong></p>
+<ol>
+<li><strong>Número de comercio</strong> (AO en DB DOTA / Z en FD) — identifica el punto de venta.</li>
+<li><strong>BIN (6 primeros de tarjeta)</strong> (D en DB DOTA / AB en FD) — banco emisor.</li>
+<li><strong>Últimos 4 de tarjeta</strong> (A en DB DOTA / AC en FD) — identificador del plástico.</li>
+<li><strong>Fecha normalizada <code>DD/MM/YYYY</code></strong> (AP en DB DOTA, ya corregida +1 día / N en FD).</li>
+<li><strong>Monto</strong> (E en DB DOTA / O en FD).</li>
+</ol>
+<div class="tip tip-g" style="margin-top:8px">
+<b>Esto es la "llave robusta" que pide el JD</b>
+<p>Si te preguntan <em>"what's a robust key?"</em> → "Es una combinación de atributos que identifica unívocamente un registro y <strong>resiste cambios cosméticos</strong> en los datos fuente. En mi test combiné 5 atributos: comercio + BIN + últimos 4 + fecha + monto. Una sola referencia del banco no bastaría porque DB DOTA y FD usan IDs de transacción distintos — la tarjeta partida en 2 campos fue el puente."</p>
+</div>
+</div>
+
+<div class="step step-o">
+<div class="step-n">Paso 5 · Matching bidireccional con COUNTIF</div>
+<div class="step-t">Columna AS en DB DOTA ↔ Columna AE en FD</div>
+<p>"Acá viene la decisión más importante del test. En vez de usar <code>VLOOKUP</code> para traer el monto contraparte (lo cual devolvería <code>#N/A</code> y obligaría a envolver en <code>IFERROR</code>), usé <code>COUNTIF</code> bidireccional — <strong>solo me importa saber SI existe la llave del otro lado, no traer el valor</strong>. Es más rápido en 56k × 33k registros y el resultado es un booleano conciliado/no conciliado limpio."</p>
+<p><strong>En DB DOTA Normalizada (AS — ESTADO_CONCILIACION):</strong></p>
+<pre>=IF(COUNTIF('FD Normalizado'!AD:AD,AR2)&gt;0,"CONCILIADO","NO CONCILIADO")</pre>
+<p><strong>En FD Normalizado (AE — ESTADO_CONCILIACION):</strong></p>
+<pre>=IF(COUNTIF('DB DOTA Normalizada'!$AR:$AR,'FD Normalizado'!$AD2)&gt;0,"CONCILIADO","NO CONCILIADO")</pre>
 <ul>
-<li><strong>Filas:</strong> ESTADO</li>
-<li><strong>Valores:</strong> <code>SUMA</code> de MONTO + <code>CUENTA</code> de ID</li>
+<li><strong>COUNTIF &gt; 0</strong> → la llave existe en la otra base → <code>"CONCILIADO"</code>.</li>
+<li><strong>COUNTIF = 0</strong> → la llave no aparece en la otra base → <code>"NO CONCILIADO"</code> (partida conciliatoria).</li>
+<li><strong>Bidireccional</strong> porque un match solo desde DB DOTA no me dice cuáles son los registros <em>huérfanos</em> de FD — tengo que correrlo también en el otro sentido.</li>
 </ul>
-<p style="margin-top:6px">"Esto me permite validar la ecuación maestra de la conciliación bancaria:"</p>
-<pre>SALDO_LIBRO + (notas_crédito_banco − notas_débito_banco)
-            + (cheques_pendientes − depósitos_tránsito)
-            = SALDO_BANCO</pre>
-<p>"Si esa ecuación no cierra, me falta categorizar algo."</p>
+<div class="tip tip-y" style="margin-top:8px">
+<b>Defensa técnica si te preguntan "¿por qué COUNTIF y no VLOOKUP/XLOOKUP?"</b>
+<p>"VLOOKUP está pensado para <em>traer</em> un valor asociado; yo solo necesitaba <strong>verificar existencia</strong>. <code>COUNTIF &gt; 0</strong> hace exactamente eso en una sola pasada, sin necesidad de <code>IFERROR</code> para atrapar <code>#N/A</code>. Además, sobre 56k × 33k filas, <code>COUNTIF</code> sobre columna entera es más estable en el recalculo que un <code>VLOOKUP</code> sobre un rango."</p>
+</div>
 </div>
 
 <div class="step step-am">
-<div class="step-n">Paso 6 · Hoja resumen / reporte final</div>
-<div class="step-t">Entregable ejecutivo</div>
-<p>"Creé una hoja <code>RESUMEN</code> con los saldos y las partidas conciliatorias agrupadas:"</p>
+<div class="step-n">Paso 6 · Control Cash In — rangos escalonados de comisión</div>
+<div class="step-t">Hoja Control Cash In — ejercicio separado de pricing</div>
+<p>"Esta hoja era un ejercicio aparte: <strong>clasificar 20.101 colectores</strong> (identificados por <code>PAY_COLLECTOR_DOCUMENT</code>) en 3 rangos de importe y calcular la comisión con IVA."</p>
+<p><strong>Columna RANGO (C) — clasificación por importe:</strong></p>
+<pre>=IF(B2&lt;=20000,"Rango 1 (&lt;=20,000)",
+    IF(B2&lt;=40000,"Rango 2 (20,001-40,000)",
+                 "Rango 3 (&gt;40,000)"))</pre>
+<p><strong>Columna COMISION (D) — cálculo escalonado + IVA 21%:</strong></p>
+<pre>=IF(B2&lt;=20000, 0,
+    IF(B2&lt;=40000, (B2-20000)*0.01*1.21,
+                  (20000*0.01*1.21)+((B2-40000)*0.03*1.21)))</pre>
 <ul>
-<li><strong>Saldo según libro</strong> → <code>=SUMA(BASE_LIBRO[MONTO])</code></li>
-<li><strong>Saldo según banco</strong> → <code>=SUMA(BASE_BANCO[MONTO])</code></li>
-<li><strong>Diferencia bruta</strong> → <code>=[SALDO_BANCO]-[SALDO_LIBRO]</code></li>
-<li><strong>Partidas conciliatorias</strong> agrupadas por categoría (salida del <code>SUMAR.SI.CONJUNTO</code> del paso 5).</li>
-<li><strong>Saldo conciliado</strong> = debe dar idéntico en ambas puntas.</li>
-<li><strong>% match rate</strong> → <code>=CONTAR.SI([ESTADO];"CONCILIADO")/CONTARA([ESTADO])</code></li>
+<li><strong>Rango 1</strong> (≤ 20.000) → comisión 0.</li>
+<li><strong>Rango 2</strong> (20.001–40.000) → 1% sobre el exceso de 20.000, con IVA del 21% aplicado.</li>
+<li><strong>Rango 3</strong> (&gt; 40.000) → base fija del Rango 2 (sobre los 20k del tramo medio al 1%) + 3% sobre el exceso de 40.000, todo con IVA.</li>
 </ul>
+<p style="margin-top:6px">"Esto es una <strong>tarifa escalonada marginal</strong> — el mismo patrón que usan bancos y pasarelas para cobrar fees. El <code>1.21</code> multiplicador aplica IVA argentino (21%), consistente con el contexto LATAM del ejercicio."</p>
 </div>
 
 <div class="step step-am">
-<div class="step-n">Paso 7 · Buenas prácticas para defender</div>
-<div class="step-t">Lo que hace la diferencia entre Jr y Semi-Senior</div>
+<div class="step-n">Paso 7 · Hoja Resumen Conciliacion — dashboard ejecutivo</div>
+<div class="step-t">Los 20 números que cierran el entregable</div>
+<p>"La hoja <strong>Resumen Conciliacion</strong> es lo que le mostraría primero al cliente. Usa <code>COUNTA</code>, <code>COUNTIF</code>, <code>SUMIF</code> y <code>TEXT</code> para agregar los resultados de las otras hojas:"</p>
+<p><strong>Totales y % de conciliación por base:</strong></p>
+<pre>Total registros DB DOTA (ESTANDAR):  =COUNTA('DB DOTA Normalizada'!$A$1:$A$56153)-1   → 56.152
+Total registros FD:                  =COUNTA('FD Normalizado'!$A$1:$A$33422)-1        → 33.421
+DB DOTA - Conciliados:               =COUNTIF('DB DOTA Normalizada'!AS:AS,"CONCILIADO")      → 23.458
+DB DOTA - No Conciliados:            =COUNTIF('DB DOTA Normalizada'!AS:AS,"NO CONCILIADO")   → 32.694
+DB DOTA - % Conciliado:              =TEXT(B4/B2*100,"0.00")&amp;"%"                     → 41,78%
+FD - Conciliados:                    =COUNTIF('FD Normalizado'!$AE$2:$AE$33422,"CONCILIADO") → 18.008
+FD - No Conciliados:                 =COUNTIF('FD Normalizado'!$AE$2:$AE$33422,"NO CONCILIADO") → 15.413
+FD - % Conciliado:                   =TEXT(B9/B3*100,"0.00")&amp;"%"                     → 53,88%</pre>
+<p><strong>Montos conciliados y no conciliados por base:</strong></p>
+<pre>DB DOTA - Monto Conciliado:     =SUMIF('DB DOTA Normalizada'!AS:AS,"CONCILIADO",'DB DOTA Normalizada'!E:E)    → $56.388.293,60
+DB DOTA - Monto No Conciliado:  =SUMIF('DB DOTA Normalizada'!AS:AS,"NO CONCILIADO",'DB DOTA Normalizada'!E:E) → $81.923.293,78
+FD - Monto Conciliado:          =SUMIF('FD Normalizado'!AE:AE,"CONCILIADO",'FD Normalizado'!O:O)               → $42.384.434,00
+FD - Monto No Conciliado:       =SUMIF('FD Normalizado'!AE:AE,"NO CONCILIADO",'FD Normalizado'!O:O)            → $35.919.382,90</pre>
+<p><strong>Bloque Control Cash In — clasificación y comisión:</strong></p>
+<pre>Total Colectores:               =+COUNTA('Control Cash In'!F:F)-1                               → 20.101
+Colectores Rango 1 (≤20k):      =COUNTIF('Control Cash In'!H:H,"Rango 1 (&lt;=20,000)")             → 19.046
+Colectores Rango 2 (20k-40k):   =COUNTIF('Control Cash In'!H:H,"Rango 2 (20,001-40,000)")       → 637
+Colectores Rango 3 (&gt;40k):       =COUNTIF('Control Cash In'!H:H,"Rango 3 (&gt;40,000)")              → 418
+Comisión Total:                 =SUM('Control Cash In'!I:I)                                    → $1.392.404,73</pre>
+<div class="tip tip-g" style="margin-top:8px">
+<b>🎤 Número clave para cerrar</b>
+<p>"De las <strong>56.152 transacciones ESTANDAR en DB DOTA</strong>, concilié <strong>23.458 (41,78%) por $56,3M</strong>. Del lado de <strong>FD con 33.421 registros</strong>, concilié <strong>18.008 (53,88%) por $42,3M</strong>. La asimetría (41,78% vs 53,88%) indica que <strong>DB DOTA tiene más registros huérfanos que FD</strong> — consistente con que el gateway registra intentos que no siempre llegan a liquidarse en el adquirente (authorizations sin capture, voids, chargebacks). El <strong>Control Cash In arrojó una comisión total de $1.392.404,73</strong> con el 95% de colectores en Rango 1."</p>
+</div>
+</div>
+
+<div class="step step-v">
+<div class="step-n">Paso 8 · Lectura de los resultados — qué le dirías al cliente</div>
+<div class="step-t">De los números al insight</div>
 <ul>
-<li><strong>Tablas estructuradas</strong> (<code>Ctrl+T</code>) → las fórmulas se auto-extienden al crecer los datos.</li>
-<li><strong>Formato condicional</strong> sobre la columna <code>ESTADO</code> → verde/amarillo/rojo para lectura rápida.</li>
-<li><strong>Un solo archivo Excel con varias hojas</strong> → respeta la instrucción explícita del brief.</li>
-<li><strong>No modifiqué la data original</strong> — trabajé sobre copias para mantener auditabilidad.</li>
-<li><strong>Nombre del archivo:</strong> <code>Miguel_Angel_Barros_Torres.xlsx</code> (como pidió el brief).</li>
+<li><strong>41,78% de match en DB DOTA no es un fracaso</strong> — es el techo que permite el dataset porque FD tiene solo 33.421 registros contra 56.152 de DB DOTA. Estadísticamente, el <em>ceiling</em> teórico es ~59% (33.421 / 56.152).</li>
+<li><strong>La diferencia entre el match real (41,78%) y el ceiling (59%)</strong> representa los <strong>breaks investigables</strong>: diferencias de fecha fuera del +1 día, marcas no incluidas en el mapeo <code>TD/PRISMA</code>, o comercios con código cambiado en el período.</li>
+<li><strong>$81,9M no conciliados en DB DOTA vs $35,9M no conciliados en FD</strong> → la brecha de $46M indica que existe un volumen relevante de autorizaciones en DB DOTA que nunca llegaron a liquidarse en FD. <em>Eso es exactamente lo que Simetrik automatizaría con reglas de matching N:M y tolerancias</em>.</li>
 </ul>
 </div>
 
 <div class="tip tip-g">
 <b>🎤 Cierre del walkthrough — frase para la entrevista</b>
-<p>"Si me dan el mismo dataset 100× más grande, esta misma lógica corre en SQL con un <code>FULL OUTER JOIN</code> sobre la llave compuesta, o en Simetrik sin código configurando la misma llave en la UI. <strong>La lógica no cambia — solo cambia la herramienta para la escala</strong>."</p>
+<p>"Si me dan este mismo dataset con 10× el volumen, esta lógica corre en SQL con un <code>FULL OUTER JOIN</code> sobre la llave compuesta de 5 atributos, o en la plataforma de Simetrik configurando sin código la misma llave con sus tolerancias y reglas de grouping N:M. <strong>La lógica no cambia — solo cambia la herramienta para la escala</strong>."</p>
 </div>
 
-<div class="tip tip-r">
-<b>📝 Recordatorio final antes de la entrevista</b>
-<p>Abrí tu archivo real y <strong>revisá celda por celda qué fórmula usaste</strong>. Si el walkthrough de arriba menciona una fórmula que vos no usaste, <strong>eliminala o reemplazala acá mismo</strong> antes de ensayar. El evaluador va a pedirte explicar TU archivo, no uno genérico.</p>
+<div class="tip tip-v">
+<b>📝 Glosario rápido — si el evaluador te interrumpe con una sigla</b>
+<ul>
+<li><strong>DB DOTA</strong> → base del procesador/gateway (lado libro del comercio).</li>
+<li><strong>FD</strong> → First Data / Fiserv (adquirente/procesador de tarjetas, lado banco).</li>
+<li><strong>BIN</strong> → Bank Identification Number, primeros 6 dígitos de la tarjeta = identifica al banco emisor.</li>
+<li><strong>Acquirer</strong> → el banco/red que procesa el cobro en el POS (en Argentina: Prisma/Visa, First Data/Mastercard).</li>
+<li><strong>Liquidación / Settlement</strong> → el momento en que el adquirente paga efectivamente al comercio (T+1, T+2…).</li>
+<li><strong>Arancel</strong> → comisión que el adquirente cobra al comercio por cada transacción (columna ARANCEL en FD = $7,12 en la row 2).</li>
+</ul>
 </div>
 
 </div>
@@ -422,13 +474,21 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="sl">· preguntas técnicas probables — con respuesta modelo ·</div>
 
 <div class="qa" onclick="this.classList.toggle('open')">
-<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cuál es la diferencia entre BUSCARV, BUSCARX e INDICE + COINCIDIR?</div><span class="qa-ico">▼</span></div>
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Por qué usaste COUNTIF para conciliar en vez de VLOOKUP/XLOOKUP?</div><span class="qa-ico">▼</span></div>
 <div class="qa-b">
-<p><span class="tag tag-g">Concepto</span> <span class="tag">Excel avanzado</span></p>
-<p><strong>BUSCARV</strong> (<em>VLOOKUP</em>): busca un valor en la <em>primera columna</em> de una tabla y devuelve el valor de otra columna a la derecha.<br>Ej: <code>=BUSCARV(A2;BASE_LIBRO!A:F;6;FALSO)</code>.<br>Limitaciones: solo mira a la derecha, se rompe si insertás columnas, y requiere indicar la posición numérica de la columna (si cambia el orden, se descuadra).</p>
-<p><strong>BUSCARX</strong> (<em>XLOOKUP</em>, Excel 365/2021): busca en cualquier columna y devuelve desde cualquier otra, izquierda o derecha. Soporta valor por defecto si no encuentra.<br>Ej: <code>=BUSCARX(A2;BASE_LIBRO[LLAVE];BASE_LIBRO[MONTO];"NO_MATCH";0)</code>.</p>
-<p><strong>INDICE + COINCIDIR</strong>: combinación clásica. <code>COINCIDIR</code> devuelve la posición, <code>INDICE</code> trae el valor.<br>Ej: <code>=SI.ERROR(INDICE(BASE_LIBRO[MONTO];COINCIDIR(A2;BASE_LIBRO[LLAVE];0));"NO_MATCH")</code>.<br>Funciona en cualquier versión de Excel y permite lookup flexible.</p>
-<p><strong>Qué uso:</strong> BUSCARX si está disponible; INDICE+COINCIDIR si necesito compatibilidad con versiones viejas; BUSCARV para casos simples donde la tabla no va a cambiar de estructura.</p>
+<p><span class="tag tag-g">Decisión técnica del test</span> <span class="tag">Excel avanzado</span></p>
+<p>En mi test real (<strong>DB DOTA Normalizada</strong> 56k × <strong>FD Normalizado</strong> 33k), usé <code>COUNTIF</code> bidireccional:</p>
+<pre>AS (DB DOTA): =IF(COUNTIF('FD Normalizado'!AD:AD,AR2)&gt;0,"CONCILIADO","NO CONCILIADO")
+AE (FD):      =IF(COUNTIF('DB DOTA Normalizada'!$AR:$AR,'FD Normalizado'!$AD2)&gt;0,"CONCILIADO","NO CONCILIADO")</pre>
+<p><strong>Por qué COUNTIF y no VLOOKUP:</strong></p>
+<ul>
+<li><strong>Solo necesitaba verificar existencia</strong> — no traer el monto de la contraparte. <code>VLOOKUP</code> devolvería <code>#N/A</code> y obligaría a envolver en <code>IFERROR</code>. <code>COUNTIF &gt; 0</code> → booleano limpio.</li>
+<li><strong>Bidireccional</strong> — corrí <code>COUNTIF</code> en los dos sentidos (DB DOTA busca en FD y viceversa) para capturar registros huérfanos en ambas puntas.</li>
+<li><strong>Estabilidad en volumen alto</strong> — sobre 56k × 33k, <code>COUNTIF</code> sobre columna entera recalcula de forma más predecible.</li>
+</ul>
+<p><strong>VLOOKUP sí lo usé</strong> para el enriquecimiento contra <strong>COMERCIO_1</strong> <em>(maestro de comercios)</em>, donde sí necesitaba <em>traer</em> el TIPO_COMERCIO:</p>
+<pre>=+VLOOKUP('DB DOTA Normalizada'!$AO2,COMERCIO_1!$A:$E,2,0)</pre>
+<p><strong>Regla de decisión:</strong> <code>VLOOKUP/XLOOKUP</code> cuando necesito <em>traer</em> un valor; <code>COUNTIF</code> cuando solo necesito <em>verificar existencia</em>.</p>
 </div>
 </div>
 
@@ -436,14 +496,17 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="qa-h"><div class="qa-q"><span class="qa-cat">CONCEPTO</span>¿Qué es una "llave robusta" en procesos de conciliación?</div><span class="qa-ico">▼</span></div>
 <div class="qa-b">
 <p><span class="tag tag-g">Critical</span></p>
-<p>Es una <strong>combinación de atributos (composite key)</strong> que identifica unívocamente un registro y <strong>resiste cambios cosméticos</strong> en los datos fuente. En conciliación bancaria típica combino:</p>
+<p>Es una <strong>combinación de atributos (composite key)</strong> que identifica unívocamente un registro y <strong>resiste cambios cosméticos</strong> en los datos fuente. En mi test real usé <strong>5 atributos concatenados con <code>|</code></strong>:</p>
 <ul>
-<li><strong>Fecha normalizada</strong> (formato <code>aaaammdd</code>)</li>
-<li><strong>Monto absoluto</strong> con 2 decimales</li>
-<li><strong>Tipo de movimiento</strong> (débito / crédito)</li>
-<li><strong>Referencia</strong> (nro transacción, cheque, NIT)</li>
+<li><strong>Número de comercio</strong> (columna AO en DB DOTA / Z en FD) — punto de venta.</li>
+<li><strong>BIN (6 primeros de tarjeta)</strong> (D en DB DOTA / AB en FD) — banco emisor.</li>
+<li><strong>Últimos 4 de tarjeta</strong> (A en DB DOTA / AC en FD) — identificador del plástico.</li>
+<li><strong>Fecha normalizada</strong> en formato <code>DD/MM/YYYY</code> (AP en DB DOTA con +1 día de desfase / N en FD).</li>
+<li><strong>Monto</strong> (E en DB DOTA / O en FD).</li>
 </ul>
-<p>Construida en Excel con <code>&amp;</code> como separador: <code>=TEXTO(fecha;"aaaammdd")&amp;"|"&amp;TEXTO(monto;"0.00")&amp;"|"&amp;tipo&amp;"|"&amp;ref</code>.</p>
+<p>Construida en Excel con <code>&amp;</code> como separador:</p>
+<pre>DB DOTA (AR): =AO2&amp;"|"&amp;D2&amp;"|"&amp;A2&amp;"|"&amp;TEXT(AP2,"DD/MM/YYYY")&amp;"|"&amp;E2
+FD (AD):       =Z2&amp;"|"&amp;AB2&amp;"|"&amp;AC2&amp;"|"&amp;TEXT(N2,"DD/MM/YYYY")&amp;"|"&amp;O2</pre>
 <p>Una llave simple (solo referencia) se rompe si el banco cambia el formato del número. Una llave robusta aguanta esos cambios porque combina 3-4 atributos semánticos. <strong>Es exactamente el concepto que Simetrik implementa en su UI No-Code</strong> — el cliente define la llave, el motor matchea.</p>
 </div>
 </div>
@@ -586,16 +649,20 @@ ORDER BY m.llave, m.fecha;</pre>
 </div>
 
 <div class="qa" onclick="this.classList.toggle('open')">
-<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Qué es SUMAR.SI.CONJUNTO y cuándo es superior a SUMAPRODUCTO?</div><span class="qa-ico">▼</span></div>
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cómo armaste los totales del Resumen? (SUMIF + COUNTIF + TEXT)</div><span class="qa-ico">▼</span></div>
 <div class="qa-b">
-<p><span class="tag">Excel avanzado</span></p>
-<p><code>SUMAR.SI.CONJUNTO(rango_suma; rango_criterio1; criterio1; ...)</code> — suma con múltiples condiciones tipo AND.</p>
-<pre>=SUMAR.SI.CONJUNTO(BASE_LIBRO[MONTO];
-                   BASE_LIBRO[FECHA];"&gt;="&amp;FECHA_INI;
-                   BASE_LIBRO[FECHA];"&lt;="&amp;FECHA_FIN;
-                   BASE_LIBRO[CUENTA];"1105")</pre>
-<p><strong>SUMAR.SI.CONJUNTO</strong> es más rápido y legible. <strong>SUMAPRODUCTO</strong> se usa cuando necesito condiciones OR complejas o multiplicar antes de sumar. En una conciliación bancaria, el 90% del tiempo <code>SUMAR.SI.CONJUNTO</code> es suficiente — lo usé en la hoja <code>RESUMEN</code> para sacar totales por categoría de excepción.</p>
-<p style="margin-top:6px"><strong>Relacionadas útiles:</strong> <code>CONTAR.SI</code>, <code>CONTAR.SI.CONJUNTO</code>, <code>PROMEDIO.SI.CONJUNTO</code> — misma lógica, distinta operación.</p>
+<p><span class="tag">Excel avanzado</span> <span class="tag tag-g">Real del test</span></p>
+<p>En la hoja <strong>Resumen Conciliacion</strong> usé tres funciones principales para el dashboard ejecutivo:</p>
+<p><strong>1. <code>COUNTIF</code> sobre la columna ESTADO_CONCILIACION</strong> — para contar cuántos registros quedaron en cada estado:</p>
+<pre>DB DOTA Conciliados:    =COUNTIF('DB DOTA Normalizada'!AS:AS,"CONCILIADO")
+DB DOTA No Conciliados: =COUNTIF('DB DOTA Normalizada'!AS:AS,"NO CONCILIADO")</pre>
+<p><strong>2. <code>SUMIF</code> con criterio sobre ESTADO y suma sobre MONTO</strong> — para totalizar pesos conciliados vs no conciliados:</p>
+<pre>=SUMIF('DB DOTA Normalizada'!AS:AS,"CONCILIADO",'DB DOTA Normalizada'!E:E)
+=SUMIF('FD Normalizado'!AE:AE,"NO CONCILIADO",'FD Normalizado'!O:O)</pre>
+<p><strong>3. <code>TEXT</code> para formatear el porcentaje de conciliación:</strong></p>
+<pre>=TEXT(B4/B2*100,"0.00")&amp;"%"    → "41,78%"</pre>
+<p><strong>¿Por qué SUMIF y no SUMIFS?</strong> Porque solo tenía <em>una</em> condición (el estado). <code>SUMIFS</code> habría sido necesario si quisiera filtrar por estado <em>y</em> por fecha, por ejemplo. <code>SUMIFS</code>/<code>SUMPRODUCT</code> los uso cuando hay múltiples criterios AND, o cuando necesito multiplicar antes de sumar (array math).</p>
+<p style="margin-top:6px"><strong>Relacionadas útiles:</strong> <code>COUNTA</code> (lo usé para totales de registros no vacíos), <code>COUNTIFS</code>, <code>SUMIFS</code>, <code>AVERAGEIFS</code> — misma lógica, distinta operación.</p>
 </div>
 </div>
 
@@ -639,7 +706,7 @@ ORDER BY m.llave, m.fecha;</pre>
 <p><span class="tag tag-g">CORE STAR</span></p>
 <p><strong>Situation:</strong> "Tuve que conciliar un extracto bancario contra el libro auxiliar de [cliente/proyecto] donde los movimientos del banco y del ERP tenían fechas distintas — el banco registraba fecha-valor y el ERP fecha-contable, con delays de hasta 3 días hábiles."</p>
 <p><strong>Task:</strong> "Necesitaba entregar una conciliación con &gt;95% de match rate en menos de 1 semana."</p>
-<p><strong>Action:</strong> "Construí una <strong>llave compuesta</strong> con monto absoluto + tipo de movimiento + referencia (sin fecha), y una segunda validación con <strong>ventana de tolerancia de ±3 días</strong> sobre la fecha. Usé <code>BUSCARV</code> envuelto en <code>SI.ERROR</code> para la llave primaria y un <code>INDICE+COINCIDIR</code> con filtro de rango para los casos que fallaban. Categoricé las excepciones en 5 tipos (timing, fee, duplicado, missing_banco, missing_libro) y entregué un resumen con saldos cuadrados."</p>
+<p><strong>Action:</strong> "Construí una <strong>llave compuesta</strong> con monto absoluto + tipo de movimiento + referencia (sin fecha), y una segunda validación con <strong>ventana de tolerancia de ±3 días</strong> sobre la fecha. Usé <code>COUNTIF</code> bidireccional para detectar existencia y <code>VLOOKUP</code> solo para enriquecer con el maestro de comercios. Categoricé las excepciones en 5 tipos (timing, fee, duplicado, missing_banco, missing_libro) y entregué un resumen con saldos cuadrados."</p>
 <p><strong>Result:</strong> "Match rate final del 97%, cerré la conciliación en 3 días en vez de 7, y documenté el procedimiento para que se replique mes a mes."</p>
 <p style="margin-top:8px"><em>Adaptá los números al proyecto real tuyo — pero la estructura STAR funciona.</em></p>
 </div>
