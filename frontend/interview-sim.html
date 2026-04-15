@@ -211,7 +211,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="card-t">🧰 Requisitos — cómo posicionarte</div>
 <div class="kv">
 <dt>Experiencia 2-3a</dt><dd>Hablar de procesos de conciliación (bancaria, tarjetas, inter-compañías), no solo "Excel avanzado"</dd>
-<dt>Excel avanzado</dt><dd><code>XLOOKUP</code>, <code>INDEX/MATCH</code>, <code>SUMIFS</code>, tablas dinámicas, <code>LET</code>, <code>FILTER</code>, <code>UNIQUE</code>, Power Query</dd>
+<dt>Excel avanzado</dt><dd><code>BUSCARV</code>, <code>BUSCARX</code>, <code>INDICE+COINCIDIR</code>, <code>SI</code> anidados, <code>SI.ERROR</code>, <code>SUMAR.SI.CONJUNTO</code>, <code>CONTAR.SI</code>, <code>TEXTO</code>, <code>ESPACIOS</code>, <code>MAYUSC</code>, <code>LIMPIAR</code>, <code>VALOR</code>, tablas dinámicas</dd>
 <dt>SQL (plus)</dt><dd><code>JOIN</code>s, <code>GROUP BY</code>, window functions, CTEs — para conciliar a nivel base relacional</dd>
 <dt>Power BI (plus)</dt><dd>Dashboards de match rate, exceptions aging, cash position</dd>
 <dt>Bases relacionales + llaves robustas</dt><dd><strong>Concepto crítico del puesto</strong> — ver Tab 3</dd>
@@ -221,7 +221,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 
 <div class="tip tip-v">
 <b>🎯 Tu pitch de 30 segundos (memorizar)</b>
-<p>"Soy Miguel Ángel, estoy en 8vo semestre de Ingeniería de Sistemas en CUN y llevo ~2 años trabajando con procesos de análisis y conciliación de datos financieros. Manejo Excel avanzado (XLOOKUP, Power Query, tablas dinámicas), estoy certificado en SQL básico-intermedio y terminando mi ruta de Data Analyst (SQL → Python → Power BI). Me atrae Simetrik porque combina lo que ya hago — matching de datos con llaves robustas — con escala enterprise y producto No-Code. Busco un rol donde pueda implementar soluciones reales para clientes B2B y crecer a Senior Implementation en 18-24 meses."</p>
+<p>"Soy Miguel Ángel, estoy en 8vo semestre de Ingeniería de Sistemas en CUN y llevo ~2 años trabajando con procesos de análisis y conciliación de datos financieros. Manejo Excel avanzado (BUSCARV, BUSCARX, SUMAR.SI.CONJUNTO, tablas dinámicas), estoy certificado en SQL básico-intermedio y terminando mi ruta de Data Analyst (SQL → Python → Power BI). Me atrae Simetrik porque combina lo que ya hago — matching de datos con llaves robustas — con escala enterprise y producto No-Code. Busco un rol donde pueda implementar soluciones reales para clientes B2B y crecer a Senior Implementation en 18-24 meses."</p>
 </div>
 
 <div class="card">
@@ -266,142 +266,152 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="sl">· cómo explicar el test de conciliación bancaria paso a paso ·</div>
 
 <div class="tip tip-r">
-<b>⚠️ Lo que vas a tener que demostrar</b>
-<p>El entrevistador (Juan Henao probablemente) te va a pedir que <strong>compartas pantalla</strong> y les expliques qué hiciste en cada pestaña del Excel. La clave no es que las fórmulas estén "bonitas" — es que puedas <strong>defender la LÓGICA</strong> y explicar qué harías diferente si el volumen fuera 1M de registros en vez de 1k.</p>
+<b>⚠️ AJUSTA ESTA SECCIÓN A LO QUE REALMENTE HICISTE</b>
+<p>Este walkthrough está en <strong>Excel español (BUSCARV, SI, SUMAR.SI.CONJUNTO, etc.)</strong> — el idioma que manejás. No pude acceder a tu archivo real (está privado en Drive), así que incluyo <strong>solo el set mínimo de fórmulas que un test de conciliación bancaria razonable exige</strong>. Si usaste alguna variante (ej. <code>INDICE</code>+<code>COINCIDIR</code> en vez de <code>BUSCARV</code>, o Tabla Dinámica en vez de <code>SUMAR.SI.CONJUNTO</code>), reemplazá el texto — la LÓGICA es la misma, lo que cambia es la herramienta.</p>
+</div>
+
+<div class="tip tip-v">
+<b>🎯 Principio rector que debes defender</b>
+<p>"La clave no es qué fórmula usé, es <strong>por qué</strong> la usé. El evaluador quiere escuchar: <em>problema → decisión → resultado</em>. Cada fórmula responde a un problema puntual: limpiar, llavear, cruzar, clasificar, cuantificar."</p>
 </div>
 
 <div class="step step-c">
-<div class="step-n">Paso 0 · Entendimiento</div>
-<div class="step-t">Antes de tocar Excel, leer el brief completo</div>
-<p>"Lo primero que hice fue leer el instructivo completo y las 2 fuentes de datos. Identifiqué:"</p>
+<div class="step-n">Paso 0 · Entendimiento del brief</div>
+<div class="step-t">Antes de tocar Excel, leer todo</div>
+<p>"Lo primero que hice fue leer el instructivo completo y las hojas de datos que me entregaron. Identifiqué:"</p>
 <ul>
-<li><strong>Fuente A:</strong> extracto bancario (movimientos reales del banco)</li>
-<li><strong>Fuente B:</strong> libro auxiliar / ERP (lo que la empresa tiene registrado)</li>
-<li><strong>Objetivo:</strong> identificar qué registros hacen match, qué registros están <em>solo en A</em> (partidas conciliatorias del banco), qué registros están <em>solo en B</em> (partidas del libro), y cuál es la <strong>diferencia neta</strong> a explicar.</li>
+<li><strong>Fuente A:</strong> extracto bancario (movimientos reales del banco).</li>
+<li><strong>Fuente B:</strong> libro auxiliar / ERP (lo que la empresa tiene registrado).</li>
+<li><strong>Objetivo:</strong> detectar qué registros hacen match, qué registros están solo en una de las dos fuentes, y cuál es la diferencia neta a explicar entre saldos.</li>
 </ul>
-<p style="margin-top:6px">"Validé integridad: mismo rango de fechas, mismo número de cuenta, misma moneda. Esto evita comparar peras con manzanas."</p>
+<p style="margin-top:6px">"Validé integridad antes de tocar una fórmula: mismo rango de fechas, misma cuenta bancaria, misma moneda. Esto evita que compare datos que no son comparables."</p>
 </div>
 
 <div class="step">
 <div class="step-n">Paso 1 · Preparación de data (limpieza)</div>
 <div class="step-t">Normalizar antes de cruzar — regla de oro</div>
-<p>"Creé una hoja <code>BASE_BANCO</code> y <code>BASE_LIBRO</code> como copias de las fuentes sin tocar los originales (auditabilidad). Luego en cada una apliqué:"</p>
+<p>"Dupliqué las fuentes en hojas de trabajo (<code>BASE_BANCO</code> y <code>BASE_LIBRO</code>) para no alterar los originales — eso es <strong>auditabilidad básica</strong>. Sobre esas copias:"</p>
 <ul>
-<li><strong>Fechas a formato real:</strong> <code>=DATEVALUE(texto)</code> si venían como string.</li>
-<li><strong>Montos sin separadores ni moneda:</strong> <code>=VALUE(SUBSTITUTE(SUBSTITUTE(A2,"$",""),",",""))</code>.</li>
-<li><strong>Separar débitos y créditos en columnas independientes</strong> (si venían en una sola columna con signo) — <code>=IF(C2&lt;0,ABS(C2),0)</code> y <code>=IF(C2&gt;0,C2,0)</code>.</li>
-<li><strong>Limpiar descripciones:</strong> <code>=TRIM(UPPER(CLEAN(D2)))</code> — mayúsculas, sin espacios extra, sin caracteres no imprimibles. Esto me salvó en el matching por texto.</li>
-<li><strong>Columna auxiliar de referencia:</strong> extraer el nro de transacción o NIT con <code>=MID</code> o <code>=REGEX</code> si venía embebido en la descripción.</li>
+<li><strong>Convertir texto a fecha</strong> si venía como cadena:<br><code>=FECHANUMERO(A2)</code></li>
+<li><strong>Normalizar montos</strong> quitando separador de miles y símbolo de moneda:<br><code>=VALOR(SUSTITUIR(SUSTITUIR(A2;"$";"");".";""))</code></li>
+<li><strong>Limpiar descripciones</strong> (mayúsculas, sin espacios dobles, sin caracteres invisibles):<br><code>=ESPACIOS(MAYUSC(LIMPIAR(D2)))</code></li>
+<li><strong>Tomar el valor absoluto del monto</strong> (porque el banco y el libro a veces manejan signos opuestos):<br><code>=ABS(C2)</code></li>
 </ul>
 <div class="tip tip-v" style="margin-top:8px">
 <b>Por qué lo hice así</b>
-<p>Los datos "como los recibe uno" nunca matchean al 100%. El <strong>80% del éxito de una conciliación es la limpieza previa</strong>. Sin esto, cualquier <code>XLOOKUP</code> o <code>MATCH</code> va a dar falsos negativos.</p>
+<p>Los datos nunca matchean al 100% "como vienen". Un espacio oculto, una fecha con formato distinto, o una coma decimal tumban cualquier <code>BUSCARV</code>. El <strong>80% del éxito de una conciliación es la limpieza previa</strong>.</p>
 </div>
 </div>
 
 <div class="step step-c">
-<div class="step-n">Paso 2 · Diseño de la llave de conciliación</div>
-<div class="step-t">La pregunta clave: ¿qué hace único a cada movimiento?</div>
-<p>"Acá apliqué el concepto de <strong>llave compuesta</strong> (composite key) — una combinación de campos que garantice unicidad en ambas fuentes."</p>
+<div class="step-n">Paso 2 · Diseño de la llave compuesta</div>
+<div class="step-t">¿Qué hace único a cada movimiento?</div>
+<p>"Construí una <strong>llave compuesta (composite key)</strong> — una combinación de campos que identifica unívocamente cada registro en las dos fuentes."</p>
 <pre>LLAVE = FECHA & "|" & MONTO_ABS & "|" & TIPO_MOV & "|" & REFERENCIA</pre>
-<p>"La construí con:"</p>
-<pre>=TEXT(A2,"yyyymmdd")&amp;"|"&amp;TEXT(B2,"0.00")&amp;"|"&amp;C2&amp;"|"&amp;D2</pre>
+<p>"La fórmula que escribí fue:"</p>
+<pre>=TEXTO(A2;"aaaammdd")&amp;"|"&amp;TEXTO(B2;"0.00")&amp;"|"&amp;C2&amp;"|"&amp;D2</pre>
 <ul>
-<li><strong>FECHA</strong> en formato <code>yyyymmdd</code> para evitar ambigüedad regional (DD/MM vs MM/DD).</li>
-<li><strong>MONTO absoluto con 2 decimales</strong> (el banco y el libro pueden tener signo invertido).</li>
-<li><strong>TIPO_MOV</strong> = DEBITO / CREDITO — evita que un pago por 100 matchee con un cobro por 100.</li>
-<li><strong>REFERENCIA</strong> = nro de transacción, cheque, NIT, o últimos 4 del comprobante.</li>
+<li><strong>FECHA en formato <code>aaaammdd</code></strong> → evita ambigüedad entre DD/MM/AAAA y MM/DD/AAAA.</li>
+<li><strong>MONTO absoluto con 2 decimales</strong> → uniforma el signo y la cantidad de decimales.</li>
+<li><strong>TIPO_MOV</strong> (débito / crédito) → evita que un pago de $100 se cruce con un cobro de $100.</li>
+<li><strong>REFERENCIA</strong> → número de transacción, cheque o NIT. Agrega unicidad real.</li>
 </ul>
 <div class="tip tip-g" style="margin-top:8px">
-<b>Esta es la "llave robusta" del job description</b>
-<p>El JD dice textualmente <em>"conciliation processes (relational bases and robust keys)"</em>. Defender esto en la entrevista = <strong>ganar puntos</strong>. Si te preguntan "¿qué es una llave robusta?", respuesta: "Una combinación de atributos que identifica unívocamente un registro y resiste cambios cosméticos en los datos fuente — por eso combino fecha normalizada + monto absoluto + tipo + referencia, no solo referencia sola".</p>
+<b>Esto es exactamente la "llave robusta" del job description</b>
+<p>El JD pide literalmente <em>"conciliation processes (relational bases and robust keys)"</em>. Si te preguntan "¿qué es una llave robusta?", tu respuesta debe ser: <strong>"Una combinación de atributos que identifica unívocamente un registro y resiste cambios cosméticos en los datos fuente — por eso combino fecha normalizada + monto absoluto + tipo + referencia, no solo la referencia sola"</strong>.</p>
 </div>
 </div>
 
 <div class="step step-g">
-<div class="step-n">Paso 3 · Matching con XLOOKUP / INDEX-MATCH</div>
+<div class="step-n">Paso 3 · Matching con BUSCARV (o BUSCARX)</div>
 <div class="step-t">Cruzar las dos fuentes con la llave</div>
-<p>"Ya con la llave en ambas hojas, en <code>BASE_BANCO</code> agregué una columna <code>MATCH_LIBRO</code>:"</p>
-<pre>=XLOOKUP([@LLAVE], BASE_LIBRO[LLAVE], BASE_LIBRO[MONTO], "NO_MATCH", 0)</pre>
-<p>Y en <code>BASE_LIBRO</code> la simétrica <code>MATCH_BANCO</code>:</p>
-<pre>=XLOOKUP([@LLAVE], BASE_BANCO[LLAVE], BASE_BANCO[MONTO], "NO_MATCH", 0)</pre>
+<p>"Con la llave construida en ambas tablas, agregué en <code>BASE_BANCO</code> una columna que trae el monto del libro:"</p>
+<pre>=SI.ERROR(BUSCARV([@LLAVE];BASE_LIBRO!A:F;6;FALSO);"NO_MATCH")</pre>
+<p>"Y simétricamente en <code>BASE_LIBRO</code> una columna que trae el monto del banco:"</p>
+<pre>=SI.ERROR(BUSCARV([@LLAVE];BASE_BANCO!A:F;6;FALSO);"NO_MATCH")</pre>
 <ul>
-<li><strong>Modo exacto</strong> (último argumento <code>0</code>) — nunca aproximado en conciliación.</li>
-<li><strong>Valor si no encuentra:</strong> <code>"NO_MATCH"</code> en string para luego filtrar fácil.</li>
-<li><strong>Alternativa legacy:</strong> <code>=IFERROR(INDEX(BASE_LIBRO[MONTO], MATCH([@LLAVE], BASE_LIBRO[LLAVE], 0)), "NO_MATCH")</code> — por si el evaluador tiene Excel viejo.</li>
+<li><strong><code>FALSO</code> (coincidencia exacta)</strong> → nunca aproximada en conciliación.</li>
+<li><strong><code>SI.ERROR</code></strong> → cuando no encuentra, devuelve <code>"NO_MATCH"</code> en texto para poder filtrar.</li>
+<li><strong>Si usaste BUSCARX</strong> (Excel 365): <code>=BUSCARX([@LLAVE];BASE_LIBRO[LLAVE];BASE_LIBRO[MONTO];"NO_MATCH";0)</code> — más limpia, mismo resultado.</li>
 </ul>
-<p style="margin-top:6px">"Esto me da 3 estados por registro:"</p>
+<p style="margin-top:6px">"Esto me da 3 estados posibles por registro:"</p>
 <ol>
-<li><strong>MATCH 1:1</strong> — encontrado con monto igual → conciliado.</li>
-<li><strong>MATCH con diferencia</strong> — encontrado pero monto distinto → excepción por diferencia (fee, FX).</li>
-<li><strong>NO_MATCH</strong> — solo en una fuente → partida conciliatoria.</li>
+<li><strong>Match exacto</strong> (monto igual) → conciliado.</li>
+<li><strong>Match con diferencia</strong> (encontrado pero monto distinto) → excepción por diferencia.</li>
+<li><strong>NO_MATCH</strong> (solo en una fuente) → partida conciliatoria.</li>
 </ol>
 </div>
 
 <div class="step step-g">
 <div class="step-n">Paso 4 · Clasificación de excepciones</div>
-<div class="step-t">No todo no-match es igual — categorizar</div>
-<p>"Creé una columna <code>TIPO_EXCEPCION</code> con lógica anidada:"</p>
-<pre>=IF([@MATCH_LIBRO]="NO_MATCH","SOLO_BANCO",
-  IF([@MONTO]=[@MATCH_LIBRO],"CONCILIADO",
-    IF(ABS([@MONTO]-[@MATCH_LIBRO])&lt;1,"DIF_REDONDEO",
-      IF([@TIPO]="COMISION","FEE_BANCARIO","DIFERENCIA_INVESTIGAR"))))</pre>
-<p>"Las categorías típicas de una conciliación bancaria son:"</p>
+<div class="step-t">No todo no-match es igual</div>
+<p>"Agregué una columna <code>ESTADO</code> con una función <code>SI</code> anidada para clasificar:"</p>
+<pre>=SI([@MATCH_LIBRO]="NO_MATCH";"SOLO_BANCO";
+   SI([@MONTO]=[@MATCH_LIBRO];"CONCILIADO";
+      SI(ABS([@MONTO]-[@MATCH_LIBRO])&lt;1;"DIF_REDONDEO";
+         "DIFERENCIA_INVESTIGAR")))</pre>
+<p>"Las categorías típicas de conciliación bancaria son:"</p>
 <ul>
-<li><strong>Partidas en tránsito</strong> — cheques emitidos no cobrados / depósitos en tránsito.</li>
-<li><strong>Notas débito / crédito bancarias</strong> — comisiones, intereses, GMF 4x1000 (para Colombia).</li>
+<li><strong>Partidas en tránsito</strong> — cheques emitidos no cobrados, depósitos en tránsito.</li>
+<li><strong>Notas débito / crédito del banco</strong> — comisiones, intereses, GMF 4x1000.</li>
 <li><strong>Errores del libro</strong> — omisiones, doble registro, monto errado.</li>
-<li><strong>Errores del banco</strong> — cobro duplicado, cheque ajeno, cargos incorrectos.</li>
-<li><strong>Diferencias de timing</strong> — mismo movimiento pero fechas distintas (día-mes corte).</li>
+<li><strong>Errores del banco</strong> — cobro duplicado, cargos incorrectos.</li>
+<li><strong>Diferencias de timing</strong> — mismo movimiento con fechas distintas por corte.</li>
 </ul>
 </div>
 
 <div class="step step-o">
-<div class="step-n">Paso 5 · Tabla dinámica de control</div>
-<div class="step-t">Visualizar totales para validar aritmética</div>
-<p>"Armé una tabla dinámica con:"</p>
+<div class="step-n">Paso 5 · Totales por categoría con SUMAR.SI.CONJUNTO</div>
+<div class="step-t">Cuantificar cada tipo de diferencia</div>
+<p>"Para cuantificar cada categoría usé <code>SUMAR.SI.CONJUNTO</code> y <code>CONTAR.SI</code>:"</p>
+<pre>=SUMAR.SI.CONJUNTO(BASE_BANCO[MONTO];BASE_BANCO[ESTADO];"SOLO_BANCO")</pre>
+<pre>=CONTAR.SI(BASE_BANCO[ESTADO];"CONCILIADO")</pre>
+<p>Alternativa equivalente (si lo hiciste con tabla dinámica):</p>
 <ul>
-<li><strong>Filas:</strong> <code>TIPO_EXCEPCION</code></li>
-<li><strong>Valores:</strong> <code>SUMA(MONTO)</code> y <code>CONTEO(ID)</code></li>
-<li><strong>Columnas (opcional):</strong> <code>MES</code> o <code>TIPO_MOV</code></li>
+<li><strong>Filas:</strong> ESTADO</li>
+<li><strong>Valores:</strong> <code>SUMA</code> de MONTO + <code>CUENTA</code> de ID</li>
 </ul>
-<p style="margin-top:6px">"Esto me permitió validar la ecuación maestra de toda conciliación:"</p>
-<pre>SALDO_LIBRO + (notas_credito_banco - notas_debito_banco)
-            + (cheques_pendientes - depositos_transito)
+<p style="margin-top:6px">"Esto me permite validar la ecuación maestra de la conciliación bancaria:"</p>
+<pre>SALDO_LIBRO + (notas_crédito_banco − notas_débito_banco)
+            + (cheques_pendientes − depósitos_tránsito)
             = SALDO_BANCO</pre>
-<p>"Si esa ecuación no cierra, la conciliación está incompleta — algo me falta categorizar."</p>
+<p>"Si esa ecuación no cierra, me falta categorizar algo."</p>
 </div>
 
 <div class="step step-am">
 <div class="step-n">Paso 6 · Hoja resumen / reporte final</div>
 <div class="step-t">Entregable ejecutivo</div>
-<p>"Creé una hoja <code>RESUMEN</code> con:"</p>
+<p>"Creé una hoja <code>RESUMEN</code> con los saldos y las partidas conciliatorias agrupadas:"</p>
 <ul>
-<li><strong>Saldo según libro</strong> (input desde ERP) — <code>=SUMIFS(BASE_LIBRO[MONTO], ...)</code>.</li>
-<li><strong>Saldo según banco</strong> (input desde extracto) — <code>=SUMIFS(BASE_BANCO[MONTO], ...)</code>.</li>
-<li><strong>Diferencia bruta</strong> = Banco − Libro.</li>
-<li><strong>Detalle de partidas conciliatorias</strong> (+/−) agrupadas por categoría.</li>
+<li><strong>Saldo según libro</strong> → <code>=SUMA(BASE_LIBRO[MONTO])</code></li>
+<li><strong>Saldo según banco</strong> → <code>=SUMA(BASE_BANCO[MONTO])</code></li>
+<li><strong>Diferencia bruta</strong> → <code>=[SALDO_BANCO]-[SALDO_LIBRO]</code></li>
+<li><strong>Partidas conciliatorias</strong> agrupadas por categoría (salida del <code>SUMAR.SI.CONJUNTO</code> del paso 5).</li>
 <li><strong>Saldo conciliado</strong> = debe dar idéntico en ambas puntas.</li>
-<li><strong>% match rate</strong> = <code>CONCILIADOS / TOTAL_REGISTROS</code>.</li>
-<li><strong>Aging de excepciones</strong> = días desde la fecha del movimiento — permite ver qué partidas están "viejas" y nadie las ha resuelto.</li>
+<li><strong>% match rate</strong> → <code>=CONTAR.SI([ESTADO];"CONCILIADO")/CONTARA([ESTADO])</code></li>
 </ul>
 </div>
 
 <div class="step step-am">
-<div class="step-n">Paso 7 · Validaciones &amp; buenas prácticas</div>
+<div class="step-n">Paso 7 · Buenas prácticas para defender</div>
 <div class="step-t">Lo que hace la diferencia entre Jr y Semi-Senior</div>
 <ul>
-<li><strong>Named ranges y tablas estructuradas</strong> (<code>Ctrl+T</code>) — las fórmulas se auto-extienden al crecer los datos.</li>
-<li><strong>Formato condicional</strong> sobre <code>TIPO_EXCEPCION</code> — rojo, verde, amarillo para lectura rápida.</li>
-<li><strong>Hoja de control de cambios</strong> — qué fórmulas usé y por qué (esto es lo que piden al decir "fórmulas correctamente desplegadas").</li>
-<li><strong>Un solo archivo con varias hojas</strong> — respeta la instrucción explícita del brief.</li>
-<li><strong>Nombre del archivo:</strong> <code>Miguel_Angel_Barros_Torres_Test_Conciliacion.xlsx</code>.</li>
+<li><strong>Tablas estructuradas</strong> (<code>Ctrl+T</code>) → las fórmulas se auto-extienden al crecer los datos.</li>
+<li><strong>Formato condicional</strong> sobre la columna <code>ESTADO</code> → verde/amarillo/rojo para lectura rápida.</li>
+<li><strong>Un solo archivo Excel con varias hojas</strong> → respeta la instrucción explícita del brief.</li>
+<li><strong>No modifiqué la data original</strong> — trabajé sobre copias para mantener auditabilidad.</li>
+<li><strong>Nombre del archivo:</strong> <code>Miguel_Angel_Barros_Torres.xlsx</code> (como pidió el brief).</li>
 </ul>
 </div>
 
 <div class="tip tip-g">
 <b>🎤 Cierre del walkthrough — frase para la entrevista</b>
-<p>"Si me dan el mismo dataset 100× más grande, esta misma lógica corre en SQL con un <code>FULL OUTER JOIN</code> sobre la llave compuesta, o en Simetrik sin código configurando la misma llave en la UI. La lógica no cambia — solo cambia la herramienta para la escala."</p>
+<p>"Si me dan el mismo dataset 100× más grande, esta misma lógica corre en SQL con un <code>FULL OUTER JOIN</code> sobre la llave compuesta, o en Simetrik sin código configurando la misma llave en la UI. <strong>La lógica no cambia — solo cambia la herramienta para la escala</strong>."</p>
+</div>
+
+<div class="tip tip-r">
+<b>📝 Recordatorio final antes de la entrevista</b>
+<p>Abrí tu archivo real y <strong>revisá celda por celda qué fórmula usaste</strong>. Si el walkthrough de arriba menciona una fórmula que vos no usaste, <strong>eliminala o reemplazala acá mismo</strong> antes de ensayar. El evaluador va a pedirte explicar TU archivo, no uno genérico.</p>
 </div>
 
 </div>
@@ -412,13 +422,13 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <div class="sl">· preguntas técnicas probables — con respuesta modelo ·</div>
 
 <div class="qa" onclick="this.classList.toggle('open')">
-<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cuál es la diferencia entre VLOOKUP, XLOOKUP e INDEX-MATCH?</div><span class="qa-ico">▼</span></div>
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Cuál es la diferencia entre BUSCARV, BUSCARX e INDICE + COINCIDIR?</div><span class="qa-ico">▼</span></div>
 <div class="qa-b">
 <p><span class="tag tag-g">Concepto</span> <span class="tag">Excel avanzado</span></p>
-<p><strong>VLOOKUP</strong>: busca un valor en la <em>primera columna</em> de una tabla y devuelve un valor de otra columna a la derecha. Limitaciones: solo mira a la derecha, se rompe si insertás columnas, es más lento.</p>
-<p><strong>XLOOKUP</strong> (Excel 365/2021): busca en cualquier columna y devuelve desde cualquier otra — izquierda o derecha. Soporta <code>not_found_value</code> nativo, búsqueda inversa, y matching aproximado con 4 modos. Es la versión moderna.</p>
-<p><strong>INDEX-MATCH</strong>: combo clásico. <code>MATCH</code> devuelve la posición, <code>INDEX</code> trae el valor. Funciona en cualquier versión de Excel, permite lookup en múltiples dimensiones.</p>
-<p><strong>Qué uso:</strong> XLOOKUP si está disponible, INDEX-MATCH si necesito compatibilidad retroactiva, VLOOKUP nunca en producción.</p>
+<p><strong>BUSCARV</strong> (<em>VLOOKUP</em>): busca un valor en la <em>primera columna</em> de una tabla y devuelve el valor de otra columna a la derecha.<br>Ej: <code>=BUSCARV(A2;BASE_LIBRO!A:F;6;FALSO)</code>.<br>Limitaciones: solo mira a la derecha, se rompe si insertás columnas, y requiere indicar la posición numérica de la columna (si cambia el orden, se descuadra).</p>
+<p><strong>BUSCARX</strong> (<em>XLOOKUP</em>, Excel 365/2021): busca en cualquier columna y devuelve desde cualquier otra, izquierda o derecha. Soporta valor por defecto si no encuentra.<br>Ej: <code>=BUSCARX(A2;BASE_LIBRO[LLAVE];BASE_LIBRO[MONTO];"NO_MATCH";0)</code>.</p>
+<p><strong>INDICE + COINCIDIR</strong>: combinación clásica. <code>COINCIDIR</code> devuelve la posición, <code>INDICE</code> trae el valor.<br>Ej: <code>=SI.ERROR(INDICE(BASE_LIBRO[MONTO];COINCIDIR(A2;BASE_LIBRO[LLAVE];0));"NO_MATCH")</code>.<br>Funciona en cualquier versión de Excel y permite lookup flexible.</p>
+<p><strong>Qué uso:</strong> BUSCARX si está disponible; INDICE+COINCIDIR si necesito compatibilidad con versiones viejas; BUSCARV para casos simples donde la tabla no va a cambiar de estructura.</p>
 </div>
 </div>
 
@@ -428,11 +438,12 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:
 <p><span class="tag tag-g">Critical</span></p>
 <p>Es una <strong>combinación de atributos (composite key)</strong> que identifica unívocamente un registro y <strong>resiste cambios cosméticos</strong> en los datos fuente. En conciliación bancaria típica combino:</p>
 <ul>
-<li><strong>Fecha normalizada</strong> (yyyymmdd)</li>
+<li><strong>Fecha normalizada</strong> (formato <code>aaaammdd</code>)</li>
 <li><strong>Monto absoluto</strong> con 2 decimales</li>
 <li><strong>Tipo de movimiento</strong> (débito / crédito)</li>
 <li><strong>Referencia</strong> (nro transacción, cheque, NIT)</li>
 </ul>
+<p>Construida en Excel con <code>&amp;</code> como separador: <code>=TEXTO(fecha;"aaaammdd")&amp;"|"&amp;TEXTO(monto;"0.00")&amp;"|"&amp;tipo&amp;"|"&amp;ref</code>.</p>
 <p>Una llave simple (solo referencia) se rompe si el banco cambia el formato del número. Una llave robusta aguanta esos cambios porque combina 3-4 atributos semánticos. <strong>Es exactamente el concepto que Simetrik implementa en su UI No-Code</strong> — el cliente define la llave, el motor matchea.</p>
 </div>
 </div>
@@ -575,15 +586,16 @@ ORDER BY m.llave, m.fecha;</pre>
 </div>
 
 <div class="qa" onclick="this.classList.toggle('open')">
-<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Qué es SUMIFS y cuándo es superior a SUMPRODUCT?</div><span class="qa-ico">▼</span></div>
+<div class="qa-h"><div class="qa-q"><span class="qa-cat">EXCEL</span>¿Qué es SUMAR.SI.CONJUNTO y cuándo es superior a SUMAPRODUCTO?</div><span class="qa-ico">▼</span></div>
 <div class="qa-b">
 <p><span class="tag">Excel avanzado</span></p>
-<p><code>SUMIFS(rango_suma, rango_criterio1, criterio1, ...)</code> — suma con múltiples condiciones AND.</p>
-<pre>=SUMIFS(BASE_LIBRO[MONTO],
-        BASE_LIBRO[FECHA], "&gt;="&amp;FECHA_INI,
-        BASE_LIBRO[FECHA], "&lt;="&amp;FECHA_FIN,
-        BASE_LIBRO[CUENTA], "1105")</pre>
-<p><strong>SUMIFS</strong> es más rápido y legible. <strong>SUMPRODUCT</strong> se usa cuando necesitás condiciones OR complejas o multiplicar antes de sumar. En conciliación, el 90% del tiempo SUMIFS es suficiente.</p>
+<p><code>SUMAR.SI.CONJUNTO(rango_suma; rango_criterio1; criterio1; ...)</code> — suma con múltiples condiciones tipo AND.</p>
+<pre>=SUMAR.SI.CONJUNTO(BASE_LIBRO[MONTO];
+                   BASE_LIBRO[FECHA];"&gt;="&amp;FECHA_INI;
+                   BASE_LIBRO[FECHA];"&lt;="&amp;FECHA_FIN;
+                   BASE_LIBRO[CUENTA];"1105")</pre>
+<p><strong>SUMAR.SI.CONJUNTO</strong> es más rápido y legible. <strong>SUMAPRODUCTO</strong> se usa cuando necesito condiciones OR complejas o multiplicar antes de sumar. En una conciliación bancaria, el 90% del tiempo <code>SUMAR.SI.CONJUNTO</code> es suficiente — lo usé en la hoja <code>RESUMEN</code> para sacar totales por categoría de excepción.</p>
+<p style="margin-top:6px"><strong>Relacionadas útiles:</strong> <code>CONTAR.SI</code>, <code>CONTAR.SI.CONJUNTO</code>, <code>PROMEDIO.SI.CONJUNTO</code> — misma lógica, distinta operación.</p>
 </div>
 </div>
 
@@ -627,7 +639,7 @@ ORDER BY m.llave, m.fecha;</pre>
 <p><span class="tag tag-g">CORE STAR</span></p>
 <p><strong>Situation:</strong> "Tuve que conciliar un extracto bancario contra el libro auxiliar de [cliente/proyecto] donde los movimientos del banco y del ERP tenían fechas distintas — el banco registraba fecha-valor y el ERP fecha-contable, con delays de hasta 3 días hábiles."</p>
 <p><strong>Task:</strong> "Necesitaba entregar una conciliación con &gt;95% de match rate en menos de 1 semana."</p>
-<p><strong>Action:</strong> "Construí una <strong>llave compuesta</strong> con monto absoluto + tipo de movimiento + referencia (sin fecha), y una segunda validación con <strong>ventana de tolerancia de ±3 días</strong> sobre la fecha. Usé XLOOKUP para la llave primaria y un INDEX-MATCH con filtro de rango para los casos que fallaban. Categoricé las excepciones en 5 tipos (timing, fee, duplicado, missing_banco, missing_libro) y entregué un resumen con saldos cuadrados."</p>
+<p><strong>Action:</strong> "Construí una <strong>llave compuesta</strong> con monto absoluto + tipo de movimiento + referencia (sin fecha), y una segunda validación con <strong>ventana de tolerancia de ±3 días</strong> sobre la fecha. Usé <code>BUSCARV</code> envuelto en <code>SI.ERROR</code> para la llave primaria y un <code>INDICE+COINCIDIR</code> con filtro de rango para los casos que fallaban. Categoricé las excepciones en 5 tipos (timing, fee, duplicado, missing_banco, missing_libro) y entregué un resumen con saldos cuadrados."</p>
 <p><strong>Result:</strong> "Match rate final del 97%, cerré la conciliación en 3 días en vez de 7, y documenté el procedimiento para que se replique mes a mes."</p>
 <p style="margin-top:8px"><em>Adaptá los números al proyecto real tuyo — pero la estructura STAR funciona.</em></p>
 </div>
