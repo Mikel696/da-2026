@@ -6,6 +6,29 @@
 
 ---
 
+## 🔧 Interview Simulation · Simetrik — ITERACIÓN 2 — 2026-04-14
+
+### Cambios solicitados por Miguel
+1. **Fórmulas en Excel español** (Colombia usa BUSCARV/BUSCARX, no VLOOKUP/XLOOKUP)
+2. **Más analítico** — no incluir fórmulas que no se usaron realmente en el test
+3. Walkthrough del test técnico (Tab 2) reducido al mínimo realista
+
+### Qué se ajustó
+- **Tab 2 (Walkthrough)** — todas las fórmulas traducidas: `BUSCARV` / `BUSCARX` / `SI.ERROR` / `SUMAR.SI.CONJUNTO` / `CONTAR.SI` / `TEXTO(...;"aaaammdd")` / `ESPACIOS` / `MAYUSC` / `LIMPIAR` / `VALOR` / `SUSTITUIR` / `FECHANUMERO` / `ABS`. Eliminados tecnicismos no confirmados (LET, FILTER, Power Query del walkthrough, REGEX).
+- Agregadas **dos alertas visibles** al inicio del Tab 2:
+  - `tip-r` "⚠️ AJUSTA ESTA SECCIÓN" — explicando que no tengo acceso al archivo real (Drive privado) y que Miguel debe reemplazar cualquier fórmula que no usó.
+  - `tip-v` "🎯 Principio rector" — recordándole que el evaluador busca LÓGICA, no fórmula específica.
+- Agregado **recordatorio final `tip-r`** al cierre del Tab 2: "Abrí tu archivo real y revisá celda por celda qué fórmula usaste".
+- **Tab 3 Q&A** — preguntas técnicas traducidas: "¿BUSCARV vs BUSCARX vs INDICE+COINCIDIR?" y "¿SUMAR.SI.CONJUNTO vs SUMAPRODUCTO?" — con ejemplos en sintaxis española (punto y coma como separador).
+- **Tab 1 (El Rol)** — lista de Excel avanzado actualizada a funciones en español.
+- **Tab 1 (Pitch 30 seg)** — "XLOOKUP, Power Query" → "BUSCARV, BUSCARX, SUMAR.SI.CONJUNTO".
+- **Tab 4 STAR** — respuesta de proyecto difícil usa ahora `BUSCARV`+`SI.ERROR` / `INDICE+COINCIDIR`.
+
+### Por qué no pude verificar al 100%
+Los archivos de Drive (test original + archivo completado + carpeta) requieren auth de Google — WebFetch devuelve 401. Miguel debe <strong>abrir su archivo real antes de ensayar</strong> y editar cualquier fórmula del walkthrough que no haya usado. El cambio se hizo pensando en <strong>minimizar el riesgo de decir fórmulas incorrectas</strong> durante la entrevista.
+
+---
+
 ## 🎯 Interview Simulation · Simetrik (Pi3Ai) — NUEVA FEATURE — 2026-04-14
 
 ### Contexto
