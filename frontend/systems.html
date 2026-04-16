@@ -322,12 +322,39 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .nb-rt-lbl-d:hover{background:rgba(74,222,128,.28);color:#fff}
 
 /* Labels inserted inside the editor */
-.rt-label{display:inline-block;padding:1px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;vertical-align:middle;margin:0 2px;user-select:none}
+.rt-label{display:inline-block;padding:1px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;vertical-align:middle;margin:0 2px;user-select:none;cursor:pointer;transition:opacity .15s,transform .15s}
+.rt-label:hover{opacity:.7;transform:scale(.96)}
+.rt-label::after{content:' ✕';opacity:0;font-size:9px;margin-left:2px;transition:opacity .15s}
+.rt-label:hover::after{opacity:.9}
 .rt-lbl-urgent{background:linear-gradient(135deg,rgba(255,70,70,.25),rgba(255,107,107,.18));color:#ff9595;border:1px solid rgba(255,107,107,.5);box-shadow:0 0 8px rgba(255,70,70,.25)}
 .rt-lbl-done{background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(74,222,128,.18));color:#6ee7a0;border:1px solid rgba(74,222,128,.5);box-shadow:0 0 8px rgba(34,197,94,.22);text-decoration:line-through;text-decoration-color:rgba(110,231,160,.6)}
 
+/* Safety net for highlighted text: force dark text on any element whose inline
+   background-color is a pale hl color. Handles old notes that were saved before
+   the foreColor fix shipped, plus any future edge case where Chrome's execCommand
+   only applied backColor without chaining the color. */
+.nb-content [style*="background-color: rgb(255, 245, 157)"],
+.nb-content [style*="background-color: rgb(165, 214, 167)"],
+.nb-content [style*="background-color: rgb(248, 187, 208)"],
+.nb-content [style*="background-color:#fff59d"],
+.nb-content [style*="background-color:#a5d6a7"],
+.nb-content [style*="background-color:#f8bbd0"],
+.nb-content [style*="background:#fff59d"],
+.nb-content [style*="background:#a5d6a7"],
+.nb-content [style*="background:#f8bbd0"]{color:#1a1a1a !important;text-shadow:none}
+
 /* When the toolbar sits above a page, hug the page top */
 .nb-rt-toolbar + .nb-page{border-top-left-radius:0;border-top-right-radius:0}
+
+/* ═══ CUSTOM NOTEBOOK SELECTOR (Tab 7) ═══
+   One dropdown → one active notebook. Prevents the stacked-scroll UI. */
+.cnb-selector{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:14px}
+.cnb-selector-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600}
+.cnb-selector-sel{background:var(--c0);border:1px solid var(--bd2);color:var(--tx);border-radius:6px;padding:7px 12px;font-size:13px;font-family:inherit;cursor:pointer;min-width:220px;outline:none}
+.cnb-selector-sel:hover,.cnb-selector-sel:focus{border-color:var(--vi);box-shadow:0 0 0 2px rgba(139,92,246,.15)}
+.cnb-selector-hint{font-size:10px;color:var(--t3);margin-left:auto;font-style:italic}
+.cnb-active{animation:fu .22s ease}
+@media(max-width:768px){.cnb-selector{padding:8px 10px}.cnb-selector-sel{min-width:0;flex:1}.cnb-selector-hint{display:none}}
 
 /* ═══ PASTE IMAGE MODAL ═══ */
 .pim-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;animation:fu .2s ease}

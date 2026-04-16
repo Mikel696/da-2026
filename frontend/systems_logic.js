@@ -1570,14 +1570,21 @@ const NB = (function() {
           g: '#a5d6a7',   // green
           p: '#f8bbd0'    // pink
         };
-        // styleWithCSS so backColor produces inline CSS, not deprecated <font>.
+        // styleWithCSS so backColor / foreColor produce inline CSS (not <font> tags).
         try { document.execCommand('styleWithCSS', false, true); } catch (e) {}
+        // Force dark text so the highlighted portion is readable against the light fill
+        // (the default editor color is near-white — would disappear over yellow/green/pink).
+        document.execCommand('foreColor', false, '#1a1a1a');
         // Try hiliteColor first (Firefox), fall back to backColor (Chrome).
         if (!document.execCommand('hiliteColor', false, map[value] || '#fff59d')) {
           document.execCommand('backColor', false, map[value] || '#fff59d');
         }
       } else if (kind === 'clear') {
+        // 1) Strip standard formatting in the current selection (bold, size, color, bg).
         document.execCommand('removeFormat', false, null);
+        // 2) Remove URGENTE / HECHO badges — execCommand('removeFormat') doesn't touch
+        //    custom spans with classes, so we delete them manually.
+        removeLabelsInRange(bIn);
       }
     } catch (e) {
       console.warn('NB.fmt failed:', e);
@@ -1585,12 +1592,31 @@ const NB = (function() {
     autoSave(sid);
   }
 
+  // Remove any .rt-label spans inside the current selection (or all labels in the
+  // editor if the selection is collapsed / nothing is selected).
+  function removeLabelsInRange(bIn) {
+    const sel = window.getSelection();
+    const labels = Array.from(bIn.querySelectorAll('.rt-label'));
+    if (!labels.length) return;
+    if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) {
+      // No active selection → nuke every badge in this editor.
+      labels.forEach(el => el.remove());
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    labels.forEach(el => {
+      try { if (range.intersectsNode(el)) el.remove(); } catch (_) { /* old browsers */ }
+    });
+  }
+
   function insertLabel(sid, type) {
     const bIn = focusEditor(sid);
     if (!bIn) return;
+    // onclick on the badge itself gives the user a one-click delete even without
+    // using the toolbar ✕ — UX shortcut requested by the user.
     const html = type === 'urgent'
-      ? '<span class="rt-label rt-lbl-urgent" contenteditable="false">⚠ URGENTE</span>&nbsp;'
-      : '<span class="rt-label rt-lbl-done" contenteditable="false">✓ HECHO</span>&nbsp;';
+      ? '<span class="rt-label rt-lbl-urgent" contenteditable="false" title="Click para eliminar" onclick="NB.removeLabelEl(this,\'' + sid + '\')">⚠ URGENTE</span>&nbsp;'
+      : '<span class="rt-label rt-lbl-done" contenteditable="false" title="Click para eliminar" onclick="NB.removeLabelEl(this,\'' + sid + '\')">✓ HECHO</span>&nbsp;';
     try {
       document.execCommand('insertHTML', false, html);
     } catch (e) {
@@ -1603,6 +1629,12 @@ const NB = (function() {
         range.insertNode(frag);
       }
     }
+    autoSave(sid);
+  }
+
+  // Called when a badge is clicked — remove that specific badge and persist.
+  function removeLabelEl(el, sid) {
+    if (el && el.parentNode) el.parentNode.removeChild(el);
     autoSave(sid);
   }
 
@@ -1994,11 +2026,26 @@ const NB = (function() {
     </div>`;
   }
 
+  // Currently-selected custom notebook — survives re-renders within the session
+  // and is persisted to localStorage so it reopens on reload.
+  let activeCustomId = (function() {
+    try { return localStorage.getItem('sys_active_custom') || null; } catch { return null; }
+  })();
+
+  function selectCustom(id) {
+    activeCustomId = id || null;
+    try { localStorage.setItem('sys_active_custom', activeCustomId || ''); } catch {}
+    // Make the selected notebook auto-expand so the user sees its content immediately.
+    if (id) openSubjects.add(id);
+    renderCustomList();
+  }
+
   function renderCustomList() {
     const el = document.getElementById('cnbList');
     if (!el) return;
     const list = loadMeta();
     if (!list.length) {
+      activeCustomId = null;
       el.innerHTML = `<div class="gc" style="text-align:center;padding:40px 20px;color:var(--t3);border-style:dashed">
         <div style="font-size:32px;margin-bottom:8px">📚</div>
         <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">Sin cuadernos aún</div>
@@ -2006,7 +2053,27 @@ const NB = (function() {
       </div>`;
       return;
     }
-    el.innerHTML = list.map(renderCustomCard).join('');
+    // Default to the first notebook if the previously-selected one was deleted or never set
+    if (!activeCustomId || !list.find(m => m.id === activeCustomId)) {
+      activeCustomId = list[0].id;
+      try { localStorage.setItem('sys_active_custom', activeCustomId); } catch {}
+    }
+    const activeMeta = list.find(m => m.id === activeCustomId);
+    // Ensure the selected notebook is expanded so the editor is visible
+    if (activeCustomId) openSubjects.add(activeCustomId);
+
+    const options = list.map(m =>
+      `<option value="${m.id}"${m.id === activeCustomId ? ' selected' : ''}>${m.icon} ${esc(m.name)}</option>`
+    ).join('');
+
+    el.innerHTML = `
+      <div class="cnb-selector">
+        <label class="cnb-selector-lbl">Cuaderno activo</label>
+        <select class="cnb-selector-sel" onchange="NB.selectCustom(this.value)">${options}</select>
+        <span class="cnb-selector-hint">${list.length} cuaderno${list.length !== 1 ? 's' : ''} · selecciona uno para trabajar de forma independiente</span>
+      </div>
+      <div class="cnb-active">${renderCustomCard(activeMeta)}</div>
+    `;
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); });
@@ -2018,12 +2085,12 @@ const NB = (function() {
   return {
     renderSubjectPanel, restoreAfterRender, toggleSubject,
     newPage, openPage, deletePage, autoSave,
-    fmt, insertLabel,
+    fmt, insertLabel, removeLabelEl,
     addLink, removeLink, removeImage,
     openPasteDialog, closePasteDialog, pimPickFile, pimSave,
     viewImage, closeImage, prevImage, nextImage,
     // Custom notebooks
-    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList,
+    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom,
   };
 })();
 window.NB = NB;

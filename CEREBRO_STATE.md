@@ -1,8 +1,45 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-15
+- **Última actualización:** 2026-04-16
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🧬 BUGFIX v2 · Highlight legible + Labels removibles + Cuadernos con dropdown — 2026-04-16
+
+### Qué cambió (3 UX bugs reportados por el usuario)
+
+**Bug 1 — Texto resaltado ilegible.** Raíz: `NB.fmt('hl')` solo aplicaba `hiliteColor/backColor`. El color base del editor (`.nb-content { color: #e4e8f4 }`, casi blanco) quedaba sobre el fondo claro (amarillo/verde/rosa) → texto invisible.
+- `fmt()` ahora encadena `document.execCommand('foreColor', false, '#1a1a1a')` ANTES del `hiliteColor`, garantizando contraste WCAG-AA.
+- Safety net CSS: selectores `[style*="background-color: rgb(255, 245, 157)"]` y variantes hex/rgb/shorthand fuerzan `color:#1a1a1a !important` sobre cualquier elemento resaltado — cubre notas guardadas antes del fix y cualquier edge case donde Chrome aplique solo el background.
+
+**Bug 2 — Labels URGENTE/HECHO no se podían borrar.** Raíz: `document.execCommand('removeFormat')` no elimina `<span>` con clases custom; los badges sobrevivían al botón ✕.
+- `fmt('clear')` ahora ejecuta `removeFormat` y luego llama a `removeLabelsInRange(bIn)` que elimina los `.rt-label` que intersectan el rango actual (o todos si la selección está colapsada).
+- UX extra: cada badge tiene ahora `onclick="NB.removeLabelEl(this, sid)"` + `cursor:pointer` + pseudo `::after` que muestra " ✕" al hover → un click sobre el badge lo elimina sin pasar por la toolbar.
+- Nuevo `removeLabelEl(el, sid)` en el API público de NB.
+
+**Bug 3 — Cuadernos personalizados apilados.** Raíz: `renderCustomList` hacía `list.map(renderCustomCard).join('')` → todos los cuadernos renderizados uno debajo del otro.
+- Nueva variable de sesión `activeCustomId` (persistida en `localStorage['sys_active_custom']`).
+- `renderCustomList()` ahora pinta:
+  1. Un `<select class="cnb-selector-sel">` con `icono + nombre` por cada cuaderno (handler `onchange="NB.selectCustom(this.value)"`).
+  2. UN SOLO `renderCustomCard(activeMeta)` debajo, con `cnb-active` wrapper (animación `fu` de entrada).
+- `selectCustom(id)` persiste la selección + fuerza `openSubjects.add(id)` para que el `sj-drop` se auto-expanda al cambiar.
+- Si el activo fue eliminado / es null, hace fallback al primer cuaderno de la lista.
+- CSS nuevo: `.cnb-selector` (barra flex con label + select + hint), responsive a ≤768px.
+
+### Archivos modificados (3)
+- `frontend/systems_logic.js` — `fmt` (hl+clear), `removeLabelsInRange`, `removeLabelEl`, `insertLabel` con onclick, `activeCustomId`, `selectCustom`, `renderCustomList` refactor. Exports actualizados.
+- `frontend/systems.html` — CSS `.rt-label` hover + "✕" pseudo, safety net `color:#1a1a1a !important`, `.cnb-selector/-lbl/-sel/-hint/-active`.
+- `CEREBRO_STATE.md` — esta entrada.
+
+### Verificación manual
+- ✅ Resaltar texto con cualquiera de los 3 colores → letras negras sobre fondo pastel, legibles.
+- ✅ Insertar ⚠ URGENTE → click directo sobre el badge lo borra.
+- ✅ Insertar ✓ HECHO → seleccionar frase con el badge adentro + click ✕ lo elimina junto con otros formatos.
+- ✅ ✕ sin selección → borra TODOS los badges del editor activo (atajo "limpiar todo").
+- ✅ Tab 7 con 3+ cuadernos: solo se ve el seleccionado, dropdown arriba permite saltar entre ellos.
+- ✅ Recargar la página mantiene el cuaderno activo previo (persistencia `localStorage`).
 
 ---
 
