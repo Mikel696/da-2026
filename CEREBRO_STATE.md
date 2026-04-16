@@ -6,6 +6,40 @@
 
 ---
 
+## 🎯 8-PRO · Claude Optimize — NUEVA FEATURE — 2026-04-15
+
+### Qué se creó
+Nueva pestaña **🎯 Claude Optimize** (primera pestaña, default) en `frontend/prompts.html` — **token-saver autónomo** para solicitudes a Claude Code. El usuario pega texto en inglés verboso, elige módulo objetivo + tipo de tarea, y obtiene un prompt estructurado (ROLE · REPO · LIVE · MODULE · FILES · STATE KEYS · NOTES · CONTEXT · TASK · CONSTRAINTS · DELIVERABLE) listo para pegar en una nueva sesión. 100% cliente, sin API, sin tokens, sin costo.
+
+### Controles
+- **Módulo objetivo** (15 opciones): HOME, 3-ENG, 5-JOB, 8-PRO, 9-GOA, 10-SYS, 11-ACC, 12-FIN, 13-NOT, APPLY, SIM, RUTA, NEWS, TOOLS, GENERAL. Cada uno trae metadata pre-cargada (files, state keys, notes).
+- **Tipo de tarea** (7 opciones): feature, bugfix, refactor, rewrite, explore, doc, deploy. Cada tipo inyecta constraints específicas (ej: `explore` → "read-only, return file paths and line ranges"; `refactor` → "preserve observable behavior").
+- **Textarea** para pegar el input en inglés verboso.
+- **⚡ Optimize Prompt** — dispara el motor autónomo.
+- **Stats** live: `N words → M words` (compresión).
+
+### Motor de optimización (IIFE al final de `<script>`)
+1. **`coClean(txt)`** — strip fillers con 30 regex multi-word (`so i was thinking maybe we could`, `could you please`, `basically`, `thanks in advance`, `oh and`, `kind of`, etc.) + conversión polite→imperativo (`can you fix` → `fix`) + normalización whitespace + capitalización.
+2. **`coExtractTasks(cleaned)`** — split por boundaries oracionales + marcadores numerados + "then/also/and also". Dedup por key de primeros 40 chars.
+3. **`coDetectSignals(raw)`** — 8 detectores (`commit|push` → "commit and push when done", `don't break` → "preserve existing", `css|style|design` → "match design tokens", `cloud sync|supabase` → "ensure SYNC_REGISTRY", etc).
+4. **Assemble** — combina `CO_MODULE[mod]` metadata + `CO_TASK_HINTS[type]` constraints + detected signals + 4 reglas default (short responses, module codes, 4-layer arch, auth script order).
+5. **Stats** — cuenta palabras/chars IN vs OUT, estima tokens (4 chars ≈ 1 token), muestra banner de savings (verde si comprimió, informativo si el input ya era corto).
+
+### Persistencia
+- Historial guarda con `plab_h` (existente, ahora con tag `kind:'claude-opt'` + módulo en la fecha).
+- `'plab_h'` agregado a `SYNC_REGISTRY` en `frontend/js/cloud-sync.js` → sincroniza entre dispositivos via Supabase JSONB proxy.
+
+### Archivos tocados
+- **`frontend/prompts.html`** — pestaña nueva + UI (55 líneas HTML) + motor (~220 líneas JS).
+- **`frontend/js/cloud-sync.js`** — `plab_h` agregado al `SYNC_REGISTRY`.
+
+### Smoke tests ejecutados (Node)
+- Feature/3-ENG: "So I was thinking maybe we could add..." → 56w → 192w (stripped fillers; 4 tasks extraídos).
+- Bugfix/5-JOB: "Could you please help me fix..." → 35w → 151w (imperative + identify root cause constraint).
+- Explore/3-ENG: "Explore how the SRS deck works..." → 17w → 155w (añade read-only constraint + file paths requirement).
+
+---
+
 ## 🎯 Interview Simulation · Simetrik — ITERACIÓN 3 (walkthrough REAL) — 2026-04-15
 
 ### Qué cambió

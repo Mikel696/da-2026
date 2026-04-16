@@ -66,14 +66,77 @@
 <div class="hero"><div class="hero-sub">laboratorio de prompts</div><h1>Tu idea → <em>prompt perfecto</em>.</h1><p>Escribe tu idea en bruto y el sistema la transforma en un prompt optimizado con las mejores prácticas de prompt engineering. 100% instantáneo, sin API, sin costo.</p></div>
 
 <div class="tabs">
-<button class="tab on" data-p="opt">⚡ Optimizar</button>
+<button class="tab on" data-p="claude">🎯 Claude Optimize</button>
+<button class="tab" data-p="opt">⚡ Optimizar</button>
 <button class="tab" data-p="lib">📚 Librería</button>
 <button class="tab" data-p="master">🧠 Dominar Claude</button>
 <button class="tab" data-p="history">📜 Historial</button>
 </div>
 
+<!-- ══════ CLAUDE OPTIMIZE (token-saver for Claude Code requests) ══════ -->
+<div class="pnl on" id="p-claude">
+<div class="tip"><b>🎯 Token-Saver para Claude Code</b><p>Pegá tu solicitud en <strong>inglés verboso</strong>, elegí el módulo DA-2026 sobre el que trabajarás, y el motor la comprime a un prompt estructurado (<strong>ROLE · CONTEXT · TASK · CONSTRAINTS</strong>) con los archivos, llaves de estado y reglas del módulo pre-cargadas. <strong>100% autónomo · 0 tokens · 0 API · 0 costo</strong>.</p></div>
+
+<div class="card">
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+<div style="flex:1;min-width:220px">
+<div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-family:'IBM Plex Mono',monospace">Módulo objetivo</div>
+<select class="select" id="coModule" style="width:100%">
+<option value="HOME">🏠 HOME · Main Page (index.html)</option>
+<option value="3-ENG">📚 3-ENG · English Academy</option>
+<option value="5-JOB">💼 5-JOB · Job Tracker</option>
+<option value="8-PRO">💬 8-PRO · Prompts Lab (this module)</option>
+<option value="9-GOA">🎯 9-GOA · Goals & Habits</option>
+<option value="10-SYS">⚙️ 10-SYS · Systems Engineering</option>
+<option value="11-ACC">🧮 11-ACC · Accounting Associate</option>
+<option value="12-FIN">💰 12-FIN · Personal Finance</option>
+<option value="13-NOT">📝 13-NOT · Notes & Journal</option>
+<option value="APPLY">📬 APPLY · Application Center</option>
+<option value="SIM">🎤 SIM · Interview Simulation</option>
+<option value="RUTA">🗺️ RUTA · Data Analyst Path</option>
+<option value="NEWS">📰 NEWS · Data & AI News</option>
+<option value="TOOLS">🛠️ TOOLS · Tools Directory</option>
+<option value="GENERAL">🌐 GENERAL · Cross-cutting / Architecture</option>
+</select>
+</div>
+<div style="flex:1;min-width:180px">
+<div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-family:'IBM Plex Mono',monospace">Tipo de tarea</div>
+<select class="select" id="coTaskType" style="width:100%">
+<option value="feature">✨ Feature (add new)</option>
+<option value="bugfix">🐛 Bugfix (fix broken)</option>
+<option value="refactor">♻️ Refactor (clean up)</option>
+<option value="rewrite">🔄 Rewrite (replace)</option>
+<option value="explore">🔍 Explore (read-only)</option>
+<option value="doc">📄 Documentation</option>
+<option value="deploy">🚀 Deploy/Commit</option>
+</select>
+</div>
+</div>
+
+<div style="font-size:14px;font-weight:600;margin-bottom:8px">Tu solicitud (en inglés, como la pensás)</div>
+<textarea class="textarea" id="coRaw" style="min-height:160px" placeholder="Example: So I was thinking maybe we could add a new tab in the English Academy module that would let me practice phrasal verbs. Like, I want to be able to click on a verb and see a flashcard with example sentences, and if I could tap a button to hear the pronunciation that would be great. Oh and don't break the existing Dojo tab please. Also commit when you're done."></textarea>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
+<button class="btn bp" onclick="claudeOptimize()">⚡ Optimize Prompt</button>
+<button class="btn bo bs" onclick="document.getElementById('coRaw').value='';document.getElementById('coResult').style.display='none'">🧹 Clear</button>
+<div id="coStats" style="font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-left:auto"></div>
+</div>
+</div>
+
+<div id="coResult" style="display:none">
+<div class="lbl">· optimized prompt — ready to paste into Claude Code ·</div>
+<div class="result" id="coOutput"></div>
+<div class="result-actions">
+<button class="btn bg bs" onclick="coCopy()">📋 Copy prompt</button>
+<button class="btn bo bs" onclick="coSaveHist()">💾 Save to history</button>
+<button class="btn bo bs" onclick="document.getElementById('coResult').style.display='none'">✕ Close</button>
+</div>
+<div id="coSavings" class="tip" style="margin-top:10px;display:none"></div>
+</div>
+</div>
+
 <!-- ══════ OPTIMIZAR ══════ -->
-<div class="pnl on" id="p-opt">
+<div class="pnl" id="p-opt">
 <div class="tip"><b>⚡ Cómo funciona</b><p>Escribe tu idea. Selecciona contexto y tono. El motor aplica <strong>10 reglas de prompt engineering</strong> y genera un prompt estructurado con rol, contexto XML, tarea, formato y restricciones. <strong>Instantáneo, sin conexión, sin tokens.</strong></p></div>
 
 <div class="card">
@@ -415,6 +478,247 @@ return '<div class="lbl">· '+c.label.toLowerCase()+' ·</div>'+items.map(p=>
 '<div class="prompt-card" onclick="this.classList.toggle(\'open\')"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span><div class="prompt-title">'+p.title+'</div><div class="prompt-desc">'+p.desc+'</div><div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();navigator.clipboard.writeText(\''+encodeURIComponent(p.prompt)+'\'.split(\'%\').map(decodeURIComponent).join(\'%\')).catch(()=>{});alert(\'✅ Copiado\')">📋 Copiar</button></div></div></div>'
 ).join('');
 }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CLAUDE OPTIMIZE — token-saver for Claude Code requests
+// Input:  verbose English request + module selection
+// Output: structured ROLE · CONTEXT · TASK · CONSTRAINTS prompt
+// Engine: 100% client-side, no API, no tokens, no dependencies
+// ═══════════════════════════════════════════════════════════════
+
+const CO_MODULE={
+'HOME':{name:'Main Page / Index',files:'frontend/index.html',state:'sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (prefix-synced)',notes:'Landing + stats dashboard + Quick Workshop entries'},
+'3-ENG':{name:'English Academy',files:'frontend/english.html, css/english.css, js/eng.js, js/english.js (Dojo), data/english-data.json, data/english-dojo.json',state:'e4, eng_notes, eng_srs_deck, dojo_stats, excel_dojo',notes:'SRS flashcard deck + Dojo gamification + grammar rules'},
+'5-JOB':{name:'Job Tracker',files:'frontend/jobs.html',state:'jt8, jt_profile, jt_form_expanded',notes:'Kanban drag-and-drop, VacancyDB bidirectional sync, master-detail layout'},
+'8-PRO':{name:'Prompts Lab',files:'frontend/prompts.html',state:'sb_prompts, plab_h',notes:'Self-contained; optimizer engine lives here'},
+'9-GOA':{name:'Goals & Habits',files:'frontend/goals.html, js/goals.js',state:'sb_goals, sb_habits, sb_reviews, sb_ratings',notes:'Goal tracking with recurring habits + weekly reviews'},
+'10-SYS':{name:'Systems Engineering',files:'frontend/systems.html, frontend/systems_logic.js',state:'sys_tasks (skipped from cloud), sys_class_sessions (skipped), sys_notebook (synced)',notes:'SEED_VERSION=5, 9 tabs including Cuaderno with dark-theme lightbox'},
+'11-ACC':{name:'Accounting Associate',files:'frontend/accounting.html, css/accounting.css, js/accounting.js (ACC IIFE), data/accounting-data.json',state:'sb_accounting',notes:'6 tabs, IIFE pattern'},
+'12-FIN':{name:'Personal Finance',files:'frontend/finance.html',state:'fin_* (prefix-synced dynamic keys)',notes:'Personal finance tracking with dynamic key prefix'},
+'13-NOT':{name:'Notes & Journal',files:'frontend/notes.html',state:'sb_notes2',notes:'Journal + notes with rich text'},
+'APPLY':{name:'Application Center',files:'frontend/apply.html',state:'(none cloud-synced)',notes:'Job application tracking; self-contained module'},
+'SIM':{name:'Interview Simulation (Simetrik)',files:'frontend/interview-sim.html',state:'sim_interview_chks',notes:'7 tabs: Simetrik corporate, role, test walkthrough (real Miguel_Barros.xlsx), Q&A technical, Q&A STAR, PT-BR, checklist'},
+'RUTA':{name:'Data Analyst Path',files:'frontend/ruta.html',state:'ruta_log5, ruta5',notes:'SQL → Python → Power BI learning path'},
+'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper'},
+'TOOLS':{name:'Tools & Advantages Directory',files:'frontend/tools.html',state:'(none)',notes:'Links to external tools'},
+'GENERAL':{name:'Cross-cutting / Architecture',files:'frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, CEREBRO_STATE.md, MEMORY.md',state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js',notes:'Shared infra: 4-layer arch, Supabase auth, localStorage proxy, JSONB columns per user'}
+};
+
+const CO_TASK_HINTS={
+feature:{verb:'Add',constraint:'- Do not remove existing functionality.\n- Match existing CSS tokens (--ac, --gn, --bd, --bg, etc).'},
+bugfix:{verb:'Fix',constraint:'- Identify root cause before patching.\n- Do not introduce new behavior beyond the fix.'},
+refactor:{verb:'Refactor',constraint:'- Preserve observable behavior exactly.\n- No new features; only cleanup.'},
+rewrite:{verb:'Rewrite',constraint:'- Preserve the public API / user-facing behavior.\n- Flag any intentional behavior change.'},
+explore:{verb:'Explore and report on',constraint:'- Read-only. Do not modify files.\n- Return a concise map with file paths and line ranges.'},
+doc:{verb:'Document',constraint:'- Do not modify source code.\n- Update CEREBRO_STATE.md only if structurally relevant.'},
+deploy:{verb:'Commit and deploy',constraint:'- Commit with a clear message.\n- Merge to main and push to GitHub Pages.'}
+};
+
+// Filler patterns to strip (regex + case-insensitive)
+// Multi-word units go FIRST so long phrases are matched before their substrings.
+const CO_FILLERS=[
+/\bso,?\s+i\s+was\s+(thinking|wondering)\s+(that\s+)?(maybe\s+)?(we\s+could|if|whether)?\b/gi,
+/\bi'?(ve|'ve)?\s+been\s+thinking\s+(that\s+)?(maybe\s+)?/gi,
+/\bi\s+was\s+(thinking|wondering)\s+(that\s+)?(maybe\s+)?(we\s+could|if|whether)?\b/gi,
+/\b(was|been)\s+thinking\s+(that\s+)?(maybe\s+)?(we\s+could)?\b/gi,
+/\bmaybe\s+we\s+(could|can|should)\b/gi,
+/\b(could|would)\s+you\s+(please\s+)?(maybe|possibly)?\b/gi,
+/\bwould\s+(it\s+be\s+)?(great|nice|cool|possible|awesome)\s+(if|to)\b/gi,
+/\bi\s+(would|'d)\s+(like|love|want)\s+(you\s+)?(to)?\b/gi,
+/\blet\s+me\s+(explain|tell\s+you|start\s+by)\b/gi,
+/\bfirst,?\s+let\s+me\b/gi,
+/\b(basically|actually|essentially|literally|honestly|personally|frankly)\b/gi,
+/\bin\s+order\s+to\b/gi,
+/\bthe\s+thing\s+is\b/gi,
+/\bwhat\s+i'?m\s+trying\s+to\s+(do|say)\s+is\b/gi,
+/\bwhat\s+i\s+(want|need)\s+is\b/gi,
+/\bif\s+that\s+makes\s+sense\b/gi,
+/\byou\s+know\s+(what\s+i\s+mean)?\b/gi,
+/\b(kind|sort)\s+of\b/gi,
+/\b(kinda|sorta)\b/gi,
+/\bjust\s+to\s+be\s+clear\b/gi,
+/\bto\s+clarify\b/gi,
+/\boh\s+and\s+(also\s+)?/gi,
+/\balso,?\s+if\s+you\s+could\b/gi,
+/\bby\s+the\s+way\b/gi,
+/\bthanks\s+(in\s+advance|so\s+much|a\s+lot)?\b/gi,
+/\bthank\s+you\s+(for|so\s+much|in\s+advance)?\b/gi,
+/\b(like|you\s+know),?\s+(i\s+want\s+to\s+be\s+able\s+to|i\s+want\s+to)\b/gi,
+/\b^\s*like,?\s+/gim,
+/\bso,?\s+(what|basically|yeah|i|i'?m)\b/gi,
+/\b(please\s+(help|note|be\s+aware))\b/gi
+];
+
+// Polite → imperative verb substitutions
+const CO_IMPERATIVE=[
+[/\bcan\s+you\s+(please\s+)?(\w+)/gi,'$2'],
+[/\bcould\s+you\s+(please\s+)?(\w+)/gi,'$2'],
+[/\bwould\s+you\s+(please\s+)?(\w+)/gi,'$2'],
+[/\bplease\s+(\w+)/gi,'$1'],
+[/\bi\s+need\s+you\s+to\s+(\w+)/gi,'$1'],
+[/\bi\s+want\s+you\s+to\s+(\w+)/gi,'$1'],
+[/\bi\s+want\s+to\s+(\w+)/gi,'$1'],
+[/\bhelp\s+me\s+(\w+)/gi,'$1']
+];
+
+// Feature-signal → constraint detection
+const CO_SIGNALS=[
+{r:/\b(commit|push|deploy|ship)\b/i,add:'Commit and push to main when done (no approval needed).'},
+{r:/\b(don'?t\s+break|preserve|keep\s+existing|without\s+breaking)\b/i,add:'Preserve all existing functionality — do not break current behavior.'},
+{r:/\b(test|verify|check\s+if|make\s+sure)\b/i,add:'Verify the change works before committing.'},
+{r:/\b(css|style|design|color|layout|responsive|mobile)\b/i,add:'Match existing design tokens (CSS variables in :root).'},
+{r:/\b(cloud\s?sync|supabase|persist|save\s+to\s+cloud)\b/i,add:'Ensure relevant localStorage keys are in SYNC_REGISTRY (frontend/js/cloud-sync.js).'},
+{r:/\b(cerebro_state|state\s*\.\s*md|document)\b/i,add:'Update CEREBRO_STATE.md with a summary entry after the change.'},
+{r:/\b(mobile|responsive|small\s+screen)\b/i,add:'Test responsive layout at ≤768px breakpoint.'},
+{r:/\b(accessible|a11y|aria|keyboard)\b/i,add:'Preserve keyboard navigation and ARIA semantics.'}
+];
+
+function coClean(txt){
+let s=' '+txt.trim()+' ';
+// Strip fillers
+CO_FILLERS.forEach(r=>{s=s.replace(r,' ')});
+// Convert polite to imperative
+CO_IMPERATIVE.forEach(([r,rep])=>{s=s.replace(r,rep)});
+// Collapse whitespace, normalize punctuation
+s=s.replace(/\s+/g,' ')
+   .replace(/\s+([,.!?;:])/g,'$1')
+   .replace(/([,.!?;:]){2,}/g,'$1')
+   .replace(/^\s*[,.;:]\s*/,'')
+   .trim();
+// Capitalize first letter of each sentence
+s=s.replace(/(^|[.!?]\s+)([a-z])/g,(m,p,c)=>p+c.toUpperCase());
+return s;
+}
+
+function coExtractTasks(cleaned){
+// Split on sentence boundaries or numbered markers
+const parts=cleaned.split(/(?:\n+|\.\s+(?=[A-Z])|\bthen\b\s+|\band\s+also\b\s+|\balso\b\s+)/i)
+  .map(p=>p.trim())
+  .filter(p=>p.length>4 && /[a-z]/i.test(p));
+// Dedupe
+const seen=new Set();
+const uniq=parts.filter(p=>{
+  const k=p.toLowerCase().replace(/[^\w]/g,'').substring(0,40);
+  if(seen.has(k))return false;
+  seen.add(k);return true;
+});
+return uniq.map(p=>p.replace(/\.$/,''));
+}
+
+function coDetectSignals(raw){
+const hits=[];
+CO_SIGNALS.forEach(s=>{if(s.r.test(raw))hits.push(s.add)});
+return Array.from(new Set(hits));
+}
+
+function claudeOptimize(){
+const raw=document.getElementById('coRaw').value.trim();
+if(!raw){alert('Paste your request first.');return}
+const mod=document.getElementById('coModule').value;
+const type=document.getElementById('coTaskType').value;
+const ctx=CO_MODULE[mod];
+const hint=CO_TASK_HINTS[type];
+
+// 1. Clean raw input
+const cleaned=coClean(raw);
+// 2. Extract task steps
+const tasks=coExtractTasks(cleaned);
+// 3. Detect signals
+const signals=coDetectSignals(raw);
+
+// Build bulleted task list (verb-first)
+const taskLines=tasks.length>1
+  ? tasks.map((t,i)=>(i+1)+'. '+t.charAt(0).toUpperCase()+t.slice(1)).join('\n')
+  : (hint.verb+' '+(tasks[0]||cleaned).replace(/^(add|fix|refactor|rewrite|explore|document|commit)\s+/i,'').toLowerCase());
+
+// Assemble constraints
+const defaultConstraints=[
+'- Short responses; no recaps, no filler.',
+'- Use module codes (3-ENG, 5-JOB, etc) instead of full names.',
+'- Module architecture: 4-layer (HTML shell + CSS + JS IIFE + JSON data).',
+'- Auth scripts load before module JS: Supabase CDN → supabase-client.js → auth.js → cloud-sync.js.'
+];
+const allConstraints=[hint.constraint,...signals.map(s=>'- '+s),...defaultConstraints]
+  .flatMap(c=>c.split('\n'))
+  .map(c=>c.trim())
+  .filter((c,i,a)=>c && a.indexOf(c)===i);
+
+// Assemble final prompt
+const prompt=`ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).
+REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
+LIVE: https://mikel696.github.io/da-2026/frontend/
+
+MODULE: ${mod} · ${ctx.name}
+FILES: ${ctx.files}
+STATE KEYS: ${ctx.state}
+NOTES: ${ctx.notes}
+
+CONTEXT: Read CEREBRO_STATE.md and MEMORY.md before executing.
+
+TASK (${type}):
+${taskLines}
+
+CONSTRAINTS:
+${allConstraints.join('\n')}
+
+DELIVERABLE: Execute the task, ${type==='explore'?'return a concise report with file paths and line ranges':type==='deploy'?'commit + push to main':'commit and push to main with a clear message'}. No approval needed.`;
+
+// Stats
+const wIn=raw.trim().split(/\s+/).length;
+const wOut=prompt.trim().split(/\s+/).length;
+const cIn=raw.length;
+const cOut=prompt.length;
+const savedW=wIn-wOut;
+const ratio=wIn>0?Math.round((savedW/wIn)*100):0;
+
+// Render
+const resultDiv=document.getElementById('coResult');
+const output=document.getElementById('coOutput');
+resultDiv.style.display='block';
+const highlighted=prompt
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/^(ROLE|REPO|LIVE|MODULE|FILES|STATE KEYS|NOTES|CONTEXT|TASK[^:]*|CONSTRAINTS|DELIVERABLE):/gm,'<span class="tag">$1:</span>');
+output.innerHTML=highlighted;
+output.dataset.raw=prompt;
+output.dataset.input=raw;
+output.dataset.module=mod;
+
+// Stats bar
+document.getElementById('coStats').innerHTML=wIn+' words → '+wOut+' words';
+
+// Savings banner
+const sav=document.getElementById('coSavings');
+if(savedW>0){
+  sav.style.display='block';
+  sav.innerHTML='<b>💡 Token savings</b><p>Compressed <strong>'+wIn+' → '+wOut+' words</strong> ('+ratio+'% shorter). Character count: '+cIn+' → '+cOut+'. Estimated token savings: ~'+Math.round((cIn-cOut)/4)+' tokens (4 chars ≈ 1 token).</p>';
+}else if(savedW<0){
+  sav.style.display='block';
+  sav.innerHTML='<b>ℹ️ Structure added</b><p>Output is longer than input ('+Math.abs(ratio)+'% more) but adds ROLE + MODULE metadata + explicit CONSTRAINTS — Claude Code needs this context anyway, better to include it upfront than in back-and-forth clarifications.</p>';
+}else{
+  sav.style.display='none';
+}
+
+resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function coCopy(){
+const raw=document.getElementById('coOutput').dataset.raw;
+if(raw)navigator.clipboard.writeText(raw).then(()=>alert('✅ Prompt copied to clipboard'));
+}
+
+function coSaveHist(){
+const o=document.getElementById('coOutput');
+if(!o.dataset.raw)return;
+const h=getHist();
+h.push({
+  input:o.dataset.input,
+  output:o.dataset.raw,
+  date:new Date().toLocaleDateString('en',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' · '+(o.dataset.module||''),
+  kind:'claude-opt'
+});
+setHist(h);renderHist();
+alert('✅ Saved to history');
 }
 
 // ══════════════════════════
