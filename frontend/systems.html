@@ -298,6 +298,37 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .sj-nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
 .sj-nb-toolbar button{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
 
+/* ═══ NOTEBOOK RICH-TEXT TOOLBAR ═══ */
+.nb-rt-toolbar{display:flex;gap:4px;flex-wrap:wrap;align-items:center;padding:8px 10px;background:var(--c1);border:1px solid var(--bd);border-radius:8px 8px 0 0;border-bottom:none;margin-bottom:0}
+.nb-rt-btn{background:var(--el);border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1;transition:all .15s;min-width:28px;display:inline-flex;align-items:center;justify-content:center}
+.nb-rt-btn:hover{background:var(--vg);border-color:var(--vi);color:var(--vi2)}
+.nb-rt-btn:active{transform:scale(.95)}
+.nb-rt-btn b{font-weight:900}
+.nb-rt-sep{width:1px;height:18px;background:var(--bd);margin:0 3px}
+.nb-rt-sz-s{font-size:9px}
+.nb-rt-sz-m{font-size:11px}
+.nb-rt-sz-l{font-size:14px;font-weight:800}
+.nb-rt-hl{width:24px;height:22px;padding:0;border-radius:5px}
+.nb-rt-hl-y{background:#fff59d;border-color:#d4c058}
+.nb-rt-hl-y:hover{background:#ffeb3b;border-color:#f4bb00}
+.nb-rt-hl-g{background:#a5d6a7;border-color:#5b9e5f}
+.nb-rt-hl-g:hover{background:#66bb6a;border-color:#2e7d32}
+.nb-rt-hl-p{background:#f8bbd0;border-color:#c48698}
+.nb-rt-hl-p:hover{background:#ec407a;border-color:#a31545}
+.nb-rt-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.5px;padding:4px 8px}
+.nb-rt-lbl-u{background:rgba(255,107,107,.15);border-color:rgba(255,107,107,.4);color:#ff8f8f}
+.nb-rt-lbl-u:hover{background:rgba(255,107,107,.3);color:#fff}
+.nb-rt-lbl-d{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.4);color:#6ee7a0}
+.nb-rt-lbl-d:hover{background:rgba(74,222,128,.28);color:#fff}
+
+/* Labels inserted inside the editor */
+.rt-label{display:inline-block;padding:1px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;vertical-align:middle;margin:0 2px;user-select:none}
+.rt-lbl-urgent{background:linear-gradient(135deg,rgba(255,70,70,.25),rgba(255,107,107,.18));color:#ff9595;border:1px solid rgba(255,107,107,.5);box-shadow:0 0 8px rgba(255,70,70,.25)}
+.rt-lbl-done{background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(74,222,128,.18));color:#6ee7a0;border:1px solid rgba(74,222,128,.5);box-shadow:0 0 8px rgba(34,197,94,.22);text-decoration:line-through;text-decoration-color:rgba(110,231,160,.6)}
+
+/* When the toolbar sits above a page, hug the page top */
+.nb-rt-toolbar + .nb-page{border-top-left-radius:0;border-top-right-radius:0}
+
 /* ═══ PASTE IMAGE MODAL ═══ */
 .pim-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;animation:fu .2s ease}
 .pim-overlay.on{display:flex}

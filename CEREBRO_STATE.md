@@ -6,6 +6,59 @@
 
 ---
 
+## 🧬 BUGFIX · Notebook rich-text + Auth chain platform-wide + Optimizer reforzado — 2026-04-15
+
+### Qué cambió (3 problemas raíz corregidos)
+
+**Problema 1 — Cuadernos sin formato.** El editor `contenteditable` guardaba `textContent` (texto plano), descartando cualquier `<b>`, `<span style="font-size…">` o `<span style="background:…">` que el usuario intentara aplicar. Además no existían controles UI.
+
+- `autoSave(sid)` ahora persiste `bIn.innerHTML` en lugar de `bIn.textContent` → el formato sobrevive al reload y al cloud-sync.
+- Añadido helper `renderBodyContent(body)`: detecta tags HTML con regex `/<[a-z][^>]*>/i` y renderiza raw; si no, escapa (backward-compat con notas viejas).
+- Nueva toolbar `.nb-rt-toolbar` renderizada por `buildEditorHtml(sid, page)` (compartida entre materias y cuadernos personalizados). Botones:
+  - **B** (bold) · **S / M / L** (3 tamaños vía `fontSize` 2/3/5) · **3 resaltadores** (amarillo `#fff59d`, verde `#a5d6a7`, rosa `#f8bbd0`) · **✕** (clear format) · **⚠ URGENTE** / **✓ HECHO** (etiquetas badge).
+- Funciones nuevas en NB IIFE:
+  - `fmt(sid, kind, value)` — usa `document.execCommand('bold'|'fontSize'|'hiliteColor'|'backColor'|'removeFormat')`. Hace `styleWithCSS` antes de hiliteColor para evitar `<font>` deprecated. Fallback `backColor` para Chrome.
+  - `insertLabel(sid, type)` — inserta `<span class="rt-label rt-lbl-urgent|done" contenteditable="false">` vía `insertHTML`, con fallback manual por Range API si execCommand falla.
+  - `focusEditor(sid)` helper garantiza foco + rango antes de execCommand (Chrome silenciaba los comandos sin selección).
+- CSS añadido en `systems.html`: `.nb-rt-toolbar`, `.nb-rt-btn`, `.nb-rt-sz-s/m/l`, `.nb-rt-hl-y/g/p`, `.nb-rt-lbl-u/d`, `.rt-label`, `.rt-lbl-urgent` (rojo con glow), `.rt-lbl-done` (verde con tachado).
+- `renderCustomCard(meta)` refactorizado: ahora llama `buildEditorHtml(meta.id, page)` en lugar de duplicar el HTML inline — los cuadernos personalizados heredan la toolbar automáticamente.
+
+**Problema 2 — "Sesión iniciada" solo visible en 10-SYS.** La cadena de auth (Supabase CDN → `supabase-client.js` → `auth.js` → `cloud-sync.js`) estaba instalada solo en algunos HTML. En los demás, el indicador `#authBadge` nunca se pintaba y el cloud-sync silenciosamente no funcionaba por página.
+
+- Añadida la cadena de 4 scripts antes de `</body>` en **13 archivos**:
+  - **Root (4):** `index.html`, `interview-pi3.html`, `interview-sim.html`, `notes.html` (paths: `js/supabase-client.js`, `js/auth.js`, `js/cloud-sync.js`).
+  - **Pages (9):** `pages/configurar.html`, `empleos.html`, `ingles.html`, `prompts.html`, `proyectos.html`, `recursos.html`, `ruta.html`, `sesion.html`, `tacticas.html` (paths: `../js/...`).
+- Comentario estándar: `<!-- Auth chain: must load on every page so session persists platform-wide -->`.
+- Resultado: el badge de sesión y la sincronización ahora funcionan uniformemente en toda la plataforma, no solo en el módulo donde se estaba.
+
+**Problema 3 — Optimizer de prompts no forzaba auth platform-wide.** El generador 8-PRO tenía un constraint débil ("Auth scripts load before module JS") que podía interpretarse como "solo en el módulo trabajado".
+
+- `defaultConstraints` en `claudeOptimize()` reforzado con 2 líneas explícitas:
+  - `PLATFORM-WIDE AUTH: Every HTML page MUST include the full auth chain before </body> — Supabase CDN → supabase-client.js → auth.js → cloud-sync.js. The "Sesión iniciada" sync indicator must be visible on EVERY module, not just one. Never ship a page without it.`
+  - `If you create, copy, or rename any .html page, immediately add the 4-script auth chain — otherwise cloud sync silently breaks on that module.`
+- Nuevos `CO_SIGNALS` (detección automática por regex):
+  - Trigger de creación de páginas (`new page|create .html|copy .html|rename .html|new module`) → inyecta recordatorio de añadir auth.
+  - Trigger de auth/session/login/supabase → fuerza verificación de scripts en TODAS las páginas.
+- Actualizado nota de módulo `GENERAL` + "Full Context Recovery" + "Token Exhaustion Recovery" + "Work on 10-SYS" en `lib[]` con la regla platform-wide.
+
+**Added to SYNC_REGISTRY:** `sys_notebook_meta` (metadatos de cuadernos personalizados — nombre, ícono, color, fecha de creación).
+
+### Archivos modificados (16 total)
+- `frontend/systems_logic.js` — NB.fmt, NB.insertLabel, focusEditor, buildEditorHtml, renderBodyContent, autoSave(innerHTML), renderCustomCard refactor.
+- `frontend/systems.html` — CSS toolbar + labels (~30 líneas).
+- `frontend/prompts.html` — defaultConstraints (+2 líneas) + CO_SIGNALS (+2 reglas) + GENERAL notes + 3 lib prompts actualizados.
+- `frontend/js/cloud-sync.js` — SYNC_REGISTRY += `sys_notebook_meta`.
+- 13 × HTML — auth chain inyectado antes de `</body>`.
+
+### Verificación manual
+- ✅ Escribir texto, seleccionar, click B → bold aplica y persiste tras reload.
+- ✅ Cambiar tamaño S/M/L → visible en el editor y en la preview de la lista.
+- ✅ Resaltar con los 3 colores → inline CSS `background-color` se guarda.
+- ✅ Insertar URGENTE / HECHO → badge renderizado, `contenteditable="false"` evita que se edite el texto del badge.
+- ✅ "Sesión iniciada" aparece en cualquier módulo abierto (probado index, notes, ingles, sesion, tacticas).
+
+---
+
 ## 🧬 10-SYS · REFACTOR MAYOR — Dashboard limpio + Materias integradas + Cuadernos HD — 2026-04-15
 
 ### Qué cambió

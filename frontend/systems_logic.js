@@ -1386,25 +1386,7 @@ const NB = (function() {
       </div>`;
     }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
 
-    // Active page editor (if one is open for this subject)
-    let editorHtml = '';
-    if (page) {
-      editorHtml = `<div class="nb-page" style="margin-bottom:12px">
-        <div class="nb-header">
-          <input class="nb-title-inp" id="nbTitle-${sid}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${sid}')">
-          <span class="nb-saved" id="nbSaved-${sid}">✓ guardado</span>
-          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-        </div>
-        <div class="nb-spine"></div>
-        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
-        <div class="nb-margin"></div>
-        <div class="nb-content" id="nbBody-${sid}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${sid}')">${esc(page.body || '')}</div>
-      </div>
-      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
-      <div id="nbLinks-${sid}">${renderLinksHtml(sid, page)}</div>
-      <div class="sl" style="margin-top:12px">· imágenes ·</div>
-      <div class="nb-images" id="nbImages-${sid}">${renderImagesHtml(sid, page)}</div>`;
-    }
+    const editorHtml = buildEditorHtml(sid, page);
 
     return `<div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${sid}">
       <div class="sj-drop-h" onclick="NB.toggleSubject('${sid}')">
@@ -1422,6 +1404,49 @@ const NB = (function() {
         <div class="nb-entries">${pagesListHtml}</div>
       </div>
     </div>`;
+  }
+
+  // ── SHARED PAGE EDITOR HTML (used by subject + custom notebooks) ──
+  function renderBodyContent(body) {
+    if (!body) return '';
+    // If stored content already has tags (new rich format), render as-is.
+    if (/<[a-z][^>]*>/i.test(body)) return body;
+    // Otherwise escape (legacy plain-text content).
+    return esc(body);
+  }
+
+  function buildEditorHtml(sid, page) {
+    if (!page) return '';
+    return `<div class="nb-rt-toolbar">
+        <button class="nb-rt-btn" onclick="NB.fmt('${sid}','bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-sz-s" onclick="NB.fmt('${sid}','size','s')" title="Texto pequeño">S</button>
+        <button class="nb-rt-btn nb-rt-sz-m" onclick="NB.fmt('${sid}','size','m')" title="Texto normal">M</button>
+        <button class="nb-rt-btn nb-rt-sz-l" onclick="NB.fmt('${sid}','size','l')" title="Texto grande">L</button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-y" onclick="NB.fmt('${sid}','hl','y')" title="Resaltar amarillo"></button>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-g" onclick="NB.fmt('${sid}','hl','g')" title="Resaltar verde"></button>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-p" onclick="NB.fmt('${sid}','hl','p')" title="Resaltar rosa"></button>
+        <button class="nb-rt-btn" onclick="NB.fmt('${sid}','clear')" title="Quitar formato">✕</button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="NB.insertLabel('${sid}','urgent')" title="Insertar etiqueta URGENTE">⚠ URGENTE</button>
+        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="NB.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
+      </div>
+      <div class="nb-page" style="margin-bottom:12px">
+        <div class="nb-header">
+          <input class="nb-title-inp" id="nbTitle-${sid}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${sid}')">
+          <span class="nb-saved" id="nbSaved-${sid}">✓ guardado</span>
+          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
+        <div class="nb-spine"></div>
+        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
+        <div class="nb-margin"></div>
+        <div class="nb-content" id="nbBody-${sid}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${sid}')">${renderBodyContent(page.body)}</div>
+      </div>
+      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
+      <div id="nbLinks-${sid}">${renderLinksHtml(sid, page)}</div>
+      <div class="sl" style="margin-top:12px">· imágenes ·</div>
+      <div class="nb-images" id="nbImages-${sid}">${renderImagesHtml(sid, page)}</div>`;
   }
 
   function renderLinksHtml(sid, page) {
@@ -1499,7 +1524,7 @@ const NB = (function() {
       const tIn = document.getElementById('nbTitle-' + sid);
       const bIn = document.getElementById('nbBody-' + sid);
       if (tIn) page.title = tIn.value;
-      if (bIn) page.body = bIn.textContent;
+      if (bIn) page.body = bIn.innerHTML;
       page.updated = new Date().toISOString();
       save(d);
       const badge = document.getElementById('nbSaved-' + sid);
@@ -1509,6 +1534,76 @@ const NB = (function() {
         badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
       }
     }, 500);
+  }
+
+  // ── RICH-TEXT FORMAT ──
+  // Ensures the contenteditable has focus + an active selection before
+  // calling execCommand (otherwise Chrome silently no-ops).
+  function focusEditor(sid) {
+    const bIn = document.getElementById('nbBody-' + sid);
+    if (!bIn) return null;
+    if (document.activeElement !== bIn) bIn.focus();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) {
+      const r = document.createRange();
+      r.selectNodeContents(bIn);
+      r.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(r);
+    }
+    return bIn;
+  }
+
+  function fmt(sid, kind, value) {
+    const bIn = focusEditor(sid);
+    if (!bIn) return;
+    try {
+      if (kind === 'bold') {
+        document.execCommand('bold', false, null);
+      } else if (kind === 'size') {
+        // execCommand fontSize accepts 1..7; we map S/M/L → 2/3/5.
+        const map = { s: '2', m: '3', l: '5' };
+        document.execCommand('fontSize', false, map[value] || '3');
+      } else if (kind === 'hl') {
+        const map = {
+          y: '#fff59d',   // yellow
+          g: '#a5d6a7',   // green
+          p: '#f8bbd0'    // pink
+        };
+        // styleWithCSS so backColor produces inline CSS, not deprecated <font>.
+        try { document.execCommand('styleWithCSS', false, true); } catch (e) {}
+        // Try hiliteColor first (Firefox), fall back to backColor (Chrome).
+        if (!document.execCommand('hiliteColor', false, map[value] || '#fff59d')) {
+          document.execCommand('backColor', false, map[value] || '#fff59d');
+        }
+      } else if (kind === 'clear') {
+        document.execCommand('removeFormat', false, null);
+      }
+    } catch (e) {
+      console.warn('NB.fmt failed:', e);
+    }
+    autoSave(sid);
+  }
+
+  function insertLabel(sid, type) {
+    const bIn = focusEditor(sid);
+    if (!bIn) return;
+    const html = type === 'urgent'
+      ? '<span class="rt-label rt-lbl-urgent" contenteditable="false">⚠ URGENTE</span>&nbsp;'
+      : '<span class="rt-label rt-lbl-done" contenteditable="false">✓ HECHO</span>&nbsp;';
+    try {
+      document.execCommand('insertHTML', false, html);
+    } catch (e) {
+      // Manual fallback
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        const frag = range.createContextualFragment(html);
+        range.deleteContents();
+        range.insertNode(frag);
+      }
+    }
+    autoSave(sid);
   }
 
   // ── LINKS ──
@@ -1863,24 +1958,7 @@ const NB = (function() {
       </div>`;
     }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
 
-    let editorHtml = '';
-    if (page) {
-      editorHtml = `<div class="nb-page" style="margin-bottom:12px">
-        <div class="nb-header">
-          <input class="nb-title-inp" id="nbTitle-${meta.id}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${meta.id}')">
-          <span class="nb-saved" id="nbSaved-${meta.id}">✓ guardado</span>
-          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-        </div>
-        <div class="nb-spine"></div>
-        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
-        <div class="nb-margin"></div>
-        <div class="nb-content" id="nbBody-${meta.id}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${meta.id}')">${esc(page.body || '')}</div>
-      </div>
-      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
-      <div id="nbLinks-${meta.id}">${renderLinksHtml(meta.id, page)}</div>
-      <div class="sl" style="margin-top:12px">· imágenes ·</div>
-      <div class="nb-images" id="nbImages-${meta.id}">${renderImagesHtml(meta.id, page)}</div>`;
-    }
+    const editorHtml = buildEditorHtml(meta.id, page);
 
     const created = meta.created ? new Date(meta.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
 
@@ -1940,6 +2018,7 @@ const NB = (function() {
   return {
     renderSubjectPanel, restoreAfterRender, toggleSubject,
     newPage, openPage, deletePage, autoSave,
+    fmt, insertLabel,
     addLink, removeLink, removeImage,
     openPasteDialog, closePasteDialog, pimPickFile, pimSave,
     viewImage, closeImage, prevImage, nextImage,

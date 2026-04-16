@@ -188,5 +188,10 @@ function renderQuote(){const q=[{t:"The goal is to turn data into information, a
 (function(){const last=localStorage.getItem('sb_last'),today=new Date().toISOString().split('T')[0];if(last!==today){const y=new Date(Date.now()-864e5).toISOString().split('T')[0];let s=parseInt(localStorage.getItem('sb_streak')||'0');if(last===y)s++;else s=1;localStorage.setItem('sb_streak',String(s));localStorage.setItem('sb_last',today)}})();
 document.getElementById('statTasks').textContent=getWsHist().length;updateStats();renderFeed();renderQuote();renderDeals();
 </script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js"></script>
 </body>
 </html>
