@@ -301,22 +301,66 @@ const SYS = (() => {
     el.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin tareas registradas. Agrega tu primera tarea arriba.</div>';
   }
 
-  // ── RENDER: SUBJECT DETAIL (Tab 1) ──
+  // ── RENDER: SUBJECT DETAIL (Tab 1) — Embeds tasks semáforo + notebook per subject ──
   function renderSubjectDetail() {
     const el = document.getElementById('subjectDetail');
     if (!el) return;
     const tasks = getTasks();
+    const priorityMeta = {
+      p0: { icon: '🔴', label: 'CRÍTICO', cls: 'sem-p0' },
+      p1: { icon: '🟠', label: 'URGENTE', cls: 'sem-p1' },
+      p2: { icon: '🟡', label: 'ON TRACK', cls: 'sem-p2' },
+      p3: { icon: '🟢', label: 'FUTURO', cls: 'sem-p3' },
+      p4: { icon: '🟣', label: 'OPCIONAL', cls: 'sem-p4' },
+    };
 
     el.innerHTML = SUBJECTS.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
       const total = subjTasks.length;
+      const pending = total - done;
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
-      // Materias con syllabus verificado por el usuario (no inventado).
       const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales', 'inv_ciencia']);
       const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id);
+
+      // Tasks grouped by priority (semáforo)
+      const grouped = { p0: [], p1: [], p2: [], p3: [], p4: [], done: [] };
+      subjTasks.forEach(t => {
+        if (t.done) grouped.done.push(t);
+        else grouped[getTaskPriority(t)]?.push(t);
+      });
+
+      let tasksHtml = '';
+      ['p0','p1','p2','p3','p4'].forEach(p => {
+        const items = grouped[p];
+        if (!items.length) return;
+        const m = priorityMeta[p];
+        tasksHtml += `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px"><span class="sem ${m.cls}">${m.icon} ${p.toUpperCase()}</span> ${m.label} · ${items.length}</div>` +
+          items.map(t => {
+            const daysLeft = t.due ? daysBetween(todayStr(), t.due) : null;
+            const daysText = daysLeft !== null ? (daysLeft < 0 ? `<span style="color:var(--rd)">Vencido ${Math.abs(daysLeft)}d</span>` : daysLeft === 0 ? '<span style="color:var(--rd)">HOY</span>' : `${daysLeft}d`) : '';
+            return `<div class="atask">
+              <div class="atask-check" onclick="SYS.toggleTask(${t.id})"></div>
+              <span class="atask-text">${esc(t.text)}</span>
+              ${t.due ? `<span class="atask-due">${formatDate(t.due)} · ${daysText}</span>` : ''}
+              <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
+            </div>`;
+          }).join('') + `</div>`;
+      });
+      if (grouped.done.length) {
+        tasksHtml += `<div style="margin-top:8px;opacity:.6"><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">✅ Completadas · ${grouped.done.length}</div>` +
+          grouped.done.slice(0,8).map(t => `<div class="atask">
+            <div class="atask-check done" onclick="SYS.toggleTask(${t.id})">✓</div>
+            <span class="atask-text crossed">${esc(t.text)}</span>
+            <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
+          </div>`).join('') + `</div>`;
+      }
+      if (!tasksHtml) tasksHtml = '<div style="font-size:11px;color:var(--t3);padding:6px 0;text-align:center">Sin tareas. Agrega la primera abajo.</div>';
+
+      // Notebook HTML per subject (rendered by NB.renderSubjectPanel)
+      const nbHtml = (window.NB && NB.renderSubjectPanel) ? NB.renderSubjectPanel(s.id) : '';
 
       return `<div class="gc" style="border-left:3px solid ${s.color}">
         <div class="gc-h">
@@ -330,15 +374,34 @@ const SYS = (() => {
           <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--vi2)">${pct}% · ${done}/${total}</span>
         </div>` : ''}
         ${!hasRealCalendar ? `<div style="margin:8px 0;padding:8px 10px;background:rgba(234,179,8,.06);border:1px dashed rgba(234,179,8,.25);border-radius:6px;font-size:11px;color:var(--am)">⏳ Sin syllabus cargado. Pega el calendario real desde CDigital para crear tareas.</div>` : ''}
-        ${subjTasks.length > 0 ? `<div style="margin:8px 0">
-          ${subjTasks.map(t => `<div class="atask">
-            <div class="atask-check${t.done ? ' done' : ''}" onclick="SYS.toggleTask(${t.id})">${t.done ? '✓' : ''}</div>
-            <span class="atask-text${t.done ? ' crossed' : ''}">${esc(t.text)}</span>
-            ${t.due ? `<span class="atask-due">${formatDate(t.due)}</span>` : ''}
-            <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
-          </div>`).join('')}
-        </div>` : ''}
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+
+        <!-- TASKS DROPDOWN -->
+        <div class="sj-drop" id="sjTasks-${s.id}">
+          <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjTasks-${s.id}')">
+            <div>🚦 Tareas <span class="sj-drop-count">(${pending} pendiente${pending!==1?'s':''} · ${done}/${total})</span></div>
+            <span class="sj-drop-arr">▶</span>
+          </div>
+          <div class="sj-drop-body">
+            ${tasksHtml}
+            <div class="sj-task-add">
+              <input id="sjTaskNew-${s.id}" placeholder="Nueva tarea para ${esc(s.name)}..." onkeydown="if(event.key==='Enter')SYS.addSubjectTask('${s.id}')">
+              <select id="sjTaskPri-${s.id}">
+                <option value="p2">🟡 P2</option>
+                <option value="p1">🟠 P1</option>
+                <option value="p0">🔴 P0</option>
+                <option value="p3">🟢 P3</option>
+                <option value="p4">🟣 P4</option>
+              </select>
+              <input type="date" id="sjTaskDue-${s.id}">
+              <button onclick="SYS.addSubjectTask('${s.id}')">+ Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTEBOOK DROPDOWN -->
+        ${nbHtml}
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
           ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 CDigital</a>` : ''}
           ${sl.clase ? `<a href="${sl.clase}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Clase</a>` : ''}
           ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
@@ -346,6 +409,32 @@ const SYS = (() => {
         </div>
       </div>`;
     }).join('');
+
+    // After DOM insertion, restore any open page editors
+    if (window.NB && NB.restoreAfterRender) NB.restoreAfterRender();
+  }
+
+  function toggleSubjectDrop(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('on');
+  }
+
+  function addSubjectTask(sid) {
+    const inp = document.getElementById('sjTaskNew-' + sid);
+    const pri = document.getElementById('sjTaskPri-' + sid);
+    const due = document.getElementById('sjTaskDue-' + sid);
+    const text = inp?.value?.trim();
+    if (!text) return;
+    const tasks = getTasks();
+    tasks.push({ id: Date.now(), text, subj: sid, priority: pri?.value || 'p2', due: due?.value || '', done: false, created: todayStr() });
+    saveTasks(tasks);
+    if (inp) inp.value = '';
+    render();
+    // Reopen the dropdown that was just used
+    setTimeout(() => {
+      const drop = document.getElementById('sjTasks-' + sid);
+      if (drop) drop.classList.add('on');
+    }, 0);
   }
 
   // ── RENDER: CALENDAR TIMELINE (Tab 2) ──
@@ -1245,222 +1334,377 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask };
 })();
+window.SYS = SYS;
 
 // ═══════════════════════════════════════
-// NB — Notebook Module (Tab 8)
+// NB — Notebook Module (inline per-subject in Materias tab)
 // ═══════════════════════════════════════
 const NB = (function() {
-  const SUBJECTS = [
-    { id: 'ing_web', icon: '🌐', name: 'Ingeniería Web', color: '#8b5cf6' },
-    { id: 'mat_especiales', icon: '🔢', name: 'Matemáticas Especiales', color: '#06b6d4' },
-    { id: 'inv_ciencia', icon: '🔬', name: 'Investigación C&T', color: '#10b981' },
-    { id: 'english_beginner', icon: '🇺🇸', name: 'English Beginner 1', color: '#f59e0b' },
-    { id: 'placement_test', icon: '📝', name: 'Placement Test BE', color: '#ef4444' },
-  ];
   const KEY = 'sys_notebook';
-  let current = null; // { subjectId, pageId }
-  let saveTimer = null;
-  let lbIndex = 0; // lightbox current index
+  // activePage maps subjectId → pageId (which page editor is open per subject)
+  const activePage = {};
+  // openSubjects: subjectIds whose dropdowns were open (preserved across re-render)
+  const openSubjects = new Set();
+  const saveTimers = {};
+  let lbCtx = null; // { subjectId, pageId, index }
+  // Paste-dialog context
+  const pim = { sid: null, dataUrl: null };
 
-  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
+  function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
   function save(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
-
   function getSubjectData(sid) {
     const d = load();
     if (!d[sid]) d[sid] = { pages: [], links: [], images: [] };
     return d;
   }
 
-  function init() {
-    const el = document.getElementById('nbSubjects');
-    if (!el) return;
+  // ── PER-SUBJECT PANEL RENDERING ──
+  // Returns HTML for the notebook dropdown inside a subject card.
+  function renderSubjectPanel(sid) {
     const d = load();
-    el.innerHTML = SUBJECTS.map(s => {
-      const pageCount = (d[s.id] && d[s.id].pages) ? d[s.id].pages.length : 0;
-      return `<button class="nb-subj" data-sid="${s.id}" onclick="NB.selectSubject('${s.id}')"><span class="nb-subj-dot" style="background:${s.color}"></span>${s.icon} ${s.name}${pageCount ? ` <span style="opacity:.6;font-size:10px">· ${pageCount}</span>` : ''}</button>`;
-    }).join('');
-    // Keyboard shortcuts for lightbox
-    document.addEventListener('keydown', handleKeydown);
+    const sub = d[sid] || { pages: [] };
+    const pageCount = sub.pages.length;
+    const isOpen = openSubjects.has(sid);
+    const activeId = activePage[sid];
+    const page = activeId ? sub.pages.find(p => p.id === activeId) : null;
+
+    const pagesListHtml = pageCount ? sub.pages.map(p => {
+      const preview = (p.body || '').substring(0, 60).replace(/\n/g, ' ');
+      const isActive = activeId === p.id;
+      return `<div class="nb-entry${isActive ? ' open' : ''}">
+        <div class="nb-entry-h" onclick="NB.openPage('${sid}',${p.id})">
+          <div style="min-width:0;flex:1"><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length >= 60 ? '…' : ''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day: 'numeric', month: 'short' })}</span>
+            <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length ? '🔗'+p.links.length : ''} ${(p.images||[]).length ? '🖼'+p.images.length : ''}</span>
+            <button onclick="event.stopPropagation();NB.deletePage('${sid}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
+
+    // Active page editor (if one is open for this subject)
+    let editorHtml = '';
+    if (page) {
+      editorHtml = `<div class="nb-page" style="margin-bottom:12px">
+        <div class="nb-header">
+          <input class="nb-title-inp" id="nbTitle-${sid}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${sid}')">
+          <span class="nb-saved" id="nbSaved-${sid}">✓ guardado</span>
+          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
+        <div class="nb-spine"></div>
+        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
+        <div class="nb-margin"></div>
+        <div class="nb-content" id="nbBody-${sid}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${sid}')">${esc(page.body || '')}</div>
+      </div>
+      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
+      <div id="nbLinks-${sid}">${renderLinksHtml(sid, page)}</div>
+      <div class="sl" style="margin-top:12px">· imágenes ·</div>
+      <div class="nb-images" id="nbImages-${sid}">${renderImagesHtml(sid, page)}</div>`;
+    }
+
+    return `<div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${sid}">
+      <div class="sj-drop-h" onclick="NB.toggleSubject('${sid}')">
+        <div>📓 Cuaderno <span class="sj-drop-count">(${pageCount} página${pageCount!==1?'s':''})</span></div>
+        <span class="sj-drop-arr">▶</span>
+      </div>
+      <div class="sj-drop-body">
+        <div class="sj-nb-toolbar">
+          <button onclick="NB.newPage('${sid}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
+          ${page ? `<button onclick="NB.addLink('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
+          <button onclick="NB.openPasteDialog('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>` : ''}
+        </div>
+        ${editorHtml}
+        <div class="sl" style="margin-top:12px">· páginas ·</div>
+        <div class="nb-entries">${pagesListHtml}</div>
+      </div>
+    </div>`;
   }
 
-  function handleKeydown(e) {
-    const lb = document.getElementById('nbLightbox');
-    if (!lb || !lb.classList.contains('on')) return;
-    if (e.key === 'Escape') closeImage();
-    else if (e.key === 'ArrowLeft') prevImage();
-    else if (e.key === 'ArrowRight') nextImage();
+  function renderLinksHtml(sid, page) {
+    if (!page.links || !page.links.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin links aún. Usa "🔗 Link".</div>';
+    return page.links.map((l, i) =>
+      `<div class="nb-link"><span class="nb-link-icon">🔗</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(l.label)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener" class="nb-link-url">${esc(l.url)}</a></div><button onclick="NB.removeLink('${sid}',${i})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px">✕</button></div>`
+    ).join('');
   }
 
-  function selectSubject(sid) {
-    current = { subjectId: sid, pageId: null };
-    document.querySelectorAll('.nb-subj').forEach(b => b.classList.toggle('on', b.dataset.sid === sid));
-    document.getElementById('nbEditor').style.display = 'block';
-    document.getElementById('nbActivePage').style.display = 'none';
-    renderPageList();
+  function renderImagesHtml(sid, page) {
+    if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen HD" para pegar/arrastrar.</div>';
+    return page.images.map((im, i) =>
+      `<div class="nb-img-card"><button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage('${sid}',${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
+    ).join('');
   }
 
-  function newPage() {
-    if (!current) return;
-    const d = getSubjectData(current.subjectId);
-    const sub = d[current.subjectId];
+  function restoreAfterRender() {
+    // No-op; could restore scroll or focus here.
+  }
+
+  // ── SUBJECT DROPDOWN TOGGLE ──
+  function toggleSubject(sid) {
+    const el = document.getElementById('sjNb-' + sid);
+    if (!el) return;
+    el.classList.toggle('on');
+    if (el.classList.contains('on')) openSubjects.add(sid);
+    else openSubjects.delete(sid);
+  }
+
+  // ── PAGE OPS ──
+  function isCustom(sid) { return typeof sid === 'string' && sid.startsWith('cnb_'); }
+  function refreshOwner(sid) {
+    if (isCustom(sid)) renderCustomList();
+    else if (window.SYS) SYS.render();
+  }
+
+  function newPage(sid) {
+    const d = getSubjectData(sid);
+    const sub = d[sid];
     const page = { id: Date.now(), title: '', body: '', links: [], images: [], created: new Date().toISOString(), updated: new Date().toISOString() };
     sub.pages.unshift(page);
     save(d);
-    openPage(page.id);
-    renderPageList();
+    activePage[sid] = page.id;
+    openSubjects.add(sid);
+    refreshOwner(sid);
   }
 
-  function openPage(pid) {
-    if (!current) return;
-    current.pageId = pid;
+  function openPage(sid, pid) {
+    activePage[sid] = pid;
+    openSubjects.add(sid);
+    refreshOwner(sid);
+  }
+
+  function deletePage(sid, pid) {
+    if (!confirm('¿Eliminar esta página?')) return;
     const d = load();
-    const sub = d[current.subjectId];
+    const sub = d[sid];
     if (!sub) return;
-    const page = sub.pages.find(p => p.id === pid);
-    if (!page) return;
-    document.getElementById('nbActivePage').style.display = 'block';
-    document.getElementById('nbPageTitle').value = page.title || '';
-    document.getElementById('nbBody').textContent = page.body || '';
-    document.getElementById('nbPageDate').textContent = new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    renderLinks(page);
-    renderImages(page);
-    renderPageList();
+    sub.pages = sub.pages.filter(p => p.id !== pid);
+    save(d);
+    if (activePage[sid] === pid) delete activePage[sid];
+    refreshOwner(sid);
   }
 
-  function autoSave() {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      if (!current || !current.pageId) return;
+  function autoSave(sid) {
+    clearTimeout(saveTimers[sid]);
+    saveTimers[sid] = setTimeout(() => {
+      const pid = activePage[sid];
+      if (!pid) return;
       const d = load();
-      const sub = d[current.subjectId];
+      const sub = d[sid];
       if (!sub) return;
-      const page = sub.pages.find(p => p.id === current.pageId);
+      const page = sub.pages.find(p => p.id === pid);
       if (!page) return;
-      page.title = document.getElementById('nbPageTitle').value;
-      page.body = document.getElementById('nbBody').textContent;
+      const tIn = document.getElementById('nbTitle-' + sid);
+      const bIn = document.getElementById('nbBody-' + sid);
+      if (tIn) page.title = tIn.value;
+      if (bIn) page.body = bIn.textContent;
       page.updated = new Date().toISOString();
       save(d);
-      renderPageList();
-      // Flash saved badge
-      const badge = document.getElementById('nbSavedBadge');
+      const badge = document.getElementById('nbSaved-' + sid);
       if (badge) {
         badge.classList.add('on');
         clearTimeout(badge._t);
         badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
       }
-      // Refresh subject counters
-      init();
-      document.querySelectorAll('.nb-subj').forEach(b => b.classList.toggle('on', b.dataset.sid === current.subjectId));
     }, 500);
   }
 
-  function deletePage(pid) {
-    if (!current || !confirm('¿Eliminar esta página?')) return;
-    const d = load();
-    const sub = d[current.subjectId];
-    sub.pages = sub.pages.filter(p => p.id !== pid);
-    save(d);
-    if (current.pageId === pid) {
-      current.pageId = null;
-      document.getElementById('nbActivePage').style.display = 'none';
-    }
-    renderPageList();
-  }
-
-  function addLink() {
-    if (!current || !current.pageId) return alert('Primero abre o crea una página.');
+  // ── LINKS ──
+  function addLink(sid) {
+    const pid = activePage[sid];
+    if (!pid) return alert('Primero abre o crea una página.');
     const url = prompt('URL del link de estudio:');
     if (!url) return;
     const label = prompt('Nombre del link (opcional):') || url;
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const page = d[sid].pages.find(p => p.id === pid);
     if (!page.links) page.links = [];
     page.links.push({ url, label, added: new Date().toISOString() });
     page.updated = new Date().toISOString();
     save(d);
-    renderLinks(page);
+    const el = document.getElementById('nbLinks-' + sid);
+    if (el) el.innerHTML = renderLinksHtml(sid, page);
   }
 
-  function removeLink(idx) {
+  function removeLink(sid, idx) {
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
     page.links.splice(idx, 1);
     page.updated = new Date().toISOString();
     save(d);
-    renderLinks(page);
+    const el = document.getElementById('nbLinks-' + sid);
+    if (el) el.innerHTML = renderLinksHtml(sid, page);
   }
 
-  function renderLinks(page) {
-    const el = document.getElementById('nbLinkList');
-    if (!page.links || !page.links.length) { el.innerHTML = '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin links aún. Usa el botón "🔗 Agregar link".</div>'; return; }
-    el.innerHTML = page.links.map((l, i) =>
-      `<div class="nb-link"><span class="nb-link-icon">🔗</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(l.label)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener" class="nb-link-url">${esc(l.url)}</a></div><button onclick="NB.removeLink(${i})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px">✕</button></div>`
-    ).join('');
-  }
-
-  function addImage() {
-    if (!current || !current.pageId) return alert('Primero abre o crea una página.');
-    document.getElementById('nbImgInput').click();
-  }
-
-  function handleImage(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      const caption = prompt('Descripción de la imagen (opcional):') || file.name;
-      const d = load();
-      const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
-      if (!page.images) page.images = [];
-      // Resize to save localStorage space
+  // ── IMAGES (HD) ──
+  function compressImageToHD(srcDataUrl) {
+    return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = function() {
         const canvas = document.createElement('canvas');
-        const maxW = 600;
+        const maxW = 1920;
         const scale = Math.min(1, maxW / img.width);
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-        page.images.push({ data: dataUrl, caption, added: new Date().toISOString() });
-        page.updated = new Date().toISOString();
-        save(d);
-        renderImages(page);
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        try { resolve(canvas.toDataURL('image/jpeg', 0.92)); } catch (e) { reject(e); }
       };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+      img.onerror = reject;
+      img.src = srcDataUrl;
+    });
   }
 
-  function removeImage(idx) {
+  function pushImage(sid, dataUrl, caption) {
+    const pid = activePage[sid];
+    if (!pid) return;
+    const d = load();
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page.images) page.images = [];
+    page.images.push({ data: dataUrl, caption: caption || '', added: new Date().toISOString() });
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
+  }
+
+  function removeImage(sid, idx) {
     if (!confirm('¿Eliminar esta imagen?')) return;
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
     page.images.splice(idx, 1);
     page.updated = new Date().toISOString();
     save(d);
-    renderImages(page);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
   }
 
-  function renderImages(page) {
-    const el = document.getElementById('nbImageGrid');
-    if (!page.images || !page.images.length) { el.innerHTML = '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin imágenes. Usa "🖼️ Agregar imagen".</div>'; return; }
-    el.innerHTML = page.images.map((im, i) =>
-      `<div class="nb-img-card"><button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage(${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage(${i})"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
-    ).join('');
+  // ── PASTE / DRAG / FILE DIALOG ──
+  function openPasteDialog(sid) {
+    const pid = activePage[sid];
+    if (!pid) { alert('Primero abre o crea una página.'); return; }
+    pim.sid = sid;
+    pim.dataUrl = null;
+    const ov = document.getElementById('pasteImgOverlay');
+    const preview = document.getElementById('pimPreview');
+    const cap = document.getElementById('pimCaption');
+    const save = document.getElementById('pimSave');
+    if (preview) preview.style.display = 'none';
+    if (cap) cap.value = '';
+    if (save) save.disabled = true;
+    const dz = document.getElementById('pimDropzone');
+    if (dz) {
+      dz.classList.remove('drag');
+      dz.querySelector('.pim-dz-icon').textContent = '📋';
+      dz.querySelector('.pim-dz-text').textContent = 'Pega o suelta tu imagen aquí';
+    }
+    ov.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => dz && dz.focus(), 50);
   }
 
-  function viewImage(idx) {
-    if (!current || !current.pageId) return;
+  function closePasteDialog() {
+    const ov = document.getElementById('pasteImgOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    pim.sid = null;
+    pim.dataUrl = null;
+  }
+
+  function pimPickFile() {
+    const input = document.getElementById('nbImgInput');
+    if (!input) return;
+    input.onchange = function(e) {
+      const f = e.target.files[0];
+      if (f) pimIngestFile(f);
+      e.target.value = '';
+    };
+    input.click();
+  }
+
+  function pimIngestFile(file) {
+    if (!file || !file.type.startsWith('image/')) { alert('El archivo no es una imagen.'); return; }
+    const reader = new FileReader();
+    reader.onload = ev => pimIngestDataUrl(ev.target.result, file.name || '');
+    reader.readAsDataURL(file);
+  }
+
+  async function pimIngestDataUrl(dataUrl, suggestedCaption) {
+    try {
+      const hd = await compressImageToHD(dataUrl);
+      pim.dataUrl = hd;
+      const img = document.getElementById('pimPreviewImg');
+      const preview = document.getElementById('pimPreview');
+      const cap = document.getElementById('pimCaption');
+      const save = document.getElementById('pimSave');
+      const dz = document.getElementById('pimDropzone');
+      if (img) img.src = hd;
+      if (preview) preview.style.display = 'flex';
+      if (cap && !cap.value && suggestedCaption) cap.value = suggestedCaption;
+      if (save) save.disabled = false;
+      if (dz) {
+        dz.querySelector('.pim-dz-icon').textContent = '✅';
+        dz.querySelector('.pim-dz-text').textContent = 'Listo para guardar';
+      }
+    } catch (e) {
+      alert('Error procesando la imagen: ' + e.message);
+    }
+  }
+
+  function pimSave() {
+    if (!pim.sid || !pim.dataUrl) return;
+    const cap = document.getElementById('pimCaption');
+    pushImage(pim.sid, pim.dataUrl, cap ? cap.value : '');
+    closePasteDialog();
+  }
+
+  // Paste event: handles Ctrl+V when modal is open
+  function handlePaste(e) {
+    const ov = document.getElementById('pasteImgOverlay');
+    if (!ov || !ov.classList.contains('on')) return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      if (it.type && it.type.startsWith('image/')) {
+        const f = it.getAsFile();
+        if (f) { e.preventDefault(); pimIngestFile(f); return; }
+      }
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    const dz = document.getElementById('pimDropzone');
+    if (dz) dz.classList.remove('drag');
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files[0]) pimIngestFile(files[0]);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    const dz = document.getElementById('pimDropzone');
+    if (dz) dz.classList.add('drag');
+  }
+
+  function handleDragLeave(e) {
+    const dz = document.getElementById('pimDropzone');
+    if (dz && e.target === dz) dz.classList.remove('drag');
+  }
+
+  // ── LIGHTBOX ──
+  function viewImage(sid, idx) {
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
     if (!page || !page.images || !page.images[idx]) return;
-    lbIndex = idx;
+    lbCtx = { subjectId: sid, pageId: pid, index: idx };
     const lb = document.getElementById('nbLightbox');
     const img = document.getElementById('nbLbImg');
     const cap = document.getElementById('nbLbCaption');
@@ -1474,57 +1718,233 @@ const NB = (function() {
     const lb = document.getElementById('nbLightbox');
     if (lb) lb.classList.remove('on');
     document.body.style.overflow = '';
+    lbCtx = null;
   }
 
   function prevImage() {
-    if (!current || !current.pageId) return;
+    if (!lbCtx) return;
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const page = d[lbCtx.subjectId].pages.find(p => p.id === lbCtx.pageId);
     if (!page || !page.images || !page.images.length) return;
-    lbIndex = (lbIndex - 1 + page.images.length) % page.images.length;
-    viewImage(lbIndex);
+    lbCtx.index = (lbCtx.index - 1 + page.images.length) % page.images.length;
+    viewImage(lbCtx.subjectId, lbCtx.index);
   }
 
   function nextImage() {
-    if (!current || !current.pageId) return;
+    if (!lbCtx) return;
     const d = load();
-    const page = d[current.subjectId].pages.find(p => p.id === current.pageId);
+    const page = d[lbCtx.subjectId].pages.find(p => p.id === lbCtx.pageId);
     if (!page || !page.images || !page.images.length) return;
-    lbIndex = (lbIndex + 1) % page.images.length;
-    viewImage(lbIndex);
+    lbCtx.index = (lbCtx.index + 1) % page.images.length;
+    viewImage(lbCtx.subjectId, lbCtx.index);
   }
 
-  function renderPageList() {
-    if (!current) return;
+  // ── GLOBAL HOOKS ──
+  function init() {
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('nbLightbox');
+      const pim = document.getElementById('pasteImgOverlay');
+      if (pim && pim.classList.contains('on')) {
+        if (e.key === 'Escape') closePasteDialog();
+        return;
+      }
+      if (lb && lb.classList.contains('on')) {
+        if (e.key === 'Escape') closeImage();
+        else if (e.key === 'ArrowLeft') prevImage();
+        else if (e.key === 'ArrowRight') nextImage();
+      }
+    });
+    // Paste anywhere when paste-modal is open
+    document.addEventListener('paste', handlePaste);
+    // Drag/drop on dropzone
+    setTimeout(() => {
+      const dz = document.getElementById('pimDropzone');
+      if (!dz) return;
+      dz.addEventListener('dragover', handleDragOver);
+      dz.addEventListener('dragleave', handleDragLeave);
+      dz.addEventListener('drop', handleDrop);
+      dz.addEventListener('click', () => pimPickFile());
+    }, 100);
+  }
+
+  // ═══════════════════════════════════════
+  // CUSTOM NOTEBOOKS — User-defined notebooks for external courses
+  // (SQL Course, AWS Cloud, Python Bootcamp, etc.)
+  // ═══════════════════════════════════════
+  const META_KEY = 'sys_notebook_meta';
+
+  function loadMeta() { try { return JSON.parse(localStorage.getItem(META_KEY) || '[]'); } catch { return []; } }
+  function saveMeta(list) { localStorage.setItem(META_KEY, JSON.stringify(list)); }
+
+  function getCustoms() { return loadMeta(); }
+
+  function createCustom() {
+    const nameInp = document.getElementById('cnbNewName');
+    const iconSel = document.getElementById('cnbNewIcon');
+    const name = (nameInp?.value || '').trim();
+    if (!name) { alert('Dale un nombre al cuaderno.'); return; }
+    const palette = ['#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1','#14b8a6'];
+    const list = loadMeta();
+    const id = 'cnb_' + Date.now();
+    list.push({
+      id, name,
+      icon: iconSel?.value || '📘',
+      color: palette[list.length % palette.length],
+      created: new Date().toISOString(),
+    });
+    saveMeta(list);
+    // Initialize its data bucket
+    getSubjectData(id);
+    if (nameInp) nameInp.value = '';
+    openSubjects.add(id);
+    renderCustomList();
+  }
+
+  function renameCustom(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    const newName = prompt('Nuevo nombre del cuaderno:', cnb.name);
+    if (!newName || !newName.trim()) return;
+    cnb.name = newName.trim();
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+
+  function changeCustomIcon(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    const newIcon = prompt('Nuevo ícono (emoji):', cnb.icon);
+    if (!newIcon || !newIcon.trim()) return;
+    cnb.icon = newIcon.trim();
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+
+  function deleteCustom(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    if (!confirm(`¿Eliminar el cuaderno "${cnb.name}" y todas sus páginas? Esta acción no se puede deshacer.`)) return;
+    saveMeta(list.filter(c => c.id !== id));
+    // Remove pages data
     const d = load();
-    const sub = d[current.subjectId];
-    const el = document.getElementById('nbPageList');
-    const count = document.getElementById('nbPageCount');
-    if (!sub || !sub.pages.length) {
-      el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin páginas. Crea tu primera página con "+ Nueva página".</div>';
-      count.textContent = '0 páginas';
-      return;
-    }
-    count.textContent = sub.pages.length + ' página' + (sub.pages.length !== 1 ? 's' : '');
-    el.innerHTML = sub.pages.map(p => {
-      const isActive = current.pageId === p.id;
-      const preview = (p.body || '').substring(0, 80).replace(/\n/g, ' ');
+    delete d[id];
+    save(d);
+    delete activePage[id];
+    openSubjects.delete(id);
+    renderCustomList();
+  }
+
+  // Render a custom notebook card — header with rename/delete + shared editor UI
+  function renderCustomCard(meta) {
+    const d = load();
+    const sub = d[meta.id] || { pages: [] };
+    const pageCount = sub.pages.length;
+    const isOpen = openSubjects.has(meta.id);
+    const activeId = activePage[meta.id];
+    const page = activeId ? sub.pages.find(p => p.id === activeId) : null;
+
+    const pagesListHtml = pageCount ? sub.pages.map(p => {
+      const preview = (p.body || '').substring(0, 60).replace(/\n/g, ' ');
+      const isActive = activeId === p.id;
       return `<div class="nb-entry${isActive ? ' open' : ''}">
-        <div class="nb-entry-h" onclick="NB.openPage(${p.id})">
-          <div><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px">${esc(preview)}${preview.length >= 80 ? '...' : ''}</div></div>
-          <div style="display:flex;align-items:center;gap:8px">
+        <div class="nb-entry-h" onclick="NB.openPage('${meta.id}',${p.id})">
+          <div style="min-width:0;flex:1"><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length >= 60 ? '…' : ''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
             <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day: 'numeric', month: 'short' })}</span>
             <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length ? '🔗'+p.links.length : ''} ${(p.images||[]).length ? '🖼'+p.images.length : ''}</span>
-            <button onclick="event.stopPropagation();NB.deletePage(${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
+            <button onclick="event.stopPropagation();NB.deletePage('${meta.id}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
           </div>
         </div>
       </div>`;
-    }).join('');
+    }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
+
+    let editorHtml = '';
+    if (page) {
+      editorHtml = `<div class="nb-page" style="margin-bottom:12px">
+        <div class="nb-header">
+          <input class="nb-title-inp" id="nbTitle-${meta.id}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${meta.id}')">
+          <span class="nb-saved" id="nbSaved-${meta.id}">✓ guardado</span>
+          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
+        <div class="nb-spine"></div>
+        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
+        <div class="nb-margin"></div>
+        <div class="nb-content" id="nbBody-${meta.id}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${meta.id}')">${esc(page.body || '')}</div>
+      </div>
+      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
+      <div id="nbLinks-${meta.id}">${renderLinksHtml(meta.id, page)}</div>
+      <div class="sl" style="margin-top:12px">· imágenes ·</div>
+      <div class="nb-images" id="nbImages-${meta.id}">${renderImagesHtml(meta.id, page)}</div>`;
+    }
+
+    const created = meta.created ? new Date(meta.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+
+    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px">
+      <div class="gc-h">
+        <div class="gc-t">
+          <span style="font-size:20px;cursor:pointer" onclick="NB.changeCustomIcon('${meta.id}')" title="Cambiar ícono">${meta.icon}</span>
+          <span style="cursor:text" onclick="NB.renameCustom('${meta.id}')" title="Renombrar">${esc(meta.name)}</span>
+          <span style="font-size:10px;color:var(--t3);font-weight:400;margin-left:6px">${pageCount} página${pageCount!==1?'s':''}${created ? ' · creado ' + created : ''}</span>
+        </div>
+        <div style="display:flex;gap:4px">
+          <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️</button>
+          <button onclick="NB.deleteCustom('${meta.id}')" title="Eliminar" style="background:none;border:1px solid rgba(239,68,68,.3);color:var(--rd);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🗑</button>
+        </div>
+      </div>
+
+      <div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${meta.id}" style="margin-top:8px">
+        <div class="sj-drop-h" onclick="NB.toggleSubject('${meta.id}')">
+          <div>📓 Contenido <span class="sj-drop-count">(click para ${isOpen?'cerrar':'abrir'})</span></div>
+          <span class="sj-drop-arr">▶</span>
+        </div>
+        <div class="sj-drop-body">
+          <div class="sj-nb-toolbar">
+            <button onclick="NB.newPage('${meta.id}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
+            ${page ? `<button onclick="NB.addLink('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
+            <button onclick="NB.openPasteDialog('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>` : ''}
+          </div>
+          ${editorHtml}
+          <div class="sl" style="margin-top:12px">· páginas ·</div>
+          <div class="nb-entries">${pagesListHtml}</div>
+        </div>
+      </div>
+    </div>`;
   }
 
-  // Init on DOM ready
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else setTimeout(init, 0);
+  function renderCustomList() {
+    const el = document.getElementById('cnbList');
+    if (!el) return;
+    const list = loadMeta();
+    if (!list.length) {
+      el.innerHTML = `<div class="gc" style="text-align:center;padding:40px 20px;color:var(--t3);border-style:dashed">
+        <div style="font-size:32px;margin-bottom:8px">📚</div>
+        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">Sin cuadernos aún</div>
+        <div style="font-size:12px">Crea tu primer cuaderno personalizado arriba.<br>Ej: "SQL Course", "AWS Cloud", "Python Bootcamp"...</div>
+      </div>`;
+      return;
+    }
+    el.innerHTML = list.map(renderCustomCard).join('');
+  }
 
-  return { selectSubject, newPage, openPage, autoSave, deletePage, addLink, removeLink, addImage, handleImage, removeImage, renderPageList, init, viewImage, closeImage, prevImage, nextImage };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); });
+  else setTimeout(() => { init(); renderCustomList(); }, 0);
+
+  // Re-render custom list on tab switch (when showTab(7) is hit)
+  window.addEventListener('sb:signed_in', () => setTimeout(renderCustomList, 300));
+
+  return {
+    renderSubjectPanel, restoreAfterRender, toggleSubject,
+    newPage, openPage, deletePage, autoSave,
+    addLink, removeLink, removeImage,
+    openPasteDialog, closePasteDialog, pimPickFile, pimSave,
+    viewImage, closeImage, prevImage, nextImage,
+    // Custom notebooks
+    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList,
+  };
 })();
+window.NB = NB;

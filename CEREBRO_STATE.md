@@ -6,6 +6,68 @@
 
 ---
 
+## 🧬 10-SYS · REFACTOR MAYOR — Dashboard limpio + Materias integradas + Cuadernos HD — 2026-04-15
+
+### Qué cambió
+Reestructuración completa del módulo 10-SYS para consolidar la información dispersa en 9 pestañas a 8 con flujo coherente "tareas + apuntes dentro de la materia". Testeado con prompt generado por el optimizador 8-PRO (validación end-to-end del pipeline optimizer → refactor).
+
+### Cambios de pestañas (9 → 8)
+- **Eliminada:** `🔗 Accesos` (pestaña 3). Sus `quickAccess` y `studyResources` grids se movieron al **Dashboard**.
+- **Reemplazada:** `📓 Cuaderno` (antes pestaña 8 para las 5 materias oficiales) → ahora es un **manager de cuadernos personalizados** (pestaña 7, ej: "SQL Course", "AWS Cloud", "Python Bootcamp"). Los cuadernos de materias ahora viven dentro de cada materia.
+- **Renumeradas:** Malla (3), Certificaciones (4), CUN Hub (5), Clases Perdidas (6), Cuaderno Personalizado (7).
+
+### Dashboard (Tab 0) — Limpieza
+- Eliminado `#semaphoreList` (el semáforo ahora vive dentro de cada materia).
+- Movidos `#quickAccess` + `#studyResources` desde Accesos → Dashboard.
+- Conservado el form de "agregar tarea académica" + ActionNow card.
+
+### Materias (Tab 1) — Nueva arquitectura por materia
+Cada tarjeta de materia ahora incluye **dos dropdowns colapsables**:
+
+1. **🚦 Tareas** — semáforo de prioridades (P0–P4 + Completadas) filtrado por materia. Form inline para agregar tareas específicas a esa materia (texto + prioridad + fecha + `Enter` para guardar). Hace `refreshOwner(sid)` que llama `SYS.render()` o `NB.renderCustomList()` según el contexto.
+
+2. **📓 Cuaderno** — editor inline con mismas funciones que el cuaderno original pero scoped a esa materia. IDs sufijados con `-${sid}` para evitar colisiones. Toolbar con "+ Nueva página", "🔗 Link", "🖼️ Imagen HD".
+
+### Imágenes HD (bug crítico resuelto)
+- **Antes:** `maxW = 600px` + `canvas.toDataURL('image/jpeg', 0.7)` → imágenes borrosas.
+- **Ahora:** `maxW = 1920px` + `ctx.imageSmoothingEnabled = true` + `imageSmoothingQuality = 'high'` + `canvas.toDataURL('image/jpeg', 0.92)` → HD real.
+- Función reutilizable `compressImageToHD(dataUrl)` devuelve una Promise.
+
+### Diálogo de pegado de imágenes (feature nueva)
+Modal overlay `#pasteImgOverlay` con 3 métodos de entrada:
+1. **Pegar (Ctrl+V)** — handler `handlePaste(e)` escucha `document.addEventListener('paste')` y filtra items con `type.startsWith('image/')`.
+2. **Arrastrar y soltar** — dropzone con `dragover/dragleave/drop` listeners, clase `.drag` para feedback visual.
+3. **Picker tradicional** — link "busca en tu PC" reutiliza `#nbImgInput` (file input compartido).
+
+Flujo: `openPasteDialog(sid)` → user paste/drop/pick → `pimIngestFile(f)` → FileReader → `pimIngestDataUrl()` → `compressImageToHD()` → preview + caption input → `pimSave()` → `pushImage(sid, dataUrl, caption)` → re-render grid.
+
+### Cuadernos Personalizados (Tab 7) — NUEVO
+Manager CRUD completo de cuadernos externos a la malla (cursos auto-dirigidos):
+- **Crear:** input nombre + selector de ícono (15 emojis: 📘📗📙📕📒🗒️💻🐍☁️🔧📊🔐🎨🎯⚡) + botón. Paleta de 8 colores rotativos.
+- **Listar:** cada cuaderno es una tarjeta `.gc` con ícono clickable (cambiar), título editable (click → prompt), badge de páginas y fecha de creación, botones ✏️ (renombrar) y 🗑 (eliminar con confirm).
+- **Editar contenido:** cada cuaderno expande un dropdown idéntico al de materias (mismas funciones NB: newPage, openPage, deletePage, addLink, removeLink, addImage via paste-dialog, removeImage, autoSave).
+- **IDs:** prefijo `cnb_<timestamp>`. La función `isCustom(sid)` + `refreshOwner(sid)` enruta re-renders al destino correcto (SYS.render para materias, renderCustomList para customs).
+
+### localStorage schemas
+- **`sys_notebook`** (existente, extendido): `{ [subjectId|cnb_id]: { pages: [{id,title,body,links,images,created,updated}], links, images } }`.
+- **`sys_notebook_meta`** (NUEVO): `[{ id:'cnb_<ts>', name, icon, color, created, updated }]` — registro de cuadernos personalizados.
+- Ambos agregados al `SYNC_REGISTRY` de `cloud-sync.js` para sync Supabase JSONB.
+
+### Fix crítico de scope
+- `SYS` y `NB` eran `const` top-level en script clásico → no se asignaban a `window` → guards `if (window.NB && ...)` siempre false.
+- **Fix:** `window.SYS = SYS;` y `window.NB = NB;` al final de cada IIFE. Restaura interoperabilidad entre módulos y con inline `onclick` handlers (aunque estos funcionaban vía global declarative env, la detección cross-module necesitaba window).
+
+### Archivos tocados
+- **`frontend/systems.html`** — tab strip (9→8), pnl0 Dashboard (sin semáforo, con QA+resources), removido pnl3 Accesos, removido pnl8 (Cuaderno viejo), agregado pnl7 (Cuadernos Personalizados), agregado modal de pegado `#pasteImgOverlay`, CSS nuevo (`.sj-drop`, `.pim-*`).
+- **`frontend/systems_logic.js`** — `renderSubjectDetail` reescrito con dropdowns tasks+notebook, agregados `toggleSubjectDrop` + `addSubjectTask`, módulo NB completamente reescrito (per-subject IDs, compressImageToHD, paste-dialog, custom notebooks CRUD), `window.SYS = SYS` + `window.NB = NB`.
+- **`frontend/js/cloud-sync.js`** — `'sys_notebook_meta'` agregado al `SYNC_REGISTRY`.
+
+### Smoke tests
+- `node -c frontend/systems_logic.js` → OK (1918 líneas).
+- Pipeline end-to-end validado: optimizador 8-PRO generó el prompt → este refactor ejecutó sin ambigüedad el plan de 6 sub-tareas.
+
+---
+
 ## 🎯 8-PRO · Claude Optimize — NUEVA FEATURE — 2026-04-15
 
 ### Qué se creó

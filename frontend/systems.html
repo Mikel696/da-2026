@@ -282,6 +282,47 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .nb-add-inp:focus{outline:none;border-color:var(--vi)}
 .nb-add-btn{padding:7px 14px;background:var(--vi);color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer}
 @media(max-width:768px){.wrap{padding:16px 12px}.hero h1{font-size:22px}.hst{flex-wrap:wrap}.hs{min-width:calc(50% - 1px)}.qa-grid{grid-template-columns:1fr}.malla{grid-template-columns:1fr}.tabs{gap:0}.tab{font-size:10px;padding:6px 8px}.nb-content{padding-left:56px}.nb-margin{left:48px}.nb-spine{left:24px}.nb-header{padding-left:56px}.nb-images{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
+
+/* ═══ PER-SUBJECT COLLAPSIBLES (Tasks + Notebook dropdowns) ═══ */
+.sj-drop{margin-top:10px;border:1px solid var(--bd);border-radius:9px;overflow:hidden;background:var(--el)}
+.sj-drop-h{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;user-select:none;font-size:12px;font-weight:600;transition:background .15s}
+.sj-drop-h:hover{background:var(--c1)}
+.sj-drop-h .sj-drop-arr{font-size:10px;color:var(--t3);transition:transform .2s}
+.sj-drop.on .sj-drop-arr{transform:rotate(90deg);color:var(--vi2)}
+.sj-drop-body{display:none;padding:10px 12px 12px;border-top:1px solid var(--bd)}
+.sj-drop.on .sj-drop-body{display:block}
+.sj-drop-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);font-weight:400;margin-left:6px}
+.sj-task-add{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sj-task-add input,.sj-task-add select{flex:1;min-width:100px;padding:6px 9px;background:var(--c1);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-size:11px;font-family:inherit}
+.sj-task-add button{padding:6px 12px;background:var(--vi);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
+.sj-nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.sj-nb-toolbar button{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
+
+/* ═══ PASTE IMAGE MODAL ═══ */
+.pim-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;animation:fu .2s ease}
+.pim-overlay.on{display:flex}
+.pim-modal{background:var(--c0);border:1px solid var(--bd2);border-radius:14px;max-width:560px;width:100%;padding:22px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.pim-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.pim-close:hover{background:var(--el);color:var(--tx)}
+.pim-header{margin-bottom:14px}
+.pim-title{font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.pim-sub{font-size:11px;color:var(--t3)}
+.pim-sub kbd{background:var(--el);border:1px solid var(--bd);border-radius:4px;padding:1px 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2)}
+.pim-link{color:var(--vi2);cursor:pointer;text-decoration:underline}
+.pim-link:hover{color:var(--em)}
+.pim-dropzone{border:2px dashed var(--bd2);border-radius:10px;padding:28px 16px;text-align:center;background:var(--el);transition:all .2s;margin-bottom:12px;cursor:pointer;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;outline:none}
+.pim-dropzone:hover,.pim-dropzone:focus{border-color:var(--vi);background:var(--vg)}
+.pim-dropzone.drag{border-color:var(--em);background:var(--eg)}
+.pim-dz-icon{font-size:32px;opacity:.7}
+.pim-dz-text{font-size:13px;font-weight:600;color:var(--tx)}
+.pim-dz-hint{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+.pim-preview{width:100%;max-height:260px;overflow:hidden;border-radius:8px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}
+.pim-preview img{max-width:100%;max-height:260px;display:block;border-radius:6px}
+.pim-caption{width:100%;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;margin-bottom:12px;box-sizing:border-box}
+.pim-caption:focus{outline:none;border-color:var(--vi)}
+.pim-actions{display:flex;gap:8px;justify-content:flex-end}
+.pim-actions .tf-btn{font-size:12px;padding:8px 16px}
+.pim-actions .tf-btn:disabled{opacity:.4;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -320,12 +361,11 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <button class="tab on" onclick="showTab(0)">📡 Dashboard</button>
 <button class="tab" onclick="showTab(1)">📚 Materias</button>
 <button class="tab" onclick="showTab(2)">📅 Calendario</button>
-<button class="tab" onclick="showTab(3)">🔗 Accesos</button>
-<button class="tab" onclick="showTab(4)">🗺️ Malla Curricular</button>
-<button class="tab" onclick="showTab(5)">🏆 Certificaciones</button>
-<button class="tab" onclick="showTab(6)">🧠 CUN Hub</button>
-<button class="tab" onclick="showTab(7)">📹 Clases Perdidas</button>
-<button class="tab" onclick="showTab(8)">📓 Cuaderno</button>
+<button class="tab" onclick="showTab(3)">🗺️ Malla Curricular</button>
+<button class="tab" onclick="showTab(4)">🏆 Certificaciones</button>
+<button class="tab" onclick="showTab(5)">🧠 CUN Hub</button>
+<button class="tab" onclick="showTab(6)">📹 Clases Perdidas</button>
+<button class="tab" onclick="showTab(7)">📓 Cuaderno</button>
 </div>
 
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
@@ -334,13 +374,8 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ACTION NOW — Hero Card -->
 <div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
 
-<!-- SEMAPHORE — Lista priorizada (única vista de tareas en el dashboard) -->
-<div class="sl">· semáforo de tareas ·</div>
-<div class="sd">🔴 Crítico (&lt;48h) · 🟠 Esta semana · 🟡 En camino · 🟢 Futuro</div>
-<div id="semaphoreList"></div>
-
-<div style="margin-top:24px">
 <div class="sl">· agregar tarea académica ·</div>
+<div class="sd">Las tareas se muestran agrupadas por materia en la pestaña <em>Materias</em> con su semáforo de prioridad.</div>
 <div class="task-form">
 <input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Ingeniería Web...">
 <select class="tf-select" id="newTaskSubj">
@@ -361,6 +396,16 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <input class="tf-date" id="newTaskDue" type="date">
 <button class="tf-btn" onclick="SYS.addTask()">+ Agregar</button>
 </div>
+
+<div style="margin-top:24px">
+<div class="sl">· accesos directos — portales académicos ·</div>
+<div class="sd">Todo lo que necesitas a un click. Sin buscar, sin perder tiempo.</div>
+<div class="qa-grid" id="quickAccess"></div>
+</div>
+
+<div style="margin-top:24px">
+<div class="sl">· recursos de estudio ·</div>
+<div class="qa-grid" id="studyResources"></div>
 </div>
 </div>
 
@@ -383,33 +428,21 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 </div>
 </div>
 
-<!-- ═══════ TAB 3: ACCESOS DIRECTOS ═══════ -->
+<!-- ═══════ TAB 3: MALLA CURRICULAR ═══════ -->
 <div class="pnl" id="pnl3">
-<div class="sl">· accesos directos — portales académicos ·</div>
-<div class="sd">Todo lo que necesitas a un click. Sin buscar, sin perder tiempo.</div>
-<div class="qa-grid" id="quickAccess"></div>
-
-<div style="margin-top:24px">
-<div class="sl">· recursos de estudio ·</div>
-<div class="qa-grid" id="studyResources"></div>
-</div>
-</div>
-
-<!-- ═══════ TAB 4: MALLA CURRICULAR ═══════ -->
-<div class="pnl" id="pnl4">
 <div class="sl">· malla curricular — ingeniería de sistemas virtual ·</div>
 <div class="sd">155 créditos · 10 semestres · 3 niveles (Técnica → Tecnología → Ingeniería). Tu semestre actual está resaltado.</div>
 <div class="malla" id="mallaGrid"></div>
 </div>
 
-<!-- ═══════ TAB 5: CERTIFICACIONES ═══════ -->
-<div class="pnl" id="pnl5">
+<!-- ═══════ TAB 4: CERTIFICACIONES ═══════ -->
+<div class="pnl" id="pnl4">
 <div class="sl">· ruta de certificaciones — perfil 8vo semestre ·</div>
 <div class="sd">Certificaciones estratégicas para complementar tu título. Ordenadas por impacto en empleabilidad.</div>
 <div id="certList"></div>
 </div>
-<!-- ═══════ TAB 6: CUN HUB ═══════ -->
-<div class="pnl" id="pnl6">
+<!-- ═══════ TAB 5: CUN HUB ═══════ -->
+<div class="pnl" id="pnl5">
 <div class="sl">· cun hub — tu ecosistema académico completo ·</div>
 <div class="sd">Mapa de plataformas, metodología de estudio y sistema de actualización rápida.</div>
 
@@ -514,8 +547,8 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div id="weeklyWorkflow"></div>
 </div>
 </div>
-<!-- ═══════ TAB 7: CLASES PERDIDAS ═══════ -->
-<div class="pnl" id="pnl7">
+<!-- ═══════ TAB 6: CLASES PERDIDAS ═══════ -->
+<div class="pnl" id="pnl6">
 <div class="sl">· clases perdidas — analizador de videos ·</div>
 <div class="sd">Pega el link de una clase grabada, copia el prompt para Claude y recibe el informe completo: qué se vio, qué debes hacer, cómo entregar y cuándo. Todo se guarda aquí.</div>
 
@@ -548,55 +581,27 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div id="classSessionsList"></div>
 </div>
 
-<!-- ═══════ TAB 8: CUADERNO ═══════ -->
-<div class="pnl" id="pnl8">
-<div class="sl">· cuaderno de apuntes ·</div>
-<div class="sd">Tu cuaderno digital con cuadrícula. Escoge una materia, toma apuntes, guarda imágenes y links de estudio. Todo se guarda en tu navegador y se sincroniza con la nube.</div>
+<!-- ═══════ TAB 7: CUADERNOS PERSONALIZADOS ═══════ -->
+<div class="pnl" id="pnl7">
+<div class="sl">· cuadernos personalizados — cursos externos ·</div>
+<div class="sd">Crea cuadernos para cursos que estudias por fuera de la malla (ej: SQL Course, AWS Cloud, Python Bootcamp). Cada cuaderno es totalmente editable: renombra, cambia ícono, agrega páginas, imágenes HD y links.</div>
 
-<div class="nb-subjects" id="nbSubjects"></div>
-
-<div id="nbEditor" style="display:none">
-<!-- Toolbar -->
-<div class="nb-toolbar">
-<button class="tf-btn" onclick="NB.newPage()" style="background:var(--vi)">+ Nueva página</button>
-<button class="tf-btn" onclick="NB.addLink()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Agregar link</button>
-<button class="tf-btn" onclick="NB.addImage()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Agregar imagen</button>
-<span style="margin-left:auto;font-size:10px;color:var(--t3)" id="nbPageCount"></span>
-</div>
-
-<!-- Active Page (notebook look) -->
-<div id="nbActivePage" style="display:none">
-<div class="nb-page">
-<div class="nb-header">
-<input class="nb-title-inp" id="nbPageTitle" placeholder="Título de la página..." oninput="NB.autoSave()">
-<span class="nb-saved" id="nbSavedBadge">✓ guardado</span>
-<span class="nb-date" id="nbPageDate"></span>
-</div>
-<div class="nb-spine"></div>
-<div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div><div class="nb-hole" style="top:408px"></div><div class="nb-hole" style="top:456px"></div></div>
-<div class="nb-margin"></div>
-<div class="nb-content" id="nbBody" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave()"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+<input class="tf-input" id="cnbNewName" placeholder="Nombre del cuaderno (ej: SQL Course)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NB.createCustom()">
+<select class="tf-select" id="cnbNewIcon" style="max-width:80px">
+<option value="📘">📘</option><option value="📗">📗</option><option value="📙">📙</option><option value="📕">📕</option>
+<option value="📒">📒</option><option value="🗒️">🗒️</option><option value="💻">💻</option><option value="🐍">🐍</option>
+<option value="☁️">☁️</option><option value="🔧">🔧</option><option value="📊">📊</option><option value="🔐">🔐</option>
+<option value="🎨">🎨</option><option value="🎯">🎯</option><option value="⚡">⚡</option>
+</select>
+<button class="tf-btn" onclick="NB.createCustom()" style="background:var(--vi)">+ Crear cuaderno</button>
 </div>
 
-<!-- Study Links -->
-<div class="nb-links" id="nbLinks">
-<div class="sl" style="margin-top:16px">· links de estudio ·</div>
-<div id="nbLinkList"></div>
+<div id="cnbList"></div>
 </div>
 
-<!-- Images -->
-<div class="nb-links" id="nbImagesSection">
-<div class="sl" style="margin-top:16px">· imágenes ·</div>
-<div class="nb-images" id="nbImageGrid"></div>
-<input type="file" id="nbImgInput" accept="image/*" style="display:none" onchange="NB.handleImage(event)">
-</div>
-</div>
-
-<!-- Saved Pages -->
-<div class="sl" style="margin-top:20px">· páginas guardadas ·</div>
-<div class="nb-entries" id="nbPageList"></div>
-</div>
-</div>
+<!-- Shared notebook file input (used by paste-image dialog fallback) -->
+<input type="file" id="nbImgInput" accept="image/*" style="display:none">
 
 </main>
 
@@ -611,6 +616,28 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
   <img class="nb-lb-img" id="nbLbImg" src="" alt="">
   <button class="nb-lb-nav nb-lb-next" onclick="NB.nextImage()" title="Siguiente (→)">›</button>
   <div class="nb-lb-caption" id="nbLbCaption"></div>
+</div>
+
+<!-- PASTE IMAGE MODAL -->
+<div class="pim-overlay" id="pasteImgOverlay" onclick="if(event.target===this)NB.closePasteDialog()">
+<div class="pim-modal">
+<button class="pim-close" onclick="NB.closePasteDialog()" title="Cerrar (Esc)">✕</button>
+<div class="pim-header">
+<div class="pim-title">🖼️ Agregar imagen en HD</div>
+<div class="pim-sub">Pega (<kbd>Ctrl+V</kbd>) · Arrastra archivo · o <span class="pim-link" onclick="NB.pimPickFile()">busca en tu PC</span></div>
+</div>
+<div class="pim-dropzone" id="pimDropzone" tabindex="0">
+<div class="pim-dz-icon">📋</div>
+<div class="pim-dz-text">Pega o suelta tu imagen aquí</div>
+<div class="pim-dz-hint">PNG · JPG · WEBP · calidad HD (máx 1920px · 92%)</div>
+<div class="pim-preview" id="pimPreview" style="display:none"><img id="pimPreviewImg" alt=""></div>
+</div>
+<input class="pim-caption" id="pimCaption" placeholder="Descripción (opcional)...">
+<div class="pim-actions">
+<button class="tf-btn" onclick="NB.closePasteDialog()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">Cancelar</button>
+<button class="tf-btn" id="pimSave" onclick="NB.pimSave()" style="background:var(--vi)" disabled>💾 Guardar imagen</button>
+</div>
+</div>
 </div>
 
 <!-- TASK GUIDE MODAL -->
