@@ -235,7 +235,7 @@ const CLOUD = (() => {
     'eng_notes', 'eng_srs_deck',
     'ruta_log5', 'news_saved',
     // Opaque state objects
-    'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sim_interview_chks', 'plab_h',
+    'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sys_notebook_meta', 'sim_interview_chks', 'plab_h',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
     'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'
