@@ -84,11 +84,10 @@ const CoverWeaver = {
   copyFrom(id){
     const el = document.getElementById(id);
     if(!el) return;
-    const text = el.innerText || el.textContent;
-    navigator.clipboard.writeText(text.trim()).then(() => {
-      const btn = el.parentElement.querySelector('.copy-btn');
-      if(btn){ const o=btn.innerHTML; btn.innerHTML='✅ Copiado!'; setTimeout(()=>{btn.innerHTML=o;},2000); }
-    });
+    const text = (el.innerText || el.textContent).trim();
+    const done = () => { const btn=el.parentElement?.querySelector('.copy-btn'); if(btn){const o=btn.innerHTML;btn.innerHTML='✅ Copiado!';setTimeout(()=>{btn.innerHTML=o;},2000);} };
+    const fallback = () => { const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);done(); };
+    if(navigator.clipboard){ navigator.clipboard.writeText(text).then(done).catch(fallback); } else { fallback(); }
   },
 
   // Main render: auto-generate all cover content

@@ -475,7 +475,7 @@ el.innerHTML=cats.map(c=>{
 const items=lib.filter(p=>p.cat===c.key);
 if(!items.length)return '';
 return '<div class="lbl">· '+c.label.toLowerCase()+' ·</div>'+items.map(p=>
-'<div class="prompt-card" onclick="this.classList.toggle(\'open\')"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span><div class="prompt-title">'+p.title+'</div><div class="prompt-desc">'+p.desc+'</div><div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();navigator.clipboard.writeText(\''+encodeURIComponent(p.prompt)+'\'.split(\'%\').map(decodeURIComponent).join(\'%\')).catch(()=>{});alert(\'✅ Copiado\')">📋 Copiar</button></div></div></div>'
+'<div class="prompt-card" onclick="this.classList.toggle(\'open\')"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span><div class="prompt-title">'+p.title+'</div><div class="prompt-desc">'+p.desc+'</div><div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();(function(t){var ta=document.createElement(\'textarea\');ta.value=t;ta.style.cssText=\'position:fixed;top:-999px;opacity:0\';document.body.appendChild(ta);ta.select();try{document.execCommand(\'copy\')}catch(_){}document.body.removeChild(ta);if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>{});alert(\'✅ Copiado\')})(decodeURIComponent(\''+encodeURIComponent(p.prompt)+'\'))">📋 Copiar</button></div></div></div>'
 ).join('');
 }).join('');
 }

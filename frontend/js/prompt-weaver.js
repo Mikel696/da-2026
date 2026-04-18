@@ -6,16 +6,13 @@ const PromptWeaver = {
   copyPrompt(id){
     const el = document.getElementById(id);
     if(!el) return;
-    navigator.clipboard.writeText(el.textContent.trim()).then(() => {
-      const btn = el.parentElement.querySelector('.pw-copy');
-      if(btn){
-        const orig = btn.innerHTML;
-        btn.innerHTML = '✅ ¡Copiado!';
-        btn.style.background = 'var(--gg)';
-        btn.style.color = 'var(--gn)';
-        setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.color = ''; }, 2000);
-      }
-    });
+    const text = el.textContent.trim();
+    const done = () => {
+      const btn = el.parentElement?.querySelector('.pw-copy');
+      if(btn){ const orig=btn.innerHTML; btn.innerHTML='✅ ¡Copiado!'; btn.style.background='var(--gg)'; btn.style.color='var(--gn)'; setTimeout(()=>{btn.innerHTML=orig;btn.style.background='';btn.style.color='';},2000); }
+    };
+    const fallback = () => { const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);done(); };
+    if(navigator.clipboard){ navigator.clipboard.writeText(text).then(done).catch(fallback); } else { fallback(); }
   },
 
   buildMockInterviewer(){

@@ -663,10 +663,11 @@ function loadSample(){
 }
 function cpTxt(id){
   const el=document.getElementById(id);
-  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{
-    const b=el.parentElement.querySelector('.btn');
-    if(b){const o=b.innerHTML;b.innerHTML='✅ Copiado!';b.style.color='var(--gn)';setTimeout(()=>{b.innerHTML=o;b.style.color='';},2000);}
-  });
+  if(!el) return;
+  const text=el.textContent.trim();
+  const done=()=>{const b=el.parentElement?.querySelector('.btn');if(b){const o=b.innerHTML;b.innerHTML='✅ Copiado!';b.style.color='var(--gn)';setTimeout(()=>{b.innerHTML=o;b.style.color='';},2000);}};
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);done();};
+  if(navigator.clipboard){navigator.clipboard.writeText(text).then(done).catch(fallback);}else{fallback();}
 }
 function printCV(lang){
   const cv=document.getElementById('cv-'+lang);if(!cv)return;

@@ -156,7 +156,17 @@ function cp(id, btn) {
     if (btn) { const o = btn.textContent; btn.textContent = '✓ Copiado'; setTimeout(() => btn.textContent = o, 2000); }
     toast('✓ Copiado al portapapeles');
   };
-  navigator.clipboard ? navigator.clipboard.writeText(text).then(done).catch(done) : done();
+  const fallback = () => {
+    // execCommand fallback for HTTP contexts or browsers where Clipboard API is blocked
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;top:-999px;left:-999px;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (_) {}
+    document.body.removeChild(ta); done();
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  } else { fallback(); }
 }
 
 function timeAgo(ms) {
