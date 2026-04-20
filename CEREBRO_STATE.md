@@ -1,8 +1,34 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-16
+- **Última actualización:** 2026-04-19
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ✨ feat(8-PRO) · Prompt Lab — Overhaul profesional — 2026-04-19
+
+### Qué cambió
+
+**Categorías nuevas:**
+- `asistente` (cyan) — Companion de Clase, MCQ Rápido (solo letra), MCQ con Explicación completa
+- `exam` (rojo) — 8 prompts: Selección Múltiple, V/F con Evidencia, Ensayo/Pregunta Abierta, Examen Oral, Caso de Estudio, Matemáticas P-a-P, ICFES/SABER Pro, Examen de Código Técnico
+
+**UX — Interacción mejorada:**
+- Filter bar de categorías (pills): `Todos | Datos | Código | Negocio & Carrera | Aprendizaje | Taller & MCQ | Exámenes | Claude Code`
+- **Un clic** = expandir tarjeta (debounce 220ms)
+- **Doble clic** = copiar al instante (cancela el timer del clic simple)
+- `showCopiedToast()` — toast verde flotante reemplaza `alert()` en toda la librería
+
+**Prompts bonus:**
+- `data`: Power Query — Transformación de Datos (código M)
+- `learn`: Flashcards para Retención Activa (método Pareto + mnemónicos)
+
+### Archivos modificados
+- `frontend/prompts.html` — CSS (`.c-exam`, `.c-asistente`, `.cat-filters`, `.cat-btn`), 13 prompts nuevos, `showCopiedToast()`, `renderLib(filter)` reescrita
+
+### Estado 8-PRO: 🟢 PRODUCCIÓN
+Commit: `5441b69`
 
 ---
 
