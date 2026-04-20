@@ -43,6 +43,11 @@
 .c-write{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
 .c-learn{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
 .c-claude{background:rgba(249,115,22,.08);color:#f97316;border:1px solid rgba(249,115,22,.15)}
+.c-exam{background:rgba(239,68,68,.08);color:#ef4444;border:1px solid rgba(239,68,68,.15)}
+.c-asistente{background:rgba(6,182,212,.08);color:#06b6d4;border:1px solid rgba(6,182,212,.15)}
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.cat-btn{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--el);color:var(--t2);font-family:inherit;transition:all .2s}
+.cat-btn:hover{border-color:var(--ac);color:var(--a2)}.cat-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}
 .prompt-title{font-size:14px;font-weight:600;margin-bottom:3px}
 .prompt-desc{font-size:12px;color:var(--t2)}
 .prompt-body{display:none;margin-top:10px;background:var(--c1);border-radius:8px;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:var(--a2);white-space:pre-wrap}
@@ -179,7 +184,8 @@
 
 <!-- ══════ LIBRERÍA ══════ -->
 <div class="pnl" id="p-lib">
-<div class="lbl">· prompts listos para usar · click para expandir ·</div>
+<div class="lbl">· clic = expandir · doble clic = copiar al instante · filtro por categoría ↓</div>
+<div class="cat-filters" id="catFilters"></div>
 <div id="libContent"></div>
 </div>
 
@@ -465,18 +471,61 @@ const lib=[
 {cat:'claude',cls:'c-claude',title:'Work on 9-GOA / 12-FIN / 13-NOT',desc:'Quick prompt for Goals, Finance, or Notes modules',prompt:`Work on the specified module:\n• 9-GOA Goals: frontend/goals.html + js/goals.js. Keys: sb_goals, sb_habits, sb_reviews.\n• 12-FIN Finance: frontend/finance.html. Keys: fin_* prefix.\n• 13-NOT Notes: frontend/notes.html. Key: sb_notes2.\n\nMODULE: [9-GOA / 12-FIN / 13-NOT]\nTASK: [DESCRIBE WHAT TO DO]\n\nRead CEREBRO_STATE.md first. Commit and push when done.`},
 {cat:'claude',cls:'c-claude',title:'Update Main Page',desc:'Modify index.html with CEREBRO_STATE sync',prompt:`Update the main page (frontend/index.html).\nAfter making changes:\n1. Update CEREBRO_STATE.md with what changed + today's date.\n2. Ensure auth scripts are present (supabase CDN, supabase-client.js, auth.js, cloud-sync.js).\n3. Commit and push to main.\n\nTASK: [DESCRIBE WHAT TO CHANGE]\n\nNo approval needed.`},
 {cat:'claude',cls:'c-claude',title:'Full Context Recovery — New Session',desc:'Complete context dump for starting a fresh Claude Code session',prompt:`CONTEXT RECOVERY — Paste at the start of a new Claude Code session:\n\nROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).\nREPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\n\nARCHITECTURE:\n- 4-layer: HTML shell + CSS + JS IIFE + JSON data\n- Auth: Supabase CDN → supabase-client.js → auth.js → cloud-sync.js\n- State: localStorage synced via SYNC_REGISTRY in cloud-sync.js\n- XSS: _esc() on all user text\n\nMODULE CODES: 3-ENG, 5-JOB, 8-PRO, 9-GOA, 10-SYS, 11-ACC, 12-FIN, 13-NOT\n\nRULES:\n- Deploy without asking (commit + push to main)\n- Update CEREBRO_STATE.md after significant changes\n- Short responses, no recaps, module codes only\n- PLATFORM-WIDE AUTH: Every .html file must include the 4-script auth chain before </body>. "Sesión iniciada" must show on every module, not just one. When creating, copying, or renaming any page, add the auth chain immediately.\n\nPRIOR STATE: Read CEREBRO_STATE.md and MEMORY.md.\nTASK: [YOUR TASK HERE]`},
+
+// ═══ DATA — Extra ═══
+{cat:'data',cls:'c-data',title:'Power Query — Transformación de Datos',desc:'Diseña flujos de limpieza y transformación en Power Query M paso a paso',prompt:`Actúa como experto en Power Query y transformación de datos para Excel/Power BI.\n\n<datos>\nFuente: [Ej: CSV de ventas, múltiples archivos, tabla de BD]\nProblemas detectados: [Ej: fechas mal formateadas, columnas combinadas, nulos]\nObjetivo: [Ej: tabla limpia para pivot, modelo estrella para Power BI]\n</datos>\n\n<tarea>\n1. Diseña el flujo completo de transformación en orden lógico\n2. Proporciona el código M para cada paso crítico\n3. Explica qué hace cada paso y por qué\n4. Indica el orden óptimo de transformaciones\n5. Errores comunes en este escenario y cómo prevenirlos\n</tarea>\n\n<restricciones>\nCódigo M funcional y listo para pegar en el editor avanzado.\n</restricciones>`},
+
+// ═══ LEARN — Extra ═══
+{cat:'learn',cls:'c-learn',title:'Flashcards para Retención Activa',desc:'Convierte cualquier material en flashcards, mnemónicos y preguntas de examen',prompt:`Actúa como mi tutor de retención activa.\n\n<material>\n[Pega aquí: notas de clase, fragmento de libro, o tema específico]\n</material>\n\n<método>\n1. Crea 5-7 flashcards en formato Pregunta → Respuesta\n2. Un mnemónico o analogía que ancle el concepto central\n3. Dos preguntas tipo examen sobre este material\n4. Qué estudiar primero si el tiempo es limitado (Pareto 20/80)\n</método>\n\n<restricciones>\nLenguaje simple. Flashcards breves (máx 2 oraciones por lado). Sin jerga innecesaria.\n</restricciones>`},
+
+// ═══ ASISTENTE DE TALLER ═══
+{cat:'asistente',cls:'c-asistente',title:'Companion de Clase',desc:'IA actúa como asistente en vivo: explica, responde preguntas del docente y verifica tu comprensión',prompt:`Actúa como mi asistente de taller académico. Estoy en la siguiente sesión:\n\n<taller>\nMateria: [Ej: Ingeniería Web / Matemáticas Especiales / Investigación C&T]\nTema de hoy: [Ej: CSS Grid, Integrales, Metodología Cuantitativa]\nContexto: [Pega aquí: apuntes, diapositivas o pregunta del docente]\n</taller>\n\nMODO DE OPERACIÓN:\n1. Lee y asimila el material antes de responder\n2. Explica conceptos con analogías simples + ejemplo concreto\n3. Si el docente hace una pregunta, dame la respuesta correcta con la lógica detrás\n4. Si hay código o fórmulas, muéstralos listos para copiar\n5. Al final de cada explicación: 1 pregunta de verificación para mí\n\nObjetivo: participar activamente y no quedarme atrás en la clase.\n¿Listo para asistirme?`},
+{cat:'asistente',cls:'c-asistente',title:'MCQ Rápido — Solo la Letra',desc:'Responde preguntas de opción múltiple con ÚNICAMENTE la letra correcta. Sin explicaciones.',prompt:`Eres un experto en [MATERIA]. Voy a darte preguntas de opción múltiple.\n\nREGLAS ESTRICTAS:\n- Responde ÚNICAMENTE con la letra de la opción correcta: A, B, C o D\n- Sin explicación. Sin justificación. Solo la letra.\n- Si quiero saber el porqué, te lo pediré explícitamente.\n\nFORMATO DE RESPUESTA:\n[LETRA]\n\nPrimera pregunta:\n[Pega aquí tu pregunta con opciones A, B, C, D]`},
+{cat:'asistente',cls:'c-asistente',title:'MCQ con Explicación Completa',desc:'Resuelve preguntas MCQ explicando el razonamiento y descartando cada opción incorrecta',prompt:`Actúa como experto en [MATERIA] y ayúdame a entender estas preguntas de opción múltiple.\n\nPara CADA pregunta:\n1. Respuesta: [LETRA] — [texto de la opción]\n2. ¿Por qué ES correcta? (1-2 oraciones)\n3. ¿Por qué son incorrectas las demás? (1 línea por opción)\n4. Concepto clave a recordar: [1 frase]\n\nPREGUNTAS:\n[Pega aquí las preguntas numeradas con sus opciones]`},
+
+// ═══ EXÁMENES ═══
+{cat:'exam',cls:'c-exam',title:'Selección Múltiple — Examen Completo',desc:'Resuelve MCQ de examen con respuesta justificada y descarte de cada opción',prompt:`CONTEXTO DEL EXAMEN:\nMateria: [Ej: Cálculo / Base de Datos / Contabilidad]\nTipo: Selección múltiple con única respuesta\n\nActúa como experto en esta materia y resuelve cada pregunta.\n\nPara cada una:\n→ Respuesta: [LETRA] — [texto de la opción]\n→ Justificación: (máx 2 oraciones)\n→ Descarte: por qué las demás opciones son incorrectas (1 línea cada una)\n\nPREGUNTAS:\n[Pega aquí las preguntas]\n\nSé directo y técnicamente preciso. Sin relleno.`},
+{cat:'exam',cls:'c-exam',title:'Verdadero / Falso con Evidencia',desc:'Analiza afirmaciones V/F con justificación técnica y corrección de lo falso',prompt:`EXAMEN: Verdadero / Falso\nMateria: [Materia]\n\nPara cada afirmación:\n→ V o F (respuesta directa)\n→ Razón / Evidencia (1-2 oraciones precisas)\n→ Si es Falso: la versión CORRECTA de la afirmación\n\nAFIRMACIONES:\n[Pega aquí las afirmaciones numeradas]\n\nSé técnicamente riguroso. Si hay matices importantes, señálalos.`},
+{cat:'exam',cls:'c-exam',title:'Ensayo / Pregunta Abierta',desc:'Redacta respuestas académicas estructuradas para exámenes escritos',prompt:`Actúa como escritor académico experto en [MATERIA].\n\nINSTRUCCIÓN DEL EXAMEN:\n[Pega aquí la pregunta o instrucciones exactas]\n\nRESTRICCIONES:\n- Extensión: [Ej: 400 palabras / 2 párrafos]\n- Estilo: formal académico\n- Tono: técnico pero claro\n\nESTRUCTURA:\n1. Introducción con tesis clara\n2. Desarrollo con argumentos y evidencia del curso\n3. Conclusión con síntesis y posición final\n\nREFERENCIA DEL CURSO:\n[Qué viste en clase sobre este tema]\n\nGenera la respuesta completa y lista para presentar.`},
+{cat:'exam',cls:'c-exam',title:'Preparación Examen Oral',desc:'Coach de examen oral: preguntas progresivas, lifelines y evaluación de cada respuesta',prompt:`Actúa como mi coach para examen oral de [MATERIA].\n\nTEMA: [Tema específico del examen]\nFORMATO: El docente pregunta, yo respondo verbalmente.\nDURACIÓN ESTIMADA: [Ej: 10 minutos]\n\nDINÁMICA:\n1. Hazme la pregunta de apertura típica de un docente sobre este tema\n2. Evalúa mi respuesta cuando te la dé (qué estuvo bien / qué mejorar)\n3. Si me trabo: dame un lifeline — la respuesta ideal en 3 bullets\n4. Alterna entre preguntas conceptuales y de aplicación práctica\n5. Después de 5 preguntas: resumen de fortalezas y debilidades\n\nEmpieza con la primera pregunta oral:`},
+{cat:'exam',cls:'c-exam',title:'Caso de Estudio Empresarial',desc:'Análisis estructurado de casos con metodología académica completa',prompt:`Actúa como consultor senior y profesor de [MATERIA/ÁREA].\n\nCASO:\n[Pega aquí el caso completo]\n\nPREGUNTAS A RESOLVER:\n[Pega las preguntas del caso]\n\nMETODOLOGÍA:\n1. Diagnóstico: ¿Cuál es el problema central? (1 párrafo)\n2. Marco teórico: ¿Qué conceptos del curso son relevantes?\n3. Análisis: Evidencia del caso que sustenta el diagnóstico\n4. Alternativas: 2-3 opciones con pros/contras\n5. Recomendación: Mejor opción con justificación académica\n6. Conclusión: Aprendizaje clave del caso\n\nUsa terminología de la materia. Cita elementos del caso como evidencia.`},
+{cat:'exam',cls:'c-exam',title:'Matemáticas Paso a Paso',desc:'Resuelve ejercicios matemáticos con cada paso explicado, verificación y errores comunes',prompt:`Actúa como profesor de matemáticas universitario.\n\nPROBLEMA:\n[Pega aquí el problema o ejercicio]\n\nTEMA: [Ej: Cálculo Diferencial — Regla de la Cadena / Álgebra Lineal — Determinantes]\n\nRESOLUCIÓN:\n1. Identifica el tipo de problema y el método a aplicar\n2. Resuelve PASO A PASO, numerando cada paso\n3. Explica el "por qué" de cada paso en 1 línea\n4. Resultado final claramente enmarcado\n5. Verificación: cómo confirmar que la respuesta es correcta\n6. Error frecuente en este tipo de problema: qué NO hacer\n\nNotación clara y limpia. Si hay varios métodos, muestra el más eficiente.`},
+{cat:'exam',cls:'c-exam',title:'Estilo ICFES / SABER Pro',desc:'Entrena y resuelve preguntas al estilo de pruebas estandarizadas colombianas',prompt:`Actúa como tutor especializado en ICFES / SABER Pro de Colombia.\n\nÁREA: [Ej: Razonamiento Cuantitativo / Lectura Crítica / Inglés / Competencias Ciudadanas]\nNIVEL: [SABER 11 / SABER Pro]\nTEMA: [Ej: Proporcionalidad / Tipos de texto / Present perfect]\n\nENTRENAMIENTO:\n1. Genera 5 preguntas tipo ICFES con 4 opciones (A-D), una sola correcta\n2. Espera mis respuestas antes de revelar soluciones\n3. Analiza cada opción (correcta e incorrectas) con evidencia\n4. Tipo cognitivo por pregunta: Interpretar / Argumentar / Proponer\n5. Al final: estadística de aciertos + área prioritaria de mejora\n\nEmpieza con la primera pregunta:`},
+{cat:'exam',cls:'c-exam',title:'Examen de Código Técnico',desc:'Resuelve, corrige o explica código para exámenes y pruebas técnicas con análisis de complejidad',prompt:`Actúa como evaluador técnico senior de [Python / JavaScript / SQL / Java].\n\nPROBLEMA O CÓDIGO:\n[Pega aquí el problema a resolver, código a analizar, o ejercicio a corregir]\n\nMODALIDAD: [Resolver problema / Corregir código / Explicar código / Optimizar]\n\nENTREGA:\n1. Solución completa y funcional\n2. Explicación línea por línea de las partes clave\n3. Complejidad: tiempo O(?) y espacio O(?)\n4. Casos edge a considerar\n5. Cómo presentaría esta solución en una entrevista técnica\n\nCódigo limpio, comentado, listo para entregar.`},
 ];
 
-function renderLib(){
-const el=document.getElementById('libContent');
-const cats=[{key:'data',label:'📊 Análisis de Datos'},{key:'code',label:'💻 Código & SQL'},{key:'biz',label:'💼 Negocio & Carrera'},{key:'learn',label:'📚 Aprendizaje'},{key:'claude',label:'🤖 Claude Code — Recovery & Optimization'}];
+function showCopiedToast(){
+var t=document.getElementById('_cptoast');
+if(!t){t=document.createElement('div');t.id='_cptoast';t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;font-size:12px;font-weight:700;padding:8px 22px;border-radius:20px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .25s';document.body.appendChild(t);}
+t.textContent='✅ Prompt copiado';t.style.opacity='1';
+clearTimeout(t._to);t._to=setTimeout(function(){t.style.opacity='0';},1800);
+}
 
-el.innerHTML=cats.map(c=>{
-const items=lib.filter(p=>p.cat===c.key);
-if(!items.length)return '';
-return '<div class="lbl">· '+c.label.toLowerCase()+' ·</div>'+items.map(p=>
-'<div class="prompt-card" onclick="this.classList.toggle(\'open\')"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span><div class="prompt-title">'+p.title+'</div><div class="prompt-desc">'+p.desc+'</div><div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();(function(t){var ta=document.createElement(\'textarea\');ta.value=t;ta.style.cssText=\'position:fixed;top:-999px;opacity:0\';document.body.appendChild(ta);ta.select();try{document.execCommand(\'copy\')}catch(_){}document.body.removeChild(ta);if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>{});alert(\'✅ Copiado\')})(decodeURIComponent(\''+encodeURIComponent(p.prompt)+'\'))">📋 Copiar</button></div></div></div>'
-).join('');
+function renderLib(filter){
+filter=filter||'all';
+const el=document.getElementById('libContent');
+const filtersEl=document.getElementById('catFilters');
+const cats=[
+  {key:'all',label:'🔎 Todos'},
+  {key:'data',label:'📊 Datos'},
+  {key:'code',label:'💻 Código'},
+  {key:'biz',label:'💼 Negocio & Carrera'},
+  {key:'learn',label:'📚 Aprendizaje'},
+  {key:'asistente',label:'🤝 Taller & MCQ'},
+  {key:'exam',label:'📝 Exámenes'},
+  {key:'claude',label:'🤖 Claude Code'}
+];
+if(filtersEl)filtersEl.innerHTML=cats.map(c=>'<button class="cat-btn'+(filter===c.key?' active':'')+'" onclick="renderLib(\''+c.key+'\')">'+c.label+'</button>').join('');
+const items=filter==='all'?lib:lib.filter(p=>p.cat===filter);
+if(!items.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">No hay prompts en esta categoría.</div>';return;}
+el.innerHTML=items.map(p=>{
+const enc=encodeURIComponent(p.prompt);
+const cp="(function(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);if(navigator.clipboard)navigator.clipboard.writeText(t).catch(function(){});showCopiedToast();})(decodeURIComponent('"+enc+"'))";
+return '<div class="prompt-card" onclick="if(this._t){clearTimeout(this._t);this._t=null;'+cp+';return;}var s=this;s._t=setTimeout(function(){s._t=null;s.classList.toggle(\'open\');},220);">'
++'<span class="prompt-cat '+p.cls+'">'+p.cat+'</span>'
++'<div class="prompt-title">'+p.title+'</div>'
++'<div class="prompt-desc">'+p.desc+'</div>'
++'<div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();'+cp+'">📋 Copiar</button></div></div></div>';
 }).join('');
 }
 
