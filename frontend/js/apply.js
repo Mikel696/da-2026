@@ -277,6 +277,68 @@ function calculatePriority(matchPct, urgency, remote, level){
 }
 
 // ══════════════════════════════════════════════════════════════
+// DEEP JD INTELLIGENCE HELPERS
+// ══════════════════════════════════════════════════════════════
+function detectIndustry(jd,jdL){
+  if(/fintech|neobank|digital payment|crypto|insurtech|payment platform/i.test(jd)) return {id:'fintech',label:'Fintech / Pagos Digitales',icon:'💳',note:'Sector de crecimiento acelerado. Buscan data-driven + compliance. Tu SQL + Power BI son diferenciales fuertes aquí.'};
+  if(/bpo|outsourc|shared service|servicios compartidos|contact center|call center/i.test(jd)) return {id:'bpo',label:'BPO / Shared Services',icon:'🏢',note:'Foco en volumen, SLA, accuracy, multi-cliente. Brinks (shared services global) + Teleperformance (BPO directo) = match perfecto.'};
+  if(/ecommerce|e-commerce|marketplace|retail|fulfillment|logistic/i.test(jd)) return {id:'ecom',label:'E-commerce / Retail',icon:'🛒',note:'Velocidad + decisiones basadas en datos en tiempo real. Tus automatizaciones SQL y dashboards son ventaja diferencial.'};
+  if(/startup|series [a-e]|seed|venture|vc.backed|scale.up/i.test(jd)) return {id:'startup',label:'Startup / Scale-up',icon:'🚀',note:'Valoran versatilidad, velocidad y resultados con poco. Demuestra que puedes construir desde cero y hacer más con menos recursos.'};
+  if(/\bbank\b|banco|financial institution|financial service|wealth|asset management|investment bank/i.test(jd)) return {id:'banking',label:'Banca / Servicios Financieros',icon:'🏦',note:'Entorno altamente regulado. Tu compliance Brinks + operaciones multi-país + auditorías son ventajas críticas y escasas.'};
+  if(/consulting|consultora|professional service|advisory|deloitte|pwc|kpmg|ernst|accenture/i.test(jd)) return {id:'consulting',label:'Consultoría / Prof. Services',icon:'📊',note:'Priorizan capacidad analítica + comunicación ejecutiva de insights. Tu perfil híbrido fin+tech es exactamente lo que buscan.'};
+  if(/healthcare|salud|hospital|pharma|pharmaceutical|medical|clinica/i.test(jd)) return {id:'health',label:'Healthcare / Salud',icon:'🏥',note:'AP y compliance son misión crítica. Tus 7 años Brinks (strict compliance, multi-regulación) se transfieren directamente.'};
+  if(/\btech\b|saas|platform|cloud|software|developer|engineering|product manager/i.test(jdL)) return {id:'tech',label:'Tech / SaaS',icon:'💻',note:'Buscan perfiles que hablen datos fluido. Tu SQL + Power BI + Ing. Sistemas en curso = perfil hybrid raro y muy valioso.'};
+  if(/government|gobierno|public sector|estado|ministerio|alcaldia|entidad publica/i.test(jdL)) return {id:'gov',label:'Sector Público',icon:'🏛️',note:'Ciclos lentos pero estables. Enfoca en normatividad, cumplimiento regulatorio y experiencia en reportería formal estructurada.'};
+  return {id:'corporate',label:'Corporativo General',icon:'🏢',note:'Vacante corporativa estándar. Diferénciate con resultados cuantificables y tu tech edge (SQL + Power BI) escaso en perfiles financieros.'};
+}
+
+function detectRedFlags(jd,jdL){
+  const flags=[];
+  if((jd.match(/responsible for|will manage|encargado de|responsable de/gi)||[]).length>4)
+    flags.push({type:'⚠️',text:'Muchas responsabilidades listadas — pregunta en la entrevista el alcance real y el headcount de apoyo.'});
+  if(!/salary|salario|compensation|remuner|sueldo|pay range|\$/i.test(jd))
+    flags.push({type:'💰',text:'Sin información salarial — ten lista tu expectativa con market data (LinkedIn Salary, Glassdoor) antes de avanzar.'});
+  if(/other duties|otras funciones|según sea necesario|as required|as needed/i.test(jd))
+    flags.push({type:'📌',text:'"Otras funciones según se requiera" — pregunta qué implica exactamente en la primera entrevista.'});
+  if(jd.trim().length<500)
+    flags.push({type:'📄',text:'JD corta — información limitada. Investiga la empresa en profundidad y prepara preguntas específicas.'});
+  if(S.match.missing.length>=3)
+    flags.push({type:'🔴',text:`${S.match.missing.length} skills sin match detectados — evalúa curva de aprendizaje o aplica igual enfatizando adaptabilidad.`});
+  if(/immediately|asap|urgente|de inmediato|start date/i.test(jd))
+    flags.push({type:'⚡',text:'Urgencia detectada — aplica hoy. Los primeros candidatos en procesos urgentes tienen ventaja real y documentada.'});
+  if(S.match.remote&&!/100%|fully remote|completamente remoto|work from anywhere/i.test(jd))
+    flags.push({type:'🌐',text:'Modalidad remota mencionada pero no confirmada al 100% — verifica exactamente la política antes de avanzar.'});
+  if(/10\+\s*years|15\+\s*years|must have.*\d{2}\+/i.test(jd)&&S.match.level==='junior')
+    flags.push({type:'🎯',text:'Requisitos de experiencia altos para un rol junior — empresa puede tener expectativas infladas o pagar mal.'});
+  return flags;
+}
+
+function extractPowerWords(jd){
+  const actionPool=['lead','drive','deliver','build','scale','develop','implement','analyze','optimize','ensure','coordinate','automate','improve','streamline','support','manage','oversee','execute','establish','create','monitor','review','report','process'];
+  const qualityPool=['accuracy','precision','efficiency','quality','excellence','integrity','transparency','innovation','compliance','reliability','accountability','ownership','proactive','data-driven','results-oriented','detail-oriented','collaborative'];
+  const actions=actionPool.filter(w=>new RegExp('\\b'+w+'(s|ing|ed|r)?\\b','i').test(jd));
+  const quality=qualityPool.filter(w=>new RegExp('\\b'+w+'\\b','i').test(jd));
+  const skipWords=new Set(['I','AND','OR','FOR','THE','WITH','AT','IN','TO','OF','IS','ON','AS','BY','BE','AN','IT','WE','YOU','ARE','OUR','YOUR','THIS','THAT','FROM','HAVE','NOT','BUT','ALL','CAN','WILL','HAS','WAS','ARE','HAD','MAY','NEW','ANY','USE','GET','ITS','HIS','HER']);
+  const caps=(jd.match(/\b[A-Z][A-Z0-9]{1,}\b/g)||[]).filter(c=>!skipWords.has(c));
+  return {actions:actions.slice(0,8),quality:quality.slice(0,6),vocab:[...new Set(caps)].slice(0,10)};
+}
+
+function buildActionPlan(co,ro,pct,urgency,remote,focusArea){
+  const priority=pct>=70?'🔥 APLICAR HOY':pct>=50?'📅 ESTA SEMANA':pct>=35?'🕐 EVALUAR BIEN':'🚫 BAJA PRIORIDAD';
+  const steps=[];
+  steps.push({t:`Investigar ${co||'la empresa'} — 15 min`,d:`Google: "${co} glassdoor reviews", "${co} linkedin employees", "${co} noticias 2025". Extrae: misión, tamaño, cultura, expansion reciente, problemas reportados.`});
+  if(focusArea==='fin') steps.push({t:'Preparar métricas AP concretas',d:'Ten listos: volumen mensual de facturas gestionadas, % de accuracy real, tiempo promedio ciclo AP, ahorro monetario generado. Números > frases vacías.'});
+  if(focusArea==='data') steps.push({t:'Preparar 2 ejemplos de portafolio data',d:'Caso 1: SQL query que resolvió un problema de negocio con impacto cuantificado. Caso 2: Dashboard Power BI que usó alguien para tomar decisiones.'});
+  steps.push({t:`Personalizar el headline del CV para ${ro||'el puesto'}`,d:`El título exacto del rol debe aparecer en la primera línea del CV. Las 5 keywords más repetidas de la JD deben estar en el Professional Summary.`});
+  if(remote) steps.push({t:'Incluir setup remoto explícitamente',d:'En CV y cover letter: "oficina dedicada, conexión 50+ Mbps, UTC-5, experiencia remota probada (Teleperformance, 95%+ accuracy)". No asumas que lo infieren.'});
+  steps.push({t:'Customizar primer párrafo de cover letter',d:`Menciona algo muy específico de ${co||'la empresa'}: un producto, noticia reciente, o valor que genuinamente te atrae. El reclutador detecta cartas genéricas en 3 segundos.`});
+  steps.push({t:'LinkedIn outreach paralelo — mismo día',d:`Busca al Hiring Manager / Recruiter de ${co||'la empresa'} en LinkedIn y envía una conexión con nota personalizada el mismo día que aplicas por el portal. No esperes.`});
+  if(urgency>=4) steps.push({t:'⚡ URGENCIA — Aplica en menos de 4 horas',d:'Esta vacante tiene señales fuertes de urgencia. Los primeros 5-10 candidatos tienen ventaja real. Aplica ahora y refina en la segunda vuelta.'});
+  steps.push({t:'Preparar 3 preguntas inteligentes para la entrevista',d:'"¿Cómo se mide el éxito en los primeros 90 días?", "¿Qué herramientas usa el equipo actualmente?", "¿Cuál es el mayor reto que enfrenta el equipo hoy?" — demuestran pensamiento estratégico.'});
+  return {priority,steps};
+}
+
+// ══════════════════════════════════════════════════════════════
 // MAIN ANALYSIS ENGINE
 // ══════════════════════════════════════════════════════════════
 function runAnalysis(){
@@ -352,7 +414,11 @@ function runAnalysis(){
     cultureFit:calculateCultureFit(jdL),
     remoteReady:isRemote?95:60,
     applicationPriority:calculatePriority(pct,detectUrgency(jd),isRemote,level),
-    postingAge:detectPostingAge(jd), wordCount:jd.split(/\s+/).length
+    postingAge:detectPostingAge(jd), wordCount:jd.split(/\s+/).length,
+    industry:detectIndustry(jd,jdL),
+    redFlags:detectRedFlags(jd,jdL),
+    powerWords:extractPowerWords(jd),
+    actionPlan:buildActionPlan(S.company,S.role,pct,detectUrgency(jd),isRemote,focusArea)
   };
   S.analyzed=true;
   S.vacancyId=S.vacancyId||VDB.genId();
@@ -433,6 +499,36 @@ function renderAnalysis(){
   h+=`<div style="font-size:12px;font-weight:700;color:var(--a2);margin:6px 0">🌟 DIFERENCIADORES COMPETITIVOS</div>`;
   h+=pr.competitiveEdge.map(d=>`<span class="sk sk-v">${d}</span>`).join(' ');
   h+=`</div></div>`;
+
+  // ── INDUSTRY INTELLIGENCE ──
+  if(pr.industry){
+    h+=`<div class="card" style="margin-top:8px"><div class="card-t">${pr.industry.icon} INDUSTRIA — ${pr.industry.label}</div>
+    <div style="font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:4px">${pr.industry.note}</div>
+    <div style="font-size:10px;color:var(--t3)">💡 Adapta tu narrativa, keywords y ejemplos a las prioridades específicas de este sector.</div></div>`;
+  }
+
+  // ── RED FLAGS & SIGNALS ──
+  if(pr.redFlags&&pr.redFlags.length){
+    h+=`<div class="card" style="margin-top:8px;border-color:rgba(234,179,8,.25)"><div class="card-t">🚨 SEÑALES A EVALUAR (${pr.redFlags.length})</div>`;
+    h+=pr.redFlags.map(f=>`<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--bd);font-size:11px;color:var(--t2)">${f.type} <span>${f.text}</span></div>`).join('');
+    h+=`</div>`;
+  }
+
+  // ── VOCABULARY MIRROR ──
+  if(pr.powerWords&&(pr.powerWords.actions.length||pr.powerWords.quality.length)){
+    h+=`<div class="card" style="margin-top:8px"><div class="card-t">📝 VOCABULARIO ESPEJO — Usa estas palabras exactas de la JD</div>`;
+    if(pr.powerWords.actions.length) h+=`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:600;color:var(--t3);margin-bottom:4px">VERBOS DE ACCIÓN:</div>${pr.powerWords.actions.map(w=>`<span class="sk sk-g">${w}</span>`).join(' ')}</div>`;
+    if(pr.powerWords.quality.length) h+=`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:600;color:var(--t3);margin-bottom:4px">ATRIBUTOS CLAVE:</div>${pr.powerWords.quality.map(w=>`<span class="sk sk-v">${w}</span>`).join(' ')}</div>`;
+    if(pr.powerWords.vocab&&pr.powerWords.vocab.length) h+=`<div><div style="font-size:10px;font-weight:600;color:var(--t3);margin-bottom:4px">ACRÓNIMOS / TÉRMINOS PROPIOS:</div>${pr.powerWords.vocab.map(w=>`<span class="sk sk-c">${w}</span>`).join(' ')}</div>`;
+    h+=`<div style="font-size:10px;color:var(--t3);margin-top:8px">💡 Integra estas palabras textualmente en CV, cover letter y respuestas de entrevista — los sistemas ATS y los humanos reaccionan al mismo lenguaje de la JD.</div></div>`;
+  }
+
+  // ── ACTION PLAN ──
+  if(pr.actionPlan){
+    h+=`<div class="card" style="margin-top:8px;border-color:rgba(34,197,94,.25)"><div class="card-t">✅ PLAN DE ACCIÓN — ${pr.actionPlan.priority}</div><div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">`;
+    h+=pr.actionPlan.steps.map((s,i)=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:9px 10px;background:var(--el);border-radius:8px"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--ac);flex-shrink:0;min-width:18px">${i+1}</div><div><div style="font-size:11px;font-weight:600;margin-bottom:3px">${s.t}</div><div style="font-size:10px;color:var(--t2);line-height:1.5">${s.d}</div></div></div>`).join('');
+    h+=`</div></div>`;
+  }
 
   h+=`<div class="tip tip-g"><b>✅ SECCIONES GENERADAS — Click las pestañas</b>
   <p><strong>CV Perfilado</strong> EN/ES (ATS: ${m.ats}%), <strong>Cover Letter</strong> (tono: ${pr.toneMatch}), <strong>Entrevista</strong> (8 preguntas relevantes). <strong>Guarda en el Tracker</strong> para no perder esta vacante.</p></div>`;
