@@ -516,9 +516,8 @@ const cats=[
   {key:'claude',label:'🤖 Claude Code'}
 ];
 if(filtersEl)filtersEl.innerHTML=cats.map(c=>'<button class="cat-btn'+(filter===c.key?' active':'')+'" onclick="renderLib(\''+c.key+'\')">'+c.label+'</button>').join('');
-const items=filter==='all'?lib:lib.filter(p=>p.cat===filter);
-if(!items.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">No hay prompts en esta categoría.</div>';return;}
-el.innerHTML=items.map(p=>{
+
+function buildCard(p){
 const enc=encodeURIComponent(p.prompt);
 const cp="(function(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);if(navigator.clipboard)navigator.clipboard.writeText(t).catch(function(){});showCopiedToast();})(decodeURIComponent('"+enc+"'))";
 return '<div class="prompt-card" onclick="if(this._t){clearTimeout(this._t);this._t=null;'+cp+';return;}var s=this;s._t=setTimeout(function(){s._t=null;s.classList.toggle(\'open\');},220);">'
@@ -526,7 +525,21 @@ return '<div class="prompt-card" onclick="if(this._t){clearTimeout(this._t);this
 +'<div class="prompt-title">'+p.title+'</div>'
 +'<div class="prompt-desc">'+p.desc+'</div>'
 +'<div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();'+cp+'">📋 Copiar</button></div></div></div>';
+}
+
+if(filter==='all'){
+// Grouped by section with headers
+el.innerHTML=cats.filter(c=>c.key!=='all').map(c=>{
+const items=lib.filter(p=>p.cat===c.key);
+if(!items.length)return '';
+return '<div class="lbl">· '+c.label+' ·</div>'+items.map(buildCard).join('');
 }).join('');
+}else{
+const items=lib.filter(p=>p.cat===filter);
+if(!items.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">No hay prompts en esta categoría.</div>';return;}
+const cat=cats.find(c=>c.key===filter);
+el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map(buildCard).join('');
+}
 }
 
 // ═══════════════════════════════════════════════════════════════
