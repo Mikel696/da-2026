@@ -1,8 +1,36 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-19
+- **Última actualización:** 2026-04-20
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ✨ feat(5-JOB) · Job Tracker — Reestructura tabs de búsqueda — 2026-04-20
+
+### Qué cambió
+
+**Tabs eliminados:** Experiencia, Ruta Data, Ingresos, Empresas
+
+**Tabs nuevos (3 plataformas):**
+- `p-li` — LinkedIn: 6 secciones accordion por rol (AP/CxP, Content Mod, Accounting Asst, Customer Service, Data Entry, Skills-based). Primeras 2 secciones pre-abiertas.
+- `p-ct` — Computrabajo: 6 secciones equivalentes con URLs colombianas (`computrabajo.com.co`).
+- `p-pt` — Job Portals: Indeed CO, Torre.ai, GetOnBoard, RemoteOK, Elempleo, Bumeran.
+
+**Botones por idioma/modalidad** (color-coded):
+- 🇪🇸 rojo · 🇧🇷 verde · 🇺🇸 azul · combo púrpura · remoto cyan · presencial ámbar
+
+**JS:** `toggleSec(id)` — abre/cierra accordion. Guard en `renderCmp()` (elemento opcional). `goTab()` actualizado con IDs nuevos + aliases legacy.
+
+**CSS:** `.jsite-*` classes (section, header, body, buttons) añadidas al final de `jobs.css`.
+
+### Archivos modificados
+- `frontend/jobs.html` — 4 panels viejos → 3 panels accordion nuevos
+- `frontend/css/jobs.css` — añadidas `.jsite-*` classes
+- `frontend/js/jobs.js` — `toggleSec()`, guard `renderCmp()`, `goTab()` actualizado
+
+### Estado 5-JOB: 🟢 PRODUCCIÓN
+Commit: `e0a2dfd`
 
 ---
 
