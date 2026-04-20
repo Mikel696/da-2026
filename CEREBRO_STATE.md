@@ -1,8 +1,43 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-20
+- **Última actualización:** 2026-04-20 (v2)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ✨ feat(2-APP) · Application Command Center — Deep Intelligence Upgrade — 2026-04-20
+
+### Qué cambió
+
+**apply.js — 4 nuevas funciones de análisis profundo:**
+- `detectIndustry(jd, jdL)` — Clasifica en 9 sectores con nota estratégica para cada uno
+- `detectRedFlags(jd, jdL)` — Detecta 8 tipos de señales (salary missing, urgencia, JD vaga, gaps críticos, etc.)
+- `extractPowerWords(jd)` — Extrae verbos de acción, atributos de calidad y acrónimos propios de la JD
+- `buildActionPlan(co, ro, pct, urgency, remote, focusArea)` — Plan de acción ordenado, urgency-aware
+- Todas conectadas a `S.profile` → disponibles globalmente en todos los weavers
+
+**renderAnalysis() — 4 nuevos paneles inteligentes:**
+- 🏭 Industria — label + nota estratégica contextual
+- 🚨 Señales a Evaluar — flags condicionales con iconos
+- 📝 Vocabulario Espejo — verbos, atributos, acrónimos para usar textualmente
+- ✅ Plan de Acción — pasos numerados con urgencia (🔥 HOY / 📅 SEMANA / 🕐 EVALUAR)
+
+**prompt-weaver.js — Reescritura completa (Prompt Weaver v2):**
+- `_ctx()` — bloque de contexto de 50 líneas inyectado en TODOS los prompts (perfil + vacante + análisis)
+- P1 Mock Interviewer: 5 bloques estructurados, trampas conductuales, sondeo de gaps, rúbrica /100
+- P2 Tech Assessment: 4 ejercicios reales (SQL schema+3 queries, Excel/PQ, caso BI, problema abierto)
+- P3 Salary Negotiator: 3-number framework, 4 scripts completos, beneficios no salariales, emails listos
+- **NUEVO** P4 Application Coach: decodifica JD, guía investigación empresa, narrativa, customización material, timeline
+- **NUEVO** P5 Cover Letter Optimizer: 3 versiones (ATS-EN, Bold-EN, ES-LATAM) con análisis keywords
+- **NUEVO** P6 LinkedIn Outreach Machine: 6 tipos de mensajes para HM, recruiter, cold email, referido, seguimiento
+
+### Archivos modificados
+- `frontend/js/apply.js` — +98 líneas (4 helper functions + 4 nuevos paneles en renderAnalysis)
+- `frontend/js/prompt-weaver.js` — reescrito completo (174 → 768 líneas, +594 líneas netas)
+
+### Estado 2-APP: 🟢 PRODUCCIÓN
+Commit: `6936e6a`
 
 ---
 
