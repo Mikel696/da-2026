@@ -276,13 +276,24 @@ const CMP=[
 {n:"Sophos Solutions",r:"Fintech CO · Core bancario · Bogotá",i:"Tech para bancos. <strong>$4M-$7M COP.</strong> Tu contable + técnico = ideal.",m:76,c:"var(--a2)",ro:"Analista de Datos, Analista Funcional, BI",lk:[["Careers","https://sophossolutions.com/trabaja-con-nosotros/"],["LinkedIn","https://www.linkedin.com/jobs/search/?keywords=Sophos+Solutions+analyst&sortBy=DD"]]},
 ];
 
+function toggleSec(id){
+  const sec=document.getElementById(id);if(!sec)return;
+  const hdr=sec.querySelector('.jsite-sec-hdr');
+  const body=sec.querySelector('.jsite-sec-body');
+  const isOpen=hdr.classList.contains('open');
+  hdr.classList.toggle('open',!isOpen);
+  body.classList.toggle('open',!isOpen);
+}
+
 function renderCmp(){
+const cmpEl=document.getElementById('cmpList');if(!cmpEl)return;
 const d=new Date().getDate();
 const picks=[];for(let i=0;i<3;i++)picks.push(CMP[(d*3+i)%CMP.length]);
-document.getElementById('cmpList').innerHTML=picks.map((c,i)=>{
+cmpEl.innerHTML=picks.map((c,i)=>{
 const mc=c.m>=85?'var(--gn)':c.m>=70?'var(--am)':'var(--t2)';
 return`<div class="cmp"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="cmp-n" style="color:${c.c}">${i+1}. ${c.n}</div><div class="cmp-r">${c.r}</div></div><span style="font-family:monospace;font-size:14px;font-weight:700;color:${mc}">${c.m}%</span></div><div class="cmp-i">${c.i}<br><br><strong>Roles:</strong> ${c.ro}</div><div class="mbar"><div class="mfill" style="width:${c.m}%;background:${mc}"></div></div><div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">${c.lk.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener" class="btn bo bs">🔗 ${l[0]}</a>`).join('')}</div></div>`;
 }).join('')+'<div style="text-align:center;padding:10px;color:var(--t3);font-size:11px">🔄 Pool de '+CMP.length+' empresas. Rotan diariamente.</div>';
+// (assigned to cmpEl above)
 }
 
 // ═══ TRACKER (manual — legacy, kept for backward compat) ═══
@@ -558,7 +569,12 @@ if(localStorage.getItem('jt_form_expanded')==='1'){document.getElementById('form
 
 // Hash navigation (from apply.html links)
 function goTab(hash){
-  const map={'#tracker':'tr','#estrategia':'str','#experiencia':'exp','#ruta':'data','#ingresos':'quick','#empresas':'co'};
+  const map={
+    '#tracker':'tr','#estrategia':'str',
+    '#linkedin':'li','#computrabajo':'ct','#portals':'pt',
+    // legacy aliases (old tabs removed but keep redirects working)
+    '#experiencia':'li','#ruta':'li','#ingresos':'li','#empresas':'li'
+  };
   const p=map[hash];if(!p)return;
   document.querySelectorAll('.tab').forEach(b=>{b.classList.toggle('on',b.dataset.p===p);});
   document.querySelectorAll('.pnl').forEach(el=>{el.classList.toggle('on',el.id==='p-'+p);});

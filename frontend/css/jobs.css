@@ -115,3 +115,25 @@
 /* ── Focus Area Badge on Kanban Cards ── */
 .ka-fa{font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;text-transform:uppercase;margin-top:3px;display:inline-block}
 @media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.stat{min-width:calc(50% - 1px)}.grid-2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}}
+/* ── Job Search Accordion Sections ── */
+.jsite-section{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:border-color .2s}
+.jsite-section:hover{border-color:var(--bd2)}
+.jsite-sec-hdr{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;cursor:pointer;font-size:12px;font-weight:600;transition:background .2s;gap:8px}
+.jsite-sec-hdr:hover{background:var(--el)}.jsite-sec-hdr.open{border-bottom:1px solid var(--bd);background:rgba(139,92,246,.04)}
+.jsite-icon{font-size:16px;flex-shrink:0}
+.jsite-match{font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12);margin-left:6px}
+.jsite-site-lbl{font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--el);color:var(--t3);border:1px solid var(--bd);margin-left:8px}
+.jsite-arr{font-size:9px;color:var(--t3);transition:transform .25s;flex-shrink:0}
+.jsite-sec-hdr.open .jsite-arr{transform:rotate(90deg)}
+.jsite-sec-body{display:none;padding:14px 16px;animation:fu .2s ease}.jsite-sec-body.open{display:block}
+.jsite-desc{font-size:10px;color:var(--t3);margin-bottom:10px;line-height:1.6}
+.jsite-btns{display:flex;flex-wrap:wrap;gap:6px}
+.jsite-btn{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;border-radius:7px;font-size:11px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap}
+.jsite-btn:hover{transform:translateY(-1px);filter:brightness(1.12)}
+.jsite-btn-es{background:rgba(239,68,68,.08);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.jsite-btn-pt{background:rgba(34,197,94,.08);color:#4ade80;border:1px solid rgba(34,197,94,.15)}
+.jsite-btn-en{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+.jsite-btn-mix{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.15)}
+.jsite-btn-remote{background:rgba(6,182,212,.08);color:var(--cy);border:1px solid rgba(6,182,212,.15)}
+.jsite-btn-onsite{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.15)}
+@media(max-width:600px){.jsite-btns{gap:4px}.jsite-btn{font-size:10px;padding:6px 9px}}
