@@ -492,6 +492,7 @@ const lib=[
 {cat:'exam',cls:'c-exam',title:'Matemáticas Paso a Paso',desc:'Resuelve ejercicios matemáticos con cada paso explicado, verificación y errores comunes',prompt:`Actúa como profesor de matemáticas universitario.\n\nPROBLEMA:\n[Pega aquí el problema o ejercicio]\n\nTEMA: [Ej: Cálculo Diferencial — Regla de la Cadena / Álgebra Lineal — Determinantes]\n\nRESOLUCIÓN:\n1. Identifica el tipo de problema y el método a aplicar\n2. Resuelve PASO A PASO, numerando cada paso\n3. Explica el "por qué" de cada paso en 1 línea\n4. Resultado final claramente enmarcado\n5. Verificación: cómo confirmar que la respuesta es correcta\n6. Error frecuente en este tipo de problema: qué NO hacer\n\nNotación clara y limpia. Si hay varios métodos, muestra el más eficiente.`},
 {cat:'exam',cls:'c-exam',title:'Estilo ICFES / SABER Pro',desc:'Entrena y resuelve preguntas al estilo de pruebas estandarizadas colombianas',prompt:`Actúa como tutor especializado en ICFES / SABER Pro de Colombia.\n\nÁREA: [Ej: Razonamiento Cuantitativo / Lectura Crítica / Inglés / Competencias Ciudadanas]\nNIVEL: [SABER 11 / SABER Pro]\nTEMA: [Ej: Proporcionalidad / Tipos de texto / Present perfect]\n\nENTRENAMIENTO:\n1. Genera 5 preguntas tipo ICFES con 4 opciones (A-D), una sola correcta\n2. Espera mis respuestas antes de revelar soluciones\n3. Analiza cada opción (correcta e incorrectas) con evidencia\n4. Tipo cognitivo por pregunta: Interpretar / Argumentar / Proponer\n5. Al final: estadística de aciertos + área prioritaria de mejora\n\nEmpieza con la primera pregunta:`},
 {cat:'exam',cls:'c-exam',title:'Examen de Código Técnico',desc:'Resuelve, corrige o explica código para exámenes y pruebas técnicas con análisis de complejidad',prompt:`Actúa como evaluador técnico senior de [Python / JavaScript / SQL / Java].\n\nPROBLEMA O CÓDIGO:\n[Pega aquí el problema a resolver, código a analizar, o ejercicio a corregir]\n\nMODALIDAD: [Resolver problema / Corregir código / Explicar código / Optimizar]\n\nENTREGA:\n1. Solución completa y funcional\n2. Explicación línea por línea de las partes clave\n3. Complejidad: tiempo O(?) y espacio O(?)\n4. Casos edge a considerar\n5. Cómo presentaría esta solución en una entrevista técnica\n\nCódigo limpio, comentado, listo para entregar.`},
+{cat:'claude',cls:'c-claude',title:'🧠 CEREBRO Bootstrap · Sesión Nueva',desc:'Arranca una sesión fresca — Claude lee CEREBRO_STATE + CLAUDE.md, extrae pendientes urgentes y despliega el menú de módulos',prompt:`Eres el Arquitecto del proyecto DA-2026 "Cerebro". Esta es una sesión de continuidad — lee el estado antes de hacer nada.\n\nCONTEXTO DEL PROYECTO:\n- Stack: 100% Vanilla JS · GitHub Pages · Supabase JSONB sync\n- Live URL: https://mikel696.github.io/da-2026/frontend/\n- Repo local: E:\\Aplicaciones\\ANALISIS DE DATOS\\Pagina Web\\HTML\\da-2026\n- Usuario: BARROS TORRES MIGUEL ANGEL — CUN 8vo Sem — Ing. Sistemas 26V02\n\nPROTOCOLO DE INICIO (en este orden, sin saltarte pasos):\n1. Read CEREBRO_STATE.md → extrae: último módulo tocado, pendientes por módulo, bugs abiertos\n2. Read .claude/worktrees/sweet-swanson/CLAUDE.md → recuerda arquitectura, nomenclatura y reglas estrictas\n3. Muéstrame resumen ejecutivo (≤10 líneas):\n   - ✅ Último cambio commiteado\n   - 🔴 Urgente / bloqueante\n   - 🟡 Pendiente próximo sprint\n4. Pregúntame: "¿En qué módulo del Cerebro trabajamos hoy?" — lista los 14 módulos con su código\n\nREGLAS DE TOKEN (no negociables):\n- Nunca leas archivos gigantes enteros → Grep → Read con offset/limit\n- Edits quirúrgicos: Edit (diff) > Write (archivo completo)\n- Commit tras cada tarea completada: feat/fix([MÓDULO]): descripción\n- Sin comentarios decorativos · Sin frameworks · Sin TypeScript transpilado\n\nNO empieces a codificar hasta recibir mi orden. Lee primero.`},
 ];
 
 function showCopiedToast(){
@@ -501,27 +502,35 @@ t.textContent='✅ Prompt copiado';t.style.opacity='1';
 clearTimeout(t._to);t._to=setTimeout(function(){t.style.opacity='0';},1800);
 }
 
+// Expose lib globally so onclick attrs can reach it after innerHTML injection
+window._PLIB=lib;
+function _copyPrompt(idx){
+  var e=window._PLIB[idx];
+  if(e&&e.prompt)copyText(e.prompt);
+}
+function _toggleCard(card){card.classList.toggle('open');}
+
 function copyText(text){
 if(!text)return;
 navigator.clipboard.writeText(text).then(function(){showCopiedToast();}).catch(function(){
   var ta=document.createElement('textarea');ta.value=text;
-  ta.style.cssText='position:fixed;top:-999px;opacity:0';
-  document.body.appendChild(ta);ta.select();
+  ta.style.cssText='position:fixed;top:-999px;left:-999px';
+  document.body.appendChild(ta);ta.focus();ta.select();
   try{document.execCommand('copy')}catch(_){}
   document.body.removeChild(ta);showCopiedToast();
 });
 }
 
 function buildCard(p,idx){
-return '<div class="prompt-card" data-idx="'+idx+'">'
+return '<div class="prompt-card" data-idx="'+idx+'" onclick="_toggleCard(this)">'
 +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">'
 +'<div style="flex:1;min-width:0"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span>'
 +'<div class="prompt-title">'+p.title+'</div>'
 +'<div class="prompt-desc">'+p.desc+'</div></div>'
-+'<button class="btn bo bs copy-btn" title="Copiar" style="flex-shrink:0;padding:4px 8px">📋</button>'
++'<button class="btn bo bs" onclick="event.stopPropagation();_copyPrompt('+idx+')" title="Copiar" style="flex-shrink:0;padding:4px 8px">📋</button>'
 +'</div>'
 +'<div class="prompt-body">'+esc(p.prompt)
-+'<div style="margin-top:8px"><button class="btn bo bs copy-btn">📋 Copiar</button></div>'
++'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();_copyPrompt('+idx+')">📋 Copiar</button></div>'
 +'</div></div>';
 }
 
@@ -543,31 +552,15 @@ if(filtersEl)filtersEl.innerHTML=cats.map(c=>'<button class="cat-btn'+(filter===
 
 if(filter==='all'){
 el.innerHTML=cats.filter(c=>c.key!=='all').map(c=>{
-  const items=lib.map((p,i)=>({p,i})).filter(({p})=>p.cat===c.key);
+  const items=lib.map((p,i)=>({p,i})).filter(function(o){return o.p.cat===c.key;});
   if(!items.length)return '';
-  return '<div class="lbl">· '+c.label+' ·</div>'+items.map(({p,i})=>buildCard(p,i)).join('');
+  return '<div class="lbl">· '+c.label+' ·</div>'+items.map(function(o){return buildCard(o.p,o.i);}).join('');
 }).join('');
 }else{
-const items=lib.map((p,i)=>({p,i})).filter(({p})=>p.cat===filter);
+const items=lib.map((p,i)=>({p,i})).filter(function(o){return o.p.cat===filter;});
 if(!items.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">No hay prompts en esta categoría.</div>';return;}
 const cat=cats.find(c=>c.key===filter);
-el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map(({p,i})=>buildCard(p,i)).join('');
-}
-
-// Event delegation — single listener handles expand + copy
-if(!el._evInit){
-  el._evInit=true;
-  el.addEventListener('click',function(e){
-    const card=e.target.closest('.prompt-card');
-    if(!card)return;
-    if(e.target.closest('.copy-btn')){
-      e.stopPropagation();
-      const idx=parseInt(card.dataset.idx);
-      if(lib[idx])copyText(lib[idx].prompt);
-      return;
-    }
-    card.classList.toggle('open');
-  });
+el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map(function(o){return buildCard(o.p,o.i);}).join('');
 }
 }
 

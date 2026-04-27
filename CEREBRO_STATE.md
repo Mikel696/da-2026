@@ -1,8 +1,81 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-20
+- **Última actualización:** 2026-04-26
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## fix(8-PRO) · Prompt Lab — Copy button & Bootstrap prompt — 2026-04-26
+
+### Qué cambió
+- **Bug copy raíz:** `window._PLIB=lib` + funciones globales `_copyPrompt(idx)` y `_toggleCard(card)` en lugar de event delegation con `lib` en closure (que no era accesible tras innerHTML replace en algunos engines). Ahora el botón 📋 copia con onclick inline directo a globales.
+- **Fallback clipboard mejorado:** `textarea` con `focus()` antes de `select()` → `execCommand('copy')` más confiable.
+- **Nuevo prompt:** `🧠 CEREBRO Bootstrap · Sesión Nueva` en categoría `claude` — protocolo de inicio de sesión fresca, lee CEREBRO_STATE.md + CLAUDE.md, extrae pendientes y despliega menú.
+- Commits: `38aee48` (first fix) → `3610f9f` (delegation attempt) → `HEAD` (bulletproof globals)
+
+### Estado 8-PRO: 🟢 PRODUCCIÓN
+Cards abren · Botón 📋 copia · Bootstrap prompt disponible en filtro 🤖 Claude Code
+
+---
+
+## 📹 10-SYS · DIS34 Ingeniería Web — Auditoría de sesiones grabadas — 2026-04-22
+
+### Contexto
+Miguel perdió las clases de Ing. Web de Abr 8 y Abr 15. Se extrajeron transcripts vía Direct-Fetch Protocol (Chrome MCP) desde las grabaciones de Drive ya abiertas en tabs del navegador. Tab 59537227 = Apr 8, Tab 59537238 = Apr 15.
+
+### Sesión 2 — Abr 8 (2h 24min) · Prof. HEYNER LEONEL BECERRA RAMIREZ
+**Tema central: Configuración del entorno de desarrollo**
+
+Pasos cubiertos en clase:
+1. Verificar PHP en terminal: `php -v`
+2. Instalar **XAMPP (SAM)** — Apache + MySQL activos
+3. Instalar **Node.js**
+4. Instalar **Composer** → descargar desde `getcomposer.org` → ejecutar `composer-setup.exe`
+5. Comando clave: `composer global require laravel/installer`
+6. Crear proyecto Laravel: `laravel new [nombre]` → No a Pest/PHPUnit → MySQL como DB
+   - Versión instalada por la mayoría: Laravel 9 (algunos obtuvieron versión 12)
+7. XAMPP: Apache + MySQL corriendo para levantar el servidor local
+
+**Nota del profe [109:28]:** *"Para la siguiente clase les voy a indicar qué versiones debemos utilizar"* — hubo confusión de versiones de PHP/XAMPP en clase.
+
+**Parcial #1 anunciado [110:14]:** *"Pasar a la presentación que va a entrar para la próxima semana para el **parcial número uno**"*
+
+Segunda mitad de la clase (min 115–144): Presentación teórica — frameworks, Scrum, producto mínimo viable (MVP), calidad del software (QA/CUA), conversación con el producto.
+
+### Sesión 3 — Abr 15 (2h 21min)
+**Tema central: UX + Contenido Web + Metodología Ágil (material del Quiz 2)**
+
+**Parcial 1 confirmado [3:41]:** *"Esta semana, muchachos, tienen **del 13 al 19 para presentar el parcial uno**. Ya está disponible"*
+
+**Quiz 2 anunciado [4:19]:** *"la sesión tres, para poder desarrollar el **quiz dos**"*
+→ Quiz 2 cubre el material presentado en ESTA clase (sesión 3).
+
+Contenido del Quiz 2 (lo que se presentó):
+| Tema | Detalle |
+|------|---------|
+| **Pilares del Contenido Efectivo** | 4 pilares: Estrategia de Contenido · Claridad y Concisión · Jerarquía Visual y Semántica · Mantenimiento Continuo |
+| **UX / Experiencia de Usuario** | Usabilidad, satisfacción del usuario, relevancia del contenido, rapidez de carga |
+| **Metodología Ágil / Scrum** | Sprint, Product Owner, Backlog, verificación/testeo, MVP |
+| **Tendencias actuales** | Arquitectura de microservicios, contenedores en la nube, Kubernetes, Machine Learning |
+
+**Cierre [140:39]:** *"las personas que tengan problemas con el quizo, mandarme el correíto"* y *"la próxima clase va a ser a las 6:30"* (= clase de hoy Miércoles Apr 22).
+
+### Estado del Quiz 2 (URGENTE)
+- **Abrió:** Lunes 20 Abr 00:00 | **Cierra:** Domingo 26 Abr 23:59
+- **Intentos:** 2 · **Tiempo:** 45 min · **Calificación:** Más alta
+- **Estado Miguel:** ❌ NO INICIADO — 4 días restantes
+- **URL:** `https://cdigital.cun.edu.co/mod/quiz/view.php?id=6104299`
+
+### Tabs de Drive identificados (para referencia futura)
+- `1GYph10Khg5YvwZMzn3eU1h886km10o1e` — Sesión 2 (Abr 8)
+- `1feeLz1xgdMsc_zJYMDpLQ92awxtscwon` — Sesión 3 (Abr 15)
+- Carpeta Grabaciones DIS34: `https://drive.google.com/drive/u/3/folders/1MHvHG5WDCUUjfTrPkivzbuuG0uzjtgYR`
+
+### Pendiente
+- ⏳ **Sesión 4 — Abr 22:** Miguel está en clase AHORA. Pasará la grabación al finalizar → ejecutar Direct-Fetch Protocol (Modo A) para extraer transcript e inyectar en Tab 7 de 10-SYS.
+- ⚠️ **Quiz 2** debe completarse antes del Domingo 26 Abr 23:59.
+- Parcial 1 cerró el 19 Abr — ya pasó (no verificado si Miguel lo presentó).
 
 ---
 
