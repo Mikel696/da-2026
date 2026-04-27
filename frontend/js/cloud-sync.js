@@ -236,6 +236,8 @@ const CLOUD = (() => {
     'ruta_log5', 'news_saved',
     // Opaque state objects
     'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sys_notebook_meta', 'sim_interview_chks', 'plab_h',
+    // 13-NOT Cuadernos (metadata only — attachment binaries stay local in IndexedDB)
+    'not_nb_meta', 'not_nb_data',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
     'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'

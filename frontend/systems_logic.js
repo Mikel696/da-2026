@@ -1445,6 +1445,8 @@ const NB = (function() {
       </div>
       <div class="sl" style="margin-top:12px">· links de estudio ·</div>
       <div id="nbLinks-${sid}">${renderLinksHtml(sid, page)}</div>
+      <div class="sl" style="margin-top:12px">· archivos adjuntos · <span style="font-size:9px;color:var(--t3);text-transform:none;letter-spacing:0;font-weight:400">(local — no sync)</span></div>
+      <div class="nb-att-list" id="nbAtt-${sid}">${renderAttachmentsHtml(sid, page)}</div>
       <div class="sl" style="margin-top:12px">· imágenes ·</div>
       <div class="nb-images" id="nbImages-${sid}">${renderImagesHtml(sid, page)}</div>`;
   }
@@ -1459,8 +1461,65 @@ const NB = (function() {
   function renderImagesHtml(sid, page) {
     if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen HD" para pegar/arrastrar.</div>';
     return page.images.map((im, i) =>
-      `<div class="nb-img-card"><button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage('${sid}',${i})">✕</button><img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})"><div class="nb-img-caption">${esc(im.caption)}</div></div>`
+      `<div class="nb-img-card">
+        <button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage('${sid}',${i})" title="Eliminar">✕</button>
+        <button class="nb-img-rename" onclick="event.stopPropagation();NB.renameImage('${sid}',${i})" title="Renombrar">✏</button>
+        <img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})">
+        <div class="nb-img-caption">${esc(im.caption || 'Sin nombre')}</div>
+      </div>`
     ).join('');
+  }
+
+  function renameImage(sid, idx) {
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid] && d[sid].pages.find(p => p.id === pid);
+    if (!page || !page.images || !page.images[idx]) return;
+    const cur = page.images[idx].caption || '';
+    const next = prompt('Nombre / descripción de la imagen:', cur);
+    if (next === null) return;
+    page.images[idx].caption = next;
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
+  }
+
+  function renderAttachmentsHtml(sid, page) {
+    if (!window.NBShared) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Cargando módulo de adjuntos…</div>';
+    const atts = (page && page.attachments) || [];
+    return NBShared.renderAttachmentChips(atts, { onRemove: "NB.removeAttachment.bind(null,'"+sid+"')" });
+  }
+
+  async function attachFile(sid) {
+    if (!window.NBShared) return alert('Módulo de adjuntos no disponible.');
+    const pid = activePage[sid];
+    if (!pid) return alert('Primero crea o abre una página.');
+    try {
+      const meta = await NBShared.pickAndStoreAttachment('cnb_' + sid + '_' + pid);
+      const d = load();
+      const page = d[sid].pages.find(p => p.id === pid);
+      if (!page.attachments) page.attachments = [];
+      page.attachments.push(meta);
+      page.updated = new Date().toISOString();
+      save(d);
+      const el = document.getElementById('nbAtt-' + sid);
+      if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
+    } catch(e) { /* user cancelled or error already alerted */ }
+  }
+
+  async function removeAttachment(sid, attId) {
+    if (!confirm('¿Eliminar este adjunto del dispositivo?')) return;
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid] && d[sid].pages.find(p => p.id === pid);
+    if (!page || !page.attachments) return;
+    page.attachments = page.attachments.filter(a => a.id !== attId);
+    page.updated = new Date().toISOString();
+    save(d);
+    if (window.NBShared) { try { await NBShared.deleteBlob(attId); } catch(e){} }
+    const el = document.getElementById('nbAtt-' + sid);
+    if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
   }
 
   function restoreAfterRender() {
@@ -1907,7 +1966,9 @@ const NB = (function() {
 
   function createCustom() {
     const nameInp = document.getElementById('cnbNewName');
-    const iconSel = document.getElementById('cnbNewIcon');
+    const iconHidden = document.getElementById('cnbNewIconValue');
+    const coverHidden = document.getElementById('cnbNewCoverValue');
+    const iconSel = document.getElementById('cnbNewIcon'); // legacy fallback
     const name = (nameInp?.value || '').trim();
     if (!name) { alert('Dale un nombre al cuaderno.'); return; }
     const palette = ['#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1','#14b8a6'];
@@ -1915,7 +1976,8 @@ const NB = (function() {
     const id = 'cnb_' + Date.now();
     list.push({
       id, name,
-      icon: iconSel?.value || '📘',
+      icon: (iconHidden?.value || iconSel?.value || '📘'),
+      cover: (coverHidden?.value || 'c1'),
       color: palette[list.length % palette.length],
       created: new Date().toISOString(),
     });
@@ -1925,6 +1987,44 @@ const NB = (function() {
     if (nameInp) nameInp.value = '';
     openSubjects.add(id);
     renderCustomList();
+  }
+
+  function pickIcon(ic) {
+    const h = document.getElementById('cnbNewIconValue');
+    if (h) h.value = ic;
+    renderPickers();
+  }
+  function pickCover(cv) {
+    const h = document.getElementById('cnbNewCoverValue');
+    if (h) h.value = cv;
+    renderPickers();
+  }
+  function pickIconExisting(id, ic) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    cnb.icon = ic;
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+  function pickCoverExisting(id, cv) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    cnb.cover = cv;
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+  function renderPickers() {
+    if (!window.NBShared) return;
+    const ic = (document.getElementById('cnbNewIconValue') || {}).value || '📘';
+    const cv = (document.getElementById('cnbNewCoverValue') || {}).value || 'c1';
+    const ip = document.getElementById('cnbIconPicker');
+    const cp = document.getElementById('cnbCoverPicker');
+    if (ip) ip.innerHTML = NBShared.renderIconPicker(ic, 'NB.pickIcon');
+    if (cp) cp.innerHTML = NBShared.renderCoverPicker(cv, 'NB.pickCover');
   }
 
   function renameCustom(id) {
@@ -1993,18 +2093,28 @@ const NB = (function() {
     const editorHtml = buildEditorHtml(meta.id, page);
 
     const created = meta.created ? new Date(meta.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+    const cover = meta.cover || 'c1';
 
-    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px">
-      <div class="gc-h">
-        <div class="gc-t">
-          <span style="font-size:20px;cursor:pointer" onclick="NB.changeCustomIcon('${meta.id}')" title="Cambiar ícono">${meta.icon}</span>
-          <span style="cursor:text" onclick="NB.renameCustom('${meta.id}')" title="Renombrar">${esc(meta.name)}</span>
-          <span style="font-size:10px;color:var(--t3);font-weight:400;margin-left:6px">${pageCount} página${pageCount!==1?'s':''}${created ? ' · creado ' + created : ''}</span>
+    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px;padding:0;overflow:hidden">
+      <div class="nb-cover-card nb-cover-${cover}">
+        <div class="nb-cover-icon">${meta.icon}</div>
+        <div>
+          <div class="nb-cover-title">${esc(meta.name)}</div>
+          <div class="nb-cover-sub">${pageCount} página${pageCount!==1?'s':''}${created ? ' · creado ' + created : ''}</div>
         </div>
+      </div>
+      <div style="padding:14px">
+      <div class="gc-h" style="margin-bottom:8px">
+        <div class="gc-t" style="font-size:13px;color:var(--t2)">⚙️ Personalización</div>
         <div style="display:flex;gap:4px">
-          <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️</button>
+          <button onclick="NB.toggleCustomEdit('${meta.id}')" title="Cambiar portada/ícono" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🎨 Diseño</button>
+          <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️ Nombre</button>
           <button onclick="NB.deleteCustom('${meta.id}')" title="Eliminar" style="background:none;border:1px solid rgba(239,68,68,.3);color:var(--rd);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🗑</button>
         </div>
+      </div>
+      <div id="nbDesignEdit-${meta.id}" style="display:none;background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:10px">
+        <div class="nb-pickergroup"><div class="nb-pickergroup-h">· portada ·</div>${window.NBShared ? NBShared.renderCoverPicker(cover, "NB.pickCoverExisting.bind(null,'"+meta.id+"')") : ''}</div>
+        <div class="nb-pickergroup"><div class="nb-pickergroup-h">· ícono ·</div>${window.NBShared ? NBShared.renderIconPicker(meta.icon, "NB.pickIconExisting.bind(null,'"+meta.id+"')") : ''}</div>
       </div>
 
       <div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${meta.id}" style="margin-top:8px">
@@ -2016,14 +2126,22 @@ const NB = (function() {
           <div class="sj-nb-toolbar">
             <button onclick="NB.newPage('${meta.id}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
             ${page ? `<button onclick="NB.addLink('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
-            <button onclick="NB.openPasteDialog('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>` : ''}
+            <button onclick="NB.openPasteDialog('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
+            <button onclick="NB.attachFile('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
           </div>
           ${editorHtml}
           <div class="sl" style="margin-top:12px">· páginas ·</div>
           <div class="nb-entries">${pagesListHtml}</div>
         </div>
       </div>
+      </div>
     </div>`;
+  }
+
+  function toggleCustomEdit(id) {
+    const el = document.getElementById('nbDesignEdit-' + id);
+    if (!el) return;
+    el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
   }
 
   // Currently-selected custom notebook — survives re-renders within the session
@@ -2076,8 +2194,9 @@ const NB = (function() {
     `;
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); });
-  else setTimeout(() => { init(); renderCustomList(); }, 0);
+  function initPickers() { renderPickers(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); initPickers(); });
+  else setTimeout(() => { init(); renderCustomList(); initPickers(); }, 0);
 
   // Re-render custom list on tab switch (when showTab(7) is hit)
   window.addEventListener('sb:signed_in', () => setTimeout(renderCustomList, 300));
@@ -2086,11 +2205,14 @@ const NB = (function() {
     renderSubjectPanel, restoreAfterRender, toggleSubject,
     newPage, openPage, deletePage, autoSave,
     fmt, insertLabel, removeLabelEl,
-    addLink, removeLink, removeImage,
+    addLink, removeLink, removeImage, renameImage,
     openPasteDialog, closePasteDialog, pimPickFile, pimSave,
     viewImage, closeImage, prevImage, nextImage,
     // Custom notebooks
     getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom,
+    // New: covers + icons + attachments
+    pickIcon, pickCover, pickIconExisting, pickCoverExisting, toggleCustomEdit,
+    attachFile, removeAttachment,
   };
 })();
 window.NB = NB;

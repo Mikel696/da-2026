@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DA-2026 · Notas & Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nb-shared.css">
 <style>
 :root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
@@ -70,6 +71,7 @@
 <button class="tab on" data-p="new">✍️ Nueva Nota</button>
 <button class="tab" data-p="all">📋 Todas</button>
 <button class="tab" data-p="journal">📓 Journal</button>
+<button class="tab" data-p="notebooks">📚 Cuadernos</button>
 </div>
 
 <!-- NEW NOTE -->
@@ -90,6 +92,29 @@
 <div class="search"><input class="search-inp" id="searchInp" placeholder="🔍 Buscar en notas..." oninput="renderNotes()"></div>
 <div class="filter-tags" id="filterTags"></div>
 <div id="notesList"></div>
+</div>
+
+<!-- NOTEBOOKS -->
+<div class="pnl" id="p-notebooks">
+<div class="cd" style="margin-bottom:14px">
+  <div style="font-size:14px;font-weight:600;margin-bottom:4px">📓 Nuevo cuaderno</div>
+  <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Cuadernos con páginas, imágenes y archivos adjuntos (PDF / Word / Excel · hasta 50 MB c/u). Auto-save mientras escribes.</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+    <input class="inp" id="notNbName" placeholder="Nombre del cuaderno (ej: Mis Apuntes 2026)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NotNB.create()">
+    <input type="hidden" id="notNbIconValue" value="📘">
+    <input type="hidden" id="notNbCoverValue" value="c1">
+    <button class="btn bg" onclick="NotNB.create()">+ Crear</button>
+  </div>
+  <div class="nb-pickergroup">
+    <div class="nb-pickergroup-h">· portada ·</div>
+    <div id="notNbCoverPicker"></div>
+  </div>
+  <div class="nb-pickergroup">
+    <div class="nb-pickergroup-h">· ícono ·</div>
+    <div id="notNbIconPicker"></div>
+  </div>
+</div>
+<div id="notNbWrap"></div>
 </div>
 
 <!-- JOURNAL -->
@@ -227,5 +252,8 @@ renderNotes();renderJournal();updateStats();
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js"></script>
+<!-- 13-NOT Cuadernos sub-module -->
+<script src="js/nb-shared.js"></script>
+<script src="js/notes-nb.js"></script>
 </body>
 </html>

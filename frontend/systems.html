@@ -6,6 +6,7 @@
 <title>DA-2026 · Ingeniería de Sistemas — Mission Control</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nb-shared.css">
 <style>
 :root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--pk:#ec4899;--em:#10b981;--eg:rgba(16,185,129,.08);--vi:#7c3aed;--vi2:#a78bfa;--vg:rgba(124,58,237,.08);--tl:#2dd4bf;--tlg:rgba(45,212,191,.08)}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -642,17 +643,24 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <!-- ═══════ TAB 7: CUADERNOS PERSONALIZADOS ═══════ -->
 <div class="pnl" id="pnl7">
 <div class="sl">· cuadernos personalizados — cursos externos ·</div>
-<div class="sd">Crea cuadernos para cursos que estudias por fuera de la malla (ej: SQL Course, AWS Cloud, Python Bootcamp). Cada cuaderno es totalmente editable: renombra, cambia ícono, agrega páginas, imágenes HD y links.</div>
+<div class="sd">Crea cuadernos para cursos que estudias por fuera de la malla (ej: SQL Course, AWS Cloud, Python Bootcamp). Elige portada e ícono, agrega páginas, imágenes HD, links y archivos adjuntos (PDF / Word / Excel · hasta 50 MB c/u).</div>
 
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
-<input class="tf-input" id="cnbNewName" placeholder="Nombre del cuaderno (ej: SQL Course)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NB.createCustom()">
-<select class="tf-select" id="cnbNewIcon" style="max-width:80px">
-<option value="📘">📘</option><option value="📗">📗</option><option value="📙">📙</option><option value="📕">📕</option>
-<option value="📒">📒</option><option value="🗒️">🗒️</option><option value="💻">💻</option><option value="🐍">🐍</option>
-<option value="☁️">☁️</option><option value="🔧">🔧</option><option value="📊">📊</option><option value="🔐">🔐</option>
-<option value="🎨">🎨</option><option value="🎯">🎯</option><option value="⚡">⚡</option>
-</select>
-<button class="tf-btn" onclick="NB.createCustom()" style="background:var(--vi)">+ Crear cuaderno</button>
+<div class="gc" style="margin-bottom:14px">
+  <div class="gc-t" style="margin-bottom:10px">📓 Nuevo cuaderno</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+    <input class="tf-input" id="cnbNewName" placeholder="Nombre del cuaderno (ej: SQL Course)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NB.createCustom()">
+    <input type="hidden" id="cnbNewIconValue" value="📘">
+    <input type="hidden" id="cnbNewCoverValue" value="c1">
+    <button class="tf-btn" onclick="NB.createCustom()" style="background:var(--vi)">+ Crear cuaderno</button>
+  </div>
+  <div class="nb-pickergroup">
+    <div class="nb-pickergroup-h">· portada ·</div>
+    <div id="cnbCoverPicker"></div>
+  </div>
+  <div class="nb-pickergroup">
+    <div class="nb-pickergroup-h">· ícono ·</div>
+    <div id="cnbIconPicker"></div>
+  </div>
 </div>
 
 <div id="cnbList"></div>
@@ -713,6 +721,7 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js"></script>
+<script src="js/nb-shared.js"></script>
 <script src="systems_logic.js"></script>
 </body>
 </html>

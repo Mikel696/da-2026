@@ -1,8 +1,60 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-26
+- **Última actualización:** 2026-04-27
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 📓 GENERAL · Cuadernos v2 — Covers, Icons & Attachments — 2026-04-27
+
+### Qué cambió (cross-module)
+**Nuevo módulo compartido `js/nb-shared.js` + `css/nb-shared.css`** — usado por 10-SYS y 13-NOT.
+
+**Capacidades nuevas:**
+- **12 portadas** (`nb-cover-c1`..`c12`): gradientes/patrones para Estudio, Trabajo, Tech, Personal, Creativo
+- **32 íconos agrupados** (Estudio / Trabajo / Tech / Personal / Especial) con picker visual
+- **Adjuntos de archivos** vía IndexedDB: PDF, Word, Excel, PPT, TXT, CSV, MD, ZIP — hasta **50 MB c/u**
+- **Renombrar imágenes** con botón ✏ inline en cada image card
+- **Auto-save** mientras escribes (ya existía en 10-SYS, replicado en 13-NOT)
+
+**10-SYS (Cuadernos personalizados — Tab 7):**
+- Cover picker + icon picker grouped al crear cuaderno (formulario rediseñado en glass-card)
+- Card de cuaderno ahora muestra portada visual de 140px con título e ícono en overlay
+- Botón **🎨 Diseño** para cambiar portada/ícono después de crear (panel inline desplegable)
+- Botón **📎 Adjuntar** en toolbar de página
+- Botón **✏ rename** en hover de cada imagen
+- API `NB`: añadidas `pickIcon`, `pickCover`, `pickIconExisting`, `pickCoverExisting`, `toggleCustomEdit`, `attachFile`, `removeAttachment`, `renameImage`
+
+**13-NOT (Notas & Journal — nuevo tab "📚 Cuadernos"):**
+- Nuevo tab `p-notebooks` con form de creación + selector de cuaderno activo + editor full
+- API global `NotNB` con CRUD completo: `create/rename/remove/selectActive`, `newPage/openPage/deletePage/autoSave`, `addImage/renameImage/removeImage`, `attachFile/removeAttachment`
+- Storage keys: `not_nb_meta` (lista de cuadernos), `not_nb_data` (páginas + metadata de adjuntos)
+- Editor con `contenteditable` + auto-save 500ms debounce
+- Imágenes vía FileReader → base64 (cuando son pequeñas), ya con renombrado por prompt
+
+### Behavior change intencional (flagged)
+- **Adjuntos NO se sincronizan a Supabase**: los binarios viven solo en IndexedDB del navegador (clave `da2026_nb` / store `attachments`). Solo la metadata `{id,name,type,size,ext,addedAt}` viaja a `app_state`. Razón: filas JSONB de Supabase tienen límites prácticos (~1MB/row), un PDF de 50MB rompería el sync. Si el usuario abre el cuaderno en otro device, verá los chips pero al hacer download recibirá: *"Archivo no encontrado en este dispositivo. Los adjuntos no se sincronizan a la nube."*
+
+### Auth chain (verificada en ambos módulos)
+- `systems.html`: ya tenía la auth chain. Añadido `<script src="js/nb-shared.js">` después de cloud-sync, antes de systems_logic.js
+- `notes.html`: ya tenía la auth chain. Añadidos `nb-shared.js` + `notes-nb.js` después de cloud-sync.js
+
+### SYNC_REGISTRY actualizado
+`cloud-sync.js`: añadidos `not_nb_meta` y `not_nb_data` a la lista de keys sincronizables (Tier 2 / app_state).
+
+### Archivos modificados/creados
+- ➕ `frontend/js/nb-shared.js` (NEW · 200 líneas)
+- ➕ `frontend/css/nb-shared.css` (NEW · 95 líneas)
+- ➕ `frontend/js/notes-nb.js` (NEW · 290 líneas)
+- ✏️ `frontend/systems.html` (cover/icon picker UI + script load)
+- ✏️ `frontend/systems_logic.js` (covers, attachments, rename — ~80 líneas añadidas)
+- ✏️ `frontend/notes.html` (tab + panel + script load)
+- ✏️ `frontend/js/cloud-sync.js` (SYNC_REGISTRY)
+
+### Estado por módulo
+- **10-SYS Tab 7 Cuadernos:** 🟢 PRODUCCIÓN · covers + attachments + rename · backwards-compatible (cuadernos existentes mantienen icono actual + cover default `c1`)
+- **13-NOT Tab Cuadernos:** 🟢 PRODUCCIÓN · feature completo · primera versión
 
 ---
 
