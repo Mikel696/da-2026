@@ -405,12 +405,12 @@ return task;
 
 function copyOpt(){
 const raw=document.getElementById('optOutput').dataset.raw;
-if(raw)navigator.clipboard.writeText(raw).then(()=>alert('✅ Prompt copiado'));
+if(raw)navigator.clipboard.writeText(raw).then(()=>showCopiedToast());
 }
 
 function copyEl(id){
 const el=document.getElementById(id);
-navigator.clipboard.writeText(el.textContent).then(()=>alert('✅ Copiado'));
+navigator.clipboard.writeText(el.textContent).then(()=>showCopiedToast());
 }
 
 // ══════════════════════════
@@ -425,7 +425,7 @@ if(!o.dataset.raw)return;
 const h=getHist();
 h.push({input:o.dataset.input,output:o.dataset.raw,date:new Date().toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})});
 setHist(h);renderHist();
-alert('✅ Guardado');
+showCopiedToast();
 }
 
 function delHist(i){const h=getHist();h.splice(i,1);setHist(h);renderHist()}
@@ -436,7 +436,7 @@ const el=document.getElementById('histList');
 if(!h.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">Sin prompts guardados. Optimiza uno y guárdalo aquí.</div>';return}
 el.innerHTML=h.slice().reverse().map((item,ri)=>{
 const idx=h.length-1-ri;
-return '<div class="hist-item"><button class="hist-del" onclick="delHist('+idx+')">✕</button><div class="hist-date">'+item.date+'</div><div class="hist-input"><strong>💡 Idea:</strong> '+esc(item.input).substring(0,120)+(item.input.length>120?'...':'')+'</div><div class="hist-output" onclick="this.classList.toggle(\'exp\')">'+esc(item.output)+'</div><button class="btn bo bs" style="margin-top:6px" onclick="navigator.clipboard.writeText(decodeURIComponent(\''+encodeURIComponent(item.output)+'\')).then(()=>alert(\'✅ Copiado\'))">📋 Copiar</button></div>';
+return '<div class="hist-item" data-out="'+esc(item.output||'')+'"><button class="hist-del" onclick="delHist('+idx+')">✕</button><div class="hist-date">'+item.date+'</div><div class="hist-input"><strong>💡 Idea:</strong> '+esc(item.input||'').substring(0,120)+((item.input||'').length>120?'...':'')+'</div><div class="hist-output" onclick="this.classList.toggle(\'exp\')">'+esc(item.output||'')+'</div><button class="btn bo bs" style="margin-top:6px" onclick="var t=this.closest(\'.hist-item\').getAttribute(\'data-out\');navigator.clipboard.writeText(t||\'\').then(function(){showCopiedToast();})">📋 Copiar</button></div>';
 }).join('');
 }
 
@@ -517,14 +517,28 @@ const cats=[
 ];
 if(filtersEl)filtersEl.innerHTML=cats.map(c=>'<button class="cat-btn'+(filter===c.key?' active':'')+'" onclick="renderLib(\''+c.key+'\')">'+c.label+'</button>').join('');
 
+function copyCard(btn){
+  var card=btn.closest('.prompt-card');
+  var text=card?card.getAttribute('data-prompt'):'';
+  navigator.clipboard.writeText(text||'').then(function(){showCopiedToast();}).catch(function(){
+    var ta=document.createElement('textarea');ta.value=text||'';
+    ta.style.cssText='position:fixed;top:-999px;opacity:0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy')}catch(_){}
+    document.body.removeChild(ta);showCopiedToast();
+  });
+}
+
 function buildCard(p){
-const enc=encodeURIComponent(p.prompt);
-const cp="(function(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:-999px;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(ta);if(navigator.clipboard)navigator.clipboard.writeText(t).catch(function(){});showCopiedToast();})(decodeURIComponent('"+enc+"'))";
-return '<div class="prompt-card" onclick="if(this._t){clearTimeout(this._t);this._t=null;'+cp+';return;}var s=this;s._t=setTimeout(function(){s._t=null;s.classList.toggle(\'open\');},220);">'
-+'<span class="prompt-cat '+p.cls+'">'+p.cat+'</span>'
-+'<div class="prompt-title">'+p.title+'</div>'
-+'<div class="prompt-desc">'+p.desc+'</div>'
-+'<div class="prompt-body">'+esc(p.prompt)+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();'+cp+'">📋 Copiar</button></div></div></div>';
+  var ep=esc(p.prompt);
+  return '<div class="prompt-card" data-prompt="'+ep+'" onclick="this.classList.toggle(\'open\')">'
+  +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">'
+  +'<div style="flex:1;min-width:0"><span class="prompt-cat '+p.cls+'">'+p.cat+'</span>'
+  +'<div class="prompt-title">'+p.title+'</div>'
+  +'<div class="prompt-desc">'+p.desc+'</div></div>'
+  +'<button class="btn bo bs" onclick="event.stopPropagation();copyCard(this)" title="Copiar" style="flex-shrink:0;padding:4px 8px">📋</button>'
+  +'</div>'
+  +'<div class="prompt-body">'+ep+'<div style="margin-top:8px"><button class="btn bo bs" onclick="event.stopPropagation();copyCard(this)">📋 Copiar</button></div></div></div>';
 }
 
 if(filter==='all'){
@@ -769,7 +783,7 @@ resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
 
 function coCopy(){
 const raw=document.getElementById('coOutput').dataset.raw;
-if(raw)navigator.clipboard.writeText(raw).then(()=>alert('✅ Prompt copied to clipboard'));
+if(raw)navigator.clipboard.writeText(raw).then(()=>showCopiedToast());
 }
 
 function coSaveHist(){
@@ -783,7 +797,7 @@ h.push({
   kind:'claude-opt'
 });
 setHist(h);renderHist();
-alert('✅ Saved to history');
+showCopiedToast();
 }
 
 // ══════════════════════════
