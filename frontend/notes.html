@@ -99,20 +99,14 @@
 <div class="cd" style="margin-bottom:14px">
   <div style="font-size:14px;font-weight:600;margin-bottom:4px">📓 Nuevo cuaderno</div>
   <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Cuadernos con páginas, imágenes y archivos adjuntos (PDF / Word / Excel · hasta 50 MB c/u). Auto-save mientras escribes.</div>
-  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
     <input class="inp" id="notNbName" placeholder="Nombre del cuaderno (ej: Mis Apuntes 2026)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NotNB.create()">
     <input type="hidden" id="notNbIconValue" value="📘">
     <input type="hidden" id="notNbCoverValue" value="c1">
+    <button class="btn bo" onclick="NotNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="notNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c1"></span><span id="notNbDesignIconPreview">📘</span> Diseño</button>
     <button class="btn bg" onclick="NotNB.create()">+ Crear</button>
   </div>
-  <div class="nb-pickergroup">
-    <div class="nb-pickergroup-h">· portada ·</div>
-    <div id="notNbCoverPicker"></div>
-  </div>
-  <div class="nb-pickergroup">
-    <div class="nb-pickergroup-h">· ícono ·</div>
-    <div id="notNbIconPicker"></div>
-  </div>
+  <div style="font-size:11px;color:var(--t3);margin-top:6px">Click en <b>Diseño</b> para elegir portada e ícono.</div>
 </div>
 <div id="notNbWrap"></div>
 </div>

@@ -111,6 +111,11 @@
 <option value="bugfix">🐛 Bugfix (fix broken)</option>
 <option value="refactor">♻️ Refactor (clean up)</option>
 <option value="rewrite">🔄 Rewrite (replace)</option>
+<option value="ui">🎨 UI/UX polish</option>
+<option value="audit">🔬 Audit (read-only)</option>
+<option value="data">🛡️ Data integrity</option>
+<option value="sync">☁️ Cloud-sync wiring</option>
+<option value="nb">📓 Notebook (cuadernos)</option>
 <option value="explore">🔍 Explore (read-only)</option>
 <option value="doc">📄 Documentation</option>
 <option value="deploy">🚀 Deploy/Commit</option>
@@ -577,24 +582,37 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // Input:  verbose English request + module selection
 // Output: structured ROLE · CONTEXT · TASK · CONSTRAINTS prompt
 // Engine: 100% client-side, no API, no tokens, no dependencies
+//
+// ─── MAINTAINER NOTES ──────────────────────────────────────────
+// UPDATE THIS SECTION when:
+//   • A new module HTML file is added (add CO_MODULE entry).
+//   • A module's state keys change (sync registry edits).
+//   • New shared modules ship (e.g. nb-shared.js → bumped CO_GLOBAL_FILES).
+//   • New cross-cutting rules emerge (auth chain, storage limits, etc).
+//   • New feature signals matter (e.g. notebooks, attachments) → CO_SIGNALS.
+// CO_VERSION must bump every time the dataset is edited so the user
+// can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
+const CO_VERSION='2026-04-27.3';
+const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
+
 const CO_MODULE={
-'HOME':{name:'Main Page / Index',files:'frontend/index.html',state:'sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (prefix-synced)',notes:'Landing + stats dashboard + Quick Workshop entries'},
+'HOME':{name:'Main Page / Index',files:'frontend/index.html',state:'sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (prefix-synced)',notes:'Landing + stats dashboard + Quick Workshop entries; auth widget overlaps top-right of nav (#sb-auth-widget) — leave space in nav-r.'},
 '3-ENG':{name:'English Academy',files:'frontend/english.html, css/english.css, js/eng.js, js/english.js (Dojo), data/english-data.json, data/english-dojo.json',state:'e4, eng_notes, eng_srs_deck, dojo_stats, excel_dojo',notes:'SRS flashcard deck + Dojo gamification + grammar rules'},
-'5-JOB':{name:'Job Tracker',files:'frontend/jobs.html',state:'jt8, jt_profile, jt_form_expanded',notes:'Kanban drag-and-drop, VacancyDB bidirectional sync, master-detail layout'},
-'8-PRO':{name:'Prompts Lab',files:'frontend/prompts.html',state:'sb_prompts, plab_h',notes:'Self-contained; optimizer engine lives here'},
-'9-GOA':{name:'Goals & Habits',files:'frontend/goals.html, js/goals.js',state:'sb_goals, sb_habits, sb_reviews, sb_ratings',notes:'Goal tracking with recurring habits + weekly reviews'},
-'10-SYS':{name:'Systems Engineering',files:'frontend/systems.html, frontend/systems_logic.js',state:'sys_tasks (skipped from cloud), sys_class_sessions (skipped), sys_notebook (synced)',notes:'SEED_VERSION=5, 9 tabs including Cuaderno with dark-theme lightbox'},
-'11-ACC':{name:'Accounting Associate',files:'frontend/accounting.html, css/accounting.css, js/accounting.js (ACC IIFE), data/accounting-data.json',state:'sb_accounting',notes:'6 tabs, IIFE pattern'},
-'12-FIN':{name:'Personal Finance',files:'frontend/finance.html',state:'fin_* (prefix-synced dynamic keys)',notes:'Personal finance tracking with dynamic key prefix'},
-'13-NOT':{name:'Notes & Journal',files:'frontend/notes.html',state:'sb_notes2',notes:'Journal + notes with rich text'},
-'APPLY':{name:'Application Center',files:'frontend/apply.html',state:'(none cloud-synced)',notes:'Job application tracking; self-contained module'},
+'5-JOB':{name:'Job Tracker',files:'frontend/jobs.html, css/jobs.css, js/jobs.js',state:'jt8, jt_profile, jt_form_expanded',notes:'Kanban drag-and-drop, VacancyDB bidirectional sync, master-detail layout, empty state per column'},
+'8-PRO':{name:'Prompts Lab',files:'frontend/prompts.html, js/prompts.js',state:'sb_prompts, plab_h',notes:'Self-contained; optimizer engine lives here. CO_VERSION='+CO_VERSION+'. Includes 9 prebuilt Claude Code prompts.'},
+'9-GOA':{name:'Goals & Habits',files:'frontend/goals.html, js/goals.js',state:'sb_goals, sb_habits, sb_reviews, sb_ratings',notes:'Goal tracking with recurring habits + weekly reviews; empty states wired'},
+'10-SYS':{name:'Systems Engineering',files:'frontend/systems.html, frontend/systems_logic.js',state:'sys_tasks (skipped from cloud), sys_class_sessions (skipped), sys_notebook (synced), sys_notebook_meta (synced)',notes:'9 tabs including Cuadernos v2 (Tab 7) with: 12 covers (CSS gradients), 32 grouped icons, IndexedDB attachments (PDF/Word/Excel up to 50MB), drag-drop modal, image rename, design picker as POPUP modal. Subject NBs share editor + buttons (📎 Adjuntar). Ruled-paper background aligned to 32px grid via .nb-content * line-height rules.'},
+'11-ACC':{name:'Accounting Associate',files:'frontend/accounting.html, css/accounting.css, js/accounting.js (ACC IIFE), data/accounting-data.json',state:'sb_accounting',notes:'6 tabs, IIFE pattern, data-driven from JSON'},
+'12-FIN':{name:'Personal Finance',files:'frontend/finance.html, css/finance.css, js/finance.js',state:'fin_* (prefix-synced dynamic keys)',notes:'Personal finance tracking with dynamic key prefix'},
+'13-NOT':{name:'Notes & Journal',files:'frontend/notes.html, frontend/js/notes-nb.js (Cuadernos sub-module)',state:'sb_notes2 (notes+journal), not_nb_meta (cuaderno list), not_nb_data (cuaderno pages+attachments metadata)',notes:'4 tabs: Nueva Nota · Todas · Journal · Cuadernos. Cuadernos use shared nb-shared.js (covers, drag-drop modal, IndexedDB attachments). Auto-save 500ms debounce. Design picker is a POPUP modal (not inline).'},
+'APPLY':{name:'Application Center',files:'frontend/apply.html, css/apply.css, js/apply.js',state:'(none cloud-synced)',notes:'Job application tracking; self-contained module'},
 'SIM':{name:'Interview Simulation (Simetrik)',files:'frontend/interview-sim.html',state:'sim_interview_chks',notes:'7 tabs: Simetrik corporate, role, test walkthrough (real Miguel_Barros.xlsx), Q&A technical, Q&A STAR, PT-BR, checklist'},
-'RUTA':{name:'Data Analyst Path',files:'frontend/ruta.html',state:'ruta_log5, ruta5',notes:'SQL → Python → Power BI learning path'},
-'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper'},
+'RUTA':{name:'Data Analyst Path',files:'frontend/ruta.html, css/ruta.css, js/ruta.js',state:'ruta_log5, ruta5',notes:'SQL → Python → Power BI learning path'},
+'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper; retry button on RSS error'},
 'TOOLS':{name:'Tools & Advantages Directory',files:'frontend/tools.html',state:'(none)',notes:'Links to external tools'},
-'GENERAL':{name:'Cross-cutting / Architecture',files:'frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, CEREBRO_STATE.md, MEMORY.md',state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js',notes:'Shared infra: 4-layer arch, Supabase auth, localStorage proxy, JSONB columns per user. PLATFORM-WIDE RULE: every HTML page must include the 4-script auth chain before </body>, otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.'}
+'GENERAL':{name:'Cross-cutting / Architecture',files:CO_GLOBAL_FILES,state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js. Recently added: not_nb_meta, not_nb_data, sys_notebook_meta. IndexedDB (da2026_nb / store: attachments) for binaries — local-only by design.',notes:'Shared infra: 4-layer arch (HTML shell + CSS + JS IIFE + JSON data), Supabase auth, localStorage proxy, JSONB columns per user. nb-shared.js exposes: COVERS (12), ICON_GROUPS (5×~7), openDropModal, openDesignModal, pickAttachmentViaModal, pickImageViaModal. PLATFORM-WIDE RULE: every HTML page must include the 4-script auth chain before </body>, otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.'}
 };
 
 const CO_TASK_HINTS={
@@ -604,7 +622,12 @@ refactor:{verb:'Refactor',constraint:'- Preserve observable behavior exactly.\n-
 rewrite:{verb:'Rewrite',constraint:'- Preserve the public API / user-facing behavior.\n- Flag any intentional behavior change.'},
 explore:{verb:'Explore and report on',constraint:'- Read-only. Do not modify files.\n- Return a concise map with file paths and line ranges.'},
 doc:{verb:'Document',constraint:'- Do not modify source code.\n- Update CEREBRO_STATE.md only if structurally relevant.'},
-deploy:{verb:'Commit and deploy',constraint:'- Commit with a clear message.\n- Merge to main and push to GitHub Pages.'}
+deploy:{verb:'Commit and deploy',constraint:'- Commit with a clear message.\n- Merge to main and push to GitHub Pages.'},
+ui:{verb:'Polish UI/UX of',constraint:'- Use design tokens only — no hardcoded hex/rgb colors.\n- Verify hover, focus, and empty states render correctly.\n- Test ≤768px breakpoint for layout regressions.'},
+audit:{verb:'Audit and report on',constraint:'- Read-only audit. Score per checklist item.\n- Output: 🔴 critical / 🟡 medium / 🟢 minor with line-level evidence.\n- Do not modify files until user approves remediation order.'},
+data:{verb:'Validate and harden data integrity in',constraint:'- Never invent data — leave fields empty if no evidence exists.\n- Add VERIFIED gate where applicable.\n- Bump SEED_VERSION + dedupe migration if seed data changes.'},
+sync:{verb:'Wire cloud-sync for',constraint:'- Add localStorage key to SYNC_REGISTRY in frontend/js/cloud-sync.js.\n- Decide TIER 1 (dedicated table) vs TIER 2 (app_state JSONB).\n- For binaries (>1MB), prefer IndexedDB local-only with metadata-in-payload pattern.'},
+nb:{verb:'Update notebooks (cuadernos) in',constraint:'- Reuse nb-shared.js helpers (openDropModal, openDesignModal, pickAttachmentViaModal).\n- Both 10-SYS and 13-NOT must stay at feature parity.\n- Attachments live in IndexedDB (da2026_nb store), only metadata syncs.'}
 };
 
 // Filler patterns to strip (regex + case-insensitive)
@@ -654,18 +677,27 @@ const CO_IMPERATIVE=[
 [/\bhelp\s+me\s+(\w+)/gi,'$1']
 ];
 
-// Feature-signal → constraint detection
+// Feature-signal → constraint detection (auto-suggests context-aware rules)
 const CO_SIGNALS=[
 {r:/\b(commit|push|deploy|ship)\b/i,add:'Commit and push to main when done (no approval needed).'},
 {r:/\b(don'?t\s+break|preserve|keep\s+existing|without\s+breaking)\b/i,add:'Preserve all existing functionality — do not break current behavior.'},
 {r:/\b(test|verify|check\s+if|make\s+sure)\b/i,add:'Verify the change works before committing.'},
-{r:/\b(css|style|design|color|layout|responsive|mobile)\b/i,add:'Match existing design tokens (CSS variables in :root).'},
+{r:/\b(css|style|design|color|layout|responsive|mobile)\b/i,add:'Match existing design tokens (CSS variables in :root). No hardcoded hex/rgb colors — leak fix lessons in CEREBRO_STATE.md.'},
 {r:/\b(cloud\s?sync|supabase|persist|save\s+to\s+cloud)\b/i,add:'Ensure relevant localStorage keys are in SYNC_REGISTRY (frontend/js/cloud-sync.js).'},
 {r:/\b(cerebro_state|state\s*\.\s*md|document)\b/i,add:'Update CEREBRO_STATE.md with a summary entry after the change.'},
 {r:/\b(new\s+page|create\s+.*\.html|copy\s+.*\.html|rename\s+.*\.html|duplicate\s+.*html|new\s+module|new\s+html|add\s+html|html\s+page)\b/i,add:'Include the full auth chain (Supabase CDN → supabase-client.js → auth.js → cloud-sync.js) on the new/renamed page so platform-wide sync works.'},
 {r:/\b(auth|login|sign[\s-]?in|session|sesión|supabase|sync\s+indicator|logged\s+in)\b/i,add:'Auth must work platform-wide: confirm Supabase CDN + supabase-client.js + auth.js + cloud-sync.js load on EVERY HTML page before </body>.'},
 {r:/\b(mobile|responsive|small\s+screen)\b/i,add:'Test responsive layout at ≤768px breakpoint.'},
-{r:/\b(accessible|a11y|aria|keyboard)\b/i,add:'Preserve keyboard navigation and ARIA semantics.'}
+{r:/\b(accessible|a11y|aria|keyboard)\b/i,add:'Preserve keyboard navigation and ARIA semantics.'},
+// New (2026-04-27): notebook v2 awareness
+{r:/\b(notebook|cuaderno|nb[-_ ]?shared|notes-nb)\b/i,add:'Use shared module: nb-shared.js exposes COVERS (12 designs), ICON_GROUPS (5 categories, 32 icons), openDropModal (drag/drop/paste), openDesignModal (cover+icon picker), pickAttachmentViaModal (PDF/Word/Excel), pickImageViaModal. Don\'t reimplement — extend.'},
+{r:/\b(attach|adjuntar|pdf|word|excel|file\s+upload|drag.{0,4}drop|drag-?drop)\b/i,add:'Attachments use IndexedDB (DB: da2026_nb, store: attachments) — local-only by design (binaries never sync to Supabase). Only metadata {id,name,type,size,ext} flows through cloud-sync. Max 50 MB per file.'},
+{r:/\b(cover|portada|icon|design.{0,5}picker)\b/i,add:'Design picker is a popup modal (NBShared.openDesignModal) — not inline. Returns {cover, icon}. Both 10-SYS and 13-NOT must use the same flow.'},
+{r:/\b(image|imagen|caption|rename)\b/i,add:'Images: stored as base64 dataUrl in page.images[]. Each has caption (renameable via NB.renameImage / NotNB.renameImage).'},
+{r:/\b(empty\s+state|no\s+data|loading|skeleton)\b/i,add:'Add a graceful empty-state message when localStorage is empty (existing pattern: small icon + heading + sub-text in dashed-border card).'},
+{r:/\b(token|sync\s+lock|hydration|seed[_\s]?version|migration)\b/i,add:'Bump SEED_VERSION + dedupe-by-text migration if SEED data changes. Sync-lock flag prevents timestamp poisoning during initial hydration.'},
+{r:/\b(prompt\s+optimize|claude\s+optimize|co_module)\b/i,add:'Update CO_MODULE entry + bump CO_VERSION in prompts.html if module structure or sync keys change. Document the change in CEREBRO_STATE.md.'},
+{r:/\b(verify|hallucinat|don'?t\s+invent|invent.*data|VERIFIED_)/i,add:'Anti-hallucination rules: never invent data. Use evidence (syllabus, screenshot, verbatim transcript). Add to VERIFIED_SUBJECTS Set if applicable.'}
 ];
 
 function coClean(txt){
@@ -757,7 +789,9 @@ ${taskLines}
 CONSTRAINTS:
 ${allConstraints.join('\n')}
 
-DELIVERABLE: Execute the task, ${type==='explore'?'return a concise report with file paths and line ranges':type==='deploy'?'commit + push to main':'commit and push to main with a clear message'}. No approval needed.`;
+DELIVERABLE: Execute the task, ${type==='explore'||type==='audit'?'return a concise report with file paths and line ranges':type==='deploy'?'commit + push to main':'commit and push to main with a clear message'}. No approval needed.
+
+— Generated by Claude Optimize v${CO_VERSION} (${Object.keys(CO_MODULE).length} modules · ${CO_SIGNALS.length} signals)`;
 
 // Stats
 const wIn=raw.trim().split(/\s+/).length;

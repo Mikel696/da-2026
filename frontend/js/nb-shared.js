@@ -443,6 +443,100 @@
     return { dataUrl: r.dataUrl, caption: r.caption || '', name: r.name };
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     DESIGN MODAL — Cover + Icon picker as popup
+  ═══════════════════════════════════════════════════════════════ */
+  let _design = { active: false, cover: 'c1', icon: '📘', resolve: null, name: '' };
+
+  function _ensureDesignModal(){
+    if (document.getElementById('nbsDesignOverlay')) return;
+    const html = `
+<div class="nbs-design-overlay" id="nbsDesignOverlay">
+  <div class="nbs-design-modal" onclick="event.stopPropagation()">
+    <button class="nbs-drop-close" onclick="NBShared._designCancel()" title="Cerrar (Esc)">✕</button>
+    <div class="nbs-drop-head">
+      <div class="nbs-drop-title">🎨 Diseño del cuaderno</div>
+      <div class="nbs-drop-sub">Elige una portada y un ícono. Los cambios se aplican al confirmar.</div>
+    </div>
+    <div class="nbs-design-preview" id="nbsDesignPreview"></div>
+    <div class="nb-pickergroup">
+      <div class="nb-pickergroup-h">· portada ·</div>
+      <div id="nbsDesignCoverPicker"></div>
+    </div>
+    <div class="nb-pickergroup">
+      <div class="nb-pickergroup-h">· ícono ·</div>
+      <div id="nbsDesignIconPicker"></div>
+    </div>
+    <div class="nbs-drop-actions">
+      <button class="nbs-drop-btn nbs-drop-btn-cancel" onclick="NBShared._designCancel()">Cancelar</button>
+      <button class="nbs-drop-btn nbs-drop-btn-save" onclick="NBShared._designSave()">✓ Aplicar diseño</button>
+    </div>
+  </div>
+</div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+    const ov = document.getElementById('nbsDesignOverlay');
+    ov.addEventListener('click', e => { if (e.target === ov) _designCancel(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && _design.active) _designCancel(); });
+  }
+
+  function _designRender(){
+    const cover = document.getElementById('nbsDesignCoverPicker');
+    const icon = document.getElementById('nbsDesignIconPicker');
+    const preview = document.getElementById('nbsDesignPreview');
+    if (cover) cover.innerHTML = renderCoverPicker(_design.cover, 'NBShared._designPickCover');
+    if (icon) icon.innerHTML = renderIconPicker(_design.icon, 'NBShared._designPickIcon');
+    if (preview) preview.innerHTML = `<div class="nb-cover-card nb-cover-${_design.cover}">
+      <div class="nb-cover-icon">${_design.icon}</div>
+      <div>
+        <div class="nb-cover-title">${_design.name || 'Vista previa'}</div>
+        <div class="nb-cover-sub">${COVERS.find(c=>c.id===_design.cover)?.label || ''}</div>
+      </div>
+    </div>`;
+  }
+
+  function _designPickCover(c){ _design.cover = c; _designRender(); }
+  function _designPickIcon(ic){ _design.icon = ic; _designRender(); }
+
+  function _designCancel(){
+    const ov = document.getElementById('nbsDesignOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    if (_design.resolve) _design.resolve(null);
+    _design.active = false;
+    _design.resolve = null;
+  }
+
+  function _designSave(){
+    const result = { cover: _design.cover, icon: _design.icon };
+    const resolve = _design.resolve;
+    const ov = document.getElementById('nbsDesignOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    _design.active = false;
+    _design.resolve = null;
+    if (resolve) resolve(result);
+  }
+
+  /**
+   * Open design picker modal.
+   * @param {{cover?:string, icon?:string, name?:string}} current
+   * @returns {Promise<{cover, icon}|null>}
+   */
+  function openDesignModal(current){
+    return new Promise(resolve => {
+      _ensureDesignModal();
+      _design.active = true;
+      _design.cover = (current && current.cover) || 'c1';
+      _design.icon = (current && current.icon) || '📘';
+      _design.name = (current && current.name) || '';
+      _design.resolve = resolve;
+      _designRender();
+      const ov = document.getElementById('nbsDesignOverlay');
+      if (ov) ov.classList.add('on');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     COVERS, ICON_GROUPS, ALL_ICONS,
@@ -450,9 +544,11 @@
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
     renderAttachmentChips, renderCoverPicker, renderIconPicker,
     MAX_BYTES,
-    // New unified modal API
+    // Drop modal
     openDropModal, pickAttachmentViaModal, pickImageViaModal,
-    // Internal handlers (called from inline onclick — must be public)
     _dmCancel, _dmSave, _dmPick,
+    // Design modal
+    openDesignModal,
+    _designCancel, _designSave, _designPickCover, _designPickIcon,
   };
 })();

@@ -30,17 +30,42 @@ const NotNB = (function(){
   function getPages(id){ const d=loadData(); return (d[id] && d[id].pages) || []; }
   function setActive(id){ activeNbId = id || null; try { localStorage.setItem(ACTIVE_KEY, activeNbId||''); } catch {} }
 
-  /* ── form pickers (creation) ──────────────────────────────── */
-  function pickIcon(ic){ const h=document.getElementById('notNbIconValue'); if(h) h.value=ic; renderPickers(); }
-  function pickCover(cv){ const h=document.getElementById('notNbCoverValue'); if(h) h.value=cv; renderPickers(); }
-  function renderPickers(){
-    if(!window.NBShared) return;
-    const ic = (document.getElementById('notNbIconValue')||{}).value || '📘';
-    const cv = (document.getElementById('notNbCoverValue')||{}).value || 'c1';
-    const ip = document.getElementById('notNbIconPicker');
-    const cp = document.getElementById('notNbCoverPicker');
-    if (ip) ip.innerHTML = NBShared.renderIconPicker(ic, 'NotNB.pickIcon');
-    if (cp) cp.innerHTML = NBShared.renderCoverPicker(cv, 'NotNB.pickCover');
+  /* ── design picker (modal) ────────────────────────────────── */
+  async function openDesignPicker(){
+    if (!window.NBShared) return alert('Módulo de diseño no cargado.');
+    const iconH = document.getElementById('notNbIconValue');
+    const coverH = document.getElementById('notNbCoverValue');
+    const nameInp = document.getElementById('notNbName');
+    const r = await NBShared.openDesignModal({
+      cover: coverH?.value || 'c1',
+      icon: iconH?.value || '📘',
+      name: nameInp?.value || '',
+    });
+    if (!r) return;
+    if (iconH) iconH.value = r.icon;
+    if (coverH) coverH.value = r.cover;
+    refreshNewFormPreview();
+  }
+  function refreshNewFormPreview(){
+    const iconH = document.getElementById('notNbIconValue');
+    const coverH = document.getElementById('notNbCoverValue');
+    const previewEl = document.getElementById('notNbDesignPreview');
+    const iconEl = document.getElementById('notNbDesignIconPreview');
+    if (previewEl && coverH) previewEl.className = 'nb-cover-' + coverH.value;
+    if (iconEl && iconH) iconEl.textContent = iconH.value;
+  }
+  async function editDesign(id){
+    if (!window.NBShared) return alert('Módulo de diseño no cargado.');
+    const list = loadMeta();
+    const nb = list.find(n => n.id === id);
+    if (!nb) return;
+    const r = await NBShared.openDesignModal({ cover: nb.cover || 'c1', icon: nb.icon, name: nb.name });
+    if (!r) return;
+    nb.cover = r.cover;
+    nb.icon = r.icon;
+    nb.updated = new Date().toISOString();
+    saveMeta(list);
+    render();
   }
 
   /* ── CRUD ─────────────────────────────────────────────────── */
@@ -89,19 +114,6 @@ const NotNB = (function(){
     saveData(data);
     if (activeNbId === id) { setActive(null); activePageId = null; }
     render();
-  }
-
-  function pickIconExisting(id, ic){
-    const list = loadMeta(); const nb = list.find(n=>n.id===id); if(!nb) return;
-    nb.icon = ic; nb.updated = new Date().toISOString(); saveMeta(list); render();
-  }
-  function pickCoverExisting(id, cv){
-    const list = loadMeta(); const nb = list.find(n=>n.id===id); if(!nb) return;
-    nb.cover = cv; nb.updated = new Date().toISOString(); saveMeta(list); render();
-  }
-  function toggleDesignEdit(id){
-    const el = document.getElementById('notNbEdit-'+id);
-    if (el) el.style.display = (el.style.display==='none' || !el.style.display) ? 'block' : 'none';
   }
 
   function selectActive(id){
@@ -286,14 +298,10 @@ const NotNB = (function(){
             <button class="btn bo" onclick="NotNB.attachFile('${nb.id}')">📎 Adjuntar</button>` : ''}
           </div>
           <div style="display:flex;gap:4px">
-            <button onclick="NotNB.toggleDesignEdit('${nb.id}')" class="btn bo bs">🎨 Diseño</button>
+            <button onclick="NotNB.editDesign('${nb.id}')" class="btn bo bs">🎨 Diseño</button>
             <button onclick="NotNB.rename('${nb.id}')" class="btn bo bs">✏️</button>
             <button onclick="NotNB.remove('${nb.id}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
-        </div>
-        <div id="notNbEdit-${nb.id}" style="display:none;background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:10px">
-          <div class="nb-pickergroup"><div class="nb-pickergroup-h">· portada ·</div>${window.NBShared ? NBShared.renderCoverPicker(nb.cover||'c1', "NotNB.pickCoverExisting.bind(null,'"+nb.id+"')") : ''}</div>
-          <div class="nb-pickergroup"><div class="nb-pickergroup-h">· ícono ·</div>${window.NBShared ? NBShared.renderIconPicker(nb.icon, "NotNB.pickIconExisting.bind(null,'"+nb.id+"')") : ''}</div>
         </div>
         ${editorBlock}
         <div class="lb" style="margin-top:14px">· páginas ·</div>
@@ -303,7 +311,7 @@ const NotNB = (function(){
   }
 
   function render(){
-    renderPickers();
+    refreshNewFormPreview();
     const list = loadMeta();
     const wrap = document.getElementById('notNbWrap');
     if (!wrap) return;
@@ -340,7 +348,7 @@ const NotNB = (function(){
 
   return {
     create, rename, remove, render, selectActive,
-    pickIcon, pickCover, pickIconExisting, pickCoverExisting, toggleDesignEdit,
+    openDesignPicker, refreshNewFormPreview, editDesign,
     newPage, openPage, deletePage, autoSave,
     addImage, renameImage, removeImage,
     attachFile, removeAttachment,

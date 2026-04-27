@@ -107,6 +107,15 @@
 .nbs-drop-btn-save:hover:not(:disabled){filter:brightness(1.12)}
 .nbs-drop-btn-save:disabled{opacity:.4;cursor:not-allowed}
 
+/* ═══════════════════════════════════════════════════════════
+   DESIGN MODAL (NBShared.openDesignModal)
+═══════════════════════════════════════════════════════════ */
+.nbs-design-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;animation:nbsfade .2s ease}
+.nbs-design-overlay.on{display:flex}
+.nbs-design-modal{position:relative;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:14px;width:min(720px,95vw);max-height:90vh;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px;animation:nbspop .2s ease-out}
+.nbs-design-preview{margin:6px 0}
+.nbs-design-preview .nb-cover-card{height:120px}
+
 /* ── 13-NOT specific tweaks (cuadernos panel) ─────────────── */
 .nb13-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
 .nb13-card{background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s}

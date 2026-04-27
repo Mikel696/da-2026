@@ -1989,42 +1989,45 @@ const NB = (function() {
     renderCustomList();
   }
 
-  function pickIcon(ic) {
-    const h = document.getElementById('cnbNewIconValue');
-    if (h) h.value = ic;
-    renderPickers();
+  // Open design picker modal for new-notebook form
+  async function openDesignPicker() {
+    if (!window.NBShared) { alert('Módulo de diseño no cargado.'); return; }
+    const iconH = document.getElementById('cnbNewIconValue');
+    const coverH = document.getElementById('cnbNewCoverValue');
+    const nameInp = document.getElementById('cnbNewName');
+    const r = await NBShared.openDesignModal({
+      cover: coverH?.value || 'c1',
+      icon: iconH?.value || '📘',
+      name: nameInp?.value || '',
+    });
+    if (!r) return;
+    if (iconH) iconH.value = r.icon;
+    if (coverH) coverH.value = r.cover;
+    refreshNewFormPreview();
   }
-  function pickCover(cv) {
-    const h = document.getElementById('cnbNewCoverValue');
-    if (h) h.value = cv;
-    renderPickers();
+
+  function refreshNewFormPreview() {
+    const iconH = document.getElementById('cnbNewIconValue');
+    const coverH = document.getElementById('cnbNewCoverValue');
+    const previewEl = document.getElementById('cnbDesignPreview');
+    const iconEl = document.getElementById('cnbDesignIconPreview');
+    if (previewEl && coverH) previewEl.className = 'nb-cover-' + coverH.value;
+    if (iconEl && iconH) iconEl.textContent = iconH.value;
   }
-  function pickIconExisting(id, ic) {
+
+  // Open design picker modal for an existing custom notebook
+  async function editCustomDesign(id) {
+    if (!window.NBShared) { alert('Módulo de diseño no cargado.'); return; }
     const list = loadMeta();
     const cnb = list.find(c => c.id === id);
     if (!cnb) return;
-    cnb.icon = ic;
+    const r = await NBShared.openDesignModal({ cover: cnb.cover || 'c1', icon: cnb.icon, name: cnb.name });
+    if (!r) return;
+    cnb.cover = r.cover;
+    cnb.icon = r.icon;
     cnb.updated = new Date().toISOString();
     saveMeta(list);
     renderCustomList();
-  }
-  function pickCoverExisting(id, cv) {
-    const list = loadMeta();
-    const cnb = list.find(c => c.id === id);
-    if (!cnb) return;
-    cnb.cover = cv;
-    cnb.updated = new Date().toISOString();
-    saveMeta(list);
-    renderCustomList();
-  }
-  function renderPickers() {
-    if (!window.NBShared) return;
-    const ic = (document.getElementById('cnbNewIconValue') || {}).value || '📘';
-    const cv = (document.getElementById('cnbNewCoverValue') || {}).value || 'c1';
-    const ip = document.getElementById('cnbIconPicker');
-    const cp = document.getElementById('cnbCoverPicker');
-    if (ip) ip.innerHTML = NBShared.renderIconPicker(ic, 'NB.pickIcon');
-    if (cp) cp.innerHTML = NBShared.renderCoverPicker(cv, 'NB.pickCover');
   }
 
   function renameCustom(id) {
@@ -2107,14 +2110,10 @@ const NB = (function() {
       <div class="gc-h" style="margin-bottom:8px">
         <div class="gc-t" style="font-size:13px;color:var(--t2)">⚙️ Personalización</div>
         <div style="display:flex;gap:4px">
-          <button onclick="NB.toggleCustomEdit('${meta.id}')" title="Cambiar portada/ícono" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🎨 Diseño</button>
+          <button onclick="NB.editCustomDesign('${meta.id}')" title="Cambiar portada/ícono" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🎨 Diseño</button>
           <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️ Nombre</button>
           <button onclick="NB.deleteCustom('${meta.id}')" title="Eliminar" style="background:none;border:1px solid rgba(239,68,68,.3);color:var(--rd);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🗑</button>
         </div>
-      </div>
-      <div id="nbDesignEdit-${meta.id}" style="display:none;background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:10px">
-        <div class="nb-pickergroup"><div class="nb-pickergroup-h">· portada ·</div>${window.NBShared ? NBShared.renderCoverPicker(cover, "NB.pickCoverExisting.bind(null,'"+meta.id+"')") : ''}</div>
-        <div class="nb-pickergroup"><div class="nb-pickergroup-h">· ícono ·</div>${window.NBShared ? NBShared.renderIconPicker(meta.icon, "NB.pickIconExisting.bind(null,'"+meta.id+"')") : ''}</div>
       </div>
 
       <div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${meta.id}" style="margin-top:8px">
@@ -2194,7 +2193,7 @@ const NB = (function() {
     `;
   }
 
-  function initPickers() { renderPickers(); }
+  function initPickers() { refreshNewFormPreview(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); initPickers(); });
   else setTimeout(() => { init(); renderCustomList(); initPickers(); }, 0);
 
@@ -2210,8 +2209,8 @@ const NB = (function() {
     viewImage, closeImage, prevImage, nextImage,
     // Custom notebooks
     getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom,
-    // New: covers + icons + attachments
-    pickIcon, pickCover, pickIconExisting, pickCoverExisting, toggleCustomEdit,
+    // New: covers + icons + attachments (modal-based)
+    openDesignPicker, editCustomDesign, refreshNewFormPreview, toggleCustomEdit,
     attachFile, removeAttachment,
   };
 })();
