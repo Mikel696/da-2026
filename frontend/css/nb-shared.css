@@ -68,6 +68,45 @@
 .nb-pickergroup{margin-top:14px}
 .nb-pickergroup-h{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
 
+/* ═══════════════════════════════════════════════════════════
+   UNIFIED DROP MODAL (nb-shared.js openDropModal)
+═══════════════════════════════════════════════════════════ */
+.nbs-drop-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;animation:nbsfade .2s ease}
+.nbs-drop-overlay.on{display:flex}
+@keyframes nbsfade{from{opacity:0}to{opacity:1}}
+.nbs-drop-modal{position:relative;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:14px;width:min(560px,95vw);max-height:90vh;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px;animation:nbspop .2s ease-out}
+@keyframes nbspop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.nbs-drop-close{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--t3, #52525b);font-size:18px;cursor:pointer;line-height:1;padding:4px;border-radius:6px;transition:all .15s}
+.nbs-drop-close:hover{color:var(--tx, #fafafa);background:var(--el, #222228)}
+.nbs-drop-head{padding-right:30px}
+.nbs-drop-title{font-family:'Newsreader','IBM Plex Sans',serif;font-size:18px;font-weight:600;color:var(--tx, #fafafa);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.nbs-drop-sub{font-size:11px;color:var(--t3, #52525b)}
+.nbs-drop-sub kbd{background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:4px;padding:1px 5px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2, #a1a1aa)}
+.nbs-drop-link{color:var(--ac, var(--acid, #8b5cf6));cursor:pointer;text-decoration:underline;font-weight:500}
+.nbs-drop-link:hover{filter:brightness(1.15)}
+.nbs-drop-zone{min-height:170px;border:2px dashed var(--ac, var(--acid, #8b5cf6));border-radius:12px;padding:30px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--ag, rgba(139,92,246,.05));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;outline:none}
+.nbs-drop-zone:hover,.nbs-drop-zone:focus{background:var(--ag, rgba(139,92,246,.1));border-color:var(--a2, #a78bfa)}
+.nbs-drop-zone.drag{background:var(--ag, rgba(139,92,246,.18));border-color:var(--a2, #a78bfa);border-style:solid;transform:scale(1.01)}
+.nbs-drop-icon{font-size:36px;line-height:1}
+.nbs-drop-text{font-size:14px;font-weight:600;color:var(--tx, #fafafa)}
+.nbs-drop-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);letter-spacing:.5px}
+.nbs-drop-preview{display:none;flex-direction:column;align-items:center;gap:8px;width:100%}
+.nbs-drop-preview img{max-width:100%;max-height:200px;border-radius:8px;border:1px solid var(--bd, #27272a)}
+.nbs-drop-fileinfo{font-size:11px;color:var(--t2, #a1a1aa);text-align:center;width:100%}
+.nbs-drop-doc{display:flex;align-items:center;gap:10px;background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;padding:10px 14px;text-align:left;width:100%;justify-content:center}
+.nbs-drop-doc>span:first-child,.nbs-drop-doc{font-size:24px}
+.nbs-drop-doc-n{font-size:13px;font-weight:500;color:var(--tx, #fafafa);word-break:break-word}
+.nbs-drop-doc-m{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);margin-top:2px}
+.nbs-drop-caption{width:100%;background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;padding:10px 14px;color:var(--tx, #fafafa);font-family:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.nbs-drop-caption:focus{border-color:var(--ac, var(--acid, #8b5cf6))}
+.nbs-drop-actions{display:flex;gap:8px;justify-content:flex-end}
+.nbs-drop-btn{padding:9px 18px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.nbs-drop-btn-cancel{background:var(--el, #222228);color:var(--t2, #a1a1aa);border:1px solid var(--bd, #27272a)}
+.nbs-drop-btn-cancel:hover{color:var(--tx, #fafafa);border-color:var(--bd2, #3f3f46)}
+.nbs-drop-btn-save{background:var(--ac, var(--acid, #8b5cf6));color:#fff}
+.nbs-drop-btn-save:hover:not(:disabled){filter:brightness(1.12)}
+.nbs-drop-btn-save:disabled{opacity:.4;cursor:not-allowed}
+
 /* ── 13-NOT specific tweaks (cuadernos panel) ─────────────── */
 .nb13-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
 .nb13-card{background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s}

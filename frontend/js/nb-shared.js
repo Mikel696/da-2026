@@ -198,6 +198,251 @@
     `).join('');
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     UNIFIED DROP MODAL — drag/drop/paste/click for files
+     Used by both 10-SYS and 13-NOT, for images AND attachments.
+  ═══════════════════════════════════════════════════════════════ */
+  let _dm = { active: false, file: null, dataUrl: null, opts: null, resolve: null };
+
+  function _ensureModal(){
+    if (document.getElementById('nbsDropOverlay')) return;
+    const html = `
+<div class="nbs-drop-overlay" id="nbsDropOverlay">
+  <div class="nbs-drop-modal" onclick="event.stopPropagation()">
+    <button class="nbs-drop-close" onclick="NBShared._dmCancel()" title="Cerrar (Esc)">✕</button>
+    <div class="nbs-drop-head">
+      <div class="nbs-drop-title" id="nbsDropTitle">📎 Adjuntar archivo</div>
+      <div class="nbs-drop-sub"><span id="nbsDropPasteHint"></span>Arrastra archivo · o <span class="nbs-drop-link" onclick="NBShared._dmPick()">busca en tu PC</span></div>
+    </div>
+    <div class="nbs-drop-zone" id="nbsDropZone" tabindex="0">
+      <div class="nbs-drop-icon" id="nbsDropIcon">📋</div>
+      <div class="nbs-drop-text" id="nbsDropText">Suelta tu archivo aquí</div>
+      <div class="nbs-drop-hint" id="nbsDropHint"></div>
+      <div class="nbs-drop-preview" id="nbsDropPreview"><img id="nbsDropPreviewImg" alt=""><div class="nbs-drop-fileinfo" id="nbsDropFileInfo"></div></div>
+    </div>
+    <input class="nbs-drop-caption" id="nbsDropCaption" placeholder="Descripción (opcional)...">
+    <div class="nbs-drop-actions">
+      <button class="nbs-drop-btn nbs-drop-btn-cancel" onclick="NBShared._dmCancel()">Cancelar</button>
+      <button class="nbs-drop-btn nbs-drop-btn-save" id="nbsDropSave" onclick="NBShared._dmSave()" disabled>💾 Guardar</button>
+    </div>
+  </div>
+  <input type="file" id="nbsDropFileInput" style="display:none">
+</div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    const ov = document.getElementById('nbsDropOverlay');
+    const dz = document.getElementById('nbsDropZone');
+    ov.addEventListener('click', e => { if (e.target === ov) _dmCancel(); });
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+    dz.addEventListener('dragleave', e => { if (e.target === dz || dz.contains(e.target) === false) dz.classList.remove('drag'); });
+    dz.addEventListener('drop', e => {
+      e.preventDefault();
+      dz.classList.remove('drag');
+      const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) _dmIngest(f);
+    });
+    dz.addEventListener('click', () => _dmPick());
+    document.addEventListener('paste', _dmPasteHandler);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && _dm.active) _dmCancel();
+    });
+  }
+
+  function _dmPasteHandler(e){
+    if (!_dm.active) return;
+    if (!_dm.opts || !_dm.opts.allowPaste) return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++){
+      const it = items[i];
+      if (it.type && it.type.startsWith('image/')){
+        const f = it.getAsFile();
+        if (f) { e.preventDefault(); _dmIngest(f); return; }
+      }
+    }
+  }
+
+  function _dmPick(){
+    const input = document.getElementById('nbsDropFileInput');
+    if (!input) return;
+    input.value = '';
+    input.accept = (_dm.opts && _dm.opts.accept) || '*';
+    input.onchange = e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) _dmIngest(f);
+    };
+    input.click();
+  }
+
+  function _validate(file){
+    const max = (_dm.opts && _dm.opts.maxBytes) || MAX_BYTES;
+    if (file.size > max) {
+      alert('Archivo demasiado grande (máx ' + fmtBytes(max) + '). El tuyo: ' + fmtBytes(file.size));
+      return false;
+    }
+    if (_dm.opts && _dm.opts.acceptImages) {
+      if (!file.type.startsWith('image/')) { alert('El archivo no es una imagen.'); return false; }
+    } else if (_dm.opts && _dm.opts.allowedExt) {
+      const ext = extOf(file.name);
+      if (_dm.opts.allowedExt.indexOf(ext) === -1) {
+        alert('Tipo no permitido. Soportados: ' + _dm.opts.allowedExt.join(', '));
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function _dmIngest(file){
+    if (!_validate(file)) return;
+    _dm.file = file;
+    const preview = document.getElementById('nbsDropPreview');
+    const previewImg = document.getElementById('nbsDropPreviewImg');
+    const fileInfo = document.getElementById('nbsDropFileInfo');
+    const icon = document.getElementById('nbsDropIcon');
+    const text = document.getElementById('nbsDropText');
+    const cap = document.getElementById('nbsDropCaption');
+    const save = document.getElementById('nbsDropSave');
+
+    if (_dm.opts && _dm.opts.acceptImages) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        _dm.dataUrl = ev.target.result;
+        if (previewImg) previewImg.src = ev.target.result;
+        if (preview) preview.style.display = 'flex';
+        if (fileInfo) fileInfo.textContent = file.name + ' · ' + fmtBytes(file.size);
+        if (icon) icon.textContent = '✅';
+        if (text) text.textContent = 'Listo para guardar';
+        if (cap && !cap.value) cap.value = file.name.replace(/\.[a-z0-9]+$/i, '');
+        if (save) save.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      _dm.dataUrl = null;
+      if (preview) preview.style.display = 'flex';
+      if (previewImg) previewImg.style.display = 'none';
+      const ext = extOf(file.name);
+      if (fileInfo) {
+        fileInfo.innerHTML = `<div class="nbs-drop-doc">${iconForExt(ext)}<div><div class="nbs-drop-doc-n">${file.name}</div><div class="nbs-drop-doc-m">${(ext||'').toUpperCase()} · ${fmtBytes(file.size)}</div></div></div>`;
+      }
+      if (icon) icon.textContent = '✅';
+      if (text) text.textContent = 'Archivo seleccionado';
+      if (cap && !cap.value) cap.value = file.name;
+      if (save) save.disabled = false;
+    }
+  }
+
+  function _dmReset(){
+    _dm.file = null;
+    _dm.dataUrl = null;
+    const preview = document.getElementById('nbsDropPreview');
+    const previewImg = document.getElementById('nbsDropPreviewImg');
+    const fileInfo = document.getElementById('nbsDropFileInfo');
+    const icon = document.getElementById('nbsDropIcon');
+    const text = document.getElementById('nbsDropText');
+    const cap = document.getElementById('nbsDropCaption');
+    const save = document.getElementById('nbsDropSave');
+    if (preview) preview.style.display = 'none';
+    if (previewImg) { previewImg.src = ''; previewImg.style.display = ''; }
+    if (fileInfo) fileInfo.innerHTML = '';
+    if (icon) icon.textContent = '📋';
+    if (text) text.textContent = (_dm.opts && _dm.opts.acceptImages) ? 'Pega o suelta tu imagen aquí' : 'Suelta tu archivo aquí';
+    if (cap) cap.value = '';
+    if (save) save.disabled = true;
+  }
+
+  function _dmCancel(){
+    const ov = document.getElementById('nbsDropOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    if (_dm.resolve) { _dm.resolve(null); }
+    _dm.active = false;
+    _dm.resolve = null;
+    _dmReset();
+  }
+
+  function _dmSave(){
+    if (!_dm.file) return;
+    const cap = document.getElementById('nbsDropCaption');
+    const result = {
+      file: _dm.file,
+      name: _dm.file.name,
+      size: _dm.file.size,
+      type: _dm.file.type,
+      dataUrl: _dm.dataUrl,
+      caption: cap ? cap.value : '',
+    };
+    const resolve = _dm.resolve;
+    const ov = document.getElementById('nbsDropOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    _dm.active = false;
+    _dm.resolve = null;
+    _dmReset();
+    if (resolve) resolve(result);
+  }
+
+  /**
+   * Open unified drag/drop/paste/click modal.
+   * @param {{title?:string, hint?:string, acceptImages?:boolean, allowedExt?:string[], accept?:string, maxBytes?:number}} opts
+   * @returns {Promise<{file, name, size, type, dataUrl?, caption}|null>}  Resolves to result or null if cancelled.
+   */
+  function openDropModal(opts){
+    return new Promise(resolve => {
+      _ensureModal();
+      _dm.active = true;
+      _dm.opts = Object.assign({ allowPaste: !!(opts && opts.acceptImages) }, opts || {});
+      _dm.resolve = resolve;
+      _dmReset();
+      const title = document.getElementById('nbsDropTitle');
+      const hint = document.getElementById('nbsDropHint');
+      const pasteHint = document.getElementById('nbsDropPasteHint');
+      const text = document.getElementById('nbsDropText');
+      if (title) title.textContent = (opts && opts.title) || (opts && opts.acceptImages ? '🖼️ Agregar imagen en HD' : '📎 Adjuntar archivo');
+      if (hint) hint.textContent = (opts && opts.hint) || (opts && opts.acceptImages ? 'PNG · JPG · WEBP · calidad HD (máx ' + fmtBytes(_dm.opts.maxBytes||MAX_BYTES) + ')' : 'PDF · Word · Excel · PPT · TXT · CSV · ZIP (máx ' + fmtBytes(_dm.opts.maxBytes||MAX_BYTES) + ')');
+      if (pasteHint) pasteHint.innerHTML = _dm.opts.allowPaste ? 'Pega (<kbd>Ctrl+V</kbd>) · ' : '';
+      if (text) text.textContent = _dm.opts.acceptImages ? 'Pega o suelta tu imagen aquí' : 'Suelta tu archivo aquí';
+      const ov = document.getElementById('nbsDropOverlay');
+      if (ov) ov.classList.add('on');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { const dz = document.getElementById('nbsDropZone'); if (dz) dz.focus(); }, 50);
+    });
+  }
+
+  /**
+   * High-level helper: open modal for an attachment and store it in IndexedDB.
+   * @param {string} prefix  ID prefix
+   * @returns {Promise<{id,name,type,size,ext,addedAt,caption}|null>}
+   */
+  async function pickAttachmentViaModal(prefix){
+    const r = await openDropModal({
+      title: '📎 Adjuntar archivo',
+      acceptImages: false,
+      allowedExt: ALLOWED_EXT,
+      accept: '.' + ALLOWED_EXT.join(',.'),
+      maxBytes: MAX_BYTES,
+    });
+    if (!r) return null;
+    const ext = extOf(r.name);
+    const id = (prefix || 'att') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    await putBlob(id, r.file, { name: r.name, type: r.type, size: r.size, ext, addedAt: new Date().toISOString(), caption: r.caption || '' });
+    return { id, name: r.name, type: r.type, size: r.size, ext, addedAt: new Date().toISOString(), caption: r.caption || '' };
+  }
+
+  /**
+   * High-level helper: open modal for an image and return its dataUrl + caption.
+   * @returns {Promise<{dataUrl, caption, name}|null>}
+   */
+  async function pickImageViaModal(){
+    const r = await openDropModal({
+      title: '🖼️ Agregar imagen en HD',
+      acceptImages: true,
+      accept: 'image/*',
+      maxBytes: 25 * 1024 * 1024, // 25 MB for images
+    });
+    if (!r) return null;
+    return { dataUrl: r.dataUrl, caption: r.caption || '', name: r.name };
+  }
+
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     COVERS, ICON_GROUPS, ALL_ICONS,
@@ -205,5 +450,9 @@
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
     renderAttachmentChips, renderCoverPicker, renderIconPicker,
     MAX_BYTES,
+    // New unified modal API
+    openDropModal, pickAttachmentViaModal, pickImageViaModal,
+    // Internal handlers (called from inline onclick — must be public)
+    _dmCancel, _dmSave, _dmPick,
   };
 })();

@@ -1397,7 +1397,8 @@ const NB = (function() {
         <div class="sj-nb-toolbar">
           <button onclick="NB.newPage('${sid}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
           ${page ? `<button onclick="NB.addLink('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
-          <button onclick="NB.openPasteDialog('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>` : ''}
+          <button onclick="NB.openPasteDialog('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
+          <button onclick="NB.attachFile('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
         </div>
         ${editorHtml}
         <div class="sl" style="margin-top:12px">· páginas ·</div>
@@ -1495,17 +1496,16 @@ const NB = (function() {
     if (!window.NBShared) return alert('Módulo de adjuntos no disponible.');
     const pid = activePage[sid];
     if (!pid) return alert('Primero crea o abre una página.');
-    try {
-      const meta = await NBShared.pickAndStoreAttachment('cnb_' + sid + '_' + pid);
-      const d = load();
-      const page = d[sid].pages.find(p => p.id === pid);
-      if (!page.attachments) page.attachments = [];
-      page.attachments.push(meta);
-      page.updated = new Date().toISOString();
-      save(d);
-      const el = document.getElementById('nbAtt-' + sid);
-      if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
-    } catch(e) { /* user cancelled or error already alerted */ }
+    const meta = await NBShared.pickAttachmentViaModal('cnb_' + sid + '_' + pid);
+    if (!meta) return; // user cancelled
+    const d = load();
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page.attachments) page.attachments = [];
+    page.attachments.push(meta);
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbAtt-' + sid);
+    if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
   }
 
   async function removeAttachment(sid, attId) {

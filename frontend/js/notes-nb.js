@@ -155,26 +155,19 @@ const NotNB = (function(){
   }
 
   /* ── IMAGE OPS ────────────────────────────────────────────── */
-  function addImage(nbId){
-    const inp = document.createElement('input');
-    inp.type = 'file'; inp.accept = 'image/*';
-    inp.onchange = e => {
-      const f = e.target.files[0]; if (!f) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const caption = prompt('Nombre / descripción de la imagen (opcional):', f.name) || '';
-        const data = loadData();
-        const page = data[nbId].pages.find(p => p.id === activePageId);
-        if (!page) return;
-        if (!page.images) page.images = [];
-        page.images.push({ data: ev.target.result, caption });
-        page.updated = new Date().toISOString();
-        saveData(data);
-        render();
-      };
-      reader.readAsDataURL(f);
-    };
-    inp.click();
+  async function addImage(nbId){
+    if (!activePageId) return alert('Primero crea o abre una página.');
+    if (!window.NBShared) return alert('Módulo compartido no cargado.');
+    const r = await NBShared.pickImageViaModal();
+    if (!r) return;
+    const data = loadData();
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page) return;
+    if (!page.images) page.images = [];
+    page.images.push({ data: r.dataUrl, caption: r.caption || r.name || '' });
+    page.updated = new Date().toISOString();
+    saveData(data);
+    render();
   }
 
   function renameImage(nbId, idx){
@@ -205,16 +198,15 @@ const NotNB = (function(){
   async function attachFile(nbId){
     if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
     if (!activePageId) return alert('Primero crea o abre una página.');
-    try {
-      const meta = await NBShared.pickAndStoreAttachment('not_' + nbId + '_' + activePageId);
-      const data = loadData();
-      const page = data[nbId].pages.find(p => p.id === activePageId);
-      if (!page.attachments) page.attachments = [];
-      page.attachments.push(meta);
-      page.updated = new Date().toISOString();
-      saveData(data);
-      render();
-    } catch(e) { /* user cancelled */ }
+    const meta = await NBShared.pickAttachmentViaModal('not_' + nbId + '_' + activePageId);
+    if (!meta) return; // user cancelled
+    const data = loadData();
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page.attachments) page.attachments = [];
+    page.attachments.push(meta);
+    page.updated = new Date().toISOString();
+    saveData(data);
+    render();
   }
 
   async function removeAttachment(nbId, attId){
