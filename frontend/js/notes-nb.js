@@ -1,9 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════
    DA-2026 · 13-NOT · Cuadernos (Notebook sub-module)
    ─────────────────────────────────────────────────────────────
+   Identical editor UX as 10-SYS: spiral binding, ruled paper,
+   red margin, holes, rich-text toolbar (bold/size/highlight/labels),
+   image grid with rename, IndexedDB attachments, drag-drop modal.
+
    Storage:
      - not_nb_meta   → [{id,name,icon,cover,color,created,updated}]
-     - not_nb_data   → { [nbId]: { pages: [{id,title,body,images,attachments,created,updated}] } }
+     - not_nb_data   → { [nbId]: { pages: [{id,title,body,images,attachments,links,created,updated}] } }
    Cloud sync: payload.attachments contains only metadata; binaries are
    IndexedDB-only (via NBShared) and stay on-device.
 ═══════════════════════════════════════════════════════════════ */
@@ -29,6 +33,7 @@ const NotNB = (function(){
   function getNb(id){ return loadMeta().find(n => n.id === id); }
   function getPages(id){ const d=loadData(); return (d[id] && d[id].pages) || []; }
   function setActive(id){ activeNbId = id || null; try { localStorage.setItem(ACTIVE_KEY, activeNbId||''); } catch {} }
+  function getCurrentPage(nbId){ const d=loadData(); return (d[nbId]||{pages:[]}).pages.find(p => p.id === activePageId); }
 
   /* ── design picker (modal) ────────────────────────────────── */
   async function openDesignPicker(){
@@ -68,7 +73,7 @@ const NotNB = (function(){
     render();
   }
 
-  /* ── CRUD ─────────────────────────────────────────────────── */
+  /* ── CRUD notebooks ───────────────────────────────────────── */
   function create(){
     const nameInp = document.getElementById('notNbName');
     const iconV = (document.getElementById('notNbIconValue')||{}).value || '📘';
@@ -106,7 +111,6 @@ const NotNB = (function(){
     if (!confirm(`¿Eliminar "${nb.name}" y todas sus páginas? Los archivos adjuntos también se borran.`)) return;
     saveMeta(list.filter(n => n.id !== id));
     const data = loadData();
-    // Remove attachments from IndexedDB
     if (data[id] && window.NBShared) {
       (data[id].pages || []).forEach(p => (p.attachments || []).forEach(a => NBShared.deleteBlob(a.id).catch(()=>{})));
     }
@@ -126,7 +130,7 @@ const NotNB = (function(){
   function newPage(nbId){
     const data = loadData();
     if (!data[nbId]) data[nbId] = { pages: [] };
-    const page = { id: Date.now(), title: '', body: '', images: [], attachments: [], created: new Date().toISOString(), updated: new Date().toISOString() };
+    const page = { id: Date.now(), title: '', body: '', images: [], attachments: [], links: [], created: new Date().toISOString(), updated: new Date().toISOString() };
     data[nbId].pages.unshift(page);
     saveData(data);
     activePageId = page.id;
@@ -155,15 +159,112 @@ const NotNB = (function(){
       if (!data[nbId]) return;
       const page = data[nbId].pages.find(p => p.id === activePageId);
       if (!page) return;
-      const tIn = document.getElementById('notNbTitle');
-      const bIn = document.getElementById('notNbBody');
+      const tIn = document.getElementById('nbTitle-' + nbId);
+      const bIn = document.getElementById('nbBody-' + nbId);
       if (tIn) page.title = tIn.value;
       if (bIn) page.body = bIn.innerHTML;
       page.updated = new Date().toISOString();
       saveData(data);
-      const badge = document.getElementById('notNbSaved');
-      if (badge) { badge.textContent = '✓ guardado'; badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
+      const badge = document.getElementById('nbSaved-' + nbId);
+      if (badge) { badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
     }, 500);
+  }
+
+  /* ── RICH-TEXT FORMAT ─────────────────────────────────────── */
+  function focusEditor(nbId){
+    const bIn = document.getElementById('nbBody-' + nbId);
+    if (!bIn) return null;
+    if (document.activeElement !== bIn) bIn.focus();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) {
+      const r = document.createRange();
+      r.selectNodeContents(bIn);
+      r.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(r);
+    }
+    return bIn;
+  }
+  function removeLabelsInRange(bIn){
+    const sel = window.getSelection();
+    const labels = Array.from(bIn.querySelectorAll('.rt-label'));
+    if (!labels.length) return;
+    if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) {
+      labels.forEach(el => el.remove());
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    labels.forEach(el => { try { if (range.intersectsNode(el)) el.remove(); } catch (_) {} });
+  }
+  function fmt(nbId, kind, value){
+    const bIn = focusEditor(nbId);
+    if (!bIn) return;
+    try {
+      if (kind === 'bold') document.execCommand('bold', false, null);
+      else if (kind === 'size') {
+        const map = { s:'2', m:'3', l:'5' };
+        document.execCommand('fontSize', false, map[value] || '3');
+      } else if (kind === 'hl') {
+        const map = { y:'#fff59d', g:'#a5d6a7', p:'#f8bbd0' };
+        try { document.execCommand('styleWithCSS', false, true); } catch(e){}
+        document.execCommand('foreColor', false, '#1a1a1a');
+        if (!document.execCommand('hiliteColor', false, map[value] || '#fff59d')) {
+          document.execCommand('backColor', false, map[value] || '#fff59d');
+        }
+      } else if (kind === 'clear') {
+        document.execCommand('removeFormat', false, null);
+        removeLabelsInRange(bIn);
+      }
+    } catch(e) { console.warn('NotNB.fmt failed:', e); }
+    autoSave(nbId);
+  }
+  function insertLabel(nbId, type){
+    const bIn = focusEditor(nbId);
+    if (!bIn) return;
+    const html = type === 'urgent'
+      ? '<span class="rt-label rt-lbl-urgent" contenteditable="false" title="Click para eliminar" onclick="NotNB.removeLabelEl(this,\''+nbId+'\')">⚠ URGENTE</span>&nbsp;'
+      : '<span class="rt-label rt-lbl-done" contenteditable="false" title="Click para eliminar" onclick="NotNB.removeLabelEl(this,\''+nbId+'\')">✓ HECHO</span>&nbsp;';
+    try { document.execCommand('insertHTML', false, html); }
+    catch(e) {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        const frag = range.createContextualFragment(html);
+        range.deleteContents();
+        range.insertNode(frag);
+      }
+    }
+    autoSave(nbId);
+  }
+  function removeLabelEl(el, nbId){
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+    autoSave(nbId);
+  }
+
+  /* ── LINKS ────────────────────────────────────────────────── */
+  function addLink(nbId){
+    if (!activePageId) return alert('Primero abre o crea una página.');
+    const url = prompt('URL del link de estudio:');
+    if (!url) return;
+    const label = prompt('Nombre del link (opcional):') || url;
+    const data = loadData();
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page.links) page.links = [];
+    page.links.push({ url, label, added: new Date().toISOString() });
+    page.updated = new Date().toISOString();
+    saveData(data);
+    const el = document.getElementById('notNbLinks-' + nbId);
+    if (el) el.innerHTML = renderLinksHtml(nbId, page);
+  }
+  function removeLink(nbId, idx){
+    const data = loadData();
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page || !page.links) return;
+    page.links.splice(idx, 1);
+    page.updated = new Date().toISOString();
+    saveData(data);
+    const el = document.getElementById('notNbLinks-' + nbId);
+    if (el) el.innerHTML = renderLinksHtml(nbId, page);
   }
 
   /* ── IMAGE OPS ────────────────────────────────────────────── */
@@ -179,9 +280,9 @@ const NotNB = (function(){
     page.images.push({ data: r.dataUrl, caption: r.caption || r.name || '' });
     page.updated = new Date().toISOString();
     saveData(data);
-    render();
+    const el = document.getElementById('notNbImages-' + nbId);
+    if (el) el.innerHTML = renderImagesHtml(nbId, page);
   }
-
   function renameImage(nbId, idx){
     const data = loadData();
     const page = data[nbId].pages.find(p => p.id === activePageId);
@@ -192,9 +293,9 @@ const NotNB = (function(){
     page.images[idx].caption = next;
     page.updated = new Date().toISOString();
     saveData(data);
-    render();
+    const el = document.getElementById('notNbImages-' + nbId);
+    if (el) el.innerHTML = renderImagesHtml(nbId, page);
   }
-
   function removeImage(nbId, idx){
     if (!confirm('¿Eliminar esta imagen?')) return;
     const data = loadData();
@@ -203,7 +304,8 @@ const NotNB = (function(){
     page.images.splice(idx, 1);
     page.updated = new Date().toISOString();
     saveData(data);
-    render();
+    const el = document.getElementById('notNbImages-' + nbId);
+    if (el) el.innerHTML = renderImagesHtml(nbId, page);
   }
 
   /* ── ATTACHMENTS ──────────────────────────────────────────── */
@@ -211,16 +313,16 @@ const NotNB = (function(){
     if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
     if (!activePageId) return alert('Primero crea o abre una página.');
     const meta = await NBShared.pickAttachmentViaModal('not_' + nbId + '_' + activePageId);
-    if (!meta) return; // user cancelled
+    if (!meta) return;
     const data = loadData();
     const page = data[nbId].pages.find(p => p.id === activePageId);
     if (!page.attachments) page.attachments = [];
     page.attachments.push(meta);
     page.updated = new Date().toISOString();
     saveData(data);
-    render();
+    const el = document.getElementById('notNbAtt-' + nbId);
+    if (el) el.innerHTML = renderAttachmentsHtml(nbId, page);
   }
-
   async function removeAttachment(nbId, attId){
     if (!confirm('¿Eliminar este adjunto del dispositivo?')) return;
     const data = loadData();
@@ -230,56 +332,99 @@ const NotNB = (function(){
     page.updated = new Date().toISOString();
     saveData(data);
     if (window.NBShared) { try { await NBShared.deleteBlob(attId); } catch(e){} }
-    render();
+    const el = document.getElementById('notNbAtt-' + nbId);
+    if (el) el.innerHTML = renderAttachmentsHtml(nbId, page);
   }
 
-  /* ── RENDER ───────────────────────────────────────────────── */
+  /* ── RENDER HELPERS (mirror systems_logic.js) ─────────────── */
+  function renderBodyContent(body){
+    if (!body) return '';
+    if (/<[a-z][^>]*>/i.test(body)) return body;
+    return esc(body);
+  }
+  function renderLinksHtml(nbId, page){
+    if (!page.links || !page.links.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin links aún. Usa "🔗 Link".</div>';
+    return page.links.map((l, i) =>
+      `<div class="nb-link"><span class="nb-link-icon">🔗</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(l.label)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener" class="nb-link-url">${esc(l.url)}</a></div><button onclick="NotNB.removeLink('${nbId}',${i})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px">✕</button></div>`
+    ).join('');
+  }
+  function renderImagesHtml(nbId, page){
+    if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen".</div>';
+    return page.images.map((im, i) =>
+      `<div class="nb-img-card">
+        <button class="nb-img-del" onclick="event.stopPropagation();NotNB.removeImage('${nbId}',${i})" title="Eliminar">✕</button>
+        <button class="nb-img-rename" onclick="event.stopPropagation();NotNB.renameImage('${nbId}',${i})" title="Renombrar">✏</button>
+        <img src="${im.data}" alt="${esc(im.caption)}">
+        <div class="nb-img-caption">${esc(im.caption || 'Sin nombre')}</div>
+      </div>`
+    ).join('');
+  }
+  function renderAttachmentsHtml(nbId, page){
+    if (!window.NBShared) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Cargando módulo de adjuntos…</div>';
+    return NBShared.renderAttachmentChips((page && page.attachments) || [], { onRemove: "NotNB.removeAttachment.bind(null,'"+nbId+"')" });
+  }
+
+  /* ── PAGE EDITOR HTML (mirrors buildEditorHtml from 10-SYS) ── */
+  function buildEditorHtml(nbId, page){
+    if (!page) return '';
+    return `<div class="nb-rt-toolbar">
+        <button class="nb-rt-btn" onclick="NotNB.fmt('${nbId}','bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-sz-s" onclick="NotNB.fmt('${nbId}','size','s')" title="Texto pequeño">S</button>
+        <button class="nb-rt-btn nb-rt-sz-m" onclick="NotNB.fmt('${nbId}','size','m')" title="Texto normal">M</button>
+        <button class="nb-rt-btn nb-rt-sz-l" onclick="NotNB.fmt('${nbId}','size','l')" title="Texto grande">L</button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-y" onclick="NotNB.fmt('${nbId}','hl','y')" title="Resaltar amarillo"></button>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-g" onclick="NotNB.fmt('${nbId}','hl','g')" title="Resaltar verde"></button>
+        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-p" onclick="NotNB.fmt('${nbId}','hl','p')" title="Resaltar rosa"></button>
+        <button class="nb-rt-btn" onclick="NotNB.fmt('${nbId}','clear')" title="Quitar formato">✕</button>
+        <span class="nb-rt-sep"></span>
+        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="NotNB.insertLabel('${nbId}','urgent')" title="Insertar etiqueta URGENTE">⚠ URGENTE</button>
+        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="NotNB.insertLabel('${nbId}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
+      </div>
+      <div class="nb-page" style="margin-bottom:12px">
+        <div class="nb-header">
+          <input class="nb-title-inp" id="nbTitle-${nbId}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NotNB.autoSave('${nbId}')">
+          <span class="nb-saved" id="nbSaved-${nbId}">✓ guardado</span>
+          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
+        <div class="nb-spine"></div>
+        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
+        <div class="nb-margin"></div>
+        <div class="nb-content" id="nbBody-${nbId}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NotNB.autoSave('${nbId}')">${renderBodyContent(page.body)}</div>
+      </div>
+      <div class="lb">· links de estudio ·</div>
+      <div id="notNbLinks-${nbId}">${renderLinksHtml(nbId, page)}</div>
+      <div class="lb">· archivos adjuntos · <span style="font-size:9px;color:var(--t3);text-transform:none;letter-spacing:0;font-weight:400">(local — no sync)</span></div>
+      <div class="nb-att-list" id="notNbAtt-${nbId}">${renderAttachmentsHtml(nbId, page)}</div>
+      <div class="lb">· imágenes ·</div>
+      <div class="nb-images" id="notNbImages-${nbId}">${renderImagesHtml(nbId, page)}</div>`;
+  }
+
+  /* ── RENDER (full notebook card) ──────────────────────────── */
   function renderEditor(nb){
     const pages = getPages(nb.id);
     const page = activePageId ? pages.find(p => p.id === activePageId) : null;
 
     const pagesList = pages.length ? pages.map(p => {
-      const preview = (p.body || '').replace(/<[^>]*>/g,'').substring(0, 80);
+      const preview = (p.body || '').replace(/<[^>]*>/g,'').substring(0, 70);
       const isActive = activePageId === p.id;
-      return `<div class="nb-entry${isActive?' open':''}" style="background:var(--c1);border:1px solid var(--bd);border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer" onclick="NotNB.openPage('${nb.id}',${p.id})">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      return `<div class="nb-entry${isActive?' open':''}">
+        <div class="nb-entry-h" onclick="NotNB.openPage('${nb.id}',${p.id})">
           <div style="min-width:0;flex:1">
-            <div style="font-size:13px;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title || 'Sin título')}</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length>=80?'…':''}</div>
+            <div class="nb-entry-title">${esc(p.title || 'Sin título')}</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length>=70?'…':''}</div>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-            <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${new Date(p.updated||p.created).toLocaleDateString('es',{day:'numeric',month:'short'})}</span>
-            <span style="font-size:10px;color:var(--t3)">${(p.images||[]).length?'🖼'+p.images.length:''} ${(p.attachments||[]).length?'📎'+p.attachments.length:''}</span>
-            <button onclick="event.stopPropagation();NotNB.deletePage('${nb.id}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.6">🗑</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day:'numeric', month:'short' })}</span>
+            <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length?'🔗'+p.links.length:''} ${(p.images||[]).length?'🖼'+p.images.length:''} ${(p.attachments||[]).length?'📎'+p.attachments.length:''}</span>
+            <button onclick="event.stopPropagation();NotNB.deletePage('${nb.id}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
           </div>
         </div>
       </div>`;
-    }).join('') : '<div style="text-align:center;padding:20px;color:var(--t3);font-size:11px;border:1px dashed var(--bd);border-radius:8px">Sin páginas. Click "+ Nueva página".</div>';
+    }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
 
-    const editorBlock = page ? `
-      <div style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px;margin:10px 0">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <input id="notNbTitle" value="${esc(page.title||'').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NotNB.autoSave('${nb.id}')" style="flex:1;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:8px 10px;color:var(--tx);font-family:inherit;font-size:14px;font-weight:600">
-          <span id="notNbSaved" style="font-size:10px;color:var(--gn);opacity:0;transition:opacity .3s;font-family:'IBM Plex Mono',monospace">✓ guardado</span>
-        </div>
-        <div id="notNbBody" contenteditable="true" oninput="NotNB.autoSave('${nb.id}')" data-placeholder="Escribe aquí tus apuntes..." style="min-height:200px;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:12px;color:var(--tx);font-family:inherit;font-size:13px;line-height:1.7;outline:none">${page.body || ''}</div>
-        <style>#notNbBody:empty::before{content:attr(data-placeholder);color:var(--t3);font-style:italic} #notNbSaved.on{opacity:1}</style>
-      </div>
-      <div class="lb">· imágenes ·</div>
-      <div class="nb-images" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:10px">${
-        (page.images||[]).length ? page.images.map((im,i) =>
-          `<div class="nb-img-card" style="position:relative;background:var(--c1);border:1px solid var(--bd);border-radius:8px;overflow:hidden">
-            <button class="nb-img-del" onclick="event.stopPropagation();NotNB.removeImage('${nb.id}',${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.7);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:11px;z-index:2" title="Eliminar">✕</button>
-            <button class="nb-img-rename" onclick="event.stopPropagation();NotNB.renameImage('${nb.id}',${i})" style="position:absolute;top:4px;right:30px;background:rgba(0,0,0,.7);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:11px;z-index:2" title="Renombrar">✏</button>
-            <img src="${im.data}" alt="${esc(im.caption)}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block">
-            <div style="padding:6px 8px;font-size:11px;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(im.caption||'Sin nombre')}</div>
-          </div>`
-        ).join('') : '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen".</div>'
-      }</div>
-      <div class="lb">· archivos · <span style="font-size:9px;color:var(--t3);text-transform:none;letter-spacing:0;font-weight:400">(local — no sync)</span></div>
-      <div class="nb-att-list">${window.NBShared ? NBShared.renderAttachmentChips(page.attachments||[], { onRemove: "NotNB.removeAttachment.bind(null,'"+nb.id+"')" }) : ''}</div>
-    ` : '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;background:var(--c1);border:1px dashed var(--bd);border-radius:8px;margin:10px 0">Crea o selecciona una página para empezar a escribir.</div>';
-
+    const editorHtml = buildEditorHtml(nb.id, page);
     const created = nb.created ? new Date(nb.created).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}) : '';
 
     return `<div class="cd" style="border-left:3px solid ${nb.color||'#8b5cf6'};padding:0;overflow:hidden">
@@ -292,10 +437,11 @@ const NotNB = (function(){
       </div>
       <div style="padding:14px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button class="btn bp" onclick="NotNB.newPage('${nb.id}')">+ Nueva página</button>
-            ${page ? `<button class="btn bo" onclick="NotNB.addImage('${nb.id}')">🖼️ Imagen</button>
-            <button class="btn bo" onclick="NotNB.attachFile('${nb.id}')">📎 Adjuntar</button>` : ''}
+          <div class="nb-toolbar">
+            <button onclick="NotNB.newPage('${nb.id}')" style="background:var(--ac);color:#fff">+ Nueva página</button>
+            ${page ? `<button onclick="NotNB.addLink('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
+            <button onclick="NotNB.addImage('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen</button>
+            <button onclick="NotNB.attachFile('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
           </div>
           <div style="display:flex;gap:4px">
             <button onclick="NotNB.editDesign('${nb.id}')" class="btn bo bs">🎨 Diseño</button>
@@ -303,9 +449,9 @@ const NotNB = (function(){
             <button onclick="NotNB.remove('${nb.id}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
-        ${editorBlock}
+        ${editorHtml || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;background:var(--c1);border:1px dashed var(--bd);border-radius:8px;margin:10px 0">Crea o selecciona una página para empezar a escribir.</div>'}
         <div class="lb" style="margin-top:14px">· páginas ·</div>
-        ${pagesList}
+        <div class="nb-entries">${pagesList}</div>
       </div>
     </div>`;
   }
@@ -350,6 +496,8 @@ const NotNB = (function(){
     create, rename, remove, render, selectActive,
     openDesignPicker, refreshNewFormPreview, editDesign,
     newPage, openPage, deletePage, autoSave,
+    fmt, insertLabel, removeLabelEl,
+    addLink, removeLink,
     addImage, renameImage, removeImage,
     attachFile, removeAttachment,
   };
