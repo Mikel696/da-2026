@@ -135,7 +135,7 @@ function rK(){
           ${fa?'<span class="ka-fa '+fc+'">'+fa+'</span>':''}
           <div class="ka-d">${c.dateLabel||(c.date?Math.floor((Date.now()-c.date)/864e5)+'d ago':'')}</div>
         </div>`;
-      }).join('')}</div>
+      }).join('')||'<div style="text-align:center;padding:28px 12px;color:var(--t3);font-size:11px">Sin postulaciones</div>'}</div>
     </div>`;
   }).join('');
 }

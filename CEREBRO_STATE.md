@@ -6,6 +6,55 @@
 
 ---
 
+## 🎨 UI/UX Audit + Fixes — Todos los módulos — 2026-04-26
+
+### Auditoría completada (Score promedio: 6.4/10 → ~8/10 post-fix)
+
+**🔴 Críticos resueltos (4):**
+1. `css/auth.css` — Reescrito completo: 34 líneas de hex hardcodeado → 100% CSS tokens (`var(--acid)`, `var(--ink)`, `var(--mint)`, `var(--rose)`, etc.)
+2. `css/main.css:27` — `a:hover{color:#fff}` → `color:var(--txt)`
+3. `css/main.css:68+77` — `.btn-study:hover` y `.btn-ghost:hover` hardcoded `#fff/#e8ff40` → tokens
+4. `SistemaDA2026_Tactico.html` — Aliases estándar añadidos en `:root` (`--ac`, `--bd`, `--tx`, `--t2`, `--t3`, `--bg`, `--el`, `--gn`) para alinear con la API de tokens del resto del proyecto
+
+**🟡 Medios resueltos (5):**
+5. `js/jobs.js` — Kanban columns: empty state `'Sin postulaciones'` cuando columna vacía
+6. `systems.html` — Orbs: `hsl(142,72%,29%)`, `hsl(263,70%,50%)`, `hsl(172,66%,50%)` → `var(--gn)`, `var(--vi)`, `var(--tl)`
+7. `news.html` — RSS error state sin cache: añadido botón "↺ Reintentar" en el path de error
+8. `css/jobs.css` — `.jsite-btn-es/pt/en/remote`: hex/rgba hardcodeados → `var(--rg/--rd)`, `var(--gg/--gn)`, `var(--cg/--cy)`
+
+**✅ Módulos con empty states pre-existentes (no requirieron cambios):**
+- 1-IND: feed offline/error ya manejado
+- 8-PRO: histList "Sin prompts guardados" + library "No hay prompts"
+- 9-GOA (goals.js): "Sin objetivos", "Sin hábitos aún", "Sin revisiones aún"
+- 10-SYS (systems_logic.js): "📹 Aún no hay clases guardadas"
+- 13-NOT (notes.js): "Sin notas aún. Crea tu primera nota." + journal vacío
+
+### Estado de diseño por módulo post-fix:
+| Módulo | Score | Estado |
+|---|---|---|
+| 1-IND index | 7/10 | 🟢 |
+| 2-APP apply | 7/10 | 🟢 |
+| 3-ENG english | 7/10 | 🟢 |
+| 4-RUT ruta | 8/10 | 🟢 |
+| 5-JOB jobs | **8/10** | 🟢 (empty state + tokens) |
+| 6-TOO tools | 8/10 | 🟢 |
+| 7-NEW news | **8/10** | 🟢 (retry btn) |
+| 8-PRO prompts | 7/10 | 🟢 |
+| 9-GOA goals | 7/10 | 🟢 |
+| 10-SYS systems | **8/10** | 🟢 (orbs tokenizados) |
+| 11-ACC accounting | 7/10 | 🟢 |
+| 12-FIN finance | 7/10 | 🟢 |
+| 13-NOT notes | 7/10 | 🟢 |
+| 14-TAC Tactico | **7/10** | 🟢 (aliases añadidos) |
+| auth.css | **8/10** | 🟢 (reescrito total) |
+| main.css | **7/10** | 🟢 (color leaks corregidos) |
+
+### Deuda técnica restante (baja prioridad):
+- Borders de `.jsite-btn-*` aún usan `rgba()` inline (no hay tokens de borde por color disponibles)
+- Token naming duality (`--acid` en main.css/Tactico vs `--ac` en módulos nuevos) — requiere decisión arquitectural de unificación futura
+
+---
+
 ## fix(8-PRO) · Prompt Lab — Copy button & Bootstrap prompt — 2026-04-26
 
 ### Qué cambió

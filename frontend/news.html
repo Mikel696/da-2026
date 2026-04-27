@@ -152,7 +152,7 @@ allArticles=cache.articles;
 renderFeeds();
 document.getElementById('lastUp').textContent='Offline — mostrando cache del '+new Date(cache.time).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 }else{
-document.getElementById('feedAll').innerHTML='<div class="error">📡 Sin conexión a las fuentes RSS. Verifica tu conexión a internet y vuelve a intentar.</div>';
+document.getElementById('feedAll').innerHTML='<div class="error">📡 Sin conexión a las fuentes RSS. Verifica tu conexión a internet y vuelve a intentar.<div class="refresh" style="margin-top:10px"><button class="btn bp" onclick="loadAll()">↺ Reintentar</button></div></div>';
 }
 }
 }catch(e){
