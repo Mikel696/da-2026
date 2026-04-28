@@ -145,13 +145,25 @@
 </div>
 </div>
 
-<!-- ══════ OPTIMIZAR ══════ -->
+<!-- ══════ OPTIMIZAR (idea → prompt estructurado, project-aware) ══════ -->
 <div class="pnl" id="p-opt">
-<div class="tip"><b>⚡ Cómo funciona</b><p>Escribe tu idea. Selecciona contexto y tono. El motor aplica <strong>10 reglas de prompt engineering</strong> y genera un prompt estructurado con rol, contexto XML, tarea, formato y restricciones. <strong>Instantáneo, sin conexión, sin tokens.</strong></p></div>
+<div class="tip"><b>⚡ Cómo funciona</b><p>Escribe tu idea en cualquier idioma. El motor analiza tu intención, detecta señales del proyecto (cuadernos, sync, auth, design tokens…), aplica el contexto del módulo objetivo y devuelve un <strong>prompt estructurado en inglés</strong> con rol, contexto, tarea, restricciones y deliverable. Después podés enviarlo a <strong>Claude Optimize</strong> para refinar parámetros finales antes de pegarlo en Claude Code.</p></div>
 
 <div class="card">
-<div style="font-size:14px;font-weight:600;margin-bottom:12px">Tu idea (en bruto)</div>
-<textarea class="textarea" id="rawIdea" placeholder="Ejemplo: quiero analizar las ventas de mi tienda online para saber qué productos vender más y en qué meses vendo menos..."></textarea>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+<div>
+<div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px">Módulo objetivo</div>
+<select class="select" id="optModule" style="width:100%"></select>
+</div>
+<div>
+<div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px">Tipo de tarea</div>
+<select class="select" id="optTaskType" style="width:100%"></select>
+</div>
+</div>
+
+<div style="font-size:14px;font-weight:600;margin-bottom:8px">Tu idea (escribila como la pensás — español o inglés)</div>
+<textarea class="textarea" id="rawIdea" placeholder="Ejemplo: Quiero que en el módulo de finanzas pueda categorizar los gastos automáticamente según una palabra clave del concepto y que se sincronice con la nube. También que tenga un gráfico de tendencia mensual."></textarea>
+
 <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
 <select class="select" id="pCtx">
 <option value="general">🎯 General</option>
@@ -163,27 +175,30 @@
 <option value="career">🎯 Carrera / CV / Entrevista</option>
 </select>
 <select class="select" id="pTone">
+<option value="concise" selected>Conciso (ahorra tokens)</option>
 <option value="professional">Profesional</option>
-<option value="concise">Conciso (ahorra tokens)</option>
 <option value="detailed">Detallado</option>
 <option value="creative">Creativo</option>
 </select>
 <select class="select" id="pLang">
+<option value="en" selected>🇺🇸 English (recomendado p/ Claude Code)</option>
 <option value="es">🇪🇸 Español</option>
-<option value="en">🇺🇸 English</option>
 </select>
 <button class="btn bp" onclick="optimize()">⚡ Optimizar Prompt</button>
 </div>
+<div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic">💡 El motor detecta automáticamente palabras como "notebook", "auth", "sync", "design tokens", "drag-drop" y agrega las restricciones específicas del proyecto.</div>
 </div>
 
 <div id="optResult" style="display:none">
 <div class="lbl">· prompt optimizado — listo para usar ·</div>
 <div class="result" id="optOutput"></div>
 <div class="result-actions">
+<button class="btn bp bs" onclick="sendOptToClaude()" style="background:linear-gradient(135deg,var(--ac),var(--cy))">→ Enviar a Claude Optimize</button>
 <button class="btn bg bs" onclick="copyOpt()">📋 Copiar prompt</button>
 <button class="btn bo bs" onclick="saveHist()">💾 Guardar en historial</button>
 <button class="btn bo bs" onclick="document.getElementById('optResult').style.display='none'">✕ Cerrar</button>
 </div>
+<div id="optStats" style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-top:6px"></div>
 </div>
 </div>
 
@@ -297,88 +312,211 @@ learning:{es:'Estructura: Concepto simple → Ejemplo práctico → Ejercicio �
 career:{es:'Incluye: contexto del rol, preparación específica, respuestas modelo con método STAR, y red flags.',en:'Include: role context, specific preparation, model answers with STAR method, and red flags.'}
 };
 
+// ══════════════════════════════════════════════════════════════
+// OPTIMIZE v3 — Project-aware prompt engineering
+// Uses CO_MODULE + CO_SIGNALS + CO_TASK_HINTS (defined in CLAUDE OPTIMIZE section).
+// Default output language: English (Claude Code performs best in English).
+// Every prompt includes by default:
+//   1. ROLE — persona derived from module + task type
+//   2. PROJECT context — REPO + LIVE URL + module files & state keys
+//   3. CONTEXT — user idea (cleaned of fillers)
+//   4. TASK — structured numbered list extracted from idea
+//   5. CONSTRAINTS — auto-detected from idea via CO_SIGNALS + module-specific
+//      defaults + 4-layer architecture + auth chain + design tokens
+//   6. DELIVERABLE — commit/push instructions based on task type
+//   7. Footer with optimizer version & module/signal counts (audit trail)
+// ══════════════════════════════════════════════════════════════
+function populateOptDropdowns(){
+  const modSel=document.getElementById('optModule');
+  const taskSel=document.getElementById('optTaskType');
+  if(!modSel||!taskSel||modSel.options.length>0)return;
+  // Mirror Claude Optimize dropdowns
+  const modOptions=[
+    ['HOME','🏠 HOME · Main Page (index.html)'],
+    ['3-ENG','📚 3-ENG · English Academy'],
+    ['5-JOB','💼 5-JOB · Job Tracker'],
+    ['8-PRO','✨ 8-PRO · Prompts Lab'],
+    ['9-GOA','🎯 9-GOA · Goals & Habits'],
+    ['10-SYS','🎓 10-SYS · Systems Engineering'],
+    ['11-ACC','💰 11-ACC · Accounting'],
+    ['12-FIN','💵 12-FIN · Personal Finance'],
+    ['13-NOT','📓 13-NOT · Notes & Journal'],
+    ['APPLY','📨 APPLY · Application Center'],
+    ['SIM','🎤 SIM · Interview Simulation'],
+    ['RUTA','🛤️ RUTA · Data Analyst Path'],
+    ['NEWS','📰 NEWS · Data & AI News'],
+    ['TOOLS','🧰 TOOLS · Directory'],
+    ['GENERAL','⚙️ GENERAL · Cross-cutting / Architecture'],
+  ];
+  modSel.innerHTML=modOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+  const taskOptions=[
+    ['feature','✨ Feature (add new)'],
+    ['bugfix','🐛 Bugfix (fix broken)'],
+    ['refactor','♻️ Refactor (clean up)'],
+    ['rewrite','🔄 Rewrite (replace)'],
+    ['ui','🎨 UI/UX polish'],
+    ['audit','🔬 Audit (read-only)'],
+    ['data','🛡️ Data integrity'],
+    ['sync','☁️ Cloud-sync wiring'],
+    ['nb','📓 Notebook (cuadernos)'],
+    ['explore','🔍 Explore (read-only)'],
+    ['doc','📄 Documentation'],
+    ['deploy','🚀 Deploy/Commit'],
+  ];
+  taskSel.innerHTML=taskOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+}
+populateOptDropdowns();
+
 function optimize(){
-const idea=document.getElementById('rawIdea').value.trim();
-if(!idea){alert('Escribe tu idea primero.');return}
-const ctx=document.getElementById('pCtx').value;
-const tone=document.getElementById('pTone').value;
-const lang=document.getElementById('pLang').value;
+  const idea=document.getElementById('rawIdea').value.trim();
+  if(!idea){alert('Escribe tu idea primero.');return}
+  const ctxKind=document.getElementById('pCtx').value;
+  const tone=document.getElementById('pTone').value;
+  const lang=document.getElementById('pLang').value;
+  const mod=document.getElementById('optModule').value;
+  const taskType=document.getElementById('optTaskType').value;
 
-const L=lang;
-const role=roles[ctx][L];
-const toneText=toneInst[tone][L];
-const formatText=formatInst[ctx][L];
+  const L=lang;
+  const isEN=L==='en';
+  const modCtx=(typeof CO_MODULE!=='undefined'&&CO_MODULE[mod])?CO_MODULE[mod]:null;
+  const taskHint=(typeof CO_TASK_HINTS!=='undefined'&&CO_TASK_HINTS[taskType])?CO_TASK_HINTS[taskType]:{verb:'Implement',constraint:''};
+  const role=(roles[ctxKind]||roles.general)[L];
+  const toneText=(toneInst[tone]||toneInst.professional)[L];
 
-// Extract key concepts from the idea
-const words=idea.split(/\s+/);
-const isLong=words.length>30;
+  // Clean the idea using the same filler patterns as Claude Optimize
+  const cleanedIdea=(typeof coClean==='function')?coClean(idea):idea;
+  // Extract structured tasks
+  const taskList=(typeof coExtractTasks==='function')?coExtractTasks(cleanedIdea):[cleanedIdea];
+  // Detect signals (notebook, auth, sync, design, etc)
+  const signals=(typeof coDetectSignals==='function')?coDetectSignals(idea):[];
 
-// Build optimized prompt
-let prompt='';
+  // Build numbered task list
+  const taskLines=taskList.length>1
+    ? taskList.map((t,i)=>(i+1)+'. '+t.charAt(0).toUpperCase()+t.slice(1)).join('\n')
+    : taskHint.verb+' '+(taskList[0]||cleanedIdea).replace(/^(add|fix|refactor|rewrite|explore|document|commit|implement)\s+/i,'').toLowerCase();
 
-if(L==='es'){
-prompt=`Actúa como ${role}.
+  // Default constraints every Claude Code prompt should have
+  const defaultConstraints=isEN?[
+    '- Read CEREBRO_STATE.md and MEMORY.md before executing.',
+    '- Preserve all existing functionality — flag any intentional behavior change.',
+    '- Use design tokens only (--ac, --gn, --bd, --bg, --tx, --t2, --t3) — no hardcoded hex/rgb colors.',
+    '- 4-layer architecture: HTML shell + CSS + JS IIFE + JSON data.',
+    '- Use module codes (3-ENG, 5-JOB, etc) instead of full names in responses.',
+    '- Short responses; no recaps, no filler.',
+    '- PLATFORM-WIDE AUTH: every HTML page must include the 4-script auth chain before </body> (Supabase CDN → supabase-client.js → auth.js → cloud-sync.js).',
+    '- If creating/copying/renaming any .html, immediately add the auth chain — otherwise sync silently breaks.',
+  ]:[
+    '- Lee CEREBRO_STATE.md y MEMORY.md antes de ejecutar.',
+    '- Preserva toda funcionalidad existente — marca cambios de comportamiento intencionales.',
+    '- Usa solo design tokens (--ac, --gn, --bd, --bg, --tx, --t2, --t3) — sin hex/rgb hardcodeados.',
+    '- Arquitectura 4 capas: HTML shell + CSS + JS IIFE + JSON data.',
+    '- Usa códigos de módulo (3-ENG, 5-JOB, etc) en lugar de nombres completos.',
+    '- Respuestas cortas; sin recaps, sin relleno.',
+    '- AUTH PLATFORM-WIDE: cada página HTML debe incluir la cadena de 4 scripts antes de </body> (Supabase CDN → supabase-client.js → auth.js → cloud-sync.js).',
+    '- Si creás/copiás/renombrás un .html, agregá la auth chain inmediatamente — si no, el sync falla silenciosamente.',
+  ];
 
-<contexto>
-${idea}
-</contexto>
+  // Combine: task-hint constraint + signal-based constraints + defaults
+  const allConstraints=[taskHint.constraint||'',...signals.map(s=>'- '+s),...defaultConstraints]
+    .flatMap(c=>c.split('\n')).map(c=>c.trim()).filter((c,i,a)=>c&&a.indexOf(c)===i);
 
-<tarea>
-${extractTask(idea,L)}
-</tarea>
+  // Tone modifier appended at end
+  const toneModifier=tone==='concise'?(isEN?'\n- Be ultra concise. No filler. Only essentials.':'\n- Sé ultra conciso. Sin relleno. Solo lo esencial.'):'';
 
-<formato>
-${formatText}
-${toneText}
-</formato>
+  // Module block (only if modCtx exists)
+  const moduleBlock=modCtx?(isEN?
+`MODULE: ${mod} · ${modCtx.name}
+FILES: ${modCtx.files}
+STATE KEYS: ${modCtx.state}
+NOTES: ${modCtx.notes}`:
+`MÓDULO: ${mod} · ${modCtx.name}
+ARCHIVOS: ${modCtx.files}
+KEYS DE ESTADO: ${modCtx.state}
+NOTAS: ${modCtx.notes}`):'';
 
-<restricciones>
-- No incluyas introducciones genéricas ni despedidas
-- No repitas información que ya proporcioné en el contexto
-- Prioriza información accionable sobre teoría
-- Si no tienes suficiente información, pregunta antes de asumir${isLong?'':'\n- Máximo 300 palabras'}
-</restricciones>`;
-}else{
-prompt=`Act as ${role}.
+  // Final prompt assembly
+  const prompt=isEN?
+`ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro). Acting as ${role}.
+REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
+LIVE: https://mikel696.github.io/da-2026/frontend/
 
+${moduleBlock}
+
+CONTEXT (raw idea, cleaned):
 <context>
-${idea}
+${cleanedIdea}
 </context>
 
-<task>
-${extractTask(idea,L)}
-</task>
+TASK (${taskType}):
+${taskLines}
 
-<format>
-${formatText}
-${toneText}
-</format>
+CONSTRAINTS:
+${allConstraints.join('\n')}${toneModifier}
 
-<constraints>
-- Do not include generic introductions or goodbyes
-- Do not repeat information already in the context
-- Prioritize actionable information over theory
-- If you lack information, ask before assuming${isLong?'':'\n- Maximum 300 words'}
-</constraints>`;
+DELIVERABLE: ${taskType==='explore'||taskType==='audit'?'Return a concise report with file paths and line ranges. Read-only — do not modify files.':taskType==='deploy'?'Commit + push to main with a clear message.':'Execute the task, commit and push to main with a clear message. No approval needed.'}
+
+— Generated by Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} project signal${signals.length!==1?'s':''} detected · ${taskList.length} task${taskList.length!==1?'s':''} extracted`:
+`ROL: Lead Frontend Architect para DA-2026 (Segundo Cerebro). Actuando como ${role}.
+REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
+LIVE: https://mikel696.github.io/da-2026/frontend/
+
+${moduleBlock}
+
+CONTEXTO (idea cruda, limpiada):
+<contexto>
+${cleanedIdea}
+</contexto>
+
+TAREA (${taskType}):
+${taskLines}
+
+RESTRICCIONES:
+${allConstraints.join('\n')}${toneModifier}
+
+ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conciso con paths de archivos y rangos de líneas. Solo lectura — no modificar archivos.':taskType==='deploy'?'Commit + push a main con mensaje claro.':'Ejecutar la tarea, commit y push a main con mensaje claro. Sin aprobación necesaria.'}
+
+— Generado por Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} señal${signals.length!==1?'es':''} detectada${signals.length!==1?'s':''} · ${taskList.length} tarea${taskList.length!==1?'s':''} extraída${taskList.length!==1?'s':''}`;
+
+  // Display
+  const resultDiv=document.getElementById('optResult');
+  const output=document.getElementById('optOutput');
+  const stats=document.getElementById('optStats');
+  resultDiv.style.display='block';
+
+  const highlighted=prompt
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/&lt;(\/?)(contexto|context|tarea|task|formato|format|restricciones|constraints|ejemplo|example)&gt;/g,'<span class="tag">&lt;$1$2&gt;</span>')
+    .replace(/^(ROLE|ROL|REPO|LIVE|MODULE|MÓDULO|FILES|ARCHIVOS|STATE KEYS|KEYS DE ESTADO|NOTES|NOTAS|CONTEXT|CONTEXTO|TASK|TAREA|CONSTRAINTS|RESTRICCIONES|DELIVERABLE|ENTREGABLE)([^:]*):/gm,'<span class="tag">$1$2:</span>');
+  output.innerHTML=highlighted;
+  output.dataset.raw=prompt;
+  output.dataset.input=idea;
+  output.dataset.module=mod;
+  output.dataset.taskType=taskType;
+
+  if(stats){
+    const wIn=idea.trim().split(/\s+/).length;
+    const wOut=prompt.trim().split(/\s+/).length;
+    stats.textContent=`words: ${wIn} → ${wOut} · signals: ${signals.length} · tasks: ${taskList.length} · module: ${mod} · output: ${L.toUpperCase()}`;
+  }
+
+  resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// Display result
-const resultDiv=document.getElementById('optResult');
-const output=document.getElementById('optOutput');
-resultDiv.style.display='block';
-
-// Syntax highlight XML tags
-const highlighted=prompt
-.replace(/</g,'&lt;').replace(/>/g,'&gt;')
-.replace(/&lt;(\/?)(contexto|context|tarea|task|formato|format|restricciones|constraints|ejemplo|example)&gt;/g,'<span class="tag">&lt;$1$2&gt;</span>')
-.replace(/^(Actúa como|Act as)(.+)$/m,'<span class="role">$1$2</span>');
-
-output.innerHTML=highlighted;
-output.dataset.raw=prompt;
-output.dataset.input=idea;
-
-// Scroll to result
-resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+/* Hand-off: send the optimized prompt to Claude Optimize for final pass */
+function sendOptToClaude(){
+  const out=document.getElementById('optOutput');
+  if(!out||!out.dataset.raw){alert('Optimiza un prompt primero.');return}
+  const coRaw=document.getElementById('coRaw');
+  const coMod=document.getElementById('coModule');
+  const coType=document.getElementById('coTaskType');
+  if(coRaw)coRaw.value=out.dataset.raw;
+  if(coMod&&out.dataset.module)coMod.value=out.dataset.module;
+  if(coType&&out.dataset.taskType)coType.value=out.dataset.taskType;
+  // Switch to Claude Optimize tab
+  const claudeTab=document.querySelector('.tab[data-p="claude"]');
+  if(claudeTab)claudeTab.click();
+  // Run claudeOptimize automatically so user sees the final version
+  setTimeout(()=>{ if(typeof claudeOptimize==='function')claudeOptimize(); },120);
 }
 
 function extractTask(idea,lang){
