@@ -339,6 +339,116 @@ const ES_FILLERS=[
 //    phrases match before their substrings). Total: ~180 entries covering
 //    actions, nouns, modifiers, common patterns.
 const ES_EN_DICT=[
+// Multi-word user-context phrases (very specific, MUST come first)
+['quiero crear un módulo para mi trabajo','I want to create a module for my work'],
+['mi trabajo en simetrik','my work at Simetrik'],
+['en mi trabajo','at my work'],
+['para mi trabajo','for my work'],
+['en el trabajo','at work'],
+['mi asistente','my assistant'],
+['un asistente','an assistant'],
+['el asistente','the assistant'],
+['traer al módulo','bring to the module'],
+['traerlos al módulo','bring them to the module'],
+['traerlas al módulo','bring them to the module'],
+['este nuevo módulo','this new module'],
+['este módulo','this module'],
+['nuevo módulo','new module'],
+['nueva sección','new section'],
+['módulos ya creados','existing modules'],
+['ya creados','already created'],
+['ya creadas','already created'],
+['lo mejor de','the best of'],
+['lo mejor','the best practices'],
+['toda la información','all the information'],
+['la información','the information'],
+['de cada módulo','from each module'],
+['errores y casos','errors and cases'],
+['casos y dudas','cases and questions'],
+['dudas y casos','questions and cases'],
+['de mi trabajo','from my work'],
+// Common verbs missing (longest-first variants)
+['poderlos resolver','to solve them'],
+['poderlas resolver','to solve them'],
+['poder resolver','to be able to solve'],
+['poder traer','to be able to bring'],
+['poder agregar','to be able to add'],
+['poder editar','to be able to edit'],
+['poder ver','to be able to see'],
+['quiero poder','I want to be able to'],
+['poder','to be able to'],
+['traer','bring'],
+['traigas','bring'],
+['traiga','bring'],
+['traen','bring'],
+['trae','bring'],
+['llevar','take'],
+['llevas','take'],
+['lleve','take'],
+['resolver','solve'],
+['resuelve','solve'],
+['revisar','review'],
+['revises','review'],
+['revisa','review'],
+['revisen','review'],
+['crear','create'],
+['crea','create'],
+['crees','create'],
+['crearás','create'],
+['crearás','create'],
+['cree','create'],
+['creen','create'],
+['créalo','create it'],
+['crealo','create it'],
+['créala','create it'],
+['crealos','create them'],
+['créalos','create them'],
+['tienes','you have'],
+['tiene','has'],
+['tener','have'],
+['tengamos','have'],
+['tenga','have'],
+['tengan','have'],
+['saber','know'],
+['sabes','you know'],
+['sepa','know'],
+// Common nouns missing
+['trabajo','work'],
+['trabajos','jobs'],
+['caso','case'],
+['casos','cases'],
+['duda','question'],
+['dudas','questions'],
+['pregunta','question'],
+['preguntas','questions'],
+['error','error'],
+['errores','errors'],
+['asistente','assistant'],
+['asistentes','assistants'],
+['información','information'],
+['informacion','information'],
+['conocimiento','knowledge'],
+['memoria','memory'],
+['contexto','context'],
+['ayuda','help'],
+['solución','solution'],
+['soluciones','solutions'],
+['problema','problem'],
+['problemas','problems'],
+['proyecto','project'],
+['proyectos','projects'],
+['empresa','company'],
+['equipo','team'],
+['cliente','client'],
+['clientes','clients'],
+['cuenta','account'],
+['cuentas','accounts'],
+['sección','section'],
+['secciones','sections'],
+['parte','part'],
+['partes','parts'],
+['sistema','system'],
+['sistemas','systems'],
 // Reflexive verb compounds (MUST come before "se" alone)
 ['se sincronicen','sync'],
 ['se sincronice','syncs'],
@@ -732,6 +842,13 @@ const ES_EN_DICT=[
 ['el','the'],
 ['la','the'],
 // Critical grammar fillers (must be VERY last — single chars)
+['para','for'],
+['por','for'],
+['con','with'],
+['sin','without'],
+['como','as'],
+['en','in'],
+['a','to'],
 ['que','that'],
 ['de','of'],
 ['se','it'],
@@ -740,6 +857,33 @@ const ES_EN_DICT=[
 ['pero','but'],
 ['si','if'],
 ['no','not'],
+['ni','nor'],
+['lo','it'],
+['le','it'],
+['les','them'],
+['los','the'],
+['nos','us'],
+['te','you'],
+['me','me'],
+['más','more'],
+['mas','more'],
+['mejor','better'],
+['peor','worse'],
+['bien','well'],
+['mal','bad'],
+['muy','very'],
+['poco','little'],
+['mucho','much'],
+['muchos','many'],
+['muchas','many'],
+['varios','several'],
+['varias','several'],
+['algún','some'],
+['alguna','some'],
+['algunos','some'],
+['algunas','some'],
+['ningún','no'],
+['ninguna','no'],
 ];
 
 // 3. Concept extractor — pulls structured ACTIONS / TARGETS / MODIFIERS
@@ -811,32 +955,53 @@ function analyzeIdea(text){
 }
 
 /**
- * Detect if text is Spanish (heuristic).
+ * Detect if text is Spanish — works with or without accents.
+ * Replaced by isSpanishLoose (defined below) which is the same.
  */
-function isSpanish(text){
-  if (!text) return false;
-  // Strong indicators: ñ, accented vowels, common Spanish-only function words
-  if (/[ñáéíóúüÁÉÍÓÚÜ¿¡]/.test(text)) return true;
-  const spanishWords=/(\bque\b|\bpara\b|\bcon\b|\bdel\b|\bpor\b|\bsin\b|\beste\b|\besta\b|\bestos\b|\bestas\b|\bcómo\b|\bqué\b|\bcuándo\b|\bdónde\b|\bquiero\b|\bnecesito\b|\bmódulo\b|\bcuaderno\b|\barchivo\b|\bbotón\b|\bpágina\b)/i;
-  return spanishWords.test(text);
-}
+function isSpanish(text){ return isSpanishLoose(text); }
 
 /**
  * Translate Spanish text to English using the phrase dictionary.
  * Conservative — leaves words it doesn't know as-is. Designed for prompt
  * input, not literary translation. Output is then cleaned by coClean.
  */
+/**
+ * Build an accent-insensitive regex source from a Spanish phrase.
+ * "módulo" / "modulo" / "MÓDULO" / "Modulo" all match the same pattern.
+ */
+function _accentInsensitive(es){
+  return es
+    .replace(/[.*+?^${}()|[\]\\]/g,'\\$&')   // escape regex specials FIRST
+    .replace(/[aá]/gi,'[aá]')
+    .replace(/[eé]/gi,'[eé]')
+    .replace(/[ií]/gi,'[ií]')
+    .replace(/[oó]/gi,'[oó]')
+    .replace(/[uúü]/gi,'[uúü]')
+    .replace(/ñ/gi,'[ñn]');
+}
+
 function translateToEnglish(text){
   if (!text) return '';
   let s=' '+text+' ';
   // 1. Strip Spanish fillers
   ES_FILLERS.forEach(r=>{ s=s.replace(r,' '); });
-  // 2. Apply phrase dictionary (already in longest-first order in source)
+  // 2. Tokenized translation: replace each match with a unique token to
+  //    prevent re-matching of already-translated text. Without this, a
+  //    multi-word phrase like "un modulo" → "a module" would get its
+  //    English "a" re-matched by a later rule "a" → "to". Tokens are
+  //    invisible chars that never collide with text or regex.
+  const tokens={};
+  let n=0;
   ES_EN_DICT.forEach(([es,en])=>{
-    const escaped=es.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-    const re=new RegExp('\\b'+escaped+'\\b','gi');
-    s=s.replace(re,en);
+    const re=new RegExp('\\b'+_accentInsensitive(es)+'\\b','gi');
+    s=s.replace(re,()=>{
+      const tok='T'+(n++)+'';
+      tokens[tok]=en;
+      return tok;
+    });
   });
+  // Swap tokens back to English (in reverse to handle nested cases)
+  Object.keys(tokens).forEach(tok=>{ s=s.split(tok).join(tokens[tok]); });
   // 3. Cleanup whitespace and punctuation
   s=s.replace(/\s+/g,' ')
      .replace(/\s+([,.!?;:])/g,'$1')
@@ -846,6 +1011,17 @@ function translateToEnglish(text){
   // 4. Capitalize first letter of each sentence
   s=s.replace(/(^|[.!?]\s+)([a-z])/g,(_,p,c)=>p+c.toUpperCase());
   return s;
+}
+
+/**
+ * Detect Spanish even with missing accents (modulo, informacion, etc.)
+ */
+function isSpanishLoose(text){
+  if (!text) return false;
+  if (/[ñáéíóúüÁÉÍÓÚÜ¿¡]/.test(text)) return true;
+  // Common Spanish words (also work without accents)
+  const spanishMarkers=/(\bque\b|\bpara\b|\bcon\b|\bdel\b|\bpor\b|\bsin\b|\bpero\b|\beste\b|\besta\b|\bestos\b|\bestas\b|\bcomo\b|\bcuando\b|\bdonde\b|\bquiero\b|\bquieres\b|\bnecesito\b|\bm[oó]dulo\b|\bcuaderno\b|\barchivo\b|\bbot[oó]n\b|\bp[aá]gina\b|\btrabajo\b|\bSimetrik\b|\bmis?\b|\btus?\b|\bnos\b|\bos\b|\bse\b|\bya\b|\btambi[eé]n\b|\bademas\b|\badem[aá]s\b)/i;
+  return spanishMarkers.test(text);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1073,20 +1249,26 @@ ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conc
   resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-/* Hand-off: send the optimized prompt to Claude Optimize for final pass */
+/* Hand-off: send the ORIGINAL raw idea (not the optimized prompt) to Claude
+   Optimize, so it processes from scratch with its own pipeline (translator
+   + signal detector + module context). Avoids the "double-processing"
+   bug where the optimized prompt's own ROLE/MODULE/CONTEXT blocks were
+   being re-extracted as numbered tasks. */
 function sendOptToClaude(){
   const out=document.getElementById('optOutput');
-  if(!out||!out.dataset.raw){alert('Optimiza un prompt primero.');return}
+  if(!out||!out.dataset.input){alert('Optimiza un prompt primero.');return}
   const coRaw=document.getElementById('coRaw');
   const coMod=document.getElementById('coModule');
   const coType=document.getElementById('coTaskType');
-  if(coRaw)coRaw.value=out.dataset.raw;
+  // CRITICAL: send the ORIGINAL idea (out.dataset.input), NOT the optimized
+  // prompt (out.dataset.raw). claudeOptimize will translate + analyze from
+  // scratch with full context, instead of re-parsing an already-structured
+  // prompt as if it were a new request.
+  if(coRaw)coRaw.value=out.dataset.input;
   if(coMod&&out.dataset.module)coMod.value=out.dataset.module;
   if(coType&&out.dataset.taskType)coType.value=out.dataset.taskType;
-  // Switch to Claude Optimize tab
   const claudeTab=document.querySelector('.tab[data-p="claude"]');
   if(claudeTab)claudeTab.click();
-  // Run claudeOptimize automatically so user sees the final version
   setTimeout(()=>{ if(typeof claudeOptimize==='function')claudeOptimize(); },120);
 }
 
@@ -1303,7 +1485,7 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.4';
+const CO_VERSION='2026-04-27.5';
 const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
 
 const CO_MODULE={
@@ -1448,19 +1630,55 @@ return Array.from(new Set(hits));
 }
 
 function claudeOptimize(){
-const raw=document.getElementById('coRaw').value.trim();
-if(!raw){alert('Paste your request first.');return}
+const rawInput=document.getElementById('coRaw').value.trim();
+if(!rawInput){alert('Paste your request first.');return}
 const mod=document.getElementById('coModule').value;
 const type=document.getElementById('coTaskType').value;
 const ctx=CO_MODULE[mod];
 const hint=CO_TASK_HINTS[type];
 
+// GUARD: detect if input is already a structured prompt (was generated by
+// Optimizar or pasted from another tool). If so, the user wants Claude
+// Optimize to "polish" it, not re-extract tasks. We skip the task
+// extraction and pipeline through almost untouched.
+const isAlreadyPrompt=/^ROLE:\s/i.test(rawInput)&&/\bCONSTRAINTS?:|\bDELIVERABLE:/i.test(rawInput);
+
+// PIPELINE STEP 0: translate from Spanish if needed (uses translateToEnglish
+// from the Optimizar engine — defined earlier in the script).
+const wasSpanish=(typeof isSpanishLoose==='function')?isSpanishLoose(rawInput):false;
+const raw=(wasSpanish&&typeof translateToEnglish==='function')?translateToEnglish(rawInput):rawInput;
+
+// EARLY EXIT: if the input is already a structured Claude Code prompt
+// (came from Optimizar or was pasted), don't re-process it. Display
+// as-is with a note. This prevents the "double-processing" bug where
+// ROLE/MODULE/CONTEXT blocks get re-extracted as numbered tasks.
+if (isAlreadyPrompt) {
+  const resultDiv=document.getElementById('coResult');
+  const output=document.getElementById('coOutput');
+  const stats=document.getElementById('coStats');
+  if (resultDiv) resultDiv.style.display='block';
+  if (output) {
+    const note='— ℹ This input is already a structured prompt. Displayed as-is (no re-processing).\n\n';
+    const highlighted=(note+rawInput)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/^(ROLE|REPO|LIVE|MODULE|FILES|STATE KEYS|NOTES|ANALYZED|CONTEXT|TASK[^:]*|CONSTRAINTS|DELIVERABLE):/gm,'<span class="tag">$1:</span>');
+    output.innerHTML=highlighted;
+    output.dataset.raw=rawInput;
+    output.dataset.input=rawInput;
+  }
+  if (stats) stats.textContent='already-structured prompt · displayed as-is';
+  if (resultDiv) resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
+  return;
+}
+
 // 1. Clean raw input
 const cleaned=coClean(raw);
 // 2. Extract task steps
 const tasks=coExtractTasks(cleaned);
-// 3. Detect signals
-const signals=coDetectSignals(raw);
+// 3. Detect signals (run on both original and translated text, dedup)
+const signalsRaw=coDetectSignals(rawInput);
+const signalsTrans=coDetectSignals(raw);
+const signals=Array.from(new Set([...signalsRaw,...signalsTrans]));
 
 // Build bulleted task list (verb-first)
 const taskLines=tasks.length>1
