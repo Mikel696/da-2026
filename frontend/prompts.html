@@ -78,9 +78,9 @@
 <button class="tab" data-p="history">📜 Historial</button>
 </div>
 
-<!-- ══════ CLAUDE OPTIMIZE (token-saver for Claude Code requests) ══════ -->
+<!-- ══════ CLAUDE OPTIMIZE (DA-2026 project context injector) ══════ -->
 <div class="pnl on" id="p-claude">
-<div class="tip"><b>🎯 Token-Saver para Claude Code</b><p>Pegá tu solicitud en <strong>inglés verboso</strong>, elegí el módulo DA-2026 sobre el que trabajarás, y el motor la comprime a un prompt estructurado (<strong>ROLE · CONTEXT · TASK · CONSTRAINTS</strong>) con los archivos, llaves de estado y reglas del módulo pre-cargadas. <strong>100% autónomo · 0 tokens · 0 API · 0 costo</strong>.</p></div>
+<div class="tip"><b>🎯 Claude Optimizer · DA-2026 Context Injector</b><p>Toma cualquier prompt (raw o ya optimizado por <strong>Optimize</strong>) y le inyecta el <strong>environment de ejecución DA-2026</strong>: paths del repo, archivos del módulo objetivo, llaves de estado, auth chain mandatory, design tokens, SYNC_REGISTRY, deliverable spec, y constraints específicas según las señales detectadas. <strong>Pipeline:</strong> idea cruda → <em>⚡ Optimize</em> (prompt engineering) → <em>🎯 Claude Optimizer</em> (DA-2026 context) → pegar en Claude Code.</p></div>
 
 <div class="card">
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
@@ -147,7 +147,7 @@
 
 <!-- ══════ OPTIMIZAR (idea → prompt estructurado, project-aware) ══════ -->
 <div class="pnl" id="p-opt">
-<div class="tip"><b>⚡ Cómo funciona</b><p>Escribe tu idea en cualquier idioma. El motor analiza tu intención, detecta señales del proyecto (cuadernos, sync, auth, design tokens…), aplica el contexto del módulo objetivo y devuelve un <strong>prompt estructurado en inglés</strong> con rol, contexto, tarea, restricciones y deliverable. Después podés enviarlo a <strong>Claude Optimize</strong> para refinar parámetros finales antes de pegarlo en Claude Code.</p></div>
+<div class="tip"><b>⚡ Optimize · Prompt Engineering Engine</b><p>Pegá tu idea en inglés (o español — se traduce automáticamente). El motor aplica <strong>reglas de prompt engineering</strong>: role priming, secciones XML (<code>&lt;role&gt;</code> / <code>&lt;context&gt;</code> / <code>&lt;task&gt;</code> / <code>&lt;output_format&gt;</code> / <code>&lt;rules&gt;</code> / <code>&lt;negative_rules&gt;</code> / <code>&lt;thinking&gt;</code>), tareas numeradas verb-first, output spec, constraints positivos y negativos, y thinking primer. <strong>Resultado:</strong> prompt genérico para cualquier IA (no DA-2026-specific). Después → <strong>Claude Optimizer</strong> agrega el contexto del proyecto.</p></div>
 
 <div class="card">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
@@ -1217,6 +1217,31 @@ function populateOptDropdowns(){
 }
 populateOptDropdowns();
 
+// ══════════════════════════════════════════════════════════════════
+// OPTIMIZE v7 — PROMPT ENGINEERING ENGINE
+// ──────────────────────────────────────────────────────────────────
+// Purpose: Take an idea (English assumed, Spanish auto-translated as
+// fallback) and apply prompt engineering best practices to turn it
+// into a STRUCTURED, PARAMETER-RICH prompt ready for any AI.
+//
+// What this engine ADDS to the idea:
+//   1. Role priming with expertise level
+//   2. XML-tagged sections (<role> <context> <task> <output_format>
+//      <rules> <negative_constraints> <thinking>)
+//   3. Specific numbered tasks (verb-first imperative)
+//   4. Output format specification
+//   5. Positive rules (what to do)
+//   6. Negative constraints (what to avoid: filler, generic intros, etc)
+//   7. Thinking primer (mental outline before responding)
+//   8. Tone modifier (concise / professional / detailed / creative)
+//   9. Auto-detected concept tags (actions/targets) as metadata
+//
+// What it DOES NOT do (that's Claude Optimizer's job):
+//   - Inject DA-2026 project files / state keys / module notes
+//   - Add auth chain / sync registry reminders
+//   - Add design tokens reminders
+//   - Add commit/push deliverable spec
+// ══════════════════════════════════════════════════════════════════
 function optimize(){
   const idea=document.getElementById('rawIdea').value.trim();
   if(!idea){alert('Escribe tu idea primero.');return}
@@ -1228,138 +1253,163 @@ function optimize(){
 
   const L=lang;
   const isEN=L==='en';
-  const modCtx=(typeof CO_MODULE!=='undefined'&&CO_MODULE[mod])?CO_MODULE[mod]:null;
   const taskHint=(typeof CO_TASK_HINTS!=='undefined'&&CO_TASK_HINTS[taskType])?CO_TASK_HINTS[taskType]:{verb:'Implement',constraint:''};
   const role=(roles[ctxKind]||roles.general)[L];
   const toneText=(toneInst[tone]||toneInst.professional)[L];
+  const formatText=(formatInst[ctxKind]||formatInst.general)[L];
 
-  // ── DEEP ANALYSIS PIPELINE ───────────────────────────────────
-  // 1. Detect language of the input
-  const wasSpanish=isSpanish(idea);
-  // 2. Translate to English if user wants EN output but wrote in ES
+  // ── PIPELINE ────────────────────────────────────────────────
+  // 1. Detect language; translate to English if needed (auto-fallback)
+  const wasSpanish=isSpanishLoose(idea);
   const ideaForOutput=(isEN && wasSpanish) ? translateToEnglish(idea) : idea;
-  // 3. Strip fillers (English fillers via coClean — handles output)
+  // 2. Strip English fillers
   const cleanedIdea=(typeof coClean==='function')?coClean(ideaForOutput):ideaForOutput;
-  // 4. Extract structured tasks from the cleaned text
+  // 3. Extract specific numbered tasks (verb-first imperative)
   const taskList=(typeof coExtractTasks==='function')?coExtractTasks(cleanedIdea):[cleanedIdea];
-  // 5. Detect project signals (notebook, auth, sync, design, etc) — runs on
-  //    BOTH original ES text and translated EN text to maximize hits
-  const signalsRaw=(typeof coDetectSignals==='function')?coDetectSignals(idea):[];
-  const signalsTrans=(typeof coDetectSignals==='function')?coDetectSignals(cleanedIdea):[];
-  const signals=Array.from(new Set([...signalsRaw,...signalsTrans]));
-  // 6. Run concept analyzer (actions / targets / modifiers / tech terms)
+  // 4. Run concept analyzer for metadata tags
   const concepts=analyzeIdea(idea+' '+cleanedIdea);
 
-  // Build numbered task list
+  // Build numbered task list with verb-first imperative form
   const taskLines=taskList.length>1
-    ? taskList.map((t,i)=>(i+1)+'. '+t.charAt(0).toUpperCase()+t.slice(1)).join('\n')
-    : taskHint.verb+' '+(taskList[0]||cleanedIdea).replace(/^(add|fix|refactor|rewrite|explore|document|commit|implement)\s+/i,'').toLowerCase();
+    ? taskList.map((t,i)=>{
+        let s=t.replace(/^(i\s+)?(want|need|would\s+like)\s+(to\s+)?/i,'')
+               .replace(/^(can|could|would|should)\s+you\s+/i,'')
+               .replace(/^please\s+/i,'')
+               .replace(/^so\s+/i,'')
+               .trim();
+        return (i+1)+'. '+s.charAt(0).toUpperCase()+s.slice(1);
+      }).join('\n')
+    : '1. '+(taskList[0]||cleanedIdea).replace(/^(i\s+)?(want|need)\s+(to\s+)?/i,'').replace(/^./,c=>c.toUpperCase());
 
-  // Default constraints every Claude Code prompt should have
-  const defaultConstraints=isEN?[
-    '- Read CEREBRO_STATE.md and MEMORY.md before executing.',
-    '- Preserve all existing functionality — flag any intentional behavior change.',
-    '- Use design tokens only (--ac, --gn, --bd, --bg, --tx, --t2, --t3) — no hardcoded hex/rgb colors.',
-    '- 4-layer architecture: HTML shell + CSS + JS IIFE + JSON data.',
-    '- Use module codes (3-ENG, 5-JOB, etc) instead of full names in responses.',
-    '- Short responses; no recaps, no filler.',
-    '- PLATFORM-WIDE AUTH: every HTML page must include the 4-script auth chain before </body> (Supabase CDN → supabase-client.js → auth.js → cloud-sync.js).',
-    '- If creating/copying/renaming any .html, immediately add the auth chain — otherwise sync silently breaks.',
-  ]:[
-    '- Lee CEREBRO_STATE.md y MEMORY.md antes de ejecutar.',
-    '- Preserva toda funcionalidad existente — marca cambios de comportamiento intencionales.',
-    '- Usa solo design tokens (--ac, --gn, --bd, --bg, --tx, --t2, --t3) — sin hex/rgb hardcodeados.',
-    '- Arquitectura 4 capas: HTML shell + CSS + JS IIFE + JSON data.',
-    '- Usa códigos de módulo (3-ENG, 5-JOB, etc) en lugar de nombres completos.',
-    '- Respuestas cortas; sin recaps, sin relleno.',
-    '- AUTH PLATFORM-WIDE: cada página HTML debe incluir la cadena de 4 scripts antes de </body> (Supabase CDN → supabase-client.js → auth.js → cloud-sync.js).',
-    '- Si creás/copiás/renombrás un .html, agregá la auth chain inmediatamente — si no, el sync falla silenciosamente.',
+  // ── PROMPT ENGINEERING SECTIONS ─────────────────────────────
+  // Each section serves a specific prompt-engineering purpose:
+  // <role>             — primes the assistant with a persona + expertise
+  // <context>          — isolates user input so it isn't mixed with rules
+  // <task>             — verb-first imperative numbered list (specificity)
+  // <output_format>    — tells the AI exactly what shape the answer takes
+  // <rules>            — positive: what to do
+  // <negative_rules>   — explicit: what NOT to do (filler, hallucination)
+  // <thinking>         — primes step-back reasoning before responding
+
+  const conceptTags=[
+    concepts.actions.length?`actions: ${concepts.actions.join(', ')}`:'',
+    concepts.targets.length?`targets: ${concepts.targets.join(', ')}`:'',
+    concepts.modifiers.length?`modifiers: ${concepts.modifiers.join(', ')}`:'',
+    concepts.techTerms.length?`tech: ${concepts.techTerms.join(', ')}`:'',
+  ].filter(Boolean).join(' · ');
+
+  const negativeRules_EN=[
+    '- Do not include generic introductions ("Certainly", "Of course", "As an AI…").',
+    '- Do not repeat information already in the <context>.',
+    '- Do not invent data, statistics, or sources — flag if missing.',
+    '- Do not use filler ("basically", "essentially", "in general").',
+    '- Do not sign off with "Hope this helps" or similar.',
+  ];
+  const negativeRules_ES=[
+    '- No incluyas introducciones genéricas ("Por supuesto", "Claro", "Como una IA…").',
+    '- No repitas información ya presente en el <contexto>.',
+    '- No inventes datos, estadísticas ni fuentes — marca si falta info.',
+    '- No uses muletillas ("básicamente", "esencialmente", "en general").',
+    '- No cierres con "Espero que esto ayude" ni similar.',
   ];
 
-  // Combine: task-hint constraint + signal-based constraints + defaults
-  const allConstraints=[taskHint.constraint||'',...signals.map(s=>'- '+s),...defaultConstraints]
-    .flatMap(c=>c.split('\n')).map(c=>c.trim()).filter((c,i,a)=>c&&a.indexOf(c)===i);
+  const positiveRules_EN=[
+    `- ${toneText}`,
+    '- Use clear hierarchical structure (headings, bullets) when applicable.',
+    '- Cite specific evidence or examples for claims.',
+    '- Flag any assumption you make explicitly.',
+    '- Ask for clarification if critical info is missing — do not guess.',
+  ];
+  const positiveRules_ES=[
+    `- ${toneText}`,
+    '- Usá estructura jerárquica clara (encabezados, bullets) cuando aplique.',
+    '- Citá evidencia o ejemplos específicos para tus afirmaciones.',
+    '- Marcá explícitamente cualquier supuesto que hagas.',
+    '- Pedí clarificación si falta info crítica — no adivines.',
+  ];
 
-  // Tone modifier appended at end
-  const toneModifier=tone==='concise'?(isEN?'\n- Be ultra concise. No filler. Only essentials.':'\n- Sé ultra conciso. Sin relleno. Solo lo esencial.'):'';
+  const thinking_EN=`Before responding:
+1. Identify what is explicit vs implicit in the request.
+2. Confirm the expected deliverable shape (code? prose? list? plan?).
+3. Plan response structure mentally.
+4. Verify scope: what's in/out of the task.`;
+  const thinking_ES=`Antes de responder:
+1. Identificá qué es explícito vs implícito en el pedido.
+2. Confirmá la forma del entregable esperado (¿código? ¿prosa? ¿lista? ¿plan?).
+3. Planificá la estructura de la respuesta mentalmente.
+4. Verificá el alcance: qué entra/sale de la tarea.`;
 
-  // Module block (only if modCtx exists)
-  const moduleBlock=modCtx?(isEN?
-`MODULE: ${mod} · ${modCtx.name}
-FILES: ${modCtx.files}
-STATE KEYS: ${modCtx.state}
-NOTES: ${modCtx.notes}`:
-`MÓDULO: ${mod} · ${modCtx.name}
-ARCHIVOS: ${modCtx.files}
-KEYS DE ESTADO: ${modCtx.state}
-NOTAS: ${modCtx.notes}`):'';
+  // Translation block (only if input was Spanish + output is English)
+  const translationBlock=(wasSpanish && isEN)
+    ? `<original_input lang="es">${idea.replace(/</g,'&lt;')}</original_input>\n\n<translated_input lang="en">${cleanedIdea.replace(/</g,'&lt;')}</translated_input>\n\n`
+    : '';
 
-  // Build ANALYZED block: structured concept summary
-  const analyzedBlock=isEN?
-`ANALYZED (auto-extracted concepts):
-- Primary action${concepts.actions.length!==1?'s':''}: ${concepts.actions.length?concepts.actions.join(', '):'(none detected — review TASK)'}
-- Target${concepts.targets.length!==1?'s':''}: ${concepts.targets.length?concepts.targets.join(', '):'(none — generic task)'}
-- Modifier${concepts.modifiers.length!==1?'s':''}: ${concepts.modifiers.length?concepts.modifiers.join(', '):'(none)'}${concepts.techTerms.length?'\n- Technical terms: '+concepts.techTerms.join(', '):''}`:
-`ANALIZADO (conceptos auto-extraídos):
-- Acción${concepts.actions.length!==1?'es':''} primaria${concepts.actions.length!==1?'s':''}: ${concepts.actions.length?concepts.actions.join(', '):'(ninguna detectada — revisa TAREA)'}
-- Target${concepts.targets.length!==1?'s':''}: ${concepts.targets.length?concepts.targets.join(', '):'(ninguno — tarea genérica)'}
-- Modificador${concepts.modifiers.length!==1?'es':''}: ${concepts.modifiers.length?concepts.modifiers.join(', '):'(ninguno)'}${concepts.techTerms.length?'\n- Términos técnicos: '+concepts.techTerms.join(', '):''}`;
-
-  // Build translation block (only if input was Spanish and output is English)
-  const translationBlock=(wasSpanish && isEN)?`USER'S RAW IDEA (original Spanish, preserved for nuance):
-"${idea.replace(/"/g,'\\"')}"
-
-USER'S IDEA (auto-translated to English):
-"${cleanedIdea.replace(/"/g,'\\"')}"
-
-`:'';
-
-  // Final prompt assembly
+  // ── FINAL PROMPT ASSEMBLY ───────────────────────────────────
   const prompt=isEN?
-`ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro). Acting as ${role}.
-REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
-LIVE: https://mikel696.github.io/da-2026/frontend/
+`<role>
+You are ${role}.
+Apply expert-level reasoning. Be precise, evidence-driven, and actionable.
+</role>
 
-${moduleBlock}
-
-${analyzedBlock}
-
-${translationBlock}CONTEXT (cleaned + structured):
 <context>
+${translationBlock}<user_intent type="${taskType}" tags="${conceptTags||'none'}">
 ${cleanedIdea}
+</user_intent>
 </context>
 
-TASK (${taskType}):
+<task>
 ${taskLines}
+</task>
 
-CONSTRAINTS:
-${allConstraints.join('\n')}${toneModifier}
+<output_format>
+${formatText}
+</output_format>
 
-DELIVERABLE: ${taskType==='explore'||taskType==='audit'?'Return a concise report with file paths and line ranges. Read-only — do not modify files.':taskType==='deploy'?'Commit + push to main with a clear message.':'Execute the task, commit and push to main with a clear message. No approval needed.'}
+<rules>
+${positiveRules_EN.join('\n')}
+</rules>
 
-— Generated by Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} project signal${signals.length!==1?'s':''} · ${taskList.length} task${taskList.length!==1?'s':''} · ${concepts.actions.length} action${concepts.actions.length!==1?'s':''} + ${concepts.targets.length} target${concepts.targets.length!==1?'s':''} extracted${wasSpanish?' · ES→EN translated':''}`:
-`ROL: Lead Frontend Architect para DA-2026 (Segundo Cerebro). Actuando como ${role}.
-REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
-LIVE: https://mikel696.github.io/da-2026/frontend/
+<negative_rules>
+${negativeRules_EN.join('\n')}
+</negative_rules>
 
-${moduleBlock}
+<thinking>
+${thinking_EN}
+</thinking>
 
-${analyzedBlock}
+<!-- Optimize v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${taskList.length} task${taskList.length!==1?'s':''} · ${concepts.actions.length}A/${concepts.targets.length}T${wasSpanish?' · ES→EN':''} -->`:
+`<rol>
+Eres ${role}.
+Aplicá razonamiento experto. Sé preciso, basado en evidencia y accionable.
+</rol>
 
-CONTEXTO (limpiado + estructurado):
 <contexto>
+<intencion_usuario tipo="${taskType}" tags="${conceptTags||'ninguno'}">
 ${cleanedIdea}
+</intencion_usuario>
 </contexto>
 
-TAREA (${taskType}):
+<tarea>
 ${taskLines}
+</tarea>
 
-RESTRICCIONES:
-${allConstraints.join('\n')}${toneModifier}
+<formato_salida>
+${formatText}
+</formato_salida>
 
-ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conciso con paths de archivos y rangos de líneas. Solo lectura — no modificar archivos.':taskType==='deploy'?'Commit + push a main con mensaje claro.':'Ejecutar la tarea, commit y push a main con mensaje claro. Sin aprobación necesaria.'}
+<reglas>
+${positiveRules_ES.join('\n')}
+</reglas>
 
-— Generado por Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} señal${signals.length!==1?'es':''} · ${taskList.length} tarea${taskList.length!==1?'s':''} · ${concepts.actions.length} acci${concepts.actions.length===1?'ón':'ones'} + ${concepts.targets.length} target${concepts.targets.length!==1?'s':''} extraídos`;
+<reglas_negativas>
+${negativeRules_ES.join('\n')}
+</reglas_negativas>
+
+<pensamiento>
+${thinking_ES}
+</pensamiento>
+
+<!-- Optimize v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${taskList.length} tarea${taskList.length!==1?'s':''} · ${concepts.actions.length}A/${concepts.targets.length}T -->`;
 
   // Display
   const resultDiv=document.getElementById('optResult');
@@ -1369,8 +1419,8 @@ ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conc
 
   const highlighted=prompt
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/&lt;(\/?)(contexto|context|tarea|task|formato|format|restricciones|constraints|ejemplo|example)&gt;/g,'<span class="tag">&lt;$1$2&gt;</span>')
-    .replace(/^(ROLE|ROL|REPO|LIVE|MODULE|MÓDULO|FILES|ARCHIVOS|STATE KEYS|KEYS DE ESTADO|NOTES|NOTAS|CONTEXT|CONTEXTO|TASK|TAREA|CONSTRAINTS|RESTRICCIONES|DELIVERABLE|ENTREGABLE)([^:]*):/gm,'<span class="tag">$1$2:</span>');
+    .replace(/&lt;(\/?[a-z_]+(?:\s+[a-z_]+="[^"]*")*?)&gt;/gi,'<span class="tag">&lt;$1&gt;</span>')
+    .replace(/&lt;!--([\s\S]*?)--&gt;/g,'<span style="color:var(--t3);font-style:italic">&lt;!--$1--&gt;</span>');
   output.innerHTML=highlighted;
   output.dataset.raw=prompt;
   output.dataset.input=idea;
@@ -1381,28 +1431,32 @@ ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conc
     const wIn=idea.trim().split(/\s+/).length;
     const wOut=prompt.trim().split(/\s+/).length;
     const trans=wasSpanish&&isEN?' · 🌐 ES→EN':'';
-    stats.textContent=`words: ${wIn} → ${wOut} · signals: ${signals.length} · tasks: ${taskList.length} · actions: ${concepts.actions.length} · targets: ${concepts.targets.length} · module: ${mod} · output: ${L.toUpperCase()}${trans}`;
+    stats.textContent=`prompt-engineering · words: ${wIn} → ${wOut} · tasks: ${taskList.length} · actions: ${concepts.actions.length} · targets: ${concepts.targets.length}${trans} · output: ${L.toUpperCase()}`;
   }
 
   resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-/* Hand-off: send the ORIGINAL raw idea (not the optimized prompt) to Claude
-   Optimize, so it processes from scratch with its own pipeline (translator
-   + signal detector + module context). Avoids the "double-processing"
-   bug where the optimized prompt's own ROLE/MODULE/CONTEXT blocks were
-   being re-extracted as numbered tasks. */
+/* Hand-off pipeline: Optimize → Claude Optimizer
+   ──────────────────────────────────────────────
+   Sends the OPTIMIZED prompt (not the raw idea) to Claude Optimizer.
+   Claude Optimizer recognizes prompt-engineering structure and WRAPS
+   it with DA-2026 project context (REPO + module FILES + auth chain
+   + design tokens + deliverable). Each section adds a different layer:
+     - Optimize: prompt engineering rules (role/structure/output spec)
+     - Claude Optimizer: project execution environment (DA-2026 specs)
+*/
 function sendOptToClaude(){
   const out=document.getElementById('optOutput');
-  if(!out||!out.dataset.input){alert('Optimiza un prompt primero.');return}
+  if(!out||!out.dataset.raw){alert('Optimiza un prompt primero.');return}
   const coRaw=document.getElementById('coRaw');
   const coMod=document.getElementById('coModule');
   const coType=document.getElementById('coTaskType');
-  // CRITICAL: send the ORIGINAL idea (out.dataset.input), NOT the optimized
-  // prompt (out.dataset.raw). claudeOptimize will translate + analyze from
-  // scratch with full context, instead of re-parsing an already-structured
-  // prompt as if it were a new request.
-  if(coRaw)coRaw.value=out.dataset.input;
+  // Pass the OPTIMIZED prompt (with <role>/<task>/<rules> structure).
+  // Claude Optimizer detects this structure and wraps it as the input
+  // specification of the DA-2026 execution spec — preserving Optimize's
+  // prompt-engineering work while adding project context on top.
+  if(coRaw)coRaw.value=out.dataset.raw;
   if(coMod&&out.dataset.module)coMod.value=out.dataset.module;
   if(coType&&out.dataset.taskType)coType.value=out.dataset.taskType;
   const claudeTab=document.querySelector('.tab[data-p="claude"]');
@@ -1623,7 +1677,7 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.6';
+const CO_VERSION='2026-04-27.7';
 const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
 
 const CO_MODULE={
@@ -1776,117 +1830,204 @@ return Array.from(new Set(hits));
 // then click "→ Send to Claude Optimize" — sendOptToClaude passes the
 // already-translated English text via out.dataset.input.
 // ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
+// CLAUDE OPTIMIZER v7 — DA-2026 PROJECT CONTEXT INJECTION ENGINE
+// ──────────────────────────────────────────────────────────────────
+// Purpose: Take ANY prompt (raw OR Optimize-structured) and inject
+// the DA-2026 EXECUTION ENVIRONMENT specification on top, producing
+// a final Claude Code-ready spec.
+//
+// What this engine ADDS that Optimize doesn't:
+//   1. Repo path + Live URL
+//   2. Stack + Architecture summary (Vanilla JS, 4-layer, no build)
+//   3. Target Module: FILES + STATE KEYS + module-specific NOTES
+//   4. Task classification + verb-specific constraints
+//   5. Auth chain mandatory rules (4-script chain)
+//   6. Design tokens mandatory rules (--ac, --gn, --bd, etc.)
+//   7. State persistence rules (SYNC_REGISTRY, IndexedDB)
+//   8. Documentation rules (CEREBRO_STATE.md, MEMORY.md)
+//   9. Communication rules (module codes, file paths, no filler)
+//  10. Auto-detected signal-based constraints (notebook, sync, etc.)
+//  11. Deliverable specification (commit/push protocol)
+//
+// Detects whether input is:
+//   A) Optimize-structured (has <role>/<task>/<context> XML tags)
+//   B) Already-finalized DA-2026 spec (returns as-is)
+//   C) Raw English request
+// And handles each appropriately.
+// ══════════════════════════════════════════════════════════════════
 function claudeOptimize(){
 const raw=document.getElementById('coRaw').value.trim();
-if(!raw){alert('Paste your English request first.\n\nFor Spanish ideas, use the Optimizar tab → it translates and structures the prompt.');return}
+if(!raw){alert('Paste a prompt or send one from Optimize tab.');return}
 const mod=document.getElementById('coModule').value;
 const type=document.getElementById('coTaskType').value;
 const ctx=CO_MODULE[mod];
 const hint=CO_TASK_HINTS[type];
 
-// GUARD: detect if input is already a structured prompt — display as-is
-// (prevents the bug where ROLE/MODULE/CONTEXT blocks get re-extracted
-// as numbered tasks).
-const isAlreadyPrompt=/^ROLE:\s/i.test(raw)&&/\bCONSTRAINTS?:|\bDELIVERABLE:/i.test(raw);
-if (isAlreadyPrompt) {
+// ── INPUT TYPE DETECTION ────────────────────────────────────────
+// A) Already-finalized DA-2026 spec → return as-is (idempotent)
+const isFinalizedSpec=/Claude Code Execution Specification|^# DA-2026/m.test(raw);
+// B) Optimize-structured prompt (XML tags) → wrap as input_specification
+const isOptimizeStructured=/<role>[\s\S]*<task>/i.test(raw);
+// C) Raw English request → treat as task description
+
+if (isFinalizedSpec) {
+  // Already a complete DA-2026 spec — show as-is
   const resultDiv=document.getElementById('coResult');
   const output=document.getElementById('coOutput');
   const stats=document.getElementById('coStats');
   if (resultDiv) resultDiv.style.display='block';
   if (output) {
-    const note='— ℹ This input is already a structured prompt. Displayed as-is (no re-processing).\n\n';
-    const highlighted=(note+raw)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/^(ROLE|REPO|LIVE|MODULE|FILES|STATE KEYS|NOTES|ANALYZED|CONTEXT|TASK[^:]*|CONSTRAINTS|DELIVERABLE):/gm,'<span class="tag">$1:</span>');
-    output.innerHTML=highlighted;
-    output.dataset.raw=raw;
-    output.dataset.input=raw;
+    const note='— ℹ Already a finalized DA-2026 execution spec. Displayed as-is.\n\n';
+    output.innerHTML=(note+raw).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/^(##?\s.+)$/gm,'<span class="tag">$1</span>');
+    output.dataset.raw=raw; output.dataset.input=raw;
   }
-  if (stats) stats.textContent='already-structured prompt · displayed as-is';
+  if (stats) stats.textContent='finalized spec · displayed as-is';
   if (resultDiv) resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
   return;
 }
 
-// 1. Clean raw input (English fillers only — no translation here)
-const cleaned=coClean(raw);
-// 2. Extract task steps
-const tasks=coExtractTasks(cleaned);
-// 3. Detect signals
+// ── SIGNAL DETECTION ─────────────────────────────────────────────
 const signals=coDetectSignals(raw);
 
-// Build bulleted task list (verb-first)
-const taskLines=tasks.length>1
-  ? tasks.map((t,i)=>(i+1)+'. '+t.charAt(0).toUpperCase()+t.slice(1)).join('\n')
-  : (hint.verb+' '+(tasks[0]||cleaned).replace(/^(add|fix|refactor|rewrite|explore|document|commit)\s+/i,'').toLowerCase());
+// ── INPUT BLOCK ASSEMBLY ─────────────────────────────────────────
+// If from Optimize: preserve its prompt-engineering structure as
+// a quoted block. If raw: treat as task description directly.
+let inputBlock;
+if (isOptimizeStructured) {
+  inputBlock=`### Pre-Optimized Input (from Optimize section)
+The Optimize section already applied prompt-engineering rules below.
+You MUST honor its <role>, <task>, <rules>, and <negative_rules> sections.
+The blocks below augment that structure with DA-2026 project context.
 
-// Assemble constraints
-const defaultConstraints=[
-'- Short responses; no recaps, no filler.',
-'- Use module codes (3-ENG, 5-JOB, etc) instead of full names.',
-'- Module architecture: 4-layer (HTML shell + CSS + JS IIFE + JSON data).',
-'- PLATFORM-WIDE AUTH: Every HTML page MUST include the full auth chain before </body> — Supabase CDN → supabase-client.js → auth.js → cloud-sync.js. The "Sesión iniciada" sync indicator must be visible on EVERY module, not just one. Never ship a page without it.',
-'- If you create, copy, or rename any .html page, immediately add the 4-script auth chain — otherwise cloud sync silently breaks on that module.'
-];
-const allConstraints=[hint.constraint,...signals.map(s=>'- '+s),...defaultConstraints]
-  .flatMap(c=>c.split('\n'))
-  .map(c=>c.trim())
-  .filter((c,i,a)=>c && a.indexOf(c)===i);
+\`\`\`
+${raw}
+\`\`\``;
+} else {
+  // Raw English: clean fillers + extract tasks
+  const cleaned=coClean(raw);
+  const tasks=coExtractTasks(cleaned);
+  const taskLines=tasks.length>1
+    ? tasks.map((t,i)=>`${i+1}. ${t.charAt(0).toUpperCase()+t.slice(1)}`).join('\n')
+    : `1. ${(tasks[0]||cleaned).charAt(0).toUpperCase()+(tasks[0]||cleaned).slice(1)}`;
+  inputBlock=`### Task Description
+${taskLines}`;
+}
 
-// Assemble final prompt
-const prompt=`ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro).
-REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
-LIVE: https://mikel696.github.io/da-2026/frontend/
+// ── DELIVERABLE SPEC (task-type specific) ───────────────────────
+const deliverable=
+  type==='explore'||type==='audit'
+    ? '**Read-only.** Return a concise report with file paths and line ranges. Do not modify files.'
+    : type==='deploy'
+    ? 'Commit + push to main with a clear message.'
+    : 'Execute the task → commit → push to main with a descriptive message. No approval needed.';
 
-MODULE: ${mod} · ${ctx.name}
-FILES: ${ctx.files}
-STATE KEYS: ${ctx.state}
-NOTES: ${ctx.notes}
+// ── CONSTRUCTION OF DA-2026 EXECUTION SPEC ──────────────────────
+// This is what makes Claude Optimizer different from Optimize:
+// it ADDS the project execution environment as Markdown spec.
+const spec=`# Claude Code Execution Specification — DA-2026 (Segundo Cerebro)
 
-CONTEXT: Read CEREBRO_STATE.md and MEMORY.md before executing.
+## Environment
+- **Repo:** \`E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\`
+- **Live:** https://mikel696.github.io/da-2026/frontend/
+- **Stack:** 100% Vanilla JS · No build step · Supabase JSONB sync
+- **Architecture:** 4-layer (HTML shell + CSS + JS IIFE + JSON data)
 
-TASK (${type}):
-${taskLines}
+## Target Module: \`${mod}\` · ${ctx.name}
+- **Files in scope:** ${ctx.files}
+- **State keys:** ${ctx.state}
+- **Module notes:** ${ctx.notes}
 
-CONSTRAINTS:
-${allConstraints.join('\n')}
+## Task Classification
+- **Type:** \`${type.toUpperCase()}\` — ${hint.verb}
+${hint.constraint?hint.constraint.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>'- '+l.replace(/^-\s*/,'')).join('\n'):'- (no type-specific constraints)'}
 
-DELIVERABLE: Execute the task, ${type==='explore'||type==='audit'?'return a concise report with file paths and line ranges':type==='deploy'?'commit + push to main':'commit and push to main with a clear message'}. No approval needed.
+## Pre-Reading
+- Read \`CEREBRO_STATE.md\` (project state log)
+- Read \`MEMORY.md\` (long-term memory + reference docs)
 
-— Generated by Claude Optimize v${CO_VERSION} (${Object.keys(CO_MODULE).length} modules · ${CO_SIGNALS.length} signals)`;
+## Input Specification
+${inputBlock}
 
-// Stats
+## Mandatory Project Constraints
+
+### 1. Auth Chain (PLATFORM-WIDE)
+Every HTML page MUST include the 4-script chain before \`</body>\`:
+\`\`\`html
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"><\/script>
+<script src="js/supabase-client.js"><\/script>
+<script src="js/auth.js"><\/script>
+<script src="js/cloud-sync.js"><\/script>
+\`\`\`
+If you create / copy / rename any \`.html\` file, add the chain immediately — otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.
+
+### 2. Design Tokens (CSS)
+- Use ONLY tokens defined in \`:root\`: \`--ac\`, \`--gn\`, \`--bd\`, \`--bg\`, \`--tx\`, \`--t2\`, \`--t3\`, \`--ag\`, \`--gg\`, etc.
+- Zero hardcoded hex / rgb colors anywhere.
+- Match existing typography: IBM Plex Sans (body), IBM Plex Mono (code), Newsreader (headings).
+- Match existing module dark theme — no light leaks.
+
+### 3. State Persistence
+- localStorage proxy auto-syncs to Supabase via \`SYNC_REGISTRY\` in \`frontend/js/cloud-sync.js\`.
+- Add new persisted keys to \`SYNC_REGISTRY\` when creating user-facing data.
+- IndexedDB binaries stay local-only (binaries don't fit JSONB rows).
+- For module-specific state, follow existing prefix conventions (\`fin_*\`, \`sb_pomo_*\`, etc.).
+
+### 4. Architecture
+- Maintain 4-layer pattern: HTML shell + CSS file + JS IIFE module + JSON data file.
+- IIFE pattern: \`const X = (() => { ... return { publicAPI }; })(); window.X = X;\`
+- Use module codes (\`3-ENG\`, \`5-JOB\`, \`8-PRO\`, \`10-SYS\`, \`13-NOT\`, etc.) in responses.
+
+### 5. Communication Protocol
+- Short responses; no recaps, no filler.
+- Cite file paths + line numbers when modifying code.
+- Flag any intentional behavior change explicitly.
+- Use module codes, not full names ("3-ENG", not "English Academy").
+
+## Auto-Detected Signal-Based Constraints
+${signals.length?signals.map(s=>'- '+s).join('\n'):'_(No specific signals detected — base constraints apply.)_'}
+
+## Deliverable
+${deliverable}
+
+---
+*Generated by Claude Optimizer v${CO_VERSION} · ${Object.keys(CO_MODULE).length} modules · ${CO_SIGNALS.length} signals available · ${signals.length} matched · input: ${isOptimizeStructured?'Optimize-structured':'raw English'} · module: \`${mod}\` · type: \`${type}\`*`;
+
+// ── DISPLAY ──────────────────────────────────────────────────────
 const wIn=raw.trim().split(/\s+/).length;
-const wOut=prompt.trim().split(/\s+/).length;
+const wOut=spec.trim().split(/\s+/).length;
 const cIn=raw.length;
-const cOut=prompt.length;
-const savedW=wIn-wOut;
-const ratio=wIn>0?Math.round((savedW/wIn)*100):0;
+const cOut=spec.length;
 
-// Render
 const resultDiv=document.getElementById('coResult');
 const output=document.getElementById('coOutput');
 resultDiv.style.display='block';
-const highlighted=prompt
+const highlighted=spec
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-  .replace(/^(ROLE|REPO|LIVE|MODULE|FILES|STATE KEYS|NOTES|CONTEXT|TASK[^:]*|CONSTRAINTS|DELIVERABLE):/gm,'<span class="tag">$1:</span>');
+  .replace(/^(##?#?\s+.+)$/gm,'<span class="tag">$1</span>')
+  .replace(/`([^`]+)`/g,'<span style="background:var(--el);color:var(--ac);padding:1px 5px;border-radius:3px;font-family:\'IBM Plex Mono\',monospace;font-size:.9em">$1</span>');
 output.innerHTML=highlighted;
-output.dataset.raw=prompt;
+output.dataset.raw=spec;
 output.dataset.input=raw;
 output.dataset.module=mod;
 
 // Stats bar
-document.getElementById('coStats').innerHTML=wIn+' words → '+wOut+' words';
+const statsEl=document.getElementById('coStats');
+if(statsEl){
+  statsEl.innerHTML=`DA-2026 spec injected · ${wIn} → ${wOut} words · ${signals.length} signals · input: ${isOptimizeStructured?'Optimize-structured':'raw'}`;
+}
 
-// Savings banner
+// Savings/info banner
 const sav=document.getElementById('coSavings');
-if(savedW>0){
-  sav.style.display='block';
-  sav.innerHTML='<b>💡 Token savings</b><p>Compressed <strong>'+wIn+' → '+wOut+' words</strong> ('+ratio+'% shorter). Character count: '+cIn+' → '+cOut+'. Estimated token savings: ~'+Math.round((cIn-cOut)/4)+' tokens (4 chars ≈ 1 token).</p>';
-}else if(savedW<0){
-  sav.style.display='block';
-  sav.innerHTML='<b>ℹ️ Structure added</b><p>Output is longer than input ('+Math.abs(ratio)+'% more) but adds ROLE + MODULE metadata + explicit CONSTRAINTS — Claude Code needs this context anyway, better to include it upfront than in back-and-forth clarifications.</p>';
-}else{
-  sav.style.display='none';
+if(sav){
+  if(isOptimizeStructured){
+    sav.style.display='block';
+    sav.innerHTML='<b>🔗 Pipeline complete</b><p>Optimize\'s prompt-engineering structure was preserved. DA-2026 project context (REPO + module FILES/STATE/NOTES + auth chain + design tokens + deliverable) was added on top. The result is ready for Claude Code.</p>';
+  } else {
+    sav.style.display='block';
+    sav.innerHTML='<b>📦 DA-2026 context injected</b><p>Project execution environment added: '+wIn+' → '+wOut+' words. Includes module FILES + STATE KEYS + 5 mandatory constraint sections + '+signals.length+' auto-detected signal-based constraints.</p>';
+  }
 }
 
 resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
