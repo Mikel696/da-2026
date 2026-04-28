@@ -340,6 +340,40 @@ const ES_FILLERS=[
 //    actions, nouns, modifiers, common patterns.
 const ES_EN_DICT=[
 // Multi-word user-context phrases (very specific, MUST come first)
+['lo mejor de las implementaciones','the best practices from the implementations'],
+['lo mejor de los módulos','the best practices from the modules'],
+['lo mejor de los otros módulos','the best practices from other modules'],
+['lo mejor de cada módulo','the best from each module'],
+['las implementaciones hechas en','the implementations made in'],
+['implementaciones hechas','implementations made'],
+['hechas en los otros módulos','made in the other modules'],
+['en los otros módulos','in the other modules'],
+['en otros módulos','in other modules'],
+['otros módulos','other modules'],
+['módulo de soporte','support module'],
+['módulo de apoyo','support module'],
+['un módulo de soporte','a support module'],
+['módulo nuevo','new module'],
+['un módulo nuevo','a new module'],
+['casos de errores','error cases'],
+['casos de error','error cases'],
+['cases of errors','error cases'],
+['información para análisis','information for analysis'],
+['información para analizar','information to analyze'],
+['casos para aprender','cases for learning'],
+['casos para aprendizaje','learning cases'],
+['casos de aprendizaje','learning cases'],
+['ser mi copiloto','be my copilot'],
+['mi copiloto','my copilot'],
+['mi copilot','my copilot'],
+['copiloto en mi trabajo','copilot at my work'],
+['copilot en mi trabajo','copilot at my work'],
+['quiero que sea mi','I want it to be my'],
+['quiero que sea','I want it to be'],
+['quiero que esté','I want it to be'],
+['quiero que tenga','I want it to have'],
+['quiero que sirva','I want it to serve'],
+['quiero que ayude','I want it to help'],
 ['quiero crear un módulo para mi trabajo','I want to create a module for my work'],
 ['mi trabajo en simetrik','my work at Simetrik'],
 ['en mi trabajo','at my work'],
@@ -403,12 +437,25 @@ const ES_EN_DICT=[
 ['créala','create it'],
 ['crealos','create them'],
 ['créalos','create them'],
+['información que tengas','information you have'],
+['información que tiene','information that has'],
+['información que tienen','information they have'],
 ['tienes','you have'],
 ['tiene','has'],
 ['tener','have'],
 ['tengamos','have'],
+['tengas','you have'],
 ['tenga','have'],
 ['tengan','have'],
+['tengáis','have'],
+['tendrá','will have'],
+['tendrán','will have'],
+['tendremos','will have'],
+['tuvo','had'],
+['tuvimos','had'],
+['tuvieron','had'],
+['tuviera','would have'],
+['ten en cuenta','keep in mind'],
 ['saber','know'],
 ['sabes','you know'],
 ['sepa','know'],
@@ -772,6 +819,51 @@ const ES_EN_DICT=[
 ['exporta','export'],
 ['importar','import'],
 ['importa','import'],
+['abrir','open'],
+['abre','open'],
+['cerrar','close'],
+['cierra','close'],
+['encender','turn on'],
+['apagar','turn off'],
+['iniciar','start'],
+['inicia','start'],
+['terminar','finish'],
+['termina','finish'],
+['volver','go back'],
+['volverá','will go back'],
+['regresar','return'],
+['continuar','continue'],
+['continúa','continue'],
+['parar','stop'],
+['detener','stop'],
+['detén','stop'],
+['enviar','send'],
+['envía','send'],
+['recibir','receive'],
+['recibe','receive'],
+['responder','respond'],
+['responde','respond'],
+['esperar','wait'],
+['espera','wait'],
+['intentar','try'],
+['intenta','try'],
+['llamar','call'],
+['llama','call'],
+['pasar','pass'],
+['pasa','pass'],
+['salir','exit'],
+['sale','exits'],
+['entrar','enter'],
+['entra','enter'],
+['poner','put'],
+['ponen','put'],
+['ponga','put'],
+['pongan','put'],
+['quitar','remove'],
+['sacar','take out'],
+['saca','take out'],
+['meter','put in'],
+['mete','put in'],
 // Prepositions / connectors
 ['también','also'],
 ['además','also'],
@@ -980,6 +1072,49 @@ function _accentInsensitive(es){
     .replace(/ñ/gi,'[ñn]');
 }
 
+/**
+ * Post-translation cleanup — fixes Spanish→English grammar artifacts
+ * that survive dictionary translation.
+ */
+function postTranslationCleanup(text){
+  let s=text;
+  // 1. Capitalize project-specific proper nouns
+  s=s.replace(/\b(simetrik|simtrik)\b/gi,'Simetrik')
+     .replace(/\bcerebro\b/gi,'Cerebro')
+     .replace(/\bclaude\s+code\b/gi,'Claude Code')
+     .replace(/\bsupabase\b/gi,'Supabase')
+     .replace(/\bgithub\s+pages\b/gi,'GitHub Pages')
+     .replace(/\bjavascript\b/gi,'JavaScript')
+     .replace(/\bindexeddb\b/gi,'IndexedDB')
+     .replace(/\blocalstorage\b/gi,'localStorage');
+  // 2. "module of X" → "X module" (Spanish "módulo de soporte" wasn't fully resolved)
+  s=s.replace(/\b(module|page|section|system|chart|list)\s+of\s+(support|backup|review|analysis|control|growth|setup|onboarding|search|profile|sales|expenses|income|jobs|notes|finance)\b/gi,(_,a,b)=>b+' '+a);
+  // 3. "for [verb infinitive]" → "to [verb]"
+  s=s.replace(/\bfor\s+(analyze|review|create|build|implement|fix|add|remove|test|verify|optimize|refactor|render|display|sync|save|load|generate|extract|update|delete|categorize|process|run|execute|deploy|polish|audit|document|explore|learn|understand|view|check|read|write|edit|modify|navigate|solve)\b/gi,'to $1');
+  // 4. "I want that [verb]" → "I want to [verb]"
+  s=s.replace(/\bi\s+want\s+that\s+(be|have|do|review|create|add|implement|build|test|fix|sync|save|verify|polish|audit|document|explore|render|display|generate|update|delete|process|analyze|categorize|solve|bring|retrieve)\b/gi,'I want to $1');
+  // 5. "I want that to be" → "I want it to be"
+  s=s.replace(/\bi\s+want\s+that\s+to\s+(be|have|do|act|serve|help|work|sync)\b/gi,'I want it to $1');
+  // 6. "I want that it [verb]" → "I want it to [verb]"
+  s=s.replace(/\bi\s+want\s+that\s+(it|this|that)\s+(be|works?|sync|save|render|show|help)\b/gi,'I want $1 to $2');
+  // 7. "the best of the X" → "the best X"
+  s=s.replace(/\bthe\s+best\s+of\s+the\s+(implementations|modules|practices|features|ideas|patterns)\b/gi,'the best $1')
+     .replace(/\bthe\s+best\s+of\s+(implementations|modules|practices|features|ideas|patterns)\b/gi,'the best $1');
+  // 8. Double articles
+  s=s.replace(/\b(a|an|the)\s+(a|an|the)\s+/gi,'$1 ');
+  // 9. "cases of errors" → "error cases"
+  s=s.replace(/\bcases\s+of\s+errors?\b/gi,'error cases');
+  // 10. "in/at the my work" → "at my work"
+  s=s.replace(/\b(in|at)\s+the\s+my\s+work\b/gi,'at my work');
+  // 11. "create to module" artifact (un→a→to chain) — revert
+  s=s.replace(/\b(create|build|design|implement|add|make)\s+to\s+(module|page|section|notebook|component|chart|button|form)\b/gi,'$1 a $2');
+  // 12. "I want [bare infinitive]" → "I want to [verb]" (Spanish "Quiero hacer X")
+  s=s.replace(/\bi\s+want\s+(create|review|add|fix|build|implement|test|verify|polish|audit|document|explore|render|display|generate|update|delete|process|analyze|categorize|solve|bring|retrieve|sync|save|change|optimize|refactor|design|make)\b/gi,'I want to $1');
+  // 13. Trailing "etc, I want" should keep flowing: ", I want"
+  s=s.replace(/,\s*etc\s*,\s*i\s+want/gi,', etc. I want');
+  return s;
+}
+
 function translateToEnglish(text){
   if (!text) return '';
   let s=' '+text+' ';
@@ -1008,7 +1143,10 @@ function translateToEnglish(text){
      .replace(/([,.!?;:]){2,}/g,'$1')
      .replace(/^\s*[,.;:]\s*/,'')
      .trim();
-  // 4. Capitalize first letter of each sentence
+  // 4. POST-TRANSLATION GRAMMAR CLEANUP — fixes Spanish→English artifacts
+  //    (modifier order, "que" clauses, infinitive after preposition, etc.)
+  s=postTranslationCleanup(s);
+  // 5. Capitalize first letter of each sentence
   s=s.replace(/(^|[.!?]\s+)([a-z])/g,(_,p,c)=>p+c.toUpperCase());
   return s;
 }
@@ -1485,7 +1623,7 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.5';
+const CO_VERSION='2026-04-27.6';
 const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
 
 const CO_MODULE={
@@ -1629,29 +1767,27 @@ CO_SIGNALS.forEach(s=>{if(s.r.test(raw))hits.push(s.add)});
 return Array.from(new Set(hits));
 }
 
+// ══════════════════════════════════════════════════════════════
+// CLAUDE OPTIMIZE — pure prompt-optimization engine (NO translation)
+// Designed for ENGLISH input only. Its sole job is to take a request
+// and produce a Claude Code-ready ROLE/CONTEXT/TASK/CONSTRAINTS prompt
+// with module context, signal detection, and architectural defaults.
+// For Spanish ideas, use the "Optimizar" tab first (which translates),
+// then click "→ Send to Claude Optimize" — sendOptToClaude passes the
+// already-translated English text via out.dataset.input.
+// ══════════════════════════════════════════════════════════════
 function claudeOptimize(){
-const rawInput=document.getElementById('coRaw').value.trim();
-if(!rawInput){alert('Paste your request first.');return}
+const raw=document.getElementById('coRaw').value.trim();
+if(!raw){alert('Paste your English request first.\n\nFor Spanish ideas, use the Optimizar tab → it translates and structures the prompt.');return}
 const mod=document.getElementById('coModule').value;
 const type=document.getElementById('coTaskType').value;
 const ctx=CO_MODULE[mod];
 const hint=CO_TASK_HINTS[type];
 
-// GUARD: detect if input is already a structured prompt (was generated by
-// Optimizar or pasted from another tool). If so, the user wants Claude
-// Optimize to "polish" it, not re-extract tasks. We skip the task
-// extraction and pipeline through almost untouched.
-const isAlreadyPrompt=/^ROLE:\s/i.test(rawInput)&&/\bCONSTRAINTS?:|\bDELIVERABLE:/i.test(rawInput);
-
-// PIPELINE STEP 0: translate from Spanish if needed (uses translateToEnglish
-// from the Optimizar engine — defined earlier in the script).
-const wasSpanish=(typeof isSpanishLoose==='function')?isSpanishLoose(rawInput):false;
-const raw=(wasSpanish&&typeof translateToEnglish==='function')?translateToEnglish(rawInput):rawInput;
-
-// EARLY EXIT: if the input is already a structured Claude Code prompt
-// (came from Optimizar or was pasted), don't re-process it. Display
-// as-is with a note. This prevents the "double-processing" bug where
-// ROLE/MODULE/CONTEXT blocks get re-extracted as numbered tasks.
+// GUARD: detect if input is already a structured prompt — display as-is
+// (prevents the bug where ROLE/MODULE/CONTEXT blocks get re-extracted
+// as numbered tasks).
+const isAlreadyPrompt=/^ROLE:\s/i.test(raw)&&/\bCONSTRAINTS?:|\bDELIVERABLE:/i.test(raw);
 if (isAlreadyPrompt) {
   const resultDiv=document.getElementById('coResult');
   const output=document.getElementById('coOutput');
@@ -1659,26 +1795,24 @@ if (isAlreadyPrompt) {
   if (resultDiv) resultDiv.style.display='block';
   if (output) {
     const note='— ℹ This input is already a structured prompt. Displayed as-is (no re-processing).\n\n';
-    const highlighted=(note+rawInput)
+    const highlighted=(note+raw)
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
       .replace(/^(ROLE|REPO|LIVE|MODULE|FILES|STATE KEYS|NOTES|ANALYZED|CONTEXT|TASK[^:]*|CONSTRAINTS|DELIVERABLE):/gm,'<span class="tag">$1:</span>');
     output.innerHTML=highlighted;
-    output.dataset.raw=rawInput;
-    output.dataset.input=rawInput;
+    output.dataset.raw=raw;
+    output.dataset.input=raw;
   }
   if (stats) stats.textContent='already-structured prompt · displayed as-is';
   if (resultDiv) resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
   return;
 }
 
-// 1. Clean raw input
+// 1. Clean raw input (English fillers only — no translation here)
 const cleaned=coClean(raw);
 // 2. Extract task steps
 const tasks=coExtractTasks(cleaned);
-// 3. Detect signals (run on both original and translated text, dedup)
-const signalsRaw=coDetectSignals(rawInput);
-const signalsTrans=coDetectSignals(raw);
-const signals=Array.from(new Set([...signalsRaw,...signalsTrans]));
+// 3. Detect signals
+const signals=coDetectSignals(raw);
 
 // Build bulleted task list (verb-first)
 const taskLines=tasks.length>1
