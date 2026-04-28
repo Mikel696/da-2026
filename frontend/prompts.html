@@ -313,6 +313,542 @@ career:{es:'Incluye: contexto del rol, preparación específica, respuestas mode
 };
 
 // ══════════════════════════════════════════════════════════════
+// ES → EN TRANSLATION ENGINE + CONCEPT ANALYZER
+// Used by optimize() to convert Spanish ideas into clean English prompts.
+// Approach: phrase-level dictionary (longest-first) + filler stripping +
+// concept extraction. Not a full translator — designed to handle the
+// patterns Miguel actually writes (action verbs + module/feature nouns
+// + project-specific vocabulary).
+// ══════════════════════════════════════════════════════════════
+
+// 1. Spanish fillers (parallel to CO_FILLERS) — stripped before translation
+const ES_FILLERS=[
+/\bes\s+decir\b/gi,/\bo\s+sea\b/gi,/\bbueno,?\s+/gi,/\bentonces,?\s+/gi,
+/\ben\s+resumen\b/gi,/\bbásicamente\b/gi,/\bla\s+verdad\b/gi,/\bla\s+cosa\s+es\b/gi,
+/\btipo,?\s+/gi,/\bcomo\s+que\b/gi,/\bmás\s+o\s+menos\b/gi,/\ben\s+plan\b/gi,
+/\bme\s+gustaría\s+que\b/gi,/\bsería\s+genial\s+si\b/gi,/\bpor\s+favor\b/gi,
+/\bgracias(\s+(de\s+antemano|por\s+adelantado))?\b/gi,/\bsi\s+se\s+puede\b/gi,
+/\bsi\s+es\s+posible\b/gi,/\bquizás\b/gi,/\btal\s+vez\b/gi,
+/\bestaba\s+pensando\s+(que\s+)?(tal\s+vez\s+)?(podríamos\s+)?/gi,
+/\bme\s+pregunto\s+si\b/gi,/\bno\s+sé\s+si\b/gi,/\bpor\s+cierto,?\s+/gi,
+/\boye,?\s+/gi,/\bah\s+y\s+también\b/gi,/\bah\s+y\s+/gi,
+/\bque\s+conste\s+que\b/gi,/\bsólo\s+para\s+aclarar\b/gi,
+];
+
+// 2. Spanish → English phrase dictionary (LONGEST FIRST so multi-word
+//    phrases match before their substrings). Total: ~180 entries covering
+//    actions, nouns, modifiers, common patterns.
+const ES_EN_DICT=[
+// Reflexive verb compounds (MUST come before "se" alone)
+['se sincronicen','sync'],
+['se sincronice','syncs'],
+['se sincroniza','syncs'],
+['se sincronizan','sync'],
+['se guarde','is saved'],
+['se guarden','are saved'],
+['se guarda','is saved'],
+['se actualice','updates'],
+['se actualicen','update'],
+['se actualiza','updates'],
+['se actualizan','update'],
+['se muestre','displays'],
+['se muestren','display'],
+['se muestra','displays'],
+['se muestran','display'],
+['se cree','is created'],
+['se creen','are created'],
+['se crea','is created'],
+['se crean','are created'],
+['se borre','is deleted'],
+['se borren','are deleted'],
+['se borra','is deleted'],
+['se borran','are deleted'],
+['se vea','looks'],
+['se ven','look'],
+['se vean','look'],
+['se ve','looks'],
+// Module/feature names (ES → EN)
+['módulo de finanzas','finance module'],
+['módulo de notas','notes module'],
+['módulo de trabajos','jobs module'],
+['módulo de objetivos','goals module'],
+['módulo de inglés','english module'],
+['módulo de sistemas','systems engineering module'],
+['módulo de prompts','prompts module'],
+['finanzas personales','personal finance'],
+['finanzas','finance'],
+['ingresos y gastos','income and expenses'],
+['página de finanzas','finance page'],
+// Multi-word commands (must be first)
+['sin romper lo existente','without breaking existing functionality'],
+['sin romper nada','without breaking anything'],
+['no rompas','do not break'],
+['no quiero que se rompa','do not break'],
+['hacer que funcione','make it work'],
+['asegúrate de','make sure to'],
+['ten en cuenta','take into account'],
+['tener en cuenta','take into account'],
+['tomá en cuenta','take into account'],
+['quiero que puedas','I want you to'],
+['quiero que me','I want you to'],
+['quiero que el','I want the'],
+['quiero que la','I want the'],
+['quiero que los','I want the'],
+['quiero que las','I want the'],
+['quiero implementar','I want to implement'],
+['quiero agregar','I want to add'],
+['quiero crear','I want to create'],
+['quiero arreglar','I want to fix'],
+['quiero mejorar','I want to improve'],
+['necesito que','I need to'],
+['cuando hago click en','when I click on'],
+['cuando hago clic en','when I click on'],
+['al hacer click en','when clicking on'],
+['al hacer clic en','when clicking on'],
+['al darle click','when clicking'],
+['hacer click','click'],
+['hacer clic','click'],
+['darle click','click'],
+['no se puede','cannot'],
+['no funciona','does not work'],
+['está roto','is broken'],
+['página principal','main page'],
+['página de inicio','landing page'],
+['página de login','login page'],
+['barra de navegación','nav bar'],
+['barra superior','top bar'],
+['barra lateral','sidebar'],
+['base de datos','database'],
+['en la nube','in the cloud'],
+['a la nube','to the cloud'],
+['con la nube','with the cloud'],
+['la nube','the cloud'],
+['guardar en la nube','save to cloud'],
+['sincronizar con la nube','sync with cloud'],
+['design tokens','design tokens'],
+['en el módulo','in the module'],
+['del módulo','of the module'],
+['de los módulos','across modules'],
+['en cada módulo','in every module'],
+['en todos los módulos','across all modules'],
+['en mobile','on mobile'],
+['en móvil','on mobile'],
+['en celular','on mobile'],
+['en pantallas pequeñas','on small screens'],
+['en escritorio','on desktop'],
+['responsivo','responsive'],
+['arrastrar y soltar','drag and drop'],
+['arrastrar archivo','drag file'],
+['soltar archivo','drop file'],
+['imagen en alta','HD image'],
+['archivos adjuntos','file attachments'],
+['archivo adjunto','file attachment'],
+['adjuntar archivo','attach file'],
+['adjuntar un archivo','attach a file'],
+['cambiar el nombre','rename'],
+['renombrar','rename'],
+['vista previa','preview'],
+['ventana emergente','popup'],
+['popup','popup'],
+['modal','modal'],
+['portada','cover'],
+['portadas','covers'],
+['ícono','icon'],
+['íconos','icons'],
+['cuaderno','notebook'],
+['cuadernos','notebooks'],
+['página','page'],
+['páginas','pages'],
+['nota','note'],
+['notas','notes'],
+['journal','journal'],
+['diario','journal'],
+['entrada','entry'],
+['entradas','entries'],
+['ventas','sales'],
+['gastos','expenses'],
+['ingresos','income'],
+['categoría','category'],
+['categorías','categories'],
+['gráfico','chart'],
+['gráficos','charts'],
+['tabla','table'],
+['tablas','tables'],
+['lista','list'],
+['listas','lists'],
+['kanban','kanban board'],
+['tarjeta','card'],
+['tarjetas','cards'],
+['botón','button'],
+['botones','buttons'],
+['formulario','form'],
+['formularios','forms'],
+['campo','field'],
+['campos','fields'],
+['etiqueta','label'],
+['etiquetas','labels'],
+['filtro','filter'],
+['filtros','filters'],
+['búsqueda','search'],
+['buscador','search bar'],
+['mensaje','message'],
+['mensajes','messages'],
+['error','error'],
+['errores','errors'],
+['login','login'],
+['cierre de sesión','logout'],
+['sesión','session'],
+['usuario','user'],
+['usuarios','users'],
+['perfil','profile'],
+['contraseña','password'],
+['correo','email'],
+['email','email'],
+// Adverbs / frequencies
+['automáticamente','automatically'],
+['manualmente','manually'],
+['mensualmente','monthly'],
+['diariamente','daily'],
+['semanalmente','weekly'],
+['rápidamente','quickly'],
+['fácilmente','easily'],
+['correctamente','correctly'],
+['automático','automatic'],
+['automática','automatic'],
+['automatic','automatic'],
+['mensual','monthly'],
+['diario','daily'],
+['semanal','weekly'],
+['anual','yearly'],
+['trimestral','quarterly'],
+['nuevo','new'],
+['nueva','new'],
+['nuevos','new'],
+['nuevas','new'],
+['siguiente','next'],
+['anterior','previous'],
+['actual','current'],
+// Common feature nouns
+['palabra clave','keyword'],
+['palabras clave','keywords'],
+['concepto','concept'],
+['conceptos','concepts'],
+['descripción','description'],
+['descripciones','descriptions'],
+['tendencia','trend'],
+['tendencias','trends'],
+['gráfico de tendencia','trend chart'],
+['categoría','category'],
+['categorías','categories'],
+['categorización','categorization'],
+['regla','rule'],
+['reglas','rules'],
+['patrón','pattern'],
+['patrones','patterns'],
+['fecha','date'],
+['fechas','dates'],
+['monto','amount'],
+['montos','amounts'],
+['concepto del gasto','expense description'],
+// Verb conjugations + auxiliaries
+['pueda','can'],
+['puedan','can'],
+['pueden','can'],
+['puede','can'],
+['pueda categorizar','can categorize'],
+['categorizar','categorize'],
+['categoriza','categorize'],
+['agrupar','group'],
+['agrupa','group'],
+['filtrar','filter'],
+['filtra','filter'],
+['ordenar','sort'],
+['ordena','sort'],
+['contar','count'],
+['cuenta','count'],
+['sumar','sum'],
+['suma','sum'],
+['calcular','calculate'],
+['calcula','calculate'],
+['tenga','have'],
+['tengo','I have'],
+['tienen','they have'],
+['hay','there is'],
+['según','based on'],
+['de acuerdo a','according to'],
+['en base a','based on'],
+['basado en','based on'],
+['basada en','based on'],
+['mediante','via'],
+['a través de','through'],
+['utilizando','using'],
+['usando','using'],
+// Action verbs (single)
+['implementar','implement'],
+['implementa','implement'],
+['agregar','add'],
+['agrega','add'],
+['añadir','add'],
+['añade','add'],
+['crear','create'],
+['crea','create'],
+['eliminar','remove'],
+['elimina','remove'],
+['borrar','delete'],
+['borra','delete'],
+['quitar','remove'],
+['quita','remove'],
+['cambiar','change'],
+['cambia','change'],
+['modificar','modify'],
+['modifica','modify'],
+['actualizar','update'],
+['actualiza','update'],
+['mejorar','improve'],
+['mejora','improve'],
+['arreglar','fix'],
+['arregla','fix'],
+['corregir','fix'],
+['corrige','fix'],
+['reparar','fix'],
+['repara','fix'],
+['solucionar','solve'],
+['soluciona','solve'],
+['resolver','resolve'],
+['resuelve','resolve'],
+['optimizar','optimize'],
+['optimiza','optimize'],
+['refactorizar','refactor'],
+['refactoriza','refactor'],
+['rediseñar','redesign'],
+['rediseña','redesign'],
+['validar','validate'],
+['valida','validate'],
+['probar','test'],
+['prueba','test'],
+['testear','test'],
+['testea','test'],
+['verificar','verify'],
+['verifica','verify'],
+['comprobar','check'],
+['comprueba','check'],
+['documentar','document'],
+['documenta','document'],
+['sincronizar','sync'],
+['sincroniza','sync'],
+['persistir','persist'],
+['persiste','persist'],
+['guardar','save'],
+['guarda','save'],
+['cargar','load'],
+['carga','load'],
+['mostrar','show'],
+['muestra','show'],
+['ocultar','hide'],
+['oculta','hide'],
+['analizar','analyze'],
+['analiza','analyze'],
+['revisar','review'],
+['revisa','review'],
+['investigar','investigate'],
+['investiga','investigate'],
+['mover','move'],
+['mueve','move'],
+['copiar','copy'],
+['copia','copy'],
+['pegar','paste'],
+['pega','paste'],
+['exportar','export'],
+['exporta','export'],
+['importar','import'],
+['importa','import'],
+// Prepositions / connectors
+['también','also'],
+['además','also'],
+['ahora','now'],
+['antes','before'],
+['después','after'],
+['siempre','always'],
+['nunca','never'],
+['ya','already'],
+['todavía','still'],
+['cuando','when'],
+['donde','where'],
+['porque','because'],
+['para que','so that'],
+['así que','so'],
+['entonces','then'],
+['mientras','while'],
+['del','of the'],
+['de la','of the'],
+['de los','of the'],
+['de las','of the'],
+['en el','in the'],
+['en la','in the'],
+['en los','in the'],
+['en las','in the'],
+['para el','for the'],
+['para la','for the'],
+['para los','for the'],
+['para las','for the'],
+['con el','with the'],
+['con la','with the'],
+['con los','with the'],
+['con las','with the'],
+// Pronouns / common words
+['quiero','I want'],
+['necesito','I need'],
+['puedo','I can'],
+['debo','I must'],
+['debería','should'],
+['este','this'],
+['esta','this'],
+['estos','these'],
+['estas','these'],
+['ese','that'],
+['esa','that'],
+['esos','those'],
+['esas','those'],
+['mi','my'],
+['mis','my'],
+['tu','your'],
+['tus','your'],
+['cada','each'],
+['todo','all'],
+['toda','all'],
+['todos','all'],
+['todas','all'],
+['mismo','same'],
+['misma','same'],
+['mismos','same'],
+['mismas','same'],
+// Articles (last so they don't break phrase matches)
+['los','the'],
+['las','the'],
+['unos','some'],
+['unas','some'],
+['una','a'],
+['un','a'],
+['el','the'],
+['la','the'],
+// Critical grammar fillers (must be VERY last — single chars)
+['que','that'],
+['de','of'],
+['se','it'],
+['y','and'],
+['o','or'],
+['pero','but'],
+['si','if'],
+['no','not'],
+];
+
+// 3. Concept extractor — pulls structured ACTIONS / TARGETS / MODIFIERS
+//    from idea text (works for both ES and EN input)
+const CONCEPT_ACTIONS={
+add:['add','agregar','agrega','añadir','añade','create','crear','crea','implement','implementar','implementa','build','construir','include','incluir'],
+fix:['fix','arreglar','arregla','correct','corregir','corrige','repair','reparar','solve','solucionar','resolve','resolver','debug'],
+remove:['remove','quitar','eliminar','borrar','delete','clean','limpiar'],
+refactor:['refactor','refactorizar','restructure','reorganizar','simplify','simplificar','clean up','optimize','optimizar'],
+rewrite:['rewrite','reescribir','rehacer','replace','reemplazar'],
+ui:['polish','pulir','restyle','rediseñar','restyle','design','styling','estilizar'],
+audit:['audit','auditar','review','revisar','evaluate','evaluar','analyze','analizar'],
+sync:['sync','sincronizar','sincroniza','persist','persistir','save to cloud','guardar en la nube'],
+explore:['explore','explorar','investigate','investigar','map','mapear','find','buscar','encontrar'],
+test:['test','testear','probar','verify','verificar','validate','validar'],
+document:['document','documentar','docs','escribir docs','write docs'],
+deploy:['commit','push','deploy','ship','subir','desplegar'],
+};
+const CONCEPT_TARGETS={
+notebook:['notebook','cuaderno','nb-content','nb-page','libreta','page editor','editor de página'],
+auth:['login','signin','auth','sesión','session','autenticación','supabase auth'],
+sync:['cloud sync','cloud-sync','sincronización','supabase','app_state','indexeddb','localstorage'],
+ui_design:['design tokens','tokens','css','colors','colores','dark theme','tema oscuro','--ac','--bd','--bg'],
+image:['image','imagen','imágenes','foto','photo','picture'],
+attachment:['attachment','adjunto','adjuntos','pdf','word','excel','xlsx','docx'],
+form:['form','formulario','input','field','campo'],
+nav:['nav','navbar','navigation','menu','header','top bar','barra superior'],
+button:['button','botón','botones','btn','cta'],
+list:['list','lista','table','tabla'],
+kanban:['kanban','board','tablero'],
+journal:['journal','diario'],
+notes:['note','notas','nota'],
+finance:['finance','finanzas','expense','gasto','income','ingreso','budget','presupuesto'],
+job:['job','trabajo','vacancy','vacante','application','aplicación','aplicar'],
+dashboard:['dashboard','stats','estadísticas','kpi'],
+chart:['chart','gráfico','graph','plot','visualization','visualización'],
+search:['search','búsqueda','filter','filtro'],
+modal:['modal','popup','popover','dialog','ventana emergente','overlay'],
+mobile:['mobile','móvil','responsive','responsivo','phone','celular'],
+};
+const CONCEPT_MODIFIERS={
+preserve:['without breaking','sin romper','preserve','preservando','keep existing','mantener','mantén','no rompas'],
+mobile:['mobile','móvil','responsive','responsivo'],
+deploy:['commit','push','deploy','subir','desplegar'],
+verify:['verify','verifica','test','probar','validate','validar'],
+document:['document','documenta','cerebro_state','update state','actualizar estado'],
+auto_save:['auto-save','autosave','guardar automático','save automatically'],
+drag_drop:['drag','drop','arrastrar','soltar','arrastrar y soltar'],
+};
+const CONCEPT_TECH=['localStorage','IndexedDB','Supabase','JSONB','IIFE','contenteditable','execCommand','FileReader','fetch','async','await','Promise','SQL','Python','Excel','CSV','JSON','PDF'];
+
+/**
+ * Run concept analysis on raw idea text.
+ * Returns { actions: [...], targets: [...], modifiers: [...], techTerms: [...] }
+ */
+function analyzeIdea(text){
+  if (!text) return { actions:[], targets:[], modifiers:[], techTerms:[] };
+  const lower=text.toLowerCase();
+  const matchAny=kws=>kws.some(kw=>{
+    const re=new RegExp('\\b'+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i');
+    return re.test(lower);
+  });
+  const result={ actions:[], targets:[], modifiers:[], techTerms:[] };
+  for (const [k,kws] of Object.entries(CONCEPT_ACTIONS)) if (matchAny(kws)) result.actions.push(k);
+  for (const [k,kws] of Object.entries(CONCEPT_TARGETS)) if (matchAny(kws)) result.targets.push(k);
+  for (const [k,kws] of Object.entries(CONCEPT_MODIFIERS)) if (matchAny(kws)) result.modifiers.push(k);
+  CONCEPT_TECH.forEach(t=>{ if (text.toLowerCase().includes(t.toLowerCase())) result.techTerms.push(t); });
+  return result;
+}
+
+/**
+ * Detect if text is Spanish (heuristic).
+ */
+function isSpanish(text){
+  if (!text) return false;
+  // Strong indicators: ñ, accented vowels, common Spanish-only function words
+  if (/[ñáéíóúüÁÉÍÓÚÜ¿¡]/.test(text)) return true;
+  const spanishWords=/(\bque\b|\bpara\b|\bcon\b|\bdel\b|\bpor\b|\bsin\b|\beste\b|\besta\b|\bestos\b|\bestas\b|\bcómo\b|\bqué\b|\bcuándo\b|\bdónde\b|\bquiero\b|\bnecesito\b|\bmódulo\b|\bcuaderno\b|\barchivo\b|\bbotón\b|\bpágina\b)/i;
+  return spanishWords.test(text);
+}
+
+/**
+ * Translate Spanish text to English using the phrase dictionary.
+ * Conservative — leaves words it doesn't know as-is. Designed for prompt
+ * input, not literary translation. Output is then cleaned by coClean.
+ */
+function translateToEnglish(text){
+  if (!text) return '';
+  let s=' '+text+' ';
+  // 1. Strip Spanish fillers
+  ES_FILLERS.forEach(r=>{ s=s.replace(r,' '); });
+  // 2. Apply phrase dictionary (already in longest-first order in source)
+  ES_EN_DICT.forEach(([es,en])=>{
+    const escaped=es.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re=new RegExp('\\b'+escaped+'\\b','gi');
+    s=s.replace(re,en);
+  });
+  // 3. Cleanup whitespace and punctuation
+  s=s.replace(/\s+/g,' ')
+     .replace(/\s+([,.!?;:])/g,'$1')
+     .replace(/([,.!?;:]){2,}/g,'$1')
+     .replace(/^\s*[,.;:]\s*/,'')
+     .trim();
+  // 4. Capitalize first letter of each sentence
+  s=s.replace(/(^|[.!?]\s+)([a-z])/g,(_,p,c)=>p+c.toUpperCase());
+  return s;
+}
+
+// ══════════════════════════════════════════════════════════════
 // OPTIMIZE v3 — Project-aware prompt engineering
 // Uses CO_MODULE + CO_SIGNALS + CO_TASK_HINTS (defined in CLAUDE OPTIMIZE section).
 // Default output language: English (Claude Code performs best in English).
@@ -383,12 +919,22 @@ function optimize(){
   const role=(roles[ctxKind]||roles.general)[L];
   const toneText=(toneInst[tone]||toneInst.professional)[L];
 
-  // Clean the idea using the same filler patterns as Claude Optimize
-  const cleanedIdea=(typeof coClean==='function')?coClean(idea):idea;
-  // Extract structured tasks
+  // ── DEEP ANALYSIS PIPELINE ───────────────────────────────────
+  // 1. Detect language of the input
+  const wasSpanish=isSpanish(idea);
+  // 2. Translate to English if user wants EN output but wrote in ES
+  const ideaForOutput=(isEN && wasSpanish) ? translateToEnglish(idea) : idea;
+  // 3. Strip fillers (English fillers via coClean — handles output)
+  const cleanedIdea=(typeof coClean==='function')?coClean(ideaForOutput):ideaForOutput;
+  // 4. Extract structured tasks from the cleaned text
   const taskList=(typeof coExtractTasks==='function')?coExtractTasks(cleanedIdea):[cleanedIdea];
-  // Detect signals (notebook, auth, sync, design, etc)
-  const signals=(typeof coDetectSignals==='function')?coDetectSignals(idea):[];
+  // 5. Detect project signals (notebook, auth, sync, design, etc) — runs on
+  //    BOTH original ES text and translated EN text to maximize hits
+  const signalsRaw=(typeof coDetectSignals==='function')?coDetectSignals(idea):[];
+  const signalsTrans=(typeof coDetectSignals==='function')?coDetectSignals(cleanedIdea):[];
+  const signals=Array.from(new Set([...signalsRaw,...signalsTrans]));
+  // 6. Run concept analyzer (actions / targets / modifiers / tech terms)
+  const concepts=analyzeIdea(idea+' '+cleanedIdea);
 
   // Build numbered task list
   const taskLines=taskList.length>1
@@ -434,6 +980,26 @@ ARCHIVOS: ${modCtx.files}
 KEYS DE ESTADO: ${modCtx.state}
 NOTAS: ${modCtx.notes}`):'';
 
+  // Build ANALYZED block: structured concept summary
+  const analyzedBlock=isEN?
+`ANALYZED (auto-extracted concepts):
+- Primary action${concepts.actions.length!==1?'s':''}: ${concepts.actions.length?concepts.actions.join(', '):'(none detected — review TASK)'}
+- Target${concepts.targets.length!==1?'s':''}: ${concepts.targets.length?concepts.targets.join(', '):'(none — generic task)'}
+- Modifier${concepts.modifiers.length!==1?'s':''}: ${concepts.modifiers.length?concepts.modifiers.join(', '):'(none)'}${concepts.techTerms.length?'\n- Technical terms: '+concepts.techTerms.join(', '):''}`:
+`ANALIZADO (conceptos auto-extraídos):
+- Acción${concepts.actions.length!==1?'es':''} primaria${concepts.actions.length!==1?'s':''}: ${concepts.actions.length?concepts.actions.join(', '):'(ninguna detectada — revisa TAREA)'}
+- Target${concepts.targets.length!==1?'s':''}: ${concepts.targets.length?concepts.targets.join(', '):'(ninguno — tarea genérica)'}
+- Modificador${concepts.modifiers.length!==1?'es':''}: ${concepts.modifiers.length?concepts.modifiers.join(', '):'(ninguno)'}${concepts.techTerms.length?'\n- Términos técnicos: '+concepts.techTerms.join(', '):''}`;
+
+  // Build translation block (only if input was Spanish and output is English)
+  const translationBlock=(wasSpanish && isEN)?`USER'S RAW IDEA (original Spanish, preserved for nuance):
+"${idea.replace(/"/g,'\\"')}"
+
+USER'S IDEA (auto-translated to English):
+"${cleanedIdea.replace(/"/g,'\\"')}"
+
+`:'';
+
   // Final prompt assembly
   const prompt=isEN?
 `ROLE: Lead Frontend Architect for DA-2026 (Segundo Cerebro). Acting as ${role}.
@@ -442,7 +1008,9 @@ LIVE: https://mikel696.github.io/da-2026/frontend/
 
 ${moduleBlock}
 
-CONTEXT (raw idea, cleaned):
+${analyzedBlock}
+
+${translationBlock}CONTEXT (cleaned + structured):
 <context>
 ${cleanedIdea}
 </context>
@@ -455,14 +1023,16 @@ ${allConstraints.join('\n')}${toneModifier}
 
 DELIVERABLE: ${taskType==='explore'||taskType==='audit'?'Return a concise report with file paths and line ranges. Read-only — do not modify files.':taskType==='deploy'?'Commit + push to main with a clear message.':'Execute the task, commit and push to main with a clear message. No approval needed.'}
 
-— Generated by Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} project signal${signals.length!==1?'s':''} detected · ${taskList.length} task${taskList.length!==1?'s':''} extracted`:
+— Generated by Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} project signal${signals.length!==1?'s':''} · ${taskList.length} task${taskList.length!==1?'s':''} · ${concepts.actions.length} action${concepts.actions.length!==1?'s':''} + ${concepts.targets.length} target${concepts.targets.length!==1?'s':''} extracted${wasSpanish?' · ES→EN translated':''}`:
 `ROL: Lead Frontend Architect para DA-2026 (Segundo Cerebro). Actuando como ${role}.
 REPO: E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026
 LIVE: https://mikel696.github.io/da-2026/frontend/
 
 ${moduleBlock}
 
-CONTEXTO (idea cruda, limpiada):
+${analyzedBlock}
+
+CONTEXTO (limpiado + estructurado):
 <contexto>
 ${cleanedIdea}
 </contexto>
@@ -475,7 +1045,7 @@ ${allConstraints.join('\n')}${toneModifier}
 
 ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conciso con paths de archivos y rangos de líneas. Solo lectura — no modificar archivos.':taskType==='deploy'?'Commit + push a main con mensaje claro.':'Ejecutar la tarea, commit y push a main con mensaje claro. Sin aprobación necesaria.'}
 
-— Generado por Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} señal${signals.length!==1?'es':''} detectada${signals.length!==1?'s':''} · ${taskList.length} tarea${taskList.length!==1?'s':''} extraída${taskList.length!==1?'s':''}`;
+— Generado por Optimizar v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${signals.length} señal${signals.length!==1?'es':''} · ${taskList.length} tarea${taskList.length!==1?'s':''} · ${concepts.actions.length} acci${concepts.actions.length===1?'ón':'ones'} + ${concepts.targets.length} target${concepts.targets.length!==1?'s':''} extraídos`;
 
   // Display
   const resultDiv=document.getElementById('optResult');
@@ -496,7 +1066,8 @@ ENTREGABLE: ${taskType==='explore'||taskType==='audit'?'Devolver un reporte conc
   if(stats){
     const wIn=idea.trim().split(/\s+/).length;
     const wOut=prompt.trim().split(/\s+/).length;
-    stats.textContent=`words: ${wIn} → ${wOut} · signals: ${signals.length} · tasks: ${taskList.length} · module: ${mod} · output: ${L.toUpperCase()}`;
+    const trans=wasSpanish&&isEN?' · 🌐 ES→EN':'';
+    stats.textContent=`words: ${wIn} → ${wOut} · signals: ${signals.length} · tasks: ${taskList.length} · actions: ${concepts.actions.length} · targets: ${concepts.targets.length} · module: ${mod} · output: ${L.toUpperCase()}${trans}`;
   }
 
   resultDiv.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -732,7 +1303,7 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.3';
+const CO_VERSION='2026-04-27.4';
 const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
 
 const CO_MODULE={
