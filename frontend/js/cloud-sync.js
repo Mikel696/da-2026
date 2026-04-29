@@ -18,17 +18,37 @@
 /* ── Cerebro launcher: iframe-mode detection ─────────────────────
    When this page is loaded INSIDE the launcher's iframe (parent =
    index.html with the left rail), hide:
-   - The "← Cerebro" back-link (rail handles navigation)
+   - The "← Cerebro" back-link (rail handles navigation) — covers all
+     href variants: "index.html", "./index.html", "/index.html", "../index.html"
    - The duplicate auth widget (the launcher already shows one)
-   The class .in-cerebro-frame on <html> lets each page's own CSS
-   make additional adjustments if needed. */
+   - Backup pass: text-based matching for links containing "Cerebro"
+     to catch any non-href back-buttons that might exist in modules. */
 (function(){
   if (window.self === window.top) return;
   document.documentElement.classList.add('in-cerebro-frame');
   const css = '.in-cerebro-frame #sb-auth-widget{display:none!important}'
-            + '.in-cerebro-frame a[href="index.html"]{display:none!important}';
+            + '.in-cerebro-frame a[href="index.html"],'
+            + '.in-cerebro-frame a[href="./index.html"],'
+            + '.in-cerebro-frame a[href="/index.html"],'
+            + '.in-cerebro-frame a[href$="/index.html"],'
+            + '.in-cerebro-frame a[href*="index.html#"],'
+            + '.in-cerebro-frame .nav-back,'
+            + '.in-cerebro-frame .back-cerebro{display:none!important}';
   const s = document.createElement('style'); s.textContent = css;
   (document.head || document.documentElement).appendChild(s);
+  // Belt-and-suspenders: text-based matcher for any leftover "← Cerebro" links
+  function hideTextual(){
+    const links = document.querySelectorAll('a, button');
+    links.forEach(el => {
+      const t = (el.textContent || '').trim().toLowerCase();
+      if (/^[\s←]*cerebro$/i.test(t) || /←\s*cerebro/i.test(t)) {
+        el.style.setProperty('display','none','important');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hideTextual);
+  } else { hideTextual(); }
 })();
 
 const CLOUD = (() => {
