@@ -119,13 +119,13 @@ body{padding-left:64px}
 .rail-btn:hover{background:var(--el);border-color:var(--bd)}
 .rail-btn.on{background:var(--acg);border-color:var(--ac);color:var(--ac)}
 .rail-btn.on::before{content:'';position:absolute;left:-11px;top:50%;transform:translateY(-50%);width:3px;height:24px;background:var(--ac);border-radius:0 2px 2px 0}
-.rail-btn[data-mod="home"]{background:var(--gng);color:var(--gn)}
-.rail-btn[data-mod="home"]:hover{background:rgba(34,197,94,.16)}
-.rail-btn[data-mod="home"].on{background:rgba(34,197,94,.18);border-color:var(--gn);color:var(--gn)}
-.rail-btn[data-mod="home"].on::before{background:var(--gn)}
-.rail-tip{position:absolute;left:54px;top:50%;transform:translateY(-50%) translateX(-6px);background:var(--card);border:1px solid var(--ac);color:var(--tx);font-size:11px;padding:6px 12px;border-radius:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:all .18s;z-index:80;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.3px;box-shadow:0 6px 18px rgba(0,0,0,.5),0 0 0 1px rgba(139,92,246,.2)}
-.rail-tip::before{content:'';position:absolute;left:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:8px;height:8px;background:var(--card);border-left:1px solid var(--ac);border-bottom:1px solid var(--ac)}
-.rail-btn:hover .rail-tip{opacity:1;transform:translateY(-50%) translateX(0)}
+.rail-logo[data-active="1"]{box-shadow:0 4px 14px rgba(139,92,246,.55),0 0 0 2px var(--ac)}
+/* Body-level global tooltip — escapes the rail's overflow clipping.
+   Positioned via JS at the icon's right edge, fixed to viewport. */
+#cerebroTip{position:fixed;background:var(--card);border:1px solid var(--ac);color:var(--tx);font-size:12px;padding:7px 14px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(-50%) translateX(-8px);transition:opacity .15s,transform .15s;z-index:9999;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.3px;box-shadow:0 8px 24px rgba(0,0,0,.6),0 0 0 1px rgba(139,92,246,.25);display:none}
+#cerebroTip.on{opacity:1;transform:translateY(-50%) translateX(0);display:block}
+#cerebroTip::before{content:'';position:absolute;left:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--card);border-left:1px solid var(--ac);border-bottom:1px solid var(--ac)}
+@media(max-width:768px){#cerebroTip{display:none!important}}
 .rail-bottom{padding:10px 10px 14px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);text-align:center;letter-spacing:.5px}
 .rail-mode-dot{width:6px;height:6px;border-radius:50%;background:var(--gn);display:inline-block;margin-right:4px;animation:rd 2s infinite}
 @keyframes rd{0%,100%{opacity:1}50%{opacity:.4}}
@@ -256,8 +256,9 @@ document.getElementById('statTasks').textContent=getWsHist().length;updateStats(
 // and back/forward browser buttons work. The "Home" icon returns to the
 // dashboard view.
 const Cerebro = (function(){
+  // Module list (Home not included — the 🧠 logo at the top of the rail
+  // is the home link, no need for a duplicate house icon).
   const MODULES = [
-    ['home',     '🏠','Home / Dashboard',          ''],
     ['apply',    '🎯','Application Center',        'apply.html'],
     ['jobs',     '💼','Job Tracker',               'jobs.html'],
     ['work',     '🔧','Simetrik · Work Copilot',   'work.html'],
@@ -274,54 +275,93 @@ const Cerebro = (function(){
     ['sim',      '🎤','Interview Simulation',      'interview-sim.html'],
   ];
 
+  /** Single body-level tooltip. Per-button tooltips were being clipped by
+   *  the rail's overflow-y:auto (CSS specifies that overflow-x cannot be
+   *  visible when overflow-y is auto/scroll). Rendering at <body> level
+   *  with position:fixed escapes that clipping context entirely. */
+  function ensureTip(){
+    let tip = document.getElementById('cerebroTip');
+    if (tip) return tip;
+    tip = document.createElement('div');
+    tip.id = 'cerebroTip';
+    tip.setAttribute('role','tooltip');
+    document.body.appendChild(tip);
+    return tip;
+  }
+
+  function showTip(btn){
+    const tip = ensureTip();
+    const r = btn.getBoundingClientRect();
+    tip.textContent = btn.dataset.label || '';
+    tip.style.top = (r.top + r.height/2) + 'px';
+    tip.style.left = (r.right + 12) + 'px';
+    tip.classList.add('on');
+  }
+  function hideTip(){
+    const tip = document.getElementById('cerebroTip');
+    if (tip) tip.classList.remove('on');
+  }
+
   function buildRail(){
     const nav = document.getElementById('railNav');
     if (!nav) return;
-    nav.innerHTML = MODULES.map(([id,ic,name,src],i) =>
-      (i===1 ? '<div class="rail-divider"></div>' : '') +
-      `<button class="rail-btn" data-mod="${id}" data-src="${src}" aria-label="${name}">
-         <span>${ic}</span>
-         <span class="rail-tip">${name}</span>
+    nav.innerHTML = MODULES.map(([id,ic,name,src]) =>
+      `<button class="rail-btn" data-mod="${id}" data-src="${src}" data-label="${name.replace(/"/g,'&quot;')}" aria-label="${name}" title="${name}">
+         <span class="rail-ico">${ic}</span>
        </button>`
     ).join('');
     nav.querySelectorAll('.rail-btn').forEach(b => {
-      b.addEventListener('click', () => go(b.dataset.mod));
+      b.addEventListener('click', () => { hideTip(); go(b.dataset.mod); });
+      b.addEventListener('mouseenter', () => showTip(b));
+      b.addEventListener('mouseleave', hideTip);
+      b.addEventListener('focus', () => showTip(b));
+      b.addEventListener('blur', hideTip);
     });
+    // Also tooltip the brain logo
+    const logo = document.querySelector('.rail-logo');
+    if (logo) {
+      logo.dataset.label = 'Inicio · Cerebro';
+      logo.addEventListener('mouseenter', () => showTip(logo));
+      logo.addEventListener('mouseleave', hideTip);
+    }
   }
 
   function go(id){
+    // Logo (🧠) handles 'home' since we removed the duplicate house button
+    if (id === 'home') {
+      document.body.classList.remove('in-frame','frame-loading');
+      const f = document.getElementById('stageFrame');
+      if (f && f.src && !/about:blank$/.test(f.src)) { f.src = 'about:blank'; f.removeAttribute('data-cur'); }
+      if (location.hash && location.hash !== '#home') history.replaceState(null,'','#home');
+      document.title = 'Segundo Cerebro · Centro de Gestión';
+      document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('on'));
+      const logo = document.querySelector('.rail-logo'); if (logo) logo.dataset.active = '1';
+      const target = document.querySelector('.dash-grid');
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 60;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
+      return;
+    }
     const m = MODULES.find(x => x[0] === id);
     if (!m) return;
     const src = m[3];
     // Update rail active state
     document.querySelectorAll('.rail-btn').forEach(b => b.classList.toggle('on', b.dataset.mod === id));
-    if (id === 'home' || !src) {
-      document.body.classList.remove('in-frame','frame-loading');
-      const f = document.getElementById('stageFrame');
-      if (f && f.src && f.src !== 'about:blank' && !/about:blank$/.test(f.src)) { f.src = 'about:blank'; f.removeAttribute('data-cur'); }
-      if (location.hash && location.hash !== '#home') history.replaceState(null,'','#home');
-      document.title = 'Segundo Cerebro · Centro de Gestión';
-      // Scroll to "Quick Workshop" (main tasks), or top of page on first load
-      const target = document.querySelector('.dash-grid');
-      if (target) {
-        const navHeight = 60;
-        const top = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-      }
+    const logo = document.querySelector('.rail-logo'); if (logo) logo.dataset.active = '0';
+    // Load the module in the iframe (every entry in MODULES has a src)
+    const f = document.getElementById('stageFrame');
+    if (!f) return;
+    document.body.classList.add('in-frame','frame-loading');
+    if (f.dataset.cur !== src) {
+      f.onload = () => document.body.classList.remove('frame-loading');
+      f.src = src;
+      f.dataset.cur = src;
     } else {
-      const f = document.getElementById('stageFrame');
-      if (!f) return;
-      document.body.classList.add('in-frame','frame-loading');
-      if (f.dataset.cur !== src) {
-        f.onload = () => document.body.classList.remove('frame-loading');
-        f.src = src;
-        f.dataset.cur = src;
-      } else {
-        document.body.classList.remove('frame-loading');
-      }
-      history.replaceState(null,'','#'+id);
-      document.title = m[2] + ' · Cerebro';
+      document.body.classList.remove('frame-loading');
     }
+    history.replaceState(null,'','#'+id);
+    document.title = m[2] + ' · Cerebro';
   }
 
   function init(){
