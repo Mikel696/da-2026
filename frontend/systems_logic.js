@@ -1354,7 +1354,32 @@ const NB = (function() {
 
   function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
-  function save(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
+  /** Save with quota check — surfaces clear alert when localStorage is full
+   *  instead of failing silently (was causing pages/images to silently drop). */
+  function save(data) {
+    const json = JSON.stringify(data);
+    const sizeKB = Math.round(json.length / 1024);
+    try {
+      localStorage.setItem(KEY, json);
+    } catch (e) {
+      if (e && (e.name === 'QuotaExceededError' || /quota/i.test(e.message || ''))) {
+        let imgKB = 0, imgs = 0;
+        Object.values(data || {}).forEach(sub => (sub.pages || []).forEach(p =>
+          (p.images || []).forEach(im => {
+            if (im && im.data) { imgKB += Math.floor(im.data.length * 0.75 / 1024); imgs++; }
+          })
+        ));
+        alert('💾 Almacenamiento local lleno (≈ ' + sizeKB + ' KB usados).\n\n' +
+              imgs + ' imágenes pesan ≈ ' + Math.round(imgKB/1024) + ' MB.\n\n' +
+              'Soluciones:\n' +
+              '• Eliminá imágenes viejas (las más pesadas primero)\n' +
+              '• Las nuevas imágenes ya se comprimen automáticamente\n' +
+              '• El navegador limita localStorage a ~5 MB por sitio');
+        throw e;
+      }
+      throw e;
+    }
+  }
   function getSubjectData(sid) {
     const d = load();
     if (!d[sid]) d[sid] = { pages: [], links: [], images: [] };
@@ -1726,20 +1751,29 @@ const NB = (function() {
   }
 
   // ── IMAGES (HD) ──
+  /** Compress image for storage. Aligned with NBShared.compressImage so 10-SYS
+   *  and 13-NOT produce same-sized images. Reduced from 1920·92% to 1200·72%
+   *  → typical phone photo (3-5 MB) becomes 80-150 KB, fits localStorage AND
+   *  syncs reliably to Supabase JSONB. Falls back to NBShared if available. */
   function compressImageToHD(srcDataUrl) {
+    if (window.NBShared && typeof NBShared.compressImage === 'function') {
+      return NBShared.compressImage(srcDataUrl);
+    }
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = function() {
         const canvas = document.createElement('canvas');
-        const maxW = 1920;
-        const scale = Math.min(1, maxW / img.width);
+        const maxDim = 1200;
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
         canvas.width = Math.round(img.width * scale);
         canvas.height = Math.round(img.height * scale);
         const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        try { resolve(canvas.toDataURL('image/jpeg', 0.92)); } catch (e) { reject(e); }
+        try { resolve(canvas.toDataURL('image/jpeg', 0.72)); } catch (e) { reject(e); }
       };
       img.onerror = reject;
       img.src = srcDataUrl;

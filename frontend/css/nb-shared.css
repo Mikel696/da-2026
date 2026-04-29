@@ -147,8 +147,9 @@
 .nb-saved{font-size:10px;color:var(--em, #10b981);margin-left:8px;opacity:0;transition:opacity .3s;font-family:'IBM Plex Mono',monospace}
 .nb-saved.on{opacity:1}
 
-/* Rich-text toolbar */
-.nb-rt-toolbar{display:flex;gap:4px;flex-wrap:wrap;align-items:center;padding:8px 10px;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:8px 8px 0 0;border-bottom:none;margin-bottom:0}
+/* Rich-text toolbar — STICKY so format buttons stay accessible when
+   scrolling through long notes. Sits below the page-level nav (48px). */
+.nb-rt-toolbar{display:flex;gap:4px;flex-wrap:wrap;align-items:center;padding:8px 10px;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:8px 8px 0 0;border-bottom:none;margin-bottom:0;position:sticky;top:48px;z-index:5;backdrop-filter:blur(8px);box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .nb-rt-toolbar + .nb-page{border-top-left-radius:0;border-top-right-radius:0}
 .nb-rt-btn{background:var(--el, #222228);border:1px solid var(--bd, #27272a);color:var(--t2, #a1a1aa);border-radius:6px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1;transition:all .15s;min-width:28px;display:inline-flex;align-items:center;justify-content:center}
 .nb-rt-btn:hover{background:var(--vg, var(--ag, rgba(139,92,246,.08)));border-color:var(--vi, var(--ac, #7c3aed));color:var(--vi2, var(--a2, #a78bfa))}

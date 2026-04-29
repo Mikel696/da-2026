@@ -292,6 +292,45 @@
     return true;
   }
 
+  /**
+   * Compress an image dataURL to fit within localStorage / Supabase JSONB limits.
+   * Default: max 1200px on longest side, JPEG quality 0.72. This typically
+   * brings a phone photo (3-5MB) down to 80-150 KB while keeping legibility
+   * for screenshots, diagrams, photos. Cross-PC sync becomes reliable.
+   * @returns {Promise<string>} compressed dataURL (image/jpeg)
+   */
+  function compressImage(dataUrl, opts){
+    return new Promise((resolve, reject) => {
+      const o = Object.assign({ maxDim: 1200, quality: 0.72 }, opts || {});
+      const img = new Image();
+      img.onload = () => {
+        const w0 = img.naturalWidth, h0 = img.naturalHeight;
+        const scale = Math.min(1, o.maxDim / Math.max(w0, h0));
+        const w = Math.round(w0 * scale), h = Math.round(h0 * scale);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#fff'; // white BG for transparent PNGs (JPEG has no alpha)
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        try {
+          const out = c.toDataURL('image/jpeg', o.quality);
+          resolve(out);
+        } catch (e) { reject(e); }
+      };
+      img.onerror = () => reject(new Error('Image load failed'));
+      img.src = dataUrl;
+    });
+  }
+
+  /** Approximate byte size of a base64 data URL. */
+  function dataUrlBytes(dataUrl){
+    if (!dataUrl) return 0;
+    const i = dataUrl.indexOf(',');
+    if (i === -1) return dataUrl.length;
+    return Math.floor((dataUrl.length - i - 1) * 3 / 4);
+  }
+
   function _dmIngest(file){
     if (!_validate(file)) return;
     _dm.file = file;
@@ -305,11 +344,22 @@
 
     if (_dm.opts && _dm.opts.acceptImages) {
       const reader = new FileReader();
-      reader.onload = ev => {
-        _dm.dataUrl = ev.target.result;
-        if (previewImg) previewImg.src = ev.target.result;
+      reader.onload = async ev => {
+        const original = ev.target.result;
+        // Always compress images for predictable storage size + cross-PC sync.
+        // (localStorage cap ~5MB per origin, Supabase JSONB cap ~1MB per row.)
+        let compressed = original;
+        try {
+          compressed = await compressImage(original, _dm.opts.compress || {});
+        } catch (e) { console.warn('Image compression failed, using original:', e); }
+        _dm.dataUrl = compressed;
+        if (previewImg) previewImg.src = compressed;
         if (preview) preview.style.display = 'flex';
-        if (fileInfo) fileInfo.textContent = file.name + ' · ' + fmtBytes(file.size);
+        if (fileInfo) {
+          const origKB = (file.size / 1024).toFixed(0);
+          const compKB = (dataUrlBytes(compressed) / 1024).toFixed(0);
+          fileInfo.textContent = `${file.name} · ${origKB} KB → ${compKB} KB compressed`;
+        }
         if (icon) icon.textContent = '✅';
         if (text) text.textContent = 'Listo para guardar';
         if (cap && !cap.value) cap.value = file.name.replace(/\.[a-z0-9]+$/i, '');
@@ -544,6 +594,8 @@
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
     renderAttachmentChips, renderCoverPicker, renderIconPicker,
     MAX_BYTES,
+    // Image compression utilities
+    compressImage, dataUrlBytes,
     // Drop modal
     openDropModal, pickAttachmentViaModal, pickImageViaModal,
     _dmCancel, _dmSave, _dmPick,

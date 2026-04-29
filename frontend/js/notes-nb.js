@@ -29,7 +29,31 @@ const NotNB = (function(){
   function loadMeta(){ try { return JSON.parse(localStorage.getItem(META_KEY)||'[]'); } catch { return []; } }
   function saveMeta(m){ localStorage.setItem(META_KEY, JSON.stringify(m)); }
   function loadData(){ try { return JSON.parse(localStorage.getItem(DATA_KEY)||'{}'); } catch { return {}; } }
-  function saveData(d){ localStorage.setItem(DATA_KEY, JSON.stringify(d)); }
+  /** Save with quota check. Surfaces a clear alert when localStorage is
+   *  full instead of failing silently (which used to drop new pages/images). */
+  function saveData(d){
+    const json=JSON.stringify(d);
+    const sizeKB=Math.round(json.length/1024);
+    try {
+      localStorage.setItem(DATA_KEY, json);
+    } catch(e) {
+      if (e && (e.name==='QuotaExceededError' || /quota/i.test(e.message||''))) {
+        // Tally per-page image weight to show user where the bloat lives
+        let imgKB=0,imgs=0;
+        Object.values(d||{}).forEach(nb=>(nb.pages||[]).forEach(p=>(p.images||[]).forEach(im=>{
+          if(im && im.data){ imgKB += Math.floor(im.data.length*0.75/1024); imgs++; }
+        })));
+        alert('💾 Almacenamiento local lleno (≈ '+sizeKB+' KB usados).\n\n'+
+              imgs+' imágenes pesan ≈ '+Math.round(imgKB/1024)+' MB.\n\n'+
+              'Soluciones:\n'+
+              '• Eliminá imágenes viejas (las más pesadas primero)\n'+
+              '• Las nuevas imágenes ya se comprimen automáticamente\n'+
+              '• El navegador limita localStorage a ~5 MB por sitio');
+        throw e; // rethrow so caller knows save failed
+      }
+      throw e;
+    }
+  }
   function getNb(id){ return loadMeta().find(n => n.id === id); }
   function getPages(id){ const d=loadData(); return (d[id] && d[id].pages) || []; }
   function setActive(id){ activeNbId = id || null; try { localStorage.setItem(ACTIVE_KEY, activeNbId||''); } catch {} }
