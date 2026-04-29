@@ -15,6 +15,22 @@
    Depends on: window.SB (supabase-client.js), window.AUTH (auth.js)
 ═══════════════════════════════════════════════════════════════ */
 
+/* ── Cerebro launcher: iframe-mode detection ─────────────────────
+   When this page is loaded INSIDE the launcher's iframe (parent =
+   index.html with the left rail), hide:
+   - The "← Cerebro" back-link (rail handles navigation)
+   - The duplicate auth widget (the launcher already shows one)
+   The class .in-cerebro-frame on <html> lets each page's own CSS
+   make additional adjustments if needed. */
+(function(){
+  if (window.self === window.top) return;
+  document.documentElement.classList.add('in-cerebro-frame');
+  const css = '.in-cerebro-frame #sb-auth-widget{display:none!important}'
+            + '.in-cerebro-frame a[href="index.html"]{display:none!important}';
+  const s = document.createElement('style'); s.textContent = css;
+  (document.head || document.documentElement).appendChild(s);
+})();
+
 const CLOUD = (() => {
 
   /* ══════════════════════════════════════════════════════════════

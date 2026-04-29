@@ -102,9 +102,67 @@
 .quote p{font-family:'Newsreader',serif;font-size:18px;font-style:italic;line-height:1.6;color:var(--tx2)}.quote cite{font-size:12px;color:var(--tx3);display:block;margin-top:10px}
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd)}
 @media(max-width:768px){.main{padding:20px 14px}.header{flex-direction:column;text-align:center}.header h1{font-size:24px}.header-video{width:160px;height:160px;order:-1}.modules{grid-template-columns:1fr}.feed-grid{grid-template-columns:1fr}.qstats{flex-wrap:wrap}.qstat{min-width:calc(50% - 1px)}}
+
+/* ════════════════════════════════════════════════════════════════
+   LEFT RAIL · iframe-based module launcher
+   Lets the user switch between modules without leaving index.html
+   (no need to click "← Cerebro"). Each module loads in #stageFrame.
+═════════════════════════════════════════════════════════════════ */
+body{padding-left:64px}
+.rail{position:fixed;left:0;top:0;bottom:0;width:64px;background:linear-gradient(180deg,var(--card),#0d0d10);border-right:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;z-index:60;overflow-y:auto;overflow-x:visible}
+.rail::-webkit-scrollbar{width:0}
+.rail-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--ac),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:18px;margin:12px 0 14px;cursor:pointer;box-shadow:0 4px 14px rgba(139,92,246,.35);transition:transform .15s}
+.rail-logo:hover{transform:scale(1.08)}
+.rail-divider{width:30px;height:1px;background:var(--bd);margin:6px auto}
+.rail-nav{display:flex;flex-direction:column;gap:4px;flex:1;width:100%;padding:0 10px}
+.rail-btn{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .15s;color:var(--tx);position:relative;font-family:inherit}
+.rail-btn:hover{background:var(--el);border-color:var(--bd)}
+.rail-btn.on{background:var(--acg);border-color:var(--ac);color:var(--ac)}
+.rail-btn.on::before{content:'';position:absolute;left:-11px;top:50%;transform:translateY(-50%);width:3px;height:24px;background:var(--ac);border-radius:0 2px 2px 0}
+.rail-btn[data-mod="home"]{background:var(--gng);color:var(--gn)}
+.rail-btn[data-mod="home"]:hover{background:rgba(34,197,94,.16)}
+.rail-btn[data-mod="home"].on{background:rgba(34,197,94,.18);border-color:var(--gn);color:var(--gn)}
+.rail-btn[data-mod="home"].on::before{background:var(--gn)}
+.rail-tip{position:absolute;left:54px;top:50%;transform:translateY(-50%) translateX(-4px);background:var(--card);border:1px solid var(--bd);color:var(--tx);font-size:11px;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:all .15s;z-index:70;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.rail-btn:hover .rail-tip{opacity:1;transform:translateY(-50%) translateX(0)}
+.rail-bottom{padding:10px 10px 14px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);text-align:center;letter-spacing:.5px}
+.rail-mode-dot{width:6px;height:6px;border-radius:50%;background:var(--gn);display:inline-block;margin-right:4px;animation:rd 2s infinite}
+@keyframes rd{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Iframe stage — covers the area to the right of the rail when a module is selected */
+#stageFrame{display:none;position:fixed;top:0;left:64px;right:0;bottom:0;border:none;background:var(--bg);z-index:40;width:calc(100% - 64px);height:100vh}
+body.in-frame #stageFrame{display:block}
+body.in-frame .nav,body.in-frame .main,body.in-frame .footer{visibility:hidden}
+
+/* Frame loading skeleton */
+.frame-load{position:fixed;top:50%;left:calc(50% + 32px);transform:translate(-50%,-50%);z-index:41;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;display:none}
+body.in-frame.frame-loading .frame-load{display:block}
+.frame-load::before{content:'';display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Mobile rail collapses to a slim bar; tap toggles full-width drawer */
+@media(max-width:768px){
+  body{padding-left:48px}
+  .rail{width:48px}
+  .rail-logo{width:32px;height:32px;font-size:14px}
+  .rail-btn{width:36px;height:36px;font-size:17px}
+  .rail-btn.on::before{left:-9px;width:2px}
+  .rail-nav{padding:0 6px}
+  .rail-tip{display:none}
+  #stageFrame{left:48px;width:calc(100% - 48px)}
+}
 </style>
 </head>
 <body>
+<!-- ═══ LEFT RAIL · module launcher ═══ -->
+<aside class="rail" role="navigation" aria-label="Módulos">
+  <div class="rail-logo" onclick="Cerebro.go('home')" title="Cerebro">🧠</div>
+  <nav class="rail-nav" id="railNav"></nav>
+  <div class="rail-bottom"><span class="rail-mode-dot"></span>v8</div>
+</aside>
+<iframe id="stageFrame" title="Cerebro module" loading="lazy"></iframe>
+<div class="frame-load">Cargando módulo…</div>
+
 <nav class="nav"><div class="nav-brand"><div class="nav-dot"></div><span class="nav-name">segundo cerebro</span></div><div class="nav-r"><span class="nav-greeting" id="greeting"></span><span class="nav-time" id="clock"></span></div></nav>
 <main class="main">
 <div class="header"><div class="header-text"><div class="header-sub">centro de gestión personal</div><h1>Tu segundo <em>cerebro</em>,<br>todo en un solo lugar.</h1><p>Estudio, trabajo, idiomas, finanzas, objetivos. Cada módulo es un sistema completo. Todo conectado, nada se pierde.</p></div><div class="header-video"><video autoplay loop muted playsinline preload="auto" aria-hidden="true"><source src="brain.mp4" type="video/mp4"></video></div></div>
@@ -190,6 +248,95 @@ function renderQuote(){const q=[{t:"The goal is to turn data into information, a
 (function(){if(!localStorage.getItem('sb_name')){const n=prompt('¿Cuál es tu nombre?');if(n)localStorage.setItem('sb_name',n.trim())}})();
 (function(){const last=localStorage.getItem('sb_last'),today=new Date().toISOString().split('T')[0];if(last!==today){const y=new Date(Date.now()-864e5).toISOString().split('T')[0];let s=parseInt(localStorage.getItem('sb_streak')||'0');if(last===y)s++;else s=1;localStorage.setItem('sb_streak',String(s));localStorage.setItem('sb_last',today)}})();
 document.getElementById('statTasks').textContent=getWsHist().length;updateStats();renderFeed();renderQuote();renderDeals();
+
+// ═══ Cerebro Router · iframe-based module launcher ═══════════════
+// Click any rail icon → loads that module inside #stageFrame without
+// leaving the page. URL hash (#apply, #jobs…) makes deep-links shareable
+// and back/forward browser buttons work. The "Home" icon returns to the
+// dashboard view.
+const Cerebro = (function(){
+  const MODULES = [
+    ['home',     '🏠','Home / Dashboard',          ''],
+    ['apply',    '🎯','Application Center',        'apply.html'],
+    ['jobs',     '💼','Job Tracker',               'jobs.html'],
+    ['work',     '🔧','Simetrik · Work Copilot',   'work.html'],
+    ['systems',  '⚙️','Ingeniería de Sistemas',    'systems.html'],
+    ['accounting','📊','Accounting Associate',     'accounting.html'],
+    ['finance',  '💰','Finanzas Personales',       'finance.html'],
+    ['notes',    '📝','Notas & Journal',           'notes.html'],
+    ['english',  '🇺🇸','English Academy',           'english.html'],
+    ['ruta',     '🛤️','Ruta Data Analyst',         'ruta.html'],
+    ['goals',    '🎯','Objetivos & Hábitos',       'goals.html'],
+    ['news',     '📰','Noticias Data & IA',        'news.html'],
+    ['tools',    '🛠️','Herramientas',              'tools.html'],
+    ['prompts',  '✨','Prompts Lab',               'prompts.html'],
+    ['sim',      '🎤','Interview Simulation',      'interview-sim.html'],
+  ];
+
+  function buildRail(){
+    const nav = document.getElementById('railNav');
+    if (!nav) return;
+    nav.innerHTML = MODULES.map(([id,ic,name,src],i) =>
+      (i===1 ? '<div class="rail-divider"></div>' : '') +
+      `<button class="rail-btn" data-mod="${id}" data-src="${src}" aria-label="${name}">
+         <span>${ic}</span>
+         <span class="rail-tip">${name}</span>
+       </button>`
+    ).join('');
+    nav.querySelectorAll('.rail-btn').forEach(b => {
+      b.addEventListener('click', () => go(b.dataset.mod));
+    });
+  }
+
+  function go(id){
+    const m = MODULES.find(x => x[0] === id);
+    if (!m) return;
+    const src = m[3];
+    // Update rail active state
+    document.querySelectorAll('.rail-btn').forEach(b => b.classList.toggle('on', b.dataset.mod === id));
+    if (id === 'home' || !src) {
+      document.body.classList.remove('in-frame','frame-loading');
+      const f = document.getElementById('stageFrame');
+      if (f && f.src && f.src !== 'about:blank') { f.src = 'about:blank'; f.removeAttribute('data-cur'); }
+      if (location.hash && location.hash !== '#home') history.replaceState(null,'','#home');
+      document.title = 'Segundo Cerebro · Centro de Gestión';
+    } else {
+      const f = document.getElementById('stageFrame');
+      if (!f) return;
+      document.body.classList.add('in-frame','frame-loading');
+      if (f.dataset.cur !== src) {
+        f.onload = () => document.body.classList.remove('frame-loading');
+        f.src = src;
+        f.dataset.cur = src;
+      } else {
+        document.body.classList.remove('frame-loading');
+      }
+      history.replaceState(null,'','#'+id);
+      document.title = m[2] + ' · Cerebro';
+    }
+  }
+
+  function init(){
+    buildRail();
+    // Initialize from hash (deep-link) or default to home
+    const hash = (location.hash || '').slice(1).toLowerCase();
+    const found = MODULES.find(m => m[0] === hash);
+    go(found ? hash : 'home');
+  }
+
+  // React to back/forward buttons or external hash changes
+  window.addEventListener('hashchange', () => {
+    const hash = (location.hash || '').slice(1).toLowerCase();
+    if (MODULES.find(m => m[0] === hash)) go(hash);
+    else if (!hash) go('home');
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+  return { go, MODULES };
+})();
+window.Cerebro = Cerebro;
 </script>
 <!-- Auth chain: must load on every page so session persists platform-wide -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
