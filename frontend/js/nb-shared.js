@@ -40,10 +40,16 @@
   };
   const ALL_ICONS = Object.values(ICON_GROUPS).flat();
 
-  /* ── INDEXEDDB ATTACHMENTS ─────────────────────────────────── */
+  /* ── INDEXEDDB STORAGE (attachments + images) ──────────────────
+   * VERSION 2: added 'images' store. Full-quality images live here
+   * (cap 50 MB each). Only thumbnails (~10 KB) flow through localStorage
+   * → Supabase JSONB. This decouples notebook content size from the
+   * cloud sync row limit (~1 MB) and the localStorage quota (~5 MB).
+   * ─────────────────────────────────────────────────────────────── */
   const DB_NAME = 'da2026_nb';
   const STORE = 'attachments';
-  const VERSION = 1;
+  const STORE_IMG = 'images';
+  const VERSION = 2;
   const MAX_BYTES = 52428800; // 50 MB hard limit
   let _dbPromise = null;
 
@@ -55,6 +61,9 @@
         const db = e.target.result;
         if (!db.objectStoreNames.contains(STORE)) {
           db.createObjectStore(STORE, { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains(STORE_IMG)) {
+          db.createObjectStore(STORE_IMG, { keyPath: 'id' });
         }
       };
       req.onsuccess = () => resolve(req.result);
@@ -91,6 +100,93 @@
       tx.oncomplete = () => res(true);
       tx.onerror = () => rej(tx.error);
     });
+  }
+
+  /* ── IMAGE STORE (full quality) ─────────────────────────────── */
+  async function putImage(id, dataUrl){
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(STORE_IMG, 'readwrite');
+      tx.objectStore(STORE_IMG).put({ id, dataUrl, addedAt: new Date().toISOString() });
+      tx.oncomplete = () => res(true);
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+  async function getImage(id){
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(STORE_IMG, 'readonly');
+      const req = tx.objectStore(STORE_IMG).get(id);
+      req.onsuccess = () => res(req.result ? req.result.dataUrl : null);
+      req.onerror = () => rej(req.error);
+    });
+  }
+  async function deleteImage(id){
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(STORE_IMG, 'readwrite');
+      tx.objectStore(STORE_IMG).delete(id);
+      tx.oncomplete = () => res(true);
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+
+  /**
+   * Store a full-quality image in IDB and return a thin metadata record.
+   * The metadata is what's saved into page.images[] — small enough to sync.
+   * @param dataUrl  raw or compressed image dataURL
+   * @param caption  user-provided caption
+   * @returns {Promise<{id,thumbnail,caption,size,addedAt}>}
+   */
+  async function storeImageWithThumbnail(dataUrl, caption){
+    // Full-quality (still capped at 1600px) goes to IDB
+    const full = await compressImage(dataUrl, { maxDim: 1600, quality: 0.82 });
+    // Thumbnail (~10 KB) goes into the page payload (syncs to cloud)
+    const thumb = await compressImage(dataUrl, { maxDim: 240, quality: 0.62 });
+    const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+    await putImage(id, full);
+    return {
+      id,
+      thumbnail: thumb,
+      caption: caption || '',
+      size: dataUrlBytes(full),
+      addedAt: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Resolve full image dataURL: prefers IDB by id, falls back to legacy
+   * inline `data` field for un-migrated images.
+   */
+  async function resolveImageData(imgRecord){
+    if (!imgRecord) return null;
+    if (imgRecord.id) {
+      const full = await getImage(imgRecord.id);
+      if (full) return full;
+    }
+    return imgRecord.data || imgRecord.thumbnail || null;
+  }
+
+  /**
+   * One-time migration: convert legacy {data: dataUrl} images into
+   * {id, thumbnail} format with full image stored in IDB. Returns
+   * mutated copy of the page object — caller saves it.
+   */
+  async function migrateLegacyImages(page){
+    if (!page || !page.images || !page.images.length) return page;
+    let mutated = false;
+    for (let i = 0; i < page.images.length; i++) {
+      const im = page.images[i];
+      if (im && im.data && !im.id) {
+        try {
+          const newRec = await storeImageWithThumbnail(im.data, im.caption || '');
+          page.images[i] = newRec;
+          mutated = true;
+        } catch(e) { /* keep legacy entry on failure */ }
+      }
+    }
+    page._migrated = mutated || page._migrated;
+    return page;
   }
 
   /* Allowed types (extension whitelist) */
@@ -479,7 +575,8 @@
   }
 
   /**
-   * High-level helper: open modal for an image and return its dataUrl + caption.
+   * Legacy helper: open modal and return inline dataUrl + caption.
+   * Kept for back-compat. New callers should use pickImageRecordViaModal.
    * @returns {Promise<{dataUrl, caption, name}|null>}
    */
   async function pickImageViaModal(){
@@ -491,6 +588,26 @@
     });
     if (!r) return null;
     return { dataUrl: r.dataUrl, caption: r.caption || '', name: r.name };
+  }
+
+  /**
+   * NEW (recommended): open modal and store the full image in IDB,
+   * returning a thin metadata record {id, thumbnail, caption, size, addedAt}.
+   * The thumbnail is small enough to sync (~10 KB), the full image stays
+   * in IndexedDB on this device. Use NBShared.resolveImageData(record) at
+   * render time to get the full image dataURL back.
+   * @returns {Promise<{id, thumbnail, caption, size, addedAt, name}|null>}
+   */
+  async function pickImageRecordViaModal(){
+    const r = await openDropModal({
+      title: '🖼️ Agregar imagen en HD',
+      acceptImages: true,
+      accept: 'image/*',
+      maxBytes: 25 * 1024 * 1024,
+    });
+    if (!r) return null;
+    const rec = await storeImageWithThumbnail(r.dataUrl, r.caption || r.name || '');
+    return Object.assign({ name: r.name }, rec);
   }
 
   /* ═══════════════════════════════════════════════════════════════
@@ -596,8 +713,10 @@
     MAX_BYTES,
     // Image compression utilities
     compressImage, dataUrlBytes,
+    // Image IDB pipeline (thumbnail in payload, full in IndexedDB)
+    storeImageWithThumbnail, resolveImageData, putImage, getImage, deleteImage, migrateLegacyImages,
     // Drop modal
-    openDropModal, pickAttachmentViaModal, pickImageViaModal,
+    openDropModal, pickAttachmentViaModal, pickImageViaModal, pickImageRecordViaModal,
     _dmCancel, _dmSave, _dmPick,
     // Design modal
     openDesignModal,

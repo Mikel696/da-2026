@@ -101,6 +101,7 @@
 <option value="RUTA">🗺️ RUTA · Data Analyst Path</option>
 <option value="NEWS">📰 NEWS · Data & AI News</option>
 <option value="TOOLS">🛠️ TOOLS · Tools Directory</option>
+<option value="14-WORK">💼 14-WORK · Simetrik Copilot</option>
 <option value="GENERAL">🌐 GENERAL · Cross-cutting / Architecture</option>
 </select>
 </div>
@@ -128,6 +129,7 @@
 
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
 <button class="btn bp" onclick="claudeOptimize()">⚡ Optimize Prompt</button>
+<label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);cursor:pointer;font-family:'IBM Plex Mono',monospace"><input type="checkbox" id="coConcise" style="margin:0">⚡ Modo conciso</label>
 <button class="btn bo bs" onclick="document.getElementById('coRaw').value='';document.getElementById('coResult').style.display='none'">🧹 Clear</button>
 <div id="coStats" style="font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-left:auto"></div>
 </div>
@@ -185,8 +187,9 @@
 <option value="es">🇪🇸 Español</option>
 </select>
 <button class="btn bp" onclick="optimize()">⚡ Optimizar Prompt</button>
+<label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);cursor:pointer;font-family:'IBM Plex Mono',monospace;margin-left:6px"><input type="checkbox" id="optConcise" style="margin:0">⚡ Modo conciso</label>
 </div>
-<div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic">💡 El motor detecta automáticamente palabras como "notebook", "auth", "sync", "design tokens", "drag-drop" y agrega las restricciones específicas del proyecto.</div>
+<div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic">💡 El motor detecta automáticamente palabras como "notebook", "auth", "sync", "design tokens", "drag-drop" y agrega las restricciones específicas del proyecto. Modo conciso: salida 60% más corta.</div>
 </div>
 
 <div id="optResult" style="display:none">
@@ -1196,6 +1199,7 @@ function populateOptDropdowns(){
     ['RUTA','🛤️ RUTA · Data Analyst Path'],
     ['NEWS','📰 NEWS · Data & AI News'],
     ['TOOLS','🧰 TOOLS · Directory'],
+    ['14-WORK','💼 14-WORK · Simetrik Copilot'],
     ['GENERAL','⚙️ GENERAL · Cross-cutting / Architecture'],
   ];
   modSel.innerHTML=modOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
@@ -1253,6 +1257,8 @@ function optimize(){
 
   const L=lang;
   const isEN=L==='en';
+  const conciseEl=document.getElementById('optConcise');
+  const concise=conciseEl&&conciseEl.checked;
   const taskHint=(typeof CO_TASK_HINTS!=='undefined'&&CO_TASK_HINTS[taskType])?CO_TASK_HINTS[taskType]:{verb:'Implement',constraint:''};
   const role=(roles[ctxKind]||roles.general)[L];
   const toneText=(toneInst[tone]||toneInst.professional)[L];
@@ -1345,7 +1351,24 @@ function optimize(){
     : '';
 
   // ── FINAL PROMPT ASSEMBLY ───────────────────────────────────
+  // Concise mode: drops <output_format>, <thinking>, and trims rules.
+  // Result is ~55% shorter while keeping role/context/task/rules intact.
   const prompt=isEN?
+(concise?
+`<role>${role}</role>
+
+<context>${cleanedIdea}</context>
+
+<task>
+${taskLines}
+</task>
+
+<rules>
+- ${toneText}
+- Cite evidence. Flag assumptions. Ask if info missing.
+- No filler, no generic intros, no "as an AI" disclaimers.
+</rules>
+<!-- Optimize v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} concise · ${taskList.length}t · ${concepts.actions.length}A/${concepts.targets.length}T${wasSpanish?' · ES→EN':''} -->`:
 `<role>
 You are ${role}.
 Apply expert-level reasoning. Be precise, evidence-driven, and actionable.
@@ -1377,7 +1400,7 @@ ${negativeRules_EN.join('\n')}
 ${thinking_EN}
 </thinking>
 
-<!-- Optimize v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${taskList.length} task${taskList.length!==1?'s':''} · ${concepts.actions.length}A/${concepts.targets.length}T${wasSpanish?' · ES→EN':''} -->`:
+<!-- Optimize v${typeof CO_VERSION!=='undefined'?CO_VERSION:'2026-04-27'} · ${taskList.length} task${taskList.length!==1?'s':''} · ${concepts.actions.length}A/${concepts.targets.length}T${wasSpanish?' · ES→EN':''} -->`):
 `<rol>
 Eres ${role}.
 Aplicá razonamiento experto. Sé preciso, basado en evidencia y accionable.
@@ -1677,7 +1700,7 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.7';
+const CO_VERSION='2026-04-27.8';
 const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
 
 const CO_MODULE={
@@ -1695,6 +1718,7 @@ const CO_MODULE={
 'RUTA':{name:'Data Analyst Path',files:'frontend/ruta.html, css/ruta.css, js/ruta.js',state:'ruta_log5, ruta5',notes:'SQL → Python → Power BI learning path'},
 'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper; retry button on RSS error'},
 'TOOLS':{name:'Tools & Advantages Directory',files:'frontend/tools.html',state:'(none)',notes:'Links to external tools'},
+'14-WORK':{name:'Simetrik Work Copilot',files:'frontend/work.html, frontend/css/work.css, frontend/js/work.js',state:'work_cases (case log), work_errors (error log), work_learnings (tips), work_kb (personal Simetrik KB), work_nb_meta + work_nb_data (cuadernos)',notes:'6 tabs: Casos · Errores · Aprendizajes · Knowledge Base · Cuadernos · Copilot. Cuadernos reuse nb-shared.js (covers, IDB images, attachments). Copilot tab generates structured prompts that include personal_kb + recent cases/errors as context — Claude has Miguel\'s Simetrik environment pre-loaded.'},
 'GENERAL':{name:'Cross-cutting / Architecture',files:CO_GLOBAL_FILES,state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js. Recently added: not_nb_meta, not_nb_data, sys_notebook_meta. IndexedDB (da2026_nb / store: attachments) for binaries — local-only by design.',notes:'Shared infra: 4-layer arch (HTML shell + CSS + JS IIFE + JSON data), Supabase auth, localStorage proxy, JSONB columns per user. nb-shared.js exposes: COVERS (12), ICON_GROUPS (5×~7), openDropModal, openDesignModal, pickAttachmentViaModal, pickImageViaModal. PLATFORM-WIDE RULE: every HTML page must include the 4-script auth chain before </body>, otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.'}
 };
 
@@ -1863,6 +1887,8 @@ const mod=document.getElementById('coModule').value;
 const type=document.getElementById('coTaskType').value;
 const ctx=CO_MODULE[mod];
 const hint=CO_TASK_HINTS[type];
+const conciseEl=document.getElementById('coConcise');
+const concise=conciseEl&&conciseEl.checked;
 
 // ── INPUT TYPE DETECTION ────────────────────────────────────────
 // A) Already-finalized DA-2026 spec → return as-is (idempotent)
@@ -1926,7 +1952,29 @@ const deliverable=
 // ── CONSTRUCTION OF DA-2026 EXECUTION SPEC ──────────────────────
 // This is what makes Claude Optimizer different from Optimize:
 // it ADDS the project execution environment as Markdown spec.
-const spec=`# Claude Code Execution Specification — DA-2026 (Segundo Cerebro)
+const spec=concise
+? `# DA-2026 · ${mod} · ${type.toUpperCase()}
+
+**Repo:** \`E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\` · **Live:** mikel696.github.io/da-2026/frontend
+**Files:** ${ctx.files}
+**State:** ${ctx.state}
+
+## Task
+${inputBlock.replace(/^### .*\n/m,'').replace(/^The Optimize section[\s\S]*?DA-2026 project context\.\n\n/m,'')}
+
+## Constraints
+${(hint.constraint||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>l.replace(/^-\s*/,'- ')).join('\n')}
+- Auth chain on every HTML (Supabase CDN → supabase-client → auth → cloud-sync) before \`</body>\`.
+- Design tokens only (\`--ac\` \`--gn\` \`--bd\` \`--bg\` \`--tx\` \`--t2\` \`--t3\`). No hex.
+- 4-layer: HTML + CSS + IIFE JS + JSON. Module codes (3-ENG / 5-JOB / etc).
+- Read \`CEREBRO_STATE.md\` and \`MEMORY.md\` first.
+- Short responses, no filler.${signals.length?'\n'+signals.map(s=>'- '+s).join('\n'):''}
+
+## Deliverable
+${deliverable}
+
+*v${CO_VERSION} concise · ${signals.length} signals · ${mod}*`
+: `# Claude Code Execution Specification — DA-2026 (Segundo Cerebro)
 
 ## Environment
 - **Repo:** \`E:/Aplicaciones/ANALISIS DE DATOS/Pagina Web/HTML/da-2026\`

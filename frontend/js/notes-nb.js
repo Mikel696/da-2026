@@ -161,7 +161,25 @@ const NotNB = (function(){
     render();
   }
 
-  function openPage(nbId, pid){ activePageId = pid; render(); }
+  async function openPage(nbId, pid){
+    activePageId = pid;
+    // Migrate legacy {data: ...} images to {id, thumbnail} on first open.
+    // Keeps localStorage payload small + makes images survive cross-PC sync.
+    if (window.NBShared) {
+      try {
+        const data = loadData();
+        const page = (data[nbId]||{pages:[]}).pages.find(p => p.id === pid);
+        if (page && page.images && page.images.some(im => im && im.data && !im.id)) {
+          await NBShared.migrateLegacyImages(page);
+          if (page._migrated) {
+            delete page._migrated;
+            saveData(data);
+          }
+        }
+      } catch(e) { /* migration failure is non-fatal */ }
+    }
+    render();
+  }
 
   function deletePage(nbId, pid){
     if (!confirm('¿Eliminar esta página?')) return;
@@ -291,21 +309,43 @@ const NotNB = (function(){
     if (el) el.innerHTML = renderLinksHtml(nbId, page);
   }
 
-  /* ── IMAGE OPS ────────────────────────────────────────────── */
+  /* ── IMAGE OPS (IDB-backed) ───────────────────────────────────
+   * Full image stored in IndexedDB; only {id, thumbnail} flows through
+   * localStorage → Supabase. Solves quota + JSONB-row size limits. */
   async function addImage(nbId){
     if (!activePageId) return alert('Primero crea o abre una página.');
     if (!window.NBShared) return alert('Módulo compartido no cargado.');
-    const r = await NBShared.pickImageViaModal();
-    if (!r) return;
+    const rec = await NBShared.pickImageRecordViaModal();
+    if (!rec) return;
     const data = loadData();
     const page = data[nbId].pages.find(p => p.id === activePageId);
     if (!page) return;
     if (!page.images) page.images = [];
-    page.images.push({ data: r.dataUrl, caption: r.caption || r.name || '' });
+    page.images.push({ id: rec.id, thumbnail: rec.thumbnail, caption: rec.caption || rec.name || '', size: rec.size, addedAt: rec.addedAt });
     page.updated = new Date().toISOString();
     saveData(data);
     const el = document.getElementById('notNbImages-' + nbId);
     if (el) el.innerHTML = renderImagesHtml(nbId, page);
+  }
+
+  /** View full image: resolves from IDB (or legacy `data` field) and opens
+   *  a simple lightbox overlay. */
+  async function viewImage(nbId, idx){
+    const data = loadData();
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page || !page.images || !page.images[idx]) return;
+    const im = page.images[idx];
+    const fullUrl = window.NBShared ? await NBShared.resolveImageData(im) : (im.data || im.thumbnail);
+    if (!fullUrl) return alert('No se pudo cargar la imagen original (puede estar solo en otro dispositivo).');
+    let lb = document.getElementById('notNbLightbox');
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.id = 'notNbLightbox';
+      lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:40px;cursor:zoom-out';
+      lb.onclick = () => lb.remove();
+      document.body.appendChild(lb);
+    }
+    lb.innerHTML = `<img src="${fullUrl}" style="max-width:95vw;max-height:90vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.8)"><div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:6px;max-width:80vw">${esc(im.caption || '')}</div>`;
   }
   function renameImage(nbId, idx){
     const data = loadData();
@@ -320,11 +360,13 @@ const NotNB = (function(){
     const el = document.getElementById('notNbImages-' + nbId);
     if (el) el.innerHTML = renderImagesHtml(nbId, page);
   }
-  function removeImage(nbId, idx){
+  async function removeImage(nbId, idx){
     if (!confirm('¿Eliminar esta imagen?')) return;
     const data = loadData();
     const page = data[nbId].pages.find(p => p.id === activePageId);
     if (!page) return;
+    const im = page.images[idx];
+    if (im && im.id && window.NBShared) { try { await NBShared.deleteImage(im.id); } catch(e){} }
     page.images.splice(idx, 1);
     page.updated = new Date().toISOString();
     saveData(data);
@@ -374,14 +416,19 @@ const NotNB = (function(){
   }
   function renderImagesHtml(nbId, page){
     if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen".</div>';
-    return page.images.map((im, i) =>
-      `<div class="nb-img-card">
+    return page.images.map((im, i) => {
+      // Prefer thumbnail (IDB-migrated); fall back to legacy inline `data`
+      const src = im.thumbnail || im.data || '';
+      const orphan = im.id && !im.thumbnail && !im.data;
+      return `<div class="nb-img-card">
         <button class="nb-img-del" onclick="event.stopPropagation();NotNB.removeImage('${nbId}',${i})" title="Eliminar">✕</button>
         <button class="nb-img-rename" onclick="event.stopPropagation();NotNB.renameImage('${nbId}',${i})" title="Renombrar">✏</button>
-        <img src="${im.data}" alt="${esc(im.caption)}">
+        ${orphan
+          ? '<div style="aspect-ratio:1;background:var(--el);display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:11px;text-align:center;padding:8px">📷<br>Solo en otro<br>dispositivo</div>'
+          : `<img src="${src}" alt="${esc(im.caption)}" onclick="NotNB.viewImage('${nbId}',${i})" style="cursor:zoom-in">`}
         <div class="nb-img-caption">${esc(im.caption || 'Sin nombre')}</div>
-      </div>`
-    ).join('');
+      </div>`;
+    }).join('');
   }
   function renderAttachmentsHtml(nbId, page){
     if (!window.NBShared) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Cargando módulo de adjuntos…</div>';
@@ -522,7 +569,7 @@ const NotNB = (function(){
     newPage, openPage, deletePage, autoSave,
     fmt, insertLabel, removeLabelEl,
     addLink, removeLink,
-    addImage, renameImage, removeImage,
+    addImage, renameImage, removeImage, viewImage,
     attachFile, removeAttachment,
   };
 })();

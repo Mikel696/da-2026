@@ -1486,14 +1486,18 @@ const NB = (function() {
 
   function renderImagesHtml(sid, page) {
     if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen HD" para pegar/arrastrar.</div>';
-    return page.images.map((im, i) =>
-      `<div class="nb-img-card">
+    return page.images.map((im, i) => {
+      const src = im.thumbnail || im.data || '';
+      const orphan = im.id && !im.thumbnail && !im.data;
+      return `<div class="nb-img-card">
         <button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage('${sid}',${i})" title="Eliminar">✕</button>
         <button class="nb-img-rename" onclick="event.stopPropagation();NB.renameImage('${sid}',${i})" title="Renombrar">✏</button>
-        <img src="${im.data}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})">
+        ${orphan
+          ? '<div style="aspect-ratio:1;background:var(--el);display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:11px;text-align:center;padding:8px">📷<br>Solo en otro<br>dispositivo</div>'
+          : `<img src="${src}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})">`}
         <div class="nb-img-caption">${esc(im.caption || 'Sin nombre')}</div>
-      </div>`
-    ).join('');
+      </div>`;
+    }).join('');
   }
 
   function renameImage(sid, idx) {
@@ -1578,9 +1582,20 @@ const NB = (function() {
     refreshOwner(sid);
   }
 
-  function openPage(sid, pid) {
+  async function openPage(sid, pid) {
     activePage[sid] = pid;
     openSubjects.add(sid);
+    // Auto-migrate legacy {data} images to {id, thumbnail} on first open
+    if (window.NBShared) {
+      try {
+        const d = load();
+        const page = (d[sid]||{pages:[]}).pages.find(p => p.id === pid);
+        if (page && page.images && page.images.some(im => im && im.data && !im.id)) {
+          await NBShared.migrateLegacyImages(page);
+          if (page._migrated) { delete page._migrated; save(d); }
+        }
+      } catch(e) { /* migration failure is non-fatal */ }
+    }
     refreshOwner(sid);
   }
 
@@ -1780,24 +1795,37 @@ const NB = (function() {
     });
   }
 
-  function pushImage(sid, dataUrl, caption) {
+  /** Store image: full → IDB, thumbnail in payload (sync-safe). */
+  async function pushImage(sid, dataUrl, caption) {
     const pid = activePage[sid];
     if (!pid) return;
     const d = load();
     const page = d[sid].pages.find(p => p.id === pid);
     if (!page.images) page.images = [];
-    page.images.push({ data: dataUrl, caption: caption || '', added: new Date().toISOString() });
+    let rec;
+    if (window.NBShared && typeof NBShared.storeImageWithThumbnail === 'function') {
+      try {
+        rec = await NBShared.storeImageWithThumbnail(dataUrl, caption || '');
+      } catch (e) { console.warn('IDB image store failed, fallback to inline:', e); }
+    }
+    if (rec) {
+      page.images.push({ id: rec.id, thumbnail: rec.thumbnail, caption: rec.caption || caption || '', size: rec.size, addedAt: rec.addedAt });
+    } else {
+      page.images.push({ data: dataUrl, caption: caption || '', added: new Date().toISOString() });
+    }
     page.updated = new Date().toISOString();
     save(d);
     const el = document.getElementById('nbImages-' + sid);
     if (el) el.innerHTML = renderImagesHtml(sid, page);
   }
 
-  function removeImage(sid, idx) {
+  async function removeImage(sid, idx) {
     if (!confirm('¿Eliminar esta imagen?')) return;
     const d = load();
     const pid = activePage[sid];
     const page = d[sid].pages.find(p => p.id === pid);
+    const im = page.images[idx];
+    if (im && im.id && window.NBShared) { try { await NBShared.deleteImage(im.id); } catch(e){} }
     page.images.splice(idx, 1);
     page.updated = new Date().toISOString();
     save(d);
@@ -1919,7 +1947,7 @@ const NB = (function() {
   }
 
   // ── LIGHTBOX ──
-  function viewImage(sid, idx) {
+  async function viewImage(sid, idx) {
     const d = load();
     const pid = activePage[sid];
     const page = d[sid].pages.find(p => p.id === pid);
@@ -1928,8 +1956,17 @@ const NB = (function() {
     const lb = document.getElementById('nbLightbox');
     const img = document.getElementById('nbLbImg');
     const cap = document.getElementById('nbLbCaption');
-    img.src = page.images[idx].data;
-    cap.textContent = `${idx + 1}/${page.images.length} — ${page.images[idx].caption || ''}`;
+    const im = page.images[idx];
+    // Resolve full image from IDB; fall back to legacy inline `data`
+    const fullUrl = window.NBShared
+      ? await NBShared.resolveImageData(im)
+      : (im.data || im.thumbnail);
+    if (!fullUrl) {
+      alert('No se pudo cargar la imagen original (puede estar solo en otro dispositivo).');
+      return;
+    }
+    img.src = fullUrl;
+    cap.textContent = `${idx + 1}/${page.images.length} — ${im.caption || ''}`;
     lb.classList.add('on');
     document.body.style.overflow = 'hidden';
   }
