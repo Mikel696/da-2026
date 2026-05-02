@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Mind Map Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<!-- jsMind library (mature pure-JS mindmap engine, MIT) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsmind@0.8.7/style/jsmind.css">
+<link rel="stylesheet" href="css/nb-shared.css">
+<link rel="stylesheet" href="css/mindmap.css">
+</head>
+<body>
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a><div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span><div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">Mind Map Studio</span>
+  </div>
+  <div class="nv-r">
+    <div class="bdg bdg-mod">🧠 mindmap</div>
+  </div>
+</nav>
+
+<div class="mm-shell">
+  <!-- LEFT: list of saved mind maps -->
+  <aside class="mm-side">
+    <div class="mm-side-h">
+      <div style="font-size:13px;font-weight:600">🗺️ Mind Maps</div>
+      <button class="btn bp bs" onclick="MM.create()">+ Nuevo</button>
+    </div>
+    <div id="mmList" class="mm-list"></div>
+    <div class="mm-side-foot">
+      <div style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;line-height:1.6">
+        💡 <b>Tips:</b><br>
+        · Doble-click nodo: editar<br>
+        · Tab: agregar hijo<br>
+        · Enter: agregar hermano<br>
+        · Delete: eliminar<br>
+        · Drag: reorganizar
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: editor canvas -->
+  <main class="mm-stage">
+    <div class="mm-toolbar">
+      <input class="mm-name" id="mmName" placeholder="Nombre del mapa..." onchange="MM.rename()">
+      <span style="flex:1"></span>
+      <button class="btn bo bs" onclick="MM.addChild()">+ Hijo</button>
+      <button class="btn bo bs" onclick="MM.addSibling()">+ Hermano</button>
+      <button class="btn bo bs" onclick="MM.removeNode()">− Nodo</button>
+      <span class="mm-sep"></span>
+      <button class="btn bo bs" onclick="MM.zoomIn()" title="Zoom +">🔍+</button>
+      <button class="btn bo bs" onclick="MM.zoomOut()" title="Zoom −">🔍−</button>
+      <button class="btn bo bs" onclick="MM.zoomReset()" title="Reset">↺</button>
+      <span class="mm-sep"></span>
+      <button class="btn bg bs" onclick="MM.save()">💾 Guardar</button>
+      <button class="btn bp bs" onclick="MM.exportPng()">📷 PNG</button>
+      <button class="btn bp bs" onclick="MM.attachToNotebook()" style="background:linear-gradient(135deg,var(--ac),var(--cy))">📎 Adjuntar a cuaderno</button>
+    </div>
+    <div id="mmCanvas" class="mm-canvas"></div>
+    <div class="mm-status" id="mmStatus"></div>
+  </main>
+</div>
+
+<!-- Notebook picker modal (for attach-to-notebook flow) -->
+<div class="mm-pick-overlay" id="mmPickOverlay">
+  <div class="mm-pick-modal" onclick="event.stopPropagation()">
+    <button class="nbs-drop-close" onclick="MM.closePicker()">✕</button>
+    <div class="nbs-drop-head">
+      <div class="nbs-drop-title">📎 Adjuntar a cuaderno</div>
+      <div class="nbs-drop-sub">Elegí el módulo y cuaderno donde guardar el mind map (como imagen).</div>
+    </div>
+    <div class="mm-pick-row">
+      <label class="mm-pick-lbl">Módulo</label>
+      <select class="inp" id="mmPickModule" onchange="MM.refreshPickerNbs()">
+        <option value="13-NOT">📓 13-NOT · Notas & Journal</option>
+        <option value="10-SYS">⚙️ 10-SYS · Ingeniería de Sistemas</option>
+        <option value="14-WORK">💼 14-WORK · Simetrik Copilot</option>
+      </select>
+    </div>
+    <div class="mm-pick-row">
+      <label class="mm-pick-lbl">Cuaderno</label>
+      <select class="inp" id="mmPickNb"></select>
+    </div>
+    <div class="mm-pick-row">
+      <label class="mm-pick-lbl">Página</label>
+      <select class="inp" id="mmPickPage"></select>
+    </div>
+    <div class="mm-pick-info" id="mmPickInfo"></div>
+    <div class="nbs-drop-actions">
+      <button class="nbs-drop-btn nbs-drop-btn-cancel" onclick="MM.closePicker()">Cancelar</button>
+      <button class="nbs-drop-btn nbs-drop-btn-save" onclick="MM.confirmAttach()">📎 Adjuntar</button>
+    </div>
+  </div>
+</div>
+
+<!-- jsMind engine -->
+<script src="https://cdn.jsdelivr.net/npm/jsmind@0.8.7/es6/jsmind.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsmind@0.8.7/es6/jsmind.draggable-node.js"></script>
+<!-- html2canvas for PNG export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- Auth chain (platform-wide) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js"></script>
+<!-- Shared notebook engine + Mind Map module -->
+<script src="js/nb-shared.js"></script>
+<script src="js/mindmap.js"></script>
+</body>
+</html>

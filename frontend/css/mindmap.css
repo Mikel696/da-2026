@@ -1,0 +1,83 @@
+/* ════════════════════════════════════════════════════════════════
+   DA-2026 · Mind Map Studio (jsMind + dark theme overrides)
+═════════════════════════════════════════════════════════════════ */
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--em:#10b981;--vi:#7c3aed}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow:hidden}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
+
+/* Top nav (shared) */
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}
+.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ac)}
+.nv-r{display:flex;gap:8px}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-mod{background:var(--ag);border:1px solid rgba(139,92,246,.25);color:var(--a2)}
+
+/* Inputs / buttons (reused) */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.bp{background:var(--ac);color:#fff}.bp:hover{filter:brightness(1.12)}
+.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{color:var(--tx);border-color:var(--bd2)}
+.bg{background:var(--gn);color:#fff}.bg:hover{filter:brightness(1.12)}
+.bs{padding:6px 10px;font-size:11px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+
+/* ── Main shell layout ─────────────────────────────────── */
+.mm-shell{display:flex;height:calc(100vh - 48px);overflow:hidden}
+
+/* ── Left sidebar: list of saved mind maps ─────────────── */
+.mm-side{width:280px;background:var(--c1);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.mm-side-h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--bd)}
+.mm-list{flex:1;overflow-y:auto;padding:10px}
+.mm-item{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .15s}
+.mm-item:hover{border-color:var(--bd2);background:var(--c1)}
+.mm-item.on{border-color:var(--ac);background:var(--ag)}
+.mm-item-t{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mm-item-m{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.mm-item-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .15s}
+.mm-item:hover .mm-item-del{opacity:1}
+.mm-item-del:hover{background:var(--rg);color:var(--rd)}
+.mm-empty{text-align:center;padding:30px 14px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px;margin-top:10px}
+.mm-side-foot{padding:14px 16px;border-top:1px solid var(--bd);background:var(--c1)}
+
+/* ── Right stage: toolbar + canvas ─────────────────────── */
+.mm-stage{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.mm-toolbar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--c1);border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.mm-name{padding:7px 12px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:600;min-width:240px}
+.mm-name:focus{outline:none;border-color:var(--ac)}
+.mm-sep{width:1px;height:20px;background:var(--bd);margin:0 4px}
+
+/* The canvas hosting jsMind */
+.mm-canvas{flex:1;background:radial-gradient(circle at 50% 50%, #111118 0%, var(--bg) 100%);position:relative;overflow:hidden}
+.mm-status{position:absolute;bottom:10px;right:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);background:rgba(22,22,26,.8);padding:4px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .25s}
+.mm-status.on{opacity:1}
+
+/* ── jsMind dark theme overrides ───────────────────────── */
+.jsmind-inner{background:transparent!important}
+jmnodes{font-family:'IBM Plex Sans',sans-serif!important;color:var(--tx)!important}
+jmnode{background:var(--c1)!important;color:var(--tx)!important;border:1px solid var(--bd)!important;border-radius:8px!important;padding:8px 14px!important;box-shadow:0 4px 12px rgba(0,0,0,.3)!important;font-size:13px!important;font-weight:500!important;transition:all .15s!important}
+jmnode:hover{border-color:var(--ac)!important;box-shadow:0 6px 18px rgba(139,92,246,.3)!important}
+jmnode.selected{background:var(--ag)!important;border-color:var(--ac)!important;color:var(--a2)!important;box-shadow:0 0 0 2px var(--ac),0 6px 20px rgba(139,92,246,.4)!important}
+jmnode.root{background:linear-gradient(135deg,var(--ac),var(--vi))!important;color:#fff!important;border:none!important;font-weight:700!important;font-size:15px!important;padding:12px 22px!important;box-shadow:0 6px 24px rgba(139,92,246,.5)!important}
+jmexpander{background:var(--c1)!important;border:1px solid var(--ac)!important;color:var(--ac)!important;border-radius:50%!important;font-weight:700!important}
+jmexpander:hover{background:var(--ac)!important;color:#fff!important}
+
+/* Connection lines: jsMind uses canvas — recolor via CSS isn't possible.
+   Override at JS level when initializing jsMind (see mindmap.js). */
+
+/* ── Notebook picker modal (attach-to-notebook flow) ───── */
+.mm-pick-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
+.mm-pick-overlay.on{display:flex}
+.mm-pick-modal{position:relative;background:var(--c1);border:1px solid var(--bd);border-radius:14px;width:min(520px,95vw);padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.mm-pick-row{display:flex;flex-direction:column;gap:6px}
+.mm-pick-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600}
+.mm-pick-info{font-size:11px;color:var(--t2);background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;line-height:1.6}
+
+/* ── Mobile ────────────────────────────────────────────── */
+@media(max-width:768px){
+  .mm-shell{flex-direction:column;height:auto}
+  .mm-side{width:100%;height:auto;max-height:200px;border-right:none;border-bottom:1px solid var(--bd)}
+  .mm-stage{height:calc(100vh - 48px - 200px)}
+  .mm-toolbar{padding:8px;gap:4px}
+  .mm-name{min-width:0;flex:1;font-size:12px}
+}

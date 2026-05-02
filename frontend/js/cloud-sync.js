@@ -277,6 +277,8 @@ const CLOUD = (() => {
     // 14-WORK Simetrik Copilot (cases, errors, learnings, KB, notebooks)
     'work_cases', 'work_errors', 'work_learnings', 'work_kb',
     'work_nb_meta', 'work_nb_data',
+    // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
+    'tools_mindmaps',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
     'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'

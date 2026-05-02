@@ -102,6 +102,7 @@
 <option value="NEWS">📰 NEWS · Data & AI News</option>
 <option value="TOOLS">🛠️ TOOLS · Tools Directory</option>
 <option value="14-WORK">💼 14-WORK · Simetrik Copilot</option>
+<option value="15-MM">🗺️ 15-MM · Mind Map Studio</option>
 <option value="GENERAL">🌐 GENERAL · Cross-cutting / Architecture</option>
 </select>
 </div>
@@ -1200,6 +1201,7 @@ function populateOptDropdowns(){
     ['NEWS','📰 NEWS · Data & AI News'],
     ['TOOLS','🧰 TOOLS · Directory'],
     ['14-WORK','💼 14-WORK · Simetrik Copilot'],
+    ['15-MM','🗺️ 15-MM · Mind Map Studio'],
     ['GENERAL','⚙️ GENERAL · Cross-cutting / Architecture'],
   ];
   modSel.innerHTML=modOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
@@ -1719,6 +1721,7 @@ const CO_MODULE={
 'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper; retry button on RSS error'},
 'TOOLS':{name:'Tools & Advantages Directory',files:'frontend/tools.html',state:'(none)',notes:'Links to external tools'},
 '14-WORK':{name:'Simetrik Work Copilot',files:'frontend/work.html, frontend/css/work.css, frontend/js/work.js',state:'work_cases (case log), work_errors (error log), work_learnings (tips), work_kb (personal Simetrik KB), work_nb_meta + work_nb_data (cuadernos)',notes:'6 tabs: Casos · Errores · Aprendizajes · Knowledge Base · Cuadernos · Copilot. Cuadernos reuse nb-shared.js (covers, IDB images, attachments). Copilot tab generates structured prompts that include personal_kb + recent cases/errors as context — Claude has Miguel\'s Simetrik environment pre-loaded.'},
+'15-MM':{name:'Mind Map Studio',files:'frontend/mindmap.html, frontend/css/mindmap.css, frontend/js/mindmap.js',state:'tools_mindmaps (array of {id,name,data} where data is a jsMind node_tree)',notes:'Visual mind-map editor using jsMind (CDN, MIT). Dark theme overrides. PNG export via html2canvas. Cross-module attach: any mind map can be saved as image into a notebook page in 10-SYS, 13-NOT or 14-WORK — uses NBShared.storeImageWithThumbnail (3-tier IDB+payload). Auto-saves on edit. Auth chain present.'},
 'GENERAL':{name:'Cross-cutting / Architecture',files:CO_GLOBAL_FILES,state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js. Recently added: not_nb_meta, not_nb_data, sys_notebook_meta. IndexedDB (da2026_nb / store: attachments) for binaries — local-only by design.',notes:'Shared infra: 4-layer arch (HTML shell + CSS + JS IIFE + JSON data), Supabase auth, localStorage proxy, JSONB columns per user. nb-shared.js exposes: COVERS (12), ICON_GROUPS (5×~7), openDropModal, openDesignModal, pickAttachmentViaModal, pickImageViaModal. PLATFORM-WIDE RULE: every HTML page must include the 4-script auth chain before </body>, otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.'}
 };
 
