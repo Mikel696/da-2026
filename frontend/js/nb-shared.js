@@ -132,22 +132,33 @@
   }
 
   /**
-   * Store a full-quality image in IDB and return a thin metadata record.
-   * The metadata is what's saved into page.images[] — small enough to sync.
+   * Store an image in 3 quality tiers. Solves cross-device quality drop:
+   * before, only a 240px thumbnail was synced → on other PCs the lightbox
+   * showed that 240px scaled up, looking blurry.
+   *
+   *   Tier 1  thumbnail  ~320px  q 0.70  ~25 KB   → grid view (fast load)
+   *   Tier 2  preview   ~1280px  q 0.78  ~180 KB  → cross-device lightbox
+   *   Tier 3  full      ~1920px  q 0.85  ~400 KB  → IDB only (origin HD)
+   *
+   * Tiers 1 & 2 are stored in the page payload (sync via Supabase JSONB).
+   * Tier 3 lives only in IndexedDB on the originating device.
+   *
+   * Storage budget per image synced: ~205 KB. 5 images = ~1 MB row.
+   *
    * @param dataUrl  raw or compressed image dataURL
    * @param caption  user-provided caption
-   * @returns {Promise<{id,thumbnail,caption,size,addedAt}>}
+   * @returns {Promise<{id,thumbnail,preview,caption,size,addedAt}>}
    */
   async function storeImageWithThumbnail(dataUrl, caption){
-    // Full-quality (still capped at 1600px) goes to IDB
-    const full = await compressImage(dataUrl, { maxDim: 1600, quality: 0.82 });
-    // Thumbnail (~10 KB) goes into the page payload (syncs to cloud)
-    const thumb = await compressImage(dataUrl, { maxDim: 240, quality: 0.62 });
+    const full    = await compressImage(dataUrl, { maxDim: 1920, quality: 0.85 });
+    const preview = await compressImage(dataUrl, { maxDim: 1280, quality: 0.78 });
+    const thumb   = await compressImage(dataUrl, { maxDim: 320,  quality: 0.70 });
     const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
     await putImage(id, full);
     return {
       id,
       thumbnail: thumb,
+      preview,
       caption: caption || '',
       size: dataUrlBytes(full),
       addedAt: new Date().toISOString()
@@ -155,8 +166,10 @@
   }
 
   /**
-   * Resolve full image dataURL: prefers IDB by id, falls back to legacy
-   * inline `data` field for un-migrated images.
+   * Resolve the BEST available image dataURL:
+   *   IDB full (origin HD) > preview (synced cross-device HD) > thumbnail (grid)
+   *   > legacy `data` field (un-migrated images)
+   * Cross-device users get a 1280px image instead of a 240px stretched one.
    */
   async function resolveImageData(imgRecord){
     if (!imgRecord) return null;
@@ -164,25 +177,43 @@
       const full = await getImage(imgRecord.id);
       if (full) return full;
     }
-    return imgRecord.data || imgRecord.thumbnail || null;
+    return imgRecord.preview || imgRecord.data || imgRecord.thumbnail || null;
   }
 
   /**
-   * One-time migration: convert legacy {data: dataUrl} images into
-   * {id, thumbnail} format with full image stored in IDB. Returns
-   * mutated copy of the page object — caller saves it.
+   * Migration on page open. Two cases handled:
+   *   1. Legacy {data: dataUrl} → split into 3 tiers + IDB.
+   *   2. Older IDB records {id, thumbnail (240px), no preview} → if the
+   *      origin device has the full image in IDB, regenerate preview +
+   *      bigger thumbnail so cross-device viewing improves.
+   * Caller saves the page if `page._migrated` is set.
    */
   async function migrateLegacyImages(page){
     if (!page || !page.images || !page.images.length) return page;
     let mutated = false;
     for (let i = 0; i < page.images.length; i++) {
       const im = page.images[i];
-      if (im && im.data && !im.id) {
+      if (!im) continue;
+      // Case 1: legacy inline data
+      if (im.data && !im.id) {
         try {
           const newRec = await storeImageWithThumbnail(im.data, im.caption || '');
           page.images[i] = newRec;
           mutated = true;
-        } catch(e) { /* keep legacy entry on failure */ }
+        } catch(e) { /* keep legacy on failure */ }
+      }
+      // Case 2: IDB record from older schema (no preview tier) — only
+      // upgradable on origin device where IDB has the full image.
+      else if (im.id && !im.preview) {
+        try {
+          const fullUrl = await getImage(im.id);
+          if (fullUrl) {
+            const preview = await compressImage(fullUrl, { maxDim: 1280, quality: 0.78 });
+            const thumb   = await compressImage(fullUrl, { maxDim: 320,  quality: 0.70 });
+            page.images[i] = Object.assign({}, im, { preview, thumbnail: thumb });
+            mutated = true;
+          }
+        } catch(e) {}
       }
     }
     page._migrated = mutated || page._migrated;
