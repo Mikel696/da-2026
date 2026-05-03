@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · APA Document Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&family=Times:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/apa.css">
+</head>
+<body>
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a><div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span><div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">APA Document Studio</span>
+  </div>
+  <div class="nv-r"><div class="bdg bdg-mod">📄 apa</div></div>
+</nav>
+
+<div class="apa-shell">
+  <!-- LEFT: list of saved documents -->
+  <aside class="apa-side">
+    <div class="apa-side-h">
+      <div style="font-size:13px;font-weight:600">📑 Mis documentos</div>
+      <button class="btn bp bs" onclick="APA.create()">+ Nuevo</button>
+    </div>
+    <div id="apaList" class="apa-list"></div>
+    <div class="apa-side-foot">
+      <div style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;line-height:1.7">
+        💡 <b>APA 7ma edición</b><br>
+        · Times New Roman 12pt<br>
+        · Doble interlineado<br>
+        · Márgenes 1" (2.54cm)<br>
+        · Sangría párrafos 0.5"<br>
+        · Portada centrada
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER: edit form -->
+  <main class="apa-form">
+    <div class="apa-form-h">
+      <div class="form-grp">
+        <label>Tipo de trabajo</label>
+        <select class="inp" id="apaKind" onchange="APA.kindChanged()">
+          <option value="academic">🎓 Académico (10-SYS)</option>
+          <option value="personal">📝 Personal</option>
+        </select>
+      </div>
+      <div class="form-grp" id="apaKindAcademicGrp">
+        <label>Materia</label>
+        <select class="inp" id="apaSubject"></select>
+      </div>
+      <div class="form-grp">
+        <label>Universidad / Institución</label>
+        <input class="inp" id="apaInstitution" placeholder="Corporación Unificada Nacional · CUN">
+      </div>
+      <div class="form-grp">
+        <label>Programa</label>
+        <input class="inp" id="apaProgram" placeholder="Ingeniería de Sistemas">
+      </div>
+      <div class="form-grp">
+        <label>Profesor / a</label>
+        <input class="inp" id="apaProfessor" placeholder="Apellidos, Nombre">
+      </div>
+      <div class="form-grp">
+        <label>Estudiante</label>
+        <input class="inp" id="apaStudent" placeholder="Apellidos, Nombre">
+      </div>
+      <div class="form-grp">
+        <label>Fecha de entrega</label>
+        <input class="inp" id="apaDate" type="date">
+      </div>
+    </div>
+
+    <div class="apa-section">
+      <div class="form-grp">
+        <label>Título del trabajo</label>
+        <input class="inp" id="apaTitle" placeholder="Título principal del documento">
+      </div>
+      <div class="form-grp">
+        <label>Subtítulo (opcional)</label>
+        <input class="inp" id="apaSubtitle" placeholder="Subtítulo si aplica">
+      </div>
+      <div class="form-grp">
+        <label>Resumen / Abstract (opcional)</label>
+        <textarea class="txa" id="apaAbstract" rows="3" placeholder="Resumen del trabajo (150-250 palabras)"></textarea>
+      </div>
+      <div class="form-grp">
+        <label>Cuerpo del trabajo</label>
+        <textarea class="txa" id="apaBody" rows="14" placeholder="Cuerpo principal. Cada línea en blanco doble crea un nuevo párrafo. Para insertar un encabezado, comenzá la línea con # (Nivel 1), ## (Nivel 2), ### (Nivel 3)."></textarea>
+      </div>
+      <div class="form-grp">
+        <label>Referencias (una por línea, formato APA)</label>
+        <textarea class="txa" id="apaReferences" rows="5" placeholder="Apellido, N. (Año). Título de la obra. Editorial."></textarea>
+      </div>
+      <div class="form-grp">
+        <label>Anexos (opcional)</label>
+        <textarea class="txa" id="apaAppendix" rows="3" placeholder="Anexos, tablas o gráficos descritos en texto."></textarea>
+      </div>
+    </div>
+
+    <div class="apa-actions">
+      <button class="btn bg" onclick="APA.save()">💾 Guardar</button>
+      <button class="btn bo" onclick="APA.copyText()">📋 Copiar texto plano</button>
+      <span style="flex:1"></span>
+      <button class="btn bp" onclick="APA.exportPDF()">📕 PDF</button>
+      <button class="btn bp" onclick="APA.exportWord()" style="background:#2b579a">📘 Word</button>
+      <button class="btn bp" onclick="APA.exportExcel()" style="background:#107c41">📗 Excel</button>
+    </div>
+  </main>
+
+  <!-- RIGHT: live preview pane (formatted APA) -->
+  <aside class="apa-preview">
+    <div class="apa-preview-h">
+      <div style="font-size:13px;font-weight:600">📄 Vista previa APA</div>
+      <button class="btn bo bs" onclick="APA.toggleFullPreview()" id="apaFullBtn" title="Ver pantalla completa">⛶ Ampliar</button>
+    </div>
+    <div id="apaPreview" class="apa-paper"></div>
+  </aside>
+</div>
+
+<!-- Status toast -->
+<div class="apa-status" id="apaStatus"></div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<!-- Auth chain -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js"></script>
+<!-- Module logic -->
+<script src="js/apa.js"></script>
+</body>
+</html>

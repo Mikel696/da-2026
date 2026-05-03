@@ -1,0 +1,102 @@
+/* ════════════════════════════════════════════════════════════════
+   DA-2026 · 16-APA · Document Studio
+═════════════════════════════════════════════════════════════════ */
+:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#06b6d4;--a2:#22d3ee;--ag:rgba(6,182,212,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--em:#10b981;--vi:#7c3aed}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow:hidden}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
+
+/* Top nav */
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}
+.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ac)}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-mod{background:var(--cg);border:1px solid rgba(6,182,212,.25);color:var(--cy)}
+
+/* Buttons / inputs */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.bp{background:var(--ac);color:#fff}.bp:hover{filter:brightness(1.1)}
+.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{color:var(--tx);border-color:var(--bd2)}
+.bg{background:var(--gn);color:#fff}.bg:hover{filter:brightness(1.1)}
+.bs{padding:6px 10px;font-size:11px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+.txa{width:100%;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:vertical;line-height:1.7}.txa:focus{outline:none;border-color:var(--ac)}
+
+/* ── Shell: 3 columns (list · form · preview) ─────────── */
+.apa-shell{display:grid;grid-template-columns:240px 1fr 540px;height:calc(100vh - 48px);overflow:hidden}
+
+/* ── Left side: documents list ────────────────────────── */
+.apa-side{background:var(--c1);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.apa-side-h{display:flex;align-items:center;justify-content:space-between;padding:14px 14px;border-bottom:1px solid var(--bd)}
+.apa-list{flex:1;overflow-y:auto;padding:10px}
+.apa-item{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .15s}
+.apa-item:hover{border-color:var(--bd2);background:var(--c1)}
+.apa-item.on{border-color:var(--ac);background:var(--ag)}
+.apa-item-t{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.apa-item-m{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.apa-item-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .15s}
+.apa-item:hover .apa-item-del{opacity:1}
+.apa-item-del:hover{background:var(--rg);color:var(--rd)}
+.apa-empty{text-align:center;padding:30px 14px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px;margin-top:10px}
+.apa-side-foot{padding:14px;border-top:1px solid var(--bd)}
+
+/* ── Center: form ─────────────────────────────────────── */
+.apa-form{overflow-y:auto;padding:18px 22px;background:var(--bg)}
+.apa-form-h{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.apa-section{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.form-grp{display:flex;flex-direction:column;gap:5px}
+.form-grp label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600}
+.apa-actions{display:flex;align-items:center;gap:8px;padding:14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;flex-wrap:wrap;position:sticky;bottom:0}
+
+/* ── Right: APA preview pane ──────────────────────────── */
+.apa-preview{background:#2a2a2e;border-left:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.apa-preview-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--c1);border-bottom:1px solid var(--bd)}
+
+/* The "paper" — emulates an A4 sheet on dark backdrop */
+.apa-paper{flex:1;overflow-y:auto;padding:20px;background:#1a1a1e}
+.apa-paper-inner{
+  background:#fff;color:#000;
+  font-family:'Times New Roman','Times',serif;
+  font-size:12pt;line-height:2;        /* APA: double-spacing */
+  padding:2.54cm 2.54cm;                /* APA: 1" margins all sides */
+  width:100%;max-width:21cm;            /* A4 width */
+  min-height:29.7cm;                    /* A4 height */
+  margin:0 auto;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  border-radius:2px;
+}
+.apa-paper-inner .apa-cover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:24cm;text-align:center;page-break-after:always}
+.apa-paper-inner .apa-cover h1{font-size:14pt;font-weight:bold;margin-bottom:2cm;line-height:1.5}
+.apa-paper-inner .apa-cover .apa-cover-meta{font-size:12pt;line-height:2}
+.apa-paper-inner .apa-cover .apa-cover-meta div{margin-bottom:.4cm}
+.apa-paper-inner h1.apa-h1{font-size:14pt;font-weight:bold;text-align:center;margin:1em 0 .5em}
+.apa-paper-inner h2.apa-h2{font-size:12pt;font-weight:bold;text-align:left;margin:1em 0 .3em}
+.apa-paper-inner h3.apa-h3{font-size:12pt;font-weight:bold;font-style:italic;text-align:left;margin:.8em 0 .3em}
+.apa-paper-inner p{margin:0;text-indent:1.27cm;text-align:justify}
+.apa-paper-inner p.apa-no-indent{text-indent:0}
+.apa-paper-inner .apa-abstract-h{font-weight:bold;text-align:center;margin-bottom:.4em}
+.apa-paper-inner .apa-abstract p{text-indent:0}
+.apa-paper-inner .apa-references-h{font-weight:bold;text-align:center;margin-top:1em;margin-bottom:.4em}
+.apa-paper-inner .apa-references p{text-indent:-1.27cm;padding-left:1.27cm;margin-bottom:.5em;text-align:left}
+.apa-paper-inner .apa-empty-msg{text-align:center;color:#999;padding:2em;font-style:italic}
+
+/* Fullscreen preview */
+body.apa-full .apa-shell{grid-template-columns:0 0 1fr}
+body.apa-full .apa-side,body.apa-full .apa-form{display:none}
+body.apa-full .apa-preview{border-left:none}
+
+/* Status toast */
+.apa-status{position:fixed;bottom:20px;right:20px;background:var(--ac);color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .25s;z-index:200;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.apa-status.on{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:1100px){
+  .apa-shell{grid-template-columns:200px 1fr 400px}
+}
+@media(max-width:900px){
+  .apa-shell{grid-template-columns:1fr;height:auto;overflow:visible}
+  body{overflow:auto}
+  .apa-side{height:auto;max-height:200px;border-right:none;border-bottom:1px solid var(--bd)}
+  .apa-preview{border-left:none;border-top:1px solid var(--bd)}
+  .apa-form-h{grid-template-columns:1fr}
+}
