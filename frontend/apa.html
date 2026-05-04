@@ -83,22 +83,15 @@
         <label>Subtítulo (opcional)</label>
         <input class="inp" id="apaSubtitle" placeholder="Subtítulo si aplica">
       </div>
-      <div class="form-grp">
-        <label>Resumen / Abstract (opcional)</label>
-        <textarea class="txa" id="apaAbstract" rows="3" placeholder="Resumen del trabajo (150-250 palabras)"></textarea>
+    </div>
+
+    <div class="apa-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600">📑 Secciones del documento</div>
+        <button class="btn bp bs" onclick="APA.openSectionPicker()">+ Agregar sección</button>
       </div>
-      <div class="form-grp">
-        <label>Cuerpo del trabajo</label>
-        <textarea class="txa" id="apaBody" rows="14" placeholder="Cuerpo principal. Cada línea en blanco doble crea un nuevo párrafo. Para insertar un encabezado, comenzá la línea con # (Nivel 1), ## (Nivel 2), ### (Nivel 3)."></textarea>
-      </div>
-      <div class="form-grp">
-        <label>Referencias (una por línea, formato APA)</label>
-        <textarea class="txa" id="apaReferences" rows="5" placeholder="Apellido, N. (Año). Título de la obra. Editorial."></textarea>
-      </div>
-      <div class="form-grp">
-        <label>Anexos (opcional)</label>
-        <textarea class="txa" id="apaAppendix" rows="3" placeholder="Anexos, tablas o gráficos descritos en texto."></textarea>
-      </div>
+      <div id="apaSections"></div>
+      <div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic;line-height:1.6">💡 Las secciones se renderizan en el orden que aparecen acá. Usá ↑↓ para reordenar. Cambiá el tipo desde el dropdown de cada sección.</div>
     </div>
 
     <div class="apa-actions">
@@ -119,6 +112,18 @@
     </div>
     <div id="apaPreview" class="apa-paper"></div>
   </aside>
+</div>
+
+<!-- Section type picker modal -->
+<div class="apa-pick-overlay" id="apaPickOverlay" onclick="if(event.target===this)APA.closeSectionPicker()">
+  <div class="apa-pick-modal" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📑 Agregar sección</h3>
+      <button class="btn bo bs" onclick="APA.closeSectionPicker()">✕</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Elegí el tipo de sección a insertar al final del documento. Después podés reordenar con ↑↓.</div>
+    <div class="apa-pick-grid" id="apaPickGrid"></div>
+  </div>
 </div>
 
 <!-- Status toast -->

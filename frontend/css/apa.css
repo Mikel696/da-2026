@@ -85,6 +85,35 @@ body.apa-full .apa-shell{grid-template-columns:0 0 1fr}
 body.apa-full .apa-side,body.apa-full .apa-form{display:none}
 body.apa-full .apa-preview{border-left:none}
 
+/* ── Dynamic section cards ────────────────────────────── */
+.apa-sec-card{background:var(--el);border:1px solid var(--bd);border-radius:9px;padding:12px;margin-bottom:10px;transition:border-color .15s}
+.apa-sec-card:hover{border-color:var(--bd2)}
+.apa-sec-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.apa-sec-type-sel{flex:0 0 auto;background:var(--ag);color:var(--ac);border:1px solid rgba(6,182,212,.25);padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;outline:none;min-width:160px}
+.apa-sec-type-sel:focus{border-color:var(--ac)}
+.apa-sec-title-inp{flex:1;background:var(--c1);border:1px solid var(--bd);color:var(--tx);font-size:13px;font-weight:600;outline:none;padding:6px 10px;border-radius:6px;min-width:180px}
+.apa-sec-title-inp:focus{border-color:var(--ac)}
+.apa-sec-controls{display:flex;gap:4px;flex-shrink:0}
+.apa-sec-btn{background:none;border:1px solid var(--bd);color:var(--t2);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.apa-sec-btn:hover{border-color:var(--ac);color:var(--ac);background:var(--ag)}
+.apa-sec-btn.del:hover{border-color:var(--rd);color:var(--rd);background:var(--rg)}
+.apa-sec-btn:disabled{opacity:.3;cursor:not-allowed}
+.apa-sec-btn:disabled:hover{border-color:var(--bd);color:var(--t2);background:none}
+.apa-sec-content{width:100%;min-height:80px;background:var(--c1);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;resize:vertical}
+.apa-sec-content:focus{outline:none;border-color:var(--ac)}
+.apa-sec-empty{text-align:center;padding:30px 14px;color:var(--t3);border:1px dashed var(--bd);border-radius:8px;font-size:12px;line-height:1.7}
+
+/* ── Section picker modal ─────────────────────────────── */
+.apa-pick-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.apa-pick-overlay.on{display:flex}
+.apa-pick-modal{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:22px;width:min(480px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.apa-pick-modal h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.apa-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.apa-pick-btn{background:var(--el);border:1px solid var(--bd);color:var(--tx);padding:11px 12px;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;transition:all .15s}
+.apa-pick-btn:hover{border-color:var(--ac);background:var(--ag);transform:translateY(-1px)}
+.apa-pick-btn-ico{font-size:18px}
+.apa-pick-btn-meta{font-size:9px;color:var(--t3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+
 /* Status toast */
 .apa-status{position:fixed;bottom:20px;right:20px;background:var(--ac);color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .25s;z-index:200;box-shadow:0 8px 20px rgba(0,0,0,.4)}
 .apa-status.on{opacity:1;transform:translateY(0)}
