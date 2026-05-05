@@ -399,17 +399,25 @@ const APA = (function(){
       target.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--t3)">📍 Seleccioná un documento o creá uno nuevo.</div>';
       return;
     }
+    // APA 7 Student Paper title-page order (top to bottom):
+    //   Title (3-4 lines from top, bold, centered, Title Case)
+    //   [blank double-space line]
+    //   Author Name
+    //   Author Affiliation (Department, Institution)
+    //   Course (code: name)
+    //   Instructor (Dr./Prof. ...)
+    //   Due Date (Month DD, YYYY)
     const isAcademic = d.kind === 'academic';
-    const subjectLine = isAcademic && d.subjectName ? `<div>${esc(d.subjectName)}</div>` : '';
-    const profLine = d.professor ? `<div>${isAcademic?'Docente: ':''}${esc(d.professor)}</div>` : '';
-    const dateLine = d.date ? `<div>${esc(fmtAPADate(d.date))}</div>` : '';
-    const studentLine = d.student ? `<div>${esc(d.student)}</div>` : '';
-    const institutionLine = d.institution ? `<div>${esc(d.institution)}</div>` : '';
-    const programLine = isAcademic && d.program ? `<div>${esc(d.program)}</div>` : '';
     const titleHTML = d.title
       ? `<h1>${esc(d.title)}${d.subtitle ? '<br><span style="font-weight:normal;font-style:italic">'+esc(d.subtitle)+'</span>' : ''}</h1>`
       : '<h1 style="color:#999">[Título del trabajo]</h1>';
-    const cover = `<div class="apa-cover">${titleHTML}<div class="apa-cover-meta">${studentLine}${institutionLine}${programLine}${subjectLine}${profLine}${dateLine}</div></div>`;
+    const studentLine = d.student ? `<div>${esc(d.student)}</div>` : '';
+    const affiliation = [d.program, d.institution].filter(Boolean).map(esc).join(', ');
+    const affiliationLine = isAcademic && affiliation ? `<div>${affiliation}</div>` : (d.institution ? `<div>${esc(d.institution)}</div>` : '');
+    const subjectLine = isAcademic && d.subjectName ? `<div>${esc(d.subjectName)}</div>` : '';
+    const profLine = d.professor ? `<div>${isAcademic?'Docente: ':''}${esc(d.professor)}</div>` : '';
+    const dateLine = d.date ? `<div>${esc(fmtAPADate(d.date))}</div>` : '';
+    const cover = `<div class="apa-cover">${titleHTML}<div class="apa-cover-meta">${studentLine}${affiliationLine}${subjectLine}${profLine}${dateLine}</div></div>`;
     const sectionsHTML = (d.sections || []).map(renderSectionPreview).join('\n')
       || '<p class="apa-empty-msg">[Sin secciones — agregá una desde el panel de la izquierda]</p>';
     target.innerHTML = `<div class="apa-paper-inner">${cover}${sectionsHTML}</div>`;
@@ -445,15 +453,19 @@ const APA = (function(){
     persist();
     const target = document.querySelector('.apa-paper-inner');
     if (!target) return alert('No hay contenido para exportar.');
+    /* APA 7 Student Paper compliant Word export: 12pt Times New Roman,
+       double-space, left-aligned (NOT justified), all headings 12pt with
+       weight differentiation only, hanging-indent references. */
     const css = `<style>
-      body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 2; margin: 2.54cm; }
-      h1 { font-size: 14pt; font-weight: bold; text-align: center; margin: 1em 0 .5em; }
-      h2 { font-size: 12pt; font-weight: bold; margin: 1em 0 .3em; }
-      h3 { font-size: 12pt; font-weight: bold; font-style: italic; margin: .8em 0 .3em; }
-      p { margin: 0; text-indent: 1.27cm; text-align: justify; }
+      @page { size: Letter; margin: 2.54cm; }
+      body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 2; margin: 0; }
+      h1 { font-size: 12pt; font-weight: bold; text-align: center; margin: 1em 0 .5em; }
+      h2 { font-size: 12pt; font-weight: bold; text-align: left; margin: 1em 0 .3em; }
+      h3 { font-size: 12pt; font-weight: bold; font-style: italic; text-align: left; margin: .8em 0 .3em; }
+      p { margin: 0; text-indent: 1.27cm; text-align: left; }
       .apa-cover { text-align: center; }
-      .apa-cover h1 { margin-bottom: 2cm; }
-      .apa-cover-meta div { margin-bottom: .4cm; }
+      .apa-cover h1 { margin-bottom: 2cm; line-height: 2; }
+      .apa-cover-meta div { margin-bottom: 0; }
       .apa-abstract p { text-indent: 0; }
       .apa-references p { text-indent: -1.27cm; padding-left: 1.27cm; margin-bottom: .5em; text-align: left; }
     </style>`;
