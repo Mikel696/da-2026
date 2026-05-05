@@ -280,7 +280,7 @@ const CLOUD = (() => {
     // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
     'tools_mindmaps',
     // 16-APA Document Studio (APA-formatted academic + personal docs)
-    'tools_apa_docs',
+    'tools_apa_docs', 'apa_defaults',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
     'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'

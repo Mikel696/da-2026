@@ -12,6 +12,10 @@ const APA = (function(){
   'use strict';
 
   const KEY = 'tools_apa_docs';
+  // Per-user defaults for new docs. When the user types into these
+  // fields, the values are saved here and auto-fill into the next doc.
+  // Synced via SYNC_REGISTRY so all the user's PCs share defaults.
+  const DEFAULTS_KEY = 'apa_defaults';
   let _docs = [];
   let _activeId = null;
   let _saveTimer = null;
@@ -59,6 +63,12 @@ const APA = (function(){
     }
   }
   function getActive(){ return _docs.find(d => d.id === _activeId) || null; }
+  function loadDefaults(){
+    try { return JSON.parse(localStorage.getItem(DEFAULTS_KEY) || '{}'); } catch { return {}; }
+  }
+  function saveDefaults(obj){
+    try { localStorage.setItem(DEFAULTS_KEY, JSON.stringify(obj)); } catch {}
+  }
   function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':s; return d.innerHTML; }
   function escAttr(s){ return String(s||'').replace(/"/g,'&quot;').replace(/&/g,'&amp;'); }
   function fmtDate(iso){ if (!iso) return ''; return new Date(iso).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
@@ -91,16 +101,19 @@ const APA = (function(){
   /* ── Default doc ─────────────────────────────────────────── */
   function emptyDoc(){
     const today = new Date().toISOString().slice(0,10);
-    const studentName = (typeof localStorage !== 'undefined' && localStorage.getItem('sb_name')) || '';
+    const def = loadDefaults();
+    const studentName = def.student
+      || (typeof localStorage !== 'undefined' && localStorage.getItem('sb_name'))
+      || '';
     return {
       id: 'apa_' + Date.now(),
       title: 'Nuevo documento',
       kind: 'academic',
       subjectId: 'ing_web',
       subjectName: '',
-      institution: 'Corporación Unificada Nacional · CUN',
-      program: 'Ingeniería de Sistemas',
-      professor: '',
+      institution: def.institution || 'Corporación Unificada Nacional · CUN',
+      program: def.program || 'Ingeniería de Sistemas',
+      professor: def.professor || '',
       student: studentName,
       date: today,
       subtitle: '',
@@ -211,6 +224,19 @@ const APA = (function(){
     d.date = document.getElementById('apaDate').value;
     d.subtitle = document.getElementById('apaSubtitle').value;
     d.updated = new Date().toISOString();
+    // Persist these as user defaults so future docs auto-fill them.
+    // Professor is per-subject so only saved if NOT a 10-SYS auto-filled value.
+    if (d.institution || d.program || d.student) {
+      const cur = loadDefaults();
+      const next = {
+        institution: d.institution || cur.institution || '',
+        program:     d.program     || cur.program     || '',
+        student:     d.student     || cur.student     || '',
+        // Persist professor only when not part of the 10-SYS subject map
+        professor:   (subj && subj.professor === d.professor) ? (cur.professor || '') : (d.professor || cur.professor || ''),
+      };
+      saveDefaults(next);
+    }
     return d;
   }
 
