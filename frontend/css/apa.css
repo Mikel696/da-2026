@@ -63,31 +63,57 @@
    ─ Body text: LEFT-aligned (NOT justified)
    ─ First-line indent 1.27 cm (0.5") for body paragraphs
    ─ Page numbers in top-right via @page (kicks in on PDF export) */
-.apa-paper-inner{
+/* Multi-page preview: container holds individual A4 pages stacked
+   vertically with 24px gaps (Google-Docs style). Each .apa-page
+   below is its own A4 sheet with its own page number. */
+.apa-paper-inner{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%}
+
+.apa-page{
   background:#fff;color:#000;
   font-family:'Times New Roman','Times',serif;
   font-size:12pt;line-height:2;
   padding:2.54cm 2.54cm;
-  width:100%;max-width:21cm;
+  width:21cm;max-width:calc(100% - 24px);
   min-height:29.7cm;
-  margin:0 auto;
-  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  box-shadow:0 8px 30px rgba(0,0,0,.55);
   border-radius:2px;
-  counter-reset:apapage;
+  position:relative;
+  page-break-after:always;
+  break-after:page;
 }
-.apa-paper-inner .apa-cover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:24cm;text-align:center;page-break-after:always}
-.apa-paper-inner .apa-cover h1{font-size:12pt;font-weight:bold;margin-bottom:2cm;line-height:2}
-.apa-paper-inner .apa-cover .apa-cover-meta{font-size:12pt;line-height:2}
-.apa-paper-inner .apa-cover .apa-cover-meta div{margin-bottom:0}
-/* APA 7: ALL headings are 12pt — differentiate by bold/italic/alignment only */
-.apa-paper-inner h1.apa-h1{font-size:12pt;font-weight:bold;text-align:center;margin:1em 0 .5em}
-.apa-paper-inner h2.apa-h2{font-size:12pt;font-weight:bold;text-align:left;margin:1em 0 .3em}
-.apa-paper-inner h3.apa-h3{font-size:12pt;font-weight:bold;font-style:italic;text-align:left;margin:.8em 0 .3em}
-.apa-paper-inner h4{font-size:12pt;font-weight:bold;margin:.6em 0 .3em;text-indent:1.27cm}
-.apa-paper-inner h5{font-size:12pt;font-weight:bold;font-style:italic;margin:.6em 0 .3em;text-indent:1.27cm}
+.apa-page:last-child{page-break-after:auto;break-after:auto}
+.apa-page[contenteditable="true"]{outline:2px dashed var(--ac);outline-offset:4px}
+.apa-page[contenteditable="true"]:focus{outline-color:var(--gn);background:#fffef5}
+.apa-page-num{position:absolute;top:1.27cm;right:2.54cm;font-family:'Times New Roman',Times,serif;font-size:12pt;color:#000}
+.apa-page-num-label{position:absolute;top:.5cm;left:1cm;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#999;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+/* APA 7 § 2.3 Student Paper title page:
+   Title 3–4 double-spaced lines from top, centered bold.
+   NOT vertically centered — top-aligned with calculated padding. */
+.apa-page.apa-cover{display:block;text-align:center;padding-top:7em;page-break-after:always;break-after:page}
+.apa-page.apa-cover h1{font-size:12pt;font-weight:bold;line-height:2;margin:0 0 2em}
+.apa-page.apa-cover .apa-cover-meta{font-size:12pt;line-height:2}
+.apa-page.apa-cover .apa-cover-meta div{margin:0}
+/* Explicit page-break helper used between sections (cover → abstract,
+   body → references, references → appendix). Has a non-zero size so
+   html-docx-js converts it to an actual Word page break. */
+.apa-page .apa-pbreak{page-break-after:always;break-after:page;height:1px;line-height:0;margin:0;padding:0}
+/* Body title repeat (APA 7 § 2.16): on the FIRST page after the cover,
+   the title appears bold centered at top, then body begins. */
+.apa-page .apa-body-title{font-size:12pt;font-weight:bold;text-align:center;margin:0 0 1em;line-height:2}
+/* Section headings (APA Level 1): centered bold 12pt — used for the
+   automatic heading rendered for each section (Resumen, Introducción,
+   Conclusiones, etc.). */
+.apa-page .apa-section-title{font-size:12pt;font-weight:bold;text-align:center;margin:1.5em 0 .5em;line-height:2}
+/* Markdown headings inside section content map to APA Levels 2–4 (NOT 1
+   — Level 1 is reserved for the section type heading above). */
+.apa-page h1.apa-h1{font-size:12pt;font-weight:bold;text-align:left;margin:1em 0 .3em}
+.apa-page h2.apa-h2{font-size:12pt;font-weight:bold;font-style:italic;text-align:left;margin:.8em 0 .3em}
+.apa-page h3.apa-h3{font-size:12pt;font-weight:bold;text-align:left;margin:.6em 0 .3em;text-indent:1.27cm}
+.apa-page h4{font-size:12pt;font-weight:bold;font-style:italic;margin:.6em 0 .3em;text-indent:1.27cm}
+.apa-page h5{font-size:12pt;font-weight:bold;margin:.5em 0 .3em;text-indent:1.27cm}
 /* APA 7: body text LEFT-aligned, NOT justified */
-.apa-paper-inner p{margin:0;text-indent:1.27cm;text-align:left}
-.apa-paper-inner p.apa-no-indent{text-indent:0}
+.apa-page p{margin:0;text-indent:1.27cm;text-align:left}
+.apa-page p.apa-no-indent{text-indent:0}
 
 /* Page numbering for PDF export (html2pdf respects @page rules) */
 @page{margin:2.54cm;@top-right{content:counter(page);font-family:'Times New Roman',serif;font-size:12pt}}
@@ -133,6 +159,9 @@ body.apa-full .apa-paper-inner{max-width:21cm}
 .apa-pick-btn:hover{border-color:var(--ac);background:var(--ag);transform:translateY(-1px)}
 .apa-pick-btn-ico{font-size:18px}
 .apa-pick-btn-meta{font-size:9px;color:var(--t3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+
+/* Edit-mode active state on the toolbar button */
+.btn.bo.on{background:var(--gn)!important;color:#fff!important;border-color:var(--gn)!important}
 
 /* Status toast */
 .apa-status{position:fixed;bottom:20px;right:20px;background:var(--ac);color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .25s;z-index:200;box-shadow:0 8px 20px rgba(0,0,0,.4)}

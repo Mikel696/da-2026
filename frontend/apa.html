@@ -110,8 +110,12 @@
   <!-- RIGHT: live preview pane (formatted APA) -->
   <aside class="apa-preview">
     <div class="apa-preview-h">
-      <div style="font-size:13px;font-weight:600">📄 Vista previa APA</div>
-      <button class="btn bo bs" onclick="APA.toggleFullPreview()" id="apaFullBtn" title="Ver pantalla completa">⛶ Ampliar</button>
+      <div style="font-size:13px;font-weight:600">📄 Vista previa APA · multi-página</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn bo bs" onclick="APA.toggleEdit()" id="apaEditBtn" title="Editar texto directamente en las páginas">✏️ Editar preview</button>
+        <button class="btn bo bs" onclick="APA.discardEdits()" title="Volver al render automático desde el form">↻</button>
+        <button class="btn bo bs" onclick="APA.toggleFullPreview()" id="apaFullBtn" title="Ver pantalla completa">⛶ Ampliar</button>
+      </div>
     </div>
     <div id="apaPreview" class="apa-paper"></div>
   </aside>

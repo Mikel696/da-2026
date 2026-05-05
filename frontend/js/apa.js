@@ -31,20 +31,23 @@ const APA = (function(){
     { id: 'other', code: '', name: '— Otra (escribir manualmente) —', professor: '' },
   ];
 
-  // 11 section types (mode controls APA preview rendering style)
+  // Section types — `mode` controls APA preview rendering style and
+  // `ownPage` indicates the section gets its own page (cover, abstract,
+  // references, appendix per APA 7).
   const SECTION_TYPES = {
-    abstract:       { label: '📋 Resumen / Abstract',   heading: 'Resumen',         mode: 'abstract' },
-    introduction:   { label: '💡 Introducción',          heading: 'Introducción',    mode: 'normal'   },
-    background:     { label: '📚 Marco teórico',         heading: 'Marco Teórico',   mode: 'normal'   },
-    methodology:    { label: '🔬 Metodología',           heading: 'Metodología',     mode: 'normal'   },
-    body:           { label: '📄 Desarrollo / Cuerpo',   heading: '',                mode: 'normal'   },
-    results:        { label: '📊 Resultados',            heading: 'Resultados',      mode: 'normal'   },
-    discussion:     { label: '💬 Discusión',             heading: 'Discusión',       mode: 'normal'   },
-    conclusion:     { label: '🎯 Conclusiones',          heading: 'Conclusiones',    mode: 'normal'   },
-    recommendation: { label: '✅ Recomendaciones',       heading: 'Recomendaciones', mode: 'normal'   },
-    references:     { label: '📚 Referencias',           heading: 'Referencias',     mode: 'references' },
-    appendix:       { label: '📎 Anexos',                heading: 'Anexos',          mode: 'normal'   },
-    custom:         { label: '✏️ Personalizado',         heading: '',                mode: 'normal'   },
+    abstract:       { label: '📋 Resumen / Abstract',     heading: 'Resumen',                mode: 'abstract',   ownPage: true  },
+    introduction:   { label: '💡 Introducción',            heading: 'Introducción',           mode: 'normal',     ownPage: false },
+    background:     { label: '📚 Marco teórico',           heading: 'Marco Teórico',          mode: 'normal',     ownPage: false },
+    methodology:    { label: '🔬 Metodología',             heading: 'Metodología',            mode: 'normal',     ownPage: false },
+    body:           { label: '📄 Desarrollo / Cuerpo',     heading: '',                       mode: 'normal',     ownPage: false },
+    results:        { label: '📊 Resultados',              heading: 'Resultados',             mode: 'normal',     ownPage: false },
+    discussion:     { label: '💬 Discusión',               heading: 'Discusión',              mode: 'normal',     ownPage: false },
+    conclusion:     { label: '🎯 Conclusiones',            heading: 'Conclusiones',           mode: 'normal',     ownPage: false },
+    recommendation: { label: '✅ Recomendaciones',         heading: 'Recomendaciones',        mode: 'normal',     ownPage: false },
+    citation:       { label: '📝 Citas / Notas al pie',    heading: 'Citas y Notas',          mode: 'references', ownPage: true  },
+    references:     { label: '📚 Referencias',             heading: 'Referencias',            mode: 'references', ownPage: true  },
+    appendix:       { label: '📎 Anexos',                  heading: 'Anexos',                 mode: 'normal',     ownPage: true  },
+    custom:         { label: '✏️ Personalizado',           heading: '',                       mode: 'normal',     ownPage: false },
   };
 
   /* ── Storage ─────────────────────────────────────────────── */
@@ -417,22 +420,9 @@ const APA = (function(){
     return `${headHTML}${renderBody(s.content)}`;
   }
 
-  function renderPreview(){
-    const d = getActive();
-    const target = document.getElementById('apaPreview');
-    if (!target) return;
-    if (!d) {
-      target.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--t3)">📍 Seleccioná un documento o creá uno nuevo.</div>';
-      return;
-    }
-    // APA 7 Student Paper title-page order (top to bottom):
-    //   Title (3-4 lines from top, bold, centered, Title Case)
-    //   [blank double-space line]
-    //   Author Name
-    //   Author Affiliation (Department, Institution)
-    //   Course (code: name)
-    //   Instructor (Dr./Prof. ...)
-    //   Due Date (Month DD, YYYY)
+  /* Build the cover page HTML (APA 7 Student Paper title page).
+   * Order: Title (3-4 lines from top) → Author → Affiliation → Course → Instructor → Date. */
+  function buildCoverHTML(d){
     const isAcademic = d.kind === 'academic';
     const titleHTML = d.title
       ? `<h1>${esc(d.title)}${d.subtitle ? '<br><span style="font-weight:normal;font-style:italic">'+esc(d.subtitle)+'</span>' : ''}</h1>`
@@ -443,10 +433,132 @@ const APA = (function(){
     const subjectLine = isAcademic && d.subjectName ? `<div>${esc(d.subjectName)}</div>` : '';
     const profLine = d.professor ? `<div>${isAcademic?'Docente: ':''}${esc(d.professor)}</div>` : '';
     const dateLine = d.date ? `<div>${esc(fmtAPADate(d.date))}</div>` : '';
-    const cover = `<div class="apa-cover">${titleHTML}<div class="apa-cover-meta">${studentLine}${affiliationLine}${subjectLine}${profLine}${dateLine}</div></div>`;
-    const sectionsHTML = (d.sections || []).map(renderSectionPreview).join('\n')
-      || '<p class="apa-empty-msg">[Sin secciones — agregá una desde el panel de la izquierda]</p>';
-    target.innerHTML = `<div class="apa-paper-inner">${cover}${sectionsHTML}</div>`;
+    return `<div class="apa-cover">${titleHTML}<div class="apa-cover-meta">${studentLine}${affiliationLine}${subjectLine}${profLine}${dateLine}</div></div>`;
+  }
+
+  /* Build the multi-page document.
+   * APA 7 logical pagination:
+   *   Page 1: cover
+   *   Page 2: abstract (if any)
+   *   Page 3+: body sections (intro, methodology, etc) — title repeated bold-centered at top
+   *   New page: references
+   *   New page each: citations, appendix
+   * Returns array of {label, html} where html is the inner HTML of an .apa-page. */
+  function buildPages(d){
+    const pages = [];
+    // Cover (page 1)
+    pages.push({ label: 'Portada', cls: 'apa-cover-page', html: buildCoverHTML(d) });
+    // Group sections per APA convention. Sections with ownPage:true each get their own page.
+    // Sections with ownPage:false flow together on a single "body" page (labeled "Cuerpo").
+    const sections = d.sections || [];
+    let bodyBuf = [];
+    const flushBody = () => {
+      if (!bodyBuf.length) return;
+      // Repeat the title at the top of the FIRST body page (APA 7 § 2.16)
+      const titleRepeat = !pages.some(p => p.cls === 'apa-body-page')
+        ? `<div class="apa-body-title">${esc(d.title || '[Título del trabajo]')}</div>`
+        : '';
+      pages.push({
+        label: 'Cuerpo',
+        cls: 'apa-body-page',
+        html: titleRepeat + bodyBuf.map(renderSectionPreview).join('\n')
+      });
+      bodyBuf = [];
+    };
+    sections.forEach(s => {
+      const tp = SECTION_TYPES[s.type] || SECTION_TYPES.custom;
+      if (tp.ownPage) {
+        flushBody();
+        pages.push({
+          label: tp.heading || tp.label.replace(/^[^\w]+\s/,''),
+          cls: 'apa-' + s.type + '-page',
+          html: renderSectionPreview(s)
+        });
+      } else {
+        bodyBuf.push(s);
+      }
+    });
+    flushBody();
+    if (pages.length === 1) {
+      // Only cover — add an empty body page hint
+      pages.push({
+        label: 'Cuerpo',
+        cls: 'apa-body-page',
+        html: '<p class="apa-empty-msg">[Sin secciones de cuerpo — agregá una sección desde el panel de la izquierda]</p>'
+      });
+    }
+    return pages;
+  }
+
+  function renderPreview(){
+    const d = getActive();
+    const target = document.getElementById('apaPreview');
+    if (!target) return;
+    if (!d) {
+      target.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--t3)">📍 Seleccioná un documento o creá uno nuevo.</div>';
+      return;
+    }
+    // If user has manually edited the preview, preserve their edits.
+    // Edit-mode persists d.editedHTML and we render that verbatim.
+    if (d.editedHTML && d.useEditedHTML) {
+      target.innerHTML = `<div class="apa-paper-inner">${d.editedHTML}</div>`;
+      return;
+    }
+    const pages = buildPages(d);
+    const pagesHTML = pages.map((p, i) => {
+      const num = i + 1;
+      return `<div class="apa-page ${p.cls}" data-page="${num}">
+        <div class="apa-page-num-label">${esc(p.label)} · pág ${num}</div>
+        <div class="apa-page-num">${num}</div>
+        ${p.html}
+      </div>`;
+    }).join('');
+    target.innerHTML = `<div class="apa-paper-inner" id="apaPaperInner">${pagesHTML}</div>`;
+    // If edit mode is active, re-apply contenteditable
+    if (_editMode) applyEditMode(true);
+  }
+
+  /* ── Edit mode ──────────────────────────────────────────── */
+  let _editMode = false;
+  function applyEditMode(on){
+    document.querySelectorAll('.apa-page').forEach(p => {
+      if (on) p.setAttribute('contenteditable','true');
+      else p.removeAttribute('contenteditable');
+    });
+  }
+  function toggleEdit(){
+    _editMode = !_editMode;
+    const btn = document.getElementById('apaEditBtn');
+    const d = getActive();
+    if (_editMode) {
+      applyEditMode(true);
+      if (btn) { btn.textContent = '💾 Guardar edición'; btn.classList.add('on'); }
+      showStatus('✏️ Edición libre activada — escribí directamente en las páginas');
+    } else {
+      // Capture edited HTML and persist
+      const inner = document.getElementById('apaPaperInner');
+      if (d && inner) {
+        d.editedHTML = inner.innerHTML;
+        d.useEditedHTML = true;
+        d.updated = new Date().toISOString();
+        persist();
+      }
+      applyEditMode(false);
+      if (btn) { btn.textContent = '✏️ Editar preview'; btn.classList.remove('on'); }
+      showStatus('💾 Ediciones guardadas (afectan PDF / Word)');
+    }
+  }
+  function discardEdits(){
+    const d = getActive(); if (!d) return;
+    if (!d.editedHTML) return alert('No hay ediciones manuales para descartar.');
+    if (!confirm('¿Descartar ediciones manuales y volver al render automático?')) return;
+    delete d.editedHTML;
+    d.useEditedHTML = false;
+    d.updated = new Date().toISOString();
+    persist();
+    if (_editMode) toggleEdit();
+    renderPreview();
+    showStatus('↻ Ediciones descartadas — volvió al render automático');
   }
 
   function toggleFullPreview(){
@@ -460,7 +572,7 @@ const APA = (function(){
     const d = getActive(); if (!d) return alert('Creá un documento primero.');
     if (typeof html2pdf === 'undefined') return alert('html2pdf no cargó.');
     persist();
-    const target = document.querySelector('.apa-paper-inner');
+    const target = document.getElementById('apaPaperInner');
     if (!target) return alert('No hay contenido para exportar.');
     showStatus('🔄 Generando PDF…');
     html2pdf().set({
@@ -477,21 +589,27 @@ const APA = (function(){
     const d = getActive(); if (!d) return alert('Creá un documento primero.');
     if (typeof htmlDocx === 'undefined') return alert('html-docx-js no cargó.');
     persist();
-    const target = document.querySelector('.apa-paper-inner');
+    const target = document.getElementById('apaPaperInner');
     if (!target) return alert('No hay contenido para exportar.');
     /* APA 7 Student Paper compliant Word export: 12pt Times New Roman,
        double-space, left-aligned (NOT justified), all headings 12pt with
-       weight differentiation only, hanging-indent references. */
+       weight differentiation only, hanging-indent references. Each
+       .apa-page becomes a Word page via page-break-after. */
     const css = `<style>
-      @page { size: Letter; margin: 2.54cm; }
+      @page { size: Letter; margin: 2.54cm; mso-header-margin: 1.27cm; mso-footer-margin: 1.27cm; }
       body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 2; margin: 0; }
+      .apa-page { page-break-after: always; break-after: page; padding: 0; min-height: 0; }
+      .apa-page:last-child { page-break-after: auto; }
+      .apa-page-num, .apa-page-num-label { display: none; } /* hidden in Word — use real page numbers via @page */
       h1 { font-size: 12pt; font-weight: bold; text-align: center; margin: 1em 0 .5em; }
       h2 { font-size: 12pt; font-weight: bold; text-align: left; margin: 1em 0 .3em; }
       h3 { font-size: 12pt; font-weight: bold; font-style: italic; text-align: left; margin: .8em 0 .3em; }
       p { margin: 0; text-indent: 1.27cm; text-align: left; }
-      .apa-cover { text-align: center; }
-      .apa-cover h1 { margin-bottom: 2cm; line-height: 2; }
+      .apa-cover { text-align: center; padding-top: 7em; }
+      .apa-cover h1 { margin: 0 0 2em; line-height: 2; }
       .apa-cover-meta div { margin-bottom: 0; }
+      .apa-body-title { font-size: 12pt; font-weight: bold; text-align: center; margin: 0 0 1em; }
+      .apa-section-title { font-size: 12pt; font-weight: bold; text-align: center; margin: 1em 0 .5em; }
       .apa-abstract p { text-indent: 0; }
       .apa-references p { text-indent: -1.27cm; padding-left: 1.27cm; margin-bottom: .5em; text-align: left; }
     </style>`;
@@ -635,6 +753,7 @@ const APA = (function(){
     openSectionPicker, closeSectionPicker, addSection, removeSection, moveSection,
     changeSectionType, updateSectionField,
     exportPDF, exportWord, exportExcel, copyText, toggleFullPreview,
+    toggleEdit, discardEdits,
   };
 })();
 window.APA = APA;
