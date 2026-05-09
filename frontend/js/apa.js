@@ -532,10 +532,10 @@ const APA = (function(){
     const d = getActive();
     if (_editMode) {
       applyEditMode(true);
+      document.body.classList.add('apa-edit-mode'); // shows the Word-style toolbar
       if (btn) { btn.textContent = '💾 Guardar edición'; btn.classList.add('on'); }
-      showStatus('✏️ Edición libre activada — escribí directamente en las páginas');
+      showStatus('✏️ Edición libre + toolbar Word activados');
     } else {
-      // Capture edited HTML and persist
       const inner = document.getElementById('apaPaperInner');
       if (d && inner) {
         d.editedHTML = inner.innerHTML;
@@ -544,9 +544,54 @@ const APA = (function(){
         persist();
       }
       applyEditMode(false);
+      document.body.classList.remove('apa-edit-mode');
       if (btn) { btn.textContent = '✏️ Editar preview'; btn.classList.remove('on'); }
       showStatus('💾 Ediciones guardadas (afectan PDF / Word)');
     }
+  }
+
+  /* ── Word-style execCommand wrappers ────────────────────── */
+  function fmtCmd(cmd, val){
+    if (!_editMode) return;
+    try { document.execCommand('styleWithCSS', false, true); } catch(e){}
+    try {
+      // hiliteColor doesn't work in Chrome — fallback to backColor
+      if (cmd === 'hiliteColor') {
+        if (!document.execCommand('hiliteColor', false, val)) {
+          document.execCommand('backColor', false, val);
+        }
+      } else {
+        document.execCommand(cmd, false, val);
+      }
+    } catch(e){ console.warn('execCommand failed:', cmd, e); }
+  }
+
+  /* execCommand fontSize takes 1-7. To support real pt values we use
+     a temporary marker (size=7), then rewrite the resulting <font>
+     elements with style.fontSize in pt. */
+  function fmtSize(pt){
+    if (!_editMode) return;
+    try { document.execCommand('styleWithCSS', false, false); } catch(e){}
+    document.execCommand('fontSize', false, '7');
+    document.querySelectorAll('font[size="7"]').forEach(f => {
+      f.removeAttribute('size');
+      f.style.fontSize = pt + 'pt';
+    });
+    try { document.execCommand('styleWithCSS', false, true); } catch(e){}
+  }
+
+  /* Line-height applies to the block ancestor (P/DIV/LI/Hn) of the
+     current selection. Inline applies via style.lineHeight. */
+  function fmtLineHeight(v){
+    if (!_editMode) return;
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    let node = range.commonAncestorContainer;
+    if (node && node.nodeType === 3) node = node.parentNode;
+    const blocks = ['P','DIV','LI','H1','H2','H3','H4','H5','H6','BLOCKQUOTE'];
+    while (node && !blocks.includes(node.tagName)) node = node.parentNode;
+    if (node) node.style.lineHeight = v;
   }
   function discardEdits(){
     const d = getActive(); if (!d) return;
@@ -753,7 +798,7 @@ const APA = (function(){
     openSectionPicker, closeSectionPicker, addSection, removeSection, moveSection,
     changeSectionType, updateSectionField,
     exportPDF, exportWord, exportExcel, copyText, toggleFullPreview,
-    toggleEdit, discardEdits,
+    toggleEdit, discardEdits, fmtCmd, fmtSize, fmtLineHeight,
   };
 })();
 window.APA = APA;

@@ -279,6 +279,8 @@ const CLOUD = (() => {
     'work_nb_meta', 'work_nb_data',
     // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
     'tools_mindmaps',
+    // 15-MM Free Canvas (Miro-style: nodes + edges + view state per canvas)
+    'tools_canvases',
     // 16-APA Document Studio (APA-formatted academic + personal docs)
     'tools_apa_docs', 'apa_defaults',
     // Config / prefs (small scalars)

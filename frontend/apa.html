@@ -117,6 +117,58 @@
         <button class="btn bo bs" onclick="APA.toggleFullPreview()" id="apaFullBtn" title="Ver pantalla completa">⛶ Ampliar</button>
       </div>
     </div>
+    <!-- Word-style Font + Paragraph toolbar (only visible in edit mode) -->
+    <div class="apa-word-toolbar" id="apaWordToolbar">
+      <div class="awt-group" data-group="Fuente">
+        <select id="awtFontName" onchange="APA.fmtCmd('fontName', this.value)" title="Fuente">
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Arial">Arial</option>
+          <option value="Calibri">Calibri</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Garamond">Garamond</option>
+        </select>
+        <select id="awtFontSize" onchange="APA.fmtSize(this.value)" title="Tamaño">
+          <option value="8">8</option><option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12" selected>12</option><option value="14">14</option>
+          <option value="16">16</option><option value="18">18</option><option value="20">20</option>
+          <option value="24">24</option><option value="28">28</option><option value="36">36</option>
+          <option value="48">48</option><option value="72">72</option>
+        </select>
+        <button class="awt-btn" onclick="APA.fmtCmd('bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('italic')" title="Cursiva (Ctrl+I)"><i>I</i></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('underline')" title="Subrayado (Ctrl+U)"><u>U</u></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('strikeThrough')" title="Tachado"><s>S</s></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('subscript')" title="Subíndice">X₂</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('superscript')" title="Superíndice">X²</button>
+        <label class="awt-color-lbl" title="Color de texto"><span style="border-bottom:3px solid currentColor;line-height:.7;color:#000;padding:0 1px">A</span><input type="color" value="#000000" onchange="APA.fmtCmd('foreColor', this.value)"></label>
+        <label class="awt-color-lbl" title="Color de resaltado"><span style="background:#ffeb3b;color:#000;padding:0 3px;line-height:1.2">A</span><input type="color" value="#ffeb3b" onchange="APA.fmtCmd('hiliteColor', this.value)"></label>
+        <button class="awt-btn" onclick="APA.fmtCmd('removeFormat')" title="Borrar formato">A↺</button>
+      </div>
+      <span class="awt-sep"></span>
+      <div class="awt-group" data-group="Párrafo">
+        <button class="awt-btn" onclick="APA.fmtCmd('insertUnorderedList')" title="Viñetas">≔</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('insertOrderedList')" title="Numeración">1.</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('outdent')" title="Reducir sangría">⇤</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('indent')" title="Aumentar sangría">⇥</button>
+        <span class="awt-mini-sep"></span>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyLeft')" title="Alinear izquierda">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyCenter')" title="Centrar">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyRight')" title="Alinear derecha">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyFull')" title="Justificar">≡</button>
+        <span class="awt-mini-sep"></span>
+        <select id="awtLineHeight" onchange="APA.fmtLineHeight(this.value)" title="Interlineado">
+          <option value="1">1.0</option>
+          <option value="1.15">1.15</option>
+          <option value="1.5">1.5</option>
+          <option value="2" selected>2.0 (APA)</option>
+          <option value="2.5">2.5</option>
+          <option value="3">3.0</option>
+        </select>
+      </div>
+    </div>
     <div id="apaPreview" class="apa-paper"></div>
   </aside>
 </div>

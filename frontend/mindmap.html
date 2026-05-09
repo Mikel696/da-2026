@@ -23,6 +23,12 @@
   </div>
 </nav>
 
+<div class="mm-tabs">
+  <button class="mm-tab on" data-pane="tree" onclick="MMTabs.show('tree')">🌳 Mapa Jerárquico</button>
+  <button class="mm-tab" data-pane="canvas" onclick="MMTabs.show('canvas')">🎨 Canvas Libre · estilo Miro</button>
+</div>
+
+<div class="mm-pane on" data-pane="tree">
 <div class="mm-shell">
   <!-- LEFT: list of saved mind maps -->
   <aside class="mm-side">
@@ -64,6 +70,62 @@
     <div class="mm-status" id="mmStatus"></div>
   </main>
 </div>
+
+</div><!-- /tree pane -->
+
+<!-- ═══════ FREE CANVAS PANE (Miro-style) ═══════ -->
+<div class="mm-pane" data-pane="canvas" hidden>
+<div class="cv-shell">
+  <aside class="cv-side">
+    <div class="cv-side-h">
+      <div style="font-size:13px;font-weight:600">🎨 Canvases</div>
+      <button class="btn bp bs" onclick="CV.create()">+ Nuevo</button>
+    </div>
+    <div id="cvList" class="cv-list"></div>
+    <div class="cv-side-foot">
+      <div style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;line-height:1.7">
+        💡 <b>Atajos:</b><br>
+        · Click en lienzo + arrastrar: pan<br>
+        · Ctrl+Rueda: zoom<br>
+        · Doble-click nodo: editar<br>
+        · Click drag handle (⠿): mover<br>
+        · Drag esquina: redimensionar<br>
+        · Delete / Backspace: borrar<br>
+        · Click "↔ Conectar" → click 2 nodos
+      </div>
+    </div>
+  </aside>
+  <main class="cv-stage">
+    <div class="cv-toolbar">
+      <input class="cv-name" id="cvName" placeholder="Nombre del canvas..." onchange="CV.rename()">
+      <span class="cv-sep"></span>
+      <button class="btn bo bs" onclick="CV.addShape('rect')" title="Rectángulo">▭</button>
+      <button class="btn bo bs" onclick="CV.addShape('ellipse')" title="Elipse">⬭</button>
+      <button class="btn bo bs" onclick="CV.addShape('sticky')" title="Nota adhesiva">📋</button>
+      <button class="btn bo bs" onclick="CV.addShape('diamond')" title="Decisión">◇</button>
+      <button class="btn bo bs" onclick="CV.addShape('text')" title="Texto libre">T</button>
+      <span class="cv-sep"></span>
+      <button class="btn bo bs" onclick="CV.toggleConnect()" id="cvConnectBtn" title="Modo conectar">↔ Conectar</button>
+      <input type="color" id="cvColor" onchange="CV.colorSelected(this.value)" title="Color del nodo seleccionado" value="#7c3aed">
+      <button class="btn bo bs" onclick="CV.deleteSelected()" title="Eliminar selección">🗑</button>
+      <span class="cv-sep"></span>
+      <button class="btn bo bs" onclick="CV.zoomIn()" title="Zoom +">🔍+</button>
+      <button class="btn bo bs" onclick="CV.zoomOut()" title="Zoom −">🔍−</button>
+      <button class="btn bo bs" onclick="CV.zoomReset()" title="Reset">↻</button>
+      <span style="flex:1"></span>
+      <button class="btn bg bs" onclick="CV.save()">💾 Guardar</button>
+      <button class="btn bp bs" onclick="CV.exportPng()">📷 PNG</button>
+      <button class="btn bp bs" onclick="CV.attachToNotebook()" style="background:linear-gradient(135deg,var(--ac),var(--cy))">📎 Adjuntar</button>
+    </div>
+    <div class="cv-viewport" id="cvViewport">
+      <div class="cv-world" id="cvWorld">
+        <svg class="cv-edges" id="cvEdges"></svg>
+      </div>
+      <div class="cv-status" id="cvStatus"></div>
+    </div>
+  </main>
+</div>
+</div><!-- /canvas pane -->
 
 <!-- Notebook picker modal (for attach-to-notebook flow) -->
 <div class="mm-pick-overlay" id="mmPickOverlay">
@@ -107,8 +169,21 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js"></script>
-<!-- Shared notebook engine + Mind Map module -->
+<!-- Shared notebook engine + Mind Map + Free Canvas modules -->
 <script src="js/nb-shared.js"></script>
 <script src="js/mindmap.js"></script>
+<script src="js/canvas.js"></script>
+<script>
+// Tab switcher between hierarchical mind map and free canvas
+const MMTabs = (function(){
+  function show(name){
+    document.querySelectorAll('.mm-tab').forEach(t => t.classList.toggle('on', t.dataset.pane === name));
+    document.querySelectorAll('.mm-pane').forEach(p => p.hidden = (p.dataset.pane !== name));
+    if (name === 'canvas' && window.CV && CV.onShow) setTimeout(()=>CV.onShow(),0);
+  }
+  return { show };
+})();
+window.MMTabs = MMTabs;
+</script>
 </body>
 </html>
