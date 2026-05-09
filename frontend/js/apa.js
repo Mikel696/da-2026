@@ -650,9 +650,11 @@ const APA = (function(){
       h2 { font-size: 12pt; font-weight: bold; text-align: left; margin: 1em 0 .3em; }
       h3 { font-size: 12pt; font-weight: bold; font-style: italic; text-align: left; margin: .8em 0 .3em; }
       p { margin: 0; text-indent: 1.27cm; text-align: left; }
-      .apa-cover { text-align: center; padding-top: 7em; }
-      .apa-cover h1 { margin: 0 0 2em; line-height: 2; }
-      .apa-cover-meta div { margin-bottom: 0; }
+      .apa-cover-page { padding-top: 7em; text-align: center; }
+      .apa-cover { text-align: center; }
+      .apa-cover h1 { font-family: 'Times New Roman', Times, serif; font-size: 12pt; font-weight: bold; text-align: center; margin: 0 0 4em; line-height: 2; text-indent: 0; }
+      .apa-cover .apa-cover-meta { font-family: 'Times New Roman', Times, serif; font-size: 12pt; text-align: center; line-height: 2; }
+      .apa-cover .apa-cover-meta div { margin: 0; text-align: center; text-indent: 0; }
       .apa-body-title { font-size: 12pt; font-weight: bold; text-align: center; margin: 0 0 1em; }
       .apa-section-title { font-size: 12pt; font-weight: bold; text-align: center; margin: 1em 0 .5em; }
       .apa-abstract p { text-indent: 0; }

@@ -87,12 +87,16 @@
 .apa-page-num{position:absolute;top:1.27cm;right:2.54cm;font-family:'Times New Roman',Times,serif;font-size:12pt;color:#000}
 .apa-page-num-label{position:absolute;top:.5cm;left:1cm;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#999;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
 /* APA 7 § 2.3 Student Paper title page:
-   Title 3–4 double-spaced lines from top, centered bold.
-   NOT vertically centered — top-aligned with calculated padding. */
-.apa-page.apa-cover{display:block;text-align:center;padding-top:7em;page-break-after:always;break-after:page}
-.apa-page.apa-cover h1{font-size:12pt;font-weight:bold;line-height:2;margin:0 0 2em}
-.apa-page.apa-cover .apa-cover-meta{font-size:12pt;line-height:2}
-.apa-page.apa-cover .apa-cover-meta div{margin:0}
+   Title 3-4 double-spaced lines from top, centered bold 12pt.
+   NOT vertically centered — top-aligned with calculated padding.
+   Targets the .apa-cover-page modifier on .apa-page AND the inner
+   .apa-cover wrapper produced by buildCoverHTML(). */
+.apa-page.apa-cover-page{padding-top:7em;text-align:center}
+.apa-page .apa-cover{text-align:center;display:block}
+.apa-page .apa-cover h1{font-family:'Times New Roman',Times,serif !important;font-size:12pt !important;font-weight:bold !important;line-height:2 !important;margin:0 0 4em !important;text-align:center !important;text-indent:0 !important}
+.apa-page .apa-cover h1 span{font-weight:normal;font-style:italic}
+.apa-page .apa-cover .apa-cover-meta{font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:2;text-align:center}
+.apa-page .apa-cover .apa-cover-meta div{margin:0;padding:0;text-align:center;text-indent:0}
 /* Explicit page-break helper used between sections (cover → abstract,
    body → references, references → appendix). Has a non-zero size so
    html-docx-js converts it to an actual Word page break. */
