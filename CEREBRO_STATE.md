@@ -1,8 +1,93 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-04-27
+- **Última actualización:** 2026-05-13
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · Ecosistema Simetrik (rediseño completo + Empieza Aquí) — 2026-05-13
+
+### Qué cambió
+14-WORK pasó de "Simetrik Copilot" (6 tabs operativos) a **Ecosistema Simetrik didáctico** con foco en aprendizaje y referencia profesional. Foco: que un IS junior se autoenseñe sin asistencia humana.
+
+**Pestañas finales (11):**
+1. 🧭 Empieza Aquí (default) → iframe `pages/simetrik-learn.html`
+2. 📘 Playbook Ficohsa → iframe `pages/simetrik-playbook.html`
+3. 📖 Diccionario (100+ términos, CRUD + búsqueda + filtro por categoría)
+4. 📝 Notas Workflow (rich-text personal)
+5. 🎓 Notas Curso (rich-text personal)
+6. 📓 Cuadernos (sub-módulo `WorkNB`, comparte engine con 10-SYS/13-NOT)
+7. 📋 Casos · 🐛 Errores · 💡 Aprendizajes · 📚 KB · 🤖 Copilot (operativos, intactos)
+
+**Página `simetrik-learn.html` (NEW):**
+- Hero con CTA para principiantes ("No sabés qué hacer en Simetrik. Acá lo arreglamos.")
+- Barra de progreso sticky con % de lecciones completadas
+- 3 Pilares Connect/Reconcile/Resolve con "dónde en Simetrik se hace cada cosa"
+- Tu rol como Implementation Specialist en 3 fases (Discovery / Implementación / Pruebas)
+- **🎯 Tour interactivo de la interfaz Simetrik:** mock app con barra lateral de 8 módulos clickables (Home, Sources, Reconciliations, Exceptions, AI Agents, Reports, Audit Trail, Admin). Cada uno con explicación, botones clave y consejo de uso.
+- **Curso de 10 lecciones expandibles** con checkbox de progreso persistido (`work_learn_progress` localStorage):
+  - L01 Mentalidad · L02 Vocabulario · L03 Anatomía plataforma · L04 Primer Source · L05 Primer Rule Set · L06 Excepciones · L07 Naturaleza cuentas · L08 SDD · L09 Pruebas+QA · L10 Transición CSM
+- 9 conceptos clave en cards (SBB, Rule Set, Source Union, Match Perfecto, Tolerancia, AI Agents, Workspace, Snowflake, No-Code, Maker-Checker)
+- Beneficios cuantificados (−5d cierre, −95% errores, −70% TI)
+- 6 recursos oficiales (Academy, Help Center, YouTube, sitio, MaxMunus, diccionario interno)
+
+**Página `simetrik-playbook.html` (NEW):**
+- Copia íntegra de `Documento completo.html` del ZIP del usuario (45KB, 7 secciones: Diagrama, Mi Proceso IS, Diccionario, Naturaleza Contable, Lab Práctico Ficohsa, RFP, FAQ).
+- Tira `.da-strip` añadida con back-nav "← Ecosistema Simetrik".
+- Script `body.in-iframe` que oculta la tira al embedirse.
+
+**Diccionario seedeado (100+ términos):**
+- `SEED_VERSION = simetrik-2026-05-13.2`
+- ~100 entradas con `{sid, term, cat, en, def, ex}` cubriendo: siglas/roles proyecto, términos financieros, plataformas (Simetrik, T24, Vision Plus, SAP, Visa, Stripe, Mercado Pago, Snowflake, AWS), software, normas (SOX, IFRS 15, PCI DSS, GDPR, FATF, UIF, PEP, SOX 404, ROS), data eng (ETL, ELT, API, Webhook, CSV, JSON, XML, Schema), métricas (KPI, SLA, Auto-Match, MTTR), contabilidad (Partida Doble, 5 naturalezas, PUC, Asiento, Cierre, Cuentas Transitorias, ACH, ATM), procesos (Discovery, Kick-Off, Go-Live, Representment, Interchange, MDR, T+1/T+2, Tokenización), Maker-Checker + Segregación de Funciones.
+- Seed idempotente por `sid` — no pisa entradas custom del usuario.
+
+**Autosave hardening (3 módulos NB):**
+- `work.js`, `notes-nb.js`, `systems_logic.js` — extraído `_commitNow(nbId/sid)` del debounce.
+- Flush inmediato en `beforeunload`, `visibilitychange` (tab oculta), `focusout` del editor.
+- Soluciona pérdida de cambios al cerrar pestaña sin esperar el debounce de 500ms.
+
+### Archivos modificados / creados
+- ➕ `frontend/pages/simetrik-learn.html` (NEW · 540 líneas · guía didáctica completa)
+- ➕ `frontend/pages/simetrik-playbook.html` (NEW · 540 líneas · copia del playbook del usuario)
+- ➕ `PROMPT_14-WORK.md` (NEW · root · prompt maestro para sesiones)
+- ✏️ `frontend/work.html` (+ tabs 🧭 Empieza Aquí, 📘 Playbook + redesign hero)
+- ✏️ `frontend/css/work.css` (+ estilos .eco-editor, .dict-card)
+- ✏️ `frontend/js/work.js` (+ namespace `eco` con editors + dict CRUD + 100-term seed; refactor autosave)
+- ✏️ `frontend/js/cloud-sync.js` (+ `work_eco_workflow`, `work_eco_course`, `work_eco_dict` en SYNC_REGISTRY)
+- ✏️ `frontend/js/notes-nb.js` (autosave hardening)
+- ✏️ `frontend/systems_logic.js` (autosave hardening)
+- ✏️ `CLAUDE.md` (nomenclatura actualizada + sección Protocolo 14-WORK)
+- ✏️ `CEREBRO_STATE.md` (este entry)
+
+### Storage keys nuevos en 14-WORK
+- `work_eco_workflow` · texto rich-text del editor Notas Workflow (sync ON)
+- `work_eco_course` · texto rich-text del editor Notas Curso (sync ON)
+- `work_eco_dict` · array `[{id, sid?, term, cat, en, def, ex, updated}]` (sync ON)
+- `work_eco_dict_seed_v` · string SEED_VERSION para control idempotente (LOCAL, no sync)
+- `work_learn_progress` · objeto `{L01:true, L02:false, ...}` (LOCAL, no sync por diseño)
+
+### Decisiones técnicas relevantes
+1. **Iframe vs fork del contenido:** se eligió iframe para `simetrik-playbook.html` para preservar exacto el documento HTML que el usuario ya había producido. Cero duplicación; el doc canónico vive en un solo lugar.
+2. **Tema dark para learn, tema claro para playbook:** decisión consciente. La learn page integra con el resto del Cerebro (dark). El playbook conserva su tema claro porque optimiza lectura larga del contenido del usuario.
+3. **Progreso del curso solo local:** cada device puede ir a ritmo distinto; sincronizar progreso entre devices generaría confusión. Si el usuario lo pide, se puede mover a `cloud-sync` registry.
+4. **Seed idempotente:** clave `sid` permite agregar 100s de términos en el futuro sin pisar las ediciones manuales del usuario. Bumpear `SEED_VERSION` es el único trigger.
+
+### Pendientes detectados
+- Procesar PDFs del ZIP (`Service Module 2/3`, `RFP`, `SDD Propuesta`, `Guide for Exercises`) — resumir contenido y aterrizarlo en el playbook.
+- Levantar contenido de `Ecosistem,a Simetrik.md` (95KB) y `Módulo de Servicios 3.md` (40KB) → integrar al curso de aprendizaje como lecciones avanzadas.
+- Convertir `simetrik-playbook.html` a tema dark para consistencia visual (decisión actual: conservar claro por legibilidad — revisable).
+- Feature "pegar cualquier texto → aplicar APA automáticamente" para 16-APA (pendiente sesión anterior).
+- Verificación APA contra `APA_CUN.pdf` (pendiente sesión anterior).
+- Mind Map Studio (15-MM) mejoras profesionales (pendiente sesión anterior).
+
+### Estado actual de 14-WORK
+- **Pestañas activas:** 11
+- **Diccionario:** ~100 términos (SEED_VERSION `simetrik-2026-05-13.2`)
+- **Curso:** 10 lecciones con progreso individual por device
+- **Páginas embebidas:** 2 (`simetrik-learn.html`, `simetrik-playbook.html`)
+- **Compatibilidad cross-device:** datos sincronizan vía Supabase JSONB (excepto progreso de curso y seed version, intencionalmente locales)
+- **Prompt maestro:** `PROMPT_14-WORK.md` en raíz · versión `2026-05-13.1`
 
 ---
 

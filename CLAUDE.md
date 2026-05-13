@@ -59,7 +59,10 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `11-ACC` | `accounting.html` | Accounting Associate |
 | `12-FIN` | `finance.html` | Finanzas Personales — **PRODUCCIÓN** |
 | `13-NOT` | `notes.html` | Notas, Journal, SRS Leitner — **PRODUCCIÓN** |
-| `14-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 |
+| `14-WORK` | `work.html` | 🟢 Ecosistema Simetrik (Empieza Aquí, Playbook, Diccionario 100+, Curso, Notas, Cuadernos, Casos, Errores, Aprendizajes, KB, Copilot) — **PRODUCCIÓN** |
+| `15-MM` | `mindmap.html` | Mind Map Studio (jsMind + Free Canvas Miro-style) |
+| `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
+| `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
 ---
 
@@ -150,6 +153,50 @@ Feature operativa para cuando el usuario pierde una clase. Hay **dos modos** par
 3. **Toda tarea detectada debe llevar timestamp + verbatim** del profesor en el campo de evidencia. Sin verbatim, no se inyecta.
 4. **Inyectar siempre en la pestaña REAL del live site** (`mikel696.github.io/da-2026/frontend/systems.html`), nunca en localhost ni preview — el push a Supabase requiere la sesión autenticada del usuario.
 5. **Una sesión por video.** Si el video ya tiene una sesión guardada (mismo `url` o `subject_id + date`), update en vez de duplicar.
+
+---
+
+## 💼 PROTOCOLO 14-WORK · ECOSISTEMA SIMETRIK
+
+Módulo dedicado a su trabajo real como Reconciliations Analyst / Implementation Specialist en Simetrik (proyecto Ficohsa Honduras).
+
+### 11 pestañas en orden visual
+1. 🧭 Empieza Aquí (default) → iframe `pages/simetrik-learn.html` (guía didáctica + tour + curso 10 lecciones)
+2. 📘 Playbook Ficohsa → iframe `pages/simetrik-playbook.html` (doc canónico del usuario, 7 secciones)
+3. 📖 Diccionario (100+ términos seedeados, CRUD)
+4. 📝 Notas Workflow (editor rich-text personal)
+5. 🎓 Notas Curso (editor rich-text personal)
+6. 📓 Cuadernos (sub-módulo `WorkNB`, comparte engine con 10-SYS/13-NOT)
+7. 📋 Casos (CRUD de casos reales)
+8. 🐛 Errores (CRUD de errores recurrentes)
+9. 💡 Aprendizajes (CRUD de tips)
+10. 📚 KB (markdown libre)
+11. 🤖 Copilot (generador de prompts contextualizados)
+
+### Storage keys (todos sincronizados vía SYNC_REGISTRY)
+`work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict`
+
+Locales (no sincronizan): `work_eco_dict_seed_v`, `work_learn_progress`.
+
+### Diccionario · sistema de seed idempotente
+- `SEED_DICT` en `js/work.js` namespace `eco`. Cada entrada lleva `sid` único.
+- `SEED_VERSION` (formato `simetrik-YYYY-MM-DD.N`) controla re-inyección.
+- NO pisa entradas custom del usuario (matching por `sid`).
+- Para agregar términos: añadir al array + bumpear `SEED_VERSION`.
+
+### Curso de aprendizaje
+- 10 lecciones en `pages/simetrik-learn.html` con `data-id="L01"`...`L10`.
+- Progreso en localStorage `work_learn_progress` (objeto `{L01:true,...}`).
+- Solo local — no sincroniza cross-device por diseño (cada device puede ir a ritmo distinto).
+
+### Reglas anti-hallucination de 14-WORK
+1. **No fabriqués contenido de Simetrik.** Toda info técnica de Simetrik/Ficohsa proviene del material del usuario (ZIPs, PDFs, texto pegado). Sin evidencia → placeholder visible + pedir.
+2. **Iframes con back-nav obligatorio.** Páginas en `frontend/pages/` deben tener la tira `.da-strip` con `← Ecosistema Simetrik` y script `body.in-iframe` para ocultarla al embedirse.
+3. **No rompás el contrato de Cuadernos.** `work.js` consume `nb-shared.js`. Cambios en `nb-shared.js` impactan también 10-SYS y 13-NOT.
+4. **Autosave NB pattern:** `_commitNow + autoSave debounce + flush en blur/hide/unload`. Si tocás en `work.js`, replicá en `notes-nb.js` y `systems_logic.js`.
+
+### Prompt operativo
+Existe `PROMPT_14-WORK.md` en la raíz del repo con el prompt maestro completo (contexto + arquitectura + memoria operativa + protocolo de ejecución). El usuario lo copia, agrega instrucciones al final, y se ejecuta como sesión autocontenida.
 
 ---
 
