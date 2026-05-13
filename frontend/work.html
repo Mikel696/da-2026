@@ -35,7 +35,8 @@
   </div>
 
   <div class="tabs">
-    <button class="tab on" data-p="playbook">📘 Playbook</button>
+    <button class="tab on" data-p="start">🧭 Empieza Aquí</button>
+    <button class="tab" data-p="playbook">📘 Playbook Ficohsa</button>
     <button class="tab" data-p="dict">📖 Diccionario</button>
     <button class="tab" data-p="workflow">📝 Notas Workflow</button>
     <button class="tab" data-p="course">🎓 Notas Curso</button>
@@ -47,8 +48,20 @@
     <button class="tab" data-p="copilot">🤖 Copilot</button>
   </div>
 
+  <!-- ═══ EMPIEZA AQUÍ · Guía didáctica + tour interfaz ═══ -->
+  <div class="pnl on" id="p-start">
+    <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:14px;font-weight:600">🧭 Empieza Aquí · Aprende Simetrik desde cero</div>
+        <div style="font-size:11px;color:var(--t3)">¿Qué es? · Tu rol · Tour interactivo de la interfaz · Curso paso a paso con progreso · Conceptos clave · Recursos oficiales.</div>
+      </div>
+      <a class="btn bo bs" href="pages/simetrik-learn.html" target="_blank" style="text-decoration:none">↗ Abrir en nueva pestaña</a>
+    </div>
+    <iframe src="pages/simetrik-learn.html" style="width:100%;height:calc(100vh - 220px);min-height:680px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)" loading="lazy"></iframe>
+  </div>
+
   <!-- ═══ PLAYBOOK · Documento canónico Simetrik+Ficohsa ═══ -->
-  <div class="pnl on" id="p-playbook">
+  <div class="pnl" id="p-playbook">
     <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
       <div>
         <div style="font-size:14px;font-weight:600">📘 Playbook · Implementation Specialist · Simetrik + Ficohsa</div>

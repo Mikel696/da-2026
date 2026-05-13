@@ -379,7 +379,7 @@ const WORK = (function(){
       </div>`).join('');
     }
     /* ── Dictionary seed (one-time, idempotent by `seed_id`) ─── */
-    const SEED_VERSION = 'simetrik-2026-05-13.1';
+    const SEED_VERSION = 'simetrik-2026-05-13.2';
     const SEED_DICT = [
       // ── Project roles & artifacts ──
       {sid:'is',term:'IS',cat:'acro',en:'Implementation Specialist',def:'Especialista de Implementación. El encargado de llevar el diseño en papel a la configuración real en la plataforma Simetrik.',ex:'Tú eres el IS en el proyecto Ficohsa.'},
@@ -426,6 +426,98 @@ const WORK = (function(){
       {sid:'sercom',term:'SERCOM',cat:'process',en:'',def:'Servicios de Comunicaciones. Cuenta transitoria 2-01-01-003 / 2330203151 para recargas de telefonía móvil.',ex:'Recargas SERCOM cruzan T24 (débito) vs CLARO (crédito) vs SAP (saldo).'},
       {sid:'transitoria',term:'Cuenta Transitoria',cat:'term',en:'Suspense / Transit Account',def:'Cuenta puente temporal. Débitos = Créditos. Saldo final debe ser CERO.',ex:'En 2-01-01-003 la suma algebraica del día debe ser 0.'},
       {sid:'matching',term:'Matching',cat:'process',en:'Cruce',def:'Motor lógico que asocia una transacción de la Fuente A con una o varias de la Fuente B según reglas (1:1, 1:N, N:M, con tolerancias).',ex:'Regla: A.Num_Referencia == B.Referencia AND A.Monto == B.Monto.'},
+      // ── Simetrik-specific (building blocks, arquitectura) ──
+      {sid:'sbb',term:'SBB',cat:'term',en:'Simetrik Building Block',def:'Bloque modular drag-and-drop con el que ensamblás flujos sin programar. Hay SBBs de ingesta, parseo, matching, output.',ex:'El SBB "Date Parser" convierte cualquier formato de fecha al estándar ISO.'},
+      {sid:'ruleset',term:'Rule Set',cat:'term',en:'Conjunto de reglas',def:'Cadena ordenada de reglas de matching. Simetrik intenta primero la más estricta; si falla pasa a la siguiente.',ex:'Regla 1 = match perfecto, Regla 2 = ±$0.05, Regla 3 = ±1 día, Regla 4 = excepción.'},
+      {sid:'sourceunion',term:'Source Union',cat:'process',en:'Unificación de fuentes',def:'Mecanismo que unifica varias fuentes con esquemas distintos en uno común. Mapeo columna a columna.',ex:'3 bancos envían extractos con columnas distintas → Source Union los normaliza.'},
+      {sid:'matchperfect',term:'Match Perfecto',cat:'term',en:'Perfect Match',def:'Cruce 1:1 sin tolerancias. Es el ideal: máxima confianza, sin ambigüedad.',ex:'A.id == B.id AND A.amount == B.amount AND A.date == B.date.'},
+      {sid:'tolerance',term:'Tolerancia',cat:'term',en:'Tolerance',def:'Margen permitido para considerar match (típicamente por redondeo, timing o fees descontados).',ex:'Tolerancia de ±$0.05 en monto y ±1 día en fecha.'},
+      {sid:'exception',term:'Excepción',cat:'term',en:'Exception',def:'Transacción que no encontró contraparte tras aplicar todas las reglas. Cae al dashboard para investigación manual.',ex:'Excepción por 5 días = "valor en rojo".'},
+      {sid:'workspace',term:'Workspace',cat:'platform',en:'',def:'Ambiente aislado del cliente. Cada cliente (Ficohsa, otro banco) tiene su workspace con sources, reglas y usuarios separados.',ex:'app.simetrik.com/workspace/ficohsa'},
+      {sid:'snowflake',term:'Snowflake',cat:'software',en:'',def:'Data warehouse en la nube. Es el motor de almacenamiento debajo de Simetrik. No lo tocás, pero permite consultas sobre miles de millones de filas con latencia ~0.',ex:'Simetrik corre sobre Snowflake + AWS.'},
+      {sid:'aws',term:'AWS',cat:'software',en:'Amazon Web Services',def:'Proveedor de nube donde corre la infraestructura de Simetrik. Garantiza escalabilidad y disponibilidad.',ex:'Compliance SOC 2 Type II vía AWS.'},
+      {sid:'nocode',term:'No-Code',cat:'term',en:'Sin código',def:'Filosofía donde configurás reglas y flujos sin escribir programación. Reduce dependencia de TI hasta 70%.',ex:'El contador define "fee aceptable ±2%" sin abrir ticket a tecnología.'},
+      {sid:'aiagent',term:'AI Agent',cat:'term',en:'Agente de IA',def:'Bot que corre en background asistiendo en tareas repetitivas: limpia datos, sugiere matches, detecta fraude.',ex:'Match Suggester: "85% de probabilidad que esta excepción cruce con tx #99281".'},
+      {sid:'datacleaner',term:'Data Cleaner Agent',cat:'process',en:'',def:'Agente IA que detecta inconsistencias en datos crudos y sugiere parseos (formatos de fecha, encoding, espacios).',ex:'Detecta que un source mezcla DD/MM/YYYY y MM-DD-YY → sugiere normalizar.'},
+      {sid:'frauddet',term:'Fraud Detector',cat:'process',en:'',def:'Agente IA que marca transacciones anómalas: montos atípicos, horarios extraños, comercios sospechosos.',ex:'Marca tx de $50K a las 3 AM en un comercio nuevo.'},
+      {sid:'rootcause',term:'Root Cause Analyst',cat:'process',en:'',def:'Agente IA que analiza patrones históricos y propone la causa raíz de una excepción.',ex:'"Este tipo de excepción suele ser por falta de aplicar el fee de Visa".'},
+      // ── Connect / Reconcile / Resolve ──
+      {sid:'connect',term:'Connect',cat:'process',en:'Conectar',def:'Primer pilar del ciclo Simetrik: traer los datos. Conectás fuentes vía API, SFTP o upload manual.',ex:'Conectar SAP, Stripe y un banco al workspace Ficohsa.'},
+      {sid:'reconcile',term:'Reconcile',cat:'process',en:'Conciliar',def:'Segundo pilar: configurar Rule Sets para que el motor cruce las fuentes automáticamente.',ex:'Reconcile = el corazón de Simetrik.'},
+      {sid:'resolve',term:'Resolve',cat:'process',en:'Resolver',def:'Tercer pilar: trabajar las excepciones del dashboard con ayuda de IA, dejando audit trail completo.',ex:'Resolver una excepción con motivo "duplicado en origen + write-off $0.02".'},
+      // ── ERPs y sistemas ──
+      {sid:'erp',term:'ERP',cat:'acro',en:'Enterprise Resource Planning',def:'Sistema integrado de gestión empresarial. Maneja contabilidad, RRHH, inventario, ventas en un solo lugar.',ex:'SAP y Oracle son los ERPs más comunes en bancos grandes.'},
+      {sid:'oracle',term:'Oracle ERP',cat:'software',en:'',def:'Alternativa a SAP para gestión financiera. Muchas fintech latinoamericanas lo usan.',ex:'Algunos clientes de Simetrik corren Oracle como GL.'},
+      {sid:'stripe',term:'Stripe',cat:'platform',en:'',def:'Pasarela de pagos global. Provee API y reportes de settlement, fees y disputes.',ex:'Conectás Stripe vía API key y trae diariamente los settlements.'},
+      {sid:'mp',term:'Mercado Pago',cat:'platform',en:'',def:'Pasarela líder en Latam. Reportes vía API o CSV de transacciones, fees y payouts.',ex:'Crítico en e-commerce regional.'},
+      {sid:'core',term:'Core Bancario',cat:'term',en:'Core Banking',def:'Sistema principal del banco que registra cuentas, transacciones, préstamos en tiempo real.',ex:'T24 (Temenos) es el core bancario de Ficohsa.'},
+      {sid:'fintech',term:'Fintech',cat:'term',en:'',def:'Empresa que aplica tecnología a servicios financieros. Suelen ser nativas digitales y operar con APIs abiertas.',ex:'Nubank, Revolut, Ualá.'},
+      {sid:'baas',term:'BaaS',cat:'acro',en:'Banking as a Service',def:'Modelo donde una fintech alquila la licencia bancaria de un banco para emitir tarjetas o cuentas.',ex:'Uber emite tarjetas para conductores vía BaaS con un partner bancario.'},
+      {sid:'bnpl',term:'BNPL',cat:'acro',en:'Buy Now Pay Later',def:'Compra ahora, paga después. Fintech otorga cuotas en checkout sin tarjeta de crédito tradicional.',ex:'Klarna, Affirm, Mercado Crédito.'},
+      // ── Normas y compliance ──
+      {sid:'sox',term:'SOX',cat:'acro',en:'Sarbanes-Oxley Act',def:'Ley estadounidense de controles internos financieros. Obliga audit trail, segregación de funciones y maker-checker.',ex:'Simetrik genera evidencia para auditorías SOX (audit trail + segregación de roles).'},
+      {sid:'ifrs15',term:'IFRS 15',cat:'acro',en:'',def:'Norma internacional sobre reconocimiento de ingresos. Define cuándo y cómo reconocer una venta como ingreso.',ex:'La conciliación de Settlement debe cumplir IFRS 15 para reportar ingresos correctamente.'},
+      {sid:'pci',term:'PCI DSS',cat:'acro',en:'Payment Card Industry Data Security Standard',def:'Estándar de seguridad para procesamiento de tarjetas. Define cifrado, tokenización y controles de acceso.',ex:'Simetrik no almacena PAN (número de tarjeta) crudo: cumple PCI por tokenización.'},
+      {sid:'gdpr',term:'GDPR',cat:'acro',en:'General Data Protection Regulation',def:'Reglamento europeo de protección de datos. Aplica también si manejás datos de europeos.',ex:'Derecho al olvido, consentimiento explícito, breach notification 72h.'},
+      {sid:'fatf',term:'FATF',cat:'acro',en:'Financial Action Task Force',def:'Organismo intergubernamental que define estándares anti-lavado (AML) y financiamiento al terrorismo.',ex:'Las recomendaciones FATF guían los procedimientos KYC.'},
+      {sid:'uif',term:'UIF',cat:'acro',en:'Unidad de Información Financiera',def:'Autoridad nacional que recibe reportes de operaciones sospechosas (ROS) de los bancos.',ex:'Si AML detecta lavado → se reporta a UIF en 48h.'},
+      {sid:'pep',term:'PEP',cat:'acro',en:'Politically Exposed Person',def:'Personas Expuestas Políticamente. KYC obliga a validar si un cliente es PEP por riesgo elevado.',ex:'Listas Dow Jones / World-Check incluyen PEPs globales.'},
+      // ── Datos y data engineering ──
+      {sid:'etl',term:'ETL',cat:'acro',en:'Extract Transform Load',def:'Proceso de extraer datos de un origen, transformarlos (parseo, validación) y cargarlos en un destino.',ex:'Simetrik hace ETL automatizado entre sources y su data warehouse.'},
+      {sid:'elt',term:'ELT',cat:'acro',en:'Extract Load Transform',def:'Variante del ETL: primero se cargan crudos, luego se transforman in-warehouse. Más moderno con Snowflake.',ex:'Simetrik usa ELT — todo aterriza primero en Snowflake.'},
+      {sid:'api',term:'API',cat:'acro',en:'Application Programming Interface',def:'Punto de conexión entre sistemas. Permite que Simetrik consulte datos de Stripe, T24, etc. en tiempo real.',ex:'API REST de Stripe: GET /v1/charges devuelve cobros del día.'},
+      {sid:'webhook',term:'Webhook',cat:'term',en:'',def:'Notificación HTTP automática: cuando ocurre un evento, el sistema externo "empuja" la info a tu URL.',ex:'Stripe envía webhook cada vez que se completa un settlement.'},
+      {sid:'csv',term:'CSV',cat:'acro',en:'Comma-Separated Values',def:'Formato de archivo de texto plano para tablas. Separador comúnmente coma, pero puede ser pipe |.',ex:'T24 exporta a CSV con delimitador pipe.'},
+      {sid:'json',term:'JSON',cat:'acro',en:'JavaScript Object Notation',def:'Formato de datos estructurado, jerárquico. Estándar en APIs modernas.',ex:'Las APIs de Stripe devuelven JSON.'},
+      {sid:'xml',term:'XML',cat:'acro',en:'',def:'Formato de datos jerárquico más viejo que JSON. Aún común en banca core tradicional.',ex:'SWIFT MT103 viene en formato XML.'},
+      {sid:'schema',term:'Schema',cat:'term',en:'Esquema',def:'Definición de la estructura de los datos: nombres de columnas, tipos, restricciones.',ex:'Schema común post Source Union: {date, amount, currency, reference}.'},
+      // ── Roles y stakeholders ──
+      {sid:'sa',term:'SA',cat:'acro',en:'Solutions Architect',def:'Arquitecto de Soluciones. Diseña el SDD que vos implementás.',ex:'El SA traduce el RFP en un SDD técnico.'},
+      {sid:'sm',term:'SM',cat:'acro',en:'Services Manager',def:'Gerente de Servicios. Lidera la implementación del lado Simetrik.',ex:'Ana M. es la SM del proyecto Ficohsa.'},
+      {sid:'sc',term:'SC',cat:'acro',en:'Solutions Consultant',def:'Rol comercial-técnico que analiza el RFP y co-define el alcance de preventa.',ex:'El SC participa en Fase 0 (Preventa & RFP).'},
+      {sid:'seniorIS',term:'Senior IS',cat:'acro',en:'',def:'Implementation Specialist con experiencia. Lidera mesas de Discovery y supervisa al IS junior.',ex:'Juan C. / Wilson son Senior IS en Ficohsa.'},
+      {sid:'sponsor',term:'Sponsor',cat:'term',en:'Patrocinador',def:'Persona del cliente con autoridad para aprobar presupuesto y decisiones críticas.',ex:'En Ficohsa, el sponsor es del comité ejecutivo.'},
+      {sid:'stakeholder',term:'Stakeholder',cat:'term',en:'',def:'Cualquier persona impactada o con interés en el proyecto: operaciones, IT, contabilidad, auditoría.',ex:'Mapa de stakeholders: Seguridad, Cloud, Datos, Integraciones, Arquitectura.'},
+      // ── Métricas operativas ──
+      {sid:'kpi',term:'KPI',cat:'acro',en:'Key Performance Indicator',def:'Métrica que mide éxito. Para conciliación: % auto-match, % excepciones >3 días, tiempo de cierre.',ex:'KPI objetivo: 95%+ auto-match en producción.'},
+      {sid:'sla',term:'SLA',cat:'acro',en:'Service Level Agreement',def:'Acuerdo de niveles de servicio. Define respuestas comprometidas (uptime, soporte) con penalizaciones por incumplimiento.',ex:'SLA Ficohsa: 99.9% uptime + soporte 4h en caso crítico.'},
+      {sid:'autorate',term:'Auto-Match Rate',cat:'term',en:'Tasa de auto-cruce',def:'% de transacciones que cruzan automáticamente sin intervención humana. KPI estrella.',ex:'Auto-match rate < 80% = el SDD necesita revisión.'},
+      {sid:'mttr',term:'MTTR',cat:'acro',en:'Mean Time To Resolution',def:'Tiempo promedio para resolver una excepción.',ex:'MTTR objetivo < 30 min por excepción.'},
+      // ── Términos contables ──
+      {sid:'partidadoble',term:'Partida Doble',cat:'term',en:'Double-Entry',def:'Principio fundamental: cada transacción afecta al menos dos cuentas (un débito y un crédito que se balancean).',ex:'Cobro a cliente: Débito Caja, Crédito Cuentas por Cobrar.'},
+      {sid:'activo',term:'Activo',cat:'term',en:'Asset',def:'Lo que la empresa tiene o le deben. Naturaleza Débito. Códigos PUC empiezan en 1.',ex:'Caja, Bancos, Cartera de Préstamos.'},
+      {sid:'pasivo',term:'Pasivo',cat:'term',en:'Liability',def:'Lo que la empresa debe a terceros. Naturaleza Crédito. Códigos PUC empiezan en 2.',ex:'Cuentas de Ahorro de clientes (la plata es del cliente).'},
+      {sid:'patrimonio',term:'Patrimonio',cat:'term',en:'Equity',def:'Capital propio de los dueños. Naturaleza Crédito. Códigos PUC empiezan en 3.',ex:'Capital social + utilidades retenidas.'},
+      {sid:'ingreso',term:'Ingreso',cat:'term',en:'Revenue',def:'Plata ganada por la operación. Naturaleza Crédito. Códigos PUC empiezan en 4.',ex:'Intereses cobrados por préstamos.'},
+      {sid:'gasto',term:'Gasto',cat:'term',en:'Expense',def:'Plata consumida en la operación. Naturaleza Débito. Códigos PUC empiezan en 5.',ex:'Comisiones pagadas a Visa.'},
+      {sid:'puc',term:'PUC',cat:'acro',en:'Plan Único de Cuentas',def:'Catálogo estandarizado de cuentas contables. En cada país tiene su propio formato.',ex:'1-04-01-001 = Préstamos por Cobrar (Activo).'},
+      {sid:'asientogl',term:'Asiento Contable',cat:'term',en:'Journal Entry',def:'Registro de una operación en el libro mayor. Tiene al menos un débito y un crédito que suman cero.',ex:'Asiento de ajuste por write-off de $0.05.'},
+      {sid:'cierre',term:'Cierre Contable',cat:'process',en:'Closing',def:'Proceso de cerrar el periodo (mensual/trimestral). Reconciliación es prerequisito para cierre.',ex:'Cierre mensual: del día 1 al 5 del mes siguiente.'},
+      // ── Cuentas Ficohsa específicas ──
+      {sid:'cuentat',term:'Cuenta Transitoria',cat:'term',en:'Suspense Account',def:'Cuenta puente. Los débitos deben igualar los créditos. Saldo final del día debe ser CERO.',ex:'2-01-01-003 SERCOM debe quedar en 0 cada cierre diario.'},
+      {sid:'ach',term:'ACH',cat:'acro',en:'Automated Clearing House',def:'Red de pagos electrónicos entre bancos. Procesa transferencias en lote.',ex:'Cuenta transitoria 2-01-01-002 = ACH en tránsito.'},
+      {sid:'atm',term:'ATM',cat:'acro',en:'Cajero Automático',def:'Dispositivo de retiro/depósito de efectivo. Genera transacciones en cuenta transitoria hasta liquidación.',ex:'2-01-01-001 = transitoria ATMs.'},
+      // ── Procesos Ficohsa adicionales ──
+      {sid:'discovery',term:'Discovery',cat:'process',en:'Levantamiento As-Is',def:'Fase 2 del proyecto. Mesas de 2h por proceso donde el cliente explica el flujo actual.',ex:'En Discovery vos tomás notas detalladas de cada regla y excepción.'},
+      {sid:'kickoff',term:'Kick-Off',cat:'term',en:'',def:'Reunión inicial formal del proyecto. Se alinean expectativas con sponsor y se definen canales.',ex:'Kick-off Ficohsa: 5 Jun 2026.'},
+      {sid:'golive',term:'Go-Live',cat:'term',en:'',def:'Momento en que la solución pasa a producción real. El "encendido" oficial.',ex:'Pre-go-live: ciclos de prueba con datos reales del cliente.'},
+      // ── Pagos y reconciliación ──
+      {sid:'representment',term:'Representment',cat:'process',en:'',def:'Cuando el comercio responde a un chargeback con evidencia para revertir la disputa.',ex:'Representment exitoso = el comercio retiene el dinero.'},
+      {sid:'interchange',term:'Interchange',cat:'term',en:'Tasa de intercambio',def:'Fee que el adquirente paga al emisor por cada transacción. Lo regula Visa/Mastercard.',ex:'Visa cobra interchange ~1.5-2.5% según categoría comercio.'},
+      {sid:'mdr',term:'MDR',cat:'acro',en:'Merchant Discount Rate',def:'Tasa total que paga el comercio por aceptar tarjetas. Incluye interchange + scheme fee + acquirer fee.',ex:'MDR típico Latam: 2.5-4%.'},
+      {sid:'tplus1',term:'T+1 / T+2',cat:'term',en:'',def:'Días hábiles desde la transacción hasta el settlement. T+1 = al día siguiente.',ex:'Venta con tarjeta viernes → settlement T+1 = lunes en cuenta del comercio.'},
+      {sid:'tokenizacion',term:'Tokenización',cat:'process',en:'Tokenization',def:'Reemplazo de datos sensibles (PAN tarjeta) por un token sin valor fuera del sistema.',ex:'Apple Pay tokeniza tu tarjeta — el comercio nunca ve el número real.'},
+      // ── Output / reportes ──
+      {sid:'dashboard',term:'Dashboard',cat:'platform',en:'',def:'Panel visual de KPIs en tiempo real. Permite filtrado y drill-down.',ex:'Dashboard ejecutivo Ficohsa: tx procesadas, auto-match %, excepciones por aging.'},
+      {sid:'output',term:'Output',cat:'term',en:'Salida / Entregable',def:'Lo que Simetrik produce al final del flujo: reporte CSV/Excel, asientos para SAP, alertas.',ex:'Output del proceso SERCOM: 3 archivos diarios al equipo de operaciones.'},
+      {sid:'sftpfolder',term:'SFTP Folder',cat:'platform',en:'',def:'Carpeta remota segura donde Simetrik deposita los outputs y donde el cliente deja inputs.',ex:'sftp://ficohsa.simetrik.com/outputs/sercom/2026-05-13.csv'},
+      // ── Otros conceptos clave ──
+      {sid:'sox404',term:'SOX 404',cat:'acro',en:'',def:'Sección 404 de SOX: gerencia debe declarar adecuación de controles internos sobre reportes financieros.',ex:'Audit trail de Simetrik es evidencia para SOX 404.'},
+      {sid:'ros',term:'ROS',cat:'acro',en:'Reporte de Operación Sospechosa',def:'Notificación a la UIF cuando AML detecta posible lavado.',ex:'ROS debe enviarse en 48-72h según jurisdicción.'},
+      {sid:'risk',term:'Risk Framework',cat:'term',en:'',def:'Marco de gestión de riesgos: identificar, medir, mitigar, monitorear.',ex:'Risk framework de un banco incluye fraude, AML, operacional, crédito.'},
+      {sid:'maker',term:'Maker',cat:'term',en:'',def:'Persona que crea/edita una acción en Simetrik. Requiere aprobación de un Checker.',ex:'Maker = analista que resuelve una excepción.'},
+      {sid:'checker',term:'Checker',cat:'term',en:'',def:'Persona que aprueba la acción del Maker antes de impactar producción/GL.',ex:'Checker = supervisor que firma la resolución.'},
+      {sid:'segregation',term:'Segregación de Funciones',cat:'term',en:'Segregation of Duties (SoD)',def:'Principio: Maker ≠ Checker. Nadie puede crear y aprobar la misma acción. Crítico para SOX.',ex:'Si vos creás la regla, otra persona la activa.'},
     ];
     function seedDict(){
       try {
