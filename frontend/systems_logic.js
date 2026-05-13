@@ -1610,30 +1610,41 @@ const NB = (function() {
     refreshOwner(sid);
   }
 
+  function _commitNow(sid){
+    const pid = activePage[sid];
+    if (!pid) return;
+    const d = load();
+    const sub = d[sid];
+    if (!sub) return;
+    const page = sub.pages.find(p => p.id === pid);
+    if (!page) return;
+    const tIn = document.getElementById('nbTitle-' + sid);
+    const bIn = document.getElementById('nbBody-' + sid);
+    if (tIn) page.title = tIn.value;
+    if (bIn) page.body = bIn.innerHTML;
+    page.updated = new Date().toISOString();
+    save(d);
+    const badge = document.getElementById('nbSaved-' + sid);
+    if (badge) {
+      badge.classList.add('on');
+      clearTimeout(badge._t);
+      badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
+    }
+  }
   function autoSave(sid) {
     clearTimeout(saveTimers[sid]);
-    saveTimers[sid] = setTimeout(() => {
-      const pid = activePage[sid];
-      if (!pid) return;
-      const d = load();
-      const sub = d[sid];
-      if (!sub) return;
-      const page = sub.pages.find(p => p.id === pid);
-      if (!page) return;
-      const tIn = document.getElementById('nbTitle-' + sid);
-      const bIn = document.getElementById('nbBody-' + sid);
-      if (tIn) page.title = tIn.value;
-      if (bIn) page.body = bIn.innerHTML;
-      page.updated = new Date().toISOString();
-      save(d);
-      const badge = document.getElementById('nbSaved-' + sid);
-      if (badge) {
-        badge.classList.add('on');
-        clearTimeout(badge._t);
-        badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
-      }
-    }, 500);
+    saveTimers[sid] = setTimeout(() => _commitNow(sid), 500);
   }
+  function flushAllNB(){
+    Object.keys(saveTimers).forEach(sid => { clearTimeout(saveTimers[sid]); _commitNow(sid); });
+  }
+  window.addEventListener('beforeunload', flushAllNB);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushAllNB(); });
+  document.addEventListener('focusout', (e) => {
+    const t = e.target; if (!t || !t.id) return;
+    if (t.id.startsWith('nbBody-')) _commitNow(t.id.slice(7));
+    else if (t.id.startsWith('nbTitle-')) _commitNow(t.id.slice(8));
+  });
 
   // ── RICH-TEXT FORMAT ──
   // Ensures the contenteditable has focus + an active selection before

@@ -277,6 +277,8 @@ const CLOUD = (() => {
     // 14-WORK Simetrik Copilot (cases, errors, learnings, KB, notebooks)
     'work_cases', 'work_errors', 'work_learnings', 'work_kb',
     'work_nb_meta', 'work_nb_data',
+    // 14-WORK Ecosistema (Workflow doc, Mini-curso, Diccionario)
+    'work_eco_workflow', 'work_eco_course', 'work_eco_dict',
     // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
     'tools_mindmaps',
     // 15-MM Free Canvas (Miro-style: nodes + edges + view state per canvas)

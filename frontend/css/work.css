@@ -63,3 +63,28 @@
 .client-tag{font-size:10px;color:var(--t2);font-family:'IBM Plex Mono',monospace;background:var(--c1);border:1px solid var(--bd);padding:2px 7px;border-radius:5px}
 
 @media(max-width:768px){.wr{padding:16px 12px}.hero h1{font-size:22px}.stats{flex-wrap:wrap}.st{min-width:calc(50% - 1px)}.tabs{gap:0}.tab{font-size:10px;padding:7px 8px}}
+
+/* ── Ecosistema Simetrik — editores + diccionario ── */
+.eco-editor{min-height:380px;margin-top:12px;padding:18px 20px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;color:var(--tx);font-size:14px;line-height:1.7;outline:none}
+.eco-editor:focus{border-color:var(--ac)}
+.eco-editor:empty:before{content:attr(data-placeholder);color:var(--t3);font-style:italic;pointer-events:none}
+.eco-editor h2{font-family:'Newsreader',serif;font-size:22px;margin:18px 0 8px;color:var(--ac);letter-spacing:-.3px}
+.eco-editor h3{font-size:16px;margin:14px 0 6px;color:var(--a2);font-weight:600}
+.eco-editor p{margin:8px 0}
+.eco-editor ul,.eco-editor ol{margin:8px 0 8px 22px}
+.eco-editor li{margin:4px 0}
+.eco-editor blockquote{border-left:3px solid var(--ac);padding:4px 12px;color:var(--t2);margin:10px 0;background:var(--ag)}
+.eco-editor code,.eco-editor pre{font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:var(--el);padding:2px 6px;border-radius:4px}
+.eco-editor pre{padding:10px 12px;display:block;white-space:pre-wrap;margin:8px 0}
+.eco-editor img{max-width:100%;border-radius:8px;margin:8px 0;display:block}
+.eco-editor a{color:var(--a2);text-decoration:underline}
+.dict-card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:8px;transition:border-color .15s}
+.dict-card:hover{border-color:var(--bd2)}
+.dict-card .dt-term{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ac)}
+.dict-card .dt-en{font-size:12px;color:var(--t2);font-style:italic;margin-left:6px}
+.dict-card .dt-cat{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--ag);color:var(--a2);margin-left:6px;text-transform:uppercase;letter-spacing:.5px}
+.dict-card .dt-def{font-size:13px;color:var(--tx);margin-top:6px;line-height:1.6}
+.dict-card .dt-ex{font-size:12px;color:var(--t2);margin-top:4px;font-style:italic;border-left:2px solid var(--bd2);padding-left:8px}
+.dict-card .dt-act{display:flex;gap:6px;margin-top:8px}
+.dict-card .dt-act button{font-size:11px;padding:4px 8px;background:transparent;border:1px solid var(--bd);color:var(--t2);border-radius:5px;cursor:pointer;font-family:inherit}
+.dict-card .dt-act button:hover{color:var(--tx);border-color:var(--bd2)}

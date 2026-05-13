@@ -250,12 +250,217 @@ const WORK = (function(){
     if (kbField && !kbField.value) kbField.value = loadKB();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
-  else setTimeout(render, 0);
+  /* ── ECOSISTEMA: Workflow + Mini-curso + Diccionario ──────── */
+  const eco = (function(){
+    const K_WF='work_eco_workflow', K_CU='work_eco_course', K_DICT='work_eco_dict';
+    const EDITORS={ wf:{key:K_WF,body:'wfBody',badge:'wfSaved'}, cu:{key:K_CU,body:'cuBody',badge:'cuSaved'} };
+    let timers={};
+    function loadStr(k){ try{return localStorage.getItem(k)||'';}catch{return '';} }
+    function saveStr(k,v){ try{localStorage.setItem(k,v);}catch(e){alert('Sin espacio: '+e.message);} }
+    function loadDict(){ try{return JSON.parse(localStorage.getItem(K_DICT)||'[]');}catch{return [];} }
+    function saveDict(v){ try{localStorage.setItem(K_DICT,JSON.stringify(v));}catch(e){alert('Sin espacio: '+e.message);} }
+
+    function initEditor(kind){
+      const cfg=EDITORS[kind]; if(!cfg) return;
+      const el=document.getElementById(cfg.body); if(!el) return;
+      if(el._inited) return; el._inited=true;
+      el.innerHTML=loadStr(cfg.key);
+      el.addEventListener('input',()=>{
+        clearTimeout(timers[kind]);
+        timers[kind]=setTimeout(()=>{
+          saveStr(cfg.key, el.innerHTML);
+          const b=document.getElementById(cfg.badge);
+          if(b){ b.style.opacity='1'; clearTimeout(b._t); b._t=setTimeout(()=>b.style.opacity='0',1200);}
+        },500);
+      });
+      el.addEventListener('blur',()=>{ clearTimeout(timers[kind]); saveStr(cfg.key, el.innerHTML); });
+    }
+    function fmt(kind, op){
+      const cfg=EDITORS[kind]; if(!cfg) return;
+      const el=document.getElementById(cfg.body); if(!el) return;
+      el.focus();
+      try{
+        if(op==='bold') document.execCommand('bold');
+        else if(op==='italic') document.execCommand('italic');
+        else if(op==='h2') document.execCommand('formatBlock',false,'H2');
+        else if(op==='h3') document.execCommand('formatBlock',false,'H3');
+        else if(op==='ul') document.execCommand('insertUnorderedList');
+        else if(op==='ol') document.execCommand('insertOrderedList');
+        else if(op==='quote') document.execCommand('formatBlock',false,'BLOCKQUOTE');
+        else if(op==='code') document.execCommand('formatBlock',false,'PRE');
+      }catch(e){}
+      el.dispatchEvent(new Event('input'));
+    }
+    function insertLink(kind){
+      const url=prompt('URL:'); if(!url) return;
+      const cfg=EDITORS[kind]; const el=document.getElementById(cfg.body); el.focus();
+      document.execCommand('createLink',false,url);
+      el.dispatchEvent(new Event('input'));
+    }
+    function insertImg(kind){
+      const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+      inp.onchange=()=>{
+        const f=inp.files[0]; if(!f) return;
+        const r=new FileReader();
+        r.onload=()=>{
+          const cfg=EDITORS[kind]; const el=document.getElementById(cfg.body); el.focus();
+          document.execCommand('insertImage',false,r.result);
+          el.dispatchEvent(new Event('input'));
+        };
+        r.readAsDataURL(f);
+      };
+      inp.click();
+    }
+
+    let editingId=null;
+    function dictAdd(){
+      editingId=null;
+      document.getElementById('dTerm').value='';
+      document.getElementById('dCat').value='term';
+      document.getElementById('dEn').value='';
+      document.getElementById('dDef').value='';
+      document.getElementById('dEx').value='';
+      document.getElementById('dictForm').style.display='block';
+      document.getElementById('dTerm').focus();
+    }
+    function dictEdit(id){
+      const e=loadDict().find(x=>x.id===id); if(!e) return;
+      editingId=id;
+      document.getElementById('dTerm').value=e.term||'';
+      document.getElementById('dCat').value=e.cat||'term';
+      document.getElementById('dEn').value=e.en||'';
+      document.getElementById('dDef').value=e.def||'';
+      document.getElementById('dEx').value=e.ex||'';
+      document.getElementById('dictForm').style.display='block';
+      window.scrollTo({top:document.getElementById('dictForm').offsetTop-80,behavior:'smooth'});
+    }
+    function dictCancel(){ document.getElementById('dictForm').style.display='none'; editingId=null; }
+    function dictSave(){
+      const term=document.getElementById('dTerm').value.trim();
+      if(!term) return alert('Término requerido.');
+      const entry={
+        id: editingId || 'd_'+Date.now(),
+        term, cat:document.getElementById('dCat').value,
+        en:document.getElementById('dEn').value.trim(),
+        def:document.getElementById('dDef').value.trim(),
+        ex:document.getElementById('dEx').value.trim(),
+        updated:new Date().toISOString(),
+      };
+      const list=loadDict();
+      if(editingId){ const i=list.findIndex(x=>x.id===editingId); if(i>=0) list[i]=entry; }
+      else list.push(entry);
+      list.sort((a,b)=>a.term.localeCompare(b.term));
+      saveDict(list);
+      dictCancel();
+      dictRender();
+    }
+    function dictDel(id){
+      if(!confirm('¿Eliminar entrada?')) return;
+      saveDict(loadDict().filter(x=>x.id!==id));
+      dictRender();
+    }
+    const CAT_LBL={term:'📚 Término',acro:'🔤 Sigla',process:'⚙️ Proceso',platform:'🏛️ Plataforma',software:'💻 Software'};
+    function dictRender(){
+      const wrap=document.getElementById('dictList'); if(!wrap) return;
+      const q=(document.getElementById('dictSearch')?.value||'').toLowerCase();
+      const filter=document.getElementById('dictFilter')?.value||'';
+      let list=loadDict();
+      if(filter) list=list.filter(e=>e.cat===filter);
+      if(q) list=list.filter(e=>(e.term+' '+e.en+' '+e.def).toLowerCase().includes(q));
+      if(!list.length){
+        wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">Sin entradas todavía. Agregá la primera con <b>+ Nueva entrada</b>.</div>';
+        return;
+      }
+      wrap.innerHTML=list.map(e=>`<div class="dict-card">
+        <div><span class="dt-term">${esc(e.term)}</span>${e.en?`<span class="dt-en">(${esc(e.en)})</span>`:''}<span class="dt-cat">${CAT_LBL[e.cat]||e.cat}</span></div>
+        ${e.def?`<div class="dt-def">${esc(e.def)}</div>`:''}
+        ${e.ex?`<div class="dt-ex">${esc(e.ex)}</div>`:''}
+        <div class="dt-act"><button onclick="WORK.eco.dictEdit('${e.id}')">✏️ Editar</button><button onclick="WORK.eco.dictDel('${e.id}')">🗑️ Eliminar</button></div>
+      </div>`).join('');
+    }
+    /* ── Dictionary seed (one-time, idempotent by `seed_id`) ─── */
+    const SEED_VERSION = 'simetrik-2026-05-13.1';
+    const SEED_DICT = [
+      // ── Project roles & artifacts ──
+      {sid:'is',term:'IS',cat:'acro',en:'Implementation Specialist',def:'Especialista de Implementación. El encargado de llevar el diseño en papel a la configuración real en la plataforma Simetrik.',ex:'Tú eres el IS en el proyecto Ficohsa.'},
+      {sid:'rfp',term:'RFP',cat:'acro',en:'Request For Proposal',def:'Solicitud de Propuesta. Documento original donde el cliente describe la necesidad y los proveedores cotizan.',ex:'El RFP de Ficohsa pidió conciliar 945 cuentas y +35M transacciones/mes.'},
+      {sid:'sdd',term:'SDD',cat:'acro',en:'Solution Design Document',def:'Documento de Diseño de la Solución. Tu mapa de trabajo: define reglas de matching, integraciones, parseos y outputs.',ex:'El SDD estimó 54h para configurar el proceso SERCOM.'},
+      {sid:'sftp',term:'SFTP',cat:'acro',en:'Secure File Transfer Protocol',def:'Protocolo de transferencia segura de archivos. La carpeta donde el banco deposita archivos TXT cada noche para que Simetrik los lea.',ex:'T24 deja un .TXT en la SFTP cada 23:30; Simetrik lo ingiere a las 23:45.'},
+      {sid:'gl',term:'GL',cat:'acro',en:'General Ledger',def:'Libro Mayor. Registro central contable. El objetivo de Simetrik es que todo cruce contra el GL.',ex:'El GL de Ficohsa vive en SAP.'},
+      {sid:'kyc',term:'KYC',cat:'acro',en:'Know Your Customer',def:'Conoce a tu Cliente. Normativa que obliga a validar identidad y perfil de riesgo.',ex:'KYC alimenta scoring de fraude.'},
+      {sid:'aml',term:'AML',cat:'acro',en:'Anti-Money Laundering',def:'Anti Lavado de Activos. Monitorea y reporta operaciones inusuales.',ex:'Simetrik genera trazabilidad para reportes AML.'},
+      {sid:'csm',term:'CSM',cat:'acro',en:'Customer Success Manager',def:'Gerente de Éxito del Cliente. Toma la posta después del Go-Live para asegurar adopción y crecimiento.',ex:'Carolina Toro es la CSM del proyecto Ficohsa.'},
+      {sid:'pm',term:'PM',cat:'acro',en:'Project Manager',def:'Gerente de Proyecto. Lidera planificación, ejecución y comunicación con stakeholders.',ex:'Lina Azcárate es la PM en Simetrik.'},
+      // ── Financial terms ──
+      {sid:'insights',term:'Insights',cat:'term',en:'Perspectivas / Hallazgos',def:'Información accionable derivada de datos brutos. Detecta patrones, fugas o mejoras.',ex:'Los insights muestran que 2% de las recargas no cruzan por formato de fecha.'},
+      {sid:'fees',term:'Fees',cat:'term',en:'Tarifas / Comisiones',def:'Lo que cobra el procesador (Claro, Visa, Mastercard). Muchas conciliaciones fallan porque el monto no incluye el fee descontado.',ex:'Visa cobra fee de interchange en cada autorización.'},
+      {sid:'clearing',term:'Clearing',cat:'process',en:'Compensación',def:'Paso donde Visa/Mastercard calcula cuánto le toca al banco por las transacciones del día.',ex:'Clearing ocurre antes del Settlement.'},
+      {sid:'settlement',term:'Settlement',cat:'process',en:'Liquidación',def:'Transferencia definitiva de fondos. El dinero real entra a la cuenta del banco en SAP.',ex:'Simetrik cruza el Clearing contra el Settlement diario.'},
+      {sid:'chargeback',term:'Chargeback',cat:'process',en:'Contracargo / Devolución',def:'Cuando un tarjetahabiente impugna un cargo, el banco emisor revierte la transacción.',ex:'Compra online no reconocida → cliente abre chargeback → comercio presenta evidencia.'},
+      {sid:'aging',term:'Aging',cat:'term',en:'Antigüedad (Mora)',def:'Partidas no conciliadas que llevan días sin cruzar. Se "pintan de rojo" según reglas configurables.',ex:'En SERCOM las partidas se marcan rojo a los 3 días sin cruce.'},
+      {sid:'writeoff',term:'Write-off',cat:'process',en:'Castigo Contable / Ajuste',def:'Si sobran centavos por redondeo que nunca van a cruzar, se ajustan automáticamente a gastos menores.',ex:'Write-off de 0.05 Lempiras por diferencia de redondeo.'},
+      {sid:'leakage',term:'Leakage',cat:'term',en:'Fuga de Ingresos',def:'Pérdida de dinero por errores operativos, malas configuraciones de tarifas o conciliación ineficiente.',ex:'Gateway mal configurado genera revenue leakage del 2% mensual.'},
+      {sid:'parseo',term:'Parseo',cat:'process',en:'Parsing / Transformación',def:'Limpieza y estandarización de datos crudos antes del matching: fechas, prefijos, símbolos.',ex:'Quitar el prefijo "504" de los teléfonos hondureños antes de cruzar contra CLARO.'},
+      {sid:'dispute',term:'Dispute',cat:'process',en:'Disputa',def:'Cuando el comercio presenta evidencia para rechazar un chargeback (representment).',ex:'Simetrik gestiona el flujo de representment con evidencia adjunta.'},
+      {sid:'accrual',term:'Accrual',cat:'term',en:'Devengo / Provisión',def:'Reconocimiento contable de ingresos/gastos antes del flujo de efectivo.',ex:'Los accruals de intereses deben cuadrar con el core bancario.'},
+      {sid:'oversight',term:'Oversight',cat:'process',en:'Supervisión',def:'Vigilancia continua de riesgos, cumplimiento y efectividad de controles.',ex:'El comité de oversight revisa mensualmente las cuentas en rojo.'},
+      {sid:'compliance',term:'Compliance',cat:'term',en:'Cumplimiento normativo',def:'Función que asegura cumplimiento de KYC, AML, PCI, GDPR y licencias.',ex:'Simetrik genera audit trail para compliance.'},
+      {sid:'audittrail',term:'Audit Trail',cat:'term',en:'Rastro de auditoría',def:'Registro inmutable de cada acción del conciliador (maker-checker).',ex:'Cada ajuste manual queda con usuario, fecha y motivo en el audit trail.'},
+      {sid:'issuing',term:'Issuing',cat:'process',en:'Emisión',def:'Banco/fintech emite medios de pago asociados a una cuenta. Incluye autorización y gestión del plástico o token digital.',ex:'Ficohsa hace issuing de tarjetas de crédito procesadas en Vision Plus.'},
+      {sid:'acquiring',term:'Acquiring',cat:'process',en:'Adquirencia',def:'Permite a comercios aceptar pagos con tarjeta o medios digitales y gestiona la liquidación.',ex:'Getnet, Fiserv, Adyen son adquirentes.'},
+      {sid:'gateway',term:'Gateway',cat:'platform',en:'Pasarela de pagos',def:'Software que conecta tienda online con procesadores y emisores, tokenizando datos sensibles.',ex:'Stripe, Checkout.com, Mercado Pago.'},
+      {sid:'recon',term:'Reconciliation',cat:'process',en:'Conciliación bancaria',def:'Comparación sistemática entre registros internos y extractos externos para detectar discrepancias.',ex:'Simetrik concilia 50k transacciones diarias contra adquirentes.'},
+      {sid:'openbank',term:'Open Banking',cat:'term',en:'Banca abierta',def:'Modelo donde bancos comparten datos de clientes (con consentimiento) mediante APIs estandarizadas.',ex:'Regulado por PSD2 en Europa.'},
+      {sid:'scoring',term:'Credit Scoring',cat:'process',en:'Puntaje de crédito',def:'Modelo predictivo de probabilidad de impago usando datos transaccionales, bureau y comportamiento.',ex:'BNPL calcula scoring en 2 segundos para aprobar cuotas.'},
+      {sid:'payout',term:'Payout Settlement',cat:'process',en:'Desembolso',def:'Transferencia de fondos a terceros: repartidores, freelancers, afiliados.',ex:'Plataformas de delivery liquidan payout semanal a sus drivers.'},
+      {sid:'domain',term:'Domain Framework',cat:'term',en:'Marco de dominio',def:'Organización conceptual de los subdominios (pagos, fraude, clientes) y sus interacciones.',ex:'Aplica Domain Driven Design para separar core transaccional de riesgo.'},
+      // ── Platforms / software ──
+      {sid:'simetrik',term:'Simetrik',cat:'platform',en:'',def:'Plataforma SaaS de conciliación financiera automatizada. Ingesta + parseo + matching + outputs + audit trail.',ex:'Ficohsa migra 30 analistas de Excel a Simetrik.'},
+      {sid:'t24',term:'T24 (Temenos)',cat:'software',en:'',def:'Core bancario de Ficohsa. Maneja préstamos, cuentas, cajas. Exporta TXT/CSV vía SFTP.',ex:'T24 envía transacciones de cajas con TXN_CODE que requiere filtrado (SGN, 4, 54 = efecto cero).'},
+      {sid:'visionplus',term:'Vision Plus',cat:'software',en:'',def:'Procesador de tarjetas de crédito (cartera TC, PILs). Genera reportes planos TXT.',ex:'Cruce de saldos de Vision Plus contra GL en SAP.'},
+      {sid:'sap',term:'SAP ERP',cat:'software',en:'',def:'Libro Mayor contable. Registro central de todas las cuentas. Recibe asientos de ajuste desde Simetrik.',ex:'El saldo de la cuenta 1-04-01-001 vive en SAP.'},
+      {sid:'visa',term:'Visa / Mastercard',cat:'platform',en:'',def:'Marcas de tarjetas. Liquidan adquirencia e issuing. Envían archivos TXT/CSV por FTP o correo.',ex:'Visa publica el archivo de clearing T+1.'},
+      // ── Specific Ficohsa codes ──
+      {sid:'txncode',term:'TXN_CODE',cat:'term',en:'Transaction Code',def:'Código de transacción en T24. Los códigos SGN, 4 y 54 son de efecto cero (no afectan saldo) y se excluyen del matching.',ex:'Filtrar TXN_CODE NOT IN (SGN, 4, 54) antes de cruzar.'},
+      {sid:'transref',term:'TRANS_REFERENCE',cat:'term',en:'Transaction Reference',def:'Llave única de la transacción en T24. Se usa como matching key contra TRANSACCIONBANCO en SAP.',ex:'T24.TRANS_REFERENCE = SAP.TRANSACCIONBANCO'},
+      {sid:'sercom',term:'SERCOM',cat:'process',en:'',def:'Servicios de Comunicaciones. Cuenta transitoria 2-01-01-003 / 2330203151 para recargas de telefonía móvil.',ex:'Recargas SERCOM cruzan T24 (débito) vs CLARO (crédito) vs SAP (saldo).'},
+      {sid:'transitoria',term:'Cuenta Transitoria',cat:'term',en:'Suspense / Transit Account',def:'Cuenta puente temporal. Débitos = Créditos. Saldo final debe ser CERO.',ex:'En 2-01-01-003 la suma algebraica del día debe ser 0.'},
+      {sid:'matching',term:'Matching',cat:'process',en:'Cruce',def:'Motor lógico que asocia una transacción de la Fuente A con una o varias de la Fuente B según reglas (1:1, 1:N, N:M, con tolerancias).',ex:'Regla: A.Num_Referencia == B.Referencia AND A.Monto == B.Monto.'},
+    ];
+    function seedDict(){
+      try {
+        const v = localStorage.getItem('work_eco_dict_seed_v');
+        if (v === SEED_VERSION) return;
+        const existing = loadDict();
+        const bySid = new Set(existing.filter(e=>e.sid).map(e=>e.sid));
+        let added=0;
+        SEED_DICT.forEach(s => {
+          if (bySid.has(s.sid)) return;
+          existing.push({ id:'d_seed_'+s.sid, sid:s.sid, term:s.term, cat:s.cat, en:s.en, def:s.def, ex:s.ex, updated:new Date().toISOString() });
+          added++;
+        });
+        existing.sort((a,b)=>a.term.localeCompare(b.term));
+        saveDict(existing);
+        localStorage.setItem('work_eco_dict_seed_v', SEED_VERSION);
+        console.log('[14-WORK] Dictionary seeded: +'+added+' entries (v'+SEED_VERSION+')');
+      } catch(e){ console.warn('seedDict failed', e); }
+    }
+
+    function init(){
+      seedDict();
+      initEditor('wf');
+      initEditor('cu');
+      dictRender();
+    }
+    return { fmt, insertLink, insertImg, dictAdd, dictEdit, dictCancel, dictSave, dictDel, dictRender, init };
+  })();
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { render(); eco.init(); });
+  else setTimeout(() => { render(); eco.init(); }, 0);
 
   return {
     saveCase, delCase, saveError, delError, saveLearning, delLearning,
-    saveKB, buildAskPrompt, copyAsk, clearForm, render,
+    saveKB, buildAskPrompt, copyAsk, clearForm, render, eco,
   };
 })();
 window.WORK = WORK;
@@ -404,24 +609,42 @@ const WorkNB = (function(){
     if (activePageId === pid) activePageId = null;
     render();
   }
+  function _commitNow(nbId){
+    if (!activePageId) return;
+    const data = loadData();
+    if (!data[nbId]) return;
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page) return;
+    const tIn = document.getElementById('nbTitle-' + nbId);
+    const bIn = document.getElementById('nbBody-' + nbId);
+    if (tIn) page.title = tIn.value;
+    if (bIn) page.body = bIn.innerHTML;
+    page.updated = new Date().toISOString();
+    saveData(data);
+    const badge = document.getElementById('nbSaved-' + nbId);
+    if (badge) { badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
+  }
   function autoSave(nbId){
     clearTimeout(saveTimers[nbId]);
-    saveTimers[nbId] = setTimeout(() => {
-      if (!activePageId) return;
-      const data = loadData();
-      if (!data[nbId]) return;
-      const page = data[nbId].pages.find(p => p.id === activePageId);
-      if (!page) return;
-      const tIn = document.getElementById('nbTitle-' + nbId);
-      const bIn = document.getElementById('nbBody-' + nbId);
-      if (tIn) page.title = tIn.value;
-      if (bIn) page.body = bIn.innerHTML;
-      page.updated = new Date().toISOString();
-      saveData(data);
-      const badge = document.getElementById('nbSaved-' + nbId);
-      if (badge) { badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
-    }, 500);
+    saveTimers[nbId] = setTimeout(() => _commitNow(nbId), 500);
   }
+  function flushAll(){
+    Object.keys(saveTimers).forEach(nbId => {
+      clearTimeout(saveTimers[nbId]);
+      _commitNow(nbId);
+    });
+  }
+  // Flush on blur / tab hide / unload to prevent data loss
+  window.addEventListener('beforeunload', flushAll);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushAll(); });
+  document.addEventListener('focusout', (e) => {
+    const t = e.target;
+    if (t && (t.id||'').startsWith('nbBody-')) {
+      const nbId = t.id.slice(7); _commitNow(nbId);
+    } else if (t && (t.id||'').startsWith('nbTitle-')) {
+      const nbId = t.id.slice(8); _commitNow(nbId);
+    }
+  });
 
   /* ── RICH-TEXT ────────────────────────────────────────────── */
   function focusEditor(nbId){

@@ -193,24 +193,35 @@ const NotNB = (function(){
     render();
   }
 
+  function _commitNow(nbId){
+    if (!activePageId) return;
+    const data = loadData();
+    if (!data[nbId]) return;
+    const page = data[nbId].pages.find(p => p.id === activePageId);
+    if (!page) return;
+    const tIn = document.getElementById('nbTitle-' + nbId);
+    const bIn = document.getElementById('nbBody-' + nbId);
+    if (tIn) page.title = tIn.value;
+    if (bIn) page.body = bIn.innerHTML;
+    page.updated = new Date().toISOString();
+    saveData(data);
+    const badge = document.getElementById('nbSaved-' + nbId);
+    if (badge) { badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
+  }
   function autoSave(nbId){
     clearTimeout(saveTimers[nbId]);
-    saveTimers[nbId] = setTimeout(() => {
-      if (!activePageId) return;
-      const data = loadData();
-      if (!data[nbId]) return;
-      const page = data[nbId].pages.find(p => p.id === activePageId);
-      if (!page) return;
-      const tIn = document.getElementById('nbTitle-' + nbId);
-      const bIn = document.getElementById('nbBody-' + nbId);
-      if (tIn) page.title = tIn.value;
-      if (bIn) page.body = bIn.innerHTML;
-      page.updated = new Date().toISOString();
-      saveData(data);
-      const badge = document.getElementById('nbSaved-' + nbId);
-      if (badge) { badge.classList.add('on'); clearTimeout(badge._t); badge._t = setTimeout(()=>badge.classList.remove('on'), 1200); }
-    }, 500);
+    saveTimers[nbId] = setTimeout(() => _commitNow(nbId), 500);
   }
+  function flushAll(){
+    Object.keys(saveTimers).forEach(nbId => { clearTimeout(saveTimers[nbId]); _commitNow(nbId); });
+  }
+  window.addEventListener('beforeunload', flushAll);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushAll(); });
+  document.addEventListener('focusout', (e) => {
+    const t = e.target; if (!t || !t.id) return;
+    if (t.id.startsWith('nbBody-')) _commitNow(t.id.slice(7));
+    else if (t.id.startsWith('nbTitle-')) _commitNow(t.id.slice(8));
+  });
 
   /* ── RICH-TEXT FORMAT ─────────────────────────────────────── */
   function focusEditor(nbId){

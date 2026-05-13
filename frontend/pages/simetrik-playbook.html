@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playbook Definitivo · Implementation Specialist · Simetrik + Ficohsa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f3f6f9;
+            --bg-surface: #ffffff;
+            --primary-dark: #0a192f;
+            --primary-blue: #0052cc;
+            --primary-light: #e6f0ff;
+            --accent-teal: #00a8cc;
+            --accent-green: #2ecc71;
+            --accent-orange: #f39c12;
+            --accent-red: #e74c3c;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 { color: var(--primary-dark); font-weight: 700; letter-spacing: -0.02em; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; background: #edf2f7; padding: 2px 6px; border-radius: 4px; color: #c53030; }
+        .app-container { display: flex; height: 100vh; overflow: hidden; }
+        .sidebar {
+            width: 300px;
+            background-color: var(--primary-dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-header h1 { color: white; font-size: 1.4rem; line-height: 1.2; margin-bottom: 0.5rem; }
+        .role-badge {
+            display: inline-block;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-list { list-style: none; padding: 1rem 0; overflow-y: auto; flex-grow: 1; }
+        .nav-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--accent-teal); color: white; font-weight: 600; }
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 3rem 4rem; scroll-behavior: smooth; }
+        .section { display: none; animation: fadeIn 0.4s ease-out forwards; max-width: 1200px; margin: 0 auto; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .page-title { font-size: 2.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 15px; }
+        .page-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-md);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+        .card.accent-top { border-top: 4px solid var(--primary-blue); }
+        .card.accent-green { border-top: 4px solid var(--accent-green); }
+        .card.accent-orange { border-top: 4px solid var(--accent-orange); }
+        .card.accent-teal { border-top: 4px solid var(--accent-teal); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .card-title { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); }
+        .tag { font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--primary-light); color: var(--primary-blue); text-transform: uppercase; }
+        .tag.en { background: #fee2e2; color: #b91c1c; }
+        .tag.es { background: #dcfce7; color: #15803d; }
+        .table-container { background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--border-color); margin: 2rem 0; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f8fafc; padding: 1rem 1.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); border-bottom: 2px solid var(--border-color); }
+        td { padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
+        .data-lab { background: #1e293b; border-radius: var(--radius-md); padding: 2rem; color: #f8fafc; margin: 2rem 0; box-shadow: var(--shadow-lg); }
+        .raw-data { font-family: 'JetBrains Mono', monospace; background: #0f172a; padding: 1.5rem; border-radius: 8px; font-size: 0.85rem; color: #38bdf8; white-space: pre-wrap; word-break: break-all; margin-bottom: 1.5rem; border-left: 4px solid var(--accent-red); }
+        .process-arrow { text-align: center; font-size: 2rem; color: var(--accent-teal); margin: 1rem 0; }
+        .alert { padding: 1.5rem; border-radius: var(--radius-md); margin: 1rem 0; display: flex; gap: 15px; align-items: flex-start; }
+        .alert-info { background: var(--primary-light); border-left: 4px solid var(--primary-blue); }
+        .alert-warning { background: #fffbeb; border-left: 4px solid var(--accent-orange); color: #92400e; }
+        .alert-icon { font-size: 1.5rem; }
+        .lang-term { display: flex; flex-direction: column; }
+        .lang-en { font-weight: 700; color: #b91c1c; font-size: 1.05rem; }
+        .lang-es { font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+        .context-box { margin-top: 0.8rem; background: #f1f5f9; padding: 0.8rem; border-radius: 6px; border-left: 3px solid var(--primary-blue); font-size: 0.9rem; }
+        .rule-box { background: #e8f4ea; border-left: 5px solid #1e6f3f; padding: 1rem; border-radius: var(--radius-md); margin: 1rem 0; font-weight: 500; }
+        .flowchart { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 2rem 0; }
+        .flow-step {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            min-width: 140px;
+            flex: 1;
+        }
+        .flow-step:hover { border-color: var(--primary-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .flow-step.active-step { border-color: var(--accent-teal); background: #e6f0ff; }
+        .flow-step .step-number { background: var(--primary-blue); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-weight: 700; }
+        .flow-arrow { font-size: 1.5rem; color: var(--accent-teal); flex-shrink: 0; }
+        .flow-detail { display: none; background: white; border-radius: var(--radius-md); padding: 1.5rem; margin-top: 1rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); }
+        .flow-detail.open { display: block; animation: fadeIn 0.3s ease; }
+        .who-box { background: #f6fafe; border-radius: var(--radius-md); padding: 1rem; }
+        .who-box h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary-blue); margin-bottom: 0.5rem; }
+        .who-box p { font-size: 0.92rem; color: #1f2f3e; margin: 0.2rem 0; }
+        .who-box.team { border-left: 3px solid var(--primary-blue); }
+        .who-box.me { border-left: 3px solid var(--accent-green); }
+        @media (max-width: 1024px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .nav-list { display: flex; flex-wrap: nowrap; overflow-x: auto; padding: 0; }
+            .nav-item { white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; }
+            .nav-item.active { border-left: none; border-bottom-color: var(--accent-teal); }
+            .main-content { padding: 2rem 1.5rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .flowchart { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+<style>
+  .da-strip{position:sticky;top:0;z-index:200;background:#0a192f;color:#fff;display:flex;align-items:center;gap:14px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .da-strip a{color:#00a8cc;text-decoration:none;font-weight:600}
+  .da-strip a:hover{color:#fff}
+  .da-strip .sep{opacity:.3}
+  .da-strip .mod{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.6)}
+  body.in-iframe .da-strip{display:none}
+  body.in-iframe .app-container{height:100vh}
+</style>
+<script>try{if(window.self!==window.top)document.body.classList.add('in-iframe');}catch(e){document.body.classList.add('in-iframe');}</script>
+<div class="da-strip">
+  <a href="../work.html">← Volver al Ecosistema</a>
+  <span class="sep">|</span>
+  <span class="mod">14-WORK · Simetrik Playbook</span>
+</div>
+<div class="app-container">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <span class="role-badge">Implementation Specialist</span>
+            <h1 style="margin-top: 10px;">Simetrik<br>Ficohsa Project</h1>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item active" data-target="sec-diagrama">🗺️ Diagrama de Flujo</li>
+            <li class="nav-item" data-target="sec-proceso">🛠️ Mi Proceso (IS)</li>
+            <li class="nav-item" data-target="sec-diccionario">🔠 Diccionario & Siglas</li>
+            <li class="nav-item" data-target="sec-contabilidad">⚖️ Naturaleza Contable</li>
+            <li class="nav-item" data-target="sec-laboratorio">🔬 Lab Práctico (Tus Datos)</li>
+            <li class="nav-item" data-target="sec-rfp">📋 Contexto RFP</li>
+            <li class="nav-item" data-target="sec-faq">❓ Preguntas y Respuestas</li>
+        </ul>
+    </nav>
+    <main class="main-content">
+
+        <!-- ==================== DIAGRAMA DE FLUJO INTERACTIVO ==================== -->
+        <section id="sec-diagrama" class="section active">
+            <h2 class="page-title">🗺️ Diagrama de Flujo Interactivo del Proyecto</h2>
+            <p class="page-subtitle">Haz clic en cada fase para ver qué hace el equipo de Simetrik y cuál es tu rol exacto como Implementation Specialist en esa etapa.</p>
+            <div class="flowchart" id="flowchart">
+                <div class="flow-step active-step" onclick="showFlow(0)"><div class="step-number">0</div><strong>Preventa & RFP</strong><small>Abr 2026</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(1)"><div class="step-number">1</div><strong>Kick-Off</strong><small>5 Jun 2026</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(2)"><div class="step-number">2</div><strong>Discovery</strong><small>Mesas 2h</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(3)"><div class="step-number">3</div><strong>Diseño SDD</strong><small>Definitivo</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(4)"><div class="step-number">4</div><strong>Implementación</strong><small>Configuración</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(5)"><div class="step-number">5</div><strong>Pruebas & Go-Live</strong><small>Validación</small></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step" onclick="showFlow(6)"><div class="step-number">6</div><strong>CS</strong><small>Transición</small></div>
+            </div>
+            <div class="flow-detail open" id="flowDetail"></div>
+            <script>
+                const flowData = [
+                    { title: "Fase 0: Preventa y RFP", team: "Solutions Consultant y SA analizan el RFP de Ficohsa (~35 procesos, +35M tx/mes). Se redacta SDD referencial y se cotizan 98 procesos en $145,000.", me: "No participo directamente, pero <strong>estudio el SDD y el RFP</strong> para entender el alcance y los KPI mencionados." },
+                    { title: "Fase 1: Kick-Off (5 Jun 2026)", team: "Services Manager (Ana M.) y PM (Lina A.) alinean expectativas con el Sponsor y PM de Ficohsa. Se definen canales (Slack/email) y cadencia de reuniones. Se confirma el grupo administrador de accesos.", me: "Participo como oyente activo. <strong>Conozco a los stakeholders</strong> de Ficohsa: Seguridad (Carlos Avila), Cloud (Daniel Jojoa), Datos (Gabriel Cortes), Tecnología (William, Williams, Erik, Wilson), Integraciones (Noel, Jorge, Carlos, Jose), Arquitectura (Gary)." },
+                    { title: "Fase 2: Discovery / Levantamiento As-Is", team: "Senior IS (Juan C. / Wilson) y PM facilitan mesas de 2h por cada proceso priorizado. El responsable de Ficohsa explica el flujo actual. Se llena el <strong>artefacto de proceso</strong>: nombre, cuentas, fuentes, cruces, outputs, parseos, priorización.", me: "<strong>Tomo notas detalladas</strong> de cada regla, filtro y excepción. Documento que TXN_CODE SGN, 4, 54 son de efecto cero y deben excluirse. Identifico necesidades de parseo (fechas, texto, prefijos telefónicos)." },
+                    { title: "Fase 3: Diseño de Solución (SDD definitivo)", team: "Senior IS y SA traducen hallazgos en SDD detallado con reglas de matching, integraciones, parseos, outputs y estimación de horas por proceso.", me: "<strong>Reviso el SDD</strong> contra mis notas para verificar que refleje lo conversado en las mesas. Apoyo la estimación de esfuerzo para los procesos que me serán asignados (ej: SERCOM ~54h)." },
+                    { title: "Fase 4: Implementación (Configuración en Simetrik)", team: "Integraciones configura conectores SFTP. Senior IS supervisa la configuración. PM monitorea avance contra cronograma.", me: "<strong>Construyo los flujos en Simetrik:</strong> ingesto fuentes (T24, CLARO, SAP), configuro parseos (fechas, filtros de códigos), defino reglas de matching (TRANS_REFERENCE, TRANSACCIONBANCO) y genero outputs (conciliación diaria, informe de valores, matching). <strong>Sigo el SDD exactamente</strong> y documento cada configuración." },
+                    { title: "Fase 5: Pruebas, Estabilización y Go-Live", team: "Se realizan ciclos de prueba con datos reales del banco. El responsable de proceso de Ficohsa valida resultados. Se ajustan reglas si es necesario. Finalmente, se migra a Producción.", me: "<strong>Ejecuto pruebas de extremo a extremo:</strong> verifico que las transacciones asociadas sumen correctamente por producto ('Recargas por liquidar a SERCOM', 'Paquetes por liquidar a SERCOM') y que las no asociadas cuadren contra saldo contable. <strong>Detecto y corrijo desviaciones.</strong> Acompaño al cliente en la validación final." },
+                    { title: "Fase 6: Transición a Customer Success", team: "CSM (Carolina Toro) asume la relación. Se brinda capacitación a usuarios finales y se establecen canales de soporte continuo.", me: "<strong>Entrego documentación completa</strong> de los flujos configurados (SDD final, reglas, parseos, outputs). Soy el primer punto de contacto para dudas técnicas antes de escalar al Senior IS." }
+                ];
+                function showFlow(i) {
+                    document.getElementById('flowDetail').innerHTML = `<h3>${flowData[i].title}</h3><div class="grid-2"><div class="who-box team"><h4>👥 Equipo Simetrik</h4><p>${flowData[i].team}</p></div><div class="who-box me"><h4>👤 Yo (Implementation Specialist)</h4><p>${flowData[i].me}</p></div></div>`;
+                    document.getElementById('flowDetail').classList.add('open');
+                    document.querySelectorAll('.flow-step').forEach((s, idx) => s.classList.toggle('active-step', idx === i));
+                }
+                showFlow(0);
+            </script>
+        </section>
+
+        <!-- ==================== MI PROCESO (IS) ==================== -->
+        <section id="sec-proceso" class="section">
+            <h2 class="page-title">🛠️ El Día a Día del Implementation Specialist</h2>
+            <p class="page-subtitle">Tu rol es el puente técnico entre el diseño (SDD) y la operación real. Tomas los requerimientos, configuras Simetrik y aseguras que los cruces funcionen sin errores.</p>
+            <div class="grid-3">
+                <div class="card accent-top"><div class="card-header"><div class="card-title">1. Ingesta (Ingestion)</div></div><p>Conectar Simetrik con los sistemas de Ficohsa para extraer datos. Usualmente mediante <strong>SFTP</strong>, <strong>API</strong> o carga manual de archivos.</p><div class="context-box"><strong>Tu tarea:</strong> Configurar las conexiones, definir si el archivo es .CSV o .TXT, cuál es el delimitador (coma, pipe <code>|</code>) y programar la frecuencia de carga (diaria, horaria).</div></div>
+                <div class="card accent-top"><div class="card-header"><div class="card-title">2. Parseo (Parsing)</div></div><p>Limpieza y estandarización de datos crudos. Si Ficohsa manda la fecha como "29/04/2026" y el proveedor como "2026-04-29", el sistema no las cruzará jamás.</p><div class="context-box"><strong>Tu tarea:</strong> Crear reglas de transformación. Ej: extraer solo los últimos 8 dígitos del número de teléfono (quitar prefijo 504), unificar formatos de fecha, limpiar símbolos de moneda ($ o L), filtrar códigos de efecto cero.</div></div>
+                <div class="card accent-top"><div class="card-header"><div class="card-title">3. Matching (Cruce)</div></div><p>El corazón de Simetrik. Defines reglas lógicas para que una transacción de la Fuente A se asocie matemáticamente con una o varias de la Fuente B.</p><div class="context-box"><strong>Tu tarea:</strong> Configurar el motor lógico. Ej: <code>A.Num_Referencia == B.Referencia</code> AND <code>A.Monto == B.Monto</code>. Identificar casos 1:1, 1:N, N:M y aplicar tolerancias cuando corresponda.</div></div>
+            </div>
+            <div class="alert alert-info" style="margin-top: 2rem;"><div class="alert-icon">💡</div><div><strong>Consejo de Oro para el IS:</strong> Nunca confíes en que los datos vienen limpios. El 80% de los errores de conciliación (partidas abiertas o en rojo) se deben a un mal <em>Parseo</em> inicial. Siempre revisa la "Data Cruda" antes de intentar cruzarla.</div></div>
+        </section>
+
+        <!-- ==================== DICCIONARIO Y SIGLAS ==================== -->
+        <section id="sec-diccionario" class="section">
+            <h2 class="page-title">🔠 Diccionario de Términos y Siglas</h2>
+            <p class="page-subtitle">En reuniones escucharás una mezcla de inglés técnico y terminología bancaria. Aquí tienes la traducción exacta y su contexto en el proyecto Ficohsa.</p>
+            <h3 style="margin-bottom: 1rem;">💼 Siglas del Proyecto y Tecnología</h3>
+            <div class="grid-2">
+                <div class="card"><div class="lang-term"><span class="lang-en">IS (Implementation Specialist)</span><span class="lang-es">Especialista de Implementación</span></div><div class="context-box"><strong>Contexto:</strong> Eres tú. El encargado de llevar el diseño en papel a la configuración real en la plataforma.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">RFP (Request For Proposal)</span><span class="lang-es">Solicitud de Propuesta</span></div><div class="context-box"><strong>Contexto:</strong> El documento original donde Ficohsa dijo "Necesito un software que me concilie 945 cuentas". Es la Biblia comercial del proyecto.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">SDD (Solution Design Document)</span><span class="lang-es">Documento de Diseño de la Solución</span></div><div class="context-box"><strong>Contexto:</strong> Tu mapa de trabajo. El Arquitecto de Soluciones escribe aquí cómo deben funcionar las reglas; tú las lees y las configuras en Simetrik.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">SFTP (Secure File Transfer Protocol)</span><span class="lang-es">Protocolo de Transferencia de Archivos Seguro</span></div><div class="context-box"><strong>Contexto:</strong> La carpeta virtual segura donde Ficohsa "deposita" sus archivos TXT cada noche para que Simetrik los lea.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">GL (General Ledger)</span><span class="lang-es">Libro Mayor</span></div><div class="context-box"><strong>Contexto:</strong> Es el registro central contable (SAP). El objetivo de Simetrik es que todo cruce contra el GL.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">KYC / AML</span><span class="lang-es">Conoce a tu Cliente / Anti Lavado de Activos</span></div><div class="context-box"><strong>Contexto:</strong> Normativas que impactan la trazabilidad de las conciliaciones. Simetrik debe generar evidencia para estos reportes.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">CSM (Customer Success Manager)</span><span class="lang-es">Gerente de Éxito del Cliente</span></div><div class="context-box"><strong>Contexto:</strong> Carolina Toro. Toma la posta después del Go-Live para asegurar adopción y crecimiento continuo.</div></div>
+                <div class="card"><div class="lang-term"><span class="lang-en">PM (Project Manager)</span><span class="lang-es">Gerente de Proyecto</span></div><div class="context-box"><strong>Contexto:</strong> Lina Azcárate (Simetrik). Lidera planificación, ejecución y comunicación con stakeholders.</div></div>
+            </div>
+            <h3 style="margin: 2rem 0 1rem;">🏦 Términos Financieros (Inglés → Español)</h3>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Término (EN)</th><th>Traducción (ES)</th><th>Contexto Operativo en Simetrik / Ficohsa</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Insights</strong></td><td>Perspectivas / Hallazgos</td><td>Los insights extraídos del matching muestran que el 2% de las recargas no cruzan por formato de fecha.</td></tr>
+                        <tr><td><strong>Fees</strong></td><td>Tarifas / Comisiones</td><td>Lo que cobra el procesador (Claro, Visa). Muchas conciliaciones fallan porque el monto no incluye el Fee descontado.</td></tr>
+                        <tr><td><strong>Clearing</strong></td><td>Compensación</td><td>Visa/Mastercard calcula cuánto le toca al banco. Es el paso previo al Settlement.</td></tr>
+                        <tr><td><strong>Settlement</strong></td><td>Liquidación</td><td>El dinero real entra a la cuenta del banco en SAP. Simetrik cruza Clearing vs Settlement.</td></tr>
+                        <tr><td><strong>Chargebacks</strong></td><td>Contracargos / Devoluciones</td><td>Cuando un cliente dice "Yo no hice esa compra". Genera un débito forzado que debemos conciliar como excepción.</td></tr>
+                        <tr><td><strong>Aging</strong></td><td>Antigüedad (Mora)</td><td>Partidas que llevan muchos días sin cruzar. En Simetrik configuras "Reglas de Aging" para que se pinten de rojo a los 3, 5 o 10 días.</td></tr>
+                        <tr><td><strong>Write-off</strong></td><td>Castigo Contable / Ajuste</td><td>Si sobran 0.05 Lempiras por redondeo que nunca van a cruzar, se hace un "Write-off" automático a gastos menores.</td></tr>
+                        <tr><td><strong>Leakage</strong></td><td>Fuga de Ingresos</td><td>Pérdida de dinero por errores operativos, malas configuraciones de tarifas o conciliación ineficiente.</td></tr>
+                        <tr><td><strong>Parseo</strong></td><td>Transformación de formato</td><td>Convertir fechas como "16-Apr-2026" a "16/04/2026", limpiar teléfonos y estandarizar referencias antes del matching.</td></tr>
+                        <tr><td><strong>Dispute</strong></td><td>Disputa</td><td>Cuando el comercio presenta evidencia para rechazar un chargeback. Simetrik gestiona el flujo de representment.</td></tr>
+                        <tr><td><strong>Accrual</strong></td><td>Devengo / Provisión</td><td>Los accruals de intereses se registran en SAP y deben cuadrar con el core bancario.</td></tr>
+                        <tr><td><strong>Oversight</strong></td><td>Supervisión / Vigilancia</td><td>El comité de oversight revisa mensualmente los informes de conciliación y las cuentas en rojo.</td></tr>
+                        <tr><td><strong>Compliance</strong></td><td>Cumplimiento normativo</td><td>Verifica que la conciliación cumpla con KYC, AML y PCI. Simetrik genera trazabilidad para auditoría.</td></tr>
+                        <tr><td><strong>Audit Trail</strong></td><td>Rastro de auditoría</td><td>Simetrik deja un audit trail de cada acción del conciliador (maker-checker).</td></tr>
+                        <tr><td><strong>Issuing</strong></td><td>Emisión de tarjetas</td><td>El banco emite tarjetas de crédito/débito. Las transacciones se concilian contra Vision Plus.</td></tr>
+                        <tr><td><strong>Acquiring</strong></td><td>Adquirencia</td><td>Comercios afiliados que aceptan pagos. Los movimientos del acquiring se cruzan con SAP.</td></tr>
+                        <tr><td><strong>Gateway</strong></td><td>Pasarela de pagos</td><td>Conecta e-commerce con adquirentes. Sus reportes son fuente de conciliación en Simetrik.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ==================== NATURALEZA CONTABLE ==================== -->
+        <section id="sec-contabilidad" class="section">
+            <h2 class="page-title">⚖️ La Lógica de las Cuentas (Naturaleza Contable)</h2>
+            <p class="page-subtitle">Para hacer matching necesitas pensar como un contador. Si no entiendes si el dinero entra o sale, cruzarás los datos al revés.</p>
+            <div class="alert alert-warning"><div class="alert-icon">⚠️</div><div><strong>Regla de la Partida Doble:</strong> Toda transacción afecta al menos dos cuentas. Si una aumenta (Débito), otra debe disminuir (Crédito) para mantener el balance en cero.</div></div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Tipo de Cuenta</th><th>¿Qué es?</th><th>Aumenta con</th><th>Disminuye con</th><th>Ejemplo Ficohsa</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Activo (1)</strong></td><td>Lo que el Banco <strong>tiene</strong> o le deben.</td><td>Débito (+)</td><td>Crédito (-)</td><td>Efectivo en Caja, Cartera de Préstamos.</td></tr>
+                        <tr><td><strong>Pasivo (2)</strong></td><td>Lo que el Banco <strong>debe</strong> a terceros.</td><td>Crédito (+)</td><td>Débito (-)</td><td>Cuentas de Ahorro de clientes (el dinero es del cliente).</td></tr>
+                        <tr><td><strong>Patrimonio (3)</strong></td><td>El capital de los dueños del Banco.</td><td>Crédito (+)</td><td>Débito (-)</td><td>Capital social, utilidades retenidas.</td></tr>
+                        <tr><td><strong>Ingreso (4)</strong></td><td>Dinero ganado por la operación.</td><td>Crédito (+)</td><td>Débito (-)</td><td>Intereses cobrados por un préstamo.</td></tr>
+                        <tr><td><strong>Gasto (5)</strong></td><td>Dinero consumido en la operación.</td><td>Débito (+)</td><td>Crédito (-)</td><td>Pago de nómina, comisiones pagadas a Visa.</td></tr>
+                        <tr style="background-color: #e6f0ff; font-weight: bold;"><td><strong>Transitorias</strong></td><td>Cuentas puente temporales.</td><td colspan="2" style="text-align: center;">Débitos = Créditos (Debe ser CERO)</td><td>Pagos de Recargas, Remesas en tránsito.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 style="margin-top:2rem;">🧾 Mini PUC – Cuentas reales del proyecto</h3>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Código</th><th>Nombre de la cuenta</th><th>Naturaleza</th><th>¿Dónde se concilia?</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>1-01-01-001</strong></td><td>Caja General</td><td>Activo (Débito)</td><td>Bancos (Cash Collection)</td></tr>
+                        <tr><td><strong>1-02-01-001</strong></td><td>Bancos Nacionales — Cuenta Corriente</td><td>Activo (Débito)</td><td>Bancos (extracto vs. SAP)</td></tr>
+                        <tr><td><strong>1-03-01-001</strong></td><td>Inversiones en Bonos</td><td>Activo (Débito)</td><td>Cuadre de saldos</td></tr>
+                        <tr><td><strong>1-04-01-001</strong></td><td>Préstamos por Cobrar (Cartera)</td><td>Activo (Débito)</td><td>Cuadre de saldos — Préstamos</td></tr>
+                        <tr><td><strong>1-05-01-001</strong></td><td>Tarjetas de Crédito por Cobrar</td><td>Activo (Débito)</td><td>Cuadre de saldos — Tarjetas</td></tr>
+                        <tr><td><strong>2-01-01-001</strong></td><td>Cuentas Transitorias — ATMs</td><td>Transitoria</td><td>Matching transitorias</td></tr>
+                        <tr><td><strong>2-01-01-002</strong></td><td>Cuentas Transitorias — ACH</td><td>Transitoria</td><td>Matching transitorias</td></tr>
+                        <tr><td><strong>2-01-01-003</strong></td><td>Cuentas Transitorias — Recargas SERCOM</td><td>Transitoria</td><td>Matching transitorias (2330203151)</td></tr>
+                        <tr><td><strong>2-02-01-001</strong></td><td>Comisiones por Pagar</td><td>Pasivo (Crédito)</td><td>Cuentas por pagar</td></tr>
+                        <tr><td><strong>4-01-01-001</strong></td><td>Ingresos por Intereses de Préstamos</td><td>Ingreso (Crédito)</td><td>Cuadre de saldos</td></tr>
+                        <tr><td><strong>5-01-01-001</strong></td><td>Gastos por Comisiones Bancarias</td><td>Gasto (Débito)</td><td>Conciliación de fees</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 style="margin-top:2rem;">🔀 Ejemplos de Cruce Reglamentario (¿Qué cruza con qué?)</h3>
+            <div class="card accent-teal" style="margin-bottom:1rem;"><div class="card-title">Ejemplo 1: Matching de transitorias — SERCOM (2-01-01-003)</div><p><strong>Fuentes:</strong> Transacciones T24 (débitos), Reporte CLARO (créditos), Balance SAP (saldo).<br><strong>Llave de cruce:</strong> TRANS_REFERENCE (T24) ↔ Referencia única T24 (CLARO) y ↔ TRANSACCIONBANCO (SAP).<br><strong>Regla:</strong> Los débitos (recargas vendidas) deben coincidir con los créditos (pagos recibidos). La suma algebraica debe ser cero. Si NO_TELEFONO tiene 8 dígitos → "Paquete", sino → "Recarga".<br><strong>Filtros:</strong> TXN_CODE excluir SGN, 4, 54 (efecto cero); CONVENIO solo "RECARGAS"; ESTADO solo "PAGADO".</p></div>
+            <div class="card accent-orange" style="margin-bottom:1rem;"><div class="card-title">Ejemplo 2: Cuadre de saldos — Préstamos (1-04-01-001) vs Ingresos (4-01-01-001)</div><p><strong>Fuentes:</strong> Reporte de préstamos (T24) y saldo contable en SAP.<br><strong>Llave de cruce:</strong> No hay matching transaccional; se cuadra el <strong>saldo total</strong> de la cartera contra la cuenta GL.<br><strong>Regla:</strong> La suma de capital + intereses de cada cliente debe igualar el saldo en SAP. Si no cuadra, se investiga el movimiento neto por cliente.</p></div>
+            <div class="card" style="margin-bottom:1rem;"><div class="card-title">Ejemplo 3: Bancos (1-02-01-001) vs Extracto bancario</div><p><strong>Fuentes:</strong> Estado de cuenta bancario (PDF/Excel) y movimientos SAP.<br><strong>Llave de cruce:</strong> Fecha + Monto + Referencia bancaria.<br><strong>Regla:</strong> Matching 1:1 preferente. Si un movimiento del banco no existe en SAP, se marca "no asociado" y se investiga si es un depósito no registrado o un cargo duplicado.</p></div>
+            <div class="rule-box"><strong>🧠 Reglas de Oro que debes memorizar:</strong><ul><li>Activo (1-) y Gasto (5-) aumentan con Débito.</li><li>Pasivo (2-), Patrimonio (3-) e Ingreso (4-) aumentan con Crédito.</li><li>En una cuenta transitoria (2-01-), débitos y créditos deben sumar CERO.</li><li>El parseo es obligatorio antes de cualquier matching.</li><li>Siempre filtrar códigos de efecto cero (SGN, 4, 54 en T24).</li></ul></div>
+        </section>
+
+        <!-- ==================== LABORATORIO PRÁCTICO ==================== -->
+        <section id="sec-laboratorio" class="section">
+            <h2 class="page-title">🔬 Laboratorio Práctico con Datos Reales de Ficohsa</h2>
+            <p class="page-subtitle">Aplicación real de tu labor como IS usando los datos transaccionales que enviaste. Así se ve el proceso completo: ingesta, parseo y cruce.</p>
+            <div class="data-lab">
+                <h3 style="color: white; margin-bottom: 1rem;">Paso 1: La Ingesta (Data Cruda)</h3>
+                <p style="font-size:0.9rem; margin-bottom:1rem;">El banco envía un archivo TXT con transacciones de cajas. Esto es lo que ves al abrirlo en Simetrik:</p>
+                <div class="raw-data">FECHA	CORR TRANSAC	COD AGENCIA	NOM AGENCIA	COD OPERADOR	OPERADOR	TIPO PAGO	NUM REFERENCIA	LEMPIRAS	DOLARES	NUM TELEFONO	NUM CLIENTE	COD CAJERO	NOM CAJERO
+29/04/2026	2136481819	H019	BANCO FICOHSA	50	PAGO PRODUCTOS/SERVICIOS	(E) Efectivo L	F7715101	15	0.56	89268119		banficoh	Banco Ficohsa
+29/04/2026	2136481861	H019	BANCO FICOHSA	998	Pago Linea Movil	(E) Efectivo L	047-001-01-37362834	982.87	36.77	50431778600	6425844	banficoh	Banco Ficohsa
+29/04/2026	2136482527	H019	BANCO FICOHSA	998	Pago Linea Movil	(E) Efectivo L	047-001-01-37255784	859	32.14	50432935633	12813687	banficoh	Banco Ficohsa</div>
+                <div class="process-arrow">⬇️</div>
+                <h3 style="color: white; margin-bottom: 1rem;">Paso 2: El Parseo (Tu configuración en Simetrik)</h3>
+                <p style="font-size:0.9rem; margin-bottom:1rem;">Aplicas reglas de transformación: estandarizas fechas a <code>YYYY-MM-DD</code>, limpias el prefijo 504 de Honduras en los teléfonos y estructuras las columnas.</p>
+                <div style="background:white; color:var(--text-main); border-radius:8px; overflow:hidden; font-size:0.85rem;">
+                    <table style="margin:0; width:100%;"><thead style="background:#0f172a; color:white;"><tr><th style="color:white;">Fecha</th><th style="color:white;">Operador</th><th style="color:white;">Referencia</th><th style="color:white;">Lempiras</th><th style="color:white;">Teléfono (Parseado)</th></tr></thead>
+                    <tbody>
+                        <tr><td>2026-04-29</td><td><span class="tag">50</span> Prod/Servicios</td><td>LF7715101</td><td>150.56</td><td><strong>89268119</strong></td></tr>
+                        <tr><td>2026-04-29</td><td><span class="tag">998</span> Línea Móvil</td><td>047-001-01-37362834</td><td>982.87</td><td><strong>31778600</strong> <span style="color:red;">(sin 504)</span></td></tr>
+                        <tr><td>2026-04-29</td><td><span class="tag">998</span> Línea Móvil</td><td>047-001-01-37255784</td><td>859.00</td><td><strong>32935633</strong> <span style="color:red;">(sin 504)</span></td></tr>
+                    </tbody></table>
+                </div>
+                <div class="process-arrow">⬇️</div>
+                <h3 style="color: white; margin-bottom: 1rem;">Paso 3: El Cruce (Matching Rules)</h3>
+                <p style="font-size:0.9rem; margin-bottom:1rem;">Ficohsa usa una <strong>Cuenta Transitoria</strong> para recargas. Todo lo recaudado en caja (Débito) debe coincidir con el reporte que envía la telefónica (Crédito).</p>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:250px; background:rgba(0,0,0,0.3); padding:1rem; border-radius:8px; border-top:3px solid var(--accent-green);"><h4 style="color:var(--accent-green);">Fuente A (Cajas T24)</h4><ul style="list-style:none; font-family:monospace; font-size:0.85rem;"><li>Referencia: LF7715101</li><li>Teléfono: <strong>89268119</strong></li><li>Monto: <strong>150.56</strong></li></ul></div>
+                    <div style="display:flex; align-items:center; font-size:1.5rem; font-weight:bold; color:var(--accent-teal);">==</div>
+                    <div style="flex:1; min-width:250px; background:rgba(0,0,0,0.3); padding:1rem; border-radius:8px; border-top:3px solid var(--accent-teal);"><h4 style="color:var(--accent-teal);">Fuente B (CLARO)</h4><ul style="list-style:none; font-family:monospace; font-size:0.85rem;"><li>Recarga_ID: REQ-99281</li><li>Cell: <strong>89268119</strong></li><li>Value: <strong>150.56</strong></li></ul></div>
+                </div>
+                <p style="margin-top:1rem; font-size:0.9rem; color:#94a3b8;"><em><strong>Resultado:</strong> ¡MATCH EXACTO! La transacción queda automáticamente conciliada. Si el teléfono o el monto no coincidieran, pasaría a la bandeja de "No Asociadas" para investigación manual.</em></p>
+            </div>
+        </section>
+
+        <!-- ==================== CONTEXTO RFP ==================== -->
+        <section id="sec-rfp" class="section">
+            <h2 class="page-title">📋 Contexto del Proyecto según el RFP de GFF</h2>
+            <p class="page-subtitle">Información extraída del documento de licitación de Grupo Financiero Ficohsa. Conocer esto te permitirá tomar mejores decisiones técnicas.</p>
+            <div class="grid-3">
+                <div class="card"><div class="card-header"><div class="card-title">Volumen Mensual</div></div><h3 style="font-size:2rem; color:var(--primary-blue);">32.4M</h3><p style="color:var(--text-muted);">Transacciones a procesar y cruzar por mes.</p></div>
+                <div class="card"><div class="card-header"><div class="card-title">Cuentas Contables</div></div><h3 style="font-size:2rem; color:var(--accent-orange);">945</h3><p style="color:var(--text-muted);">Cuentas totales a reconciliar en el sistema.</p></div>
+                <div class="card"><div class="card-header"><div class="card-title">Usuarios Impactados</div></div><h3 style="font-size:2rem; color:var(--accent-green);">30</h3><p style="color:var(--text-muted);">Analistas de conciliación que dejarán Excel por Simetrik.</p></div>
+            </div>
+            <h3 style="margin-top:2rem;">Sistemas Core a Integrar</h3>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Sistema</th><th>Uso en Ficohsa</th><th>Formato de Datos Esperado</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>T24 (Temenos)</strong></td><td>Core Bancario (Préstamos, Cuentas, Cajas). De aquí provienen los datos del Lab Práctico.</td><td>TXT/CSV vía SFTP. Requiere parseo intensivo y filtrado de códigos.</td></tr>
+                        <tr><td><strong>Vision Plus</strong></td><td>Procesador de Tarjetas de Crédito (cartera TC, PILs).</td><td>Reportes planos TXT. Cruce de saldos contra GL.</td></tr>
+                        <tr><td><strong>SAP ERP</strong></td><td>Libro Mayor Contable. Registro central de todas las cuentas.</td><td>Extractos contables. Recibe asientos de ajuste desde Simetrik.</td></tr>
+                        <tr><td><strong>Visa / MasterCard</strong></td><td>Marcas de tarjetas. Liquidaciones de adquirencia e issuing.</td><td>Archivos TXT/CSV por FTP o correo.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-info"><div class="alert-icon">📌</div><div><strong>Dato vital:</strong> La implementación arranca en <strong>Banco Ficohsa Honduras</strong> y se extenderá a Guatemala, Nicaragua y Panamá. El contrato considera 5 años con penalizaciones por incumplimiento de SLA. Simetrik fue seleccionado entre múltiples proveedores evaluados.</div></div>
+        </section>
+
+        <!-- ==================== FAQ ==================== -->
+        <section id="sec-faq" class="section">
+            <h2 class="page-title">❓ Preguntas y Respuestas Clave</h2>
+            <p class="page-subtitle">Para que puedas responder con total seguridad en cualquier reunión con Ficohsa o con el equipo de Simetrik.</p>
+            <div class="grid-2">
+                <div class="card accent-top"><div class="card-title">"¿Qué hace exactamente Simetrik en el proceso de recargas SERCOM?"</div><p>Toma los tres reportes (Transacciones T24, CLARO y Balance SAP), los normaliza aplicando parseos de fecha y filtros de códigos, y ejecuta tres cruces de matching. El resultado es una conciliación diaria que muestra las recargas y paquetes por liquidar, las transacciones no asociadas y un informe de antigüedad.</p></div>
+                <div class="card accent-top"><div class="card-title">"¿Por qué es necesario el parseo de fechas?"</div><p>Porque cada fuente trae un formato distinto: T24 viene como YYYY-MM-DD, SAP como "16-Apr-2026" y el reporte CLARO incluye texto libre. Si no los estandarizamos al mismo formato, el motor de matching no podrá emparejar dos transacciones que son la misma.</p></div>
+                <div class="card accent-green"><div class="card-title">"¿Cuál es mi rol exacto en las mesas de trabajo con Ficohsa?"</div><p>Documento cada regla, filtro y excepción que mencione el responsable del proceso. Luego traduzco eso en una configuración dentro de Simetrik y se las muestro para validar. Soy el puente entre lo que el banco necesita y lo que la plataforma puede hacer.</p></div>
+                <div class="card accent-green"><div class="card-title">"¿Qué es un valor en rojo?"</div><p>Es una partida no conciliada que ha superado el tiempo máximo permitido (benchmark) sin encontrar su contraparte. Por ejemplo, una recarga de hace 5 días que no ha sido reportada por Claro. Requiere investigación inmediata del equipo de conciliación.</p></div>
+                <div class="card accent-orange"><div class="card-title">"¿Cómo sé si una cuenta es de naturaleza débito o crédito?"</div><p>Por el primer dígito de su código contable: 1 = Activo (Débito), 2 = Pasivo/Transitoria (Crédito o Débito/Crédito), 4 = Ingreso (Crédito), 5 = Gasto (Débito). En las cuentas transitorias, los débitos y créditos deben sumar cero.</p></div>
+                <div class="card accent-orange"><div class="card-title">"¿Qué son los códigos SGN, 4 y 54 que aparecen en T24?"</div><p>Son transacciones de efecto cero: no afectan los saldos contables porque se compensan internamente. Se excluyen del proceso de matching para evitar falsos positivos o ruido en la conciliación.</p></div>
+                <div class="card"><div class="card-title">"¿Cuántos procesos y cuentas se van a implementar?"</div><p>El alcance regional total es de 98 procesos y 3,558 cuentas. En la Fase 1 nos concentramos en los priorizados por Ficohsa: SERCOM (Recargas), Cartera de Préstamos y Descuento de Documentos. La estimación inicial para SERCOM es de 54 horas de configuración.</p></div>
+                <div class="card"><div class="card-title">"¿Qué pasa si una transacción no cruza en ninguno de los tres matchings?"</div><p>Queda como "no asociada". Se incluye una a una en el informe de conciliación y se le asigna una antigüedad. Si supera el benchmark definido (por ejemplo, más de 3 días), se marca como "valor en rojo" y se notifica al responsable para investigación.</p></div>
+            </div>
+        </section>
+
+    </main>
+</div>
+<script>
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.section');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navItems.forEach(nav => nav.classList.remove('active'));
+            sections.forEach(sec => sec.classList.remove('active'));
+            item.classList.add('active');
+            document.getElementById(item.getAttribute('data-target')).classList.add('active');
+            if (window.innerWidth <= 768) document.querySelector('.main-content').scrollTop = 0;
+        });
+    });
+</script>
+</body>
+</html>

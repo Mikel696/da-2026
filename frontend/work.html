@@ -23,8 +23,8 @@
 
 <div class="wr">
   <div class="hero">
-    <h1>Tu copiloto en <em>Simetrik</em>.</h1>
-    <p>Casos, errores, aprendizajes y conocimiento — todo en un sólo lugar. Ideado para tu trabajo diario como Reconciliations Analyst en Simetrik.</p>
+    <h1>Ecosistema <em>Simetrik</em>.</h1>
+    <p>Workflow, mini-curso de contabilidad, diccionario de términos y cuadernos didácticos — todo lo que necesitás para dominar tu trabajo como Reconciliations Analyst.</p>
   </div>
 
   <div class="stats">
@@ -35,16 +35,124 @@
   </div>
 
   <div class="tabs">
-    <button class="tab on" data-p="cases">📋 Casos</button>
+    <button class="tab on" data-p="playbook">📘 Playbook</button>
+    <button class="tab" data-p="dict">📖 Diccionario</button>
+    <button class="tab" data-p="workflow">📝 Notas Workflow</button>
+    <button class="tab" data-p="course">🎓 Notas Curso</button>
+    <button class="tab" data-p="nb">📓 Cuadernos</button>
+    <button class="tab" data-p="cases">📋 Casos</button>
     <button class="tab" data-p="errors">🐛 Errores</button>
     <button class="tab" data-p="learn">💡 Aprendizajes</button>
-    <button class="tab" data-p="kb">📚 Knowledge Base</button>
-    <button class="tab" data-p="nb">📓 Cuadernos</button>
+    <button class="tab" data-p="kb">📚 KB</button>
     <button class="tab" data-p="copilot">🤖 Copilot</button>
   </div>
 
+  <!-- ═══ PLAYBOOK · Documento canónico Simetrik+Ficohsa ═══ -->
+  <div class="pnl on" id="p-playbook">
+    <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:14px;font-weight:600">📘 Playbook · Implementation Specialist · Simetrik + Ficohsa</div>
+        <div style="font-size:11px;color:var(--t3)">Documento completo: Flujo del proyecto, mi proceso como IS, diccionario, naturaleza contable, lab práctico, RFP y FAQ.</div>
+      </div>
+      <a class="btn bo bs" href="pages/simetrik-playbook.html" target="_blank" style="text-decoration:none">↗ Abrir en nueva pestaña</a>
+    </div>
+    <iframe src="pages/simetrik-playbook.html" style="width:100%;height:calc(100vh - 220px);min-height:680px;border:1px solid var(--bd);border-radius:10px;background:#fff" loading="lazy"></iframe>
+  </div>
+
+  <!-- ═══ WORKFLOW (notas personales sobre el workflow) ═══ -->
+  <div class="pnl" id="p-workflow">
+    <div class="cd">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:14px;font-weight:600">📘 Workflow de plataformas financieras</div>
+          <div style="font-size:11px;color:var(--t3)">Documento explicativo editable. Pega texto, agrega imágenes, mapas, diagramas. Auto-guarda.</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','bold')"><b>B</b></button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','italic')"><i>I</i></button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','h2')">H2</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','h3')">H3</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','ul')">• Lista</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','ol')">1. Lista</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','quote')">❝</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('wf','code')">{ }</button>
+          <button class="btn bo bs" onclick="WORK.eco.insertImg('wf')">🖼️</button>
+          <button class="btn bo bs" onclick="WORK.eco.insertLink('wf')">🔗</button>
+          <span id="wfSaved" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s;align-self:center">✓</span>
+        </div>
+      </div>
+      <div id="wfBody" contenteditable="true" class="eco-editor" data-placeholder="Empieza tu documento. Describe el flujo: ingestión de datos → cuadres → conciliación → ajustes → cierre. Pega imágenes de Lucidchart, screenshots, mapas mentales…"></div>
+    </div>
+  </div>
+
+  <!-- ═══ MINI-CURSO (Sección 2) ═══ -->
+  <div class="pnl" id="p-course">
+    <div class="cd">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:14px;font-weight:600">🎓 Mini-curso · Contabilidad para reconciliaciones</div>
+          <div style="font-size:11px;color:var(--t3)">Naturaleza de cuentas, asientos, ejemplos. Pegá tus materiales y reformulalos a tu manera.</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','bold')"><b>B</b></button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','italic')"><i>I</i></button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','h2')">H2</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','h3')">H3</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','ul')">• Lista</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','ol')">1. Lista</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','quote')">❝</button>
+          <button class="btn bo bs" onclick="WORK.eco.fmt('cu','code')">{ }</button>
+          <button class="btn bo bs" onclick="WORK.eco.insertImg('cu')">🖼️</button>
+          <button class="btn bo bs" onclick="WORK.eco.insertLink('cu')">🔗</button>
+          <span id="cuSaved" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s;align-self:center">✓</span>
+        </div>
+      </div>
+      <div id="cuBody" contenteditable="true" class="eco-editor" data-placeholder="Unidad 1 · Activos, pasivos, patrimonio…  Unidad 2 · Asientos contables y partida doble…  Unidad 3 · Conciliación bancaria, cuadre por matching key…"></div>
+    </div>
+  </div>
+
+  <!-- ═══ DICCIONARIO (Sección 3) ═══ -->
+  <div class="pnl" id="p-dict">
+    <div class="cd" style="margin-bottom:10px">
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">📖 Diccionario · Términos, siglas y procesos</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Búsqueda instantánea. Categoriza por tipo. Incluye traducción EN↔ES y ejemplos de uso.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <input class="inp" id="dictSearch" placeholder="🔍 Buscar término / sigla / proceso…" style="flex:1;min-width:180px" oninput="WORK.eco.dictRender()">
+        <select class="inp" id="dictFilter" style="max-width:160px" onchange="WORK.eco.dictRender()">
+          <option value="">Todas las categorías</option>
+          <option value="term">📚 Término</option>
+          <option value="acro">🔤 Sigla / acrónimo</option>
+          <option value="process">⚙️ Proceso</option>
+          <option value="platform">🏛️ Plataforma</option>
+          <option value="software">💻 Software</option>
+        </select>
+        <button class="btn bg" onclick="WORK.eco.dictAdd()">+ Nueva entrada</button>
+      </div>
+    </div>
+    <div id="dictForm" style="display:none" class="cd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+        <input class="inp" id="dTerm" placeholder="Término / sigla (ej: ETL, SWIFT, Conciliación)">
+        <select class="inp" id="dCat">
+          <option value="term">📚 Término</option>
+          <option value="acro">🔤 Sigla</option>
+          <option value="process">⚙️ Proceso</option>
+          <option value="platform">🏛️ Plataforma</option>
+          <option value="software">💻 Software</option>
+        </select>
+      </div>
+      <input class="inp" id="dEn" placeholder="Traducción EN (opcional)" style="margin-bottom:6px">
+      <textarea class="txa" id="dDef" placeholder="Definición + cómo se usa en tu trabajo" style="min-height:80px"></textarea>
+      <textarea class="txa" id="dEx" placeholder="Ejemplo de uso (opcional)" style="min-height:60px;margin-top:6px"></textarea>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <button class="btn bg" onclick="WORK.eco.dictSave()">💾 Guardar</button>
+        <button class="btn bo" onclick="WORK.eco.dictCancel()">Cancelar</button>
+      </div>
+    </div>
+    <div id="dictList"></div>
+  </div>
+
   <!-- ═══ CASOS ═══ -->
-  <div class="pnl on" id="p-cases">
+  <div class="pnl" id="p-cases">
     <div class="cd">
       <div style="font-size:14px;font-weight:600;margin-bottom:6px">📋 Nuevo caso</div>
       <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Casos reales del día a día. Cliente, problema, solución, lecciones.</div>
