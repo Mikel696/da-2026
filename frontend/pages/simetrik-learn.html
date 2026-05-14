@@ -3,225 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Aprende Simetrik · Empieza Aquí</title>
+<title>Empieza Aquí · Mapa mental Simetrik</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0b0d12;--bg2:#11141b;--bg3:#1a1f29;--bg4:#222836;--bd:#252a36;--bd2:#3a4150;
   --tx:#f2f4f8;--t2:#a8b0bd;--t3:#6b7280;
-  --ac:#06b6d4;--a2:#22d3ee;--ag:rgba(6,182,212,.10);
-  --pp:#a78bfa;--pg:rgba(167,139,250,.10);
-  --gn:#22c55e;--gg:rgba(34,197,94,.10);
-  --or:#f97316;--og:rgba(249,115,22,.10);
-  --rd:#ef4444;--rg:rgba(239,68,68,.10);
-  --yl:#eab308;--yg:rgba(234,179,8,.10);
-  --pk:#ec4899;--pkg:rgba(236,72,153,.08);
-  --rad:14px;
+  --ac:#06b6d4;--a2:#22d3ee;--ag:rgba(6,182,212,.12);
+  --pp:#a78bfa;--pg:rgba(167,139,250,.12);
+  --gn:#22c55e;--gg:rgba(34,197,94,.12);
+  --or:#f97316;--og:rgba(249,115,22,.12);
+  --rd:#ef4444;--rg:rgba(239,68,68,.12);
+  --yl:#eab308;--yg:rgba(234,179,8,.12);
+  --pk:#ec4899;--pkg:rgba(236,72,153,.12);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;font-size:14.5px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.6;overflow-x:hidden}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
 
-.da-strip{position:sticky;top:0;z-index:100;background:rgba(11,13,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:10px 22px;font-size:13px}
+.da-strip{position:sticky;top:0;z-index:100;background:rgba(11,13,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:10px 22px;font-size:13px}
 .da-strip a{color:var(--a2);text-decoration:none;font-weight:600}.da-strip a:hover{color:var(--tx)}
 .da-strip .mod{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);margin-left:auto}
 body.in-iframe .da-strip{display:none}
-.wr{max-width:1200px;margin:0 auto;padding:36px 28px 80px}
 
-/* HERO */
-.hero{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:20px;padding:42px 38px;margin-bottom:32px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40%;right:-10%;width:380px;height:380px;background:radial-gradient(circle,var(--ag),transparent 70%);pointer-events:none}
-.hero .tag{display:inline-block;background:var(--ag);border:1px solid rgba(6,182,212,.3);color:var(--a2);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
-.hero h1{font-family:'Newsreader',serif;font-size:42px;font-weight:600;line-height:1.12;letter-spacing:-.5px;margin-bottom:14px}
-.hero h1 em{font-style:italic;color:var(--ac)}
-.hero .sub{font-size:16px;color:var(--t2);max-width:780px;margin-bottom:24px;line-height:1.75}
-.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;text-decoration:none;border:1px solid transparent;transition:all .15s}
-.btn-p{background:var(--ac);color:#001016;border-color:var(--ac)}.btn-p:hover{background:var(--a2)}
-.btn-o{background:transparent;color:var(--tx);border-color:var(--bd2)}.btn-o:hover{border-color:var(--ac);color:var(--ac)}
+.hint{text-align:center;padding:18px 22px 6px;color:var(--t2);font-size:13.5px}
+.hint b{color:var(--tx)}
+.hint .hi{font-size:20px;margin-right:6px}
 
-/* SECTIONS */
-.sec{margin-top:54px;scroll-margin-top:60px}
-.sec-h{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
-.sec-h h2{font-family:'Newsreader',serif;font-size:30px;font-weight:600;letter-spacing:-.3px}
-.sec-h .kicker{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
-.sec-lead{color:var(--t2);font-size:15px;margin:14px 0 26px;max-width:880px;line-height:1.75}
+/* ── MAPA MENTAL ── */
+.map{position:relative;width:100%;min-height:680px;max-width:1100px;margin:0 auto;padding:30px 20px 60px}
+.map-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.map-svg line{stroke:var(--bd2);stroke-width:2}
+.map-svg line.lit{stroke:var(--ac);stroke-width:2.5}
 
-/* PROGRESS */
-.progress{position:sticky;top:42px;z-index:50;background:var(--bg);padding:14px 0;margin:-14px 0 24px;border-bottom:1px solid var(--bd)}
-body.in-iframe .progress{top:0}
-.progress-bar{height:6px;background:var(--bg3);border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));transition:width .3s;width:0}
-.progress-label{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);margin-top:6px}
+/* nodo central */
+.node-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+  width:170px;height:170px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#1a3a44,#0d1f26);
+  border:2px solid var(--ac);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 50px rgba(6,182,212,.25);cursor:default}
+.node-center .mark{font-size:34px;margin-bottom:4px}
+.node-center h2{font-family:'Newsreader',serif;font-size:22px;font-weight:600;letter-spacing:-.3px}
+.node-center .cs{font-size:10px;color:var(--a2);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
 
-/* FLOW PILLARS (Connect → Reconcile → Resolve) */
-.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch;margin-top:18px}
-.flow-step{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:22px 22px;position:relative;overflow:hidden}
-.flow-step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.flow-step.s1::before{background:var(--ac)}
-.flow-step.s2::before{background:var(--pp)}
-.flow-step.s3::before{background:var(--gn)}
-.flow-step .ic{font-size:30px;margin-bottom:10px;display:block}
-.flow-step h3{font-size:17px;margin-bottom:6px;letter-spacing:-.2px}
-.flow-step p{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:10px}
-.flow-step .where{margin-top:auto;padding-top:10px;border-top:1px solid var(--bd);font-size:11.5px;color:var(--a2);font-family:'JetBrains Mono',monospace}
-.flow-step .where::before{content:'📍 ';font-family:'Inter',sans-serif}
-.flow-arrow{display:flex;align-items:center;font-size:22px;color:var(--ac);font-weight:700}
+/* nodos rama */
+.node{position:absolute;z-index:4;width:158px;
+  background:var(--bg2);border:1.5px solid var(--bd);border-radius:14px;
+  padding:13px 14px;cursor:pointer;transition:all .18s;text-align:center}
+.node:hover{transform:translateY(-3px) scale(1.03);border-color:var(--nc,var(--ac));box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.node.done{border-color:var(--gn)}
+.node .ni{font-size:24px;display:block;margin-bottom:5px}
+.node .nt{font-size:13.5px;font-weight:700;letter-spacing:-.2px;line-height:1.25}
+.node .nd{font-size:10.5px;color:var(--t3);margin-top:3px;line-height:1.4}
+.node .nbadge{position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;
+  background:var(--bg3);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:var(--t3)}
+.node.done .nbadge{background:var(--gn);border-color:var(--gn);color:#001f0d}
+.node.done .nbadge::before{content:'✓'}
 
-/* PILLARS / CARDS GENERIC */
-.cards{display:grid;gap:14px;margin-top:14px}
-.c2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.c4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.cd{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;transition:all .15s}
-.cd:hover{border-color:var(--bd2)}
-.cd .ic{font-size:24px;margin-bottom:10px;display:block}
-.cd h3{font-size:15px;font-weight:600;margin-bottom:6px;letter-spacing:-.2px}
-.cd p{font-size:12.5px;color:var(--t2);line-height:1.6}
-.cd .where{margin-top:10px;padding-top:8px;border-top:1px solid var(--bd);font-size:11px;color:var(--a2);font-family:'JetBrains Mono',monospace;letter-spacing:.4px}
+/* posiciones radiales (8 nodos) */
+.n1{left:50%;top:6%;transform:translateX(-50%);--nc:var(--ac)}
+.n2{right:8%;top:20%;--nc:var(--pp)}
+.n3{right:2%;top:48%;transform:translateY(-50%);--nc:var(--gn)}
+.n4{right:8%;bottom:16%;--nc:var(--or)}
+.n5{left:50%;bottom:5%;transform:translateX(-50%);--nc:var(--yl)}
+.n6{left:8%;bottom:16%;--nc:var(--rd)}
+.n7{left:2%;top:48%;transform:translateY(-50%);--nc:var(--cy,#0891b2);--nc:var(--a2)}
+.n8{left:8%;top:20%;--nc:var(--pk)}
 
-/* ROLES */
-.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:14px}
-.role{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:18px 18px}
-.role .nm{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ac);font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
-.role h4{font-size:15px;margin-bottom:6px;font-weight:600}
-.role p{font-size:12.5px;color:var(--t2);line-height:1.55}
+/* ── DRAWER (panel detalle) ── */
+.drawer-bg{position:fixed;inset:0;background:rgba(8,10,15,.6);backdrop-filter:blur(2px);z-index:90;
+  opacity:0;pointer-events:none;transition:opacity .25s}
+.drawer-bg.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(520px,92vw);z-index:95;
+  background:var(--bg2);border-left:1px solid var(--bd);
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow:hidden}
+.drawer.open{transform:translateX(0)}
+.drawer-h{padding:22px 26px 16px;border-bottom:1px solid var(--bd);position:relative}
+.drawer-h .dclose{position:absolute;top:18px;right:20px;width:30px;height:30px;border-radius:8px;
+  background:var(--bg3);border:1px solid var(--bd);color:var(--t2);cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center}
+.drawer-h .dclose:hover{color:var(--tx);border-color:var(--bd2)}
+.drawer-h .dic{font-size:30px;display:block;margin-bottom:8px}
+.drawer-h h2{font-family:'Newsreader',serif;font-size:26px;font-weight:600;letter-spacing:-.3px}
+.drawer-h .dsub{font-size:12.5px;color:var(--t2);margin-top:4px}
+.drawer-body{padding:20px 26px 30px;overflow-y:auto;flex:1}
+.drawer-body p{font-size:13.5px;color:var(--t2);line-height:1.7;margin:8px 0}
+.drawer-body p b,.drawer-body li b{color:var(--tx)}
+.drawer-body h3{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--ac);
+  text-transform:uppercase;letter-spacing:.7px;margin:20px 0 8px;font-weight:600}
+.drawer-body h3:first-child{margin-top:0}
 
-/* TOUR — REAL SIMETRIK UI MOCK */
-.tour-wrap{background:linear-gradient(135deg,#0f1218,#161b25);border:1px solid var(--bd);border-radius:18px;overflow:hidden;margin-top:18px}
-.tour-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#0a0d12;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3)}
-.tour-bar .dot{width:10px;height:10px;border-radius:50%}
-.tour-bar .dot.r{background:#ff5f56}.tour-bar .dot.y{background:#ffbd2e}.tour-bar .dot.g{background:#27c93f}
-.tour-bar .url{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:5px;padding:4px 10px;color:var(--t2);font-size:11px;margin-left:10px}
-.tour-body{display:grid;grid-template-columns:240px 1fr;min-height:620px}
-.tour-side{background:#080a0f;border-right:1px solid var(--bd);padding:14px 0;overflow-y:auto;max-height:720px}
-.tour-side .group{padding:0 14px 4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.9px;margin-top:14px;font-weight:600}
-.tour-side .group:first-child{margin-top:0}
-.tour-side .it{padding:8px 16px;color:var(--t2);font-size:12.5px;cursor:pointer;border-left:3px solid transparent;display:flex;align-items:center;gap:10px;transition:all .15s;user-select:none}
-.tour-side .it:hover{background:rgba(255,255,255,.03);color:var(--tx)}
-.tour-side .it.on{background:rgba(6,182,212,.10);border-left-color:var(--ac);color:var(--tx);font-weight:600}
-.tour-side .it .ic{font-size:14px;width:18px;text-align:center;flex-shrink:0}
-.tour-main{padding:24px 28px;overflow-y:auto;max-height:720px}
-.tour-main .crumb{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.7px}
-.tour-main h3{font-size:22px;margin-bottom:4px;letter-spacing:-.3px;font-family:'Newsreader',serif;font-weight:600}
-.tour-main .lead{color:var(--t2);font-size:13.5px;margin-bottom:14px;line-height:1.65}
-.tour-step{display:none}
-.tour-step.on{display:block}
-.mock-card{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:9px;padding:14px 16px;margin:8px 0}
-.mock-card h4{font-size:12.5px;color:var(--ac);margin-bottom:5px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.4px;text-transform:uppercase}
-.mock-card p{font-size:12.5px;color:var(--t2);line-height:1.6;margin-bottom:4px}
-.mock-card code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
-.mock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
-.mock-tip{margin-top:14px;padding:11px 14px;background:var(--gg);border:1px solid rgba(34,197,94,.3);border-radius:8px;font-size:12.5px;color:#bef0c5;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
-.mock-tip::before{content:'💡';font-size:15px;flex-shrink:0}
-.mock-warn{margin-top:14px;padding:11px 14px;background:var(--yg);border:1px solid rgba(234,179,8,.3);border-radius:8px;font-size:12.5px;color:#fde68a;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
-.mock-warn::before{content:'⚠️';font-size:15px;flex-shrink:0}
-.mock-use{margin-top:10px;padding:10px 14px;background:var(--ag);border:1px solid rgba(6,182,212,.3);border-radius:8px;font-size:12.5px;color:#bdeef9;line-height:1.55}
-.mock-use::before{content:'🎯 Caso de uso · ';font-weight:700;color:var(--a2)}
-.mock-feat{display:inline-block;background:var(--pg);border:1px solid rgba(167,139,250,.3);color:var(--pp);font-size:9.5px;padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;vertical-align:middle;font-family:'JetBrains Mono',monospace}
-.mock-cost{display:inline-block;background:var(--og);border:1px solid rgba(249,115,22,.3);color:var(--or);font-size:9.5px;padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;vertical-align:middle;font-family:'JetBrains Mono',monospace}
+/* sub-items clicables dentro del drawer */
+.subitem{display:flex;align-items:flex-start;gap:12px;background:var(--bg3);border:1px solid var(--bd);
+  border-radius:11px;padding:13px 15px;margin:8px 0;cursor:pointer;transition:all .15s}
+.subitem:hover{border-color:var(--ac);background:var(--bg4)}
+.subitem .sii{font-size:20px;flex-shrink:0;line-height:1.3}
+.subitem .sic{flex:1}
+.subitem .sit{font-size:13.5px;font-weight:700}
+.subitem .sid{font-size:12px;color:var(--t3);margin-top:2px;line-height:1.5}
+.subitem .siarrow{color:var(--t3);font-size:14px;align-self:center}
 
-/* AI AGENTS */
-.agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
-.agent{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;position:relative;overflow:hidden}
-.agent::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--pp)}
-.agent.now::before{background:var(--gn)}
-.agent.soon::before{background:var(--or)}
-.agent .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
-.agent h3{font-size:14.5px;font-weight:600}
-.agent .status{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 7px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;flex-shrink:0}
-.agent.now .status{background:var(--gg);color:var(--gn)}
-.agent.soon .status{background:var(--og);color:var(--or)}
-.agent.custom .status{background:var(--pg);color:var(--pp)}
-.agent p{font-size:12.5px;color:var(--t2);line-height:1.6;margin-top:6px}
+/* mini-detail expandible dentro del drawer */
+.minidetail{display:none;padding:10px 14px;margin:-4px 0 10px;background:var(--bg);border:1px solid var(--bd);
+  border-radius:0 0 11px 11px;font-size:12.5px;color:var(--t2);line-height:1.65}
+.minidetail.open{display:block}
+.minidetail code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--bg3);
+  padding:1px 5px;border-radius:4px;color:var(--a2)}
+.minidetail .mtip{color:var(--gn);margin-top:6px;display:block}
+.minidetail .mtip::before{content:'💡 '}
 
-/* DOMAINS */
-.domains{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
-.dom{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:18px 18px;border-top:3px solid var(--ac)}
-.dom.d2{border-top-color:var(--pp)}
-.dom.d3{border-top-color:var(--gn)}
-.dom.d4{border-top-color:var(--or)}
-.dom.d5{border-top-color:var(--rd)}
-.dom.d6{border-top-color:var(--yl)}
-.dom.d7{border-top-color:var(--pk)}
-.dom.d8{border-top-color:var(--a2)}
-.dom .nu{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase;font-weight:600;margin-bottom:4px}
-.dom h4{font-size:14.5px;margin-bottom:4px;font-weight:600}
-.dom p{font-size:12px;color:var(--t2);line-height:1.55}
-.dom .risk{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-size:11px;color:var(--rd);font-family:'JetBrains Mono',monospace}
-.dom .risk::before{content:'⚠ Riesgo: ';color:var(--rd);font-weight:600;font-family:'Inter',sans-serif}
+/* botón acción (deep-link) */
+.dlink{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--ag),var(--pg));
+  border:1px solid rgba(6,182,212,.35);border-radius:12px;padding:14px 16px;margin:14px 0 4px;
+  cursor:pointer;text-decoration:none;color:var(--tx);transition:all .15s}
+.dlink:hover{border-color:var(--ac);transform:translateX(2px)}
+.dlink .dli{font-size:22px}
+.dlink .dlc .dlt{font-size:13.5px;font-weight:700}
+.dlink .dlc .dld{font-size:11.5px;color:var(--t2)}
+.dlink .dlarrow{margin-left:auto;color:var(--ac);font-size:16px}
 
-/* COURSE */
-.path{display:grid;gap:14px}
-.lesson{display:grid;grid-template-columns:54px 1fr auto;align-items:flex-start;gap:18px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:18px 20px;transition:all .15s;cursor:pointer}
-.lesson:hover{border-color:var(--ac);transform:translateY(-1px)}
-.lesson.done{border-color:rgba(34,197,94,.4);background:linear-gradient(90deg,var(--gg),var(--bg2) 14%)}
-.lesson .num{width:42px;height:42px;border-radius:50%;background:var(--bg3);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--ac)}
-.lesson.done .num{background:var(--gn);color:#001f0d;border-color:var(--gn)}
-.lesson .num::before{content:attr(data-n)}
-.lesson.done .num::before{content:'✓'}
-.lesson h3{font-size:16px;font-weight:600;margin-bottom:3px}
-.lesson p{font-size:13px;color:var(--t2);line-height:1.55}
-.lesson .meta{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);margin-top:6px}
-.lesson .chk{width:30px;height:30px;border:2px solid var(--bd2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:14px;flex-shrink:0;align-self:center;transition:all .15s}
-.lesson.done .chk{background:var(--gn);border-color:var(--gn);color:#001f0d}
-.lesson-body{display:none;grid-column:1 / -1;padding-top:14px;border-top:1px solid var(--bd);margin-top:6px}
-.lesson.open .lesson-body{display:block}
-.lesson-body p{font-size:13.5px;color:var(--tx);margin:8px 0;line-height:1.7}
-.lesson-body ul,.lesson-body ol{margin:8px 0 8px 20px;color:var(--t2);font-size:13.5px}
-.lesson-body li{margin:4px 0}
-.lesson-body code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
-.lesson-body h4{font-size:13px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 6px;font-family:'JetBrains Mono',monospace}
-.lesson-body .pill{display:inline-block;background:var(--ag);color:var(--a2);font-size:11px;padding:3px 8px;border-radius:10px;margin:0 6px 6px 0;font-weight:600;font-family:'JetBrains Mono',monospace}
-.lesson-body .tip{background:var(--gg);border-left:3px solid var(--gn);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:13px;color:#bef0c5}
-.lesson-body .tip::before{content:'💡 Tip · ';font-weight:700;color:var(--gn)}
-.lesson-body .warn{background:var(--yg);border-left:3px solid var(--yl);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:13px;color:#fde68a}
-.lesson-body .warn::before{content:'⚠️ Cuidado · ';font-weight:700;color:var(--yl)}
+/* progreso check */
+.markdone{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--bd)}
+.markdone button{background:var(--gg);border:1px solid rgba(34,197,94,.4);color:var(--gn);
+  border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer}
+.markdone button:hover{background:rgba(34,197,94,.2)}
+.markdone button.isdone{background:var(--gn);color:#001f0d}
+.markdone .mdtxt{font-size:11.5px;color:var(--t3)}
 
-/* EXERCISES */
-.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:14px}
-.ex{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:var(--rad);padding:24px 24px;border-left:4px solid var(--ac)}
-.ex.adv{border-left-color:var(--pp)}
-.ex .lvl{display:inline-block;background:var(--ag);border:1px solid rgba(6,182,212,.3);color:var(--a2);font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 9px;border-radius:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
-.ex.adv .lvl{background:var(--pg);border-color:rgba(167,139,250,.3);color:var(--pp)}
-.ex h3{font-size:18px;margin-bottom:6px;letter-spacing:-.2px;font-family:'Newsreader',serif;font-weight:600}
-.ex .desc{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:12px}
-.ex h5{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ac);text-transform:uppercase;letter-spacing:.6px;margin:12px 0 6px;font-weight:600}
-.ex ul{margin:6px 0 6px 18px;font-size:12.5px;color:var(--t2);line-height:1.65}
-.ex li{margin:3px 0}
-.ex .files{margin-top:10px;padding:10px 14px;background:rgba(0,0,0,.25);border:1px solid var(--bd);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t2)}
-.ex .files b{color:var(--a2)}
+/* progress strip abajo del mapa */
+.pstrip{max-width:560px;margin:0 auto 10px;padding:0 20px}
+.pbar{height:6px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));width:0;transition:width .3s}
+.plabel{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;color:var(--t3);margin-top:6px}
 
-/* BENEFITS */
-.benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:18px}
-.benefit{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:var(--rad);padding:22px 20px;text-align:center}
-.benefit .num{font-family:'Newsreader',serif;font-size:34px;font-weight:600;color:var(--ac);line-height:1;margin-bottom:6px}
-.benefit .lbl{font-size:11.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;font-family:'JetBrains Mono',monospace}
-.benefit .desc{font-size:12.5px;color:var(--t3);margin-top:8px;line-height:1.5}
-
-/* RESOURCES */
-.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
-.res a{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:18px 20px;text-decoration:none;color:var(--tx);display:block;transition:all .15s}
-.res a:hover{border-color:var(--ac);transform:translateY(-2px)}
-.res .ic{font-size:24px;margin-bottom:8px;display:block}
-.res .ttl{font-weight:600;font-size:14.5px;margin-bottom:4px}
-.res .desc{font-size:12.5px;color:var(--t2);line-height:1.5}
-.res .link{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);margin-top:8px;display:block;word-break:break-all}
-
-/* RECAP */
-.recap{background:linear-gradient(135deg,var(--ag),var(--pg));border:1px solid rgba(6,182,212,.3);border-radius:18px;padding:30px 32px;margin-top:48px;text-align:center}
-.recap h2{font-family:'Newsreader',serif;font-size:26px;margin-bottom:10px}
-.recap p{color:var(--t2);font-size:14.5px;max-width:720px;margin:0 auto 18px}
-.recap .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-
-@media (max-width:880px){
-  .flow{grid-template-columns:1fr}
-  .flow-arrow{transform:rotate(90deg);justify-content:center}
-  .tour-body{grid-template-columns:1fr}
-  .tour-side{max-height:none;border-right:none;border-bottom:1px solid var(--bd)}
-  .tour-main{max-height:none}
+@media (max-width:760px){
+  .map{min-height:0;display:flex;flex-direction:column;gap:12px;padding:20px}
+  .map-svg{display:none}
+  .node-center{position:static;transform:none;width:100%;height:auto;border-radius:16px;padding:22px;flex-direction:row;gap:14px;justify-content:center}
+  .node-center .mark{margin:0}
+  .node{position:static!important;transform:none!important;width:100%}
 }
 </style>
 </head>
@@ -230,1039 +155,317 @@ body.in-iframe .progress{top:0}
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
   <span style="opacity:.3">|</span>
+  <a href="simetrik-app.html">🖥️ Simulador App</a>
   <a href="simetrik-playbook.html">📘 Playbook Ficohsa</a>
-  <span class="mod">14-WORK · Guía de aprendizaje</span>
+  <span class="mod">14-WORK · Mapa mental</span>
 </div>
 
-<div class="wr">
-
-  <!-- HERO -->
-  <div class="hero">
-    <span class="tag">Empieza aquí · Nivel principiante</span>
-    <h1>Aprende <em>Simetrik</em> con el material oficial de la plataforma.</h1>
-    <p class="sub">Esta guía se construyó a partir del curso oficial completo de Simetrik (31 lecciones + Domain Framework 2026 + 6 capturas de UI real). Te lleva paso a paso: qué es la plataforma, cómo se estructura tu cuenta, dónde se hace cada cosa en los 4 menús reales (Automate · Operate · Audit · Tools), qué agentes de IA hay disponibles, y dos ejercicios prácticos para certificarte. Avanzá a tu ritmo; tu progreso se guarda automáticamente.</p>
-    <div class="cta">
-      <a class="btn btn-p" href="#path">▶ Empezar curso (12 lecciones)</a>
-      <a class="btn btn-o" href="#tour">🎯 Ir al tour de la interfaz</a>
-      <a class="btn btn-o" href="#exercises">🧪 Ver ejercicios prácticos</a>
-    </div>
-  </div>
-
-  <!-- PROGRESS -->
-  <div class="progress">
-    <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
-    <div class="progress-label"><span id="ptxt">0 / 12 lecciones completadas</span><span id="ppct">0%</span></div>
-  </div>
-
-  <!-- ¿QUÉ ES SIMETRIK? -->
-  <section class="sec" id="what">
-    <div class="sec-h"><h2>¿Qué es Simetrik, en una frase?</h2><span class="kicker">Concepto base</span></div>
-    <p class="sec-lead">Simetrik es una <strong>plataforma SaaS de automatización de controles financieros</strong>: integra controles financieros, operacionales y contables en un solo lugar. Toma datos de muchas fuentes (bancos, ERPs, pasarelas), los normaliza, los cruza automáticamente, registra los asientos contables resultantes en el ERP, genera dashboards ejecutivos y entrega reportes a clientes — todo sin escribir código.</p>
-
-    <p class="sec-lead" style="margin-top:-12px"><strong>Frase oficial:</strong> <em>"From the moment a transaction is born, until it dies in accounting"</em>. Esa es la promesa — trazabilidad completa de cada peso, de la primera ingesta al asiento contable final.</p>
-
-    <div class="flow">
-      <div class="flow-step s1">
-        <span class="ic">🔌</span>
-        <h3>1 · Connect</h3>
-        <p>Traés los datos. Conectás bancos, ERPs (SAP, Oracle, NetSuite, Matera), pasarelas (Stripe, Mercado Pago) vía API, SFTP, S3 o upload manual. Simetrik los normaliza al mismo esquema con <strong>Source Unions</strong>.</p>
-        <div class="where">Menú: <b>Automate → Integrations In + Resources</b></div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step s2">
-        <span class="ic">⚙️</span>
-        <h3>2 · Reconcile</h3>
-        <p>Definís Rule Sets (sweeps) que cruzan dos o más fuentes. Empezás con <strong>match perfecto</strong>, luego tolerancias chicas, luego grouping, luego offsets. Simetrik procesa millones de tx en segundos.</p>
-        <div class="where">Menú: <b>Automate → Resources → Standard / Advanced Recon</b></div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step s3">
-        <span class="ic">📒</span>
-        <h3>3 · Resolve + Close</h3>
-        <p>Las excepciones caen al dashboard. Resolvés con IA de apoyo. Los matches generan <strong>journal entries automáticos</strong> que se postean al ERP. Cerrás el período contable con preparer + certifier.</p>
-        <div class="where">Menú: <b>Operate → Accounting Controls + Audit</b></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TU CUENTA / WORKSPACE / ROLES -->
-  <section class="sec" id="account">
-    <div class="sec-h"><h2>Tu cuenta, workspaces y roles</h2><span class="kicker">Cómo se estructura el acceso</span></div>
-    <p class="sec-lead">Antes de tocar cualquier botón, entendé la jerarquía: <strong>Account → Workspace → Roles</strong>. Esto define qué ves y qué podés hacer.</p>
-
-    <div class="cards c3">
-      <div class="cd">
-        <span class="ic">🏛️</span>
-        <h3>Account (Cuenta)</h3>
-        <p>El nivel superior. Se crea mediante solicitud formal al equipo de soporte de Simetrik (no es self-service). Al crearla se designa un <strong>administrador</strong> responsable de crear workspaces, invitar usuarios y definir permisos.</p>
-        <div class="where">Account Management · Admin only</div>
-      </div>
-      <div class="cd">
-        <span class="ic">🗂️</span>
-        <h3>Workspace</h3>
-        <p>Unidad donde los equipos colaboran. Cada account puede tener múltiples workspaces (por cliente, proyecto, área). Información y permisos quedan aislados entre workspaces.</p>
-        <div class="where">Account Management → Workspaces</div>
-      </div>
-      <div class="cd">
-        <span class="ic">🔐</span>
-        <h3>Login</h3>
-        <p>Acceso vía <strong>Continue with Google</strong>. Si tenés 2FA con Guardian (u otra), el móvil pedirá aprobación.</p>
-        <div class="where">app.simetrik.com</div>
-      </div>
-    </div>
-
-    <h3 style="font-size:17px;margin:28px 0 8px;color:var(--tx);font-family:'Newsreader',serif;font-weight:600">4 Roles del sistema + roles personalizados</h3>
-    <div class="roles">
-      <div class="role"><div class="nm">Viewer · Sistema</div><h4>👀 Visor</h4><p>Solo lectura. Puede consultar información pero no modifica nada. Útil para auditores, clientes finales, observadores.</p></div>
-      <div class="role"><div class="nm">Builder · Sistema</div><h4>🧱 Constructor</h4><p>Puede crear y editar recursos (sources, reconciliations, dashboards). Es el rol típico del Implementation Specialist.</p></div>
-      <div class="role"><div class="nm">Operator · Sistema</div><h4>⚙️ Operador</h4><p>Gestiona la operación diaria: ejecuta procesos, resuelve excepciones, ajusta reglas. Día a día del analista de conciliación.</p></div>
-      <div class="role"><div class="nm">Supervisor · Sistema</div><h4>🎯 Supervisor</h4><p>Permisos amplios: aprueba acciones de operadores (maker-checker), certifica períodos, gestiona el workspace.</p></div>
-      <div class="role" style="border-color:var(--pp)"><div class="nm" style="color:var(--pp)">Custom · A medida</div><h4>🛠️ Personalizado</h4><p>Cuando los 4 roles del sistema no encajan, podés crear un perfil custom seleccionando exactamente qué permisos por sección. Principio de menor privilegio.</p></div>
-    </div>
-
-    <div class="lesson-body" style="display:block;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin-top:16px">
-      <div class="tip">Tu rol como <strong>Implementation Specialist</strong> normalmente arranca como <b>Builder</b> + permisos extra para Resources y Reconciliations. Cuando vayas asumiendo procesos en producción, se te asignan permisos de <b>Operator</b>.</div>
-    </div>
-  </section>
-
-  <!-- SBBs -->
-  <section class="sec" id="sbb">
-    <div class="sec-h"><h2>🧱 Simetrik Building Blocks (SBBs)</h2><span class="kicker">Los "ladrillos" de la plataforma</span></div>
-    <p class="sec-lead">Los <strong>SBBs (Simetrik Building Blocks)</strong> son las unidades funcionales básicas. Analogía oficial: piezas de Lego. Cada una sirve para una cosa puntual, pero combinadas arman controles financieros, operacionales o contables completos. Tres características clave: <strong>robustos</strong>, <strong>automatizados</strong>, <strong>escalables</strong>.</p>
-
-    <div class="cards c3">
-      <div class="cd">
-        <span class="ic">🟦</span>
-        <h3>SBBs estándar</h3>
-        <p>Vienen activos por defecto al crear el workspace. Sirven para los flujos comunes: source, source union, normalization, standard recon.</p>
-      </div>
-      <div class="cd">
-        <span class="ic">🟪</span>
-        <h3>SBBs con feature flag</h3>
-        <p>No vienen activos por defecto. Hay que solicitar activación al equipo de soporte. Ej: Advanced Reconciliation, ERP Integrations, Customer Reports, Templates Catalog.</p>
-      </div>
-      <div class="cd">
-        <span class="ic">💰</span>
-        <h3>SBBs con costo extra</h3>
-        <p>Algunos SBBs tienen su propio <strong>revenue generator</strong> — se comercializan independiente. Cada cliente compra solo lo que necesita.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TOUR — REAL SIMETRIK UI -->
-  <section class="sec" id="tour">
-    <div class="sec-h"><h2>🎯 Tour interactivo de la interfaz Simetrik</h2><span class="kicker">Fiel a app.simetrik.com</span></div>
-    <p class="sec-lead">Esto es <strong>exactamente</strong> cómo se ve la plataforma. Hacé click en cada módulo del menú lateral para ver: qué hacés ahí, dónde está el botón clave, casos de uso reales, y consejos basados en el curso oficial. Los 4 menús principales son <b>Automate</b> (construir), <b>Operate</b> (gestionar), <b>Audit</b> (auditar) y <b>Tools</b> (herramientas auxiliares).</p>
-
-    <div class="tour-wrap">
-      <div class="tour-bar">
-        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span class="url">app.simetrik.com/workspace/ficohsa</span>
-      </div>
-      <div class="tour-body">
-        <aside class="tour-side" id="tourNav">
-
-          <div class="group">🛠️ Automate · Construir</div>
-          <div class="it on" data-s="integrations"><span class="ic">📥</span>Integrations In</div>
-          <div class="it" data-s="resources"><span class="ic">📦</span>Resources</div>
-          <div class="it" data-s="accounting"><span class="ic">📒</span>Accounting</div>
-          <div class="it" data-s="analysis"><span class="ic">📊</span>Analysis</div>
-          <div class="it" data-s="datasharing"><span class="ic">📤</span>Data Sharing</div>
-          <div class="it" data-s="solutions"><span class="ic">🧩</span>Solutions / Templates</div>
-
-          <div class="group">📡 Operate · Gestionar</div>
-          <div class="it" data-s="insights"><span class="ic">🔔</span>Insights (Alerts)</div>
-          <div class="it" data-s="opcontrols"><span class="ic">⚙️</span>Operational Controls</div>
-          <div class="it" data-s="finder"><span class="ic">🔍</span>Record Finder</div>
-          <div class="it" data-s="accctrl"><span class="ic">⚖️</span>Accounting Controls</div>
-
-          <div class="group">🔎 Audit · Auditar</div>
-          <div class="it" data-s="snapshots"><span class="ic">📸</span>Snapshots</div>
-          <div class="it" data-s="activity"><span class="ic">📜</span>Activity Logs</div>
-
-          <div class="group">🧰 Tools · Herramientas</div>
-          <div class="it" data-s="downloads"><span class="ic">⬇️</span>Downloads</div>
-          <div class="it" data-s="recycle"><span class="ic">🗑️</span>Recycle Bin</div>
-          <div class="it" data-s="processes"><span class="ic">🌀</span>Process View</div>
-          <div class="it" data-s="relmap"><span class="ic">🕸️</span>Relationship Maps</div>
-
-          <div class="group">⚙️ Account</div>
-          <div class="it" data-s="accountmgmt"><span class="ic">🛡️</span>Account Management</div>
-        </aside>
-
-        <main class="tour-main">
-
-          <!-- AUTOMATE · INTEGRATIONS IN -->
-          <div class="tour-step on" id="ts-integrations">
-            <div class="crumb">Automate / Integrations In</div>
-            <h3>📥 Integrations In — cargar datos a la plataforma</h3>
-            <p class="lead">El primer paso obligatorio antes de cualquier conciliación. Hay <strong>3 formas</strong> de cargar datos, cada una con sus limitaciones.</p>
-
-            <div class="mock-card"><h4>1. Manual Upload</h4>
-              <p>Click en <code>Create Resource</code> → opción <code>Source</code> → arrastrar archivo. <strong>Formatos:</strong> XLS, XLSX, CSV, TXT. <strong>Tamaño máx:</strong> 5 GB por archivo.</p>
-              <p>El layout tabular es obligatorio: sin celdas combinadas, sin filas en blanco, sin múltiples hojas. El primer archivo define el layout; si después llega uno con columna extra → status "failed", hay que crear un Source nuevo.</p>
-            </div>
-
-            <div class="mock-card"><h4>2. Self-Managed (Automate menu)</h4>
-              <p>Para automatizar cargas. Tres tipos de conexión:</p>
-              <div class="mock-grid">
-                <div><code>SFTP Pull</code> — Simetrik va al directorio del cliente y extrae los archivos.</div>
-                <div><code>SFTP Push</code> — El cliente envía archivos al directorio Simetrik.</div>
-                <div><code>S3 Pull</code> — Conexión a un bucket Amazon S3.</div>
-              </div>
-              <p>Tamaño máx aumenta a <strong>120 GB</strong> por archivo. Workflow: 1) crear conexión, 2) crear <strong>buckets</strong> (contenedor intermedio que Simetrik usa para tomar archivos y subirlos al source correspondiente).</p>
-            </div>
-
-            <div class="mock-card"><h4>3. Integration Services Team <span class="mock-cost">costo extra</span></h4>
-              <p>Cuando las dos opciones anteriores no aplican (formatos raros, &gt;120 GB, layouts no tabulares). El equipo establece conexiones vía APIs, web scraping, Google Cloud Services y hace <strong>parsing</strong> para adaptar la estructura. <em>Simetrik no modifica el contenido del archivo, solo su estructura.</em></p>
-              <p>4 preguntas antes de cotizar: tipo de conexión · tamaño promedio · formato · layout.</p>
-            </div>
-
-            <div class="mock-tip">El <strong>Smart Parser</strong> (un agente de IA) está siendo desarrollado para que vos mismo resuelvas casos que hoy requieren el services team. Reducirá costos y tiempos de implementación.</div>
-            <div class="mock-warn"><strong>Cuidado con duplicados:</strong> Simetrik detecta archivos ya cargados y para el procesamiento. Como muchos clientes pagan por GB, subir duplicados consume el doble de tu storage contratado.</div>
-            <div class="mock-use">Conectaste vía SFTP el archivo diario de T24 con las transacciones de cajas. Simetrik lo levanta cada noche a las 23:45 y lo deja listo para el matching de la mañana.</div>
-          </div>
-
-          <!-- AUTOMATE · RESOURCES -->
-          <div class="tour-step" id="ts-resources">
-            <div class="crumb">Automate / Resources</div>
-            <h3>📦 Resources — el corazón de la plataforma</h3>
-            <p class="lead">Acá creás y administrás todos los recursos que componen tu solución. Click en <code>Create Resource</code> y elegís el tipo.</p>
-
-            <div class="mock-card"><h4>Source</h4>
-              <p>Recurso base. Cada archivo cargado se asocia a su propio source. Tiene <strong>columnas del sistema</strong> (con ícono de escudo): Unique ID, fecha/hora de carga, File ID, file name, line number. Podés ocultarlas con el ícono de ojo.</p>
-            </div>
-
-            <div class="mock-card"><h4>Normalization (Change Format) <span class="mock-feat">crítico</span></h4>
-              <p>3 pasos por columna: 1) tipo (numeric/text/date), 2) formato original (cómo viene), 3) formato deseado (cómo lo querés). Se hace <strong>una sola vez por source</strong>; archivos futuros heredan la config.</p>
-              <p>El <strong>Smart Date Format</strong> (IA) identifica automáticamente entre 500+ formatos de fecha posibles. Magia para el campo Transaction Date.</p>
-            </div>
-
-            <div class="mock-card"><h4>Source Union (Union of Sources) <span class="mock-feat">best practice</span></h4>
-              <p>Agrupa <strong>verticalmente</strong> varias sources en un solo recurso. Las columnas deben tener el mismo tipo de info (fecha con fecha, monto con monto). <strong>La IA (AIA)</strong> sugiere automáticamente columnas que coinciden.</p>
-              <p><strong>Por qué siempre usar Union — incluso con una sola source:</strong> si mañana cambia el layout, simplemente creás la source nueva y la sumás al Union existente. Todas las reconciliations, postings y dashboards que dependen de ese Union siguen funcionando sin reconfigurar nada.</p>
-            </div>
-
-            <div class="mock-card"><h4>Reconciliation — Standard vs Advanced</h4>
-              <div class="mock-grid">
-                <div><b>Standard:</b> tipo lineal, recomendado para procesos cortos y simples. Comparación directa entre 2 sources. Tipos de cruce: 1-to-1, 1-to-N, N-to-1, N-to-N.</div>
-                <div><b>Advanced:</b> tipo modular para procesos más largos/complejos. Permite encadenar múltiples <strong>sweeps</strong> independientes (mini-reconciliations) dentro del mismo recurso. Soporta: reconciliation sweep, grouping, offset.</div>
-              </div>
-              <p>El <strong>Smart Building Block</strong> sugiere reglas analizando ambas sources. Vos aceptás o rechazás.</p>
-            </div>
-
-            <div class="mock-card"><h4>Reconcilable Groups <span class="mock-feat">crítico antes de Advanced</span></h4>
-              <p>Filtros guardados que aplicás sobre una source para aislar un subconjunto. Se reutilizan en reconciliations. Ej: filtrar Card Type = "Mastercard" y guardarlo como <code>Master credit group</code>.</p>
-              <p><strong>Best practice:</strong> crear un grupo donde <code>SKT ID != empty</code> (excluyendo registros sin identificador válido).</p>
-            </div>
-
-            <div class="mock-card"><h4>VLOOKUP vs Enrichment by Recon</h4>
-              <p><b>VLOOKUP</b>: igual al de Excel. Si la fuente cambia, hay que vaciar y reprocesar todo. Servible cuando la fuente enriquecedora es estática.</p>
-              <p><b>Enrichment by 1-N or N-1 reconciliation</b>: más robusto. Si cambia la fuente, solo se reprocesan las transacciones afectadas, sin tocar el histórico. Es la opción recomendada cuando la fuente puede actualizarse (ej: diccionario de tarifas renegociables).</p>
-            </div>
-
-            <div class="mock-card"><h4>Transformation Columns</h4>
-              <p>Columnas nuevas creadas con fórmula (similar a Excel). Ej: <code>Real Cost = Gross Amount − Net Amount</code> · <code>Theoretical Cost = Gross Amount × Fee Rate</code> · <code>Delta = Real − Theoretical</code>.</p>
-              <p>El <strong>Smart Transformation</strong> (IA) te deja escribir en lenguaje natural lo que querés calcular y sugiere la fórmula.</p>
-            </div>
-
-            <div class="mock-tip">Antes de cruzar nada: <b>siempre Source Union</b>. Cuesta lo mismo y te salva de rehacer todo cuando el cliente cambia el layout (te pasa al menos una vez por proceso).</div>
-            <div class="mock-use">Ejemplo Magalu: source A = junction del merchant Magalu, source B = junction de Getnet con débito + crédito. Cruzás 1-a-1 por date+amount+ID+type → 37 de 44 cruzan, 7 quedan pendientes.</div>
-          </div>
-
-          <!-- AUTOMATE · ACCOUNTING -->
-          <div class="tour-step" id="ts-accounting">
-            <div class="crumb">Automate / Accounting</div>
-            <h3>📒 Accounting — del cruce al asiento contable</h3>
-            <p class="lead">Cierra el loop: traduce cada conciliación en <strong>journal entries</strong> que viajan automáticamente al ERP del cliente.</p>
-
-            <div class="mock-card"><h4>Accounting Parameters</h4>
-              <p>Cargar el <strong>chart of accounts</strong>: descargás un template Simetrik, lo llenás con número de cuenta + compañía + nombre, lo subís. Una vez por workspace (o cuando cambia el catálogo).</p>
-            </div>
-
-            <div class="mock-card"><h4>ERP Integrations</h4>
-              <p>Dos pasos: <strong>Connection</strong> (canal de comunicación con el ERP) + <strong>Structure</strong> (qué campos contienen los asientos). Dos modos de conexión:</p>
-              <div class="mock-grid">
-                <div><b>Middleware:</b> conector intermedio. Configurable desde Simetrik directamente. Funciona con cualquier ERP.</div>
-                <div><b>Standard App:</b> conexión directa, sin intermediarios. Solo disponible para <strong>NetSuite y SAP S/4HANA</strong>. Requiere apoyo del accounting capabilities team de Simetrik.</div>
-              </div>
-              <p>Siempre crear primero conexión de <strong>test</strong> antes de la de <strong>production</strong>.</p>
-            </div>
-
-            <div class="mock-card"><h4>Accounting Model</h4>
-              <p>Las reglas que Simetrik usa para llenar los campos de la estructura. Tres tipos de campos:</p>
-              <ul style="margin:6px 0 0 18px;font-size:12.5px;color:var(--t2)">
-                <li><b>Document fields:</b> transversales al asiento entero (fecha de generación, compañía, currency).</li>
-                <li><b>Lines:</b> identifica débitos y créditos. Lleva accounting code, cost center, amount.</li>
-                <li><b>Header:</b> opcional, sin impacto contable. Ej: fecha de envío del entry.</li>
-              </ul>
-              <p>3 tipos de asientos a configurar: <strong>Normal · Cancellation</strong> (reverso del normal, pre-configurado) <strong>· Post-Siege</strong>.</p>
-              <p>El <strong>Accounting Model Assistance</strong> (IA, release abril 2026) completará varios campos automáticamente.</p>
-            </div>
-
-            <div class="mock-card"><h4>Generate Automation</h4>
-              <p>Pantalla de configuración en 3 pasos: 1) nombre + ERP destino · 2) elegir recurso a conciliar (standard o advanced recon — sources puras necesitan convertirse en <em>dummy recon</em>) · 3) fecha de inicio + tipo de evento (reconciled / manually reconciled / adjusted A / adjusted B).</p>
-              <p>Parámetros avanzados: hora de envío automático, <strong>post-after-closing</strong> (día del mes hasta el cual se aceptan asientos del período anterior, ej. 3er día hábil), aprobación manual de reversals.</p>
-            </div>
-
-            <div class="mock-tip">Un asiento contable <strong>consolida varias transacciones</strong> de la misma naturaleza/cuenta/cost center. Si después se concilia una de esas tx individualmente → <em>partial reversal</em> → necesita aprobación manual.</div>
-            <div class="mock-use">Tu cruce SERCOM produjo 1,247 matches del día. Simetrik genera 1 journal entry por cuenta contable consolidando todos. El entry sale a SAP a las 7am del día siguiente.</div>
-          </div>
-
-          <!-- AUTOMATE · ANALYSIS -->
-          <div class="tour-step" id="ts-analysis">
-            <div class="crumb">Automate / Analysis</div>
-            <h3>📊 Analysis — dashboards y monitors</h3>
-            <p class="lead">Una vez que tenés integrations, resources y reconciliations corriendo, esta sección extrae valor de toda esa data.</p>
-
-            <div class="mock-card"><h4>Custom Dashboards</h4>
-              <p>Componentes combinables: <strong>pivot tables</strong> (como en Excel, con filtros y drill-down), <strong>custom tables</strong>, <strong>reconciliation status</strong> (standard/chained/advanced), <strong>KPIs individuales</strong> (reconciled amount, unreconciled amount), <strong>charts</strong>.</p>
-            </div>
-
-            <div class="mock-card"><h4>Monitors (4 tipos)</h4>
-              <div class="mock-grid">
-                <div><b>Conciliation Monitor:</b> resumen consolidado de todas las reconciliations del workspace. Mismos indicadores que en cada recon (barras verde/rojo + % reconciled).</div>
-                <div><b>Source Monitor:</b> estado de uploads por fecha. Archivos processed/pending/failed/empty/stopped + número de filas por día.</div>
-                <div><b>Bucket Monitor:</b> equivalente al source monitor pero para buckets self-managed.</div>
-                <div><b>Accounting Monitor:</b> visión consolidada del estado de balances contables.</div>
-              </div>
-            </div>
-
-            <div class="mock-card"><h4>Consolidations vs Combinations</h4>
-              <p><b>Consolidation</b> = une <strong>verticalmente</strong> diferentes <em>groupings</em>. Caso típico: cost controls de distintos adquirentes, cada uno con su grouping → un solo control consolidado.</p>
-              <p><b>Combination</b> = une <strong>horizontalmente</strong> diferentes <em>reconciliations</em>. Caso típico: lifecycle de una transacción (Authorization → Clearing → Settlement → Anchorage), cada etapa con su recon, unidas para ver la película completa.</p>
-            </div>
-
-            <div class="mock-tip">Vista <strong>top-down y bottom-up</strong>: arrancá del dashboard ejecutivo (qué tarjetas tienen diferencias), agregá columna de meses para detectar timing, y abrí hasta la transacción específica. O hacelo al revés para investigar un caso puntual.</div>
-            <div class="mock-use">Cost control: cruzaste con un fee dictionary y descubriste que solo Mastercard Credit + Mastercard Debit tienen diferencias materiales — el resto matchea perfecto con el contrato.</div>
-          </div>
-
-          <!-- AUTOMATE · DATA SHARING -->
-          <div class="tour-step" id="ts-datasharing">
-            <div class="crumb">Automate / Data Sharing</div>
-            <h3>📤 Data Sharing — extraer datos automáticamente</h3>
-            <p class="lead">Última sección del menú Automate. Dos features con <strong>revenue propio</strong> (se contratan separados, no vienen activos por defecto).</p>
-
-            <div class="mock-card"><h4>Exports</h4>
-              <p>Transmisión automatizada de data a destinos cloud. <strong>Solo conecta a Amazon S3 y Google Cloud Storage.</strong> Si el destino final es otro (ej. SFTP), debe pasar primero por S3/GCS.</p>
-              <p>Tipos: <b>by event</b> (se dispara con auto-recon, adjustment, auto-unreconcile) o <b>recurring</b> (frecuencia + días + hora + zona horaria + columna fecha como trigger). Formato CSV o Parquet. Tamaño máx 5 GB por archivo.</p>
-            </div>
-
-            <div class="mock-card"><h4>Customer Reports <span class="mock-cost">SFTP propio</span></h4>
-              <p>Para distribuir reportes segmentados a cientos de clientes. <strong>Simetrik entrega exclusivamente vía su propio SFTP service</strong> (incluido sin costo extra). Formato CSV por default.</p>
-              <p><strong>Partitioning</strong>: hasta 3 niveles jerárquicos de carpetas. Ej Amazon: nivel 1 por merchant · nivel 2 por tipo de tx · nivel 3 por mes.</p>
-              <p><strong>Access management:</strong> cada partición de nivel 1 recibe credenciales únicas. Mismo host, distinto user+key. El cliente Simetrik (ej. Amazon) gestiona y distribuye esas credenciales a sus propios clientes.</p>
-            </div>
-
-            <div class="mock-tip">Conexiones para conectarse al SFTP: necesitás <strong>3 datos</strong> — host, username y private key (la descargás desde la plataforma). Usá FileZilla u otro cliente SFTP para acceder a las carpetas generadas.</div>
-            <div class="mock-warn"><strong>Diferencia clave:</strong> Export entrega data tal cual sale de la recon · Customer Reports la <em>segmenta por cliente</em> automáticamente.</div>
-          </div>
-
-          <!-- AUTOMATE · SOLUTIONS / TEMPLATES -->
-          <div class="tour-step" id="ts-solutions">
-            <div class="crumb">Automate / Solutions (Templates)</div>
-            <h3>🧩 Solutions / Templates Catalog <span class="mock-cost">costo extra</span></h3>
-            <p class="lead">Sección que renombra a <strong>Templates</strong> en próxima release. Permite exportar/importar configuraciones pre-hechas en JSON, y acceder a un catálogo de soluciones pre-construidas.</p>
-
-            <div class="mock-card"><h4>Generar tu propio Template</h4>
-              <p>Asigná nombre · seleccioná el recurso (ej. "incoming join" reconciliation) · click <code>Generate Template</code>. Simetrik produce un JSON con toda la configuración (reglas, columnas, validaciones, ajustes).</p>
-              <p>Para importar: subís el JSON desde el panel derecho. La plataforma recrea el control parametrizado y listo. Solo te queda subir los archivos de data a los sources.</p>
-            </div>
-
-            <div class="mock-card"><h4>Templates Catalog (Solutions Catalog)</h4>
-              <p>Catálogo de configuraciones diseñadas por el services team de Simetrik basadas en su experiencia de implementación. Objetivo: <em>fast first time to value</em>.</p>
-              <p>Ejemplo: <strong>Mastercard Controls for Acquirers</strong>. Ves los use cases incluidos (ej. clearing), revisás controles y beneficios, hacés <code>Manage Files</code> para ver los archivos requeridos, los subís, click <code>Implement</code> — la plataforma genera automáticamente todos los recursos (sources, recons, dashboards con KPIs).</p>
-            </div>
-
-            <div class="mock-tip">Los templates <strong>no son rígidos</strong>: una vez implementado, podés usar los building blocks para customizar cualquier recurso. Es un punto de partida sólido, no una jaula.</div>
-            <div class="mock-warn">Templates es un SBB con costo adicional. Hay que comprarlo aparte; el support team lo activa después de la compra.</div>
-          </div>
-
-          <!-- OPERATE · INSIGHTS -->
-          <div class="tour-step" id="ts-insights">
-            <div class="crumb">Operate / Insights</div>
-            <h3>🔔 Insights — alertas automáticas</h3>
-            <p class="lead">Primer sub-menú del Operate. Configurás alertas que te notifican por email cuando algo se sale de los rangos esperados.</p>
-            <div class="mock-card"><h4>Setup básico</h4>
-              <p>Indicás qué reconciliation monitorear · definís % mínimo de tx reconciliadas esperado (ej. 90%) · si cae por debajo → email. <em>Si esperás 90% y solo se logra 85%, llega notificación automática.</em></p>
-            </div>
-            <div class="mock-card"><h4>Agent Factory <span class="mock-feat">amplio</span></h4>
-              <p>Opciones más amplias de monitoreo. Estos agentes monitorean todos los recursos creados y notifican vía Slack, plataforma o email.</p>
-            </div>
-            <div class="mock-tip">Más vale 5 alertas bien configuradas que 50 que ignorás. Definí umbrales realistas en base al histórico de los últimos 30 días.</div>
-          </div>
-
-          <!-- OPERATE · OP CONTROLS -->
-          <div class="tour-step" id="ts-opcontrols">
-            <div class="crumb">Operate / Operational & Financial Controls</div>
-            <h3>⚙️ Operational & Financial Controls</h3>
-            <p class="lead">Sección donde gestionás día a día lo construido en Automate. Tu nivel de acceso depende de tu rol.</p>
-            <div class="mock-card"><h4>Resources</h4><p>Ver, editar o crear recursos previamente configurados en Automate. Un viewer solo consulta; un builder edita; un operator ejecuta.</p></div>
-            <div class="mock-card"><h4>Consolidations</h4><p>Crear o editar las consolidaciones (uniones verticales de groupings). Mismas opciones que en Automate, pero enfocadas en gestión diaria.</p></div>
-            <div class="mock-card"><h4>Dashboards</h4><p>Mismos dashboards de la sección Analysis. Acá los revisás y seguís construyendo otros.</p></div>
-            <div class="mock-tip">Pensá en Automate como "la fábrica donde se construye" y Operate como "el control room donde se opera lo construido".</div>
-          </div>
-
-          <!-- OPERATE · RECORD FINDER -->
-          <div class="tour-step" id="ts-finder">
-            <div class="crumb">Operate / Record Finder</div>
-            <h3>🔍 Record Finder — trazar una transacción</h3>
-            <p class="lead">Te permite rastrear una transacción específica hasta el source al que pertenece.</p>
-            <div class="mock-card"><h4>Cómo funciona</h4>
-              <p>1) Seleccionás la data source · 2) ingresás el ID de la transacción · 3) Simetrik te muestra <strong>todos los recursos asociados a esa source donde aparece esa transacción</strong>.</p>
-              <p>Útil para investigaciones puntuales: "¿dónde aparece la tx LF7715101?" → ves la lista completa de recons, dashboards, groupings que la tocan.</p>
-            </div>
-            <div class="mock-tip">El adoption rate de Record Finder es bajo: muchos usuarios prefieren dashboards con tablas dinámicas filtrables para el mismo tipo de tracking. No te frustres si no es tu primera opción.</div>
-          </div>
-
-          <!-- OPERATE · ACCOUNTING CONTROLS -->
-          <div class="tour-step" id="ts-accctrl">
-            <div class="crumb">Operate / Accounting Controls</div>
-            <h3>⚖️ Accounting Controls — cierre contable mensual</h3>
-            <p class="lead">El workflow donde se valida y certifica el cierre del período. Roles: preparer + certifier (no puede ser la misma persona).</p>
-
-            <div class="mock-card"><h4>1. Abrir período + cargar balances</h4>
-              <p>Seleccionás año y mes (ej. Noviembre 2024). Click en los tres puntos del período abierto → <code>Update Trial Balance</code> → descargás template, llenás con saldos por cuenta, subís de nuevo.</p>
-            </div>
-            <div class="mock-card"><h4>2. Validación de balance reconocido</h4>
-              <p>Por cuenta ves: <strong>beginning balance</strong> + <strong>change</strong> + <strong>ending balance</strong>. Editás <em>Reconciled Balance</em> con lo que reconocés con evidencia. Si el total es $16K y reconocés $15K → diferencia de $1K (6.25%).</p>
-              <p>Dos posibles explicaciones del gap: 1) el monto sí pertenece pero falta evidencia · 2) el monto está mal clasificado y requiere ajuste.</p>
-            </div>
-            <div class="mock-card"><h4>3. Support Resources (evidencia)</h4>
-              <ul style="margin:6px 0 0 18px;font-size:12.5px;color:var(--t2)">
-                <li><b>Snapshots:</b> capturas estáticas de una reconciliation (Audit menu).</li>
-                <li><b>External files:</b> estados de cuenta, facturas, etc.</li>
-                <li><b>Notas:</b> comentarios del preparer cuando la evidencia es incompleta.</li>
-              </ul>
-            </div>
-            <div class="mock-card"><h4>4. Preparer → Certifier</h4>
-              <p>Preparer hace click en <code>Ready to Certify</code> · Certifier recibe la cuenta → revisa, lee notas, aprueba o rechaza con motivo.</p>
-              <p><strong>Account Grouping:</strong> si varias cuentas tienen la misma naturaleza, certificás todas juntas con un solo click. <strong>Auto-certification:</strong> para cuentas que rara vez cambian (ej. fixed assets), regla automática que certifica sin pasos manuales.</p>
-            </div>
-            <div class="mock-tip">El Accounting Dashboard te muestra el % de cuentas en cada estado: <em>pending preparation · ready · rejected · certified · self-certification</em>. Filtrá por compañía o por usuario para gestionar tu workload.</div>
-          </div>
-
-          <!-- AUDIT · SNAPSHOTS -->
-          <div class="tour-step" id="ts-snapshots">
-            <div class="crumb">Audit / Snapshots</div>
-            <h3>📸 Snapshots — fotos estáticas de reconciliations</h3>
-            <p class="lead">Una reconciliation cambia continuamente porque recibe nueva info. Si querés usarla como <strong>evidencia</strong> de un período cerrado, necesitás congelarla en el tiempo.</p>
-            <div class="mock-card"><h4>Configuración</h4>
-              <p>Configurás una vez: ej. capturar snapshot el último día de cada mes. Simetrik genera registros periódicos automáticamente (Dec 30, Nov 29, Oct 30, etc.).</p>
-              <p>El snapshot resultante es el recurso que adjuntás como evidencia en la página de validación de cuenta dentro de Accounting Controls.</p>
-            </div>
-            <div class="mock-tip">Snapshot mensual + bank statement como external file + nota = evidencia blindada para auditoría.</div>
-          </div>
-
-          <!-- AUDIT · ACTIVITY LOGS -->
-          <div class="tour-step" id="ts-activity">
-            <div class="crumb">Audit / Activity Logs</div>
-            <h3>📜 Activity Logs — todo lo que pasa en la plataforma</h3>
-            <p class="lead">Registro inmutable de absolutamente cada acción ejecutada en Simetrik. Sin excepción. Indispensable para SOX y auditorías externas.</p>
-            <div class="mock-card"><h4>Información por entry</h4>
-              <ul style="margin:6px 0 0 18px;font-size:12.5px;color:var(--t2)">
-                <li>Type of action — qué operación se hizo</li>
-                <li>Element type + name + ID — qué recurso fue afectado</li>
-                <li>Responsible user — quién lo hizo</li>
-                <li>Date and time — cuándo</li>
-                <li>Resource type — categoría del objeto</li>
-              </ul>
-              <p>Desde cada registro podés ir directamente al recurso afectado, ahorrando tiempo en investigación.</p>
-            </div>
-            <div class="mock-card"><h4>Filtros</h4>
-              <p>Por usuario, por ID de recurso, por fecha específica. Te permite encontrar rápido un evento sospechoso o validar operaciones normales.</p>
-            </div>
-            <div class="mock-tip">Si te llaman a auditoría: <strong>filtrá por tu usuario</strong> en los últimos 30 días y ves exactamente qué tocaste. Tu defensa documentada.</div>
-          </div>
-
-          <!-- TOOLS · DOWNLOADS -->
-          <div class="tour-step" id="ts-downloads">
-            <div class="crumb">Tools / Downloads</div>
-            <h3>⬇️ Downloads — historial de descargas manuales</h3>
-            <p class="lead">Lista todas las descargas manuales hechas en la plataforma. Si tu rol no tiene permisos de descarga, la lista aparecerá vacía.</p>
-            <div class="mock-warn">Los usuarios del dominio <code>@simetrik.com</code> tienen descargas bloqueadas por control de seguridad. Es un mecanismo intencional para proteger información del cliente.</div>
-          </div>
-
-          <!-- TOOLS · RECYCLE BIN -->
-          <div class="tour-step" id="ts-recycle">
-            <div class="crumb">Tools / Recycle Bin</div>
-            <h3>🗑️ Recycle Bin — papelera de 30 días</h3>
-            <p class="lead">Almacena todos los recursos eliminados. Es tu red de seguridad ante borrados accidentales.</p>
-            <div class="mock-card"><h4>Características clave</h4>
-              <ul style="margin:6px 0 0 18px;font-size:12.5px;color:var(--t2)">
-                <li>Los recursos se preservan <strong>30 días</strong>.</li>
-                <li>Durante ese período podés cancelar la eliminación y restaurar.</li>
-                <li>Después de 30 días, la eliminación es <strong>definitiva</strong>.</li>
-                <li>Filtrá por tipo de recurso: sources, unions, openings, etc.</li>
-              </ul>
-            </div>
-            <div class="mock-tip">Antes de borrar algo en producción, hacé <strong>Safe Column Removal</strong> (IA, release abril 2026) para ver qué recursos quedarán impactados.</div>
-          </div>
-
-          <!-- TOOLS · PROCESS VIEW -->
-          <div class="tour-step" id="ts-processes">
-            <div class="crumb">Tools / Process View</div>
-            <h3>🌀 Process View — qué está corriendo ahora mismo</h3>
-            <p class="lead">Información detallada de tareas en ejecución, en cola o terminadas. Tu pantalla de diagnóstico cuando algo va lento.</p>
-            <div class="mock-card"><h4>Datos visibles</h4>
-              <p>Recurso asociado · estado/progreso · fecha/hora de ejecución · duración total.</p>
-            </div>
-            <div class="mock-tip">Si un recurso lleva horas corriendo sin terminar: <strong>screenshot de esta vista + ticket de soporte</strong> con resource ID, name y duración. El support team tiene todo lo que necesita para diagnosticar.</div>
-          </div>
-
-          <!-- TOOLS · RELATIONSHIP MAPS -->
-          <div class="tour-step" id="ts-relmap">
-            <div class="crumb">Tools / Relationship Maps</div>
-            <h3>🕸️ Relationship Maps — visualizar dependencias</h3>
-            <p class="lead">Representación gráfica de cómo un recurso se conecta con otros. Te muestra qué entra y qué sale.</p>
-            <div class="mock-card"><h4>Ejemplo</h4>
-              <p>Generás un map para la source <code>DB Magalu</code> → ves qué recursos están <em>upstream</em> (anteriores, en este caso ninguno) y <em>downstream</em> (posteriores, varias reconciliations).</p>
-              <p>Si elegís una reconciliation específica (ej. <code>DB Magalu vs Credit</code>), el map revela toda la cadena de relaciones: sources enriquecidas que la alimentan + recons posteriores que dependen de ella.</p>
-            </div>
-            <div class="mock-tip">Antes de modificar una source crítica, abrí el map. Vas a ver exactamente qué se va a romper si la tocás mal. <strong>Próxima release</strong> permitirá hacer cambios desde el map mismo con IA.</div>
-          </div>
-
-          <!-- ACCOUNT MGMT -->
-          <div class="tour-step" id="ts-accountmgmt">
-            <div class="crumb">Account Management</div>
-            <h3>🛡️ Account Management — usuarios, roles, workspaces</h3>
-            <p class="lead">Disponible solo para administradores. Acá creás workspaces, invitás usuarios y gestionás roles.</p>
-            <div class="mock-card"><h4>Invitar usuarios</h4>
-              <p>Tab <code>Users and Admins</code> → botón <code>Invite User</code>. Ingresás emails, seleccionás workspace, definís rol (system role o custom). Una vez enviada la invitación, el usuario puede acceder.</p>
-            </div>
-            <div class="mock-card"><h4>Crear Custom Role</h4>
-              <p>Tab <code>Roles</code> → <code>Create New Role</code> → nombre + recorrés las secciones de la plataforma habilitando solo los permisos deseados. Ej: permitir crear/editar Resources sin acceso a otras secciones.</p>
-            </div>
-            <div class="mock-tip">Aplicá el <strong>principio de menor privilegio</strong> siempre. Cada usuario solo con los permisos que necesita para su trabajo, ni uno más.</div>
-          </div>
-
-        </main>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI AGENTS -->
-  <section class="sec" id="ai">
-    <div class="sec-h"><h2>🤖 Agentes de IA · plataforma agentic</h2><span class="kicker">Lo que Simetrik llama "agentic experience"</span></div>
-    <p class="sec-lead">Simetrik invirtió fuerte en convertir la plataforma en <strong>predictiva y proactiva</strong>. No es solo mostrar datos; la solución anticipa necesidades, sugiere acciones y automatiza procesos. Dos iniciativas centrales: <strong>Smart Building Blocks + AI Agents</strong> y <strong>Simetrik Box</strong> (integración embebida en portales de partners). A continuación los agentes específicos.</p>
-
-    <div class="agents">
-      <div class="agent now"><div class="top"><h3>🧠 Smart Parser</h3><span class="status">activo</span></div>
-        <p>Catálogo de parsers que te permite ajustar formato/layout de archivos sin pedirle al services team. Identifica los cambios necesarios y los aplica automáticamente. Cada vez tiene más opciones.</p>
-      </div>
-      <div class="agent now"><div class="top"><h3>🔗 Smart Building Block · Connect Sources</h3><span class="status">activo</span></div>
-        <p>Al armar un Source Union, sugiere proactivamente columnas que coinciden entre la primera y la segunda fuente. Acelera la fase de implementación.</p>
-      </div>
-      <div class="agent now"><div class="top"><h3>📅 Smart Date Formats</h3><span class="status">activo</span></div>
-        <p>Identifica el formato original de una columna de fecha entre <strong>500+ tipos</strong> de formato posibles. Ahorra horas en normalización.</p>
-      </div>
-      <div class="agent now"><div class="top"><h3>📐 Smart Transformation</h3><span class="status">activo</span></div>
-        <p>Escribís en lenguaje natural lo que querés calcular y sugiere la fórmula. Si tu fórmula tiene errores, los corrige automáticamente.</p>
-      </div>
-      <div class="agent now"><div class="top"><h3>✨ Smart Rules · Advanced Recon</h3><span class="status">activo</span></div>
-        <p>Analiza las dos sources que vas a cruzar e identifica las reglas óptimas, sugiriendo matching keys para lograr mayor match rate. Aceptás o rechazás.</p>
-      </div>
-
-      <div class="agent soon"><div class="top"><h3>🗺️ Column Mapping</h3><span class="status">abril 2026</span></div>
-        <p>Al cambiar una source en un recurso ya implementado, la IA mapea automáticamente las columnas del recurso nuevo a las del que reemplaza.</p>
-      </div>
-      <div class="agent soon"><div class="top"><h3>📒 Accounting Model Assistance</h3><span class="status">abril 2026</span></div>
-        <p>Al crear un accounting model, la IA completa varios campos automáticamente — acelerando la implementación de releases contables.</p>
-      </div>
-      <div class="agent soon"><div class="top"><h3>🛡️ Safe Column Removal</h3><span class="status">abril 2026</span></div>
-        <p>Antes de borrar una columna, la IA detecta qué recursos quedan impactados. Conoces el scope proactivamente.</p>
-      </div>
-      <div class="agent soon"><div class="top"><h3>📊 Accounting Review Agent</h3><span class="status">roadmap</span></div>
-        <p>Lee todos los dashboards/charts/graphs del accounting layer y genera <em>valuable insights</em>.</p>
-      </div>
-      <div class="agent soon"><div class="top"><h3>🎓 Education Agent</h3><span class="status">roadmap</span></div>
-        <p>Conoce a profundidad cada control embebido en los templates. Entiende la lógica de negocio, objetivos de reconciliación, escenarios de riesgo. Te ayuda a analizar un KPI específico o entender la arquitectura entera de una solución.</p>
-      </div>
-      <div class="agent soon"><div class="top"><h3>📝 Summary Agent</h3><span class="status">roadmap</span></div>
-        <p>Interpreta resultados de dashboards y entrega resumen ejecutivo. Capacidad de <strong>predecir escenarios</strong> basado en el patrón de comportamiento de los KPIs.</p>
-      </div>
-      <div class="agent custom"><div class="top"><h3>👁️ Data Monitoring Agent</h3><span class="status">custom</span></div>
-        <p>Monitorea todas las sources 24/7 y notifica cuando detecta anomalía en la carga de un archivo nuevo. Funciona para algunos clientes ya; en proceso de productizarse.</p>
-      </div>
-    </div>
-
-    <div class="lesson-body" style="display:block;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin-top:16px">
-      <div class="tip">¿Necesitás un agente custom para tu operación? Se puede crear: cuando se identifica una situación que puede escalarse y productizarse para otros clientes, el desarrollo requiere <strong>aprobación del COO</strong>.</div>
-    </div>
-  </section>
-
-  <!-- 8 DOMAINS -->
-  <section class="sec" id="domains">
-    <div class="sec-h"><h2>🎯 Domain Framework 2026 · 8 dominios E2E</h2><span class="kicker">El "qué se controla" oficial</span></div>
-    <p class="sec-lead">Simetrik organiza todos los controles posibles en <strong>8 dominios</strong> agrupados en 4 macro-objetivos. Cada dominio tiene <strong>stages</strong> (cuándo controlar), <strong>use cases</strong> (qué controlar) y <strong>controls</strong> (cómo se ejecuta). Vos vas a trabajar específicamente en <strong>Cash In</strong> (recargas SERCOM, conciliación bancaria) y <strong>Accounting Operations</strong> (cuadre de saldos préstamos) en Ficohsa.</p>
-
-    <h3 style="font-size:15px;margin:14px 0 6px;color:var(--ac);font-family:'JetBrains Mono',monospace;letter-spacing:.6px;text-transform:uppercase">Funds Flows · Cash Integrity</h3>
-    <div class="domains">
-      <div class="dom"><div class="nu">Dominio 1</div><h4>Cash In</h4><p>Asegurar flujos de efectivo entrantes y eliminar fugas invisibles.</p><div class="risk">Revenue leakage por fondos no cobrados y errores de pricing.</div></div>
-      <div class="dom d2"><div class="nu">Dominio 2</div><h4>Cash Out</h4><p>Ejecutar pagos salientes con precisión — sin fugas, sin duplicados.</p><div class="risk">Pérdidas por pagos incorrectos o duplicados.</div></div>
-    </div>
-
-    <h3 style="font-size:15px;margin:22px 0 6px;color:var(--pp);font-family:'JetBrains Mono',monospace;letter-spacing:.6px;text-transform:uppercase">Profitability · Margin Protection</h3>
-    <div class="domains">
-      <div class="dom d3"><div class="nu">Dominio 3</div><h4>Fees & Billing</h4><p>Aplicar pricing con precisión y sistemáticamente en cada transacción.</p><div class="risk">Erosión de márgenes por blind spots operacionales y financieros.</div></div>
-      <div class="dom d4"><div class="nu">Dominio 4</div><h4>Risk & Claims · Disputes</h4><p>Contener pérdidas por chargebacks, disputas y reclamos operacionales.</p><div class="risk">Pérdidas directas por chargebacks y otros claims.</div></div>
-    </div>
-
-    <h3 style="font-size:15px;margin:22px 0 6px;color:var(--gn);font-family:'JetBrains Mono',monospace;letter-spacing:.6px;text-transform:uppercase">Continuous Closing · Accounting Confidence</h3>
-    <div class="domains">
-      <div class="dom d5"><div class="nu">Dominio 5</div><h4>Accounting Automation</h4><p>Automatizar reconocimiento, accruals y provisiones — a escala transaccional.</p><div class="risk">Errores contables y provisiones inexactas.</div></div>
-      <div class="dom d6"><div class="nu">Dominio 6</div><h4>Accounting Operations</h4><p>Asegurar integridad contable y cierres de libros predecibles.</p><div class="risk">Resultados financieros distorsionados y cierres retrasados.</div></div>
-    </div>
-
-    <h3 style="font-size:15px;margin:22px 0 6px;color:var(--pk);font-family:'JetBrains Mono',monospace;letter-spacing:.6px;text-transform:uppercase">Compliance & Oversight · Regulatory Assurance</h3>
-    <div class="domains">
-      <div class="dom d7"><div class="nu">Dominio 7</div><h4>Reporting & Regulations</h4><p>Entregar reportes audit-ready con confianza.</p><div class="risk">Exposición regulatoria, multas, pérdida de confianza.</div></div>
-      <div class="dom d8"><div class="nu">Dominio 8</div><h4>Unified Oversight & Alerts</h4><p>Visibilidad de KPIs en tiempo real + señales tempranas de riesgo.</p><div class="risk">Pérdida de control por falta de visibilidad en tiempo real.</div></div>
-    </div>
-
-    <div class="lesson-body" style="display:block;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin-top:16px">
-      <div class="tip"><strong>Análisis Horizontal vs Vertical:</strong> los 8 dominios cortan transversalmente todos los productos (Cards Issuing/Acquiring, A2A Instant Payments, Banking, ATM, Recaudo). Vos vas a tocar varios dominios sobre el mismo producto, o varios productos dentro del mismo dominio. La matriz se vuelve tu mapa mental.</div>
-    </div>
-  </section>
-
-  <!-- COURSE -->
-  <section class="sec" id="path">
-    <div class="sec-h"><h2>📚 Curso paso a paso (12 lecciones)</h2><span class="kicker">~3 horas · progreso guardado</span></div>
-    <p class="sec-lead">Estructura basada 1:1 con el curso oficial Simetrik. Cada lección expande con click; marcala como completada con ✓ en la derecha.</p>
-
-    <div class="path" id="lessons">
-
-      <div class="lesson" data-id="L01"><div class="num" data-n="1"></div>
-        <div><h3>Producto y filosofía Simetrik</h3>
-          <p>Qué es, por qué existe, qué problema resuelve.</p>
-          <div class="meta">10 min · fundamentos</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <p>Simetrik es la <strong>plataforma de automatización de controles financieros</strong> más completa del mercado. Integra controles financieros, operacionales y contables en un solo lugar. Frase oficial: <em>"De cuando una transacción nace, hasta que muere en contabilidad."</em></p>
-          <h4>Qué resuelve</h4>
-          <ul>
-            <li>Identificación de <strong>gaps</strong> (discrepancias entre data esperada y real).</li>
-            <li>Mitigación de <strong>riesgos</strong> antes que escalen.</li>
-            <li>Salud financiera mediante monitoreo continuo.</li>
-          </ul>
-          <p>Mentalidad: de modelo <strong>reactivo</strong> a <strong>preventivo</strong>. Controles que operan continua y automáticamente, no al final de mes.</p>
-          <div class="tip">Cuando alguien te pregunte qué hace Simetrik en una frase: <em>"Es la single source of truth financiera, operacional y contable"</em>.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L02"><div class="num" data-n="2"></div>
-        <div><h3>Account, Workspace y Roles</h3>
-          <p>La estructura de acceso. Roles del sistema + custom.</p>
-          <div class="meta">15 min · admin</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <p>Jerarquía: <code>Account</code> → <code>Workspace</code> → <code>Roles</code>. La account se crea por solicitud a soporte (no self-service); el admin asignado crea workspaces e invita usuarios.</p>
-          <h4>4 roles del sistema</h4>
-          <p><span class="pill">Viewer</span> solo lectura · <span class="pill">Builder</span> crea/edita recursos · <span class="pill">Operator</span> gestión diaria · <span class="pill">Supervisor</span> aprobaciones + certificación.</p>
-          <h4>Custom roles</h4>
-          <p>Cuando los 4 del sistema no aplican: <code>Create New Role</code> → recorrés cada sección habilitando solo los permisos deseados. <strong>Principio de menor privilegio</strong>.</p>
-          <h4>Login</h4>
-          <p>Vía <code>Continue with Google</code>. Si tenés 2FA (ej. Guardian), aprobás en el celular.</p>
-          <div class="tip">Pedile a tu admin que te ponga como <strong>Builder</strong> al arrancar. Cuando pases a producción, te suben a <strong>Operator</strong>.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L03"><div class="num" data-n="3"></div>
-        <div><h3>SBBs: los Lego de la plataforma</h3>
-          <p>Cómo Simetrik se construye modularmente.</p>
-          <div class="meta">10 min · concepto</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <p>Los <strong>Simetrik Building Blocks (SBBs)</strong> son las unidades funcionales básicas. Cada una sirve para algo puntual; combinadas crean controles robustos, automatizados y escalables.</p>
-          <h4>Tipos</h4>
-          <ul>
-            <li><b>Estándar</b> — vienen activos por default.</li>
-            <li><b>Feature flag</b> — requieren solicitud al support team para activarse.</li>
-            <li><b>Con revenue propio</b> — se contratan aparte (ej. Templates Catalog, Customer Reports).</li>
-          </ul>
-          <div class="tip">Si una funcionalidad que viste en un video no aparece en tu workspace: probablemente es un SBB con feature flag. Pedile activación al support.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L04"><div class="num" data-n="4"></div>
-        <div><h3>Integrations In: cargar data</h3>
-          <p>3 formas: manual, self-managed, services team.</p>
-          <div class="meta">20 min · práctica</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Manual upload</h4>
-          <p><code>Create Resource</code> → <code>Source</code> → drag&drop. Formatos: XLS/XLSX/CSV/TXT · máx 5 GB · layout tabular obligatorio (sin merged cells, sin filas en blanco, sin multi-sheet).</p>
-          <h4>Self-managed</h4>
-          <p>Automate menu → tipos: <code>SFTP Pull</code> · <code>SFTP Push</code> · <code>S3 Pull</code>. Máx 120 GB. Workflow: crear conexión → crear bucket → Simetrik retira archivos del bucket → los sube al source.</p>
-          <h4>Services team</h4>
-          <p>Para casos especiales (formatos raros, &gt;120 GB, layouts no tabulares). APIs, web scraping, GCP. <strong>Costo adicional</strong>. 4 preguntas: tipo conexión · tamaño promedio · formato · layout.</p>
-          <div class="warn">El primer archivo define el layout. Si después llega uno con columna extra → status "failed". Solución: crear nuevo source y redirigir los archivos del nuevo layout ahí.</div>
-          <div class="tip">El próximo <strong>Smart Parser</strong> te va a permitir resolver vos mismo casos que hoy requieren al services team — reducirá costos y tiempos.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L05"><div class="num" data-n="5"></div>
-        <div><h3>Normalization (Change Format)</h3>
-          <p>Limpiar cada columna antes de cruzar.</p>
-          <div class="meta">25 min · técnico</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <p>Cada columna del source se prepara: tipo + formato original + formato deseado. <strong>Una sola vez por source</strong>; futuros archivos heredan la config.</p>
-          <h4>Casos típicos</h4>
-          <ul>
-            <li><b>Transaction ID</b> → integer sin separadores ni decimales.</li>
-            <li><b>Transaction Date</b> → el <strong>Smart Date Format</strong> identifica entre 500+ formatos.</li>
-            <li><b>Amount</b> → separador decimal estándar + 2 decimales máx.</li>
-            <li><b>Card number (últimos 4)</b> → text para preservar ceros a la izquierda.</li>
-          </ul>
-          <h4>System Columns</h4>
-          <p>Cada source tiene columnas del sistema con ícono de escudo: Unique ID, fecha/hora de carga, File ID, file name, line number. Ocultalas con el ícono de ojo si no las necesitás.</p>
-          <div class="tip"><strong>Source Union desde el día 1</strong>, incluso con una sola source. Cuando cambie el layout (te va a pasar), creás la source nueva, la sumás al Union, y todo lo que dependía sigue funcionando.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L06"><div class="num" data-n="6"></div>
-        <div><h3>Tu primera Standard Reconciliation</h3>
-          <p>Configurá un cruce 1-a-1 con sweeps.</p>
-          <div class="meta">30 min · práctica</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Pasos</h4>
-          <ol>
-            <li>Automate → Resources → <code>Create Resource</code> → <strong>Standard Reconciliation</strong>.</li>
-            <li>Elegís Source A y Source B (siempre desde un Source Union, nunca directo).</li>
-            <li>Configurás el tipo de cruce: <strong>1-1, 1-N, N-1, N-N</strong>. Para sale ↔ acquirer suele ser 1-1.</li>
-            <li>Definís el <strong>sweep</strong> (bag of rules). El primer sweep con las reglas más estrictas, sin tolerancia. Sweeps siguientes con tolerancias relajadas.</li>
-            <li>Reglas típicas: <code>date == date</code> · <code>amount == gross_amount</code> · <code>id == id</code> · <code>tx_type == tx_type</code> · <code>card_type == card_type</code>.</li>
-          </ol>
-          <h4>Tolerancias</h4>
-          <p>Una compra hecha a las 23:59 que el acquirer procesa a las 00:01 genera diferencia de fecha. Sin tolerancia, no cruza. <strong>Pero cuidado</strong>: reglas muy laxas hacen "match entre manzana y pera".</p>
-          <h4>Lectura de resultados</h4>
-          <p>De 44 transacciones del merchant: 37 cruzaron, 7 pendientes. Filtrás <strong>solo las no reconciliadas</strong> y reducís tu workload drásticamente.</p>
-          <div class="tip">Para sweeps posteriores, considerá: <strong>amount tolerance ±0.05</strong> (redondeo) · <strong>date tolerance ±1 día</strong> (timing). Más laxo que eso requiere autorización.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L07"><div class="num" data-n="7"></div>
-        <div><h3>Reconcilable Groups + Enrichment</h3>
-          <p>Filtros guardados, VLOOKUP, cost control.</p>
-          <div class="meta">25 min · intermedio</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Reconcilable Group</h4>
-          <p>Filtro guardado sobre una source para aislar un subset. Aplicás filtro en Card Type = Mastercard, lo guardás como <code>Master credit</code>, lo reutilizás en cualquier reconciliation.</p>
-          <div class="warn">Best practice obligatoria: <strong>crear un grupo donde SKT ID != empty</strong>. Excluye registros sin identificador y previene inconsistencias.</div>
-          <h4>VLOOKUP vs Enrichment</h4>
-          <p><b>VLOOKUP</b> — como Excel. Si la fuente cambia, vaciás y reprocesás todo (peligro con históricos cerrados).</p>
-          <p><b>Enrichment by 1-N or N-1 recon</b> — solo se reprocesan las tx afectadas. <strong>Mucho más seguro</strong>. Usalo siempre que la fuente puede cambiar (ej. diccionario de fees renegociables).</p>
-          <h4>Cost Control con Transformation Columns</h4>
-          <ul>
-            <li><code>Real Cost = Gross Amount − Net Amount</code></li>
-            <li><code>Theoretical Cost = Gross Amount × Fee Rate</code></li>
-            <li><code>Delta = Real Cost − Theoretical Cost</code></li>
-          </ul>
-          <p>El <strong>Smart Transformation</strong> (IA) te deja escribir la lógica en natural language y sugiere la fórmula.</p>
-          <div class="tip">Después de calcular el delta, <strong>creá un grouping</strong> para verlo agregado. Vas a detectar rápido en qué tarjetas o adquirentes está el problema.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L08"><div class="num" data-n="8"></div>
-        <div><h3>Advanced Reconciliation: sweeps, grouping, offsets</h3>
-          <p>Cuando una sola recon no alcanza.</p>
-          <div class="meta">30 min · avanzado</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <p>Permite encadenar múltiples sweeps independientes dentro del mismo recurso. Tres tipos de sweep:</p>
-          <h4>1. Reconciliation Sweep</h4>
-          <p>Mini-recon 1-a-1 dentro del recurso. Las reglas son las mismas: ID, date, amount, tx_type. Las <strong>Smart Rules</strong> (IA) sugieren las óptimas analizando ambas fuentes.</p>
-          <h4>2. Grouping Sweep</h4>
-          <p>Cuando una tx del merchant aparece dividida en varias líneas del acquirer. <code>Create Aggregation</code> con criterios: mismo date + mismo ID → suma amounts. Match: date+ID+amount+tx_type.</p>
-          <h4>3. Offset Sweep</h4>
-          <p>Para transacciones que se compensan dentro de la <strong>misma source</strong>. Caso típico: payment cancelado con refund. Match: date+ID+amount (no tx_type porque por definición son diferentes).</p>
-          <div class="warn">Common error: una columna no aparece al definir reglas. Posibles causas: (a) la columna no fue agregada al Source Union, (b) la columna no está enabled para la reconciliation.</div>
-          <div class="tip">Resultado típico de Advanced: merchant 70% reconciliation rate (5 matches: una parte 1-a-1, otra por grouping, 2 offsets, 3 pending) · acquirer 100% reconciliation rate.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L09"><div class="num" data-n="9"></div>
-        <div><h3>Accounting: del cruce al asiento</h3>
-          <p>Generar journal entries automáticos para SAP/Oracle/NetSuite.</p>
-          <div class="meta">30 min · contabilidad</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Chart of Accounts</h4>
-          <p>Accounting Parameters → <code>Upload Account</code> → descargás template, llenás con cuenta + compañía + nombre, subís. Una vez por workspace.</p>
-          <h4>ERP Integration</h4>
-          <p>Dos pasos: <strong>Connection</strong> (canal) + <strong>Structure</strong> (qué campos lleva el asiento). Dos modos:</p>
-          <ul>
-            <li><b>Middleware</b> — configurable desde Simetrik, funciona con cualquier ERP.</li>
-            <li><b>Standard App</b> — directo, solo NetSuite y SAP S/4HANA. Requiere accounting capabilities team.</li>
-          </ul>
-          <p>Siempre <strong>test connection</strong> antes de <strong>production</strong>.</p>
-          <h4>Accounting Model</h4>
-          <p>3 tipos de campos: <strong>Document</strong> (fecha, compañía, currency — transversales) · <strong>Lines</strong> (débito/crédito + accounting code + cost center + amount) · <strong>Header</strong> (opcional, sin impacto contable).</p>
-          <p>Configurás 3 tipos de asientos: <strong>Normal · Cancellation</strong> (reverso pre-config) <strong>· Post-Siege</strong>.</p>
-          <h4>Generate Automation</h4>
-          <p>Resource a conciliar (solo standard/advanced recon; una source pura debe convertirse en <em>dummy recon</em>) → fecha + tipo de evento (reconciled / manually reconciled / adjusted A / adjusted B) → hora de envío + post-after-closing day + aprobación manual de reversals.</p>
-          <div class="tip">El próximo <strong>Accounting Model Assistance</strong> (IA) va a completar varios campos automáticamente. Estate atento al release de abril 2026.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L10"><div class="num" data-n="10"></div>
-        <div><h3>Cierre contable: preparer + certifier</h3>
-          <p>Workflow auditable de validación de balances.</p>
-          <div class="meta">25 min · workflow</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Apertura del período</h4>
-          <p>Operate → Accounting Controls → seleccionás año + mes → <code>Update Trial Balance</code> → cargás template con saldos por cuenta.</p>
-          <h4>Validación</h4>
-          <p>Por cuenta: <strong>beginning balance + change + ending balance</strong>. Editás <em>Reconciled Balance</em> con el monto reconocido con evidencia. Si total $16K y reconocés $15K → gap $1K (6.25%).</p>
-          <h4>Support Resources (evidencia)</h4>
-          <ul>
-            <li><b>Snapshots</b> — capturas estáticas de reconciliations (Audit menu).</li>
-            <li><b>External files</b> — bank statements, facturas.</li>
-            <li><b>Notas</b> — comentarios del preparer cuando la evidencia es incompleta.</li>
-          </ul>
-          <h4>Roles separados</h4>
-          <p><strong>Preparer ≠ Certifier</strong>. Preparer arma evidencia y hace click <code>Ready to Certify</code>. Certifier revisa, lee notas, aprueba o rechaza con motivo.</p>
-          <h4>Atajos</h4>
-          <p><strong>Account Grouping</strong> — agrupás cuentas con misma naturaleza y certificás todas con un click. <strong>Auto-certification</strong> — regla automática para cuentas que rara vez cambian (ej. fixed assets).</p>
-          <div class="tip">Cuentas con &lt;10% de gap son normalmente OK con nota. Cuentas con &gt;30% requieren ajuste o reclasificación — escaláselas al supervisor.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L11"><div class="num" data-n="11"></div>
-        <div><h3>Analysis: dashboards, monitors, KPIs</h3>
-          <p>Convertir data en insights ejecutivos.</p>
-          <div class="meta">20 min · análisis</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Custom Dashboards</h4>
-          <p>Componentes: pivot tables (como Excel) · custom tables · reconciliation status · individual KPIs · charts.</p>
-          <h4>4 Monitors</h4>
-          <ul>
-            <li><b>Conciliation Monitor</b> — resumen de todas las recons del workspace.</li>
-            <li><b>Source Monitor</b> — estado de uploads (processed/pending/failed/empty/stopped) por día.</li>
-            <li><b>Bucket Monitor</b> — equivalente para buckets self-managed.</li>
-            <li><b>Accounting Monitor</b> — estado consolidado de balances.</li>
-          </ul>
-          <h4>Consolidations vs Combinations</h4>
-          <p><b>Consolidation</b>: une <strong>verticalmente</strong> groupings (ej. cost controls de varios adquirentes en uno solo). <b>Combination</b>: une <strong>horizontalmente</strong> reconciliations (ej. Authorization → Clearing → Settlement → Anchorage, todo el lifecycle).</p>
-          <div class="tip">Hacé el <strong>top-down</strong> primero: dashboard ejecutivo → tarjetas/adquirentes con delta → drill-down hasta la tx. Te ahorra horas vs revisar fila por fila.</div>
-        </div>
-      </div>
-
-      <div class="lesson" data-id="L12"><div class="num" data-n="12"></div>
-        <div><h3>Data Sharing + Templates + AI Agents</h3>
-          <p>El final del flujo: distribución y reutilización.</p>
-          <div class="meta">20 min · cierre</div>
-        </div><div class="chk">✓</div>
-        <div class="lesson-body">
-          <h4>Data Sharing</h4>
-          <p><b>Exports</b> — a S3 o GCS, CSV/Parquet, by event o recurring. Si destino es SFTP, pasar por S3/GCS primero. <b>Customer Reports</b> — solo SFTP propio de Simetrik, formato CSV, segmentación por cliente con hasta 3 niveles de partitioning y access management por cliente.</p>
-          <h4>Templates</h4>
-          <p>Generás un JSON de cualquier control y lo reimportás en otro workspace. El <strong>Templates Catalog</strong> ofrece soluciones pre-construidas por el services team (ej. Mastercard Controls for Acquirers).</p>
-          <h4>AI Agents activos</h4>
-          <p>Smart Parser · Smart Building Block · Smart Date Formats · Smart Transformation · Smart Rules. Roadmap abril 2026: Column Mapping · Accounting Model Assistance · Safe Column Removal. Roadmap futuro: Accounting Review · Education · Summary Agent.</p>
-          <div class="tip">Cuando configurás un control nuevo: 1) buscá si hay <strong>template oficial</strong> · 2) si lo hay, implementalo · 3) customizá lo que necesites con building blocks. Ahorrás 70% del tiempo de implementación.</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- EXERCISES -->
-  <section class="sec" id="exercises">
-    <div class="sec-h"><h2>🧪 Ejercicios prácticos · certificación</h2><span class="kicker">Demostrá tu aprendizaje</span></div>
-    <p class="sec-lead">Dos ejercicios oficiales del curso Simetrik. El primero es de <strong>controles de operación y costo</strong>; el segundo de <strong>conciliación avanzada</strong>. Cada uno tiene archivos reales en <code>frontend/data</code> (ya extraídos del ZIP) listos para que practiques.</p>
-
-    <div class="ex-grid">
-
-      <div class="ex">
-        <span class="lvl">Ejercicio 2 · Intermedio</span>
-        <h3>OP & Cost Control</h3>
-        <p class="desc">Construir un control de costos comparando lo que el adquirente realmente cobró (real cost) vs lo negociado en contrato (theoretical cost). Detectás revenue leakage por fees mal aplicados.</p>
-
-        <h5>📁 Archivos</h5>
-        <div class="files">
-          <b>MB_DB MAGALU.xlsx</b> · merchant data (Magalu)<br>
-          <b>MB_Credit Card.xlsx</b> · transactions credit<br>
-          <b>MB_Debit Card.xlsx</b> · transactions debit<br>
-          <b>MB_Fee Dictionary - Card Networks.xlsx</b> · fee rates por red+tipo
-        </div>
-
-        <h5>🎯 Conceptos a demostrar</h5>
-        <ul>
-          <li>Crear Source Union de credit + debit cards.</li>
-          <li>Enriquecer con el fee dictionary usando <strong>1-N reconciliation</strong> (no VLOOKUP).</li>
-          <li>Crear 3 transformation columns: real cost · theoretical cost · delta.</li>
-          <li>Hacer reconcilable group por <code>card_type</code>.</li>
-          <li>Configurar standard reconciliation merchant ↔ acquirer junction.</li>
-          <li>Crear grouping para vista ejecutiva por card type.</li>
-          <li>Identificar en qué tarjeta/red hay revenue leakage.</li>
-        </ul>
-
-        <h5>✅ Entregable</h5>
-        <ul>
-          <li>Dashboard con KPIs: total real cost · total theoretical cost · total delta.</li>
-          <li>Pivot table desagregada por card type + transaction type.</li>
-          <li>Documentación: qué cards tienen problema, magnitud absoluta y relativa.</li>
-        </ul>
-      </div>
-
-      <div class="ex adv">
-        <span class="lvl">Ejercicio 3 · Avanzado</span>
-        <h3>Advanced Reconciliation</h3>
-        <p class="desc">Configurar una conciliación avanzada con múltiples sweeps (reconciliation + grouping + offset) entre Merchant y Acquirer (ADQ). Cubrir casos de payment dividido, refunds compensados, timing differences.</p>
-
-        <h5>📁 Archivos</h5>
-        <div class="files">
-          <b>Merchant.xlsx</b> · transacciones del merchant<br>
-          <b>ADQ.xlsx</b> · reporte del acquirer
-        </div>
-
-        <h5>🎯 Conceptos a demostrar</h5>
-        <ul>
-          <li>Normalization de ambos sources (date format, amount format, IDs).</li>
-          <li>Source Union por cada side (incluso con una source).</li>
-          <li>Reconcilable group con <code>SKT ID != empty</code> (best practice).</li>
-          <li>Advanced reconciliation con <strong>3 sweeps</strong>:
-            <ul style="margin-top:4px">
-              <li>Sweep 1 (reconciliation) — match perfecto 1-a-1 por date+ID+amount+tx_type.</li>
-              <li>Sweep 2 (grouping) — varias líneas del acquirer suman al amount del merchant.</li>
-              <li>Sweep 3 (offset) — payments compensados por refunds en el merchant.</li>
-            </ul>
-          </li>
-          <li>Usar <strong>Smart Rules</strong> (aceptar/rechazar sugerencias de la IA).</li>
-        </ul>
-
-        <h5>✅ Entregable</h5>
-        <ul>
-          <li>Reconciliation rate &gt;90% en ambos lados.</li>
-          <li>Análisis de las pending: razón comercial vs error de parseo.</li>
-          <li>Configurar 1 export by event (cada vez que se concilia, sale a S3).</li>
-          <li>Generar template JSON del recurso configurado.</li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="lesson-body" style="display:block;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin-top:16px">
-      <div class="tip">Al final del curso oficial Simetrik tenés <strong>dos certificaciones</strong>: una de assessment teórico (preguntas) y otra práctica (implementás un caso real con workspace + script + archivos). Ambas validan dimensiones distintas del aprendizaje.</div>
-    </div>
-  </section>
-
-  <!-- BENEFITS -->
-  <section class="sec">
-    <div class="sec-h"><h2>📈 Por qué importa todo esto</h2><span class="kicker">Impacto en negocio</span></div>
-    <p class="sec-lead">Estos números los puede citar Simetrik en cualquier deck comercial. Son la promesa que vos materializás como IS.</p>
-    <div class="benefits">
-      <div class="benefit"><div class="num">−5d</div><div class="lbl">Cierre mensual</div><div class="desc">Conciliación continua en lugar de esperar fin de mes.</div></div>
-      <div class="benefit"><div class="num">−95%</div><div class="lbl">Errores año 1</div><div class="desc">Reducción de errores de conciliación vs proceso manual.</div></div>
-      <div class="benefit"><div class="num">−70%</div><div class="lbl">Dependencia TI</div><div class="desc">El equipo financiero configura solo, sin tickets.</div></div>
-      <div class="benefit"><div class="num">+∞</div><div class="lbl">Escalabilidad</div><div class="desc">Más volumen, mismo personal operativo.</div></div>
-      <div class="benefit"><div class="num">100%</div><div class="lbl">Trazabilidad</div><div class="desc">Audit trail completo en cada acción. SOX-ready.</div></div>
-      <div class="benefit"><div class="num">1</div><div class="lbl">Source of truth</div><div class="desc">Finance + Accounting + Ops sobre los mismos datos.</div></div>
-    </div>
-  </section>
-
-  <!-- RESOURCES -->
-  <section class="sec" id="resources">
-    <div class="sec-h"><h2>📚 Recursos oficiales</h2><span class="kicker">Para profundizar</span></div>
-    <div class="res">
-      <a href="https://academy.simetrik.com" target="_blank" rel="noopener">
-        <span class="ic">🎓</span>
-        <div class="ttl">Simetrik Academy</div>
-        <div class="desc">El curso oficial completo (31 lecciones). Disponible en inglés/español/portugués.</div>
-        <span class="link">academy.simetrik.com</span>
-      </a>
-      <a href="https://help.simetrik.com" target="_blank" rel="noopener">
-        <span class="ic">📚</span>
-        <div class="ttl">Help Center</div>
-        <div class="desc">Tabla comparativa Standard vs Advanced Recon · best practices · troubleshooting.</div>
-        <span class="link">help.simetrik.com</span>
-      </a>
-      <a href="https://www.youtube.com/@Simetrik" target="_blank" rel="noopener">
-        <span class="ic">▶️</span>
-        <div class="ttl">YouTube · @Simetrik</div>
-        <div class="desc">+140 videos. Masterclasses, casos por industria, demos.</div>
-        <span class="link">youtube.com/@Simetrik</span>
-      </a>
-      <a href="https://app.simetrik.com" target="_blank" rel="noopener">
-        <span class="ic">🚀</span>
-        <div class="ttl">app.simetrik.com</div>
-        <div class="desc">La plataforma en sí. Login con Google + 2FA.</div>
-        <span class="link">app.simetrik.com</span>
-      </a>
-      <a href="../work.html#dict" target="_blank">
-        <span class="ic">📖</span>
-        <div class="ttl">Diccionario interno · DA-2026</div>
-        <div class="desc">150+ términos categorizados con definición y ejemplo de uso.</div>
-        <span class="link">work.html · Diccionario</span>
-      </a>
-      <a href="simetrik-playbook.html">
-        <span class="ic">📘</span>
-        <div class="ttl">Playbook Ficohsa</div>
-        <div class="desc">Tu manual de campo: stakeholders, procesos priorizados, mini chart of accounts, curso de contabilidad.</div>
-        <span class="link">Playbook IS</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- RECAP -->
-  <div class="recap">
-    <h2>Sos un Implementation Specialist en formación.</h2>
-    <p>Cada lección que completás te acerca a ser productivo desde el día 1. Volvé acá cada vez que dudes "¿qué hago ahora?" o "¿dónde está esto?" — el tour de la interfaz es tu mapa.</p>
-    <div class="cta">
-      <a class="btn btn-p" href="../work.html">↩ Volver al Ecosistema</a>
-      <a class="btn btn-o" href="simetrik-playbook.html">📘 Ver Playbook Ficohsa</a>
-      <a class="btn btn-o" href="../work.html#dict">📖 Ir al Diccionario</a>
-    </div>
-  </div>
-
+<div class="hint">
+  <span class="hi">🧠</span> Este es tu <b>mapa mental de Simetrik</b>. Tocá cualquier nodo para abrir su contenido — adentro hay sub-temas clicables y atajos al simulador y al playbook. <b>Marcá cada nodo como visto</b> y completá el mapa.
 </div>
+
+<div class="map" id="map">
+  <svg class="map-svg" id="svg" viewBox="0 0 1000 680" preserveAspectRatio="none"></svg>
+
+  <!-- CENTRO -->
+  <div class="node-center">
+    <span class="mark">⬡</span>
+    <h2>Simetrik</h2>
+    <div class="cs">8 nodos · todo lo esencial</div>
+  </div>
+
+  <!-- NODOS RAMA -->
+  <div class="node n1" data-node="que-es">
+    <span class="nbadge"></span>
+    <span class="ni">💡</span>
+    <div class="nt">¿Qué es Simetrik?</div>
+    <div class="nd">El concepto base en 3 pasos</div>
+  </div>
+  <div class="node n2" data-node="cuenta">
+    <span class="nbadge"></span>
+    <span class="ni">🔐</span>
+    <div class="nt">Tu cuenta y roles</div>
+    <div class="nd">Account · Workspace · 4 roles</div>
+  </div>
+  <div class="node n3" data-node="la-app">
+    <span class="nbadge"></span>
+    <span class="ni">🖥️</span>
+    <div class="nt">La App · 4 menús</div>
+    <div class="nd">Abre el simulador interactivo</div>
+  </div>
+  <div class="node n4" data-node="ia">
+    <span class="nbadge"></span>
+    <span class="ni">🤖</span>
+    <div class="nt">Agentes de IA</div>
+    <div class="nd">Smart Parser, Rules, Date…</div>
+  </div>
+  <div class="node n5" data-node="dominios">
+    <span class="nbadge"></span>
+    <span class="ni">🎯</span>
+    <div class="nt">8 Dominios</div>
+    <div class="nd">El framework de control E2E</div>
+  </div>
+  <div class="node n6" data-node="contabilidad">
+    <span class="nbadge"></span>
+    <span class="ni">📒</span>
+    <div class="nt">Contabilidad</div>
+    <div class="nd">Naturaleza de cuentas + cierre</div>
+  </div>
+  <div class="node n7" data-node="conciliacion">
+    <span class="nbadge"></span>
+    <span class="ni">⚙️</span>
+    <div class="nt">Conciliación</div>
+    <div class="nd">Standard, Advanced, sweeps</div>
+  </div>
+  <div class="node n8" data-node="ejercicios">
+    <span class="nbadge"></span>
+    <span class="ni">🧪</span>
+    <div class="nt">Ejercicios</div>
+    <div class="nd">Practicá y certificate</div>
+  </div>
+</div>
+
+<div class="pstrip">
+  <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  <div class="plabel"><span id="ptxt">0 / 8 nodos explorados</span><span id="ppct">0%</span></div>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-h">
+    <button class="dclose" id="dclose">✕</button>
+    <span class="dic" id="dIc"></span>
+    <h2 id="dTitle"></h2>
+    <div class="dsub" id="dSub"></div>
+  </div>
+  <div class="drawer-body" id="dBody"></div>
+</aside>
 
 <script>
-/* ── Progress tracking ── */
-const K='work_learn_progress';
-function loadP(){try{return JSON.parse(localStorage.getItem(K)||'{}');}catch{return {};}}
-function saveP(v){try{localStorage.setItem(K,JSON.stringify(v));}catch{}}
-const lessons=document.querySelectorAll('.lesson');
-function refresh(){
-  const p=loadP();
-  let done=0;
-  lessons.forEach(l=>{
-    const id=l.dataset.id;
-    if(p[id]){l.classList.add('done');done++;}
-    else l.classList.remove('done');
+/* ════════ DATA · contenido de cada nodo ════════
+   Derivado de App.md oficial + Domain Framework 2026. */
+
+const NODES = {
+
+  'que-es':{
+    ic:'💡',title:'¿Qué es Simetrik?',sub:'El concepto base, sin vueltas',
+    body:`
+      <p>Simetrik es la <b>plataforma SaaS de automatización de controles financieros</b> más completa del mercado. Integra controles <b>financieros, operacionales y contables</b> en un solo lugar.</p>
+      <p style="background:var(--ag);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:11px 14px;color:#bdeef9;font-style:italic">"From the moment a transaction is born, until it dies in accounting."</p>
+      <h3>El ciclo en 3 pasos · tocá cada uno</h3>
+      <div class="subitem" onclick="toggleMini('m-connect')"><span class="sii">🔌</span><div class="sic"><div class="sit">1 · Connect</div><div class="sid">Traés los datos a la plataforma</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-connect">Conectás bancos, ERPs (SAP, Oracle, NetSuite, Matera) y pasarelas vía <code>API</code>, <code>SFTP</code>, <code>S3</code> o upload manual. Simetrik normaliza todo al mismo esquema con <b>Source Unions</b>.<span class="mtip">El 80% de los errores de conciliación nacen de un mal parseo en este paso.</span></div>
+      <div class="subitem" onclick="toggleMini('m-reconcile')"><span class="sii">⚙️</span><div class="sic"><div class="sit">2 · Reconcile</div><div class="sid">Cruzás las fuentes automáticamente</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-reconcile">Definís <b>Rule Sets</b> (sweeps) que cruzan 2+ fuentes. Empezás con match perfecto, luego tolerancias, luego grouping y offsets. Simetrik procesa millones de tx en segundos.<span class="mtip">Tolerancia ≠ permisividad: una regla muy laxa hace "match entre manzana y pera".</span></div>
+      <div class="subitem" onclick="toggleMini('m-resolve')"><span class="sii">📒</span><div class="sic"><div class="sit">3 · Resolve + Close</div><div class="sid">Resolvés excepciones y cerrás contable</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-resolve">Lo que no cruza cae al dashboard de excepciones. Los matches generan <b>journal entries automáticos</b> que van al ERP. Cerrás el período con preparer + certifier.<span class="mtip">Maker ≠ Checker: la persona que prepara nunca es la que certifica. Es regla SOX.</span></div>
+      <h3>Por qué importa</h3>
+      <p>Resultados que Simetrik cita en cualquier deck: <b>−5 días</b> de cierre mensual · <b>−95%</b> errores el primer año · <b>−70%</b> dependencia de TI · trazabilidad <b>100%</b> · una sola <b>fuente de verdad</b> para finanzas, ops y contabilidad.</p>
+    `
+  },
+
+  'cuenta':{
+    ic:'🔐',title:'Tu cuenta y roles',sub:'Account → Workspace → Roles',
+    body:`
+      <p>Antes de tocar un botón, entendé la jerarquía. Tocá cada nivel:</p>
+      <div class="subitem" onclick="toggleMini('m-account')"><span class="sii">🏛️</span><div class="sic"><div class="sit">Account</div><div class="sid">El nivel superior</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-account">Se crea por <b>solicitud formal a soporte</b> (no es self-service). Al crearse se designa un administrador responsable de crear workspaces, invitar usuarios y definir permisos. Un usuario puede pertenecer a varios accounts.</div>
+      <div class="subitem" onclick="toggleMini('m-workspace')"><span class="sii">🗂️</span><div class="sic"><div class="sit">Workspace</div><div class="sid">Donde los equipos colaboran</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-workspace">Cada account puede tener varios workspaces (por cliente, proyecto, área). Información y permisos quedan <b>aislados</b> entre workspaces.<span class="mtip">Tu workspace será "Ficohsa" — separado de cualquier otro cliente.</span></div>
+      <div class="subitem" onclick="toggleMini('m-login')"><span class="sii">🔑</span><div class="sic"><div class="sit">Login</div><div class="sid">Cómo entrás</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-login">Acceso vía <code>Continue with Google</code>. Si tenés 2FA (ej. Guardian), aprobás desde el celular.</div>
+      <h3>Los 4 roles del sistema</h3>
+      <div class="subitem" onclick="toggleMini('m-roles')"><span class="sii">👥</span><div class="sic"><div class="sit">Viewer · Builder · Operator · Supervisor</div><div class="sid">+ roles personalizados</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-roles"><b>Viewer</b> — solo lectura.<br><b>Builder</b> — crea y edita recursos. Tu rol al arrancar como IS.<br><b>Operator</b> — gestión diaria, ejecuta procesos, resuelve excepciones.<br><b>Supervisor</b> — aprueba (maker-checker), certifica períodos.<br><b>Custom</b> — perfil a medida con permisos por sección (principio de menor privilegio).<span class="mtip">Pedile a tu admin que te ponga como Builder. Cuando pases a producción, te suben a Operator.</span></div>
+      <a class="dlink" href="simetrik-app.html" target="_top"><span class="dli">🖥️</span><div class="dlc"><div class="dlt">Ver la estructura en el simulador</div><div class="dld">El selector de workspace está arriba a la izquierda</div></div><span class="dlarrow">→</span></a>
+    `
+  },
+
+  'la-app':{
+    ic:'🖥️',title:'La App · los 4 menús',sub:'Fiel a app.simetrik.com',
+    body:`
+      <p>La interfaz de Simetrik se organiza en <b>4 menús principales</b> + Resumen + Accesos directos. Tocá cada uno para una vista rápida — pero lo mejor es <b>explorarlos en el simulador</b>.</p>
+      <div class="subitem" onclick="toggleMini('m-automatizar')"><span class="sii">✈️</span><div class="sic"><div class="sit">Automatizar</div><div class="sid">La fábrica · acá se construye</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-automatizar">Catálogo de plantillas · Réplicas · Repositorios · Conexiones · <b>Recursos</b> · <b>Conciliaciones</b> · Fuentes de terceros · Automatizaciones contables · Configuración de cierre · Integraciones ERP.</div>
+      <div class="subitem" onclick="toggleMini('m-gestionar')"><span class="sii">🔍</span><div class="sic"><div class="sit">Gestionar</div><div class="sid">El control room · acá se opera</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-gestionar">Agentes · Alarmas · Tableros operativos · Consolidaciones · Buscador de registros · Tableros contables · Asientos contables · Períodos contables · Conciliaciones de cuentas.</div>
+      <div class="subitem" onclick="toggleMini('m-auditar')"><span class="sii">🛡️</span><div class="sic"><div class="sit">Auditar</div><div class="sid">Trazabilidad total</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-auditar">Historial de actividad (registro inmutable de cada acción) · Fotos (snapshots de conciliaciones como evidencia).</div>
+      <div class="subitem" onclick="toggleMini('m-herramientas')"><span class="sii">⚒️</span><div class="sic"><div class="sit">Herramientas</div><div class="sid">Utilidades y diagnóstico</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-herramientas">Mapas (dependencias entre recursos) · Procesos (qué corre ahora) · Papelera (30 días) · Descargas.</div>
+      <a class="dlink" href="simetrik-app.html" target="_top"><span class="dli">🖥️</span><div class="dlc"><div class="dlt">Abrir el simulador interactivo</div><div class="dld">Réplica de la app · click en menús · hotspots que explican cada cosa</div></div><span class="dlarrow">→</span></a>
+    `
+  },
+
+  'ia':{
+    ic:'🤖',title:'Agentes de IA',sub:'La "agentic experience" de Simetrik',
+    body:`
+      <p>Simetrik no solo muestra datos: <b>anticipa, sugiere y automatiza</b>. Tocá cada agente:</p>
+      <div class="subitem" onclick="toggleMini('m-parser')"><span class="sii">🧠</span><div class="sic"><div class="sit">Smart Parser <span style="color:var(--gn);font-size:10px">● activo</span></div><div class="sid">Parsea archivos sin el services team</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-parser">Catálogo de parsers que ajusta formato/layout de archivos automáticamente. Reduce tu dependencia del services team (que cuesta extra).</div>
+      <div class="subitem" onclick="toggleMini('m-sbb')"><span class="sii">🔗</span><div class="sic"><div class="sit">Smart Building Block <span style="color:var(--gn);font-size:10px">● activo</span></div><div class="sid">Sugiere columnas al unir fuentes</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-sbb">Al armar un Source Union, sugiere proactivamente las columnas que coinciden entre la 1ra y 2da fuente.</div>
+      <div class="subitem" onclick="toggleMini('m-date')"><span class="sii">📅</span><div class="sic"><div class="sit">Smart Date Formats <span style="color:var(--gn);font-size:10px">● activo</span></div><div class="sid">Identifica fechas entre 500+ formatos</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-date">Reconoce automáticamente el formato original de una columna de fecha. Ahorra horas de normalización.</div>
+      <div class="subitem" onclick="toggleMini('m-transf')"><span class="sii">📐</span><div class="sic"><div class="sit">Smart Transformation <span style="color:var(--gn);font-size:10px">● activo</span></div><div class="sid">Fórmulas en lenguaje natural</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-transf">Escribís en natural language lo que querés calcular y sugiere la fórmula. Si tu fórmula tiene errores, los corrige.</div>
+      <div class="subitem" onclick="toggleMini('m-srules')"><span class="sii">✨</span><div class="sic"><div class="sit">Smart Rules <span style="color:var(--gn);font-size:10px">● activo</span></div><div class="sid">Sugiere reglas de matching</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-srules">En Advanced Reconciliation, analiza las 2 sources y sugiere las matching keys óptimas. Vos aceptás o rechazás.<span class="mtip">La IA sugiere, vos decidís. Nunca aceptes reglas a ciegas.</span></div>
+      <div class="subitem" onclick="toggleMini('m-roadmap')"><span class="sii">🔮</span><div class="sic"><div class="sit">Roadmap <span style="color:var(--or);font-size:10px">● próximos</span></div><div class="sid">Lo que viene en 2026</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-roadmap"><b>Abril 2026:</b> Column Mapping · Accounting Model Assistance · Safe Column Removal.<br><b>Roadmap:</b> Accounting Review Agent · Education Agent · Summary Agent · Data Monitoring Agent.</div>
+    `
+  },
+
+  'dominios':{
+    ic:'🎯',title:'8 Dominios',sub:'El framework de control E2E',
+    body:`
+      <p>Simetrik organiza <b>todos los controles posibles</b> en 8 dominios, agrupados en 4 macro-objetivos. Vos vas a trabajar en <b>Cash In</b> y <b>Accounting Operations</b> en Ficohsa. Tocá cada grupo:</p>
+      <div class="subitem" onclick="toggleMini('m-funds')"><span class="sii">💵</span><div class="sic"><div class="sit">Funds Flows · Cash Integrity</div><div class="sid">Dominios 1-2</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-funds"><b>1 · Cash In</b> — asegurar flujos entrantes, eliminar revenue leakage. (Acá vive SERCOM.)<br><b>2 · Cash Out</b> — pagos salientes precisos, sin fugas ni duplicados.</div>
+      <div class="subitem" onclick="toggleMini('m-profit')"><span class="sii">📊</span><div class="sic"><div class="sit">Profitability · Margin Protection</div><div class="sid">Dominios 3-4</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-profit"><b>3 · Fees & Billing</b> — aplicar pricing con precisión en cada tx.<br><b>4 · Disputes & Claims</b> — contener pérdidas por chargebacks y reclamos.</div>
+      <div class="subitem" onclick="toggleMini('m-closing')"><span class="sii">📒</span><div class="sic"><div class="sit">Continuous Closing · Accounting</div><div class="sid">Dominios 5-6</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-closing"><b>5 · Accounting Automation</b> — automatizar reconocimiento, accruals, provisiones.<br><b>6 · Accounting Operations</b> — integridad contable, cierres rápidos. (Acá vive Cartera de Préstamos.)</div>
+      <div class="subitem" onclick="toggleMini('m-compliance')"><span class="sii">🛡️</span><div class="sic"><div class="sit">Compliance & Oversight</div><div class="sid">Dominios 7-8</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-compliance"><b>7 · Reporting & Regulations</b> — reportes audit-ready.<br><b>8 · Unified Oversight & Alerts</b> — visibilidad de KPIs en tiempo real + señales tempranas.</div>
+      <h3>El vocabulario del framework</h3>
+      <p><b>Domain</b> = dónde se controla · <b>Stage / Use Case</b> = cuándo y qué controlar · <b>Sub-Stage / Control</b> = cómo se ejecuta · <b>Reporting Entity</b> = el tercero que reporta data · <b>Actor</b> = el cliente que necesita el control.</p>
+    `
+  },
+
+  'contabilidad':{
+    ic:'📒',title:'Contabilidad',sub:'Lo justo para no cruzar al revés',
+    body:`
+      <p>No necesitás ser contador. Necesitás reconocer la <b>naturaleza de una cuenta</b> y entender un <b>asiento</b>. Tocá cada concepto:</p>
+      <div class="subitem" onclick="toggleMini('m-ecuacion')"><span class="sii">⚖️</span><div class="sic"><div class="sit">La ecuación contable</div><div class="sid">Activo = Pasivo + Patrimonio</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-ecuacion">Lo que el banco <b>tiene</b> (activo) = lo que <b>debe a otros</b> (pasivo) + lo que <b>les debe a sus dueños</b> (patrimonio). Cada operación afecta los dos lados para mantener el balance.</div>
+      <div class="subitem" onclick="toggleMini('m-doble')"><span class="sii">↔️</span><div class="sic"><div class="sit">Partida doble</div><div class="sid">Todo asiento tiene 2 lados</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-doble">Cada transacción afecta al menos 2 cuentas: una con débito, otra con crédito. <b>Σ Débitos = Σ Créditos</b>, siempre. Si no encontrás los dos lados, el asiento está incompleto.</div>
+      <div class="subitem" onclick="toggleMini('m-naturaleza')"><span class="sii">🧭</span><div class="sic"><div class="sit">Naturaleza de cuentas</div><div class="sid">Quién sube con débito, quién con crédito</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-naturaleza">El primer dígito del código te dice todo:<br><code>1</code> Activo · <code>2</code> Pasivo · <code>3</code> Patrimonio · <code>4</code> Ingreso · <code>5</code> Gasto.<span class="mtip">Activos y Gastos suben con Débito · Pasivos, Patrimonio e Ingresos suben con Crédito. Memorizalo.</span></div>
+      <div class="subitem" onclick="toggleMini('m-transitoria')"><span class="sii">🌉</span><div class="sic"><div class="sit">Cuentas transitorias</div><div class="sid">El reto de SERCOM</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-transitoria">Cuentas puente: la plata "vive" un rato antes de su destino final. <b>Débitos = Créditos · saldo del día = 0</b>. Si SERCOM no queda en 0 al cierre, algo está mal (olvido, duplicado o fraude).</div>
+      <a class="dlink" href="simetrik-playbook.html#accounting" target="_top"><span class="dli">📘</span><div class="dlc"><div class="dlt">Mini-curso completo en el Playbook</div><div class="dld">5 lecciones expandibles + mini chart of accounts Ficohsa</div></div><span class="dlarrow">→</span></a>
+    `
+  },
+
+  'conciliacion':{
+    ic:'⚙️',title:'Conciliación',sub:'El corazón de tu trabajo',
+    body:`
+      <p>Conciliar = comparar 2+ fuentes según criterios y decir qué cruza y qué no. Tocá cada concepto:</p>
+      <div class="subitem" onclick="toggleMini('m-tipos')"><span class="sii">🔀</span><div class="sic"><div class="sit">Tipos de cruce</div><div class="sid">1-1 · 1-N · N-1 · N-N</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-tipos"><b>1-a-1</b> cada tx de A tiene una contraparte en B · <b>1-a-N</b> una de A con varias de B · <b>N-a-1</b> varias de A con una de B · <b>N-a-N</b> múltiples entre sí.</div>
+      <div class="subitem" onclick="toggleMini('m-standard')"><span class="sii">📋</span><div class="sic"><div class="sit">Standard Reconciliation</div><div class="sid">Lineal, procesos simples</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-standard">Comparación directa entre 2 sources con sweeps en cascada. El sweep es un "bag of rules": el estricto primero, los laxos después.</div>
+      <div class="subitem" onclick="toggleMini('m-advanced')"><span class="sii">🧩</span><div class="sic"><div class="sit">Advanced Reconciliation</div><div class="sid">Modular, encadena sweeps</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-advanced">Encadena 3 tipos de sweep: <b>reconciliation</b> (1-1), <b>grouping</b> (tx fraccionadas), <b>offset</b> (payment vs refund en la misma source). Para procesos largos.</div>
+      <div class="subitem" onclick="toggleMini('m-tolerancia')"><span class="sii">🎚️</span><div class="sic"><div class="sit">Tolerancias</div><div class="sid">El margen permitido</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-tolerancia">Margen para considerar match: ±0.05 en monto (redondeo), ±1 día en fecha (timing entre clearing y settlement).<span class="mtip">Tolerancia ≠ permisividad. Una regla muy laxa cruza una manzana con una pera.</span></div>
+      <div class="subitem" onclick="toggleMini('m-groups')"><span class="sii">🏷️</span><div class="sic"><div class="sit">Reconcilable Groups</div><div class="sid">Filtros guardados</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-groups">Filtro guardado sobre una source para aislar un subset. Best practice oficial: crear un grupo <code>SKT ID != empty</code> en cada source.</div>
+      <a class="dlink" href="simetrik-playbook.html#recon-course" target="_top"><span class="dli">📘</span><div class="dlc"><div class="dlt">Curso completo en el Playbook</div><div class="dld">5 lecciones · sweeps visualizados · Source Enrichment + Cost Control</div></div><span class="dlarrow">→</span></a>
+      <a class="dlink" href="simetrik-app.html" target="_top"><span class="dli">🖥️</span><div class="dlc"><div class="dlt">Ver Conciliaciones en el simulador</div><div class="dld">Automatizar → Conciliaciones</div></div><span class="dlarrow">→</span></a>
+    `
+  },
+
+  'ejercicios':{
+    ic:'🧪',title:'Ejercicios prácticos',sub:'Practicá y certificate',
+    body:`
+      <p>El curso oficial Simetrik termina con <b>2 certificaciones</b>: una teórica (assessment con preguntas) y una práctica (implementás un caso real). Estos son los 2 ejercicios oficiales:</p>
+      <div class="subitem" onclick="toggleMini('m-ej2')"><span class="sii">📊</span><div class="sic"><div class="sit">Ejercicio 2 · OP & Cost Control</div><div class="sid">Intermedio · revenue leakage</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-ej2"><b>Objetivo:</b> construir un control de costos comparando lo que el adquirente cobró (real) vs lo negociado (teórico).<br><b>Conceptos a demostrar:</b> Source Union credit+debit · enrichment con fee dictionary vía 1-N recon · 3 transformation columns (real cost, theoretical cost, delta) · grouping por card type · identificar dónde hay leakage.<br><b>Archivos:</b> MB_DB MAGALU · MB_Credit Card · MB_Debit Card · MB_Fee Dictionary.</div>
+      <div class="subitem" onclick="toggleMini('m-ej3')"><span class="sii">🧩</span><div class="sic"><div class="sit">Ejercicio 3 · Advanced Reconciliation</div><div class="sid">Avanzado · 3 sweeps</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-ej3"><b>Objetivo:</b> configurar una Advanced Reconciliation Merchant ↔ Acquirer (ADQ) con 3 sweeps.<br><b>Conceptos a demostrar:</b> normalization de ambas sources · Source Union por side · Reconcilable Group <code>SKT ID != empty</code> · 3 sweeps (reconciliation 1-1, grouping, offset) · usar Smart Rules.<br><b>Entregable:</b> reconciliation rate >90% en ambos lados · análisis de pendientes · 1 export by event · 1 template JSON.<br><b>Archivos:</b> Merchant.xlsx · ADQ.xlsx.</div>
+      <p style="margin-top:14px;font-size:12.5px;color:var(--t3)">💡 Los archivos xlsx de ambos ejercicios ya están extraídos del ZIP que pasaste. Practicá primero el Cost Control, después el Advanced — el orden importa.</p>
+    `
+  },
+
+};
+
+/* ════════ LÓGICA ════════ */
+const KEY='work_learn_progress';
+function loadP(){try{return JSON.parse(localStorage.getItem(KEY)||'{}');}catch{return {};}}
+function saveP(v){try{localStorage.setItem(KEY,JSON.stringify(v));}catch{}}
+
+const order=['que-es','cuenta','la-app','ia','dominios','contabilidad','conciliacion','ejercicios'];
+
+function refreshProgress(){
+  const p=loadP();let done=0;
+  document.querySelectorAll('.node').forEach(n=>{
+    if(p[n.dataset.node]){n.classList.add('done');done++;}
+    else n.classList.remove('done');
   });
-  const pct=Math.round(done/lessons.length*100);
+  const pct=Math.round(done/order.length*100);
   document.getElementById('pfill').style.width=pct+'%';
-  document.getElementById('ptxt').textContent=done+' / '+lessons.length+' lecciones completadas';
+  document.getElementById('ptxt').textContent=done+' / '+order.length+' nodos explorados';
   document.getElementById('ppct').textContent=pct+'%';
 }
-lessons.forEach(l=>{
-  l.addEventListener('click',(e)=>{
-    if(e.target.classList.contains('chk')){
-      const id=l.dataset.id;const p=loadP();
-      p[id]=!p[id];saveP(p);refresh();return;
-    }
-    l.classList.toggle('open');
-  });
-});
-refresh();
 
-/* ── Tour nav ── */
-document.querySelectorAll('#tourNav .it').forEach(it=>{
-  it.addEventListener('click',()=>{
-    document.querySelectorAll('#tourNav .it').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.tour-step').forEach(x=>x.classList.remove('on'));
-    it.classList.add('on');
-    const el=document.getElementById('ts-'+it.dataset.s);
-    if(el) el.classList.add('on');
-  });
+let currentNode=null;
+function openNode(key){
+  const d=NODES[key];if(!d)return;
+  currentNode=key;
+  document.getElementById('dIc').textContent=d.ic;
+  document.getElementById('dTitle').textContent=d.title;
+  document.getElementById('dSub').textContent=d.sub;
+  const p=loadP();const isDone=!!p[key];
+  document.getElementById('dBody').innerHTML=d.body+`
+    <div class="markdone">
+      <button id="mdBtn" class="${isDone?'isdone':''}" onclick="markDone()">${isDone?'✓ Nodo visto':'Marcar como visto'}</button>
+      <span class="mdtxt">Tu progreso se guarda automáticamente</span>
+    </div>`;
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerBg').classList.add('open');
+  document.getElementById('dBody').scrollTop=0;
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerBg').classList.remove('open');
+  currentNode=null;
+}
+function markDone(){
+  if(!currentNode)return;
+  const p=loadP();
+  p[currentNode]=!p[currentNode];
+  saveP(p);
+  refreshProgress();
+  const btn=document.getElementById('mdBtn');
+  if(p[currentNode]){btn.classList.add('isdone');btn.textContent='✓ Nodo visto';}
+  else{btn.classList.remove('isdone');btn.textContent='Marcar como visto';}
+}
+function toggleMini(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.toggle('open');
+}
+
+document.querySelectorAll('.node').forEach(n=>{
+  n.addEventListener('click',()=>openNode(n.dataset.node));
 });
+document.getElementById('dclose').addEventListener('click',closeDrawer);
+document.getElementById('drawerBg').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+/* ── conectores SVG centro→nodos ── */
+function drawLines(){
+  const svg=document.getElementById('svg');
+  const map=document.getElementById('map').getBoundingClientRect();
+  const center=document.querySelector('.node-center').getBoundingClientRect();
+  const cx=(center.left+center.right)/2-map.left;
+  const cy=(center.top+center.bottom)/2-map.top;
+  // viewBox es 1000x680 → factor de escala
+  const sx=1000/map.width, sy=680/map.height;
+  let html='';
+  document.querySelectorAll('.node').forEach(n=>{
+    const r=n.getBoundingClientRect();
+    const nx=(r.left+r.right)/2-map.left;
+    const ny=(r.top+r.bottom)/2-map.top;
+    html+=`<line x1="${cx*sx}" y1="${cy*sy}" x2="${nx*sx}" y2="${ny*sy}"></line>`;
+  });
+  svg.innerHTML=html;
+}
+window.addEventListener('load',()=>{drawLines();refreshProgress();});
+window.addEventListener('resize',drawLines);
 </script>
 </body>
 </html>

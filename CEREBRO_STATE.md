@@ -6,6 +6,77 @@
 
 ---
 
+## 💼 14-WORK · Rediseño UX: Mapa mental + Simulador interactivo de la app — 2026-05-14b
+
+### Qué cambió
+El usuario pidió diferenciar claramente "Empieza Aquí" del "Playbook" (eran muy parecidos) y construir un **simulador real de la app de Simetrik** — interactivo, con botones explicativos, menos texto. Se inspeccionaron las **6 capturas reales** de `app.simetrik.com` (Principal, Automatizar, Gestionar, Auditar, Herramientas, Accesos directos) para replicar la UX fielmente.
+
+**NUEVO · `pages/simetrik-app.html` — Simulador interactivo de la app:**
+- Réplica fiel de `app.simetrik.com`: **tema claro**, sidebar idéntico al real.
+- Sidebar con la estructura EXACTA de los menús reales (nombres en español de las capturas):
+  - **Resumen** (pantalla de inicio con 4 stat cards: Fuentes, Conciliaciones, Usuarios, Gigabytes + paneles Recientes).
+  - **Accesos directos** [badge Nuevo]: Recursos, Conciliaciones, Repositorios.
+  - **Automatizar**: Configuraciones rápidas (Catálogo de plantillas [Beta], Réplicas) · Integraciones (Repositorios, Conexiones) · Recursos y conciliaciones (Recursos, Conciliaciones, Fuentes de terceros) · Contabilidad (Automatizaciones contables, Configuración de cierre, Integraciones ERP).
+  - **Gestionar**: Hallazgos (Agentes, Alarmas) · Controles operativos y financieros (Tableros operativos, Consolidaciones, Buscador de registros, Recursos) · Controles contables (Tableros contables, Asientos contables, Períodos contables, Conciliaciones de cuentas).
+  - **Auditar**: Historial de actividad, Fotos.
+  - **Herramientas**: Mapas, Procesos, Papelera, Descargas.
+- **24 pantallas mock** — cada submenú renderiza una pantalla realista (toolbars, tablas mock, cards, KPIs, badges de estado) con datos coherentes de Ficohsa.
+- **Sistema de hotspots interactivos:** puntos azules pulsantes (?) sobre elementos UI clave. Click → modal con: categoría, título, qué hace, caso de uso, tip. ~50 hotspots distribuidos.
+- Cada pantalla abre con un **explainer card** ("¿Qué hago aquí?") + chips de tips/warnings.
+- Menús se expanden inline como acordeón (igual al real). Submenú abierto resalta el item activo.
+- Todo el contenido derivado del App.md oficial. Cero ficción.
+
+**REHECHO · `pages/simetrik-learn.html` — Mapa mental interactivo:**
+- Reemplaza la guía de scroll largo por un **mapa mental visual**: nodo central "Simetrik" + 8 nodos rama radiales conectados por líneas SVG.
+- Los 8 nodos: ¿Qué es Simetrik? · Tu cuenta y roles · La App (4 menús) · Agentes de IA · 8 Dominios · Contabilidad · Conciliación · Ejercicios.
+- Click en un nodo → **drawer lateral** se desliza con contenido conciso + **sub-items clicables** que despliegan mini-detalles (acordeón anidado).
+- Cada drawer tiene **deep-links** a `simetrik-app.html` y `simetrik-playbook.html` (botones de acción destacados).
+- Botón "Marcar como visto" por nodo → progreso persiste en `work_learn_progress`.
+- Barra de progreso "N/8 nodos explorados".
+- Mínimo texto en el lienzo; el contenido se revela al interactuar (cumple el pedido "menos letra, más interacción").
+- Líneas SVG centro→nodos se redibujan en resize.
+
+**`work.html` — nueva pestaña + diferenciación:**
+- Agregada pestaña **🖥️ Simulador App** (segunda posición, después de Empieza Aquí).
+- Total 12 pestañas (era 11).
+- Textos de las pestañas diferenciados claramente:
+  - 🧭 Empieza Aquí → "Mapa mental de Simetrik · 8 nodos clicables"
+  - 🖥️ Simulador App → "Réplica interactiva de app.simetrik.com con hotspots"
+  - 📘 Playbook Ficohsa → "Manual de campo específico del proyecto Ficohsa"
+
+### Archivos modificados / creados
+- ➕ `frontend/pages/simetrik-app.html` (NEW · ~900 líneas · simulador interactivo)
+- ✏️ `frontend/pages/simetrik-learn.html` (rehecho como mapa mental · ~600 líneas)
+- ✏️ `frontend/work.html` (+ pestaña Simulador App · textos diferenciados)
+
+### Decisiones técnicas
+1. **Tema claro para el simulador** — decisión deliberada: el simulador DEBE verse como la app real de Simetrik (que es light theme). El mapa mental y el playbook siguen dark (integran con DA-2026). Cada página tiene el theme que su función requiere.
+2. **Hotspots vs texto plano:** se eligió el patrón hotspot (punto pulsante → modal) para cumplir "menos letra, más interacción". El usuario descubre la info clickeando, no leyendo párrafos.
+3. **Mapa mental con SVG dinámico:** las líneas conectoras se calculan en JS sobre las posiciones reales de los nodos (getBoundingClientRect) y se redibujan en resize — responsivo real.
+4. **Drawer con acordeón anidado:** cada nodo del mapa abre un drawer; dentro, los sub-items son a su vez clicables y despliegan mini-detalles. Doble nivel de progressive disclosure.
+5. **Diferenciación de roles de cada página:**
+   - `simetrik-learn.html` = punto de entrada / navegación mental (mapa).
+   - `simetrik-app.html` = aprender la UX haciendo (simulador).
+   - `simetrik-playbook.html` = manual de campo Ficohsa-specific (referencia diaria).
+   Cada una con propósito único, sin solapamiento.
+6. **Progreso compartido:** el mapa mental usa la misma key `work_learn_progress` — los 8 nodos reemplazan las 12 lecciones anteriores como unidad de progreso.
+
+### Estado actual de 14-WORK
+- **Pestañas activas:** 12 (+ Simulador App)
+- **Páginas embebidas:** 3 — `simetrik-learn.html` (mapa mental, dark), `simetrik-app.html` (simulador, light), `simetrik-playbook.html` (manual Ficohsa, dark)
+- **Simulador:** 24 pantallas mock + ~50 hotspots interactivos, fiel a app.simetrik.com
+- **Mapa mental:** 8 nodos clicables con drawers + sub-items + deep-links + progreso
+- **Diccionario:** ~210 términos (SEED_VERSION simetrik-2026-05-14.1, sin cambio este commit)
+
+### Pendientes detectados
+- Reforzar el mini-curso de contabilidad dentro del contexto Simetrik (el usuario lo marcó como "le falta") — el playbook tiene 5 lecciones pero podría profundizar la conexión cuenta↔conciliación↔asiento.
+- Procesar PDFs Service Module 2/3 + RFP del primer ZIP.
+- Las 6 capturas PNG podrían embebirse como overlays opcionales en el simulador (mejora futura).
+- APA: feature "pegar cualquier texto → APA automático" + verificación APA_CUN.pdf.
+- Mind Map Studio (15-MM) mejoras profesionales.
+
+---
+
 ## 💼 14-WORK · Ecosistema rehecho con material oficial Simetrik App.md — 2026-05-14
 
 ### Qué cambió

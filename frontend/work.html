@@ -36,6 +36,7 @@
 
   <div class="tabs">
     <button class="tab on" data-p="start">🧭 Empieza Aquí</button>
+    <button class="tab" data-p="appsim">🖥️ Simulador App</button>
     <button class="tab" data-p="playbook">📘 Playbook Ficohsa</button>
     <button class="tab" data-p="dict">📖 Diccionario</button>
     <button class="tab" data-p="workflow">📝 Notas Workflow</button>
@@ -48,28 +49,40 @@
     <button class="tab" data-p="copilot">🤖 Copilot</button>
   </div>
 
-  <!-- ═══ EMPIEZA AQUÍ · Guía didáctica + tour interfaz ═══ -->
+  <!-- ═══ EMPIEZA AQUÍ · Mapa mental interactivo ═══ -->
   <div class="pnl on" id="p-start">
     <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-size:14px;font-weight:600">🧭 Empieza Aquí · Aprende Simetrik desde cero</div>
-        <div style="font-size:11px;color:var(--t3)">¿Qué es? · Tu rol · Tour interactivo de la interfaz · Curso paso a paso con progreso · Conceptos clave · Recursos oficiales.</div>
+        <div style="font-size:14px;font-weight:600">🧭 Empieza Aquí · Mapa mental de Simetrik</div>
+        <div style="font-size:11px;color:var(--t3)">8 nodos clicables · cada uno te enseña un tema con sub-temas desplegables y atajos al simulador y al playbook.</div>
       </div>
       <a class="btn bo bs" href="pages/simetrik-learn.html" target="_blank" style="text-decoration:none">↗ Abrir en nueva pestaña</a>
     </div>
-    <iframe src="pages/simetrik-learn.html" style="width:100%;height:calc(100vh - 220px);min-height:680px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)" loading="lazy"></iframe>
+    <iframe src="pages/simetrik-learn.html" style="width:100%;height:calc(100vh - 220px);min-height:720px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)" loading="lazy"></iframe>
   </div>
 
-  <!-- ═══ PLAYBOOK · Documento canónico Simetrik+Ficohsa ═══ -->
+  <!-- ═══ SIMULADOR APP · Réplica interactiva de app.simetrik.com ═══ -->
+  <div class="pnl" id="p-appsim">
+    <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:14px;font-weight:600">🖥️ Simulador App · Réplica interactiva de Simetrik</div>
+        <div style="font-size:11px;color:var(--t3)">Igual a app.simetrik.com. Click en los menús reales (Automatizar, Gestionar, Auditar, Herramientas) → cada pantalla con hotspots que explican qué hace cada cosa.</div>
+      </div>
+      <a class="btn bo bs" href="pages/simetrik-app.html" target="_blank" style="text-decoration:none">↗ Abrir en nueva pestaña</a>
+    </div>
+    <iframe src="pages/simetrik-app.html" style="width:100%;height:calc(100vh - 200px);min-height:720px;border:1px solid var(--bd);border-radius:10px;background:#fff" loading="lazy"></iframe>
+  </div>
+
+  <!-- ═══ PLAYBOOK · Manual de campo Ficohsa-specific ═══ -->
   <div class="pnl" id="p-playbook">
     <div class="cd" style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-size:14px;font-weight:600">📘 Playbook · Implementation Specialist · Simetrik + Ficohsa</div>
-        <div style="font-size:11px;color:var(--t3)">Documento completo: Flujo del proyecto, mi proceso como IS, diccionario, naturaleza contable, lab práctico, RFP y FAQ.</div>
+        <div style="font-size:14px;font-weight:600">📘 Playbook · Manual de campo del proyecto Ficohsa</div>
+        <div style="font-size:11px;color:var(--t3)">Específico de tu proyecto: stakeholders, cronograma, mini-curso de contabilidad, chart of accounts Ficohsa, curso de conciliación, procesos priorizados, cheatsheet y FAQ.</div>
       </div>
       <a class="btn bo bs" href="pages/simetrik-playbook.html" target="_blank" style="text-decoration:none">↗ Abrir en nueva pestaña</a>
     </div>
-    <iframe src="pages/simetrik-playbook.html" style="width:100%;height:calc(100vh - 220px);min-height:680px;border:1px solid var(--bd);border-radius:10px;background:#fff" loading="lazy"></iframe>
+    <iframe src="pages/simetrik-playbook.html" style="width:100%;height:calc(100vh - 220px);min-height:680px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)" loading="lazy"></iframe>
   </div>
 
   <!-- ═══ WORKFLOW (notas personales sobre el workflow) ═══ -->

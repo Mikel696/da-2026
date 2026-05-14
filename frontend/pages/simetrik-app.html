@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Simulador App Simetrik · Interactivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Tema claro fiel a app.simetrik.com */
+  --bg:#ffffff;--bg2:#f7f8fa;--bg3:#eef0f4;--bd:#e3e6ec;--bd2:#d1d6e0;
+  --tx:#1a1d26;--t2:#5a6072;--t3:#8b91a3;
+  --blu:#3b5bdb;--blu2:#5c7cfa;--blul:#edf0ff;
+  --grn:#2f9e44;--grnl:#ebfbee;
+  --red:#e03131;--redl:#fff0f0;
+  --amb:#f08c00;--ambl:#fff9db;
+  --cy:#0c8599;--cyl:#e3fafc;
+  /* DA strip dark */
+  --dbg:#0b0d12;--dbd:#252a36;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg2);color:var(--tx);font-size:14px;line-height:1.55}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
+
+/* DA strip */
+.da-strip{background:var(--dbg);border-bottom:1px solid var(--dbd);display:flex;align-items:center;gap:14px;padding:9px 20px;font-size:12.5px}
+.da-strip a{color:#22d3ee;text-decoration:none;font-weight:600}.da-strip a:hover{color:#fff}
+.da-strip .mod{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6b7280;margin-left:auto}
+body.in-iframe .da-strip{display:none}
+
+/* Guía bar */
+.guide-bar{background:linear-gradient(90deg,#3b5bdb,#5c7cfa);color:#fff;padding:10px 22px;display:flex;align-items:center;gap:14px;font-size:13px}
+.guide-bar .gi{font-size:18px}
+.guide-bar b{font-weight:700}
+.guide-bar .ghint{margin-left:auto;font-size:11.5px;opacity:.85;font-family:'JetBrains Mono',monospace}
+
+/* App shell */
+.app{display:grid;grid-template-columns:248px 1fr;height:calc(100vh - 76px);overflow:hidden}
+body.in-iframe .app{height:calc(100vh - 38px)}
+
+/* SIDEBAR (fiel a Simetrik) */
+.sb{background:#fff;border-right:1px solid var(--bd);overflow-y:auto;display:flex;flex-direction:column}
+.sb-logo{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--bd)}
+.sb-logo .lg{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--tx)}
+.sb-logo .lg .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3b5bdb,#5c7cfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
+.sb-logo .eye{color:var(--t3);font-size:14px;cursor:pointer}
+.sb-ws{margin:10px 12px;padding:9px 11px;border:1px solid var(--bd);border-radius:9px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.sb-ws:hover{background:var(--bg2)}
+.sb-ws .wsmark{width:30px;height:30px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--t2);font-size:13px}
+.sb-ws .wsinfo .wn{font-weight:700;font-size:12.5px}
+.sb-ws .wsinfo .wu{font-size:11px;color:var(--t3)}
+.sb-ws .wschev{margin-left:auto;color:var(--t3);font-size:12px}
+.sb-search{margin:0 12px 8px;padding:8px 11px;border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;gap:8px;color:var(--t3);font-size:12.5px;cursor:pointer}
+.sb-search:hover{background:var(--bg2)}
+.sb-search .kbd{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--t3)}
+.sb-nav{padding:4px 8px 16px;flex:1}
+/* menú nivel 1 */
+.m1{margin-bottom:1px}
+.m1>.m1h{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;color:var(--tx);user-select:none}
+.m1>.m1h:hover{background:var(--bg2)}
+.m1.on>.m1h{background:var(--blul);color:var(--blu)}
+.m1>.m1h .ic{width:18px;text-align:center;font-size:14px;flex-shrink:0}
+.m1>.m1h .chev{margin-left:auto;font-size:11px;color:var(--t3);transition:transform .15s}
+.m1.exp>.m1h .chev{transform:rotate(90deg)}
+.m1.exp>.m1h{color:var(--tx)}
+.m1.leaf>.m1h .chev{display:none}
+.m1.on.leaf>.m1h{background:var(--blul);color:var(--blu);font-weight:700}
+.m1.on.leaf>.m1h .ic{color:var(--blu)}
+.badge-nuevo{font-size:9px;background:var(--blul);color:var(--blu);padding:1px 6px;border-radius:8px;font-weight:700;margin-left:auto}
+/* submenú */
+.m1-sub{display:none;padding:2px 0 6px}
+.m1.exp>.m1-sub{display:block}
+.subgroup{padding:8px 10px 3px 16px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.m2{display:flex;align-items:center;gap:10px;padding:7px 10px 7px 28px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--t2);user-select:none}
+.m2:hover{background:var(--bg2);color:var(--tx)}
+.m2.on{background:var(--blul);color:var(--blu);font-weight:600}
+.m2 .ic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.m2 .tag{font-size:8.5px;background:var(--bg3);color:var(--t3);padding:1px 5px;border-radius:6px;margin-left:auto;font-weight:700}
+.m2 .check{margin-left:auto;color:var(--grn);font-size:12px}
+.sb-foot{border-top:1px solid var(--bd);padding:8px 12px;display:flex;align-items:center;gap:12px;color:var(--t3);font-size:13px}
+.sb-foot .av{width:24px;height:24px;border-radius:6px;background:#e64980;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+
+/* MAIN */
+.main{overflow-y:auto;background:var(--bg2);position:relative}
+.main-inner{padding:26px 34px 60px;max-width:1100px}
+
+/* explainer card (qué hago aquí) */
+.explainer{background:#fff;border:1px solid var(--bd);border-left:4px solid var(--blu);border-radius:11px;padding:16px 20px;margin-bottom:20px}
+.explainer .et{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;margin-bottom:6px}
+.explainer .et .dot{width:7px;height:7px;border-radius:50%;background:var(--blu)}
+.explainer p{font-size:13px;color:var(--t2);line-height:1.65}
+.explainer .ebtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ebtn{font-size:11.5px;background:var(--bg2);border:1px solid var(--bd);border-radius:7px;padding:5px 10px;color:var(--t2);cursor:default}
+.ebtn.tip{background:var(--grnl);border-color:#b2f2bb;color:var(--grn)}
+.ebtn.warn{background:var(--ambl);border-color:#ffe066;color:var(--amb)}
+
+/* screen header */
+.scr-h{margin-bottom:18px}
+.scr-h h1{font-size:24px;font-weight:700;letter-spacing:-.3px}
+.scr-h p{font-size:13px;color:var(--t2);margin-top:3px}
+
+/* stat cards (Resumen) */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 18px;display:flex;align-items:center;gap:12px;position:relative}
+.stat .sv{font-size:22px;font-weight:800;color:var(--tx)}
+.stat .si{width:34px;height:34px;border-radius:9px;background:var(--blul);display:flex;align-items:center;justify-content:center;font-size:16px}
+.stat .sl{font-size:12px;color:var(--t2);font-weight:600}
+
+/* mock panels */
+.mock-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mpanel{background:#fff;border:1px solid var(--bd);border-radius:11px;overflow:hidden}
+.mpanel .mph{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;color:var(--blu)}
+.mpanel .mph .vt{margin-left:auto;font-size:11.5px;color:var(--blu);font-weight:600;text-decoration:underline;cursor:default}
+.mrow{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--bg3);font-size:12.5px}
+.mrow:last-child{border-bottom:none}
+.mrow .mn{color:var(--tx)}
+.mrow .md{color:var(--t3);font-size:11.5px}
+
+/* generic mock content */
+.mc-toolbar{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.mc-btn{background:var(--blu);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;gap:6px;position:relative;cursor:default}
+.mc-btn.ghost{background:#fff;color:var(--t2);border:1px solid var(--bd)}
+.mc-search{flex:1;min-width:160px;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;color:var(--t3);font-size:12px}
+.mc-table{background:#fff;border:1px solid var(--bd);border-radius:11px;overflow:hidden}
+.mc-table table{width:100%;border-collapse:collapse;font-size:12.5px}
+.mc-table th{background:var(--bg2);text-align:left;padding:10px 14px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--bd)}
+.mc-table td{padding:10px 14px;border-bottom:1px solid var(--bg3);color:var(--t2)}
+.mc-table tr:last-child td{border-bottom:none}
+.mc-table td .pill{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:9px;font-weight:700}
+.pill.ok{background:var(--grnl);color:var(--grn)}
+.pill.pend{background:var(--ambl);color:var(--amb)}
+.pill.fail{background:var(--redl);color:var(--red)}
+.pill.proc{background:var(--cyl);color:var(--cy)}
+.mc-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:4px}
+.mc-card{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px;position:relative}
+.mc-card h4{font-size:13.5px;font-weight:700;margin-bottom:4px}
+.mc-card p{font-size:11.5px;color:var(--t3);line-height:1.5}
+.mc-bars{display:flex;gap:3px;margin-top:10px;height:7px;border-radius:4px;overflow:hidden}
+.mc-bars .bg{background:var(--grn)}.mc-bars .br{background:var(--red)}
+
+/* HOTSPOT */
+.hot{position:absolute;width:20px;height:20px;cursor:pointer;z-index:5}
+.hot::before{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--blu);box-shadow:0 0 0 0 rgba(59,91,219,.5);animation:pulse 2s infinite}
+.hot::after{content:'?';position:absolute;inset:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(59,91,219,.45)}70%{box-shadow:0 0 0 11px rgba(59,91,219,0)}100%{box-shadow:0 0 0 0 rgba(59,91,219,0)}}
+.hot.tl{top:-9px;left:-9px}.hot.tr{top:-9px;right:-9px}.hot.tc{top:-9px;left:50%;margin-left:-10px}
+.hot.cr{top:50%;right:-9px;margin-top:-10px}.hot.cl{top:50%;left:-9px;margin-top:-10px}
+
+/* hotspot tooltip modal */
+.htip{position:fixed;inset:0;background:rgba(15,18,26,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.htip.show{display:flex}
+.htip-box{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:24px 26px;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
+.htip-box .hclose{position:absolute;top:14px;right:16px;color:var(--t3);font-size:18px;cursor:pointer;line-height:1}
+.htip-box .hcat{font-size:10.5px;font-weight:700;color:var(--blu);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.htip-box h3{font-size:18px;font-weight:700;margin-bottom:8px;padding-right:20px}
+.htip-box p{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:10px}
+.htip-box .huse{background:var(--blul);border-radius:9px;padding:11px 14px;font-size:12.5px;color:#2c3e8c;line-height:1.55}
+.htip-box .huse::before{content:'🎯 Caso de uso · ';font-weight:700}
+.htip-box .htip2{background:var(--grnl);border-radius:9px;padding:11px 14px;font-size:12.5px;color:var(--grn);line-height:1.55;margin-top:8px}
+.htip-box .htip2::before{content:'💡 Tip · ';font-weight:700}
+
+/* welcome state */
+.welcome{text-align:center;padding:60px 30px}
+.welcome .wi{font-size:46px;margin-bottom:12px}
+.welcome h2{font-size:22px;font-weight:700;margin-bottom:8px}
+.welcome p{font-size:13.5px;color:var(--t2);max-width:480px;margin:0 auto 18px;line-height:1.6}
+.welcome .wsteps{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.wstep{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--t2);max-width:170px;text-align:left}
+.wstep b{display:block;color:var(--tx);font-size:12.5px;margin-bottom:2px}
+
+@media (max-width:820px){
+  .app{grid-template-columns:1fr;height:auto}
+  .sb{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .mock-panels{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script>try{if(window.self!==window.top)document.body.classList.add('in-iframe');}catch(e){document.body.classList.add('in-iframe');}</script>
+<div class="da-strip">
+  <a href="../work.html">← Ecosistema Simetrik</a>
+  <span style="opacity:.3">|</span>
+  <a href="simetrik-learn.html">🧭 Mapa mental</a>
+  <a href="simetrik-playbook.html">📘 Playbook Ficohsa</a>
+  <span class="mod">14-WORK · Simulador App Simetrik</span>
+</div>
+
+<div class="guide-bar">
+  <span class="gi">🖱️</span>
+  <span><b>Simulador interactivo.</b> Esto es una réplica de app.simetrik.com. Hacé click en los menús de la izquierda para explorar. Los puntos azules <b>(?)</b> son hotspots — clickealos para que te explique qué hace cada cosa.</span>
+  <span class="ghint">no es la app real · es para aprender</span>
+</div>
+
+<div class="app">
+
+  <!-- ════ SIDEBAR (fiel) ════ -->
+  <aside class="sb">
+    <div class="sb-logo">
+      <div class="lg"><span class="mark">⬡</span> Simetrik</div>
+      <span class="eye">👁</span>
+    </div>
+    <div class="sb-ws">
+      <div class="wsmark">F</div>
+      <div class="wsinfo"><div class="wn">Ficohsa</div><div class="wu">Miguel</div></div>
+      <span class="wschev">⇅</span>
+    </div>
+    <div class="sb-search">🔍 Buscar <span class="kbd">Ctrl+K</span></div>
+
+    <nav class="sb-nav" id="nav">
+      <!-- Resumen (leaf) -->
+      <div class="m1 leaf on" data-screen="resumen"><div class="m1h"><span class="ic">🏠</span> Resumen<span class="chev">›</span></div></div>
+
+      <!-- Accesos directos -->
+      <div class="m1" data-key="accesos"><div class="m1h"><span class="ic">↗</span> Accesos directos<span class="badge-nuevo">Nuevo</span></div>
+        <div class="m1-sub">
+          <div class="m2" data-screen="ad-recursos"><span class="ic">▦</span> Recursos</div>
+          <div class="m2" data-screen="ad-concil"><span class="ic">⇄</span> Conciliaciones</div>
+          <div class="m2" data-screen="ad-repos"><span class="ic">🗄</span> Repositorios</div>
+        </div>
+      </div>
+
+      <!-- Automatizar -->
+      <div class="m1" data-key="automatizar"><div class="m1h"><span class="ic">✈</span> Automatizar<span class="chev">›</span></div>
+        <div class="m1-sub">
+          <div class="subgroup">Configuraciones rápidas</div>
+          <div class="m2" data-screen="catalogo"><span class="ic">▤</span> Catálogo de plantillas<span class="tag">Beta</span></div>
+          <div class="m2" data-screen="replicas"><span class="ic">⇲</span> Réplicas</div>
+          <div class="subgroup">Integraciones</div>
+          <div class="m2" data-screen="repositorios"><span class="ic">🗄</span> Repositorios</div>
+          <div class="m2" data-screen="conexiones"><span class="ic">→]</span> Conexiones</div>
+          <div class="subgroup">Recursos y conciliaciones</div>
+          <div class="m2" data-screen="recursos"><span class="ic">▦</span> Recursos</div>
+          <div class="m2" data-screen="conciliaciones"><span class="ic">⇄</span> Conciliaciones</div>
+          <div class="m2" data-screen="fuentes3"><span class="ic">🌐</span> Fuentes de terceros</div>
+          <div class="subgroup">Contabilidad</div>
+          <div class="m2" data-screen="auto-contables"><span class="ic">📒</span> Automatizaciones contables</div>
+          <div class="m2" data-screen="config-cierre"><span class="ic">⚙</span> Configuración de cierre</div>
+          <div class="m2" data-screen="erp"><span class="ic">🔌</span> Integraciones ERP</div>
+        </div>
+      </div>
+
+      <!-- Gestionar -->
+      <div class="m1" data-key="gestionar"><div class="m1h"><span class="ic">🔍</span> Gestionar<span class="chev">›</span></div>
+        <div class="m1-sub">
+          <div class="subgroup">Hallazgos</div>
+          <div class="m2" data-screen="agentes"><span class="ic">✨</span> Agentes<span class="check">✓</span></div>
+          <div class="m2" data-screen="alarmas"><span class="ic">📢</span> Alarmas</div>
+          <div class="subgroup">Controles operativos y financieros</div>
+          <div class="m2" data-screen="tableros-op"><span class="ic">📊</span> Tableros operativos</div>
+          <div class="m2" data-screen="consolidaciones"><span class="ic">⊞</span> Consolidaciones</div>
+          <div class="m2" data-screen="buscador"><span class="ic">🔎</span> Buscador de registros</div>
+          <div class="m2" data-screen="g-recursos"><span class="ic">▦</span> Recursos</div>
+          <div class="subgroup">Controles contables</div>
+          <div class="m2" data-screen="tableros-cont"><span class="ic">📈</span> Tableros contables</div>
+          <div class="m2" data-screen="asientos"><span class="ic">📝</span> Asientos contables</div>
+          <div class="m2" data-screen="periodos"><span class="ic">📅</span> Períodos contables</div>
+          <div class="m2" data-screen="concil-cuentas"><span class="ic">⚖</span> Conciliaciones de cuentas</div>
+        </div>
+      </div>
+
+      <!-- Auditar -->
+      <div class="m1" data-key="auditar"><div class="m1h"><span class="ic">🛡</span> Auditar<span class="chev">›</span></div>
+        <div class="m1-sub">
+          <div class="m2" data-screen="historial"><span class="ic">📋</span> Historial de actividad</div>
+          <div class="m2" data-screen="fotos"><span class="ic">📸</span> Fotos</div>
+        </div>
+      </div>
+
+      <!-- Herramientas -->
+      <div class="m1" data-key="herramientas"><div class="m1h"><span class="ic">⚒</span> Herramientas<span class="chev">›</span></div>
+        <div class="m1-sub">
+          <div class="m2" data-screen="mapas"><span class="ic">🕸</span> Mapas</div>
+          <div class="m2" data-screen="procesos"><span class="ic">🌀</span> Procesos</div>
+          <div class="m2" data-screen="papelera"><span class="ic">🗑</span> Papelera</div>
+          <div class="m2" data-screen="descargas"><span class="ic">⬇</span> Descargas</div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sb-foot">
+      <span class="av">M</span> <span>🔔</span> <span>❓</span> <span>⚙</span> <span>📋</span>
+    </div>
+  </aside>
+
+  <!-- ════ MAIN ════ -->
+  <main class="main">
+    <div class="main-inner" id="screen"><!-- render by JS --></div>
+  </main>
+</div>
+
+<!-- HOTSPOT TOOLTIP MODAL -->
+<div class="htip" id="htip">
+  <div class="htip-box">
+    <span class="hclose" onclick="closeTip()">✕</span>
+    <div class="hcat" id="htCat"></div>
+    <h3 id="htTitle"></h3>
+    <p id="htBody"></p>
+    <div class="huse" id="htUse"></div>
+    <div class="htip2" id="htTip"></div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════
+   SIMULADOR APP SIMETRIK · contenido de cada pantalla
+   Todo derivado de App.md oficial + capturas reales.
+   ════════════════════════════════════════════════ */
+
+const HOT = {}; // registry de hotspots por id
+
+function tip(cat,title,body,use,tp){
+  const id='h'+(Object.keys(HOT).length+1);
+  HOT[id]={cat,title,body,use,tp};
+  return `<span class="hot ${arguments[5]||'tr'}" data-h="${id}"></span>`;
+}
+
+const SCREENS = {
+
+  /* ───── RESUMEN ───── */
+  resumen(){
+    return {
+      title:'Resumen',
+      sub:'Consulta la información más reciente de fuentes, conciliaciones, usuarios y almacenamiento de tu espacio de trabajo.',
+      explainer:{
+        t:'¿Qué es esta pantalla?',
+        p:'Es tu <b>panel de inicio</b>. Lo primero que ves al entrar. Te muestra el estado general del workspace: cuántas fuentes y conciliaciones tenés, cuántos usuarios, cuánto storage usás, y un acceso rápido a lo último que tocaste.',
+        btns:[['tip','Empezá tu día acá: revisá "Recientes" para retomar donde quedaste'],['','Las 4 tarjetas son tu salud general del workspace']]
+      },
+      html:`
+      <div class="stats">
+        <div class="stat">${tip('Métrica','Fuentes (Sources)','El total de Sources cargadas en tu workspace. Cada archivo de banco, ERP o pasarela vive en su propia Source.','En Ficohsa vas a tener una Source por cada reporte: T24 cajas, CLARO recargas, SAP balance...','Si este número crece sin control, revisá si hay Sources duplicadas que consumen storage.','tr')}<div class="si">🗄</div><div><div class="sv">682</div><div class="sl">Fuentes</div></div></div>
+        <div class="stat">${tip('Métrica','Conciliaciones','Total de reconciliations configuradas. Standard + Advanced. Cada una cruza 2+ fuentes según reglas.','El proceso SERCOM es 1 conciliación; Cartera de Préstamos es otra.','El % de auto-match de cada una lo ves en el Conciliation Monitor (Gestionar → Tableros).','tr')}<div class="si">⇄</div><div><div class="sv">213</div><div class="sl">Conciliaciones</div></div></div>
+        <div class="stat">${tip('Métrica','Usuarios','Personas con acceso al workspace. Cada una tiene un rol: Viewer, Builder, Operator o Supervisor.','Los 30 analistas de Ficohsa que migran de Excel serán usuarios de este workspace.','Gestionás usuarios y roles desde Account Management (solo admins).','tr')}<div class="si">👥</div><div><div class="sv">65</div><div class="sl">Usuarios</div></div></div>
+        <div class="stat">${tip('Métrica','Gigabytes','Almacenamiento consumido. La mayoría de clientes paga por GB.','Subir archivos duplicados consume el doble de tu storage contratado.','Simetrik detecta duplicados y frena el procesamiento — pero igual revisá.','tr')}<div class="si">☁</div><div><div class="sv">0.1</div><div class="sl">Gigabytes</div></div></div>
+      </div>
+      <div style="background:var(--bg3);border-radius:9px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:14px">🕐 Recientes</div>
+      <div class="mock-panels">
+        <div class="mpanel">
+          <div class="mph">🗄 Fuentes <span class="vt">Ver todo</span>${tip('Panel','Fuentes recientes','Las últimas Sources que se actualizaron. Click en "Ver todo" te lleva a Automatizar → Recursos.','Después de un fin de semana, mirás acá si los archivos del banco entraron bien.','Si una fuente clave no aparece como reciente, probablemente el upload falló — andá al Source Monitor.','cl')}</div>
+          <div class="mrow"><span class="mn">2 union merchant – LO</span><span class="md">Hace 3 horas</span></div>
+          <div class="mrow"><span class="mn">1 Source union debit credit – LO</span><span class="md">Hace 3 horas</span></div>
+          <div class="mrow"><span class="mn">LP- merchant</span><span class="md">Hace un día</span></div>
+          <div class="mrow"><span class="mn">LP- ADT</span><span class="md">Hace un día</span></div>
+        </div>
+        <div class="mpanel">
+          <div class="mph">⇄ Conciliaciones <span class="vt">Ver todo</span>${tip('Panel','Conciliaciones recientes','Las últimas reconciliations que corrieron o se editaron.','"Pendings Magalu VS Pendings Deb" es una recon que cruza pendientes contra pendientes — caso N-a-N típico.','El nombre te dice qué hace: poné nombres descriptivos a tus recons o nadie las entiende después.','cl')}</div>
+          <div class="mrow"><span class="mn">7 Pendings Magalu VS Pendings Deb – LO</span><span class="md">Hace 3 horas</span></div>
+          <div class="mrow"><span class="mn">5 Magalu vs deb credit – LO</span><span class="md">Hace 3 horas</span></div>
+          <div class="mrow"><span class="mn">3 Enrich union – LO</span><span class="md">Hace 3 horas</span></div>
+          <div class="mrow"><span class="mn">Enrich union fee</span><span class="md">Hace un día</span></div>
+        </div>
+      </div>`
+    };
+  },
+
+  /* ───── ACCESOS DIRECTOS ───── */
+  'ad-recursos'(){return adGeneric('Recursos');},
+  'ad-concil'(){return adGeneric('Conciliaciones');},
+  'ad-repos'(){return adGeneric('Repositorios');},
+
+  /* ═══════ AUTOMATIZAR ═══════ */
+  catalogo(){
+    return scr('Catálogo de plantillas','Configuraciones pre-construidas por el services team de Simetrik. Implementás controles completos en minutos.',
+      'Configuraciones rápidas','Cada plantilla es un control entero (sources + reglas + dashboards) ya armado. Buscás tu caso, subís tus archivos, click "Implementar" y listo. Es un SBB con costo extra — se contrata aparte.',
+      [['tip','Antes de construir algo de cero, buscá si hay plantilla. Ahorrás 70% del tiempo'],['warn','Beta + costo adicional: el support team lo activa tras la compra']],
+      `<div class="mc-cards">
+        ${plantillaCard('Mastercard Controls for Acquirers','Clearing, settlement y disputes para adquirentes que procesan con MC.','tr','Plantilla','Mastercard Controls for Acquirers','Catálogo de controles listos para adquirentes Mastercard: clearing, settlement, chargebacks. Click "Ver Detalle" para ver los use cases incluidos.','El curso oficial usa exactamente esta plantilla como ejemplo de implementación rápida.','El flujo es: View Detail → See Controls & Benefits → Manage Files → subís archivos → Implement.')}
+        ${plantillaCard('Visa Issuing Controls','Controles de emisión de tarjetas Visa.','tr','Plantilla','Visa Issuing Controls','Plantilla para el lado issuing: autorización, clearing y settlement de tarjetas emitidas.','Aplicable si Ficohsa emite tarjetas procesadas en Vision Plus.','Las plantillas no son rígidas: después de implementar, customizás con building blocks.')}
+        ${plantillaCard('Cash Collection (Recaudo)','Conciliación de recaudo en redes físicas.','tr','Plantilla','Cash Collection','Plantilla para procesos de recaudo — pagos de servicios en redes de cobro físico.','Encaja con el proceso SERCOM de recargas en cajas Ficohsa.','Generá un template JSON de tu config para replicarla en otros workspaces.')}
+      </div>`);
+  },
+  replicas(){
+    return scr('Réplicas','Exportá e importá configuraciones de controles como archivos JSON para reutilizarlas.',
+      'Configuraciones rápidas','Una réplica (template) es un JSON con toda la config de un control: reglas, columnas, validaciones. La generás de un recurso existente y la importás en otro workspace. Solo te queda subir los datos.',
+      [['tip','Cuando tengas un control que funciona bien, generá su réplica antes de tocarlo'],['','Próximamente esta sección se renombra a "Templates"']],
+      `<div class="mc-toolbar">
+        <button class="mc-btn">⇲ Generar réplica${tip('Acción','Generar réplica','Seleccionás un recurso (ej. una conciliación), le ponés nombre, y Simetrik produce un JSON con toda la parametrización.','Tu conciliación SERCOM funciona perfecto → generás réplica → la usás de base para Cartera de Préstamos.','El JSON se descarga a tu PC. Guardalo versionado, es tu backup de configuración.','cr')}</button>
+        <button class="mc-btn ghost">⬆ Importar JSON${tip('Acción','Importar réplica','Subís un JSON de réplica y Simetrik recrea el control completo, parametrizado y listo. Solo falta cargar los datos.','Te pasan la réplica de un proceso que ya funciona en Guatemala → la importás en el workspace de Honduras.','Importar es instantáneo. La configuración se resuelve sola; vos solo alimentás las sources.','cr')}</button>
+      </div>
+      <div class="mc-table"><table><thead><tr><th>Nombre</th><th>Recurso origen</th><th>Creada</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>SERCOM base v1</td><td>Conciliación incoming join</td><td>Hace 2 días</td><td><span class="pill ok">Lista</span></td></tr>
+        <tr><td>Cost control template</td><td>Enrich union fee</td><td>Hace 5 días</td><td><span class="pill ok">Lista</span></td></tr>
+      </tbody></table></div>`);
+  },
+  repositorios(){
+    return scr('Repositorios','Buckets de almacenamiento intermedio para automatizar la carga de archivos.',
+      'Integraciones','Un repositorio (bucket) es un contenedor donde llegan tus archivos automáticamente. Simetrik los retira del bucket y los sube a la Source correspondiente. Es el corazón del self-managed integration.',
+      [['tip','Creá un bucket por Source destino — mantiene el flujo ordenado'],['','SFTP Pull, SFTP Push y S3 Pull dejan archivos acá']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Crear bucket${tip('Acción','Crear bucket','Un bucket actúa como buzón intermedio. Simetrik lo revisa, toma los archivos nuevos y los procesa hacia la Source destino.','El bucket "T24-SERCOM" recibe el TXT que el banco deja cada noche → Simetrik lo levanta a la Source.','El bucket es paso 2 del self-managed: primero la conexión, después el bucket.','cr')}</button><span class="mc-search">🔍 Buscar repositorio...</span></div>
+      <div class="mc-table"><table><thead><tr><th>Bucket</th><th>Tipo conexión</th><th>Source destino</th><th>Último archivo</th></tr></thead><tbody>
+        <tr><td>T24-SERCOM</td><td>SFTP Pull</td><td>Source T24 cajas</td><td>Hace 8 horas</td></tr>
+        <tr><td>CLARO-recargas</td><td>SFTP Push</td><td>Source CLARO</td><td>Hace 8 horas</td></tr>
+        <tr><td>SAP-balance</td><td>S3 Pull</td><td>Source SAP GL</td><td>Hace 1 día</td></tr>
+      </tbody></table></div>`);
+  },
+  conexiones(){
+    return scr('Conexiones','Canales de comunicación entre Simetrik y los sistemas origen del cliente.',
+      'Integraciones','La conexión es el "cable" entre Simetrik y el sistema del cliente (banco, ERP, pasarela). Hay 3 tipos: SFTP Pull (Simetrik retira), SFTP Push (el cliente envía), S3 Pull (bucket Amazon).',
+      [['tip','La conexión la configura el equipo de Integraciones de Simetrik — vos consumís la Source ya conectada'],['warn','Si una credencial falla, escalá a Integraciones, no intentes arreglarlo solo']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Nueva conexión${tip('Acción','Nueva conexión','Definís tipo (SFTP Pull/Push, S3 Pull) y completás campos técnicos: host, usuario, llave, directorio.','Para T24: SFTP Pull al directorio donde el banco deja los TXT cada noche.','Como IS normalmente NO tocás credenciales — el equipo Integraciones de Simetrik lo hace. Vos consumís el resultado.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Conexión</th><th>Tipo</th><th>Estado</th><th>Sistema</th></tr></thead><tbody>
+        <tr><td>conn-T24-prod</td><td>SFTP Pull</td><td><span class="pill ok">Activa</span></td><td>T24 Temenos</td></tr>
+        <tr><td>conn-CLARO</td><td>SFTP Push</td><td><span class="pill ok">Activa</span></td><td>CLARO reporte</td></tr>
+        <tr><td>conn-SAP</td><td>S3 Pull</td><td><span class="pill proc">Probando</span></td><td>SAP ERP</td></tr>
+      </tbody></table></div>`);
+  },
+  recursos(){
+    return scr('Recursos','El corazón de la plataforma. Creás y administrás Sources, Source Unions, Reconciliations y más.',
+      'Recursos y conciliaciones','Acá vive todo lo que construís. Click "Crear recurso" y elegís: Source (archivo cargado), Source Union (agrupa sources), Standard/Advanced Reconciliation, Reconcilable Group, VLOOKUP/Enrichment.',
+      [['tip','Best practice #1: cada Source siempre dentro de un Source Union, incluso si es una sola'],['warn','El primer archivo define el layout. Si cambia → status "failed" → creá nueva Source']],
+      `<div class="mc-toolbar">
+        <button class="mc-btn">+ Crear recurso${tip('Acción','Crear recurso','El menú de creación. Opciones: Source · Source Union · Standard Reconciliation · Advanced Reconciliation · Reconcilable Group · VLOOKUP.','Tu día 1 con SERCOM: creás 3 Sources (T24, CLARO, SAP), 3 Source Unions, 1 Advanced Reconciliation.','Empezá siempre por las Sources, después los Unions, después las Reconciliations. De abajo hacia arriba.','cr')}</button>
+        <span class="mc-search">🔍 Buscar recurso...</span>
+        <button class="mc-btn ghost">⚙ Normalizar${tip('Proceso','Normalization / Change Format','Revisás cada columna: tipo (numeric/text/date), formato original, formato deseado. Se hace UNA vez por Source; los archivos futuros heredan la config.','La fecha de T24 viene "29/04/2026" y la de SAP "16-Apr-2026" → las normalizás ambas a YYYY-MM-DD para que crucen.','El Smart Date Format (IA) identifica el formato original entre 500+ tipos. Dejá que sugiera, vos validá.','cr')}</button>
+      </div>
+      <div class="mc-table"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Estado</th><th>Filas</th></tr></thead><tbody>
+        <tr><td>Source T24 cajas</td><td>Source</td><td><span class="pill ok">Procesado</span></td><td>2,136,481</td></tr>
+        <tr><td>Source union T24</td><td>Source Union</td><td><span class="pill ok">Procesado</span></td><td>2,136,481</td></tr>
+        <tr><td>Source CLARO</td><td>Source</td><td><span class="pill proc">Procesando</span></td><td>—</td></tr>
+        <tr><td>Source SAP balance</td><td>Source</td><td><span class="pill fail">Fallido</span></td><td>0</td></tr>
+      </tbody></table>
+      ${tip('Estado','Estados de un recurso','Procesado (listo) · Procesando (en curso) · Fallido (layout cambió o error) · Vacío · Detenido.','El "Fallido" de SAP balance probablemente es porque llegó con una columna extra. Solución: crear nueva Source y redirigir.','El estado "Fallido" en rojo es tu alerta #1 cada mañana. Revisalo en el Source Monitor.','tc')}</div>`);
+  },
+  conciliaciones(){
+    return scr('Conciliaciones','Configurá Standard y Advanced Reconciliations. El motor que cruza tus fuentes.',
+      'Recursos y conciliaciones','Una conciliación compara 2+ fuentes según reglas y dice qué cruza y qué no. Standard = simple, lineal. Advanced = modular, encadena sweeps (reconciliation + grouping + offset).',
+      [['tip','Sweeps ordenados: el estricto primero, los laxos después, catch-all al final'],['warn','Tolerancia ≠ permisividad — una regla muy laxa hace "match entre manzana y pera"']],
+      `<div class="mc-toolbar">
+        <button class="mc-btn">+ Crear conciliación${tip('Acción','Crear conciliación','Elegís Standard (procesos simples) o Advanced (procesos complejos con sweeps encadenados). Después definís Source A, Source B y las reglas.','SERCOM es Advanced: necesita sweep de reconciliation + grouping (recargas fraccionadas) + offset (anulaciones).','El Help Center tiene una tabla comparativa Standard vs Advanced. Ante la duda, Standard.','cr')}</button>
+      </div>
+      <div class="mc-cards">
+        ${reconCard('SERCOM T24 vs CLARO','Advanced',94,6,'tr','Conciliación','SERCOM (Advanced)','Cruza las recargas vendidas en cajas T24 contra el reporte de CLARO. 3 sweeps: reconciliation 1-1, grouping (paquetes fraccionados), offset (recargas anuladas).','La regla clave: si NO_TELEFONO tiene 8 dígitos → Paquete, sino → Recarga. Filtro: excluir TXN_CODE SGN/4/54.','94% auto-match es bueno. El 6% pendiente cae al Buscador de registros para investigación manual.')}
+        ${reconCard('Cartera vs SAP GL','Standard',99,1,'tr','Conciliación','Cartera de Préstamos (Standard)','Cuadre de saldos: la suma de capital + intereses por cliente debe igualar el saldo contable en SAP cuenta 1-04-01-001.','No hay matching transaccional acá — se cuadra el saldo total contra la cuenta GL.','99% es casi perfecto. Ese 1% son clientes con movimiento neto que hay que investigar uno a uno.')}
+        ${reconCard('Magalu vs Getnet','Standard',84,16,'tr','Conciliación','Magalu vs Getnet (ejemplo curso)','El caso del curso oficial: source A = merchant Magalu, source B = junction Getnet con débito+crédito. Cruce 1-a-1 por date+amount+ID+type.','De 44 tx del merchant, 37 cruzan → 7 pendientes. Filtrás solo los pendientes y resolvés.','El 16% pendiente puede ser un pago dividido en 2 tarjetas → agrupar y correr 2da conciliación.')}
+      </div>`);
+  },
+  fuentes3(){
+    return scr('Fuentes de terceros','Sources que provienen de terceros — proveedores, redes, procesadores.',
+      'Recursos y conciliaciones','Fuentes que no genera el cliente sino un tercero: redes de tarjetas (Visa/Mastercard), procesadores, proveedores (CLARO). Se gestionan igual que cualquier Source pero conviene marcarlas como externas.',
+      [['tip','Las fuentes de terceros suelen tener los formatos más raros — el Smart Parser ayuda'],['','CLARO es una fuente de tercero clave en el proceso SERCOM']],
+      `<div class="mc-table"><table><thead><tr><th>Fuente</th><th>Tercero</th><th>Formato</th><th>Frecuencia</th></tr></thead><tbody>
+        <tr><td>CLARO recargas</td><td>CLARO (telco)</td><td>CSV</td><td>Diaria</td></tr>
+        <tr><td>Visa clearing</td><td>Visa</td><td>TXT ancho fijo</td><td>Diaria</td></tr>
+        <tr><td>Mastercard settlement</td><td>Mastercard</td><td>TXT</td><td>Diaria</td></tr>
+      </tbody></table></div>`);
+  },
+  'auto-contables'(){
+    return scr('Automatizaciones contables','Generá journal entries automáticos desde tus conciliaciones y enviálos al ERP.',
+      'Contabilidad','Cierra el loop: cada conciliación resuelta se traduce en asientos contables que viajan solos al ERP (SAP, Oracle, NetSuite). Configurás qué recurso conciliar, el tipo de evento y la hora de envío.',
+      [['tip','Un asiento consolida varias tx de la misma naturaleza/cuenta/cost center'],['warn','Si una tx del grupo se reconcilia luego → reverso parcial → requiere aprobación manual']],
+      `<div class="mc-toolbar"><button class="mc-btn">⊕ Generar automatización${tip('Acción','Generar automatización','3 pasos: 1) nombre + ERP destino · 2) recurso a conciliar (solo standard/advanced recon) · 3) fecha inicio + tipo de evento.','El cruce SERCOM del día produce 1,247 matches → Simetrik genera 1 journal entry por cuenta y lo manda a SAP a las 7am.','Una Source pura no genera asientos directo — hay que convertirla en "dummy reconciliation" primero.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Automatización</th><th>Recurso</th><th>ERP</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>SERCOM → SAP diario</td><td>Conciliación SERCOM</td><td>SAP S/4HANA</td><td><span class="pill ok">Activa</span></td></tr>
+        <tr><td>Cartera → SAP</td><td>Conciliación Cartera</td><td>SAP S/4HANA</td><td><span class="pill ok">Activa</span></td></tr>
+      </tbody></table></div>`);
+  },
+  'config-cierre'(){
+    return scr('Configuración de cierre','Definí account owners, agrupaciones y auto-certificación para acelerar el cierre contable.',
+      'Contabilidad','Acá preparás el cierre antes de que llegue. Asignás quién es preparer y quién certifier por cuenta, agrupás cuentas similares para certificar de a varias, y configurás auto-certificación para cuentas que no cambian.',
+      [['tip','Account Grouping: 10 cuentas de misma naturaleza = 1 certificación en vez de 10'],['','Auto-certification ideal para fixed assets que rara vez se mueven']],
+      `<div class="mc-cards">
+        <div class="mc-card"><h4>Account Owners${tip('Config','Account Owners','Template donde definís: preparer principal, certifier principal, y un backup de cada uno por cuenta.','Si el preparer de la cuenta de Caja está de vacaciones, el backup toma el cierre — sin frenar el proceso.','Preparer ≠ Certifier SIEMPRE. Es regla SOX, no opcional.','tr')}</h4><p>Quién prepara y quién certifica cada cuenta. Con backups.</p></div>
+        <div class="mc-card"><h4>Agrupación${tip('Config','Account Grouping','Agrupás cuentas con la misma naturaleza para certificarlas todas con una sola acción.','Las 8 cuentas transitorias de ATMs se agrupan y se certifican juntas.','Acelera muchísimo el cierre. Agrupá todo lo que comparta naturaleza y comportamiento.','tr')}</h4><p>Certificá cuentas similares de a grupos.</p></div>
+        <div class="mc-card"><h4>Auto-certificación${tip('Config','Auto-certification','Regla automática para cuentas cuyo balance no cambia mes a mes. El sistema las certifica sin pasos manuales.','La cuenta de Inversiones en Bonos no se mueve → auto-cert → te liberás para enfocarte en lo que sí cambia.','Usala con criterio: solo cuentas genuinamente estables. Si una se mueve, sacala de auto-cert.','tr')}</h4><p>Cuentas estables se certifican solas.</p></div>
+      </div>`);
+  },
+  erp(){
+    return scr('Integraciones ERP','Conectá Simetrik con el ERP del cliente: SAP, Oracle, NetSuite, Matera.',
+      'Contabilidad','Dos pasos: Connection (el canal de comunicación) + Structure (qué campos lleva el asiento). Dos modos: Middleware (conector intermedio, cualquier ERP) o Standard App (directo, solo NetSuite y SAP S/4HANA).',
+      [['tip','Siempre creá una conexión de TEST antes de la de PRODUCTION'],['warn','La connection requiere al ERP support team — ellos tienen las credenciales']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Generar integración ERP${tip('Acción','Generar integración ERP','Elegís ERP destino y configurás Connection + Structure. La Structure define 3 tipos de campos: Document (fecha, compañía, currency), Lines (débito/crédito), Header (opcional).','Para Ficohsa: SAP S/4HANA en modo Standard App, con apoyo del accounting capabilities team.','Test connection primero, siempre. Un error en producción afecta los estados financieros oficiales del cliente.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Integración</th><th>ERP</th><th>Modo</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>FICOHSA-SAP-prod</td><td>SAP S/4HANA</td><td>Standard App</td><td><span class="pill ok">Producción</span></td></tr>
+        <tr><td>FICOHSA-SAP-test</td><td>SAP S/4HANA</td><td>Standard App</td><td><span class="pill proc">Test</span></td></tr>
+      </tbody></table></div>`);
+  },
+
+  /* ═══════ GESTIONAR ═══════ */
+  agentes(){
+    return scr('Agentes','Agentes de IA que monitorean tus recursos y te avisan cuando algo se sale de control.',
+      'Hallazgos','Los agentes son bots que trabajan en background. Monitorean sources, conciliaciones y procesos 24/7, y notifican por Slack, email o dentro de la plataforma cuando detectan una anomalía.',
+      [['tip','Más vale 5 agentes bien configurados que 50 que ignorás'],['','El Agent Factory te da opciones de monitoreo más amplias']],
+      `<div class="mc-cards">
+        <div class="mc-card"><h4>Smart Parser <span class="pill ok">Activo</span>${tip('Agente IA','Smart Parser','Catálogo de parsers que ajusta formato/layout de archivos sin pedirle al services team. Identifica los cambios necesarios y los aplica.','Un archivo de CLARO llega con un layout raro → el Smart Parser lo adapta solo.','Cada vez tiene más parsers disponibles. Reduce tu dependencia del services team (que cuesta extra).','tr')}</h4><p>Parsea archivos automáticamente.</p></div>
+        <div class="mc-card"><h4>Data Monitoring <span class="pill proc">Custom</span>${tip('Agente IA','Data Monitoring Agent','Monitorea todas las sources 24/7 y notifica cuando detecta una anomalía al subir un archivo nuevo.','El T24 de hoy llegó con 30% menos filas que el promedio → alerta inmediata antes de que rompa la conciliación.','Es un agente custom — se desarrolla para un cliente y luego se productiza. Requiere aprobación del COO.','tr')}</h4><p>Vigila sources y avisa anomalías.</p></div>
+        <div class="mc-card"><h4>Smart Rules <span class="pill ok">Activo</span>${tip('Agente IA','Smart Rules','En Advanced Reconciliation, analiza las 2 sources y sugiere las matching keys óptimas para lograr mayor match rate.','Configurando SERCOM, la IA sugiere cruzar por date+telefono+amount → aceptás o ajustás.','La IA sugiere, vos decidís. Nunca aceptes reglas a ciegas — entendé por qué las propone.','tr')}</h4><p>Sugiere reglas de matching.</p></div>
+      </div>`);
+  },
+  alarmas(){
+    return scr('Alarmas','Configurá umbrales y recibí notificaciones cuando una conciliación cae por debajo de lo esperado.',
+      'Hallazgos','Una alarma vigila el % de auto-match de una conciliación. Definís el mínimo esperado; si cae por debajo, te llega un email automático.',
+      [['tip','Definí umbrales realistas con el histórico de los últimos 30 días'],['','Las alarmas son tu red de seguridad — no esperes a que el cliente note el problema']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Nueva alarma${tip('Acción','Nueva alarma','Indicás qué conciliación monitorear y el % mínimo de tx reconciliadas esperado. Si cae por debajo → email.','Si esperás que SERCOM cruce 90% y un día solo logra 85% → llega notificación automática al PM.','Configurá alarmas para tus procesos críticos el día que van a producción. No después.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Alarma</th><th>Conciliación</th><th>Umbral</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>SERCOM bajo 90%</td><td>SERCOM T24 vs CLARO</td><td>90%</td><td><span class="pill ok">OK · 94%</span></td></tr>
+        <tr><td>Cartera bajo 98%</td><td>Cartera vs SAP GL</td><td>98%</td><td><span class="pill ok">OK · 99%</span></td></tr>
+      </tbody></table></div>`);
+  },
+  'tableros-op'(){
+    return scr('Tableros operativos','Dashboards con KPIs, pivot tables y charts de tus conciliaciones y fuentes.',
+      'Controles operativos y financieros','Construís dashboards combinando componentes: pivot tables (como Excel), custom tables, estado de conciliaciones, KPIs individuales, charts. Es tu reporte ejecutivo armable.',
+      [['tip','Vista top-down: del dashboard ejecutivo bajás al detalle de la transacción'],['','Los mismos dashboards aparecen también en Automatizar → Análisis']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Nuevo tablero${tip('Acción','Nuevo tablero','Lienzo en blanco donde agregás componentes: pivot table, custom table, reconciliation status, KPIs, charts.','Dashboard SERCOM: KPI "monto conciliado" + KPI "monto pendiente" + pivot por agencia + chart de tendencia.','Empezá top-down: primero el panorama (KPIs grandes), después el detalle (pivots). No al revés.','cr')}</button></div>
+      <div class="mc-cards">
+        <div class="mc-card"><h4>📊 Cost Control MC${tip('Dashboard','Cost Control','Dashboard que compara costo real vs costo teórico (negociado en contrato). Detecta revenue leakage.','El curso oficial muestra: solo Mastercard Credit y Debit tienen diferencias; el resto coincide con el contrato.','El delta = Real Cost − Theoretical Cost. Si es positivo, el adquirente te cobró de más.','tr')}</h4><p>Real vs teórico por red de tarjeta.</p><div class="mc-bars"><span class="bg" style="flex:7"></span><span class="br" style="flex:1"></span></div></div>
+        <div class="mc-card"><h4>📈 SERCOM diario</h4><p>Conciliado vs pendiente por agencia.</p><div class="mc-bars"><span class="bg" style="flex:94"></span><span class="br" style="flex:6"></span></div></div>
+        <div class="mc-card"><h4>📉 Aging pendientes</h4><p>Antigüedad de partidas sin cruzar.</p><div class="mc-bars"><span class="bg" style="flex:8"></span><span class="br" style="flex:2"></span></div></div>
+      </div>`);
+  },
+  consolidaciones(){
+    return scr('Consolidaciones','Uní verticalmente diferentes agrupaciones (groupings) en una sola vista.',
+      'Controles operativos y financieros','Una consolidación apila groupings uno debajo del otro. Caso típico: tenés cost controls de varios adquirentes, cada uno con su grouping → los consolidás en una vista única.',
+      [['tip','Consolidación = vertical (apila groupings). Combinación = horizontal (encadena reconciliaciones)'],['','Útil cuando manejás el mismo control para múltiples entidades']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Crear consolidación${tip('Acción','Crear consolidación','Seleccionás un primer grouping y sus columnas, agregás un segundo con las mismas columnas, y así. Resultado: una vista vertical única.','Cost control Visa + Cost control Mastercard + Cost control Amex → 1 consolidación de costos total.','No confundir con Combinación: consolidación apila (vertical), combinación encadena etapas (horizontal).','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Consolidación</th><th>Groupings incluidos</th><th>Actualizada</th></tr></thead><tbody>
+        <tr><td>Costos todas las redes</td><td>Visa + MC + Amex</td><td>Hace 2 horas</td></tr>
+      </tbody></table></div>`);
+  },
+  buscador(){
+    return scr('Buscador de registros','Trazá una transacción específica hasta el Source al que pertenece.',
+      'Controles operativos y financieros','Record Finder: ingresás el ID de una transacción y Simetrik te muestra todos los recursos donde aparece. Útil para investigar un caso puntual.',
+      [['tip','Muchos usuarios prefieren dashboards con tablas filtrables para lo mismo'],['','Su uso real es bajo, pero para una investigación puntual es directo']],
+      `<div class="mc-toolbar"><span class="mc-search">🔍 Source: T24 cajas ▾</span><span class="mc-search">ID transacción: LF7715101${tip('Acción','Buscar registro','Seleccionás la Source y pegás el ID de la transacción. Simetrik lista todos los recursos asociados donde esa tx aparece.','El cliente pregunta "¿dónde está mi pago LF7715101?" → lo buscás y ves en qué conciliaciones aparece y su estado.','Para tracking masivo, mejor un dashboard con tabla dinámica. El buscador es para casos uno-a-uno.','cl')}</span><button class="mc-btn">Buscar</button></div>
+      <div class="mc-table"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Estado en ese recurso</th></tr></thead><tbody>
+        <tr><td>Source T24 cajas</td><td>Source</td><td>Registro original</td></tr>
+        <tr><td>SERCOM T24 vs CLARO</td><td>Conciliación</td><td><span class="pill ok">Conciliado</span></td></tr>
+      </tbody></table></div>`);
+  },
+  'g-recursos'(){
+    return scr('Recursos (Gestionar)','Ver, editar o crear los recursos configurados en Automatizar — desde la óptica de operación diaria.',
+      'Controles operativos y financieros','Es la misma lista de recursos de Automatizar, pero acá la gestionás día a día. Tu nivel de acceso depende de tu rol: Viewer solo consulta, Builder edita, Operator ejecuta.',
+      [['tip','Pensá Automatizar = "la fábrica donde se construye". Gestionar = "el control room donde se opera"'],['','Mismo recurso, distinta intención de uso']],
+      `<div class="mc-table"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Tu acceso</th><th>Última corrida</th></tr></thead><tbody>
+        <tr><td>SERCOM T24 vs CLARO</td><td>Conciliación</td><td>Builder ✏</td><td>Hace 8 horas</td></tr>
+        <tr><td>Source union T24</td><td>Source Union</td><td>Builder ✏</td><td>Hace 8 horas</td></tr>
+      </tbody></table></div>`);
+  },
+  'tableros-cont'(){
+    return scr('Tableros contables','Dashboards del estado del cierre contable: cuentas por estado, montos, avance.',
+      'Controles contables','Muestra el % de cuentas en cada estado del cierre: pendiente de preparación, lista, rechazada, certificada, auto-certificada. Filtrable por usuario y compañía.',
+      [['tip','Filtrá por tu usuario para ver tu workload del cierre'],['','Te muestra el monto total asociado a las cuentas en revisión']],
+      `<div class="mc-cards">
+        <div class="mc-card"><h4>Avance del cierre — Nov 2024${tip('Dashboard','Tablero contable','Vista consolidada del cierre: cuántas cuentas están en cada estado. Filtros por compañía y usuario.','A mitad del cierre ves: 60% certificadas, 25% listas, 15% pendientes → sabés dónde poner foco.','Si una cuenta lleva días en "rechazada", andá a Conciliaciones de cuentas y leé el motivo del rechazo.','tr')}</h4><p>62% certificadas · 23% listas · 15% pendientes</p><div class="mc-bars"><span class="bg" style="flex:62"></span><span style="flex:23;background:var(--amb)"></span><span class="br" style="flex:15"></span></div></div>
+      </div>`);
+  },
+  asientos(){
+    return scr('Asientos contables','Gestioná los journal entries generados: verificá registro, generá reversos, monitoreá estado.',
+      'Controles contables','Acá ves cada asiento con su ID, ERP ID, modelo contable, fecha y estado de posteo. Verificás que se hayan registrado bien, generás cancelaciones y reversos cuando hace falta.',
+      [['tip','Un asiento consolida varias transacciones de la misma naturaleza/cuenta/cost center'],['warn','Reverso parcial = una tx del grupo se reconcilió aparte → requiere tu aprobación manual']],
+      `<div class="mc-table"><table><thead><tr><th>Asiento ID</th><th>Modelo</th><th>Fecha</th><th>Estado posteo</th></tr></thead><tbody>
+        <tr><td>JE-2026-04-291</td><td>SERCOM diario</td><td>29 Abr 2026</td><td><span class="pill ok">Posteado</span></td>${tip('Estado','Asiento posteado','El asiento llegó al ERP y se registró correctamente. Trazable de punta a punta.','El JE de SERCOM del 29 de abril ya está en SAP — el cliente lo ve en su libro mayor.','Si un asiento queda en "pendiente" mucho tiempo, revisá la conexión ERP.','cl')}</tr>
+        <tr><td>JE-2026-04-292</td><td>Cartera</td><td>29 Abr 2026</td><td><span class="pill proc">Pendiente</span></td></tr>
+        <tr><td>JE-2026-04-288-R</td><td>SERCOM (reverso)</td><td>28 Abr 2026</td><td><span class="pill pend">Aprobación</span></td></tr>
+      </tbody></table></div>`);
+  },
+  periodos(){
+    return scr('Períodos contables','Abrí períodos mensuales y cargá los balances de cada cuenta (trial balance).',
+      'Controles contables','Cada mes abrís un período (año + mes) y cargás el trial balance: un template con los saldos de cada cuenta. Es el primer paso del cierre contable.',
+      [['tip','Update Trial Balance descarga un template — llenalo y subilo de vuelta'],['','Este paso es manual hoy; Simetrik está automatizándolo']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Abrir período${tip('Acción','Abrir período','Seleccionás año y mes para abrir un nuevo período contable. Después cargás los balances con Update Trial Balance.','Cada inicio de mes: abrís el período del mes anterior para empezar su cierre.','El cierre típico va del día 1 al 5 del mes siguiente. Abrí el período el día 1.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Período</th><th>Estado</th><th>Cuentas</th><th>Balance cargado</th></tr></thead><tbody>
+        <tr><td>Abril 2026</td><td><span class="pill proc">Abierto</span></td><td>945</td><td>✓ Cargado</td>${tip('Acción','Update Trial Balance','Desde los 3 puntos del período → Update Trial Balance → descargás template → llenás saldos por cuenta → subís.','El trial balance de abril tiene los 945 saldos de las cuentas Ficohsa listos para validar.','El balance es la base del cierre. Sin trial balance cargado, no podés validar ni certificar.','cl')}</tr>
+        <tr><td>Marzo 2026</td><td><span class="pill ok">Cerrado</span></td><td>945</td><td>✓ Cargado</td></tr>
+      </tbody></table></div>`);
+  },
+  'concil-cuentas'(){
+    return scr('Conciliaciones de cuentas','Validá y certificá los balances de cada cuenta con evidencia. El workflow del cierre.',
+      'Controles contables','Por cada cuenta ves beginning balance, change y ending balance. Indicás cuánto del saldo reconocés con evidencia (snapshots, archivos, notas). El preparer prepara, el certifier aprueba.',
+      [['tip','Preparer ≠ Certifier — siempre. Es control interno SOX'],['warn','Gap > 30% requiere ajuste o reclasificación — escalá al supervisor']],
+      `<div class="mc-table"><table><thead><tr><th>Cuenta</th><th>Saldo final</th><th>Reconocido</th><th>Gap</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>1-01-01-001 Caja General</td><td>$16,000</td><td>$15,000</td><td>$1,000 (6.25%)</td><td><span class="pill pend">En preparación</span></td>${tip('Workflow','Recognized Balance','Editás cuánto del saldo final tenés respaldado con evidencia. El gap es lo que falta justificar.','Caja tiene $16K de saldo pero solo $15K con evidencia → gap de $1K. ¿Falta el documento o está mal clasificado?','Gap < 10% normalmente OK con nota. Gap > 30% = problema, escalá. Adjuntá snapshot + archivo + nota como evidencia.','cl')}</tr>
+        <tr><td>2-01-01-003 Transitoria SERCOM</td><td>$0</td><td>$0</td><td>$0 (0%)</td><td><span class="pill ok">Certificada</span></td></tr>
+        <tr><td>1-04-01-001 Cartera Préstamos</td><td>$500,000</td><td>$498,500</td><td>$1,500 (0.3%)</td><td><span class="pill proc">Lista p/ certificar</span></td></tr>
+      </tbody></table></div>`);
+  },
+
+  /* ═══════ AUDITAR ═══════ */
+  historial(){
+    return scr('Historial de actividad','Registro inmutable de absolutamente cada acción ejecutada en la plataforma.',
+      'Auditar','Cada acción queda registrada: tipo de acción, elemento afectado, usuario responsable, fecha y hora. Sin excepción. Es la base de la auditoría — indispensable para SOX.',
+      [['tip','Si te llaman a auditoría: filtrá por tu usuario, últimos 30 días = tu defensa documentada'],['','Desde cada registro vas directo al recurso afectado']],
+      `<div class="mc-toolbar"><span class="mc-search">🔍 Filtrar por usuario, recurso o fecha...${tip('Acción','Filtros del historial','Filtrás por usuario, ID de recurso o fecha. Te permite encontrar rápido un evento sospechoso o validar operaciones normales.','Algo raro pasó con la conciliación SERCOM el martes → filtrás por su ID + esa fecha y ves quién la tocó.','El historial es inmutable: nadie puede borrar o editar registros. Esa es su garantía de auditoría.','cl')}</span></div>
+      <div class="mc-table"><table><thead><tr><th>Acción</th><th>Elemento</th><th>Usuario</th><th>Fecha/hora</th></tr></thead><tbody>
+        <tr><td>Editó regla</td><td>Conciliación SERCOM</td><td>Miguel</td><td>Hoy 09:14</td></tr>
+        <tr><td>Creó recurso</td><td>Source CLARO</td><td>Miguel</td><td>Hoy 08:52</td></tr>
+        <tr><td>Certificó cuenta</td><td>Transitoria SERCOM</td><td>Wilson (Sr IS)</td><td>Ayer 17:30</td></tr>
+      </tbody></table></div>`);
+  },
+  fotos(){
+    return scr('Fotos','Capturas estáticas (snapshots) de conciliaciones, usadas como evidencia de auditoría.',
+      'Auditar','Una conciliación cambia todo el tiempo porque recibe data nueva. Si la querés usar como evidencia de un período cerrado, necesitás congelarla. Eso es una Foto / Snapshot.',
+      [['tip','Configurá snapshots automáticos el último día de cada mes'],['','El snapshot es el recurso que adjuntás como evidencia en Conciliaciones de cuentas']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Configurar foto${tip('Acción','Configurar foto/snapshot','Configurás una vez: ej. capturar la conciliación el último día de cada mes. Simetrik genera los snapshots automáticamente.','Snapshot de SERCOM al 30 de noviembre → lo adjuntás como evidencia del cierre de noviembre.','Snapshot mensual + bank statement + nota = evidencia blindada para el auditor.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Foto</th><th>Conciliación</th><th>Fecha captura</th></tr></thead><tbody>
+        <tr><td>SERCOM-2026-04-30</td><td>SERCOM T24 vs CLARO</td><td>30 Abr 2026</td></tr>
+        <tr><td>SERCOM-2026-03-31</td><td>SERCOM T24 vs CLARO</td><td>31 Mar 2026</td></tr>
+      </tbody></table></div>`);
+  },
+
+  /* ═══════ HERRAMIENTAS ═══════ */
+  mapas(){
+    return scr('Mapas','Visualizá gráficamente cómo se conecta un recurso con los demás — sus dependencias.',
+      'Herramientas','Un mapa de relaciones muestra qué alimenta a un recurso (upstream) y qué depende de él (downstream). Antes de modificar algo crítico, abrí su mapa.',
+      [['tip','Antes de tocar una Source clave, abrí su mapa — vas a ver qué se rompe'],['','Próxima versión permitirá hacer cambios desde el mapa mismo con IA']],
+      `<div style="background:#fff;border:1px solid var(--bd);border-radius:11px;padding:30px;text-align:center;color:var(--t3)">
+        <div style="font-size:13px;margin-bottom:16px;color:var(--t2)">Mapa de relaciones · Source "T24 cajas"</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-size:12px">
+          <span style="background:var(--blul);color:var(--blu);padding:8px 14px;border-radius:8px;font-weight:600">Source T24 cajas</span>
+          <span>→</span>
+          <span style="background:var(--bg3);padding:8px 14px;border-radius:8px;position:relative">Source Union T24${tip('Mapa','Downstream','Los recursos que dependen del que estás mirando. Si cambia el de arriba, estos se ven afectados.','El Source Union T24 depende de la Source T24 cajas. Si la Source falla, el Union y todo lo que sigue se rompe.','Por eso la best practice es siempre Source Union: protege todo lo downstream de cambios de layout.','tc')}</span>
+          <span>→</span>
+          <span style="background:var(--bg3);padding:8px 14px;border-radius:8px">Conciliación SERCOM</span>
+        </div>
+      </div>`);
+  },
+  procesos(){
+    return scr('Procesos','Monitoreá las tareas en ejecución, en cola o terminadas. Tu pantalla de diagnóstico.',
+      'Herramientas','Muestra cada proceso con su recurso asociado, estado/progreso, fecha de ejecución y duración. Cuando algo va lento, mirás acá primero.',
+      [['tip','Proceso de horas sin terminar → screenshot + ticket de soporte con resource ID y duración'],['','Es tu primera parada cuando algo no responde']],
+      `<div class="mc-table"><table><thead><tr><th>Proceso</th><th>Recurso</th><th>Estado</th><th>Duración</th></tr></thead><tbody>
+        <tr><td>Procesamiento</td><td>Source CLARO</td><td><span class="pill proc">En curso</span></td><td>2 min</td>${tip('Diagnóstico','Proceso en curso','Tareas ejecutándose ahora. Ves recurso, estado y cuánto llevan corriendo.','La Source CLARO lleva 2 min procesando — normal. Si llevara 4 horas, sería un problema.','Si un proceso lleva horas: screenshot de esta vista + ticket con resource ID, nombre y duración. El soporte ya tiene todo.','cl')}</tr>
+        <tr><td>Conciliación</td><td>SERCOM T24 vs CLARO</td><td><span class="pill ok">Completado</span></td><td>1 min 12 seg</td></tr>
+        <tr><td>Procesamiento</td><td>Source SAP balance</td><td><span class="pill fail">Fallido</span></td><td>—</td></tr>
+      </tbody></table></div>`);
+  },
+  papelera(){
+    return scr('Papelera','Recursos eliminados. Se conservan 30 días — tu red de seguridad ante borrados accidentales.',
+      'Herramientas','Todo recurso que borrás cae acá y se guarda 30 días. Durante ese plazo lo podés restaurar. Pasados los 30 días, la eliminación es definitiva.',
+      [['tip','¿Borraste algo por error? Tenés 30 días para restaurarlo'],['warn','Pasados los 30 días no hay vuelta atrás']],
+      `<div class="mc-table"><table><thead><tr><th>Recurso</th><th>Tipo</th><th>Eliminado</th><th>Acción</th></tr></thead><tbody>
+        <tr><td>Source prueba viejo</td><td>Source</td><td>Hace 5 días</td><td><span class="pill ok">Restaurar</span></td>${tip('Acción','Restaurar de papelera','Durante los 30 días posteriores al borrado, podés cancelar la eliminación y recuperar el recurso intacto.','Borraste una Source pensando que no se usaba, pero alimentaba una conciliación → la restaurás y todo vuelve.','Antes de borrar algo en producción, revisá su Mapa de relaciones. Mejor prevenir que restaurar.','cl')}</tr>
+        <tr><td>Conciliación obsoleta</td><td>Conciliación</td><td>Hace 28 días</td><td><span class="pill pend">Restaurar (2 días)</span></td></tr>
+      </tbody></table></div>`);
+  },
+  descargas(){
+    return scr('Descargas','Historial de todas las descargas manuales hechas en la plataforma.',
+      'Herramientas','Lista cada descarga manual realizada. Si tu rol no tiene permisos de descarga, la lista aparece vacía — es un control de seguridad de la información.',
+      [['tip','Los usuarios del dominio @simetrik.com tienen descargas bloqueadas a propósito'],['','La restricción protege la información del cliente']],
+      `<div class="mc-table"><table><thead><tr><th>Archivo</th><th>Recurso</th><th>Usuario</th><th>Fecha</th></tr></thead><tbody>
+        <tr><td>concil_sercom_abril.csv</td><td>Conciliación SERCOM</td><td>Miguel</td><td>Hoy 10:02</td></tr>
+      </tbody></table></div>`);
+  },
+};
+
+/* ─── helpers de render ─── */
+function scr(title,sub,group,explainP,btns,html){
+  return {title,sub,explainer:{t:group+' · ¿Qué hago aquí?',p:explainP,btns:btns||[]},html};
+}
+function adGeneric(name){
+  return scr('Acceso directo · '+name,'Atajo personalizado a la sección '+name+'.',
+    'Accesos directos','Los accesos directos son atajos que vos mismo armás a las secciones que más usás. Aparecen fijos en el menú lateral para llegar en 1 click.',
+    [['tip','Añadí accesos directos a tus 3 procesos prioritarios para no navegar tanto']],
+    `<div style="background:#fff;border:1px solid var(--bd);border-radius:11px;padding:24px;text-align:center;color:var(--t3);font-size:13px">Este atajo te lleva directo a <b style="color:var(--blu)">${name}</b>.<br><span style="font-size:11.5px">Configurás tus accesos directos con el botón "+ Añadir" del menú.</span></div>`);
+}
+function plantillaCard(title,desc,pos,cat,htitle,hbody,huse,htip){
+  return `<div class="mc-card"><h4>${title}${tip(cat,htitle,hbody,huse,htip,pos)}</h4><p>${desc}</p><div style="margin-top:10px;font-size:11px;color:var(--blu);font-weight:600">Ver Detalle →</div></div>`;
+}
+function reconCard(title,type,ok,pend,pos,cat,htitle,hbody,huse,htip){
+  return `<div class="mc-card"><h4>${title} <span class="pill ${type==='Advanced'?'proc':'ok'}" style="font-size:9px">${type}</span>${tip(cat,htitle,hbody,huse,htip,pos)}</h4><p>${ok}% conciliado · ${pend}% pendiente</p><div class="mc-bars"><span class="bg" style="flex:${ok}"></span><span class="br" style="flex:${pend}"></span></div></div>`;
+}
+
+/* ─── render principal ─── */
+function render(key){
+  const fn=SCREENS[key];
+  const el=document.getElementById('screen');
+  if(!fn){el.innerHTML='';return;}
+  const s=fn();
+  let ebtns='';
+  (s.explainer.btns||[]).forEach(b=>{ebtns+=`<span class="ebtn ${b[0]}">${b[1]}</span>`;});
+  el.innerHTML=`
+    <div class="explainer">
+      <div class="et"><span class="dot"></span> ${s.explainer.t}</div>
+      <p>${s.explainer.p}</p>
+      ${ebtns?`<div class="ebtns">${ebtns}</div>`:''}
+    </div>
+    <div class="scr-h"><h1>${s.title}</h1><p>${s.sub}</p></div>
+    ${s.html}`;
+  // bind hotspots
+  el.querySelectorAll('.hot').forEach(h=>{
+    h.addEventListener('click',()=>openTip(h.dataset.h));
+  });
+}
+
+/* ─── hotspot tooltip ─── */
+function openTip(id){
+  const d=HOT[id];if(!d)return;
+  document.getElementById('htCat').textContent=d.cat||'';
+  document.getElementById('htTitle').textContent=d.title||'';
+  document.getElementById('htBody').textContent=d.body||'';
+  const u=document.getElementById('htUse');
+  if(d.use){u.style.display='block';u.textContent=d.use;}else u.style.display='none';
+  const t=document.getElementById('htTip');
+  if(d.tp){t.style.display='block';t.textContent=d.tp;}else t.style.display='none';
+  document.getElementById('htip').classList.add('show');
+}
+function closeTip(){document.getElementById('htip').classList.remove('show');}
+document.getElementById('htip').addEventListener('click',e=>{if(e.target.id==='htip')closeTip();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTip();});
+
+/* ─── navegación sidebar ─── */
+const nav=document.getElementById('nav');
+nav.querySelectorAll('.m1').forEach(m1=>{
+  const head=m1.querySelector('.m1h');
+  head.addEventListener('click',()=>{
+    if(m1.classList.contains('leaf')){
+      // leaf directo (Resumen)
+      selectScreen(m1.dataset.screen,m1);
+    }else{
+      // toggle submenu
+      const wasExp=m1.classList.contains('exp');
+      nav.querySelectorAll('.m1').forEach(x=>x.classList.remove('exp'));
+      if(!wasExp)m1.classList.add('exp');
+    }
+  });
+});
+nav.querySelectorAll('.m2').forEach(m2=>{
+  m2.addEventListener('click',()=>selectScreen(m2.dataset.screen,m2));
+});
+function selectScreen(key,node){
+  nav.querySelectorAll('.m1,.m2').forEach(x=>x.classList.remove('on'));
+  node.classList.add('on');
+  if(node.classList.contains('m2')){
+    // mantener el m1 padre marcado leve
+  }
+  render(key);
+  document.querySelector('.main').scrollTop=0;
+}
+
+// inicio
+render('resumen');
+</script>
+</body>
+</html>
