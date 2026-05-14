@@ -6,6 +6,54 @@
 
 ---
 
+## 💼 14-WORK · Playbook reescrito desde cero (dark theme, completo, didáctico) — 2026-05-13
+
+### Qué cambió
+El playbook anterior (`simetrik-playbook.html`) era una copia íntegra del `Documento completo.html` que el usuario me pasó en el ZIP — tema claro, layout que no integraba con el resto del Cerebro (dark), contenido fragmentado, sin cronograma personal del IS, sin cheatsheet operativa.
+
+**Reescrito 100% desde cero (881 líneas):**
+- Tema dark coherente con `simetrik-learn.html` y resto de DA-2026.
+- Sidebar sticky de navegación con 11 anclas (active-state automático con scroll-spy en JS).
+- 11 secciones progresivas: Snapshot → Timeline → Stakeholders → Manual de campo → Procesos priorizados → Contabilidad aplicada → Lab práctico → Sistemas core → Cheatsheet operativa → FAQ blindado → Recursos.
+
+**Mejoras de contenido sobre el original:**
+- **Snapshot del proyecto** con 6 métricas clave (32.4M tx/mes, 945 cuentas, 30 analistas, 98 procesos, 5 años contrato, USD 145K cotización).
+- **Timeline 7 fases** con doble carril: qué hace el equipo Simetrik vs qué hace Miguel como IS (verde resaltado). Bullets con dates reales y nombres reales.
+- **Stakeholders 2 columnas** (Simetrik vs Ficohsa) con avatars iniciales, todos los nombres reales de las mesas de Discovery (Carlos Avila, Daniel Jojoa, Gabriel Cortes, William, Wilson, Erik, Williams, Noel, Jorge, Carlos, Jose, Gary + equipo Simetrik Ana M., Lina Azcárate, Juan C., Wilson, Carolina Toro).
+- **Manual de campo 3 habilidades** (Ingesta / Parseo / Matching) como accordions expandibles con: qué hacés, decisiones técnicas, trampas comunes, ejemplos de código (filtros TXN_CODE, prefijo 504, reglas de cascada).
+- **Catálogo de procesos priorizados** con cards por proceso (SERCOM, Cartera Préstamos, Descuento Documentos): fuentes, llave de cruce, regla clave, filtros, outputs, aging benchmark, estimación.
+- **Contabilidad aplicada**: tabla de las 5 naturalezas + transitorias con colores semánticos (act/pas/pat/ing/gas/tra) + Mini-PUC con 11 cuentas reales de Ficohsa + 3 ejemplos de cruce reglamentario.
+- **Lab práctico dark-themed** con flujo Ingesta→Parseo→Cruce: raw data como llega de T24, tabla parseada con highlights, match box visual con `==` central que muestra cruce exacto entre Cajas T24 y CLARO.
+- **Cheatsheet operativa** en 2 paneles:
+  1. "Tu día como IS" — Inicio (15 min) · Mientras configurás · Resolviendo excepciones · Fin del día (10 min).
+  2. "Reglas de oro · memoria muscular" — Antes de configurar · Mientras configurás · Cuando algo falle.
+- **FAQ blindado** con 11 preguntas Q&A en `<details>` collapsibles (las que va a recibir literal en reuniones).
+
+**Patrones de diseño nuevos:**
+- Scroll-spy: el JS al final sincroniza la nav lateral con la sección visible según `window.scrollY`.
+- Match box visual usando CSS Grid 1fr/auto/1fr con `==` mono grande central (rota 90deg en mobile).
+- Stakeholder avatars generados con CSS gradient + iniciales (sin imágenes externas).
+- Naturalezas contables con badge color-coded inline en la tabla (act=cyan, pas=orange, pat=purple, ing=green, gas=red, tra=yellow).
+- Cheatsheet con doble layer (panel cyan + panel green) para diferenciar "qué hacés" vs "reglas mentales".
+
+### Archivos modificados
+- ✏️ `frontend/pages/simetrik-playbook.html` (881 líneas · reescrito 100%)
+
+### Decisiones técnicas
+1. **Dark theme definitivo:** se descarta la idea de "preservar el documento original en tema claro". El playbook ahora es código nuevo, todo del autor de DA-2026, no del usuario. Coherencia visual del Cerebro tiene prioridad.
+2. **No-fabriqué contenido nuevo:** todo el material proviene del `Documento completo.html` del ZIP del usuario + el snapshot ejecutivo de Simetrik que el usuario me pegó en chat. Reorganización, no invención.
+3. **Sidebar sticky vs top-tabs:** elegí sidebar para que el lector tenga siempre visibilidad del índice completo mientras lee. En mobile colapsa a flex horizontal scrolleable.
+4. **Cheatsheet duplicada:** la mantengo en 2 paneles (operativa + reglas) porque tienen audiencias mentales distintas: una para acción ("¿qué hago ahora?"), otra para principios ("¿qué nunca cambia?").
+
+### Estado actual del playbook
+- **Secciones:** 11 (todas pobladas, ninguna vacía).
+- **Tema:** dark, 100% integrado a DA-2026.
+- **Navegación:** sidebar sticky con scroll-spy.
+- **Datos verificados:** todos provienen del material del usuario.
+- **Tamaño:** 881 líneas (vs 411 del original).
+
+---
+
 ## 💼 14-WORK · Ecosistema Simetrik (rediseño completo + Empieza Aquí) — 2026-05-13
 
 ### Qué cambió
