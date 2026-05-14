@@ -1,8 +1,104 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-13
+- **Última actualización:** 2026-05-14
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · Ecosistema rehecho con material oficial Simetrik App.md — 2026-05-14
+
+### Qué cambió
+El usuario aportó un ZIP con el **curso oficial Simetrik completo** (`App.md` · 2904 líneas, 31 lecciones · `Domain Framework 2026.txt` · 6 capturas PNG de la UI real `app.simetrik.com`). Las 3 secciones principales fueron reescritas con material oficial verificado:
+
+**`pages/simetrik-learn.html` (reescrito completo · 1100+ líneas):**
+- Hero refrescado con kicker "curso oficial Simetrik".
+- Connect → Reconcile → Resolve con frase oficial: *"From the moment a transaction is born, until it dies in accounting"*.
+- Sección "Account, Workspaces y Roles" con los 4 system roles oficiales (Viewer, Builder, Operator, Supervisor) + Custom Roles + flujo de login con Guardian 2FA.
+- Sección "SBBs · Simetrik Building Blocks" con los 3 tipos (estándar, feature flag, revenue propio).
+- **🎯 Tour interactivo refeito con los 4 menús oficiales** + Account Management:
+  - **Automate** (6 sub-sections): Integrations In, Resources, Accounting, Analysis, Data Sharing, Solutions/Templates.
+  - **Operate** (4 sub-sections): Insights, Operational Controls, Record Finder, Accounting Controls.
+  - **Audit** (2 sub-sections): Snapshots, Activity Logs.
+  - **Tools** (4 sub-sections): Downloads, Recycle Bin, Process View, Relationship Maps.
+  - Cada módulo con descripción, sub-cards de funcionalidades, tips, warnings y casos de uso reales del curso oficial.
+- Sección **AI Agents** completa: 5 activos (Smart Parser, Smart Building Block · Connect Sources, Smart Date Formats, Smart Transformation, Smart Rules) + 3 release abril 2026 (Column Mapping, Accounting Model Assistance, Safe Column Removal) + 3 roadmap (Accounting Review, Education, Summary) + 1 custom (Data Monitoring).
+- Sección **Domain Framework 2026** con los **8 dominios oficiales** agrupados en 4 macro-objetivos (Funds Flows · Profitability · Continuous Closing · Compliance & Oversight).
+- **Curso de 12 lecciones** ampliado (vs 10 anterior) cubriendo el curso oficial completo.
+- **🧪 Sección Ejercicios prácticos** con los 2 ejercicios oficiales (OP & Cost Control + Advanced Recon) y archivos xlsx ya extraídos del ZIP.
+- 6 cards de Beneficios + 6 cards de Recursos.
+
+**`pages/simetrik-playbook.html` (reescrito completo · 800+ líneas):**
+- Sidebar sticky con scroll-spy + 11 anclas categorizadas (Proyecto, Contabilidad, Conciliación, Operación).
+- Snapshot Ficohsa con 6 métricas + Stakeholders 2 columnas + Timeline 7 fases.
+- **Mini-curso de contabilidad (5 lecciones expandibles):**
+  1. La ecuación contable básica (Activo = Pasivo + Patrimonio).
+  2. Partida doble (principio que nunca se rompe + asiento contable visualizado).
+  3. Naturaleza de cuentas (5 tipos color-coded + transitorias).
+  4. Cuentas transitorias: el reto de SERCOM (caso completo con asientos D/C).
+  5. Journal entry y cierre contable (ciclo completo del cierre).
+- **Mini chart of accounts** con 11 cuentas reales Ficohsa.
+- **Curso completo de reconciliation (5 lecciones expandibles):**
+  - A. ¿Qué es y por qué importa? (tipos de cruce: 1-1, 1-N, N-1, N-N).
+  - B. Standard Reconciliation paso a paso (sweeps en cascada visualizados).
+  - C. Reconcilable Groups + best practice SKT ID != empty.
+  - D. Advanced Reconciliation (3 tipos de sweep: recon, grouping, offset).
+  - E. Source Enrichment (VLOOKUP vs 1-N recon + Cost Control con transformation columns).
+- Procesos priorizados Fase 1 (SERCOM, Cartera Préstamos, Descuento Documentos).
+- **Cheatsheet operativa en 3 paneles** (Tu día IS + Reglas de oro + Best practices del curso oficial).
+- FAQ blindado con 12 preguntas-respuestas literales.
+- Recursos en 6 cards.
+
+**Diccionario expandido (SEED_VERSION → simetrik-2026-05-14.1):**
+- +110 nuevos términos sobre los 100 anteriores → ~210 términos totales.
+- Nuevas categorías cubiertas con material oficial App.md:
+  - **Estructura cuenta:** Account, Workspace, los 4 system roles (Viewer/Builder/Operator/Supervisor), Custom Role, Admin, Guardian (2FA).
+  - **Resources:** Source, System Columns, Create Resource, Normalization, Change Format, Smart Date Format, Manual Upload, Self-Managed, SFTP Pull/Push, S3 Pull, Bucket, Integration Services Team, Smart Parser, Parsing, Source Union, AIA.
+  - **Reconciliations:** Standard vs Advanced, Sweep, Reconciliation/Grouping/Offset Sweep, 1-1/1-N/N-1/N-N crossovers, Business Rule, Reconcilable Group, SKT ID, Smart Rules.
+  - **Enrichment:** VLOOKUP (Simetrik), Enrichment by Recon, Transformation Column, Smart Transformation, Cost Control, Fee Dictionary.
+  - **Accounting:** Chart of Accounts, ERP Integration, Middleware vs Standard App, Accounting Model, Accounting Structure, Document Fields, Lines, Header, Normal/Cancellation/Post-Siege Seats, Post After Closing, Partial Reversal, Dummy Recon.
+  - **Accounting Close:** Trial Balance, Beginning/Ending/Recognized Balance, Preparer, Certifier, Ready to Certify, Support Resource, Snapshot, Account Grouping, Auto-certification, Accounting Dashboard.
+  - **Analysis:** Custom Dashboard, Pivot Table, 4 Monitors (Conciliation, Source, Bucket, Accounting), Consolidation vs Combination, Grouping.
+  - **Data Sharing:** Data Sharing, Export, Export by Event, Recurring Export, Destination, Customer Reports, Partitioning.
+  - **Solutions/Templates:** Solutions, Template, Templates Catalog, First Time to Value.
+  - **Menús:** Automate, Operate, Audit, Tools (sub-secciones de cada uno).
+  - **Operate features:** Insights, Agent Factory, Record Finder, Activity Logs.
+  - **Tools features:** Downloads, Recycle Bin, Process View, Relationship Maps.
+  - **Domain Framework:** Domain Framework, los 8 dominios, Reporting Entity, Actor, Stage, Sub-Stage.
+  - **Simetrik Box:** modelo de embebido para partners.
+  - **AI Agents roadmap:** Column Mapping, Safe Column Removal, Accounting Review Agent, Education Agent, Summary Agent, Data Monitoring Agent.
+  - **Trazabilidad:** Full Traceability, Single Source of Truth.
+  - **Certificación:** Assessment, Practical Activity, Q&A Sessions, Go-To-Market Sessions.
+
+### Archivos modificados / creados
+- ✏️ `frontend/pages/simetrik-learn.html` (reescrito 100% · 1100+ líneas)
+- ✏️ `frontend/pages/simetrik-playbook.html` (reescrito 100% · 800+ líneas)
+- ✏️ `frontend/js/work.js` (SEED_VERSION bumpeado a simetrik-2026-05-14.1 · +110 términos)
+
+### Decisiones técnicas
+1. **Cero ficción:** todos los términos y descripciones derivan del `App.md` oficial (2904 líneas) + `Domain Framework 2026` + el material previo del usuario. No hay nada inventado.
+2. **Tema dark unificado** en las 3 páginas. Tour del playbook viejo (tema claro) fue descartado por inconsistencia visual.
+3. **Tour interactivo basado 1:1 en `app.simetrik.com`:** el orden y los nombres de los menús coinciden con la plataforma real. Sub-secciones reflejan exactamente lo descrito en el curso.
+4. **Mini-curso de contabilidad embebido** en el playbook (5 lecciones expandibles) — incluye visualizaciones de journal entries con débito/crédito en mono-font, ecuación contable destacada, y caso SERCOM completo.
+5. **Curso de reconciliation independiente** del mini-curso de contabilidad — 5 lecciones cubriendo Standard, Reconcilable Groups, Advanced, Source Enrichment.
+6. **Cheatsheet en 3 paneles** (vs 2 anterior): agregado panel de "Best practices del curso oficial" con guidance específica de Simetrik.
+7. **Seed dictionary idempotente:** `sid` único por entrada · no pisa entradas custom del usuario.
+
+### Estado actual de 14-WORK
+- **Pestañas activas:** 11 (sin cambio estructural)
+- **Diccionario:** ~210 términos (SEED_VERSION `simetrik-2026-05-14.1`)
+- **Curso Empieza Aquí:** 12 lecciones (vs 10 anterior) con progreso individual por device
+- **Playbook:** 11 secciones con sidebar sticky + mini-curso accounting + curso reconciliation
+- **Páginas embebidas:** 2 (`simetrik-learn.html`, `simetrik-playbook.html`), ambas dark theme integradas a DA-2026
+- **Tour de la interfaz:** fiel a `app.simetrik.com` con 4 menús reales + Account Management
+- **Ejercicios prácticos:** documentados con conceptos a demostrar + archivos disponibles (Ej 2 OP&Cost Control + Ej 3 Advanced Recon)
+
+### Pendientes detectados (mantienen del entry anterior)
+- Procesar PDFs Service Module 2/3 + RFP del primer ZIP (Ficohsa-specific).
+- Levantar contenido de Ecosistem,a Simetrik.md (95KB) y Módulo Servicios 3.md (40KB) si profundizan algo no cubierto en App.md.
+- Implementar visualización de las 6 capturas UI dentro del tour como overlays opcionales (mejora futura).
+- APA: feature "pegar cualquier texto → APA automático" + verificación APA_CUN.pdf (pendiente sesiones anteriores).
+- Mind Map Studio mejoras profesionales (pendiente sesiones anteriores).
 
 ---
 

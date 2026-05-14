@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Playbook IS · Simetrik · Proyecto Ficohsa</title>
+<title>Playbook IS · Simetrik · Tu Manual de Campo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -22,15 +22,13 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;font-size:14.5px}
-::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
 
-/* TIRA DA-2026 */
 .da-strip{position:sticky;top:0;z-index:100;background:rgba(11,13,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:10px 22px;font-size:13px}
 .da-strip a{color:var(--a2);text-decoration:none;font-weight:600}.da-strip a:hover{color:var(--tx)}
 .da-strip .mod{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);margin-left:auto}
 body.in-iframe .da-strip{display:none}
 
-/* LAYOUT */
 .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
 .sb{background:var(--bg2);border-right:1px solid var(--bd);padding:24px 0;position:sticky;top:42px;height:calc(100vh - 42px);overflow-y:auto}
 body.in-iframe .sb{top:0;height:100vh}
@@ -39,7 +37,8 @@ body.in-iframe .sb{top:0;height:100vh}
 .sb .brand h1{font-family:'Newsreader',serif;font-size:18px;font-weight:600;letter-spacing:-.3px;line-height:1.2}
 .sb .brand .sub{font-size:11px;color:var(--t3);margin-top:4px;font-family:'JetBrains Mono',monospace}
 .sb nav{list-style:none;padding:6px 0}
-.sb nav a{display:flex;align-items:center;gap:11px;padding:9px 22px;font-size:13px;color:var(--t2);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
+.sb nav .gr{padding:14px 22px 4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.9px;font-weight:600}
+.sb nav a{display:flex;align-items:center;gap:11px;padding:8px 22px;font-size:12.5px;color:var(--t2);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
 .sb nav a:hover{background:rgba(255,255,255,.02);color:var(--tx)}
 .sb nav a.on{background:rgba(6,182,212,.10);border-left-color:var(--ac);color:var(--tx);font-weight:600}
 .sb nav a .ic{font-size:14px;width:18px;text-align:center;flex-shrink:0}
@@ -53,106 +52,53 @@ body.in-iframe .sb{top:0;height:100vh}
 .hero .kicker{display:inline-block;background:var(--pkg);border:1px solid rgba(236,72,153,.3);color:var(--pk);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:5px 12px;border-radius:18px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
 .hero h1{font-family:'Newsreader',serif;font-size:38px;font-weight:600;line-height:1.12;letter-spacing:-.5px;margin-bottom:12px}
 .hero h1 em{font-style:italic;color:var(--ac)}
-.hero p{font-size:15px;color:var(--t2);max-width:720px;line-height:1.7}
+.hero p{font-size:15px;color:var(--t2);max-width:780px;line-height:1.7}
 
-/* SECTION */
+/* SECTIONS */
 .sec{margin-top:54px;scroll-margin-top:60px}
 .sec-h{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
 .sec-h h2{font-family:'Newsreader',serif;font-size:30px;font-weight:600;letter-spacing:-.3px}
 .sec-h .kicker{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
 .sec-lead{color:var(--t2);font-size:15px;margin:14px 0 26px;max-width:880px;line-height:1.75}
 
-/* METRICS HERO */
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:22px}
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:22px}
 .metric{background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:12px;padding:16px 18px}
 .metric .v{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1;color:var(--ac);letter-spacing:-.5px}
 .metric .l{font-size:10.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-family:'JetBrains Mono',monospace;margin-top:4px}
 .metric .d{font-size:12px;color:var(--t2);margin-top:6px;line-height:1.4}
 
-/* TIMELINE */
-.tl{position:relative;margin:14px 0 0}
-.tl::before{content:'';position:absolute;left:18px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--ac),var(--pp),var(--gn))}
-.tl-it{position:relative;padding:0 0 22px 50px}
-.tl-it::before{content:'';position:absolute;left:12px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--bg2);border:3px solid var(--ac)}
-.tl-it.p2::before{border-color:var(--pp)}
-.tl-it.p3::before{border-color:var(--gn)}
-.tl-it.p4::before{border-color:var(--or)}
-.tl-it.p5::before{border-color:var(--rd)}
-.tl-it.p6::before{border-color:var(--yl)}
-.tl-it .when{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase}
-.tl-it .ph{font-size:17px;font-weight:600;margin:3px 0 5px;letter-spacing:-.2px}
-.tl-it .role{font-size:13.5px;color:var(--t2);line-height:1.65;margin-bottom:8px}
-.tl-it .youdo{background:var(--gg);border-left:3px solid var(--gn);border-radius:8px;padding:10px 14px;font-size:13px;color:#bef0c5;line-height:1.6}
-.tl-it .youdo b{color:var(--gn)}
+/* CONCEPT CARDS */
+.cards{display:grid;gap:14px;margin-top:14px}
+.c2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cd{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;transition:all .15s}
+.cd:hover{border-color:var(--bd2)}
+.cd .ic{font-size:24px;margin-bottom:10px;display:block}
+.cd h3{font-size:15.5px;font-weight:600;margin-bottom:6px;letter-spacing:-.2px}
+.cd p{font-size:13px;color:var(--t2);line-height:1.6}
+.cd code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
 
-/* CARDS GENERIC */
-.grid{display:grid;gap:14px;margin-top:14px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:20px 22px;transition:all .15s}
-.card:hover{border-color:var(--bd2)}
-.card .ic{font-size:24px;margin-bottom:10px;display:block}
-.card h3{font-size:15.5px;font-weight:600;margin-bottom:6px;letter-spacing:-.2px}
-.card p{font-size:13px;color:var(--t2);line-height:1.6}
-.card .kbd{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--bg3);color:var(--ac);padding:1px 6px;border-radius:4px;border:1px solid var(--bd)}
-.card.cy{border-left:3px solid var(--ac)}
-.card.pp{border-left:3px solid var(--pp)}
-.card.gn{border-left:3px solid var(--gn)}
-.card.or{border-left:3px solid var(--or)}
-.card.rd{border-left:3px solid var(--rd)}
+/* ACCOUNTING COURSE */
+.acc-lesson{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;margin-top:14px}
+.acc-lesson .ah{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 24px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd);cursor:pointer;user-select:none}
+.acc-lesson .ah:hover{background:rgba(255,255,255,.04)}
+.acc-lesson .nm{width:44px;height:44px;border-radius:12px;background:var(--bg3);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:var(--ac)}
+.acc-lesson .atxt h3{font-size:17px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}
+.acc-lesson .atxt .alead{font-size:12.5px;color:var(--t2)}
+.acc-lesson .arrow{color:var(--t3);font-size:18px;transition:transform .2s}
+.acc-lesson.open .arrow{transform:rotate(180deg)}
+.acc-lesson .ab{display:none;padding:22px 28px;border-top:1px solid var(--bd)}
+.acc-lesson.open .ab{display:block}
+.acc-lesson .ab h4{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ac);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 8px;font-weight:600}
+.acc-lesson .ab h4:first-child{margin-top:0}
+.acc-lesson .ab p{font-size:13.5px;color:var(--t2);line-height:1.7;margin:6px 0}
+.acc-lesson .ab ul,.acc-lesson .ab ol{margin:8px 0 8px 22px;color:var(--t2);font-size:13.5px}
+.acc-lesson .ab li{margin:5px 0;line-height:1.65}
+.acc-lesson .ab code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
+.acc-lesson .ab b{color:var(--tx)}
 
-/* STAKEHOLDER */
-.team{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden}
-.team .th{padding:14px 20px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
-.team .th h3{font-size:15px;font-weight:600}
-.team .th .tag{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--ag);color:var(--a2);padding:3px 8px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase;margin-left:auto}
-.team.ficohsa .th .tag{background:var(--og);color:var(--or)}
-.team .tb{padding:6px 0}
-.team .person{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--bd)}
-.team .person:last-child{border-bottom:none}
-.team .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--pp));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;color:#000}
-.team.ficohsa .avatar{background:linear-gradient(135deg,var(--or),var(--rd))}
-.team .info .n{font-size:13.5px;font-weight:600}
-.team .info .r{font-size:12px;color:var(--t3);font-family:'JetBrains Mono',monospace}
-
-/* PILLARS (3 core skills) */
-.skill{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;margin-top:18px}
-.skill .sh{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;padding:18px 24px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd);cursor:pointer;user-select:none}
-.skill .sh:hover{background:rgba(255,255,255,.04)}
-.skill .nm{width:46px;height:46px;border-radius:12px;background:var(--bg3);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:var(--ac)}
-.skill.k2 .nm{color:var(--pp);border-color:var(--pp)}
-.skill.k3 .nm{color:var(--gn);border-color:var(--gn)}
-.skill .stxt h3{font-size:18px;font-weight:600;margin-bottom:3px;letter-spacing:-.2px}
-.skill .stxt .lead{font-size:13px;color:var(--t2)}
-.skill .arrow{color:var(--t3);font-size:18px;transition:transform .2s}
-.skill.open .arrow{transform:rotate(180deg)}
-.skill .sb-body{display:none;padding:22px 26px;border-top:1px solid var(--bd)}
-.skill.open .sb-body{display:block}
-.skill .sb-body h4{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ac);text-transform:uppercase;letter-spacing:.8px;margin:18px 0 8px;font-weight:600}
-.skill .sb-body h4:first-child{margin-top:0}
-.skill .sb-body p{font-size:13.5px;color:var(--t2);line-height:1.7;margin:6px 0}
-.skill .sb-body ul,.skill .sb-body ol{margin:8px 0 8px 20px;color:var(--t2);font-size:13.5px}
-.skill .sb-body li{margin:6px 0;line-height:1.65}
-.skill .sb-body code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
-
-/* PROCESS CATALOG */
-.proc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:22px 24px;margin-top:14px}
-.proc .ph{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.proc h3{font-size:17px;font-weight:600}
-.proc .badges{display:flex;gap:6px;flex-wrap:wrap}
-.proc .bd{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:3px 9px;border-radius:11px;font-weight:600;letter-spacing:.5px}
-.proc .bd.prio{background:var(--rg);color:var(--rd)}
-.proc .bd.acct{background:var(--ag);color:var(--a2)}
-.proc .bd.h{background:var(--og);color:var(--or)}
-.proc .pdesc{font-size:13.5px;color:var(--t2);line-height:1.65;margin-bottom:14px}
-.proc .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
-.proc .pgrid > div{background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:9px;padding:12px 14px}
-.proc .pgrid h5{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ac);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;font-weight:600}
-.proc .pgrid p{font-size:12.5px;color:var(--t2);line-height:1.55}
-.proc .pgrid code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
-
-/* DATA TABLE */
+/* TABLES */
 .tbl-wrap{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;margin-top:14px}
 .tbl-wrap table{width:100%;border-collapse:collapse;font-size:13px}
 .tbl-wrap th{background:rgba(255,255,255,.03);padding:12px 16px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;font-weight:600;border-bottom:1px solid var(--bd)}
@@ -169,37 +115,22 @@ body.in-iframe .sb{top:0;height:100vh}
 .tbl-wrap .nat.gas{background:var(--rg);color:var(--rd)}
 .tbl-wrap .nat.tra{background:var(--yg);color:var(--yl)}
 
-/* LAB */
-.lab{background:linear-gradient(135deg,#0a0d12,#161b25);border:1px solid var(--bd);border-radius:18px;padding:28px 30px;margin-top:18px;position:relative;overflow:hidden}
-.lab::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,var(--ag),transparent 70%);pointer-events:none}
-.lab-step{margin-bottom:20px}
-.lab-step:last-child{margin-bottom:0}
-.lab-step h4{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;margin-bottom:10px}
-.lab-step h4 .n{background:var(--ac);color:#001016;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700}
-.lab-step p{font-size:13px;color:var(--t2);margin-bottom:10px;line-height:1.6}
-.lab-raw{font-family:'JetBrains Mono',monospace;background:#06090d;border:1px solid var(--bd);border-radius:8px;padding:14px 16px;font-size:11.5px;color:#94e4ff;white-space:pre-wrap;word-break:break-all;line-height:1.5;overflow-x:auto}
-.lab-raw .h{color:var(--t3)}
-.lab-tbl{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#06090d;border:1px solid var(--bd);border-radius:8px;overflow:hidden}
-.lab-tbl th{padding:8px 12px;background:#0a0d12;color:var(--ac);text-align:left;border-bottom:1px solid var(--bd);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px}
-.lab-tbl td{padding:8px 12px;border-bottom:1px solid var(--bd);color:var(--t2)}
-.lab-tbl tr:last-child td{border-bottom:none}
-.lab-tbl .ok{color:var(--gn);font-weight:600}
-.lab-tbl .w{color:var(--yl)}
-.lab-arrow{text-align:center;color:var(--ac);font-size:22px;margin:14px 0}
-.match-box{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:10px}
-.match-side{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:9px;padding:14px}
-.match-side.a{border-top:3px solid var(--ac)}
-.match-side.b{border-top:3px solid var(--gn)}
-.match-side h5{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;color:var(--ac)}
-.match-side.b h5{color:var(--gn)}
-.match-side ul{list-style:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t2)}
-.match-side li{margin:3px 0}
-.match-side li b{color:var(--tx)}
-.eq{font-family:'JetBrains Mono',monospace;font-size:30px;color:var(--ac);font-weight:700}
-.match-result{margin-top:14px;padding:12px 16px;background:var(--gg);border:1px solid rgba(34,197,94,.3);border-radius:8px;font-size:13px;color:#bef0c5}
-.match-result b{color:var(--gn)}
+/* JOURNAL ENTRY VIZ */
+.je{background:rgba(0,0,0,.25);border:1px solid var(--bd);border-radius:10px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.75;color:var(--t2);margin-top:8px;overflow-x:auto}
+.je .deb{color:var(--a2);font-weight:600}
+.je .cre{color:var(--or);font-weight:600}
+.je .ind{padding-left:22px}
+.je .lbl{color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 
-/* ALERTS / BOXES */
+/* SWEEPS / RECONCILIATION VIZ */
+.sweep-chain{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.sweep{display:grid;grid-template-columns:60px 1fr;align-items:flex-start;gap:14px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:14px 18px}
+.sweep .sn{font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:var(--ac);line-height:1;text-align:center}
+.sweep h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.sweep p{font-size:12.5px;color:var(--t2);line-height:1.55}
+.sweep code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--a2);border:1px solid var(--bd)}
+
+/* BOXES */
 .box{border-radius:10px;padding:14px 18px;margin:14px 0;display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.6}
 .box::before{font-size:18px;flex-shrink:0;line-height:1.2}
 .box.info{background:var(--ag);border:1px solid rgba(6,182,212,.3);color:#bdeef9}
@@ -211,6 +142,7 @@ body.in-iframe .sb{top:0;height:100vh}
 .box.red{background:var(--rg);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
 .box.red::before{content:'🛑'}
 .box b{color:var(--tx)}
+.box code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(0,0,0,.25);padding:1px 6px;border-radius:4px;color:var(--a2)}
 
 /* CHEATSHEET */
 .cheat{background:linear-gradient(135deg,var(--ag),var(--pg));border:1px solid rgba(6,182,212,.3);border-radius:18px;padding:30px 32px;margin-top:18px}
@@ -224,8 +156,20 @@ body.in-iframe .sb{top:0;height:100vh}
 .cheat-col li::before{content:'▸';color:var(--ac);font-weight:700;flex-shrink:0}
 .cheat-col code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(0,0,0,.3);color:var(--a2);padding:1px 6px;border-radius:4px;border:1px solid var(--bd)}
 
+/* TEAMS */
+.team{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden}
+.team .th{padding:14px 20px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.team .th h3{font-size:15px;font-weight:600}
+.team .th .tag{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--ag);color:var(--a2);padding:3px 8px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase;margin-left:auto}
+.team.ficohsa .th .tag{background:var(--og);color:var(--or)}
+.team .person{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--bd)}
+.team .person:last-child{border-bottom:none}
+.team .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--pp));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;color:#000}
+.team.ficohsa .avatar{background:linear-gradient(135deg,var(--or),var(--rd))}
+.team .info .n{font-size:13.5px;font-weight:600}
+.team .info .r{font-size:11.5px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+
 /* FAQ */
-.faq{margin-top:14px}
 .faq-it{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:0;margin-bottom:10px;overflow:hidden}
 .faq-it summary{padding:14px 20px;cursor:pointer;font-size:14.5px;font-weight:600;list-style:none;display:flex;align-items:center;gap:12px;user-select:none}
 .faq-it summary::-webkit-details-marker{display:none}
@@ -236,27 +180,17 @@ body.in-iframe .sb{top:0;height:100vh}
 .faq-body b{color:var(--tx)}
 .faq-body code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--a2)}
 
-/* RESOURCES */
-.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
-.res a{display:block;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:18px 20px;text-decoration:none;color:var(--tx);transition:all .15s}
-.res a:hover{border-color:var(--ac);transform:translateY(-2px)}
-.res .ti{font-size:14px;font-weight:600;margin-bottom:3px}
-.res .ds{font-size:12px;color:var(--t2);line-height:1.5}
-.res .lk{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a2);margin-top:8px;word-break:break-all}
-
-/* MOBILE */
 @media (max-width:880px){
   .app{grid-template-columns:1fr}
   .sb{position:static;height:auto;padding:14px 0;border-right:none;border-bottom:1px solid var(--bd)}
-  .sb nav{display:flex;flex-wrap:wrap;padding:6px 12px}
+  .sb nav{display:flex;flex-wrap:wrap}
+  .sb nav .gr{width:100%}
   .sb nav a{border-left:none;border-bottom:3px solid transparent;padding:8px 12px;font-size:12px}
   .sb nav a.on{border-bottom-color:var(--ac)}
   .sb .foot{display:none}
   .mn{padding:20px 18px 60px}
   .hero{padding:24px 22px}.hero h1{font-size:28px}
   .sec-h h2{font-size:24px}
-  .match-box{grid-template-columns:1fr;text-align:center}
-  .eq{transform:rotate(90deg)}
 }
 </style>
 </head>
@@ -266,323 +200,244 @@ body.in-iframe .sb{top:0;height:100vh}
   <a href="../work.html">← Ecosistema Simetrik</a>
   <span style="opacity:.3">|</span>
   <a href="simetrik-learn.html">🧭 Empieza Aquí</a>
-  <span class="mod">14-WORK · Playbook IS · Ficohsa</span>
+  <span class="mod">14-WORK · Playbook IS · Manual de Campo</span>
 </div>
 
 <div class="app">
 
-  <!-- ═══ SIDEBAR ═══ -->
   <aside class="sb">
     <div class="brand">
       <span class="role">Implementation Specialist</span>
-      <h1>Playbook Ficohsa</h1>
-      <div class="sub">Simetrik · Honduras · 2026</div>
+      <h1>Playbook IS</h1>
+      <div class="sub">Manual de campo · Ficohsa</div>
     </div>
     <nav>
-      <a href="#snapshot" class="on"><span class="ic">🎯</span> Snapshot del proyecto</a>
-      <a href="#timeline"><span class="ic">📅</span> Tu cronograma</a>
+      <div class="gr">Proyecto</div>
+      <a href="#snapshot" class="on"><span class="ic">🎯</span> Snapshot</a>
       <a href="#team"><span class="ic">👥</span> Stakeholders</a>
-      <a href="#skills"><span class="ic">🛠️</span> Manual de campo</a>
+      <a href="#timeline"><span class="ic">📅</span> Tu cronograma</a>
+      <div class="gr">Contabilidad</div>
+      <a href="#accounting"><span class="ic">📒</span> Curso accounting</a>
+      <a href="#puc"><span class="ic">🧾</span> Mini Chart of Accounts</a>
+      <div class="gr">Conciliación</div>
+      <a href="#recon-course"><span class="ic">⚙️</span> Curso reconciliation</a>
       <a href="#processes"><span class="ic">📋</span> Procesos priorizados</a>
-      <a href="#accounting"><span class="ic">⚖️</span> Contabilidad aplicada</a>
-      <a href="#lab"><span class="ic">🔬</span> Laboratorio práctico</a>
-      <a href="#systems"><span class="ic">🔌</span> Sistemas core</a>
-      <a href="#cheatsheet"><span class="ic">⚡</span> Cheatsheet operativa</a>
+      <div class="gr">Operación</div>
+      <a href="#cheatsheet"><span class="ic">⚡</span> Cheatsheet</a>
       <a href="#faq"><span class="ic">❓</span> FAQ blindado</a>
       <a href="#resources"><span class="ic">📚</span> Recursos</a>
     </nav>
     <div class="foot">
-      v2026-05-13 · DA-2026<br>
-      Material verificado del usuario<br>
+      v2026-05-14 · DA-2026<br>
+      Material verificado · App.md oficial<br>
       Si falta info → pedirla, no inventarla
     </div>
   </aside>
 
-  <!-- ═══ MAIN ═══ -->
   <main class="mn">
 
-    <!-- ────── SNAPSHOT ────── -->
+    <!-- HERO + SNAPSHOT -->
     <section id="snapshot">
       <div class="hero">
         <span class="kicker">Proyecto Ficohsa · GFF · Honduras → CAM</span>
-        <h1>Tu playbook como <em>Implementation Specialist</em>.</h1>
-        <p>Todo lo que necesitás saber sobre el proyecto, tu rol, los procesos a configurar, los sistemas a integrar y la contabilidad detrás. Diseñado para consulta diaria — abrí esta página antes de cada mesa de Discovery, antes de cada configuración en Simetrik, antes de cada reunión con el cliente.</p>
+        <h1>Tu manual de campo como <em>Implementation Specialist</em>.</h1>
+        <p>Material de consulta diaria: stakeholders, procesos a configurar, curso mínimo de contabilidad para no cruzar al revés, mini chart of accounts del cliente, curso completo de reconciliation (standard + advanced + sweeps + offsets), cheatsheet operativa y FAQ blindado. Todo el contenido está derivado del curso oficial Simetrik (App.md, 31 lecciones) + Domain Framework 2026 + el material específico de Ficohsa que ya cargaste.</p>
       </div>
 
       <div class="sec-h" style="margin-top:8px"><h2>Snapshot del proyecto</h2><span class="kicker">Lo que está en juego</span></div>
-      <p class="sec-lead">Grupo Financiero Ficohsa licitó la automatización de conciliaciones de toda su operación regional. Arrancamos por Honduras y escalamos a Guatemala, Nicaragua y Panamá. Estos son los números del alcance.</p>
-
+      <p class="sec-lead">Grupo Financiero Ficohsa licitó la automatización de conciliaciones de toda su operación regional. Arrancamos por Honduras y escalamos a Guatemala, Nicaragua y Panamá.</p>
       <div class="metrics">
         <div class="metric"><div class="v">32.4M</div><div class="l">Tx / mes</div><div class="d">Volumen transaccional a procesar y cruzar.</div></div>
-        <div class="metric"><div class="v">945</div><div class="l">Cuentas</div><div class="d">Cuentas contables a reconciliar en la solución.</div></div>
+        <div class="metric"><div class="v">945</div><div class="l">Cuentas</div><div class="d">Cuentas contables a reconciliar.</div></div>
         <div class="metric"><div class="v">30</div><div class="l">Analistas</div><div class="d">Personas que migran de Excel a Simetrik.</div></div>
-        <div class="metric"><div class="v">98</div><div class="l">Procesos regionales</div><div class="d">Alcance total Honduras + Guatemala + Nicaragua + Panamá.</div></div>
-        <div class="metric"><div class="v">5 años</div><div class="l">Contrato</div><div class="d">Con SLAs y penalizaciones por incumplimiento.</div></div>
-        <div class="metric"><div class="v">USD 145K</div><div class="l">Valor cotizado</div><div class="d">Cotización inicial Fase 1 (~98 procesos referenciales).</div></div>
-      </div>
-
-      <div class="box info" style="margin-top:20px"><div><b>Por qué importa lo que vas a hacer:</b> el equipo de conciliación de Ficohsa trabaja hoy en Excel, lo cual implica cierres mensuales tardíos, errores manuales y trazabilidad pobre para auditoría. Simetrik les va a dar conciliación continua, audit trail SOX-compliant y reducción del 95% en errores el primer año. Vos sos el técnico que materializa esa promesa.</div></div>
-    </section>
-
-    <!-- ────── TIMELINE ────── -->
-    <section id="timeline" class="sec">
-      <div class="sec-h"><h2>📅 Tu cronograma como IS</h2><span class="kicker">7 fases · qué hace el equipo · qué hacés vos</span></div>
-      <p class="sec-lead">Cada fase tiene actividades del equipo Simetrik y actividades tuyas. Marcadas en verde están las acciones donde sos el responsable principal. Tomate 2 minutos por fase para entender el flujo completo.</p>
-
-      <div class="tl">
-
-        <div class="tl-it">
-          <div class="when">Fase 0 · Abril 2026</div>
-          <div class="ph">Preventa &amp; RFP</div>
-          <div class="role"><b>El equipo:</b> Solutions Consultant y Solutions Architect analizan el RFP de Ficohsa (~35 procesos, +35M tx/mes). Se redacta SDD referencial y se cotizan 98 procesos en USD 145K.</div>
-          <div class="youdo"><b>Tu rol:</b> no participás directamente. <b>Estudiás el SDD y el RFP</b> para entender alcance y KPIs antes de tu primer día activo.</div>
-        </div>
-
-        <div class="tl-it p2">
-          <div class="when">Fase 1 · 5 Jun 2026</div>
-          <div class="ph">Kick-Off oficial</div>
-          <div class="role"><b>El equipo:</b> Services Manager (Ana M.) y PM (Lina Azcárate) alinean expectativas con sponsor y PM de Ficohsa. Se definen canales (Slack/email), cadencia de reuniones y grupo administrador de accesos.</div>
-          <div class="youdo"><b>Tu rol:</b> oyente activo. <b>Conocés a los stakeholders</b> de Ficohsa (Seguridad, Cloud, Datos, Tecnología, Integraciones, Arquitectura). Estos van a ser tus contactos diarios.</div>
-        </div>
-
-        <div class="tl-it p3">
-          <div class="when">Fase 2 · Mesas de 2h</div>
-          <div class="ph">Discovery / Levantamiento As-Is</div>
-          <div class="role"><b>El equipo:</b> Senior IS (Juan C. / Wilson) y PM facilitan mesas por proceso priorizado. El responsable de Ficohsa explica el flujo actual. Se llena el artefacto: nombre, cuentas, fuentes, cruces, outputs, parseos, priorización.</div>
-          <div class="youdo"><b>Tu rol:</b> <b>tomás notas detalladas</b> de cada regla, filtro y excepción. Documentás que TXN_CODE SGN, 4, 54 son de efecto cero y deben excluirse. Identificás necesidades de parseo (fechas, texto, prefijos telefónicos). Estas notas son la materia prima del SDD definitivo.</div>
-        </div>
-
-        <div class="tl-it p4">
-          <div class="when">Fase 3 · Post-Discovery</div>
-          <div class="ph">Diseño de Solución (SDD definitivo)</div>
-          <div class="role"><b>El equipo:</b> Senior IS y SA traducen hallazgos en SDD detallado con reglas de matching, integraciones, parseos, outputs y estimación de horas por proceso.</div>
-          <div class="youdo"><b>Tu rol:</b> <b>revisás el SDD contra tus notas</b> para verificar que refleje lo conversado en mesas. Apoyás la estimación de esfuerzo para procesos que te asignarán (ej. SERCOM ~54h).</div>
-        </div>
-
-        <div class="tl-it p5">
-          <div class="when">Fase 4 · Implementación</div>
-          <div class="ph">Configuración en Simetrik</div>
-          <div class="role"><b>El equipo:</b> Integraciones configura conectores SFTP. Senior IS supervisa. PM monitorea avance contra cronograma.</div>
-          <div class="youdo"><b>Tu rol (núcleo del trabajo):</b> <b>construís los flujos en Simetrik</b>. Ingestás fuentes (T24, CLARO, SAP), configurás parseos (fechas, filtros), definís reglas de matching (TRANS_REFERENCE, TRANSACCIONBANCO) y generás outputs (conciliación diaria, informe de valores, matching). Seguís el SDD exactamente y documentás cada configuración.</div>
-        </div>
-
-        <div class="tl-it p6">
-          <div class="when">Fase 5 · Pre-Go-Live</div>
-          <div class="ph">Pruebas, Estabilización y Go-Live</div>
-          <div class="role"><b>El equipo:</b> ciclos de prueba con datos reales del banco. El responsable de proceso de Ficohsa valida resultados. Se ajustan reglas si es necesario. Migración a Producción.</div>
-          <div class="youdo"><b>Tu rol:</b> <b>ejecutás pruebas E2E</b>. Verificás que las transacciones asociadas sumen correctamente por producto (Recargas, Paquetes) y que las no asociadas cuadren contra saldo contable. Detectás y corregís desviaciones. Acompañás al cliente en la validación final.</div>
-        </div>
-
-        <div class="tl-it p6">
-          <div class="when">Fase 6 · Post-Go-Live</div>
-          <div class="ph">Transición a Customer Success</div>
-          <div class="role"><b>El equipo:</b> CSM (Carolina Toro) asume la relación. Se capacita usuarios finales y se establecen canales de soporte continuo.</div>
-          <div class="youdo"><b>Tu rol:</b> <b>entregás documentación completa</b> de los flujos configurados (SDD final, reglas, parseos, outputs). Sos el primer punto de contacto para dudas técnicas antes de escalar al Senior IS.</div>
-        </div>
-
+        <div class="metric"><div class="v">98</div><div class="l">Procesos regionales</div><div class="d">Honduras + Guatemala + Nicaragua + Panamá.</div></div>
+        <div class="metric"><div class="v">5 años</div><div class="l">Contrato</div><div class="d">Con SLAs y penalizaciones.</div></div>
+        <div class="metric"><div class="v">USD 145K</div><div class="l">Fase 1</div><div class="d">Cotización inicial (~98 procesos).</div></div>
       </div>
     </section>
 
-    <!-- ────── TEAM ────── -->
+    <!-- TEAM -->
     <section id="team" class="sec">
       <div class="sec-h"><h2>👥 Stakeholders del proyecto</h2><span class="kicker">Quién es quién</span></div>
-      <p class="sec-lead">Memorizá estos nombres y roles. En Slack y en email vas a usar @ con cada uno. Si no sabés con quién hablar de un tema, mirá la tabla.</p>
+      <p class="sec-lead">Memorizá estos nombres. En Slack y email vas a usar @ con cada uno. Si no sabés con quién hablar de un tema, mirá acá.</p>
 
-      <div class="grid g2">
+      <div class="cards c2">
         <div class="team">
           <div class="th"><h3>Equipo Simetrik</h3><span class="tag">interno</span></div>
-          <div class="tb">
-            <div class="person"><div class="avatar">AM</div><div class="info"><div class="n">Ana M.</div><div class="r">Services Manager (SM)</div></div></div>
-            <div class="person"><div class="avatar">LA</div><div class="info"><div class="n">Lina Azcárate</div><div class="r">Project Manager (PM)</div></div></div>
-            <div class="person"><div class="avatar">JC</div><div class="info"><div class="n">Juan C.</div><div class="r">Senior IS · líder técnico</div></div></div>
-            <div class="person"><div class="avatar">WI</div><div class="info"><div class="n">Wilson</div><div class="r">Senior IS · co-líder</div></div></div>
-            <div class="person"><div class="avatar">CT</div><div class="info"><div class="n">Carolina Toro</div><div class="r">Customer Success Manager (CSM)</div></div></div>
-            <div class="person"><div class="avatar" style="background:linear-gradient(135deg,var(--gn),var(--ac));color:#000">YO</div><div class="info"><div class="n">Vos · Miguel</div><div class="r">Implementation Specialist (IS)</div></div></div>
-          </div>
+          <div class="person"><div class="avatar">AM</div><div class="info"><div class="n">Ana M.</div><div class="r">Services Manager · SM</div></div></div>
+          <div class="person"><div class="avatar">LA</div><div class="info"><div class="n">Lina Azcárate</div><div class="r">Project Manager · PM</div></div></div>
+          <div class="person"><div class="avatar">JC</div><div class="info"><div class="n">Juan C.</div><div class="r">Senior IS · líder técnico</div></div></div>
+          <div class="person"><div class="avatar">WI</div><div class="info"><div class="n">Wilson</div><div class="r">Senior IS · co-líder</div></div></div>
+          <div class="person"><div class="avatar">CT</div><div class="info"><div class="n">Carolina Toro</div><div class="r">Customer Success · CSM</div></div></div>
+          <div class="person"><div class="avatar" style="background:linear-gradient(135deg,var(--gn),var(--ac));color:#000">YO</div><div class="info"><div class="n">Miguel</div><div class="r">Implementation Specialist · IS</div></div></div>
         </div>
 
         <div class="team ficohsa">
           <div class="th"><h3>Equipo Ficohsa</h3><span class="tag">cliente</span></div>
-          <div class="tb">
-            <div class="person"><div class="avatar">CA</div><div class="info"><div class="n">Carlos Avila</div><div class="r">Seguridad</div></div></div>
-            <div class="person"><div class="avatar">DJ</div><div class="info"><div class="n">Daniel Jojoa</div><div class="r">Cloud</div></div></div>
-            <div class="person"><div class="avatar">GC</div><div class="info"><div class="n">Gabriel Cortes</div><div class="r">Datos</div></div></div>
-            <div class="person"><div class="avatar">TC</div><div class="info"><div class="n">William, Williams, Erik, Wilson</div><div class="r">Tecnología</div></div></div>
-            <div class="person"><div class="avatar">IN</div><div class="info"><div class="n">Noel, Jorge, Carlos, Jose</div><div class="r">Integraciones</div></div></div>
-            <div class="person"><div class="avatar">GA</div><div class="info"><div class="n">Gary</div><div class="r">Arquitectura</div></div></div>
-          </div>
+          <div class="person"><div class="avatar">CA</div><div class="info"><div class="n">Carlos Avila</div><div class="r">Seguridad</div></div></div>
+          <div class="person"><div class="avatar">DJ</div><div class="info"><div class="n">Daniel Jojoa</div><div class="r">Cloud</div></div></div>
+          <div class="person"><div class="avatar">GC</div><div class="info"><div class="n">Gabriel Cortes</div><div class="r">Datos</div></div></div>
+          <div class="person"><div class="avatar">TC</div><div class="info"><div class="n">William · Williams · Erik · Wilson</div><div class="r">Tecnología</div></div></div>
+          <div class="person"><div class="avatar">IN</div><div class="info"><div class="n">Noel · Jorge · Carlos · Jose</div><div class="r">Integraciones</div></div></div>
+          <div class="person"><div class="avatar">GA</div><div class="info"><div class="n">Gary</div><div class="r">Arquitectura</div></div></div>
         </div>
       </div>
 
       <div class="box info">
-        <div><b>Convenciones de comunicación:</b> dudas técnicas urgentes → Slack al Senior IS asignado · dudas de proceso → al responsable Ficohsa del proceso correspondiente · dudas administrativas / cronograma → PM Lina Azcárate · escalamientos → SM Ana M.</div>
+        <div><b>Routing de comunicación:</b> dudas técnicas urgentes → Slack al Senior IS · dudas de proceso → al responsable Ficohsa del proceso · dudas administrativas/cronograma → PM Lina · escalamientos → SM Ana.</div>
       </div>
     </section>
 
-    <!-- ────── SKILLS ────── -->
-    <section id="skills" class="sec">
-      <div class="sec-h"><h2>🛠️ Manual de campo · 3 habilidades core</h2><span class="kicker">Lo que hacés todo el día</span></div>
-      <p class="sec-lead">Tu trabajo se reduce a 3 cosas. Hacelo en este orden, siempre. Hacé click en cada habilidad para abrir el detalle.</p>
+    <!-- TIMELINE -->
+    <section id="timeline" class="sec">
+      <div class="sec-h"><h2>📅 Tu cronograma como IS</h2><span class="kicker">7 fases del proyecto</span></div>
+      <p class="sec-lead">Cada fase tiene actividades del equipo Simetrik + actividades tuyas. Marcadas en <span style="color:var(--gn)">verde</span> las acciones donde sos responsable principal.</p>
 
-      <div class="skill k1 open" onclick="this.classList.toggle('open')">
-        <div class="sh"><div class="nm">1</div>
-          <div class="stxt"><h3>🔌 Ingesta (Connect)</h3><div class="lead">Conectar Simetrik con los sistemas de Ficohsa para extraer datos.</div></div>
-          <span class="arrow">▾</span>
-        </div>
-        <div class="sb-body">
-          <h4>Qué hacés</h4>
-          <p>Configurás las conexiones entre Simetrik y las fuentes del banco. Tres modos típicos:</p>
-          <ul>
-            <li><b>SFTP</b> · banco/ERP deja archivos en una carpeta segura. Simetrik los lee cada N minutos.</li>
-            <li><b>API</b> · llamado directo a Stripe, Mercado Pago, T24 cuando expone APIs.</li>
-            <li><b>Manual upload</b> · cuando el cliente prefiere subir un Excel/CSV semanal a mano (no recomendable, pero existe).</li>
-          </ul>
-          <h4>Decisiones que tomás al configurar un Source</h4>
-          <ol>
-            <li><code>file_format</code> · ¿CSV, TXT, JSON, XML?</li>
-            <li><code>delimiter</code> · ¿coma, punto y coma, pipe <code>|</code>, tab?</li>
-            <li><code>encoding</code> · ¿UTF-8 o Latin-1? (importante para acentos)</li>
-            <li><code>frequency</code> · ¿diaria, horaria, on-demand?</li>
-            <li><code>retention</code> · ¿cuántos días guardamos crudos para auditoría?</li>
-          </ol>
-          <div class="box warn"><div><b>Trampa común:</b> activar un Source sin antes ejecutarlo con un archivo de muestra. Siempre <code>Test Run</code> primero — vas a descubrir 3 problemas que no estaban en el SDD.</div></div>
-        </div>
-      </div>
-
-      <div class="skill k2" onclick="this.classList.toggle('open')">
-        <div class="sh"><div class="nm">2</div>
-          <div class="stxt"><h3>🧹 Parseo (Cleaning)</h3><div class="lead">Limpieza y estandarización de datos crudos antes de cruzar.</div></div>
-          <span class="arrow">▾</span>
-        </div>
-        <div class="sb-body">
-          <h4>Por qué importa</h4>
-          <p>Si Ficohsa manda la fecha como <code>29/04/2026</code> y CLARO la manda como <code>2026-04-29</code>, el motor de matching <b>nunca</b> las va a cruzar — y un humano va a tener que investigar cada una. Eso es <b>el 80% de los errores de conciliación</b>.</p>
-          <h4>Reglas de parseo típicas en Ficohsa</h4>
-          <ul>
-            <li><b>Fechas</b> · unificá todo a <code>YYYY-MM-DD</code>. Cuidado con formatos <code>16-Apr-2026</code> (texto + número) que llegan de SAP.</li>
-            <li><b>Teléfonos</b> · quitá el prefijo <code>504</code> de Honduras antes de cruzar. <code>50489268119</code> → <code>89268119</code>.</li>
-            <li><b>Montos</b> · unificá separador decimal. <code>1.500,00</code> (ES) vs <code>1,500.00</code> (EN) son trampa.</li>
-            <li><b>Símbolos de moneda</b> · limpiá <code>$</code>, <code>L</code>, <code>HNL</code>. Dejá solo el número.</li>
-            <li><b>Referencias</b> · normalizá padding con ceros y casing. <code>F7715101</code> vs <code>F07715101</code>.</li>
-            <li><b>Códigos de efecto cero</b> · filtrá <code>TXN_CODE IN (SGN, 4, 54)</code> de T24 — son compensaciones internas, no afectan saldo.</li>
-          </ul>
-          <h4>Tu aliado: el Data Cleaner Agent</h4>
-          <p>Simetrik corre un agente de IA en background que detecta inconsistencias y sugiere parseos. Validalo, no le creas ciego. Vos firmás la regla.</p>
-          <div class="box gold"><div><b>Regla de oro:</b> nunca confíes en que los datos vienen limpios. Asumí lo contrario hasta que lo confirmes mirando 10 filas crudas del archivo.</div></div>
-        </div>
-      </div>
-
-      <div class="skill k3" onclick="this.classList.toggle('open')">
-        <div class="sh"><div class="nm">3</div>
-          <div class="stxt"><h3>🔗 Matching (Reconcile + Resolve)</h3><div class="lead">Cruzar las fuentes y resolver lo que no cruza.</div></div>
-          <span class="arrow">▾</span>
-        </div>
-        <div class="sb-body">
-          <h4>Anatomía de un Rule Set</h4>
-          <p>Un Rule Set es una <b>cadena ordenada de reglas</b>. Simetrik intenta cruzar primero con la más estricta; si falla pasa a la siguiente. La última siempre es "no match → Excepción".</p>
-          <ol>
-            <li><b>Regla 1 · Match Perfecto:</b> <code>A.reference == B.reference AND A.amount == B.amount AND A.date == B.date</code>.</li>
-            <li><b>Regla 2 · Tolerancia chica:</b> mismo cruce pero <code>|A.amount - B.amount| ≤ 0.05</code>.</li>
-            <li><b>Regla 3 · Tolerancia de fecha:</b> <code>|A.date - B.date| ≤ 1 día</code> (útil para timing entre clearing y settlement).</li>
-            <li><b>Regla 4 · N:M:</b> agrupación por <code>reference</code> + validación de sumatoria (1 movimiento Ficohsa vs varias recargas CLARO).</li>
-            <li><b>Regla N · Catch-all:</b> "no match" → cae a Exceptions.</li>
-          </ol>
-          <h4>Tipos de cruce que vas a configurar</h4>
-          <ul>
-            <li><b>Matching transaccional</b> · 1:1 o 1:N · cruce por llaves únicas (referencia, monto, fecha).</li>
-            <li><b>Cuadre de saldos</b> · suma total de fuente A debe igualar saldo en B. No hay matching tx a tx.</li>
-            <li><b>Conciliación bancaria clásica</b> · extracto del banco vs movimientos SAP por fecha + monto + referencia.</li>
-            <li><b>Matching multidireccional</b> · 3+ fuentes en paralelo (T24 vs CLARO vs SAP).</li>
-          </ul>
-          <h4>Gestión de excepciones (Resolve)</h4>
-          <p>Las tx que no cruzan caen al Workbench de Exceptions. Tu flujo recomendado por bloque de 30 minutos:</p>
-          <ol>
-            <li>Ordená por <b>aging descendente</b> (las más viejas primero — son las que arriesgan SLA).</li>
-            <li>Filtrá por <b>AI suggestion: high confidence</b> — son las fáciles, sacalas rápido.</li>
-            <li>Las medias y bajas: abrí, mirá metadata, contrastá con SAP, decidí (match manual / write-off / escalar).</li>
-            <li>Si no podés resolver en 5 min → escalá al responsable del proceso.</li>
-          </ol>
-          <div class="box red"><div><b>Anti-patrón letal:</b> "después la miro". Una excepción que pasa 5 días sin tocarse se convierte en problema regulatorio. Si te llegan más de 200 abiertas, pedí ayuda al Senior IS.</div></div>
-        </div>
+      <div class="cards" style="margin-top:14px">
+        <div class="cd" style="border-left:3px solid var(--ac)"><h3>Fase 0 · Preventa & RFP <span style="color:var(--t3);font-weight:400;font-size:12px;font-family:'JetBrains Mono',monospace">— Abril 2026</span></h3><p>El equipo: Solutions Consultant + SA analizan RFP, redactan SDD referencial, cotizan 98 procesos en USD 145K. <span style="color:var(--gn)">Tu rol:</span> estudiás el SDD y el RFP para entender alcance y KPIs antes de tu primer día activo.</p></div>
+        <div class="cd" style="border-left:3px solid var(--pp)"><h3>Fase 1 · Kick-Off <span style="color:var(--t3);font-weight:400;font-size:12px;font-family:'JetBrains Mono',monospace">— 5 Jun 2026</span></h3><p>SM + PM alinean expectativas con sponsor y PM Ficohsa, definen canales, cadencia. <span style="color:var(--gn)">Tu rol:</span> oyente activo. Conocés stakeholders Ficohsa.</p></div>
+        <div class="cd" style="border-left:3px solid var(--gn)"><h3>Fase 2 · Discovery <span style="color:var(--t3);font-weight:400;font-size:12px;font-family:'JetBrains Mono',monospace">— Mesas 2h por proceso</span></h3><p>Senior IS + PM facilitan mesas. Responsable Ficohsa explica flujo actual. Se llena artefacto: nombre, cuentas, fuentes, cruces, outputs, parseos. <span style="color:var(--gn)">Tu rol:</span> tomás notas detalladas de cada regla, filtro y excepción. Documentás filtros como TXN_CODE excluir SGN/4/54. Son la materia prima del SDD definitivo.</p></div>
+        <div class="cd" style="border-left:3px solid var(--or)"><h3>Fase 3 · SDD definitivo</h3><p>Senior IS + SA traducen hallazgos en SDD detallado con reglas, integraciones, parseos, outputs, estimación de horas. <span style="color:var(--gn)">Tu rol:</span> revisás SDD contra tus notas. Apoyás estimación de procesos asignados (ej. SERCOM ~54h).</p></div>
+        <div class="cd" style="border-left:3px solid var(--rd)"><h3>Fase 4 · Implementación <span style="color:var(--t3);font-weight:400;font-size:12px;font-family:'JetBrains Mono',monospace">— núcleo del trabajo</span></h3><p>Integraciones configura conectores SFTP. Senior IS supervisa. PM monitorea cronograma. <span style="color:var(--gn)">Tu rol:</span> construís los flujos en Simetrik. Ingestás fuentes (T24, CLARO, SAP), configurás parseos, definís Rule Sets, generás outputs. Documentás cada configuración.</p></div>
+        <div class="cd" style="border-left:3px solid var(--yl)"><h3>Fase 5 · Pruebas + Go-Live</h3><p>Ciclos de prueba con data real. Responsable Ficohsa valida. Migración a Producción. <span style="color:var(--gn)">Tu rol:</span> ejecutás pruebas E2E. Verificás sumas por producto. Detectás y corregís desviaciones. Acompañás validación final.</p></div>
+        <div class="cd" style="border-left:3px solid var(--pk)"><h3>Fase 6 · Transición a CSM</h3><p>CSM Carolina Toro asume relación. Capacitación a usuarios. <span style="color:var(--gn)">Tu rol:</span> entregás documentación completa. Sos primer punto de contacto técnico antes de escalar al Senior IS.</p></div>
       </div>
     </section>
 
-    <!-- ────── PROCESSES ────── -->
-    <section id="processes" class="sec">
-      <div class="sec-h"><h2>📋 Procesos priorizados Fase 1</h2><span class="kicker">Qué vas a configurar primero</span></div>
-      <p class="sec-lead">Ficohsa priorizó 3 procesos para arrancar. Estos son los que dominás en tus primeras 2 semanas activas.</p>
-
-      <div class="proc">
-        <div class="ph"><h3>1 · SERCOM · Recargas de telefonía móvil</h3>
-          <div class="badges"><span class="bd prio">Prioridad alta</span><span class="bd acct">Cuenta 2-01-01-003</span><span class="bd h">~54h estimadas</span></div>
-        </div>
-        <div class="pdesc">Conciliación de recargas vendidas en cajas de Ficohsa contra el reporte de CLARO contra el saldo en SAP. Cuenta transitoria: débitos (recargas vendidas) = créditos (pagos a CLARO). Saldo del día debe ser CERO.</div>
-        <div class="pgrid">
-          <div><h5>Fuentes</h5><p>T24 (cajas, débitos) · Reporte CLARO (créditos) · Balance SAP (saldo)</p></div>
-          <div><h5>Llave de cruce</h5><p><code>T24.TRANS_REFERENCE</code> ↔ <code>CLARO.referencia_unica_t24</code> ↔ <code>SAP.TRANSACCIONBANCO</code></p></div>
-          <div><h5>Regla clave</h5><p>Suma algebraica del día = 0. Si <code>NO_TELEFONO</code> tiene 8 dígitos → "Paquete", sino → "Recarga".</p></div>
-          <div><h5>Filtros</h5><p>Excluir <code>TXN_CODE IN (SGN, 4, 54)</code>. <code>CONVENIO</code> = "RECARGAS". <code>ESTADO</code> = "PAGADO".</p></div>
-          <div><h5>Outputs</h5><p>Conciliación diaria · Informe de valores · Matching · Recargas por liquidar · Paquetes por liquidar</p></div>
-          <div><h5>Aging benchmark</h5><p>Rojo a los 3 días sin cruce.</p></div>
-        </div>
-      </div>
-
-      <div class="proc">
-        <div class="ph"><h3>2 · Cartera de Préstamos</h3>
-          <div class="badges"><span class="bd prio">Prioridad alta</span><span class="bd acct">Cuenta 1-04-01-001</span></div>
-        </div>
-        <div class="pdesc">Cuadre de saldos: la suma de capital + intereses de cada cliente debe igualar el saldo contable de la cuenta de cartera en SAP.</div>
-        <div class="pgrid">
-          <div><h5>Fuentes</h5><p>Reporte de préstamos T24 · Saldo contable SAP</p></div>
-          <div><h5>Llave de cruce</h5><p>No hay matching transaccional. Se cuadra <b>saldo total</b> de cartera vs cuenta GL.</p></div>
-          <div><h5>Regla clave</h5><p>Σ (capital + intereses por cliente) = saldo SAP. Si no cuadra → investigar movimiento neto por cliente.</p></div>
-          <div><h5>Cuenta cruzada</h5><p>Ingresos por intereses · <code>4-01-01-001</code></p></div>
-          <div><h5>Outputs</h5><p>Cuadre de saldos diario · Listado de discrepancias por cliente</p></div>
-        </div>
-      </div>
-
-      <div class="proc">
-        <div class="ph"><h3>3 · Descuento de Documentos</h3>
-          <div class="badges"><span class="bd prio">Prioridad alta</span></div>
-        </div>
-        <div class="pdesc">Conciliación de documentos descontados (letras, facturas) contra los pagos recibidos por compensación. Cruce de fechas de vencimiento vs fechas de cobro.</div>
-        <div class="pgrid">
-          <div><h5>Fuentes</h5><p>Sistema de cartera (T24) · Movimientos bancarios SAP</p></div>
-          <div><h5>Cruce</h5><p>Fecha vencimiento + monto + cliente</p></div>
-          <div><h5>Excepciones típicas</h5><p>Documentos vencidos sin pago · pagos sin asociar a un documento</p></div>
-        </div>
-      </div>
-
-      <div class="box info">
-        <div><b>Alcance total regional:</b> 98 procesos repartidos entre Honduras, Guatemala, Nicaragua y Panamá · 3,558 cuentas contables totales · 32.4M transacciones mensuales. Vos arrancás con estos 3 — el resto se va incorporando trimestre a trimestre.</div>
-      </div>
-    </section>
-
-    <!-- ────── ACCOUNTING ────── -->
+    <!-- ACCOUNTING COURSE -->
     <section id="accounting" class="sec">
-      <div class="sec-h"><h2>⚖️ Contabilidad aplicada</h2><span class="kicker">Solo lo que necesitás para no cruzar al revés</span></div>
-      <p class="sec-lead">No tenés que ser contador. Tenés que reconocer si una cuenta sube con débito o crédito. Si te equivocás en eso, cruzás A↔B al revés y todo el reporte sale mal.</p>
+      <div class="sec-h"><h2>📒 Mini-curso de contabilidad</h2><span class="kicker">Solo lo que necesitás para no cruzar al revés</span></div>
+      <p class="sec-lead">No tenés que ser contador. Tenés que <strong>reconocer la naturaleza de una cuenta</strong> (¿sube con débito o con crédito?) y entender qué es un <strong>asiento contable</strong>. Si te equivocás en eso, cruzás A↔B al revés y todos los reportes salen mal.</p>
 
-      <h3 style="font-size:17px;margin:18px 0 10px;color:var(--tx)">Las 5 naturalezas de cuenta</h3>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Naturaleza</th><th>¿Qué es?</th><th>Sube con</th><th>Baja con</th><th>Ejemplo Ficohsa</th></tr></thead>
-          <tbody>
-            <tr><td><span class="nat act">Activo · 1</span></td><td>Lo que el banco tiene o le deben.</td><td><b>Débito</b></td><td>Crédito</td><td>Caja General · Cartera de Préstamos</td></tr>
-            <tr><td><span class="nat pas">Pasivo · 2</span></td><td>Lo que el banco debe a terceros.</td><td><b>Crédito</b></td><td>Débito</td><td>Cuentas de Ahorro de clientes</td></tr>
-            <tr><td><span class="nat pat">Patrimonio · 3</span></td><td>Capital de los dueños.</td><td><b>Crédito</b></td><td>Débito</td><td>Capital social · utilidades retenidas</td></tr>
-            <tr><td><span class="nat ing">Ingreso · 4</span></td><td>Plata ganada por la operación.</td><td><b>Crédito</b></td><td>Débito</td><td>Intereses cobrados por préstamos</td></tr>
-            <tr><td><span class="nat gas">Gasto · 5</span></td><td>Plata consumida por la operación.</td><td><b>Débito</b></td><td>Crédito</td><td>Comisiones pagadas a Visa</td></tr>
-            <tr><td><span class="nat tra">Transitoria</span></td><td>Cuenta puente temporal.</td><td colspan="2" style="text-align:center"><b>Débitos = Créditos</b> · saldo = 0</td><td>SERCOM · ATMs · ACH en tránsito</td></tr>
-          </tbody>
-        </table>
+      <div class="acc-lesson open" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">1</div>
+          <div class="atxt"><h3>La ecuación contable básica</h3><div class="alead">Activo = Pasivo + Patrimonio. La base de todo.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Toda empresa tiene <strong>recursos</strong> (activos) y <strong>obligaciones</strong> (pasivos + patrimonio). La ecuación fundamental:</p>
+          <p style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ac);margin:14px 0;padding:14px;background:var(--bg3);border-radius:8px"><b>Activo = Pasivo + Patrimonio</b></p>
+          <p>Pensalo así: lo que el banco <em>tiene</em> (activo) = lo que el banco le <em>debe a otros</em> (pasivo) + lo que el banco <em>les debe a sus dueños</em> (patrimonio).</p>
+          <h4>Ejemplo Ficohsa</h4>
+          <ul>
+            <li>El banco tiene USD 500M en cartera de préstamos (<b>Activo</b>).</li>
+            <li>El banco tiene USD 380M en cuentas de ahorro de clientes — la plata no es del banco, es de los clientes (<b>Pasivo</b>).</li>
+            <li>El banco tiene USD 120M de capital social + utilidades retenidas (<b>Patrimonio</b>).</li>
+          </ul>
+          <p>500 = 380 + 120 ✅ — la ecuación cuadra.</p>
+          <div class="box info"><div><b>Tip:</b> cuando una operación afecta un lado de la ecuación, <strong>siempre afecta el otro</strong> para mantener el balance. Esa es la base de la partida doble (próxima lección).</div></div>
+        </div>
       </div>
 
-      <div class="box gold">
-        <div><b>Mnemotécnica blindada:</b> <i>Activos y Gastos suben con Débito · Pasivos, Patrimonio e Ingresos suben con Crédito · Transitorias siempre sumas 0</i>. Memorizá esta frase y nunca cruzás al revés.</div>
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">2</div>
+          <div class="atxt"><h3>Partida doble: el principio que nunca se rompe</h3><div class="alead">Toda transacción tiene 2 lados: débito y crédito. Suman cero.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>El <strong>principio de partida doble</strong> dice: cada transacción afecta al menos dos cuentas, y la suma de débitos = suma de créditos.</p>
+          <h4>Por qué es así</h4>
+          <p>Cada operación tiene "origen" y "destino". Si ganaste $100 en intereses, ese dinero <em>entró</em> en alguna cuenta (ej. Caja) y al mismo tiempo <em>se reconoció como ingreso</em>. Esos dos efectos van en cuentas distintas: una con débito, otra con crédito.</p>
+          <h4>Ejemplo simple</h4>
+          <p>Cliente paga $1,000 en cuotas de préstamo en efectivo:</p>
+          <div class="je">
+            <div class="lbl">Asiento</div>
+            <span class="deb">Débito</span>  Caja General  · <code>1-01-01-001</code>     +1,000<br>
+            <span class="ind"></span><span class="cre">Crédito</span> Préstamos por Cobrar · <code>1-04-01-001</code>      −1,000<br>
+            <div class="lbl" style="margin-top:8px">Σ Débitos = Σ Créditos · 1,000 = 1,000 ✅</div>
+          </div>
+          <p>La caja sube (entró plata) → débito. La cartera de préstamos baja (el cliente debe menos) → crédito. Total efecto neto sobre el balance: $0 — el activo total no cambió, solo se movió entre cuentas.</p>
+          <div class="box gold"><div><b>Regla mnemotécnica:</b> "Toda transacción tiene contrapartida. Si no encontrás los dos lados, el asiento está incompleto."</div></div>
+        </div>
       </div>
 
-      <h3 style="font-size:17px;margin:28px 0 10px;color:var(--tx)">Mini-PUC · cuentas reales del proyecto</h3>
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">3</div>
+          <div class="atxt"><h3>Naturaleza de cuentas: las 5 clases + transitorias</h3><div class="alead">Quién sube con débito, quién sube con crédito.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>El primer dígito del código contable te dice todo:</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Naturaleza</th><th>¿Qué es?</th><th>Sube con</th><th>Baja con</th><th>Ejemplo Ficohsa</th></tr></thead>
+              <tbody>
+                <tr><td><span class="nat act">Activo · 1</span></td><td>Lo que el banco tiene o le deben.</td><td><b>Débito</b></td><td>Crédito</td><td>Caja · Cartera de Préstamos</td></tr>
+                <tr><td><span class="nat pas">Pasivo · 2</span></td><td>Lo que el banco debe a terceros.</td><td><b>Crédito</b></td><td>Débito</td><td>Cuentas de Ahorro de clientes</td></tr>
+                <tr><td><span class="nat pat">Patrimonio · 3</span></td><td>Capital de los dueños.</td><td><b>Crédito</b></td><td>Débito</td><td>Capital social · utilidades retenidas</td></tr>
+                <tr><td><span class="nat ing">Ingreso · 4</span></td><td>Plata ganada.</td><td><b>Crédito</b></td><td>Débito</td><td>Intereses cobrados</td></tr>
+                <tr><td><span class="nat gas">Gasto · 5</span></td><td>Plata consumida.</td><td><b>Débito</b></td><td>Crédito</td><td>Comisiones pagadas a Visa</td></tr>
+                <tr><td><span class="nat tra">Transitoria</span></td><td>Cuenta puente.</td><td colspan="2" style="text-align:center"><b>Débitos = Créditos · saldo = 0</b></td><td>SERCOM · ATM · ACH</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="box gold"><div><b>Mnemotécnica blindada:</b> "<em>Activos y Gastos suben con Débito · Pasivos, Patrimonio e Ingresos suben con Crédito · Transitorias suman 0</em>". Memorizala — nunca cruzás al revés.</div></div>
+          <h4>Por qué Activos y Gastos van juntos</h4>
+          <p>Porque ambos representan "uso de recursos": un Activo es plata empleada para tener algo, un Gasto es plata empleada para consumir algo. Por simetría, los "orígenes de recursos" (Pasivo, Patrimonio, Ingreso) van con crédito.</p>
+        </div>
+      </div>
+
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">4</div>
+          <div class="atxt"><h3>Cuentas transitorias: el reto de SERCOM</h3><div class="alead">Por qué importan y cómo se cruzan.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Una cuenta <strong>transitoria</strong> (también llamada "suspense" o "puente") es una cuenta temporal donde la plata "vive" un rato antes de ir a su destino final.</p>
+          <h4>Lógica de SERCOM</h4>
+          <ol>
+            <li>Cliente paga recarga de celular en caja Ficohsa: $150 efectivo.</li>
+            <li>La caja registra: <span class="deb" style="color:var(--a2)">Débito</span> Caja $150 · <span class="cre" style="color:var(--or)">Crédito</span> Transitoria SERCOM $150.</li>
+            <li>Al día siguiente, Ficohsa transfiere ese $150 a CLARO.</li>
+            <li>Se registra: <span class="deb" style="color:var(--a2)">Débito</span> Transitoria SERCOM $150 · <span class="cre" style="color:var(--or)">Crédito</span> Banco Ficohsa-CLARO $150.</li>
+            <li>Resultado: <strong>la transitoria SERCOM termina en $0</strong>. Subió $150 (crédito), bajó $150 (débito). Suma algebraica = 0.</li>
+          </ol>
+          <p>Si al final del día la transitoria <strong>no queda en 0</strong>, algo está mal:</p>
+          <ul>
+            <li>Recibiste plata pero no se transfirió a CLARO (¿olvido? ¿error operativo?).</li>
+            <li>Transferiste plata a CLARO sin haberla cobrado en caja (¿fraude? ¿duplicado?).</li>
+          </ul>
+          <div class="box red"><div><b>Anti-patrón letal:</b> cerrar un día con transitorias en saldo ≠ 0 sin investigar. Mañana esa diferencia se acumula y nadie sabe de dónde viene.</div></div>
+          <div class="box info"><div><b>En Simetrik:</b> la conciliación SERCOM es exactamente esto. Cruzás T24 (caja) ↔ CLARO (reporte del proveedor) ↔ SAP (saldo contable). Si los 3 cuadran → 0. Si no → excepción.</div></div>
+        </div>
+      </div>
+
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">5</div>
+          <div class="atxt"><h3>El journal entry y el cierre contable</h3><div class="alead">De la operación al GL del ERP.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Un <strong>journal entry (asiento contable)</strong> es el registro formal de una operación en el libro mayor. Tiene fecha, descripción, cuentas afectadas, montos.</p>
+          <h4>Cómo se ve uno</h4>
+          <div class="je">
+            <div class="lbl">Journal Entry · 2026-04-29 · SERCOM batch</div>
+            <span class="deb">Débito</span>  Caja General             <code>1-01-01-001</code>    +HNL 12,450.00<br>
+            <span class="ind"></span><span class="cre">Crédito</span> Transitoria SERCOM       <code>2-01-01-003</code>   −HNL 12,450.00<br>
+            <div class="lbl" style="margin-top:10px">Descripción: Recargas vendidas en caja H019 · Día 29-Abr</div>
+            <div class="lbl">Σ Débitos = Σ Créditos · 12,450 = 12,450 ✅</div>
+          </div>
+          <h4>El ciclo contable</h4>
+          <p>Cada día/mes, las operaciones generan miles de asientos. Al cierre del mes:</p>
+          <ol>
+            <li><b>Balanceo:</b> se verifica que Σ Débitos = Σ Créditos en todas las cuentas.</li>
+            <li><b>Validación de saldos:</b> cada cuenta queda con un <em>ending balance</em>.</li>
+            <li><b>Trial balance:</b> reporte con saldos de todas las cuentas.</li>
+            <li><b>Recognized balance:</b> el preparer marca qué porción de cada saldo tiene evidencia documental.</li>
+            <li><b>Certificación:</b> el certifier (otra persona, maker-checker) aprueba el cierre.</li>
+            <li><b>Cierre formal:</b> el período queda cerrado, los asientos no se pueden modificar.</li>
+          </ol>
+          <div class="box info"><div><b>En Simetrik:</b> los pasos 1-2 son automáticos (Accounting menu). Trial balance se carga con template. Recognized balance es manual con evidencia (snapshots + external files + notas). Certifier aprueba o rechaza con motivo.</div></div>
+          <div class="box gold"><div><b>Por qué te importa todo esto:</b> cada conciliación que vos configurás termina generando journal entries automáticos. Si tu config está mal, los asientos van mal al SAP del cliente. Y eso impacta los estados financieros oficiales.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MINI CHART OF ACCOUNTS -->
+    <section id="puc" class="sec">
+      <div class="sec-h"><h2>🧾 Mini chart of accounts · Ficohsa</h2><span class="kicker">Las cuentas reales que vas a tocar</span></div>
+      <p class="sec-lead">11 cuentas representativas del PUC de Ficohsa. Memorizá las naturalezas y los códigos — vas a verlos todos los días.</p>
+
       <div class="tbl-wrap">
         <table>
           <thead><tr><th>Código</th><th>Nombre</th><th>Naturaleza</th><th>Dónde se concilia</th></tr></thead>
@@ -594,169 +449,224 @@ body.in-iframe .sb{top:0;height:100vh}
             <tr><td><code>1-05-01-001</code></td><td>Tarjetas de Crédito por Cobrar</td><td><span class="nat act">Activo</span></td><td>Cuadre de saldos · TC</td></tr>
             <tr><td><code>2-01-01-001</code></td><td>Transitorias — ATMs</td><td><span class="nat tra">Transitoria</span></td><td>Matching transitorias</td></tr>
             <tr><td><code>2-01-01-002</code></td><td>Transitorias — ACH</td><td><span class="nat tra">Transitoria</span></td><td>Matching transitorias</td></tr>
-            <tr><td><code>2-01-01-003</code></td><td>Transitorias — Recargas SERCOM</td><td><span class="nat tra">Transitoria</span></td><td>Matching SERCOM · cuenta 2330203151</td></tr>
+            <tr><td><code>2-01-01-003</code></td><td>Transitorias — Recargas SERCOM</td><td><span class="nat tra">Transitoria</span></td><td>Matching SERCOM · 2330203151</td></tr>
             <tr><td><code>2-02-01-001</code></td><td>Comisiones por Pagar</td><td><span class="nat pas">Pasivo</span></td><td>Cuentas por pagar</td></tr>
             <tr><td><code>4-01-01-001</code></td><td>Ingresos por Intereses de Préstamos</td><td><span class="nat ing">Ingreso</span></td><td>Cuadre de saldos</td></tr>
             <tr><td><code>5-01-01-001</code></td><td>Gastos por Comisiones Bancarias</td><td><span class="nat gas">Gasto</span></td><td>Conciliación de fees</td></tr>
           </tbody>
         </table>
       </div>
-
-      <h3 style="font-size:17px;margin:28px 0 10px;color:var(--tx)">Ejemplos de cruce reglamentario</h3>
-      <div class="grid g2">
-        <div class="card cy">
-          <h3>Ejemplo 1 · Matching transitorias SERCOM</h3>
-          <p><b>Fuentes:</b> T24 (débitos) · CLARO (créditos) · SAP (saldo).</p>
-          <p><b>Llave:</b> <span class="kbd">TRANS_REFERENCE</span> ↔ <span class="kbd">referencia_unica_t24</span> ↔ <span class="kbd">TRANSACCIONBANCO</span>.</p>
-          <p><b>Regla:</b> débitos (recargas vendidas) = créditos (pagos recibidos). Suma algebraica del día = 0.</p>
-          <p><b>Filtros:</b> excluir <code>TXN_CODE</code> SGN/4/54 · <code>CONVENIO</code>="RECARGAS" · <code>ESTADO</code>="PAGADO".</p>
-        </div>
-        <div class="card or">
-          <h3>Ejemplo 2 · Cuadre de saldos préstamos</h3>
-          <p><b>Fuentes:</b> Reporte préstamos T24 · Saldo SAP <code>1-04-01-001</code>.</p>
-          <p><b>Llave:</b> no hay matching transaccional · se cuadra saldo total de cartera vs cuenta GL.</p>
-          <p><b>Regla:</b> Σ (capital + intereses por cliente) = saldo SAP. Si no cuadra → investigar movimiento neto por cliente.</p>
-        </div>
-        <div class="card gn">
-          <h3>Ejemplo 3 · Bancos vs extracto</h3>
-          <p><b>Fuentes:</b> Estado de cuenta bancario (PDF/Excel) · Movimientos SAP <code>1-02-01-001</code>.</p>
-          <p><b>Llave:</b> fecha + monto + referencia bancaria.</p>
-          <p><b>Regla:</b> matching 1:1 preferente. Si un movimiento del banco no existe en SAP → "no asociado" · investigar si es depósito no registrado o cargo duplicado.</p>
-        </div>
-      </div>
     </section>
 
-    <!-- ────── LAB ────── -->
-    <section id="lab" class="sec">
-      <div class="sec-h"><h2>🔬 Laboratorio práctico · Datos reales de Ficohsa</h2><span class="kicker">Cómo se ve un cruce de SERCOM en producción</span></div>
-      <p class="sec-lead">Te muestro el flujo completo con datos transaccionales reales del banco. Así vas a saber qué esperar cuando abrás tu primer source en Simetrik.</p>
+    <!-- RECONCILIATION COURSE -->
+    <section id="recon-course" class="sec">
+      <div class="sec-h"><h2>⚙️ Curso completo de reconciliation</h2><span class="kicker">Standard · Advanced · Sweeps · Tolerances · Offsets</span></div>
+      <p class="sec-lead">Material derivado del curso oficial (lecciones 7-11 del App.md). Lo que diferencia un IS junior de un Senior IS es dominar este capítulo.</p>
 
-      <div class="lab">
-
-        <div class="lab-step">
-          <h4><span class="n">1</span> Ingesta · Data cruda como llega de T24</h4>
-          <p>Ficohsa deja un .TXT en la SFTP cada noche. Esto es lo que ves al abrirlo:</p>
-          <pre class="lab-raw"><span class="h">FECHA       CORR_TRANSAC  COD_AGENCIA  OPERADOR              TIPO_PAGO        NUM_REFERENCIA            LEMPIRAS  DOLARES  NUM_TELEFONO  NUM_CLIENTE</span>
-29/04/2026  2136481819    H019         (50) PAGO PROD/SERV   (E) Efectivo L   F7715101                  15        0.56     89268119
-29/04/2026  2136481861    H019         (998) Pago Linea Movil (E) Efectivo L   047-001-01-37362834       982.87    36.77    50431778600   6425844
-29/04/2026  2136482527    H019         (998) Pago Linea Movil (E) Efectivo L   047-001-01-37255784       859       32.14    50432935633   12813687</pre>
+      <div class="acc-lesson open" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">A</div>
+          <div class="atxt"><h3>¿Qué es reconciliation y por qué importa?</h3><div class="alead">El proceso, los tipos de cruce, los riesgos de no hacerlo.</div></div>
+          <span class="arrow">▾</span>
         </div>
-
-        <div class="lab-arrow">▼</div>
-
-        <div class="lab-step">
-          <h4><span class="n">2</span> Parseo · Tu configuración en Simetrik</h4>
-          <p>Aplicás reglas: estandarizás fechas a <code>YYYY-MM-DD</code>, quitás prefijo <code>504</code> de teléfonos, estructurás columnas.</p>
-          <table class="lab-tbl">
-            <thead><tr><th>Fecha</th><th>Operador</th><th>Referencia</th><th>Lempiras</th><th>Teléfono (parseado)</th></tr></thead>
-            <tbody>
-              <tr><td>2026-04-29</td><td>50 · Prod/Servicios</td><td>LF7715101</td><td>150.56</td><td class="ok">89268119</td></tr>
-              <tr><td>2026-04-29</td><td>998 · Línea Móvil</td><td>047-001-01-37362834</td><td>982.87</td><td class="ok">31778600 <span class="w">← sin 504</span></td></tr>
-              <tr><td>2026-04-29</td><td>998 · Línea Móvil</td><td>047-001-01-37255784</td><td>859.00</td><td class="ok">32935633 <span class="w">← sin 504</span></td></tr>
-            </tbody>
-          </table>
+        <div class="ab">
+          <p>Reconciliation = comparar dos (o más) fuentes de data usando criterios específicos para encontrar similitudes y diferencias. Verifica que la info de un sistema sea consistente con otra.</p>
+          <h4>Por qué automatizar</h4>
+          <p>Excel sirve para 1,000 filas. Amazon procesa <strong>billones de tx/mes</strong>. Manual = imposible. Riesgos de no reconciliar bien:</p>
+          <ul>
+            <li><b>Fees y comisiones</b> mal cargadas por proveedores que pasan desapercibidas (leakage).</li>
+            <li><b>Pérdidas financieras</b> por diferencias no detectadas a tiempo.</li>
+            <li><b>Exposición a fraude</b> que se podría detectar con revisión automatizada.</li>
+          </ul>
+          <h4>Tipos de cruce</h4>
+          <ul>
+            <li><b>1-a-1:</b> cada tx de A tiene exactamente una contraparte en B.</li>
+            <li><b>1-a-N:</b> una tx de A se concilia con varias de B (típico: una venta dividida en 2 tarjetas).</li>
+            <li><b>N-a-1:</b> varias tx de A se consolidan con una sola de B (típico: micro-pagos agrupados).</li>
+            <li><b>N-a-N:</b> múltiples registros se cruzan entre sí.</li>
+          </ul>
         </div>
+      </div>
 
-        <div class="lab-arrow">▼</div>
-
-        <div class="lab-step">
-          <h4><span class="n">3</span> Cruce · Matching Rules</h4>
-          <p>Ficohsa usa cuenta transitoria <code>2-01-01-003</code> para recargas. Lo recaudado en caja (débito) debe coincidir con el reporte que envía CLARO (crédito).</p>
-          <div class="match-box">
-            <div class="match-side a">
-              <h5>Fuente A · Cajas T24</h5>
-              <ul>
-                <li>Referencia: <b>LF7715101</b></li>
-                <li>Teléfono: <b>89268119</b></li>
-                <li>Monto: <b>150.56</b></li>
-              </ul>
-            </div>
-            <div class="eq">==</div>
-            <div class="match-side b">
-              <h5>Fuente B · CLARO</h5>
-              <ul>
-                <li>Recarga_ID: <b>REQ-99281</b></li>
-                <li>Cell: <b>89268119</b></li>
-                <li>Value: <b>150.56</b></li>
-              </ul>
-            </div>
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">B</div>
+          <div class="atxt"><h3>Standard Reconciliation: tu primer cruce</h3><div class="alead">Lineal, simple, 2 sources, sweeps en cascada.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Recomendada para procesos cortos y simples. Comparación directa entre 2 sources.</p>
+          <h4>Pasos para crear una</h4>
+          <ol>
+            <li>Automate → Resources → <code>Create Resource</code> → <strong>Standard Reconciliation</strong>.</li>
+            <li>Elegís Source A y Source B (siempre desde Source Unions).</li>
+            <li>Configurás el tipo de cruce (1-1, 1-N, N-1, N-N).</li>
+            <li>Definís los <strong>sweeps</strong>.</li>
+          </ol>
+          <h4>Anatomía de un sweep ("bag of rules")</h4>
+          <p>Un sweep es un conjunto ordenado de reglas que se ejecutan en cascada. Múltiples sweeps se procesan por prioridad.</p>
+          <div class="sweep-chain">
+            <div class="sweep"><div class="sn">1</div><div><h4>Sweep 1 · Reglas estrictas, sin tolerancia</h4><p><code>A.date == B.date AND A.amount == B.amount AND A.id == B.id AND A.tx_type == B.tx_type AND A.card_type == B.card_type</code>. Captura el 70-85% de los matches.</p></div></div>
+            <div class="sweep"><div class="sn">2</div><div><h4>Sweep 2 · Tolerancia chica (timing/rounding)</h4><p>Mismo cruce pero <code>|A.amount - B.amount| ≤ 0.05</code> (redondeo) y <code>|A.date - B.date| ≤ 1 día</code> (timing entre clearing y settlement). Captura otro 10-15%.</p></div></div>
+            <div class="sweep"><div class="sn">3</div><div><h4>Sweep 3 · Catch-all → Exceptions</h4><p>Lo que no cruzó cae a la bandeja de excepciones para investigación manual.</p></div></div>
           </div>
-          <div class="match-result"><b>✅ MATCH EXACTO.</b> La transacción queda automáticamente conciliada. Si el teléfono o el monto no coincidieran, pasaría al Workbench de Exceptions para investigación manual.</div>
+          <h4>Lectura del resultado</h4>
+          <p>Ejemplo Magalu/Getnet: de 44 tx del merchant, 37 cruzaron por sweep 1 → 7 pending. Del acquirer: 40 tx, 37 cruzaron → 3 pending. Filtrás solo las no-reconciliadas y reducís tu workload drásticamente.</p>
+          <div class="box warn"><div><b>Cuidado con tolerancias laxas:</b> el video oficial lo dice con esta frase — <em>"sin tolerancia perderías el match · con tolerancia demasiado laxa hacés match entre una manzana y una pera"</em>. Calibrá con datos históricos.</div></div>
         </div>
+      </div>
 
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">C</div>
+          <div class="atxt"><h3>Reconcilable Groups: filtros guardados</h3><div class="alead">Tu fundamento antes de Advanced Recon.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Un <strong>reconcilable group</strong> es un filtro guardado sobre una source para aislar un subset. Aplicás el filtro, le ponés nombre, lo reutilizás en N reconciliations.</p>
+          <h4>Ejemplo</h4>
+          <ol>
+            <li>Seleccionás la source <code>Credit Cards</code>.</li>
+            <li>Aplicás filtro en columna <code>Card Type</code> → solo <code>Mastercard</code>.</li>
+            <li>Filters menu → <code>Create Reconcilable Group</code> → nombre: <code>Master credit</code>.</li>
+            <li>De ahí en adelante, en cualquier recon, elegís este group y trabajás solo con esas 4 tx Master.</li>
+          </ol>
+          <div class="box info"><div><b>Best practice obligatoria (del curso oficial):</b> crear un grupo <code>SKT ID != empty</code>. Excluye registros sin identificador válido y previene inconsistencias por data incompleta. Aplicalo en cada source.</div></div>
+        </div>
+      </div>
+
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">D</div>
+          <div class="atxt"><h3>Advanced Reconciliation: cuando standard no alcanza</h3><div class="alead">Múltiples sweeps en cadena: recon + grouping + offset.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Permite encadenar múltiples sweeps independientes dentro del mismo recurso. Cada sweep es una mini-recon. Tres tipos:</p>
+          <h4>1. Reconciliation Sweep</h4>
+          <p>Cruce 1-a-1 dentro del recurso. La IA <strong>Smart Rules</strong> analiza ambas sources y sugiere las matching keys óptimas. Aceptás o rechazás.</p>
+          <h4>2. Grouping Sweep</h4>
+          <p>Cuando una tx del merchant aparece dividida en varias líneas en el acquirer (típico: una venta de $100 cobrada como $50 + $50). <code>Create Aggregation</code> con criterios: mismo date + mismo ID → suma amounts.</p>
+          <h4>3. Offset Sweep</h4>
+          <p>Cuando las tx se compensan dentro de la <strong>misma source</strong>. Caso típico: payment cancelado con refund en el reporte del merchant. Match: date+ID+amount (no tx_type porque por definición son diferentes — payment vs refund).</p>
+          <div class="sweep-chain">
+            <div class="sweep"><div class="sn">1</div><div><h4>Reconciliation 1-1</h4><p>Captura el 70% inicial.</p></div></div>
+            <div class="sweep"><div class="sn">2</div><div><h4>Grouping</h4><p>Captura otro ~15% (tx fraccionadas).</p></div></div>
+            <div class="sweep"><div class="sn">3</div><div><h4>Offset</h4><p>Captura otro ~10% (payment vs refund). Resto va a Exceptions.</p></div></div>
+          </div>
+          <div class="box info"><div><b>Resultado típico (del video):</b> merchant 70% recon rate (5 matches + 2 offsets + 3 pending) · acquirer 100%. Eso es producción real.</div></div>
+          <div class="box warn"><div><b>Common error:</b> una columna no aparece al definir reglas. Causas: (a) no se agregó al Source Union, (b) no está enabled para la reconciliation. Revisá los dos puntos.</div></div>
+        </div>
+      </div>
+
+      <div class="acc-lesson" onclick="this.classList.toggle('open')">
+        <div class="ah"><div class="nm">E</div>
+          <div class="atxt"><h3>Source Enrichment: VLOOKUP vs Recon</h3><div class="alead">Cómo agregar info a una fuente sin perder histórico.</div></div>
+          <span class="arrow">▾</span>
+        </div>
+        <div class="ab">
+          <p>Cuando necesitás agregar columnas a una source desde otra fuente (típico: fee dictionary).</p>
+          <h4>VLOOKUP</h4>
+          <p>Igual al de Excel: <code>Create VLOOKUP</code>. Servible cuando la fuente enriquecedora <strong>NO cambia</strong>.</p>
+          <div class="box red"><div><b>Riesgo VLOOKUP:</b> si la fuente cambia, tenés que vaciar y reprocesar todo. Eso borra histórico, lo que puede afectar períodos contables ya cerrados.</div></div>
+          <h4>Enrichment by 1-N or N-1 Reconciliation</h4>
+          <p>La opción recomendada cuando la fuente puede actualizarse (ej. diccionario de fees renegociables). Si cambia algo: solo se reprocesan las tx afectadas, sin tocar el histórico.</p>
+          <h4>Caso real: Cost Control</h4>
+          <p>Cruzás transacciones con un fee dictionary (5 rates: Visa Credit, Visa Debit, MC Credit, MC Debit, Amex Credit). Cada rate se replica tantas veces como tx correspondientes haya. Después creás transformation columns:</p>
+          <ul>
+            <li><code>Real Cost = Gross Amount − Net Amount</code></li>
+            <li><code>Theoretical Cost = Gross Amount × Fee Rate</code></li>
+            <li><code>Delta = Real Cost − Theoretical Cost</code></li>
+          </ul>
+          <p>Si delta &gt; 0 → el adquirente te cobró más de lo negociado → revenue leakage. El curso oficial muestra el caso donde Mastercard Credit y Mastercard Debit tienen diferencias; el resto coincide con el contrato.</p>
+        </div>
       </div>
     </section>
 
-    <!-- ────── SYSTEMS ────── -->
-    <section id="systems" class="sec">
-      <div class="sec-h"><h2>🔌 Sistemas core a integrar</h2><span class="kicker">Las "fuentes verdaderas" de Ficohsa</span></div>
-      <p class="sec-lead">Estos son los sistemas con los que Simetrik se conecta. Conocer su tipo de archivo y rareza te ahorra horas en parseo.</p>
+    <!-- PROCESSES PRIORITIZED -->
+    <section id="processes" class="sec">
+      <div class="sec-h"><h2>📋 Procesos priorizados · Fase 1</h2><span class="kicker">Qué vas a configurar primero</span></div>
+      <p class="sec-lead">Ficohsa priorizó 3 procesos para arrancar. Estos son los que dominás en tus primeras 2 semanas.</p>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Sistema</th><th>Uso en Ficohsa</th><th>Formato esperado</th><th>Rareza a tener en cuenta</th></tr></thead>
-          <tbody>
-            <tr><td><b>T24 (Temenos)</b></td><td>Core bancario: préstamos, cuentas, cajas. Origen del lab práctico.</td><td>TXT/CSV vía SFTP · delimitador pipe <code>|</code></td><td>Códigos de efecto cero (SGN, 4, 54) que se filtran · prefijos telefónicos · texto libre en operadores</td></tr>
-            <tr><td><b>Vision Plus</b></td><td>Procesador de tarjetas de crédito · cartera TC · PILs.</td><td>Reportes planos TXT · ancho fijo posicional</td><td>Encoding Latin-1 · campos posicionales sin delimitador</td></tr>
-            <tr><td><b>SAP ERP</b></td><td>Libro Mayor contable · registro central de todas las cuentas.</td><td>Extractos contables CSV · fecha tipo <code>16-Apr-2026</code></td><td>Recibe asientos de ajuste desde Simetrik vía interfaz IDoc</td></tr>
-            <tr><td><b>Visa / Mastercard</b></td><td>Marcas de tarjeta · liquidaciones de adquirencia e issuing.</td><td>Archivos TXT/CSV por FTP o email · frecuencia diaria</td><td>Clearing vs Settlement separados · timing T+1 / T+2</td></tr>
-            <tr><td><b>CLARO (proveedor)</b></td><td>Reporte de recargas telefónicas vendidas.</td><td>CSV diario por SFTP</td><td>Referencia única se construye con prefijo + número de transacción T24</td></tr>
-          </tbody>
-        </table>
+      <div class="cards" style="margin-top:14px">
+
+        <div class="cd" style="border-left:3px solid var(--rd)">
+          <h3>1 · SERCOM · Recargas de telefonía móvil</h3>
+          <p><b>Cuenta:</b> Transitoria <code>2-01-01-003</code> (2330203151) · <b>Estimación:</b> ~54h · <b>Tipo:</b> matching transitorias multidireccional.</p>
+          <p style="margin-top:8px"><b>Fuentes:</b> T24 (cajas · débitos) ↔ Reporte CLARO (créditos) ↔ Balance SAP (saldo).</p>
+          <p><b>Llave:</b> <code>T24.TRANS_REFERENCE</code> ↔ <code>CLARO.referencia_unica_t24</code> ↔ <code>SAP.TRANSACCIONBANCO</code>.</p>
+          <p><b>Regla clave:</b> Σ débitos − Σ créditos = 0 al cierre del día. Si <code>NO_TELEFONO</code> tiene 8 dígitos → "Paquete", sino → "Recarga".</p>
+          <p><b>Filtros:</b> excluir <code>TXN_CODE IN (SGN, 4, 54)</code> · <code>CONVENIO = "RECARGAS"</code> · <code>ESTADO = "PAGADO"</code>.</p>
+          <p><b>Outputs:</b> Conciliación diaria · Informe de valores · Recargas por liquidar · Paquetes por liquidar.</p>
+        </div>
+
+        <div class="cd" style="border-left:3px solid var(--or)">
+          <h3>2 · Cartera de Préstamos</h3>
+          <p><b>Cuenta:</b> Activo <code>1-04-01-001</code> · <b>Tipo:</b> cuadre de saldos.</p>
+          <p style="margin-top:8px"><b>Fuentes:</b> Reporte préstamos T24 · Saldo contable SAP.</p>
+          <p><b>Llave:</b> no hay matching transaccional. Se cuadra <strong>saldo total</strong> de cartera vs cuenta GL.</p>
+          <p><b>Regla:</b> Σ (capital + intereses por cliente) = saldo SAP. Si no cuadra → investigar movimiento neto por cliente.</p>
+          <p><b>Cuenta cruzada:</b> Ingresos por intereses <code>4-01-01-001</code>.</p>
+        </div>
+
+        <div class="cd" style="border-left:3px solid var(--yl)">
+          <h3>3 · Descuento de Documentos</h3>
+          <p><b>Tipo:</b> conciliación de cartera contra compensaciones recibidas.</p>
+          <p style="margin-top:8px"><b>Fuentes:</b> Sistema de cartera (T24) · Movimientos bancarios SAP.</p>
+          <p><b>Cruce:</b> fecha vencimiento + monto + cliente.</p>
+          <p><b>Excepciones típicas:</b> documentos vencidos sin pago · pagos sin asociar a un documento.</p>
+        </div>
       </div>
 
       <div class="box info">
-        <div><b>Conectores Simetrik:</b> el equipo de Integraciones de Simetrik configura el SFTP/API/auth con cada sistema. Vos <b>no</b> tocás credenciales — vos consumís el Source ya conectado y configurás parseo + reglas. Si una credencial falla, escalá a Integraciones (Noel, Jorge, Carlos, Jose).</div>
+        <div><b>Alcance total regional:</b> 98 procesos · 3,558 cuentas · 32.4M tx/mes · Honduras + Guatemala + Nicaragua + Panamá. Vos arrancás con los 3 de arriba — el resto se va incorporando trimestre a trimestre.</div>
       </div>
     </section>
 
-    <!-- ────── CHEATSHEET ────── -->
+    <!-- CHEATSHEET -->
     <section id="cheatsheet" class="sec">
       <div class="sec-h"><h2>⚡ Cheatsheet operativa</h2><span class="kicker">Para imprimir y pegar al lado del monitor</span></div>
-      <p class="sec-lead">Si abrís solo una sección de este Playbook al día, que sea esta. Reglas mentales que NUNCA cambian.</p>
+      <p class="sec-lead">Si abrís solo una sección del Playbook al día, que sea esta. Reglas que NUNCA cambian.</p>
 
       <div class="cheat">
         <h3>📌 Tu día como Implementation Specialist</h3>
-        <p class="lead">Las 4 columnas que tenés que tener en automático.</p>
+        <p class="lead">Las 4 columnas del día que tienen que ser automáticas.</p>
         <div class="cheat-grid">
           <div class="cheat-col">
-            <h4>🌅 Inicio del día (15 min)</h4>
+            <h4>🌅 Inicio (15 min)</h4>
             <ul>
-              <li>Abrir Home de Simetrik · revisar resumen del día</li>
-              <li>Mirar excepciones nuevas con <b>aging &gt; 3 días</b> (rojo)</li>
-              <li>Leer @menciones en Slack del equipo</li>
-              <li>Confirmar que los Sources corrieron sin error en la noche</li>
-              <li>Definir tus 3 prioridades del día</li>
+              <li>Abrir Home Simetrik · resumen del día</li>
+              <li>Excepciones <b>aging &gt; 3 días</b> (rojo)</li>
+              <li>Leer @menciones Slack</li>
+              <li>Confirmar Sources OK en la noche (Source Monitor)</li>
+              <li>Definir 3 prioridades del día</li>
             </ul>
           </div>
           <div class="cheat-col">
             <h4>🛠️ Mientras configurás</h4>
             <ul>
               <li>SDD abierto en pestaña separada · siempre</li>
-              <li>Antes de activar Source → <code>Test Run</code> con muestra</li>
-              <li>Regla de matching nueva → probar contra histórico</li>
-              <li>Documentar cada decisión en tu Notas Workflow</li>
-              <li>Si dudás → preguntale al Senior IS · no improvises</li>
+              <li>Source Union <b>desde día 1</b> (no source directa)</li>
+              <li>Antes de activar Source → <code>Test Run</code></li>
+              <li>Regla nueva → probar contra histórico</li>
+              <li>Documentar cada decisión en Notas Workflow</li>
+              <li>Si dudás → preguntá al Senior IS, no improvises</li>
             </ul>
           </div>
           <div class="cheat-col">
             <h4>🚨 Resolviendo excepciones</h4>
             <ul>
-              <li>Ordenar por aging DESC · viejas primero</li>
-              <li>AI suggestions high-confidence → resolver rápido</li>
+              <li>Ordenar aging DESC · viejas primero</li>
+              <li>Smart suggestions high-confidence → resolver rápido</li>
               <li>Investigación &gt; 5 min → escalar</li>
-              <li>Write-off solo con autorización del responsable</li>
-              <li>Cada resolución deja audit trail completo</li>
+              <li>Write-off solo con autorización SDD</li>
+              <li>Cada acción deja audit trail · maker-checker</li>
             </ul>
           </div>
           <div class="cheat-col">
             <h4>🌙 Fin del día (10 min)</h4>
             <ul>
-              <li>Cerrar tickets resueltos en tu kanban</li>
-              <li>Confirmar handoff a Senior IS si quedó algo abierto</li>
-              <li>Loggear horas en proceso (para esfuerzo real vs estimado)</li>
-              <li>Mirar excepciones que se generarán esta noche</li>
-              <li>Actualizar Notas si aprendiste algo nuevo</li>
+              <li>Cerrar tickets resueltos</li>
+              <li>Handoff a Senior IS si hay pendientes críticos</li>
+              <li>Loggear horas en proceso</li>
+              <li>Mirar Process View para overnight runs</li>
+              <li>Actualizar Notas si aprendiste algo</li>
             </ul>
           </div>
         </div>
@@ -766,98 +676,143 @@ body.in-iframe .sb{top:0;height:100vh}
         <h3>🧠 Reglas de oro · memoria muscular</h3>
         <div class="cheat-grid">
           <div class="cheat-col">
-            <h4>Antes de configurar</h4>
+            <h4>Naturaleza contable</h4>
             <ul>
-              <li>El 80% de errores de matching nacen de mal parseo</li>
-              <li>Activo y Gasto · suben con Débito</li>
-              <li>Pasivo, Patrimonio e Ingreso · suben con Crédito</li>
-              <li>Transitorias: débitos = créditos · saldo del día = 0</li>
-              <li>Filtrar siempre códigos efecto cero antes de cruzar</li>
+              <li>Activos y Gastos suben con Débito</li>
+              <li>Pasivos, Patrimonio e Ingresos suben con Crédito</li>
+              <li>Transitorias: débitos = créditos · saldo día = 0</li>
+              <li>Primer dígito código = naturaleza</li>
             </ul>
           </div>
           <div class="cheat-col">
-            <h4>Mientras configurás</h4>
+            <h4>Antes de configurar</h4>
             <ul>
-              <li>Reglas más estrictas primero · catch-all al final</li>
-              <li>Tolerancias chicas (0.05) antes de tolerancias grandes</li>
-              <li>Apuntá a 95%+ auto-match en producción</li>
-              <li>Si arrancás en 60% → revisar parseo, no las reglas</li>
-              <li>Documentá CADA decisión que tomaste fuera del SDD</li>
+              <li>80% de errores de matching = mal parseo</li>
+              <li>Source Union siempre, incluso con 1 source</li>
+              <li>Reconcilable Group <code>SKT ID != empty</code> en cada source</li>
+              <li>Filtrar TXN_CODE de efecto cero (SGN/4/54)</li>
+              <li>Test Run antes de activar Source en prod</li>
+            </ul>
+          </div>
+          <div class="cheat-col">
+            <h4>Mientras configurás Rule Sets</h4>
+            <ul>
+              <li>Sweeps estrictos primero · catch-all al final</li>
+              <li>Tolerancia ±0.05 amount (redondeo) y ±1 día (timing)</li>
+              <li>Apuntar a 95%+ auto-match en producción</li>
+              <li>Si arrancás en 60% → revisar parseo, no reglas</li>
+              <li>Aceptar Smart Rules (IA) con criterio, no ciego</li>
             </ul>
           </div>
           <div class="cheat-col">
             <h4>Cuando algo falle</h4>
             <ul>
-              <li>Primero mirá las primeras 10 filas crudas del archivo</li>
-              <li>Verificá encoding · UTF-8 vs Latin-1</li>
-              <li>Verificá delimitador real vs el configurado</li>
-              <li>Comprobá que el filtro de fecha no esté excluyendo nada</li>
-              <li>Si en 30 min no resolvés → al Senior IS</li>
+              <li>Primero: 10 filas crudas del archivo</li>
+              <li>Verificar encoding UTF-8 vs Latin-1</li>
+              <li>Verificar delimitador real vs configurado</li>
+              <li>Comprobar filtro de fecha no excluya nada</li>
+              <li>Process View · si lleva horas → ticket con resource ID</li>
+              <li>Si 30 min sin resolver → al Senior IS</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheat" style="margin-top:18px;background:linear-gradient(135deg,var(--pkg),var(--og));border-color:rgba(236,72,153,.3)">
+        <h3>📋 Best practices del curso oficial</h3>
+        <div class="cheat-grid">
+          <div class="cheat-col">
+            <h4>Resources</h4>
+            <ul>
+              <li>Cada archivo → su propio Source</li>
+              <li>Source Union obligatorio (incluso con 1 fuente)</li>
+              <li>Hide system columns que no usás</li>
+              <li>Normalization una sola vez por source</li>
+              <li>Reconcilable Group <code>SKT ID != empty</code></li>
+            </ul>
+          </div>
+          <div class="cheat-col">
+            <h4>Reconciliation</h4>
+            <ul>
+              <li>Standard para procesos simples · Advanced para chain</li>
+              <li>Sweeps ordenados: estrictos → laxos</li>
+              <li>Tolerancia ≠ permisividad</li>
+              <li>Después del cruce filtrá solo "not reconciled"</li>
+              <li>1-N enrichment &gt; VLOOKUP cuando fuente cambia</li>
+            </ul>
+          </div>
+          <div class="cheat-col">
+            <h4>Accounting</h4>
+            <ul>
+              <li>Test connection antes de production</li>
+              <li>Preparer ≠ Certifier (regla SOX)</li>
+              <li>Snapshots mensuales automáticos</li>
+              <li>Account Grouping + Auto-cert para acelerar</li>
+              <li>Notas en cuentas con gap &gt; 5%</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ────── FAQ ────── -->
+    <!-- FAQ -->
     <section id="faq" class="sec">
-      <div class="sec-h"><h2>❓ FAQ blindado · respuestas que te van a pedir</h2><span class="kicker">Para reuniones con Ficohsa o el equipo</span></div>
-      <p class="sec-lead">Estas preguntas las vas a recibir literalmente. Memorizá las respuestas para que nunca te pillen sin contexto.</p>
+      <div class="sec-h"><h2>❓ FAQ blindado</h2><span class="kicker">Las preguntas que vas a recibir</span></div>
+      <p class="sec-lead">Las recibirás literalmente en reuniones con Ficohsa o con el equipo. Memorizá las respuestas.</p>
 
-      <div class="faq">
+      <details class="faq-it"><summary>¿Qué hace exactamente Simetrik en el proceso de SERCOM?</summary>
+        <div class="faq-body">Toma 3 reportes (T24, CLARO, SAP), los normaliza con parseos de fecha + filtros de código, ejecuta 3 cruces de matching. Resultado: conciliación diaria con recargas y paquetes por liquidar, tx no asociadas, informe de antigüedad. Suma algebraica de la transitoria debe ser 0 al cierre del día.</div></details>
 
-        <details class="faq-it"><summary>¿Qué hace exactamente Simetrik en el proceso de recargas SERCOM?</summary>
-          <div class="faq-body">Toma 3 reportes (Transacciones T24, CLARO, Balance SAP), los normaliza aplicando parseos de fecha y filtros de códigos, y ejecuta 3 cruces de matching. El resultado: conciliación diaria con recargas y paquetes por liquidar, transacciones no asociadas y un informe de antigüedad.</div></details>
+      <details class="faq-it"><summary>¿Por qué Source Union siempre, incluso con una sola fuente?</summary>
+        <div class="faq-body">Porque el día que cambie el layout (te va a pasar), solo creás la source nueva y la sumás al Union existente. Todo lo que dependía (recons, postings, dashboards) sigue funcionando sin reconfigurar. <b>Es la best practice número 1 del curso oficial.</b></div></details>
 
-        <details class="faq-it"><summary>¿Por qué es necesario el parseo de fechas?</summary>
-          <div class="faq-body">Cada fuente trae un formato distinto: T24 viene como <code>YYYY-MM-DD</code>, SAP como <code>16-Apr-2026</code>, CLARO incluye texto libre. Si no los estandarizamos al mismo formato, el motor de matching nunca empareja dos transacciones que son la misma.</div></details>
+      <details class="faq-it"><summary>¿Cómo sé si una cuenta es naturaleza débito o crédito?</summary>
+        <div class="faq-body">Por el primer dígito del código contable. <code>1</code> = Activo (débito) · <code>2</code> = Pasivo/Transitoria (crédito o D/C) · <code>3</code> = Patrimonio (crédito) · <code>4</code> = Ingreso (crédito) · <code>5</code> = Gasto (débito). Frase mnemotécnica: <em>"Activos y Gastos suben con Débito · Pasivos, Patrimonio e Ingresos suben con Crédito"</em>.</div></details>
 
-        <details class="faq-it"><summary>¿Cuál es mi rol exacto en las mesas de trabajo con Ficohsa?</summary>
-          <div class="faq-body">Documentás cada regla, filtro y excepción que mencione el responsable del proceso. Luego traducís eso a una configuración dentro de Simetrik y se las mostrás para validar. Sos el <b>puente</b> entre lo que el banco necesita y lo que la plataforma puede hacer.</div></details>
+      <details class="faq-it"><summary>¿Qué son los códigos SGN, 4 y 54 que aparecen en T24?</summary>
+        <div class="faq-body">Transacciones de <b>efecto cero</b>: no afectan saldos contables porque se compensan internamente. Se excluyen del matching para evitar falsos positivos. Filtro obligatorio: <code>TXN_CODE NOT IN (SGN, 4, 54)</code>.</div></details>
 
-        <details class="faq-it"><summary>¿Qué es un "valor en rojo"?</summary>
-          <div class="faq-body">Una partida no conciliada que ha superado el tiempo máximo permitido (benchmark) sin encontrar su contraparte. Por ejemplo, una recarga de hace 5 días que no ha sido reportada por CLARO. Requiere investigación inmediata del equipo de conciliación.</div></details>
+      <details class="faq-it"><summary>¿Cuál es la diferencia entre Standard y Advanced Reconciliation?</summary>
+        <div class="faq-body"><b>Standard</b> es lineal, 2 sources, un único flujo. Recomendado para procesos simples. <b>Advanced</b> es modular: permite encadenar múltiples sweeps independientes (reconciliation + grouping + offset) en el mismo recurso. Recomendado para procesos largos y complejos. El Help Center tiene una tabla comparativa detallada.</div></details>
 
-        <details class="faq-it"><summary>¿Cómo sé si una cuenta es naturaleza débito o crédito?</summary>
-          <div class="faq-body">Por el primer dígito del código contable: <b>1</b> = Activo (Débito), <b>2</b> = Pasivo/Transitoria (Crédito o D/C), <b>3</b> = Patrimonio (Crédito), <b>4</b> = Ingreso (Crédito), <b>5</b> = Gasto (Débito). En las transitorias, débitos y créditos suman cero.</div></details>
+      <details class="faq-it"><summary>¿Cuándo usar VLOOKUP vs Enrichment by Reconciliation?</summary>
+        <div class="faq-body"><b>VLOOKUP</b> cuando la fuente enriquecedora es <b>estática</b> y no cambia. Si cambia, vaciás y reprocesás todo. <b>Enrichment by 1-N or N-1 recon</b> cuando la fuente puede actualizarse (ej. diccionario de tarifas): solo se reprocesan las tx afectadas, sin tocar histórico ni períodos cerrados. <b>Por seguridad, recon &gt; VLOOKUP</b>.</div></details>
 
-        <details class="faq-it"><summary>¿Qué son los códigos SGN, 4 y 54 que aparecen en T24?</summary>
-          <div class="faq-body">Son transacciones de <b>efecto cero</b>: no afectan saldos contables porque se compensan internamente. Se excluyen del proceso de matching para evitar falsos positivos o ruido en la conciliación.</div></details>
+      <details class="faq-it"><summary>¿Qué pasa si una tx no cruza en ninguno de los sweeps?</summary>
+        <div class="faq-body">Queda como "no asociada" en la bandeja de Exceptions. Se le asigna antigüedad (aging). Si supera el benchmark (ej. &gt; 3 días) → "valor en rojo" y se notifica al responsable del proceso para investigación manual.</div></details>
 
-        <details class="faq-it"><summary>¿Cuántos procesos y cuentas se van a implementar?</summary>
-          <div class="faq-body">El alcance regional total es 98 procesos y 3,558 cuentas. En la Fase 1 nos concentramos en los priorizados por Ficohsa: SERCOM (Recargas), Cartera de Préstamos y Descuento de Documentos. La estimación inicial para SERCOM es 54 horas de configuración.</div></details>
+      <details class="faq-it"><summary>¿Cuándo puedo aplicar un write-off?</summary>
+        <div class="faq-body">Cuando la diferencia es claramente por redondeo (centavos) y la regla de write-off está autorizada en el SDD. Para montos materiales: <b>siempre</b> escalá al responsable del proceso y dejá motivo en el audit trail. Nunca write-off sin autorización explícita.</div></details>
 
-        <details class="faq-it"><summary>¿Qué pasa si una transacción no cruza en ninguno de los matchings?</summary>
-          <div class="faq-body">Queda como "no asociada". Se incluye una a una en el informe de conciliación y se le asigna antigüedad. Si supera el benchmark definido (por ejemplo, &gt; 3 días), se marca como "valor en rojo" y se notifica al responsable para investigación.</div></details>
+      <details class="faq-it"><summary>Si auto-match rate está en 60%, ¿qué hago?</summary>
+        <div class="faq-body">Revisar parseo, no las reglas. <b>80% de las veces el problema es normalization</b> (encoding, formato de fecha, prefijo telefónico, padding de referencia). Tomá 10 filas no cruzadas, comparalas con sus contrapartes esperadas, vas a ver el patrón. Si tras arreglar parseo seguís bajo 80%, ahí sí ajustás reglas.</div></details>
 
-        <details class="faq-it"><summary>¿Cuándo puedo aplicar un write-off?</summary>
-          <div class="faq-body">Cuando la diferencia es claramente por <b>redondeo</b> (centavos) y la regla de write-off está autorizada en el SDD. Para montos materiales, <b>siempre</b> escalá al responsable del proceso y dejá el motivo en el audit trail. Nunca apliques write-off sin autorización explícita.</div></details>
+      <details class="faq-it"><summary>¿Quién aprueba mis cambios antes de producción?</summary>
+        <div class="faq-body">Maker-Checker obligatorio (regla SOX, no opcional): vos sos el <b>Maker</b> (creás/editás la regla), un Senior IS o el PM hace de <b>Checker</b>. Sin firma del Checker, el cambio no impacta producción. El audit trail registra ambos.</div></details>
 
-        <details class="faq-it"><summary>Si la auto-match rate está en 60%, ¿qué hago?</summary>
-          <div class="faq-body">Revisar parseo, no las reglas. El 80% de las veces el problema es que un campo no se está normalizando correctamente (encoding, formato de fecha, prefijo telefónico, padding de referencia). Tomá 10 filas que no cruzaron, comparalas con sus contrapartes esperadas, y vas a ver el patrón.</div></details>
+      <details class="faq-it"><summary>¿Qué pasa si la transitoria SERCOM no queda en 0 al final del día?</summary>
+        <div class="faq-body">Algo está mal. Dos hipótesis: (a) recibiste plata pero no transferiste a CLARO (olvido / error operativo) · (b) transferiste a CLARO sin haber cobrado en caja (fraude / duplicado). Acción: investigar inmediatamente con el responsable del proceso. Cerrar el día con transitorias en saldo ≠ 0 es <b>el peor anti-patrón posible</b>.</div></details>
 
-        <details class="faq-it"><summary>¿Quién aprueba mis cambios antes de pasar a producción?</summary>
-          <div class="faq-body">Maker-Checker obligatorio: vos sos el Maker (creás/editás la regla), un Senior IS o el PM hace de Checker. Sin la firma del Checker el cambio no llega a producción. Esto es requerimiento SOX, no opcional.</div></details>
-
-      </div>
+      <details class="faq-it"><summary>¿Cómo respondés si te preguntan qué es Simetrik en una frase?</summary>
+        <div class="faq-body"><em>"Es la capa de orquestación financiera con IA que se convierte en la single source of truth: integra controles financieros, operacionales y contables en un solo lugar — de cuando una transacción nace, hasta que muere en contabilidad."</em></div></details>
     </section>
 
-    <!-- ────── RESOURCES ────── -->
+    <!-- RESOURCES -->
     <section id="resources" class="sec">
       <div class="sec-h"><h2>📚 Recursos y próximos pasos</h2><span class="kicker">Para profundizar</span></div>
-      <p class="sec-lead">Cuando termines este Playbook, hay más material disponible. Acá tenés todo en un solo lugar.</p>
+      <p class="sec-lead">Cuando termines este Playbook, hay más material disponible.</p>
 
-      <div class="res">
-        <a href="simetrik-learn.html"><div class="ti">🧭 Guía didáctica · Empieza Aquí</div><div class="ds">Tour interactivo de la interfaz Simetrik + curso de 10 lecciones con progreso.</div><div class="lk">DA-2026 · Ecosistema Simetrik</div></a>
-        <a href="../work.html#dict" target="_blank"><div class="ti">📖 Diccionario · 100+ términos</div><div class="ds">Búsqueda + filtros por categoría: siglas, procesos, plataformas, software, contabilidad.</div><div class="lk">DA-2026 · Diccionario</div></a>
-        <a href="https://academy.simetrik.com" target="_blank" rel="noopener"><div class="ti">🎓 Simetrik Academy</div><div class="ds">Cursos oficiales paso a paso. Empezá por "Foundations" si arrancás de cero.</div><div class="lk">academy.simetrik.com</div></a>
-        <a href="https://help.simetrik.com" target="_blank" rel="noopener"><div class="ti">📘 Help Center</div><div class="ds">Documentación técnica · cómo conectar fuentes · mejores prácticas · troubleshooting.</div><div class="lk">help.simetrik.com</div></a>
-        <a href="https://www.youtube.com/@Simetrik" target="_blank" rel="noopener"><div class="ti">▶️ YouTube · @Simetrik</div><div class="ds">+140 videos · "Simetrik for Every Industry" + masterclasses técnicas.</div><div class="lk">youtube.com/@Simetrik</div></a>
-        <a href="https://www.simetrik.com" target="_blank" rel="noopener"><div class="ti">🌐 simetrik.com</div><div class="ds">Casos de éxito · papers de producto · novedades.</div><div class="lk">simetrik.com</div></a>
+      <div class="cards c3">
+        <a class="cd" href="simetrik-learn.html" style="text-decoration:none;color:inherit"><span class="ic">🧭</span><h3>Empieza Aquí · Guía didáctica</h3><p>Tour interactivo de los 4 menús reales de Simetrik + curso de 12 lecciones + 2 ejercicios prácticos.</p></a>
+        <a class="cd" href="../work.html#dict" target="_blank" style="text-decoration:none;color:inherit"><span class="ic">📖</span><h3>Diccionario · 150+ términos</h3><p>Búsqueda + filtros. Todos los términos del curso oficial Simetrik con definición y ejemplo de uso.</p></a>
+        <a class="cd" href="https://academy.simetrik.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="ic">🎓</span><h3>Simetrik Academy</h3><p>El curso oficial completo (31 lecciones · ES/EN/PT). Empezá por "Foundations".</p></a>
+        <a class="cd" href="https://help.simetrik.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="ic">📘</span><h3>Help Center</h3><p>Tabla comparativa Standard vs Advanced Recon · best practices · troubleshooting.</p></a>
+        <a class="cd" href="https://www.youtube.com/@Simetrik" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="ic">▶️</span><h3>YouTube oficial</h3><p>+140 videos. Masterclasses, demos, casos por industria.</p></a>
+        <a class="cd" href="https://app.simetrik.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="ic">🚀</span><h3>app.simetrik.com</h3><p>La plataforma. Login con Google + 2FA Guardian.</p></a>
       </div>
 
       <div class="box gold" style="margin-top:22px">
-        <div><b>Tu próximo paso:</b> volvé al <a href="../work.html" style="color:var(--gn);font-weight:600">Ecosistema 14-WORK</a> y abrí la pestaña <b>📓 Cuadernos</b>. Creá un cuaderno por proceso priorizado (SERCOM, Préstamos, Descuento Documentos) y empezá a documentar tus decisiones desde la primera mesa de Discovery. Ese cuaderno te va a salvar en QA y en la transición al CSM.</div>
+        <div><b>Próximo paso operativo:</b> volvé al <a href="../work.html" style="color:var(--gn);font-weight:600">Ecosistema 14-WORK</a> y abrí <b>📓 Cuadernos</b>. Creá un cuaderno por proceso priorizado (SERCOM, Préstamos, Descuento Documentos) y documentá tus decisiones desde la primera mesa de Discovery. Ese cuaderno te salva en QA y en la transición al CSM.</div>
       </div>
     </section>
 
@@ -865,9 +820,9 @@ body.in-iframe .sb{top:0;height:100vh}
 </div>
 
 <script>
-/* ── Active nav sync on scroll ── */
+/* Active nav sync on scroll */
 const navLinks=document.querySelectorAll('.sb nav a');
-const secs=Array.from(document.querySelectorAll('.sec, #snapshot'));
+const secs=Array.from(document.querySelectorAll('section[id]'));
 function sync(){
   let active=secs[0];
   const y=window.scrollY+120;
