@@ -35,15 +35,20 @@
     <div class="st"><div class="sv" id="sNbs">0</div><div class="sla">Cuadernos</div></div>
   </div>
 
-  <!-- Sync control bar — visible siempre arriba de las tabs -->
-  <div style="background:linear-gradient(90deg,rgba(6,182,212,.10),rgba(167,139,250,.08));border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px">
-    <span style="font-size:14px">☁</span>
-    <span style="color:var(--t2)"><b style="color:var(--tx)">Sync cross-device.</b> Si no ves cambios hechos en otro PC, forzá la sincronización:</span>
-    <button class="btn bo bs" data-syncbtn onclick="WORK.forceResync(event)" title="Descarga el estado actual del cloud y reemplaza tu local. Usalo si este PC NO tiene los últimos cambios.">🔄 Bajar del cloud</button>
-    <button class="btn bo bs" data-syncbtn onclick="WORK.forcePush(event)" title="Sube tu estado local al cloud, sobrescribiendo lo que haya allá. Usalo si este PC TIENE los últimos cambios.">⬆ Subir al cloud</button>
-    <button class="btn bo bs" onclick="WORK.showSyncDiagnostics()" title="Muestra el estado actual de la sincronización: si hay sesión, si el cloud está accesible, etc.">🔍 Diagnóstico</button>
-    <button class="btn bo bs" onclick="WORK.compareLocalVsCloud()" title="Compara qué tenés localmente vs qué tiene el cloud (Cases, Errors, Learnings, KB). Útil cuando algo eliminado reaparece.">⚖ Comparar L vs Cloud</button>
-    <span style="margin-left:auto;font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a la pestaña (&gt;30s)</span>
+  <!-- Sync unificado · UN solo botón hace todo -->
+  <div style="background:linear-gradient(90deg,rgba(6,182,212,.10),rgba(167,139,250,.08));border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12.5px">
+    <span style="font-size:16px">☁</span>
+    <span style="color:var(--t2);flex:1;min-width:200px"><b style="color:var(--tx)">Sync cross-device.</b> Un solo click ejecuta: diagnóstico → sync bidireccional → verificación → re-render de todas las secciones.</span>
+    <button class="btn bp" onclick="WORK.smartSync(event)" title="Hace todo el proceso de sincronización en un solo paso: verifica sesión, baja y sube cambios según timestamps, valida consistencia y refresca todas las secciones del módulo.">🔄 Sincronizar todo</button>
+    <details style="font-size:11px;color:var(--t3)"><summary style="cursor:pointer;color:var(--t3)">opciones avanzadas</summary>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="btn bo bs" data-syncbtn onclick="WORK.forceResync(event)" title="Solo descarga del cloud (sobrescribe local · usar con cuidado)">⬇ Forzar pull</button>
+        <button class="btn bo bs" data-syncbtn onclick="WORK.forcePush(event)" title="Solo sube al cloud (sobrescribe cloud · usar con cuidado)">⬆ Forzar push</button>
+        <button class="btn bo bs" onclick="WORK.showSyncDiagnostics()" title="Estado actual">🔍 Diagnóstico</button>
+        <button class="btn bo bs" onclick="WORK.compareLocalVsCloud()" title="Comparativo detallado">⚖ Comparar</button>
+      </div>
+    </details>
+    <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a pestaña &gt;30s · realtime activo</span>
   </div>
 
   <div class="tabs">

@@ -259,6 +259,119 @@ const WORK = (function(){
     else msg += '✓ Todo OK. Podés usar "Bajar del cloud" o "Subir al cloud".';
     alert(msg);
   }
+  /** SMART SYNC · UN SOLO BOTÓN HACE TODO:
+   *  1. Diagnóstico previo (auth · sb · ready) → si no está listo, bail con toast claro.
+   *  2. Sync bidireccional (fullSyncAll · reconcile por timestamp · pulla y pushea lo necesario).
+   *  3. Compare local vs cloud → detecta mismatches que sobrevivieron.
+   *  4. Re-render TODAS las secciones del módulo (Cases, Errors, Learnings, MOIF, KB, Dict, Cuadernos, editores).
+   *  5. Toast verde si todo OK, alert con detalles si hay mismatches.
+   */
+  async function smartSync(ev){
+    const btn = ev && ev.currentTarget;
+    if (btn) { btn.dataset._orig = btn.dataset._orig || btn.textContent; btn.textContent = '⏳ Sincronizando…'; btn.disabled = true; btn.style.opacity = '.6'; }
+    _syncToast('⏳ Sincronizando · 1/4 verificando sesión…', 'load');
+    try {
+      // ── PASO 1: Diagnóstico ──
+      if (!window.CLOUD || !window.CLOUD.diagnostics) {
+        _syncToast('❌ cloud-sync no cargó. Refresca la página (F5).', 'err'); _syncToastHide(6000); return;
+      }
+      const d = window.CLOUD.diagnostics();
+      if (!d.sb_loaded || !d.auth_loaded) {
+        _syncToast('❌ Supabase no cargó (' + (d.sb_loaded?'auth':'sb') + '). Refresca con F5.', 'err'); _syncToastHide(7000); return;
+      }
+      if (!d.uid) {
+        _syncToast('❌ No hay sesión activa. Iniciá sesión arriba a la derecha.', 'err'); _syncToastHide(7000); return;
+      }
+      if (!d.initial_sync_done) {
+        _syncToast('⏳ El sync inicial todavía corre · aguardá unos segundos y reintentá', 'err'); _syncToastHide(5000); return;
+      }
+
+      // ── PASO 2: Sync bidireccional ──
+      _syncToast('⏳ Sincronizando · 2/4 reconcile bidireccional…', 'load');
+      try { await window.CLOUD.fullSyncAll(); } catch(e) { console.warn('[smartSync] fullSyncAll error', e); }
+
+      // ── PASO 3: Compare silencioso ──
+      _syncToast('⏳ Sincronizando · 3/4 verificando consistencia…', 'load');
+      const report = await _silentCompare();
+
+      // ── PASO 4: Re-render TODO ──
+      _syncToast('⏳ Sincronizando · 4/4 refrescando vistas…', 'load');
+      try { render(); } catch(e) { console.warn(e); }
+      try { if (eco && eco.dictRender) eco.dictRender(); } catch(e) { console.warn(e); }
+      try { if (window.WorkNB && WorkNB.render) WorkNB.render(); } catch(e) { console.warn(e); }
+      // Refrescar editores rich-text (Workflow / Curso) si el localStorage cambió
+      try {
+        const wf = document.getElementById('wfBody');
+        if (wf) wf.innerHTML = localStorage.getItem('work_eco_workflow') || '';
+        const cu = document.getElementById('cuBody');
+        if (cu) cu.innerHTML = localStorage.getItem('work_eco_course') || '';
+        const kb = document.getElementById('kbBody');
+        if (kb) kb.value = localStorage.getItem(K_KB) || '';
+      } catch(e) { console.warn(e); }
+
+      // ── RESULTADO ──
+      const mismatches = report.mismatches || [];
+      if (mismatches.length === 0) {
+        _syncToast('✓ Sincronizado · ' + d.uid.slice(0,8) + ' · todo coincide local↔cloud', 'ok');
+        _syncToastHide(3500);
+      } else {
+        _syncToast('⚠ Sincronizado con ' + mismatches.length + ' diferencia(s) · click acá para ver detalles', 'err');
+        _syncToastHide(8000);
+        // Mostrar alert con el detalle solo si hay algo concreto
+        setTimeout(() => {
+          if (confirm('Sincronización terminada con diferencias detectadas:\n\n' + mismatches.join('\n').slice(0,1200) + '\n\n¿Querés ver el comparativo completo?')) {
+            compareLocalVsCloud();
+          }
+        }, 400);
+      }
+    } finally {
+      if (btn) { btn.disabled = false; btn.style.opacity = ''; if (btn.dataset._orig) { btn.textContent = btn.dataset._orig; delete btn.dataset._orig; } }
+    }
+  }
+
+  /** Versión silenciosa de compareLocalVsCloud que devuelve un report en vez de mostrar alert. */
+  async function _silentCompare(){
+    const out = { mismatches: [] };
+    if (!window.SB || !window.AUTH || !window.AUTH.getUserId()) return out;
+    const uid = window.AUTH.getUserId();
+    const keys = ['work_cases','work_errors','work_learnings','work_kb_atts','work_nb_meta','work_nb_data','work_moif_meetings'];
+    for (const k of keys) {
+      const localRaw = localStorage.getItem(k);
+      let localCount = 0, localObj = null;
+      try {
+        const parsed = JSON.parse(localRaw||'null');
+        localObj = parsed;
+        if (Array.isArray(parsed)) localCount = parsed.length;
+        else if (parsed && typeof parsed === 'object') localCount = Object.keys(parsed).length;
+      } catch{}
+      let cloudCount = 0, cloudObj = null;
+      try {
+        const { data, error } = await window.SB.from('app_state').select('payload').eq('user_id', uid).eq('store_key', k).maybeSingle();
+        if (error) { out.mismatches.push(k+': error · '+error.message); continue; }
+        if (data) {
+          cloudObj = data.payload;
+          if (Array.isArray(data.payload)) cloudCount = data.payload.length;
+          else if (data.payload && typeof data.payload === 'object') cloudCount = Object.keys(data.payload).length;
+        }
+      } catch(e) { out.mismatches.push(k+': exception · '+(e.message||e)); continue; }
+      if (localCount !== cloudCount) {
+        out.mismatches.push(k+': local='+localCount+' · cloud='+cloudCount);
+      }
+      // Detalle de attachments
+      if (['work_learnings','work_cases','work_errors','work_moif_meetings'].includes(k) && localObj && cloudObj) {
+        const local = Array.isArray(localObj)?localObj:[];
+        const cloud = Array.isArray(cloudObj)?cloudObj:[];
+        local.forEach(l => {
+          const cl = cloud.find(c => c.id === l.id);
+          const la = (l.attachments||[]).length;
+          const ca = cl ? (cl.attachments||[]).length : 'N/A';
+          if (la !== ca) out.mismatches.push('  └ "'+(l.title||l.id)+'": local='+la+' atts · cloud='+ca);
+        });
+      }
+    }
+    return out;
+  }
+
   /** Compara local vs cloud para todos los stores. */
   async function compareLocalVsCloud(){
     if (!window.SB || !window.AUTH || !window.AUTH.getUserId()) { alert('No hay sesión activa.'); return; }
@@ -1572,7 +1685,7 @@ const WORK = (function(){
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
-    forceResync, forcePush, showSyncDiagnostics, compareLocalVsCloud,
+    forceResync, forcePush, showSyncDiagnostics, compareLocalVsCloud, smartSync,
     // MOIF
     saveMoif, delMoif, editMoif, toggleMoif, copyMoifTranscript, buildMoifPrompt,
   };
