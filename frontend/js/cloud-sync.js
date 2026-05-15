@@ -442,41 +442,104 @@ const CLOUD = (() => {
    * Reconcile a single localStorage key against the cloud map.
    * First-sync safe: local data uploads if cloud is empty.
    */
-  async function _reconcileKey(key, cloudMap) {
+  async function _reconcileKey(key, cloudMap, opts) {
     const localRaw = localStorage.getItem(key);
     const cloud    = cloudMap.get(key) || null;
+    const force    = opts && opts.forceCloudWin;
 
     const localExists = localRaw !== null && localRaw !== '' && localRaw !== 'undefined';
     const cloudExists = cloud !== null;
 
     if (cloudExists && localExists) {
       // Both exist — compare timestamps
-      // Local updated_at: we track this per-key in a metadata store
       const localTs = _getLocalTs(key);
       const cloudTs = new Date(cloud.updated_at || 0).getTime();
 
-      if (cloudTs > localTs) {
-        // Cloud is newer → overwrite local
-        console.log('[CLOUD] reconcile cloud→local:', key);
+      if (force || cloudTs > localTs) {
+        // Cloud wins → overwrite local
+        console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
         _origSetItem(key, JSON.stringify(cloud.payload));
-        _setLocalTs(key, cloudTs);
+        _setLocalTs(key, cloudTs || Date.now());
       } else {
-        // Local is newer (or equal) → push to cloud
+        // Local is newer → push to cloud
         console.log('[CLOUD] reconcile local→cloud:', key);
         await pushState(key, _safeParse(localRaw));
       }
     } else if (cloudExists && !localExists) {
-      // Cloud only → pull down (new device scenario)
       console.log('[CLOUD] reconcile cloud→local (new):', key);
       _origSetItem(key, JSON.stringify(cloud.payload));
       _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
     } else if (!cloudExists && localExists) {
-      // Local only → first sync upload
       console.log('[CLOUD] reconcile local→cloud (first):', key);
       await pushState(key, _safeParse(localRaw));
       _setLocalTs(key, Date.now());
     }
-    // else: neither exists → skip
+  }
+
+  /** Force pull cloud → local for ALL syncable keys, ignoring timestamps.
+   *  Resuelve casos donde local TS quedó stuck por encima del cloud. */
+  async function forceResyncFromCloud() {
+    if (!_ready()) { console.warn('[CLOUD] forceResync skipped (not ready)'); return false; }
+    if (_syncing) { console.warn('[CLOUD] forceResync skipped (syncing)'); return false; }
+    _syncing = true;
+    console.log('[CLOUD] ══ forceResyncFromCloud START ══');
+    try {
+      const cloudMap = await _pullAllStates();
+      if (!cloudMap) { console.warn('[CLOUD] forceResync: pull failed'); return false; }
+      console.log('[CLOUD] forceResync: pulled', cloudMap.size, 'keys from cloud');
+      // Apply ALL keys from cloud, regardless of local TS
+      let applied = 0;
+      for (const [key, cloud] of cloudMap.entries()) {
+        if (SKIP_KEYS.has(key)) continue;
+        // Only apply known syncable keys (registry + dynamic prefixes)
+        const isSyncable = _registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p));
+        if (!isSyncable) continue;
+        _origSetItem(key, JSON.stringify(cloud.payload));
+        _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        applied++;
+      }
+      console.log('[CLOUD] forceResync DONE · applied:', applied, 'keys');
+      window.dispatchEvent(new CustomEvent('cloud:force_resynced', { detail: { count: applied } }));
+      return applied;
+    } catch (e) {
+      console.error('[CLOUD] forceResync exception:', e);
+      return false;
+    } finally {
+      _syncing = false;
+    }
+  }
+
+  /** Force push current local state of one key to cloud (no debounce, no checks). */
+  async function forcePushKey(key) {
+    if (!_ready()) return false;
+    const raw = localStorage.getItem(key);
+    if (raw === null) return false;
+    try {
+      await _pushStateRaw(key, _safeParse(raw));
+      _setLocalTs(key, Date.now());
+      console.log('[CLOUD] forcePush OK:', key);
+      return true;
+    } catch (e) {
+      console.error('[CLOUD] forcePush error:', key, e);
+      return false;
+    }
+  }
+
+  /** Force push ALL local syncable keys to cloud immediately. */
+  async function forcePushAll() {
+    if (!_ready()) return false;
+    let pushed = 0, failed = 0;
+    for (const key of SYNC_REGISTRY) {
+      const raw = localStorage.getItem(key);
+      if (raw === null) continue;
+      try {
+        await _pushStateRaw(key, _safeParse(raw));
+        _setLocalTs(key, Date.now());
+        pushed++;
+      } catch { failed++; }
+    }
+    console.log('[CLOUD] forcePushAll done · pushed:', pushed, 'failed:', failed);
+    return { pushed, failed };
   }
 
   /* ── Per-key timestamp tracking (stored in one localStorage key) ── */
@@ -547,6 +610,25 @@ const CLOUD = (() => {
     _syncing = false;
   });
 
+  /* ── Auto-resync on tab visibility change ──
+     Cuando volvés a la pestaña después de N segundos, si la última sync
+     fue hace > 30 segundos, dispará una resync silenciosa para traer
+     cambios hechos en otro device.
+  */
+  let _lastSyncTs = 0;
+  window.addEventListener('cloud:sync_complete', () => { _lastSyncTs = Date.now(); });
+  window.addEventListener('cloud:force_resynced', () => { _lastSyncTs = Date.now(); });
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden) return;
+    if (!_ready() || _syncing) return;
+    const age = Date.now() - _lastSyncTs;
+    if (age < 30000) return; // less than 30s, skip
+    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — auto-resyncing');
+    await forceResyncFromCloud();
+    // Notify modules to re-render
+    window.dispatchEvent(new CustomEvent('cloud:auto_resynced'));
+  });
+
 
   /* ══════════════════════════════════════════════════════════════
      Public API
@@ -557,6 +639,8 @@ const CLOUD = (() => {
     push, pull, remove, syncDown, syncUp, fullSync, TABLES,
     // Tier 2 — app_state (JSONB)
     pushState, fullSyncAll,
+    // Manual recovery
+    forceResyncFromCloud, forcePushKey, forcePushAll,
     // Utilities
     SYNC_REGISTRY, DYNAMIC_PREFIXES
   };

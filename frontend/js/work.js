@@ -123,6 +123,29 @@ const WORK = (function(){
     } catch(e){ console.warn(e); alert('Error: '+(e.message||e)); }
   }
   /** Re-sync TODOS los adjuntos locales a la nube */
+  /** Force PULL cloud → local: descarga el estado actual del cloud, ignora timestamps locales. */
+  async function forceResync(){
+    if (!window.CLOUD || !window.CLOUD.forceResyncFromCloud) return alert('cloud-sync no cargado.');
+    if (!confirm('Esto descarga el estado actual desde la nube y reemplaza tu local. Útil cuando otro PC hizo cambios que no aparecen aquí. ¿Continuar?')) return;
+    const n = await window.CLOUD.forceResyncFromCloud();
+    if (n === false) { alert('No se pudo sincronizar. Verificá la consola.'); return; }
+    render();
+    alert('✓ Sincronizado · '+n+' keys descargadas desde la nube.\n\nSi todavía no ves los cambios, refresca la página (F5).');
+  }
+  /** Force PUSH local → cloud: sube todo tu estado actual al cloud sin importar timestamps. */
+  async function forcePush(){
+    if (!window.CLOUD || !window.CLOUD.forcePushAll) return alert('cloud-sync no cargado.');
+    if (!confirm('Esto sube TODO tu estado local al cloud, sobrescribiendo lo que haya allá. Úsalo solo si estás SEGURO de que este PC tiene la versión más nueva. ¿Continuar?')) return;
+    const r = await window.CLOUD.forcePushAll();
+    if (!r) { alert('No se pudo sincronizar. Verificá la consola.'); return; }
+    alert('✓ Pusheadas '+r.pushed+' keys · '+(r.failed?r.failed+' fallaron':'sin fallos'));
+  }
+  /** Re-render cuando hay auto-resync silencioso */
+  window.addEventListener('cloud:auto_resynced', () => {
+    console.log('[14-WORK] auto-resync detected, re-rendering');
+    try { render(); if (eco && eco.dictRender) eco.dictRender(); if (window.WorkNB && WorkNB.render) WorkNB.render(); } catch(e){ console.warn(e); }
+  });
+
   async function syncAllAttsToCloud(){
     if (!window.NBShared) return;
     if (!confirm('Esto sube a la nube todos los adjuntos locales que aún no estén sincronizados. ¿Continuar?')) return;
@@ -1097,6 +1120,7 @@ const WORK = (function(){
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
+    forceResync, forcePush,
   };
 })();
 window.WORK = WORK;
