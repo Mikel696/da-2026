@@ -294,6 +294,11 @@ const NODES = {
       <div class="minidetail" id="m-auditar">Historial de actividad (registro inmutable de cada acción) · Fotos (snapshots de conciliaciones como evidencia).</div>
       <div class="subitem" onclick="toggleMini('m-herramientas')"><span class="sii">⚒️</span><div class="sic"><div class="sit">Herramientas</div><div class="sid">Utilidades y diagnóstico</div></div><span class="siarrow">▾</span></div>
       <div class="minidetail" id="m-herramientas">Mapas (dependencias entre recursos) · Procesos (qué corre ahora) · Papelera (30 días) · Descargas.</div>
+      <h3>Lo nuevo de Simetrik 2.7</h3>
+      <div class="subitem" onclick="toggleMini('m-v27')"><span class="sii">🏷️</span><div class="sic"><div class="sit">Simetrik 2.7 · release actual</div><div class="sid">13 features nuevas · IA + accounting + flexibilidad</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-v27">Release con 13 features en 3 ejes: (1) flexibilidad de configuración, (2) end-to-end accounting reforzado, (3) IA embebida en los workflows clave. Audiencia: reconciliations, accounting close, client data distribution.<span class="mtip">Pedile a Miguel que pegue el archivo "Discovering What\'s New.txt" para listar las 13 features completas.</span></div>
+      <div class="subitem" onclick="toggleMini('m-obs')"><span class="sii">📡</span><div class="sic"><div class="sit">Observabilidad de integraciones</div><div class="sid">Dashboards, retries, fallas, volúmenes anómalos</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-obs">Simetrik no provee plataforma de observabilidad de infraestructura externa por defecto. Para cubrir necesidades del cliente (dashboards de archivos cargados, retries, cargas fallidas, volúmenes anómalos, segregados por país) se exploran alternativas como exponer métricas vía consultas directas a la base de datos del servicio.<span class="mtip">Caso real: Ficohsa Fase 1 pidió este dashboard segregado por Honduras/Guatemala/Nicaragua/Panamá. Requerimiento en evaluación (MOIF 2026-05-15).</span></div>
       <a class="dlink" href="simetrik-app.html" target="_top"><span class="dli">🖥️</span><div class="dlc"><div class="dlt">Abrir el simulador interactivo</div><div class="dld">Réplica de la app · click en menús · hotspots que explican cada cosa</div></div><span class="dlarrow">→</span></a>
     `
   },
@@ -314,6 +319,8 @@ const NODES = {
       <div class="minidetail" id="m-srules">En Advanced Reconciliation, analiza las 2 sources y sugiere las matching keys óptimas. Vos aceptás o rechazás.<span class="mtip">La IA sugiere, vos decidís. Nunca aceptes reglas a ciegas.</span></div>
       <div class="subitem" onclick="toggleMini('m-roadmap')"><span class="sii">🔮</span><div class="sic"><div class="sit">Roadmap <span style="color:var(--or);font-size:10px">● próximos</span></div><div class="sid">Lo que viene en 2026</div></div><span class="siarrow">▾</span></div>
       <div class="minidetail" id="m-roadmap"><b>Abril 2026:</b> Column Mapping · Accounting Model Assistance · Safe Column Removal.<br><b>Roadmap:</b> Accounting Review Agent · Education Agent · Summary Agent · Data Monitoring Agent.</div>
+      <div class="subitem" onclick="toggleMini('m-iafase')"><span class="sii">⚠️</span><div class="sic"><div class="sit">IA no siempre habilitada en Fase 1</div><div class="sid">Depende de lo negociado en el deal</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-iafase">El uso de IA en un proyecto está condicionado a lo que se negocie en la <b>calculadora</b> durante el deal. Si las integraciones (o cualquier módulo) no fueron negociadas con IA, esa Fase no la usa, aunque queda como requerimiento para fases posteriores.<span class="mtip">Caso Ficohsa Fase 1: las integraciones no se negociaron en la calculadora → primera fase SIN IA en integraciones. La IA quedó como requerimiento para fases siguientes.</span></div>
     `
   },
 
@@ -331,6 +338,9 @@ const NODES = {
       <div class="minidetail" id="m-compliance"><b>7 · Reporting & Regulations</b> — reportes audit-ready.<br><b>8 · Unified Oversight & Alerts</b> — visibilidad de KPIs en tiempo real + señales tempranas.</div>
       <h3>El vocabulario del framework</h3>
       <p><b>Domain</b> = dónde se controla · <b>Stage / Use Case</b> = cuándo y qué controlar · <b>Sub-Stage / Control</b> = cómo se ejecuta · <b>Reporting Entity</b> = el tercero que reporta data · <b>Actor</b> = el cliente que necesita el control.</p>
+      <h3>El deal y la calculadora</h3>
+      <div class="subitem" onclick="toggleMini('m-calc')"><span class="sii">🧮</span><div class="sic"><div class="sit">La "calculadora" del deal</div><div class="sid">Donde se define el alcance del proyecto</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-calc">Durante el deal, se analiza con el cliente lo que <b>NECESITA</b> controlar vs lo que <b>HACE</b> actualmente. Esto se cuantifica en la "calculadora" de Simetrik y define el alcance del proyecto: qué módulos se contratan, qué queda fuera, si la IA se incluye o no.<span class="mtip">Definición preliminar · pendiente de validar con Miguel. Caso Ficohsa: las integraciones NO se negociaron en la calculadora → Fase 1 sin IA en integraciones.</span></div>
     `
   },
 
@@ -346,6 +356,8 @@ const NODES = {
       <div class="minidetail" id="m-naturaleza">El primer dígito del código te dice todo:<br><code>1</code> Activo · <code>2</code> Pasivo · <code>3</code> Patrimonio · <code>4</code> Ingreso · <code>5</code> Gasto.<span class="mtip">Activos y Gastos suben con Débito · Pasivos, Patrimonio e Ingresos suben con Crédito. Memorizalo.</span></div>
       <div class="subitem" onclick="toggleMini('m-transitoria')"><span class="sii">🌉</span><div class="sic"><div class="sit">Cuentas transitorias</div><div class="sid">El reto de SERCOM</div></div><span class="siarrow">▾</span></div>
       <div class="minidetail" id="m-transitoria">Cuentas puente: la plata "vive" un rato antes de su destino final. <b>Débitos = Créditos · saldo del día = 0</b>. Si SERCOM no queda en 0 al cierre, algo está mal (olvido, duplicado o fraude).</div>
+      <div class="subitem" onclick="toggleMini('m-tradcont')"><span class="sii">🔁</span><div class="sic"><div class="sit">Traductor contable</div><div class="sid">Agrupa transacciones por categoría</div></div><span class="siarrow">▾</span></div>
+      <div class="minidetail" id="m-tradcont">Fee/módulo que agrupa transacciones por categoría contable (ingreso, gasto, etc.) para alimentar el flujo de asientos. Es el puente entre el domain framework y la lógica contable del cliente.<span class="mtip">Definición preliminar · pendiente de profundizar con Miguel/Jhonattan. Mencionado en capacitación 2026-05.</span></div>
       <a class="dlink" href="simetrik-playbook.html#accounting" target="_top"><span class="dli">📘</span><div class="dlc"><div class="dlt">Mini-curso completo en el Playbook</div><div class="dld">5 lecciones expandibles + mini chart of accounts Ficohsa</div></div><span class="dlarrow">→</span></a>
     `
   },

@@ -1,8 +1,88 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-14e
+- **Última actualización:** 2026-05-15
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · Update 1 desde Master Review · MOIF + Learning Simetrik 2.7 → ecosistema actualizado — 2026-05-15
+
+### Qué cambió
+Primera ejecución end-to-end del **Master Review Prompt**. El usuario corrió la auditoría con su contenido cargado (1 MOIF + 1 Learning + 4 Cuadernos + Diccionario base de 120) y aplicamos las propuestas seguras al ecosistema.
+
+**Material de origen auditado:**
+- MOIF 2026-05-15 · "Monitoreo y observabilidad integraciones - Ficohsa" · Juan Camilo Lopera organizer · 7 participantes · transcripción de 4.265 chars.
+- Learning · "Discovering What's New" · Simetrik 2.7 con 13 features nuevas (texto visible truncado · adjunto .txt pendiente).
+- Cuaderno "Ficohsa" página 1: requerimiento técnico del cliente (manifest, checksum, observabilidad por país).
+- Cuaderno "Ficohsa" página 2: decisión Fase 1 sin IA, mención de 2500 cuentas contables, Sergio Rocha como referente IS.
+- Cuaderno "Capacitacion Jhonattan" página 2: traductor contable + calculadora del deal.
+
+### Cambios aplicados
+
+**1) Diccionario (`work.js`) · SEED_VERSION → `simetrik-2026-05-15.1`**
+12 entradas nuevas:
+- `manifest` · archivo descriptor de batch
+- `sha256` · algoritmo hash criptográfico
+- `checksum` · validación de integridad
+- `observabilidad` · capacidad de inferir estado del sistema
+- `integridaddatos` · propiedad de no-alteración
+- `reintento` · retry tras fallo
+- `volumenanomalo` · volumen fuera de rango esperado
+- `cargafallida` · failed load
+- `traductorcontable` · módulo agrupador (preliminar)
+- `calculadora` · herramienta de scope del deal (preliminar)
+- `simetrik27` · release actual (13 features)
+- `quickconfig` · sub-sección Automate
+
+Total dict: 120 → **132 entradas**. Seed idempotente; no pisa entradas custom del usuario.
+
+**2) Mind Map (`pages/simetrik-learn.html`)**
+- Nodo `la-app`: añadidos sub-items "Simetrik 2.7 · release actual" y "Observabilidad de integraciones".
+- Nodo `ia`: añadido sub-item "IA no siempre habilitada en Fase 1" (citando caso Ficohsa).
+- Nodo `dominios`: añadida sección "El deal y la calculadora" con sub-item "La 'calculadora' del deal".
+- Nodo `contabilidad`: añadido sub-item "Traductor contable" (definición preliminar).
+
+**3) Simulador App (`pages/simetrik-app.html`) · 6 hotspots nuevos**
+- Pantalla `catalogo`: hotspot "AI Agent integrado al Catálogo (Simetrik 2.7)" + hotspot "Workflow post-implementación".
+- Pantalla `repositorios`: hotspot "Observabilidad del bucket" (métricas segregadas por país).
+- Pantalla `conexiones`: hotspot "Validación de integridad por lote · Manifest + SHA256".
+- Pantalla `agentes`: hotspot "IA no siempre incluida en Fase 1" (advertencia).
+- Pantalla `procesos`: hotspot "Retries y cargas fallidas" en la fila fallida.
+
+**4) Playbook Ficohsa (`pages/simetrik-playbook.html`)**
+- Sección `team`: agregados 3 contactos al equipo Simetrik (Juan Camilo Lopera, Sergio Rocha) + Verito al equipo Ficohsa (Integraciones) + bloque nuevo "Participantes MOIF (rol por confirmar)" con 5 stakeholders adicionales. Routing de comunicación extendido con la regla manifest/checksum → Verito vía Juan Camilo Lopera.
+- Sección `timeline`: agregada caja warn al final "Decisión confirmada · Fase 1 SIN IA en integraciones" con justificación citando cuaderno.
+- Sección `processes`: agregada caja warn "Discrepancia de alcance pendiente de validación" (945 vs 2.500 cuentas) **sin modificar el número 945 oficial** + bloque completo nuevo "Requerimiento técnico activo · Monitoreo y observabilidad de integraciones" con (a) lo que pide el cliente, (b) estado evaluación Simetrik, (c) próximos pasos MOIF.
+- Sección `cheatsheet`: agregado tercer panel "Integraciones · manifest, checksum y observabilidad" con 3 columnas (qué hacer si piden manifest · qué hacer si piden observabilidad · versión actual Simetrik 2.7).
+- Sección `faq`: 3 preguntas nuevas (observabilidad no-default · cuándo aplica IA · manifest y SHA256).
+
+### Lo que NO se aplicó (intencional)
+- **Conteo de cuentas:** se mantiene "945" en `snapshot/metrics` y `processes`. Solo se agregó banner amarillo flaggeando la discrepancia con el cuaderno (2.500). Pendiente validación con el PM.
+- **Roles exactos** de Rances Acosta, Luz Adriana Prieto Acosta, Carlos Bueno Espitia, Daniel Rivera, Jhony Rivero: se agregaron como "rol por confirmar". Pendiente respuesta de Miguel.
+- **Definiciones de `traductorcontable` y `calculadora`:** publicadas como "DEFINICIÓN PRELIMINAR". Pendiente validación con Miguel/Jhonattan.
+- **13 features de Simetrik 2.7:** solo se documentó la portada del release. El detalle completo está en el `.txt` adjunto que el usuario tiene que pegar.
+
+### Archivos modificados
+- ✏️ `frontend/js/work.js` (SEED_VERSION bumped a `simetrik-2026-05-15.1` · +12 entradas seed)
+- ✏️ `frontend/pages/simetrik-learn.html` (+5 sub-items expandibles distribuidos en 4 nodos)
+- ✏️ `frontend/pages/simetrik-app.html` (+6 hotspots distribuidos en 5 pantallas)
+- ✏️ `frontend/pages/simetrik-playbook.html` (+5 secciones modificadas: team, timeline, processes, cheatsheet, faq)
+- ✏️ `CEREBRO_STATE.md` (este entry)
+
+### Decisiones técnicas
+1. **Preservar fuentes citadas** en cada cambio (caja con "Fuente: MOIF 2026-05-15" o "Cuaderno Ficohsa página X"). Trazabilidad para auditoría futura.
+2. **Marcar definiciones preliminares** en lugar de omitirlas. Si Miguel valida, basta un pequeño ajuste; si rechaza, removemos.
+3. **NO TOCAR el conteo de cuentas** (945 vs 2500) hasta validación explícita. El banner amarillo es visible pero no contradictorio.
+4. **Hotspots en pantallas existentes** vs crear pantallas nuevas: prefijo de aditividad. La estructura del simulador (24 screens) queda intacta; sumamos sub-cards/hotspots dentro de cada una.
+5. **Seed idempotente por `sid`**: las 12 entradas nuevas tienen sids únicos. Si el usuario ya tenía alguna creada manualmente con un sid igual (improbable), el seed la respeta.
+
+### Pendientes para próximo Master Review
+- Validar 945 vs 2.500 cuentas con el PM.
+- Confirmar roles de los 5 stakeholders MOIF "rol por confirmar".
+- Confirmar definición precisa de "traductor contable" y "calculadora".
+- Pegar contenido completo del `.txt` "Discovering What's New" para extraer las 13 features de Simetrik 2.7.
+- Pegar resto de transcripción MOIF (truncada a 4.265 chars, posibles decisiones extra).
 
 ---
 

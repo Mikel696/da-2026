@@ -369,6 +369,14 @@ const SCREENS = {
         ${plantillaCard('Mastercard Controls for Acquirers','Clearing, settlement y disputes para adquirentes que procesan con MC.','tr','Plantilla','Mastercard Controls for Acquirers','Catálogo de controles listos para adquirentes Mastercard: clearing, settlement, chargebacks. Click "Ver Detalle" para ver los use cases incluidos.','El curso oficial usa exactamente esta plantilla como ejemplo de implementación rápida.','El flujo es: View Detail → See Controls & Benefits → Manage Files → subís archivos → Implement.')}
         ${plantillaCard('Visa Issuing Controls','Controles de emisión de tarjetas Visa.','tr','Plantilla','Visa Issuing Controls','Plantilla para el lado issuing: autorización, clearing y settlement de tarjetas emitidas.','Aplicable si Ficohsa emite tarjetas procesadas en Vision Plus.','Las plantillas no son rígidas: después de implementar, customizás con building blocks.')}
         ${plantillaCard('Cash Collection (Recaudo)','Conciliación de recaudo en redes físicas.','tr','Plantilla','Cash Collection','Plantilla para procesos de recaudo — pagos de servicios en redes de cobro físico.','Encaja con el proceso SERCOM de recargas en cajas Ficohsa.','Generá un template JSON de tu config para replicarla en otros workspaces.')}
+      </div>
+      <div class="mc-card" style="margin-top:14px;border-top:3px solid var(--blu)">
+        <h4>🤖 AI Agent integrado al Catálogo (Simetrik 2.7)${tip('Agente IA','AI Agent estructura tus archivos','Al seleccionar una plantilla del catálogo, un AI agent te ayuda a estructurar los archivos de las sources que alimentan cada control. No tenés que normalizar manualmente columna por columna; el agente identifica formatos y los aplica.','Simetrik 2.7 destaca esto como una de las 13 features nuevas del release — reduce significativamente el tiempo de implementación de un control desde el catálogo.','Validá igual lo que el AI estructuró antes de activar el control en producción. La IA propone, vos confirmás.','tr')}</h4>
+        <p>Cuando elegís una plantilla, el AI agent te asiste estructurando las sources automáticamente.</p>
+      </div>
+      <div class="mc-card" style="margin-top:10px;border-top:3px solid var(--blu)">
+        <h4>📊 Workflow post-implementación${tip('Workflow','Después de "Implement"','Una vez activado un template, accedés a: (1) monitoreo de resultados y KPIs · (2) gestión de pending records (transacciones no conciliadas) · (3) revisión del detalle de recursos para auditoría. Todo desde la misma pantalla del catálogo.','Vista típica para un IS después de implementar Mastercard Controls for Acquirers: KPIs en el dashboard del template + manejo de excepciones + audit trail.','El catálogo no es solo "instalar y olvidar" — la fase operativa post-implementación es donde aprendés cómo se comporta el control en tu data real.','tr')}</h4>
+        <p>Activado el template, monitoreás resultados + KPIs, gestionás pending records y revisás detalle de recursos para auditoría.</p>
       </div>`);
   },
   replicas(){
@@ -393,7 +401,11 @@ const SCREENS = {
         <tr><td>T24-SERCOM</td><td>SFTP Pull</td><td>Source T24 cajas</td><td>Hace 8 horas</td></tr>
         <tr><td>CLARO-recargas</td><td>SFTP Push</td><td>Source CLARO</td><td>Hace 8 horas</td></tr>
         <tr><td>SAP-balance</td><td>S3 Pull</td><td>Source SAP GL</td><td>Hace 1 día</td></tr>
-      </tbody></table></div>`);
+      </tbody></table>
+      <div class="mc-card" style="margin-top:14px;border-top:3px solid var(--amb)">
+        <h4>📡 Observabilidad del bucket${tip('Diagnóstico','Métricas de la integración','Para clientes con operación multi-país (regional CAM), los dashboards de observabilidad muestran archivos cargados, logs, reintentos, cargas fallidas, manifests, checksums y volúmenes anómalos segregados por país.','Ficohsa solicitó esta vista exacta para Honduras + Guatemala + Nicaragua + Panamá (MOIF 2026-05-15).','Simetrik no expone plataforma de observabilidad estándar para infra externa. Alternativa en evaluación: exponer métricas vía consultas directas a la base de datos del servicio.','tr')}</h4>
+        <p>Cantidad de archivos cargados · logs · reintentos · cargas fallidas · manifests · checksums · volúmenes anómalos, todo segregable por país.</p>
+      </div>`);
   },
   conexiones(){
     return scr('Conexiones','Canales de comunicación entre Simetrik y los sistemas origen del cliente.',
@@ -404,7 +416,11 @@ const SCREENS = {
         <tr><td>conn-T24-prod</td><td>SFTP Pull</td><td><span class="pill ok">Activa</span></td><td>T24 Temenos</td></tr>
         <tr><td>conn-CLARO</td><td>SFTP Push</td><td><span class="pill ok">Activa</span></td><td>CLARO reporte</td></tr>
         <tr><td>conn-SAP</td><td>S3 Pull</td><td><span class="pill proc">Probando</span></td><td>SAP ERP</td></tr>
-      </tbody></table></div>`);
+      </tbody></table>
+      <div class="mc-card" style="margin-top:14px;border-top:3px solid var(--amb)">
+        <h4>🔐 Validación de integridad por lote · Manifest + SHA256${tip('Proceso','Manifest + Checksum SHA256','Algunos clientes exigen que cada lote transferido vía SFTP incluya un manifest describiendo el contenido + un SHA256 por archivo. Simetrik valida ambos al recibir, antes de procesar. Si la verificación falla, el lote queda en estado "fallido" y se notifica al equipo de integraciones.','Ficohsa requirió manifest + SHA256 para sus batches diarios (MOIF 2026-05-15); la implementación de la lectura depende del equipo de Integraciones de Simetrik.','Si esto no estaba en el deal original, el desarrollo del lector de manifest tiene que negociarse aparte. En Ficohsa quedó como punto a coordinar con Verito vía Juan Camilo Lopera.','tr')}</h4>
+        <p>Cada batch transferido lleva su manifest + SHA256 por archivo. Simetrik recalcula y valida antes de procesar.</p>
+      </div>`);
   },
   recursos(){
     return scr('Recursos','El corazón de la plataforma. Creás y administrás Sources, Source Unions, Reconciliations y más.',
@@ -486,6 +502,10 @@ const SCREENS = {
         <div class="mc-card"><h4>Smart Parser <span class="pill ok">Activo</span>${tip('Agente IA','Smart Parser','Catálogo de parsers que ajusta formato/layout de archivos sin pedirle al services team. Identifica los cambios necesarios y los aplica.','Un archivo de CLARO llega con un layout raro → el Smart Parser lo adapta solo.','Cada vez tiene más parsers disponibles. Reduce tu dependencia del services team (que cuesta extra).','tr')}</h4><p>Parsea archivos automáticamente.</p></div>
         <div class="mc-card"><h4>Data Monitoring <span class="pill proc">Custom</span>${tip('Agente IA','Data Monitoring Agent','Monitorea todas las sources 24/7 y notifica cuando detecta una anomalía al subir un archivo nuevo.','El T24 de hoy llegó con 30% menos filas que el promedio → alerta inmediata antes de que rompa la conciliación.','Es un agente custom — se desarrolla para un cliente y luego se productiza. Requiere aprobación del COO.','tr')}</h4><p>Vigila sources y avisa anomalías.</p></div>
         <div class="mc-card"><h4>Smart Rules <span class="pill ok">Activo</span>${tip('Agente IA','Smart Rules','En Advanced Reconciliation, analiza las 2 sources y sugiere las matching keys óptimas para lograr mayor match rate.','Configurando SERCOM, la IA sugiere cruzar por date+telefono+amount → aceptás o ajustás.','La IA sugiere, vos decidís. Nunca aceptes reglas a ciegas — entendé por qué las propone.','tr')}</h4><p>Sugiere reglas de matching.</p></div>
+      </div>
+      <div class="mc-card" style="margin-top:14px;border-top:3px solid var(--amb)">
+        <h4>⚠️ IA no siempre incluida en Fase 1${tip('Estado','Habilitación de IA depende del deal','El uso de IA en un proyecto está condicionado a lo que se negocie en la calculadora durante el deal. Si las integraciones (o cualquier módulo) no fueron negociadas con IA, la primera fase no la usa, aunque queda como requerimiento para fases posteriores.','Ficohsa Fase 1 implementa procesos contables sin IA en integraciones — las integraciones no se negociaron en la calculadora del deal. Quedó como requerimiento para Fase 2.','Antes de prometer IA en una mesa de Discovery, validá con el PM si está cotizado en el deal. Caso típico: el cliente asume que la IA viene "gratis" pero su contrato no la incluye.','tr')}</h4>
+        <p>Disponer de IA en Simetrik ≠ tenerla habilitada en tu Fase 1. Depende de la calculadora del deal.</p>
       </div>`);
   },
   alarmas(){
@@ -622,7 +642,7 @@ const SCREENS = {
       `<div class="mc-table"><table><thead><tr><th>Proceso</th><th>Recurso</th><th>Estado</th><th>Duración</th></tr></thead><tbody>
         <tr><td>Procesamiento</td><td>Source CLARO</td><td><span class="pill proc">En curso</span></td><td>2 min</td>${tip('Diagnóstico','Proceso en curso','Tareas ejecutándose ahora. Ves recurso, estado y cuánto llevan corriendo.','La Source CLARO lleva 2 min procesando — normal. Si llevara 4 horas, sería un problema.','Si un proceso lleva horas: screenshot de esta vista + ticket con resource ID, nombre y duración. El soporte ya tiene todo.','cl')}</tr>
         <tr><td>Conciliación</td><td>SERCOM T24 vs CLARO</td><td><span class="pill ok">Completado</span></td><td>1 min 12 seg</td></tr>
-        <tr><td>Procesamiento</td><td>Source SAP balance</td><td><span class="pill fail">Fallido</span></td><td>—</td></tr>
+        <tr><td>Procesamiento</td><td>Source SAP balance</td><td><span class="pill fail">Fallido</span></td><td>—</td>${tip('Diagnóstico','Retries y cargas fallidas','Las cargas fallidas y los reintentos son la señal #1 de un problema en integraciones (encoding cambió, layout cambió, conexión SFTP caída, manifest no llegó, checksum no coincide).','Si Ficohsa reporta "no llegó el batch de SERCOM", revisá Process View → filtrá por source T24 → mirá count de retries del día.','Si los retries suben drásticamente vs el baseline, abrí ticket con Integraciones (Noel/Jorge/Carlos/Jose). Documentalo en MOIF la próxima semana.','cl')}</tr>
       </tbody></table></div>`);
   },
   papelera(){
