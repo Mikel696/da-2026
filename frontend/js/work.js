@@ -22,9 +22,10 @@ const WORK = (function(){
   const K_LEARN = 'work_learnings';
   const K_KB = 'work_kb';
   const K_KB_ATTS = 'work_kb_atts';
+  const K_MOIF = 'work_moif_meetings';
 
   /* Temp staging for attachments before saving a new item */
-  const _pendAtts = { case: [], err: [], learn: [] };
+  const _pendAtts = { case: [], err: [], learn: [], moif: [] };
   function _renderPendAtts(prefix){
     const el = document.getElementById(prefix+'PendAtts');
     if (!el) return;
@@ -51,9 +52,13 @@ const WORK = (function(){
     _pendAtts[prefix].splice(idx,1);
     _renderPendAtts(prefix);
   }
+  function _kindToKey(kind){
+    return kind==='case'?K_CASES : kind==='err'?K_ERRORS : kind==='learn'?K_LEARN : kind==='moif'?K_MOIF : null;
+  }
   async function addAttToItem(kind, id){
     if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
-    const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+    const K = _kindToKey(kind);
+    if (!K) return;
     try {
       const r = await NBShared.pickAndStoreAttachment(kind);
       if (!r) return;
@@ -70,7 +75,8 @@ const WORK = (function(){
     } catch (e) { if (e && e.message !== 'No file') console.warn(e); }
   }
   async function removeAttFromItem(kind, id, attId){
-    const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+    const K = _kindToKey(kind);
+    if (!K) return;
     const list = _load(K);
     const it = list.find(x => x.id === id);
     if (!it || !it.attachments) return;
@@ -96,7 +102,8 @@ const WORK = (function(){
         return;
       }
       // Marcar como cloud:true en la metadata del item
-      const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+      const K = _kindToKey(kind);
+      if (!K) return;
       const list = _load(K);
       const it = list.find(x => x.id === id);
       if (it && it.attachments) {
@@ -524,6 +531,207 @@ const WORK = (function(){
     render();
   }
 
+  /* ── MOIF · Monitoreo y Observabilidad Integraciones Ficohsa ─
+     Reuniones de seguimiento del proyecto. Cada entrada es una reunión
+     con fecha, participantes, transcript y acciones derivadas.
+  */
+  function saveMoif(){
+    const date = document.getElementById('moifDate').value;
+    const title = document.getElementById('moifTitle').value.trim();
+    const type = document.getElementById('moifType').value;
+    const participants = document.getElementById('moifParticipants').value.trim();
+    const transcript = document.getElementById('moifTranscript').value.trim();
+    const summary = document.getElementById('moifSummary').value.trim();
+    const actions = document.getElementById('moifActions').value.trim();
+    if (!date || !title || !transcript) return alert('Fecha, título y transcripción son obligatorios.');
+    const list = _load(K_MOIF);
+    const editingId = document.getElementById('moifEditingId')?.value || '';
+    const attachments = (_pendAtts.moif||[]).slice();
+    if (editingId) {
+      const it = list.find(x => x.id === editingId);
+      if (it) {
+        Object.assign(it, { date, title, type, participants, transcript, summary, actions });
+        if (attachments.length) it.attachments = (it.attachments||[]).concat(attachments);
+        it.updated = new Date().toISOString();
+      }
+    } else {
+      list.push({
+        id: 'moif_'+Date.now(),
+        date, title, type, participants, transcript, summary, actions,
+        attachments,
+        created: new Date().toISOString(),
+        updated: new Date().toISOString(),
+      });
+    }
+    _save(K_MOIF, list);
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_MOIF).catch(()=>{});
+    _pendAtts.moif = [];
+    _renderPendAtts('moif');
+    clearForm('moif');
+    render();
+  }
+  function delMoif(id){
+    if (!confirm('¿Eliminar esta reunión MOIF?')) return;
+    const it = _load(K_MOIF).find(m => m.id === id);
+    if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
+    _save(K_MOIF, _load(K_MOIF).filter(m => m.id !== id));
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_MOIF).catch(()=>{});
+    render();
+  }
+  function editMoif(id){
+    const it = _load(K_MOIF).find(m => m.id === id);
+    if (!it) return;
+    document.getElementById('moifDate').value = it.date || '';
+    document.getElementById('moifTitle').value = it.title || '';
+    document.getElementById('moifType').value = it.type || 'weekly';
+    document.getElementById('moifParticipants').value = it.participants || '';
+    document.getElementById('moifTranscript').value = it.transcript || '';
+    document.getElementById('moifSummary').value = it.summary || '';
+    document.getElementById('moifActions').value = it.actions || '';
+    document.getElementById('moifEditingId').value = id;
+    document.getElementById('moifFormTitle').textContent = '✏️ Editar reunión';
+    document.getElementById('moifSaveBtn').textContent = '💾 Guardar cambios';
+    // Scroll al form
+    document.getElementById('moifFormCard').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  function toggleMoif(id){
+    const el = document.querySelector('.moif-item[data-id="'+id+'"]');
+    if (el) el.classList.toggle('open');
+  }
+  function renderMoif(){
+    const el = document.getElementById('moifList');
+    if (!el) return;
+    const list = _load(K_MOIF).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    if (!list.length) {
+      el.innerHTML = '<div style="text-align:center;padding:36px;color:var(--t3);font-size:13px;line-height:1.6">Sin reuniones aún. Empezá pegando la transcripción de tu primera reunión arriba.<br><br><span style="font-size:11px">💡 Tip: cuando guardes una reunión, podés clickear "🤖 Generar prompt MOIF" en ella para que Claude actualice el ecosistema con lo nuevo.</span></div>';
+      return;
+    }
+    const typeLbl = { weekly:'📅 Weekly', discovery:'🔍 Discovery', retro:'🔄 Retro', adhoc:'⚡ Ad-hoc', kickoff:'🚀 Kick-off', other:'📋 Otros' };
+    el.innerHTML = list.map(m => `
+      <div class="moif-item" data-id="${m.id}">
+        <div class="moif-h" onclick="WORK.toggleMoif('${m.id}')">
+          <div class="moif-date">${esc(m.date||'')}</div>
+          <div class="moif-h-main">
+            <div class="moif-h-title">${esc(m.title||'(sin título)')}</div>
+            <div class="moif-h-meta">
+              <span class="moif-type">${typeLbl[m.type]||m.type||'—'}</span>
+              ${m.participants?`<span class="moif-parts">👥 ${esc(m.participants.split(',').length)} participantes</span>`:''}
+              ${m.attachments && m.attachments.length?`<span class="moif-atts">📎 ${m.attachments.length}</span>`:''}
+              <span class="moif-len">${m.transcript?Math.round(m.transcript.length/1000)+'K chars':''}</span>
+            </div>
+          </div>
+          <span class="moif-chev">▾</span>
+        </div>
+        <div class="moif-body">
+          ${m.participants?`<div class="moif-section"><h5>👥 Participantes</h5><div class="moif-text">${esc(m.participants)}</div></div>`:''}
+          ${m.summary?`<div class="moif-section"><h5>📌 Resumen ejecutivo</h5><div class="moif-text">${esc(m.summary).replace(/\n/g,'<br>')}</div></div>`:''}
+          ${m.actions?`<div class="moif-section"><h5>✅ Acciones / pendientes</h5><div class="moif-text moif-actions">${esc(m.actions).replace(/\n/g,'<br>')}</div></div>`:''}
+          <div class="moif-section">
+            <h5>📝 Transcripción completa <button class="moif-mini" onclick="event.stopPropagation();WORK.copyMoifTranscript('${m.id}')">📋 Copiar</button></h5>
+            <div class="moif-transcript">${esc(m.transcript||'').replace(/\n/g,'<br>')}</div>
+          </div>
+          ${_itemAttsHtml('moif', m.id, m.attachments)}
+          <div class="moif-foot">
+            <button class="btn bp bs" onclick="event.stopPropagation();WORK.buildMoifPrompt('${m.id}')">🤖 Generar prompt MOIF · actualizar ecosistema</button>
+            <button class="btn bo bs" onclick="event.stopPropagation();WORK.editMoif('${m.id}')">✏️ Editar</button>
+            <button class="btn bo bs" onclick="event.stopPropagation();WORK.delMoif('${m.id}')" style="color:var(--rd)">🗑️ Eliminar</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  function copyMoifTranscript(id){
+    const it = _load(K_MOIF).find(m => m.id === id);
+    if (!it || !navigator.clipboard) return;
+    navigator.clipboard.writeText(it.transcript||'').then(() => {
+      if (typeof _syncToast === 'function') { _syncToast('✓ Transcripción copiada', 'ok'); _syncToastHide(1500); }
+    });
+  }
+  /** Genera un prompt focalizado en UNA reunión MOIF: extrae info nueva y propone
+   *  cambios al ecosistema (dictionary, mind map, simulator, playbook). */
+  function buildMoifPrompt(id){
+    const m = _load(K_MOIF).find(x => x.id === id);
+    if (!m) return alert('Reunión no encontrada.');
+    let dict = []; try { dict = JSON.parse(localStorage.getItem('work_eco_dict')||'[]'); } catch {}
+    const dictSids = dict.map(d => d.sid).filter(Boolean);
+
+    let p = '<role>\n';
+    p += 'You are Claude, the agent maintaining DA-2026 14-WORK · Simetrik Ecosystem module of Miguel Barros Torres.\n';
+    p += 'Miguel just attended a MOIF meeting (Monitoreo y Observabilidad Integraciones Ficohsa) for the Simetrik+Ficohsa project, and pasted the transcript below.\n';
+    p += 'Your job: AUDIT the meeting, detect what is NEW (terms, stakeholders, processes, decisions, risks, action items) and produce a STRUCTURED UPDATE PROPOSAL in Spanish.\n';
+    p += 'Respond in Spanish. Be precise. NO INVENTION — only use info present in the meeting transcript or already in the project context.\n';
+    p += '</role>\n\n';
+
+    p += '<project_context>\n';
+    p += '- Proyecto: Ficohsa Honduras → CAM regional. 98 procesos, 945 cuentas, 32.4M tx/mes.\n';
+    p += '- Equipo Simetrik: Ana M. (SM), Lina Azcárate (PM), Juan C. + Wilson (Senior IS), Carolina Toro (CSM), Miguel (IS).\n';
+    p += '- Stakeholders Ficohsa: Carlos Avila (Seguridad), Daniel Jojoa (Cloud), Gabriel Cortes (Datos), William/Williams/Erik/Wilson (Tecnología), Noel/Jorge/Carlos/Jose (Integraciones), Gary (Arquitectura).\n';
+    p += '- Procesos priorizados Fase 1: SERCOM (recargas), Cartera de Préstamos, Descuento de Documentos.\n';
+    p += '- Sistemas: T24 Temenos · Vision Plus · SAP S/4HANA · Visa/MC · CLARO · SFTP.\n';
+    p += '- Display sections del módulo: 🧭 Empieza Aquí (mapa mental) · 🖥️ Simulador App · 📘 Playbook Ficohsa · 📖 Diccionario (' + dict.length + ' entradas).\n';
+    p += '- Dictionary sids ya existentes (NO duplicar): ' + dictSids.slice(0,80).join(', ') + (dictSids.length>80?'... y '+(dictSids.length-80)+' más':'') + '\n';
+    p += '</project_context>\n\n';
+
+    p += '<meeting>\n';
+    p += '  <date>' + (m.date||'') + '</date>\n';
+    p += '  <type>' + (m.type||'') + '</type>\n';
+    p += '  <title>' + (m.title||'') + '</title>\n';
+    p += '  <participants>' + (m.participants||'') + '</participants>\n';
+    if (m.summary)  p += '  <prior_summary><![CDATA[\n' + m.summary + '\n]]></prior_summary>\n';
+    if (m.actions)  p += '  <prior_actions><![CDATA[\n' + m.actions + '\n]]></prior_actions>\n';
+    p += '  <transcript><![CDATA[\n' + (m.transcript||'') + '\n]]></transcript>\n';
+    if (m.attachments && m.attachments.length) {
+      p += '  <attachments>\n';
+      m.attachments.forEach(a => { p += '    <file>' + a.name + ' (' + (a.ext||'') + ', ' + (a.size||0) + ' bytes)</file>\n'; });
+      p += '  </attachments>\n';
+    }
+    p += '</meeting>\n\n';
+
+    p += '<task>\n';
+    p += 'Producí en español, con secciones claramente delimitadas:\n\n';
+    p += '## 1. RESUMEN EJECUTIVO\n';
+    p += '   2-4 bullets con lo más importante de la reunión. Solo lo verbalizado.\n\n';
+    p += '## 2. DECISIONES TOMADAS\n';
+    p += '   Lista de decisiones formales. Una por línea. Si no hubo, decir "Sin decisiones formales".\n\n';
+    p += '## 3. ACCIONES / PENDIENTES (machine-readable)\n';
+    p += '   Una línea por acción en formato: `- [responsable] · acción · due:YYYY-MM-DD o "sin fecha"`.\n\n';
+    p += '## 4. RIESGOS / BLOQUEOS DETECTADOS\n';
+    p += '   Lista de riesgos verbalizados. Si no hubo, omitir esta sección.\n\n';
+    p += '## 5. CAMBIOS PROPUESTOS · DICCIONARIO\n';
+    p += '   Para cada término NUEVO mencionado en la reunión que NO esté ya en el diccionario (revisar contra sids listados arriba), generar una línea copy-pasteable a SEED_DICT:\n';
+    p += '   {sid:\'xxx\',term:\'YYY\',cat:\'term|acro|process|platform|software\',en:\'\',def:\'...\',ex:\'... (basado en lo que se dijo en la reunión)\'},\n';
+    p += '   Si no hay términos nuevos, decir "Sin entradas nuevas para el diccionario".\n\n';
+    p += '## 6. CAMBIOS PROPUESTOS · MAPA MENTAL (Empieza Aquí)\n';
+    p += '   Si la reunión introduce conceptos que deberían aparecer en alguno de los 8 nodos (que-es · cuenta · la-app · ia · dominios · contabilidad · conciliacion · ejercicios), proponer: NODE: <key> · ADD: <sub-item> · CONTENT: <texto>.\n\n';
+    p += '## 7. CAMBIOS PROPUESTOS · SIMULADOR APP\n';
+    p += '   Si la reunión menciona nuevas funcionalidades/pantallas/hotspots de Simetrik, proponer: SCREEN: <screen-key> · ADD-HOTSPOT: <elemento> · CAT: <categoria> · TITLE: <h3> · BODY: <p> · USE: <ejemplo> · TIP: <consejo>.\n\n';
+    p += '## 8. CAMBIOS PROPUESTOS · PLAYBOOK FICOHSA\n';
+    p += '   Si la reunión actualiza info Ficohsa-specific (stakeholders, procesos, cuentas, cronograma), proponer: SECTION: <id> · ADD/UPDATE: <qué> · CONTENT: <markdown>.\n\n';
+    p += '## 9. PREGUNTAS PENDIENTES PARA MIGUEL\n';
+    p += '   Si la transcripción menciona algo importante pero incompleto (ej. "el de seguridad dijo que...") sin nombre o detalle, listarlo como pregunta abierta.\n\n';
+    p += '## 10. CONFLICTOS / INCONSISTENCIAS\n';
+    p += '   Si la reunión contradice algo del project_context (por ejemplo, cambia el nombre del SM, o reasigna un proceso prioritario), flaggearlo explícitamente.\n';
+    p += '</task>\n\n';
+
+    p += '<rules>\n';
+    p += '- Solo lo dicho en la reunión. No inferir más allá.\n';
+    p += '- Si la transcripción es ambigua, marcarla como tal en la sección 9.\n';
+    p += '- Citar el fragmento exacto que justifica cada cambio propuesto.\n';
+    p += '- Output machine-friendly en las secciones 3, 5, 6, 7, 8 para que otra sesión de Claude Code aplique los cambios directo.\n';
+    p += '- Spanish responses, technical terms en inglés se mantienen (workspace, sweep, source union, etc).\n';
+    p += '</rules>\n';
+
+    document.getElementById('askResult').style.display = 'block';
+    const heading = document.getElementById('askResultHead'); if (heading) heading.textContent = '· prompt MOIF · ' + (m.date||'') + ' · ' + (m.title||'') + ' ·';
+    document.getElementById('askOutput').textContent = p;
+    document.getElementById('askOutput').dataset.raw = p;
+    // Scroll al output
+    document.getElementById('askResult').scrollIntoView({ behavior:'smooth', block:'start' });
+    // Cambiar a la tab Copilot para mostrar el output
+    const tab = document.querySelector('.tab[data-p="copilot"]');
+    if (tab) tab.click();
+    setTimeout(() => document.getElementById('askResult').scrollIntoView({ behavior:'smooth', block:'start' }), 300);
+  }
+
   /* ── KNOWLEDGE BASE ────────────────────────────────────────── */
   function loadKB(){ try { return localStorage.getItem(K_KB) || ''; } catch { return ''; } }
   function saveKB(){
@@ -632,8 +840,8 @@ const WORK = (function(){
 
     p += '<project_architecture>\n';
     p += '- Stack: 100% Vanilla JS, GitHub Pages, Supabase JSONB sync via SYNC_REGISTRY in cloud-sync.js.\n';
-    p += '- Module 14-WORK has 12 tabs: 🧭 Empieza Aquí · 🖥️ Simulador App · 📘 Playbook Ficohsa · 📖 Diccionario · 📝 Notas Workflow · 🎓 Notas Curso · 📓 Cuadernos · 📋 Casos · 🐛 Errores · 💡 Aprendizajes · 📚 KB · 🤖 Copilot.\n';
-    p += '- Storage keys (synced): work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict.\n';
+    p += '- Module 14-WORK has 13 tabs: 🧭 Empieza Aquí · 🖥️ Simulador App · 📘 Playbook Ficohsa · 📖 Diccionario · 📝 Notas Workflow · 🎓 Notas Curso · 📓 Cuadernos · 📋 Casos · 🐛 Errores · 💡 Aprendizajes · 🗓️ MOIF (Monitoreo y Observabilidad Integraciones Ficohsa · reuniones del proyecto con transcripts) · 📚 KB · 🤖 Copilot.\n';
+    p += '- Storage keys (synced): work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict, work_moif_meetings.\n';
     p += '- Local only (not synced): work_kb_atts (metadata only — file blobs in IDB), work_eco_dict_seed_v, work_learn_progress.\n';
     p += '- Dictionary seed in js/work.js, namespace WORK.eco. Each entry: {sid, term, cat, en, def, ex}. Categories: term · acro · process · platform · software. SEED_VERSION current = simetrik-2026-05-14.1. Idempotent by sid — never overwrites user-created entries.\n';
     p += '- Mind map nodes (Empieza Aquí · 8 nodos): que-es · cuenta · la-app · ia · dominios · contabilidad · conciliacion · ejercicios.\n';
@@ -665,6 +873,20 @@ const WORK = (function(){
       p += '  </error>\n';
     });
     p += '</errors>\n\n';
+
+    const moifs = _load(K_MOIF);
+    p += '<moif_meetings count="' + moifs.length + '">\n';
+    moifs.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(m => {
+      p += '  <meeting date="'+(m.date||'')+'" type="'+(m.type||'')+'">\n';
+      p += '    <title>'+(m.title||'')+'</title>\n';
+      if (m.participants) p += '    <participants>'+m.participants+'</participants>\n';
+      if (m.summary) p += '    <summary>'+m.summary.slice(0,600)+'</summary>\n';
+      if (m.actions) p += '    <actions>'+m.actions.slice(0,600)+'</actions>\n';
+      p += '    <transcript_excerpt>'+(m.transcript||'').slice(0,2000)+((m.transcript||'').length>2000?'... [truncated · '+m.transcript.length+' chars total]':'')+'</transcript_excerpt>\n';
+      if (m.attachments && m.attachments.length) p += '    <attachments>'+m.attachments.map(a=>a.name).join(' · ')+'</attachments>\n';
+      p += '  </meeting>\n';
+    });
+    p += '</moif_meetings>\n\n';
 
     p += '<learnings count="' + learnings.length + '">\n';
     learnings.forEach(l => {
@@ -743,6 +965,11 @@ const WORK = (function(){
       ['errTitle','errCode','errBody'].forEach(id => { const el = document.getElementById(id); if (el) el.value=''; });
     } else if (prefix === 'learn') {
       ['learnTitle','learnBody'].forEach(id => { const el = document.getElementById(id); if (el) el.value=''; });
+    } else if (prefix === 'moif') {
+      ['moifTitle','moifParticipants','moifTranscript','moifSummary','moifActions','moifEditingId'].forEach(id => { const el = document.getElementById(id); if (el) el.value=''; });
+      const dt = document.getElementById('moifDate'); if (dt) dt.value = new Date().toISOString().slice(0,10);
+      const ft = document.getElementById('moifFormTitle'); if (ft) ft.textContent = '🗓️ Nueva reunión MOIF';
+      const sb = document.getElementById('moifSaveBtn'); if (sb) sb.textContent = '💾 Guardar reunión';
     }
   }
 
@@ -843,6 +1070,7 @@ const WORK = (function(){
     set('sCases', _load(K_CASES).length);
     set('sErrors', _load(K_ERRORS).length);
     set('sLearn', _load(K_LEARN).length);
+    set('sMoif', _load(K_MOIF).length);
     let nbCount = 0; try { nbCount = JSON.parse(localStorage.getItem('work_nb_meta')||'[]').length; } catch {}
     set('sNbs', nbCount);
   }
@@ -852,9 +1080,13 @@ const WORK = (function(){
     renderCases();
     renderErrors();
     renderLearnings();
+    renderMoif();
     renderKbAtts();
     const kbField = document.getElementById('kbBody');
     if (kbField && !kbField.value) kbField.value = loadKB();
+    // Default date for MOIF form if empty
+    const dt = document.getElementById('moifDate');
+    if (dt && !dt.value) dt.value = new Date().toISOString().slice(0,10);
   }
 
   /* ── ECOSISTEMA: Workflow + Mini-curso + Diccionario ──────── */
@@ -1341,6 +1573,8 @@ const WORK = (function(){
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
     forceResync, forcePush, showSyncDiagnostics, compareLocalVsCloud,
+    // MOIF
+    saveMoif, delMoif, editMoif, toggleMoif, copyMoifTranscript, buildMoifPrompt,
   };
 })();
 window.WORK = WORK;

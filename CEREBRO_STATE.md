@@ -1,8 +1,99 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-14d
+- **Última actualización:** 2026-05-14e
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · MOIF · Bitácora de reuniones del proyecto + auto-update del ecosistema — 2026-05-14e
+
+### Qué cambió
+Usuario pidió: un lugar para pegar transcripts de reuniones del proyecto con fecha, donde después Claude pueda revisar y actualizar el ecosistema (diccionario, mapa mental, simulador, playbook) según lo conversado. Creada la **sigla MOIF · Monitoreo y Observabilidad Integraciones Ficohsa** (encaja con la nomenclatura del proyecto: RFP, SDD, IS, KPI, SLA, MOIF).
+
+**Nueva pestaña 🗓️ MOIF** en `work.html` (entre 💡 Aprendizajes y 📚 KB):
+- Total tabs ahora: 13 (era 12).
+- Stat counter "MOIF" agregado en la barra superior.
+
+**Form de nueva reunión:**
+- Date picker (default hoy)
+- Title
+- Type (dropdown: 📅 Weekly · 🔍 Discovery · 🔄 Retro · 🚀 Kick-off · ⚡ Ad-hoc · 📋 Otros)
+- Participants (texto libre, comma-separated)
+- **Transcripción** (textarea grande, mono-font, min 200px)
+- Summary ejecutivo (opcional)
+- Acciones/pendientes (opcional)
+- 📎 Adjuntar archivo (acta, slides, screenshots) — usa NBShared con cloud sync
+- 💾 Guardar reunión / ✏️ Edit mode al editar
+
+**Lista de reuniones (cards colapsables, ordenadas por fecha desc):**
+- Header con: fecha (badge cyan) + título + tipo + #participantes + #attachments + chars de transcript
+- Click en header → expande/colapsa
+- Body con: participantes · resumen · acciones · transcripción completa (scroll, mono) · attachments chips · footer con acciones
+- Acciones por reunión: **🤖 Generar prompt MOIF** · ✏️ Editar · 🗑️ Eliminar · 📋 Copiar transcripción
+
+**🤖 buildMoifPrompt(id) — prompt MOIF focalizado por reunión:**
+- Genera un prompt completo en español con 10 secciones estructuradas:
+  1. Resumen ejecutivo (2-4 bullets verbalizados)
+  2. Decisiones tomadas
+  3. Acciones/pendientes (machine-readable: `[responsable] · acción · due:fecha`)
+  4. Riesgos/bloqueos detectados
+  5. Cambios propuestos al Diccionario (formato copy-pasteable a SEED_DICT, con sids únicos)
+  6. Cambios al Mapa Mental (NODE/ADD/CONTENT)
+  7. Cambios al Simulador App (SCREEN/ADD-HOTSPOT/CAT/TITLE/BODY/USE/TIP)
+  8. Cambios al Playbook Ficohsa (SECTION/ADD/CONTENT)
+  9. Preguntas pendientes para Miguel (anti-hallucination)
+  10. Conflictos/inconsistencias con el material oficial
+- Project_context incluido con stakeholders, sistemas, procesos priorizados, dictionary sids existentes (para evitar duplicados).
+- Reglas: solo lo dicho en la reunión, citar fragmentos exactos, output machine-friendly.
+- Tras generar, scroll automático + cambio a tab 🤖 Copilot para mostrar el output.
+
+**Master Review Prompt extendido:**
+- Ahora incluye `<moif_meetings count="N">` con todas las reuniones (date/type/title/participants/summary/actions/transcript_excerpt/attachments).
+- Project_architecture menciona los 13 tabs y `work_moif_meetings` en SYNC_REGISTRY.
+
+**Sync + UX:**
+- Storage key `work_moif_meetings` agregada al SYNC_REGISTRY de `cloud-sync.js`.
+- saveMoif / delMoif llaman a `CLOUD.pushNow()` inmediato — los cambios viajan al toque a otros devices (y vía Realtime aparecen sin refresh).
+- Refactor `_kindToKey(kind)` para que `addAttToItem/removeAttFromItem/syncAttToCloud` soporten el nuevo kind 'moif' además de case/err/learn.
+- _pendAtts.moif para staging de adjuntos antes de guardar la reunión.
+
+### Archivos modificados
+- ✏️ `frontend/js/work.js` (+250 líneas: K_MOIF, helpers _kindToKey, saveMoif/delMoif/editMoif/toggleMoif/copyMoifTranscript/buildMoifPrompt, renderMoif, integración Master Review, exports)
+- ✏️ `frontend/css/work.css` (+35 líneas: .moif-item, .moif-h, .moif-date, .moif-type, .moif-body, .moif-section, .moif-transcript, .moif-actions, .moif-foot)
+- ✏️ `frontend/work.html` (+ tab 🗓️ MOIF · stat counter sMoif · panel p-moif con form completo)
+- ✏️ `frontend/js/cloud-sync.js` (+ `work_moif_meetings` en SYNC_REGISTRY)
+
+### Workflow del usuario
+1. Termina una reunión del proyecto.
+2. Abre 14-WORK → tab 🗓️ MOIF.
+3. Llena: fecha, título, tipo, participantes, pega transcripción.
+4. Opcional: agrega summary, acciones, adjunta acta/slides.
+5. Guarda.
+6. Click en la reunión → expande → **🤖 Generar prompt MOIF**.
+7. La pestaña salta automáticamente a 🤖 Copilot con el prompt listo.
+8. Click 📋 Copiar → pega en otra sesión Claude Code en este repo.
+9. Esa sesión devuelve proposal estructurado de cambios.
+10. Aplico los cambios al ecosistema (diccionario, mapa, simulador, playbook).
+11. Commit + push.
+
+### Decisiones técnicas
+1. **Una entry por reunión** vs append a un log único: separado para poder editar, deduplicar, deep-link, atacar de a una.
+2. **Transcript completo guardado** (no resumido) para que Claude pueda hacer análisis fino. Truncado solo en el Master Review (2000 chars excerpt) por límite de tokens.
+3. **Auto-switch a tab Copilot** al generar el prompt MOIF: feedback inmediato de "está listo, copialo".
+4. **MOIF en el Master Review** además del prompt individual: cuando hagas la auditoría masiva del módulo, las reuniones quedan en el contexto.
+5. **Sigla MOIF** elegida por consistencia con el proyecto (RFP, SDD, IS, KPI, SLA, KYC, AML — siglas de 3-4 letras).
+
+### Estado actual de 14-WORK
+- **Pestañas:** 13 (+ 🗓️ MOIF)
+- **Storage sincronizado:** + work_moif_meetings
+- **Attachments:** habilitados en Cases · Errors · Learnings · KB · MOIF · Cuadernos (todos con cloud sync)
+- **Prompts Copilot:** 3 modos — Quick Ask · Master Review (incluye MOIF) · Prompt MOIF por reunión
+
+### Pendientes
+- Si las reuniones traen mucha info Ficohsa-specific que requiere cambios al Playbook, considerar agregar una sección "Histórico de reuniones" dentro del Playbook propio.
+- Búsqueda full-text dentro de las MOIF (cuando haya 20+ reuniones).
+- Visualización tipo línea-de-tiempo de las MOIF (timeline view).
 
 ---
 

@@ -281,6 +281,8 @@ const CLOUD = (() => {
     'work_eco_workflow', 'work_eco_course', 'work_eco_dict',
     // 14-WORK KB attachment metadata (blobs viven en IDB local)
     'work_kb_atts',
+    // 14-WORK MOIF · Monitoreo y Observabilidad Integraciones Ficohsa (reuniones)
+    'work_moif_meetings',
     // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
     'tools_mindmaps',
     // 15-MM Free Canvas (Miro-style: nodes + edges + view state per canvas)

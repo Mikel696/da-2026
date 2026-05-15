@@ -31,6 +31,7 @@
     <div class="st"><div class="sv" id="sCases">0</div><div class="sla">Casos</div></div>
     <div class="st"><div class="sv" id="sErrors">0</div><div class="sla">Errores</div></div>
     <div class="st"><div class="sv" id="sLearn">0</div><div class="sla">Aprendizajes</div></div>
+    <div class="st"><div class="sv" id="sMoif">0</div><div class="sla">MOIF</div></div>
     <div class="st"><div class="sv" id="sNbs">0</div><div class="sla">Cuadernos</div></div>
   </div>
 
@@ -56,6 +57,7 @@
     <button class="tab" data-p="cases">📋 Casos</button>
     <button class="tab" data-p="errors">🐛 Errores</button>
     <button class="tab" data-p="learn">💡 Aprendizajes</button>
+    <button class="tab" data-p="moif">🗓️ MOIF</button>
     <button class="tab" data-p="kb">📚 KB</button>
     <button class="tab" data-p="copilot">🤖 Copilot</button>
   </div>
@@ -265,6 +267,41 @@
     </div>
     <div class="lb">· aprendizajes ·</div>
     <div id="learnList"></div>
+  </div>
+
+  <!-- ═══ MOIF · Monitoreo y Observabilidad Integraciones Ficohsa ═══ -->
+  <div class="pnl" id="p-moif">
+    <div class="cd" id="moifFormCard">
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px" id="moifFormTitle">🗓️ Nueva reunión MOIF</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.55">
+        <b>MOIF · Monitoreo y Observabilidad Integraciones Ficohsa.</b> Pegá acá la transcripción completa de cada reunión del proyecto (status weekly, discovery, retro, kick-off, ad-hoc). Después podés generar un prompt MOIF por reunión para que Claude detecte info nueva y actualice el ecosistema (diccionario, mapa mental, simulador, playbook).
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr 200px;gap:6px;margin-bottom:6px">
+        <input type="date" class="inp" id="moifDate" title="Fecha de la reunión">
+        <input class="inp" id="moifTitle" placeholder="Título · ej: Status semanal Sprint 23 · SERCOM" oninput="">
+        <select class="inp" id="moifType" title="Tipo de reunión">
+          <option value="weekly">📅 Weekly status</option>
+          <option value="discovery">🔍 Discovery</option>
+          <option value="retro">🔄 Retrospectiva</option>
+          <option value="kickoff">🚀 Kick-off</option>
+          <option value="adhoc">⚡ Ad-hoc</option>
+          <option value="other">📋 Otros</option>
+        </select>
+      </div>
+      <input class="inp" id="moifParticipants" placeholder="Participantes · ej: Ana M., Lina, Wilson, Carlos Avila, Miguel" style="margin-bottom:6px">
+      <textarea class="txa" id="moifTranscript" placeholder="Pegá acá la transcripción COMPLETA de la reunión. Cuanto más detalle, mejor el análisis." style="min-height:200px;font-family:'IBM Plex Mono',monospace;font-size:12px"></textarea>
+      <textarea class="txa" id="moifSummary" placeholder="📌 Resumen ejecutivo (opcional · podés escribirlo después o dejarlo vacío para que Claude lo genere)" style="min-height:60px;margin-top:6px"></textarea>
+      <textarea class="txa" id="moifActions" placeholder="✅ Acciones / pendientes (opcional · una por línea, formato: responsable · acción · due)" style="min-height:60px;margin-top:6px"></textarea>
+      <input type="hidden" id="moifEditingId">
+      <div id="moifPendAtts" class="pend-atts"></div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn bg" id="moifSaveBtn" onclick="WORK.saveMoif()">💾 Guardar reunión</button>
+        <button class="btn bo" onclick="WORK.addPendAtt('moif')">📎 Adjuntar archivo (acta, slides, screenshots)</button>
+        <button class="btn bo" onclick="WORK.clearForm('moif')">🗑️ Limpiar</button>
+      </div>
+    </div>
+    <div class="lb" style="margin-top:14px">· reuniones registradas ·</div>
+    <div id="moifList"></div>
   </div>
 
   <!-- ═══ KNOWLEDGE BASE ═══ -->
