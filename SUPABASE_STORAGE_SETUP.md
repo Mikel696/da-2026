@@ -86,6 +86,27 @@ USING (
 - **Eliminación:** borrar un attachment desde la UI elimina tanto el IDB local como el blob en Storage.
 - **Privacidad:** Storage es privado + RLS · solo vos podés ver/descargar tus archivos.
 
+## Paso 4 · Habilitar Realtime (para que un PC vea cambios del otro al instante)
+
+Esto hace que cuando eliminás algo en PC trabajo, **el PC personal lo refleje al toque** sin necesidad de refrescar ni clickear "Bajar del cloud".
+
+Dashboard Supabase → **SQL Editor** → New query → pegar y ejecutar:
+
+```sql
+ALTER PUBLICATION supabase_realtime ADD TABLE public.app_state;
+```
+
+Si dice "relation 'app_state' is already member of publication 'supabase_realtime'", está perfecto — significa que ya estaba activado.
+
+**Cómo verificar que funciona:**
+- En PC trabajo: abrí DevTools (F12) → Console.
+- Después del login deberías ver: `[CLOUD] realtime ✓ suscrito a app_state · uid= xxxxx`.
+- Eliminá un attachment.
+- En PC personal (otra pestaña/PC con la misma cuenta), DevTools console muestra: `[CLOUD] realtime ← UPDATE work_learnings`.
+- El chip desaparece automáticamente sin tener que hacer nada.
+
+Si en la consola ves `[CLOUD] realtime status: CHANNEL_ERROR` — es que el realtime no está habilitado en la tabla. Re-ejecutá el SQL de arriba.
+
 ## Costos
 
 Supabase Storage incluye:

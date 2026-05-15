@@ -618,9 +618,6 @@ const CLOUD = (() => {
     if (!_shouldSync(key)) return;
 
     // CRITICAL: Do NOT stamp timestamps or push while initial sync is running.
-    // Module init scripts write empty defaults on page load — if we stamp those
-    // with Date.now(), fullSyncAll will think local is newer than cloud and
-    // overwrite real cloud data with empty arrays on a fresh device.
     if (_syncing || !_initialSyncDone) return;
 
     // Update local timestamp
@@ -634,21 +631,159 @@ const CLOUD = (() => {
     }, _DEBOUNCE_MS));
   };
 
+  /** Flush ALL pending debounced pushes immediately. */
+  async function _flushPendingPushes(){
+    if (_debounceMap.size === 0) return;
+    const keys = Array.from(_debounceMap.keys());
+    console.log('[CLOUD] flushPending · keys:', keys);
+    for (const key of keys) {
+      clearTimeout(_debounceMap.get(key));
+      _debounceMap.delete(key);
+      const raw = localStorage.getItem(key);
+      if (raw === null) continue;
+      try { await _pushStateRaw(key, _safeParse(raw)); }
+      catch(e) { console.warn('[CLOUD] flushPending failed for', key, e); }
+    }
+  }
+
+  /** Sync flush on tab close / hide using sendBeacon as last-resort. */
+  function _flushPendingSync(){
+    if (_debounceMap.size === 0) return;
+    if (!_ready()) return;
+    const uid = _uid();
+    const keys = Array.from(_debounceMap.keys());
+    keys.forEach(key => {
+      clearTimeout(_debounceMap.get(key));
+      _debounceMap.delete(key);
+      const raw = localStorage.getItem(key);
+      if (raw === null) return;
+      // navigator.sendBeacon: fire-and-forget, survives page unload
+      try {
+        const body = JSON.stringify({
+          user_id: uid,
+          store_key: key,
+          payload: _safeParse(raw),
+          updated_at: new Date().toISOString(),
+        });
+        const url = SB.supabaseUrl + '/rest/v1/app_state?on_conflict=user_id,store_key';
+        const blob = new Blob([body], { type: 'application/json' });
+        // sendBeacon doesn't allow setting headers, so we fallback to fetch keepalive
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'apikey': SB.supabaseKey,
+            'Authorization': 'Bearer ' + (SB.auth.session()?.access_token || SB.supabaseKey),
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates,return=minimal',
+          },
+          body,
+          keepalive: true,
+        }).catch(()=>{});
+      } catch(e) { /* ignore */ }
+    });
+    console.log('[CLOUD] flushPending sync (beforeunload) · keys:', keys);
+  }
+
+  window.addEventListener('beforeunload', _flushPendingSync);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { _flushPendingPushes(); }
+  });
+
+  /** Push immediately bypassing debounce. Called for critical writes like deletes. */
+  async function pushNow(key){
+    // Cancel any pending debounce for this key
+    if (_debounceMap.has(key)) { clearTimeout(_debounceMap.get(key)); _debounceMap.delete(key); }
+    if (!_ready()) return { ok:false, reason:'not-ready' };
+    const raw = localStorage.getItem(key);
+    if (raw === null) return { ok:false, reason:'no-local-data' };
+    try {
+      await _pushStateRaw(key, _safeParse(raw));
+      _setLocalTs(key, Date.now());
+      console.log('[CLOUD] pushNow OK:', key);
+      return { ok:true };
+    } catch (e) {
+      console.error('[CLOUD] pushNow error:', key, e);
+      return { ok:false, reason:'exception', detail: e.message||String(e) };
+    }
+  }
+
 
   /* ══════════════════════════════════════════════════════════════
      Event listeners
   ══════════════════════════════════════════════════════════════ */
 
   window.addEventListener('sb:signed_in', () => {
-    console.log('[CLOUD] sb:signed_in received — starting fullSyncAll');
-    // Small delay to ensure AUTH state is fully settled
-    setTimeout(() => fullSyncAll(), 300);
+    console.log('[CLOUD] sb:signed_in received — starting fullSyncAll + realtime');
+    setTimeout(() => { fullSyncAll(); setupRealtime(); }, 300);
   });
 
+  /* ═══════════════════════════════════════════════════════════════
+     REALTIME — auto-pull cuando otro device cambia un key
+  ═══════════════════════════════════════════════════════════════ */
+  let _rtChannel = null;
+  function setupRealtime(){
+    if (!_ready()) return;
+    if (_rtChannel) return; // ya suscrito
+    const uid = _uid();
+    if (!uid) return;
+    try {
+      _rtChannel = SB.channel('app_state_changes_' + uid)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'app_state',
+          filter: 'user_id=eq.' + uid,
+        }, (payload) => {
+          handleRealtimeChange(payload);
+        })
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED') {
+            console.log('[CLOUD] realtime ✓ suscrito a app_state · uid=', uid);
+          } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+            console.warn('[CLOUD] realtime status:', status, '— probable: realtime no habilitado en la tabla app_state. Setup: ALTER PUBLICATION supabase_realtime ADD TABLE app_state;');
+            _rtChannel = null;
+          }
+        });
+    } catch (e) {
+      console.warn('[CLOUD] realtime setup exception:', e);
+    }
+  }
+  function handleRealtimeChange(payload){
+    const evType = payload.eventType; // INSERT | UPDATE | DELETE
+    const row = payload.new || payload.old || {};
+    const key = row.store_key;
+    if (!key) return;
+    console.log('[CLOUD] realtime ←', evType, key);
+    if (evType === 'DELETE') {
+      // Remove local key too
+      if (localStorage.getItem(key) !== null) {
+        _origSetItem(key, JSON.stringify(null));
+      }
+      window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: 'delete' } }));
+      return;
+    }
+    // INSERT or UPDATE → write new payload to local, stamp TS
+    const payloadVal = row.payload;
+    const cloudTs = new Date(row.updated_at || 0).getTime();
+    // Only overwrite if cloud TS is newer than local TS (avoid clobbering local writes that haven't pushed yet)
+    const localTs = _getLocalTs(key);
+    if (cloudTs <= localTs) {
+      console.log('[CLOUD] realtime: local newer for', key, '— ignoring cloud event');
+      return;
+    }
+    _origSetItem(key, JSON.stringify(payloadVal));
+    _setLocalTs(key, cloudTs);
+    window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
+  }
+  function teardownRealtime(){
+    if (_rtChannel) { try { SB.removeChannel(_rtChannel); } catch{} _rtChannel = null; }
+  }
+
   window.addEventListener('sb:signed_out', () => {
-    console.log('[CLOUD] sb:signed_out — clearing queue');
+    console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');
     _queue.length = 0;
     _syncing = false;
+    teardownRealtime();
   });
 
   /* ── Auto-resync on tab visibility change ──
@@ -682,6 +817,8 @@ const CLOUD = (() => {
     pushState, fullSyncAll,
     // Manual recovery
     forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics,
+    // Immediate push / realtime
+    pushNow, setupRealtime, teardownRealtime,
     // Utilities
     SYNC_REGISTRY, DYNAMIC_PREFIXES
   };

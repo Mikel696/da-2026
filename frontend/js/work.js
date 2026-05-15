@@ -77,6 +77,8 @@ const WORK = (function(){
     it.attachments = it.attachments.filter(a => a.id !== attId);
     if (window.NBShared) NBShared.deleteBlob(attId).catch(()=>{});
     _save(K, list);
+    // Push inmediato al cloud (sin debounce) para que otros devices vean el delete en tiempo real
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K).catch(()=>{});
     render();
   }
   /** Re-sync an attachment blob from local IDB to Supabase Storage.
@@ -256,6 +258,24 @@ const WORK = (function(){
     try { render(); if (eco && eco.dictRender) eco.dictRender(); if (window.WorkNB && WorkNB.render) WorkNB.render(); } catch(e){ console.warn(e); }
   });
 
+  /** Re-render cuando llega un cambio en realtime desde otro device */
+  window.addEventListener('cloud:realtime_change', (e) => {
+    const k = e.detail && e.detail.key;
+    console.log('[14-WORK] realtime change ←', k, e.detail);
+    try {
+      if (k && k.startsWith('work_')) {
+        // Mostrar toast discreto
+        if (typeof _syncToast === 'function') {
+          _syncToast('⟲ Cambio recibido desde otro PC · ' + k, 'info');
+          _syncToastHide(2000);
+        }
+        render();
+        if (k === 'work_eco_dict' && eco && eco.dictRender) eco.dictRender();
+        if ((k === 'work_nb_meta' || k === 'work_nb_data') && window.WorkNB && WorkNB.render) WorkNB.render();
+      }
+    } catch(err){ console.warn(err); }
+  });
+
   async function syncAllAttsToCloud(){
     if (!window.NBShared) return;
     if (!confirm('Esto sube a la nube todos los adjuntos locales que aún no estén sincronizados. ¿Continuar?')) return;
@@ -311,6 +331,7 @@ const WORK = (function(){
     const list = _loadKbAtts().filter(a => a.id !== attId);
     localStorage.setItem(K_KB_ATTS, JSON.stringify(list));
     if (window.NBShared) NBShared.deleteBlob(attId).catch(()=>{});
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_KB_ATTS).catch(()=>{});
     renderKbAtts();
   }
   function _loadKbAtts(){ try { return JSON.parse(localStorage.getItem(K_KB_ATTS)||'[]'); } catch { return []; } }
@@ -363,6 +384,7 @@ const WORK = (function(){
     const it = _load(K_CASES).find(c => c.id === id);
     if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_CASES, _load(K_CASES).filter(c => c.id !== id));
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_CASES).catch(()=>{});
     render();
   }
 
@@ -387,6 +409,7 @@ const WORK = (function(){
     const it = _load(K_ERRORS).find(e => e.id === id);
     if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_ERRORS, _load(K_ERRORS).filter(e => e.id !== id));
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_ERRORS).catch(()=>{});
     render();
   }
 
@@ -411,6 +434,7 @@ const WORK = (function(){
     const it = _load(K_LEARN).find(l => l.id === id);
     if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_LEARN, _load(K_LEARN).filter(l => l.id !== id));
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow(K_LEARN).catch(()=>{});
     render();
   }
 
