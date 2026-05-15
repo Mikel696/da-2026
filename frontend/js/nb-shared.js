@@ -93,6 +93,9 @@
   }
 
   async function deleteBlob(id){
+    // 1) Eliminar de Supabase Storage (no-op si no estaba)
+    try { await cloudDeleteAttachment(id); } catch(e) { /* ignore */ }
+    // 2) Eliminar de IDB local
     const db = await openDB();
     return new Promise((res, rej) => {
       const tx = db.transaction(STORE, 'readwrite');
@@ -100,6 +103,62 @@
       tx.oncomplete = () => res(true);
       tx.onerror = () => rej(tx.error);
     });
+  }
+
+  /* ── SUPABASE STORAGE · sync de blobs cross-device ───────────
+     Bucket: `attachments` (privado, RLS por user_id).
+     Path: <auth.uid>/<blob_id>
+     Si el bucket no existe o RLS falla, los uploads simplemente no
+     persisten en cloud — el blob queda local. Mensaje de error claro.
+  */
+  const BUCKET = 'attachments';
+  async function _currentUserId(){
+    try {
+      if (!window.SB) return null;
+      const { data } = await window.SB.auth.getUser();
+      return data && data.user && data.user.id || null;
+    } catch { return null; }
+  }
+  async function cloudUploadAttachment(id, blob){
+    if (!window.SB) return { ok:false, reason:'sb-not-loaded' };
+    const uid = await _currentUserId();
+    if (!uid) return { ok:false, reason:'not-authenticated' };
+    const path = uid + '/' + id;
+    try {
+      const { error } = await window.SB.storage.from(BUCKET).upload(path, blob, {
+        upsert: true,
+        contentType: blob.type || 'application/octet-stream',
+      });
+      if (error) {
+        console.warn('[NBShared] cloud upload failed:', error.message || error);
+        return { ok:false, reason:'upload-failed', error };
+      }
+      return { ok:true, path };
+    } catch (e) {
+      console.warn('[NBShared] cloud upload exception:', e);
+      return { ok:false, reason:'exception', error:e };
+    }
+  }
+  async function cloudDownloadAttachment(id){
+    if (!window.SB) return null;
+    const uid = await _currentUserId();
+    if (!uid) return null;
+    const path = uid + '/' + id;
+    try {
+      const { data, error } = await window.SB.storage.from(BUCKET).download(path);
+      if (error || !data) return null;
+      return data; // Blob
+    } catch (e) {
+      console.warn('[NBShared] cloud download exception:', e);
+      return null;
+    }
+  }
+  async function cloudDeleteAttachment(id){
+    if (!window.SB) return;
+    const uid = await _currentUserId();
+    if (!uid) return;
+    const path = uid + '/' + id;
+    try { await window.SB.storage.from(BUCKET).remove([path]); } catch(e) { /* ignore */ }
   }
 
   /* ── IMAGE STORE (full quality) ─────────────────────────────── */
@@ -263,26 +322,54 @@
           return reject(new Error('Type not allowed'));
         }
         const id = (prefix || 'att') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+        const addedAt = new Date().toISOString();
         try {
-          await putBlob(id, f, { name: f.name, type: f.type, size: f.size, ext, addedAt: new Date().toISOString() });
-          resolve({ id, name: f.name, type: f.type, size: f.size, ext, addedAt: new Date().toISOString() });
+          // 1) Guardar local en IDB (rápido, offline-first)
+          await putBlob(id, f, { name: f.name, type: f.type, size: f.size, ext, addedAt });
+          // 2) Upload a Supabase Storage en background (no bloquea la UI)
+          const upRes = await cloudUploadAttachment(id, f);
+          resolve({ id, name: f.name, type: f.type, size: f.size, ext, addedAt, cloud: !!upRes.ok });
         } catch (err) { reject(err); }
       };
       inp.click();
     });
   }
 
-  /** Trigger download of an attachment */
+  /** Trigger download of an attachment.
+   *  Primero busca en IDB local. Si no está (otro device), descarga desde Supabase Storage.
+   */
   async function downloadAttachment(id, fallbackName){
+    // 1) Intentar local
     const rec = await getBlob(id);
-    if (!rec) { alert('Archivo no encontrado en este dispositivo. Los adjuntos no se sincronizan a la nube.'); return; }
-    const url = URL.createObjectURL(rec.blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = rec.name || fallbackName || 'attachment';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+    if (rec && rec.blob) {
+      const url = URL.createObjectURL(rec.blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = rec.name || fallbackName || 'attachment';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+      return;
+    }
+    // 2) Fallback: descargar desde Supabase Storage y cachear en IDB
+    const cloudBlob = await cloudDownloadAttachment(id);
+    if (cloudBlob) {
+      // cachear para próxima vez
+      try {
+        const meta = { name: fallbackName || 'attachment', type: cloudBlob.type || '', size: cloudBlob.size || 0, ext: (fallbackName||'').split('.').pop().toLowerCase(), addedAt: new Date().toISOString() };
+        await putBlob(id, cloudBlob, meta);
+      } catch {}
+      const url = URL.createObjectURL(cloudBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fallbackName || 'attachment';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+      return;
+    }
+    // 3) Nada disponible
+    alert('Archivo no encontrado.\n\nPosibles causas:\n• No hay sesión activa (login en este device).\n• El bucket "attachments" de Supabase no está creado.\n• El archivo fue subido antes de que se activara cloud sync.\n\nSolución para archivos viejos: re-subilos desde el device de origen.');
   }
 
   /** Render attachment chips list (read-only HTML) */
@@ -601,8 +688,11 @@
     if (!r) return null;
     const ext = extOf(r.name);
     const id = (prefix || 'att') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-    await putBlob(id, r.file, { name: r.name, type: r.type, size: r.size, ext, addedAt: new Date().toISOString(), caption: r.caption || '' });
-    return { id, name: r.name, type: r.type, size: r.size, ext, addedAt: new Date().toISOString(), caption: r.caption || '' };
+    const addedAt = new Date().toISOString();
+    await putBlob(id, r.file, { name: r.name, type: r.type, size: r.size, ext, addedAt, caption: r.caption || '' });
+    // Cloud sync background
+    const upRes = await cloudUploadAttachment(id, r.file);
+    return { id, name: r.name, type: r.type, size: r.size, ext, addedAt, caption: r.caption || '', cloud: !!upRes.ok };
   }
 
   /**
@@ -740,6 +830,8 @@
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
+    // Cloud sync
+    cloudUploadAttachment, cloudDownloadAttachment, cloudDeleteAttachment,
     renderAttachmentChips, renderCoverPicker, renderIconPicker,
     MAX_BYTES,
     // Image compression utilities

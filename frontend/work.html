@@ -265,6 +265,7 @@
       <div style="display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveKB()">💾 Guardar KB</button>
         <button class="btn bo" onclick="WORK.addKbAtt()">📎 Adjuntar archivo</button>
+        <button class="btn bo" onclick="WORK.syncAllAttsToCloud()" title="Sube a la nube cualquier adjunto que todavía no esté sincronizado">☁ Sincronizar todos los archivos</button>
         <span id="kbSavedBadge" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s">✓ guardado</span>
       </div>
     </div>
@@ -272,7 +273,9 @@
       <div class="lb" style="margin-bottom:6px">· archivos de referencia ·</div>
       <div id="kbAttsList"></div>
     </div>
-    <div style="font-size:10px;color:var(--t3);margin-top:10px;font-style:italic;line-height:1.6">💡 La KB + sus archivos se inyectan automáticamente como contexto al usar el tab Copilot. Los binarios viven en IndexedDB local de este device; la metadata (nombre, tipo, tamaño) sincroniza vía Supabase para que sepas qué tenés en cada PC.</div>
+    <div style="font-size:10.5px;color:var(--t3);margin-top:12px;line-height:1.65;background:rgba(6,182,212,.05);border-left:3px solid var(--ac);padding:8px 12px;border-radius:6px">
+      <b style="color:var(--ac)">☁ Cross-device sync activo.</b> Los archivos suben a Supabase Storage (bucket <code style="background:var(--bg3);padding:1px 5px;border-radius:3px">attachments</code>) y los podés descargar desde cualquier PC donde tengas sesión iniciada. Si ves el badge <span style="background:rgba(234,179,8,.15);color:var(--am);padding:1px 5px;border-radius:4px;font-size:9px">☁↑</span> al lado de un archivo, está solo local — click ahí para subirlo a la nube. Si todavía no creaste el bucket, ver <a href="#" onclick="alert('Setup bucket Supabase:\\n\\n1. Dashboard Supabase → Storage → New Bucket\\n2. Nombre: attachments\\n3. Visibilidad: private\\n4. Crear policies RLS (SQL Editor):\\n\\nCREATE POLICY \\\"user_attachments_select\\\" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = ''attachments'' AND (storage.foldername(name))[1] = auth.uid()::text);\\n\\nCREATE POLICY \\\"user_attachments_insert\\\" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = ''attachments'' AND (storage.foldername(name))[1] = auth.uid()::text);\\n\\nCREATE POLICY \\\"user_attachments_update\\\" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = ''attachments'' AND (storage.foldername(name))[1] = auth.uid()::text);\\n\\nCREATE POLICY \\\"user_attachments_delete\\\" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = ''attachments'' AND (storage.foldername(name))[1] = auth.uid()::text);');return false">setup del bucket aquí</a>.
+    </div>
   </div>
 
   <!-- ═══ CUADERNOS ═══ -->

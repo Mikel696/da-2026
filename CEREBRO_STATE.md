@@ -1,8 +1,102 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-14c
+- **Última actualización:** 2026-05-14d
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · Cross-device sync de attachments vía Supabase Storage — 2026-05-14d
+
+### Qué cambió
+Reportaste el error *"File not found on this device. Attachments are not syncing to the cloud."* en la sección Learning. Hasta hoy los blobs solo vivían en IndexedDB local de cada device, así que un archivo subido en el PC de trabajo no se podía descargar desde el PC personal — limitación documentada pero crítica para tu workflow real.
+
+**Solución implementada: Supabase Storage como capa de blobs cross-device.**
+
+**Cambios en `js/nb-shared.js`:**
+- Nueva sección "SUPABASE STORAGE · sync de blobs cross-device" con 3 funciones:
+  - `cloudUploadAttachment(id, blob)` — sube blob a Supabase Storage en path `<auth.uid>/<blob_id>`. Returns `{ok, path}` o `{ok:false, reason, error}`.
+  - `cloudDownloadAttachment(id)` — descarga desde Storage. Returns Blob o null.
+  - `cloudDeleteAttachment(id)` — elimina blob de Storage (silencioso si no existe).
+- Bucket usado: `attachments` (privado, RLS por user_id).
+- `pickAndStoreAttachment()` actualizado: guarda en IDB local **+** sube a cloud. La metadata retornada ahora incluye `cloud:bool` indicando si el upload tuvo éxito.
+- `pickAttachmentViaModal()` (drop-modal usado en Cuadernos) actualizado igual.
+- `downloadAttachment()` rehecho con fallback cascada:
+  1. Buscar blob en IDB local — si existe, descargar.
+  2. Si no, intentar `cloudDownloadAttachment()` desde Supabase Storage.
+  3. Si descarga cloud tiene éxito, **cachear en IDB local** para próximas descargas instantáneas.
+  4. Si nada disponible, alert con causas probables (sin sesión / bucket no creado / blob viejo pre-sync).
+- `deleteBlob()` actualizado: elimina cloud primero, después local.
+- API pública expandida con `cloudUploadAttachment, cloudDownloadAttachment, cloudDeleteAttachment`.
+
+**Cambios en `js/work.js`:**
+- 3 funciones nuevas para re-sincronizar archivos viejos:
+  - `syncAttToCloud(kind, itemId, attId)` — toma blob local de IDB y lo sube a cloud. Marca `cloud:true` en metadata. Muestra errores específicos (sin auth / bucket no existe / etc).
+  - `syncKbAttToCloud(attId)` — igual pero para attachments de KB.
+  - `syncAllAttsToCloud()` — bulk: recorre TODOS los attachments de Cases/Errors/Learnings/KB y sube los que tengan `cloud:false`. Reporta done/fail/skip.
+- `_attCloudBadge(a, kind, id)` y `_kbAttCloudBadge(a)` — generan el badge visual:
+  - ☁ verde si `cloud:true` (sincronizado, descargable desde cualquier device).
+  - ☁↑ amarillo (clickable) si solo local — al hacer click llama a `syncAttToCloud`.
+- `_itemAttsHtml()` y `renderKbAtts()` actualizados con el badge.
+- `addAttToItem()` ahora loggea warning si el upload cloud falló (para debug).
+- Botón **☁ Sincronizar todos los archivos** agregado al tab KB para fix masivo en bulk.
+
+**Cambios en `work.html`:**
+- Tab KB: botón "☁ Sincronizar todos los archivos" + caja informativa con instrucciones de setup del bucket (link a `alert()` con SQL para crear policies RLS).
+
+**Setup necesario por una vez:**
+- Archivo nuevo `SUPABASE_STORAGE_SETUP.md` en raíz del repo con:
+  - Pasos para crear el bucket `attachments` (Dashboard → Storage → New bucket).
+  - SQL completo para las 4 policies RLS (select/insert/update/delete) restringiendo cada user a su carpeta `<auth.uid>/`.
+  - Verificación cross-device.
+  - Tabla de diagnóstico de errores (bucket not found / RLS / not auth / blob viejo).
+  - Detalles técnicos (paths, límites, tipos, cache, eliminación, costos).
+
+### Archivos modificados / creados
+- ✏️ `frontend/js/nb-shared.js` (+ 80 líneas: cloud helpers + integración en pickAndStore + downloadAttachment con fallback)
+- ✏️ `frontend/js/work.js` (+ 100 líneas: syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud, badges)
+- ✏️ `frontend/css/work.css` (+ estilos .att-cloud)
+- ✏️ `frontend/work.html` (+ botón sync all + info de setup)
+- ➕ `SUPABASE_STORAGE_SETUP.md` (NEW · raíz · guía completa para el bucket)
+
+### Decisiones técnicas
+1. **Supabase Storage vs Postgres JSONB:** los binarios no entran en JSONB (~1 MB práctico por row). Storage es la primitiva correcta de Supabase para esto.
+2. **Bucket privado + RLS:** cada user solo accede a su carpeta `<auth.uid>/<attachment_id>`. Cero data leakage entre cuentas.
+3. **Offline-first preservado:** el blob se guarda en IDB ANTES del upload a cloud. Si la red falla, el archivo igual queda usable local; el badge ☁↑ te invita a sincronizar cuando vuelvas online.
+4. **Cache en IDB tras descarga cloud:** una vez bajado desde otro device, queda local — próximas descargas son instantáneas.
+5. **Eliminación coherente:** delete local + delete cloud en la misma operación. Sin huérfanos en Storage.
+6. **Migración gradual:** los attachments viejos (anteriores a este commit) tienen `cloud:undefined` → se renderizan con badge ☁↑ → click los sube. No requiere migration script.
+7. **Setup manual del bucket:** la anon key no puede crear buckets vía API. Documentación clara en `SUPABASE_STORAGE_SETUP.md` con SQL listo para copy-paste.
+
+### Para resolver TU problema concreto
+**El archivo de la sección Learning ("Descubriendo lo nuevo") sigue en IDB de tu PC de trabajo.** Para descargarlo desde tu PC personal:
+
+1. **En tu PC personal:**
+   - Hacé el setup del bucket (`SUPABASE_STORAGE_SETUP.md`).
+   - Pull último commit (auto vía GitHub Pages).
+2. **En tu PC de trabajo:**
+   - Pull último commit.
+   - Abrí 14-WORK → tab 💡 Aprendizajes.
+   - En el item "Descubriendo lo nuevo" vas a ver el chip del adjunto con badge **☁↑ amarillo**.
+   - Click en ese badge → sube el archivo a la nube.
+   - O alternativamente click **☁ Sincronizar todos los archivos** en el tab KB → bulk upload de TODO lo local.
+3. **En tu PC personal:**
+   - Refresh la página.
+   - Click ⬇ en el chip → descarga desde la nube + cachea local.
+
+### Estado actual de 14-WORK
+- **Cross-device blob sync:** ACTIVO (requiere setup one-time del bucket).
+- **Attachments en:** Cases · Errors · Learnings · KB · Cuadernos.
+- **Tipos:** PDF · Office · TXT/CSV/MD/JSON/XML/LOG · ZIP · imágenes (PNG/JPG/JPEG/GIF/WEBP/SVG/HEIC).
+- **Tamaño máx:** 50 MB por archivo.
+- **Cache:** descargas desde cloud quedan en IDB local automáticamente.
+- **Eliminación:** elimina cloud + local en la misma acción.
+- **Badges visuales:** ☁ verde = synced · ☁↑ amarillo = local only (click para sync).
+- **Bulk re-sync:** botón único en KB tab.
+
+### Pendientes
+- Setup one-time del bucket por el usuario (5 min, instrucciones en SUPABASE_STORAGE_SETUP.md).
+- Próxima iteración: notebook image attachments (3-tier 320/1280/1920) ahora viajan vía thumbnail/preview en JSONB; podrían moverse 100% a Storage para liberar payload size.
 
 ---
 

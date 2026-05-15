@@ -61,9 +61,12 @@ const WORK = (function(){
       const it = list.find(x => x.id === id);
       if (!it) return;
       it.attachments = it.attachments || [];
-      it.attachments.push(r);
+      it.attachments.push(r); // r ya incluye cloud:bool
       _save(K, list);
       render();
+      if (!r.cloud) {
+        console.warn('[14-WORK] Adjunto guardado SOLO local — verificá el bucket "attachments" de Supabase y RLS.');
+      }
     } catch (e) { if (e && e.message !== 'No file') console.warn(e); }
   }
   async function removeAttFromItem(kind, id, attId){
@@ -75,6 +78,90 @@ const WORK = (function(){
     if (window.NBShared) NBShared.deleteBlob(attId).catch(()=>{});
     _save(K, list);
     render();
+  }
+  /** Re-sync an attachment blob from local IDB to Supabase Storage.
+   *  Para arreglar adjuntos viejos que se guardaron antes del cloud sync. */
+  async function syncAttToCloud(kind, id, attId){
+    if (!window.NBShared) return;
+    try {
+      const rec = await NBShared.getBlob(attId);
+      if (!rec || !rec.blob) { alert('Blob no encontrado localmente. Tenés que abrir esto en el device donde subiste el archivo originalmente.'); return; }
+      const res = await NBShared.cloudUploadAttachment(attId, rec.blob);
+      if (!res.ok) {
+        if (res.reason === 'not-authenticated') alert('No hay sesión activa. Iniciá sesión primero.');
+        else if (res.reason === 'upload-failed' && res.error) alert('Falló el upload a Supabase Storage:\n\n' + (res.error.message||res.error) + '\n\nVerificá que el bucket "attachments" exista en tu Supabase project con políticas RLS para tu usuario.');
+        else alert('No se pudo sincronizar a la nube. Ver consola para detalles.');
+        return;
+      }
+      // Marcar como cloud:true en la metadata del item
+      const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+      const list = _load(K);
+      const it = list.find(x => x.id === id);
+      if (it && it.attachments) {
+        const a = it.attachments.find(a => a.id === attId);
+        if (a) { a.cloud = true; _save(K, list); }
+      }
+      render();
+      alert('✓ Archivo sincronizado a la nube. Ya podés descargarlo desde otro device.');
+    } catch (e) { console.warn(e); alert('Error sincronizando: ' + (e.message||e)); }
+  }
+  async function syncKbAttToCloud(attId){
+    if (!window.NBShared) return;
+    try {
+      const rec = await NBShared.getBlob(attId);
+      if (!rec || !rec.blob) { alert('Blob no encontrado localmente.'); return; }
+      const res = await NBShared.cloudUploadAttachment(attId, rec.blob);
+      if (!res.ok) {
+        alert('Falló el upload. Detalle: ' + (res.reason||'')+(res.error?' · '+(res.error.message||res.error):''));
+        return;
+      }
+      const list = _loadKbAtts();
+      const a = list.find(a => a.id === attId);
+      if (a) { a.cloud = true; localStorage.setItem(K_KB_ATTS, JSON.stringify(list)); }
+      renderKbAtts();
+      alert('✓ Archivo sincronizado a la nube.');
+    } catch(e){ console.warn(e); alert('Error: '+(e.message||e)); }
+  }
+  /** Re-sync TODOS los adjuntos locales a la nube */
+  async function syncAllAttsToCloud(){
+    if (!window.NBShared) return;
+    if (!confirm('Esto sube a la nube todos los adjuntos locales que aún no estén sincronizados. ¿Continuar?')) return;
+    let done=0, fail=0, skip=0;
+    const all = [
+      ['case', K_CASES],
+      ['err', K_ERRORS],
+      ['learn', K_LEARN],
+    ];
+    for (const [kind, K] of all) {
+      const list = _load(K);
+      for (const it of list) {
+        if (!it.attachments) continue;
+        for (const a of it.attachments) {
+          if (a.cloud) { skip++; continue; }
+          try {
+            const rec = await NBShared.getBlob(a.id);
+            if (!rec || !rec.blob) { skip++; continue; }
+            const res = await NBShared.cloudUploadAttachment(a.id, rec.blob);
+            if (res.ok) { a.cloud = true; done++; } else fail++;
+          } catch { fail++; }
+        }
+      }
+      _save(K, list);
+    }
+    // KB
+    const kbList = _loadKbAtts();
+    for (const a of kbList) {
+      if (a.cloud) { skip++; continue; }
+      try {
+        const rec = await NBShared.getBlob(a.id);
+        if (!rec || !rec.blob) { skip++; continue; }
+        const res = await NBShared.cloudUploadAttachment(a.id, rec.blob);
+        if (res.ok) { a.cloud = true; done++; } else fail++;
+      } catch { fail++; }
+    }
+    localStorage.setItem(K_KB_ATTS, JSON.stringify(kbList));
+    render();
+    alert('Sincronización completa.\n\n✓ Subidos: '+done+'\n✗ Fallidos: '+fail+'\n— Skipped: '+skip);
   }
   async function addKbAtt(){
     if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
@@ -99,7 +186,17 @@ const WORK = (function(){
     if (!el) return;
     const list = _loadKbAtts();
     if (!list.length) { el.innerHTML='<div style="font-size:11px;color:var(--t3);padding:6px 0">Sin archivos adjuntos.</div>'; return; }
-    el.innerHTML = window.NBShared ? NBShared.renderAttachmentChips(list, { onRemove:'WORK.removeKbAtt' }) : '';
+    el.innerHTML = list.map(a => `
+      <div class="nb-att">
+        <span class="nb-att-ico">${window.NBShared?NBShared.iconForExt(a.ext):'📄'}</span>
+        <div class="nb-att-info">
+          <div class="nb-att-name" title="${esc(a.name)}">${esc(a.name)}</div>
+          <div class="nb-att-meta">${(a.ext||'').toUpperCase()} · ${window.NBShared?NBShared.fmtBytes(a.size||0):a.size+' B'}</div>
+        </div>
+        ${_kbAttCloudBadge(a)}
+        <button class="nb-att-btn" onclick="NBShared.downloadAttachment('${a.id}','${esc(a.name).replace(/'/g,'')}')" title="Descargar">⬇</button>
+        <button class="nb-att-btn nb-att-del" onclick="WORK.removeKbAtt('${a.id}')" title="Eliminar">✕</button>
+      </div>`).join('');
   }
 
   function _load(k){ try { return JSON.parse(localStorage.getItem(k)||'[]'); } catch { return []; } }
@@ -407,12 +504,15 @@ const WORK = (function(){
   }
 
   /* ── RENDER ────────────────────────────────────────────────── */
+  function _attCloudBadge(a, kind, itemId){
+    if (a.cloud) return `<span class="att-cloud on" title="Sincronizado a la nube · descargable desde cualquier device">☁</span>`;
+    return `<button class="att-cloud off" onclick="WORK.syncAttToCloud('${kind}','${itemId}','${a.id}')" title="Solo en este device. Click para subir a la nube y poder descargarlo desde otro PC.">☁↑</button>`;
+  }
+  function _kbAttCloudBadge(a){
+    if (a.cloud) return `<span class="att-cloud on" title="Sincronizado a la nube">☁</span>`;
+    return `<button class="att-cloud off" onclick="WORK.syncKbAttToCloud('${a.id}')" title="Solo local. Click para subir a la nube.">☁↑</button>`;
+  }
   function _itemAttsHtml(kind, id, atts){
-    const chips = (atts && atts.length && window.NBShared)
-      ? NBShared.renderAttachmentChips(atts, { onRemove: `WORK.removeAttFromItem('${kind}','${id}',` })
-      : '';
-    // Note: renderAttachmentChips uses inline onclick concat — we need to close the paren via a custom remove fn.
-    // Use direct render to avoid escaping issues:
     let inner = '';
     if (atts && atts.length){
       inner = atts.map(a => `
@@ -422,6 +522,7 @@ const WORK = (function(){
             <div class="nb-att-name" title="${esc(a.name)}">${esc(a.name)}</div>
             <div class="nb-att-meta">${(a.ext||'').toUpperCase()} · ${window.NBShared?NBShared.fmtBytes(a.size||0):a.size+' B'}</div>
           </div>
+          ${_attCloudBadge(a, kind, id)}
           <button class="nb-att-btn" onclick="NBShared.downloadAttachment('${a.id}','${esc(a.name).replace(/'/g,'')}')" title="Descargar">⬇</button>
           <button class="nb-att-btn nb-att-del" onclick="WORK.removeAttFromItem('${kind}','${id}','${a.id}')" title="Eliminar">✕</button>
         </div>`).join('');
@@ -995,6 +1096,7 @@ const WORK = (function(){
     saveKB, buildAskPrompt, buildMasterReviewPrompt, copyAsk, clearForm, render, eco,
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
+    syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
   };
 })();
 window.WORK = WORK;
