@@ -494,12 +494,26 @@ const CLOUD = (() => {
     return out;
   }
 
+  /** Espera (polling) a que la sync en curso termine. Hasta `timeoutMs` ms. */
+  async function _waitForSyncIdle(timeoutMs){
+    const start = Date.now();
+    while (_syncing && (Date.now() - start) < timeoutMs) {
+      await new Promise(r => setTimeout(r, 200));
+    }
+    return !_syncing;
+  }
+
   async function forceResyncFromCloud() {
     if (!window.SB)        return { ok:false, reason:'sb-not-loaded', detail:'window.SB is not initialized. supabase-client.js no cargó.' };
     if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized. auth.js no cargó.' };
     const uid = window.AUTH.getUserId();
     if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero (botón en la nav superior).' };
-    if (_syncing)          return { ok:false, reason:'syncing', detail:'Ya hay otra sincronización corriendo. Esperá unos segundos.' };
+    // Si hay otra sync corriendo, esperá a que termine (hasta 20s) en vez de bailar out
+    if (_syncing) {
+      console.log('[CLOUD] forceResync: aguardando que termine la sync en curso…');
+      const ok = await _waitForSyncIdle(20000);
+      if (!ok) return { ok:false, reason:'syncing-timeout', detail:'La sincronización anterior tardó más de 20 segundos. Refresca la página y reintentá.' };
+    }
     _syncing = true;
     console.log('[CLOUD] ══ forceResyncFromCloud START · uid=', uid);
     try {
@@ -547,6 +561,10 @@ const CLOUD = (() => {
     if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized.' };
     const uid = window.AUTH.getUserId();
     if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero.' };
+    if (_syncing) {
+      const ok = await _waitForSyncIdle(20000);
+      if (!ok) return { ok:false, reason:'syncing-timeout', detail:'La sincronización anterior tardó más de 20 segundos. Refresca la página y reintentá.' };
+    }
     let pushed = 0, failed = 0;
     const errors = [];
     for (const key of SYNC_REGISTRY) {

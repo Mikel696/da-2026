@@ -144,22 +144,94 @@ const WORK = (function(){
     }
     return msg;
   }
-  /** Force PULL cloud → local: descarga el estado actual del cloud, ignora timestamps locales. */
-  async function forceResync(){
-    if (!window.CLOUD || !window.CLOUD.forceResyncFromCloud) return alert('cloud-sync.js no cargó. Refresca la página.');
-    if (!confirm('Esto descarga el estado actual desde la nube y reemplaza tu local. Útil cuando otro PC hizo cambios que no aparecen aquí. ¿Continuar?')) return;
-    const r = await window.CLOUD.forceResyncFromCloud();
-    if (!r.ok) { alert(_explainSyncError(r)); return; }
-    render();
-    alert('✓ Sincronizado · '+r.count+' keys descargadas desde la nube.\n\nKeys actualizadas:\n'+(r.keys||[]).slice(0,15).join('\n')+((r.keys||[]).length>15?'\n... y '+((r.keys||[]).length-15)+' más':''));
+  /* ── Sync toast no-bloqueante ── */
+  function _syncToast(msg, kind){
+    let el = document.getElementById('syncToast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'syncToast';
+      el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;padding:14px 18px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;box-shadow:0 10px 40px rgba(0,0,0,.4);max-width:340px;line-height:1.5;transition:opacity .25s,transform .25s';
+      document.body.appendChild(el);
+    }
+    const palette = {
+      info: { bg:'rgba(6,182,212,.95)', color:'#001016' },
+      ok: { bg:'rgba(34,197,94,.95)', color:'#001f0d' },
+      err: { bg:'rgba(239,68,68,.95)', color:'#fff' },
+      load: { bg:'rgba(99,102,241,.95)', color:'#fff' },
+    };
+    const p = palette[kind||'info'];
+    el.style.background = p.bg;
+    el.style.color = p.color;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+    el.textContent = msg;
+    return el;
   }
-  /** Force PUSH local → cloud: sube todo tu estado actual al cloud sin importar timestamps. */
-  async function forcePush(){
+  function _syncToastHide(delay){
+    const el = document.getElementById('syncToast');
+    if (!el) return;
+    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, delay||1500);
+  }
+  function _setSyncBtnsDisabled(busy){
+    document.querySelectorAll('[data-syncbtn]').forEach(b => {
+      b.disabled = busy;
+      b.style.opacity = busy ? '.55' : '';
+      b.style.cursor = busy ? 'wait' : '';
+    });
+  }
+  function _setBtnBusy(ev, label){
+    if (!ev || !ev.currentTarget) return null;
+    const b = ev.currentTarget;
+    b.dataset._orig = b.dataset._orig || b.textContent;
+    b.textContent = label;
+    return b;
+  }
+  function _restoreBtn(b){
+    if (b && b.dataset._orig) { b.textContent = b.dataset._orig; delete b.dataset._orig; }
+  }
+  /** Force PULL cloud → local. */
+  async function forceResync(ev){
+    if (!window.CLOUD || !window.CLOUD.forceResyncFromCloud) return alert('cloud-sync.js no cargó. Refresca la página.');
+    const btn = _setBtnBusy(ev, '⏳ Bajando…');
+    _setSyncBtnsDisabled(true);
+    _syncToast('⏳ Sincronizando desde la nube… (puede tardar unos segundos)', 'load');
+    try {
+      const r = await window.CLOUD.forceResyncFromCloud();
+      if (!r.ok) {
+        _syncToast('❌ ' + (r.detail || r.reason), 'err');
+        _syncToastHide(6000);
+        console.warn('[14-WORK] sync error', r);
+        return;
+      }
+      render();
+      _syncToast('✓ ' + r.count + ' keys descargadas del cloud', 'ok');
+      _syncToastHide(2500);
+    } finally {
+      _restoreBtn(btn);
+      _setSyncBtnsDisabled(false);
+    }
+  }
+  /** Force PUSH local → cloud. */
+  async function forcePush(ev){
     if (!window.CLOUD || !window.CLOUD.forcePushAll) return alert('cloud-sync.js no cargó. Refresca la página.');
-    if (!confirm('Esto sube TODO tu estado local al cloud, sobrescribiendo lo que haya allá. Úsalo solo si estás SEGURO de que este PC tiene la versión más nueva. ¿Continuar?')) return;
-    const r = await window.CLOUD.forcePushAll();
-    if (!r.ok) { alert(_explainSyncError(r)); return; }
-    alert('✓ Pusheadas '+r.pushed+' keys · '+(r.failed?r.failed+' fallaron':'sin fallos')+(r.errors && r.errors.length?'\n\nErrores:\n'+r.errors.slice(0,5).join('\n'):''));
+    if (!confirm('Esto sube tu estado local al cloud, sobrescribiendo lo que haya allá. ¿Continuar?')) return;
+    const btn = _setBtnBusy(ev, '⏳ Subiendo…');
+    _setSyncBtnsDisabled(true);
+    _syncToast('⏳ Subiendo al cloud… (puede tardar unos segundos)', 'load');
+    try {
+      const r = await window.CLOUD.forcePushAll();
+      if (!r.ok) {
+        _syncToast('❌ ' + (r.detail || r.reason), 'err');
+        _syncToastHide(6000);
+        console.warn('[14-WORK] push error', r);
+        return;
+      }
+      _syncToast('✓ Pusheadas ' + r.pushed + ' keys' + (r.failed?' · '+r.failed+' fallaron':''), r.failed?'err':'ok');
+      _syncToastHide(3000);
+    } finally {
+      _restoreBtn(btn);
+      _setSyncBtnsDisabled(false);
+    }
   }
   /** Muestra el estado completo de la sincronización */
   function showSyncDiagnostics(){
