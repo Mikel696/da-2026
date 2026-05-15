@@ -478,57 +478,77 @@ const CLOUD = (() => {
 
   /** Force pull cloud → local for ALL syncable keys, ignoring timestamps.
    *  Resuelve casos donde local TS quedó stuck por encima del cloud. */
+  /** Devuelve un objeto con info diagnóstica del estado actual. */
+  function diagnostics() {
+    const out = {
+      sb_loaded: !!window.SB,
+      auth_loaded: !!window.AUTH,
+      uid: null,
+      session: null,
+      syncing: _syncing,
+      initial_sync_done: _initialSyncDone,
+      last_sync_age_s: _lastSyncTs ? Math.round((Date.now()-_lastSyncTs)/1000) : null,
+      queue_size: _queue.length,
+    };
+    try { out.uid = window.AUTH?.getUserId() ?? null; } catch {}
+    return out;
+  }
+
   async function forceResyncFromCloud() {
-    if (!_ready()) { console.warn('[CLOUD] forceResync skipped (not ready)'); return false; }
-    if (_syncing) { console.warn('[CLOUD] forceResync skipped (syncing)'); return false; }
+    if (!window.SB)        return { ok:false, reason:'sb-not-loaded', detail:'window.SB is not initialized. supabase-client.js no cargó.' };
+    if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized. auth.js no cargó.' };
+    const uid = window.AUTH.getUserId();
+    if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero (botón en la nav superior).' };
+    if (_syncing)          return { ok:false, reason:'syncing', detail:'Ya hay otra sincronización corriendo. Esperá unos segundos.' };
     _syncing = true;
-    console.log('[CLOUD] ══ forceResyncFromCloud START ══');
+    console.log('[CLOUD] ══ forceResyncFromCloud START · uid=', uid);
     try {
       const cloudMap = await _pullAllStates();
-      if (!cloudMap) { console.warn('[CLOUD] forceResync: pull failed'); return false; }
-      console.log('[CLOUD] forceResync: pulled', cloudMap.size, 'keys from cloud');
-      // Apply ALL keys from cloud, regardless of local TS
+      if (!cloudMap) return { ok:false, reason:'pull-failed', detail:'No se pudo descargar de app_state. Probable causa: RLS de la tabla app_state no configurada o tabla no existe. Verificá en Supabase dashboard → Database → Tables → app_state.' };
       let applied = 0;
+      const keys = [];
       for (const [key, cloud] of cloudMap.entries()) {
         if (SKIP_KEYS.has(key)) continue;
-        // Only apply known syncable keys (registry + dynamic prefixes)
         const isSyncable = _registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p));
         if (!isSyncable) continue;
         _origSetItem(key, JSON.stringify(cloud.payload));
         _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        keys.push(key);
         applied++;
       }
-      console.log('[CLOUD] forceResync DONE · applied:', applied, 'keys');
+      console.log('[CLOUD] forceResync DONE · applied:', applied, 'keys', keys);
       window.dispatchEvent(new CustomEvent('cloud:force_resynced', { detail: { count: applied } }));
-      return applied;
+      return { ok:true, count: applied, keys };
     } catch (e) {
       console.error('[CLOUD] forceResync exception:', e);
-      return false;
+      return { ok:false, reason:'exception', detail: e.message || String(e) };
     } finally {
       _syncing = false;
     }
   }
 
-  /** Force push current local state of one key to cloud (no debounce, no checks). */
   async function forcePushKey(key) {
-    if (!_ready()) return false;
+    if (!_ready()) return { ok:false, reason:'not-ready' };
     const raw = localStorage.getItem(key);
-    if (raw === null) return false;
+    if (raw === null) return { ok:false, reason:'no-local-data' };
     try {
       await _pushStateRaw(key, _safeParse(raw));
       _setLocalTs(key, Date.now());
       console.log('[CLOUD] forcePush OK:', key);
-      return true;
+      return { ok:true };
     } catch (e) {
       console.error('[CLOUD] forcePush error:', key, e);
-      return false;
+      return { ok:false, reason:'exception', detail: e.message || String(e) };
     }
   }
 
-  /** Force push ALL local syncable keys to cloud immediately. */
   async function forcePushAll() {
-    if (!_ready()) return false;
+    if (!window.SB)        return { ok:false, reason:'sb-not-loaded', detail:'window.SB is not initialized.' };
+    if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized.' };
+    const uid = window.AUTH.getUserId();
+    if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero.' };
     let pushed = 0, failed = 0;
+    const errors = [];
     for (const key of SYNC_REGISTRY) {
       const raw = localStorage.getItem(key);
       if (raw === null) continue;
@@ -536,10 +556,13 @@ const CLOUD = (() => {
         await _pushStateRaw(key, _safeParse(raw));
         _setLocalTs(key, Date.now());
         pushed++;
-      } catch { failed++; }
+      } catch (e) {
+        failed++;
+        errors.push(key + ': ' + (e.message||e));
+      }
     }
     console.log('[CLOUD] forcePushAll done · pushed:', pushed, 'failed:', failed);
-    return { pushed, failed };
+    return { ok:true, pushed, failed, errors };
   }
 
   /* ── Per-key timestamp tracking (stored in one localStorage key) ── */
@@ -640,7 +663,7 @@ const CLOUD = (() => {
     // Tier 2 — app_state (JSONB)
     pushState, fullSyncAll,
     // Manual recovery
-    forceResyncFromCloud, forcePushKey, forcePushAll,
+    forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics,
     // Utilities
     SYNC_REGISTRY, DYNAMIC_PREFIXES
   };

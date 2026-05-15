@@ -123,22 +123,60 @@ const WORK = (function(){
     } catch(e){ console.warn(e); alert('Error: '+(e.message||e)); }
   }
   /** Re-sync TODOS los adjuntos locales a la nube */
+  function _explainSyncError(r){
+    const d = window.CLOUD && window.CLOUD.diagnostics ? window.CLOUD.diagnostics() : {};
+    let msg = '❌ No se pudo sincronizar.\n\n';
+    msg += 'Motivo: ' + (r.reason || 'desconocido') + '\n';
+    if (r.detail) msg += '\nDetalle: ' + r.detail + '\n';
+    msg += '\n── Estado actual ──\n';
+    msg += '• SB cargado: ' + (d.sb_loaded?'sí':'no') + '\n';
+    msg += '• AUTH cargado: ' + (d.auth_loaded?'sí':'no') + '\n';
+    msg += '• Usuario logueado: ' + (d.uid || 'NO · sesión inactiva') + '\n';
+    msg += '• Sincronización corriendo: ' + (d.syncing?'sí':'no') + '\n';
+    msg += '• Sync inicial completado: ' + (d.initial_sync_done?'sí':'no') + '\n';
+    msg += '• Cola de pendientes: ' + (d.queue_size||0) + '\n';
+    if (r.reason === 'not-authenticated') {
+      msg += '\n👉 Solución: iniciá sesión arriba a la derecha.';
+    } else if (r.reason === 'pull-failed') {
+      msg += '\n👉 Probable causa: la tabla "app_state" no existe en tu Supabase, o no tiene políticas RLS configuradas. Revisá Supabase Dashboard → Database → Tables.';
+    } else if (r.errors && r.errors.length) {
+      msg += '\n── Errores específicos por key ──\n' + r.errors.slice(0,5).join('\n');
+    }
+    return msg;
+  }
   /** Force PULL cloud → local: descarga el estado actual del cloud, ignora timestamps locales. */
   async function forceResync(){
-    if (!window.CLOUD || !window.CLOUD.forceResyncFromCloud) return alert('cloud-sync no cargado.');
+    if (!window.CLOUD || !window.CLOUD.forceResyncFromCloud) return alert('cloud-sync.js no cargó. Refresca la página.');
     if (!confirm('Esto descarga el estado actual desde la nube y reemplaza tu local. Útil cuando otro PC hizo cambios que no aparecen aquí. ¿Continuar?')) return;
-    const n = await window.CLOUD.forceResyncFromCloud();
-    if (n === false) { alert('No se pudo sincronizar. Verificá la consola.'); return; }
+    const r = await window.CLOUD.forceResyncFromCloud();
+    if (!r.ok) { alert(_explainSyncError(r)); return; }
     render();
-    alert('✓ Sincronizado · '+n+' keys descargadas desde la nube.\n\nSi todavía no ves los cambios, refresca la página (F5).');
+    alert('✓ Sincronizado · '+r.count+' keys descargadas desde la nube.\n\nKeys actualizadas:\n'+(r.keys||[]).slice(0,15).join('\n')+((r.keys||[]).length>15?'\n... y '+((r.keys||[]).length-15)+' más':''));
   }
   /** Force PUSH local → cloud: sube todo tu estado actual al cloud sin importar timestamps. */
   async function forcePush(){
-    if (!window.CLOUD || !window.CLOUD.forcePushAll) return alert('cloud-sync no cargado.');
+    if (!window.CLOUD || !window.CLOUD.forcePushAll) return alert('cloud-sync.js no cargó. Refresca la página.');
     if (!confirm('Esto sube TODO tu estado local al cloud, sobrescribiendo lo que haya allá. Úsalo solo si estás SEGURO de que este PC tiene la versión más nueva. ¿Continuar?')) return;
     const r = await window.CLOUD.forcePushAll();
-    if (!r) { alert('No se pudo sincronizar. Verificá la consola.'); return; }
-    alert('✓ Pusheadas '+r.pushed+' keys · '+(r.failed?r.failed+' fallaron':'sin fallos'));
+    if (!r.ok) { alert(_explainSyncError(r)); return; }
+    alert('✓ Pusheadas '+r.pushed+' keys · '+(r.failed?r.failed+' fallaron':'sin fallos')+(r.errors && r.errors.length?'\n\nErrores:\n'+r.errors.slice(0,5).join('\n'):''));
+  }
+  /** Muestra el estado completo de la sincronización */
+  function showSyncDiagnostics(){
+    const d = window.CLOUD && window.CLOUD.diagnostics ? window.CLOUD.diagnostics() : null;
+    if (!d) { alert('cloud-sync.js no está cargado.'); return; }
+    let msg = '🔍 Diagnóstico de sincronización\n\n';
+    msg += 'Supabase client (SB): ' + (d.sb_loaded?'✓ cargado':'✗ NO cargado') + '\n';
+    msg += 'Auth module (AUTH): ' + (d.auth_loaded?'✓ cargado':'✗ NO cargado') + '\n';
+    msg += 'Usuario logueado: ' + (d.uid ? '✓ ' + d.uid : '✗ NO · iniciá sesión') + '\n';
+    msg += 'Sincronización en curso: ' + (d.syncing?'sí (esperá)':'no') + '\n';
+    msg += 'Sync inicial completado: ' + (d.initial_sync_done?'✓ sí':'✗ no') + '\n';
+    msg += 'Última sync hace: ' + (d.last_sync_age_s != null ? d.last_sync_age_s+'s' : 'nunca') + '\n';
+    msg += 'Cola de pendientes: ' + d.queue_size + '\n\n';
+    if (!d.uid) msg += '⚠️ NO HAY SESIÓN ACTIVA. Iniciá sesión arriba a la derecha y reintentá.';
+    else if (!d.initial_sync_done) msg += '⚠️ El sync inicial no terminó. Refresca la página.';
+    else msg += '✓ Todo OK. Podés usar "Bajar del cloud" o "Subir al cloud".';
+    alert(msg);
   }
   /** Re-render cuando hay auto-resync silencioso */
   window.addEventListener('cloud:auto_resynced', () => {
@@ -1120,7 +1158,7 @@ const WORK = (function(){
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
-    forceResync, forcePush,
+    forceResync, forcePush, showSyncDiagnostics,
   };
 })();
 window.WORK = WORK;
