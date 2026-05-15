@@ -21,6 +21,86 @@ const WORK = (function(){
   const K_ERRORS = 'work_errors';
   const K_LEARN = 'work_learnings';
   const K_KB = 'work_kb';
+  const K_KB_ATTS = 'work_kb_atts';
+
+  /* Temp staging for attachments before saving a new item */
+  const _pendAtts = { case: [], err: [], learn: [] };
+  function _renderPendAtts(prefix){
+    const el = document.getElementById(prefix+'PendAtts');
+    if (!el) return;
+    const arr = _pendAtts[prefix] || [];
+    if (!arr.length) { el.innerHTML = ''; return; }
+    el.innerHTML = arr.map((a,i) =>
+      `<span class="pend-att"><span class="pa-ic">${(window.NBShared?NBShared.iconForExt(a.ext):'📄')}</span>${esc(a.name)}<span class="pa-rm" onclick="WORK.removePendAtt('${prefix}',${i})">✕</span></span>`
+    ).join('');
+  }
+  async function addPendAtt(prefix){
+    if (!window.NBShared) return alert('Módulo de adjuntos no cargado (recargá la página).');
+    try {
+      const r = await NBShared.pickAndStoreAttachment(prefix);
+      if (!r) return;
+      _pendAtts[prefix] = _pendAtts[prefix] || [];
+      _pendAtts[prefix].push(r);
+      _renderPendAtts(prefix);
+    } catch (e) { if (e && e.message !== 'No file') console.warn(e); }
+  }
+  function removePendAtt(prefix, idx){
+    if (!_pendAtts[prefix]) return;
+    const a = _pendAtts[prefix][idx];
+    if (a && a.id && window.NBShared) NBShared.deleteBlob(a.id).catch(()=>{});
+    _pendAtts[prefix].splice(idx,1);
+    _renderPendAtts(prefix);
+  }
+  async function addAttToItem(kind, id){
+    if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
+    const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+    try {
+      const r = await NBShared.pickAndStoreAttachment(kind);
+      if (!r) return;
+      const list = _load(K);
+      const it = list.find(x => x.id === id);
+      if (!it) return;
+      it.attachments = it.attachments || [];
+      it.attachments.push(r);
+      _save(K, list);
+      render();
+    } catch (e) { if (e && e.message !== 'No file') console.warn(e); }
+  }
+  async function removeAttFromItem(kind, id, attId){
+    const K = kind==='case' ? K_CASES : kind==='err' ? K_ERRORS : K_LEARN;
+    const list = _load(K);
+    const it = list.find(x => x.id === id);
+    if (!it || !it.attachments) return;
+    it.attachments = it.attachments.filter(a => a.id !== attId);
+    if (window.NBShared) NBShared.deleteBlob(attId).catch(()=>{});
+    _save(K, list);
+    render();
+  }
+  async function addKbAtt(){
+    if (!window.NBShared) return alert('Módulo de adjuntos no cargado.');
+    try {
+      const r = await NBShared.pickAndStoreAttachment('kb');
+      if (!r) return;
+      const list = _loadKbAtts();
+      list.push(r);
+      localStorage.setItem(K_KB_ATTS, JSON.stringify(list));
+      renderKbAtts();
+    } catch (e) { if (e && e.message !== 'No file') console.warn(e); }
+  }
+  function removeKbAtt(attId){
+    const list = _loadKbAtts().filter(a => a.id !== attId);
+    localStorage.setItem(K_KB_ATTS, JSON.stringify(list));
+    if (window.NBShared) NBShared.deleteBlob(attId).catch(()=>{});
+    renderKbAtts();
+  }
+  function _loadKbAtts(){ try { return JSON.parse(localStorage.getItem(K_KB_ATTS)||'[]'); } catch { return []; } }
+  function renderKbAtts(){
+    const el = document.getElementById('kbAttsList');
+    if (!el) return;
+    const list = _loadKbAtts();
+    if (!list.length) { el.innerHTML='<div style="font-size:11px;color:var(--t3);padding:6px 0">Sin archivos adjuntos.</div>'; return; }
+    el.innerHTML = window.NBShared ? NBShared.renderAttachmentChips(list, { onRemove:'WORK.removeKbAtt' }) : '';
+  }
 
   function _load(k){ try { return JSON.parse(localStorage.getItem(k)||'[]'); } catch { return []; } }
   function _save(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
@@ -39,14 +119,19 @@ const WORK = (function(){
     const body = document.getElementById('caseBody').value.trim();
     if (!title || !body) return alert('Título y descripción son obligatorios.');
     const list = _load(K_CASES);
-    list.push({ id:'c_'+Date.now(), title, client, severity, status, body, date:new Date().toISOString() });
+    const attachments = (_pendAtts.case||[]).slice();
+    list.push({ id:'c_'+Date.now(), title, client, severity, status, body, attachments, date:new Date().toISOString() });
     _save(K_CASES, list);
+    _pendAtts.case = [];
+    _renderPendAtts('case');
     clearForm('case');
     render();
   }
 
   function delCase(id){
     if (!confirm('¿Eliminar caso?')) return;
+    const it = _load(K_CASES).find(c => c.id === id);
+    if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_CASES, _load(K_CASES).filter(c => c.id !== id));
     render();
   }
@@ -58,14 +143,19 @@ const WORK = (function(){
     const body = document.getElementById('errBody').value.trim();
     if (!title) return alert('Título obligatorio.');
     const list = _load(K_ERRORS);
-    list.push({ id:'e_'+Date.now(), title, code, body, date:new Date().toISOString() });
+    const attachments = (_pendAtts.err||[]).slice();
+    list.push({ id:'e_'+Date.now(), title, code, body, attachments, date:new Date().toISOString() });
     _save(K_ERRORS, list);
+    _pendAtts.err = [];
+    _renderPendAtts('err');
     clearForm('err');
     render();
   }
 
   function delError(id){
     if (!confirm('¿Eliminar error?')) return;
+    const it = _load(K_ERRORS).find(e => e.id === id);
+    if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_ERRORS, _load(K_ERRORS).filter(e => e.id !== id));
     render();
   }
@@ -77,14 +167,19 @@ const WORK = (function(){
     const body = document.getElementById('learnBody').value.trim();
     if (!title || !body) return alert('Título y contenido obligatorios.');
     const list = _load(K_LEARN);
-    list.push({ id:'l_'+Date.now(), title, tag, body, date:new Date().toISOString() });
+    const attachments = (_pendAtts.learn||[]).slice();
+    list.push({ id:'l_'+Date.now(), title, tag, body, attachments, date:new Date().toISOString() });
     _save(K_LEARN, list);
+    _pendAtts.learn = [];
+    _renderPendAtts('learn');
     clearForm('learn');
     render();
   }
 
   function delLearning(id){
     if (!confirm('¿Eliminar?')) return;
+    const it = _load(K_LEARN).find(l => l.id === id);
+    if (it && it.attachments && window.NBShared) it.attachments.forEach(a => NBShared.deleteBlob(a.id).catch(()=>{}));
     _save(K_LEARN, _load(K_LEARN).filter(l => l.id !== id));
     render();
   }
@@ -161,6 +256,145 @@ const WORK = (function(){
     if (raw && navigator.clipboard) navigator.clipboard.writeText(raw).then(()=>alert('Copiado'));
   }
 
+  /* ── MASTER REVIEW PROMPT ────────────────────────────────────
+     Construye un prompt completo de auditoría/restructuración:
+     incluye TODO el contenido del módulo + instrucciones para que
+     Claude detecte info nueva y proponga cambios estructurados a
+     Empieza Aquí, Simulador App, Playbook Ficohsa y Diccionario.
+  */
+  function buildMasterReviewPrompt(){
+    const kb = loadKB().trim();
+    const cases = _load(K_CASES);
+    const errors = _load(K_ERRORS);
+    const learnings = _load(K_LEARN);
+    const wf = (function(){try{return localStorage.getItem('work_eco_workflow')||'';}catch{return '';}})();
+    const cu = (function(){try{return localStorage.getItem('work_eco_course')||'';}catch{return '';}})();
+    let dict = []; try { dict = JSON.parse(localStorage.getItem('work_eco_dict')||'[]'); } catch {}
+    let nbMeta = []; try { nbMeta = JSON.parse(localStorage.getItem('work_nb_meta')||'[]'); } catch {}
+    let nbData = {}; try { nbData = JSON.parse(localStorage.getItem('work_nb_data')||'{}'); } catch {}
+    const kbAtts = _loadKbAtts();
+
+    const stripHtml = (h) => (h||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+    const totalDictByCat = {};
+    dict.forEach(d => { totalDictByCat[d.cat] = (totalDictByCat[d.cat]||0)+1; });
+
+    let p = '';
+    p += '<role>\n';
+    p += 'You are Claude, the agent maintaining the DA-2026 14-WORK · Simetrik Ecosystem module of Miguel Barros Torres. ';
+    p += 'Miguel works as a Reconciliations Analyst / Implementation Specialist at Simetrik on the Ficohsa Honduras project. ';
+    p += 'He populated his personal Simetrik knowledge base from his work PC and asks you to AUDIT it, detect what is new or changed, and propose precise updates to the 4 main display sections of the module: ';
+    p += '(1) Empieza Aquí (mind map · pages/simetrik-learn.html), ';
+    p += '(2) Simulador App (interactive replica · pages/simetrik-app.html), ';
+    p += '(3) Playbook Ficohsa (Ficohsa-specific manual · pages/simetrik-playbook.html), and ';
+    p += '(4) Diccionario (~210 entries with sid-based seed in js/work.js).\n';
+    p += 'Respond in Spanish (es). Be precise, evidence-driven, and reference what you read from the user content. NO INVENTION — never propose info that is not supported by the user content or by the official Simetrik App.md / Domain Framework already loaded in the project.\n';
+    p += '</role>\n\n';
+
+    p += '<project_architecture>\n';
+    p += '- Stack: 100% Vanilla JS, GitHub Pages, Supabase JSONB sync via SYNC_REGISTRY in cloud-sync.js.\n';
+    p += '- Module 14-WORK has 12 tabs: 🧭 Empieza Aquí · 🖥️ Simulador App · 📘 Playbook Ficohsa · 📖 Diccionario · 📝 Notas Workflow · 🎓 Notas Curso · 📓 Cuadernos · 📋 Casos · 🐛 Errores · 💡 Aprendizajes · 📚 KB · 🤖 Copilot.\n';
+    p += '- Storage keys (synced): work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict.\n';
+    p += '- Local only (not synced): work_kb_atts (metadata only — file blobs in IDB), work_eco_dict_seed_v, work_learn_progress.\n';
+    p += '- Dictionary seed in js/work.js, namespace WORK.eco. Each entry: {sid, term, cat, en, def, ex}. Categories: term · acro · process · platform · software. SEED_VERSION current = simetrik-2026-05-14.1. Idempotent by sid — never overwrites user-created entries.\n';
+    p += '- Mind map nodes (Empieza Aquí · 8 nodos): que-es · cuenta · la-app · ia · dominios · contabilidad · conciliacion · ejercicios.\n';
+    p += '- Simulador App screens (24): resumen · ad-recursos · ad-concil · ad-repos · catalogo · replicas · repositorios · conexiones · recursos · conciliaciones · fuentes3 · auto-contables · config-cierre · erp · agentes · alarmas · tableros-op · consolidaciones · buscador · g-recursos · tableros-cont · asientos · periodos · concil-cuentas · historial · fotos · mapas · procesos · papelera · descargas. Each screen has hotspots (interactive tooltips).\n';
+    p += '- Playbook sections (11): snapshot · team · timeline · accounting (5-lesson mini-course) · puc · recon-course (5 lessons) · processes · cheatsheet · faq · resources.\n';
+    p += '</project_architecture>\n\n';
+
+    p += '<user_content_to_audit>\n';
+
+    p += '<kb><![CDATA[\n' + (kb || '(empty)') + '\n]]></kb>\n';
+    p += '<kb_attachments count="' + kbAtts.length + '">' + kbAtts.map(a => a.name + ' (' + (a.ext||'') + ')').join(' · ') + '</kb_attachments>\n\n';
+
+    p += '<cases count="' + cases.length + '">\n';
+    cases.forEach(c => {
+      p += '  <case severity="'+(c.severity||'')+'" status="'+(c.status||'')+'" client="'+(c.client||'')+'" date="'+(c.date||'')+'">\n';
+      p += '    <title>'+(c.title||'')+'</title>\n';
+      p += '    <body>'+(c.body||'').slice(0,1500)+(c.body && c.body.length>1500?'... [truncated]':'')+'</body>\n';
+      if (c.attachments && c.attachments.length) p += '    <attachments>'+c.attachments.map(a=>a.name).join(' · ')+'</attachments>\n';
+      p += '  </case>\n';
+    });
+    p += '</cases>\n\n';
+
+    p += '<errors count="' + errors.length + '">\n';
+    errors.forEach(e => {
+      p += '  <error code="'+(e.code||'')+'" date="'+(e.date||'')+'">\n';
+      p += '    <title>'+(e.title||'')+'</title>\n';
+      p += '    <body>'+(e.body||'').slice(0,1000)+(e.body && e.body.length>1000?'... [truncated]':'')+'</body>\n';
+      if (e.attachments && e.attachments.length) p += '    <attachments>'+e.attachments.map(a=>a.name).join(' · ')+'</attachments>\n';
+      p += '  </error>\n';
+    });
+    p += '</errors>\n\n';
+
+    p += '<learnings count="' + learnings.length + '">\n';
+    learnings.forEach(l => {
+      p += '  <learning tag="'+(l.tag||'')+'" date="'+(l.date||'')+'">\n';
+      p += '    <title>'+(l.title||'')+'</title>\n';
+      p += '    <body>'+(l.body||'').slice(0,1000)+(l.body && l.body.length>1000?'... [truncated]':'')+'</body>\n';
+      if (l.attachments && l.attachments.length) p += '    <attachments>'+l.attachments.map(a=>a.name).join(' · ')+'</attachments>\n';
+      p += '  </learning>\n';
+    });
+    p += '</learnings>\n\n';
+
+    p += '<workflow_notes><![CDATA[\n' + (stripHtml(wf) || '(empty)').slice(0,3000) + '\n]]></workflow_notes>\n';
+    p += '<course_notes><![CDATA[\n' + (stripHtml(cu) || '(empty)').slice(0,3000) + '\n]]></course_notes>\n\n';
+
+    p += '<notebooks count="' + (nbMeta.length||0) + '">\n';
+    nbMeta.forEach(n => {
+      const pages = (nbData[n.id] && nbData[n.id].pages) || [];
+      p += '  <notebook name="'+(n.name||'')+'" icon="'+(n.icon||'')+'" cover="'+(n.cover||'')+'" pages="'+pages.length+'">\n';
+      pages.slice(0,10).forEach(pg => {
+        p += '    <page title="'+(pg.title||'(sin título)')+'">'+stripHtml(pg.body||'').slice(0,400)+'</page>\n';
+      });
+      p += '  </notebook>\n';
+    });
+    p += '</notebooks>\n\n';
+
+    p += '<dictionary total="' + dict.length + '">\n';
+    Object.keys(totalDictByCat).forEach(cat => {
+      p += '  <category cat="'+cat+'" count="'+totalDictByCat[cat]+'"/>\n';
+    });
+    p += '</dictionary>\n';
+    p += '</user_content_to_audit>\n\n';
+
+    p += '<task>\n';
+    p += 'AUDIT the user_content_to_audit above and produce a STRUCTURED UPDATE PROPOSAL in Spanish, with 5 sections clearly delimited:\n\n';
+    p += '## 1. RESUMEN DEL CONTENIDO NUEVO DETECTADO\n';
+    p += '   Bullet list with NEW concepts, processes, platforms, terms, examples, gotchas, or workflows that appear in user content and that are NOT already covered in the 4 display sections (mind map / simulator / playbook / dictionary).\n\n';
+    p += '## 2. CAMBIOS PROPUESTOS · DICCIONARIO\n';
+    p += '   For each NEW dictionary entry, output one line in this exact format so it can be copy-pasted into SEED_DICT in js/work.js:\n';
+    p += '   {sid:\'XXX\',term:\'YYY\',cat:\'term|acro|process|platform|software\',en:\'\',def:\'...\',ex:\'...\'},\n';
+    p += '   The sid must be lowercase, no spaces, unique. Do NOT propose entries already in the seed (check the project_architecture context).\n\n';
+    p += '## 3. CAMBIOS PROPUESTOS · EMPIEZA AQUÍ (mind map)\n';
+    p += '   For each existing node (que-es, cuenta, la-app, ia, dominios, contabilidad, conciliacion, ejercicios), list any new sub-items or examples that should be added based on user content. Format: NODE: <node-key> · ADD: <sub-item title> · CONTENT: <one short paragraph>.\n';
+    p += '   If a NEW top-level node is justified (rare), propose it with name + 3-line summary.\n\n';
+    p += '## 4. CAMBIOS PROPUESTOS · SIMULADOR APP\n';
+    p += '   For each of the 24 screens, list any new hotspot or sub-card that should be added. Format: SCREEN: <screen-key> · ADD-HOTSPOT: <element> · CAT: <category> · TITLE: <h3> · BODY: <p> · USE: <example> · TIP: <tip>.\n';
+    p += '   Use tip categories from the existing hotspot system (Métrica · Panel · Acción · Proceso · Estado · Dashboard · Mapa · Diagnóstico · Workflow · Config · Plantilla · Conciliación · Agente IA · Auditar).\n\n';
+    p += '## 5. CAMBIOS PROPUESTOS · PLAYBOOK FICOHSA\n';
+    p += '   For each existing section (snapshot, team, timeline, accounting, puc, recon-course, processes, cheatsheet, faq), list additions. Format: SECTION: <section-id> · ADD: <what> · CONTENT: <markdown>.\n\n';
+    p += '## 6. INFO INSUFICIENTE / PREGUNTAS PARA MIGUEL\n';
+    p += '   If user content references something that is incomplete (e.g. mentions "the X process" without details), list specific questions to ask Miguel BEFORE proposing display changes. Anti-hallucination rule applies.\n\n';
+    p += '## 7. CONFLICTOS / INCONSISTENCIAS\n';
+    p += '   If user content contradicts what is already documented (in Simetrik App.md or current dictionary), flag it explicitly. Do NOT silently resolve.\n';
+    p += '</task>\n\n';
+
+    p += '<rules>\n';
+    p += '- Spanish responses, English technical terms preserved (workspace, sweep, source union, etc.).\n';
+    p += '- NEVER fabricate Simetrik functionality not present in user content or in the official App.md.\n';
+    p += '- If user attached files (binaries listed in <attachments> tags), say "necesito que Miguel me pegue el contenido del archivo X" — you cannot read attachment blobs from this prompt.\n';
+    p += '- Cite which user content (case / error / learning / KB / notebook page / note) justifies each proposed change.\n';
+    p += '- Prefer additions over rewrites. Existing content stays unless explicitly contradicted.\n';
+    p += '- If the audit finds NO new info worth adding, say so plainly — do not invent changes.\n';
+    p += '- Output is consumed by another Claude Code session that will apply changes to the actual codebase. Be machine-friendly in the format of sections 2, 3, 4, 5.\n';
+    p += '</rules>\n';
+
+    document.getElementById('askResult').style.display = 'block';
+    const heading = document.getElementById('askResultHead'); if (heading) heading.textContent = '· master review prompt listo ·';
+    document.getElementById('askOutput').textContent = p;
+    document.getElementById('askOutput').dataset.raw = p;
+  }
+
   /* ── FORM HELPERS ──────────────────────────────────────────── */
   function clearForm(prefix){
     if (prefix === 'case') {
@@ -173,6 +407,31 @@ const WORK = (function(){
   }
 
   /* ── RENDER ────────────────────────────────────────────────── */
+  function _itemAttsHtml(kind, id, atts){
+    const chips = (atts && atts.length && window.NBShared)
+      ? NBShared.renderAttachmentChips(atts, { onRemove: `WORK.removeAttFromItem('${kind}','${id}',` })
+      : '';
+    // Note: renderAttachmentChips uses inline onclick concat — we need to close the paren via a custom remove fn.
+    // Use direct render to avoid escaping issues:
+    let inner = '';
+    if (atts && atts.length){
+      inner = atts.map(a => `
+        <div class="nb-att">
+          <span class="nb-att-ico">${window.NBShared?NBShared.iconForExt(a.ext):'📄'}</span>
+          <div class="nb-att-info">
+            <div class="nb-att-name" title="${esc(a.name)}">${esc(a.name)}</div>
+            <div class="nb-att-meta">${(a.ext||'').toUpperCase()} · ${window.NBShared?NBShared.fmtBytes(a.size||0):a.size+' B'}</div>
+          </div>
+          <button class="nb-att-btn" onclick="NBShared.downloadAttachment('${a.id}','${esc(a.name).replace(/'/g,'')}')" title="Descargar">⬇</button>
+          <button class="nb-att-btn nb-att-del" onclick="WORK.removeAttFromItem('${kind}','${id}','${a.id}')" title="Eliminar">✕</button>
+        </div>`).join('');
+    }
+    return `<div class="item-atts">
+      ${inner}
+      <button class="item-att-add" onclick="WORK.addAttToItem('${kind}','${id}')">📎 Adjuntar archivo</button>
+    </div>`;
+  }
+
   function renderCases(){
     const el = document.getElementById('casesList');
     if (!el) return;
@@ -191,6 +450,7 @@ const WORK = (function(){
           </div>
         </div>
         <div class="item-body">${esc(c.body)}</div>
+        ${_itemAttsHtml('case', c.id, c.attachments)}
       </div>`).join('');
   }
 
@@ -210,6 +470,7 @@ const WORK = (function(){
           </div>
         </div>
         ${e.body ? `<div class="item-body">${esc(e.body)}</div>` : ''}
+        ${_itemAttsHtml('err', e.id, e.attachments)}
       </div>`).join('');
   }
 
@@ -229,6 +490,7 @@ const WORK = (function(){
           </div>
         </div>
         <div class="item-body">${esc(l.body)}</div>
+        ${_itemAttsHtml('learn', l.id, l.attachments)}
       </div>`).join('');
   }
 
@@ -246,6 +508,7 @@ const WORK = (function(){
     renderCases();
     renderErrors();
     renderLearnings();
+    renderKbAtts();
     const kbField = document.getElementById('kbBody');
     if (kbField && !kbField.value) kbField.value = loadKB();
   }
@@ -359,7 +622,8 @@ const WORK = (function(){
       saveDict(loadDict().filter(x=>x.id!==id));
       dictRender();
     }
-    const CAT_LBL={term:'📚 Término',acro:'🔤 Sigla',process:'⚙️ Proceso',platform:'🏛️ Plataforma',software:'💻 Software'};
+    const CAT_LBL={term:'📚 Términos',acro:'🔤 Siglas',process:'⚙️ Procesos',platform:'🏛️ Plataformas',software:'💻 Software'};
+    const CAT_ORDER=['acro','term','process','platform','software'];
     function dictRender(){
       const wrap=document.getElementById('dictList'); if(!wrap) return;
       const q=(document.getElementById('dictSearch')?.value||'').toLowerCase();
@@ -368,15 +632,42 @@ const WORK = (function(){
       if(filter) list=list.filter(e=>e.cat===filter);
       if(q) list=list.filter(e=>(e.term+' '+e.en+' '+e.def).toLowerCase().includes(q));
       if(!list.length){
-        wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">Sin entradas todavía. Agregá la primera con <b>+ Nueva entrada</b>.</div>';
+        wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:13px">Sin coincidencias. Probá otra búsqueda o agregá una entrada con <b>+ Nueva entrada</b>.</div>';
         return;
       }
-      wrap.innerHTML=list.map(e=>`<div class="dict-card">
-        <div><span class="dt-term">${esc(e.term)}</span>${e.en?`<span class="dt-en">(${esc(e.en)})</span>`:''}<span class="dt-cat">${CAT_LBL[e.cat]||e.cat}</span></div>
-        ${e.def?`<div class="dt-def">${esc(e.def)}</div>`:''}
-        ${e.ex?`<div class="dt-ex">${esc(e.ex)}</div>`:''}
-        <div class="dt-act"><button onclick="WORK.eco.dictEdit('${e.id}')">✏️ Editar</button><button onclick="WORK.eco.dictDel('${e.id}')">🗑️ Eliminar</button></div>
-      </div>`).join('');
+      // Group by cat
+      const grouped={};
+      list.forEach(e=>{ (grouped[e.cat]=grouped[e.cat]||[]).push(e); });
+      const total=list.length;
+      let html=`<div style="font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-bottom:10px;letter-spacing:.5px">${total} entradas · click en cualquier término para expandir definición</div>`;
+      CAT_ORDER.forEach(cat=>{
+        if(!grouped[cat]||!grouped[cat].length) return;
+        const entries=grouped[cat].sort((a,b)=>a.term.localeCompare(b.term));
+        html+=`<div class="dict-group">
+          <div class="dict-group-h">${CAT_LBL[cat]||cat} <span class="dict-group-c">${entries.length}</span></div>
+          <div class="dict-group-grid">
+            ${entries.map(e=>`<div class="dict-row" data-id="${e.id}" onclick="WORK.eco.dictToggle('${e.id}')">
+              <div class="dict-row-h">
+                <span class="dict-row-t">${esc(e.term)}</span>${e.en?`<span class="dict-row-en">${esc(e.en)}</span>`:''}
+                <span class="dict-row-chev">▾</span>
+              </div>
+              <div class="dict-row-body" id="dr-${e.id}">
+                ${e.def?`<div class="dict-row-def">${esc(e.def)}</div>`:''}
+                ${e.ex?`<div class="dict-row-ex">${esc(e.ex)}</div>`:''}
+                <div class="dict-row-act" onclick="event.stopPropagation()">
+                  <button onclick="WORK.eco.dictEdit('${e.id}')">✏️ Editar</button>
+                  <button onclick="WORK.eco.dictDel('${e.id}')">🗑️ Eliminar</button>
+                </div>
+              </div>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      });
+      wrap.innerHTML=html;
+    }
+    function dictToggle(id){
+      const row=document.querySelector('.dict-row[data-id="'+id+'"]');
+      if(row) row.classList.toggle('open');
     }
     /* ── Dictionary seed (one-time, idempotent by `seed_id`) ─── */
     const SEED_VERSION = 'simetrik-2026-05-14.1';
@@ -693,7 +984,7 @@ const WORK = (function(){
       initEditor('cu');
       dictRender();
     }
-    return { fmt, insertLink, insertImg, dictAdd, dictEdit, dictCancel, dictSave, dictDel, dictRender, init };
+    return { fmt, insertLink, insertImg, dictAdd, dictEdit, dictCancel, dictSave, dictDel, dictRender, dictToggle, init };
   })();
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { render(); eco.init(); });
@@ -701,7 +992,9 @@ const WORK = (function(){
 
   return {
     saveCase, delCase, saveError, delError, saveLearning, delLearning,
-    saveKB, buildAskPrompt, copyAsk, clearForm, render, eco,
+    saveKB, buildAskPrompt, buildMasterReviewPrompt, copyAsk, clearForm, render, eco,
+    addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
+    addKbAtt, removeKbAtt,
   };
 })();
 window.WORK = WORK;

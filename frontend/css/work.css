@@ -88,3 +88,35 @@
 .dict-card .dt-act{display:flex;gap:6px;margin-top:8px}
 .dict-card .dt-act button{font-size:11px;padding:4px 8px;background:transparent;border:1px solid var(--bd);color:var(--t2);border-radius:5px;cursor:pointer;font-family:inherit}
 .dict-card .dt-act button:hover{color:var(--tx);border-color:var(--bd2)}
+
+/* ── Diccionario compacto · 2-columnas agrupado ── */
+.dict-group{margin-bottom:18px}
+.dict-group-h{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ac);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px}
+.dict-group-c{background:var(--ag);color:var(--a2);font-size:10px;padding:1px 7px;border-radius:9px;font-weight:700}
+.dict-group-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.dict-row{background:var(--c1);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:all .12s;overflow:hidden}
+.dict-row:hover{border-color:var(--bd2)}
+.dict-row.open{border-color:var(--ac)}
+.dict-row-h{display:flex;align-items:baseline;gap:8px;padding:8px 12px;font-size:13px}
+.dict-row-t{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--ac);flex-shrink:0}
+.dict-row-en{font-size:11.5px;color:var(--t2);font-style:italic;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dict-row-chev{color:var(--t3);font-size:11px;transition:transform .15s}
+.dict-row.open .dict-row-chev{transform:rotate(180deg)}
+.dict-row-body{display:none;padding:4px 12px 12px;border-top:1px solid var(--bd);font-size:12px}
+.dict-row.open .dict-row-body{display:block}
+.dict-row-def{color:var(--tx);line-height:1.55;margin:6px 0}
+.dict-row-ex{color:var(--t2);font-style:italic;font-size:11.5px;border-left:2px solid var(--bd2);padding-left:8px;margin-top:6px;line-height:1.5}
+.dict-row-act{display:flex;gap:6px;margin-top:8px}
+.dict-row-act button{font-size:11px;padding:3px 8px;background:transparent;border:1px solid var(--bd);color:var(--t2);border-radius:5px;cursor:pointer;font-family:inherit}
+.dict-row-act button:hover{color:var(--tx);border-color:var(--bd2)}
+@media (max-width:720px){.dict-group-grid{grid-template-columns:1fr}}
+
+/* ── Adjuntos en Cases/Errors/Learnings/KB ── */
+.item-atts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd)}
+.item-att-add{font-size:11px;padding:4px 9px;background:var(--bg3);border:1px dashed var(--bd2);color:var(--t2);border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.item-att-add:hover{color:var(--ac);border-color:var(--ac);background:transparent}
+.pend-atts{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.pend-att{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bd);padding:4px 9px;border-radius:9px;font-size:11px;color:var(--t2)}
+.pend-att .pa-ic{font-size:13px}
+.pend-att .pa-rm{margin-left:4px;cursor:pointer;color:var(--rd);opacity:.7}
+.pend-att .pa-rm:hover{opacity:1}

@@ -199,8 +199,10 @@
         </select>
       </div>
       <textarea class="txa" id="caseBody" placeholder="Describí el caso: contexto, qué pasó, hipótesis, qué probaste, resultado..." style="min-height:120px"></textarea>
-      <div style="display:flex;gap:6px;margin-top:8px">
+      <div id="casePendAtts" class="pend-atts"></div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveCase()">💾 Guardar caso</button>
+        <button class="btn bo" onclick="WORK.addPendAtt('case')">📎 Adjuntar archivo</button>
         <button class="btn bo" onclick="WORK.clearForm('case')">🗑️ Limpiar</button>
       </div>
     </div>
@@ -216,8 +218,10 @@
       <input class="inp" id="errTitle" placeholder="Mensaje del error / título corto" style="margin-bottom:6px">
       <input class="inp" id="errCode" placeholder="Código / módulo Simetrik (opcional)" style="margin-bottom:6px">
       <textarea class="txa" id="errBody" placeholder="Stack trace, captura, pasos para reproducir, workaround conocido..." style="min-height:100px"></textarea>
-      <div style="display:flex;gap:6px;margin-top:8px">
+      <div id="errPendAtts" class="pend-atts"></div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveError()">💾 Guardar error</button>
+        <button class="btn bo" onclick="WORK.addPendAtt('err')">📎 Adjuntar archivo</button>
         <button class="btn bo" onclick="WORK.clearForm('err')">🗑️ Limpiar</button>
       </div>
     </div>
@@ -241,8 +245,10 @@
         <option value="general">📌 General</option>
       </select>
       <textarea class="txa" id="learnBody" placeholder="¿Qué aprendiste? ¿En qué contexto? ¿Cómo lo usás?"></textarea>
-      <div style="display:flex;gap:6px;margin-top:8px">
+      <div id="learnPendAtts" class="pend-atts"></div>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveLearning()">💾 Guardar</button>
+        <button class="btn bo" onclick="WORK.addPendAtt('learn')">📎 Adjuntar archivo</button>
         <button class="btn bo" onclick="WORK.clearForm('learn')">🗑️ Limpiar</button>
       </div>
     </div>
@@ -258,10 +264,15 @@
       <textarea class="txa" id="kbBody" placeholder="Pegá información clave: arquitectura, módulos, flujos, glosario, links a docs..." style="min-height:240px"></textarea>
       <div style="display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveKB()">💾 Guardar KB</button>
+        <button class="btn bo" onclick="WORK.addKbAtt()">📎 Adjuntar archivo</button>
         <span id="kbSavedBadge" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s">✓ guardado</span>
       </div>
     </div>
-    <div style="font-size:10px;color:var(--t3);margin-top:10px;font-style:italic;line-height:1.6">💡 La KB se inyecta automáticamente como contexto al usar el tab Copilot — Claude tiene esto siempre disponible cuando le hacés preguntas.</div>
+    <div style="margin-top:14px">
+      <div class="lb" style="margin-bottom:6px">· archivos de referencia ·</div>
+      <div id="kbAttsList"></div>
+    </div>
+    <div style="font-size:10px;color:var(--t3);margin-top:10px;font-style:italic;line-height:1.6">💡 La KB + sus archivos se inyectan automáticamente como contexto al usar el tab Copilot. Los binarios viven en IndexedDB local de este device; la metadata (nombre, tipo, tamaño) sincroniza vía Supabase para que sepas qué tenés en cada PC.</div>
   </div>
 
   <!-- ═══ CUADERNOS ═══ -->
@@ -282,8 +293,10 @@
 
   <!-- ═══ COPILOT ═══ -->
   <div class="pnl" id="p-copilot">
+
+    <!-- Modo 1: Quick Ask -->
     <div class="cd">
-      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🤖 Copilot — Pregunta a Claude</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🤖 Quick Ask — Pregunta puntual a Claude</div>
       <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Generá un prompt optimizado con TU contexto de Simetrik (KB + casos recientes + errores). Pegalo en Claude Code o Claude.ai.</div>
       <textarea class="txa" id="askBody" placeholder="¿Cuál es tu pregunta o caso para Claude?" style="min-height:120px"></textarea>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
@@ -296,14 +309,31 @@
         </select>
         <button class="btn bp" onclick="WORK.buildAskPrompt()">⚡ Generar prompt</button>
       </div>
-      <div id="askResult" style="display:none;margin-top:14px">
-        <div class="lb">· prompt listo ·</div>
-        <pre class="result" id="askOutput"></pre>
-        <div style="display:flex;gap:6px;margin-top:6px">
-          <button class="btn bg bs" onclick="WORK.copyAsk()">📋 Copiar</button>
-          <button class="btn bo bs" onclick="document.getElementById('askResult').style.display='none'">✕ Cerrar</button>
-        </div>
+    </div>
+
+    <!-- Modo 2: Master Review -->
+    <div class="cd" style="margin-top:14px;border-left:3px solid var(--vi,#7c3aed)">
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🔄 Master Review — Auditá y restructurá todo el módulo</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.6">Genera un prompt completo que incluye <b>TODO</b> lo que cargaste en este módulo (KB + Cases + Errors + Learnings + Notas Workflow + Notas Curso + páginas de Cuadernos + Diccionario) + la arquitectura del proyecto. Le pide a Claude que detecte info nueva y proponga cambios estructurados a las 4 secciones de display: 🧭 Empieza Aquí · 🖥️ Simulador App · 📘 Playbook · 📖 Diccionario. Es el flujo que usamos cuando volvés del trabajo con info nueva del portal de Simetrik.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <button class="btn bp" onclick="WORK.buildMasterReviewPrompt()" style="background:var(--vi,#7c3aed)">⚡ Generar Master Review Prompt</button>
+        <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">incluye todo · ~varios KB de contexto</span>
       </div>
+    </div>
+
+    <!-- Output común -->
+    <div id="askResult" style="display:none;margin-top:14px">
+      <div class="lb" id="askResultHead">· prompt listo ·</div>
+      <pre class="result" id="askOutput"></pre>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <button class="btn bg bs" onclick="WORK.copyAsk()">📋 Copiar</button>
+        <button class="btn bo bs" onclick="document.getElementById('askResult').style.display='none'">✕ Cerrar</button>
+      </div>
+    </div>
+
+    <!-- Tip persistente -->
+    <div style="margin-top:14px;font-size:11px;color:var(--t3);font-style:italic;line-height:1.65">
+      💡 <b>Workflow recomendado:</b> en tu PC del trabajo cargás info nueva (KB, casos, archivos del portal). En tu PC personal abrís este módulo → tab <b>🤖 Copilot</b> → click <b>Master Review Prompt</b> → copiás → lo pegás en otra sesión de Claude. Esa sesión devuelve un proposal estructurado de cambios que se aplica aquí.
     </div>
   </div>
 </div>

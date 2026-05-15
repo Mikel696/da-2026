@@ -221,7 +221,7 @@
   }
 
   /* Allowed types (extension whitelist) */
-  const ALLOWED_EXT = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','csv','md','zip'];
+  const ALLOWED_EXT = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','csv','md','zip','png','jpg','jpeg','gif','webp','svg','heic','json','xml','log'];
   function extOf(name){
     const m = String(name||'').toLowerCase().match(/\.([a-z0-9]+)$/);
     return m ? m[1] : '';
@@ -249,7 +249,7 @@
     return new Promise((resolve, reject) => {
       const inp = document.createElement('input');
       inp.type = 'file';
-      inp.accept = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.md,.zip';
+      inp.accept = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.md,.zip,.png,.jpg,.jpeg,.gif,.webp,.svg,.heic,.json,.xml,.log';
       inp.onchange = async (e) => {
         const f = e.target.files && e.target.files[0];
         if (!f) return reject(new Error('No file'));

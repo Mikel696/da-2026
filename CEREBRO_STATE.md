@@ -1,8 +1,104 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-14
+- **Última actualización:** 2026-05-14c
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 14-WORK · Workflow de auditoría · Adjuntos universales · Diccionario 2-col · Master Review Prompt — 2026-05-14c
+
+### Qué cambió
+El usuario va a poblar el módulo desde su **PC de trabajo** (donde tiene acceso al portal central de Simetrik) con info real: KB, Cases, Errors, Learnings, Notebooks, Course Notes, Workflow Notes, archivos. Después vuelve a su PC personal y quiere que Claude **audite todo lo cargado y proponga cambios estructurados** a las 4 secciones de display (Empieza Aquí, Simulador App, Playbook Ficohsa, Diccionario). Implementado:
+
+**A) Diccionario compacto · 2 columnas agrupado por tipo:**
+- `dictRender()` rehecho en `js/work.js` namespace `eco`.
+- Las entradas se agrupan por categoría (Siglas · Términos · Procesos · Plataformas · Software) y cada grupo se renderiza en **grid 2 columnas**.
+- Vista compacta por defecto: solo término + traducción EN inline. Click en una fila → se expande con definición + ejemplo + acciones Editar/Eliminar (acordeón inline).
+- Header de grupo con contador de entradas por categoría.
+- Total ~210 entradas distribuidas; mucho más escaneable que la vista anterior de cards grandes.
+- Función nueva `dictToggle(id)` registrada en el namespace `eco`.
+
+**B) Adjuntos universales · Cases · Errors · Learnings · KB:**
+- Reutiliza el módulo `NBShared` (mismo IDB pipeline que Cuadernos en 10-SYS/13-NOT).
+- **`ALLOWED_EXT` extendido en `nb-shared.js`** para incluir imágenes y formatos extra: añadidos `png, jpg, jpeg, gif, webp, svg, heic, json, xml, log` (antes solo docs Office). Esto beneficia a TODOS los módulos que usan attachments (10-SYS, 13-NOT, 14-WORK).
+- **Cases / Errors / Learnings:** cada item ahora soporta `attachments: [{id, name, type, size, ext, addedAt}]`. Los blobs viven en IDB (`da2026_nb` DB), la metadata sincroniza vía Supabase JSONB.
+  - El form de cada uno tiene un botón **📎 Adjuntar archivo** que stagea attachments en `_pendAtts[prefix]` (temp staging).
+  - Al guardar, los pending se transfieren al objeto del item.
+  - Cada item card renderizado muestra sus attachments con chips clickables (descargar/eliminar) + un botón **📎 Adjuntar archivo** para agregar más después.
+  - Al eliminar un item, sus blobs de IDB se limpian (no quedan huérfanos).
+- **KB:** soporta su propio array de attachments en clave nueva `work_kb_atts` (sincronizada vía Supabase). Botón 📎 Adjuntar en el toolbar de KB + panel "archivos de referencia" listando los chips.
+- Patrón de comportamiento documentado: binarios solo en IDB local del device · metadata sincroniza cross-device (en otro PC ves los chips pero al descargar te dice "no en este device").
+
+**C) Master Review Prompt (Copilot tab rediseñado):**
+- Pestaña Copilot ahora tiene **2 modos**:
+  1. **🤖 Quick Ask** (modo original): pregunta puntual con KB + casos/errores recientes como contexto.
+  2. **🔄 Master Review Prompt** (NUEVO): genera un prompt completo que:
+     - Incluye `<role>` con descripción del agente que mantiene el módulo.
+     - Incluye `<project_architecture>` (12 tabs, storage keys, dictionary system con sids, mind map nodes, simulator screens, playbook sections).
+     - Incluye `<user_content_to_audit>` con TODO lo cargado: KB completo + KB attachments metadata + todos los Cases (con severity/status/client/body/attachments) + todos los Errors + todos los Learnings + Workflow Notes + Course Notes + Notebooks (con páginas) + Dictionary counts by category.
+     - Incluye `<task>` con 7 secciones estructuradas que Claude debe producir:
+       1. Resumen del contenido nuevo detectado.
+       2. Cambios propuestos al Diccionario (formato copy-pasteable a SEED_DICT).
+       3. Cambios propuestos al Mind Map (formato NODE/ADD/CONTENT).
+       4. Cambios propuestos al Simulator (formato SCREEN/ADD-HOTSPOT/CAT/TITLE/BODY/USE/TIP).
+       5. Cambios propuestos al Playbook (formato SECTION/ADD/CONTENT).
+       6. Info insuficiente / preguntas para Miguel (anti-hallucination).
+       7. Conflictos / inconsistencias con el material oficial.
+     - Incluye `<rules>` enfatizando NO INVENCIÓN, citar fuente (qué case/error/etc justifica cada cambio), preferir adiciones sobre rewrites.
+- Output machine-friendly para que otra sesión de Claude Code pueda aplicar los cambios al codebase directamente.
+- Botón distintivo (violeta) para diferenciar del Quick Ask.
+- Tip de workflow en el panel: "PC trabajo → cargás info nueva → PC personal → Master Review → otra sesión Claude → cambios aplicados".
+
+### Archivos modificados
+- ✏️ `frontend/js/work.js` (+250 líneas: helpers de attachments, dictRender rehecho, buildMasterReviewPrompt, exports nuevos)
+- ✏️ `frontend/css/work.css` (+50 líneas: estilos `.dict-group`, `.dict-row`, `.item-atts`, `.pend-atts`)
+- ✏️ `frontend/work.html` (botones 📎 en Cases/Errors/Learnings forms, panel `kbAttsList` en KB, Master Review button en Copilot)
+- ✏️ `frontend/js/cloud-sync.js` (+ `work_kb_atts` en SYNC_REGISTRY)
+- ✏️ `frontend/js/nb-shared.js` (ALLOWED_EXT extendido con imágenes + formatos extra · inp.accept actualizado)
+
+### Storage keys nuevos
+- `work_kb_atts` · array `[{id,name,type,size,ext,addedAt}]` — sync ON (metadata) / blobs en IDB local
+- Campo `attachments: []` agregado a cada item de `work_cases`, `work_errors`, `work_learnings` (parte del JSONB existente, sync automático)
+
+### Decisiones técnicas
+1. **NBShared como módulo único de attachments:** se evita reimplementar el pipeline de IDB. Mismo patrón que Cuadernos. Una sola superficie de bugs.
+2. **Temp staging (`_pendAtts`):** los attachments se asignan en el form antes de tener un item.id; al guardar se transfieren. Cancelar / borrar el form limpia los blobs huérfanos.
+3. **Imágenes en attachments vs en rich-text:** el rich-text de Workflow/Course Notes ya usa `insertImg` (dataURL inline). Los attachments del módulo usan IDB. Dos caminos coexistiendo — el primero útil para inline en texto, el segundo para "archivos de referencia" del item.
+4. **Master Review como prompt portable:** se eligió generar un texto grande copy-pasteable en lugar de integrar API directa. Razón: Miguel ya usa Claude.ai / Claude Code en otra sesión; el prompt funciona en cualquier sesión sin claves API ni infraestructura nueva. Es el patrón "P12" del proyecto (prompts reutilizables).
+5. **Diccionario grupo por categoría:** mejora drastically la legibilidad cuando hay 200+ entradas. Los `acro` se buscan diferente a los `process` o `platform`. Grupos colapsables a futuro si crece más.
+
+### Cómo usarlo (workflow del usuario)
+1. **PC del trabajo** (acceso a Simetrik central):
+   - Pega info en KB.
+   - Crea Cases con severity/status + adjunta screenshots, exports, archivos.
+   - Reporta Errors con código de módulo + adjunta logs/stack traces.
+   - Guarda Learnings + tips con tag + adjunta cheatsheets.
+   - Crea/edita Cuadernos con páginas e imágenes.
+   - Edita Notas Workflow + Notas Curso.
+2. **PC personal**:
+   - Abre 14-WORK → tab 🤖 Copilot.
+   - Click **🔄 Generar Master Review Prompt**.
+   - Click **📋 Copiar**.
+   - Abre nueva sesión Claude Code (en este mismo repo) → pega el prompt.
+   - Claude audita y devuelve proposal estructurado.
+   - Aplica los cambios al codebase (mind map, simulator, playbook, dictionary).
+   - Commit + push.
+
+### Estado actual de 14-WORK
+- **Pestañas:** 12 (sin cambio estructural · UX mejorado)
+- **Diccionario:** ~210 términos · vista compacta 2-col agrupada · expandible inline
+- **Attachments:** habilitados en Cases · Errors · Learnings · KB · Cuadernos (todos comparten el mismo IDB layer)
+- **Tipos de archivo soportados:** PDF · Office (Word/Excel/PowerPoint) · TXT/CSV/MD/JSON/XML/LOG · ZIP · imágenes (PNG/JPG/JPEG/GIF/WEBP/SVG/HEIC) — máx 50 MB c/u
+- **Copilot:** 2 modos — Quick Ask + Master Review Prompt
+- **Workflow PC-trabajo → PC-personal:** activo · metadata sincroniza, binarios local por device (limitación documentada)
+
+### Pendientes detectados
+- Próxima iteración del workflow: cuando el Master Review devuelva proposals, considerar agregar un botón "🤖 Aplicar proposal" que toma el output estructurado y modifica el codebase automáticamente (requiere parser del formato de salida).
+- Mini-curso de contabilidad dentro del contexto Simetrik (marcado anteriormente como "le falta") — pendiente.
+- Procesar PDFs Service Module 2/3 + RFP del primer ZIP.
+- APA: feature "pegar cualquier texto → APA automático" + verificación APA_CUN.pdf.
+- Mind Map Studio (15-MM) mejoras profesionales.
 
 ---
 
