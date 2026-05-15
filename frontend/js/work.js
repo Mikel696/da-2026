@@ -252,42 +252,72 @@ const WORK = (function(){
     else msg += '✓ Todo OK. Podés usar "Bajar del cloud" o "Subir al cloud".';
     alert(msg);
   }
-  /** Compara local vs cloud para work_learnings, work_cases, work_errors, work_kb_atts.
-   *  Útil cuando algo eliminado reaparece — te dice qué tiene cada lado. */
+  /** Compara local vs cloud para todos los stores. */
   async function compareLocalVsCloud(){
     if (!window.SB || !window.AUTH || !window.AUTH.getUserId()) { alert('No hay sesión activa.'); return; }
     const uid = window.AUTH.getUserId();
-    const keys = ['work_cases','work_errors','work_learnings','work_kb_atts'];
+    const keys = ['work_cases','work_errors','work_learnings','work_kb_atts','work_nb_meta','work_nb_data'];
     let report = '🔍 Comparación Local vs Cloud\n\n';
     for (const k of keys) {
       const localRaw = localStorage.getItem(k);
       let localCount = 0;
-      try { const arr = JSON.parse(localRaw||'[]'); localCount = Array.isArray(arr)?arr.length:0; } catch{}
-      let cloudCount = 0, cloudTs = '—', err = null;
+      let localObj = null;
+      try {
+        const parsed = JSON.parse(localRaw||'null');
+        localObj = parsed;
+        if (Array.isArray(parsed)) localCount = parsed.length;
+        else if (parsed && typeof parsed === 'object') localCount = Object.keys(parsed).length;
+      } catch{}
+      let cloudCount = 0, cloudTs = '—', err = null, cloudObj = null;
       try {
         const { data, error } = await window.SB.from('app_state').select('payload, updated_at').eq('user_id', uid).eq('store_key', k).maybeSingle();
         if (error) err = error.message;
         else if (data) {
-          cloudCount = Array.isArray(data.payload) ? data.payload.length : (data.payload?1:0);
+          cloudObj = data.payload;
+          if (Array.isArray(data.payload)) cloudCount = data.payload.length;
+          else if (data.payload && typeof data.payload === 'object') cloudCount = Object.keys(data.payload).length;
           cloudTs = data.updated_at;
         }
       } catch(e) { err = e.message; }
       const match = localCount === cloudCount ? '✓' : '⚠️ MISMATCH';
       report += `${match} ${k}\n  Local: ${localCount} items  ·  Cloud: ${cloudCount} items\n  Cloud TS: ${cloudTs}\n` + (err?`  Error: ${err}\n`:'');
-      // Para work_learnings comparar attachments también
-      if (k === 'work_learnings') {
-        try {
-          const local = JSON.parse(localRaw||'[]');
-          const { data } = await window.SB.from('app_state').select('payload').eq('user_id', uid).eq('store_key', k).maybeSingle();
-          const cloud = (data && Array.isArray(data.payload)) ? data.payload : [];
-          report += '  Attachments por item:\n';
-          local.forEach(l => {
-            const cl = cloud.find(c => c.id === l.id);
-            const la = (l.attachments||[]).length;
-            const ca = cl ? (cl.attachments||[]).length : 'N/A';
-            if (la !== ca) report += `    ⚠️ ${l.title}: local=${la} cloud=${ca}\n`;
+      // Attachments details for learnings/cases/errors
+      if (['work_learnings','work_cases','work_errors'].includes(k) && localObj && cloudObj) {
+        const local = Array.isArray(localObj)?localObj:[];
+        const cloud = Array.isArray(cloudObj)?cloudObj:[];
+        local.forEach(l => {
+          const cl = cloud.find(c => c.id === l.id);
+          const la = (l.attachments||[]).length;
+          const ca = cl ? (cl.attachments||[]).length : 'N/A';
+          if (la !== ca) report += `    ⚠️ "${l.title}": local=${la} attachments · cloud=${ca}\n`;
+        });
+      }
+      // Notebook attachments
+      if (k === 'work_nb_data' && localObj && cloudObj) {
+        Object.keys(localObj).forEach(nbId => {
+          const nbL = localObj[nbId];
+          const nbC = cloudObj[nbId];
+          if (!nbC) { report += `    ⚠️ Cuaderno "${nbId}": en local, NO en cloud\n`; return; }
+          const pagesL = nbL.pages || [];
+          const pagesC = nbC.pages || [];
+          pagesL.forEach(pL => {
+            const pC = pagesC.find(p => p.id === pL.id);
+            const aL = (pL.attachments||[]).length;
+            const aC = pC ? (pC.attachments||[]).length : 'N/A';
+            if (aL !== aC) report += `    ⚠️ Página "${pL.title||'(sin título)'}" en cuad ${nbId}: local=${aL} · cloud=${aC}\n`;
+            // List specific files
+            (pL.attachments||[]).forEach(a => {
+              if (pC && !(pC.attachments||[]).find(c => c.id === a.id)) {
+                report += `       └─ Local tiene "${a.name}" · Cloud NO\n`;
+              }
+            });
+            if (pC) (pC.attachments||[]).forEach(a => {
+              if (!(pL.attachments||[]).find(l => l.id === a.id)) {
+                report += `       └─ Cloud tiene "${a.name}" · Local NO\n`;
+              }
+            });
           });
-        } catch{}
+        });
       }
       report += '\n';
     }
@@ -1615,16 +1645,42 @@ const WorkNB = (function(){
     const page = data[nbId].pages.find(p => p.id === activePageId);
     if (!page.attachments) page.attachments = [];
     page.attachments.push(meta);
-    page.updated = new Date().toISOString(); saveData(data); render();
+    page.updated = new Date().toISOString(); saveData(data);
+    if (window.CLOUD && window.CLOUD.pushNow) window.CLOUD.pushNow('work_nb_data').catch(()=>{});
+    render();
   }
   async function removeAttachment(nbId, attId){
     if (!confirm('¿Eliminar adjunto?')) return;
     const data = loadData();
-    const page = data[nbId].pages.find(p => p.id === activePageId);
-    if (!page) return;
-    page.attachments = (page.attachments||[]).filter(a => a.id !== attId);
-    page.updated = new Date().toISOString(); saveData(data);
+    if (!data[nbId]) { console.warn('[WorkNB] removeAttachment: notebook not found', nbId); return; }
+    // Buscar el attachment en activePageId primero, sino en todas las páginas
+    let pageHit = null;
+    if (activePageId) {
+      const p = data[nbId].pages.find(p => p.id === activePageId);
+      if (p && (p.attachments||[]).some(a => a.id === attId)) pageHit = p;
+    }
+    if (!pageHit) {
+      // Fallback: buscar en TODAS las páginas del cuaderno
+      pageHit = data[nbId].pages.find(p => (p.attachments||[]).some(a => a.id === attId));
+    }
+    if (!pageHit) {
+      console.warn('[WorkNB] removeAttachment: attachment id no encontrado en ninguna página', { nbId, attId, activePageId });
+      alert('No se encontró el adjunto en ninguna página de este cuaderno. Probable causa: el ID local quedó desincronizado. Refresca la página (F5) e intentalo de nuevo.');
+      return;
+    }
+    const before = pageHit.attachments.length;
+    pageHit.attachments = pageHit.attachments.filter(a => a.id !== attId);
+    const after = pageHit.attachments.length;
+    console.log('[WorkNB] removeAttachment · page', pageHit.id, '· attachments', before, '→', after, '· removed id:', attId);
+    pageHit.updated = new Date().toISOString();
+    saveData(data);
     if (window.NBShared) { try { await NBShared.deleteImage(attId); } catch(e){} try { await NBShared.deleteBlob(attId); } catch(e){} }
+    // Push inmediato del cambio en work_nb_data
+    if (window.CLOUD && window.CLOUD.pushNow) {
+      const r = await window.CLOUD.pushNow('work_nb_data');
+      console.log('[WorkNB] pushNow work_nb_data after delete:', r);
+      if (!r.ok) alert('⚠️ Borrado localmente pero NO se subió al cloud · '+(r.detail||r.reason)+'\n\nEl cambio puede revertirse al refrescar. Click "⬆ Subir al cloud" arriba.');
+    }
     render();
   }
 
