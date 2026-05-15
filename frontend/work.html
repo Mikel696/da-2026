@@ -41,6 +41,7 @@
     <button class="btn bo bs" data-syncbtn onclick="WORK.forceResync(event)" title="Descarga el estado actual del cloud y reemplaza tu local. Usalo si este PC NO tiene los últimos cambios.">🔄 Bajar del cloud</button>
     <button class="btn bo bs" data-syncbtn onclick="WORK.forcePush(event)" title="Sube tu estado local al cloud, sobrescribiendo lo que haya allá. Usalo si este PC TIENE los últimos cambios.">⬆ Subir al cloud</button>
     <button class="btn bo bs" onclick="WORK.showSyncDiagnostics()" title="Muestra el estado actual de la sincronización: si hay sesión, si el cloud está accesible, etc.">🔍 Diagnóstico</button>
+    <button class="btn bo bs" onclick="WORK.compareLocalVsCloud()" title="Compara qué tenés localmente vs qué tiene el cloud (Cases, Errors, Learnings, KB). Útil cuando algo eliminado reaparece.">⚖ Comparar L vs Cloud</button>
     <span style="margin-left:auto;font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a la pestaña (&gt;30s)</span>
   </div>
 

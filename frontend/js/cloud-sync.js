@@ -689,11 +689,14 @@ const CLOUD = (() => {
     if (document.hidden) { _flushPendingPushes(); }
   });
 
-  /** Push immediately bypassing debounce. Called for critical writes like deletes. */
+  /** Push immediately bypassing debounce. Called for critical writes like deletes.
+   *  Si falla, dispara un evento cloud:push_failed para que la UI pueda mostrar warning. */
   async function pushNow(key){
-    // Cancel any pending debounce for this key
     if (_debounceMap.has(key)) { clearTimeout(_debounceMap.get(key)); _debounceMap.delete(key); }
-    if (!_ready()) return { ok:false, reason:'not-ready' };
+    if (!_ready()) {
+      window.dispatchEvent(new CustomEvent('cloud:push_failed', { detail: { key, reason: 'not-ready' } }));
+      return { ok:false, reason:'not-ready' };
+    }
     const raw = localStorage.getItem(key);
     if (raw === null) return { ok:false, reason:'no-local-data' };
     try {
@@ -702,7 +705,11 @@ const CLOUD = (() => {
       console.log('[CLOUD] pushNow OK:', key);
       return { ok:true };
     } catch (e) {
-      console.error('[CLOUD] pushNow error:', key, e);
+      console.error('[CLOUD] pushNow FAILED:', key, e);
+      // Enqueue for retry
+      _queue.push({ table: 'app_state', record: { key, payload: _safeParse(raw) }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+      window.dispatchEvent(new CustomEvent('cloud:push_failed', { detail: { key, reason:'exception', detail: e.message||String(e), error: e } }));
       return { ok:false, reason:'exception', detail: e.message||String(e) };
     }
   }
@@ -799,9 +806,12 @@ const CLOUD = (() => {
     if (!_ready() || _syncing) return;
     const age = Date.now() - _lastSyncTs;
     if (age < 30000) return; // less than 30s, skip
-    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — auto-resyncing');
-    await forceResyncFromCloud();
-    // Notify modules to re-render
+    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — auto-syncing (normal reconcile)');
+    // CRÍTICO: usar fullSyncAll (reconcile con timestamps) en vez de forceResync (sobrescribe siempre).
+    // Si pushNow del delete falló silenciosamente, el cloud está viejo. fullSyncAll detecta que
+    // local es más reciente y empuja local→cloud, preservando el delete. forceResync haría lo
+    // opuesto: traería el cloud viejo y resucitaría el archivo eliminado.
+    await fullSyncAll();
     window.dispatchEvent(new CustomEvent('cloud:auto_resynced'));
   });
 

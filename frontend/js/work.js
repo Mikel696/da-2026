@@ -252,10 +252,66 @@ const WORK = (function(){
     else msg += '✓ Todo OK. Podés usar "Bajar del cloud" o "Subir al cloud".';
     alert(msg);
   }
+  /** Compara local vs cloud para work_learnings, work_cases, work_errors, work_kb_atts.
+   *  Útil cuando algo eliminado reaparece — te dice qué tiene cada lado. */
+  async function compareLocalVsCloud(){
+    if (!window.SB || !window.AUTH || !window.AUTH.getUserId()) { alert('No hay sesión activa.'); return; }
+    const uid = window.AUTH.getUserId();
+    const keys = ['work_cases','work_errors','work_learnings','work_kb_atts'];
+    let report = '🔍 Comparación Local vs Cloud\n\n';
+    for (const k of keys) {
+      const localRaw = localStorage.getItem(k);
+      let localCount = 0;
+      try { const arr = JSON.parse(localRaw||'[]'); localCount = Array.isArray(arr)?arr.length:0; } catch{}
+      let cloudCount = 0, cloudTs = '—', err = null;
+      try {
+        const { data, error } = await window.SB.from('app_state').select('payload, updated_at').eq('user_id', uid).eq('store_key', k).maybeSingle();
+        if (error) err = error.message;
+        else if (data) {
+          cloudCount = Array.isArray(data.payload) ? data.payload.length : (data.payload?1:0);
+          cloudTs = data.updated_at;
+        }
+      } catch(e) { err = e.message; }
+      const match = localCount === cloudCount ? '✓' : '⚠️ MISMATCH';
+      report += `${match} ${k}\n  Local: ${localCount} items  ·  Cloud: ${cloudCount} items\n  Cloud TS: ${cloudTs}\n` + (err?`  Error: ${err}\n`:'');
+      // Para work_learnings comparar attachments también
+      if (k === 'work_learnings') {
+        try {
+          const local = JSON.parse(localRaw||'[]');
+          const { data } = await window.SB.from('app_state').select('payload').eq('user_id', uid).eq('store_key', k).maybeSingle();
+          const cloud = (data && Array.isArray(data.payload)) ? data.payload : [];
+          report += '  Attachments por item:\n';
+          local.forEach(l => {
+            const cl = cloud.find(c => c.id === l.id);
+            const la = (l.attachments||[]).length;
+            const ca = cl ? (cl.attachments||[]).length : 'N/A';
+            if (la !== ca) report += `    ⚠️ ${l.title}: local=${la} cloud=${ca}\n`;
+          });
+        } catch{}
+      }
+      report += '\n';
+    }
+    alert(report);
+    console.log(report);
+  }
   /** Re-render cuando hay auto-resync silencioso */
   window.addEventListener('cloud:auto_resynced', () => {
     console.log('[14-WORK] auto-resync detected, re-rendering');
     try { render(); if (eco && eco.dictRender) eco.dictRender(); if (window.WorkNB && WorkNB.render) WorkNB.render(); } catch(e){ console.warn(e); }
+  });
+
+  /** Si un push inmediato falla, mostrar toast rojo bien visible. */
+  window.addEventListener('cloud:push_failed', (e) => {
+    const d = e.detail || {};
+    const msg = '⚠️ El cambio en "' + (d.key||'?') + '" NO se sincronizó al cloud. ' +
+      (d.detail || d.reason || '') +
+      ' · El cambio quedó SOLO local — puede revertirse al refrescar. Probar "⬆ Subir al cloud" arriba.';
+    if (typeof _syncToast === 'function') {
+      _syncToast(msg, 'err');
+      _syncToastHide(8000);
+    } else {
+      console.error('[14-WORK] push failed:', d);
+    }
   });
 
   /** Re-render cuando llega un cambio en realtime desde otro device */
@@ -1254,7 +1310,7 @@ const WORK = (function(){
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,
-    forceResync, forcePush, showSyncDiagnostics,
+    forceResync, forcePush, showSyncDiagnostics, compareLocalVsCloud,
   };
 })();
 window.WORK = WORK;
