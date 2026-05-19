@@ -1,8 +1,76 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15n
+- **Última actualización:** 2026-05-15o
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🌐 Prompt Lab · Fase D · English + compact + execution tracking — 2026-05-15o
+
+### Qué pidió el usuario
+- Prompts en INGLÉS (los previos eran mix Spanish/English).
+- `desc` (UI summary) puede quedar en Spanish — los **bodies completos** en English.
+- Token-saving es prioridad #1.
+- Cada ejecución debe **quedar registrada** para que la próxima vez que el mismo prompt corra, Claude sepa qué se hizo y no repita.
+
+### Solución entregada
+
+**1. Nuevo archivo `PROMPT_RUNS.md`** (root del repo)
+- Log central de ejecuciones por prompt-ID.
+- Convención IDs: `{module-code}.P1/P2/P3` para los 48 modular · `LIB.{slug}` para Library (`LIB.recovery`, `LIB.bootstrap`, `LIB.bug-hunt`, `LIB.sync-audit`, `LIB.cross-module`, `LIB.capabilities-audit`).
+- Template de entry estandarizado: `ID · Date · Commit · Files · Changed · Next`.
+
+**2. `frontend/js/module-prompts.js` reescrito** (Fase D)
+- Cada prompt body en **inglés compacto**.
+- Cada prompt incluye:
+  - `PRIOR RUNS: grep PROMPT_RUNS.md for "ID:..." before starting. EXTEND or take a NEW angle — never repeat.`
+  - `LOG: append to PROMPT_RUNS.md` (template embebido).
+- `desc` (UI) se mantuvo en Spanish para el user-facing.
+- Tamaño: `module-prompts.js` pasó de 19.4K a 14.5K chars (~25% reducción) **incluyendo** los nuevos bloques PRIOR RUNS + LOG.
+- Por prompt: ~2200 chars → ~1100 chars (50% reducción).
+
+**3. Library `cat:'claude'` traducidas al inglés** (6 entries refactorizadas)
+- `🔁 Full Context Recovery` (ID:LIB.recovery)
+- `🧠 CEREBRO Bootstrap` (ID:LIB.bootstrap)
+- `🐛 Bug Hunt periodic` (ID:LIB.bug-hunt)
+- `🔄 Sync Audit periodic` (ID:LIB.sync-audit)
+- `🧭 Cross-Module Wiring` (ID:LIB.cross-module)
+- `🔌 Capabilities Audit` (ID:LIB.capabilities-audit)
+
+Cada una con bloque PRIOR RUNS + LOG y `desc` en Spanish.
+
+### Token-saving · medición
+| Métrica | Antes (Fase A) | Ahora (Fase D) | Reducción |
+|---|---|---|---|
+| Body promedio P1 modular | ~2300 chars | ~1150 chars | **-50%** |
+| Body promedio P2 audit | ~2400 chars | ~1200 chars | **-50%** |
+| Body promedio P3 creative | ~3100 chars | ~1700 chars | **-45%** |
+| 🐛 Bug Hunt library | ~2400 chars | ~1300 chars | **-46%** |
+| 🧠 Bootstrap library | ~2300 chars | ~1500 chars | **-35%** |
+| `module-prompts.js` total | 19.4K | 14.5K | **-25%** |
+
+### Cómo funciona la memoria entre ejecuciones
+1. Usuario pega el prompt (ej. `12-FIN.P1`).
+2. Claude PRIMERO greppea `PROMPT_RUNS.md` por `ID:12-FIN.P1`.
+3. Lee las N entradas previas · entiende qué se hizo · qué quedó pendiente.
+4. Ejecuta la tarea EXTENDIENDO el trabajo previo (no repetir).
+5. Al cerrar, append a `PROMPT_RUNS.md`:
+   ```
+   ### ID:12-FIN.P1 · 2026-05-20
+   - Commit: abc1234
+   - Files: frontend/finance.html
+   - Changed: añadido gráfico de tendencia trimestral
+   - Next: agregar export CSV de movimientos por categoría
+   ```
+
+### Sanity checks
+- ✅ `prompts.html` inline JS parsea (135668 chars).
+- ✅ `module-prompts.js` parsea (14468 chars).
+
+### Pendiente · usuario decide
+- Traducir los prompts NO-claude que están en Spanish (categorías `data`, `code`, `biz`, `learn`, `asistente`, `exam`) — son ~25 entries. ¿Necesarios o son OK Spanish?
+- Aplicar el patrón PRIOR RUNS + LOG a esas ~25 entries Spanish (si el usuario las usa con Claude Code).
 
 ---
 
