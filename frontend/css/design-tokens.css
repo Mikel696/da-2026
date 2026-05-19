@@ -151,6 +151,7 @@
   --bg2:   var(--color-bg-2);
   --bg3:   var(--color-bg-3);
   --bg4:   var(--color-bg-4);
+  --c0:    var(--color-bg);     /* alias usado en 10-SYS (cnb-selector, pim-modal) */
   --c1:    var(--color-bg-2);
   --c2:    var(--color-bg-3);
   --el:    var(--color-bg-4);

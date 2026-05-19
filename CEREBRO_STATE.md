@@ -1,8 +1,47 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15j
+- **Última actualización:** 2026-05-15k
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🐛 Fase 3 · Bug Hunt — 2026-05-15k
+
+### Auditoría sistemática (delegada a Explore agent)
+Scan completo del frontend buscando: tokens CSS sin definir, colisiones `.ds-*`, `getElementById` rotos, gaps en SYNC_REGISTRY, refs `script src`/`link href` rotas.
+
+### Hallazgos en producción (16 módulos migrados) → CORREGIDOS
+1. **`--c0` undefined en 10-SYS** (`systems.html:387,396`) — usado en `.cnb-selector-sel` y `.pim-modal`. **Fix:** agregado alias `--c0: var(--color-bg)` en `design-tokens.css`.
+2. **`jt_s8` no estaba en SYNC_REGISTRY** — timestamp de inicio del Job Tracker (cuenta de días). **Fix:** agregado a `cloud-sync.js` para sync cross-device.
+
+### Hallazgos descartados (falsos positivos o intencionales)
+- `--rc` en `accounting.css:129-130` — **Intencional.** Se inyecta inline por card via `style="--rc:colorX"` en `accounting.js:355`. No es bug.
+- `fin_sav_goal`, `fin_2026-04` "missing from SYNC_REGISTRY" — **Capturados por `DYNAMIC_PREFIXES = ['fin_', ...]`** en `cloud-sync.js:307`. No es bug.
+- `navXP` en `accounting.js:222` — **Tiene null-check** (`if (xpBdg)`), falla silenciosamente. Dead code de un diseño previo, sin impacto en usuario.
+- `work_eco_dict_seed_v` — Documentado como "local only" en `work.js:958`. Intencional.
+
+### Hallazgos en módulos LEGACY (no producción)
+- `css/main.css` + `css/auth.css` + `pages/*.html` — 45 tokens undefined (`--fb`, `--fh`, `--ink*`, `--txt*`, `--acid`, `--sky`, `--mint`, `--ember`, etc).
+- **Decisión:** estos archivos están en `frontend/pages/` (configurar, empleos, ingles, prompts, proyectos, recursos, ruta, sesion, tacticas) — son **vestigios pre-DA-2026** no enlazados desde el dashboard actual. No bloquean nada de producción. Si en algún momento se decide rescatarlos, se migran. Por ahora: ignorar.
+
+### Resumen tabla
+| Categoría | Status | Acción |
+|---|---|---|
+| Tokens undefined (producción) | 🟢 1 → 0 | `--c0` aliasado |
+| Colisiones `.ds-*` | ✅ Clean | — |
+| `getElementById` rotos | 🟡 1 (silencioso) | sin acción (null-check) |
+| Gaps SYNC_REGISTRY | 🟢 1 → 0 | `jt_s8` agregado |
+| Refs `src`/`href` rotas | ✅ Clean | — |
+| Tokens legacy en `pages/*` | 🟡 45 | sin acción (archivos obsoletos) |
+
+### Lo que aprendí
+- Después de una migración masiva (16 módulos al Design System v1.0), un audit estructurado revela menos bugs de lo esperado. El patrón "remover `:root` + dejar que aliases cubran legacy" funcionó.
+- Los pocos hallazgos verdaderos (`--c0`, `jt_s8`) eran edge cases razonablemente difíciles de prever.
+- `DYNAMIC_PREFIXES` es una arma poderosa — captura todas las variantes `fin_*` sin enumerarlas. Vale la pena documentarla mejor en `CLAUDE.md`.
+
+### Pendiente
+- Decidir destino de `frontend/pages/*.html` legacy: ¿archivar (`pages/_legacy/`) o migrar también? **Sugerencia:** archivar — ya no están enlazados desde ninguna parte del dashboard activo.
 
 ---
 

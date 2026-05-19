@@ -300,7 +300,10 @@ const CLOUD = (() => {
     // 10-SYS Systems Engineering · cuaderno custom activo seleccionado
     'sys_active_custom',
     // 4-RUT Ruta Data Analyst · timestamp de inicio del journey
-    'ruta_st'
+    'ruta_st',
+    // ─── Bug Hunt fix · 2026-05-15j (Fase 3) ───
+    // 5-JOB · timestamp de inicio del tracker (para conteo de días cross-device)
+    'jt_s8'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */
