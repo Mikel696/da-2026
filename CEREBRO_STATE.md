@@ -1,8 +1,57 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15i
+- **Última actualización:** 2026-05-15j
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🏁 Fase 2.6 · Todos los P2 migrados · DESIGN SYSTEM v1.0 CERRADO — 2026-05-15j
+
+### Qué cambió
+Última tanda — siete migraciones P2 en una sesión. **16/16 módulos** ahora corren sobre el Design System v1.0.
+
+### Módulos migrados
+| Código | Archivos | Notas |
+|---|---|---|
+| 2-APP | `apply.html` + `css/apply.css` | imports + remove :root + refinar .tab/.card/.btn/.txa/.inp |
+| 4-RUT | `ruta.html` (inline) | imports + remove :root inline + refinar .rt-card |
+| 11-ACC | `accounting.html` + `css/accounting.css` | imports + remove :root + refinar .tab (verde --em) y .btn (texto #001f0d) |
+| 6-TOO | `tools.html` (inline) | imports + remove :root + refinar .tab/.card |
+| 7-NEW | `news.html` (inline) | imports + remove :root + refinar .tab/.btn |
+| 15-MM | `mindmap.html` + `css/mindmap.css` | imports + reducir :root a `--vi` local + refinar .btn/.inp/.mm-tab |
+| 16-APA | `apa.html` + `css/apa.css` | imports + reducir :root a cyan local + refinar .btn (texto cyan #001518) |
+
+### Pattern aplicado
+- `<link>` design-tokens.css + components.css agregados antes del CSS local.
+- `:root{...}` removidos completos (excepto overrides locales legítimos: --vi en 15-MM, cyan en 16-APA).
+- Reset `*{margin:0...}` removido (heredado del sistema).
+- `.tab`/`.card`/`.btn`/`.inp`/`.txa` refinados con `--radius-md/sm`, `--transition-fast`, `--shadow-glow`, focus-visible global.
+- Botones verdes con texto `#001f0d` para contraste WCAG AA.
+- Botones cyan (16-APA) con texto `#001518`.
+
+### Matriz final 16/16 ✅
+| # | Código | Módulo | Fase |
+|---|---|---|---|
+| 1 | 1-IND | Dashboard | 2.1 |
+| 2 | 14-WORK | Simetrik Hub (cyan) | 2.2 |
+| 3 | 10-SYS | Systems Engineering (glass) | 2.3 |
+| 4 | 13-NOT | Notes | 2.4 |
+| 5 | 12-FIN | Finance | 2.4 |
+| 6 | 8-PRO | Prompt Lab | 2.5 |
+| 7 | 3-ENG | English Academy | 2.5 |
+| 8 | 5-JOB | Job Tracker | 2.5 |
+| 9 | 9-GOA | Goals & Habits | 2.5 |
+| 10 | 2-APP | Application Center | 2.6 |
+| 11 | 4-RUT | Ruta Data Analyst | 2.6 |
+| 12 | 11-ACC | Accounting (verde --em) | 2.6 |
+| 13 | 6-TOO | Tools | 2.6 |
+| 14 | 7-NEW | News | 2.6 |
+| 15 | 15-MM | Mind Map Studio | 2.6 |
+| 16 | 16-APA | APA Studio (cyan) | 2.6 |
+
+### Pendiente
+- **Fase 3** (Bug Hunt): scan sistemático de la pagina entera buscando errores, regressions, consola con warnings.
 
 ---
 

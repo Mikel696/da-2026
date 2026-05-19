@@ -6,10 +6,15 @@
 <title>DA-2026 · Ruta Data Analyst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
 <link rel="stylesheet" href="css/ruta.css">
 <style>
-:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--og:rgba(249,115,22,.08)}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+/* 4-RUT · migrado al Design System v1.0 (2026-05-15) */
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
 .nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
@@ -43,7 +48,8 @@
 .rt-phase{display:none;animation:fu .3s ease}.rt-phase.on{display:block}
 @keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 /* CARD */
-.rt-card{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:12px}
+.rt-card{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:20px;margin-bottom:12px;transition:border-color var(--transition-base)}
+.rt-card:hover{border-color:var(--bd2)}
 /* LESSON — EXPANDABLE */
 .rt-les{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;overflow:hidden;transition:border-color .2s}
 .rt-les:hover{border-color:var(--bd2)}

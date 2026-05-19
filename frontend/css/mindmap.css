@@ -1,8 +1,9 @@
 /* ════════════════════════════════════════════════════════════════
-   DA-2026 · Mind Map Studio (jsMind + dark theme overrides)
+   DA-2026 · 15-MM Mind Map Studio — migrado al Design System v1.0 (2026-05-15)
+   Conserva --vi (violet local override del módulo).
 ═════════════════════════════════════════════════════════════════ */
-:root{--bg:#09090b;--c1:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--ag:rgba(139,92,246,.08);--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--rg:rgba(239,68,68,.08);--cy:#06b6d4;--cg:rgba(6,182,212,.08);--or:#f97316;--em:#10b981;--vi:#7c3aed}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow:hidden}
+:root{--vi:#7c3aed}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);overflow:hidden}
 ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
 
 /* Top nav (shared) */
@@ -15,12 +16,14 @@
 .bdg-mod{background:var(--ag);border:1px solid rgba(139,92,246,.25);color:var(--a2)}
 
 /* Inputs / buttons (reused) */
-.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;border-radius:7px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
-.bp{background:var(--ac);color:#fff}.bp:hover{filter:brightness(1.12)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast),filter var(--transition-fast)}
+.btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.bp{background:var(--ac);color:#fff}.bp:hover{filter:brightness(1.12);transform:translateY(-1px)}
 .bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{color:var(--tx);border-color:var(--bd2)}
-.bg{background:var(--gn);color:#fff}.bg:hover{filter:brightness(1.12)}
+.bg{background:var(--gn);color:#001f0d}.bg:hover{filter:brightness(1.12);transform:translateY(-1px)}
 .bs{padding:6px 10px;font-size:11px}
-.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px}.inp:focus{outline:none;border-color:var(--ac)}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:12px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.inp:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
 
 /* ── Main shell layout ─────────────────────────────────── */
 .mm-shell{display:flex;height:calc(100vh - 48px);overflow:hidden}
@@ -86,9 +89,10 @@ jmexpander:hover{background:var(--ac)!important;color:#fff!important}
    FREE CANVAS (Miro-style) · separate tab in 15-MM
 ═════════════════════════════════════════════════════════════════ */
 .mm-tabs{display:flex;gap:2px;background:var(--c1);border-bottom:1px solid var(--bd);padding:6px 8px}
-.mm-tab{padding:8px 16px;border-radius:7px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:all .15s}
+.mm-tab{padding:8px 16px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:color var(--transition-fast),background var(--transition-fast)}
 .mm-tab:hover{color:var(--tx);background:var(--el)}
 .mm-tab.on{color:#fff;background:var(--ac)}
+.mm-tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
 .mm-pane{height:calc(100vh - 48px - 44px)}
 .mm-pane[hidden]{display:none}
 

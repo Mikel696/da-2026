@@ -1,7 +1,5 @@
-/* ═══ 11-ACC · Accounting Associate — accounting.css ═══ */
-:root{--bg:#09090b;--c1:#16161a;--c2:#1c1c21;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--t2:#a1a1aa;--t3:#52525b;--ac:#8b5cf6;--a2:#a78bfa;--gn:#22c55e;--gg:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316;--em:#10b981;--e2:#34d399;--eg:rgba(16,185,129,.08)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+/* ═══ 11-ACC · Accounting Associate — migrado al Design System v1.0 (2026-05-15) ═══ */
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 
 /* ── NAV ── */
@@ -29,9 +27,10 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .hsl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
 
 /* ── TABS ── */
-.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:3px;margin-bottom:24px;overflow-x:auto}
-.tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:all .2s;border:none;background:none;white-space:nowrap;font-family:inherit}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:var(--radius-md);padding:3px;margin-bottom:24px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:8px 12px;border-radius:var(--radius-sm);font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;transition:color var(--transition-fast),background var(--transition-fast);border:none;background:none;white-space:nowrap;font-family:inherit}
 .tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--em);box-shadow:0 2px 8px rgba(16,185,129,.25)}
+.tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
 
 /* ── PANELS ── */
 .pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
@@ -42,7 +41,8 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .sd{font-size:13px;color:var(--t2);margin-bottom:16px}
 
 /* ── CARD ── */
-.card{background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:10px;padding:20px;margin-bottom:12px}
+.card{background:var(--c1);border:1px solid rgba(16,185,129,.15);border-radius:var(--radius-md);padding:20px;margin-bottom:12px;transition:border-color var(--transition-base)}
+.card:hover{border-color:rgba(16,185,129,.3)}
 .card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .card-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
 
@@ -91,8 +91,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .ex-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;background:rgba(16,185,129,.08);color:var(--em);border:1px solid rgba(16,185,129,.12)}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:7px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
-.bp{background:var(--em);color:#fff}.bp:hover{opacity:.9}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:var(--radius-sm);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast),filter var(--transition-fast)}
+.btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.bp{background:var(--em);color:#001f0d}.bp:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .bo{background:transparent;color:var(--t2);border:1px solid var(--bd)}.bo:hover{border-color:var(--em);color:var(--em)}
 .bs{padding:5px 9px;font-size:10px}
 
