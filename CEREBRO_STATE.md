@@ -1,8 +1,65 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15m
+- **Última actualización:** 2026-05-15n
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 📚 Prompt Lab Overhaul · Fase C · Library refresh — 2026-05-15n
+
+### Qué cambió
+Limpieza + refresh del array `lib` (Librería) en `prompts.html`. Los prompts module-specific ahora viven en el tab **🧩 Módulos** (Fase A) · la Librería pasa a ser cross-cutting + templates universales + categorías de estudio.
+
+### Eliminados (12 entries duplicados)
+Los siguientes prompts estaban duplicados con el tab 🧩 Módulos:
+- "Work on 3-ENG English Academy"
+- "Work on 5-JOB Job Tracker"
+- "Work on 10-SYS Systems Engineering"
+- "Work on 11-ACC Accounting"
+- "Work on 9-GOA / 12-FIN / 13-NOT"
+- "Update Main Page"
+- "⚙️ 10-SYS Sprint"
+- "💰 12-FIN Sprint"
+- "📝 13-NOT Sprint"
+- "💼 5-JOB Sprint"
+- "📚 3-ENG Sprint"
+- "📋 Module Sprint Template"
+
+### Refrescados (6 entries con estado actual)
+- **🔁 Full Context Recovery** — reescrito con estado post-Fase 3 · Design System v1.0 vivo · 16 módulos · todas las capabilities listadas.
+- **🧠 CEREBRO Bootstrap** — sumario actualizado: 16/16 migrados · Bug Hunt cerrado · Fase A+B · pre-reading expandido a CLAUDE.md + MEMORY.md + PROMPT_14-WORK.md.
+- **Token Conservation Cheatsheet** — de 10 reglas a 12 · agregados los 16 module codes · agregadas reglas "delegá a sub-agents" + "worktree para refactors grandes".
+- **🐛 Bug Hunt (periódico)** — convertido en template repetible · delegación a sub-agent Explore por defecto · checklist Design System v1.0 + WCAG.
+- **🔄 Sync Audit (periódico)** — marcado como template · baseline post-Fase 3 (jt_s8, ruta_st, sys_active_custom YA registrados).
+- **🎨 Design Audit (periódico)** — marcado como template post-Design System v1.0 · busca regresiones.
+- **🎨 MASTER UX SPRINT** — marcado como HISTÓRICO · todas sus fases (1 + 2.1-2.6 + 3 + A + B) están cerradas. Sólo útil como reference template para el siguiente sprint maestro.
+
+### Agregados (2 nuevos cross-cutting)
+- **🧭 Cross-Module Wiring** — para features que tocan 2+ módulos (attachments compartidos · sync chain · realtime · data flow entre 10-SYS/13-NOT/14-WORK/15-MM). Protocolo plan-first · source-of-truth · sync registry check · componentes compartidos · tests cross-module.
+- **🔌 Capabilities Audit** — audit de cuáles capabilities estoy aprovechando vs cuáles podría. Score 🟢🟡🔴 por tarea + top-3 capabilities infrautilizadas + recomendaciones.
+
+### Resumen tabla
+| Categoría `cat:'claude'` | Antes | Ahora |
+|---|---|---|
+| Total entries | 22 | **12** (-10 neto) |
+| Module-specific (duplicados de 🧩 Módulos) | 12 | **0** |
+| Cross-cutting (templates universales) | 10 | **10 refrescados + 2 nuevos = 12** |
+| HTML/JS válido | ✅ | ✅ (138307 chars parse OK) |
+
+### Estado del Prompt Lab (cierre Fase C)
+- **🎯 Claude Optimize:** v2026-05-15.B con 17 módulos + 18 task types + 33 signals + bloque "Available Capabilities".
+- **⚡ Optimize:** motor genérico de prompt engineering · sin cambios estructurales (Fase B mantuvo el contrato).
+- **🧩 Módulos:** 48 prompts modulares (16 × 3) con files reales + storage keys reales + Modelo.md insights.
+- **📚 Librería:** 12 prompts cross-cutting (templates universales) + ~25 prompts por dominio (data · code · biz · learn · asistente · exam · write).
+- **🧠 Dominar Claude:** 10 reglas (sin cambios).
+- **📜 Historial:** sin cambios.
+
+### Cerrado · todo el sprint Prompts
+Fases ejecutadas en una pasada (5 commits):
+1. **Fase A** (6538368): 48 module prompts + nueva tab.
+2. **Fase B** (39de577): Claude Optimizer v2026-05-15.B + capabilities awareness.
+3. **Fase C** (este): Library refresh + clean up duplicados.
 
 ---
 
