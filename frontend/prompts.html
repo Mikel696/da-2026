@@ -93,31 +93,30 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 
 <!-- ══════ CLAUDE OPTIMIZE (DA-2026 project context injector) ══════ -->
 <div class="pnl on" id="p-claude">
-<div class="tip"><b>🎯 Claude Optimizer · DA-2026 Context Injector</b><p>Toma cualquier prompt (raw o ya optimizado por <strong>Optimize</strong>) y le inyecta el <strong>environment de ejecución DA-2026</strong>: paths del repo, archivos del módulo objetivo, llaves de estado, auth chain mandatory, design tokens, SYNC_REGISTRY, deliverable spec, y constraints específicas según las señales detectadas. <strong>Pipeline:</strong> idea cruda → <em>⚡ Optimize</em> (prompt engineering) → <em>🎯 Claude Optimizer</em> (DA-2026 context) → pegar en Claude Code.</p></div>
+<div class="tip"><b>🎯 Claude Optimizer · DA-2026 Context Injector <span style="font-size:10px;font-weight:400;color:var(--t3)">v2026-05-15.B</span></b><p>Toma cualquier prompt (raw o ya optimizado por <strong>Optimize</strong>) y le inyecta el <strong>environment actual del Cerebro</strong>: paths reales del repo · archivos del módulo (post Design System v1.0) · storage keys reales (post Bug Hunt · incluye <code>jt_s8</code>) · auth chain mandatory · CEREBRO_STATE update obligatorio · deliverable spec · <strong>capabilities disponibles</strong> (Plan mode · Sub-agents Explore/Plan/general-purpose · Worktrees · Skills · MCP Chrome/Preview · TodoWrite · ScheduleWakeup · CronCreate · spawn_task · mark_chapter) · y constraints específicas según señales detectadas. <strong>Pipeline:</strong> idea cruda → <em>⚡ Optimize</em> (prompt engineering) → <em>🎯 Claude Optimizer</em> (DA-2026 + capabilities) → pegar en Claude Code.</p></div>
 
 <div class="card">
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
 <div style="flex:1;min-width:220px">
 <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-family:'IBM Plex Mono',monospace">Módulo objetivo</div>
 <select class="select" id="coModule" style="width:100%">
-<option value="HOME">🏠 HOME · Main Page (index.html)</option>
-<option value="3-ENG">📚 3-ENG · English Academy</option>
-<option value="5-JOB">💼 5-JOB · Job Tracker</option>
-<option value="8-PRO">💬 8-PRO · Prompts Lab (this module)</option>
-<option value="9-GOA">🎯 9-GOA · Goals & Habits</option>
-<option value="10-SYS">⚙️ 10-SYS · Systems Engineering</option>
+<option value="1-IND">🏠 1-IND · Dashboard · Mission Control</option>
+<option value="2-APP">📬 2-APP · Application Command Center</option>
+<option value="3-ENG">📚 3-ENG · English Academy + Dojo</option>
+<option value="4-RUT">🗺️ 4-RUT · Ruta Data Analyst + Excel</option>
+<option value="5-JOB">💼 5-JOB · Job Tracker · Kanban</option>
+<option value="6-TOO">🛠️ 6-TOO · Herramientas & Ventajas</option>
+<option value="7-NEW">📰 7-NEW · Noticias Data & IA</option>
+<option value="8-PRO">💬 8-PRO · Prompt Lab (este módulo)</option>
+<option value="9-GOA">🎯 9-GOA · Objetivos & Hábitos</option>
+<option value="10-SYS">⚙️ 10-SYS · Ingeniería Sistemas CUN</option>
 <option value="11-ACC">🧮 11-ACC · Accounting Associate</option>
-<option value="12-FIN">💰 12-FIN · Personal Finance</option>
-<option value="13-NOT">📝 13-NOT · Notes & Journal</option>
-<option value="APPLY">📬 APPLY · Application Center</option>
-<option value="SIM">🎤 SIM · Interview Simulation</option>
-<option value="RUTA">🗺️ RUTA · Data Analyst Path</option>
-<option value="NEWS">📰 NEWS · Data & AI News</option>
-<option value="TOOLS">🛠️ TOOLS · Tools Directory</option>
-<option value="14-WORK">💼 14-WORK · Simetrik Copilot</option>
+<option value="12-FIN">💰 12-FIN · Finanzas Personales</option>
+<option value="13-NOT">📝 13-NOT · Notas · Journal · SRS</option>
+<option value="14-WORK">🛡️ 14-WORK · Simetrik · MOIF · 13 tabs</option>
 <option value="15-MM">🗺️ 15-MM · Mind Map Studio</option>
 <option value="16-APA">📄 16-APA · APA Document Studio</option>
-<option value="GENERAL">🌐 GENERAL · Cross-cutting / Architecture</option>
+<option value="GENERAL">🌐 GENERAL · Cross-cutting · Architecture</option>
 </select>
 </div>
 <div style="flex:1;min-width:180px">
@@ -127,14 +126,20 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 <option value="bugfix">🐛 Bugfix (fix broken)</option>
 <option value="refactor">♻️ Refactor (clean up)</option>
 <option value="rewrite">🔄 Rewrite (replace)</option>
-<option value="ui">🎨 UI/UX polish</option>
+<option value="ui">🎨 UI/UX polish (Design System v1.0)</option>
 <option value="audit">🔬 Audit (read-only)</option>
-<option value="data">🛡️ Data integrity</option>
+<option value="data">🛡️ Data integrity (anti-halluc)</option>
 <option value="sync">☁️ Cloud-sync wiring</option>
 <option value="nb">📓 Notebook (cuadernos)</option>
 <option value="explore">🔍 Explore (read-only)</option>
 <option value="doc">📄 Documentation</option>
 <option value="deploy">🚀 Deploy/Commit</option>
+<option value="plan">📐 Plan first (architecture)</option>
+<option value="agent">🤖 Delegate to sub-agent</option>
+<option value="skill">🧰 Invoke Skill</option>
+<option value="schedule">⏰ Schedule recurring</option>
+<option value="worktree">🌿 Isolate in worktree</option>
+<option value="mcp">🔌 Use MCP capability</option>
 </select>
 </div>
 </div>
@@ -164,7 +169,7 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 
 <!-- ══════ OPTIMIZAR (idea → prompt estructurado, project-aware) ══════ -->
 <div class="pnl" id="p-opt">
-<div class="tip"><b>⚡ Optimize · Prompt Engineering Engine</b><p>Pegá tu idea en inglés (o español — se traduce automáticamente). El motor aplica <strong>reglas de prompt engineering</strong>: role priming, secciones XML (<code>&lt;role&gt;</code> / <code>&lt;context&gt;</code> / <code>&lt;task&gt;</code> / <code>&lt;output_format&gt;</code> / <code>&lt;rules&gt;</code> / <code>&lt;negative_rules&gt;</code> / <code>&lt;thinking&gt;</code>), tareas numeradas verb-first, output spec, constraints positivos y negativos, y thinking primer. <strong>Resultado:</strong> prompt genérico para cualquier IA (no DA-2026-specific). Después → <strong>Claude Optimizer</strong> agrega el contexto del proyecto.</p></div>
+<div class="tip"><b>⚡ Optimize · Prompt Engineering Engine (genérico)</b><p>Pegá tu idea en inglés (o español — se traduce automáticamente). El motor aplica <strong>reglas universales de prompt engineering</strong>: role priming, secciones XML (<code>&lt;role&gt;</code> / <code>&lt;context&gt;</code> / <code>&lt;task&gt;</code> / <code>&lt;output_format&gt;</code> / <code>&lt;rules&gt;</code> / <code>&lt;negative_rules&gt;</code> / <code>&lt;thinking&gt;</code>), tareas numeradas verb-first, output spec, constraints positivos y negativos, y thinking primer. <strong>Resultado:</strong> prompt portable para cualquier modelo (no DA-2026-specific). Si la tarea es sobre el Cerebro → seguí con <strong>🎯 Claude Optimizer</strong> que agrega project context + capabilities (Plan mode · Sub-agents · Worktrees · Skills · MCP · TodoWrite · ScheduleWakeup). Si querés prompts pre-cocinados por módulo → tab <strong>🧩 Módulos</strong>.</p></div>
 
 <div class="card">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
@@ -1215,24 +1220,23 @@ function populateOptDropdowns(){
   if(!modSel||!taskSel||modSel.options.length>0)return;
   // Mirror Claude Optimize dropdowns
   const modOptions=[
-    ['HOME','🏠 HOME · Main Page (index.html)'],
-    ['3-ENG','📚 3-ENG · English Academy'],
-    ['5-JOB','💼 5-JOB · Job Tracker'],
-    ['8-PRO','✨ 8-PRO · Prompts Lab'],
-    ['9-GOA','🎯 9-GOA · Goals & Habits'],
-    ['10-SYS','🎓 10-SYS · Systems Engineering'],
-    ['11-ACC','💰 11-ACC · Accounting'],
-    ['12-FIN','💵 12-FIN · Personal Finance'],
-    ['13-NOT','📓 13-NOT · Notes & Journal'],
-    ['APPLY','📨 APPLY · Application Center'],
-    ['SIM','🎤 SIM · Interview Simulation'],
-    ['RUTA','🛤️ RUTA · Data Analyst Path'],
-    ['NEWS','📰 NEWS · Data & AI News'],
-    ['TOOLS','🧰 TOOLS · Directory'],
-    ['14-WORK','💼 14-WORK · Simetrik Copilot'],
+    ['1-IND','🏠 1-IND · Dashboard · Mission Control'],
+    ['2-APP','📬 2-APP · Application Command Center'],
+    ['3-ENG','📚 3-ENG · English Academy + Dojo'],
+    ['4-RUT','🗺️ 4-RUT · Ruta Data Analyst + Excel'],
+    ['5-JOB','💼 5-JOB · Job Tracker · Kanban'],
+    ['6-TOO','🛠️ 6-TOO · Herramientas & Ventajas'],
+    ['7-NEW','📰 7-NEW · Noticias Data & IA'],
+    ['8-PRO','💬 8-PRO · Prompt Lab'],
+    ['9-GOA','🎯 9-GOA · Objetivos & Hábitos'],
+    ['10-SYS','⚙️ 10-SYS · Ingeniería Sistemas CUN'],
+    ['11-ACC','🧮 11-ACC · Accounting Associate'],
+    ['12-FIN','💰 12-FIN · Finanzas Personales'],
+    ['13-NOT','📝 13-NOT · Notas · Journal · SRS'],
+    ['14-WORK','🛡️ 14-WORK · Simetrik · MOIF · 13 tabs'],
     ['15-MM','🗺️ 15-MM · Mind Map Studio'],
     ['16-APA','📄 16-APA · APA Document Studio'],
-    ['GENERAL','⚙️ GENERAL · Cross-cutting / Architecture'],
+    ['GENERAL','🌐 GENERAL · Cross-cutting · Architecture'],
   ];
   modSel.innerHTML=modOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
   const taskOptions=[
@@ -1240,14 +1244,20 @@ function populateOptDropdowns(){
     ['bugfix','🐛 Bugfix (fix broken)'],
     ['refactor','♻️ Refactor (clean up)'],
     ['rewrite','🔄 Rewrite (replace)'],
-    ['ui','🎨 UI/UX polish'],
+    ['ui','🎨 UI/UX polish (Design System v1.0)'],
     ['audit','🔬 Audit (read-only)'],
-    ['data','🛡️ Data integrity'],
+    ['data','🛡️ Data integrity (anti-halluc)'],
     ['sync','☁️ Cloud-sync wiring'],
     ['nb','📓 Notebook (cuadernos)'],
     ['explore','🔍 Explore (read-only)'],
     ['doc','📄 Documentation'],
     ['deploy','🚀 Deploy/Commit'],
+    ['plan','📐 Plan first (architecture)'],
+    ['agent','🤖 Delegate to sub-agent'],
+    ['skill','🧰 Invoke Skill'],
+    ['schedule','⏰ Schedule recurring'],
+    ['worktree','🌿 Isolate in worktree'],
+    ['mcp','🔌 Use MCP capability'],
   ];
   taskSel.innerHTML=taskOptions.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
 }
@@ -1735,43 +1745,54 @@ el.innerHTML='<div class="lbl">· '+(cat?cat.label:filter)+' ·</div>'+items.map
 // can confirm the optimizer is current at a glance.
 // ═══════════════════════════════════════════════════════════════
 
-const CO_VERSION='2026-04-27.8';
-const CO_GLOBAL_FILES='frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js, frontend/js/nb-shared.js (covers/icons/attachments), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), CEREBRO_STATE.md, MEMORY.md';
+const CO_VERSION='2026-05-15.B';
+const CO_GLOBAL_FILES='frontend/css/design-tokens.css (Design System v1.0 · tokens canónicos + aliases), frontend/css/components.css (.ds-* prefixed), frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js (SYNC_REGISTRY + DYNAMIC_PREFIXES + smartSync + realtime postgres_changes), frontend/js/nb-shared.js (covers/icons/attachments + Supabase Storage upload/download), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), frontend/js/module-prompts.js (8-PRO · 48 prompts modulares), CEREBRO_STATE.md, MEMORY.md, Modelo.md (Obsidian Second Brain reference)';
 
 const CO_MODULE={
-'HOME':{name:'Main Page / Index',files:'frontend/index.html',state:'sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (prefix-synced)',notes:'Landing + stats dashboard + Quick Workshop entries; auth widget overlaps top-right of nav (#sb-auth-widget) — leave space in nav-r.'},
-'3-ENG':{name:'English Academy',files:'frontend/english.html, css/english.css, js/eng.js, js/english.js (Dojo), data/english-data.json, data/english-dojo.json',state:'e4, eng_notes, eng_srs_deck, dojo_stats, excel_dojo',notes:'SRS flashcard deck + Dojo gamification + grammar rules'},
-'5-JOB':{name:'Job Tracker',files:'frontend/jobs.html, css/jobs.css, js/jobs.js',state:'jt8, jt_profile, jt_form_expanded',notes:'Kanban drag-and-drop, VacancyDB bidirectional sync, master-detail layout, empty state per column'},
-'8-PRO':{name:'Prompts Lab',files:'frontend/prompts.html, js/prompts.js',state:'sb_prompts, plab_h',notes:'Self-contained; optimizer engine lives here. CO_VERSION='+CO_VERSION+'. Includes 9 prebuilt Claude Code prompts.'},
-'9-GOA':{name:'Goals & Habits',files:'frontend/goals.html, js/goals.js',state:'sb_goals, sb_habits, sb_reviews, sb_ratings',notes:'Goal tracking with recurring habits + weekly reviews; empty states wired'},
-'10-SYS':{name:'Systems Engineering',files:'frontend/systems.html, frontend/systems_logic.js',state:'sys_tasks (skipped from cloud), sys_class_sessions (skipped), sys_notebook (synced), sys_notebook_meta (synced)',notes:'9 tabs including Cuadernos v2 (Tab 7) with: 12 covers (CSS gradients), 32 grouped icons, IndexedDB attachments (PDF/Word/Excel up to 50MB), drag-drop modal, image rename, design picker as POPUP modal. Subject NBs share editor + buttons (📎 Adjuntar). Ruled-paper background aligned to 32px grid via .nb-content * line-height rules.'},
-'11-ACC':{name:'Accounting Associate',files:'frontend/accounting.html, css/accounting.css, js/accounting.js (ACC IIFE), data/accounting-data.json',state:'sb_accounting',notes:'6 tabs, IIFE pattern, data-driven from JSON'},
-'12-FIN':{name:'Personal Finance',files:'frontend/finance.html, css/finance.css, js/finance.js',state:'fin_* (prefix-synced dynamic keys)',notes:'Personal finance tracking with dynamic key prefix'},
-'13-NOT':{name:'Notes & Journal',files:'frontend/notes.html, frontend/js/notes-nb.js (Cuadernos sub-module)',state:'sb_notes2 (notes+journal), not_nb_meta (cuaderno list), not_nb_data (cuaderno pages+attachments metadata)',notes:'4 tabs: Nueva Nota · Todas · Journal · Cuadernos. Cuadernos use shared nb-shared.js (covers, drag-drop modal, IndexedDB attachments). Auto-save 500ms debounce. Design picker is a POPUP modal (not inline).'},
-'APPLY':{name:'Application Center',files:'frontend/apply.html, css/apply.css, js/apply.js',state:'(none cloud-synced)',notes:'Job application tracking; self-contained module'},
-'SIM':{name:'Interview Simulation (Simetrik)',files:'frontend/interview-sim.html',state:'sim_interview_chks',notes:'7 tabs: Simetrik corporate, role, test walkthrough (real Miguel_Barros.xlsx), Q&A technical, Q&A STAR, PT-BR, checklist'},
-'RUTA':{name:'Data Analyst Path',files:'frontend/ruta.html, css/ruta.css, js/ruta.js',state:'ruta_log5, ruta5',notes:'SQL → Python → Power BI learning path'},
-'NEWS':{name:'Data & AI News',files:'frontend/news.html',state:'news_saved (news_cache skipped), da_vacancies (skipped)',notes:'Curated news feed + vacancy scraper; retry button on RSS error'},
-'TOOLS':{name:'Tools & Advantages Directory',files:'frontend/tools.html',state:'(none)',notes:'Links to external tools'},
-'14-WORK':{name:'Simetrik Work Copilot',files:'frontend/work.html, frontend/css/work.css, frontend/js/work.js',state:'work_cases (case log), work_errors (error log), work_learnings (tips), work_kb (personal Simetrik KB), work_nb_meta + work_nb_data (cuadernos)',notes:'6 tabs: Casos · Errores · Aprendizajes · Knowledge Base · Cuadernos · Copilot. Cuadernos reuse nb-shared.js (covers, IDB images, attachments). Copilot tab generates structured prompts that include personal_kb + recent cases/errors as context — Claude has Miguel\'s Simetrik environment pre-loaded.'},
-'15-MM':{name:'Mind Map Studio',files:'frontend/mindmap.html, frontend/css/mindmap.css, frontend/js/mindmap.js',state:'tools_mindmaps (array of {id,name,data} where data is a jsMind node_tree)',notes:'Visual mind-map editor using jsMind (CDN, MIT). Dark theme overrides. PNG export via html2canvas. Cross-module attach: any mind map can be saved as image into a notebook page in 10-SYS, 13-NOT or 14-WORK — uses NBShared.storeImageWithThumbnail (3-tier IDB+payload). Auto-saves on edit. Auth chain present.'},
-'16-APA':{name:'APA Document Studio',files:'frontend/apa.html, frontend/css/apa.css, frontend/js/apa.js',state:'tools_apa_docs (array of {id,title,kind,subjectId,institution,program,professor,student,date,subtitle,abstract,body,references,appendix})',notes:'Two-pane editor (form + live APA preview). Header form picks 10-SYS subject (auto-fills professor) or "personal" mode. Body supports # / ## / ### markdown headings. Exports: PDF (html2pdf), Word .docx (html-docx-js), Excel .xlsx (SheetJS — 3 sheets: Portada, Cuerpo, Referencias). Live preview emulates A4 sheet with Times New Roman 12pt, double-spacing, 2.54cm margins. Auth chain present.'},
-'GENERAL':{name:'Cross-cutting / Architecture',files:CO_GLOBAL_FILES,state:'SYNC_REGISTRY + dynamic prefixes in cloud-sync.js. Recently added: not_nb_meta, not_nb_data, sys_notebook_meta. IndexedDB (da2026_nb / store: attachments) for binaries — local-only by design.',notes:'Shared infra: 4-layer arch (HTML shell + CSS + JS IIFE + JSON data), Supabase auth, localStorage proxy, JSONB columns per user. nb-shared.js exposes: COVERS (12), ICON_GROUPS (5×~7), openDropModal, openDesignModal, pickAttachmentViaModal, pickImageViaModal. PLATFORM-WIDE RULE: every HTML page must include the 4-script auth chain before </body>, otherwise the "Sesión iniciada" indicator disappears and cloud sync silently fails on that page.'}
+'1-IND':{name:'Dashboard · Mission Control',files:'frontend/index.html (inline JS)',state:'sb_tasks, sb_ws_hist, sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (DYNAMIC_PREFIX)',notes:'Migrado a Design System v1.0 (Fase 2.1). Hub central · enlaces a los 16 módulos · tareas rápidas · workshop history · streak global. Auth widget overlaps top-right de la nav (#sb-auth-widget).'},
+'HOME':{name:'(alias) Dashboard',files:'frontend/index.html',state:'(ver 1-IND)',notes:'Alias legacy de 1-IND.'},
+'2-APP':{name:'Application Command Center',files:'frontend/apply.html + css/apply.css',state:'(sin storage propio relevante · 5 sub-sec: ATS/CV/Cover/Interview/Prompts)',notes:'Migrado a Design System v1.0 (Fase 2.6). html2pdf integrado.'},
+'APPLY':{name:'(alias) Application Center',files:'frontend/apply.html',state:'(ver 2-APP)',notes:'Alias legacy.'},
+'3-ENG':{name:'English Academy + Interview Dojo',files:'frontend/english.html + css/english.css + js/eng.js + js/english.js (Dojo) + js/srs.js + data/english-data.json + data/english-dojo.json',state:'e4, eng_notes, eng_srs_deck, dojo_stats',notes:'Migrado a Design System v1.0 (Fase 2.5). 20 grammar rules, 130+ vocab, SRS Leitner, Interview Dojo (TTS+STT).'},
+'4-RUT':{name:'Ruta Data Analyst + Excel Tech Test',files:'frontend/ruta.html + css/ruta.css + js/ruta.js + data/ruta-data.json',state:'ruta5, ruta_log5, ruta_st (sync registrado en Fase 3), excel_dojo',notes:'Migrado a Design System v1.0 (Fase 2.6). Roadmap 5 fases · roleplay AI · Excel Tech Test split panel + drills.'},
+'RUTA':{name:'(alias) Data Analyst Path',files:'frontend/ruta.html',state:'(ver 4-RUT)',notes:'Alias legacy.'},
+'5-JOB':{name:'Job Tracker · Kanban',files:'frontend/jobs.html + css/jobs.css + js/jobs.js',state:'jt8 (vacancies array), jt_profile, jt_form_expanded, jt_s8 (start date · registrado en Fase 3)',notes:'Migrado a Design System v1.0 (Fase 2.5). Búsqueda trilingüe ES/PT/EN · kanban drag-and-drop · master-detail · analytics · profile-based filtering.'},
+'6-TOO':{name:'Herramientas & Ventajas',files:'frontend/tools.html (CSS inline)',state:'(directorio estático · sin storage)',notes:'Migrado a Design System v1.0 (Fase 2.6). Directorio de tools + hacks + certificaciones.'},
+'TOOLS':{name:'(alias) Tools',files:'frontend/tools.html',state:'(ver 6-TOO)',notes:'Alias legacy.'},
+'7-NEW':{name:'Noticias Data & IA',files:'frontend/news.html (CSS inline) + js/news.js',state:'news_saved · news_cache SKIPPED (efímero)',notes:'Migrado a Design System v1.0 (Fase 2.6). RSS live · 5 fuentes · saved articles persistido.'},
+'NEWS':{name:'(alias) News',files:'frontend/news.html',state:'(ver 7-NEW)',notes:'Alias legacy.'},
+'8-PRO':{name:'Prompt Lab',files:'frontend/prompts.html (CSS+JS inline) + js/module-prompts.js (NUEVO Fase A · 48 prompts modulares)',state:'sb_prompts, plab_h',notes:'Migrado a Design System v1.0 (Fase 2.5) + Fase A overhaul. 6 tabs (Claude Optimize · Optimize · Módulos · Librería · Master · History) · CO_VERSION='+'2026-05-15.B'+'.'},
+'9-GOA':{name:'Objetivos & Hábitos',files:'frontend/goals.html + css/goals.css + js/goals.js',state:'sb_goals, sb_habits, sb_reviews, sb_ratings',notes:'Migrado a Design System v1.0 (Fase 2.5). Metas 30/60/90 · habit tracker semanal · streak por hábito.'},
+'10-SYS':{name:'Ingeniería de Sistemas CUN (8vo · 26V02)',files:'frontend/systems.html + frontend/systems_logic.js',state:'sys_tasks (TIER1 dedicated table), sys_class_sessions (TIER1), sys_notebook, sys_notebook_meta, sys_active_custom (registrado Fase 3), sim_interview_chks',notes:'Migrado a Design System v1.0 (Fase 2.3 · glassmorphism + orbs preservados). 5 materias VERIFIED (SEED_VERSION=5). 8 tabs. Tab 7 Clases Perdidas (Direct-Fetch Protocol v2 vía Chrome MCP + injectClassSession). Rich-text editor NB.fmt + NB.insertLabel.'},
+'SIM':{name:'(legacy) Interview Simulation',files:'frontend/interview-sim.html (legacy · ver 2-APP)',state:'sim_interview_chks',notes:'Funcionalidad migrada a 2-APP. Archivo legacy.'},
+'11-ACC':{name:'Accounting Associate',files:'frontend/accounting.html + css/accounting.css + js/accounting.js + data/accounting-data.json',state:'sb_accounting',notes:'Migrado a Design System v1.0 (Fase 2.6). 6 tabs · career path · drills · diccionario IFRS/GAAP · resources con --rc accent color inline.'},
+'12-FIN':{name:'Finanzas Personales',files:'frontend/finance.html + css/finance.css + js/finance.js',state:'fin_* (DYNAMIC_PREFIX captura fin_2026-MM, fin_sav_goal, etc)',notes:'Migrado a Design System v1.0 (Fase 2.4). 4 KPIs · navegación mensual · 5 tabs.'},
+'13-NOT':{name:'Notas · Journal · SRS Leitner',files:'frontend/notes.html + css/notes.css + js/notes-nb.js + js/srs.js + js/nb-shared.js',state:'sb_notes2, not_nb_meta, not_nb_data (cuadernos · attachments en IndexedDB local + Supabase Storage bucket "attachments")',notes:'Migrado a Design System v1.0 (Fase 2.4). Notebooks con páginas · rich-text editor · attachments cross-device vía nb-shared.js (cloudUploadAttachment/Download/Delete con fallback IDB→Cloud).'},
+'14-WORK':{name:'Simetrik Copilot · 13 tabs · MOIF',files:'frontend/work.html + css/work.css + js/work.js + js/nb-shared.js',state:'work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict, work_kb_atts, work_moif_meetings · work_eco_dict_seed_v (LOCAL-ONLY intencional)',notes:'Migrado a Design System v1.0 (Fase 2.2 · cyan local #06b6d4 preservado como identidad Simetrik). 13 tabs. MOIF = Monitoreo Observabilidad Integraciones Ficohsa. Attachments cloud via Supabase Storage. smartSync + realtime postgres_changes en app_state.'},
+'15-MM':{name:'Mind Map Studio (jsMind + Free Canvas)',files:'frontend/mindmap.html + css/mindmap.css + js/mindmap.js (+ jsmind CDN)',state:'tools_mindmaps (jsMind node_tree), tools_canvases (Miro-style nodes + edges + view state)',notes:'Migrado a Design System v1.0 (Fase 2.6 · violet --vi local override). Cross-module attach: cualquier mapa se guarda como imagen en notebook page de 10-SYS/13-NOT/14-WORK vía NBShared.storeImageWithThumbnail (3-tier IDB+payload).'},
+'16-APA':{name:'APA Document Studio',files:'frontend/apa.html + css/apa.css + js/apa.js',state:'tools_apa_docs, apa_defaults',notes:'Migrado a Design System v1.0 (Fase 2.6 · cyan local #06b6d4 como identidad académica). Two-pane editor. Header form picks 10-SYS subject. Exports PDF (html2pdf) + Word (html-docx-js) + Excel (SheetJS 3 sheets).'},
+'GENERAL':{name:'Cross-cutting / Architecture',files:'(ver CO_GLOBAL_FILES)',state:'SYNC_REGISTRY + DYNAMIC_PREFIXES (fin_, sb_pomo_) en cloud-sync.js · TIER1 dedicated tables (sys_tasks, sys_class_sessions, da_vacancies) · IndexedDB (da2026_nb / attachments store · binaries local-only) · Supabase Storage bucket attachments (RLS por user_id) · realtime postgres_changes en app_state.',notes:'Design System v1.0 vivo (Fase 1 cerrada). 16/16 módulos migrados (Fase 2.6 cerrada). Bug Hunt cerrado (Fase 3). nb-shared.js expone: COVERS (12), ICON_GROUPS (5×~7), openDropModal, openDesignModal, pickAttachmentViaModal, pickImageViaModal, cloudUploadAttachment/Download/Delete. PLATFORM-WIDE RULE: cada HTML page incluye 4-script auth chain antes de </body>.'}
 };
 
 const CO_TASK_HINTS={
-feature:{verb:'Add',constraint:'- Do not remove existing functionality.\n- Match existing CSS tokens (--ac, --gn, --bd, --bg, etc).'},
-bugfix:{verb:'Fix',constraint:'- Identify root cause before patching.\n- Do not introduce new behavior beyond the fix.'},
-refactor:{verb:'Refactor',constraint:'- Preserve observable behavior exactly.\n- No new features; only cleanup.'},
-rewrite:{verb:'Rewrite',constraint:'- Preserve the public API / user-facing behavior.\n- Flag any intentional behavior change.'},
-explore:{verb:'Explore and report on',constraint:'- Read-only. Do not modify files.\n- Return a concise map with file paths and line ranges.'},
+feature:{verb:'Add',constraint:'- Do not remove existing functionality.\n- Use Design System v1.0 tokens only (no hardcoded hex/rgb).\n- If introduces persistent state → add key to SYNC_REGISTRY in cloud-sync.js.\n- Consider TodoWrite to track multi-step implementation.'},
+bugfix:{verb:'Fix',constraint:'- Identify root cause before patching (read relevant code with Grep+Read offset/limit).\n- Do not introduce new behavior beyond the fix.\n- Add a CEREBRO_STATE.md entry describing the bug and the fix.'},
+refactor:{verb:'Refactor',constraint:'- Preserve observable behavior exactly.\n- No new features; only cleanup.\n- Consider Plan mode (ExitPlanMode) if the refactor spans multiple files.'},
+rewrite:{verb:'Rewrite',constraint:'- Preserve the public API / user-facing behavior.\n- Flag any intentional behavior change.\n- Consider isolating in a worktree (isolation: "worktree") to avoid blocking other work.'},
+explore:{verb:'Explore and report on',constraint:'- Read-only. Do not modify files.\n- Return a concise map with file paths and line ranges.\n- Prefer Explore sub-agent for context-heavy lookups (Agent tool, subagent_type: "Explore").'},
 doc:{verb:'Document',constraint:'- Do not modify source code.\n- Update CEREBRO_STATE.md only if structurally relevant.'},
-deploy:{verb:'Commit and deploy',constraint:'- Commit with a clear message.\n- Merge to main and push to GitHub Pages.'},
-ui:{verb:'Polish UI/UX of',constraint:'- Use design tokens only — no hardcoded hex/rgb colors.\n- Verify hover, focus, and empty states render correctly.\n- Test ≤768px breakpoint for layout regressions.'},
-audit:{verb:'Audit and report on',constraint:'- Read-only audit. Score per checklist item.\n- Output: 🔴 critical / 🟡 medium / 🟢 minor with line-level evidence.\n- Do not modify files until user approves remediation order.'},
-data:{verb:'Validate and harden data integrity in',constraint:'- Never invent data — leave fields empty if no evidence exists.\n- Add VERIFIED gate where applicable.\n- Bump SEED_VERSION + dedupe migration if seed data changes.'},
-sync:{verb:'Wire cloud-sync for',constraint:'- Add localStorage key to SYNC_REGISTRY in frontend/js/cloud-sync.js.\n- Decide TIER 1 (dedicated table) vs TIER 2 (app_state JSONB).\n- For binaries (>1MB), prefer IndexedDB local-only with metadata-in-payload pattern.'},
-nb:{verb:'Update notebooks (cuadernos) in',constraint:'- Reuse nb-shared.js helpers (openDropModal, openDesignModal, pickAttachmentViaModal).\n- Both 10-SYS and 13-NOT must stay at feature parity.\n- Attachments live in IndexedDB (da2026_nb store), only metadata syncs.'}
+deploy:{verb:'Commit and deploy',constraint:'- Commit with a clear feat/fix([CODE]): message.\n- Push origin main. GitHub Pages deploys automatically.\n- Verify with git log --oneline -3.'},
+ui:{verb:'Polish UI/UX of',constraint:'- Design System v1.0 tokens ONLY (--ac, --gn, --bd, --bg, --tx, --t2, --t3, --radius-*, --transition-*, --shadow-glow).\n- focus-visible obligatorio en interactivos · contraste WCAG AA (texto oscuro en botones cromáticos).\n- Transitions específicas (no transition:all).\n- Test ≤768px breakpoint.'},
+audit:{verb:'Audit and report on',constraint:'- Read-only audit. Score per checklist item.\n- Output: 🔴 critical / 🟡 medium / 🟢 minor with line-level evidence.\n- Do not modify files until user approves remediation order.\n- Considera delegar a sub-agent Explore para scan profundo.'},
+data:{verb:'Validate and harden data integrity in',constraint:'- Never invent data — leave fields empty if no evidence exists.\n- Add VERIFIED gate where applicable.\n- Bump SEED_VERSION + dedupe migration if seed data changes.\n- Anti-hallucination es REGLA DURA (ver CLAUDE.md sección "Reglas Estrictas").'},
+sync:{verb:'Wire cloud-sync for',constraint:'- Add localStorage key to SYNC_REGISTRY in frontend/js/cloud-sync.js (o usar DYNAMIC_PREFIXES si aplica).\n- Decidí TIER 1 (dedicated table) vs TIER 2 (app_state JSONB).\n- Binaries (>1MB) → IndexedDB local + Supabase Storage bucket (RLS por user_id).\n- Verificá realtime postgres_changes propaga el cambio cross-device.\n- Si el delete es crítico (work_*, jt8, sb_tasks) → pushNow inmediato (no esperes debounce).'},
+nb:{verb:'Update notebooks (cuadernos) in',constraint:'- Reusá nb-shared.js helpers: openDropModal, openDesignModal, pickAttachmentViaModal, cloudUploadAttachment/Download/Delete.\n- 10-SYS · 13-NOT · 14-WORK deben mantener feature parity.\n- Attachments en IndexedDB (da2026_nb store) + Supabase Storage para cross-device.'},
+plan:{verb:'Plan (architecture-first) for',constraint:'- Usá ExitPlanMode tool DESPUÉS de research, no antes.\n- Plan en pasos concretos: archivos a tocar · líneas estimadas · riesgo (bajo/medio/alto) · tests/verification.\n- Esperá aprobación del usuario antes de codear.'},
+agent:{verb:'Delegate to sub-agent for',constraint:'- Use Agent tool con subagent_type: "Explore" (búsquedas read-only), "Plan" (architectural planning), "general-purpose" (multi-step open-ended), "claude-code-guide" (preguntas sobre Claude Code/SDK/API).\n- Prompt al agent debe ser autocontenido (no asume contexto previo).\n- Pedile reporte conciso (under N words).'},
+skill:{verb:'Invoke skill for',constraint:'- Usá Skill tool con el nombre exacto de la skill disponible (no inventar).\n- Skills útiles: docx, pdf, pptx, xlsx (oficina) · claude-api (SDK) · simplify (code review) · update-config (settings.json) · loop / schedule (recurrent tasks).\n- Si la skill no existe: NO la llames · proponé crearla con skill-creator.'},
+schedule:{verb:'Schedule recurring task for',constraint:'- CronCreate para cron-based (formato cron · ej "0 9 * * MON").\n- ScheduleWakeup para /loop dynamic (delaySeconds entre 60-3600 · pensá en cache window de 5min).\n- Routines remotas con scheduled-tasks MCP.'},
+worktree:{verb:'Isolate in worktree for',constraint:'- Lanzá un Agent con isolation: "worktree" · trabaja en copia git aislada.\n- Util para: refactors grandes · experimentos arriesgados · rewrites multi-archivo.\n- Worktree se limpia auto si no hay cambios.'},
+mcp:{verb:'Use MCP capability for',constraint:'- MCP disponibles: Claude_in_Chrome (browser automation · DOM · tabs) · Claude_Preview (UI preview · screenshots) · ccd_session_mgmt (sessions · transcripts) · scheduled-tasks (remote routines).\n- Para 10-SYS Tab 7 (Clases Perdidas): usá Chrome MCP con la sesión ya autenticada del usuario (NO navegues a Drive · usá tabs_context_mcp).'}
 };
 
 // Filler patterns to strip (regex + case-insensitive)
@@ -1841,7 +1862,23 @@ const CO_SIGNALS=[
 {r:/\b(empty\s+state|no\s+data|loading|skeleton)\b/i,add:'Add a graceful empty-state message when localStorage is empty (existing pattern: small icon + heading + sub-text in dashed-border card).'},
 {r:/\b(token|sync\s+lock|hydration|seed[_\s]?version|migration)\b/i,add:'Bump SEED_VERSION + dedupe-by-text migration if SEED data changes. Sync-lock flag prevents timestamp poisoning during initial hydration.'},
 {r:/\b(prompt\s+optimize|claude\s+optimize|co_module)\b/i,add:'Update CO_MODULE entry + bump CO_VERSION in prompts.html if module structure or sync keys change. Document the change in CEREBRO_STATE.md.'},
-{r:/\b(verify|hallucinat|don'?t\s+invent|invent.*data|VERIFIED_)/i,add:'Anti-hallucination rules: never invent data. Use evidence (syllabus, screenshot, verbatim transcript). Add to VERIFIED_SUBJECTS Set if applicable.'}
+{r:/\b(verify|hallucinat|don'?t\s+invent|invent.*data|VERIFIED_)/i,add:'Anti-hallucination rules: never invent data. Use evidence (syllabus, screenshot, verbatim transcript). Add to VERIFIED_SUBJECTS Set if applicable.'},
+// New (2026-05-15.B): current capabilities awareness
+{r:/\b(design\s+system|design\s+tokens?|ds-?\*|--radius|--transition|--shadow-glow|--space-\d|focus-visible)\b/i,add:'Design System v1.0 está vivo (frontend/css/design-tokens.css + components.css). Usá tokens canónicos + aliases legacy. .ds-* prefix para clases del sistema. focus-visible + transitions específicas + texto oscuro en botones cromáticos para contraste WCAG.'},
+{r:/\b(plan\s+mode|architect|architectural|exit\s*plan|plan\s+first)\b/i,add:'Plan mode disponible: usá Plan sub-agent (Agent · subagent_type: "Plan") para diseñar arquitectura antes de codear. ExitPlanMode tool DESPUÉS de research, no antes.'},
+{r:/\b(sub[\s-]?agent|agent\s+tool|delegate|explore\s+agent|general[\s-]?purpose)\b/i,add:'Sub-agents disponibles vía Agent tool: Explore (read-only search ·  context heavy lookups · NO open-ended analysis) · Plan (architecture · returns plans no edits) · general-purpose (multi-step open-ended · use sparingly) · claude-code-guide (preguntas Claude Code/SDK/API). Prompt al agent debe ser autocontenido.'},
+{r:/\b(worktree|isolated?\s+(branch|workspace)|git\s+worktree)\b/i,add:'Worktree disponible: lanzá Agent con isolation: "worktree" para trabajar en copia git aislada (cleanup auto si no hay cambios). Útil para refactors grandes o experimentos.'},
+{r:/\b(skill\s+tool|anthropic[\s-]?skills?|\/skill|invoke\s+skill)\b/i,add:'Skills disponibles vía Skill tool: docx · pdf · pptx · xlsx (oficina) · claude-api (Anthropic SDK) · simplify (code review) · update-config (settings.json) · loop · schedule. No inventar nombres · solo invocar los del system-reminder.'},
+{r:/\b(todo[\s-]?write|track\s+progress|multi[\s-]?step|todo\s+list)\b/i,add:'TodoWrite disponible para tracking de progreso multi-step. Usá cuando la tarea tiene 3+ pasos discretos o cuando perder track sería costoso.'},
+{r:/\b(schedule|cron|loop|recurring|wake.?up|every\s+\d+|periodic)\b/i,add:'ScheduleWakeup (loop dynamic · delaySeconds 60-3600 · pensá cache 5min window) · CronCreate (cron-based · 0 9 * * MON) · scheduled-tasks MCP (routines remotas). Elegí según pattern.'},
+{r:/\b(spawn[\s-]?task|out\s+of\s+scope|flag\s+for\s+later|side\s+task|background\s+task)\b/i,add:'Si encontrás algo out-of-scope: usá mcp__ccd_session__spawn_task para flaggearlo (no inflar el current task). Solo para bugs/mejoras concretas con prompt autocontenido.'},
+{r:/\b(chapter|mark[\s-]?chapter|phase\s+shift|new\s+phase)\b/i,add:'Para sesiones largas con phases distintas: usá mcp__ccd_session__mark_chapter al cambiar de fase (research → impl → verify). Sparingly · 3-8 chapters por sesión.'},
+{r:/\b(chrome\s+mcp|browser\s+automation|navigate|tabs_context|drive|video\s+url|transcript|class\s+session)\b/i,add:'Chrome MCP disponible: tabs_context_mcp (NO uses navigate para Drive · usá la sesión ya autenticada del user) · javascript_tool (eval en página) · read_page · read_console · read_network. Para 10-SYS Tab 7 (Clases Perdidas) seguí Direct-Fetch Protocol v2 de CLAUDE.md.'},
+{r:/\b(preview|claude[\s-]?preview|screenshot|ui[\s-]?test|visual\s+test)\b/i,add:'Claude_Preview MCP: preview_start · preview_screenshot · preview_eval · preview_console · preview_resize. Útil para verificar UI cambios visualmente sin abrir browser real.'},
+{r:/\b(realtime|postgres.?changes|cross[\s-]?device|live[\s-]?update)\b/i,add:'Supabase Realtime activo: setupRealtime suscribe postgres_changes en app_state filtrado por user_id. handleRealtimeChange respeta TS local para no clobberear cambios sin push. Verificá que tu key esté en SYNC_REGISTRY.'},
+{r:/\b(modelo\.?md|obsidian|second\s+brain|karpathy|json\s+canvas|web\s+clipper|knowledge\s+graph)\b/i,add:'Modelo.md (Obsidian Second Brain) disponible como referencia creativa: Karpathy method (auto-organización con agente IA) · Web Clipper (captura externa) · JSON Canvas Skill (knowledge graph visual) · CLI Skills · Local-first/Plugins. Aplicable a cualquier módulo donde el user vuelque info sin estructura.'},
+{r:/\b(spawn[\s-]?task|share[\s-]?onboarding|onboarding\.?md)\b/i,add:'Si la feature merece documentarse para teammates: usá ShareOnboardingGuide MCP para uploadar ONBOARDING.md y obtener share link.'},
+{r:/\b(consolidate|memory|memory\.?md|user[\s-]?preference)\b/i,add:'Memory persistence: actualizá MEMORY.md cuando descubras preferencias del usuario nuevas. Anthropic-skills:consolidate-memory para merge de duplicados.'}
 ];
 
 function coClean(txt){
@@ -1982,9 +2019,19 @@ ${taskLines}`;
 const deliverable=
   type==='explore'||type==='audit'
     ? '**Read-only.** Return a concise report with file paths and line ranges. Do not modify files.'
+    : type==='plan'
+    ? '**Plan-first.** Return a structured plan (files, steps, risk) and wait for approval before executing.'
+    : type==='agent'
+    ? '**Delegate.** Spawn the sub-agent with a self-contained prompt and relay the agent\'s result back.'
+    : type==='skill'
+    ? '**Invoke skill.** Use the Skill tool with the exact skill name; respect skill output contract.'
+    : type==='schedule'
+    ? '**Schedule.** Configure the recurring/scheduled mechanism (CronCreate · ScheduleWakeup · scheduled-tasks). Confirm the trigger fires once before considering it done.'
+    : type==='worktree'
+    ? '**Isolate.** Launch an Agent with isolation: "worktree". Worktree path + branch are returned in the result.'
     : type==='deploy'
-    ? 'Commit + push to main with a clear message.'
-    : 'Execute the task → commit → push to main with a descriptive message. No approval needed.';
+    ? 'Commit + push to main with a clear message. Verify with git log.'
+    : 'Execute the task → update CEREBRO_STATE.md → commit feat/fix([CODE]): descripción → push origin main. No approval needed unless task says otherwise.';
 
 // ── CONSTRUCTION OF DA-2026 EXECUTION SPEC ──────────────────────
 // This is what makes Claude Optimizer different from Optimize:
@@ -2002,10 +2049,18 @@ ${inputBlock.replace(/^### .*\n/m,'').replace(/^The Optimize section[\s\S]*?DA-2
 ## Constraints
 ${(hint.constraint||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>l.replace(/^-\s*/,'- ')).join('\n')}
 - Auth chain on every HTML (Supabase CDN → supabase-client → auth → cloud-sync) before \`</body>\`.
-- Design tokens only (\`--ac\` \`--gn\` \`--bd\` \`--bg\` \`--tx\` \`--t2\` \`--t3\`). No hex.
+- Design System v1.0 tokens only (\`--ac\` \`--gn\` \`--bd\` \`--bg\` \`--tx\` \`--radius-*\` \`--transition-*\` \`--shadow-glow\`). No hex.
 - 4-layer: HTML + CSS + IIFE JS + JSON. Module codes (3-ENG / 5-JOB / etc).
 - Read \`CEREBRO_STATE.md\` and \`MEMORY.md\` first.
+- Update \`CEREBRO_STATE.md\` after the task.
 - Short responses, no filler.${signals.length?'\n'+signals.map(s=>'- '+s).join('\n'):''}
+
+## Capabilities (usá si encajan)
+- Sub-agents: Explore (read-only lookups) · Plan (architecture) · general-purpose · claude-code-guide.
+- Worktrees: \`isolation: "worktree"\` para refactors aislados.
+- Skills: docx · pdf · pptx · xlsx · claude-api · simplify · update-config · loop · schedule.
+- MCP: Claude_in_Chrome · Claude_Preview · ccd_session_mgmt · scheduled-tasks.
+- TodoWrite · ScheduleWakeup · CronCreate · spawn_task · mark_chapter.
 
 ## Deliverable
 ${deliverable}
@@ -2062,6 +2117,7 @@ If you create / copy / rename any \`.html\` file, add the chain immediately — 
 ### 4. Architecture
 - Maintain 4-layer pattern: HTML shell + CSS file + JS IIFE module + JSON data file.
 - IIFE pattern: \`const X = (() => { ... return { publicAPI }; })(); window.X = X;\`
+- Design System v1.0: \`frontend/css/design-tokens.css\` + \`frontend/css/components.css\` (.ds-* prefix).
 - Use module codes (\`3-ENG\`, \`5-JOB\`, \`8-PRO\`, \`10-SYS\`, \`13-NOT\`, etc.) in responses.
 
 ### 5. Communication Protocol
@@ -2069,6 +2125,23 @@ If you create / copy / rename any \`.html\` file, add the chain immediately — 
 - Cite file paths + line numbers when modifying code.
 - Flag any intentional behavior change explicitly.
 - Use module codes, not full names ("3-ENG", not "English Academy").
+
+### 6. CEREBRO_STATE.md update (mandatory)
+- Add an entry after every non-trivial task with: date · files modified · what changed · commit hash · next step.
+- Bump matrix status if you advanced/closed a phase.
+
+## Available Capabilities (use when they fit · don't force it)
+- **Plan mode** — \`Agent\` con subagent_type \`Plan\` para architectural plans · \`ExitPlanMode\` después de research.
+- **Sub-agents** — \`Explore\` (read-only context-heavy lookups) · \`general-purpose\` (open-ended multi-step) · \`claude-code-guide\` (preguntas sobre Claude Code/SDK/API).
+- **Worktrees** — \`Agent\` con \`isolation: "worktree"\` para refactors aislados (cleanup auto si no hay cambios).
+- **Skills** — Skill tool: \`docx\` · \`pdf\` · \`pptx\` · \`xlsx\` (oficina) · \`claude-api\` (Anthropic SDK) · \`simplify\` (code review) · \`update-config\` (settings.json) · \`loop\` · \`schedule\` · \`init\` · \`review\` · \`security-review\`.
+- **MCP** — \`Claude_in_Chrome\` (browser automation · tabs_context_mcp para reusar sesión autenticada) · \`Claude_Preview\` (UI screenshots · console · network) · \`ccd_session_mgmt\` (sessions · transcripts) · \`scheduled-tasks\` (remote routines).
+- **TodoWrite** — para tracking de progreso multi-step (3+ pasos discretos).
+- **ScheduleWakeup** — /loop dynamic con delaySeconds 60-3600 (cuidado con cache 5min window).
+- **CronCreate** — cron-based recurring (formato \`0 9 * * MON\`).
+- **mcp__ccd_session__spawn_task** — flaggear bugs out-of-scope sin inflar el current task.
+- **mcp__ccd_session__mark_chapter** — marcar phases distintas en sesiones largas (3-8 chapters por sesión).
+- **ShareOnboardingGuide** — uploadar ONBOARDING.md y obtener share link para teammates.
 
 ## Auto-Detected Signal-Based Constraints
 ${signals.length?signals.map(s=>'- '+s).join('\n'):'_(No specific signals detected — base constraints apply.)_'}

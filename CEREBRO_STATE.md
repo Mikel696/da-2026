@@ -1,8 +1,71 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15l
+- **Última actualización:** 2026-05-15m
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ⚡ Prompt Lab Overhaul · Fase B · Claude Optimizer v2026-05-15.B — 2026-05-15m
+
+### Qué cambió
+Overhaul completo de `claudeOptimize()` y `populateOptDropdowns()` en `prompts.html` para reflejar el **estado actual del Cerebro** y exponer las **capacidades vigentes**.
+
+### 1. Catálogo de módulos (CO_MODULE) — 100% reescrito
+Antes: descripciones del estado pre-migración, faltaban módulos 1-IND, 2-APP, 4-RUT, 6-TOO, 7-NEW (sólo aliases legacy).
+Ahora: 16 módulos + 6 aliases legacy + GENERAL. Cada entrada incluye:
+- Status de migración Design System v1.0 (qué Fase 2.x cerró la migración)
+- Files reales (con todos los archivos JS auxiliares · srs.js · nb-shared.js · module-prompts.js)
+- Storage keys actualizadas (con `jt_s8`, `ruta_st`, `sys_active_custom` registrados en Fase 3)
+- Notas con identidades preservadas (14-WORK cyan · 15-MM violet --vi · 16-APA cyan)
+- TIER 1 / TIER 2 / IndexedDB / Supabase Storage distinciones
+
+### 2. CO_GLOBAL_FILES — refrescado
+Agregados: `design-tokens.css`, `components.css`, `module-prompts.js`, `Modelo.md`.
+Cloud-sync.js anotado con: SYNC_REGISTRY + DYNAMIC_PREFIXES + smartSync + realtime postgres_changes.
+nb-shared.js anotado con: covers/icons/attachments + **Supabase Storage upload/download**.
+
+### 3. CO_TASK_HINTS — 6 tipos nuevos
+- `plan` (📐 Plan first · architecture)
+- `agent` (🤖 Delegate to sub-agent · Explore/Plan/general-purpose/claude-code-guide)
+- `skill` (🧰 Invoke Skill · docx/pdf/pptx/xlsx/claude-api/simplify/update-config/loop/schedule)
+- `schedule` (⏰ Schedule recurring · CronCreate/ScheduleWakeup/scheduled-tasks)
+- `worktree` (🌿 Isolate · Agent isolation: "worktree")
+- `mcp` (🔌 Use MCP capability · Chrome/Preview/ccd/scheduled-tasks)
+
+Cada uno con constraints específicos (cuándo usar · qué evitar · gotchas).
+
+### 4. CO_SIGNALS — 14 señales nuevas
+Detección automática de palabras clave que activan recomendaciones de:
+- Design System v1.0 (--radius/--transition/--shadow-glow/focus-visible)
+- Plan mode (architect/exit plan/plan first)
+- Sub-agents (subagent/delegate/explore agent)
+- Worktrees (isolated branch/git worktree)
+- Skills (anthropic-skills/invoke skill)
+- TodoWrite (track progress/multi-step)
+- Schedule (cron/loop/recurring/periodic)
+- spawn_task (out of scope/flag for later)
+- mark_chapter (phase shift/new phase)
+- Chrome MCP (browser automation/transcript/Drive)
+- Preview MCP (preview/screenshot/UI test)
+- Realtime (postgres_changes/cross-device)
+- Modelo.md (Obsidian/second brain/karpathy/json canvas)
+- Memory persistence (consolidate/MEMORY.md)
+
+### 5. Spec template — sección "Available Capabilities"
+Nuevo bloque agregado a ambos modos (concise + full) que lista las herramientas disponibles agrupadas por categoría:
+Sub-agents · Worktrees · Skills · MCP · TodoWrite · ScheduleWakeup · CronCreate · spawn_task · mark_chapter · ShareOnboardingGuide.
+
+### 6. UI refresh
+- Dropdown de módulos: orden 1-16 sin aliases legacy (los aliases siguen en CO_MODULE para compat backward).
+- Dropdown de task types: 6 nuevos.
+- Tip banners actualizados (Claude Optimizer menciona v2026-05-15.B y todas las capabilities; Optimize menciona el pipeline + tab Módulos).
+
+### CO_VERSION
+`2026-04-27.8` → `2026-05-15.B`
+
+### Pendiente · Fase C
+- Library refresh: los prompts `cat:'claude'` legacy (Work on 3-ENG / Work on 5-JOB / etc.) ahora viven en el nuevo tab **🧩 Módulos**. Toca: archivar/eliminar los duplicados del array `lib` o renombrarlos a "Quick Templates" más conciso.
 
 ---
 
