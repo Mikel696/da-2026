@@ -1,8 +1,84 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15h
+- **Última actualización:** 2026-05-15i
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🎯 Fase 2.5 · Todos los P1 migrados (8-PRO + 3-ENG + 5-JOB + 9-GOA) — 2026-05-15i
+
+### Qué cambió
+Cuatro migraciones en una sesión. **Grupo P1 completo:** 9/16 módulos ahora corren sobre el Design System v1.0.
+
+### 8-PRO · Prompt Lab
+**Archivo:** `frontend/prompts.html` (CSS inline)
+- Imports `design-tokens.css` + `components.css` agregados.
+- `:root{}` removido del bloque inline.
+- `.tabs`/`.tab`: focus-visible con shadow-glow; transiciones específicas.
+- `.card`: hover con `--bd2`; radio `--radius-md`.
+- `.btn` (bp/bo/bg): focus-visible; hover lift + brightness; `.bg` texto `#001f0d` para contraste.
+- `.textarea`/`.select`: focus con shadow-glow.
+- `.result`: radio `--radius-md`.
+- `.prompt-card`: focus-visible añadido; transiciones específicas (translateX preservado).
+- `.cat-btn`: focus-visible añadido.
+
+### 3-ENG · English Academy
+**Archivos:** `frontend/english.html` + `frontend/css/english.css`
+- Imports agregados en HTML.
+- `:root{}` removido de CSS; reset `*{margin:0...}` removido.
+- `.tabs`/`.tab`: focus-visible; transiciones específicas.
+- `.card`: hover con `--bd2`.
+- `.btn` (bp/bo): focus-visible; primary con hover lift + brightness.
+- `.ein` / `.note-area`: focus con shadow-glow.
+
+### 5-JOB · Job Tracker
+**Archivos:** `frontend/jobs.html` + `frontend/css/jobs.css`
+- Imports agregados en HTML.
+- `:root{}` removido de CSS; reset `*{margin:0...}` removido.
+- `.tabs`/`.tab`: focus-visible con shadow-glow.
+- `.card`: hover con `--bd2`.
+- `.btn` (bp/bo/bg): focus-visible; hover lift + brightness; `.bg` texto `#001f0d`.
+- `.inp`: focus con shadow-glow.
+
+### 9-GOA · Goals & Habits
+**Archivos:** `frontend/goals.html` + `frontend/css/goals.css`
+- Imports agregados en HTML.
+- `:root{}` removido de CSS; reset `*{margin:0...}` removido.
+- `.tabs`/`.tab`: focus-visible con shadow-glow.
+- `.cd`: hover con `--bd2`; transición específica.
+- `.btn` (bp/bo/bg): focus-visible; hover lift + brightness; `.bg` texto `#001f0d`.
+- `.inp`/`.sel`: focus con shadow-glow.
+- `.goal`: hover con `translateY(-1px)` (antes solo cambiaba borde).
+
+### Matriz de migración actualizada (9/16)
+| Código | Módulo | Estado | Fase |
+|---|---|---|---|
+| 1-IND | Dashboard | ✅ Migrado | 2.1 |
+| 14-WORK | Simetrik Hub | ✅ Migrado (cyan) | 2.2 |
+| 10-SYS | Systems Engineering | ✅ Migrado (glass) | 2.3 |
+| 13-NOT | Notes | ✅ Migrado | 2.4 |
+| 12-FIN | Finance | ✅ Migrado | 2.4 |
+| 8-PRO | Prompt Lab | ✅ Migrado | 2.5 |
+| 3-ENG | English Academy | ✅ Migrado | 2.5 |
+| 5-JOB | Job Tracker | ✅ Migrado | 2.5 |
+| 9-GOA | Goals & Habits | ✅ Migrado | 2.5 |
+| 2-APP | Application Center | ⏳ Pendiente (P2) | 2.6 |
+| 4-RUT | Ruta DA | ⏳ Pendiente (P2) | 2.6 |
+| 11-ACC | Accounting | ⏳ Pendiente (P2) | 2.6 |
+| 6-TOO | Tools | ⏳ Pendiente (P2) | 2.6 |
+| 7-NEW | News | ⏳ Pendiente (P2) | 2.6 |
+| 15-MM | Mind Map | ⏳ Pendiente (P2) | 2.6 |
+| 16-APA | APA | ⏳ Pendiente (P2) | 2.6 |
+
+### Lo que aprendí
+- Patrón de migración estabilizado: imports → remove `:root` + reset `*` → refinar tabs/card/btn/inp con tokens + focus-visible.
+- 4 módulos en una sesión es viable cuando comparten patrón violeta global (no hay overrides de color).
+- Mantener transiciones específicas en lugar de `transition:all` mejora performance y previene flashes.
+
+### Pendiente inmediato
+- **Fase 2.6** (P2 · 7 módulos): 2-APP, 4-RUT, 11-ACC, 6-TOO, 7-NEW, 15-MM, 16-APA.
+- **Fase 3** (Bug Hunt): scan sistemático.
 
 ---
 
