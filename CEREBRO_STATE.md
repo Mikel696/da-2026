@@ -1,8 +1,50 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15b
+- **Última actualización:** 2026-05-15c
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🔄 Sync Audit ejecutado · 5 keys agregadas al SYNC_REGISTRY — 2026-05-15c
+
+### Qué cambió
+Ejecutada la **Fase 3 (Sync Audit)** del Master UX Sprint. Investigué cada key sospechosa antes de tocar el registry. Resultado: 5 keys agregadas (necesarias) · 4 confirmadas como falsos positivos (no requieren acción).
+
+### Resultado del audit por key
+
+| Key | Módulo | Decisión | Razón |
+|---|---|---|---|
+| `sb_tasks` | 1-IND Mission Control | ✅ **Agregada** | Usada en `news.html` línea 217-220 · widget de tareas rápidas · debe sync cross-device. |
+| `sb_ws_hist` | 1-IND Workshop history | ✅ **Agregada** | Usada en `index.html` línea 205-206 · array de últimos 10 workshops invocados · sync útil. |
+| `jt8` | 5-JOB Job Tracker | ✅ **Agregada** | Usada en `jobs.js` línea 300 + `apply.js` línea 715 · **MASTER KEY** del Job Tracker · CRÍTICO. |
+| `sys_active_custom` | 10-SYS Systems | ✅ **Agregada** | Usada en `systems_logic.js` líneas 2231, 2236, 2258 · cuaderno custom activo seleccionado · scalar string. |
+| `ruta_st` | 4-RUT Ruta Data Analyst | ✅ **Agregada** | Usada en `ruta.html` línea 488 · timestamp del start de la ruta · necesario para calcular streak cross-device. |
+| `custom_prompts` | 8-PRO Prompt Lab | ❌ Falso positivo | LEGACY · `prompts.js` solo lo lee para migrar a `sb_prompts` (que YA está sync) y después hace `removeItem`. No requiere sync. |
+| `sys_class_sessions` | 10-SYS Systems | ❌ Falso positivo | Usa **tabla dedicada (Tier 1)** vía `CLOUD.fullSync('class_sessions', ...)` en `systems_logic.js:1332`. Ya está en `SKIP_KEYS` correctamente. |
+| `eng_conv_fsrs` | 3-ENG English | ❌ Falso positivo | Solo aparece en `refactor_engine.py` (script Python de refactorización ETL). No está en código JS runtime. |
+| `sys_sys_class_sessions` | 10-SYS Systems | ❌ No bug activo | El typo doble prefijo **YA tiene migración en línea 1206 de `systems_logic.js`** que limpia automáticamente al cargar la página. Bug histórico ya resuelto. |
+
+### Archivos modificados
+- ✏️ `frontend/js/cloud-sync.js` (SYNC_REGISTRY · +5 keys con bloque comentado "Sync Audit fixes · 2026-05-15b")
+
+### Impacto operativo
+A partir de este commit, los siguientes datos sincronizan cross-device automáticamente:
+- **Tareas del Mission Control** (1-IND) ya no se pierden al cambiar de PC
+- **Historial de Workshops** (1-IND) viaja entre devices
+- **Job Tracker completo** (5-JOB · todas tus vacancies/jobs) sincroniza
+- **Cuaderno activo en Sistemas** (10-SYS) recuerda dónde estabas
+- **Timestamp de inicio de la Ruta** (4-RUT) preserva el streak
+
+### Validación recomendada
+1. En PC A: agregar una tarea al Mission Control de 1-IND.
+2. Refresh `index.html`.
+3. En PC B: refresh → debería aparecer la tarea (sync automático por `INITIAL_SESSION` event).
+4. Lo mismo para 5-JOB (crear una vacancy) y 10-SYS (cambiar cuaderno activo).
+
+### Pendientes del Sync Audit
+- Ninguno · audit cerrado para los hallazgos detectados.
+- Próximo: cuando aparezcan nuevas features con nuevos storage keys, agregarlos al registry desde el momento 0. Pattern: cada feature nueva con persistencia → SYNC_REGISTRY actualizado en el mismo commit.
 
 ---
 

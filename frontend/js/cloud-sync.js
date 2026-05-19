@@ -291,7 +291,16 @@ const CLOUD = (() => {
     'tools_apa_docs', 'apa_defaults',
     // Config / prefs (small scalars)
     'jt_profile', 'jt_form_expanded',
-    'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total'
+    'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total',
+    // ─── Sync Audit fixes · 2026-05-15b ───
+    // 1-IND Mission Control · tareas y workshop history
+    'sb_tasks', 'sb_ws_hist',
+    // 5-JOB Job Tracker · master key del módulo (vacancies/jobs array)
+    'jt8',
+    // 10-SYS Systems Engineering · cuaderno custom activo seleccionado
+    'sys_active_custom',
+    // 4-RUT Ruta Data Analyst · timestamp de inicio del journey
+    'ruta_st'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */
