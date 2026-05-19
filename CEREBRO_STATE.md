@@ -1,8 +1,71 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15d
+- **Última actualización:** 2026-05-15e
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🏠 Fase 2 Pilot · 1-IND migrado al Design System v1.0 — 2026-05-15e
+
+### Qué cambió
+Primer módulo migrado al Design System. Estrategia de mínimo riesgo elegida:
+1. Importar los 2 archivos canónicos (design-tokens.css + components.css) ANTES del `<style>` inline.
+2. Remover el `:root{...}` duplicado del inline style (los aliases del system ya proveen TODAS las variables).
+3. Reemplazar valores hardcoded de transición/radio por tokens (`var(--radius-md)`, `var(--transition-fast)`, `var(--shadow-glow)`).
+4. Agregar `:focus-visible` styling consistente en `.mod`, `.ws-btn`, `.ws-input` (accesibilidad).
+5. Footer link al showcase del Design System para QA rápido.
+
+### Diff resumen
+- Antes: `<style>:root{--bg:#09090b;--card:#16161a;...}` (duplicado, hardcoded en cada archivo del Cerebro).
+- Después: `<link rel="stylesheet" href="css/design-tokens.css">` + el `:root` viene del archivo canónico.
+
+### Microinteracciones mejoradas en index.html
+- **`.mod` (cards de módulos)**: hover ahora usa `border-color:var(--ac)` + `transform:translateY(-3px)` + `box-shadow:var(--shadow-lg)`. Focus ring usa `--shadow-glow`. Más suave + más visible.
+- **`.ws-btn` (Quick Workshop)**: focus-visible con shadow-glow violeta. Transiciones más rápidas (var(--transition-fast)).
+- **`.ws-go` (botón Go)**: hover con `background:var(--ac2)` + lift. Antes flat sin feedback.
+- **`.ws-input`**: focus muestra glow violeta consistente con el sistema.
+- **`.task-btn` (Add tarea)**: hover con brillo + lift sutil.
+- **`.qstat` (stats cards)**: hover con cambio de fondo. Valor numérico ahora usa color violeta `--ac2`.
+- **Stats grid**: usa `var(--radius-md)` y `var(--space-6)` en lugar de valores fijos.
+
+### Lo que NO se tocó
+- HTML estructural (`<body>`, las cards, el rail, el iframe).
+- JS (Cerebro router, pomo timer, RSS feed, etc).
+- Auth chain.
+- Cualquier funcionalidad del módulo.
+
+### Archivos modificados
+- ✏️ `frontend/index.html` (importa design system · :root removido · microinteracciones refinadas · footer link al showcase)
+
+### Validación visual
+1. Abrí: https://mikel696.github.io/da-2026/frontend/
+2. Hover sobre cualquier card de módulo → debería levantarse con borde violeta y sombra suave.
+3. Hover sobre los Quick Workshop → mismo efecto.
+4. Tab por los botones con teclado → focus ring violeta visible en cada uno.
+5. Footer abajo a la derecha: link "🎨 Design System v1.0" abre el showcase.
+
+### Decisiones técnicas
+1. **Mínimo riesgo, máximo valor:** no se reescriben componentes (`.mod`, `.ws-btn`, etc) como `.ds-btn`. Mantenemos el CSS específico del módulo y solo cambiamos su FUENTE de variables. Esto asegura cero regresiones visuales mientras conectamos al sistema canónico.
+2. **Aliases hacen el trabajo pesado:** las variables viejas (`--card`, `--tx2`, `--ac`, `--em`) ya están definidas en `design-tokens.css` como aliases a los nuevos nombres. La página sigue funcionando idéntica.
+3. **Microinteracciones suaves:** se aprovecha el sistema para STANDARIZAR transiciones (`var(--transition-fast)`) y focus rings (`var(--shadow-glow)`) en lugar de un sub-conjunto inconsistente.
+4. **Footer link como QA shortcut:** mientras quede activo el sprint, tener un acceso de 1 click al showcase desde la home acelera la validación visual entre cambios.
+
+### Estado actual del migrado
+| Módulo | Migrado | Microinteracciones | Showcase link |
+|---|---|---|---|
+| 1-IND index.html | ✅ | ✅ refinadas | ✅ footer |
+| 14-WORK work.html | ❌ pendiente Fase 2.2 | — | — |
+| 13-NOT notes.html | ❌ pendiente | — | — |
+| 10-SYS systems.html | ❌ pendiente | — | — |
+| 12-FIN finance.html | ❌ pendiente | — | — |
+| (resto · 11 módulos) | ❌ pendiente Fase 2.3/2.4 | — | — |
+
+### Próximo paso
+Fase 2.1 cerrada. Las opciones para Fase 2.2:
+- 14-WORK (el módulo más activo del usuario · Simetrik)
+- 13-NOT (segundo más usado · Notas + Journal)
+- Otro módulo P0 a elección.
 
 ---
 

@@ -6,9 +6,14 @@
 <title>Segundo Cerebro · Centro de Gestión</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens + components canónicos (Fase 1 Master UX Sprint · 2026-05-15) -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
 <style>
-:root{--bg:#09090b;--card:#16161a;--el:#222228;--bd:#27272a;--bd2:#3f3f46;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#52525b;--ac:#8b5cf6;--ac2:#a78bfa;--acg:rgba(139,92,246,.08);--gn:#22c55e;--gng:rgba(34,197,94,.08);--am:#eab308;--amg:rgba(234,179,8,.06);--rd:#ef4444;--cy:#06b6d4;--or:#f97316;--em:#10b981;--emg:rgba(16,185,129,.08)}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+/* 1-IND piloto · design system aplicado · tokens vienen de design-tokens.css */
+*{margin:0;padding:0}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between}
 .nav-brand{display:flex;align-items:center;gap:8px}.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--ac)}.nav-name{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--tx2)}
@@ -22,9 +27,9 @@
 .header p{font-size:13px;color:var(--tx3);max-width:520px;line-height:1.6}
 .header-video{width:260px;height:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .header-video video{width:100%;height:100%;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 30px rgba(139,92,246,.15));pointer-events:none}
-.qstats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:28px}
-.qstat{flex:1;background:var(--card);padding:14px 16px;text-align:center}.qstat:first-child{border-radius:10px 0 0 10px}.qstat:last-child{border-radius:0 10px 10px 0}
-.qstat-v{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}.qstat-l{font-size:10px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.qstats{display:flex;gap:1px;background:var(--bd);border-radius:var(--radius-md);overflow:hidden;margin-bottom:var(--space-6)}
+.qstat{flex:1;background:var(--card);padding:14px 16px;text-align:center;transition:background var(--transition-fast)}.qstat:first-child{border-radius:var(--radius-md) 0 0 var(--radius-md)}.qstat:last-child{border-radius:0 var(--radius-md) var(--radius-md) 0}.qstat:hover{background:var(--el)}
+.qstat-v{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--ac2)}.qstat-l{font-size:10px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
 .sec-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
 .dash-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:28px}
 @media(max-width:900px){.dash-grid{grid-template-columns:1fr}}
@@ -32,12 +37,13 @@
 .today-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .today-title{font-size:15px;font-weight:600}.today-date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tx3)}
 .ws-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
-.ws-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;background:var(--el);border:1px solid var(--bd);border-radius:10px;text-decoration:none;color:var(--tx);font-size:11px;font-weight:500;text-align:center;transition:all .2s;cursor:pointer}
+.ws-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-md);text-decoration:none;color:var(--tx);font-size:11px;font-weight:500;text-align:center;transition:border-color var(--transition-fast),background var(--transition-fast),transform var(--transition-fast);cursor:pointer}
 .ws-btn:hover{border-color:var(--ac);background:var(--acg);transform:translateY(-2px)}
+.ws-btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
 .ws-icon{font-size:22px}
 .ws-custom{margin-top:8px;display:flex;gap:6px}
-.ws-input{flex:1;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px}.ws-input:focus{outline:none;border-color:var(--ac)}
-.ws-go{padding:7px 14px;background:var(--ac);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.ws-input{flex:1;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:12px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}.ws-input:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.ws-go{padding:7px 14px;background:var(--ac);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background var(--transition-fast),transform var(--transition-fast)}.ws-go:hover{background:var(--ac2);transform:translateY(-1px)}
 .ofertas-btn{width:100%;padding:10px 16px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .2s}
 .ofertas-btn:hover{border-color:var(--em);background:rgba(16,185,129,.06)}
 .ofertas-dd{display:none;position:absolute;top:100%;left:0;right:0;z-index:40;background:var(--card);border:1px solid var(--bd);border-radius:10px;margin-top:4px;padding:6px;max-height:320px;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.5)}
@@ -53,7 +59,7 @@
 .task-add{display:flex;gap:6px;margin-top:12px}
 .task-input{flex:1;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px}.task-input:focus{outline:none;border-color:var(--ac)}
 .task-select{padding:6px 8px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx2);font-family:inherit;font-size:11px}
-.task-btn{padding:7px 14px;background:var(--gn);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.task-btn{padding:7px 14px;background:var(--gn);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:transform var(--transition-fast),filter var(--transition-fast)}.task-btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
 .sidebar{display:flex;flex-direction:column;gap:12px}
 .pomo{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center}
 .pomo-title{font-size:12px;font-weight:600;margin-bottom:8px}
@@ -79,10 +85,11 @@
 .cj-tag{font-size:8px;padding:2px 4px;border-radius:3px;font-weight:600;text-transform:uppercase}
 .cj-free{background:var(--gng);color:var(--gn);border:1px solid rgba(34,197,94,.15)}
 .cj-hot{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.15)}
-.modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:28px}
-.mod{display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;min-height:150px;text-decoration:none;color:inherit;transition:all .2s;position:relative;overflow:hidden;cursor:pointer}
-.mod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
-.mod:hover{border-color:var(--bd2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}.mod:hover::before{opacity:1}
+.modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-3);margin-bottom:var(--space-6)}
+.mod{display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:var(--radius-lg);padding:var(--space-5);min-height:150px;text-decoration:none;color:inherit;transition:border-color var(--transition-base),transform var(--transition-base),box-shadow var(--transition-base);position:relative;overflow:hidden;cursor:pointer}
+.mod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity var(--transition-base)}
+.mod:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:var(--shadow-lg)}.mod:hover::before{opacity:1}
+.mod:focus-visible{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
 .mod-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:auto}
 .mod-icon{font-size:22px;margin-bottom:10px}
 .mod-status{font-size:9px;font-weight:600;padding:2px 7px;border-radius:6px;text-transform:uppercase}
@@ -195,7 +202,7 @@ body.in-frame.frame-loading .frame-load{display:block}
 <div class="feed"><div class="feed-grid" id="feedGrid"></div></div>
 <div class="quote"><p id="quoteText"></p><cite id="quoteAuthor"></cite></div>
 </main>
-<footer class="footer">Segundo Cerebro · Construido con disciplina · 2026</footer>
+<footer class="footer">Segundo Cerebro · Construido con disciplina · 2026 · <a href="pages/design-system.html" style="color:var(--tx3);text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:10px;border-left:1px solid var(--bd);padding-left:10px;margin-left:6px" title="Design System v1.0">🎨 Design System v1.0</a></footer>
 <script>
 function updateClock(){const n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=h+':'+m;const g=['Buenas noches','Buenos días','Buenas tardes','Buenas noches'],p=h<6?0:h<12?1:h<19?2:3,name=localStorage.getItem('sb_name')||'';document.getElementById('greeting').textContent=g[p]+(name?', '+name:'')}
 updateClock();setInterval(updateClock,30000);
