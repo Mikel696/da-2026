@@ -1,8 +1,92 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15g
+- **Última actualización:** 2026-05-15h
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 📝💰 Fase 2.4 · 13-NOT + 12-FIN migrados · P0 CERRADO — 2026-05-15h
+
+### Qué cambió
+Cuarta y quinta migración en una sola sesión. **Grupo P0 completo:** los 5 módulos más usados ahora corren sobre el Design System v1.0.
+
+### 13-NOT · Notes & Journal
+**Archivo:** `frontend/notes.html`
+- Agregados imports de `design-tokens.css` + `components.css` ANTES de `nb-shared.css`.
+- `:root{}` removido completo · todos los tokens vienen del sistema vía aliases.
+- Body conserva familia `IBM Plex Sans`.
+
+**Microinteracciones:**
+- `.tab`: focus-visible con shadow-glow; transiciones específicas.
+- `.cd` (cards): hover con `--bd2`; transición `border-color`.
+- `.btn` (bp/bo/bg): focus-visible; primary y green con hover lift + brightness.
+- `.bg`: texto oscuro `#001f0d` para mejor contraste.
+- `.inp` / `.txa`: focus con `shadow-glow` violeta + transiciones específicas.
+- `.note`: hover con `translateY(-1px)` + shadow-md + border violeta (antes solo cambiaba borde).
+- `.search-inp`: focus con shadow-glow.
+- `.ftag` (filter tags): radio `--radius-full` (pill); focus-visible; opacity más visible al hover.
+- `.stats` / `.st`: hover con cambio de fondo; valor en violeta `--a2`.
+
+### 12-FIN · Finanzas Personales
+**Archivos:** `frontend/finance.html` + `frontend/css/finance.css`
+- Imports agregados en `finance.html`.
+- `:root{}` removido completo de `finance.css`.
+- Reset `*{margin:0...}` removido (viene del sistema).
+
+**Microinteracciones:**
+- `.mn-btn` (month nav): focus-visible con shadow-glow; transiciones específicas.
+- `.kpi` (Ingresos/Gastos/Balance/Ahorro): hover con `translateY(-1px)` + borde más visible.
+- `.tab`: focus-visible con shadow-glow.
+- `.cd` (cards): hover con `--bd2`.
+- `.btn` (bp/bg/br): hover con `translateY(-1px)` + brightness; focus-visible; primary y green con texto contrastado.
+- `.inp`: focus con shadow-glow.
+- `.sel`: focus con border violeta + transiciones.
+- `.cat-btn` (toggle categorías): focus-visible; hover con cambio de color.
+
+### Lo que NO se tocó (ambos módulos)
+- HTML estructural (panels, forms, listas de transacciones).
+- JavaScript (lógica de notes, journal, SRS Leitner, finanzas, KPIs, gráficos).
+- `nb-shared.css` (compartido con 10-SYS y 14-WORK).
+- Auth chain.
+
+### Archivos modificados
+- ✏️ `frontend/notes.html` (imports + microinteracciones en estilos inline)
+- ✏️ `frontend/finance.html` (imports + 3 nuevos `<link>` tags)
+- ✏️ `frontend/css/finance.css` (reducción de `:root`, microinteracciones)
+
+### Validación visual
+1. **13-NOT** · https://mikel696.github.io/da-2026/frontend/notes.html
+   - Tab por inputs/botones/notes → focus ring violeta.
+   - Hover sobre notas → lift sutil + shadow + borde violeta.
+   - Filter tags (pills) → focus-visible.
+2. **12-FIN** · https://mikel696.github.io/da-2026/frontend/finance.html
+   - Hover sobre KPIs → lift sutil.
+   - Tab por month-nav buttons / tabs / inputs → focus rings.
+   - Botones primary/success/danger con feedback de hover mejorado.
+
+### 🎯 Estado actual del migrado · 5/16 módulos · P0 CERRADO
+
+| # | Módulo | Migrado | Identidad | Fase |
+|---|---|---|---|---|
+| 1 | 1-IND index.html | ✅ | violeta · rail/cards/stats | 2.1 |
+| 2 | 14-WORK work.html | ✅ | **cyan local** · 13 tabs | 2.2 |
+| 3 | 10-SYS systems.html | ✅ | violeta + glassmorphism | 2.3 |
+| 4 | **13-NOT notes.html** | **✅** | violeta · journal + SRS | **2.4** |
+| 5 | **12-FIN finance.html** | **✅** | violeta · KPIs + categorías | **2.4** |
+| 6-16 | 11 módulos restantes | ❌ | P1/P2 pendientes | — |
+
+### 🏁 P0 cerrado
+Los 5 módulos más usados del Cerebro corren sobre el Design System v1.0. La consistencia visual base (paleta · tipografía · espaciado · radios · sombras · transiciones · focus rings) está garantizada en el ~80% del tiempo de uso del usuario.
+
+### Próximo · Fase 2.5 (P1)
+4 módulos frecuentes:
+- **3-ENG** english.html · English Academy + Interview Dojo
+- **5-JOB** jobs.html · Job Tracker
+- **9-GOA** goals.html · Objetivos & Hábitos
+- **8-PRO** prompts.html · Prompt Lab
+
+Después: Fase 2.6 (P2) con los 7 menos usados (2-APP, 4-RUT, 11-ACC, 6-TOO, 7-NEW, 15-MM, 16-APA).
 
 ---
 
