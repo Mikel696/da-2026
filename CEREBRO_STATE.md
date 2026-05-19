@@ -1,8 +1,72 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15e
+- **Última actualización:** 2026-05-15f
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 💼 Fase 2.2 · 14-WORK migrado al Design System (cyan local preservado) — 2026-05-15f
+
+### Qué cambió
+Segundo módulo migrado al Design System. 14-WORK es el módulo más activo del usuario (Simetrik Ecosystem · 13 tabs). Estrategia escogida: mantener **cyan** `#06b6d4` como accent local (identidad de marca Simetrik) pero conectar todo lo demás al sistema canónico.
+
+### Decisión de identidad
+- 14-WORK conserva cyan como accent local.
+- `:root` del módulo ahora sobreescribe SOLO `--ac`, `--ac2`, `--acg`, `--a2`, `--ag` a cyan.
+- Las demás tokens (`--bg`, `--bd`, `--tx`, `--gn`, `--rd`, `--am`, etc.) vienen del sistema canónico vía aliases.
+
+### Archivos modificados
+- ✏️ `frontend/work.html` — agregados imports de `design-tokens.css` + `components.css` ANTES de `nb-shared.css` y `work.css`.
+- ✏️ `frontend/css/work.css` — refactor del `:root{}` a override reducido (solo cyan); body reset removido (viene del sistema); todos los radios y transiciones reemplazados por tokens.
+
+### Microinteracciones aplicadas
+| Componente | Mejora |
+|---|---|
+| **`.tabs` / `.tab`** | Border-radius y padding desde tokens; focus-visible con shadow-glow; tab activo usa cyan + texto oscuro `#001518` para mejor contraste; transiciones específicas (no `all`). |
+| **`.btn` / `.bp` / `.bo` / `.bg`** | Hover con `transform:translateY(-1px)` + brightness; texto oscuro en primario y success para mejor contraste; focus-visible con glow ring. |
+| **`.inp` / `.txa`** | Focus con `box-shadow:var(--shadow-glow)` + border cyan; transiciones específicas. |
+| **`.item` (Cases/Errors/Learnings)** | Hover con `transform:translateY(-1px)` + shadow-md + border cyan; antes solo cambiaba borde. |
+| **`.cd` (cards)** | Border-radius desde token + hover sutil con `--bd2`. |
+| **`.stats` / `.st`** | Border-radius desde tokens; `.st:hover` con cambio de fondo. |
+| **`.dict-row`** | Hover con fondo `--el`; focus-visible con glow; transiciones específicas en lugar de `all .12s`. |
+| **`.result`** | Border-radius `--radius-md` desde token. |
+
+### Tokens utilizados (resumen)
+- `var(--radius-sm/md)` → 6px/10px (botones, inputs, items)
+- `var(--transition-fast)` → 120ms (hover, focus)
+- `var(--transition-base)` → 180ms (cards, layouts)
+- `var(--shadow-glow)` → focus ring cyan
+- `var(--shadow-md)` → hover de items
+- `var(--space-5)` → 24px (gap entre stats y tabs)
+
+### Lo que NO se tocó
+- HTML estructural (las 13 tabs, el form de MOIF, los panels, etc).
+- JavaScript (toda la lógica de WORK, eco, WorkNB, smartSync, etc).
+- Subpáginas (`pages/simetrik-app.html`, `simetrik-playbook.html`, `simetrik-learn.html`) — esas se migran en una sub-fase futura si querés.
+- nb-shared.css (estilos de notebooks compartidos con 10-SYS y 13-NOT).
+- Auth chain.
+
+### Validación visual
+1. Abrí: https://mikel696.github.io/da-2026/frontend/work.html
+2. Click en cualquier tab → activo en cyan + texto oscuro para mejor legibilidad.
+3. Hover sobre cards de Casos/Errores/Aprendizajes → lift sutil + borde cyan + sombra.
+4. Tab por inputs con teclado → focus ring cyan visible.
+5. Hover sobre stats → cambio de fondo.
+6. Diccionario: click en filas → focus consistente, hover con fondo.
+
+### Estado actual del migrado · 2/16 módulos
+| Módulo | Migrado | Accent | Estado |
+|---|---|---|---|
+| 1-IND index.html | ✅ | violeta canónico | Fase 2.1 |
+| **14-WORK work.html** | ✅ | **cyan local** | **Fase 2.2** |
+| 13-NOT notes.html | ❌ | violeta (P0 pendiente) | — |
+| 10-SYS systems.html | ❌ | violeta (P0 pendiente) | — |
+| 12-FIN finance.html | ❌ | violeta (P0 pendiente) | — |
+| (resto · 11 módulos) | ❌ | — | — |
+
+### Próximo
+Fase 2.3 sugerida: 13-NOT · 10-SYS · 12-FIN en serie o el módulo que el usuario prefiera.
 
 ---
 
