@@ -1,8 +1,80 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15c
+- **Última actualización:** 2026-05-15d
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🎨 Fase 1 Master UX Sprint · Design System v1.0 entregado — 2026-05-15d
+
+### Qué cambió
+Ejecutada **Fase 1 (Design System)** del Master UX Sprint. Sistema canónico de diseño entregado como 4 archivos. Cero módulos migrados todavía (intencional · Fase 2 hace eso). Compatibilidad con CSS legacy preservada vía aliases.
+
+### Hallazgo crítico previo (al hacer survey)
+Inconsistencia de accent color entre módulos:
+- `work.css` (14-WORK) → **cyan** `#06b6d4`
+- `jobs.css` (5-JOB), `english.css` (3-ENG), `index.html` (1-IND), `notes.html` (13-NOT) → **violeta** `#8b5cf6`
+
+**Decisión:** violeta `#8b5cf6` como **accent canónico** (4/5 ya lo usan). 14-WORK mantiene cyan localmente hasta su migración en Fase 2.
+
+### Archivos creados
+- ➕ `frontend/css/design-tokens.css` (NEW · 215 líneas)
+  - Paleta: 8 colores semánticos (accent, cyan, green, emerald, amber, orange, red, pink, blue) con variantes soft + bg-bg
+  - 9 neutros (bg, bg-2/3/4, border, border-2, text, text-2/3)
+  - Tipografía: 3 familias (sans / mono / display) + 8 niveles + 4 weights + 3 line-heights
+  - Espaciado: 9 niveles base 4px (4 → 96)
+  - Radios: 6 niveles (sm 6 → full 9999)
+  - Sombras: 5 niveles (sm/md/lg/xl/glow)
+  - Transiciones: 3 velocidades + 2 easings
+  - Z-index: escala de 7 capas
+  - Layout widths: content/narrow/wide
+  - **Aliases legacy completos** (--ac, --t2, --bd, etc → tokens nuevos) para no romper CSS viejo
+  - Reset mínimo: box-sizing, scrollbar 4px, ::selection, :focus-visible default
+
+- ➕ `frontend/css/components.css` (NEW · 320 líneas)
+  - 10 componentes prefijados `.ds-*`: btn (5 variantes × 3 tamaños) · card (4 variantes) · input/textarea/select · label · badge (6 variantes) · toast (4 variantes) · modal (backdrop + container) · skeleton (shimmer) · tooltip (data-attribute) · nav (sticky header)
+  - Typography helpers: ds-h1/h2/h3 · ds-text-* · ds-kicker
+  - Layout utils: stack-2/3/4 · row-2/3/4 · grid-2/3/auto · flex-1 · divider · spacer
+  - Animación canónica `.ds-fade-up`
+  - Media query mobile <768px: grids colapsan a 1 columna, modal/toast full-width
+
+- ➕ `frontend/css/DESIGN_SYSTEM.md` (NEW · documentación canónica)
+  - Quick start con ejemplo end-to-end
+  - Tablas de tokens (colores, tipografía, espaciado, radios, sombras, transiciones)
+  - Documentación de cada componente con HTML de ejemplo
+  - Sección de accesibilidad (focus, contraste, touch targets)
+  - Plan de migración módulo por módulo
+  - Decisiones cerradas (accent canónico violeta, prefijo .ds-* obligatorio)
+  - Changelog
+
+- ➕ `frontend/pages/design-system.html` (NEW · showcase live)
+  - URL en producción: https://mikel696.github.io/da-2026/frontend/pages/design-system.html
+  - 14 secciones interactivas con anchor nav sticky
+  - Swatches de los 18 colores + 9 neutros con hex visible
+  - Demostración de escala tipográfica con muestra de texto
+  - Espaciado visualizado con barras
+  - Radios + sombras en grid
+  - Componentes funcionales: botones · cards · inputs · badges · toasts (click para activar) · modal funcional (Escape para cerrar) · skeleton · tooltip · tabla de utils
+  - Sirve como QA visual: si algo se rompe acá, todo el Cerebro está roto
+
+### Decisiones técnicas tomadas
+1. **Prefijo `.ds-*` obligatorio** — evita colisiones con CSS legacy (.btn, .card existentes en los módulos no migrados).
+2. **Aliases legacy completos** — los nombres viejos (--ac, --t2, --bd, etc.) apuntan a los tokens nuevos. CSS de módulos no migrados sigue funcionando sin cambios.
+3. **Sin migración de módulos en esta fase** — Fase 1 solo entrega herramientas. Migración módulo por módulo viene en Fase 2 (P0 → P1 → P2).
+4. **Accent canónico violeta `#8b5cf6`** — alineado con la mayoría existente. 14-WORK conserva cyan localmente.
+5. **Showcase live como QA** — `design-system.html` es la prueba de regresión visual. Si los tokens cambian, se ve ahí primero.
+6. **Sin Lucide todavía** — decidido posponer la migración de iconografía a una sesión dedicada (Fase 2.5 opcional). Las decisiones de UX no dependen de los iconos.
+
+### Pendientes
+- **Fase 2 (P0):** migrar 1-IND · 14-WORK · 13-NOT · 10-SYS · 12-FIN al design system.
+- **Decisión iconografía:** mantener emojis vs migrar a Lucide SVG (recomendado, postpuesto).
+- **Light theme:** opcionalmente agregar override `[data-theme="light"]` en design-tokens.css (no incluido v1.0).
+
+### Cómo verificar
+1. Abrí en producción: https://mikel696.github.io/da-2026/frontend/pages/design-system.html
+2. Probá los toasts (botones de la sección 📢), abrí/cerrá el modal, hover en tooltips.
+3. Si todo funciona y se ve coherente → Fase 1 OK. Lista para Fase 2.
 
 ---
 

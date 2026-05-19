@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DA-2026 · Design System · Showcase live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System -->
+<link rel="stylesheet" href="../css/design-tokens.css">
+<link rel="stylesheet" href="../css/components.css">
+
+<style>
+  /* Solo estilos específicos del showcase · no del system */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  section { margin-top: 48px; scroll-margin-top: 60px; }
+  .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--color-border); margin-bottom: 24px; }
+  .anchor-nav { position: sticky; top: 48px; z-index: 49; display: flex; gap: 4px; flex-wrap: wrap; padding: 12px; background: rgba(9,9,11,.92); backdrop-filter: blur(12px); border: 1px solid var(--color-border); border-radius: var(--radius-lg); margin-bottom: 24px; }
+  .anchor-nav a { font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; color: var(--color-text-2); text-decoration: none; border-radius: var(--radius-sm); transition: all var(--transition-fast); }
+  .anchor-nav a:hover { background: var(--color-accent-bg); color: var(--color-accent-soft); }
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .swatch { background: var(--color-bg-2); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .swatch-color { height: 70px; width: 100%; }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-name { font-family: var(--font-mono); font-size: 11.5px; color: var(--color-text); font-weight: 600; }
+  .swatch-hex { font-family: var(--font-mono); font-size: 10.5px; color: var(--color-text-3); margin-top: 2px; }
+  .demo-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .code { font-family: var(--font-mono); font-size: 11.5px; background: var(--color-bg-3); padding: 8px 12px; border-radius: var(--radius-sm); color: var(--color-cyan-soft); border: 1px solid var(--color-border); overflow-x: auto; }
+  .scale-row { display: flex; align-items: baseline; gap: 16px; padding: 8px 12px; border-bottom: 1px solid var(--color-border); }
+  .scale-row:last-child { border: none; }
+  .scale-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-3); width: 100px; flex-shrink: 0; }
+  .space-demo { background: var(--color-accent-bg); border: 1px dashed var(--color-accent); }
+  .radius-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .radius-demo { aspect-ratio: 1; background: var(--color-accent-bg); border: 1px solid var(--color-accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; color: var(--color-accent-soft); }
+  .table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table th { text-align: left; font-family: var(--font-mono); font-size: 11px; padding: 10px 14px; color: var(--color-text-3); border-bottom: 1px solid var(--color-border); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+  .table td { padding: 10px 14px; border-bottom: 1px solid var(--color-border); color: var(--color-text-2); }
+  .table td code { font-family: var(--font-mono); font-size: 11.5px; background: var(--color-bg-3); padding: 1px 6px; border-radius: 4px; color: var(--color-accent-soft); }
+</style>
+</head>
+<body>
+
+<nav class="ds-nav">
+  <div class="ds-nav-left">
+    <a href="../index.html">← Cerebro</a>
+    <span class="ds-nav-sep"></span>
+    <span class="ds-nav-logo">DA-2026 · Design System v1.0</span>
+  </div>
+  <div class="ds-nav-right">
+    <a href="../css/DESIGN_SYSTEM.md" target="_blank">📖 Docs</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <h1 class="ds-h1" style="margin-bottom:8px">🎨 Design System Showcase</h1>
+  <p class="ds-text" style="max-width:680px">Componentes y tokens del Cerebro · v1.0. Esta página es la documentación viva del sistema. Si algo se rompe acá, todo el Cerebro se rompe. Mantener verde.</p>
+
+  <nav class="anchor-nav">
+    <a href="#colors">🎨 Colores</a>
+    <a href="#typography">✍️ Tipografía</a>
+    <a href="#spacing">📐 Espaciado</a>
+    <a href="#radii">🔘 Radios</a>
+    <a href="#shadows">🌑 Sombras</a>
+    <a href="#buttons">🔘 Botones</a>
+    <a href="#cards">🗂 Cards</a>
+    <a href="#inputs">📝 Inputs</a>
+    <a href="#badges">🏷 Badges</a>
+    <a href="#toasts">📢 Toasts</a>
+    <a href="#modals">🪟 Modales</a>
+    <a href="#skeleton">💀 Skeleton</a>
+    <a href="#tooltip">💬 Tooltip</a>
+    <a href="#utils">🛠 Utils</a>
+  </nav>
+
+  <!-- COLORS -->
+  <section id="colors">
+    <div class="sec-h">
+      <h2 class="ds-h2">🎨 Colores</h2>
+      <span class="ds-kicker">--color-*</span>
+    </div>
+
+    <h3 class="ds-h3" style="margin-bottom:12px">Acento + secundarios</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-accent)"></div><div class="swatch-info"><div class="swatch-name">accent</div><div class="swatch-hex">#8b5cf6 · violeta canónico</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-cyan)"></div><div class="swatch-info"><div class="swatch-name">cyan</div><div class="swatch-hex">#06b6d4 · 14-WORK</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-green)"></div><div class="swatch-info"><div class="swatch-name">green</div><div class="swatch-hex">#22c55e · success</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-emerald)"></div><div class="swatch-info"><div class="swatch-name">emerald</div><div class="swatch-hex">#10b981 · alt success</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-amber)"></div><div class="swatch-info"><div class="swatch-name">amber</div><div class="swatch-hex">#eab308 · warn</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-orange)"></div><div class="swatch-info"><div class="swatch-name">orange</div><div class="swatch-hex">#f97316 · alt warn</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-red)"></div><div class="swatch-info"><div class="swatch-name">red</div><div class="swatch-hex">#ef4444 · danger</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-pink)"></div><div class="swatch-info"><div class="swatch-name">pink</div><div class="swatch-hex">#ec4899 · highlight</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-blue)"></div><div class="swatch-info"><div class="swatch-name">blue</div><div class="swatch-hex">#3b82f6 · info alt</div></div></div>
+    </div>
+
+    <h3 class="ds-h3" style="margin:24px 0 12px">Neutros (dark)</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-bg);border-bottom:1px solid var(--color-border)"></div><div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-hex">#09090b · página</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-bg-2)"></div><div class="swatch-info"><div class="swatch-name">bg-2</div><div class="swatch-hex">#16161a · cards</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-bg-3)"></div><div class="swatch-info"><div class="swatch-name">bg-3</div><div class="swatch-hex">#1c1c21 · inputs</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-bg-4)"></div><div class="swatch-info"><div class="swatch-name">bg-4</div><div class="swatch-hex">#222228 · hover</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-border)"></div><div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#27272a</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-border-2)"></div><div class="swatch-info"><div class="swatch-name">border-2</div><div class="swatch-hex">#3f3f46 · hover</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-text-3)"></div><div class="swatch-info"><div class="swatch-name">text-3</div><div class="swatch-hex">#52525b · disabled</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-text-2)"></div><div class="swatch-info"><div class="swatch-name">text-2</div><div class="swatch-hex">#a1a1aa · secundario</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-text)"></div><div class="swatch-info"><div class="swatch-name">text</div><div class="swatch-hex">#fafafa · principal</div></div></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section id="typography">
+    <div class="sec-h">
+      <h2 class="ds-h2">✍️ Tipografía</h2>
+      <span class="ds-kicker">--font-* · --text-*</span>
+    </div>
+
+    <div class="ds-card">
+      <p class="ds-kicker" style="margin-bottom:6px">kicker · mono · 11px · uppercase</p>
+      <h1 class="ds-h1">.ds-h1 · Newsreader 36px</h1>
+      <h2 class="ds-h2" style="margin-top:8px">.ds-h2 · Newsreader 28px</h2>
+      <h3 class="ds-h3" style="margin-top:8px">.ds-h3 · IBM Plex Sans 20px</h3>
+      <p class="ds-text" style="margin-top:12px">.ds-text · IBM Plex Sans 14px · este es el body por defecto. Color text-2.</p>
+      <p class="ds-text-sm" style="margin-top:4px">.ds-text-sm · 12.5px · helper text.</p>
+      <p class="ds-text-xs" style="margin-top:4px">.ds-text-xs · 11px · captions.</p>
+      <p class="ds-text ds-text-mono" style="margin-top:8px">.ds-text-mono · IBM Plex Mono · para código y datos.</p>
+      <p class="ds-text" style="margin-top:8px"><span class="ds-text-strong">.ds-text-strong</span> · destaca texto inline con weight 600 + color principal.</p>
+    </div>
+
+    <h3 class="ds-h3" style="margin:24px 0 12px">Escala</h3>
+    <div class="ds-card">
+      <div class="scale-row"><span class="scale-label">--text-xs · 11</span><span style="font-size:var(--text-xs)">El veloz murciélago hindú comía feliz cardillo y kiwi.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-sm · 12.5</span><span style="font-size:var(--text-sm)">El veloz murciélago hindú comía feliz cardillo y kiwi.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-base · 14</span><span style="font-size:var(--text-base)">El veloz murciélago hindú comía feliz cardillo y kiwi.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-md · 16</span><span style="font-size:var(--text-md)">El veloz murciélago hindú comía feliz cardillo y kiwi.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-lg · 20</span><span style="font-size:var(--text-lg)">El veloz murciélago hindú comía feliz cardillo y kiwi.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-xl · 28</span><span style="font-size:var(--text-xl)">El veloz murciélago hindú comía feliz.</span></div>
+      <div class="scale-row"><span class="scale-label">--text-2xl · 36</span><span style="font-size:var(--text-2xl);font-family:var(--font-display)">El veloz murciélago.</span></div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section id="spacing">
+    <div class="sec-h">
+      <h2 class="ds-h2">📐 Espaciado · sistema 4px</h2>
+      <span class="ds-kicker">--space-*</span>
+    </div>
+    <div class="ds-card">
+      <p class="ds-text-sm" style="margin-bottom:14px">Múltiplos de 4 para alineación pixel-perfect.</p>
+      <div class="space-demo" style="width:var(--space-1);height:24px;display:inline-block;vertical-align:middle"></div> <span class="ds-text-mono" style="margin-left:8px">--space-1 · 4px</span><br>
+      <div class="space-demo" style="width:var(--space-2);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-2 · 8px</span><br>
+      <div class="space-demo" style="width:var(--space-3);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-3 · 12px</span><br>
+      <div class="space-demo" style="width:var(--space-4);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-4 · 16px</span><br>
+      <div class="space-demo" style="width:var(--space-5);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-5 · 24px</span><br>
+      <div class="space-demo" style="width:var(--space-6);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-6 · 32px</span><br>
+      <div class="space-demo" style="width:var(--space-7);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-7 · 48px</span><br>
+      <div class="space-demo" style="width:var(--space-8);height:24px;display:inline-block;vertical-align:middle;margin-top:6px"></div> <span class="ds-text-mono" style="margin-left:8px">--space-8 · 64px</span>
+    </div>
+  </section>
+
+  <!-- RADII -->
+  <section id="radii">
+    <div class="sec-h">
+      <h2 class="ds-h2">🔘 Radios</h2>
+      <span class="ds-kicker">--radius-*</span>
+    </div>
+    <div class="radius-grid">
+      <div class="radius-demo" style="border-radius:var(--radius-sm)">sm · 6</div>
+      <div class="radius-demo" style="border-radius:var(--radius-md)">md · 10</div>
+      <div class="radius-demo" style="border-radius:var(--radius-lg)">lg · 14</div>
+      <div class="radius-demo" style="border-radius:var(--radius-xl)">xl · 20</div>
+      <div class="radius-demo" style="border-radius:var(--radius-2xl)">2xl · 28</div>
+      <div class="radius-demo" style="border-radius:var(--radius-full)">full · pill</div>
+    </div>
+  </section>
+
+  <!-- SHADOWS -->
+  <section id="shadows">
+    <div class="sec-h">
+      <h2 class="ds-h2">🌑 Sombras</h2>
+      <span class="ds-kicker">--shadow-*</span>
+    </div>
+    <div class="ds-grid-auto">
+      <div class="ds-card" style="box-shadow:var(--shadow-sm)"><span class="ds-text-mono ds-text-sm">--shadow-sm</span></div>
+      <div class="ds-card" style="box-shadow:var(--shadow-md)"><span class="ds-text-mono ds-text-sm">--shadow-md</span></div>
+      <div class="ds-card" style="box-shadow:var(--shadow-lg)"><span class="ds-text-mono ds-text-sm">--shadow-lg</span></div>
+      <div class="ds-card" style="box-shadow:var(--shadow-xl)"><span class="ds-text-mono ds-text-sm">--shadow-xl</span></div>
+      <div class="ds-card" style="box-shadow:var(--shadow-glow);border-color:var(--color-accent)"><span class="ds-text-mono ds-text-sm">--shadow-glow · focus ring</span></div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section id="buttons">
+    <div class="sec-h">
+      <h2 class="ds-h2">🔘 Botones</h2>
+      <span class="ds-kicker">.ds-btn</span>
+    </div>
+
+    <h3 class="ds-h3" style="margin-bottom:10px">Variantes</h3>
+    <div class="demo-row">
+      <button class="ds-btn">Default</button>
+      <button class="ds-btn is-primary">Primary</button>
+      <button class="ds-btn is-ghost">Ghost</button>
+      <button class="ds-btn is-danger">Danger</button>
+      <button class="ds-btn is-success">Success</button>
+      <button class="ds-btn is-icon" title="Cerrar">×</button>
+      <button class="ds-btn" disabled>Disabled</button>
+    </div>
+
+    <h3 class="ds-h3" style="margin:20px 0 10px">Tamaños</h3>
+    <div class="demo-row">
+      <button class="ds-btn is-sm">Small</button>
+      <button class="ds-btn">Default</button>
+      <button class="ds-btn is-lg">Large</button>
+      <button class="ds-btn is-primary is-lg">Primary Large</button>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section id="cards">
+    <div class="sec-h">
+      <h2 class="ds-h2">🗂 Cards</h2>
+      <span class="ds-kicker">.ds-card</span>
+    </div>
+
+    <div class="ds-grid-auto">
+      <div class="ds-card">
+        <div class="ds-card-header">
+          <h3 class="ds-card-title">Card default</h3>
+          <span class="ds-badge is-info">12</span>
+        </div>
+        <p class="ds-card-body">Variante por defecto. Padding 24, border-radius lg, fondo bg-2.</p>
+      </div>
+
+      <div class="ds-card is-elev">
+        <div class="ds-card-header">
+          <h3 class="ds-card-title">Card is-elev</h3>
+          <span class="ds-badge is-success">activo</span>
+        </div>
+        <p class="ds-card-body">Con sombra md. Para destacar paneles principales.</p>
+      </div>
+
+      <div class="ds-card is-interactive">
+        <div class="ds-card-header">
+          <h3 class="ds-card-title">Card is-interactive</h3>
+          <span class="ds-badge is-warn">hover</span>
+        </div>
+        <p class="ds-card-body">Hover: lift + accent border + shadow lg. Para items clickables.</p>
+        <div class="ds-card-footer">
+          <button class="ds-btn is-primary is-sm">Abrir</button>
+          <button class="ds-btn is-ghost is-sm">Cerrar</button>
+        </div>
+      </div>
+
+      <div class="ds-card is-flat">
+        <div class="ds-card-header">
+          <h3 class="ds-card-title">Card is-flat</h3>
+        </div>
+        <p class="ds-card-body">Sin fondo. Para listas que quedan bien sobre bg-2.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section id="inputs">
+    <div class="sec-h">
+      <h2 class="ds-h2">📝 Inputs</h2>
+      <span class="ds-kicker">.ds-input · .ds-textarea · .ds-select</span>
+    </div>
+
+    <div class="ds-card">
+      <div class="ds-stack-3" style="max-width:480px">
+        <div>
+          <label class="ds-label">Email</label>
+          <input class="ds-input" type="email" placeholder="tu@email.com">
+        </div>
+        <div>
+          <label class="ds-label">Categoría</label>
+          <select class="ds-select"><option>Una</option><option>Dos</option></select>
+        </div>
+        <div>
+          <label class="ds-label">Mensaje</label>
+          <textarea class="ds-textarea" placeholder="Escribí tu mensaje..."></textarea>
+        </div>
+        <div>
+          <label class="ds-label">Tamaños</label>
+          <div class="ds-stack-2">
+            <input class="ds-input is-sm" placeholder="small">
+            <input class="ds-input" placeholder="default">
+            <input class="ds-input is-lg" placeholder="large">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section id="badges">
+    <div class="sec-h">
+      <h2 class="ds-h2">🏷 Badges</h2>
+      <span class="ds-kicker">.ds-badge</span>
+    </div>
+    <div class="demo-row">
+      <span class="ds-badge">Default</span>
+      <span class="ds-badge is-success">Success</span>
+      <span class="ds-badge is-warn">Warn</span>
+      <span class="ds-badge is-danger">Danger</span>
+      <span class="ds-badge is-info">Info</span>
+      <span class="ds-badge is-cyan">Cyan</span>
+    </div>
+  </section>
+
+  <!-- TOASTS -->
+  <section id="toasts">
+    <div class="sec-h">
+      <h2 class="ds-h2">📢 Toasts</h2>
+      <span class="ds-kicker">.ds-toast (click para probar)</span>
+    </div>
+    <div class="demo-row">
+      <button class="ds-btn" onclick="showToast('Acción ejecutada','')">Default</button>
+      <button class="ds-btn is-primary" onclick="showToast('✓ Guardado correctamente','is-success')">Success</button>
+      <button class="ds-btn is-danger" onclick="showToast('✗ Error de red','is-danger')">Danger</button>
+      <button class="ds-btn" onclick="showToast('⚠ Atención · revisá los datos','is-warn')">Warn</button>
+    </div>
+    <p class="ds-text-sm" style="margin-top:12px">Posición bottom-right. Auto-dismiss 3.5s. En mobile pasa a full-width bottom.</p>
+  </section>
+
+  <!-- MODALS -->
+  <section id="modals">
+    <div class="sec-h">
+      <h2 class="ds-h2">🪟 Modales</h2>
+      <span class="ds-kicker">.ds-modal · .ds-modal-backdrop</span>
+    </div>
+    <button class="ds-btn is-primary" onclick="openModal()">Abrir modal</button>
+  </section>
+
+  <!-- SKELETON -->
+  <section id="skeleton">
+    <div class="sec-h">
+      <h2 class="ds-h2">💀 Skeleton · loading</h2>
+      <span class="ds-kicker">.ds-skeleton</span>
+    </div>
+    <div class="ds-card">
+      <div class="ds-row-3" style="margin-bottom:16px">
+        <div class="ds-skeleton is-circle" style="width:42px"></div>
+        <div class="ds-flex-1 ds-stack-2">
+          <div class="ds-skeleton" style="width:60%"></div>
+          <div class="ds-skeleton is-text-sm" style="width:35%"></div>
+        </div>
+      </div>
+      <div class="ds-stack-2">
+        <div class="ds-skeleton" style="width:100%"></div>
+        <div class="ds-skeleton" style="width:88%"></div>
+        <div class="ds-skeleton" style="width:72%"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLTIP -->
+  <section id="tooltip">
+    <div class="sec-h">
+      <h2 class="ds-h2">💬 Tooltip</h2>
+      <span class="ds-kicker">data-tooltip + .ds-tooltip</span>
+    </div>
+    <div class="demo-row">
+      <button class="ds-btn ds-tooltip" data-tooltip="Texto explicativo del tooltip">Hover aquí</button>
+      <button class="ds-btn is-primary ds-tooltip" data-tooltip="Atajo: Cmd+S">Guardar</button>
+      <button class="ds-btn is-danger ds-tooltip" data-tooltip="Esta acción no se puede deshacer">Eliminar</button>
+    </div>
+    <p class="ds-text-sm" style="margin-top:12px">Delay 400ms para evitar flashes accidentales.</p>
+  </section>
+
+  <!-- UTILS -->
+  <section id="utils">
+    <div class="sec-h">
+      <h2 class="ds-h2">🛠 Utilidades</h2>
+      <span class="ds-kicker">helpers · layouts</span>
+    </div>
+    <div class="ds-card">
+      <table class="table">
+        <thead><tr><th>Clase</th><th>Hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>.ds-stack-2/3/4</code></td><td>Flex column · gap 8/12/16</td></tr>
+          <tr><td><code>.ds-row-2/3/4</code></td><td>Flex row · gap 8/12/16 · align center</td></tr>
+          <tr><td><code>.ds-grid-2/3</code></td><td>Grid 2 o 3 columnas</td></tr>
+          <tr><td><code>.ds-grid-auto</code></td><td>Grid auto-fit minmax(240px,1fr) · responsive</td></tr>
+          <tr><td><code>.ds-flex-1</code></td><td>flex:1 + min-width:0 (evita overflow)</td></tr>
+          <tr><td><code>.ds-divider</code></td><td>Línea horizontal de 1px</td></tr>
+          <tr><td><code>.ds-spacer-2/4/6</code></td><td>Spacer vertical 8/16/32</td></tr>
+          <tr><td><code>.ds-fade-up</code></td><td>Animación de entrada (opacity + translateY)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="ds-divider" style="margin-top:48px"></div>
+  <p class="ds-text-xs ds-text-mono" style="text-align:center;margin-top:24px">DA-2026 Design System v1.0 · 2026-05-15 · <a href="../css/DESIGN_SYSTEM.md" target="_blank" style="color:var(--color-accent-soft)">Docs completas</a></p>
+
+</div>
+
+<!-- Modal demo -->
+<div class="ds-modal-backdrop" id="modalBack" onclick="closeModal()"></div>
+<div class="ds-modal" id="modalDemo">
+  <div class="ds-modal-header">
+    <h2 class="ds-h2">Modal de ejemplo</h2>
+    <button class="ds-modal-close" onclick="closeModal()">×</button>
+  </div>
+  <p class="ds-text" style="margin-bottom:16px">Click fuera del modal o en el × para cerrarlo. Escape también funciona.</p>
+  <div class="ds-stack-2" style="margin-bottom:16px">
+    <input class="ds-input" placeholder="Nombre">
+    <textarea class="ds-textarea" placeholder="Comentario"></textarea>
+  </div>
+  <div class="ds-row-2" style="justify-content:flex-end">
+    <button class="ds-btn is-ghost" onclick="closeModal()">Cancelar</button>
+    <button class="ds-btn is-primary" onclick="closeModal();showToast('✓ Guardado','is-success')">Guardar</button>
+  </div>
+</div>
+
+<script>
+function showToast(msg, kind){
+  const t = document.createElement('div');
+  t.className = 'ds-toast ' + (kind||'');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('is-hidden');
+    setTimeout(() => t.remove(), 300);
+  }, 3500);
+}
+function openModal(){ document.getElementById('modalBack').classList.add('is-open'); document.getElementById('modalDemo').classList.add('is-open'); }
+function closeModal(){ document.getElementById('modalBack').classList.remove('is-open'); document.getElementById('modalDemo').classList.remove('is-open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>

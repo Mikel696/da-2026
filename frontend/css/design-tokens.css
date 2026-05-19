@@ -1,0 +1,224 @@
+/* ═══════════════════════════════════════════════════════════════
+   DA-2026 · Design Tokens · v1.0 · 2026-05-15
+   ─────────────────────────────────────────────────────────────
+   Sistema centralizado de variables CSS para el Cerebro completo.
+   Cómo usar: <link rel="stylesheet" href="css/design-tokens.css">
+              ANTES de cualquier otro CSS del módulo.
+   Convenciones:
+   - Naming: --kind-name-variant (--color-bg-primary, --space-md)
+   - Aliases: mantengo las variables legacy (--ac, --t2, --bd) en
+     paralelo para que módulos no migrados sigan funcionando.
+   - Dark theme por default · light theme via @media o data-theme.
+═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── PALETA · COLORES BASE ──────────────────────────────────
+     Acento canónico: violeta (#8b5cf6). 4/5 módulos lo usan.
+     14-WORK seguirá usando cyan local hasta su próxima migración. */
+  --color-accent:           #8b5cf6;
+  --color-accent-soft:      #a78bfa;
+  --color-accent-bg:        rgba(139, 92, 246, 0.08);
+  --color-accent-border:    rgba(139, 92, 246, 0.30);
+
+  --color-cyan:             #06b6d4;
+  --color-cyan-soft:        #22d3ee;
+  --color-cyan-bg:          rgba(6, 182, 212, 0.08);
+
+  --color-green:            #22c55e;
+  --color-green-soft:       #4ade80;
+  --color-green-bg:         rgba(34, 197, 94, 0.08);
+
+  --color-emerald:          #10b981;
+  --color-emerald-bg:       rgba(16, 185, 129, 0.08);
+
+  --color-amber:            #eab308;
+  --color-amber-bg:         rgba(234, 179, 8, 0.08);
+
+  --color-orange:           #f97316;
+  --color-orange-bg:        rgba(249, 115, 22, 0.08);
+
+  --color-red:              #ef4444;
+  --color-red-soft:         #f87171;
+  --color-red-bg:           rgba(239, 68, 68, 0.08);
+
+  --color-pink:             #ec4899;
+  --color-pink-bg:          rgba(236, 72, 153, 0.08);
+
+  --color-blue:             #3b82f6;
+  --color-blue-bg:          rgba(59, 130, 246, 0.08);
+
+  /* ── NEUTROS · ESCALA DE 9 PASOS (dark theme) ──────────────
+     bg = más oscuro · bg2 = elevación 1 · bg3 = elevación 2
+     tx = más claro · t2 = secundario · t3 = terciario/disabled */
+  --color-bg:               #09090b;
+  --color-bg-2:             #16161a;
+  --color-bg-3:             #1c1c21;
+  --color-bg-4:             #222228;
+  --color-border:           #27272a;
+  --color-border-2:         #3f3f46;
+  --color-text:             #fafafa;
+  --color-text-2:           #a1a1aa;
+  --color-text-3:           #52525b;
+
+  /* ── TIPOGRAFÍA ─────────────────────────────────────────────
+     3 familias: sans (body), mono (code/data), display (headers) */
+  --font-sans:    'IBM Plex Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'JetBrains Mono', Consolas, Monaco, monospace;
+  --font-display: 'Newsreader', 'IBM Plex Serif', Georgia, serif;
+
+  /* Escala tipográfica · 7 tamaños · base 14px */
+  --text-xs:       11px;
+  --text-sm:       12.5px;
+  --text-base:     14px;
+  --text-md:       16px;
+  --text-lg:       20px;
+  --text-xl:       28px;
+  --text-2xl:      36px;
+  --text-3xl:      48px;
+
+  /* Pesos */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Line heights */
+  --leading-tight:  1.2;
+  --leading-normal: 1.55;
+  --leading-loose:  1.75;
+
+  /* ── ESPACIADO · ESCALA DE 8 PASOS ──────────────────────────
+     Múltiplos de 4 para alineación pixel-perfect. */
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   48px;
+  --space-8:   64px;
+  --space-9:   96px;
+
+  /* ── RADIOS ─────────────────────────────────────────────────
+     5 niveles + full para pills/avatars */
+  --radius-sm:    6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-full: 9999px;
+
+  /* ── SOMBRAS · DARK THEME ───────────────────────────────────
+     Sombras suaves pensadas para fondo oscuro. */
+  --shadow-sm:    0 2px 4px rgba(0, 0, 0, 0.20);
+  --shadow-md:    0 6px 16px rgba(0, 0, 0, 0.30);
+  --shadow-lg:    0 14px 40px rgba(0, 0, 0, 0.40);
+  --shadow-xl:    0 24px 60px rgba(0, 0, 0, 0.50);
+  --shadow-glow:  0 0 0 3px var(--color-accent-bg);
+
+  /* ── TRANSICIONES ───────────────────────────────────────────
+     3 velocidades + 1 easing canónico */
+  --transition-fast:  120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:  180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:  280ms cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-default:   cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-INDEX ────────────────────────────────────────────────
+     Escala definida para que nada compita */
+  --z-base:       1;
+  --z-elevated:  10;
+  --z-sticky:    50;
+  --z-overlay:   80;
+  --z-modal:    100;
+  --z-toast:    200;
+  --z-tooltip:  300;
+
+  /* ── LAYOUT ─────────────────────────────────────────────────
+     Anchos canónicos */
+  --width-content:  1100px;
+  --width-narrow:    760px;
+  --width-wide:     1400px;
+
+  /* ═══════════════════════════════════════════════════════════
+     ALIASES · compatibilidad con módulos no migrados
+     Mantienen los nombres viejos apuntando a los tokens nuevos.
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Aliases de colores · violeta como accent canónico */
+  --bg:    var(--color-bg);
+  --bg2:   var(--color-bg-2);
+  --bg3:   var(--color-bg-3);
+  --bg4:   var(--color-bg-4);
+  --c1:    var(--color-bg-2);
+  --c2:    var(--color-bg-3);
+  --el:    var(--color-bg-4);
+  --card:  var(--color-bg-2);
+  --bd:    var(--color-border);
+  --bd2:   var(--color-border-2);
+  --tx:    var(--color-text);
+  --t2:    var(--color-text-2);
+  --t3:    var(--color-text-3);
+  --tx2:   var(--color-text-2);
+  --tx3:   var(--color-text-3);
+  --ac:    var(--color-accent);
+  --ac2:   var(--color-accent-soft);
+  --a2:    var(--color-accent-soft);
+  --ag:    var(--color-accent-bg);
+  --acg:   var(--color-accent-bg);
+  --cy:    var(--color-cyan);
+  --cg:    var(--color-cyan-bg);
+  --gn:    var(--color-green);
+  --gg:    var(--color-green-bg);
+  --gng:   var(--color-green-bg);
+  --em:    var(--color-emerald);
+  --eg:    var(--color-emerald-bg);
+  --emg:   var(--color-emerald-bg);
+  --am:    var(--color-amber);
+  --amg:   var(--color-amber-bg);
+  --or:    var(--color-orange);
+  --og:    var(--color-orange-bg);
+  --rd:    var(--color-red);
+  --rg:    var(--color-red-bg);
+  --pk:    var(--color-pink);
+
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET MÍNIMO · solo lo crítico para el sistema
+═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-2); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Selección de texto coherente */
+::selection { background: var(--color-accent-bg); color: var(--color-text); }
+
+/* Focus ring por default · sobre-escribible por componente */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
