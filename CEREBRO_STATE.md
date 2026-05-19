@@ -1,8 +1,77 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15f
+- **Última actualización:** 2026-05-15g
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ⚙️ Fase 2.3 · 10-SYS Systems Engineering migrado al Design System — 2026-05-15g
+
+### Qué cambió
+Tercer módulo migrado. 10-SYS es el más visualmente rico de los P0 (glassmorphism · gradientes vi→em · semáforos P0-P4 · 8 tabs · Cuaderno v2 con IndexedDB). Se conservó toda la identidad visual y se conectó al sistema canónico.
+
+### Decisión de identidad
+- Accent: **violeta canónico** del sistema (`#8b5cf6`) — heredado vía aliases.
+- Variables específicas del módulo conservadas en `:root` local:
+  - `--vi` (violet-darker · `#7c3aed`) — gradientes
+  - `--vi2` (violet-soft · `#a78bfa`)
+  - `--vg` (violet-bg)
+  - `--tl` (teal · `#2dd4bf`)
+  - `--tlg` (teal-bg)
+- Glassmorphism + gradientes + orbs **preservados intactos**.
+
+### Archivos modificados
+- ✏️ `frontend/systems.html` — agregados imports de `design-tokens.css` + `components.css` ANTES de `nb-shared.css`. `:root` reducido a las 5 variables específicas del módulo. Body conserva familia tipográfica `Outfit` propia (override del default).
+
+### Microinteracciones aplicadas
+| Componente | Mejora |
+|---|---|
+| **`.tabs` / `.tab`** | Border-radius y padding desde tokens; focus-visible con shadow-glow; transiciones específicas (no `all`). |
+| **`.gc` (glass card)** | Transiciones específicas; border-radius desde token `--radius-lg`. Hover preserva glassmorphism. |
+| **`.subj` (subject card)** | Border-radius desde token; hover con `translateY(-1px)` + borde más visible; focus-visible con glow. |
+| **`.qa` (quick access)** | Border-radius desde token; hover con `shadow-lg` (en vez de sombra custom); focus-visible. |
+| **`.cert` (certification)** | Hover con `translateY(-1px)`; transiciones específicas. |
+| **`.cert-link` (botón cert)** | Hover con shadow violeta + lift; focus-visible con glow. |
+| **`.tf-input` / `.tf-select` / `.tf-date` (task form)** | Focus con `shadow-glow` + border violeta; transiciones específicas. |
+| **`.tf-btn` (task add)** | Hover con shadow violeta + lift; focus-visible con glow. |
+
+### Tokens utilizados
+- `var(--radius-sm/md/lg)` → 6px / 10px / 14px
+- `var(--transition-fast/base)` → 120ms / 180ms
+- `var(--shadow-glow)` → focus rings violetas
+- `var(--shadow-lg)` → hover de quick access
+- `var(--space-2/4/5)` → 8px / 16px / 24px (gaps)
+
+### Lo que NO se tocó
+- HTML estructural (las 8 tabs · dashboard · materias · calendario · malla · certificaciones · CUN hub · clases perdidas · cuaderno).
+- JavaScript (`systems_logic.js` 2299 líneas · SEED_TASKS · VERIFIED_SUBJECTS · Tab 7 class session injector · Cuaderno v2 con IDB).
+- nb-shared.css (compartido con 13-NOT y 14-WORK).
+- Orbs glassmorphism (orb-1, orb-2, orb-3).
+- Gradientes vi→em en tabs activos, botones, progress bars.
+- Semáforos P0-P4 con colores y animación pulse.
+- Auth chain.
+
+### Validación visual
+1. Abrí: https://mikel696.github.io/da-2026/frontend/systems.html
+2. Click en las 8 tabs → gradiente violeta→verde mantiene su estética.
+3. Tab por teclado sobre tabs/inputs/botones → focus ring violeta consistente.
+4. Hover sobre subject cards → lift sutil + borde violeta más visible.
+5. Hover sobre quick access → shadow grande.
+6. Hover sobre botones del task form / cert-link → shadow violeta + lift.
+
+### Estado actual del migrado · 3/16 módulos
+| Módulo | Migrado | Accent | Identidad propia |
+|---|---|---|---|
+| 1-IND index.html | ✅ Fase 2.1 | violeta canónico | rail · cards · stats |
+| 14-WORK work.html | ✅ Fase 2.2 | **cyan local** | tabs · MOIF · attachments |
+| **10-SYS systems.html** | **✅ Fase 2.3** | **violeta + gradientes vi→em** | **glassmorphism · orbs · semáforos** |
+| 13-NOT notes.html | ❌ | violeta (P0 pendiente) | — |
+| 12-FIN finance.html | ❌ | violeta (P0 pendiente) | — |
+| (resto · 11 módulos) | ❌ | — | — |
+
+### Próximo
+Quedan 2 módulos P0: **13-NOT** y **12-FIN**. Después arrancan los P1 (3-ENG, 5-JOB, 9-GOA, 8-PRO).
 
 ---
 
