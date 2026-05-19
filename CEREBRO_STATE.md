@@ -1,8 +1,104 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15
+- **Última actualización:** 2026-05-15b
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🎨 Cross-module · Sprint UX Cerebro completo · Master Prompt + Audit findings — 2026-05-15b
+
+### Qué cambió
+El usuario pidió: trabajar la UX del Cerebro completo, mejorar diseño, sincronización, bugs, iconografía y crear EL prompt maestro persistente en 8-PRO. Ejecutado todo a nivel de plan + persistencia · pendiente la implementación (esperando luz verde para Fase 1).
+
+### A) Master UX Prompt insertado en 8-PRO (`frontend/prompts.html`)
+Agregados 3 prompts nuevos al array inline, todos visibles en la UI de Prompt Lab:
+
+1. **🎨 MASTER UX SPRINT — Rediseño profesional Cerebro completo** (el prompt grande pedido)
+   - 4 fases secuenciales: Design System → Auditoría por módulo → Sync Audit → Bug Hunt
+   - Cubre los 16 módulos (no 14 como el prompt viejo)
+   - Define paleta + escala tipográfica + espaciado + radios + transiciones canónicas
+   - 12 puntos de checklist por módulo
+   - Matriz de prioridad P0/P1/P2 según frecuencia de uso
+   - Recomendación de Lucide icons inline SVG
+   - Reglas no-negociables del stack (vanilla, IIFE, auth chain, anti-frameworks)
+
+2. **🔄 Sync Audit — Detectar keys no sincronizadas**
+   - Grep recursivo de localStorage en frontend/
+   - Cross-check con SYNC_REGISTRY + DYNAMIC_PREFIXES
+   - Detecta typos (ej. doble prefijo `sys_sys_`)
+   - Output: tabla key/módulo/sync-status/acción
+
+3. **🎯 Iconos · Migrar a Lucide SVG inline**
+   - Plan para unificar iconografía dispersa
+   - Helper `window.icon(name, opts)` en `frontend/js/icons.js`
+   - Mantener emojis decorativos · reemplazar funcionales
+
+4. **🎨 Design Audit actualizado** de 14 a **16 módulos** (incluye 15-MM y 16-APA que faltaban).
+
+### B) Hallazgos del audit preliminar (antes de la sesión de implementación)
+
+**Sync bugs detectados** — keys que se usan en código pero NO están en `SYNC_REGISTRY`:
+
+| Key | Módulo | Severidad | Acción |
+|---|---|---|---|
+| `sb_tasks` | 1-IND Mission Control | 🔴 Crítico | Agregar al registry · tareas del dashboard pierden cross-device |
+| `custom_prompts` | 8-PRO Prompt Lab | 🔴 Crítico | Agregar · los prompts custom del usuario no sincronizan |
+| `jt8` | 5-JOB Job Tracker | 🔴 Crítico | Confirmar/agregar · master key del módulo |
+| `sys_class_sessions` | 10-SYS | 🟡 Medio | Agregar · sesiones de clase del Tab 7 |
+| `sys_active_custom` | 10-SYS | 🟡 Medio | Agregar · selección de cuaderno activo |
+| `eng_conv_fsrs` | 3-ENG | 🟡 Medio | Agregar · sistema FSRS de conversaciones |
+| `sb_ws_hist` | 1-IND | 🟢 Menor | Confirmar si requiere sync (probable history local) |
+| `sys_sys_class_sessions` | 10-SYS | 🐛 **BUG TYPO** | Doble prefijo `sys_sys_` — fixear en código fuente |
+
+**Auth chain:** ✅ verificado · los 19 HTMLs cargan los 4 scripts. Sin bugs acá.
+
+**Iconografía:** ⚠️ mix actual de emojis (90%) + algunos SVG (10%). Inconsistencia visible entre módulos. Recomendado Lucide.
+
+**Tema dark:** ⚠️ algunos módulos viejos (2-APP, 4-RUT, 6-TOO, 7-NEW) tienen colores hardcoded en lugar de variables CSS. Detectado a ojo · pendiente audit formal.
+
+**Mobile responsive:** ⚠️ no auditado sistemáticamente · marcado como Fase 2 del Master UX Sprint.
+
+### C) Plan de rollout propuesto al usuario
+
+**Sesión 1 · Fase 1 — Design System** (sugerido arrancar acá):
+- Crear `frontend/css/design-tokens.css` con paleta + tipografía + espaciado canónicos.
+- Crear `frontend/css/components.css` con .btn .card .input .badge .toast .modal estandarizados.
+- Crear `frontend/css/DESIGN_SYSTEM.md` documentando uso.
+- Decidir iconografía (Lucide vs emojis) — recomendación: Lucide.
+- 1 módulo piloto refactorizado (sugerencia: 14-WORK o 1-IND) para validar el sistema.
+
+**Sesión 2-3 · Fase 2 — Auditoría P0** (5 módulos más usados):
+- 1-IND · 14-WORK · 13-NOT · 10-SYS · 12-FIN sobre el design system.
+
+**Sesión 4 · Fase 2 — Auditoría P1** (4 frecuentes):
+- 3-ENG · 5-JOB · 9-GOA · 8-PRO.
+
+**Sesión 5 · Fase 2 — Auditoría P2** (7 menos usados):
+- 2-APP · 4-RUT · 11-ACC · 6-TOO · 7-NEW · 15-MM · 16-APA.
+
+**Sesión 6 · Fase 3 — Sync Audit**:
+- Aplicar los fixes de la tabla de arriba.
+- Bump SEED_VERSION de cualquier seed que cambie.
+- Test cross-device.
+
+**Sesión 7 · Fase 4 — Bug Hunt**:
+- Grep sistemático de patrones de error.
+- Pruebas en vivo con DevTools console.
+
+### Archivos modificados
+- ✏️ `frontend/prompts.html` (+ 3 prompts nuevos · 1 actualizado de 14 a 16 módulos)
+- ✏️ `CEREBRO_STATE.md` (este entry)
+
+### Pendientes
+- **Luz verde del usuario** para arrancar Fase 1 (Design System).
+- **Aplicar los sync fixes** detectados en este audit (incluido en Fase 3).
+- **Decisión sobre iconografía:** Lucide vs emojis vs mixto.
+
+### Decisiones técnicas tomadas
+1. **Prompt persistente en 8-PRO** vs documento markdown suelto: el usuario lo quiere disponible siempre desde la UI de Prompt Lab. Por eso va al array inline de `prompts.html`.
+2. **Plan multi-sesión** vs todo en un commit: el cerebro completo no se rediseña en una sesión. Fasear permite validar dirección con el usuario antes de seguir.
+3. **NO TOCAR código de módulos todavía**: el master prompt arranca explícitamente con "esperá mi luz verde antes de tocar código". Coherente con prevenir regresiones.
 
 ---
 
