@@ -85,6 +85,7 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 <div class="tabs">
 <button class="tab on" data-p="claude">🎯 Claude Optimize</button>
 <button class="tab" data-p="opt">⚡ Optimizar</button>
+<button class="tab" data-p="modules">🧩 Módulos</button>
 <button class="tab" data-p="lib">📚 Librería</button>
 <button class="tab" data-p="master">🧠 Dominar Claude</button>
 <button class="tab" data-p="history">📜 Historial</button>
@@ -217,6 +218,21 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 </div>
 <div id="optStats" style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-top:6px"></div>
 </div>
+</div>
+
+<!-- ══════ MÓDULOS · 48 prompts (16 × 3) ══════ -->
+<div class="pnl" id="p-modules">
+  <div class="tip"><b>🧩 Módulos · 48 prompts curados (16 × 3)</b><p>Cada módulo del Cerebro tiene <strong>3 prompts</strong> listos para Claude Code: <em>⚡ Mejorar/Optimizar</em> · <em>🔬 Audit/Bugs</em> · <em>🧠 Creativo (Modelo Second Brain)</em>. Todos incluyen: files reales · keys de localStorage reales · contexto SYNC_REGISTRY · Design System v1.0 · update obligatorio de CEREBRO_STATE.md · commit + push.</p></div>
+
+  <div class="card" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:6px">Seleccioná módulo</div>
+      <select class="select" id="modSelect" style="width:100%"></select>
+    </div>
+    <div style="font-size:10px;color:var(--t3);font-style:italic">💡 Doble-click en "Ver prompt" para expandir · "Copiar" lo envía al portapapeles.</div>
+  </div>
+
+  <div id="modContent" style="margin-top:14px"></div>
 </div>
 
 <!-- ══════ LIBRERÍA ══════ -->
@@ -2126,6 +2142,9 @@ showCopiedToast();
 // ══════════════════════════
 renderLib();
 renderHist();
+// 🧩 Módulos · render se auto-dispara desde js/module-prompts.js (DOMContentLoaded)
 </script>
+<!-- 🧩 Módulos · 48 prompts modulares (16 × 3) -->
+<script src="js/module-prompts.js"></script>
 </body>
 </html>

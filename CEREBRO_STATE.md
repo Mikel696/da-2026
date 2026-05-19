@@ -1,8 +1,48 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15k
+- **Última actualización:** 2026-05-15l
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🧩 Prompt Lab Overhaul · Fase A · 48 prompts modulares — 2026-05-15l
+
+### Qué cambió
+Nueva pestaña **🧩 Módulos** en 8-PRO (`prompts.html`). 16 módulos × 3 prompts = **48 prompts curados** generados sobre el estado real del Cerebro post-Fase 3.
+
+### Estructura por módulo (los 3 prompts)
+- **P1 · ⚡ Mejorar / Optimizar / Actualizar** — workflow productivo: Plan first → Edits quirúrgicos → sync + CEREBRO_STATE + commit.
+- **P2 · 🔬 Audit · Bugs · Updates** — checklist read-only de 6 categorías: código · sync · Design System v1.0 · UX · datos · alignment con CEREBRO_STATE.
+- **P3 · 🧠 Creativo · Second Brain Model** — aplicación de las 5 técnicas extraídas de `Modelo.md` (Karpathy method · Web Clipper · JSON Canvas Skill · CLI/Skills · Local-first/Plugins) al módulo. Output en 2 pasos: brainstorm (5 ideas con esfuerzo S/M/L) → blueprint técnico (diff arq + schema + UI mock + riesgos).
+
+### Archivos
+- `frontend/js/module-prompts.js` (NUEVO) — data structure + renderer + auto-init DOMContentLoaded.
+- `frontend/prompts.html` (modificado) — tab `🧩 Módulos` + panel `#p-modules` (selector + container) + carga del script.
+
+### Cada prompt incluye obligatoriamente
+- `REPO` · `LIVE` · `STACK` · `ARCH` · `AUTH chain` · `STATE cycle` · `SYNC` · `DESIGN SYSTEM v1.0`
+- Files reales del módulo (post-migración)
+- Storage keys reales (post sync audit · incluye `jt_s8` agregado en Fase 3)
+- `MANDATORY al cerrar`: verificar SYNC_REGISTRY · update CEREBRO_STATE.md · commit `feat/fix([CODE])` · push origin main
+
+### Modelo.md (Obsidian Second Brain) → P3 mapping
+- A) **Karpathy method** · agente IA estructura volcado bruto en wiki/concepts/entities/sources
+- B) **Web Clipper** · captura externa estructurada con metadata
+- C) **JSON Canvas Skill** · visualización estratégica auto-generada (knowledge graph)
+- D) **CLI · Skills** · API JS expuesta como `window.MOD.xxx` para agentes IA externos
+- E) **Local-first · Plugins** · todo funciona sin red · sync es decoración
+
+Ejemplos pre-cocinados para inspirar (no copiar literal):
+- 10-SYS: Karpathy method para transcripts de clases
+- 13-NOT: JSON Canvas mapa visual entre cuadernos
+- 5-JOB: Web Clipper de vacantes desde LinkedIn → jt8
+- 12-FIN: Local-first AI para categorización (privacy first)
+- 14-WORK: CLI exponiendo `work.cases.create/link/relate`
+
+### Pendiente · Fase B (próxima)
+- Overhaul de `optimize()` + `claudeOptimize()` con las capacidades actuales (Plan mode · Worktrees · Sub-agents · Skills · MCP · TodoWrite · ScheduleWakeup · spawn_task · mark_chapter)
+- Library refresh: pasar los prompts genéricos a un layer "templates universales" y mover los module-specific al nuevo tab
 
 ---
 
