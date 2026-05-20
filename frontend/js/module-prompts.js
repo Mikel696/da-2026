@@ -157,17 +157,141 @@ ${tail(code, `${idBase}.P3`)}`
   ];
 });
 
+/* ═══════════════════════════════════════════════════════════════════════
+   PROJECT-WIDE PROMPTS · 3 prompts for the WHOLE Cerebro
+   Same triad as the module prompts (improve / audit / creative) but
+   whole-project scope: the 16 modules as ONE system + shared infra.
+   ═══════════════════════════════════════════════════════════════════════ */
+const PROJECT_META = {
+  name: 'PROYECTO COMPLETO · DA-2026 Cerebro',
+  files: '16 módulos + infra compartida: cloud-sync.js · nb-shared.js · nb-engine.js · design-tokens.css · components.css · auth chain',
+  keys: 'SYNC_REGISTRY + DYNAMIC_PREFIXES (cloud-sync.js) · TIER1 dedicated tables · IndexedDB da2026_nb · Supabase Storage bucket attachments',
+  notes: 'Vista whole-project: los 16 módulos como UN sistema interconectado. Estos 3 prompts operan cross-cutting — no sobre un módulo aislado.'
+};
+
+const PROJECT_BASE = `DA-2026 "Cerebro" · WHOLE-PROJECT scope (16 modules + shared infra).
+REPO: E:\\\\Aplicaciones\\\\ANALISIS DE DATOS\\\\Pagina Web\\\\HTML\\\\da-2026
+LIVE: https://mikel696.github.io/da-2026/frontend/
+
+PRE-READ (mandatory): CEREBRO_STATE.md (FULL · all-module status matrix + last entries) + CLAUDE.md (architecture + strict rules) + MEMORY.md (user prefs).
+SHARED INFRA: cloud-sync.js (SYNC_REGISTRY + DYNAMIC_PREFIXES + smartSync + realtime postgres_changes) · nb-shared.js + nb-engine.js (notebook standard + cross-module transfer) · design-tokens.css + components.css (Design System v1.0) · auth chain (4 scripts on EVERY .html).
+16 MODULES: 1-IND 2-APP 3-ENG 4-RUT 5-JOB 6-TOO 7-NEW 8-PRO 9-GOA 10-SYS 11-ACC 12-FIN 13-NOT 14-WORK 15-MM 16-APA.
+STACK: Vanilla JS · IIFE · localStorage→render()→DOM · Supabase JSONB · no frameworks · no build step.`;
+
+function projectTail(pid) {
+  return `LOG: append to PROMPT_RUNS.md (section "Library Prompts"):
+  ### ID:${pid} · YYYY-MM-DD
+  - Commit: <hash or - if read-only>
+  - Scope: <which modules / infra touched>
+  - Changed: <1-2 lines>
+  - Next: <what to extend next run · what to skip>
+COMMIT: feat/fix(<lead-code>): <imperative description> → push origin main.
+UPDATE: CEREBRO_STATE.md (status of ALL affected modules, not just one).`;
+}
+
+MODULE_PROMPTS['PROJECT'] = [
+  /* ═══ PROJECT.P1 · IMPROVE / OPTIMIZE / UPDATE — whole project ═══ */
+  {
+    kind: 'optimize',
+    icon: '⚡',
+    title: 'PROYECTO · Improve · Optimize · Update',
+    desc: 'Mejora cross-cutting de TODO el Cerebro: elige el trabajo de mayor leverage para el sistema completo, no un módulo aislado.',
+    prompt: `${PROJECT_BASE}
+
+PRIOR RUNS: grep PROMPT_RUNS.md for "ID:PROJECT.P1" — read prior runs. EXTEND or take a NEW angle, never repeat.
+
+TASK: cross-cutting improvement of the whole Cerebro.
+[describe a goal · OR leave blank → you choose the highest-leverage item]
+
+PROTOCOL:
+1. Read the CEREBRO_STATE.md status matrix + pending list.
+2. List the TOP-3 highest-LEVERAGE opportunities — work that affects multiple modules, shared infra, or system-wide consistency (not a single-module tweak).
+3. Rank by impact ÷ effort · propose · wait for green light.
+4. Execute ONE. Surgical edits. Preserve Design System v1.0, IIFE pattern, auth chain.
+5. If it touches shared infra (cloud-sync / nb-shared / nb-engine / design-tokens / components) → verify EVERY dependent module still works.
+6. New persistent key → add to SYNC_REGISTRY.
+
+RULES: no frameworks · Grep -n → Read offset/limit (no full-file reads) · Edit > Write · TodoWrite if 3+ steps · delegate broad research to an Explore sub-agent.
+
+${projectTail('PROJECT.P1')}`
+  },
+
+  /* ═══ PROJECT.P2 · AUDIT / BUGS / HEALTH — whole project ═══ */
+  {
+    kind: 'audit',
+    icon: '🔬',
+    title: 'PROYECTO · Audit · Bugs · Health',
+    desc: 'Auditoría read-only system-wide: los 16 módulos + infra compartida. Delega a sub-agent Explore. Reporte por severidad.',
+    prompt: `${PROJECT_BASE}
+
+PRIOR RUNS: grep PROMPT_RUNS.md for "ID:PROJECT.P2" — skip already-fixed issues, compare vs last audit.
+
+TASK: READ-ONLY system-wide health audit. Do NOT modify until approved.
+Delegate the deep scan to an Explore sub-agent (cover all 16 modules + shared infra · cap report ~350 lines).
+
+CHECK across the whole project:
+1. JS health · undefined refs · stale getElementById · addEventListener without null-check · JSON.parse without try/catch · race conditions.
+2. Sync · every persistent key in SYNC_REGISTRY or DYNAMIC_PREFIXES · no double-prefix typos · critical deletes call pushNow · realtime propagation.
+3. Design System v1.0 drift · hex hardcoded · undefined var(--token) · focus-visible · WCAG AA contrast · transitions specific (not 'all').
+4. Cross-module inconsistency · same component styled differently · logic duplicated that should live in shared infra.
+5. Dead code · orphan files · stale CEREBRO_STATE entries vs actual code · legacy pages/*.
+6. Shared infra integrity · auth chain on every HTML · nb-engine standard respected · cloud-sync registry complete.
+
+OUTPUT: [SEVERITY] [file:line] — issue + 1-line fix. 🔴 Critical · 🟡 Medium · 🟢 Minor · 🔵 Nice-to-have.
+End: table by severity × module · TOP-5 fixes ranked by impact · ask "apply now? which first?".
+
+${projectTail('PROJECT.P2')}`
+  },
+
+  /* ═══ PROJECT.P3 · CREATIVE / SECOND BRAIN — whole project ═══ */
+  {
+    kind: 'creative',
+    icon: '🧠',
+    title: 'PROYECTO · Creative · Second Brain (sistema)',
+    desc: 'Aplica Modelo.md a NIVEL SISTEMA: los 16 módulos como UN cerebro interconectado, no 16 silos.',
+    prompt: `${PROJECT_BASE}
+
+PRIOR RUNS: grep PROMPT_RUNS.md for "ID:PROJECT.P3" — read prior system-level designs, take a new angle.
+
+INPUT · Modelo.md (Obsidian Second Brain) at SYSTEM level — the 16 modules as ONE interconnected brain, not 16 silos.
+Techniques: A) Karpathy auto-organize · B) Web Clipper capture · C) JSON Canvas knowledge-graph · D) CLI/Skills · E) Local-first/Plugins.
+
+TASK · CREATIVE (2 phases):
+
+PHASE 1 · BRAINSTORM (no code, just concepts):
+- 5 distinct SYSTEM-LEVEL ideas (cross-module · not a single-module feature). Examples to spark — do NOT copy literal:
+  · global knowledge graph linking notes/cases/tasks/goals across all 16 modules
+  · universal capture inbox that routes a dropped item to the right module
+  · cross-module search (one bar searches everything)
+  · the Cerebro as a navigable Obsidian-style vault
+  · a global "Hoy" view aggregating today's items from every module
+- For each: technique (A-E) · user value (1 line) · effort (S/M/L).
+- Wait for the user to pick ONE.
+
+PHASE 2 · BLUEPRINT (only after pick):
+- Architecture diff · which modules touched · new shared infra needed · data schema.
+- UI mock (text · controls · microinteractions).
+- Critical-flow pseudo-code · risks · how it fits without breaking the 16 modules.
+- Wait for green light before coding.
+
+CONSTRAINTS: reuse shared infra (nb-engine · cloud-sync · design-tokens) · local-first (Supabase = decoration) · privacy (no external APIs without consent) · don't fragment the system · Vanilla JS.
+
+${projectTail('PROJECT.P3')}`
+  }
+];
+
 /* ── Expose to window ── */
 window.MODULE_PROMPTS = MODULE_PROMPTS;
-window.MODULE_PROMPTS_META = MODULES;
+window.MODULE_PROMPTS_META = Object.assign({ PROJECT: PROJECT_META }, MODULES);
 
 /* ── Renderer ── */
 window.renderModulePrompts = function(selectedCode){
   const container = document.getElementById('modContent');
   if (!container) return;
-  const code = selectedCode || Object.keys(MODULES)[0];
-  const m = MODULES[code];
+  const code = selectedCode || 'PROJECT';
+  const m = (code === 'PROJECT') ? PROJECT_META : MODULES[code];
   const prompts = MODULE_PROMPTS[code] || [];
+  if (!m) return;
 
   let html = '';
   html += '<div class="cd" style="margin-bottom:14px;padding:14px 16px">';
@@ -226,6 +350,15 @@ window.buildModuleSelector = function(){
   const sel = document.getElementById('modSelect');
   if (!sel) return;
   sel.innerHTML = '';
+  /* PROYECTO COMPLETO first — whole-project prompts */
+  const pOpt = document.createElement('option');
+  pOpt.value = 'PROJECT';
+  pOpt.textContent = '🌐 PROYECTO COMPLETO · 16 módulos como un sistema';
+  sel.appendChild(pOpt);
+  const divider = document.createElement('option');
+  divider.disabled = true;
+  divider.textContent = '──────── módulos individuales ────────';
+  sel.appendChild(divider);
   Object.keys(MODULES).forEach(code => {
     const opt = document.createElement('option');
     opt.value = code;

@@ -60,6 +60,11 @@ The user runs the same prompt multiple times across sessions. Without history:
   - F5 · Karpathy Organizer: 🧹 "Ordená mi cerebro" button · heuristic local analysis (near-dupes via Jaccard · tag suggestions via keywords · link suggestions via title mentions · orphans) with one-click apply · "Copy Karpathy prompt" for deep AI reorg.
 - Next: For the NEXT 13-NOT.P3 run — DO NOT rebuild. New angles: (a) export the F4 graph to 15-MM as a real jsMind map · (b) realtime cross-device for the daily note · (c) auto-flashcard from selected text (not whole note) · (d) wire the deep-reorg prompt to actually run via a sub-agent. Verify the 5 phases still work first.
 
+## 🌐 Project-Wide Prompts (3)
+
+<!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".
+     Append entries for: PROJECT.P1 (improve), PROJECT.P2 (audit), PROJECT.P3 (creative). -->
+
 ## 📚 Library Prompts
 
 <!-- Append entries below for: LIB.bootstrap, LIB.bug-hunt, LIB.sync-audit, LIB.design-audit, LIB.cross-module, LIB.capabilities-audit, etc. -->

@@ -1,8 +1,27 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-19c
+- **Última actualización:** 2026-05-19d
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🌐 8-PRO · 3 prompts del proyecto completo + limpieza — 2026-05-19d
+
+### Qué cambió
+- **Limpieza:** eliminados 6 archivos basura de `frontend/` (scratch del Bug Hunt: check_tokens.txt · defined_tokens.txt · element_ids.txt · refs.txt · sync_check.txt · tokens_used.txt).
+- **3 prompts whole-project** agregados a `module-prompts.js` — mismo triad que los module prompts (improve/audit/creative) pero scope = los 16 módulos como UN sistema:
+  - `PROJECT.P1 · ⚡ Improve/Optimize/Update` — elige el trabajo de mayor leverage cross-cutting (no un módulo aislado).
+  - `PROJECT.P2 · 🔬 Audit/Bugs/Health` — auditoría read-only system-wide, delega a sub-agent Explore, reporte por severidad × módulo.
+  - `PROJECT.P3 · 🧠 Creative/Second Brain` — aplica Modelo.md a nivel SISTEMA (16 módulos interconectados, no 16 silos).
+- Cada uno: inglés compacto · `PROJECT_BASE` (pre-read CEREBRO_STATE matrix + infra compartida + 16 módulos) · PRIOR RUNS + LOG con IDs `PROJECT.P1/P2/P3`.
+- UI tab 🧩 Módulos: el selector ahora abre con **"🌐 PROYECTO COMPLETO"** primero, divisor, luego los 16 módulos.
+- `PROMPT_RUNS.md`: nueva sección "Project-Wide Prompts (3)".
+
+### Archivos
+- `frontend/js/module-prompts.js` (PROJECT_META + PROJECT_PROMPTS + selector/renderer).
+- `PROMPT_RUNS.md` (sección nueva).
+- 6 .txt basura eliminados.
 
 ---
 
