@@ -85,6 +85,7 @@ body{line-height:var(--leading-normal)}
 <button class="tab" data-p="all">📋 Todas</button>
 <button class="tab" data-p="journal">📓 Journal</button>
 <button class="tab" data-p="notebooks">📚 Cuadernos</button>
+<button class="tab" data-p="graph">🗺️ Grafo</button>
 </div>
 
 <!-- NEW NOTE -->
@@ -122,6 +123,12 @@ body{line-height:var(--leading-normal)}
   <div style="font-size:11px;color:var(--t3);margin-top:6px">Click en <b>Diseño</b> para elegir portada e ícono.</div>
 </div>
 <div id="notNbWrap"></div>
+</div>
+
+<!-- GRAPH (13-NOT.P3 · F4 Knowledge Graph Canvas) -->
+<div class="pnl" id="p-graph">
+<div class="lb">· grafo de conocimiento · cada nota es un nodo ·</div>
+<div id="graphRoot"></div>
 </div>
 
 <!-- JOURNAL -->
@@ -177,8 +184,9 @@ const title=document.getElementById('nTitle').value.trim();
 const body=document.getElementById('nBody').value.trim();
 if(!body)return alert('Escribe algo en la nota');
 const notes=getNotes();
-notes.push({title:title||'Sin título',body,tags:[...selectedTags],date:new Date().toISOString(),type:'note'});
+notes.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),title:title||'Sin título',body,tags:[...selectedTags],date:new Date().toISOString(),type:'note'});
 setNotes(notes);clearNote();renderNotes();updateStats();
+if(window.NOT&&NOT.onNotesChanged)NOT.onNotesChanged();
 alert('✅ Nota guardada');
 }
 
@@ -198,8 +206,9 @@ if(filterTag!=='all')filtered=filtered.filter(n=>n.tags&&n.tags.includes(filterT
 
 document.getElementById('notesList').innerHTML=filtered.length?filtered.slice().reverse().map((n,ri)=>{
 const idx=notes.length-1-ri;const realIdx=getNotes().indexOf(n);
-return '<div class="note"><button class="note-del" onclick="delNote('+realIdx+')">✕</button><div class="note-h"><div class="note-title">'+n.title+'</div><div class="note-date">'+new Date(n.date).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</div></div>'+(n.tags&&n.tags.length?'<div class="tags">'+n.tags.map(t=>{const tag=allTags.find(x=>x.id===t);return tag?'<span class="tag '+tag.cls+'">'+tag.label+'</span>':''}).join('')+'</div>':'')+'<div class="note-body">'+n.body+'</div></div>';
+return '<div class="note" data-note-id="'+(n.id||'')+'"><button class="note-del" onclick="delNote('+realIdx+')">✕</button><div class="note-h"><div class="note-title">'+n.title+'</div><div class="note-date">'+new Date(n.date).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</div></div>'+(n.tags&&n.tags.length?'<div class="tags">'+n.tags.map(t=>{const tag=allTags.find(x=>x.id===t);return tag?'<span class="tag '+tag.cls+'">'+tag.label+'</span>':''}).join('')+'</div>':'')+'<div class="note-body">'+n.body+'</div></div>';
 }).join(''):'<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px">'+(search||filterTag!=='all'?'Sin resultados para esta búsqueda.':'Sin notas aún. Crea tu primera nota.')+'</div>';
+if(window.NOT&&NOT.afterRenderNotes)NOT.afterRenderNotes();
 }
 
 // ═══ JOURNAL ═══
@@ -262,5 +271,7 @@ renderNotes();renderJournal();updateStats();
 <!-- 13-NOT Cuadernos sub-module -->
 <script src="js/nb-shared.js"></script>
 <script src="js/notes-nb.js"></script>
+<!-- 13-NOT Second Brain Layer (5 phases · CLI/Daily · Wiki-links · SRS pipeline · Graph · Organizer) -->
+<script src="js/notes-brain.js"></script>
 </body>
 </html>

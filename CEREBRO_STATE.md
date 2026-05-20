@@ -1,8 +1,64 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-19a
+- **Última actualización:** 2026-05-19b
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 📝 13-NOT · Second Brain Layer · 5 fases (prompt 13-NOT.P3) — 2026-05-19b
+
+### Origen
+Ejecución del prompt curado `13-NOT.P3` (creative · Modelo.md). El usuario eligió "ejecutar las 5 fases en el orden más óptimo".
+
+### Orden ejecutado (por dependencias)
+**5 → 2 → 3 → 4 → 1** (CLI foundation → wiki-links → SRS pipeline → canvas → AI organizer capstone).
+
+### Qué se construyó
+Nuevo `frontend/js/notes-brain.js` (33K · IIFE `NOT` + `window.NOT` CLI) cargado al final de `notes.html`. Las notas pasan de lista plana taggeable a base de conocimiento conectada.
+
+**F1 · CLI + Daily Note** (idea #5)
+- Migración: cada nota de `sb_notes2` recibe `id` estable (antes se direccionaban por índice de array · frágil).
+- Nota del día (`type:'daily'`) como inbox de captura rápida · card inyectada arriba de la pestaña "Todas".
+- `window.NOT.{all,get,search,create,append,today,capture,link,backlinks,toFlashcard,graph,organize,showOrganizer,deepPrompt}`.
+
+**F2 · Wiki-links** (idea #2 · Karpathy/wiki)
+- Sintaxis `[[título de nota]]` en el cuerpo · render clickable (existe = violeta · no existe = rojo).
+- Autocomplete al escribir `[[` en el editor `#nBody`.
+- Footer de backlinks ("↩ Mencionada en") por nota.
+
+**F3 · Notes → SRS** (idea #3)
+- Botón 🃏 Flashcard por nota (hover) → modal (front/back editables) → tarjeta al deck `eng_srs_deck` (box 1 Leitner · campo `sourceNoteId`).
+- Reusa el schema de srs.js sin tocar ese archivo.
+
+**F4 · Knowledge Graph** (idea #4 · JSON Canvas)
+- Nuevo tab "🗺️ Grafo" · SVG radial · nodos = notas · aristas = wiki-links (sólida) + tags compartidos (punteada).
+- Color por tag · tamaño de nodo por grado · detección de huérfanas · click nodo → salta a la nota.
+
+**F5 · Karpathy Organizer** (idea #1)
+- Botón "🧹 Ordená mi cerebro" → panel con análisis heurístico LOCAL:
+  - Near-duplicados (similitud Jaccard >50%).
+  - Tags sugeridos (keyword matching) · aplicar con un click.
+  - Links sugeridos (una nota menciona el título de otra) · enlazar con un click.
+  - Notas huérfanas (sin tag/link/backlink).
+- Botón "📋 Copiar prompt Karpathy" → genera prompt para reorganización profunda con IA en Claude Code (bridge al agente real).
+
+### Archivos
+- `frontend/js/notes-brain.js` (NUEVO · 33K).
+- `frontend/notes.html` (6 ediciones quirúrgicas: `id` en saveNote · `data-note-id` + hook en renderNotes · tab Grafo · panel · script · `onNotesChanged` hook).
+
+### Decisiones de diseño
+- Cero cambios a SYNC_REGISTRY: `sb_notes2` y `eng_srs_deck` ya estaban registrados.
+- Local-first estricto: el Organizer es heurístico (Jaccard + keywords) · sin APIs externas · el "deep reorg" es opt-in vía prompt copiado.
+- Ediciones a `notes.html` mínimas (6 quirúrgicas) · el grueso vive en notes-brain.js · no se tocó notes-nb.js (Cuadernos intactos).
+- IDs estables: antes las notas se direccionaban por índice (frágil para links/grafo) · ahora `id` estable con migración retro-compatible.
+
+### Sanity check
+- ✅ `notes-brain.js` parsea (33314 chars).
+- ✅ tab Grafo + panel + script integrados.
+
+### Pendiente / próximo run de 13-NOT.P3
+Ver `PROMPT_RUNS.md` ID:13-NOT.P3 · "Next": no reconstruir · nuevos ángulos (export grafo a 15-MM como jsMind real · realtime cross-device para nota del día · flashcard desde texto seleccionado · ejecutar el deep-reorg vía sub-agent).
 
 ---
 
