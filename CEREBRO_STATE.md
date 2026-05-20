@@ -1,8 +1,62 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-15o
+- **Última actualización:** 2026-05-19a
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🧠 2-APP · Second Brain Layer · 5 fases (prompt 2-APP.P3) — 2026-05-19a
+
+### Origen
+Ejecución del prompt curado `2-APP.P3` (tab 🧩 Módulos · creative · Modelo.md). El usuario eligió "trabajar las 5 ideas del brainstorm en el orden más óptimo".
+
+### Qué se construyó
+Nuevo archivo `frontend/js/app-second-brain.js` (33K · IIFE `APP` + `window.APP` CLI) cargado al final de `apply.html`. Convierte 2-APP de tool session-based efímero a sistema con memoria + automatización + aprendizaje.
+
+**F1 · Foundation + CLI** (idea #4)
+- Storage `app_analyses` (localStorage · TIER 2 · registrado en SYNC_REGISTRY de cloud-sync.js · cross-device).
+- Hook sobre `runAnalysis()`: cada análisis se auto-snapshotea (company · role · jd · match · profile · outcome).
+- Panel "historial de análisis" (últimos 20 · re-cargar · editar outcome · borrar) debajo del Analizador.
+- CLI: `window.APP.{list,get,load,current,clear,exportAll,inbox,showClipper,bookmarklet,setOutcome,insights,concepts,renderCanvas,analyze,weaveCV/Cover/Interview/Prompts}`.
+- `APP.inbox(payload)` acepta JDs de fuentes externas (agentes · scrapers) → auto-analiza.
+
+**F2 · Web Clipper** (idea #1)
+- `APP.showClipper()` abre modal con bookmarklet generado dinámicamente.
+- Bookmarklet captura URL + título + JD body (selectores LinkedIn/Indeed/Computrabajo + fallback) → abre `apply.html?clip=1&...`.
+- Handler de URL params al cargar: prefilla form (parsea "Role at Company" del título).
+
+**F3 · Outcome Coach** (idea #5)
+- Editor de outcome por análisis (status: analyzed/applied/callback/interview/offer/rejected · salario pedido · notas).
+- Motor de correlación 100% local (sin APIs externas): callback rate · skill lift (skills en positivos vs rechazos) · mejor industria · word-count promedio.
+- Tab "📊 Coach" con panel de insights.
+
+**F4 · Job Market Wiki** (idea #2 · Karpathy)
+- Agregador de conceptos del corpus: skills que tenés / que el mercado pide / tactical / power words / red flags.
+- Chips ordenados por frecuencia · drill-down modal (qué vacantes mencionan cada concepto).
+- Tab "📚 Wiki".
+
+**F5 · Career Canvas** (idea #3 · JSON Canvas)
+- Pipeline visual de 6 columnas por outcome status · cada vacante = nodo · color por estado.
+- Click nodo → editor de outcome. Cross-link con 5-JOB (`da_vacancies`): muestra overlap.
+- Tab "🗺️ Canvas".
+
+### Archivos
+- `frontend/js/app-second-brain.js` (NUEVO · 33K).
+- `frontend/apply.html` (3 tabs nuevos · 3 paneles · history container · `<script>`).
+- `frontend/js/cloud-sync.js` (`app_analyses` agregado a SYNC_REGISTRY).
+
+### Decisiones de diseño
+- `app_analyses` separado de `da_vacancies` (5-JOB): el primero es cache de TODOS los análisis · el segundo solo las que el user trackea formalmente. Cross-link, no merge.
+- Local-first estricto: el Coach no llama ninguna API externa · todo el análisis corre en el browser.
+- Reusa Design System v1.0 (tokens · sin hex) · reusa el tab-switch genérico de apply.js (los 3 tabs nuevos funcionan sin tocar apply.js).
+- Hook no invasivo sobre `runAnalysis` (wrap · `window._appHooked` guard contra doble-hook).
+
+### Sanity check
+- ✅ `app-second-brain.js` parsea (32966 chars).
+
+### Pendiente / próximo run de 2-APP.P3
+Ver `PROMPT_RUNS.md` ID:2-APP.P3 · "Next": no reconstruir · elegir nuevo ángulo (export a 15-MM · clustering Karpathy de conceptos · cron de re-scoring · realtime cross-device para app_analyses).
 
 ---
 

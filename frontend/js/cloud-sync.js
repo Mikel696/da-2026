@@ -303,7 +303,10 @@ const CLOUD = (() => {
     'ruta_st',
     // ─── Bug Hunt fix · 2026-05-15j (Fase 3) ───
     // 5-JOB · timestamp de inicio del tracker (para conteo de días cross-device)
-    'jt_s8'
+    'jt_s8',
+    // ─── 2-APP Second Brain · 2026-05-15 (2-APP.P3) ───
+    // Historial de análisis de vacantes (snapshots + outcomes para el Coach)
+    'app_analyses'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */

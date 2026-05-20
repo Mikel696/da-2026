@@ -31,6 +31,9 @@
 <button class="tab" data-p="cover">✉️ Cover & Msgs<span class="notif" id="nCover"></span></button>
 <button class="tab" data-p="interview">🎯 Entrevista<span class="notif" id="nInt"></span></button>
 <button class="tab" data-p="prompt">🤖 Prompt Lab</button>
+<button class="tab" data-p="coach">📊 Coach</button>
+<button class="tab" data-p="wiki">📚 Wiki</button>
+<button class="tab" data-p="canvas">🗺️ Canvas</button>
 </div>
 
 <!-- TAB 1: ANALIZADOR -->
@@ -110,6 +113,36 @@
 </div>
 </div>
 
+<!-- TAB 6: COACH (F3 · local correlation engine) -->
+<div class="pnl" id="p-coach">
+<div class="sl">· tu coach personal · 100% local · sin APIs externas ·</div>
+<div class="tip tip-v"><b>📊 Outcome Coach</b><p>Marcá el outcome (callback / entrevista / oferta / rechazado) en cada análisis del Historial. Cuando tengas 3+ vacantes con outcomes, este panel saca patrones: qué skills correlacionan con respuesta positiva, qué industrias funcionan mejor, qué cambios podrían subir tu callback rate.</p></div>
+<div id="appCoachPanel"></div>
+</div>
+
+<!-- TAB 7: WIKI (F4 · Job Market Wiki / Karpathy aggregator) -->
+<div class="pnl" id="p-wiki">
+<div class="sl">· wiki del mercado · conceptos extraídos del corpus ·</div>
+<div class="tip tip-v"><b>📚 Job Market Wiki</b><p>Mientras analizás vacantes, este wiki agrega los conceptos detectados: skills que el mercado pide, skills que tenés, tactical / power words / red flags. Click en un concepto → ver qué vacantes lo mencionan.</p></div>
+<div id="appWikiPanel"></div>
+</div>
+
+<!-- TAB 8: CANVAS (F5 · Career Canvas / visual pipeline) -->
+<div class="pnl" id="p-canvas">
+<div class="sl">· canvas de carrera · pipeline visual por outcome ·</div>
+<div class="tip tip-v"><b>🗺️ Career Canvas</b><p>Vista panorámica: cada vacante = nodo · columnas por estado (analizado → aplicado → callback → entrevista → oferta · o rechazado). Click un nodo para marcar/editar outcome. Cross-link con 5-JOB tracker.</p></div>
+<div id="appCanvasPanel"></div>
+</div>
+
+<!-- History container · visible debajo de todos los paneles, dentro del wrap -->
+<div id="appHistContainer" class="card" style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<div class="sl" style="margin:0">· historial de análisis (últimos 20) ·</div>
+<button class="btn bo bs" onclick="APP.showClipper()" title="Bookmarklet para capturar vacantes desde LinkedIn/Indeed/Computrabajo">📎 Web Clipper</button>
+</div>
+<div id="appHistList"></div>
+</div>
+
 </div>
 
 <!-- SAVE BAR (appears after analysis) -->
@@ -129,5 +162,7 @@
 <script src="js/interview-weaver.js"></script>
 <script src="js/prompt-weaver.js"></script>
 <script src="js/apply.js"></script>
+<!-- 2-APP · Second Brain Layer (5 phases · History/CLI · Web Clipper · Coach · Wiki · Canvas) -->
+<script src="js/app-second-brain.js"></script>
 </body>
 </html>
