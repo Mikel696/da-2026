@@ -277,38 +277,41 @@ const SrsBridge = {
 };
 
 /* ═════════════════════════════════════════════════════════════════════
-   F4 · KNOWLEDGE GRAPH CANVAS (radial SVG)
+   F4 · KNOWLEDGE GRAPH CANVAS (tag-clustered SVG · rebuilt 2026-05-19)
+   ─────────────────────────────────────────────────────────────────────
+   Fix vs v1: no tag-edge explosion (tags drive LAYOUT + color, not lines) ·
+   daily notes excluded · tag clusters in angular sectors · tag filter ·
+   hover highlights node + neighbours · only wiki-links drawn as edges.
    ═════════════════════════════════════════════════════════════════════ */
 const Graph = {
   TAG_COLOR: { study: '#a78bfa', sql: '#06b6d4', python: '#22c55e', idea: '#eab308', work: '#ef4444', personal: '#f97316', _none: '#52525b' },
+  TAG_LABEL: { study: '📚 Estudio', sql: '🗃️ SQL', python: '🐍 Python', idea: '💡 Idea', work: '💼 Trabajo', personal: '🏠 Personal', _none: '· Sin tag' },
+  _hidden: {},   // tag -> true if filtered out
 
   build() {
-    const notes = getN().filter(n => n.type === 'note' || n.type === 'daily');
+    /* Knowledge graph = real notes only. Daily notes are an inbox, not knowledge. */
+    const notes = getN().filter(n => n.type === 'note');
     const nodes = notes.map(n => ({
       id: n.id, title: n.title || 'Sin título',
       tag: (n.tags && n.tags[0]) || '_none',
       tags: n.tags || [], body: n.body || ''
     }));
+    const idset = new Set(nodes.map(n => n.id));
+    /* Edges = wiki-links ONLY. Tags are spatial clusters, not lines (kills the hairball). */
     const edges = [];
-    /* Edge type 1 · wiki-links */
+    const seen = new Set();
     nodes.forEach(a => {
       let m; const re = new RegExp(NOT_LINK_SRC, 'gi');
       while ((m = re.exec(a.body))) {
         const t = m[1].trim().toLowerCase();
         const b = nodes.find(x => (x.title || '').trim().toLowerCase() === t);
-        if (b && b.id !== a.id) edges.push({ a: a.id, b: b.id, kind: 'link' });
-      }
-    });
-    /* Edge type 2 · shared tag (only if no link already) */
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const shared = nodes[i].tags.filter(t => nodes[j].tags.includes(t));
-        if (shared.length && !edges.some(e => (e.a === nodes[i].id && e.b === nodes[j].id) || (e.a === nodes[j].id && e.b === nodes[i].id))) {
-          edges.push({ a: nodes[i].id, b: nodes[j].id, kind: 'tag' });
+        if (b && b.id !== a.id) {
+          const key = [a.id, b.id].sort().join('|');
+          if (!seen.has(key)) { seen.add(key); edges.push({ a: a.id, b: b.id }); }
         }
       }
-    }
-    return { nodes, edges };
+    });
+    return { nodes, edges, idset };
   },
 
   render() {
@@ -316,52 +319,113 @@ const Graph = {
     if (!root) return;
     const { nodes, edges } = Graph.build();
     if (!nodes.length) {
-      root.innerHTML = '<div style="text-align:center;padding:50px;color:var(--t3);font-size:12px">Sin notas para graficar. Crea algunas notas (y úsalas con <code>[[links]]</code>).</div>';
+      root.innerHTML = '<div style="text-align:center;padding:50px;color:var(--t3);font-size:12px">Sin notas para graficar. Creá notas y conectalas con <code>[[wiki-links]]</code>.</div>';
       return;
     }
-    const W = 720, H = 460, cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 60;
+
+    /* ── Group nodes by dominant tag ── */
+    const groups = {};
+    nodes.forEach(n => { (groups[n.tag] = groups[n.tag] || []).push(n); });
+    const tagKeys = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
+    const visibleTags = tagKeys.filter(t => !Graph._hidden[t]);
+
+    /* ── Layout: each visible tag = angular sector; nodes spread inside it ── */
+    const W = 860, H = 560, cx = W / 2, cy = H / 2;
     const pos = {};
-    nodes.forEach((n, i) => {
-      const ang = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-      pos[n.id] = { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang) };
+    const sectorCount = visibleTags.length || 1;
+    visibleTags.forEach((tag, ti) => {
+      const g = groups[tag];
+      const sectorMid = (ti / sectorCount) * Math.PI * 2 - Math.PI / 2;
+      const sectorSpan = (Math.PI * 2 / sectorCount) * 0.78;
+      g.forEach((n, ni) => {
+        /* 2 concentric arcs so big clusters don't overlap labels */
+        const ring = ni % 2;
+        const R = 130 + ring * 78 + (g.length > 10 ? 0 : 0);
+        const within = g.length > 1 ? (ni / (g.length - 1) - 0.5) : 0;
+        const ang = sectorMid + within * sectorSpan;
+        pos[n.id] = { x: cx + R * Math.cos(ang), y: cy + R * Math.sin(ang), tag };
+      });
     });
-    let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md)">';
-    /* Edges */
+
+    const deg = {};
+    edges.forEach(e => { deg[e.a] = (deg[e.a] || 0) + 1; deg[e.b] = (deg[e.b] || 0) + 1; });
+    const adj = {};
+    edges.forEach(e => { (adj[e.a] = adj[e.a] || []).push(e.b); (adj[e.b] = adj[e.b] || []).push(e.a); });
+
+    /* ── SVG ── */
+    let svg = '<svg id="graphSvg" viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;background:radial-gradient(circle at 50% 45%,rgba(139,92,246,.04),transparent 70%),var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md)">';
+    /* sector labels */
+    visibleTags.forEach((tag, ti) => {
+      const sectorMid = (ti / sectorCount) * Math.PI * 2 - Math.PI / 2;
+      const lx = cx + 250 * Math.cos(sectorMid), ly = cy + 250 * Math.sin(sectorMid);
+      svg += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="700" fill="' + (Graph.TAG_COLOR[tag] || '#52525b') + '" opacity="0.55" font-family="IBM Plex Sans,sans-serif">' + (Graph.TAG_LABEL[tag] || tag) + '</text>';
+    });
+    /* edges */
     edges.forEach(e => {
       const p1 = pos[e.a], p2 = pos[e.b];
       if (!p1 || !p2) return;
-      const col = e.kind === 'link' ? 'var(--ac)' : 'var(--bd2)';
-      const w = e.kind === 'link' ? 1.6 : 0.8;
-      const dash = e.kind === 'link' ? '' : 'stroke-dasharray="3 3"';
-      svg += '<line x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '" stroke="' + col + '" stroke-width="' + w + '" ' + dash + ' opacity="0.6"/>';
+      svg += '<line class="g-edge" data-a="' + e.a + '" data-b="' + e.b + '" x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '" stroke="var(--ac)" stroke-width="1.5" opacity="0.45"/>';
     });
-    /* Nodes */
+    /* nodes */
     nodes.forEach(n => {
       const p = pos[n.id];
+      if (!p) return;
       const col = Graph.TAG_COLOR[n.tag] || Graph.TAG_COLOR._none;
-      const deg = edges.filter(e => e.a === n.id || e.b === n.id).length;
-      const r = 6 + Math.min(10, deg * 1.5);
-      const label = n.title.length > 22 ? n.title.slice(0, 21) + '…' : n.title;
+      const d = deg[n.id] || 0;
+      const r = 7 + Math.min(11, d * 2.4);
+      const label = n.title.length > 20 ? n.title.slice(0, 19) + '…' : n.title;
       svg += '<g class="graph-node" data-id="' + n.id + '" style="cursor:pointer">';
-      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r + '" fill="' + col + '" opacity="0.9"/>';
-      svg += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + r + 11).toFixed(1) + '" text-anchor="middle" font-size="9" fill="var(--t2)" font-family="IBM Plex Sans,sans-serif">' + esc(label) + '</text>';
+      svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r + '" fill="' + col + '" opacity="0.92" stroke="var(--c1)" stroke-width="2"/>';
+      svg += '<text class="g-label" x="' + p.x.toFixed(1) + '" y="' + (p.y + r + 11).toFixed(1) + '" text-anchor="middle" font-size="8.5" fill="var(--t2)" font-family="IBM Plex Sans,sans-serif">' + esc(label) + '</text>';
       svg += '</g>';
     });
     svg += '</svg>';
-    /* Stats + legend */
-    const orphans = nodes.filter(n => !edges.some(e => e.a === n.id || e.b === n.id));
-    let h = '<div style="font-size:11px;color:var(--t3);margin-bottom:8px"><b>' + nodes.length + '</b> nodos · <b>' + edges.length + '</b> conexiones · <b>' + orphans.length + '</b> notas huérfanas (sin tag ni link).</div>';
+
+    /* ── Stats + tag filter + legend ── */
+    const orphans = nodes.filter(n => !(deg[n.id]) && n.tag === '_none');
+    let h = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">';
+    h += '<div style="font-size:11px;color:var(--t3)"><b>' + nodes.length + '</b> notas · <b>' + edges.length + '</b> wiki-links · <b>' + orphans.length + '</b> huérfanas</div>';
+    h += '<div style="display:flex;flex-wrap:wrap;gap:4px" id="graphTagFilter">';
+    tagKeys.forEach(t => {
+      const off = Graph._hidden[t];
+      h += '<button class="g-tagchip" data-tag="' + t + '" style="font-size:10px;font-weight:600;padding:3px 9px;border-radius:14px;cursor:pointer;border:1px solid ' + (Graph.TAG_COLOR[t] || '#52525b') + ';background:' + (off ? 'transparent' : (Graph.TAG_COLOR[t] || '#52525b') + '22') + ';color:' + (off ? 'var(--t3)' : (Graph.TAG_COLOR[t] || '#a1a1aa')) + ';' + (off ? 'opacity:.5;text-decoration:line-through' : '') + '">' + (Graph.TAG_LABEL[t] || t) + ' ' + groups[t].length + '</button>';
+    });
+    h += '</div></div>';
     h += svg;
-    h += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:10px;color:var(--t3)">';
-    h += '<span><span style="display:inline-block;width:18px;border-top:2px solid var(--ac);vertical-align:middle"></span> wiki-link</span>';
-    h += '<span><span style="display:inline-block;width:18px;border-top:2px dashed var(--bd2);vertical-align:middle"></span> tag compartido</span>';
-    Object.keys(Graph.TAG_COLOR).forEach(t => { if (t === '_none') return; h += '<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:' + Graph.TAG_COLOR[t] + ';vertical-align:middle"></span> ' + t + '</span>'; });
-    h += '</div>';
+    h += '<div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic">Tags = clusters por color · líneas = <code>[[wiki-links]]</code> · tamaño del nodo = nº de conexiones · hover resalta vecinos · click abre la nota.</div>';
     if (orphans.length) {
-      h += '<div style="margin-top:10px;padding:8px 10px;background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.15);border-radius:var(--radius-sm);font-size:11px;color:var(--t2)">⚠️ Notas huérfanas: ' + orphans.map(o => esc(o.title)).join(' · ') + ' — agregales un tag o un <code>[[link]]</code> para conectarlas.</div>';
+      h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.15);border-radius:var(--radius-sm);font-size:11px;color:var(--t2)">⚠️ Huérfanas (sin tag ni link): ' + orphans.map(o => esc(o.title)).join(' · ') + '</div>';
     }
     root.innerHTML = h;
-    root.querySelectorAll('.graph-node').forEach(g => g.addEventListener('click', () => Wiki.jumpTo(g.getAttribute('data-id'))));
+
+    /* ── Interactivity ── */
+    root.querySelectorAll('.graph-node').forEach(g => {
+      const id = g.getAttribute('data-id');
+      g.addEventListener('click', () => Wiki.jumpTo(id));
+      g.addEventListener('mouseenter', () => Graph._highlight(root, id, adj));
+      g.addEventListener('mouseleave', () => Graph._clearHighlight(root));
+    });
+    root.querySelectorAll('.g-tagchip').forEach(c => c.addEventListener('click', () => {
+      const t = c.getAttribute('data-tag');
+      Graph._hidden[t] = !Graph._hidden[t];
+      Graph.render();
+    }));
+  },
+
+  _highlight(root, id, adj) {
+    const near = new Set([id, ...(adj[id] || [])]);
+    root.querySelectorAll('.graph-node').forEach(g => {
+      g.style.opacity = near.has(g.getAttribute('data-id')) ? '1' : '0.18';
+    });
+    root.querySelectorAll('.g-edge').forEach(e => {
+      const on = e.getAttribute('data-a') === id || e.getAttribute('data-b') === id;
+      e.setAttribute('opacity', on ? '0.95' : '0.08');
+      e.setAttribute('stroke-width', on ? '2.4' : '1.5');
+    });
+  },
+  _clearHighlight(root) {
+    root.querySelectorAll('.graph-node').forEach(g => g.style.opacity = '1');
+    root.querySelectorAll('.g-edge').forEach(e => { e.setAttribute('opacity', '0.45'); e.setAttribute('stroke-width', '1.5'); });
   }
 };
 
@@ -528,6 +592,71 @@ LOG: append result to PROMPT_RUNS.md ID:13-NOT.organize.`;
 };
 
 /* ═════════════════════════════════════════════════════════════════════
+   F2b · NOTE EDITOR (edit title / body / tags after creation)
+   Fixes the gap: notes.html had no editNote — notes were create-only.
+   ═════════════════════════════════════════════════════════════════════ */
+const Editor = {
+  TAGS: [
+    { id: 'study', label: '📚 Estudio' }, { id: 'sql', label: '🗃️ SQL' },
+    { id: 'python', label: '🐍 Python' }, { id: 'idea', label: '💡 Idea' },
+    { id: 'work', label: '💼 Trabajo' }, { id: 'personal', label: '🏠 Personal' }
+  ],
+
+  open(noteId) {
+    const note = getN().find(n => n.id === noteId);
+    if (!note) { toast('Nota no encontrada'); return; }
+    let modal = document.getElementById('notEditModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'notEditModal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+      document.body.appendChild(modal);
+    }
+    const sel = new Set(note.tags || []);
+    const chips = Editor.TAGS.map(t =>
+      '<span class="notEdit-tag" data-tag="' + t.id + '" style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:14px;cursor:pointer;border:1px solid var(--bd);' +
+      (sel.has(t.id) ? 'background:var(--ag);border-color:var(--a2);color:var(--a2)' : 'background:var(--el);color:var(--t2)') + '">' + t.label + '</span>'
+    ).join('');
+    modal.innerHTML = '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:22px;max-width:600px;width:100%;max-height:88vh;overflow:auto">' +
+      '<div style="font-size:15px;font-weight:700;margin-bottom:2px">✏️ Editar nota</div>' +
+      '<div style="font-size:10px;color:var(--t3);margin-bottom:14px">Creada ' + new Date(note.date).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) + '</div>' +
+      '<label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Título</label>' +
+      '<input class="inp" id="notEditTitle" style="width:100%;font-size:15px;font-weight:600;margin-bottom:10px" value="' + esc(note.title) + '">' +
+      '<label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Tags</label>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 12px">' + chips + '</div>' +
+      '<label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Contenido <span style="text-transform:none;letter-spacing:0">· soporta <code>[[wiki-links]]</code></span></label>' +
+      '<textarea class="txa" id="notEditBody" style="width:100%;min-height:200px;margin-bottom:14px;font-family:\'IBM Plex Mono\',monospace;font-size:13px;line-height:1.6">' + esc(note.body) + '</textarea>' +
+      '<div style="display:flex;gap:8px;justify-content:flex-end">' +
+      '<button class="btn bo" onclick="document.getElementById(\'notEditModal\').remove()">Cancelar</button>' +
+      '<button class="btn bg" id="notEditSave">💾 Guardar cambios</button></div></div>';
+
+    /* tag toggle */
+    modal.querySelectorAll('.notEdit-tag').forEach(c => c.addEventListener('click', () => {
+      const t = c.getAttribute('data-tag');
+      if (sel.has(t)) { sel.delete(t); c.style.cssText = c.style.cssText.replace(/background:[^;]+;border-color:[^;]+;color:[^;]+/, 'background:var(--el);color:var(--t2)'); c.style.background = 'var(--el)'; c.style.borderColor = 'var(--bd)'; c.style.color = 'var(--t2)'; }
+      else { sel.add(t); c.style.background = 'var(--ag)'; c.style.borderColor = 'var(--a2)'; c.style.color = 'var(--a2)'; }
+    }));
+    /* save */
+    document.getElementById('notEditSave').addEventListener('click', () => {
+      const title = document.getElementById('notEditTitle').value.trim();
+      const body = document.getElementById('notEditBody').value.trim();
+      if (!body) { toast('El contenido no puede quedar vacío'); return; }
+      const arr = getN();
+      const n = arr.find(x => x.id === noteId);
+      if (!n) { toast('Nota no encontrada'); return; }
+      n.title = title || 'Sin título';
+      n.body = body;
+      n.tags = Array.from(sel);
+      n.updated_at = new Date().toISOString();
+      setN(arr);
+      modal.remove();
+      reRender();
+      toast('Nota actualizada');
+    });
+  }
+};
+
+/* ═════════════════════════════════════════════════════════════════════
    HELPERS
    ═════════════════════════════════════════════════════════════════════ */
 function toast(msg) {
@@ -585,19 +714,30 @@ function injectUI() {
    ═════════════════════════════════════════════════════════════════════ */
 function afterRenderNotes() {
   Wiki.enrich();
-  /* F3 · add flashcard button to each note card */
+  /* F2b + F3 · hover action bar per note card (Editar · Flashcard) */
   document.querySelectorAll('.note[data-note-id]').forEach(card => {
-    if (card.querySelector('.note-srs-btn')) return;
+    if (card.querySelector('.note-actbar')) return;
     const id = card.getAttribute('data-note-id');
-    const btn = document.createElement('button');
-    btn.className = 'note-srs-btn';
-    btn.textContent = '🃏 Flashcard';
-    btn.style.cssText = 'position:absolute;bottom:8px;right:8px;background:var(--el);border:1px solid var(--bd);color:var(--t3);font-size:9px;padding:2px 7px;border-radius:5px;cursor:pointer;opacity:0;transition:opacity .2s';
     card.style.position = 'relative';
-    card.appendChild(btn);
-    card.addEventListener('mouseenter', () => btn.style.opacity = '1');
-    card.addEventListener('mouseleave', () => btn.style.opacity = '0');
-    btn.addEventListener('click', e => { e.stopPropagation(); SrsBridge.openEditor(id); });
+    const bar = document.createElement('div');
+    bar.className = 'note-actbar';
+    bar.style.cssText = 'position:absolute;bottom:8px;right:8px;display:flex;gap:4px;opacity:0;transition:opacity .15s';
+    const mk = (txt, title) => {
+      const b = document.createElement('button');
+      b.textContent = txt; b.title = title;
+      b.style.cssText = 'background:var(--el);border:1px solid var(--bd);color:var(--t2);font-size:9px;font-weight:600;padding:3px 8px;border-radius:5px;cursor:pointer;transition:border-color var(--transition-fast),color var(--transition-fast)';
+      b.onmouseenter = () => { b.style.borderColor = 'var(--ac)'; b.style.color = 'var(--a2)'; };
+      b.onmouseleave = () => { b.style.borderColor = 'var(--bd)'; b.style.color = 'var(--t2)'; };
+      return b;
+    };
+    const bEdit = mk('✏️ Editar', 'Editar título, contenido y tags');
+    const bCard = mk('🃏 Flashcard', 'Crear flashcard SRS desde esta nota');
+    bEdit.addEventListener('click', e => { e.stopPropagation(); Editor.open(id); });
+    bCard.addEventListener('click', e => { e.stopPropagation(); SrsBridge.openEditor(id); });
+    bar.appendChild(bEdit); bar.appendChild(bCard);
+    card.appendChild(bar);
+    card.addEventListener('mouseenter', () => bar.style.opacity = '1');
+    card.addEventListener('mouseleave', () => bar.style.opacity = '0');
   });
 }
 
@@ -652,6 +792,8 @@ return {
   /* F2 · links */
   link: id => { const n = getN().find(x => x.id === id); return n ? '[[' + n.title + ']]' : ''; },
   backlinks: id => { const n = getN().find(x => x.id === id); return n ? Wiki.backlinksFor(n.title) : []; },
+  /* F2b · edit */
+  edit: id => Editor.open(id),
   /* F3 · SRS */
   toFlashcard: id => SrsBridge.openEditor(id),
   /* F4 · graph */

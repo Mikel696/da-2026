@@ -1,8 +1,41 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-19b
+- **Última actualización:** 2026-05-19c
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🔧 13-NOT · Notebook Overhaul · sprint multi-fase — 2026-05-19c
+
+Sprint pedido por el usuario: arreglar Grafo · editar notas · estándar de notebooks · mover notebooks entre módulos · iconos pulidos · fluidez. Plan de 6 fases.
+
+### ✅ F1 · Audit de errores + Grafo reconstruido
+**Bugs encontrados y corregidos en el Grafo (`notes-brain.js`):**
+- 🔴 *Tag-edge explosion*: el grafo dibujaba una arista por CADA par de notas que compartía CUALQUIER tag → 10 notas con 'study' = 45 aristas = hairball ilegible.
+- 🟡 Notas diarias (`type:'daily'`) se incluían como nodos — son inbox, no conocimiento.
+- 🟡 Layout radial puro · labels solapados pasados ~12 nodos.
+
+**Solución — Grafo v2 (tag-clustered):**
+- Tags pasan a ser **clusters espaciales + color**, NO líneas. Cada tag = sector angular · nodos distribuidos en 2 arcos concéntricos.
+- Aristas = SOLO `[[wiki-links]]` (líneas violeta) · dedup por par.
+- Solo `type:'note'` (diarias excluidas).
+- Filtro por tag (chips toggle) · hover resalta nodo + vecinos y atenúa el resto · tamaño de nodo por grado · labels de sector.
+- Detección de huérfanas (sin tag ni link).
+
+### ✅ F2 · Edición de notas (gap crítico)
+- **Bug confirmado:** `notes.html` no tenía `editNote` — las notas eran create-only · imposible cambiar título/cuerpo/tags tras crearlas.
+- **Solución:** objeto `Editor` en notes-brain.js · modal de edición (título + tags toggle + cuerpo) · botón "✏️ Editar" en la action-bar hover de cada nota (junto a 🃏 Flashcard).
+- `window.NOT.edit(id)` expuesto en el CLI.
+
+### Archivos (F1+F2)
+- `frontend/js/notes-brain.js` (Graph reescrito · Editor nuevo · afterRenderNotes con action-bar).
+
+### Pendiente del sprint
+- **F3** · Estándar unificado de notebooks (motor compartido · de-duplicar NotNB/WorkNB/SysNB).
+- **F4** · Mover notebooks entre módulos.
+- **F5** · Iconos + portadas rediseñados.
+- **F6** · Interfaz fluida + microinteracciones.
 
 ---
 
