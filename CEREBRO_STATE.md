@@ -51,9 +51,35 @@ Sprint pedido por el usuario: arreglar Grafo · editar notas · estándar de not
 - `frontend/js/notes-nb.js` · `frontend/js/work.js` · `frontend/systems_logic.js` (botón Mover + función moveNotebook + export).
 - `frontend/notes.html` · `work.html` · `systems.html` (carga de nb-engine.js).
 
-### Pendiente del sprint
-- **F5** · Iconos + portadas rediseñados.
-- **F6** · Interfaz fluida + microinteracciones.
+### ✅ F5 · Portadas + iconos rediseñados (`nb-shared.css`)
+- **12 portadas reconstruidas** — cada una ahora layerea: gradiente base + textura + sheen de luz top-left + vignette para profundidad. Se ven diseñadas, no planas.
+- **Cover card** (header del notebook): glass spine lateral (highlight→sombra) · overlay de sheen + vignette · sombra con inset highlight · hover lift.
+- **Icono del cuaderno**: ahora va dentro de un **badge circular de vidrio esmerilado** (backdrop-blur + borde + sombra) → cualquier emoji se ve intencional y pulido sin tener que migrar a SVG.
+- **Icon picker**: botones más grandes (38px) · gradiente · hover spring (scale+lift) · active glow violeta · focus-visible.
+- Picker grid: check ✓ en la portada seleccionada · sheen en cada opción.
+
+### ✅ F6 · Fluidez + microinteracciones (`nb-shared.css`)
+Bloque FLUIDITY agregado · transiciones en todo el ecosistema notebook:
+- Page entries · hover slide.
+- Toolbar / rich-text buttons · spring press (cubic-bezier overshoot) + active scale.
+- Image cards · zoom-in lift + brightness al hover.
+- Attachment chips + link rows · slide affordance.
+- Saved badge · pulse-in suave.
+- Page editor · fade-up al abrir página (`nbFadeUp`).
+- Modales (drop + design) · scale-in (`nbModalIn`).
+
+### Archivos (F5+F6)
+- `frontend/css/nb-shared.css` (covers v2 · icon picker · bloque FLUIDITY).
+
+### 🏁 Sprint notebook overhaul · COMPLETO (6/6 fases)
+| Fase | Estado |
+|---|---|
+| F1 · Audit + Grafo reconstruido | ✅ commit 222a105 |
+| F2 · Edición de notas | ✅ commit 222a105 |
+| F3 · Estándar nb-engine | ✅ commit 4e8ee2f |
+| F4 · Mover entre módulos | ✅ commit 4e8ee2f |
+| F5 · Portadas + iconos | ✅ (este commit) |
+| F6 · Fluidez | ✅ (este commit) |
 
 ---
 
