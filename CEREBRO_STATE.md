@@ -31,9 +31,27 @@ Sprint pedido por el usuario: arreglar Grafo · editar notas · estándar de not
 ### Archivos (F1+F2)
 - `frontend/js/notes-brain.js` (Graph reescrito · Editor nuevo · afterRenderNotes con action-bar).
 
+### ✅ F3 · Estándar de notebooks (`nb-engine.js`)
+- Nuevo `frontend/js/nb-engine.js` — define EL ESTÁNDAR canónico de notebooks.
+- `NBEngine.SCHEMA`: meta `{id,name,icon,cover,color,created,updated}` · data `{[id]:{pages:[{id,title,body,images,attachments,links,created,updated}]}}`.
+- `NBEngine.MODULES`: registry de los 3 módulos con notebooks (13-NOT · 10-SYS · 14-WORK) y sus storage keys.
+- API: `list(mod)` · `loadMeta/loadData(mod)` · `validate(nb)` · `normalize(nb)` · `transfer()` · `transferUI()`.
+- Decisión: NO se reescribieron los 3 IIFEs (NotNB/WorkNB/SysNB) — eso era refactor riesgoso de alto costo/bajo valor. En su lugar nb-engine.js documenta el estándar (los 3 schemas YA eran idénticos) y agrega la capa de portabilidad encima.
+
+### ✅ F4 · Mover notebooks entre módulos
+- `NBEngine.transfer(nbId, from, to)` — MUEVE (no copia) un notebook: meta + data bucket entre storage keys · borra del origen.
+- Los binarios (attachments/imágenes) viven en IndexedDB `da2026_nb` GLOBAL → los refs viajan en el page data · no hay que mover blobs.
+- `NBEngine.transferUI()` — modal selector de módulo destino.
+- Botón "📦 Mover" wireado en los 3 módulos: NotNB (13-NOT) · WorkNB (14-WORK) · NB custom notebooks (10-SYS).
+- **Bug prevenido:** 10-SYS usa `isCustom()` = `id.startsWith('cnb_')`. transfer() re-idea el notebook con prefijo `cnb_` al entrar a 10-SYS (registry `requirePrefix`).
+- Las 6 storage keys ya estaban en SYNC_REGISTRY → los moves sincronizan cross-device.
+
+### Archivos (F3+F4)
+- `frontend/js/nb-engine.js` (NUEVO).
+- `frontend/js/notes-nb.js` · `frontend/js/work.js` · `frontend/systems_logic.js` (botón Mover + función moveNotebook + export).
+- `frontend/notes.html` · `work.html` · `systems.html` (carga de nb-engine.js).
+
 ### Pendiente del sprint
-- **F3** · Estándar unificado de notebooks (motor compartido · de-duplicar NotNB/WorkNB/SysNB).
-- **F4** · Mover notebooks entre módulos.
 - **F5** · Iconos + portadas rediseñados.
 - **F6** · Interfaz fluida + microinteracciones.
 

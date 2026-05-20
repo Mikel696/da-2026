@@ -2151,6 +2151,16 @@ const NB = (function() {
     renderCustomList();
   }
 
+  /* Move custom notebook to another module (NB-ENGINE standard) */
+  function moveNotebook(id) {
+    if (!window.NBEngine) { alert('Motor de cuadernos no cargado.'); return; }
+    NBEngine.transferUI(id, '10-SYS', () => {
+      delete activePage[id];
+      openSubjects.delete(id);
+      renderCustomList();
+    });
+  }
+
   // Render a custom notebook card — header with rename/delete + shared editor UI
   function renderCustomCard(meta) {
     const d = load();
@@ -2194,6 +2204,7 @@ const NB = (function() {
         <div style="display:flex;gap:4px">
           <button onclick="NB.editCustomDesign('${meta.id}')" title="Cambiar portada/ícono" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🎨 Diseño</button>
           <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️ Nombre</button>
+          <button onclick="NB.moveNotebook('${meta.id}')" title="Mover a otro módulo" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">📦 Mover</button>
           <button onclick="NB.deleteCustom('${meta.id}')" title="Eliminar" style="background:none;border:1px solid rgba(239,68,68,.3);color:var(--rd);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🗑</button>
         </div>
       </div>
@@ -2290,7 +2301,7 @@ const NB = (function() {
     openPasteDialog, closePasteDialog, pimPickFile, pimSave,
     viewImage, closeImage, prevImage, nextImage,
     // Custom notebooks
-    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom,
+    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom, moveNotebook,
     // New: covers + icons + attachments (modal-based)
     openDesignPicker, editCustomDesign, refreshNewFormPreview, toggleCustomEdit,
     attachFile, removeAttachment,

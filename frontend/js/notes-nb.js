@@ -150,6 +150,15 @@ const NotNB = (function(){
     render();
   }
 
+  /* ── Move notebook to another module (NB-ENGINE standard) ── */
+  function moveNotebook(id){
+    if (!window.NBEngine) { alert('Motor de cuadernos no cargado.'); return; }
+    NBEngine.transferUI(id, '13-NOT', () => {
+      if (activeNbId === id) { setActive(null); activePageId = null; }
+      render();
+    });
+  }
+
   /* ── PAGE OPS ─────────────────────────────────────────────── */
   function newPage(nbId){
     const data = loadData();
@@ -528,6 +537,7 @@ const NotNB = (function(){
           <div style="display:flex;gap:4px">
             <button onclick="NotNB.editDesign('${nb.id}')" class="btn bo bs">🎨 Diseño</button>
             <button onclick="NotNB.rename('${nb.id}')" class="btn bo bs">✏️</button>
+            <button onclick="NotNB.moveNotebook('${nb.id}')" class="btn bo bs" title="Mover a otro módulo">📦 Mover</button>
             <button onclick="NotNB.remove('${nb.id}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
@@ -575,7 +585,7 @@ const NotNB = (function(){
   else setTimeout(init, 0);
 
   return {
-    create, rename, remove, render, selectActive,
+    create, rename, remove, render, selectActive, moveNotebook,
     openDesignPicker, refreshNewFormPreview, editDesign,
     newPage, openPage, deletePage, autoSave,
     fmt, insertLabel, removeLabelEl,

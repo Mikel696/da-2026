@@ -1813,6 +1813,15 @@ const WorkNB = (function(){
   }
   function selectActive(id){ setActive(id); activePageId = null; render(); }
 
+  /* Move notebook to another module (NB-ENGINE standard) */
+  function moveNotebook(id){
+    if (!window.NBEngine) { alert('Motor de cuadernos no cargado.'); return; }
+    NBEngine.transferUI(id, '14-WORK', () => {
+      if (activeNbId === id) { setActive(null); activePageId = null; }
+      render();
+    });
+  }
+
   /* ── PAGE OPS ─────────────────────────────────────────────── */
   function newPage(nbId){
     const data = loadData();
@@ -2147,6 +2156,7 @@ const WorkNB = (function(){
           <div style="display:flex;gap:4px">
             <button class="btn bo bs" onclick="WorkNB.editDesign('${nb.id}')">🎨</button>
             <button class="btn bo bs" onclick="WorkNB.rename('${nb.id}')">✏️</button>
+            <button class="btn bo bs" onclick="WorkNB.moveNotebook('${nb.id}')" title="Mover a otro módulo">📦</button>
             <button class="btn bo bs" onclick="WorkNB.remove('${nb.id}')" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
@@ -2187,7 +2197,7 @@ const WorkNB = (function(){
   else setTimeout(render, 0);
 
   return {
-    create, rename, remove, render, selectActive,
+    create, rename, remove, render, selectActive, moveNotebook,
     openDesignPicker, refreshNewFormPreview, editDesign,
     newPage, openPage, deletePage, autoSave,
     fmt, insertLabel, removeLabelEl,
