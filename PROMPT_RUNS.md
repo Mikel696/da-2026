@@ -96,6 +96,28 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Verificación: smoke test en preview · 12 nodos + 16 aristas renderizados sin errores · hover sobre Present Perfect destaca 4 vecinos + muestra "2 trampas" en sidebar · hover sobre arista trap muestra "Present Perfect ⇄ Past Simple · Con fecha específica..." · click en Future Perfect Continuous abre modal F1 · vista persistida en localStorage al reload.
 - Next: F4 — Importador desde cuaderno English / Platzi (13-NOT) · F5 — Detector top-10 errores hispanos en texto pegado · F6 — Auto-feed vocab importado al SRS deck. NO rehacer F1+F2+F3.
 
+### ID:3-ENG.P3 · F4 · 2026-05-25
+- Commit: <pending>
+- Files: frontend/js/eng-import.js (NEW · ~430 líneas IIFE) · frontend/english.html (3 edits: tab + panel + script tag) · frontend/css/english.css (+~110 líneas bloque "F4 · IMPORTAR" + modal + toast) · frontend/js/cloud-sync.js (eng_imported_lessons añadido a SYNC_REGISTRY)
+- Changed: F4 del rediseño Second Brain. Ejecuta la **técnica B (Web Clipper)** del Modelo: importador que parsea contenido raw o auto-detecta cuadernos del 13-NOT y empuja items estructurados a los stores de 3-ENG.
+  - **Nueva tab `📥 Importar`** entre Notes y Dojo.
+  - **Auto-scan** de fuentes en localStorage del 13-NOT: `not_nb_meta`/`not_nb_data` (cuadernos completos o páginas individuales con keywords `english|inglés|platzi|practical|conversational|grammar|vocab`) + `sb_notes2` (notas flat con tags o contenido matching).
+  - **Modo Paste** con textarea para pegar texto raw (Platzi, PDFs, transcripts, cualquier fuente). Stats live (palabras/caracteres).
+  - **Parser** que detecta 3 categorías:
+    - **Vocab**: pares "word — definición" con 5 separadores (—, –, :, =, →, /) · valida formato alfabético y filtra falsos positivos (URLs, líneas largas).
+    - **Phrases**: oraciones entre comillas dobles/simples · spans con `<b>...</b>` · líneas sentencia (3-18 palabras, mayúscula inicial, terminadas en .!?).
+    - **Tips**: líneas con prefijo `tip:|regla:|rule:|nota:|note:|💡|⚠️`.
+  - **Modal de revisión** con checkboxes por item, botones "Seleccionar todo/Ninguno", summary pills (vocab/phrases/tips) + agrupación por categoría con headers.
+  - **Importación** dispatched a stores correctos:
+    - Vocab → `eng_srs_deck` como flashcards box 1 con metadata `{source:'import', importedFrom, imported:ts}`.
+    - Phrases → `eng_notes` con `stamp:'phrase', source:'import'`.
+    - Tips → `eng_notes` con `stamp:'idea', source:'import'`.
+  - **Historial** en `eng_imported_lessons` (cap 50, synced via SYNC_REGISTRY) con date + source + results · últimas 5 visibles en UI.
+  - **Toast** "✓ Importado: N vocab → SRS deck · N frases → Notes · N tips → Notes" al confirmar.
+  - **API CLI**: `window.ENG_IMPORT.{scan, extract, importItems, log, openTab}`.
+- Verificación: smoke test en preview con texto sample tipo Platzi · parser detectó correctamente **5 vocab + 8 frases + 3 tips = 16 items** · modal de revisión renderea agrupados · importación impactó stores correctos (verificado deck=5, notes_sources=11, log=1 entry).
+- Next: F5 — Detector top-10 errores hispanos en texto pegado (sub-vista o sección en Importar) · F6 — Auto-feed vocab importado al SRS con scheduler. NO rehacer F1+F2+F3+F4.
+
 ## 🌐 Project-Wide Prompts (3)
 
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".

@@ -6,6 +6,42 @@
 
 ---
 
+## 🇺🇸 3-ENG · F4 · Importador (web clipper + paste) — 2026-05-25
+
+### Qué cambió
+Ejecutada **F4** del rediseño Second Brain. Esta fase materializa la **técnica B (Web Clipper)** del Modelo: importador que parsea contenido raw o auto-detecta cuadernos del 13-NOT y empuja items estructurados a los stores existentes de 3-ENG (`eng_srs_deck` + `eng_notes`).
+
+### Entregado
+- **Nueva tab `📥 Importar`** entre My Notes y Dojo en el módulo 3-ENG.
+- **Auto-scan** del localStorage que detecta:
+  - Cuadernos en `not_nb_meta`/`not_nb_data` cuyo nombre matchea `/english|inglés|platzi|practical|conversational|grammar|vocab/i`.
+  - Páginas individuales (cuando el cuaderno no matchea pero su título/body sí).
+  - Notas flat en `sb_notes2` agrupadas por tag o por contenido.
+- **Modo Paste** con textarea para pegar texto raw de Platzi, PDFs, transcripts. Stats live (palabras/caracteres).
+- **Parser** que detecta 3 categorías con regex robustos:
+  - **Vocab** (5 separadores: `— : = → /`) con validación alfabética y anti-URL.
+  - **Phrases** entre comillas, en `<b>` spans, o como sentencias autónomas (3-18 palabras + mayúscula + .!?).
+  - **Tips** con prefijo `tip:|regla:|rule:|nota:|note:|💡|⚠️`.
+- **Modal de revisión** con checkbox por item, botones "Seleccionar todo/Ninguno", summary pills + agrupación por categoría.
+- **Push a stores existentes:**
+  - Vocab → `eng_srs_deck` como flashcards box 1 con metadata.
+  - Phrases → `eng_notes` con `stamp:'phrase', source:'import'`.
+  - Tips → `eng_notes` con `stamp:'idea', source:'import'`.
+- **Historial** en `eng_imported_lessons` (cap 50, sincronizado via SYNC_REGISTRY) · últimas 5 entradas visibles en UI.
+- **Toast verde** al confirmar importación.
+- **API CLI**: `window.ENG_IMPORT.{scan, extract, importItems, log, openTab}`.
+
+### Archivos
+- ➕ `frontend/js/eng-import.js` (NUEVO · ~430 líneas IIFE)
+- ✏️ `frontend/english.html` (3 edits: tab + panel `#p-import` + script tag)
+- ✏️ `frontend/css/english.css` (+~110 líneas bloque "F4 · IMPORTAR" + modal de revisión + toast)
+- ✏️ `frontend/js/cloud-sync.js` (`eng_imported_lessons` añadido al SYNC_REGISTRY)
+
+### Verificación
+Smoke test en preview con texto sample tipo Platzi (vocab/grammar tips/professional phrases): parser detectó correctamente **5 vocab + 8 frases + 3 tips = 16 items**. Modal de revisión renderizó agrupados con checkboxes. Importación impactó stores correctos: `eng_srs_deck` ganó 5 cards en box 1 con metadata `source:'import'`, `eng_notes` ganó 11 entradas (8 phrases + 3 tips) todas con `source:'import'`, log creado con timestamp + results. Toast verde mostrado. Historial visible en UI.
+
+---
+
 ## 🇺🇸 3-ENG · F3 · Mapa de Tiempos (knowledge graph SVG) — 2026-05-25
 
 ### Qué cambió

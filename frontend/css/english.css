@@ -460,6 +460,81 @@ select.ff-i{cursor:pointer}
 .tm-state-dot{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--bd);background:var(--c1)}
 .tm-state-dot.tm-st-viewed{border-color:rgba(234,179,8,.6);background:rgba(234,179,8,.05)}
 
+/* ══════════════════════════════════════════
+   F4 · IMPORTAR (web clipper) — Notas + Paste
+   ══════════════════════════════════════════ */
+.imp-section{background:var(--c1);border:1px solid var(--bd);border-radius:12px;padding:18px;margin-bottom:14px}
+.imp-sec-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.imp-sec-icon{font-size:24px}
+.imp-sec-h>div{flex:1;min-width:0}
+.imp-sec-title{font-size:14px;font-weight:700;color:var(--tx)}
+.imp-sec-sub{font-size:11px;color:var(--t3);margin-top:1px}
+
+.imp-source{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:8px;transition:border-color .2s}
+.imp-source:hover{border-color:var(--ac)}
+.imp-src-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.imp-src-icon{font-size:20px}
+.imp-src-info{flex:1;min-width:0}
+.imp-src-name{font-size:13px;font-weight:600;color:var(--tx)}
+.imp-src-meta{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+.imp-src-preview{font-size:11px;color:var(--t2);line-height:1.5;background:var(--c1);border-left:2px solid var(--ac);padding:8px 10px;border-radius:0 6px 6px 0;font-style:italic}
+
+.imp-empty{padding:14px;background:var(--el);border:1px dashed var(--bd);border-radius:8px;color:var(--t3);font-size:12px;text-align:center;font-style:italic}
+
+.imp-paste{width:100%;min-height:160px;background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:vertical;line-height:1.55}
+.imp-paste:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.imp-paste-actions{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.imp-stats{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3);margin-left:auto}
+
+.imp-hist{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:6px}
+.imp-hist-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:130px}
+.imp-hist-source{font-size:12px;color:var(--t2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.imp-hist-stats{display:flex;gap:4px;flex-wrap:wrap}
+.imp-hist-pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px}
+.imp-p-vocab{background:rgba(6,182,212,.12);color:var(--cy);border:1px solid rgba(6,182,212,.18)}
+.imp-p-phrase{background:rgba(34,197,94,.12);color:var(--gn);border:1px solid rgba(34,197,94,.18)}
+.imp-p-tip{background:rgba(234,179,8,.12);color:var(--am);border:1px solid rgba(234,179,8,.18)}
+
+/* Modal de revisión */
+.imp-modal-host{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.imp-modal-host.on{display:flex}
+.imp-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);animation:fu .25s ease}
+.imp-modal{position:relative;background:var(--c1);border:1px solid var(--bd2);border-radius:14px;max-width:780px;width:100%;margin:auto;box-shadow:0 24px 60px rgba(0,0,0,.5);animation:fu .3s ease;z-index:1}
+.imp-modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--c1);border-radius:14px 14px 0 0;z-index:2}
+.imp-modal-title{font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:var(--tx)}
+.imp-modal-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.imp-modal-body{padding:18px 22px;display:flex;flex-direction:column;gap:6px}
+.imp-modal-summary{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.imp-sum{font-size:12px;padding:8px 14px;border-radius:10px;background:var(--el);border:1px solid var(--bd);color:var(--t2)}
+.imp-sum b{color:var(--tx);font-weight:700}
+.imp-sum-vocab{border-color:rgba(6,182,212,.25)}
+.imp-sum-phrase{border-color:rgba(34,197,94,.25)}
+.imp-sum-tip{border-color:rgba(234,179,8,.25)}
+
+.imp-toolbar{display:flex;align-items:center;gap:6px;padding:8px 0;border-bottom:1px dashed var(--bd);margin-bottom:6px;flex-wrap:wrap}
+.imp-help{font-size:11px;color:var(--t3);margin-left:auto;font-style:italic}
+
+.imp-cat-h{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--a2);margin:12px 0 4px;font-weight:600}
+.imp-item{padding:6px 0;border-bottom:1px solid var(--bd)}
+.imp-item:last-child{border-bottom:none}
+.imp-item-l{display:flex;align-items:flex-start;gap:8px;cursor:pointer}
+.imp-item-chk{margin-top:3px;flex-shrink:0;cursor:pointer}
+.imp-item-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;padding:3px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0;margin-top:2px}
+.imp-item-vocab{background:rgba(6,182,212,.15);color:var(--cy)}
+.imp-item-phrase{background:rgba(34,197,94,.15);color:var(--gn)}
+.imp-item-tip{background:rgba(234,179,8,.15);color:var(--am)}
+.imp-item-content{flex:1;min-width:0;font-size:13px;line-height:1.5}
+.imp-item-en{font-weight:600;color:var(--tx)}
+.imp-item-sep{margin:0 6px;color:var(--t3)}
+.imp-item-es{color:var(--t2)}
+.imp-item-txt{color:var(--tx);font-style:italic}
+
+.imp-modal-foot{padding:14px 22px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;background:var(--c1);border-radius:0 0 14px 14px;position:sticky;bottom:0}
+
+/* Toast */
+.imp-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--c1);border:1px solid var(--gn);color:var(--gn);padding:12px 24px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:1500;opacity:0;transition:transform .35s,opacity .35s}
+.imp-toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .wrap{padding:16px 12px}
