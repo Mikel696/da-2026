@@ -309,6 +309,72 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 .tl-foot{padding:14px 22px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;background:var(--c1);border-radius:0 0 14px 14px;position:sticky;bottom:0}
 
+/* ══════════════════════════════════════════
+   F2 · FORJA DE ORACIONES
+   ══════════════════════════════════════════ */
+#forja{margin-bottom:16px}
+.forja-card{background:linear-gradient(135deg,rgba(139,92,246,.05),var(--c1));border:1px solid rgba(139,92,246,.25);border-radius:12px;overflow:hidden}
+.forja-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;background:linear-gradient(90deg,rgba(139,92,246,.07),transparent);border-bottom:1px solid var(--bd)}
+.forja-head:hover{background:linear-gradient(90deg,rgba(139,92,246,.1),transparent)}
+.fh-l{display:flex;align-items:center;gap:12px}
+.fh-icon{font-size:22px}
+.fh-title{font-size:15px;font-weight:700;color:var(--tx)}
+.fh-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.fh-toggle{background:none;border:1px solid var(--bd);color:var(--t2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:12px;transition:transform .3s}
+.fh-toggle.collapsed{transform:rotate(-90deg)}
+.forja-body{padding:18px;display:flex;flex-direction:column;gap:14px;max-height:3000px;overflow:hidden;transition:max-height .4s ease,padding .4s ease,opacity .3s ease}
+.forja-body.collapsed{max-height:0;padding:0 18px;opacity:0}
+
+/* Form grid */
+.forja-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ff{display:flex;flex-direction:column;gap:5px}
+.ff-full{grid-column:1/-1}
+.ff-l{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--a2);font-weight:600}
+.ff-opt{font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0}
+.ff-i{padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:13px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.ff-i:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+select.ff-i{cursor:pointer}
+.ff-radios{display:flex;gap:6px;flex-wrap:wrap;padding:6px 0}
+.ff-radios label{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;font-size:12px;cursor:pointer;transition:all .2s}
+.ff-radios label:hover{border-color:var(--ac);color:var(--a2)}
+.ff-radios input{cursor:pointer}
+.ff-radios input:checked + *,
+.ff-radios label:has(input:checked){background:var(--ag);border-color:var(--ac);color:var(--a2);font-weight:600}
+
+/* Actions */
+.forja-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px;border-top:1px dashed var(--bd);margin-top:4px;padding-top:14px}
+
+/* Result */
+.forja-result,.forja-result + .forja-result{margin-top:10px}
+.forja-result{background:var(--c1);border:1px solid var(--bd2);border-radius:10px;padding:14px 16px}
+.fr-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.fr-meta{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t3)}
+.fr-tense{color:var(--a2);font-weight:600}
+.fr-mood{color:var(--t2);font-weight:500}
+.fr-dot{color:var(--t3)}
+.fr-actions{display:flex;gap:5px}
+.fr-sentence{font-family:'Newsreader',serif;font-size:20px;font-weight:600;line-height:1.4;padding:12px 14px;background:var(--el);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;margin-bottom:10px;word-wrap:break-word}
+.slot{display:inline-block;padding:1px 4px;border-radius:5px;margin:0 1px;transition:background .2s}
+.slot-s{color:var(--gn);background:rgba(34,197,94,.08)}
+.slot-aux{color:var(--am);background:rgba(234,179,8,.08)}
+.slot-v{color:var(--a2);background:var(--ag)}
+.slot-not{color:var(--rd);background:rgba(239,68,68,.1);font-weight:600}
+.slot-c{color:var(--t2);background:transparent}
+.slot-punct{color:var(--t3);margin-left:2px}
+
+.fr-breakdown{display:flex;gap:5px;flex-wrap:wrap}
+.brk-row{display:flex;align-items:center;gap:6px;padding:4px 8px;background:var(--el);border-radius:6px;font-size:11px}
+.brk-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;font-weight:600}
+.brk-s{background:rgba(34,197,94,.15);color:var(--gn)}
+.brk-aux{background:rgba(234,179,8,.15);color:var(--am)}
+.brk-v{background:rgba(139,92,246,.15);color:var(--a2)}
+.brk-not{background:rgba(239,68,68,.15);color:var(--rd)}
+.brk-c{background:var(--bd);color:var(--t2)}
+.brk-row code{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tx);background:none;padding:0}
+
+.fr-varhead{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--a2);margin:14px 0 6px;font-weight:600}
+.forja-err{background:var(--rg);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 14px;color:var(--rd);font-size:12px}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .wrap{padding:16px 12px}
@@ -327,4 +393,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
   .tl-modal{border-radius:10px}
   .tl-fr{grid-template-columns:1fr;gap:3px}
   .tl-fr-l{font-size:9px}
+  /* Forja responsive */
+  .forja-grid{grid-template-columns:1fr}
+  .fr-sentence{font-size:16px;padding:10px 12px}
 }

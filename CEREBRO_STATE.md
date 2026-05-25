@@ -6,6 +6,30 @@
 
 ---
 
+## 🇺🇸 3-ENG · F2 · Forja de Oraciones (motor + UI + CLI) — 2026-05-25
+
+### Qué cambió
+Ejecutada **F2** del rediseño Second Brain de 3-ENG inmediatamente después de F1. Esta fase materializa la **técnica D (CLI/Skills)** del Modelo: un motor de conjugación reutilizable expuesto en `window` + una UI educativa de construcción de oraciones encima del grid.
+
+### Entregado
+- **Motor `buildSentence(tense, mood, subject, verb, complement)`** que cubre los 12 tiempos × 3 modos = 36 conjugaciones. Devuelve oración + array de slots tipados.
+- **UI Forja** colapsable arriba del grid de Tiempos: select tense + radios modo + selects sujeto/verbo + input complemento. Botones: ⚡ Generar / 🎲 5 variaciones / Limpiar.
+- **Resultado visual** con slots coloreados (sujeto verde · auxiliar ámbar · verbo violeta · negación rojo · complemento neutro) + breakdown etiquetado por slot.
+- **TTS + Save to notes** (💾) en cada oración generada (push a `eng_notes` con `source:'forja'`).
+- **Integración con F1**: botón "🧱 Forjar oración con este tiempo" en el footer del modal de lección — cierra modal, expande Forja, scrollea y pre-selecciona el tense.
+- **22+ verbos** del dominio data-analyst + **7 sujetos** con conjugaciones precomputadas.
+- **API CLI expuesta**: `window.ENG_TENSES.{buildSentence, randomSentence, openForja, SUBJECTS, VERBS}` — invocable por Copilot, sub-agentes o cualquier otro módulo.
+
+### Archivos
+- ✏️ `frontend/js/eng-tenses.js` (+~340 líneas: SUBJECTS, VERBS, buildSentence engine con switch sobre 12 tiempos, renderForja, openForja, save-to-notes)
+- ✏️ `frontend/english.html` (1 edit: `<div id="forja"></div>` insertado arriba del grid en el panel Tiempos)
+- ✏️ `frontend/css/english.css` (+~80 líneas bloque "F2 · FORJA DE ORACIONES" + responsive mobile)
+
+### Verificación
+Smoke test en preview con 25 combinaciones tense × mood × subject × verb · todas correctas. Casos críticos verificados: "She studies", "It goes", "He doesn't work", "Is she running...", "She has written...", "We had deployed...", "I will have been learning for 5 years by July." Flujo modal→Forja con pre-selección verificado. TTS funcional. Save-to-notes verificado.
+
+---
+
 ## 🇺🇸 3-ENG · F1 · Tab ⏰ Tiempos Verbales (rediseño Second Brain) — 2026-05-25
 
 ### Qué cambió

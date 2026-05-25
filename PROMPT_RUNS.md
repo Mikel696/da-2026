@@ -66,6 +66,22 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Changed: F1 del rediseño "Second Brain" para 3-ENG. Fusión de las 5 ideas (Karpathy/Clipper/Canvas/CLI/Local-first) atacando el dolor real del usuario: "no sé los tiempos". Entregada **Tab ⏰ Tiempos** con grid 4×3 (Pasado/Presente/Futuro × Simple/Continuous/Perfect/Perfect Continuous). Cada celda abre modal de lección con: fórmulas (afirm/neg/pregunta), palabras señal, 3 ejemplos data-analyst con TTS, trampa hispana destacada, top de errores comunes y verbos irregulares clave. Stats bar (Vistos/Dominados/% curso). Estados visuales: untouched/viewed/mastered + ring inferior por nivel (basic verde / intermediate ámbar / advanced rojo). API `window.ENG_TENSES.{init,openLesson,mark,getProgress,closeModal}` expuesta como CLI. Progreso persistido en `eng_tense_progress` y sincronizado vía SYNC_REGISTRY. Cero alucinación: tiempos curados con fórmulas estándar y ejemplos data-analyst específicos.
 - Next: Para la próxima 3-ENG.P3 — NO rehacer F1. Angles disponibles: F2 — Forja de Oraciones (builder interactivo tense+mood+subject+verb → oración + `ENG_TENSES.buildSentence()` expuesto) · F3 — Vista Canvas global del módulo (Idea C) · F4 — Importador desde cuaderno English/Platzi del 13-NOT (Idea B) · F5 — Detector top-10 errores hispanos en texto pegado (Idea A) · F6 — Auto-feed de vocab importado al SRS deck. Verificar que F1 sigue funcional antes de extender.
 
+### ID:3-ENG.P3 · F2 · 2026-05-25
+- Commit: <pending>
+- Files: frontend/js/eng-tenses.js (+~340 líneas · SUBJECTS + VERBS + buildSentence engine + Forja UI) · frontend/english.html (1 edit: `<div id="forja"></div>` arriba del grid) · frontend/css/english.css (+~80 líneas bloque "F2 · FORJA DE ORACIONES" + responsive)
+- Changed: F2 del rediseño Second Brain. Ejecuta la **técnica D (CLI/Skills)**: motor de conjugación + UI Forja como skill reutilizable.
+  - **Motor `buildSentence(tenseId, mood, subjectKey, verbBase, complement)`** expuesto como `window.ENG_TENSES.buildSentence()`. Cubre los **12 tiempos × 3 modos = 36 casos**. Devuelve `{ text, parts:[{t,w}], tense, subject, verb, mood }` con slots tipados ('s','aux','v','not','c') para rendering color-coded.
+  - Conjugación correcta de auxiliares (am/is/are, was/were, have/has, do/does, did, will/won't), tercera persona singular con regla `_thirdSing` (work→works, study→studies, go→goes, have→has via override), -ing forms y participios irregulares (write→written, get→gotten, run→run, etc.).
+  - **22+ verbos** del dominio data-analyst pre-cargados (work, build, write, run, send, get, make, do, have, go, see, take, give, find, lead, come, speak, know, learn, use, create, analyze, design, deploy, fix, review, present, study, finish, plan, ship, test). Mezcla regulares e irregulares con marcador `irr:true` (✦ en UI).
+  - **7 sujetos** con conjugaciones precomputadas (I/you/he/she/it/we/they) + traducción ES.
+  - **UI Forja** colapsable arriba del grid: form (tense select / mood radios / subject select / verb select / complement input) + botones "⚡ Generar", "🎲 5 variaciones aleatorias", "Limpiar". Resultado renderiza oración con slots coloreados (sujeto verde · auxiliar ámbar · verbo violeta · neg rojo · complemento neutro) + breakdown con etiquetas por slot.
+  - **Save to notes**: cada oración generada tiene botón 💾 que la guarda en `eng_notes` con `source:'forja'`.
+  - **TTS** en oración generada y cada variación.
+  - **Integración con F1**: botón "🧱 Forjar oración con este tiempo" añadido al footer del modal de lección — cierra modal, expande Forja, scrollea suave y pre-selecciona el tense.
+  - API completa expuesta: `window.ENG_TENSES.{buildSentence, randomSentence, openForja, SUBJECTS, VERBS}` — invocable por Copilot, sub-agentes o cualquier módulo del Cerebro.
+- Verificación: smoke test de 25 combinaciones en preview · todas correctas excepto verbos no incluidos (corregido añadiendo finish/come/etc.). Flujo modal→Forja con pre-selección verificado. TTS y guardar en notas funcionales.
+- Next: F3 — Vista Canvas global del módulo · F4 — Importador Platzi/cuaderno English (13-NOT) · F5 — Detector top-10 errores hispanos · F6 — Auto-feed vocab al SRS. NO rehacer F1+F2.
+
 ## 🌐 Project-Wide Prompts (3)
 
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".
