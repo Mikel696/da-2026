@@ -67,7 +67,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Para la próxima 3-ENG.P3 — NO rehacer F1. Angles disponibles: F2 — Forja de Oraciones (builder interactivo tense+mood+subject+verb → oración + `ENG_TENSES.buildSentence()` expuesto) · F3 — Vista Canvas global del módulo (Idea C) · F4 — Importador desde cuaderno English/Platzi del 13-NOT (Idea B) · F5 — Detector top-10 errores hispanos en texto pegado (Idea A) · F6 — Auto-feed de vocab importado al SRS deck. Verificar que F1 sigue funcional antes de extender.
 
 ### ID:3-ENG.P3 · F2 · 2026-05-25
-- Commit: <pending>
+- Commit: ccd675a
 - Files: frontend/js/eng-tenses.js (+~340 líneas · SUBJECTS + VERBS + buildSentence engine + Forja UI) · frontend/english.html (1 edit: `<div id="forja"></div>` arriba del grid) · frontend/css/english.css (+~80 líneas bloque "F2 · FORJA DE ORACIONES" + responsive)
 - Changed: F2 del rediseño Second Brain. Ejecuta la **técnica D (CLI/Skills)**: motor de conjugación + UI Forja como skill reutilizable.
   - **Motor `buildSentence(tenseId, mood, subjectKey, verbBase, complement)`** expuesto como `window.ENG_TENSES.buildSentence()`. Cubre los **12 tiempos × 3 modos = 36 casos**. Devuelve `{ text, parts:[{t,w}], tense, subject, verb, mood }` con slots tipados ('s','aux','v','not','c') para rendering color-coded.
