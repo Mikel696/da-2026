@@ -6,6 +6,32 @@
 
 ---
 
+## 🇺🇸 3-ENG · F3 · Mapa de Tiempos (knowledge graph SVG) — 2026-05-25
+
+### Qué cambió
+Ejecutada **F3** del rediseño Second Brain. Esta fase materializa la **técnica C (JSON Canvas)** del Modelo: un knowledge graph visual de los 12 tiempos verbales con relaciones tipadas (trampas hispanas, secuencias temporales, evolución por aspecto).
+
+### Entregado
+- **Toggle Grid/Mapa** arriba del grid · vista preferida persiste en `localStorage.eng_tense_view` (local, no sync).
+- **SVG knowledge graph** con layout 3 columnas (Past/Present/Future) × 4 filas (Simple/Cont/Perf/PerfCont). 12 nodos circulares + 16 aristas curvas tipadas:
+  - **Trampa hispana** (4 aristas · ámbar punteada): `present_perfect ↔ past_simple`, `present_perfect ↔ present_simple`, `past_continuous ↔ past_simple`, `future_simple ↔ present_simple`.
+  - **Secuencia temporal** (3 aristas · verde sólida): `past_simple → past_perfect`, `present_simple → future_simple`, `future_simple → future_perfect`.
+  - **Evolución por aspecto** (9 aristas · violeta sutil): conecta horizontalmente Simple → Continuous → Perfect → Perfect Continuous en cada fila.
+- **Interactividad rich**: hover en nodo destaca vecinos + dim no-vecinos + muestra detalle en sidebar (uso del tense + pills nivel/trampas/secuencias). Hover en arista muestra la regla específica en sidebar. Click en nodo abre el modal de lección de F1.
+- **Sidebar sticky** con leyenda completa (3 tipos de conexión, 3 niveles de dificultad, 3 estados de progreso) + zona de detalle dinámica.
+- **Estados visuales**: untouched (gris) · viewed (borde ámbar) · mastered (borde verde + 🌟). Nombre del tiempo coloreado por nivel (verde basic / ámbar intermediate / rojo advanced).
+- **API CLI**: `window.ENG_TENSES.switchView(view)` + `window.ENG_TENSES.TENSE_EDGES` (dataset expuesto).
+
+### Archivos
+- ✏️ `frontend/js/eng-tenses.js` (+~230 líneas: TENSE_EDGES dataset, _renderMap SVG, _renderViewToggle, switchView, hover/click handlers, _highlightNeighbors)
+- ✏️ `frontend/english.html` (1 edit: tense-toolbar con toggle + `<div id="tenseMap">`)
+- ✏️ `frontend/css/english.css` (+~110 líneas bloque "F3 · TOGGLE VISTA + MAPA" + responsive mobile)
+
+### Verificación
+Smoke test en preview: 12 nodos + 16 aristas renderizados sin errores. Hover sobre Present Perfect destaca 4 vecinos + sidebar muestra "INTERMEDIO · 2 TRAMPAS". Hover sobre arista trap muestra "Present Perfect ⇄ Past Simple · Con fecha específica ('in 2022') cambia a past simple, NO present perfect." Click en Future Perfect Continuous abre el modal F1. Vista persistida en localStorage al reload.
+
+---
+
 ## 🇺🇸 3-ENG · F2 · Forja de Oraciones (motor + UI + CLI) — 2026-05-25
 
 ### Qué cambió

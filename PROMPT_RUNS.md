@@ -82,6 +82,20 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Verificación: smoke test de 25 combinaciones en preview · todas correctas excepto verbos no incluidos (corregido añadiendo finish/come/etc.). Flujo modal→Forja con pre-selección verificado. TTS y guardar en notas funcionales.
 - Next: F3 — Vista Canvas global del módulo · F4 — Importador Platzi/cuaderno English (13-NOT) · F5 — Detector top-10 errores hispanos · F6 — Auto-feed vocab al SRS. NO rehacer F1+F2.
 
+### ID:3-ENG.P3 · F3 · 2026-05-25
+- Commit: <pending>
+- Files: frontend/js/eng-tenses.js (+~230 líneas · TENSE_EDGES + _renderMap + _renderViewToggle + switchView + hover/click handlers) · frontend/english.html (1 edit: tense-toolbar + #tenseMap container) · frontend/css/english.css (+~110 líneas bloque "F3 · TOGGLE VISTA + MAPA" + responsive)
+- Changed: F3 del rediseño Second Brain. Ejecuta la **técnica C (JSON Canvas)** del Modelo: knowledge graph visual de los 12 tiempos verbales con relaciones tipadas.
+  - **Toggle Grid/Mapa** en la toolbar arriba del grid. Persiste preferencia en `localStorage.eng_tense_view` (NO sincronizado — preferencia local).
+  - **SVG knowledge graph** (760×520 viewBox, responsive) con layout 3 columnas (Past/Present/Future) × 4 filas (Simple/Continuous/Perfect/PerfCont). 12 nodos circulares con icono + nombre simplificado + estrella si dominado.
+  - **16 aristas tipadas** entre tiempos: `trap` (4 trampas hispanas · ámbar punteada · curvas pronunciadas), `seq` (3 secuencias temporales como past→past_perfect · verde sólida), `evo` (9 evoluciones por aspecto en cada fila · violeta sutil).
+  - **Interactividad:** hover en nodo destaca vecinos (dim no-vecinos a opacity .25 + activa aristas conectadas) y muestra detalle en sidebar (uso del tense + pills nivel/trampas/secuencias). Hover en arista muestra la regla en sidebar. Click en nodo abre el modal de lección de F1.
+  - **Sidebar fijo** (sticky desktop, stack en mobile) con leyenda (3 tipos de conexión + 3 niveles + 3 estados de progreso) + zona de detalle que se actualiza con hover.
+  - **Estados visuales en nodos:** untouched (gris), viewed (borde ámbar), mastered (borde verde + 🌟). Color del nombre = nivel (verde basic / ámbar intermediate / rojo advanced).
+  - API añadida a `window.ENG_TENSES`: `switchView(view)` + `TENSE_EDGES` (export del dataset para uso externo).
+- Verificación: smoke test en preview · 12 nodos + 16 aristas renderizados sin errores · hover sobre Present Perfect destaca 4 vecinos + muestra "2 trampas" en sidebar · hover sobre arista trap muestra "Present Perfect ⇄ Past Simple · Con fecha específica..." · click en Future Perfect Continuous abre modal F1 · vista persistida en localStorage al reload.
+- Next: F4 — Importador desde cuaderno English / Platzi (13-NOT) · F5 — Detector top-10 errores hispanos en texto pegado · F6 — Auto-feed vocab importado al SRS deck. NO rehacer F1+F2+F3.
+
 ## 🌐 Project-Wide Prompts (3)
 
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".

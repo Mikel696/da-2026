@@ -12,7 +12,35 @@ const ENG_TENSES = (function(){
 
   let T = null;                    // data/tenses.json cargado
   const KEY = 'eng_tense_progress';
+  const VIEW_KEY = 'eng_tense_view';   // 'grid' | 'map'
+  let CURRENT_VIEW = 'grid';
   const FORJA = { tenseId:'present_simple', mood:'affirmative', subjectKey:'I', verbBase:'work', complement:'' };
+
+  // ── F3 · Mapa de Tiempos · aristas tipadas ──────────
+  // 'trap' = trampa hispana (ámbar punteada)
+  // 'seq'  = secuencia temporal (verde sólida)
+  // 'evo'  = evolución por aspecto en la misma fila (violeta sutil)
+  const TENSE_EDGES = [
+    // Trampas hispanas
+    { from:'present_perfect', to:'past_simple', kind:'trap', label:'Con fecha específica ("in 2022") cambia a past simple, NO present perfect.' },
+    { from:'present_perfect', to:'present_simple', kind:'trap', label:'"Vivo aquí desde X años" → present perfect, NO present simple.' },
+    { from:'past_continuous', to:'past_simple', kind:'trap', label:'Imperfecto continuo vs pretérito puntual. En narración van juntos.' },
+    { from:'future_simple', to:'present_simple', kind:'trap', label:'Español usa presente para futuro cercano ("te llamo mañana"); inglés exige will/going to.' },
+    // Secuencia temporal (pasado del pasado, etc.)
+    { from:'past_simple', to:'past_perfect', kind:'seq', label:'Past Perfect marca acción anterior a un past simple ("when I arrived, the meeting had ended").' },
+    { from:'present_simple', to:'future_simple', kind:'seq', label:'Salto al futuro con will / going to.' },
+    { from:'future_simple', to:'future_perfect', kind:'seq', label:'Future Perfect = acción terminada antes de un futuro ("by Friday I will have finished").' },
+    // Evolución por aspecto (misma fila del grid)
+    { from:'past_simple', to:'past_continuous', kind:'evo' },
+    { from:'past_continuous', to:'past_perfect', kind:'evo' },
+    { from:'past_perfect', to:'past_perfect_continuous', kind:'evo' },
+    { from:'present_simple', to:'present_continuous', kind:'evo' },
+    { from:'present_continuous', to:'present_perfect', kind:'evo' },
+    { from:'present_perfect', to:'present_perfect_continuous', kind:'evo' },
+    { from:'future_simple', to:'future_continuous', kind:'evo' },
+    { from:'future_continuous', to:'future_perfect', kind:'evo' },
+    { from:'future_perfect', to:'future_perfect_continuous', kind:'evo' }
+  ];
 
   // ── Datos del motor ───────────────────
   // Sujetos con conjugaciones precomputadas
@@ -302,6 +330,213 @@ const ENG_TENSES = (function(){
           <div class="ts-l">${pct}% del curso</div>
         </div>
       </div>`;
+  }
+
+  // ── F3 · Toggle Vista + Mapa SVG ─────────────────
+  function _renderViewToggle(){
+    const host = _by('tenseViewToggle');
+    if(!host) return;
+    host.innerHTML = `
+      <button class="vw-btn ${CURRENT_VIEW==='grid'?'on':''}" data-vw="grid">📊 Grid</button>
+      <button class="vw-btn ${CURRENT_VIEW==='map'?'on':''}" data-vw="map">🗺️ Mapa</button>
+    `;
+    host.querySelectorAll('.vw-btn').forEach(b => {
+      b.addEventListener('click', () => switchView(b.dataset.vw));
+    });
+  }
+
+  function switchView(view){
+    CURRENT_VIEW = view;
+    try { localStorage.setItem(VIEW_KEY, view); } catch(e){}
+    const grid = _by('tenseGrid');
+    const map = _by('tenseMap');
+    if(view === 'grid'){
+      if(grid) grid.style.display = '';
+      if(map) map.style.display = 'none';
+    } else {
+      if(grid) grid.style.display = 'none';
+      if(map) map.style.display = '';
+      _renderMap();
+    }
+    _renderViewToggle();
+  }
+
+  // Layout: 3 columnas (past/present/future) × 4 filas (Simple/Cont/Perf/PerfCont)
+  function _mapLayout(){
+    const W = 760, H = 520;
+    const colX = { past: 130, present: 380, future: 630 };
+    const rowY = { simple: 90, continuous: 220, perfect: 350, perfectContinuous: 470 };
+    const pos = {};
+    T.tenses.forEach(t => {
+      pos[t.id] = { x: colX[t.row], y: rowY[t.col] };
+    });
+    return { W, H, pos, colX, rowY };
+  }
+
+  function _renderMap(){
+    const host = _by('tenseMap');
+    if(!host) return;
+    const prog = _getProgress();
+    const { W, H, pos, colX, rowY } = _mapLayout();
+
+    // Build edges SVG
+    const edgePaths = TENSE_EDGES.map((e, idx) => {
+      const a = pos[e.from], b = pos[e.to];
+      if(!a || !b) return '';
+      const mx = (a.x + b.x) / 2;
+      const my = (a.y + b.y) / 2;
+      // Curve perpendicular offset: trap edges curve more
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const len = Math.sqrt(dx*dx + dy*dy) || 1;
+      const off = e.kind === 'trap' ? 35 : e.kind === 'seq' ? 18 : 0;
+      const px = mx + (-dy / len) * off;
+      const py = my + (dx / len) * off;
+      const path = `M ${a.x} ${a.y} Q ${px} ${py} ${b.x} ${b.y}`;
+      return `<path class="tm-edge tm-${e.kind}" data-edge="${idx}" d="${path}" />`;
+    }).join('');
+
+    // Column headers
+    const colHeaders = T.rows.map(r => `
+      <text class="tm-col-h" x="${colX[r.id]}" y="32" text-anchor="middle">${r.icon}  ${_esc(r.label)}</text>
+    `).join('');
+
+    // Row labels (left)
+    const rowLabels = T.cols.map(c => `
+      <text class="tm-row-l" x="14" y="${rowY[c.id] + 4}" text-anchor="start">${_esc(c.label)}</text>
+    `).join('');
+
+    // Build nodes
+    const nodes = T.tenses.map(t => {
+      const p = pos[t.id];
+      const st = prog[t.id] || {};
+      const stateCls = st.mastered ? 'mastered' : st.viewed ? 'viewed' : 'untouched';
+      return `
+        <g class="tm-node ${stateCls} tn-${t.level}" data-id="${t.id}" transform="translate(${p.x},${p.y})">
+          <circle class="tm-bg" r="42"/>
+          <text class="tm-icon" y="-6" text-anchor="middle">${t.icon}</text>
+          <text class="tm-name" y="14" text-anchor="middle">${_esc(t.name.replace(/^(Past|Present|Future) /, ''))}</text>
+          ${st.mastered ? '<text class="tm-star" x="32" y="-26" text-anchor="middle">🌟</text>' : ''}
+        </g>`;
+    }).join('');
+
+    host.innerHTML = `
+      <div class="tm-wrap">
+        <div class="tm-svg-wrap">
+          <svg class="tense-map" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <marker id="arrSeq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 Z" fill="#22c55e"/>
+              </marker>
+            </defs>
+            ${colHeaders}
+            ${rowLabels}
+            <g class="tm-edges">${edgePaths}</g>
+            <g class="tm-nodes">${nodes}</g>
+          </svg>
+        </div>
+        <aside class="tm-side">
+          <div class="tm-side-h">🗺️ Mapa de Tiempos</div>
+          <div class="tm-side-tip" id="tmTip">
+            <p>Hover sobre un nodo para resaltar sus relaciones. Hover sobre una arista para ver la regla. <strong>Click</strong> sobre un nodo abre la lección.</p>
+          </div>
+          <div class="tm-legend">
+            <div class="tm-leg-h">Tipos de conexión</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-trap"></span>Trampa hispana</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-seq"></span>Secuencia temporal</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-evo"></span>Evolución por aspecto</div>
+            <div class="tm-leg-h" style="margin-top:14px">Nivel del tiempo</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-basic"></span>Básico</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-inter"></span>Intermedio</div>
+            <div class="tm-leg-i"><span class="tm-sw tm-sw-adv"></span>Avanzado</div>
+            <div class="tm-leg-h" style="margin-top:14px">Tu progreso</div>
+            <div class="tm-leg-i"><span class="tm-state-dot"></span>Sin ver</div>
+            <div class="tm-leg-i"><span class="tm-state-dot tm-st-viewed"></span>Visto</div>
+            <div class="tm-leg-i">🌟 Dominado</div>
+          </div>
+        </aside>
+      </div>`;
+
+    _wireMapEvents(host);
+  }
+
+  function _wireMapEvents(host){
+    // Node hover: highlight neighbors
+    host.querySelectorAll('.tm-node').forEach(n => {
+      const id = n.dataset.id;
+      n.addEventListener('mouseenter', () => _highlightNeighbors(host, id));
+      n.addEventListener('mouseleave', () => _clearHighlight(host));
+      n.addEventListener('click', () => openLesson(id));
+    });
+    // Edge hover: show label
+    host.querySelectorAll('.tm-edge').forEach(p => {
+      p.addEventListener('mouseenter', () => {
+        const e = TENSE_EDGES[parseInt(p.dataset.edge, 10)];
+        if(!e || !e.label) return;
+        const tip = _by('tmTip');
+        if(tip){
+          const fromT = _findTense(e.from);
+          const toT = _findTense(e.to);
+          tip.innerHTML = `
+            <div class="tm-edge-info tm-ei-${e.kind}">
+              <div class="tm-ei-pair">${fromT?_esc(fromT.name):e.from} ⇄ ${toT?_esc(toT.name):e.to}</div>
+              <p>${_esc(e.label)}</p>
+            </div>`;
+        }
+      });
+      p.addEventListener('mouseleave', () => _resetTip());
+    });
+  }
+
+  function _highlightNeighbors(host, id){
+    const neighbors = new Set([id]);
+    const activeEdges = [];
+    TENSE_EDGES.forEach((e, idx) => {
+      if(e.from === id || e.to === id){
+        neighbors.add(e.from); neighbors.add(e.to);
+        activeEdges.push(idx);
+      }
+    });
+    host.querySelectorAll('.tm-node').forEach(n => {
+      n.classList.toggle('dim', !neighbors.has(n.dataset.id));
+      n.classList.toggle('active', n.dataset.id === id);
+    });
+    host.querySelectorAll('.tm-edge').forEach(p => {
+      p.classList.toggle('dim', !activeEdges.includes(parseInt(p.dataset.edge, 10)));
+    });
+    // Update sidebar with tense detail
+    const t = _findTense(id);
+    if(t){
+      const tip = _by('tmTip');
+      if(tip){
+        const conns = activeEdges.map(i => TENSE_EDGES[i]);
+        const trapCount = conns.filter(e => e.kind === 'trap').length;
+        const seqCount = conns.filter(e => e.kind === 'seq').length;
+        tip.innerHTML = `
+          <div class="tm-node-info">
+            <div class="tm-ni-h"><span class="tm-ni-icon">${t.icon}</span><div><strong>${_esc(t.name)}</strong><div style="font-size:11px;color:var(--t3)">${_esc(t.nameEs)}</div></div></div>
+            <p style="font-size:12px;color:var(--t2);margin:8px 0 6px">${_esc(t.use)}</p>
+            <div class="tm-ni-meta">
+              <span class="tm-ni-pill tm-ni-${t.level}">${t.level==='basic'?'Básico':t.level==='intermediate'?'Intermedio':'Avanzado'}</span>
+              ${trapCount?`<span class="tm-ni-pill tm-ni-trap">${trapCount} trampa${trapCount>1?'s':''}</span>`:''}
+              ${seqCount?`<span class="tm-ni-pill tm-ni-seq">${seqCount} secuencia${seqCount>1?'s':''}</span>`:''}
+            </div>
+            <div style="font-size:11px;color:var(--t3);margin-top:8px;font-style:italic">Click para abrir la lección completa</div>
+          </div>`;
+      }
+    }
+  }
+
+  function _clearHighlight(host){
+    host.querySelectorAll('.tm-node').forEach(n => { n.classList.remove('dim','active'); });
+    host.querySelectorAll('.tm-edge').forEach(p => { p.classList.remove('dim'); });
+    _resetTip();
+  }
+
+  function _resetTip(){
+    const tip = _by('tmTip');
+    if(tip){
+      tip.innerHTML = '<p>Hover sobre un nodo para resaltar sus relaciones. Hover sobre una arista para ver la regla. <strong>Click</strong> sobre un nodo abre la lección.</p>';
+    }
   }
 
   // ── F2 · UI Forja de Oraciones ──────────────────
@@ -670,10 +905,18 @@ const ENG_TENSES = (function(){
       console.error('ENG_TENSES: failed to load tenses.json', e);
       return;
     }
-    _renderForja();
-    _renderGrid();
+    // Restore view preference
+    try { CURRENT_VIEW = localStorage.getItem(VIEW_KEY) || 'grid'; } catch(e){}
 
-    window.addEventListener('cloud:sync_complete', _renderGrid);
+    _renderForja();
+    _renderViewToggle();
+    _renderGrid();
+    if(CURRENT_VIEW === 'map') switchView('map');
+
+    window.addEventListener('cloud:sync_complete', () => {
+      _renderGrid();
+      if(CURRENT_VIEW === 'map') _renderMap();
+    });
 
     document.addEventListener('keydown', e => {
       if(e.key === 'Escape') closeModal();
@@ -689,8 +932,10 @@ const ENG_TENSES = (function(){
     buildSentence,
     randomSentence,
     openForja,
+    switchView,
     SUBJECTS,
-    VERBS
+    VERBS,
+    TENSE_EDGES
   };
 })();
 
