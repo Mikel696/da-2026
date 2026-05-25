@@ -137,7 +137,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: F6 — Auto-feed scheduled de vocab importado al SRS deck. Tras F6 cierra el plan de 6 fases del rediseño Second Brain de 3-ENG.
 
 ### ID:3-ENG.P3 · F6 · 2026-05-25 · CIERRE PLAN SECOND BRAIN
-- Commit: <pending>
+- Commit: c771a2d
 - Files: frontend/js/eng-practice.js (NEW · ~340 líneas IIFE · sesión diaria + streak) · frontend/english.html (2 edits: #dailySession placeholder + script tag) · frontend/css/english.css (+~80 líneas bloque "F6 · DAILY PRACTICE SESSION") · frontend/js/cloud-sync.js (eng_daily_session + eng_practice_streak añadidos a SYNC_REGISTRY)
 - Changed: F6 cierra el plan de 6 fases del rediseño Second Brain. Ejecuta la **técnica E (Local-first learning)** del Modelo: integra F1-F5 en una rutina diaria personalizada que pega los pedazos en un único loop de aprendizaje.
   - **Banner "Tu sesión de hoy"** arriba del hero, siempre visible al entrar al módulo. Colapsable. Muestra progreso 0/4 + streak.
