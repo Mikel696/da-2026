@@ -83,7 +83,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: F3 — Vista Canvas global del módulo · F4 — Importador Platzi/cuaderno English (13-NOT) · F5 — Detector top-10 errores hispanos · F6 — Auto-feed vocab al SRS. NO rehacer F1+F2.
 
 ### ID:3-ENG.P3 · F3 · 2026-05-25
-- Commit: <pending>
+- Commit: 9f1665f
 - Files: frontend/js/eng-tenses.js (+~230 líneas · TENSE_EDGES + _renderMap + _renderViewToggle + switchView + hover/click handlers) · frontend/english.html (1 edit: tense-toolbar + #tenseMap container) · frontend/css/english.css (+~110 líneas bloque "F3 · TOGGLE VISTA + MAPA" + responsive)
 - Changed: F3 del rediseño Second Brain. Ejecuta la **técnica C (JSON Canvas)** del Modelo: knowledge graph visual de los 12 tiempos verbales con relaciones tipadas.
   - **Toggle Grid/Mapa** en la toolbar arriba del grid. Persiste preferencia en `localStorage.eng_tense_view` (NO sincronizado — preferencia local).
