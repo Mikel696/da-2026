@@ -6,6 +6,43 @@
 
 ---
 
+## 🇺🇸 3-ENG · F5 · Detector de errores hispanos (Karpathy-style) — 2026-05-25
+
+### Qué cambió
+Ejecutada **F5** del rediseño Second Brain. Esta fase materializa la **técnica A (Karpathy auto-organize)** del Modelo: detector local de errores hispanos que escanea texto del usuario contra 15 patrones regex y construye un wiki personal de errores recurrentes para coaching dirigido.
+
+### Entregado
+- **Nueva tab `🔍 Errores`** entre Importar y Dojo.
+- **15 patrones regex** que cubren los errores hispanos más documentados, con 3 niveles de severidad (high/med/low) y vínculo a lección F1 cuando aplica:
+  - **Auxiliares/Subject-Verb**: no + verbo · 3ra sin -s · pregunta sin auxiliar.
+  - **Negación**: doble negación (nothing/nobody/never tras don't/can't/etc).
+  - **Be vs Have**: have años · have + estado (hungry/cold/right).
+  - **Modales**: have that + verbo (tener que) · will to + verbo.
+  - **Aspecto**: verbos de estado en continuo (am knowing).
+  - **Plurales**: people is · uncountables en plural (informations, advices).
+  - **Preposiciones**: depend of · married with · since + duración.
+  - **Collocations**: make homework / make a question.
+- **Engine `analyze(text)`**: 15 patrones secuenciales, deduplicación por overlap, sort por índice. Devuelve array con suggestion + why + tenseId.
+- **`highlight(text, results)`**: HTML con `<mark>` coloreado por severidad + superíndice de número de error.
+- **UI 3 secciones**:
+  - **A · Pegá tu texto**: textarea + Analizar → resultado con texto highlighted + lista expandible de errores (✗ encontrado / ✓ sugerencia / 📖 regla / → ver lección F1).
+  - **B · Wiki personal**: cards ordenadas por frecuencia (×N veces), con último sample, regla rota y botón "Ver lección" cuando el patrón está asociado a un tiempo.
+  - **C · Historial**: últimos 5 análisis con date + sample + errorCount.
+- **Vínculo F1 ↔ F5**: cuando un error está asociado a un tense (ej. third_sg_no_s → present_simple), botón salta a tab Tiempos y abre el modal de la lección.
+- **Storage**: `eng_error_log` con cap 50, sincronizado vía SYNC_REGISTRY.
+- **API CLI**: `window.ENG_ERRORS.{analyze, highlight, save, log, wiki, openTab, PATTERNS}`.
+
+### Archivos
+- ➕ `frontend/js/eng-errors.js` (NUEVO · ~470 líneas IIFE)
+- ✏️ `frontend/english.html` (3 edits: tab + panel `#p-errors` + script tag)
+- ✏️ `frontend/css/english.css` (+~110 líneas bloque "F5 · DETECTOR DE ERRORES" · highlighted text con mark coloreado · wiki cards · lista expandible)
+- ✏️ `frontend/js/cloud-sync.js` (`eng_error_log` añadido al SYNC_REGISTRY)
+
+### Verificación
+Smoke test en preview con texto sample de 13 oraciones con errores típicos: **13/13 errores detectados correctamente** (no_aux_negative, third_sg_no_s, have_that_verb, will_to_verb, double_negative, depend_of, uncountable_plural, people_is, married_with, since_duration, state_verb_continuous, 2× have_state). Suggestions correctas en todos los casos. Wiki personal poblado con 12 patrones únicos tras guardar. Vínculo a lección F1 funcional. Bug "She workworks" en suggest de third_sg_no_s corregido in-flight (concat doble del verbo) → ahora devuelve "She works".
+
+---
+
 ## 🇺🇸 3-ENG · F4 · Importador (web clipper + paste) — 2026-05-25
 
 ### Qué cambió

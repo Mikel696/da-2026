@@ -118,6 +118,24 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Verificación: smoke test en preview con texto sample tipo Platzi · parser detectó correctamente **5 vocab + 8 frases + 3 tips = 16 items** · modal de revisión renderea agrupados · importación impactó stores correctos (verificado deck=5, notes_sources=11, log=1 entry).
 - Next: F5 — Detector top-10 errores hispanos en texto pegado (sub-vista o sección en Importar) · F6 — Auto-feed vocab importado al SRS con scheduler. NO rehacer F1+F2+F3+F4.
 
+### ID:3-ENG.P3 · F5 · 2026-05-25
+- Commit: <pending>
+- Files: frontend/js/eng-errors.js (NEW · ~470 líneas IIFE · 15 patrones regex + analyze + highlight + wiki + UI) · frontend/english.html (3 edits: tab + panel + script) · frontend/css/english.css (+~110 líneas bloque "F5 · DETECTOR DE ERRORES" · highlighted text + lista expandible + wiki cards) · frontend/js/cloud-sync.js (eng_error_log añadido a SYNC_REGISTRY)
+- Changed: F5 del rediseño Second Brain. Ejecuta la **técnica A (Karpathy auto-organize)** del Modelo: detector local de errores hispanos en texto del usuario + wiki personal de patrones recurrentes.
+  - **Nueva tab `🔍 Errores`** entre Importar y Dojo.
+  - **15 patrones regex** verificables que cubren los errores hispanos más documentados:
+    - `no_aux_negative` (I no understand → I don't), `third_sg_no_s` (She work → She works), `double_negative` (don't know nothing → anything), `have_years` (I have 25 years → I am 25 years old), `have_state` (I have hungry → I am hungry), `have_that_verb` (have that go → have to go), `state_verb_continuous` (am knowing → know), `will_to_verb` (will to send → will send), `people_is` (people is → people are), `uncountable_plural` (informations → information), `depend_of` (→ depend on), `married_with` (→ married to), `since_duration` (since 3 years → for 3 years), `make_homework` (→ do homework / ask a question), `question_no_aux` (You have time? → Do you have time?).
+  - **3 niveles de severidad**: high (rompe gramática) · med (interferencia clara) · low (estilo/preposición).
+  - **Engine `analyze(text)`**: corre los 15 patrones, deduplica overlaps, devuelve array ordenado por índice con suggestion + why + tenseId (vínculo a lección F1 cuando aplica).
+  - **`highlight(text, results)`**: devuelve HTML con `<mark>` coloreado por severidad y superíndice de número.
+  - **UI 3 secciones**: (A) Textarea + Analizar → resultado con texto highlighted + lista de errores expandibles con cada uno mostrando ✗ encontrado / ✓ sugerencia / 📖 regla / → Ver lección. (B) Wiki personal: cards ordenadas por frecuencia (×N veces), agrupadas por patrón con last sample. (C) Historial últimos 5 análisis.
+  - **Vínculo a F1**: cuando un error está asociado a un tense (present_simple, present_continuous, present_perfect, future_simple), botón "→ Ver lección del tiempo relacionado" salta a la tab Tiempos y abre el modal correspondiente.
+  - **Historial** en `eng_error_log` (cap 50, synced via SYNC_REGISTRY) con sample/errorCount/results.
+  - **API CLI**: `window.ENG_ERRORS.{analyze, highlight, save, log, wiki, openTab, PATTERNS}`.
+- Verificación: smoke test en preview con texto sample de 13 oraciones con errores típicos · **13/13 errores detectados correctamente** (no_aux_negative, third_sg_no_s, have_that_verb, will_to_verb, double_negative, depend_of, uncountable_plural, people_is, married_with, since_duration, state_verb_continuous, 2× have_state) con suggestions correctas. Wiki personal poblado con 12 patrones únicos. Vínculo a lección F1 funcional.
+- Fix in-flight: bug "She workworks" en suggest de third_sg_no_s corregido (concat doble del verbo) → ahora devuelve "She works" correctamente.
+- Next: F6 — Auto-feed scheduled de vocab importado al SRS deck. Tras F6 cierra el plan de 6 fases del rediseño Second Brain de 3-ENG.
+
 ## 🌐 Project-Wide Prompts (3)
 
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".
