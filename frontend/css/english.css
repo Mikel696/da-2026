@@ -611,6 +611,58 @@ select.ff-i{cursor:pointer}
 .err-p-count{background:rgba(239,68,68,.15);color:var(--rd);border:1px solid rgba(239,68,68,.2)}
 .err-p-len{background:var(--bd);color:var(--t3)}
 
+/* ══════════════════════════════════════════
+   F6 · DAILY PRACTICE SESSION (cierre Second Brain)
+   ══════════════════════════════════════════ */
+#dailySession{margin-bottom:18px}
+.ds-banner{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.04),var(--c1));border:1px solid rgba(139,92,246,.3);border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.ds-banner.ds-done{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(6,182,212,.05),var(--c1));border-color:rgba(34,197,94,.4)}
+
+.ds-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;user-select:none;gap:16px;flex-wrap:wrap}
+.ds-head:hover{background:linear-gradient(90deg,rgba(139,92,246,.06),transparent)}
+.ds-h-l{display:flex;align-items:center;gap:14px;min-width:0;flex:1}
+.ds-icon{font-size:28px;flex-shrink:0}
+.ds-title{font-family:'Newsreader',serif;font-size:18px;font-weight:600;color:var(--tx);line-height:1.2}
+.ds-sub{font-size:12px;color:var(--t3);margin-top:2px}
+.ds-h-r{display:flex;align-items:center;gap:14px}
+.ds-progress{width:120px;height:6px;background:var(--el);border-radius:3px;overflow:hidden}
+.ds-progress-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--cy));border-radius:3px;transition:width .5s}
+.ds-done .ds-progress-fill{background:linear-gradient(90deg,var(--gn),var(--cy))}
+.ds-toggle{background:none;border:1px solid var(--bd);color:var(--t2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:12px;transition:transform .3s}
+.ds-toggle.collapsed{transform:rotate(-90deg)}
+
+.ds-body{padding:0 20px 18px;display:flex;flex-direction:column;gap:8px;max-height:1800px;overflow:hidden;transition:max-height .4s ease,padding .4s ease,opacity .3s ease}
+.ds-body.collapsed{max-height:0;padding:0 20px;opacity:0}
+
+.ds-step{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:12px 14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;transition:all .25s}
+.ds-step:hover{border-color:var(--bd2)}
+.ds-step-done{background:linear-gradient(90deg,rgba(34,197,94,.06),var(--c1));border-color:rgba(34,197,94,.25)}
+.ds-step-l{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:0}
+.ds-step-icon{font-size:22px;flex-shrink:0;line-height:1}
+.ds-step-info{flex:1;min-width:0}
+.ds-step-label{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.ds-step-detail{font-size:12px;color:var(--t2);line-height:1.55}
+.ds-step-detail code{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:1px 6px;border-radius:4px;background:var(--el);color:var(--a2)}
+.ds-step-why{font-size:11px;color:var(--t3);font-style:italic;display:inline-block;margin-top:3px}
+.ds-phrase{font-family:'Newsreader',serif;font-size:15px;font-style:italic;color:var(--a2);font-weight:600}
+
+.ds-step-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ds-step-check{width:34px;height:34px;border-radius:50%;border:2px solid var(--bd);background:var(--c1);color:var(--t3);cursor:pointer;font-size:16px;font-weight:700;transition:all .25s;display:flex;align-items:center;justify-content:center}
+.ds-step-check:hover{border-color:var(--ac);color:var(--a2)}
+.ds-step-check.on{background:var(--gn);border-color:var(--gn);color:#fff;animation:dsPop .35s ease}
+@keyframes dsPop{0%{transform:scale(.8)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+.ds-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed var(--bd);margin-top:4px}
+.ds-celebrate{font-size:12px;color:var(--gn);font-style:italic;font-weight:600}
+
+@media(max-width:768px){
+  .ds-head{padding:12px 14px}
+  .ds-title{font-size:15px}
+  .ds-progress{width:80px}
+  .ds-step{flex-direction:column;gap:10px}
+  .ds-step-r{align-self:flex-end}
+}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .wrap{padding:16px 12px}

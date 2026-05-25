@@ -6,6 +6,62 @@
 
 ---
 
+## 🇺🇸 3-ENG · F6 · Daily Practice Session + CIERRE PLAN — 2026-05-25
+
+### Qué cambió
+Ejecutada **F6** del rediseño Second Brain — **última fase y cierre del plan**. Materializa la **técnica E (Local-first learning)** del Modelo integrando F1-F5 en una rutina diaria personalizada. Es el "pegamento" que vuelve el módulo un sistema vs. una colección de features.
+
+### Entregado
+- **Banner "Tu sesión de hoy"** arriba del hero del módulo · siempre visible al entrar · colapsable.
+- **Generador de 4 pasos** que pulla datos de las fases anteriores:
+  - **🃏 SRS**: N cards due (cap 5) desde `eng_srs_deck`. Si vacío → CTA a F4.
+  - **⏰ Tense**: pick por prioridad (viewed-no-mastered → untouched → review).
+  - **🔍 Error #1**: top patrón del wiki F5 con sample + regla + link a F1.
+  - **💬 Phrase**: random determinístico-por-fecha desde `eng_notes`.
+- **Streak tracker** en `eng_practice_streak` (count + lastDate + max). Se incrementa al completar los 4 pasos; se reinicia si pasa un día sin completar.
+- **UX**: barra de progreso animada, checkboxes con pop animation, banner cambia de violeta a verde al completar, mensaje "Vuelve mañana".
+- **Cross-fase navigation**: cada paso tiene CTA al tab + abre modal F1 cuando aplica.
+- **API CLI**: `window.ENG_PRACTICE.{session, markStep, streak, regenerate, openTab}`.
+- **Sync**: `eng_daily_session` + `eng_practice_streak` añadidos a SYNC_REGISTRY · streak cross-device.
+
+### Archivos
+- ➕ `frontend/js/eng-practice.js` (NUEVO · ~340 líneas IIFE)
+- ✏️ `frontend/english.html` (2 edits: `<div id="dailySession">` arriba del hero + script tag)
+- ✏️ `frontend/css/english.css` (+~80 líneas bloque "F6 · DAILY PRACTICE SESSION")
+- ✏️ `frontend/js/cloud-sync.js` (2 keys nuevas en SYNC_REGISTRY)
+
+### Verificación
+Smoke test en preview con localStorage vacío: los 4 pasos muestran estado "empty" con CTAs correctos. Re-test con datos sintéticos: sesión generó "2 de 2 cards due", "Present Perfect intermedio a repasar", "error no_aux_negative ×1", phrase "I'll get back to you on that". Completar los 4 pasos → banner cambia a verde "¡Sesión completa!" + streak 1 día. Streak persiste tras reload.
+
+---
+
+## 🎉 CIERRE PLAN SECOND BRAIN · 3-ENG · 6 fases completas
+
+Las 6 fases del rediseño "Second Brain" de 3-ENG están desplegadas. Cubren las **5 técnicas del Modelo.md** aplicadas al dominio English:
+
+| Fase | Técnica | Feature | Storage key | Commits |
+|---|---|---|---|---|
+| **F1** | C + E | Tab Tiempos · grid 4×3 + lecciones modales | `eng_tense_progress` | 8da1088 |
+| **F2** | D (CLI/Skills) | Forja de Oraciones · `buildSentence()` | `eng_notes` (forja saves) | ccd675a |
+| **F3** | C (Canvas) | Mapa SVG · knowledge graph con 16 aristas tipadas | `eng_tense_view` | 9f1665f |
+| **F4** | B (Web Clipper) | Importador · auto-scan 13-NOT + paste | `eng_imported_lessons` | 71da1e2 |
+| **F5** | A (Karpathy) | Detector 15 patrones errores hispanos + wiki | `eng_error_log` | d3198e3 |
+| **F6** | E (Local-first) | Daily Practice Session integradora | `eng_daily_session` + `eng_practice_streak` | pending |
+
+### APIs CLI expuestas
+- `window.ENG_TENSES.{init, openLesson, mark, getProgress, buildSentence, randomSentence, openForja, switchView, TENSE_EDGES, SUBJECTS, VERBS}`
+- `window.ENG_IMPORT.{scan, extract, importItems, log, openTab}`
+- `window.ENG_ERRORS.{analyze, highlight, save, log, wiki, openTab, PATTERNS}`
+- `window.ENG_PRACTICE.{session, markStep, streak, regenerate, openTab}`
+
+### Loop de aprendizaje completo
+**Importás** lecciones de Platzi en F4 → vocab va al SRS, frases a Notes → **F6** te recuerda repasar el SRS diariamente · **F5** detecta errores en lo que escribís y los acumula en tu wiki personal → **F6** te muestra tu error #1 cada día y te lleva a la **lección F1** correspondiente → **F2** te deja forjar oraciones correctas en ese tense → **F3** te muestra el mapa de cómo ese tense se relaciona con los demás → ciclo cierra y vuelves a empezar más fluido.
+
+### Próximos angles posibles
+(a) Export sesión diaria a iCal/calendar · (b) "modo Sprint" 30 min · (c) integration con Dojo TTS+STT para shadowing del phrase del día · (d) leaderboard cross-device del streak · (e) `ENG_IMPORT.createNotebook()` para crear el cuaderno English en 13-NOT desde la CLI.
+
+---
+
 ## 🇺🇸 3-ENG · F5 · Detector de errores hispanos (Karpathy-style) — 2026-05-25
 
 ### Qué cambió

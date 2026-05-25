@@ -136,6 +136,25 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Fix in-flight: bug "She workworks" en suggest de third_sg_no_s corregido (concat doble del verbo) → ahora devuelve "She works" correctamente.
 - Next: F6 — Auto-feed scheduled de vocab importado al SRS deck. Tras F6 cierra el plan de 6 fases del rediseño Second Brain de 3-ENG.
 
+### ID:3-ENG.P3 · F6 · 2026-05-25 · CIERRE PLAN SECOND BRAIN
+- Commit: <pending>
+- Files: frontend/js/eng-practice.js (NEW · ~340 líneas IIFE · sesión diaria + streak) · frontend/english.html (2 edits: #dailySession placeholder + script tag) · frontend/css/english.css (+~80 líneas bloque "F6 · DAILY PRACTICE SESSION") · frontend/js/cloud-sync.js (eng_daily_session + eng_practice_streak añadidos a SYNC_REGISTRY)
+- Changed: F6 cierra el plan de 6 fases del rediseño Second Brain. Ejecuta la **técnica E (Local-first learning)** del Modelo: integra F1-F5 en una rutina diaria personalizada que pega los pedazos en un único loop de aprendizaje.
+  - **Banner "Tu sesión de hoy"** arriba del hero, siempre visible al entrar al módulo. Colapsable. Muestra progreso 0/4 + streak.
+  - **Generador de 4 pasos** que pulla datos de F1-F5:
+    - **🃏 SRS**: N cards "due" hoy (con cap de 5). Si deck vacío → CTA a F4 Importar.
+    - **⏰ Tense**: pick determinístico por prioridad — primero `viewed + !mastered` (de basic a advanced), luego `untouched` de menor nivel, finalmente repaso advanced si todo dominado.
+    - **🔍 Error #1**: top patrón del wiki F5 ordenado por frecuencia, con last sample + regla + link a lección F1 cuando aplica.
+    - **💬 Phrase**: random determinístico-por-fecha desde `eng_notes` con stamp:phrase/idea.
+  - **Streak tracker** en `eng_practice_streak` con count + lastDate + max. Se incrementa solo cuando los 4 pasos están marcados hechos. Se rompe si pasa un día sin completar (+1 si días=1 con la última fecha, reset a 1 si días≠1).
+  - **UX rico**: barra de progreso animada, checkboxes redondos con pop animation al marcar, banner cambia de violeta a verde cuando completo, mensaje "¡Vuelve mañana para mantener el streak.", botón "↻ Regenerar sesión" (con confirm).
+  - **Cross-fase navigation**: cada paso tiene botón "→ Ir a [feature]" que cambia de tab y, en el caso del tense, abre el modal de lección F1 directamente.
+  - **API CLI**: `window.ENG_PRACTICE.{session, markStep, streak, regenerate, openTab}`.
+  - **Sincronización**: `eng_daily_session` + `eng_practice_streak` añadidos a SYNC_REGISTRY → racha cross-device.
+- Verificación: smoke test en preview con localStorage vacío (todos los pasos muestran estado "empty" con CTA correcto al tab faltante). Re-test con datos sintéticos poblados (deck SRS, tense progress, error log, eng_notes) — sesión generó correctamente los 4 pasos personalizados ("2 de 2 cards due", "Present Perfect intermedio a repasar", error "no_aux_negative ×1 con sample I no understand", phrase "I'll get back to you on that"). Completar los 4 → banner cambia a verde "¡Sesión completa de hoy!" + "streak 1 día". Streak persiste en localStorage. Mensaje de cierre mostrado.
+- **CIERRE DEL PLAN**: las 6 fases del rediseño Second Brain de 3-ENG están completas. F1 (grid + lecciones · técnica C+E) · F2 (Forja + buildSentence · técnica D) · F3 (mapa SVG · técnica C) · F4 (importador · técnica B) · F5 (detector errores · técnica A) · F6 (sesión diaria · técnica E integradora). Cubre las 5 técnicas del Modelo.md aplicadas al dominio English.
+- Next: NO rehacer ninguna fase. Next-angles posibles: (a) export de la sesión diaria a calendar/iCal (b) "modo Sprint" con sesión intensiva de 30 min (c) integration con Dojo (TTS+STT) para shadowing del phrase del día (d) cross-device streak leaderboard (e) generar el cuaderno English en 13-NOT vía CLI ENG_IMPORT.createNotebook(). Verificar que F1-F6 sigan funcionales antes de extender.
+
 ## 🌐 Project-Wide Prompts (3)
 
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".
