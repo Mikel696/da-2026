@@ -45,6 +45,7 @@
   <!-- Tabs -->
   <div class="tabs">
     <button class="tab on" data-p="surv">📖 Vocabulary</button>
+    <button class="tab" data-p="tense">⏰ Tiempos</button>
     <button class="tab" data-p="gram">🧠 Grammar</button>
     <button class="tab" data-p="und">👂 Understand</button>
     <button class="tab" data-p="conv">💬 Conversations</button>
@@ -65,6 +66,16 @@
     <div class="tipbox"><b>💡 Quick Method</b><p><strong>Read each example out loud 3 times.</strong> Use 🔊 to compare your pronunciation. Your brain retains contexts, not lists.</p></div>
     <div class="cp" id="sC"></div>
     <div id="sL"></div>
+  </div>
+
+  <!-- Tiempos Verbales -->
+  <div class="pnl" id="p-tense">
+    <div class="sl">· 12 tiempos verbales · F1 ·</div>
+    <div class="sd">Haz clic en cualquier celda para abrir la lección: fórmula, palabras señal, ejemplos, trampa hispana y top de errores. Marca un tiempo como dominado cuando te sientas cómodo construyendo oraciones con él.</div>
+    <div class="tipbox"><b>💡 Cómo leer este grid</b><p><strong>Filas = tiempo (Pasado / Presente / Futuro)</strong>. <strong>Columnas = aspecto</strong>: Simple (acción puntual), Continuous (en progreso), Perfect (terminado/conectado), Perfect Continuous (duración).</p></div>
+    <div id="tenseStats"></div>
+    <div id="tenseGrid"></div>
+    <div id="tenseModal" class="tl-host"></div>
   </div>
 
   <!-- Grammar -->
@@ -162,6 +173,8 @@
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js"></script>
 <script src="js/eng.js"></script>
+<script src="js/eng-tenses.js"></script>
 <script src="js/english.js" defer></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{if(window.ENG_TENSES)ENG_TENSES.init();});</script>
 </body>
 </html>

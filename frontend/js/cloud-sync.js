@@ -268,7 +268,7 @@ const CLOUD = (() => {
   const SYNC_REGISTRY = [
     // Arrays — user-generated data
     'sb_goals', 'sb_habits', 'sb_reviews', 'sb_notes2', 'sb_ratings',
-    'eng_notes', 'eng_srs_deck',
+    'eng_notes', 'eng_srs_deck', 'eng_tense_progress',
     'ruta_log5', 'news_saved',
     // Opaque state objects
     'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sys_notebook_meta', 'sim_interview_chks', 'plab_h',

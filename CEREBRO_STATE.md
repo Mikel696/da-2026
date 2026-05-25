@@ -1,8 +1,41 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-19d
+- **Última actualización:** 2026-05-25
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🇺🇸 3-ENG · F1 · Tab ⏰ Tiempos Verbales (rediseño Second Brain) — 2026-05-25
+
+### Qué cambió
+Arrancó el rediseño "Second Brain" de 3-ENG con la **F1** del plan 6-fases. Foco en el dolor real del usuario: "no sé los tiempos verbales". Fusión de las 5 técnicas (A Karpathy / B Web Clipper / C Canvas / D CLI / E Local-first) — esta fase ejecuta principalmente C+E con la espina dorsal del módulo.
+
+### Entregado
+- **Nueva pestaña `⏰ Tiempos`** entre Vocabulary y Grammar.
+- **Grid 4×3** de los 12 tiempos del inglés: filas = Pasado/Presente/Futuro · columnas = Simple/Continuous/Perfect/Perfect Continuous.
+- **Modal de lección** por celda con: fórmulas (afirmativo/negativo/pregunta), palabras señal, 3 ejemplos data-analyst con TTS, **trampa hispana** destacada, top de errores comunes y verbos irregulares clave.
+- **Stats bar**: Vistos / Dominados / barra % del curso.
+- **Estados visuales**: untouched / viewed (ámbar) / mastered (verde con 🌟) + ring inferior por nivel (basic verde · intermediate ámbar · advanced rojo).
+- **API CLI** `window.ENG_TENSES.{init, openLesson, mark, getProgress, closeModal}` expuesta para Copilot/sub-agents.
+- **Sync cross-device** vía `eng_tense_progress` añadido al SYNC_REGISTRY.
+
+### Archivos
+- ➕ `frontend/data/tenses.json` (NUEVO · 12 tiempos curados manualmente · sin alucinación)
+- ➕ `frontend/js/eng-tenses.js` (NUEVO · ~290 líneas IIFE)
+- ✏️ `frontend/english.html` (3 edits: tab + panel + script boot)
+- ✏️ `frontend/css/english.css` (+~120 líneas bloque "F1 · TIEMPOS VERBALES")
+- ✏️ `frontend/js/cloud-sync.js` (1 línea · `eng_tense_progress` añadido al SYNC_REGISTRY)
+
+### Verificación
+Preview corrido en localhost:3456. La pestaña aparece, las 12 celdas se rendean, el modal abre con todo el contenido, "Marcar como dominado" persiste en localStorage y el grid se actualiza en vivo (1/12 Vistos, 1 Dominado, 8% del curso confirmado).
+
+### Pendiente (Fases F2-F6)
+- **F2**: Forja de Oraciones (builder tense+mood+subject+verb) + `ENG_TENSES.buildSentence()`.
+- **F3**: Vista Canvas global del módulo como knowledge graph (técnica C).
+- **F4**: Importador del cuaderno "English" / Platzi desde 13-NOT (técnica B).
+- **F5**: Detector top-10 errores hispanos en texto del usuario (técnica A).
+- **F6**: Auto-feed de vocab importado → SRS deck.
 
 ---
 
