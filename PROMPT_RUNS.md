@@ -167,3 +167,11 @@ The user runs the same prompt multiple times across sessions. Without history:
 ---
 
 *Created 2026-05-15 · Fase D · token-saving overhaul.*
+
+---
+
+### ID:10-SYS.P2 · 2026-05-26
+- Commit: a7e77ce
+- Files: systems_logic.js, systems.html, CEREBRO_STATE.md
+- Changed: Audit READ-ONLY completo · Tier A aplicado: CALENDAR['26V02'] completado (gradeClose2+periodClose), renderDeadlines() en Tab 2, english_beginner enriquecida (profesor+horario), CSS transition fix
+- Next: Tier B — conectar Chrome MCP o pegar syllabus CDigital para Bloque 2 de ing_web/mat_especiales/inv_ciencia y actividades de A1I01+CE1026 → bump SEED_VERSION 6
