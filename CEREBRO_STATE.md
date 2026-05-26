@@ -1,8 +1,31 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-25
+- **Última actualización:** 2026-05-26
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ⚙️ 10-SYS · Tier A · Audit + Calendar Upgrade — 2026-05-26
+
+### Qué cambió
+Audit READ-ONLY completo + 4 mejoras Tier A aplicadas sin tocar datos inventados.
+
+### Entregado
+- **`english_beginner` enriquecida:** profesor `CINDY PAOLA MORENO`, horario `Lunes 7:00 PM`, link directo a CDigital — datos verificados de `academic-8vo.json`.
+- **`CALENDAR['26V02']` completado:** añadidos `gradeClose2` (Jul 14-19) y `periodClose` (Jul 20-26), derivados del patrón oficial 26V01. Tab 2 ya muestra eventos para todo el semestre.
+- **`renderDeadlines()` — nueva función:** sección "Entregas pendientes por materia" en Tab 2. Lee `sys_tasks` dinámicamente, ordena por vencimiento, agrupa por materia, semáforos P0-P3 en tiempo real. Funciona para las 5 materias sin inventar datos.
+- **CSS fix:** `.atask { transition: all .2s }` → `transition: border-color .2s, background .2s, transform .2s`.
+
+### Pendiente (Tier B — requiere Chrome MCP o syllabus pegado)
+- Tareas de **Bloque 2** para ing_web, mat_especiales, inv_ciencia (Quiz 4/5, Parcial 3/4, ACA B2)
+- Actividades de **A1I01 English Beginner** con fechas reales
+- Fecha del test **CE1026 Placement Test**
+- Cuando haya datos: bump SEED_VERSION a 6, añadir a VERIFIED_SUBJECTS
+
+### Archivos
+- ✏️ `frontend/systems_logic.js` (3 edits: SUBJECTS[3], CALENDAR['26V02'], renderDeadlines + render())
+- ✏️ `frontend/systems.html` (2 edits: transition CSS, div#deadlinesBySubject en Tab 2)
 
 ---
 

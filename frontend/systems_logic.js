@@ -18,7 +18,7 @@ const SYS = (() => {
     { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', cdigital_id: 104362, schedule: 'Miércoles 6:15 PM', subject_links: { clase: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524', grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525', material: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526', reglas: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282' }, desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
     { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'Juan Sebastián Cortés Cruz', professor_email: 'juan_cortesc@cun.edu.co', cdigital_id: 101285, schedule: 'Miércoles y Viernes · 6:15-7:45 PM (Google Meet)', subject_links: { clase: 'https://meet.google.com/tcx-apcm-dey', grabaciones: 'https://drive.google.com/drive/folders/1blfMmlYoI9r30v11cLFNef9rYV41qHHT?usp=sharing', material: 'https://drive.google.com/drive/folders/1kDKLX_mVXxHJZDdD7wT4p3jnLZhp-4ju?usp=sharing' }, desc: 'Números complejos, transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
     { id: 'inv_ciencia', code: 'DIS36', name: 'Investigación Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', cdigital_id: 104253, desc: 'Metodología de investigación, estado del arte, proyecto de aula, artículos científicos, normas APA, desinformación.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
-    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', cdigital_id: 100774, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
+    { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', professor: 'CINDY PAOLA MORENO', schedule: 'Lunes 7:00 PM', cdigital_id: 100774, subject_links: { clase: 'https://cdigital.cun.edu.co/course/view.php?id=100774' }, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
     { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', cdigital_id: 106289, desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/course/view.php?id=106289'] },
   ];
 
@@ -41,7 +41,7 @@ const SYS = (() => {
         { label: 'Matrícula extraordinaria (+20%)', start: '2026-01-25', end: '2026-01-31' },
       ]
     },
-    '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' }, gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' } },
+    '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' }, gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' }, gradeClose2: { start: '2026-07-14', end: '2026-07-19', label: 'Cierre notas Bloque 2' }, periodClose: { start: '2026-07-20', end: '2026-07-26', label: 'Cierre período' } },
     '26V03': { label: 'Período 26V03', academic: { start: '2026-05-25', end: '2026-09-27' }, block1: { start: '2026-05-25', end: '2026-07-19', label: 'Primer Bloque' }, block2: { start: '2026-07-20', end: '2026-09-27', label: 'Segundo Bloque' } },
     '26V04': { label: 'Período 26V04', academic: { start: '2026-08-03', end: '2026-11-22' }, block1: { start: '2026-08-03', end: '2026-09-27', label: 'Primer Bloque' }, block2: { start: '2026-09-28', end: '2026-11-22', label: 'Segundo Bloque' } },
     '26V05': { label: 'Período 26V05', academic: { start: '2026-09-28', end: '2027-01-17' }, block1: { start: '2026-09-28', end: '2026-11-22', label: 'Primer Bloque' }, block2: { start: '2026-11-23', end: '2027-01-17', label: 'Segundo Bloque' } },
@@ -782,12 +782,59 @@ const SYS = (() => {
       </div>`;
   }
 
+  // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) ──
+  function renderDeadlines() {
+    const el = document.getElementById('deadlinesBySubject');
+    if (!el) return;
+    const today = todayStr();
+    const pending = getTasks().filter(t => !t.done && t.due);
+    if (!pending.length) {
+      el.innerHTML = `<div class="cs-empty">Sin tareas con fecha asignada. Agrégalas desde el Dashboard o la pestaña Materias.</div>`;
+      return;
+    }
+    pending.sort((a, b) => a.due.localeCompare(b.due));
+    const subjMap = Object.fromEntries(SUBJECTS.map(s => [s.id, s]));
+    const bySubj = {};
+    pending.forEach(t => {
+      const s = subjMap[t.subj] || { id: t.subj, name: 'General', icon: '📌', color: 'hsl(0,0%,50%)', code: '' };
+      if (!bySubj[s.id]) bySubj[s.id] = { s, tasks: [] };
+      bySubj[s.id].tasks.push(t);
+    });
+    el.innerHTML = Object.values(bySubj).map(({ s, tasks }) => {
+      const rows = tasks.map(t => {
+        const d = daysBetween(today, t.due);
+        const sc = d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
+        const dl = d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+        return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
+          <span class="sem ${sc}" style="flex-shrink:0;min-width:56px;justify-content:center">${dl}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0">${formatDate(t.due)}</span>
+          <span style="font-size:12px;flex:1">${esc(t.text)}</span>
+        </div>`;
+      }).join('');
+      const urgentCount = tasks.filter(t => { const d = daysBetween(today, t.due); return d < 0 || d <= 2; }).length;
+      return `<div class="gc" style="margin-bottom:8px;padding:14px 16px">
+        <div class="gc-h" style="margin-bottom:10px">
+          <div class="gc-t">
+            <span>${s.icon}</span><span>${esc(s.name)}</span>
+            ${s.code ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)">${s.code}</span>` : ''}
+          </div>
+          <div style="display:flex;gap:4px;align-items:center">
+            ${urgentCount ? `<span class="sem sem-p0">${urgentCount} urgente${urgentCount > 1 ? 's' : ''}</span>` : ''}
+            <span class="sem sem-p3">${tasks.length} tarea${tasks.length > 1 ? 's' : ''}</span>
+          </div>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+  }
+
   function render() {
     renderStats();
     renderActionNow();
     renderSemaphore();
     renderSubjectDetail();
     renderCalendar();
+    renderDeadlines();
     renderQuickAccess();
     renderMalla();
     renderCerts();
