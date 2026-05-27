@@ -96,7 +96,10 @@
     <div class="apa-section">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600">📑 Secciones del documento</div>
-        <button class="btn bp bs" onclick="APA.openSectionPicker()">+ Agregar sección</button>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn bp bs" onclick="APA.openSmartPaste()" title="Pega texto crudo y deja que el motor lo divida automáticamente en secciones APA" style="background:linear-gradient(135deg,var(--vi),#a78bfa)">📥 Pegar texto APA</button>
+          <button class="btn bp bs" onclick="APA.openSectionPicker()">+ Agregar sección</button>
+        </div>
       </div>
       <div id="apaSections"></div>
       <div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic;line-height:1.6">💡 Las secciones se renderizan en el orden que aparecen acá. Usá ↑↓ para reordenar. Cambiá el tipo desde el dropdown de cada sección.</div>

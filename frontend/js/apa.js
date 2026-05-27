@@ -21,14 +21,21 @@ const APA = (function(){
   let _saveTimer = null;
   let _filling = false; // guard: when true, snapshot() must not write back
 
-  // 10-SYS subjects (verified period 26V02)
+  // 10-SYS subjects · sincronizadas con SUBJECTS array de systems_logic.js
+  // Cambios: añadir nueva materia acá Y en systems_logic.js (single source of truth visual).
   const SUBJECTS = [
-    { id: 'ing_web', code: 'DIS34', name: 'Ingeniería Web', professor: 'BECERRA RAMIREZ HEYNER LEONEL' },
-    { id: 'mat_especiales', code: 'DIS31', name: 'Matemáticas Especiales', professor: 'Juan Sebastián Cortés Cruz' },
-    { id: 'inv_ciencia', code: 'DIS36', name: 'Investigación en C&T', professor: 'CORTES TOBAR DARIO FERNANDO' },
-    { id: 'english_b1', code: 'A1I01', name: 'Virtual English Beginner 1', professor: '' },
-    { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', professor: '' },
-    { id: 'other', code: '', name: '— Otra (escribir manualmente) —', professor: '' },
+    // ── Bloque I (Mar 30 - May 24) ──
+    { id: 'ing_web',            code: 'DIS34',   group: '52211', name: 'Ingeniería Web',                       professor: 'BECERRA RAMIREZ HEYNER LEONEL' },
+    { id: 'mat_especiales',     code: 'DIS31',   group: '52247', name: 'Matemáticas Especiales',               professor: 'Juan Sebastián Cortés Cruz'   },
+    { id: 'inv_ciencia',        code: 'DIS36',   group: '52218', name: 'Investigación Ciencia y Tecnología',   professor: 'CORTES TOBAR DARIO FERNANDO'  },
+    // ── Bloque II (May 25 - Jul 19) ──
+    { id: 'admin_bd',           code: 'DIS-BD',  group: '52291', name: 'Administración de Bases de Datos',     professor: 'Sergio Alexander Mora Novoa'  },
+    { id: 'calidad_sw',         code: 'DIS-CSW', group: '52278', name: 'Calidad del Software',                 professor: 'Alexander Calderón Martínez'  },
+    { id: 'redes_inalambricas', code: 'DIS-RWL', group: '',      name: 'Redes Inalámbricas',                   professor: ''                            },
+    // ── Continuas / Idiomas ──
+    { id: 'english_beginner',   code: 'A1I01',   group: '50608', name: 'Virtual English Beginner 1',           professor: 'CINDY PAOLA MORENO'           },
+    { id: 'placement_test',     code: 'CE1026',  group: '5TB01', name: 'Placement Test BE Plus',               professor: ''                            },
+    { id: 'other',              code: '',        group: '',      name: '— Otra (escribir manualmente) —',      professor: ''                            },
   ];
 
   // Section types — `mode` controls APA preview rendering style and
@@ -90,8 +97,11 @@ const APA = (function(){
   }
   function newSecId(){ return 's_' + Date.now() + Math.random().toString(36).slice(2,6); }
 
-  /* ── Migration: legacy fields → sections[] ──────────────── */
+  /* ── Migration: legacy fields → sections[] + subjectId rename ─── */
+  const SUBJ_ID_RENAMES = { english_b1: 'english_beginner' };
   function migrateDoc(d){
+    // Subject ID renames (forward compat)
+    if (d.subjectId && SUBJ_ID_RENAMES[d.subjectId]) d.subjectId = SUBJ_ID_RENAMES[d.subjectId];
     if (Array.isArray(d.sections)) return d;
     d.sections = [];
     if (d.abstract && d.abstract.trim()) d.sections.push({ id: newSecId(), type: 'abstract', title: '', content: d.abstract });
@@ -132,18 +142,46 @@ const APA = (function(){
     };
   }
 
+  /* ── Merge overrides desde 10-SYS · sys_subjects_custom ──────
+   *  Si el usuario editó una materia en el módulo 10-SYS (ej: añadir
+   *  profesor a Redes Inalámbricas), esos cambios viven en
+   *  localStorage.sys_subjects_custom. Acá los mezclamos sobre los
+   *  defaults hardcoded para que APA refleje siempre lo último. */
+  function getSubjectsMerged(){
+    let custom = [];
+    try { custom = JSON.parse(localStorage.getItem('sys_subjects_custom') || '[]'); }
+    catch { custom = []; }
+    const overMap = Object.fromEntries(custom.map(c => [c.id, c]));
+    return SUBJECTS.map(s => {
+      const o = overMap[s.id];
+      if (!o) return s;
+      return {
+        ...s,
+        // Preserve original code/name when override no las tiene
+        code:      o.code      || s.code,
+        group:     o.group     || s.group,
+        name:      o.name      || s.name,
+        professor: o.professor || s.professor,
+      };
+    });
+  }
+
   /* ── Subject dropdown ───────────────────────────────────── */
   function buildSubjectDropdown(){
     const sel = document.getElementById('apaSubject'); if (!sel) return;
-    sel.innerHTML = SUBJECTS.map(s =>
+    const subs = getSubjectsMerged();
+    sel.innerHTML = subs.map(s =>
       `<option value="${s.id}">${s.code ? s.code + ' · ' : ''}${s.name}</option>`
     ).join('');
     sel.addEventListener('change', () => {
       if (_filling) return;
-      const subject = SUBJECTS.find(s => s.id === sel.value);
+      const all = getSubjectsMerged();
+      const subject = all.find(s => s.id === sel.value);
       const profEl = document.getElementById('apaProfessor');
-      if (subject && subject.professor && profEl && !profEl.value) {
-        profEl.value = subject.professor;
+      if (subject && subject.professor && profEl) {
+        const cur = (profEl.value || '').trim();
+        const fromCatalog = all.some(s => s.professor && s.professor === cur);
+        if (!cur || fromCatalog) profEl.value = subject.professor;
       }
       schedulePreview();
     });
@@ -217,7 +255,7 @@ const APA = (function(){
     const d = getActive(); if (!d) return null;
     d.kind = document.getElementById('apaKind').value;
     d.subjectId = document.getElementById('apaSubject').value;
-    const subj = SUBJECTS.find(s => s.id === d.subjectId);
+    const subj = getSubjectsMerged().find(s => s.id === d.subjectId);
     d.subjectName = subj ? (subj.code ? subj.code + ' · ' + subj.name : subj.name) : '';
     d.title = document.getElementById('apaTitle').value;
     d.institution = document.getElementById('apaInstitution').value;
@@ -254,6 +292,164 @@ const APA = (function(){
     snapshotHeader();
     clearTimeout(_saveTimer);
     _saveTimer = setTimeout(() => { persist(); renderList(); renderPreview(); }, 350);
+  }
+
+  /* ── SMART PASTE — analiza texto crudo y lo divide en secciones APA ── */
+  // Mapa de palabras-clave → tipo de sección (case-insensitive, sin tildes/acentos)
+  const HEADING_PATTERNS = [
+    { type: 'abstract',       re: /^(resumen|abstract|sintesis|síntesis)\s*\.?\s*$/i },
+    { type: 'introduction',   re: /^(introducci[oó]n|introduction)\s*\.?\s*$/i },
+    { type: 'background',     re: /^(marco\s+te[oó]rico|background|antecedentes|estado\s+del\s+arte|marco\s+conceptual)\s*\.?\s*$/i },
+    { type: 'methodology',    re: /^(metodolog[ií]a|methodology|m[eé]todo|materiales\s+y\s+m[eé]todos|dise[ñn]o\s+metodol[oó]gico)\s*\.?\s*$/i },
+    { type: 'results',        re: /^(resultados|results|hallazgos|findings)\s*\.?\s*$/i },
+    { type: 'discussion',     re: /^(discusi[oó]n|discussion|an[aá]lisis\s+de\s+resultados)\s*\.?\s*$/i },
+    { type: 'conclusion',     re: /^(conclusiones?|conclusion[es]?)\s*\.?\s*$/i },
+    { type: 'recommendation', re: /^(recomendaciones?|recommendations?)\s*\.?\s*$/i },
+    { type: 'references',     re: /^(referencias|references|bibliograf[ií]a|bibliography)\s*\.?\s*$/i },
+    { type: 'appendix',       re: /^(anexos?|appendix|appendices)\s*\.?\s*$/i },
+  ];
+
+  /** Detecta si una línea actúa como heading. Heurística:
+   *  · longitud <= 80 chars
+   *  · no termina en '.', ',', ':', ';' (a menos que sea solo un keyword)
+   *  · matchea una palabra-clave APA, o es markdown (#/##/###),
+   *    o es una línea solitaria en MAYÚSCULAS (estilo títulos).
+   *  Devuelve { type, label } si es heading, null si no. */
+  function detectHeading(line){
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.length > 80) return null;
+    // Markdown
+    const md = trimmed.match(/^(#{1,3})\s+(.+)$/);
+    if (md) {
+      const text = md[2].replace(/[*_`]/g,'').trim();
+      // Try to match a keyword inside markdown heading text
+      for (const p of HEADING_PATTERNS) if (p.re.test(text)) return { type: p.type, label: text };
+      return { type: 'custom', label: text };
+    }
+    // Keyword match (sin numeración previa)
+    const cleaned = trimmed.replace(/^[0-9.\-)\s]+/, '').replace(/[*_]/g,'');
+    for (const p of HEADING_PATTERNS) if (p.re.test(cleaned)) return { type: p.type, label: cleaned };
+    // UPPER CASE solitario (heurística agresiva — solo si la línea entera está en mayúsculas y no termina en . o : sin más texto en la línea)
+    if (trimmed.length >= 4 && trimmed.length <= 50 && trimmed === trimmed.toUpperCase() && /^[A-ZÁÉÍÓÚÑ\s]+$/.test(trimmed)) {
+      // Verificar si el siguiente párrafo NO está en mayúsculas (sino sería un párrafo todo-caps por error)
+      return { type: 'custom', label: trimmed.charAt(0) + trimmed.slice(1).toLowerCase() };
+    }
+    return null;
+  }
+
+  /** Toma texto crudo y devuelve un array de secciones APA. */
+  function smartParse(text){
+    if (!text || !text.trim()) return [];
+    // Normalizar: \r\n → \n, colapsar 3+ saltos a 2
+    const norm = text.replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    const lines = norm.split('\n');
+    const sections = [];
+    let current = { type: 'body', title: '', buf: [] };
+    const push = () => {
+      const content = current.buf.join('\n').trim();
+      if (content || current.title) sections.push({ id: newSecId(), type: current.type, title: current.title, content });
+    };
+    for (let i = 0; i < lines.length; i++) {
+      const head = detectHeading(lines[i]);
+      if (head) {
+        push();
+        current = { type: head.type, title: head.type === 'custom' ? head.label : '', buf: [] };
+      } else {
+        current.buf.push(lines[i]);
+      }
+    }
+    push();
+    // Si no se detectó ninguna sección titulada y todo cayó en un solo "body",
+    // dejamos eso como un único body. Si se detectó al menos una titulada,
+    // mantenemos la estructura.
+    return sections.filter(s => s.content || s.title);
+  }
+
+  /** Abre modal donde pegar texto crudo. */
+  function openSmartPaste(){
+    if (!getActive()) { alert('Creá un documento primero (botón "+ Nuevo" arriba a la izquierda).'); return; }
+    let ov = document.getElementById('apaPasteOv');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'apaPasteOv';
+      ov.className = 'apa-pick-overlay';
+      ov.innerHTML = `<div class="apa-pick-modal" style="max-width:780px" onclick="event.stopPropagation()">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <h3>📥 Pegar texto · APA Auto-formato</h3>
+          <button class="btn bo bs" onclick="APA.closeSmartPaste()">✕</button>
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px;line-height:1.6">
+          Pegá tu texto (essay, borrador, notas). El motor detecta automáticamente los <b>encabezados</b>
+          (Resumen, Introducción, Metodología, Resultados, Conclusiones, Referencias, etc.) y crea las
+          secciones APA en el orden correcto. Soporta <code>#</code> markdown y líneas en MAYÚSCULAS.
+        </div>
+        <textarea id="apaPasteTxt" class="inp" style="width:100%;min-height:280px;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.6;padding:10px" placeholder="Pegá acá. Ejemplo:&#10;&#10;Resumen&#10;Este trabajo analiza... (texto del resumen)&#10;&#10;Introducción&#10;En los últimos años...&#10;&#10;Metodología&#10;Se realizó un estudio cualitativo...&#10;&#10;Referencias&#10;Apellido, N. (Año). Título. Editorial.&#10;Otro autor (Año). Otro título."></textarea>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <label style="font-size:11px;display:flex;align-items:center;gap:6px;color:var(--t2)">
+            <input type="radio" name="apaPasteMode" id="apaPasteAppend" value="append" checked>
+            Añadir al final (preserva secciones existentes) <span style="color:var(--t3)">— seguro</span>
+          </label>
+          <label style="font-size:11px;display:flex;align-items:center;gap:6px;color:var(--rd)">
+            <input type="radio" name="apaPasteMode" id="apaPasteReplace" value="replace">
+            Reemplazar todas las secciones existentes
+          </label>
+          <span style="flex:1"></span>
+          <button class="btn bo" onclick="APA.previewSmartPaste()">👁 Previsualizar detección</button>
+          <button class="btn bp" onclick="APA.applySmartPaste()">✨ Aplicar formato APA</button>
+        </div>
+        <div id="apaPastePreview" style="margin-top:10px;font-size:11px;color:var(--t2);max-height:200px;overflow-y:auto;background:var(--el);border:1px solid var(--bd);border-radius:6px;padding:10px;display:none"></div>
+      </div>`;
+      ov.addEventListener('click', e => { if (e.target === ov) closeSmartPaste(); });
+      document.body.appendChild(ov);
+    }
+    document.getElementById('apaPasteTxt').value = '';
+    document.getElementById('apaPastePreview').style.display = 'none';
+    ov.classList.add('on');
+  }
+
+  function closeSmartPaste(){
+    const ov = document.getElementById('apaPasteOv'); if (ov) ov.classList.remove('on');
+  }
+
+  function previewSmartPaste(){
+    const txt = document.getElementById('apaPasteTxt').value;
+    const secs = smartParse(txt);
+    const out = document.getElementById('apaPastePreview');
+    if (!secs.length) {
+      out.style.display = 'block';
+      out.innerHTML = '<i>No se detectaron secciones. El texto se agregará como un único bloque "Cuerpo".</i>';
+      return;
+    }
+    out.style.display = 'block';
+    out.innerHTML = '<b>Se detectaron ' + secs.length + ' sección' + (secs.length>1?'es':'') + ':</b><br>' +
+      secs.map((s,i) => {
+        const tp = SECTION_TYPES[s.type] || SECTION_TYPES.custom;
+        const head = (s.type === 'custom' && s.title) ? s.title : tp.heading || tp.label.replace(/^[^\w]+\s/,'');
+        const wc = (s.content || '').split(/\s+/).filter(Boolean).length;
+        return `<div style="padding:4px 0;border-bottom:1px solid var(--bd)">${i+1}. <b>${esc(head)}</b> <span style="color:var(--t3)">· ${tp.label.split(' ')[0]} · ${wc} palabras</span></div>`;
+      }).join('');
+  }
+
+  function applySmartPaste(){
+    const d = getActive(); if (!d) return;
+    const txt = document.getElementById('apaPasteTxt').value;
+    const secs = smartParse(txt);
+    if (!secs.length && !txt.trim()) { alert('Pegá texto primero.'); return; }
+    const mode = document.querySelector('input[name="apaPasteMode"]:checked')?.value || 'append';
+    // Si el parse no detectó nada, creamos un único body
+    const newSections = secs.length ? secs : [{ id: newSecId(), type: 'body', title: '', content: txt.trim() }];
+    if (mode === 'replace') {
+      if (!confirm('¿Reemplazar TODAS las secciones existentes? Esta acción no se puede deshacer.')) return;
+      d.sections = newSections;
+    } else {
+      d.sections = (d.sections || []).concat(newSections);
+    }
+    d.updated = new Date().toISOString();
+    persist();
+    renderSections();
+    renderPreview();
+    closeSmartPaste();
+    showStatus('✨ ' + newSections.length + ' sección' + (newSections.length>1?'es':'') + ' importada' + (newSections.length>1?'s':'') + ' en formato APA');
   }
 
   /* ── Section CRUD ───────────────────────────────────────── */
@@ -799,6 +995,7 @@ const APA = (function(){
     create, open, save, remove, kindChanged,
     openSectionPicker, closeSectionPicker, addSection, removeSection, moveSection,
     changeSectionType, updateSectionField,
+    openSmartPaste, closeSmartPaste, previewSmartPaste, applySmartPaste,
     exportPDF, exportWord, exportExcel, copyText, toggleFullPreview,
     toggleEdit, discardEdits, fmtCmd, fmtSize, fmtLineHeight,
   };
