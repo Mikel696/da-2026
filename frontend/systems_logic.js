@@ -315,9 +315,19 @@ const SYS = (() => {
     };
 
     const allSubjects = getSubjects();
-    el.innerHTML = `<div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-      <button class="tf-btn" style="background:var(--vi);font-size:12px" onclick="SYS.openSubjectModal(null)">+ Nueva materia</button>
-    </div>` + allSubjects.map(s => {
+    // Status counts for filter pills
+    const counts = { all: allSubjects.length };
+    STATUS_ORDER.forEach(st => counts[st] = 0);
+    allSubjects.forEach(s => { const st = s.status || 'en_curso'; counts[st] = (counts[st] || 0) + 1; });
+    const filterPills = `<div class="subj-filt">
+      <button class="subj-filt-pill ${_subjFilter==='all'?'on':''}" onclick="SYS.setSubjFilter('all')">Todas (${counts.all})</button>
+      ${STATUS_ORDER.map(st => counts[st] > 0 ? `<button class="subj-filt-pill ${_subjFilter===st?'on':''}" onclick="SYS.setSubjFilter('${st}')">${STATUSES[st].icon} ${STATUSES[st].label} (${counts[st]})</button>` : '').join('')}
+    </div>`;
+    const visible = _subjFilter === 'all' ? allSubjects : allSubjects.filter(s => (s.status || 'en_curso') === _subjFilter);
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">${filterPills}</div>
+      <button class="tf-btn" style="background:var(--vi);font-size:12px;flex-shrink:0" onclick="SYS.openSubjectModal(null)">+ Nueva materia</button>
+    </div>` + (visible.length === 0 ? `<div class="cs-empty">Sin materias en este estado.</div>` : '') + visible.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
       const total = subjTasks.length;
@@ -365,10 +375,21 @@ const SYS = (() => {
       // Notebook HTML per subject (rendered by NB.renderSubjectPanel)
       const nbHtml = (window.NB && NB.renderSubjectPanel) ? NB.renderSubjectPanel(s.id) : '';
 
-      return `<div class="gc" style="border-left:3px solid ${s.color}">
-        <div class="gc-h">
-          <div class="gc-t"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
-          <div style="display:flex;align-items:center;gap:6px">
+      const stCur = s.status || 'en_curso';
+      const stMeta = STATUSES[stCur] || STATUSES.en_curso;
+      const dimCard = ['ganada','perdida','retirada'].includes(stCur);
+      const stMenuHtml = `<div class="subj-st-wrap">
+        <button class="subj-st-bdg st-${stCur}" onclick="event.stopPropagation();SYS.toggleStatusMenu('${s.id}')">${stMeta.icon} ${stMeta.label} ▾</button>
+        <div class="subj-st-menu" id="stMenu-${s.id}">
+          ${STATUS_ORDER.map(st => `<button class="${st===stCur?'cur':''}" onclick="event.stopPropagation();SYS.setSubjectStatus('${s.id}','${st}')">${STATUSES[st].icon} ${STATUSES[st].label}</button>`).join('')}
+        </div>
+      </div>`;
+      return `<div class="gc${dimCard?' subj-card-dim':''}" style="border-left:3px solid ${s.color}">
+        <div class="gc-h" style="flex-wrap:wrap;gap:8px">
+          <div class="gc-t" style="flex:1;min-width:200px"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            ${stMenuHtml}
+            ${s.grade ? `<span class="sem sem-p3" style="font-size:10px" title="Nota final">📊 ${s.grade}</span>` : ''}
             ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
             <div class="subj-edit-btns">
               <button class="subj-btn-edit" onclick="SYS.openSubjectModal('${s.id}')">✏ Editar</button>
@@ -1398,7 +1419,52 @@ const SYS = (() => {
     'hsl(15,70%,50%)','hsl(160,60%,40%)','hsl(0,65%,55%)','hsl(35,80%,50%)',
     'hsl(240,70%,60%)','hsl(190,75%,45%)','hsl(280,55%,55%)','hsl(100,55%,40%)',
   ];
+  const STATUSES = {
+    en_curso:  { label: 'En curso',  icon: '🟢' },
+    pendiente: { label: 'Pendiente', icon: '⏳' },
+    pausada:   { label: 'Pausada',   icon: '⏸' },
+    ganada:    { label: 'Ganada',    icon: '🏆' },
+    perdida:   { label: 'Perdida',   icon: '💔' },
+    retirada:  { label: 'Retirada',  icon: '🚪' },
+  };
+  const STATUS_ORDER = ['en_curso','pendiente','pausada','ganada','perdida','retirada'];
   let _smEditId = null;
+
+  function setSubjectStatus(id, status) {
+    if (!STATUSES[status]) return;
+    const custom = db.get('subjects_custom', []);
+    const idx = custom.findIndex(s => s.id === id);
+    if (idx >= 0) {
+      custom[idx].status = status;
+      custom[idx]._updated = new Date().toISOString();
+    } else {
+      custom.push({ id, status, _updated: new Date().toISOString() });
+    }
+    db.set('subjects_custom', custom);
+    closeStatusMenu();
+    render();
+  }
+
+  function toggleStatusMenu(id) {
+    document.querySelectorAll('.subj-st-menu').forEach(m => {
+      if (m.id !== 'stMenu-' + id) m.classList.remove('on');
+    });
+    const menu = document.getElementById('stMenu-' + id);
+    if (menu) menu.classList.toggle('on');
+  }
+
+  function closeStatusMenu() {
+    document.querySelectorAll('.subj-st-menu').forEach(m => m.classList.remove('on'));
+  }
+
+  // Close status menu on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.subj-st-wrap')) closeStatusMenu();
+  });
+
+  // ── SUBJECT FILTER STATE ──
+  let _subjFilter = 'all';
+  function setSubjFilter(f) { _subjFilter = f; render(); }
 
   function getSubjects() {
     const custom = db.get('subjects_custom', []);
@@ -1451,6 +1517,8 @@ const SYS = (() => {
     sv('smLinkClase', s?.subject_links?.clase || '');
     sv('smLinkGrab', s?.subject_links?.grabaciones || '');
     sv('smLinkMat', s?.subject_links?.material || '');
+    sv('smStatus', s?.status || 'en_curso');
+    sv('smGrade', s?.grade ?? '');
     document.querySelectorAll('#smColorPicks .sm-col-pick').forEach(el => el.classList.toggle('on', el.dataset.c === (s?.color || SM_COLORS[0])));
     document.getElementById('smCronoList').innerHTML = (s?.cronograma || []).map((r, i) => _crRow(r, i)).join('');
     _renderSmFiles(id);
@@ -1519,6 +1587,8 @@ const SYS = (() => {
     const lg = gv('smLinkGrab');  if (lg) sl.grabaciones = lg;
     const lm = gv('smLinkMat');   if (lm) sl.material = lm;
     const id = _smEditId || ('subj_' + Date.now());
+    const gradeRaw = gv('smGrade');
+    const grade = gradeRaw === '' ? null : parseFloat(gradeRaw);
     const subj = {
       id, name, color,
       code:      gv('smCode'),
@@ -1532,6 +1602,8 @@ const SYS = (() => {
       cdigital_id: cdigId,
       subject_links: Object.keys(sl).length ? sl : undefined,
       cronograma: _readCrono(),
+      status:    gv('smStatus') || 'en_curso',
+      grade:     grade != null && !isNaN(grade) ? grade : null,
       _custom: true,
       _updated: new Date().toISOString(),
     };
@@ -1631,7 +1703,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter };
 })();
 window.SYS = SYS;
 
