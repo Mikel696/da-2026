@@ -980,7 +980,10 @@ const SYS = (() => {
     } else if (overdue > 0) {
       heroMsg = `🚨 ${overdue} tarea${overdue!==1?'s':''} vencida${overdue!==1?'s':''}`;
       heroSub = nextTask ? `Más urgente: "${nextTask.text}"` : 'Revisa el semáforo abajo para ponerte al día.';
-      heroAction = `<div style="margin-top:8px;font-size:11px;color:var(--rd);font-weight:600">Acción: Completa las tareas vencidas ANTES de las nuevas.</div>`;
+      heroAction = `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div style="font-size:11px;color:var(--rd);font-weight:600;flex:1;min-width:200px">Acción: Completa o elimina las tareas vencidas para enfocarte en lo nuevo.</div>
+        <button onclick="SYS.deleteOverdueTasks()" style="font-size:11px;padding:6px 14px;background:rgba(239,68,68,.15);color:var(--rd);border:1px solid rgba(239,68,68,.4);border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600">⏰ Eliminar ${overdue} vencida${overdue!==1?'s':''}</button>
+      </div>`;
     } else if (thisWeek > 0) {
       heroMsg = `📋 ${thisWeek} tarea${thisWeek!==1?'s':''} para esta semana`;
       heroSub = nextTask ? `Siguiente: "${nextTask.text}" — ${nextTask.due ? formatDate(nextTask.due) : 'sin fecha'}` : '';
