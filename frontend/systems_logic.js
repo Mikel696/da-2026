@@ -431,8 +431,8 @@ const SYS = (() => {
         <!-- NOTEBOOK DROPDOWN -->
         ${nbHtml}
 
-        <!-- CRONOGRAMA (solo si tiene entradas) -->
-        ${s.cronograma && s.cronograma.length ? `<div class="sj-drop" id="sjCrono-${s.id}" style="margin-top:8px">
+        <!-- CRONOGRAMA (solo si tiene entradas · expandido por defecto) -->
+        ${s.cronograma && s.cronograma.length ? `<div class="sj-drop on" id="sjCrono-${s.id}" style="margin-top:8px">
           <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjCrono-${s.id}')">
             <div>📅 Cronograma <span class="sj-drop-count">(${s.cronograma.length} entrega${s.cronograma.length!==1?'s':''})</span></div>
             <span class="sj-drop-arr">▶</span>
@@ -1495,7 +1495,8 @@ const SYS = (() => {
   }
 
   function openSubjectModal(id) {
-    _smEditId = id || null;
+    // Si es nueva materia, generamos ID provisional para que los uploads funcionen antes del save.
+    _smEditId = id || ('subj_' + Date.now());
     const ov = document.getElementById('smOv');
     if (!ov) return;
     const cp = document.getElementById('smColorPicks');

@@ -299,6 +299,9 @@ const CLOUD = (() => {
     'jt8',
     // 10-SYS Systems Engineering · cuaderno custom activo seleccionado
     'sys_active_custom',
+    // 10-SYS Subject CRUD · materias custom (overrides + nuevas) + lista de ocultas
+    // Los binarios de adjuntos (sys_subj_files_*) viven solo local — no sync.
+    'sys_subjects_custom', 'sys_subjects_hidden',
     // 4-RUT Ruta Data Analyst · timestamp de inicio del journey
     'ruta_st',
     // ─── Bug Hunt fix · 2026-05-15j (Fase 3) ───
