@@ -141,46 +141,98 @@ const SYS = (() => {
     { sem: 10, level: 'Ingeniería de Sistemas', subjects: ['Auditoría de Sistemas','Electiva de Profundización III','Práctica Profesional','Opción de Grado Profesional'] },
   ];
 
-  // ── CERTIFICATIONS — 100% GRATIS + OFICIALES + mapeadas a tus materias ──
-  // Auditadas 2026-05-27: cada cert tiene certificado/badge oficial verificable.
-  // `subjects` mapea cada cert a las materias del 10-SYS que refuerza directamente.
-  // Se descartaron AWS/Azure/CompTIA (exámenes pagos) y Coursera (suscripción).
+  // ── CERTIFICATIONS — Roadmap completo Ing. Informática + AI + Data Science ──
+  // Auditadas 2026-05-27 · 100% GRATIS con badge/certificado oficial verificable.
+  // Curadas de las mejores universidades + academias del mundo:
+  //   · Universidades: Helsinki (Elements of AI), Harvard (CS50), Stanford
+  //   · Big Tech: Google, Microsoft, AWS, Oracle, IBM, Cisco, Hugging Face
+  //   · Academias: freeCodeCamp, Kaggle, MongoDB, Databricks, Postman
+  // Cada cert tiene: categoría (área temática), subjects (materias 10-SYS que
+  // complementa), y `featured` para destacar las TOP recomendadas.
+
+  // Categorías = áreas de aprendizaje para ser Ing. Informático con énfasis
+  // en AI y Data Science. Cada categoría tiene contexto: qué es, para qué.
+  const CERT_CATEGORIES = {
+    ai:           { name: 'Inteligencia Artificial',     icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Construye sistemas que aprenden de datos y toman decisiones. Skill #1 demandado 2026. Roles: ML Engineer, AI Researcher, NLP Engineer.' },
+    data_science: { name: 'Ciencia de Datos',            icon: '📊', color: 'hsl(43,80%,50%)',  desc: 'Extracción de insights de datos para decisiones de negocio. Roles: Data Scientist, Data Analyst, BI Engineer. Salarios top LATAM.' },
+    programming:  { name: 'Programación · Fundamentos',  icon: '💻', color: 'hsl(220,80%,55%)', desc: 'Las bases de todo: Python, JavaScript, lógica, algoritmos. Cimentar acá te da palanca para todas las demás áreas.' },
+    web:          { name: 'Desarrollo Web',              icon: '🌐', color: 'hsl(335,80%,55%)', desc: 'Frontend + Backend + APIs. Construye apps de las que viven millones. Roles: Full-stack, Frontend, Backend Developer.' },
+    databases:    { name: 'Bases de Datos',              icon: '🗄️', color: 'hsl(210,75%,50%)', desc: 'SQL + NoSQL · diseño, optimización, administración. Backbone de toda app. Roles: DBA, Data Engineer.' },
+    networks:     { name: 'Redes y Sistemas',            icon: '🔌', color: 'hsl(195,80%,45%)', desc: 'TCP/IP, routing, switching, Linux, infraestructura. Roles: Network Engineer, SysAdmin, Cloud Engineer.' },
+    security:     { name: 'Ciberseguridad',              icon: '🔒', color: 'hsl(0,70%,50%)',   desc: 'Defensa y ataque ético. Vulnerabilidades, criptografía, pentesting. Roles: Security Analyst, Pentester (alta demanda).' },
+    cloud:        { name: 'Cloud Computing',             icon: '☁️', color: 'hsl(15,80%,50%)',  desc: 'AWS, Azure, GCP, Oracle. Toda app moderna corre en cloud. Roles: Cloud Engineer, DevOps, Solutions Architect.' },
+    devops:       { name: 'DevOps · CI/CD',              icon: '🔧', color: 'hsl(263,50%,50%)', desc: 'Git, Docker, K8s, automatización. Hace la diferencia entre código que funciona y código en producción confiable.' },
+    quality:      { name: 'Calidad y Metodología',       icon: '✅', color: 'hsl(172,60%,45%)', desc: 'Testing, agile, gestión de proyectos. Sin esto, los proyectos fallan aunque el código sea bueno.' },
+    english:      { name: 'Inglés Profesional',          icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'La mayoría de docs y oportunidades top están en inglés. Sin esto, te quedas afuera del 70% del mercado.' },
+  };
+  const CERT_CATEGORY_ORDER = ['ai', 'data_science', 'programming', 'web', 'databases', 'networks', 'security', 'cloud', 'devops', 'quality', 'english'];
+
   const CERTS = [
-    // ═══ INGENIERÍA WEB (DIS34) ═══
-    { name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5, CSS3, Flexbox, Grid, accesibilidad. 300h con certificado verificable. Núcleo del frontend moderno.', tags: ['Web', 'Frontend', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', difficulty: 'Básico', time: '4-6 semanas', free: true },
-    { name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS con badge Cisco oficial. Sintaxis, DOM, eventos, async. Refuerza directamente DIS34.', tags: ['JS', 'Cisco', 'Badge'], subjects: ['ing_web'], link: 'https://www.netacad.com/courses/javascript-essentials-1', difficulty: 'Básico', time: '4 semanas', free: true },
-    { name: 'JS Algorithms & Data Structures', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6, OOP, algoritmos, programación funcional, regex. 300h · certificado oficial. Nivel intermedio.', tags: ['JS', 'Algoritmos', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
-    { name: 'API Fundamentals (Student Expert)', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST, requests, environments, tests, colecciones. Insignia oficial Postman. Aplicable a backend Web.', tags: ['API', 'REST', 'Oficial'], subjects: ['ing_web'], link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    // ═══ 🤖 INTELIGENCIA ARTIFICIAL (énfasis carrera) ═══
+    { category: 'ai', featured: true,  name: 'Elements of AI', issuer: 'Universidad de Helsinki', icon: '🎓', color: 'hsl(195,85%,50%)', desc: 'EL mejor intro a IA del mundo. ¿Qué es la IA? · ML real · ética · futuro. Certificado oficial verificable. Ya completaron +1M de personas. PUNTO DE PARTIDA OBLIGATORIO.', tags: ['IA', 'Universidad', 'TOP'], subjects: ['inv_ciencia'], link: 'https://www.elementsofai.com/', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'ai', featured: true,  name: 'Machine Learning Crash Course', issuer: 'Google', icon: '🔬', color: 'hsl(220,90%,55%)', desc: 'Curso oficial de Google. 15 horas con código real en TensorFlow. Conceptos + práctica intensiva. Badge de finalización.', tags: ['ML', 'Google', 'TensorFlow'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://developers.google.com/machine-learning/crash-course', difficulty: 'Intermedio', time: '15 horas', free: true },
+    { category: 'ai', featured: true,  name: 'Hugging Face Course (NLP + Transformers)', issuer: 'Hugging Face', icon: '🤗', color: 'hsl(45,95%,55%)', desc: 'NLP de última generación · transformers · BERT · GPT · fine-tuning. Hugging Face es el GitHub de modelos AI. Cert oficial. Necesario para AI moderna.', tags: ['NLP', 'Transformers', 'TOP'], subjects: ['inv_ciencia'], link: 'https://huggingface.co/learn/nlp-course', difficulty: 'Intermedio', time: '6-8 semanas', free: true },
+    { category: 'ai', name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn · árboles de decisión · random forests · validación cruzada. Cert oficial Kaggle. Tu primer modelo real.', tags: ['ML', 'Python', 'Kaggle'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.kaggle.com/learn/intro-to-machine-learning', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
+    { category: 'ai', name: 'Intermediate Machine Learning', issuer: 'Kaggle Learn', icon: '🎯', color: 'hsl(195,75%,45%)', desc: 'Missing values · variables categóricas · pipelines · cross-validation · XGBoost · data leakage. Continuación natural.', tags: ['ML', 'XGBoost', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/intermediate-machine-learning', difficulty: 'Intermedio', time: '2-3 semanas', free: true },
+    { category: 'ai', name: 'Deep Learning', issuer: 'Kaggle Learn', icon: '🧠', color: 'hsl(280,70%,55%)', desc: 'Redes neuronales · TensorFlow · Keras · entrenamiento · regularización. Cert Kaggle. El siguiente paso después de ML clásico.', tags: ['DL', 'Neural Nets', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/intro-to-deep-learning', difficulty: 'Intermedio-Avanzado', time: '3-4 semanas', free: true },
+    { category: 'ai', name: 'Computer Vision', issuer: 'Kaggle Learn', icon: '👁️', color: 'hsl(160,70%,45%)', desc: 'CNNs · transfer learning · data augmentation · clasificación de imágenes. Cert Kaggle. Skill clave de AI aplicada.', tags: ['CV', 'CNN', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/computer-vision', difficulty: 'Intermedio-Avanzado', time: '2-3 semanas', free: true },
+    { category: 'ai', name: 'Feature Engineering', issuer: 'Kaggle Learn', icon: '⚙️', color: 'hsl(35,80%,50%)', desc: 'Crear features que los modelos puedan aprender. Mutual information · target encoding · clustering. Donde se gana o pierde el modelo.', tags: ['ML', 'Features', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/feature-engineering', difficulty: 'Intermedio', time: '1-2 semanas', free: true },
 
-    // ═══ ADMINISTRACIÓN DE BASES DE DATOS (DIS-BD) ═══
-    { name: 'SQL (Basic)', issuer: 'HackerRank', icon: '🗄️', color: 'hsl(210,75%,50%)', desc: 'SELECT, JOIN, agregaciones, subqueries. Test cronometrado · certificado oficial verificable.', tags: ['SQL', 'BD', 'Oficial'], subjects: ['admin_bd'], link: 'https://www.hackerrank.com/skills-verification/sql_basic', difficulty: 'Básico', time: '1 semana', free: true },
-    { name: 'SQL (Intermediate)', issuer: 'HackerRank', icon: '📊', color: 'hsl(210,75%,40%)', desc: 'Window functions, CTEs, queries complejas, análisis. Certificado HackerRank. Siguiente paso después de Basic.', tags: ['SQL', 'BD', 'Oficial'], subjects: ['admin_bd'], link: 'https://www.hackerrank.com/skills-verification/sql_intermediate', difficulty: 'Intermedio', time: '2-3 semanas', free: true },
-    { name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'CRUD, queries, agregaciones, indexes en MongoDB. Certificado oficial. Complemento NoSQL a Admin BD.', tags: ['NoSQL', 'BD', 'Oficial'], subjects: ['admin_bd'], link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    // ═══ 📊 CIENCIA DE DATOS (énfasis carrera) ═══
+    { category: 'data_science', featured: true, name: 'Pandas (Data Analysis)', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'DataFrames · groupby · merge · missing data. La librería #1 para manipular datos en Python. Imprescindible para todo data scientist.', tags: ['Pandas', 'Python', 'TOP'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/pandas', difficulty: 'Básico', time: '1-2 semanas', free: true },
+    { category: 'data_science', name: 'Data Visualization', issuer: 'Kaggle Learn', icon: '📈', color: 'hsl(43,80%,50%)', desc: 'Seaborn · matplotlib · gráficos estadísticos · storytelling. Saber mostrar resultados es 50% del trabajo de un DS.', tags: ['Viz', 'Seaborn', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/data-visualization', difficulty: 'Básico', time: '1 semana', free: true },
+    { category: 'data_science', featured: true, name: 'IBM Data Science Foundations', issuer: 'IBM SkillsBuild', icon: '💎', color: 'hsl(210,85%,40%)', desc: 'Path completo IBM con badges acreditables. Big data · análisis · ML básico. Reconocido por reclutadores. Incluye proyectos reales.', tags: ['IBM', 'Badges', 'TOP'], subjects: ['inv_ciencia'], link: 'https://skillsbuild.org/students/course-catalog/data-science', difficulty: 'Básico-Intermedio', time: '8-12 semanas', free: true },
+    { category: 'data_science', name: 'Databricks Lakehouse Fundamentals', issuer: 'Databricks Academy', icon: '🏞️', color: 'hsl(0,75%,50%)', desc: 'Lakehouse · Delta Lake · Spark. Databricks es la plataforma #1 de Data + AI a escala. Cert oficial gratis. Skill diferenciador.', tags: ['BigData', 'Spark', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://customer-academy.databricks.com/learn/course/1325/databricks-lakehouse-platform-accreditation', difficulty: 'Básico-Intermedio', time: '2-3 horas', free: true },
+    { category: 'data_science', name: 'Time Series Forecasting', issuer: 'Kaggle Learn', icon: '⏱️', color: 'hsl(15,75%,50%)', desc: 'Forecasting · tendencias · estacionalidad · features cíclicos. Cert Kaggle. Aplica a finanzas, ventas, IoT.', tags: ['Forecasting', 'Python', 'Kaggle'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.kaggle.com/learn/time-series', difficulty: 'Intermedio', time: '1-2 semanas', free: true },
 
-    // ═══ REDES INALÁMBRICAS (DIS-RWL) ═══
-    { name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP, modelo OSI, routing/switching básico, WiFi. Base para CCNA. Refuerza directamente DIS-RWL.', tags: ['Redes', 'Cisco', 'Badge'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/networking-essentials', difficulty: 'Básico-Intermedio', time: '6-8 semanas', free: true },
-    { name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas, ataques, vulnerabilidades, defensa, ética. Badge Cisco oficial. Cubre seguridad inalámbrica.', tags: ['Seguridad', 'Cisco', 'Badge'], subjects: ['redes_inalambricas', 'calidad_sw'], link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', difficulty: 'Básico', time: '6 semanas', free: true },
+    // ═══ 💻 PROGRAMACIÓN · FUNDAMENTOS ═══
+    { category: 'programming', featured: true, name: 'CS50x · Introduction to Computer Science', issuer: 'HarvardX (edX)', icon: '🏛️', color: 'hsl(0,60%,40%)', desc: 'El curso más famoso del mundo. C · Python · SQL · JavaScript · algoritmos · estructuras. Cert oficial Harvard verificable. Cambia carreras. INVERSIÓN DEL AÑO.', tags: ['Harvard', 'Universidad', 'TOP'], subjects: ['ing_web', 'inv_ciencia'], link: 'https://cs50.harvard.edu/x/', difficulty: 'Básico-Intermedio', time: '10-12 semanas', free: true },
+    { category: 'programming', featured: true, name: 'PCAP · Python Programming Essentials', issuer: 'Cisco NetAcad', icon: '🐍', color: 'hsl(220,80%,55%)', desc: 'Curso oficial Python completo de Cisco (PCAP). Sintaxis · estructuras · OOP · modules · exceptions. Badge oficial. Base de toda IA / DS.', tags: ['Python', 'Cisco', 'TOP'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.netacad.com/courses/python-essentials-1', difficulty: 'Básico', time: '6-8 semanas', free: true },
+    { category: 'programming', name: 'Python (Basic + Intermediate)', issuer: 'HackerRank', icon: '✅', color: 'hsl(120,60%,40%)', desc: 'Tests cronometrados con certificado verificable. Útil para LinkedIn y portfolio. 2 niveles: Basic + Intermediate.', tags: ['Python', 'HackerRank', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.hackerrank.com/skills-directory/python', difficulty: 'Básico-Intermedio', time: '2 semanas', free: true },
+    { category: 'programming', name: 'Intro to Programming (Python)', issuer: 'Kaggle Learn', icon: '🧠', color: 'hsl(263,70%,55%)', desc: 'Python desde cero · variables · loops · funciones. Cert Kaggle. Si no programaste antes, empezá acá.', tags: ['Python', 'Beginner', 'Kaggle'], subjects: ['mat_especiales'], link: 'https://www.kaggle.com/learn/intro-to-programming', difficulty: 'Principiante', time: '1 semana', free: true },
+    { category: 'programming', name: 'Problem Solving (Basic + Intermediate)', issuer: 'HackerRank', icon: '🧩', color: 'hsl(45,75%,50%)', desc: 'Estructuras de datos · algoritmos · complejidad. Cert HackerRank. Esencial para entrevistas técnicas (Big Tech, FAANG).', tags: ['Algoritmos', 'Entrevistas', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.hackerrank.com/skills-directory/problem_solving', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
 
-    // ═══ CALIDAD DEL SOFTWARE (DIS-CSW) ═══
-    { name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework: roles, eventos, artefactos. Cert profesional reconocido (vouchers gratis periódicos).', tags: ['Agile', 'Scrum', 'Oficial'], subjects: ['calidad_sw', 'inv_ciencia'], link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', difficulty: 'Básico', time: '1-2 semanas', free: true },
-    { name: 'Test Automation University · Java Basics', issuer: 'Applitools', icon: '🧪', color: 'hsl(282,60%,50%)', desc: 'Fundamentos de testing automatizado. Múltiples certificados gratis por curso. Base para QA profesional.', tags: ['Testing', 'QA', 'Oficial'], subjects: ['calidad_sw'], link: 'https://testautomationu.applitools.com/', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
-    { name: 'GitHub Foundations', issuer: 'Microsoft Learn', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git, GitHub Actions, Codespaces, Issues, PRs, security. Learning path oficial con badges + cert disponible.', tags: ['DevOps', 'Git', 'Badge'], subjects: ['ing_web', 'calidad_sw'], link: 'https://learn.microsoft.com/en-us/training/paths/github-foundations/', difficulty: 'Básico', time: '2-4 semanas', free: true },
+    // ═══ 🌐 DESARROLLO WEB ═══
+    { category: 'web', featured: true, name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5 · CSS3 · Flexbox · Grid · accesibilidad. 300h con cert verificable. Núcleo del frontend. fCC reconocido globalmente.', tags: ['HTML', 'CSS', 'TOP'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'web', name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS oficial Cisco. Sintaxis · DOM · eventos · async. Badge digital. Refuerza directamente DIS34.', tags: ['JS', 'Cisco', 'Badge'], subjects: ['ing_web'], link: 'https://www.netacad.com/courses/javascript-essentials-1', difficulty: 'Básico', time: '4 semanas', free: true },
+    { category: 'web', name: 'JS Algorithms & Data Structures', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6 · OOP · algoritmos · programación funcional · regex. 300h con cert. Sale del basic y entra al pro.', tags: ['JS', 'Algoritmos', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
+    { category: 'web', name: 'API Fundamentals · Student Expert', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST · requests · environments · tests · colecciones. Insignia oficial Postman. APIs son el lenguaje de la web moderna.', tags: ['API', 'REST', 'Oficial'], subjects: ['ing_web'], link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    { category: 'web', name: 'Front End Development Libraries', issuer: 'freeCodeCamp', icon: '⚛️', color: 'hsl(195,85%,55%)', desc: 'React · Redux · Bootstrap · Sass · jQuery. 300h con cert. React es el framework #1 en el mercado laboral.', tags: ['React', 'Redux', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/front-end-development-libraries/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
 
-    // ═══ INVESTIGACIÓN CIENCIA Y TECNOLOGÍA (DIS36) ═══
-    { name: 'Python (Basic)', issuer: 'HackerRank', icon: '🐍', color: 'hsl(220,80%,55%)', desc: 'Sintaxis, estructuras de datos, OOP. Test cronometrado · certificado oficial. Base programadora.', tags: ['Programación', 'Python', 'Oficial'], subjects: ['inv_ciencia', 'admin_bd'], link: 'https://www.hackerrank.com/skills-verification/python_basic', difficulty: 'Básico', time: '1-2 semanas', free: true },
-    { name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn, modelos predictivos, validación cruzada. Cert oficial Kaggle. Para proyectos de investigación.', tags: ['ML', 'Python', 'Oficial'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.kaggle.com/learn/intro-to-machine-learning', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
-    { name: 'Pandas (Data Analysis)', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'DataFrames, groupby, merge, missing data. Cert oficial Kaggle. Manipulación de datos para investigación.', tags: ['Datos', 'Python', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/pandas', difficulty: 'Básico', time: '1-2 semanas', free: true },
-    { name: 'Data Visualization', issuer: 'Kaggle Learn', icon: '📈', color: 'hsl(43,80%,50%)', desc: 'Seaborn, gráficos estadísticos, storytelling con datos. Cert Kaggle. Esencial para mostrar resultados.', tags: ['Datos', 'Viz', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/data-visualization', difficulty: 'Básico', time: '1 semana', free: true },
+    // ═══ 🗄️ BASES DE DATOS ═══
+    { category: 'databases', featured: true, name: 'SQL (Basic + Intermediate + Advanced)', issuer: 'HackerRank', icon: '🗄️', color: 'hsl(210,75%,50%)', desc: '3 niveles · cada uno con cert verificable. SELECT · JOIN · window functions · CTEs · optimización. SQL es el lenguaje universal de datos.', tags: ['SQL', 'BD', 'TOP'], subjects: ['admin_bd'], link: 'https://www.hackerrank.com/skills-directory/sql', difficulty: 'Básico-Avanzado', time: '3-4 semanas', free: true },
+    { category: 'databases', name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'CRUD · queries · agregaciones · indexes. Cert oficial MongoDB. La NoSQL #1 en el mercado.', tags: ['NoSQL', 'BD', 'Oficial'], subjects: ['admin_bd'], link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    { category: 'databases', name: 'MongoDB M121 · Aggregation Framework', issuer: 'MongoDB University', icon: '🔀', color: 'hsl(142,55%,35%)', desc: 'Pipelines · agregaciones complejas · transformaciones. Cert oficial. El skill que separa juniors de seniors en NoSQL.', tags: ['NoSQL', 'Avanzado', 'Oficial'], subjects: ['admin_bd'], link: 'https://learn.mongodb.com/courses/m121-the-mongodb-aggregation-framework', difficulty: 'Intermedio-Avanzado', time: '3-4 semanas', free: true },
 
-    // ═══ MATEMÁTICAS ESPECIALES (DIS31) ═══
-    { name: 'Intro to Programming (Python)', issuer: 'Kaggle Learn', icon: '🧠', color: 'hsl(263,70%,55%)', desc: 'Python desde cero con lógica matemática. Cert oficial Kaggle. Base para implementar transformadas y modelos.', tags: ['Python', 'Lógica', 'Oficial'], subjects: ['mat_especiales', 'inv_ciencia'], link: 'https://www.kaggle.com/learn/intro-to-programming', difficulty: 'Básico', time: '1 semana', free: true },
+    // ═══ 🔌 REDES Y SISTEMAS ═══
+    { category: 'networks', featured: true, name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP · OSI · routing · switching · WiFi. Base para CCNA (cert paga). Cisco es el estándar de redes globalmente.', tags: ['Redes', 'Cisco', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/networking-essentials', difficulty: 'Básico-Intermedio', time: '6-8 semanas', free: true },
+    { category: 'networks', featured: true, name: 'Linux Essentials', issuer: 'Cisco NetAcad', icon: '🐧', color: 'hsl(45,85%,45%)', desc: 'Línea de comandos · permisos · scripting · networking en Linux. Cert oficial Cisco. Linux corre el 80% de servidores del mundo.', tags: ['Linux', 'Cisco', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/linux-essentials', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'networks', name: 'Introduction to Linux (LFS101)', issuer: 'Linux Foundation (edX)', icon: '🏛️', color: 'hsl(30,75%,50%)', desc: 'Curso oficial Linux Foundation · audit gratis · cert verificable. El estándar reconocido por la industria.', tags: ['Linux', 'edX', 'Universidad'], subjects: ['redes_inalambricas'], link: 'https://www.edx.org/course/introduction-to-linux', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
 
-    // ═══ CLOUD (transversal · refuerza Admin BD + Redes) ═══
-    { name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '☁️', color: 'hsl(15,80%,50%)', desc: 'Oracle Cloud Infrastructure Foundations. Examen oficial GRATUITO con cuenta Oracle MyLearn. Cert reconocido.', tags: ['Cloud', 'Oracle', 'Oficial'], subjects: ['admin_bd', 'redes_inalambricas'], link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+    // ═══ 🔒 CIBERSEGURIDAD ═══
+    { category: 'security', featured: true, name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas · ataques · vulnerabilidades · defensa · ética. Badge Cisco oficial. Primera capa de pensar en seguro.', tags: ['Seguridad', 'Cisco', 'TOP'], subjects: ['redes_inalambricas', 'calidad_sw'], link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', difficulty: 'Básico', time: '6 semanas', free: true },
+    { category: 'security', name: 'Cybersecurity Essentials', issuer: 'Cisco NetAcad', icon: '🛡️', color: 'hsl(0,75%,40%)', desc: 'Siguiente paso después de Intro. Criptografía · controles de acceso · respuesta a incidentes. Path hacia CCNA Security.', tags: ['Seguridad', 'Cisco', 'Badge'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/cybersecurity-essentials', difficulty: 'Intermedio', time: '6-8 semanas', free: true },
+    { category: 'security', name: 'Pre-Security Path', issuer: 'TryHackMe', icon: '🎯', color: 'hsl(15,80%,50%)', desc: 'Aprende hackeando en labs reales · networking · Linux · web · scripting. Badges desbloqueables. Práctico vs teórico.', tags: ['Hacking', 'Labs', 'Práctico'], subjects: ['redes_inalambricas'], link: 'https://tryhackme.com/path/outline/presecurity', difficulty: 'Básico', time: '4-6 semanas', free: true },
 
-    // ═══ INGLÉS (English Beginner + Placement Test BE Plus) ═══
-    { name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test estandarizado CEFR A1-C2 (50 min). Certificado verificable gratuito. Equivalente a TOEFL/IELTS reference.', tags: ['Inglés', 'CEFR', 'Oficial'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.efset.org/', difficulty: 'Variable', time: '50 min', free: true },
-    { name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test de inglés del British Council. Resultado CEFR + certificado digital verificable gratis. App móvil.', tags: ['Inglés', 'CEFR', 'Oficial'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.englishscore.com/', difficulty: 'Variable', time: '40 min', free: true },
+    // ═══ ☁️ CLOUD COMPUTING ═══
+    { category: 'cloud', featured: true, name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '☁️', color: 'hsl(15,80%,50%)', desc: 'Oracle Cloud Foundations. Examen oficial GRATUITO real (sin trucos). Cert reconocido. Una de las pocas certs cloud verdaderamente gratis.', tags: ['Cloud', 'Oracle', 'TOP'], subjects: ['admin_bd', 'redes_inalambricas'], link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+    { category: 'cloud', featured: true, name: 'AWS Cloud Quest · Cloud Practitioner', issuer: 'AWS Skill Builder', icon: '🎮', color: 'hsl(35,90%,55%)', desc: 'Aprende AWS jugando en un mundo 3D. Badge oficial digital. AWS es el cloud #1 del mundo. Path divertido y efectivo.', tags: ['AWS', 'Cloud', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://aws.amazon.com/training/digital/aws-cloud-quest/', difficulty: 'Básico', time: '15-20 horas', free: true },
+    { category: 'cloud', name: 'Microsoft Azure Fundamentals (AZ-900) Path', issuer: 'Microsoft Learn', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Training oficial para AZ-900 (cert es paga). Conceptos cloud · servicios Azure · pricing. Badges desbloqueables al avanzar.', tags: ['Azure', 'Microsoft', 'Path'], subjects: ['redes_inalambricas'], link: 'https://learn.microsoft.com/training/paths/azure-fundamentals/', difficulty: 'Básico', time: '8-12 horas', free: true },
+    { category: 'cloud', name: 'Google Cloud Digital Leader Path', issuer: 'Google Cloud Skills Boost', icon: '🟦', color: 'hsl(220,85%,55%)', desc: 'Conceptos GCP · cloud transformation. Badges por completar módulos. Google es el cloud con más crecimiento en LATAM.', tags: ['GCP', 'Google', 'Path'], subjects: [], link: 'https://www.cloudskillsboost.google/paths/9', difficulty: 'Básico', time: '6-8 horas', free: true },
+
+    // ═══ 🔧 DEVOPS · CI/CD ═══
+    { category: 'devops', featured: true, name: 'GitHub Foundations', issuer: 'Microsoft Learn', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git · GitHub Actions · Codespaces · PRs · security. Path oficial con badges + cert disponible. Git es el lenguaje universal del software.', tags: ['Git', 'DevOps', 'TOP'], subjects: ['ing_web', 'calidad_sw'], link: 'https://learn.microsoft.com/training/paths/github-foundations/', difficulty: 'Básico', time: '2-4 semanas', free: true },
+    { category: 'devops', name: 'Introduction to DevOps (LFS161)', issuer: 'Linux Foundation (edX)', icon: '⚙️', color: 'hsl(280,55%,55%)', desc: 'Curso oficial Linux Foundation. CI/CD · cultura DevOps · automation · monitoring. Audit gratis, cert verificable.', tags: ['DevOps', 'edX', 'Universidad'], subjects: ['calidad_sw'], link: 'https://www.edx.org/course/introduction-to-devops-practices-and-tools', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+    { category: 'devops', name: 'Docker · Get Started', issuer: 'Docker Inc.', icon: '🐳', color: 'hsl(200,75%,50%)', desc: 'Containers · imágenes · Dockerfile · networks · volumes. Training oficial Docker. Containers son la unidad básica del cloud moderno.', tags: ['Docker', 'Containers', 'Oficial'], subjects: ['ing_web'], link: 'https://docs.docker.com/get-started/', difficulty: 'Básico', time: '1-2 semanas', free: true },
+
+    // ═══ ✅ CALIDAD Y METODOLOGÍA ═══
+    { category: 'quality', featured: true, name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework · roles · eventos · artefactos. Cert profesional reconocido en LATAM. Vouchers gratis periódicos en redes oficiales.', tags: ['Agile', 'Scrum', 'TOP'], subjects: ['calidad_sw', 'inv_ciencia'], link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', difficulty: 'Básico', time: '1-2 semanas', free: true },
+    { category: 'quality', name: 'Test Automation University', issuer: 'Applitools', icon: '🧪', color: 'hsl(282,60%,50%)', desc: 'Múltiples certs por curso. Selenium · Cypress · Playwright · API testing. La universidad #1 de QA automatizado gratuita.', tags: ['Testing', 'QA', 'Oficial'], subjects: ['calidad_sw'], link: 'https://testautomationu.applitools.com/', difficulty: 'Básico-Avanzado', time: '4-12 semanas', free: true },
+    { category: 'quality', name: 'Atlassian University · Jira Fundamentals', issuer: 'Atlassian', icon: '📋', color: 'hsl(220,85%,50%)', desc: 'Gestión ágil con Jira · workflows · sprints · reportes. Badge oficial Atlassian. Jira es la herramienta #1 en empresas tech.', tags: ['Jira', 'Agile', 'Oficial'], subjects: ['calidad_sw'], link: 'https://university.atlassian.com/student/path/1077727-jira-fundamentals', difficulty: 'Básico', time: '4-6 horas', free: true },
+
+    // ═══ 🇬🇧 INGLÉS PROFESIONAL ═══
+    { category: 'english', featured: true, name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test CEFR A1-C2 (50 min) · certificado verificable gratis. Equivalente referencia TOEFL/IELTS. EF es global y reconocido.', tags: ['CEFR', 'Test', 'TOP'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.efset.org/', difficulty: 'Variable', time: '50 min', free: true },
+    { category: 'english', name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test del British Council. Resultado CEFR + cert digital verificable gratis. App móvil. La autoridad #1 mundial en inglés.', tags: ['British Council', 'CEFR', 'Oficial'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.englishscore.com/', difficulty: 'Variable', time: '40 min', free: true },
   ];
 
   // Mapa rápido para badges "Complementa:" — sincronizado con SUBJECTS
@@ -760,7 +812,14 @@ const SYS = (() => {
   function renderCerts() {
     const el = document.getElementById('certList');
     if (!el) return;
-    el.innerHTML = CERTS.map((c, i) => {
+    // Agrupar certs por categoría
+    const byCat = {};
+    CERTS.forEach(c => {
+      const cat = c.category || 'other';
+      if (!byCat[cat]) byCat[cat] = [];
+      byCat[cat].push(c);
+    });
+    const renderCert = (c) => {
       const subjs = (c.subjects || []).map(_SUBJ_BADGE).filter(Boolean);
       const subjsHtml = subjs.length
         ? `<div class="cert-subjs" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;align-items:center">
@@ -768,12 +827,15 @@ const SYS = (() => {
             ${subjs.map(s => `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:10px;background:${s.color}22;border:1px solid ${s.color}44;color:${s.color}">${s.icon} ${esc(s.name)}</span>`).join('')}
           </div>`
         : '';
+      const starBadge = c.featured
+        ? `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.15));border:1px solid rgba(245,158,11,.4);color:#fbbf24;margin-right:4px">⭐ TOP</span>`
+        : '';
       return `
-      <div class="cert">
+      <div class="cert" ${c.featured ? 'style="border-left:3px solid #fbbf24"' : ''}>
         <div class="cert-h">
           <div class="cert-logo" style="background:${c.color}18;border:1px solid ${c.color}30">${c.icon}</div>
           <div class="cert-info">
-            <div class="cert-name">${c.name}</div>
+            <div class="cert-name">${starBadge}${c.name}</div>
             <div class="cert-issuer">${c.issuer} · ${c.difficulty} · ${c.time}</div>
           </div>
           ${c.free ? '<span class="sem sem-p3">GRATIS</span>' : '<span class="sem sem-p4">De pago</span>'}
@@ -782,8 +844,29 @@ const SYS = (() => {
         <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag">${t}</span>`).join('')}</div>
         ${subjsHtml}
         <a href="${c.link}" target="_blank" rel="noopener" class="cert-link">Ver certificación →</a>
-      </div>
-    `;}).join('');
+      </div>`;
+    };
+    // Renderizar por orden de categorías
+    el.innerHTML = CERT_CATEGORY_ORDER.map(catId => {
+      const items = byCat[catId];
+      if (!items || !items.length) return '';
+      const meta = CERT_CATEGORIES[catId];
+      const featuredCount = items.filter(c => c.featured).length;
+      return `<div style="margin-top:18px">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:${meta.color}12;border:1px solid ${meta.color}30;border-radius:10px;margin-bottom:10px;flex-wrap:wrap">
+          <span style="font-size:22px">${meta.icon}</span>
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:14px;font-weight:700;color:${meta.color}">${esc(meta.name)}</div>
+            <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-top:2px">${esc(meta.desc)}</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0">
+            <span class="sem sem-p3" style="font-size:10px">${items.length} cert${items.length>1?'s':''}</span>
+            ${featuredCount ? `<span class="sem sem-p1" style="font-size:10px">⭐ ${featuredCount} TOP</span>` : ''}
+          </div>
+        </div>
+        ${items.map(renderCert).join('')}
+      </div>`;
+    }).join('');
   }
 
   // ── RENDER: STATS BAR ──
