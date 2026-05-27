@@ -403,7 +403,6 @@ const SYS = (() => {
           <div class="pbar" style="flex:1"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--vi2)">${pct}% · ${done}/${total}</span>
         </div>` : ''}
-        ${!hasRealCalendar ? `<div style="margin:8px 0;padding:8px 10px;background:rgba(234,179,8,.06);border:1px dashed rgba(234,179,8,.25);border-radius:6px;font-size:11px;color:var(--am)">⏳ Sin syllabus cargado. Pega el calendario real desde CDigital para crear tareas.</div>` : ''}
 
         <!-- TASKS DROPDOWN -->
         <div class="sj-drop" id="sjTasks-${s.id}">
@@ -440,17 +439,49 @@ const SYS = (() => {
           <div class="sj-drop-body">
             ${s.cronograma.map(c => {
               const d = c.date ? daysBetween(todayStr(), c.date) : null;
-              const sc2 = d === null ? 'sem-p4' : d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
-              const dl = d === null ? '' : d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+              const sc2 = c.done ? 'sem-p3' : d === null ? 'sem-p4' : d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
+              const dl = c.done ? '✓ Listo' : d === null ? '' : d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
               const typeIc = { tarea:'📋', parcial:'📝', quiz:'❓', proyecto:'🎯', foro:'💬', otro:'📌' }[c.type] || '📌';
-              return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
+              return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px${c.done ? ';opacity:.55' : ''}">
+                <div class="atask-check${c.done ? ' done' : ''}" onclick="SYS.toggleCronoEntry('${s.id}','${c.id}')" title="Marcar como ${c.done ? 'pendiente' : 'completada'}">${c.done ? '✓' : ''}</div>
                 ${dl ? `<span class="sem ${sc2}" style="flex-shrink:0;min-width:52px;justify-content:center;font-size:10px">${dl}</span>` : ''}
-                <span style="font-size:12px;flex:1">${typeIc} ${esc(c.title)}</span>
+                <span style="font-size:12px;flex:1${c.done ? ';text-decoration:line-through' : ''}">${typeIc} ${esc(c.title)}</span>
                 ${c.date ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(c.date)}</span>` : ''}
               </div>`;
             }).join('')}
           </div>
         </div>` : ''}
+
+        ${(() => {
+          const files = db.get('subj_files_' + s.id, []);
+          if (!files.length) return '';
+          return `<div class="sj-drop on" id="sjFiles-${s.id}" style="margin-top:8px">
+            <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjFiles-${s.id}')">
+              <div>📎 Adjuntos <span class="sj-drop-count">(${files.length})</span></div>
+              <span class="sj-drop-arr">▶</span>
+            </div>
+            <div class="sj-drop-body">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
+                ${files.map(f => {
+                  const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+                  if (isImg) {
+                    return `<div class="att-thumb" onclick="SYS.openFileViewer('${s.id}','${f.id}')" title="${esc(f.name)}">
+                      <img src="${f.data}" alt="${esc(f.name)}">
+                      <div class="att-thumb-cap">${esc(f.name)}</div>
+                    </div>`;
+                  }
+                  const ext = (f.name.split('.').pop() || '').toLowerCase();
+                  const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', zip:'🗜️', rar:'🗜️' };
+                  const ic = icMap[ext] || '📎';
+                  return `<div class="att-thumb" onclick="SYS.subjectFileDL('${s.id}','${f.id}')" title="${esc(f.name)}">
+                    <div class="att-thumb-ic">${ic}</div>
+                    <div class="att-thumb-cap">${esc(f.name)}</div>
+                  </div>`;
+                }).join('')}
+              </div>
+            </div>
+          </div>`;
+        })()}
 
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
           ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 CDigital</a>` : ''}
@@ -910,7 +941,8 @@ const SYS = (() => {
     // v3: SOLO Ing Web tiene calendario real verificado. Resto pendiente de syllabus del usuario.
     // v4: Mat Especiales (DIS31) syllabus verificado por usuario — calendario idéntico al de Ing Web (Cortés Cruz, mié/vie 6:15 PM)
     // v5: Inv C&T (DIS36) — Corte 1 parcial confirmado por usuario (Tarea 1 12-abr, Quiz 1 19-abr, Tarea 2 19-abr). Sin pesos ni Cortes 2-3.
-    const SEED_VERSION = 5;
+    // v6: SEED VACÍO. Usuario migrado a cronograma por materia (Subject CRUD). Tareas se crean manualmente o desde Bulk Import.
+    const SEED_VERSION = 6;
     const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
     const currentSeedVer = db.get('seed_version', 0);
     const existing = getTasks();
@@ -955,6 +987,24 @@ const SYS = (() => {
       'Definir tema y estado del arte — Investigación',
       'Completar actividad de inducción — English Beginner',
       'Realizar Placement Test BE Plus',
+      // v5 seeds (purgados en v6 — usuario migró a cronograma por materia)
+      'Quiz 1 — Ingeniería Web (10%)',
+      'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',
+      'Quiz 2 — Ingeniería Web (10%)',
+      'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',
+      'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',
+      'Asistir a clase Ing Web — Miércoles 6:15 PM',
+      'Quiz 1 — Mat Especiales (10%)',
+      'Parcial 1 — Mat Especiales (20% → 1er Corte 30%)',
+      'Quiz 2 — Mat Especiales (10%)',
+      'Parcial 2 — Mat Especiales (20% → 2do Corte 30%)',
+      'ACA — Mat Especiales (34%)',
+      'Quiz 3 + Coev + Auto — Mat Especiales (6% → 3er Corte 40%)',
+      'Sesión sincrónica Mat Especiales — Mié/Vie 6:15 PM',
+      'Tarea 1 — Inv C&T (Corte 1)',
+      'Quiz 1 — Inv C&T (Corte 1)',
+      'Tarea 2 — Inv C&T (Corte 1)',
     ]);
     if (hasStale || currentSeedVer < SEED_VERSION) {
       // Preserve user-created tasks; purge stale subjects + all old seed texts.
@@ -967,41 +1017,10 @@ const SYS = (() => {
       db.set('seed_version', SEED_VERSION);
     }
 
-    // Seed tasks — SOLO datos verificados por el usuario.
-    // Ing Web (DIS34) y Mat Especiales (DIS31): calendario completo confirmado.
-    // Inv C&T (DIS36): SOLO Corte 1 parcial (Tarea 1, Quiz 1, Tarea 2). Sin pesos. Cortes 2-3 pendientes.
-    // English Beginner y Placement Test: siguen esperando syllabus real (NO inventar).
-    const SEED_TASKS = [
-      // ── Ing Web (DIS34) — verificado 2026-04-08 ──
-      { id: 1,  text: 'Quiz 1 — Ingeniería Web (10%)',                                  subj: 'ing_web',        priority: 'p0', due: '2026-04-12' },
-      { id: 2,  text: 'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',               subj: 'ing_web',        priority: 'p1', due: '2026-04-19' },
-      { id: 3,  text: 'Quiz 2 — Ingeniería Web (10%)',                                  subj: 'ing_web',        priority: 'p2', due: '2026-04-26' },
-      { id: 4,  text: 'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',               subj: 'ing_web',        priority: 'p2', due: '2026-05-03' },
-      { id: 5,  text: 'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',           subj: 'ing_web',        priority: 'p3', due: '2026-05-16' },
-      { id: 6,  text: 'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',     subj: 'ing_web',        priority: 'p3', due: '2026-05-16' },
-      { id: 7,  text: 'Asistir a clase Ing Web — Miércoles 6:15 PM',                    subj: 'ing_web',        priority: 'p0', due: '2026-04-08' },
-      // ── Mat Especiales (DIS31) — verificado 2026-04-08 (syllabus Cortés Cruz, mismo calendario 26V02) ──
-      { id: 8,  text: 'Quiz 1 — Mat Especiales (10%)',                                  subj: 'mat_especiales', priority: 'p0', due: '2026-04-12' },
-      { id: 9,  text: 'Parcial 1 — Mat Especiales (20% → 1er Corte 30%)',               subj: 'mat_especiales', priority: 'p1', due: '2026-04-19' },
-      { id: 10, text: 'Quiz 2 — Mat Especiales (10%)',                                  subj: 'mat_especiales', priority: 'p2', due: '2026-04-26' },
-      { id: 11, text: 'Parcial 2 — Mat Especiales (20% → 2do Corte 30%)',               subj: 'mat_especiales', priority: 'p2', due: '2026-05-03' },
-      { id: 12, text: 'ACA — Mat Especiales (34%)',                                     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
-      { id: 13, text: 'Quiz 3 + Coev + Auto — Mat Especiales (6% → 3er Corte 40%)',     subj: 'mat_especiales', priority: 'p3', due: '2026-05-16' },
-      { id: 14, text: 'Sesión sincrónica Mat Especiales — Mié/Vie 6:15 PM',             subj: 'mat_especiales', priority: 'p0', due: '2026-04-08' },
-      // ── Inv C&T (DIS36) — Corte 1 parcial verificado 2026-04-09 (sin pesos; Cortes 2-3 TBD) ──
-      { id: 15, text: 'Tarea 1 — Inv C&T (Corte 1)',                                    subj: 'inv_ciencia',    priority: 'p0', due: '2026-04-12' },
-      { id: 16, text: 'Quiz 1 — Inv C&T (Corte 1)',                                     subj: 'inv_ciencia',    priority: 'p1', due: '2026-04-19' },
-      { id: 17, text: 'Tarea 2 — Inv C&T (Corte 1)',                                    subj: 'inv_ciencia',    priority: 'p1', due: '2026-04-19' },
-    ].map(t => ({ ...t, done: false, created: todayStr() }));
-
-    // Re-seed when version bumps OR when DB is empty. Dedupe by text so user tasks survive.
-    const needSeed = currentSeedVer < SEED_VERSION || getTasks().length === 0;
-    if (needSeed) {
-      const current = getTasks();
-      const seedTextSet = new Set(SEED_TASKS.map(s => s.text));
-      const userKept = current.filter(t => !seedTextSet.has(t.text));
-      saveTasks([...SEED_TASKS, ...userKept]);
-    }
+    // v6 (2026-05-27): SEED_TASKS vacío. El usuario crea tareas manualmente
+    // por materia (botón "+ Agregar" en cada card) o desde Bulk Import.
+    // El cronograma por materia (Subject CRUD) reemplaza el sistema de seeds.
+    const SEED_TASKS = [];
 
     render();
   }
@@ -1626,14 +1645,15 @@ const SYS = (() => {
     const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', gif:'🖼️', zip:'🗜️', rar:'🗜️' };
     el.innerHTML = files.map(f => {
       const ext = (f.name.split('.').pop() || '').toLowerCase();
-      const ic = icMap[ext] || '📎';
+      const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+      const ic = isImg ? '🖼️' : (icMap[ext] || '📎');
       const sz = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB';
       return `<div class="att-c">
-        <span class="att-ic">${ic}</span>
-        <span class="att-nm" title="${esc(f.name)}">${esc(f.name)}</span>
+        ${isImg ? `<img src="${f.data}" class="att-mini" onclick="SYS.openFileViewer('${sid}','${f.id}')" title="Click para ampliar">` : `<span class="att-ic">${ic}</span>`}
+        <span class="att-nm" title="${esc(f.name)}" ${isImg ? `onclick="SYS.openFileViewer('${sid}','${f.id}')" style="cursor:zoom-in"` : ''}>${esc(f.name)}</span>
         <span class="att-sz">${sz}</span>
-        <button class="att-b" onclick="SYS.subjectFileDL('${sid}','${f.id}')">⬇</button>
-        <button class="att-b" onclick="SYS.subjectFileDel('${sid}','${f.id}')">✕</button>
+        <button class="att-b" onclick="SYS.subjectFileDL('${sid}','${f.id}')" title="Descargar">⬇</button>
+        <button class="att-b" onclick="SYS.subjectFileDel('${sid}','${f.id}')" title="Eliminar">✕</button>
       </div>`;
     }).join('');
   }
@@ -1667,6 +1687,53 @@ const SYS = (() => {
     _setFiles(sid, _getFiles(sid).filter(f => f.id !== fileId));
     _renderSmFiles(sid);
   }
+
+  // ── TOGGLE CRONOGRAMA ENTRY (mark as done/pending) ──
+  function toggleCronoEntry(sid, entryId) {
+    const allSubj = getSubjects();
+    const s = allSubj.find(x => x.id === sid);
+    if (!s) return;
+    const crono = (s.cronograma || []).map(c =>
+      c.id === entryId ? { ...c, done: !c.done } : c
+    );
+    // Save back: build a full subj override so the cronograma persists
+    const subj = { ...s, cronograma: crono, _updated: new Date().toISOString() };
+    _saveSubj(subj);
+    render();
+  }
+
+  // ── IMAGE/FILE LIGHTBOX VIEWER ──
+  function openFileViewer(sid, fileId) {
+    const f = _getFiles(sid).find(x => x.id === fileId);
+    if (!f) return;
+    const isImage = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+    if (!isImage) { subjectFileDL(sid, fileId); return; }
+    let lb = document.getElementById('fileLightbox');
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.id = 'fileLightbox';
+      lb.className = 'lb-ov';
+      lb.onclick = (e) => { if (e.target === lb) closeFileViewer(); };
+      document.body.appendChild(lb);
+    }
+    lb.innerHTML = `<button class="lb-close" onclick="SYS.closeFileViewer()" title="Cerrar (Esc)">✕</button>
+      <button class="lb-dl" onclick="SYS.subjectFileDL('${sid}','${fileId}')" title="Descargar">⬇</button>
+      <div class="lb-content">
+        <img src="${f.data}" alt="${esc(f.name)}">
+        <div class="lb-caption">${esc(f.name)} · ${f.size > 1048576 ? (f.size/1048576).toFixed(1)+' MB' : Math.round(f.size/1024)+' KB'}</div>
+      </div>`;
+    lb.style.display = 'flex';
+  }
+
+  function closeFileViewer() {
+    const lb = document.getElementById('fileLightbox');
+    if (lb) lb.style.display = 'none';
+  }
+
+  // ESC closes lightbox
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeFileViewer();
+  });
 
   // ── SYNC TASK SELECTS ──
   function renderSubjTaskSelects() {
@@ -1704,7 +1771,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer };
 })();
 window.SYS = SYS;
 

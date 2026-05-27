@@ -468,6 +468,26 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 /* CARD opacity for non-active statuses */
 .subj-card-dim{opacity:.55}
+
+/* FILE ATTACHMENT MINI-PREVIEW (in modal) */
+.att-mini{width:28px;height:28px;object-fit:cover;border-radius:5px;cursor:zoom-in;flex-shrink:0;border:1px solid var(--bd)}
+.att-mini:hover{filter:brightness(1.15)}
+
+/* FILE THUMBNAILS (in subject card) */
+.att-thumb{background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:border-color .15s,transform .1s}
+.att-thumb:hover{border-color:var(--vi);transform:translateY(-1px)}
+.att-thumb img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px}
+.att-thumb-ic{font-size:32px;line-height:1;padding:14px 0}
+.att-thumb-cap{font-size:10px;color:var(--t2);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%}
+
+/* IMAGE LIGHTBOX */
+.lb-ov{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;backdrop-filter:blur(8px)}
+.lb-content{position:relative;max-width:95vw;max-height:88vh;cursor:default;display:flex;flex-direction:column;align-items:center;gap:14px}
+.lb-content img{max-width:100%;max-height:82vh;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,.7);object-fit:contain}
+.lb-close,.lb-dl{position:absolute;top:18px;width:40px;height:40px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:10;font-family:inherit}
+.lb-close{right:18px}.lb-dl{right:66px;font-size:16px}
+.lb-close:hover,.lb-dl:hover{background:rgba(255,255,255,.22)}
+.lb-caption{color:#e5e7eb;font-size:13px;text-align:center;font-family:'IBM Plex Mono',monospace;background:rgba(0,0,0,.4);padding:6px 12px;border-radius:6px;max-width:90vw;word-break:break-word}
 </style>
 </head>
 <body>
