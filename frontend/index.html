@@ -373,8 +373,33 @@ const Cerebro = (function(){
     document.title = m[2] + ' · Cerebro';
   }
 
+  /** Intercepta clicks en cualquier <a href="..."> que apunte a un módulo
+   *  conocido (incluye los cards de la sección "módulos", los workshop
+   *  shortcuts y cualquier link interno a un .html de módulo). Sin esto,
+   *  el browser hace navegación completa y pierde el rail lateral.
+   *  Preserva ctrl/cmd/shift/middle-click para abrir en nueva pestaña. */
+  function bindModuleLinks(){
+    const srcMap = Object.fromEntries(MODULES.map(m => [m[3], m[0]]));
+    // Event delegation a body — captura links agregados después también.
+    document.body.addEventListener('click', e => {
+      if (e.defaultPrevented) return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      // Match exact filename or with hash
+      const cleanHref = href.split('#')[0].split('?')[0];
+      const modId = srcMap[cleanHref];
+      if (!modId) return;
+      e.preventDefault();
+      go(modId);
+    });
+  }
+
   function init(){
     buildRail();
+    bindModuleLinks();
     // Initialize from hash (deep-link) or default to home
     const hash = (location.hash || '').slice(1).toLowerCase();
     const found = MODULES.find(m => m[0] === hash);

@@ -855,3 +855,45 @@ const CLOUD = (() => {
 })();
 
 window.CLOUD = CLOUD;
+
+/* ═══════════════════════════════════════════════════════════════
+   IFRAME BACK-NAV INTERCEPTOR
+   ─────────────────────────────────────────────────────────────
+   Cuando un módulo se carga dentro del iframe stage de index.html,
+   los links "← Cerebro" (href="index.html") harían que el iframe
+   navegue a index.html, generando recursión visual (index dentro
+   de index). Este interceptor detecta el contexto iframe y, en
+   lugar de navegar, le pide al Cerebro padre que cierre el stage
+   con go('home'). Preserva ctrl/cmd-click para abrir en nueva tab.
+   También se aplica para evitar el bug reverso del rail lateral.
+═══════════════════════════════════════════════════════════════ */
+(function initBackNav(){
+  // Solo activa cuando el módulo vive dentro de un iframe (parent != self)
+  if (window === window.top) return;
+  function handler(e){
+    if (e.defaultPrevented) return;
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    if (link.target === '_blank') return;
+    const href = link.getAttribute('href');
+    const clean = href.split('#')[0].split('?')[0];
+    if (clean !== 'index.html' && clean !== '/' && clean !== './') return;
+    // Si el padre tiene Cerebro, usamos su router (mantiene URL hash y estado)
+    try {
+      if (window.parent && window.parent.Cerebro && typeof window.parent.Cerebro.go === 'function') {
+        e.preventDefault();
+        window.parent.Cerebro.go('home');
+        return;
+      }
+    } catch (err) { /* cross-origin u otra cosa: caer a navegación top */ }
+    // Fallback: navega el top window (cierra el iframe natural)
+    e.preventDefault();
+    try { window.top.location.href = href; } catch (err) { window.location.href = href; }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => document.addEventListener('click', handler));
+  } else {
+    document.addEventListener('click', handler);
+  }
+})();
