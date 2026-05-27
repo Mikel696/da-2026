@@ -95,14 +95,23 @@
 
     <div class="apa-section">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600">📑 Secciones del documento</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn bp bs" onclick="APA.openSmartPaste()" title="Pega texto crudo y deja que el motor lo divida automáticamente en secciones APA" style="background:linear-gradient(135deg,var(--vi),#a78bfa)">📥 Pegar texto APA</button>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600">📝 Contenido del trabajo</div>
+      </div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.65;padding:10px 12px;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.18);border-radius:8px">
+        <b style="color:var(--vi2)">¿Cómo funciona?</b> Pegá tu trabajo (de Word, Google Docs, PDF, web). No importa la fuente, tamaño o márgenes. Si tu texto tiene títulos como <code>Resumen</code>, <code>Introducción</code>, <code>Metodología</code>, <code>Conclusiones</code> o <code>Referencias</code>, el motor los detecta y los organiza. Después click el botón → todo queda en <b>APA 7</b> (Times 12pt, doble espacio, márgenes 2.54cm, sangría 1.27cm, hanging indent en referencias).
+      </div>
+      <textarea id="apaContent" oninput="APA.updateRawContent()" class="inp" placeholder="Pegá acá tu trabajo en cualquier formato.&#10;&#10;Ejemplo:&#10;&#10;Resumen&#10;Texto de tu resumen...&#10;&#10;Introducción&#10;Texto de tu introducción...&#10;&#10;Metodología&#10;Tu metodología...&#10;&#10;Conclusiones&#10;Tus conclusiones...&#10;&#10;Referencias&#10;Apellido, N. (Año). Título. Editorial." style="width:100%;min-height:340px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.65;resize:vertical;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx)"></textarea>
+      <button class="apa-big-btn" onclick="APA.applyApaNorms()" title="Convierte tu texto al formato APA 7: Times New Roman 12pt, doble espacio, márgenes 2.54cm, sangría 1.27cm, hanging indent en referencias, portada centrada con tus datos">
+        ✨ Aplicar Normas APA 7
+      </button>
+      <details style="margin-top:10px">
+        <summary style="font-size:10px;color:var(--t3);cursor:pointer;user-select:none">Modo avanzado · editar secciones individuales</summary>
+        <div style="display:flex;justify-content:flex-end;margin:8px 0">
           <button class="btn bp bs" onclick="APA.openSectionPicker()">+ Agregar sección</button>
         </div>
-      </div>
-      <div id="apaSections"></div>
-      <div style="font-size:10px;color:var(--t3);margin-top:8px;font-style:italic;line-height:1.6">💡 Las secciones se renderizan en el orden que aparecen acá. Usá ↑↓ para reordenar. Cambiá el tipo desde el dropdown de cada sección.</div>
+        <div id="apaSections"></div>
+        <div style="font-size:10px;color:var(--t3);margin-top:6px;font-style:italic;line-height:1.6">💡 Después de "Aplicar Normas APA" podés reordenar (↑↓) o eliminar secciones individuales acá.</div>
+      </details>
     </div>
 
     <div class="apa-actions">

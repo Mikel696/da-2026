@@ -4,6 +4,11 @@
 ═════════════════════════════════════════════════════════════════ */
 :root{--ac:#06b6d4;--a2:#22d3ee;--ag:rgba(6,182,212,.08);--vi:#7c3aed}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);overflow:hidden}
+
+/* APA BIG BUTTON — acción principal del módulo */
+.apa-big-btn{width:100%;margin-top:14px;padding:16px 24px;background:linear-gradient(135deg,var(--vi),#a78bfa);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;box-shadow:0 4px 14px rgba(124,58,237,.35);transition:transform .12s,box-shadow .12s,filter .12s}
+.apa-big-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.45);filter:brightness(1.05)}
+.apa-big-btn:active{transform:translateY(0)}
 ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
 
 /* Top nav */

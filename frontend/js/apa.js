@@ -97,18 +97,37 @@ const APA = (function(){
   }
   function newSecId(){ return 's_' + Date.now() + Math.random().toString(36).slice(2,6); }
 
-  /* ── Migration: legacy fields → sections[] + subjectId rename ─── */
+  /* ── Migration: legacy fields → sections[] + subjectId rename + rawContent ─── */
   const SUBJ_ID_RENAMES = { english_b1: 'english_beginner' };
   function migrateDoc(d){
     // Subject ID renames (forward compat)
     if (d.subjectId && SUBJ_ID_RENAMES[d.subjectId]) d.subjectId = SUBJ_ID_RENAMES[d.subjectId];
-    if (Array.isArray(d.sections)) return d;
-    d.sections = [];
-    if (d.abstract && d.abstract.trim()) d.sections.push({ id: newSecId(), type: 'abstract', title: '', content: d.abstract });
-    if (d.body && d.body.trim())         d.sections.push({ id: newSecId(), type: 'body', title: '', content: d.body });
-    if (d.references && d.references.trim()) d.sections.push({ id: newSecId(), type: 'references', title: '', content: d.references });
-    if (d.appendix && d.appendix.trim()) d.sections.push({ id: newSecId(), type: 'appendix', title: '', content: d.appendix });
+    if (!Array.isArray(d.sections)) {
+      d.sections = [];
+      if (d.abstract && d.abstract.trim()) d.sections.push({ id: newSecId(), type: 'abstract', title: '', content: d.abstract });
+      if (d.body && d.body.trim())         d.sections.push({ id: newSecId(), type: 'body', title: '', content: d.body });
+      if (d.references && d.references.trim()) d.sections.push({ id: newSecId(), type: 'references', title: '', content: d.references });
+      if (d.appendix && d.appendix.trim()) d.sections.push({ id: newSecId(), type: 'appendix', title: '', content: d.appendix });
+    }
+    // NEW: rawContent es el texto crudo que el usuario edita en el textarea.
+    // Si no existe, lo generamos desde sections para preservar contenido viejo.
+    if (typeof d.rawContent !== 'string') {
+      d.rawContent = sectionsToRaw(d.sections);
+    }
     return d;
+  }
+
+  /** Convierte sections[] → texto crudo con encabezados (round-trippable). */
+  function sectionsToRaw(sections){
+    if (!sections || !sections.length) return '';
+    return sections.map(s => {
+      const tp = SECTION_TYPES[s.type] || SECTION_TYPES.custom;
+      const head = (s.type === 'custom' && s.title) ? s.title : tp.heading;
+      const lines = [];
+      if (head) lines.push(head);
+      if (s.content) lines.push(s.content);
+      return lines.join('\n');
+    }).filter(Boolean).join('\n\n');
   }
 
   /* ── Default doc ─────────────────────────────────────────── */
@@ -178,10 +197,17 @@ const APA = (function(){
       const all = getSubjectsMerged();
       const subject = all.find(s => s.id === sel.value);
       const profEl = document.getElementById('apaProfessor');
-      if (subject && subject.professor && profEl) {
+      if (subject && profEl) {
         const cur = (profEl.value || '').trim();
         const fromCatalog = all.some(s => s.professor && s.professor === cur);
-        if (!cur || fromCatalog) profEl.value = subject.professor;
+        // FIX bug: actualizar siempre que el valor actual venga del catálogo
+        // (otra materia) o esté vacío — incluso si la nueva materia tiene
+        // profesor vacío (limpia el campo para que escribas el correcto).
+        if (!cur || fromCatalog) {
+          profEl.value = subject.professor || '';
+          // Disparar el guardado del header
+          profEl.dispatchEvent(new Event('input', { bubbles: true }));
+        }
       }
       schedulePreview();
     });
@@ -227,6 +253,7 @@ const APA = (function(){
     _filling = true;
     ['apaTitle','apaInstitution','apaProgram','apaProfessor','apaStudent','apaDate','apaSubtitle']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    const ta = document.getElementById('apaContent'); if (ta) ta.value = '';
     const sec = document.getElementById('apaSections'); if (sec) sec.innerHTML = '';
     _filling = false;
     document.getElementById('apaPreview').innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--t3)">📍 Seleccioná un documento o creá uno nuevo.</div>';
@@ -243,6 +270,8 @@ const APA = (function(){
     document.getElementById('apaStudent').value = d.student || '';
     document.getElementById('apaDate').value = d.date || '';
     document.getElementById('apaSubtitle').value = d.subtitle || '';
+    const ta = document.getElementById('apaContent');
+    if (ta) ta.value = d.rawContent || sectionsToRaw(d.sections);
     // Update kind-related visibility manually (no event side effects)
     const grp = document.getElementById('apaKindAcademicGrp');
     if (grp) grp.style.display = (d.kind === 'academic') ? '' : 'none';
@@ -365,7 +394,45 @@ const APA = (function(){
     return sections.filter(s => s.content || s.title);
   }
 
-  /** Abre modal donde pegar texto crudo. */
+  /** APLICAR NORMAS APA · botón principal del flujo simple.
+   *  Toma el texto del textarea, lo analiza con smartParse, y crea/actualiza
+   *  las secciones APA. El preview entonces muestra el documento formateado
+   *  correctamente (Times 12pt, doble espacio, márgenes 2.54cm, sangría 1.27cm,
+   *  referencias con hanging indent, portada centrada).
+   *  Si no detecta encabezados estructurados, crea una única sección "Cuerpo"
+   *  con todo el contenido — el preview lo formatea igual con normas APA. */
+  function applyApaNorms(){
+    const d = getActive();
+    if (!d) { alert('Creá un documento primero (botón "+ Nuevo" arriba).'); return; }
+    const ta = document.getElementById('apaContent');
+    if (!ta) return;
+    const text = ta.value || '';
+    if (!text.trim()) { alert('Pegá tu texto en el área de contenido primero.'); return; }
+    d.rawContent = text;
+    const parsed = smartParse(text);
+    d.sections = parsed.length ? parsed : [{ id: newSecId(), type: 'body', title: '', content: text }];
+    // Cualquier edición manual previa al preview se invalida (volvemos al render automático
+    // con normas APA estrictas).
+    d.useEditedHTML = false;
+    d.updated = new Date().toISOString();
+    persist();
+    renderList();
+    renderPreview();
+    const n = d.sections.length;
+    showStatus('✨ Normas APA aplicadas · ' + n + ' sección' + (n>1?'es':'') + ' detectada' + (n>1?'s':''));
+  }
+
+  /** Auto-save del textarea — guarda rawContent sin parsear (preserva texto literal). */
+  function updateRawContent(){
+    const d = getActive(); if (!d) return;
+    const ta = document.getElementById('apaContent'); if (!ta) return;
+    d.rawContent = ta.value;
+    d.updated = new Date().toISOString();
+    clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(() => { persist(); renderList(); }, 500);
+  }
+
+  /** Abre modal donde pegar texto crudo (LEGACY · ahora el flujo simple está en línea). */
   function openSmartPaste(){
     if (!getActive()) { alert('Creá un documento primero (botón "+ Nuevo" arriba a la izquierda).'); return; }
     let ov = document.getElementById('apaPasteOv');
@@ -993,6 +1060,7 @@ const APA = (function(){
 
   return {
     create, open, save, remove, kindChanged,
+    applyApaNorms, updateRawContent,
     openSectionPicker, closeSectionPicker, addSection, removeSection, moveSection,
     changeSectionType, updateSectionField,
     openSmartPaste, closeSmartPaste, previewSmartPaste, applySmartPaste,
