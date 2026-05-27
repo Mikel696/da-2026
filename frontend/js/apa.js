@@ -137,15 +137,20 @@ const APA = (function(){
     const studentName = def.student
       || (typeof localStorage !== 'undefined' && localStorage.getItem('sb_name'))
       || '';
+    const defSubjectId = 'ing_web';
+    // Para docs académicos, preferimos el profesor de la materia sobre el
+    // default custom — porque la materia es la fuente de verdad.
+    const defSubject = (typeof SUBJECTS !== 'undefined') ? SUBJECTS.find(s => s.id === defSubjectId) : null;
+    const initialProfessor = (defSubject && defSubject.professor) || def.professor || '';
     return {
       id: 'apa_' + Date.now(),
       title: 'Nuevo documento',
       kind: 'academic',
-      subjectId: 'ing_web',
+      subjectId: defSubjectId,
       subjectName: '',
       institution: def.institution || 'Corporación Unificada Nacional · CUN',
       program: def.program || 'Ingeniería de Sistemas',
-      professor: def.professor || '',
+      professor: initialProfessor,
       student: studentName,
       date: today,
       subtitle: '',
@@ -194,21 +199,9 @@ const APA = (function(){
     ).join('');
     sel.addEventListener('change', () => {
       if (_filling) return;
-      const all = getSubjectsMerged();
-      const subject = all.find(s => s.id === sel.value);
-      const profEl = document.getElementById('apaProfessor');
-      if (subject && profEl) {
-        const cur = (profEl.value || '').trim();
-        const fromCatalog = all.some(s => s.professor && s.professor === cur);
-        // FIX bug: actualizar siempre que el valor actual venga del catálogo
-        // (otra materia) o esté vacío — incluso si la nueva materia tiene
-        // profesor vacío (limpia el campo para que escribas el correcto).
-        if (!cur || fromCatalog) {
-          profEl.value = subject.professor || '';
-          // Disparar el guardado del header
-          profEl.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-      }
+      autoFillProfessor();
+      // Disparar input para guardar el cambio en d.professor
+      document.getElementById('apaProfessor')?.dispatchEvent(new Event('input', { bubbles: true }));
       schedulePreview();
     });
   }
@@ -275,7 +268,30 @@ const APA = (function(){
     // Update kind-related visibility manually (no event side effects)
     const grp = document.getElementById('apaKindAcademicGrp');
     if (grp) grp.style.display = (d.kind === 'academic') ? '' : 'none';
+    // AUTO-FILL profesor al cargar: setear `.value` no dispara `change`,
+    // así que llamamos el helper manualmente. Si el doc tiene profesor
+    // propio, no se sobrescribe (autoFillProfessor respeta valores
+    // custom no-catalog).
+    autoFillProfessor();
+    // Sincronizar el d.professor con el valor del DOM (puede haber cambiado).
+    d.professor = document.getElementById('apaProfessor').value;
     _filling = false;
+  }
+
+  /** Helper compartido — usado por el change handler del subject dropdown
+   *  Y por fillForm al cargar (donde no se dispara change). */
+  function autoFillProfessor(){
+    const sel = document.getElementById('apaSubject');
+    const profEl = document.getElementById('apaProfessor');
+    if (!sel || !profEl) return;
+    const all = getSubjectsMerged();
+    const subject = all.find(s => s.id === sel.value);
+    if (!subject) return;
+    const cur = (profEl.value || '').trim();
+    const fromCatalog = all.some(s => s.professor && s.professor === cur);
+    if (!cur || fromCatalog) {
+      profEl.value = subject.professor || '';
+    }
   }
 
   /* ── Header snapshot (only for top form fields) ─────────── */
