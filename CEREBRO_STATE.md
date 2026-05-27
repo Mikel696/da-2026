@@ -6,6 +6,33 @@
 
 ---
 
+## ⚙️ 10-SYS · Subject CRUD — 2026-05-26
+
+### Qué cambió
+Sistema CRUD completo de materias para Tab 1 (Materias).
+
+### Entregado
+- **`getSubjects()`:** merge `SUBJECTS` hardcoded + `sys_subjects_custom` (custom/overrides) excluyendo `sys_subjects_hidden`. Single source of truth para toda la UI.
+- **Modal Nueva/Editar materia:** ícono, código, nombre, color picker (12 colores), créditos, grupo, tipo, horario, profesor, descripción, CDigital ID, links clase/grabaciones/material.
+- **Cronograma de entregas por materia:** filas título + fecha + tipo en el modal. Se renderizan como dropdown semáforo en la tarjeta de cada materia.
+- **Adjuntos por materia:** `sys_subj_files_${id}` en localStorage. FileReader → base64 DataURL, max 2 MB, con descarga y eliminación.
+- **Ocultar materia:** soft-delete en `sys_subjects_hidden` (las tareas se conservan).
+- **Selects dinámicos:** `renderSubjTaskSelects()` pobla `#newTaskSubj` y `#bulkSubj` en tiempo real.
+- **Botones ✏ Editar y 🗑 en cada tarjeta** + botón **+ Nueva materia** en el header.
+- `renderStats()` y `renderDeadlines()` usan `getSubjects()` en vez de `SUBJECTS`.
+
+### Pendiente (Tier B)
+- Tareas Bloque 2 para ing_web, mat_especiales, inv_ciencia
+- Actividades A1I01 y CE1026 con fechas reales
+- Bump SEED_VERSION a 6 cuando haya datos verificados
+
+### Archivos
+- ✏️ `frontend/systems_logic.js` (+~230 líneas: CRUD completo)
+- ✏️ `frontend/systems.html` (+~155 líneas: CSS modal + HTML modal + selects vacíos)
+- **Commit:** `e847ea6`
+
+---
+
 ## ⚙️ 10-SYS · Tier A · Audit + Calendar Upgrade — 2026-05-26
 
 ### Qué cambió

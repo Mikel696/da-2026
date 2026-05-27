@@ -175,3 +175,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: systems_logic.js, systems.html, CEREBRO_STATE.md
 - Changed: Audit READ-ONLY completo · Tier A aplicado: CALENDAR['26V02'] completado (gradeClose2+periodClose), renderDeadlines() en Tab 2, english_beginner enriquecida (profesor+horario), CSS transition fix
 - Next: Tier B — conectar Chrome MCP o pegar syllabus CDigital para Bloque 2 de ing_web/mat_especiales/inv_ciencia y actividades de A1I01+CE1026 → bump SEED_VERSION 6
+
+### ID:10-SYS.P2 (CONT) · 2026-05-26 — Subject CRUD
+- Commit: e847ea6
+- Files: systems_logic.js (+230 líneas), systems.html (+155 líneas)
+- Changed: CRUD completo de materias — nueva/editar/ocultar, modal con color picker, cronograma de entregas, adjuntos base64, getSubjects() merge hardcoded+custom, selects dinámicos
+- Next: Tier B aún pendiente (Bloque 2 tasks, Bloque 2 cronograma real)
