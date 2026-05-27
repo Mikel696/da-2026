@@ -912,13 +912,15 @@ const SYS = (() => {
     event.target.value = '';
   }
 
-  // ── CLEAR COMPLETED ──
+  // ── BULK DELETE — propaga removes a Supabase, no solo localStorage ──
   function deleteOverdueTasks() {
     const today = todayStr();
     const tasks = getTasks();
     const overdue = tasks.filter(t => !t.done && t.due && t.due < today);
     if (!overdue.length) { alert('No hay tareas vencidas pendientes.'); return; }
     if (!confirm(`¿Eliminar ${overdue.length} tarea${overdue.length > 1 ? 's' : ''} vencida${overdue.length > 1 ? 's' : ''}?\n\nLas tareas completadas no se ven afectadas.`)) return;
+    // CRÍTICO: borrar también en Supabase, si no las vencidas vuelven al recargar.
+    if (window.CLOUD) overdue.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
     const remaining = tasks.filter(t => !overdue.includes(t));
     saveTasks(remaining);
     render();
@@ -927,9 +929,11 @@ const SYS = (() => {
   function clearCompleted() {
     const tasks = getTasks();
     const pending = tasks.filter(t => !t.done);
-    const removed = tasks.length - pending.length;
-    if (removed === 0) { alert('No hay tareas completadas para limpiar.'); return; }
-    if (!confirm(`¿Eliminar ${removed} tarea${removed !== 1 ? 's' : ''} completada${removed !== 1 ? 's' : ''}?`)) return;
+    const removed = tasks.filter(t => t.done);
+    if (removed.length === 0) { alert('No hay tareas completadas para limpiar.'); return; }
+    if (!confirm(`¿Eliminar ${removed.length} tarea${removed.length !== 1 ? 's' : ''} completada${removed.length !== 1 ? 's' : ''}?`)) return;
+    // CRÍTICO: borrar también en Supabase para que no vuelvan al recargar.
+    if (window.CLOUD) removed.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
     saveTasks(pending);
     render();
   }
@@ -1176,6 +1180,9 @@ const SYS = (() => {
         !STALE_IDS.has(t.subj) &&
         !oldSeedTexts.has(t.text)
       );
+      // CRÍTICO: borrar las purgadas también en Supabase — si no, vuelven al sync.
+      const purged = existing.filter(t => !userTasks.includes(t));
+      if (window.CLOUD && purged.length) purged.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
       saveTasks(userTasks);
       db.set('seed_version', SEED_VERSION);
     }
