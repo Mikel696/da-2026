@@ -415,6 +415,38 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .pim-actions{display:flex;gap:8px;justify-content:flex-end}
 .pim-actions .tf-btn{font-size:12px;padding:8px 16px}
 .pim-actions .tf-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* SUBJECT CRUD MODAL */
+.sm-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.sm-mo{background:var(--c2);border:1px solid var(--bd);border-radius:14px;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.sm-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.sm-t{font-size:16px;font-weight:700;color:var(--tx)}
+.sm-x{background:none;border:none;color:var(--t3);cursor:pointer;font-size:18px;line-height:1;padding:4px 8px;border-radius:4px}.sm-x:hover{color:var(--tx);background:var(--el)}
+.sm-bd{flex:1;overflow-y:auto;padding:18px 20px}
+.sm-sc{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap}
+.sm-st{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;margin-top:14px;padding-bottom:5px;border-bottom:1px solid var(--bd)}
+.sm-g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sm-f{display:flex;flex-direction:column;gap:4px;flex:1}
+.sm-i{width:100%;padding:7px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-family:inherit;font-size:12px;outline:none;box-sizing:border-box;resize:vertical}.sm-i:focus{border-color:var(--vi)}
+.sm-lbl{font-size:10px;color:var(--t3)}
+.sm-cols{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.sm-col-pick{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s}.sm-col-pick:hover{transform:scale(1.2)}.sm-col-pick.on{border-color:#fff;transform:scale(1.15)}
+.cr-row{display:grid;grid-template-columns:1fr 130px 105px 28px;gap:6px;align-items:center;margin-bottom:6px}
+.cr-del{background:none;border:1px solid var(--bd);border-radius:5px;color:var(--t3);cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}.cr-del:hover{color:var(--rd);border-color:var(--rd)}
+.att-lst{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.att-c{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--el);border-radius:7px;border:1px solid var(--bd)}
+.att-ic{font-size:16px;flex-shrink:0}
+.att-nm{flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.att-sz{font-size:10px;color:var(--t3);flex-shrink:0}
+.att-b{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;padding:2px 7px;border-radius:4px}.att-b:hover{color:var(--tx);background:var(--bd)}
+.att-bd{border:2px dashed var(--bd);border-radius:8px;padding:12px;text-align:center;font-size:11px;color:var(--t3);cursor:pointer;margin-top:8px}.att-bd:hover{border-color:var(--vi);color:var(--vi2)}
+.sm-ft{display:flex;gap:8px;justify-content:flex-end;padding:14px 20px;border-top:1px solid var(--bd);flex-shrink:0}
+.sm-can{padding:8px 18px;background:transparent;border:1px solid var(--bd);border-radius:7px;color:var(--t2);cursor:pointer;font-family:inherit;font-size:13px;font-weight:500}.sm-can:hover{background:var(--el)}
+.sm-sav{padding:8px 20px;background:var(--vi);border:none;border-radius:7px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600}.sm-sav:hover{filter:brightness(1.1)}
+.subj-edit-btns{display:flex;gap:6px;flex-shrink:0}
+.subj-btn-edit,.subj-btn-del{padding:4px 10px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.subj-btn-edit{background:var(--vg);color:var(--vi2);border:1px solid rgba(124,58,237,.25)}.subj-btn-edit:hover{filter:brightness(1.2)}
+.subj-btn-del{background:rgba(239,68,68,.08);color:var(--rd);border:1px solid rgba(239,68,68,.2)}.subj-btn-del:hover{filter:brightness(1.2)}
 </style>
 </head>
 <body>
@@ -470,14 +502,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="sd">Las tareas se muestran agrupadas por materia en la pestaña <em>Materias</em> con su semáforo de prioridad.</div>
 <div class="task-form">
 <input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Ingeniería Web...">
-<select class="tf-select" id="newTaskSubj">
-<option value="ing_web">🌐 Ingeniería Web</option>
-<option value="mat_especiales">🔢 Matemáticas Especiales</option>
-<option value="inv_ciencia">🔬 Investigación C&amp;T</option>
-<option value="english_beginner">🇺🇸 English Beginner 1</option>
-<option value="placement_test">📝 Placement Test BE</option>
-<option value="general">📌 General</option>
-</select>
+<select class="tf-select" id="newTaskSubj"></select>
 <select class="tf-select" id="newTaskPriority">
 <option value="p2">🟡 P2 — On track</option>
 <option value="p1">🟠 P1 — Esta semana</option>
@@ -607,14 +632,7 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 </div>
 <textarea id="bulkImport" placeholder="Pega aquí las tareas de CUN Digital (una por línea).&#10;Ejemplo:&#10;Taller 3 - Grafos y árboles&#10;Quiz semana 8 - Ecuaciones diferenciales&#10;Foro de discusión - Redes inalámbricas" style="width:100%;min-height:120px;padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical"></textarea>
 <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-<select class="tf-select" id="bulkSubj">
-<option value="ing_web">Ingeniería Web</option>
-<option value="mat_especiales">Matemáticas Especiales</option>
-<option value="inv_ciencia">Inv. Ciencia y Tecnología</option>
-<option value="english_beginner">English Beginner 1</option>
-<option value="placement_test">Placement Test BE</option>
-<option value="general">General</option>
-</select>
+<select class="tf-select" id="bulkSubj"></select>
 <select class="tf-select" id="bulkPriority">
 <option value="p2">🟡 P2 — On track</option>
 <option value="p1">🟠 P1 — Esta semana</option>
@@ -748,6 +766,98 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 </div>
 <div class="tg-body" id="tgBody"></div>
 </div>
+</div>
+
+<!-- ═══════ SUBJECT CRUD MODAL ═══════ -->
+<div id="smOv" class="sm-ov" style="display:none" onclick="if(event.target===this)SYS.closeSubjectModal()">
+  <div class="sm-mo">
+    <div class="sm-hd">
+      <div class="sm-t" id="smTitle">Nueva Materia</div>
+      <button class="sm-x" onclick="SYS.closeSubjectModal()">✕</button>
+    </div>
+    <div class="sm-bd">
+      <div class="sm-st">Identificación</div>
+      <div class="sm-sc">
+        <div class="sm-f" style="flex:0 0 auto">
+          <label class="sm-lbl">Ícono</label>
+          <input class="sm-i" id="smIcon" value="📚" style="width:60px;text-align:center;font-size:18px">
+        </div>
+        <div class="sm-f" style="flex:0 0 auto">
+          <label class="sm-lbl">Código</label>
+          <input class="sm-i" id="smCode" placeholder="DIS34" style="width:80px">
+        </div>
+        <div class="sm-f" style="flex:1;min-width:200px">
+          <label class="sm-lbl">Nombre de la materia *</label>
+          <input class="sm-i" id="smName" placeholder="Ej: Ingeniería Web">
+        </div>
+      </div>
+      <div class="sm-st">Color</div>
+      <div class="sm-cols" id="smColorPicks"></div>
+      <input type="hidden" id="smColor" value="hsl(200,80%,50%)">
+      <div class="sm-g2" style="margin-top:4px">
+        <div class="sm-f">
+          <label class="sm-lbl">Créditos</label>
+          <input class="sm-i" id="smCredits" type="number" min="0" max="10" placeholder="3">
+        </div>
+        <div class="sm-f">
+          <label class="sm-lbl">Grupo</label>
+          <input class="sm-i" id="smGroup" placeholder="52211">
+        </div>
+      </div>
+      <div class="sm-g2" style="margin-top:10px">
+        <div class="sm-f">
+          <label class="sm-lbl">Tipo / Área</label>
+          <input class="sm-i" id="smType" placeholder="Ej: Desarrollo de Software">
+        </div>
+        <div class="sm-f">
+          <label class="sm-lbl">Horario</label>
+          <input class="sm-i" id="smSchedule" placeholder="Ej: Miércoles 6:15 PM">
+        </div>
+      </div>
+      <div class="sm-f" style="margin-top:10px">
+        <label class="sm-lbl">Profesor</label>
+        <input class="sm-i" id="smProfessor" placeholder="Nombre del profesor">
+      </div>
+      <div class="sm-f" style="margin-top:10px">
+        <label class="sm-lbl">Descripción</label>
+        <textarea class="sm-i" id="smDesc" rows="2" placeholder="Temas principales de la materia..."></textarea>
+      </div>
+      <div class="sm-st">Links útiles</div>
+      <div class="sm-g2">
+        <div class="sm-f">
+          <label class="sm-lbl">CDigital ID (solo número)</label>
+          <input class="sm-i" id="smCdigitalId" type="number" placeholder="104362">
+        </div>
+        <div class="sm-f">
+          <label class="sm-lbl">Link clase / Meet</label>
+          <input class="sm-i" id="smLinkClase" placeholder="https://...">
+        </div>
+      </div>
+      <div class="sm-g2" style="margin-top:8px">
+        <div class="sm-f">
+          <label class="sm-lbl">Grabaciones (Drive/YouTube)</label>
+          <input class="sm-i" id="smLinkGrab" placeholder="https://...">
+        </div>
+        <div class="sm-f">
+          <label class="sm-lbl">Material de estudio</label>
+          <input class="sm-i" id="smLinkMat" placeholder="https://...">
+        </div>
+      </div>
+      <div class="sm-st" style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+        <span>Cronograma de entregas</span>
+        <button class="tf-btn" style="padding:4px 12px;font-size:11px;background:var(--el);color:var(--t2);border:1px solid var(--bd)" onclick="SYS.addCrono()">+ Agregar</button>
+      </div>
+      <div id="smCronoList" style="margin-top:6px"></div>
+      <div class="sm-st" style="margin-top:16px">Archivos adjuntos <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px">(syllabus, PDFs, imágenes · max 2 MB c/u)</span></div>
+      <div class="att-bd" onclick="document.getElementById('smFileInput').click()">📎 Click para adjuntar o arrastra un archivo</div>
+      <input type="file" id="smFileInput" multiple style="display:none" onchange="SYS.subjectFileUpload(this)">
+      <div class="att-lst" id="smAttList"></div>
+    </div>
+    <div class="sm-ft">
+      <button class="sm-can" onclick="SYS.closeSubjectModal()">Cancelar</button>
+      <button class="sm-sav" onclick="SYS.saveSubjectModal()">💾 Guardar</button>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

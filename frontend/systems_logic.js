@@ -314,7 +314,10 @@ const SYS = (() => {
       p4: { icon: '🟣', label: 'OPCIONAL', cls: 'sem-p4' },
     };
 
-    el.innerHTML = SUBJECTS.map(s => {
+    const allSubjects = getSubjects();
+    el.innerHTML = `<div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+      <button class="tf-btn" style="background:var(--vi);font-size:12px" onclick="SYS.openSubjectModal(null)">+ Nueva materia</button>
+    </div>` + allSubjects.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
       const total = subjTasks.length;
@@ -323,7 +326,7 @@ const SYS = (() => {
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
       const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales', 'inv_ciencia']);
-      const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id);
+      const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id) || (s.cronograma && s.cronograma.length > 0);
 
       // Tasks grouped by priority (semáforo)
       const grouped = { p0: [], p1: [], p2: [], p3: [], p4: [], done: [] };
@@ -365,7 +368,13 @@ const SYS = (() => {
       return `<div class="gc" style="border-left:3px solid ${s.color}">
         <div class="gc-h">
           <div class="gc-t"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
-          ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
+          <div style="display:flex;align-items:center;gap:6px">
+            ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
+            <div class="subj-edit-btns">
+              <button class="subj-btn-edit" onclick="SYS.openSubjectModal('${s.id}')">✏ Editar</button>
+              <button class="subj-btn-del" onclick="SYS.deleteSubjectCRUD('${s.id}')">🗑</button>
+            </div>
+          </div>
         </div>
         ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}${s.professor_email ? ` · <a href="mailto:${s.professor_email}" style="color:var(--vi2);text-decoration:none">${s.professor_email}</a>` : ''}</div>` : ''}
         ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>` : ''}
@@ -400,6 +409,27 @@ const SYS = (() => {
 
         <!-- NOTEBOOK DROPDOWN -->
         ${nbHtml}
+
+        <!-- CRONOGRAMA (solo si tiene entradas) -->
+        ${s.cronograma && s.cronograma.length ? `<div class="sj-drop" id="sjCrono-${s.id}" style="margin-top:8px">
+          <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjCrono-${s.id}')">
+            <div>📅 Cronograma <span class="sj-drop-count">(${s.cronograma.length} entrega${s.cronograma.length!==1?'s':''})</span></div>
+            <span class="sj-drop-arr">▶</span>
+          </div>
+          <div class="sj-drop-body">
+            ${s.cronograma.map(c => {
+              const d = c.date ? daysBetween(todayStr(), c.date) : null;
+              const sc2 = d === null ? 'sem-p4' : d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
+              const dl = d === null ? '' : d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+              const typeIc = { tarea:'📋', parcial:'📝', quiz:'❓', proyecto:'🎯', foro:'💬', otro:'📌' }[c.type] || '📌';
+              return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
+                ${dl ? `<span class="sem ${sc2}" style="flex-shrink:0;min-width:52px;justify-content:center;font-size:10px">${dl}</span>` : ''}
+                <span style="font-size:12px;flex:1">${typeIc} ${esc(c.title)}</span>
+                ${c.date ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(c.date)}</span>` : ''}
+              </div>`;
+            }).join('')}
+          </div>
+        </div>` : ''}
 
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
           ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 CDigital</a>` : ''}
@@ -569,8 +599,9 @@ const SYS = (() => {
     const daysLeft = cal.academic ? Math.max(0, daysBetween(todayStr(), cal.academic.end)) : 0;
 
     const setV = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
-    const totalCredits = SUBJECTS.reduce((sum, s) => sum + (s.credits || 0), 0);
-    setV('statMaterias', SUBJECTS.length);
+    const _allSubj = getSubjects();
+    const totalCredits = _allSubj.reduce((sum, s) => sum + (s.credits || 0), 0);
+    setV('statMaterias', _allSubj.length);
     setV('statCredits', totalCredits);
     setV('statProgress', pct + '%');
     setV('statPending', pending);
@@ -793,7 +824,7 @@ const SYS = (() => {
       return;
     }
     pending.sort((a, b) => a.due.localeCompare(b.due));
-    const subjMap = Object.fromEntries(SUBJECTS.map(s => [s.id, s]));
+    const subjMap = Object.fromEntries(getSubjects().map(s => [s.id, s]));
     const bySubj = {};
     pending.forEach(t => {
       const s = subjMap[t.subj] || { id: t.subj, name: 'General', icon: '📌', color: 'hsl(0,0%,50%)', code: '' };
@@ -829,6 +860,7 @@ const SYS = (() => {
   }
 
   function render() {
+    renderSubjTaskSelects();
     renderStats();
     renderActionNow();
     renderSemaphore();
@@ -1359,7 +1391,225 @@ const SYS = (() => {
     if (body) body.classList.toggle('open');
   }
 
-  // Expose globally
+  // ── SUBJECT CRUD ──────────────────────────────────────────────
+
+  const SM_COLORS = [
+    'hsl(200,80%,50%)','hsl(263,70%,55%)','hsl(320,60%,50%)','hsl(45,85%,50%)',
+    'hsl(15,70%,50%)','hsl(160,60%,40%)','hsl(0,65%,55%)','hsl(35,80%,50%)',
+    'hsl(240,70%,60%)','hsl(190,75%,45%)','hsl(280,55%,55%)','hsl(100,55%,40%)',
+  ];
+  let _smEditId = null;
+
+  function getSubjects() {
+    const custom = db.get('subjects_custom', []);
+    const hidden = new Set(db.get('subjects_hidden', []));
+    const overMap = Object.fromEntries(custom.map(s => [s.id, s]));
+    const hardIds = new Set(SUBJECTS.map(s => s.id));
+    const base = SUBJECTS.filter(s => !hidden.has(s.id)).map(s => overMap[s.id] ? { ...s, ...overMap[s.id] } : s);
+    const extras = custom.filter(s => !hardIds.has(s.id) && !hidden.has(s.id));
+    return [...base, ...extras];
+  }
+
+  function _saveSubj(subj) {
+    const custom = db.get('subjects_custom', []);
+    const idx = custom.findIndex(s => s.id === subj.id);
+    if (idx >= 0) custom[idx] = subj; else custom.push(subj);
+    db.set('subjects_custom', custom);
+  }
+
+  function deleteSubjectCRUD(id) {
+    const s = getSubjects().find(s => s.id === id);
+    if (!s) return;
+    if (!confirm(`¿Ocultar la materia "${s.name}"?\n\nLas tareas asociadas se conservan. Puedes rehidratarla volviendo a crearla con el mismo ID.`)) return;
+    const hidden = db.get('subjects_hidden', []);
+    if (!hidden.includes(id)) hidden.push(id);
+    db.set('subjects_hidden', hidden);
+    db.set('subjects_custom', db.get('subjects_custom', []).filter(c => c.id !== id));
+    render();
+  }
+
+  function openSubjectModal(id) {
+    _smEditId = id || null;
+    const ov = document.getElementById('smOv');
+    if (!ov) return;
+    const cp = document.getElementById('smColorPicks');
+    if (cp) cp.innerHTML = SM_COLORS.map(c => `<div class="sm-col-pick" style="background:${c}" data-c="${c}" onclick="SYS._smColor(this,'${c}')"></div>`).join('');
+    const sv = (eid, v) => { const e = document.getElementById(eid); if (e) e.value = v ?? ''; };
+    const s = id ? getSubjects().find(x => x.id === id) : null;
+    document.getElementById('smTitle').textContent = s ? 'Editar Materia' : 'Nueva Materia';
+    sv('smIcon', s?.icon || '📚');
+    sv('smCode', s?.code || '');
+    sv('smName', s?.name || '');
+    sv('smColor', s?.color || SM_COLORS[0]);
+    sv('smCredits', s?.credits ?? '');
+    sv('smGroup', s?.group || '');
+    sv('smType', s?.type || '');
+    sv('smSchedule', s?.schedule || '');
+    sv('smProfessor', s?.professor || '');
+    sv('smDesc', s?.desc || '');
+    sv('smCdigitalId', s?.cdigital_id || '');
+    sv('smLinkClase', s?.subject_links?.clase || '');
+    sv('smLinkGrab', s?.subject_links?.grabaciones || '');
+    sv('smLinkMat', s?.subject_links?.material || '');
+    document.querySelectorAll('#smColorPicks .sm-col-pick').forEach(el => el.classList.toggle('on', el.dataset.c === (s?.color || SM_COLORS[0])));
+    document.getElementById('smCronoList').innerHTML = (s?.cronograma || []).map((r, i) => _crRow(r, i)).join('');
+    _renderSmFiles(id);
+    ov.style.display = 'flex';
+  }
+
+  function closeSubjectModal() {
+    const ov = document.getElementById('smOv');
+    if (ov) ov.style.display = 'none';
+    _smEditId = null;
+  }
+
+  function _smColor(el, val) {
+    document.getElementById('smColor').value = val;
+    document.querySelectorAll('#smColorPicks .sm-col-pick').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+  }
+
+  function _crRow(r, i) {
+    const rid = r.id || ('cr' + i);
+    return `<div class="cr-row" id="cr-${rid}">
+      <input class="sm-i" placeholder="Ej: Entrega Taller 1" value="${esc(r.title || '')}" data-crf="title" data-cri="${rid}">
+      <input class="sm-i" type="date" value="${r.date || ''}" data-crf="date" data-cri="${rid}">
+      <select class="sm-i" data-crf="type" data-cri="${rid}">
+        <option value="tarea"${r.type==='tarea'?' selected':''}>📋 Tarea</option>
+        <option value="parcial"${r.type==='parcial'?' selected':''}>📝 Parcial</option>
+        <option value="quiz"${r.type==='quiz'?' selected':''}>❓ Quiz</option>
+        <option value="proyecto"${r.type==='proyecto'?' selected':''}>🎯 Proyecto</option>
+        <option value="foro"${r.type==='foro'?' selected':''}>💬 Foro</option>
+        <option value="otro"${r.type==='otro'?' selected':''}>📌 Otro</option>
+      </select>
+      <button class="cr-del" onclick="SYS.removeCrono('${rid}')">✕</button>
+    </div>`;
+  }
+
+  function addCrono() {
+    const list = document.getElementById('smCronoList');
+    if (!list) return;
+    const id = 'cr' + Date.now();
+    const tmp = document.createElement('div');
+    tmp.innerHTML = _crRow({ id, title: '', date: '', type: 'tarea' });
+    list.appendChild(tmp.firstChild);
+  }
+
+  function removeCrono(rowId) {
+    const el = document.getElementById('cr-' + rowId);
+    if (el) el.remove();
+  }
+
+  function _readCrono() {
+    return Array.from(document.querySelectorAll('#smCronoList .cr-row')).map(row => {
+      const g = f => row.querySelector(`[data-crf="${f}"]`)?.value || '';
+      const id = row.querySelector('[data-cri]')?.dataset.cri || ('cr' + Date.now());
+      return { id, title: g('title'), date: g('date'), type: g('type') };
+    }).filter(r => r.title || r.date);
+  }
+
+  function saveSubjectModal() {
+    const gv = id => document.getElementById(id)?.value?.trim() || '';
+    const name = gv('smName');
+    if (!name) { alert('El nombre de la materia es obligatorio.'); return; }
+    const color = gv('smColor') || SM_COLORS[0];
+    const cdigId = parseInt(gv('smCdigitalId')) || null;
+    const sl = {};
+    const lc = gv('smLinkClase'); if (lc) sl.clase = lc;
+    const lg = gv('smLinkGrab');  if (lg) sl.grabaciones = lg;
+    const lm = gv('smLinkMat');   if (lm) sl.material = lm;
+    const id = _smEditId || ('subj_' + Date.now());
+    const subj = {
+      id, name, color,
+      code:      gv('smCode'),
+      icon:      gv('smIcon') || '📚',
+      credits:   parseInt(gv('smCredits')) || 0,
+      group:     gv('smGroup'),
+      type:      gv('smType'),
+      schedule:  gv('smSchedule'),
+      professor: gv('smProfessor'),
+      desc:      gv('smDesc'),
+      cdigital_id: cdigId,
+      subject_links: Object.keys(sl).length ? sl : undefined,
+      cronograma: _readCrono(),
+      _custom: true,
+      _updated: new Date().toISOString(),
+    };
+    _saveSubj(subj);
+    closeSubjectModal();
+    render();
+  }
+
+  // ── FILE ATTACHMENTS (per subject) ──
+  function _getFiles(sid) { return db.get('subj_files_' + sid, []); }
+  function _setFiles(sid, arr) { db.set('subj_files_' + sid, arr); }
+
+  function _renderSmFiles(sid) {
+    const el = document.getElementById('smAttList');
+    if (!el) return;
+    if (!sid) { el.innerHTML = ''; return; }
+    const files = _getFiles(sid);
+    if (!files.length) { el.innerHTML = ''; return; }
+    const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', gif:'🖼️', zip:'🗜️', rar:'🗜️' };
+    el.innerHTML = files.map(f => {
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
+      const ic = icMap[ext] || '📎';
+      const sz = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB';
+      return `<div class="att-c">
+        <span class="att-ic">${ic}</span>
+        <span class="att-nm" title="${esc(f.name)}">${esc(f.name)}</span>
+        <span class="att-sz">${sz}</span>
+        <button class="att-b" onclick="SYS.subjectFileDL('${sid}','${f.id}')">⬇</button>
+        <button class="att-b" onclick="SYS.subjectFileDel('${sid}','${f.id}')">✕</button>
+      </div>`;
+    }).join('');
+  }
+
+  function subjectFileUpload(input) {
+    const sid = _smEditId;
+    if (!sid) return;
+    const existing = _getFiles(sid);
+    Array.from(input.files).forEach(f => {
+      if (f.size > 2 * 1024 * 1024) { alert(`"${f.name}" supera los 2 MB. Comprime e intenta de nuevo.`); return; }
+      const reader = new FileReader();
+      reader.onload = e => {
+        existing.push({ id: 'f' + Date.now(), name: f.name, type: f.type, size: f.size, data: e.target.result, added: new Date().toISOString() });
+        _setFiles(sid, existing);
+        _renderSmFiles(sid);
+      };
+      reader.readAsDataURL(f);
+    });
+    input.value = '';
+  }
+
+  function subjectFileDL(sid, fileId) {
+    const f = _getFiles(sid).find(x => x.id === fileId);
+    if (!f?.data) return;
+    const a = document.createElement('a');
+    a.href = f.data; a.download = f.name; a.click();
+  }
+
+  function subjectFileDel(sid, fileId) {
+    if (!confirm('¿Eliminar este archivo?')) return;
+    _setFiles(sid, _getFiles(sid).filter(f => f.id !== fileId));
+    _renderSmFiles(sid);
+  }
+
+  // ── SYNC TASK SELECTS ──
+  function renderSubjTaskSelects() {
+    const subjects = getSubjects();
+    const opts = subjects.map(s => `<option value="${s.id}">${s.icon} ${esc(s.name)}</option>`).join('') +
+      '<option value="general">📌 General</option>';
+    ['newTaskSubj', 'bulkSubj'].forEach(eid => {
+      const el = document.getElementById(eid);
+      if (!el) return;
+      const cur = el.value;
+      el.innerHTML = opts;
+      if ([...el.options].some(o => o.value === cur)) el.value = cur;
+    });
+  }
+
+  // ── EXPOSE GLOBALLY
   window.showTab = showTab;
   window.openCUNPortals = openCUNPortals;
   window.openSinglePortal = openSinglePortal;
@@ -1381,7 +1631,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor };
 })();
 window.SYS = SYS;
 
