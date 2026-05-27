@@ -469,6 +469,54 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 /* CARD opacity for non-active statuses */
 .subj-card-dim{opacity:.55}
 
+/* ═══ SKILL MODULES (Tab 4 · Certificaciones rediseñada) ═══════════════ */
+.skills-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.skill-module{background:var(--c2);border:1px solid var(--bd);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:box-shadow .15s}
+.skill-module:hover{box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.skill-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:background .15s;flex-wrap:wrap}
+.skill-head:hover{background:rgba(255,255,255,.03)}
+.skill-head-icon{flex-shrink:0;width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.skill-head-info{flex:1;min-width:200px}
+.skill-head-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.skill-head-summary{font-size:11px;color:var(--t2);line-height:1.5}
+.skill-head-meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;flex-shrink:0}
+.skill-meta-pill{padding:3px 9px;border-radius:11px;font-size:10px;font-weight:600;background:var(--el);color:var(--t2);border:1px solid var(--bd);font-family:'IBM Plex Mono',monospace}
+.skill-head-arrow{display:inline-block;color:var(--t3);font-size:11px;transition:transform .2s;flex-shrink:0;width:14px;text-align:center}
+.skill-module.on .skill-head-arrow{transform:rotate(90deg)}
+.skill-body{display:none;padding:0 16px 16px;border-top:1px solid var(--bd)}
+.skill-module.on .skill-body{display:block}
+.skill-why{padding:12px 14px;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.18);border-radius:8px;font-size:12px;line-height:1.65;color:var(--t2);margin-top:12px}
+.skill-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px}
+.skill-meta-item{font-size:11px;color:var(--t2);padding:6px 10px;background:var(--el);border:1px solid var(--bd);border-radius:7px}
+.skill-roadmap-title{margin-top:14px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.skill-roadmap{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 4px;padding:10px;background:var(--el);border-radius:8px;border:1px solid var(--bd)}
+.roadmap-step{padding:5px 11px;border-radius:14px;font-size:11px;font-weight:600;background:var(--el);color:var(--t3);border:1px solid var(--bd);display:inline-flex;align-items:center;gap:4px}
+.roadmap-step-empty{opacity:.35}
+.roadmap-arrow{color:var(--t3);font-size:13px}
+.skill-certs-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.cert-card{background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .1s}
+.cert-card:hover{border-color:var(--vi);transform:translateX(2px)}
+.cert-featured{background:linear-gradient(135deg,rgba(245,158,11,.04),transparent 60%)}
+.cert-card-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cert-level-badge{padding:3px 10px;border-radius:11px;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;flex-shrink:0;letter-spacing:.3px}
+.cert-icon-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.cert-name-wrap{flex:1;min-width:160px}
+.cert-name-main{font-size:13px;font-weight:700;color:var(--tx);display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.cert-issuer-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.cert-desc-line{font-size:12px;color:var(--t2);line-height:1.6}
+.cert-learn-block{background:var(--c2);border-radius:7px;padding:8px 12px;border:1px solid var(--bd)}
+.cert-learn-h{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.cert-learn-list{margin:0;padding-left:18px;font-size:11px;color:var(--t2);line-height:1.7}
+.cert-learn-list li{margin:0}
+.cert-relates{font-size:11px;color:var(--vi2);background:rgba(124,58,237,.08);padding:6px 10px;border-radius:6px;border-left:2px solid var(--vi);line-height:1.5}
+.cert-rep{font-size:11px;color:var(--t2);font-family:'IBM Plex Mono',monospace}
+.cert-link-btn{display:inline-block;align-self:flex-start;padding:7px 16px;border-radius:7px;color:#fff;text-decoration:none;font-size:12px;font-weight:600;transition:filter .15s;font-family:inherit}
+.cert-link-btn:hover{filter:brightness(1.15)}
+.skill-next{margin-top:14px;padding:12px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:8px;font-size:12px}
+.skill-next-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.next-skill-btn{padding:5px 12px;border-radius:7px;background:var(--el);border:1px solid var(--gn);color:var(--gn);cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;transition:background .15s}
+.next-skill-btn:hover{background:rgba(34,197,94,.1)}
+
 /* FILE ATTACHMENT MINI-PREVIEW (in modal) */
 .att-mini{width:28px;height:28px;object-fit:cover;border-radius:5px;cursor:zoom-in;flex-shrink:0;border:1px solid var(--bd)}
 .att-mini:hover{filter:brightness(1.15)}
@@ -618,8 +666,8 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 4: CERTIFICACIONES ═══════ -->
 <div class="pnl" id="pnl4">
-<div class="sl">· roadmap de certificaciones — Ing. Informática + AI/Data Science ·</div>
-<div class="sd"><strong style="color:#fbbf24">⭐ Certs TOP destacadas</strong> de las mejores universidades + academias del mundo: <strong>Harvard, Helsinki, MIT (Linux Foundation), Google, IBM, AWS, Cisco, Oracle, Hugging Face, Kaggle, freeCodeCamp, MongoDB, Databricks</strong>. Organizadas en 11 áreas con <strong style="color:var(--gn)">100% gratuitas</strong> + certificado/badge oficial verificable. Empieza por las marcadas con ⭐ TOP — es el orden óptimo de aprendizaje.</div>
+<div class="sl">· skills · learning paths · principiante → pro ·</div>
+<div class="sd">15 <strong>módulos de skills</strong> desplegables. Cada uno tiene una <strong>ruta de aprendizaje ordenada</strong> 🥚 Principiante → 🌱 Intermedio → 🌳 Avanzado → 🏆 Pro · con qué aprenderás en cada cert, cómo se conecta con el siguiente y cuál es su reputación en el mercado. <strong style="color:var(--gn)">Mayoría 100% gratis</strong> + se incluyen las pagas TOP de la industria para que sepas cuál es tu siguiente inversión real. Click en cualquier skill para expandir su roadmap.</div>
 <div id="certList"></div>
 </div>
 <!-- ═══════ TAB 5: CUN HUB ═══════ -->

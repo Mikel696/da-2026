@@ -141,33 +141,300 @@ const SYS = (() => {
     { sem: 10, level: 'Ingeniería de Sistemas', subjects: ['Auditoría de Sistemas','Electiva de Profundización III','Práctica Profesional','Opción de Grado Profesional'] },
   ];
 
-  // ── CERTIFICATIONS — Roadmap completo Ing. Informática + AI + Data Science ──
-  // Auditadas 2026-05-27 · 100% GRATIS con badge/certificado oficial verificable.
-  // Curadas de las mejores universidades + academias del mundo:
-  //   · Universidades: Helsinki (Elements of AI), Harvard (CS50), Stanford
-  //   · Big Tech: Google, Microsoft, AWS, Oracle, IBM, Cisco, Hugging Face
-  //   · Academias: freeCodeCamp, Kaggle, MongoDB, Databricks, Postman
-  // Cada cert tiene: categoría (área temática), subjects (materias 10-SYS que
-  // complementa), y `featured` para destacar las TOP recomendadas.
+  // ── SKILL MODULES — Roadmap de Ing. Informática + énfasis AI/Data Science ──
+  // Auditado 2026-05-27 · cada SKILL es un módulo desplegable con learning
+  // path ordenado: principiante → intermedio → avanzado → pro.
+  // Cada cert lleva:
+  //   · level: nivel del path
+  //   · learn: qué aprenderás (bullets)
+  //   · relatesTo: cómo se conecta con el siguiente paso
+  //   · reputation: alta / media / nicho — peso del cert en el mercado
+  //   · demand: demanda actual del skill
+  //   · cost: GRATIS o precio si es pro (incluido para que veas la siguiente
+  //     inversión real después de exprimir las gratis).
+  // Fuentes curadas: Harvard, U. Helsinki, Linux Foundation, MIT (vía edX),
+  // Google, Microsoft, AWS, Oracle, IBM, Cisco, Hugging Face, freeCodeCamp,
+  // Kaggle, MongoDB, Databricks, Postman, DeepLearning.AI, Meta, fast.ai,
+  // CertiProf, Scrum.org, Applitools, Atlassian, Docker, Cambridge, EF,
+  // British Council, ISTQB.
+  const SKILL_MODULES = [
+    // ═══ 🐍 PYTHON · base de todo el stack moderno ═══════════════
+    { id: 'python', name: 'Python', icon: '🐍', color: 'hsl(220,80%,55%)',
+      summary: 'El lenguaje #1 del mundo tech. Base de IA, Data Science, automatización y backend moderno.',
+      why: 'Sin Python no podés ser ML Engineer ni Data Scientist. Es la herramienta más versátil y demandada del mercado. Empezá acá.',
+      demand: 'Muy Alta · TIOBE #1 desde 2021',
+      roles: ['Data Scientist', 'ML Engineer', 'Backend Dev', 'Data Engineer', 'AI Researcher', 'DevOps'],
+      duration: '3-6 meses al nivel intermedio sólido',
+      next: ['data_analysis', 'ml'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Intro to Programming (Python)', issuer: 'Kaggle Learn', icon: '🥚', color: 'hsl(120,60%,45%)', desc: 'Python desde cero: variables, loops, funciones. Tu primer paso si nunca programaste.', learn: ['Variables y tipos', 'Conditionals (if/else)', 'Loops (for, while)', 'Funciones'], relatesTo: 'Base para todo lo demás. Después acá, vas a PCAP o HackerRank Basic.', hours: 15, link: 'https://www.kaggle.com/learn/intro-to-programming', free: true, cost: 'GRATIS', reputation: 'Práctico Kaggle', featured: false },
+        { level: 'intermedio', order: 2, name: 'PCAP · Python Programming Essentials', issuer: 'Cisco NetAcad', icon: '🎓', color: 'hsl(220,80%,55%)', desc: 'Curso oficial Cisco completo. La base profesional de Python que todo Ing usa.', learn: ['OOP completo', 'Modules y packages', 'Exceptions', 'File I/O', 'List comprehensions', 'Decoradores'], relatesTo: 'Después: HackerRank Intermediate · prereq directa para PCPP (pro).', hours: 60, link: 'https://www.netacad.com/courses/python-essentials-1', free: true, cost: 'GRATIS', reputation: 'Cisco · reconocido globalmente', featured: true },
+        { level: 'intermedio', order: 3, name: 'Python (Basic + Intermediate)', issuer: 'HackerRank', icon: '✅', color: 'hsl(120,60%,40%)', desc: 'Tests cronometrados con certificado verificable. Bueno para LinkedIn y validar nivel.', learn: ['Sintaxis bajo presión', 'Algoritmos básicos', 'Manejo de strings', 'Funciones avanzadas'], relatesTo: 'Refuerza lo de PCAP. El test mismo es una mini-entrevista técnica.', hours: 20, link: 'https://www.hackerrank.com/skills-directory/python', free: true, cost: 'GRATIS', reputation: 'HackerRank · usado por reclutadores', featured: false },
+        { level: 'avanzado', order: 4, name: 'Problem Solving (Basic + Intermediate)', issuer: 'HackerRank', icon: '🧩', color: 'hsl(45,75%,50%)', desc: 'Estructuras de datos y algoritmos en Python. Esencial para entrevistas FAANG y Big Tech.', learn: ['Big-O y complejidad', 'Arrays, hash maps, trees', 'Recursión y DP básica', 'Greedy y two-pointers'], relatesTo: 'El skill que abre puertas a Big Tech. Combina con LeetCode para práctica continua.', hours: 60, link: 'https://www.hackerrank.com/skills-directory/problem_solving', free: true, cost: 'GRATIS', reputation: 'Estándar entrevistas técnicas', featured: false },
+        { level: 'pro', order: 5, name: 'PCPP-32-101 · Python Professional 1', issuer: 'Python Institute · OpenEDG', icon: '🏆', color: 'hsl(220,80%,40%)', desc: 'Cert oficial vía Pearson VUE. Reconocida globalmente para roles senior Python. Inversión que paga.', learn: ['OOP avanzado', 'GUI', 'Network programming', 'Files & DBs', 'PEPs', 'Math/Stats con Python'], relatesTo: 'El siguiente paso después de PCAP. Diferenciador en CV para roles senior.', hours: 80, link: 'https://pythoninstitute.org/pcpp1', free: false, cost: 'USD 195', reputation: 'Python Institute · industry standard', featured: false },
+      ]
+    },
 
-  // Categorías = áreas de aprendizaje para ser Ing. Informático con énfasis
-  // en AI y Data Science. Cada categoría tiene contexto: qué es, para qué.
-  const CERT_CATEGORIES = {
-    ai:           { name: 'Inteligencia Artificial',     icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Construye sistemas que aprenden de datos y toman decisiones. Skill #1 demandado 2026. Roles: ML Engineer, AI Researcher, NLP Engineer.' },
-    data_science: { name: 'Ciencia de Datos',            icon: '📊', color: 'hsl(43,80%,50%)',  desc: 'Extracción de insights de datos para decisiones de negocio. Roles: Data Scientist, Data Analyst, BI Engineer. Salarios top LATAM.' },
-    programming:  { name: 'Programación · Fundamentos',  icon: '💻', color: 'hsl(220,80%,55%)', desc: 'Las bases de todo: Python, JavaScript, lógica, algoritmos. Cimentar acá te da palanca para todas las demás áreas.' },
-    web:          { name: 'Desarrollo Web',              icon: '🌐', color: 'hsl(335,80%,55%)', desc: 'Frontend + Backend + APIs. Construye apps de las que viven millones. Roles: Full-stack, Frontend, Backend Developer.' },
-    databases:    { name: 'Bases de Datos',              icon: '🗄️', color: 'hsl(210,75%,50%)', desc: 'SQL + NoSQL · diseño, optimización, administración. Backbone de toda app. Roles: DBA, Data Engineer.' },
-    networks:     { name: 'Redes y Sistemas',            icon: '🔌', color: 'hsl(195,80%,45%)', desc: 'TCP/IP, routing, switching, Linux, infraestructura. Roles: Network Engineer, SysAdmin, Cloud Engineer.' },
-    security:     { name: 'Ciberseguridad',              icon: '🔒', color: 'hsl(0,70%,50%)',   desc: 'Defensa y ataque ético. Vulnerabilidades, criptografía, pentesting. Roles: Security Analyst, Pentester (alta demanda).' },
-    cloud:        { name: 'Cloud Computing',             icon: '☁️', color: 'hsl(15,80%,50%)',  desc: 'AWS, Azure, GCP, Oracle. Toda app moderna corre en cloud. Roles: Cloud Engineer, DevOps, Solutions Architect.' },
-    devops:       { name: 'DevOps · CI/CD',              icon: '🔧', color: 'hsl(263,50%,50%)', desc: 'Git, Docker, K8s, automatización. Hace la diferencia entre código que funciona y código en producción confiable.' },
-    quality:      { name: 'Calidad y Metodología',       icon: '✅', color: 'hsl(172,60%,45%)', desc: 'Testing, agile, gestión de proyectos. Sin esto, los proyectos fallan aunque el código sea bueno.' },
-    english:      { name: 'Inglés Profesional',          icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'La mayoría de docs y oportunidades top están en inglés. Sin esto, te quedas afuera del 70% del mercado.' },
+    // ═══ 🗄️ SQL & BASES DE DATOS ════════════════════════════════
+    { id: 'sql', name: 'SQL & Bases de Datos', icon: '🗄️', color: 'hsl(210,75%,50%)',
+      summary: 'El lenguaje universal de datos. Toda empresa lo necesita y todo Data Scientist lo usa diario.',
+      why: 'SQL es el skill #2 más demandado después de programación. Sin SQL no podés ser Data Analyst, DS, ni siquiera Backend serio. Imprescindible.',
+      demand: 'Muy Alta · transversal a TODO rol de datos',
+      roles: ['Data Analyst', 'Data Engineer', 'DBA', 'BI Developer', 'Backend Dev'],
+      duration: '2-3 meses al nivel avanzado',
+      next: ['data_analysis', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'SQL (Basic)', issuer: 'HackerRank', icon: '🔰', color: 'hsl(210,75%,55%)', desc: 'Empezá acá si nunca tocaste SQL. SELECT, WHERE, JOINs simples.', learn: ['SELECT, FROM, WHERE', 'JOINs (INNER, LEFT)', 'GROUP BY básico', 'Funciones agregadas (COUNT, SUM, AVG)'], relatesTo: 'Base para SQL Intermediate y para Pandas (sintaxis similar).', hours: 10, link: 'https://www.hackerrank.com/skills-verification/sql_basic', free: true, cost: 'GRATIS', reputation: 'HackerRank · estándar reclutadores', featured: true },
+        { level: 'intermedio', order: 2, name: 'SQL (Intermediate)', issuer: 'HackerRank', icon: '📊', color: 'hsl(210,75%,45%)', desc: 'Window functions, CTEs, subqueries complejas. El nivel real de un Data Analyst.', learn: ['Window functions (RANK, ROW_NUMBER)', 'CTEs (WITH)', 'Subqueries correladas', 'CASE WHEN avanzado'], relatesTo: 'Lo que separa juniors de mid-level en entrevistas de datos.', hours: 20, link: 'https://www.hackerrank.com/skills-verification/sql_intermediate', free: true, cost: 'GRATIS', reputation: 'HackerRank · usado en filtros técnicos', featured: false },
+        { level: 'avanzado', order: 3, name: 'SQL (Advanced)', issuer: 'HackerRank', icon: '🚀', color: 'hsl(210,75%,35%)', desc: 'Recursividad, pivot, optimización, indexes. Tema para roles senior.', learn: ['Recursive CTEs', 'PIVOT / UNPIVOT', 'Query optimization', 'Indexing strategy'], relatesTo: 'Prereq mental para los certs Pro de Microsoft/Oracle SQL.', hours: 20, link: 'https://www.hackerrank.com/skills-verification/sql_advanced', free: true, cost: 'GRATIS', reputation: 'HackerRank', featured: false },
+        { level: 'avanzado', order: 4, name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'NoSQL · la BD #1 no-relacional. Cert oficial MongoDB.', learn: ['Documentos vs filas', 'CRUD MongoDB', 'Aggregation pipeline', 'Indexes y performance'], relatesTo: 'Complementa SQL — toda app moderna combina ambos.', hours: 15, link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', free: true, cost: 'GRATIS', reputation: 'MongoDB oficial', featured: false },
+        { level: 'pro', order: 5, name: 'Oracle Database SQL Certified Associate (1Z0-071)', issuer: 'Oracle', icon: '🔶', color: 'hsl(15,80%,50%)', desc: 'Cert oficial Oracle SQL. Reconocida globalmente para roles de DBA y Data Engineer.', learn: ['SQL avanzado Oracle', 'Subqueries multi-tabla', 'DDL/DML completo', 'Schemas y constraints'], relatesTo: 'Después de HackerRank Advanced. Marca tu CV como SQL professional.', hours: 40, link: 'https://education.oracle.com/oracle-database-sql-certified-associate/trackp_457', free: false, cost: 'USD 245', reputation: 'Oracle · industry standard DBA', featured: false },
+      ]
+    },
+
+    // ═══ 📊 ANÁLISIS DE DATOS · Pandas, NumPy, Stats ════════════════
+    { id: 'data_analysis', name: 'Análisis de Datos', icon: '📊', color: 'hsl(43,80%,50%)',
+      summary: 'Limpieza, transformación, exploración. El día a día de un Data Scientist es 80% esto.',
+      why: 'Antes de modelos hay datos. Y los datos vienen sucios, incompletos, sesgados. Saber prepararlos es lo que separa un proyecto exitoso de un fracaso.',
+      demand: 'Muy Alta · base para todo rol DS/DA',
+      roles: ['Data Analyst', 'Data Scientist', 'BI Engineer', 'Analytics Engineer'],
+      duration: '2-4 meses al nivel profesional',
+      next: ['ml', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Pandas', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'La librería Python #1 para datos. DataFrames son tu nuevo Excel con esteroides.', learn: ['DataFrames y Series', 'Indexing y selecting', 'groupby y agregaciones', 'merge y joins', 'missing data'], relatesTo: 'Imprescindible para ML, Viz y todo lo siguiente. Empezá acá.', hours: 12, link: 'https://www.kaggle.com/learn/pandas', free: true, cost: 'GRATIS', reputation: 'Kaggle · referencia Python data', featured: true },
+        { level: 'principiante', order: 2, name: 'Data Visualization', issuer: 'Kaggle Learn', icon: '📈', color: 'hsl(43,80%,50%)', desc: 'Seaborn y matplotlib. Saber mostrar tus hallazgos es 50% del trabajo de un DA.', learn: ['Line, bar, scatter plots', 'Heatmaps y correlaciones', 'Distribution plots', 'Custom styling'], relatesTo: 'Combina con Pandas para reports completos. Prereq para Power BI / Tableau.', hours: 8, link: 'https://www.kaggle.com/learn/data-visualization', free: true, cost: 'GRATIS', reputation: 'Kaggle oficial', featured: false },
+        { level: 'intermedio', order: 3, name: 'IBM Data Science Foundations', issuer: 'IBM SkillsBuild', icon: '💎', color: 'hsl(210,85%,40%)', desc: 'Path completo IBM con badges acreditables y proyectos guiados.', learn: ['Big data concepts', 'Python para datos', 'ML intro', 'Visualización avanzada', 'Storytelling'], relatesTo: 'Te lleva de Pandas/Viz a tener proyectos de portfolio.', hours: 60, link: 'https://skillsbuild.org/students/course-catalog/data-science', free: true, cost: 'GRATIS', reputation: 'IBM · reconocido por reclutadores', featured: true },
+        { level: 'avanzado', order: 4, name: 'Google Data Analytics Professional Certificate', issuer: 'Google · Coursera', icon: '🟦', color: 'hsl(220,85%,55%)', desc: 'Path completo de Google. 7 cursos. Cert profesional reconocido globalmente.', learn: ['SQL avanzado', 'R básico', 'Tableau', 'Análisis exploratorio', 'Storytelling executive'], relatesTo: 'Te prepara para roles Data Analyst con salarios USD 60-80k.', hours: 240, link: 'https://www.coursera.org/professional-certificates/google-data-analytics', free: false, cost: 'USD 49/mes (~6 meses)', reputation: 'Google · top-tier para reclutamiento', featured: false },
+        { level: 'pro', order: 5, name: 'Microsoft Power BI Data Analyst (PL-300)', issuer: 'Microsoft', icon: '🔷', color: 'hsl(45,85%,55%)', desc: 'Cert oficial PL-300. Power BI domina BI corporativo en LATAM. Alta demanda.', learn: ['DAX (Data Analysis Expressions)', 'Power Query', 'Modelado dimensional', 'Dashboards profesionales'], relatesTo: 'Da un upgrade salarial inmediato. Power BI = pasaporte a BI corporativo.', hours: 60, link: 'https://learn.microsoft.com/credentials/certifications/data-analyst-associate/', free: false, cost: 'USD 165', reputation: 'Microsoft · top en BI', featured: false },
+      ]
+    },
+
+    // ═══ 🤖 MACHINE LEARNING ════════════════════════════════════
+    { id: 'ml', name: 'Machine Learning', icon: '🤖', color: 'hsl(195,85%,50%)',
+      summary: 'Construir sistemas que aprenden de datos. El skill más buscado en 2026.',
+      why: 'ML Engineers son los profesionales mejor pagados en tech (USD 120k-200k+). Demanda explotó con la IA generativa. Tu énfasis de carrera.',
+      demand: 'Explosiva · escasez global de talento',
+      roles: ['ML Engineer', 'Data Scientist', 'AI Researcher', 'Applied Scientist'],
+      duration: '6-12 meses con dedicación seria',
+      next: ['deep_learning', 'nlp_genai'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Elements of AI', issuer: 'Universidad de Helsinki', icon: '🎓', color: 'hsl(195,85%,50%)', desc: 'EL curso intro a IA del mundo. +1M completados. Sin código · conceptos sólidos.', learn: ['Qué es IA realmente', 'ML supervisado/no supervisado', 'Redes neuronales conceptual', 'Ética en IA', 'Futuro del trabajo'], relatesTo: 'Punto de partida obligatorio. Cero código. Para tener la mentalidad correcta antes de ensuciarte con Python.', hours: 30, link: 'https://www.elementsofai.com/', free: true, cost: 'GRATIS', reputation: 'Universidad de Helsinki · cert verificable', featured: true },
+        { level: 'principiante', order: 2, name: 'Machine Learning Crash Course', issuer: 'Google', icon: '🔬', color: 'hsl(220,90%,55%)', desc: 'Curso oficial Google. 15 horas con código real en TensorFlow.', learn: ['Loss functions', 'Gradient descent', 'Generalization y overfitting', 'Regularization', 'Neural nets intro'], relatesTo: 'Después de Elements of AI. Te mete las manos en TF sin que duela.', hours: 15, link: 'https://developers.google.com/machine-learning/crash-course', free: true, cost: 'GRATIS', reputation: 'Google AI Education', featured: true },
+        { level: 'intermedio', order: 3, name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🌳', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn práctico. Tu primer modelo real con código que funciona.', learn: ['Decision trees', 'Random forests', 'Cross-validation', 'Model evaluation', 'Sklearn API'], relatesTo: 'Bridge entre teoría (Google MLCC) y práctica diaria en Kaggle.', hours: 8, link: 'https://www.kaggle.com/learn/intro-to-machine-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle · estándar práctico', featured: false },
+        { level: 'intermedio', order: 4, name: 'Intermediate Machine Learning', issuer: 'Kaggle Learn', icon: '🎯', color: 'hsl(195,75%,45%)', desc: 'Pipelines, XGBoost, manejo serio de missing values.', learn: ['Missing values strategies', 'Categorical encoding', 'sklearn Pipelines', 'XGBoost', 'Data leakage'], relatesTo: 'Próximo paso natural. Acá es donde dejás de ser principiante.', hours: 10, link: 'https://www.kaggle.com/learn/intermediate-machine-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'avanzado', order: 5, name: 'Feature Engineering', issuer: 'Kaggle Learn', icon: '⚙️', color: 'hsl(35,80%,50%)', desc: 'El skill más subvalorado y más impactante. Donde se gana o pierde el modelo.', learn: ['Mutual information', 'Target encoding', 'Clustering features', 'Principal components'], relatesTo: 'Una vez sabés esto, ganás competiciones de Kaggle. Y entrevistas.', hours: 8, link: 'https://www.kaggle.com/learn/feature-engineering', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'pro', order: 6, name: 'Machine Learning Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '🏆', color: 'hsl(220,80%,40%)', desc: 'Por Andrew Ng — el GOAT. 3 cursos. El estándar de oro de ML.', learn: ['Linear/Logistic regression desde cero', 'Neural networks fundamentals', 'Unsupervised learning', 'Recommender systems', 'Reinforcement learning'], relatesTo: 'La especialización que ven todos los hiring managers de ML. Inversión que paga.', hours: 100, link: 'https://www.coursera.org/specializations/machine-learning-introduction', free: false, cost: 'USD 49/mes (~3 meses)', reputation: 'Andrew Ng · GOAT de ML', featured: true },
+        { level: 'pro', order: 7, name: 'AWS Certified Machine Learning Specialty (MLS-C01)', issuer: 'AWS', icon: '☁️', color: 'hsl(35,90%,50%)', desc: 'La cert ML más reconocida del mercado. Demuestra que sabés llevar ML a producción.', learn: ['SageMaker', 'Data engineering AWS', 'Modelado', 'ML Ops básico'], relatesTo: 'Para ML Engineers seniors. Después de Andrew Ng + experiencia práctica.', hours: 80, link: 'https://aws.amazon.com/certification/certified-machine-learning-specialty/', free: false, cost: 'USD 300', reputation: 'AWS · top cert ML mercado', featured: false },
+      ]
+    },
+
+    // ═══ 🧠 DEEP LEARNING ═══════════════════════════════════════
+    { id: 'deep_learning', name: 'Deep Learning', icon: '🧠', color: 'hsl(280,70%,55%)',
+      summary: 'Redes neuronales profundas. La tecnología detrás de ChatGPT, Stable Diffusion, autos autónomos.',
+      why: 'Deep learning impulsa todo el boom actual de IA. Para roles avanzados (Research Engineer, AI Scientist) es indispensable.',
+      demand: 'Alta · pico de hype + demanda real',
+      roles: ['Deep Learning Engineer', 'Research Engineer', 'CV Engineer', 'NLP Engineer'],
+      duration: '4-8 meses (requiere ML previo)',
+      next: ['nlp_genai'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Intro to Deep Learning', issuer: 'Kaggle Learn', icon: '🌱', color: 'hsl(280,70%,55%)', desc: 'Redes neuronales con Keras. Sin matemática pesada — pura intuición + código.', learn: ['Neuronas y capas', 'Activation functions', 'Backpropagation intuitiva', 'TensorFlow/Keras basics'], relatesTo: 'Entrada amistosa al DL. Después: Computer Vision o fast.ai.', hours: 8, link: 'https://www.kaggle.com/learn/intro-to-deep-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'intermedio', order: 2, name: 'Computer Vision', issuer: 'Kaggle Learn', icon: '👁️', color: 'hsl(160,70%,45%)', desc: 'CNNs · transfer learning · clasificación de imágenes. Aplicación más popular del DL.', learn: ['Convolutional layers', 'Transfer learning con modelos pre-entrenados', 'Data augmentation', 'Image classification end-to-end'], relatesTo: 'Skill aplicado más demandado dentro de DL. Combina con fast.ai.', hours: 10, link: 'https://www.kaggle.com/learn/computer-vision', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: true },
+        { level: 'avanzado', order: 3, name: 'Practical Deep Learning for Coders', issuer: 'fast.ai', icon: '🚀', color: 'hsl(280,75%,45%)', desc: 'EL curso práctico de DL del mundo. Jeremy Howard te enseña a entrenar SOTA en sesiones reales.', learn: ['fastai library', 'Transfer learning avanzado', 'NLP con DL', 'Tabular DL', 'Mejores prácticas de entrenamiento'], relatesTo: 'No es cert pero es OBLIGATORIO si querés ser serio en DL.', hours: 80, link: 'https://course.fast.ai/', free: true, cost: 'GRATIS', reputation: 'fast.ai · referencia mundial', featured: true },
+        { level: 'pro', order: 4, name: 'Deep Learning Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '🏆', color: 'hsl(280,80%,40%)', desc: 'Andrew Ng nuevamente. 5 cursos. El cert DL más respetado en LATAM y mundo.', learn: ['NNs from scratch', 'CNNs profundos', 'RNNs y LSTMs', 'Transformers basics', 'Strategy de ML projects'], relatesTo: 'Inversión definitiva en DL. Lo que tu LinkedIn necesita para roles DL serios.', hours: 120, link: 'https://www.coursera.org/specializations/deep-learning', free: false, cost: 'USD 49/mes (~4 meses)', reputation: 'Andrew Ng · estándar DL global', featured: true },
+        { level: 'pro', order: 5, name: 'TensorFlow Developer Certificate', issuer: 'Google · TensorFlow', icon: '🔶', color: 'hsl(35,90%,50%)', desc: 'Cert oficial Google de TensorFlow. Examen práctico de 5 horas.', learn: ['TF para CV', 'TF para NLP', 'TF para series temporales', 'Optimización de modelos'], relatesTo: 'Demuestra que SÍ podés codear DL en producción.', hours: 40, link: 'https://www.tensorflow.org/certificate', free: false, cost: 'USD 100', reputation: 'Google TensorFlow oficial', featured: false },
+      ]
+    },
+
+    // ═══ 🤗 NLP & GENERATIVE AI (LLMs) ══════════════════════════
+    { id: 'nlp_genai', name: 'NLP & Generative AI', icon: '🤗', color: 'hsl(45,95%,55%)',
+      summary: 'Procesamiento de Lenguaje Natural + LLMs (GPT, Claude, Llama). El frente más caliente de la IA.',
+      why: 'Toda empresa quiere chatbots, RAG, asistentes. Hugging Face + LangChain dominan el ecosistema. Acá es donde se pagan los salarios USD 200k+.',
+      demand: 'Explosiva 2024-2026 · #1 skill emergente',
+      roles: ['NLP Engineer', 'LLM Engineer', 'AI Application Developer', 'Prompt Engineer'],
+      duration: '3-6 meses (necesitás DL básico antes)',
+      next: [],
+      certs: [
+        { level: 'intermedio', order: 1, name: 'Hugging Face Course (NLP + Transformers)', issuer: 'Hugging Face', icon: '🤗', color: 'hsl(45,95%,55%)', desc: 'El curso oficial de Hugging Face — el GitHub de los modelos AI. NLP de última generación.', learn: ['Transformers architecture', 'BERT, GPT, Llama', 'Fine-tuning', 'Datasets library', 'Deploy con HF Spaces'], relatesTo: 'Después de DL básico. Te conecta directo al ecosistema profesional GenAI.', hours: 60, link: 'https://huggingface.co/learn/nlp-course', free: true, cost: 'GRATIS', reputation: 'Hugging Face · estándar GenAI', featured: true },
+        { level: 'avanzado', order: 2, name: 'NLP Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '💬', color: 'hsl(45,90%,40%)', desc: '4 cursos · Andrew Ng. De clasificación de texto a attention mechanisms.', learn: ['Word embeddings', 'Sentiment analysis', 'Machine translation', 'Seq2Seq', 'Attention y Transformers'], relatesTo: 'Profundiza lo de HF Course con bases teóricas sólidas.', hours: 90, link: 'https://www.coursera.org/specializations/natural-language-processing', free: false, cost: 'USD 49/mes (~3 meses)', reputation: 'DeepLearning.AI', featured: false },
+        { level: 'pro', order: 3, name: 'Microsoft Azure AI Engineer (AI-102)', issuer: 'Microsoft', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Cert oficial AI-102. Construir aplicaciones AI en Azure usando Cognitive Services + OpenAI Service.', learn: ['Azure OpenAI', 'Cognitive Services', 'Language understanding', 'CV en Azure', 'AI responsibility'], relatesTo: 'Para llevar tus skills NLP a un cert empresarial reconocido.', hours: 60, link: 'https://learn.microsoft.com/credentials/certifications/azure-ai-engineer/', free: false, cost: 'USD 165', reputation: 'Microsoft · enterprise AI', featured: false },
+      ]
+    },
+
+    // ═══ ☁️ CLOUD COMPUTING ═════════════════════════════════════
+    { id: 'cloud', name: 'Cloud Computing', icon: '☁️', color: 'hsl(15,80%,50%)',
+      summary: 'AWS, Azure, GCP, Oracle. Toda app moderna corre en cloud — sin cloud, no hay carrera.',
+      why: 'AWS solo factura USD 90B/año. Cloud Architects son top earners. Aprendelo o quedate fuera del 80% de las ofertas.',
+      demand: 'Muy Alta · transversal a todo tech',
+      roles: ['Cloud Engineer', 'Solutions Architect', 'DevOps Engineer', 'Cloud Security'],
+      duration: '3-6 meses (depende del nivel)',
+      next: ['devops', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '🔶', color: 'hsl(15,80%,50%)', desc: 'EXAMEN OFICIAL GRATUITO real. Oracle hace el cert verdaderamente accesible.', learn: ['Cloud concepts', 'Compute, Storage, Networking en OCI', 'Identity & security', 'Pricing y billing'], relatesTo: 'Primera cert cloud sin pagar. Brand reconocido. Buenísima para empezar.', hours: 30, link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', free: true, cost: 'GRATIS', reputation: 'Oracle · cert real sin pago', featured: true },
+        { level: 'principiante', order: 2, name: 'AWS Cloud Quest · Cloud Practitioner', issuer: 'AWS Skill Builder', icon: '🎮', color: 'hsl(35,90%,55%)', desc: 'Aprende AWS jugando en un mundo 3D. Badge oficial digital. Divertido y efectivo.', learn: ['EC2, S3, RDS, Lambda', 'IAM básico', 'VPCs', 'CloudWatch'], relatesTo: 'Te prepara mentalmente para CLF-C02 (cert paga).', hours: 20, link: 'https://aws.amazon.com/training/digital/aws-cloud-quest/', free: true, cost: 'GRATIS', reputation: 'AWS oficial gamificado', featured: true },
+        { level: 'intermedio', order: 3, name: 'Azure Fundamentals (AZ-900) · Path', issuer: 'Microsoft Learn', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Training oficial Microsoft para AZ-900. El curso es gratis (el examen sí cuesta).', learn: ['Azure architecture', 'Compute, networking, storage Azure', 'Identity (Entra ID)', 'Governance'], relatesTo: 'Cubre el 70% de lo que se ve en LATAM (banca y enterprise).', hours: 12, link: 'https://learn.microsoft.com/training/paths/azure-fundamentals/', free: true, cost: 'GRATIS (examen: USD 99)', reputation: 'Microsoft path oficial', featured: false },
+        { level: 'pro', order: 4, name: 'AWS Certified Cloud Practitioner (CLF-C02)', issuer: 'AWS', icon: '☁️', color: 'hsl(35,90%,45%)', desc: 'Primera cert AWS oficial. Inversión mínima · ROI altísimo en CV.', learn: ['Pilares AWS', 'Servicios core profundos', 'Pricing y billing', 'Cloud adoption framework'], relatesTo: 'Te pone en el radar de reclutadores. Punto.', hours: 40, link: 'https://aws.amazon.com/certification/certified-cloud-practitioner/', free: false, cost: 'USD 100', reputation: 'AWS · cert entry-level estándar', featured: false },
+        { level: 'pro', order: 5, name: 'AWS Solutions Architect Associate (SAA-C03)', issuer: 'AWS', icon: '🏗️', color: 'hsl(35,90%,40%)', desc: 'LA cert AWS más demandada y mejor pagada en LATAM. El siguiente nivel tras CLF.', learn: ['Diseño de arquitecturas resilientes', 'Costo + performance', 'Seguridad multi-capa', 'Migration'], relatesTo: 'Salto salarial directo al obtenerla. Apúntale después de 1-2 años AWS hands-on.', hours: 80, link: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/', free: false, cost: 'USD 150', reputation: 'AWS · TOP demanda mercado', featured: true },
+      ]
+    },
+
+    // ═══ 🌐 DESARROLLO WEB ══════════════════════════════════════
+    { id: 'web_dev', name: 'Desarrollo Web', icon: '🌐', color: 'hsl(335,80%,55%)',
+      summary: 'Frontend + Backend + APIs. La especialidad más amplia y con más oportunidades en LATAM.',
+      why: 'Toda empresa necesita devs web. Y el mercado es enorme tanto local como remoto.',
+      demand: 'Alta · sostenida hace 10+ años',
+      roles: ['Frontend Dev', 'Backend Dev', 'Full-stack Dev', 'Web Architect'],
+      duration: '6-12 meses para ser empleable',
+      next: ['devops'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5 + CSS3 + Flexbox + Grid + accesibilidad. 300h. Cert verificable.', learn: ['HTML semántico', 'CSS layouts modernos', 'Responsive design', 'Accesibilidad (a11y)'], relatesTo: 'Punto de partida obligatorio. Base para todo lo siguiente.', hours: 300, link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', free: true, cost: 'GRATIS', reputation: 'freeCodeCamp · referencia global', featured: true },
+        { level: 'intermedio', order: 2, name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS oficial Cisco. Sintaxis · DOM · eventos · async.', learn: ['JS sintaxis moderna (ES6+)', 'DOM manipulation', 'Eventos y closures', 'Async/await y promises'], relatesTo: 'Después de RWD. Te abre el frontend dinámico.', hours: 40, link: 'https://www.netacad.com/courses/javascript-essentials-1', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: false },
+        { level: 'intermedio', order: 3, name: 'JS Algorithms & Data Structures', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6 · OOP · programación funcional · regex. 300h con cert.', learn: ['ES6+ avanzado', 'OOP en JS', 'Functional programming', 'Regex', 'AJAX y APIs'], relatesTo: 'Cierra el ciclo JS pro. Prereq para React seriamente.', hours: 300, link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', free: true, cost: 'GRATIS', reputation: 'fCC', featured: false },
+        { level: 'avanzado', order: 4, name: 'Front End Development Libraries', issuer: 'freeCodeCamp', icon: '⚛️', color: 'hsl(195,85%,55%)', desc: 'React · Redux · Bootstrap · Sass. React = framework #1 del mercado laboral.', learn: ['React hooks', 'Component composition', 'Redux state management', 'CSS frameworks'], relatesTo: 'Con esto sos empleable como Frontend Junior.', hours: 300, link: 'https://www.freecodecamp.org/learn/front-end-development-libraries/', free: true, cost: 'GRATIS', reputation: 'fCC', featured: true },
+        { level: 'avanzado', order: 5, name: 'API Fundamentals (Student Expert)', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST end-to-end. Insignia oficial Postman.', learn: ['REST principles', 'Postman colecciones avanzadas', 'API testing', 'Authentication (JWT, OAuth)'], relatesTo: 'Para entender qué consumís desde frontend y qué exponés como backend.', hours: 20, link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', free: true, cost: 'GRATIS', reputation: 'Postman', featured: false },
+        { level: 'pro', order: 6, name: 'Meta Front-End Developer Certificate', issuer: 'Meta · Coursera', icon: '📘', color: 'hsl(220,85%,55%)', desc: 'Path completo de Meta (Facebook). 9 cursos. Reconocido para roles tier-1.', learn: ['React avanzado', 'UX/UI principles', 'Version control con Git', 'Coding interview prep'], relatesTo: 'Salto a roles mid-level con respaldo de Meta.', hours: 250, link: 'https://www.coursera.org/professional-certificates/meta-front-end-developer', free: false, cost: 'USD 49/mes (~7 meses)', reputation: 'Meta · top frontend cert', featured: false },
+      ]
+    },
+
+    // ═══ 🐧 LINUX & SISTEMAS ════════════════════════════════════
+    { id: 'linux_sys', name: 'Linux & Sistemas', icon: '🐧', color: 'hsl(45,85%,45%)',
+      summary: 'Linux corre el 80% de los servidores del mundo y el 100% del cloud. Sin Linux no hay DevOps ni Cloud.',
+      why: 'Es el sistema operativo de internet. Todo lo serio (servers, AI training, IoT) corre Linux.',
+      demand: 'Alta · prereq para Cloud y DevOps',
+      roles: ['SysAdmin', 'Cloud Engineer', 'DevOps', 'Security Engineer'],
+      duration: '2-4 meses al nivel sólido',
+      next: ['devops', 'cloud'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Linux Essentials', issuer: 'Cisco NetAcad', icon: '🐧', color: 'hsl(45,85%,45%)', desc: 'Línea de comandos · permisos · scripting · networking en Linux. Cert oficial Cisco.', learn: ['Filesystem y navegación', 'Permisos y users', 'Bash básico', 'Networking commands'], relatesTo: 'Base imprescindible para todo lo cloud/devops.', hours: 40, link: 'https://www.netacad.com/courses/linux-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'Introduction to Linux (LFS101)', issuer: 'Linux Foundation · edX', icon: '🏛️', color: 'hsl(30,75%,50%)', desc: 'Curso oficial Linux Foundation. Audit gratis · cert verificable.', learn: ['Linux para usuarios y desarrolladores', 'Distribuciones', 'Package management', 'Scripting'], relatesTo: 'Profundiza lo de Cisco. Prereq mental para LPI y RHCSA.', hours: 40, link: 'https://www.edx.org/course/introduction-to-linux', free: true, cost: 'GRATIS', reputation: 'Linux Foundation', featured: false },
+        { level: 'pro', order: 3, name: 'LPIC-1 Linux Administrator', issuer: 'LPI', icon: '🛡️', color: 'hsl(45,85%,35%)', desc: 'Cert vendor-neutral de Linux. Reconocida globalmente para SysAdmin roles.', learn: ['System architecture', 'Linux installation', 'Shell scripting avanzado', 'Networking config'], relatesTo: 'Estándar para roles SysAdmin pagados.', hours: 80, link: 'https://www.lpi.org/our-certifications/lpic-1-overview', free: false, cost: 'USD 200 x examen (2 exámenes)', reputation: 'LPI · vendor-neutral', featured: false },
+        { level: 'pro', order: 4, name: 'Red Hat Certified System Administrator (RHCSA)', issuer: 'Red Hat', icon: '🎩', color: 'hsl(0,75%,40%)', desc: 'EL cert sysadmin más respetado. Examen 100% práctico (no preguntas).', learn: ['RHEL administration', 'Storage management', 'Selinux', 'systemd avanzado', 'Containers'], relatesTo: 'Cert que justifica salarios USD 70k+ en LATAM.', hours: 120, link: 'https://www.redhat.com/services/certification/rhcsa', free: false, cost: 'USD 400', reputation: 'Red Hat · gold standard sysadmin', featured: false },
+      ]
+    },
+
+    // ═══ 🔌 NETWORKING ══════════════════════════════════════════
+    { id: 'networking', name: 'Networking', icon: '🔌', color: 'hsl(195,80%,45%)',
+      summary: 'TCP/IP, routing, switching, WiFi. La plomería de internet. Sin redes, nada conecta.',
+      why: 'Toda app vive sobre la red. Cisco domina la industria con CCNA como cert puerta-de-entrada.',
+      demand: 'Alta · base de cloud y security',
+      roles: ['Network Engineer', 'Network Admin', 'Cloud Network Specialist'],
+      duration: '4-6 meses para CCNA',
+      next: ['cloud', 'security'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP · OSI · routing · switching básico. Base para CCNA.', learn: ['Modelo OSI y TCP/IP', 'IP addressing y subnetting', 'Switching básico', 'WiFi fundamentals'], relatesTo: 'Empezá acá. Prereq directo para CCNA.', hours: 70, link: 'https://www.netacad.com/courses/networking-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'CCNA Self-Paced', issuer: 'Cisco NetAcad', icon: '📡', color: 'hsl(195,85%,40%)', desc: 'Curso oficial preparatorio para CCNA. NetAcad lo ofrece sin costo de training.', learn: ['Routing dinámico (OSPF)', 'VLANs avanzadas', 'STP', 'WAN technologies', 'Network security básico'], relatesTo: 'Te lleva al examen CCNA (cert paga).', hours: 200, link: 'https://www.netacad.com/courses/networking/ccna-introduction-networks', free: true, cost: 'GRATIS (training)', reputation: 'Cisco NetAcad', featured: false },
+        { level: 'pro', order: 3, name: 'CCNA · 200-301', issuer: 'Cisco', icon: '🏆', color: 'hsl(195,85%,35%)', desc: 'EL cert networking más demandado del mundo. Pasaporte para roles Network Engineer.', learn: ['Routing & switching avanzado', 'Network security', 'Automation y programmability', 'IP services'], relatesTo: 'La inversión que cambia tu CV de junior a empleable seriamente en redes.', hours: 200, link: 'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html', free: false, cost: 'USD 300', reputation: 'Cisco · GOLD STANDARD redes', featured: true },
+      ]
+    },
+
+    // ═══ 🔒 CIBERSEGURIDAD ══════════════════════════════════════
+    { id: 'security', name: 'Ciberseguridad', icon: '🔒', color: 'hsl(0,70%,50%)',
+      summary: 'Defensa, ataque ético, criptografía. La carrera con MENOS desempleo del mundo tech.',
+      why: 'Demanda crónicamente insatisfecha. Salarios top desde junior. Trabajo remoto abundante.',
+      demand: 'Crítica · gap de 4M profesionales globalmente',
+      roles: ['Security Analyst', 'Pentester', 'SOC Engineer', 'Security Architect', 'CISO'],
+      duration: '6-12 meses para entry-level',
+      next: ['cloud'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas · ataques · vulnerabilidades · defensa · ética. Primera capa de pensar seguro.', learn: ['Threat landscape', 'Tipos de ataques (malware, phishing)', 'Defensa básica', 'Ética en seguridad'], relatesTo: 'Punto de partida obligatorio. Te da mentalidad correcta.', hours: 30, link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: true },
+        { level: 'intermedio', order: 2, name: 'Cybersecurity Essentials', issuer: 'Cisco NetAcad', icon: '🛡️', color: 'hsl(0,75%,40%)', desc: 'Criptografía · controles de acceso · respuesta a incidentes. Path hacia CCNA Security.', learn: ['Criptografía simétrica/asimétrica', 'IAM y políticas', 'Incident response', 'Risk management'], relatesTo: 'Profundiza lo intro. Te prepara para Security+ y CCNA Security.', hours: 60, link: 'https://www.netacad.com/courses/cybersecurity-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: false },
+        { level: 'intermedio', order: 3, name: 'TryHackMe · Pre-Security Path', issuer: 'TryHackMe', icon: '🎯', color: 'hsl(15,80%,50%)', desc: 'Aprende hackeando en labs reales. Práctico vs teórico.', learn: ['Web hacking básico', 'Linux para hackers', 'Network exploitation', 'Scripting offensive'], relatesTo: 'La práctica que te falta de los cursos teóricos.', hours: 60, link: 'https://tryhackme.com/path/outline/presecurity', free: true, cost: 'GRATIS', reputation: 'TryHackMe · práctico', featured: false },
+        { level: 'pro', order: 4, name: 'CompTIA Security+ (SY0-701)', issuer: 'CompTIA', icon: '🔰', color: 'hsl(0,75%,35%)', desc: 'EL cert security entry-level más reconocido. Aprobado por DoD USA.', learn: ['Threat analysis', 'Architecture and design', 'Operations and incident response', 'Compliance'], relatesTo: 'Te abre roles SOC L1, Junior Security Analyst.', hours: 80, link: 'https://www.comptia.org/certifications/security', free: false, cost: 'USD 370', reputation: 'CompTIA · industry standard entry', featured: true },
+        { level: 'pro', order: 5, name: 'CISSP', issuer: 'ISC2', icon: '👑', color: 'hsl(0,80%,30%)', desc: 'EL cert security senior. Necesita 5 años exp. Salarios USD 100k+ inmediatos.', learn: ['8 dominios (Security & Risk · Asset · Architecture · Communication · IAM · Assessment · Ops · Software Dev Security)'], relatesTo: 'El destino final del seniority. Empezá a estudiarlo años antes.', hours: 200, link: 'https://www.isc2.org/certifications/cissp', free: false, cost: 'USD 749', reputation: 'ISC2 · TOP del mundo en security', featured: false },
+      ]
+    },
+
+    // ═══ 🔧 DEVOPS & GIT ════════════════════════════════════════
+    { id: 'devops', name: 'DevOps & Git', icon: '🔧', color: 'hsl(263,50%,50%)',
+      summary: 'Git, Docker, K8s, CI/CD. La cultura + tooling que lleva código a producción confiablemente.',
+      why: 'DevOps Engineers son los mejor pagados después de ML. Es el puente entre dev y ops.',
+      demand: 'Muy Alta · seniors USD 120k+',
+      roles: ['DevOps Engineer', 'SRE', 'Platform Engineer', 'Cloud Engineer'],
+      duration: '4-8 meses para nivel intermedio',
+      next: ['cloud', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'GitHub Foundations', issuer: 'Microsoft Learn', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git · GitHub Actions · PRs · security. Path oficial con badges + cert disponible.', learn: ['Git workflow profesional', 'PRs y code review', 'GitHub Actions (CI/CD)', 'Branch protection', 'Security scanning'], relatesTo: 'Git es el lenguaje universal del software. Sin esto, no podés colaborar.', hours: 30, link: 'https://learn.microsoft.com/training/paths/github-foundations/', free: true, cost: 'GRATIS', reputation: 'Microsoft Learn · top reconocimiento', featured: true },
+        { level: 'intermedio', order: 2, name: 'Docker · Get Started', issuer: 'Docker Inc.', icon: '🐳', color: 'hsl(200,75%,50%)', desc: 'Containers · imágenes · Dockerfile · networks. Training oficial Docker.', learn: ['Containers vs VMs', 'Dockerfile profesional', 'docker-compose', 'Networking y volumes', 'Multi-stage builds'], relatesTo: 'Containers son la unidad básica del cloud moderno. Antes de K8s.', hours: 20, link: 'https://docs.docker.com/get-started/', free: true, cost: 'GRATIS', reputation: 'Docker oficial', featured: false },
+        { level: 'intermedio', order: 3, name: 'Introduction to DevOps (LFS161)', issuer: 'Linux Foundation · edX', icon: '⚙️', color: 'hsl(280,55%,55%)', desc: 'Curso oficial Linux Foundation. CI/CD · cultura DevOps · automation.', learn: ['Cultura DevOps', 'CI/CD pipelines', 'Infrastructure as Code', 'Monitoring básico'], relatesTo: 'La teoría que necesitás antes de practicar con tools específicas.', hours: 40, link: 'https://www.edx.org/course/introduction-to-devops-practices-and-tools', free: true, cost: 'GRATIS', reputation: 'Linux Foundation', featured: false },
+        { level: 'pro', order: 4, name: 'CKAD · Certified Kubernetes Application Developer', issuer: 'CNCF · Linux Foundation', icon: '☸️', color: 'hsl(263,55%,40%)', desc: 'Cert oficial Kubernetes. Examen 100% práctico de 2 horas. K8s es el cloud OS.', learn: ['Pods y workloads', 'Deployments y services', 'Networking K8s', 'Persistent storage', 'Troubleshooting'], relatesTo: 'Después de dominar Docker. K8s = el siguiente nivel de Cloud Native.', hours: 80, link: 'https://www.cncf.io/training/certification/ckad/', free: false, cost: 'USD 395', reputation: 'CNCF · Kubernetes oficial', featured: true },
+      ]
+    },
+
+    // ═══ 🏞️ BIG DATA & MLOps ════════════════════════════════════
+    { id: 'bigdata', name: 'Big Data & MLOps', icon: '🏞️', color: 'hsl(0,75%,50%)',
+      summary: 'Spark, Kafka, Airflow, ML en producción. Donde los datos masivos se vuelven valor de negocio.',
+      why: 'Toda empresa grande pelea con sus datos. Data Engineers y MLOps Engineers son escasos y bien pagados.',
+      demand: 'Alta · senior shortage crítico',
+      roles: ['Data Engineer', 'MLOps Engineer', 'Analytics Engineer', 'Platform Engineer'],
+      duration: '6-12 meses (requiere SQL + Python sólidos)',
+      next: [],
+      certs: [
+        { level: 'intermedio', order: 1, name: 'Databricks Lakehouse Fundamentals', issuer: 'Databricks Academy', icon: '🏞️', color: 'hsl(0,75%,50%)', desc: 'Lakehouse · Delta Lake · Spark. Cert oficial gratis.', learn: ['Lakehouse architecture', 'Delta Lake', 'Spark intro', 'Unity Catalog'], relatesTo: 'Databricks es la plataforma #1 de Data+AI a escala. Punto de entrada.', hours: 4, link: 'https://customer-academy.databricks.com/learn/course/1325/databricks-lakehouse-platform-accreditation', free: true, cost: 'GRATIS', reputation: 'Databricks oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'Time Series Forecasting', issuer: 'Kaggle Learn', icon: '⏱️', color: 'hsl(15,75%,50%)', desc: 'Forecasting · tendencias · estacionalidad. Skill core de Data Engineering.', learn: ['Trend y seasonality', 'Time features', 'Forecasting with ML', 'Hybrid models'], relatesTo: 'Caso de uso #1 en industria (ventas, demand, IoT).', hours: 10, link: 'https://www.kaggle.com/learn/time-series', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'pro', order: 3, name: 'Databricks Certified Data Engineer Associate', issuer: 'Databricks', icon: '🚀', color: 'hsl(0,80%,40%)', desc: 'Cert oficial Data Engineer en Databricks. Reconocida en Fortune 500.', learn: ['Spark SQL avanzado', 'Delta Lake en producción', 'ETL pipelines', 'Workflows orchestration'], relatesTo: 'Cert que abre puertas a roles Data Engineer USD 100k+.', hours: 60, link: 'https://www.databricks.com/learn/certification/data-engineer-associate', free: false, cost: 'USD 200', reputation: 'Databricks · enterprise gold', featured: false },
+        { level: 'pro', order: 4, name: 'AWS Certified Data Engineer Associate (DEA-C01)', issuer: 'AWS', icon: '⚡', color: 'hsl(35,90%,40%)', desc: 'Cert oficial AWS para Data Engineers. Cubre todo el stack AWS de datos.', learn: ['AWS Glue', 'Kinesis', 'EMR', 'Redshift', 'Lake Formation'], relatesTo: 'Combina con Databricks para tener pasaporte multi-cloud.', hours: 60, link: 'https://aws.amazon.com/certification/certified-data-engineer-associate/', free: false, cost: 'USD 150', reputation: 'AWS oficial', featured: false },
+      ]
+    },
+
+    // ═══ ✅ AGILE & PM ══════════════════════════════════════════
+    { id: 'agile_pm', name: 'Agile & Project Management', icon: '✅', color: 'hsl(172,60%,45%)',
+      summary: 'Scrum, Kanban, Jira. La habilidad humana que separa proyectos exitosos de fracasos.',
+      why: 'Eventualmente liderarás. Y los Project Managers ganan tan bien como los devs senior.',
+      demand: 'Alta · transversal a todo equipo',
+      roles: ['Scrum Master', 'Product Owner', 'Project Manager', 'Tech Lead'],
+      duration: '2-4 meses para SFPC, años para PMP',
+      next: [],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework · roles · eventos. Reconocida en LATAM. Vouchers gratis periódicos.', learn: ['Scrum theory', 'Roles (PO, SM, Dev Team)', 'Events (Sprint, Daily, Review, Retro)', 'Artifacts'], relatesTo: 'Tu primer cert agile profesional.', hours: 15, link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', free: true, cost: 'GRATIS (con voucher)', reputation: 'CertiProf · top LATAM', featured: true },
+        { level: 'intermedio', order: 2, name: 'Jira Fundamentals', issuer: 'Atlassian University', icon: '📋', color: 'hsl(220,85%,50%)', desc: 'Gestión ágil con Jira. Badge oficial Atlassian. Jira = herramienta #1 en empresas tech.', learn: ['Workflows custom', 'Boards (Scrum, Kanban)', 'Reports (Burndown, Velocity)', 'JQL queries'], relatesTo: 'Combina con Scrum SFPC para ser Scrum Master operativo.', hours: 5, link: 'https://university.atlassian.com/student/path/1077727-jira-fundamentals', free: true, cost: 'GRATIS', reputation: 'Atlassian oficial', featured: false },
+        { level: 'pro', order: 3, name: 'Professional Scrum Master I (PSM I)', issuer: 'Scrum.org', icon: '🏆', color: 'hsl(172,60%,35%)', desc: 'Cert Scrum Master más respetada del mercado. Examen open-book online.', learn: ['Scrum profundo', 'Servant leadership', 'Coaching de equipos', 'Métricas ágiles'], relatesTo: 'El upgrade desde SFPC. Reconocida en USA y Europa.', hours: 30, link: 'https://www.scrum.org/professional-scrum-master-i-certification', free: false, cost: 'USD 200', reputation: 'Scrum.org · top del mundo', featured: true },
+        { level: 'pro', order: 4, name: 'Project Management Professional (PMP)', issuer: 'PMI', icon: '👔', color: 'hsl(220,75%,40%)', desc: 'EL cert PM más reconocido del planeta. Requiere 3-5 años exp PM.', learn: ['Project lifecycle completo', 'Predictive + agile + híbrido', 'Stakeholder management', 'Risk management'], relatesTo: 'El destino senior. Salarios PM USD 100k+.', hours: 100, link: 'https://www.pmi.org/certifications/project-management-pmp', free: false, cost: 'USD 555', reputation: 'PMI · GOLD STANDARD PM', featured: false },
+      ]
+    },
+
+    // ═══ 🧪 CALIDAD & TESTING ═══════════════════════════════════
+    { id: 'testing', name: 'Calidad & Testing', icon: '🧪', color: 'hsl(282,60%,50%)',
+      summary: 'QA, test automation, ISTQB. La especialidad que protege el código en producción.',
+      why: 'QA Engineers buenos son escasos. Test Automation Engineers ganan tan bien como devs.',
+      demand: 'Media-Alta · estable y creciente',
+      roles: ['QA Engineer', 'Test Automation Engineer', 'SDET', 'QA Lead'],
+      duration: '3-6 meses para entry-level',
+      next: ['devops'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Test Automation University', issuer: 'Applitools', icon: '🎓', color: 'hsl(282,60%,50%)', desc: 'Múltiples certs por curso. Selenium · Cypress · Playwright · API testing. La universidad #1 gratuita.', learn: ['Selenium WebDriver', 'Cypress moderno', 'Playwright cross-browser', 'API testing strategies'], relatesTo: 'Stack práctico completo de un Test Automation Engineer.', hours: 60, link: 'https://testautomationu.applitools.com/', free: true, cost: 'GRATIS', reputation: 'Applitools · ref. global', featured: true },
+        { level: 'pro', order: 2, name: 'ISTQB Foundation Level (CTFL)', issuer: 'ISTQB', icon: '🌍', color: 'hsl(282,65%,40%)', desc: 'EL cert testing internacional. Reconocido globalmente para QA Engineers.', learn: ['Fundamentos de testing', 'Test design techniques', 'Test management', 'Tool support para testing'], relatesTo: 'El cert que separa testers amateurs de profesionales.', hours: 40, link: 'https://www.istqb.org/certifications/certified-tester-foundation-level', free: false, cost: 'USD 230', reputation: 'ISTQB · international standard', featured: true },
+      ]
+    },
+
+    // ═══ 🇬🇧 INGLÉS PROFESIONAL ════════════════════════════════
+    { id: 'english', name: 'Inglés Profesional', icon: '🇬🇧', color: 'hsl(220,70%,50%)',
+      summary: 'El 70% de las ofertas tech globales requieren inglés B2+. Sin inglés, te quedas en LATAM con menos salario.',
+      why: 'Triplicás tu rango salarial al pasar de español-only a inglés fluido. Es la inversión #1 de retorno fuera de tech mismo.',
+      demand: 'Crítica · multiplicador salarial inmediato',
+      roles: ['Cualquier rol tech remoto', 'Tech a empresas USA/EU', 'Roles de liderazgo'],
+      duration: '6 meses - 2 años (depende del punto de partida)',
+      next: [],
+      certs: [
+        { level: 'principiante', order: 1, name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test CEFR A1-C2 (50 min). Certificado verificable gratis. Equivalente referencia TOEFL.', learn: ['Tu nivel CEFR actual', 'Listening + Reading', 'Score 0-100'], relatesTo: 'Empezá midiendo tu nivel real. EF SET es la mejor opción gratis.', hours: 1, link: 'https://www.efset.org/', free: true, cost: 'GRATIS', reputation: 'EF · referencia global gratis', featured: true },
+        { level: 'principiante', order: 2, name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test del British Council. App móvil. Resultado CEFR + cert digital verificable gratis.', learn: ['Grammar, vocabulary, reading, listening', 'CEFR level', 'Resultado en 40 min'], relatesTo: 'Confirma tu nivel con la autoridad #1 mundial en inglés.', hours: 1, link: 'https://www.englishscore.com/', free: true, cost: 'GRATIS', reputation: 'British Council · top globally', featured: false },
+        { level: 'pro', order: 3, name: 'Cambridge B2 First (FCE)', issuer: 'Cambridge English', icon: '🎓', color: 'hsl(220,70%,35%)', desc: 'Cert formal nivel B2. Reconocido por universidades y empresas globalmente.', learn: ['Reading & Use of English', 'Writing (essays, emails formales)', 'Listening', 'Speaking face-to-face'], relatesTo: 'Tu primer cert de papel realmente útil para CV internacional.', hours: 100, link: 'https://www.cambridgeenglish.org/exams-and-tests/first/', free: false, cost: 'USD 230', reputation: 'Cambridge · gold standard internacional', featured: false },
+        { level: 'pro', order: 4, name: 'TOEFL iBT', issuer: 'ETS', icon: '🇺🇸', color: 'hsl(220,75%,30%)', desc: 'Cert exigida por universidades y empresas USA. Score 0-120.', learn: ['Reading, Listening, Speaking, Writing', '4 horas test', 'Aceptado en 11,000+ instituciones globalmente'], relatesTo: 'Si tu objetivo es USA (estudios o trabajo), esta es la apuesta.', hours: 50, link: 'https://www.ets.org/toefl', free: false, cost: 'USD 265', reputation: 'ETS · USA standard', featured: true },
+      ]
+    },
+  ];
+
+  /* Helper · obtiene metadata de una materia 10-SYS (no usado en nueva UI
+   * pero conservado por si lo extendemos en el futuro). */
+  const _SUBJ_BADGE = (id) => {
+    const s = SUBJECTS.find(x => x.id === id);
+    return s ? { icon: s.icon, name: s.name, color: s.color } : null;
   };
-  const CERT_CATEGORY_ORDER = ['ai', 'data_science', 'programming', 'web', 'databases', 'networks', 'security', 'cloud', 'devops', 'quality', 'english'];
 
-  const CERTS = [
+  // Legacy: el array CERTS plano se reemplazó por SKILL_MODULES.
+  // Mantengo placeholder vacío para que código externo que importe SYS.CERTS no rompa.
+  const CERT_CATEGORIES = {};
+  const CERT_CATEGORY_ORDER = [];
+
+  const _LEGACY_CERTS = [
     // ═══ 🤖 INTELIGENCIA ARTIFICIAL (énfasis carrera) ═══
     { category: 'ai', featured: true,  name: 'Elements of AI', issuer: 'Universidad de Helsinki', icon: '🎓', color: 'hsl(195,85%,50%)', desc: 'EL mejor intro a IA del mundo. ¿Qué es la IA? · ML real · ética · futuro. Certificado oficial verificable. Ya completaron +1M de personas. PUNTO DE PARTIDA OBLIGATORIO.', tags: ['IA', 'Universidad', 'TOP'], subjects: ['inv_ciencia'], link: 'https://www.elementsofai.com/', difficulty: 'Básico', time: '4-6 semanas', free: true },
     { category: 'ai', featured: true,  name: 'Machine Learning Crash Course', issuer: 'Google', icon: '🔬', color: 'hsl(220,90%,55%)', desc: 'Curso oficial de Google. 15 horas con código real en TensorFlow. Conceptos + práctica intensiva. Badge de finalización.', tags: ['ML', 'Google', 'TensorFlow'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://developers.google.com/machine-learning/crash-course', difficulty: 'Intermedio', time: '15 horas', free: true },
@@ -234,12 +501,7 @@ const SYS = (() => {
     { category: 'english', featured: true, name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test CEFR A1-C2 (50 min) · certificado verificable gratis. Equivalente referencia TOEFL/IELTS. EF es global y reconocido.', tags: ['CEFR', 'Test', 'TOP'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.efset.org/', difficulty: 'Variable', time: '50 min', free: true },
     { category: 'english', name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test del British Council. Resultado CEFR + cert digital verificable gratis. App móvil. La autoridad #1 mundial en inglés.', tags: ['British Council', 'CEFR', 'Oficial'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.englishscore.com/', difficulty: 'Variable', time: '40 min', free: true },
   ];
-
-  // Mapa rápido para badges "Complementa:" — sincronizado con SUBJECTS
-  const _SUBJ_BADGE = (id) => {
-    const s = SUBJECTS.find(x => x.id === id);
-    return s ? { icon: s.icon, name: s.name, color: s.color } : null;
-  };
+  const CERTS = _LEGACY_CERTS; // alias
 
   // ── QUICK ACCESS LINKS ──
   const QUICK_ACCESS = [
@@ -809,64 +1071,138 @@ const SYS = (() => {
   }
 
   // ── RENDER: CERTIFICATIONS (Tab 5) ──
+  /** RENDER · Skill modules como cards desplegables con learning path.
+   *  Cada skill: header (icon, nombre, demanda, # certs) + body con why,
+   *  roles, roadmap visual y certs ordenados por nivel.
+   *  Estado expandido/colapsado persistido en sys_skills_open. */
   function renderCerts() {
     const el = document.getElementById('certList');
     if (!el) return;
-    // Agrupar certs por categoría
-    const byCat = {};
-    CERTS.forEach(c => {
-      const cat = c.category || 'other';
-      if (!byCat[cat]) byCat[cat] = [];
-      byCat[cat].push(c);
-    });
+    const open = db.get('skills_open', {});
+    const LEVELS = {
+      principiante: { label: 'Principiante', icon: '🥚', n: 1, color: '#22c55e' },
+      intermedio:   { label: 'Intermedio',   icon: '🌱', n: 2, color: '#3b82f6' },
+      avanzado:     { label: 'Avanzado',     icon: '🌳', n: 3, color: '#a855f7' },
+      pro:          { label: 'Pro',          icon: '🏆', n: 4, color: '#fbbf24' },
+    };
     const renderCert = (c) => {
-      const subjs = (c.subjects || []).map(_SUBJ_BADGE).filter(Boolean);
-      const subjsHtml = subjs.length
-        ? `<div class="cert-subjs" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;align-items:center">
-            <span style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;font-weight:700">Complementa:</span>
-            ${subjs.map(s => `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:10px;background:${s.color}22;border:1px solid ${s.color}44;color:${s.color}">${s.icon} ${esc(s.name)}</span>`).join('')}
-          </div>`
-        : '';
+      const lvl = LEVELS[c.level] || LEVELS.principiante;
+      const learnList = (c.learn || []).map(l => `<li>${esc(l)}</li>`).join('');
       const starBadge = c.featured
-        ? `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.15));border:1px solid rgba(245,158,11,.4);color:#fbbf24;margin-right:4px">⭐ TOP</span>`
+        ? `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.15));border:1px solid rgba(245,158,11,.4);color:#fbbf24;margin-left:6px">⭐ TOP</span>`
         : '';
-      return `
-      <div class="cert" ${c.featured ? 'style="border-left:3px solid #fbbf24"' : ''}>
-        <div class="cert-h">
-          <div class="cert-logo" style="background:${c.color}18;border:1px solid ${c.color}30">${c.icon}</div>
-          <div class="cert-info">
-            <div class="cert-name">${starBadge}${c.name}</div>
-            <div class="cert-issuer">${c.issuer} · ${c.difficulty} · ${c.time}</div>
+      return `<div class="cert-card${c.featured?' cert-featured':''}" style="border-left:3px solid ${lvl.color}">
+        <div class="cert-card-top">
+          <span class="cert-level-badge" style="background:${lvl.color}25;color:${lvl.color};border:1px solid ${lvl.color}55">${lvl.icon} ${lvl.n}. ${lvl.label}</span>
+          <span class="cert-icon-circle" style="background:${c.color}22;border:1px solid ${c.color}55;color:${c.color}">${c.icon}</span>
+          <div class="cert-name-wrap">
+            <div class="cert-name-main">${esc(c.name)}${starBadge}</div>
+            <div class="cert-issuer-sub">${esc(c.issuer)} · ${c.hours}h · <span style="color:${c.free?'#22c55e':'#fbbf24'};font-weight:600">${c.cost || (c.free?'GRATIS':'De pago')}</span></div>
           </div>
-          ${c.free ? '<span class="sem sem-p3">GRATIS</span>' : '<span class="sem sem-p4">De pago</span>'}
         </div>
-        <div class="cert-body">${c.desc}</div>
-        <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag">${t}</span>`).join('')}</div>
-        ${subjsHtml}
-        <a href="${c.link}" target="_blank" rel="noopener" class="cert-link">Ver certificación →</a>
+        <div class="cert-desc-line">${esc(c.desc)}</div>
+        ${learnList ? `<div class="cert-learn-block">
+          <div class="cert-learn-h">📚 Lo que aprenderás:</div>
+          <ul class="cert-learn-list">${learnList}</ul>
+        </div>` : ''}
+        ${c.relatesTo ? `<div class="cert-relates">🔗 <b>Conexión:</b> ${esc(c.relatesTo)}</div>` : ''}
+        ${c.reputation ? `<div class="cert-rep">📊 <b>Reputación:</b> ${esc(c.reputation)}</div>` : ''}
+        <a href="${c.link}" target="_blank" rel="noopener" class="cert-link-btn" style="background:${lvl.color}">Ver certificación →</a>
       </div>`;
     };
-    // Renderizar por orden de categorías
-    el.innerHTML = CERT_CATEGORY_ORDER.map(catId => {
-      const items = byCat[catId];
-      if (!items || !items.length) return '';
-      const meta = CERT_CATEGORIES[catId];
-      const featuredCount = items.filter(c => c.featured).length;
-      return `<div style="margin-top:18px">
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:${meta.color}12;border:1px solid ${meta.color}30;border-radius:10px;margin-bottom:10px;flex-wrap:wrap">
-          <span style="font-size:22px">${meta.icon}</span>
-          <div style="flex:1;min-width:200px">
-            <div style="font-size:14px;font-weight:700;color:${meta.color}">${esc(meta.name)}</div>
-            <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-top:2px">${esc(meta.desc)}</div>
+
+    const renderSkillModule = (s) => {
+      const isOpen = !!open[s.id];
+      const featuredCount = (s.certs || []).filter(c => c.featured).length;
+      const freeCount = (s.certs || []).filter(c => c.free).length;
+      const proCount = (s.certs || []).filter(c => !c.free).length;
+      const totalHours = (s.certs || []).reduce((sum, c) => sum + (c.hours || 0), 0);
+      // Roadmap visual: pequeñas pills por nivel presente
+      const levelsPresent = [...new Set((s.certs || []).map(c => c.level))];
+      const roadmapHtml = ['principiante','intermedio','avanzado','pro'].map((lv, i, arr) => {
+        const isPresent = levelsPresent.includes(lv);
+        const meta = LEVELS[lv];
+        const cls = isPresent ? '' : ' roadmap-step-empty';
+        return `<span class="roadmap-step${cls}" style="${isPresent?`background:${meta.color}25;color:${meta.color};border-color:${meta.color}55`:''}">${meta.icon} ${meta.label}</span>${i < arr.length-1 ? '<span class="roadmap-arrow">→</span>' : ''}`;
+      }).join('');
+      // Next steps
+      const nextHtml = (s.next || []).map(nid => {
+        const ns = SKILL_MODULES.find(x => x.id === nid);
+        return ns ? `<button class="next-skill-btn" onclick="event.stopPropagation();SYS.openSkill('${ns.id}')">${ns.icon} ${esc(ns.name)}</button>` : '';
+      }).join('');
+      return `<div class="skill-module${isOpen?' on':''}" id="skill-${s.id}" style="border-left:4px solid ${s.color}">
+        <div class="skill-head" onclick="SYS.toggleSkill('${s.id}')">
+          <span class="skill-head-icon" style="background:${s.color}22;border:1px solid ${s.color}55">${s.icon}</span>
+          <div class="skill-head-info">
+            <div class="skill-head-name" style="color:${s.color}">${esc(s.name)}</div>
+            <div class="skill-head-summary">${esc(s.summary)}</div>
           </div>
-          <div style="display:flex;gap:4px;flex-shrink:0">
-            <span class="sem sem-p3" style="font-size:10px">${items.length} cert${items.length>1?'s':''}</span>
-            ${featuredCount ? `<span class="sem sem-p1" style="font-size:10px">⭐ ${featuredCount} TOP</span>` : ''}
+          <div class="skill-head-meta">
+            <span class="skill-meta-pill" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">📈 ${esc(s.demand)}</span>
+            <span class="skill-meta-pill">${s.certs.length} certs</span>
+            ${featuredCount ? `<span class="skill-meta-pill" style="background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.4)">⭐ ${featuredCount}</span>` : ''}
           </div>
+          <span class="skill-head-arrow">▶</span>
         </div>
-        ${items.map(renderCert).join('')}
+        <div class="skill-body">
+          <div class="skill-why">
+            <strong style="color:${s.color}">¿Qué aporta?</strong> ${esc(s.why)}
+          </div>
+          <div class="skill-meta-grid">
+            <div class="skill-meta-item"><b>🎯 Roles:</b> ${(s.roles || []).map(esc).join(' · ')}</div>
+            <div class="skill-meta-item"><b>⏱️ Duración:</b> ${esc(s.duration)}</div>
+            <div class="skill-meta-item"><b>📚 Total:</b> ~${totalHours}h · ${freeCount} gratis · ${proCount} pro</div>
+          </div>
+          <div class="skill-roadmap-title">🗺️ Ruta de aprendizaje:</div>
+          <div class="skill-roadmap">${roadmapHtml}</div>
+          <div class="skill-certs-list">
+            ${(s.certs || []).slice().sort((a,b)=>a.order-b.order).map(renderCert).join('')}
+          </div>
+          ${nextHtml ? `<div class="skill-next">
+            <strong>🎯 Después de dominar ${s.name}, sigue con:</strong>
+            <div class="skill-next-list">${nextHtml}</div>
+          </div>` : ''}
+        </div>
       </div>`;
-    }).join('');
+    };
+
+    // Toolbar arriba con expandir / colapsar todo + filtro de demanda
+    const toolbarHtml = `<div class="skills-toolbar">
+      <button class="subj-list-btn" onclick="SYS.expandAllSkills()">▼ Expandir todas</button>
+      <button class="subj-list-btn" onclick="SYS.collapseAllSkills()">▶ Colapsar todas</button>
+      <span style="flex:1"></span>
+      <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${SKILL_MODULES.length} skills · ${SKILL_MODULES.reduce((n,s)=>n+s.certs.length,0)} certs totales</span>
+    </div>`;
+    el.innerHTML = toolbarHtml + SKILL_MODULES.map(renderSkillModule).join('');
+  }
+
+  function toggleSkill(id) {
+    const open = db.get('skills_open', {});
+    open[id] = !open[id];
+    db.set('skills_open', open);
+    const el = document.getElementById('skill-' + id);
+    if (el) el.classList.toggle('on');
+  }
+  function expandAllSkills() {
+    const open = {};
+    SKILL_MODULES.forEach(s => open[s.id] = true);
+    db.set('skills_open', open);
+    renderCerts();
+  }
+  function collapseAllSkills() {
+    db.set('skills_open', {});
+    renderCerts();
+  }
+  function openSkill(id) {
+    showTab(4);
+    const open = db.get('skills_open', {});
+    open[id] = true;
+    db.set('skills_open', open);
+    renderCerts();
+    setTimeout(() => {
+      const el = document.getElementById('skill-' + id);
+      if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }, 100);
   }
 
   // ── RENDER: STATS BAR ──
@@ -2046,7 +2382,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
 })();
 window.SYS = SYS;
 
