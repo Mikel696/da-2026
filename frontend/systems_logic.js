@@ -141,44 +141,62 @@ const SYS = (() => {
     { sem: 10, level: 'Ingeniería de Sistemas', subjects: ['Auditoría de Sistemas','Electiva de Profundización III','Práctica Profesional','Opción de Grado Profesional'] },
   ];
 
-  // ── CERTIFICATIONS ──
+  // ── CERTIFICATIONS — 100% GRATIS + OFICIALES + alineadas a Ing. Sistemas ──
+  // Auditadas 2026-05-27: cada una tiene certificado/badge oficial verificable.
+  // Se descartaron AWS/Azure/CompTIA (exámenes pagos) y Coursera (suscripción).
   const CERTS = [
-    { name: 'AWS Cloud Practitioner', issuer: 'Amazon Web Services', icon: '☁️', color: 'hsl(35,90%,55%)', desc: 'Fundamentos de cloud computing. Ideal para 8vo semestre: complementa Redes Inalámbricas y Admin BD. Alta demanda en Colombia.', tags: ['Cloud', 'Fundamentos', 'Alto Impacto'], link: 'https://aws.amazon.com/certification/certified-cloud-practitioner/', difficulty: 'Intermedio', time: '4-6 semanas', free: true },
-    { name: 'Azure Fundamentals AZ-900', issuer: 'Microsoft Azure', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Conceptos de nube, servicios Azure, seguridad, gobernanza. Microsoft ofrece path gratuito en Learn.', tags: ['Cloud', 'Microsoft', 'Gratis'], link: 'https://learn.microsoft.com/en-us/certifications/azure-fundamentals/', difficulty: 'Básico', time: '3-4 semanas', free: true },
-    { name: 'Docker Certified Associate', issuer: 'Docker Inc.', icon: '🐳', color: 'hsl(200,70%,50%)', desc: 'Contenedores, orquestación, networking Docker. Complementa Refinamiento de Software (CI/CD, DevOps).', tags: ['DevOps', 'Containers', 'CI/CD'], link: 'https://www.docker.com/docker-certified-associate/', difficulty: 'Intermedio-Avanzado', time: '6-8 semanas', free: false },
-    { name: 'CompTIA Network+', issuer: 'CompTIA', icon: '🌐', color: 'hsl(142,60%,45%)', desc: 'Networking profesional. Refuerza directamente Redes Inalámbricas. Reconocida internacionalmente para infraestructura.', tags: ['Redes', 'Infraestructura', 'Internacional'], link: 'https://www.comptia.org/certifications/network', difficulty: 'Intermedio', time: '8-10 semanas', free: false },
-    { name: 'Oracle Database SQL Certified', issuer: 'Oracle', icon: '🔶', color: 'hsl(15,80%,50%)', desc: 'SQL avanzado, administración Oracle. Refuerza Admin de Base de Datos. Oracle ofrece examen online.', tags: ['SQL', 'DBA', 'Enterprise'], link: 'https://education.oracle.com/oracle-database-sql-certified-associate/trackp_457', difficulty: 'Intermedio', time: '6-8 semanas', free: false },
-    { name: 'GitHub Actions CI/CD', issuer: 'GitHub', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Automatización de pipelines. Complementa perfectamente Refinamiento en Producción de Software.', tags: ['DevOps', 'CI/CD', 'Gratis'], link: 'https://resources.github.com/learn/pathways/automation/', difficulty: 'Básico-Intermedio', time: '2-3 semanas', free: true },
-    { name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Metodologías ágiles, Scrum framework. Gratis y reconocida. Útil para gestión de proyectos de software.', tags: ['Agile', 'Scrum', 'Gratis'], link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc', difficulty: 'Básico', time: '1-2 semanas', free: true },
-    { name: 'Google IT Support Professional', issuer: 'Google / Coursera', icon: '🎓', color: 'hsl(45,90%,50%)', desc: 'Soporte IT, redes, seguridad, sysadmin. Base sólida que integra múltiples materias del semestre.', tags: ['IT', 'Google', 'Coursera'], link: 'https://www.coursera.org/professional-certificates/google-it-support', difficulty: 'Básico-Intermedio', time: '6 meses (a tu ritmo)', free: false },
+    // ── Programación ──
+    { name: 'Python (Basic)', issuer: 'HackerRank', icon: '🐍', color: 'hsl(220,80%,55%)', desc: 'Sintaxis, estructuras, OOP. Test cronometrado · certificado oficial verificable. Excelente base programadora.', tags: ['Programación', 'Python', 'Oficial'], link: 'https://www.hackerrank.com/skills-verification/python_basic', difficulty: 'Básico', time: '1-2 semanas', free: true },
+    { name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS con badge digital Cisco. Refuerza directamente Ingeniería Web (DIS34).', tags: ['JS', 'Cisco', 'Badge'], link: 'https://www.netacad.com/courses/javascript-essentials-1', difficulty: 'Básico', time: '4 semanas', free: true },
+    { name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5, CSS, Flexbox, Grid, accesibilidad. 300h con certificado verificable. Refuerza Ing Web.', tags: ['Web', 'Frontend', 'fCC'], link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { name: 'JS Algorithms & DS', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6, OOP, algoritmos, programación funcional, regex. 300h · certificado oficial fCC.', tags: ['JS', 'Algoritmos', 'fCC'], link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
+
+    // ── Redes & Ciberseguridad ──
+    { name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP, modelo OSI, routing/switching básico. Base para CCNA. Refuerza Redes Inalámbricas.', tags: ['Redes', 'Cisco', 'Badge'], link: 'https://www.netacad.com/courses/networking-essentials', difficulty: 'Básico-Intermedio', time: '6-8 semanas', free: true },
+    { name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas, ataques, defensa, ética. Badge Cisco oficial. Complementa Calidad SW y Redes.', tags: ['Seguridad', 'Cisco', 'Badge'], link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', difficulty: 'Básico', time: '6 semanas', free: true },
+
+    // ── Bases de Datos ──
+    { name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'CRUD, queries, agregaciones, indexes. Certificado oficial. Complemento perfecto a Admin BD (DIS-BD).', tags: ['NoSQL', 'BD', 'Oficial'], link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    { name: 'SQL (Basic)', issuer: 'HackerRank', icon: '🗄️', color: 'hsl(210,75%,50%)', desc: 'SELECT, JOIN, agregaciones. Test cronometrado · certificado verificable. Refuerza Admin BD.', tags: ['SQL', 'BD', 'Oficial'], link: 'https://www.hackerrank.com/skills-verification/sql_basic', difficulty: 'Básico', time: '1 semana', free: true },
+
+    // ── Cloud (verdaderamente gratis) ──
+    { name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '☁️', color: 'hsl(15,80%,50%)', desc: 'Oracle Cloud Infrastructure Foundations. Examen oficial GRATUITO con cuenta Oracle. Cert reconocido.', tags: ['Cloud', 'Oracle', 'Oficial'], link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+
+    // ── DevOps & APIs ──
+    { name: 'GitHub Foundations', issuer: 'GitHub', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git, GitHub Actions, Codespaces, Issues, PRs. Learning path oficial con badges Microsoft Learn.', tags: ['DevOps', 'Git', 'Badge'], link: 'https://learn.microsoft.com/en-us/training/paths/github-foundations/', difficulty: 'Básico', time: '2-4 semanas', free: true },
+    { name: 'API Fundamentals Student Expert', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST, requests, environments, tests, colecciones. Insignia oficial Postman. Aplica a Ing Web.', tags: ['API', 'REST', 'Oficial'], link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', difficulty: 'Básico', time: '2-3 semanas', free: true },
+
+    // ── Metodología ──
+    { name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework, roles, eventos, artefactos. Cert profesional reconocido (vouchers gratis periódicos).', tags: ['Agile', 'Scrum', 'Oficial'], link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', difficulty: 'Básico', time: '1-2 semanas', free: true },
+
+    // ── IA & Datos ──
+    { name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn, modelos predictivos, validación cruzada. Cert oficial Kaggle. Aplica a Inv C&T.', tags: ['ML', 'Python', 'Oficial'], link: 'https://www.kaggle.com/learn/intro-to-machine-learning', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
+    { name: 'Pandas (Data Analysis)', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'DataFrames, groupby, merge, missing data. Cert oficial Kaggle. Combo perfecto con Python.', tags: ['Datos', 'Python', 'Oficial'], link: 'https://www.kaggle.com/learn/pandas', difficulty: 'Básico', time: '1-2 semanas', free: true },
+
+    // ── Inglés (relevante para tu carrera tech) ──
+    { name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test estandarizado CEFR A1-C2 (50 min). Certificado verificable gratuito. Útil con BE Plus.', tags: ['Inglés', 'CEFR', 'Oficial'], link: 'https://www.efset.org/', difficulty: 'Variable', time: '50 min', free: true },
   ];
 
   // ── QUICK ACCESS LINKS ──
   const QUICK_ACCESS = [
-    { title: 'CUN Digital', desc: 'Plataforma de cursos y aulas virtuales', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/' },
-    { title: 'Curso ID: 28494', desc: 'Tu aula virtual del semestre actual', icon: '📖', color: 'hsl(142,60%,45%)', url: 'https://cdigital.cun.edu.co/course/view.php?id=28494&expand#section-1' },
-    { title: 'SGA Campus', desc: 'Sistema de Gestión Académica', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
+    { title: 'CUN Digital', desc: 'LMS principal: aulas virtuales, foros, entregas', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
+    { title: 'CUN 360', desc: 'Carnet, horarios, tickets CAMI, pagos', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
+    { title: 'SGA Campus (SINU)', desc: 'Notas oficiales · matrícula · historial', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
     { title: 'Gmail CUN', desc: 'Correo institucional', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
-    { title: 'Inducción Virtual', desc: 'Portal de inducción CUN', icon: '🚀', color: 'hsl(35,90%,55%)', url: 'https://cun.edu.co/induccion-virtual/' },
     { title: 'Calendario 2026', desc: 'PDF oficial de calendarios virtuales', icon: '📅', color: 'hsl(172,60%,45%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
     { title: 'Plan de Estudios', desc: 'Malla curricular oficial PDF', icon: '📋', color: 'hsl(45,90%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
-    { title: 'Repositorio GitHub', desc: 'Código fuente del proyecto DA-2026', icon: '🐙', color: 'hsl(0,0%,60%)', url: 'https://github.com/Mikel696/da-2026' },
   ];
 
   // ── CUN ECOSYSTEM MAP ──
   const CUN_ECOSYSTEM = [
     { title: 'CUN 360', desc: 'App central: carnet digital, horarios, tickets CAMI, pagos y chatbot 24/7', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
-    { title: 'CUN Digital (Moodle)', desc: 'LMS: materiales, foros, entregas, calificaciones. Aquí vives académicamente', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/' },
-    { title: 'Curso Activo (28494)', desc: 'Tu aula virtual del semestre actual — acceso directo a contenido', icon: '📖', color: 'hsl(142,60%,45%)', url: 'https://cdigital.cun.edu.co/course/view.php?id=28494&expand#section-1' },
+    { title: 'CUN Digital (Moodle)', desc: 'LMS principal · materiales, foros, entregas, calificaciones', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
     { title: 'SGA Campus (SINU)', desc: 'Matrícula, notas oficiales, historial académico, certificados', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
-    { title: 'Gmail CUN', desc: 'Correo institucional — comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
-    { title: 'CamiTicket', desc: 'Sistema de soporte: solicitudes académicas, financieras y técnicas', icon: '🎫', color: 'hsl(35,90%,55%)', url: 'https://cdigital.cun.edu.co/' },
+    { title: 'Gmail CUN', desc: 'Correo institucional · comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
     { title: 'Inducción Virtual', desc: 'Onboarding, guías, kit de bienvenida, tutoriales de plataformas', icon: '🚀', color: 'hsl(172,60%,45%)', url: 'https://cun.edu.co/induccion-virtual/' },
-    { title: 'Campus Digital (Alt)', desc: 'Punto de entrada alternativo al LMS — mismo contenido que CDigital', icon: '🔄', color: 'hsl(45,90%,50%)', url: 'https://campusdigital.cun.edu.co/' },
     { title: 'Calendario 2026 (PDF)', desc: 'Documento oficial con fechas de los 6 períodos académicos', icon: '📅', color: 'hsl(320,60%,50%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
-    { title: 'Plan de Estudios (PDF)', desc: 'Malla curricular oficial — Ing. de Sistemas Virtual', icon: '📋', color: 'hsl(15,70%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
+    { title: 'Plan de Estudios (PDF)', desc: 'Malla curricular oficial · Ing. de Sistemas Virtual', icon: '📋', color: 'hsl(15,70%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
     { title: 'CUN App (Google Play)', desc: 'Descarga la app móvil CUN 360 para Android', icon: '🤖', color: 'hsl(120,50%,40%)', url: 'https://play.google.com/store/apps/details?id=co.edu.cun.cun360' },
-    { title: 'DA-2026 GitHub', desc: 'Código fuente de este proyecto — tu segundo cerebro', icon: '🐙', color: 'hsl(0,0%,55%)', url: 'https://github.com/Mikel696/da-2026' },
   ];
 
   // ── METHODOLOGY STEPS ──
@@ -402,8 +420,6 @@ const SYS = (() => {
       const pct = total > 0 ? Math.round(done / total * 100) : 0;
       const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
       const sl = s.subject_links || {};
-      const VERIFIED_SUBJECTS = new Set(['ing_web', 'mat_especiales', 'inv_ciencia']);
-      const hasRealCalendar = VERIFIED_SUBJECTS.has(s.id) || (s.cronograma && s.cronograma.length > 0);
 
       // Tasks grouped by priority (semáforo)
       const grouped = { p0: [], p1: [], p2: [], p3: [], p4: [], done: [] };
@@ -897,6 +913,17 @@ const SYS = (() => {
   }
 
   // ── CLEAR COMPLETED ──
+  function deleteOverdueTasks() {
+    const today = todayStr();
+    const tasks = getTasks();
+    const overdue = tasks.filter(t => !t.done && t.due && t.due < today);
+    if (!overdue.length) { alert('No hay tareas vencidas pendientes.'); return; }
+    if (!confirm(`¿Eliminar ${overdue.length} tarea${overdue.length > 1 ? 's' : ''} vencida${overdue.length > 1 ? 's' : ''}?\n\nLas tareas completadas no se ven afectadas.`)) return;
+    const remaining = tasks.filter(t => !overdue.includes(t));
+    saveTasks(remaining);
+    render();
+  }
+
   function clearCompleted() {
     const tasks = getTasks();
     const pending = tasks.filter(t => !t.done);
@@ -975,37 +1002,60 @@ const SYS = (() => {
       </div>`;
   }
 
-  // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) ──
+  // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) — TAREAS + CRONOGRAMA combinados ──
   function renderDeadlines() {
     const el = document.getElementById('deadlinesBySubject');
     if (!el) return;
     const today = todayStr();
-    const pending = getTasks().filter(t => !t.done && t.due);
-    if (!pending.length) {
-      el.innerHTML = `<div class="cs-empty">Sin tareas con fecha asignada. Agrégalas desde el Dashboard o la pestaña Materias.</div>`;
+    const subjects = getSubjects();
+    const subjMap = Object.fromEntries(subjects.map(s => [s.id, s]));
+
+    // 1) Tareas pendientes con fecha
+    const items = getTasks().filter(t => !t.done && t.due).map(t => ({
+      kind: 'task', id: t.id, subj: t.subj, text: t.text, due: t.due
+    }));
+    // 2) Entregas del cronograma no marcadas como done
+    subjects.forEach(s => (s.cronograma || []).forEach(c => {
+      if (!c.done && c.date) {
+        items.push({ kind: 'crono', id: c.id, subj: s.id, text: c.title, due: c.date, type: c.type });
+      }
+    }));
+
+    if (!items.length) {
+      el.innerHTML = `<div class="cs-empty">Sin entregas pendientes. Agrega tareas en cada materia o crea un cronograma desde "✏ Editar".</div>`;
       return;
     }
-    pending.sort((a, b) => a.due.localeCompare(b.due));
-    const subjMap = Object.fromEntries(getSubjects().map(s => [s.id, s]));
+    items.sort((a, b) => a.due.localeCompare(b.due));
+
+    // Conteo global de vencidas
+    const overdueAll = items.filter(it => it.due < today);
+    const toolbarHtml = overdueAll.length ? `<div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="tf-btn" onclick="SYS.deleteOverdueTasks()" style="background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.25);font-size:11px">⏰ Eliminar ${overdueAll.length} tarea${overdueAll.length>1?'s':''} vencida${overdueAll.length>1?'s':''}</button>
+    </div>` : '';
+
     const bySubj = {};
-    pending.forEach(t => {
-      const s = subjMap[t.subj] || { id: t.subj, name: 'General', icon: '📌', color: 'hsl(0,0%,50%)', code: '' };
-      if (!bySubj[s.id]) bySubj[s.id] = { s, tasks: [] };
-      bySubj[s.id].tasks.push(t);
+    items.forEach(it => {
+      const s = subjMap[it.subj] || { id: it.subj, name: 'General', icon: '📌', color: 'hsl(0,0%,50%)', code: '' };
+      if (!bySubj[s.id]) bySubj[s.id] = { s, items: [] };
+      bySubj[s.id].items.push(it);
     });
-    el.innerHTML = Object.values(bySubj).map(({ s, tasks }) => {
-      const rows = tasks.map(t => {
-        const d = daysBetween(today, t.due);
+
+    el.innerHTML = toolbarHtml + Object.values(bySubj).map(({ s, items }) => {
+      const typeIcMap = { tarea:'📋', parcial:'📝', quiz:'❓', proyecto:'🎯', foro:'💬', otro:'📌' };
+      const rows = items.map(it => {
+        const d = daysBetween(today, it.due);
         const sc = d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
         const dl = d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+        const kindIc = it.kind === 'crono' ? (typeIcMap[it.type] || '📌') : '🚦';
         return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
           <span class="sem ${sc}" style="flex-shrink:0;min-width:56px;justify-content:center">${dl}</span>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0">${formatDate(t.due)}</span>
-          <span style="font-size:12px;flex:1">${esc(t.text)}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0">${formatDate(it.due)}</span>
+          <span style="font-size:12px;flex:1">${kindIc} ${esc(it.text)}</span>
+          ${it.kind === 'crono' ? '<span style="font-size:9px;color:var(--t3);text-transform:uppercase">cronograma</span>' : ''}
         </div>`;
       }).join('');
-      const urgentCount = tasks.filter(t => { const d = daysBetween(today, t.due); return d < 0 || d <= 2; }).length;
-      return `<div class="gc" style="margin-bottom:8px;padding:14px 16px">
+      const urgentCount = items.filter(it => { const d = daysBetween(today, it.due); return d <= 2; }).length;
+      return `<div class="gc" style="margin-bottom:8px;padding:14px 16px;border-left:3px solid ${s.color}">
         <div class="gc-h" style="margin-bottom:10px">
           <div class="gc-t">
             <span>${s.icon}</span><span>${esc(s.name)}</span>
@@ -1013,7 +1063,7 @@ const SYS = (() => {
           </div>
           <div style="display:flex;gap:4px;align-items:center">
             ${urgentCount ? `<span class="sem sem-p0">${urgentCount} urgente${urgentCount > 1 ? 's' : ''}</span>` : ''}
-            <span class="sem sem-p3">${tasks.length} tarea${tasks.length > 1 ? 's' : ''}</span>
+            <span class="sem sem-p3">${items.length} entrega${items.length > 1 ? 's' : ''}</span>
           </div>
         </div>
         ${rows}
@@ -1882,7 +1932,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects };
 })();
 window.SYS = SYS;
 

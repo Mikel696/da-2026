@@ -618,8 +618,8 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 4: CERTIFICACIONES ═══════ -->
 <div class="pnl" id="pnl4">
-<div class="sl">· ruta de certificaciones — perfil 8vo semestre ·</div>
-<div class="sd">Certificaciones estratégicas para complementar tu título. Ordenadas por impacto en empleabilidad.</div>
+<div class="sl">· certificaciones gratuitas + oficiales — alineadas a Ing. Sistemas ·</div>
+<div class="sd">15 certificaciones <strong style="color:var(--gn)">100% gratuitas</strong> con badge/certificado oficial verificable. Cubren Programación, Redes, BD, Cloud, DevOps, IA y Metodología — todas refuerzan materias de tu malla curricular.</div>
 <div id="certList"></div>
 </div>
 <!-- ═══════ TAB 5: CUN HUB ═══════ -->
@@ -686,7 +686,7 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div class="gc" style="margin-top:12px">
 <div class="gc-t" style="margin-bottom:14px">⚡ Actualización Rápida — Importar desde CUN Digital</div>
 <div style="font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.6">
-<strong>¿Cómo funciona?</strong> Entra a <a href="https://cdigital.cun.edu.co/course/view.php?id=28494" target="_blank" style="color:var(--vi2)">tu curso en CUN Digital</a>, copia los nombres de las tareas pendientes y pégalos aquí. Una tarea por línea. El sistema las procesará automáticamente.
+<strong>¿Cómo funciona?</strong> Entra a <a href="https://cdigital.cun.edu.co/my/" target="_blank" style="color:var(--vi2)">tu lista de cursos en CUN Digital</a>, copia los nombres de las tareas pendientes y pégalos aquí. Una tarea por línea. El sistema las procesará automáticamente.
 </div>
 <textarea id="bulkImport" placeholder="Pega aquí las tareas de CUN Digital (una por línea).&#10;Ejemplo:&#10;Taller 3 - Grafos y árboles&#10;Quiz semana 8 - Ecuaciones diferenciales&#10;Foro de discusión - Redes inalámbricas" style="width:100%;min-height:120px;padding:12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px;resize:vertical"></textarea>
 <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
@@ -711,7 +711,8 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <button class="tf-btn" onclick="SYS.exportData()" style="background:var(--vi)">📤 Exportar JSON</button>
 <button class="tf-btn" onclick="document.getElementById('importFile').click()" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📥 Importar JSON</button>
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="SYS.importData(event)">
-<button class="tf-btn" onclick="SYS.clearCompleted()" style="background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.2)">🗑️ Limpiar completadas</button>
+<button class="tf-btn" onclick="SYS.clearCompleted()" style="background:var(--el);color:var(--am);border:1px solid rgba(234,179,8,.25)">✓ Limpiar completadas</button>
+<button class="tf-btn" onclick="SYS.deleteOverdueTasks()" style="background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.25)">⏰ Eliminar vencidas</button>
 </div>
 </div>
 
