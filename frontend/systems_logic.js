@@ -20,6 +20,49 @@ const SYS = (() => {
     { id: 'inv_ciencia', code: 'DIS36', name: 'Investigación Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', cdigital_id: 104253, desc: 'Metodología de investigación, estado del arte, proyecto de aula, artículos científicos, normas APA, desinformación.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
     { id: 'english_beginner', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', professor: 'CINDY PAOLA MORENO', schedule: 'Lunes 7:00 PM', cdigital_id: 100774, subject_links: { clase: 'https://cdigital.cun.edu.co/course/view.php?id=100774' }, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
     { id: 'placement_test', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', cdigital_id: 106289, desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/course/view.php?id=106289'] },
+    // ── BLOQUE 2 (25 May - 19 Jul 2026) ──────────────────────────────
+    { id: 'admin_bd', code: 'DIS-BD', name: 'Administración de Bases de Datos', group: '52291', icon: '🗄️', color: 'hsl(190,75%,45%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: 'Sergio Alexander Mora Novoa',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Diseño de BD, SQL avanzado, administración, backup/recovery, optimización.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'abd_1',  title: 'Presentación Foro · Prueba Diagnóstica · Reglas de juego', date: '2026-05-31', type: 'foro' },
+        { id: 'abd_2',  title: 'Evaluación docente 1',                                     date: '2026-06-07', type: 'otro' },
+        { id: 'abd_3',  title: 'Quiz 1 (10%)',                                             date: '2026-06-07', type: 'quiz' },
+        { id: 'abd_4',  title: 'Parcial 1 (20% → 1er Corte 30%)',                          date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'abd_5',  title: 'Evaluación docente 2',                                     date: '2026-06-21', type: 'otro' },
+        { id: 'abd_6',  title: 'Quiz 2 (10%)',                                             date: '2026-06-21', type: 'quiz' },
+        { id: 'abd_7',  title: 'Parcial 2 (20% → 2do Corte 30%)',                          date: '2026-06-28', type: 'parcial' },
+        { id: 'abd_8',  title: 'Verificación de notas por estudiantes',                    date: '2026-06-28', type: 'otro' },
+        // ── Tercer Corte (40%) ──
+        { id: 'abd_9',  title: 'Evaluación docente 3',                                     date: '2026-07-05', type: 'otro' },
+        { id: 'abd_10', title: 'Proyecto de Aula · Entrega Final ACA (34%)',               date: '2026-07-05', type: 'proyecto' },
+        { id: 'abd_11', title: 'Quiz 3 (2%)',                                              date: '2026-07-12', type: 'quiz' },
+        { id: 'abd_12', title: 'Auto-Evaluación (2%)',                                     date: '2026-07-12', type: 'otro' },
+        { id: 'abd_13', title: 'Co-Evaluación (2%)',                                       date: '2026-07-12', type: 'otro' },
+        { id: 'abd_14', title: 'Socialización de Notas',                                   date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.postgresqltutorial.com/', 'https://use-the-index-luke.com/'] },
+    { id: 'calidad_sw', code: 'DIS-CSW', name: 'Calidad del Software', group: '52278', icon: '🛡️', color: 'hsl(160,60%,40%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: 'Alexander Calderón Martínez',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Aseguramiento de calidad, testing, normas ISO/IEC 25010, métricas.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'csw_1',  title: 'Introducción · Sesión de clase',                  date: '2026-05-31', type: 'tarea' },
+        { id: 'csw_2',  title: 'Quiz 1 (10%) · Sesión de Clase',                  date: '2026-06-07', type: 'quiz' },
+        { id: 'csw_3',  title: 'Parcial 1 (20% → 1er Corte 30%)',                 date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'csw_4',  title: 'Quiz 2 (10%) · Sesión de Clase',                  date: '2026-06-21', type: 'quiz' },
+        { id: 'csw_5',  title: 'Parcial 2 (20% → 2do Corte 30%)',                 date: '2026-06-28', type: 'parcial' },
+        // ── Tercer Corte (40%) ──
+        { id: 'csw_6',  title: 'ACA · Pitch Disciplinares-NIP (34%)',             date: '2026-07-05', type: 'proyecto' },
+        { id: 'csw_7',  title: 'Quiz 3 · Sesión de Clase (2%)',                   date: '2026-07-11', type: 'quiz' },
+        { id: 'csw_8',  title: 'Coevaluación (2%)',                               date: '2026-07-11', type: 'otro' },
+        { id: 'csw_9',  title: 'Autoevaluación (2%)',                             date: '2026-07-11', type: 'otro' },
+        { id: 'csw_10', title: 'Cierre de Notas',                                 date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.iso.org/standard/35733.html', 'https://martinfowler.com/articles/practical-test-pyramid.html'] },
   ];
 
   // ── CALENDAR 2026 (extracted from official PDF) ──
