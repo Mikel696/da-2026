@@ -367,9 +367,14 @@ const SYS = (() => {
       ${STATUS_ORDER.map(st => counts[st] > 0 ? `<button class="subj-filt-pill ${_subjFilter===st?'on':''}" onclick="SYS.setSubjFilter('${st}')">${STATUSES[st].icon} ${STATUSES[st].label} (${counts[st]})</button>` : '').join('')}
     </div>`;
     const visible = _subjFilter === 'all' ? allSubjects : allSubjects.filter(s => (s.status || 'en_curso') === _subjFilter);
+    const collState = db.get('subjects_collapsed', {});
     el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap">
       <div style="flex:1;min-width:200px">${filterPills}</div>
       <button class="tf-btn" style="background:var(--vi);font-size:12px;flex-shrink:0" onclick="SYS.openSubjectModal(null)">+ Nueva materia</button>
+    </div>
+    <div class="subj-list-toolbar">
+      <button class="subj-list-btn" onclick="SYS.expandAllSubjects()">▼ Expandir todas</button>
+      <button class="subj-list-btn" onclick="SYS.collapseAllSubjects()">▶ Colapsar todas</button>
     </div>` + (visible.length === 0 ? `<div class="cs-empty">Sin materias en este estado.</div>` : '') + visible.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
@@ -421,25 +426,43 @@ const SYS = (() => {
       const stCur = s.status || 'en_curso';
       const stMeta = STATUSES[stCur] || STATUSES.en_curso;
       const dimCard = ['ganada','perdida','retirada'].includes(stCur);
+      const isExpanded = !!collState[s.id];
       const stMenuHtml = `<div class="subj-st-wrap">
         <button class="subj-st-bdg st-${stCur}" onclick="event.stopPropagation();SYS.toggleStatusMenu('${s.id}')">${stMeta.icon} ${stMeta.label} ▾</button>
         <div class="subj-st-menu" id="stMenu-${s.id}">
           ${STATUS_ORDER.map(st => `<button class="${st===stCur?'cur':''}" onclick="event.stopPropagation();SYS.setSubjectStatus('${s.id}','${st}')">${STATUSES[st].icon} ${STATUSES[st].label}</button>`).join('')}
         </div>
       </div>`;
-      return `<div class="gc${dimCard?' subj-card-dim':''}" style="border-left:3px solid ${s.color}">
-        <div class="gc-h" style="flex-wrap:wrap;gap:8px">
-          <div class="gc-t" style="flex:1;min-width:200px"><span style="font-size:18px">${s.icon}</span> ${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></div>
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      // Próxima entrega pendiente (para mostrar en el header colapsado)
+      const today = todayStr();
+      const nextEntry = (s.cronograma || [])
+        .filter(c => !c.done && c.date && daysBetween(today, c.date) >= 0)
+        .sort((a, b) => a.date.localeCompare(b.date))[0];
+      const nextHint = nextEntry ? (() => {
+        const d = daysBetween(today, nextEntry.date);
+        const dl = d === 0 ? 'HOY' : `${d}d`;
+        return `<span class="subj-card-next" title="${esc(nextEntry.title)}">⏱ ${dl} · ${formatDate(nextEntry.date)}</span>`;
+      })() : '';
+      return `<div class="gc subj-card${dimCard?' subj-card-dim':''}${isExpanded?' expanded':''}" id="subjCard-${s.id}" style="border-left:3px solid ${s.color}">
+        <div class="subj-card-h" onclick="SYS.toggleSubjectCard('${s.id}')">
+          <div class="subj-card-h-l">
+            <span class="subj-card-arr">▶</span>
+            <span style="font-size:18px">${s.icon}</span>
+            <span class="gc-t" style="margin:0">${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></span>
+          </div>
+          <div class="subj-card-h-r" onclick="event.stopPropagation()">
+            ${nextHint}
+            ${total > 0 ? `<span class="sem sem-p3" style="font-size:10px" title="Progreso">${pct}% (${done}/${total})</span>` : ''}
             ${stMenuHtml}
             ${s.grade ? `<span class="sem sem-p3" style="font-size:10px" title="Nota final">📊 ${s.grade}</span>` : ''}
-            ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créditos</span>` : ''}
+            ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créd</span>` : ''}
             <div class="subj-edit-btns">
-              <button class="subj-btn-edit" onclick="SYS.openSubjectModal('${s.id}')">✏ Editar</button>
+              <button class="subj-btn-edit" onclick="SYS.openSubjectModal('${s.id}')">✏</button>
               <button class="subj-btn-del" onclick="SYS.deleteSubjectCRUD('${s.id}')">🗑</button>
             </div>
           </div>
         </div>
+        <div class="subj-card-body">
         ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}${s.professor_email ? ` · <a href="mailto:${s.professor_email}" style="color:var(--vi2);text-decoration:none">${s.professor_email}</a>` : ''}</div>` : ''}
         ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>` : ''}
         ${total > 0 ? `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
@@ -507,8 +530,10 @@ const SYS = (() => {
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
                 ${files.map(f => {
                   const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+                  const delBtn = `<button class="att-thumb-del" onclick="event.stopPropagation();SYS.subjectFileDel('${s.id}','${f.id}')" title="Eliminar">✕</button>`;
                   if (isImg) {
                     return `<div class="att-thumb" onclick="SYS.openFileViewer('${s.id}','${f.id}')" title="${esc(f.name)}">
+                      ${delBtn}
                       <img src="${f.data}" alt="${esc(f.name)}">
                       <div class="att-thumb-cap">${esc(f.name)}</div>
                     </div>`;
@@ -517,6 +542,7 @@ const SYS = (() => {
                   const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', zip:'🗜️', rar:'🗜️' };
                   const ic = icMap[ext] || '📎';
                   return `<div class="att-thumb" onclick="SYS.subjectFileDL('${s.id}','${f.id}')" title="${esc(f.name)}">
+                    ${delBtn}
                     <div class="att-thumb-ic">${ic}</div>
                     <div class="att-thumb-cap">${esc(f.name)}</div>
                   </div>`;
@@ -532,6 +558,7 @@ const SYS = (() => {
           ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
           ${sl.material ? `<a href="${sl.material}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📂 Material</a>` : ''}
         </div>
+        </div>
       </div>`;
     }).join('');
 
@@ -542,6 +569,27 @@ const SYS = (() => {
   function toggleSubjectDrop(id) {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('on');
+  }
+
+  // ── COLLAPSIBLE SUBJECT CARDS ──
+  function toggleSubjectCard(id) {
+    const coll = db.get('subjects_collapsed', {});
+    coll[id] = !coll[id];
+    db.set('subjects_collapsed', coll);
+    const el = document.getElementById('subjCard-' + id);
+    if (el) el.classList.toggle('expanded');
+  }
+
+  function expandAllSubjects() {
+    const coll = {};
+    getSubjects().forEach(s => coll[s.id] = true);
+    db.set('subjects_collapsed', coll);
+    render();
+  }
+
+  function collapseAllSubjects() {
+    db.set('subjects_collapsed', {});
+    render();
   }
 
   function addSubjectTask(sid) {
@@ -1729,6 +1777,7 @@ const SYS = (() => {
     if (!confirm('¿Eliminar este archivo?')) return;
     _setFiles(sid, _getFiles(sid).filter(f => f.id !== fileId));
     _renderSmFiles(sid);
+    render();
   }
 
   // ── TOGGLE CRONOGRAMA ENTRY (mark as done/pending) ──
@@ -1814,7 +1863,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer };
+  return { addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects };
 })();
 window.SYS = SYS;
 
