@@ -63,6 +63,25 @@ const SYS = (() => {
         { id: 'csw_10', title: 'Cierre de Notas',                                 date: '2026-07-19', type: 'otro' },
       ],
       resources: ['https://www.iso.org/standard/35733.html', 'https://martinfowler.com/articles/practical-test-pyramid.html'] },
+    { id: 'redes_inalambricas', code: 'DIS-RWL', name: 'Redes Inalámbricas', group: '', icon: '📶', color: 'hsl(280,55%,55%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: '',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Protocolos WiFi, redes celulares, seguridad inalámbrica, diseño de redes ad-hoc.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'rwl_1',  title: 'Introducción · Sesión de clase',                  date: '2026-05-31', type: 'tarea' },
+        { id: 'rwl_2',  title: 'Quiz 1 (10%) · Sesión de Clase',                  date: '2026-06-07', type: 'quiz' },
+        { id: 'rwl_3',  title: 'Parcial 1 (20% → 1er Corte 30%)',                 date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'rwl_4',  title: 'Quiz 2 (10%) · Sesión de Clase',                  date: '2026-06-21', type: 'quiz' },
+        { id: 'rwl_5',  title: 'Parcial 2 (20% → 2do Corte 30%)',                 date: '2026-06-28', type: 'parcial' },
+        // ── Tercer Corte (40%) ──
+        { id: 'rwl_6',  title: 'ACA · Pitch Disciplinares-NIP (34%)',             date: '2026-07-05', type: 'proyecto' },
+        { id: 'rwl_7',  title: 'Quiz 3 · Sesión de Clase (2%)',                   date: '2026-07-11', type: 'quiz' },
+        { id: 'rwl_8',  title: 'Coevaluación (2%)',                               date: '2026-07-11', type: 'otro' },
+        { id: 'rwl_9',  title: 'Autoevaluación (2%)',                             date: '2026-07-11', type: 'otro' },
+        { id: 'rwl_10', title: 'Cierre de Notas',                                 date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.wi-fi.org/discover-wi-fi', 'https://www.cisco.com/c/en/us/solutions/enterprise-networks/wireless-networking-overview.html'] },
   ];
 
   // ── CALENDAR 2026 (extracted from official PDF) ──
