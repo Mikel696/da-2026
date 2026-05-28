@@ -825,8 +825,141 @@
     });
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     CLEAN PASTE HANDLER · normaliza pegado dentro del editor .nb-content
+     Bug fix: cuando pegabas texto desde Word/Web/Google Docs traía
+     inline-styles (font-family, line-height, padding, margins) que
+     rompían el alineado con los renglones del cuaderno (line-height:32px).
+     Solución: interceptar paste, detectar imágenes (bloquear con hint),
+     y pegar SOLO texto plano sin formato — el usuario formatea con la
+     toolbar después. También maneja URLs auto-convertidas a links.
+  ══════════════════════════════════════════════════════════════ */
+  function attachCleanPaste(el){
+    if (!el || el._nbPasteAttached) return;
+    el._nbPasteAttached = true;
+    el.addEventListener('paste', (e) => {
+      const cb = e.clipboardData || window.clipboardData;
+      if (!cb) return;
+      // 1) Imagen pegada → bloqueamos y enseñamos cómo hacerlo correctamente
+      for (let i = 0; i < (cb.items || []).length; i++) {
+        const it = cb.items[i];
+        if (it && it.kind === 'file' && /^image\//.test(it.type)) {
+          e.preventDefault();
+          alert('💡 Para pegar imágenes usa el botón "🖼️ Imagen HD" del cuaderno.\n\nEsto las guarda en alta calidad sin romper el alineado de los renglones, y sincronizan correctamente entre dispositivos.');
+          return;
+        }
+      }
+      // 2) Texto plano → reemplazamos el comportamiento default (que pega HTML formateado)
+      const text = cb.getData('text/plain');
+      if (text == null || text === '') return;
+      e.preventDefault();
+      // insertText preserva undo/redo del navegador
+      if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+        document.execCommand('insertText', false, text);
+      } else {
+        // Fallback: insertar en el rango actual
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const r = sel.getRangeAt(0);
+          r.deleteContents();
+          r.insertNode(document.createTextNode(text));
+          r.collapse(false);
+        }
+      }
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     CHECKLIST CLICK HANDLER · alterna ☐ ↔ ✓ al hacer click
+     Se monta una sola vez por editor; usa event delegation.
+  ══════════════════════════════════════════════════════════════ */
+  function attachChecklistToggle(el){
+    if (!el || el._nbCheckAttached) return;
+    el._nbCheckAttached = true;
+    el.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t && t.classList && t.classList.contains('nb-check')) {
+        const isDone = t.textContent.trim() === '✓';
+        t.textContent = isDone ? '☐' : '✓';
+        t.classList.toggle('nb-check-done', !isDone);
+        // Disparar input para que se guarde
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+  }
+
+  /* Helper combinado · attachable a cualquier .nb-content */
+  function attachEditorHandlers(el){
+    attachCleanPaste(el);
+    attachChecklistToggle(el);
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     EXTENDED FORMAT COMMANDS · listas / checklist / divider
+     Los módulos llaman fmt('ol' | 'ul' | 'check' | 'hr') desde su
+     toolbar. Centralizar acá garantiza comportamiento consistente.
+  ══════════════════════════════════════════════════════════════ */
+  function fmtExtended(kind){
+    try {
+      if (kind === 'ol') {
+        document.execCommand('insertOrderedList');
+      } else if (kind === 'ul') {
+        document.execCommand('insertUnorderedList');
+      } else if (kind === 'hr') {
+        document.execCommand('insertHorizontalRule');
+      } else if (kind === 'check') {
+        // Insertar checkbox toggleable + espacio. contenteditable=false evita
+        // que el cursor entre dentro y se rompa al escribir.
+        document.execCommand('insertHTML', false, '<span class="nb-check" contenteditable="false">☐</span>&nbsp;');
+      } else if (kind === 'indent') {
+        document.execCommand('indent');
+      } else if (kind === 'outdent') {
+        document.execCommand('outdent');
+      } else {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.warn('NB fmtExtended failed:', kind, e);
+      return false;
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     SHARED TOOLBAR HTML · usado por los 3 editores (10-SYS, 13-NOT, 14-WORK)
+     Cada módulo lo embebe via NBShared.toolbarHtml(sid, namespace).
+     - namespace: 'NB' (10-SYS) | 'NotNB' (13-NOT) | 'WorkNB' (14-WORK)
+     Las llamadas onclick siguen apuntando al fmt() del módulo, así cada
+     uno mantiene su flujo de auto-save propio.
+  ══════════════════════════════════════════════════════════════ */
+  function toolbarHtml(sid, ns){
+    const N = ns || 'NB';
+    return `<div class="nb-rt-toolbar">
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+      <span class="nb-rt-sep"></span>
+      <button class="nb-rt-btn nb-rt-sz-s" onclick="${N}.fmt('${sid}','size','s')" title="Texto pequeño">S</button>
+      <button class="nb-rt-btn nb-rt-sz-m" onclick="${N}.fmt('${sid}','size','m')" title="Texto normal">M</button>
+      <button class="nb-rt-btn nb-rt-sz-l" onclick="${N}.fmt('${sid}','size','l')" title="Texto grande">L</button>
+      <span class="nb-rt-sep"></span>
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','ol')" title="Lista numerada (1. 2. 3.)">1.</button>
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','ul')" title="Lista con viñetas">•</button>
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','check')" title="Casilla marcable (click para tachar)">☐</button>
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','hr')" title="Línea separadora">―</button>
+      <span class="nb-rt-sep"></span>
+      <button class="nb-rt-btn nb-rt-hl nb-rt-hl-y" onclick="${N}.fmt('${sid}','hl','y')" title="Resaltar amarillo"></button>
+      <button class="nb-rt-btn nb-rt-hl nb-rt-hl-g" onclick="${N}.fmt('${sid}','hl','g')" title="Resaltar verde"></button>
+      <button class="nb-rt-btn nb-rt-hl nb-rt-hl-p" onclick="${N}.fmt('${sid}','hl','p')" title="Resaltar rosa"></button>
+      <button class="nb-rt-btn" onclick="${N}.fmt('${sid}','clear')" title="Quitar formato">✕</button>
+      <span class="nb-rt-sep"></span>
+      <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="${N}.insertLabel('${sid}','urgent')" title="Insertar etiqueta URGENTE">⚠ URGENTE</button>
+      <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="${N}.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
+    </div>`;
+  }
+
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
+    attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
+    fmtExtended, toolbarHtml,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,

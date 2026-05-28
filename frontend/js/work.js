@@ -1909,6 +1909,11 @@ const WorkNB = (function(){
   }
   function fmt(nbId, kind, value){
     const bIn = focusEditor(nbId); if (!bIn) return;
+    // Comandos extendidos centralizados (listas, checklist, hr)
+    if (window.NBShared && NBShared.fmtExtended && NBShared.fmtExtended(kind)) {
+      autoSave(nbId);
+      return;
+    }
     try {
       if (kind === 'bold') document.execCommand('bold', false, null);
       else if (kind === 'size') {
@@ -2081,21 +2086,8 @@ const WorkNB = (function(){
 
   function buildEditorHtml(nbId, page){
     if (!page) return '';
-    return `<div class="nb-rt-toolbar">
-        <button class="nb-rt-btn" onclick="WorkNB.fmt('${nbId}','bold')"><b>B</b></button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-sz-s" onclick="WorkNB.fmt('${nbId}','size','s')">S</button>
-        <button class="nb-rt-btn nb-rt-sz-m" onclick="WorkNB.fmt('${nbId}','size','m')">M</button>
-        <button class="nb-rt-btn nb-rt-sz-l" onclick="WorkNB.fmt('${nbId}','size','l')">L</button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-y" onclick="WorkNB.fmt('${nbId}','hl','y')"></button>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-g" onclick="WorkNB.fmt('${nbId}','hl','g')"></button>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-p" onclick="WorkNB.fmt('${nbId}','hl','p')"></button>
-        <button class="nb-rt-btn" onclick="WorkNB.fmt('${nbId}','clear')">✕</button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="WorkNB.insertLabel('${nbId}','urgent')">⚠ URGENTE</button>
-        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="WorkNB.insertLabel('${nbId}','done')">✓ HECHO</button>
-      </div>
+    const toolbarHtml = (window.NBShared && NBShared.toolbarHtml) ? NBShared.toolbarHtml(nbId, 'WorkNB') : '';
+    return `${toolbarHtml}
       <div class="nb-page" style="margin-bottom:12px">
         <div class="nb-header">
           <input class="nb-title-inp" id="nbTitle-${nbId}" value="${esc(page.title||'').replace(/"/g,'&quot;')}" placeholder="Título..." oninput="WorkNB.autoSave('${nbId}')">
@@ -2191,6 +2183,10 @@ const WorkNB = (function(){
         <select onchange="WorkNB.selectActive(this.value)" style="flex:1;min-width:200px;background:var(--el);border:1px solid var(--bd);border-radius:7px;color:var(--tx);padding:7px 10px;font-family:inherit;font-size:13px">${options}</select>
       </div>
       ${renderEditor(nb)}`;
+    // Attach paste-cleaner + checklist toggle a todos los editores recién renderizados.
+    if (window.NBShared && NBShared.attachEditorHandlers) {
+      wrap.querySelectorAll('.nb-content[contenteditable="true"]').forEach(el => NBShared.attachEditorHandlers(el));
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);

@@ -2491,21 +2491,8 @@ const NB = (function() {
 
   function buildEditorHtml(sid, page) {
     if (!page) return '';
-    return `<div class="nb-rt-toolbar">
-        <button class="nb-rt-btn" onclick="NB.fmt('${sid}','bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-sz-s" onclick="NB.fmt('${sid}','size','s')" title="Texto pequeño">S</button>
-        <button class="nb-rt-btn nb-rt-sz-m" onclick="NB.fmt('${sid}','size','m')" title="Texto normal">M</button>
-        <button class="nb-rt-btn nb-rt-sz-l" onclick="NB.fmt('${sid}','size','l')" title="Texto grande">L</button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-y" onclick="NB.fmt('${sid}','hl','y')" title="Resaltar amarillo"></button>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-g" onclick="NB.fmt('${sid}','hl','g')" title="Resaltar verde"></button>
-        <button class="nb-rt-btn nb-rt-hl nb-rt-hl-p" onclick="NB.fmt('${sid}','hl','p')" title="Resaltar rosa"></button>
-        <button class="nb-rt-btn" onclick="NB.fmt('${sid}','clear')" title="Quitar formato">✕</button>
-        <span class="nb-rt-sep"></span>
-        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="NB.insertLabel('${sid}','urgent')" title="Insertar etiqueta URGENTE">⚠ URGENTE</button>
-        <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="NB.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
-      </div>
+    const toolbarHtml = (window.NBShared && NBShared.toolbarHtml) ? NBShared.toolbarHtml(sid, 'NB') : '';
+    return `${toolbarHtml}
       <div class="nb-page" style="margin-bottom:12px">
         <div class="nb-header">
           <input class="nb-title-inp" id="nbTitle-${sid}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${sid}')">
@@ -2600,7 +2587,13 @@ const NB = (function() {
   }
 
   function restoreAfterRender() {
-    // No-op; could restore scroll or focus here.
+    // Adjuntar paste handler (limpia HTML pegado) + checklist toggle a TODOS
+    // los editores de cuaderno renderizados en la página.
+    if (window.NBShared && NBShared.attachEditorHandlers) {
+      document.querySelectorAll('.nb-content[contenteditable="true"]').forEach(el => {
+        NBShared.attachEditorHandlers(el);
+      });
+    }
   }
 
   // ── SUBJECT DROPDOWN TOGGLE ──
@@ -2715,6 +2708,11 @@ const NB = (function() {
   function fmt(sid, kind, value) {
     const bIn = focusEditor(sid);
     if (!bIn) return;
+    // Comandos extendidos centralizados en NBShared (listas, checklist, hr)
+    if (window.NBShared && NBShared.fmtExtended && NBShared.fmtExtended(kind)) {
+      autoSave(sid);
+      return;
+    }
     try {
       if (kind === 'bold') {
         document.execCommand('bold', false, null);

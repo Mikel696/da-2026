@@ -246,6 +246,33 @@
 .nb-content [style*="background:#a5d6a7"],
 .nb-content [style*="background:#f8bbd0"]{color:#1a1a1a !important;text-shadow:none}
 
+/* ── PASTE NORMALIZATION SAFETY NET ──────────────────────────────
+   Si algún texto pegado escapa al paste handler (browsers viejos),
+   forzamos line-height:32px y removemos margin/padding inline-styled.
+   Inline styles tienen specificity (1,0,0,0), por eso !important. */
+.nb-content *{line-height:32px !important}
+.nb-content p,.nb-content div,.nb-content li,.nb-content blockquote,
+.nb-content h1,.nb-content h2,.nb-content h3,.nb-content h4,.nb-content h5,.nb-content h6{
+  margin:0 !important;padding:0 !important;line-height:32px !important
+}
+/* Listas (ol/ul) sí necesitan padding-left para que se vean los markers */
+.nb-content ol,.nb-content ul{padding-left:22px !important;line-height:32px !important}
+.nb-content ol li,.nb-content ul li{line-height:32px !important;margin:0 !important;padding:0 !important}
+/* HR separador */
+.nb-content hr{margin:0 !important;padding:0 !important;height:1px;border:none;background:rgba(120,160,230,.4);line-height:0 !important}
+
+/* ── CHECKLIST · ☐ / ✓ toggleable inline ─────────────────────── */
+.nb-check{display:inline-block;width:20px;text-align:center;cursor:pointer;font-weight:700;user-select:none;color:#8bb4ff;transition:color .12s,transform .1s;line-height:32px !important}
+.nb-check:hover{color:#a5d6a7;transform:scale(1.15)}
+.nb-check-done{color:#a5d6a7}
+/* Cuando un checkbox está done, tacha el resto de la línea */
+.nb-check-done ~ *{text-decoration:line-through;opacity:.6}
+
+/* ── WORD COUNT FOOTER ─────────────────────────────────────────── */
+.nb-wc-foot{display:flex;justify-content:flex-end;gap:12px;padding:6px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-top:none;border-radius:0 0 12px 12px;margin-top:-1px}
+.nb-wc-foot span{color:var(--t2, #a1a1aa)}
+.nb-wc-foot b{color:var(--vi2, #a78bfa);font-weight:600}
+
 /* Notebook page entry list (saved pages) */
 .nb-entries{margin-top:16px}
 .nb-entry{background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s}
