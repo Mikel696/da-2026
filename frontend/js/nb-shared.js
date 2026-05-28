@@ -899,12 +899,53 @@
      Los módulos llaman fmt('ol' | 'ul' | 'check' | 'hr') desde su
      toolbar. Centralizar acá garantiza comportamiento consistente.
   ══════════════════════════════════════════════════════════════ */
+  /** Limpia state de foreColor heredado de operaciones previas de highlight
+   *  (que setea foreColor=#1a1a1a). Sin esto, las listas y otras inserciones
+   *  posteriores heredan ese color oscuro y aparecen negras sobre el fondo
+   *  oscuro del cuaderno. */
+  function _resetForeColorState(){
+    try {
+      // styleWithCSS false → no aplicar color como inline style
+      document.execCommand('styleWithCSS', false, false);
+      // foreColor a un valor "transparente" para limpiar el state
+      // ('inherit' no es valid argumento de foreColor — usamos el color del editor)
+      document.execCommand('foreColor', false, '#e4e8f4');
+    } catch(e) {}
+  }
+
+  /** Recorre la selección y remueve color inline #1a1a1a (heredado del highlight)
+   *  en elementos que NO tienen background-color (preservando texto highlighted). */
+  function _cleanInheritedDarkColor(rootEl){
+    if (!rootEl) return;
+    rootEl.querySelectorAll('font[color]').forEach(f => {
+      const c = (f.getAttribute('color') || '').toLowerCase();
+      if (c === '#1a1a1a' || c === 'rgb(26, 26, 26)' || c === 'rgb(26,26,26)') {
+        const hasHighlight = f.style.backgroundColor || f.querySelector('[style*="background"]');
+        if (!hasHighlight) f.removeAttribute('color');
+      }
+    });
+    rootEl.querySelectorAll('[style*="color"]').forEach(e => {
+      const col = (e.style.color || '').replace(/\s/g, '').toLowerCase();
+      if (col === 'rgb(26,26,26)' || col === '#1a1a1a') {
+        if (!e.style.backgroundColor) e.style.color = '';
+      }
+    });
+  }
+
   function fmtExtended(kind){
     try {
-      if (kind === 'ol') {
-        document.execCommand('insertOrderedList');
-      } else if (kind === 'ul') {
-        document.execCommand('insertUnorderedList');
+      if (kind === 'ol' || kind === 'ul') {
+        // FIX bug: si antes hiciste highlight, el state foreColor quedó en #1a1a1a
+        // y las listas heredan ese color. Reseteamos primero.
+        _resetForeColorState();
+        document.execCommand(kind === 'ol' ? 'insertOrderedList' : 'insertUnorderedList');
+        // Limpiar cualquier color oscuro residual en los nodos recién creados
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const node = sel.getRangeAt(0).startContainer;
+          const li = (node.nodeType === 3 ? node.parentElement : node)?.closest?.('li');
+          if (li) _cleanInheritedDarkColor(li);
+        }
       } else if (kind === 'hr') {
         document.execCommand('insertHorizontalRule');
       } else if (kind === 'check') {
