@@ -510,7 +510,7 @@ const NotNB = (function(){
     const editorHtml = buildEditorHtml(nb.id, page);
     const created = nb.created ? new Date(nb.created).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}) : '';
 
-    return `<div class="cd" style="border-left:3px solid ${nb.color||'#8b5cf6'};padding:0;overflow:hidden">
+    return `<div class="cd" style="border-left:3px solid ${nb.color||'#8b5cf6'};padding:0;overflow:visible"><!-- visible para sticky toolbar -->
       <div class="nb-cover-card nb-cover-${nb.cover||'c1'}">
         <div class="nb-cover-icon">${nb.icon}</div>
         <div>

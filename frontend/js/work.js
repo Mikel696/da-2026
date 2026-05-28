@@ -2129,7 +2129,7 @@ const WorkNB = (function(){
     }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas.</div>';
 
     const editor = buildEditorHtml(nb.id, page);
-    return `<div class="cd" style="border-left:3px solid ${nb.color||'#06b6d4'};padding:0;overflow:hidden">
+    return `<div class="cd" style="border-left:3px solid ${nb.color||'#06b6d4'};padding:0;overflow:visible"><!-- visible para sticky toolbar -->
       <div class="nb-cover-card nb-cover-${nb.cover||'c6'}">
         <div class="nb-cover-icon">${nb.icon}</div>
         <div>

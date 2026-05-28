@@ -3236,7 +3236,7 @@ const NB = (function() {
     const created = meta.created ? new Date(meta.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
     const cover = meta.cover || 'c1';
 
-    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px;padding:0;overflow:hidden">
+    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px;padding:0;overflow:visible"><!-- visible para sticky toolbar -->
       <div class="nb-cover-card nb-cover-${cover}">
         <div class="nb-cover-icon">${meta.icon}</div>
         <div>
