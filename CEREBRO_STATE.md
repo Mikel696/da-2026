@@ -1,8 +1,34 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-26
+- **Última actualización:** 2026-05-27
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ⚙️ 14-WORK · Prueba DOTA Roadmap — 2026-05-27 (P2)
+
+### Qué cambió
+14a pestaña agregada al módulo 14-WORK: **"🧪 Prueba DOTA"** con roadmap completo del caso DOTA × FD para Implementation Specialist.
+
+### Entregado
+- **`frontend/pages/simetrik-dota-test.html`** (NUEVO · ~350 líneas) — Roadmap standalone con TOC + 16 puntos del Documento Guia.docx · cards estilo why/formula/tip/warn · fórmulas formateadas en `<pre>`.
+- **`frontend/work.html`** — Nueva tab `data-p="dotatest"` después de Copilot + panel `#p-dotatest` con header descriptivo + iframe que embebe la guía + botón "↗ Abrir en nueva pestaña".
+- Estructura del roadmap (Documento Guia.docx leído via Drive Chrome MCP):
+  1. Fuentes (DB_DOTA, Reporte_FD, Parametria_Comercio, Normalización_fechas_habiles)
+  2. Normalizaciones DB DOTA (puntos 1-7): CARD_NUMBER, GTWC_AUTHORIZATION_CODE, GTWT_ACQUIRER, BRAND, GTWT_MERCHANT_NUMBER, MOV_CREATION_DATE, EXPECTED_PAYMENT_DATE
+  3. Cruce con Parametría (8) · filtro TIPO_COMERCIO=ESTANDAR
+  4. Normalizaciones FD (9-11): LIQ_6, LIQ_4, DEADLINE con truco "primer día del mes siguiente -1" para fin de mes bisiesto-safe
+  5. Conciliación avanzada (12) · 5 barridas en orden con restricciones PAYMENT↔REFUND
+  6. Check débitos >15 días · cálculo FECHA_FINAL via últimos 2 dígitos GTWT_MERCHANT_NUMBER
+  7. Saldo neto diario (13) · uso recomendado de add-on Saldos persistentes
+  8. Tableros 14-16: % conciliación · KPI global · tablero libre con sugerencias
+  9. Top 7 errores comunes + checklist pre-video
+
+### Archivos
+- ✏️ `frontend/work.html` (+~15 líneas: nueva tab + panel iframe)
+- 🆕 `frontend/pages/simetrik-dota-test.html` (~350 líneas standalone)
+- ✏️ `PROMPT_RUNS.md` (entrada ID:14-WORK.P2)
 
 ---
 

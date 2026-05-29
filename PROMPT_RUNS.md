@@ -181,3 +181,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: systems_logic.js (+230 líneas), systems.html (+155 líneas)
 - Changed: CRUD completo de materias — nueva/editar/ocultar, modal con color picker, cronograma de entregas, adjuntos base64, getSubjects() merge hardcoded+custom, selects dinámicos
 - Next: Tier B aún pendiente (Bloque 2 tasks, Bloque 2 cronograma real)
+
+### ID:14-WORK.P2 · 2026-05-27 — Prueba DOTA Roadmap
+- Commit: pending
+- Files: frontend/pages/simetrik-dota-test.html (new, ~350 líneas), frontend/work.html (+nueva tab + panel iframe)
+- Modified: Nueva pestaña "🧪 Prueba DOTA" en 14-WORK · roadmap completo con los 16 puntos del Documento Guia.docx · fórmulas, lógicas de barrida, cálculo FECHA_FINAL, errores comunes
+- Next: si el usuario quiere, agregar simulador interactivo de las barridas + integración con la tabla de DB_DOTA_v3 como ejemplos clickables
