@@ -37,7 +37,7 @@ Estás trabajando en **DA-2026 · Segundo Cerebro**, sistema operativo personal 
 | `frontend/pages/simetrik-playbook.html` | Documento canónico Ficohsa autogenerado del zip del usuario. Cargado en iframe. |
 | `frontend/pages/simetrik-learn.html` | Guía didáctica "Empieza Aquí" con tour interactivo + curso 10 lecciones + diccionario rápido + recursos. Cargado en iframe. |
 
-### Pestañas actuales (11) — en orden visual
+### Pestañas actuales (14) — en orden visual
 
 1. **🧭 Empieza Aquí** (default) → iframe `pages/simetrik-learn.html`. Tour interactivo + curso 10 lecciones + recursos.
 2. **📘 Playbook Ficohsa** → iframe `pages/simetrik-playbook.html`. Documento canónico del proyecto.
@@ -49,15 +49,20 @@ Estás trabajando en **DA-2026 · Segundo Cerebro**, sistema operativo personal 
 8. **🐛 Errores** → CRUD de errores recurrentes. Storage `work_errors`.
 9. **💡 Aprendizajes** → CRUD de tips/atajos. Storage `work_learnings`.
 10. **📚 KB** → markdown libre con info estática de Simetrik. Storage `work_kb`.
-11. **🤖 Copilot** → generador de prompts contextualizados para Claude. Toma KB + casos recientes + errores.
+11. **🤖 Copilot** → generador de prompts contextualizados para Claude (3 modos: Quick Ask · 🧪 Nueva Prueba Simetrik · Master Review).
+12. **🗓️ MOIF** → Monitoreo y Observabilidad de Integraciones Ficohsa (reuniones). Storage `work_moif_meetings`.
+13. **🖥️ Simulador App** → iframe `pages/simetrik-app.html`. Sandbox didáctico de la app Simetrik.
+14. **🧪 Prueba DOTA** → iframe `pages/simetrik-dota-test.html`. Roadmap del caso DOTA × FD con fórmulas exactas Simetrik + checklist con sync (clave `work_dota_progress`).
 
 ### Storage keys (todas sincronizadas en `cloud-sync.js` SYNC_REGISTRY)
 
 ```
 work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data,
-work_eco_workflow, work_eco_course, work_eco_dict
+work_eco_workflow, work_eco_course, work_eco_dict, work_kb_atts,
+work_moif_meetings, work_dota_progress
 work_eco_dict_seed_v  (control de versiones del seed — NO sincronizar, es local)
 work_learn_progress   (progreso de lecciones en simetrik-learn.html — solo local)
+work_nb_active        (cuaderno activo seleccionado — solo local)
 ```
 
 ### Diccionario · sistema de seed
@@ -87,6 +92,10 @@ Cronología relevante de 14-WORK:
 - **2026-05-13a** — Redesign a "Simetrik Ecosystem": añadidas 3 tabs (Workflow / Mini-curso / Diccionario) con editores rich-text. Autosave hardening en 3 módulos NB (work / notes-nb / systems_logic) con flush en `beforeunload` + `visibilitychange` + `focusout`.
 - **2026-05-13b** — Integración del ZIP del usuario: copia de `Documento completo.html` → `pages/simetrik-playbook.html` con back-nav. Diccionario seedeado con 40 entradas (SEED_VERSION `simetrik-2026-05-13.1`).
 - **2026-05-13c** — Pestaña "🧭 Empieza Aquí" agregada como default → `pages/simetrik-learn.html` (guía didáctica completa, tour interactivo, curso 10 lecciones, recursos). Diccionario expandido a ~100 términos (SEED_VERSION `simetrik-2026-05-13.2`).
+- **2026-05-27a** — Pestaña "🧪 Prueba DOTA" agregada (`pages/simetrik-dota-test.html`). Roadmap del caso DOTA × FD para Implementation Specialist con los 16 puntos del Documento Guía + cronograma de barridas + tableros. Checklist con sync cross-device (clave `work_dota_progress` en SYNC_REGISTRY).
+- **2026-05-27b** — Diccionario expandido con 12 términos del dominio DOTA × Simetrik (LPAD, COALESCE, ADICIONAR_FECHA_HABIL, PAN, BIN, Barrida, Compensación, Add-ons, Saldos Persistentes, etc.). SEED_VERSION `simetrik-2026-05-27.2`.
+- **2026-05-27c** — Reescritura del roadmap Prueba DOTA usando insumos REALES del Drive del usuario (carpeta Imagenes): sintaxis Simetrik verificada (`CONCATENAR`, `RELLENAR`, `SI`, `Y`, `O`, `ESBLANCO`, `MAYUSC`, `IZQUIERDA`, `DERECHA`, `EXTRAER_EXPREGULAR`, `EXTRAER_FECHA`, `ADICIONAR_FECHA_TIEMPO`, `ADICIONAR_DIAS_SEMANA`, `DIFERENCIA_FECHA`, `CALCULO`, `ABS`, `LARGO`). Todas las 16 fórmulas reescritas con sintaxis EXACTA. Tabla de tipos de dato + sección "Best practices que califica el evaluador". Simulador de 5 barridas eliminado por feedback del usuario.
+- **2026-05-27d** — Modo 3 "🧪 Nueva Prueba Simetrik" agregado al Copilot. Genera prompt reusable estilo DOTA para futuros casos de Simetrik (nuevos clientes / nuevos tests / case studies). Plantilla persistente en `PROMPT_14-WORK_TEST.md`.
 
 ---
 

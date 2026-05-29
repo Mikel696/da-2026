@@ -917,6 +917,110 @@ const WORK = (function(){
     if (raw && navigator.clipboard) navigator.clipboard.writeText(raw).then(()=>alert('Copiado'));
   }
 
+  /* ── TEST DEV PROMPT (DOTA-style) ────────────────────────────
+     Plantilla reutilizable para desarrollar pruebas de Simetrik
+     con material en Drive. Genera fórmulas exactas + roadmap +
+     checklist con sync. Fuente: PROMPT_14-WORK_TEST.md
+  */
+  function buildTestDevPrompt(){
+    const p = `# 🧪 PROMPT · Desarrollo de Pruebas / Proyectos Simetrik
+
+CONTEXT (rellenar):
+  Material en Drive:   [URL del folder]
+  Nombre proyecto:     [DOTA / FOO / etc.]
+  Tipo:                [test conocimiento / implementación / case study]
+  Cliente/país:        [DOTA Argentina / Ficohsa Honduras / etc.]
+  Slug interno:        [dota / foo · usado para work_<slug>_progress + pages/simetrik-<slug>-test.html]
+
+PROTOCOLO:
+
+1. LEÉ TODOS los insumos del Drive (Chrome MCP):
+   · Guía .docx → /mobilebasic
+   · xlsx → identificá columnas desde la guía (no descargues)
+   · Capturas .png → extraé funciones disponibles + tipos de dato
+   · Anotaciones .txt → fuente de verdad de la sintaxis Simetrik
+
+2. MAPEÁ LA SINTAXIS:
+   · Separador (;), strings ("..."), funciones MAYÚSCULAS sin acentos
+   · IZQUIERDA/DERECHA, RELLENAR(col;n;"0";"IZQUIERDA")
+   · ADICIONAR_FECHA_TIEMPO(fecha;n;"días")
+   · ADICIONAR_DIAS_SEMANA(fecha;n;"sitio")
+   · EXTRAER_EXPREGULAR(texto;patrón;grupo)
+   · EXTRAER_FECHA(fecha;"año|mes|día")
+   · SI / Y / O / ESBLANCO / CALCULO / MAYUSC
+
+3. PARA CADA PUNTO genera:
+   - nombre_columna_salida
+   - tipo_dato_salida (Texto/Número/Entero/Fecha/Fecha y hora/Hora/Booleano)
+   - formula_simetrik (sintaxis EXACTA del Drive · NO inventar)
+   - depende_de (otros puntos)
+   - trampa_evaluador
+   - best_practice
+
+4. CONCILIACIÓN / BARRIDAS:
+   · Llaves explícitas con nombres reales de columna
+   · Restricciones: auto-cross, tipo operación, tolerancias direccionales
+   · Add-on Simetrik (Saldos Persistentes, Calendario Hábil)
+
+5. TABLEROS / KPIs:
+   · Métricas exactas (SUMA/CONTAR/%)
+   · Tablero libre: 3-4 sugerencias con justificación operativa
+
+6. ROADMAP STANDALONE:
+   frontend/pages/simetrik-<slug>-test.html
+   · Hero + TOC + Preparación + Tipos de dato Simetrik
+   · Una sección por punto: fórmula + best practices + trampas
+   · Sección "Best practices · qué califica el evaluador"
+   · Checklist marcable persistente en work_<slug>_progress
+   · Script IIFE con toggle/markAll/reset + bridge parent.CLOUD.pushState
+   · SIN simuladores ni gimmicks
+
+7. INTEGRACIÓN 14-WORK:
+   · work.html: nueva tab + panel con iframe
+   · cloud-sync.js: work_<slug>_progress en SYNC_REGISTRY
+   · work.js: bumpear SEED_VERSION + términos nuevos del dict si aplica
+
+8. DOCUMENTACIÓN:
+   · PROMPT_RUNS.md: entry ID:14-WORK.P2 (CONT) · YYYY-MM-DD
+   · CEREBRO_STATE.md: sección 14-WORK · Prueba <NOMBRE> · YYYY-MM-DD
+   · PROMPT_14-WORK.md: actualizar cronología
+
+9. COMMIT + PUSH (un solo commit):
+   git add <archivos específicos>
+   git commit -m "feat(14-WORK): Prueba <NOMBRE> · roadmap + fórmulas Simetrik + checklist sync"
+   git push origin main
+
+REGLAS CRÍTICAS:
+  ❌ NO inventar fórmulas — extraé del Drive
+  ❌ NO inventar columnas — verificá en capturas / xlsx
+  ✅ Tipo dato correcto: PAN/IDs ceros = Texto, fechas sin hora = Fecha
+  ✅ Bisiesto-safe: "mes cambia al +1 día"
+  ✅ Restricciones de barrida explícitas
+  ✅ Add-ons en lugar de simular con fórmulas
+  ✅ Sync registry obligatorio para keys nuevas
+  ✅ Un solo commit con mensaje detallado
+
+CHECKLIST DE SALIDA:
+  [ ] Roadmap HTML con TOC
+  [ ] Cada punto con fórmula EXACTA Simetrik
+  [ ] Tabla tipos de dato por columna
+  [ ] Sección best practices del evaluador
+  [ ] Checklist con sync cross-device
+  [ ] Tab en work.html
+  [ ] Storage key en SYNC_REGISTRY
+  [ ] Diccionario expandido (si aplica) + SEED_VERSION bump
+  [ ] node -c sin errores
+  [ ] PROMPT_RUNS + CEREBRO_STATE + PROMPT_14-WORK actualizados
+  [ ] Commit + push
+
+---
+
+INSTRUCCIÓN ESPECÍFICA DE ESTA SESIÓN:
+[ESCRIBÍ ACÁ la tarea específica · ejemplo: "Material en Drive: https://...
+Slug: foo-bar. Procedé."]`;
+    showResult('🧪 Test Dev Prompt', p);
+  }
+
   /* ── MASTER REVIEW PROMPT ────────────────────────────────────
      Construye un prompt completo de auditoría/restructuración:
      incluye TODO el contenido del módulo + instrucciones para que
@@ -1707,7 +1811,7 @@ const WORK = (function(){
 
   return {
     saveCase, delCase, saveError, delError, saveLearning, delLearning,
-    saveKB, buildAskPrompt, buildMasterReviewPrompt, copyAsk, clearForm, render, eco,
+    saveKB, buildAskPrompt, buildMasterReviewPrompt, buildTestDevPrompt, copyAsk, clearForm, render, eco,
     addPendAtt, removePendAtt, addAttToItem, removeAttFromItem,
     addKbAtt, removeKbAtt,
     syncAttToCloud, syncKbAttToCloud, syncAllAttsToCloud,

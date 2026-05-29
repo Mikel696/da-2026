@@ -187,3 +187,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html (new, ~350 líneas), frontend/work.html (+nueva tab + panel iframe)
 - Modified: Nueva pestaña "🧪 Prueba DOTA" en 14-WORK · roadmap completo con los 16 puntos del Documento Guia.docx · fórmulas, lógicas de barrida, cálculo FECHA_FINAL, errores comunes
 - Next: si el usuario quiere, agregar simulador interactivo de las barridas + integración con la tabla de DB_DOTA_v3 como ejemplos clickables
+
+### ID:14-WORK.P2 (CONT) · 2026-05-27 — Plantilla reutilizable + docs
+- Commit: pending
+- Files: PROMPT_14-WORK_TEST.md (NEW), PROMPT_14-WORK.md (cronología 4 iteraciones + 14 tabs + storage keys), CEREBRO_STATE.md (sesión completa), frontend/work.html (+Modo 3 Copilot), frontend/js/work.js (+buildTestDevPrompt)
+- Modified: Plantilla persistente del prompt de desarrollo de pruebas Simetrik (estilo DOTA) + integración como Modo 3 del Copilot · cronología completa en PROMPT_14-WORK.md
+- Next: Aplicar la plantilla a la próxima prueba real (cualquier cliente diferente a DOTA)

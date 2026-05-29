@@ -6,7 +6,68 @@
 
 ---
 
-## ⚙️ 14-WORK · Prueba DOTA Roadmap — 2026-05-27 (P2)
+## ⚙️ 14-WORK · Prueba DOTA · sesión completa — 2026-05-27 (P2 · 4 iteraciones)
+
+### Estado final
+- Tab **"🧪 Prueba DOTA"** producción en 14-WORK (14ª posición)
+- Roadmap con **16 puntos** del Documento Guía + **fórmulas EXACTAS Simetrik** verificadas con insumos del Drive del usuario
+- **Checklist de 16 items** con sync cross-device (clave `work_dota_progress` en SYNC_REGISTRY)
+- **Diccionario expandido** con 12 términos DOTA + Simetrik (LPAD, COALESCE, fechas hábiles, barridas, add-ons)
+- **Nuevo Modo 3 "🧪 Nueva Prueba Simetrik"** en Copilot · plantilla reutilizable para futuros casos
+- **PROMPT_14-WORK_TEST.md** · plantilla persistente del prompt fuera del módulo
+
+### Insumos REALES leídos via Chrome MCP
+Carpeta Drive del usuario: `1mfh3srmGGq_y9rfqAoV0l-HngC22xjEp` (Insumos) + subcarpeta `Imagenes`:
+- **Documento Guia.docx** — caso DOTA × FD completo (16 puntos)
+- **Anotaciones.txt** — sintaxis Simetrik verificada (separador `;`, strings `"..."`, `RELLENAR(...;...;"0";"IZQUIERDA")`)
+- **Captformulas1/2/3.png** — catálogo de funciones Simetrik disponibles
+- **Formatos de las columnas.png** — diálogo "Dar formato a una columna" (tipos: Fecha · Número · Texto · Fecha y hora · Entero · Hora · Booleano)
+- **DB_DOTA_v3.xlsx**, **Reporte_FD_v3.xlsx**, **Parametria_Comercio_v2.xlsx**, **Normalización_fechas_habiles_v2.xlsx** — fuentes de datos (no descargados; columnas extraídas de la guía)
+
+### Funciones Simetrik catalogadas (24)
+ABS · ADICIONAR_DIAS_SEMANA · ADICIONAR_FECHA_TIEMPO · CALCULO · CONCATENAR · DERECHA · DIASEM · DIFERENCIA_FECHA · DIVIDIR · ENCONTRAR · ESBLANCO · ESPACIOS · EXTRAE · EXTRAER_EXPREGULAR · EXTRAER_FECHA · IZQUIERDA · LARGO · MAYUSC · MINUSC · O · POTENCIA · REDONDEAR · REEMPLAZAR · REEMPLAZAR_EXPREGULAR · RELLENAR · SI · Y
+
+### Las 16 fórmulas (sintaxis Simetrik exacta)
+| # | Columna salida | Tipo | Función principal |
+|---|---|---|---|
+| 1 | CARD_NUMBER | Texto | `CONCATENAR + RELLENAR` |
+| 2 | GTWC_AUTHORIZATION_CODE | Texto | `SI + Y` |
+| 3 | GTWT_ACQUIRER | Texto | `SI + EXTRAER_EXPREGULAR + MAYUSC` |
+| 4 | BRAND | Texto | `SI anidado + IZQUIERDA + O` |
+| 5 | GTWT_MERCHANT_NUMBER | Texto | `SI + ESBLANCO` |
+| 6 | MOV_CREATION_DATE | Fecha | `ADICIONAR_FECHA_TIEMPO` |
+| 7 | EXPECTED_PAYMENT_DATE | Fecha | `ADICIONAR_DIAS_SEMANA (sitio ARG)` |
+| 8 | (cruce + filtro) | — | filtro `TIPO_COMERCIO = "ESTANDAR"` post-cruce |
+| 9 | LIQ_6_TARJETA | Texto | `IZQUIERDA(NUM_TAR; 6)` |
+| 10 | LIQ_4_TARJETA | Texto | `DERECHA(NUM_TAR; 4)` |
+| 11 | DEADLINE | Texto | `SI + EXTRAER_FECHA` (bisiesto-safe) |
+| 12 | (conciliación) | — | 5 barridas con restricciones B1-B2 |
+| 13 | Saldo neto diario | — | Add-on Saldos Persistentes |
+| 14-16 | Tableros | — | %·KPI·tablero libre |
+| Check | FECHA_FINAL / DIAS_A_SUMAR | Fecha/Entero | `CALCULO + DERECHA + ADICIONAR_FECHA_TIEMPO` |
+
+### Archivos modificados (commits relacionados)
+- `e2e7b37` · feat: nueva pestaña Prueba DOTA + roadmap inicial
+- `d214de5` · feat: simulador 5 barridas + checklist sync + 12 entradas dict
+- `4df4a15` · refactor: fórmulas EXACTAS Simetrik · simulador eliminado
+- `<este push>` · feat: plantilla reutilizable + actualización docs
+
+### Storage keys agregadas
+- `work_dota_progress` → checklist 16 puntos · SYNC_REGISTRY ✓
+- (`work_eco_dict` bumpeada a `simetrik-2026-05-27.2` con +12 términos)
+
+### Archivos del proyecto
+- 🆕 `frontend/pages/simetrik-dota-test.html` (~430 líneas standalone)
+- 🆕 `PROMPT_14-WORK_TEST.md` (plantilla reutilizable)
+- ✏️ `frontend/work.html` (+nueva tab 🧪 Prueba DOTA + Modo 3 Copilot)
+- ✏️ `frontend/js/work.js` (+`buildTestDevPrompt` + 12 términos diccionario + SEED_VERSION bump)
+- ✏️ `frontend/js/cloud-sync.js` (+`work_dota_progress` en SYNC_REGISTRY)
+- ✏️ `PROMPT_14-WORK.md` (cronología 2026-05-27 a-d + 14 tabs + storage keys actualizadas)
+- ✏️ `PROMPT_RUNS.md` (entry ID:14-WORK.P2 + iteraciones)
+
+---
+
+## ⚙️ 14-WORK · Prueba DOTA Roadmap — 2026-05-27 (P2 · iteración inicial)
 
 ### Qué cambió
 14a pestaña agregada al módulo 14-WORK: **"🧪 Prueba DOTA"** con roadmap completo del caso DOTA × FD para Implementation Specialist.
