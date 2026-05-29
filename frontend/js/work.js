@@ -1359,7 +1359,7 @@ const WORK = (function(){
       if(row) row.classList.toggle('open');
     }
     /* ── Dictionary seed (one-time, idempotent by `seed_id`) ─── */
-    const SEED_VERSION = 'simetrik-2026-05-15.1';
+    const SEED_VERSION = 'simetrik-2026-05-27.2';
     const SEED_DICT = [
       // ── Project roles & artifacts ──
       {sid:'is',term:'IS',cat:'acro',en:'Implementation Specialist',def:'Especialista de Implementación. El encargado de llevar el diseño en papel a la configuración real en la plataforma Simetrik.',ex:'Tú eres el IS en el proyecto Ficohsa.'},
@@ -1660,6 +1660,19 @@ const WORK = (function(){
       {sid:'practical',term:'Practical Activity',cat:'term',en:'Actividad práctica',def:'Segunda certificación Simetrik. Implementás un caso real en un workspace asignado con script y archivos.',ex:'Workspace + script + xlsx → implementás → segunda certificación.'},
       {sid:'qa',term:'Q&A Sessions',cat:'platform',en:'',def:'Sesiones grupales dedicadas a resolver dudas durante la formación Simetrik.',ex:'Espacio semanal en el calendario de onboarding.'},
       {sid:'gtm',term:'Go-To-Market Sessions',cat:'platform',en:'',def:'Reuniones recurrentes que alinean equipos de venta con cambios de producto y estrategias de lanzamiento.',ex:'Mensual: novedades + sales arguments + casos de uso.'},
+      // ── DOTA × FD test (seed 2026-05-27.2) · fórmulas + términos Simetrik ──
+      {sid:'lpad',term:'LPAD',cat:'term',en:'Left Pad',def:'Función de transformación: rellena texto a la izquierda con un carácter hasta alcanzar un largo dado. En DOTA punto 1 se usa para garantizar que CARD_SIX_FIRST_DIGITS quede en 6 chars.',ex:'LPAD("123", 6, "0") → "000123" para componer CARD_NUMBER de 16 chars.'},
+      {sid:'coalesce',term:'COALESCE',cat:'term',en:'Coalesce',def:'Devuelve el primer valor no-nulo de una lista. En DOTA punto 5 se usa para consolidar GTWT_MERCHANT_NUMBER con prioridad PURCHASE > CAPTURE > AUTH.',ex:'COALESCE(PURCHASE_MERCHANT_NUMBER, CAPTURE_MERCHANT_NUMBER, AUTH_MERCHANT_NUMBER).'},
+      {sid:'adicfechahabil',term:'adicionar_fecha_habil',cat:'term',en:'Add business days',def:'Función Simetrik que suma N días hábiles a una fecha usando un calendario por sitio (país). Necesita la hoja "Normalización fechas hábiles" como insumo.',ex:'EXPECTED_PAYMENT_DATE = adicionar_fecha_habil(MOV_CREATION_DATE, 30, "ARG").'},
+      {sid:'adicfechatiempo',term:'adicionar_fecha_tiempo',cat:'term',en:'Add calendar units',def:'Suma N unidades (días/horas/etc.) calendario a una fecha. NO descuenta feriados. Se usa en el cálculo de FECHA_FINAL del check de débitos >15 días.',ex:'FECHA_FINAL = adicionar_fecha_tiempo("2026-10-01", 21, "días").'},
+      {sid:'pan',term:'PAN',cat:'acro',en:'Primary Account Number',def:'Número de la tarjeta de pago (16 dígitos). En DOTA viene enmascarado como CARD_SIX_FIRST_DIGITS + XXXXXX + CARD_FOUR_LAST_DIGITS.',ex:'PAN reconstruido se usa como llave en la barrida 3 (DOTA vs FD detalle exacto).'},
+      {sid:'bin',term:'BIN',cat:'acro',en:'Bank Identification Number',def:'Los primeros 6 dígitos del PAN identifican al emisor y la marca. En DOTA punto 4, los dos primeros se usan para deducir BRAND.',ex:'BIN 4xxxxx = VISA · 5x/2x = MASTERCARD · 34/37 = AMEX.'},
+      {sid:'barrida',term:'Barrida',cat:'term',en:'Sweep / Pass',def:'Cada iteración de una conciliación avanzada. Las barridas se ejecutan en orden y cada una recibe el pendiente de la anterior. En DOTA × FD hay 5 barridas: 1-2 compensación DOTA, 3-4 DOTA vs FD detalle, 5 batch.',ex:'Barrida 1 = compensación exacta DOTA ↔ DOTA con llaves comercio + auth + |monto|.'},
+      {sid:'compensacion',term:'Compensación',cat:'term',en:'Self-clearing',def:'Auto-cruce de una fuente contra sí misma para limpiar pares positivos/negativos del mismo origen (PAYMENT ↔ REFUND). Es el primer paso ANTES de cruzar contra la contraparte.',ex:'Barridas 1 y 2 del caso DOTA aplican compensación con restricción PAYMENT ≠ PAYMENT.'},
+      {sid:'addons',term:'Add-ons',cat:'platform',en:'',def:'Módulos adicionales del workspace Simetrik que habilitan funcionalidades como Saldos Persistentes, fechas hábiles, conciliación avanzada multi-barrida, tableros KPI. El caso DOTA requiere TODOS los add-ons activos.',ex:'Sin add-on de saldos no podés resolver el punto 13 (saldo neto diario por comercio).'},
+      {sid:'saldopersist',term:'Saldos Persistentes',cat:'platform',en:'',def:'Add-on Simetrik que mantiene un saldo acumulado por [clave, fecha] de forma incremental. Cada día parte del saldo del día anterior + movimientos del día.',ex:'Punto 13 DOTA: saldo neto diario por comercio = Saldo[día-1] + Σ movimientos del día.'},
+      {sid:'nuevaherencia',term:'Nueva Herencia',cat:'platform',en:'',def:'Configuración moderna de workspace Simetrik que habilita las funciones más recientes (conciliación avanzada V2, fechas hábiles, saldos). El caso DOTA solo es resoluble en workspaces con nueva herencia.',ex:'Antes de empezar la prueba DOTA, verificá que tu workspace tenga nueva herencia activada.'},
+      {sid:'tolerancia',term:'Tolerancia',cat:'term',en:'Tolerance',def:'Umbral permitido para que dos partidas crucen aunque no coincidan exactamente. En DOTA hay tolerancia de monto ($5 en barrida 2) y tolerancia de fecha (+1 día direccional en barrida 4).',ex:'Tolerancia $5 = dos partidas cruzan si |montoA − montoB| ≤ 5.'},
     ];
     function seedDict(){
       try {

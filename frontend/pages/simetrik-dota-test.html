@@ -83,6 +83,53 @@ td b{color:var(--tx)}
 .kpi-v{font-size:18px;font-weight:700;color:var(--ac);font-family:'JetBrains Mono',monospace}
 .kpi-d{font-size:12px;color:var(--t2);margin-top:4px}
 
+/* CHECKLIST · 16 puntos marcables */
+.chklist{display:flex;flex-direction:column;gap:4px;margin:10px 0}
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:border-color .12s,background .12s}
+.chk-item:hover{border-color:var(--ac)}
+.chk-item.done{opacity:.6;background:var(--gg)}
+.chk-item.done .chk-lbl{text-decoration:line-through;color:var(--t3)}
+.chk-box{width:18px;height:18px;border:2px solid var(--bd2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px;color:var(--gn);transition:all .12s}
+.chk-item.done .chk-box{background:var(--gn);border-color:var(--gn);color:#fff}
+.chk-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ac);font-weight:700;flex-shrink:0;min-width:22px;text-align:right}
+.chk-lbl{flex:1;font-size:13px;color:var(--tx);line-height:1.5}
+.chk-progress{display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(135deg,var(--ag),var(--gg));border:1px solid var(--bd);border-radius:10px;margin-bottom:12px}
+.chk-bar{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.chk-bar-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--gn));border-radius:4px;transition:width .25s}
+.chk-pct{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--ac)}
+.chk-actions{display:flex;gap:8px;margin-top:8px;justify-content:flex-end}
+.chk-btn{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);padding:5px 12px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;font-weight:600;transition:all .12s}
+.chk-btn:hover{border-color:var(--ac);color:var(--ac)}
+
+/* SIMULADOR · barridas */
+.sim-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.sim-btn{background:var(--ag);border:1px solid var(--ac);color:var(--ac);padding:8px 14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;transition:all .12s}
+.sim-btn:hover{background:var(--ac);color:#fff}
+.sim-btn.reset{background:var(--rg);border-color:var(--rd);color:var(--rd)}
+.sim-btn.reset:hover{background:var(--rd);color:#fff}
+.sim-btn.next{background:linear-gradient(135deg,var(--ac),var(--pp));border:none;color:#fff;font-weight:800}
+.sim-status{padding:10px 14px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;margin-bottom:12px;font-size:13px;line-height:1.6}
+.sim-status .step-name{color:var(--ac);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px}
+.sim-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:768px){.sim-tables{grid-template-columns:1fr}}
+.sim-tbl{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:12px;overflow:auto}
+.sim-tbl-h{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sim-tbl-h .badge{background:var(--bd);color:var(--tx);padding:2px 8px;border-radius:5px;font-family:'JetBrains Mono',monospace}
+.sim-tbl table{font-size:11.5px;font-family:'JetBrains Mono',monospace;margin:0}
+.sim-tbl th{font-size:10px;padding:6px 8px}
+.sim-tbl td{padding:5px 8px;border:1px solid var(--bd)}
+.sim-tbl tr.crossed{background:var(--gg);opacity:.6}
+.sim-tbl tr.crossed td{text-decoration:line-through;color:var(--t3)}
+.sim-tbl tr.highlight{background:var(--yg)}
+.sim-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:14px}
+.sim-stat{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;text-align:center}
+.sim-stat-v{font-size:18px;font-weight:800;color:var(--ac);font-family:'JetBrains Mono',monospace}
+.sim-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.sim-log{margin-top:14px;padding:12px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t2);max-height:200px;overflow-y:auto;line-height:1.6}
+.sim-log .ok{color:var(--gn)}
+.sim-log .warn{color:var(--yl)}
+.sim-log .info{color:var(--a2)}
+
 @media (max-width: 768px){
   .wrap{padding:18px 14px 60px}
   .hero h1{font-size:24px}
@@ -118,9 +165,57 @@ td b{color:var(--tx)}
     <li><a href="#saldo">Saldo neto diario (13)</a></li>
     <li><a href="#dashboard">Tableros 14-16</a></li>
     <li><a href="#entrega">Entregables y video</a></li>
+    <li><a href="#checklist">✅ Tu progreso (checklist)</a></li>
+    <li><a href="#sim">🎮 Simulador de barridas</a></li>
     <li><a href="#errores">Errores comunes</a></li>
   </ol>
 </div>
+
+<!-- ═══ CHECKLIST DE PROGRESO ═══ -->
+<h2 id="checklist"><span class="num">✅</span>Tu progreso · 16 puntos</h2>
+<p class="tx2">Marca cada punto al completarlo. El progreso se guarda automático y sincroniza entre tus dispositivos vía Supabase (clave <code>work_dota_progress</code>).</p>
+<div class="chk-progress">
+  <div class="chk-bar"><div class="chk-bar-fill" id="chkBar" style="width:0%"></div></div>
+  <div class="chk-pct"><span id="chkPct">0</span>%</div>
+  <div style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace"><span id="chkCount">0/16</span></div>
+</div>
+<div class="chklist" id="chklist"></div>
+<div class="chk-actions">
+  <button class="chk-btn" onclick="DOTA.markAll()">✓ Marcar todas</button>
+  <button class="chk-btn" onclick="DOTA.resetChecklist()">↻ Reiniciar</button>
+</div>
+
+<!-- ═══ SIMULADOR DE BARRIDAS ═══ -->
+<h2 id="sim"><span class="num">🎮</span>Simulador de las 5 barridas</h2>
+<p class="tx2">Dataset sintético de <b>10 movimientos DOTA</b> (PAYMENTs + REFUNDs) y <b>6 movimientos FD</b>. Ejecuta cada barrida en orden y mira qué cruza y qué queda pendiente para la siguiente. Reproduce la lógica del punto 12.</p>
+
+<div class="sim-toolbar">
+  <button class="sim-btn next" onclick="DOTA.simNext()">▶ Siguiente barrida</button>
+  <button class="sim-btn" onclick="DOTA.simAll()">⏩ Correr todas</button>
+  <button class="sim-btn reset" onclick="DOTA.simReset()">↻ Reset</button>
+  <span style="flex:1"></span>
+  <span style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace" id="simStep">Barrida 0 · sin ejecutar</span>
+</div>
+
+<div class="sim-status" id="simStatus">
+  <span class="step-name">Datasets iniciales cargados</span>
+  10 movimientos DOTA + 6 movimientos FD. Pulsa <b>▶ Siguiente barrida</b> para empezar con la compensación exacta DOTA ↔ DOTA.
+</div>
+
+<div class="sim-summary" id="simSummary"></div>
+
+<div class="sim-tables">
+  <div class="sim-tbl">
+    <div class="sim-tbl-h">📂 DOTA <span class="badge" id="simDotaBadge">10 partidas</span></div>
+    <table id="simDota"></table>
+  </div>
+  <div class="sim-tbl">
+    <div class="sim-tbl-h">📂 FD <span class="badge" id="simFdBadge">6 partidas</span></div>
+    <table id="simFd"></table>
+  </div>
+</div>
+
+<div class="sim-log" id="simLog"></div>
 
 <h2 id="fuentes"><span class="num">0</span>Fuentes y workspace</h2>
 <p>Antes de empezar, asegúrate de tener acceso a un workspace de Simetrik con <b>nueva herencia</b> y <b>todos los add-ons activos</b>. Sin esto no podrás resolver los puntos de saldo acumulado, fechas hábiles ni los chequeos de monitoreo.</p>
@@ -379,5 +474,310 @@ FECHA_FINAL  = adicionar_fecha_tiempo(FECHA_INICIO; DIAS_A_SUMAR; "días")</code
 </div>
 
 </div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   DOTA · Checklist + Simulador de barridas
+   - Checklist persiste en localStorage(work_dota_progress) y sincroniza
+     vía cloud-sync.js (clave registrada en SYNC_REGISTRY).
+   - Simulador usa datasets sintéticos in-memory. Reproduce las 5
+     barridas del punto 12 con las restricciones del docto Guía.
+════════════════════════════════════════════════════════════════ */
+const DOTA = (() => {
+  const KEY = 'work_dota_progress';
+  const ITEMS = [
+    { n:1,  txt:'CARD_NUMBER · LPAD + XXXXXX + LPAD (16 chars)' },
+    { n:2,  txt:'GTWC_AUTHORIZATION_CODE · limpieza Cabal "000000"' },
+    { n:3,  txt:'GTWT_ACQUIRER · mapeo a FD/PRISMA/MAYÚSCULA' },
+    { n:4,  txt:'BRAND · PAY_METHOD + BIN (34/37/5/2/4)' },
+    { n:5,  txt:'GTWT_MERCHANT_NUMBER · COALESCE PURCHASE>CAPTURE>AUTH' },
+    { n:6,  txt:'MOV_CREATION_DATE · +1 día, sin hora' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · +30 hábiles ARG' },
+    { n:8,  txt:'Cruce Parametría Comercio · filtro ESTANDAR' },
+    { n:9,  txt:'LIQ_6_TARJETA · LEFT(NUM_TAR, 6)' },
+    { n:10, txt:'LIQ_4_TARJETA · RIGHT(NUM_TAR, 4)' },
+    { n:11, txt:'DEADLINE · fin de mes bisiesto-safe' },
+    { n:12, txt:'Conciliación avanzada · 5 barridas' },
+    { n:13, txt:'Saldo neto diario por comercio (DOTA)' },
+    { n:14, txt:'Tablero % de conciliación' },
+    { n:15, txt:'KPI global de la fuente DOTA' },
+    { n:16, txt:'Tablero adicional + justificación' },
+  ];
+
+  function load(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
+  function save(p){
+    try { localStorage.setItem(KEY, JSON.stringify(p)); } catch(e) { console.warn('[DOTA] save failed', e); return; }
+    // Bridge al cloud-sync.js del parent (work.html). El iframe comparte
+    // localStorage con el parent por mismo-origen, pero el proxy setItem
+    // de cloud-sync.js vive en el window del parent. Forzamos el push.
+    try {
+      if (window.parent && window.parent !== window && window.parent.CLOUD && window.parent.CLOUD.pushState) {
+        window.parent.CLOUD.pushState(KEY, p);
+      }
+    } catch(e) { /* cross-origin u otro · ignorar · localStorage queda guardado */ }
+  }
+
+  function renderChecklist(){
+    const p = load();
+    const el = document.getElementById('chklist');
+    if (!el) return;
+    el.innerHTML = ITEMS.map(it => {
+      const done = !!p[it.n];
+      return `<div class="chk-item ${done?'done':''}" onclick="DOTA.toggle(${it.n})">
+        <div class="chk-box">${done?'✓':''}</div>
+        <div class="chk-num">${it.n}.</div>
+        <div class="chk-lbl">${it.txt}</div>
+      </div>`;
+    }).join('');
+    const doneCount = ITEMS.filter(it => p[it.n]).length;
+    const pct = Math.round(doneCount/ITEMS.length*100);
+    document.getElementById('chkBar').style.width = pct + '%';
+    document.getElementById('chkPct').textContent = pct;
+    document.getElementById('chkCount').textContent = doneCount + '/' + ITEMS.length;
+  }
+
+  function toggle(n){
+    const p = load();
+    p[n] = !p[n];
+    if (!p[n]) delete p[n];
+    save(p);
+    renderChecklist();
+  }
+
+  function markAll(){
+    const p = {};
+    ITEMS.forEach(it => p[it.n] = true);
+    save(p);
+    renderChecklist();
+  }
+
+  function resetChecklist(){
+    if (!confirm('¿Borrar todo el progreso del checklist?')) return;
+    save({});
+    renderChecklist();
+  }
+
+  /* ═══ SIMULADOR DE BARRIDAS ═══════════════════════════════════
+     Dataset sintético — 10 DOTA (5 PAYMENT + 5 REFUND) + 6 FD.
+     Algunos pares cruzan exacto, otros con tolerancia, otros vía batch.
+  ═════════════════════════════════════════════════════════════════ */
+  const SEED_DOTA = [
+    { id:'D01', op:'PAYMENT', comercio:'C001', auth:'AUTH123', monto:1500,  fecha:'2026-10-01', pan:'400000XXXXXX1111' },
+    { id:'D02', op:'REFUND',  comercio:'C001', auth:'AUTH123', monto:-1500, fecha:'2026-10-01', pan:'400000XXXXXX1111' },
+    { id:'D03', op:'PAYMENT', comercio:'C002', auth:'AUTH456', monto:2300,  fecha:'2026-10-02', pan:'510000XXXXXX2222' },
+    { id:'D04', op:'REFUND',  comercio:'C002', auth:'AUTH456', monto:-2304, fecha:'2026-10-02', pan:'510000XXXXXX2222' },
+    { id:'D05', op:'PAYMENT', comercio:'C003', auth:'AUTH789', monto:8900,  fecha:'2026-10-03', pan:'370000XXXXXX3333' },
+    { id:'D06', op:'PAYMENT', comercio:'C004', auth:'AUTH111', monto:1200,  fecha:'2026-10-04', pan:'400000XXXXXX4444' },
+    { id:'D07', op:'PAYMENT', comercio:'C005', auth:'AUTH222', monto:5600,  fecha:'2026-10-05', pan:'510000XXXXXX5555' },
+    { id:'D08', op:'PAYMENT', comercio:'C006', auth:'AUTH333', monto:7800,  fecha:'2026-10-06', pan:'400000XXXXXX6666' },
+    { id:'D09', op:'PAYMENT', comercio:'C007', auth:'AUTH444', monto:3400,  fecha:'2026-10-07', pan:'510000XXXXXX7777' },
+    { id:'D10', op:'PAYMENT', comercio:'C008', auth:'AUTH555', monto:9100,  fecha:'2026-10-08', pan:'400000XXXXXX8888' },
+  ];
+  const SEED_FD = [
+    { id:'F01', auth:'AUTH789', comercio:'C003', importe:8900, fecha:'2026-10-03', pan:'370000XXXXXX3333', batch:null },
+    { id:'F02', auth:'AUTH111', comercio:'C004', importe:1200, fecha:'2026-10-05', pan:'400000XXXXXX4444', batch:null },
+    { id:'F03', auth:'AUTH222', comercio:'C005', importe:5600, fecha:'2026-10-06', pan:'510000XXXXXX5555', batch:null },
+    { id:'F04', auth:'AUTH333', comercio:'C006', importe:7800, fecha:'2026-10-05', pan:'400000XXXXXX6666', batch:null },
+    { id:'F05', auth:'',        comercio:'C007', importe:3400, fecha:'2026-10-07', pan:'510000XXXXXX7777', batch:'B01' },
+    { id:'F06', auth:'',        comercio:'C008', importe:9100, fecha:'2026-10-08', pan:'400000XXXXXX8888', batch:'B01' },
+  ];
+
+  const BARRIDAS = [
+    { n:1, name:'Compensación DOTA exacta',           run:b1 },
+    { n:2, name:'Compensación DOTA tolerancia $5',    run:b2 },
+    { n:3, name:'DOTA × FD detalle exacto',           run:b3 },
+    { n:4, name:'DOTA × FD tolerancia +1 día',        run:b4 },
+    { n:5, name:'DOTA × Batch FD',                    run:b5 },
+  ];
+
+  let dotaCur = [], fdCur = [], step = 0, totals = { b1:0, b2:0, b3:0, b4:0, b5:0 };
+
+  function simReset(){
+    dotaCur = JSON.parse(JSON.stringify(SEED_DOTA));
+    fdCur   = JSON.parse(JSON.stringify(SEED_FD));
+    step = 0;
+    totals = { b1:0, b2:0, b3:0, b4:0, b5:0 };
+    document.getElementById('simStep').textContent = 'Barrida 0 · sin ejecutar';
+    document.getElementById('simStatus').innerHTML = `<span class="step-name">Datasets reseteados</span>10 movimientos DOTA + 6 movimientos FD. Pulsa <b>▶ Siguiente barrida</b>.`;
+    document.getElementById('simLog').innerHTML = '<div class="info">→ Datasets reseteados. Pendiente DOTA: 10 · Pendiente FD: 6</div>';
+    renderSimTables();
+    renderSimSummary();
+  }
+
+  function pending(arr){ return arr.filter(r => !r._crossed); }
+
+  // Barrida 1: compensación exacta DOTA ↔ DOTA · comercio + auth + |monto|
+  // Restricción: no auto-cruce, PAYMENT solo con REFUND
+  function b1(){
+    const p = pending(dotaCur);
+    let matches = 0;
+    for (let i = 0; i < p.length; i++) {
+      for (let j = i+1; j < p.length; j++) {
+        const a = p[i], b = p[j];
+        if (a._crossed || b._crossed) continue;
+        if (a.id === b.id) continue;
+        if (a.op === b.op) continue; // PAYMENT solo con REFUND
+        if (a.comercio === b.comercio && a.auth === b.auth && Math.abs(a.monto) === Math.abs(b.monto)) {
+          a._crossed = 'B1'; b._crossed = 'B1';
+          matches++;
+        }
+      }
+    }
+    totals.b1 = matches * 2;
+    return matches;
+  }
+
+  // Barrida 2: compensación con tolerancia $5
+  function b2(){
+    const p = pending(dotaCur);
+    let matches = 0;
+    for (let i = 0; i < p.length; i++) {
+      for (let j = i+1; j < p.length; j++) {
+        const a = p[i], b = p[j];
+        if (a._crossed || b._crossed) continue;
+        if (a.id === b.id) continue;
+        if (a.op === b.op) continue;
+        if (a.comercio === b.comercio && a.auth === b.auth && Math.abs(Math.abs(a.monto) - Math.abs(b.monto)) <= 5) {
+          a._crossed = 'B2'; b._crossed = 'B2';
+          matches++;
+        }
+      }
+    }
+    totals.b2 = matches * 2;
+    return matches;
+  }
+
+  // Barrida 3: DOTA pendiente vs FD exacto (5 llaves)
+  function b3(){
+    const pD = pending(dotaCur), pF = pending(fdCur);
+    let matches = 0;
+    pD.forEach(d => {
+      if (d._crossed) return;
+      pF.forEach(f => {
+        if (f._crossed || d._crossed) return;
+        if (d.auth && d.auth === f.auth &&
+            d.comercio === f.comercio &&
+            Math.abs(d.monto) === f.importe &&
+            d.fecha === f.fecha &&
+            d.pan === f.pan) {
+          d._crossed = 'B3'; f._crossed = 'B3';
+          matches++;
+        }
+      });
+    });
+    totals.b3 = matches * 2;
+    return matches;
+  }
+
+  // Barrida 4: tolerancia +1 día (FD nunca antes que DOTA)
+  function b4(){
+    const pD = pending(dotaCur), pF = pending(fdCur);
+    let matches = 0;
+    pD.forEach(d => {
+      if (d._crossed) return;
+      pF.forEach(f => {
+        if (f._crossed || d._crossed) return;
+        const diff = (new Date(f.fecha) - new Date(d.fecha)) / 86400000;
+        if (d.auth && d.auth === f.auth &&
+            d.comercio === f.comercio &&
+            Math.abs(d.monto) === f.importe &&
+            (diff === 0 || diff === 1) &&  // direccional: FD igual o +1
+            d.pan === f.pan) {
+          d._crossed = 'B4'; f._crossed = 'B4';
+          matches++;
+        }
+      });
+    });
+    totals.b4 = matches * 2;
+    return matches;
+  }
+
+  // Barrida 5: DOTA × Batch FD · agrupa FD pendiente por batch y crúzalo por suma
+  function b5(){
+    const pF = pending(fdCur);
+    const batches = {};
+    pF.forEach(f => {
+      if (!f.batch) return;
+      if (!batches[f.batch]) batches[f.batch] = { total:0, items:[], comercios:new Set() };
+      batches[f.batch].total += f.importe;
+      batches[f.batch].items.push(f);
+      batches[f.batch].comercios.add(f.comercio);
+    });
+    let matches = 0;
+    Object.entries(batches).forEach(([batchId, b]) => {
+      // Buscar grupo DOTA pendiente que sume el batch total · agrupado por mismo comercio (simplificación)
+      const pD = pending(dotaCur);
+      const candidatesByCom = {};
+      pD.forEach(d => {
+        if (!candidatesByCom[d.comercio]) candidatesByCom[d.comercio] = { total:0, items:[] };
+        candidatesByCom[d.comercio].total += Math.abs(d.monto);
+        candidatesByCom[d.comercio].items.push(d);
+      });
+      Object.values(candidatesByCom).forEach(c => {
+        if (c.total === b.total) {
+          c.items.forEach(d => d._crossed = 'B5');
+          b.items.forEach(f => f._crossed = 'B5');
+          matches += b.items.length;
+        }
+      });
+    });
+    totals.b5 = matches * 2;
+    return matches;
+  }
+
+  function simNext(){
+    if (step >= BARRIDAS.length) { log('warn', '→ Ya ejecutaste las 5 barridas. Resetea para empezar de nuevo.'); return; }
+    const b = BARRIDAS[step];
+    const before = { d: pending(dotaCur).length, f: pending(fdCur).length };
+    const n = b.run();
+    const after = { d: pending(dotaCur).length, f: pending(fdCur).length };
+    step++;
+    log('ok', `→ Barrida ${b.n} · ${b.name} → ${n} pares cruzaron (${before.d-after.d} DOTA + ${before.f-after.f} FD)`);
+    log('info', `  Pendiente: DOTA=${after.d} · FD=${after.f}`);
+    document.getElementById('simStep').textContent = `Barrida ${b.n} de 5 ejecutada · ${step} completas`;
+    document.getElementById('simStatus').innerHTML = `<span class="step-name">Barrida ${b.n} · ${b.name}</span>${n} pares cruzaron en esta barrida. Pendiente actual: <b>${after.d}</b> DOTA · <b>${after.f}</b> FD.`;
+    renderSimTables();
+    renderSimSummary();
+  }
+
+  function simAll(){
+    simReset();
+    while (step < BARRIDAS.length) simNext();
+  }
+
+  function renderSimTables(){
+    const d = document.getElementById('simDota');
+    d.innerHTML = '<tr><th>ID</th><th>Op</th><th>Com</th><th>Auth</th><th>Monto</th><th>Fecha</th><th>Est</th></tr>' +
+      dotaCur.map(r => `<tr class="${r._crossed?'crossed':''}"><td>${r.id}</td><td>${r.op}</td><td>${r.comercio}</td><td>${r.auth}</td><td>${r.monto}</td><td>${r.fecha.slice(5)}</td><td>${r._crossed||'—'}</td></tr>`).join('');
+    document.getElementById('simDotaBadge').textContent = `${pending(dotaCur).length}/${dotaCur.length} pendiente`;
+    const f = document.getElementById('simFd');
+    f.innerHTML = '<tr><th>ID</th><th>Auth</th><th>Com</th><th>Importe</th><th>Fecha</th><th>Batch</th><th>Est</th></tr>' +
+      fdCur.map(r => `<tr class="${r._crossed?'crossed':''}"><td>${r.id}</td><td>${r.auth||'—'}</td><td>${r.comercio}</td><td>${r.importe}</td><td>${r.fecha.slice(5)}</td><td>${r.batch||'—'}</td><td>${r._crossed||'—'}</td></tr>`).join('');
+    document.getElementById('simFdBadge').textContent = `${pending(fdCur).length}/${fdCur.length} pendiente`;
+  }
+
+  function renderSimSummary(){
+    const el = document.getElementById('simSummary');
+    el.innerHTML = BARRIDAS.map(b => `<div class="sim-stat"><div class="sim-stat-v">${totals['b'+b.n]||0}</div><div class="sim-stat-l">B${b.n} · ${b.name.split(' ').slice(0,2).join(' ')}</div></div>`).join('');
+  }
+
+  function log(cls, msg){
+    const el = document.getElementById('simLog');
+    if (!el) return;
+    el.innerHTML += `<div class="${cls}">${msg}</div>`;
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function init(){
+    renderChecklist();
+    simReset();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+  return { toggle, markAll, resetChecklist, simNext, simAll, simReset };
+})();
+window.DOTA = DOTA;
+</script>
 </body>
 </html>

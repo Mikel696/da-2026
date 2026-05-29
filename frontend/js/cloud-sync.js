@@ -283,6 +283,8 @@ const CLOUD = (() => {
     'work_kb_atts',
     // 14-WORK MOIF · Monitoreo y Observabilidad Integraciones Ficohsa (reuniones)
     'work_moif_meetings',
+    // 14-WORK · Prueba DOTA · checklist de 16 puntos del Documento Guia
+    'work_dota_progress',
     // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
     'tools_mindmaps',
     // 15-MM Free Canvas (Miro-style: nodes + edges + view state per canvas)
