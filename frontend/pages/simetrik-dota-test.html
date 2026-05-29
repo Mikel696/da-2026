@@ -152,9 +152,54 @@ td b{color:var(--tx)}
 <ol>
   <li>Workspace con <b>nueva herencia</b> + todos los <b>add-ons</b> (saldos persistentes · días hábiles · conciliación avanzada).</li>
   <li>Subir las 4 fuentes como <b>insumos</b>: <code>DB_DOTA</code> · <code>Reporte_FD</code> · <code>Parametria_Comercio</code> · <code>Normalización_fechas_habiles</code>.</li>
-  <li>Cargar la hoja de <b>días hábiles</b> filtrada por sitio = <code>ARG</code> al módulo de calendarios del workspace.</li>
+  <li>Cargar el <b>calendario hábil ARG</b> (ver detalle abajo ↓).</li>
   <li>Revisar el <b>tipo de dato</b> de cada columna importada (Simetrik por defecto adivina pero falla con PAN y montos string).</li>
 </ol>
+
+<h3>📅 Cómo cargar el calendario hábil = ARG</h3>
+<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> tiene los días hábiles de varios países. Necesitás que Simetrik conozca los de Argentina para que <code>ADICIONAR_DIAS_SEMANA(fecha; 30; "ARG")</code> funcione (punto 7) y para el cálculo de FECHA_FINAL del check de débitos.</p>
+
+<div class="card tip">
+<div class="card-h">Camino A · módulo de Calendarios (lo más probable)</div>
+<ol>
+  <li>Sidebar izquierdo del workspace → buscá <b>"Calendarios"</b> · "Configuración" → "Datos maestros" → "Calendarios hábiles".</li>
+  <li>Click <b>"+ Nuevo calendario"</b> / "Subir calendario".</li>
+  <li>Subí el xlsx. Simetrik te pregunta qué columna es la fecha, cuál el sitio y cuál indica si es hábil.</li>
+  <li>Filtrá al cargar: solo registros donde <code>SITIO = "ARG"</code> (o cargá todo y filtrá después).</li>
+  <li>Asigná el <b>nombre / código del calendario = <code>ARG</code></b> (este string es el que va en el 3er parámetro de la fórmula).</li>
+  <li>Guardar. Ya podés usar <code>ADICIONAR_DIAS_SEMANA(MOV_CREATION_DATE; 30; "ARG")</code>.</li>
+</ol>
+</div>
+
+<div class="card tip">
+<div class="card-h">Camino B · fuente + configuración manual</div>
+<ol>
+  <li>Cargá el xlsx como <b>fuente normal</b> (insumo) llamada <code>Calendario_Habil</code>.</li>
+  <li>Aplicale una transformación de filtro: <code>SITIO = "ARG"</code>.</li>
+  <li>Configuración del workspace → Funciones de fecha → asociá esta fuente al sitio "ARG".</li>
+</ol>
+</div>
+
+<div class="card warn">
+<div class="card-h">Camino C · workaround sin módulo de calendarios</div>
+<p class="tx2">Si tu workspace NO tiene módulo de calendarios y la función con sitio no funciona:</p>
+<ol>
+  <li>Cargá el xlsx como fuente y filtrala <code>SITIO = "ARG"</code>.</li>
+  <li>Para el punto 7, en lugar de <code>ADICIONAR_DIAS_SEMANA</code>, hacé un <b>cruce</b> con esa fuente:
+    <ul>
+      <li>Ordená el calendario por fecha ascendente.</li>
+      <li>Para cada <code>MOV_CREATION_DATE</code>, contá 30 filas hacia abajo donde <code>ES_HABIL = "SI"</code>.</li>
+      <li>La fecha de la fila #30 es <code>EXPECTED_PAYMENT_DATE</code>.</li>
+    </ul>
+  </li>
+</ol>
+<p class="tx2">Es más manual pero <b>siempre funciona</b> sin importar configuración. El evaluador sigue calificando bien el resultado correcto.</p>
+</div>
+
+<div class="card tip">
+<div class="card-h">💡 Cómo saber qué camino aplica</div>
+<p class="tx2">Buscá en el sidebar del workspace las palabras <b>"Calendario"</b>, <b>"Calendar"</b>, <b>"Días hábiles"</b> o <b>"Configuración / Settings"</b>. Si encontrás algo → <b>Camino A</b>. Si no → preguntá al trainer o usá <b>Camino C</b> como fallback.</p>
+</div>
 
 <!-- ═══ TIPOS DE DATO ═══ -->
 <h2 id="tipos"><span class="num">📐</span>Tipos de dato disponibles en Simetrik</h2>
