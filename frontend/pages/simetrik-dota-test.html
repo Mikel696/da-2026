@@ -143,8 +143,36 @@ td b{color:var(--tx)}
     <li><a href="#saldo">Saldo neto diario (13)</a></li>
     <li><a href="#dashboard">Tableros 14-16</a></li>
     <li><a href="#bp">Best practices · checklist evaluador</a></li>
+    <li><a href="#kb">📚 Stack oficial Simetrik (KB Help Center)</a></li>
     <li><a href="#checklist">✅ Tu progreso</a></li>
   </ol>
+</div>
+
+<!-- ═══ STACK OFICIAL SIMETRIK ═══ -->
+<h2 id="kb"><span class="num">📚</span>Stack oficial Simetrik · mapeo DOTA → Help Center</h2>
+<div class="card tip">
+<div class="card-h">Cada paso de la prueba se apoya en una funcionalidad documentada en el Help Center oficial. Esta tabla traduce la prueba al lenguaje de Simetrik.</div>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
+<thead style="background:#f3f4f6"><tr>
+<th style="text-align:left;padding:6px;border:1px solid #e5e7eb">Paso DOTA</th>
+<th style="text-align:left;padding:6px;border:1px solid #e5e7eb">Funcionalidad oficial</th>
+<th style="text-align:left;padding:6px;border:1px solid #e5e7eb">Help Center</th>
+</tr></thead>
+<tbody>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Cargar DOTA + FD</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Fuentes</b> (Excel/TXT/CSV, una hoja)</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44449344929939-Fuentes">Fuentes</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Unir DOTAs separadas</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Uniones de fuentes</b> (estado "Listo" requerido)</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44449461182995">Uniones de fuentes</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Pasos 1-7, 9-11 (cálculos)</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Columnas de transformación</b> (rol Supervisor/Constructor)</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243">Transformación, vencimiento y fecha hoy</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Check &gt; 15 días</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Columna de vencimiento</b> (requiere col. fecha previa)</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243">Mismo artículo</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Cruce 1:1 + tolerancia</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Configuración de cruce</b> · Barridas, tolerancias, Universal ID, Versión con cambios</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651">Configuración de cruce</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Conciliación principal</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Conciliaciones avanzadas</b> (cadena + compensación + segmentación integradas)</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44672397687059">Conciliaciones avanzadas</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">¿Estándar o avanzada?</td><td style="padding:6px;border:1px solid #e5e7eb">Avanzada — DOTA requiere cadena + compensación</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44587462022419">Estándar vs Avanzada</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Saldos / pendientes</td><td style="padding:6px;border:1px solid #e5e7eb">Add-on Saldos persistentes + Vencimiento</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44586931880979">Conciliación estándar</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Tableros 14-16</td><td style="padding:6px;border:1px solid #e5e7eb"><b>Tableros</b> · Tabla Dinámica · KPI Individual · Gráficos</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/45657122653715">Tableros</a></td></tr>
+<tr><td style="padding:6px;border:1px solid #e5e7eb">Programación y KPIs</td><td style="padding:6px;border:1px solid #e5e7eb">Selección de columnas + Scheduler + KPIs</td><td style="padding:6px;border:1px solid #e5e7eb"><a target="_blank" href="https://simetriksoporte.zendesk.com/hc/es-419/articles/44586517916179">Optimización de la conciliación</a></td></tr>
+</tbody></table>
+<div style="margin-top:10px;padding:8px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:4px;font-size:12px">
+<b>📘 KB completa:</b> Consulta <code>SIMETRIK_KNOWLEDGE_BASE.md</code> en la raíz del repo — contiene síntesis técnica de 10 artículos críticos + catálogo completo de las 4 categorías y 24 artículos de "Recursos y conciliaciones".
+</div>
 </div>
 
 <!-- ═══ PREPARACIÓN ═══ -->

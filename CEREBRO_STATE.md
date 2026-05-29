@@ -2794,3 +2794,33 @@ Con 10-SYS, 9-GOA, y 11-ACC cerrados, y 8-PRO en planificación, el backlog rest
 - **8-PRO · Prompt Lab v2:** ⏳ Plan listo, pendiente aprobación → ejecución.
 - **2-APP · Application Command Center:** polish + posibles features nuevas.
 - **6-TOO · Tools refresh:** seguir el redesign del panel de deals.
+
+## 🧠 14-WORK · KB SIMETRIK v1.5 — COMPLETA — 2026-05-29
+
+### Estado final
+**KB OFICIAL CERRADA.** Construida vía scraping autenticado del Help Center oficial de Simetrik (https://simetriksoporte.zendesk.com/hc/es-419) usando Chrome MCP. Archivo `SIMETRIK_KNOWLEDGE_BASE.md` en raíz del repo.
+
+### Cobertura
+- **4 categorías top:** Automatizar, Gestionar, Auditar, Cuenta y Herramientas — todas mapeadas.
+- **6 subsecciones Automatizar:** Soluciones, Integraciones, Recursos y conciliaciones (24 articulos catalogados), Contabilidad, Análisis, Envío de datos.
+- **~30 artículos sintetizados** con paráfrasis técnica + link fuente:
+  - Recursos y conciliaciones (10): Tipos de columnas, Transformación/Vencimiento/Hoy, Fuentes, Uniones, Configuración de cruce, Conciliación estándar, Conciliaciones avanzadas, Encadenada, Estándar vs Avanzada, Optimización, Agrupaciones, Eliminar registros, Hoja de cálculo, Columnas del sistema.
+  - Integraciones (4): Parsers, Smart Parsers, Repositorios, Conexiones.
+  - Análisis (8): Tableros, Estado est/avz, Monitores, Tabla Personalizada/Dinámica, KPI Individual, Gráficos, Combinaciones.
+  - Contabilidad (5): Gestión cuentas, Automatizaciones contables, Estructuras ERP, Configuración cierre, Conexiones ERP.
+  - Gestionar (6): Conciliaciones de cuentas, Períodos, Asientos, Gestiones manuales, Buscador de registros, Alarmas.
+  - Auditar (2): Fotos, Historial de actividad.
+  - Cuenta y Herramientas (6): Consola, Solicitudes, Central descargas, Papelera, Procesos, Mapas + Admin.
+
+### Aplicación
+- **Tabla mapeo DOTA → stack oficial:** 12 componentes de la prueba vinculados a la funcionalidad oficial correspondiente.
+- **Sección nueva en simetrik-dota-test.html:** `#kb` con tabla de 10 filas + links directos al Help Center.
+- **Insumo para futuros casos Simetrik:** cualquier nueva prueba o caso Ficohsa puede consultar este KB para alinear vocabulario y paths UI con la doc oficial.
+
+### Reglas establecidas
+1. **Verificar contra la KB antes de afirmar.** Si una respuesta sobre Simetrik no se respalda con un bloque del KB, se vuelve al Help Center y se actualiza el archivo.
+2. **Bumpear versión cuando se agregue contenido.** Changelog explícito al final del archivo.
+3. **Toda síntesis es paráfrasis propia.** Citar URL fuente, no reproducir bloques verbatim del Help Center.
+
+**14-WORK ahora tiene su fuente de verdad propia. Próximas pruebas se construyen sobre esta base.**
+
