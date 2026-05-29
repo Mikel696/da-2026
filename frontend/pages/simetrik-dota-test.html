@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Prueba DOTA · Caso DOTA × FD · Implementation Specialist</title>
+<title>Prueba DOTA · Fórmulas Simetrik · Implementation Specialist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -30,19 +30,25 @@ body.in-iframe .da-strip{display:none}
 
 .wrap{max-width:1080px;margin:0 auto;padding:30px 24px 80px}
 .hero{padding:24px 28px;background:linear-gradient(135deg,var(--ag),var(--pg));border:1px solid var(--bd);border-radius:var(--rad);margin-bottom:24px}
-.hero h1{font-family:'Newsreader',serif;font-size:32px;font-weight:600;letter-spacing:-.3px;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;letter-spacing:-.3px;margin-bottom:6px}
 .hero h1 em{font-style:italic;color:var(--ac)}
 .hero p{color:var(--t2);font-size:14px;line-height:1.7;margin-bottom:8px}
 .hero .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);letter-spacing:.6px;text-transform:uppercase}
 
 h2{font-family:'Newsreader',serif;font-size:22px;font-weight:600;margin-top:34px;margin-bottom:12px;color:var(--tx);padding-bottom:6px;border-bottom:1px solid var(--bd)}
 h2 .num{display:inline-block;background:var(--ag);color:var(--ac);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:3px 9px;border-radius:6px;margin-right:10px;vertical-align:middle}
-h3{font-size:16px;font-weight:700;color:var(--a2);margin-top:18px;margin-bottom:8px}
+h3{font-size:16px;font-weight:700;color:var(--a2);margin-top:22px;margin-bottom:8px}
+.h-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.5px;margin-left:8px}
 p{margin-bottom:10px;color:var(--tx)}
 .tx2{color:var(--t2)}
 b,strong{color:var(--tx);font-weight:700}
 code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--bg3);color:var(--a2);padding:2px 7px;border-radius:5px;border:1px solid var(--bd)}
-pre{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--bg3);color:var(--tx);padding:14px 16px;border-radius:8px;border:1px solid var(--bd);overflow-x:auto;line-height:1.6;margin:10px 0}
+pre{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--bg3);color:var(--tx);padding:14px 16px;border-radius:8px;border:1px solid var(--bd);overflow-x:auto;line-height:1.6;margin:10px 0;white-space:pre-wrap}
+pre.formula{background:#0a1820;border-left:3px solid var(--ac);color:#dff5fb}
+pre.formula .fn{color:#22d3ee;font-weight:600}
+pre.formula .str{color:#fbbf24}
+pre.formula .col{color:#a78bfa}
+pre.formula .cm{color:#6b7280;font-style:italic}
 pre code{background:none;border:none;padding:0;color:inherit}
 
 .card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:18px 22px;margin:14px 0}
@@ -65,6 +71,11 @@ th,td{padding:9px 12px;border:1px solid var(--bd);text-align:left}
 th{background:var(--bg3);font-weight:700;color:var(--ac);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
 td{color:var(--t2)}
 td b{color:var(--tx)}
+.dtype{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700}
+.dtype-texto{background:rgba(6,182,212,.18);color:var(--a2);border:1px solid var(--ac)}
+.dtype-num{background:rgba(34,197,94,.18);color:#86efac;border:1px solid var(--gn)}
+.dtype-fecha{background:rgba(167,139,250,.18);color:#c4b5fd;border:1px solid var(--pp)}
+.dtype-bool{background:rgba(249,115,22,.18);color:#fdba74;border:1px solid var(--or)}
 
 .toc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:18px 22px;margin-bottom:30px}
 .toc-h{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
@@ -76,14 +87,9 @@ td b{color:var(--tx)}
 .barrida{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:14px 18px;margin:10px 0;border-left:4px solid var(--ac)}
 .barrida-h{font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px;font-family:'JetBrains Mono',monospace}
 .barrida-h .b-num{display:inline-block;background:var(--ac);color:#fff;padding:1px 8px;border-radius:5px;font-size:11px;margin-right:8px}
+.barrida-keys{font-size:12px;color:var(--t2);margin-top:6px}
+.barrida-keys b{color:var(--a2);font-family:'JetBrains Mono',monospace}
 
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
-.kpi{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:12px 16px}
-.kpi-h{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
-.kpi-v{font-size:18px;font-weight:700;color:var(--ac);font-family:'JetBrains Mono',monospace}
-.kpi-d{font-size:12px;color:var(--t2);margin-top:4px}
-
-/* CHECKLIST · 16 puntos marcables */
 .chklist{display:flex;flex-direction:column;gap:4px;margin:10px 0}
 .chk-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:border-color .12s,background .12s}
 .chk-item:hover{border-color:var(--ac)}
@@ -101,35 +107,6 @@ td b{color:var(--tx)}
 .chk-btn{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);padding:5px 12px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;font-weight:600;transition:all .12s}
 .chk-btn:hover{border-color:var(--ac);color:var(--ac)}
 
-/* SIMULADOR · barridas */
-.sim-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
-.sim-btn{background:var(--ag);border:1px solid var(--ac);color:var(--ac);padding:8px 14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;transition:all .12s}
-.sim-btn:hover{background:var(--ac);color:#fff}
-.sim-btn.reset{background:var(--rg);border-color:var(--rd);color:var(--rd)}
-.sim-btn.reset:hover{background:var(--rd);color:#fff}
-.sim-btn.next{background:linear-gradient(135deg,var(--ac),var(--pp));border:none;color:#fff;font-weight:800}
-.sim-status{padding:10px 14px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;margin-bottom:12px;font-size:13px;line-height:1.6}
-.sim-status .step-name{color:var(--ac);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px}
-.sim-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-@media(max-width:768px){.sim-tables{grid-template-columns:1fr}}
-.sim-tbl{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:12px;overflow:auto}
-.sim-tbl-h{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.sim-tbl-h .badge{background:var(--bd);color:var(--tx);padding:2px 8px;border-radius:5px;font-family:'JetBrains Mono',monospace}
-.sim-tbl table{font-size:11.5px;font-family:'JetBrains Mono',monospace;margin:0}
-.sim-tbl th{font-size:10px;padding:6px 8px}
-.sim-tbl td{padding:5px 8px;border:1px solid var(--bd)}
-.sim-tbl tr.crossed{background:var(--gg);opacity:.6}
-.sim-tbl tr.crossed td{text-decoration:line-through;color:var(--t3)}
-.sim-tbl tr.highlight{background:var(--yg)}
-.sim-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:14px}
-.sim-stat{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;text-align:center}
-.sim-stat-v{font-size:18px;font-weight:800;color:var(--ac);font-family:'JetBrains Mono',monospace}
-.sim-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
-.sim-log{margin-top:14px;padding:12px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--t2);max-height:200px;overflow-y:auto;line-height:1.6}
-.sim-log .ok{color:var(--gn)}
-.sim-log .warn{color:var(--yl)}
-.sim-log .info{color:var(--a2)}
-
 @media (max-width: 768px){
   .wrap{padding:18px 14px 60px}
   .hero h1{font-size:24px}
@@ -140,23 +117,24 @@ td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA Test Roadmap · v1</span>
+  <span class="mod">14-WORK · DOTA · Fórmulas Simetrik · v2</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
 <div class="wrap">
 
 <div class="hero">
-  <div class="meta">Implementation Specialist · Caso de uso DOTA × FD · 2026</div>
-  <h1>Prueba <em>DOTA</em> · Roadmap paso a paso</h1>
-  <p>Caso de conciliación entre <b>DOTA</b> (e-commerce Argentina) y <b>First Data (FD)</b>, la procesadora de pagos. La prueba cubre normalización de insumos, conciliación avanzada, cálculo de días hábiles, saldos acumulados y reportería.</p>
-  <p class="tx2">Este documento es tu hoja de ruta: explica el <b>qué</b>, el <b>por qué</b> y el <b>cómo</b> de cada uno de los 16 puntos del documento "Documento Guia.docx". Incluye fórmulas, decisiones de diseño y trampas comunes.</p>
+  <div class="meta">Implementation Specialist · DOTA × First Data · 2026</div>
+  <h1>Prueba <em>DOTA</em> · fórmulas + ruta de desarrollo</h1>
+  <p>Roadmap del caso de uso con <b>fórmulas en sintaxis exacta Simetrik</b> (separador <code>;</code> · funciones en MAYÚSCULAS · strings entre comillas dobles). Cada punto incluye el <b>tipo de dato</b> de la columna de salida y las trampas que el evaluador va a buscar.</p>
+  <p class="tx2"><b>Best practice clave:</b> verificá el <b>tipo de dato</b> de cada columna ANTES de aplicar la fórmula. CARD_NUMBER y todo lo que tenga ceros a la izquierda <b>debe quedar como Texto</b>, nunca Número.</p>
 </div>
 
 <div class="toc">
-  <div class="toc-h">📑 Estructura del roadmap</div>
+  <div class="toc-h">📑 Ruta de desarrollo</div>
   <ol>
-    <li><a href="#fuentes">Fuentes y workspace</a></li>
+    <li><a href="#prep">0. Preparación del workspace</a></li>
+    <li><a href="#tipos">Tipos de dato Simetrik</a></li>
     <li><a href="#dota">Normalización DB DOTA (1-7)</a></li>
     <li><a href="#paramet">Cruce con Parametría (8)</a></li>
     <li><a href="#fd">Normalización Reporte FD (9-11)</a></li>
@@ -164,16 +142,326 @@ td b{color:var(--tx)}
     <li><a href="#check">Check débitos &gt; 15 días</a></li>
     <li><a href="#saldo">Saldo neto diario (13)</a></li>
     <li><a href="#dashboard">Tableros 14-16</a></li>
-    <li><a href="#entrega">Entregables y video</a></li>
-    <li><a href="#checklist">✅ Tu progreso (checklist)</a></li>
-    <li><a href="#sim">🎮 Simulador de barridas</a></li>
-    <li><a href="#errores">Errores comunes</a></li>
+    <li><a href="#bp">Best practices · checklist evaluador</a></li>
+    <li><a href="#checklist">✅ Tu progreso</a></li>
   </ol>
 </div>
 
-<!-- ═══ CHECKLIST DE PROGRESO ═══ -->
-<h2 id="checklist"><span class="num">✅</span>Tu progreso · 16 puntos</h2>
-<p class="tx2">Marca cada punto al completarlo. El progreso se guarda automático y sincroniza entre tus dispositivos vía Supabase (clave <code>work_dota_progress</code>).</p>
+<!-- ═══ PREPARACIÓN ═══ -->
+<h2 id="prep"><span class="num">0</span>Preparación del workspace</h2>
+<ol>
+  <li>Workspace con <b>nueva herencia</b> + todos los <b>add-ons</b> (saldos persistentes · días hábiles · conciliación avanzada).</li>
+  <li>Subir las 4 fuentes como <b>insumos</b>: <code>DB_DOTA</code> · <code>Reporte_FD</code> · <code>Parametria_Comercio</code> · <code>Normalización_fechas_habiles</code>.</li>
+  <li>Cargar la hoja de <b>días hábiles</b> filtrada por sitio = <code>ARG</code> al módulo de calendarios del workspace.</li>
+  <li>Revisar el <b>tipo de dato</b> de cada columna importada (Simetrik por defecto adivina pero falla con PAN y montos string).</li>
+</ol>
+
+<!-- ═══ TIPOS DE DATO ═══ -->
+<h2 id="tipos"><span class="num">📐</span>Tipos de dato disponibles en Simetrik</h2>
+<table>
+<tr><th>Tipo</th><th>Cuándo usar</th><th>Ejemplo en DOTA</th></tr>
+<tr><td><span class="dtype dtype-texto">Texto</span></td><td>Códigos, PAN, IDs con ceros a la izquierda</td><td><b>CARD_NUMBER</b>, <code>auth</code>, <code>comercio</code>, <code>BRAND</code></td></tr>
+<tr><td><span class="dtype dtype-num">Número</span></td><td>Montos con decimales</td><td><code>MONTO</code>, <code>importe</code> de FD</td></tr>
+<tr><td><span class="dtype dtype-num">Entero</span></td><td>Conteos sin decimales</td><td><code>DIAS_A_SUMAR</code> del check</td></tr>
+<tr><td><span class="dtype dtype-fecha">Fecha</span></td><td>Solo fecha (sin hora)</td><td><b>MOV_CREATION_DATE</b>, <b>EXPECTED_PAYMENT_DATE</b>, <b>FECHA_FINAL</b></td></tr>
+<tr><td><span class="dtype dtype-fecha">Fecha y hora</span></td><td>Datetime original (raro)</td><td><code>MOV_CREATED_DATE</code> (origen) antes de normalizar</td></tr>
+<tr><td><span class="dtype dtype-bool">Booleano</span></td><td>Banderas SI/NO</td><td>No aplica directamente</td></tr>
+</table>
+<div class="card warn">
+<div class="card-h">⚠ Trampa de evaluador #1 · tipo Número en PAN</div>
+<p class="tx2">Si dejás CARD_NUMBER como <span class="dtype dtype-num">Número</span> los ceros a la izquierda <b>se pierden</b> y Simetrik puede convertirlo a notación científica (ej: <code>4.34909E+15</code>). La conciliación cruzará por número mal formado y el evaluador lo verá en la primera barrida con PAN.</p>
+</div>
+
+<!-- ═══ NORMALIZACIONES DB DOTA ═══ -->
+<h2 id="dota"><span class="num">1-7</span>Normalización DB DOTA</h2>
+
+<h3>Punto 1 · CARD_NUMBER <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span> · 16 chars</span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula Simetrik (exacta)</div>
+<pre class="formula"><span class="fn">CONCATENAR</span>(
+  <span class="fn">RELLENAR</span>(<span class="col">CARD_SIX_FIRST_DIGITS</span>; 6; <span class="str">"0"</span>; <span class="str">"IZQUIERDA"</span>);
+  <span class="str">"XXXXXX"</span>;
+  <span class="fn">RELLENAR</span>(<span class="col">CARD_FOUR_LAST_DIGITS</span>; 4; <span class="str">"0"</span>; <span class="str">"IZQUIERDA"</span>)
+)</pre>
+</div>
+<div class="card tip"><div class="card-h">💡 Best practice</div><ul>
+<li><b>Antes</b> de aplicar la fórmula: forzá tipo <span class="dtype dtype-texto">Texto</span> en CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS (vienen como Número con notación científica).</li>
+<li>El resultado SIEMPRE debe medir 16 chars · validá con <code>LARGO(CARD_NUMBER) = 16</code>.</li>
+</ul></div>
+
+<h3>Punto 2 · GTWC_AUTHORIZATION_CODE <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula</div>
+<pre class="formula"><span class="fn">SI</span>(
+  <span class="fn">Y</span>(
+    <span class="col">CAPTURE_AUTHORIZATION_CODE</span> = <span class="str">"000000"</span>;
+    <span class="col">CAPTURE_ACQUIRER</span> = <span class="str">"Cabal"</span>
+  );
+  <span class="str">""</span>;
+  <span class="col">CAPTURE_AUTHORIZATION_CODE</span>
+)</pre>
+</div>
+
+<h3>Punto 3 · GTWT_ACQUIRER <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<p class="tx2">Buscar palabra clave en las 3 columnas (CAPTURE/PURCHASE/AUTH). Truco: concateno las 3 con un separador y aplico una sola búsqueda regex.</p>
+<div class="card formula">
+<div class="card-h">Fórmula</div>
+<pre class="formula"><span class="fn">SI</span>(
+  <span class="fn">EXTRAER_EXPREGULAR</span>(
+    <span class="fn">MAYUSC</span>(<span class="fn">CONCATENAR</span>(<span class="col">CAPTURE_ACQUIRER</span>; <span class="str">"|"</span>; <span class="col">PURCHASE_ACQUIRER</span>; <span class="str">"|"</span>; <span class="col">AUTH_ACQUIRER</span>));
+    <span class="str">"MASTERCARD|FIRSTDATA|DINERS"</span>;
+    0
+  ) <> <span class="str">""</span>;
+  <span class="str">"FD"</span>;
+  <span class="fn">SI</span>(
+    <span class="fn">EXTRAER_EXPREGULAR</span>(
+      <span class="fn">MAYUSC</span>(<span class="fn">CONCATENAR</span>(<span class="col">CAPTURE_ACQUIRER</span>; <span class="str">"|"</span>; <span class="col">PURCHASE_ACQUIRER</span>; <span class="str">"|"</span>; <span class="col">AUTH_ACQUIRER</span>));
+      <span class="str">"VISA"</span>;
+      0
+    ) <> <span class="str">""</span>;
+    <span class="str">"PRISMA"</span>;
+    <span class="fn">MAYUSC</span>(<span class="col">CAPTURE_ACQUIRER</span>)
+  )
+)</pre>
+</div>
+<div class="card tip"><div class="card-h">💡 Por qué este patrón</div><p class="tx2">Concatenar las 3 columnas con un separador me deja hacer UNA búsqueda regex en lugar de 6 condiciones anidadas. <code>EXTRAER_EXPREGULAR</code> devuelve <code>""</code> cuando no encuentra match · comparar <code>&lt;&gt; ""</code> es el equivalente a "contains".</p></div>
+
+<h3>Punto 4 · BRAND <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula</div>
+<pre class="formula"><span class="fn">SI</span>(
+  <span class="fn">EXTRAER_EXPREGULAR</span>(<span class="fn">MAYUSC</span>(<span class="col">PAY_METHOD</span>); <span class="str">"MASTER|MAESTRO|MASTERCARD"</span>; 0) <> <span class="str">""</span>;
+  <span class="str">"MASTERCARD"</span>;
+  <span class="fn">SI</span>(
+    <span class="fn">O</span>(
+      <span class="fn">IZQUIERDA</span>(<span class="col">CARD_NUMBER</span>; 2) = <span class="str">"34"</span>;
+      <span class="fn">IZQUIERDA</span>(<span class="col">CARD_NUMBER</span>; 2) = <span class="str">"37"</span>
+    );
+    <span class="str">"AMERICAN EXPRESS"</span>;
+    <span class="fn">SI</span>(
+      <span class="fn">O</span>(
+        <span class="fn">IZQUIERDA</span>(<span class="col">CARD_NUMBER</span>; 1) = <span class="str">"5"</span>;
+        <span class="fn">IZQUIERDA</span>(<span class="col">CARD_NUMBER</span>; 1) = <span class="str">"2"</span>
+      );
+      <span class="str">"MASTERCARD"</span>;
+      <span class="fn">SI</span>(
+        <span class="fn">IZQUIERDA</span>(<span class="col">CARD_NUMBER</span>; 1) = <span class="str">"4"</span>;
+        <span class="str">"VISA"</span>;
+        <span class="str">"PENDIENTE"</span>
+      )
+    )
+  )
+)</pre>
+</div>
+<div class="card warn"><div class="card-h">⚠ Dependencia</div><p class="tx2">Esta fórmula USA <code>CARD_NUMBER</code> ya normalizada en el punto 1. Si el orden de transformaciones en Simetrik importa, ponela DESPUÉS del punto 1.</p></div>
+
+<h3>Punto 5 · GTWT_MERCHANT_NUMBER <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula (prioridad PURCHASE &gt; CAPTURE &gt; AUTH)</div>
+<pre class="formula"><span class="fn">SI</span>(
+  <span class="fn">ESBLANCO</span>(<span class="col">PURCHASE_MERCHANT_NUMBER</span>);
+  <span class="fn">SI</span>(
+    <span class="fn">ESBLANCO</span>(<span class="col">CAPTURE_MERCHANT_NUMBER</span>);
+    <span class="col">AUTH_MERCHANT_NUMBER</span>;
+    <span class="col">CAPTURE_MERCHANT_NUMBER</span>
+  );
+  <span class="col">PURCHASE_MERCHANT_NUMBER</span>
+)</pre>
+</div>
+
+<h3>Punto 6 · MOV_CREATION_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span> (sin hora)</span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula</div>
+<pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"días"</span>)</pre>
+<p class="tx2">Definí el tipo de dato de la columna de salida como <span class="dtype dtype-fecha">Fecha</span> (no <span class="dtype dtype-fecha">Fecha y hora</span>) · Simetrik truncará la hora automáticamente al guardar.</p>
+</div>
+
+<h3>Punto 7 · EXPECTED_PAYMENT_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula (30 días hábiles · sitio ARG)</div>
+<pre class="formula"><span class="fn">ADICIONAR_DIAS_SEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30; <span class="str">"ARG"</span>)</pre>
+<p class="tx2">El tercer parámetro toma el sitio del <b>calendario cargado</b> en el workspace desde la hoja <code>Normalización_fechas_habiles</code>. Si Simetrik no acepta el sitio como string literal, configurá el calendario default del workspace a ARG antes de aplicar.</p>
+</div>
+
+<!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
+<h2 id="paramet"><span class="num">8</span>Cruce con Parametría de Comercios</h2>
+<ol>
+  <li>Crear un <b>cruce de tablas</b> (no conciliación) entre DB_DOTA normalizada y Parametria_Comercio.</li>
+  <li>Llave de cruce: <code>DB_DOTA.GTWT_MERCHANT_NUMBER</code> ⟷ <code>Parametria.CODIGO_COMERCIO</code> (verificá el nombre real de la columna en el insumo).</li>
+  <li>Aplicar filtro <b>POST-cruce</b>: <code>Parametria.TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+</ol>
+<div class="card warn"><div class="card-h">⚠ Trampa #2</div><p class="tx2">Si filtrás TIPO_COMERCIO ANTES de hacer la conciliación, no afecta. Si lo filtrás DESPUÉS del cruce, sí. Lo que NO debés hacer: filtrar TIPO_COMERCIO en la fuente DOTA antes del cruce — perdés datos.</p></div>
+
+<!-- ═══ NORMALIZACIONES FD ═══ -->
+<h2 id="fd"><span class="num">9-11</span>Normalización Reporte FD</h2>
+
+<h3>Punto 9 · LIQ_6_TARJETA <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<div class="card formula">
+<pre class="formula"><span class="fn">IZQUIERDA</span>(<span class="col">NUM_TAR</span>; 6)</pre>
+</div>
+
+<h3>Punto 10 · LIQ_4_TARJETA <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
+<div class="card formula">
+<pre class="formula"><span class="fn">DERECHA</span>(<span class="col">NUM_TAR</span>; 4)</pre>
+</div>
+
+<h3>Punto 11 · DEADLINE <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span> ("SI" / "NO")</span></h3>
+<div class="card formula">
+<div class="card-h">Fórmula bisiesto-safe</div>
+<pre class="formula"><span class="cm">// Truco: si al sumar 1 día el MES cambia, entonces FPRES es el último día del mes.</span>
+<span class="cm">// Funciona para 28, 29, 30 y 31 días sin codificar la regla 4/100/400.</span>
+
+<span class="fn">SI</span>(
+  <span class="fn">EXTRAER_FECHA</span>(
+    <span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FPRES</span>; 1; <span class="str">"días"</span>);
+    <span class="str">"mes"</span>
+  )
+  <>
+  <span class="fn">EXTRAER_FECHA</span>(<span class="col">FPRES</span>; <span class="str">"mes"</span>);
+  <span class="str">"SI"</span>;
+  <span class="str">"NO"</span>
+)</pre>
+</div>
+<div class="card tip"><div class="card-h">💡 Por qué este patrón gana</div><p class="tx2">El evaluador busca quién pensó en <b>años bisiestos</b>. Este truco resuelve <b>todos</b> los meses (28/29/30/31) sin condicionales por mes ni reglas de bisiesto. Es la respuesta canónica.</p></div>
+
+<!-- ═══ PUNTO 12 · CONCILIACIÓN ═══ -->
+<h2 id="conc"><span class="num">12</span>Conciliación avanzada DOTA × FD</h2>
+<p class="tx2"><b>UNA sola conciliación avanzada con 5 barridas en orden</b>. Cada barrida recibe el pendiente de la anterior. Configurá las llaves en el editor visual de Simetrik, no por fórmula.</p>
+
+<div class="card warn"><div class="card-h">⚠ Restricciones obligatorias barridas 1 y 2</div>
+<ul>
+  <li><b>Una transacción no debe cruzarse consigo misma</b> (Simetrik tiene checkbox "Excluir auto-cruce").</li>
+  <li><b>Mismo tipo de operación no cruza</b>: PAYMENT solo con REFUND. Agregá filtro <code>OP_A ≠ OP_B</code> en las llaves.</li>
+</ul></div>
+
+<div class="barrida">
+<div class="barrida-h"><span class="b-num">1</span>Compensación DOTA exacta</div>
+<p>Auto-cruce DOTA ↔ DOTA.</p>
+<div class="barrida-keys"><b>Llaves:</b> <code>GTWT_MERCHANT_NUMBER</code> · <code>GTWC_AUTHORIZATION_CODE</code> · <code>ABS(MONTO)</code></div>
+</div>
+
+<div class="barrida">
+<div class="barrida-h"><span class="b-num">2</span>Compensación DOTA con tolerancia $5</div>
+<p>Mismas llaves que B1, pero el monto admite diferencia.</p>
+<div class="barrida-keys"><b>Llaves:</b> <code>GTWT_MERCHANT_NUMBER</code> · <code>GTWC_AUTHORIZATION_CODE</code> · <b>tolerancia monto = $5</b></div>
+</div>
+
+<div class="barrida">
+<div class="barrida-h"><span class="b-num">3</span>DOTA vs FD detalle exacto</div>
+<p>Cruce pendiente DOTA (tras B1+B2) vs FD detalle.</p>
+<div class="barrida-keys"><b>Llaves DOTA:</b> <code>GTWC_AUTHORIZATION_CODE</code> · <code>GTWT_MERCHANT_NUMBER</code> · <code>ABS(MONTO)</code> · <code>MOV_CREATION_DATE</code> · <code>CARD_NUMBER</code><br>
+<b>Llaves FD:</b> <code>AUTORIZACION</code> · <code>COMERCIO</code> · <code>IMPORTE</code> · <code>FPRES</code> · <code>NUM_TAR</code> (verificar nombres reales)</div>
+</div>
+
+<div class="barrida">
+<div class="barrida-h"><span class="b-num">4</span>DOTA vs FD tolerancia +1 día direccional</div>
+<p>Mismas llaves que B3, pero <b>FD.fecha − DOTA.fecha ∈ {0, +1}</b> · FD nunca antes.</p>
+<div class="barrida-keys"><b>Tolerancia de fecha:</b> +1 día solo hacia adelante (configurar dirección en Simetrik)</div>
+</div>
+
+<div class="barrida">
+<div class="barrida-h"><span class="b-num">5</span>DOTA vs Batch FD</div>
+<p>Sobre FD pendiente, agrupar por lote y cruzar la suma contra detalle DOTA pendiente.</p>
+<div class="barrida-keys"><b>Tipo de barrida:</b> batch (sum FD por lote = sum DOTA por comercio)</div>
+</div>
+
+<!-- ═══ CHECK DÉBITOS > 15 DÍAS ═══ -->
+<h2 id="check">Check de monitoreo · débitos &gt; 15 días</h2>
+<p class="tx2">Calculá FECHA_FINAL para cada débito. Después de la conciliación, listá los que cruzaron en B1 o B2 con vigencia &gt; 15 días.</p>
+
+<h3>DIAS_A_SUMAR <span class="h-meta">salida: <span class="dtype dtype-num">Entero</span></span></h3>
+<div class="card formula">
+<pre class="formula"><span class="fn">CALCULO</span>(<span class="fn">DERECHA</span>(<span class="col">GTWT_MERCHANT_NUMBER</span>; 2))</pre>
+<p class="tx2"><code>CALCULO</code> convierte el texto extraído por <code>DERECHA</code> a número.</p>
+</div>
+
+<h3>FECHA_INICIO <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
+<div class="card formula">
+<div class="card-h">Primer día del mes en curso (construido dinámicamente)</div>
+<pre class="formula"><span class="cm">// Ejemplo del documento Guía: concatenar("2026"; "-"; "10"; "-"; "1")</span>
+<span class="fn">CONCATENAR</span>(
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">HOY</span>(); <span class="str">"año"</span>);
+  <span class="str">"-"</span>;
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">HOY</span>(); <span class="str">"mes"</span>);
+  <span class="str">"-1"</span>
+)</pre>
+</div>
+
+<h3>FECHA_FINAL <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
+<div class="card formula">
+<pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>; <span class="str">"días"</span>)</pre>
+</div>
+
+<h3>Reporte de débitos compensados &gt; 15 días</h3>
+<div class="card formula">
+<div class="card-h">Filtro para el tablero de monitoreo</div>
+<pre class="formula"><span class="cm">// Sobre los movimientos que cruzaron en B1 o B2:</span>
+<span class="fn">Y</span>(
+  <span class="fn">O</span>(<span class="col">_BARRIDA_</span> = <span class="str">"B1"</span>; <span class="col">_BARRIDA_</span> = <span class="str">"B2"</span>);
+  <span class="fn">DIFERENCIA_FECHA</span>(<span class="col">FECHA_FINAL</span>; <span class="col">FECHA_INICIO</span>; <span class="str">"días"</span>) > 15
+)</pre>
+</div>
+
+<!-- ═══ SALDO ═══ -->
+<h2 id="saldo"><span class="num">13</span>Saldo neto diario por comercio (DOTA)</h2>
+<p class="tx2">Usar el add-on de <b>Saldos persistentes</b>. Configurar:</p>
+<ul>
+  <li><b>Clave:</b> <code>GTWT_MERCHANT_NUMBER</code></li>
+  <li><b>Fecha:</b> <code>MOV_CREATION_DATE</code></li>
+  <li><b>Valor:</b> <code>MONTO</code> con signo (PAYMENT positivo, REFUND negativo). Si la fuente no trae signo aún:</li>
+</ul>
+<div class="card formula">
+<div class="card-h">MONTO_NETO</div>
+<pre class="formula"><span class="fn">SI</span>(
+  <span class="col">OP</span> = <span class="str">"PAYMENT"</span>;
+  <span class="fn">ABS</span>(<span class="col">MONTO</span>);
+  -1 * <span class="fn">ABS</span>(<span class="col">MONTO</span>)
+)</pre>
+</div>
+<p class="tx2">El add-on recurrirá: <code>Saldo[comercio, día] = Saldo[comercio, día-1] + Σ MONTO_NETO del día</code>. NO calcular esto manualmente con fórmulas — el evaluador busca uso del add-on.</p>
+
+<!-- ═══ TABLEROS ═══ -->
+<h2 id="dashboard"><span class="num">14-16</span>Tableros</h2>
+
+<h3>14 · % de conciliación por barrida</h3>
+<table>
+<tr><th>Visual</th><th>Cálculo</th></tr>
+<tr><td><b>Monto conciliable</b></td><td><code>SUMA(ABS(MONTO))</code> filtrado por barrida que cruzó</td></tr>
+<tr><td><b># Partidas conciliadas</b></td><td><code>CONTAR(id)</code> donde <code>_BARRIDA_</code> = B1..B5</td></tr>
+<tr><td><b>% sobre total</b></td><td><code>conciliable / total_barrida * 100</code></td></tr>
+</table>
+
+<h3>15 · KPI global</h3>
+<ul>
+  <li><b>Partidas conciliadas</b> = total de filas DOTA con <code>_BARRIDA_</code> &lt;> NULL.</li>
+  <li><b>Pendientes</b> = filas DOTA con <code>_BARRIDA_</code> = NULL al cerrar B5.</li>
+  <li><b>% eficiencia</b> = conciliadas / total DOTA × 100.</li>
+</ul>
+
+<h3>16 · Tablero adicional (libre · 4 ideas con justificación)</h3>
+<ol>
+  <li><b>Top 10 comercios con mayor pendiente</b> · <i>foco operativo: dónde mirar primero</i>.</li>
+  <li><b>Heatmap compensaciones &gt;15 días por adquirente</b> · <i>detecta patrones de SLA tardío en un emisor específico</i>.</li>
+  <li><b>% pendientes por motivo</b> (sin auth / sin PAN match / fuera de SLA) · <i>diagnóstico de la causa raíz del residuo</i>.</li>
+  <li><b>Saldo acumulado vs línea base mensual</b> · <i>desviaciones operativas del comercio</i>.</li>
+</ol>
+
+<!-- ═══ BEST PRACTICES ═══ -->
+<h2 id="bp"><span class="num">🎯</span>Best practices · qué va a revisar el evaluador</h2>
+<table>
+<tr><th>Área</th><th>Lo que califican</th></tr>
+<tr><td><b>Tipos de dato</b></td><td>CARD_NUMBER como Texto · fechas como Fecha (no Fecha y hora) · montos como Número.</td></tr>
+<tr><td><b>Orden de transformaciones</b></td><td>Punto 1 antes de 4 · puntos 1-7 antes del cruce con parametría (8).</td></tr>
+<tr><td><b>Restricciones de barrida</b></td><td>No auto-cross · PAYMENT ≠ PAYMENT · tolerancia de fecha direccional en B4.</td></tr>
+<tr><td><b>Bisiesto-safe</b></td><td>Patrón "primer día del mes siguiente -1" (o equivalente) en el punto 11.</td></tr>
+<tr><td><b>Uso de add-ons</b></td><td>Saldos persistentes para el punto 13 · calendario hábil ARG para puntos 7 y FECHA_FINAL.</td></tr>
+<tr><td><b>Reportería</b></td><td>Cada barrida con monto + #partidas + % · KPI global cuadra con suma de barridas.</td></tr>
+<tr><td><b>Justificación del 16</b></td><td>Explicación clara del valor operativo del tablero libre elegido.</td></tr>
+<tr><td><b>Video con transcripción</b></td><td>Lectura de resultados · paso a paso · recomendaciones.</td></tr>
+</table>
+
+<!-- ═══ CHECKLIST ═══ -->
+<h2 id="checklist"><span class="num">✅</span>Tu progreso</h2>
 <div class="chk-progress">
   <div class="chk-bar"><div class="chk-bar-fill" id="chkBar" style="width:0%"></div></div>
   <div class="chk-pct"><span id="chkPct">0</span>%</div>
@@ -184,337 +472,40 @@ td b{color:var(--tx)}
   <button class="chk-btn" onclick="DOTA.markAll()">✓ Marcar todas</button>
   <button class="chk-btn" onclick="DOTA.resetChecklist()">↻ Reiniciar</button>
 </div>
-
-<!-- ═══ SIMULADOR DE BARRIDAS ═══ -->
-<h2 id="sim"><span class="num">🎮</span>Simulador de las 5 barridas</h2>
-<p class="tx2">Dataset sintético de <b>10 movimientos DOTA</b> (PAYMENTs + REFUNDs) y <b>6 movimientos FD</b>. Ejecuta cada barrida en orden y mira qué cruza y qué queda pendiente para la siguiente. Reproduce la lógica del punto 12.</p>
-
-<div class="sim-toolbar">
-  <button class="sim-btn next" onclick="DOTA.simNext()">▶ Siguiente barrida</button>
-  <button class="sim-btn" onclick="DOTA.simAll()">⏩ Correr todas</button>
-  <button class="sim-btn reset" onclick="DOTA.simReset()">↻ Reset</button>
-  <span style="flex:1"></span>
-  <span style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace" id="simStep">Barrida 0 · sin ejecutar</span>
-</div>
-
-<div class="sim-status" id="simStatus">
-  <span class="step-name">Datasets iniciales cargados</span>
-  10 movimientos DOTA + 6 movimientos FD. Pulsa <b>▶ Siguiente barrida</b> para empezar con la compensación exacta DOTA ↔ DOTA.
-</div>
-
-<div class="sim-summary" id="simSummary"></div>
-
-<div class="sim-tables">
-  <div class="sim-tbl">
-    <div class="sim-tbl-h">📂 DOTA <span class="badge" id="simDotaBadge">10 partidas</span></div>
-    <table id="simDota"></table>
-  </div>
-  <div class="sim-tbl">
-    <div class="sim-tbl-h">📂 FD <span class="badge" id="simFdBadge">6 partidas</span></div>
-    <table id="simFd"></table>
-  </div>
-</div>
-
-<div class="sim-log" id="simLog"></div>
-
-<h2 id="fuentes"><span class="num">0</span>Fuentes y workspace</h2>
-<p>Antes de empezar, asegúrate de tener acceso a un workspace de Simetrik con <b>nueva herencia</b> y <b>todos los add-ons activos</b>. Sin esto no podrás resolver los puntos de saldo acumulado, fechas hábiles ni los chequeos de monitoreo.</p>
-
-<table>
-<tr><th>Insumo</th><th>Tipo</th><th>Rol en el caso</th></tr>
-<tr><td><b>DB DOTA</b> (DB_DOTA_v3.xlsx)</td><td>Detalle transaccional e-commerce</td><td>Fuente principal. Compras y reversos en ARG. Es lo que se concilia.</td></tr>
-<tr><td><b>Reporte FD</b> (Reporte_FD_v3.xlsx)</td><td>Detalle transaccional procesadora</td><td>Lo que FD reporta. Contiene <code>NUM_TAR</code>, <code>FPRES</code>, montos, batches.</td></tr>
-<tr><td><b>Parametría Comercio</b> (Parametria_Comercio_v2.xlsx)</td><td>Catálogo</td><td>Tipo de comercio (ESTANDAR / CUOTA A CUOTA / etc.). Llave: código de comercio.</td></tr>
-<tr><td><b>Normalización fechas hábiles</b> (v2.xlsx)</td><td>Calendario</td><td>Días hábiles por país. Para este caso usar el sitio <code>ARG</code>.</td></tr>
-</table>
-
-<div class="card why">
-<div class="card-h">¿Por qué este orden?</div>
-<p class="tx2">Las normalizaciones de DOTA (1-7) son insumo del cruce con parametría (8) y de las normalizaciones de FD (9-11). Ambas alimentan la conciliación avanzada (12). El saldo acumulado (13) y los tableros (14-16) cierran el caso. Si saltas pasos, la conciliación quedará con datos inconsistentes.</p>
-</div>
-
-<h2 id="dota"><span class="num">1-7</span>Normalización DB DOTA</h2>
-
-<h3>1 · CARD_NUMBER</h3>
-<p>Reconstruir la tarjeta enmascarada con el formato <code>BBBBBB XXXXXX LLLL</code> (16 caracteres).</p>
-<div class="card formula">
-<div class="card-h">Fórmula</div>
-<pre><code>CARD_NUMBER = LPAD(CARD_SIX_FIRST_DIGITS, 6, "0") + "XXXXXX" + LPAD(CARD_FOUR_LAST_DIGITS, 4, "0")</code></pre>
-</div>
-<div class="card warn"><div class="card-h">⚠ Trampa</div><p class="tx2">Si los origen vienen con menos dígitos (ej: 5 en vez de 6), <b>debes rellenar con ceros a la izquierda</b>. Si los concatenas tal cual, romperás el largo de 16 y la conciliación posterior fallará por PAN.</p></div>
-
-<h3>2 · GTWC_AUTHORIZATION_CODE</h3>
-<p>Limpiar el código de autorización cuando viene basura del adquirente Cabal.</p>
-<div class="card formula">
-<div class="card-h">Lógica</div>
-<pre><code>SI CAPTURE_AUTHORIZATION_CODE = "000000" Y CAPTURE_ACQUIRER = "Cabal":
-   GTWC_AUTHORIZATION_CODE = ""
-SINO:
-   GTWC_AUTHORIZATION_CODE = CAPTURE_AUTHORIZATION_CODE</code></pre>
-</div>
-
-<h3>3 · GTWT_ACQUIRER</h3>
-<p>Normalizar el adquirente buscando palabras clave en 3 columnas: <code>CAPTURE_ACQUIRER</code>, <code>PURCHASE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code>.</p>
-<div class="card formula">
-<div class="card-h">Tabla de mapeo</div>
-<table>
-<tr><th>Si alguna contiene</th><th>Resultado</th></tr>
-<tr><td>"Mastercard", "Firstdata", "Diners"</td><td><code>"FD"</code></td></tr>
-<tr><td>"Visa"</td><td><code>"PRISMA"</code></td></tr>
-<tr><td>Ninguno</td><td>Contenido en MAYÚSCULA</td></tr>
-</table>
-</div>
-<div class="card tip"><div class="card-h">💡 Tip Simetrik</div><p class="tx2">Usa una transformación tipo <code>IF / CASE WHEN</code> anidado o una función custom. Evalúa las 3 columnas con un <code>OR</code> case-insensitive.</p></div>
-
-<h3>4 · BRAND</h3>
-<p>Identificar la marca de la tarjeta. Primero busca palabra clave en <code>PAY_METHOD</code>; si no hay, deduce por BIN.</p>
-<div class="card formula">
-<div class="card-h">Algoritmo</div>
-<pre><code>SI PAY_METHOD ∈ {"MASTER","MAESTRO","MASTERCARD","Master"}:
-   BRAND = "MASTERCARD"
-SINO basado en los primeros dígitos de CARD_NUMBER:
-   • "34" o "37"  → "AMERICAN EXPRESS"
-   • "5" o "2"    → "MASTERCARD"
-   • "4"          → "VISA"
-   • otro         → "PENDIENTE"</code></pre>
-</div>
-
-<h3>5 · GTWT_MERCHANT_NUMBER</h3>
-<p>Consolidar el número de comercio. Prioridad: <code>PURCHASE</code> &gt; <code>CAPTURE</code> &gt; <code>AUTH</code>.</p>
-<div class="card formula">
-<div class="card-h">Lógica de coalesce</div>
-<pre><code>GTWT_MERCHANT_NUMBER = COALESCE(
-  PURCHASE_MERCHANT_NUMBER,
-  CAPTURE_MERCHANT_NUMBER,
-  AUTH_MERCHANT_NUMBER
-)</code></pre>
-<p class="tx2">Si las 3 traen información, prevalece la primera (PURCHASE).</p>
-</div>
-
-<h3>6 · MOV_CREATION_DATE</h3>
-<p>Adicionar 1 día a la fecha de creación del movimiento y quitar la hora.</p>
-<div class="card formula">
-<div class="card-h">Fórmula</div>
-<pre><code>MOV_CREATION_DATE = DATE(MOV_CREATED_DATE + 1 día)</code></pre>
-</div>
-
-<h3>7 · EXPECTED_PAYMENT_DATE</h3>
-<p>Fecha esperada de pago = MOV_CREATION_DATE + 30 días hábiles (calendario ARG).</p>
-<div class="card formula">
-<div class="card-h">Fórmula con función Simetrik</div>
-<pre><code>EXPECTED_PAYMENT_DATE = adicionar_fecha_habil(
-  fecha:  MOV_CREATION_DATE,
-  dias:   30,
-  sitio:  "ARG"
-)</code></pre>
-<p class="tx2">Insumo: hoja "Normalización fechas hábiles" filtrada por sitio = ARG.</p>
-</div>
-
-<h2 id="paramet"><span class="num">8</span>Cruce con Parametría de Comercios</h2>
-<p>Cruzar DB DOTA con Parametria_Comercio_v2 usando como llave el <b>código de comercio normalizado en el punto 5</b> (<code>GTWT_MERCHANT_NUMBER</code>).</p>
-<div class="card formula">
-<div class="card-h">Filtro post-cruce</div>
-<pre><code>WHERE Parametria.TIPO_COMERCIO = "ESTANDAR"</code></pre>
-<p class="tx2">Solo los registros estándar avanzan a la conciliación. Otros tipos (CUOTA A CUOTA, etc.) tienen flujos distintos no cubiertos en este caso.</p>
-</div>
-
-<h2 id="fd"><span class="num">9-11</span>Normalización Reporte FD</h2>
-
-<h3>9 · LIQ_6_TARJETA</h3>
-<p>Primeros 6 dígitos del PAN (BIN).</p>
-<pre><code>LIQ_6_TARJETA = LEFT(NUM_TAR, 6)</code></pre>
-
-<h3>10 · LIQ_4_TARJETA</h3>
-<p>Últimos 4 dígitos.</p>
-<pre><code>LIQ_4_TARJETA = RIGHT(NUM_TAR, 4)</code></pre>
-
-<h3>11 · DEADLINE (fin de mes)</h3>
-<p>Determinar si <code>FPRES</code> es fin de mes. <b>Debe contemplar años bisiestos.</b></p>
-<div class="card formula">
-<div class="card-h">Algoritmo</div>
-<pre><code>DEADLINE = SI día(FPRES) = ultimo_dia_del_mes(FPRES) → "SI"
-           SINO → "NO"
-
-Donde ultimo_dia_del_mes(d) =
-   día(fecha(año(d), mes(d)+1, 1) - 1 día)
-   // funciona para meses de 28/29/30/31 sin codificar nada</code></pre>
-</div>
-<div class="card tip"><div class="card-h">💡 Por qué este patrón</div><p class="tx2">El truco "primer día del mes siguiente menos 1" resuelve <b>todos</b> los meses incluyendo febrero bisiesto sin tener que codificar la regla 4/100/400.</p></div>
-
-<h2 id="conc"><span class="num">12</span>Conciliación avanzada DOTA × FD</h2>
-<p>Una <b>sola conciliación</b> con <b>5 barridas en orden</b>. Cada barrida recibe el pendiente de la anterior.</p>
-
-<div class="card warn">
-<div class="card-h">⚠ Restricciones de las barridas 1 y 2 (auto-compensación DOTA)</div>
-<ul>
-  <li><b>Una transacción no debe cruzarse consigo misma</b> (mismo id de fila).</li>
-  <li><b>Mismo tipo de operación no cruza</b>: <code>PAYMENT</code> solo concilia con <code>REFUND</code> y viceversa.</li>
-</ul>
-</div>
-
-<div class="barrida">
-<div class="barrida-h"><span class="b-num">1</span>Compensación DOTA exacta</div>
-<p>Auto-cruce DOTA ↔ DOTA. <b>Llaves:</b> comercio, código de autorización, |monto|.</p>
-</div>
-
-<div class="barrida">
-<div class="barrida-h"><span class="b-num">2</span>Compensación DOTA con tolerancia de monto</div>
-<p>Mismas llaves de la barrida 1, pero <b>|montoA − montoB| ≤ $5</b>.</p>
-</div>
-
-<div class="barrida">
-<div class="barrida-h"><span class="b-num">3</span>DOTA vs FD detalle exacto</div>
-<p>Cruce <b>pendiente DOTA</b> (tras barridas 1-2) vs <b>FD detalle</b>. La más robusta — más llaves.</p>
-<p><b>Llaves:</b> código de autorización, comercio, importe, fecha de creación, PAN.</p>
-</div>
-
-<div class="barrida">
-<div class="barrida-h"><span class="b-num">4</span>DOTA vs FD detalle con tolerancia de fecha</div>
-<p>Mismas llaves de la 3, con <b>tolerancia ±1 día en una sola dirección</b>: FD puede llegar al día siguiente respecto a DOTA, <b>nunca antes</b>.</p>
-<div class="card formula"><div class="card-h">Regla direccional</div><pre><code>FD.fecha − DOTA.fecha ∈ {0, +1}    // permitido
-FD.fecha − DOTA.fecha = -1         // NO cruza</code></pre></div>
-</div>
-
-<div class="barrida">
-<div class="barrida-h"><span class="b-num">5</span>DOTA vs Batch FD</div>
-<p>Sobre el pendiente FD residual, <b>agrupa por lote</b> (batch) y crúzalo contra el detalle pendiente de DOTA.</p>
-</div>
-
-<h2 id="check">Check de monitoreo · débitos &gt; 15 días</h2>
-<p>Identificar débitos con vigencia mayor a 15 días que terminaron cruzando en barrida de compensación (1 o 2). No afectan la conciliación, pero <b>se reportan al cliente</b>.</p>
-
-<div class="card formula">
-<div class="card-h">Cálculo de FECHA_FINAL</div>
-<pre><code>DIAS_A_SUMAR = NUMERO(RIGHT(GTWT_MERCHANT_NUMBER, 2))
-FECHA_INICIO = concatenar(año_actual; "-"; mes_actual; "-"; "1")
-                   // ejemplo: "2026-10-1"
-FECHA_FINAL  = adicionar_fecha_tiempo(FECHA_INICIO; DIAS_A_SUMAR; "días")</code></pre>
-</div>
-
-<div class="card warn">
-<div class="card-h">⚠ Por qué importa</div>
-<p class="tx2">Compensaciones tardías (&gt;15 días) suelen indicar problemas operativos: cancelaciones tardías, devoluciones fuera de SLA, errores de captura. Reportarlas convierte la conciliación en una herramienta de monitoreo, no solo de cuadre.</p>
-</div>
-
-<h2 id="saldo"><span class="num">13</span>Saldo neto diario por comercio</h2>
-<p>Saldo acumulado día-a-día, por comercio, sobre la fuente DOTA.</p>
-<div class="card formula">
-<div class="card-h">Recurrencia</div>
-<pre><code>Saldo[comercio, día] =
-   Saldo[comercio, día-1] + Σ movimientos_del_día[comercio]
-   (considerando signo: PAYMENT positivo, REFUND negativo)</code></pre>
-</div>
-<div class="card tip">
-<div class="card-h">💡 Add-on Simetrik recomendado</div>
-<p class="tx2">Usa <b>Saldos persistentes</b> (también llamado "Saldo Día Inicial" o módulo de cierres). Estructura: tabla derivada con clave [comercio, fecha] que se recalcula incrementalmente y guarda el estado.</p>
-</div>
-
-<h2 id="dashboard"><span class="num">14-16</span>Tableros</h2>
-
-<h3>14 · Porcentaje de conciliación</h3>
-<p>Por cada barrida del punto 12 reportar:</p>
-<ul>
-  <li><b>Monto conciliable</b> (suma de partidas que cruzaron)</li>
-  <li><b>Número de partidas conciliadas</b></li>
-  <li><b>% sobre el total</b> de la barrida</li>
-</ul>
-<p>Filtros temporales usando las llaves de cruce (fecha de creación / fecha de pago esperada).</p>
-
-<h3>15 · KPI global</h3>
-<div class="kpi-grid">
-  <div class="kpi"><div class="kpi-h">Partidas conciliadas</div><div class="kpi-v">Σ barridas 1-5</div><div class="kpi-d">Sobre fuente DOTA</div></div>
-  <div class="kpi"><div class="kpi-h">Pendientes</div><div class="kpi-v">Residuo</div><div class="kpi-d">Partidas que no cruzaron en ninguna barrida</div></div>
-  <div class="kpi"><div class="kpi-h">% Eficiencia</div><div class="kpi-v">conc / total</div><div class="kpi-d">Métrica de salud operativa</div></div>
-</div>
-
-<h3>16 · Tablero adicional (libre)</h3>
-<p>A tu criterio. Sugerencias con alto valor para el cliente:</p>
-<ul>
-  <li><b>Top 10 comercios con mayor pendiente</b> — foco operativo.</li>
-  <li><b>Distribución por motivo de no-cruce</b> (sin auth, sin PAN match, fuera de SLA, etc.) — diagnóstico.</li>
-  <li><b>Heatmap fecha × adquirente</b> de compensaciones &gt;15 días — detección de patrones.</li>
-  <li><b>Saldo acumulado vs línea base</b> — desviaciones operativas.</li>
-</ul>
-<p class="tx2"><b>Justifica brevemente</b> tu elección — el evaluador valora el criterio, no solo el resultado.</p>
-
-<h2 id="entrega">Entregables</h2>
-<ul>
-  <li><b>Tablero final</b> configurado en tu workspace.</li>
-  <li><b>Video corto con transcripción</b> que cubra:
-    <ul>
-      <li>Lectura de resultados del tablero.</li>
-      <li>Paso a paso seguido (orden de barridas, decisiones tomadas).</li>
-      <li>Recomendaciones al cliente basadas en lo que detectaste durante la implementación.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="errores">Errores comunes que tumban la prueba</h2>
-<div class="card warn">
-<div class="card-h">Top 7 errores</div>
-<ol>
-  <li><b>No rellenar ceros a la izquierda</b> en CARD_NUMBER → todas las barridas con llave PAN fallan.</li>
-  <li><b>Olvidar la restricción PAYMENT↔REFUND</b> en barridas 1 y 2 → autocompensan transacciones del mismo signo.</li>
-  <li><b>Filtrar TIPO_COMERCIO antes de normalizar</b> → pierdes datos que el cruce de parametría requiere.</li>
-  <li><b>Calcular días hábiles sin sitio = ARG</b> → fechas off por feriados argentinos.</li>
-  <li><b>Tolerancia de fecha bidireccional</b> en barrida 4 → cruzas FD que llegó "antes" que la transacción DOTA (imposible).</li>
-  <li><b>Saldo acumulado sin add-on de saldos persistentes</b> → recálculo desde cero cada día, se daña en producción.</li>
-  <li><b>Reportar débitos &gt;15 días sin pasar por el cálculo de FECHA_FINAL</b> usando los últimos 2 dígitos de GTWT_MERCHANT_NUMBER.</li>
-</ol>
-</div>
-
-<div class="card tip" style="margin-top:30px">
-<div class="card-h">🎯 Antes de grabar el video</div>
-<ul>
-  <li>Revisa que cada barrida reporte conteo y monto.</li>
-  <li>Cruza el KPI global contra la suma de barridas (deben coincidir).</li>
-  <li>Documenta las recomendaciones operativas detectadas (compensaciones tardías, top pendientes, etc.).</li>
-  <li>Asegúrate que la transcripción del video esté en español y cubra los puntos del entregable.</li>
-</ul>
-</div>
+<p class="tx2" style="margin-top:14px;font-size:12px;color:var(--t3)">El progreso se guarda automáticamente y sincroniza entre dispositivos (clave <code>work_dota_progress</code>).</p>
 
 </div>
 
 <script>
-/* ════════════════════════════════════════════════════════════════
-   DOTA · Checklist + Simulador de barridas
-   - Checklist persiste en localStorage(work_dota_progress) y sincroniza
-     vía cloud-sync.js (clave registrada en SYNC_REGISTRY).
-   - Simulador usa datasets sintéticos in-memory. Reproduce las 5
-     barridas del punto 12 con las restricciones del docto Guía.
-════════════════════════════════════════════════════════════════ */
 const DOTA = (() => {
   const KEY = 'work_dota_progress';
   const ITEMS = [
-    { n:1,  txt:'CARD_NUMBER · LPAD + XXXXXX + LPAD (16 chars)' },
-    { n:2,  txt:'GTWC_AUTHORIZATION_CODE · limpieza Cabal "000000"' },
-    { n:3,  txt:'GTWT_ACQUIRER · mapeo a FD/PRISMA/MAYÚSCULA' },
-    { n:4,  txt:'BRAND · PAY_METHOD + BIN (34/37/5/2/4)' },
-    { n:5,  txt:'GTWT_MERCHANT_NUMBER · COALESCE PURCHASE>CAPTURE>AUTH' },
-    { n:6,  txt:'MOV_CREATION_DATE · +1 día, sin hora' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · +30 hábiles ARG' },
-    { n:8,  txt:'Cruce Parametría Comercio · filtro ESTANDAR' },
-    { n:9,  txt:'LIQ_6_TARJETA · LEFT(NUM_TAR, 6)' },
-    { n:10, txt:'LIQ_4_TARJETA · RIGHT(NUM_TAR, 4)' },
-    { n:11, txt:'DEADLINE · fin de mes bisiesto-safe' },
-    { n:12, txt:'Conciliación avanzada · 5 barridas' },
-    { n:13, txt:'Saldo neto diario por comercio (DOTA)' },
-    { n:14, txt:'Tablero % de conciliación' },
-    { n:15, txt:'KPI global de la fuente DOTA' },
-    { n:16, txt:'Tablero adicional + justificación' },
+    { n:1,  txt:'CARD_NUMBER · CONCATENAR + RELLENAR (16 chars · Texto)' },
+    { n:2,  txt:'GTWC_AUTHORIZATION_CODE · SI con Y para Cabal "000000"' },
+    { n:3,  txt:'GTWT_ACQUIRER · EXTRAER_EXPREGULAR sobre 3 columnas concatenadas' },
+    { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
+    { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
+    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO +1 día (tipo Fecha)' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIAS_SEMANA 30 ARG' },
+    { n:8,  txt:'Cruce con Parametría_Comercio · filtro TIPO_COMERCIO = ESTANDAR' },
+    { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
+    { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },
+    { n:11, txt:'DEADLINE · SI con cambio de mes al +1 día (bisiesto-safe)' },
+    { n:12, txt:'Conciliación avanzada · 5 barridas con restricciones B1-B2' },
+    { n:13, txt:'Saldo neto diario · add-on Saldos Persistentes' },
+    { n:14, txt:'Tablero % conciliación por barrida' },
+    { n:15, txt:'KPI global · conciliadas + pendientes + % eficiencia' },
+    { n:16, txt:'Tablero adicional + justificación + video con transcripción' },
   ];
 
   function load(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
   function save(p){
     try { localStorage.setItem(KEY, JSON.stringify(p)); } catch(e) { console.warn('[DOTA] save failed', e); return; }
-    // Bridge al cloud-sync.js del parent (work.html). El iframe comparte
-    // localStorage con el parent por mismo-origen, pero el proxy setItem
-    // de cloud-sync.js vive en el window del parent. Forzamos el push.
     try {
       if (window.parent && window.parent !== window && window.parent.CLOUD && window.parent.CLOUD.pushState) {
         window.parent.CLOUD.pushState(KEY, p);
       }
-    } catch(e) { /* cross-origin u otro · ignorar · localStorage queda guardado */ }
+    } catch(e) { /* cross-origin · ignorar */ }
   }
 
   function renderChecklist(){
@@ -543,239 +534,23 @@ const DOTA = (() => {
     save(p);
     renderChecklist();
   }
-
   function markAll(){
     const p = {};
     ITEMS.forEach(it => p[it.n] = true);
     save(p);
     renderChecklist();
   }
-
   function resetChecklist(){
     if (!confirm('¿Borrar todo el progreso del checklist?')) return;
     save({});
     renderChecklist();
   }
 
-  /* ═══ SIMULADOR DE BARRIDAS ═══════════════════════════════════
-     Dataset sintético — 10 DOTA (5 PAYMENT + 5 REFUND) + 6 FD.
-     Algunos pares cruzan exacto, otros con tolerancia, otros vía batch.
-  ═════════════════════════════════════════════════════════════════ */
-  const SEED_DOTA = [
-    { id:'D01', op:'PAYMENT', comercio:'C001', auth:'AUTH123', monto:1500,  fecha:'2026-10-01', pan:'400000XXXXXX1111' },
-    { id:'D02', op:'REFUND',  comercio:'C001', auth:'AUTH123', monto:-1500, fecha:'2026-10-01', pan:'400000XXXXXX1111' },
-    { id:'D03', op:'PAYMENT', comercio:'C002', auth:'AUTH456', monto:2300,  fecha:'2026-10-02', pan:'510000XXXXXX2222' },
-    { id:'D04', op:'REFUND',  comercio:'C002', auth:'AUTH456', monto:-2304, fecha:'2026-10-02', pan:'510000XXXXXX2222' },
-    { id:'D05', op:'PAYMENT', comercio:'C003', auth:'AUTH789', monto:8900,  fecha:'2026-10-03', pan:'370000XXXXXX3333' },
-    { id:'D06', op:'PAYMENT', comercio:'C004', auth:'AUTH111', monto:1200,  fecha:'2026-10-04', pan:'400000XXXXXX4444' },
-    { id:'D07', op:'PAYMENT', comercio:'C005', auth:'AUTH222', monto:5600,  fecha:'2026-10-05', pan:'510000XXXXXX5555' },
-    { id:'D08', op:'PAYMENT', comercio:'C006', auth:'AUTH333', monto:7800,  fecha:'2026-10-06', pan:'400000XXXXXX6666' },
-    { id:'D09', op:'PAYMENT', comercio:'C007', auth:'AUTH444', monto:3400,  fecha:'2026-10-07', pan:'510000XXXXXX7777' },
-    { id:'D10', op:'PAYMENT', comercio:'C008', auth:'AUTH555', monto:9100,  fecha:'2026-10-08', pan:'400000XXXXXX8888' },
-  ];
-  const SEED_FD = [
-    { id:'F01', auth:'AUTH789', comercio:'C003', importe:8900, fecha:'2026-10-03', pan:'370000XXXXXX3333', batch:null },
-    { id:'F02', auth:'AUTH111', comercio:'C004', importe:1200, fecha:'2026-10-05', pan:'400000XXXXXX4444', batch:null },
-    { id:'F03', auth:'AUTH222', comercio:'C005', importe:5600, fecha:'2026-10-06', pan:'510000XXXXXX5555', batch:null },
-    { id:'F04', auth:'AUTH333', comercio:'C006', importe:7800, fecha:'2026-10-05', pan:'400000XXXXXX6666', batch:null },
-    { id:'F05', auth:'',        comercio:'C007', importe:3400, fecha:'2026-10-07', pan:'510000XXXXXX7777', batch:'B01' },
-    { id:'F06', auth:'',        comercio:'C008', importe:9100, fecha:'2026-10-08', pan:'400000XXXXXX8888', batch:'B01' },
-  ];
-
-  const BARRIDAS = [
-    { n:1, name:'Compensación DOTA exacta',           run:b1 },
-    { n:2, name:'Compensación DOTA tolerancia $5',    run:b2 },
-    { n:3, name:'DOTA × FD detalle exacto',           run:b3 },
-    { n:4, name:'DOTA × FD tolerancia +1 día',        run:b4 },
-    { n:5, name:'DOTA × Batch FD',                    run:b5 },
-  ];
-
-  let dotaCur = [], fdCur = [], step = 0, totals = { b1:0, b2:0, b3:0, b4:0, b5:0 };
-
-  function simReset(){
-    dotaCur = JSON.parse(JSON.stringify(SEED_DOTA));
-    fdCur   = JSON.parse(JSON.stringify(SEED_FD));
-    step = 0;
-    totals = { b1:0, b2:0, b3:0, b4:0, b5:0 };
-    document.getElementById('simStep').textContent = 'Barrida 0 · sin ejecutar';
-    document.getElementById('simStatus').innerHTML = `<span class="step-name">Datasets reseteados</span>10 movimientos DOTA + 6 movimientos FD. Pulsa <b>▶ Siguiente barrida</b>.`;
-    document.getElementById('simLog').innerHTML = '<div class="info">→ Datasets reseteados. Pendiente DOTA: 10 · Pendiente FD: 6</div>';
-    renderSimTables();
-    renderSimSummary();
-  }
-
-  function pending(arr){ return arr.filter(r => !r._crossed); }
-
-  // Barrida 1: compensación exacta DOTA ↔ DOTA · comercio + auth + |monto|
-  // Restricción: no auto-cruce, PAYMENT solo con REFUND
-  function b1(){
-    const p = pending(dotaCur);
-    let matches = 0;
-    for (let i = 0; i < p.length; i++) {
-      for (let j = i+1; j < p.length; j++) {
-        const a = p[i], b = p[j];
-        if (a._crossed || b._crossed) continue;
-        if (a.id === b.id) continue;
-        if (a.op === b.op) continue; // PAYMENT solo con REFUND
-        if (a.comercio === b.comercio && a.auth === b.auth && Math.abs(a.monto) === Math.abs(b.monto)) {
-          a._crossed = 'B1'; b._crossed = 'B1';
-          matches++;
-        }
-      }
-    }
-    totals.b1 = matches * 2;
-    return matches;
-  }
-
-  // Barrida 2: compensación con tolerancia $5
-  function b2(){
-    const p = pending(dotaCur);
-    let matches = 0;
-    for (let i = 0; i < p.length; i++) {
-      for (let j = i+1; j < p.length; j++) {
-        const a = p[i], b = p[j];
-        if (a._crossed || b._crossed) continue;
-        if (a.id === b.id) continue;
-        if (a.op === b.op) continue;
-        if (a.comercio === b.comercio && a.auth === b.auth && Math.abs(Math.abs(a.monto) - Math.abs(b.monto)) <= 5) {
-          a._crossed = 'B2'; b._crossed = 'B2';
-          matches++;
-        }
-      }
-    }
-    totals.b2 = matches * 2;
-    return matches;
-  }
-
-  // Barrida 3: DOTA pendiente vs FD exacto (5 llaves)
-  function b3(){
-    const pD = pending(dotaCur), pF = pending(fdCur);
-    let matches = 0;
-    pD.forEach(d => {
-      if (d._crossed) return;
-      pF.forEach(f => {
-        if (f._crossed || d._crossed) return;
-        if (d.auth && d.auth === f.auth &&
-            d.comercio === f.comercio &&
-            Math.abs(d.monto) === f.importe &&
-            d.fecha === f.fecha &&
-            d.pan === f.pan) {
-          d._crossed = 'B3'; f._crossed = 'B3';
-          matches++;
-        }
-      });
-    });
-    totals.b3 = matches * 2;
-    return matches;
-  }
-
-  // Barrida 4: tolerancia +1 día (FD nunca antes que DOTA)
-  function b4(){
-    const pD = pending(dotaCur), pF = pending(fdCur);
-    let matches = 0;
-    pD.forEach(d => {
-      if (d._crossed) return;
-      pF.forEach(f => {
-        if (f._crossed || d._crossed) return;
-        const diff = (new Date(f.fecha) - new Date(d.fecha)) / 86400000;
-        if (d.auth && d.auth === f.auth &&
-            d.comercio === f.comercio &&
-            Math.abs(d.monto) === f.importe &&
-            (diff === 0 || diff === 1) &&  // direccional: FD igual o +1
-            d.pan === f.pan) {
-          d._crossed = 'B4'; f._crossed = 'B4';
-          matches++;
-        }
-      });
-    });
-    totals.b4 = matches * 2;
-    return matches;
-  }
-
-  // Barrida 5: DOTA × Batch FD · agrupa FD pendiente por batch y crúzalo por suma
-  function b5(){
-    const pF = pending(fdCur);
-    const batches = {};
-    pF.forEach(f => {
-      if (!f.batch) return;
-      if (!batches[f.batch]) batches[f.batch] = { total:0, items:[], comercios:new Set() };
-      batches[f.batch].total += f.importe;
-      batches[f.batch].items.push(f);
-      batches[f.batch].comercios.add(f.comercio);
-    });
-    let matches = 0;
-    Object.entries(batches).forEach(([batchId, b]) => {
-      // Buscar grupo DOTA pendiente que sume el batch total · agrupado por mismo comercio (simplificación)
-      const pD = pending(dotaCur);
-      const candidatesByCom = {};
-      pD.forEach(d => {
-        if (!candidatesByCom[d.comercio]) candidatesByCom[d.comercio] = { total:0, items:[] };
-        candidatesByCom[d.comercio].total += Math.abs(d.monto);
-        candidatesByCom[d.comercio].items.push(d);
-      });
-      Object.values(candidatesByCom).forEach(c => {
-        if (c.total === b.total) {
-          c.items.forEach(d => d._crossed = 'B5');
-          b.items.forEach(f => f._crossed = 'B5');
-          matches += b.items.length;
-        }
-      });
-    });
-    totals.b5 = matches * 2;
-    return matches;
-  }
-
-  function simNext(){
-    if (step >= BARRIDAS.length) { log('warn', '→ Ya ejecutaste las 5 barridas. Resetea para empezar de nuevo.'); return; }
-    const b = BARRIDAS[step];
-    const before = { d: pending(dotaCur).length, f: pending(fdCur).length };
-    const n = b.run();
-    const after = { d: pending(dotaCur).length, f: pending(fdCur).length };
-    step++;
-    log('ok', `→ Barrida ${b.n} · ${b.name} → ${n} pares cruzaron (${before.d-after.d} DOTA + ${before.f-after.f} FD)`);
-    log('info', `  Pendiente: DOTA=${after.d} · FD=${after.f}`);
-    document.getElementById('simStep').textContent = `Barrida ${b.n} de 5 ejecutada · ${step} completas`;
-    document.getElementById('simStatus').innerHTML = `<span class="step-name">Barrida ${b.n} · ${b.name}</span>${n} pares cruzaron en esta barrida. Pendiente actual: <b>${after.d}</b> DOTA · <b>${after.f}</b> FD.`;
-    renderSimTables();
-    renderSimSummary();
-  }
-
-  function simAll(){
-    simReset();
-    while (step < BARRIDAS.length) simNext();
-  }
-
-  function renderSimTables(){
-    const d = document.getElementById('simDota');
-    d.innerHTML = '<tr><th>ID</th><th>Op</th><th>Com</th><th>Auth</th><th>Monto</th><th>Fecha</th><th>Est</th></tr>' +
-      dotaCur.map(r => `<tr class="${r._crossed?'crossed':''}"><td>${r.id}</td><td>${r.op}</td><td>${r.comercio}</td><td>${r.auth}</td><td>${r.monto}</td><td>${r.fecha.slice(5)}</td><td>${r._crossed||'—'}</td></tr>`).join('');
-    document.getElementById('simDotaBadge').textContent = `${pending(dotaCur).length}/${dotaCur.length} pendiente`;
-    const f = document.getElementById('simFd');
-    f.innerHTML = '<tr><th>ID</th><th>Auth</th><th>Com</th><th>Importe</th><th>Fecha</th><th>Batch</th><th>Est</th></tr>' +
-      fdCur.map(r => `<tr class="${r._crossed?'crossed':''}"><td>${r.id}</td><td>${r.auth||'—'}</td><td>${r.comercio}</td><td>${r.importe}</td><td>${r.fecha.slice(5)}</td><td>${r.batch||'—'}</td><td>${r._crossed||'—'}</td></tr>`).join('');
-    document.getElementById('simFdBadge').textContent = `${pending(fdCur).length}/${fdCur.length} pendiente`;
-  }
-
-  function renderSimSummary(){
-    const el = document.getElementById('simSummary');
-    el.innerHTML = BARRIDAS.map(b => `<div class="sim-stat"><div class="sim-stat-v">${totals['b'+b.n]||0}</div><div class="sim-stat-l">B${b.n} · ${b.name.split(' ').slice(0,2).join(' ')}</div></div>`).join('');
-  }
-
-  function log(cls, msg){
-    const el = document.getElementById('simLog');
-    if (!el) return;
-    el.innerHTML += `<div class="${cls}">${msg}</div>`;
-    el.scrollTop = el.scrollHeight;
-  }
-
-  function init(){
-    renderChecklist();
-    simReset();
-  }
+  function init(){ renderChecklist(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  return { toggle, markAll, resetChecklist, simNext, simAll, simReset };
+  return { toggle, markAll, resetChecklist };
 })();
 window.DOTA = DOTA;
 </script>
