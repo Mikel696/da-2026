@@ -221,25 +221,23 @@ td b{color:var(--tx)}
 <h2 id="dota"><span class="num">1-7</span>Normalización DB DOTA</h2>
 
 <div class="card tip">
-<div class="card-h">📍 Cómo crear una columna transformada en Simetrik (patrón general)</div>
+<div class="card-h">📍 Cómo crear una columna de transformación · oficial Simetrik</div>
 <p class="tx2">Este flujo aplica a TODOS los puntos 1-7 y 9-11. Una vez lo dominás, solo cambia la fórmula.</p>
+<p class="tx2"><b>Roles requeridos (oficial):</b> Supervisor o Constructor para crear columnas de transformación o vencimiento. Operador puede crear solo la columna "Hoy".</p>
 <ol>
-  <li>Abrí la fuente <code>DB_DOTA</code> en el workspace (sidebar → Fuentes / Sources → DB_DOTA).</li>
-  <li>Click en <b>"Transformaciones"</b> (botón arriba a la derecha · ícono ⚙️ o "Transform").</li>
-  <li>Click <b>"+ Nueva transformación"</b> → tipo <b>"Crear columna"</b> (o "Agregar columna calculada").</li>
-  <li>Te abre el editor de fórmula. Completá:
+  <li>Abrí la fuente <code>DB_DOTA</code> en el workspace (Recursos → DB_DOTA).</li>
+  <li>Andá a la opción de <b>columnas de la fuente</b> y agregá una columna nueva → tipo <b>"Columna de transformación"</b>.</li>
+  <li>Completá:
     <ul>
       <li><b>Nombre de la nueva columna:</b> el que pide el punto (ej: <code>CARD_NUMBER</code>).</li>
-      <li><b>Tipo de dato:</b> el que indica esta guía (Texto / Número / Fecha · ver columna "salida" de cada punto).</li>
-      <li><b>Fórmula:</b> pegá la fórmula Simetrik que está en este roadmap.</li>
+      <li><b>Tipo de dato de salida:</b> el indicado en esta guía (Texto / Número / Fecha · ver "salida" de cada punto).</li>
+      <li><b>Fórmula:</b> pegá la fórmula Simetrik del roadmap. Simetrik te autocompleta funciones y columnas mientras escribís.</li>
     </ul>
   </li>
-  <li>Tip para escribir la fórmula: presioná <b>"="</b> y escribí el nombre de la función · Simetrik te autocompleta los parámetros. Para insertar una columna usá <b>"@"</b> o click en el panel lateral de columnas disponibles.</li>
-  <li>Click <b>"Validar"</b> / "Probar" · Simetrik te muestra una preview con 5-10 filas para verificar.</li>
-  <li>Si la preview es correcta → <b>"Aplicar"</b> / "Guardar".</li>
-  <li>Verificá en la tabla principal que la nueva columna apareció con datos.</li>
+  <li>Validá y guardá.</li>
 </ol>
 <p class="tx2"><b>⚠ Orden importa:</b> aplicá los puntos 1-7 en orden numérico. El punto 4 (BRAND) depende del punto 1 (CARD_NUMBER) y el 7 (EXPECTED_PAYMENT_DATE) depende del 6.</p>
+<p class="tx2"><b>Restricción oficial:</b> si la fuente es <i>aperturada</i>, el formato de la columna debe ser <b>entero</b>. La columna "Hoy" solo está disponible dentro de agrupaciones.</p>
 </div>
 
 <h3>Punto 1 · CARD_NUMBER <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span> · 16 chars</span></h3>
@@ -437,28 +435,55 @@ td b{color:var(--tx)}
 <p class="tx2"><b>UNA sola conciliación avanzada con 5 barridas en orden</b>. Cada barrida recibe el pendiente de la anterior. Configurá las llaves en el editor visual de Simetrik, no por fórmula.</p>
 
 <div class="card tip">
-<div class="card-h">📍 Paso a paso · crear la conciliación avanzada</div>
+<div class="card-h">📍 Paso a paso oficial (Help Center Simetrik · 9 pasos)</div>
+<p class="tx2">Path documentado: <code>Automatizar &gt; Recursos y conciliaciones &gt; Conciliaciones</code>. Necesitás rol con permisos · recomendado rol personalizado.</p>
 <ol>
-  <li>Sidebar → <b>"Conciliaciones"</b> → <b>"+ Nueva conciliación"</b>.</li>
-  <li>Tipo: <b>"Conciliación avanzada"</b> (NO la básica · necesitás el modo multi-barrida).</li>
-  <li>Nombre: <code>DOTA × FD · prueba</code> (algo identificable).</li>
-  <li>Configurá las <b>dos fuentes</b> que va a usar:
+  <li><b>Paso 1:</b> Menú de navegación → <code>Automatizar</code> → <code>Recursos y conciliaciones</code> → <code>Conciliaciones</code>.</li>
+  <li><b>Paso 2:</b> Click <b>"Crear recurso"</b> → seleccioná <b>"Conciliación avanzada"</b>.</li>
+  <li><b>Paso 3:</b> Asigná nombre (<code>DOTA × FD · prueba</code>) + descripción opcional → <b>"Crear"</b>.</li>
+  <li><b>Paso 4:</b> Seleccioná las fuentes de datos:
     <ul>
-      <li><b>Fuente A:</b> el resultado del cruce DOTA × Parametría filtrado por TIPO_COMERCIO = ESTANDAR (paso 8).</li>
-      <li><b>Fuente B:</b> Reporte FD con sus normalizaciones aplicadas (puntos 9, 10, 11).</li>
+      <li><b>Lado A:</b> resultado del cruce DOTA × Parametría filtrado por TIPO_COMERCIO = ESTANDAR (paso 8).</li>
+      <li><b>Lado B:</b> Reporte FD con normalizaciones de puntos 9-11 aplicadas.</li>
     </ul>
   </li>
-  <li>Click <b>"+ Agregar barrida"</b> 5 veces y configurá cada una en orden (B1 → B5). Los detalles de cada barrida están más abajo.</li>
-  <li>Activá la opción <b>"Ejecutar barridas en cascada"</b> · cada barrida recibe el pendiente de la anterior.</li>
+  <li><b>Paso 5:</b> Decide si necesitás <b>grupo conciliable</b> o <b>segmentar</b> tu fuente. Para DOTA podés segmentar el Lado A por <code>OP</code> (PAYMENT vs REFUND) si quisieras controlar reglas distintas · típicamente no es necesario.</li>
+  <li><b>Paso 6:</b> Configurá el <b>desencadenante</b> (por defecto Recurso B) y seleccioná columnas a visualizar en el resultado.</li>
+  <li><b>Paso 7:</b> Andá a <b>configuración del cruce</b> → definí las barridas. <b>El cruce 1:1 es el default</b> (un registro solo concilia con una contraparte) · N:N solo si agrupás.</li>
+  <li><b>Paso 8:</b> Para cada barrida, establecé al menos una regla. Click <b>"Guardar barrida"</b>.</li>
+  <li><b>Paso 9:</b> Podés <b>duplicar / editar / eliminar</b> la barrida actual. Agregás otra y repetís. Click <b>"Ejecutar"</b> y revisás resultados en el diagrama. Si todo OK → <b>"Confirmar conciliación"</b>.</li>
 </ol>
 </div>
 
-<div class="card warn"><div class="card-h">⚠ Restricciones obligatorias barridas 1 y 2 · DÓNDE ACTIVARLAS</div>
+<div class="card warn"><div class="card-h">⚠ Robustez de las barridas · regla oficial</div>
+<p class="tx2">Simetrik evalúa la robustez de cada barrida (fuerte o débil). <b>Si una barrida es DÉBIL, el sistema NO te deja ejecutarla.</b> Tenés que agregar más reglas (llaves de cruce) hasta que sea fuerte. Para nuestras barridas: B1 con 3 llaves (comercio + auth + |monto|) debería ser fuerte · B3 con 5 llaves es muy fuerte.</p>
+</div>
+
+<div class="card tip"><div class="card-h">📍 Operadores oficiales de reglas (Help Center)</div>
+<p class="tx2">En cada llave de barrida, los operadores disponibles son:</p>
 <ul>
-  <li><b>"Excluir auto-cruce"</b> · en la configuración de la barrida, sección "Restricciones" · checkbox "Una fila no se cruza consigo misma".</li>
-  <li><b>"Excluir mismo tipo de operación"</b> · agregá una condición extra en las llaves: <code>FUENTE_A.OP ≠ FUENTE_B.OP</code>. Esto fuerza que PAYMENT solo cruce con REFUND.</li>
+  <li><code>=</code> · igual a (estricto)</li>
+  <li><code>≠</code> · diferente a</li>
+  <li><code>~=</code> · <b>casi iguales</b> · este es el operador de <b>tolerancia</b> · ideal para B2 ($5) y B4 (+1 día)</li>
+  <li><code>≥</code> · mayor o igual</li>
+  <li><code>></code> · mayor</li>
+  <li><code>≤</code> · menor o igual</li>
+  <li><code><</code> · menor</li>
 </ul>
-<p class="tx2">Si la UI de Simetrik no tiene checkbox, podés simularlo con una condición de filtro: <code>SI(FUENTE_A.OP = "PAYMENT"; FUENTE_B.OP = "REFUND"; FUENTE_B.OP = "PAYMENT")</code> como llave booleana.</p>
+<p class="tx2">Para fechas, podés especificar la <b>unidad</b> (días / meses / años) al definir la tolerancia.</p>
+</div>
+
+<div class="card warn"><div class="card-h">⚠ Restricciones barridas 1 y 2 · son tipo COMPENSACIÓN (oficial)</div>
+<p class="tx2">Las barridas B1 y B2 del DOTA <b>NO son barridas de conciliación · son barridas de COMPENSACIÓN</b> (auto-cruce dentro de UNA misma fuente para anular partidas que se compensan a cero).</p>
+<p class="tx2">Configuración oficial de Barrida de Compensación:</p>
+<ol>
+  <li>Agregar barrida → seleccionar tipo <b>"Barrida de Compensación"</b>.</li>
+  <li>Asignar nombre y descripción opcional.</li>
+  <li>En <b>"Recurso a compensar"</b> → seleccionar <b>Lado A</b> (= DB_DOTA).</li>
+  <li>En <b>"Grupo Compensable 1"</b> y <b>"Grupo Compensable 2"</b> → seleccionar las columnas que harán que tus registros compensen (valgan 0) dentro de la fuente. Para DOTA: <code>GTWT_MERCHANT_NUMBER</code> + <code>GTWC_AUTHORIZATION_CODE</code> + <code>ABS(MONTO)</code>.</li>
+  <li>Click "Guardar".</li>
+</ol>
+<p class="tx2"><b>Restricción oficial:</b> solo se pueden compensar registros en estado <b>"Unreconciled"</b>. Registros ya conciliados, ajustados o bloqueados NO compensan.</p>
 </div>
 
 <div class="barrida">
@@ -663,21 +688,21 @@ td b{color:var(--tx)}
 <h2 id="dashboard"><span class="num">14-16</span>Tableros</h2>
 
 <div class="card tip">
-<div class="card-h">📍 Cómo crear un tablero en Simetrik (patrón general)</div>
+<div class="card-h">📍 Cómo crear un tablero · path oficial (Help Center)</div>
+<p class="tx2">Necesitás permisos para visualizar, crear, editar o descargar tableros. Recomendado rol personalizado.</p>
 <ol>
-  <li>Sidebar → <b>"Tableros"</b> / "Dashboards" → <b>"+ Nuevo tablero"</b>.</li>
-  <li>Nombre + descripción breve.</li>
-  <li>Click <b>"+ Agregar visual"</b> · Simetrik te ofrece tipos: Tabla · Barra · Línea · Pie · KPI · Mapa de calor · Tablero combinado.</li>
-  <li>Para cada visual configurás:
+  <li>Menú → sección <b>"Tableros"</b>.</li>
+  <li>Crear nuevo tablero → nombre + descripción.</li>
+  <li>Agregar visuales · cada una con: fuente · dimensión · métrica · filtros opcionales.</li>
+  <li><b>Acciones disponibles desde la vista interactiva (oficial):</b>
     <ul>
-      <li><b>Fuente:</b> el resultado de la conciliación o la fuente normalizada.</li>
-      <li><b>Dimensión (eje X o categoría):</b> ej. <code>_BARRIDA_</code> o <code>GTWT_MERCHANT_NUMBER</code>.</li>
-      <li><b>Métrica (eje Y o valor):</b> ej. <code>SUMA(ABS(MONTO))</code> o <code>CONTAR(id)</code>.</li>
-      <li><b>Filtros</b> opcionales (por fecha, por barrida, por comercio).</li>
+      <li><b>Expandir y colapsar</b> cada visual para centrar atención.</li>
+      <li><b>Filtros predeterminados</b> de las fuentes A y B para segmentar resultados.</li>
+      <li><b>Descargar</b> en formato PDF o CSV.</li>
+      <li><b>Configuración del tablero</b> para añadir nuevos visuales o reordenar.</li>
     </ul>
   </li>
-  <li>Click "Aplicar" y la visual se renderiza · ajustá colores y orden.</li>
-  <li>Repetí para todas las visuales del tablero · guardá.</li>
+  <li>El orden por defecto en la lista general es por fecha de creación descendente (más recientes primero).</li>
 </ol>
 </div>
 
