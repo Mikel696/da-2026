@@ -220,6 +220,28 @@ td b{color:var(--tx)}
 <!-- ═══ NORMALIZACIONES DB DOTA ═══ -->
 <h2 id="dota"><span class="num">1-7</span>Normalización DB DOTA</h2>
 
+<div class="card tip">
+<div class="card-h">📍 Cómo crear una columna transformada en Simetrik (patrón general)</div>
+<p class="tx2">Este flujo aplica a TODOS los puntos 1-7 y 9-11. Una vez lo dominás, solo cambia la fórmula.</p>
+<ol>
+  <li>Abrí la fuente <code>DB_DOTA</code> en el workspace (sidebar → Fuentes / Sources → DB_DOTA).</li>
+  <li>Click en <b>"Transformaciones"</b> (botón arriba a la derecha · ícono ⚙️ o "Transform").</li>
+  <li>Click <b>"+ Nueva transformación"</b> → tipo <b>"Crear columna"</b> (o "Agregar columna calculada").</li>
+  <li>Te abre el editor de fórmula. Completá:
+    <ul>
+      <li><b>Nombre de la nueva columna:</b> el que pide el punto (ej: <code>CARD_NUMBER</code>).</li>
+      <li><b>Tipo de dato:</b> el que indica esta guía (Texto / Número / Fecha · ver columna "salida" de cada punto).</li>
+      <li><b>Fórmula:</b> pegá la fórmula Simetrik que está en este roadmap.</li>
+    </ul>
+  </li>
+  <li>Tip para escribir la fórmula: presioná <b>"="</b> y escribí el nombre de la función · Simetrik te autocompleta los parámetros. Para insertar una columna usá <b>"@"</b> o click en el panel lateral de columnas disponibles.</li>
+  <li>Click <b>"Validar"</b> / "Probar" · Simetrik te muestra una preview con 5-10 filas para verificar.</li>
+  <li>Si la preview es correcta → <b>"Aplicar"</b> / "Guardar".</li>
+  <li>Verificá en la tabla principal que la nueva columna apareció con datos.</li>
+</ol>
+<p class="tx2"><b>⚠ Orden importa:</b> aplicá los puntos 1-7 en orden numérico. El punto 4 (BRAND) depende del punto 1 (CARD_NUMBER) y el 7 (EXPECTED_PAYMENT_DATE) depende del 6.</p>
+</div>
+
 <h3>Punto 1 · CARD_NUMBER <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span> · 16 chars</span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula Simetrik (exacta)</div>
@@ -229,10 +251,17 @@ td b{color:var(--tx)}
   <span class="fn">RELLENAR</span>(<span class="col">CARD_FOUR_LAST_DIGITS</span>; 4; <span class="str">"0"</span>; <span class="str">"IZQUIERDA"</span>)
 )</pre>
 </div>
-<div class="card tip"><div class="card-h">💡 Best practice</div><ul>
-<li><b>Antes</b> de aplicar la fórmula: forzá tipo <span class="dtype dtype-texto">Texto</span> en CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS (vienen como Número con notación científica).</li>
-<li>El resultado SIEMPRE debe medir 16 chars · validá con <code>LARGO(CARD_NUMBER) = 16</code>.</li>
-</ul></div>
+<div class="card tip"><div class="card-h">💡 Best practice + pasos previos</div>
+<p class="tx2"><b>ANTES</b> de crear la transformación CARD_NUMBER, forzá tipo <span class="dtype dtype-texto">Texto</span> en CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS (vienen como Número con notación científica · romperían el LPAD).</p>
+<ol>
+  <li>En la fuente DB_DOTA, click derecho sobre el header de <code>CARD_SIX_FIRST_DIGITS</code> → "Dar formato a una columna".</li>
+  <li>En el dropdown "Tipo de dato" seleccioná <b>Texto</b>.</li>
+  <li>Click "Aplicar". Verificá en la preview que el número ahora se ve como string (sin "E+15" · sin comas).</li>
+  <li>Repetí el mismo proceso para <code>CARD_FOUR_LAST_DIGITS</code>.</li>
+  <li>Recién <b>después</b> creá la transformación CARD_NUMBER con la fórmula.</li>
+</ol>
+<p class="tx2"><b>Verificación final:</b> agregá una transformación auxiliar temporal <code>LARGO(CARD_NUMBER)</code> · todas las filas deben dar <b>16</b>. Si alguna da 15 o menos, los ceros a la izquierda no se rellenaron correctamente.</p>
+</div>
 
 <h3>Punto 2 · GTWC_AUTHORIZATION_CODE <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span></span></h3>
 <div class="card formula">
@@ -330,12 +359,46 @@ td b{color:var(--tx)}
 
 <!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
 <h2 id="paramet"><span class="num">8</span>Cruce con Parametría de Comercios</h2>
+
+<div class="card tip">
+<div class="card-h">📍 Paso a paso · cruce de tablas en Simetrik</div>
 <ol>
-  <li>Crear un <b>cruce de tablas</b> (no conciliación) entre DB_DOTA normalizada y Parametria_Comercio.</li>
-  <li>Llave de cruce: <code>DB_DOTA.GTWT_MERCHANT_NUMBER</code> ⟷ <code>Parametria.CODIGO_COMERCIO</code> (verificá el nombre real de la columna en el insumo).</li>
-  <li>Aplicar filtro <b>POST-cruce</b>: <code>Parametria.TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+  <li>Sidebar → <b>"Cruces"</b> / "Joins" / "Cruces de tablas" (NO es Conciliación · es una operación de enriquecimiento).</li>
+  <li>Click <b>"+ Nuevo cruce"</b>.</li>
+  <li>Configurá:
+    <ul>
+      <li><b>Tabla izquierda:</b> <code>DB_DOTA</code> (con los puntos 1-7 ya aplicados).</li>
+      <li><b>Tabla derecha:</b> <code>Parametria_Comercio</code>.</li>
+      <li><b>Tipo de cruce:</b> <code>LEFT JOIN</code> (mantenés todas las filas de DOTA · enriquecés con info de parametría).</li>
+    </ul>
+  </li>
+  <li>Definí la <b>llave de unión</b>:
+    <ul>
+      <li><b>Izquierda:</b> <code>DB_DOTA.GTWT_MERCHANT_NUMBER</code> (la que normalizaste en el punto 5).</li>
+      <li><b>Derecha:</b> <code>Parametria.CODIGO_COMERCIO</code> · verificá el nombre real abriendo el insumo Parametria_Comercio en una vista previa.</li>
+    </ul>
+  </li>
+  <li>Seleccioná qué columnas traer de Parametría: como mínimo <code>TIPO_COMERCIO</code> y cualquier otra útil para los tableros.</li>
+  <li>Click <b>"Validar"</b> · Simetrik te muestra una preview con N° de filas matched / unmatched.</li>
+  <li>Verificá: <b>el N° de filas matched debe ser similar al total de DB_DOTA</b>. Si quedan muchas unmatched, hay un problema con el GTWT_MERCHANT_NUMBER (probablemente espacios, ceros faltantes o mayúsculas).</li>
+  <li>Aplicar.</li>
 </ol>
-<div class="card warn"><div class="card-h">⚠ Trampa #2</div><p class="tx2">Si filtrás TIPO_COMERCIO ANTES de hacer la conciliación, no afecta. Si lo filtrás DESPUÉS del cruce, sí. Lo que NO debés hacer: filtrar TIPO_COMERCIO en la fuente DOTA antes del cruce — perdés datos.</p></div>
+</div>
+
+<div class="card tip">
+<div class="card-h">📍 Cómo filtrar TIPO_COMERCIO = "ESTANDAR" (post-cruce)</div>
+<ol>
+  <li>Sobre la tabla cruzada (resultado del paso anterior), click <b>"+ Nueva transformación"</b> → tipo <b>"Filtro"</b>.</li>
+  <li>Condición: <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+  <li>Validar y aplicar.</li>
+</ol>
+<p class="tx2">Esto deja solo los comercios estándar listos para la conciliación del punto 12. Los demás (CUOTA A CUOTA, etc.) quedan descartados para este caso.</p>
+</div>
+
+<div class="card warn">
+<div class="card-h">⚠ Trampa #2 · orden del filtro</div>
+<p class="tx2"><b>Hacé el filtro DESPUÉS del cruce, no antes.</b> Si filtrás TIPO_COMERCIO en la fuente DOTA antes del cruce, no podés porque DOTA no tiene esa columna · viene de la Parametría. El orden correcto es: <b>1)</b> normalizar DOTA (1-7) · <b>2)</b> cruzar con Parametría (este paso) · <b>3)</b> filtrar TIPO_COMERCIO = ESTANDAR.</p>
+</div>
 
 <!-- ═══ NORMALIZACIONES FD ═══ -->
 <h2 id="fd"><span class="num">9-11</span>Normalización Reporte FD</h2>
@@ -373,41 +436,143 @@ td b{color:var(--tx)}
 <h2 id="conc"><span class="num">12</span>Conciliación avanzada DOTA × FD</h2>
 <p class="tx2"><b>UNA sola conciliación avanzada con 5 barridas en orden</b>. Cada barrida recibe el pendiente de la anterior. Configurá las llaves en el editor visual de Simetrik, no por fórmula.</p>
 
-<div class="card warn"><div class="card-h">⚠ Restricciones obligatorias barridas 1 y 2</div>
+<div class="card tip">
+<div class="card-h">📍 Paso a paso · crear la conciliación avanzada</div>
+<ol>
+  <li>Sidebar → <b>"Conciliaciones"</b> → <b>"+ Nueva conciliación"</b>.</li>
+  <li>Tipo: <b>"Conciliación avanzada"</b> (NO la básica · necesitás el modo multi-barrida).</li>
+  <li>Nombre: <code>DOTA × FD · prueba</code> (algo identificable).</li>
+  <li>Configurá las <b>dos fuentes</b> que va a usar:
+    <ul>
+      <li><b>Fuente A:</b> el resultado del cruce DOTA × Parametría filtrado por TIPO_COMERCIO = ESTANDAR (paso 8).</li>
+      <li><b>Fuente B:</b> Reporte FD con sus normalizaciones aplicadas (puntos 9, 10, 11).</li>
+    </ul>
+  </li>
+  <li>Click <b>"+ Agregar barrida"</b> 5 veces y configurá cada una en orden (B1 → B5). Los detalles de cada barrida están más abajo.</li>
+  <li>Activá la opción <b>"Ejecutar barridas en cascada"</b> · cada barrida recibe el pendiente de la anterior.</li>
+</ol>
+</div>
+
+<div class="card warn"><div class="card-h">⚠ Restricciones obligatorias barridas 1 y 2 · DÓNDE ACTIVARLAS</div>
 <ul>
-  <li><b>Una transacción no debe cruzarse consigo misma</b> (Simetrik tiene checkbox "Excluir auto-cruce").</li>
-  <li><b>Mismo tipo de operación no cruza</b>: PAYMENT solo con REFUND. Agregá filtro <code>OP_A ≠ OP_B</code> en las llaves.</li>
-</ul></div>
+  <li><b>"Excluir auto-cruce"</b> · en la configuración de la barrida, sección "Restricciones" · checkbox "Una fila no se cruza consigo misma".</li>
+  <li><b>"Excluir mismo tipo de operación"</b> · agregá una condición extra en las llaves: <code>FUENTE_A.OP ≠ FUENTE_B.OP</code>. Esto fuerza que PAYMENT solo cruce con REFUND.</li>
+</ul>
+<p class="tx2">Si la UI de Simetrik no tiene checkbox, podés simularlo con una condición de filtro: <code>SI(FUENTE_A.OP = "PAYMENT"; FUENTE_B.OP = "REFUND"; FUENTE_B.OP = "PAYMENT")</code> como llave booleana.</p>
+</div>
 
 <div class="barrida">
 <div class="barrida-h"><span class="b-num">1</span>Compensación DOTA exacta</div>
-<p>Auto-cruce DOTA ↔ DOTA.</p>
+<p>Auto-cruce DOTA ↔ DOTA (la misma fuente a ambos lados).</p>
 <div class="barrida-keys"><b>Llaves:</b> <code>GTWT_MERCHANT_NUMBER</code> · <code>GTWC_AUTHORIZATION_CODE</code> · <code>ABS(MONTO)</code></div>
+<details style="margin-top:8px;font-size:12px;color:var(--t2)">
+<summary style="cursor:pointer;color:var(--ac);font-weight:600">📍 Cómo configurar B1 en Simetrik (click)</summary>
+<ol style="margin-top:6px">
+  <li>Click "+ Agregar barrida" → nombre <code>B1 · Compensación exacta</code>.</li>
+  <li>Fuente A: <code>DB_DOTA_normalizada</code> · Fuente B: <b>la misma</b> <code>DB_DOTA_normalizada</code>.</li>
+  <li>Llaves (botón "+ Agregar llave" 3 veces):
+    <ul>
+      <li><code>A.GTWT_MERCHANT_NUMBER</code> = <code>B.GTWT_MERCHANT_NUMBER</code></li>
+      <li><code>A.GTWC_AUTHORIZATION_CODE</code> = <code>B.GTWC_AUTHORIZATION_CODE</code></li>
+      <li><code>ABS(A.MONTO)</code> = <code>ABS(B.MONTO)</code> · usá la función ABS en el editor de llave</li>
+    </ul>
+  </li>
+  <li>Restricciones: marcá "Excluir auto-cruce" + agregá <code>A.OP ≠ B.OP</code>.</li>
+  <li>Validar · ver preview de cuántos pares cruzaron.</li>
+</ol>
+</details>
 </div>
 
 <div class="barrida">
 <div class="barrida-h"><span class="b-num">2</span>Compensación DOTA con tolerancia $5</div>
 <p>Mismas llaves que B1, pero el monto admite diferencia.</p>
 <div class="barrida-keys"><b>Llaves:</b> <code>GTWT_MERCHANT_NUMBER</code> · <code>GTWC_AUTHORIZATION_CODE</code> · <b>tolerancia monto = $5</b></div>
+<details style="margin-top:8px;font-size:12px;color:var(--t2)">
+<summary style="cursor:pointer;color:var(--ac);font-weight:600">📍 Cómo configurar la tolerancia $5</summary>
+<ol style="margin-top:6px">
+  <li>Click "+ Agregar barrida" → nombre <code>B2 · Compensación tolerancia $5</code>.</li>
+  <li>Repetí las 2 primeras llaves de B1 (comercio + auth) sin cambios.</li>
+  <li>Para la 3ª llave (monto), en lugar de igualdad estricta usá la opción <b>"Tolerancia numérica"</b>:
+    <ul>
+      <li>Columna A: <code>ABS(A.MONTO)</code></li>
+      <li>Operador: <b>"Diferencia absoluta ≤"</b></li>
+      <li>Columna B: <code>ABS(B.MONTO)</code></li>
+      <li>Tolerancia: <b>5</b></li>
+    </ul>
+  </li>
+  <li>Mismas restricciones que B1 (auto-cross + OP).</li>
+</ol>
+</details>
 </div>
 
 <div class="barrida">
 <div class="barrida-h"><span class="b-num">3</span>DOTA vs FD detalle exacto</div>
-<p>Cruce pendiente DOTA (tras B1+B2) vs FD detalle.</p>
+<p>Cruce pendiente DOTA (tras B1+B2) vs FD detalle. Es la más robusta · 5 llaves.</p>
 <div class="barrida-keys"><b>Llaves DOTA:</b> <code>GTWC_AUTHORIZATION_CODE</code> · <code>GTWT_MERCHANT_NUMBER</code> · <code>ABS(MONTO)</code> · <code>MOV_CREATION_DATE</code> · <code>CARD_NUMBER</code><br>
 <b>Llaves FD:</b> <code>AUTORIZACION</code> · <code>COMERCIO</code> · <code>IMPORTE</code> · <code>FPRES</code> · <code>NUM_TAR</code> (verificar nombres reales)</div>
+<details style="margin-top:8px;font-size:12px;color:var(--t2)">
+<summary style="cursor:pointer;color:var(--ac);font-weight:600">📍 Cómo configurar B3</summary>
+<ol style="margin-top:6px">
+  <li>"+ Agregar barrida" → <code>B3 · DOTA × FD detalle exacto</code>.</li>
+  <li>Fuente A: <code>DB_DOTA_normalizada</code> · Fuente B: <code>Reporte_FD_normalizado</code> (con LIQ_6, LIQ_4, DEADLINE aplicados).</li>
+  <li>Las 5 llaves con igualdad estricta:
+    <ul>
+      <li><code>A.GTWC_AUTHORIZATION_CODE</code> = <code>B.AUTORIZACION</code></li>
+      <li><code>A.GTWT_MERCHANT_NUMBER</code> = <code>B.COMERCIO</code></li>
+      <li><code>ABS(A.MONTO)</code> = <code>B.IMPORTE</code></li>
+      <li><code>A.MOV_CREATION_DATE</code> = <code>B.FPRES</code></li>
+      <li><code>A.CARD_NUMBER</code> = <code>B.NUM_TAR</code></li>
+    </ul>
+  </li>
+  <li>Ya NO necesitás restricciones de auto-cruce (son fuentes distintas).</li>
+  <li>Validar.</li>
+</ol>
+</details>
 </div>
 
 <div class="barrida">
 <div class="barrida-h"><span class="b-num">4</span>DOTA vs FD tolerancia +1 día direccional</div>
 <p>Mismas llaves que B3, pero <b>FD.fecha − DOTA.fecha ∈ {0, +1}</b> · FD nunca antes.</p>
 <div class="barrida-keys"><b>Tolerancia de fecha:</b> +1 día solo hacia adelante (configurar dirección en Simetrik)</div>
+<details style="margin-top:8px;font-size:12px;color:var(--t2)">
+<summary style="cursor:pointer;color:var(--ac);font-weight:600">📍 Cómo configurar tolerancia direccional</summary>
+<ol style="margin-top:6px">
+  <li>Duplicá la barrida B3 (botón "Duplicar barrida") → renombrá <code>B4 · DOTA × FD +1 día</code>.</li>
+  <li>Editá la llave de fecha:
+    <ul>
+      <li>Operador: <b>"Diferencia direccional"</b> o <b>"Tolerancia direccional de días"</b>.</li>
+      <li>Columna A: <code>A.MOV_CREATION_DATE</code></li>
+      <li>Columna B: <code>B.FPRES</code></li>
+      <li>Mínimo: <b>0</b> días · Máximo: <b>+1</b> día</li>
+    </ul>
+  </li>
+  <li>Esto fuerza <code>B.FPRES − A.MOV_CREATION_DATE ∈ {0, +1}</code>. FD nunca antes.</li>
+  <li>Si Simetrik no tiene "tolerancia direccional", agregá una llave booleana extra:
+    <code>DIFERENCIA_FECHA(B.FPRES; A.MOV_CREATION_DATE; "días") &gt;= 0 Y DIFERENCIA_FECHA(B.FPRES; A.MOV_CREATION_DATE; "días") &lt;= 1</code></li>
+</ol>
+</details>
 </div>
 
 <div class="barrida">
 <div class="barrida-h"><span class="b-num">5</span>DOTA vs Batch FD</div>
 <p>Sobre FD pendiente, agrupar por lote y cruzar la suma contra detalle DOTA pendiente.</p>
 <div class="barrida-keys"><b>Tipo de barrida:</b> batch (sum FD por lote = sum DOTA por comercio)</div>
+<details style="margin-top:8px;font-size:12px;color:var(--t2)">
+<summary style="cursor:pointer;color:var(--ac);font-weight:600">📍 Cómo configurar la barrida tipo batch</summary>
+<ol style="margin-top:6px">
+  <li>"+ Agregar barrida" → tipo <b>"Batch"</b> / "Agrupada" (no "Detalle"). Nombre <code>B5 · DOTA × Batch FD</code>.</li>
+  <li>Fuente A (detalle): <code>DB_DOTA_pendiente</code>.</li>
+  <li>Fuente B (batch): <code>Reporte_FD_pendiente</code> · agrupada por <code>BATCH_ID</code> (o equivalente · verificá el nombre real).</li>
+  <li>Configurá el <b>agrupador</b> de la fuente B: <code>BATCH_ID</code> + función de agregación <code>SUMA(IMPORTE)</code>.</li>
+  <li>Llave de cruce:
+    <ul>
+      <li>Detalle DOTA agrupado por <code>GTWT_MERCHANT_NUMBER</code> → <code>SUMA(ABS(MONTO))</code></li>
+      <li>= Batch FD <code>SUMA(IMPORTE)</code></li>
+    </ul>
+  </li>
+  <li>Si los nombres BATCH_ID, FECHA_BATCH, etc. son distintos, abrí el insumo Reporte_FD para confirmar antes de configurar.</li>
+</ol>
+</details>
 </div>
 
 <!-- ═══ CHECK DÉBITOS > 15 DÍAS ═══ -->
@@ -449,24 +614,72 @@ td b{color:var(--tx)}
 
 <!-- ═══ SALDO ═══ -->
 <h2 id="saldo"><span class="num">13</span>Saldo neto diario por comercio (DOTA)</h2>
-<p class="tx2">Usar el add-on de <b>Saldos persistentes</b>. Configurar:</p>
-<ul>
-  <li><b>Clave:</b> <code>GTWT_MERCHANT_NUMBER</code></li>
-  <li><b>Fecha:</b> <code>MOV_CREATION_DATE</code></li>
-  <li><b>Valor:</b> <code>MONTO</code> con signo (PAYMENT positivo, REFUND negativo). Si la fuente no trae signo aún:</li>
-</ul>
+<p class="tx2">Usar el add-on de <b>Saldos persistentes</b>. NO calcular esto manualmente con fórmulas · el evaluador busca uso del add-on.</p>
+
 <div class="card formula">
-<div class="card-h">MONTO_NETO</div>
+<div class="card-h">Pre-requisito · MONTO_NETO (columna con signo)</div>
+<p class="tx2">Si la fuente DOTA no trae el signo en el monto, creá una transformación previa:</p>
 <pre class="formula"><span class="fn">SI</span>(
   <span class="col">OP</span> = <span class="str">"PAYMENT"</span>;
   <span class="fn">ABS</span>(<span class="col">MONTO</span>);
   -1 * <span class="fn">ABS</span>(<span class="col">MONTO</span>)
 )</pre>
 </div>
-<p class="tx2">El add-on recurrirá: <code>Saldo[comercio, día] = Saldo[comercio, día-1] + Σ MONTO_NETO del día</code>. NO calcular esto manualmente con fórmulas — el evaluador busca uso del add-on.</p>
+
+<div class="card tip">
+<div class="card-h">📍 Paso a paso · activar y configurar Saldos Persistentes</div>
+<ol>
+  <li>Sidebar → <b>"Add-ons"</b> / "Extensiones" / "Saldos" · si no aparece, andá a Configuración del workspace → Add-ons → activá <b>"Saldos persistentes"</b>.</li>
+  <li>Una vez activo, sidebar → <b>"Saldos"</b> → <b>"+ Nuevo saldo"</b>.</li>
+  <li>Configurá:
+    <ul>
+      <li><b>Nombre:</b> <code>Saldo neto DOTA por comercio</code>.</li>
+      <li><b>Fuente:</b> <code>DB_DOTA_normalizada</code> (con MONTO_NETO ya calculado).</li>
+      <li><b>Llave / Agrupador:</b> <code>GTWT_MERCHANT_NUMBER</code> (= un saldo por comercio).</li>
+      <li><b>Columna de fecha:</b> <code>MOV_CREATION_DATE</code>.</li>
+      <li><b>Columna de valor:</b> <code>MONTO_NETO</code> (con signo).</li>
+      <li><b>Tipo de acumulación:</b> <b>"Acumulado diario"</b> / "Running balance" · saldo de hoy = saldo de ayer + movimientos del día.</li>
+    </ul>
+  </li>
+  <li>Click <b>"Validar"</b> · Simetrik calcula una preview para uno o dos comercios mostrando: <code>fecha · saldo_inicial · movimientos · saldo_final</code>.</li>
+  <li>Verificá manualmente con una calculadora un comercio simple (3-4 movimientos) que el cálculo cuadra.</li>
+  <li>Aplicar.</li>
+</ol>
+<p class="tx2"><b>Resultado:</b> tenés una tabla derivada <code>[comercio, fecha, saldo]</code> que se recalcula incrementalmente cada día. Esta es la fuente del tablero 16 si elegís "saldo acumulado vs línea base".</p>
+</div>
+
+<div class="card warn">
+<div class="card-h">⚠ Si Simetrik no tiene Saldos Persistentes</div>
+<p class="tx2">Alternativa con SQL/Window function en una transformación tipo "Cálculo SQL":</p>
+<pre class="formula"><span class="fn">SUM</span>(<span class="col">MONTO_NETO</span>) <span class="fn">OVER</span> (
+  <span class="fn">PARTITION BY</span> <span class="col">GTWT_MERCHANT_NUMBER</span>
+  <span class="fn">ORDER BY</span> <span class="col">MOV_CREATION_DATE</span>
+  <span class="fn">ROWS UNBOUNDED PRECEDING</span>
+)</pre>
+<p class="tx2">Esto funciona pero el evaluador prefiere el add-on (que es la forma "Simetrik" de hacerlo).</p>
+</div>
 
 <!-- ═══ TABLEROS ═══ -->
 <h2 id="dashboard"><span class="num">14-16</span>Tableros</h2>
+
+<div class="card tip">
+<div class="card-h">📍 Cómo crear un tablero en Simetrik (patrón general)</div>
+<ol>
+  <li>Sidebar → <b>"Tableros"</b> / "Dashboards" → <b>"+ Nuevo tablero"</b>.</li>
+  <li>Nombre + descripción breve.</li>
+  <li>Click <b>"+ Agregar visual"</b> · Simetrik te ofrece tipos: Tabla · Barra · Línea · Pie · KPI · Mapa de calor · Tablero combinado.</li>
+  <li>Para cada visual configurás:
+    <ul>
+      <li><b>Fuente:</b> el resultado de la conciliación o la fuente normalizada.</li>
+      <li><b>Dimensión (eje X o categoría):</b> ej. <code>_BARRIDA_</code> o <code>GTWT_MERCHANT_NUMBER</code>.</li>
+      <li><b>Métrica (eje Y o valor):</b> ej. <code>SUMA(ABS(MONTO))</code> o <code>CONTAR(id)</code>.</li>
+      <li><b>Filtros</b> opcionales (por fecha, por barrida, por comercio).</li>
+    </ul>
+  </li>
+  <li>Click "Aplicar" y la visual se renderiza · ajustá colores y orden.</li>
+  <li>Repetí para todas las visuales del tablero · guardá.</li>
+</ol>
+</div>
 
 <h3>14 · % de conciliación por barrida</h3>
 <table>
@@ -475,6 +688,15 @@ td b{color:var(--tx)}
 <tr><td><b># Partidas conciliadas</b></td><td><code>CONTAR(id)</code> donde <code>_BARRIDA_</code> = B1..B5</td></tr>
 <tr><td><b>% sobre total</b></td><td><code>conciliable / total_barrida * 100</code></td></tr>
 </table>
+<div class="card tip">
+<div class="card-h">📍 Setup recomendado del tablero 14</div>
+<ol>
+  <li>Crear tablero <code>14 · % Conciliación por barrida</code>.</li>
+  <li><b>Visual 1 (Tabla):</b> dimensión <code>_BARRIDA_</code> · 3 métricas: <code>CONTAR(id)</code>, <code>SUMA(ABS(MONTO))</code>, <code>SUMA(ABS(MONTO))/SUMA_TOTAL*100</code>.</li>
+  <li><b>Visual 2 (Barra horizontal):</b> dimensión <code>_BARRIDA_</code> · métrica <code>CONTAR(id)</code> · ordená descendente.</li>
+  <li><b>Filtros del tablero:</b> rango de fecha (default: período del caso) + opcional comercio.</li>
+</ol>
+</div>
 
 <h3>15 · KPI global</h3>
 <ul>
@@ -482,14 +704,37 @@ td b{color:var(--tx)}
   <li><b>Pendientes</b> = filas DOTA con <code>_BARRIDA_</code> = NULL al cerrar B5.</li>
   <li><b>% eficiencia</b> = conciliadas / total DOTA × 100.</li>
 </ul>
+<div class="card tip">
+<div class="card-h">📍 Setup del tablero 15</div>
+<ol>
+  <li>Crear tablero <code>15 · KPI global DOTA</code>.</li>
+  <li>3 visuales tipo <b>"KPI"</b> (cada uno muestra un número grande):
+    <ul>
+      <li><b>KPI 1:</b> <code>CONTAR_SI(_BARRIDA_ &lt;&gt; NULL)</code> → "Conciliadas".</li>
+      <li><b>KPI 2:</b> <code>CONTAR_SI(_BARRIDA_ = NULL)</code> → "Pendientes".</li>
+      <li><b>KPI 3:</b> <code>KPI1 / (KPI1 + KPI2) * 100</code> → "% eficiencia".</li>
+    </ul>
+  </li>
+  <li>Verificación: <b>KPI 15 (conciliadas) debe ser igual a SUMA de #partidas del tablero 14</b>. Si no cuadra, hay error en alguna barrida.</li>
+</ol>
+</div>
 
 <h3>16 · Tablero adicional (libre · 4 ideas con justificación)</h3>
 <ol>
-  <li><b>Top 10 comercios con mayor pendiente</b> · <i>foco operativo: dónde mirar primero</i>.</li>
-  <li><b>Heatmap compensaciones &gt;15 días por adquirente</b> · <i>detecta patrones de SLA tardío en un emisor específico</i>.</li>
-  <li><b>% pendientes por motivo</b> (sin auth / sin PAN match / fuera de SLA) · <i>diagnóstico de la causa raíz del residuo</i>.</li>
-  <li><b>Saldo acumulado vs línea base mensual</b> · <i>desviaciones operativas del comercio</i>.</li>
+  <li><b>Top 10 comercios con mayor pendiente</b> · <i>foco operativo: dónde mirar primero</i>.
+    <details style="margin-top:4px;font-size:12px"><summary style="cursor:pointer;color:var(--ac)">📍 Setup</summary>
+    Visual tipo Tabla · dimensión <code>GTWT_MERCHANT_NUMBER</code> · métrica <code>SUMA(ABS(MONTO))</code> filtrado por <code>_BARRIDA_ = NULL</code> · ordenado DESC · limit 10.
+    </details>
+  </li>
+  <li><b>Heatmap compensaciones &gt;15 días por adquirente</b> · <i>detecta patrones de SLA tardío</i>.
+    <details style="margin-top:4px;font-size:12px"><summary style="cursor:pointer;color:var(--ac)">📍 Setup</summary>
+    Visual tipo Mapa de calor · eje X = mes · eje Y = <code>GTWT_ACQUIRER</code> · valor = <code>CONTAR_SI(FECHA_FINAL - FECHA_INICIO &gt; 15 Y _BARRIDA_ ∈ {B1,B2})</code>.
+    </details>
+  </li>
+  <li><b>% pendientes por motivo</b> (sin auth / sin PAN match / fuera de SLA) · <i>diagnóstico de causa raíz</i>.</li>
+  <li><b>Saldo acumulado vs línea base mensual</b> · <i>desviaciones operativas · usa el saldo del punto 13</i>.</li>
 </ol>
+<p class="tx2"><b>Elegí 1 (no los 4)</b> · justificá brevemente por qué ese aporta más valor al cliente operativamente.</p>
 
 <!-- ═══ BEST PRACTICES ═══ -->
 <h2 id="bp"><span class="num">🎯</span>Best practices · qué va a revisar el evaluador</h2>
