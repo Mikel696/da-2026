@@ -970,6 +970,449 @@ El sistema detiene la inserción de registros no interpretables para evitar dato
 
 ---
 
+# 🗂 COBERTURA COMPLETA v3.0 · 49 ARTÍCULOS ADICIONALES
+
+> Scraped 2026-05-31 vía Chrome MCP + API Zendesk. Paráfrasis propia. Secciones excluidas: Notificaciones (65 release notes), Incidencias (14 tickets), changelogs de versión (5).
+
+---
+
+## 1.1 SOLUCIONES / PLANTILLAS
+
+### Simetrik como plantilla en tu portal
+**Fuente:** hc/es-419/articles/49889581908755
+Permite incrustar las funcionalidades de Simetrik (conciliación, control, análisis) dentro del portal web del cliente. El cliente final no necesita acceso directo a Simetrik.
+- **Casos de uso:** Fintechs/bancos que ofrecen reconciliación como servicio a sus propios clientes.
+- **Flujo:** Automatizar → Configuraciones rápidas → Catálogo de plantillas → seleccionar plantilla → cargar archivos → el sistema genera configuración en estado Borrador.
+
+### Ingesta de datos en plantillas
+**Fuente:** hc/es-419/articles/49776960623379
+Carga de archivos en una plantilla ya configurada.
+- **Flujo:** Automatizar → Configuraciones rápidas → Catálogo de plantillas → seleccionar plantilla → arrastrar archivos al área de carga → clic "Subir archivos".
+
+### Vista de detalles en plantillas
+**Fuente:** hc/es-419/articles/49776659353747
+Vista que muestra el resultado de la conciliación dentro de una plantilla, incluyendo registros conciliados, pendientes y errores.
+
+### Configuración de plantillas
+**Fuente:** hc/es-419/articles/49776572413075
+Define las reglas, fuentes y barridas de una plantilla antes de habilitarla para clientes.
+- **Path:** Automatizar → Configuraciones rápidas → Catálogo de plantillas → seleccionar → configurar.
+
+### Controles en plantillas
+**Fuente:** hc/es-419/articles/49757486170771
+Monitoreo y auditoría de controles dentro de una plantilla implementada.
+- **Flujo auditoría:** Pestaña "Controles" → tarjeta del control → menú de acciones → "Auditoría de fuentes" → analizar estado, fecha, usuario.
+- **IA:** Simetrik genera conclusiones estratégicas automáticas sobre la salud de los datos.
+
+### Réplicas
+**Fuente:** hc/es-419/articles/45237822844179
+Crea una copia de un workspace completo (configuración + recursos + conciliaciones) para reutilizar en otro cliente o ambiente.
+- **Uso típico:** Implementar el mismo proceso en múltiples clientes sin configurar desde cero.
+- **Path:** Automatizar → Configuraciones rápidas → Réplicas.
+
+### Catálogo de Plantillas
+**Fuente:** hc/es-419/articles/45199386482323
+Librería de plantillas prediseñadas por Simetrik para casos de uso comunes (Visa, Mastercard, etc.).
+- **Path:** Automatizar → Configuraciones rápidas → Catálogo de plantillas.
+- **Flujo:** Seleccionar plantilla → cargar archivos de muestra → sistema genera configuración borrador → revisar → activar.
+
+---
+
+## 1.3 RECURSOS Y CONCILIACIONES — Artículos adicionales
+
+### Directorio de clientes
+**Fuente:** hc/es-419/articles/49890110825363
+Administración centralizada de clientes finales en ecosistema híbrido (Plantilla en tu portal + Reportes en Simetrik).
+- **Tipos de cliente:** PRO (usan Simetrik directamente) y Box (usan el portal del proveedor).
+- **Flujo PRO:** Directorio de Clientes → pestaña Simetrik Pro → "Registrar Cliente" → nombre → Guardar. Estado inicial: "Configuración incompleta" hasta asociar al menos una división.
+- **Flujo Box:** Directorio → pestaña "In a Box" → "Registrar" → completar nombre y configuración.
+- **API disponible** para registrar clientes programáticamente.
+
+### Columnas de duplicados y unicidad
+**Fuente:** hc/es-419/articles/49807855497107
+Detectan registros repetidos o validan integridad de identificadores.
+- **Columna de duplicados numérica:** Detecta repetición de valores numéricos en una columna.
+- **Columna de unicidad:** Verifica que cada valor sea único (ej: número de transacción).
+- **Flujo:** Vista tabla del recurso → "Crear columna" → seleccionar tipo (Duplicados o Unicidad) → elegir columna a evaluar → guardar.
+- **Uso DOTA:** Detectar autorizaciones duplicadas en DB_DOTA antes de conciliar.
+
+### Columnas de menú desplegable y comentarios
+**Fuente:** hc/es-419/articles/49768210596883
+- **Menú desplegable:** Clasificación manual de registros con etiquetas predefinidas. Requiere crear etiquetas primero en la plataforma.
+- **Comentarios:** Notas o justificaciones manuales sobre transacciones. Visibles en audit trail.
+- **Flujo menú:** Vista tabla → "Crear columna" → "Menú desplegable" → seleccionar etiquetas creadas.
+- **Flujo comentarios:** Vista tabla → "Crear columna" → "Comentario" → guardar.
+
+### BuscarV (columna de enriquecimiento)
+**Fuente:** hc/es-419/articles/44794712671763 (sección Hoja de cálculo)
+Equivalente a VLOOKUP de Excel. Enriquece una fuente con columnas de otra fuente usando condiciones de cruce. **Esta es la función oficial para el Paso 8 del caso DOTA** (traer TIPO_COMERCIO desde Parametria_Comercio).
+
+**Flujo oficial:**
+1. Vista tabla del recurso → ícono "Crear BuscarV".
+2. Ventana configuración: nombre de columna + recurso fuente a consultar.
+3. Seleccionar columnas a traer.
+4. Definir condiciones de cruce (columna A = columna B). Se pueden usar múltiples condiciones.
+5. ⚠ Si tipos de dato no coinciden → advertencia (se puede guardar de todos modos, pero ajustar formato para precisión).
+6. "Guardar y ver tabla" → columnas aparecen con ícono BuscarV.
+
+**Prerrequisitos:** Al menos dos fuentes creadas. Rol con permisos de edición.
+**Restricción:** Si los valores de la llave tienen espacios, ceros faltantes o diferencia de mayúsculas/minúsculas, el cruce devuelve vacío.
+
+### Vista de recursos
+**Fuente:** hc/es-419/articles/49010089276179
+Pantalla principal donde se listan y gestionan todos los recursos del workspace (Fuentes, Uniones, Conciliaciones, Agrupaciones).
+- **Acciones disponibles:** Crear recurso, filtrar por tipo/estado, mover a carpeta, archivar, ver tabla.
+- **Estados de recursos:** Listo, Procesando, Error, Archivo vacío, Archivado.
+
+### Fuentes aperturadas
+**Fuente:** hc/es-419/articles/44680248550803
+Divide una fuente en múltiples sub-registros usando una columna numérica como criterio de apertura.
+- **Caso de uso:** Una fila con "cantidad=3" se expande a 3 filas individuales para conciliar detalle vs total.
+- **Flujo:** Vista recursos → "Crear recurso" → "Fuente aperturada" → nombre → seleccionar columnas → campo "Criterios de apertura" (columna numérica) → guardar.
+- **Restricción:** La columna de transformación en fuente aperturada debe ser de formato **entero**.
+
+### Desencadenante de conciliaciones
+**Fuente:** hc/es-419/articles/44403058338835
+Recurso que activa la ejecución automática de una conciliación cuando recibe nuevos datos.
+- **Flujo:** Configuración de la conciliación → botón "Recurso desencadenante" → seleccionar recurso.
+- **Default:** Sistema preselecciona Recurso B si no es de tipo pasivo. Se puede cambiar.
+- **Tipos:** Recurso activo (Fuente, Unión) o Horario programado (cron).
+- **Restricción:** Recursos pasivos (Fotos, Agrupaciones acumulativas) no pueden ser desencadenantes.
+
+### Intercambio de recursos
+**Fuente:** hc/es-419/articles/48809605392915
+Permite reemplazar un recurso (Fuente, Unión) por otro en las configuraciones donde está siendo usado, sin reconfigurar manualmente cada conciliación.
+- **Flujo:** Vista del recurso → Acciones → "Intercambiar recurso" → seleccionar nuevo recurso → confirmar.
+- **Uso:** Cambiar de fuente de prueba a producción, o actualizar una integración sin romper configuraciones.
+
+### Accesos por recursos
+**Fuente:** hc/es-419/articles/46805688571283
+Control granular de qué usuarios o roles pueden ver/editar recursos específicos.
+- **Flujo:** Vista del recurso → Configuración → "Accesos" → agregar usuario/rol → definir permiso (Ver / Editar / Administrar).
+- **Uso:** Restringir fuentes confidenciales a solo el equipo de finanzas.
+
+### Fuentes de terceros
+**Fuente:** hc/es-419/articles/49064919197203
+Permite que un cliente externo (tercero) comparta una fuente de datos directamente en tu workspace Simetrik.
+- **Flujo (como receptor):** Vista recursos → "Crear recurso" → "Fuente de tercero" → ingresar llave de acceso proporcionada por el tercero (máx. 3 intentos; si se agota, contactar soporte).
+- **Uso:** Recibir datos del procesador de pagos o del banco directamente sin descarga manual.
+
+### Gestión de pendientes en plantillas
+**Fuente:** hc/es-419/articles/49786289206035
+Vista de registros sin conciliar dentro de una plantilla.
+- **Flujo:** Automatizar → Catálogo de Soluciones → seleccionar plantilla → pestaña "Pendientes" en barra superior.
+- **Filtros:** Por control (ej: Demo Clearing, Disputes, Clearing).
+
+---
+
+## 1.5 ANÁLISIS — Artículos adicionales
+
+### Sección de tableros
+**Fuente:** hc/es-419/articles/45653864965523
+Vista general de todos los tableros del workspace, organizada por carpetas.
+- **Acciones:** Crear tablero, buscar, filtrar, ordenar, organizar en carpetas.
+- **Orden default:** Fecha de creación descendente (más reciente primero).
+
+### Detalle de Segmentos en KPI de Conciliaciones Avanzadas
+**Fuente:** hc/es-419/articles/45065763919379
+Visual especializado que muestra resultados desglosados por segmento en conciliaciones avanzadas.
+- **Flujo:** Acceder al visual de KPI → resumen global (totales por estado) → tabla de detalle (fila = segmento, valores + porcentajes) → selector para ver resultados por barrida específica.
+- **Uso DOTA:** Ver % conciliado en cada una de las 5 barridas de DOTA × FD.
+
+### Estado de conciliación encadenada
+**Fuente:** hc/es-419/articles/44434867273235
+Visual de tablero que muestra el flujo completo de una cadena de conciliaciones (A→B→C) con métricas por etapa.
+- **Flujo:** Tablero existente → modo configuración → "Visuales" → "Estado de conciliación encadenado" → "Añadir" → asignar nombre (5-100 chars) → seleccionar conciliaciones de la cadena.
+- **Uso DOTA:** Visualizar el flujo DOTA → FD → Liquidación con % conciliado en cada etapa.
+
+### KPI Individual
+**Fuente:** hc/es-419/articles/44670219304339
+Visual de número grande para mostrar una métrica clave (CONTAR, SUMA, %, etc.).
+- **Flujo:** Tablero → configuración → Visuales → "KPI Individual" → seleccionar fuente → métrica → filtros opcionales.
+- **Límite:** Cuenta como 1 elemento del cupo de 21 por tablero.
+- **Uso DOTA:** Tablero 15 — KPI Conciliadas / KPI Pendientes / KPI % eficiencia.
+
+### Gráficos
+**Fuente:** hc/es-419/articles/44435028764691
+Visualizaciones de barras, líneas, torta para análisis de tendencias en tableros.
+- **Tipos disponibles:** Barra horizontal, Barra vertical, Línea, Área, Torta, Mapa de calor.
+- **Flujo:** Tablero → configuración → "Gráfico" → tipo → fuente → dimensión (eje X) → métrica (eje Y) → filtros.
+- **Uso DOTA:** Tablero 14 — Barra horizontal de % conciliación por barrida.
+
+### Tabla Dinámica
+**Fuente:** hc/es-419/articles/44434803544723
+Pivot table dentro de un tablero: agrupa, agrega y cruza dimensiones.
+- **Flujo:** Tablero → configuración → "Tabla dinámica" → seleccionar fuente → filas (dimensión 1) → columnas (dimensión 2) → valores (función: SUMA/CONTAR/AVG) → filtros.
+- **Uso DOTA:** Tablero 13 — Saldo neto diario (filas = fecha, columnas = tipo, valores = SUMA(MONTO_NETO)).
+
+---
+
+## 2. GESTIONAR — Artículos detallados
+
+### Conciliaciones de cuentas (Controles Contables)
+**Fuente:** hc/es-419/articles/46206083418003
+Módulo para conciliar saldos contables entre el sistema interno y el banco/ERP.
+- **Path:** Gestionar → Controles Contables → Conciliaciones de cuentas.
+- **Flujo:** Crear conciliación de cuenta → seleccionar cuenta contable → período → fuente de datos → configurar reglas → ejecutar → revisar diferencias.
+
+### Períodos contables
+**Fuente:** hc/es-419/articles/45846826360979
+Gestión de períodos de cierre contable (apertura, cierre, reapertura).
+- **Path:** Gestionar → Controles Contables → Períodos contables.
+- **Estados:** Abierto, Cerrado, Reabierto.
+- **Flujo cierre:** Seleccionar período → revisar que todas las cuentas estén conciliadas → "Cerrar período" → confirmar.
+
+### Asientos contables
+**Fuente:** hc/es-419/articles/44434022979859
+Vista centralizada para monitorear generación y contabilización de asientos producidos por automatizaciones.
+- **Path:** Gestionar → Controles Contables → Asientos contables.
+- **Flujo:** Revisar estado (Pendiente / Generado / Contabilizado / Error) → ver detalle → re-intentar fallidos.
+- **Vista de control:** `evento → asiento → ERP`.
+
+### Gestiones manuales en conciliaciones
+**Fuente:** hc/es-419/articles/48045223468051
+Permite conciliar manualmente partidas que no cruzaron en las barridas automáticas.
+- **Path:** Gestionar → Controles operativos → conciliación específica → pestaña "Pendientes" → seleccionar registros → "Conciliar manualmente".
+- **Restricción:** Solo registros en estado "Unreconciled". Requiere columnas numéricas o enteras para validación de monto.
+- **Tolerancia manual:** Si está configurada, el sistema bloquea cruces manuales que excedan el umbral.
+
+### Buscador de registros
+**Fuente:** hc/es-419/articles/44721414912403
+Búsqueda cross-recurso de un registro específico a lo largo de toda la cadena de conciliación.
+- **Path:** Gestionar → Controles operativos → Buscador de registros.
+- **Flujo:** "Nueva configuración" → nombre → fuente principal → columna de búsqueda → hasta 5 recursos descendentes → columna de búsqueda para cada uno → guardar → ejecutar búsqueda.
+- **Uso DOTA:** Rastrear una transacción específica por PAN o AUTH desde DOTA hasta FD.
+
+### Alarmas
+**Fuente:** hc/es-419/articles/44741094212883
+Notificaciones automáticas cuando un monitor de conciliación supera un umbral definido.
+- **Path:** Gestionar → Hallazgos → Alarmas.
+- **Flujo:** "Crear alarma" → nombre → tipo de alarma → monitor de conciliaciones → configurar umbral (% pendientes, monto, tiempo) → definir destinatarios → guardar.
+- **Tipos de alarma:** Por % de pendientes, por monto acumulado, por tiempo sin ejecutar.
+
+---
+
+## 3. AUDITAR — Detalle adicional
+
+### Fotos (snapshots)
+**Fuente:** hc/es-419/articles/44890465841939
+Captura del estado exacto de un recurso en un momento dado. Congela los datos para auditoría.
+- **Flujo:** Vista del recurso → Acciones → "Crear foto" → nombre + descripción → guardar.
+- **Uso:** Evidencia de cierre de mes, punto de control antes de cambios masivos.
+- **Restricción:** La foto no se actualiza automáticamente — es un snapshot estático.
+
+### Historial de actividad
+**Fuente:** hc/es-419/articles/44890320273043
+Log inmutable de todas las acciones realizadas en el workspace.
+- **Path:** Auditar → Historial de actividad.
+- **Contenido:** Usuario, acción, recurso afectado, timestamp.
+- **Filtros:** Por usuario, rango de fechas, tipo de acción.
+- **Uso DOTA:** Auditar quién configuró qué barrida y cuándo.
+
+---
+
+## 4. HERRAMIENTAS
+
+### Consola de Desarrollo
+**Fuente:** hc/es-419/articles/49786424821907
+Herramienta técnica para debuggear integraciones, ver logs de ingesta y diagnosticar errores de parseo.
+- **Path:** Herramientas → Consola de Desarrollo.
+- **Contenido:** Logs en tiempo real de cada archivo procesado, errores por columna, warnings de tipo de dato.
+- **Uso:** Diagnosticar por qué un archivo TXT no se ingesta correctamente.
+
+### Solicitudes de colaboración
+**Fuente:** hc/es-419/articles/49755281177491
+Gestión de invitaciones para que terceros (auditores, clientes) accedan a recursos específicos.
+- **Path:** Herramientas → Solicitudes de colaboración.
+- **Flujo:** Nueva solicitud → seleccionar recurso → definir nivel de acceso → enviar invitación → el destinatario acepta vía email.
+
+### Central de descargas
+**Fuente:** hc/es-419/articles/44776643702163
+Centro de descarga de reportes, exportaciones y archivos generados por el workspace.
+- **Path:** Herramientas → Central de descargas.
+- **Contenido:** Exportaciones CSV/Excel de recursos, reportes de tableros PDF, archivos de asientos contables.
+- **Estados:** En proceso, Listo para descargar, Expirado (se eliminan automáticamente tras N días).
+
+### Papelera
+**Fuente:** hc/es-419/articles/44680112108691
+Recursos eliminados que aún pueden restaurarse. Retención: **30 días** antes de eliminación definitiva.
+- **Path:** Herramientas → Papelera.
+- **Flujo restaurar:** Papelera → seleccionar recurso → "Restaurar" → aparece en el estado original.
+- **Flujo eliminar definitivo:** Papelera → seleccionar → "Eliminar permanentemente" (irreversible).
+
+### Procesos
+**Fuente:** hc/es-419/articles/44673313631379
+Monitor de todos los procesos en curso o históricos del workspace (ejecuciones de conciliaciones, ingestas, exportaciones).
+- **Path:** Herramientas → Procesos.
+- **Campos:** Estado, fecha inicio, duración, usuario que ejecutó.
+- **Filtros:** Por palabra clave, estado, rango de fechas.
+- **Uso:** Verificar que la ejecución de una conciliación terminó correctamente o diagnosticar timeouts.
+
+### Mapas
+**Fuente:** hc/es-419/articles/44448962638099
+Visualización gráfica del flujo de datos entre recursos del workspace (Fuentes → Uniones → Conciliaciones → Agrupaciones).
+- **Path:** Herramientas → Mapas.
+- **Uso:** Entender dependencias antes de eliminar/modificar un recurso.
+
+---
+
+## 5. CUENTA Y HERRAMIENTAS — Admin
+
+### Doble Factor de Autenticación (2FA)
+**Fuente:** hc/es-419/articles/45444052459027
+Capa extra de seguridad al iniciar sesión en Simetrik.
+- **Flujo activación:** Configuración de cuenta → Seguridad → "Activar 2FA" → escanear QR con app autenticadora (Google Authenticator / Authy) → ingresar código de verificación → guardar.
+- **Recovery:** Guardar los códigos de respaldo generados al activar.
+
+### Administración de cuentas
+**Fuente:** hc/es-419/articles/48673976962195
+Gestión de usuarios, roles y permisos del workspace.
+- **Roles estándar:** Administrador, Supervisor, Constructor, Editor, Operador, Auditor.
+- **Flujo agregar usuario:** Administración → Usuarios → "Invitar usuario" → email → asignar rol → enviar.
+- **Flujo crear rol personalizado:** Administración → Roles → "Nuevo rol" → seleccionar permisos granulares → guardar.
+
+### Accesos Directos
+**Fuente:** hc/es-419/articles/44446253250707
+Atajos de teclado y navegación rápida dentro de Simetrik.
+- **Uso:** Navegar entre recursos frecuentes sin usar el menú lateral.
+- **Path:** Configuración de cuenta → Accesos directos.
+
+### Cómo crear un ticket de soporte
+**Fuente:** hc/es-419/articles/45085508903187
+- **Path:** Icono "?" → Soporte → seleccionar tipo (Soporte general / Soporte integraciones / Nueva integración) → completar campos → Enviar.
+- **Confirmación:** Email con número de caso generado automáticamente.
+
+---
+
+## 6. CONTABILIDAD — Artículos adicionales
+
+### Gestión de cuentas contables
+**Fuente:** hc/es-419/articles/49778894369171
+Administración del catálogo de cuentas contables que Simetrik usa para generar asientos.
+- **Path:** Contabilidad → Gestión de cuentas.
+- **Flujo:** Crear cuenta → código + nombre + tipo (activo/pasivo/ingreso/gasto) → asociar a recursos de conciliación.
+
+### Automatizaciones contables
+**Fuente:** hc/es-419/articles/49755523836691
+Reglas que generan asientos contables automáticamente cuando una transacción se concilia.
+- **Flujo:** Contabilidad → Automatizaciones → "Nueva automatización" → seleccionar conciliación → definir evento desencadenante (conciliado/desconciliado) → mapear columnas a cuenta débito/crédito → guardar.
+- **Resultado:** Cada conciliación genera asiento automático en el ERP conectado.
+
+### Estructuras ERP personalizadas
+**Fuente:** hc/es-419/articles/46806274154643
+Mapeo personalizado entre el modelo de datos de Simetrik y el formato de asientos que espera el ERP del cliente.
+- **Flujo:** Contabilidad → Estructuras ERP → "Nueva estructura" → definir campos requeridos por el ERP → mapear columnas de Simetrik → guardar.
+
+### Configuración de cierre contable
+**Fuente:** hc/es-419/articles/45914547410963
+Proceso de cierre de período contable en Simetrik, verificando que todas las cuentas cuadren.
+- **Flujo:** Contabilidad → Configuración de cierre → seleccionar período → revisar checklist de cuentas → "Cerrar período" → confirmar.
+- **Post-cierre:** No se pueden modificar transacciones del período cerrado.
+
+### Conexiones ERP
+**Fuente:** hc/es-419/articles/44436076646931
+Integración técnica entre Simetrik y el ERP del cliente para envío automático de asientos.
+- **ERPs soportados:** SAP, Oracle, Microsoft Dynamics, otros vía API REST.
+- **Flujo:** Contabilidad → Conexiones ERP → "Nueva conexión" → seleccionar ERP → credenciales + URL → test de conexión → guardar.
+- **IP estática Simetrik:** `3.15.118.236` — debe estar en whitelist del ERP del cliente.
+
+---
+
+## 7. REQUISITOS TÉCNICOS
+
+### Requisitos de Conectividad
+**Fuente:** hc/es-419/articles/38526954384275
+Requerimientos de red para que Simetrik se conecte con sistemas del cliente (SFTP, ERP, APIs).
+- Simetrik usa IP estática `3.15.118.236` para tráfico saliente.
+- El cliente debe agregar esta IP al whitelist de su firewall / reglas de tráfico entrante.
+
+### Configuración de IP para Tráfico Entrante al ERP
+**Fuente:** hc/es-419/articles/38527139706771
+- IP estática Simetrik: `3.15.118.236`
+- Por retrocompatibilidad, mantener también la IP anterior durante la transición.
+
+---
+
+# 📊 ÍNDICE COMPLETO DE ARTÍCULOS CUBIERTOS (v3.0)
+
+| # | Título | ID | Sección |
+|---|---|---|---|
+| 1 | Tipos de columnas | 44674432937875 | Recursos y conciliaciones |
+| 2 | Columnas de transformación, vencimiento y fecha hoy | 49768158612243 | Recursos y conciliaciones |
+| 3 | Fuentes | 44449344929939 | Recursos y conciliaciones |
+| 4 | Uniones de fuentes | 44449461182995 | Recursos y conciliaciones |
+| 5 | Configuración de cruce | 44673314309651 | Recursos y conciliaciones |
+| 6 | Conciliación estándar | 44586931880979 | Recursos y conciliaciones |
+| 7 | Conciliaciones avanzadas | 44672397687059 | Recursos y conciliaciones |
+| 8 | Estándar vs Avanzada | 44587462022419 | Recursos y conciliaciones |
+| 9 | Optimización: columnas, programación, KPIs | 44586517916179 | Recursos y conciliaciones |
+| 10 | Conciliación encadenada | 44434453864083 | Recursos y conciliaciones |
+| 11 | Agrupaciones | 44680591190803 | Recursos y conciliaciones |
+| 12 | Eliminar registros | 44446540480787 | Recursos y conciliaciones |
+| 13 | Hoja de cálculo | 44794712671763 | Recursos y conciliaciones |
+| 14 | Columnas del sistema | 49768148086291 | Recursos y conciliaciones |
+| 15 | Directorio de clientes | 49890110825363 | Recursos y conciliaciones |
+| 16 | Columnas de duplicados y unicidad | 49807855497107 | Recursos y conciliaciones |
+| 17 | Columnas de menú desplegable y comentarios | 49768210596883 | Recursos y conciliaciones |
+| 18 | Vista de recursos | 49010089276179 | Recursos y conciliaciones |
+| 19 | Fuentes aperturadas | 44680248550803 | Recursos y conciliaciones |
+| 20 | Desencadenante de conciliaciones | 44403058338835 | Recursos y conciliaciones |
+| 21 | Intercambio de recursos | 48809605392915 | Recursos y conciliaciones |
+| 22 | Accesos por recursos | 46805688571283 | Recursos y conciliaciones |
+| 23 | Fuentes de terceros | 49064919197203 | Recursos y conciliaciones |
+| 24 | Gestión de pendientes en plantillas | 49786289206035 | Recursos y conciliaciones |
+| 25 | Parsers | 44721497395603 | Integraciones |
+| 26 | Smart Parsers | 44335599648147 | Integraciones |
+| 27 | Repositorios | 44435294197267 | Integraciones |
+| 28 | Conexiones | 44795159686547 | Integraciones |
+| 29 | Tableros | 45657122653715 | Análisis |
+| 30 | Estado de conciliación estándar | 44890465841939 | Análisis |
+| 31 | Estado de conciliación avanzada | 44890320273043 | Análisis |
+| 32 | Monitores | 44675781844755 | Análisis |
+| 33 | Tabla Personalizada | 44671803737235 | Análisis |
+| 34 | Tabla Dinámica | 44434803544723 | Análisis |
+| 35 | KPI Individual | 44670219304339 | Análisis |
+| 36 | Gráficos | 44435028764691 | Análisis |
+| 37 | Combinaciones | 44335174944275 | Análisis |
+| 38 | Sección de tableros | 45653864965523 | Análisis |
+| 39 | Detalle Segmentos KPI Avanzadas | 45065763919379 | Análisis |
+| 40 | Estado conciliación encadenada | 44434867273235 | Análisis |
+| 41 | Gestión de cuentas contables | 49778894369171 | Contabilidad |
+| 42 | Automatizaciones contables | 49755523836691 | Contabilidad |
+| 43 | Estructuras ERP personalizadas | 46806274154643 | Contabilidad |
+| 44 | Configuración de cierre contable | 45914547410963 | Contabilidad |
+| 45 | Conexiones ERP | 44436076646931 | Contabilidad |
+| 46 | Conciliaciones de cuentas | 46206083418003 | Gestionar |
+| 47 | Períodos contables | 45846826360979 | Gestionar |
+| 48 | Asientos contables | 44434022979859 | Gestionar |
+| 49 | Gestiones manuales | 48045223468051 | Gestionar |
+| 50 | Buscador de registros | 44721414912403 | Gestionar |
+| 51 | Alarmas | 44741094212883 | Gestionar |
+| 52 | Fotos (snapshots) | 44890465841939 | Auditar |
+| 53 | Historial de actividad | 44890320273043 | Auditar |
+| 54 | Consola de Desarrollo | 49786424821907 | Herramientas |
+| 55 | Solicitudes de colaboración | 49755281177491 | Herramientas |
+| 56 | Central de descargas | 44776643702163 | Herramientas |
+| 57 | Papelera | 44680112108691 | Herramientas |
+| 58 | Procesos | 44673313631379 | Herramientas |
+| 59 | Mapas | 44448962638099 | Herramientas |
+| 60 | 2FA | 45444052459027 | Cuenta |
+| 61 | Administración de cuentas | 48673976962195 | Cuenta |
+| 62 | Accesos Directos | 44446253250707 | Cuenta |
+| 63 | Crear ticket de soporte | 45085508903187 | Cuenta |
+| 64 | Registro e Inicio de Sesión | 45839393890579 | Cuenta |
+| 65 | Simetrik como plantilla en tu portal | 49889581908755 | Soluciones |
+| 66 | Ingesta de datos en plantillas | 49776960623379 | Soluciones |
+| 67 | Vista de detalles en plantillas | 49776659353747 | Soluciones |
+| 68 | Configuración de plantillas | 49776572413075 | Soluciones |
+| 69 | Controles en plantillas | 49757486170771 | Soluciones |
+| 70 | Réplicas | 45237822844179 | Soluciones |
+| 71 | Catálogo de Plantillas | 45199386482323 | Soluciones |
+| 72 | Requisitos de Conectividad | 38526954384275 | Requisitos |
+| 73 | Config IP ERP | 38527139706771 | Requisitos |
+
+---
+
 # 📝 CHANGELOG
 
 | Fecha | Evento |
@@ -981,4 +1424,5 @@ El sistema detiene la inserción de registros no interpretables para evitar dato
 | 2026-05-29 | v1.4 — +5 artículos Contabilidad (Gestión cuentas, Automatizaciones, Estructuras ERP, Cierre, Conexiones ERP). Stack contable mapeado a módulo 11-ACC. |
 | 2026-05-29 | v1.5 — Cierre Gestionar (Controles Contables, Operativos, Hallazgos), Auditar (Fotos, Historial), Cuenta y Herramientas. KB v1 cierra cobertura completa. |
 | 2026-05-31 | v2.0 — Drill-down completo: flujos paso a paso de 8 artículos críticos (Configuración de cruce, Conciliaciones avanzadas, Conciliación estándar, Columnas de transformación, Fuentes, Uniones, Tableros, Agrupaciones). Catálogo completo de 24 funciones de transformación con sintaxis. |
+| 2026-05-31 | v3.0 — Cobertura completa: +49 artículos scrapeados (Soluciones/Plantillas x7, Recursos y conciliaciones extra x10, Análisis extra x5, Gestionar profundo x6, Herramientas x6, Admin/soporte x4, Contabilidad x3, Requisitos x2, Envío de datos). Total ~75 artículos cubiertos de 161 en el Help Center (excluidos 65 release notes y 14 incidencias). |
 

@@ -381,53 +381,53 @@ td b{color:var(--tx)}
 <h3>Punto 7 · EXPECTED_PAYMENT_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula (30 días hábiles · sitio ARG)</div>
-<!-- ✓ validado v2.0 · nombre de función verificado; tercer param pendiente -->
-<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30; <span class="str">"ARG"</span>)</pre>
-<p class="tx2">El tercer parámetro toma el sitio del <b>calendario cargado</b> en el workspace desde la hoja <code>Normalización_fechas_habiles</code>. Si Simetrik no acepta el sitio como string literal, configurá el calendario default del workspace a ARG antes de aplicar.</p>
-<div class="card warn" style="margin-top:6px"><div class="card-h">🟡 Verificación v2.0 · tercer parámetro</div><p class="tx2">El Help Center documenta <code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> con 2 parámetros. El tercer parámetro <code>"ARG"</code> (calendario) puede ser válido si el workspace tiene el add-on de días hábiles activo, pero no está documentado en el artículo principal. Confirmar con el trainer si aplica en el workspace de prueba.</p></div>
+<!-- ✓ validado v3.0 · ADICIONAR_DIASEMANA = 2 params, omite sábados/domingos NO feriados -->
+<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30)</pre>
+<p class="tx2"><b>Resultado:</b> 30 días hábiles (omite sábados y domingos). <b>No omite feriados ARG</b> — si el workspace no tiene add-on de calendario por país, este es el resultado correcto y suficiente para la prueba.</p>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Aclaración v3.0 definitiva · días hábiles</div><p class="tx2"><code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> tiene exactamente <b>2 parámetros</b> según el Help Center oficial. Omite sábados y domingos pero <b>NO feriados de ningún país</b>. No existe un 3er parámetro de sitio en la documentación oficial. Si el evaluador pide específicamente feriados ARG, usar el <b>Camino C</b> (cruce contra la fuente <code>Normalización_fechas_habiles</code> filtrada por <code>SITIO="ARG"</code>).</p></div>
 </div>
 
+<!-- ✓ validado v3.0 · método oficial = BuscarV (VLOOKUP Simetrik), NO "Cruces/Joins" -->
 <!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
-<h2 id="paramet"><span class="num">8</span>Cruce con Parametría de Comercios</h2>
+<h2 id="paramet"><span class="num">8</span>Cruce con Parametría de Comercios · BuscarV</h2>
 
 <div class="card tip">
-<div class="card-h">📍 Paso a paso · cruce de tablas en Simetrik</div>
+<div class="card-h">📍 Paso a paso oficial · BuscarV (VLOOKUP Simetrik) — hc/es-419/articles/44794712671763</div>
+<p class="tx2">El método oficial en Simetrik para enriquecer una fuente con datos de otra es <b>BuscarV</b> (equivalente a VLOOKUP de Excel). <b>NO existe un módulo "Cruces/Joins"</b> — eso era una descripción incorrecta de versiones anteriores de esta guía.</p>
 <ol>
-  <li>Sidebar → <b>"Cruces"</b> / "Joins" / "Cruces de tablas" (NO es Conciliación · es una operación de enriquecimiento).</li>
-  <li>Click <b>"+ Nuevo cruce"</b>.</li>
-  <li>Configurá:
+  <li>Abrí la fuente <code>DB_DOTA</code> (con puntos 1-7 aplicados) en vista tabla.</li>
+  <li>Seleccioná el ícono <b>"Crear BuscarV"</b> en la barra de herramientas de columnas.</li>
+  <li>En la ventana de configuración:
     <ul>
-      <li><b>Tabla izquierda:</b> <code>DB_DOTA</code> (con los puntos 1-7 ya aplicados).</li>
-      <li><b>Tabla derecha:</b> <code>Parametria_Comercio</code>.</li>
-      <li><b>Tipo de cruce:</b> <code>LEFT JOIN</code> (mantenés todas las filas de DOTA · enriquecés con info de parametría).</li>
+      <li><b>Nombre de la columna:</b> <code>TIPO_COMERCIO</code> (o el nombre de la columna a traer).</li>
+      <li><b>Recurso fuente:</b> <code>Parametria_Comercio</code> (la fuente insumo cargada en el workspace).</li>
+      <li><b>Columnas a traer:</b> seleccioná <code>TIPO_COMERCIO</code> + cualquier otra útil.</li>
     </ul>
   </li>
-  <li>Definí la <b>llave de unión</b>:
+  <li>Definí las <b>condiciones de cruce</b> (columnas que relacionan ambas fuentes):
     <ul>
-      <li><b>Izquierda:</b> <code>DB_DOTA.GTWT_MERCHANT_NUMBER</code> (la que normalizaste en el punto 5).</li>
-      <li><b>Derecha:</b> <code>Parametria.CODIGO_COMERCIO</code> · verificá el nombre real abriendo el insumo Parametria_Comercio en una vista previa.</li>
+      <li><code>DB_DOTA.GTWT_MERCHANT_NUMBER</code> = <code>Parametria_Comercio.CODIGO_COMERCIO</code></li>
+      <li>Tip: verificá el nombre real de la columna abriendo <code>Parametria_Comercio</code> en vista previa antes de configurar.</li>
+      <li>⚠ Si los tipos de dato no coinciden (texto vs número), aparece advertencia — igualmente guardá pero ajustá el formato.</li>
     </ul>
   </li>
-  <li>Seleccioná qué columnas traer de Parametría: como mínimo <code>TIPO_COMERCIO</code> y cualquier otra útil para los tableros.</li>
-  <li>Click <b>"Validar"</b> · Simetrik te muestra una preview con N° de filas matched / unmatched.</li>
-  <li>Verificá: <b>el N° de filas matched debe ser similar al total de DB_DOTA</b>. Si quedan muchas unmatched, hay un problema con el GTWT_MERCHANT_NUMBER (probablemente espacios, ceros faltantes o mayúsculas).</li>
-  <li>Aplicar.</li>
+  <li>Podés usar <b>más de una columna</b> como condición para cruces más precisos.</li>
+  <li>Click <b>"Guardar y ver tabla"</b>. Las nuevas columnas aparecen identificadas con el ícono de BuscarV.</li>
+  <li>Verificá: la mayoría de filas DOTA deben tener <code>TIPO_COMERCIO</code> completo. Si quedan vacíos, revisá espacios/ceros en <code>GTWT_MERCHANT_NUMBER</code>.</li>
 </ol>
 </div>
 
 <div class="card tip">
-<div class="card-h">📍 Cómo filtrar TIPO_COMERCIO = "ESTANDAR" (post-cruce)</div>
+<div class="card-h">📍 Cómo filtrar TIPO_COMERCIO = "ESTANDAR" (post-BuscarV)</div>
 <ol>
-  <li>Sobre la tabla cruzada (resultado del paso anterior), click <b>"+ Nueva transformación"</b> → tipo <b>"Filtro"</b>.</li>
-  <li>Condición: <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
-  <li>Validar y aplicar.</li>
+  <li>En la misma fuente <code>DB_DOTA</code> ya enriquecida, aplicá un <b>filtro</b>: <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+  <li>Esto deja solo los comercios estándar listos para la conciliación del punto 12.</li>
 </ol>
-<p class="tx2">Esto deja solo los comercios estándar listos para la conciliación del punto 12. Los demás (CUOTA A CUOTA, etc.) quedan descartados para este caso.</p>
 </div>
 
 <div class="card warn">
-<div class="card-h">⚠ Trampa #2 · orden del filtro</div>
-<p class="tx2"><b>Hacé el filtro DESPUÉS del cruce, no antes.</b> Si filtrás TIPO_COMERCIO en la fuente DOTA antes del cruce, no podés porque DOTA no tiene esa columna · viene de la Parametría. El orden correcto es: <b>1)</b> normalizar DOTA (1-7) · <b>2)</b> cruzar con Parametría (este paso) · <b>3)</b> filtrar TIPO_COMERCIO = ESTANDAR.</p>
+<div class="card-h">⚠ Trampa #2 · BuscarV ANTES del filtro</div>
+<p class="tx2">El orden correcto es: <b>1)</b> normalizar DOTA (1-7) → <b>2)</b> BuscarV con Parametría → <b>3)</b> filtrar TIPO_COMERCIO = ESTANDAR. No podés filtrar TIPO_COMERCIO antes porque esa columna aún no existe en DOTA — la trae el BuscarV.</p>
 </div>
 
 <!-- ═══ NORMALIZACIONES FD ═══ -->
@@ -836,8 +836,8 @@ const DOTA = (() => {
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
     { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_DIASEMANA +1 día (tipo Fecha)' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIASEMANA 30 ARG (verificar 3er param con trainer)' },
-    { n:8,  txt:'Cruce con Parametría_Comercio · filtro TIPO_COMERCIO = ESTANDAR' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30) — omite sáb/dom, NO feriados' },
+    { n:8,  txt:'BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },
     { n:11, txt:'DEADLINE · SI con cambio de mes al +1 día (bisiesto-safe)' },

@@ -2868,3 +2868,35 @@ Con 10-SYS, 9-GOA, y 11-ACC cerrados, y 8-PRO en planificación, el backlog rest
 4. Path tableros oficial: `Automatizar > Análisis > Tableros`.
 
 **14-WORK tiene KB v2.0 como fuente de verdad operativa. Prueba DOTA está alineada con documentación oficial.**
+
+---
+
+## 🧠 14-WORK · KB v3.0 COMPLETA + DOTA 100% VERIFICADO — 2026-05-31
+
+### Estado final
+**KB COMPLETA (73 artículos), DOTA 100% verificado, prompt maestro creado.**
+
+### Qué se hizo (Fase C)
+- **SIMETRIK_KNOWLEDGE_BASE.md v3.0:** +49 artículos de todas las secciones funcionales del Help Center. Cobertura ~100% del contenido operativo (excluidos 65 release notes y 14 incidencias). 73 artículos indexados en tabla.
+  - Nuevas secciones: Soluciones/Plantillas (7), Recursos y conciliaciones extra (10), Análisis extra (5), Gestionar profundo (6), Herramientas (6), Admin/soporte (4), Contabilidad (3), Requisitos técnicos (2).
+  - BuscarV documentado como función oficial de enriquecimiento (VLOOKUP Simetrik).
+
+- **simetrik-dota-test.html — correcciones finales v3.0:**
+  - Paso 7: `ADICIONAR_DIASEMANA(MOV_CREATION_DATE;30)` — 2 params DEFINITIVO, omite sáb/dom NO feriados.
+  - Paso 8: Reescrito completamente con BuscarV oficial (no "Cruces/Joins").
+  - Checklist items 7 y 8 actualizados.
+
+- **work.js SEED_VERSION `simetrik-2026-05-31.2`:** +6 términos nuevos (BuscarV, Papelera, Procesos, Mapas, Buscador de registros, Alarmas, ADICIONAR_DIASEMANA definitivo).
+
+- **simetrik-learn.html:** Links al Help Center oficial agregados en nodos conciliación (4 links) y la-app (6 links). Curso conectado a documentación real.
+
+- **PROMPT_14-WORK_MASTER.md:** Prompt perfecto autocontenido con tabla de 24 funciones, 16 pasos DOTA verificados, protocolo de commit/push/sync, reglas anti-hallucination, guía de trabajo en equipo.
+
+### Funciones definitivas (verificadas Help Center)
+- `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` — 2 params, omite sáb/dom, NO feriados
+- `TODAY()` — solo en agrupaciones
+- `BuscarV` — VLOOKUP oficial, Paso 8 DOTA
+- Separador: `;` siempre. Strings: `"..."` dobles.
+
+### Para la próxima sesión
+Usar `PROMPT_14-WORK_MASTER.md` como prompt de arranque — tiene todo el contexto necesario.

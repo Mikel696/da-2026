@@ -1463,7 +1463,7 @@ Slug: foo-bar. Procedé."]`;
       if(row) row.classList.toggle('open');
     }
     /* ── Dictionary seed (one-time, idempotent by `seed_id`) ─── */
-    const SEED_VERSION = 'simetrik-2026-05-31.1'; // v2.0: corrige funciones, agrega términos drill-down KB
+    const SEED_VERSION = 'simetrik-2026-05-31.2'; // v3.0: KB completa 73 arts, BuscarV, ADICIONAR_DIASEMANA definitivo
     const SEED_DICT = [
       // ── Project roles & artifacts ──
       {sid:'is',term:'IS',cat:'acro',en:'Implementation Specialist',def:'Especialista de Implementación. El encargado de llevar el diseño en papel a la configuración real en la plataforma Simetrik.',ex:'Tú eres el IS en el proyecto Ficohsa.'},
@@ -1787,6 +1787,14 @@ Slug: foo-bar. Procedé."]`;
       {sid:'desencadenante',term:'Desencadenante',cat:'term',en:'Trigger',def:'Recurso que activa la ejecución de una conciliación cuando recibe nuevos datos. Por defecto es el Recurso B; si es unión/foto/agrupación, toma el Recurso A. También puede ser un horario programado.',ex:'En DOTA × FD el desencadenante es Reporte_FD (Recurso B).'},
       {sid:'acumvsnoacum',term:'Acumulativa vs No Acumulativa',cat:'term',en:'Cumulative vs Non-cumulative',def:'Tipos de agrupación en Simetrik. Acumulativa: sigue agrupando aunque el registro se concilie. No acumulativa: al conciliarse un registro, se bloquea y nuevos registros crean entrada separada.',ex:'Agrupación acumulativa para aging de pendientes; no acumulativa para snapshot diario.'},
       {sid:'versioncambios',term:'Versión con cambios',cat:'term',en:'Version with changes',def:'Mecanismo que permite modificar una conciliación Confirmada de forma segura, manteniendo historial de ajustes. Los cambios son visibles en la "Versión con cambios" hasta confirmarlos.',ex:'Para agregar barrida de desconciliación se debe crear primero una Versión con cambios.'},
+      // ── Nuevos términos KB v3.0 ──
+      {sid:'buscarv',term:'BuscarV',cat:'term',en:'VLOOKUP / Lookup column',def:'Función oficial Simetrik para enriquecer una fuente con datos de otra. Equivalente a VLOOKUP de Excel. Flujo: Vista tabla → ícono "Crear BuscarV" → seleccionar recurso fuente → columnas a traer → condiciones de cruce (col_A = col_B) → Guardar y ver tabla.',ex:'Paso 8 DOTA: BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO → trae TIPO_COMERCIO.'},
+      {sid:'papelera',term:'Papelera',cat:'platform',en:'Trash / Recycle bin',def:'Recursos eliminados que se conservan 30 días antes de borrado definitivo. Path: Herramientas → Papelera. Se pueden restaurar dentro del período de retención.',ex:'Si se elimina una fuente por error, ir a Papelera y restaurarla dentro de los 30 días.'},
+      {sid:'procesos',term:'Procesos',cat:'platform',en:'Processes monitor',def:'Monitor de ejecuciones del workspace: conciliaciones, ingestas, exportaciones. Path: Herramientas → Procesos. Campos: estado, fecha inicio, duración, usuario.',ex:'Después de ejecutar la conciliación DOTA × FD, verificar en Procesos que terminó sin error.'},
+      {sid:'mapas',term:'Mapas',cat:'platform',en:'Resource maps',def:'Visualización gráfica del flujo de datos entre recursos (Fuentes → Uniones → Conciliaciones → Agrupaciones). Path: Herramientas → Mapas. Usar antes de eliminar un recurso para ver dependencias.',ex:'Antes de modificar DB_DOTA, ver en Mapas qué conciliaciones dependen de ella.'},
+      {sid:'buscadorreg',term:'Buscador de registros',cat:'platform',en:'Record finder',def:'Búsqueda cross-recurso de un registro a lo largo de la cadena de conciliación. Path: Gestionar → Controles operativos → Buscador de registros. Soporta hasta 5 recursos descendentes.',ex:'Buscar una transacción por PAN desde DB_DOTA hasta FD para rastrear si concilió.'},
+      {sid:'alarmas',term:'Alarmas',cat:'platform',en:'Alerts',def:'Notificaciones automáticas cuando un monitor supera un umbral (% pendientes, monto, tiempo sin ejecutar). Path: Gestionar → Hallazgos → Alarmas.',ex:'Alarma: si pendientes DOTA > 5% al cerrar B5, notificar al equipo de reconciliaciones.'},
+      {sid:'adicdiasmana2p',term:'ADICIONAR_DIASEMANA — definitivo',cat:'term',en:'Add business days (weekdays only)',def:'ADICIONAR_DIASEMANA(FECHA;CANTIDAD) — exactamente 2 parámetros. Omite sábados y domingos. NO omite feriados de ningún país. No hay parámetro de calendario/sitio en la doc oficial. Para feriados ARG usar Camino C (cruce vs Normalización_fechas_habiles).',ex:'ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30) → 30 días hábiles (sin sáb/dom).'},
     ];
     function seedDict(){
       try {
