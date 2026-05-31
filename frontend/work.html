@@ -91,7 +91,7 @@
     <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Practicar</span>
     <button class="tab" data-p="dotatest" style="border-color:rgba(6,182,212,.4)">🧪 Prueba DOTA</button>
     <button class="tab" data-p="dict">📖 Diccionario</button>
-    <button class="tab" data-p="copilot">🤖 Copilot</button>
+    <button class="tab" data-p="copilot">🎓 Tutor</button>
     <!-- GRUPO 3: DOCUMENTAR -->
     <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Documentar</span>
     <button class="tab" data-p="cases">📋 Casos</button>
@@ -496,8 +496,32 @@ Ejemplo: 'Si RELLENAR no funciona, revisar que el tipo de dato de la columna fue
     <div id="workNbWrap"></div>
   </div>
 
-  <!-- ═══ COPILOT ═══ -->
+  <!-- ═══ TUTOR SIMETRIK ═══ -->
   <div class="pnl" id="p-copilot">
+
+    <!-- SECCIÓN A: GUÍA DE HOY -->
+    <div class="cd" style="margin-bottom:14px;border-left:3px solid var(--gn,#22c55e)">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gn,#22c55e);margin-bottom:8px">🗺️ Tu guía para hoy · basada en tu progreso en DOTA</div>
+      <div id="tutorGuiaHoy"><div style="color:var(--t3);font-size:12px">Cargando...</div></div>
+    </div>
+
+    <!-- SECCIÓN B: PREGUNTAME (Q&A desde la KB) -->
+    <div class="cd" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;color:var(--ac)">💬 Preguntame — respuestas instantáneas de Simetrik</div>
+      <div style="font-size:11.5px;color:var(--t2);margin-bottom:10px;line-height:1.6">Escribí cualquier duda sobre Simetrik y te respondo al instante, con ejemplos del caso DOTA y Ficohsa. <b>Sin internet, sin copiar prompts</b> — las respuestas vienen de la KB oficial del Help Center (73 artículos).</div>
+      <input id="tutorSearch" class="inp" placeholder="🔍 ¿Cómo creo una barrida? · ¿Qué es BuscarV? · ¿Cuándo uso conciliación avanzada?..." style="margin-bottom:10px;font-size:13px">
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:0;border:1px solid var(--bd);border-radius:10px;overflow:hidden;min-height:380px">
+        <div id="tutorList" style="border-right:1px solid var(--bd);overflow-y:auto;max-height:480px;font-size:13px"></div>
+        <div id="tutorDetail" style="overflow-y:auto;max-height:480px;background:var(--bg2)"></div>
+      </div>
+      <div style="margin-top:8px;font-size:10.5px;color:var(--t3)">
+        💡 Tocá cualquier pregunta de la lista para ver la respuesta. Escribí en el buscador para filtrar por tema.
+        · <b>Categorías:</b> Fuentes · Fórmulas · BuscarV · Conciliación · Tableros · Herramientas · DOTA
+      </div>
+    </div>
+
+    <!-- SEPARADOR -->
+    <div style="text-align:center;margin:18px 0 14px;font-size:11px;color:var(--t3);letter-spacing:1px;text-transform:uppercase">— Generadores de prompts para preguntas más complejas —</div>
 
     <!-- Modo 1: Quick Ask -->
     <div class="cd">
@@ -596,7 +620,19 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
   t.classList.add('on');
   document.getElementById('p-'+t.dataset.p).classList.add('on');
+  // Inicializar tutor cuando se abre el panel
+  if(t.dataset.p==='copilot' && typeof WORK!=='undefined'){
+    WORK.tutorInit();
+    WORK.tutorGuiaHoy();
+  }
 }));
+// Inicializar tutor al cargar si el panel ya está visible
+document.addEventListener('DOMContentLoaded',()=>{
+  const active=document.querySelector('.pnl.on');
+  if(active && active.id==='p-copilot' && typeof WORK!=='undefined'){
+    WORK.tutorInit(); WORK.tutorGuiaHoy();
+  }
+});
 </script>
 
 <!-- Auth chain (platform-wide rule — must load on every page) -->

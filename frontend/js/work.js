@@ -854,6 +854,474 @@ const WORK = (function(){
     if (b) { b.style.opacity='1'; setTimeout(()=>b.style.opacity='0', 1500); }
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     SISTEMA TUTOR · Q&A desde KB oficial Simetrik
+     Cada entrada: { q (pregunta), a (respuesta HTML), tags (array de palabras clave), cat (categoría) }
+     ══════════════════════════════════════════════════════════════ */
+  const TUTOR_QA = [
+    // ── FUENTES ──
+    { cat:'fuentes', tags:['fuente','source','cargar','subir','archivo','excel','csv','txt'],
+      q:'¿Cómo creo una fuente y subo un archivo?',
+      a:`<b>Una Fuente es la puerta de entrada de tus datos a Simetrik.</b> Pensalo como una "carpeta inteligente" que siempre espera archivos del mismo formato.<br><br>
+<ol>
+<li><b>Automatizar → Recursos y conciliaciones → Recursos</b></li>
+<li>Click <b>"Crear recurso" → Fuentes</b></li>
+<li>Poné un nombre (ej: <code>DB_DOTA</code>) → Crear</li>
+<li>Abrí el <b>Gestor de Archivos</b> que aparece → arrastrá tu archivo o hacé click para buscarlo</li>
+<li>Esperá que el estado cambie a <span style="color:#22c55e">✓ Listo</span></li>
+</ol>
+<br><b>Formatos que acepta:</b> Excel de UNA sola hoja, TXT, CSV.<br>
+<b>⚠️ Trampas comunes:</b><br>
+— Excel con múltiples hojas → no funciona directamente, hay que usar un Parser primero<br>
+— Si el estado queda en "Error" → ir a <b>Herramientas → Consola de Desarrollo</b> para ver exactamente qué columna falló` },
+
+    { cat:'fuentes', tags:['tipo de dato','formato','texto','número','fecha','columna','cambiar','formatear'],
+      q:'¿Cómo cambio el tipo de dato de una columna?',
+      a:`<b>Esto es lo primero que hacés con cualquier fuente nueva — antes de crear fórmulas.</b><br><br>
+<ol>
+<li>Abrí la fuente en vista tabla</li>
+<li>Click derecho sobre el <b>encabezado de la columna</b></li>
+<li>"Dar formato a una columna"</li>
+<li>Elegí el tipo correcto en el dropdown:</li>
+</ol>
+<br>
+<table style="width:100%;font-size:12px;border-collapse:collapse">
+<tr style="background:#1a1f29"><th style="padding:4px 8px;text-align:left">Tipo</th><th style="padding:4px 8px;text-align:left">Cuándo usarlo</th><th style="padding:4px 8px;text-align:left">Ejemplo DOTA</th></tr>
+<tr><td style="padding:4px 8px"><b>Texto</b></td><td style="padding:4px 8px">Códigos, PAN, IDs con ceros</td><td style="padding:4px 8px">CARD_NUMBER, GTWC_AUTH_CODE</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:4px 8px"><b>Número</b></td><td style="padding:4px 8px">Montos con decimales</td><td style="padding:4px 8px">MONTO, IMPORTE</td></tr>
+<tr><td style="padding:4px 8px"><b>Fecha</b></td><td style="padding:4px 8px">Solo fecha, sin hora</td><td style="padding:4px 8px">MOV_CREATION_DATE, FPRES</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:4px 8px"><b>Entero</b></td><td style="padding:4px 8px">Conteos, cantidades sin decimales</td><td style="padding:4px 8px">DIAS_A_SUMAR</td></tr>
+</table>
+<br><b>⚠️ Crítico para DOTA:</b> <code>CARD_SIX_FIRST_DIGITS</code> y <code>CARD_FOUR_LAST_DIGITS</code> deben ser <b>Texto</b> ANTES de crear la columna CARD_NUMBER. Si los dejás como Número, los ceros a la izquierda desaparecen.` },
+
+    { cat:'fuentes', tags:['union','unión','combinar','fuentes','join','multiples'],
+      q:'¿Cuándo uso una Unión de fuentes en lugar de una Fuente sola?',
+      a:`<b>Usás una Unión cuando dos archivos distintos tienen los mismos datos pero de distintas fuentes.</b><br><br>
+Ejemplo real DOTA: las transacciones DOTA vienen en varios archivos separados (uno por período o por comercio). En lugar de conciliar cada uno por separado, los "unís" en una sola tabla y conciliás de una.<br><br>
+<b>Cuándo Fuente sola:</b> un solo archivo recurrente del mismo origen.<br>
+<b>Cuándo Unión:</b> múltiples archivos del mismo tipo que necesitás ver como uno solo.<br><br>
+<b>Cómo crear:</b><br>
+<ol>
+<li>Automatizar → Recursos → "Crear recurso" → <b>Unión de fuentes</b></li>
+<li>Nombrala (ej: <code>Union_DOTA</code>)</li>
+<li>Elegí la primera fuente → seleccioná las columnas a incluir</li>
+<li>Verificá el tipo de dato de cada columna</li>
+<li>Agregá más fuentes → "Ejecutar cambios"</li>
+</ol>
+<br><b>Tip de oro:</b> siempre es mejor usar una Unión como base de la conciliación, no la Fuente directa. Si el formato del archivo cambia algún día, sólo actualizás la Unión sin tocar la conciliación.` },
+
+    // ── COLUMNAS DE TRANSFORMACIÓN ──
+    { cat:'formulas', tags:['concatenar','pegar','unir','texto','columnas','rellenar','pad','ceros','lpad'],
+      q:'¿Cómo construyo el número de tarjeta (PAN) de 16 dígitos?',
+      a:`<b>Este es el Punto 1 del caso DOTA. El PAN viene roto en dos columnas y hay que armarlo.</b><br><br>
+<b>El problema:</b> CARD_SIX_FIRST_DIGITS tiene los primeros 6 dígitos y CARD_FOUR_LAST_DIGITS los últimos 4. El medio son 6 "X". Pero ambas columnas pueden venir sin los ceros iniciales.<br><br>
+<b>La fórmula:</b>
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">CONCATENAR(
+  RELLENAR(<span style="color:#a78bfa">CARD_SIX_FIRST_DIGITS</span>; 6; <span style="color:#fbbf24">"0"</span>; <span style="color:#fbbf24">"IZQUIERDA"</span>);
+  <span style="color:#fbbf24">"XXXXXX"</span>;
+  RELLENAR(<span style="color:#a78bfa">CARD_FOUR_LAST_DIGITS</span>; 4; <span style="color:#fbbf24">"0"</span>; <span style="color:#fbbf24">"IZQUIERDA"</span>)
+)</pre>
+<b>Qué hace cada parte:</b><br>
+— <code>RELLENAR(col; 6; "0"; "IZQUIERDA")</code> → rellena con ceros por la izquierda hasta llegar a 6 caracteres<br>
+— <code>CONCATENAR(...)</code> → une las 3 partes en un solo string de 16 chars<br><br>
+<b>⚠️ ANTES de crear esta fórmula:</b> cambiar el tipo de CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS a <b>Texto</b>. Si están como Número, el RELLENAR falla.<br><br>
+<b>Verificación:</b> crear una columna auxiliar temporal <code>LARGO(CARD_NUMBER)</code> → todas las filas deben dar 16.` },
+
+    { cat:'formulas', tags:['si','condicional','if','condicion','cuando','vacio','blanco','esblanco'],
+      q:'¿Cómo uso la función SI en Simetrik?',
+      a:`<b>SI en Simetrik funciona igual que el IF de Excel, pero con ; (punto y coma) como separador.</b><br><br>
+<b>Sintaxis:</b>
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">SI(<span style="color:#22d3ee">CONDICION</span>; <span style="color:#22c55e">valor_si_verdadero</span>; <span style="color:#ef4444">valor_si_falso</span>)</pre>
+<b>Ejemplos del caso DOTA:</b><br>
+<br>— Verificar si un código de autorización está vacío:
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">SI(
+  Y(<span style="color:#a78bfa">CAPTURE_AUTHORIZATION_CODE</span> = <span style="color:#fbbf24">"000000"</span>;
+    <span style="color:#a78bfa">CAPTURE_ACQUIRER</span> = <span style="color:#fbbf24">"Cabal"</span>);
+  <span style="color:#fbbf24">""</span>;
+  <span style="color:#a78bfa">CAPTURE_AUTHORIZATION_CODE</span>
+)</pre>
+<b>Reglas clave:</b><br>
+— Separador siempre <b>;</b> (punto y coma)<br>
+— Strings siempre entre <b>"comillas dobles"</b><br>
+— Nombres de columna en <b>MAYÚSCULAS</b><br>
+— Para combinar condiciones: <code>Y(cond1; cond2)</code> = ambas deben cumplirse, <code>O(cond1; cond2)</code> = al menos una` },
+
+    { cat:'formulas', tags:['extraer','regex','expregular','buscar','patron','marca','brand','acquirer'],
+      q:'¿Cómo busco una palabra dentro de un texto (búsqueda tipo "contiene")?',
+      a:`<b>Simetrik no tiene una función "CONTIENE" directa, pero EXTRAER_EXPREGULAR hace lo mismo.</b><br><br>
+<b>El truco:</b> si EXTRAER_EXPREGULAR no encuentra el patrón, devuelve <code>""</code> (string vacío). Entonces comparás con <code>&lt;&gt; ""</code> para saber si encontró algo.<br><br>
+<b>Ejemplo (Punto 3 DOTA — detectar la marca del adquirente):</b>
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">SI(
+  EXTRAER_EXPREGULAR(
+    MAYUSC(CONCATENAR(<span style="color:#a78bfa">CAPTURE_ACQUIRER</span>; <span style="color:#fbbf24">"|"</span>; <span style="color:#a78bfa">PURCHASE_ACQUIRER</span>));
+    <span style="color:#fbbf24">"MASTERCARD|FIRSTDATA|DINERS"</span>;
+    0
+  ) &lt;&gt; <span style="color:#fbbf24">""</span>;
+  <span style="color:#fbbf24">"FD"</span>;
+  <span style="color:#fbbf24">"OTRO"</span>
+)</pre>
+<b>Parámetros de EXTRAER_EXPREGULAR:</b><br>
+— Parámetro 1: el texto donde buscar<br>
+— Parámetro 2: el patrón (regex), usando | para "o"<br>
+— Parámetro 3: <code>0</code> = devolver el match completo<br><br>
+<b>¿Por qué MAYUSC y CONCATENAR?</b> Para normalizar el texto antes de buscar. Si "mastercard" viene en minúscula, MAYUSC lo convierte y el patrón "MASTERCARD" lo encuentra.` },
+
+    { cat:'formulas', tags:['fecha','diferencia','dias','vencimiento','hoy','today','aging','antigüedad'],
+      q:'¿Cómo calculo cuántos días tiene un registro sin conciliar?',
+      a:`<b>Usás DIFERENCIA_FECHA combinada con TODAY() dentro de una agrupación.</b><br><br>
+<b>Importante:</b> <code>TODAY()</code> solo está disponible dentro de <b>Agrupaciones</b>, no en columnas de transformación de una Fuente directa.<br><br>
+<b>El flujo correcto:</b><br>
+<ol>
+<li>Creás la columna de fecha en la fuente normalmente (ej: <code>MOV_CREATION_DATE</code>)</li>
+<li>Creás una <b>Agrupación</b> sobre la fuente o conciliación</li>
+<li>Dentro de la agrupación, agregás una columna tipo <b>"Hoy" (TODAY())</b></li>
+<li>Después agregás una columna de transformación:</li>
+</ol>
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">DIFERENCIA_FECHA(<span style="color:#a78bfa">MOV_CREATION_DATE</span>; TODAY(); <span style="color:#fbbf24">"días"</span>)</pre>
+<b>Resultado:</b> un número entero con cuántos días pasaron desde la transacción hasta hoy.<br><br>
+<b>⚠️ Error común:</b> intentar usar HOY() → <b>no existe en Simetrik</b>. La función correcta es <code>TODAY()</code>.` },
+
+    { cat:'formulas', tags:['adicionar','dias habiles','semana','laborales','sumar','fecha'],
+      q:'¿Cómo sumo días hábiles a una fecha?',
+      a:`<b>La función es ADICIONAR_DIASEMANA y tiene exactamente 2 parámetros.</b><br><br>
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">ADICIONAR_DIASEMANA(<span style="color:#a78bfa">FECHA</span>; <span style="color:#22d3ee">CANTIDAD</span>)</pre>
+<b>Qué hace:</b> agrega N días hábiles (omite sábados y domingos). <b>No omite feriados</b> — para eso se necesita el workaround con la fuente de calendario.<br><br>
+<b>Ejemplo Punto 7 DOTA</b> (30 días hábiles para el pago esperado):
+<pre style="background:#0a1820;border-left:3px solid #06b6d4;padding:10px;border-radius:6px;font-size:12px;color:#dff5fb">ADICIONAR_DIASEMANA(<span style="color:#a78bfa">MOV_CREATION_DATE</span>; 30)</pre>
+<b>⚠️ No existe:</b><br>
+— <code>ADICIONAR_FECHA_TIEMPO</code> → no está en la documentación oficial<br>
+— <code>HOY()</code> → usar <code>TODAY()</code><br>
+— Un tercer parámetro para el país (ARG) → no documentado oficialmente` },
+
+    // ── BUSCARV ──
+    { cat:'buscarv', tags:['buscarv','vlookup','enriquecer','traer','columna','otra fuente','parametria','comercio'],
+      q:'¿Cómo traigo datos de otra fuente a mi fuente actual (tipo VLOOKUP)?',
+      a:`<b>En Simetrik esto se hace con BuscarV — equivalente exacto al VLOOKUP de Excel.</b><br><br>
+<b>El caso concreto del DOTA (Punto 8):</b> traer TIPO_COMERCIO de la fuente Parametria_Comercio a DB_DOTA, usando GTWT_MERCHANT_NUMBER como llave.<br><br>
+<b>Pasos oficiales:</b>
+<ol>
+<li>Abrí la fuente <code>DB_DOTA</code> en vista tabla</li>
+<li>Buscá el ícono <b>"Crear BuscarV"</b> en la barra de herramientas de columnas</li>
+<li>Nombre de la columna nueva: <code>TIPO_COMERCIO</code></li>
+<li>Recurso fuente: <code>Parametria_Comercio</code></li>
+<li>Columnas a traer: ✅ <code>TIPO_COMERCIO</code></li>
+<li>Condición de cruce: <code>GTWT_MERCHANT_NUMBER</code> = <code>CODIGO_COMERCIO</code></li>
+<li>"Guardar y ver tabla"</li>
+</ol>
+<br><b>Verificación:</b> la mayoría de filas DOTA deben tener TIPO_COMERCIO completo. Si quedan vacíos, revisá que los tipos de dato coincidan en ambas columnas.<br><br>
+<b>⚠️ No confundir con:</b> Unión de fuentes (combina dos fuentes horizontalmente para conciliar). BuscarV es solo para enriquecer con columnas extra.` },
+
+    // ── CONCILIACIÓN ──
+    { cat:'conciliacion', tags:['estandar','avanzada','diferencia','cuando','elegir','tipo','standard','advanced'],
+      q:'¿Cuándo uso conciliación estándar y cuándo avanzada?',
+      a:`<b>Regla práctica: si tu proceso tiene compensaciones entre débitos y créditos, o barridas de agrupación, necesitás Avanzada.</b><br><br>
+<table style="width:100%;font-size:12px;border-collapse:collapse">
+<tr style="background:#1a1f29"><th style="padding:6px;text-align:left">Criterio</th><th style="padding:6px;text-align:left">Estándar</th><th style="padding:6px;text-align:left">Avanzada</th></tr>
+<tr><td style="padding:6px"><b>Número de fuentes</b></td><td style="padding:6px">Exactamente 2</td><td style="padding:6px">2 o más (con cadenas)</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:6px"><b>Compensación</b></td><td style="padding:6px">No</td><td style="padding:6px">Sí (PAYMENT vs REFUND)</td></tr>
+<tr><td style="padding:6px"><b>Barridas agrupadas</b></td><td style="padding:6px">No</td><td style="padding:6px">Sí (comparar totales por lote)</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:6px"><b>Segmentación</b></td><td style="padding:6px">No</td><td style="padding:6px">Sí (separar por categoría)</td></tr>
+<tr><td style="padding:6px"><b>Ejemplo DOTA</b></td><td style="padding:6px">SERCOM T24 vs CLARO</td><td style="padding:6px">DOTA × FD (5 barridas)</td></tr>
+</table>
+<br><b>Caso DOTA:</b> necesitás Avanzada porque las primeras 2 barridas son de <b>Compensación</b> (DOTA se cruza consigo misma para anular PAYMENT vs REFUND del mismo comercio).` },
+
+    { cat:'conciliacion', tags:['barrida','crear','configurar','regla','llave','cruce','robustez'],
+      q:'¿Cómo creo y configuro una barrida?',
+      a:`<b>Una barrida es el conjunto de reglas que define cuándo dos registros "hacen match".</b><br><br>
+<b>Pasos para crear una barrida de conciliación estándar:</b>
+<ol>
+<li>Entrá a la conciliación → <b>"Configurar cruce"</b></li>
+<li>Click <b>"+ Agregar barrida"</b> → nombrala (ej: <code>B3 · DOTA × FD exacto</code>)</li>
+<li>Elegí las fuentes (Fuente A = DB_DOTA, Fuente B = Reporte_FD)</li>
+<li>Agregá las llaves de cruce (botón "+ Agregar llave"):
+<ul style="margin:6px 0 6px 20px">
+<li><code>A.GTWC_AUTHORIZATION_CODE</code> = <code>B.AUTORIZACION</code></li>
+<li><code>A.GTWT_MERCHANT_NUMBER</code> = <code>B.COMERCIO</code></li>
+<li><code>ABS(A.MONTO)</code> = <code>B.IMPORTE</code></li>
+</ul>
+</li>
+<li>"Guardar barrida" → revisá la <b>Robustez</b></li>
+</ol>
+<br><b>Robustez:</b><br>
+— 🟢 Alta (verde) → las reglas son suficientemente únicas, la barrida va a funcionar bien<br>
+— 🟡 Media (amarillo) → puede haber algunos falsos positivos, pero funciona<br>
+— 🔴 Débil (rojo) → las reglas no son suficientes. Simetrik <b>no ejecuta</b> la barrida. Agregá más llaves.` },
+
+    { cat:'conciliacion', tags:['tolerancia','diferencia','margen','monto','fecha','casi igual','~='],
+      q:'¿Cómo configuro una tolerancia de monto en una barrida?',
+      a:`<b>La tolerancia permite que dos registros "hagan match" aunque sus montos no sean exactamente iguales.</b><br><br>
+<b>Ejemplo DOTA (Barrida B2 — compensación con tolerancia $5):</b>
+<ol>
+<li>Creás la barrida igual que la B1 (mismas llaves de comercio + auth)</li>
+<li>En la llave del monto, en vez de igualdad estricta, usás la opción <b>"Tolerancia numérica"</b>:
+<ul style="margin:6px 0 6px 20px">
+<li>Columna A: <code>ABS(A.MONTO)</code></li>
+<li>Operador: <b>~= (casi iguales)</b> o "Diferencia absoluta ≤"</li>
+<li>Columna B: <code>ABS(B.MONTO)</code></li>
+<li>Valor: <b>5</b></li>
+</ul>
+</li>
+</ol>
+<br><b>Restricciones de tolerancia:</b><br>
+— Solo funciona en cruces <b>1:1</b><br>
+— <b>No funciona</b> en cruces N:N<br>
+— Ambas columnas deben ser tipo Número o Entero<br><br>
+<b>Para fechas:</b> la tolerancia direccional permite que FD llegue 1 día después que DOTA (FD.fecha - DOTA.fecha ∈ {0, +1}).` },
+
+    { cat:'conciliacion', tags:['compensacion','barrida','payment','refund','offset','anulacion'],
+      q:'¿Qué es una barrida de compensación y cómo funciona?',
+      a:`<b>Una barrida de compensación cruza UNA fuente consigo misma para anular pares de débito y crédito.</b><br><br>
+<b>El caso DOTA (Barridas B1 y B2):</b> dentro de DB_DOTA hay transacciones de tipo PAYMENT y REFUND. Cuando un REFUND cancela a un PAYMENT del mismo comercio y monto, los dos deben "compensarse" antes de cruzar contra First Data.<br><br>
+<b>Por qué es importante:</b> si no compensás primero, esas transacciones quedarían como pendientes en la conciliación DOTA × FD aunque en realidad están resueltas dentro de DOTA.<br><br>
+<b>Cómo configurarla en Simetrik:</b>
+<ol>
+<li>Crear la conciliación → elegir tipo <b>Avanzada</b></li>
+<li>Agregar barrida → tipo <b>"Barrida de Compensación"</b></li>
+<li>Recurso a compensar: <b>Lado A</b> (DB_DOTA)</li>
+<li>Grupo Compensable 1 + Grupo Compensable 2: columnas que identifican el par:<br>
+<code>GTWT_MERCHANT_NUMBER</code> + <code>GTWC_AUTHORIZATION_CODE</code> + <code>ABS(MONTO)</code></li>
+<li>Agregar restricción: <code>A.OP ≠ B.OP</code> (no cruzar PAYMENT con PAYMENT)</li>
+</ol>
+<br><b>Restricción oficial:</b> solo se pueden compensar registros en estado "Unreconciled".` },
+
+    // ── TABLEROS ──
+    { cat:'tableros', tags:['tablero','crear','dashboard','visual','path','ruta'],
+      q:'¿Cómo creo un tablero en Simetrik?',
+      a:`<b>Los tableros son los dashboards donde analizás los resultados de tus conciliaciones.</b><br><br>
+<b>Path oficial:</b> <code>Automatizar → Análisis → Tableros</code><br><br>
+<b>Pasos:</b>
+<ol>
+<li>Automatizar → Análisis → Tableros</li>
+<li>Click <b>"Crear" → "Tableros"</b></li>
+<li>Asigná un nombre (ej: <code>14 · % Conciliación por barrida</code>)</li>
+<li>Elegí el tipo: <b>Operativo</b> (para análisis de conciliaciones) o <b>Contable</b> (para cierre)</li>
+<li>Click <b>"Configuración"</b> para agregar visuales</li>
+</ol>
+<br><b>Límite importante:</b> 21 elementos por tablero. Cada visual consume un número de elementos (ej: "Estado de conciliación estándar" = 7 elementos). Planificá antes de agregar.<br><br>
+<b>Para el caso DOTA necesitás 3 tableros:</b><br>
+— Tablero 14: % conciliación por barrida (tabla + gráfico de barras)<br>
+— Tablero 15: KPI global (3 KPIs: conciliadas, pendientes, % eficiencia)<br>
+— Tablero 16: tablero libre de tu elección con justificación operativa` },
+
+    { cat:'tableros', tags:['kpi','métrica','número','grande','contar','suma'],
+      q:'¿Cómo agrego un KPI individual al tablero?',
+      a:`<b>Un KPI Individual muestra un número grande y destacado — ideal para conciliadas/pendientes/% eficiencia.</b><br><br>
+<b>Pasos:</b>
+<ol>
+<li>Abrí el tablero → modo <b>Configuración</b></li>
+<li>Panel "Visuales" → <b>KPI Individual</b> → "Añadir"</li>
+<li>Seleccioná la fuente de datos (ej: DB_DOTA con los resultados de la conciliación)</li>
+<li>Definí la métrica: <code>CONTAR(id)</code>, <code>SUMA(MONTO)</code>, etc.</li>
+<li>Filtros opcionales: ej. solo registros donde <code>_BARRIDA_ &lt;&gt; NULL</code> (= conciliados)</li>
+</ol>
+<br><b>Para el Tablero 15 DOTA:</b><br>
+— KPI 1: <code>CONTAR_SI(_BARRIDA_ &lt;&gt; NULL)</code> → "Conciliadas"<br>
+— KPI 2: <code>CONTAR_SI(_BARRIDA_ = NULL)</code> → "Pendientes"<br>
+— KPI 3: KPI1 / (KPI1 + KPI2) × 100 → "% eficiencia"<br><br>
+<b>Verificación:</b> KPI Conciliadas debe igualar la suma de partidas del Tablero 14.` },
+
+    // ── HERRAMIENTAS ──
+    { cat:'herramientas', tags:['error','fallo','proceso','diagnostico','consola','no funciona','debug'],
+      q:'Algo no funciona, ¿por dónde empiezo a diagnosticar?',
+      a:`<b>Hay 3 lugares para ir cuando algo falla, en este orden:</b><br><br>
+<b>1. Herramientas → Procesos</b><br>
+Ver si el proceso terminó, sigue corriendo o falló. Si falló, te da el resource ID y la duración.<br><br>
+<b>2. Herramientas → Consola de Desarrollo</b><br>
+Logs en tiempo real de cada archivo procesado. Muestra exactamente qué columna y qué fila tienen el error. Es tu diagnóstico más útil.<br><br>
+<b>3. Auditar → Historial de actividad</b><br>
+Si no entendés quién hizo qué o cuándo cambió algo, el historial es inmutable y tiene todo.<br><br>
+<b>Errores más comunes en DOTA y sus soluciones:</b><br>
+— "Tipo de dato incompatible" en RELLENAR → cambiar la columna fuente a Texto antes<br>
+— Barrida roja (débil) → agregar más llaves de cruce<br>
+— Filas vacías en BuscarV → verificar que los tipos de dato de las columnas llave coincidan<br>
+— TODAY() no disponible → estás en una fuente, no en una agrupación. Crear la agrupación primero.` },
+
+    { cat:'herramientas', tags:['papelera','borrar','eliminar','recuperar','restaurar','accidente'],
+      q:'Borré algo por error, ¿puedo recuperarlo?',
+      a:`<b>Sí, tenés 30 días para recuperar cualquier recurso eliminado.</b><br><br>
+<b>Pasos:</b>
+<ol>
+<li>Herramientas → <b>Papelera</b></li>
+<li>Buscá el recurso por nombre</li>
+<li>Click <b>"Restaurar"</b></li>
+</ol>
+<br><b>Después de 30 días</b> la eliminación es definitiva. No hay vuelta atrás.<br><br>
+<b>Antes de borrar algo:</b> ir a <b>Herramientas → Mapas</b>, buscar el recurso, y ver qué otras cosas dependen de él (downstream). Si tiene dependencias, borrar rompe la cadena.` },
+
+    // ── FLUJO DOTA ──
+    { cat:'dota', tags:['dota','empezar','primer','paso','primero','arrancar','donde'],
+      q:'¿Por dónde empiezo la prueba DOTA?',
+      a:`<b>Antes de escribir la primera fórmula, hay 4 cosas que verificar:</b><br><br>
+<b>Checklist de arranque:</b>
+<ol>
+<li>✅ El workspace tiene <b>nueva herencia</b> activada (preguntale al trainer si no estás seguro)</li>
+<li>✅ Los <b>add-ons</b> están activos: conciliación avanzada, saldos persistentes, días hábiles</li>
+<li>✅ Las 4 fuentes están cargadas como insumos:
+<ul style="margin:6px 0 6px 20px">
+<li><code>DB_DOTA</code> (base de transacciones)</li>
+<li><code>Reporte_FD</code> (reporte First Data)</li>
+<li><code>Parametria_Comercio</code> (tabla de tipos de comercio)</li>
+<li><code>Normalización_fechas_habiles</code> (calendario ARG)</li>
+</ul>
+</li>
+<li>✅ El tipo de dato de las columnas numéricas con ceros está en <b>Texto</b> (CARD_SIX_FIRST_DIGITS, CARD_FOUR_LAST_DIGITS)</li>
+</ol>
+<br><b>Después:</b> seguí los puntos 1-7 de la Prueba DOTA en orden. El orden importa porque el punto 4 (BRAND) depende del 1 (CARD_NUMBER) y el 7 (EXPECTED_PAYMENT_DATE) depende del 6 (MOV_CREATION_DATE).` },
+
+    { cat:'dota', tags:['barrida','b1','b2','b3','b4','b5','orden','secuencia','cinco','conciliacion avanzada'],
+      q:'¿Cuáles son las 5 barridas del DOTA y en qué orden van?',
+      a:`<b>Las 5 barridas de la conciliación avanzada DOTA × FD, en orden obligatorio:</b><br><br>
+<table style="width:100%;font-size:12px;border-collapse:collapse">
+<tr style="background:#1a1f29"><th style="padding:6px;text-align:left">Barrida</th><th style="padding:6px;text-align:left">Tipo</th><th style="padding:6px;text-align:left">Qué hace</th></tr>
+<tr><td style="padding:6px"><b>B1</b></td><td style="padding:6px">Compensación exacta</td><td style="padding:6px">DOTA × DOTA — anula pares PAYMENT/REFUND exactos</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:6px"><b>B2</b></td><td style="padding:6px">Compensación tol. $5</td><td style="padding:6px">DOTA × DOTA — igual que B1 pero con diferencia de monto hasta $5</td></tr>
+<tr><td style="padding:6px"><b>B3</b></td><td style="padding:6px">DOTA × FD exacto</td><td style="padding:6px">Cruza pendientes DOTA con FD usando 5 llaves (auth + comercio + monto + fecha + PAN)</td></tr>
+<tr style="background:#1a1f2944"><td style="padding:6px"><b>B4</b></td><td style="padding:6px">DOTA × FD +1 día</td><td style="padding:6px">Igual que B3 pero la fecha de FD puede ser hasta 1 día después</td></tr>
+<tr><td style="padding:6px"><b>B5</b></td><td style="padding:6px">Batch FD</td><td style="padding:6px">Agrupa FD por lote y cruza la suma contra suma DOTA por comercio</td></tr>
+</table>
+<br><b>La clave del orden:</b> cada barrida recibe los <b>pendientes</b> de la anterior. B1 corre primero, los que no cruzan van a B2, los de B2 van a B3, etc.` },
+
+    { cat:'dota', tags:['tablero','14','15','16','dashboard','kpi','porcentaje','eficiencia'],
+      q:'¿Qué muestran los tableros 14, 15 y 16 del DOTA?',
+      a:`<b>Tablero 14 — % de conciliación por barrida:</b><br>
+Muestra cuántas partidas y qué monto concilió cada barrida (B1 a B5). Visual recomendado: tabla + gráfico de barras horizontal.<br>
+Dimensión: <code>_BARRIDA_</code>. Métricas: CONTAR(id), SUMA(ABS(MONTO)), % sobre total.<br><br>
+<b>Tablero 15 — KPI global:</b><br>
+3 números grandes: <b>Conciliadas</b> (donde _BARRIDA_ ≠ NULL) + <b>Pendientes</b> (donde _BARRIDA_ = NULL) + <b>% eficiencia</b> (conciliadas/total × 100).<br>
+<i>Verificación: KPI Conciliadas debe igualar exactamente la suma del Tablero 14.</i><br><br>
+<b>Tablero 16 — Libre:</b><br>
+Elegís 1 de estas 4 opciones y justificás el valor operativo:<br>
+— Top 10 comercios con mayor monto pendiente<br>
+— Heatmap compensaciones >15 días por adquirente<br>
+— % pendientes por motivo (sin auth / sin PAN / fuera de SLA)<br>
+— Saldo acumulado vs línea base mensual (usa el saldo del punto 13)` },
+  ];
+
+  /* ── Búsqueda del tutor ─── */
+  function tutorSearch(query){
+    if (!query || query.length < 2) return TUTOR_QA;
+    const q = query.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    return TUTOR_QA.filter(item => {
+      const searchable = (item.q + ' ' + item.tags.join(' ') + ' ' + item.cat)
+        .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+      return q.split(' ').every(word => word.length < 2 || searchable.includes(word));
+    });
+  }
+
+  function tutorRenderQA(results, activeIdx){
+    const list = document.getElementById('tutorList');
+    const detail = document.getElementById('tutorDetail');
+    if (!list || !detail) return;
+
+    if (results.length === 0){
+      list.innerHTML = '<div style="padding:12px;color:var(--t3);font-size:12px;text-align:center">No encontré respuesta para eso.<br>Probá con otras palabras clave, o usá el <b>Generador de Prompts</b> de abajo para preguntarle a Claude.</div>';
+      detail.innerHTML = '';
+      return;
+    }
+
+    list.innerHTML = results.map((item, i) => {
+      const cats = {fuentes:'🗄️ Fuentes',formulas:'🧮 Fórmulas',buscarv:'🔍 BuscarV',conciliacion:'🔄 Conciliación',tableros:'📊 Tableros',herramientas:'🛠️ Herramientas',dota:'🧪 DOTA'};
+      const active = i === (activeIdx||0);
+      return `<div onclick="WORK.tutorSelect(${i})" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--bd);background:${active?'rgba(6,182,212,.10)':'transparent'};border-left:${active?'3px solid var(--ac)':'3px solid transparent'};transition:all .1s">
+        <div style="font-size:10px;color:var(--t3);margin-bottom:3px;font-weight:600">${cats[item.cat]||item.cat}</div>
+        <div style="font-size:13px;color:${active?'var(--ac)':'var(--tx)'};font-weight:${active?'600':'400'};line-height:1.4">${item.q}</div>
+      </div>`;
+    }).join('');
+
+    const show = results[activeIdx||0];
+    detail.innerHTML = show ? `
+      <div style="padding:16px 18px">
+        <div style="font-size:11px;color:var(--t3);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">${show.cat}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--ac);margin-bottom:14px;line-height:1.4">${show.q}</div>
+        <div style="font-size:13px;line-height:1.75;color:var(--tx)">${show.a}</div>
+      </div>` : '';
+  }
+
+  let _tutorCurrentResults = TUTOR_QA;
+  let _tutorCurrentIdx = 0;
+
+  function tutorSelect(idx){
+    _tutorCurrentIdx = idx;
+    tutorRenderQA(_tutorCurrentResults, idx);
+  }
+
+  function tutorInit(){
+    _tutorCurrentResults = TUTOR_QA;
+    _tutorCurrentIdx = 0;
+    tutorRenderQA(TUTOR_QA, 0);
+
+    const inp = document.getElementById('tutorSearch');
+    if (inp) inp.addEventListener('input', () => {
+      _tutorCurrentResults = tutorSearch(inp.value.trim());
+      _tutorCurrentIdx = 0;
+      tutorRenderQA(_tutorCurrentResults, 0);
+    });
+  }
+
+  /* ── Guía de hoy (basada en progreso DOTA) ── */
+  function tutorGuiaHoy(){
+    const progress = (() => { try { return JSON.parse(localStorage.getItem('work_dota_progress')||'{}'); } catch { return {}; } })();
+    const steps = [
+      { n:1, label:'CARD_NUMBER — el número de tarjeta de 16 dígitos', q:'¿Cómo construyo el número de tarjeta (PAN) de 16 dígitos?' },
+      { n:2, label:'GTWC_AUTHORIZATION_CODE — limpiar el código de autorización', q:'¿Cómo uso la función SI en Simetrik?' },
+      { n:3, label:'GTWT_ACQUIRER — detectar la marca del adquirente', q:'¿Cómo busco una palabra dentro de un texto (búsqueda tipo "contiene")?' },
+      { n:4, label:'BRAND — VISA / MASTERCARD / AMEX según el PAN', q:'¿Cómo busco una palabra dentro de un texto (búsqueda tipo "contiene")?' },
+      { n:5, label:'GTWT_MERCHANT_NUMBER — prioridad entre 3 columnas', q:'¿Cómo uso la función SI en Simetrik?' },
+      { n:6, label:'MOV_CREATION_DATE — convertir datetime a fecha', q:'¿Cómo sumo días hábiles a una fecha?' },
+      { n:7, label:'EXPECTED_PAYMENT_DATE — 30 días hábiles', q:'¿Cómo sumo días hábiles a una fecha?' },
+      { n:8, label:'BuscarV con Parametría de Comercios', q:'¿Cómo traigo datos de otra fuente a mi fuente actual (tipo VLOOKUP)?' },
+      { n:9, label:'LIQ_6_TARJETA — primeros 6 dígitos de NUM_TAR', q:'¿Cómo uso la función SI en Simetrik?' },
+      { n:10,label:'LIQ_4_TARJETA — últimos 4 dígitos de NUM_TAR', q:'¿Cómo uso la función SI en Simetrik?' },
+      { n:11,label:'DEADLINE — último día del mes (bisiesto-safe)', q:'¿Cómo calculo cuántos días tiene un registro sin conciliar?' },
+      { n:12,label:'Conciliación avanzada DOTA × FD con 5 barridas', q:'¿Cuáles son las 5 barridas del DOTA y en qué orden van?' },
+      { n:13,label:'Saldo neto diario (Add-on Saldos Persistentes)', q:'¿Cómo calculo cuántos días tiene un registro sin conciliar?' },
+      { n:14,label:'Tablero 14 — % conciliación por barrida', q:'¿Qué muestran los tableros 14, 15 y 16 del DOTA?' },
+      { n:15,label:'Tablero 15 — KPI global', q:'¿Cómo agrego un KPI individual al tablero?' },
+      { n:16,label:'Tablero 16 — tablero libre con justificación', q:'¿Qué muestran los tableros 14, 15 y 16 del DOTA?' },
+    ];
+
+    const completedNums = Object.keys(progress).filter(k => progress[k]).map(k => parseInt(k.replace('n',''))).filter(n => !isNaN(n));
+    const nextStep = steps.find(s => !completedNums.includes(s.n));
+    const pct = Math.round(completedNums.length / 16 * 100);
+
+    const el = document.getElementById('tutorGuiaHoy');
+    if (!el) return;
+
+    if (!nextStep){
+      el.innerHTML = `<div style="text-align:center;padding:20px">
+        <div style="font-size:32px;margin-bottom:8px">🎉</div>
+        <div style="font-weight:700;font-size:16px;color:var(--gn)">¡Completaste los 16 pasos del DOTA!</div>
+        <div style="font-size:12px;color:var(--t3);margin-top:6px">Revisá los tableros 14-16 para asegurarte que los números cuadren.</div>
+      </div>`;
+      return;
+    }
+
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:var(--bg3);border-radius:4px;height:6px"><div style="width:${pct}%;background:linear-gradient(90deg,var(--ac),var(--gn));height:100%;border-radius:4px;transition:width .3s"></div></div>
+        <span style="font-size:11px;font-weight:700;color:var(--ac);font-family:'IBM Plex Mono',monospace">${pct}% · ${completedNums.length}/16</span>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:600;letter-spacing:.5px">PRÓXIMO PASO</div>
+      <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">Punto ${nextStep.n} · ${nextStep.label}</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Abrí la Prueba DOTA para ver la fórmula exacta y las trampas del evaluador.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="document.querySelector('[data-p=dotatest]').click()" class="btn bp" style="font-size:12px">🧪 Ir al paso ${nextStep.n}</button>
+        <button onclick="WORK.tutorShowQuestion('${nextStep.q.replace(/'/g,"\\'")}')" class="btn bo" style="font-size:12px">💡 Explicame cómo hacerlo</button>
+      </div>`;
+  }
+
+  function tutorShowQuestion(q){
+    const idx = TUTOR_QA.findIndex(item => item.q === q);
+    if (idx >= 0){
+      _tutorCurrentResults = TUTOR_QA;
+      _tutorCurrentIdx = idx;
+      tutorRenderQA(TUTOR_QA, idx);
+      const inp = document.getElementById('tutorSearch');
+      if (inp) inp.value = '';
+      document.getElementById('tutorList').children[idx].scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+
   /* ── COPILOT PROMPT BUILDER ────────────────────────────────── */
   function buildAskPrompt(){
     const ask = document.getElementById('askBody').value.trim();
@@ -1836,9 +2304,27 @@ Slug: foo-bar. Procedé."]`;
     forceResync, forcePush, showSyncDiagnostics, compareLocalVsCloud, smartSync,
     // MOIF
     saveMoif, delMoif, editMoif, toggleMoif, copyMoifTranscript, buildMoifPrompt,
+    // TUTOR
+    tutorSelect, tutorInit, tutorGuiaHoy, tutorShowQuestion,
   };
 })();
 window.WORK = WORK;
+
+// Auto-init tutor si el panel está visible al cargar la página
+(function(){
+  function _tryInitTutor(){
+    const panel = document.getElementById('p-copilot');
+    if(panel && panel.classList.contains('on')){
+      WORK.tutorInit();
+      WORK.tutorGuiaHoy();
+    }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', _tryInitTutor);
+  } else {
+    _tryInitTutor();
+  }
+})();
 
 /* ═══════════════════════════════════════════════════════════════
    WorkNB — wrapper around the same NB pattern as NotNB but with
