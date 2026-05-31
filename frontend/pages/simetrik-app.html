@@ -330,14 +330,23 @@ const SCREENS = {
   /* ───── RESUMEN ───── */
   resumen(){
     return {
-      title:'Resumen',
-      sub:'Consulta la información más reciente de fuentes, conciliaciones, usuarios y almacenamiento de tu espacio de trabajo.',
+      title:'Resumen · Panel de inicio',
+      sub:'Lo primero que ves cuando entrás a app.simetrik.com — el estado general de tu workspace.',
       explainer:{
-        t:'¿Qué es esta pantalla?',
-        p:'Es tu <b>panel de inicio</b>. Lo primero que ves al entrar. Te muestra el estado general del workspace: cuántas fuentes y conciliaciones tenés, cuántos usuarios, cuánto storage usás, y un acceso rápido a lo último que tocaste.',
-        btns:[['tip','Empezá tu día acá: revisá "Recientes" para retomar donde quedaste'],['','Las 4 tarjetas son tu salud general del workspace']]
+        t:'🗺️ Cómo usar este simulador',
+        p:'<b>Este es un simulador interactivo</b> de la app real de Simetrik. Hacé click en los menús de la izquierda (Automatizar, Gestionar, Auditar, Herramientas) para explorar cada pantalla. Cada pantalla tiene <b>hotspots naranja ●</b> — hacé click en ellos para leer una explicación de qué hace ese elemento y cómo aplicarlo en tu trabajo con Ficohsa. <br><br>💡 <b>Ruta recomendada:</b> Automatizar → Recursos y conciliaciones → <b>Conciliaciones</b> (ahí está el corazón de tu trabajo). Después Automatizar → Análisis → <b>Tableros</b>.',
+        btns:[['tip','Todos los ejemplos son de Ficohsa/SERCOM/DOTA — tu contexto real'],['tip','Los hotspots naranja ● son el valor principal — hacé click en cada uno']]
       },
       html:`
+      <div style="background:linear-gradient(135deg,rgba(59,91,219,.10),rgba(34,197,94,.08));border:1px solid rgba(59,91,219,.25);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:12.5px;line-height:1.7">
+        <div style="font-weight:700;color:var(--blu);margin-bottom:6px">📍 Workspace: Ficohsa_Honduras_Prod</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px;color:var(--t2);font-size:11.5px">
+          <div>🔌 ERP conectado: <b>SAP S/4HANA</b></div>
+          <div>🌍 País: <b>Honduras</b></div>
+          <div>⚙️ Herencia: <b>Nueva (add-ons activos)</b></div>
+          <div>🔐 Tu rol: <b>Builder → Operator</b></div>
+        </div>
+      </div>
       <div class="stats">
         <div class="stat">${tip('Métrica','Fuentes (Sources)','El total de Sources cargadas en tu workspace. Cada archivo de banco, ERP o pasarela vive en su propia Source.','En Ficohsa vas a tener una Source por cada reporte: T24 cajas, CLARO recargas, SAP balance...','Si este número crece sin control, revisá si hay Sources duplicadas que consumen storage.','tr')}<div class="si">🗄</div><div><div class="sv">682</div><div class="sl">Fuentes</div></div></div>
         <div class="stat">${tip('Métrica','Conciliaciones','Total de reconciliations configuradas. Standard + Advanced. Cada una cruza 2+ fuentes según reglas.','El proceso SERCOM es 1 conciliación; Cartera de Préstamos es otra.','El % de auto-match de cada una lo ves en el Conciliation Monitor (Gestionar → Tableros).','tr')}<div class="si">⇄</div><div><div class="sv">213</div><div class="sl">Conciliaciones</div></div></div>

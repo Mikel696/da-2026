@@ -33,11 +33,11 @@
   </div>
 
   <div class="stats">
-    <div class="st"><div class="sv" id="sCases">0</div><div class="sla">Casos</div></div>
-    <div class="st"><div class="sv" id="sErrors">0</div><div class="sla">Errores</div></div>
-    <div class="st"><div class="sv" id="sLearn">0</div><div class="sla">Aprendizajes</div></div>
-    <div class="st"><div class="sv" id="sMoif">0</div><div class="sla">MOIF</div></div>
-    <div class="st"><div class="sv" id="sNbs">0</div><div class="sla">Cuadernos</div></div>
+    <div class="st" title="Situaciones reales del proyecto que documentaste — problemas, soluciones, aprendizajes del campo"><div class="sv" id="sCases">0</div><div class="sla">Casos</div></div>
+    <div class="st" title="Errores y bugs que encontraste en Simetrik o en el proceso — con su workaround"><div class="sv" id="sErrors">0</div><div class="sla">Errores</div></div>
+    <div class="st" title="Tips y mejores prácticas que descubriste trabajando"><div class="sv" id="sLearn">0</div><div class="sla">Aprendizajes</div></div>
+    <div class="st" title="MOIF = Monitoreo y Observabilidad Integraciones Ficohsa. Reuniones del proyecto guardadas (weekly, discovery, kick-off, etc.)"><div class="sv" id="sMoif">0</div><div class="sla">MOIF 📅</div></div>
+    <div class="st" title="Cuadernos de apuntes con editor enriquecido — pueden tener páginas, imágenes y adjuntos"><div class="sv" id="sNbs">0</div><div class="sla">Cuadernos</div></div>
   </div>
 
   <!-- Sync unificado · UN solo botón hace todo -->
@@ -56,21 +56,54 @@
     <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a pestaña &gt;30s · realtime activo</span>
   </div>
 
+  <!-- Guía de uso rápida — se cierra y queda cerrada -->
+  <div id="onboardBanner" style="background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(167,139,250,.10));border:1px solid rgba(6,182,212,.3);border-radius:12px;padding:14px 18px;margin-bottom:14px;font-size:13px;line-height:1.7">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ac)">📖 Cómo usar este módulo — 3 fases</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+          <div style="background:rgba(6,182,212,.08);border-radius:8px;padding:10px 12px">
+            <div style="font-weight:700;color:var(--ac);margin-bottom:4px">① APRENDER</div>
+            <div style="color:var(--t2);font-size:12px"><b>Empieza Aquí</b> → 8 nodos en orden (①→⑧). <b>Simulador App</b> → explorá la app sin miedo a romper nada. <b>Playbook Ficohsa</b> → el manual específico de tu proyecto.</div>
+          </div>
+          <div style="background:rgba(167,139,250,.08);border-radius:8px;padding:10px 12px">
+            <div style="font-weight:700;color:var(--pp,#a78bfa);margin-bottom:4px">② PRACTICAR</div>
+            <div style="color:var(--t2);font-size:12px"><b>Prueba DOTA</b> → tu guía paso a paso para el caso real. <b>Diccionario</b> → buscá cualquier término que no entiendas. <b>Copilot</b> → generá prompts cuando tengas dudas.</div>
+          </div>
+          <div style="background:rgba(34,197,94,.08);border-radius:8px;padding:10px 12px">
+            <div style="font-weight:700;color:var(--gn,#22c55e);margin-bottom:4px">③ DOCUMENTAR</div>
+            <div style="color:var(--t2);font-size:12px"><b>Casos</b> → guardá situaciones reales. <b>Errores</b> → registrá problemas y soluciones. <b>Aprendizajes</b> → tips que descubriste. <b>MOIF</b> → transcripciones de reuniones.</div>
+          </div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('onboardBanner').style.display='none';localStorage.setItem('work_ob_closed','1')" style="background:none;border:none;cursor:pointer;color:var(--t3);font-size:18px;flex-shrink:0;line-height:1" title="Cerrar">✕</button>
+    </div>
+  </div>
+  <script>if(localStorage.getItem('work_ob_closed')==='1')document.getElementById('onboardBanner').style.display='none';</script>
+
   <div class="tabs">
+    <!-- GRUPO 1: APRENDER -->
+    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Aprender</span>
     <button class="tab on" data-p="start">🧭 Empieza Aquí</button>
     <button class="tab" data-p="appsim">🖥️ Simulador App</button>
     <button class="tab" data-p="playbook">📘 Playbook Ficohsa</button>
+    <!-- GRUPO 2: PRACTICAR -->
+    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Practicar</span>
+    <button class="tab" data-p="dotatest" style="border-color:rgba(6,182,212,.4)">🧪 Prueba DOTA</button>
     <button class="tab" data-p="dict">📖 Diccionario</button>
-    <button class="tab" data-p="workflow">📝 Notas Workflow</button>
-    <button class="tab" data-p="course">🎓 Notas Curso</button>
-    <button class="tab" data-p="nb">📓 Cuadernos</button>
+    <button class="tab" data-p="copilot">🤖 Copilot</button>
+    <!-- GRUPO 3: DOCUMENTAR -->
+    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Documentar</span>
     <button class="tab" data-p="cases">📋 Casos</button>
     <button class="tab" data-p="errors">🐛 Errores</button>
     <button class="tab" data-p="learn">💡 Aprendizajes</button>
     <button class="tab" data-p="moif">🗓️ MOIF</button>
-    <button class="tab" data-p="kb">📚 KB</button>
-    <button class="tab" data-p="copilot">🤖 Copilot</button>
-    <button class="tab" data-p="dotatest">🧪 Prueba DOTA</button>
+    <!-- GRUPO 4: CONTENIDO -->
+    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Contenido</span>
+    <button class="tab" data-p="workflow">📝 Notas Workflow</button>
+    <button class="tab" data-p="course">🎓 Notas Curso</button>
+    <button class="tab" data-p="nb">📓 Cuadernos</button>
+    <button class="tab" data-p="kb">📚 KB Simetrik</button>
   </div>
 
   <!-- ═══ EMPIEZA AQUÍ · Mapa mental interactivo ═══ -->
@@ -131,7 +164,34 @@
           <span id="wfSaved" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s;align-self:center">✓</span>
         </div>
       </div>
-      <div id="wfBody" contenteditable="true" class="eco-editor" data-placeholder="Empieza tu documento. Describe el flujo: ingestión de datos → cuadres → conciliación → ajustes → cierre. Pega imágenes de Lucidchart, screenshots, mapas mentales…"></div>
+      <div id="wfBody" contenteditable="true" class="eco-editor" data-placeholder="💡 Plantilla sugerida para tu workflow en Ficohsa:
+
+📥 PASO 1 · INGESTIÓN DE DATOS
+— T24 deposita archivo TXT en SFTP cada noche a las 23:30
+— CLARO envía CSV diario de recargas
+— SAP exporta balance contable mensual
+
+⚙️ PASO 2 · NORMALIZACIÓN
+— Parsear cada fuente (Smart Parser o parser configurado)
+— Verificar tipos de dato: fechas como Fecha, montos como Número, PAN como Texto
+— Aplicar columnas de transformación (CONCATENAR, IZQUIERDA, SI, etc.)
+
+🔄 PASO 3 · CONCILIACIÓN
+— Crear conciliación estándar o avanzada según complejidad
+— Configurar barridas en orden: estricta → con tolerancia → agrupada
+— Verificar robustez de cada barrida (verde = OK)
+
+📊 PASO 4 · ANÁLISIS
+— Revisar % conciliado por barrida en el tablero
+— Investigar pendientes con el Buscador de registros
+— Gestionar manualmente los casos excepcionales
+
+📒 PASO 5 · CIERRE CONTABLE
+— Las conciliaciones resueltas generan asientos automáticos (Automatizaciones contables)
+— Asientos viajan al ERP (SAP S/4HANA)
+— Certifier aprueba el cierre del período
+
+Borrá esto y escribí tu propia versión basada en lo que vayas aprendiendo."></div>
     </div>
   </div>
 
@@ -157,7 +217,27 @@
           <span id="cuSaved" style="font-size:10px;color:var(--gn);font-family:'IBM Plex Mono',monospace;opacity:0;transition:opacity .3s;align-self:center">✓</span>
         </div>
       </div>
-      <div id="cuBody" contenteditable="true" class="eco-editor" data-placeholder="Unidad 1 · Activos, pasivos, patrimonio…  Unidad 2 · Asientos contables y partida doble…  Unidad 3 · Conciliación bancaria, cuadre por matching key…"></div>
+      <div id="cuBody" contenteditable="true" class="eco-editor" data-placeholder="💡 Usá este espacio para tomar apuntes del curso oficial de Simetrik. Ejemplo:
+
+📘 MÓDULO 1 · FUENTES Y UNIONES
+— Una Fuente = un archivo recurrente (Excel/CSV/TXT de una sola hoja)
+— Una Unión = combinar dos o más fuentes en una sola tabla
+— Best practice: SIEMPRE usá Uniones como base de una conciliación, no Fuentes directo
+
+📘 MÓDULO 2 · COLUMNAS DE TRANSFORMACIÓN
+— Separador de parámetros: ; (punto y coma) SIEMPRE
+— Strings: entre comillas dobles 'texto'
+— Función para rellenar ceros: RELLENAR(VALOR; LARGO; '0'; 'IZQUIERDA')
+— Función para concatenar: CONCATENAR(col1; col2; ...)
+— Función para condicional: SI(CONDICION; valor_si_verdad; valor_si_falso)
+
+📘 MÓDULO 3 · CONCILIACIÓN
+— Barrida = conjunto de reglas de cruce
+— Robustez verde = reglas sólidas, el sistema puede cruzar
+— Robustez roja = reglas débiles, revisar las llaves de cruce
+— Tolerancia: operador ~= para diferencias numéricas aceptables
+
+Borrá esto y escribí tus propias notas del curso."></div>
     </div>
   </div>
 
@@ -240,8 +320,38 @@
       <div style="font-size:14px;font-weight:600;margin-bottom:6px">🐛 Reportar error</div>
       <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Errores recurrentes, bugs en Simetrik, fallos de proceso.</div>
       <input class="inp" id="errTitle" placeholder="Mensaje del error / título corto" style="margin-bottom:6px">
-      <input class="inp" id="errCode" placeholder="Código / módulo Simetrik (opcional)" style="margin-bottom:6px">
-      <textarea class="txa" id="errBody" placeholder="Stack trace, captura, pasos para reproducir, workaround conocido..." style="min-height:100px"></textarea>
+      <select class="inp" id="errCode" style="margin-bottom:6px">
+        <option value="">📍 ¿Dónde ocurrió? (módulo Simetrik)</option>
+        <optgroup label="— Automatizar —">
+        <option value="fuentes">Fuentes / Carga de archivos</option>
+        <option value="uniones">Uniones de fuentes</option>
+        <option value="transformaciones">Columnas de transformación / Fórmulas</option>
+        <option value="buscarv">BuscarV / Enriquecimiento</option>
+        <option value="cruce">Configuración de cruce / Barridas</option>
+        <option value="conc-std">Conciliación estándar</option>
+        <option value="conc-avz">Conciliación avanzada</option>
+        <option value="agrupaciones">Agrupaciones</option>
+        <option value="tableros">Tableros / Análisis</option>
+        <option value="parsers">Parsers / Integraciones</option>
+        <option value="erp">Contabilidad / ERP</option>
+        </optgroup>
+        <optgroup label="— Gestionar / Auditar —">
+        <option value="gestionar">Gestionar (operativo/contable)</option>
+        <option value="auditar">Auditar / Historial</option>
+        <option value="herramientas">Herramientas (Procesos, Mapas)</option>
+        </optgroup>
+        <option value="sync">Sync / Cloud</option>
+        <option value="login">Login / Acceso</option>
+        <option value="otro">Otro</option>
+      </select>
+      <textarea class="txa" id="errBody" placeholder="Describí el error con detalle:
+
+¿Qué estabas haciendo cuando ocurrió?
+¿Qué mensaje de error viste exactamente?
+¿Pasos para reproducirlo?
+¿Workaround que encontraste (aunque sea temporal)?
+
+Ejemplo: 'Al guardar la columna CARD_NUMBER con RELLENAR(), Simetrik muestra Error: tipo de dato incompatible. Workaround: cambiar el tipo de CARD_SIX_FIRST_DIGITS a Texto antes de aplicar la fórmula.'" style="min-height:120px"></textarea>
       <div id="errPendAtts" class="pend-atts"></div>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveError()">💾 Guardar error</button>
@@ -260,15 +370,28 @@
       <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Tips, atajos, mejores prácticas que aprendiste en el camino.</div>
       <input class="inp" id="learnTitle" placeholder="Título corto" style="margin-bottom:6px">
       <select class="inp" id="learnTag" style="margin-bottom:6px">
-        <option value="sql">🗃️ SQL</option>
-        <option value="excel">📊 Excel</option>
-        <option value="python">🐍 Python</option>
-        <option value="reconcile">🔄 Reconciliation</option>
-        <option value="process">⚙️ Proceso</option>
+        <optgroup label="— Simetrik (tu trabajo) —">
+        <option value="reconcile">🔄 Conciliación / Barridas</option>
+        <option value="formula">🧮 Fórmulas Simetrik</option>
+        <option value="buscarv">🔍 BuscarV / Enriquecimiento</option>
+        <option value="config">⚙️ Configuración de cruce</option>
+        <option value="tableros">📊 Tableros / KPIs</option>
+        <option value="integraciones">🔌 Integraciones / Parsers</option>
+        <option value="contabilidad">📒 Contabilidad / Asientos</option>
+        <option value="ficohsa">🏦 Ficohsa / DOTA específico</option>
+        </optgroup>
+        <optgroup label="— General —">
+        <option value="process">⚙️ Proceso / Flujo de trabajo</option>
         <option value="tool">🛠️ Herramienta</option>
+        <option value="excel">📊 Excel</option>
+        <option value="sql">🗃️ SQL</option>
+        <option value="python">🐍 Python</option>
         <option value="general">📌 General</option>
+        </optgroup>
       </select>
-      <textarea class="txa" id="learnBody" placeholder="¿Qué aprendiste? ¿En qué contexto? ¿Cómo lo usás?"></textarea>
+      <textarea class="txa" id="learnBody" placeholder="¿Qué aprendiste? ¿En qué contexto lo descubriste? ¿Cómo lo aplicás en Simetrik / Ficohsa?
+
+Ejemplo: 'Si RELLENAR no funciona, revisar que el tipo de dato de la columna fuente sea Texto, no Número. La función necesita una cadena de texto para rellenar.'"></textarea>
       <div id="learnPendAtts" class="pend-atts"></div>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveLearning()">💾 Guardar</button>
@@ -318,9 +441,29 @@
   <!-- ═══ KNOWLEDGE BASE ═══ -->
   <div class="pnl" id="p-kb">
     <div class="cd">
-      <div style="font-size:14px;font-weight:600;margin-bottom:6px">📚 Knowledge Base de Simetrik</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Información estática sobre Simetrik para que el copilot tenga contexto.</div>
-      <textarea class="txa" id="kbBody" placeholder="Pegá información clave: arquitectura, módulos, flujos, glosario, links a docs..." style="min-height:240px"></textarea>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">📚 KB · Tu base de conocimiento personal de Simetrik</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:6px">Espacio libre para pegar, escribir y organizar información de Simetrik que quieras tener a mano. También sirve de contexto cuando usás el Copilot.</div>
+      <div style="background:rgba(6,182,212,.07);border-left:3px solid var(--ac);border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11.5px;line-height:1.6">
+        <b style="color:var(--ac)">📖 La KB oficial está en <code>SIMETRIK_KNOWLEDGE_BASE.md</code></b> (en la raíz del repo) — 73 artículos del Help Center scrapeados y organizados. Acá guardás <b>tu</b> knowledge personal: notas de meetings, info de Ficohsa, links útiles, configuraciones específicas de tu workspace.
+      </div>
+      <textarea class="txa" id="kbBody" placeholder="Ejemplos de qué pegar acá:
+
+🔑 Credenciales y accesos de tu workspace Ficohsa (nunca contraseñas — solo URLs y nombres de usuario)
+
+📋 Configuraciones específicas de tu proyecto:
+— Nombre del workspace: 'Ficohsa_Honduras_Prod'
+— URL del Help Center: simetriksoporte.zendesk.com
+— Contacto de soporte: (el email de tu CSM)
+
+🗒️ Notas de onboarding:
+— El proceso SERCOM cruza T24 vs CLARO usando conciliación avanzada
+— Los archivos de T24 llegan al SFTP cada noche a las 23:30
+— El workspace tiene nueva herencia activada (necesario para funciones avanzadas)
+
+🔗 Links útiles:
+— Help Center oficial: simetriksoporte.zendesk.com/hc/es-419
+— Workspace Simetrik: app.simetrik.com
+— Drive del proyecto: (tu link de Drive acá)" style="min-height:200px"></textarea>
       <div style="display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap">
         <button class="btn bg" onclick="WORK.saveKB()">💾 Guardar KB</button>
         <button class="btn bo" onclick="WORK.addKbAtt()">📎 Adjuntar archivo</button>
@@ -358,38 +501,63 @@
 
     <!-- Modo 1: Quick Ask -->
     <div class="cd">
-      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🤖 Quick Ask — Pregunta puntual a Claude</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Generá un prompt optimizado con TU contexto de Simetrik (KB + casos recientes + errores). Pegalo en Claude Code o Claude.ai.</div>
-      <textarea class="txa" id="askBody" placeholder="¿Cuál es tu pregunta o caso para Claude?" style="min-height:120px"></textarea>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--ac);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">MODO 1</span>
+        <div style="font-size:14px;font-weight:600">🤖 Quick Ask — Pregunta puntual a Claude</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Escribí tu duda sobre Simetrik y este módulo genera un prompt optimizado con tu contexto (KB + casos + errores). Copiás el prompt y lo pegás en Claude Code o Claude.ai.</div>
+      <div style="background:rgba(6,182,212,.06);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:11px;color:var(--t2)">
+        <b style="color:var(--ac)">💡 Ejemplos de preguntas:</b><br>
+        · "¿Por qué mi fórmula RELLENAR no funciona con ceros a la izquierda?"<br>
+        · "¿Cuándo usar conciliación estándar vs avanzada?"<br>
+        · "¿Cómo configuro una tolerancia de $5 en la barrida de compensación?"<br>
+        · "¿Qué diferencia hay entre BuscarV y una Unión de fuentes?"<br>
+        · "¿Cómo sé si la robustez de mi barrida es suficiente?"
+      </div>
+      <textarea class="txa" id="askBody" placeholder="Escribí tu pregunta o describí el problema que tenés en Simetrik..." style="min-height:100px"></textarea>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-        <select class="inp" id="askKind" style="max-width:200px">
-          <option value="reconcile">🔄 Reconciliation</option>
+        <select class="inp" id="askKind" style="max-width:220px">
+          <option value="reconcile">🔄 Conciliación / Barridas</option>
+          <option value="formula">🧮 Fórmulas Simetrik</option>
           <option value="error">🐛 Error / debug</option>
-          <option value="explain">💡 Explicación</option>
-          <option value="learn">📚 Aprender</option>
-          <option value="review">🔍 Review</option>
+          <option value="explain">💡 Explicación de concepto</option>
+          <option value="config">⚙️ Configuración de la app</option>
+          <option value="learn">📚 Quiero aprender sobre...</option>
+          <option value="review">🔍 Revisá esto que hice</option>
         </select>
         <button class="btn bp" onclick="WORK.buildAskPrompt()">⚡ Generar prompt</button>
       </div>
     </div>
 
-    <!-- Modo 3: Nueva Prueba Simetrik (DOTA-style) -->
+    <!-- Modo 2: Nueva Prueba Simetrik (DOTA-style) -->
     <div class="cd" style="margin-top:14px;border-left:3px solid var(--ac,#06b6d4)">
-      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🧪 Nueva Prueba Simetrik — desarrollo de test / proyecto / case study</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.6">Genera el prompt maestro para resolver una tarea real de Simetrik tipo <b>DOTA</b>: lee insumos de Drive (xlsx + docx + capturas + anotaciones), produce fórmulas exactas en sintaxis Simetrik, crea un roadmap publicado en una nueva tab + checklist con sync + actualiza el diccionario. Útil para futuros casos: nuevos clientes, nuevos test de conocimiento, implementaciones reales.</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:var(--ac);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">MODO 2</span>
+        <div style="font-size:14px;font-weight:600">🧪 Nueva Prueba / Proyecto Simetrik</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.6">
+        Cuando te dan una prueba técnica nueva (como DOTA) o un caso de implementación nuevo, este modo genera el prompt maestro para resolverlo. Claude leerá los archivos de Drive, escribirá todas las fórmulas con sintaxis exacta de Simetrik y armará un roadmap paso a paso.<br>
+        <b style="color:var(--ac)">¿Cuándo usarlo?</b> Cuando tenés archivos xlsx/docx en Drive y una guía que describe qué calcular.
+      </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
         <button class="btn bp" onclick="WORK.buildTestDevPrompt()" style="background:var(--ac,#06b6d4)">⚡ Generar Prompt Nueva Prueba</button>
-        <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">plantilla DOTA-style · listo para Claude Code</span>
+        <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">plantilla DOTA-style · para Claude Code con Chrome MCP</span>
       </div>
     </div>
 
-    <!-- Modo 2: Master Review -->
+    <!-- Modo 3: Master Review -->
     <div class="cd" style="margin-top:14px;border-left:3px solid var(--vi,#7c3aed)">
-      <div style="font-size:14px;font-weight:600;margin-bottom:6px">🔄 Master Review — Auditá y restructurá todo el módulo</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.6">Genera un prompt completo que incluye <b>TODO</b> lo que cargaste en este módulo (KB + Cases + Errors + Learnings + Notas Workflow + Notas Curso + páginas de Cuadernos + Diccionario) + la arquitectura del proyecto. Le pide a Claude que detecte info nueva y proponga cambios estructurados a las 4 secciones de display: 🧭 Empieza Aquí · 🖥️ Simulador App · 📘 Playbook · 📖 Diccionario. Es el flujo que usamos cuando volvés del trabajo con info nueva del portal de Simetrik.</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="background:#7c3aed;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">MODO 3</span>
+        <div style="font-size:14px;font-weight:600">🔄 Master Review — Actualizá todo el módulo</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px;line-height:1.6">
+        Usalo cuando volvés del trabajo con información nueva de Simetrik o Ficohsa y querés que el módulo se actualice automáticamente. Genera un prompt que incluye TODO lo que cargaste (KB, casos, errores, notas, diccionario) y le pide a Claude que detecte qué cambió y proponga actualizaciones concretas.<br>
+        <b style="color:#a78bfa">¿Cuándo usarlo?</b> Después de una reunión MOIF, cuando aprendiste algo nuevo, o cuando el proceso cambió.
+      </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
         <button class="btn bp" onclick="WORK.buildMasterReviewPrompt()" style="background:var(--vi,#7c3aed)">⚡ Generar Master Review Prompt</button>
-        <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">incluye todo · ~varios KB de contexto</span>
+        <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">incluye toda tu info cargada · varios KB de contexto</span>
       </div>
     </div>
 
