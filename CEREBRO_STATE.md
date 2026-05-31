@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-27
+- **Última actualización:** 2026-05-31
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 
@@ -2824,3 +2824,47 @@ Con 10-SYS, 9-GOA, y 11-ACC cerrados, y 8-PRO en planificación, el backlog rest
 
 **14-WORK ahora tiene su fuente de verdad propia. Próximas pruebas se construyen sobre esta base.**
 
+
+
+---
+
+## 🧠 14-WORK · KB SIMETRIK v2.0 + PRUEBA DOTA VALIDADA — 2026-05-31
+
+### Estado final
+**KB v2.0 CERRADA + 16 pasos DOTA re-validados paso a paso contra el Help Center oficial.**
+
+### Qué se hizo (Fase B)
+- **SIMETRIK_KNOWLEDGE_BASE.md → v2.0:** Drill-down completo de 8 artículos críticos con flujos "paso a paso" extraídos del Help Center oficial vía scraping Chrome MCP:
+  - Configuración de cruce (barridas, tipos, tolerancias, Universal ID, Versión con cambios)
+  - Conciliaciones avanzadas (flujo 9 pasos + tipos de barridas: conciliación, compensación, agrupada + segmentación)
+  - Conciliación estándar (flujo creación + tipos de barridas + desconciliación)
+  - Columnas de transformación — catálogo completo 24 funciones con sintaxis exacta
+  - Fuentes (flujo creación + administración + restricciones)
+  - Uniones de fuentes (flujo creación y edición + gestión de inconsistencias)
+  - Tableros (flujo creación + acciones + límite 21 elementos)
+  - Agrupaciones (flujo + TODAY() + acumulativa vs no acumulativa + restricciones)
+
+- **simetrik-dota-test.html — correcciones validadas:**
+  - `ADICIONAR_FECHA_TIEMPO` (inexistente en KB) → `ADICIONAR_DIASEMANA` en puntos 6, FECHA_FINAL, DEADLINE
+  - `HOY()` → `TODAY()` en FECHA_INICIO
+  - Path tableros: "Menú → Tableros" → "Automatizar > Análisis > Tableros"
+  - Warning documentado sobre 3er param de `ADICIONAR_DIASEMANA` (requiere confirmar con trainer)
+  - Markers `<!-- ✓ validado v2.0 -->` en pasos corregidos
+
+- **work.js SEED_DICT → SEED_VERSION `simetrik-2026-05-31.1`:** 9 términos nuevos:
+  Barrida de Compensación, Barrida Agrupada, Segmentación, Cardinalidad, Robustez de barrida, Universal ID/SKT_ID, Desencadenante, Acumulativa vs No Acumulativa, Versión con cambios.
+  Entradas anteriores corregidas: `adicfechahabil` → ADICIONAR_DIASEMANA, `adicfechatiempo` → TODAY().
+
+- **PROMPT_14-WORK.md:** Bloque "Fuente de Verdad" agregado apuntando a la KB v2.0 + entrada historial 2026-05-31a.
+- **PROMPT_14-WORK_TEST.md:** Paso 0 "Leer KB primero" agregado con funciones críticas verificadas. Corregida referencia a `ADICIONAR_FECHA_TIEMPO` → `ADICIONAR_DIASEMANA` + `TODAY()`.
+
+### Pendiente conocido
+- Paso 7 (EXPECTED_PAYMENT_DATE): `ADICIONAR_DIASEMANA(fecha;30;"ARG")` — 3er parámetro de calendario no documentado en artículo principal del Help Center. Confirmar con trainer en la prueba real si el add-on de días hábiles lo habilita.
+
+### Reglas v2.0 establecidas
+1. Toda sesión nueva en 14-WORK lee `SIMETRIK_KNOWLEDGE_BASE.md` antes de afirmar algo sobre Simetrik.
+2. Función verificada para sumar tiempo: `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)`. `ADICIONAR_FECHA_TIEMPO` NO existe.
+3. Fecha actual: `TODAY()` (no `HOY()`). Solo en agrupaciones.
+4. Path tableros oficial: `Automatizar > Análisis > Tableros`.
+
+**14-WORK tiene KB v2.0 como fuente de verdad operativa. Prueba DOTA está alineada con documentación oficial.**

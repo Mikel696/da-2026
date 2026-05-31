@@ -185,7 +185,7 @@ td b{color:var(--tx)}
 </ol>
 
 <h3>📅 Cómo cargar el calendario hábil = ARG</h3>
-<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> tiene los días hábiles de varios países. Necesitás que Simetrik conozca los de Argentina para que <code>ADICIONAR_DIAS_SEMANA(fecha; 30; "ARG")</code> funcione (punto 7) y para el cálculo de FECHA_FINAL del check de débitos.</p>
+<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> tiene los días hábiles de varios países. Necesitás que Simetrik conozca los de Argentina para que <code>ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; "ARG")</code> funcione (punto 7) y para el cálculo de FECHA_FINAL del check de débitos.</p>
 
 <div class="card tip">
 <div class="card-h">Camino A · módulo de Calendarios (lo más probable)</div>
@@ -195,7 +195,7 @@ td b{color:var(--tx)}
   <li>Subí el xlsx. Simetrik te pregunta qué columna es la fecha, cuál el sitio y cuál indica si es hábil.</li>
   <li>Filtrá al cargar: solo registros donde <code>SITIO = "ARG"</code> (o cargá todo y filtrá después).</li>
   <li>Asigná el <b>nombre / código del calendario = <code>ARG</code></b> (este string es el que va en el 3er parámetro de la fórmula).</li>
-  <li>Guardar. Ya podés usar <code>ADICIONAR_DIAS_SEMANA(MOV_CREATION_DATE; 30; "ARG")</code>.</li>
+  <li>Guardar. Ya podés usar <code>ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; "ARG")</code>.</li>
 </ol>
 </div>
 
@@ -213,7 +213,7 @@ td b{color:var(--tx)}
 <p class="tx2">Si tu workspace NO tiene módulo de calendarios y la función con sitio no funciona:</p>
 <ol>
   <li>Cargá el xlsx como fuente y filtrala <code>SITIO = "ARG"</code>.</li>
-  <li>Para el punto 7, en lugar de <code>ADICIONAR_DIAS_SEMANA</code>, hacé un <b>cruce</b> con esa fuente:
+  <li>Para el punto 7, en lugar de <code>ADICIONAR_DIASEMANA</code>, hacé un <b>cruce</b> con esa fuente:
     <ul>
       <li>Ordená el calendario por fecha ascendente.</li>
       <li>Para cada <code>MOV_CREATION_DATE</code>, contá 30 filas hacia abajo donde <code>ES_HABIL = "SI"</code>.</li>
@@ -372,15 +372,19 @@ td b{color:var(--tx)}
 <h3>Punto 6 · MOV_CREATION_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span> (sin hora)</span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula</div>
-<pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"días"</span>)</pre>
+<!-- ✓ validado v2.0 · función corregida a ADICIONAR_DIASEMANA per KB Help Center -->
+<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATED_DATE</span>; 1)</pre>
 <p class="tx2">Definí el tipo de dato de la columna de salida como <span class="dtype dtype-fecha">Fecha</span> (no <span class="dtype dtype-fecha">Fecha y hora</span>) · Simetrik truncará la hora automáticamente al guardar.</p>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Corrección v2.0 · función verificada</div><p class="tx2">La función oficial en el Help Center es <code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> — 2 parámetros. <code>ADICIONAR_FECHA_TIEMPO</code> no aparece en la documentación oficial.</p></div>
 </div>
 
 <h3>Punto 7 · EXPECTED_PAYMENT_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula (30 días hábiles · sitio ARG)</div>
-<pre class="formula"><span class="fn">ADICIONAR_DIAS_SEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30; <span class="str">"ARG"</span>)</pre>
+<!-- ✓ validado v2.0 · nombre de función verificado; tercer param pendiente -->
+<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30; <span class="str">"ARG"</span>)</pre>
 <p class="tx2">El tercer parámetro toma el sitio del <b>calendario cargado</b> en el workspace desde la hoja <code>Normalización_fechas_habiles</code>. Si Simetrik no acepta el sitio como string literal, configurá el calendario default del workspace a ARG antes de aplicar.</p>
+<div class="card warn" style="margin-top:6px"><div class="card-h">🟡 Verificación v2.0 · tercer parámetro</div><p class="tx2">El Help Center documenta <code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> con 2 parámetros. El tercer parámetro <code>"ARG"</code> (calendario) puede ser válido si el workspace tiene el add-on de días hábiles activo, pero no está documentado en el artículo principal. Confirmar con el trainer si aplica en el workspace de prueba.</p></div>
 </div>
 
 <!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
@@ -447,7 +451,7 @@ td b{color:var(--tx)}
 
 <span class="fn">SI</span>(
   <span class="fn">EXTRAER_FECHA</span>(
-    <span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FPRES</span>; 1; <span class="str">"días"</span>);
+    <span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">FPRES</span>; 1);
     <span class="str">"mes"</span>
   )
   <>
@@ -638,21 +642,23 @@ td b{color:var(--tx)}
 <p class="tx2"><code>CALCULO</code> convierte el texto extraído por <code>DERECHA</code> a número.</p>
 </div>
 
+<!-- ✓ validado v2.0 · TODAY() confirmado; EXTRAER_FECHA confirmado -->
 <h3>FECHA_INICIO <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card formula">
 <div class="card-h">Primer día del mes en curso (construido dinámicamente)</div>
 <pre class="formula"><span class="cm">// Ejemplo del documento Guía: concatenar("2026"; "-"; "10"; "-"; "1")</span>
 <span class="fn">CONCATENAR</span>(
-  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">HOY</span>(); <span class="str">"año"</span>);
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"año"</span>);
   <span class="str">"-"</span>;
-  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">HOY</span>(); <span class="str">"mes"</span>);
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"mes"</span>);
   <span class="str">"-1"</span>
 )</pre>
 </div>
 
 <h3>FECHA_FINAL <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card formula">
-<pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>; <span class="str">"días"</span>)</pre>
+<!-- ✓ validado v2.0 · función corregida a ADICIONAR_DIASEMANA -->
+<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>)</pre>
 </div>
 
 <h3>Reporte de débitos compensados &gt; 15 días</h3>
@@ -719,8 +725,9 @@ td b{color:var(--tx)}
 <div class="card-h">📍 Cómo crear un tablero · path oficial (Help Center)</div>
 <p class="tx2">Necesitás permisos para visualizar, crear, editar o descargar tableros. Recomendado rol personalizado.</p>
 <ol>
-  <li>Menú → sección <b>"Tableros"</b>.</li>
-  <li>Crear nuevo tablero → nombre + descripción.</li>
+  <!-- ✓ validado v2.0 · path UI oficial -->
+  <li>Menú → <b>Automatizar &gt; Análisis &gt; Tableros</b>.</li>
+  <li>Clic en <b>"Crear"</b> → <b>"Tableros"</b> → asignar nombre + tipo (Operativo o Contable).</li>
   <li>Agregar visuales · cada una con: fuente · dimensión · métrica · filtros opcionales.</li>
   <li><b>Acciones disponibles desde la vista interactiva (oficial):</b>
     <ul>
@@ -828,8 +835,8 @@ const DOTA = (() => {
     { n:3,  txt:'GTWT_ACQUIRER · EXTRAER_EXPREGULAR sobre 3 columnas concatenadas' },
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
-    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO +1 día (tipo Fecha)' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIAS_SEMANA 30 ARG' },
+    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_DIASEMANA +1 día (tipo Fecha)' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIASEMANA 30 ARG (verificar 3er param con trainer)' },
     { n:8,  txt:'Cruce con Parametría_Comercio · filtro TIPO_COMERCIO = ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },

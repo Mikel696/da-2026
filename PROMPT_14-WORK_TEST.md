@@ -34,6 +34,16 @@ Slug interno:         [dota / ficohsa / kebab-case-sin-acentos]
 
 ## PROTOCOLO DE EJECUCIÓN
 
+### 0. Leé SIMETRIK_KNOWLEDGE_BASE.md primero
+
+Antes de leer el Drive o escribir código, leé `SIMETRIK_KNOWLEDGE_BASE.md` (raíz del repo, v2.0).
+- Contiene el catálogo completo de 24 funciones con sintaxis exacta.
+- Contiene flujos paso a paso de los 8 artículos críticos (Configuración de cruce, Conciliaciones avanzadas, estándar, Transformación, Fuentes, Uniones, Tableros, Agrupaciones).
+- **Funciones clave a verificar siempre:**
+  - `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` — sumar tiempo a fecha (2 params base; 3er param con add-on días hábiles).
+  - `TODAY()` — fecha actual, **solo en agrupaciones**.
+  - Si usás una función que NO está en la KB → scrapear el Help Center antes de usarla.
+
 ### 1. Leé TODOS los insumos del Drive antes de tocar código
 
 Usá Chrome MCP (`mcp__Claude_in_Chrome__*`). NO inventes fórmulas ni columnas.
@@ -55,9 +65,10 @@ Construí una tabla mental:
 - ¿Funciones en MAYÚSCULAS sin acentos? (típico Simetrik en español)
 - ¿IZQUIERDA/DERECHA disponibles vs LEFT/RIGHT?
 - ¿RELLENAR para LPAD? ¿Con qué parámetros?
-- ¿ADICIONAR_FECHA_TIEMPO vs adicionar_fecha_tiempo?
-- Funciones de regex: `EXTRAER_EXPREGULAR` con grupo numérico
-- Funciones de fecha: `EXTRAER_FECHA(fecha; "año"|"mes"|"día")` y `ADICIONAR_DIAS_SEMANA(fecha; n; "sitio")`
+- Función para sumar tiempo: `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` — nombre oficial verificado en KB.
+- Fecha actual: `TODAY()` — solo disponible en agrupaciones.
+- Funciones de regex: `EXTRAER_EXPREGULAR(VALOR;PATRÓN;GRUPO)` con grupo numérico.
+- Funciones de fecha: `EXTRAER_FECHA(VALOR;"año"|"mes"|"día")` y `DIFERENCIA_FECHA(FECHA1;FECHA2;"días")`.
 
 ### 3. Para CADA punto del documento guía, generá:
 

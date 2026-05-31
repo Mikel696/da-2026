@@ -697,6 +697,279 @@ Para completar la KB al 100% restan extraer:
 
 ---
 
+# 🔬 DRILL-DOWN v2.0 · FLUJOS PASO A PASO (8 ARTÍCULOS CRÍTICOS)
+
+> Scraped 2026-05-31 vía Chrome MCP. Paráfrasis propia a partir del Help Center oficial.
+
+---
+
+## E2. CONFIGURACIÓN DE CRUCE — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651
+
+### E2.1 Barridas y llaves de cruce — Cómo crear
+**Prerrequisitos:** Rol Constructor o Supervisor. Al menos dos fuentes seleccionadas en la conciliación.
+
+**En conciliación estándar:**
+1. Ve a la configuración de cruce → "Crear barrida".
+2. Agrega reglas (llaves de cruce): elige columna de Fuente A y columna de Fuente B para comparar.
+3. Al guardar, el sistema muestra **robustez**: verde (alta), amarillo (media), rojo (débil).
+
+**En conciliación avanzada** (tipos especiales además de estándar):
+- **Barrida de Compensación:** un único recurso compensa registros dentro de sí mismo.
+- **Barrida Agrupada:** realiza cálculos simples o agrupados antes del cruce.
+
+> Tip: Un cruce = una o más barridas. Una barrida = una o más reglas. Las reglas son las comparaciones entre columnas.
+
+### E2.2 Tipos de cruce (cardinalidad)
+**Path UI:** Configuración de cruce → ícono de configuración de la barrida → tipo de cruce.
+
+| Tipo | Descripción |
+|---|---|
+| **1:1** | Un registro de A ↔ un registro de B. Default. |
+| **1:N** | Un registro de A ↔ múltiples de B. |
+| **N:1** | Múltiples de A ↔ un registro de B. |
+| **N:N** | Múltiples de A ↔ múltiples de B. Requiere robustez alta o media, **no admite tolerancias**. |
+
+Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guardar.
+
+### E2.3 Tolerancias
+**Aplica solo a cruce 1:1.** No disponible en N:N, N:1, 1:N.
+
+1. Acceder a configuración de cruce.
+2. Seleccionar barrida existente o crear nueva.
+3. Agregar reglas de cruce.
+4. Establecer valor de tolerancia en la regla (margen aceptable para diferencias numéricas).
+5. Opcional: activar "validación de valores" para conciliaciones manuales (bloquea cruces que excedan la tolerancia).
+
+**Operador:** `~=` (casi iguales). **Restricción:** columnas deben ser tipo numérico o entero.
+
+### E2.4 Universal ID (SKT_ID)
+**Path UI:** Vista de configuración de conciliación → barra de herramientas → "Global ID" → seleccionar columna.
+
+- La columna elegida debe ser `SKT_ID` u `ORIGIN_SKT_ID` heredada desde fuente, unión o apertura.
+- El sistema asigna automáticamente un ID único a cada registro para trazabilidad cross-recursos.
+
+### E2.5 Posibilidades y restricciones clave
+- ✅ Crear múltiples barridas en orden secuencial.
+- ✅ Usar barridas de compensación y agrupadas (solo en avanzada).
+- ❌ Tolerancias en N:N, N:1, 1:N → no disponibles.
+- ❌ Si robustez baja en N:N → la conciliación no ejecuta.
+
+---
+
+## G2. CONCILIACIONES AVANZADAS — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44672397687059
+
+### G2.1 Cómo crear una conciliación avanzada
+1. Menú → **Automatizar > Recursos y conciliaciones > Conciliaciones**.
+2. "Crear recurso" → **Conciliación avanzada**.
+3. Asignar nombre (+ descripción opcional) → Crear.
+4. Seleccionar fuentes para **Lado A** y **Lado B**.
+5. Decidir si usar **grupo conciliable** o **segmentar** (Lado A, B o ambos). Las columnas de segmentación deben ser tipo Texto, Booleano o Entero, **sin comportamiento dinámico**.
+6. Configurar **desencadenante** (recurso o horario programado). Por defecto: Recurso B. Si B es unión/foto/agrupación → toma Recurso A.
+7. Seleccionar columnas a visualizar en el resultado.
+8. Ir a **Configurar cruce** → definir barridas.
+9. Agregar al menos una regla por barrida; opcionalmente agrupar el recurso para la barrida.
+10. Duplicar, editar o eliminar barridas según se necesite → Ejecutar.
+
+> Tip: El cruce 1:1 es el predeterminado.
+
+### G2.2 Tipos de barridas en conciliación avanzada
+**Barrida de conciliación (estándar):**
+- Paso 1: "Configurar barridas" → "Barridas de Conciliación".
+- Paso 2: Seleccionar columna Lado A y columna Lado B.
+- Paso 3: Elegir condición: `=`, `≠`, `~=` (casi iguales), `>=`, `>`, `<=`, `<`.
+- Paso 4: Aplicar tolerancia si el tipo de dato lo permite.
+
+**Barrida de compensación:** Selecciona un único recurso para compensar registros internamente (débitos vs créditos del mismo recurso).
+
+**Barrida agrupada:** Permite agrupar el recurso antes del cruce para realizar sumas/conteos y luego comparar los totales.
+
+### G2.3 Segmentación
+- Las columnas de segmentación dividen los datos antes del cruce.
+- Restricción: tipo Texto, Booleano o Entero. **Sin comportamiento dinámico** (no columnas de menú desplegable ni calculadas con funciones dinámicas).
+
+---
+
+## F2. CONCILIACIÓN ESTÁNDAR — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44586931880979
+
+### F2.1 Cómo crear una conciliación estándar
+1. Menú → **Automatizar > Recursos y conciliaciones > Conciliaciones**.
+2. "Crear recurso" → **Conciliación estándar**.
+3. Asignar nombre → Crear.
+4. Seleccionar las **dos fuentes** de datos a controlar.
+   > Tip: Usar uniones de fuentes como base da más flexibilidad ante cambios futuros de estructura.
+5. Elegir el **desencadenante** (por defecto: Recurso B; si es unión/foto/agrupación → Recurso A).
+6. "Configurar cruce" → configurar barridas y reglas.
+7. Confirmar la conciliación.
+
+### F2.2 Tipos de barridas en conciliación estándar
+**Barrida de conciliación:**
+- Igual que en avanzada: seleccionar columnas A y B + condición (`=`, `≠`, `~=`, `>=`, `>`, `<=`, `<`).
+- Tolerancia disponible si el tipo de dato lo permite.
+
+**Barrida de desconciliación** (requiere Versión con cambios):
+- Disponible en conciliaciones **Confirmadas**.
+- Tipos: por regla de cruce (campos obligatorios: Recurso, Columna Fecha, Columna ID, Columna Estado).
+- Resultados visibles en "Versión con cambios" hasta confirmar.
+
+---
+
+## B2. COLUMNAS DE TRANSFORMACIÓN — Catálogo completo de funciones
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243
+
+**Separador de parámetros:** `;` (punto y coma). **Strings:** entre comillas dobles `"…"`. **Nombres de columna:** en MAYÚSCULAS.
+
+### Funciones de Texto
+| Función | Descripción | Sintaxis |
+|---|---|---|
+| `CONCATENAR` | Une varios valores en un texto | `CONCATENAR(texto_1;[texto_2];...)` |
+| `DERECHA` | Extrae N caracteres desde la derecha | `DERECHA(VALOR;LIMITE_DE_CARACTERES)` |
+| `IZQUIERDA` | Extrae N caracteres desde la izquierda | `IZQUIERDA(VALOR;LIMITE_DE_CARACTERES)` |
+| `EXTRAE` | Extrae subcadena desde posición y longitud | `EXTRAE(VALOR;COMIENZO;LONGITUD)` |
+| `EXTRAER_EXPREGULAR` | Extrae subcadena que coincide con regex | `EXTRAER_EXPREGULAR(VALOR;PATRÓN;[GRUPO])` |
+| `MAYUSC` | Convierte a mayúsculas | `MAYUSC(VALOR)` |
+| `MINUSC` | Convierte a minúsculas | `MINUSC(VALOR)` |
+| `REEMPLAZAR` | Reemplaza parte de una cadena | `REEMPLAZAR(VALOR;SUBTEXTO;[REEMPLAZO])` |
+| `RELLENAR` | Rellena cadena con carácter hasta largo definido | `RELLENAR(VALOR;LARGO;[CARACTER];[LADO])` |
+| `DIVIDIR` | Divide por delimitador y devuelve elemento en posición | `DIVIDIR(VALOR;DELIMITADOR;POSICION)` |
+| `LARGO` | Devuelve cantidad de caracteres | `LARGO(VALOR)` |
+| `ESPACIOS` | Elimina o gestiona espacios | `ESPACIOS(VALOR;[CARACTERES];[LADO])` |
+| `ENCONTRAR` | Devuelve posición de subcadena en cadena | `ENCONTRAR(SUBTEXTO;VALOR)` |
+
+### Funciones Numéricas
+| Función | Descripción | Sintaxis |
+|---|---|---|
+| `CALCULO` | Operación matemática entre columnas/constantes | `CALCULO(expresión)` |
+| `ABS` | Valor absoluto | `ABS(VALOR_NUMÉRICO)` |
+| `POTENCIA` | Eleva base a exponente | `POTENCIA(BASE;EXPONENTE)` |
+| `REDONDEAR` | Redondea con N decimales | `REDONDEAR(VALOR;ESCALA)` |
+| `MENOS` | Redondea al entero igual o menor (floor) | `MENOS(VALOR)` |
+
+### Funciones Lógicas
+| Función | Descripción | Sintaxis |
+|---|---|---|
+| `SI` | Evalúa condición, devuelve V/F | `SI(CONDICIÓN;[VALOR_SI_CIERTO];[VALOR_SI_FALSO])` |
+| `Y` | TRUE si TODOS los argumentos son verdaderos | `Y(CONDICIÓN;CONDICIÓN;...)` |
+| `O` | TRUE si ALGUNO de los argumentos es verdadero | `O(CONDICIÓN;CONDICIÓN;...)` |
+| `ESBLANCO` | Devuelve TRUE/FALSE si el valor está en blanco | `ESBLANCO(VALOR)` |
+
+### Funciones de Fecha
+| Función | Descripción | Sintaxis |
+|---|---|---|
+| `DIFERENCIA_FECHA` | Diferencia entre dos fechas (entero) | `DIFERENCIA_FECHA(PRIMERA_FECHA;SEGUNDA_FECHA;PERÍODO)` |
+| `EXTRAER_FECHA` | Extrae parte de una fecha (año, mes, día, etc.) | `EXTRAER_FECHA(VALOR;PERÍODO)` |
+| `DIASEM` | Devuelve el día de la semana de una fecha | `DIASEM(FECHA)` |
+| `ADICIONAR_DIASEMANA` | Agrega días hábiles a una fecha | `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` |
+| `TODAY` | Fecha actual (solo en agrupaciones) | `TODAY()` |
+
+> **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
+
+---
+
+## C2. FUENTES — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44449344929939
+
+### C2.1 Cómo crear una fuente
+1. Vista de Recursos → "Crear recurso" → **Fuentes**.
+2. Asignar nombre (1–250 caracteres, sin caracteres especiales) → Crear.
+3. Ir al **Gestor de Archivos** → agregar archivos (Excel de una sola hoja, TXT o CSV).
+4. Si el archivo se sube vacío → estado "Archivo vacío".
+
+### C2.2 Cómo administrar fuentes
+- **Editar:** cambiar nombre.
+- **Mover a carpeta:** organizar en carpetas.
+- **Crear integración:** automatizar carga de datos.
+- **Gestionar archivos:** agregar/eliminar archivos.
+- **Ver tabla:** consultar datos.
+- **Archivar:** desactivar sin eliminar.
+
+### C2.3 Restricciones
+- Excel multi-hoja → NO se ingesta directamente. Usar parser para separar.
+- Estado "Listo" requerido antes de usar en uniones o conciliaciones.
+
+---
+
+## D2. UNIONES DE FUENTES — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44449461182995
+
+### D2.1 Cómo crear una unión
+1. Vista de Recursos → "Crear recurso" → **Unión de fuentes** → asignar nombre.
+2. Elegir la primera fuente; seleccionar columnas a incluir.
+3. Verificar tipo de dato y formato de cada columna.
+4. Agregar más fuentes/columnas según se necesite.
+5. Clic en **"Ejecutar cambios"**.
+   > Tip: La primera fuente agregada es el desencadenante por defecto. Se puede cambiar en Configuración de preferencias.
+
+### D2.2 Cómo editar una unión
+1. Vista de lista → ubica la unión → Acciones → "Editar configuración".
+2. Renombrar, activar/desactivar columnas, cambiar desencadenante.
+
+### D2.3 Gestión de inconsistencias
+Si una fuente cambia estructura (nueva columna, tipo diferente), la unión detecta la inconsistencia y ofrece:
+- **Definir nueva interpretación** de la columna afectada.
+- **Omitir** el registro inconsistente.
+El sistema detiene la inserción de registros no interpretables para evitar datos vacíos.
+
+---
+
+## J2b. TABLEROS — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/45657122653715
+
+### J2b.1 Cómo crear un tablero
+1. Menú → **Automatizar > Análisis > Tableros**.
+2. Clic en "Crear" → **Tableros**.
+3. Ingresar nombre → seleccionar tipo: **Operativo** o **Contable**.
+4. Clic en **"Configuración"** → agregar visuales.
+
+> **Límite:** 21 elementos en total. Cada visual consume un número predefinido de elementos (ej. "Estado de conciliación estándar" = 1 visual con 7 elementos).
+
+### J2b.2 Acciones disponibles en un tablero
+- Expandir/colapsar cada visual.
+- Aplicar filtros predeterminados (Fuentes A y B).
+- Descargar en **PDF** o **CSV**.
+- Agregar nuevos visuales o reordenar desde Configuración.
+
+### J2b.3 Restricciones
+- ✅ Crear, renombrar, eliminar tableros. Organizar en carpetas. Buscar/filtrar/ordenar.
+- ✅ Descargar PDF del tablero completo. Descargar datos de visuales por separado.
+- ❌ Límite de 21 elementos → planificar qué visuales incluir.
+- ❌ No se pueden combinar visuales de tipo Operativo y Contable en el mismo tablero.
+
+---
+
+## J1b. AGRUPACIONES — Flujo detallado
+**Fuente:** https://simetriksoporte.zendesk.com/hc/es-419/articles/44680591190803
+
+### J1b.1 Cómo crear una agrupación
+1. Desde la vista de un recurso (Fuente, Unión o Conciliación) → "Crear agrupación".
+2. Asignar nombre único (3–100 caracteres).
+3. Definir estructura: seleccionar **columnas de agrupación** (criterios de agrupación).
+4. Seleccionar **columnas de valores** (sobre las que se aplican SUMA, CONTEO, etc.).
+
+### J1b.2 Cómo agregar columna TODAY (fecha dinámica)
+1. Ingresar a la agrupación (acumulativa o no acumulativa).
+2. Configuración → agregar nueva columna tipo **Hoy**.
+3. Asignar nombre + zona horaria + formato de fecha.
+4. Guardar. La columna se actualiza automáticamente cada día.
+
+### J1b.3 Acumulativa vs No Acumulativa
+| Tipo | Comportamiento |
+|---|---|
+| **Acumulativa** | Continúa agrupando aunque el registro se concilie. Ideal para seguimientos post-conciliación. |
+| **No acumulativa** | Al conciliarse un registro, se bloquea en la agrupación. Nuevos registros crean nueva entrada separada. |
+| **Saldos acumulados** | Cálculo retroactivo: insertar/eliminar datos pasados actualiza saldos hasta la fecha más reciente. |
+
+### J1b.4 Restricciones
+- ❌ No se pueden usar dos agrupaciones **acumulativas** en la misma conciliación.
+- ❌ No se pueden modificar criterios/valores si la agrupación ya está en conciliación activa.
+- ❌ Cambio de formato (casteo) debe hacerse en el recurso original, no en la agrupación.
+- ✅ Se pueden agregar columnas de transformación, menú desplegable, comentarios y BuscarV.
+- ✅ Filtrar, segmentar, generar alarmas, descargar datos.
+
+---
+
 # 📝 CHANGELOG
 
 | Fecha | Evento |
@@ -707,4 +980,5 @@ Para completar la KB al 100% restan extraer:
 | 2026-05-29 | v1.3 — +8 artículos Análisis (Estado est/avz, Monitores, Tabla Personalizada/Dinámica, KPI Individual, Gráficos, Combinaciones). |
 | 2026-05-29 | v1.4 — +5 artículos Contabilidad (Gestión cuentas, Automatizaciones, Estructuras ERP, Cierre, Conexiones ERP). Stack contable mapeado a módulo 11-ACC. |
 | 2026-05-29 | v1.5 — Cierre Gestionar (Controles Contables, Operativos, Hallazgos), Auditar (Fotos, Historial), Cuenta y Herramientas. KB v1 cierra cobertura completa. |
+| 2026-05-31 | v2.0 — Drill-down completo: flujos paso a paso de 8 artículos críticos (Configuración de cruce, Conciliaciones avanzadas, Conciliación estándar, Columnas de transformación, Fuentes, Uniones, Tableros, Agrupaciones). Catálogo completo de 24 funciones de transformación con sintaxis. |
 

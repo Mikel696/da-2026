@@ -84,6 +84,20 @@ work_nb_active        (cuaderno activo seleccionado — solo local)
 
 ---
 
+## 📚 FUENTE DE VERDAD · SIMETRIK_KNOWLEDGE_BASE.md
+
+> **Regla obligatoria:** Antes de crear, modificar o verificar cualquier contenido sobre Simetrik (fórmulas, paths UI, funciones, nombres de pantallas), leer primero `SIMETRIK_KNOWLEDGE_BASE.md` en la raíz del repo.
+
+- **Versión actual:** v2.0 (2026-05-31)
+- **Cubre:** 8 artículos críticos con flujos paso a paso + catálogo de 24 funciones de transformación + mapeo DOTA → Help Center.
+- **Anti-hallucination gate:** Si un dato no está en la KB → scrapear el Help Center oficial vía Chrome MCP ANTES de afirmar. Nunca inventar paths UI, nombres de función o sintaxis.
+- **Funciones verificadas clave:**
+  - Sumar tiempo a fecha: `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` — 2 params base.
+  - Fecha actual: `TODAY()` — solo en agrupaciones.
+  - Separador: `;` siempre. Strings: `"…"` dobles.
+
+---
+
 ## MEMORIA OPERATIVA (qué se hizo, en qué orden)
 
 Cronología relevante de 14-WORK:
@@ -96,6 +110,7 @@ Cronología relevante de 14-WORK:
 - **2026-05-27b** — Diccionario expandido con 12 términos del dominio DOTA × Simetrik (LPAD, COALESCE, ADICIONAR_FECHA_HABIL, PAN, BIN, Barrida, Compensación, Add-ons, Saldos Persistentes, etc.). SEED_VERSION `simetrik-2026-05-27.2`.
 - **2026-05-27c** — Reescritura del roadmap Prueba DOTA usando insumos REALES del Drive del usuario (carpeta Imagenes): sintaxis Simetrik verificada (`CONCATENAR`, `RELLENAR`, `SI`, `Y`, `O`, `ESBLANCO`, `MAYUSC`, `IZQUIERDA`, `DERECHA`, `EXTRAER_EXPREGULAR`, `EXTRAER_FECHA`, `ADICIONAR_FECHA_TIEMPO`, `ADICIONAR_DIAS_SEMANA`, `DIFERENCIA_FECHA`, `CALCULO`, `ABS`, `LARGO`). Todas las 16 fórmulas reescritas con sintaxis EXACTA. Tabla de tipos de dato + sección "Best practices que califica el evaluador". Simulador de 5 barridas eliminado por feedback del usuario.
 - **2026-05-27d** — Modo 3 "🧪 Nueva Prueba Simetrik" agregado al Copilot. Genera prompt reusable estilo DOTA para futuros casos de Simetrik (nuevos clientes / nuevos tests / case studies). Plantilla persistente en `PROMPT_14-WORK_TEST.md`.
+- **2026-05-31a** — KB v2.0: drill-down completo de 8 artículos críticos (flujos paso a paso scraped del Help Center oficial). Catálogo 24 funciones de transformación con sintaxis exacta. Re-test 16 pasos DOTA: corregidas `ADICIONAR_FECHA_TIEMPO` → `ADICIONAR_DIASEMANA`, `HOY()` → `TODAY()`, path tableros. SEED_DICT actualizado con 9 términos nuevos (SEED_VERSION `simetrik-2026-05-31.1`).
 
 ---
 
