@@ -234,6 +234,13 @@ body.in-iframe .app{height:calc(100vh - 38px)}
           <div class="m2" data-screen="recursos"><span class="ic">▦</span> Recursos</div>
           <div class="m2" data-screen="conciliaciones"><span class="ic">⇄</span> Conciliaciones</div>
           <div class="m2" data-screen="fuentes3"><span class="ic">🌐</span> Fuentes de terceros</div>
+          <div class="subgroup">Análisis</div>
+          <div class="m2" data-screen="analisis-tableros"><span class="ic">📊</span> Tableros</div>
+          <div class="m2" data-screen="analisis-estado"><span class="ic">⇄</span> Estado de conciliación</div>
+          <div class="m2" data-screen="analisis-monitores"><span class="ic">🔔</span> Monitores</div>
+          <div class="m2" data-screen="analisis-kpi"><span class="ic">🎯</span> KPI Individual</div>
+          <div class="m2" data-screen="analisis-graficos"><span class="ic">📈</span> Gráficos</div>
+          <div class="m2" data-screen="analisis-tabladin"><span class="ic">⊞</span> Tabla Dinámica</div>
           <div class="subgroup">Contabilidad</div>
           <div class="m2" data-screen="auto-contables"><span class="ic">📒</span> Automatizaciones contables</div>
           <div class="m2" data-screen="config-cierre"><span class="ic">⚙</span> Configuración de cierre</div>
@@ -271,10 +278,12 @@ body.in-iframe .app{height:calc(100vh - 38px)}
       <!-- Herramientas -->
       <div class="m1" data-key="herramientas"><div class="m1h"><span class="ic">⚒</span> Herramientas<span class="chev">›</span></div>
         <div class="m1-sub">
+          <div class="m2" data-screen="consola"><span class="ic">💻</span> Consola de Desarrollo</div>
+          <div class="m2" data-screen="solicitudes"><span class="ic">🤝</span> Solicitudes de colaboración</div>
           <div class="m2" data-screen="mapas"><span class="ic">🕸</span> Mapas</div>
           <div class="m2" data-screen="procesos"><span class="ic">🌀</span> Procesos</div>
           <div class="m2" data-screen="papelera"><span class="ic">🗑</span> Papelera</div>
-          <div class="m2" data-screen="descargas"><span class="ic">⬇</span> Descargas</div>
+          <div class="m2" data-screen="descargas"><span class="ic">⬇</span> Central de descargas</div>
         </div>
       </div>
     </nav>
@@ -619,6 +628,76 @@ const SCREENS = {
       </tbody></table></div>`);
   },
 
+  /* ═══════ ANÁLISIS (Automatizar → Análisis) ═══════ */
+  'analisis-tableros'(){
+    return scr('Tableros','Dashboards configurables con KPIs, gráficos, tablas y estado de conciliaciones.',
+      'Automatizar → Análisis','Path oficial: <b>Automatizar → Análisis → Tableros</b>. Creás un tablero vacío, le asignás nombre + tipo (Operativo o Contable), y agregás visuales. Límite: 21 elementos por tablero.',
+      [['tip','Cada visual consume elementos del cupo de 21 — planificá antes de agregar'],['','El tipo Operativo y Contable NO se pueden mezclar en el mismo tablero']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Crear tablero${tip('Acción','Crear tablero · path oficial','Automatizar → Análisis → Tableros → "Crear" → Tableros. Asignás nombre y tipo (Operativo o Contable). Clic en "Configuración" para agregar visuales.','Tablero 14 DOTA: % conciliación por barrida — Operativo. Tablero 15: KPI global — Operativo.','Límite de 21 elementos totales. "Estado de conciliación estándar" = 1 visual × 7 elementos. Planificá el espacio.','cr')}</button></div>
+      <div class="mc-cards">
+        <div class="mc-card"><h4>📊 DOTA · % por barrida${tip('Visual','Tabla dimensión _BARRIDA_','Tabla con columnas: CONTAR(id), SUMA(ABS(MONTO)), % sobre total. Dimensión: _BARRIDA_ (B1..B5).','Tablero 14 de la prueba DOTA: visualiza cuántas partidas y qué monto concilió cada barrida.','Agregá un gráfico de barras horizontal para el mismo dato — el evaluador aprecia la doble perspectiva.','tr')}</h4><p>Partidas y monto por barrida B1-B5.</p></div>
+        <div class="mc-card"><h4>📊 SERCOM diario</h4><p>Estado de conciliación + aging de pendientes.</p></div>
+      </div>`);
+  },
+  'analisis-estado'(){
+    return scr('Estado de conciliación','Visual que muestra % conciliado, pendientes y montos de una conciliación específica.',
+      'Automatizar → Análisis','Hay tres tipos: Estado estándar, Estado avanzado (con desglose por segmento/barrida) y Estado encadenado (para cadenas de conciliaciones). Se agregan desde la configuración de un tablero.',
+      [['tip','Estado avanzado = muestra resultado por cada barrida — ideal para DOTA × FD'],['','Estado encadenado = flujo DOTA → FD → Liquidación en una sola vista']],
+      `<div class="mc-cards">
+        <div class="mc-card"><h4>Estado estándar${tip('Visual','Estado de conciliación estándar','Muestra el resumen de UNA conciliación estándar: % conciliado, total A, total B, pendientes, montos. Ideal para drill-down operativo.','Tablero de SERCOM: el Estado estándar muestra 94% conciliado en tiempo real.','1 visual = 7 elementos del cupo de 21. Tenerlo en cuenta al diseñar el tablero.','tr')}</h4><p>Resumen de 1 conciliación estándar.</p></div>
+        <div class="mc-card"><h4>Estado avanzado${tip('Visual','Estado de conciliación avanzada','Muestra resultados desglosados por segmento y barrida. Incluye tabla de detalle (fila = segmento) con valores y porcentajes.','Para DOTA × FD: ver % conciliado en cada una de las 5 barridas.','Path: tablero → configuración → "Estado de conciliación avanzada" → seleccionar la conciliación.','tr')}</h4><p>Desglose por barrida y segmento.</p></div>
+        <div class="mc-card"><h4>Estado encadenado${tip('Visual','Estado de conciliación encadenada','Muestra el flujo completo de una cadena de conciliaciones con métricas por etapa.','DOTA → FD → Liquidación: ver % en cada eslabón de la cadena.','Path: tablero → configuración → Visuales → "Estado de conciliación encadenado" → nombre (5-100 chars) → seleccionar conciliaciones.','tr')}</h4><p>Flujo multi-etapa de la cadena.</p></div>
+      </div>`);
+  },
+  'analisis-monitores'(){
+    return scr('Monitores','Seguimiento continuo del estado de conciliaciones con alertas automáticas.',
+      'Automatizar → Análisis','Un monitor agrupa varias conciliaciones para hacer seguimiento de su match rate en conjunto. Las alarmas (Gestionar → Hallazgos → Alarmas) se configuran sobre monitores.',
+      [['tip','Un monitor por proceso crítico — SERCOM, DOTA, Cartera'],['','Las alarmas necesitan un monitor existente para funcionar']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Crear monitor${tip('Acción','Crear monitor','Agrupás conciliaciones relacionadas bajo un mismo monitor. Define la unidad mínima que una alarma puede vigilar.','Monitor "DOTA Ficohsa": incluye la conciliación avanzada DOTA × FD y las 2 compensaciones. Si el match rate cae, la alarma notifica.','Las alarmas se configuran en Gestionar → Hallazgos → Alarmas, referenciando este monitor.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Monitor</th><th>Conciliaciones</th><th>Match rate</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>SERCOM diario</td><td>SERCOM T24 vs CLARO</td><td>94%</td><td><span class="pill ok">OK</span></td></tr>
+        <tr><td>DOTA Ficohsa</td><td>DOTA × FD (5 barridas)</td><td>91%</td><td><span class="pill ok">OK</span></td></tr>
+      </tbody></table></div>`);
+  },
+  'analisis-kpi'(){
+    return scr('KPI Individual','Visual de número grande para mostrar una métrica clave en el tablero.',
+      'Automatizar → Análisis','Un KPI Individual muestra un único valor calculado (CONTAR, SUMA, %, AVG) en formato destacado. Consume 1 elemento del cupo de 21 por tablero.',
+      [['tip','3 KPIs + 1 gráfico = 4 elementos. El cupo de 21 se llena rápido si combinás muchos visuales'],['','Ideal para tableros ejecutivos: número grande, significado inmediato']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Agregar KPI${tip('Acción','Agregar KPI Individual','Tablero → modo configuración → Visuales → KPI Individual → seleccionar fuente → métrica → filtros opcionales.','Tablero 15 DOTA: KPI Conciliadas = CONTAR_SI(_BARRIDA_ <> NULL) · KPI Pendientes = CONTAR_SI(_BARRIDA_ = NULL) · KPI % = ratio.','Verificación: KPI Conciliadas debe igualar la SUMA de partidas del tablero 14. Si no cuadra, hay error en alguna barrida.','cr')}</button></div>
+      <div class="mc-cards">
+        <div class="mc-card" style="text-align:center"><div style="font-size:42px;font-weight:800;color:var(--grn)">91%</div><div style="font-size:12px;color:var(--t2)">% Eficiencia DOTA</div></div>
+        <div class="mc-card" style="text-align:center"><div style="font-size:42px;font-weight:800;color:var(--blu)">48,312</div><div style="font-size:12px;color:var(--t2)">Partidas conciliadas</div></div>
+        <div class="mc-card" style="text-align:center"><div style="font-size:42px;font-weight:800;color:var(--red)">4,481</div><div style="font-size:12px;color:var(--t2)">Pendientes</div></div>
+      </div>`);
+  },
+  'analisis-graficos'(){
+    return scr('Gráficos','Barras, líneas, tortas y mapas de calor para análisis de tendencias.',
+      'Automatizar → Análisis','Tipos disponibles: Barra horizontal, Barra vertical, Línea, Área, Torta, Mapa de calor. Se configuran igual que los demás visuales: fuente → dimensión (eje X) → métrica (eje Y) → filtros.',
+      [['tip','Barra horizontal es ideal para rankings (top 10 comercios pendientes)'],['','Mapa de calor: X=mes, Y=adquirente — detecta patrones de SLA tardío']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Agregar gráfico${tip('Acción','Agregar gráfico','Tablero → configuración → "Gráfico" → tipo → fuente → dimensión → métrica → filtros.','Tablero 14 DOTA: barra horizontal con dimensión _BARRIDA_ y métrica CONTAR(id) — muestra ranking visual de efectividad por barrida.','Combiná con una tabla en el mismo tablero: la tabla da el número exacto, el gráfico da la perspectiva.','cr')}</button></div>
+      <div style="background:var(--bg3);border-radius:10px;padding:20px">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:12px;font-weight:600">DOTA · Partidas por barrida</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;color:var(--t3)">B1</span><div style="flex:1;background:var(--bd);border-radius:4px;height:20px"><div style="width:62%;background:var(--grn);height:100%;border-radius:4px"></div></div><span style="color:var(--t2)">29,954</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;color:var(--t3)">B2</span><div style="flex:1;background:var(--bd);border-radius:4px;height:20px"><div style="width:18%;background:var(--grn);height:100%;border-radius:4px"></div></div><span style="color:var(--t2)">8,696</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;color:var(--t3)">B3</span><div style="flex:1;background:var(--bd);border-radius:4px;height:20px"><div style="width:14%;background:var(--blu2);height:100%;border-radius:4px"></div></div><span style="color:var(--t2)">6,772</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;color:var(--t3)">B4</span><div style="flex:1;background:var(--bd);border-radius:4px;height:20px"><div style="width:5%;background:var(--blu2);height:100%;border-radius:4px"></div></div><span style="color:var(--t2)">2,420</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;color:var(--t3)">B5</span><div style="flex:1;background:var(--bd);border-radius:4px;height:20px"><div style="width:1%;background:var(--amb);height:100%;border-radius:4px"></div></div><span style="color:var(--t2)">470</span></div>
+        </div>
+      </div>`);
+  },
+  'analisis-tabladin'(){
+    return scr('Tabla Dinámica','Pivot table dentro de un tablero: agrupa, agrega y cruza dimensiones.',
+      'Automatizar → Análisis','Equivalente a la tabla dinámica de Excel. Configura filas (dimensión 1), columnas (dimensión 2) y valores (SUMA/CONTAR/AVG). Uso DOTA: saldo neto diario (filas=fecha, columnas=tipo, valores=SUMA(MONTO_NETO)).',
+      [['tip','Para el tablero 13 DOTA (saldo neto diario): filas = MOV_CREATION_DATE · columnas = OP · valores = SUMA(MONTO_NETO)'],['','No confundir con Consolidación (apila groupings verticalmente)']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Tabla dinámica${tip('Acción','Agregar Tabla Dinámica','Tablero → configuración → "Tabla dinámica" → fuente → filas (dim 1) → columnas (dim 2) → valores (función) → filtros.','Tablero 13 DOTA — Saldo neto diario: Fuente=DB_DOTA, filas=MOV_CREATION_DATE, columnas=OP, valores=SUMA(MONTO_NETO).','Alternativa sin add-on Saldos Persistentes: esta tabla muestra los movimientos diarios pero NO el saldo acumulado. Para saldo real, necesitás el add-on.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Fecha</th><th>PAYMENT</th><th>REFUND</th><th>Neto</th></tr></thead><tbody>
+        <tr><td>2026-05-29</td><td>+$1,245,000</td><td>−$82,300</td><td><b>$1,162,700</b></td></tr>
+        <tr><td>2026-05-28</td><td>+$987,400</td><td>−$41,200</td><td><b>$946,200</b></td></tr>
+        <tr><td>2026-05-27</td><td>+$1,102,800</td><td>−$65,700</td><td><b>$1,037,100</b></td></tr>
+      </tbody></table></div>`);
+  },
+
   /* ═══════ HERRAMIENTAS ═══════ */
   mapas(){
     return scr('Mapas','Visualizá gráficamente cómo se conecta un recurso con los demás — sus dependencias.',
@@ -654,12 +733,34 @@ const SCREENS = {
         <tr><td>Conciliación obsoleta</td><td>Conciliación</td><td>Hace 28 días</td><td><span class="pill pend">Restaurar (2 días)</span></td></tr>
       </tbody></table></div>`);
   },
+  consola(){
+    return scr('Consola de Desarrollo','Debug de integraciones — logs en tiempo real de cada archivo procesado.',
+      'Herramientas','Muestra los logs de ingesta de cada archivo: errores por columna, warnings de tipo de dato, archivos rechazados. Es tu primera parada cuando una fuente no ingesta correctamente.',
+      [['tip','Si un archivo TXT no se carga, abrí la Consola — ahí está el error exacto con el número de fila'],['','Más útil que un ticket de soporte para diagnóstico inicial']],
+      `<div class="mc-table"><table><thead><tr><th>Archivo</th><th>Fuente</th><th>Estado</th><th>Detalle</th></tr></thead><tbody>
+        <tr><td>claro_2026_05_31.csv</td><td>CLARO recargas</td><td><span class="pill ok">OK · 12,847 filas</span></td><td>—</td>${tip('Log','Ingesta exitosa','El archivo se procesó correctamente. Las 12,847 filas están disponibles en la fuente.','Verificá siempre el conteo de filas contra el archivo original. Si esperabas 15K y llegaron 12K, algo se filtró.','Si el conteo cae más del 5% respecto al baseline, abrí ticket con Integraciones.','cl')}</tr>
+        <tr><td>t24_cajas_2026_05_31.txt</td><td>T24 cajas</td><td><span class="pill fail">ERROR · fila 4,231</span></td><td>Tipo de dato inválido en col MONTO</td>${tip('Error','Error de tipo de dato','La columna MONTO tiene un valor que no puede convertirse al tipo configurado (ej: "N/A" en una columna numérica).','T24 a veces exporta "N/A" o " " en MONTO cuando la transacción es de fee — el parser no lo espera.','Fix: actualizar el parser para ignorar filas donde MONTO no sea numérico, o hacer un pre-filtro en el SFTP.','cl')}</tr>
+        <tr><td>fd_report_2026_05_31.xlsx</td><td>Reporte FD</td><td><span class="pill proc">Procesando</span></td><td>2 min elapsed</td></tr>
+      </tbody></table></div>`);
+  },
+  solicitudes(){
+    return scr('Solicitudes de colaboración','Invitaciones para que terceros accedan a recursos específicos del workspace.',
+      'Herramientas','Gestión de accesos puntuales para auditores externos, clientes o colaboradores que necesitan ver un recurso sin ser usuarios permanentes del workspace.',
+      [['tip','Ideal para compartir evidencia con auditores sin darles acceso completo al workspace'],['','El destinatario acepta via email — no necesita cuenta Simetrik previa']],
+      `<div class="mc-toolbar"><button class="mc-btn">+ Nueva solicitud${tip('Acción','Nueva solicitud de colaboración','Seleccionás el recurso a compartir, definís el nivel de acceso (Ver / Comentar) y enviás la invitación. El destinatario recibe un email con el link.','Auditor externo necesita ver la conciliación SERCOM del Q1 → solicitud de colaboración → acceso de solo lectura.','Los accesos de colaboración tienen fecha de expiración configurable. Siempre ponele un límite temporal.','cr')}</button></div>
+      <div class="mc-table"><table><thead><tr><th>Recurso compartido</th><th>Destinatario</th><th>Acceso</th><th>Estado</th></tr></thead><tbody>
+        <tr><td>Conciliación SERCOM — Apr 2026</td><td>auditor@deloitte.com</td><td>Solo lectura</td><td><span class="pill ok">Activo</span></td></tr>
+        <tr><td>Snapshot DOTA May 2026</td><td>wilson.sr@ficohsa.hn</td><td>Solo lectura</td><td><span class="pill pend">Pendiente</span></td></tr>
+      </tbody></table></div>`);
+  },
   descargas(){
-    return scr('Descargas','Historial de todas las descargas manuales hechas en la plataforma.',
-      'Herramientas','Lista cada descarga manual realizada. Si tu rol no tiene permisos de descarga, la lista aparece vacía — es un control de seguridad de la información.',
-      [['tip','Los usuarios del dominio @simetrik.com tienen descargas bloqueadas a propósito'],['','La restricción protege la información del cliente']],
-      `<div class="mc-table"><table><thead><tr><th>Archivo</th><th>Recurso</th><th>Usuario</th><th>Fecha</th></tr></thead><tbody>
-        <tr><td>concil_sercom_abril.csv</td><td>Conciliación SERCOM</td><td>Miguel</td><td>Hoy 10:02</td></tr>
+    return scr('Central de descargas','Centro de descarga de reportes, exportaciones CSV/Excel y PDFs generados por el workspace.',
+      'Herramientas','Lista todas las exportaciones generadas: CSVs de recursos, PDFs de tableros, archivos de asientos contables. Los archivos tienen un período de retención — pasado ese tiempo expiran y se eliminan.',
+      [['tip','Generás la exportación desde el recurso o tablero, y la descargás acá cuando esté lista'],['warn','Los usuarios del dominio @simetrik.com tienen descargas bloqueadas — restricción que protege info del cliente']],
+      `<div class="mc-table"><table><thead><tr><th>Archivo</th><th>Recurso</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>
+        <tr><td>concil_sercom_abril.csv</td><td>Conciliación SERCOM</td><td><span class="pill ok">Listo</span></td><td>Hoy 10:02</td>${tip('Descarga','Archivo listo','El archivo está generado y disponible para descargar. Click en el nombre para iniciar la descarga.','El CSV de SERCOM tiene todas las partidas con su estado: reconciled, unreconciled, manually_reconciled.','Si el archivo expiró, tenés que regenerarlo desde el recurso original (botón "Exportar").','cl')}</tr>
+        <tr><td>tablero_dota_kpis.pdf</td><td>Tablero 15 · KPI DOTA</td><td><span class="pill ok">Listo</span></td><td>Hoy 09:45</td></tr>
+        <tr><td>pendientes_dota_may.csv</td><td>DB_DOTA (filtrado)</td><td><span class="pill proc">Generando...</span></td><td>Hace 1 min</td></tr>
       </tbody></table></div>`);
   },
 };
