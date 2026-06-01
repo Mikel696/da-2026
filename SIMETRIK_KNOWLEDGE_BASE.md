@@ -875,9 +875,9 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 > - **Acquirer** (CAPTURE/PURCHASE/AUTH) capitalizado (Cabal/Mastercard/Visa/Diners), mayormente vacío → `MAYUSC()` + concatenar las 3 en punto 3.
 > - **MERCHANT_NUMBER** en DOTA = 8 dígitos con decimales espurios (`32827909.0000000000`) → castear Número→Entero→Texto. COMERCIO en parametría = 10 dígitos (¡difiere en longitud! validar cruce paso 8).
 > - **MOV_AMOUNT** ya trae signo (PAYMENT + / REFUND −).
-> - **NUM_TAR** (FD) viene enmascarado `558757XXXXXX9967` = idéntico a CARD_NUMBER → cruzan directo.
-> - **Barrida 3 (cruce DOTA×FD) llaves verificadas:** GTWC_AUTHORIZATION_CODE=NUM_AUT · GTWT_MERCHANT_NUMBER=**NUM_EST** (no NUM_COM) · ABS(MOV_AMOUNT)=IMPORTE · MOV_CREATION_DATE=**FORIG_COMPRA** (no FPRES) · CARD_NUMBER=NUM_TAR.
-> - **FPRES** (FD, fecha proceso ~2021) solo se usa en punto 11 (DEADLINE). FORIG_COMPRA (~2022) es la que cruza con la fecha DOTA.
+> - **NUM_TAR** (FD) viene enmascarado `558757XXXXXX9967` = mismo formato que CARD_NUMBER (llave PAN clara).
+> - **Barrida 3 (cruce DOTA×FD):** el documento define llaves CONCEPTUALES (código autorización, comercio, importe, fecha de creación, PAN). Llaves claras: GTWC_AUTHORIZATION_CODE=NUM_AUT · ABS(MOV_AMOUNT)=IMPORTE · CARD_NUMBER=NUM_TAR. **Llaves ambiguas (NO asumir — PREGUNTAR al trainer):** "comercio" (FD tiene NUM_COM, NUM_EST y otras) y "fecha de creación" (FD tiene FPRES, FORIG_COMPRA y otras). El instructivo no especifica la columna FD exacta → es decisión del trainer, no se deduce de los datos.
+> - **Regla de oro de esta prueba:** no cambiar cruces ni fórmulas para que "funcione" mirando los datos. Si el instructivo no lo especifica, se pregunta. La solución debe reflejar la documentación.
 >
 > **📅 DOTA · calendario Argentina (verificado 2026-06-01):** El sitio de Argentina en el archivo `Normalización días hábiles Argentina.xlsx` es **`MLA`** (código MercadoLibre Argentina), NO "ARG". Columnas: SITE, FECHA, CONCEPTO, CLASIFCACION (1=hábil/0=no), ID_CONTADOR_SUMA, ID_FECHA_FINAL. Rango 2026-03-23 a 2099-12-31. Método punto 7: Grupo conciliable filtrado `SITE="MLA"` → BuscarV #1 (`MOV_CREATION_DATE=FECHA` trae `ID_CONTADOR_SUMA`) → `CALCULO(+30)` → BuscarV #2 (`N_TARGET=ID_FECHA_FINAL` trae `FECHA`).
 
