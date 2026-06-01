@@ -895,7 +895,7 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 | 2026-06-01 | 4 | `PAY_METHOD` viene en minúscula (master/maestro/visa). | `MAYUSC()` obligatorio en la fórmula. |
 | 2026-06-01 | 3 | Acquirer (CAPTURE/PURCHASE/AUTH) capitalizado y mayormente vacío; "Diners" está en AUTH_ACQUIRER. | `MAYUSC()` + concatenar las 3 columnas. |
 
-| 2026-06-01 | 6/11 | **Valores del parámetro PERÍODO** (verificado en doc oficial DIFERENCIA_FECHA y EXTRAER_FECHA): constantes en **minúscula, plural, CON tilde**: `años`, `meses`, `semanas`, `días`, `horas`. NO singular (`mes`/`año`) ni sin tilde (`dias`). | `ADICIONAR_FECHA_TIEMPO(fecha; 1; "días")` · `EXTRAER_FECHA(fecha; "meses")`. Si "días" con comillas falla, probar sin comillas (es tipo "constante"). |
+| 2026-06-01 | 6/11 | **PERÍODO de ADICIONAR_FECHA_TIEMPO — verificado EN EL EDITOR REAL** (panel de ayuda del workspace): Tipo "Constante", Tipo Base "**Literal**" (→ va CON comillas dobles). Opciones exactas: `años, meses, semanas, dias, horas, minutos, segundos`. **OJO la inconsistencia: `dias` SIN tilde pero `años` CON tilde.** El panel de ayuda del editor (no la doc) es la fuente de verdad. | `ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")` — plural, sin tilde, entre comillas. Tip: escribí el período y elegí la sugerencia del autocompletado para no errar el formato. |
 
 > **Regla de oro reforzada:** cuando una función documentada da error de sintaxis en el workspace, NO inventar la sintaxis — verificar con el autocompletado del editor, buscar la función hermana en el Help Center, o preguntar al trainer. (Caso real: ADICIONAR_FECHA_TIEMPO no está en el catálogo público, pero su parámetro PERÍODO se dedujo de DIFERENCIA_FECHA/EXTRAER_FECHA que comparten la misma constante.)
 
