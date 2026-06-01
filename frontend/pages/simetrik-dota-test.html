@@ -157,11 +157,10 @@ td b{color:var(--tx)}
 </div>
 
 <h3>🔴 BLOQUEANTE · preguntar sí o sí</h3>
-<div class="card formula" style="border-left-color:var(--rd)">
-<div class="card-h" style="color:var(--rd)">P1 · Calendario ARG faltante (Punto 7)</div>
-<p class="tx2"><b>Hallazgo verificado:</b> el archivo <code>Normalización_fechas_habiles_v2</code> NO contiene el sitio ARG. Solo trae: BRA, CHL, COL, ECU, GTM, MEX, PAN, PER, SLV, URY. El punto 7 exige el calendario de Argentina.</p>
-<div class="formula-mini" style="background:#1a1f29;border-left-color:var(--rd)">"El documento indica usar el sitio ARG para el punto 7, pero el calendario entregado no lo contiene (solo 10 países, sin Argentina). ¿Hay una versión actualizada del archivo, o qué sitio debo usar?"</div>
-<p class="tx2" style="margin-top:6px"><b>Sin esto, el punto 7 no se puede completar con exactitud.</b> Es la única pregunta verdaderamente bloqueante.</p>
+<div class="card formula" style="border-left-color:var(--gn)">
+<div class="card-h" style="color:var(--gn)">P1 · Calendario Argentina · ✅ RESUELTO</div>
+<p class="tx2"><b>Se preguntó al trainer y entregaron el archivo nuevo</b> <code>Normalización días hábiles Argentina.xlsx</code>. Hallazgo clave: el sitio de Argentina NO es "ARG" sino <code>MLA</code> (código MercadoLibre Argentina). 26.947 días, rango <b>2026-03-23 a 2099-12-31</b>. Mismas columnas que el v2 (SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL).</p>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Observación a validar al ejecutar</div><p class="tx2">Las transacciones DOTA van de <b>2022-01-02 a 2026-05-04</b>, pero el calendario MLA empieza el <b>2026-03-23</b>. Las transacciones previas a esa fecha NO tendrán match en el BuscarV #1 (su MOV_CREATION_DATE no existe en el calendario). Al ejecutar, revisá cuántos registros quedan sin EXPECTED_PAYMENT_DATE — si son muchos, confirmá con el trainer si el calendario debería cubrir desde 2022.</p></div>
 </div>
 
 <h3>🟡 DECISIONES DE DISEÑO · confirmar suma puntos (no son bloqueantes)</h3>
@@ -225,21 +224,21 @@ td b{color:var(--tx)}
 <ol>
   <li>Workspace con <b>nueva herencia</b> + todos los <b>add-ons</b> (saldos persistentes · días hábiles · conciliación avanzada).</li>
   <li>Subir las 4 fuentes como <b>insumos</b>: <code>DB_DOTA</code> · <code>Reporte_FD</code> · <code>Parametria_Comercio</code> · <code>Normalización_fechas_habiles</code>.</li>
-  <li>Cargar el <b>calendario hábil ARG</b> (ver detalle abajo ↓).</li>
+  <li>Cargar el <b>calendario hábil de Argentina</b> (archivo <code>Normalización días hábiles Argentina.xlsx</code> · sitio = <code>MLA</code>, ver detalle abajo ↓).</li>
   <li>Revisar el <b>tipo de dato</b> de cada columna importada (Simetrik por defecto adivina pero falla con PAN y montos string).</li>
 </ol>
 
-<h3>📅 El archivo de calendario ARG · método verificado v4.0</h3>
-<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> ya viene con los días hábiles <b>pre-calculados como contadores</b>. No hace falta ninguna función especial de días hábiles — el cálculo del punto 7 se hace con 2 BuscarV contra este archivo (ver detalle completo en el Punto 7 más abajo).</p>
+<h3>📅 El archivo de calendario Argentina · método verificado v5.0</h3>
+<p class="tx2">Archivo correcto: <code>Normalización días hábiles Argentina.xlsx</code> (sitio <code>MLA</code>). Ya viene con los días hábiles <b>pre-calculados como contadores</b>. No hace falta ninguna función de suma — el punto 7 se resuelve con 2 BuscarV contra este archivo (detalle en el Punto 7 abajo).</p>
 
 <div class="card tip">
 <div class="card-h">📐 Estructura real del archivo (verificada)</div>
 <table style="width:100%;font-size:12px;margin-top:6px">
 <tr><th>Columna</th><th>Para qué sirve</th></tr>
-<tr><td><code>SITE</code></td><td>País. Para esta prueba: filtrar <code>= "ARG"</code></td></tr>
-<tr><td><code>FECHA</code></td><td>La fecha calendario</td></tr>
-<tr><td><code>CONCEPTO</code></td><td>HABIL / NO HABIL / FERIADO (texto)</td></tr>
-<tr><td><code>CLASIFICACIÓN</code></td><td><code>1</code> = hábil · <code>0</code> = no hábil/feriado/finde</td></tr>
+<tr><td><code>SITE</code></td><td>Sitio. Argentina = <code>MLA</code> (NO "ARG"). Filtrar <code>= "MLA"</code></td></tr>
+<tr><td><code>FECHA</code></td><td>La fecha calendario (2026-03-23 a 2099-12-31)</td></tr>
+<tr><td><code>CONCEPTO</code></td><td>HABIL / FERIADO (texto)</td></tr>
+<tr><td><code>CLASIFCACION</code></td><td><code>1</code> = hábil · <code>0</code> = no hábil/feriado/finde</td></tr>
 <tr><td><code>ID_CONTADOR_SUMA</code></td><td>Contador acumulado de días hábiles (la posición del día hábil en la secuencia)</td></tr>
 <tr><td><code>ID_FECHA_FINAL</code></td><td>Contador que solo avanza en hábiles · permite mapear "día hábil N°X" → su fecha real</td></tr>
 </table>
@@ -248,10 +247,10 @@ td b{color:var(--tx)}
 <div class="card tip">
 <div class="card-h">Cómo cargarlo</div>
 <ol>
-  <li>Cargá el xlsx como <b>fuente</b> llamada <code>Calendario_Fechas_Habiles</code>.</li>
+  <li>Cargá <code>Normalización días hábiles Argentina.xlsx</code> como <b>fuente</b> → nombrala <code>Calendario_MLA</code>.</li>
   <li>Creá su <b>Unión de fuentes</b> (best practice #8).</li>
-  <li>Sobre la unión, creá un <b>Grupo Conciliable</b> filtrado por <code>SITE = "ARG"</code> → nombralo <code>CAL_ARG</code>.</li>
-  <li>Listo — <code>CAL_ARG</code> es el recurso que vas a usar en los 2 BuscarV del punto 7 y en el cálculo de FECHA_FINAL del check de débitos.</li>
+  <li>Sobre la unión, creá un <b>Grupo Conciliable</b> filtrado por <code>SITE = "MLA"</code> → nombralo <code>CAL_ARG</code>.</li>
+  <li>Listo — <code>CAL_ARG</code> es el recurso que usás en los 2 BuscarV del punto 7 y en FECHA_FINAL del check de débitos.</li>
 </ol>
 </div>
 
@@ -408,14 +407,14 @@ td b{color:var(--tx)}
 <h3>Punto 7 · EXPECTED_PAYMENT_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card warn">
 <div class="card-h">🚨 MÉTODO CORRECTO v4.0 · verificado contra Mapeo_Features doc + estructura real del archivo</div>
-<p class="tx2"><b>NO se usa una función de suma de días.</b> El documento dice explícitamente: "utiliza la parametría de fechas hábiles entregada como insumo". El cálculo de 30 días hábiles <b>con feriados ARG</b> se hace con <b>2 BuscarV contra el calendario</b>, usando las columnas <code>ID_CONTADOR_SUMA</code> e <code>ID_FECHA_FINAL</code> que ya vienen pre-calculadas en el archivo.</p>
+<p class="tx2"><b>NO se usa una función de suma de días.</b> El documento dice explícitamente: "utiliza la parametría de fechas hábiles entregada como insumo". El cálculo de 30 días hábiles <b>con feriados de Argentina (sitio MLA)</b> se hace con <b>2 BuscarV contra el calendario</b>, usando las columnas <code>ID_CONTADOR_SUMA</code> e <code>ID_FECHA_FINAL</code> que ya vienen pre-calculadas en el archivo.</p>
 </div>
 
 <div class="card tip">
 <div class="card-h">📐 Cómo está estructurado el archivo Normalización_fechas_habiles_v2</div>
 <table style="width:100%;font-size:12px;margin-top:6px">
 <tr><th>Columna</th><th>Qué es</th></tr>
-<tr><td><code>SITE</code></td><td>País del calendario. Filtrar <code>= "ARG"</code></td></tr>
+<tr><td><code>SITE</code></td><td>Sitio del calendario. Argentina = <code>MLA</code>. Filtrar <code>= "MLA"</code></td></tr>
 <tr><td><code>FECHA</code></td><td>Cada fecha calendario</td></tr>
 <tr><td><code>CLASIFICACIÓN</code></td><td><code>1</code> = día hábil · <code>0</code> = no hábil/feriado/fin de semana</td></tr>
 <tr><td><code>ID_CONTADOR_SUMA</code></td><td>Contador acumulado de días hábiles hasta esa fecha (la "posición" del día hábil)</td></tr>
@@ -426,7 +425,7 @@ td b{color:var(--tx)}
 <div class="card tip">
 <div class="card-h">📍 Paso a paso · EXPECTED_PAYMENT_DATE (3 sub-pasos)</div>
 <ol>
-<li><b>Grupo conciliable del calendario ARG:</b> sobre la unión del calendario, crear un Grupo Conciliable filtrado por <code>SITE = "ARG"</code>. Nombralo <code>CAL_ARG</code>.</li>
+<li><b>Grupo conciliable del calendario Argentina:</b> sobre la unión del calendario, crear un Grupo Conciliable filtrado por <code>SITE = "MLA"</code>. Nombralo <code>CAL_ARG</code>.</li>
 <li><b>BuscarV #1 — obtener el contador del día de la transacción:</b> en DB_DOTA, crear un BuscarV:
   <ul>
     <li>Recurso fuente: <code>CAL_ARG</code></li>
@@ -443,10 +442,10 @@ td b{color:var(--tx)}
   </ul>
 </li>
 </ol>
-<p class="tx2"><b>Por qué funciona:</b> el archivo ya tiene pre-calculado el contador de días hábiles. Sumás 30 al contador del día de la transacción y buscás qué fecha tiene ese contador final. El calendario ya excluyó feriados ARG y fines de semana en su columna CLASIFICACIÓN.</p>
+<p class="tx2"><b>Por qué funciona:</b> el archivo ya tiene pre-calculado el contador de días hábiles. Sumás 30 al contador del día de la transacción y buscás qué fecha tiene ese contador final. El calendario MLA ya excluyó feriados de Argentina y fines de semana en su columna CLASIFCACION.</p>
 </div>
 
-<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Por qué NO usar ADICIONAR_DIASEMANA acá</div><p class="tx2"><code>ADICIONAR_DIASEMANA</code> omite sábados y domingos pero <b>NO feriados</b> (confirmado en Help Center: el ejemplo viernes+1=lunes). El punto 7 exige usar el calendario ARG que <b>sí incluye feriados</b>. Por eso el método correcto es el doble BuscarV contra el archivo, no la función.</p></div>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Por qué NO usar ADICIONAR_DIASEMANA acá</div><p class="tx2"><code>ADICIONAR_DIASEMANA</code> omite sábados y domingos pero <b>NO feriados</b> (confirmado en Help Center: el ejemplo viernes+1=lunes). El punto 7 exige usar el calendario de Argentina (sitio MLA) que <b>sí incluye feriados</b>. Por eso el método correcto es el doble BuscarV contra el archivo, no la función.</p></div>
 
 <!-- ✓ validado v3.0 · método oficial = BuscarV (VLOOKUP Simetrik), NO "Cruces/Joins" -->
 <!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
@@ -867,7 +866,7 @@ td b{color:var(--tx)}
 <tr><td><b>Orden de transformaciones</b></td><td>Punto 1 antes de 4 · puntos 1-7 antes del cruce con parametría (8).</td></tr>
 <tr><td><b>Restricciones de barrida</b></td><td>No auto-cross · PAYMENT ≠ PAYMENT · tolerancia de fecha direccional en B4.</td></tr>
 <tr><td><b>Bisiesto-safe</b></td><td>Patrón "primer día del mes siguiente -1" (o equivalente) en el punto 11.</td></tr>
-<tr><td><b>Uso de add-ons</b></td><td>Saldos persistentes para el punto 13 · calendario hábil ARG para puntos 7 y FECHA_FINAL.</td></tr>
+<tr><td><b>Uso de add-ons</b></td><td>Saldos persistentes para el punto 13 · calendario hábil Argentina (sitio MLA) para puntos 7 y FECHA_FINAL.</td></tr>
 <tr><td><b>Reportería</b></td><td>Cada barrida con monto + #partidas + % · KPI global cuadra con suma de barridas.</td></tr>
 <tr><td><b>Justificación del 16</b></td><td>Explicación clara del valor operativo del tablero libre elegido.</td></tr>
 <tr><td><b>Video con transcripción</b></td><td>Lectura de resultados · paso a paso · recomendaciones.</td></tr>
@@ -899,7 +898,7 @@ const DOTA = (() => {
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
     { n:6,  txt:'MOV_CREATION_DATE · adicionar_fecha_tiempo(MOV_CREATED_DATE; 1; "días") + cast a Fecha' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra CAL_ARG: ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra CAL_ARG (SITE=MLA): ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
     { n:8,  txt:'BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },

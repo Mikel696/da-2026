@@ -869,6 +869,8 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 > - **`adicionar_fecha_tiempo(FECHA;N;"días")`** → suma N días **CALENDARIO** (cuenta sáb/dom/feriados). Confirmada en release note oficial Jul-2025. Es la que se usa para "adicionar 1 día" (DOTA puntos 6 y 11). El catálogo del artículo principal de transformación NO la lista, pero existe en la plataforma.
 > - **`ADICIONAR_DIASEMANA(FECHA;N)`** → suma N días **HÁBILES** (omite sáb/dom pero NO feriados). Ejemplo oficial: viernes 28/04 +1 = lunes 01/05. **NO sirve para días calendario ni para días hábiles con feriados.**
 > - Para **días hábiles CON feriados de un país** (DOTA punto 7), NO existe función directa → usar BuscarV contra el archivo de calendario (ver método abajo).
+>
+> **📅 DOTA · calendario Argentina (verificado 2026-06-01):** El sitio de Argentina en el archivo `Normalización días hábiles Argentina.xlsx` es **`MLA`** (código MercadoLibre Argentina), NO "ARG". Columnas: SITE, FECHA, CONCEPTO, CLASIFCACION (1=hábil/0=no), ID_CONTADOR_SUMA, ID_FECHA_FINAL. Rango 2026-03-23 a 2099-12-31. Método punto 7: Grupo conciliable filtrado `SITE="MLA"` → BuscarV #1 (`MOV_CREATION_DATE=FECHA` trae `ID_CONTADOR_SUMA`) → `CALCULO(+30)` → BuscarV #2 (`N_TARGET=ID_FECHA_FINAL` trae `FECHA`).
 
 > **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
 
