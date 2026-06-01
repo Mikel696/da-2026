@@ -222,6 +222,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="step">
   <div class="step-head"><div class="step-num">4</div><div class="step-title">BRAND <span class="out">salida: Texto</span></div></div>
   <p>Si <code>PAY_METHOD</code> tiene "MASTER", "MAESTRO" o "MASTERCARD" → "MASTERCARD". Si no, deducí la marca por los dígitos del PAN.</p>
+  <div class="box do"><div class="box-h">✅ Dato verificado · PAY_METHOD viene en minúscula</div>En los datos reales <code>PAY_METHOD</code> es <code>master</code>, <code>maestro</code>, <code>visa</code>, <code>debmaster</code>… (minúscula). Por eso el <code>MAYUSC()</code> de la fórmula es <b>obligatorio</b> — sin él, la búsqueda de "MASTER" no encontraría "master".</div>
   <div class="box warn"><div class="box-h">⚠ Orden</div>Este paso usa <code>CARD_NUMBER</code> (Paso 1). Hacelo DESPUÉS del Paso 1.</div>
   <pre class="formula"><span class="fn">SI</span>(
   <span class="fn">EXTRAER_EXPREGULAR</span>(<span class="fn">MAYUSC</span>(<span class="col">PAY_METHOD</span>); <span class="str">"MASTER|MAESTRO|MASTERCARD"</span>; 0) <> <span class="str">""</span>;
@@ -338,21 +339,23 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="phase">🟢 Normalización Reporte FD · Pasos 9 a 11</div>
 <div class="phase-sub">Estas columnas se crean en <code>Union_FD</code>.</div>
 
+<div class="box do" style="max-width:none"><div class="box-h">✅ Dato verificado · NUM_TAR ya viene enmascarado</div>En FD, <code>NUM_TAR</code> tiene el formato <code>558757XXXXXX9967</code> (6 dígitos + XXXXXX + 4 dígitos) — <b>idéntico al CARD_NUMBER que armás en el Paso 1</b>. Por eso en la Barrida 3 cruzan directo (<code>CARD_NUMBER = NUM_TAR</code>) sin transformar nada.</div>
+
 <div class="step">
   <div class="step-head"><div class="step-num">9</div><div class="step-title">LIQ_6_TARJETA <span class="out">salida: Texto</span></div></div>
-  <p>Los primeros 6 dígitos de la tarjeta.</p>
+  <p>Los primeros 6 dígitos de <code>NUM_TAR</code>. Sobre <code>558757XXXXXX9967</code> da <code>558757</code>.</p>
   <pre class="formula"><span class="fn">IZQUIERDA</span>(<span class="col">NUM_TAR</span>; 6)</pre>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num">10</div><div class="step-title">LIQ_4_TARJETA <span class="out">salida: Texto</span></div></div>
-  <p>Los últimos 4 dígitos de la tarjeta.</p>
+  <p>Los últimos 4 dígitos de <code>NUM_TAR</code>. Sobre <code>558757XXXXXX9967</code> da <code>9967</code>.</p>
   <pre class="formula"><span class="fn">DERECHA</span>(<span class="col">NUM_TAR</span>; 4)</pre>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num">11</div><div class="step-title">DEADLINE <span class="out">salida: Texto · "SI" / "NO"</span></div></div>
-  <p>Determiná si <code>FPRES</code> es el último día del mes. Funciona con todos los meses, incluso años bisiestos.</p>
+  <p>Determiná si <code>FPRES</code> (la fecha de proceso de FD, ej: <code>2021-10-28</code>) es el último día del mes. Funciona con todos los meses, incluso años bisiestos.</p>
   <pre class="formula"><span class="cm">// Si al sumar 1 día calendario el mes cambia → FPRES era fin de mes.</span>
 <span class="fn">SI</span>(
   <span class="fn">EXTRAER_FECHA</span>(<span class="fn">adicionar_fecha_tiempo</span>(<span class="col">FPRES</span>; 1; <span class="str">"días"</span>); <span class="str">"mes"</span>)
@@ -399,19 +402,25 @@ td{color:var(--t2)}td b{color:var(--tx)}
   </table>
 
   <h4>Barrida 3 · DOTA vs FD detalle exacto</h4>
-  <p>Tipo: conciliación (Lado A vs Lado B). Es la más robusta · 5 llaves:</p>
+  <p>Tipo: conciliación (Lado A vs Lado B). Es la más robusta · 5 llaves. <b>Nombres de columna FD verificados contra el archivo real:</b></p>
   <table>
     <tr><th>DOTA (Lado A)</th><th>Op</th><th>FD (Lado B)</th></tr>
     <tr><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>=</td><td><code>NUM_AUT</code></td></tr>
-    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>NUM_COM</code></td></tr>
+    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>NUM_EST</code></td></tr>
     <tr><td><code>ABS(MOV_AMOUNT)</code></td><td>=</td><td><code>IMPORTE</code></td></tr>
-    <tr><td><code>MOV_CREATION_DATE</code></td><td>=</td><td><code>FPRES</code></td></tr>
+    <tr><td><code>MOV_CREATION_DATE</code></td><td>=</td><td><code>FORIG_COMPRA</code></td></tr>
     <tr><td><code>CARD_NUMBER</code></td><td>=</td><td><code>NUM_TAR</code></td></tr>
   </table>
+  <div class="box do"><div class="box-h">✅ Por qué estas columnas (verificado en datos)</div>
+  <b>Comercio → NUM_EST, no NUM_COM:</b> en los datos, el merchant de DOTA (<code>32827909</code>) coincide con <code>NUM_EST</code> de FD (<code>32827909</code>), NO con <code>NUM_COM</code> (<code>26919584</code>).<br>
+  <b>Fecha → FORIG_COMPRA, no FPRES:</b> la fecha de la transacción DOTA (<code>2022-01-03</code>) coincide con <code>FORIG_COMPRA</code> de FD (<code>2022-01-03</code>). <code>FPRES</code> es la fecha de proceso (<code>2021-10-28</code>), totalmente distinta — esa solo se usa en el Paso 11.<br>
+  <b>PAN → NUM_TAR:</b> ambos enmascarados igual (<code>558757XXXXXX9967</code>).<br>
+  <b>Importe:</b> en FD el <code>IMPORTE</code> ya es positivo (el signo está en la columna <code>SIGNO</code> aparte), por eso cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
   <p>Mismas 5 llaves que B3, pero la fecha admite que <b>FD llegue 1 día después</b> que DOTA (nunca antes).</p>
-  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>La tolerancia normal de Simetrik aplica en ambos sentidos. Para que sea "solo hacia adelante" (best practice #21): duplicá la llave de fecha agregando una desigualdad — <code>FPRES ≥ MOV_CREATION_DATE</code> + tolerancia de 1 día. Si dudás, preguntá: <i>"¿La tolerancia de fecha direccional la configuro con desigualdad en la llave, o hay opción nativa de un solo sentido?"</i></div>
+  <div class="box do"><div class="box-h">✅ Por qué hace falta esta barrida (verificado)</div>En el Paso 6 le sumás 1 día a la fecha (<code>MOV_CREATION_DATE = MOV_CREATED_DATE + 1</code>), pero <code>FORIG_COMPRA</code> de FD tiene la fecha <b>sin</b> ese +1. Entonces la Barrida 3 (fecha exacta) no cruza por ese día de diferencia, y esta Barrida 4 (tolerancia +1) lo recupera. Por eso el caso necesita las dos.</div>
+  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>La tolerancia normal de Simetrik aplica en ambos sentidos. Para que sea "solo hacia adelante" (best practice #21): duplicá la llave de fecha agregando una desigualdad — <code>FORIG_COMPRA ≥ MOV_CREATION_DATE</code> + tolerancia de 1 día. Si dudás, preguntá: <i>"¿La tolerancia de fecha direccional la configuro con desigualdad en la llave, o hay opción nativa de un solo sentido?"</i></div>
 
   <h4>Barrida 5 · DOTA vs Batch FD</h4>
   <p>Tipo: <b>agrupada (batch)</b>. Sobre el FD que aún no cruzó, agrupá por lote y cruzá la suma contra el detalle DOTA pendiente.</p>

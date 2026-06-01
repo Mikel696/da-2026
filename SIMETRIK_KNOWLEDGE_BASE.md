@@ -870,6 +870,15 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 > - **`ADICIONAR_DIASEMANA(FECHA;N)`** → suma N días **HÁBILES** (omite sáb/dom pero NO feriados). Ejemplo oficial: viernes 28/04 +1 = lunes 01/05. **NO sirve para días calendario ni para días hábiles con feriados.**
 > - Para **días hábiles CON feriados de un país** (DOTA punto 7), NO existe función directa → usar BuscarV contra el archivo de calendario (ver método abajo).
 >
+> **🔬 DOTA · auditoría de datos reales (verificado 2026-06-01):**
+> - **PAY_METHOD** viene en minúscula (master/maestro/visa/debmaster) → `MAYUSC()` obligatorio en punto 4.
+> - **Acquirer** (CAPTURE/PURCHASE/AUTH) capitalizado (Cabal/Mastercard/Visa/Diners), mayormente vacío → `MAYUSC()` + concatenar las 3 en punto 3.
+> - **MERCHANT_NUMBER** en DOTA = 8 dígitos con decimales espurios (`32827909.0000000000`) → castear Número→Entero→Texto. COMERCIO en parametría = 10 dígitos (¡difiere en longitud! validar cruce paso 8).
+> - **MOV_AMOUNT** ya trae signo (PAYMENT + / REFUND −).
+> - **NUM_TAR** (FD) viene enmascarado `558757XXXXXX9967` = idéntico a CARD_NUMBER → cruzan directo.
+> - **Barrida 3 (cruce DOTA×FD) llaves verificadas:** GTWC_AUTHORIZATION_CODE=NUM_AUT · GTWT_MERCHANT_NUMBER=**NUM_EST** (no NUM_COM) · ABS(MOV_AMOUNT)=IMPORTE · MOV_CREATION_DATE=**FORIG_COMPRA** (no FPRES) · CARD_NUMBER=NUM_TAR.
+> - **FPRES** (FD, fecha proceso ~2021) solo se usa en punto 11 (DEADLINE). FORIG_COMPRA (~2022) es la que cruza con la fecha DOTA.
+>
 > **📅 DOTA · calendario Argentina (verificado 2026-06-01):** El sitio de Argentina en el archivo `Normalización días hábiles Argentina.xlsx` es **`MLA`** (código MercadoLibre Argentina), NO "ARG". Columnas: SITE, FECHA, CONCEPTO, CLASIFCACION (1=hábil/0=no), ID_CONTADOR_SUMA, ID_FECHA_FINAL. Rango 2026-03-23 a 2099-12-31. Método punto 7: Grupo conciliable filtrado `SITE="MLA"` → BuscarV #1 (`MOV_CREATION_DATE=FECHA` trae `ID_CONTADOR_SUMA`) → `CALCULO(+30)` → BuscarV #2 (`N_TARGET=ID_FECHA_FINAL` trae `FECHA`).
 
 > **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
