@@ -163,7 +163,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">0b</div><div class="step-title">Ajustar tipos de dato en <code>Union_DOTA</code> · ANTES de las fórmulas</div></div>
-  <p>Abrí <code>Union_DOTA</code> en vista de tabla. Click derecho sobre el encabezado de cada columna → <b>"Dar formato a una columna"</b> → cambiá el tipo:</p>
+  <div class="box warn"><div class="box-h">🚨 EL FORMATO SE CAMBIA EN LA FUENTE, NO EN LA UNIÓN</div>Los cambios de tipo de dato (Texto/Fecha/etc.) se hacen abriendo la <b>FUENTE</b> (<code>DB_DOTA</code>), NO la Unión. En la Unión las columnas son heredadas y dan el error "la columna seleccionada no admite cambio de formato". <b>Regla:</b> todo casteo → en la fuente.</div>
+  <p>Abrí la <b>fuente <code>DB_DOTA</code></b> (no la unión) en vista de tabla. Click derecho sobre el encabezado de cada columna → <b>"Dar formato a una columna"</b> → cambiá el tipo:</p>
   <table>
     <tr><th>Columna</th><th>Cambiar a tipo</th><th>Por qué</th></tr>
     <tr><td><code>CARD_SIX_FIRST_DIGITS</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Si queda Número, pierde los ceros de la izquierda</td></tr>
