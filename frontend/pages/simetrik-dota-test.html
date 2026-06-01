@@ -298,8 +298,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <ol>
     <li><b>Cargar la fuente:</b> Automatizar → Recursos → "Crear recurso" → Fuentes → nombre <code>Calendario_MLA</code> → arrastrar el archivo <code>Normalización días hábiles Argentina.xlsx</code> → esperar "Listo ✓".</li>
     <li><b>Crear la Unión:</b> "Crear recurso" → Unión de fuentes → nombre <code>Union_Calendario</code> → elegir la fuente <code>Calendario_MLA</code> → seleccionar las <b>6 columnas</b> (todas): <code>SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL</code> → <b>NO cambiar ningún tipo</b> → "Ejecutar cambios".</li>
-    <li><b>Crear el Grupo Conciliable:</b> abrir <code>Union_Calendario</code> → "Crear grupo conciliable" → filtro <code>SITE = "MLA"</code> → nombralo <code>CAL_ARG</code> → guardar.</li>
   </ol>
+  <div class="box do"><div class="box-h">✅ NO hace falta grupo conciliable</div>Este archivo de calendario tiene <b>solo Argentina</b> (todas las filas son <code>MLA</code>), así que no hay que filtrar nada. Usá <code>Union_Calendario</code> directamente en los BuscarV de abajo. (El filtro por sitio solo haría falta si el archivo tuviera varios países.)</div>
 
   <table>
     <tr><th>Columna del calendario</th><th>Qué es</th></tr>
@@ -315,8 +315,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <p>Volvé a <code>Union_DOTA</code> → ícono <b>"Crear BuscarV"</b>. Esto consulta el almanaque y trae el número de día hábil de tu fecha:</p>
   <ul>
     <li>Nombre de la columna nueva: <code>N_DIA_BASE</code></li>
-    <li>Recurso fuente a consultar: <code>CAL_ARG</code></li>
-    <li>Condición de cruce: <code>MOV_CREATION_DATE</code> = <code>CAL_ARG.FECHA</code></li>
+    <li>Recurso fuente a consultar: <code>Union_Calendario</code></li>
+    <li>Condición de cruce: <code>MOV_CREATION_DATE</code> = <code>Union_Calendario.FECHA</code></li>
     <li>Columna a traer: <code>ID_CONTADOR_SUMA</code></li>
   </ul>
 
@@ -328,8 +328,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <p>Otro BuscarV en <code>Union_DOTA</code>:</p>
   <ul>
     <li>Nombre de la columna nueva: <code>EXPECTED_PAYMENT_DATE</code></li>
-    <li>Recurso fuente: <code>CAL_ARG</code></li>
-    <li>Condición de cruce: <code>N_TARGET</code> = <code>CAL_ARG.ID_FECHA_FINAL</code></li>
+    <li>Recurso fuente: <code>Union_Calendario</code></li>
+    <li>Condición de cruce: <code>N_TARGET</code> = <code>Union_Calendario.ID_FECHA_FINAL</code></li>
     <li>Columna a traer: <code>FECHA</code></li>
   </ul>
 
@@ -575,7 +575,7 @@ const DOTA = (() => {
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
     { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias") + cast a Fecha' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra CAL_ARG (SITE=MLA): ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra Union_Calendario: ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
     { n:8,  txt:'BuscarV DB_DOTA × Parametria · GTWT_MERCHANT_NUMBER = COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },
