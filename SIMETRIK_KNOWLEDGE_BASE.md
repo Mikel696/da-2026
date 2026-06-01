@@ -895,7 +895,9 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 | 2026-06-01 | 4 | `PAY_METHOD` viene en minúscula (master/maestro/visa). | `MAYUSC()` obligatorio en la fórmula. |
 | 2026-06-01 | 3 | Acquirer (CAPTURE/PURCHASE/AUTH) capitalizado y mayormente vacío; "Diners" está en AUTH_ACQUIRER. | `MAYUSC()` + concatenar las 3 columnas. |
 
-> **Regla de oro reforzada:** cuando una función documentada da error de sintaxis en el workspace, NO inventar la sintaxis — verificar con el autocompletado del editor o preguntar al trainer.
+| 2026-06-01 | 6/11 | **Valores del parámetro PERÍODO** (verificado en doc oficial DIFERENCIA_FECHA y EXTRAER_FECHA): constantes en **minúscula, plural, CON tilde**: `años`, `meses`, `semanas`, `días`, `horas`. NO singular (`mes`/`año`) ni sin tilde (`dias`). | `ADICIONAR_FECHA_TIEMPO(fecha; 1; "días")` · `EXTRAER_FECHA(fecha; "meses")`. Si "días" con comillas falla, probar sin comillas (es tipo "constante"). |
+
+> **Regla de oro reforzada:** cuando una función documentada da error de sintaxis en el workspace, NO inventar la sintaxis — verificar con el autocompletado del editor, buscar la función hermana en el Help Center, o preguntar al trainer. (Caso real: ADICIONAR_FECHA_TIEMPO no está en el catálogo público, pero su parámetro PERÍODO se dedujo de DIFERENCIA_FECHA/EXTRAER_FECHA que comparten la misma constante.)
 
 > **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
 

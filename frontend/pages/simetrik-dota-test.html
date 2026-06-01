@@ -264,7 +264,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="step">
   <div class="step-head"><div class="step-num">6</div><div class="step-title">MOV_CREATION_DATE <span class="out">salida: Fecha (sin hora)</span></div></div>
   <p>Sumá 1 día a <code>MOV_CREATED_DATE</code> y quitá la hora.</p>
-  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"dias"</span>)</pre>
+  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"días"</span>)</pre>
   <div class="box do"><div class="box-h">✅ Después de la fórmula</div>Casteá la columna de salida a tipo <span class="dtype dtype-fecha">Fecha</span> (no Fecha y hora). Así se quita la hora automáticamente.</div>
   <div class="box warn"><div class="box-h">⚠ Función correcta</div>Es <code>ADICIONAR_FECHA_TIEMPO</code> (suma días <b>calendario</b>). NO uses <code>ADICIONAR_DIAS_SEMANA</code> — esa suma días hábiles (salta fines de semana) y acá querés 1 día normal.</div>
 </div>
@@ -357,9 +357,9 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <p>Determiná si <code>FPRES</code> (la fecha de proceso de FD, ej: <code>2021-10-28</code>) es el último día del mes. Funciona con todos los meses, incluso años bisiestos.</p>
   <pre class="formula"><span class="cm">// Si al sumar 1 día calendario el mes cambia → FPRES era fin de mes.</span>
 <span class="fn">SI</span>(
-  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FPRES</span>; 1; <span class="str">"dias"</span>); <span class="str">"mes"</span>)
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FPRES</span>; 1; <span class="str">"días"</span>); <span class="str">"meses"</span>)
   <>
-  <span class="fn">EXTRAER_FECHA</span>(<span class="col">FPRES</span>; <span class="str">"mes"</span>);
+  <span class="fn">EXTRAER_FECHA</span>(<span class="col">FPRES</span>; <span class="str">"meses"</span>);
   <span class="str">"SI"</span>;
   <span class="str">"NO"</span>
 )</pre>
@@ -447,14 +447,14 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <h4>FECHA_INICIO <span style="font-weight:400;color:var(--t3)">(Fecha · dentro de una agrupación)</span></h4>
   <p>Primer día del mes actual. Usa la columna <code>TODAY()</code> (solo disponible en agrupaciones):</p>
   <pre class="formula"><span class="fn">CONCATENAR</span>(
-  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"año"</span>);
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"años"</span>);
   <span class="str">"-"</span>;
-  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"mes"</span>);
+  <span class="fn">EXTRAER_FECHA</span>(<span class="fn">TODAY</span>(); <span class="str">"meses"</span>);
   <span class="str">"-1"</span>
 )</pre>
 
   <h4>FECHA_FINAL <span style="font-weight:400;color:var(--t3)">(Fecha)</span></h4>
-  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>; <span class="str">"dias"</span>)</pre>
+  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>; <span class="str">"días"</span>)</pre>
 
   <h4>Reporte</h4>
   <p>Sobre los movimientos que cruzaron en B1 o B2, filtrá los que tengan <code>FECHA_FINAL − FECHA_INICIO &gt; 15 días</code>. Esos son las compensaciones tardías a reportar.</p>
@@ -539,7 +539,7 @@ const DOTA = (() => {
     { n:3,  txt:'GTWT_ACQUIRER · EXTRAER_EXPREGULAR sobre 3 columnas concatenadas' },
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
-    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias") + cast a Fecha' },
+    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "días") + cast a Fecha' },
     { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra CAL_ARG (SITE=MLA): ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
     { n:8,  txt:'BuscarV DB_DOTA × Parametria · GTWT_MERCHANT_NUMBER = COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
