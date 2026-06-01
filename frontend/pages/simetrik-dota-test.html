@@ -291,33 +291,40 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="step-head"><div class="step-num">7</div><div class="step-title">EXPECTED_PAYMENT_DATE <span class="out">salida: Fecha · 30 días hábiles</span></div></div>
   <p>Calculá la fecha de pago a <b>30 días hábiles de Argentina</b> desde <code>MOV_CREATION_DATE</code>. Esto NO es una fórmula — se hace cruzando contra el calendario, que ya trae los días hábiles contados.</p>
 
-  <h4>El archivo de calendario (sitio MLA)</h4>
+  <div class="box do"><div class="box-h">💡 Cómo entra el calendario (en simple)</div>El archivo del calendario es un <b>almanaque aparte</b>: para cada fecha te dice qué número de día hábil es. No se mezcla con DB_DOTA — se <b>consulta</b> con BuscarV (como buscar en un diccionario). Lo consultás 2 veces: una para saber el número de día hábil de tu fecha, otra para saber qué fecha es ese número + 30.</div>
+
+  <h4>Sub-paso 7.0 · Cargar el calendario (fuente → unión → grupo)</h4>
+  <p>El calendario es el recurso <b>más fácil</b>: 6 columnas y <b>NO se castea ningún tipo de dato</b> (viene limpio).</p>
+  <ol>
+    <li><b>Cargar la fuente:</b> Automatizar → Recursos → "Crear recurso" → Fuentes → nombre <code>Calendario_MLA</code> → arrastrar el archivo <code>Normalización días hábiles Argentina.xlsx</code> → esperar "Listo ✓".</li>
+    <li><b>Crear la Unión:</b> "Crear recurso" → Unión de fuentes → nombre <code>Union_Calendario</code> → elegir la fuente <code>Calendario_MLA</code> → seleccionar las <b>6 columnas</b> (todas): <code>SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL</code> → <b>NO cambiar ningún tipo</b> → "Ejecutar cambios".</li>
+    <li><b>Crear el Grupo Conciliable:</b> abrir <code>Union_Calendario</code> → "Crear grupo conciliable" → filtro <code>SITE = "MLA"</code> → nombralo <code>CAL_ARG</code> → guardar.</li>
+  </ol>
+
   <table>
-    <tr><th>Columna</th><th>Qué es</th></tr>
-    <tr><td><code>SITE</code></td><td>Sitio. Argentina = <b>MLA</b> (no "ARG")</td></tr>
+    <tr><th>Columna del calendario</th><th>Qué es</th></tr>
+    <tr><td><code>SITE</code></td><td>Sitio. Argentina = <b>MLA</b> (no "ARG"). Por eso se filtra MLA.</td></tr>
     <tr><td><code>FECHA</code></td><td>Cada fecha del calendario</td></tr>
     <tr><td><code>CLASIFCACION</code></td><td>1 = hábil · 0 = no hábil/feriado</td></tr>
-    <tr><td><code>ID_CONTADOR_SUMA</code></td><td>Posición acumulada del día hábil</td></tr>
+    <tr><td><code>ID_CONTADOR_SUMA</code></td><td>Posición acumulada del día hábil (de tu fecha)</td></tr>
     <tr><td><code>ID_FECHA_FINAL</code></td><td>Permite volver del "día hábil N°X" a su fecha</td></tr>
   </table>
+  <div class="box warn"><div class="box-h">⚠ El calendario NO se castea</div>A diferencia de DB_DOTA, el calendario viene limpio: no toques ningún tipo de dato, no tiene ceros ni fechas ISO raras. Solo cargarlo, unión, grupo MLA.</div>
 
-  <h4>Sub-paso 7.1 · Grupo conciliable del calendario</h4>
-  <p>Sobre <code>Union_Calendario</code> → crear un <b>Grupo Conciliable</b> con filtro <code>SITE = "MLA"</code>. Nombralo <code>CAL_ARG</code>.</p>
-
-  <h4>Sub-paso 7.2 · BuscarV #1 (posición del día de la transacción)</h4>
-  <p>En <code>Union_DOTA</code> → ícono <b>"Crear BuscarV"</b>:</p>
+  <h4>Sub-paso 7.1 · BuscarV #1 (posición del día de la transacción)</h4>
+  <p>Volvé a <code>Union_DOTA</code> → ícono <b>"Crear BuscarV"</b>. Esto consulta el almanaque y trae el número de día hábil de tu fecha:</p>
   <ul>
     <li>Nombre de la columna nueva: <code>N_DIA_BASE</code></li>
-    <li>Recurso fuente: <code>CAL_ARG</code></li>
+    <li>Recurso fuente a consultar: <code>CAL_ARG</code></li>
     <li>Condición de cruce: <code>MOV_CREATION_DATE</code> = <code>CAL_ARG.FECHA</code></li>
     <li>Columna a traer: <code>ID_CONTADOR_SUMA</code></li>
   </ul>
 
-  <h4>Sub-paso 7.3 · Sumar 30 días hábiles</h4>
-  <p>Columna de transformación <code>N_TARGET</code> (salida Entero):</p>
+  <h4>Sub-paso 7.2 · Sumar 30 días hábiles</h4>
+  <p>En <code>Union_DOTA</code>, columna de transformación <code>N_TARGET</code> (salida Entero):</p>
   <pre class="formula"><span class="fn">CALCULO</span>(<span class="col">N_DIA_BASE</span> + 30)</pre>
 
-  <h4>Sub-paso 7.4 · BuscarV #2 (volver del contador a la fecha)</h4>
+  <h4>Sub-paso 7.3 · BuscarV #2 (volver del contador a la fecha)</h4>
   <p>Otro BuscarV en <code>Union_DOTA</code>:</p>
   <ul>
     <li>Nombre de la columna nueva: <code>EXPECTED_PAYMENT_DATE</code></li>
@@ -337,6 +344,13 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="step-head"><div class="step-num">8</div><div class="step-title">Traer TIPO_COMERCIO y filtrar ESTANDAR</div></div>
   <p>Enriquecé <code>Union_DOTA</code> con el tipo de comercio, usando el número de comercio del Paso 5 como llave. Después dejá solo los "ESTANDAR".</p>
 
+  <h4>Sub-paso 8.0 · Cargar la Parametría (fuente → unión)</h4>
+  <p>Igual que el calendario, es simple — 2 columnas, sin castear nada:</p>
+  <ol>
+    <li><b>Fuente:</b> "Crear recurso" → Fuentes → nombre <code>Parametria_Comercio</code> → arrastrar <code>Parametria_Comercio_v2.xlsx</code> → "Listo ✓".</li>
+    <li><b>Unión:</b> "Crear recurso" → Unión de fuentes → nombre <code>Union_Parametria</code> → elegir la fuente → seleccionar las 2 columnas <code>COMERCIO, TIPO_COMERCIO</code> → "Ejecutar cambios".</li>
+  </ol>
+
   <h4>Sub-paso 8.1 · BuscarV contra Parametría</h4>
   <p>En <code>Union_DOTA</code> → "Crear BuscarV":</p>
   <ul>
@@ -355,6 +369,9 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <!-- ════════ NORMALIZACIÓN FD ════════ -->
 <div class="phase">🟢 Normalización Reporte FD · Pasos 9 a 11</div>
 <div class="phase-sub">Estas columnas se crean en <code>Union_FD</code>.</div>
+
+<div class="box do" style="max-width:none"><div class="box-h">📂 Primero cargá el Reporte FD (si no lo hiciste)</div>
+<b>1)</b> Fuente: "Crear recurso" → Fuentes → nombre <code>Reporte_FD</code> → arrastrar <code>Reporte_FD_v3.xlsx</code> → "Listo ✓". &nbsp; <b>2)</b> Unión: "Crear recurso" → Unión de fuentes → <code>Union_FD</code> → seleccionar las columnas que vas a usar (<code>FPRES, NUM_COM, LOTE, NUM_TAR, FORIG_COMPRA, IMPORTE, SIGNO, NUM_AUT, NUM_EST</code>) → "Ejecutar cambios". <b>3)</b> Si alguna fecha/número necesita formato, casteá en la <b>FUENTE</b> <code>Reporte_FD</code>, no en la unión.</div>
 
 <div class="box do" style="max-width:none"><div class="box-h">✅ Dato verificado · NUM_TAR ya viene enmascarado</div>En FD, <code>NUM_TAR</code> tiene el formato <code>558757XXXXXX9967</code> (6 dígitos + XXXXXX + 4 dígitos) — <b>idéntico al CARD_NUMBER que armás en el Paso 1</b>. Por eso en la Barrida 3 cruzan directo (<code>CARD_NUMBER = NUM_TAR</code>) sin transformar nada.</div>
 
