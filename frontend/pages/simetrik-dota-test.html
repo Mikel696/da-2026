@@ -133,6 +133,7 @@ td b{color:var(--tx)}
 <div class="toc">
   <div class="toc-h">📑 Ruta de desarrollo</div>
   <ol>
+    <li><a href="#preguntas">❓ Preguntas para el trainer</a></li>
     <li><a href="#prep">0. Preparación del workspace</a></li>
     <li><a href="#tipos">Tipos de dato Simetrik</a></li>
     <li><a href="#dota">Normalización DB DOTA (1-7)</a></li>
@@ -146,6 +147,50 @@ td b{color:var(--tx)}
     <li><a href="#kb">📚 Stack oficial Simetrik (KB Help Center)</a></li>
     <li><a href="#checklist">✅ Tu progreso</a></li>
   </ol>
+</div>
+
+<!-- ═══ PREGUNTAS PARA EL TRAINER ═══ -->
+<h2 id="preguntas"><span class="num">❓</span>Preguntas para el trainer · análisis completo de la prueba</h2>
+<div class="card warn">
+<div class="card-h">Por qué esta sección importa</div>
+<p class="tx2">En una prueba de Implementation Specialist, <b>saber qué preguntar es parte de la evaluación</b>. Pero hay que distinguir 3 cosas: lo que se PREGUNTA (gaps reales), lo que se RESUELVE solo (mirando los datos), y lo que NO se pregunta porque ya está en el documento. Preguntar obviedades resta; detectar gaps reales suma.</p>
+</div>
+
+<h3>🔴 BLOQUEANTE · preguntar sí o sí</h3>
+<div class="card formula" style="border-left-color:var(--rd)">
+<div class="card-h" style="color:var(--rd)">P1 · Calendario ARG faltante (Punto 7)</div>
+<p class="tx2"><b>Hallazgo verificado:</b> el archivo <code>Normalización_fechas_habiles_v2</code> NO contiene el sitio ARG. Solo trae: BRA, CHL, COL, ECU, GTM, MEX, PAN, PER, SLV, URY. El punto 7 exige el calendario de Argentina.</p>
+<div class="formula-mini" style="background:#1a1f29;border-left-color:var(--rd)">"El documento indica usar el sitio ARG para el punto 7, pero el calendario entregado no lo contiene (solo 10 países, sin Argentina). ¿Hay una versión actualizada del archivo, o qué sitio debo usar?"</div>
+<p class="tx2" style="margin-top:6px"><b>Sin esto, el punto 7 no se puede completar con exactitud.</b> Es la única pregunta verdaderamente bloqueante.</p>
+</div>
+
+<h3>🟡 DECISIONES DE DISEÑO · confirmar suma puntos (no son bloqueantes)</h3>
+<div class="card tip">
+<div class="card-h">P2 · Llave de cruce de la Barrida 5 / Batch (Punto 12)</div>
+<p class="tx2">El documento dice "consolida el detalle FD agrupado por lote y crúzalo contra el detalle pendiente de DOTA", pero no especifica la <b>llave exacta</b> ni si DOTA también se agrupa. Pregunta: <i>"Para la barrida batch, ¿el cruce es suma de IMPORTE FD por LOTE contra suma de MOV_AMOUNT DOTA por comercio? ¿Qué columna del lado DOTA hace de llave del lote?"</i></p>
+</div>
+<div class="card tip">
+<div class="card-h">P3 · Fallback del GTWT_ACQUIRER en mayúscula (Punto 3)</div>
+<p class="tx2">El documento dice que si no hay match de Mastercard/Firstdata/Diners/Visa, se coloca "el contenido que venga en esas columnas en mayúscula" — pero hay <b>3 columnas</b> (CAPTURE/PURCHASE/AUTH_ACQUIRER) y no aclara el orden de prioridad para ese caso fallback. Pregunta: <i>"En el fallback del punto 3, ¿qué columna de las 3 acquirer tomo, y con qué prioridad?"</i></p>
+</div>
+<div class="card tip">
+<div class="card-h">P4 · Tolerancia direccional Barrida 4 (Punto 12)</div>
+<p class="tx2">"FD puede llegar al día siguiente respecto a DOTA, pero no antes". La tolerancia nativa de Simetrik aplica en ambos sentidos. Pregunta (o resolver con best practice #21): <i>"¿Configuro la tolerancia direccional duplicando la llave de fecha con desigualdad (FPRES ≥ MOV_CREATION_DATE), o la herramienta tiene tolerancia de un solo sentido nativa?"</i></p>
+</div>
+<div class="card tip">
+<div class="card-h">P5 · Setup del workspace</div>
+<p class="tx2"><i>"¿El workspace de prueba tiene nueva herencia y los add-ons habilitados (Saldos Persistentes / Cumulative Balance Groups y Conciliación Avanzada)? Los necesito para los puntos 12 y 13."</i></p>
+</div>
+
+<h3>🟢 YA RESUELTO · NO preguntar (se ve en los datos)</h3>
+<div class="card tip" style="border-left-color:var(--gn)">
+<div class="card-h" style="color:var(--gn)">Cosas que un buen IS resuelve solo</div>
+<ul>
+<li><b>Signo del monto (puntos 12 y 13):</b> verificado en el dato — <code>MOV_AMOUNT</code> YA viene con signo (PAYMENT positivo de 1 a 239.999 · REFUND negativo de −50 a −138.432). Para el saldo neto usás <code>MOV_AMOUNT</code> directo; para compensación usás <code>ABS(MOV_AMOUNT)</code>. No hay que preguntar ni derivar el signo.</li>
+<li><b>ESBLANCO en el punto 5:</b> castear las 3 columnas MERCHANT_NUMBER a <b>Texto</b> antes (best practice #22 — ESBLANCO falla en numéricos porque interpreta vacío como 0).</li>
+<li><b>"Adicionar 1 día" (punto 6):</b> día calendario → <code>adicionar_fecha_tiempo</code>, no días hábiles.</li>
+<li><b>Método del cruce parametría (punto 8) y enriquecimiento:</b> BuscarV (no conciliación), porque es 1:1 directo por código de comercio.</li>
+</ul>
 </div>
 
 <!-- ═══ STACK OFICIAL SIMETRIK ═══ -->
