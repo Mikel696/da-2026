@@ -216,7 +216,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <span class="fn">MAYUSC</span>(<span class="col">CAPTURE_ACQUIRER</span>)
   )
 )</pre>
-  <div class="box q"><div class="box-h">❓ Duda en este paso — confirmá con el trainer si tenés dudas</div>El documento dice "poné el contenido en mayúscula" pero son 3 columnas y no aclara cuál usar en ese caso fallback. Acá asumí <code>CAPTURE_ACQUIRER</code> (la primera mencionada). <b>Pregunta:</b> <i>"En el fallback del punto 3, cuando ninguna columna tiene la marca, ¿de cuál de las 3 acquirer tomo el contenido?"</i> — Si no te responden a tiempo, dejá CAPTURE_ACQUIRER, es lo más razonable.</div>
+  <div class="box q"><div class="box-h">❓ Pregunta · fallback del punto 3</div>El documento dice "poné el contenido en mayúscula" pero son 3 columnas y no aclara cuál usar en ese caso fallback. <b>Pregunta:</b> <i>"En el fallback del punto 3, cuando ninguna columna tiene la marca, ¿de cuál de las 3 acquirer tomo el contenido?"</i>
+<br><br>💡 <b>Hipótesis (para avanzar):</b> <code>CAPTURE_ACQUIRER</code> — es la primera que menciona el documento en el orden CAPTURE → PURCHASE → AUTH. Es lo más razonable mientras confirmás.</div>
 </div>
 
 <div class="step">
@@ -259,8 +260,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <br><br><b>Cuántos dígitos dejar:</b> el número entero completo tal como es (8 dígitos en estos datos). NO se trunca ni se rellena — solo se elimina la parte decimal.
   </div>
 
-  <div class="box q"><div class="box-h">❓ Observación verificada para el Paso 8 (cruce)</div>
-  En los datos, el merchant de DOTA tiene <b>8 dígitos</b> (ej: <code>82341942</code>), pero <code>COMERCIO</code> en la parametría tiene <b>10 dígitos</b> (ej: <code>8234815397</code>). Son longitudes distintas. Al ejecutar el BuscarV del Paso 8, revisá cuántos registros traen <code>TIPO_COMERCIO</code>. Si muchos quedan vacíos, esta diferencia de longitud es la causa → <b>pregunta:</b> <i>"El merchant en DB_DOTA tiene 8 dígitos y COMERCIO en la parametría 10 — ¿cómo se relacionan? ¿Falta normalizar algún prefijo/sufijo?"</i> No inventes rellenar dígitos sin confirmar.</div>
+  <div class="box do"><div class="box-h">✅ Verificado · el cruce del Paso 8 funciona directo</div>
+  Comparé los merchants de DOTA contra los 673 comercios de la parametría: <b>hay match exacto</b> (ej: <code>32827909</code>, <code>82341942</code> están idénticos en ambos). La parametría tiene comercios de 8, 9, 10 y 11 dígitos; los de DOTA (8 dígitos) cruzan con los de 8. Lo único necesario es <b>quitar el decimal</b> (arriba ↑) para que el texto coincida exacto. No hay que rellenar ni recortar dígitos.</div>
 </div>
 
 <div class="step">
@@ -310,7 +311,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <li>Columna a traer: <code>FECHA</code></li>
   </ul>
 
-  <div class="box q"><div class="box-h">❓ Observación a revisar al ejecutar</div>El calendario MLA empieza el <b>2026-03-23</b>, pero hay transacciones desde 2022. Las transacciones previas a esa fecha quedarán <b>sin EXPECTED_PAYMENT_DATE</b> (su fecha no existe en el calendario). Cuando ejecutes, mirá cuántas quedan vacías. Si son muchas, preguntá: <i>"El calendario MLA arranca en 2026-03-23 pero hay transacciones desde 2022 — ¿debería cubrir desde 2022?"</i></div>
+  <div class="box q"><div class="box-h">❓ Observación a revisar al ejecutar</div>El calendario MLA empieza el <b>2026-03-23</b>, pero hay transacciones desde 2022. Las transacciones previas a esa fecha quedarán <b>sin EXPECTED_PAYMENT_DATE</b> (su fecha no existe en el calendario). <b>Pregunta:</b> <i>"El calendario MLA arranca en 2026-03-23 pero hay transacciones desde 2022 — ¿debería cubrir desde 2022, o es esperado que las previas queden sin fecha?"</i>
+  <br><br>💡 <b>Hipótesis (para avanzar):</b> seguí el método con el calendario tal cual está. Si al ejecutar quedan muchas transacciones sin EXPECTED_PAYMENT_DATE, eso es justamente el dato que respalda tu pregunta — no lo fuerces. Es válido entregar el cálculo correcto para las fechas que el calendario cubre y reportar el resto como hallazgo.</div>
 </div>
 
 <!-- ════════ CRUCE PARAMETRÍA ════════ -->
@@ -411,13 +413,16 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td>Fecha de creación</td><td><code>MOV_CREATION_DATE</code></td><td>🟡 <b>a confirmar</b> (ver ❓)</td></tr>
     <tr><td>PAN</td><td><code>CARD_NUMBER</code></td><td><code>NUM_TAR</code></td></tr>
   </table>
-  <div class="box q"><div class="box-h">❓ Pregunta · columna de "comercio" en FD</div>El documento dice cruzar por "comercio" pero FD tiene varias columnas candidatas (entre ellas <code>NUM_COM</code> y <code>NUM_EST</code>). <b>Pregunta:</b> <i>"Para la llave de comercio de la barrida DOTA×FD, ¿qué columna de FD corresponde al número de comercio de DOTA: NUM_COM, NUM_EST u otra?"</i></div>
-  <div class="box q"><div class="box-h">❓ Pregunta · columna de "fecha de creación" en FD</div>El documento dice cruzar por "fecha de creación" pero FD tiene <code>FPRES</code> (fecha de proceso) y <code>FORIG_COMPRA</code> (fecha origen de compra), entre otras. <b>Pregunta:</b> <i>"Para la llave de fecha de la barrida DOTA×FD, ¿contra qué columna de FD cruzo MOV_CREATION_DATE: FPRES, FORIG_COMPRA u otra?"</i></div>
+  <div class="box q"><div class="box-h">❓ Pregunta · columna de "comercio" en FD</div>El documento dice cruzar por "comercio" pero FD tiene varias columnas candidatas (entre ellas <code>NUM_COM</code> y <code>NUM_EST</code>). <b>Pregunta:</b> <i>"Para la llave de comercio de la barrida DOTA×FD, ¿qué columna de FD corresponde al número de comercio de DOTA: NUM_COM, NUM_EST u otra?"</i>
+  <br><br>💡 <b>Hipótesis (para avanzar si no responden):</b> probablemente <code>NUM_EST</code>. En los datos, el merchant de DOTA <code>32827909</code> aparece como <code>NUM_EST</code> en FD, mientras que <code>NUM_COM</code> es otro número (<code>26919584</code>). <b>Es una hipótesis basada en los datos — confirmala antes de darla por buena.</b></div>
+  <div class="box q"><div class="box-h">❓ Pregunta · columna de "fecha de creación" en FD</div>El documento dice cruzar por "fecha de creación" pero FD tiene <code>FPRES</code> (fecha de proceso) y <code>FORIG_COMPRA</code> (fecha origen de compra), entre otras. <b>Pregunta:</b> <i>"Para la llave de fecha de la barrida DOTA×FD, ¿contra qué columna de FD cruzo MOV_CREATION_DATE: FPRES, FORIG_COMPRA u otra?"</i>
+  <br><br>💡 <b>Hipótesis (para avanzar si no responden):</b> probablemente <code>FORIG_COMPRA</code>. En los datos, la fecha de la transacción DOTA (<code>2022-01-03</code>) coincide con <code>FORIG_COMPRA</code>, mientras que <code>FPRES</code> es muy distinta (<code>2021-10-28</code>, es la fecha de proceso). <b>Confirmala antes de asumir.</b></div>
   <div class="box do"><div class="box-h">✅ Lo que SÍ es claro (no requiere preguntar)</div>PAN: <code>CARD_NUMBER</code> y <code>NUM_TAR</code> tienen el mismo formato enmascarado. Importe: en FD <code>IMPORTE</code> es positivo (el signo está en la columna <code>SIGNO</code> aparte), por eso cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
   <p>Mismas 5 llaves que B3, pero la fecha admite que <b>FD llegue 1 día después</b> que DOTA, nunca antes (tal como dice el documento).</p>
-  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>La tolerancia normal de Simetrik aplica en ambos sentidos. Para que sea "solo hacia adelante" (best practice #21): duplicá la llave de fecha agregando una desigualdad de un solo sentido + tolerancia de 1 día. Si dudás, preguntá: <i>"¿La tolerancia de fecha direccional la configuro con desigualdad en la llave, o hay opción nativa de un solo sentido?"</i></div>
+  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>La tolerancia normal de Simetrik aplica en ambos sentidos. <b>Pregunta:</b> <i>"¿La tolerancia de fecha direccional (FD nunca antes que DOTA) la configuro con desigualdad en la llave, o hay opción nativa de un solo sentido?"</i>
+  <br><br>💡 <b>Hipótesis (para avanzar):</b> como la tolerancia nativa es bidireccional, lo más probable es duplicar la llave de fecha con una desigualdad de un solo sentido (la fecha de FD ≥ la de DOTA) + tolerancia de 1 día. La best practice #21 apunta a esto. <b>Confirmá la mecánica exacta en la UI.</b></div>
 
   <h4>Barrida 5 · DOTA vs Batch FD</h4>
   <p>Tipo: <b>agrupada (batch)</b>. Sobre el FD que aún no cruzó, agrupá por lote y cruzá la suma contra el detalle DOTA pendiente.</p>
