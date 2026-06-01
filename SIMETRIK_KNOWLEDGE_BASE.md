@@ -881,6 +881,22 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 >
 > **📅 DOTA · calendario Argentina (verificado 2026-06-01):** El sitio de Argentina en el archivo `Normalización días hábiles Argentina.xlsx` es **`MLA`** (código MercadoLibre Argentina), NO "ARG". Columnas: SITE, FECHA, CONCEPTO, CLASIFCACION (1=hábil/0=no), ID_CONTADOR_SUMA, ID_FECHA_FINAL. Rango 2026-03-23 a 2099-12-31. Método punto 7: Grupo conciliable filtrado `SITE="MLA"` → BuscarV #1 (`MOV_CREATION_DATE=FECHA` trae `ID_CONTADOR_SUMA`) → `CALCULO(+30)` → BuscarV #2 (`N_TARGET=ID_FECHA_FINAL` trae `FECHA`).
 
+---
+
+## 🔧 HALLAZGOS DE EJECUCIÓN REAL · workspace DOTA (log incremental para futuras implementaciones)
+
+> Cosas aprendidas EN el workspace real de Simetrik mientras se desarrolla la prueba. Para no repetir errores en futuros casos.
+
+| Fecha | Punto | Hallazgo | Solución que funcionó |
+|---|---|---|---|
+| 2026-06-01 | 0b/5 | El **casteo de tipo NO quita los decimales** `.0000000000` de un campo numérico. Cambiar a Entero los oculta, pero al volver a Texto los reescribe (el valor de fondo sigue siendo decimal). | Usar `DIVIDIR(columna; "."; 1)` dentro de la fórmula — opera sobre el texto y toma la parte antes del punto. Columnas en tipo Texto. |
+| 2026-06-01 | 5 | `MERCHANT_NUMBER` viene como `32827909.0000000000` (8 díg). Match exacto con `COMERCIO` de la parametría (verificado contra las 673 filas; parametría tiene comercios de 8/9/10/11 díg). | `DIVIDIR` para limpiar → cruza directo. No rellenar ni recortar. |
+| 2026-06-01 | 6 | La función **`adicionar_fecha_tiempo` da error con el parámetro `"días"` (la tilde en la í)**. La función existe (nota de release Jul-2025) pero su sintaxis exacta NO está en el catálogo del Help Center. | 🟡 PENDIENTE confirmar: probar `"dias"` sin tilde / `"DIA"` / `"day"` / ver autocompletado del editor. Candidato a pregunta al trainer. |
+| 2026-06-01 | 4 | `PAY_METHOD` viene en minúscula (master/maestro/visa). | `MAYUSC()` obligatorio en la fórmula. |
+| 2026-06-01 | 3 | Acquirer (CAPTURE/PURCHASE/AUTH) capitalizado y mayormente vacío; "Diners" está en AUTH_ACQUIRER. | `MAYUSC()` + concatenar las 3 columnas. |
+
+> **Regla de oro reforzada:** cuando una función documentada da error de sintaxis en el workspace, NO inventar la sintaxis — verificar con el autocompletado del editor o preguntar al trainer.
+
 > **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
 
 ---
