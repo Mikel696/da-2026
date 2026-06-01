@@ -275,20 +275,16 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">6</div><div class="step-title">MOV_CREATION_DATE <span class="out">salida: Fecha (sin hora)</span></div></div>
-  <p>Sumá 1 día a <code>MOV_CREATED_DATE</code> y quitá la hora. El dato viene en formato ISO (<code>2022-01-03T00:01:19-04:00</code>), así que primero extraemos la fecha limpia y después sumamos.</p>
+  <p>Creá la columna <code>MOV_CREATION_DATE</code> (transformación, salida <span class="dtype dtype-fecha">Fecha</span>) con esta fórmula que hace todo junto — corta el ISO en la <code>T</code> (quita la hora) y suma 1 día:</p>
+  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="fn">DIVIDIR</span>(<span class="col">MOV_CREATED_DATE</span>; <span class="str">"T"</span>; 1); 1; <span class="str">"dias"</span>)</pre>
+  <p class="tx2">Resultado: <code>2022-01-04</code> (fecha +1, sin hora).</p>
 
-  <h4>Sub-paso 6.1 · Extraer la fecha limpia (quita la hora)</h4>
-  <p>Columna nueva <code>FECHA_LIMPIA</code> — corta el texto en la <code>T</code> y toma la parte de la fecha:</p>
-  <pre class="formula"><span class="fn">DIVIDIR</span>(<span class="col">MOV_CREATED_DATE</span>; <span class="str">"T"</span>; 1)</pre>
-  <p class="tx2">Resultado: <code>2022-01-03</code> (sin hora ni timezone). Después casteá esta columna a tipo <span class="dtype dtype-fecha">Fecha</span> (el formato <code>yyyy-MM-dd</code> sí parsea bien).</p>
-
-  <h4>Sub-paso 6.2 · Sumar 1 día</h4>
-  <p>Columna <code>MOV_CREATION_DATE</code> (salida Fecha):</p>
-  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_LIMPIA</span>; 1; <span class="str">"dias"</span>)</pre>
-
-  <div class="box warn"><div class="box-h">⚠ Por qué este rodeo (lección aprendida en el workspace real)</div>
-  Si casteás <code>MOV_CREATED_DATE</code> directo a "Fecha y hora", el formato ISO con <code>T</code>/timezone <b>no parsea y vacía las celdas</b> → todas las funciones fallan con T001. Extraer la fecha con <code>DIVIDIR</code> evita ese problema y de paso quita la hora que pide el enunciado.
-  <br><br><b>Período:</b> <code>"dias"</code> = plural, sin tilde, entre comillas (verificado en el editor: opciones <code>años, meses, semanas, dias, horas, minutos, segundos</code>). La función es <code>ADICIONAR_FECHA_TIEMPO</code> en MAYÚSCULAS.</div>
+  <div class="box warn"><div class="box-h">⚠ Lecciones aprendidas en el workspace real (claves)</div>
+  <ul>
+    <li><b>El formato se castea en la FUENTE, no en la unión.</b> <code>MOV_CREATED_DATE</code> dejala en Texto desde la fuente <code>DB_DOTA</code>.</li>
+    <li><b>No castees a "Fecha y hora"</b> — el ISO con T/timezone no parsea y vacía las celdas (T001). Por eso usamos <code>DIVIDIR(...; "T"; 1)</code> para extraer la fecha.</li>
+    <li><b>Función en MAYÚSCULAS:</b> <code>ADICIONAR_FECHA_TIEMPO</code>. Período: <code>"dias"</code> (plural, sin tilde, entre comillas). Opciones: años, meses, semanas, dias, horas, minutos, segundos.</li>
+  </ul></div>
 </div>
 
 <div class="step">
