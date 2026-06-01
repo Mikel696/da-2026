@@ -184,49 +184,30 @@ td b{color:var(--tx)}
   <li>Revisar el <b>tipo de dato</b> de cada columna importada (Simetrik por defecto adivina pero falla con PAN y montos string).</li>
 </ol>
 
-<h3>📅 Cómo cargar el calendario hábil = ARG</h3>
-<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> tiene los días hábiles de varios países. Necesitás que Simetrik conozca los de Argentina para que <code>ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; "ARG")</code> funcione (punto 7) y para el cálculo de FECHA_FINAL del check de débitos.</p>
+<h3>📅 El archivo de calendario ARG · método verificado v4.0</h3>
+<p class="tx2">El archivo <code>Normalización_fechas_habiles_v2.xlsx</code> ya viene con los días hábiles <b>pre-calculados como contadores</b>. No hace falta ninguna función especial de días hábiles — el cálculo del punto 7 se hace con 2 BuscarV contra este archivo (ver detalle completo en el Punto 7 más abajo).</p>
 
 <div class="card tip">
-<div class="card-h">Camino A · módulo de Calendarios (lo más probable)</div>
-<ol>
-  <li>Sidebar izquierdo del workspace → buscá <b>"Calendarios"</b> · "Configuración" → "Datos maestros" → "Calendarios hábiles".</li>
-  <li>Click <b>"+ Nuevo calendario"</b> / "Subir calendario".</li>
-  <li>Subí el xlsx. Simetrik te pregunta qué columna es la fecha, cuál el sitio y cuál indica si es hábil.</li>
-  <li>Filtrá al cargar: solo registros donde <code>SITIO = "ARG"</code> (o cargá todo y filtrá después).</li>
-  <li>Asigná el <b>nombre / código del calendario = <code>ARG</code></b> (este string es el que va en el 3er parámetro de la fórmula).</li>
-  <li>Guardar. Ya podés usar <code>ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; "ARG")</code>.</li>
-</ol>
+<div class="card-h">📐 Estructura real del archivo (verificada)</div>
+<table style="width:100%;font-size:12px;margin-top:6px">
+<tr><th>Columna</th><th>Para qué sirve</th></tr>
+<tr><td><code>SITE</code></td><td>País. Para esta prueba: filtrar <code>= "ARG"</code></td></tr>
+<tr><td><code>FECHA</code></td><td>La fecha calendario</td></tr>
+<tr><td><code>CONCEPTO</code></td><td>HABIL / NO HABIL / FERIADO (texto)</td></tr>
+<tr><td><code>CLASIFICACIÓN</code></td><td><code>1</code> = hábil · <code>0</code> = no hábil/feriado/finde</td></tr>
+<tr><td><code>ID_CONTADOR_SUMA</code></td><td>Contador acumulado de días hábiles (la posición del día hábil en la secuencia)</td></tr>
+<tr><td><code>ID_FECHA_FINAL</code></td><td>Contador que solo avanza en hábiles · permite mapear "día hábil N°X" → su fecha real</td></tr>
+</table>
 </div>
 
 <div class="card tip">
-<div class="card-h">Camino B · fuente + configuración manual</div>
+<div class="card-h">Cómo cargarlo</div>
 <ol>
-  <li>Cargá el xlsx como <b>fuente normal</b> (insumo) llamada <code>Calendario_Habil</code>.</li>
-  <li>Aplicale una transformación de filtro: <code>SITIO = "ARG"</code>.</li>
-  <li>Configuración del workspace → Funciones de fecha → asociá esta fuente al sitio "ARG".</li>
+  <li>Cargá el xlsx como <b>fuente</b> llamada <code>Calendario_Fechas_Habiles</code>.</li>
+  <li>Creá su <b>Unión de fuentes</b> (best practice #8).</li>
+  <li>Sobre la unión, creá un <b>Grupo Conciliable</b> filtrado por <code>SITE = "ARG"</code> → nombralo <code>CAL_ARG</code>.</li>
+  <li>Listo — <code>CAL_ARG</code> es el recurso que vas a usar en los 2 BuscarV del punto 7 y en el cálculo de FECHA_FINAL del check de débitos.</li>
 </ol>
-</div>
-
-<div class="card warn">
-<div class="card-h">Camino C · workaround sin módulo de calendarios</div>
-<p class="tx2">Si tu workspace NO tiene módulo de calendarios y la función con sitio no funciona:</p>
-<ol>
-  <li>Cargá el xlsx como fuente y filtrala <code>SITIO = "ARG"</code>.</li>
-  <li>Para el punto 7, en lugar de <code>ADICIONAR_DIASEMANA</code>, hacé un <b>cruce</b> con esa fuente:
-    <ul>
-      <li>Ordená el calendario por fecha ascendente.</li>
-      <li>Para cada <code>MOV_CREATION_DATE</code>, contá 30 filas hacia abajo donde <code>ES_HABIL = "SI"</code>.</li>
-      <li>La fecha de la fila #30 es <code>EXPECTED_PAYMENT_DATE</code>.</li>
-    </ul>
-  </li>
-</ol>
-<p class="tx2">Es más manual pero <b>siempre funciona</b> sin importar configuración. El evaluador sigue calificando bien el resultado correcto.</p>
-</div>
-
-<div class="card tip">
-<div class="card-h">💡 Cómo saber qué camino aplica</div>
-<p class="tx2">Buscá en el sidebar del workspace las palabras <b>"Calendario"</b>, <b>"Calendar"</b>, <b>"Días hábiles"</b> o <b>"Configuración / Settings"</b>. Si encontrás algo → <b>Camino A</b>. Si no → preguntá al trainer o usá <b>Camino C</b> como fallback.</p>
 </div>
 
 <!-- ═══ TIPOS DE DATO ═══ -->
@@ -372,20 +353,55 @@ td b{color:var(--tx)}
 <h3>Punto 6 · MOV_CREATION_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span> (sin hora)</span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula</div>
-<!-- ✓ validado v2.0 · función corregida a ADICIONAR_DIASEMANA per KB Help Center -->
-<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATED_DATE</span>; 1)</pre>
-<p class="tx2">Definí el tipo de dato de la columna de salida como <span class="dtype dtype-fecha">Fecha</span> (no <span class="dtype dtype-fecha">Fecha y hora</span>) · Simetrik truncará la hora automáticamente al guardar.</p>
-<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Corrección v2.0 · función verificada</div><p class="tx2">La función oficial en el Help Center es <code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> — 2 parámetros. <code>ADICIONAR_FECHA_TIEMPO</code> no aparece en la documentación oficial.</p></div>
+<!-- ✓ validado v4.0 · adicionar_fecha_tiempo (calendario) + Smart Format Cast · per Mapeo_Features doc + release note Jul-2025 -->
+<pre class="formula"><span class="fn">adicionar_fecha_tiempo</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"días"</span>)</pre>
+<p class="tx2">El documento dice "<b>adicionar 1 día</b> y quitar la hora". Son días <b>calendario</b> (no hábiles), por eso se usa <code>adicionar_fecha_tiempo</code>, NO <code>ADICIONAR_DIASEMANA</code> (esa última salta fines de semana).</p>
+<div class="card tip" style="margin-top:6px"><div class="card-h">📍 SBB oficial (Mapeo_Features doc) · punto 6</div><p class="tx2">El mapeo oficial de reviewers indica: <b>Transformations Columns (adicionar_fecha_tiempo, formato_fecha) · Smart Format (Cast) Column</b>. Pasos: <b>1)</b> crear transformación <code>adicionar_fecha_tiempo(MOV_CREATED_DATE; 1; "días")</code> · <b>2)</b> castear la columna de salida a tipo <span class="dtype dtype-fecha">Fecha</span> (Smart Format) para quitar la hora.</p></div>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Distinción crítica de funciones de fecha</div><p class="tx2"><code>adicionar_fecha_tiempo</code> = suma tiempo <b>calendario</b> (existe, confirmado en release note Jul-2025). <code>ADICIONAR_DIASEMANA</code> = suma días <b>hábiles</b> (omite sáb/dom). Para el punto 6 va la primera.</p></div>
 </div>
 
 <h3>Punto 7 · EXPECTED_PAYMENT_DATE <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
-<div class="card formula">
-<div class="card-h">Fórmula (30 días hábiles · sitio ARG)</div>
-<!-- ✓ validado v3.0 · ADICIONAR_DIASEMANA = 2 params, omite sábados/domingos NO feriados -->
-<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">MOV_CREATION_DATE</span>; 30)</pre>
-<p class="tx2"><b>Resultado:</b> 30 días hábiles (omite sábados y domingos). <b>No omite feriados ARG</b> — si el workspace no tiene add-on de calendario por país, este es el resultado correcto y suficiente para la prueba.</p>
-<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Aclaración v3.0 definitiva · días hábiles</div><p class="tx2"><code>ADICIONAR_DIASEMANA(FECHA;CANTIDAD)</code> tiene exactamente <b>2 parámetros</b> según el Help Center oficial. Omite sábados y domingos pero <b>NO feriados de ningún país</b>. No existe un 3er parámetro de sitio en la documentación oficial. Si el evaluador pide específicamente feriados ARG, usar el <b>Camino C</b> (cruce contra la fuente <code>Normalización_fechas_habiles</code> filtrada por <code>SITIO="ARG"</code>).</p></div>
+<div class="card warn">
+<div class="card-h">🚨 MÉTODO CORRECTO v4.0 · verificado contra Mapeo_Features doc + estructura real del archivo</div>
+<p class="tx2"><b>NO se usa una función de suma de días.</b> El documento dice explícitamente: "utiliza la parametría de fechas hábiles entregada como insumo". El cálculo de 30 días hábiles <b>con feriados ARG</b> se hace con <b>2 BuscarV contra el calendario</b>, usando las columnas <code>ID_CONTADOR_SUMA</code> e <code>ID_FECHA_FINAL</code> que ya vienen pre-calculadas en el archivo.</p>
 </div>
+
+<div class="card tip">
+<div class="card-h">📐 Cómo está estructurado el archivo Normalización_fechas_habiles_v2</div>
+<table style="width:100%;font-size:12px;margin-top:6px">
+<tr><th>Columna</th><th>Qué es</th></tr>
+<tr><td><code>SITE</code></td><td>País del calendario. Filtrar <code>= "ARG"</code></td></tr>
+<tr><td><code>FECHA</code></td><td>Cada fecha calendario</td></tr>
+<tr><td><code>CLASIFICACIÓN</code></td><td><code>1</code> = día hábil · <code>0</code> = no hábil/feriado/fin de semana</td></tr>
+<tr><td><code>ID_CONTADOR_SUMA</code></td><td>Contador acumulado de días hábiles hasta esa fecha (la "posición" del día hábil)</td></tr>
+<tr><td><code>ID_FECHA_FINAL</code></td><td>Mismo contador, pero solo avanza en días hábiles — sirve para mapear "el día hábil N° X" de vuelta a su fecha</td></tr>
+</table>
+</div>
+
+<div class="card tip">
+<div class="card-h">📍 Paso a paso · EXPECTED_PAYMENT_DATE (3 sub-pasos)</div>
+<ol>
+<li><b>Grupo conciliable del calendario ARG:</b> sobre la unión del calendario, crear un Grupo Conciliable filtrado por <code>SITE = "ARG"</code>. Nombralo <code>CAL_ARG</code>.</li>
+<li><b>BuscarV #1 — obtener el contador del día de la transacción:</b> en DB_DOTA, crear un BuscarV:
+  <ul>
+    <li>Recurso fuente: <code>CAL_ARG</code></li>
+    <li>Llave de cruce: <code>DB_DOTA.MOV_CREATION_DATE</code> = <code>CAL_ARG.FECHA</code></li>
+    <li>Traer columna: <code>ID_CONTADOR_SUMA</code> → la llamás <code>N_DIA_BASE</code></li>
+  </ul>
+</li>
+<li><b>Transformación — sumar 30 días hábiles:</b> crear columna <code>N_TARGET</code> = <code>CALCULO(N_DIA_BASE + 30)</code></li>
+<li><b>BuscarV #2 — mapear el contador objetivo de vuelta a una fecha:</b> crear otro BuscarV:
+  <ul>
+    <li>Recurso fuente: <code>CAL_ARG</code></li>
+    <li>Llave de cruce: <code>DB_DOTA.N_TARGET</code> = <code>CAL_ARG.ID_FECHA_FINAL</code></li>
+    <li>Traer columna: <code>FECHA</code> → es tu <code>EXPECTED_PAYMENT_DATE</code></li>
+  </ul>
+</li>
+</ol>
+<p class="tx2"><b>Por qué funciona:</b> el archivo ya tiene pre-calculado el contador de días hábiles. Sumás 30 al contador del día de la transacción y buscás qué fecha tiene ese contador final. El calendario ya excluyó feriados ARG y fines de semana en su columna CLASIFICACIÓN.</p>
+</div>
+
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ Por qué NO usar ADICIONAR_DIASEMANA acá</div><p class="tx2"><code>ADICIONAR_DIASEMANA</code> omite sábados y domingos pero <b>NO feriados</b> (confirmado en Help Center: el ejemplo viernes+1=lunes). El punto 7 exige usar el calendario ARG que <b>sí incluye feriados</b>. Por eso el método correcto es el doble BuscarV contra el archivo, no la función.</p></div>
 
 <!-- ✓ validado v3.0 · método oficial = BuscarV (VLOOKUP Simetrik), NO "Cruces/Joins" -->
 <!-- ═══ PUNTO 8 · PARAMETRÍA ═══ -->
@@ -446,12 +462,12 @@ td b{color:var(--tx)}
 <h3>Punto 11 · DEADLINE <span class="h-meta">salida: <span class="dtype dtype-texto">Texto</span> ("SI" / "NO")</span></h3>
 <div class="card formula">
 <div class="card-h">Fórmula bisiesto-safe</div>
-<pre class="formula"><span class="cm">// Truco: si al sumar 1 día el MES cambia, entonces FPRES es el último día del mes.</span>
+<pre class="formula"><span class="cm">// Truco: si al sumar 1 día CALENDARIO el MES cambia, FPRES es el último día del mes.</span>
 <span class="cm">// Funciona para 28, 29, 30 y 31 días sin codificar la regla 4/100/400.</span>
 
 <span class="fn">SI</span>(
   <span class="fn">EXTRAER_FECHA</span>(
-    <span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">FPRES</span>; 1);
+    <span class="fn">adicionar_fecha_tiempo</span>(<span class="col">FPRES</span>; 1; <span class="str">"días"</span>);
     <span class="str">"mes"</span>
   )
   <>
@@ -460,7 +476,8 @@ td b{color:var(--tx)}
   <span class="str">"NO"</span>
 )</pre>
 </div>
-<div class="card tip"><div class="card-h">💡 Por qué este patrón gana</div><p class="tx2">El evaluador busca quién pensó en <b>años bisiestos</b>. Este truco resuelve <b>todos</b> los meses (28/29/30/31) sin condicionales por mes ni reglas de bisiesto. Es la respuesta canónica.</p></div>
+<div class="card tip"><div class="card-h">💡 Por qué este patrón gana</div><p class="tx2">El evaluador busca quién pensó en <b>años bisiestos</b>. Este truco resuelve <b>todos</b> los meses (28/29/30/31) sin condicionales por mes ni reglas de bisiesto.</p></div>
+<div class="card warn" style="margin-top:6px"><div class="card-h">⚠ v4.0 · usar adicionar_fecha_tiempo (calendario), NO ADICIONAR_DIASEMANA</div><p class="tx2">Acá hay que sumar 1 día <b>calendario</b>. Si usaras <code>ADICIONAR_DIASEMANA</code> (días hábiles), un fin de mes que cae viernes saltaría al lunes del mes siguiente y daría un falso positivo en meses donde el último día es viernes. El SBB oficial (Mapeo_Features doc, punto 11) es <code>adicionar_fecha_tiempo</code>.</p></div>
 
 <!-- ═══ PUNTO 12 · CONCILIACIÓN ═══ -->
 <h2 id="conc"><span class="num">12</span>Conciliación avanzada DOTA × FD</h2>
@@ -657,8 +674,9 @@ td b{color:var(--tx)}
 
 <h3>FECHA_FINAL <span class="h-meta">salida: <span class="dtype dtype-fecha">Fecha</span></span></h3>
 <div class="card formula">
-<!-- ✓ validado v2.0 · función corregida a ADICIONAR_DIASEMANA -->
-<pre class="formula"><span class="fn">ADICIONAR_DIASEMANA</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>)</pre>
+<!-- ✓ validado v4.0 · adicionar_fecha_tiempo (calendario) -->
+<pre class="formula"><span class="fn">adicionar_fecha_tiempo</span>(<span class="col">FECHA_INICIO</span>; <span class="col">DIAS_A_SUMAR</span>; <span class="str">"días"</span>)</pre>
+<p class="tx2">Días calendario (no hábiles). FECHA_INICIO usa la columna TODAY; DIAS_A_SUMAR son los últimos 2 dígitos del comercio.</p>
 </div>
 
 <h3>Reporte de débitos compensados &gt; 15 días</h3>
@@ -835,8 +853,8 @@ const DOTA = (() => {
     { n:3,  txt:'GTWT_ACQUIRER · EXTRAER_EXPREGULAR sobre 3 columnas concatenadas' },
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
-    { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_DIASEMANA +1 día (tipo Fecha)' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30) — omite sáb/dom, NO feriados' },
+    { n:6,  txt:'MOV_CREATION_DATE · adicionar_fecha_tiempo(MOV_CREATED_DATE; 1; "días") + cast a Fecha' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra CAL_ARG: ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
     { n:8,  txt:'BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },

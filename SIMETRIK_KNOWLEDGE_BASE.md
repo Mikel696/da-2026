@@ -861,8 +861,14 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 | `DIFERENCIA_FECHA` | Diferencia entre dos fechas (entero) | `DIFERENCIA_FECHA(PRIMERA_FECHA;SEGUNDA_FECHA;PERÍODO)` |
 | `EXTRAER_FECHA` | Extrae parte de una fecha (año, mes, día, etc.) | `EXTRAER_FECHA(VALOR;PERÍODO)` |
 | `DIASEM` | Devuelve el día de la semana de una fecha | `DIASEM(FECHA)` |
-| `ADICIONAR_DIASEMANA` | Agrega días hábiles a una fecha | `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` |
+| `adicionar_fecha_tiempo` | Suma/resta tiempo **calendario** a una fecha | `adicionar_fecha_tiempo(FECHA;CANTIDAD;"días")` |
+| `ADICIONAR_DIASEMANA` | Agrega días **hábiles** (omite sáb/dom, NO feriados) | `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` |
 | `TODAY` | Fecha actual (solo en agrupaciones) | `TODAY()` |
+
+> **🚨 DISTINCIÓN CRÍTICA de funciones de fecha (verificado 2026-06-01):**
+> - **`adicionar_fecha_tiempo(FECHA;N;"días")`** → suma N días **CALENDARIO** (cuenta sáb/dom/feriados). Confirmada en release note oficial Jul-2025. Es la que se usa para "adicionar 1 día" (DOTA puntos 6 y 11). El catálogo del artículo principal de transformación NO la lista, pero existe en la plataforma.
+> - **`ADICIONAR_DIASEMANA(FECHA;N)`** → suma N días **HÁBILES** (omite sáb/dom pero NO feriados). Ejemplo oficial: viernes 28/04 +1 = lunes 01/05. **NO sirve para días calendario ni para días hábiles con feriados.**
+> - Para **días hábiles CON feriados de un país** (DOTA punto 7), NO existe función directa → usar BuscarV contra el archivo de calendario (ver método abajo).
 
 > **Nota crítica para DOTA:** Para calcular "Días vencido" usar `DIFERENCIA_FECHA(FECHA_TXN;TODAY();"DÍAS")` dentro de una agrupación. El separador es `;` SIEMPRE. Strings van entre `"` dobles.
 
