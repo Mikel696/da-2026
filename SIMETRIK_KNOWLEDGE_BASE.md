@@ -861,13 +861,13 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 | `DIFERENCIA_FECHA` | Diferencia entre dos fechas (entero) | `DIFERENCIA_FECHA(PRIMERA_FECHA;SEGUNDA_FECHA;PERÍODO)` |
 | `EXTRAER_FECHA` | Extrae parte de una fecha (año, mes, día, etc.) | `EXTRAER_FECHA(VALOR;PERÍODO)` |
 | `DIASEM` | Devuelve el día de la semana de una fecha | `DIASEM(FECHA)` |
-| `adicionar_fecha_tiempo` | Suma/resta tiempo **calendario** a una fecha | `adicionar_fecha_tiempo(FECHA;CANTIDAD;"días")` |
-| `ADICIONAR_DIASEMANA` | Agrega días **hábiles** (omite sáb/dom, NO feriados) | `ADICIONAR_DIASEMANA(FECHA;CANTIDAD)` |
+| `ADICIONAR_FECHA_TIEMPO` | Suma/resta tiempo **calendario** a una fecha | `ADICIONAR_FECHA_TIEMPO(FECHA;CANTIDAD;"días")` |
+| `ADICIONAR_DIAS_SEMANA` | Agrega días **hábiles** (omite sáb/dom, NO feriados) | `ADICIONAR_DIAS_SEMANA(FECHA;CANTIDAD)` |
 | `TODAY` | Fecha actual (solo en agrupaciones) | `TODAY()` |
 
 > **🚨 DISTINCIÓN CRÍTICA de funciones de fecha (verificado 2026-06-01):**
-> - **`adicionar_fecha_tiempo(FECHA;N;"días")`** → suma N días **CALENDARIO** (cuenta sáb/dom/feriados). Confirmada en release note oficial Jul-2025. Es la que se usa para "adicionar 1 día" (DOTA puntos 6 y 11). El catálogo del artículo principal de transformación NO la lista, pero existe en la plataforma.
-> - **`ADICIONAR_DIASEMANA(FECHA;N)`** → suma N días **HÁBILES** (omite sáb/dom pero NO feriados). Ejemplo oficial: viernes 28/04 +1 = lunes 01/05. **NO sirve para días calendario ni para días hábiles con feriados.**
+> - **`ADICIONAR_FECHA_TIEMPO(FECHA;N;"días")`** → suma N días **CALENDARIO** (cuenta sáb/dom/feriados). Confirmada en release note oficial Jul-2025. Es la que se usa para "adicionar 1 día" (DOTA puntos 6 y 11). El catálogo del artículo principal de transformación NO la lista, pero existe en la plataforma.
+> - **`ADICIONAR_DIAS_SEMANA(FECHA;N)`** → suma N días **HÁBILES** (omite sáb/dom pero NO feriados). Ejemplo oficial: viernes 28/04 +1 = lunes 01/05. **NO sirve para días calendario ni para días hábiles con feriados.**
 > - Para **días hábiles CON feriados de un país** (DOTA punto 7), NO existe función directa → usar BuscarV contra el archivo de calendario (ver método abajo).
 >
 > **🔬 DOTA · auditoría de datos reales (verificado 2026-06-01):**
@@ -891,7 +891,7 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 |---|---|---|---|
 | 2026-06-01 | 0b/5 | El **casteo de tipo NO quita los decimales** `.0000000000` de un campo numérico. Cambiar a Entero los oculta, pero al volver a Texto los reescribe (el valor de fondo sigue siendo decimal). | Usar `DIVIDIR(columna; "."; 1)` dentro de la fórmula — opera sobre el texto y toma la parte antes del punto. Columnas en tipo Texto. |
 | 2026-06-01 | 5 | `MERCHANT_NUMBER` viene como `32827909.0000000000` (8 díg). Match exacto con `COMERCIO` de la parametría (verificado contra las 673 filas; parametría tiene comercios de 8/9/10/11 díg). | `DIVIDIR` para limpiar → cruza directo. No rellenar ni recortar. |
-| 2026-06-01 | 6 | La función **`adicionar_fecha_tiempo` da error con el parámetro `"días"` (la tilde en la í)**. La función existe (nota de release Jul-2025) pero su sintaxis exacta NO está en el catálogo del Help Center. | 🟡 PENDIENTE confirmar: probar `"dias"` sin tilde / `"DIA"` / `"day"` / ver autocompletado del editor. Candidato a pregunta al trainer. |
+| 2026-06-01 | 6 | **Nombres de función verificados en el autocompletado del workspace real:** la calendario es **`ADICIONAR_FECHA_TIEMPO`** (MAYÚSCULAS); la de días hábiles es **`ADICIONAR_DIAS_SEMANA`** (con guión bajo). El catálogo scrapeado tenía "ADICIONAR_DIASEMANA" MAL escrito. El error T001 era por minúscula + tilde. | Escribir en MAYÚSCULAS y sin tilde: `ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")`. Simetrik distingue mayúsc/minúsc en nombres de función. Confirmar el valor del 3er parámetro (unidad) con el autocompletado. |
 | 2026-06-01 | 4 | `PAY_METHOD` viene en minúscula (master/maestro/visa). | `MAYUSC()` obligatorio en la fórmula. |
 | 2026-06-01 | 3 | Acquirer (CAPTURE/PURCHASE/AUTH) capitalizado y mayormente vacío; "Diners" está en AUTH_ACQUIRER. | `MAYUSC()` + concatenar las 3 columnas. |
 
