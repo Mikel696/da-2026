@@ -143,9 +143,20 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <h4>Crear la Unión de cada fuente</h4>
   <ol>
     <li>"Crear recurso" → <b>"Unión de fuentes"</b> → nombre (ej: <code>Union_DOTA</code>).</li>
-    <li>Elegí la fuente correspondiente → seleccioná <b>todas las columnas</b>.</li>
+    <li>Elegí la fuente correspondiente → seleccioná las columnas que vas a usar, <b>una por una</b>.</li>
     <li><b>"Ejecutar cambios"</b> / <b>"Guardar cambios"</b>.</li>
   </ol>
+
+  <div class="box warn"><div class="box-h">🚨 CRÍTICO · verificá el mapeo de CADA columna antes de guardar</div>
+  El error más peligroso de la Unión (y el más difícil de detectar después): que una columna quede <b>mal mapeada</b> — el nombre dice una cosa pero trae el dato de otra columna. Reglas para evitarlo:
+  <ul>
+    <li><b>Cada columna debe tener su origen asignado</b> (el dropdown "Columna" lleno). NO dejes ninguna "columna vacía" sin asignar → eso da el error <i>"Hay columnas sin mapear"</i> y rompe la unión.</li>
+    <li><b>Antes de "Ejecutar cambios", mirá la vista previa:</b> que el dato coincida con el nombre. En especial verificá que <code>MOV_CREATED_DATE</code> muestre <b>fechas</b> (<code>2022-01-03T...</code>), NO <code>PAYMENT/REFUND</code> (esos son de MOV_OPERATION).</li>
+    <li>Si una columna queda mal mapeada y le aplicás casteos, después <b>se bloquea</b> (signo 🚫) y no se puede corregir → toca rehacer la unión. Por eso conviene verificar ANTES de guardar.</li>
+  </ul></div>
+
+  <div class="box warn"><div class="box-h">⚠ MOV_CREATED_DATE viene en formato ISO</div>
+  El dato es <code>2022-01-03T00:01:19-04:00</code> (con la <code>T</code> y zona horaria). Si lo casteás a "Fecha y hora" y Simetrik no logra parsear ese formato, <b>vacía todas las celdas</b>. Alternativa segura: en el Paso 6, extraé la fecha cortando por la T → <code>DIVIDIR(MOV_CREATED_DATE; "T"; 1)</code> da <code>2022-01-03</code> limpio (y de paso quita la hora).</div>
 
   <div class="box do"><div class="box-h">✅ Por qué la Unión (best practice oficial #8)</div>Trabajás siempre sobre la <b>Unión</b>, nunca sobre la fuente directa. Si el archivo cambia de formato mañana, solo tocás la Unión sin rehacer conciliaciones. Es lo que el evaluador espera ver.</div>
 </div>
@@ -160,9 +171,9 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td><code>PURCHASE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Para ESBLANCO (Paso 5). Los decimales se limpian con DIVIDIR en la fórmula del Paso 5, no con casteo</td></tr>
     <tr><td><code>CAPTURE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
     <tr><td><code>AUTH_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
-    <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-fecha">Fecha y hora</span></td><td>Para poder sumarle 1 día en el Paso 6</td></tr>
+    <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-texto">Texto</span> (dejala así)</td><td>⚠ NO la castees a "Fecha y hora" — el formato ISO con T/timezone no parsea y vacía las celdas. La fecha se extrae en el Paso 6 con DIVIDIR.</td></tr>
   </table>
-  <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5).</div>
+  <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5) — y si quedó mal mapeada, se bloquea (🚫) y hay que rehacer la unión.</div>
 </div>
 
 <!-- ════════ NORMALIZACIÓN DOTA ════════ -->
@@ -263,10 +274,20 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">6</div><div class="step-title">MOV_CREATION_DATE <span class="out">salida: Fecha (sin hora)</span></div></div>
-  <p>Sumá 1 día a <code>MOV_CREATED_DATE</code> y quitá la hora.</p>
-  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"dias"</span>)</pre>
-  <div class="box do"><div class="box-h">✅ Después de la fórmula</div>Casteá la columna de salida a tipo <span class="dtype dtype-fecha">Fecha</span> (no Fecha y hora). Así se quita la hora automáticamente.</div>
-  <div class="box warn"><div class="box-h">⚠ Función correcta</div>Es <code>ADICIONAR_FECHA_TIEMPO</code> (suma días <b>calendario</b>). NO uses <code>ADICIONAR_DIAS_SEMANA</code> — esa suma días hábiles (salta fines de semana) y acá querés 1 día normal.</div>
+  <p>Sumá 1 día a <code>MOV_CREATED_DATE</code> y quitá la hora. El dato viene en formato ISO (<code>2022-01-03T00:01:19-04:00</code>), así que primero extraemos la fecha limpia y después sumamos.</p>
+
+  <h4>Sub-paso 6.1 · Extraer la fecha limpia (quita la hora)</h4>
+  <p>Columna nueva <code>FECHA_LIMPIA</code> — corta el texto en la <code>T</code> y toma la parte de la fecha:</p>
+  <pre class="formula"><span class="fn">DIVIDIR</span>(<span class="col">MOV_CREATED_DATE</span>; <span class="str">"T"</span>; 1)</pre>
+  <p class="tx2">Resultado: <code>2022-01-03</code> (sin hora ni timezone). Después casteá esta columna a tipo <span class="dtype dtype-fecha">Fecha</span> (el formato <code>yyyy-MM-dd</code> sí parsea bien).</p>
+
+  <h4>Sub-paso 6.2 · Sumar 1 día</h4>
+  <p>Columna <code>MOV_CREATION_DATE</code> (salida Fecha):</p>
+  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">FECHA_LIMPIA</span>; 1; <span class="str">"dias"</span>)</pre>
+
+  <div class="box warn"><div class="box-h">⚠ Por qué este rodeo (lección aprendida en el workspace real)</div>
+  Si casteás <code>MOV_CREATED_DATE</code> directo a "Fecha y hora", el formato ISO con <code>T</code>/timezone <b>no parsea y vacía las celdas</b> → todas las funciones fallan con T001. Extraer la fecha con <code>DIVIDIR</code> evita ese problema y de paso quita la hora que pide el enunciado.
+  <br><br><b>Período:</b> <code>"dias"</code> = plural, sin tilde, entre comillas (verificado en el editor: opciones <code>años, meses, semanas, dias, horas, minutos, segundos</code>). La función es <code>ADICIONAR_FECHA_TIEMPO</code> en MAYÚSCULAS.</div>
 </div>
 
 <div class="step">
