@@ -157,9 +157,9 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><th>Columna</th><th>Cambiar a tipo</th><th>Por qué</th></tr>
     <tr><td><code>CARD_SIX_FIRST_DIGITS</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Si queda Número, pierde los ceros de la izquierda</td></tr>
     <tr><td><code>CARD_FOUR_LAST_DIGITS</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
-    <tr><td><code>PURCHASE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-num">Entero</span> → <span class="dtype dtype-texto">Texto</span></td><td>Entero quita el <code>.0000000000</code> · Texto para que ESBLANCO funcione (Paso 5)</td></tr>
-    <tr><td><code>CAPTURE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-num">Entero</span> → <span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
-    <tr><td><code>AUTH_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-num">Entero</span> → <span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
+    <tr><td><code>PURCHASE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Para ESBLANCO (Paso 5). Los decimales se limpian con DIVIDIR en la fórmula del Paso 5, no con casteo</td></tr>
+    <tr><td><code>CAPTURE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
+    <tr><td><code>AUTH_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
     <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-fecha">Fecha y hora</span></td><td>Para poder sumarle 1 día en el Paso 6</td></tr>
   </table>
   <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5).</div>
@@ -242,23 +242,20 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">5</div><div class="step-title">GTWT_MERCHANT_NUMBER <span class="out">salida: Texto</span></div></div>
-  <p>Tomá el número de comercio de la primera columna que tenga dato, en este orden: <b>PURCHASE → CAPTURE → AUTH</b>.</p>
+  <p>Tomá el número de comercio de la primera columna que tenga dato, en este orden: <b>PURCHASE → CAPTURE → AUTH</b>. La función <code>DIVIDIR</code> quita los decimales <code>.0000000000</code> que trae el dato.</p>
   <pre class="formula"><span class="fn">SI</span>(
   <span class="fn">ESBLANCO</span>(<span class="col">PURCHASE_MERCHANT_NUMBER</span>);
   <span class="fn">SI</span>(
     <span class="fn">ESBLANCO</span>(<span class="col">CAPTURE_MERCHANT_NUMBER</span>);
-    <span class="col">AUTH_MERCHANT_NUMBER</span>;
-    <span class="col">CAPTURE_MERCHANT_NUMBER</span>
+    <span class="fn">DIVIDIR</span>(<span class="col">AUTH_MERCHANT_NUMBER</span>; <span class="str">"."</span>; 1);
+    <span class="fn">DIVIDIR</span>(<span class="col">CAPTURE_MERCHANT_NUMBER</span>; <span class="str">"."</span>; 1)
   );
-  <span class="col">PURCHASE_MERCHANT_NUMBER</span>
+  <span class="fn">DIVIDIR</span>(<span class="col">PURCHASE_MERCHANT_NUMBER</span>; <span class="str">"."</span>; 1)
 )</pre>
-  <div class="box warn"><div class="box-h">⚠ Requisito (best practice #22)</div>Las 3 columnas MERCHANT_NUMBER deben estar en tipo <b>Texto</b> (ya las casteaste en el Paso 0b). Si fueran Número, ESBLANCO falla porque interpreta el vacío como 0.</div>
-
-  <div class="box warn"><div class="box-h">⚠ El merchant viene con decimales (.0000000000) — quitarlos</div>
-  En los datos reales, los MERCHANT_NUMBER vienen como número decimal: <code>32827909.0000000000</code> (8 dígitos enteros + punto + 10 ceros). Esos ceros decimales son basura del formato Número — hay que <b>quitarlos y dejar solo el entero</b> (<code>32827909</code>), porque es la llave de cruce del Paso 8.
-  <br><br><b>Cómo limpiarlo (en el Paso 0b):</b> casteá cada columna MERCHANT primero a <span class="dtype dtype-num">Entero</span> (esto borra los decimales), y después a <span class="dtype dtype-texto">Texto</span> (para que ESBLANCO funcione). El doble casteo Número → Entero → Texto deja <code>32827909</code> limpio.
-  <br><br><b>Cuántos dígitos dejar:</b> el número entero completo tal como es (8 dígitos en estos datos). NO se trunca ni se rellena — solo se elimina la parte decimal.
-  </div>
+  <div class="box warn"><div class="box-h">⚠ El merchant viene con decimales (.0000000000) — DIVIDIR los quita</div>
+  El dato viene como <code>32827909.0000000000</code> (8 dígitos + punto + 10 ceros). <b>El casteo a Entero/Texto NO los quita</b> — el valor de fondo sigue siendo decimal y al pasar a Texto vuelve a escribir los ceros. La forma que SÍ funciona es <code>DIVIDIR(columna; "."; 1)</code>: parte el texto por el punto y se queda con <code>32827909</code>. Necesario porque es la llave de cruce del Paso 8.
+  <br><br><b>Las 3 columnas merchant dejalas en tipo Texto</b> (aunque muestren los ceros · DIVIDIR opera sobre el texto). ESBLANCO sigue funcionando sobre Texto.
+  <br><br>⚠ Si <code>DIVIDIR(...; 1)</code> no toma la parte correcta, probá con <code>0</code> — el índice de posición puede ser base 0 en tu versión.</div>
 
   <div class="box do"><div class="box-h">✅ Verificado · el cruce del Paso 8 funciona directo</div>
   Comparé los merchants de DOTA contra los 673 comercios de la parametría: <b>hay match exacto</b> (ej: <code>32827909</code>, <code>82341942</code> están idénticos en ambos). La parametría tiene comercios de 8, 9, 10 y 11 dígitos; los de DOTA (8 dígitos) cruzan con los de 8. Lo único necesario es <b>quitar el decimal</b> (arriba ↑) para que el texto coincida exacto. No hay que rellenar ni recortar dígitos.</div>
