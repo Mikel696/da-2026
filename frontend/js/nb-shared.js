@@ -891,6 +891,62 @@
     });
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     SYNTAX HIGHLIGHTING para .nb-code[data-lang] · usa highlight.js
+     (cargado via CDN en notes.html). Estrategia "highlight on idle":
+       - render → aplicamos hljs.highlightElement una vez (data-hl="1")
+       - user click adentro → stripeamos a texto plano para editar
+       - user blur fuera → re-aplicamos highlight
+     Evita el conflicto cursor + spans-de-color en contenteditable.
+  ══════════════════════════════════════════════════════════════ */
+  function _hljsReady(){ return typeof window.hljs !== 'undefined' && window.hljs && window.hljs.highlightElement; }
+  function applyHighlight(root){
+    if (!_hljsReady()) return;
+    const scope = root || document;
+    scope.querySelectorAll('.nb-code[data-lang]:not([data-hl="1"])').forEach(code => {
+      const lang = code.getAttribute('data-lang') || '';
+      if (!lang) { code.setAttribute('data-hl', '1'); return; }
+      try {
+        code.className = 'nb-code language-' + lang;
+        code.setAttribute('data-hl', '1');
+        const txt = code.innerText || '';
+        code.textContent = txt; // limpiar spans previos si los hubiera
+        window.hljs.highlightElement(code);
+      } catch(e) { /* silent: lenguaje no soportado etc */ }
+    });
+  }
+  function attachCodeBlockHandlers(el){
+    if (!el || el._nbCodeAttached) return;
+    el._nbCodeAttached = true;
+    // Focus dentro → stripear spans para edición plana
+    el.addEventListener('focusin', (e) => {
+      const code = e.target.closest && e.target.closest('.nb-code');
+      if (!code) return;
+      if (code.getAttribute('data-hl') === '1') {
+        const txt = code.innerText;
+        code.textContent = txt;
+        code.removeAttribute('data-hl');
+      }
+    });
+    // Blur fuera del code block → re-highlight
+    el.addEventListener('focusout', (e) => {
+      const code = e.target.closest && e.target.closest('.nb-code');
+      if (!code) return;
+      // Debounce: si el siguiente focus también es dentro del mismo code, no re-highlight
+      setTimeout(() => {
+        if (document.activeElement === code) return;
+        if (!_hljsReady()) return;
+        const lang = code.getAttribute('data-lang') || '';
+        if (!lang) return;
+        try {
+          code.className = 'nb-code language-' + lang;
+          code.setAttribute('data-hl', '1');
+          window.hljs.highlightElement(code);
+        } catch(e) {}
+      }, 60);
+    });
+  }
+
   /* Click en imagen → abrir HD overlay (full quality desde IDB si existe) */
   function attachImageClickHandler(el){
     if (!el || el._nbImgClickAttached) return;
@@ -910,6 +966,18 @@
     attachCleanPaste(el);
     attachChecklistToggle(el);
     attachImageClickHandler(el);
+    attachCodeBlockHandlers(el);
+    // Apply syntax highlighting una vez por render (asíncrono para no bloquear)
+    if (_hljsReady()) setTimeout(() => applyHighlight(el), 0);
+    else {
+      // Si hljs aún no cargó, reintentar al cargarse
+      let tries = 0;
+      const iv = setInterval(() => {
+        tries++;
+        if (_hljsReady()) { applyHighlight(el); clearInterval(iv); }
+        if (tries > 30) clearInterval(iv);
+      }, 200);
+    }
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -1163,7 +1231,7 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    fmtExtended, toolbarHtml, insertImage, insertCodeBlock,
+    fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight,
     _insertImageFromFile, _openImageHD,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,

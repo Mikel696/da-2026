@@ -2998,3 +2998,48 @@ P5 enfocada en flujo de estudio (sistemas/programación). Cinco features:
 
 ### Próximos angles posibles
 (a) Syntax highlighting real con Prism/highlight.js CDN sobre `.nb-code[data-lang]` · (b) Link bidireccional nodo del mapa ↔ página del cuaderno (click nodo abre página) · (c) Templates de cuaderno editables por el usuario · (d) Auto-extraer entidades (h2/h3 de páginas) como nodos sugeridos del mapa · (e) Drag-to-reorder páginas del cuaderno · (f) Tabla / checklist templates en code blocks.
+
+## 🎨🔗🔀 13-NOT · P6 · Highlight + Link mapa-pagina + Drag reorder — 2026-06-02
+
+### Qué cambió
+P6 cierra el flujo de estudio con tres mejoras de UX + resolución de pendientes:
+
+**1. Syntax highlighting real en code blocks**
+- CDN: highlight.js 11.9.0 + tema github-dark (~28KB minified, async).
+- Auto-apply en cada render: `NBShared.applyHighlight(rootEl)` busca `.nb-code[data-lang]:not([data-hl="1"])` y aplica `hljs.highlightElement` con el lenguaje del atributo.
+- Patrón "highlight on idle" para no romper contenteditable: focusin strippea spans (innerText → textContent) → editás plain → focusout re-highlightea con debounce 60ms.
+- Retry si highlight.js todavía no cargó (300ms × 30 tries).
+
+**2. Link bidireccional nodo del mapa ↔ página del cuaderno**
+- Nodo gana campo opcional `pageId`.
+- Overlay de Settings (antes IconPicker) ahora tiene 2 secciones: 🎨 Icono + 🔗 Link a página. Selector de página del cuaderno actual + botón Guardar.
+- Nodos vinculados se renderizan con halo verde alrededor + badge 🔗 en esquina superior-derecha + cursor pointer.
+- Click simple en nodo vinculado (sin modifiers, sin drag) → setea `activePageId` + re-render + scroll smooth al editor. Es la navegación natural mapa → contenido.
+
+**3. Drag-to-reorder páginas del cuaderno**
+- Cada `.nb-entry` ahora es `draggable="true"` con `data-pg` + `data-nb`.
+- Grip visual ⋮⋮ con `cursor:grab` para señalar la affordance.
+- HTML5 drag nativo: `dragstart` baja opacidad del source, `dragover` pinta border-top del target con color de marca, `drop` reordena el array + persist + re-render.
+- Sin librerías externas. Funciona en desktop; móvil seguirá usando el botón 🗑/edit.
+
+**4. Pendientes resueltos (commit b16a18f)**
+- `frontend/tools.html` (6-TOO): pivot intencional de "Herramientas & Ventajas" (cert listing) a "Mantenimiento del PC" con code blocks copiables (`.code` + `.copy`) y componente step-by-step. Conservado el design system v1.0.
+- `Modelo.md`: apuntes personales sobre Obsidian como segundo cerebro (fuente de inspiración para futuras iteraciones del flow 13-NOT).
+- `Diagnostico-PC-2026-06-02.html`: snapshot del diagnóstico que dio origen al rework de 6-TOO.
+
+### Archivos tocados (P6)
+- `frontend/notes.html`: + 2 tags `<link>` + `<script>` para highlight.js CDN (theme github-dark + main JS).
+- `frontend/js/nb-shared.js`: + `_hljsReady`, `applyHighlight(root)`, `attachCodeBlockHandlers(el)` con focusin/focusout, integración en `attachEditorHandlers` con retry async, export en PUBLIC API.
+- `frontend/js/notes-nb.js`: ampliación de `openIconPicker` (ahora "Settings del nodo" con icon + page link), update de `renderMap` (halo verde + 🔗 badge + cursor pointer), update de `_wireMapEvents` (mouseup tap-on-node abre página), update de `mapHtml` docstring, update de `renderEditor` (entries draggable + grip), +`_wirePageReorder`, +`reorderPages(nbId, srcPgId, tgtPgId)`, llamada desde `render()`, export en PUBLIC API.
+
+### Verificación
+- [ ] Crear cuaderno con template "Lenguaje", escribir code block con lang `python` → al render aparece coloreado.
+- [ ] Click adentro del code → spans desaparecen → editás plain.
+- [ ] Click afuera → re-coloreado correcto.
+- [ ] Mapa: Alt+click un nodo → overlay con sección "Link a página" → elegir → Guardar → nodo gana halo verde + 🔗.
+- [ ] Click simple en ese nodo (sin Alt) → abre la página vinculada + scroll al editor.
+- [ ] Lista de páginas: drag con grip ⋮⋮ una página, soltala sobre otra → orden se actualiza, reload preserva orden.
+- [ ] 6-TOO: tools.html ahora abre como "Mantenimiento del PC" con code blocks y step-by-step.
+
+### Próximos angles posibles (P7)
+(a) Drag-to-reorder de NODOS del mapa por categorías · (b) Export del cuaderno entero a PDF (pages + maps embedded) · (c) Backlinks: una página conoce qué nodos del mapa la referencian · (d) Templates de cuaderno editables por el usuario (vos creás tu propio template y se guarda) · (e) Search transversal sobre todos los cuadernos + mapas.

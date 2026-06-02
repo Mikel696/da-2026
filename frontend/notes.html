@@ -270,6 +270,9 @@ if(cleaned.length!==notes.length){setNotes(cleaned);localStorage.removeItem('sb_
 
 renderNotes();renderJournal();updateStats();
 </script>
+<!-- Syntax highlighting para code blocks en cuadernos (13-NOT.P6) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 <!-- Auth chain: must load on every page so session persists platform-wide -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>

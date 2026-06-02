@@ -566,8 +566,9 @@ const NotNB = (function(){
     const pagesList = pages.length ? pages.map(p => {
       const preview = (p.body || '').replace(/<[^>]*>/g,'').substring(0, 70);
       const isActive = activePageId === p.id;
-      return `<div class="nb-entry${isActive?' open':''}">
+      return `<div class="nb-entry${isActive?' open':''}" draggable="true" data-pg="${p.id}" data-nb="${nb.id}">
         <div class="nb-entry-h" onclick="NotNB.openPage('${nb.id}',${p.id})">
+          <span class="nb-entry-grip" title="Arrastrá para reordenar" style="cursor:grab;color:var(--t3);font-size:14px;padding-right:6px;user-select:none">⋮⋮</span>
           <div style="min-width:0;flex:1">
             <div class="nb-entry-title">${esc(p.title || 'Sin título')}</div>
             <div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length>=70?'…':''}</div>
@@ -644,10 +645,12 @@ const NotNB = (function(){
       </div>
       ${renderEditor(nb)}
     `;
-    // Attach paste-cleaner + checklist toggle a todos los editores recién renderizados.
+    // Attach paste-cleaner + checklist + code highlight a todos los editores recién renderizados.
     if (window.NBShared && NBShared.attachEditorHandlers) {
       wrap.querySelectorAll('.nb-content[contenteditable="true"]').forEach(el => NBShared.attachEditorHandlers(el));
     }
+    // Drag-to-reorder de páginas del cuaderno activo
+    _wirePageReorder(wrap);
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -718,8 +721,14 @@ const NotNB = (function(){
       const isFrom = linking && _mapLink.fromId === n.id;
       const ring = isFrom ? '<circle cx="'+n.x+'" cy="'+n.y+'" r="34" fill="none" stroke="#fde047" stroke-width="2" stroke-dasharray="4 3"/>' : '';
       const hasIcon = !!(n.icon && n.icon.length);
+      const hasPage = !!n.pageId;
       const radius = hasIcon ? 32 : 28;
-      svg += ring + '<g class="mm-node" data-id="'+n.id+'" style="cursor:grab">';
+      const cursor = hasPage ? 'pointer' : 'grab';
+      svg += ring + '<g class="mm-node" data-id="'+n.id+'" style="cursor:'+cursor+'">';
+      // halo extra para nodos con página vinculada
+      if (hasPage) {
+        svg += '<circle cx="'+n.x+'" cy="'+n.y+'" r="'+(radius+3)+'" fill="none" stroke="#10b981" stroke-width="1.5" opacity=".7"/>';
+      }
       svg += '<circle cx="'+n.x+'" cy="'+n.y+'" r="'+radius+'" fill="'+col+'22" stroke="'+col+'" stroke-width="2"/>';
       if (hasIcon) {
         svg += '<text x="'+n.x+'" y="'+(n.y-6)+'" text-anchor="middle" font-size="18" pointer-events="none">'+esc(n.icon)+'</text>';
@@ -728,6 +737,11 @@ const NotNB = (function(){
       } else {
         const txt = esc(n.text||'').slice(0,18);
         svg += '<text x="'+n.x+'" y="'+(n.y+4)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--tx)" font-family="IBM Plex Sans,sans-serif" pointer-events="none">'+txt+'</text>';
+      }
+      // marker de página vinculada (arriba-derecha)
+      if (hasPage) {
+        svg += '<circle cx="'+(n.x+radius-4)+'" cy="'+(n.y-radius+4)+'" r="8" fill="#0a0a0c" stroke="#10b981" stroke-width="1.5"/>';
+        svg += '<text x="'+(n.x+radius-4)+'" y="'+(n.y-radius+8)+'" text-anchor="middle" font-size="9" pointer-events="none">🔗</text>';
       }
       svg += '</g>';
     });
@@ -779,9 +793,24 @@ const NotNB = (function(){
       setMap(nbId, mp);
       renderMap(nbId);
     });
-    const endDrag = () => { drag = null; };
-    svgEl.addEventListener('mouseup', endDrag);
-    svgEl.addEventListener('mouseleave', endDrag);
+    // mouseup: si fue un tap (sin drag) y el nodo tiene página vinculada → abrir página
+    svgEl.addEventListener('mouseup', (e) => {
+      if (drag && drag.id && !drag.started) {
+        const mp = getMap(nbId);
+        const n = mp.nodes.find(x => x.id === drag.id);
+        if (n && n.pageId) {
+          activePageId = isNaN(Number(n.pageId)) ? n.pageId : Number(n.pageId);
+          render();
+          // scroll al editor + abrir el wrap del mapa si aún está visible
+          setTimeout(() => {
+            const ed = document.getElementById('nbBody-'+nbId);
+            if (ed) ed.scrollIntoView({ behavior:'smooth', block:'start' });
+          }, 80);
+        }
+      }
+      drag = null;
+    });
+    svgEl.addEventListener('mouseleave', () => { drag = null; });
     // Click vacío → crear nodo (acepta "📘 Python" → icon + text auto-split)
     // Alt+click nodo → abrir picker de icono
     // Click nodo plano → handled por mousedown
@@ -840,40 +869,72 @@ const NotNB = (function(){
     setMap(nbId, { nodes:[], edges:[] });
     renderMap(nbId);
   }
-  /* Picker compacto de iconos para asignar a un nodo · overlay flotante */
+  /* Settings de nodo · icono + link a página del cuaderno · overlay flotante */
   function openIconPicker(nbId, nodeId){
     let ov = document.getElementById('nbMapIconOverlay');
     if (ov) ov.remove();
+    const mp = getMap(nbId);
+    const node = mp.nodes.find(x => x.id === nodeId);
+    const pages = getPages(nbId);
+    const currentLink = node && node.pageId ? node.pageId : '';
+    const linkedPage = pages.find(p => String(p.id) === String(currentLink));
     ov = document.createElement('div');
     ov.id = 'nbMapIconOverlay';
     ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px';
     const grid = MAP_ICONS.map(ic =>
       '<button data-ic="'+ic+'" style="font-size:22px;width:42px;height:42px;border-radius:8px;border:1px solid var(--bd);background:var(--c1);color:var(--tx);cursor:pointer;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'var(--ag,rgba(139,92,246,.12))\';this.style.borderColor=\'#a78bfa\'" onmouseout="this.style.background=\'var(--c1)\';this.style.borderColor=\'var(--bd)\'">'+ic+'</button>'
     ).join('');
-    ov.innerHTML = '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:20px;max-width:520px;width:100%;max-height:80vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="font-size:14px;font-weight:600;color:var(--tx)">Elegí un icono</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Click un emoji · o "Quitar" para dejar sin icono</div></div><button id="nbIcCancel" style="background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px">✕</button></div>'+
-      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px">'+grid+'</div>'+
-      '<div style="margin-top:14px;display:flex;gap:6px;justify-content:flex-end"><button id="nbIcRemove" class="btn bo bs">Quitar icono</button></div>'+
+    const pageOpts = pages.map((p, i) =>
+      '<option value="'+p.id+'"'+(String(p.id)===String(currentLink)?' selected':'')+'>'+esc((p.title||'').slice(0,60) || 'Página '+(i+1))+'</option>'
+    ).join('');
+    const linkStatus = linkedPage
+      ? '<span style="color:#10b981">🔗 Vinculado a: <b>'+esc(linkedPage.title||'sin título')+'</b></span>'
+      : '<span style="color:var(--t3)">Sin vínculo a página</span>';
+    ov.innerHTML = '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:20px;max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="font-size:14px;font-weight:600;color:var(--tx)">⚙️ Settings del nodo</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Asigná un icono y/o vinculá una página del cuaderno</div></div><button id="nbIcCancel" style="background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px" aria-label="Cerrar">✕</button></div>'+
+
+      '<div style="font-size:11px;font-weight:600;color:var(--t2);margin:6px 0 6px;text-transform:uppercase;letter-spacing:1px">🎨 Icono</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;max-height:240px;overflow:auto;padding:4px;border:1px solid var(--bd);border-radius:8px;background:var(--bg,rgba(0,0,0,.2))">'+grid+'</div>'+
+      '<div style="margin-top:8px;display:flex;justify-content:flex-end"><button id="nbIcRemove" class="btn bo bs">Quitar icono</button></div>'+
+
+      '<div style="font-size:11px;font-weight:600;color:var(--t2);margin:18px 0 6px;text-transform:uppercase;letter-spacing:1px">🔗 Link a página del cuaderno</div>'+
+      '<div style="font-size:11px;margin-bottom:6px">'+linkStatus+'</div>'+
+      (pages.length
+        ? '<div style="display:flex;gap:6px"><select id="nbIcPage" class="inp" style="flex:1">'+
+            '<option value="">— Sin vínculo —</option>'+pageOpts+
+          '</select><button id="nbIcLinkSave" class="btn bg bs">Guardar</button></div>'
+        : '<div style="font-size:11px;color:var(--t3);padding:8px;border:1px dashed var(--bd);border-radius:6px">Este cuaderno aún no tiene páginas. Creá una primero para poder vincular.</div>'
+      )+
+      '<div style="font-size:10px;color:var(--t3);margin-top:6px">Cuando un nodo tiene página vinculada, hacés <b>click simple</b> sobre él y se abre esa página automáticamente.</div>'+
       '</div>';
     document.body.appendChild(ov);
     const close = () => ov.remove();
     document.getElementById('nbIcCancel').onclick = close;
     ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
     document.getElementById('nbIcRemove').onclick = () => {
-      const mp = getMap(nbId);
-      const n = mp.nodes.find(x => x.id === nodeId);
-      if (n) { n.icon = ''; setMap(nbId, mp); renderMap(nbId); }
+      const m = getMap(nbId);
+      const n = m.nodes.find(x => x.id === nodeId);
+      if (n) { n.icon = ''; setMap(nbId, m); renderMap(nbId); }
       close();
     };
     ov.querySelectorAll('button[data-ic]').forEach(btn => {
       btn.onclick = () => {
         const ic = btn.getAttribute('data-ic');
-        const mp = getMap(nbId);
-        const n = mp.nodes.find(x => x.id === nodeId);
-        if (n) { n.icon = ic; setMap(nbId, mp); renderMap(nbId); }
+        const m = getMap(nbId);
+        const n = m.nodes.find(x => x.id === nodeId);
+        if (n) { n.icon = ic; setMap(nbId, m); renderMap(nbId); }
         close();
       };
     });
+    const linkBtn = document.getElementById('nbIcLinkSave');
+    if (linkBtn) linkBtn.onclick = () => {
+      const sel = document.getElementById('nbIcPage');
+      const val = sel ? sel.value : '';
+      const m = getMap(nbId);
+      const n = m.nodes.find(x => x.id === nodeId);
+      if (n) { if (val) n.pageId = val; else delete n.pageId; setMap(nbId, m); renderMap(nbId); }
+      close();
+    };
   }
   /* ── Templates de mindmap · 4 starters ─────────────────────────── */
   const MAP_TEMPLATES = {
@@ -1006,7 +1067,7 @@ const NotNB = (function(){
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:6px;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
           <div style="font-size:12px;font-weight:600;color:var(--tx)">🗺️ Mapa mental del cuaderno</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px;line-height:1.55">Click vacío → crear nodo (acepta "📘 Texto") · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · Alt+click → cambiar icono · click derecho → eliminar</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;line-height:1.55">Click vacío → crear nodo (acepta "📘 Texto") · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · Alt+click → settings (icono + vincular página) · click nodo vinculado 🔗 → abrir página · click derecho → eliminar</div>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
           <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${mp.nodes.length} nodos · ${mp.edges.length} conexiones</span>
@@ -1020,6 +1081,61 @@ const NotNB = (function(){
       </div>
       <div id="nbMapSvg-${nbId}"></div>
     </div>`;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     DRAG-TO-REORDER páginas del cuaderno · HTML5 drag-drop nativo
+     - Cada .nb-entry es draggable=true con data-pg + data-nb
+     - dragover muestra indicador (border-top) en el target
+     - drop reordena en data y re-render
+  ══════════════════════════════════════════════════════════════ */
+  let _dragPgId = null;
+  function _wirePageReorder(rootEl){
+    if (!rootEl) return;
+    const entries = rootEl.querySelectorAll('.nb-entry[draggable="true"]');
+    entries.forEach(el => {
+      el.addEventListener('dragstart', (e) => {
+        _dragPgId = el.getAttribute('data-pg');
+        el.style.opacity = '0.4';
+        if (e.dataTransfer) {
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', _dragPgId); } catch {}
+        }
+      });
+      el.addEventListener('dragend', () => {
+        el.style.opacity = '';
+        entries.forEach(x => x.style.borderTop = '');
+      });
+      el.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        if (!_dragPgId || el.getAttribute('data-pg') === _dragPgId) return;
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+        entries.forEach(x => x.style.borderTop = '');
+        el.style.borderTop = '2px solid #a78bfa';
+      });
+      el.addEventListener('dragleave', () => { el.style.borderTop = ''; });
+      el.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const src = _dragPgId;
+        const tgt = el.getAttribute('data-pg');
+        const nbId = el.getAttribute('data-nb');
+        _dragPgId = null;
+        if (!src || !tgt || src === tgt) return;
+        reorderPages(nbId, src, tgt);
+      });
+    });
+  }
+  function reorderPages(nbId, srcPgId, tgtPgId){
+    const data = loadData();
+    if (!data[nbId] || !data[nbId].pages) return;
+    const pages = data[nbId].pages;
+    const si = pages.findIndex(p => String(p.id) === String(srcPgId));
+    const ti = pages.findIndex(p => String(p.id) === String(tgtPgId));
+    if (si < 0 || ti < 0) return;
+    const [moved] = pages.splice(si, 1);
+    pages.splice(ti, 0, moved);
+    saveData(data);
+    render();
   }
 
   /* ── INIT ─────────────────────────────────────────────────── */
@@ -1038,6 +1154,7 @@ const NotNB = (function(){
     attachFile, removeAttachment,
     toggleMap, renderMap, clearMap,
     openIconPicker, applyMapTemplate, exportMapPNG,
+    reorderPages,
     createFromTemplate: function(template){ return _createWithTemplate(template); },
   };
 })();
