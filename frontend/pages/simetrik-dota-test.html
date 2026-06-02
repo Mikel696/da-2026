@@ -556,31 +556,31 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="step">
   <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--rd),var(--or))">7</div><div class="step-title">🔴 BLOQUEANTE · Calendario no cubre las fechas (Punto 7)</div></div>
   <p>El calendario <code>Normalización días hábiles Argentina</code> (sitio MLA) arranca el <b>2026-03-23</b>, pero las transacciones de DB_DOTA son desde <b>2022</b>. El BuscarV para <code>EXPECTED_PAYMENT_DATE</code> no encuentra las fechas previas a 2026 → traería vacío para la mayoría. No se puede resolver del lado del candidato (es el insumo).</p>
-  <div class="box q"><div class="box-h">Pregunta</div><i>"El calendario de días hábiles de Argentina arranca el 2026-03-23, pero las transacciones de DB_DOTA son desde 2022. Al hacer el BuscarV para EXPECTED_PAYMENT_DATE, las transacciones previas a 2026 no encuentran su fecha en el calendario. ¿Hay un calendario que cubra desde 2022, o cómo debo proceder con el punto 7?"</i></div>
+  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Hola, una consulta con el punto 7. Estuve armando el cálculo de EXPECTED_PAYMENT_DATE con BuscarV contra el calendario de días hábiles de Argentina, y noté que el calendario arranca el 23 de marzo de 2026, mientras que las transacciones de DB_DOTA vienen desde 2022. Entonces a las transacciones anteriores a esa fecha no les encuentra el día hábil correspondiente. ¿Tienen una versión del calendario que cubra desde 2022, o el enfoque para este punto es distinto al que estoy planteando?"</i></div>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "comercio" en FD</div></div>
   <p>El documento dice cruzar por "comercio" pero FD tiene varias candidatas. Hipótesis (datos): <code>NUM_EST</code>.</p>
-  <div class="box q"><div class="box-h">Pregunta</div><i>"Para la llave de comercio de la barrida DOTA×FD, ¿qué columna de FD corresponde al número de comercio de DOTA: NUM_COM, NUM_EST u otra?"</i></div>
+  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Para la barrida de DOTA contra FD, el documento indica cruzar por comercio. Del lado de FD veo un par de columnas que podrían ser (NUM_COM y NUM_EST); revisando los datos me inclino a que es NUM_EST, pero quería confirmar con vos cuál es la que corresponde al número de comercio."</i></div>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "fecha de creación" en FD</div></div>
   <p>El documento dice "fecha de creación" pero FD tiene <code>FPRES</code> y <code>FORIG_COMPRA</code>. Hipótesis (datos): <code>FORIG_COMPRA</code>.</p>
-  <div class="box q"><div class="box-h">Pregunta</div><i>"Para la llave de fecha de la barrida DOTA×FD, ¿contra qué columna de FD cruzo MOV_CREATION_DATE: FPRES, FORIG_COMPRA u otra?"</i></div>
+  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"En esa misma barrida, para la llave de fecha, FD tiene FPRES (fecha de proceso) y FORIG_COMPRA (fecha de compra). Por las fechas de los datos parece que MOV_CREATION_DATE cruza con FORIG_COMPRA, ¿es esa la correcta o debería usar FPRES?"</i></div>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 4 · tolerancia direccional de fecha</div></div>
   <p>"FD puede llegar 1 día después, nunca antes". La tolerancia nativa es bidireccional. Hipótesis: duplicar la llave de fecha con desigualdad de un solo sentido.</p>
-  <div class="box q"><div class="box-h">Pregunta</div><i>"¿La tolerancia de fecha direccional (FD nunca antes que DOTA) la configuro con una desigualdad en la llave, o hay una opción nativa de un solo sentido?"</i></div>
+  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Para la barrida con tolerancia de +1 día, el caso pide que FD pueda llegar un día después que DOTA pero nunca antes. La tolerancia que veo en Simetrik aplica para los dos lados. ¿Lo correcto es agregar una regla de desigualdad para forzar el sentido, o existe una tolerancia direccional que no estoy viendo?"</i></div>
 </div>
 
 <div class="step">
   <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">3</div><div class="step-title">🟡 Fallback del GTWT_ACQUIRER (Punto 3)</div></div>
   <p>Si ninguna de las 3 columnas tiene la marca, el documento dice poner "el contenido en mayúscula" pero no aclara de cuál columna. Hipótesis: <code>CAPTURE_ACQUIRER</code> (la primera mencionada).</p>
-  <div class="box q"><div class="box-h">Pregunta</div><i>"En el fallback del punto 3, cuando ninguna columna acquirer tiene la marca, ¿de cuál de las 3 (CAPTURE/PURCHASE/AUTH) tomo el contenido para poner en mayúscula?"</i></div>
+  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"En el punto 3, cuando ninguna de las columnas de acquirer trae Mastercard/Firstdata/Diners/Visa, el documento dice colocar el contenido en mayúscula. Como son tres columnas (CAPTURE, PURCHASE y AUTH), ¿de cuál tomo el valor en ese caso? Estoy usando CAPTURE_ACQUIRER por ser la primera, pero quería confirmar."</i></div>
 </div>
 
 <div class="box do"><div class="box-h">✅ Ya resuelto (NO preguntar)</div>
