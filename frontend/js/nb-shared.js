@@ -840,16 +840,51 @@
     el.addEventListener('paste', (e) => {
       const cb = e.clipboardData || window.clipboardData;
       if (!cb) return;
-      // 1) Imagen pegada → ingest inline (preview en body + full en IDB)
+      // 1) Imagen pegada como file (screenshot, Win+Shift+S, archivo del Explorer)
       for (let i = 0; i < (cb.items || []).length; i++) {
         const it = cb.items[i];
         if (it && it.kind === 'file' && /^image\//.test(it.type)) {
           const f = it.getAsFile();
           if (f) {
             e.preventDefault();
-            _insertImageFromFile(f, el).catch(err => console.warn('paste image failed:', err));
+            _insertImageFromFile(f, el).catch(err => console.warn('paste image (file) failed:', err));
             return;
           }
+        }
+      }
+      // 1b) Lista de archivos directo (algunos navegadores)
+      if (cb.files && cb.files.length) {
+        for (let i = 0; i < cb.files.length; i++) {
+          const f = cb.files[i];
+          if (f && /^image\//.test(f.type)) {
+            e.preventDefault();
+            _insertImageFromFile(f, el).catch(err => console.warn('paste image (files) failed:', err));
+            return;
+          }
+        }
+      }
+      // 1c) HTML paste con <img src="data:..."> (típico al copiar desde una web)
+      const html = cb.getData && cb.getData('text/html');
+      if (html) {
+        const m = html.match(/<img[^>]+src=["']?(data:image\/[a-z+]+;base64,[^"'\s>]+)/i);
+        if (m && m[1]) {
+          e.preventDefault();
+          _dataUrlToFile(m[1], 'pasted.png')
+            .then(f => _insertImageFromFile(f, el))
+            .catch(err => console.warn('paste image (html data:) failed:', err));
+          return;
+        }
+      }
+      // 1d) text/plain o text/uri-list que sea data: URL de imagen
+      const txt = cb.getData && (cb.getData('text/uri-list') || cb.getData('text/plain'));
+      if (txt) {
+        const t = txt.trim();
+        if (/^data:image\//i.test(t)) {
+          e.preventDefault();
+          _dataUrlToFile(t, 'pasted.png')
+            .then(f => _insertImageFromFile(f, el))
+            .catch(err => console.warn('paste image (data: uri) failed:', err));
+          return;
         }
       }
       // 2) Texto plano → reemplazamos el comportamiento default (que pega HTML formateado)
@@ -1204,6 +1239,20 @@
       fr.readAsDataURL(file);
     });
   }
+  /* Convierte un data:image/...;base64,... a File para el pipeline normal */
+  async function _dataUrlToFile(dataUrl, filename){
+    const m = String(dataUrl).match(/^data:([^;]+);base64,(.+)$/);
+    if (!m) throw new Error('not-a-data-url');
+    const mime = m[1] || 'image/png';
+    const b64 = m[2];
+    const bin = atob(b64);
+    const len = bin.length;
+    const buf = new Uint8Array(len);
+    for (let i = 0; i < len; i++) buf[i] = bin.charCodeAt(i);
+    const blob = new Blob([buf], { type: mime });
+    const ext = (mime.split('/')[1] || 'png').replace('+xml','').replace('jpeg','jpg');
+    return new File([blob], filename || ('pasted.' + ext), { type: mime });
+  }
   async function _insertImageFromFile(file, editor){
     if (!file || !/^image\//.test(file.type)) return false;
     if (file.size > 20 * 1024 * 1024) {
@@ -1331,20 +1380,56 @@
       const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
       if (f) ingest(f);
     });
-    // Paste handler (Ctrl+V) — escucha en el overlay entero
-    const onPaste = (e) => {
+    // Paste handler (Ctrl+V) — robusto: files, HTML data:, text data:
+    const onPaste = async (e) => {
       const cb = e.clipboardData || window.clipboardData;
       if (!cb) return;
-      for (let i = 0; i < (cb.items || []).length; i++) {
-        const it = cb.items[i];
+      // files / items kind=file
+      const itemArr = [];
+      for (let i = 0; i < (cb.items || []).length; i++) itemArr.push(cb.items[i]);
+      for (const it of itemArr) {
         if (it && it.kind === 'file' && /^image\//.test(it.type)) {
           const f = it.getAsFile();
           if (f) { e.preventDefault(); ingest(f); return; }
         }
       }
+      if (cb.files && cb.files.length) {
+        for (let i = 0; i < cb.files.length; i++) {
+          const f = cb.files[i];
+          if (f && /^image\//.test(f.type)) { e.preventDefault(); ingest(f); return; }
+        }
+      }
+      // HTML con <img data:>
+      const html = cb.getData && cb.getData('text/html');
+      if (html) {
+        const m = html.match(/<img[^>]+src=["']?(data:image\/[a-z+]+;base64,[^"'\s>]+)/i);
+        if (m && m[1]) {
+          e.preventDefault();
+          try { ingest(await _dataUrlToFile(m[1], 'pasted.png')); } catch(err) { console.warn(err); }
+          return;
+        }
+      }
+      // text con data: URL pura
+      const txt = cb.getData && (cb.getData('text/uri-list') || cb.getData('text/plain'));
+      if (txt) {
+        const t = txt.trim();
+        if (/^data:image\//i.test(t)) {
+          e.preventDefault();
+          try { ingest(await _dataUrlToFile(t, 'pasted.png')); } catch(err) { console.warn(err); }
+          return;
+        }
+      }
     };
     ov.addEventListener('paste', onPaste);
     drop.addEventListener('paste', onPaste);
+    // Backup: listener global mientras el modal está abierto
+    document.addEventListener('paste', onPaste);
+    const _origClose = close;
+    var _closeFn = () => { document.removeEventListener('paste', onPaste); _origClose(); };
+    // Reemplazar los handlers de cierre con la versión que limpia el listener global
+    document.getElementById('nbImgInsClose').onclick = _closeFn;
+    ov.addEventListener('click', (e) => { if (e.target === ov) _closeFn(); });
+    ov.addEventListener('keydown', (e) => { if (e.key === 'Escape') _closeFn(); });
     // Focus para captar Ctrl+V inmediato
     setTimeout(() => { try { ov.focus(); drop.focus(); } catch(e) {} }, 0);
   }
@@ -1504,6 +1589,26 @@
      Llama a `${ns}.openPage('${nbId}', pageId)` al clickear.
   ══════════════════════════════════════════════════════════════ */
   function _escAttr(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* Compact: solo dropdown (para embeber en toolbars del cuaderno) */
+  function pageJumpHtml(ctx){
+    if (!ctx) return '';
+    const { nbId, ns, pages, activePageId } = ctx;
+    const N = ns || 'NB';
+    const list = Array.isArray(pages) ? pages : [];
+    if (!list.length) return '';
+    const trunc = (s, n) => { s = String(s||'').trim() || 'Sin título'; return s.length > n ? s.slice(0, n-1) + '…' : s; };
+    const opts = list.map((p, i) => {
+      const isActive = String(p.id) === String(activePageId);
+      return '<option value="' + p.id + '"' + (isActive ? ' selected' : '') + '>'
+        + _escAttr(trunc(p.title || ('Página ' + (i+1)), 60))
+        + '</option>';
+    }).join('');
+    return '<select class="nb-page-jump-inline" title="Saltar a página del cuaderno" aria-label="Cambiar de página"'
+      + ' onchange="if(this.value){' + N + '.openPage(\'' + nbId + '\',isNaN(Number(this.value))?this.value:Number(this.value));}">'
+      + '<option value="">📑 ' + list.length + ' página' + (list.length!==1?'s':'') + '…</option>'
+      + opts
+      + '</select>';
+  }
   function pageSelectorHtml(ctx){
     if (!ctx) return '';
     const { nbId, ns, pages, activePageId } = ctx;
@@ -1578,7 +1683,7 @@
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
-    pageSelectorHtml, wirePageBar,
+    pageSelectorHtml, pageJumpHtml, wirePageBar,
     _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,

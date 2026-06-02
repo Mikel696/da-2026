@@ -257,6 +257,11 @@
 .nb-page-bar-jump{flex-shrink:0;max-width:160px;padding:5px 8px;background:var(--el,#222228);border:1px solid var(--bd,#27272a);border-radius:7px;color:var(--t2,#a1a1aa);font-size:11px;font-family:inherit;cursor:pointer;transition:border-color .15s}
 .nb-page-bar-jump:hover{border-color:rgba(139,92,246,.55);color:var(--tx,#f0f2fa)}
 .nb-page-bar-jump:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+/* Compact dropdown embebido en toolbars del cuaderno · igual altura que los botones */
+.nb-page-jump-inline{flex:1 1 220px;min-width:180px;max-width:380px;padding:7px 10px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(139,92,246,.04));border:1px solid rgba(139,92,246,.4);border-radius:7px;color:var(--tx,#f0f2fa);font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s}
+.nb-page-jump-inline:hover{background:rgba(139,92,246,.18);border-color:#a78bfa}
+.nb-page-jump-inline:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+.nb-page-jump-inline option{background:var(--c1,#16161a);color:var(--tx,#f0f2fa);font-weight:500}
 @media(max-width:768px){.nb-page-bar-nav{display:none}.nb-page-tab{max-width:160px}.nb-page-tab-t{max-width:120px}}
 
 /* CHIP compacto de imagen — no cubre la hoja · click → overlay HD */

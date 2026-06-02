@@ -600,6 +600,7 @@ const NotNB = (function(){
             ${page ? `<button onclick="NotNB.addLink('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
             <button onclick="NotNB.addImage('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen</button>
             <button onclick="NotNB.attachFile('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
+            ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'NotNB', pages, activePageId }) : ''}
           </div>
           <div style="display:flex;gap:4px">
             <button onclick="NotNB.toggleMap('${nb.id}')" class="btn bo bs" title="Mostrar/ocultar mapa mental del cuaderno">🗺️ Mapa</button>
@@ -609,7 +610,6 @@ const NotNB = (function(){
             <button onclick="NotNB.remove('${nb.id}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
-        ${(window.NBShared && NBShared.pageSelectorHtml) ? NBShared.pageSelectorHtml({ nbId: nb.id, ns:'NotNB', pages, activePageId }) : ''}
         ${editorHtml || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;background:var(--c1);border:1px dashed var(--bd);border-radius:8px;margin:10px 0">Crea o selecciona una página para empezar a escribir.</div>'}
         ${mapHtml(nb.id)}
         <div class="lb" style="margin-top:14px">· páginas ·</div>

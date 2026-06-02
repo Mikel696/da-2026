@@ -2760,11 +2760,12 @@ const WorkNB = (function(){
       </div>
       <div style="padding:14px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
             <button class="btn bp" onclick="WorkNB.newPage('${nb.id}')">+ Nueva página</button>
             ${page?`<button class="btn bo" onclick="WorkNB.addLink('${nb.id}')">🔗 Link</button>
             <button class="btn bo" onclick="WorkNB.addImage('${nb.id}')">🖼️ Imagen</button>
             <button class="btn bo" onclick="WorkNB.attachFile('${nb.id}')">📎 Adjuntar</button>`:''}
+            ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
           </div>
           <div style="display:flex;gap:4px">
             <button class="btn bo bs" onclick="WorkNB.editDesign('${nb.id}')">🎨</button>
@@ -2773,7 +2774,6 @@ const WorkNB = (function(){
             <button class="btn bo bs" onclick="WorkNB.remove('${nb.id}')" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
-        ${(window.NBShared && NBShared.pageSelectorHtml) ? NBShared.pageSelectorHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
         ${editor || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px">Crea una página para empezar.</div>'}
         <div class="lb" style="margin-top:14px">· páginas ·</div>
         <div class="nb-entries">${pagesList}</div>
