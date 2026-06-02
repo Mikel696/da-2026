@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DA-2026 · Herramientas & Ventajas</title>
+<title>DA-2026 · Mantenimiento del PC</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <!-- Design System v1.0 · tokens canónicos -->
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="css/components.css">
 
 <style>
-/* 6-TOO · migrado al Design System v1.0 (2026-05-15) */
+/* 6-TOO · migrado al Design System v1.0 (2026-05-15) · reescrito a Mantenimiento del PC (2026-06-02) */
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
@@ -53,173 +53,157 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .cert-info{font-size:11px;color:var(--t2);line-height:1.6}
 .cert-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .cert-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+/* bloque de código copiable */
+.code{position:relative;background:#0b0d12;border:1px solid var(--bd);border-radius:9px;padding:12px 14px;margin:6px 0 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#cfe3ff;white-space:pre-wrap;overflow-x:auto;line-height:1.6}
+.copy{position:absolute;top:8px;right:8px;font-size:9px;font-weight:600;padding:3px 9px;border-radius:5px;background:var(--el);border:1px solid var(--bd);color:var(--t2);cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.5px}
+.copy:hover{color:var(--tx);border-color:var(--ac)}
+.copy.ok{color:var(--gn);border-color:var(--gn)}
+.step{display:flex;gap:10px;margin-bottom:6px}.step-n{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--ag);color:var(--a2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}.step-b{font-size:12px;color:var(--t2);line-height:1.6}.step-b strong{color:var(--tx)}
 @media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}}
 </style>
 </head>
 <body>
-<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Herramientas & Ventajas</span></div></nav>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Mantenimiento del PC</span></div></nav>
 <div class="wr">
-<div class="hero"><h1>Tu arsenal de <em>ventajas competitivas</em>.</h1><p>Certificaciones gratis, herramientas, hacks, plataformas de práctica, IA y recursos que la mayoría no conoce. Todo verificado y actualizado.</p></div>
+<div class="hero"><h1>Mantén tu PC <em>en su punto óptimo</em>.</h1><p>Centro de mantenimiento del equipo: limpieza, actualizaciones de hardware/software priorizadas, recomendaciones calidad/precio, tips y prompts listos para que Claude ejecute cada tarea. Basado en el diagnóstico real del 02-06-2026.</p></div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
-<a href="mindmap.html" style="display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(6,182,212,.08));border:1px solid var(--ac);border-radius:12px;text-decoration:none;color:var(--tx);transition:all .2s">
-  <div style="font-size:28px">🗺️</div>
-  <div style="flex:1">
-    <div style="font-size:14px;font-weight:600;margin-bottom:2px">Mind Map Studio <span style="font-size:9px;background:var(--ac);color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;margin-left:4px">NUEVO</span></div>
-    <div style="font-size:11px;color:var(--t3);line-height:1.5">Editor visual · auto-save · export PNG · adjuntar a cuadernos</div>
-  </div>
-  <div style="color:var(--ac);font-size:18px">→</div>
-</a>
-<a href="apa.html" style="display:flex;align-items:center;gap:14px;padding:16px 20px;background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(16,185,129,.08));border:1px solid var(--cy);border-radius:12px;text-decoration:none;color:var(--tx);transition:all .2s">
-  <div style="font-size:28px">📄</div>
-  <div style="flex:1">
-    <div style="font-size:14px;font-weight:600;margin-bottom:2px">APA Document Studio <span style="font-size:9px;background:var(--cy);color:#fff;padding:2px 6px;border-radius:4px;letter-spacing:.5px;margin-left:4px">NUEVO</span></div>
-    <div style="font-size:11px;color:var(--t3);line-height:1.5">Trabajos académicos en formato APA · 10-SYS materias · export PDF/Word/Excel</div>
-  </div>
-  <div style="color:var(--cy);font-size:18px">→</div>
-</a>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px">
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--rd)">7.6%</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">C: libre · crítico</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--am)">4.5 GB</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">RAM libre · ajustada</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">3/3</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Discos SMART OK</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">0</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Amenazas activas</div></div>
 </div>
+<div class="tip" style="margin-bottom:18px"><b>🖥️ Tu equipo</b><p>Intel <strong>Core i3-10100</strong> (4C/8T) · <strong>16 GB RAM</strong> DDR4-2667 dual channel · <strong>Radeon RX 580</strong> 4 GB · 3 discos: HP NVMe 250 GB (C:) + Kingston SSD 894 GB (D:/E:) + WD HDD 932 GB <em>antiguo</em> (F:/G:) · Ethernet 1 Gbps. <strong>Prioridad #1: liberar C: y aliviar la RAM.</strong></p></div>
 
 <div class="tabs">
-<button class="tab on" data-p="cert">🎓 Certificaciones</button>
-<button class="tab" data-p="tools">🛠️ Herramientas</button>
-<button class="tab" data-p="practice">⚔️ Práctica</button>
-<button class="tab" data-p="ai">🤖 IA</button>
-<button class="tab" data-p="hacks">🧠 Hacks</button>
-<button class="tab" data-p="free">🎁 Gratis</button>
+<button class="tab on" data-p="clean">🧹 Limpieza</button>
+<button class="tab" data-p="updates">⬆️ Actualizaciones</button>
+<button class="tab" data-p="upgrades">🛒 Calidad/Precio</button>
+<button class="tab" data-p="tips">💡 Tips</button>
+<button class="tab" data-p="prompts">🤖 Prompts</button>
 </div>
 
-<!-- ═══ CERTIFICACIONES ═══ -->
-<div class="pnl on" id="p-cert">
-<div class="lb">· certificaciones que importan ·</div>
-<div class="tip"><b>🎓 Estrategia óptima 2026</b><p>Solo necesitas <strong>2 certificaciones máximo</strong>: 1 comprehensiva (Google o IBM) + 1 de herramienta (Power BI o Tableau). Más de eso = tiempo perdido. Mejor invierte en portafolio.</p></div>
+<!-- ═══ LIMPIEZA ═══ -->
+<div class="pnl on" id="p-clean">
+<div class="tip"><b>🧹 Regla de oro</b><p>Mantén siempre <strong>≥15% libre en C:</strong>. Por debajo de eso Windows pagina al disco y todo se vuelve lento. Estos comandos son seguros: no tocan tus archivos, solo cachés y temporales que se regeneran. Ejecútalos en <strong>PowerShell</strong> (los marcados 🛡️ requieren "Ejecutar como administrador").</p></div>
 
-<div class="lb">· gratis o casi gratis — alto impacto ·</div>
-<div class="cert"><div class="cert-icon">🟢</div><div class="cert-body"><div class="cert-name">Google Data Analytics Professional Certificate</div><div class="cert-org">Google · Coursera</div><div class="cert-info">El estándar de oro para career changers. SQL, Python, Tableau, R. <strong>Hack: usa el trial de 7 días de Coursera y completa lo máximo posible. O aplica a Financial Aid (aprobación en 15 días, 100% gratis).</strong></div><div class="cert-meta"><span class="cert-tag tg">Gratis con Aid</span><span class="cert-tag ty">6 meses</span><span class="cert-tag ta">Top #1</span></div></div></div>
-<a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Ir a Google Data Analytics Certificate</div><div class="tool-d">Aplica Financial Aid al inscribirte. Es gratis.</div></div><span class="tool-t tg">Ir</span></a>
-
-<div class="cert"><div class="cert-icon">🔵</div><div class="cert-body"><div class="cert-name">IBM Data Analyst Professional Certificate</div><div class="cert-org">IBM · Coursera</div><div class="cert-info">Más técnico que Google. Excel, Python, Pandas, SQL, Cognos, Jupyter. <strong>Te da IBM Digital Badge y hasta 12 créditos universitarios.</strong> Mismo hack: Financial Aid = gratis.</div><div class="cert-meta"><span class="cert-tag tg">Gratis con Aid</span><span class="cert-tag ty">4 meses</span><span class="cert-tag tc">IBM Badge</span></div></div></div>
-<a href="https://www.coursera.org/professional-certificates/ibm-data-analyst" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Ir a IBM Data Analyst Certificate</div><div class="tool-d">Financial Aid disponible. Badge verificable de IBM.</div></div><span class="tool-t tg">Ir</span></a>
-
-<div class="cert"><div class="cert-icon">⚡</div><div class="cert-body"><div class="cert-name">Microsoft Power BI Data Analyst (PL-300)</div><div class="cert-org">Microsoft</div><div class="cert-info">La certificación de Power BI más reconocida. Examen: $165 USD. <strong>Pero la preparación es 100% gratis en Microsoft Learn.</strong> Se renueva gratis cada año con assessment online. Para tu perfil es la más estratégica.</div><div class="cert-meta"><span class="cert-tag to">$165 examen</span><span class="cert-tag tg">Prep gratis</span><span class="cert-tag ta">Top empresas</span></div></div></div>
-<a href="https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Microsoft Learn — PL-300 Prep (Gratis)</div><div class="tool-d">Todo el material de estudio oficial, gratis.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="cert"><div class="cert-icon">📊</div><div class="cert-body"><div class="cert-name">Tableau Desktop Specialist</div><div class="cert-org">Tableau / Salesforce</div><div class="cert-info">$100 USD el examen. El ROI más alto de todas las certificaciones. Rápida de obtener. <strong>Prep gratis en Tableau eLearning.</strong></div><div class="cert-meta"><span class="cert-tag to">$100 examen</span><span class="cert-tag tg">Prep gratis</span><span class="cert-tag ty">ROI alto</span></div></div></div>
-<a href="https://www.tableau.com/learn/certification/desktop-specialist" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Tableau Certification Info</div><div class="tool-d">Examen $100. Prep en Tableau Public + eLearning.</div></div><span class="tool-t to">$100</span></a>
-
-<div class="lb">· 100% gratis — alto valor ·</div>
-<div class="cert"><div class="cert-icon">🆓</div><div class="cert-body"><div class="cert-name">Alteryx Designer Core Certification</div><div class="cert-org">Alteryx</div><div class="cert-info"><strong>100% gratis.</strong> Certificación oficial de Alteryx. ETL y data prep. Se renueva gratis cada 2 años. Buena para LinkedIn.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag tc">ETL</span></div></div></div>
-<a href="https://community.alteryx.com/t5/Certification/bd-p/product-certification" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Alteryx Core Certification</div><div class="tool-d">Gratis. Examen online.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="cert"><div class="cert-icon">📈</div><div class="cert-body"><div class="cert-name">Google Analytics Individual Qualification (GAIQ)</div><div class="cert-org">Google Skillshop</div><div class="cert-info"><strong>100% gratis.</strong> Certificación oficial de Google Analytics 4. Complétala en 1-2 días. Queda bien en LinkedIn.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag ty">1-2 días</span></div></div></div>
-<a href="https://skillshop.exceedlms.com/student/catalog/list?category_ids=6431-google-analytics-4" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">Google Skillshop — Analytics</div><div class="tool-d">Curso + examen gratis. Certificado oficial Google.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="cert"><div class="cert-icon">📊</div><div class="cert-body"><div class="cert-name">HubSpot Data Analytics Certification</div><div class="cert-org">HubSpot Academy</div><div class="cert-info"><strong>100% gratis.</strong> Buena para combinar datos + marketing. Complétala en menos de 1 semana.</div><div class="cert-meta"><span class="cert-tag tg">100% Gratis</span><span class="cert-tag ty">1 semana</span></div></div></div>
-<a href="https://academy.hubspot.com/" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">HubSpot Academy</div><div class="tool-d">Certificaciones gratis de data, marketing, ventas.</div></div><span class="tool-t tg">Gratis</span></a>
+<div class="lb">· limpieza rápida — semanal (2 min) ·</div>
+<div class="card">
+  <div class="step"><div class="step-n">1</div><div class="step-b"><strong>Temporales del usuario y de Windows.</strong> Lo que más se acumula con el uso diario.</div></div>
+  <div class="code"><button class="copy">copiar</button>Remove-Item "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue</div>
+  <div class="step"><div class="step-n">2</div><div class="step-b"><strong>Vaciar la papelera</strong> de todas las unidades.</div></div>
+  <div class="code"><button class="copy">copiar</button>Clear-RecycleBin -Force -ErrorAction SilentlyContinue</div>
+  <div class="step"><div class="step-n">3</div><div class="step-b"><strong>Caché del navegador</strong> (cierra Chrome primero o quedarán archivos bloqueados).</div></div>
+  <div class="code"><button class="copy">copiar</button>Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue</div>
 </div>
 
-<!-- ═══ HERRAMIENTAS ═══ -->
-<div class="pnl" id="p-tools">
-<div class="lb">· tu stack de herramientas — todo gratis ·</div>
-
-<div class="lb">· escribir código y datos ·</div>
-<a href="https://colab.research.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🔬</div><div class="tool-b"><div class="tool-n">Google Colab</div><div class="tool-d">Jupyter notebooks gratis en la nube. GPU incluida. Cero instalación. Python + Pandas + todo.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://console.cloud.google.com/bigquery" target="_blank" rel="noopener" class="tool"><div class="tool-i">☁️</div><div class="tool-b"><div class="tool-n">Google BigQuery Sandbox</div><div class="tool-d">SQL en la nube. 1 TB de queries/mes gratis. Datasets públicos masivos. Sin tarjeta.</div></div><span class="tool-t tg">1 TB/mes gratis</span></a>
-<a href="https://public.tableau.com/app/discover" target="_blank" rel="noopener" class="tool"><div class="tool-i">📊</div><div class="tool-b"><div class="tool-n">Tableau Public</div><div class="tool-d">Versión completa de Tableau, gratis. Publica dashboards como portafolio online.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://powerbi.microsoft.com/es-es/desktop/" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚡</div><div class="tool-b"><div class="tool-n">Power BI Desktop</div><div class="tool-d">Gratis para Windows. La herramienta de BI #1 en empresas. Publica en Power BI Service gratis.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://vscode.dev" target="_blank" rel="noopener" class="tool"><div class="tool-i">💻</div><div class="tool-b"><div class="tool-n">VS Code (Web)</div><div class="tool-d">Editor de código completo en el navegador. Sin instalar nada. Python, SQL, todo.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://github.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐙</div><div class="tool-b"><div class="tool-n">GitHub</div><div class="tool-d">Tu portafolio de código. Repos ilimitados gratis. GitHub Pages para publicar proyectos.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="lb">· productividad y organización ·</div>
-<a href="https://notion.so" target="_blank" rel="noopener" class="tool"><div class="tool-i">📝</div><div class="tool-b"><div class="tool-n">Notion</div><div class="tool-d">Todo-en-uno: notas, bases de datos, kanban, calendario. Plan personal gratis e ilimitado.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.canva.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎨</div><div class="tool-b"><div class="tool-n">Canva</div><div class="tool-d">Diseño de presentaciones, infografías, CV. Plan gratis generoso. Hack: versión Pro gratis con email .edu.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://excalidraw.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">✏️</div><div class="tool-b"><div class="tool-n">Excalidraw</div><div class="tool-d">Diagramas y wireframes estilo pizarra. Perfecto para diseñar dashboards antes de construirlos.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="lb">· cv y búsqueda de empleo ·</div>
-<a href="https://enhancv.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📄</div><div class="tool-b"><div class="tool-n">Enhancv</div><div class="tool-d">CVs ATS-friendly. Templates profesionales. 1 CV gratis.</div></div><span class="tool-t tg">1 gratis</span></a>
-<a href="https://resumeworded.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🔍</div><div class="tool-b"><div class="tool-n">Resume Worded</div><div class="tool-d">IA que analiza tu CV y LinkedIn. Te dice exactamente qué mejorar. Score gratis.</div></div><span class="tool-t tg">Score gratis</span></a>
-<a href="https://www.jobscan.co" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎯</div><div class="tool-b"><div class="tool-n">Jobscan</div><div class="tool-d">Compara tu CV vs la descripción del empleo. Te dice qué keywords faltan para pasar el ATS.</div></div><span class="tool-t ty">5 scans gratis</span></a>
+<div class="lb">· limpieza profunda — mensual (10–15 min) 🛡️ admin ·</div>
+<div class="card">
+  <div class="step"><div class="step-n">1</div><div class="step-b"><strong>Caché de Windows Update</strong> (~3.6 GB en tu equipo). Detiene servicios, borra y reinicia.</div></div>
+  <div class="code"><button class="copy">copiar</button>Stop-Service wuauserv,bits -Force
+Remove-Item "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force -ErrorAction SilentlyContinue
+Start-Service bits,wuauserv</div>
+  <div class="step"><div class="step-n">2</div><div class="step-b"><strong>Compactar WinSxS</strong> (almacén de componentes, 13.4 GB). Recupera versiones viejas de updates de forma segura.</div></div>
+  <div class="code"><button class="copy">copiar</button>Dism.exe /Online /Cleanup-Image /StartComponentCleanup</div>
+  <div class="step"><div class="step-n">3</div><div class="step-b"><strong>Caché de apps pesadas</strong> (Claude 11.7 GB, etc.). Cierra la app antes; conserva tu config, borra solo caché.</div></div>
+  <div class="code"><button class="copy">copiar</button>$cl="$env:LOCALAPPDATA\Packages\Claude_pzs8sxrjxfjjc\LocalCache"
+Get-ChildItem $cl -Recurse -Directory -Include Cache,'Code Cache',GPUCache -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item "$($_.FullName)\*" -Recurse -Force -ErrorAction SilentlyContinue }</div>
 </div>
 
-<!-- ═══ PRÁCTICA ═══ -->
-<div class="pnl" id="p-practice">
-<div class="lb">· plataformas de práctica — nivel entrevista ·</div>
-<div class="tip"><b>⚔️ Practica 30 min diarios mínimo</b><p>SQL diario = empleo seguro. <strong>SQLZoo para aprender, HackerRank para practicar, LeetCode para nivel entrevista, StrataScratch para preguntas reales.</strong></p></div>
+<div class="lb">· automatización — actívalo una vez ·</div>
+<div class="hack"><div class="hack-title">⚙️ Sensor de almacenamiento</div><div class="hack-body">Windows puede limpiar temporales y papelera <strong>solo, cada semana</strong>. Actívalo en <strong>Configuración → Sistema → Almacenamiento → Sensor de almacenamiento</strong>. Es la forma de no volver a llegar al 92% de disco lleno.</div></div>
 
-<div class="lb">· sql (prioridad #1) ·</div>
-<a href="https://sqlzoo.net/wiki/SQL_Tutorial" target="_blank" rel="noopener" class="tool"><div class="tool-i">🗃️</div><div class="tool-b"><div class="tool-n">SQLZoo</div><div class="tool-d">Tutorial interactivo paso a paso. El mejor para empezar desde cero.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.hackerrank.com/domains/sql" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚔️</div><div class="tool-b"><div class="tool-n">HackerRank SQL</div><div class="tool-d">Desafíos por dificultad. Perfecto para práctica diaria. Badges en tu perfil.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://leetcode.com/problemset/database/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏆</div><div class="tool-b"><div class="tool-n">LeetCode Database</div><div class="tool-d">Problemas nivel entrevista. Empieza por Easy, sube a Medium. Las empresas usan estos mismos problemas.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.stratascratch.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎯</div><div class="tool-b"><div class="tool-n">StrataScratch</div><div class="tool-d">Preguntas SQL REALES de entrevistas en Amazon, Meta, Google. El más realista que existe.</div></div><span class="tool-t ty">Free tier</span></a>
-<a href="https://mode.com/sql-tutorial/" target="_blank" rel="noopener" class="tool"><div class="tool-i">📚</div><div class="tool-b"><div class="tool-n">Mode SQL Tutorial</div><div class="tool-d">Tutorial completo con sandbox integrado. Desde básico hasta Window Functions.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://8weeksqlchallenge.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📅</div><div class="tool-b"><div class="tool-n">8 Week SQL Challenge</div><div class="tool-d">8 case studies reales. Perfecto para portafolio. Danny Ma lo creó y los recruiters lo conocen.</div></div><span class="tool-t tg">Gratis</span></a>
-
-<div class="lb">· python ·</div>
-<a href="https://www.kaggle.com/learn" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐼</div><div class="tool-b"><div class="tool-n">Kaggle Learn</div><div class="tool-d">Micro-cursos gratuitos: Python, Pandas, Data Viz, SQL, ML. Certificados al completar.</div></div><span class="tool-t tg">Gratis + cert</span></a>
-<a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener" class="tool"><div class="tool-i">📦</div><div class="tool-b"><div class="tool-n">Kaggle Datasets</div><div class="tool-d">Miles de datasets reales para practicar. Úsalos para proyectos de portafolio.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.datacamp.com/promo/free-week" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎒</div><div class="tool-b"><div class="tool-n">DataCamp Free Week</div><div class="tool-d">Periódicamente dan semanas gratis. Aprovecha para completar cursos de Python/SQL.</div></div><span class="tool-t to">Periódico</span></a>
-
-<div class="lb">· excel & power bi ·</div>
-<a href="https://exceljet.net/formulas" target="_blank" rel="noopener" class="tool"><div class="tool-i">📊</div><div class="tool-b"><div class="tool-n">ExcelJet</div><div class="tool-d">La mejor referencia de fórmulas Excel que existe. Ejemplos claros para cada función.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://dax.guide" target="_blank" rel="noopener" class="tool"><div class="tool-i">⚡</div><div class="tool-b"><div class="tool-n">DAX Guide</div><div class="tool-d">Referencia completa de todas las funciones DAX para Power BI. Tu biblia de DAX.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.makeovermonday.co.uk/data/" target="_blank" rel="noopener" class="tool"><div class="tool-i">📈</div><div class="tool-b"><div class="tool-n">Makeover Monday</div><div class="tool-d">Dataset nuevo cada semana para practicar visualización. Comunidad global. Portafolio.</div></div><span class="tool-t tg">Gratis</span></a>
+<div class="tip" style="background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(239,68,68,.02));border-color:rgba(239,68,68,.15)"><b style="color:var(--rd)">⛔ Qué NO borrar nunca</b><p>No borres a mano: <strong>C:\Windows\WinSxS</strong> (usa solo DISM), <strong>System Volume Information</strong>, <strong>$Recycle.Bin</strong> (usa Clear-RecycleBin), ni la carpeta <strong>Temp\claude</strong> mientras yo trabajo. Tampoco borres carpetas de juegos/programas a mano: desinstálalos desde su launcher.</p></div>
 </div>
 
-<!-- ═══ IA ═══ -->
-<div class="pnl" id="p-ai">
-<div class="lb">· herramientas de ia — tu ventaja #1 en 2026 ·</div>
-<div class="tip"><b>🤖 La IA no te va a reemplazar. Alguien que USE IA sí.</b><p>Un analista que usa IA bien <strong>produce 3x más rápido</strong>. Estas herramientas son tu multiplicador de productividad.</p></div>
+<!-- ═══ ACTUALIZACIONES ═══ -->
+<div class="pnl" id="p-updates">
+<div class="lb">· software a actualizar — por prioridad ·</div>
+<div class="tip"><b>⬆️ Orden recomendado</b><p>Actualizar drivers y Windows mejora rendimiento, seguridad y estabilidad <strong>sin gastar un peso</strong>. Hazlo en este orden. En tu diagnóstico, el driver de la GPU tenía casi un año.</p></div>
 
-<a href="https://claude.ai" target="_blank" rel="noopener" class="tool"><div class="tool-i">🧠</div><div class="tool-b"><div class="tool-n">Claude (Anthropic)</div><div class="tool-d">Yo. Úsame para: escribir SQL, depurar código, analizar datos, preparar entrevistas, optimizar CV. Plan gratis generoso.</div></div><span class="tool-t ta">Este cerebro</span></a>
-<a href="https://chat.openai.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">💬</div><div class="tool-b"><div class="tool-n">ChatGPT</div><div class="tool-d">Bueno para brainstorming, redacción, y Code Interpreter para análisis rápido de datos.</div></div><span class="tool-t tg">Free tier</span></a>
-<a href="https://gemini.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">✨</div><div class="tool-b"><div class="tool-n">Google Gemini</div><div class="tool-d">Acceso a Google Search en tiempo real. Útil para investigar empresas antes de aplicar.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://github.com/features/copilot" target="_blank" rel="noopener" class="tool"><div class="tool-i">🤖</div><div class="tool-b"><div class="tool-n">GitHub Copilot</div><div class="tool-d">Autocompletado de código con IA. Gratis para estudiantes (con tu email universitario).</div></div><span class="tool-t tg">Gratis .edu</span></a>
-<a href="https://gamma.app" target="_blank" rel="noopener" class="tool"><div class="tool-i">📽️</div><div class="tool-b"><div class="tool-n">Gamma</div><div class="tool-d">Genera presentaciones profesionales con IA. Describe tu tema y crea slides en segundos.</div></div><span class="tool-t tg">Free tier</span></a>
-<a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="tool"><div class="tool-i">📓</div><div class="tool-b"><div class="tool-n">NotebookLM (Google)</div><div class="tool-d">Sube documentos/PDFs y Google los analiza. Perfecto para estudiar material técnico rápido.</div></div><span class="tool-t tg">Gratis</span></a>
+<div class="cert"><div class="cert-icon">🪟</div><div class="cert-body"><div class="cert-name">1 · Windows Update</div><div class="cert-org">Prioridad ALTA · gratis</div><div class="cert-info">Parches de seguridad y rendimiento. Revisa e instala todo lo pendiente, luego reinicia.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag tr">Seguridad</span></div></div></div>
+<div class="code"><button class="copy">copiar</button>Configuración → Windows Update → Buscar actualizaciones</div>
+
+<div class="cert"><div class="cert-icon">🎮</div><div class="cert-body"><div class="cert-name">2 · Driver de GPU — AMD Radeon RX 580</div><div class="cert-org">Prioridad ALTA · gratis</div><div class="cert-info">Tu driver databa de jun-2025. Actualízalo con <strong>AMD Software: Adrenalin Edition</strong> para mejor rendimiento y estabilidad gráfica.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag ta">+Rendimiento</span></div></div></div>
+<a href="https://www.amd.com/en/support/download/drivers.html" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">AMD Adrenalin — descargar driver</div><div class="tool-d">Detecta tu RX 580 automáticamente. Instala "Recommended".</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="cert"><div class="cert-icon">🌐</div><div class="cert-body"><div class="cert-name">3 · Navegadores y apps</div><div class="cert-org">Prioridad MEDIA · gratis</div><div class="cert-info">Chrome/Edge: <code>chrome://settings/help</code>. Mantén también actualizados Claude, VS Code, Steam.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span></div></div></div>
+
+<div class="cert"><div class="cert-icon">🧩</div><div class="cert-body"><div class="cert-name">4 · Chipset Intel + BIOS de la placa</div><div class="cert-org">Prioridad BAJA · gratis (con cuidado)</div><div class="cert-info">Driver de chipset Intel mejora estabilidad. El BIOS solo actualízalo si tienes un problema concreto o vas a cambiar CPU — un corte de luz a mitad puede inutilizar la placa.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag ty">Con cuidado</span></div></div></div>
+
+<div class="lb">· herramientas para ver el estado real ·</div>
+<a href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener" class="tool"><div class="tool-i">💽</div><div class="tool-b"><div class="tool-n">CrystalDiskInfo</div><div class="tool-d">SMART detallado de tus discos (sectores reasignados, horas, °C). Clave para vigilar el HDD WD antiguo.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.hwinfo.com/download/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🌡️</div><div class="tool-b"><div class="tool-n">HWiNFO64</div><div class="tool-d">Temperaturas reales de CPU/GPU (la placa no las expone por ACPI). Útil para detectar sobrecalentamiento.</div></div><span class="tool-t tg">Gratis</span></a>
 </div>
 
-<!-- ═══ HACKS ═══ -->
-<div class="pnl" id="p-hacks">
-<div class="lb">· hacks y ventajas competitivas ·</div>
+<!-- ═══ CALIDAD/PRECIO ═══ -->
+<div class="pnl" id="p-upgrades">
+<div class="tip"><b>🛒 Mejoras por relación impacto/precio</b><p>Tu i3-10100 + RX 580 son <strong>suficientes para análisis de datos</strong>. Los cuellos de botella reales son <strong>almacenamiento y RAM</strong>. Precios orientativos Colombia 2026 — verifica antes de comprar.</p></div>
 
-<div class="hack"><div class="hack-title">🎓 Coursera Financial Aid = Todo gratis</div><div class="hack-body">Cualquier curso en Coursera tiene opción de <strong>Financial Aid</strong>. Responde 2 preguntas cortas explicando que necesitas el curso para tu carrera. <strong>Se aprueba en 15 días. 100% gratis, con certificado.</strong> Funciona para Google, IBM, Meta, etc. Aplica a varios simultáneamente.</div></div>
+<div class="lb">· #1 — máximo impacto ·</div>
+<div class="cert"><div class="cert-icon">🥇</div><div class="cert-body"><div class="cert-name">SSD NVMe 1 TB (reemplazar el de 250 GB de C:)</div><div class="cert-org">~$180.000–280.000 COP · ⭐ mejor inversión</div><div class="cert-info">Tu C: vive al 92% lleno — es la causa #1 de lentitud. Pasar de 250 GB a 1 TB elimina el problema de raíz y da más velocidad. Requiere clonar/reinstalar Windows. Alternativa sin gasto: mover datos a D:/E:.</div><div class="cert-meta"><span class="cert-tag tg">Impacto ALTO</span><span class="cert-tag ta">$$ Bajo</span></div></div></div>
 
-<div class="hack"><div class="hack-title">🎒 GitHub Student Developer Pack</div><div class="hack-body">Con tu email universitario (.edu) obtienes: <strong>GitHub Copilot gratis, Canva Pro gratis, dominio .tech gratis, créditos de Azure y AWS, Notion premium</strong> y +100 herramientas. Todo gratis mientras seas estudiante. <a href="https://education.github.com/pack" target="_blank" rel="noopener" style="color:var(--a2)">→ Aplica aquí</a></div></div>
+<div class="lb">· #2 — gran impacto en multitarea ·</div>
+<div class="cert"><div class="cert-icon">🥈</div><div class="cert-body"><div class="cert-name">RAM 16 → 32 GB (2×16 GB DDR4-2666)</div><div class="cert-org">~$160.000–240.000 COP</div><div class="cert-info">Con solo 4.5 GB libres, al abrir Chrome + Claude + BlueStacks Windows empieza a paginar. 32 GB en dual channel te dan aire de sobra. Compatible con tu placa LGA1200.</div><div class="cert-meta"><span class="cert-tag tg">Impacto ALTO</span><span class="cert-tag ta">$$ Medio</span></div></div></div>
 
-<div class="hack"><div class="hack-title">☁️ Google Cloud Free Tier = BigQuery gratis</div><div class="hack-body">Google Cloud da <strong>$300 USD en créditos gratis</strong> por 90 días. Después, BigQuery Sandbox es siempre gratis hasta 1 TB/mes de queries. No necesitas tarjeta para el sandbox. Usa esto para practicar SQL sobre datasets de millones de filas.</div></div>
+<div class="lb">· #3 — fiabilidad de tus datos ·</div>
+<div class="cert"><div class="cert-icon">🥉</div><div class="cert-body"><div class="cert-name">Reemplazar el HDD WD WD10EACS (F:/G:)</div><div class="cert-org">~$200.000–320.000 COP (2 TB)</div><div class="cert-info">Es un disco de ~2009-2011. SMART dice OK hoy, pero tiene datos personales irremplazables (videos/audio del celular). Cámbialo por un HDD 2 TB nuevo o un SSD SATA. <strong>Mientras tanto: respáldalos ya.</strong></div><div class="cert-meta"><span class="cert-tag ty">Fiabilidad</span><span class="cert-tag ta">$$ Medio</span></div></div></div>
 
-<div class="hack"><div class="hack-title">💼 LinkedIn Learning = Gratis con biblioteca pública</div><div class="hack-body">Muchas bibliotecas públicas (incluyendo en Colombia) dan acceso <strong>gratis a LinkedIn Learning</strong>. Consulta en tu biblioteca local o en la <a href="https://www.biblored.gov.co" target="_blank" rel="noopener" style="color:var(--a2)">Red de Bibliotecas de Bogotá (BibloRed)</a>. Miles de cursos profesionales sin pagar.</div></div>
-
-<div class="hack"><div class="hack-title">📊 Tableau para estudiantes = Gratis 1 año</div><div class="hack-body">Tableau Desktop (versión completa, no Public) es <strong>gratis para estudiantes</strong> por 1 año renovable. Necesitas email universitario. <a href="https://www.tableau.com/academic/students" target="_blank" rel="noopener" style="color:var(--a2)">→ Aplica aquí</a>. Esto vale $840 USD/año normalmente.</div></div>
-
-<div class="hack"><div class="hack-title">🏆 El hack del portafolio con 8 Week SQL Challenge</div><div class="hack-body">Completa los 8 case studies de <a href="https://8weeksqlchallenge.com" target="_blank" rel="noopener" style="color:var(--a2)">8weeksqlchallenge.com</a>, publícalos en GitHub con READMEs profesionales. <strong>Los recruiters de data conocen este challenge.</strong> Es la forma más rápida de tener un portafolio SQL respetable.</div></div>
-
-<div class="hack"><div class="hack-title">🇧🇷 Tu portugués = Acceso a mercado brasileño</div><div class="hack-body">Brasil tiene <strong>5x más ofertas de data analyst</strong> que Colombia. Tu portugués avanzado te da acceso a un mercado que la mayoría de analistas colombianos no pueden tocar. <strong>Busca en LinkedIn en portugués: "analista de dados remoto".</strong> Menos competencia, más oportunidades.</div></div>
-
-<div class="hack"><div class="hack-title">📧 El hack del networking en LinkedIn</div><div class="hack-body"><strong>Conecta con 5 recruiters por semana</strong> que publiquen roles de data. No les pidas trabajo directamente. Comenta en sus posts con insights inteligentes. Después de 2-3 interacciones, te reconocen. Cuando publiquen un rol, serás el primero en su mente. Esto funciona mejor que aplicar por el portal.</div></div>
-
-<div class="hack"><div class="hack-title">💰 Upwork: El hack del precio hora</div><div class="hack-body">No empieces cobrando barato. Pon tu rate a <strong>$25-35 USD/hora para Excel/SQL</strong>. Acepta 1-2 proyectos pequeños con descuento para obtener reviews. Después sube. Los clientes que buscan barato no son buenos clientes. Los que pagan $30+/hr valoran tu trabajo y repiten.</div></div>
-
-<div class="hack"><div class="hack-title">🔍 El hack de "I noticed..." en cover letters</div><div class="hack-body">Antes de aplicar, investiga la empresa. En tu cover letter, escribe: <strong>"I noticed that [Company] recently [lanzó producto/abrió mercado/etc.]. I believe my experience in [skill] could help [objetivo específico]."</strong> Esto muestra que investigaste y no mandaste un copy-paste. Te diferencia del 95% de aplicantes.</div></div>
+<div class="lb">· opcional — solo si lo necesitas ·</div>
+<div class="cert"><div class="cert-icon">⚪</div><div class="cert-body"><div class="cert-name">CPU i5-10400 / i5-11400 (socket LGA1200)</div><div class="cert-org">Prioridad BAJA</div><div class="cert-info">Solo si el i3 se te queda corto en tareas pesadas. Para data analysis actual no es necesario. Aprovecha que tu placa lo soporta sin cambiar nada más.</div><div class="cert-meta"><span class="cert-tag to">Opcional</span></div></div></div>
+<div class="cert"><div class="cert-icon">⚪</div><div class="cert-body"><div class="cert-name">GPU — la RX 580 está bien</div><div class="cert-org">No cambiar por ahora</div><div class="cert-info">Cumple de sobra para 1080p y análisis de datos. Cambiarla sería gasto sin retorno para tu uso. Solo si te vuelcas al gaming exigente.</div><div class="cert-meta"><span class="cert-tag tg">Mantener</span></div></div></div>
 </div>
 
-<!-- ═══ GRATIS ═══ -->
-<div class="pnl" id="p-free">
-<div class="lb">· recursos 100% gratis — cursos completos ·</div>
+<!-- ═══ TIPS ═══ -->
+<div class="pnl" id="p-tips">
+<div class="lb">· hábitos que mantienen el PC óptimo ·</div>
 
-<div class="lb">· cursos completos gratis ·</div>
-<a href="https://www.khanacademy.org/math/statistics-probability" target="_blank" rel="noopener" class="tool"><div class="tool-i">📐</div><div class="tool-b"><div class="tool-n">Khan Academy — Estadística</div><div class="tool-d">Estadística descriptiva e inferencial. Interactivo. El mejor recurso gratis de estadística.</div></div><span class="tool-t tg">100% Gratis</span></a>
-<a href="https://www.freecodecamp.org/learn/data-analysis-with-python/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐍</div><div class="tool-b"><div class="tool-n">freeCodeCamp — Data Analysis with Python</div><div class="tool-d">Curso completo de análisis de datos con Python. Certificado al final. 300 horas.</div></div><span class="tool-t tg">100% Gratis</span></a>
-<a href="https://cs50.harvard.edu/sql/2024/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏛️</div><div class="tool-b"><div class="tool-n">Harvard CS50 SQL</div><div class="tool-d">Curso de SQL de Harvard. Completamente gratis. Certificado disponible. Prestigio máximo.</div></div><span class="tool-t tg">Harvard gratis</span></a>
-<a href="https://cs50.harvard.edu/python/2022/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🏛️</div><div class="tool-b"><div class="tool-n">Harvard CS50 Python</div><div class="tool-d">Introducción a Python de Harvard. Gratis. El curso de programación más famoso del mundo.</div></div><span class="tool-t tg">Harvard gratis</span></a>
-<a href="https://www.youtube.com/@AlexTheAnalyst" target="_blank" rel="noopener" class="tool"><div class="tool-i">📹</div><div class="tool-b"><div class="tool-n">Alex The Analyst (YouTube)</div><div class="tool-d">El mejor canal de YouTube para Data Analysts. SQL, Excel, Tableau, Power BI, portafolio. Todo gratis.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://www.youtube.com/@LukeBarousse" target="_blank" rel="noopener" class="tool"><div class="tool-i">📹</div><div class="tool-b"><div class="tool-n">Luke Barousse (YouTube)</div><div class="tool-d">Proyectos de datos reales, Python para data. Muy práctico y actualizado.</div></div><span class="tool-t tg">Gratis</span></a>
+<div class="hack"><div class="hack-title">💾 Regla de respaldo 3-2-1</div><div class="hack-body"><strong>3 copias</strong> de lo irremplazable, en <strong>2 medios</strong> distintos, <strong>1 fuera del PC</strong> (nube o disco externo). Tus videos/audio del celular están hoy en un solo disco viejo: viólalo y respáldalos a E: o a la nube hoy mismo.</div></div>
 
-<div class="lb">· libros y referencias gratis ·</div>
-<a href="https://www.storytellingwithdata.com/chart-guide" target="_blank" rel="noopener" class="tool"><div class="tool-i">📖</div><div class="tool-b"><div class="tool-n">Storytelling with Data — Chart Guide</div><div class="tool-d">La referencia #1 de visualización. Qué gráfico usar y cuándo. Gratis online.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🐼</div><div class="tool-b"><div class="tool-n">Pandas Official Tutorials</div><div class="tool-d">Tutoriales oficiales de Pandas. Mejor que cualquier curso pago.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://seaborn.pydata.org/examples/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🎨</div><div class="tool-b"><div class="tool-n">Seaborn Gallery</div><div class="tool-d">Galería de gráficos con código. Copia y adapta para tus proyectos.</div></div><span class="tool-t tg">Gratis</span></a>
-<a href="https://cloud.google.com/bigquery/public-data" target="_blank" rel="noopener" class="tool"><div class="tool-i">☁️</div><div class="tool-b"><div class="tool-n">BigQuery Public Datasets</div><div class="tool-d">Datasets masivos gratuitos: GitHub, Stack Overflow, Wikipedia, Bitcoin, clima, y más.</div></div><span class="tool-t tg">Gratis</span></a>
+<div class="hack"><div class="hack-title">🚀 Higiene del arranque</div><div class="hack-body">Tenías 25+ programas iniciando con Windows (Razer, Corsair, SteelSeries, BlueStacks, EA, Steam…). Desactiva en <strong>Administrador de tareas → Inicio</strong> los que no necesites al encender. Arrancan igual cuando abras su app. Resultado: enciende más rápido y con menos RAM ocupada.</div></div>
+
+<div class="hack"><div class="hack-title">📊 Mantén C: por debajo del 85%</div><div class="hack-body">Es el límite donde un SSD empieza a perder velocidad y Windows a sufrir. Si lo pasas seguido, es señal de que necesitas el SSD más grande (pestaña Calidad/Precio) o mover datos a otra unidad.</div></div>
+
+<div class="hack"><div class="hack-title">🌡️ Vigila temperaturas 2 veces al año</div><div class="hack-body">Abre HWiNFO64 bajo carga. CPU/GPU por encima de ~85 °C sostenidos = hora de limpiar polvo y revisar pasta térmica. Un PC limpio por dentro rinde y dura más.</div></div>
+
+<div class="hack"><div class="hack-title">🌐 Red por cable = tu mejor jugada</div><div class="hack-body">Ya usas Ethernet (1 Gbps, 0% pérdida de paquetes): es lo correcto, más estable que Wi-Fi. Si alguna vez sientes "cortes", primero descarta el disco lleno; luego revisa el módem en <strong>http://192.168.1.1</strong> y desactiva la descarga P2P de Windows Update (Configuración → Windows Update → Optimización de entrega).</div></div>
+
+<div class="hack"><div class="hack-title">🧹 Rutina mínima sostenible</div><div class="hack-body"><strong>Semanal:</strong> limpieza rápida (pestaña Limpieza). <strong>Mensual:</strong> limpieza profunda + buscar updates. <strong>Trimestral:</strong> revisar SMART con CrystalDiskInfo y depurar la carpeta Descargas. Con eso el PC se mantiene fino sin esfuerzo.</div></div>
+
+<div class="hack"><div class="hack-title">🛡️ Defender es suficiente</div><div class="hack-body">No instales 3 antivirus: se pelean entre sí y ralentizan todo. Windows Defender activo + sentido común basta. Lanza un escaneo completo de vez en cuando: <code>Start-MpScan -ScanType FullScan</code>.</div></div>
+</div>
+
+<!-- ═══ PROMPTS ═══ -->
+<div class="pnl" id="p-prompts">
+<div class="tip"><b>🤖 Prompts para que Claude haga el trabajo</b><p>Copia uno y pégamelo en una sesión de Claude Code en este equipo. Yo ejecuto el diagnóstico/limpieza real vía PowerShell y te reporto. Cada prompt es autosuficiente.</p></div>
+
+<div class="hack"><div class="hack-title">🧹 CEREBRO: LIMPIA MI PC</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: LIMPIA MI PC.
+Eres mi administrador de sistemas en este Windows. Ejecuta limpieza SEGURA paso a paso:
+1) Mide C: libre antes. 2) Borra temporales de usuario y Windows, papelera, caché de Chrome y de Claude. 3) 🛡️ Limpia caché de Windows Update y compacta WinSxS con DISM. 4) Mide C: libre después y reporta GB recuperados.
+Reglas: NO borres archivos personales, juegos ni programas. NO toques WinSxS a mano (solo DISM). Avísame antes de cualquier paso irreversible.</div></div>
+
+<div class="hack"><div class="hack-title">🩺 CEREBRO: DIAGNOSTICA HARDWARE</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: DIAGNOSTICA HARDWARE.
+Revisa la salud del equipo y dame un informe: CPU (modelo, carga), RAM (módulos, libre, dual channel), GPU (modelo, driver, fecha), y los 3 discos (modelo, tipo, tamaño, estado SMART, errores en el log de eventos). Marca en rojo cualquier riesgo (disco antiguo, RAM ajustada, driver viejo) y dame la acción recomendada de cada uno. Solo datos reales medidos, nada inventado.</div></div>
+
+<div class="hack"><div class="hack-title">📡 CEREBRO: REVISA MI RED</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: REVISA MI RED.
+Diagnostica mi conexión: identifica el gateway/módem, adaptador activo y DNS. Haz ping al módem, a 8.8.8.8 y a 1.1.1.1 (latencia y % de pérdida). Lista los procesos con más conexiones y revisa si la descarga P2P de Windows Update (DoSvc) está consumiendo banda. Dime si el problema está en mi PC, en el módem o en el proveedor, y cómo entrar a http://192.168.1.1 para revisarlo.</div></div>
+
+<div class="hack"><div class="hack-title">⬆️ CEREBRO: QUÉ ACTUALIZO</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: QUÉ ACTUALIZO.
+Revisa qué software y drivers de este PC conviene actualizar, por prioridad: Windows, driver de GPU, navegadores, chipset/BIOS. Dime la versión actual vs. lo disponible cuando puedas verificarlo, el impacto de cada actualización y el enlace oficial. Marca lo urgente (seguridad/rendimiento) vs. lo opcional.</div></div>
+
+<div class="hack"><div class="hack-title">💾 CEREBRO: RESPALDA MIS DATOS</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: RESPALDA MIS DATOS.
+En G: tengo datos personales irremplazables (Videos celular, Audio, Biblioteca Virtual, Xiaomi) sobre el HDD WD antiguo. Cópialos a E: (SSD, más fiable) con robocopy conservando estructura, verifica que la copia esté completa comparando tamaños y cantidad de archivos, y reporta. NO borres los originales hasta que yo confirme.</div></div>
+
+<div class="hack"><div class="hack-title">🗂️ CEREBRO: ORDENA UNA UNIDAD</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: ORDENA LA UNIDAD [letra].
+Analiza la unidad [letra]: lista las carpetas por tamaño, detecta archivos duplicados y temporales/instaladores viejos en Descargas, y propón una estructura por categorías. Muéstrame el plan ANTES de mover o borrar nada. Para lo dudoso, muévelo a una carpeta _CUARENTENA en vez de borrar. Nunca toques carpetas de juegos/programas instalados.</div></div>
 </div>
 
 </div>
@@ -229,6 +213,11 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
 document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
 t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+// copiar bloques de código
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+const code=b.parentElement.innerText.replace(/^copiar\s*/,'').trim();
+navigator.clipboard.writeText(code).then(()=>{const o=b.textContent;b.textContent='copiado ✓';b.classList.add('ok');setTimeout(()=>{b.textContent=o;b.classList.remove('ok')},1500)});
 }));
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
