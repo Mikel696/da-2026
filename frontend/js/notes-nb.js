@@ -97,23 +97,97 @@ const NotNB = (function(){
     render();
   }
 
-  /* ── CRUD notebooks ───────────────────────────────────────── */
-  function create(){
+  /* ── NOTEBOOK TEMPLATES · 5 starters (estudio sistemas / programación) ── */
+  const NB_TEMPLATES = {
+    blank: { label:'⚪ En blanco', desc:'Sin páginas pre-creadas', pages: [] },
+    prog: {
+      label: '💻 Lenguaje de programación',
+      desc: 'Sintaxis · Tipos · Control · Funciones · OOP · Stdlib · Ejemplos · Recursos',
+      pages: [
+        { title:'📖 Introducción y motivación', body:'<div><b>Origen e historia.</b></div><div>Año, autor, motivo de diseño, problemas que resolvía.</div><div><br></div><div><b>Filosofía.</b></div><div>Principios de diseño que el lenguaje defiende (legibilidad, performance, seguridad, etc.).</div><div><br></div><div><b>Casos de uso típicos.</b></div><div>Ámbitos donde brilla y ámbitos donde no se recomienda.</div>' },
+        { title:'✏️ Sintaxis básica', body:'<div><b>Estructura general de un programa.</b></div><div>Punto de entrada, comentarios, indentación o llaves.</div><div><br></div><div><b>Variables y constantes.</b></div><div>Declaración, inferencia, mutabilidad.</div><div><br></div><div><b>Operadores.</b></div><div>Aritméticos, lógicos, comparación, asignación, bitwise.</div>' },
+        { title:'🏷️ Sistema de tipos', body:'<div><b>Tipos primitivos.</b></div><div>int, float, bool, char, string — tamaño y rango.</div><div><br></div><div><b>Tipos compuestos.</b></div><div>array, list, tuple, dict / map, set, struct.</div><div><br></div><div><b>Tipado estático vs dinámico · fuerte vs débil.</b></div><div>¿Hay inferencia? ¿Hay genéricos?</div>' },
+        { title:'⚙️ Control de flujo', body:'<div><b>Condicionales.</b></div><div>if / else / switch · pattern matching (si aplica).</div><div><br></div><div><b>Loops.</b></div><div>for, while, do-while, break, continue.</div><div><br></div><div><b>Manejo de errores.</b></div><div>try/catch · result types · panics.</div>' },
+        { title:'🧩 Funciones', body:'<div><b>Definición y argumentos.</b></div><div>Sintaxis, default args, kwargs, varargs.</div><div><br></div><div><b>Paso por valor vs referencia.</b></div><div><br></div><div><b>Funciones de primera clase.</b></div><div>Closures, lambdas, higher-order functions.</div>' },
+        { title:'🏛️ OOP / Estructuras', body:'<div><b>Clases, structs, objetos.</b></div><div>Constructor, atributos, métodos.</div><div><br></div><div><b>Herencia, polimorfismo, encapsulamiento.</b></div><div><br></div><div><b>Interfaces / Traits / Protocols.</b></div>' },
+        { title:'📚 Librería estándar', body:'<div><b>Módulos core.</b></div><div>I/O, strings, collections, math, time, random, regex.</div><div><br></div><div><b>Cómo importar y nombrar.</b></div><div><br></div><div><b>Top-3 librerías más usadas del ecosistema.</b></div>' },
+        { title:'🚀 Ejemplos de código', body:'<div><b>Hello world.</b></div><div>(insertá un code block aquí)</div><div><br></div><div><b>FizzBuzz.</b></div><div><br></div><div><b>Lectura de archivo + procesamiento.</b></div><div><br></div><div><b>API HTTP request.</b></div>' },
+        { title:'📡 Ecosistema y herramientas', body:'<div><b>Package manager.</b></div><div>Comandos básicos.</div><div><br></div><div><b>Build / runner.</b></div><div><br></div><div><b>Testing framework.</b></div><div><br></div><div><b>Linter / formatter.</b></div>' },
+        { title:'📌 Recursos y referencia', body:'<div><b>Documentación oficial.</b></div><div>Link.</div><div><br></div><div><b>Libros recomendados.</b></div><div><br></div><div><b>Cursos / Tutoriales.</b></div><div><br></div><div><b>Cheatsheet personal.</b></div>' },
+      ]
+    },
+    algo: {
+      label: '🧮 Algoritmo / Estructura de datos',
+      desc: 'Problema · Análisis · Pseudocódigo · Implementación · Complejidad · Tests',
+      pages: [
+        { title:'❓ Problema', body:'<div><b>Enunciado.</b></div><div>Descripción clara y autónoma.</div><div><br></div><div><b>Entrada / Salida.</b></div><div>Tipos, rangos, casos borde.</div><div><br></div><div><b>Restricciones.</b></div><div>Tamaño máximo, tiempo, memoria.</div>' },
+        { title:'🧠 Análisis y enfoque', body:'<div><b>Idea general.</b></div><div>Cómo se piensa la solución antes de codear.</div><div><br></div><div><b>Estructura de datos elegida y por qué.</b></div><div><br></div><div><b>Trade-offs descartados.</b></div>' },
+        { title:'📝 Pseudocódigo', body:'<div>Pasos numerados, lenguaje natural + estructura algorítmica.</div><div><br></div><div>(insertá un code block para el pseudo)</div>' },
+        { title:'💻 Implementación', body:'<div>Código real en el lenguaje elegido.</div><div><br></div><div>(insertá un code block)</div>' },
+        { title:'⏱️ Complejidad', body:'<div><b>Tiempo.</b></div><div>Mejor caso · promedio · peor caso (Big-O).</div><div><br></div><div><b>Espacio.</b></div><div>Estructuras auxiliares.</div><div><br></div><div><b>Justificación.</b></div>' },
+        { title:'✅ Tests y casos borde', body:'<div><b>Happy path.</b></div><div>Entrada típica.</div><div><br></div><div><b>Casos borde.</b></div><div>Vacío, 1 elemento, máximo, negativos.</div><div><br></div><div><b>Casos que rompen ingenuamente.</b></div>' },
+        { title:'🔍 Variantes y extensiones', body:'<div><b>Versión optimizada.</b></div><div><br></div><div><b>Problemas similares.</b></div><div>LeetCode / HackerRank IDs.</div>' },
+      ]
+    },
+    concept: {
+      label: '🧠 Concepto académico',
+      desc: 'Definición · Por qué importa · Ejemplos · Conexiones · Examen',
+      pages: [
+        { title:'📖 Definición formal', body:'<div>Definición textual del concepto, lo más cercana al libro/profesor.</div>' },
+        { title:'💡 Intuición', body:'<div>Explicación con tus propias palabras, como se la explicarías a alguien sin contexto.</div>' },
+        { title:'🚀 Ejemplos', body:'<div><b>Ejemplo 1.</b></div><div><br></div><div><b>Ejemplo 2.</b></div><div><br></div><div><b>Contra-ejemplo (cuándo NO aplica).</b></div>' },
+        { title:'🔗 Conexiones', body:'<div><b>Conceptos relacionados.</b></div><div>De qué depende, qué cosas dependen de esto.</div><div><br></div><div><b>Otros cursos / materias donde aparece.</b></div>' },
+        { title:'❓ Preguntas de examen', body:'<div><b>Pregunta tipo 1.</b></div><div>(redactá con respuesta corta abajo)</div><div><br></div><div><b>Pregunta tipo 2.</b></div>' },
+        { title:'📚 Fuentes', body:'<div><b>Libro / capítulo.</b></div><div><br></div><div><b>Video / clase.</b></div><div><br></div><div><b>Link oficial.</b></div>' },
+      ]
+    },
+    workflow: {
+      label: '🛠️ Workflow / Proyecto',
+      desc: 'Objetivo · Stack · Tareas · Recursos · Logs · Retrospectiva',
+      pages: [
+        { title:'🎯 Objetivo y alcance', body:'<div><b>¿Qué resultado quiero al terminar?</b></div><div><br></div><div><b>Lo que NO está dentro del alcance.</b></div><div><br></div><div><b>Criterios de éxito.</b></div>' },
+        { title:'⚙️ Stack y arquitectura', body:'<div><b>Lenguajes / frameworks.</b></div><div><br></div><div><b>Servicios externos.</b></div><div><br></div><div><b>Diagrama (insertá imagen o exportá un mapa mental).</b></div>' },
+        { title:'✅ Tareas pendientes', body:'<div><span class="nb-check">☐</span> Tarea 1</div><div><span class="nb-check">☐</span> Tarea 2</div><div><span class="nb-check">☐</span> Tarea 3</div>' },
+        { title:'📚 Recursos y comandos', body:'<div><b>Comandos frecuentes.</b></div><div>(code blocks)</div><div><br></div><div><b>Links útiles.</b></div>' },
+        { title:'📝 Log diario', body:'<div><b>YYYY-MM-DD.</b> Resumen de lo que hice y bloqueos.</div>' },
+        { title:'🔄 Retrospectiva', body:'<div><b>¿Qué funcionó?</b></div><div><br></div><div><b>¿Qué reharía?</b></div><div><br></div><div><b>Aprendizajes para el siguiente proyecto.</b></div>' },
+      ]
+    },
+  };
+  function _createWithTemplate(tplKey){
     const nameInp = document.getElementById('notNbName');
     const iconV = (document.getElementById('notNbIconValue')||{}).value || '📘';
     const coverV = (document.getElementById('notNbCoverValue')||{}).value || 'c1';
     const name = (nameInp?.value || '').trim();
     if (!name) { alert('Dale un nombre al cuaderno.'); return; }
+    const tpl = NB_TEMPLATES[tplKey] || NB_TEMPLATES.blank;
     const list = loadMeta();
     const id = 'not_nb_' + Date.now();
     list.push({ id, name, icon: iconV, cover: coverV, color: PALETTE[list.length % PALETTE.length], created: new Date().toISOString() });
     saveMeta(list);
     const data = loadData();
-    if (!data[id]) { data[id] = { pages: [] }; saveData(data); }
+    const now = new Date().toISOString();
+    const pages = (tpl.pages || []).map((p, i) => ({
+      id: Date.now() + i,
+      title: p.title || '',
+      body: p.body || '',
+      images: [], attachments: [], links: [],
+      created: now, updated: now,
+    }));
+    data[id] = { pages: pages.reverse() }; // last pushed = first
+    saveData(data);
     if (nameInp) nameInp.value = '';
     setActive(id);
-    activePageId = null;
+    activePageId = pages.length ? pages[0].id : null;
     render();
+  }
+
+  /* ── CRUD notebooks ───────────────────────────────────────── */
+  function create(){
+    const tplSel = document.getElementById('notNbTpl');
+    const tplKey = (tplSel && tplSel.value) || 'blank';
+    _createWithTemplate(tplKey);
+    if (tplSel) tplSel.value = 'blank';
   }
 
   function rename(id){
@@ -590,6 +664,18 @@ const NotNB = (function(){
   ══════════════════════════════════════════════════════════════ */
   const MAP_KEY = 'not_nb_maps';
   const MAP_PAL = ['#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1','#14b8a6'];
+  // Palette de iconos rápidos para nodos del mapa (estudio, código, ciencia, conceptos)
+  const MAP_ICONS = ['💡','📘','📗','📕','🧠','🎯','⚙️','🔧','🔬','🧪','📊','📈','📉','🗂️','🏷️','⭐','🚀','🔑','❓','⚠️','✅','🔥','🌐','💾','📡','🤖','🐍','☕','🦀','🟨','⚛️','🅰️','🅱️','🅾️','#️⃣','➕','➖','✖️','➗','∑','∞','π','λ','∂','∇','⇒','⇔','∀','∃','∈','⊆','∪','∩','→','↑','↓','✏️','📝','📌','🔖'];
+  // Parser: si el texto empieza con emoji + espacio, lo separa como icon
+  // Detecta primer carácter unicode emoji-ish (rangos surrogate u otros simbolos comunes)
+  function _splitIcon(raw){
+    const s = (raw||'').trim();
+    if (!s) return { icon:'', text:'' };
+    // Match: 1-2 code-unit emoji al inicio, opcional ZWJ extensions, seguido de space y/o resto
+    const m = s.match(/^(\p{Extended_Pictographic}(?:‍\p{Extended_Pictographic})*|[#*0-9]️⃣|[☀-➿⬀-⯿©®‼⁉™ℹ↔-↙↩↪])\s*(.*)$/u);
+    if (m) return { icon:m[1], text:(m[2]||'').trim() };
+    return { icon:'', text:s };
+  }
   let _mapLink = { nbId:null, fromId:null };
 
   function loadMaps(){ try { return JSON.parse(localStorage.getItem(MAP_KEY)||'{}'); } catch { return {}; } }
@@ -631,10 +717,18 @@ const NotNB = (function(){
       const col = n.color || MAP_PAL[0];
       const isFrom = linking && _mapLink.fromId === n.id;
       const ring = isFrom ? '<circle cx="'+n.x+'" cy="'+n.y+'" r="34" fill="none" stroke="#fde047" stroke-width="2" stroke-dasharray="4 3"/>' : '';
+      const hasIcon = !!(n.icon && n.icon.length);
+      const radius = hasIcon ? 32 : 28;
       svg += ring + '<g class="mm-node" data-id="'+n.id+'" style="cursor:grab">';
-      svg += '<circle cx="'+n.x+'" cy="'+n.y+'" r="28" fill="'+col+'22" stroke="'+col+'" stroke-width="2"/>';
-      const txt = esc(n.text||'').slice(0,18);
-      svg += '<text x="'+n.x+'" y="'+(n.y+4)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--tx)" font-family="IBM Plex Sans,sans-serif" pointer-events="none">'+txt+'</text>';
+      svg += '<circle cx="'+n.x+'" cy="'+n.y+'" r="'+radius+'" fill="'+col+'22" stroke="'+col+'" stroke-width="2"/>';
+      if (hasIcon) {
+        svg += '<text x="'+n.x+'" y="'+(n.y-6)+'" text-anchor="middle" font-size="18" pointer-events="none">'+esc(n.icon)+'</text>';
+        const txt = esc(n.text||'').slice(0,18);
+        svg += '<text x="'+n.x+'" y="'+(n.y+18)+'" text-anchor="middle" font-size="10" font-weight="600" fill="var(--tx)" font-family="IBM Plex Sans,sans-serif" pointer-events="none">'+txt+'</text>';
+      } else {
+        const txt = esc(n.text||'').slice(0,18);
+        svg += '<text x="'+n.x+'" y="'+(n.y+4)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--tx)" font-family="IBM Plex Sans,sans-serif" pointer-events="none">'+txt+'</text>';
+      }
       svg += '</g>';
     });
     svg += '</svg>';
@@ -688,17 +782,27 @@ const NotNB = (function(){
     const endDrag = () => { drag = null; };
     svgEl.addEventListener('mouseup', endDrag);
     svgEl.addEventListener('mouseleave', endDrag);
-    // Click vacío → crear nodo · doble click nodo → editar · right-click nodo → eliminar
+    // Click vacío → crear nodo (acepta "📘 Python" → icon + text auto-split)
+    // Alt+click nodo → abrir picker de icono
+    // Click nodo plano → handled por mousedown
+    // Doble click nodo → editar texto+icono (formato "icon texto")
     svgEl.addEventListener('click', (e) => {
       if (drag && drag.started) return;
       const g = e.target.closest('.mm-node');
-      if (g) return; // handled by mousedown / dblclick
+      if (g) {
+        if (e.altKey) {
+          e.preventDefault();
+          openIconPicker(nbId, g.getAttribute('data-id'));
+        }
+        return; // handled por mousedown
+      }
       const p = ptOf(e);
-      const text = prompt('Texto del nodo:');
-      if (text == null || !text.trim()) return;
+      const raw = prompt('Texto del nodo (podés empezar con un emoji, ej "📘 Python"):');
+      if (raw == null || !raw.trim()) return;
+      const { icon, text } = _splitIcon(raw);
       const mp = getMap(nbId);
       const color = MAP_PAL[mp.nodes.length % MAP_PAL.length];
-      mp.nodes.push({ id:'n_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), x:p.x, y:p.y, text:text.trim(), color });
+      mp.nodes.push({ id:'n_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), x:p.x, y:p.y, text, icon, color });
       setMap(nbId, mp);
       renderMap(nbId);
     });
@@ -709,9 +813,12 @@ const NotNB = (function(){
       const mp = getMap(nbId);
       const n = mp.nodes.find(x => x.id === id);
       if (!n) return;
-      const txt = prompt('Editar texto:', n.text || '');
-      if (txt == null) return;
-      n.text = txt.trim();
+      const current = (n.icon ? n.icon + ' ' : '') + (n.text || '');
+      const raw = prompt('Editar (formato: "icono texto" o solo texto):', current);
+      if (raw == null) return;
+      const { icon, text } = _splitIcon(raw);
+      n.text = text;
+      n.icon = icon;
       setMap(nbId, mp);
       renderMap(nbId);
     });
@@ -733,16 +840,181 @@ const NotNB = (function(){
     setMap(nbId, { nodes:[], edges:[] });
     renderMap(nbId);
   }
+  /* Picker compacto de iconos para asignar a un nodo · overlay flotante */
+  function openIconPicker(nbId, nodeId){
+    let ov = document.getElementById('nbMapIconOverlay');
+    if (ov) ov.remove();
+    ov = document.createElement('div');
+    ov.id = 'nbMapIconOverlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px';
+    const grid = MAP_ICONS.map(ic =>
+      '<button data-ic="'+ic+'" style="font-size:22px;width:42px;height:42px;border-radius:8px;border:1px solid var(--bd);background:var(--c1);color:var(--tx);cursor:pointer;transition:background .15s,border-color .15s" onmouseover="this.style.background=\'var(--ag,rgba(139,92,246,.12))\';this.style.borderColor=\'#a78bfa\'" onmouseout="this.style.background=\'var(--c1)\';this.style.borderColor=\'var(--bd)\'">'+ic+'</button>'
+    ).join('');
+    ov.innerHTML = '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:20px;max-width:520px;width:100%;max-height:80vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="font-size:14px;font-weight:600;color:var(--tx)">Elegí un icono</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Click un emoji · o "Quitar" para dejar sin icono</div></div><button id="nbIcCancel" style="background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px">✕</button></div>'+
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px">'+grid+'</div>'+
+      '<div style="margin-top:14px;display:flex;gap:6px;justify-content:flex-end"><button id="nbIcRemove" class="btn bo bs">Quitar icono</button></div>'+
+      '</div>';
+    document.body.appendChild(ov);
+    const close = () => ov.remove();
+    document.getElementById('nbIcCancel').onclick = close;
+    ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
+    document.getElementById('nbIcRemove').onclick = () => {
+      const mp = getMap(nbId);
+      const n = mp.nodes.find(x => x.id === nodeId);
+      if (n) { n.icon = ''; setMap(nbId, mp); renderMap(nbId); }
+      close();
+    };
+    ov.querySelectorAll('button[data-ic]').forEach(btn => {
+      btn.onclick = () => {
+        const ic = btn.getAttribute('data-ic');
+        const mp = getMap(nbId);
+        const n = mp.nodes.find(x => x.id === nodeId);
+        if (n) { n.icon = ic; setMap(nbId, mp); renderMap(nbId); }
+        close();
+      };
+    });
+  }
+  /* ── Templates de mindmap · 4 starters ─────────────────────────── */
+  const MAP_TEMPLATES = {
+    blank:   { label:'⚪ Blanco',                  desc:'Vacío para empezar de cero' },
+    radial:  { label:'🌟 Radial',                  desc:'Nodo central con 6 ramas' },
+    concept: { label:'🧠 Mapa conceptual',          desc:'Jerarquía top-down (4 niveles)' },
+    prog:    { label:'💻 Lenguaje de programación', desc:'Sintaxis · Semántica · Paradigma · Tipos · Ejemplos' },
+  };
+  function _tplBlank(){ return { nodes:[], edges:[] }; }
+  function _tplRadial(center){
+    const c = { id:'tpl_c', x:400, y:230, text:center||'Tema', icon:'🎯', color:MAP_PAL[0] };
+    const labels = ['Definición','Ejemplos','Aplicaciones','Conexiones','Preguntas','Recursos'];
+    const ics = ['📖','💡','🚀','🔗','❓','📚'];
+    const nodes = [c]; const edges = [];
+    const N = labels.length;
+    for (let i=0;i<N;i++){
+      const ang = (i / N) * Math.PI * 2 - Math.PI/2;
+      const x = 400 + Math.cos(ang)*160;
+      const y = 230 + Math.sin(ang)*150;
+      const id = 'tpl_n'+i;
+      nodes.push({ id, x, y, text:labels[i], icon:ics[i], color:MAP_PAL[(i+1)%MAP_PAL.length] });
+      edges.push({ from:'tpl_c', to:id });
+    }
+    return { nodes, edges };
+  }
+  function _tplConcept(){
+    const N = (id,x,y,t,ic,ci)=>({id,x,y,text:t,icon:ic,color:MAP_PAL[ci%MAP_PAL.length]});
+    const nodes = [
+      N('cc', 400, 60, 'Concepto principal','🧠',0),
+      N('s1', 180, 180, 'Sub-tema A','📘',1),
+      N('s2', 400, 180, 'Sub-tema B','📗',2),
+      N('s3', 620, 180, 'Sub-tema C','📕',3),
+      N('d1', 120, 320, 'Detalle','💡',4),
+      N('d2', 240, 320, 'Detalle','💡',4),
+      N('d3', 400, 320, 'Detalle','💡',4),
+      N('d4', 620, 320, 'Detalle','💡',4),
+      N('ex', 400, 420, 'Ejemplo / Aplicación','🚀',5),
+    ];
+    const edges = [
+      {from:'cc',to:'s1'},{from:'cc',to:'s2'},{from:'cc',to:'s3'},
+      {from:'s1',to:'d1'},{from:'s1',to:'d2'},
+      {from:'s2',to:'d3'},
+      {from:'s3',to:'d4'},
+      {from:'d3',to:'ex'},{from:'d4',to:'ex'},
+    ];
+    return { nodes, edges };
+  }
+  function _tplProg(lang){
+    const L = lang || 'Lenguaje';
+    const N = (id,x,y,t,ic,ci)=>({id,x,y,text:t,icon:ic,color:MAP_PAL[ci%MAP_PAL.length]});
+    const nodes = [
+      N('lang', 400, 230, L, '💻', 0),
+      N('syn',  180,  90, 'Sintaxis',     '✏️', 1),
+      N('sem',  620,  90, 'Semántica',    '🧠', 2),
+      N('par',  120, 230, 'Paradigma',    '⚙️', 3),
+      N('typ',  680, 230, 'Sistema de tipos','🏷️', 4),
+      N('std',  180, 370, 'Librería estándar','📚', 5),
+      N('eco',  620, 370, 'Ecosistema',   '🌐', 6),
+      N('ex',   400, 420, 'Ejemplos',     '🚀', 7),
+    ];
+    const edges = [
+      {from:'lang',to:'syn'},{from:'lang',to:'sem'},{from:'lang',to:'par'},
+      {from:'lang',to:'typ'},{from:'lang',to:'std'},{from:'lang',to:'eco'},
+      {from:'lang',to:'ex'},{from:'std',to:'ex'},{from:'eco',to:'ex'},
+    ];
+    return { nodes, edges };
+  }
+  function applyMapTemplate(nbId, key){
+    const mp = getMap(nbId);
+    if (mp.nodes.length || mp.edges.length) {
+      if (!confirm('El mapa ya tiene contenido. ¿Reemplazarlo por el template?')) return;
+    }
+    let data;
+    if (key === 'radial')  data = _tplRadial(getNb(nbId) ? getNb(nbId).name : 'Tema');
+    else if (key === 'concept') data = _tplConcept();
+    else if (key === 'prog') {
+      const lang = prompt('¿Qué lenguaje? (ej: Python, C, Java, JavaScript)', 'Python');
+      data = _tplProg(lang || 'Lenguaje');
+    }
+    else data = _tplBlank();
+    setMap(nbId, data);
+    renderMap(nbId);
+  }
+  /* Export del mapa a PNG · serializa SVG → canvas → download */
+  function exportMapPNG(nbId){
+    const svgEl = document.getElementById('nbMapSvgEl-'+nbId);
+    if (!svgEl) { alert('Abrí el mapa primero.'); return; }
+    const mp = getMap(nbId);
+    if (!mp.nodes.length) { alert('El mapa está vacío.'); return; }
+    try {
+      const xml = new XMLSerializer().serializeToString(svgEl);
+      // Garantizar xmlns para que el browser pueda renderizarlo standalone
+      const svgWithNS = xml.indexOf('xmlns=') === -1
+        ? xml.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ')
+        : xml;
+      const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgWithNS);
+      const img = new Image();
+      img.onload = () => {
+        const scale = 2; // 2x para retina
+        const cv = document.createElement('canvas');
+        cv.width = 800 * scale; cv.height = 460 * scale;
+        const ctx = cv.getContext('2d');
+        ctx.fillStyle = '#0a0a0c';
+        ctx.fillRect(0,0,cv.width,cv.height);
+        ctx.drawImage(img, 0, 0, cv.width, cv.height);
+        cv.toBlob((blob) => {
+          if (!blob) { alert('Falló la exportación.'); return; }
+          const nb = getNb(nbId);
+          const fname = 'mapa-' + ((nb && nb.name) || 'cuaderno').replace(/[^a-z0-9_-]+/gi,'-').toLowerCase() + '.png';
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = fname;
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+        }, 'image/png');
+      };
+      img.onerror = () => alert('No pude renderizar el SVG para exportar.');
+      img.src = url;
+    } catch(e) {
+      console.warn('exportMapPNG:', e);
+      alert('Falló la exportación: ' + (e.message||e));
+    }
+  }
   function mapHtml(nbId){
     const mp = getMap(nbId);
+    const tplOptions = Object.entries(MAP_TEMPLATES).map(([k,v]) =>
+      `<option value="${k}">${v.label} — ${v.desc}</option>`
+    ).join('');
     return `<div id="nbMapWrap-${nbId}" style="display:none;margin-top:14px;padding:14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px;flex-wrap:wrap">
-        <div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:6px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
           <div style="font-size:12px;font-weight:600;color:var(--tx)">🗺️ Mapa mental del cuaderno</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px">Click vacío → crear nodo · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · click derecho → eliminar</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;line-height:1.55">Click vacío → crear nodo (acepta "📘 Texto") · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · Alt+click → cambiar icono · click derecho → eliminar</div>
         </div>
-        <div style="display:flex;gap:4px">
-          <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;align-self:center;margin-right:6px">${mp.nodes.length} nodos · ${mp.edges.length} conexiones</span>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${mp.nodes.length} nodos · ${mp.edges.length} conexiones</span>
+          <select id="nbMapTpl-${nbId}" onchange="if(this.value){NotNB.applyMapTemplate('${nbId}',this.value);this.value='';}" style="background:var(--el);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:5px 9px;font-size:11px;font-family:inherit;cursor:pointer" title="Aplicar un template inicial">
+            <option value="">📐 Template…</option>
+            ${tplOptions}
+          </select>
+          <button onclick="NotNB.exportMapPNG('${nbId}')" class="btn bo bs" title="Descargar mapa como PNG (2x)">⬇ PNG</button>
           <button onclick="NotNB.clearMap('${nbId}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)" title="Limpiar todo el mapa">🗑 Limpiar</button>
         </div>
       </div>
@@ -765,6 +1037,8 @@ const NotNB = (function(){
     addImage, renameImage, removeImage, viewImage,
     attachFile, removeAttachment,
     toggleMap, renderMap, clearMap,
+    openIconPicker, applyMapTemplate, exportMapPNG,
+    createFromTemplate: function(template){ return _createWithTemplate(template); },
   };
 })();
 window.NotNB = NotNB;

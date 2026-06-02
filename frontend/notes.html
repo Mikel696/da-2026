@@ -117,10 +117,17 @@ body{line-height:var(--leading-normal)}
     <input class="inp" id="notNbName" placeholder="Nombre del cuaderno (ej: Mis Apuntes 2026)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NotNB.create()">
     <input type="hidden" id="notNbIconValue" value="📘">
     <input type="hidden" id="notNbCoverValue" value="c1">
+    <select class="inp" id="notNbTpl" style="flex:0 1 230px;min-width:200px" title="Plantilla inicial · pre-genera páginas">
+      <option value="blank">⚪ Sin plantilla</option>
+      <option value="prog">💻 Lenguaje de programación</option>
+      <option value="algo">🧮 Algoritmo / Estructura de datos</option>
+      <option value="concept">🧠 Concepto académico</option>
+      <option value="workflow">🛠️ Workflow / Proyecto</option>
+    </select>
     <button class="btn bo" onclick="NotNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="notNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c1"></span><span id="notNbDesignIconPreview">📘</span> Diseño</button>
     <button class="btn bg" onclick="NotNB.create()">+ Crear</button>
   </div>
-  <div style="font-size:11px;color:var(--t3);margin-top:6px">Click en <b>Diseño</b> para elegir portada e ícono.</div>
+  <div style="font-size:11px;color:var(--t3);margin-top:6px">Click en <b>Diseño</b> para portada/ícono · elegí una <b>plantilla</b> para que el cuaderno arranque con páginas pre-armadas (definición, ejemplos, sintaxis, etc).</div>
 </div>
 <div id="notNbWrap"></div>
 </div>

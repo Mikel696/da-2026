@@ -1014,6 +1014,7 @@
       <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="${N}.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
       <span class="nb-rt-sep"></span>
       <button class="nb-rt-btn nb-rt-img" onclick="NBShared.insertImage('${sid}','${N}')" title="Insertar imagen (archivo o portapapeles) · HD preview + IDB full" aria-label="Insertar imagen">🖼️ Imagen</button>
+      <button class="nb-rt-btn nb-rt-code" onclick="NBShared.insertCodeBlock('${sid}','${N}')" title="Insertar bloque de código (monospace · syntax-friendly)" aria-label="Insertar bloque de código">&lt;/&gt; Code</button>
     </div>`;
   }
 
@@ -1100,6 +1101,45 @@
     };
     input.click();
   }
+  /* Code block inline · <pre><code class="nb-code" data-lang="..."> */
+  function insertCodeBlock(sid, ns){
+    const editor = _findEditor(sid);
+    if (!editor) { alert('No encontré el editor activo. Click adentro de la nota e intentá de nuevo.'); return; }
+    editor.focus();
+    const lang = prompt('Lenguaje (opcional, ej: python, js, sql, c, java):', '') || '';
+    const safeLang = String(lang).trim().slice(0, 16).replace(/[^a-z0-9+#-]/gi, '');
+    const langTag = safeLang
+      ? '<span class="nb-code-lang" contenteditable="false">' + safeLang + '</span>'
+      : '';
+    // Insertar bloque + un párrafo vacío después para que el cursor pueda salir del code
+    const html = '<pre class="nb-code-wrap" contenteditable="false">' + langTag
+      + '<code class="nb-code" data-lang="' + safeLang + '" contenteditable="true" spellcheck="false">// código aquí</code>'
+      + '</pre><div><br></div>';
+    try { document.execCommand('insertHTML', false, html); }
+    catch(e) {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const r = sel.getRangeAt(0);
+        const frag = r.createContextualFragment(html);
+        r.deleteContents();
+        r.insertNode(frag);
+      }
+    }
+    // Foco dentro del bloque + selección del placeholder
+    setTimeout(() => {
+      const codes = editor.querySelectorAll('.nb-code');
+      const last = codes[codes.length - 1];
+      if (last) {
+        last.focus();
+        const r = document.createRange();
+        r.selectNodeContents(last);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(r);
+      }
+    }, 0);
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  }
   // Click en imagen abre overlay HD desde IDB (full ~1920px) si está disponible
   async function _openImageHD(imgEl){
     const id = imgEl.getAttribute('data-img-id');
@@ -1123,7 +1163,7 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    fmtExtended, toolbarHtml, insertImage,
+    fmtExtended, toolbarHtml, insertImage, insertCodeBlock,
     _insertImageFromFile, _openImageHD,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,

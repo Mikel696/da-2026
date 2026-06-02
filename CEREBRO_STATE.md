@@ -2947,3 +2947,54 @@ not_nb_maps = {
 
 ### Próximos angles posibles
 (a) Export mapa a PNG/SVG · (b) Templates (kanban, swot, fishbone) · (c) Auto-extraer entidades de las páginas para sugerir nodos · (d) Link nodo → página del cuaderno · (e) Keyboard nav del HD overlay.
+
+## 💻🗺️ 13-NOT · P5 · Templates + Iconos + Code blocks — 2026-06-02
+
+### Qué cambió
+P5 enfocada en flujo de estudio (sistemas/programación). Cinco features:
+
+**1. Iconos en nodos del mindmap**
+- Palette de 56 iconos curados (libros, código, matemática, ciencia, lógica).
+- Auto-parse de emoji al inicio del texto: "📘 Python" → icon `📘` + text `Python`.
+- Alt+click en un nodo → overlay picker con grid + botón "Quitar".
+- Render: nodo con icon usa círculo r=32 (más grande), emoji arriba (font 18), texto debajo (font 10).
+
+**2. Templates de mindmap (4)**
+- Blanco, Radial (centro + 6 ramas), Mapa conceptual (4 niveles top-down), Lenguaje de programación (Sintaxis/Semántica/Paradigma/Tipos/Stdlib/Ecosistema/Ejemplos).
+- Selector en la toolbar del mapa "📐 Template…" → confirma si pisa contenido existente.
+- El template "Lenguaje" pide el nombre del lenguaje via prompt.
+
+**3. Export mapa a PNG**
+- Botón "⬇ PNG" en toolbar del mapa.
+- Serializa SVG → canvas 2x (retina) → blob → download como `mapa-{nombre-cuaderno}.png`.
+
+**4. Templates de cuaderno (5)**
+- Selector en form "Nuevo cuaderno": Sin plantilla, Lenguaje de programación, Algoritmo / EDA, Concepto académico, Workflow / Proyecto.
+- "Lenguaje" → 10 páginas: Intro, Sintaxis, Tipos, Control de flujo, Funciones, OOP, Stdlib, Ejemplos, Ecosistema, Recursos.
+- "Algoritmo" → 7 páginas: Problema, Análisis, Pseudocódigo, Implementación, Complejidad, Tests, Variantes.
+- "Concepto" → 6 páginas: Definición formal, Intuición, Ejemplos, Conexiones, Preguntas examen, Fuentes.
+- "Workflow" → 6 páginas: Objetivo, Stack, Tareas (checklist), Recursos, Log diario, Retrospectiva.
+
+**5. Code block en toolbar shared**
+- Botón "</> Code" en `NBShared.toolbarHtml` → propaga a 10-SYS, 13-NOT, 14-WORK.
+- `NBShared.insertCodeBlock(sid, ns)` inserta `<pre class="nb-code-wrap"><code class="nb-code" data-lang="...">` con monospace dark, borde izquierdo cyan, tag de lenguaje opcional arriba-derecha.
+- Pre-armado para futuro syntax highlighting (atributo `data-lang`).
+
+### Archivos tocados
+- `frontend/js/notes-nb.js`: +`MAP_ICONS` (56 items), +`_splitIcon` (regex unicode), +`openIconPicker`, +`MAP_TEMPLATES` (4 starters) + `_tplBlank/_tplRadial/_tplConcept/_tplProg`, +`applyMapTemplate`, +`exportMapPNG`, +`NB_TEMPLATES` (5 starters), +`_createWithTemplate`, modificación de `create()` para leer selector, modificación de `renderMap` para iconos, modificación de `mapHtml` con selector templates + botones PNG/Limpiar, expansión del export API.
+- `frontend/js/nb-shared.js`: +botón `</>` Code en toolbar, +`insertCodeBlock(sid, ns)` con prompt de lenguaje + inserción `pre+code`, export en PUBLIC API.
+- `frontend/css/nb-shared.css`: +`.nb-rt-code` botón cyan, +`.nb-content .nb-code-wrap`, +`.nb-content .nb-code-lang`, +`.nb-content .nb-code` con tipografía monospace + colores GitHub-dark.
+- `frontend/notes.html`: +`<select id="notNbTpl">` con 5 opciones en el form "Nuevo cuaderno", copy actualizado.
+
+### Verificación
+- [ ] Crear cuaderno con template "Lenguaje de programación" → debe crear 10 páginas pre-rellenas en orden.
+- [ ] Abrir mapa → "📐 Template…" → "🌟 Radial" → 7 nodos conectados aparecen.
+- [ ] Click vacío → "📘 Python" → nodo creado con icon `📘`.
+- [ ] Alt+click en nodo → picker → elegir icono → se aplica.
+- [ ] Doble-click en nodo → editar "🔬 Lab" → icono cambia.
+- [ ] "⬇ PNG" → descarga `mapa-{nombre}.png`.
+- [ ] Toolbar editor: "</> Code" → prompt lenguaje "python" → inserta bloque dark con tag PYTHON.
+- [ ] 10-SYS y 14-WORK también muestran el botón "</> Code" (shared).
+
+### Próximos angles posibles
+(a) Syntax highlighting real con Prism/highlight.js CDN sobre `.nb-code[data-lang]` · (b) Link bidireccional nodo del mapa ↔ página del cuaderno (click nodo abre página) · (c) Templates de cuaderno editables por el usuario · (d) Auto-extraer entidades (h2/h3 de páginas) como nodos sugeridos del mapa · (e) Drag-to-reorder páginas del cuaderno · (f) Tabla / checklist templates en code blocks.
