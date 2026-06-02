@@ -2773,6 +2773,7 @@ const WorkNB = (function(){
             <button class="btn bo bs" onclick="WorkNB.remove('${nb.id}')" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
           </div>
         </div>
+        ${(window.NBShared && NBShared.pageSelectorHtml) ? NBShared.pageSelectorHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
         ${editor || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px">Crea una página para empezar.</div>'}
         <div class="lb" style="margin-top:14px">· páginas ·</div>
         <div class="nb-entries">${pagesList}</div>
@@ -2808,6 +2809,8 @@ const WorkNB = (function(){
     if (window.NBShared && NBShared.attachEditorHandlers) {
       wrap.querySelectorAll('.nb-content[contenteditable="true"]').forEach(el => NBShared.attachEditorHandlers(el));
     }
+    // Page selector bar · arrows + auto-scroll a tab activa
+    if (window.NBShared && NBShared.wirePageBar) NBShared.wirePageBar(wrap);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);

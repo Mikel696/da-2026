@@ -2473,6 +2473,7 @@ const NB = (function() {
           <button onclick="NB.openPasteDialog('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
           <button onclick="NB.attachFile('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
         </div>
+        ${(window.NBShared && NBShared.pageSelectorHtml) ? NBShared.pageSelectorHtml({ nbId: sid, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
         ${editorHtml}
         <div class="sl" style="margin-top:12px">· páginas ·</div>
         <div class="nb-entries">${pagesListHtml}</div>
@@ -2594,6 +2595,8 @@ const NB = (function() {
         NBShared.attachEditorHandlers(el);
       });
     }
+    // Wire page selector bar (arrows + auto-scroll a tab activa)
+    if (window.NBShared && NBShared.wirePageBar) NBShared.wirePageBar(document);
   }
 
   // ── SUBJECT DROPDOWN TOGGLE ──
@@ -3267,6 +3270,7 @@ const NB = (function() {
             <button onclick="NB.openPasteDialog('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
             <button onclick="NB.attachFile('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
           </div>
+          ${(window.NBShared && NBShared.pageSelectorHtml) ? NBShared.pageSelectorHtml({ nbId: meta.id, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
           ${editorHtml}
           <div class="sl" style="margin-top:12px">· páginas ·</div>
           <div class="nb-entries">${pagesListHtml}</div>

@@ -1496,10 +1496,89 @@
     ov.style.display = 'flex';
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     PAGE SELECTOR · barra de tabs + dropdown jump-to para cuadernos
+     Genérico para los 3 módulos (10-SYS NB · 13-NOT NotNB · 14-WORK WorkNB).
+     Cada módulo embebe con:
+        ${NBShared.pageSelectorHtml({nbId, ns, pages, activePageId})}
+     Llama a `${ns}.openPage('${nbId}', pageId)` al clickear.
+  ══════════════════════════════════════════════════════════════ */
+  function _escAttr(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function pageSelectorHtml(ctx){
+    if (!ctx) return '';
+    const { nbId, ns, pages, activePageId } = ctx;
+    const N = ns || 'NB';
+    const list = Array.isArray(pages) ? pages : [];
+    if (!list.length) return '';
+    const truncate = (s, n) => { s = String(s||'').trim(); if (!s) return 'Sin título'; return s.length > n ? s.slice(0, n-1) + '…' : s; };
+    // Extraer emoji al inicio del título como icono visual (compatible con templates)
+    const splitIcon = (t) => {
+      const s = String(t||'').trim();
+      const m = s.match(/^(\p{Extended_Pictographic}(?:‍\p{Extended_Pictographic})*)\s*(.*)$/u);
+      return m ? { ic:m[1], txt:m[2]||'(sin título)' } : { ic:'', txt:s||'Sin título' };
+    };
+    const tabs = list.map((p, i) => {
+      const { ic, txt } = splitIcon(p.title);
+      const isActive = String(p.id) === String(activePageId);
+      const label = truncate(txt, 22);
+      return '<button type="button" class="nb-page-tab' + (isActive ? ' on' : '') + '"'
+        + ' data-pg="' + p.id + '"'
+        + ' onclick="' + N + '.openPage(\'' + nbId + '\',' + (typeof p.id === 'number' ? p.id : ('\''+p.id+'\'')) + ')"'
+        + ' title="' + _escAttr(p.title || 'Sin título') + '">'
+        + (ic ? '<span class="nb-page-tab-ic" aria-hidden="true">' + ic + '</span>' : '<span class="nb-page-tab-n">' + (i+1) + '</span>')
+        + '<span class="nb-page-tab-t">' + _escAttr(label) + '</span>'
+        + '</button>';
+    }).join('');
+    const opts = list.map((p, i) => {
+      const isActive = String(p.id) === String(activePageId);
+      const label = truncate(p.title || ('Página ' + (i+1)), 60);
+      return '<option value="' + p.id + '"' + (isActive ? ' selected' : '') + '>' + _escAttr(label) + '</option>';
+    }).join('');
+    return '<div class="nb-page-bar" role="tablist" aria-label="Páginas del cuaderno">'
+      + '<button type="button" class="nb-page-bar-nav" data-dir="-1" title="Anterior" aria-label="Página anterior">‹</button>'
+      + '<div class="nb-page-bar-scroll">' + tabs + '</div>'
+      + '<button type="button" class="nb-page-bar-nav" data-dir="1" title="Siguiente" aria-label="Página siguiente">›</button>'
+      + '<select class="nb-page-bar-jump" title="Saltar a página"'
+      + ' onchange="if(this.value){' + N + '.openPage(\'' + nbId + '\',isNaN(Number(this.value))?this.value:Number(this.value));}">'
+      + '<option value="">📑 ' + list.length + ' página' + (list.length!==1?'s':'') + '</option>'
+      + opts
+      + '</select>'
+      + '</div>';
+  }
+  /* Wire interno: arrows scroll + auto-scroll a activa.
+     Debe llamarse después de render() en cada módulo. */
+  function wirePageBar(root){
+    const bars = (root || document).querySelectorAll('.nb-page-bar');
+    bars.forEach(bar => {
+      if (bar._nbBarWired) return;
+      bar._nbBarWired = true;
+      const scroll = bar.querySelector('.nb-page-bar-scroll');
+      const navs = bar.querySelectorAll('.nb-page-bar-nav');
+      navs.forEach(btn => {
+        btn.onclick = () => {
+          const dir = parseInt(btn.getAttribute('data-dir'), 10) || 1;
+          if (scroll) scroll.scrollBy({ left: dir * 240, behavior:'smooth' });
+        };
+      });
+      // Auto-scroll a la tab activa
+      const active = bar.querySelector('.nb-page-tab.on');
+      if (active && scroll) {
+        setTimeout(() => {
+          const rA = active.getBoundingClientRect();
+          const rS = scroll.getBoundingClientRect();
+          if (rA.left < rS.left || rA.right > rS.right) {
+            scroll.scrollTo({ left: active.offsetLeft - 80, behavior:'smooth' });
+          }
+        }, 50);
+      }
+    });
+  }
+
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
+    pageSelectorHtml, wirePageBar,
     _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
