@@ -224,3 +224,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css
 - Changed: Imagenes ya no cubren la hoja del editor. (a) insertImage e ingest por paste ahora producen un <span class="nb-img-chip"> compacto en vez de <img class="nb-img"> grande; chip lleva data-img-id (full IDB) + data-preview (1280px inline para sync). (b) Click en chip → mismo overlay HD que antes con eliminar. (c) attachEditorHandlers ejecuta _migrateInlineImagesToChips() idempotente que convierte imagenes legacy a chips automaticamente al abrir cualquier cuaderno. (d) Nuevo boton "📂 Lista" en toolbar shared abre overlay con thumbnails de TODAS las imagenes de la pagina (grid auto-fill 140px), click un thumb abre el HD overlay correspondiente.
 - Next: (a) Captions editables en el overlay HD · (b) Drag-and-drop reorder de chips dentro de la pagina · (c) Bulk delete desde el menu Lista · (d) Export al cuaderno con imagenes flat o como chips.
+
+### ID:13-NOT.P9 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css
+- Changed: HOTFIX P7 regresion · code blocks legacy ahora migran automaticamente para tener boton de eliminar. (a) Nueva _migrateCodeBlocks(editor) idempotente que detecta .nb-code-wrap sin .nb-block-del hijo e inyecta el boton dinamicamente. (b) Wired en attachEditorHandlers despues de _migrateInlineImagesToChips. (c) CSS: boton × ahora opacity .55 default (era 0) + size 24px (era 22) + radius 12 + escala 1.12 en hover (era 1.08) — siempre visible para que el usuario lo descubra sin tener que hover el bloque.
+- Next: (a) Tooltip mas obvio "Eliminar" sin tener que hover · (b) Animacion suave al eliminar · (c) Drag handle para reordenar code blocks dentro de la pagina.

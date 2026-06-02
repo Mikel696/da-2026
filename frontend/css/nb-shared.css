@@ -253,14 +253,12 @@
 .nb-content .nb-code{display:block;color:#e6edf3;font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:none;border:none;outline:none;min-height:1.5em;font-family:inherit;padding-right:60px}
 .nb-content .nb-code:focus{outline:none}
 .nb-content .nb-code-wrap:hover{border-left-color:#06b6d4}
-/* Botón × para eliminar bloques (code, en futuro imagenes wrap, etc) */
-.nb-block-del{position:absolute;top:6px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#fca5a5;cursor:pointer;font-size:14px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s,background .15s,color .15s,transform .15s;padding:0;font-family:inherit}
-.nb-content .nb-code-wrap{padding-right:36px}
-.nb-content .nb-code-wrap .nb-block-del{top:6px;right:8px}
-.nb-content .nb-code-lang + .nb-block-del{right:8px}
-.nb-content .nb-code-wrap .nb-code-lang{right:38px}
+/* Botón × para eliminar bloques (code, etc) — siempre semi-visible para que el usuario lo descubra */
+.nb-block-del{position:absolute;top:6px;right:8px;width:24px;height:24px;border-radius:50%;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.55);color:#fca5a5;cursor:pointer;font-size:16px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;opacity:.55;transition:opacity .15s,background .15s,color .15s,transform .15s,border-color .15s;padding:0;font-family:inherit;z-index:2}
+.nb-content .nb-code-wrap{padding-right:42px}
+.nb-content .nb-code-wrap .nb-code-lang{right:42px}
 .nb-content .nb-code-wrap:hover .nb-block-del{opacity:1}
-.nb-block-del:hover{background:rgba(239,68,68,.3);color:#fff;transform:scale(1.08)}
+.nb-block-del:hover{background:rgba(239,68,68,.4);color:#fff;border-color:#ef4444;transform:scale(1.12)}
 .nb-block-del:focus-visible{outline:none;opacity:1;box-shadow:0 0 0 2px rgba(239,68,68,.5)}
 
 /* Inline labels */

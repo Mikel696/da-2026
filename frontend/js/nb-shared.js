@@ -998,6 +998,29 @@
       }
     });
   }
+  /* Auto-migración: agrega botón × a .nb-code-wrap legacy que no lo tienen
+     (code blocks insertados antes de P7 venían sin botón de eliminar) */
+  function _migrateCodeBlocks(editor){
+    if (!editor) return;
+    const wraps = editor.querySelectorAll('.nb-code-wrap');
+    let changed = false;
+    wraps.forEach(wrap => {
+      if (wrap.querySelector(':scope > .nb-block-del')) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'nb-block-del';
+      btn.setAttribute('contenteditable', 'false');
+      btn.setAttribute('title', 'Eliminar bloque de código');
+      btn.setAttribute('aria-label', 'Eliminar bloque de código');
+      btn.textContent = '×';
+      // Insertar antes del primer <code> para que CSS lo coloque arriba-derecha
+      const code = wraps.length ? wrap.querySelector('.nb-code') : null;
+      if (code) wrap.insertBefore(btn, code);
+      else wrap.appendChild(btn);
+      changed = true;
+    });
+    if (changed) editor.dispatchEvent(new Event('input', { bubbles: true }));
+  }
   /* Auto-migración: convierte <img class="nb-img"> legacy a chips compactos
      para que las imágenes ya insertadas dejen de cubrir la hoja. */
   function _migrateInlineImagesToChips(editor){
@@ -1035,6 +1058,8 @@
     attachCodeBlockHandlers(el);
     // Migrar imágenes inline legacy a chips compactos (idempotente)
     _migrateInlineImagesToChips(el);
+    // Migrar code blocks legacy para agregarles botón × de eliminar (idempotente)
+    _migrateCodeBlocks(el);
     // Apply syntax highlighting una vez por render (asíncrono para no bloquear)
     if (_hljsReady()) setTimeout(() => applyHighlight(el), 0);
     else {
