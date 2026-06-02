@@ -942,8 +942,36 @@
           code.className = 'nb-code language-' + lang;
           code.setAttribute('data-hl', '1');
           window.hljs.highlightElement(code);
-        } catch(e) {}
+        } catch(err) {}
       }, 60);
+    });
+    // Delegated: click en × delete → eliminar el .nb-code-wrap entero
+    el.addEventListener('click', (e) => {
+      const btn = e.target && e.target.closest && e.target.closest('.nb-block-del');
+      if (!btn) return;
+      const wrap = btn.closest('.nb-code-wrap, .nb-block');
+      if (!wrap) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (confirm('¿Eliminar este bloque?')) {
+        wrap.remove();
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.focus();
+      }
+    });
+    // Backspace al inicio de un code vacío → eliminar el wrapper
+    el.addEventListener('keydown', (e) => {
+      if (e.key !== 'Backspace') return;
+      const code = e.target.closest && e.target.closest('.nb-code');
+      if (!code) return;
+      const txt = (code.innerText || '').replace(/​/g,'');
+      if (txt.trim().length > 0) return; // hay contenido → backspace normal
+      const wrap = code.closest('.nb-code-wrap');
+      if (!wrap) return;
+      e.preventDefault();
+      wrap.remove();
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.focus();
     });
   }
 
@@ -1180,7 +1208,9 @@
       ? '<span class="nb-code-lang" contenteditable="false">' + safeLang + '</span>'
       : '';
     // Insertar bloque + un párrafo vacío después para que el cursor pueda salir del code
-    const html = '<pre class="nb-code-wrap" contenteditable="false">' + langTag
+    // Botón × contenteditable=false → click elimina el wrapper entero
+    const delBtn = '<button type="button" class="nb-block-del" contenteditable="false" title="Eliminar bloque de código" aria-label="Eliminar bloque de código">×</button>';
+    const html = '<pre class="nb-code-wrap" contenteditable="false">' + langTag + delBtn
       + '<code class="nb-code" data-lang="' + safeLang + '" contenteditable="true" spellcheck="false">// código aquí</code>'
       + '</pre><div><br></div>';
     try { document.execCommand('insertHTML', false, html); }
@@ -1209,6 +1239,7 @@
     editor.dispatchEvent(new Event('input', { bubbles: true }));
   }
   // Click en imagen abre overlay HD desde IDB (full ~1920px) si está disponible
+  // Incluye botón "Eliminar" que remueve la imagen del editor + IDB
   async function _openImageHD(imgEl){
     const id = imgEl.getAttribute('data-img-id');
     let src = imgEl.src;
@@ -1219,11 +1250,32 @@
     if (!ov) {
       ov = document.createElement('div');
       ov.id = 'nbImgOverlay';
-      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:20px';
-      ov.innerHTML = '<img id="nbImgOverlayImg" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6)">';
-      ov.addEventListener('click', () => { ov.style.display = 'none'; });
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px';
+      ov.innerHTML = '<img id="nbImgOverlayImg" style="max-width:100%;max-height:calc(100% - 60px);object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6);cursor:zoom-out">'+
+        '<div style="display:flex;gap:8px;align-items:center">'+
+        '<button id="nbImgOverlayClose" style="padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:#fff;font-family:inherit;font-size:12px;cursor:pointer;font-weight:600">Cerrar (Esc)</button>'+
+        '<button id="nbImgOverlayDel" style="padding:8px 16px;background:rgba(239,68,68,.18);border:1px solid rgba(239,68,68,.5);border-radius:6px;color:#fca5a5;font-family:inherit;font-size:12px;cursor:pointer;font-weight:600">🗑 Eliminar imagen</button>'+
+        '</div>';
       document.body.appendChild(ov);
+      const closeOv = () => { ov.style.display = 'none'; ov._currentImg = null; };
+      ov.querySelector('#nbImgOverlayImg').addEventListener('click', closeOv);
+      ov.querySelector('#nbImgOverlayClose').addEventListener('click', closeOv);
+      document.addEventListener('keydown', (ev) => {
+        if (ov.style.display !== 'none' && ev.key === 'Escape') closeOv();
+      });
+      ov.querySelector('#nbImgOverlayDel').addEventListener('click', async () => {
+        const target = ov._currentImg;
+        if (!target) return;
+        if (!confirm('¿Eliminar esta imagen del cuaderno? Esta acción no se puede deshacer.')) return;
+        const editor = target.closest('.nb-content[contenteditable="true"]');
+        const imgId = target.getAttribute('data-img-id');
+        target.remove();
+        if (imgId) { try { await deleteImage(imgId); } catch(e) {} }
+        if (editor) editor.dispatchEvent(new Event('input', { bubbles: true }));
+        closeOv();
+      });
     }
+    ov._currentImg = imgEl;
     document.getElementById('nbImgOverlayImg').src = src;
     ov.style.display = 'flex';
   }

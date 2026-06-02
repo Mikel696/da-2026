@@ -3043,3 +3043,47 @@ P6 cierra el flujo de estudio con tres mejoras de UX + resolución de pendientes
 
 ### Próximos angles posibles (P7)
 (a) Drag-to-reorder de NODOS del mapa por categorías · (b) Export del cuaderno entero a PDF (pages + maps embedded) · (c) Backlinks: una página conoce qué nodos del mapa la referencian · (d) Templates de cuaderno editables por el usuario (vos creás tu propio template y se guarda) · (e) Search transversal sobre todos los cuadernos + mapas.
+
+## 🗑️ 13-NOT · P7 · Fix delete · todo es eliminable — 2026-06-02
+
+### Reporte del usuario
+"Insert a section of code, but it cannot be deleted; check that everything created can be edited and deleted."
+
+### Bug confirmado
+El code block insertado vía toolbar usa `<pre contenteditable="false">` para evitar que el cursor entre y rompa la estructura. Side-effect: Backspace desde afuera no puede borrarlo y no hay botón visible para eliminarlo.
+
+### Fix aplicado
+1. **Code blocks** — agregado botón `×` flotante con `class="nb-block-del"` en top-right del `.nb-code-wrap`. Aparece en hover (opacity 0 → 1). Click pide confirm y `wrap.remove()` + dispatch input event para autosave. Plus: Backspace dentro de un `.nb-code` vacío también elimina el wrapper.
+2. **Imágenes inline en editor** — antes solo se podían borrar moviendo el cursor adyacente y backspace. Ahora el HD overlay tiene botón `🗑 Eliminar imagen` + botón `Cerrar (Esc)`. Eliminar quita el `<img>` del DOM + `deleteImage(id)` en IDB para liberar storage.
+3. **Edges del mapa** — antes solo se eliminaban en cascada al borrar un nodo. Ahora cada `<g class="mm-edge" data-ei="...">` envuelve una line invisible de 14px (hit-area generosa) + la line visible. Click sobre la línea pide confirm y splice del array de edges.
+
+### Audit completo de "creable → editable + eliminable"
+| Entidad | Editar | Eliminar |
+|---|---|---|
+| Notas (`sb_notes2`) | inline edit | botón ✕ por nota |
+| Journal entries | inline | botón ✕ |
+| Cuadernos | rename + redesign | botón 🗑 con confirm |
+| Páginas | inline + título | botón 🗑 + drag reorder |
+| Links de página | — | removeLink |
+| Attachments | — | removeAttachment + deleteBlob |
+| Imágenes grid (legacy) | renameImage | removeImage |
+| **Imágenes inline (P4)** | (estática) | **🗑 en HD overlay (P7)** |
+| **Code blocks (P5)** | code editable inline | **× hover + Backspace vacío (P7)** |
+| Nodos del mapa | doble-click texto + Alt+click icono/link | click derecho confirm |
+| **Edges del mapa** | (recreables) | **click sobre línea (P7)** |
+| Mapa entero | — | botón 🗑 Limpiar |
+| Labels urgente/hecho | (estáticas) | click span |
+| Mapa templates | — | (aplicables, sobreescriben mapa actual) |
+| Notebook templates | — | (resulting pages son normales) |
+
+### Archivos tocados
+- `frontend/js/nb-shared.js`: + `delBtn` HTML en `insertCodeBlock` · + delegated click handler en `attachCodeBlockHandlers` para `.nb-block-del` con confirm · + keydown Backspace para eliminar wrapper si code está vacío · + botones Cerrar/Eliminar en `_openImageHD` con handler de delete (DOM + IDB).
+- `frontend/js/notes-nb.js`: + `<g class="mm-edge" data-ei="...">` con hit-area de 14px en `renderMap` · + click handler en `_wireMapEvents` que detecta `.mm-edge` y splica el edge · + update del docstring de la toolbar del mapa.
+- `frontend/css/nb-shared.css`: + `.nb-block-del` con opacity hover + transform scale + focus-visible WCAG AA · + padding-right del wrapper + reposición del `.nb-code-lang`.
+
+### Verificación manual sugerida
+- [ ] Editor → `</> Code` → insert bloque → hover muestra × arriba-derecha → click confirma → bloque desaparece.
+- [ ] Editor → `</> Code` → vacío "// código aquí" todo seleccionado y borrado → Backspace adicional → wrapper desaparece.
+- [ ] Editor → click en imagen → HD overlay → "🗑 Eliminar imagen" → confirm → imagen sale del editor.
+- [ ] Mapa → click en una línea (no sobre un nodo) → confirm → conexión eliminada.
+- [ ] Mapa → click derecho nodo → confirm → nodo + sus edges van.

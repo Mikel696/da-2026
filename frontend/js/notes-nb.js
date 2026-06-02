@@ -708,12 +708,16 @@ const NotNB = (function(){
     const W=800, H=460;
     const linking = _mapLink.nbId === nbId && _mapLink.fromId;
     let svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;background:radial-gradient(circle at 50% 40%,rgba(139,92,246,.06),transparent 70%),var(--c1);border:1px solid var(--bd);border-radius:10px;cursor:crosshair" id="nbMapSvgEl-'+nbId+'">';
-    // edges
-    mp.edges.forEach(e=>{
+    // edges (click → delete · hit-area transparente más ancha sobre la line)
+    mp.edges.forEach((e, ei)=>{
       const a = mp.nodes.find(n=>n.id===e.from);
       const b = mp.nodes.find(n=>n.id===e.to);
       if (!a||!b) return;
-      svg += '<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="rgba(167,139,250,.55)" stroke-width="2" stroke-linecap="round"/>';
+      svg += '<g class="mm-edge" data-ei="'+ei+'">';
+      // hit-area ancha invisible para facilitar el click
+      svg += '<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="transparent" stroke-width="14" style="cursor:pointer"/>';
+      svg += '<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="rgba(167,139,250,.55)" stroke-width="2" stroke-linecap="round" pointer-events="none"/>';
+      svg += '</g>';
     });
     // nodes
     mp.nodes.forEach(n=>{
@@ -817,6 +821,20 @@ const NotNB = (function(){
     // Doble click nodo → editar texto+icono (formato "icon texto")
     svgEl.addEventListener('click', (e) => {
       if (drag && drag.started) return;
+      // Edge click → confirmar y eliminar la conexión
+      const eg = e.target.closest('.mm-edge');
+      if (eg) {
+        const ei = parseInt(eg.getAttribute('data-ei'), 10);
+        const mp = getMap(nbId);
+        if (!Number.isNaN(ei) && mp.edges[ei]) {
+          if (confirm('¿Eliminar esta conexión?')) {
+            mp.edges.splice(ei, 1);
+            setMap(nbId, mp);
+            renderMap(nbId);
+          }
+        }
+        return;
+      }
       const g = e.target.closest('.mm-node');
       if (g) {
         if (e.altKey) {
@@ -1067,7 +1085,7 @@ const NotNB = (function(){
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:6px;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
           <div style="font-size:12px;font-weight:600;color:var(--tx)">🗺️ Mapa mental del cuaderno</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px;line-height:1.55">Click vacío → crear nodo (acepta "📘 Texto") · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · Alt+click → settings (icono + vincular página) · click nodo vinculado 🔗 → abrir página · click derecho → eliminar</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;line-height:1.55">Click vacío → crear nodo (acepta "📘 Texto") · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · Alt+click → settings (icono + link página) · click nodo vinculado 🔗 → abrir página · click derecho nodo → eliminar nodo · <b>click sobre línea → eliminar conexión</b></div>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
           <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${mp.nodes.length} nodos · ${mp.edges.length} conexiones</span>
