@@ -2900,3 +2900,50 @@ Con 10-SYS, 9-GOA, y 11-ACC cerrados, y 8-PRO en planificación, el backlog rest
 
 ### Para la próxima sesión
 Usar `PROMPT_14-WORK_MASTER.md` como prompt de arranque — tiene todo el contexto necesario.
+
+## 🖼️🗺️ 13-NOT · P4 · Inline images + Mindmap por cuaderno — 2026-06-02
+
+### Qué cambió
+P4 del módulo Notas. Dos features grandes + un fix de paste:
+
+**1. Inline images en cualquier editor `.nb-content`**
+- Botón nuevo "🖼️ Imagen" en `NBShared.toolbarHtml` → propaga a 10-SYS, 13-NOT, 14-WORK por construcción shared.
+- `NBShared.insertImage(sid, ns)`: file picker → comprime a 3 tiers (full 1920px→IDB, preview 1280px→inline body en `<img>` `data-img-id`, thumbnail fallback). Body queda con `<img class="nb-img" data-img-id="..." src="<preview>">`.
+- Paste (Ctrl+V) con imagen en clipboard ahora INGESTA inline (antes bloqueaba con un alert pidiéndole usar un botón inexistente).
+- Click en imagen → overlay full-screen HD desde IDB (cae a preview si no hay IDB).
+
+**2. Mindmap propio por cuaderno (NUEVO)**
+- Nuevo store `not_nb_maps` (registrado en `SYNC_REGISTRY` → cross-device).
+- Botón "🗺️ Mapa" en la toolbar del detalle del cuaderno → toggle de canvas SVG 800×460.
+- Interacciones: click vacío → crear nodo (prompt texto); drag → mover; Ctrl/Shift+click en 2 nodos → conectar; doble-click → editar texto; click derecho → eliminar; botón "🗑 Limpiar" → reset.
+- Persistencia automática vía proxy `localStorage.setItem` → push a Supabase JSONB.
+
+**3. Bug fix histórico**: el clean-paste mostraba alert "usa el botón 🖼️ Imagen HD" que no existía. Ahora pega bien.
+
+### Archivos tocados
+- `frontend/js/nb-shared.js`: +1 botón toolbar, +`insertImage`, +`_insertImageFromFile`, +`_findEditor`, +`_readFileAsDataURL`, +`_openImageHD`, +`attachImageClickHandler`, paste handler reformulado.
+- `frontend/css/nb-shared.css`: +`.nb-rt-img`, +`.nb-content .nb-img` (hover lift), +focus-visible WCAG AA.
+- `frontend/js/notes-nb.js`: +MAP namespace inner (~130 líneas) con `loadMaps/saveMaps/getMap/setMap/toggleMap/renderMap/clearMap/mapHtml`, +1 botón en toolbar detalle, +1 export en API.
+- `frontend/js/cloud-sync.js`: +`'not_nb_maps'` en SYNC_REGISTRY (cross-device sync).
+
+### Storage shape
+```
+not_nb_maps = {
+  [nbId]: {
+    nodes: [{ id, x, y, text, color }],
+    edges: [{ from, to }],
+    updatedAt: ISO
+  }
+}
+```
+
+### Verificación
+- [ ] Abrir notes.html → cuaderno → editor → botón 🖼️ → file picker → imagen inserta inline.
+- [ ] Ctrl+V con imagen en clipboard → inserta inline.
+- [ ] Click en imagen → overlay full-screen HD.
+- [ ] Botón 🗺️ Mapa → canvas aparece; click vacío crea nodo; drag mueve; Ctrl+click 2 nodos conecta.
+- [ ] Reload → mapa persiste · DevTools → `localStorage.not_nb_maps` poblado.
+- [ ] 10-SYS y 14-WORK siguen funcionando (toolbar shared no rota).
+
+### Próximos angles posibles
+(a) Export mapa a PNG/SVG · (b) Templates (kanban, swot, fishbone) · (c) Auto-extraer entidades de las páginas para sugerir nodos · (d) Link nodo → página del cuaderno · (e) Keyboard nav del HD overlay.

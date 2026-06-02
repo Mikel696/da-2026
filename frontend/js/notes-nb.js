@@ -527,6 +527,7 @@ const NotNB = (function(){
             <button onclick="NotNB.attachFile('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
           </div>
           <div style="display:flex;gap:4px">
+            <button onclick="NotNB.toggleMap('${nb.id}')" class="btn bo bs" title="Mostrar/ocultar mapa mental del cuaderno">🗺️ Mapa</button>
             <button onclick="NotNB.editDesign('${nb.id}')" class="btn bo bs">🎨 Diseño</button>
             <button onclick="NotNB.rename('${nb.id}')" class="btn bo bs">✏️</button>
             <button onclick="NotNB.moveNotebook('${nb.id}')" class="btn bo bs" title="Mover a otro módulo">📦 Mover</button>
@@ -534,6 +535,7 @@ const NotNB = (function(){
           </div>
         </div>
         ${editorHtml || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;background:var(--c1);border:1px dashed var(--bd);border-radius:8px;margin:10px 0">Crea o selecciona una página para empezar a escribir.</div>'}
+        ${mapHtml(nb.id)}
         <div class="lb" style="margin-top:14px">· páginas ·</div>
         <div class="nb-entries">${pagesList}</div>
       </div>
@@ -574,6 +576,180 @@ const NotNB = (function(){
     }
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     MINDMAP POR CUADERNO · SVG canvas con nodos drag + edges
+     Store: not_nb_maps = { [nbId]: { nodes, edges, updatedAt } }
+     Interacciones:
+       · Click vacío → crear nodo (prompt texto)
+       · Drag nodo → mover
+       · Shift/Ctrl + click nodo → marcar origen para conectar
+                                    (siguiente click nodo crea edge)
+       · Doble-click nodo → editar texto
+       · Click derecho nodo → eliminar
+       · Botón "Limpiar mapa" → reset total
+  ══════════════════════════════════════════════════════════════ */
+  const MAP_KEY = 'not_nb_maps';
+  const MAP_PAL = ['#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1','#14b8a6'];
+  let _mapLink = { nbId:null, fromId:null };
+
+  function loadMaps(){ try { return JSON.parse(localStorage.getItem(MAP_KEY)||'{}'); } catch { return {}; } }
+  function saveMaps(m){ try { localStorage.setItem(MAP_KEY, JSON.stringify(m)); } catch(e){ console.warn('saveMaps:',e); } }
+  function getMap(nbId){
+    const all = loadMaps();
+    if (!all[nbId]) all[nbId] = { nodes:[], edges:[], updatedAt:new Date().toISOString() };
+    return all[nbId];
+  }
+  function setMap(nbId, mp){
+    const all = loadMaps();
+    mp.updatedAt = new Date().toISOString();
+    all[nbId] = mp;
+    saveMaps(all);
+  }
+  function toggleMap(nbId){
+    const el = document.getElementById('nbMapWrap-'+nbId);
+    if (!el) return;
+    const showing = el.style.display !== 'none';
+    el.style.display = showing ? 'none' : 'block';
+    if (!showing) renderMap(nbId);
+  }
+  function renderMap(nbId){
+    const root = document.getElementById('nbMapSvg-'+nbId);
+    if (!root) return;
+    const mp = getMap(nbId);
+    const W=800, H=460;
+    const linking = _mapLink.nbId === nbId && _mapLink.fromId;
+    let svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;background:radial-gradient(circle at 50% 40%,rgba(139,92,246,.06),transparent 70%),var(--c1);border:1px solid var(--bd);border-radius:10px;cursor:crosshair" id="nbMapSvgEl-'+nbId+'">';
+    // edges
+    mp.edges.forEach(e=>{
+      const a = mp.nodes.find(n=>n.id===e.from);
+      const b = mp.nodes.find(n=>n.id===e.to);
+      if (!a||!b) return;
+      svg += '<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="rgba(167,139,250,.55)" stroke-width="2" stroke-linecap="round"/>';
+    });
+    // nodes
+    mp.nodes.forEach(n=>{
+      const col = n.color || MAP_PAL[0];
+      const isFrom = linking && _mapLink.fromId === n.id;
+      const ring = isFrom ? '<circle cx="'+n.x+'" cy="'+n.y+'" r="34" fill="none" stroke="#fde047" stroke-width="2" stroke-dasharray="4 3"/>' : '';
+      svg += ring + '<g class="mm-node" data-id="'+n.id+'" style="cursor:grab">';
+      svg += '<circle cx="'+n.x+'" cy="'+n.y+'" r="28" fill="'+col+'22" stroke="'+col+'" stroke-width="2"/>';
+      const txt = esc(n.text||'').slice(0,18);
+      svg += '<text x="'+n.x+'" y="'+(n.y+4)+'" text-anchor="middle" font-size="11" font-weight="600" fill="var(--tx)" font-family="IBM Plex Sans,sans-serif" pointer-events="none">'+txt+'</text>';
+      svg += '</g>';
+    });
+    svg += '</svg>';
+    root.innerHTML = svg;
+    _wireMapEvents(nbId);
+  }
+  function _wireMapEvents(nbId){
+    const svgEl = document.getElementById('nbMapSvgEl-'+nbId);
+    if (!svgEl) return;
+    const ptOf = (evt) => {
+      const r = svgEl.getBoundingClientRect();
+      const x = ((evt.clientX - r.left) / r.width) * 800;
+      const y = ((evt.clientY - r.top)  / r.height) * 460;
+      return { x, y };
+    };
+    let drag = null;
+    svgEl.addEventListener('mousedown', (e) => {
+      const g = e.target.closest('.mm-node');
+      if (!g) return;
+      const id = g.getAttribute('data-id');
+      if (e.ctrlKey || e.shiftKey || e.metaKey) {
+        // link mode
+        if (_mapLink.nbId === nbId && _mapLink.fromId && _mapLink.fromId !== id) {
+          const mp = getMap(nbId);
+          if (!mp.edges.some(x => (x.from===_mapLink.fromId && x.to===id) || (x.from===id && x.to===_mapLink.fromId))) {
+            mp.edges.push({ from:_mapLink.fromId, to:id });
+            setMap(nbId, mp);
+          }
+          _mapLink = { nbId:null, fromId:null };
+        } else {
+          _mapLink = { nbId, fromId:id };
+        }
+        renderMap(nbId);
+        return;
+      }
+      drag = { id, started:false, startX:e.clientX, startY:e.clientY };
+    });
+    svgEl.addEventListener('mousemove', (e) => {
+      if (!drag) return;
+      if (!drag.started && (Math.abs(e.clientX-drag.startX)+Math.abs(e.clientY-drag.startY)) < 4) return;
+      drag.started = true;
+      const p = ptOf(e);
+      const mp = getMap(nbId);
+      const n = mp.nodes.find(x => x.id === drag.id);
+      if (!n) return;
+      n.x = Math.max(34, Math.min(800-34, p.x));
+      n.y = Math.max(34, Math.min(460-34, p.y));
+      setMap(nbId, mp);
+      renderMap(nbId);
+    });
+    const endDrag = () => { drag = null; };
+    svgEl.addEventListener('mouseup', endDrag);
+    svgEl.addEventListener('mouseleave', endDrag);
+    // Click vacío → crear nodo · doble click nodo → editar · right-click nodo → eliminar
+    svgEl.addEventListener('click', (e) => {
+      if (drag && drag.started) return;
+      const g = e.target.closest('.mm-node');
+      if (g) return; // handled by mousedown / dblclick
+      const p = ptOf(e);
+      const text = prompt('Texto del nodo:');
+      if (text == null || !text.trim()) return;
+      const mp = getMap(nbId);
+      const color = MAP_PAL[mp.nodes.length % MAP_PAL.length];
+      mp.nodes.push({ id:'n_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), x:p.x, y:p.y, text:text.trim(), color });
+      setMap(nbId, mp);
+      renderMap(nbId);
+    });
+    svgEl.addEventListener('dblclick', (e) => {
+      const g = e.target.closest('.mm-node');
+      if (!g) return;
+      const id = g.getAttribute('data-id');
+      const mp = getMap(nbId);
+      const n = mp.nodes.find(x => x.id === id);
+      if (!n) return;
+      const txt = prompt('Editar texto:', n.text || '');
+      if (txt == null) return;
+      n.text = txt.trim();
+      setMap(nbId, mp);
+      renderMap(nbId);
+    });
+    svgEl.addEventListener('contextmenu', (e) => {
+      const g = e.target.closest('.mm-node');
+      if (!g) return;
+      e.preventDefault();
+      if (!confirm('¿Eliminar este nodo y sus conexiones?')) return;
+      const id = g.getAttribute('data-id');
+      const mp = getMap(nbId);
+      mp.nodes = mp.nodes.filter(n => n.id !== id);
+      mp.edges = mp.edges.filter(x => x.from !== id && x.to !== id);
+      setMap(nbId, mp);
+      renderMap(nbId);
+    });
+  }
+  function clearMap(nbId){
+    if (!confirm('¿Limpiar el mapa entero?')) return;
+    setMap(nbId, { nodes:[], edges:[] });
+    renderMap(nbId);
+  }
+  function mapHtml(nbId){
+    const mp = getMap(nbId);
+    return `<div id="nbMapWrap-${nbId}" style="display:none;margin-top:14px;padding:14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">🗺️ Mapa mental del cuaderno</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">Click vacío → crear nodo · drag → mover · Ctrl/Shift+click 2 nodos → conectar · doble-click → editar · click derecho → eliminar</div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;align-self:center;margin-right:6px">${mp.nodes.length} nodos · ${mp.edges.length} conexiones</span>
+          <button onclick="NotNB.clearMap('${nbId}')" class="btn bo bs" style="border-color:rgba(239,68,68,.3);color:var(--rd)" title="Limpiar todo el mapa">🗑 Limpiar</button>
+        </div>
+      </div>
+      <div id="nbMapSvg-${nbId}"></div>
+    </div>`;
+  }
+
   /* ── INIT ─────────────────────────────────────────────────── */
   function init(){ render(); }
 
@@ -588,6 +764,7 @@ const NotNB = (function(){
     addLink, removeLink,
     addImage, renameImage, removeImage, viewImage,
     attachFile, removeAttachment,
+    toggleMap, renderMap, clearMap,
   };
 })();
 window.NotNB = NotNB;

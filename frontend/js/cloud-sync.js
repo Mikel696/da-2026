@@ -274,6 +274,8 @@ const CLOUD = (() => {
     'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sys_notebook_meta', 'sim_interview_chks', 'plab_h',
     // 13-NOT Cuadernos (metadata only — attachment binaries stay local in IndexedDB)
     'not_nb_meta', 'not_nb_data',
+    // 13-NOT · P4 · Mapas mentales por cuaderno (nodos + edges JSONB)
+    'not_nb_maps',
     // 14-WORK Simetrik Copilot (cases, errors, learnings, KB, notebooks)
     'work_cases', 'work_errors', 'work_learnings', 'work_kb',
     'work_nb_meta', 'work_nb_data',

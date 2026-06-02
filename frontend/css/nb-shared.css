@@ -229,6 +229,13 @@
 .nb-rt-lbl-u:hover{background:rgba(255,107,107,.3);color:#fff}
 .nb-rt-lbl-d{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.4);color:#6ee7a0}
 .nb-rt-lbl-d:hover{background:rgba(74,222,128,.28);color:#fff}
+.nb-rt-img{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.45);color:#c4b5fd;font-weight:600}
+.nb-rt-img:hover{background:rgba(139,92,246,.3);color:#fff;border-color:#a78bfa}
+.nb-rt-btn:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+
+/* Inline images dentro del editor — click → overlay HD */
+.nb-content .nb-img{max-width:100%;max-height:380px;height:auto;border-radius:8px;border:1px solid var(--bd, #27272a);box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:zoom-in;display:inline-block;margin:6px 4px;vertical-align:middle;transition:transform .2s,box-shadow .2s,border-color .2s}
+.nb-content .nb-img:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.5);border-color:#a78bfa}
 
 /* Inline labels */
 .rt-label{display:inline-block;padding:1px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;vertical-align:middle;margin:0 2px;user-select:none;cursor:pointer;transition:opacity .15s,transform .15s}

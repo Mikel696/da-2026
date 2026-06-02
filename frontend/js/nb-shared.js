@@ -840,13 +840,16 @@
     el.addEventListener('paste', (e) => {
       const cb = e.clipboardData || window.clipboardData;
       if (!cb) return;
-      // 1) Imagen pegada → bloqueamos y enseñamos cómo hacerlo correctamente
+      // 1) Imagen pegada → ingest inline (preview en body + full en IDB)
       for (let i = 0; i < (cb.items || []).length; i++) {
         const it = cb.items[i];
         if (it && it.kind === 'file' && /^image\//.test(it.type)) {
-          e.preventDefault();
-          alert('💡 Para pegar imágenes usa el botón "🖼️ Imagen HD" del cuaderno.\n\nEsto las guarda en alta calidad sin romper el alineado de los renglones, y sincronizan correctamente entre dispositivos.');
-          return;
+          const f = it.getAsFile();
+          if (f) {
+            e.preventDefault();
+            _insertImageFromFile(f, el).catch(err => console.warn('paste image failed:', err));
+            return;
+          }
         }
       }
       // 2) Texto plano → reemplazamos el comportamiento default (que pega HTML formateado)
@@ -888,10 +891,25 @@
     });
   }
 
+  /* Click en imagen → abrir HD overlay (full quality desde IDB si existe) */
+  function attachImageClickHandler(el){
+    if (!el || el._nbImgClickAttached) return;
+    el._nbImgClickAttached = true;
+    el.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t && t.tagName === 'IMG' && t.classList && t.classList.contains('nb-img')) {
+        e.preventDefault();
+        e.stopPropagation();
+        _openImageHD(t);
+      }
+    });
+  }
+
   /* Helper combinado · attachable a cualquier .nb-content */
   function attachEditorHandlers(el){
     attachCleanPaste(el);
     attachChecklistToggle(el);
+    attachImageClickHandler(el);
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -994,13 +1012,119 @@
       <span class="nb-rt-sep"></span>
       <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-u" onclick="${N}.insertLabel('${sid}','urgent')" title="Insertar etiqueta URGENTE">⚠ URGENTE</button>
       <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="${N}.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
+      <span class="nb-rt-sep"></span>
+      <button class="nb-rt-btn nb-rt-img" onclick="NBShared.insertImage('${sid}','${N}')" title="Insertar imagen (archivo o portapapeles) · HD preview + IDB full" aria-label="Insertar imagen">🖼️ Imagen</button>
     </div>`;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     INLINE IMAGE INSERT · file picker o clipboard → <img class="nb-img">
+     embebido inline en el editor. Guarda preview (~1280px ~150KB) en el
+     body (sincroniza cross-device vía JSONB) + full (~1920px) en IDB para
+     ver HD en el dispositivo de origen.
+     Uso: <button onclick="NBShared.insertImage(sid, ns)">
+  ══════════════════════════════════════════════════════════════ */
+  function _findEditor(sid){
+    if (sid) {
+      const el = document.getElementById('nbBody-' + sid);
+      if (el && el.isContentEditable) return el;
+    }
+    const ae = document.activeElement;
+    if (ae && ae.classList && ae.classList.contains('nb-content')) return ae;
+    return document.querySelector('.nb-content[contenteditable="true"]');
+  }
+  function _readFileAsDataURL(file){
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(fr.result);
+      fr.onerror = () => reject(fr.error);
+      fr.readAsDataURL(file);
+    });
+  }
+  async function _insertImageFromFile(file, editor){
+    if (!file || !/^image\//.test(file.type)) return false;
+    if (file.size > 20 * 1024 * 1024) {
+      alert('Imagen demasiado grande (máx 20 MB). La tuya: ' + fmtBytes(file.size));
+      return false;
+    }
+    try {
+      const rawUrl = await _readFileAsDataURL(file);
+      // 3 tiers: full → IDB · preview → inline body (sync) · thumb → fallback
+      const full    = await compressImage(rawUrl, { maxDim: 1920, quality: 0.85 });
+      const preview = await compressImage(rawUrl, { maxDim: 1280, quality: 0.78 });
+      const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+      try { await putImage(id, full); } catch(e) { /* IDB optional */ }
+      const alt = (file.name || 'imagen').replace(/"/g, '');
+      const html = '<img class="nb-img" data-img-id="' + id + '" src="' + preview + '" alt="' + alt + '" loading="lazy">&nbsp;';
+      if (editor && editor.focus) editor.focus();
+      // Asegurar que el cursor esté dentro del editor — si no, append al final
+      const sel = window.getSelection();
+      let inside = false;
+      if (sel && sel.rangeCount && editor) {
+        let n = sel.getRangeAt(0).commonAncestorContainer;
+        while (n) { if (n === editor) { inside = true; break; } n = n.parentNode; }
+      }
+      if (!inside && editor) {
+        const r = document.createRange();
+        r.selectNodeContents(editor);
+        r.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(r);
+      }
+      try { document.execCommand('insertHTML', false, html); }
+      catch(e) {
+        if (sel && sel.rangeCount) {
+          const r = sel.getRangeAt(0);
+          const frag = r.createContextualFragment(html);
+          r.deleteContents();
+          r.insertNode(frag);
+        }
+      }
+      if (editor) editor.dispatchEvent(new Event('input', { bubbles: true }));
+      return true;
+    } catch(e) {
+      console.warn('[NBShared] insertImage failed:', e);
+      alert('No pude insertar la imagen: ' + (e.message || e));
+      return false;
+    }
+  }
+  async function insertImage(sid, ns){
+    const editor = _findEditor(sid);
+    if (!editor) { alert('No encontré el editor activo. Click adentro de la nota e intentá de nuevo.'); return; }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) await _insertImageFromFile(f, editor);
+    };
+    input.click();
+  }
+  // Click en imagen abre overlay HD desde IDB (full ~1920px) si está disponible
+  async function _openImageHD(imgEl){
+    const id = imgEl.getAttribute('data-img-id');
+    let src = imgEl.src;
+    if (id) {
+      try { const hd = await getImage(id); if (hd) src = hd; } catch(e) {}
+    }
+    let ov = document.getElementById('nbImgOverlay');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'nbImgOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:20px';
+      ov.innerHTML = '<img id="nbImgOverlayImg" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6)">';
+      ov.addEventListener('click', () => { ov.style.display = 'none'; });
+      document.body.appendChild(ov);
+    }
+    document.getElementById('nbImgOverlayImg').src = src;
+    ov.style.display = 'flex';
   }
 
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    fmtExtended, toolbarHtml,
+    fmtExtended, toolbarHtml, insertImage,
+    _insertImageFromFile, _openImageHD,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,

@@ -193,3 +193,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: PROMPT_14-WORK_TEST.md (NEW), PROMPT_14-WORK.md (cronología 4 iteraciones + 14 tabs + storage keys), CEREBRO_STATE.md (sesión completa), frontend/work.html (+Modo 3 Copilot), frontend/js/work.js (+buildTestDevPrompt)
 - Modified: Plantilla persistente del prompt de desarrollo de pruebas Simetrik (estilo DOTA) + integración como Modo 3 del Copilot · cronología completa en PROMPT_14-WORK.md
 - Next: Aplicar la plantilla a la próxima prueba real (cualquier cliente diferente a DOTA)
+
+### ID:13-NOT.P4 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css · frontend/js/notes-nb.js · frontend/js/cloud-sync.js
+- Changed: (a) Botón "🖼️ Imagen" en toolbar shared + NBShared.insertImage(sid,ns) con 3-tier compression (full→IDB, preview→inline body, ~150KB); (b) Paste de imagen ahora ingesta inline en vez de bloquear con alert; (c) Click en .nb-img → overlay HD desde IDB; (d) Mindmap por cuaderno: nuevo store not_nb_maps {nodes,edges} + sub-toggle "🗺️ Mapa" en detalle de cuaderno con SVG canvas (click→crear, drag→mover, Ctrl/Shift+click 2 nodos→conectar, doble-click→editar, right-click→eliminar); (e) Registrado not_nb_maps en SYNC_REGISTRY (cross-device).
+- Next: (a) Export mapa a PNG/SVG · (b) Templates de mapas (kanban, swot, fishbone) · (c) Auto-extraer entidades de páginas para sugerir nodos · (d) Link nodo del mapa → página específica del cuaderno · (e) Resize/move overlay HD con keyboard nav.
