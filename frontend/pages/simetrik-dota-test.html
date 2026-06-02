@@ -549,6 +549,43 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <p class="tx2">Elegí <b>uno</b> y explicá el valor. No hace falta hacer los tres.</p>
 </div>
 
+<!-- ════════ PREGUNTAS PARA EL TRAINER ════════ -->
+<div class="phase">❓ Preguntas pendientes para el trainer</div>
+<div class="phase-sub">Consolidadas. Las 🔴 bloquean un punto; las 🟡 son decisiones que conviene confirmar (tengo una hipótesis para avanzar mientras tanto).</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--rd),var(--or))">7</div><div class="step-title">🔴 BLOQUEANTE · Calendario no cubre las fechas (Punto 7)</div></div>
+  <p>El calendario <code>Normalización días hábiles Argentina</code> (sitio MLA) arranca el <b>2026-03-23</b>, pero las transacciones de DB_DOTA son desde <b>2022</b>. El BuscarV para <code>EXPECTED_PAYMENT_DATE</code> no encuentra las fechas previas a 2026 → traería vacío para la mayoría. No se puede resolver del lado del candidato (es el insumo).</p>
+  <div class="box q"><div class="box-h">Pregunta</div><i>"El calendario de días hábiles de Argentina arranca el 2026-03-23, pero las transacciones de DB_DOTA son desde 2022. Al hacer el BuscarV para EXPECTED_PAYMENT_DATE, las transacciones previas a 2026 no encuentran su fecha en el calendario. ¿Hay un calendario que cubra desde 2022, o cómo debo proceder con el punto 7?"</i></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "comercio" en FD</div></div>
+  <p>El documento dice cruzar por "comercio" pero FD tiene varias candidatas. Hipótesis (datos): <code>NUM_EST</code>.</p>
+  <div class="box q"><div class="box-h">Pregunta</div><i>"Para la llave de comercio de la barrida DOTA×FD, ¿qué columna de FD corresponde al número de comercio de DOTA: NUM_COM, NUM_EST u otra?"</i></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "fecha de creación" en FD</div></div>
+  <p>El documento dice "fecha de creación" pero FD tiene <code>FPRES</code> y <code>FORIG_COMPRA</code>. Hipótesis (datos): <code>FORIG_COMPRA</code>.</p>
+  <div class="box q"><div class="box-h">Pregunta</div><i>"Para la llave de fecha de la barrida DOTA×FD, ¿contra qué columna de FD cruzo MOV_CREATION_DATE: FPRES, FORIG_COMPRA u otra?"</i></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 4 · tolerancia direccional de fecha</div></div>
+  <p>"FD puede llegar 1 día después, nunca antes". La tolerancia nativa es bidireccional. Hipótesis: duplicar la llave de fecha con desigualdad de un solo sentido.</p>
+  <div class="box q"><div class="box-h">Pregunta</div><i>"¿La tolerancia de fecha direccional (FD nunca antes que DOTA) la configuro con una desigualdad en la llave, o hay una opción nativa de un solo sentido?"</i></div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">3</div><div class="step-title">🟡 Fallback del GTWT_ACQUIRER (Punto 3)</div></div>
+  <p>Si ninguna de las 3 columnas tiene la marca, el documento dice poner "el contenido en mayúscula" pero no aclara de cuál columna. Hipótesis: <code>CAPTURE_ACQUIRER</code> (la primera mencionada).</p>
+  <div class="box q"><div class="box-h">Pregunta</div><i>"En el fallback del punto 3, cuando ninguna columna acquirer tiene la marca, ¿de cuál de las 3 (CAPTURE/PURCHASE/AUTH) tomo el contenido para poner en mayúscula?"</i></div>
+</div>
+
+<div class="box do"><div class="box-h">✅ Ya resuelto (NO preguntar)</div>
+Punto 6: <code>ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE; "T"; 1); 1; "dias")</code> (verificado en el editor). · Merchant decimal: <code>DIVIDIR(...; "."; 1)</code>. · Formato: se castea en la FUENTE, no en la unión. · MOV_AMOUNT ya trae signo. · Paso 8: el merchant cruza exacto con la parametría.</div>
+
 <!-- ════════ CHECKLIST ════════ -->
 <div class="phase">✅ Tu progreso</div>
 <div class="chk-progress">

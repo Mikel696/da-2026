@@ -883,6 +883,20 @@ Pasos: Configuración de cruce → ícono config → seleccionar tipo → Guarda
 
 ---
 
+## 📍 ESTADO ACTUAL DE LA PRUEBA DOTA (2026-06-01, fin de jornada)
+
+**Hecho y guardado en el workspace:** Fuentes cargadas · `Union_DOTA` con columnas bien mapeadas · Puntos 1-5 · Punto 6 (`MOV_CREATION_DATE` con `ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE;"T";1);1;"dias")`).
+
+**Quedó en:** Punto 7 (EXPECTED_PAYMENT_DATE).
+
+**Bloqueo del punto 7:** el calendario MLA arranca 2026-03-23 pero las transacciones son desde 2022 → el BuscarV no encuentra las fechas previas. Es problema del insumo → PREGUNTA al trainer (ver lista de preguntas pendientes en simetrik-dota-test.html, sección final).
+
+**Plan para retomar:** mandar la pregunta del calendario al trainer; mientras, avanzar Paso 8 (Parametría, cruza OK) y 9-11 (normalización FD). El punto 7 se completa cuando respondan lo del calendario.
+
+**Preguntas pendientes al trainer:** (1) 🔴 calendario 2026 vs transacciones 2022; (2) 🟡 columna "comercio" FD (hip. NUM_EST); (3) 🟡 columna "fecha de creación" FD (hip. FORIG_COMPRA); (4) 🟡 tolerancia direccional B4; (5) 🟡 fallback acquirer punto 3 (hip. CAPTURE_ACQUIRER).
+
+---
+
 ## 🔧 HALLAZGOS DE EJECUCIÓN REAL · workspace DOTA (log incremental para futuras implementaciones)
 
 > Cosas aprendidas EN el workspace real de Simetrik mientras se desarrolla la prueba. Para no repetir errores en futuros casos.
