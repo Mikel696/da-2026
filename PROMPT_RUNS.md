@@ -230,3 +230,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css
 - Changed: HOTFIX P7 regresion · code blocks legacy ahora migran automaticamente para tener boton de eliminar. (a) Nueva _migrateCodeBlocks(editor) idempotente que detecta .nb-code-wrap sin .nb-block-del hijo e inyecta el boton dinamicamente. (b) Wired en attachEditorHandlers despues de _migrateInlineImagesToChips. (c) CSS: boton × ahora opacity .55 default (era 0) + size 24px (era 22) + radius 12 + escala 1.12 en hover (era 1.08) — siempre visible para que el usuario lo descubra sin tener que hover el bloque.
 - Next: (a) Tooltip mas obvio "Eliminar" sin tener que hover · (b) Animacion suave al eliminar · (c) Drag handle para reordenar code blocks dentro de la pagina.
+
+### ID:13-NOT.P10 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/js/nb-shared.js
+- Changed: Insert imagen unificado · 3 caminos paralelos en un mismo modal. Click en "🖼️ Imagen" ahora abre _openInsertImageDialog en vez de saltar directo al file picker. El modal soporta: (a) drag-and-drop sobre la zona destacada con border morado al hover; (b) Ctrl+V en cualquier parte del overlay (pega imagen del clipboard); (c) boton "📁 Seleccionar archivo" como antes. Esc cierra. Click afuera cierra. Cualquiera de los 3 caminos llama a _insertImageFromFile → chip compacto en el editor. La paste via Ctrl+V dentro del editor (sin abrir el modal) sigue funcionando como antes via attachCleanPaste.
+- Next: (a) URL paste como 4to camino (validar y descargar) · (b) Multi-file drop (procesar batch) · (c) Captura de pantalla integrada con el browser API.

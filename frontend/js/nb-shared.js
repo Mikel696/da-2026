@@ -1262,17 +1262,96 @@
       return false;
     }
   }
+  /* Modal unificado de "Insertar imagen": 3 caminos paralelos
+       1) Drag & drop sobre la zona
+       2) Ctrl+V dentro del modal (pega desde clipboard)
+       3) Click en "Seleccionar archivo" (file picker)
+     Cualquiera de los 3 inyecta vía _insertImageFromFile y cierra. */
+  function _openInsertImageDialog(editor){
+    let ov = document.getElementById('nbImgInsert');
+    if (ov) ov.remove();
+    ov = document.createElement('div');
+    ov.id = 'nbImgInsert';
+    ov.tabIndex = -1; // necesario para que reciba focus y dispare paste
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px;outline:none';
+    ov.innerHTML =
+      '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:20px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5)" onclick="event.stopPropagation()">'+
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'+
+          '<div>'+
+            '<div style="font-size:14px;font-weight:600;color:var(--tx)">🖼️ Insertar imagen</div>'+
+            '<div style="font-size:11px;color:var(--t3);margin-top:2px">Hay 3 formas: arrastrar archivo · pegar con Ctrl+V · seleccionar del PC</div>'+
+          '</div>'+
+          '<button id="nbImgInsClose" style="background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px" aria-label="Cerrar">✕</button>'+
+        '</div>'+
+        '<div id="nbImgInsDrop" tabindex="0" style="border:2px dashed var(--bd);border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;background:rgba(139,92,246,.04);transition:border-color .15s,background .15s;outline:none">'+
+          '<div style="font-size:34px;margin-bottom:8px" aria-hidden="true">📥</div>'+
+          '<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:4px">Soltá una imagen acá</div>'+
+          '<div style="font-size:11px;color:var(--t3)">o pegá con <kbd style="background:var(--el);border:1px solid var(--bd);border-radius:4px;padding:1px 6px;font-family:inherit;font-size:10px">Ctrl</kbd> + <kbd style="background:var(--el);border:1px solid var(--bd);border-radius:4px;padding:1px 6px;font-family:inherit;font-size:10px">V</kbd></div>'+
+        '</div>'+
+        '<div style="display:flex;gap:6px;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap">'+
+          '<div style="font-size:10px;color:var(--t3)">PNG · JPG · WEBP · GIF · SVG · máx 20 MB</div>'+
+          '<button id="nbImgInsPick" class="btn bo bs" style="display:inline-flex;align-items:center;gap:6px">📁 Seleccionar archivo</button>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(ov);
+    const close = () => { ov.remove(); editor && editor.focus && editor.focus(); };
+    const ingest = async (file) => {
+      if (!file) return;
+      const ok = await _insertImageFromFile(file, editor);
+      if (ok) close();
+    };
+    document.getElementById('nbImgInsClose').onclick = close;
+    ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
+    // Esc cierra
+    ov.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    // File picker
+    document.getElementById('nbImgInsPick').onclick = () => {
+      const inp = document.createElement('input');
+      inp.type = 'file'; inp.accept = 'image/*';
+      inp.onchange = (e) => { const f = e.target.files && e.target.files[0]; if (f) ingest(f); };
+      inp.click();
+    };
+    // Drop zone
+    const drop = document.getElementById('nbImgInsDrop');
+    drop.addEventListener('click', () => document.getElementById('nbImgInsPick').click());
+    ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      drop.style.borderColor = '#a78bfa';
+      drop.style.background = 'rgba(139,92,246,.12)';
+    }));
+    ['dragleave','dragend'].forEach(ev => drop.addEventListener(ev, (e) => {
+      e.preventDefault();
+      drop.style.borderColor = 'var(--bd)';
+      drop.style.background = 'rgba(139,92,246,.04)';
+    }));
+    drop.addEventListener('drop', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      drop.style.borderColor = 'var(--bd)';
+      drop.style.background = 'rgba(139,92,246,.04)';
+      const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) ingest(f);
+    });
+    // Paste handler (Ctrl+V) — escucha en el overlay entero
+    const onPaste = (e) => {
+      const cb = e.clipboardData || window.clipboardData;
+      if (!cb) return;
+      for (let i = 0; i < (cb.items || []).length; i++) {
+        const it = cb.items[i];
+        if (it && it.kind === 'file' && /^image\//.test(it.type)) {
+          const f = it.getAsFile();
+          if (f) { e.preventDefault(); ingest(f); return; }
+        }
+      }
+    };
+    ov.addEventListener('paste', onPaste);
+    drop.addEventListener('paste', onPaste);
+    // Focus para captar Ctrl+V inmediato
+    setTimeout(() => { try { ov.focus(); drop.focus(); } catch(e) {} }, 0);
+  }
   async function insertImage(sid, ns){
     const editor = _findEditor(sid);
     if (!editor) { alert('No encontré el editor activo. Click adentro de la nota e intentá de nuevo.'); return; }
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = async (e) => {
-      const f = e.target.files && e.target.files[0];
-      if (f) await _insertImageFromFile(f, editor);
-    };
-    input.click();
+    _openInsertImageDialog(editor);
   }
   /* Dropdown · lista de imágenes de la página actual con thumbnails clickeables */
   function openImageMenu(sid, ns){
