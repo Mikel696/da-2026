@@ -228,8 +228,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <span class="fn">MAYUSC</span>(<span class="col">CAPTURE_ACQUIRER</span>)
   )
 )</pre>
-  <div class="box q"><div class="box-h">❓ Pregunta · fallback del punto 3</div>El documento dice "poné el contenido en mayúscula" pero son 3 columnas y no aclara cuál usar en ese caso fallback. <b>Pregunta:</b> <i>"En el fallback del punto 3, cuando ninguna columna tiene la marca, ¿de cuál de las 3 acquirer tomo el contenido?"</i>
-<br><br>💡 <b>Hipótesis (para avanzar):</b> <code>CAPTURE_ACQUIRER</code> — es la primera que menciona el documento en el orden CAPTURE → PURCHASE → AUTH. Es lo más razonable mientras confirmás.</div>
+  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"En el punto 3, cuando ninguna de las columnas de acquirer trae Mastercard/Firstdata/Diners/Visa, el documento dice colocar el contenido en mayúscula. Como son tres columnas (CAPTURE, PURCHASE y AUTH), ¿de cuál tomo el valor en ese caso?"</i><br><br>💡 Mientras tanto uso <code>CAPTURE_ACQUIRER</code> (la primera del orden CAPTURE → PURCHASE → AUTH).</div>
 </div>
 
 <div class="step">
@@ -289,52 +288,27 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">7</div><div class="step-title">EXPECTED_PAYMENT_DATE <span class="out">salida: Fecha · 30 días hábiles</span></div></div>
-  <p>Calculá la fecha de pago a <b>30 días hábiles de Argentina</b> desde <code>MOV_CREATION_DATE</code>. Esto NO es una fórmula — se hace cruzando contra el calendario, que ya trae los días hábiles contados.</p>
+  <p>Calculá la fecha de pago a <b>30 días hábiles de Argentina</b> desde <code>MOV_CREATION_DATE</code>. No es una fórmula: el calendario ya trae los días hábiles numerados, así que lo <b>consultás</b> con BuscarV (como buscar en un diccionario). Lo consultás 2 veces: una para el número de día hábil de tu fecha, otra para la fecha que está 30 días hábiles después.</p>
 
-  <div class="box do"><div class="box-h">💡 Cómo entra el calendario (en simple)</div>El archivo del calendario es un <b>almanaque aparte</b>: para cada fecha te dice qué número de día hábil es. No se mezcla con DB_DOTA — se <b>consulta</b> con BuscarV (como buscar en un diccionario). Lo consultás 2 veces: una para saber el número de día hábil de tu fecha, otra para saber qué fecha es ese número + 30.</div>
-
-  <h4>Sub-paso 7.0 · Cargar el calendario (fuente → unión → grupo)</h4>
-  <p>El calendario es el recurso <b>más fácil</b>: 6 columnas y <b>NO se castea ningún tipo de dato</b> (viene limpio).</p>
+  <h4>7.0 · Cargar el calendario (fuente + unión)</h4>
   <ol>
-    <li><b>Cargar la fuente:</b> Automatizar → Recursos → "Crear recurso" → Fuentes → nombre <code>Calendario_MLA</code> → arrastrar el archivo <code>Normalización días hábiles Argentina.xlsx</code> → esperar "Listo ✓".</li>
-    <li><b>Crear la Unión:</b> "Crear recurso" → Unión de fuentes → nombre <code>Union_Calendario</code> → elegir la fuente <code>Calendario_MLA</code> → seleccionar las <b>6 columnas</b> (todas): <code>SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL</code> → <b>NO cambiar ningún tipo</b> → "Ejecutar cambios".</li>
+    <li><b>Fuente:</b> "Crear recurso" → Fuentes → <code>Calendario_MLA</code> → arrastrar <code>Normalización días hábiles Argentina.xlsx</code> → "Listo ✓".</li>
+    <li><b>Unión:</b> "Crear recurso" → Unión de fuentes → <code>Union_Calendario</code> → elegir la fuente → seleccionar las 6 columnas (<code>SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL</code>) → "Ejecutar cambios".</li>
   </ol>
-  <div class="box do"><div class="box-h">✅ NO hace falta grupo conciliable</div>Este archivo de calendario tiene <b>solo Argentina</b> (todas las filas son <code>MLA</code>), así que no hay que filtrar nada. Usá <code>Union_Calendario</code> directamente en los BuscarV de abajo. (El filtro por sitio solo haría falta si el archivo tuviera varios países.)</div>
+  <p class="tx2">No hace falta grupo conciliable (el archivo tiene solo Argentina). Columnas clave: <code>FECHA</code> (cada día), <code>ID_CONTADOR_SUMA</code> (número de día hábil de esa fecha), <code>ID_FECHA_FINAL</code> (para volver del número a la fecha).</p>
 
-  <table>
-    <tr><th>Columna del calendario</th><th>Qué es</th></tr>
-    <tr><td><code>SITE</code></td><td>Sitio. Argentina = <b>MLA</b> (no "ARG"). Por eso se filtra MLA.</td></tr>
-    <tr><td><code>FECHA</code></td><td>Cada fecha del calendario</td></tr>
-    <tr><td><code>CLASIFCACION</code></td><td>1 = hábil · 0 = no hábil/feriado</td></tr>
-    <tr><td><code>ID_CONTADOR_SUMA</code></td><td>Posición acumulada del día hábil (de tu fecha)</td></tr>
-    <tr><td><code>ID_FECHA_FINAL</code></td><td>Permite volver del "día hábil N°X" a su fecha</td></tr>
-  </table>
-  <div class="box warn"><div class="box-h">⚠ El calendario NO se castea</div>A diferencia de DB_DOTA, el calendario viene limpio: no toques ningún tipo de dato, no tiene ceros ni fechas ISO raras. Solo cargarlo, unión, grupo MLA.</div>
+  <h4>7.1 · BuscarV #1 — traer el número de día hábil</h4>
+  <p>En <code>Union_DOTA</code> → "Crear BuscarV": consultar <code>Union_Calendario</code>, traer <code>ID_CONTADOR_SUMA</code>, cruce <code>MOV_CREATION_DATE = FECHA</code> (operador <b>=</b>). Llamala <code>N_DIA_BASE</code>.</p>
+  <div class="box warn"><div class="box-h">⚠ Las dos fechas del cruce deben ser del MISMO tipo</div>Si <code>MOV_CREATION_DATE</code> es Texto y <code>FECHA</code> es "Fecha y hora", no cruzan. Igualá las dos a tipo <b>Fecha</b> (el de <code>FECHA</code> se cambia en la fuente <code>Calendario_MLA</code>, no en la unión).</div>
 
-  <h4>Sub-paso 7.1 · BuscarV #1 (posición del día de la transacción)</h4>
-  <p>Volvé a <code>Union_DOTA</code> → ícono <b>"Crear BuscarV"</b>. Esto consulta el almanaque y trae el número de día hábil de tu fecha:</p>
-  <ul>
-    <li>Nombre de la columna nueva: <code>N_DIA_BASE</code></li>
-    <li>Recurso fuente a consultar: <code>Union_Calendario</code></li>
-    <li>Condición de cruce: <code>MOV_CREATION_DATE</code> = <code>Union_Calendario.FECHA</code></li>
-    <li>Columna a traer: <code>ID_CONTADOR_SUMA</code></li>
-  </ul>
+  <h4>7.2 · Sumar 30 días hábiles</h4>
+  <p>Columna de transformación <code>N_TARGET</code> (Entero): <code>CALCULO(N_DIA_BASE + 30)</code></p>
 
-  <h4>Sub-paso 7.2 · Sumar 30 días hábiles</h4>
-  <p>En <code>Union_DOTA</code>, columna de transformación <code>N_TARGET</code> (salida Entero):</p>
-  <pre class="formula"><span class="fn">CALCULO</span>(<span class="col">N_DIA_BASE</span> + 30)</pre>
+  <h4>7.3 · BuscarV #2 — volver del número a la fecha</h4>
+  <p>Otro BuscarV en <code>Union_DOTA</code>: consultar <code>Union_Calendario</code>, traer <code>FECHA</code>, cruce <code>N_TARGET = ID_FECHA_FINAL</code>. Llamala <code>EXPECTED_PAYMENT_DATE</code>.</p>
 
-  <h4>Sub-paso 7.3 · BuscarV #2 (volver del contador a la fecha)</h4>
-  <p>Otro BuscarV en <code>Union_DOTA</code>:</p>
-  <ul>
-    <li>Nombre de la columna nueva: <code>EXPECTED_PAYMENT_DATE</code></li>
-    <li>Recurso fuente: <code>Union_Calendario</code></li>
-    <li>Condición de cruce: <code>N_TARGET</code> = <code>Union_Calendario.ID_FECHA_FINAL</code></li>
-    <li>Columna a traer: <code>FECHA</code></li>
-  </ul>
-
-  <div class="box q"><div class="box-h">❓ Observación a revisar al ejecutar</div>El calendario MLA empieza el <b>2026-03-23</b>, pero hay transacciones desde 2022. Las transacciones previas a esa fecha quedarán <b>sin EXPECTED_PAYMENT_DATE</b> (su fecha no existe en el calendario). <b>Pregunta:</b> <i>"El calendario MLA arranca en 2026-03-23 pero hay transacciones desde 2022 — ¿debería cubrir desde 2022, o es esperado que las previas queden sin fecha?"</i>
-  <br><br>💡 <b>Hipótesis (para avanzar):</b> seguí el método con el calendario tal cual está. Si al ejecutar quedan muchas transacciones sin EXPECTED_PAYMENT_DATE, eso es justamente el dato que respalda tu pregunta — no lo fuerces. Es válido entregar el cálculo correcto para las fechas que el calendario cubre y reportar el resto como hallazgo.</div>
+  <div class="box q"><div class="box-h">🔴 Pregunta para el trainer (esto bloquea el punto)</div>El calendario arranca el <b>2026-03-23</b> pero las transacciones de DOTA son desde <b>2022</b>, así que a las previas a 2026 no les encuentra el día hábil. Es el insumo, no se resuelve del lado del candidato.<br><br>
+  <i>"Hola, una consulta con el punto 7. Estuve armando EXPECTED_PAYMENT_DATE con BuscarV contra el calendario de días hábiles de Argentina, y noté que el calendario arranca el 23 de marzo de 2026, mientras que las transacciones de DB_DOTA vienen desde 2022. A las transacciones anteriores a esa fecha no les encuentra el día hábil correspondiente. ¿Tienen una versión del calendario que cubra desde 2022, o el enfoque para este punto es distinto?"</i></div>
 </div>
 
 <!-- ════════ CRUCE PARAMETRÍA ════════ -->
@@ -445,16 +419,13 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td>Fecha de creación</td><td><code>MOV_CREATION_DATE</code></td><td>🟡 <b>a confirmar</b> (ver ❓)</td></tr>
     <tr><td>PAN</td><td><code>CARD_NUMBER</code></td><td><code>NUM_TAR</code></td></tr>
   </table>
-  <div class="box q"><div class="box-h">❓ Pregunta · columna de "comercio" en FD</div>El documento dice cruzar por "comercio" pero FD tiene varias columnas candidatas (entre ellas <code>NUM_COM</code> y <code>NUM_EST</code>). <b>Pregunta:</b> <i>"Para la llave de comercio de la barrida DOTA×FD, ¿qué columna de FD corresponde al número de comercio de DOTA: NUM_COM, NUM_EST u otra?"</i>
-  <br><br>💡 <b>Hipótesis (para avanzar si no responden):</b> probablemente <code>NUM_EST</code>. En los datos, el merchant de DOTA <code>32827909</code> aparece como <code>NUM_EST</code> en FD, mientras que <code>NUM_COM</code> es otro número (<code>26919584</code>). <b>Es una hipótesis basada en los datos — confirmala antes de darla por buena.</b></div>
-  <div class="box q"><div class="box-h">❓ Pregunta · columna de "fecha de creación" en FD</div>El documento dice cruzar por "fecha de creación" pero FD tiene <code>FPRES</code> (fecha de proceso) y <code>FORIG_COMPRA</code> (fecha origen de compra), entre otras. <b>Pregunta:</b> <i>"Para la llave de fecha de la barrida DOTA×FD, ¿contra qué columna de FD cruzo MOV_CREATION_DATE: FPRES, FORIG_COMPRA u otra?"</i>
-  <br><br>💡 <b>Hipótesis (para avanzar si no responden):</b> probablemente <code>FORIG_COMPRA</code>. En los datos, la fecha de la transacción DOTA (<code>2022-01-03</code>) coincide con <code>FORIG_COMPRA</code>, mientras que <code>FPRES</code> es muy distinta (<code>2021-10-28</code>, es la fecha de proceso). <b>Confirmala antes de asumir.</b></div>
+  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer · comercio</div><i>"Para la barrida de DOTA contra FD, el documento indica cruzar por comercio. Del lado de FD veo un par de columnas que podrían ser (NUM_COM y NUM_EST); revisando los datos me inclino a NUM_EST, pero quería confirmar cuál es la que corresponde."</i><br><br>💡 Hipótesis: <code>NUM_EST</code> (el merchant DOTA <code>32827909</code> coincide ahí; <code>NUM_COM</code> es otro número).</div>
+  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer · fecha</div><i>"En esa misma barrida, para la llave de fecha, FD tiene FPRES (fecha de proceso) y FORIG_COMPRA (fecha de compra). Por las fechas de los datos parece que MOV_CREATION_DATE cruza con FORIG_COMPRA, ¿es esa la correcta o debería usar FPRES?"</i><br><br>💡 Hipótesis: <code>FORIG_COMPRA</code> (coincide con la fecha DOTA; <code>FPRES</code> es de otro período).</div>
   <div class="box do"><div class="box-h">✅ Lo que SÍ es claro (no requiere preguntar)</div>PAN: <code>CARD_NUMBER</code> y <code>NUM_TAR</code> tienen el mismo formato enmascarado. Importe: en FD <code>IMPORTE</code> es positivo (el signo está en la columna <code>SIGNO</code> aparte), por eso cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
   <p>Mismas 5 llaves que B3, pero la fecha admite que <b>FD llegue 1 día después</b> que DOTA, nunca antes (tal como dice el documento).</p>
-  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>La tolerancia normal de Simetrik aplica en ambos sentidos. <b>Pregunta:</b> <i>"¿La tolerancia de fecha direccional (FD nunca antes que DOTA) la configuro con desigualdad en la llave, o hay opción nativa de un solo sentido?"</i>
-  <br><br>💡 <b>Hipótesis (para avanzar):</b> como la tolerancia nativa es bidireccional, lo más probable es duplicar la llave de fecha con una desigualdad de un solo sentido (la fecha de FD ≥ la de DOTA) + tolerancia de 1 día. La best practice #21 apunta a esto. <b>Confirmá la mecánica exacta en la UI.</b></div>
+  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"Para la barrida con tolerancia de +1 día, el caso pide que FD pueda llegar un día después que DOTA pero nunca antes. La tolerancia que veo en Simetrik aplica para los dos lados. ¿Lo correcto es agregar una regla de desigualdad para forzar el sentido, o existe una tolerancia direccional que no estoy viendo?"</i><br><br>💡 Hipótesis: duplicar la llave de fecha con desigualdad (FD ≥ DOTA) + tolerancia 1 día (best practice #21).</div>
 
   <h4>Barrida 5 · DOTA vs Batch FD</h4>
   <p>Tipo: <b>agrupada (batch)</b>. Sobre el FD que aún no cruzó, agrupá por lote y cruzá la suma contra el detalle DOTA pendiente.</p>
@@ -462,7 +433,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <li>Lado B (FD): agrupar por <code>LOTE</code> con <code>SUMA(IMPORTE)</code></li>
     <li>Cruzar contra el detalle DOTA pendiente por comercio</li>
   </ul>
-  <div class="box q"><div class="box-h">❓ Decisión en este paso</div>El documento dice "agrupar por lote" pero no da la llave exacta del lado DOTA. <b>Pregunta:</b> <i>"En la barrida batch, ¿cruzo SUMA(IMPORTE) de FD por LOTE contra SUMA(ABS(MOV_AMOUNT)) de DOTA por comercio? ¿Qué columna del lado DOTA hace de llave?"</i></div>
+  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"Para la barrida batch, el documento dice consolidar FD por lote y cruzar contra el detalle de DOTA. ¿El cruce es SUMA(IMPORTE) de FD por LOTE contra SUMA(ABS(MOV_AMOUNT)) de DOTA por comercio? ¿Qué columna del lado DOTA hace de llave del lote?"</i></div>
 
   <h4>Ejecutar</h4>
   <p>Al guardar cada barrida, revisá la <b>robustez</b>: si sale roja (débil), Simetrik no ejecuta — agregá más llaves. Cuando las 5 estén listas, ejecutá y revisá resultados en el diagrama. Si todo bien → <b>Confirmar conciliación</b>.</p>
@@ -550,41 +521,10 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <!-- ════════ PREGUNTAS PARA EL TRAINER ════════ -->
-<div class="phase">❓ Preguntas pendientes para el trainer</div>
-<div class="phase-sub">Consolidadas. Las 🔴 bloquean un punto; las 🟡 son decisiones que conviene confirmar (tengo una hipótesis para avanzar mientras tanto).</div>
-
-<div class="step">
-  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--rd),var(--or))">7</div><div class="step-title">🔴 BLOQUEANTE · Calendario no cubre las fechas (Punto 7)</div></div>
-  <p>El calendario <code>Normalización días hábiles Argentina</code> (sitio MLA) arranca el <b>2026-03-23</b>, pero las transacciones de DB_DOTA son desde <b>2022</b>. El BuscarV para <code>EXPECTED_PAYMENT_DATE</code> no encuentra las fechas previas a 2026 → traería vacío para la mayoría. No se puede resolver del lado del candidato (es el insumo).</p>
-  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Hola, una consulta con el punto 7. Estuve armando el cálculo de EXPECTED_PAYMENT_DATE con BuscarV contra el calendario de días hábiles de Argentina, y noté que el calendario arranca el 23 de marzo de 2026, mientras que las transacciones de DB_DOTA vienen desde 2022. Entonces a las transacciones anteriores a esa fecha no les encuentra el día hábil correspondiente. ¿Tienen una versión del calendario que cubra desde 2022, o el enfoque para este punto es distinto al que estoy planteando?"</i></div>
-</div>
-
-<div class="step">
-  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "comercio" en FD</div></div>
-  <p>El documento dice cruzar por "comercio" pero FD tiene varias candidatas. Hipótesis (datos): <code>NUM_EST</code>.</p>
-  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Para la barrida de DOTA contra FD, el documento indica cruzar por comercio. Del lado de FD veo un par de columnas que podrían ser (NUM_COM y NUM_EST); revisando los datos me inclino a que es NUM_EST, pero quería confirmar con vos cuál es la que corresponde al número de comercio."</i></div>
-</div>
-
-<div class="step">
-  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 3 · columna "fecha de creación" en FD</div></div>
-  <p>El documento dice "fecha de creación" pero FD tiene <code>FPRES</code> y <code>FORIG_COMPRA</code>. Hipótesis (datos): <code>FORIG_COMPRA</code>.</p>
-  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"En esa misma barrida, para la llave de fecha, FD tiene FPRES (fecha de proceso) y FORIG_COMPRA (fecha de compra). Por las fechas de los datos parece que MOV_CREATION_DATE cruza con FORIG_COMPRA, ¿es esa la correcta o debería usar FPRES?"</i></div>
-</div>
-
-<div class="step">
-  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">12</div><div class="step-title">🟡 Barrida 4 · tolerancia direccional de fecha</div></div>
-  <p>"FD puede llegar 1 día después, nunca antes". La tolerancia nativa es bidireccional. Hipótesis: duplicar la llave de fecha con desigualdad de un solo sentido.</p>
-  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"Para la barrida con tolerancia de +1 día, el caso pide que FD pueda llegar un día después que DOTA pero nunca antes. La tolerancia que veo en Simetrik aplica para los dos lados. ¿Lo correcto es agregar una regla de desigualdad para forzar el sentido, o existe una tolerancia direccional que no estoy viendo?"</i></div>
-</div>
-
-<div class="step">
-  <div class="step-head"><div class="step-num" style="background:linear-gradient(135deg,var(--yl),var(--or))">3</div><div class="step-title">🟡 Fallback del GTWT_ACQUIRER (Punto 3)</div></div>
-  <p>Si ninguna de las 3 columnas tiene la marca, el documento dice poner "el contenido en mayúscula" pero no aclara de cuál columna. Hipótesis: <code>CAPTURE_ACQUIRER</code> (la primera mencionada).</p>
-  <div class="box q"><div class="box-h">Pregunta para el trainer</div><i>"En el punto 3, cuando ninguna de las columnas de acquirer trae Mastercard/Firstdata/Diners/Visa, el documento dice colocar el contenido en mayúscula. Como son tres columnas (CAPTURE, PURCHASE y AUTH), ¿de cuál tomo el valor en ese caso? Estoy usando CAPTURE_ACQUIRER por ser la primera, pero quería confirmar."</i></div>
-</div>
-
-<div class="box do"><div class="box-h">✅ Ya resuelto (NO preguntar)</div>
-Punto 6: <code>ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE; "T"; 1); 1; "dias")</code> (verificado en el editor). · Merchant decimal: <code>DIVIDIR(...; "."; 1)</code>. · Formato: se castea en la FUENTE, no en la unión. · MOV_AMOUNT ya trae signo. · Paso 8: el merchant cruza exacto con la parametría.</div>
+<!-- ════════ RESUMEN ════════ -->
+<div class="phase">✅ Resuelto — no preguntar esto</div>
+<div class="box do">Punto 6: <code>ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE; "T"; 1); 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
+<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🔴 Punto 7 · 🟡 Puntos 3 y 12).</p>
 
 <!-- ════════ CHECKLIST ════════ -->
 <div class="phase">✅ Tu progreso</div>
