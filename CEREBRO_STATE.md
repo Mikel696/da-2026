@@ -3087,3 +3087,45 @@ El code block insertado vía toolbar usa `<pre contenteditable="false">` para ev
 - [ ] Editor → click en imagen → HD overlay → "🗑 Eliminar imagen" → confirm → imagen sale del editor.
 - [ ] Mapa → click en una línea (no sobre un nodo) → confirm → conexión eliminada.
 - [ ] Mapa → click derecho nodo → confirm → nodo + sus edges van.
+
+## 🖼️📂 13-NOT · P8 · Chips compactos + Dropdown imágenes — 2026-06-02
+
+### Reporte del usuario
+"The attached images should not cover the sheet; they should be in a small icon in a drop-down list to choose the image, and they appear in a pop-up window when clicked, in the best quality."
+
+### Solución
+1. **Las imágenes ya no se renderizan inline grandes.** Al insertar (file picker o paste) se inserta un **chip compacto** estilo pill: 🖼️ + nombre del archivo (truncado a 28 chars). Ocupa una sola línea de texto, no tapa la hoja.
+2. **El chip lleva todo el contexto:**
+   - `data-img-id` → apunta al full 1920px en IndexedDB (HD local).
+   - `data-preview` → carga inline el preview 1280px (sincroniza cross-device vía JSONB).
+   - `data-name` → nombre original del archivo.
+3. **Click en chip → mismo overlay HD que ya existía** con botones Cerrar (Esc) y 🗑 Eliminar. Best quality desde IDB cuando existe, fallback al preview 1280px embedded.
+4. **Migración automática de imágenes legacy.** `attachEditorHandlers` corre `_migrateInlineImagesToChips(el)` que reemplaza cada `<img class="nb-img">` por su chip equivalente preservando id, alt como name, src como data-preview. Idempotente (no toca chips ya creados).
+5. **Nuevo botón "📂 Lista" en el toolbar shared.** Abre un overlay con grid de thumbnails de todas las imágenes de la página actual. Cada card tiene preview 90px + nombre. Click una card → abre el HD overlay correspondiente.
+
+### Archivos tocados
+- `frontend/js/nb-shared.js`:
+  - Reescritura del HTML que produce `_insertImageFromFile`: ahora es `<span class="nb-img-chip" ...>🖼️ name</span>`.
+  - `_openImageHD` ahora acepta tanto `<img>` (legacy) como `<span class="nb-img-chip">` (nuevo) — lee `src` del primero o `data-preview` del segundo.
+  - `attachImageClickHandler` delega a `.nb-img-chip` además del legacy `img.nb-img`.
+  - Nueva función `_migrateInlineImagesToChips(editor)`: parsea `img.nb-img`, construye chip equivalente, reemplaza en DOM, dispara `input` para autosave.
+  - Nueva función `openImageMenu(sid, ns)`: recolecta chips + imgs legacy del editor, construye grid overlay con thumbnails y nombres, click → `_openImageHD`.
+  - Botón nuevo `📂 Lista` en `toolbarHtml` que llama `openImageMenu`.
+  - Exports añadidos en `window.NBShared`.
+- `frontend/css/nb-shared.css`:
+  - `.nb-content .nb-img-chip` — pill morado con hover lift (max-width 280px, ellipsis del nombre).
+  - `.nb-img-chip-ic` y `.nb-img-chip-name`.
+  - `.nb-rt-imglist` — estilo morado para el botón 📂 Lista.
+  - Estilo legacy `.nb-img` conservado por compatibilidad (cae a chip vía migración automática).
+
+### Reach colateral
+Como el cambio vive en `nb-shared.js`, **automáticamente afecta también a 10-SYS Sistemas y 14-WORK Simetrik**. Todos los cuadernos del sistema ahora muestran imágenes como chips. Apertura de cualquier cuaderno con imágenes legacy las migra silenciosamente en el primer render.
+
+### Verificación manual
+- [ ] Abrir un cuaderno con imágenes pre-existentes (P4-P7) → las imágenes se muestran como chips automáticamente.
+- [ ] Insertar nueva imagen via 🖼️ Imagen → aparece chip 🖼️ filename en vez de imagen grande.
+- [ ] Click en chip → overlay HD con la imagen en máxima calidad.
+- [ ] Botón 📂 Lista → grid de thumbnails de todas las imágenes de la página → click una → HD overlay.
+- [ ] Eliminar imagen desde overlay → 🗑 → chip se borra del editor + blob IDB liberado.
+- [ ] Paste de imagen (Ctrl+V) → chip compacto.
+- [ ] 10-SYS y 14-WORK también muestran chips ahora (migración automática).

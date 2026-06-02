@@ -218,3 +218,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Changed: FIX delete completo · todo lo que se crea ahora se puede eliminar. (a) Code blocks: boton × hover en top-right de .nb-code-wrap + Backspace en code vacio elimina el wrapper entero (antes contenteditable=false bloqueaba el delete); (b) Imagenes inline: nuevo boton "🗑 Eliminar imagen" en el overlay HD, remueve el <img> del editor + borra el blob de IDB; (c) Edges del mapa: ahora cada line tiene hit-area de 14px invisible y click confirma + elimina la conexion. CSS: .nb-block-del con hover scale + focus-visible WCAG.
 - Audit cubierto: notas, journal, cuadernos, paginas, links, attachments, imagenes (grid legacy + inline), code blocks, nodos, edges, mapa entero, labels urgente/hecho. Todo creable es editable y eliminable.
 - Next: (a) Undo/redo de acciones del mapa · (b) Bulk delete de paginas (checkbox + delete N) · (c) Trash con restore de paginas eliminadas accidentalmente.
+
+### ID:13-NOT.P8 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css
+- Changed: Imagenes ya no cubren la hoja del editor. (a) insertImage e ingest por paste ahora producen un <span class="nb-img-chip"> compacto en vez de <img class="nb-img"> grande; chip lleva data-img-id (full IDB) + data-preview (1280px inline para sync). (b) Click en chip → mismo overlay HD que antes con eliminar. (c) attachEditorHandlers ejecuta _migrateInlineImagesToChips() idempotente que convierte imagenes legacy a chips automaticamente al abrir cualquier cuaderno. (d) Nuevo boton "📂 Lista" en toolbar shared abre overlay con thumbnails de TODAS las imagenes de la pagina (grid auto-fill 140px), click un thumb abre el HD overlay correspondiente.
+- Next: (a) Captions editables en el overlay HD · (b) Drag-and-drop reorder de chips dentro de la pagina · (c) Bulk delete desde el menu Lista · (d) Export al cuaderno con imagenes flat o como chips.

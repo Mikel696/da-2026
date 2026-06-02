@@ -975,18 +975,56 @@
     });
   }
 
-  /* Click en imagen → abrir HD overlay (full quality desde IDB si existe) */
+  /* Click en imagen O chip → abrir HD overlay (full quality desde IDB si existe) */
   function attachImageClickHandler(el){
     if (!el || el._nbImgClickAttached) return;
     el._nbImgClickAttached = true;
     el.addEventListener('click', (e) => {
       const t = e.target;
-      if (t && t.tagName === 'IMG' && t.classList && t.classList.contains('nb-img')) {
+      if (!t || !t.closest) return;
+      // Chip compacto (nuevo)
+      const chip = t.closest('.nb-img-chip');
+      if (chip) {
+        e.preventDefault();
+        e.stopPropagation();
+        _openImageHD(chip);
+        return;
+      }
+      // Imagen inline legacy
+      if (t.tagName === 'IMG' && t.classList && t.classList.contains('nb-img')) {
         e.preventDefault();
         e.stopPropagation();
         _openImageHD(t);
       }
     });
+  }
+  /* Auto-migración: convierte <img class="nb-img"> legacy a chips compactos
+     para que las imágenes ya insertadas dejen de cubrir la hoja. */
+  function _migrateInlineImagesToChips(editor){
+    if (!editor) return;
+    const imgs = editor.querySelectorAll('img.nb-img');
+    if (!imgs.length) return;
+    let changed = false;
+    imgs.forEach(img => {
+      const chip = document.createElement('span');
+      chip.className = 'nb-img-chip';
+      chip.setAttribute('contenteditable', 'false');
+      const id = img.getAttribute('data-img-id') || '';
+      const rawName = img.getAttribute('alt') || 'imagen';
+      const name = rawName.replace(/"/g, '');
+      const label = name.length > 28 ? name.slice(0, 26) + '…' : name;
+      if (id) chip.setAttribute('data-img-id', id);
+      chip.setAttribute('data-name', name);
+      if (img.src) chip.setAttribute('data-preview', img.src);
+      chip.setAttribute('title', name + ' · click para abrir en HD');
+      chip.innerHTML = '<span class="nb-img-chip-ic">🖼️</span>'
+        + '<span class="nb-img-chip-name"></span>';
+      // Set the label safely via textContent
+      chip.querySelector('.nb-img-chip-name').textContent = label;
+      img.parentNode.replaceChild(chip, img);
+      changed = true;
+    });
+    if (changed) editor.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   /* Helper combinado · attachable a cualquier .nb-content */
@@ -995,6 +1033,8 @@
     attachChecklistToggle(el);
     attachImageClickHandler(el);
     attachCodeBlockHandlers(el);
+    // Migrar imágenes inline legacy a chips compactos (idempotente)
+    _migrateInlineImagesToChips(el);
     // Apply syntax highlighting una vez por render (asíncrono para no bloquear)
     if (_hljsReady()) setTimeout(() => applyHighlight(el), 0);
     else {
@@ -1110,6 +1150,7 @@
       <button class="nb-rt-btn nb-rt-lbl nb-rt-lbl-d" onclick="${N}.insertLabel('${sid}','done')" title="Insertar etiqueta HECHO">✓ HECHO</button>
       <span class="nb-rt-sep"></span>
       <button class="nb-rt-btn nb-rt-img" onclick="NBShared.insertImage('${sid}','${N}')" title="Insertar imagen (archivo o portapapeles) · HD preview + IDB full" aria-label="Insertar imagen">🖼️ Imagen</button>
+      <button class="nb-rt-btn nb-rt-imglist" onclick="NBShared.openImageMenu('${sid}','${N}')" title="Lista de imágenes de esta página · click para abrir en HD" aria-label="Lista de imágenes">📂 Lista</button>
       <button class="nb-rt-btn nb-rt-code" onclick="NBShared.insertCodeBlock('${sid}','${N}')" title="Insertar bloque de código (monospace · syntax-friendly)" aria-label="Insertar bloque de código">&lt;/&gt; Code</button>
     </div>`;
   }
@@ -1151,8 +1192,19 @@
       const preview = await compressImage(rawUrl, { maxDim: 1280, quality: 0.78 });
       const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
       try { await putImage(id, full); } catch(e) { /* IDB optional */ }
-      const alt = (file.name || 'imagen').replace(/"/g, '');
-      const html = '<img class="nb-img" data-img-id="' + id + '" src="' + preview + '" alt="' + alt + '" loading="lazy">&nbsp;';
+      const alt = (file.name || 'imagen').replace(/"/g, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const label = alt.length > 28 ? alt.slice(0, 26) + '…' : alt;
+      // CHIP compacto en vez de <img> grande: no cubre la hoja, popup al click
+      // data-preview lleva el preview 1280px (sincroniza cross-device vía JSONB)
+      // data-img-id apunta al full en IDB (HD local) para overlay
+      const html = '<span class="nb-img-chip" contenteditable="false"'
+        + ' data-img-id="' + id + '"'
+        + ' data-name="' + alt + '"'
+        + ' data-preview="' + preview + '"'
+        + ' title="' + alt + ' · click para abrir en HD">'
+        + '<span class="nb-img-chip-ic">🖼️</span>'
+        + '<span class="nb-img-chip-name">' + label + '</span>'
+        + '</span>&nbsp;';
       if (editor && editor.focus) editor.focus();
       // Asegurar que el cursor esté dentro del editor — si no, append al final
       const sel = window.getSelection();
@@ -1197,6 +1249,63 @@
     };
     input.click();
   }
+  /* Dropdown · lista de imágenes de la página actual con thumbnails clickeables */
+  function openImageMenu(sid, ns){
+    const editor = _findEditor(sid);
+    if (!editor) { alert('No encontré el editor activo.'); return; }
+    // Recolectar tanto chips como imgs legacy
+    const items = [];
+    editor.querySelectorAll('.nb-img-chip, img.nb-img').forEach(el => {
+      const id = el.getAttribute('data-img-id') || '';
+      const name = el.getAttribute(el.tagName === 'IMG' ? 'alt' : 'data-name') || 'imagen';
+      const preview = el.tagName === 'IMG' ? el.src : (el.getAttribute('data-preview') || '');
+      items.push({ id, name, preview, el });
+    });
+    if (!items.length) {
+      alert('Esta página todavía no tiene imágenes. Usá el botón "🖼️ Imagen" para insertar una.');
+      return;
+    }
+    let ov = document.getElementById('nbImgMenu');
+    if (ov) ov.remove();
+    ov = document.createElement('div');
+    ov.id = 'nbImgMenu';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px';
+    const cards = items.map((it, i) => {
+      const safeName = (it.name || 'imagen').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      const thumbSrc = it.preview || '';
+      return '<button class="nb-imgmenu-card" data-i="'+i+'" type="button" title="Click para abrir en HD" style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .15s,transform .15s;font-family:inherit;color:var(--tx)">'
+        + (thumbSrc
+            ? '<img src="'+thumbSrc+'" alt="" style="width:100%;height:90px;object-fit:cover;border-radius:6px;background:#111">'
+            : '<div style="width:100%;height:90px;border-radius:6px;background:var(--el);display:flex;align-items:center;justify-content:center;font-size:24px">🖼️</div>')
+        + '<div style="font-size:11px;color:var(--t2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+safeName+'</div>'
+        + '</button>';
+    }).join('');
+    ov.innerHTML = '<div style="background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:20px;max-width:680px;width:100%;max-height:84vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'+
+        '<div><div style="font-size:14px;font-weight:600;color:var(--tx)">📂 Imágenes de esta página</div>'+
+        '<div style="font-size:11px;color:var(--t3);margin-top:2px">'+items.length+' imagen'+(items.length!==1?'es':'')+' · click para abrir en HD</div></div>'+
+        '<button id="nbImgMenuClose" style="background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;padding:4px 8px" aria-label="Cerrar">✕</button>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">'+cards+'</div>'+
+      '</div>';
+    document.body.appendChild(ov);
+    const close = () => ov.remove();
+    document.getElementById('nbImgMenuClose').onclick = close;
+    ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
+    ov.querySelectorAll('.nb-imgmenu-card').forEach(btn => {
+      btn.onmouseover = () => { btn.style.borderColor = '#a78bfa'; btn.style.transform = 'translateY(-2px)'; };
+      btn.onmouseout  = () => { btn.style.borderColor = 'var(--bd)';  btn.style.transform = ''; };
+      btn.onclick = () => {
+        const i = parseInt(btn.getAttribute('data-i'), 10);
+        const it = items[i];
+        if (it && it.el) {
+          close();
+          _openImageHD(it.el);
+        }
+      };
+    });
+  }
+
   /* Code block inline · <pre><code class="nb-code" data-lang="..."> */
   function insertCodeBlock(sid, ns){
     const editor = _findEditor(sid);
@@ -1238,11 +1347,14 @@
     }, 0);
     editor.dispatchEvent(new Event('input', { bubbles: true }));
   }
-  // Click en imagen abre overlay HD desde IDB (full ~1920px) si está disponible
-  // Incluye botón "Eliminar" que remueve la imagen del editor + IDB
+  // Click en imagen o chip abre overlay HD desde IDB (full ~1920px) si está disponible
+  // Acepta tanto <img class="nb-img" src="..."> como <span class="nb-img-chip" data-preview="...">
+  // Incluye botón "Eliminar" que remueve el elemento del editor + IDB
   async function _openImageHD(imgEl){
     const id = imgEl.getAttribute('data-img-id');
-    let src = imgEl.src;
+    let src = imgEl.tagName === 'IMG'
+      ? imgEl.src
+      : (imgEl.getAttribute('data-preview') || '');
     if (id) {
       try { const hd = await getImage(id); if (hd) src = hd; } catch(e) {}
     }
@@ -1283,8 +1395,8 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight,
-    _insertImageFromFile, _openImageHD,
+    fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
+    _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
     pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
