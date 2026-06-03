@@ -1010,6 +1010,93 @@
     });
   }
 
+  /* Drag & drop de chips dentro del editor — reubicar a cualquier punto */
+  function attachChipDragHandler(el){
+    if (!el || el._nbChipDragAttached) return;
+    el._nbChipDragAttached = true;
+    let _draggingChip = null;
+    el.addEventListener('dragstart', (e) => {
+      const t = e.target;
+      if (!t || !t.closest) return;
+      const chip = t.closest('.nb-img-chip');
+      if (!chip) return;
+      _draggingChip = chip;
+      chip.classList.add('nb-img-chip-dragging');
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        try { e.dataTransfer.setData('text/plain', 'nb-img-chip'); } catch {}
+      }
+    });
+    el.addEventListener('dragend', () => {
+      if (_draggingChip) _draggingChip.classList.remove('nb-img-chip-dragging');
+      _draggingChip = null;
+      el.classList.remove('nb-img-droptarget');
+    });
+    el.addEventListener('dragover', (e) => {
+      if (!_draggingChip) return;
+      // Solo aceptar si el drag actual es de un chip nuestro
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      el.classList.add('nb-img-droptarget');
+    });
+    el.addEventListener('dragleave', (e) => {
+      // Solo limpiar si salimos del editor entero
+      if (e.target === el) el.classList.remove('nb-img-droptarget');
+    });
+    el.addEventListener('drop', (e) => {
+      if (!_draggingChip) return;
+      e.preventDefault();
+      el.classList.remove('nb-img-droptarget');
+      // Obtener la posición de drop con la API que soporte el browser
+      let range = null;
+      if (document.caretRangeFromPoint) {
+        range = document.caretRangeFromPoint(e.clientX, e.clientY);
+      } else if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(e.clientX, e.clientY);
+        if (pos) {
+          range = document.createRange();
+          range.setStart(pos.offsetNode, pos.offset);
+          range.collapse(true);
+        }
+      }
+      if (!range) return;
+      // Si el drop point cae sobre el propio chip (o sus hijos), no hacer nada
+      let node = range.startContainer;
+      while (node) { if (node === _draggingChip) { _draggingChip.classList.remove('nb-img-chip-dragging'); _draggingChip = null; return; } node = node.parentNode; }
+      // Verificar que el drop point está dentro de este editor
+      let inside = false;
+      let n = range.startContainer;
+      while (n) { if (n === el) { inside = true; break; } n = n.parentNode; }
+      if (!inside) { _draggingChip.classList.remove('nb-img-chip-dragging'); _draggingChip = null; return; }
+      // Mover el chip al nuevo punto
+      const chip = _draggingChip;
+      const parent = chip.parentNode;
+      // El espacio &nbsp; que está después del chip — también lo movemos si existe
+      let trailing = chip.nextSibling;
+      const isTrailingSpace = trailing && trailing.nodeType === 3 && /^ /.test(trailing.textContent || '');
+      // Insertar en el nuevo punto
+      range.insertNode(chip);
+      // Reinsertar el espacio
+      if (isTrailingSpace) {
+        const space = document.createTextNode(' ');
+        chip.parentNode.insertBefore(space, chip.nextSibling);
+        // limpiar el viejo trailing solo si seguía en el DOM
+        if (trailing && trailing.parentNode) trailing.parentNode.removeChild(trailing);
+      }
+      chip.classList.remove('nb-img-chip-dragging');
+      _draggingChip = null;
+      // Mover el cursor justo después del chip
+      const sel = window.getSelection();
+      const r = document.createRange();
+      r.setStartAfter(chip);
+      r.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(r);
+      // Dispatch input para autosave
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  }
+
   /* Click en imagen O chip → abrir HD overlay (full quality desde IDB si existe) */
   function attachImageClickHandler(el){
     if (!el || el._nbImgClickAttached) return;
@@ -1067,19 +1154,31 @@
       const chip = document.createElement('span');
       chip.className = 'nb-img-chip';
       chip.setAttribute('contenteditable', 'false');
+      chip.setAttribute('draggable', 'true');
       const id = img.getAttribute('data-img-id') || '';
       const rawName = img.getAttribute('alt') || 'imagen';
       const name = rawName.replace(/"/g, '');
-      const label = name.length > 28 ? name.slice(0, 26) + '…' : name;
+      const label = name.length > 22 ? name.slice(0, 20) + '…' : name;
       if (id) chip.setAttribute('data-img-id', id);
       chip.setAttribute('data-name', name);
       if (img.src) chip.setAttribute('data-preview', img.src);
-      chip.setAttribute('title', name + ' · click para abrir en HD');
+      chip.setAttribute('title', name + ' · click abre HD · arrastra para reubicar');
       chip.innerHTML = '<span class="nb-img-chip-ic">🖼️</span>'
         + '<span class="nb-img-chip-name"></span>';
-      // Set the label safely via textContent
       chip.querySelector('.nb-img-chip-name').textContent = label;
       img.parentNode.replaceChild(chip, img);
+      changed = true;
+    });
+    // También migrar chips viejos para que sean draggable
+    editor.querySelectorAll('.nb-img-chip:not([draggable])').forEach(ch => {
+      ch.setAttribute('draggable', 'true');
+      const name = ch.getAttribute('data-name') || '';
+      ch.setAttribute('title', name + ' · click abre HD · arrastra para reubicar');
+      // truncar label si quedó largo
+      const nameEl = ch.querySelector('.nb-img-chip-name');
+      if (nameEl && nameEl.textContent && nameEl.textContent.length > 22) {
+        nameEl.textContent = nameEl.textContent.slice(0, 20) + '…';
+      }
       changed = true;
     });
     if (changed) editor.dispatchEvent(new Event('input', { bubbles: true }));
@@ -1090,6 +1189,7 @@
     attachCleanPaste(el);
     attachChecklistToggle(el);
     attachImageClickHandler(el);
+    attachChipDragHandler(el);
     attachCodeBlockHandlers(el);
     // Migrar imágenes inline legacy a chips compactos (idempotente)
     _migrateInlineImagesToChips(el);
@@ -1269,15 +1369,16 @@
       const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
       try { await putImage(id, full); } catch(e) { /* IDB optional */ }
       const alt = (file.name || 'imagen').replace(/"/g, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      const label = alt.length > 28 ? alt.slice(0, 26) + '…' : alt;
-      // CHIP compacto en vez de <img> grande: no cubre la hoja, popup al click
+      const label = alt.length > 22 ? alt.slice(0, 20) + '…' : alt;
+      // CHIP compacto y DRAGGABLE: no cubre la hoja, popup al click,
+      // arrastrable a cualquier punto del editor para anclar la referencia.
       // data-preview lleva el preview 1280px (sincroniza cross-device vía JSONB)
       // data-img-id apunta al full en IDB (HD local) para overlay
-      const html = '<span class="nb-img-chip" contenteditable="false"'
+      const html = '<span class="nb-img-chip" contenteditable="false" draggable="true"'
         + ' data-img-id="' + id + '"'
         + ' data-name="' + alt + '"'
         + ' data-preview="' + preview + '"'
-        + ' title="' + alt + ' · click para abrir en HD">'
+        + ' title="' + alt + ' · click abre HD · arrastra para reubicar">'
         + '<span class="nb-img-chip-ic">🖼️</span>'
         + '<span class="nb-img-chip-name">' + label + '</span>'
         + '</span>&nbsp;';
@@ -1345,7 +1446,17 @@
         '</div>'+
       '</div>';
     document.body.appendChild(ov);
-    const close = () => { ov.remove(); editor && editor.focus && editor.focus(); };
+    // Cleanup tracking — UNA sola función close que SIEMPRE remueve el listener
+    // global de paste (sino quedaba huérfano e insertaba imágenes duplicadas).
+    let _docPasteFn = null;
+    const close = () => {
+      if (_docPasteFn) {
+        document.removeEventListener('paste', _docPasteFn);
+        _docPasteFn = null;
+      }
+      if (ov && ov.parentNode) ov.remove();
+      if (editor && editor.focus) editor.focus();
+    };
     const ingest = async (file) => {
       if (!file) return;
       const ok = await _insertImageFromFile(file, editor);
@@ -1424,14 +1535,10 @@
     };
     ov.addEventListener('paste', onPaste);
     drop.addEventListener('paste', onPaste);
-    // Backup: listener global mientras el modal está abierto
+    // Backup: listener global mientras el modal está abierto — tracking en _docPasteFn
+    // para que close() lo limpie sí o sí (evita duplicación de chips en pastes futuros)
+    _docPasteFn = onPaste;
     document.addEventListener('paste', onPaste);
-    const _origClose = close;
-    var _closeFn = () => { document.removeEventListener('paste', onPaste); _origClose(); };
-    // Reemplazar los handlers de cierre con la versión que limpia el listener global
-    document.getElementById('nbImgInsClose').onclick = _closeFn;
-    ov.addEventListener('click', (e) => { if (e.target === ov) _closeFn(); });
-    ov.addEventListener('keydown', (e) => { if (e.key === 'Escape') _closeFn(); });
     // Focus para captar Ctrl+V inmediato
     setTimeout(() => { try { ov.focus(); drop.focus(); } catch(e) {} }, 0);
   }
