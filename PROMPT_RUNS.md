@@ -260,3 +260,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css · frontend/js/notes-nb.js · frontend/js/work.js
 - Changed: Estandarizacion estructural de cuadernos en 13-NOT + 14-WORK para igualar al de 10-SYS (la canonica). Layout final por cuaderno: (1) cover-card con icono+nombre+sub; (2) header "⚙️ Personalizacion" con botones Diseño/Nombre/Mover/🗑 a la derecha (en 13-NOT tambien Mapa); (3) seccion colapsable "📓 Contenido" con la cuenta de paginas; (4) dentro del contenido: toolbar "+ Nueva pagina + dropdown" en su linea, editor con su rich toolbar (Imagen/Lista/Link/Adjuntar/Code), mapa para 13-NOT, label "· paginas ·" y lista. CSS nuevo en nb-shared: nb-shell (contenedor), nb-perso (header), nb-perso-actions (botones), nb-drop+nb-drop-h+nb-drop-body (collapsible), nb-inner-toolbar, nb-pages-label. Helper NBShared.toggleCollapse(elId) flippa la clase .on y persiste estado en localStorage. Estado inicial: dropdown abierto.
 - Next: (a) Migrar 10-SYS para usar las mismas clases shared y deduplicar CSS · (b) Persist por-cuaderno del estado colapsado · (c) Animacion smooth al expand/collapse.
+
+### ID:13-NOT.P15 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/notes.html · frontend/css/notes.css · frontend/css/work.css
+- Changed: Ancho de pagina unificado a 1200px (canon de 10-SYS systems.html .wrap). 13-NOT venia con 900px (notes.html inline + notes.css), 14-WORK venia con 1100px (work.css). Tambien padding-top de 24 a 28 para igualar exacto. Resultado: las paginas de los 3 modulos ahora tienen el mismo ancho maximo y los cuadernos se ven identicos.
+- Next: (a) Igualar tambien el padding lateral en mobile · (b) Verificar que stats/hero arriba no se vean estirados en 13-NOT con el nuevo ancho · (c) Si el usuario quiere podemos hacer el wrapper responsive (1200/1100/900 segun viewport).

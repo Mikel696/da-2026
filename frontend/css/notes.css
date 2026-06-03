@@ -26,7 +26,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
 
 /* ── Layout ── */
-.wr{max-width:900px;margin:0 auto;padding:24px 24px 60px}
+.wr{max-width:1200px;margin:0 auto;padding:28px 24px 60px}
 .hero{margin-bottom:20px}
 .hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}
 .hero h1 em{font-style:italic;color:var(--a2)}
