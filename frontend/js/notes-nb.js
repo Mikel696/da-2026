@@ -597,9 +597,6 @@ const NotNB = (function(){
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
           <div class="nb-toolbar">
             <button onclick="NotNB.newPage('${nb.id}')" style="background:var(--ac);color:#fff">+ Nueva página</button>
-            ${page ? `<button onclick="NotNB.addLink('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
-            <button onclick="NotNB.addImage('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen</button>
-            <button onclick="NotNB.attachFile('${nb.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
             ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'NotNB', pages, activePageId }) : ''}
           </div>
           <div style="display:flex;gap:4px">

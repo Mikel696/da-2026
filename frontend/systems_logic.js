@@ -2469,9 +2469,6 @@ const NB = (function() {
       <div class="sj-drop-body">
         <div class="sj-nb-toolbar">
           <button onclick="NB.newPage('${sid}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
-          ${page ? `<button onclick="NB.addLink('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
-          <button onclick="NB.openPasteDialog('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
-          <button onclick="NB.attachFile('${sid}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
           ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: sid, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
         </div>
         ${editorHtml}
@@ -3266,9 +3263,6 @@ const NB = (function() {
         <div class="sj-drop-body">
           <div class="sj-nb-toolbar">
             <button onclick="NB.newPage('${meta.id}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
-            ${page ? `<button onclick="NB.addLink('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🔗 Link</button>
-            <button onclick="NB.openPasteDialog('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">🖼️ Imagen HD</button>
-            <button onclick="NB.attachFile('${meta.id}')" style="background:var(--el);color:var(--t2);border:1px solid var(--bd)">📎 Adjuntar</button>` : ''}
             ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: meta.id, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
           </div>
           ${editorHtml}

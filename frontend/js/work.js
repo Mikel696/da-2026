@@ -2762,9 +2762,6 @@ const WorkNB = (function(){
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
             <button class="btn bp" onclick="WorkNB.newPage('${nb.id}')">+ Nueva página</button>
-            ${page?`<button class="btn bo" onclick="WorkNB.addLink('${nb.id}')">🔗 Link</button>
-            <button class="btn bo" onclick="WorkNB.addImage('${nb.id}')">🖼️ Imagen</button>
-            <button class="btn bo" onclick="WorkNB.attachFile('${nb.id}')">📎 Adjuntar</button>`:''}
             ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
           </div>
           <div style="display:flex;gap:4px">

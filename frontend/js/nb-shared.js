@@ -1211,6 +1211,8 @@
       <span class="nb-rt-sep"></span>
       <button class="nb-rt-btn nb-rt-img" onclick="NBShared.insertImage('${sid}','${N}')" title="Insertar imagen (archivo o portapapeles) · HD preview + IDB full" aria-label="Insertar imagen">🖼️ Imagen</button>
       <button class="nb-rt-btn nb-rt-imglist" onclick="NBShared.openImageMenu('${sid}','${N}')" title="Lista de imágenes de esta página · click para abrir en HD" aria-label="Lista de imágenes">📂 Lista</button>
+      <button class="nb-rt-btn nb-rt-link" onclick="${N}.addLink('${sid}')" title="Agregar link a la página" aria-label="Agregar link">🔗 Link</button>
+      <button class="nb-rt-btn nb-rt-attach" onclick="${N}.attachFile('${sid}')" title="Adjuntar archivo (PDF / Word / Excel / etc · IDB local + Supabase Storage)" aria-label="Adjuntar archivo">📎 Adjuntar</button>
       <button class="nb-rt-btn nb-rt-code" onclick="NBShared.insertCodeBlock('${sid}','${N}')" title="Insertar bloque de código (monospace · syntax-friendly)" aria-label="Insertar bloque de código">&lt;/&gt; Code</button>
     </div>`;
   }

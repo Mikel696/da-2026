@@ -248,3 +248,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css · frontend/js/notes-nb.js · frontend/systems_logic.js · frontend/js/work.js
 - Changed: (a) Dropdown de paginas movido al toolbar inline en vez de barra sticky aparte. Nueva NBShared.pageJumpHtml(ctx) compacta (solo select). Embebida en los toolbars de los 3 modulos. Sticky bar removida. (b) Paste de imagen robustecido: ahora soporta 4 caminos — clipboardData.items kind=file (screenshot Win+Shift+S), clipboardData.files (Explorer drag), HTML pegado con <img src="data:..."> (typical copy-from-web), text/uri-list o text/plain con data:image directo. Helper _dataUrlToFile convierte base64 a File. Modal de insert tambien usa el mismo flow + listener global mientras esta abierto para captar paste desde body.
 - Next: (a) Drag & drop directo sobre el editor (no solo en el modal) · (b) Image URL paste (https://) que descargue · (c) Search en el dropdown cuando hay >15 paginas.
+
+### ID:13-NOT.P13 · 2026-06-02
+- Commit: (pending)
+- Files: frontend/js/nb-shared.js · frontend/css/nb-shared.css · frontend/js/notes-nb.js · frontend/systems_logic.js · frontend/js/work.js
+- Changed: Reorganizacion del toolbar. Top toolbar ahora solo tiene "+ Nueva pagina" + dropdown de paginas (1 sola linea, limpio). Link y Adjuntar movidos al editor toolbar (junto a Imagen / Lista / Code) — quedan inline con el formato de la pagina activa. Los nuevos botones en NBShared.toolbarHtml llaman a ${ns}.addLink y ${ns}.attachFile con namespace correcto (funcionan en NB/NotNB/WorkNB). CSS: nb-rt-link verde, nb-rt-attach amber, hover states matching la paleta. Aplicado en los 3 modulos. Tambien removida la sticky bar legacy en los 3 sitios.
+- Next: (a) Mostrar contador de links/adjuntos en el badge del boton ("📎 3") · (b) Quick preview al hover sobre el chip de link · (c) Drag-drop de archivos sobre el editor para adjuntar directo.
