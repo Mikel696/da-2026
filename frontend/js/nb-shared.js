@@ -1355,17 +1355,23 @@
     const ext = (mime.split('/')[1] || 'png').replace('+xml','').replace('jpeg','jpg');
     return new File([blob], filename || ('pasted.' + ext), { type: mime });
   }
-  // Lock anti-duplicado: si un mismo file (mismo size+name+lastModified) se
-  // intenta insertar más de una vez en menos de 1s, ignoramos los duplicados.
-  // Defense-in-depth contra event listeners huérfanos o triple fire.
+  // Lock anti-duplicado: si un mismo file (mismo size+type) se intenta
+  // insertar más de una vez en menos de 1500ms, ignoramos los duplicados.
+  // No usamos lastModified porque el browser lo regenera por cada getAsFile()
+  // y los keys nunca matcheaban entre los 2 listeners disparando.
+  // No usamos name porque "image.png" vs "(unknown).png" entre listeners.
   let _lastInsertKey = null;
   let _lastInsertTime = 0;
+  let _insertCallCount = 0;
   async function _insertImageFromFile(file, editor){
     if (!file || !/^image\//.test(file.type)) return false;
-    const dedupeKey = (file.size || 0) + '_' + (file.name || 'noname') + '_' + (file.lastModified || 0);
+    _insertCallCount++;
+    const dedupeKey = (file.size || 0) + '_' + (file.type || 'unknown');
     const now = Date.now();
-    if (dedupeKey === _lastInsertKey && (now - _lastInsertTime) < 1000) {
-      console.warn('[NBShared] insertImage dedupe — duplicate suppressed:', dedupeKey);
+    const dt = now - _lastInsertTime;
+    console.log('[NBShared] insertImage call #' + _insertCallCount + ' key=' + dedupeKey + ' dt=' + dt + 'ms');
+    if (dedupeKey === _lastInsertKey && dt < 1500) {
+      console.warn('[NBShared] insertImage dedupe — DUPLICATE SUPPRESSED (#' + _insertCallCount + ')');
       return false;
     }
     _lastInsertKey = dedupeKey;
@@ -1820,7 +1826,7 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p17-2026-06-02',
+    VERSION: 'p18-2026-06-02',
     /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
        Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
