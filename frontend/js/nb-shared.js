@@ -1826,7 +1826,7 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p20-2026-06-02',
+    VERSION: 'p21-2026-06-02',
     /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
        Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,

@@ -311,8 +311,10 @@
   50%{box-shadow:0 0 5px rgba(34,211,238,.65),0 0 12px rgba(139,92,246,.48),inset 0 0 8px rgba(34,211,238,.15)}
 }
 .nb-content .nb-img-chip{
-  display:inline-block;
-  padding:0 9px 0 7px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:0 10px 0 8px;
   background:linear-gradient(135deg,rgba(6,182,212,.18) 0%,rgba(139,92,246,.22) 50%,rgba(236,72,153,.14) 100%);
   border:1px solid rgba(34,211,238,.6);
   border-radius:999px;
@@ -326,14 +328,15 @@
   user-select:none;
   vertical-align:middle;
   margin:0 3px;
-  max-width:200px;
+  max-width:220px;
   white-space:nowrap;
-  height:16px;
-  line-height:14px;
+  height:18px;
+  line-height:1;
   position:relative;
   text-shadow:0 0 4px rgba(34,211,238,.65);
   animation:nbImgChipPulse 2.8s ease-in-out infinite;
   transition:transform .18s cubic-bezier(.4,0,.2,1),border-color .18s,color .18s,background .18s;
+  box-sizing:border-box;
 }
 .nb-content .nb-img-chip:hover{
   color:#fff;
@@ -350,8 +353,8 @@
 }
 .nb-content .nb-img-chip:active{cursor:grabbing;transform:translateY(0) scale(.99)}
 .nb-content .nb-img-chip.nb-img-chip-dragging{opacity:.5;outline:1.5px dashed #22d3ee;outline-offset:3px;animation:none}
-.nb-content .nb-img-chip-ic{font-size:10px;line-height:1;margin-right:4px;vertical-align:-1px;filter:drop-shadow(0 0 3px rgba(34,211,238,.85)) drop-shadow(0 0 6px rgba(139,92,246,.5))}
-.nb-content .nb-img-chip-name{display:inline;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+.nb-content .nb-img-chip-ic{display:inline-flex;align-items:center;font-size:11px;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 3px rgba(34,211,238,.85)) drop-shadow(0 0 6px rgba(139,92,246,.5))}
+.nb-content .nb-img-chip-name{display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px;line-height:1}
 /* Marker visual cuando se está arrastrando un chip sobre el editor */
 .nb-content.nb-img-droptarget{outline:2px dashed rgba(167,139,250,.6);outline-offset:-2px;background:rgba(139,92,246,.04)}
 .nb-rt-imglist{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#c4b5fd;font-weight:600}
