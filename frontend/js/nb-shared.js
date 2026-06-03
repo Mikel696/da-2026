@@ -1355,8 +1355,21 @@
     const ext = (mime.split('/')[1] || 'png').replace('+xml','').replace('jpeg','jpg');
     return new File([blob], filename || ('pasted.' + ext), { type: mime });
   }
+  // Lock anti-duplicado: si un mismo file (mismo size+name+lastModified) se
+  // intenta insertar más de una vez en menos de 1s, ignoramos los duplicados.
+  // Defense-in-depth contra event listeners huérfanos o triple fire.
+  let _lastInsertKey = null;
+  let _lastInsertTime = 0;
   async function _insertImageFromFile(file, editor){
     if (!file || !/^image\//.test(file.type)) return false;
+    const dedupeKey = (file.size || 0) + '_' + (file.name || 'noname') + '_' + (file.lastModified || 0);
+    const now = Date.now();
+    if (dedupeKey === _lastInsertKey && (now - _lastInsertTime) < 1000) {
+      console.warn('[NBShared] insertImage dedupe — duplicate suppressed:', dedupeKey);
+      return false;
+    }
+    _lastInsertKey = dedupeKey;
+    _lastInsertTime = now;
     if (file.size > 20 * 1024 * 1024) {
       alert('Imagen demasiado grande (máx 20 MB). La tuya: ' + fmtBytes(file.size));
       return false;
@@ -1807,6 +1820,9 @@
   /* ── PUBLIC API ────────────────────────────────────────────── */
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
+    VERSION: 'p17-2026-06-02',
+    /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
+       Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
     pageSelectorHtml, pageJumpHtml, wirePageBar, toggleCollapse,
     _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
@@ -1828,4 +1844,5 @@
     openDesignModal,
     _designCancel, _designSave, _designPickCover, _designPickIcon,
   };
+  try { console.log('%c[NBShared] loaded ' + window.NBShared.VERSION, 'color:#a78bfa;font-weight:600'); } catch(e) {}
 })();
