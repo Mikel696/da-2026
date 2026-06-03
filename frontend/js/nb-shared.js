@@ -1591,6 +1591,22 @@
      Llama a `${ns}.openPage('${nbId}', pageId)` al clickear.
   ══════════════════════════════════════════════════════════════ */
   function _escAttr(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  /* Toggle de cualquier elemento con clase .on (usado por Contenido dropdown) */
+  function toggleCollapse(elId){
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.classList.toggle('on');
+    try { localStorage.setItem('nb_drop_' + elId, el.classList.contains('on') ? '1' : '0'); } catch {}
+  }
+  function _restoreCollapseState(){
+    document.querySelectorAll('.nb-drop[id]').forEach(d => {
+      try {
+        const v = localStorage.getItem('nb_drop_' + d.id);
+        if (v === '1') d.classList.add('on');
+        else if (v === '0') d.classList.remove('on');
+      } catch {}
+    });
+  }
   /* Compact: solo dropdown (para embeber en toolbars del cuaderno) */
   function pageJumpHtml(ctx){
     if (!ctx) return '';
@@ -1685,7 +1701,7 @@
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
-    pageSelectorHtml, pageJumpHtml, wirePageBar,
+    pageSelectorHtml, pageJumpHtml, wirePageBar, toggleCollapse,
     _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,

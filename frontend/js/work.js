@@ -2750,7 +2750,7 @@ const WorkNB = (function(){
     }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas.</div>';
 
     const editor = buildEditorHtml(nb.id, page);
-    return `<div class="cd" style="border-left:3px solid ${nb.color||'#06b6d4'};padding:0;overflow:visible"><!-- visible para sticky toolbar -->
+    return `<div class="nb-shell" style="border-left:3px solid ${nb.color||'#06b6d4'};padding:0;overflow:visible">
       <div class="nb-cover-card nb-cover-${nb.cover||'c6'}">
         <div class="nb-cover-icon">${nb.icon}</div>
         <div>
@@ -2759,21 +2759,31 @@ const WorkNB = (function(){
         </div>
       </div>
       <div style="padding:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
-          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-            <button class="btn bp" onclick="WorkNB.newPage('${nb.id}')">+ Nueva página</button>
-            ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
-          </div>
-          <div style="display:flex;gap:4px">
-            <button class="btn bo bs" onclick="WorkNB.editDesign('${nb.id}')">🎨</button>
-            <button class="btn bo bs" onclick="WorkNB.rename('${nb.id}')">✏️</button>
-            <button class="btn bo bs" onclick="WorkNB.moveNotebook('${nb.id}')" title="Mover a otro módulo">📦</button>
-            <button class="btn bo bs" onclick="WorkNB.remove('${nb.id}')" style="border-color:rgba(239,68,68,.3);color:var(--rd)">🗑</button>
+        <div class="nb-perso">
+          <div class="nb-perso-t">⚙️ Personalización</div>
+          <div class="nb-perso-actions">
+            <button onclick="WorkNB.editDesign('${nb.id}')" title="Cambiar portada/ícono">🎨 Diseño</button>
+            <button onclick="WorkNB.rename('${nb.id}')" title="Renombrar">✏️ Nombre</button>
+            <button onclick="WorkNB.moveNotebook('${nb.id}')" title="Mover a otro módulo">📦 Mover</button>
+            <button onclick="WorkNB.remove('${nb.id}')" class="nb-perso-del" title="Eliminar cuaderno">🗑</button>
           </div>
         </div>
-        ${editor || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px">Crea una página para empezar.</div>'}
-        <div class="lb" style="margin-top:14px">· páginas ·</div>
-        <div class="nb-entries">${pagesList}</div>
+
+        <div class="nb-drop on" id="nbDrop-${nb.id}">
+          <div class="nb-drop-h" onclick="NBShared.toggleCollapse('nbDrop-${nb.id}')">
+            <div>📓 Contenido <span class="nb-drop-count">(${pages.length} página${pages.length!==1?'s':''})</span></div>
+            <span class="nb-drop-arr">▶</span>
+          </div>
+          <div class="nb-drop-body">
+            <div class="nb-inner-toolbar">
+              <button class="btn bp" onclick="WorkNB.newPage('${nb.id}')">+ Nueva página</button>
+              ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: nb.id, ns:'WorkNB', pages, activePageId: activePageId }) : ''}
+            </div>
+            ${editor || '<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px">Crea una página para empezar.</div>'}
+            <div class="nb-pages-label">· páginas ·</div>
+            <div class="nb-entries">${pagesList}</div>
+          </div>
+        </div>
       </div>
     </div>`;
   }

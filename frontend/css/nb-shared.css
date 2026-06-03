@@ -240,6 +240,37 @@
 .nb-rt-btn:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
 
 /* ══════════════════════════════════════════════════════════════
+   ESTRUCTURA CANÓNICA DE CUADERNO · estandarizada 10-SYS + 13-NOT + 14-WORK
+   Contenedor (.nb-shell), header de Personalización (.nb-perso),
+   dropdown de Contenido (.nb-drop), toolbar interna (.nb-inner-toolbar),
+   label de páginas (.nb-pages-label). Migradas desde systems.html para
+   que los 3 módulos compartan el mismo look exacto.
+══════════════════════════════════════════════════════════════ */
+.nb-shell{background:rgba(22,22,26,.75);backdrop-filter:blur(12px);border:1px solid rgba(124,58,237,.12);border-radius:var(--radius-lg,12px);padding:20px;margin-bottom:12px;transition:border-color .25s,transform .25s,box-shadow .25s}
+.nb-shell-body{padding:14px 0 0}
+.nb-perso{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.nb-perso-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;color:var(--tx,#f0f2fa)}
+.nb-perso-actions{display:flex;gap:4px;flex-wrap:wrap}
+.nb-perso-actions button{background:none;border:1px solid var(--bd,#27272a);color:var(--t2,#a1a1aa);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:background .15s,color .15s,border-color .15s}
+.nb-perso-actions button:hover{background:rgba(139,92,246,.12);color:var(--tx,#f0f2fa);border-color:rgba(139,92,246,.45)}
+.nb-perso-actions .nb-perso-del{border-color:rgba(239,68,68,.35);color:var(--rd,#ef4444)}
+.nb-perso-actions .nb-perso-del:hover{background:rgba(239,68,68,.18);color:#fff;border-color:#ef4444}
+
+.nb-drop{margin-top:10px;border:1px solid var(--bd,#27272a);border-radius:9px;overflow:visible;background:var(--el,#222228)}
+.nb-drop-h{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;user-select:none;font-size:12px;font-weight:600;transition:background .15s;color:var(--tx,#f0f2fa)}
+.nb-drop-h:hover{background:var(--c1,#16161a)}
+.nb-drop-h .nb-drop-arr{font-size:10px;color:var(--t3,#71717a);transition:transform .2s}
+.nb-drop.on .nb-drop-arr{transform:rotate(90deg);color:#a78bfa}
+.nb-drop-body{display:none;padding:10px 12px 12px;border-top:1px solid var(--bd,#27272a)}
+.nb-drop.on .nb-drop-body{display:block}
+.nb-drop-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3,#71717a);font-weight:400;margin-left:6px}
+
+.nb-inner-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.nb-inner-toolbar button{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
+
+.nb-pages-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1.5px;margin:12px 0 10px}
+
+/* ══════════════════════════════════════════════════════════════
    PAGE SELECTOR BAR · barra de tabs sticky para navegar páginas
    Genérico para 10-SYS · 13-NOT · 14-WORK
 ══════════════════════════════════════════════════════════════ */
