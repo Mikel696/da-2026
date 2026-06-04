@@ -3149,3 +3149,26 @@ La lógica de los 2 BuscarV no cambia: `ID_SUM` es el contador de día hábil (i
 ### Pendiente
 - Esperar respuesta del trainer sobre puntos 3 y 12 (siguen abiertos).
 - Confirmar en el workspace real que el cruce `MOV_CREATION_DATE = FECHA` requiere igualar ambos a tipo Fecha (el casteo de FECHA va en la fuente Calendario_MLA).
+
+---
+
+## 2026-06-04 · 14-WORK · Dota Test — reestructuración normalización de fecha (MOV_CREATED_DATE)
+
+### Qué se logró
+El trainer recomendó (imagen "cambio formato Fechas.png" en la carpeta Imagenes del Drive) castear **MOV_CREATED_DATE directamente a tipo Fecha** en lugar del workaround anterior. Recipe verificada en la imagen del diálogo "Dar formato a una columna":
+- **Paso 1** · Tipo de dato → **Fecha** (no "Fecha y hora").
+- **Paso 2** · Identificar el formato original (la muestra trae el ISO `2022-01-03T00:01:19-04:00`).
+- **Paso 3** · Formato de visualización → `2016-11-24` (**YYYY-MM-DD**).
+
+Reestructurado `frontend/pages/simetrik-dota-test.html`:
+- Caja ⚠ "MOV_CREATED_DATE viene en formato ISO" → ahora ✅ con la receta de 3 pasos.
+- Tabla de casteo del Paso 0b: `MOV_CREATED_DATE` pasa de "Texto (dejala así)" a "**Fecha** · visualización YYYY-MM-DD".
+- Paso 6: fórmula simplificada de `ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE;"T";1); 1; "dias")` a **`ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")`** (el +1 día se mantiene; ya no hace falta DIVIDIR porque la columna ya es Fecha limpia).
+- Lecciones del Paso 6, caja del cruce 7.1 (ambas fechas ya son tipo Fecha) y resumen "Resuelto" actualizados.
+
+Esto además corrige una inconsistencia interna previa: el checklist (n:6) ya mostraba la fórmula simple sin DIVIDIR, pero el cuerpo del Paso 6 todavía traía el workaround. Ahora todo el documento coincide.
+
+### Pendiente
+- Verificar en el workspace real que el formato original elegido en el Paso 2 matchea el ISO con timezone (`-04:00`) sin vaciar las celdas (si vacía → "Añadir nuevo formato").
+- Confirmar si el +1 día de MOV_CREATION_DATE es regla de negocio o compensación de timezone.
+- Cerrar preguntas 🟡 de los puntos 3 y 12.

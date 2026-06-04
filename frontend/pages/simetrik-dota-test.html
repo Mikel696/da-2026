@@ -155,8 +155,12 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <li>Si una columna queda mal mapeada y le aplicás casteos, después <b>se bloquea</b> (signo 🚫) y no se puede corregir → toca rehacer la unión. Por eso conviene verificar ANTES de guardar.</li>
   </ul></div>
 
-  <div class="box warn"><div class="box-h">⚠ MOV_CREATED_DATE viene en formato ISO</div>
-  El dato es <code>2022-01-03T00:01:19-04:00</code> (con la <code>T</code> y zona horaria). Si lo casteás a "Fecha y hora" y Simetrik no logra parsear ese formato, <b>vacía todas las celdas</b>. Alternativa segura: en el Paso 6, extraé la fecha cortando por la T → <code>DIVIDIR(MOV_CREATED_DATE; "T"; 1)</code> da <code>2022-01-03</code> limpio (y de paso quita la hora).</div>
+  <div class="box do"><div class="box-h">✅ MOV_CREATED_DATE — castear a Fecha (vía formato, recomendado por el trainer)</div>
+  El dato viene ISO <code>2022-01-03T00:01:19-04:00</code>. En la fuente <code>DB_DOTA</code> → "Dar formato a una columna":<br>
+  <b>Paso 1</b> · Tipo de dato → <span class="dtype dtype-fecha">Fecha</span> (NO "Fecha y hora").<br>
+  <b>Paso 2</b> · Identificá el formato original (la muestra ya trae el ISO con T) → tildá el que matchea; si no aparece, "Añadir nuevo formato".<br>
+  <b>Paso 3</b> · Formato de visualización → <code>2016-11-24</code> (<b>YYYY-MM-DD</b>) → Aplicar.<br>
+  Así queda <code>2022-01-03</code> limpio, sin hora y sin el workaround del <code>DIVIDIR(...;"T";1)</code>. <b>Verificá la vista previa</b>: si las celdas quedan vacías, el formato original elegido no matcheó — reintentá con "Añadir nuevo formato".</div>
 
   <div class="box do"><div class="box-h">✅ Por qué la Unión (best practice oficial #8)</div>Trabajás siempre sobre la <b>Unión</b>, nunca sobre la fuente directa. Si el archivo cambia de formato mañana, solo tocás la Unión sin rehacer conciliaciones. Es lo que el evaluador espera ver.</div>
 </div>
@@ -172,7 +176,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td><code>PURCHASE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Para ESBLANCO (Paso 5). Los decimales se limpian con DIVIDIR en la fórmula del Paso 5, no con casteo</td></tr>
     <tr><td><code>CAPTURE_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
     <tr><td><code>AUTH_MERCHANT_NUMBER</code></td><td><span class="dtype dtype-texto">Texto</span></td><td>Igual</td></tr>
-    <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-texto">Texto</span> (dejala así)</td><td>⚠ NO la castees a "Fecha y hora" — el formato ISO con T/timezone no parsea y vacía las celdas. La fecha se extrae en el Paso 6 con DIVIDIR.</td></tr>
+    <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-fecha">Fecha</span> · visualización <code>YYYY-MM-DD</code></td><td>Dar formato → tipo <b>Fecha</b> (no "Fecha y hora") → identificá el formato original (ISO con T) → formato de visualización <code>2016-11-24</code>. Verificá que la vista previa NO quede vacía.</td></tr>
   </table>
   <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5) — y si quedó mal mapeada, se bloquea (🚫) y hay que rehacer la unión.</div>
 </div>
@@ -274,14 +278,14 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">6</div><div class="step-title">MOV_CREATION_DATE <span class="out">salida: Fecha (sin hora)</span></div></div>
-  <p>Creá la columna <code>MOV_CREATION_DATE</code> (transformación, salida <span class="dtype dtype-fecha">Fecha</span>) con esta fórmula que hace todo junto — corta el ISO en la <code>T</code> (quita la hora) y suma 1 día:</p>
-  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="fn">DIVIDIR</span>(<span class="col">MOV_CREATED_DATE</span>; <span class="str">"T"</span>; 1); 1; <span class="str">"dias"</span>)</pre>
+  <p>Como <code>MOV_CREATED_DATE</code> ya quedó casteada a <span class="dtype dtype-fecha">Fecha</span> en la fuente (Paso 0b), la fórmula se simplifica — ya no hace falta <code>DIVIDIR</code> por la <code>T</code>. Creá <code>MOV_CREATION_DATE</code> (transformación, salida <span class="dtype dtype-fecha">Fecha</span>) que solo suma 1 día:</p>
+  <pre class="formula"><span class="fn">ADICIONAR_FECHA_TIEMPO</span>(<span class="col">MOV_CREATED_DATE</span>; 1; <span class="str">"dias"</span>)</pre>
   <p class="tx2">Resultado: <code>2022-01-04</code> (fecha +1, sin hora).</p>
 
   <div class="box warn"><div class="box-h">⚠ Lecciones aprendidas en el workspace real (claves)</div>
   <ul>
-    <li><b>El formato se castea en la FUENTE, no en la unión.</b> <code>MOV_CREATED_DATE</code> dejala en Texto desde la fuente <code>DB_DOTA</code>.</li>
-    <li><b>No castees a "Fecha y hora"</b> — el ISO con T/timezone no parsea y vacía las celdas (T001). Por eso usamos <code>DIVIDIR(...; "T"; 1)</code> para extraer la fecha.</li>
+    <li><b>El formato se castea en la FUENTE, no en la unión.</b> <code>MOV_CREATED_DATE</code> se castea a <b>Fecha</b> (visualización <code>YYYY-MM-DD</code>) desde la fuente <code>DB_DOTA</code> (Paso 0b).</li>
+    <li><b>Tipo Fecha, no "Fecha y hora".</b> Casteá a "Fecha" identificando el formato original (ISO con T); "Fecha y hora" es lo que antes daba T001 y vaciaba las celdas. Por eso ya NO hace falta el <code>DIVIDIR(...; "T"; 1)</code>.</li>
     <li><b>Función en MAYÚSCULAS:</b> <code>ADICIONAR_FECHA_TIEMPO</code>. Período: <code>"dias"</code> (plural, sin tilde, entre comillas). Opciones: años, meses, semanas, dias, horas, minutos, segundos.</li>
   </ul></div>
 </div>
@@ -299,7 +303,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
   <h4>7.1 · BuscarV #1 — traer el número de día hábil</h4>
   <p>En <code>Union_DOTA</code> → "Crear BuscarV": consultar <code>Union_Calendario</code>, traer <code>ID_SUM</code>, cruce <code>MOV_CREATION_DATE = FECHA</code> (operador <b>=</b>). Llamala <code>N_DIA_BASE</code>.</p>
-  <div class="box warn"><div class="box-h">⚠ Las dos fechas del cruce deben ser del MISMO tipo</div>Si <code>MOV_CREATION_DATE</code> es Texto y <code>FECHA</code> es "Fecha y hora", no cruzan. Igualá las dos a tipo <b>Fecha</b> (el de <code>FECHA</code> se cambia en la fuente <code>Calendario_MLA</code>, no en la unión).</div>
+  <div class="box warn"><div class="box-h">⚠ Las dos fechas del cruce deben ser del MISMO tipo</div><code>MOV_CREATION_DATE</code> ya sale como <b>Fecha</b> (Paso 6) y <code>MOV_CREATED_DATE</code> también quedó en Fecha (Paso 0b). Asegurate de que <code>FECHA</code> del calendario esté también en tipo <b>Fecha</b> (su casteo se hace en la fuente <code>Calendario_MLA</code>, no en la unión). Si una es "Fecha y hora" y la otra "Fecha", no cruzan.</div>
 
   <h4>7.2 · Sumar 30 días hábiles</h4>
   <p>Columna de transformación <code>N_TARGET</code> (Entero): <code>CALCULO(N_DIA_BASE + 30)</code></p>
@@ -522,7 +526,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <!-- ════════ PREGUNTAS PARA EL TRAINER ════════ -->
 <!-- ════════ RESUMEN ════════ -->
 <div class="phase">✅ Resuelto — no preguntar esto</div>
-<div class="box do">Punto 6: <code>ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE; "T"; 1); 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
+<div class="box do">Punto 6: <code>MOV_CREATED_DATE</code> casteada a Fecha (YYYY-MM-DD) en la fuente → <code>ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
 <p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🟡 Puntos 3 y 12). El Punto 7 ya quedó resuelto con el nuevo calendario.</p>
 
 <!-- ════════ CHECKLIST ════════ -->
