@@ -102,7 +102,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA · Guía paso a paso · v5</span>
+  <span class="mod">14-WORK · DOTA · Guía paso a paso · v6</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
@@ -113,6 +113,34 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <h1>Prueba <em>DOTA</em> · guía de ejecución paso a paso</h1>
   <p>Seguí esta guía <b>de arriba hacia abajo, en orden</b>. Empezá por la Preparación, después Paso 1, 2, 3… hasta el 16. Cada paso tiene el nombre exacto del recurso/columna, la fórmula lista para copiar, y una nota solo si hace falta.</p>
   <p class="tx2"><b>Regla base de sintaxis Simetrik:</b> separador de parámetros <code>;</code> · textos entre <code>"comillas dobles"</code> · nombres de columna en MAYÚSCULAS.</p>
+</div>
+
+<!-- ════════ RECONSTRUCCIÓN DESDE CERO ════════ -->
+<div class="phase">🆕 Reconstrucción desde cero · leé esto primero</div>
+<div class="phase-sub">Vas a borrar todo y rehacerlo con los archivos actualizados. Seguí este orden macro; el detalle de cada paso está más abajo.</div>
+
+<div class="step">
+  <div class="box warn"><div class="box-h">🔑 Las 4 reglas de oro (memorizalas — explican por qué antes no se actualizaba)</div>
+  <ol>
+    <li><b>Los casteos de tipo van SIEMPRE en la FUENTE, nunca en la unión.</b> En la unión las columnas son heredadas → da "la columna seleccionada no admite cambio de formato".</li>
+    <li><b>Después de castear en la fuente, RE-EJECUTÁ la unión</b> ("Ejecutar cambios"). Simetrik <b>solo recalcula registros vacíos</b>: si no la re-ejecutás, las filas ya cargadas se quedan con el formato viejo.</li>
+    <li><b>Las columnas de transformación (MOV_CREATION_DATE, etc.) solo recalculan filas vacías.</b> Si cambiaste algo aguas arriba, <b>borrá la columna y volvé a crearla</b> para refrescar TODAS las filas. (Esto es lo que te pasó con MOV_CREATION_DATE.)</li>
+    <li><b>Casteá ANTES de crear cualquier fórmula.</b> Si una columna casteada queda mal mapeada se <b>bloquea 🚫</b> y toca rehacer la unión entera.</li>
+  </ol></div>
+
+  <div class="box do"><div class="box-h">📋 Orden macro de reconstrucción</div>
+  <ol>
+    <li><b>Cargar las fuentes</b> (<code>DB_DOTA, Reporte_FD, Parametria_Comercio, Calendario_MLA</code>) con los archivos ACTUALIZADOS. ⚠ El calendario ahora es <code>Formato DIAS HABILES ARGENTINA.xlsx</code> (cubre 2019→2072), NO el viejo. → Paso 0.</li>
+    <li><b>Castear tipos en cada FUENTE</b> (Paso 0b): en <code>DB_DOTA</code> → <code>CARD_*</code> y <code>*_MERCHANT_NUMBER</code> a Texto, <code>MOV_CREATED_DATE</code> a <b>Fecha · YYYY-MM-DD</b>; en <code>Calendario_MLA</code> → <code>FECHA</code> a <b>Fecha</b>.</li>
+    <li><b>Crear las uniones</b> (<code>Union_DOTA, Union_FD, Union_Parametria, Union_Calendario</code>). En <code>Union_Calendario</code> seleccioná las 8 columnas nuevas: <code>PAIS, FECHA, CONCEPTO, CLASIFICATION, ID_SUM, ID_FINAL, DAY, YEAR</code>. Verificá el mapeo ANTES de guardar.</li>
+    <li><b>Normalización DOTA</b>: columnas de transformación Pasos 1 → 7 en orden (en el Paso 6 la fórmula ya es la simple, sin <code>DIVIDIR</code>; en el Paso 7 los BuscarV usan <code>ID_SUM</code> e <code>ID_FINAL</code>).</li>
+    <li><b>Cruce con Parametría</b> → Paso 8.</li>
+    <li><b>Normalización FD</b> → Pasos 9 → 11.</li>
+    <li><b>Conciliación avanzada</b> DOTA × FD → Paso 12 (+ check 12b).</li>
+    <li><b>Saldo neto diario</b> → Paso 13.</li>
+    <li><b>Tableros</b> → Pasos 14, 15, 16.</li>
+  </ol>
+  <p class="tx2">Si en algún punto una columna se ve vacía o desactualizada: 99% de las veces es la regla 2 o 3 → re-ejecutá la unión y/o borrá-y-recreá la columna de transformación.</p></div>
 </div>
 
 <!-- ════════ PREPARACIÓN ════════ -->

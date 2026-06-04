@@ -3172,3 +3172,27 @@ Esto además corrige una inconsistencia interna previa: el checklist (n:6) ya mo
 - Verificar en el workspace real que el formato original elegido en el Paso 2 matchea el ISO con timezone (`-04:00`) sin vaciar las celdas (si vacía → "Añadir nuevo formato").
 - Confirmar si el +1 día de MOV_CREATION_DATE es regla de negocio o compensación de timezone.
 - Cerrar preguntas 🟡 de los puntos 3 y 12.
+
+---
+
+## 2026-06-04 · 14-WORK · Dota Test — guía de reconstrucción desde cero + memoria
+
+### Qué se logró
+El usuario decidió borrar todo y rehacer la Prueba DOTA con los datos actualizados (calendario nuevo + casteo de fecha). Para que lo haga bien de una, agregué al inicio de `frontend/pages/simetrik-dota-test.html` (antes de la fase Preparación) una sección **"🆕 Reconstrucción desde cero"** con:
+
+1. **Las 4 reglas de oro de propagación de Simetrik** — explican el bug que vivió (MOV_CREATION_DATE no se actualizaba):
+   - Casteos de tipo SIEMPRE en la FUENTE, nunca en la unión.
+   - Tras castear, RE-EJECUTAR la unión (Simetrik solo recalcula registros vacíos).
+   - Columnas de transformación solo recalculan filas vacías → borrar y recrear para refrescar todas.
+   - Castear ANTES de crear fórmulas o la columna se bloquea 🚫.
+2. **Orden macro de 9 pasos** que referencia los pasos detallados 0→16.
+
+Versión bumpeada v5→v6. Corregido el conteo ambiguo ("5 fuentes" → las 4 reales nombradas).
+
+### Memoria
+Creada `memory/project-simetrik-dota-test.md` (+ índice MEMORY.md) con: ubicación de la guía, calendario nuevo (2019-2072, ID_SUM/ID_FINAL), casteo MOV_CREATED_DATE→Fecha YYYY-MM-DD, las 4 reglas de oro, y el procedimiento de swap del calendario (borrar/recrear Calendario_MLA + Union_Calendario → rehacer los 2 BuscarV del Paso 7).
+
+### Pendiente
+- Verificar render en el live site.
+- Cerrar preguntas 🟡 de puntos 3 y 12.
+- Sumar nuevos gotchas a las reglas de oro si aparecen durante el rebuild.
