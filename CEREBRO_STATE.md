@@ -3211,3 +3211,20 @@ Prompts de 14-WORK ahora: `PROMPT_14-WORK.md`, `PROMPT_14-WORK_MASTER.md`, `PROM
 ### Pendiente
 - Opcional: botón "Copiar" en la tab Copilot de 14-WORK para este prompt.
 - Mantener actualizada la tabla de funciones y las reglas de oro con lo que aparezca en el trabajo real.
+
+---
+
+## 2026-06-04 · 14-WORK · Botón "Trabajo Puro Simetrik" en tab Copilot + fix bug latente
+
+### Qué se logró
+Expuesto el nuevo prompt como botón en la tab 🎓 Tutor/Copilot de 14-WORK (Modo 4):
+- `frontend/js/work.js`: función `buildSimetrikWorkPrompt()` (prompt embebido vía line-array `.join('\n')` para evitar conflicto con los backticks del code-fence), volcada a `#askOutput` con el patrón estándar; agregada a la API pública del IIFE.
+- `frontend/work.html`: tarjeta "MODO 4" (borde cyan) con botón `⚡ Generar Prompt Trabajo Simetrik` → `WORK.buildSimetrikWorkPrompt()`.
+
+**Bug latente corregido:** `buildTestDevPrompt()` (Modo "Nueva Prueba") llamaba a `showResult()`, función que NO existe → tiraba ReferenceError al hacer click. Reemplazado por el patrón estándar de output (display block + textContent + dataset.raw + scrollIntoView). Ahora los 4 modos funcionan igual.
+
+`node --check frontend/js/work.js` OK. Verificación UI en vivo pendiente: el preview local rebota `work.html` a root (guard de auth del módulo).
+
+### Pendiente
+- Probar el click en el live site autenticado.
+- Mantener el prompt embebido en sync con `PROMPT_14-WORK_SIMETRIK-PURO.md`.
