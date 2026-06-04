@@ -3196,3 +3196,18 @@ Creada `memory/project-simetrik-dota-test.md` (+ índice MEMORY.md) con: ubicaci
 - Verificar render en el live site.
 - Cerrar preguntas 🟡 de puntos 3 y 12.
 - Sumar nuevos gotchas a las reglas de oro si aparecen durante el rebuild.
+
+---
+
+## 2026-06-04 · 14-WORK · Nuevo prompt "Trabajo Puro Simetrik"
+
+### Qué se logró
+Creado `PROMPT_14-WORK_SIMETRIK-PURO.md` (raíz del repo): 4º prompt de 14-WORK, **autónomo**, dedicado al trabajo operativo real en la plataforma Simetrik. A diferencia de `PROMPT_14-WORK_TEST.md` (que publica un roadmap en el módulo y genera HTML), este NO toca el módulo DA-2026 — es pura asistencia de plataforma (fórmulas, uniones, BuscarV, conciliaciones, tableros, troubleshooting).
+
+Incluye: zona para pegar la tarea + evidencia, rol de especialista Simetrik, base de conocimiento embebida (arquitectura, sintaxis, tabla de funciones, las 4 reglas de oro de propagación, manejo de fechas ISO→Fecha, contexto DOTA), parámetros anti-alucinación, protocolo de inicio y formato de salida. Pensado para copiar/pegar en una sesión nueva cada vez.
+
+Prompts de 14-WORK ahora: `PROMPT_14-WORK.md`, `PROMPT_14-WORK_MASTER.md`, `PROMPT_14-WORK_TEST.md`, `PROMPT_14-WORK_KB-PHASE-B.md`, y el nuevo `PROMPT_14-WORK_SIMETRIK-PURO.md`.
+
+### Pendiente
+- Opcional: botón "Copiar" en la tab Copilot de 14-WORK para este prompt.
+- Mantener actualizada la tabla de funciones y las reglas de oro con lo que aparezca en el trabajo real.
