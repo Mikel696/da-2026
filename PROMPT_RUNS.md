@@ -322,7 +322,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Paso 12 (conciliación avanzada · 5 barridas · Lado A DOTA_Estandar × Lado B Union_FD) cuando el usuario lo pida.
 
 ### ID:14-WORK.P10 · 2026-06-04
-- Commit: (pending)
+- Commit: 6e42bd7
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: CORRECCIÓN del 8.2 (el P9 tenía info errada). El usuario reportó que en "Crear recurso" NO aparece "Grupo Conciliable" (solo Fuentes, Agrupaciones, Concil. estándar, Concil. avanzada, Fuentes de apertura, Unión de fuentes). Verifiqué la captura Fuentes.png del Drive: el "Grupo conciliable*" es un CAMPO dentro de la configuración de la Unión de fuentes (default "Recurso completo"), no un recurso aparte. Reescrito 8.2: caja 📍 "Dónde vive (¡OJO!)" + pasos corregidos (abrir Union_DOTA config → campo Grupo conciliable → condición TIPO_COMERCIO=ESTANDAR → Guardar cambios). Origen del error: el simulador simetrik-app.html:448 lista "Reconcilable Group" como opción de Crear recurso, lo cual no coincide con la plataforma real.
 - Next: (a) Confirmar con el usuario qué opciones muestra el dropdown "Grupo conciliable" para finalizar el paso 3 exacto · (b) Corregir simetrik-app.html:448 (Crear recurso no tiene Reconcilable Group/VLOOKUP en la versión real) · (c) Paso 12.
