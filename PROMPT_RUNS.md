@@ -328,7 +328,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Confirmar con el usuario qué opciones muestra el dropdown "Grupo conciliable" para finalizar el paso 3 exacto · (b) Corregir simetrik-app.html:448 (Crear recurso no tiene Reconcilable Group/VLOOKUP en la versión real) · (c) Paso 12.
 
 ### ID:14-WORK.P11 · 2026-06-04
-- Commit: (pending)
+- Commit: e977c4d
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Re-corrección del 8.2 tras 2da info del usuario (el dropdown "Grupo conciliable" SOLO muestra "Recurso completo", no deja crear). Leí el Documento Guia.docx oficial del Drive (id 1J2gfbvP...): el Punto 8 solo pide "filtrar únicamente TIPO_COMERCIO = ESTANDAR para poder avanzar con la creación de la conciliación" — NO menciona Grupo Conciliable. Reescrito 8.2: caja 📄 verbatim de la guía, caja 📍 explicando que el dropdown solo selecciona grupos existentes, y CAMINO RECOMENDADO = aplicar el filtro ESTANDAR al armar la Conciliación Avanzada (Punto 12) sobre el Lado A vía filtro/segmentación. Alternativa (grupo desde vista de tabla) marcada como "confirmá en tu workspace". Actualizada memoria project-simetrik-dota-test con la lección anti-hallucination (no confiar en el simulador para rutas de UI).
 - Next: (a) Corregir simetrik-app.html:448 (Crear recurso real NO tiene Reconcilable Group/VLOOKUP) · (b) Cuando el usuario llegue al Punto 12, confirmar dónde exactamente se aplica el filtro/segmentación en la conciliación avanzada de su versión.
