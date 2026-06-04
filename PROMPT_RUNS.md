@@ -304,7 +304,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Si el usuario quiere, exponerlo como botón "Copiar" en la tab Copilot de 14-WORK · (b) Ir sumando funciones Simetrik verificadas a la tabla a medida que aparezcan · (c) Sumar gotchas nuevos a las reglas de oro.
 
 ### ID:14-WORK.P7 · 2026-06-04
-- Commit: (pending)
+- Commit: fb385f3
 - Files: frontend/js/work.js · frontend/work.html
 - Changed: Expuesto el prompt "Trabajo Puro Simetrik" como botón en la tab 🎓 Tutor/Copilot. (a) work.js: nueva función buildSimetrikWorkPrompt() que arma el prompt embebido (line array .join para no chocar con backticks del code-fence) y lo vuelca a #askOutput con el patrón estándar (display block + textContent + dataset.raw + scrollIntoView); agregada a la API pública del IIFE. (b) work.html: nueva tarjeta "MODO 4" (borde cyan #06b6d4) con botón ⚡ Generar Prompt Trabajo Simetrik → WORK.buildSimetrikWorkPrompt(). BONUS: corregido bug latente en buildTestDevPrompt() que llamaba showResult() (función inexistente) → tiraba ReferenceError al click; reemplazado por el patrón estándar de output. node --check OK. Verificación en vivo no posible: el preview rebota work.html a root (guard de auth del módulo); validado por syntax-check + consistencia botón/función/export + paridad con Modos 1-3.
 - Next: (a) Verificar el click en vivo en el live site autenticado · (b) Si suma, exponer también los otros prompts .md como botones · (c) Mantener el prompt embebido sincronizado con PROMPT_14-WORK_SIMETRIK-PURO.md si cambia.
