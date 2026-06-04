@@ -3129,3 +3129,23 @@ Como el cambio vive en `nb-shared.js`, **automáticamente afecta también a 10-S
 - [ ] Eliminar imagen desde overlay → 🗑 → chip se borra del editor + blob IDB liberado.
 - [ ] Paste de imagen (Ctrl+V) → chip compacto.
 - [ ] 10-SYS y 14-WORK también muestran chips ahora (migración automática).
+
+---
+
+## 2026-06-04 · 14-WORK · Dota Test Punto 7 — nuevo calendario días hábiles AR
+
+### Qué se logró
+El trainer subió a la carpeta compartida de Drive un calendario nuevo: **"Formato DIAS HABILES ARGENTINA.xlsx"**. Verificado vía Drive MCP que cubre **2019-01-01 → 2072**, lo que resuelve el bloqueo 🔴 del Punto 7 (el calendario viejo "Normalización días hábiles Argentina.xlsx" arrancaba el 2026-03-23 y dejaba sin día hábil a todas las transacciones DOTA, que vienen desde 2022).
+
+Actualizado `frontend/pages/simetrik-dota-test.html`:
+- Tabla "Qué cargar" + paso 7.0 → nuevo nombre de archivo.
+- Columnas renombradas: `ID_CONTADOR_SUMA → ID_SUM`, `ID_FECHA_FINAL → ID_FINAL` (pasos 7.1, 7.3 y resumen final).
+- Columnas de la unión: ahora 8 → `PAIS, FECHA, CONCEPTO, CLASIFICATION, ID_SUM, ID_FINAL, DAY, YEAR`.
+- Caja 🔴 "pregunta para el trainer (bloquea el punto)" → reemplazada por ✅ "bloqueo resuelto" (clase `box do`).
+- Resumen de preguntas al trainer: queda solo 🟡 Puntos 3 y 12.
+
+La lógica de los 2 BuscarV no cambia: `ID_SUM` es el contador de día hábil (incrementa solo en filas HABIL), `ID_FINAL` mapea de número de día hábil de vuelta a fecha. Semántica verificada contra los datos reales del xlsx.
+
+### Pendiente
+- Esperar respuesta del trainer sobre puntos 3 y 12 (siguen abiertos).
+- Confirmar en el workspace real que el cruce `MOV_CREATION_DATE = FECHA` requiere igualar ambos a tipo Fecha (el casteo de FECHA va en la fuente Calendario_MLA).

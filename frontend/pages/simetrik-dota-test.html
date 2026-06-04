@@ -128,7 +128,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td>DB_DOTA_v3.xlsx</td><td><code>DB_DOTA</code></td><td><code>Union_DOTA</code></td></tr>
     <tr><td>Reporte_FD_v3.xlsx</td><td><code>Reporte_FD</code></td><td><code>Union_FD</code></td></tr>
     <tr><td>Parametria_Comercio_v2.xlsx</td><td><code>Parametria_Comercio</code></td><td><code>Union_Parametria</code></td></tr>
-    <tr><td>Normalización días hábiles Argentina.xlsx</td><td><code>Calendario_MLA</code></td><td><code>Union_Calendario</code></td></tr>
+    <tr><td>Formato DIAS HABILES ARGENTINA.xlsx</td><td><code>Calendario_MLA</code></td><td><code>Union_Calendario</code></td></tr>
   </table>
 
   <h4>Cómo cargar cada una</h4>
@@ -292,23 +292,22 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
   <h4>7.0 · Cargar el calendario (fuente + unión)</h4>
   <ol>
-    <li><b>Fuente:</b> "Crear recurso" → Fuentes → <code>Calendario_MLA</code> → arrastrar <code>Normalización días hábiles Argentina.xlsx</code> → "Listo ✓".</li>
-    <li><b>Unión:</b> "Crear recurso" → Unión de fuentes → <code>Union_Calendario</code> → elegir la fuente → seleccionar las 6 columnas (<code>SITE, FECHA, CONCEPTO, CLASIFCACION, ID_CONTADOR_SUMA, ID_FECHA_FINAL</code>) → "Ejecutar cambios".</li>
+    <li><b>Fuente:</b> "Crear recurso" → Fuentes → <code>Calendario_MLA</code> → arrastrar <code>Formato DIAS HABILES ARGENTINA.xlsx</code> → "Listo ✓".</li>
+    <li><b>Unión:</b> "Crear recurso" → Unión de fuentes → <code>Union_Calendario</code> → elegir la fuente → seleccionar las columnas (<code>PAIS, FECHA, CONCEPTO, CLASIFICATION, ID_SUM, ID_FINAL, DAY, YEAR</code>) → "Ejecutar cambios".</li>
   </ol>
-  <p class="tx2">No hace falta grupo conciliable (el archivo tiene solo Argentina). Columnas clave: <code>FECHA</code> (cada día), <code>ID_CONTADOR_SUMA</code> (número de día hábil de esa fecha), <code>ID_FECHA_FINAL</code> (para volver del número a la fecha).</p>
+  <p class="tx2">No hace falta grupo conciliable (el archivo tiene solo Argentina). Columnas clave: <code>FECHA</code> (cada día), <code>ID_SUM</code> (número de día hábil de esa fecha), <code>ID_FINAL</code> (para volver del número a la fecha). El nuevo formato cubre <b>2019 → 2072</b>, así que ya hay día hábil para todas las transacciones de DOTA (desde 2022).</p>
 
   <h4>7.1 · BuscarV #1 — traer el número de día hábil</h4>
-  <p>En <code>Union_DOTA</code> → "Crear BuscarV": consultar <code>Union_Calendario</code>, traer <code>ID_CONTADOR_SUMA</code>, cruce <code>MOV_CREATION_DATE = FECHA</code> (operador <b>=</b>). Llamala <code>N_DIA_BASE</code>.</p>
+  <p>En <code>Union_DOTA</code> → "Crear BuscarV": consultar <code>Union_Calendario</code>, traer <code>ID_SUM</code>, cruce <code>MOV_CREATION_DATE = FECHA</code> (operador <b>=</b>). Llamala <code>N_DIA_BASE</code>.</p>
   <div class="box warn"><div class="box-h">⚠ Las dos fechas del cruce deben ser del MISMO tipo</div>Si <code>MOV_CREATION_DATE</code> es Texto y <code>FECHA</code> es "Fecha y hora", no cruzan. Igualá las dos a tipo <b>Fecha</b> (el de <code>FECHA</code> se cambia en la fuente <code>Calendario_MLA</code>, no en la unión).</div>
 
   <h4>7.2 · Sumar 30 días hábiles</h4>
   <p>Columna de transformación <code>N_TARGET</code> (Entero): <code>CALCULO(N_DIA_BASE + 30)</code></p>
 
   <h4>7.3 · BuscarV #2 — volver del número a la fecha</h4>
-  <p>Otro BuscarV en <code>Union_DOTA</code>: consultar <code>Union_Calendario</code>, traer <code>FECHA</code>, cruce <code>N_TARGET = ID_FECHA_FINAL</code>. Llamala <code>EXPECTED_PAYMENT_DATE</code>.</p>
+  <p>Otro BuscarV en <code>Union_DOTA</code>: consultar <code>Union_Calendario</code>, traer <code>FECHA</code>, cruce <code>N_TARGET = ID_FINAL</code>. Llamala <code>EXPECTED_PAYMENT_DATE</code>.</p>
 
-  <div class="box q"><div class="box-h">🔴 Pregunta para el trainer (esto bloquea el punto)</div>El calendario arranca el <b>2026-03-23</b> pero las transacciones de DOTA son desde <b>2022</b>, así que a las previas a 2026 no les encuentra el día hábil. Es el insumo, no se resuelve del lado del candidato.<br><br>
-  <i>"Hola, una consulta con el punto 7. Estuve armando EXPECTED_PAYMENT_DATE con BuscarV contra el calendario de días hábiles de Argentina, y noté que el calendario arranca el 23 de marzo de 2026, mientras que las transacciones de DB_DOTA vienen desde 2022. A las transacciones anteriores a esa fecha no les encuentra el día hábil correspondiente. ¿Tienen una versión del calendario que cubra desde 2022, o el enfoque para este punto es distinto?"</i></div>
+  <div class="box do"><div class="box-h">✅ Bloqueo resuelto — nuevo calendario</div>El trainer subió <code>Formato DIAS HABILES ARGENTINA.xlsx</code> que cubre <b>2019-01-01 → 2072</b>. Ya no hay transacciones sin día hábil: todas las de DOTA (desde 2022) cruzan. Usá este archivo, no el viejo (<code>Normalización días hábiles Argentina.xlsx</code>) que arrancaba en 2026-03-23.</div>
 </div>
 
 <!-- ════════ CRUCE PARAMETRÍA ════════ -->
@@ -524,7 +523,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <!-- ════════ RESUMEN ════════ -->
 <div class="phase">✅ Resuelto — no preguntar esto</div>
 <div class="box do">Punto 6: <code>ADICIONAR_FECHA_TIEMPO(DIVIDIR(MOV_CREATED_DATE; "T"; 1); 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
-<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🔴 Punto 7 · 🟡 Puntos 3 y 12).</p>
+<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🟡 Puntos 3 y 12). El Punto 7 ya quedó resuelto con el nuevo calendario.</p>
 
 <!-- ════════ CHECKLIST ════════ -->
 <div class="phase">✅ Tu progreso</div>
@@ -552,7 +551,7 @@ const DOTA = (() => {
     { n:4,  txt:'BRAND · SI anidado con PAY_METHOD + IZQUIERDA del CARD_NUMBER' },
     { n:5,  txt:'GTWT_MERCHANT_NUMBER · SI + ESBLANCO (prioridad PURCHASE>CAPTURE>AUTH)' },
     { n:6,  txt:'MOV_CREATION_DATE · ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias") + cast a Fecha' },
-    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra Union_Calendario: ID_CONTADOR_SUMA +30 → ID_FECHA_FINAL → FECHA' },
+    { n:7,  txt:'EXPECTED_PAYMENT_DATE · 2 BuscarV contra Union_Calendario: ID_SUM +30 → ID_FINAL → FECHA' },
     { n:8,  txt:'BuscarV DB_DOTA × Parametria · GTWT_MERCHANT_NUMBER = COMERCIO · traer TIPO_COMERCIO · filtrar ESTANDAR' },
     { n:9,  txt:'LIQ_6_TARJETA · IZQUIERDA(NUM_TAR; 6)' },
     { n:10, txt:'LIQ_4_TARJETA · DERECHA(NUM_TAR; 4)' },
