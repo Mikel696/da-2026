@@ -367,15 +367,15 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="box warn"><div class="box-h">⚠ Tipos de dato</div>Las dos columnas de la llave (<code>GTWT_MERCHANT_NUMBER</code> y <code>COMERCIO</code>) deben ser del mismo tipo (Texto). Si no, el BuscarV trae vacío.</div>
 
   <h4>Sub-paso 8.2 · Filtrar ESTANDAR (Grupo Conciliable)</h4>
-  <p>Un <b>Grupo Conciliable</b> (Reconcilable Group) es un <b>filtro guardado con nombre</b> que aísla un subconjunto de filas de una unión. No crea columnas ni transforma nada: solo define "de toda <code>Union_DOTA</code>, estas son las filas que entran a la conciliación". Pensalo como una <i>vista guardada</i>. Lo necesitás porque la conciliación del Paso 12 apunta a un <b>recurso</b>, no a "la unión con un filtro temporal" — al guardar el grupo, ese grupo se convierte en el <b>Lado A</b> que vas a elegir.</p>
+  <div class="box warn"><div class="box-h">📍 Dónde vive (¡OJO!)</div>El <b>Grupo Conciliable</b> NO es un recurso de "Crear recurso" (ahí solo aparecen Fuentes, Agrupaciones, Conciliación estándar, Conciliación avanzada, Fuentes de apertura y Unión de fuentes). Es un <b>campo DENTRO de la configuración de la Unión de fuentes</b>. Por defecto está en <code>Recurso completo</code> (= todas las filas, sin filtro).</div>
+  <p>Sirve para decir "de toda <code>Union_DOTA</code>, dejá entrar a la conciliación solo las filas ESTANDAR". No crea columnas ni recursos nuevos: filtra la misma unión.</p>
   <ol>
-    <li><b>Ruta:</b> Automatizar → Recursos y conciliaciones → <b>Recursos</b> → botón <b>"Crear recurso"</b>.</li>
-    <li>En el menú de tipos, elegí <b>"Grupo Conciliable"</b> (Reconcilable Group). Es el mismo menú donde elegís Fuente / Unión / Conciliación / BuscarV.</li>
-    <li><b>Recurso base:</b> seleccioná <code>Union_DOTA</code> (la que ya tiene <code>TIPO_COMERCIO</code> del BuscarV del 8.1).</li>
-    <li><b>Condición del filtro:</b> <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
-    <li><b>Nombre:</b> <code>DOTA_Estandar</code> → Guardar.</li>
+    <li>Abrí <code>Union_DOTA</code> en modo configuración (la pantalla <b>"Unión de fuentes"</b>).</li>
+    <li>En la columna izquierda <b>"Configuración de fuentes"</b>, debajo del Recurso, está el campo <b>"Grupo conciliable*"</b> (lo ves en <code>Recurso completo</code>).</li>
+    <li>Abrí ese dropdown y definí/elegí la condición <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+    <li><b>"Guardar cambios"</b> (botón azul arriba a la derecha).</li>
   </ol>
-  <p class="tx2"><b>Este grupo es el Lado A de la conciliación del Paso 12.</b> (El Lado B será <code>Union_FD</code>, normalizada en los Pasos 9-11.)</p>
+  <p class="tx2"><b>Lado A de la conciliación del Paso 12</b> = <code>Union_DOTA</code> con su grupo conciliable filtrado a ESTANDAR. (El Lado B será <code>Union_FD</code>, normalizada en los Pasos 9-11.)</p>
 
   <div class="box warn"><div class="box-h">⚠ Orden</div>El BuscarV (8.1) va ANTES del filtro. No podés filtrar <code>TIPO_COMERCIO</code> antes, porque esa columna recién aparece cuando hacés el BuscarV.</div>
   <div class="box warn"><div class="box-h">⚠ 3 cosas que dejan el grupo vacío</div>
