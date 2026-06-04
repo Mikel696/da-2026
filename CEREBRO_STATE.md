@@ -3228,3 +3228,21 @@ Expuesto el nuevo prompt como botón en la tab 🎓 Tutor/Copilot de 14-WORK (Mo
 ### Pendiente
 - Probar el click en el live site autenticado.
 - Mantener el prompt embebido en sync con `PROMPT_14-WORK_SIMETRIK-PURO.md`.
+
+---
+
+## 2026-06-04 · 14-WORK · Propagación de la info Simetrik a todo el módulo
+
+### Qué se logró
+A pedido del usuario ("a todo el módulo"), propagada la info nueva (4 reglas de oro de propagación, casteo ISO→Fecha, error T001, calendario AR 2019-2072, ID_SUM/ID_FINAL) a los canales del módulo que lo permiten:
+
+1. **Diccionario** (`js/work.js`, seed idempotente cross-device — el canal de conocimiento compartido del módulo): +9 entradas (reglaoro1cast, reejecutarunion, recrearcoltrans, colbloqueada, errt001, castfechaiso, calhabilarg, idsumcol, idfinalcol). `SEED_VERSION` simetrik-2026-05-31.2 → **2026-06-04.1**. Corregida referencia stale al calendario viejo en `adicdiasmana2p`.
+2. **Playbook** (`pages/simetrik-playbook.html`, cheatsheet): nuevo bloque cyan "🔑 Reglas de oro · fórmulas y propagación" (3 columnas). Verificado en navegador (screenshot).
+3. Cache-buster `work.js` p22 → **p23**.
+
+### Límite técnico
+**Casos, Errores y Aprendizajes** son stores CRUD del usuario (work_cases/work_errors/work_learnings) **sin mecanismo de seed** → no se pueden auto-inyectar desde código. El conocimiento queda accesible vía el Diccionario (buscable en todo el módulo) + Playbook + la guía Dota Test. Si se quiere seed para esas secciones, hay que construir el mecanismo (no existe hoy).
+
+### Pendiente
+- Verificar el seed del Diccionario en el live site logueado (el auth guard impide el test local).
+- Decidir si se construye seed para Aprendizajes/Errores.

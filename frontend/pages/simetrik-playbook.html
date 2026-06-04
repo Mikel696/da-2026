@@ -779,6 +779,39 @@ body.in-iframe .sb{top:0;height:100vh}
         </div>
       </div>
 
+      <div class="cheat" style="margin-top:18px;background:linear-gradient(135deg,rgba(6,182,212,.10),rgba(6,182,212,.04));border-color:rgba(6,182,212,.3)">
+        <h3>🔑 Reglas de oro · fórmulas y propagación (Simetrik)</h3>
+        <div class="cheat-grid">
+          <div class="cheat-col">
+            <h4>Las 4 reglas (por qué "no se actualiza")</h4>
+            <ul>
+              <li>Casteos de tipo <b>SIEMPRE en la Fuente</b>, nunca en la Unión</li>
+              <li>Tras castear → <b>re-ejecutar la Unión</b> (solo recalcula vacíos)</li>
+              <li>Columna de transformación desactualizada → <b>borrar y recrear</b></li>
+              <li>Castear <b>antes</b> de las fórmulas, o la columna se bloquea 🚫</li>
+            </ul>
+          </div>
+          <div class="cheat-col">
+            <h4>Fechas ISO → tipo Fecha</h4>
+            <ul>
+              <li>ISO <code>2022-01-03T00:01:19-04:00</code> → castear a <b>Fecha</b> (NO "Fecha y hora" → T001 vacía celdas)</li>
+              <li>Dar formato → identificar formato original → visualización <code>YYYY-MM-DD</code></li>
+              <li>Con eso ya no hace falta <code>DIVIDIR(...;"T";1)</code></li>
+              <li>Para cruzar 2 fechas, ambas del mismo tipo (Fecha = Fecha)</li>
+            </ul>
+          </div>
+          <div class="cheat-col">
+            <h4>Calendario días hábiles ARG</h4>
+            <ul>
+              <li>Archivo <code>Formato DIAS HABILES ARGENTINA.xlsx</code> (cubre 2019→2072)</li>
+              <li>Columnas: <code>ID_SUM</code> (contador día hábil) · <code>ID_FINAL</code> (número→fecha)</li>
+              <li>Reemplaza al viejo que arrancaba en 2026-03-23</li>
+              <li>Sintaxis fórmulas: <code>;</code> separa · <code>"texto"</code> · columnas MAYÚSCULAS</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="cheat" style="margin-top:18px;background:linear-gradient(135deg,var(--pkg),var(--og));border-color:rgba(236,72,153,.3)">
         <h3>📋 Best practices del curso oficial</h3>
         <div class="cheat-grid">
