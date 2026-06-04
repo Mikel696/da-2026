@@ -366,9 +366,25 @@ td{color:var(--t2)}td b{color:var(--tx)}
   </ul>
   <div class="box warn"><div class="box-h">⚠ Tipos de dato</div>Las dos columnas de la llave (<code>GTWT_MERCHANT_NUMBER</code> y <code>COMERCIO</code>) deben ser del mismo tipo (Texto). Si no, el BuscarV trae vacío.</div>
 
-  <h4>Sub-paso 8.2 · Filtrar ESTANDAR</h4>
-  <p>Creá un <b>Grupo Conciliable</b> sobre <code>Union_DOTA</code> con filtro <code>TIPO_COMERCIO = "ESTANDAR"</code>. Nombralo <code>DOTA_Estandar</code>. <b>Este grupo es el Lado A de la conciliación del Paso 12.</b></p>
-  <div class="box warn"><div class="box-h">⚠ Orden</div>El BuscarV va ANTES del filtro. No podés filtrar TIPO_COMERCIO antes, porque esa columna recién aparece cuando hacés el BuscarV.</div>
+  <h4>Sub-paso 8.2 · Filtrar ESTANDAR (Grupo Conciliable)</h4>
+  <p>Un <b>Grupo Conciliable</b> (Reconcilable Group) es un <b>filtro guardado con nombre</b> que aísla un subconjunto de filas de una unión. No crea columnas ni transforma nada: solo define "de toda <code>Union_DOTA</code>, estas son las filas que entran a la conciliación". Pensalo como una <i>vista guardada</i>. Lo necesitás porque la conciliación del Paso 12 apunta a un <b>recurso</b>, no a "la unión con un filtro temporal" — al guardar el grupo, ese grupo se convierte en el <b>Lado A</b> que vas a elegir.</p>
+  <ol>
+    <li><b>Ruta:</b> Automatizar → Recursos y conciliaciones → <b>Recursos</b> → botón <b>"Crear recurso"</b>.</li>
+    <li>En el menú de tipos, elegí <b>"Grupo Conciliable"</b> (Reconcilable Group). Es el mismo menú donde elegís Fuente / Unión / Conciliación / BuscarV.</li>
+    <li><b>Recurso base:</b> seleccioná <code>Union_DOTA</code> (la que ya tiene <code>TIPO_COMERCIO</code> del BuscarV del 8.1).</li>
+    <li><b>Condición del filtro:</b> <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
+    <li><b>Nombre:</b> <code>DOTA_Estandar</code> → Guardar.</li>
+  </ol>
+  <p class="tx2"><b>Este grupo es el Lado A de la conciliación del Paso 12.</b> (El Lado B será <code>Union_FD</code>, normalizada en los Pasos 9-11.)</p>
+
+  <div class="box warn"><div class="box-h">⚠ Orden</div>El BuscarV (8.1) va ANTES del filtro. No podés filtrar <code>TIPO_COMERCIO</code> antes, porque esa columna recién aparece cuando hacés el BuscarV.</div>
+  <div class="box warn"><div class="box-h">⚠ 3 cosas que dejan el grupo vacío</div>
+  <ul>
+    <li><b>El valor tiene que matchear EXACTO.</b> Antes de filtrar, mirá el dato real en <code>TIPO_COMERCIO</code>: si viene como <code>Estandar</code> o <code>ESTÁNDAR</code> (con tilde), el filtro <code>"ESTANDAR"</code> no trae nada. Copiá el valor tal cual aparece.</li>
+    <li><b>Tipo de dato:</b> <code>TIPO_COMERCIO</code> debe ser <b>Texto</b> para comparar contra <code>"ESTANDAR"</code>.</li>
+    <li><b>El BuscarV ya tiene que estar OK.</b> Si el 8.1 trajo vacíos (por tipos distintos en <code>GTWT_MERCHANT_NUMBER</code> vs <code>COMERCIO</code>), el grupo queda vacío. Verificá que <code>TIPO_COMERCIO</code> tenga datos antes de crear el grupo.</li>
+  </ul></div>
+  <div class="box do"><div class="box-h">✅ Verificá</div>Abrí <code>DOTA_Estandar</code> → debe mostrar <b>solo</b> filas con <code>TIPO_COMERCIO = ESTANDAR</code> (cero filas de otros tipos). Si ves otros valores o queda vacío, revisá el filtro o el BuscarV.</div>
 </div>
 
 <!-- ════════ NORMALIZACIÓN FD ════════ -->
