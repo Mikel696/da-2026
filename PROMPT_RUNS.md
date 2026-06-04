@@ -292,7 +292,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Verificar en el workspace real que el formato original elegido en Paso 2 matchea el ISO con timezone (-04:00) sin vaciar celdas · (b) Confirmar si el +1 día de MOV_CREATION_DATE es regla de negocio o ajuste de timezone · (c) Cerrar preguntas 🟡 puntos 3 y 12.
 
 ### ID:14-WORK.P5 · 2026-06-04
-- Commit: (pending)
+- Commit: 63fc0e2
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Agregada sección maestra "🆕 Reconstrucción desde cero" al inicio del Dota Test (antes de Preparación), porque el usuario va a borrar todo y rehacerlo. Contiene (a) las 4 REGLAS DE ORO de propagación de Simetrik que explican por qué MOV_CREATION_DATE no se actualizaba: casteo solo en la FUENTE / re-ejecutar unión (solo recalcula registros vacíos) / borrar-y-recrear columnas de transformación / castear antes de fórmulas o se bloquea 🚫; y (b) el orden macro de 9 pasos (cargar fuentes con archivos actualizados incl. calendario nuevo → castear tipos → uniones → norm DOTA 1-7 → cruce 8 → norm FD 9-11 → conciliación 12 → saldo 13 → tableros 14-16). Versión v5→v6. Corregido conteo "5 fuentes" → nombradas las 4 reales (DB_DOTA, Reporte_FD, Parametria, Calendario_MLA). Guardada memoria project-simetrik-dota-test.md con las 4 reglas + estado del test.
 - Next: (a) Verificar render de la nueva sección en el live site · (b) Si el usuario reporta más gotchas durante el rebuild, sumarlos a las reglas de oro · (c) Cerrar preguntas 🟡 puntos 3 y 12.
