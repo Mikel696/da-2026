@@ -366,16 +366,16 @@ td{color:var(--t2)}td b{color:var(--tx)}
   </ul>
   <div class="box warn"><div class="box-h">⚠ Tipos de dato</div>Las dos columnas de la llave (<code>GTWT_MERCHANT_NUMBER</code> y <code>COMERCIO</code>) deben ser del mismo tipo (Texto). Si no, el BuscarV trae vacío.</div>
 
-  <h4>Sub-paso 8.2 · Filtrar ESTANDAR (Grupo Conciliable)</h4>
-  <div class="box warn"><div class="box-h">📍 Dónde vive (¡OJO!)</div>El <b>Grupo Conciliable</b> NO es un recurso de "Crear recurso" (ahí solo aparecen Fuentes, Agrupaciones, Conciliación estándar, Conciliación avanzada, Fuentes de apertura y Unión de fuentes). Es un <b>campo DENTRO de la configuración de la Unión de fuentes</b>. Por defecto está en <code>Recurso completo</code> (= todas las filas, sin filtro).</div>
-  <p>Sirve para decir "de toda <code>Union_DOTA</code>, dejá entrar a la conciliación solo las filas ESTANDAR". No crea columnas ni recursos nuevos: filtra la misma unión.</p>
+  <h4>Sub-paso 8.2 · Filtrar ESTANDAR</h4>
+  <div class="box do"><div class="box-h">📄 Lo que pide la guía oficial (verbatim)</div><i>"Una vez realizado el cruce con la parametría, debes filtrar únicamente los registros que sean TIPO_COMERCIO = ESTANDAR para poder avanzar con la creación de la conciliación."</i><br>→ El requisito es <b>solo filtrar ESTANDAR</b>. La guía <b>no</b> exige un "Grupo Conciliable" — el mecanismo lo elegís vos.</div>
+  <div class="box warn"><div class="box-h">📍 Por qué el dropdown "Grupo conciliable" no te sirve acá</div>Dentro de la Unión de fuentes hay un campo <b>"Grupo conciliable"</b>, pero solo muestra <code>Recurso completo</code>: ese campo <b>únicamente SELECCIONA grupos ya creados</b>, no los crea. Como no hay ninguno, no podés filtrar desde ahí. No es el camino.</div>
+  <p><b>Camino recomendado (guía-fiel y seguro):</b> aplicá el filtro <code>TIPO_COMERCIO = "ESTANDAR"</code> al armar la <b>Conciliación Avanzada (Paso 12)</b>, sobre el lado DOTA. La guía pone el filtro como antesala de la conciliación, así que es el lugar natural.</p>
   <ol>
-    <li>Abrí <code>Union_DOTA</code> en modo configuración (la pantalla <b>"Unión de fuentes"</b>).</li>
-    <li>En la columna izquierda <b>"Configuración de fuentes"</b>, debajo del Recurso, está el campo <b>"Grupo conciliable*"</b> (lo ves en <code>Recurso completo</code>).</li>
-    <li>Abrí ese dropdown y definí/elegí la condición <code>TIPO_COMERCIO = "ESTANDAR"</code>.</li>
-    <li><b>"Guardar cambios"</b> (botón azul arriba a la derecha).</li>
+    <li>Terminá primero la normalización del FD (Pasos 9-11) para tener el <b>Lado B</b>.</li>
+    <li>Al crear la Conciliación Avanzada (Paso 12), elegí <code>Union_DOTA</code> como <b>Lado A</b>.</li>
+    <li>Sobre ese lado aplicá un <b>filtro / segmentación</b>: <code>TIPO_COMERCIO = "ESTANDAR"</code>. Así solo entran a la conciliación las filas ESTANDAR.</li>
   </ol>
-  <p class="tx2"><b>Lado A de la conciliación del Paso 12</b> = <code>Union_DOTA</code> con su grupo conciliable filtrado a ESTANDAR. (El Lado B será <code>Union_FD</code>, normalizada en los Pasos 9-11.)</p>
+  <p class="tx2">Si preferís dejar el filtro reutilizable como Grupo Conciliable, se crea desde la <b>vista de tabla</b> de la unión (no desde el dropdown de configuración) — confirmá la ruta exacta en tu workspace antes de usarla.</p>
 
   <div class="box warn"><div class="box-h">⚠ Orden</div>El BuscarV (8.1) va ANTES del filtro. No podés filtrar <code>TIPO_COMERCIO</code> antes, porque esa columna recién aparece cuando hacés el BuscarV.</div>
   <div class="box warn"><div class="box-h">⚠ 3 cosas que dejan el grupo vacío</div>
