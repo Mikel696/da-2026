@@ -316,7 +316,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Si querés seed para Aprendizajes/Errores hay que construir el mecanismo (hoy no existe) · (b) Verificar el seed del Diccionario en el live site logueado (auth guard impide test local).
 
 ### ID:14-WORK.P9 · 2026-06-04
-- Commit: (pending)
+- Commit: 8eb0ae1
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Expandido el Sub-paso 8.2 del Dota Test (Grupo Conciliable / Filtrar ESTANDAR) con el paso a paso completo que antes solo estaba en el chat: (a) qué es un Grupo Conciliable (filtro guardado = vista guardada, por qué es el Lado A del Paso 12), (b) ruta numerada de 5 pasos (Automatizar→Recursos→Crear recurso→Grupo Conciliable→base Union_DOTA→filtro TIPO_COMERCIO="ESTANDAR"→nombre DOTA_Estandar), (c) caja ⚠ "3 cosas que dejan el grupo vacío" (valor debe matchear exacto incl. tildes, tipo Texto, BuscarV OK), (d) caja ✅ Verificá. Ruta confirmada contra simetrik-app.html (Grupo Conciliable es tipo de "Crear recurso") y simetrik-learn (filtro guardado). Guardada memoria feedback-step-by-step.
 - Next: Paso 12 (conciliación avanzada · 5 barridas · Lado A DOTA_Estandar × Lado B Union_FD) cuando el usuario lo pida.
