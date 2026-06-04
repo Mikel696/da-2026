@@ -298,7 +298,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Verificar render de la nueva sección en el live site · (b) Si el usuario reporta más gotchas durante el rebuild, sumarlos a las reglas de oro · (c) Cerrar preguntas 🟡 puntos 3 y 12.
 
 ### ID:14-WORK.P6 · 2026-06-04
-- Commit: (pending)
+- Commit: c0ae13e
 - Files: PROMPT_14-WORK_SIMETRIK-PURO.md (NEW)
 - Changed: Creado un 4º prompt autónomo de 14-WORK para TRABAJO PURO en la plataforma Simetrik (no toca el módulo DA-2026, no genera HTML/JS, no publica roadmaps). Diferencia vs PROMPT_14-WORK_TEST.md (que publica roadmap en el módulo): este es solo asistencia operativa de plataforma. Estructura: zona para pegar (tarea + evidencia) → rol especialista Simetrik → base de conocimiento embebida (arquitectura Fuentes/Uniones/transformación/BuscarV/conciliación/tableros, sintaxis ;+comillas+MAYUS, tabla de funciones, las 4 reglas de oro de propagación, manejo de fechas ISO→Fecha, contexto DOTA) → parámetros (cero alucinación, evidencia verbatim, español, no tocar módulo) → protocolo de inicio → formato de salida. Autónomo para abrir en sesión nueva.
 - Next: (a) Si el usuario quiere, exponerlo como botón "Copiar" en la tab Copilot de 14-WORK · (b) Ir sumando funciones Simetrik verificadas a la tabla a medida que aparezcan · (c) Sumar gotchas nuevos a las reglas de oro.
