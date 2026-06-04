@@ -286,7 +286,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Si el trainer responde sobre puntos 3/12, cerrar esas preguntas amarillas · (b) Revisar si DB_DOTA_v3 / Reporte_FD_v3 / Parametria_v2 tienen versiones nuevas en Drive · (c) Considerar dejar nota de tipo de dato FECHA en el nuevo archivo (header trae celda título "DIAS HABILES ARGENTINA" mergeada).
 
 ### ID:14-WORK.P4 · 2026-06-04
-- Commit: (pending)
+- Commit: 839881e
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Normalización de fecha del Dota Test reestructurada según imagen del trainer "cambio formato Fechas.png" (Drive folder Imagenes). Nuevo enfoque: MOV_CREATED_DATE se castea directamente a tipo Fecha en la fuente DB_DOTA vía "Dar formato a columna" (Paso 1 tipo Fecha · Paso 2 identificar formato original ISO con T · Paso 3 visualización 2016-11-24 = YYYY-MM-DD). Esto elimina el workaround DIVIDIR(...;"T";1) que se usaba porque "Fecha y hora" daba error T001 y vaciaba celdas. Cambios: caja ⚠ ISO (warn→do con receta 3 pasos), tabla cast Paso 0b (MOV_CREATED_DATE Texto→Fecha), Paso 6 fórmula simplificada a ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias") (+1 día se mantiene), lecciones del Paso 6, caja warn cruce 7.1 (ambas ya son Fecha), resumen "Resuelto" (525). Corrige inconsistencia previa: el checklist (n:6) ya tenía la fórmula simple sin DIVIDIR pero el cuerpo del Paso 6 no — ahora todo coincide.
 - Next: (a) Verificar en el workspace real que el formato original elegido en Paso 2 matchea el ISO con timezone (-04:00) sin vaciar celdas · (b) Confirmar si el +1 día de MOV_CREATION_DATE es regla de negocio o ajuste de timezone · (c) Cerrar preguntas 🟡 puntos 3 y 12.
