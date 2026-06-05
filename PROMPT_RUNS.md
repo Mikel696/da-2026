@@ -352,7 +352,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Confirmar con el usuario que tras configurar los grupos compensables ya guarda y ejecuta. Luego Barrida 2 (tolerancia $5) y barridas 3-5 (DOTA vs FD).
 
 ### ID:14-WORK.P15 · 2026-06-05
-- Commit: (pending)
+- Commit: 823df8e
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Corrección Barrida 2 (Paso 12). El doc tenía el operador del monto como "~= (tol. 5)" lo que hizo que el usuario buscara un operador "≤"/"~=" inexistente. En Simetrik la tolerancia NO es un operador: la condición queda en "=" y el valor 5 va en el campo aparte "Tolerancia" (+ Unidad numérica, no "días"). Reescrita la tabla de B2 con columnas reales (Columna A | Condición | Columna B | Tolerancia | Unidad) + caja ⚠ "La tolerancia NO es un operador". Confirmado contra el screenshot real de B1 que mostraba los campos Tolerancia/Unidad por regla.
 - Next: Unidad exacta para tolerancia de monto a confirmar con el usuario cuando la vea. Luego barridas 3-5 (DOTA vs FD) — el 403 del deep-link impide inspección live, usar capturas (Sol N) del cuaderno.
