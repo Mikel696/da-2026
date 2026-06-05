@@ -350,3 +350,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Sol 1/Sol 2 del cuaderno "Prueba Dota" (leído vía Chrome MCP desde la sesión live del usuario, imágenes resueltas de IndexedDB da2026_nb/attachments y data-preview). Diagnóstico: "Guardar barrida" deshabilitado por el PASO OBLIGATORIO "Configurar grupos compensables" incompleto (punto amarillo) — Criterio de compensación vacío. Agregada caja 🟡 en Barrida 1 del Paso 12 con el paso a paso: Configurar grupos compensables → Criterio = MOV_OPERATION → arrastrar PAYMENT al grupo 1, REFUND al grupo 2 → guardar. Esto implementa la restricción "PAYMENT solo compensa con REFUND" de la guía oficial. NUEVO FLUJO establecido: el usuario pone solicitudes en cuaderno Prueba Dota pág Documentacion ("Revisa Docu Dota Sol N"), yo leo vía Chrome MCP.
 - Next: Confirmar con el usuario que tras configurar los grupos compensables ya guarda y ejecuta. Luego Barrida 2 (tolerancia $5) y barridas 3-5 (DOTA vs FD).
+
+### ID:14-WORK.P15 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: Corrección Barrida 2 (Paso 12). El doc tenía el operador del monto como "~= (tol. 5)" lo que hizo que el usuario buscara un operador "≤"/"~=" inexistente. En Simetrik la tolerancia NO es un operador: la condición queda en "=" y el valor 5 va en el campo aparte "Tolerancia" (+ Unidad numérica, no "días"). Reescrita la tabla de B2 con columnas reales (Columna A | Condición | Columna B | Tolerancia | Unidad) + caja ⚠ "La tolerancia NO es un operador". Confirmado contra el screenshot real de B1 que mostraba los campos Tolerancia/Unidad por regla.
+- Next: Unidad exacta para tolerancia de monto a confirmar con el usuario cuando la vea. Luego barridas 3-5 (DOTA vs FD) — el 403 del deep-link impide inspección live, usar capturas (Sol N) del cuaderno.

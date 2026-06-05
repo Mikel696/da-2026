@@ -459,13 +459,14 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <i>Ojo: arrastrá los valores TAL CUAL aparecen en tus datos (si vienen en minúscula o en español, usá esos).</i></div>
 
   <h4>Barrida 2 · Compensación DOTA con tolerancia $5</h4>
-  <p>Mismas 2 primeras llaves que B1. En el monto, en vez de igualdad usá <b>tolerancia de $5</b> (diferencia absoluta ≤ 5):</p>
+  <p>Mismas 2 primeras llaves que B1. En el monto, el "diferencia absoluta ≤ 5" de la guía <b>NO se pone con un operador "≤"</b> (ese operador no existe). El operador queda en <code>=</code> y el 5 va en el <b>campo "Tolerancia"</b> de esa regla:</p>
   <table>
-    <tr><th>Lado A</th><th>Operador</th><th>Lado A (otro)</th></tr>
-    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>GTWT_MERCHANT_NUMBER</code></td></tr>
-    <tr><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>=</td><td><code>GTWC_AUTHORIZATION_CODE</code></td></tr>
-    <tr><td><code>ABS(MOV_AMOUNT)</code></td><td>~= (tol. 5)</td><td><code>ABS(MOV_AMOUNT)</code></td></tr>
+    <tr><th>Columna A</th><th>Condición</th><th>Columna B</th><th>Tolerancia</th><th>Unidad</th></tr>
+    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>GTWT_MERCHANT_NUMBER</code></td><td>—</td><td>—</td></tr>
+    <tr><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>=</td><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>—</td><td>—</td></tr>
+    <tr><td><code>ABS_MONTO</code></td><td><b>=</b></td><td><code>ABS_MONTO</code></td><td><b>5</b></td><td>numérica (no "días")</td></tr>
   </table>
+  <div class="box warn"><div class="box-h">⚠ La tolerancia NO es un operador</div>Dejá la <b>Condición en <code>=</code></b>. El 5 va en la columna <b>"Tolerancia"</b> (a la derecha de la regla — el mismo campo que en B1 mostraba <code>0</code>). En <b>"Unidad"</b> elegí la opción <b>numérica / de valor</b> (la de <i>"días"</i> es solo para llaves de fecha). Si buscás un operador "≤" o "~=" no lo vas a encontrar — Simetrik resuelve la tolerancia con <code>=</code> + Tolerancia.</div>
 
   <h4>Barrida 3 · DOTA vs FD detalle exacto</h4>
   <p>Tipo: conciliación (Lado A vs Lado B). Es la más robusta. El documento define las 5 llaves <b>conceptualmente</b>: <i>código de autorización, comercio, importe, fecha de creación y PAN</i>. El lado DOTA es claro; del lado FD hay 2 llaves donde el documento NO dice qué columna usar exactamente → eso se pregunta, no se asume.</p>
