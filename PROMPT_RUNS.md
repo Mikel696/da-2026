@@ -338,3 +338,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Aclaración en Barrida 1 del Paso 12 tras captura Barridas.png del usuario. El usuario no podía poner DOTA en el Lado B porque tenía la barrida en "Tipo de barrida: Conciliación" (cruce A vs B, fija Lado B=FD). La guía oficial define la Barrida 1 como "auto-cruce de DOTA contra sí misma" = tipo COMPENSACIÓN, que opera sobre un solo recurso. Agregadas 2 cajas: 🚨 "Si te pide Lado B=FD" (cambiar Tipo de barrida→Compensación, ahí desaparece el FD y elegís un solo recurso UNION_DOTA) y ⚠ "El ABS no se escribe en la regla" (crear columna de transformación ABS_MONTO=ABS(MOV_AMOUNT) en Union_DOTA y usarla como llave). Todo verificado contra Documento Guia.docx + screenshot real.
 - Next: Cuando el usuario configure las barridas 3-5 (DOTA vs FD), confirmar el lugar del filtro ESTANDAR y las tolerancias (fecha 1 día direccional en B4, batch por lote en B5).
+
+### ID:14-WORK.P13 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: Agregado al gotcha de Barrida 1 (Paso 12) el detalle verificado en workspace: el TIPO de barrida se elige al CREAR (botón Agregar) y queda fijo, NO editable después. Recuperación: si no guardaste cambios, te deja salir y rehacer la barrida con el tipo correcto (Compensación). Confirmado por el usuario en su plataforma real (como no había cambios guardados, lo dejó salir e intentar de nuevo). Cierra la duda de "no me deja cambiar el tipo de barrida".
+- Next: Barridas 3-5 (DOTA vs FD): confirmar lugar del filtro ESTANDAR y tolerancias (B4 fecha 1 día direccional, B5 batch por lote).
