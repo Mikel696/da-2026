@@ -382,7 +382,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Barrida 4 (tolerancia direccional) y Barrida 5 (llave batch) siguen abiertas.
 
 ### ID:14-WORK.P20 · 2026-06-05
-- Commit: (pending)
+- Commit: 7c330b1
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: El usuario no tenía PURCHASE_AUTHORIZATION_CODE en Union_DOTA (no la seleccionó al armar la unión) y preguntó si debía recrear la unión. Respuesta: NO recrear — la columna existe en la fuente (52.717 pobladas), solo agregarla a la unión + Ejecutar cambios. Agregada caja 📋 en Paso 0b listando las columnas de origen que Union_DOTA necesita para los coalesce de P2/P3 (3 auth + 3 acquirer + 3 merchant) y el procedimiento de agregar-sin-recrear (con el gotcha de re-ejecutar si quedan vacías).
 - Next: Usuario agrega columnas → recrea P2/P3 con coalesce → re-ejecuta barridas del P12. Luego Barrida 4/5.
