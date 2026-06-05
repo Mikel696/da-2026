@@ -386,3 +386,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: El usuario no tenía PURCHASE_AUTHORIZATION_CODE en Union_DOTA (no la seleccionó al armar la unión) y preguntó si debía recrear la unión. Respuesta: NO recrear — la columna existe en la fuente (52.717 pobladas), solo agregarla a la unión + Ejecutar cambios. Agregada caja 📋 en Paso 0b listando las columnas de origen que Union_DOTA necesita para los coalesce de P2/P3 (3 auth + 3 acquirer + 3 merchant) y el procedimiento de agregar-sin-recrear (con el gotcha de re-ejecutar si quedan vacías).
 - Next: Usuario agrega columnas → recrea P2/P3 con coalesce → re-ejecuta barridas del P12. Luego Barrida 4/5.
+
+### ID:14-WORK.P21 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: A pedido del usuario, marcado en ROJO en cada punto qué actualizar (para no equivocarse). Añadida clase CSS .box.redo (rojo --rd #ef4444) + .redo-tag (badge rojo). Insertado: (a) checklist rojo arriba de todo "SI YA AVANZASTE" con los 4 ítems en orden; (b) badge 🔴 ACTUALIZAR + caja roja en Paso 0b (agregar columnas a la unión sin recrear), Punto 2 (recrear GTWC coalesce), Punto 3 (recrear acquirer coalesce), Punto 12 (re-apuntar llave auth a GTWC + Barrida 3 NUM_EST/FORIG_COMPRA/MOV_CREATED_DATE crudo). Versión v6→v7. Los puntos OK (1,4-11,12b,13-16) sin marca.
+- Next: Verificar render del rojo en vivo. Usuario ejecuta las actualizaciones en orden.

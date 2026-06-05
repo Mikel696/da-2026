@@ -68,6 +68,9 @@ b,strong{color:var(--tx);font-weight:700}
 .box.warn .box-h{color:var(--yl)}
 .box.q{background:var(--og);border:1px solid rgba(249,115,22,.3)}
 .box.q .box-h{color:var(--or)}
+.box.redo{background:var(--rg);border:1px solid var(--rd);border-left:4px solid var(--rd)}
+.box.redo .box-h{color:var(--rd)}
+.redo-tag{display:inline-block;background:var(--rd);color:#fff;font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:5px;margin-left:8px;vertical-align:middle}
 .box.path{background:var(--bg3);border:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t2)}
 
 table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
@@ -102,7 +105,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA · Guía paso a paso · v6</span>
+  <span class="mod">14-WORK · DOTA · Guía paso a paso · v7</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
@@ -113,6 +116,19 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <h1>Prueba <em>DOTA</em> · guía de ejecución paso a paso</h1>
   <p>Seguí esta guía <b>de arriba hacia abajo, en orden</b>. Empezá por la Preparación, después Paso 1, 2, 3… hasta el 16. Cada paso tiene el nombre exacto del recurso/columna, la fórmula lista para copiar, y una nota solo si hace falta.</p>
   <p class="tx2"><b>Regla base de sintaxis Simetrik:</b> separador de parámetros <code>;</code> · textos entre <code>"comillas dobles"</code> · nombres de columna en MAYÚSCULAS.</p>
+</div>
+
+<!-- ════════ CHECKLIST DE ACTUALIZACIÓN ════════ -->
+<div class="step">
+  <div class="box redo"><div class="box-h">🔴 SI YA AVANZASTE — esto es lo que tenés que ACTUALIZAR (auditoría con 56.777 filas)</div>
+  Cada punto afectado abajo tiene su marca <span class="redo-tag">🔴 ACTUALIZAR</span>. Resumen:
+  <ol>
+    <li><b>Paso 0b · Unión</b> — agregá a <code>Union_DOTA</code> las columnas que falten: <code>PURCHASE/CAPTURE/AUTH_AUTHORIZATION_CODE</code> y <code>PURCHASE/CAPTURE/AUTH_ACQUIRER</code> (NO recrees la unión, solo agregá + Ejecutar cambios).</li>
+    <li><b>Punto 2 · GTWC_AUTHORIZATION_CODE</b> — borrá y recreá la columna con el <b>coalesce</b> (antes tomaba solo CAPTURE = vacío en 93%).</li>
+    <li><b>Punto 3 · GTWT_ACQUIRER</b> — borrá y recreá: el "else" ahora hace coalesce.</li>
+    <li><b>Punto 12 · Barridas</b> — la llave de <b>código de autorización</b> debe apuntar a la <code>GTWC_AUTHORIZATION_CODE</code> corregida (no a PURCHASE directo). En la <b>Barrida 3</b>: comercio = <code>NUM_EST</code>, fecha FD = <code>FORIG_COMPRA</code>, fecha DOTA = <code>MOV_CREATED_DATE</code> crudo. Re-ejecutá las barridas después de rehacer P2/P3.</li>
+  </ol>
+  <b>Orden:</b> agregar columnas a la unión → recrear P2 → recrear P3 → re-apuntar/re-ejecutar barridas. El resto de los puntos (1, 4-11, 12b, 13-16) <b>NO se tocan</b>.</div>
 </div>
 
 <!-- ════════ RECONSTRUCCIÓN DESDE CERO ════════ -->
@@ -194,7 +210,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">0b</div><div class="step-title">Ajustar tipos de dato en <code>Union_DOTA</code> · ANTES de las fórmulas</div></div>
+  <div class="step-head"><div class="step-num">0b</div><div class="step-title">Ajustar tipos de dato en <code>Union_DOTA</code> · ANTES de las fórmulas <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
+  <div class="box redo"><div class="box-h">🔴 Agregá las columnas que falten a la unión</div>Para los coalesce de los Puntos 2 y 3, <code>Union_DOTA</code> necesita las 3 de auth + 3 de acquirer (ver la caja 📋 abajo). Si te falta alguna (ej. <code>PURCHASE_AUTHORIZATION_CODE</code>): <b>NO recrees la unión</b> → abrila → agregá la columna del origen → <b>"Ejecutar cambios"</b> → verificá que se llene.</div>
   <div class="box warn"><div class="box-h">🚨 EL FORMATO SE CAMBIA EN LA FUENTE, NO EN LA UNIÓN</div>Los cambios de tipo de dato (Texto/Fecha/etc.) se hacen abriendo la <b>FUENTE</b> (<code>DB_DOTA</code>), NO la Unión. En la Unión las columnas son heredadas y dan el error "la columna seleccionada no admite cambio de formato". <b>Regla:</b> todo casteo → en la fuente.</div>
   <p>Abrí la <b>fuente <code>DB_DOTA</code></b> (no la unión) en vista de tabla. Click derecho sobre el encabezado de cada columna → <b>"Dar formato a una columna"</b> → cambiá el tipo:</p>
   <table>
@@ -232,7 +249,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">2</div><div class="step-title">GTWC_AUTHORIZATION_CODE <span class="out">salida: Texto</span></div></div>
+  <div class="step-head"><div class="step-num">2</div><div class="step-title">GTWC_AUTHORIZATION_CODE <span class="out">salida: Texto</span> <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
+  <div class="box redo"><div class="box-h">🔴 Rehacer esta columna</div>La versión vieja tomaba <b>solo <code>CAPTURE_AUTHORIZATION_CODE</code></b> → quedaba vacía en el 93% de las filas. <b>Borrá la columna y recreala</b> con la fórmula de abajo (coalesce). Requiere tener en la unión las 3 columnas de auth (ver Paso 0b).</div>
   <p>Si el código es <code>"000000"</code> Y el adquirente es <code>"Cabal"</code>, dejá vacío. En cualquier otro caso, tomá el código de la <b>primera columna que tenga dato</b> (PURCHASE → CAPTURE → AUTH), igual que el comercio del Paso 5.</p>
   <pre class="formula"><span class="fn">SI</span>(
   <span class="fn">Y</span>(<span class="col">CAPTURE_AUTHORIZATION_CODE</span> = <span class="str">"000000"</span>; <span class="col">CAPTURE_ACQUIRER</span> = <span class="str">"Cabal"</span>);
@@ -247,7 +265,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">3</div><div class="step-title">GTWT_ACQUIRER <span class="out">salida: Texto</span></div></div>
+  <div class="step-head"><div class="step-num">3</div><div class="step-title">GTWT_ACQUIRER <span class="out">salida: Texto</span> <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
+  <div class="box redo"><div class="box-h">🔴 Rehacer esta columna</div>El "else" (fallback final) tomaba <b>solo <code>CAPTURE_ACQUIRER</code></b> (vacío en 93%). <b>Borrá y recreá</b> con el coalesce de abajo. La detección de Mastercard/Visa ya estaba bien — solo cambia el fallback. Requiere las 3 columnas de acquirer en la unión (Paso 0b).</div>
   <p>Revisá las 3 columnas <code>CAPTURE_ACQUIRER</code>, <code>PURCHASE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code>:</p>
   <ul>
     <li>Si en alguna aparece "Mastercard", "Firstdata" o "Diners" → poné <code>"FD"</code></li>
@@ -440,7 +459,11 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="phase">🔶 Conciliación Avanzada DOTA × FD · Paso 12</div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas</div></div>
+  <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
+  <div class="box redo"><div class="box-h">🔴 Revisá las llaves de las barridas</div>
+  • <b>Código de autorización</b> (llave de B1, B2, B3, B4): debe apuntar a <code>GTWC_AUTHORIZATION_CODE</code> <b>corregida</b> (coalesce), NO a <code>PURCHASE_AUTHORIZATION_CODE</code> directo — usar solo PURCHASE pierde 225 conciliaciones del bloque CAPTURE.<br>
+  • <b>Barrida 3</b>: comercio = <code>NUM_EST</code> · fecha FD = <code>FORIG_COMPRA</code> · fecha DOTA = <code>MOV_CREATED_DATE</code> crudo (NO el <code>MOV_CREATION_DATE</code> +1).<br>
+  • Si ya armaste barridas con las columnas viejas → re-apuntá la llave y <b>re-ejecutá</b> después de rehacer P2/P3.</div>
 
   <h4>Crear la conciliación</h4>
   <ol>
