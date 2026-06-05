@@ -469,18 +469,20 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="box warn"><div class="box-h">⚠ La tolerancia NO es un operador · y la Unidad del monto va vacía</div>Dejá la <b>Condición en <code>=</code></b>. El 5 va en la columna <b>"Tolerancia"</b> (el mismo campo que en B1 mostraba <code>0</code>). La <b>"Unidad" queda bloqueada/vacía y es CORRECTO</b>: la tolerancia de un monto es un <b>valor absoluto</b> (±5), no lleva unidad. La Unidad solo se habilita para tolerancias de <b>fecha</b> (ahí se elige <code>días</code>, como en la Barrida 4). Si buscás un operador "≤" o "~=" no existe — Simetrik resuelve la tolerancia con <code>=</code> + el campo Tolerancia.</div>
 
   <h4>Barrida 3 · DOTA vs FD detalle exacto</h4>
-  <p>Tipo: conciliación (Lado A vs Lado B). Es la más robusta. El documento define las 5 llaves <b>conceptualmente</b>: <i>código de autorización, comercio, importe, fecha de creación y PAN</i>. El lado DOTA es claro; del lado FD hay 2 llaves donde el documento NO dice qué columna usar exactamente → eso se pregunta, no se asume.</p>
+  <p>Tipo: conciliación (Lado A vs Lado B). Es la más robusta. Las 5 llaves, ya <b>resueltas con datos reales</b> (cruce DB_DOTA × Reporte_FD):</p>
   <table>
     <tr><th>Llave (documento)</th><th>DOTA (Lado A)</th><th>FD (Lado B)</th></tr>
     <tr><td>Código de autorización</td><td><code>GTWC_AUTHORIZATION_CODE</code></td><td><code>NUM_AUT</code></td></tr>
-    <tr><td>Comercio</td><td><code>GTWT_MERCHANT_NUMBER</code></td><td>🟡 <b>a confirmar</b> (ver ❓)</td></tr>
+    <tr><td>Comercio</td><td><code>GTWT_MERCHANT_NUMBER</code></td><td><code>NUM_EST</code> ✅</td></tr>
     <tr><td>Importe</td><td><code>ABS(MOV_AMOUNT)</code></td><td><code>IMPORTE</code></td></tr>
-    <tr><td>Fecha de creación</td><td><code>MOV_CREATION_DATE</code></td><td>🟡 <b>a confirmar</b> (ver ❓)</td></tr>
+    <tr><td>Fecha de creación</td><td><code>MOV_CREATED_DATE</code> (crudo, no el +1)</td><td><code>FORIG_COMPRA</code> ✅</td></tr>
     <tr><td>PAN</td><td><code>CARD_NUMBER</code></td><td><code>NUM_TAR</code></td></tr>
   </table>
-  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer · comercio</div><i>"Para la barrida de DOTA contra FD, el documento indica cruzar por comercio. Del lado de FD veo un par de columnas que podrían ser (NUM_COM y NUM_EST); revisando los datos me inclino a NUM_EST, pero quería confirmar cuál es la que corresponde."</i><br><br>💡 Hipótesis: <code>NUM_EST</code> (el merchant DOTA <code>32827909</code> coincide ahí; <code>NUM_COM</code> es otro número).</div>
-  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer · fecha</div><i>"En esa misma barrida, para la llave de fecha, FD tiene FPRES (fecha de proceso) y FORIG_COMPRA (fecha de compra). Por las fechas de los datos parece que MOV_CREATION_DATE cruza con FORIG_COMPRA, ¿es esa la correcta o debería usar FPRES?"</i><br><br>💡 Hipótesis: <code>FORIG_COMPRA</code> (coincide con la fecha DOTA; <code>FPRES</code> es de otro período).</div>
-  <div class="box do"><div class="box-h">✅ Lo que SÍ es claro (no requiere preguntar)</div>PAN: <code>CARD_NUMBER</code> y <code>NUM_TAR</code> tienen el mismo formato enmascarado. Importe: en FD <code>IMPORTE</code> es positivo (el signo está en la columna <code>SIGNO</code> aparte), por eso cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
+  <div class="box do"><div class="box-h">✅ Resuelto con datos (no se preguntó al trainer)</div>Crucé los 2 archivos por PAN + monto + código de autorización (52 pares de alta confianza):<br>
+  • <b>Comercio → <code>NUM_EST</code></b>: 37 coincidencias contra <code>NUM_EST</code>, <b>0</b> contra <code>NUM_COM</code>. Sin ambigüedad.<br>
+  • <b>Fecha → <code>FORIG_COMPRA</code></b>: <b>0</b> contra <code>FPRES</code> (esa es fecha de proceso, año 2021 — otro período).<br>
+  • <b>Ojo con el lado DOTA de la fecha:</b> los datos muestran que <code>FORIG_COMPRA</code> = <code>MOV_CREATED_DATE</code> (19 casos) ó <code>MOV_CREATED_DATE + 1</code> (33 casos). Por eso la llave de fecha usa el <b><code>MOV_CREATED_DATE</code> crudo</b> (no el <code>MOV_CREATION_DATE</code> +1): así la Barrida 3 exacta toma los iguales y la Barrida 4 (+1 día, FD un día después) toma el resto — en el sentido correcto. Si usaras el +1, 19 pares quedarían fuera del rango de tolerancia.<br>
+  PAN: <code>CARD_NUMBER</code> = <code>NUM_TAR</code> (mismo formato enmascarado). Importe: <code>IMPORTE</code> es positivo (el signo va en <code>SIGNO</code> aparte) → cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
   <p>Mismas 5 llaves que B3, pero la fecha admite que <b>FD llegue 1 día después</b> que DOTA, nunca antes (tal como dice el documento).</p>
@@ -583,7 +585,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <!-- ════════ RESUMEN ════════ -->
 <div class="phase">✅ Resuelto — no preguntar esto</div>
 <div class="box do">Punto 6: <code>MOV_CREATED_DATE</code> casteada a Fecha (YYYY-MM-DD) en la fuente → <code>ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
-<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🟡 Puntos 3 y 12). El Punto 7 ya quedó resuelto con el nuevo calendario.</p>
+<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🟡 Punto 3 y la tolerancia direccional de la Barrida 4). El Punto 7 se resolvió con el nuevo calendario, y las llaves comercio/fecha de la Barrida 3 se resolvieron con datos reales (<code>NUM_EST</code> + <code>FORIG_COMPRA</code>).</p>
 
 <!-- ════════ CHECKLIST ════════ -->
 <div class="phase">✅ Tu progreso</div>

@@ -362,3 +362,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Aclaración Barrida 2: el usuario reportó que el campo "Unidad" del monto no deja modificar nada. Es correcto/esperado — la tolerancia de un monto es valor absoluto (±5) y NO lleva unidad, por eso el dropdown queda bloqueado/vacío. La Unidad solo se habilita para tolerancias de FECHA (días, Barrida 4). Corregido el doc (antes decía erróneamente "elegí la opción numérica"): ahora dice Unidad bloqueada/no aplica + caja ⚠ actualizada.
 - Next: Confirmar con el usuario que con Condición=, Tolerancia=5, Unidad vacía ya guarda la barrida. Luego barridas 3-5 (DOTA vs FD).
+
+### ID:14-WORK.P17 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: RESUELTAS con datos las 2 llaves dudosas de la Barrida 3 (el trainer no respondió). Crucé DB_DOTA_v3 × Reporte_FD_v3 en Python por PAN+monto(+auth). Resultados: Comercio → NUM_EST (37 hits vs 0 de NUM_COM); Fecha → FORIG_COMPRA (0 de FPRES, que es 2021/otro período). Hallazgo extra: FORIG_COMPRA = MOV_CREATED_DATE (19) ó +1 (33) → la llave de fecha debe usar MOV_CREATED_DATE CRUDO (no MOV_CREATION_DATE +1) para que la tolerancia direccional de Barrida 4 ("FD un día después") funcione; con el +1, 19 pares caen fuera del rango. Quitadas las 2 cajas 🟡 de pregunta, reemplazadas por caja ✅ con la evidencia. Actualizado el resumen de preguntas al trainer.
+- Next: Quedan abiertas: Punto 3 (acquirer, cuál columna cuando hay 3) y tolerancia DIRECCIONAL de Barrida 4 (Simetrik aplica tolerancia a ambos lados; hipótesis: regla de desigualdad FD>=DOTA + tol 1 día). Verificar con datos/captura cuando el usuario llegue ahí.
