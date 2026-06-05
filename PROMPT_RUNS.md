@@ -376,7 +376,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Quedan SOLO 2 preguntas reales: tolerancia direccional Barrida 4 (FD>=DOTA) y llave de lote Barrida 5 (batch). Confirmar Punto 2/3 coalesce con trainer si responde (deviación menor del texto literal, pero datos inequívocos).
 
 ### ID:14-WORK.P19 · 2026-06-05
-- Commit: (pending)
+- Commit: bf2dbee
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Verificación tras tip de un compañero (usó PURCHASE_AUTHORIZATION_CODE en las barridas del P12). Crucé NUM_AUT(FD) vs cada bloque DOTA en 6291 pares PAN+monto: PURCHASE=541, CAPTURE=225, AUTH=0. CONCLUSIÓN: PURCHASE-solo pierde 225 conciliaciones (bloque CAPTURE); el coalesce PURCHASE→CAPTURE→AUTH atrapa las 766 (+42%). El compañero pasó pero está incompleto. Confirma que el fix P18 (coalesce en GTWC) es estrictamente mejor que PURCHASE directo. Añadida esta evidencia a la caja del Punto 2. Puntos a rehacer para el usuario: P2 (GTWC coalesce), P3 (GTWT_ACQUIRER coalesce en else), y re-apuntar/re-ejecutar las barridas del P12 a la GTWC corregida (no PURCHASE directo).
 - Next: Barrida 4 (tolerancia direccional) y Barrida 5 (llave batch) siguen abiertas.
