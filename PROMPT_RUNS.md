@@ -358,7 +358,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Unidad exacta para tolerancia de monto a confirmar con el usuario cuando la vea. Luego barridas 3-5 (DOTA vs FD) — el 403 del deep-link impide inspección live, usar capturas (Sol N) del cuaderno.
 
 ### ID:14-WORK.P16 · 2026-06-05
-- Commit: (pending)
+- Commit: ec2bd14
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Aclaración Barrida 2: el usuario reportó que el campo "Unidad" del monto no deja modificar nada. Es correcto/esperado — la tolerancia de un monto es valor absoluto (±5) y NO lleva unidad, por eso el dropdown queda bloqueado/vacío. La Unidad solo se habilita para tolerancias de FECHA (días, Barrida 4). Corregido el doc (antes decía erróneamente "elegí la opción numérica"): ahora dice Unidad bloqueada/no aplica + caja ⚠ actualizada.
 - Next: Confirmar con el usuario que con Condición=, Tolerancia=5, Unidad vacía ya guarda la barrida. Luego barridas 3-5 (DOTA vs FD).
