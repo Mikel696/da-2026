@@ -388,7 +388,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Usuario agrega columnas → recrea P2/P3 con coalesce → re-ejecuta barridas del P12. Luego Barrida 4/5.
 
 ### ID:14-WORK.P21 · 2026-06-05
-- Commit: (pending)
+- Commit: 9a7656f
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: A pedido del usuario, marcado en ROJO en cada punto qué actualizar (para no equivocarse). Añadida clase CSS .box.redo (rojo --rd #ef4444) + .redo-tag (badge rojo). Insertado: (a) checklist rojo arriba de todo "SI YA AVANZASTE" con los 4 ítems en orden; (b) badge 🔴 ACTUALIZAR + caja roja en Paso 0b (agregar columnas a la unión sin recrear), Punto 2 (recrear GTWC coalesce), Punto 3 (recrear acquirer coalesce), Punto 12 (re-apuntar llave auth a GTWC + Barrida 3 NUM_EST/FORIG_COMPRA/MOV_CREATED_DATE crudo). Versión v6→v7. Los puntos OK (1,4-11,12b,13-16) sin marca.
 - Next: Verificar render del rojo en vivo. Usuario ejecuta las actualizaciones en orden.
