@@ -380,3 +380,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Verificación tras tip de un compañero (usó PURCHASE_AUTHORIZATION_CODE en las barridas del P12). Crucé NUM_AUT(FD) vs cada bloque DOTA en 6291 pares PAN+monto: PURCHASE=541, CAPTURE=225, AUTH=0. CONCLUSIÓN: PURCHASE-solo pierde 225 conciliaciones (bloque CAPTURE); el coalesce PURCHASE→CAPTURE→AUTH atrapa las 766 (+42%). El compañero pasó pero está incompleto. Confirma que el fix P18 (coalesce en GTWC) es estrictamente mejor que PURCHASE directo. Añadida esta evidencia a la caja del Punto 2. Puntos a rehacer para el usuario: P2 (GTWC coalesce), P3 (GTWT_ACQUIRER coalesce en else), y re-apuntar/re-ejecutar las barridas del P12 a la GTWC corregida (no PURCHASE directo).
 - Next: Barrida 4 (tolerancia direccional) y Barrida 5 (llave batch) siguen abiertas.
+
+### ID:14-WORK.P20 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: El usuario no tenía PURCHASE_AUTHORIZATION_CODE en Union_DOTA (no la seleccionó al armar la unión) y preguntó si debía recrear la unión. Respuesta: NO recrear — la columna existe en la fuente (52.717 pobladas), solo agregarla a la unión + Ejecutar cambios. Agregada caja 📋 en Paso 0b listando las columnas de origen que Union_DOTA necesita para los coalesce de P2/P3 (3 auth + 3 acquirer + 3 merchant) y el procedimiento de agregar-sin-recrear (con el gotcha de re-ejecutar si quedan vacías).
+- Next: Usuario agrega columnas → recrea P2/P3 con coalesce → re-ejecuta barridas del P12. Luego Barrida 4/5.

@@ -207,6 +207,11 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-fecha">Fecha</span> · visualización <code>YYYY-MM-DD</code></td><td>Dar formato → tipo <b>Fecha</b> (no "Fecha y hora") → identificá el formato original (ISO con T) → formato de visualización <code>2016-11-24</code>. Verificá que la vista previa NO quede vacía.</td></tr>
   </table>
   <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5) — y si quedó mal mapeada, se bloquea (🚫) y hay que rehacer la unión.</div>
+  <div class="box do"><div class="box-h">📋 Columnas de origen que <code>Union_DOTA</code> necesita (para los coalesce de P2/P3)</div>Los Puntos 2 y 3 hacen coalesce de los 3 bloques, así que la unión debe incluir <b>las 3 de auth y las 3 de acquirer</b>:<br>
+  • Auth: <code>PURCHASE_AUTHORIZATION_CODE</code>, <code>CAPTURE_AUTHORIZATION_CODE</code>, <code>AUTH_AUTHORIZATION_CODE</code><br>
+  • Acquirer: <code>PURCHASE_ACQUIRER</code>, <code>CAPTURE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code><br>
+  + las 3 de merchant (P5): <code>PURCHASE/CAPTURE/AUTH_MERCHANT_NUMBER</code>.<br><br>
+  <b>¿Te falta alguna en la unión?</b> NO recrees la unión: abrí <code>Union_DOTA</code> → <b>agregá la columna</b> desde el origen → <b>"Ejecutar cambios"</b>. La columna existe en la fuente (solo no estaba seleccionada). Verificá que se llene; si queda vacía, re-ejecutá la unión.</div>
 </div>
 
 <!-- ════════ NORMALIZACIÓN DOTA ════════ -->
