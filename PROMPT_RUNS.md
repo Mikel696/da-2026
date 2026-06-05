@@ -340,7 +340,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Cuando el usuario configure las barridas 3-5 (DOTA vs FD), confirmar el lugar del filtro ESTANDAR y las tolerancias (fecha 1 día direccional en B4, batch por lote en B5).
 
 ### ID:14-WORK.P13 · 2026-06-05
-- Commit: (pending)
+- Commit: d411c52
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Agregado al gotcha de Barrida 1 (Paso 12) el detalle verificado en workspace: el TIPO de barrida se elige al CREAR (botón Agregar) y queda fijo, NO editable después. Recuperación: si no guardaste cambios, te deja salir y rehacer la barrida con el tipo correcto (Compensación). Confirmado por el usuario en su plataforma real (como no había cambios guardados, lo dejó salir e intentar de nuevo). Cierra la duda de "no me deja cambiar el tipo de barrida".
 - Next: Barridas 3-5 (DOTA vs FD): confirmar lugar del filtro ESTANDAR y tolerancias (B4 fecha 1 día direccional, B5 batch por lote).
