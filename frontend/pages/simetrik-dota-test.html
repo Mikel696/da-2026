@@ -448,6 +448,15 @@ td{color:var(--t2)}td b{color:var(--tx)}
   </table>
   <div class="box warn"><div class="box-h">🚨 Si te pide Lado B = FD y no te deja poner DOTA en ambos lados</div>Es porque la barrida quedó en <b>Tipo de barrida: Conciliación</b> (cruce A vs B). La compensación NO es A vs B — es un <b>auto-cruce de DOTA contra sí mismo</b>. El <b>tipo se elige al CREAR la barrida (botón "Agregar") y queda fijo — NO se puede cambiar después</b>.<br><br><b>Cómo recuperarte si ya la creaste con el tipo equivocado:</b> mientras <b>NO hayas guardado cambios</b>, salí de la barrida (te deja salir) y volvé a crearla con <b>"Agregar"</b> eligiendo el tipo <b>Compensación</b>. Recién ahí desaparece el Lado B (FD) y elegís un <b>solo recurso a compensar</b> (<code>UNION_DOTA</code>), con las llaves Lado A vs Lado A. <i>(Verificado en workspace: como no había cambios guardados, dejó salir y rehacer.)</i></div>
   <div class="box warn"><div class="box-h">⚠ El ABS no se escribe en la regla</div>El selector de columnas de la regla solo lista columnas existentes — no acepta <code>ABS(...)</code> inline. Creá antes una <b>columna de transformación</b> en <code>Union_DOTA</code>: <code>ABS_MONTO = ABS(MOV_AMOUNT)</code>, y usá <code>ABS_MONTO = ABS_MONTO</code> como tercera llave.</div>
+  <div class="box warn"><div class="box-h">🟡 PASO OBLIGATORIO: "Configurar grupos compensables" (el puntito amarillo)</div>En una barrida de Compensación, además de las llaves hay que <b>definir los grupos compensables</b> = cómo se parte DOTA en los <b>dos lados que se compensan entre sí</b>. Mientras no lo completes, el botón <b>"Guardar barrida" queda deshabilitado</b> y verás un <b>punto amarillo</b> en "Configurar grupos compensables". Esto es lo que implementa la restricción del documento <i>"PAYMENT solo compensa con REFUND"</i>.<br><br><b>Pasos:</b>
+  <ol>
+    <li>Click en <b>"Configurar grupos compensables"</b>.</li>
+    <li><b>Criterio de compensación</b> → seleccioná la columna <code>MOV_OPERATION</code> (la que tiene los valores <code>PAYMENT</code> / <code>REFUND</code>).</li>
+    <li>Arrastrá el valor <code>PAYMENT</code> al <b>Grupo compensable 1</b> (nombralo p.ej. <code>PAYMENT</code>).</li>
+    <li>Arrastrá el valor <code>REFUND</code> al <b>Grupo compensable 2</b> (nombralo p.ej. <code>REFUND</code>).</li>
+    <li>Guardá → el punto amarillo desaparece → ya se habilita <b>"Guardar barrida"</b> y después <b>"Ejecutar barridas"</b>.</li>
+  </ol>
+  <i>Ojo: arrastrá los valores TAL CUAL aparecen en tus datos (si vienen en minúscula o en español, usá esos).</i></div>
 
   <h4>Barrida 2 · Compensación DOTA con tolerancia $5</h4>
   <p>Mismas 2 primeras llaves que B1. En el monto, en vez de igualdad usá <b>tolerancia de $5</b> (diferencia absoluta ≤ 5):</p>
