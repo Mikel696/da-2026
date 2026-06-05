@@ -356,3 +356,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Corrección Barrida 2 (Paso 12). El doc tenía el operador del monto como "~= (tol. 5)" lo que hizo que el usuario buscara un operador "≤"/"~=" inexistente. En Simetrik la tolerancia NO es un operador: la condición queda en "=" y el valor 5 va en el campo aparte "Tolerancia" (+ Unidad numérica, no "días"). Reescrita la tabla de B2 con columnas reales (Columna A | Condición | Columna B | Tolerancia | Unidad) + caja ⚠ "La tolerancia NO es un operador". Confirmado contra el screenshot real de B1 que mostraba los campos Tolerancia/Unidad por regla.
 - Next: Unidad exacta para tolerancia de monto a confirmar con el usuario cuando la vea. Luego barridas 3-5 (DOTA vs FD) — el 403 del deep-link impide inspección live, usar capturas (Sol N) del cuaderno.
+
+### ID:14-WORK.P16 · 2026-06-05
+- Commit: (pending)
+- Files: frontend/pages/simetrik-dota-test.html
+- Changed: Aclaración Barrida 2: el usuario reportó que el campo "Unidad" del monto no deja modificar nada. Es correcto/esperado — la tolerancia de un monto es valor absoluto (±5) y NO lleva unidad, por eso el dropdown queda bloqueado/vacío. La Unidad solo se habilita para tolerancias de FECHA (días, Barrida 4). Corregido el doc (antes decía erróneamente "elegí la opción numérica"): ahora dice Unidad bloqueada/no aplica + caja ⚠ actualizada.
+- Next: Confirmar con el usuario que con Condición=, Tolerancia=5, Unidad vacía ya guarda la barrida. Luego barridas 3-5 (DOTA vs FD).
