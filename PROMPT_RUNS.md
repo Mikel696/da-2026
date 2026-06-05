@@ -346,7 +346,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Barridas 3-5 (DOTA vs FD): confirmar lugar del filtro ESTANDAR y tolerancias (B4 fecha 1 día direccional, B5 batch por lote).
 
 ### ID:14-WORK.P14 · 2026-06-05
-- Commit: (pending)
+- Commit: 4a8a561
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Sol 1/Sol 2 del cuaderno "Prueba Dota" (leído vía Chrome MCP desde la sesión live del usuario, imágenes resueltas de IndexedDB da2026_nb/attachments y data-preview). Diagnóstico: "Guardar barrida" deshabilitado por el PASO OBLIGATORIO "Configurar grupos compensables" incompleto (punto amarillo) — Criterio de compensación vacío. Agregada caja 🟡 en Barrida 1 del Paso 12 con el paso a paso: Configurar grupos compensables → Criterio = MOV_OPERATION → arrastrar PAYMENT al grupo 1, REFUND al grupo 2 → guardar. Esto implementa la restricción "PAYMENT solo compensa con REFUND" de la guía oficial. NUEVO FLUJO establecido: el usuario pone solicitudes en cuaderno Prueba Dota pág Documentacion ("Revisa Docu Dota Sol N"), yo leo vía Chrome MCP.
 - Next: Confirmar con el usuario que tras configurar los grupos compensables ya guarda y ejecuta. Luego Barrida 2 (tolerancia $5) y barridas 3-5 (DOTA vs FD).
