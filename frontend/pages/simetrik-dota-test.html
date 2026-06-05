@@ -228,12 +228,17 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <div class="step">
   <div class="step-head"><div class="step-num">2</div><div class="step-title">GTWC_AUTHORIZATION_CODE <span class="out">salida: Texto</span></div></div>
-  <p>Si el código es <code>"000000"</code> Y el adquirente es <code>"Cabal"</code>, dejá vacío. En cualquier otro caso, dejá el código tal como viene.</p>
+  <p>Si el código es <code>"000000"</code> Y el adquirente es <code>"Cabal"</code>, dejá vacío. En cualquier otro caso, tomá el código de la <b>primera columna que tenga dato</b> (PURCHASE → CAPTURE → AUTH), igual que el comercio del Paso 5.</p>
   <pre class="formula"><span class="fn">SI</span>(
   <span class="fn">Y</span>(<span class="col">CAPTURE_AUTHORIZATION_CODE</span> = <span class="str">"000000"</span>; <span class="col">CAPTURE_ACQUIRER</span> = <span class="str">"Cabal"</span>);
   <span class="str">""</span>;
-  <span class="col">CAPTURE_AUTHORIZATION_CODE</span>
+  <span class="fn">SI</span>(
+    <span class="fn">ESBLANCO</span>(<span class="col">PURCHASE_AUTHORIZATION_CODE</span>);
+    <span class="fn">SI</span>(<span class="fn">ESBLANCO</span>(<span class="col">CAPTURE_AUTHORIZATION_CODE</span>); <span class="col">AUTH_AUTHORIZATION_CODE</span>; <span class="col">CAPTURE_AUTHORIZATION_CODE</span>);
+    <span class="col">PURCHASE_AUTHORIZATION_CODE</span>
+  )
 )</pre>
+  <div class="box do"><div class="box-h">🔬 Corregido con datos (56.777 filas)</div>El documento dice "el dato de <code>CAPTURE_AUTHORIZATION_CODE</code>", pero en los datos reales <b><code>CAPTURE_AUTHORIZATION_CODE</code> está vacío en 52.717 filas (93%)</b> — el código vive en <code>PURCHASE_AUTHORIZATION_CODE</code>. Cada transacción trae su info en UN solo bloque: <code>PURCHASE_*</code> (52.717) o <code>CAPTURE_*</code>+<code>AUTH_*</code> (4.060). Si tomaras solo CAPTURE, la llave de autorización de la Barrida 3 quedaría vacía en el 93% y el cruce fallaría. Por eso se <b>coalesce</b> (PURCHASE→CAPTURE→AUTH), idéntico al Paso 5. La excepción Cabal/000000 se mantiene tal cual la guía (esos 20 registros están en el bloque CAPTURE). <i>Si podés, confirmalo con el trainer; los datos no dejan lugar a dudas.</i></div>
 </div>
 
 <div class="step">
@@ -257,10 +262,14 @@ td{color:var(--t2)}td b{color:var(--tx)}
       <span class="str">"VISA"</span>; 0
     ) <> <span class="str">""</span>;
     <span class="str">"PRISMA"</span>;
-    <span class="fn">MAYUSC</span>(<span class="col">CAPTURE_ACQUIRER</span>)
+    <span class="fn">MAYUSC</span>(<span class="fn">SI</span>(
+      <span class="fn">ESBLANCO</span>(<span class="col">PURCHASE_ACQUIRER</span>);
+      <span class="fn">SI</span>(<span class="fn">ESBLANCO</span>(<span class="col">CAPTURE_ACQUIRER</span>); <span class="col">AUTH_ACQUIRER</span>; <span class="col">CAPTURE_ACQUIRER</span>);
+      <span class="col">PURCHASE_ACQUIRER</span>
+    ))
   )
 )</pre>
-  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"En el punto 3, cuando ninguna de las columnas de acquirer trae Mastercard/Firstdata/Diners/Visa, el documento dice colocar el contenido en mayúscula. Como son tres columnas (CAPTURE, PURCHASE y AUTH), ¿de cuál tomo el valor en ese caso?"</i><br><br>💡 Mientras tanto uso <code>CAPTURE_ACQUIRER</code> (la primera del orden CAPTURE → PURCHASE → AUTH).</div>
+  <div class="box do"><div class="box-h">🔬 Decidido con datos (no se preguntó al trainer)</div>La duda era: en el "else" (cuando no hay Mastercard/Visa/etc.), ¿de cuál de las 3 columnas de acquirer tomo el valor? Los datos lo resuelven: <code>CAPTURE_ACQUIRER</code> está vacío en el 93% (el dato vive en <code>PURCHASE_ACQUIRER</code>). Por eso el "else" hace <b>coalesce</b> PURCHASE→CAPTURE→AUTH, igual que el Paso 5. La <b>detección</b> de Mastercard/Firstdata/Diners/Visa ya estaba bien (concatena las 3 columnas y busca), solo el fallback final estaba tomando CAPTURE vacío.</div>
 </div>
 
 <div class="step">
@@ -585,7 +594,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <!-- ════════ RESUMEN ════════ -->
 <div class="phase">✅ Resuelto — no preguntar esto</div>
 <div class="box do">Punto 6: <code>MOV_CREATED_DATE</code> casteada a Fecha (YYYY-MM-DD) en la fuente → <code>ADICIONAR_FECHA_TIEMPO(MOV_CREATED_DATE; 1; "dias")</code> · Merchant con decimales: <code>DIVIDIR(...; "."; 1)</code> · El formato se castea en la FUENTE, no en la unión · <code>MOV_AMOUNT</code> ya trae signo · Paso 8: el merchant cruza exacto con la parametría.</div>
-<p class="tx2" style="font-size:12px;margin-top:8px">Las <b>preguntas para el trainer</b> están dentro de cada punto donde aplican (🟡 Punto 3 y la tolerancia direccional de la Barrida 4). El Punto 7 se resolvió con el nuevo calendario, y las llaves comercio/fecha de la Barrida 3 se resolvieron con datos reales (<code>NUM_EST</code> + <code>FORIG_COMPRA</code>).</p>
+<p class="tx2" style="font-size:12px;margin-top:8px"><b>Resuelto con datos reales (56.777 filas):</b> Punto 2 y Punto 3 → coalesce PURCHASE→CAPTURE→AUTH (CAPTURE está vacío en 93%); Barrida 3 → comercio <code>NUM_EST</code>, fecha <code>FORIG_COMPRA</code> + <code>MOV_CREATED_DATE</code> crudo; Punto 7 → nuevo calendario; Punto 13 → <code>MOV_AMOUNT</code> con signo verificado. <b>Únicas preguntas abiertas:</b> 🟡 tolerancia DIRECCIONAL de la Barrida 4 (FD ≥ DOTA) y la llave del lote de la Barrida 5 (batch).</p>
 
 <!-- ════════ CHECKLIST ════════ -->
 <div class="phase">✅ Tu progreso</div>
