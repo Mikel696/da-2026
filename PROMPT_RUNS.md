@@ -370,7 +370,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Quedan abiertas: Punto 3 (acquirer, cuál columna cuando hay 3) y tolerancia DIRECCIONAL de Barrida 4 (Simetrik aplica tolerancia a ambos lados; hipótesis: regla de desigualdad FD>=DOTA + tol 1 día). Verificar con datos/captura cuando el usuario llegue ahí.
 
 ### ID:14-WORK.P18 · 2026-06-05
-- Commit: (pending)
+- Commit: e56d661
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: AUDITORÍA COMPLETA de los 16 puntos contra guía oficial + dataset real (56.777 filas, parseado con openpyxl del xlsx binario, no del volcado de texto que estaba truncado a ~6k). HALLAZGO CRÍTICO: CAPTURE_* vacío en 52.717 filas (93%); cada fila trae su data en UN bloque: PURCHASE_* (52.717) o CAPTURE_*+AUTH_* (4.060). Correcciones: (a) Punto 2 GTWC_AUTHORIZATION_CODE — el "else" pasa de CAPTURE solo a coalesce PURCHASE→CAPTURE→AUTH (idéntico al Punto 5), manteniendo la excepción Cabal/000000; sin esto la llave de auth de Barrida 3 quedaba vacía en 93%. (b) Punto 3 GTWT_ACQUIRER — el fallback "else" pasa de CAPTURE solo a coalesce (la detección Mastercard/Visa ya estaba bien); quitada la pregunta al trainer. Verificados OK sin cambios: P1 (CARD_NUMBER, padding), P4 (BRAND, BIN logic + MAYUSC), P5 (merchant coalesce — patrón de referencia), P9/P10 (IZQUIERDA/DERECHA), P11 (DEADLINE fin de mes), P12b (FECHA_FINAL), P13 (MOV_AMOUNT con signo: PAYMENT+ 56481 / REFUND- 296, verificado), P14-16 (tableros). Resumen final actualizado.
 - Next: Quedan SOLO 2 preguntas reales: tolerancia direccional Barrida 4 (FD>=DOTA) y llave de lote Barrida 5 (batch). Confirmar Punto 2/3 coalesce con trainer si responde (deviación menor del texto literal, pero datos inequívocos).
