@@ -394,7 +394,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Verificar render del rojo en vivo. Usuario ejecuta las actualizaciones en orden.
 
 ### ID:14-WORK.P22 · 2026-06-05
-- Commit: (pending)
+- Commit: ee3e156
 - Files: frontend/data/simetrik-kb.json (NEW) · frontend/pages/simetrik-kb.html (NEW) · frontend/work.html (+tab) · PROMPT_14-WORK_SIMETRIK-INGEST.md (NEW)
 - Changed: Construido el "Simetrik Knowledge Engine" (profesionalización del módulo). 3 piezas: (1) data/simetrik-kb.json — base estructurada {id,cat,title,body,evidence,source,date,confidence} + meta.ingested_sources para capturar solo lo nuevo; sembrada con 20 entradas verificadas de esta sesión (4 reglas de oro, plataforma/UI, catálogo de funciones, gotchas incl. coalesce CAPTURE 93%, patrones de conciliación DOTA, casos/dataset, calendario AR). (2) pages/simetrik-kb.html — visor self-contained: fetch del JSON, buscador, filtros por categoría/confianza, tarjetas con evidencia, + botón "Copiar Prompt de Ingesta" embebido. (3) Pestaña "🧠 Simetrik KB" en work.html (iframe). + PROMPT_14-WORK_SIMETRIK-INGEST.md. Loop: usuario dropea en cuaderno "Simetrik · Ingesta" (1 drop=1 página) → prompt de ingesta → Claude lee páginas no-ingeridas vía Chrome MCP (texto+capturas+links Drive) → extrae atómico con evidencia → dedupe → append a JSON + ingested_sources → commit. Drop zone = notebook (reusa texto+imágenes+sync ya probados).
 - Next: (a) Crear el cuaderno "Simetrik · Ingesta" (el usuario o yo vía Chrome MCP inject) · (b) primera ingesta real de una reunión · (c) verificar render live del KB.

@@ -3246,3 +3246,14 @@ A pedido del usuario ("a todo el módulo"), propagada la info nueva (4 reglas de
 ### Pendiente
 - Verificar el seed del Diccionario en el live site logueado (el auth guard impide el test local).
 - Decidir si se construye seed para Aprendizajes/Errores.
+
+---
+
+## 2026-06-05 · 14-WORK · Simetrik Knowledge Engine (profesionalización)
+
+Construido el sistema de conocimiento vivo de Simetrik. 3 piezas:
+1. **`frontend/data/simetrik-kb.json`** — base estructurada (entries con id/cat/title/body/evidence/source/date/confidence + meta.ingested_sources). Sembrada con 20 entradas verificadas de la sesión DOTA (reglas de oro, plataforma/UI, funciones, gotchas, conciliación, casos, calendario).
+2. **`frontend/pages/simetrik-kb.html`** — visor self-contained (fetch del JSON, buscador, filtros, tarjetas con evidencia, botón Copiar Prompt de Ingesta). Pestaña "🧠 Simetrik KB" en work.html (iframe).
+3. **Loop de ingesta** — `PROMPT_14-WORK_SIMETRIK-INGEST.md` (+ embebido en el HTML). Drop zone = cuaderno "Simetrik · Ingesta" (1 drop = 1 página). Claude lee páginas no-ingeridas vía Chrome MCP (texto + capturas data-preview/IDB + links Drive), extrae atómico con evidencia, dedupe, append a JSON + ingested_sources, commit. "Solo lo nuevo" = páginas cuyo id no está en ingested_sources.
+
+Pendiente: crear el cuaderno "Simetrik · Ingesta"; primera ingesta real; verificar render live.
