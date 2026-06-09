@@ -48,6 +48,21 @@ body { line-height: var(--leading-normal); }
 .tab:hover{color:var(--tx);background:var(--el)}
 .tab.on{color:#001518;background:var(--ac);font-weight:600}
 .tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+/* ── Nav de 3 desplegables ── */
+.navbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--space-5);position:relative;z-index:30}
+.navdd{position:relative;flex:1;min-width:190px}
+.navdd-btn{width:100%;display:flex;align-items:center;gap:6px;justify-content:space-between;background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;font-family:inherit;transition:color var(--transition-fast),border-color var(--transition-fast)}
+.navdd-btn:hover{color:var(--tx);border-color:var(--bd2)}
+.navdd.active .navdd-btn{color:#001518;background:var(--ac);border-color:var(--ac)}
+.navdd-cur{flex:1;text-align:right;font-weight:400;font-size:11px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navdd-caret{font-size:10px;transition:transform var(--transition-fast)}
+.navdd.open .navdd-caret{transform:rotate(180deg)}
+.navdd-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--c1);border:1px solid var(--bd2);border-radius:var(--radius-md);padding:5px;box-shadow:0 12px 32px rgba(0,0,0,.45);z-index:60;min-width:210px}
+.navdd.open .navdd-menu{display:block}
+.navdd-menu .tab{display:block;width:100%;text-align:left;flex:none;min-width:0;border-radius:var(--radius-sm);margin:1px 0;padding:9px 12px}
+.navdd-menu .tab.on{color:#001518;background:var(--ac)}
+.navdd:focus-visible,.navdd-btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+@media(max-width:768px){.navdd{min-width:calc(50% - 4px)}.navdd-cur{display:none}}
 .pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
 @keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}

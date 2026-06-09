@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="css/components.css">
 
 <link rel="stylesheet" href="css/nb-shared.css?v=p21">
-<link rel="stylesheet" href="css/work.css?v=p21">
+<link rel="stylesheet" href="css/work.css?v=p22">
 </head>
 <body>
 <nav class="nv">
@@ -84,31 +84,38 @@
   </div>
   <script>if(localStorage.getItem('work_ob_closed')==='1')document.getElementById('onboardBanner').style.display='none';</script>
 
-  <div class="tabs">
-    <!-- GRUPO 1: APRENDER -->
-    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Aprender</span>
-    <button class="tab on" data-p="start">🧭 Empieza Aquí</button>
-    <button class="tab" data-p="appsim">🖥️ Simulador App</button>
-    <button class="tab" data-p="playbook">📘 Playbook Ficohsa</button>
-    <!-- GRUPO 2: PRACTICAR -->
-    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Practicar</span>
-    <button class="tab" data-p="dotatest" style="border-color:rgba(6,182,212,.4)">🧪 Prueba DOTA</button>
-    <button class="tab" data-p="simetrikkb" style="border-color:rgba(6,182,212,.4)">🧠 Simetrik KB</button>
-    <button class="tab" data-p="guia">📚 Guía Simple</button>
-    <button class="tab" data-p="dict">📖 Diccionario</button>
-    <button class="tab" data-p="copilot">🎓 Tutor</button>
-    <!-- GRUPO 3: DOCUMENTAR -->
-    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Documentar</span>
-    <button class="tab" data-p="cases">📋 Casos</button>
-    <button class="tab" data-p="errors">🐛 Errores</button>
-    <button class="tab" data-p="learn">💡 Aprendizajes</button>
-    <button class="tab" data-p="moif">🗓️ MOIF</button>
-    <!-- GRUPO 4: CONTENIDO -->
-    <span class="tab-group-label" style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);padding:0 6px;align-self:center">Contenido</span>
-    <button class="tab" data-p="workflow">📝 Notas Workflow</button>
-    <button class="tab" data-p="course">🎓 Notas Curso</button>
-    <button class="tab" data-p="nb">📓 Cuadernos</button>
-    <button class="tab" data-p="kb">📚 KB Simetrik</button>
+  <div class="navbar">
+    <div class="navdd" data-g="aprender">
+      <button class="navdd-btn" type="button">📚 Aprender<span class="navdd-cur"></span><span class="navdd-caret">▾</span></button>
+      <div class="navdd-menu">
+        <button class="tab on" data-p="start">🧭 Empieza Aquí</button>
+        <button class="tab" data-p="appsim">🖥️ Simulador App</button>
+        <button class="tab" data-p="playbook">📘 Playbook Ficohsa</button>
+        <button class="tab" data-p="guia">📚 Guía Simple</button>
+        <button class="tab" data-p="copilot">🎓 Tutor</button>
+        <button class="tab" data-p="course">🎓 Notas Curso</button>
+      </div>
+    </div>
+    <div class="navdd" data-g="trabajo">
+      <button class="navdd-btn" type="button">🧠 Trabajo &amp; Conocimiento<span class="navdd-cur"></span><span class="navdd-caret">▾</span></button>
+      <div class="navdd-menu">
+        <button class="tab" data-p="simetrikkb">🧠 Simetrik KB</button>
+        <button class="tab" data-p="dotatest">🧪 Prueba DOTA</button>
+        <button class="tab" data-p="dict">📖 Diccionario</button>
+        <button class="tab" data-p="cases">📋 Casos</button>
+        <button class="tab" data-p="errors">🐛 Errores</button>
+        <button class="tab" data-p="learn">💡 Aprendizajes</button>
+        <button class="tab" data-p="kb">📚 KB Simetrik</button>
+      </div>
+    </div>
+    <div class="navdd" data-g="registro">
+      <button class="navdd-btn" type="button">🗂️ Registro &amp; Capturas<span class="navdd-cur"></span><span class="navdd-caret">▾</span></button>
+      <div class="navdd-menu">
+        <button class="tab" data-p="moif">🗓️ MOIF</button>
+        <button class="tab" data-p="nb">📓 Cuadernos</button>
+        <button class="tab" data-p="workflow">📝 Notas Workflow</button>
+      </div>
+    </div>
   </div>
 
   <!-- ═══ EMPIEZA AQUÍ · Mapa mental interactivo ═══ -->
@@ -671,6 +678,29 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
     WORK.tutorGuiaHoy();
   }
 }));
+// ── Nav de 3 desplegables ──
+(function(){
+  const dds=[...document.querySelectorAll('.navdd')];
+  function closeAll(){dds.forEach(d=>d.classList.remove('open'));}
+  function sync(){
+    dds.forEach(d=>{
+      const on=d.querySelector('.tab.on');
+      d.classList.toggle('active',!!on);
+      const cur=d.querySelector('.navdd-cur');
+      if(cur) cur.textContent=on?' · '+on.textContent.trim():'';
+    });
+  }
+  dds.forEach(d=>{
+    d.querySelector('.navdd-btn').addEventListener('click',e=>{
+      e.stopPropagation();
+      const open=d.classList.contains('open'); closeAll();
+      if(!open) d.classList.add('open');
+    });
+  });
+  document.querySelectorAll('.navdd .tab').forEach(t=>t.addEventListener('click',()=>{closeAll();sync();}));
+  document.addEventListener('click',closeAll);
+  sync();
+})();
 // Inicializar tutor al cargar si el panel ya está visible
 document.addEventListener('DOMContentLoaded',()=>{
   const active=document.querySelector('.pnl.on');
