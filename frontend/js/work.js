@@ -2392,8 +2392,35 @@ Slug: foo-bar. Procedé."]`;
       } catch(e){ console.warn('seedDict failed', e); }
     }
 
+    // El Diccionario se alimenta del cerebro (simetrik-kb.json · glosario). Aditivo por sid, no destructivo.
+    async function seedDictFromBrain(){
+      try{
+        const res=await fetch('data/simetrik-kb.json',{cache:'no-store'});
+        if(!res.ok) return;
+        const kb=await res.json();
+        const bv=(kb.meta&&kb.meta.version)||'';
+        if(localStorage.getItem('work_eco_dict_brain_v')===bv) return;
+        const existing=loadDict();
+        const bySid=new Set(existing.filter(e=>e.sid).map(e=>e.sid));
+        let added=0;
+        (kb.entries||[]).forEach(e=>{
+          if(e.cat!=='glosario'||!e.id||e.id.indexOf('dict-')!==0) return;
+          const sid=e.id.slice(5);
+          if(bySid.has(sid)) return;
+          let term=e.title||'', en='';
+          const m=term.match(/^(.*?)\s+\((.+)\)\s*$/); if(m){term=m[1];en=m[2];}
+          existing.push({id:'d_brain_'+sid, sid, term, cat:e.dcat||'term', en, def:e.body||'', ex:(e.evidence&&e.evidence!=='—')?e.evidence:'', updated:new Date().toISOString()});
+          bySid.add(sid); added++;
+        });
+        if(added){ existing.sort((a,b)=>a.term.localeCompare(b.term)); saveDict(existing); }
+        localStorage.setItem('work_eco_dict_brain_v', bv);
+        if(added){ console.log('[14-WORK] Diccionario alimentado desde el cerebro: +'+added); dictRender(); }
+      }catch(e){ console.warn('seedDictFromBrain failed', e); }
+    }
+
     function init(){
       seedDict();
+      seedDictFromBrain();
       initEditor('wf');
       initEditor('cu');
       dictRender();

@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-05.4",
+    "version": "2026-06-05.5",
     "last_updated": "2026-06-05",
     "ingested_sources": [],
     "categories": [
@@ -690,7 +690,8 @@
       "evidence": "Tú eres el IS en el proyecto Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-rfp",
@@ -700,7 +701,8 @@
       "evidence": "El RFP de Ficohsa pidió conciliar 945 cuentas y +35M transacciones/mes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sdd",
@@ -710,7 +712,8 @@
       "evidence": "El SDD estimó 54h para configurar el proceso SERCOM.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sftp",
@@ -720,7 +723,8 @@
       "evidence": "T24 deja un .TXT en la SFTP cada 23:30; Simetrik lo ingiere a las 23:45.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-gl",
@@ -730,7 +734,8 @@
       "evidence": "El GL de Ficohsa vive en SAP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-kyc",
@@ -740,7 +745,8 @@
       "evidence": "KYC alimenta scoring de fraude.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-aml",
@@ -750,7 +756,8 @@
       "evidence": "Simetrik genera trazabilidad para reportes AML.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-csm",
@@ -760,7 +767,8 @@
       "evidence": "Carolina Toro es la CSM del proyecto Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-pm",
@@ -770,7 +778,8 @@
       "evidence": "Lina Azcárate es la PM en Simetrik.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-insights",
@@ -780,7 +789,8 @@
       "evidence": "Los insights muestran que 2% de las recargas no cruzan por formato de fecha.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-fees",
@@ -790,7 +800,8 @@
       "evidence": "Visa cobra fee de interchange en cada autorización.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-clearing",
@@ -800,7 +811,8 @@
       "evidence": "Clearing ocurre antes del Settlement.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-settlement",
@@ -810,7 +822,8 @@
       "evidence": "Simetrik cruza el Clearing contra el Settlement diario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-chargeback",
@@ -820,7 +833,8 @@
       "evidence": "Compra online no reconocida → cliente abre chargeback → comercio presenta evidencia.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-aging",
@@ -830,7 +844,8 @@
       "evidence": "En SERCOM las partidas se marcan rojo a los 3 días sin cruce.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-writeoff",
@@ -840,7 +855,8 @@
       "evidence": "Write-off de 0.05 Lempiras por diferencia de redondeo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-leakage",
@@ -850,7 +866,8 @@
       "evidence": "Gateway mal configurado genera revenue leakage del 2% mensual.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-parseo",
@@ -860,7 +877,8 @@
       "evidence": "Quitar el prefijo \"504\" de los teléfonos hondureños antes de cruzar contra CLARO.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-dispute",
@@ -870,7 +888,8 @@
       "evidence": "Simetrik gestiona el flujo de representment con evidencia adjunta.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accrual",
@@ -880,7 +899,8 @@
       "evidence": "Los accruals de intereses deben cuadrar con el core bancario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-oversight",
@@ -890,7 +910,8 @@
       "evidence": "El comité de oversight revisa mensualmente las cuentas en rojo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-compliance",
@@ -900,7 +921,8 @@
       "evidence": "Simetrik genera audit trail para compliance.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-audittrail",
@@ -910,7 +932,8 @@
       "evidence": "Cada ajuste manual queda con usuario, fecha y motivo en el audit trail.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-issuing",
@@ -920,7 +943,8 @@
       "evidence": "Ficohsa hace issuing de tarjetas de crédito procesadas en Vision Plus.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-acquiring",
@@ -930,7 +954,8 @@
       "evidence": "Getnet, Fiserv, Adyen son adquirentes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-gateway",
@@ -940,7 +965,8 @@
       "evidence": "Stripe, Checkout.com, Mercado Pago.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-recon",
@@ -950,7 +976,8 @@
       "evidence": "Simetrik concilia 50k transacciones diarias contra adquirentes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-openbank",
@@ -960,7 +987,8 @@
       "evidence": "Regulado por PSD2 en Europa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-scoring",
@@ -970,7 +998,8 @@
       "evidence": "BNPL calcula scoring en 2 segundos para aprobar cuotas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-payout",
@@ -980,7 +1009,8 @@
       "evidence": "Plataformas de delivery liquidan payout semanal a sus drivers.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-domain",
@@ -990,7 +1020,8 @@
       "evidence": "Aplica Domain Driven Design para separar core transaccional de riesgo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-simetrik",
@@ -1000,7 +1031,8 @@
       "evidence": "Ficohsa migra 30 analistas de Excel a Simetrik.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-t24",
@@ -1010,7 +1042,8 @@
       "evidence": "T24 envía transacciones de cajas con TXN_CODE que requiere filtrado (SGN, 4, 54 = efecto cero).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-visionplus",
@@ -1020,7 +1053,8 @@
       "evidence": "Cruce de saldos de Vision Plus contra GL en SAP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-sap",
@@ -1030,7 +1064,8 @@
       "evidence": "El saldo de la cuenta 1-04-01-001 vive en SAP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-visa",
@@ -1040,7 +1075,8 @@
       "evidence": "Visa publica el archivo de clearing T+1.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-txncode",
@@ -1050,7 +1086,8 @@
       "evidence": "Filtrar TXN_CODE NOT IN (SGN, 4, 54) antes de cruzar.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-transref",
@@ -1060,7 +1097,8 @@
       "evidence": "T24.TRANS_REFERENCE = SAP.TRANSACCIONBANCO",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sercom",
@@ -1070,7 +1108,8 @@
       "evidence": "Recargas SERCOM cruzan T24 (débito) vs CLARO (crédito) vs SAP (saldo).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-transitoria",
@@ -1080,7 +1119,8 @@
       "evidence": "En 2-01-01-003 la suma algebraica del día debe ser 0.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-matching",
@@ -1090,7 +1130,8 @@
       "evidence": "Regla: A.Num_Referencia == B.Referencia AND A.Monto == B.Monto.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-sbb",
@@ -1100,7 +1141,8 @@
       "evidence": "El SBB \"Date Parser\" convierte cualquier formato de fecha al estándar ISO.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-ruleset",
@@ -1110,7 +1152,8 @@
       "evidence": "Regla 1 = match perfecto, Regla 2 = ±$0.05, Regla 3 = ±1 día, Regla 4 = excepción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sourceunion",
@@ -1120,7 +1163,8 @@
       "evidence": "3 bancos envían extractos con columnas distintas → Source Union los normaliza.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-matchperfect",
@@ -1130,7 +1174,8 @@
       "evidence": "A.id == B.id AND A.amount == B.amount AND A.date == B.date.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-tolerance",
@@ -1140,7 +1185,8 @@
       "evidence": "Tolerancia de ±$0.05 en monto y ±1 día en fecha.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-exception",
@@ -1150,7 +1196,8 @@
       "evidence": "Excepción por 5 días = \"valor en rojo\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-workspace",
@@ -1160,7 +1207,8 @@
       "evidence": "app.simetrik.com/workspace/ficohsa",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-snowflake",
@@ -1170,7 +1218,8 @@
       "evidence": "Simetrik corre sobre Snowflake + AWS.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-aws",
@@ -1180,7 +1229,8 @@
       "evidence": "Compliance SOC 2 Type II vía AWS.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-nocode",
@@ -1190,7 +1240,8 @@
       "evidence": "El contador define \"fee aceptable ±2%\" sin abrir ticket a tecnología.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-aiagent",
@@ -1200,7 +1251,8 @@
       "evidence": "Match Suggester: \"85% de probabilidad que esta excepción cruce con tx #99281\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-datacleaner",
@@ -1210,7 +1262,8 @@
       "evidence": "Detecta que un source mezcla DD/MM/YYYY y MM-DD-YY → sugiere normalizar.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-frauddet",
@@ -1220,7 +1273,8 @@
       "evidence": "Marca tx de $50K a las 3 AM en un comercio nuevo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-rootcause",
@@ -1230,7 +1284,8 @@
       "evidence": "\"Este tipo de excepción suele ser por falta de aplicar el fee de Visa\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-connect",
@@ -1240,7 +1295,8 @@
       "evidence": "Conectar SAP, Stripe y un banco al workspace Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-reconcile",
@@ -1250,7 +1306,8 @@
       "evidence": "Reconcile = el corazón de Simetrik.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-resolve",
@@ -1260,7 +1317,8 @@
       "evidence": "Resolver una excepción con motivo \"duplicado en origen + write-off $0.02\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-erp",
@@ -1270,7 +1328,8 @@
       "evidence": "SAP y Oracle son los ERPs más comunes en bancos grandes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-oracle",
@@ -1280,7 +1339,8 @@
       "evidence": "Algunos clientes de Simetrik corren Oracle como GL.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-stripe",
@@ -1290,7 +1350,8 @@
       "evidence": "Conectás Stripe vía API key y trae diariamente los settlements.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-mp",
@@ -1300,7 +1361,8 @@
       "evidence": "Crítico en e-commerce regional.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-core",
@@ -1310,7 +1372,8 @@
       "evidence": "T24 (Temenos) es el core bancario de Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-fintech",
@@ -1320,7 +1383,8 @@
       "evidence": "Nubank, Revolut, Ualá.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-baas",
@@ -1330,7 +1394,8 @@
       "evidence": "Uber emite tarjetas para conductores vía BaaS con un partner bancario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-bnpl",
@@ -1340,7 +1405,8 @@
       "evidence": "Klarna, Affirm, Mercado Crédito.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sox",
@@ -1350,7 +1416,8 @@
       "evidence": "Simetrik genera evidencia para auditorías SOX (audit trail + segregación de roles).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-ifrs15",
@@ -1360,7 +1427,8 @@
       "evidence": "La conciliación de Settlement debe cumplir IFRS 15 para reportar ingresos correctamente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-pci",
@@ -1370,7 +1438,8 @@
       "evidence": "Simetrik no almacena PAN (número de tarjeta) crudo: cumple PCI por tokenización.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-gdpr",
@@ -1380,7 +1449,8 @@
       "evidence": "Derecho al olvido, consentimiento explícito, breach notification 72h.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-fatf",
@@ -1390,7 +1460,8 @@
       "evidence": "Las recomendaciones FATF guían los procedimientos KYC.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-uif",
@@ -1400,7 +1471,8 @@
       "evidence": "Si AML detecta lavado → se reporta a UIF en 48h.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-pep",
@@ -1410,7 +1482,8 @@
       "evidence": "Listas Dow Jones / World-Check incluyen PEPs globales.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-etl",
@@ -1420,7 +1493,8 @@
       "evidence": "Simetrik hace ETL automatizado entre sources y su data warehouse.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-elt",
@@ -1430,7 +1504,8 @@
       "evidence": "Simetrik usa ELT — todo aterriza primero en Snowflake.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-api",
@@ -1440,7 +1515,8 @@
       "evidence": "API REST de Stripe: GET /v1/charges devuelve cobros del día.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-webhook",
@@ -1450,7 +1526,8 @@
       "evidence": "Stripe envía webhook cada vez que se completa un settlement.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-csv",
@@ -1460,7 +1537,8 @@
       "evidence": "T24 exporta a CSV con delimitador pipe.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-json",
@@ -1470,7 +1548,8 @@
       "evidence": "Las APIs de Stripe devuelven JSON.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-xml",
@@ -1480,7 +1559,8 @@
       "evidence": "SWIFT MT103 viene en formato XML.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-schema",
@@ -1490,7 +1570,8 @@
       "evidence": "Schema común post Source Union: {date, amount, currency, reference}.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sa",
@@ -1500,7 +1581,8 @@
       "evidence": "El SA traduce el RFP en un SDD técnico.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sm",
@@ -1510,7 +1592,8 @@
       "evidence": "Ana M. es la SM del proyecto Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sc",
@@ -1520,7 +1603,8 @@
       "evidence": "El SC participa en Fase 0 (Preventa & RFP).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-seniorIS",
@@ -1530,7 +1614,8 @@
       "evidence": "Juan C. / Wilson son Senior IS en Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sponsor",
@@ -1540,7 +1625,8 @@
       "evidence": "En Ficohsa, el sponsor es del comité ejecutivo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-stakeholder",
@@ -1550,7 +1636,8 @@
       "evidence": "Mapa de stakeholders: Seguridad, Cloud, Datos, Integraciones, Arquitectura.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-kpi",
@@ -1560,7 +1647,8 @@
       "evidence": "KPI objetivo: 95%+ auto-match en producción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-sla",
@@ -1570,7 +1658,8 @@
       "evidence": "SLA Ficohsa: 99.9% uptime + soporte 4h en caso crítico.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-autorate",
@@ -1580,7 +1669,8 @@
       "evidence": "Auto-match rate < 80% = el SDD necesita revisión.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-mttr",
@@ -1590,7 +1680,8 @@
       "evidence": "MTTR objetivo < 30 min por excepción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-partidadoble",
@@ -1600,7 +1691,8 @@
       "evidence": "Cobro a cliente: Débito Caja, Crédito Cuentas por Cobrar.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-activo",
@@ -1610,7 +1702,8 @@
       "evidence": "Caja, Bancos, Cartera de Préstamos.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-pasivo",
@@ -1620,7 +1713,8 @@
       "evidence": "Cuentas de Ahorro de clientes (la plata es del cliente).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-patrimonio",
@@ -1630,7 +1724,8 @@
       "evidence": "Capital social + utilidades retenidas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-ingreso",
@@ -1640,7 +1735,8 @@
       "evidence": "Intereses cobrados por préstamos.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-gasto",
@@ -1650,7 +1746,8 @@
       "evidence": "Comisiones pagadas a Visa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-puc",
@@ -1660,7 +1757,8 @@
       "evidence": "1-04-01-001 = Préstamos por Cobrar (Activo).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-asientogl",
@@ -1670,7 +1768,8 @@
       "evidence": "Asiento de ajuste por write-off de $0.05.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-cierre",
@@ -1680,7 +1779,8 @@
       "evidence": "Cierre mensual: del día 1 al 5 del mes siguiente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-cuentat",
@@ -1690,7 +1790,8 @@
       "evidence": "2-01-01-003 SERCOM debe quedar en 0 cada cierre diario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-ach",
@@ -1700,7 +1801,8 @@
       "evidence": "Cuenta transitoria 2-01-01-002 = ACH en tránsito.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-atm",
@@ -1710,7 +1812,8 @@
       "evidence": "2-01-01-001 = transitoria ATMs.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-discovery",
@@ -1720,7 +1823,8 @@
       "evidence": "En Discovery vos tomás notas detalladas de cada regla y excepción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-kickoff",
@@ -1730,7 +1834,8 @@
       "evidence": "Kick-off Ficohsa: 5 Jun 2026.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-golive",
@@ -1740,7 +1845,8 @@
       "evidence": "Pre-go-live: ciclos de prueba con datos reales del cliente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-representment",
@@ -1750,7 +1856,8 @@
       "evidence": "Representment exitoso = el comercio retiene el dinero.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-interchange",
@@ -1760,7 +1867,8 @@
       "evidence": "Visa cobra interchange ~1.5-2.5% según categoría comercio.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-mdr",
@@ -1770,7 +1878,8 @@
       "evidence": "MDR típico Latam: 2.5-4%.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-tplus1",
@@ -1780,7 +1889,8 @@
       "evidence": "Venta con tarjeta viernes → settlement T+1 = lunes en cuenta del comercio.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-tokenizacion",
@@ -1790,7 +1900,8 @@
       "evidence": "Apple Pay tokeniza tu tarjeta — el comercio nunca ve el número real.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-dashboard",
@@ -1800,7 +1911,8 @@
       "evidence": "Dashboard ejecutivo Ficohsa: tx procesadas, auto-match %, excepciones por aging.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-output",
@@ -1810,7 +1922,8 @@
       "evidence": "Output del proceso SERCOM: 3 archivos diarios al equipo de operaciones.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sftpfolder",
@@ -1820,7 +1933,8 @@
       "evidence": "sftp://ficohsa.simetrik.com/outputs/sercom/2026-05-13.csv",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-sox404",
@@ -1830,7 +1944,8 @@
       "evidence": "Audit trail de Simetrik es evidencia para SOX 404.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-ros",
@@ -1840,7 +1955,8 @@
       "evidence": "ROS debe enviarse en 48-72h según jurisdicción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-risk",
@@ -1850,7 +1966,8 @@
       "evidence": "Risk framework de un banco incluye fraude, AML, operacional, crédito.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-maker",
@@ -1860,7 +1977,8 @@
       "evidence": "Maker = analista que resuelve una excepción.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-checker",
@@ -1870,7 +1988,8 @@
       "evidence": "Checker = supervisor que firma la resolución.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-segregation",
@@ -1880,7 +1999,8 @@
       "evidence": "Si vos creás la regla, otra persona la activa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-manifest",
@@ -1890,7 +2010,8 @@
       "evidence": "Ficohsa solicitó que cada batch transferido incluya manifest + checksum SHA256 para que Simetrik valide la integridad antes de procesar.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sha256",
@@ -1900,7 +2021,8 @@
       "evidence": "Cada archivo del lote Ficohsa lleva su SHA256 en el manifest; Simetrik recalcula al recibir y valida.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-checksum",
@@ -1910,7 +2032,8 @@
       "evidence": "Verificación de checksum SHA256 por lote es requerimiento de integridad solicitado por Ficohsa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-observabilidad",
@@ -1920,7 +2043,8 @@
       "evidence": "Ficohsa pidió observabilidad de la integración con dashboards segregados por país (CAM regional).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-integridaddatos",
@@ -1930,7 +2054,8 @@
       "evidence": "Requisito Fase 1 Ficohsa: garantizar integridad de cada batch antes de cargar a Simetrik.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-reintento",
@@ -1940,7 +2065,8 @@
       "evidence": "El dashboard de observabilidad de Ficohsa debe mostrar conteo de reintentos por país.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-volumenanomalo",
@@ -1950,7 +2076,8 @@
       "evidence": "Métrica solicitada por Ficohsa en el dashboard de integración.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-cargafallida",
@@ -1960,7 +2087,8 @@
       "evidence": "Métrica solicitada por Ficohsa para vigilancia de la integración.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-traductorcontable",
@@ -1970,7 +2098,8 @@
       "evidence": "Mencionado en capacitación con Jhonattan junto con el análisis del domain framework.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-calculadora",
@@ -1980,7 +2109,8 @@
       "evidence": "En Ficohsa, las integraciones NO se negociaron en la calculadora durante el deal, por eso la Fase 1 no incluye IA en integraciones.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-simetrik27",
@@ -1990,7 +2120,8 @@
       "evidence": "Mencionado en el Learning \"Discovering What's New\" (Miguel · 2026-05-15). Audiencia: reconciliations, accounting close, client data distribution.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-quickconfig",
@@ -2000,7 +2131,8 @@
       "evidence": "Path UI: Automate → Quick configurations → Template catalog.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-account",
@@ -2010,7 +2142,8 @@
       "evidence": "Un mismo usuario puede pertenecer a múltiples accounts.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-wkspace",
@@ -2020,7 +2153,8 @@
       "evidence": "Workspace Ficohsa · Workspace Magalu · Workspace Internal QA.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-role_viewer",
@@ -2030,7 +2164,8 @@
       "evidence": "El analista junior empieza como Viewer durante onboarding.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-role_builder",
@@ -2040,7 +2175,8 @@
       "evidence": "Como Builder podés crear Sources, Source Unions, Standard Recons.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-role_operator",
@@ -2050,7 +2186,8 @@
       "evidence": "Día a día del analista de conciliación.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-role_supervisor",
@@ -2060,7 +2197,8 @@
       "evidence": "Aprueba write-offs > umbral y certifica cierre mensual.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-role_custom",
@@ -2070,7 +2208,8 @@
       "evidence": "Rol \"Treasury Viewer\" con acceso solo a Reconciliations + Reports.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-admin",
@@ -2080,7 +2219,8 @@
       "evidence": "El admin del Account decide qué workspace ve cada usuario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-guardian",
@@ -2090,7 +2230,8 @@
       "evidence": "Continue with Google → Guardian pide aprobación → entrás al workspace.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "software"
     },
     {
       "id": "dict-source",
@@ -2100,7 +2241,8 @@
       "evidence": "Source \"T24 SERCOM diario\" recibe el TXT que el banco deja en SFTP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-syscolumn",
@@ -2110,7 +2252,8 @@
       "evidence": "Podés ocultarlas con el ícono de ojo si no las necesitás.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-createresource",
@@ -2120,7 +2263,8 @@
       "evidence": "Click → elegís tipo → completás config.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-normalization",
@@ -2130,7 +2274,8 @@
       "evidence": "Convertir todas las fechas a YYYY-MM-DD; amounts con 2 decimales; IDs sin separadores.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-changeformat",
@@ -2140,7 +2285,8 @@
       "evidence": "Transaction ID llega con comas, lo configurás como integer sin separadores.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-smartdate",
@@ -2150,7 +2296,8 @@
       "evidence": "Detecta automáticamente que \"16-Apr-2026\" es DD-MMM-YYYY.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-manualupload",
@@ -2160,7 +2307,8 @@
       "evidence": "Sin merged cells, sin filas en blanco, sin multi-sheet.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-selfmanaged",
@@ -2170,7 +2318,8 @@
       "evidence": "SFTP Pull: Simetrik retira archivos del directorio del cliente cada noche.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-sftppull",
@@ -2180,7 +2329,8 @@
       "evidence": "T24 deja TXT en su SFTP; Simetrik lo lee.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-sftppush",
@@ -2190,7 +2340,8 @@
       "evidence": "El cliente programa su ETL para subir CSV al SFTP de Simetrik.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-s3pull",
@@ -2200,7 +2351,8 @@
       "evidence": "Pasarela de pagos deja JSON diario en bucket S3 → Simetrik lo levanta.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-bucket",
@@ -2210,7 +2362,8 @@
       "evidence": "Crear un bucket por Source destino para ordenar el flujo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-integrationservices",
@@ -2220,7 +2373,8 @@
       "evidence": "API custom, web scraping, GCP, parsing avanzado.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-smartparser",
@@ -2230,7 +2384,8 @@
       "evidence": "Detecta el formato del archivo y aplica parseo automático.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-parsing",
@@ -2240,7 +2395,8 @@
       "evidence": "Convertir un PDF en una tabla CSV para que pueda procesarse.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-srcunion",
@@ -2250,7 +2406,8 @@
       "evidence": "Aún con una sola Source, creá su Union para que si cambia el layout no rehagas nada.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-aia",
@@ -2260,7 +2417,8 @@
       "evidence": "Al sumar la 2da fuente al Union, la AIA mapea columnas equivalentes a la 1ra.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-stdrecon",
@@ -2270,7 +2428,8 @@
       "evidence": "Cruce merchant vs acquirer 1-a-1 por date+amount+ID.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-advrecon",
@@ -2280,7 +2439,8 @@
       "evidence": "Para procesos largos donde un cruce simple no captura todos los casos.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-sweep",
@@ -2290,7 +2450,8 @@
       "evidence": "Sweep 1 sin tolerancia, sweep 2 con tolerancia ±0.05, sweep 3 catch-all.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-reconsweep",
@@ -2300,7 +2461,8 @@
       "evidence": "Sweep simple por date+ID+amount.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-groupingsweep",
@@ -2310,7 +2472,8 @@
       "evidence": "1 venta merchant $100 vs 2 líneas acquirer de $50 c/u.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-offsetsweep",
@@ -2320,7 +2483,8 @@
       "evidence": "Match por date+ID+amount; no incluye tx_type porque payment ≠ refund por definición.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-1to1",
@@ -2330,7 +2494,8 @@
       "evidence": "Cada venta merchant tiene exactamente 1 entrada en acquirer.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-1ton",
@@ -2340,7 +2505,8 @@
       "evidence": "Una venta dividida en 2 tarjetas (1 línea merchant, 2 líneas acquirer).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-nto1",
@@ -2350,7 +2516,8 @@
       "evidence": "Micro-pagos diarios consolidados en un settlement semanal.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-ntonm",
@@ -2360,7 +2527,8 @@
       "evidence": "Múltiples comisiones afectando múltiples transacciones.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-businessrule",
@@ -2370,7 +2538,8 @@
       "evidence": "A.transaction_id == B.transaction_id",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-recongroup",
@@ -2380,7 +2549,8 @@
       "evidence": "Group \"Mastercard credit\" filtra Card_Type=MC para usar en múltiples recons.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-sktid",
@@ -2390,7 +2560,8 @@
       "evidence": "Reconciliation que solo procesa registros con SKT ID asignado.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-smartrules",
@@ -2400,7 +2571,8 @@
       "evidence": "IA propone date+id+amount+type; vos aceptás o rechazás.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-vlookup",
@@ -2410,7 +2582,8 @@
       "evidence": "Botón Create VLOOKUP. Si fuente cambia, hay que vaciar y reprocesar todo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-enrichrecon",
@@ -2420,7 +2593,8 @@
       "evidence": "Recomendado cuando la fuente puede actualizarse (ej. fee dictionary renegociable).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-transformcol",
@@ -2430,7 +2604,8 @@
       "evidence": "Delta = Real Cost − Theoretical Cost.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-smarttransf",
@@ -2440,7 +2615,8 @@
       "evidence": "Escribís \"diferencia entre real y teórico\" y propone Real_Cost - Theoretical_Cost.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-costcontrol",
@@ -2450,7 +2626,8 @@
       "evidence": "Detectás que MC Credit y MC Debit cobran fees > contrato → revenue leakage.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-feedictionary",
@@ -2460,7 +2637,8 @@
       "evidence": "5 rates: Visa Credit, Visa Debit, MC Credit, MC Debit, Amex Credit.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-chartaccounts",
@@ -2470,7 +2648,8 @@
       "evidence": "Template con account number + company + descriptive name.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-erpintegration",
@@ -2480,7 +2659,8 @@
       "evidence": "Generate ERP Integration → SAP S/4HANA → modo Standard App.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-middleware",
@@ -2490,7 +2670,8 @@
       "evidence": "Útil cuando no hay Standard App para tu ERP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-standardapp",
@@ -2500,7 +2681,8 @@
       "evidence": "Conexión rápida y robusta cuando aplica.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-accmodel",
@@ -2510,7 +2692,8 @@
       "evidence": "Document.company = \"FICOHSA\" (fixed value); Lines.amount = Recon.amount (resource).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-accstructure",
@@ -2520,7 +2703,8 @@
       "evidence": "Predefined structure → JSON enviado al ERP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-docfields",
@@ -2530,7 +2714,8 @@
       "evidence": "Date = today, Company = FICOHSA, Currency = HNL.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-jelines",
@@ -2540,7 +2725,8 @@
       "evidence": "Línea 1: Débito Caja 12,450 · Línea 2: Crédito Transitoria 12,450.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-jeheader",
@@ -2550,7 +2736,8 @@
       "evidence": "Submission date al ERP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-normalseat",
@@ -2560,7 +2747,8 @@
       "evidence": "El asiento del día de SERCOM.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-cancelseat",
@@ -2570,7 +2758,8 @@
       "evidence": "Cuando se cancela un asiento por error, esto lo revierte.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-postsiege",
@@ -2580,7 +2769,8 @@
       "evidence": "Para casos especiales de cierre posterior.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-postclosing",
@@ -2590,7 +2780,8 @@
       "evidence": "Hasta el 3er día hábil del mes siguiente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-partialreverse",
@@ -2600,7 +2791,8 @@
       "evidence": "Asiento agrupado de 100 tx; una de ellas se reconcilia → reverso parcial.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-dummyrecon",
@@ -2610,7 +2802,8 @@
       "evidence": "Convertís una source en dummy recon para postear sus tx al GL.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-accparams",
@@ -2620,7 +2813,8 @@
       "evidence": "Click Upload Account → descargás template → llenás → subís.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-trialbalance",
@@ -2630,7 +2824,8 @@
       "evidence": "Balance del mes de noviembre con saldos por cada cuenta del PUC.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-beginbalance",
@@ -2640,7 +2835,8 @@
       "evidence": "BB Nov = $14,000 (cierre Oct).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-endbalance",
@@ -2650,7 +2846,8 @@
       "evidence": "EB Nov = $16,000.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-recogbalance",
@@ -2660,7 +2857,8 @@
       "evidence": "EB $16K, Recognized $15K, gap $1K (6.25%).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-preparer",
@@ -2670,7 +2868,8 @@
       "evidence": "Sube snapshots, external files, notas explicativas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-certifier",
@@ -2680,7 +2879,8 @@
       "evidence": "Aprueba o rechaza con motivo. Garantiza control interno.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-readycertify",
@@ -2690,7 +2890,8 @@
       "evidence": "Trigger del workflow preparer → certifier.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-supportresource",
@@ -2700,7 +2901,8 @@
       "evidence": "Snapshot de la recon SERCOM al 30 de noviembre.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-snapshot",
@@ -2710,7 +2912,8 @@
       "evidence": "Snapshot mensual automático para evidencia de auditoría.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accgrouping",
@@ -2720,7 +2923,8 @@
       "evidence": "10 cuentas similares certificadas en 1 click.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-autocert",
@@ -2730,7 +2934,8 @@
       "evidence": "Fixed assets · activos fijos que no se mueven.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accdashboard",
@@ -2740,7 +2945,8 @@
       "evidence": "Filtros por usuario, compañía, fecha.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-customdash",
@@ -2750,7 +2956,8 @@
       "evidence": "Dashboard ejecutivo SERCOM con KPIs + pivot.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-pivottable",
@@ -2760,7 +2967,8 @@
       "evidence": "Cost por card type + tx type + mes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-reconmonitor",
@@ -2770,7 +2978,8 @@
       "evidence": "Vista panorámica de salud de las 30 recons activas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-srcmonitor",
@@ -2780,7 +2989,8 @@
       "evidence": "Detectar rápido si T24 SERCOM no levantó esta noche.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-bucketmonitor",
@@ -2790,7 +3000,8 @@
       "evidence": "Monitoreo de buckets S3.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-accmonitor",
@@ -2800,7 +3011,8 @@
       "evidence": "Quick view del avance del cierre mensual.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-consolidation",
@@ -2810,7 +3022,8 @@
       "evidence": "Cost control Visa + Cost control MC + Cost control Amex → 1 vista.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-combination",
@@ -2820,7 +3033,8 @@
       "evidence": "Una visión narrativa de la tx en cada etapa.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-grouping",
@@ -2830,7 +3044,8 @@
       "evidence": "Cost grouping por card type para ver dónde está el delta.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-datasharing",
@@ -2840,7 +3055,8 @@
       "evidence": "Última sección del menú Automate.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-export",
@@ -2850,7 +3066,8 @@
       "evidence": "Export by event cada vez que se concilia una tx.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-exportevent",
@@ -2860,7 +3077,8 @@
       "evidence": "Cuando una tx se concilia → archivo a S3 inmediatamente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-exportrecur",
@@ -2870,7 +3088,8 @@
       "evidence": "Lunes a las 6am, las recons del fin de semana van a GCS.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-destination",
@@ -2880,7 +3099,8 @@
       "evidence": "Bucket S3 del cliente preparado para recibir Parquet.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-customerreports",
@@ -2890,7 +3110,8 @@
       "evidence": "Amazon distribuye reportes diarios a 100 merchants vendor.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-partitioning",
@@ -2900,7 +3121,8 @@
       "evidence": "Nivel 1: por merchant · Nivel 2: por tx type · Nivel 3: por mes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-solutions",
@@ -2910,7 +3132,8 @@
       "evidence": "Generate template → JSON → import en otro workspace.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-template",
@@ -2920,7 +3143,8 @@
       "evidence": "Template de standard recon para Mastercard acquiring.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-templatescatalog",
@@ -2930,7 +3154,8 @@
       "evidence": "Mastercard Controls for Acquirers, Visa Issuing Controls, etc.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-firsttimevalue",
@@ -2940,7 +3165,8 @@
       "evidence": "Implementar Mastercard clearing en 30 min vs 30 días.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-operate",
@@ -2950,7 +3176,8 @@
       "evidence": "Operate es el control room; Automate es la fábrica.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-automate",
@@ -2960,7 +3187,8 @@
       "evidence": "El menú donde más tiempo pasás en fase de implementación.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-audit",
@@ -2970,7 +3198,8 @@
       "evidence": "Audit de cada acción ejecutada en la plataforma.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-tools",
@@ -2980,7 +3209,8 @@
       "evidence": "Diagnóstico, recovery, dependencias.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-agentfactory",
@@ -2990,7 +3220,8 @@
       "evidence": "Agente Slack: \"T24 SERCOM upload failed at 23:50\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-recordfinder",
@@ -3000,7 +3231,8 @@
       "evidence": "Buscás ID LF7715101 → ves en qué recons aparece.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-activitylogs",
@@ -3010,7 +3242,8 @@
       "evidence": "Filtros por usuario, ID de recurso, fecha.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-downloads",
@@ -3020,7 +3253,8 @@
       "evidence": "Usuarios @simetrik.com tienen descargas bloqueadas por seguridad.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-recyclebin",
@@ -3030,7 +3264,8 @@
       "evidence": "Si borraste un Source por accidente, restaurás dentro de los 30 días.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-processview",
@@ -3040,7 +3275,8 @@
       "evidence": "Si una recon lleva 4 horas → screenshot + ticket con resource ID.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-relmap",
@@ -3050,7 +3286,8 @@
       "evidence": "Antes de modificar una source crítica, abrir el map para ver qué se rompe.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-domainframework",
@@ -3060,7 +3297,8 @@
       "evidence": "8 dominios distribuidos en 4 macro-objetivos (Funds Flow, Profitability, Continuous Closing, Compliance & Oversight).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-cashin",
@@ -3070,7 +3308,8 @@
       "evidence": "Conciliación bancaria, SERCOM, recaudo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-cashout",
@@ -3080,7 +3319,8 @@
       "evidence": "Payouts, transferencias, dispersión de comisiones.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-feesbilling",
@@ -3090,7 +3330,8 @@
       "evidence": "Cost control de fees de adquirentes vs contrato.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-disputes",
@@ -3100,7 +3341,8 @@
       "evidence": "Gestión de representment y workflow de disputas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accauto",
@@ -3110,7 +3352,8 @@
       "evidence": "Asientos automáticos diarios al ERP.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accops",
@@ -3120,7 +3363,8 @@
       "evidence": "Cuadre saldos préstamos, certificación cuentas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-regreporting",
@@ -3130,7 +3374,8 @@
       "evidence": "Reportes regulatorios SOX, IFRS, locales.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-oversight2",
@@ -3140,7 +3385,8 @@
       "evidence": "Dashboard ejecutivo + alerts automáticas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-reportingentity",
@@ -3150,7 +3396,8 @@
       "evidence": "Card Network, Acquirer Processor, Local Switch, Clearing House.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-actor",
@@ -3160,7 +3407,8 @@
       "evidence": "Bancos, fintechs, PSPs.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-stage",
@@ -3170,7 +3418,8 @@
       "evidence": "Authorization, Clearing, Settlement, Anchorage.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-substage",
@@ -3180,7 +3429,8 @@
       "evidence": "Match clearing vs settlement amounts.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-simbox",
@@ -3190,7 +3440,8 @@
       "evidence": "Banco embebe \"Reconcile with Simetrik\" en su home banking.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-gap",
@@ -3200,7 +3451,8 @@
       "evidence": "Gap entre saldo SAP y suma de transacciones origen.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sourceunion2",
@@ -3210,7 +3462,8 @@
       "evidence": "Acelera la implementación de Unions complejos.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-columnmap",
@@ -3220,7 +3473,8 @@
       "evidence": "Cliente cambia layout → IA realinea sin intervención.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-safedelete",
@@ -3230,7 +3484,8 @@
       "evidence": "Proactivo: te muestra dependencias antes del delete.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-accreviewagent",
@@ -3240,7 +3495,8 @@
       "evidence": "Resumen mensual: \"este mes 3 cuentas tienen gap > 10%, foco aquí\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-educationagent",
@@ -3250,7 +3506,8 @@
       "evidence": "\"¿Por qué este control usa N-1 en vez de 1-1?\" → te explica.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-summaryagent",
@@ -3260,7 +3517,8 @@
       "evidence": "Predice qué KPIs tendrán problema el próximo mes.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-datamonitor",
@@ -3270,7 +3528,8 @@
       "evidence": "Detecta que el T24 de hoy tiene 30% menos filas que la media → alerta.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-traceability",
@@ -3280,7 +3539,8 @@
       "evidence": "Frase oficial: \"from the moment a transaction is born, until it dies in accounting\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-sourceoftruth",
@@ -3290,7 +3550,8 @@
       "evidence": "Simetrik elimina inconsistencias entre Excel locales en distintas áreas.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-assessment",
@@ -3300,7 +3561,8 @@
       "evidence": "Aprobás → primera certificación.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-practical",
@@ -3310,7 +3572,8 @@
       "evidence": "Workspace + script + xlsx → implementás → segunda certificación.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-qa",
@@ -3320,7 +3583,8 @@
       "evidence": "Espacio semanal en el calendario de onboarding.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-gtm",
@@ -3330,7 +3594,8 @@
       "evidence": "Mensual: novedades + sales arguments + casos de uso.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-lpad",
@@ -3340,7 +3605,8 @@
       "evidence": "LPAD(\"123\", 6, \"0\") → \"000123\" para componer CARD_NUMBER de 16 chars.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-coalesce",
@@ -3350,7 +3616,8 @@
       "evidence": "COALESCE(PURCHASE_MERCHANT_NUMBER, CAPTURE_MERCHANT_NUMBER, AUTH_MERCHANT_NUMBER).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-adicfechahabil",
@@ -3360,7 +3627,8 @@
       "evidence": "EXPECTED_PAYMENT_DATE = ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; \"ARG\").",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-adicfechatiempo",
@@ -3370,7 +3638,8 @@
       "evidence": "DIFERENCIA_FECHA(FECHA_TXN; TODAY(); \"días\") — calcula días de antigüedad.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-pan",
@@ -3380,7 +3649,8 @@
       "evidence": "PAN reconstruido se usa como llave en la barrida 3 (DOTA vs FD detalle exacto).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-bin",
@@ -3390,7 +3660,8 @@
       "evidence": "BIN 4xxxxx = VISA · 5x/2x = MASTERCARD · 34/37 = AMEX.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "acro"
     },
     {
       "id": "dict-barrida",
@@ -3400,7 +3671,8 @@
       "evidence": "Barrida 1 = compensación exacta DOTA ↔ DOTA con llaves comercio + auth + |monto|.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-compensacion",
@@ -3410,7 +3682,8 @@
       "evidence": "Barridas 1 y 2 del caso DOTA aplican compensación con restricción PAYMENT ≠ PAYMENT.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-addons",
@@ -3420,7 +3693,8 @@
       "evidence": "Sin add-on de saldos no podés resolver el punto 13 (saldo neto diario por comercio).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-saldopersist",
@@ -3430,7 +3704,8 @@
       "evidence": "Punto 13 DOTA: saldo neto diario por comercio = Saldo[día-1] + Σ movimientos del día.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-nuevaherencia",
@@ -3440,7 +3715,8 @@
       "evidence": "Antes de empezar la prueba DOTA, verificá que tu workspace tenga nueva herencia activada.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-tolerancia",
@@ -3450,7 +3726,8 @@
       "evidence": "Tolerancia $5 = dos partidas cruzan si |montoA − montoB| ≤ 5.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-barridacomp",
@@ -3460,7 +3737,8 @@
       "evidence": "B1 DOTA: compensación exacta de la misma fuente DB_DOTA con llaves comercio + auth + ABS(monto).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-barridaagrup",
@@ -3470,7 +3748,8 @@
       "evidence": "B5 DOTA: suma FD por BATCH_ID vs suma DOTA por comercio.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-segmentacion",
@@ -3480,7 +3759,8 @@
       "evidence": "Segmentar Lado A por OP (PAYMENT vs REFUND) para aplicar reglas distintas por tipo.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-cardinalidad",
@@ -3490,7 +3770,8 @@
       "evidence": "DOTA vs FD es cruce 1:1 (cada transacción DOTA corresponde a un registro FD).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-robustezbarrida",
@@ -3500,7 +3781,8 @@
       "evidence": "Barrida con 5 llaves (B3 DOTA×FD) tiene robustez alta (verde) automáticamente.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-desencadenante",
@@ -3510,7 +3792,8 @@
       "evidence": "En DOTA × FD el desencadenante es Reporte_FD (Recurso B).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-acumvsnoacum",
@@ -3520,7 +3803,8 @@
       "evidence": "Agrupación acumulativa para aging de pendientes; no acumulativa para snapshot diario.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-versioncambios",
@@ -3530,7 +3814,8 @@
       "evidence": "Para agregar barrida de desconciliación se debe crear primero una Versión con cambios.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-buscarv",
@@ -3540,7 +3825,8 @@
       "evidence": "Paso 8 DOTA: BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO → trae TIPO_COMERCIO.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-papelera",
@@ -3550,7 +3836,8 @@
       "evidence": "Si se elimina una fuente por error, ir a Papelera y restaurarla dentro de los 30 días.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-procesos",
@@ -3560,7 +3847,8 @@
       "evidence": "Después de ejecutar la conciliación DOTA × FD, verificar en Procesos que terminó sin error.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-mapas",
@@ -3570,7 +3858,8 @@
       "evidence": "Antes de modificar DB_DOTA, ver en Mapas qué conciliaciones dependen de ella.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-buscadorreg",
@@ -3580,7 +3869,8 @@
       "evidence": "Buscar una transacción por PAN desde DB_DOTA hasta FD para rastrear si concilió.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-alarmas",
@@ -3590,7 +3880,8 @@
       "evidence": "Alarma: si pendientes DOTA > 5% al cerrar B5, notificar al equipo de reconciliaciones.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-adicdiasmana2p",
@@ -3600,7 +3891,8 @@
       "evidence": "ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30) → 30 días hábiles (sin sáb/dom).",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-reglaoro1cast",
@@ -3610,7 +3902,8 @@
       "evidence": "Para castear MOV_CREATED_DATE a Fecha, abrir la fuente DB_DOTA, no Union_DOTA.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-reejecutarunion",
@@ -3620,7 +3913,8 @@
       "evidence": "Cambié el tipo en la fuente pero la unión sigue con el dato viejo → \"Ejecutar cambios\".",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-recrearcoltrans",
@@ -3630,7 +3924,8 @@
       "evidence": "MOV_CREATION_DATE no se actualizó tras recastear la fecha → borrarla y recrearla.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-colbloqueada",
@@ -3640,7 +3935,8 @@
       "evidence": "Castée una columna mal mapeada → 🚫 → toca rehacer Union_DOTA.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-errt001",
@@ -3650,7 +3946,8 @@
       "evidence": "Castear MOV_CREATED_DATE a \"Fecha y hora\" → T001, celdas vacías.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-castfechaiso",
@@ -3660,7 +3957,8 @@
       "evidence": "MOV_CREATED_DATE 2022-01-03T00:01:19-04:00 → Fecha 2022-01-03.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "process"
     },
     {
       "id": "dict-calhabilarg",
@@ -3670,7 +3968,8 @@
       "evidence": "Cargar como fuente Calendario_MLA para el cálculo de 30 días hábiles del Paso 7 DOTA.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "platform"
     },
     {
       "id": "dict-idsumcol",
@@ -3680,7 +3979,8 @@
       "evidence": "BuscarV #1 del Paso 7 trae ID_SUM cruzando MOV_CREATION_DATE = FECHA.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "dict-idfinalcol",
@@ -3690,7 +3990,8 @@
       "evidence": "BuscarV #2 del Paso 7: N_TARGET = ID_FINAL → trae la FECHA de pago.",
       "source": "Diccionario · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "dcat": "term"
     },
     {
       "id": "sim-title",
