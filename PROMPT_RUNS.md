@@ -434,3 +434,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/pages/simetrik-app.html · frontend/data/simetrik-kb.json
 - Changed: FASE 2 FINAL — el Simulador App se alimenta del cerebro. Enriquecidas las 58 entradas sim- con detail {cat,title,body,use,tp} (re-parse de los tip()). En simetrik-app.html: carga el cerebro al boot (BRAIN_SIM, map por title) y openTip() usa el detail del cerebro si hay match, con fallback inline (HOT). NO se tocaron las 24 pantallas ni los 59 tip() — solo openTip + el loader. Así el contenido de los tooltips es canónico del cerebro. version 2026-06-05.7. → Las 3 secciones de conocimiento (Diccionario, Guía, Simulador) YA se alimentan del cerebro. Fase 2 completa.
 - Next: Quitar arrays/tooltips embebidos (hoy fallback) si se quiere depurar · absorber work_kb legacy · primera ingesta real de reunión.
+
+### ID:14-WORK.P29 · 2026-06-09
+- Commit: (pending)
+- Files: frontend/data/simetrik-kb.json
+- Changed: PRIMERA INGESTA REAL. Fuente: cuaderno "Simetrik · Ingesta" pág "09/06/2026. Inside the V 2.8 Session 1/3" (id 1781019060658), leída vía Chrome MCP. Transcripción ~80% ruido de auto-subtitulado (Foreign speech, palabras sueltas); extraído SOLO lo coherente con cita verbatim: 5 entradas sobre Data Sets de V2.8 → (1) glosario "Data Set" (dcat platform), (2) no se auto-actualiza al cambiar columnas, (3) agregar columna OK / renombrar-eliminar rompe, (4) hasta 5 schedules mín 15 min, (5) gotcha charts no cargan al publicar nueva versión (hipotesis, sin respuesta clara). Cerebro 435→440. Page id en ingested_sources (no se reprocesa). version 2026-06-09.1. Resto (Operation Centers, etc.) demasiado degradado → no se inventó.
+- Next: pedir transcript más limpio o el link de grabación para extraer Operation Centers y el resto de V2.8. Sesiones 2/3 y 3/3 pendientes.

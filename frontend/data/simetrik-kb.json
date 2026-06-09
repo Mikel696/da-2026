@@ -1,9 +1,11 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-05.7",
-    "last_updated": "2026-06-05",
-    "ingested_sources": [],
+    "version": "2026-06-09.1",
+    "last_updated": "2026-06-09",
+    "ingested_sources": [
+      "1781019060658"
+    ],
     "categories": [
       "regla",
       "plataforma",
@@ -6334,6 +6336,57 @@
       "source": "Playbook Ficohsa · curso Simetrik",
       "date": "2026-06-05",
       "confidence": "verificado"
+    },
+    {
+      "id": "ds-que-es",
+      "cat": "glosario",
+      "dcat": "platform",
+      "title": "Data Set",
+      "body": "Recurso de Simetrik (V2.8) derivado de una query que alimenta charts/tableros. Se le configuran schedules de actualización. No se auto-actualiza ante cambios de columnas del recurso origen.",
+      "evidence": "Reunión V2.8: \"the output derived from the data set or from the query\", \"charts linked to the data set\", \"schedules per data set\".",
+      "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
+      "date": "2026-06-09",
+      "confidence": "verificado"
+    },
+    {
+      "id": "ds-no-autoupdate-columnas",
+      "cat": "plataforma",
+      "title": "Data Set: NO se actualiza solo al cambiar columnas del recurso",
+      "body": "Si en el recurso/UR agregás, eliminás o renombrás columnas (o cambiás el nombre del recurso), el Data Set no lo toma automáticamente. Hay que ir al Data Set y actualizarlo manualmente para que considere el cambio.",
+      "evidence": "Daniel Lemos (V2.8): \"if you change columns, if you add columns or if you delete columns, the data set will not take that into account. You will have to go back to the data set and update the data set... the data set will not be automatically updated.\"",
+      "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
+      "date": "2026-06-09",
+      "confidence": "verificado"
+    },
+    {
+      "id": "ds-agregar-vs-renombrar",
+      "cat": "plataforma",
+      "title": "Data Set: agregar columna es seguro; renombrar/eliminar rompe los datos",
+      "body": "Agregar una columna NUEVA no rompe el Data Set (la ignora hasta que la sumes manualmente). Pero renombrar o eliminar columnas que el Data Set espera \"destruye\" los datos que pasan por él.",
+      "evidence": "Daniel Lemos (V2.8): \"if you add a new column... nothing will happen, because the information that the data set is expecting is the same... But if you were able to modify the names of the columns to delete... you will basically destroy the data that is going through the data set.\"",
+      "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
+      "date": "2026-06-09",
+      "confidence": "verificado"
+    },
+    {
+      "id": "ds-schedules-limite",
+      "cat": "plataforma",
+      "title": "Data Set: hasta 5 schedules, mínimo 15 minutos",
+      "body": "Un Data Set permite configurar hasta 5 schedules distintos de actualización, con frecuencia mínima de 15 minutos cada uno (desde cada hora hasta cada 15 min).",
+      "evidence": "Q&A (V2.8): \"what is the limit on the schedules that you can configure per data set?\" → \"up to five different schedules... with the minimum of 15 minutes each time frame.\"",
+      "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
+      "date": "2026-06-09",
+      "confidence": "verificado"
+    },
+    {
+      "id": "ds-charts-no-cargan",
+      "cat": "gotcha",
+      "title": "Data Set: al publicar nueva versión de la query, los charts no cargarían (a confirmar)",
+      "body": "Reportado: al publicar una nueva versión de la query del Data Set, los charts vinculados dejan de cargar y habría que reconfigurar las columnas de cada chart. NO confirmado en la reunión (la respuesta no quedó clara en el transcript).",
+      "evidence": "Praveen Rajendran (V2.8): \"each time we publish a new version, the charts linked to the data set does not load. Is this the expected behavior...?\" — sin respuesta clara.",
+      "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
+      "date": "2026-06-09",
+      "confidence": "hipotesis"
     }
   ]
 }
