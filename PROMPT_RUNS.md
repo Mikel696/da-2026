@@ -1,4 +1,4 @@
-# 🗂 PROMPT_RUNS · Execution Log for 8-PRO Prompt Lab
+﻿# 🗂 PROMPT_RUNS · Execution Log for 8-PRO Prompt Lab
 
 This file tracks every time a curated prompt (from 8-PRO tab 🧩 Módulos or 📚 Library) is executed by Claude Code.
 
@@ -406,13 +406,13 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Verificar dropdowns en vivo. Primera ingesta real cuando el usuario dropee una reunión.
 
 ### ID:14-WORK.P24 · 2026-06-05
-- Commit: (pending)
+- Commit: d6fcf81
 - Files: frontend/data/simetrik-kb.json
 - Changed: CONSOLIDACIÓN tanda 1 — el cerebro absorbe el conocimiento Help-Center/curso ya existente en el módulo (que yo había ignorado al sembrarlo). Extractor Node (eval de los arrays JS reales, no regex frágil): GUIDE de simetrik-guia.html (47 how-tos módulo por módulo: ruta+pasos+warn) → cat plataforma/funcion/conciliacion; SEED_DICT de work.js (301 términos, 2 dupes deduped) → glosario. Brain pasó de 19 a 367 entradas (regla 4, plataforma 38, funcion 8, gotcha 2, conciliacion 12, caso 2, glosario 301). Cada entrada con su fuente (Guía/Diccionario · curso Simetrik) + link Help Center cuando aplica.
 - Next: Tanda 2 = Simulador App (simetrik-app.html, ~129 hotspots tip()) + Playbook (secciones). Luego: que las secciones del módulo se alimenten del brain (invertir flujo, fase posterior). Principio operativo: consultar/actualizar el brain ANTES de cualquier cosa Simetrik.
 
 ### ID:14-WORK.P25 · 2026-06-05
-- Commit: (pending)
+- Commit: 3327bd6
 - Files: frontend/data/simetrik-kb.json
 - Changed: CONSOLIDACIÓN tanda 2 — Simulador App (58 tooltips tip(cat,título,desc,ej,consejo,code), parser string-aware) → plataforma; Playbook Ficohsa (10 lecciones, pares h3+alead) → conciliacion. Brain de 367 a 435 entradas. Breakdown final: regla 4, plataforma 96, funcion 8, gotcha 2, conciliacion 22, caso 2, glosario 301. El cerebro Simetrik queda COMPLETO: Diccionario+Guía+Simulador+Playbook (curso/Help Center) + hallazgos DOTA, todo con source+evidence, categorizado. JSON válido.
 - Next: FASE 2 (pendiente, mayor): que las secciones del módulo se ALIMENTEN del brain (invertir flujo — Diccionario/Guía/Simulador renderizando desde simetrik-kb.json). Principio: el brain es la única fuente de verdad; consultar/actualizar SIEMPRE primero.
