@@ -20,6 +20,7 @@ Objetivo: leer SOLO el material NUEVO de la bandeja de ingesta, extraer conocimi
    - `cat` ∈ `regla | plataforma | funcion | gotcha | conciliacion | caso | glosario`
    - `confidence` = `"verificado"` si hay dato/captura/fuente que lo respalde; `"hipotesis"` si es deducción sin confirmar.
    - `evidence` = cita verbatim del transcript, o descripción de la captura, o resultado del dato. **Obligatorio.**
+   - Si `cat="glosario"` (un término/definición): agregá también `dcat` ∈ `acro|term|process|platform|software` → el Diccionario del módulo se alimenta del cerebro y agrupa por `dcat`. Si `cat="plataforma"` y es un how-to de UI con ruta/pasos, podés agregar `detail:{path,steps,...}` → la Guía Simple los rendea.
 5. **DEDUPE** contra `entries` existentes (por title/contenido). No dupliques. Si una entrada vieja queda incompleta o contradicha, ACTUALIZALA (mejorá body/evidence, subí su `date`). Si lo nuevo contradice algo "verificado", marcalo y avisá en el reporte.
 6. Editar `simetrik-kb.json`: append/merge `entries`; agregar los ids de página procesados a `meta.ingested_sources`; subir `meta.version` y `meta.last_updated`.
 7. Commit: `feat(14-WORK): KB ingesta YYYY-MM-DD (+N entradas)` · push origin main. Registrar en `PROMPT_RUNS.md`.

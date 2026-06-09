@@ -116,6 +116,7 @@ Objetivo: leer SOLO el material NUEVO de la bandeja de ingesta, extraer conocimi
    - cat ∈ regla | plataforma | funcion | gotcha | conciliacion | caso | glosario
    - confidence = "verificado" si hay dato/captura/fuente que lo respalde; "hipotesis" si es deducción sin confirmar.
    - evidence = cita verbatim del transcript, o descripción de la captura, o resultado del dato. Obligatorio.
+   - Si cat="glosario": agregá dcat (acro|term|process|platform|software) → el Diccionario del módulo se alimenta del cerebro y agrupa por dcat. El cerebro YA alimenta Diccionario y Guía Simple, así que lo que agregues acá propaga a esas secciones.
 5. DEDUPE contra entries existentes (por title/contenido). No dupliques. Si una entrada vieja queda incompleta o contradicha por lo nuevo, ACTUALIZALA (mejorá body/evidence y subí su date). Si lo nuevo contradice algo "verificado", marcalo y avisá en el reporte.
 6. Editar simetrik-kb.json: append/merge entries; agregar los ids de página procesados a meta.ingested_sources; subir meta.version y meta.last_updated.
 7. Commit: feat(14-WORK): KB ingesta YYYY-MM-DD (+N entradas) · push origin main. Registrar en PROMPT_RUNS.md.

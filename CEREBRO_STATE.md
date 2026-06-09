@@ -3257,3 +3257,20 @@ Construido el sistema de conocimiento vivo de Simetrik. 3 piezas:
 3. **Loop de ingesta** — `PROMPT_14-WORK_SIMETRIK-INGEST.md` (+ embebido en el HTML). Drop zone = cuaderno "Simetrik · Ingesta" (1 drop = 1 página). Claude lee páginas no-ingeridas vía Chrome MCP (texto + capturas data-preview/IDB + links Drive), extrae atómico con evidencia, dedupe, append a JSON + ingested_sources, commit. "Solo lo nuevo" = páginas cuyo id no está en ingested_sources.
 
 Pendiente: crear el cuaderno "Simetrik · Ingesta"; primera ingesta real; verificar render live.
+
+---
+
+## 2026-06-05 · 14-WORK · Revisión integral + Fase 2 (Guía) + QA
+
+**Revisión/QA realizada:**
+- ✅ Integridad del cerebro (`simetrik-kb.json`): 435 entradas, 0 ids duplicados, todas con evidence+source. cats: glosario 301, plataforma 96, conciliacion 22, funcion 8, regla 4, gotcha 2, caso 2.
+- ✅ FIX error real: el Simulador (`simetrik-app.html`) listaba "Reconcilable Group" y "VLOOKUP" como opciones de "Crear recurso" (inexistentes en la plataforma real) → corregido a las 6 opciones reales en los 2 lugares. Ahora coincide con el cerebro.
+- ✅ Fase 2 — Guía Simple se alimenta del cerebro: enriquecidas las 47 entradas guia- con `detail` (objeto rico), y la página hace fetch del cerebro → GUIDE = detail → renderAll (array embebido = fallback offline). const→let. VERIFICADO en vivo (deployado, 47 tarjetas desde el cerebro v2026-06-05.6).
+- ✅ Fase 2 — Diccionario (P26) ya se alimentaba del cerebro (seedDictFromBrain, aditivo+fallback, dcat preserva agrupamiento).
+- ✅ Prompts de ingesta actualizados (.md + embebido): instruyen agregar `dcat` para glosario y `detail` para how-tos, y avisan que el cerebro alimenta Diccionario+Guía.
+- ✅ Memoria actualizada (simulador corregido, estado Fase 2).
+- ✅ Deploy verificado (Pages sirve el código nuevo) · sync OK (cuaderno Ingesta + work_eco_dict sincronizan por el proxy).
+
+**Estado del cerebro:** ÚNICA fuente de verdad. Lo alimentan: Diccionario ✅, Guía Simple ✅. Pendiente: Simulador App (mismo patrón enriquecer+alimentar) y, a futuro, quitar arrays embebidos (hoy fallback).
+
+**Leftover menor:** scripts de extracción quedaron en %TEMP% (fuera del repo, no contaminan). work_kb (tab "KB Simetrik" legacy) coexiste con el cerebro — evaluar si se absorbe en una fase posterior.
