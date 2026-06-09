@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-05.5",
+    "version": "2026-06-05.6",
     "last_updated": "2026-06-05",
     "ingested_sources": [],
     "categories": [
@@ -220,7 +220,44 @@
       "evidence": "Es como crear una carpeta dedicada en tu computadora para un tipo específico de archivo. Cada vez que llega un nuevo reporte del banco, lo tirás en esa carpeta y Simetrik lo procesa automáticamente.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44449344929939)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fuente",
+        "cat": "basicos",
+        "icon": "🗄️",
+        "name": "Fuente",
+        "dota": true,
+        "one": "La puerta de entrada de tus archivos a Simetrik. Cada tipo de archivo tiene su propia fuente.",
+        "path": "Automatizar → Recursos → Crear recurso → Fuentes",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44449344929939",
+        "analogy": "Es como crear una <b>carpeta dedicada</b> en tu computadora para un tipo específico de archivo. Cada vez que llega un nuevo reporte del banco, lo tirás en esa carpeta y Simetrik lo procesa automáticamente.",
+        "simple": "Una Fuente no es un archivo — es un <b>contenedor</b> que espera archivos del mismo formato. Si el banco te manda un TXT todos los días, creás una sola Fuente y le vas subiendo los archivos diarios. Simetrik los acumula y los trata como una sola tabla.",
+        "usoCases": [
+          "Cargar el reporte diario de T24 (core bancario de Ficohsa)",
+          "Cargar el reporte de CLARO con las recargas telefónicas",
+          "Cargar el archivo DB_DOTA con las transacciones de tarjetas"
+        ],
+        "formats": "Excel (1 sola hoja), TXT, CSV",
+        "warn": "Excel con múltiples hojas NO funciona directamente. Hay que usar un Parser primero para separar las hojas.",
+        "steps": [
+          "Automatizar → Recursos → \"Crear recurso\" → Fuentes",
+          "Ponerle un nombre descriptivo (ej: DB_DOTA)",
+          "Ir al Gestor de Archivos que aparece → arrastrar el archivo",
+          "Esperar que el estado cambie a Listo ✓"
+        ],
+        "tags": [
+          "fuente",
+          "source",
+          "archivo",
+          "cargar",
+          "subir",
+          "excel",
+          "csv",
+          "txt",
+          "ingresar",
+          "ingestar"
+        ]
+      }
     },
     {
       "id": "guia-union",
@@ -230,7 +267,41 @@
       "evidence": "Es como el UNION ALL de SQL o como apilar varias hojas de Excel en una sola. Tenés reporte de enero, febrero y marzo en archivos separados → los \"unís\" y los ves como un solo reporte.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44449461182995)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "union",
+        "cat": "basicos",
+        "icon": "🔗",
+        "name": "Unión de Fuentes",
+        "dota": true,
+        "one": "Combina varias fuentes del mismo tipo en una sola tabla, como si fueran una.",
+        "path": "Automatizar → Recursos → Crear recurso → Unión de fuentes",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44449461182995",
+        "analogy": "Es como el <b>UNION ALL de SQL</b> o como apilar varias hojas de Excel en una sola. Tenés reporte de enero, febrero y marzo en archivos separados → los \"unís\" y los ves como un solo reporte.",
+        "simple": "La mejor práctica en Simetrik es SIEMPRE crear una Unión incluso cuando tenés una sola Fuente. ¿Por qué? Porque si algún día el formato del archivo cambia, solo actualizás la Unión sin tocar la conciliación que depende de ella.",
+        "usoCases": [
+          "Unir las transacciones DOTA de varios períodos en una sola tabla",
+          "Combinar reportes de diferentes pasarelas de pago con el mismo formato",
+          "Proteger las conciliaciones de cambios futuros en el archivo original"
+        ],
+        "warn": "Cuando agregas una fuente y el formato tiene columnas distintas, Simetrik te avisa la inconsistencia y te da a elegir: definir nueva interpretación u omitir el registro.",
+        "steps": [
+          "Automatizar → Recursos → \"Crear recurso\" → Unión de fuentes",
+          "Elegir la primera fuente → seleccionar las columnas a incluir",
+          "Verificar el tipo de dato de cada columna",
+          "Agregar más fuentes si aplica → \"Ejecutar cambios\""
+        ],
+        "tags": [
+          "union",
+          "unión",
+          "combinar",
+          "fuentes",
+          "varias",
+          "apilar",
+          "sql",
+          "union all"
+        ]
+      }
     },
     {
       "id": "guia-vista-recursos",
@@ -240,7 +311,33 @@
       "evidence": "Es tu explorador de archivos pero para todos los recursos de Simetrik. Como el Finder de Mac o el Explorador de Windows — todo está acá organizado.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49010089276179)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "vista-recursos",
+        "cat": "basicos",
+        "icon": "▦",
+        "name": "Vista de Recursos",
+        "dota": false,
+        "one": "La pantalla principal donde ves y gestionás todos tus recursos: fuentes, uniones, conciliaciones, agrupaciones.",
+        "path": "Automatizar → Recursos y conciliaciones → Recursos",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49010089276179",
+        "analogy": "Es tu <b>explorador de archivos</b> pero para todos los recursos de Simetrik. Como el Finder de Mac o el Explorador de Windows — todo está acá organizado.",
+        "simple": "Desde acá podés crear nuevos recursos, filtrar por tipo o estado, mover a carpetas, archivar y acceder a la vista tabla de cada recurso.",
+        "usoCases": [
+          "Ver todos los recursos del workspace de Ficohsa de un vistazo",
+          "Filtrar solo las conciliaciones para ver cuáles están en estado \"Listo\"",
+          "Crear carpetas para organizar por proceso o fecha"
+        ],
+        "tags": [
+          "recursos",
+          "lista",
+          "ver",
+          "explorar",
+          "organizar",
+          "carpeta",
+          "filtrar"
+        ]
+      }
     },
     {
       "id": "guia-tipos-columnas",
@@ -250,7 +347,37 @@
       "evidence": "Es como el formato de celda en Excel. Si una columna con \"01/05/2026\" la marcás como Texto, Simetrik no puede hacer cálculos de fecha con ella. Tenés que marcarla como Fecha.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44674432937875)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "tipos-columnas",
+        "cat": "basicos",
+        "icon": "🏷️",
+        "name": "Tipos de columna",
+        "dota": true,
+        "one": "Define cómo Simetrik interpreta cada columna de tus datos. Si elegís mal, las fórmulas fallan.",
+        "path": "Vista tabla del recurso → click derecho en el encabezado → Dar formato",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44674432937875",
+        "analogy": "Es como el formato de celda en Excel. Si una columna con \"01/05/2026\" la marcás como Texto, Simetrik no puede hacer cálculos de fecha con ella. Tenés que marcarla como <b>Fecha</b>.",
+        "simple": "Estos son los tipos disponibles:\n• Texto → para códigos, PAN, cualquier cosa con ceros a la izquierda\n• Número → para montos con decimales\n• Entero → para cantidades sin decimales (ej: cantidad de días)\n• Fecha → solo la fecha (2026-05-31)\n• Fecha y hora → con hora incluida (2026-05-31 14:23:00)\n• Booleano → verdadero/falso",
+        "usoCases": [
+          "CARD_NUMBER → siempre Texto (tiene ceros a la izquierda)",
+          "MONTO → Número",
+          "MOV_CREATION_DATE → Fecha",
+          "DIAS_A_SUMAR → Entero"
+        ],
+        "warn": "CARD_SIX_FIRST_DIGITS debe ser Texto ANTES de crear la fórmula CARD_NUMBER. Si está como Número, los ceros desaparecen y la fórmula da resultados incorrectos.",
+        "tags": [
+          "tipo",
+          "columna",
+          "texto",
+          "número",
+          "fecha",
+          "entero",
+          "booleano",
+          "formato",
+          "dato"
+        ]
+      }
     },
     {
       "id": "guia-columnas-sistema",
@@ -260,7 +387,33 @@
       "evidence": "Son como los metadatos de un archivo: fecha de creación, tamaño, autor. En Simetrik son: ID del registro, fecha de carga, usuario, estado de conciliación.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768148086291)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "columnas-sistema",
+        "cat": "basicos",
+        "icon": "⚙️",
+        "name": "Columnas del sistema",
+        "dota": false,
+        "one": "Columnas que Simetrik crea automáticamente en cada recurso — no las configurás vos, aparecen solas.",
+        "path": "En cualquier recurso → se identifican con ícono de escudo",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768148086291",
+        "analogy": "Son como los metadatos de un archivo: fecha de creación, tamaño, autor. En Simetrik son: ID del registro, fecha de carga, usuario, estado de conciliación.",
+        "simple": "Son útiles para auditoría y para configurar el Universal ID. No las borrás ni las modificás — simplemente están disponibles para usar en fórmulas o en llaves de cruce.",
+        "usoCases": [
+          "Identificar cuándo llegó cada registro",
+          "Ver quién hizo qué acción sobre un registro",
+          "Configurar el Universal ID (SKT_ID) para trazabilidad entre recursos"
+        ],
+        "tags": [
+          "sistema",
+          "columnas",
+          "automáticas",
+          "skt",
+          "id",
+          "metadatos",
+          "escudo"
+        ]
+      }
     },
     {
       "id": "guia-desencadenante",
@@ -270,7 +423,32 @@
       "evidence": "Es como el trigger de una macro de Excel. Cuando el archivo A se actualiza, automáticamente se ejecuta el proceso. En Simetrik: cuando el Reporte FD llega, la conciliación DOTA × FD se ejecuta sola.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44403058338835)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "desencadenante",
+        "cat": "basicos",
+        "icon": "⚡",
+        "name": "Desencadenante",
+        "dota": true,
+        "one": "El recurso que \"dispara\" la ejecución automática de una conciliación cuando recibe datos nuevos.",
+        "path": "Configuración de la conciliación → botón \"Recurso desencadenante\"",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44403058338835",
+        "analogy": "Es como el <b>trigger de una macro de Excel</b>. Cuando el archivo A se actualiza, automáticamente se ejecuta el proceso. En Simetrik: cuando el Reporte FD llega, la conciliación DOTA × FD se ejecuta sola.",
+        "simple": "Por defecto el sistema elige el Recurso B como desencadenante. Si el Recurso B es una foto o agrupación (recursos \"pasivos\"), toma el Recurso A. También podés programar un horario fijo.",
+        "usoCases": [
+          "Cuando llega el reporte FD de noche, la conciliación DOTA se ejecuta sola",
+          "Programar la conciliación de SERCOM a las 23:45 (30 min después del archivo T24)"
+        ],
+        "tags": [
+          "desencadenante",
+          "trigger",
+          "automático",
+          "disparar",
+          "ejecutar",
+          "horario",
+          "programar"
+        ]
+      }
     },
     {
       "id": "guia-col-transformacion",
@@ -280,7 +458,37 @@
       "evidence": "Son como las fórmulas de Excel, pero dentro de Simetrik. En vez de escribir =CONCATENAR(A1;B1) en una celda, configurás una columna de transformación y Simetrik aplica la fórmula a todas las filas automáticamente.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "col-transformacion",
+        "cat": "formulas",
+        "icon": "🧮",
+        "name": "Columnas de transformación",
+        "dota": true,
+        "one": "Fórmulas para calcular nuevos valores o transformar datos existentes dentro de Simetrik.",
+        "path": "Vista tabla del recurso → Crear columna → Transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Son como las fórmulas de Excel, pero dentro de Simetrik. En vez de escribir =CONCATENAR(A1;B1) en una celda, configurás una columna de transformación y Simetrik aplica la fórmula a todas las filas automáticamente.",
+        "simple": "Reglas de sintaxis que NUNCA cambian:\n• Separador de parámetros: ; (punto y coma)\n• Strings: entre \"comillas dobles\"\n• Nombres de columna: EN MAYÚSCULAS",
+        "formula": "CONCATENAR(RELLENAR(CARD_SIX_FIRST_DIGITS; 6; \"0\"; \"IZQUIERDA\"); \"XXXXXX\"; RELLENAR(CARD_FOUR_LAST_DIGITS; 4; \"0\"; \"IZQUIERDA\"))",
+        "usoCases": [
+          "Construir el número de tarjeta de 16 dígitos (Punto 1 DOTA)",
+          "Detectar la marca del adquirente (Punto 3 DOTA)",
+          "Calcular si es el último día del mes (Punto 11 DOTA)"
+        ],
+        "warn": "HOY() NO existe en Simetrik. La función correcta es TODAY() y solo está disponible dentro de Agrupaciones.",
+        "tags": [
+          "transformacion",
+          "fórmula",
+          "calcular",
+          "columna",
+          "si",
+          "concatenar",
+          "rellenar",
+          "extraer",
+          "formula"
+        ]
+      }
     },
     {
       "id": "guia-fn-si",
@@ -290,7 +498,36 @@
       "evidence": "Es el IF de Excel. SI(condición; valor_verdadero; valor_falso). La única diferencia es que en Simetrik el separador es ; en lugar de ,",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-si",
+        "cat": "formulas",
+        "icon": "❓",
+        "name": "Función SI (condicional)",
+        "dota": true,
+        "one": "Evalúa una condición y devuelve un valor si es verdadera, otro si es falsa.",
+        "path": "Columna de transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Es el IF de Excel. <b>SI(condición; valor_verdadero; valor_falso)</b>. La única diferencia es que en Simetrik el separador es ; en lugar de ,",
+        "simple": "Podés anidar varios SI para manejar múltiples casos. Combinás con Y() para \"y además\" y O() para \"o también\".",
+        "formula": "SI(\n  Y(CAPTURE_AUTHORIZATION_CODE = \"000000\"; CAPTURE_ACQUIRER = \"Cabal\");\n  \"\";\n  CAPTURE_AUTHORIZATION_CODE\n)",
+        "usoCases": [
+          "Punto 2 DOTA: limpiar el código de autorización",
+          "Punto 4 DOTA: detectar BRAND según el PAN",
+          "Punto 11 DOTA: marcar el último día del mes"
+        ],
+        "tags": [
+          "si",
+          "if",
+          "condicional",
+          "y",
+          "o",
+          "and",
+          "or",
+          "cuando",
+          "condición"
+        ]
+      }
     },
     {
       "id": "guia-fn-concatenar",
@@ -300,7 +537,33 @@
       "evidence": "Es como pegar trozos de texto con pegamento. \"Hola\" + \" \" + \"Miguel\" = \"Hola Miguel\".",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-concatenar",
+        "cat": "formulas",
+        "icon": "➕",
+        "name": "CONCATENAR",
+        "dota": true,
+        "one": "Une varios valores de texto en uno solo.",
+        "path": "Columna de transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Es como pegar trozos de texto con pegamento. \"Hola\" + \" \" + \"Miguel\" = \"Hola Miguel\".",
+        "simple": "Podés pegar columnas, texto fijo y números. Los separadores (como el guión o el espacio) van entre comillas dobles.",
+        "formula": "CONCATENAR(CARD_SIX_FIRST_DIGITS; \"XXXXXX\"; CARD_FOUR_LAST_DIGITS)",
+        "usoCases": [
+          "Punto 1 DOTA: armar el PAN de 16 dígitos",
+          "Punto 3 DOTA: juntar 3 columnas de adquirente en una para hacer una sola búsqueda"
+        ],
+        "tags": [
+          "concatenar",
+          "unir",
+          "pegar",
+          "texto",
+          "join",
+          "combinar",
+          "string"
+        ]
+      }
     },
     {
       "id": "guia-fn-rellenar",
@@ -310,7 +573,35 @@
       "evidence": "Es como formatear una celda de número con ceros a la izquierda. \"42\" se convierte en \"000042\" si le pedís 6 caracteres.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-rellenar",
+        "cat": "formulas",
+        "icon": "⬛",
+        "name": "RELLENAR (LPAD/RPAD)",
+        "dota": true,
+        "one": "Rellena un string con caracteres hasta alcanzar un largo definido. El LPAD/RPAD de Simetrik.",
+        "path": "Columna de transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Es como formatear una celda de número con ceros a la izquierda. \"42\" se convierte en \"000042\" si le pedís 6 caracteres.",
+        "formula": "RELLENAR(CARD_SIX_FIRST_DIGITS; 6; \"0\"; \"IZQUIERDA\")",
+        "simple": "Parámetros:\n1. El valor a rellenar (columna o texto)\n2. El largo total que querés\n3. El carácter con el que rellenar (generalmente \"0\")\n4. El lado: \"IZQUIERDA\" o \"DERECHA\"",
+        "usoCases": [
+          "Punto 1 DOTA: rellenar los 6 primeros y 4 últimos dígitos del PAN"
+        ],
+        "warn": "La columna fuente debe ser tipo Texto ANTES de aplicar RELLENAR. Si está como Número, la función falla.",
+        "tags": [
+          "rellenar",
+          "lpad",
+          "rpad",
+          "ceros",
+          "relleno",
+          "pad",
+          "izquierda",
+          "derecha",
+          "largo"
+        ]
+      }
     },
     {
       "id": "guia-fn-extraer-regex",
@@ -320,7 +611,33 @@
       "evidence": "Es como la función BUSCAR de Word, pero más poderosa. Podés decirle \"buscame MASTERCARD o VISA o AMEX en este texto\" y te dice qué encontró.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-extraer-regex",
+        "cat": "formulas",
+        "icon": "🔎",
+        "name": "EXTRAER_EXPREGULAR (búsqueda de texto)",
+        "dota": true,
+        "one": "Busca un patrón dentro de un texto y devuelve lo que encontró. Si no encuentra nada, devuelve \"\".",
+        "path": "Columna de transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Es como la función BUSCAR de Word, pero más poderosa. Podés decirle \"buscame MASTERCARD o VISA o AMEX en este texto\" y te dice qué encontró.",
+        "formula": "SI(\n  EXTRAER_EXPREGULAR(MAYUSC(PAY_METHOD); \"MASTER|MAESTRO\"; 0) <> \"\";\n  \"MASTERCARD\";\n  \"OTRO\"\n)",
+        "simple": "El truco es que cuando no encuentra el patrón devuelve \"\" (vacío). Entonces comparás con <> \"\" para saber si encontró algo. El | en el patrón significa \"o\".",
+        "usoCases": [
+          "Punto 3 DOTA: detectar si el adquirente es FD (Mastercard/Firstdata/Diners) o PRISMA (Visa)",
+          "Punto 4 DOTA: detectar la marca de la tarjeta por el número BIN"
+        ],
+        "tags": [
+          "regex",
+          "expresion regular",
+          "buscar",
+          "patron",
+          "contiene",
+          "extraer",
+          "text search"
+        ]
+      }
     },
     {
       "id": "guia-fn-fechas",
@@ -330,7 +647,38 @@
       "evidence": "Son como las funciones de fecha de Excel (HOY, AÑO, MES, DIA, DATEDIF) pero con nombres en español.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-fechas",
+        "cat": "formulas",
+        "icon": "📅",
+        "name": "Funciones de fecha",
+        "dota": true,
+        "one": "Para trabajar con fechas: extraer partes, calcular diferencias, sumar días.",
+        "path": "Columna de transformación / Agrupación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Son como las funciones de fecha de Excel (HOY, AÑO, MES, DIA, DATEDIF) pero con nombres en español.",
+        "simple": "Las más importantes:\n• EXTRAER_FECHA(FECHA; \"año\"/\"mes\"/\"día\") → extrae parte de una fecha\n• DIFERENCIA_FECHA(FECHA1; FECHA2; \"días\") → calcula días entre fechas\n• ADICIONAR_DIASEMANA(FECHA; N) → suma N días hábiles (omite sáb/dom)\n• TODAY() → fecha de hoy (SOLO en Agrupaciones)",
+        "formula": "DIFERENCIA_FECHA(MOV_CREATION_DATE; TODAY(); \"días\")",
+        "usoCases": [
+          "Punto 6 DOTA: convertir datetime a fecha",
+          "Punto 7 DOTA: calcular fecha de pago esperada a 30 días hábiles",
+          "Check >15 días: calcular antigüedad de un débito"
+        ],
+        "warn": "TODAY() no está disponible en columnas de transformación de una Fuente directa. Solo funciona dentro de una Agrupación.",
+        "tags": [
+          "fecha",
+          "hoy",
+          "today",
+          "diferencia",
+          "dias",
+          "habiles",
+          "extraer",
+          "año",
+          "mes",
+          "dia"
+        ]
+      }
     },
     {
       "id": "guia-fn-esblanco",
@@ -340,7 +688,31 @@
       "evidence": "Es el ISBLANK de Excel. Cuando una columna puede venir vacía en algunos registros y querés manejar ese caso.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fn-esblanco",
+        "cat": "formulas",
+        "icon": "◻️",
+        "name": "ESBLANCO (verificar vacíos)",
+        "dota": true,
+        "one": "Detecta si una celda está vacía o nula. Devuelve TRUE si está vacía, FALSE si tiene algo.",
+        "path": "Columna de transformación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243",
+        "analogy": "Es el ISBLANK de Excel. Cuando una columna puede venir vacía en algunos registros y querés manejar ese caso.",
+        "formula": "SI(\n  ESBLANCO(PURCHASE_MERCHANT_NUMBER);\n  SI(ESBLANCO(CAPTURE_MERCHANT_NUMBER);\n    AUTH_MERCHANT_NUMBER;\n    CAPTURE_MERCHANT_NUMBER);\n  PURCHASE_MERCHANT_NUMBER\n)",
+        "usoCases": [
+          "Punto 5 DOTA: tomar el número de comercio de la primera columna disponible de 3 posibles"
+        ],
+        "tags": [
+          "esblanco",
+          "vacio",
+          "nulo",
+          "null",
+          "isblank",
+          "vacío",
+          "falta"
+        ]
+      }
     },
     {
       "id": "guia-conc-estandar",
@@ -350,7 +722,38 @@
       "evidence": "Es como cruzar dos listas manualmente pero automático. Tenés la lista del banco (fuente A) y la lista interna (fuente B) — Simetrik busca cuáles coinciden y te dice cuáles no.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44586931880979)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "conc-estandar",
+        "cat": "conciliacion",
+        "icon": "📋",
+        "name": "Conciliación Estándar",
+        "dota": false,
+        "one": "Compara automáticamente dos fuentes de datos y clasifica los registros como conciliados o pendientes.",
+        "path": "Automatizar → Recursos y conciliaciones → Conciliaciones → Crear → Estándar",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44586931880979",
+        "analogy": "Es como cruzar dos listas manualmente pero automático. Tenés la lista del banco (fuente A) y la lista interna (fuente B) — Simetrik busca cuáles coinciden y te dice cuáles no.",
+        "simple": "La estándar es más simple: compara exactamente 2 fuentes con barridas (reglas de cruce). Cuando un registro de A coincide con uno de B según las reglas, quedan \"conciliados\". Los que no coinciden quedan \"pendientes\".",
+        "usoCases": [
+          "SERCOM: T24 cajas vs reporte CLARO de recargas",
+          "Cartera de préstamos: lista interna vs saldo contable SAP"
+        ],
+        "steps": [
+          "Crear recurso → Conciliación estándar",
+          "Elegir Fuente A y Fuente B",
+          "Elegir el desencadenante",
+          "Configurar cruce (barridas y reglas)",
+          "Confirmar y ejecutar"
+        ],
+        "tags": [
+          "conciliacion",
+          "estandar",
+          "standard",
+          "cruce",
+          "barrida",
+          "dos fuentes"
+        ]
+      }
     },
     {
       "id": "guia-conc-avanzada",
@@ -360,7 +763,41 @@
       "evidence": "Si la estándar es como una \"búsqueda simple\", la avanzada es como una \"búsqueda con filtros avanzados\". Podés decirle: primero compensá los PAYMENT contra REFUND de la misma fuente, después cruzá los pendientes contra la otra fuente, y si no cruzan exactos, intentá con tolerancia.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44672397687059)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "conc-avanzada",
+        "cat": "conciliacion",
+        "icon": "🧩",
+        "name": "Conciliación Avanzada",
+        "dota": true,
+        "one": "Para procesos complejos que necesitan compensar débitos/créditos y encadenar múltiples barridas en una sola interfaz.",
+        "path": "Automatizar → Recursos y conciliaciones → Conciliaciones → Crear → Avanzada",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44672397687059",
+        "analogy": "Si la estándar es como una \"búsqueda simple\", la avanzada es como una \"búsqueda con filtros avanzados\". Podés decirle: primero compensá los PAYMENT contra REFUND de la misma fuente, después cruzá los pendientes contra la otra fuente, y si no cruzan exactos, intentá con tolerancia.",
+        "simple": "La diferencia clave es que tiene 3 tipos de barridas: de conciliación (cruce normal), de compensación (auto-cruce) y agrupada (comparar totales). Para el DOTA usás las 3.",
+        "usoCases": [
+          "DOTA × FD: 5 barridas en cadena (2 compensaciones + 2 cruces detallados + 1 batch)",
+          "Cualquier proceso con débitos y créditos que se anulan entre sí"
+        ],
+        "steps": [
+          "Crear recurso → Conciliación avanzada",
+          "Seleccionar Lado A y Lado B",
+          "Decidir si segmentar (opcional)",
+          "Configurar desencadenante",
+          "Configurar barridas en orden",
+          "Ejecutar y revisar resultados en el diagrama"
+        ],
+        "tags": [
+          "conciliacion",
+          "avanzada",
+          "advanced",
+          "compensacion",
+          "agrupada",
+          "barrida",
+          "segmentacion",
+          "dota"
+        ]
+      }
     },
     {
       "id": "guia-barrida",
@@ -370,7 +807,36 @@
       "evidence": "Es como un filtro de búsqueda. \"Quiero emparejar registros donde el código de autorización sea igual Y el comercio sea igual Y el monto sea igual\". Esa combinación de condiciones es una barrida.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "barrida",
+        "cat": "conciliacion",
+        "icon": "🔀",
+        "name": "Barrida",
+        "dota": true,
+        "one": "Un conjunto de reglas que define cuándo dos registros de fuentes distintas \"hacen match\".",
+        "path": "Configuración de cruce dentro de cualquier conciliación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651",
+        "analogy": "Es como un filtro de búsqueda. \"Quiero emparejar registros donde el código de autorización sea igual Y el comercio sea igual Y el monto sea igual\". Esa combinación de condiciones es una barrida.",
+        "simple": "Una conciliación puede tener varias barridas en orden. Los registros que no cruzan con la barrida 1 pasan a la barrida 2, y así. Tipos:\n• Barrida de conciliación: cruce entre dos fuentes\n• Barrida de compensación: auto-cruce dentro de una sola fuente\n• Barrida agrupada: compara totales (suma A vs suma B)",
+        "usoCases": [
+          "B1 DOTA: compensar PAYMENT vs REFUND exactos dentro de DB_DOTA",
+          "B3 DOTA: cruzar DOTA pendiente vs FD con 5 llaves exactas",
+          "B5 DOTA: cruzar suma de lotes FD vs suma DOTA por comercio"
+        ],
+        "warn": "Si la robustez de la barrida es roja (débil), Simetrik no ejecuta la conciliación. Hay que agregar más llaves hasta que sea verde o amarilla.",
+        "tags": [
+          "barrida",
+          "sweep",
+          "regla",
+          "llave",
+          "cruce",
+          "match",
+          "robustez",
+          "compensacion",
+          "agrupada"
+        ]
+      }
     },
     {
       "id": "guia-tolerancia",
@@ -380,7 +846,34 @@
       "evidence": "Como decirle a Simetrik: \"si el monto de DOTA es $100.00 y el de FD es $99.98, igualmente consideralos como el mismo pago\". El umbral aceptable lo definís vos.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "tolerancia",
+        "cat": "conciliacion",
+        "icon": "↔️",
+        "name": "Tolerancia",
+        "dota": true,
+        "one": "Un margen de diferencia aceptable para que dos registros hagan match aunque no sean exactamente iguales.",
+        "path": "Dentro de la configuración de una barrida → llave con operador ~=",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651",
+        "analogy": "Como decirle a Simetrik: \"si el monto de DOTA es $100.00 y el de FD es $99.98, igualmente consideralos como el mismo pago\". El umbral aceptable lo definís vos.",
+        "simple": "El operador es ~= (casi iguales). Solo funciona en cruces 1:1 y requiere que las columnas sean numéricas.\nPara fechas: podés decir que FD puede llegar hasta 1 día después que DOTA (tolerancia direccional).",
+        "usoCases": [
+          "B2 DOTA: compensación con tolerancia de $5 en el monto",
+          "B4 DOTA: cruce DOTA × FD permitiendo que FD llegue hasta 1 día después"
+        ],
+        "warn": "La tolerancia NO funciona en cruces N:N. Solo en 1:1.",
+        "tags": [
+          "tolerancia",
+          "margen",
+          "diferencia",
+          "aproximado",
+          "~=",
+          "monto",
+          "fecha",
+          "casi igual"
+        ]
+      }
     },
     {
       "id": "guia-config-cruce",
@@ -390,7 +883,34 @@
       "evidence": "Es el \"panel de control\" de la conciliación. Acá definís todo: con qué campos cruzar, si admitís diferencias, si es un cruce uno-a-uno o uno-a-muchos.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "config-cruce",
+        "cat": "conciliacion",
+        "icon": "⚙️",
+        "name": "Configuración de Cruce",
+        "dota": true,
+        "one": "El conjunto completo de opciones que definen cómo Simetrik cruza los datos: barridas, tipo de cruce, tolerancias, Universal ID.",
+        "path": "Dentro de cualquier conciliación → \"Configurar cruce\"",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651",
+        "analogy": "Es el \"panel de control\" de la conciliación. Acá definís todo: con qué campos cruzar, si admitís diferencias, si es un cruce uno-a-uno o uno-a-muchos.",
+        "simple": "4 componentes clave:\n1. Barridas y llaves: las reglas de match\n2. Tipo de cruce: 1:1 (default), 1:N, N:1, N:N\n3. Tolerancias: márgenes permitidos\n4. Universal ID: identificador único para rastrear un registro a través de toda la cadena",
+        "usoCases": [
+          "Configurar el cruce 1:1 DOTA × FD con las 5 llaves",
+          "Agregar tolerancia de $5 en la barrida B2",
+          "Asignar el Universal ID (SKT_ID) para trazabilidad del proceso"
+        ],
+        "tags": [
+          "configuracion",
+          "cruce",
+          "tipo",
+          "1:1",
+          "N:N",
+          "cardinalidad",
+          "universal id",
+          "SKT_ID"
+        ]
+      }
     },
     {
       "id": "guia-universal-id",
@@ -400,7 +920,30 @@
       "evidence": "Es como el número de expediente de un trámite. Podés tener el mismo trámite en distintas oficinas, pero el número de expediente siempre te dice que son el mismo caso.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "universal-id",
+        "cat": "conciliacion",
+        "icon": "🆔",
+        "name": "Universal ID (SKT_ID)",
+        "dota": true,
+        "one": "Un identificador único que Simetrik le asigna a cada registro para rastrearlo a través de múltiples recursos y procesos.",
+        "path": "Configuración de cruce → barra de herramientas → Global ID",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651",
+        "analogy": "Es como el número de expediente de un trámite. Podés tener el mismo trámite en distintas oficinas, pero el número de expediente siempre te dice que son el mismo caso.",
+        "simple": "Cuando configurás el Universal ID, Simetrik puede decirte \"este registro de DOTA es el mismo que este registro de FD que está en esta conciliación\". Sin él, perderías la trazabilidad al pasar de una etapa a otra.",
+        "usoCases": [
+          "Rastrear una transacción DOTA desde la compensación (B1) hasta la conciliación con FD (B3)"
+        ],
+        "tags": [
+          "universal id",
+          "skt_id",
+          "trazabilidad",
+          "identificador",
+          "rastrear",
+          "origin"
+        ]
+      }
     },
     {
       "id": "guia-agrupacion",
@@ -410,7 +953,36 @@
       "evidence": "Es como una tabla dinámica de Excel pero \"viva\": se actualiza sola cuando llegan datos nuevos. Podés agrupar por comercio y calcular el saldo total de cada uno.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44680591190803)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "agrupacion",
+        "cat": "conciliacion",
+        "icon": "📦",
+        "name": "Agrupación",
+        "dota": true,
+        "one": "Organiza y clasifica datos de otros recursos en grupos, con cálculos como suma o conteo. El único lugar donde funciona TODAY().",
+        "path": "Automatizar → Recursos → Crear recurso → Agrupación",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44680591190803",
+        "analogy": "Es como una tabla dinámica de Excel pero \"viva\": se actualiza sola cuando llegan datos nuevos. Podés agrupar por comercio y calcular el saldo total de cada uno.",
+        "simple": "Dos tipos:\n• Acumulativa: sigue agrupando aunque los registros se concilien. Ideal para seguimiento histórico.\n• No acumulativa: cuando un registro se concilia, se \"congela\". Nuevos registros del mismo criterio crean una nueva entrada.",
+        "usoCases": [
+          "Calcular el saldo neto por comercio (Punto 13 DOTA)",
+          "Calcular aging: cuántos días lleva cada pendiente sin conciliar",
+          "Crear agrupación de saldos acumulados para el tablero"
+        ],
+        "warn": "No podés usar dos agrupaciones acumulativas en la misma conciliación.",
+        "tags": [
+          "agrupacion",
+          "grouping",
+          "tabla dinamica",
+          "suma",
+          "conteo",
+          "today",
+          "hoy",
+          "acumulativa",
+          "saldo"
+        ]
+      }
     },
     {
       "id": "guia-buscarv",
@@ -420,7 +992,42 @@
       "evidence": "Es el VLOOKUP/BUSCARV de Excel. \"Busca el código de comercio en la tabla de parametría y tráeme el tipo de comercio que le corresponde\".",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44794712671763)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "buscarv",
+        "cat": "conciliacion",
+        "icon": "🔍",
+        "name": "BuscarV (VLOOKUP)",
+        "dota": true,
+        "one": "Enriquece una fuente con columnas de otra fuente, usando una columna común como llave de búsqueda.",
+        "path": "Vista tabla del recurso → ícono \"Crear BuscarV\" en la barra de columnas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44794712671763",
+        "analogy": "Es el VLOOKUP/BUSCARV de Excel. \"Busca el código de comercio en la tabla de parametría y tráeme el tipo de comercio que le corresponde\".",
+        "simple": "El BuscarV es diferente a una Unión. La Unión apila filas verticalmente. El BuscarV agrega columnas horizontalmente, como un JOIN de SQL.",
+        "formula": "Llave: DB_DOTA.GTWT_MERCHANT_NUMBER = Parametria_Comercio.CODIGO_COMERCIO\nColumna a traer: TIPO_COMERCIO",
+        "steps": [
+          "Vista tabla de la fuente → ícono \"Crear BuscarV\"",
+          "Nombre de la columna nueva",
+          "Recurso fuente a consultar",
+          "Columnas a traer",
+          "Condiciones de cruce (col_A = col_B)",
+          "Guardar y ver tabla"
+        ],
+        "usoCases": [
+          "Punto 8 DOTA: traer TIPO_COMERCIO desde Parametria_Comercio usando GTWT_MERCHANT_NUMBER"
+        ],
+        "warn": "Si los tipos de dato de las columnas llave no coinciden, el BuscarV devuelve vacío. Verificar que ambas sean Texto o ambas Número.",
+        "tags": [
+          "buscarv",
+          "vlookup",
+          "enriquecer",
+          "traer",
+          "columna",
+          "join",
+          "otra fuente",
+          "parametria"
+        ]
+      }
     },
     {
       "id": "guia-conc-encadenada",
@@ -430,7 +1037,29 @@
       "evidence": "Es como un proceso de escalamiento. Lo que no resolvió el nivel 1 pasa al nivel 2, lo que no resolvió el nivel 2 pasa al nivel 3.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434453864083)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "conc-encadenada",
+        "cat": "conciliacion",
+        "icon": "⛓️",
+        "name": "Conciliación Encadenada",
+        "dota": false,
+        "one": "Conecta conciliaciones en cadena: los pendientes de una son la entrada de la siguiente.",
+        "path": "Al crear una conciliación → seleccionar como fuente los pendientes de una conciliación previa",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44434453864083",
+        "analogy": "Es como un proceso de escalamiento. Lo que no resolvió el nivel 1 pasa al nivel 2, lo que no resolvió el nivel 2 pasa al nivel 3.",
+        "simple": "La conciliación avanzada ya incluye este concepto en su diseño (las barridas se encadenan internamente). La \"Encadenada\" como tipo separado es para conectar dos conciliaciones estándar distintas.",
+        "usoCases": [
+          "DOTA → FD → Liquidación: cadena de 3 etapas donde los pendientes van pasando"
+        ],
+        "tags": [
+          "encadenada",
+          "chain",
+          "cascada",
+          "pendientes",
+          "cadena"
+        ]
+      }
     },
     {
       "id": "guia-tableros",
@@ -440,7 +1069,40 @@
       "evidence": "Es como el Power BI o el Looker Studio de Simetrik, pero integrado. En vez de exportar datos para graficar afuera, armás el dashboard directamente en la plataforma.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45657122653715)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "tableros",
+        "cat": "analisis",
+        "icon": "📊",
+        "name": "Tableros (Dashboards)",
+        "dota": true,
+        "one": "Dashboards con KPIs, gráficos y tablas para analizar los resultados de tus conciliaciones.",
+        "path": "Automatizar → Análisis → Tableros",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/45657122653715",
+        "analogy": "Es como el Power BI o el Looker Studio de Simetrik, pero integrado. En vez de exportar datos para graficar afuera, armás el dashboard directamente en la plataforma.",
+        "simple": "Dos tipos: Operativo (para conciliaciones) y Contable (para cierre contable). No se pueden mezclar en el mismo tablero.\nLímite: 21 elementos por tablero. Cada visual consume una cantidad de elementos.",
+        "steps": [
+          "Automatizar → Análisis → Tableros → \"Crear\" → Tableros",
+          "Nombre + tipo (Operativo o Contable)",
+          "Click \"Configuración\" → agregar visuales"
+        ],
+        "usoCases": [
+          "Tablero 14 DOTA: % conciliado por barrida (tabla + gráfico)",
+          "Tablero 15 DOTA: KPIs globales (conciliadas / pendientes / % eficiencia)",
+          "Tablero 16 DOTA: análisis libre de tu elección"
+        ],
+        "warn": "El path correcto es Automatizar → Análisis → Tableros. NO es desde Gestionar.",
+        "tags": [
+          "tablero",
+          "dashboard",
+          "kpi",
+          "gráfico",
+          "análisis",
+          "operativo",
+          "contable",
+          "visualización"
+        ]
+      }
     },
     {
       "id": "guia-kpi-individual",
@@ -450,7 +1112,35 @@
       "evidence": "El número gigante que ves en los dashboards ejecutivos. \"94% conciliado\" en verde. \"6% pendiente\" en rojo. Un solo número que dice todo.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44670219304339)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "kpi-individual",
+        "cat": "analisis",
+        "icon": "🎯",
+        "name": "KPI Individual",
+        "dota": true,
+        "one": "Un número grande y destacado en el tablero, calculado con CONTAR, SUMA, porcentaje, etc.",
+        "path": "Tablero → Configuración → Visuales → KPI Individual",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44670219304339",
+        "analogy": "El número gigante que ves en los dashboards ejecutivos. \"94% conciliado\" en verde. \"6% pendiente\" en rojo. Un solo número que dice todo.",
+        "simple": "Consume 1 elemento del cupo de 21 por tablero. Podés poner filtros para que muestre solo ciertos registros (ej: solo los conciliados).",
+        "formula": "Métrica: CONTAR_SI(_BARRIDA_ <> NULL)\nFiltro: ninguno\nEtiqueta: \"Conciliadas\"",
+        "usoCases": [
+          "KPI Conciliadas: CONTAR donde _BARRIDA_ ≠ NULL",
+          "KPI Pendientes: CONTAR donde _BARRIDA_ = NULL",
+          "KPI % eficiencia: Conciliadas / Total × 100"
+        ],
+        "tags": [
+          "kpi",
+          "número",
+          "grande",
+          "contar",
+          "suma",
+          "porcentaje",
+          "eficiencia",
+          "métrica"
+        ]
+      }
     },
     {
       "id": "guia-grafico",
@@ -460,7 +1150,33 @@
       "evidence": "Los gráficos de Excel pero dentro de Simetrik. Elegís el tipo, la fuente, qué va en X, qué va en Y.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44435028764691)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "grafico",
+        "cat": "analisis",
+        "icon": "📈",
+        "name": "Gráficos",
+        "dota": true,
+        "one": "Barras, líneas, tortas y mapas de calor para visualizar tendencias y comparaciones.",
+        "path": "Tablero → Configuración → Visuales → Gráfico",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44435028764691",
+        "analogy": "Los gráficos de Excel pero dentro de Simetrik. Elegís el tipo, la fuente, qué va en X, qué va en Y.",
+        "simple": "Tipos disponibles:\n• Barra horizontal: ideal para rankings (top 10 comercios)\n• Barra vertical: comparaciones por período\n• Línea: tendencias en el tiempo\n• Torta: porcentajes\n• Mapa de calor: X=mes, Y=adquirente → detectar patrones",
+        "usoCases": [
+          "Tablero 14 DOTA: barra horizontal con partidas por barrida (B1-B5)",
+          "Heatmap compensaciones >15 días por adquirente (Tablero 16)"
+        ],
+        "tags": [
+          "gráfico",
+          "chart",
+          "barra",
+          "línea",
+          "torta",
+          "heatmap",
+          "mapa de calor",
+          "visualización"
+        ]
+      }
     },
     {
       "id": "guia-tabla-dinamica",
@@ -470,7 +1186,33 @@
       "evidence": "Es el pivot table de Excel adentro del dashboard. Filas = fecha, Columnas = tipo de transacción, Valores = SUMA del monto.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434803544723)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "tabla-dinamica",
+        "cat": "analisis",
+        "icon": "⊞",
+        "name": "Tabla Dinámica",
+        "dota": true,
+        "one": "La tabla dinámica (pivot table) de Simetrik: cruza filas × columnas con funciones de agregación.",
+        "path": "Tablero → Configuración → Visuales → Tabla Dinámica",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44434803544723",
+        "analogy": "Es el pivot table de Excel adentro del dashboard. Filas = fecha, Columnas = tipo de transacción, Valores = SUMA del monto.",
+        "formula": "Filas: MOV_CREATION_DATE\nColumnas: OP (PAYMENT/REFUND)\nValores: SUMA(MONTO_NETO)",
+        "usoCases": [
+          "Tablero 13 DOTA: saldo neto diario por fecha × tipo de operación"
+        ],
+        "tags": [
+          "tabla dinámica",
+          "pivot",
+          "tabla",
+          "suma",
+          "conteo",
+          "agrupar",
+          "cruzar",
+          "filas",
+          "columnas"
+        ]
+      }
     },
     {
       "id": "guia-monitores",
@@ -480,7 +1222,30 @@
       "evidence": "Es como un \"grupo de Slack\" para tus conciliaciones. Ponés las relacionadas juntas y podés ver su salud de un vistazo.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44675781844755)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "monitores",
+        "cat": "analisis",
+        "icon": "🔔",
+        "name": "Monitores",
+        "dota": false,
+        "one": "Agrupan varias conciliaciones bajo un \"monitor\" para hacer seguimiento del match rate en conjunto y configurar alarmas.",
+        "path": "Automatizar → Análisis → Monitores",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44675781844755",
+        "analogy": "Es como un \"grupo de Slack\" para tus conciliaciones. Ponés las relacionadas juntas y podés ver su salud de un vistazo.",
+        "simple": "Las alarmas (Gestionar → Hallazgos → Alarmas) se configuran sobre monitores. Si no tenés un monitor creado, no podés crear la alarma.",
+        "usoCases": [
+          "Monitor DOTA: incluye la conciliación avanzada DOTA × FD y las compensaciones",
+          "Monitor SERCOM: la conciliación T24 vs CLARO"
+        ],
+        "tags": [
+          "monitor",
+          "seguimiento",
+          "alarma",
+          "alerta",
+          "match rate"
+        ]
+      }
     },
     {
       "id": "guia-consola",
@@ -490,7 +1255,34 @@
       "evidence": "Es el \"inspector\" del navegador pero para tus datos. Te dice exactamente en qué fila y qué columna hay un error de tipo de dato.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49786424821907)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "consola",
+        "cat": "herramientas",
+        "icon": "💻",
+        "name": "Consola de Desarrollo",
+        "dota": false,
+        "one": "Logs en tiempo real de cada archivo que entra a Simetrik. Tu herramienta de diagnóstico #1 cuando algo falla.",
+        "path": "Herramientas → Consola de Desarrollo",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49786424821907",
+        "analogy": "Es el \"inspector\" del navegador pero para tus datos. Te dice exactamente en qué fila y qué columna hay un error de tipo de dato.",
+        "simple": "Cuando una fuente no ingesta bien, la consola te dice: \"fila 4,231: el valor N/A en la columna MONTO no se puede convertir a Número\". Sin la consola, tendrías que adivinar.",
+        "usoCases": [
+          "Diagnosticar por qué un archivo TXT no carga correctamente",
+          "Ver si el archivo llegó con todas las filas esperadas",
+          "Identificar columnas con valores inesperados"
+        ],
+        "tags": [
+          "consola",
+          "debug",
+          "diagnóstico",
+          "error",
+          "logs",
+          "fila",
+          "columna",
+          "falló"
+        ]
+      }
     },
     {
       "id": "guia-procesos",
@@ -500,7 +1292,34 @@
       "evidence": "Es el Administrador de Tareas de Windows pero para Simetrik. Ves qué está corriendo, cuánto tarda, si terminó bien o falló.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673313631379)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "procesos",
+        "cat": "herramientas",
+        "icon": "🌀",
+        "name": "Procesos",
+        "dota": false,
+        "one": "Monitor de todas las tareas en ejecución, en cola o terminadas en el workspace.",
+        "path": "Herramientas → Procesos",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44673313631379",
+        "analogy": "Es el Administrador de Tareas de Windows pero para Simetrik. Ves qué está corriendo, cuánto tarda, si terminó bien o falló.",
+        "simple": "Cuando ejecutás una conciliación y tardó más de lo normal, acá ves si sigue corriendo, si falló o si ya terminó. También ves quién la ejecutó y a qué hora.",
+        "usoCases": [
+          "Verificar que la conciliación DOTA × FD terminó sin errores",
+          "Ver cuánto tiempo tarda en promedio una ejecución",
+          "Detectar timeouts o procesos colgados"
+        ],
+        "tags": [
+          "procesos",
+          "tasks",
+          "ejecución",
+          "corriendo",
+          "terminado",
+          "falló",
+          "tiempo",
+          "duración"
+        ]
+      }
     },
     {
       "id": "guia-mapas",
@@ -510,7 +1329,32 @@
       "evidence": "Es el organigrama de tus datos. Te muestra qué alimenta a qué: Fuente → Unión → Conciliación → Agrupación. Como un diagrama de flujo.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44448962638099)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "mapas",
+        "cat": "herramientas",
+        "icon": "🕸️",
+        "name": "Mapas",
+        "dota": false,
+        "one": "Visualización gráfica de las dependencias entre recursos del workspace.",
+        "path": "Herramientas → Mapas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44448962638099",
+        "analogy": "Es el organigrama de tus datos. Te muestra qué alimenta a qué: Fuente → Unión → Conciliación → Agrupación. Como un diagrama de flujo.",
+        "simple": "Antes de modificar o borrar un recurso, abrí su mapa. Si tiene muchas dependencias downstream, cualquier cambio puede afectar todo lo que depende de él.",
+        "usoCases": [
+          "Ver qué conciliaciones dependen de DB_DOTA antes de cambiar su formato",
+          "Entender el flujo completo del proceso DOTA antes de la prueba"
+        ],
+        "tags": [
+          "mapa",
+          "dependencias",
+          "relaciones",
+          "upstream",
+          "downstream",
+          "diagrama",
+          "flujo"
+        ]
+      }
     },
     {
       "id": "guia-papelera",
@@ -520,7 +1364,33 @@
       "evidence": "La papelera de reciclaje de tu computadora. Borrar no es definitivo por 30 días. Podés restaurar si te equivocaste.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44680112108691)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "papelera",
+        "cat": "herramientas",
+        "icon": "🗑️",
+        "name": "Papelera",
+        "dota": false,
+        "one": "Recursos eliminados que podés recuperar dentro de los 30 días siguientes.",
+        "path": "Herramientas → Papelera",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44680112108691",
+        "analogy": "La papelera de reciclaje de tu computadora. Borrar no es definitivo por 30 días. Podés restaurar si te equivocaste.",
+        "simple": "Si borrás algo por error, tenés 30 días para recuperarlo. Después de ese plazo la eliminación es definitiva e irreversible.",
+        "steps": [
+          "Herramientas → Papelera",
+          "Buscar el recurso por nombre",
+          "Click \"Restaurar\""
+        ],
+        "warn": "Antes de borrar un recurso, ir a Herramientas → Mapas para ver qué depende de él.",
+        "tags": [
+          "papelera",
+          "borrar",
+          "eliminar",
+          "recuperar",
+          "restaurar",
+          "30 días"
+        ]
+      }
     },
     {
       "id": "guia-central-descargas",
@@ -530,7 +1400,28 @@
       "evidence": "Como el historial de descargas del navegador, pero para todo lo que exportaste desde Simetrik. Los archivos se quedan acá disponibles por un tiempo y después expiran.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44776643702163)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "central-descargas",
+        "cat": "herramientas",
+        "icon": "⬇️",
+        "name": "Central de Descargas",
+        "dota": false,
+        "one": "Centro de descargas de reportes, exportaciones CSV/Excel y PDFs generados por el workspace.",
+        "path": "Herramientas → Central de descargas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44776643702163",
+        "analogy": "Como el historial de descargas del navegador, pero para todo lo que exportaste desde Simetrik. Los archivos se quedan acá disponibles por un tiempo y después expiran.",
+        "simple": "Cuando generás una exportación desde un recurso o tablero, se guarda acá hasta que la descargás. Los usuarios del dominio @simetrik.com no pueden descargar por política de seguridad.",
+        "tags": [
+          "descargas",
+          "exportar",
+          "csv",
+          "excel",
+          "pdf",
+          "reportes",
+          "download"
+        ]
+      }
     },
     {
       "id": "guia-buscador-reg",
@@ -540,7 +1431,32 @@
       "evidence": "Es como buscar un número de pedido en un sistema de logística: te dice en qué estado está en cada etapa del proceso.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44721414912403)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "buscador-reg",
+        "cat": "herramientas",
+        "icon": "🔎",
+        "name": "Buscador de Registros",
+        "dota": false,
+        "one": "Rastrea un registro específico a través de toda la cadena de recursos del workspace.",
+        "path": "Gestionar → Controles operativos → Buscador de registros",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44721414912403",
+        "analogy": "Es como buscar un número de pedido en un sistema de logística: te dice en qué estado está en cada etapa del proceso.",
+        "simple": "Ingresás el ID de una transacción (PAN, código de autorización, etc.) y Simetrik te muestra en qué recursos aparece ese registro y cuál es su estado en cada uno.",
+        "usoCases": [
+          "Rastrear una transacción específica desde DB_DOTA hasta el reporte FD",
+          "Responder \"¿por qué esta transacción no concilió?\" a un cliente"
+        ],
+        "tags": [
+          "buscador",
+          "rastrear",
+          "transaccion",
+          "registro",
+          "id",
+          "estado",
+          "buscar"
+        ]
+      }
     },
     {
       "id": "guia-alarmas",
@@ -550,7 +1466,34 @@
       "evidence": "Es como las alertas de precio en un banco. \"Si SERCOM baja del 90% de conciliación, mandame un email\".",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44741094212883)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "alarmas",
+        "cat": "herramientas",
+        "icon": "📢",
+        "name": "Alarmas",
+        "dota": false,
+        "one": "Notificaciones automáticas cuando el match rate de una conciliación cae por debajo de un umbral definido.",
+        "path": "Gestionar → Hallazgos → Alarmas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44741094212883",
+        "analogy": "Es como las alertas de precio en un banco. \"Si SERCOM baja del 90% de conciliación, mandame un email\".",
+        "simple": "Requiere tener un Monitor configurado primero. La alarma vigila el Monitor y notifica cuando algo sale del rango normal.",
+        "steps": [
+          "Gestionar → Hallazgos → Alarmas → \"Crear alarma\"",
+          "Nombre + tipo de alarma + monitor a vigilar",
+          "Umbral (ej: alerta si pendientes > 10%)",
+          "Definir destinatarios del email"
+        ],
+        "tags": [
+          "alarma",
+          "alerta",
+          "notificacion",
+          "umbral",
+          "email",
+          "monitor",
+          "aviso"
+        ]
+      }
     },
     {
       "id": "guia-historial",
@@ -560,7 +1503,33 @@
       "evidence": "Es la caja negra del avión. Todo queda registrado y nadie puede borrar ni modificar el historial.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44890320273043)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "historial",
+        "cat": "herramientas",
+        "icon": "📋",
+        "name": "Historial de Actividad",
+        "dota": false,
+        "one": "Registro inmutable de cada acción que ocurrió en el workspace: quién hizo qué y cuándo.",
+        "path": "Auditar → Historial de actividad",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44890320273043",
+        "analogy": "Es la caja negra del avión. Todo queda registrado y nadie puede borrar ni modificar el historial.",
+        "simple": "Indispensable para auditorías (SOX). Si alguien modifica una regla de cruce o concilia manualmente algo que no debía, aparece acá con timestamp y usuario.",
+        "usoCases": [
+          "Auditoría SOX: quién tocó qué y cuándo",
+          "Investigar por qué la conciliación SERCOM tuvo resultados distintos el martes"
+        ],
+        "tags": [
+          "historial",
+          "auditoria",
+          "actividad",
+          "log",
+          "SOX",
+          "inmutable",
+          "quien",
+          "cuando"
+        ]
+      }
     },
     {
       "id": "guia-fotos",
@@ -570,7 +1539,32 @@
       "evidence": "Como tomar una captura de pantalla de tu Excel al cierre de mes y guardarla. Congela el estado exacto para que nadie pueda decir \"los datos cambiaron después\".",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44890465841939)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "fotos",
+        "cat": "herramientas",
+        "icon": "📸",
+        "name": "Fotos (Snapshots)",
+        "dota": false,
+        "one": "Capturas estáticas del estado de una conciliación en un momento dado, usadas como evidencia de auditoría.",
+        "path": "Vista del recurso → Acciones → Crear foto",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44890465841939",
+        "analogy": "Como tomar una captura de pantalla de tu Excel al cierre de mes y guardarla. Congela el estado exacto para que nadie pueda decir \"los datos cambiaron después\".",
+        "simple": "La foto no se actualiza — es un snapshot estático. Configurás fotos automáticas mensuales para tener evidencia de cierre sin hacerlo manualmente.",
+        "usoCases": [
+          "Evidencia del cierre de mayo 2026 del proceso SERCOM",
+          "Adjuntar como soporte en las Conciliaciones de Cuentas del módulo contable"
+        ],
+        "tags": [
+          "foto",
+          "snapshot",
+          "captura",
+          "evidencia",
+          "auditoria",
+          "cierre",
+          "estático"
+        ]
+      }
     },
     {
       "id": "guia-auto-contables",
@@ -580,7 +1574,34 @@
       "evidence": "Cada vez que SERCOM concilia una recarga, automáticamente se genera un asiento \"Débito Caja / Crédito Ingresos por Recarga\" en SAP. Sin intervención humana.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49755523836691)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "auto-contables",
+        "cat": "contabilidad",
+        "icon": "📒",
+        "name": "Automatizaciones Contables",
+        "dota": false,
+        "one": "Reglas que generan asientos contables automáticamente cuando una transacción se concilia.",
+        "path": "Automatizar → Contabilidad → Automatizaciones contables",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/49755523836691",
+        "analogy": "Cada vez que SERCOM concilia una recarga, automáticamente se genera un asiento \"Débito Caja / Crédito Ingresos por Recarga\" en SAP. Sin intervención humana.",
+        "simple": "Definís el evento desencadenante (conciliado/desconciliado), qué columnas van al débito y cuáles al crédito, y hacia qué cuenta contable. El asiento se genera y viaja al ERP solo.",
+        "usoCases": [
+          "Cada match en SERCOM genera un asiento en SAP automáticamente",
+          "Los ajustes manuales en Cartera de Préstamos generan asientos de diferencia"
+        ],
+        "tags": [
+          "automatizacion",
+          "asiento",
+          "contable",
+          "SAP",
+          "ERP",
+          "journal",
+          "entry",
+          "débito",
+          "crédito"
+        ]
+      }
     },
     {
       "id": "guia-periodos",
@@ -590,7 +1611,28 @@
       "evidence": "Es como el \"mes\" en tu empresa. Cuando el mes de mayo termina, se \"cierra\" el período: ya no podés modificar transacciones de mayo, aunque encontrés un error.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45846826360979)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "periodos",
+        "cat": "contabilidad",
+        "icon": "📅",
+        "name": "Períodos Contables",
+        "dota": false,
+        "one": "Gestión del ciclo de cierre contable: apertura, en proceso, y cierre de cada período.",
+        "path": "Gestionar → Controles Contables → Períodos contables",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/45846826360979",
+        "analogy": "Es como el \"mes\" en tu empresa. Cuando el mes de mayo termina, se \"cierra\" el período: ya no podés modificar transacciones de mayo, aunque encontrés un error.",
+        "simple": "Para cerrar un período, todas las cuentas deben estar conciliadas y certificadas. El flujo es: preparar (analista) → revisar → certificar (supervisor). Maker-Checker obligatorio.",
+        "tags": [
+          "periodo",
+          "cierre",
+          "contable",
+          "mes",
+          "apertura",
+          "cerrar",
+          "certificar"
+        ]
+      }
     },
     {
       "id": "guia-asientos",
@@ -600,7 +1642,28 @@
       "evidence": "El libro de asientos de Simetrik. Cada transacción conciliada genera una entrada acá. Podés ver si el asiento llegó a SAP (posteado), si está pendiente o si falló.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434022979859)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "asientos",
+        "cat": "contabilidad",
+        "icon": "📝",
+        "name": "Asientos Contables",
+        "dota": false,
+        "one": "Vista de todos los journal entries generados: estado, ERP ID, fecha y posibilidad de gestionar reversos.",
+        "path": "Gestionar → Controles Contables → Asientos contables",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44434022979859",
+        "analogy": "El libro de asientos de Simetrik. Cada transacción conciliada genera una entrada acá. Podés ver si el asiento llegó a SAP (posteado), si está pendiente o si falló.",
+        "simple": "Si un asiento falla (no llega a SAP), aparece en estado \"Error\". Podés reintentar desde acá. Los reversos (cuando una transacción se desconcilia) también aparecen.",
+        "tags": [
+          "asiento",
+          "journal",
+          "entry",
+          "SAP",
+          "posteado",
+          "reverso",
+          "contable"
+        ]
+      }
     },
     {
       "id": "guia-erp-conex",
@@ -610,7 +1673,31 @@
       "evidence": "El \"cable\" que conecta Simetrik con SAP. Podés tener una conexión de TEST y una de PRODUCCIÓN. Siempre probás en TEST antes de mandar asientos reales a producción.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44436076646931)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "erp-conex",
+        "cat": "contabilidad",
+        "icon": "🔌",
+        "name": "Conexiones ERP",
+        "dota": false,
+        "one": "La integración técnica entre Simetrik y el ERP del cliente (SAP, Oracle, etc.) para envío automático de asientos.",
+        "path": "Automatizar → Contabilidad → Integraciones ERP",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44436076646931",
+        "analogy": "El \"cable\" que conecta Simetrik con SAP. Podés tener una conexión de TEST y una de PRODUCCIÓN. Siempre probás en TEST antes de mandar asientos reales a producción.",
+        "simple": "La IP estática de Simetrik es 3.15.118.236 — el equipo de SAP del cliente debe agregarla al whitelist del firewall para que los asientos lleguen.",
+        "usoCases": [
+          "Conexión FICOHSA-SAP-prod: envía asientos del proceso SERCOM al ERP de Ficohsa"
+        ],
+        "tags": [
+          "ERP",
+          "SAP",
+          "oracle",
+          "conexion",
+          "integración",
+          "asiento",
+          "enviar"
+        ]
+      }
     },
     {
       "id": "guia-plantillas",
@@ -620,7 +1707,28 @@
       "evidence": "Como las plantillas de Word o PowerPoint. Hay alguien que ya armó el proceso de conciliación para Visa — vos solo cargás tus archivos y funciona.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45199386482323)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "plantillas",
+        "cat": "herramientas",
+        "icon": "▤",
+        "name": "Catálogo de Plantillas",
+        "dota": false,
+        "one": "Configuraciones pre-construidas por el equipo de Simetrik para casos de uso comunes (Visa, Mastercard, etc.).",
+        "path": "Automatizar → Configuraciones rápidas → Catálogo de plantillas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/45199386482323",
+        "analogy": "Como las plantillas de Word o PowerPoint. Hay alguien que ya armó el proceso de conciliación para Visa — vos solo cargás tus archivos y funciona.",
+        "simple": "Tiene costo adicional — se contrata aparte. Antes de construir algo desde cero, revisá si ya hay una plantilla para tu caso.",
+        "warn": "Beta + costo adicional: el support team lo activa.",
+        "tags": [
+          "plantilla",
+          "template",
+          "catálogo",
+          "configuración rápida",
+          "visa",
+          "mastercard"
+        ]
+      }
     },
     {
       "id": "guia-replicas",
@@ -630,7 +1738,30 @@
       "evidence": "Como duplicar un archivo de Excel con todas las fórmulas. La configuración completa (fuentes + conciliaciones + tableros) se exporta como un JSON que podés importar en otro workspace.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45237822844179)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "replicas",
+        "cat": "herramientas",
+        "icon": "⇲",
+        "name": "Réplicas",
+        "dota": false,
+        "one": "Copia exacta de toda la configuración de un workspace para reutilizarla en otro cliente o ambiente.",
+        "path": "Automatizar → Configuraciones rápidas → Réplicas",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/45237822844179",
+        "analogy": "Como duplicar un archivo de Excel con todas las fórmulas. La configuración completa (fuentes + conciliaciones + tableros) se exporta como un JSON que podés importar en otro workspace.",
+        "simple": "Útil cuando tenés el mismo proceso para múltiples clientes o subsidiarias. Configurás una vez y replicás.",
+        "usoCases": [
+          "Si Ficohsa Honduras tiene el mismo proceso que Ficohsa Guatemala, replicás la configuración al workspace de Guatemala"
+        ],
+        "tags": [
+          "replica",
+          "copia",
+          "duplicar",
+          "json",
+          "workspace",
+          "configuracion"
+        ]
+      }
     },
     {
       "id": "guia-parsers",
@@ -640,7 +1771,33 @@
       "evidence": "Es como la función de \"texto a columnas\" de Excel, pero automatizada y mucho más potente. Si el banco te manda un TXT con ancho fijo, el parser lo convierte en una tabla con columnas.",
       "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44721497395603)",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "parsers",
+        "cat": "herramientas",
+        "icon": "🔄",
+        "name": "Parsers / Smart Parsers",
+        "dota": false,
+        "one": "Transforman archivos de formato complejo o no estándar al formato tabular que Simetrik puede procesar.",
+        "path": "Automatizar → Integraciones → Repositorios → configurar parser",
+        "doc": "https://simetriksoporte.zendesk.com/hc/es-419/articles/44721497395603",
+        "analogy": "Es como la función de \"texto a columnas\" de Excel, pero automatizada y mucho más potente. Si el banco te manda un TXT con ancho fijo, el parser lo convierte en una tabla con columnas.",
+        "simple": "Smart Parser es la versión con IA: detecta automáticamente el formato del archivo y sugiere cómo parsearlo. Acepta archivos de hasta 10 MB.",
+        "usoCases": [
+          "Convertir el TXT de ancho fijo de T24 en una tabla CSV",
+          "Separar un Excel multi-hoja en archivos CSV individuales"
+        ],
+        "tags": [
+          "parser",
+          "smart parser",
+          "parsear",
+          "transformar",
+          "txt",
+          "fixed width",
+          "formato",
+          "IA"
+        ]
+      }
     },
     {
       "id": "guia-dota-overview",
@@ -650,7 +1807,35 @@
       "evidence": "Imaginá que DOTA es la lista de ventas con tarjeta de un comercio y FD (First Data) es la lista de pagos que el banco adquirente dice que depositó. Tenés que cruzarlos para asegurarte de que cada venta fue liquidada correctamente.",
       "source": "Guía Simple · curso oficial Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "dota-overview",
+        "cat": "dota",
+        "icon": "🧪",
+        "name": "DOTA · Visión General del Caso",
+        "dota": true,
+        "one": "El caso DOTA es la prueba técnica de Implementation Specialist: conciliar transacciones de tarjetas (DOTA) contra el reporte del adquirente (First Data).",
+        "path": "En el módulo → tab Prueba DOTA",
+        "doc": "",
+        "analogy": "Imaginá que DOTA es la lista de ventas con tarjeta de un comercio y FD (First Data) es la lista de pagos que el banco adquirente dice que depositó. Tenés que cruzarlos para asegurarte de que cada venta fue liquidada correctamente.",
+        "simple": "El proceso tiene 16 puntos:\n1-7: Normalizar las columnas de DOTA (construir PAN, detectar marca, calcular fecha de pago)\n8: Enriquecer con la parametría de comercios (BuscarV)\n9-11: Normalizar las columnas de FD\n12: Conciliación avanzada con 5 barridas\n13: Saldo neto diario (add-on Saldos Persistentes)\n14-16: Tableros de análisis",
+        "usoCases": [
+          "Detectar pagos de tarjeta que First Data no liquidó",
+          "Identificar compensaciones entre PAYMENT y REFUND del mismo comercio",
+          "Calcular cuántos días lleva sin resolverse un débito"
+        ],
+        "tags": [
+          "dota",
+          "prueba",
+          "ficohsa",
+          "first data",
+          "fd",
+          "implementation",
+          "specialist",
+          "caso",
+          "tarjeta"
+        ]
+      }
     },
     {
       "id": "guia-dota-paso1",
@@ -660,7 +1845,29 @@
       "evidence": "El PAN de la tarjeta viene roto: los primeros 6 dígitos en una columna, los últimos 4 en otra. El medio (XXXXXX) es fijo. Hay que pegar las 3 partes, rellenando con ceros si faltan dígitos.",
       "source": "Guía Simple · curso oficial Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "dota-paso1",
+        "cat": "dota",
+        "icon": "1️⃣",
+        "name": "DOTA Punto 1 · CARD_NUMBER",
+        "dota": true,
+        "one": "Construir el número de tarjeta de 16 dígitos a partir de 2 columnas parciales.",
+        "path": "Fuente DB_DOTA → Columna de transformación",
+        "doc": "",
+        "analogy": "El PAN de la tarjeta viene roto: los primeros 6 dígitos en una columna, los últimos 4 en otra. El medio (XXXXXX) es fijo. Hay que pegar las 3 partes, rellenando con ceros si faltan dígitos.",
+        "formula": "CONCATENAR(\n  RELLENAR(CARD_SIX_FIRST_DIGITS; 6; \"0\"; \"IZQUIERDA\");\n  \"XXXXXX\";\n  RELLENAR(CARD_FOUR_LAST_DIGITS; 4; \"0\"; \"IZQUIERDA\")\n)",
+        "warn": "Cambiar CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS a tipo Texto ANTES de crear esta columna.",
+        "tags": [
+          "card number",
+          "pan",
+          "tarjeta",
+          "rellenar",
+          "concatenar",
+          "punto 1",
+          "16 dígitos"
+        ]
+      }
     },
     {
       "id": "guia-dota-compensacion",
@@ -670,7 +1877,33 @@
       "evidence": "Si el comercio vendió $100 y 2 horas después devolvió $100 al mismo cliente, esas dos transacciones se \"cancelan entre sí\" dentro de DOTA antes de cruzarlas contra FD. Ese auto-cruce es la compensación.",
       "source": "Guía Simple · curso oficial Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "dota-compensacion",
+        "cat": "dota",
+        "icon": "💸",
+        "name": "DOTA · Compensación (Barridas B1 y B2)",
+        "dota": true,
+        "one": "Las primeras dos barridas de DOTA se cruzan la fuente DOTA consigo misma para anular pares PAYMENT/REFUND.",
+        "path": "Conciliación avanzada → Barrida de Compensación",
+        "doc": "",
+        "analogy": "Si el comercio vendió $100 y 2 horas después devolvió $100 al mismo cliente, esas dos transacciones se \"cancelan entre sí\" dentro de DOTA antes de cruzarlas contra FD. Ese auto-cruce es la compensación.",
+        "formula": "Llaves B1:\n  A.GTWT_MERCHANT_NUMBER = B.GTWT_MERCHANT_NUMBER\n  A.GTWC_AUTHORIZATION_CODE = B.GTWC_AUTHORIZATION_CODE\n  ABS(A.MONTO) = ABS(B.MONTO)\nRestricción: A.OP ≠ B.OP (no cruzar PAYMENT con PAYMENT)",
+        "usoCases": [
+          "B1: compensación exacta — monto idéntico",
+          "B2: compensación con tolerancia de $5 — diferencia de centavos aceptable"
+        ],
+        "tags": [
+          "compensacion",
+          "b1",
+          "b2",
+          "payment",
+          "refund",
+          "auto-cruce",
+          "anular",
+          "offset"
+        ]
+      }
     },
     {
       "id": "guia-saldos-persistentes",
@@ -680,7 +1913,30 @@
       "evidence": "Es como el saldo de tu cuenta bancaria: cada día, el saldo de hoy = saldo de ayer + transacciones de hoy. Simetrik lo calcula automáticamente para cada comercio.",
       "source": "Guía Simple · curso oficial Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "id": "saldos-persistentes",
+        "cat": "dota",
+        "icon": "💰",
+        "name": "Saldos Persistentes (Punto 13)",
+        "dota": true,
+        "one": "Add-on que calcula el saldo acumulado por clave y fecha de forma incremental — el balance histórico de cada comercio.",
+        "path": "Add-ons → Saldos → Nuevo saldo",
+        "doc": "",
+        "analogy": "Es como el saldo de tu cuenta bancaria: cada día, el saldo de hoy = saldo de ayer + transacciones de hoy. Simetrik lo calcula automáticamente para cada comercio.",
+        "simple": "Configuración para DOTA:\n• Fuente: DB_DOTA (con MONTO_NETO ya calculado)\n• Llave/Agrupador: GTWT_MERCHANT_NUMBER\n• Columna de fecha: MOV_CREATION_DATE\n• Columna de valor: MONTO_NETO (con signo)\n• Tipo: \"Acumulado diario\"",
+        "warn": "Si el workspace no tiene este add-on activo, alternativa: usar Tabla Dinámica (solo muestra movimientos diarios, no saldo acumulado).",
+        "tags": [
+          "saldo",
+          "persistente",
+          "acumulado",
+          "diario",
+          "balance",
+          "punto 13",
+          "add-on",
+          "comercio"
+        ]
+      }
     },
     {
       "id": "dict-is",

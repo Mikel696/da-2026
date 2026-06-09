@@ -139,7 +139,7 @@ body.in-iframe .da-strip{display:none}
 
 <script>
 /* ─── BASE DE DATOS COMPLETA ─── */
-const GUIDE = [
+let GUIDE = [
 
 /* ══ BÁSICOS ══ */
 { id:'fuente', cat:'basicos', icon:'🗄️', name:'Fuente', dota:true,
@@ -764,6 +764,16 @@ function setFilter(cat, btn){
 
 // Inicializar
 renderAll();
+
+// ── Fase 2: la Guía se alimenta del cerebro (simetrik-kb.json). El array de arriba queda como fallback offline. ──
+fetch('../data/simetrik-kb.json',{cache:'no-store'})
+  .then(r=>r.ok?r.json():null)
+  .then(kb=>{
+    if(!kb||!kb.entries) return;
+    const fromBrain = kb.entries.filter(e=>e.id&&e.id.indexOf('guia-')===0&&e.detail).map(e=>e.detail);
+    if(fromBrain.length){ GUIDE = fromBrain; renderAll(); console.log('[Guía] alimentada desde el cerebro: '+fromBrain.length+' entradas (v'+(kb.meta&&kb.meta.version)+')'); }
+  })
+  .catch(e=>console.warn('[Guía] fetch falló, uso array embebido (fallback)',e));
 </script>
 </body>
 </html>

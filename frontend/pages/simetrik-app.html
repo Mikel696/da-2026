@@ -442,10 +442,10 @@ const SCREENS = {
   },
   recursos(){
     return scr('Recursos','El corazón de la plataforma. Creás y administrás Sources, Source Unions, Reconciliations y más.',
-      'Recursos y conciliaciones','Acá vive todo lo que construís. Click "Crear recurso" y elegís: Source (archivo cargado), Source Union (agrupa sources), Standard/Advanced Reconciliation, Reconcilable Group, VLOOKUP/Enrichment.',
+      'Recursos y conciliaciones','Acá vive todo lo que construís. Click "Crear recurso" y elegís (opciones reales de la plataforma): Fuentes, Agrupaciones, Conciliación estándar, Conciliación avanzada, Fuentes de apertura, Unión de fuentes.',
       [['tip','Best practice #1: cada Source siempre dentro de un Source Union, incluso si es una sola'],['warn','El primer archivo define el layout. Si cambia → status "failed" → creá nueva Source']],
       `<div class="mc-toolbar">
-        <button class="mc-btn">+ Crear recurso${tip('Acción','Crear recurso','El menú de creación. Opciones: Source · Source Union · Standard Reconciliation · Advanced Reconciliation · Reconcilable Group · VLOOKUP.','Tu día 1 con SERCOM: creás 3 Sources (T24, CLARO, SAP), 3 Source Unions, 1 Advanced Reconciliation.','Empezá siempre por las Sources, después los Unions, después las Reconciliations. De abajo hacia arriba.','cr')}</button>
+        <button class="mc-btn">+ Crear recurso${tip('Acción','Crear recurso','El menú de creación. Opciones reales: Fuentes · Agrupaciones · Conciliación estándar · Conciliación avanzada · Fuentes de apertura · Unión de fuentes. (El Grupo Conciliable NO está acá: es un campo dentro de la Unión.)','Tu día 1 con SERCOM: creás 3 Fuentes (T24, CLARO, SAP), 3 Uniones de fuentes, 1 Conciliación avanzada.','Empezá siempre por las Fuentes, después las Uniones, después las Conciliaciones. De abajo hacia arriba.','cr')}</button>
         <span class="mc-search">🔍 Buscar recurso...</span>
         <button class="mc-btn ghost">⚙ Normalizar${tip('Proceso','Normalization / Change Format','Revisás cada columna: tipo (numeric/text/date), formato original, formato deseado. Se hace UNA vez por Source; los archivos futuros heredan la config.','La fecha de T24 viene "29/04/2026" y la de SAP "16-Apr-2026" → las normalizás ambas a YYYY-MM-DD para que crucen.','El Smart Date Format (IA) identifica el formato original entre 500+ tipos. Dejá que sugiera, vos validá.','cr')}</button>
       </div>
