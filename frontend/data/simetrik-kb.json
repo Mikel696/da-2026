@@ -1,11 +1,23 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-05.1",
+    "version": "2026-06-05.2",
     "last_updated": "2026-06-05",
     "ingested_sources": [],
-    "categories": ["regla", "plataforma", "funcion", "gotcha", "conciliacion", "caso", "glosario"],
-    "inbox_notebook": "Simetrik · Ingesta"
+    "categories": [
+      "regla",
+      "plataforma",
+      "funcion",
+      "gotcha",
+      "conciliacion",
+      "caso",
+      "glosario"
+    ],
+    "inbox_notebook": "Simetrik · Ingesta",
+    "consolidated": [
+      "Guía Simple",
+      "Diccionario"
+    ]
   },
   "entries": [
     {
@@ -196,6 +208,3486 @@
       "evidence": "Archivo del Drive verificado (rango 2019-2072).",
       "source": "Drive trainer 2026-06-04",
       "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fuente",
+      "cat": "plataforma",
+      "title": "Fuente",
+      "body": "La puerta de entrada de tus archivos a Simetrik. Cada tipo de archivo tiene su propia fuente. · Ruta: Automatizar → Recursos → Crear recurso → Fuentes · Pasos: Automatizar → Recursos → \"Crear recurso\" → Fuentes → Ponerle un nombre descriptivo (ej: DB_DOTA) → Ir al Gestor de Archivos que aparece → arrastrar el archivo → Esperar que el estado cambie a Listo ✓ · ⚠ Excel con múltiples hojas NO funciona directamente. Hay que usar un Parser primero para separar las hojas.",
+      "evidence": "Es como crear una carpeta dedicada en tu computadora para un tipo específico de archivo. Cada vez que llega un nuevo reporte del banco, lo tirás en esa carpeta y Simetrik lo procesa automáticamente.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44449344929939)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-union",
+      "cat": "plataforma",
+      "title": "Unión de Fuentes",
+      "body": "Combina varias fuentes del mismo tipo en una sola tabla, como si fueran una. · Ruta: Automatizar → Recursos → Crear recurso → Unión de fuentes · Pasos: Automatizar → Recursos → \"Crear recurso\" → Unión de fuentes → Elegir la primera fuente → seleccionar las columnas a incluir → Verificar el tipo de dato de cada columna → Agregar más fuentes si aplica → \"Ejecutar cambios\" · ⚠ Cuando agregas una fuente y el formato tiene columnas distintas, Simetrik te avisa la inconsistencia y te da a elegir: definir nueva interpretación u omitir el registro.",
+      "evidence": "Es como el UNION ALL de SQL o como apilar varias hojas de Excel en una sola. Tenés reporte de enero, febrero y marzo en archivos separados → los \"unís\" y los ves como un solo reporte.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44449461182995)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-vista-recursos",
+      "cat": "plataforma",
+      "title": "Vista de Recursos",
+      "body": "La pantalla principal donde ves y gestionás todos tus recursos: fuentes, uniones, conciliaciones, agrupaciones. · Ruta: Automatizar → Recursos y conciliaciones → Recursos",
+      "evidence": "Es tu explorador de archivos pero para todos los recursos de Simetrik. Como el Finder de Mac o el Explorador de Windows — todo está acá organizado.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49010089276179)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-tipos-columnas",
+      "cat": "plataforma",
+      "title": "Tipos de columna",
+      "body": "Define cómo Simetrik interpreta cada columna de tus datos. Si elegís mal, las fórmulas fallan. · Ruta: Vista tabla del recurso → click derecho en el encabezado → Dar formato · ⚠ CARD_SIX_FIRST_DIGITS debe ser Texto ANTES de crear la fórmula CARD_NUMBER. Si está como Número, los ceros desaparecen y la fórmula da resultados incorrectos.",
+      "evidence": "Es como el formato de celda en Excel. Si una columna con \"01/05/2026\" la marcás como Texto, Simetrik no puede hacer cálculos de fecha con ella. Tenés que marcarla como Fecha.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44674432937875)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-columnas-sistema",
+      "cat": "plataforma",
+      "title": "Columnas del sistema",
+      "body": "Columnas que Simetrik crea automáticamente en cada recurso — no las configurás vos, aparecen solas. · Ruta: En cualquier recurso → se identifican con ícono de escudo",
+      "evidence": "Son como los metadatos de un archivo: fecha de creación, tamaño, autor. En Simetrik son: ID del registro, fecha de carga, usuario, estado de conciliación.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768148086291)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-desencadenante",
+      "cat": "plataforma",
+      "title": "Desencadenante",
+      "body": "El recurso que \"dispara\" la ejecución automática de una conciliación cuando recibe datos nuevos. · Ruta: Configuración de la conciliación → botón \"Recurso desencadenante\"",
+      "evidence": "Es como el trigger de una macro de Excel. Cuando el archivo A se actualiza, automáticamente se ejecuta el proceso. En Simetrik: cuando el Reporte FD llega, la conciliación DOTA × FD se ejecuta sola.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44403058338835)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-col-transformacion",
+      "cat": "funcion",
+      "title": "Columnas de transformación",
+      "body": "Fórmulas para calcular nuevos valores o transformar datos existentes dentro de Simetrik. · Ruta: Vista tabla del recurso → Crear columna → Transformación · ⚠ HOY() NO existe en Simetrik. La función correcta es TODAY() y solo está disponible dentro de Agrupaciones.",
+      "evidence": "Son como las fórmulas de Excel, pero dentro de Simetrik. En vez de escribir =CONCATENAR(A1;B1) en una celda, configurás una columna de transformación y Simetrik aplica la fórmula a todas las filas automáticamente.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-si",
+      "cat": "funcion",
+      "title": "Función SI (condicional)",
+      "body": "Evalúa una condición y devuelve un valor si es verdadera, otro si es falsa. · Ruta: Columna de transformación",
+      "evidence": "Es el IF de Excel. SI(condición; valor_verdadero; valor_falso). La única diferencia es que en Simetrik el separador es ; en lugar de ,",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-concatenar",
+      "cat": "funcion",
+      "title": "CONCATENAR",
+      "body": "Une varios valores de texto en uno solo. · Ruta: Columna de transformación",
+      "evidence": "Es como pegar trozos de texto con pegamento. \"Hola\" + \" \" + \"Miguel\" = \"Hola Miguel\".",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-rellenar",
+      "cat": "funcion",
+      "title": "RELLENAR (LPAD/RPAD)",
+      "body": "Rellena un string con caracteres hasta alcanzar un largo definido. El LPAD/RPAD de Simetrik. · Ruta: Columna de transformación · ⚠ La columna fuente debe ser tipo Texto ANTES de aplicar RELLENAR. Si está como Número, la función falla.",
+      "evidence": "Es como formatear una celda de número con ceros a la izquierda. \"42\" se convierte en \"000042\" si le pedís 6 caracteres.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-extraer-regex",
+      "cat": "funcion",
+      "title": "EXTRAER_EXPREGULAR (búsqueda de texto)",
+      "body": "Busca un patrón dentro de un texto y devuelve lo que encontró. Si no encuentra nada, devuelve \"\". · Ruta: Columna de transformación",
+      "evidence": "Es como la función BUSCAR de Word, pero más poderosa. Podés decirle \"buscame MASTERCARD o VISA o AMEX en este texto\" y te dice qué encontró.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-fechas",
+      "cat": "funcion",
+      "title": "Funciones de fecha",
+      "body": "Para trabajar con fechas: extraer partes, calcular diferencias, sumar días. · Ruta: Columna de transformación / Agrupación · ⚠ TODAY() no está disponible en columnas de transformación de una Fuente directa. Solo funciona dentro de una Agrupación.",
+      "evidence": "Son como las funciones de fecha de Excel (HOY, AÑO, MES, DIA, DATEDIF) pero con nombres en español.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fn-esblanco",
+      "cat": "funcion",
+      "title": "ESBLANCO (verificar vacíos)",
+      "body": "Detecta si una celda está vacía o nula. Devuelve TRUE si está vacía, FALSE si tiene algo. · Ruta: Columna de transformación",
+      "evidence": "Es el ISBLANK de Excel. Cuando una columna puede venir vacía en algunos registros y querés manejar ese caso.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49768158612243)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-conc-estandar",
+      "cat": "conciliacion",
+      "title": "Conciliación Estándar",
+      "body": "Compara automáticamente dos fuentes de datos y clasifica los registros como conciliados o pendientes. · Ruta: Automatizar → Recursos y conciliaciones → Conciliaciones → Crear → Estándar · Pasos: Crear recurso → Conciliación estándar → Elegir Fuente A y Fuente B → Elegir el desencadenante → Configurar cruce (barridas y reglas) → Confirmar y ejecutar",
+      "evidence": "Es como cruzar dos listas manualmente pero automático. Tenés la lista del banco (fuente A) y la lista interna (fuente B) — Simetrik busca cuáles coinciden y te dice cuáles no.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44586931880979)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-conc-avanzada",
+      "cat": "conciliacion",
+      "title": "Conciliación Avanzada",
+      "body": "Para procesos complejos que necesitan compensar débitos/créditos y encadenar múltiples barridas en una sola interfaz. · Ruta: Automatizar → Recursos y conciliaciones → Conciliaciones → Crear → Avanzada · Pasos: Crear recurso → Conciliación avanzada → Seleccionar Lado A y Lado B → Decidir si segmentar (opcional) → Configurar desencadenante → Configurar barridas en orden → Ejecutar y revisar resultados en el diagrama",
+      "evidence": "Si la estándar es como una \"búsqueda simple\", la avanzada es como una \"búsqueda con filtros avanzados\". Podés decirle: primero compensá los PAYMENT contra REFUND de la misma fuente, después cruzá los pendientes contra la otra fuente, y si no cruzan exactos, intentá con tolerancia.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44672397687059)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-barrida",
+      "cat": "conciliacion",
+      "title": "Barrida",
+      "body": "Un conjunto de reglas que define cuándo dos registros de fuentes distintas \"hacen match\". · Ruta: Configuración de cruce dentro de cualquier conciliación · ⚠ Si la robustez de la barrida es roja (débil), Simetrik no ejecuta la conciliación. Hay que agregar más llaves hasta que sea verde o amarilla.",
+      "evidence": "Es como un filtro de búsqueda. \"Quiero emparejar registros donde el código de autorización sea igual Y el comercio sea igual Y el monto sea igual\". Esa combinación de condiciones es una barrida.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-tolerancia",
+      "cat": "conciliacion",
+      "title": "Tolerancia",
+      "body": "Un margen de diferencia aceptable para que dos registros hagan match aunque no sean exactamente iguales. · Ruta: Dentro de la configuración de una barrida → llave con operador ~= · ⚠ La tolerancia NO funciona en cruces N:N. Solo en 1:1.",
+      "evidence": "Como decirle a Simetrik: \"si el monto de DOTA es $100.00 y el de FD es $99.98, igualmente consideralos como el mismo pago\". El umbral aceptable lo definís vos.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-config-cruce",
+      "cat": "conciliacion",
+      "title": "Configuración de Cruce",
+      "body": "El conjunto completo de opciones que definen cómo Simetrik cruza los datos: barridas, tipo de cruce, tolerancias, Universal ID. · Ruta: Dentro de cualquier conciliación → \"Configurar cruce\"",
+      "evidence": "Es el \"panel de control\" de la conciliación. Acá definís todo: con qué campos cruzar, si admitís diferencias, si es un cruce uno-a-uno o uno-a-muchos.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-universal-id",
+      "cat": "conciliacion",
+      "title": "Universal ID (SKT_ID)",
+      "body": "Un identificador único que Simetrik le asigna a cada registro para rastrearlo a través de múltiples recursos y procesos. · Ruta: Configuración de cruce → barra de herramientas → Global ID",
+      "evidence": "Es como el número de expediente de un trámite. Podés tener el mismo trámite en distintas oficinas, pero el número de expediente siempre te dice que son el mismo caso.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673314309651)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-agrupacion",
+      "cat": "conciliacion",
+      "title": "Agrupación",
+      "body": "Organiza y clasifica datos de otros recursos en grupos, con cálculos como suma o conteo. El único lugar donde funciona TODAY(). · Ruta: Automatizar → Recursos → Crear recurso → Agrupación · ⚠ No podés usar dos agrupaciones acumulativas en la misma conciliación.",
+      "evidence": "Es como una tabla dinámica de Excel pero \"viva\": se actualiza sola cuando llegan datos nuevos. Podés agrupar por comercio y calcular el saldo total de cada uno.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44680591190803)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-buscarv",
+      "cat": "conciliacion",
+      "title": "BuscarV (VLOOKUP)",
+      "body": "Enriquece una fuente con columnas de otra fuente, usando una columna común como llave de búsqueda. · Ruta: Vista tabla del recurso → ícono \"Crear BuscarV\" en la barra de columnas · Pasos: Vista tabla de la fuente → ícono \"Crear BuscarV\" → Nombre de la columna nueva → Recurso fuente a consultar → Columnas a traer → Condiciones de cruce (col_A = col_B) → Guardar y ver tabla · ⚠ Si los tipos de dato de las columnas llave no coinciden, el BuscarV devuelve vacío. Verificar que ambas sean Texto o ambas Número.",
+      "evidence": "Es el VLOOKUP/BUSCARV de Excel. \"Busca el código de comercio en la tabla de parametría y tráeme el tipo de comercio que le corresponde\".",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44794712671763)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-conc-encadenada",
+      "cat": "conciliacion",
+      "title": "Conciliación Encadenada",
+      "body": "Conecta conciliaciones en cadena: los pendientes de una son la entrada de la siguiente. · Ruta: Al crear una conciliación → seleccionar como fuente los pendientes de una conciliación previa",
+      "evidence": "Es como un proceso de escalamiento. Lo que no resolvió el nivel 1 pasa al nivel 2, lo que no resolvió el nivel 2 pasa al nivel 3.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434453864083)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-tableros",
+      "cat": "plataforma",
+      "title": "Tableros (Dashboards)",
+      "body": "Dashboards con KPIs, gráficos y tablas para analizar los resultados de tus conciliaciones. · Ruta: Automatizar → Análisis → Tableros · Pasos: Automatizar → Análisis → Tableros → \"Crear\" → Tableros → Nombre + tipo (Operativo o Contable) → Click \"Configuración\" → agregar visuales · ⚠ El path correcto es Automatizar → Análisis → Tableros. NO es desde Gestionar.",
+      "evidence": "Es como el Power BI o el Looker Studio de Simetrik, pero integrado. En vez de exportar datos para graficar afuera, armás el dashboard directamente en la plataforma.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45657122653715)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-kpi-individual",
+      "cat": "plataforma",
+      "title": "KPI Individual",
+      "body": "Un número grande y destacado en el tablero, calculado con CONTAR, SUMA, porcentaje, etc. · Ruta: Tablero → Configuración → Visuales → KPI Individual",
+      "evidence": "El número gigante que ves en los dashboards ejecutivos. \"94% conciliado\" en verde. \"6% pendiente\" en rojo. Un solo número que dice todo.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44670219304339)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-grafico",
+      "cat": "plataforma",
+      "title": "Gráficos",
+      "body": "Barras, líneas, tortas y mapas de calor para visualizar tendencias y comparaciones. · Ruta: Tablero → Configuración → Visuales → Gráfico",
+      "evidence": "Los gráficos de Excel pero dentro de Simetrik. Elegís el tipo, la fuente, qué va en X, qué va en Y.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44435028764691)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-tabla-dinamica",
+      "cat": "plataforma",
+      "title": "Tabla Dinámica",
+      "body": "La tabla dinámica (pivot table) de Simetrik: cruza filas × columnas con funciones de agregación. · Ruta: Tablero → Configuración → Visuales → Tabla Dinámica",
+      "evidence": "Es el pivot table de Excel adentro del dashboard. Filas = fecha, Columnas = tipo de transacción, Valores = SUMA del monto.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434803544723)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-monitores",
+      "cat": "plataforma",
+      "title": "Monitores",
+      "body": "Agrupan varias conciliaciones bajo un \"monitor\" para hacer seguimiento del match rate en conjunto y configurar alarmas. · Ruta: Automatizar → Análisis → Monitores",
+      "evidence": "Es como un \"grupo de Slack\" para tus conciliaciones. Ponés las relacionadas juntas y podés ver su salud de un vistazo.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44675781844755)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-consola",
+      "cat": "plataforma",
+      "title": "Consola de Desarrollo",
+      "body": "Logs en tiempo real de cada archivo que entra a Simetrik. Tu herramienta de diagnóstico #1 cuando algo falla. · Ruta: Herramientas → Consola de Desarrollo",
+      "evidence": "Es el \"inspector\" del navegador pero para tus datos. Te dice exactamente en qué fila y qué columna hay un error de tipo de dato.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49786424821907)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-procesos",
+      "cat": "plataforma",
+      "title": "Procesos",
+      "body": "Monitor de todas las tareas en ejecución, en cola o terminadas en el workspace. · Ruta: Herramientas → Procesos",
+      "evidence": "Es el Administrador de Tareas de Windows pero para Simetrik. Ves qué está corriendo, cuánto tarda, si terminó bien o falló.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44673313631379)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-mapas",
+      "cat": "plataforma",
+      "title": "Mapas",
+      "body": "Visualización gráfica de las dependencias entre recursos del workspace. · Ruta: Herramientas → Mapas",
+      "evidence": "Es el organigrama de tus datos. Te muestra qué alimenta a qué: Fuente → Unión → Conciliación → Agrupación. Como un diagrama de flujo.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44448962638099)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-papelera",
+      "cat": "plataforma",
+      "title": "Papelera",
+      "body": "Recursos eliminados que podés recuperar dentro de los 30 días siguientes. · Ruta: Herramientas → Papelera · Pasos: Herramientas → Papelera → Buscar el recurso por nombre → Click \"Restaurar\" · ⚠ Antes de borrar un recurso, ir a Herramientas → Mapas para ver qué depende de él.",
+      "evidence": "La papelera de reciclaje de tu computadora. Borrar no es definitivo por 30 días. Podés restaurar si te equivocaste.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44680112108691)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-central-descargas",
+      "cat": "plataforma",
+      "title": "Central de Descargas",
+      "body": "Centro de descargas de reportes, exportaciones CSV/Excel y PDFs generados por el workspace. · Ruta: Herramientas → Central de descargas",
+      "evidence": "Como el historial de descargas del navegador, pero para todo lo que exportaste desde Simetrik. Los archivos se quedan acá disponibles por un tiempo y después expiran.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44776643702163)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-buscador-reg",
+      "cat": "plataforma",
+      "title": "Buscador de Registros",
+      "body": "Rastrea un registro específico a través de toda la cadena de recursos del workspace. · Ruta: Gestionar → Controles operativos → Buscador de registros",
+      "evidence": "Es como buscar un número de pedido en un sistema de logística: te dice en qué estado está en cada etapa del proceso.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44721414912403)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-alarmas",
+      "cat": "plataforma",
+      "title": "Alarmas",
+      "body": "Notificaciones automáticas cuando el match rate de una conciliación cae por debajo de un umbral definido. · Ruta: Gestionar → Hallazgos → Alarmas · Pasos: Gestionar → Hallazgos → Alarmas → \"Crear alarma\" → Nombre + tipo de alarma + monitor a vigilar → Umbral (ej: alerta si pendientes > 10%) → Definir destinatarios del email",
+      "evidence": "Es como las alertas de precio en un banco. \"Si SERCOM baja del 90% de conciliación, mandame un email\".",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44741094212883)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-historial",
+      "cat": "plataforma",
+      "title": "Historial de Actividad",
+      "body": "Registro inmutable de cada acción que ocurrió en el workspace: quién hizo qué y cuándo. · Ruta: Auditar → Historial de actividad",
+      "evidence": "Es la caja negra del avión. Todo queda registrado y nadie puede borrar ni modificar el historial.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44890320273043)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-fotos",
+      "cat": "plataforma",
+      "title": "Fotos (Snapshots)",
+      "body": "Capturas estáticas del estado de una conciliación en un momento dado, usadas como evidencia de auditoría. · Ruta: Vista del recurso → Acciones → Crear foto",
+      "evidence": "Como tomar una captura de pantalla de tu Excel al cierre de mes y guardarla. Congela el estado exacto para que nadie pueda decir \"los datos cambiaron después\".",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44890465841939)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-auto-contables",
+      "cat": "plataforma",
+      "title": "Automatizaciones Contables",
+      "body": "Reglas que generan asientos contables automáticamente cuando una transacción se concilia. · Ruta: Automatizar → Contabilidad → Automatizaciones contables",
+      "evidence": "Cada vez que SERCOM concilia una recarga, automáticamente se genera un asiento \"Débito Caja / Crédito Ingresos por Recarga\" en SAP. Sin intervención humana.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/49755523836691)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-periodos",
+      "cat": "plataforma",
+      "title": "Períodos Contables",
+      "body": "Gestión del ciclo de cierre contable: apertura, en proceso, y cierre de cada período. · Ruta: Gestionar → Controles Contables → Períodos contables",
+      "evidence": "Es como el \"mes\" en tu empresa. Cuando el mes de mayo termina, se \"cierra\" el período: ya no podés modificar transacciones de mayo, aunque encontrés un error.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45846826360979)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-asientos",
+      "cat": "plataforma",
+      "title": "Asientos Contables",
+      "body": "Vista de todos los journal entries generados: estado, ERP ID, fecha y posibilidad de gestionar reversos. · Ruta: Gestionar → Controles Contables → Asientos contables",
+      "evidence": "El libro de asientos de Simetrik. Cada transacción conciliada genera una entrada acá. Podés ver si el asiento llegó a SAP (posteado), si está pendiente o si falló.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44434022979859)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-erp-conex",
+      "cat": "plataforma",
+      "title": "Conexiones ERP",
+      "body": "La integración técnica entre Simetrik y el ERP del cliente (SAP, Oracle, etc.) para envío automático de asientos. · Ruta: Automatizar → Contabilidad → Integraciones ERP",
+      "evidence": "El \"cable\" que conecta Simetrik con SAP. Podés tener una conexión de TEST y una de PRODUCCIÓN. Siempre probás en TEST antes de mandar asientos reales a producción.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44436076646931)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-plantillas",
+      "cat": "plataforma",
+      "title": "Catálogo de Plantillas",
+      "body": "Configuraciones pre-construidas por el equipo de Simetrik para casos de uso comunes (Visa, Mastercard, etc.). · Ruta: Automatizar → Configuraciones rápidas → Catálogo de plantillas · ⚠ Beta + costo adicional: el support team lo activa.",
+      "evidence": "Como las plantillas de Word o PowerPoint. Hay alguien que ya armó el proceso de conciliación para Visa — vos solo cargás tus archivos y funciona.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45199386482323)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-replicas",
+      "cat": "plataforma",
+      "title": "Réplicas",
+      "body": "Copia exacta de toda la configuración de un workspace para reutilizarla en otro cliente o ambiente. · Ruta: Automatizar → Configuraciones rápidas → Réplicas",
+      "evidence": "Como duplicar un archivo de Excel con todas las fórmulas. La configuración completa (fuentes + conciliaciones + tableros) se exporta como un JSON que podés importar en otro workspace.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/45237822844179)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-parsers",
+      "cat": "plataforma",
+      "title": "Parsers / Smart Parsers",
+      "body": "Transforman archivos de formato complejo o no estándar al formato tabular que Simetrik puede procesar. · Ruta: Automatizar → Integraciones → Repositorios → configurar parser",
+      "evidence": "Es como la función de \"texto a columnas\" de Excel, pero automatizada y mucho más potente. Si el banco te manda un TXT con ancho fijo, el parser lo convierte en una tabla con columnas.",
+      "source": "Guía Simple · curso oficial Simetrik (https://simetriksoporte.zendesk.com/hc/es-419/articles/44721497395603)",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-dota-overview",
+      "cat": "plataforma",
+      "title": "DOTA · Visión General del Caso",
+      "body": "El caso DOTA es la prueba técnica de Implementation Specialist: conciliar transacciones de tarjetas (DOTA) contra el reporte del adquirente (First Data). · Ruta: En el módulo → tab Prueba DOTA",
+      "evidence": "Imaginá que DOTA es la lista de ventas con tarjeta de un comercio y FD (First Data) es la lista de pagos que el banco adquirente dice que depositó. Tenés que cruzarlos para asegurarte de que cada venta fue liquidada correctamente.",
+      "source": "Guía Simple · curso oficial Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-dota-paso1",
+      "cat": "plataforma",
+      "title": "DOTA Punto 1 · CARD_NUMBER",
+      "body": "Construir el número de tarjeta de 16 dígitos a partir de 2 columnas parciales. · Ruta: Fuente DB_DOTA → Columna de transformación · ⚠ Cambiar CARD_SIX_FIRST_DIGITS y CARD_FOUR_LAST_DIGITS a tipo Texto ANTES de crear esta columna.",
+      "evidence": "El PAN de la tarjeta viene roto: los primeros 6 dígitos en una columna, los últimos 4 en otra. El medio (XXXXXX) es fijo. Hay que pegar las 3 partes, rellenando con ceros si faltan dígitos.",
+      "source": "Guía Simple · curso oficial Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-dota-compensacion",
+      "cat": "plataforma",
+      "title": "DOTA · Compensación (Barridas B1 y B2)",
+      "body": "Las primeras dos barridas de DOTA se cruzan la fuente DOTA consigo misma para anular pares PAYMENT/REFUND. · Ruta: Conciliación avanzada → Barrida de Compensación",
+      "evidence": "Si el comercio vendió $100 y 2 horas después devolvió $100 al mismo cliente, esas dos transacciones se \"cancelan entre sí\" dentro de DOTA antes de cruzarlas contra FD. Ese auto-cruce es la compensación.",
+      "source": "Guía Simple · curso oficial Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "guia-saldos-persistentes",
+      "cat": "plataforma",
+      "title": "Saldos Persistentes (Punto 13)",
+      "body": "Add-on que calcula el saldo acumulado por clave y fecha de forma incremental — el balance histórico de cada comercio. · Ruta: Add-ons → Saldos → Nuevo saldo · ⚠ Si el workspace no tiene este add-on activo, alternativa: usar Tabla Dinámica (solo muestra movimientos diarios, no saldo acumulado).",
+      "evidence": "Es como el saldo de tu cuenta bancaria: cada día, el saldo de hoy = saldo de ayer + transacciones de hoy. Simetrik lo calcula automáticamente para cada comercio.",
+      "source": "Guía Simple · curso oficial Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-is",
+      "cat": "glosario",
+      "title": "IS (Implementation Specialist)",
+      "body": "Especialista de Implementación. El encargado de llevar el diseño en papel a la configuración real en la plataforma Simetrik.",
+      "evidence": "Tú eres el IS en el proyecto Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-rfp",
+      "cat": "glosario",
+      "title": "RFP (Request For Proposal)",
+      "body": "Solicitud de Propuesta. Documento original donde el cliente describe la necesidad y los proveedores cotizan.",
+      "evidence": "El RFP de Ficohsa pidió conciliar 945 cuentas y +35M transacciones/mes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sdd",
+      "cat": "glosario",
+      "title": "SDD (Solution Design Document)",
+      "body": "Documento de Diseño de la Solución. Tu mapa de trabajo: define reglas de matching, integraciones, parseos y outputs.",
+      "evidence": "El SDD estimó 54h para configurar el proceso SERCOM.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sftp",
+      "cat": "glosario",
+      "title": "SFTP (Secure File Transfer Protocol)",
+      "body": "Protocolo de transferencia segura de archivos. La carpeta donde el banco deposita archivos TXT cada noche para que Simetrik los lea.",
+      "evidence": "T24 deja un .TXT en la SFTP cada 23:30; Simetrik lo ingiere a las 23:45.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gl",
+      "cat": "glosario",
+      "title": "GL (General Ledger)",
+      "body": "Libro Mayor. Registro central contable. El objetivo de Simetrik es que todo cruce contra el GL.",
+      "evidence": "El GL de Ficohsa vive en SAP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-kyc",
+      "cat": "glosario",
+      "title": "KYC (Know Your Customer)",
+      "body": "Conoce a tu Cliente. Normativa que obliga a validar identidad y perfil de riesgo.",
+      "evidence": "KYC alimenta scoring de fraude.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-aml",
+      "cat": "glosario",
+      "title": "AML (Anti-Money Laundering)",
+      "body": "Anti Lavado de Activos. Monitorea y reporta operaciones inusuales.",
+      "evidence": "Simetrik genera trazabilidad para reportes AML.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-csm",
+      "cat": "glosario",
+      "title": "CSM (Customer Success Manager)",
+      "body": "Gerente de Éxito del Cliente. Toma la posta después del Go-Live para asegurar adopción y crecimiento.",
+      "evidence": "Carolina Toro es la CSM del proyecto Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pm",
+      "cat": "glosario",
+      "title": "PM (Project Manager)",
+      "body": "Gerente de Proyecto. Lidera planificación, ejecución y comunicación con stakeholders.",
+      "evidence": "Lina Azcárate es la PM en Simetrik.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-insights",
+      "cat": "glosario",
+      "title": "Insights (Perspectivas / Hallazgos)",
+      "body": "Información accionable derivada de datos brutos. Detecta patrones, fugas o mejoras.",
+      "evidence": "Los insights muestran que 2% de las recargas no cruzan por formato de fecha.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-fees",
+      "cat": "glosario",
+      "title": "Fees (Tarifas / Comisiones)",
+      "body": "Lo que cobra el procesador (Claro, Visa, Mastercard). Muchas conciliaciones fallan porque el monto no incluye el fee descontado.",
+      "evidence": "Visa cobra fee de interchange en cada autorización.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-clearing",
+      "cat": "glosario",
+      "title": "Clearing (Compensación)",
+      "body": "Paso donde Visa/Mastercard calcula cuánto le toca al banco por las transacciones del día.",
+      "evidence": "Clearing ocurre antes del Settlement.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-settlement",
+      "cat": "glosario",
+      "title": "Settlement (Liquidación)",
+      "body": "Transferencia definitiva de fondos. El dinero real entra a la cuenta del banco en SAP.",
+      "evidence": "Simetrik cruza el Clearing contra el Settlement diario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-chargeback",
+      "cat": "glosario",
+      "title": "Chargeback (Contracargo / Devolución)",
+      "body": "Cuando un tarjetahabiente impugna un cargo, el banco emisor revierte la transacción.",
+      "evidence": "Compra online no reconocida → cliente abre chargeback → comercio presenta evidencia.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-aging",
+      "cat": "glosario",
+      "title": "Aging (Antigüedad (Mora))",
+      "body": "Partidas no conciliadas que llevan días sin cruzar. Se \"pintan de rojo\" según reglas configurables.",
+      "evidence": "En SERCOM las partidas se marcan rojo a los 3 días sin cruce.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-writeoff",
+      "cat": "glosario",
+      "title": "Write-off (Castigo Contable / Ajuste)",
+      "body": "Si sobran centavos por redondeo que nunca van a cruzar, se ajustan automáticamente a gastos menores.",
+      "evidence": "Write-off de 0.05 Lempiras por diferencia de redondeo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-leakage",
+      "cat": "glosario",
+      "title": "Leakage (Fuga de Ingresos)",
+      "body": "Pérdida de dinero por errores operativos, malas configuraciones de tarifas o conciliación ineficiente.",
+      "evidence": "Gateway mal configurado genera revenue leakage del 2% mensual.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-parseo",
+      "cat": "glosario",
+      "title": "Parseo (Parsing / Transformación)",
+      "body": "Limpieza y estandarización de datos crudos antes del matching: fechas, prefijos, símbolos.",
+      "evidence": "Quitar el prefijo \"504\" de los teléfonos hondureños antes de cruzar contra CLARO.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-dispute",
+      "cat": "glosario",
+      "title": "Dispute (Disputa)",
+      "body": "Cuando el comercio presenta evidencia para rechazar un chargeback (representment).",
+      "evidence": "Simetrik gestiona el flujo de representment con evidencia adjunta.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accrual",
+      "cat": "glosario",
+      "title": "Accrual (Devengo / Provisión)",
+      "body": "Reconocimiento contable de ingresos/gastos antes del flujo de efectivo.",
+      "evidence": "Los accruals de intereses deben cuadrar con el core bancario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-oversight",
+      "cat": "glosario",
+      "title": "Oversight (Supervisión)",
+      "body": "Vigilancia continua de riesgos, cumplimiento y efectividad de controles.",
+      "evidence": "El comité de oversight revisa mensualmente las cuentas en rojo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-compliance",
+      "cat": "glosario",
+      "title": "Compliance (Cumplimiento normativo)",
+      "body": "Función que asegura cumplimiento de KYC, AML, PCI, GDPR y licencias.",
+      "evidence": "Simetrik genera audit trail para compliance.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-audittrail",
+      "cat": "glosario",
+      "title": "Audit Trail (Rastro de auditoría)",
+      "body": "Registro inmutable de cada acción del conciliador (maker-checker).",
+      "evidence": "Cada ajuste manual queda con usuario, fecha y motivo en el audit trail.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-issuing",
+      "cat": "glosario",
+      "title": "Issuing (Emisión)",
+      "body": "Banco/fintech emite medios de pago asociados a una cuenta. Incluye autorización y gestión del plástico o token digital.",
+      "evidence": "Ficohsa hace issuing de tarjetas de crédito procesadas en Vision Plus.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-acquiring",
+      "cat": "glosario",
+      "title": "Acquiring (Adquirencia)",
+      "body": "Permite a comercios aceptar pagos con tarjeta o medios digitales y gestiona la liquidación.",
+      "evidence": "Getnet, Fiserv, Adyen son adquirentes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gateway",
+      "cat": "glosario",
+      "title": "Gateway (Pasarela de pagos)",
+      "body": "Software que conecta tienda online con procesadores y emisores, tokenizando datos sensibles.",
+      "evidence": "Stripe, Checkout.com, Mercado Pago.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recon",
+      "cat": "glosario",
+      "title": "Reconciliation (Conciliación bancaria)",
+      "body": "Comparación sistemática entre registros internos y extractos externos para detectar discrepancias.",
+      "evidence": "Simetrik concilia 50k transacciones diarias contra adquirentes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-openbank",
+      "cat": "glosario",
+      "title": "Open Banking (Banca abierta)",
+      "body": "Modelo donde bancos comparten datos de clientes (con consentimiento) mediante APIs estandarizadas.",
+      "evidence": "Regulado por PSD2 en Europa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-scoring",
+      "cat": "glosario",
+      "title": "Credit Scoring (Puntaje de crédito)",
+      "body": "Modelo predictivo de probabilidad de impago usando datos transaccionales, bureau y comportamiento.",
+      "evidence": "BNPL calcula scoring en 2 segundos para aprobar cuotas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-payout",
+      "cat": "glosario",
+      "title": "Payout Settlement (Desembolso)",
+      "body": "Transferencia de fondos a terceros: repartidores, freelancers, afiliados.",
+      "evidence": "Plataformas de delivery liquidan payout semanal a sus drivers.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-domain",
+      "cat": "glosario",
+      "title": "Domain Framework (Marco de dominio)",
+      "body": "Organización conceptual de los subdominios (pagos, fraude, clientes) y sus interacciones.",
+      "evidence": "Aplica Domain Driven Design para separar core transaccional de riesgo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-simetrik",
+      "cat": "glosario",
+      "title": "Simetrik",
+      "body": "Plataforma SaaS de conciliación financiera automatizada. Ingesta + parseo + matching + outputs + audit trail.",
+      "evidence": "Ficohsa migra 30 analistas de Excel a Simetrik.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-t24",
+      "cat": "glosario",
+      "title": "T24 (Temenos)",
+      "body": "Core bancario de Ficohsa. Maneja préstamos, cuentas, cajas. Exporta TXT/CSV vía SFTP.",
+      "evidence": "T24 envía transacciones de cajas con TXN_CODE que requiere filtrado (SGN, 4, 54 = efecto cero).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-visionplus",
+      "cat": "glosario",
+      "title": "Vision Plus",
+      "body": "Procesador de tarjetas de crédito (cartera TC, PILs). Genera reportes planos TXT.",
+      "evidence": "Cruce de saldos de Vision Plus contra GL en SAP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sap",
+      "cat": "glosario",
+      "title": "SAP ERP",
+      "body": "Libro Mayor contable. Registro central de todas las cuentas. Recibe asientos de ajuste desde Simetrik.",
+      "evidence": "El saldo de la cuenta 1-04-01-001 vive en SAP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-visa",
+      "cat": "glosario",
+      "title": "Visa / Mastercard",
+      "body": "Marcas de tarjetas. Liquidan adquirencia e issuing. Envían archivos TXT/CSV por FTP o correo.",
+      "evidence": "Visa publica el archivo de clearing T+1.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-txncode",
+      "cat": "glosario",
+      "title": "TXN_CODE (Transaction Code)",
+      "body": "Código de transacción en T24. Los códigos SGN, 4 y 54 son de efecto cero (no afectan saldo) y se excluyen del matching.",
+      "evidence": "Filtrar TXN_CODE NOT IN (SGN, 4, 54) antes de cruzar.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-transref",
+      "cat": "glosario",
+      "title": "TRANS_REFERENCE (Transaction Reference)",
+      "body": "Llave única de la transacción en T24. Se usa como matching key contra TRANSACCIONBANCO en SAP.",
+      "evidence": "T24.TRANS_REFERENCE = SAP.TRANSACCIONBANCO",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sercom",
+      "cat": "glosario",
+      "title": "SERCOM",
+      "body": "Servicios de Comunicaciones. Cuenta transitoria 2-01-01-003 / 2330203151 para recargas de telefonía móvil.",
+      "evidence": "Recargas SERCOM cruzan T24 (débito) vs CLARO (crédito) vs SAP (saldo).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-transitoria",
+      "cat": "glosario",
+      "title": "Cuenta Transitoria (Suspense / Transit Account)",
+      "body": "Cuenta puente temporal. Débitos = Créditos. Saldo final debe ser CERO.",
+      "evidence": "En 2-01-01-003 la suma algebraica del día debe ser 0.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-matching",
+      "cat": "glosario",
+      "title": "Matching (Cruce)",
+      "body": "Motor lógico que asocia una transacción de la Fuente A con una o varias de la Fuente B según reglas (1:1, 1:N, N:M, con tolerancias).",
+      "evidence": "Regla: A.Num_Referencia == B.Referencia AND A.Monto == B.Monto.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sbb",
+      "cat": "glosario",
+      "title": "SBB (Simetrik Building Block)",
+      "body": "Bloque modular drag-and-drop con el que ensamblás flujos sin programar. Hay SBBs de ingesta, parseo, matching, output.",
+      "evidence": "El SBB \"Date Parser\" convierte cualquier formato de fecha al estándar ISO.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ruleset",
+      "cat": "glosario",
+      "title": "Rule Set (Conjunto de reglas)",
+      "body": "Cadena ordenada de reglas de matching. Simetrik intenta primero la más estricta; si falla pasa a la siguiente.",
+      "evidence": "Regla 1 = match perfecto, Regla 2 = ±$0.05, Regla 3 = ±1 día, Regla 4 = excepción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sourceunion",
+      "cat": "glosario",
+      "title": "Source Union (Unificación de fuentes)",
+      "body": "Mecanismo que unifica varias fuentes con esquemas distintos en uno común. Mapeo columna a columna.",
+      "evidence": "3 bancos envían extractos con columnas distintas → Source Union los normaliza.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-matchperfect",
+      "cat": "glosario",
+      "title": "Match Perfecto (Perfect Match)",
+      "body": "Cruce 1:1 sin tolerancias. Es el ideal: máxima confianza, sin ambigüedad.",
+      "evidence": "A.id == B.id AND A.amount == B.amount AND A.date == B.date.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-tolerance",
+      "cat": "glosario",
+      "title": "Tolerancia (Tolerance)",
+      "body": "Margen permitido para considerar match (típicamente por redondeo, timing o fees descontados).",
+      "evidence": "Tolerancia de ±$0.05 en monto y ±1 día en fecha.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-exception",
+      "cat": "glosario",
+      "title": "Excepción (Exception)",
+      "body": "Transacción que no encontró contraparte tras aplicar todas las reglas. Cae al dashboard para investigación manual.",
+      "evidence": "Excepción por 5 días = \"valor en rojo\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-workspace",
+      "cat": "glosario",
+      "title": "Workspace",
+      "body": "Ambiente aislado del cliente. Cada cliente (Ficohsa, otro banco) tiene su workspace con sources, reglas y usuarios separados.",
+      "evidence": "app.simetrik.com/workspace/ficohsa",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-snowflake",
+      "cat": "glosario",
+      "title": "Snowflake",
+      "body": "Data warehouse en la nube. Es el motor de almacenamiento debajo de Simetrik. No lo tocás, pero permite consultas sobre miles de millones de filas con latencia ~0.",
+      "evidence": "Simetrik corre sobre Snowflake + AWS.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-aws",
+      "cat": "glosario",
+      "title": "AWS (Amazon Web Services)",
+      "body": "Proveedor de nube donde corre la infraestructura de Simetrik. Garantiza escalabilidad y disponibilidad.",
+      "evidence": "Compliance SOC 2 Type II vía AWS.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-nocode",
+      "cat": "glosario",
+      "title": "No-Code (Sin código)",
+      "body": "Filosofía donde configurás reglas y flujos sin escribir programación. Reduce dependencia de TI hasta 70%.",
+      "evidence": "El contador define \"fee aceptable ±2%\" sin abrir ticket a tecnología.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-aiagent",
+      "cat": "glosario",
+      "title": "AI Agent (Agente de IA)",
+      "body": "Bot que corre en background asistiendo en tareas repetitivas: limpia datos, sugiere matches, detecta fraude.",
+      "evidence": "Match Suggester: \"85% de probabilidad que esta excepción cruce con tx #99281\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-datacleaner",
+      "cat": "glosario",
+      "title": "Data Cleaner Agent",
+      "body": "Agente IA que detecta inconsistencias en datos crudos y sugiere parseos (formatos de fecha, encoding, espacios).",
+      "evidence": "Detecta que un source mezcla DD/MM/YYYY y MM-DD-YY → sugiere normalizar.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-frauddet",
+      "cat": "glosario",
+      "title": "Fraud Detector",
+      "body": "Agente IA que marca transacciones anómalas: montos atípicos, horarios extraños, comercios sospechosos.",
+      "evidence": "Marca tx de $50K a las 3 AM en un comercio nuevo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-rootcause",
+      "cat": "glosario",
+      "title": "Root Cause Analyst",
+      "body": "Agente IA que analiza patrones históricos y propone la causa raíz de una excepción.",
+      "evidence": "\"Este tipo de excepción suele ser por falta de aplicar el fee de Visa\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-connect",
+      "cat": "glosario",
+      "title": "Connect (Conectar)",
+      "body": "Primer pilar del ciclo Simetrik: traer los datos. Conectás fuentes vía API, SFTP o upload manual.",
+      "evidence": "Conectar SAP, Stripe y un banco al workspace Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reconcile",
+      "cat": "glosario",
+      "title": "Reconcile (Conciliar)",
+      "body": "Segundo pilar: configurar Rule Sets para que el motor cruce las fuentes automáticamente.",
+      "evidence": "Reconcile = el corazón de Simetrik.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-resolve",
+      "cat": "glosario",
+      "title": "Resolve (Resolver)",
+      "body": "Tercer pilar: trabajar las excepciones del dashboard con ayuda de IA, dejando audit trail completo.",
+      "evidence": "Resolver una excepción con motivo \"duplicado en origen + write-off $0.02\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-erp",
+      "cat": "glosario",
+      "title": "ERP (Enterprise Resource Planning)",
+      "body": "Sistema integrado de gestión empresarial. Maneja contabilidad, RRHH, inventario, ventas en un solo lugar.",
+      "evidence": "SAP y Oracle son los ERPs más comunes en bancos grandes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-oracle",
+      "cat": "glosario",
+      "title": "Oracle ERP",
+      "body": "Alternativa a SAP para gestión financiera. Muchas fintech latinoamericanas lo usan.",
+      "evidence": "Algunos clientes de Simetrik corren Oracle como GL.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-stripe",
+      "cat": "glosario",
+      "title": "Stripe",
+      "body": "Pasarela de pagos global. Provee API y reportes de settlement, fees y disputes.",
+      "evidence": "Conectás Stripe vía API key y trae diariamente los settlements.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-mp",
+      "cat": "glosario",
+      "title": "Mercado Pago",
+      "body": "Pasarela líder en Latam. Reportes vía API o CSV de transacciones, fees y payouts.",
+      "evidence": "Crítico en e-commerce regional.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-core",
+      "cat": "glosario",
+      "title": "Core Bancario (Core Banking)",
+      "body": "Sistema principal del banco que registra cuentas, transacciones, préstamos en tiempo real.",
+      "evidence": "T24 (Temenos) es el core bancario de Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-fintech",
+      "cat": "glosario",
+      "title": "Fintech",
+      "body": "Empresa que aplica tecnología a servicios financieros. Suelen ser nativas digitales y operar con APIs abiertas.",
+      "evidence": "Nubank, Revolut, Ualá.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-baas",
+      "cat": "glosario",
+      "title": "BaaS (Banking as a Service)",
+      "body": "Modelo donde una fintech alquila la licencia bancaria de un banco para emitir tarjetas o cuentas.",
+      "evidence": "Uber emite tarjetas para conductores vía BaaS con un partner bancario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-bnpl",
+      "cat": "glosario",
+      "title": "BNPL (Buy Now Pay Later)",
+      "body": "Compra ahora, paga después. Fintech otorga cuotas en checkout sin tarjeta de crédito tradicional.",
+      "evidence": "Klarna, Affirm, Mercado Crédito.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sox",
+      "cat": "glosario",
+      "title": "SOX (Sarbanes-Oxley Act)",
+      "body": "Ley estadounidense de controles internos financieros. Obliga audit trail, segregación de funciones y maker-checker.",
+      "evidence": "Simetrik genera evidencia para auditorías SOX (audit trail + segregación de roles).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ifrs15",
+      "cat": "glosario",
+      "title": "IFRS 15",
+      "body": "Norma internacional sobre reconocimiento de ingresos. Define cuándo y cómo reconocer una venta como ingreso.",
+      "evidence": "La conciliación de Settlement debe cumplir IFRS 15 para reportar ingresos correctamente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pci",
+      "cat": "glosario",
+      "title": "PCI DSS (Payment Card Industry Data Security Standard)",
+      "body": "Estándar de seguridad para procesamiento de tarjetas. Define cifrado, tokenización y controles de acceso.",
+      "evidence": "Simetrik no almacena PAN (número de tarjeta) crudo: cumple PCI por tokenización.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gdpr",
+      "cat": "glosario",
+      "title": "GDPR (General Data Protection Regulation)",
+      "body": "Reglamento europeo de protección de datos. Aplica también si manejás datos de europeos.",
+      "evidence": "Derecho al olvido, consentimiento explícito, breach notification 72h.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-fatf",
+      "cat": "glosario",
+      "title": "FATF (Financial Action Task Force)",
+      "body": "Organismo intergubernamental que define estándares anti-lavado (AML) y financiamiento al terrorismo.",
+      "evidence": "Las recomendaciones FATF guían los procedimientos KYC.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-uif",
+      "cat": "glosario",
+      "title": "UIF (Unidad de Información Financiera)",
+      "body": "Autoridad nacional que recibe reportes de operaciones sospechosas (ROS) de los bancos.",
+      "evidence": "Si AML detecta lavado → se reporta a UIF en 48h.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pep",
+      "cat": "glosario",
+      "title": "PEP (Politically Exposed Person)",
+      "body": "Personas Expuestas Políticamente. KYC obliga a validar si un cliente es PEP por riesgo elevado.",
+      "evidence": "Listas Dow Jones / World-Check incluyen PEPs globales.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-etl",
+      "cat": "glosario",
+      "title": "ETL (Extract Transform Load)",
+      "body": "Proceso de extraer datos de un origen, transformarlos (parseo, validación) y cargarlos en un destino.",
+      "evidence": "Simetrik hace ETL automatizado entre sources y su data warehouse.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-elt",
+      "cat": "glosario",
+      "title": "ELT (Extract Load Transform)",
+      "body": "Variante del ETL: primero se cargan crudos, luego se transforman in-warehouse. Más moderno con Snowflake.",
+      "evidence": "Simetrik usa ELT — todo aterriza primero en Snowflake.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-api",
+      "cat": "glosario",
+      "title": "API (Application Programming Interface)",
+      "body": "Punto de conexión entre sistemas. Permite que Simetrik consulte datos de Stripe, T24, etc. en tiempo real.",
+      "evidence": "API REST de Stripe: GET /v1/charges devuelve cobros del día.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-webhook",
+      "cat": "glosario",
+      "title": "Webhook",
+      "body": "Notificación HTTP automática: cuando ocurre un evento, el sistema externo \"empuja\" la info a tu URL.",
+      "evidence": "Stripe envía webhook cada vez que se completa un settlement.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-csv",
+      "cat": "glosario",
+      "title": "CSV (Comma-Separated Values)",
+      "body": "Formato de archivo de texto plano para tablas. Separador comúnmente coma, pero puede ser pipe |.",
+      "evidence": "T24 exporta a CSV con delimitador pipe.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-json",
+      "cat": "glosario",
+      "title": "JSON (JavaScript Object Notation)",
+      "body": "Formato de datos estructurado, jerárquico. Estándar en APIs modernas.",
+      "evidence": "Las APIs de Stripe devuelven JSON.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-xml",
+      "cat": "glosario",
+      "title": "XML",
+      "body": "Formato de datos jerárquico más viejo que JSON. Aún común en banca core tradicional.",
+      "evidence": "SWIFT MT103 viene en formato XML.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-schema",
+      "cat": "glosario",
+      "title": "Schema (Esquema)",
+      "body": "Definición de la estructura de los datos: nombres de columnas, tipos, restricciones.",
+      "evidence": "Schema común post Source Union: {date, amount, currency, reference}.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sa",
+      "cat": "glosario",
+      "title": "SA (Solutions Architect)",
+      "body": "Arquitecto de Soluciones. Diseña el SDD que vos implementás.",
+      "evidence": "El SA traduce el RFP en un SDD técnico.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sm",
+      "cat": "glosario",
+      "title": "SM (Services Manager)",
+      "body": "Gerente de Servicios. Lidera la implementación del lado Simetrik.",
+      "evidence": "Ana M. es la SM del proyecto Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sc",
+      "cat": "glosario",
+      "title": "SC (Solutions Consultant)",
+      "body": "Rol comercial-técnico que analiza el RFP y co-define el alcance de preventa.",
+      "evidence": "El SC participa en Fase 0 (Preventa & RFP).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-seniorIS",
+      "cat": "glosario",
+      "title": "Senior IS",
+      "body": "Implementation Specialist con experiencia. Lidera mesas de Discovery y supervisa al IS junior.",
+      "evidence": "Juan C. / Wilson son Senior IS en Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sponsor",
+      "cat": "glosario",
+      "title": "Sponsor (Patrocinador)",
+      "body": "Persona del cliente con autoridad para aprobar presupuesto y decisiones críticas.",
+      "evidence": "En Ficohsa, el sponsor es del comité ejecutivo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-stakeholder",
+      "cat": "glosario",
+      "title": "Stakeholder",
+      "body": "Cualquier persona impactada o con interés en el proyecto: operaciones, IT, contabilidad, auditoría.",
+      "evidence": "Mapa de stakeholders: Seguridad, Cloud, Datos, Integraciones, Arquitectura.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-kpi",
+      "cat": "glosario",
+      "title": "KPI (Key Performance Indicator)",
+      "body": "Métrica que mide éxito. Para conciliación: % auto-match, % excepciones >3 días, tiempo de cierre.",
+      "evidence": "KPI objetivo: 95%+ auto-match en producción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sla",
+      "cat": "glosario",
+      "title": "SLA (Service Level Agreement)",
+      "body": "Acuerdo de niveles de servicio. Define respuestas comprometidas (uptime, soporte) con penalizaciones por incumplimiento.",
+      "evidence": "SLA Ficohsa: 99.9% uptime + soporte 4h en caso crítico.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-autorate",
+      "cat": "glosario",
+      "title": "Auto-Match Rate (Tasa de auto-cruce)",
+      "body": "% de transacciones que cruzan automáticamente sin intervención humana. KPI estrella.",
+      "evidence": "Auto-match rate < 80% = el SDD necesita revisión.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-mttr",
+      "cat": "glosario",
+      "title": "MTTR (Mean Time To Resolution)",
+      "body": "Tiempo promedio para resolver una excepción.",
+      "evidence": "MTTR objetivo < 30 min por excepción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-partidadoble",
+      "cat": "glosario",
+      "title": "Partida Doble (Double-Entry)",
+      "body": "Principio fundamental: cada transacción afecta al menos dos cuentas (un débito y un crédito que se balancean).",
+      "evidence": "Cobro a cliente: Débito Caja, Crédito Cuentas por Cobrar.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-activo",
+      "cat": "glosario",
+      "title": "Activo (Asset)",
+      "body": "Lo que la empresa tiene o le deben. Naturaleza Débito. Códigos PUC empiezan en 1.",
+      "evidence": "Caja, Bancos, Cartera de Préstamos.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pasivo",
+      "cat": "glosario",
+      "title": "Pasivo (Liability)",
+      "body": "Lo que la empresa debe a terceros. Naturaleza Crédito. Códigos PUC empiezan en 2.",
+      "evidence": "Cuentas de Ahorro de clientes (la plata es del cliente).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-patrimonio",
+      "cat": "glosario",
+      "title": "Patrimonio (Equity)",
+      "body": "Capital propio de los dueños. Naturaleza Crédito. Códigos PUC empiezan en 3.",
+      "evidence": "Capital social + utilidades retenidas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ingreso",
+      "cat": "glosario",
+      "title": "Ingreso (Revenue)",
+      "body": "Plata ganada por la operación. Naturaleza Crédito. Códigos PUC empiezan en 4.",
+      "evidence": "Intereses cobrados por préstamos.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gasto",
+      "cat": "glosario",
+      "title": "Gasto (Expense)",
+      "body": "Plata consumida en la operación. Naturaleza Débito. Códigos PUC empiezan en 5.",
+      "evidence": "Comisiones pagadas a Visa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-puc",
+      "cat": "glosario",
+      "title": "PUC (Plan Único de Cuentas)",
+      "body": "Catálogo estandarizado de cuentas contables. En cada país tiene su propio formato.",
+      "evidence": "1-04-01-001 = Préstamos por Cobrar (Activo).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-asientogl",
+      "cat": "glosario",
+      "title": "Asiento Contable (Journal Entry)",
+      "body": "Registro de una operación en el libro mayor. Tiene al menos un débito y un crédito que suman cero.",
+      "evidence": "Asiento de ajuste por write-off de $0.05.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cierre",
+      "cat": "glosario",
+      "title": "Cierre Contable (Closing)",
+      "body": "Proceso de cerrar el periodo (mensual/trimestral). Reconciliación es prerequisito para cierre.",
+      "evidence": "Cierre mensual: del día 1 al 5 del mes siguiente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cuentat",
+      "cat": "glosario",
+      "title": "Cuenta Transitoria (Suspense Account)",
+      "body": "Cuenta puente. Los débitos deben igualar los créditos. Saldo final del día debe ser CERO.",
+      "evidence": "2-01-01-003 SERCOM debe quedar en 0 cada cierre diario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ach",
+      "cat": "glosario",
+      "title": "ACH (Automated Clearing House)",
+      "body": "Red de pagos electrónicos entre bancos. Procesa transferencias en lote.",
+      "evidence": "Cuenta transitoria 2-01-01-002 = ACH en tránsito.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-atm",
+      "cat": "glosario",
+      "title": "ATM (Cajero Automático)",
+      "body": "Dispositivo de retiro/depósito de efectivo. Genera transacciones en cuenta transitoria hasta liquidación.",
+      "evidence": "2-01-01-001 = transitoria ATMs.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-discovery",
+      "cat": "glosario",
+      "title": "Discovery (Levantamiento As-Is)",
+      "body": "Fase 2 del proyecto. Mesas de 2h por proceso donde el cliente explica el flujo actual.",
+      "evidence": "En Discovery vos tomás notas detalladas de cada regla y excepción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-kickoff",
+      "cat": "glosario",
+      "title": "Kick-Off",
+      "body": "Reunión inicial formal del proyecto. Se alinean expectativas con sponsor y se definen canales.",
+      "evidence": "Kick-off Ficohsa: 5 Jun 2026.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-golive",
+      "cat": "glosario",
+      "title": "Go-Live",
+      "body": "Momento en que la solución pasa a producción real. El \"encendido\" oficial.",
+      "evidence": "Pre-go-live: ciclos de prueba con datos reales del cliente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-representment",
+      "cat": "glosario",
+      "title": "Representment",
+      "body": "Cuando el comercio responde a un chargeback con evidencia para revertir la disputa.",
+      "evidence": "Representment exitoso = el comercio retiene el dinero.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-interchange",
+      "cat": "glosario",
+      "title": "Interchange (Tasa de intercambio)",
+      "body": "Fee que el adquirente paga al emisor por cada transacción. Lo regula Visa/Mastercard.",
+      "evidence": "Visa cobra interchange ~1.5-2.5% según categoría comercio.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-mdr",
+      "cat": "glosario",
+      "title": "MDR (Merchant Discount Rate)",
+      "body": "Tasa total que paga el comercio por aceptar tarjetas. Incluye interchange + scheme fee + acquirer fee.",
+      "evidence": "MDR típico Latam: 2.5-4%.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-tplus1",
+      "cat": "glosario",
+      "title": "T+1 / T+2",
+      "body": "Días hábiles desde la transacción hasta el settlement. T+1 = al día siguiente.",
+      "evidence": "Venta con tarjeta viernes → settlement T+1 = lunes en cuenta del comercio.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-tokenizacion",
+      "cat": "glosario",
+      "title": "Tokenización (Tokenization)",
+      "body": "Reemplazo de datos sensibles (PAN tarjeta) por un token sin valor fuera del sistema.",
+      "evidence": "Apple Pay tokeniza tu tarjeta — el comercio nunca ve el número real.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-dashboard",
+      "cat": "glosario",
+      "title": "Dashboard",
+      "body": "Panel visual de KPIs en tiempo real. Permite filtrado y drill-down.",
+      "evidence": "Dashboard ejecutivo Ficohsa: tx procesadas, auto-match %, excepciones por aging.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-output",
+      "cat": "glosario",
+      "title": "Output (Salida / Entregable)",
+      "body": "Lo que Simetrik produce al final del flujo: reporte CSV/Excel, asientos para SAP, alertas.",
+      "evidence": "Output del proceso SERCOM: 3 archivos diarios al equipo de operaciones.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sftpfolder",
+      "cat": "glosario",
+      "title": "SFTP Folder",
+      "body": "Carpeta remota segura donde Simetrik deposita los outputs y donde el cliente deja inputs.",
+      "evidence": "sftp://ficohsa.simetrik.com/outputs/sercom/2026-05-13.csv",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sox404",
+      "cat": "glosario",
+      "title": "SOX 404",
+      "body": "Sección 404 de SOX: gerencia debe declarar adecuación de controles internos sobre reportes financieros.",
+      "evidence": "Audit trail de Simetrik es evidencia para SOX 404.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ros",
+      "cat": "glosario",
+      "title": "ROS (Reporte de Operación Sospechosa)",
+      "body": "Notificación a la UIF cuando AML detecta posible lavado.",
+      "evidence": "ROS debe enviarse en 48-72h según jurisdicción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-risk",
+      "cat": "glosario",
+      "title": "Risk Framework",
+      "body": "Marco de gestión de riesgos: identificar, medir, mitigar, monitorear.",
+      "evidence": "Risk framework de un banco incluye fraude, AML, operacional, crédito.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-maker",
+      "cat": "glosario",
+      "title": "Maker",
+      "body": "Persona que crea/edita una acción en Simetrik. Requiere aprobación de un Checker.",
+      "evidence": "Maker = analista que resuelve una excepción.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-checker",
+      "cat": "glosario",
+      "title": "Checker",
+      "body": "Persona que aprueba la acción del Maker antes de impactar producción/GL.",
+      "evidence": "Checker = supervisor que firma la resolución.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-segregation",
+      "cat": "glosario",
+      "title": "Segregación de Funciones (Segregation of Duties (SoD))",
+      "body": "Principio: Maker ≠ Checker. Nadie puede crear y aprobar la misma acción. Crítico para SOX.",
+      "evidence": "Si vos creás la regla, otra persona la activa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-manifest",
+      "cat": "glosario",
+      "title": "Manifest (Manifest file)",
+      "body": "Archivo complementario que acompaña a un lote transferido y describe su contenido (archivos incluidos, conteos, hashes). Permite al receptor confirmar que el lote llegó completo y sin alteraciones.",
+      "evidence": "Ficohsa solicitó que cada batch transferido incluya manifest + checksum SHA256 para que Simetrik valide la integridad antes de procesar.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sha256",
+      "cat": "glosario",
+      "title": "SHA-256 (Secure Hash Algorithm 256-bit)",
+      "body": "Algoritmo criptográfico de hash que produce una huella de 256 bits única por archivo. Comparar SHA256 antes y después de la transferencia confirma que el contenido no fue alterado.",
+      "evidence": "Cada archivo del lote Ficohsa lleva su SHA256 en el manifest; Simetrik recalcula al recibir y valida.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-checksum",
+      "cat": "glosario",
+      "title": "Checksum",
+      "body": "Valor calculado a partir del contenido de un archivo (típicamente un hash criptográfico) usado para verificar integridad. Si el checksum recalculado coincide con el reportado, los datos no fueron alterados.",
+      "evidence": "Verificación de checksum SHA256 por lote es requerimiento de integridad solicitado por Ficohsa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-observabilidad",
+      "cat": "glosario",
+      "title": "Observabilidad (Observability)",
+      "body": "Capacidad de inferir el estado interno de un sistema a partir de sus señales externas (logs, métricas, traces). En integraciones, implica dashboards de archivos cargados, retries, fallas y volúmenes anómalos.",
+      "evidence": "Ficohsa pidió observabilidad de la integración con dashboards segregados por país (CAM regional).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-integridaddatos",
+      "cat": "glosario",
+      "title": "Integridad de datos (Data Integrity)",
+      "body": "Propiedad de que los datos no fueron alterados, perdidos o corrompidos en el camino entre origen y destino. Se valida con manifests + checksums + reconciliaciones de conteo.",
+      "evidence": "Requisito Fase 1 Ficohsa: garantizar integridad de cada batch antes de cargar a Simetrik.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reintento",
+      "cat": "glosario",
+      "title": "Reintento (Retry)",
+      "body": "Intento adicional de procesar un archivo o transacción tras un fallo previo. Las métricas de reintentos son señal de salud de la integración.",
+      "evidence": "El dashboard de observabilidad de Ficohsa debe mostrar conteo de reintentos por país.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-volumenanomalo",
+      "cat": "glosario",
+      "title": "Volumen anómalo (Anomalous volume)",
+      "body": "Cantidad de transacciones o archivos por fuera del rango esperado para un día/hora típico. Detectarlos a tiempo previene cierres incorrectos.",
+      "evidence": "Métrica solicitada por Ficohsa en el dashboard de integración.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cargafallida",
+      "cat": "glosario",
+      "title": "Carga fallida (Failed load)",
+      "body": "Archivo que no pudo procesarse exitosamente por error de formato, layout, conexión o validación. Cuenta clave en dashboards de observabilidad.",
+      "evidence": "Métrica solicitada por Ficohsa para vigilancia de la integración.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-traductorcontable",
+      "cat": "glosario",
+      "title": "Traductor contable (Accounting translator)",
+      "body": "Fee/módulo que agrupa transacciones por categoría contable (ej. ingreso, gasto) para alimentar el flujo contable de Simetrik. — DEFINICIÓN PRELIMINAR · pendiente de validar con Miguel/Jhonattan.",
+      "evidence": "Mencionado en capacitación con Jhonattan junto con el análisis del domain framework.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-calculadora",
+      "cat": "glosario",
+      "title": "Calculadora (deal Simetrik)",
+      "body": "Herramienta interna usada con el cliente sobre el domain framework para alinear lo que el cliente NECESITA controlar vs lo que el cliente HACE. Define el alcance del deal y qué módulos se contratan. — DEFINICIÓN PRELIMINAR · pendiente de validar.",
+      "evidence": "En Ficohsa, las integraciones NO se negociaron en la calculadora durante el deal, por eso la Fase 1 no incluye IA en integraciones.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-simetrik27",
+      "cat": "glosario",
+      "title": "Simetrik 2.7",
+      "body": "Versión del release de la plataforma Simetrik con 13 features nuevas centradas en: flexibilidad de configuración, robustecimiento del proceso contable end-to-end e integración de IA en los workflows que más la necesitan.",
+      "evidence": "Mencionado en el Learning \"Discovering What's New\" (Miguel · 2026-05-15). Audiencia: reconciliations, accounting close, client data distribution.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-quickconfig",
+      "cat": "glosario",
+      "title": "Quick Configurations (Configuraciones rápidas)",
+      "body": "Sub-sección del menú Automate que agrupa accesos a configuraciones de despliegue rápido: Template Catalog y Réplicas. Diseñada para evitar partir de cero.",
+      "evidence": "Path UI: Automate → Quick configurations → Template catalog.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-account",
+      "cat": "glosario",
+      "title": "Account (Cuenta)",
+      "body": "Nivel superior de organización en Simetrik. Se crea por solicitud formal al soporte (no self-service). Al crearse se designa un administrador responsable.",
+      "evidence": "Un mismo usuario puede pertenecer a múltiples accounts.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-wkspace",
+      "cat": "glosario",
+      "title": "Workspace (Espacio de trabajo)",
+      "body": "Unidad dentro de un Account donde los equipos colaboran. Cada Account puede tener múltiples workspaces (por cliente, proyecto, área). Información y permisos quedan aislados.",
+      "evidence": "Workspace Ficohsa · Workspace Magalu · Workspace Internal QA.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-role_viewer",
+      "cat": "glosario",
+      "title": "Viewer Role (Rol Visor)",
+      "body": "Rol del sistema. Solo lectura. Puede consultar información pero no modifica nada. Para auditores, clientes finales, observadores.",
+      "evidence": "El analista junior empieza como Viewer durante onboarding.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-role_builder",
+      "cat": "glosario",
+      "title": "Builder Role (Rol Constructor)",
+      "body": "Rol del sistema. Puede crear y editar recursos (sources, reconciliations, dashboards). Rol típico del Implementation Specialist en fase de implementación.",
+      "evidence": "Como Builder podés crear Sources, Source Unions, Standard Recons.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-role_operator",
+      "cat": "glosario",
+      "title": "Operator Role (Rol Operador)",
+      "body": "Rol del sistema. Gestiona la operación diaria: ejecuta procesos, resuelve excepciones, ajusta reglas en producción.",
+      "evidence": "Día a día del analista de conciliación.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-role_supervisor",
+      "cat": "glosario",
+      "title": "Supervisor Role (Rol Supervisor)",
+      "body": "Rol del sistema. Permisos amplios: aprueba acciones de operadores (maker-checker), certifica períodos contables, gestiona el workspace.",
+      "evidence": "Aprueba write-offs > umbral y certifica cierre mensual.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-role_custom",
+      "cat": "glosario",
+      "title": "Custom Role (Rol personalizado)",
+      "body": "Cuando los 4 system roles no encajan. Se crea seleccionando exactamente qué permisos por sección. Aplica el principio de menor privilegio.",
+      "evidence": "Rol \"Treasury Viewer\" con acceso solo a Reconciliations + Reports.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-admin",
+      "cat": "glosario",
+      "title": "Admin (Administrador)",
+      "body": "Usuario con permisos para crear workspaces, invitar usuarios y definir roles dentro del Account.",
+      "evidence": "El admin del Account decide qué workspace ve cada usuario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-guardian",
+      "cat": "glosario",
+      "title": "Guardian",
+      "body": "App de 2FA usada en Simetrik para verificación en dos pasos al hacer login. Aprobás desde el celular.",
+      "evidence": "Continue with Google → Guardian pide aprobación → entrás al workspace.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-source",
+      "cat": "glosario",
+      "title": "Source (Fuente de datos)",
+      "body": "Recurso base que contiene un archivo cargado. Cada tipo de archivo (banco, ERP, pasarela) tiene su propio Source. Almacena columnas del sistema + las del archivo.",
+      "evidence": "Source \"T24 SERCOM diario\" recibe el TXT que el banco deja en SFTP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-syscolumn",
+      "cat": "glosario",
+      "title": "System Columns (Columnas del sistema)",
+      "body": "Columnas generadas automáticamente por Simetrik en cada Source. Identificadas con ícono de escudo: Unique ID, fecha/hora carga, File ID, file name, line number.",
+      "evidence": "Podés ocultarlas con el ícono de ojo si no las necesitás.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-createresource",
+      "cat": "glosario",
+      "title": "Create Resource",
+      "body": "Botón principal en el menú Automate → Resources para crear cualquier tipo de recurso: Source, Source Union, Standard Recon, Advanced Recon, etc.",
+      "evidence": "Click → elegís tipo → completás config.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-normalization",
+      "cat": "glosario",
+      "title": "Normalization (Normalización)",
+      "body": "Proceso de revisar y estandarizar cada columna de un Source para que el formato sea consistente con su naturaleza (numeric, text, date). Se hace una sola vez por Source.",
+      "evidence": "Convertir todas las fechas a YYYY-MM-DD; amounts con 2 decimales; IDs sin separadores.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-changeformat",
+      "cat": "glosario",
+      "title": "Change Format",
+      "body": "Funcionalidad para cambiar el formato de una columna. 3 etapas: definir tipo (numeric/text/date) · revisar formato original · establecer formato deseado.",
+      "evidence": "Transaction ID llega con comas, lo configurás como integer sin separadores.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-smartdate",
+      "cat": "glosario",
+      "title": "Smart Date Format",
+      "body": "Smart Building Block (IA) que identifica el formato original de una columna de fecha entre 500+ formatos posibles. Ahorra horas en normalización.",
+      "evidence": "Detecta automáticamente que \"16-Apr-2026\" es DD-MMM-YYYY.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-manualupload",
+      "cat": "glosario",
+      "title": "Manual Upload",
+      "body": "Forma directa de cargar archivos. Crear Source → drag&drop. Formatos: XLS/XLSX/CSV/TXT. Máx 5 GB. Layout tabular obligatorio.",
+      "evidence": "Sin merged cells, sin filas en blanco, sin multi-sheet.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-selfmanaged",
+      "cat": "glosario",
+      "title": "Self-Managed Integration",
+      "body": "Forma automatizada de carga configurable por el usuario. Tipos: SFTP Pull, SFTP Push, S3 Pull. Máx 120 GB. Configurable desde Automate → Integrations In.",
+      "evidence": "SFTP Pull: Simetrik retira archivos del directorio del cliente cada noche.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sftppull",
+      "cat": "glosario",
+      "title": "SFTP Pull",
+      "body": "Modalidad self-managed: Simetrik accede al directorio del cliente y extrae los archivos.",
+      "evidence": "T24 deja TXT en su SFTP; Simetrik lo lee.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sftppush",
+      "cat": "glosario",
+      "title": "SFTP Push",
+      "body": "Modalidad self-managed: el cliente envía archivos al directorio de Simetrik.",
+      "evidence": "El cliente programa su ETL para subir CSV al SFTP de Simetrik.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-s3pull",
+      "cat": "glosario",
+      "title": "S3 Pull",
+      "body": "Modalidad self-managed: conexión a un bucket de Amazon S3 desde donde Simetrik retira archivos.",
+      "evidence": "Pasarela de pagos deja JSON diario en bucket S3 → Simetrik lo levanta.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-bucket",
+      "cat": "glosario",
+      "title": "Bucket (Simetrik)",
+      "body": "Contenedor intermedio de almacenamiento dentro del self-managed integration. Simetrik retira archivos del bucket y los sube al Source correspondiente.",
+      "evidence": "Crear un bucket por Source destino para ordenar el flujo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-integrationservices",
+      "cat": "glosario",
+      "title": "Integration Services Team",
+      "body": "Equipo de Simetrik que resuelve conexiones complejas (formatos raros, >120 GB, layouts no tabulares). Servicio con costo adicional.",
+      "evidence": "API custom, web scraping, GCP, parsing avanzado.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-smartparser",
+      "cat": "glosario",
+      "title": "Smart Parser",
+      "body": "Agente de IA en desarrollo que permitirá al usuario hacer parsing autónomo de archivos sin recurrir al services team. Reduce costos y tiempos.",
+      "evidence": "Detecta el formato del archivo y aplica parseo automático.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-parsing",
+      "cat": "glosario",
+      "title": "Parsing (Simetrik)",
+      "body": "Proceso de ajustar formato y layout de un archivo para que la plataforma lo pueda leer. Simetrik NO modifica el contenido, solo la estructura.",
+      "evidence": "Convertir un PDF en una tabla CSV para que pueda procesarse.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-srcunion",
+      "cat": "glosario",
+      "title": "Source Union (Union of Sources) (Unión de fuentes)",
+      "body": "Recurso que agrupa verticalmente varios Sources con el mismo esquema. Protege todas las configuraciones que dependen de él. Best practice obligatoria.",
+      "evidence": "Aún con una sola Source, creá su Union para que si cambia el layout no rehagas nada.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-aia",
+      "cat": "glosario",
+      "title": "AIA · Smart Building Block",
+      "body": "Sistema de inteligencia artificial de Simetrik que sugiere columnas automáticamente al armar un Source Union, identifica formatos de fecha, propone fórmulas, sugiere reglas de matching.",
+      "evidence": "Al sumar la 2da fuente al Union, la AIA mapea columnas equivalentes a la 1ra.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-stdrecon",
+      "cat": "glosario",
+      "title": "Standard Reconciliation (Conciliación estándar)",
+      "body": "Tipo de reconciliation lineal recomendada para procesos simples y cortos. Comparación directa entre 2 Sources con uno o varios sweeps.",
+      "evidence": "Cruce merchant vs acquirer 1-a-1 por date+amount+ID.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-advrecon",
+      "cat": "glosario",
+      "title": "Advanced Reconciliation (Conciliación avanzada)",
+      "body": "Tipo de reconciliation modular que permite encadenar múltiples sweeps independientes en el mismo recurso: reconciliation + grouping + offset.",
+      "evidence": "Para procesos largos donde un cruce simple no captura todos los casos.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sweep",
+      "cat": "glosario",
+      "title": "Sweep (Barrido)",
+      "body": "\"Bag of rules\" — conjunto ordenado de reglas dentro de una reconciliation. Múltiples sweeps se ejecutan en cascada según prioridad.",
+      "evidence": "Sweep 1 sin tolerancia, sweep 2 con tolerancia ±0.05, sweep 3 catch-all.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reconsweep",
+      "cat": "glosario",
+      "title": "Reconciliation Sweep",
+      "body": "Tipo de sweep en Advanced Recon. Mini-reconciliation 1-a-1 dentro del recurso.",
+      "evidence": "Sweep simple por date+ID+amount.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-groupingsweep",
+      "cat": "glosario",
+      "title": "Grouping Sweep",
+      "body": "Tipo de sweep en Advanced Recon. Agrupa transacciones que aparecen divididas en varias líneas en una source. Se configura con Create Aggregation.",
+      "evidence": "1 venta merchant $100 vs 2 líneas acquirer de $50 c/u.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-offsetsweep",
+      "cat": "glosario",
+      "title": "Offset Sweep · Compensation",
+      "body": "Tipo de sweep en Advanced Recon. Compensa tx con contrapartes en la misma source (payment cancelado con refund).",
+      "evidence": "Match por date+ID+amount; no incluye tx_type porque payment ≠ refund por definición.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-1to1",
+      "cat": "glosario",
+      "title": "1-to-1 Crossover (Cruce 1-a-1)",
+      "body": "Tipo de cruce donde cada tx de Source A tiene exactamente una contraparte en Source B.",
+      "evidence": "Cada venta merchant tiene exactamente 1 entrada en acquirer.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-1ton",
+      "cat": "glosario",
+      "title": "1-to-N Crossover (Cruce 1-a-N)",
+      "body": "Tipo de cruce donde una tx de A se concilia con varias de B. Side N es la fuente cuyas filas se replican.",
+      "evidence": "Una venta dividida en 2 tarjetas (1 línea merchant, 2 líneas acquirer).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-nto1",
+      "cat": "glosario",
+      "title": "N-to-1 Crossover (Cruce N-a-1)",
+      "body": "Tipo de cruce donde varias tx de A se consolidan con una sola tx de B.",
+      "evidence": "Micro-pagos diarios consolidados en un settlement semanal.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-ntonm",
+      "cat": "glosario",
+      "title": "N-to-N Crossover (Cruce N-a-N)",
+      "body": "Tipo de cruce donde múltiples registros se cruzan entre sí.",
+      "evidence": "Múltiples comisiones afectando múltiples transacciones.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-businessrule",
+      "cat": "glosario",
+      "title": "Business Rule",
+      "body": "Criterio que Simetrik usa para validar matches. Se construyen desde columnas incluidas en los Source Unions.",
+      "evidence": "A.transaction_id == B.transaction_id",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recongroup",
+      "cat": "glosario",
+      "title": "Reconcilable Group",
+      "body": "Filtro guardado aplicado sobre un Source para aislar un subset de registros. Se reutiliza en N reconciliations.",
+      "evidence": "Group \"Mastercard credit\" filtra Card_Type=MC para usar en múltiples recons.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sktid",
+      "cat": "glosario",
+      "title": "SKT ID",
+      "body": "Identificador estándar de transacción usado por Simetrik. Best practice: crear un Reconcilable Group donde SKT ID != empty para excluir registros sin identificador válido.",
+      "evidence": "Reconciliation que solo procesa registros con SKT ID asignado.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-smartrules",
+      "cat": "glosario",
+      "title": "Smart Rules",
+      "body": "Smart Building Block (IA) en Advanced Recon. Analiza las 2 sources y sugiere matching keys óptimas para lograr mayor match rate.",
+      "evidence": "IA propone date+id+amount+type; vos aceptás o rechazás.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-vlookup",
+      "cat": "glosario",
+      "title": "VLOOKUP (Simetrik)",
+      "body": "Funcionalidad de enrichment similar a Excel: trae data de una tabla a otra por columna común. Recomendado solo cuando la fuente enriquecedora es estática.",
+      "evidence": "Botón Create VLOOKUP. Si fuente cambia, hay que vaciar y reprocesar todo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-enrichrecon",
+      "cat": "glosario",
+      "title": "Enrichment by Reconciliation",
+      "body": "Alternativa robusta a VLOOKUP: enriquece via 1-N or N-1 reconciliation. Si fuente cambia, solo se reprocesan tx afectadas, sin tocar histórico.",
+      "evidence": "Recomendado cuando la fuente puede actualizarse (ej. fee dictionary renegociable).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-transformcol",
+      "cat": "glosario",
+      "title": "Transformation Column (Columna transformación)",
+      "body": "Columna nueva creada con fórmula sobre columnas existentes. Funciona similar a Excel.",
+      "evidence": "Delta = Real Cost − Theoretical Cost.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-smarttransf",
+      "cat": "glosario",
+      "title": "Smart Transformation",
+      "body": "Smart Building Block (IA) que permite escribir en lenguaje natural lo que querés calcular y sugiere la fórmula. También corrige errores en fórmulas existentes.",
+      "evidence": "Escribís \"diferencia entre real y teórico\" y propone Real_Cost - Theoretical_Cost.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-costcontrol",
+      "cat": "glosario",
+      "title": "Cost Control",
+      "body": "Control que verifica si lo que el adquirente cobra coincide con lo negociado en contrato. Usa transformation columns: Real Cost, Theoretical Cost, Delta.",
+      "evidence": "Detectás que MC Credit y MC Debit cobran fees > contrato → revenue leakage.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-feedictionary",
+      "cat": "glosario",
+      "title": "Fee Dictionary (Diccionario de tarifas)",
+      "body": "Source que contiene rates por combinación (red+tipo de tarjeta). Se usa para enriquecer transacciones con su rate teórico.",
+      "evidence": "5 rates: Visa Credit, Visa Debit, MC Credit, MC Debit, Amex Credit.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-chartaccounts",
+      "cat": "glosario",
+      "title": "Chart of Accounts (Plan de cuentas)",
+      "body": "Catálogo de todas las cuentas contables que usa una empresa. Se carga en Simetrik desde Automate → Accounting Parameters con un template.",
+      "evidence": "Template con account number + company + descriptive name.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-erpintegration",
+      "cat": "glosario",
+      "title": "ERP Integration",
+      "body": "Configuración para que Simetrik envíe asientos contables al ERP del cliente. Dos pasos: Connection + Structure.",
+      "evidence": "Generate ERP Integration → SAP S/4HANA → modo Standard App.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-middleware",
+      "cat": "glosario",
+      "title": "Middleware (ERP)",
+      "body": "Modo de conexión ERP donde un conector intermedio recibe info de Simetrik y la envía al ERP. Funciona con cualquier ERP. Configurable desde Simetrik.",
+      "evidence": "Útil cuando no hay Standard App para tu ERP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-standardapp",
+      "cat": "glosario",
+      "title": "Standard App (ERP)",
+      "body": "Modo de conexión ERP directo, sin intermediarios. Solo disponible para NetSuite y SAP S/4HANA. Requiere accounting capabilities team.",
+      "evidence": "Conexión rápida y robusta cuando aplica.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accmodel",
+      "cat": "glosario",
+      "title": "Accounting Model (Modelo contable)",
+      "body": "Reglas que Simetrik usa para llenar los campos de la estructura del asiento. Define qué campos son fijos, qué columnas vienen de qué recurso.",
+      "evidence": "Document.company = \"FICOHSA\" (fixed value); Lines.amount = Recon.amount (resource).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accstructure",
+      "cat": "glosario",
+      "title": "Accounting Structure (Estructura del asiento)",
+      "body": "Define los campos que contiene un asiento contable. Tres tipos: Document fields, Lines, Header.",
+      "evidence": "Predefined structure → JSON enviado al ERP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-docfields",
+      "cat": "glosario",
+      "title": "Document Fields (Campos documento)",
+      "body": "Campos transversales al asiento entero: fecha de generación, compañía, currency.",
+      "evidence": "Date = today, Company = FICOHSA, Currency = HNL.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-jelines",
+      "cat": "glosario",
+      "title": "Lines (Journal Entry) (Líneas del asiento)",
+      "body": "Definen débitos y créditos. Llevan accounting code, cost center, amount.",
+      "evidence": "Línea 1: Débito Caja 12,450 · Línea 2: Crédito Transitoria 12,450.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-jeheader",
+      "cat": "glosario",
+      "title": "Header (Journal Entry) (Cabecera del asiento)",
+      "body": "Campos opcionales sin impacto contable. Información adicional útil.",
+      "evidence": "Submission date al ERP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-normalseat",
+      "cat": "glosario",
+      "title": "Normal Seat (Asiento normal)",
+      "body": "Tipo de journal entry estándar generado por la conciliación.",
+      "evidence": "El asiento del día de SERCOM.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cancelseat",
+      "cat": "glosario",
+      "title": "Cancellation Seat (Asiento de cancelación)",
+      "body": "Reverso del asiento normal. Pre-configurado automáticamente: invierte débitos y créditos.",
+      "evidence": "Cuando se cancela un asiento por error, esto lo revierte.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-postsiege",
+      "cat": "glosario",
+      "title": "Post-Siege Seat",
+      "body": "Tercer tipo de asiento que se configura en el accounting model junto con normal y cancellation.",
+      "evidence": "Para casos especiales de cierre posterior.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-postclosing",
+      "cat": "glosario",
+      "title": "Post After Closing",
+      "body": "Parámetro de Generate Automation: día del mes siguiente hasta el cual se aceptan asientos del período anterior.",
+      "evidence": "Hasta el 3er día hábil del mes siguiente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-partialreverse",
+      "cat": "glosario",
+      "title": "Partial Reversal (Reverso parcial)",
+      "body": "Cuando una tx dentro de un asiento consolidado se concilia individualmente, se genera un reverso parcial que requiere aprobación manual.",
+      "evidence": "Asiento agrupado de 100 tx; una de ellas se reconcilia → reverso parcial.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-dummyrecon",
+      "cat": "glosario",
+      "title": "Dummy Reconciliation",
+      "body": "Reconciliation falsa creada solo para que Simetrik pueda generar asientos desde una source (que no permite asientos directos).",
+      "evidence": "Convertís una source en dummy recon para postear sus tx al GL.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accparams",
+      "cat": "glosario",
+      "title": "Accounting Parameters",
+      "body": "Sección en Automate → Accounting donde se carga el chart of accounts.",
+      "evidence": "Click Upload Account → descargás template → llenás → subís.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-trialbalance",
+      "cat": "glosario",
+      "title": "Trial Balance (Balance de comprobación)",
+      "body": "Reporte con saldos por cuenta para un período. Se carga en Simetrik desde Operate → Accounting Controls → Update Trial Balance.",
+      "evidence": "Balance del mes de noviembre con saldos por cada cuenta del PUC.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-beginbalance",
+      "cat": "glosario",
+      "title": "Beginning Balance (Saldo inicial)",
+      "body": "Saldo de una cuenta al inicio del período contable.",
+      "evidence": "BB Nov = $14,000 (cierre Oct).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-endbalance",
+      "cat": "glosario",
+      "title": "Ending Balance (Saldo final)",
+      "body": "Saldo de una cuenta al cierre del período. Beginning + change.",
+      "evidence": "EB Nov = $16,000.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recogbalance",
+      "cat": "glosario",
+      "title": "Recognized Balance (Saldo reconocido)",
+      "body": "Porción del saldo final que tiene evidencia documental. Lo edita el preparer.",
+      "evidence": "EB $16K, Recognized $15K, gap $1K (6.25%).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-preparer",
+      "cat": "glosario",
+      "title": "Preparer (Preparador)",
+      "body": "Rol responsable de revisar y documentar la evidencia de una cuenta antes del cierre.",
+      "evidence": "Sube snapshots, external files, notas explicativas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-certifier",
+      "cat": "glosario",
+      "title": "Certifier (Certificador)",
+      "body": "Rol responsable de aprobar la validación del preparer. No puede ser la misma persona que preparó (maker-checker).",
+      "evidence": "Aprueba o rechaza con motivo. Garantiza control interno.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-readycertify",
+      "cat": "glosario",
+      "title": "Ready to Certify",
+      "body": "Botón que el preparer clickea al terminar de cargar evidencia para enviar la cuenta al certifier.",
+      "evidence": "Trigger del workflow preparer → certifier.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-supportresource",
+      "cat": "glosario",
+      "title": "Support Resource (Recurso de soporte)",
+      "body": "Evidencia documental adjunta a una cuenta. Incluye: snapshots, external files, notas.",
+      "evidence": "Snapshot de la recon SERCOM al 30 de noviembre.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-snapshot",
+      "cat": "glosario",
+      "title": "Snapshot",
+      "body": "Captura estática de una reconciliation en un momento puntual. Útil porque una recon cambia constantemente. Configurable en Audit menu (ej. último día del mes).",
+      "evidence": "Snapshot mensual automático para evidencia de auditoría.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accgrouping",
+      "cat": "glosario",
+      "title": "Account Grouping (Agrupación de cuentas)",
+      "body": "Funcionalidad de cierre: agrupar múltiples cuentas con misma naturaleza para certificarlas con una sola acción.",
+      "evidence": "10 cuentas similares certificadas en 1 click.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-autocert",
+      "cat": "glosario",
+      "title": "Auto-certification (Auto-certificación)",
+      "body": "Regla automática para cuentas cuyo balance rara vez cambia. El sistema certifica sin pasos manuales.",
+      "evidence": "Fixed assets · activos fijos que no se mueven.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accdashboard",
+      "cat": "glosario",
+      "title": "Accounting Dashboard",
+      "body": "Dashboard que muestra el % de cuentas en cada estado del cierre: pending preparation, ready, rejected, certified, self-certification.",
+      "evidence": "Filtros por usuario, compañía, fecha.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-customdash",
+      "cat": "glosario",
+      "title": "Custom Dashboard",
+      "body": "Dashboard configurable libremente con componentes: pivot tables, custom tables, reconciliation status, KPIs individuales, charts.",
+      "evidence": "Dashboard ejecutivo SERCOM con KPIs + pivot.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pivottable",
+      "cat": "glosario",
+      "title": "Pivot Table (Simetrik)",
+      "body": "Tabla dinámica similar a Excel. Permite filtros, columnas, drill-down al detalle.",
+      "evidence": "Cost por card type + tx type + mes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reconmonitor",
+      "cat": "glosario",
+      "title": "Conciliation Monitor",
+      "body": "Monitor en Analysis que muestra resumen consolidado de todas las reconciliations del workspace. Indicadores verde/rojo + % reconciled.",
+      "evidence": "Vista panorámica de salud de las 30 recons activas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-srcmonitor",
+      "cat": "glosario",
+      "title": "Source Monitor",
+      "body": "Monitor que muestra estado de uploads por día y source. Estados: processed, pending, failed, empty, stopped. Número de filas por día.",
+      "evidence": "Detectar rápido si T24 SERCOM no levantó esta noche.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-bucketmonitor",
+      "cat": "glosario",
+      "title": "Bucket Monitor",
+      "body": "Monitor equivalente al Source Monitor pero para buckets self-managed.",
+      "evidence": "Monitoreo de buckets S3.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accmonitor",
+      "cat": "glosario",
+      "title": "Accounting Monitor",
+      "body": "Monitor con vista consolidada del estado de balances contables.",
+      "evidence": "Quick view del avance del cierre mensual.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-consolidation",
+      "cat": "glosario",
+      "title": "Consolidation (Consolidación)",
+      "body": "Une verticalmente diferentes groupings en una sola vista. Caso típico: cost controls de varios adquirentes consolidados.",
+      "evidence": "Cost control Visa + Cost control MC + Cost control Amex → 1 vista.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-combination",
+      "cat": "glosario",
+      "title": "Combination (Combinación)",
+      "body": "Une horizontalmente diferentes reconciliations. Caso típico: lifecycle de tx (Authorization → Clearing → Settlement → Anchorage).",
+      "evidence": "Una visión narrativa de la tx en cada etapa.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-grouping",
+      "cat": "glosario",
+      "title": "Grouping (Agrupación)",
+      "body": "Resumen ejecutivo de resultados agregados. Permite top-down y bottom-up.",
+      "evidence": "Cost grouping por card type para ver dónde está el delta.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-datasharing",
+      "cat": "glosario",
+      "title": "Data Sharing",
+      "body": "Sección de Automate dedicada a extracción de información. Incluye Exports y Customer Reports.",
+      "evidence": "Última sección del menú Automate.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-export",
+      "cat": "glosario",
+      "title": "Export (Simetrik)",
+      "body": "Transmisión automatizada de data a destinos cloud. Solo conecta a Amazon S3 y Google Cloud Storage. CSV o Parquet, máx 5 GB.",
+      "evidence": "Export by event cada vez que se concilia una tx.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-exportevent",
+      "cat": "glosario",
+      "title": "Export by Event",
+      "body": "Export que se dispara con eventos específicos: auto-recon, adjustment, auto-unreconcile.",
+      "evidence": "Cuando una tx se concilia → archivo a S3 inmediatamente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-exportrecur",
+      "cat": "glosario",
+      "title": "Recurring Export",
+      "body": "Export programado por frecuencia: días + hora + zona horaria + columna fecha como trigger.",
+      "evidence": "Lunes a las 6am, las recons del fin de semana van a GCS.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-destination",
+      "cat": "glosario",
+      "title": "Destination (Data Sharing)",
+      "body": "Configuración del destino donde se envían los exports. Se solicita al support team con Request Destination.",
+      "evidence": "Bucket S3 del cliente preparado para recibir Parquet.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-customerreports",
+      "cat": "glosario",
+      "title": "Customer Reports",
+      "body": "Feature de Simetrik para distribuir reportes segmentados a múltiples clientes finales. SBB con costo adicional. SFTP propio Simetrik incluido.",
+      "evidence": "Amazon distribuye reportes diarios a 100 merchants vendor.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-partitioning",
+      "cat": "glosario",
+      "title": "Partitioning (Particionado)",
+      "body": "Segmentación de reportes en hasta 3 niveles jerárquicos de carpetas. Cada nivel 1 recibe credenciales únicas.",
+      "evidence": "Nivel 1: por merchant · Nivel 2: por tx type · Nivel 3: por mes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-solutions",
+      "cat": "glosario",
+      "title": "Solutions (Templates)",
+      "body": "Sección en Automate que será renombrada Templates. Permite exportar/importar configuraciones como JSON.",
+      "evidence": "Generate template → JSON → import en otro workspace.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-template",
+      "cat": "glosario",
+      "title": "Template (Plantilla)",
+      "body": "Estructura pre-configurada de un control. Almacena reglas, columnas, validaciones. Exportable como JSON.",
+      "evidence": "Template de standard recon para Mastercard acquiring.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-templatescatalog",
+      "cat": "glosario",
+      "title": "Templates Catalog",
+      "body": "Catálogo de configuraciones diseñadas por el services team de Simetrik. SBB con costo adicional. Objetivo: fast first time to value.",
+      "evidence": "Mastercard Controls for Acquirers, Visa Issuing Controls, etc.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-firsttimevalue",
+      "cat": "glosario",
+      "title": "First Time to Value",
+      "body": "Métrica que mide qué tan rápido un cliente experimenta valor de la plataforma. Objetivo principal de los templates.",
+      "evidence": "Implementar Mastercard clearing en 30 min vs 30 días.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-operate",
+      "cat": "glosario",
+      "title": "Operate Menu",
+      "body": "Menú dedicado a gestionar lo automatizado en Automate. Incluye Insights, Operational Controls, Record Finder, Accounting Controls.",
+      "evidence": "Operate es el control room; Automate es la fábrica.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-automate",
+      "cat": "glosario",
+      "title": "Automate Menu",
+      "body": "Menú principal donde se construye toda la automatización: Integrations In, Resources, Accounting, Analysis, Data Sharing, Solutions.",
+      "evidence": "El menú donde más tiempo pasás en fase de implementación.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-audit",
+      "cat": "glosario",
+      "title": "Audit Menu",
+      "body": "Menú con 2 features: Snapshots y Activity Logs. Garantiza trazabilidad completa.",
+      "evidence": "Audit de cada acción ejecutada en la plataforma.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-tools",
+      "cat": "glosario",
+      "title": "Tools Menu",
+      "body": "Menú con utilidades: Downloads, Recycle Bin, Process View, Relationship Maps.",
+      "evidence": "Diagnóstico, recovery, dependencias.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-agentfactory",
+      "cat": "glosario",
+      "title": "Agent Factory",
+      "body": "Sistema de monitoreo amplio dentro de Insights. Agentes monitorean recursos y notifican vía Slack, email o plataforma.",
+      "evidence": "Agente Slack: \"T24 SERCOM upload failed at 23:50\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recordfinder",
+      "cat": "glosario",
+      "title": "Record Finder",
+      "body": "Feature en Operate para trazar una tx específica hasta el Source al que pertenece. Muestra todos los recursos asociados.",
+      "evidence": "Buscás ID LF7715101 → ves en qué recons aparece.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-activitylogs",
+      "cat": "glosario",
+      "title": "Activity Logs",
+      "body": "Registro inmutable de todas las acciones ejecutadas en Simetrik. Indispensable para SOX y auditoría externa.",
+      "evidence": "Filtros por usuario, ID de recurso, fecha.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-downloads",
+      "cat": "glosario",
+      "title": "Downloads (Tools)",
+      "body": "Lista todas las descargas manuales hechas en la plataforma. Si tu rol no tiene permisos, aparece vacía.",
+      "evidence": "Usuarios @simetrik.com tienen descargas bloqueadas por seguridad.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recyclebin",
+      "cat": "glosario",
+      "title": "Recycle Bin (Papelera)",
+      "body": "Almacena recursos eliminados durante 30 días. Pasado ese período, eliminación definitiva. Filtrable por tipo de recurso.",
+      "evidence": "Si borraste un Source por accidente, restaurás dentro de los 30 días.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-processview",
+      "cat": "glosario",
+      "title": "Process View",
+      "body": "Vista de tareas en ejecución, en cola o terminadas. Útil para diagnosticar procesos largos.",
+      "evidence": "Si una recon lleva 4 horas → screenshot + ticket con resource ID.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-relmap",
+      "cat": "glosario",
+      "title": "Relationship Maps (Mapas de relación)",
+      "body": "Representación gráfica de dependencias entre recursos. Muestra upstream y downstream.",
+      "evidence": "Antes de modificar una source crítica, abrir el map para ver qué se rompe.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-domainframework",
+      "cat": "glosario",
+      "title": "Domain Framework",
+      "body": "Marco organizacional de Simetrik que agrupa los controles posibles en 8 dominios. Cada uno con stages, use cases y controls.",
+      "evidence": "8 dominios distribuidos en 4 macro-objetivos (Funds Flow, Profitability, Continuous Closing, Compliance & Oversight).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cashin",
+      "cat": "glosario",
+      "title": "Cash In (Dominio 1)",
+      "body": "Asegurar flujos de efectivo entrantes y eliminar revenue leakage.",
+      "evidence": "Conciliación bancaria, SERCOM, recaudo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cashout",
+      "cat": "glosario",
+      "title": "Cash Out (Dominio 2)",
+      "body": "Ejecutar pagos salientes con precisión, sin fugas ni duplicados.",
+      "evidence": "Payouts, transferencias, dispersión de comisiones.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-feesbilling",
+      "cat": "glosario",
+      "title": "Fees & Billing (Dominio 3)",
+      "body": "Aplicar pricing con precisión y sistemáticamente. Margin protection.",
+      "evidence": "Cost control de fees de adquirentes vs contrato.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-disputes",
+      "cat": "glosario",
+      "title": "Disputes & Claims (Dominio 4)",
+      "body": "Contener pérdidas por chargebacks, disputas y reclamos operacionales.",
+      "evidence": "Gestión de representment y workflow de disputas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accauto",
+      "cat": "glosario",
+      "title": "Accounting Automation (Dominio 5)",
+      "body": "Automatizar reconocimiento, accruals y provisiones a escala transaccional.",
+      "evidence": "Asientos automáticos diarios al ERP.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accops",
+      "cat": "glosario",
+      "title": "Accounting Operations (Dominio 6)",
+      "body": "Asegurar integridad contable y cierres de libros rápidos y predecibles.",
+      "evidence": "Cuadre saldos préstamos, certificación cuentas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-regreporting",
+      "cat": "glosario",
+      "title": "Reporting & Regulations (Dominio 7)",
+      "body": "Entregar reportes audit-ready con confianza.",
+      "evidence": "Reportes regulatorios SOX, IFRS, locales.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-oversight2",
+      "cat": "glosario",
+      "title": "Unified Oversight & Alerts (Dominio 8)",
+      "body": "Visibilidad en tiempo real de KPIs y señales tempranas de riesgo.",
+      "evidence": "Dashboard ejecutivo + alerts automáticas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reportingentity",
+      "cat": "glosario",
+      "title": "Reporting Entity",
+      "body": "Third party que reporta data transaccional y operacional al cliente Simetrik. Actúa como proveedor de data.",
+      "evidence": "Card Network, Acquirer Processor, Local Switch, Clearing House.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-actor",
+      "cat": "glosario",
+      "title": "Actor (Simetrik)",
+      "body": "Cliente o prospect de Simetrik. Quien experimenta los riesgos y necesita controles.",
+      "evidence": "Bancos, fintechs, PSPs.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-stage",
+      "cat": "glosario",
+      "title": "Stage (Etapa)",
+      "body": "Dentro de un dominio, define los momentos clave donde el control importa.",
+      "evidence": "Authorization, Clearing, Settlement, Anchorage.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-substage",
+      "cat": "glosario",
+      "title": "Sub-Stage (Sub-etapa)",
+      "body": "Punto de control concreto dentro de una stage. Define cómo se ejecuta el control en la práctica.",
+      "evidence": "Match clearing vs settlement amounts.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-simbox",
+      "cat": "glosario",
+      "title": "Simetrik Box",
+      "body": "Modelo de integración donde un partner embebe la solución Simetrik en su propio portal. Los clientes finales del partner acceden a controles pre-configurados sin contratar Simetrik directo.",
+      "evidence": "Banco embebe \"Reconcile with Simetrik\" en su home banking.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gap",
+      "cat": "glosario",
+      "title": "Gap (Brecha)",
+      "body": "Discrepancia o inconsistencia entre data esperada y data real en un proceso financiero u operacional. Detectarla a tiempo evita pérdidas.",
+      "evidence": "Gap entre saldo SAP y suma de transacciones origen.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sourceunion2",
+      "cat": "glosario",
+      "title": "Smart Building Block · Sources",
+      "body": "IA que al armar Source Union sugiere proactivamente columnas que matchean entre la 1ra y 2da fuente.",
+      "evidence": "Acelera la implementación de Unions complejos.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-columnmap",
+      "cat": "glosario",
+      "title": "Column Mapping Agent",
+      "body": "Agente IA (release abril 2026). Al cambiar source en un recurso ya implementado, mapea automáticamente columnas del nuevo a las del que reemplaza.",
+      "evidence": "Cliente cambia layout → IA realinea sin intervención.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-safedelete",
+      "cat": "glosario",
+      "title": "Safe Column Removal",
+      "body": "Agente IA (release abril 2026). Antes de borrar una columna, detecta qué recursos quedan impactados.",
+      "evidence": "Proactivo: te muestra dependencias antes del delete.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-accreviewagent",
+      "cat": "glosario",
+      "title": "Accounting Review Agent",
+      "body": "Agente IA (roadmap). Lee todos los dashboards/charts del accounting layer y genera insights ejecutivos.",
+      "evidence": "Resumen mensual: \"este mes 3 cuentas tienen gap > 10%, foco aquí\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-educationagent",
+      "cat": "glosario",
+      "title": "Education Agent",
+      "body": "Agente IA (roadmap). Conoce a profundidad cada control embebido en templates. Te ayuda a entender lógica de negocio, KPIs, arquitectura.",
+      "evidence": "\"¿Por qué este control usa N-1 en vez de 1-1?\" → te explica.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-summaryagent",
+      "cat": "glosario",
+      "title": "Summary Agent",
+      "body": "Agente IA (roadmap). Interpreta resultados de dashboards y entrega resumen ejecutivo predictivo basado en patrones.",
+      "evidence": "Predice qué KPIs tendrán problema el próximo mes.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-datamonitor",
+      "cat": "glosario",
+      "title": "Data Monitoring Agent",
+      "body": "Agente IA (custom, en algunos clientes). Monitorea sources 24/7 y notifica anomalías al subir archivos.",
+      "evidence": "Detecta que el T24 de hoy tiene 30% menos filas que la media → alerta.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-traceability",
+      "cat": "glosario",
+      "title": "Full Traceability (Trazabilidad completa)",
+      "body": "Capacidad de rastrear cada dato paso a paso a lo largo de todo el proceso, sin perder contexto. Diferenciador de Simetrik.",
+      "evidence": "Frase oficial: \"from the moment a transaction is born, until it dies in accounting\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-sourceoftruth",
+      "cat": "glosario",
+      "title": "Single Source of Truth (Fuente única de verdad)",
+      "body": "Repositorio único y confiable donde todos los equipos (finance, ops, accounting) consultan la misma información.",
+      "evidence": "Simetrik elimina inconsistencias entre Excel locales en distintas áreas.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-assessment",
+      "cat": "glosario",
+      "title": "Assessment (Evaluación)",
+      "body": "Primera certificación Simetrik. Test con preguntas que mide entendimiento teórico de los conceptos.",
+      "evidence": "Aprobás → primera certificación.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-practical",
+      "cat": "glosario",
+      "title": "Practical Activity (Actividad práctica)",
+      "body": "Segunda certificación Simetrik. Implementás un caso real en un workspace asignado con script y archivos.",
+      "evidence": "Workspace + script + xlsx → implementás → segunda certificación.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-qa",
+      "cat": "glosario",
+      "title": "Q&A Sessions",
+      "body": "Sesiones grupales dedicadas a resolver dudas durante la formación Simetrik.",
+      "evidence": "Espacio semanal en el calendario de onboarding.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-gtm",
+      "cat": "glosario",
+      "title": "Go-To-Market Sessions",
+      "body": "Reuniones recurrentes que alinean equipos de venta con cambios de producto y estrategias de lanzamiento.",
+      "evidence": "Mensual: novedades + sales arguments + casos de uso.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-lpad",
+      "cat": "glosario",
+      "title": "LPAD (Left Pad)",
+      "body": "Función de transformación: rellena texto a la izquierda con un carácter hasta alcanzar un largo dado. En DOTA punto 1 se usa para garantizar que CARD_SIX_FIRST_DIGITS quede en 6 chars.",
+      "evidence": "LPAD(\"123\", 6, \"0\") → \"000123\" para componer CARD_NUMBER de 16 chars.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-coalesce",
+      "cat": "glosario",
+      "title": "COALESCE (Coalesce)",
+      "body": "Devuelve el primer valor no-nulo de una lista. En DOTA punto 5 se usa para consolidar GTWT_MERCHANT_NUMBER con prioridad PURCHASE > CAPTURE > AUTH.",
+      "evidence": "COALESCE(PURCHASE_MERCHANT_NUMBER, CAPTURE_MERCHANT_NUMBER, AUTH_MERCHANT_NUMBER).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-adicfechahabil",
+      "cat": "glosario",
+      "title": "ADICIONAR_DIASEMANA (Add days/time to date)",
+      "body": "Función oficial Simetrik. Sintaxis: ADICIONAR_DIASEMANA(FECHA;CANTIDAD). Agrega o resta unidades de tiempo. Con add-on días hábiles puede aceptar un 3er parámetro de sitio (\"ARG\"). Verificar con trainer.",
+      "evidence": "EXPECTED_PAYMENT_DATE = ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30; \"ARG\").",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-adicfechatiempo",
+      "cat": "glosario",
+      "title": "TODAY() (Current date)",
+      "body": "Función oficial Simetrik que devuelve la fecha actual. Solo disponible dentro de agrupaciones. Equivalente a HOY() en Excel. Usar en columnas de vencimiento y aging.",
+      "evidence": "DIFERENCIA_FECHA(FECHA_TXN; TODAY(); \"días\") — calcula días de antigüedad.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-pan",
+      "cat": "glosario",
+      "title": "PAN (Primary Account Number)",
+      "body": "Número de la tarjeta de pago (16 dígitos). En DOTA viene enmascarado como CARD_SIX_FIRST_DIGITS + XXXXXX + CARD_FOUR_LAST_DIGITS.",
+      "evidence": "PAN reconstruido se usa como llave en la barrida 3 (DOTA vs FD detalle exacto).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-bin",
+      "cat": "glosario",
+      "title": "BIN (Bank Identification Number)",
+      "body": "Los primeros 6 dígitos del PAN identifican al emisor y la marca. En DOTA punto 4, los dos primeros se usan para deducir BRAND.",
+      "evidence": "BIN 4xxxxx = VISA · 5x/2x = MASTERCARD · 34/37 = AMEX.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-barrida",
+      "cat": "glosario",
+      "title": "Barrida (Sweep / Pass)",
+      "body": "Cada iteración de una conciliación avanzada. Las barridas se ejecutan en orden y cada una recibe el pendiente de la anterior. En DOTA × FD hay 5 barridas: 1-2 compensación DOTA, 3-4 DOTA vs FD detalle, 5 batch.",
+      "evidence": "Barrida 1 = compensación exacta DOTA ↔ DOTA con llaves comercio + auth + |monto|.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-compensacion",
+      "cat": "glosario",
+      "title": "Compensación (Self-clearing)",
+      "body": "Auto-cruce de una fuente contra sí misma para limpiar pares positivos/negativos del mismo origen (PAYMENT ↔ REFUND). Es el primer paso ANTES de cruzar contra la contraparte.",
+      "evidence": "Barridas 1 y 2 del caso DOTA aplican compensación con restricción PAYMENT ≠ PAYMENT.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-addons",
+      "cat": "glosario",
+      "title": "Add-ons",
+      "body": "Módulos adicionales del workspace Simetrik que habilitan funcionalidades como Saldos Persistentes, fechas hábiles, conciliación avanzada multi-barrida, tableros KPI. El caso DOTA requiere TODOS los add-ons activos.",
+      "evidence": "Sin add-on de saldos no podés resolver el punto 13 (saldo neto diario por comercio).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-saldopersist",
+      "cat": "glosario",
+      "title": "Saldos Persistentes",
+      "body": "Add-on Simetrik que mantiene un saldo acumulado por [clave, fecha] de forma incremental. Cada día parte del saldo del día anterior + movimientos del día.",
+      "evidence": "Punto 13 DOTA: saldo neto diario por comercio = Saldo[día-1] + Σ movimientos del día.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-nuevaherencia",
+      "cat": "glosario",
+      "title": "Nueva Herencia",
+      "body": "Configuración moderna de workspace Simetrik que habilita las funciones más recientes (conciliación avanzada V2, fechas hábiles, saldos). El caso DOTA solo es resoluble en workspaces con nueva herencia.",
+      "evidence": "Antes de empezar la prueba DOTA, verificá que tu workspace tenga nueva herencia activada.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-tolerancia",
+      "cat": "glosario",
+      "title": "Tolerancia (Tolerance)",
+      "body": "Umbral permitido para que dos partidas crucen aunque no coincidan exactamente. En DOTA hay tolerancia de monto ($5 en barrida 2) y tolerancia de fecha (+1 día direccional en barrida 4).",
+      "evidence": "Tolerancia $5 = dos partidas cruzan si |montoA − montoB| ≤ 5.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-barridacomp",
+      "cat": "glosario",
+      "title": "Barrida de Compensación (Compensation sweep)",
+      "body": "Tipo especial de barrida en conciliación avanzada. Aplica auto-cruce dentro de UN solo recurso para compensar registros opuestos (débitos vs créditos) antes del cruce con la contraparte.",
+      "evidence": "B1 DOTA: compensación exacta de la misma fuente DB_DOTA con llaves comercio + auth + ABS(monto).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-barridaagrup",
+      "cat": "glosario",
+      "title": "Barrida Agrupada (Grouped sweep)",
+      "body": "Tipo especial de barrida avanzada que agrupa el recurso (SUMA, CONTEO) antes de ejecutar el cruce. Permite comparar totales de lote vs detalle.",
+      "evidence": "B5 DOTA: suma FD por BATCH_ID vs suma DOTA por comercio.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-segmentacion",
+      "cat": "glosario",
+      "title": "Segmentación (Segmentation)",
+      "body": "Opción en conciliación avanzada que divide la fuente en subconjuntos antes del cruce. Las columnas de segmentación deben ser tipo Texto, Booleano o Entero, sin comportamiento dinámico.",
+      "evidence": "Segmentar Lado A por OP (PAYMENT vs REFUND) para aplicar reglas distintas por tipo.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-cardinalidad",
+      "cat": "glosario",
+      "title": "Cardinalidad (Cardinality)",
+      "body": "Tipo de relación entre registros en el cruce: 1:1 (uno a uno), 1:N, N:1, N:N. N:N requiere robustez alta o media y no admite tolerancias.",
+      "evidence": "DOTA vs FD es cruce 1:1 (cada transacción DOTA corresponde a un registro FD).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-robustezbarrida",
+      "cat": "glosario",
+      "title": "Robustez de barrida (Sweep robustness)",
+      "body": "Evaluación de Simetrik sobre la solidez de las reglas configuradas: verde (alta), amarillo (media), rojo (débil). Si es débil en N:N, la conciliación no ejecuta.",
+      "evidence": "Barrida con 5 llaves (B3 DOTA×FD) tiene robustez alta (verde) automáticamente.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-desencadenante",
+      "cat": "glosario",
+      "title": "Desencadenante (Trigger)",
+      "body": "Recurso que activa la ejecución de una conciliación cuando recibe nuevos datos. Por defecto es el Recurso B; si es unión/foto/agrupación, toma el Recurso A. También puede ser un horario programado.",
+      "evidence": "En DOTA × FD el desencadenante es Reporte_FD (Recurso B).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-acumvsnoacum",
+      "cat": "glosario",
+      "title": "Acumulativa vs No Acumulativa (Cumulative vs Non-cumulative)",
+      "body": "Tipos de agrupación en Simetrik. Acumulativa: sigue agrupando aunque el registro se concilie. No acumulativa: al conciliarse un registro, se bloquea y nuevos registros crean entrada separada.",
+      "evidence": "Agrupación acumulativa para aging de pendientes; no acumulativa para snapshot diario.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-versioncambios",
+      "cat": "glosario",
+      "title": "Versión con cambios (Version with changes)",
+      "body": "Mecanismo que permite modificar una conciliación Confirmada de forma segura, manteniendo historial de ajustes. Los cambios son visibles en la \"Versión con cambios\" hasta confirmarlos.",
+      "evidence": "Para agregar barrida de desconciliación se debe crear primero una Versión con cambios.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-buscarv",
+      "cat": "glosario",
+      "title": "BuscarV (VLOOKUP / Lookup column)",
+      "body": "Función oficial Simetrik para enriquecer una fuente con datos de otra. Equivalente a VLOOKUP de Excel. Flujo: Vista tabla → ícono \"Crear BuscarV\" → seleccionar recurso fuente → columnas a traer → condiciones de cruce (col_A = col_B) → Guardar y ver tabla.",
+      "evidence": "Paso 8 DOTA: BuscarV DB_DOTA × Parametria_Comercio · llave GTWT_MERCHANT_NUMBER = CODIGO_COMERCIO → trae TIPO_COMERCIO.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-papelera",
+      "cat": "glosario",
+      "title": "Papelera (Trash / Recycle bin)",
+      "body": "Recursos eliminados que se conservan 30 días antes de borrado definitivo. Path: Herramientas → Papelera. Se pueden restaurar dentro del período de retención.",
+      "evidence": "Si se elimina una fuente por error, ir a Papelera y restaurarla dentro de los 30 días.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-procesos",
+      "cat": "glosario",
+      "title": "Procesos (Processes monitor)",
+      "body": "Monitor de ejecuciones del workspace: conciliaciones, ingestas, exportaciones. Path: Herramientas → Procesos. Campos: estado, fecha inicio, duración, usuario.",
+      "evidence": "Después de ejecutar la conciliación DOTA × FD, verificar en Procesos que terminó sin error.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-mapas",
+      "cat": "glosario",
+      "title": "Mapas (Resource maps)",
+      "body": "Visualización gráfica del flujo de datos entre recursos (Fuentes → Uniones → Conciliaciones → Agrupaciones). Path: Herramientas → Mapas. Usar antes de eliminar un recurso para ver dependencias.",
+      "evidence": "Antes de modificar DB_DOTA, ver en Mapas qué conciliaciones dependen de ella.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-buscadorreg",
+      "cat": "glosario",
+      "title": "Buscador de registros (Record finder)",
+      "body": "Búsqueda cross-recurso de un registro a lo largo de la cadena de conciliación. Path: Gestionar → Controles operativos → Buscador de registros. Soporta hasta 5 recursos descendentes.",
+      "evidence": "Buscar una transacción por PAN desde DB_DOTA hasta FD para rastrear si concilió.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-alarmas",
+      "cat": "glosario",
+      "title": "Alarmas (Alerts)",
+      "body": "Notificaciones automáticas cuando un monitor supera un umbral (% pendientes, monto, tiempo sin ejecutar). Path: Gestionar → Hallazgos → Alarmas.",
+      "evidence": "Alarma: si pendientes DOTA > 5% al cerrar B5, notificar al equipo de reconciliaciones.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-adicdiasmana2p",
+      "cat": "glosario",
+      "title": "ADICIONAR_DIASEMANA — definitivo (Add business days (weekdays only))",
+      "body": "ADICIONAR_DIASEMANA(FECHA;CANTIDAD) — exactamente 2 parámetros. Omite sábados y domingos. NO omite feriados de ningún país. No hay parámetro de calendario/sitio en la doc oficial. Para feriados ARG usar Camino C (BuscarV contra el calendario de días hábiles \"Formato DIAS HABILES ARGENTINA\").",
+      "evidence": "ADICIONAR_DIASEMANA(MOV_CREATION_DATE; 30) → 30 días hábiles (sin sáb/dom).",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reglaoro1cast",
+      "cat": "glosario",
+      "title": "Casteo en la fuente (Cast type in the source)",
+      "body": "Regla de oro #1: los cambios de tipo de dato (Texto/Fecha/Entero) se hacen SIEMPRE en la FUENTE, nunca en la Unión. En la Unión las columnas son heredadas y dan \"la columna seleccionada no admite cambio de formato\".",
+      "evidence": "Para castear MOV_CREATED_DATE a Fecha, abrir la fuente DB_DOTA, no Union_DOTA.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-reejecutarunion",
+      "cat": "glosario",
+      "title": "Re-ejecutar la unión (Re-run the union)",
+      "body": "Regla de oro #2: tras castear en la fuente hay que re-ejecutar la unión (\"Ejecutar cambios\"). Simetrik solo recalcula registros vacíos; las filas ya cargadas conservan el formato viejo si no se re-ejecuta.",
+      "evidence": "Cambié el tipo en la fuente pero la unión sigue con el dato viejo → \"Ejecutar cambios\".",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-recrearcoltrans",
+      "cat": "glosario",
+      "title": "Borrar y recrear columna (Delete & recreate transformation column)",
+      "body": "Regla de oro #3: las columnas de transformación solo recalculan filas vacías. Para refrescar TODAS las filas tras un cambio aguas arriba, hay que borrar la columna y volver a crearla.",
+      "evidence": "MOV_CREATION_DATE no se actualizó tras recastear la fecha → borrarla y recrearla.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-colbloqueada",
+      "cat": "glosario",
+      "title": "Columna bloqueada 🚫 (Blocked column)",
+      "body": "Regla de oro #4: una columna casteada que quedó mal mapeada se bloquea (🚫) y obliga a rehacer la unión entera. Por eso se castea ANTES de crear cualquier fórmula.",
+      "evidence": "Castée una columna mal mapeada → 🚫 → toca rehacer Union_DOTA.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-errt001",
+      "cat": "glosario",
+      "title": "Error T001 (T001 format error)",
+      "body": "Error de Simetrik al castear una fecha ISO con T/timezone (2022-01-03T00:01:19-04:00) directo a \"Fecha y hora\": no parsea y vacía todas las celdas. Solución: castear a tipo Fecha identificando el formato original.",
+      "evidence": "Castear MOV_CREATED_DATE a \"Fecha y hora\" → T001, celdas vacías.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-castfechaiso",
+      "cat": "glosario",
+      "title": "Casteo de fecha ISO (ISO date casting)",
+      "body": "Para fechas ISO (con T y zona horaria) castear a tipo Fecha (NO \"Fecha y hora\"): Dar formato a columna → Paso 1 tipo Fecha → Paso 2 identificar el formato original → Paso 3 visualización 2016-11-24 (YYYY-MM-DD). Evita el workaround DIVIDIR(...;\"T\";1).",
+      "evidence": "MOV_CREATED_DATE 2022-01-03T00:01:19-04:00 → Fecha 2022-01-03.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-calhabilarg",
+      "cat": "glosario",
+      "title": "Calendario días hábiles ARG (Argentina business-days calendar)",
+      "body": "Archivo \"Formato DIAS HABILES ARGENTINA.xlsx\" (reemplaza al viejo \"Normalización días hábiles Argentina.xlsx\"). Cubre 2019→2072. Columnas: PAIS, FECHA, CONCEPTO, CLASIFICATION, ID_SUM, ID_FINAL, DAY, YEAR.",
+      "evidence": "Cargar como fuente Calendario_MLA para el cálculo de 30 días hábiles del Paso 7 DOTA.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-idsumcol",
+      "cat": "glosario",
+      "title": "ID_SUM (Business-day counter)",
+      "body": "Columna del calendario de días hábiles ARG: contador de día hábil (incrementa solo en filas HABIL). Antes se llamaba ID_CONTADOR_SUMA.",
+      "evidence": "BuscarV #1 del Paso 7 trae ID_SUM cruzando MOV_CREATION_DATE = FECHA.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "dict-idfinalcol",
+      "cat": "glosario",
+      "title": "ID_FINAL (Day-number to date map)",
+      "body": "Columna del calendario de días hábiles ARG: mapea de número de día hábil de vuelta a fecha. Antes se llamaba ID_FECHA_FINAL.",
+      "evidence": "BuscarV #2 del Paso 7: N_TARGET = ID_FINAL → trae la FECHA de pago.",
+      "source": "Diccionario · curso Simetrik",
+      "date": "2026-06-05",
       "confidence": "verificado"
     }
   ]
