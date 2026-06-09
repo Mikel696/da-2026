@@ -424,7 +424,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Fase 2 tanda 2 = Guía Simple (página estática, sin CRUD) alimentándose del cerebro, enriqueciendo primero las entradas guia- con sus campos ricos (path/steps/analogy). Luego Simulador.
 
 ### ID:14-WORK.P27 · 2026-06-05
-- Commit: (pending)
+- Commit: fdf9cd3
 - Files: frontend/pages/simetrik-app.html · frontend/pages/simetrik-guia.html · frontend/data/simetrik-kb.json
 - Changed: QA + Fase 2 tanda 2. (a) FIX error Simulador: "Crear recurso" listaba "Reconcilable Group" y "VLOOKUP" (inexistentes) → corregido a las opciones reales (Fuentes, Agrupaciones, Concil. estándar, Concil. avanzada, Fuentes de apertura, Unión de fuentes) en los 2 lugares (scr desc + tip); ahora coincide con el cerebro. (b) Fase 2 Guía Simple: enriquecí las 47 entradas guia- del cerebro con detail (objeto rico completo: path/steps/analogy/simple/usoCases/formats/warn/tags/doc/icon/dota); la página simetrik-guia.html ahora SE ALIMENTA del cerebro (fetch ../data/simetrik-kb.json → GUIDE = entries.guia-.detail → renderAll), con el array embebido como fallback offline. const GUIDE→let GUIDE. (c) Integridad del cerebro verificada: 435 entradas, 0 ids dup, todas con evidence+source. version 2026-06-05.6.
 - Next: Fase 2 Simulador App (mismo patrón: enriquecer + alimentar desde cerebro). Considerar eventualmente quitar arrays embebidos (hoy fallback). Primera ingesta real de reunión.
