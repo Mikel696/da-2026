@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Simetrik Knowledge Engine · 14-WORK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e14;--bg2:#11161f;--bg3:#161c28;--bd:#222b3a;--bd2:#2e3a4d;
+  --tx:#e6edf3;--t2:#aeb9c7;--t3:#6b7785;
+  --ac:#06b6d4;--ag:rgba(6,182,212,.12);
+  --gn:#22c55e;--gg:rgba(34,197,94,.10);
+  --yl:#eab308;--yg:rgba(234,179,8,.10);
+  --rd:#ef4444;--vi:#8b5cf6;--or:#f97316;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55;padding:0 0 60px}
+code{font-family:'IBM Plex Mono',monospace;font-size:.86em;background:var(--bg3);padding:1px 6px;border-radius:4px;color:#7dd3fc;border:1px solid var(--bd)}
+.da-strip{background:var(--bg2);border-bottom:1px solid var(--bd);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.da-strip a{color:var(--ac);text-decoration:none;font-weight:600;font-size:13px}
+.da-strip .mod{color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:11px}
+body.in-iframe .da-strip{display:none}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.hero{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--bd);border-radius:14px;padding:22px 24px;margin-bottom:18px}
+.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;margin-bottom:4px}
+.hero h1 em{color:var(--ac);font-style:italic}
+.hero .meta{color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.hero p{color:var(--t2);font-size:13px;max-width:760px}
+.stat{display:inline-flex;gap:6px;align-items:baseline;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;margin:10px 8px 0 0}
+.stat b{font-size:18px;color:var(--ac)}
+.stat span{font-size:11px;color:var(--t3)}
+.ingest{background:var(--ag);border:1px solid var(--ac);border-left:4px solid var(--ac);border-radius:12px;padding:16px 20px;margin-bottom:18px}
+.ingest h3{font-size:14px;color:var(--ac);margin-bottom:8px}
+.ingest ol{margin:6px 0 10px 18px;font-size:13px;color:var(--t2)}
+.ingest li{margin-bottom:3px}
+.btn{background:var(--ac);color:#04222b;border:none;border-radius:8px;padding:9px 16px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.btn:hover{filter:brightness(1.08)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;position:sticky;top:43px;background:var(--bg);padding:10px 0;z-index:40}
+#q{flex:1;min-width:220px;background:var(--bg2);border:1px solid var(--bd2);border-radius:9px;padding:10px 14px;color:var(--tx);font-family:inherit;font-size:14px}
+#q:focus{outline:none;border-color:var(--ac)}
+.chip{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--t2);cursor:pointer;user-select:none}
+.chip.on{background:var(--ag);border-color:var(--ac);color:var(--ac);font-weight:600}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:15px 18px;margin-bottom:11px;border-left:3px solid var(--bd2)}
+.card.regla{border-left-color:var(--rd)} .card.plataforma{border-left-color:var(--ac)} .card.funcion{border-left-color:var(--vi)}
+.card.gotcha{border-left-color:var(--yl)} .card.conciliacion{border-left-color:var(--gn)} .card.caso{border-left-color:var(--or)} .card.glosario{border-left-color:var(--t3)}
+.card-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.card-h h4{font-size:14.5px;font-weight:600;flex:1;min-width:200px}
+.tag{font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.tag.cat{background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}
+.tag.ok{background:var(--gg);color:var(--gn);border:1px solid var(--gn)}
+.tag.hip{background:var(--yg);color:var(--yl);border:1px solid var(--yl)}
+.card p{font-size:13px;color:var(--t2);margin-bottom:7px}
+.ev{font-size:11.5px;color:var(--t3);border-top:1px dashed var(--bd);padding-top:6px}
+.ev b{color:var(--t2)}
+#empty{text-align:center;color:var(--t3);padding:40px;display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gn);color:#04220f;padding:10px 20px;border-radius:8px;font-weight:700;font-size:13px;opacity:0;transition:opacity .2s;z-index:99}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="da-strip">
+  <a href="../work.html">← Ecosistema Simetrik</a>
+  <span class="mod">14-WORK · Simetrik Knowledge Engine · v1</span>
+</div>
+<script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="meta" id="metaLine">cargando…</div>
+    <h1>Simetrik <em>Knowledge Engine</em></h1>
+    <p>Base de conocimiento viva de Simetrik: plataforma, funciones, reglas de oro, gotchas, patrones de conciliación y casos resueltos. Cada entrada nace con evidencia y se marca <b>verificado</b> (con datos/captura/fuente) o <b>hipótesis</b>. Se alimenta de reuniones e implementaciones reales.</p>
+    <div id="stats"></div>
+  </div>
+
+  <div class="ingest">
+    <h3>📥 Cómo se alimenta (loop de auto-actualización)</h3>
+    <ol>
+      <li>Dropeás el material nuevo en el cuaderno <code>Simetrik · Ingesta</code> (14-WORK → Cuadernos). <b>Un drop = una página</b> (poné la fecha en el título). Sirve: transcript, notas, capturas (pegá la imagen), links de Drive de la reunión.</li>
+      <li>Me pasás el <b>Prompt de Ingesta</b> (botón de abajo) en una sesión con Chrome MCP.</li>
+      <li>Yo leo las páginas <b>nuevas</b> (no ingeridas), extraigo el conocimiento con su evidencia, lo agrego a la base y commiteo. Esta vista se actualiza sola.</li>
+    </ol>
+    <button class="btn" onclick="copyPrompt()">📋 Copiar Prompt de Ingesta</button>
+  </div>
+
+  <div class="controls">
+    <input id="q" type="text" placeholder="🔍 Buscar en la base… (función, regla, columna, error)">
+    <span id="cats"></span>
+  </div>
+  <div id="list"></div>
+  <div id="empty">Sin resultados.</div>
+</div>
+
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script type="text/plain" id="ingestPrompt">
+# 🧠 PROMPT · INGESTA · Simetrik Knowledge Engine
+
+Objetivo: leer SOLO el material NUEVO de la bandeja de ingesta, extraer conocimiento Simetrik atómico y verificable, y actualizar frontend/data/simetrik-kb.json. Nada inventado: sin evidencia, no entra.
+
+## Fuentes
+- Cuaderno "Simetrik · Ingesta" en el live site (work.html, sesión autenticada del usuario). Un drop = una página; el título suele traer la fecha.
+- Base actual: frontend/data/simetrik-kb.json. El campo meta.ingested_sources lista los IDs de página ya procesados.
+
+## Protocolo
+1. Chrome MCP → tabs_context_mcp → abrir/usar work.html del usuario (https://mikel696.github.io/da-2026/frontend/work.html). NO navegar fuera; reusar su sesión.
+2. javascript_tool → leer localStorage 'work_nb_meta' y 'work_nb_data'; ubicar el cuaderno cuyo name = "Simetrik · Ingesta". Listar sus páginas {id, title}.
+3. Para cada PÁGINA cuyo id NO esté en meta.ingested_sources de simetrik-kb.json:
+   a. Extraer el texto: innerText del page.body (parsear el HTML en un div).
+   b. Resolver e INSPECCIONAR las imágenes (chips .nb-img-chip): usar el atributo data-preview (data URI embebido) o IndexedDB 'da2026_nb' store 'attachments' por data-img-id; renderizarlas y MIRARLAS. Las capturas son la verdad visual (rutas de UI, configs, errores) — tienen prioridad sobre lo verbal.
+   c. Si hay un link de Drive (grabación/transcript/doc), leerlo con la Drive MCP (read_file_content; si excede tokens, parsear el archivo guardado).
+4. Extraer UNIDADES DE CONOCIMIENTO atómicas (una idea por entrada). Cada una:
+   {id (kebab corto), cat, title, body, evidence, source, date (YYYY-MM-DD), confidence}
+   - cat ∈ regla | plataforma | funcion | gotcha | conciliacion | caso | glosario
+   - confidence = "verificado" si hay dato/captura/fuente que lo respalde; "hipotesis" si es deducción sin confirmar.
+   - evidence = cita verbatim del transcript, o descripción de la captura, o resultado del dato. Obligatorio.
+5. DEDUPE contra entries existentes (por title/contenido). No dupliques. Si una entrada vieja queda incompleta o contradicha por lo nuevo, ACTUALIZALA (mejorá body/evidence y subí su date). Si lo nuevo contradice algo "verificado", marcalo y avisá en el reporte.
+6. Editar simetrik-kb.json: append/merge entries; agregar los ids de página procesados a meta.ingested_sources; subir meta.version y meta.last_updated.
+7. Commit: feat(14-WORK): KB ingesta YYYY-MM-DD (+N entradas) · push origin main. Registrar en PROMPT_RUNS.md.
+8. (Opcional) Chrome MCP → inyectar al final de cada página procesada un "✅ ingerido YYYY-MM-DD" para marca visual.
+
+## Reglas
+- CERO invención. Atómico (1 idea = 1 entrada). Español, breve, sin relleno.
+- Capturas > texto para rutas/UI. Sin evidencia → no se ingresa.
+- No reprocesar páginas ya en ingested_sources.
+
+## Salida
+Reporte: N entradas nuevas (por categoría) · M actualizadas · páginas procesadas (ids) · dudas que el material no aclaró.
+</script>
+
+<script>
+const KB_URL='../data/simetrik-kb.json';
+let DATA={meta:{},entries:[]}, activeCat='all', q='';
+const CATLABEL={all:'Todo',regla:'⚖️ Reglas',plataforma:'🖥️ Plataforma',funcion:'🔧 Funciones',gotcha:'⚠️ Gotchas',conciliacion:'🔗 Conciliación',caso:'📂 Casos',glosario:'📖 Glosario'};
+const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+fetch(KB_URL).then(r=>r.json()).then(d=>{DATA=d;boot();}).catch(e=>{
+  document.getElementById('metaLine').textContent='No se pudo cargar la base ('+e+')';
+});
+
+function boot(){
+  const m=DATA.meta||{}, n=(DATA.entries||[]).length;
+  document.getElementById('metaLine').textContent='v'+(m.version||'?')+' · actualizado '+(m.last_updated||'?');
+  const verif=DATA.entries.filter(e=>e.confidence==='verificado').length;
+  document.getElementById('stats').innerHTML=
+    '<span class="stat"><b>'+n+'</b><span>entradas</span></span>'+
+    '<span class="stat"><b>'+verif+'</b><span>verificadas</span></span>'+
+    '<span class="stat"><b>'+(m.categories||[]).length+'</b><span>categorías</span></span>';
+  const cats=['all'].concat(m.categories||[]);
+  document.getElementById('cats').innerHTML=cats.map(c=>'<span class="chip'+(c==='all'?' on':'')+'" data-c="'+c+'">'+(CATLABEL[c]||c)+'</span>').join('');
+  document.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{
+    activeCat=ch.dataset.c;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===ch));render();
+  });
+  document.getElementById('q').addEventListener('input',e=>{q=e.target.value.toLowerCase();render();});
+  render();
+}
+
+function render(){
+  const list=document.getElementById('list');
+  let rows=DATA.entries.filter(e=>activeCat==='all'||e.cat===activeCat);
+  if(q) rows=rows.filter(e=>(e.title+' '+e.body+' '+e.evidence).toLowerCase().includes(q));
+  document.getElementById('empty').style.display=rows.length?'none':'block';
+  list.innerHTML=rows.map(e=>{
+    const cf=e.confidence==='verificado'?'<span class="tag ok">✓ verificado</span>':'<span class="tag hip">~ hipótesis</span>';
+    return '<div class="card '+esc(e.cat)+'"><div class="card-h">'+
+      '<h4>'+esc(e.title)+'</h4><span class="tag cat">'+esc(e.cat)+'</span>'+cf+'</div>'+
+      '<p>'+esc(e.body)+'</p>'+
+      '<div class="ev"><b>Evidencia:</b> '+esc(e.evidence)+' &nbsp;·&nbsp; <b>Fuente:</b> '+esc(e.source)+' &nbsp;·&nbsp; '+esc(e.date)+'</div></div>';
+  }).join('');
+}
+
+function copyPrompt(){
+  const t=document.getElementById('ingestPrompt').textContent.trim();
+  navigator.clipboard.writeText(t).then(()=>{
+    const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1600);
+  });
+}
+</script>
+</body>
+</html>

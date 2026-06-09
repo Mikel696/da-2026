@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "name": "Simetrik Knowledge Engine",
+    "version": "2026-06-05.1",
+    "last_updated": "2026-06-05",
+    "ingested_sources": [],
+    "categories": ["regla", "plataforma", "funcion", "gotcha", "conciliacion", "caso", "glosario"],
+    "inbox_notebook": "Simetrik · Ingesta"
+  },
+  "entries": [
+    {
+      "id": "regla-casteo-fuente",
+      "cat": "regla",
+      "title": "Los casteos de tipo van en la FUENTE, no en la Unión",
+      "body": "Todo cambio de tipo de dato (Texto/Fecha/Número) se hace abriendo la FUENTE, no la Unión de fuentes. En la Unión las columnas son heredadas y dan el error 'la columna seleccionada no admite cambio de formato'.",
+      "evidence": "Verificado en workspace del usuario (Prueba DOTA).",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "regla-reejecutar-union",
+      "cat": "regla",
+      "title": "Tras castear en la fuente, RE-EJECUTAR la unión",
+      "body": "Simetrik solo recalcula los registros vacíos. Si cambiás un formato/valor en la fuente y no re-ejecutás la unión ('Ejecutar cambios'), las filas ya cargadas conservan el formato viejo.",
+      "evidence": "El usuario reportó que MOV_CREATION_DATE no se actualizaba hasta re-ejecutar.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "regla-recrear-transformacion",
+      "cat": "regla",
+      "title": "Columnas de transformación: borrar y recrear para refrescar TODO",
+      "body": "Una columna de transformación solo recalcula filas vacías. Si cambiaste algo aguas arriba, borrá la columna y volvé a crearla para que recalcule todas las filas.",
+      "evidence": "Comportamiento confirmado con MOV_CREATION_DATE.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "regla-castear-antes",
+      "cat": "regla",
+      "title": "Castear ANTES de crear fórmulas (o la columna se bloquea)",
+      "body": "Si una columna casteada queda mal mapeada se bloquea (🚫) y obliga a rehacer la unión entera. Hacé todos los casteos antes de armar fórmulas.",
+      "evidence": "Best practice + incidentes en workspace.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-crear-recurso-tipos",
+      "cat": "plataforma",
+      "title": "Tipos reales en 'Crear recurso'",
+      "body": "El menú 'Crear recurso' muestra: Fuentes, Agrupaciones, Conciliación estándar, Conciliación avanzada, Fuentes de apertura, Unión de fuentes. NO existe 'Grupo Conciliable' ni 'VLOOKUP' como tipo de recurso (el simulador del módulo los listaba mal).",
+      "evidence": "Reportado por el usuario con la pantalla real.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-grupo-conciliable",
+      "cat": "plataforma",
+      "title": "Grupo conciliable = campo dentro de la Unión (solo selecciona)",
+      "body": "El 'Grupo conciliable' es un campo en la configuración de la Unión de fuentes. Solo SELECCIONA grupos ya creados; si no hay ninguno, muestra solo 'Recurso completo'. No es donde se filtra ni se crea.",
+      "evidence": "Captura Fuentes.png del usuario + dropdown con única opción 'Recurso completo'.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-tipo-barrida-fijo",
+      "cat": "plataforma",
+      "title": "El tipo de barrida se elige al crear y NO se edita después",
+      "body": "El 'Tipo de barrida' (Conciliación / Compensación / Agrupada) se elige al crear la barrida (botón 'Agregar') y queda fijo. Para cambiarlo: mientras no hayas guardado, salí y recreala con el tipo correcto.",
+      "evidence": "Verificado en workspace: como no había cambios guardados, dejó salir y rehacer.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-compensacion-autocruce",
+      "cat": "plataforma",
+      "title": "Barrida de Compensación = auto-cruce de un solo recurso",
+      "body": "El tipo 'Compensación' cruza un recurso contra sí mismo (no Lado A vs Lado B). Pide 'Recurso a compensar' (uno solo) y exige 'Configurar grupos compensables'. Es lo que el tipo 'Conciliación' (A vs B) no permite.",
+      "evidence": "Captura Barridas.png del usuario.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-grupos-compensables",
+      "cat": "plataforma",
+      "title": "Configurar grupos compensables (obligatorio en Compensación)",
+      "body": "En una barrida de Compensación hay que definir los grupos compensables: Criterio de compensación = una columna, y se arrastran sus valores a Grupo 1 y Grupo 2. Es un paso obligatorio (punto amarillo); sin completarlo, 'Guardar barrida' queda deshabilitado.",
+      "evidence": "Captura del panel + el usuario confirmó que el punto amarillo era el bloqueo.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-tolerancia-campo",
+      "cat": "plataforma",
+      "title": "La tolerancia es un campo aparte, no un operador",
+      "body": "No existe operador '≤' / '~='. La condición queda en '=' y el valor de tolerancia va en el campo 'Tolerancia' de la regla. La 'Unidad' solo aplica a tolerancias de FECHA (días); para montos queda bloqueada (tolerancia absoluta ±X).",
+      "evidence": "Verificado con el usuario en Barrida 2 (tolerancia de $5).",
+      "source": "sesión 2026-06",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "plat-casteo-fecha-iso",
+      "cat": "plataforma",
+      "title": "Castear fecha ISO: tipo Fecha (no 'Fecha y hora') → YYYY-MM-DD",
+      "body": "Para una columna ISO (2022-01-03T00:01:19-04:00): Dar formato → Paso 1 tipo Fecha (NO 'Fecha y hora') → Paso 2 identificar el formato original → Paso 3 visualización 2016-11-24 (YYYY-MM-DD). 'Fecha y hora' da error T001 y vacía las celdas.",
+      "evidence": "Imagen 'cambio formato Fechas.png' del trainer + error T001 documentado.",
+      "source": "Drive trainer + sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "func-catalogo",
+      "cat": "funcion",
+      "title": "Catálogo de funciones usadas (sintaxis Simetrik)",
+      "body": "Separador ';' · textos entre \"comillas dobles\" · columnas y funciones en MAYÚSCULAS. CONCATENAR(a;b) · RELLENAR(col;n;\"0\";\"IZQUIERDA\") · DIVIDIR(col;\"delim\";pos) · CALCULO(expr) · ADICIONAR_FECHA_TIEMPO(fecha;n;\"dias\") · MAYUSC · ESBLANCO · SI/Y/O · IZQUIERDA/DERECHA · EXTRAER_FECHA(fecha;\"meses|años|dias\") · EXTRAER_EXPREGULAR(texto;patrón;grupo) · ADICIONAR_DIAS_SEMANA · DIFERENCIA_FECHA · DIASEM · LARGO.",
+      "evidence": "Capturas de fórmulas del Drive + uso real en la Prueba DOTA.",
+      "source": "Drive + sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "gotcha-merchant-decimales",
+      "cat": "gotcha",
+      "title": "Decimales del merchant (.0000000000): limpiar con DIVIDIR, no casteo",
+      "body": "El número de comercio viene como 32827909.0000000000. Castear a Entero/Texto NO quita los ceros. La forma que funciona: DIVIDIR(columna; \".\"; 1) → 32827909. (Si la posición no toma, probá 0; el índice puede ser base 0.)",
+      "evidence": "Verificado: el cruce del Paso 8 funciona con DIVIDIR.",
+      "source": "sesión 2026-06",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    },
+    {
+      "id": "gotcha-coalesce-bloques",
+      "cat": "gotcha",
+      "title": "CAPTURE_* vacío en 93%: coalesce PURCHASE→CAPTURE→AUTH",
+      "body": "Cada transacción de DOTA trae su info en UN bloque: PURCHASE_* (52.717 filas) o CAPTURE_*+AUTH_* (4.060). CAPTURE está vacío en el 93%. Las columnas normalizadas (auth code, acquirer, merchant) deben hacer coalesce PURCHASE→CAPTURE→AUTH, no tomar CAPTURE solo. Verificado contra FD: NUM_AUT coincide con PURCHASE_AUTHORIZATION_CODE en 541 pares y con CAPTURE en 225 → coalesce concilia 766 vs 541 (+42%).",
+      "evidence": "Análisis del DB_DOTA_v3.xlsx (56.777 filas) con openpyxl + cruce contra Reporte_FD.",
+      "source": "análisis de datos 2026-06-05",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "conc-compensacion-llaves",
+      "cat": "conciliacion",
+      "title": "Barrida de compensación DOTA: llaves y grupos",
+      "body": "Auto-cruce DOTA vs DOTA. Llaves: GTWT_MERCHANT_NUMBER, GTWC_AUTHORIZATION_CODE, ABS_MONTO (columna ABS(MOV_AMOUNT)). Grupos compensables por MOV_OPERATION: Grupo 1 = PAYMENT, Grupo 2 = REFUND (un PAYMENT solo compensa un REFUND). Barrida 2 = igual pero monto con tolerancia ±5.",
+      "evidence": "Guía oficial DOTA + datos (PAYMENT+ / REFUND−).",
+      "source": "Documento Guia + sesión",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "conc-barrida3-llaves-fd",
+      "cat": "conciliacion",
+      "title": "Barrida 3 DOTA vs FD: columnas del lado FD (resueltas con datos)",
+      "body": "Llaves: autorización GTWC=NUM_AUT · comercio GTWT_MERCHANT_NUMBER=NUM_EST (NO NUM_COM) · importe ABS(MOV_AMOUNT)=IMPORTE (FD positivo, signo en SIGNO) · fecha MOV_CREATED_DATE crudo=FORIG_COMPRA (NO FPRES, que es de 2021; NO el MOV_CREATION_DATE +1) · PAN CARD_NUMBER=NUM_TAR.",
+      "evidence": "Cruce DB_DOTA × Reporte_FD: NUM_EST 37 vs NUM_COM 0; FORIG_COMPRA vs FPRES 0.",
+      "source": "análisis de datos 2026-06-05",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "conc-barrida4-direccional",
+      "cat": "conciliacion",
+      "title": "Barrida 4: tolerancia de fecha DIRECCIONAL (FD ≥ DOTA)",
+      "body": "FD puede llegar 1 día después que DOTA, nunca antes. Simetrik aplica la tolerancia a ambos lados, así que para forzar el sentido se agrega una regla de desigualdad (FD ≥ DOTA) además de la tolerancia de 1 día. Los datos muestran FORIG_COMPRA = MOV_CREATED_DATE o +1, consistente con esto.",
+      "evidence": "Guía oficial + datos (33 pares a +1 día, 19 exactos).",
+      "source": "Documento Guia + datos",
+      "date": "2026-06-05",
+      "confidence": "hipotesis"
+    },
+    {
+      "id": "caso-dota-dataset",
+      "cat": "caso",
+      "title": "DB_DOTA dataset: hechos clave",
+      "body": "56.777 filas. MOV_OPERATION: PAYMENT 56.481 (monto +), REFUND 296 (monto −) — MOV_AMOUNT ya trae signo, usar directo para el saldo. CARD_NUMBER = CARD_SIX_FIRST_DIGITS(6) + 'XXXXXX' + CARD_FOUR_LAST_DIGITS(4), rellenando ceros a la izquierda (muchas tarjetas traen <4 dígitos finales).",
+      "evidence": "openpyxl sobre DB_DOTA_v3.xlsx.",
+      "source": "análisis de datos 2026-06-05",
+      "date": "2026-06-05",
+      "confidence": "verificado"
+    },
+    {
+      "id": "caso-calendario-ar",
+      "cat": "caso",
+      "title": "Calendario días hábiles AR (Punto 7)",
+      "body": "Archivo: 'Formato DIAS HABILES ARGENTINA.xlsx' (cubre 2019→2072). Columnas: PAIS, FECHA, CONCEPTO, CLASIFICATION, ID_SUM, ID_FINAL, DAY, YEAR. ID_SUM = contador de día hábil (sube solo en HABIL); ID_FINAL = mapeo número→fecha. EXPECTED_PAYMENT_DATE = 2 BuscarV: ID_SUM(+30) → ID_FINAL → FECHA.",
+      "evidence": "Archivo del Drive verificado (rango 2019-2072).",
+      "source": "Drive trainer 2026-06-04",
+      "date": "2026-06-04",
+      "confidence": "verificado"
+    }
+  ]
+}
