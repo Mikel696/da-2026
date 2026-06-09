@@ -104,6 +104,9 @@ Objetivo: leer SOLO el material NUEVO de la bandeja de ingesta, extraer conocimi
 - Cuaderno "Simetrik · Ingesta" en el live site (work.html, sesión autenticada del usuario). Un drop = una página; el título suele traer la fecha.
 - Base actual: frontend/data/simetrik-kb.json. El campo meta.ingested_sources lista los IDs de página ya procesados.
 
+## ✅ GATE DE VALIDACIÓN (obligatorio · ANTES de ingerir)
+El cerebro alimenta Diccionario/Guía/Simulador → una entrada mala se propaga como verdad y daña el módulo. Cada candidata pasa las 4 o se descarta: (1) Coherente — idea clara, no word-salad de auto-subtitulado; (2) Racional — consistente con Simetrik; si contradice algo "verificado" → FRENAR y preguntar; (3) Con evidencia — cita verbatim/dato/captura, sin evidencia NO entra; (4) Confirmada — autoritativa → "verificado"; duda → "hipotesis" SIN dcat/detail (no alimenta secciones, solo vista KB). Mejor cerebro chico y confiable que grande y dudoso. Reportá qué descartaste y por qué.
+
 ## Protocolo
 1. Chrome MCP → tabs_context_mcp → abrir/usar work.html del usuario (https://mikel696.github.io/da-2026/frontend/work.html). NO navegar fuera; reusar su sesión.
 2. javascript_tool → leer localStorage 'work_nb_meta' y 'work_nb_data'; ubicar el cuaderno cuyo name = "Simetrik · Ingesta". Listar sus páginas {id, title}.

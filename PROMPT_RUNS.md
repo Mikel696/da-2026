@@ -440,3 +440,9 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Files: frontend/data/simetrik-kb.json
 - Changed: PRIMERA INGESTA REAL. Fuente: cuaderno "Simetrik · Ingesta" pág "09/06/2026. Inside the V 2.8 Session 1/3" (id 1781019060658), leída vía Chrome MCP. Transcripción ~80% ruido de auto-subtitulado (Foreign speech, palabras sueltas); extraído SOLO lo coherente con cita verbatim: 5 entradas sobre Data Sets de V2.8 → (1) glosario "Data Set" (dcat platform), (2) no se auto-actualiza al cambiar columnas, (3) agregar columna OK / renombrar-eliminar rompe, (4) hasta 5 schedules mín 15 min, (5) gotcha charts no cargan al publicar nueva versión (hipotesis, sin respuesta clara). Cerebro 435→440. Page id en ingested_sources (no se reprocesa). version 2026-06-09.1. Resto (Operation Centers, etc.) demasiado degradado → no se inventó.
 - Next: pedir transcript más limpio o el link de grabación para extraer Operation Centers y el resto de V2.8. Sesiones 2/3 y 3/3 pendientes.
+
+### ID:14-WORK.P30 · 2026-06-09
+- Commit: (pending)
+- Files: PROMPT_14-WORK_SIMETRIK-INGEST.md · frontend/pages/simetrik-kb.html
+- Changed: Regla del usuario — GATE DE VALIDACIÓN obligatorio ANTES de cada ingesta (porque el cerebro alimenta las secciones, info dudosa daña el módulo). Agregado al prompt de ingesta (.md + embebido): 4 criterios (Coherente / Racional-no-contradictoria / Con evidencia / Confirmada-vs-hipótesis-quarantine). Hipótesis NO usan dcat/detail (no alimentan Diccionario/Guía/Simulador, solo vista KB). "Mejor cerebro chico y confiable que grande y dudoso". Grabado en memoria. Revisión P29 vs gate: las 4 entradas verificado pasan (verbatim de Simetrik); la hipótesis (charts) cumple (cat gotcha, sin dcat/detail, etiquetada, no alimenta secciones).
+- Next: aplicar el gate en toda ingesta futura; reportar siempre lo descartado.
