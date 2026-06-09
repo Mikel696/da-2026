@@ -430,7 +430,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: Fase 2 Simulador App (mismo patrón: enriquecer + alimentar desde cerebro). Considerar eventualmente quitar arrays embebidos (hoy fallback). Primera ingesta real de reunión.
 
 ### ID:14-WORK.P28 · 2026-06-05
-- Commit: (pending)
+- Commit: 38cd350
 - Files: frontend/pages/simetrik-app.html · frontend/data/simetrik-kb.json
 - Changed: FASE 2 FINAL — el Simulador App se alimenta del cerebro. Enriquecidas las 58 entradas sim- con detail {cat,title,body,use,tp} (re-parse de los tip()). En simetrik-app.html: carga el cerebro al boot (BRAIN_SIM, map por title) y openTip() usa el detail del cerebro si hay match, con fallback inline (HOT). NO se tocaron las 24 pantallas ni los 59 tip() — solo openTip + el loader. Así el contenido de los tooltips es canónico del cerebro. version 2026-06-05.7. → Las 3 secciones de conocimiento (Diccionario, Guía, Simulador) YA se alimentan del cerebro. Fase 2 completa.
 - Next: Quitar arrays/tooltips embebidos (hoy fallback) si se quiere depurar · absorber work_kb legacy · primera ingesta real de reunión.
