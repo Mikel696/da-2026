@@ -325,6 +325,14 @@ function tip(cat,title,body,use,tp){
   return `<span class="hot ${arguments[5]||'tr'}" data-h="${id}"></span>`;
 }
 
+// ── Fase 2: los tooltips se alimentan del cerebro (simetrik-kb.json). Inline = fallback offline. ──
+let BRAIN_SIM=null;
+fetch('../data/simetrik-kb.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(kb=>{
+  if(!kb||!kb.entries)return; BRAIN_SIM={};
+  kb.entries.forEach(e=>{ if(e.id&&e.id.indexOf('sim-')===0&&e.detail) BRAIN_SIM[(e.detail.title||'').toLowerCase()]=e.detail; });
+  console.log('[Simulador] tooltips alimentados desde el cerebro: '+Object.keys(BRAIN_SIM).length+' (v'+(kb.meta&&kb.meta.version)+')');
+}).catch(e=>console.warn('[Simulador] fetch falló, uso tooltips inline (fallback)',e));
+
 const SCREENS = {
 
   /* ───── RESUMEN ───── */
@@ -815,7 +823,8 @@ function render(key){
 
 /* ─── hotspot tooltip ─── */
 function openTip(id){
-  const d=HOT[id];if(!d)return;
+  const h=HOT[id];if(!h)return;
+  const d=(BRAIN_SIM && BRAIN_SIM[(h.title||'').toLowerCase()]) || h;
   document.getElementById('htCat').textContent=d.cat||'';
   document.getElementById('htTitle').textContent=d.title||'';
   document.getElementById('htBody').textContent=d.body||'';

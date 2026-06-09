@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-05.6",
+    "version": "2026-06-05.7",
     "last_updated": "2026-06-05",
     "ingested_sources": [],
     "categories": [
@@ -5257,7 +5257,14 @@
       "evidence": "use",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "cat",
+        "title": "title",
+        "body": "body",
+        "use": "use",
+        "tp": "tp"
+      }
     },
     {
       "id": "sim-fuentes-sources",
@@ -5267,7 +5274,14 @@
       "evidence": "En Ficohsa vas a tener una Source por cada reporte: T24 cajas, CLARO recargas, SAP balance...",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Métrica",
+        "title": "Fuentes (Sources)",
+        "body": "El total de Sources cargadas en tu workspace. Cada archivo de banco, ERP o pasarela vive en su propia Source.",
+        "use": "En Ficohsa vas a tener una Source por cada reporte: T24 cajas, CLARO recargas, SAP balance...",
+        "tp": "Si este número crece sin control, revisá si hay Sources duplicadas que consumen storage."
+      }
     },
     {
       "id": "sim-conciliaciones",
@@ -5277,7 +5291,14 @@
       "evidence": "El proceso SERCOM es 1 conciliación; Cartera de Préstamos es otra.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Métrica",
+        "title": "Conciliaciones",
+        "body": "Total de reconciliations configuradas. Standard + Advanced. Cada una cruza 2+ fuentes según reglas.",
+        "use": "El proceso SERCOM es 1 conciliación; Cartera de Préstamos es otra.",
+        "tp": "El % de auto-match de cada una lo ves en el Conciliation Monitor (Gestionar → Tableros)."
+      }
     },
     {
       "id": "sim-usuarios",
@@ -5287,7 +5308,14 @@
       "evidence": "Los 30 analistas de Ficohsa que migran de Excel serán usuarios de este workspace.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Métrica",
+        "title": "Usuarios",
+        "body": "Personas con acceso al workspace. Cada una tiene un rol: Viewer, Builder, Operator o Supervisor.",
+        "use": "Los 30 analistas de Ficohsa que migran de Excel serán usuarios de este workspace.",
+        "tp": "Gestionás usuarios y roles desde Account Management (solo admins)."
+      }
     },
     {
       "id": "sim-gigabytes",
@@ -5297,7 +5325,14 @@
       "evidence": "Subir archivos duplicados consume el doble de tu storage contratado.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Métrica",
+        "title": "Gigabytes",
+        "body": "Almacenamiento consumido. La mayoría de clientes paga por GB.",
+        "use": "Subir archivos duplicados consume el doble de tu storage contratado.",
+        "tp": "Simetrik detecta duplicados y frena el procesamiento — pero igual revisá."
+      }
     },
     {
       "id": "sim-fuentes-recientes",
@@ -5307,7 +5342,14 @@
       "evidence": "Después de un fin de semana, mirás acá si los archivos del banco entraron bien.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Panel",
+        "title": "Fuentes recientes",
+        "body": "Las últimas Sources que se actualizaron. Click en \"Ver todo\" te lleva a Automatizar → Recursos.",
+        "use": "Después de un fin de semana, mirás acá si los archivos del banco entraron bien.",
+        "tp": "Si una fuente clave no aparece como reciente, probablemente el upload falló — andá al Source Monitor."
+      }
     },
     {
       "id": "sim-conciliaciones-recientes",
@@ -5317,7 +5359,14 @@
       "evidence": "\"Pendings Magalu VS Pendings Deb\" es una recon que cruza pendientes contra pendientes — caso N-a-N típico.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Panel",
+        "title": "Conciliaciones recientes",
+        "body": "Las últimas reconciliations que corrieron o se editaron.",
+        "use": "\"Pendings Magalu VS Pendings Deb\" es una recon que cruza pendientes contra pendientes — caso N-a-N típico.",
+        "tp": "El nombre te dice qué hace: poné nombres descriptivos a tus recons o nadie las entiende después."
+      }
     },
     {
       "id": "sim-ai-agent-estructura-tus-archivos",
@@ -5327,7 +5376,14 @@
       "evidence": "Simetrik 2.7 destaca esto como una de las 13 features nuevas del release — reduce significativamente el tiempo de implementación de un control desde el catálogo.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Agente IA",
+        "title": "AI Agent estructura tus archivos",
+        "body": "Al seleccionar una plantilla del catálogo, un AI agent te ayuda a estructurar los archivos de las sources que alimentan cada control. No tenés que normalizar manualmente columna por columna; el agente identifica formatos y los aplica.",
+        "use": "Simetrik 2.7 destaca esto como una de las 13 features nuevas del release — reduce significativamente el tiempo de implementación de un control desde el catálogo.",
+        "tp": "Validá igual lo que el AI estructuró antes de activar el control en producción. La IA propone, vos confirmás."
+      }
     },
     {
       "id": "sim-despu-s-de-implement",
@@ -5337,7 +5393,14 @@
       "evidence": "Vista típica para un IS después de implementar Mastercard Controls for Acquirers: KPIs en el dashboard del template + manejo de excepciones + audit trail.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Workflow",
+        "title": "Después de \"Implement\"",
+        "body": "Una vez activado un template, accedés a: (1) monitoreo de resultados y KPIs · (2) gestión de pending records (transacciones no conciliadas) · (3) revisión del detalle de recursos para auditoría. Todo desde la misma pantalla del catálogo.",
+        "use": "Vista típica para un IS después de implementar Mastercard Controls for Acquirers: KPIs en el dashboard del template + manejo de excepciones + audit trail.",
+        "tp": "El catálogo no es solo \"instalar y olvidar\" — la fase operativa post-implementación es donde aprendés cómo se comporta el control en tu data real."
+      }
     },
     {
       "id": "sim-generar-r-plica",
@@ -5347,7 +5410,14 @@
       "evidence": "Tu conciliación SERCOM funciona perfecto → generás réplica → la usás de base para Cartera de Préstamos.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Generar réplica",
+        "body": "Seleccionás un recurso (ej. una conciliación), le ponés nombre, y Simetrik produce un JSON con toda la parametrización.",
+        "use": "Tu conciliación SERCOM funciona perfecto → generás réplica → la usás de base para Cartera de Préstamos.",
+        "tp": "El JSON se descarga a tu PC. Guardalo versionado, es tu backup de configuración."
+      }
     },
     {
       "id": "sim-importar-r-plica",
@@ -5357,7 +5427,14 @@
       "evidence": "Te pasan la réplica de un proceso que ya funciona en Guatemala → la importás en el workspace de Honduras.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Importar réplica",
+        "body": "Subís un JSON de réplica y Simetrik recrea el control completo, parametrizado y listo. Solo falta cargar los datos.",
+        "use": "Te pasan la réplica de un proceso que ya funciona en Guatemala → la importás en el workspace de Honduras.",
+        "tp": "Importar es instantáneo. La configuración se resuelve sola; vos solo alimentás las sources."
+      }
     },
     {
       "id": "sim-crear-bucket",
@@ -5367,7 +5444,14 @@
       "evidence": "El bucket \"T24-SERCOM\" recibe el TXT que el banco deja cada noche → Simetrik lo levanta a la Source.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear bucket",
+        "body": "Un bucket actúa como buzón intermedio. Simetrik lo revisa, toma los archivos nuevos y los procesa hacia la Source destino.",
+        "use": "El bucket \"T24-SERCOM\" recibe el TXT que el banco deja cada noche → Simetrik lo levanta a la Source.",
+        "tp": "El bucket es paso 2 del self-managed: primero la conexión, después el bucket."
+      }
     },
     {
       "id": "sim-m-tricas-de-la-integraci-n",
@@ -5377,7 +5461,14 @@
       "evidence": "Ficohsa solicitó esta vista exacta para Honduras + Guatemala + Nicaragua + Panamá (MOIF 2026-05-15).",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Diagnóstico",
+        "title": "Métricas de la integración",
+        "body": "Para clientes con operación multi-país (regional CAM), los dashboards de observabilidad muestran archivos cargados, logs, reintentos, cargas fallidas, manifests, checksums y volúmenes anómalos segregados por país.",
+        "use": "Ficohsa solicitó esta vista exacta para Honduras + Guatemala + Nicaragua + Panamá (MOIF 2026-05-15).",
+        "tp": "Simetrik no expone plataforma de observabilidad estándar para infra externa. Alternativa en evaluación: exponer métricas vía consultas directas a la base de datos del servicio."
+      }
     },
     {
       "id": "sim-nueva-conexi-n",
@@ -5387,7 +5478,14 @@
       "evidence": "Para T24: SFTP Pull al directorio donde el banco deja los TXT cada noche.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Nueva conexión",
+        "body": "Definís tipo (SFTP Pull/Push, S3 Pull) y completás campos técnicos: host, usuario, llave, directorio.",
+        "use": "Para T24: SFTP Pull al directorio donde el banco deja los TXT cada noche.",
+        "tp": "Como IS normalmente NO tocás credenciales — el equipo Integraciones de Simetrik lo hace. Vos consumís el resultado."
+      }
     },
     {
       "id": "sim-manifest-checksum-sha256",
@@ -5397,7 +5495,14 @@
       "evidence": "Ficohsa requirió manifest + SHA256 para sus batches diarios (MOIF 2026-05-15); la implementación de la lectura depende del equipo de Integraciones de Simetrik.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Proceso",
+        "title": "Manifest + Checksum SHA256",
+        "body": "Algunos clientes exigen que cada lote transferido vía SFTP incluya un manifest describiendo el contenido + un SHA256 por archivo. Simetrik valida ambos al recibir, antes de procesar. Si la verificación falla, el lote queda en estado \"fallido\" y se notifica al equipo de integraciones.",
+        "use": "Ficohsa requirió manifest + SHA256 para sus batches diarios (MOIF 2026-05-15); la implementación de la lectura depende del equipo de Integraciones de Simetrik.",
+        "tp": "Si esto no estaba en el deal original, el desarrollo del lector de manifest tiene que negociarse aparte. En Ficohsa quedó como punto a coordinar con Verito vía Juan Camilo Lopera."
+      }
     },
     {
       "id": "sim-crear-recurso",
@@ -5407,7 +5512,14 @@
       "evidence": "Tu día 1 con SERCOM: creás 3 Sources (T24, CLARO, SAP), 3 Source Unions, 1 Advanced Reconciliation.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear recurso",
+        "body": "El menú de creación. Opciones reales: Fuentes · Agrupaciones · Conciliación estándar · Conciliación avanzada · Fuentes de apertura · Unión de fuentes. (El Grupo Conciliable NO está acá: es un campo dentro de la Unión.)",
+        "use": "Tu día 1 con SERCOM: creás 3 Fuentes (T24, CLARO, SAP), 3 Uniones de fuentes, 1 Conciliación avanzada.",
+        "tp": "Empezá siempre por las Fuentes, después las Uniones, después las Conciliaciones. De abajo hacia arriba."
+      }
     },
     {
       "id": "sim-normalization-change-format",
@@ -5417,7 +5529,14 @@
       "evidence": "La fecha de T24 viene \"29/04/2026\" y la de SAP \"16-Apr-2026\" → las normalizás ambas a YYYY-MM-DD para que crucen.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Proceso",
+        "title": "Normalization / Change Format",
+        "body": "Revisás cada columna: tipo (numeric/text/date), formato original, formato deseado. Se hace UNA vez por Source; los archivos futuros heredan la config.",
+        "use": "La fecha de T24 viene \"29/04/2026\" y la de SAP \"16-Apr-2026\" → las normalizás ambas a YYYY-MM-DD para que crucen.",
+        "tp": "El Smart Date Format (IA) identifica el formato original entre 500+ tipos. Dejá que sugiera, vos validá."
+      }
     },
     {
       "id": "sim-estados-de-un-recurso",
@@ -5427,7 +5546,14 @@
       "evidence": "El \"Fallido\" de SAP balance probablemente es porque llegó con una columna extra. Solución: crear nueva Source y redirigir.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Estado",
+        "title": "Estados de un recurso",
+        "body": "Procesado (listo) · Procesando (en curso) · Fallido (layout cambió o error) · Vacío · Detenido.",
+        "use": "El \"Fallido\" de SAP balance probablemente es porque llegó con una columna extra. Solución: crear nueva Source y redirigir.",
+        "tp": "El estado \"Fallido\" en rojo es tu alerta #1 cada mañana. Revisalo en el Source Monitor."
+      }
     },
     {
       "id": "sim-crear-conciliaci-n",
@@ -5437,7 +5563,14 @@
       "evidence": "SERCOM es Advanced: necesita sweep de reconciliation + grouping (recargas fraccionadas) + offset (anulaciones).",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear conciliación",
+        "body": "Elegís Standard (procesos simples) o Advanced (procesos complejos con sweeps encadenados). Después definís Source A, Source B y las reglas.",
+        "use": "SERCOM es Advanced: necesita sweep de reconciliation + grouping (recargas fraccionadas) + offset (anulaciones).",
+        "tp": "El Help Center tiene una tabla comparativa Standard vs Advanced. Ante la duda, Standard."
+      }
     },
     {
       "id": "sim-generar-automatizaci-n",
@@ -5447,7 +5580,14 @@
       "evidence": "El cruce SERCOM del día produce 1,247 matches → Simetrik genera 1 journal entry por cuenta y lo manda a SAP a las 7am.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Generar automatización",
+        "body": "3 pasos: 1) nombre + ERP destino · 2) recurso a conciliar (solo standard/advanced recon) · 3) fecha inicio + tipo de evento.",
+        "use": "El cruce SERCOM del día produce 1,247 matches → Simetrik genera 1 journal entry por cuenta y lo manda a SAP a las 7am.",
+        "tp": "Una Source pura no genera asientos directo — hay que convertirla en \"dummy reconciliation\" primero."
+      }
     },
     {
       "id": "sim-account-owners",
@@ -5457,7 +5597,14 @@
       "evidence": "Si el preparer de la cuenta de Caja está de vacaciones, el backup toma el cierre — sin frenar el proceso.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Config",
+        "title": "Account Owners",
+        "body": "Template donde definís: preparer principal, certifier principal, y un backup de cada uno por cuenta.",
+        "use": "Si el preparer de la cuenta de Caja está de vacaciones, el backup toma el cierre — sin frenar el proceso.",
+        "tp": "Preparer ≠ Certifier SIEMPRE. Es regla SOX, no opcional."
+      }
     },
     {
       "id": "sim-account-grouping",
@@ -5467,7 +5614,14 @@
       "evidence": "Las 8 cuentas transitorias de ATMs se agrupan y se certifican juntas.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Config",
+        "title": "Account Grouping",
+        "body": "Agrupás cuentas con la misma naturaleza para certificarlas todas con una sola acción.",
+        "use": "Las 8 cuentas transitorias de ATMs se agrupan y se certifican juntas.",
+        "tp": "Acelera muchísimo el cierre. Agrupá todo lo que comparta naturaleza y comportamiento."
+      }
     },
     {
       "id": "sim-auto-certification",
@@ -5477,7 +5631,14 @@
       "evidence": "La cuenta de Inversiones en Bonos no se mueve → auto-cert → te liberás para enfocarte en lo que sí cambia.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Config",
+        "title": "Auto-certification",
+        "body": "Regla automática para cuentas cuyo balance no cambia mes a mes. El sistema las certifica sin pasos manuales.",
+        "use": "La cuenta de Inversiones en Bonos no se mueve → auto-cert → te liberás para enfocarte en lo que sí cambia.",
+        "tp": "Usala con criterio: solo cuentas genuinamente estables. Si una se mueve, sacala de auto-cert."
+      }
     },
     {
       "id": "sim-generar-integraci-n-erp",
@@ -5487,7 +5648,14 @@
       "evidence": "Para Ficohsa: SAP S/4HANA en modo Standard App, con apoyo del accounting capabilities team.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Generar integración ERP",
+        "body": "Elegís ERP destino y configurás Connection + Structure. La Structure define 3 tipos de campos: Document (fecha, compañía, currency), Lines (débito/crédito), Header (opcional).",
+        "use": "Para Ficohsa: SAP S/4HANA en modo Standard App, con apoyo del accounting capabilities team.",
+        "tp": "Test connection primero, siempre. Un error en producción afecta los estados financieros oficiales del cliente."
+      }
     },
     {
       "id": "sim-smart-parser",
@@ -5497,7 +5665,14 @@
       "evidence": "Un archivo de CLARO llega con un layout raro → el Smart Parser lo adapta solo.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Agente IA",
+        "title": "Smart Parser",
+        "body": "Catálogo de parsers que ajusta formato/layout de archivos sin pedirle al services team. Identifica los cambios necesarios y los aplica.",
+        "use": "Un archivo de CLARO llega con un layout raro → el Smart Parser lo adapta solo.",
+        "tp": "Cada vez tiene más parsers disponibles. Reduce tu dependencia del services team (que cuesta extra)."
+      }
     },
     {
       "id": "sim-data-monitoring-agent",
@@ -5507,7 +5682,14 @@
       "evidence": "El T24 de hoy llegó con 30% menos filas que el promedio → alerta inmediata antes de que rompa la conciliación.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Agente IA",
+        "title": "Data Monitoring Agent",
+        "body": "Monitorea todas las sources 24/7 y notifica cuando detecta una anomalía al subir un archivo nuevo.",
+        "use": "El T24 de hoy llegó con 30% menos filas que el promedio → alerta inmediata antes de que rompa la conciliación.",
+        "tp": "Es un agente custom — se desarrolla para un cliente y luego se productiza. Requiere aprobación del COO."
+      }
     },
     {
       "id": "sim-smart-rules",
@@ -5517,7 +5699,14 @@
       "evidence": "Configurando SERCOM, la IA sugiere cruzar por date+telefono+amount → aceptás o ajustás.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Agente IA",
+        "title": "Smart Rules",
+        "body": "En Advanced Reconciliation, analiza las 2 sources y sugiere las matching keys óptimas para lograr mayor match rate.",
+        "use": "Configurando SERCOM, la IA sugiere cruzar por date+telefono+amount → aceptás o ajustás.",
+        "tp": "La IA sugiere, vos decidís. Nunca aceptes reglas a ciegas — entendé por qué las propone."
+      }
     },
     {
       "id": "sim-habilitaci-n-de-ia-depende-del-deal",
@@ -5527,7 +5716,14 @@
       "evidence": "Ficohsa Fase 1 implementa procesos contables sin IA en integraciones — las integraciones no se negociaron en la calculadora del deal. Quedó como requerimiento para Fase 2.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Estado",
+        "title": "Habilitación de IA depende del deal",
+        "body": "El uso de IA en un proyecto está condicionado a lo que se negocie en la calculadora durante el deal. Si las integraciones (o cualquier módulo) no fueron negociadas con IA, la primera fase no la usa, aunque queda como requerimiento para fases posteriores.",
+        "use": "Ficohsa Fase 1 implementa procesos contables sin IA en integraciones — las integraciones no se negociaron en la calculadora del deal. Quedó como requerimiento para Fase 2.",
+        "tp": "Antes de prometer IA en una mesa de Discovery, validá con el PM si está cotizado en el deal. Caso típico: el cliente asume que la IA viene \"gratis\" pero su contrato no la incluye."
+      }
     },
     {
       "id": "sim-nueva-alarma",
@@ -5537,7 +5733,14 @@
       "evidence": "Si esperás que SERCOM cruce 90% y un día solo logra 85% → llega notificación automática al PM.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Nueva alarma",
+        "body": "Indicás qué conciliación monitorear y el % mínimo de tx reconciliadas esperado. Si cae por debajo → email.",
+        "use": "Si esperás que SERCOM cruce 90% y un día solo logra 85% → llega notificación automática al PM.",
+        "tp": "Configurá alarmas para tus procesos críticos el día que van a producción. No después."
+      }
     },
     {
       "id": "sim-nuevo-tablero",
@@ -5547,7 +5750,14 @@
       "evidence": "Dashboard SERCOM: KPI \"monto conciliado\" + KPI \"monto pendiente\" + pivot por agencia + chart de tendencia.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Nuevo tablero",
+        "body": "Lienzo en blanco donde agregás componentes: pivot table, custom table, reconciliation status, KPIs, charts.",
+        "use": "Dashboard SERCOM: KPI \"monto conciliado\" + KPI \"monto pendiente\" + pivot por agencia + chart de tendencia.",
+        "tp": "Empezá top-down: primero el panorama (KPIs grandes), después el detalle (pivots). No al revés."
+      }
     },
     {
       "id": "sim-cost-control",
@@ -5557,7 +5767,14 @@
       "evidence": "El curso oficial muestra: solo Mastercard Credit y Debit tienen diferencias; el resto coincide con el contrato.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Dashboard",
+        "title": "Cost Control",
+        "body": "Dashboard que compara costo real vs costo teórico (negociado en contrato). Detecta revenue leakage.",
+        "use": "El curso oficial muestra: solo Mastercard Credit y Debit tienen diferencias; el resto coincide con el contrato.",
+        "tp": "El delta = Real Cost − Theoretical Cost. Si es positivo, el adquirente te cobró de más."
+      }
     },
     {
       "id": "sim-crear-consolidaci-n",
@@ -5567,7 +5784,14 @@
       "evidence": "Cost control Visa + Cost control Mastercard + Cost control Amex → 1 consolidación de costos total.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear consolidación",
+        "body": "Seleccionás un primer grouping y sus columnas, agregás un segundo con las mismas columnas, y así. Resultado: una vista vertical única.",
+        "use": "Cost control Visa + Cost control Mastercard + Cost control Amex → 1 consolidación de costos total.",
+        "tp": "No confundir con Combinación: consolidación apila (vertical), combinación encadena etapas (horizontal)."
+      }
     },
     {
       "id": "sim-buscar-registro",
@@ -5577,7 +5801,14 @@
       "evidence": "El cliente pregunta \"¿dónde está mi pago LF7715101?\" → lo buscás y ves en qué conciliaciones aparece y su estado.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Buscar registro",
+        "body": "Seleccionás la Source y pegás el ID de la transacción. Simetrik lista todos los recursos asociados donde esa tx aparece.",
+        "use": "El cliente pregunta \"¿dónde está mi pago LF7715101?\" → lo buscás y ves en qué conciliaciones aparece y su estado.",
+        "tp": "Para tracking masivo, mejor un dashboard con tabla dinámica. El buscador es para casos uno-a-uno."
+      }
     },
     {
       "id": "sim-tablero-contable",
@@ -5587,7 +5818,14 @@
       "evidence": "A mitad del cierre ves: 60% certificadas, 25% listas, 15% pendientes → sabés dónde poner foco.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Dashboard",
+        "title": "Tablero contable",
+        "body": "Vista consolidada del cierre: cuántas cuentas están en cada estado. Filtros por compañía y usuario.",
+        "use": "A mitad del cierre ves: 60% certificadas, 25% listas, 15% pendientes → sabés dónde poner foco.",
+        "tp": "Si una cuenta lleva días en \"rechazada\", andá a Conciliaciones de cuentas y leé el motivo del rechazo."
+      }
     },
     {
       "id": "sim-asiento-posteado",
@@ -5597,7 +5835,14 @@
       "evidence": "El JE de SERCOM del 29 de abril ya está en SAP — el cliente lo ve en su libro mayor.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Estado",
+        "title": "Asiento posteado",
+        "body": "El asiento llegó al ERP y se registró correctamente. Trazable de punta a punta.",
+        "use": "El JE de SERCOM del 29 de abril ya está en SAP — el cliente lo ve en su libro mayor.",
+        "tp": "Si un asiento queda en \"pendiente\" mucho tiempo, revisá la conexión ERP."
+      }
     },
     {
       "id": "sim-abrir-per-odo",
@@ -5607,7 +5852,14 @@
       "evidence": "Cada inicio de mes: abrís el período del mes anterior para empezar su cierre.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Abrir período",
+        "body": "Seleccionás año y mes para abrir un nuevo período contable. Después cargás los balances con Update Trial Balance.",
+        "use": "Cada inicio de mes: abrís el período del mes anterior para empezar su cierre.",
+        "tp": "El cierre típico va del día 1 al 5 del mes siguiente. Abrí el período el día 1."
+      }
     },
     {
       "id": "sim-update-trial-balance",
@@ -5617,7 +5869,14 @@
       "evidence": "El trial balance de abril tiene los 945 saldos de las cuentas Ficohsa listos para validar.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Update Trial Balance",
+        "body": "Desde los 3 puntos del período → Update Trial Balance → descargás template → llenás saldos por cuenta → subís.",
+        "use": "El trial balance de abril tiene los 945 saldos de las cuentas Ficohsa listos para validar.",
+        "tp": "El balance es la base del cierre. Sin trial balance cargado, no podés validar ni certificar."
+      }
     },
     {
       "id": "sim-recognized-balance",
@@ -5627,7 +5886,14 @@
       "evidence": "Caja tiene $16K de saldo pero solo $15K con evidencia → gap de $1K. ¿Falta el documento o está mal clasificado?",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Workflow",
+        "title": "Recognized Balance",
+        "body": "Editás cuánto del saldo final tenés respaldado con evidencia. El gap es lo que falta justificar.",
+        "use": "Caja tiene $16K de saldo pero solo $15K con evidencia → gap de $1K. ¿Falta el documento o está mal clasificado?",
+        "tp": "Gap 30% = problema, escalá. Adjuntá snapshot + archivo + nota como evidencia."
+      }
     },
     {
       "id": "sim-filtros-del-historial",
@@ -5637,7 +5903,14 @@
       "evidence": "Algo raro pasó con la conciliación SERCOM el martes → filtrás por su ID + esa fecha y ves quién la tocó.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Filtros del historial",
+        "body": "Filtrás por usuario, ID de recurso o fecha. Te permite encontrar rápido un evento sospechoso o validar operaciones normales.",
+        "use": "Algo raro pasó con la conciliación SERCOM el martes → filtrás por su ID + esa fecha y ves quién la tocó.",
+        "tp": "El historial es inmutable: nadie puede borrar o editar registros. Esa es su garantía de auditoría."
+      }
     },
     {
       "id": "sim-configurar-foto-snapshot",
@@ -5647,7 +5920,14 @@
       "evidence": "Snapshot de SERCOM al 30 de noviembre → lo adjuntás como evidencia del cierre de noviembre.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Configurar foto/snapshot",
+        "body": "Configurás una vez: ej. capturar la conciliación el último día de cada mes. Simetrik genera los snapshots automáticamente.",
+        "use": "Snapshot de SERCOM al 30 de noviembre → lo adjuntás como evidencia del cierre de noviembre.",
+        "tp": "Snapshot mensual + bank statement + nota = evidencia blindada para el auditor."
+      }
     },
     {
       "id": "sim-crear-tablero-path-oficial",
@@ -5657,7 +5937,14 @@
       "evidence": "Tablero 14 DOTA: % conciliación por barrida — Operativo. Tablero 15: KPI global — Operativo.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear tablero · path oficial",
+        "body": "Automatizar → Análisis → Tableros → \"Crear\" → Tableros. Asignás nombre y tipo (Operativo o Contable). Clic en \"Configuración\" para agregar visuales.",
+        "use": "Tablero 14 DOTA: % conciliación por barrida — Operativo. Tablero 15: KPI global — Operativo.",
+        "tp": "Límite de 21 elementos totales. \"Estado de conciliación estándar\" = 1 visual × 7 elementos. Planificá el espacio."
+      }
     },
     {
       "id": "sim-tabla-dimensi-n-barrida",
@@ -5667,7 +5954,14 @@
       "evidence": "Tablero 14 de la prueba DOTA: visualiza cuántas partidas y qué monto concilió cada barrida.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Visual",
+        "title": "Tabla dimensión _BARRIDA_",
+        "body": "Tabla con columnas: CONTAR(id), SUMA(ABS(MONTO)), % sobre total. Dimensión: _BARRIDA_ (B1..B5).",
+        "use": "Tablero 14 de la prueba DOTA: visualiza cuántas partidas y qué monto concilió cada barrida.",
+        "tp": "Agregá un gráfico de barras horizontal para el mismo dato — el evaluador aprecia la doble perspectiva."
+      }
     },
     {
       "id": "sim-estado-de-conciliaci-n-est-ndar",
@@ -5677,7 +5971,14 @@
       "evidence": "Tablero de SERCOM: el Estado estándar muestra 94% conciliado en tiempo real.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Visual",
+        "title": "Estado de conciliación estándar",
+        "body": "Muestra el resumen de UNA conciliación estándar: % conciliado, total A, total B, pendientes, montos. Ideal para drill-down operativo.",
+        "use": "Tablero de SERCOM: el Estado estándar muestra 94% conciliado en tiempo real.",
+        "tp": "1 visual = 7 elementos del cupo de 21. Tenerlo en cuenta al diseñar el tablero."
+      }
     },
     {
       "id": "sim-estado-de-conciliaci-n-avanzada",
@@ -5687,7 +5988,14 @@
       "evidence": "Para DOTA × FD: ver % conciliado en cada una de las 5 barridas.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Visual",
+        "title": "Estado de conciliación avanzada",
+        "body": "Muestra resultados desglosados por segmento y barrida. Incluye tabla de detalle (fila = segmento) con valores y porcentajes.",
+        "use": "Para DOTA × FD: ver % conciliado en cada una de las 5 barridas.",
+        "tp": "Path: tablero → configuración → \"Estado de conciliación avanzada\" → seleccionar la conciliación."
+      }
     },
     {
       "id": "sim-estado-de-conciliaci-n-encadenada",
@@ -5697,7 +6005,14 @@
       "evidence": "DOTA → FD → Liquidación: ver % en cada eslabón de la cadena.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Visual",
+        "title": "Estado de conciliación encadenada",
+        "body": "Muestra el flujo completo de una cadena de conciliaciones con métricas por etapa.",
+        "use": "DOTA → FD → Liquidación: ver % en cada eslabón de la cadena.",
+        "tp": "Path: tablero → configuración → Visuales → \"Estado de conciliación encadenado\" → nombre (5-100 chars) → seleccionar conciliaciones."
+      }
     },
     {
       "id": "sim-crear-monitor",
@@ -5707,7 +6022,14 @@
       "evidence": "Monitor \"DOTA Ficohsa\": incluye la conciliación avanzada DOTA × FD y las 2 compensaciones. Si el match rate cae, la alarma notifica.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Crear monitor",
+        "body": "Agrupás conciliaciones relacionadas bajo un mismo monitor. Define la unidad mínima que una alarma puede vigilar.",
+        "use": "Monitor \"DOTA Ficohsa\": incluye la conciliación avanzada DOTA × FD y las 2 compensaciones. Si el match rate cae, la alarma notifica.",
+        "tp": "Las alarmas se configuran en Gestionar → Hallazgos → Alarmas, referenciando este monitor."
+      }
     },
     {
       "id": "sim-agregar-kpi-individual",
@@ -5717,7 +6039,14 @@
       "evidence": "Tablero 15 DOTA: KPI Conciliadas = CONTAR_SI(_BARRIDA_ <> NULL) · KPI Pendientes = CONTAR_SI(_BARRIDA_ = NULL) · KPI % = ratio.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Agregar KPI Individual",
+        "body": "Tablero → modo configuración → Visuales → KPI Individual → seleccionar fuente → métrica → filtros opcionales.",
+        "use": "Tablero 15 DOTA: KPI Conciliadas = CONTAR_SI(_BARRIDA_ <> NULL) · KPI Pendientes = CONTAR_SI(_BARRIDA_ = NULL) · KPI % = ratio.",
+        "tp": "Verificación: KPI Conciliadas debe igualar la SUMA de partidas del tablero 14. Si no cuadra, hay error en alguna barrida."
+      }
     },
     {
       "id": "sim-agregar-gr-fico",
@@ -5727,7 +6056,14 @@
       "evidence": "Tablero 14 DOTA: barra horizontal con dimensión _BARRIDA_ y métrica CONTAR(id) — muestra ranking visual de efectividad por barrida.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Agregar gráfico",
+        "body": "Tablero → configuración → \"Gráfico\" → tipo → fuente → dimensión → métrica → filtros.",
+        "use": "Tablero 14 DOTA: barra horizontal con dimensión _BARRIDA_ y métrica CONTAR(id) — muestra ranking visual de efectividad por barrida.",
+        "tp": "Combiná con una tabla en el mismo tablero: la tabla da el número exacto, el gráfico da la perspectiva."
+      }
     },
     {
       "id": "sim-agregar-tabla-din-mica",
@@ -5737,7 +6073,14 @@
       "evidence": "Tablero 13 DOTA — Saldo neto diario: Fuente=DB_DOTA, filas=MOV_CREATION_DATE, columnas=OP, valores=SUMA(MONTO_NETO).",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Agregar Tabla Dinámica",
+        "body": "Tablero → configuración → \"Tabla dinámica\" → fuente → filas (dim 1) → columnas (dim 2) → valores (función) → filtros.",
+        "use": "Tablero 13 DOTA — Saldo neto diario: Fuente=DB_DOTA, filas=MOV_CREATION_DATE, columnas=OP, valores=SUMA(MONTO_NETO).",
+        "tp": "Alternativa sin add-on Saldos Persistentes: esta tabla muestra los movimientos diarios pero NO el saldo acumulado. Para saldo real, necesitás el add-on."
+      }
     },
     {
       "id": "sim-downstream",
@@ -5747,7 +6090,14 @@
       "evidence": "El Source Union T24 depende de la Source T24 cajas. Si la Source falla, el Union y todo lo que sigue se rompe.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Mapa",
+        "title": "Downstream",
+        "body": "Los recursos que dependen del que estás mirando. Si cambia el de arriba, estos se ven afectados.",
+        "use": "El Source Union T24 depende de la Source T24 cajas. Si la Source falla, el Union y todo lo que sigue se rompe.",
+        "tp": "Por eso la best practice es siempre Source Union: protege todo lo downstream de cambios de layout."
+      }
     },
     {
       "id": "sim-proceso-en-curso",
@@ -5757,7 +6107,14 @@
       "evidence": "La Source CLARO lleva 2 min procesando — normal. Si llevara 4 horas, sería un problema.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Diagnóstico",
+        "title": "Proceso en curso",
+        "body": "Tareas ejecutándose ahora. Ves recurso, estado y cuánto llevan corriendo.",
+        "use": "La Source CLARO lleva 2 min procesando — normal. Si llevara 4 horas, sería un problema.",
+        "tp": "Si un proceso lleva horas: screenshot de esta vista + ticket con resource ID, nombre y duración. El soporte ya tiene todo."
+      }
     },
     {
       "id": "sim-retries-y-cargas-fallidas",
@@ -5767,7 +6124,14 @@
       "evidence": "Si Ficohsa reporta \"no llegó el batch de SERCOM\", revisá Process View → filtrá por source T24 → mirá count de retries del día.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Diagnóstico",
+        "title": "Retries y cargas fallidas",
+        "body": "Las cargas fallidas y los reintentos son la señal #1 de un problema en integraciones (encoding cambió, layout cambió, conexión SFTP caída, manifest no llegó, checksum no coincide).",
+        "use": "Si Ficohsa reporta \"no llegó el batch de SERCOM\", revisá Process View → filtrá por source T24 → mirá count de retries del día.",
+        "tp": "Si los retries suben drásticamente vs el baseline, abrí ticket con Integraciones (Noel/Jorge/Carlos/Jose). Documentalo en MOIF la próxima semana."
+      }
     },
     {
       "id": "sim-restaurar-de-papelera",
@@ -5777,7 +6141,14 @@
       "evidence": "Borraste una Source pensando que no se usaba, pero alimentaba una conciliación → la restaurás y todo vuelve.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Restaurar de papelera",
+        "body": "Durante los 30 días posteriores al borrado, podés cancelar la eliminación y recuperar el recurso intacto.",
+        "use": "Borraste una Source pensando que no se usaba, pero alimentaba una conciliación → la restaurás y todo vuelve.",
+        "tp": "Antes de borrar algo en producción, revisá su Mapa de relaciones. Mejor prevenir que restaurar."
+      }
     },
     {
       "id": "sim-ingesta-exitosa",
@@ -5787,7 +6158,14 @@
       "evidence": "Verificá siempre el conteo de filas contra el archivo original. Si esperabas 15K y llegaron 12K, algo se filtró.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Log",
+        "title": "Ingesta exitosa",
+        "body": "El archivo se procesó correctamente. Las 12,847 filas están disponibles en la fuente.",
+        "use": "Verificá siempre el conteo de filas contra el archivo original. Si esperabas 15K y llegaron 12K, algo se filtró.",
+        "tp": "Si el conteo cae más del 5% respecto al baseline, abrí ticket con Integraciones."
+      }
     },
     {
       "id": "sim-error-de-tipo-de-dato",
@@ -5797,7 +6175,14 @@
       "evidence": "T24 a veces exporta \"N/A\" o \" \" en MONTO cuando la transacción es de fee — el parser no lo espera.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Error",
+        "title": "Error de tipo de dato",
+        "body": "La columna MONTO tiene un valor que no puede convertirse al tipo configurado (ej: \"N/A\" en una columna numérica).",
+        "use": "T24 a veces exporta \"N/A\" o \" \" en MONTO cuando la transacción es de fee — el parser no lo espera.",
+        "tp": "Fix: actualizar el parser para ignorar filas donde MONTO no sea numérico, o hacer un pre-filtro en el SFTP."
+      }
     },
     {
       "id": "sim-nueva-solicitud-de-colaboraci-n",
@@ -5807,7 +6192,14 @@
       "evidence": "Auditor externo necesita ver la conciliación SERCOM del Q1 → solicitud de colaboración → acceso de solo lectura.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Acción",
+        "title": "Nueva solicitud de colaboración",
+        "body": "Seleccionás el recurso a compartir, definís el nivel de acceso (Ver / Comentar) y enviás la invitación. El destinatario recibe un email con el link.",
+        "use": "Auditor externo necesita ver la conciliación SERCOM del Q1 → solicitud de colaboración → acceso de solo lectura.",
+        "tp": "Los accesos de colaboración tienen fecha de expiración configurable. Siempre ponele un límite temporal."
+      }
     },
     {
       "id": "sim-archivo-listo",
@@ -5817,7 +6209,14 @@
       "evidence": "El CSV de SERCOM tiene todas las partidas con su estado: reconciled, unreconciled, manually_reconciled.",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "Descarga",
+        "title": "Archivo listo",
+        "body": "El archivo está generado y disponible para descargar. Click en el nombre para iniciar la descarga.",
+        "use": "El CSV de SERCOM tiene todas las partidas con su estado: reconciled, unreconciled, manually_reconciled.",
+        "tp": "Si el archivo expiró, tenés que regenerarlo desde el recurso original (botón \"Exportar\")."
+      }
     },
     {
       "id": "sim-htitle",
@@ -5827,7 +6226,14 @@
       "evidence": "huse",
       "source": "Simulador App · curso Simetrik",
       "date": "2026-06-05",
-      "confidence": "verificado"
+      "confidence": "verificado",
+      "detail": {
+        "cat": "cat",
+        "title": "htitle",
+        "body": "hbody",
+        "use": "huse",
+        "tp": "htip"
+      }
     },
     {
       "id": "pb-equipo-simetrikinterno-amana-m-services-",

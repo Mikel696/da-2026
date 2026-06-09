@@ -3274,3 +3274,11 @@ Pendiente: crear el cuaderno "Simetrik · Ingesta"; primera ingesta real; verifi
 **Estado del cerebro:** ÚNICA fuente de verdad. Lo alimentan: Diccionario ✅, Guía Simple ✅. Pendiente: Simulador App (mismo patrón enriquecer+alimentar) y, a futuro, quitar arrays embebidos (hoy fallback).
 
 **Leftover menor:** scripts de extracción quedaron en %TEMP% (fuera del repo, no contaminan). work_kb (tab "KB Simetrik" legacy) coexiste con el cerebro — evaluar si se absorbe en una fase posterior.
+
+---
+
+## 2026-06-05 · 14-WORK · FASE 2 COMPLETA — las 3 secciones se alimentan del cerebro
+- **Diccionario** (P26): seedDictFromBrain, glosario con dcat.
+- **Guía Simple** (P27): fetch del cerebro → GUIDE desde detail, fallback array embebido.
+- **Simulador App** (P28): openTip lee detail del cerebro (BRAIN_SIM), fallback tooltips inline; 58 sim- enriquecidas con detail.
+El cerebro `simetrik-kb.json` (435 entradas, v2026-06-05.7) es la única fuente de verdad y alimenta las 3 secciones. Patrón en todas: enriquecer el cerebro con `detail` rico + la sección lee del cerebro con fallback offline (cero pérdida, cero riesgo). Playbook = prose enlazada (no list-render). Pendiente opcional: quitar fallbacks embebidos, absorber work_kb.
