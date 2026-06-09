@@ -400,7 +400,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: (a) Crear el cuaderno "Simetrik · Ingesta" (el usuario o yo vía Chrome MCP inject) · (b) primera ingesta real de una reunión · (c) verificar render live del KB.
 
 ### ID:14-WORK.P23 · 2026-06-05
-- Commit: (pending)
+- Commit: 6d1a2f8
 - Files: frontend/work.html · frontend/css/work.css
 - Changed: (a) Creado cuaderno "Simetrik · Ingesta" vía Chrome MCP (inyección en work_nb_meta/work_nb_data del usuario + página instructiva, sincroniza por el proxy). (b) Rediseño de navegación: las 16 pestañas horizontales pasaron a 3 DESPLEGABLES por función — 📚 Aprender (Empieza Aquí/Simulador/Playbook/Guía Simple/Tutor/Notas Curso) · 🧠 Trabajo & Conocimiento (Simetrik KB/Prueba DOTA/Diccionario/Casos/Errores/Aprendizajes/KB) · 🗂️ Registro & Capturas (MOIF/Cuadernos/Notas Workflow). CSS .navbar/.navdd/.navdd-menu en work.css; JS de toggle+active-label en work.html (reusa el switch de .tab existente, los items mantienen data-p). El desplegable activo se resalta y muestra la sección actual. work.css ?v=p21→p22. Minimalista, sin paneles eliminados (cero pérdida de data).
 - Next: Verificar dropdowns en vivo. Primera ingesta real cuando el usuario dropee una reunión.
