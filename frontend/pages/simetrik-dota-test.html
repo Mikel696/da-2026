@@ -105,7 +105,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA · Guía paso a paso · v8</span>
+  <span class="mod">14-WORK · DOTA · Guía paso a paso · v9</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
@@ -120,7 +120,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 
 <!-- ════════ RECONSTRUCCIÓN DESDE CERO ════════ -->
 <div class="phase">🆕 Reconstrucción desde cero · leé esto primero</div>
-<div class="phase-sub">Vas a borrar todo y rehacerlo con los archivos actualizados. Seguí este orden macro; el detalle de cada paso está más abajo.</div>
+<div class="phase-sub">Arranque limpio (ej. en la carpeta del Trainer): creá todos los recursos ahí adentro desde el inicio, con la nomenclatura de esta guía. Seguí este orden macro; el detalle de cada paso está más abajo. Esta guía ya integra TODO lo validado: datos reales (56.777 filas), guía oficial del trainer y los gotchas de UI ya sufridos.</div>
 
 <div class="step">
   <div class="box warn"><div class="box-h">🔑 Las 4 reglas de oro (memorizalas — explican por qué antes no se actualizaba)</div>
@@ -246,7 +246,8 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <span class="col">PURCHASE_AUTHORIZATION_CODE</span>
   )
 )</pre>
-  <div class="box do"><div class="box-h">🔬 Corregido con datos (56.777 filas)</div>El documento dice "el dato de <code>CAPTURE_AUTHORIZATION_CODE</code>", pero en los datos reales <b><code>CAPTURE_AUTHORIZATION_CODE</code> está vacío en 52.717 filas (93%)</b> — el código vive en <code>PURCHASE_AUTHORIZATION_CODE</code>. Cada transacción trae su info en UN solo bloque: <code>PURCHASE_*</code> (52.717) o <code>CAPTURE_*</code>+<code>AUTH_*</code> (4.060). Si tomaras solo CAPTURE, la llave de autorización de la Barrida 3 quedaría vacía en el 93% y el cruce fallaría. Por eso se <b>coalesce</b> (PURCHASE→CAPTURE→AUTH), idéntico al Paso 5. La excepción Cabal/000000 se mantiene tal cual la guía (esos 20 registros están en el bloque CAPTURE).<br><br><b>Verificado contra FD:</b> el <code>NUM_AUT</code> de FD coincide con <code>PURCHASE_AUTHORIZATION_CODE</code> en 541 pares <b>y con <code>CAPTURE_AUTHORIZATION_CODE</code> en 225</b>. → Si usás <b>solo PURCHASE</b> (como hacen algunos), perdés esas 225 conciliaciones; el coalesce las atrapa todas (766 vs 541, +42%). Por eso la llave de autorización de las barridas del Paso 12 debe apuntar a esta <code>GTWC_AUTHORIZATION_CODE</code> (coalesce), no a <code>PURCHASE_AUTHORIZATION_CODE</code> directo.</div>
+  <div class="box do"><div class="box-h">🔬 Corregido con datos (56.777 filas)</div>El documento dice "el dato de <code>CAPTURE_AUTHORIZATION_CODE</code>", pero en los datos reales <b><code>CAPTURE_AUTHORIZATION_CODE</code> está vacío en 52.717 filas (93%)</b> — el código vive en <code>PURCHASE_AUTHORIZATION_CODE</code>. Cada transacción trae su info en UN solo bloque: <code>PURCHASE_*</code> (52.717) o <code>CAPTURE_*</code>+<code>AUTH_*</code> (4.060). Si tomaras solo CAPTURE, la llave de autorización de la Barrida 3 quedaría vacía en el 93% y el cruce fallaría. Por eso se <b>coalesce</b> (PURCHASE→CAPTURE→AUTH), idéntico al Paso 5. La excepción Cabal/000000 se mantiene tal cual la guía (esos 20 registros están en el bloque CAPTURE).</div>
+  <div class="box do"><div class="box-h">❓ "¿Por qué la excepción usa CAPTURE y no PURCHASE?" — validado a raíz</div>Por dos razones, ambas verificadas: <b>(1)</b> la guía oficial lo nombra textual (<i>"Si CAPTURE_AUTHORIZATION_CODE es igual a 000000 y CAPTURE_ACQUIRER = Cabal"</i>). <b>(2)</b> Los datos lo confirman: las <b>20 filas Cabal del dataset viven TODAS en el bloque CAPTURE</b> (su <code>PURCHASE_*</code> está vacío), las 20 tienen <code>CAPTURE_AUTHORIZATION_CODE = "000000"</code>, y <b>"000000" no existe en PURCHASE ni AUTH en ninguna fila</b>. Una excepción sobre PURCHASE atraparía cero filas. → La excepción va en CAPTURE; el coalesce cubre el resto.<br><br><b>Verificado contra FD:</b> el <code>NUM_AUT</code> de FD coincide con <code>PURCHASE_AUTHORIZATION_CODE</code> en 541 pares <b>y con <code>CAPTURE_AUTHORIZATION_CODE</code> en 225</b>. → Si usás <b>solo PURCHASE</b> (como hacen algunos), perdés esas 225 conciliaciones; el coalesce las atrapa todas (766 vs 541, +42%). Por eso la llave de autorización de las barridas del Paso 12 debe apuntar a esta <code>GTWC_AUTHORIZATION_CODE</code> (coalesce), no a <code>PURCHASE_AUTHORIZATION_CODE</code> directo.</div>
 </div>
 
 <div class="step">
