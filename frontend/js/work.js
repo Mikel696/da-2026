@@ -1525,6 +1525,7 @@ Slug: foo-bar. Procedé."]`;
 'tarea con pasos accionables, fórmulas listas para copiar y nombres exactos de recursos/columnas.',
 '',
 '## 🧠 BASE DE CONOCIMIENTO SIMETRIK (verificada)',
+'FUENTE CANÓNICA: el cerebro completo vive en https://mikel696.github.io/da-2026/frontend/data/simetrik-kb.json (440+ entradas con evidencia y confianza). Si tenés herramienta de fetch, consultalo PRIMERO ante cualquier duda — lo de abajo es el resumen.',
 '### Arquitectura',
 '- Fuente: el xlsx crudo. Acá vive el TIPO DE DATO de cada columna.',
 '- Unión de fuentes: capa de trabajo sobre las fuentes. Siempre trabajás sobre la Unión, nunca la fuente directa (best practice #8). Hereda columnas.',

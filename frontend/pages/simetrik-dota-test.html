@@ -105,7 +105,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA · Guía paso a paso · v7</span>
+  <span class="mod">14-WORK · DOTA · Guía paso a paso · v8</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
@@ -116,19 +116,6 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <h1>Prueba <em>DOTA</em> · guía de ejecución paso a paso</h1>
   <p>Seguí esta guía <b>de arriba hacia abajo, en orden</b>. Empezá por la Preparación, después Paso 1, 2, 3… hasta el 16. Cada paso tiene el nombre exacto del recurso/columna, la fórmula lista para copiar, y una nota solo si hace falta.</p>
   <p class="tx2"><b>Regla base de sintaxis Simetrik:</b> separador de parámetros <code>;</code> · textos entre <code>"comillas dobles"</code> · nombres de columna en MAYÚSCULAS.</p>
-</div>
-
-<!-- ════════ CHECKLIST DE ACTUALIZACIÓN ════════ -->
-<div class="step">
-  <div class="box redo"><div class="box-h">🔴 SI YA AVANZASTE — esto es lo que tenés que ACTUALIZAR (auditoría con 56.777 filas)</div>
-  Cada punto afectado abajo tiene su marca <span class="redo-tag">🔴 ACTUALIZAR</span>. Resumen:
-  <ol>
-    <li><b>Paso 0b · Unión</b> — agregá a <code>Union_DOTA</code> las columnas que falten: <code>PURCHASE/CAPTURE/AUTH_AUTHORIZATION_CODE</code> y <code>PURCHASE/CAPTURE/AUTH_ACQUIRER</code> (NO recrees la unión, solo agregá + Ejecutar cambios).</li>
-    <li><b>Punto 2 · GTWC_AUTHORIZATION_CODE</b> — borrá y recreá la columna con el <b>coalesce</b> (antes tomaba solo CAPTURE = vacío en 93%).</li>
-    <li><b>Punto 3 · GTWT_ACQUIRER</b> — borrá y recreá: el "else" ahora hace coalesce.</li>
-    <li><b>Punto 12 · Barridas</b> — la llave de <b>código de autorización</b> debe apuntar a la <code>GTWC_AUTHORIZATION_CODE</code> corregida (no a PURCHASE directo). En la <b>Barrida 3</b>: comercio = <code>NUM_EST</code>, fecha FD = <code>FORIG_COMPRA</code>, fecha DOTA = <code>MOV_CREATED_DATE</code> crudo. Re-ejecutá las barridas después de rehacer P2/P3.</li>
-  </ol>
-  <b>Orden:</b> agregar columnas a la unión → recrear P2 → recrear P3 → re-apuntar/re-ejecutar barridas. El resto de los puntos (1, 4-11, 12b, 13-16) <b>NO se tocan</b>.</div>
 </div>
 
 <!-- ════════ RECONSTRUCCIÓN DESDE CERO ════════ -->
@@ -210,8 +197,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">0b</div><div class="step-title">Ajustar tipos de dato en <code>Union_DOTA</code> · ANTES de las fórmulas <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
-  <div class="box redo"><div class="box-h">🔴 Agregá las columnas que falten a la unión</div>Para los coalesce de los Puntos 2 y 3, <code>Union_DOTA</code> necesita las 3 de auth + 3 de acquirer (ver la caja 📋 abajo). Si te falta alguna (ej. <code>PURCHASE_AUTHORIZATION_CODE</code>): <b>NO recrees la unión</b> → abrila → agregá la columna del origen → <b>"Ejecutar cambios"</b> → verificá que se llene.</div>
+  <div class="step-head"><div class="step-num">0b</div><div class="step-title">Ajustar tipos de dato en <code>Union_DOTA</code> · ANTES de las fórmulas</div></div>
   <div class="box warn"><div class="box-h">🚨 EL FORMATO SE CAMBIA EN LA FUENTE, NO EN LA UNIÓN</div>Los cambios de tipo de dato (Texto/Fecha/etc.) se hacen abriendo la <b>FUENTE</b> (<code>DB_DOTA</code>), NO la Unión. En la Unión las columnas son heredadas y dan el error "la columna seleccionada no admite cambio de formato". <b>Regla:</b> todo casteo → en la fuente.</div>
   <p>Abrí la <b>fuente <code>DB_DOTA</code></b> (no la unión) en vista de tabla. Click derecho sobre el encabezado de cada columna → <b>"Dar formato a una columna"</b> → cambiá el tipo:</p>
   <table>
@@ -249,8 +235,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">2</div><div class="step-title">GTWC_AUTHORIZATION_CODE <span class="out">salida: Texto</span> <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
-  <div class="box redo"><div class="box-h">🔴 Rehacer esta columna</div>La versión vieja tomaba <b>solo <code>CAPTURE_AUTHORIZATION_CODE</code></b> → quedaba vacía en el 93% de las filas. <b>Borrá la columna y recreala</b> con la fórmula de abajo (coalesce). Requiere tener en la unión las 3 columnas de auth (ver Paso 0b).</div>
+  <div class="step-head"><div class="step-num">2</div><div class="step-title">GTWC_AUTHORIZATION_CODE <span class="out">salida: Texto</span></div></div>
   <p>Si el código es <code>"000000"</code> Y el adquirente es <code>"Cabal"</code>, dejá vacío. En cualquier otro caso, tomá el código de la <b>primera columna que tenga dato</b> (PURCHASE → CAPTURE → AUTH), igual que el comercio del Paso 5.</p>
   <pre class="formula"><span class="fn">SI</span>(
   <span class="fn">Y</span>(<span class="col">CAPTURE_AUTHORIZATION_CODE</span> = <span class="str">"000000"</span>; <span class="col">CAPTURE_ACQUIRER</span> = <span class="str">"Cabal"</span>);
@@ -265,8 +250,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 </div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">3</div><div class="step-title">GTWT_ACQUIRER <span class="out">salida: Texto</span> <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
-  <div class="box redo"><div class="box-h">🔴 Rehacer esta columna</div>El "else" (fallback final) tomaba <b>solo <code>CAPTURE_ACQUIRER</code></b> (vacío en 93%). <b>Borrá y recreá</b> con el coalesce de abajo. La detección de Mastercard/Visa ya estaba bien — solo cambia el fallback. Requiere las 3 columnas de acquirer en la unión (Paso 0b).</div>
+  <div class="step-head"><div class="step-num">3</div><div class="step-title">GTWT_ACQUIRER <span class="out">salida: Texto</span></div></div>
   <p>Revisá las 3 columnas <code>CAPTURE_ACQUIRER</code>, <code>PURCHASE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code>:</p>
   <ul>
     <li>Si en alguna aparece "Mastercard", "Firstdata" o "Diners" → poné <code>"FD"</code></li>
@@ -417,7 +401,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <li><b>Tipo de dato:</b> <code>TIPO_COMERCIO</code> debe ser <b>Texto</b> para comparar contra <code>"ESTANDAR"</code>.</li>
     <li><b>El BuscarV ya tiene que estar OK.</b> Si el 8.1 trajo vacíos (por tipos distintos en <code>GTWT_MERCHANT_NUMBER</code> vs <code>COMERCIO</code>), el grupo queda vacío. Verificá que <code>TIPO_COMERCIO</code> tenga datos antes de crear el grupo.</li>
   </ul></div>
-  <div class="box do"><div class="box-h">✅ Verificá</div>Abrí <code>DOTA_Estandar</code> → debe mostrar <b>solo</b> filas con <code>TIPO_COMERCIO = ESTANDAR</code> (cero filas de otros tipos). Si ves otros valores o queda vacío, revisá el filtro o el BuscarV.</div>
+  <div class="box do"><div class="box-h">✅ Verificá</div>Antes del Paso 12, mirá la columna <code>TIPO_COMERCIO</code> en la tabla de <code>Union_DOTA</code>: debe tener datos (no vacía). El valor exacto a filtrar es <code>ESTANDAR</code> tal cual aparece. Cuando apliques el filtro en el Lado A de la conciliación (Paso 12), la vista previa debe mostrar solo filas ESTANDAR.</div>
 </div>
 
 <!-- ════════ NORMALIZACIÓN FD ════════ -->
@@ -459,41 +443,36 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <div class="phase">🔶 Conciliación Avanzada DOTA × FD · Paso 12</div>
 
 <div class="step">
-  <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas <span class="redo-tag">🔴 ACTUALIZAR</span></div></div>
-  <div class="box redo"><div class="box-h">🔴 Revisá las llaves de las barridas</div>
-  • <b>Código de autorización</b> (llave de B1, B2, B3, B4): debe apuntar a <code>GTWC_AUTHORIZATION_CODE</code> <b>corregida</b> (coalesce), NO a <code>PURCHASE_AUTHORIZATION_CODE</code> directo — usar solo PURCHASE pierde 225 conciliaciones del bloque CAPTURE.<br>
-  • <b>Barrida 3</b>: comercio = <code>NUM_EST</code> · fecha FD = <code>FORIG_COMPRA</code> · fecha DOTA = <code>MOV_CREATED_DATE</code> crudo (NO el <code>MOV_CREATION_DATE</code> +1).<br>
-  • Si ya armaste barridas con las columnas viejas → re-apuntá la llave y <b>re-ejecutá</b> después de rehacer P2/P3.</div>
+  <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas</div></div>
+
+  <div class="box do"><div class="box-h">✅ Prerrequisitos (verificá antes de tocar barridas)</div>
+  <b>1)</b> <code>GTWC_AUTHORIZATION_CODE</code> con coalesce (Punto 2) — NO uses <code>PURCHASE_AUTHORIZATION_CODE</code> directo: pierde 225 conciliaciones del bloque CAPTURE. &nbsp;<b>2)</b> Columna <code>ABS_MONTO = ABS(MOV_AMOUNT)</code> en <code>Union_DOTA</code> (las reglas no aceptan fórmulas inline). &nbsp;<b>3)</b> <code>TIPO_COMERCIO</code> traída por BuscarV (Paso 8.1). &nbsp;<b>4)</b> Fechas casteadas a tipo Fecha.</div>
 
   <h4>Crear la conciliación</h4>
   <ol>
-    <li><b>Automatizar → Recursos y conciliaciones → Conciliaciones</b>.</li>
-    <li>"Crear recurso" → <b>"Conciliación avanzada"</b>.</li>
+    <li><b>Automatizar → Recursos y conciliaciones → Conciliaciones</b> → "Crear recurso" → <b>"Conciliación avanzada"</b>.</li>
     <li>Nombre: <code>1 - DOTA x FD</code> (el número ayuda al orden · best practice #14).</li>
-    <li><b>Lado A:</b> el grupo <code>DOTA_Estandar</code> (del Paso 8). <b>Lado B:</b> <code>Union_FD</code>.</li>
-    <li>Ir a <b>"Configurar cruce"</b> y crear las 5 barridas en orden. Numerá cada barrida en su nombre.</li>
+    <li><b>Lado A:</b> <code>UNION_DOTA</code> — y ahí aplicá el <b>filtro / segmentación</b> <code>TIPO_COMERCIO = "ESTANDAR"</code> (es el requisito del Punto 8; recordá que NO existe un "grupo DOTA_Estandar" — el filtro se aplica acá). <b>Lado B:</b> <code>UNION_FD</code>.</li>
+    <li>Crear las <b>5 barridas en orden</b> con el botón <b>"Agregar"</b>. Numerá cada una en su nombre.</li>
   </ol>
-  <div class="box warn"><div class="box-h">⚠ Restricción de las barridas 1 y 2 (del documento)</div>Una transacción no cruza consigo misma · y PAYMENT solo concilia con REFUND (no PAYMENT con PAYMENT). Eso se logra agregando la regla <code>MOV_OPERATION</code> ≠ <code>MOV_OPERATION</code> y la opción de excluir auto-cruce.</div>
+  <div class="box warn"><div class="box-h">🚨 El TIPO de barrida se elige al CREAR y queda FIJO</div>Al darle "Agregar" elegís el tipo: <b>Compensación</b> (auto-cruce de un recurso contra sí mismo · B1 y B2), <b>Conciliación</b> (Lado A vs Lado B · B3 y B4) o <b>Agrupada</b> (batch · B5). Si te equivocás de tipo, NO se cambia después: salí <b>sin guardar</b> y creala de nuevo. Antes de "Ejecutar barridas" siempre <b>"Guardar barrida"</b> (si dice "Cambios pendientes por guardar", no ejecuta).</div>
 
   <h4>Barrida 1 · Compensación DOTA exacta</h4>
-  <p>Tipo: <b>Compensación</b>. Recurso a compensar: Lado A (DOTA contra sí mismo). Llaves:</p>
-  <table>
-    <tr><th>Lado A</th><th>Operador</th><th>Lado A (otro)</th></tr>
-    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>GTWT_MERCHANT_NUMBER</code></td></tr>
-    <tr><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>=</td><td><code>GTWC_AUTHORIZATION_CODE</code></td></tr>
-    <tr><td><code>ABS(MOV_AMOUNT)</code></td><td>=</td><td><code>ABS(MOV_AMOUNT)</code></td></tr>
-  </table>
-  <div class="box warn"><div class="box-h">🚨 Si te pide Lado B = FD y no te deja poner DOTA en ambos lados</div>Es porque la barrida quedó en <b>Tipo de barrida: Conciliación</b> (cruce A vs B). La compensación NO es A vs B — es un <b>auto-cruce de DOTA contra sí mismo</b>. El <b>tipo se elige al CREAR la barrida (botón "Agregar") y queda fijo — NO se puede cambiar después</b>.<br><br><b>Cómo recuperarte si ya la creaste con el tipo equivocado:</b> mientras <b>NO hayas guardado cambios</b>, salí de la barrida (te deja salir) y volvé a crearla con <b>"Agregar"</b> eligiendo el tipo <b>Compensación</b>. Recién ahí desaparece el Lado B (FD) y elegís un <b>solo recurso a compensar</b> (<code>UNION_DOTA</code>), con las llaves Lado A vs Lado A. <i>(Verificado en workspace: como no había cambios guardados, dejó salir y rehacer.)</i></div>
-  <div class="box warn"><div class="box-h">⚠ El ABS no se escribe en la regla</div>El selector de columnas de la regla solo lista columnas existentes — no acepta <code>ABS(...)</code> inline. Creá antes una <b>columna de transformación</b> en <code>Union_DOTA</code>: <code>ABS_MONTO = ABS(MOV_AMOUNT)</code>, y usá <code>ABS_MONTO = ABS_MONTO</code> como tercera llave.</div>
-  <div class="box warn"><div class="box-h">🟡 PASO OBLIGATORIO: "Configurar grupos compensables" (el puntito amarillo)</div>En una barrida de Compensación, además de las llaves hay que <b>definir los grupos compensables</b> = cómo se parte DOTA en los <b>dos lados que se compensan entre sí</b>. Mientras no lo completes, el botón <b>"Guardar barrida" queda deshabilitado</b> y verás un <b>punto amarillo</b> en "Configurar grupos compensables". Esto es lo que implementa la restricción del documento <i>"PAYMENT solo compensa con REFUND"</i>.<br><br><b>Pasos:</b>
+  <p>Tipo: <b>Compensación</b> → Recurso a compensar: <code>UNION_DOTA</code> (auto-cruce, sin Lado B). Dos partes obligatorias:</p>
+  <p><b>a) Grupos compensables</b> (botón "Configurar grupos compensables" — el punto amarillo · sin esto no se habilita "Guardar barrida"). Implementa el "PAYMENT solo compensa con REFUND" del documento:</p>
   <ol>
-    <li>Click en <b>"Configurar grupos compensables"</b>.</li>
-    <li><b>Criterio de compensación</b> → seleccioná la columna <code>MOV_OPERATION</code> (la que tiene los valores <code>PAYMENT</code> / <code>REFUND</code>).</li>
-    <li>Arrastrá el valor <code>PAYMENT</code> al <b>Grupo compensable 1</b> (nombralo p.ej. <code>PAYMENT</code>).</li>
-    <li>Arrastrá el valor <code>REFUND</code> al <b>Grupo compensable 2</b> (nombralo p.ej. <code>REFUND</code>).</li>
-    <li>Guardá → el punto amarillo desaparece → ya se habilita <b>"Guardar barrida"</b> y después <b>"Ejecutar barridas"</b>.</li>
+    <li><b>Criterio de compensación</b> → columna <code>MOV_OPERATION</code>.</li>
+    <li>Arrastrá <code>PAYMENT</code> al <b>Grupo compensable 1</b> y <code>REFUND</code> al <b>Grupo compensable 2</b> (escribí también los <b>nombres</b> de los grupos — son obligatorios, asterisco rojo).</li>
+    <li>Confirmá → desaparece el punto amarillo.</li>
   </ol>
-  <i>Ojo: arrastrá los valores TAL CUAL aparecen en tus datos (si vienen en minúscula o en español, usá esos).</i></div>
+  <p><b>b) Reglas de la barrida</b> (las 3 llaves):</p>
+  <table>
+    <tr><th>Grupo compensable 1</th><th>Condición</th><th>Grupo compensable 2</th><th>Tolerancia</th></tr>
+    <tr><td><code>GTWT_MERCHANT_NUMBER</code></td><td>=</td><td><code>GTWT_MERCHANT_NUMBER</code></td><td>—</td></tr>
+    <tr><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>=</td><td><code>GTWC_AUTHORIZATION_CODE</code></td><td>—</td></tr>
+    <tr><td><code>ABS_MONTO</code></td><td>=</td><td><code>ABS_MONTO</code></td><td>0</td></tr>
+  </table>
+  <p class="tx2">Como los grupos son PAYMENT vs REFUND, una transacción nunca se cruza consigo misma ni con otra del mismo tipo — las dos restricciones del documento quedan cubiertas por los grupos.</p>
 
   <h4>Barrida 2 · Compensación DOTA con tolerancia $5</h4>
   <p>Mismas 2 primeras llaves que B1. En el monto, el "diferencia absoluta ≤ 5" de la guía <b>NO se pone con un operador "≤"</b> (ese operador no existe). El operador queda en <code>=</code> y el 5 va en el <b>campo "Tolerancia"</b> de esa regla:</p>
@@ -522,16 +501,22 @@ td{color:var(--t2)}td b{color:var(--tx)}
   PAN: <code>CARD_NUMBER</code> = <code>NUM_TAR</code> (mismo formato enmascarado). Importe: <code>IMPORTE</code> es positivo (el signo va en <code>SIGNO</code> aparte) → cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
-  <p>Mismas 5 llaves que B3, pero la fecha admite que <b>FD llegue 1 día después</b> que DOTA, nunca antes (tal como dice el documento).</p>
-  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"Para la barrida con tolerancia de +1 día, el caso pide que FD pueda llegar un día después que DOTA pero nunca antes. La tolerancia que veo en Simetrik aplica para los dos lados. ¿Lo correcto es agregar una regla de desigualdad para forzar el sentido, o existe una tolerancia direccional que no estoy viendo?"</i><br><br>💡 Hipótesis: duplicar la llave de fecha con desigualdad (FD ≥ DOTA) + tolerancia 1 día (best practice #21).</div>
+  <p>Tipo: <b>Conciliación</b>. Mismas 5 llaves que B3, con un cambio en la regla de <b>fecha</b>:</p>
+  <table>
+    <tr><th>Columna A (DOTA)</th><th>Condición</th><th>Columna B (FD)</th><th>Tolerancia</th><th>Unidad</th></tr>
+    <tr><td><code>MOV_CREATED_DATE</code></td><td>=</td><td><code>FORIG_COMPRA</code></td><td><b>1</b></td><td><b>días</b></td></tr>
+  </table>
+  <p class="tx2">Acá sí se habilita la <b>Unidad</b> (elegí <code>días</code>) — es el único caso donde se usa.</p>
+  <div class="box warn"><div class="box-h">⚠ Direccionalidad ("FD un día después, nunca antes")</div>La tolerancia de Simetrik aplica a <b>ambos lados</b> (±1 día). Para forzar el sentido del documento, agregá una <b>regla extra de desigualdad</b>: <code>FORIG_COMPRA</code> ≥ <code>MOV_CREATED_DATE</code> (si tu versión ofrece operadores &gt;= en la Condición). Si no existe el operador, dejá la tolerancia ±1: como B3 ya capturó los exactos, el riesgo real es mínimo — y confirmalo con el trainer cuando responda. <i>Estado: hipótesis razonada, datos a favor (33 pares a +1 día, 0 a −1).</i></div>
 
   <h4>Barrida 5 · DOTA vs Batch FD</h4>
-  <p>Tipo: <b>agrupada (batch)</b>. Sobre el FD que aún no cruzó, agrupá por lote y cruzá la suma contra el detalle DOTA pendiente.</p>
+  <p>Tipo: <b>Agrupada</b> (batch). Sobre el pendiente que quedó: consolidá FD por lote y cruzalo contra el detalle DOTA pendiente.</p>
   <ul>
-    <li>Lado B (FD): agrupar por <code>LOTE</code> con <code>SUMA(IMPORTE)</code></li>
-    <li>Cruzar contra el detalle DOTA pendiente por comercio</li>
+    <li><b>Lado FD (agrupado):</b> agrupar por <code>LOTE</code> · valor <code>SUMA(IMPORTE)</code>.</li>
+    <li><b>Lado DOTA (detalle):</b> el monto pendiente — la suma de los detalles debe igualar el total del lote.</li>
+    <li>Probá primero con llave <code>GTWT_MERCHANT_NUMBER</code> = <code>NUM_EST</code> + montos; verificá en la vista previa cuántos cruzan antes de confirmar.</li>
   </ul>
-  <div class="box q"><div class="box-h">🟡 Pregunta para el trainer</div><i>"Para la barrida batch, el documento dice consolidar FD por lote y cruzar contra el detalle de DOTA. ¿El cruce es SUMA(IMPORTE) de FD por LOTE contra SUMA(ABS(MOV_AMOUNT)) de DOTA por comercio? ¿Qué columna del lado DOTA hace de llave del lote?"</i></div>
+  <div class="box q"><div class="box-h">🟡 Confirmar con el trainer</div><i>"Para la barrida batch: ¿el cruce es SUMA(IMPORTE) de FD por LOTE contra el detalle pendiente de DOTA agrupado por comercio? ¿Qué columna de DOTA hace de llave del lote?"</i> · Mientras tanto usá la config de arriba y validá con la vista previa.</div>
 
   <h4>Ejecutar</h4>
   <p>Al guardar cada barrida, revisá la <b>robustez</b>: si sale roja (débil), Simetrik no ejecuta — agregá más llaves. Cuando las 5 estén listas, ejecutá y revisá resultados en el diagrama. Si todo bien → <b>Confirmar conciliación</b>.</p>
