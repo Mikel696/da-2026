@@ -454,7 +454,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: usuario ejecuta B1→B5 con la guía limpia; confirmar direccionalidad B4 y llave de lote B5 con trainer/práctica; ingerir al cerebro lo que salga de ejecutar las barridas.
 
 ### ID:14-WORK.P32 · 2026-06-10
-- Commit: (pending)
+- Commit: ccb1fdc
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Auditoría pedida por el usuario sobre la reescritura v8: (a) Re-escaneado el Drive completo — carpeta raíz sin cambios desde 2026-06-04 (los 10 archivos ya analizados: DB_DOTA_v3, Reporte_FD_v3, Parametria_v2, calendario nuevo+viejo, Documento Guia, Mapeo_Features, best-practices) y carpeta Imagenes sin archivos nuevos desde 2026-06-05 (Barridas.png fue el último). Cero material sin procesar. (b) Verificado que el contexto "no tengo PURCHASE_AUTHORIZATION_CODE en la unión" sobrevivió la limpieza: la caja 📋 del Paso 0b (agregar columnas sin recrear) quedó intacta. (c) Reforzado el prerrequisito 1 del Paso 12 con el recordatorio inline: el coalesce requiere las 3 columnas de auth en Union_DOTA — si falta, agregar desde el origen + Ejecutar cambios, NO recrear (las columnas están en la fuente aunque no se vean en la unión).
 - Next: usuario ejecuta B1→B5 con guía v8; ingerir resultados al cerebro.
