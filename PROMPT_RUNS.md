@@ -466,7 +466,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: usuario reconstruye desde cero en la carpeta del Trainer siguiendo el orden macro; reportar resultados de las barridas para ingerir al cerebro.
 
 ### ID:14-WORK.P34 · 2026-06-10
-- Commit: (pending)
+- Commit: a8ff812
 - Files: CLAUDE.md · frontend/work.html · frontend/pages/simetrik-dota-test.html · frontend/pages/simetrik-kb.html · frontend/js/module-prompts.js · PROMPT_14-WORK_SIMETRIK-PURO.md · frontend/prompts.html
 - Changed: AUDITORÍA INTEGRAL del segundo cerebro. Salud verificada: sintaxis JS OK (work/cloud-sync/nb-shared), cerebro 440 entradas 0 dups, 16 tabs ↔ 16 panels sin huérfanos, deploy.yml correcto (Pages desde main + workflow_dispatch), SYNC_REGISTRY cubre todo (solo marcas de versión locales, por diseño). FIXES: (a) CLAUDE.md sección 14-WORK reescrita (decía 11 pestañas; ahora documenta cerebro+ingesta+gate+3 desplegables+keys actuales). (b) work.html hero y tarjeta 3-fases actualizados a la arquitectura real (decían mini-curso/Copilot; ahora segundo cerebro/3 menús/Ingesta). (c) CSS muerto .box.redo/.redo-tag eliminado de la guía DOTA. (d) module-prompts.js 14-WORK actualizado (decía 13 tabs → Second Brain con cerebro). (e) PROMPT_SIMETRIK-PURO.md con FUENTE CANÓNICA (paridad con Modo 4 embebido). (f) prompts.html cache-bust de module-prompts.js. DISEÑO KB viewer: contadores por categoría en chips, badge dcat, botón 📋 copiar por entrada, contador de resultados, hover lift.
 - Next: verificación live post-deploy. Ingesta de sesiones V2.8 2/3 y 3/3 cuando lleguen.
