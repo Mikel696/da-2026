@@ -448,7 +448,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: aplicar el gate en toda ingesta futura; reportar siempre lo descartado.
 
 ### ID:14-WORK.P31 · 2026-06-10
-- Commit: (pending)
+- Commit: ccae605
 - Files: frontend/pages/simetrik-dota-test.html · frontend/work.html · frontend/js/work.js
 - Changed: LIMPIEZA + REESCRITURA Paso 12 (v8). (a) Eliminados todos los parches en capas: checklist rojo "SI YA AVANZASTE" del inicio, cajas/tags 🔴 ACTUALIZAR de P0b/P2/P3/P12 (su contenido ya está en las fórmulas canónicas). (b) FIX dato roto: "Crear la conciliación" decía Lado A = grupo DOTA_Estandar (inexistente) → ahora Lado A = UNION_DOTA + filtro/segmentación TIPO_COMERCIO=ESTANDAR; también corregida la caja Verificá del 8.2 que lo referenciaba. (c) B1 consolidada: 3 cajas warn apiladas → pasos canónicos a/b (grupos compensables MOV_OPERATION PAYMENT/REFUND con nombres obligatorios + tabla de reglas con ABS_MONTO y campo Tolerancia real). (d) Caja única "tipo de barrida se elige al crear y queda fijo" + guardar antes de ejecutar. (e) B4 ahora ACCIONABLE: tabla con tolerancia 1/días + regla de desigualdad FORIG_COMPRA>=MOV_CREATED_DATE si existe el operador (hipótesis razonada, datos 33/0). (f) B5 accionable: agrupar FD por LOTE SUMA(IMPORTE) vs detalle DOTA, validar con vista previa. (g) Módulo: tab "📚 KB Simetrik" renombrada a "📄 Apuntes libres" (colisión de nombre con 🧠 Simetrik KB) · prompt Modo 4 ahora referencia el cerebro (simetrik-kb.json) como fuente canónica · work.js p24→p25.
 - Next: usuario ejecuta B1→B5 con la guía limpia; confirmar direccionalidad B4 y llave de lote B5 con trainer/práctica; ingerir al cerebro lo que salga de ejecutar las barridas.

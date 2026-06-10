@@ -3282,3 +3282,16 @@ Pendiente: crear el cuaderno "Simetrik · Ingesta"; primera ingesta real; verifi
 - **Guía Simple** (P27): fetch del cerebro → GUIDE desde detail, fallback array embebido.
 - **Simulador App** (P28): openTip lee detail del cerebro (BRAIN_SIM), fallback tooltips inline; 58 sim- enriquecidas con detail.
 El cerebro `simetrik-kb.json` (435 entradas, v2026-06-05.7) es la única fuente de verdad y alimenta las 3 secciones. Patrón en todas: enriquecer el cerebro con `detail` rico + la sección lee del cerebro con fallback offline (cero pérdida, cero riesgo). Playbook = prose enlazada (no list-render). Pendiente opcional: quitar fallbacks embebidos, absorber work_kb.
+
+---
+
+## 2026-06-10 · 14-WORK · Limpieza integral + Paso 12 reescrito (DOTA v8)
+
+**Problema:** el usuario trabado en el Punto 12; la guía acumulaba parches en capas que se contradecían, incluido un dato roto: "Lado A = grupo DOTA_Estandar" (recurso que no existe — el filtro ESTANDAR va en el Lado A de la conciliación).
+
+**Hecho:**
+- Eliminados checklist rojo del inicio y cajas/tags 🔴 ACTUALIZAR (P0b/P2/P3/P12) — contenido ya integrado en fórmulas canónicas.
+- Paso 12 reescrito coherente: prerrequisitos compactos → crear conciliación (Lado A = UNION_DOTA + filtro TIPO_COMERCIO=ESTANDAR · Lado B = UNION_FD) → caja única "el tipo de barrida se fija al crear" → B1 con grupos compensables (MOV_OPERATION: PAYMENT/REFUND, nombres obligatorios) + tabla de reglas con ABS_MONTO y campo Tolerancia → B2 (tol 5) → B3 (llaves verificadas con datos) → B4 accionable (tolerancia 1/días + desigualdad FORIG_COMPRA>=MOV_CREATED_DATE como hipótesis razonada) → B5 accionable (FD por LOTE SUMA(IMPORTE) vs detalle DOTA, validar en vista previa).
+- Módulo: tab legacy "📚 KB Simetrik" → "📄 Apuntes libres" (mata la colisión de nombre con 🧠 Simetrik KB); prompt Modo 4 referencia el cerebro como fuente canónica; work.js → p25.
+
+**Pendiente:** confirmar direccionalidad B4 y llave de lote B5 (trainer o práctica); ejecutar B1→B5 y reportar resultados al cerebro.
