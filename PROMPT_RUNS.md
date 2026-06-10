@@ -460,7 +460,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: usuario ejecuta B1→B5 con guía v8; ingerir resultados al cerebro.
 
 ### ID:14-WORK.P33 · 2026-06-10
-- Commit: (pending)
+- Commit: 6109e6d
 - Files: frontend/pages/simetrik-dota-test.html
 - Changed: Validación a raíz de la duda del usuario sobre P2 (¿por qué la excepción Cabal usa CAPTURE y no PURCHASE?) + preparación para arranque desde cero en la carpeta del Trainer (v9). Validado contra dota.xlsx (56.777 filas): las 20 filas Cabal viven TODAS en el bloque CAPTURE (PURCHASE_* vacío), las 20 tienen CAPTURE_AUTHORIZATION_CODE="000000", y "000000" NO existe en PURCHASE ni AUTH en ninguna fila → una excepción sobre PURCHASE atraparía cero filas. Además la guía oficial lo nombra textual (CAPTURE). Fórmula P2 queda como está. Agregada caja ❓ "validado a raíz" en P2 con la evidencia. phase-sub de Reconstrucción actualizado para arranque limpio en carpeta del Trainer (corregida una afirmación sin evidencia sobre mover recursos antes de commitear). v8→v9.
 - Next: usuario reconstruye desde cero en la carpeta del Trainer siguiendo el orden macro; reportar resultados de las barridas para ingerir al cerebro.
