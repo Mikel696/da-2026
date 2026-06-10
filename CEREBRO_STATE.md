@@ -3295,3 +3295,13 @@ El cerebro `simetrik-kb.json` (435 entradas, v2026-06-05.7) es la única fuente 
 - Módulo: tab legacy "📚 KB Simetrik" → "📄 Apuntes libres" (mata la colisión de nombre con 🧠 Simetrik KB); prompt Modo 4 referencia el cerebro como fuente canónica; work.js → p25.
 
 **Pendiente:** confirmar direccionalidad B4 y llave de lote B5 (trainer o práctica); ejecutar B1→B5 y reportar resultados al cerebro.
+
+---
+
+## 2026-06-10 · 14-WORK · Auditoría integral del segundo cerebro (P34)
+
+**Salud verificada (sin cambios necesarios):** sintaxis JS core OK · cerebro 440 entradas, 0 duplicados, 100% con evidencia · 16 tabs ↔ 16 panels sin huérfanos · SYNC_REGISTRY cubre todas las keys (solo marcas de versión locales, por diseño) · **Deploy:** push a main → GitHub Actions `deploy.yml` publica el repo a Pages (también `workflow_dispatch` manual); no hay build step (vanilla).
+
+**Corregido/actualizado:** CLAUDE.md 14-WORK reescrito (cerebro + ingesta + gate + 3 desplegables) · hero y tarjeta 3-fases de work.html alineados a la arquitectura real · CSS muerto (.box.redo) eliminado de la guía DOTA · module-prompts.js 14-WORK actualizado · PROMPT_SIMETRIK-PURO con fuente canónica del cerebro · cache-bust en prompts.html.
+
+**Diseño KB viewer (power-up):** chips con contador por categoría · badge dcat en glosario · botón 📋 copiar entrada · contador de resultados · hover lift.

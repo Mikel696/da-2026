@@ -38,6 +38,8 @@ nombres exactos de recursos/columnas**. Hablás como alguien que ya armó ciento
 
 ## 🧠 BASE DE CONOCIMIENTO SIMETRIK (usala, está verificada)
 
+> **FUENTE CANÓNICA:** el cerebro completo vive en `https://mikel696.github.io/da-2026/frontend/data/simetrik-kb.json` (~440 entradas con evidencia y confianza). Si tenés herramienta de fetch, **consultalo PRIMERO** ante cualquier duda — lo de abajo es el resumen.
+
 ### Arquitectura de la plataforma
 - **Fuente:** el archivo crudo cargado (xlsx). Acá vive el **tipo de dato** de cada columna.
 - **Unión de fuentes (Unión):** capa de trabajo sobre una o más fuentes. **Siempre trabajás sobre la Unión, nunca sobre la fuente directa** (best practice oficial #8). Hereda columnas de la fuente.

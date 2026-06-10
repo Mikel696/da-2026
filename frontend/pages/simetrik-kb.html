@@ -43,7 +43,12 @@ body.in-iframe .da-strip{display:none}
 #q:focus{outline:none;border-color:var(--ac)}
 .chip{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--t2);cursor:pointer;user-select:none}
 .chip.on{background:var(--ag);border-color:var(--ac);color:var(--ac);font-weight:600}
-.card{background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:15px 18px;margin-bottom:11px;border-left:3px solid var(--bd2)}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:11px;padding:15px 18px;margin-bottom:11px;border-left:3px solid var(--bd2);transition:border-color .15s ease,transform .15s ease}
+.card:hover{border-color:var(--bd2);transform:translateY(-1px)}
+.copybtn{background:none;border:1px solid var(--bd);border-radius:6px;color:var(--t3);cursor:pointer;font-size:12px;padding:2px 8px;flex-shrink:0;transition:color .15s ease,border-color .15s ease}
+.copybtn:hover{color:var(--ac);border-color:var(--ac)}
+.chip b{font-weight:700;opacity:.65;margin-left:3px}
+#resCount{font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-bottom:9px;letter-spacing:.5px}
 .card.regla{border-left-color:var(--rd)} .card.plataforma{border-left-color:var(--ac)} .card.funcion{border-left-color:var(--vi)}
 .card.gotcha{border-left-color:var(--yl)} .card.conciliacion{border-left-color:var(--gn)} .card.caso{border-left-color:var(--or)} .card.glosario{border-left-color:var(--t3)}
 .card-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
@@ -152,8 +157,10 @@ function boot(){
     '<span class="stat"><b>'+n+'</b><span>entradas</span></span>'+
     '<span class="stat"><b>'+verif+'</b><span>verificadas</span></span>'+
     '<span class="stat"><b>'+(m.categories||[]).length+'</b><span>categorías</span></span>';
+  const cnt={all:(DATA.entries||[]).length};
+  (DATA.entries||[]).forEach(e=>{cnt[e.cat]=(cnt[e.cat]||0)+1;});
   const cats=['all'].concat(m.categories||[]);
-  document.getElementById('cats').innerHTML=cats.map(c=>'<span class="chip'+(c==='all'?' on':'')+'" data-c="'+c+'">'+(CATLABEL[c]||c)+'</span>').join('');
+  document.getElementById('cats').innerHTML=cats.map(c=>'<span class="chip'+(c==='all'?' on':'')+'" data-c="'+c+'">'+(CATLABEL[c]||c)+'<b>'+(cnt[c]||0)+'</b></span>').join('');
   document.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{
     activeCat=ch.dataset.c;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===ch));render();
   });
@@ -166,13 +173,24 @@ function render(){
   let rows=DATA.entries.filter(e=>activeCat==='all'||e.cat===activeCat);
   if(q) rows=rows.filter(e=>(e.title+' '+e.body+' '+e.evidence).toLowerCase().includes(q));
   document.getElementById('empty').style.display=rows.length?'none':'block';
-  list.innerHTML=rows.map(e=>{
+  const counter=rows.length?'<div id="resCount">'+rows.length+' resultado'+(rows.length===1?'':'s')+(q?' para "'+esc(q)+'"':'')+'</div>':'';
+  list.innerHTML=counter+rows.map(e=>{
     const cf=e.confidence==='verificado'?'<span class="tag ok">✓ verificado</span>':'<span class="tag hip">~ hipótesis</span>';
+    const dc=e.dcat?'<span class="tag cat">'+esc(e.dcat)+'</span>':'';
     return '<div class="card '+esc(e.cat)+'"><div class="card-h">'+
-      '<h4>'+esc(e.title)+'</h4><span class="tag cat">'+esc(e.cat)+'</span>'+cf+'</div>'+
+      '<h4>'+esc(e.title)+'</h4><span class="tag cat">'+esc(e.cat)+'</span>'+dc+cf+
+      '<button class="copybtn" onclick="copyEntry(\''+esc(e.id)+'\')" title="Copiar esta entrada">📋</button></div>'+
       '<p>'+esc(e.body)+'</p>'+
       '<div class="ev"><b>Evidencia:</b> '+esc(e.evidence)+' &nbsp;·&nbsp; <b>Fuente:</b> '+esc(e.source)+' &nbsp;·&nbsp; '+esc(e.date)+'</div></div>';
   }).join('');
+}
+
+function copyEntry(id){
+  const e=(DATA.entries||[]).find(x=>x.id===id); if(!e) return;
+  const t=e.title+'\n\n'+e.body+'\n\nEvidencia: '+e.evidence+'\nFuente: '+e.source+' · '+e.date+' · '+e.confidence;
+  navigator.clipboard.writeText(t).then(()=>{
+    const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1400);
+  });
 }
 
 function copyPrompt(){

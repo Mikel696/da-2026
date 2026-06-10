@@ -160,23 +160,22 @@ Feature operativa para cuando el usuario pierde una clase. Hay **dos modos** par
 
 Módulo dedicado a su trabajo real como Reconciliations Analyst / Implementation Specialist en Simetrik (proyecto Ficohsa Honduras).
 
-### 11 pestañas en orden visual
-1. 🧭 Empieza Aquí (default) → iframe `pages/simetrik-learn.html` (guía didáctica + tour + curso 10 lecciones)
-2. 📘 Playbook Ficohsa → iframe `pages/simetrik-playbook.html` (doc canónico del usuario, 7 secciones)
-3. 📖 Diccionario (100+ términos seedeados, CRUD)
-4. 📝 Notas Workflow (editor rich-text personal)
-5. 🎓 Notas Curso (editor rich-text personal)
-6. 📓 Cuadernos (sub-módulo `WorkNB`, comparte engine con 10-SYS/13-NOT)
-7. 📋 Casos (CRUD de casos reales)
-8. 🐛 Errores (CRUD de errores recurrentes)
-9. 💡 Aprendizajes (CRUD de tips)
-10. 📚 KB (markdown libre)
-11. 🤖 Copilot (generador de prompts contextualizados)
+### 🧠 SIMETRIK KNOWLEDGE ENGINE (el cerebro — ÚNICA fuente de verdad)
+- **`frontend/data/simetrik-kb.json`**: base estructurada (~440 entradas `{id, cat, title, body, evidence, source, date, confidence, dcat?, detail?}`). cats: `regla | plataforma | funcion | gotcha | conciliacion | caso | glosario`.
+- **Las secciones SE ALIMENTAN del cerebro** (patrón: detail rico + fetch con fallback embebido): Diccionario (`seedDictFromBrain`, agrupa por `dcat`), Guía Simple (`GUIDE` desde `detail`), Simulador (tooltips desde `BRAIN_SIM`).
+- **Visor**: `pages/simetrik-kb.html` (pestaña 🧠 Simetrik KB) — buscador, filtros, evidencia por entrada, botón "Copiar Prompt de Ingesta".
+- **Ingesta**: cuaderno "Simetrik · Ingesta" (1 drop = 1 página: transcript+capturas+links) → `PROMPT_14-WORK_SIMETRIK-INGEST.md` → Claude lee solo páginas no en `meta.ingested_sources` → **GATE de validación obligatorio** (Coherente / Racional / Con evidencia / Confirmada→verificado vs duda→hipotesis SIN dcat/detail) → append + commit.
+- **PRINCIPIO**: ante cualquier tarea Simetrik, consultar el cerebro PRIMERO y actualizarlo con lo nuevo. Nada de info suelta.
+
+### Navegación: 3 desplegables (16 paneles)
+- **📚 Aprender**: Empieza Aquí · Simulador App · Playbook Ficohsa · Guía Simple · Tutor (`copilot`) · Notas Curso
+- **🧠 Trabajo & Conocimiento**: Simetrik KB · Prueba DOTA (`pages/simetrik-dota-test.html`) · Diccionario · Casos · Errores · Aprendizajes · Apuntes libres (`kb`)
+- **🗂️ Registro & Capturas**: MOIF · Cuadernos · Notas Workflow
 
 ### Storage keys (todos sincronizados vía SYNC_REGISTRY)
-`work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict`
+`work_cases, work_errors, work_learnings, work_kb, work_nb_meta, work_nb_data, work_eco_workflow, work_eco_course, work_eco_dict, work_moif_meetings`
 
-Locales (no sincronizan): `work_eco_dict_seed_v`, `work_learn_progress`.
+Locales (no sincronizan, por diseño): `work_eco_dict_seed_v`, `work_eco_dict_brain_v`, `work_learn_progress`, `work_ob_closed`.
 
 ### Diccionario · sistema de seed idempotente
 - `SEED_DICT` en `js/work.js` namespace `eco`. Cada entrada lleva `sid` único.
