@@ -446,7 +446,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas</div></div>
 
   <div class="box do"><div class="box-h">✅ Prerrequisitos (verificá antes de tocar barridas)</div>
-  <b>1)</b> <code>GTWC_AUTHORIZATION_CODE</code> con coalesce (Punto 2) — NO uses <code>PURCHASE_AUTHORIZATION_CODE</code> directo: pierde 225 conciliaciones del bloque CAPTURE. &nbsp;<b>2)</b> Columna <code>ABS_MONTO = ABS(MOV_AMOUNT)</code> en <code>Union_DOTA</code> (las reglas no aceptan fórmulas inline). &nbsp;<b>3)</b> <code>TIPO_COMERCIO</code> traída por BuscarV (Paso 8.1). &nbsp;<b>4)</b> Fechas casteadas a tipo Fecha.</div>
+  <b>1)</b> <code>GTWC_AUTHORIZATION_CODE</code> con coalesce (Punto 2) — NO uses <code>PURCHASE_AUTHORIZATION_CODE</code> directo: pierde 225 conciliaciones del bloque CAPTURE. <i>Ojo: el coalesce requiere que <code>Union_DOTA</code> tenga las 3 columnas de auth — si te falta alguna, NO recrees la unión: agregala desde el origen + "Ejecutar cambios" (ver 📋 del Paso 0b). Están en la fuente aunque no las veas en la unión.</i> &nbsp;<b>2)</b> Columna <code>ABS_MONTO = ABS(MOV_AMOUNT)</code> en <code>Union_DOTA</code> (las reglas no aceptan fórmulas inline). &nbsp;<b>3)</b> <code>TIPO_COMERCIO</code> traída por BuscarV (Paso 8.1). &nbsp;<b>4)</b> Fechas casteadas a tipo Fecha.</div>
 
   <h4>Crear la conciliación</h4>
   <ol>
