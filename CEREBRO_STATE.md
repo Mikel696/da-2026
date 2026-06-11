@@ -3305,3 +3305,19 @@ El cerebro `simetrik-kb.json` (435 entradas, v2026-06-05.7) es la única fuente 
 **Corregido/actualizado:** CLAUDE.md 14-WORK reescrito (cerebro + ingesta + gate + 3 desplegables) · hero y tarjeta 3-fases de work.html alineados a la arquitectura real · CSS muerto (.box.redo) eliminado de la guía DOTA · module-prompts.js 14-WORK actualizado · PROMPT_SIMETRIK-PURO con fuente canónica del cerebro · cache-bust en prompts.html.
 
 **Diseño KB viewer (power-up):** chips con contador por categoría · badge dcat en glosario · botón 📋 copiar entrada · contador de resultados · hover lift.
+
+---
+
+## 2026-06-11 · PLATAFORMA · Overhaul del motor de sync (post-mortem pérdida de datos)
+
+**Incidente:** trabajo del día en el PC laboral (transcripción + imágenes en cuaderno Ingesta) se perdió al sincronizar. Causa raíz triple: (1) LWW por key completa en _reconcileKey/realtime/forceResync — un device "gana todo" y pisa páginas no subidas del otro; (2) _commitNow re-sellaba page.updated sin cambios reales (abrir una página envenenaba el merge — la versión vieja ganó por 30s); (3) uploads de imágenes a Storage solo al pegar, sin retry (deslogueado → nunca suben); (4) cloud-sync.js sin cache-bust en 17 páginas → motores viejos cacheados en los devices.
+
+**Fix desplegado y VERIFICADO en producción (commit 0930338):**
+- **Merge estructural por página** para los 6 keys de cuadernos (work/not/sys × meta/data) en los 3 caminos del motor (_reconcileKey, handleRealtimeChange, forceResyncFromCloud). Por página gana `updated` más reciente; empate gana cloud; lo que existe en un solo lado SE CONSERVA. Si el merge aporta algo que la nube no tiene → push (converge sin loops). Ni siquiera el force pull pisa páginas.
+- **Guard anti-resellado** en _commitNow × 3 (work.js, notes-nb.js, systems_logic.js): sin cambios reales → no re-stamp.
+- **Cola de retry de uploads** (nb-shared.js, `nb_pending_uploads` local-only): si el upload a Storage falla (deslogueado/offline) se encola y reintenta en sb:signed_in y al cargar.
+- **Cache-bust global**: cloud-sync.js?v=p2 en las 19 páginas; nb-shared/notes-nb/systems_logic → p18; work.js → p26.
+
+Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERGE (cloud ya completo): work_nb_data` sin errores; realtime suscrito.
+
+**Recuperación pendiente del incidente:** imágenes de hoy en IndexedDB del PC laboral (script de export listo); transcripción la rehace el usuario (fuente disponible).
