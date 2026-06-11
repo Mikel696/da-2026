@@ -472,7 +472,7 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Next: verificación live post-deploy. Ingesta de sesiones V2.8 2/3 y 3/3 cuando lleguen.
 
 ### ID:14-WORK.P35 · 2026-06-11
-- Commit: (pending)
+- Commit: 8d9972e
 - Files: frontend/pages/simetrik-dota-test.html · frontend/data/simetrik-kb.json
 - Changed: GAP real reportado por el usuario: la guía mencionaba ABS_MONTO en P12 pero NUNCA tuvo paso formal de creación, y B3/P14 decían ABS(MOV_AMOUNT) en vez del nombre de columna. Fixes (v10): (a) NUEVO Paso 11b · ABS_MONTO — columna de transformación en Union_DOTA, salida Número, fórmula ABS(MOV_AMOUNT), con caja 🚨 explicando por qué MOV_AMOUNT directo rompe todo (con signo: B1/B2 cero cruces +700≠−700; B3/B4 los 296 REFUNDs no cruzan contra IMPORTE siempre positivo de FD) y que MOV_AMOUNT cruda se conserva para el saldo P13. (b) CHECKLIST MAESTRO DE COLUMNAS en Paso 0b: por unión, qué se SELECCIONA del origen (Union_DOTA 16 cols, FD 8+1, Parametria 2, Calendario 8) vs qué se CREA (transformaciones/BuscarV con paso y tipo). (c) Consistencia: B3 tabla, caja evidencia B3, prereq 2 de P12 y métrica del tablero P14 ahora referencian ABS_MONTO (Paso 11b). (d) Cerebro +1: gotcha-abs-monto (441 entradas, v2026-06-11.1).
 - Next: usuario crea ABS_MONTO y sigue con las barridas; B4 direccionalidad y B5 lote siguen abiertas.
