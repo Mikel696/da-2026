@@ -522,6 +522,17 @@ const CLOUD = (() => {
     return null;
   }
 
+  /** Escritura local con QUOTA-GUARD: una key que no entra NO aborta toda la sync.
+   *  Devuelve true si escribió. Emite cloud:quota_exceeded para que la UI avise. */
+  function _safeWrite(key, str) {
+    try { _origSetItem(key, str); return true; }
+    catch (e) {
+      console.error('[CLOUD] ✗ QUOTA al escribir', key, '(' + Math.round(str.length/1024) + 'KB) — sync continúa con las demás keys');
+      window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(str.length/1024) } }));
+      return false;
+    }
+  }
+
   /**
    * Reconcile a single localStorage key against the cloud map.
    * First-sync safe: local data uploads if cloud is empty.
@@ -539,14 +550,14 @@ const CLOUD = (() => {
       const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
       if (sm !== null) {
         const mergedStr = JSON.stringify(sm);
-        _origSetItem(key, mergedStr);
+        const wrote = _safeWrite(key, mergedStr);
         if (mergedStr !== JSON.stringify(cloud.payload)) {
           console.log('[CLOUD] reconcile MERGE→both:', key);
           await pushState(key, sm);
         } else {
           console.log('[CLOUD] reconcile MERGE (cloud ya completo):', key);
         }
-        _setLocalTs(key, Date.now());
+        if (wrote) _setLocalTs(key, Date.now());
         return;
       }
       // Resto — compare timestamps (LWW por key)
@@ -556,8 +567,7 @@ const CLOUD = (() => {
       if (force || cloudTs > localTs) {
         // Cloud wins → overwrite local
         console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
-        _origSetItem(key, JSON.stringify(cloud.payload));
-        _setLocalTs(key, cloudTs || Date.now());
+        if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, cloudTs || Date.now());
       } else {
         // Local is newer → push to cloud
         console.log('[CLOUD] reconcile local→cloud:', key);
@@ -565,8 +575,7 @@ const CLOUD = (() => {
       }
     } else if (cloudExists && !localExists) {
       console.log('[CLOUD] reconcile cloud→local (new):', key);
-      _origSetItem(key, JSON.stringify(cloud.payload));
-      _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+      if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
     } else if (!cloudExists && localExists) {
       console.log('[CLOUD] reconcile local→cloud (first):', key);
       await pushState(key, _safeParse(localRaw));
@@ -625,8 +634,7 @@ const CLOUD = (() => {
         if (!isSyncable) continue;
         // Cuadernos: ni siquiera el force pisa páginas locales — merge estructural
         const smF = _structuralMerge(key, _safeParse(localStorage.getItem(key)), cloud.payload);
-        _origSetItem(key, JSON.stringify(smF !== null ? smF : cloud.payload));
-        _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        if (_safeWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload))) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
         keys.push(key);
         applied++;
       }
@@ -904,8 +912,7 @@ const CLOUD = (() => {
     const smRt = _structuralMerge(key, _safeParse(localStorage.getItem(key)), payloadVal);
     if (smRt !== null) {
       const mergedStr = JSON.stringify(smRt);
-      _origSetItem(key, mergedStr);
-      _setLocalTs(key, cloudTs);
+      if (_safeWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
       // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop: payload idéntico → no difiere más)
       if (mergedStr !== JSON.stringify(payloadVal)) { pushNow(key).catch(()=>{}); }
       window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
@@ -917,13 +924,30 @@ const CLOUD = (() => {
       console.log('[CLOUD] realtime: local newer for', key, '— ignoring cloud event');
       return;
     }
-    _origSetItem(key, JSON.stringify(payloadVal));
-    _setLocalTs(key, cloudTs);
+    if (_safeWrite(key, JSON.stringify(payloadVal))) _setLocalTs(key, cloudTs);
     window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
   }
   function teardownRealtime(){
     if (_rtChannel) { try { SB.removeChannel(_rtChannel); } catch{} _rtChannel = null; }
   }
+
+  /* ── Polling de respaldo (patrón resiliencia family-system) ──────
+     Si realtime no entrega eventos (ej. publicación no habilitada en
+     la tabla), los cuadernos igual bajan solos: 1 query liviana cada
+     60s, solo con pestaña visible y sin sync en curso. ── */
+  setInterval(async () => {
+    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    try {
+      const keys = [...NB_DATA_KEYS, ...NB_META_KEYS];
+      const { data, error } = await SB.from('app_state')
+        .select('store_key, payload, updated_at')
+        .eq('user_id', _uid())
+        .in('store_key', keys);
+      if (error || !data) return;
+      const map = new Map(data.map(r => [r.store_key, { payload: r.payload, updated_at: r.updated_at }]));
+      for (const key of keys) { if (map.has(key)) await _reconcileKey(key, map); }
+    } catch (e) { /* silencioso — reintenta en el próximo tick */ }
+  }, 60000);
 
   window.addEventListener('sb:signed_out', () => {
     console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');

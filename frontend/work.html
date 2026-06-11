@@ -65,6 +65,7 @@
     function upd(n){ if(!b)return; if(n>0){ b.style.display='inline-block'; b.textContent='⏳ '+n+' cambio'+(n===1?'':'s')+' en cola'; } else { b.style.display='none'; } }
     window.addEventListener('cloud:outbox_change',e=>upd((e.detail&&e.detail.count)||0));
     window.addEventListener('cloud:session_expired',()=>{ if(b){ b.style.display='inline-block'; b.style.borderColor='#ef4444'; b.style.color='#ef4444'; b.style.background='rgba(239,68,68,.12)'; b.textContent='🔒 Sesión vencida — iniciá sesión para subir los cambios en cola'; } });
+    window.addEventListener('cloud:quota_exceeded',e=>{ if(b){ b.style.display='inline-block'; b.style.borderColor='#ef4444'; b.style.color='#ef4444'; b.style.background='rgba(239,68,68,.12)'; b.textContent='💾 Espacio local lleno ('+((e.detail&&e.detail.key)||'')+') — la sync sigue pero esa sección no bajó'; } });
     try{ upd(JSON.parse(localStorage.getItem('cloud_outbox')||'[]').length); }catch(e){}
   })();
   </script>
@@ -724,7 +725,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/cloud-sync.js?v=p3"></script>
+<script src="js/cloud-sync.js?v=p4"></script>
 <!-- 14-WORK + shared notebook engine -->
 <script src="js/nb-shared.js?v=p18"></script>
 <script src="js/nb-engine.js"></script>
