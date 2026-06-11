@@ -102,7 +102,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
 <body>
 <div class="da-strip">
   <a href="../work.html">← Ecosistema Simetrik</a>
-  <span class="mod">14-WORK · DOTA · Guía paso a paso · v9</span>
+  <span class="mod">14-WORK · DOTA · Guía paso a paso · v10</span>
 </div>
 <script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
 
@@ -207,11 +207,19 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><td><code>MOV_CREATED_DATE</code></td><td><span class="dtype dtype-fecha">Fecha</span> · visualización <code>YYYY-MM-DD</code></td><td>Dar formato → tipo <b>Fecha</b> (no "Fecha y hora") → identificá el formato original (ISO con T) → formato de visualización <code>2016-11-24</code>. Verificá que la vista previa NO quede vacía.</td></tr>
   </table>
   <div class="box warn"><div class="box-h">⚠ Importante</div>Hacé esto <b>antes</b> de crear cualquier fórmula. Si después necesitás editar una columna ya casteada, Simetrik pide volver al formato original primero (best practice #5) — y si quedó mal mapeada, se bloquea (🚫) y hay que rehacer la unión.</div>
-  <div class="box do"><div class="box-h">📋 Columnas de origen que <code>Union_DOTA</code> necesita (para los coalesce de P2/P3)</div>Los Puntos 2 y 3 hacen coalesce de los 3 bloques, así que la unión debe incluir <b>las 3 de auth y las 3 de acquirer</b>:<br>
-  • Auth: <code>PURCHASE_AUTHORIZATION_CODE</code>, <code>CAPTURE_AUTHORIZATION_CODE</code>, <code>AUTH_AUTHORIZATION_CODE</code><br>
-  • Acquirer: <code>PURCHASE_ACQUIRER</code>, <code>CAPTURE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code><br>
-  + las 3 de merchant (P5): <code>PURCHASE/CAPTURE/AUTH_MERCHANT_NUMBER</code>.<br><br>
-  <b>¿Te falta alguna en la unión?</b> NO recrees la unión: abrí <code>Union_DOTA</code> → <b>agregá la columna</b> desde el origen → <b>"Ejecutar cambios"</b>. La columna existe en la fuente (solo no estaba seleccionada). Verificá que se llene; si queda vacía, re-ejecutá la unión.</div>
+  <div class="box do"><div class="box-h">📋 CHECKLIST MAESTRO DE COLUMNAS · qué se SELECCIONA del origen vs qué se CREA</div>
+  <b>🔵 Union_DOTA — 16 columnas a SELECCIONAR del origen:</b><br>
+  • Tarjeta (P1): <code>CARD_SIX_FIRST_DIGITS</code>, <code>CARD_FOUR_LAST_DIGITS</code><br>
+  • Auth (P2): <code>PURCHASE_AUTHORIZATION_CODE</code>, <code>CAPTURE_AUTHORIZATION_CODE</code>, <code>AUTH_AUTHORIZATION_CODE</code><br>
+  • Acquirer (P2/P3): <code>PURCHASE_ACQUIRER</code>, <code>CAPTURE_ACQUIRER</code>, <code>AUTH_ACQUIRER</code><br>
+  • Merchant (P5): <code>PURCHASE_MERCHANT_NUMBER</code>, <code>CAPTURE_MERCHANT_NUMBER</code>, <code>AUTH_MERCHANT_NUMBER</code><br>
+  • Resto: <code>PAY_METHOD</code> (P4) · <code>MOV_CREATED_DATE</code> (P6 + fecha de B3/B4) · <code>MOV_AMOUNT</code> (insumo de ABS_MONTO + saldo P13) · <code>MOV_OPERATION</code> (grupos compensables + saldo)<br><br>
+  <b>🔵 Union_DOTA — columnas a CREAR (transformación / BuscarV):</b><br>
+  <code>CARD_NUMBER</code> (P1·Texto) · <code>GTWC_AUTHORIZATION_CODE</code> (P2·Texto) · <code>GTWT_ACQUIRER</code> (P3·Texto) · <code>BRAND</code> (P4·Texto) · <code>GTWT_MERCHANT_NUMBER</code> (P5·Texto) · <code>MOV_CREATION_DATE</code> (P6·Fecha) · <code>N_DIA_BASE</code> + <code>N_TARGET</code> + <code>EXPECTED_PAYMENT_DATE</code> (P7) · <code>TIPO_COMERCIO</code> (P8.1·BuscarV) · <b><code>ABS_MONTO</code> (P11b·Número — llave de monto de TODAS las barridas)</b> · <code>DIAS_A_SUMAR</code>/<code>FECHA_INICIO</code>/<code>FECHA_FINAL</code> (P12b)<br><br>
+  <b>🟢 Union_FD — SELECCIONAR:</b> <code>FPRES</code>, <code>LOTE</code>, <code>NUM_TAR</code>, <code>FORIG_COMPRA</code>, <code>IMPORTE</code>, <code>SIGNO</code>, <code>NUM_AUT</code>, <code>NUM_EST</code> (+ <code>NUM_COM</code> opcional). <b>CREAR:</b> <code>LIQ_6_TARJETA</code> (P9), <code>LIQ_4_TARJETA</code> (P10), <code>DEADLINE</code> (P11).<br>
+  <b>🟣 Union_Parametria — SELECCIONAR:</b> <code>COMERCIO</code>, <code>TIPO_COMERCIO</code>. Nada que crear.<br>
+  <b>🟠 Union_Calendario — SELECCIONAR:</b> <code>PAIS</code>, <code>FECHA</code>, <code>CONCEPTO</code>, <code>CLASIFICATION</code>, <code>ID_SUM</code>, <code>ID_FINAL</code>, <code>DAY</code>, <code>YEAR</code>. Nada que crear.<br><br>
+  <b>¿Te faltó seleccionar alguna?</b> NO recrees la unión: abrila → agregá la columna desde el origen → <b>"Ejecutar cambios"</b>. La columna existe en la fuente (solo no estaba seleccionada). Verificá que se llene; si queda vacía, re-ejecutá la unión.</div>
 </div>
 
 <!-- ════════ NORMALIZACIÓN DOTA ════════ -->
@@ -437,6 +445,18 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="box warn"><div class="box-h">⚠ Misma función que el Paso 6</div>Usá <code>ADICIONAR_FECHA_TIEMPO</code> (calendario), NO <code>ADICIONAR_DIAS_SEMANA</code>.</div>
 </div>
 
+<div class="step">
+  <div class="step-head"><div class="step-num">11b</div><div class="step-title">ABS_MONTO <span class="out">salida: Número · en Union_DOTA</span></div></div>
+  <p>La llave de monto de <b>TODAS las barridas</b> del Paso 12. Es una columna de transformación en <code>Union_DOTA</code> (no viene de la fuente — hay que crearla):</p>
+  <pre class="formula"><span class="fn">ABS</span>(<span class="col">MOV_AMOUNT</span>)</pre>
+  <ol>
+    <li>Abrí <code>Union_DOTA</code> → "Crear columna" → <b>"Columna de transformación"</b>.</li>
+    <li>Nombre: <code>ABS_MONTO</code> · Tipo de salida: <b>Número</b> (decimal — los montos tienen centavos, NO Entero).</li>
+    <li>Fórmula: <code>ABS(MOV_AMOUNT)</code> → Validar → Guardar. Recién entonces aparece en el selector de las reglas de barrida.</li>
+  </ol>
+  <div class="box warn"><div class="box-h">🚨 NO uses MOV_AMOUNT directo en las barridas</div><code>MOV_AMOUNT</code> viene <b>con signo</b> (verificado en las 56.777 filas: PAYMENT siempre positivo, REFUND siempre negativo). Si la usás directo: en <b>B1/B2</b> la compensación daría <b>CERO cruces</b> (un PAYMENT de +700 nunca "es igual" a un REFUND de −700 — por eso la guía oficial pide "monto en <b>valor absoluto</b>"); en <b>B3/B4</b> los 296 REFUNDs no cruzarían contra FD (el <code>IMPORTE</code> de FD es siempre positivo, su signo va aparte en <code>SIGNO</code>).<br><br><b>Ojo:</b> <code>MOV_AMOUNT</code> cruda igual la necesitás — con su signo — para el <b>saldo del Paso 13</b>. Las dos columnas conviven.</div>
+</div>
+
 <!-- ════════ CONCILIACIÓN ════════ -->
 <div class="phase">🔶 Conciliación Avanzada DOTA × FD · Paso 12</div>
 
@@ -444,7 +464,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <div class="step-head"><div class="step-num">12</div><div class="step-title">Crear la conciliación avanzada con 5 barridas</div></div>
 
   <div class="box do"><div class="box-h">✅ Prerrequisitos (verificá antes de tocar barridas)</div>
-  <b>1)</b> <code>GTWC_AUTHORIZATION_CODE</code> con coalesce (Punto 2) — NO uses <code>PURCHASE_AUTHORIZATION_CODE</code> directo: pierde 225 conciliaciones del bloque CAPTURE. <i>Ojo: el coalesce requiere que <code>Union_DOTA</code> tenga las 3 columnas de auth — si te falta alguna, NO recrees la unión: agregala desde el origen + "Ejecutar cambios" (ver 📋 del Paso 0b). Están en la fuente aunque no las veas en la unión.</i> &nbsp;<b>2)</b> Columna <code>ABS_MONTO = ABS(MOV_AMOUNT)</code> en <code>Union_DOTA</code> (las reglas no aceptan fórmulas inline). &nbsp;<b>3)</b> <code>TIPO_COMERCIO</code> traída por BuscarV (Paso 8.1). &nbsp;<b>4)</b> Fechas casteadas a tipo Fecha.</div>
+  <b>1)</b> <code>GTWC_AUTHORIZATION_CODE</code> con coalesce (Punto 2) — NO uses <code>PURCHASE_AUTHORIZATION_CODE</code> directo: pierde 225 conciliaciones del bloque CAPTURE. <i>Ojo: el coalesce requiere que <code>Union_DOTA</code> tenga las 3 columnas de auth — si te falta alguna, NO recrees la unión: agregala desde el origen + "Ejecutar cambios" (ver 📋 del Paso 0b). Están en la fuente aunque no las veas en la unión.</i> &nbsp;<b>2)</b> Columna <code>ABS_MONTO</code> creada en <code>Union_DOTA</code> (<b>Paso 11b</b> — las reglas no aceptan fórmulas inline, la columna debe existir). &nbsp;<b>3)</b> <code>TIPO_COMERCIO</code> traída por BuscarV (Paso 8.1). &nbsp;<b>4)</b> Fechas casteadas a tipo Fecha.</div>
 
   <h4>Crear la conciliación</h4>
   <ol>
@@ -488,7 +508,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
     <tr><th>Llave (documento)</th><th>DOTA (Lado A)</th><th>FD (Lado B)</th></tr>
     <tr><td>Código de autorización</td><td><code>GTWC_AUTHORIZATION_CODE</code></td><td><code>NUM_AUT</code></td></tr>
     <tr><td>Comercio</td><td><code>GTWT_MERCHANT_NUMBER</code></td><td><code>NUM_EST</code> ✅</td></tr>
-    <tr><td>Importe</td><td><code>ABS(MOV_AMOUNT)</code></td><td><code>IMPORTE</code></td></tr>
+    <tr><td>Importe</td><td><code>ABS_MONTO</code> (Paso 11b)</td><td><code>IMPORTE</code></td></tr>
     <tr><td>Fecha de creación</td><td><code>MOV_CREATED_DATE</code> (crudo, no el +1)</td><td><code>FORIG_COMPRA</code> ✅</td></tr>
     <tr><td>PAN</td><td><code>CARD_NUMBER</code></td><td><code>NUM_TAR</code></td></tr>
   </table>
@@ -496,7 +516,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
   • <b>Comercio → <code>NUM_EST</code></b>: 37 coincidencias contra <code>NUM_EST</code>, <b>0</b> contra <code>NUM_COM</code>. Sin ambigüedad.<br>
   • <b>Fecha → <code>FORIG_COMPRA</code></b>: <b>0</b> contra <code>FPRES</code> (esa es fecha de proceso, año 2021 — otro período).<br>
   • <b>Ojo con el lado DOTA de la fecha:</b> los datos muestran que <code>FORIG_COMPRA</code> = <code>MOV_CREATED_DATE</code> (19 casos) ó <code>MOV_CREATED_DATE + 1</code> (33 casos). Por eso la llave de fecha usa el <b><code>MOV_CREATED_DATE</code> crudo</b> (no el <code>MOV_CREATION_DATE</code> +1): así la Barrida 3 exacta toma los iguales y la Barrida 4 (+1 día, FD un día después) toma el resto — en el sentido correcto. Si usaras el +1, 19 pares quedarían fuera del rango de tolerancia.<br>
-  PAN: <code>CARD_NUMBER</code> = <code>NUM_TAR</code> (mismo formato enmascarado). Importe: <code>IMPORTE</code> es positivo (el signo va en <code>SIGNO</code> aparte) → cruza con <code>ABS(MOV_AMOUNT)</code>.</div>
+  PAN: <code>CARD_NUMBER</code> = <code>NUM_TAR</code> (mismo formato enmascarado). Importe: <code>IMPORTE</code> es positivo (el signo va en <code>SIGNO</code> aparte) → cruza con <code>ABS_MONTO</code> (la columna del Paso 11b).</div>
 
   <h4>Barrida 4 · DOTA vs FD con tolerancia de +1 día</h4>
   <p>Tipo: <b>Conciliación</b>. Mismas 5 llaves que B3, con un cambio en la regla de <b>fecha</b>:</p>
@@ -573,7 +593,7 @@ td{color:var(--t2)}td b{color:var(--tx)}
   <p>Reportá, para cada barrida, el <b>monto conciliable</b> y el <b>número de partidas conciliadas</b>. Usá como fecha y valores las columnas que son llave de cruce en el Paso 12.</p>
   <ul>
     <li>Visual tipo <b>Tabla</b> · dimensión: la columna de barrida del resultado</li>
-    <li>Métricas: <code>CONTAR(id)</code> y <code>SUMA(ABS(MOV_AMOUNT))</code> por barrida</li>
+    <li>Métricas: <code>CONTAR(id)</code> y <code>SUMA(ABS_MONTO)</code> por barrida (la columna del Paso 11b)</li>
     <li>Opcional: agregá un gráfico de barras con lo mismo</li>
   </ul>
 </div>

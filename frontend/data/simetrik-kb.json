@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Simetrik Knowledge Engine",
-    "version": "2026-06-09.1",
-    "last_updated": "2026-06-09",
+    "version": "2026-06-11.1",
+    "last_updated": "2026-06-11",
     "ingested_sources": [
       "1781019060658"
     ],
@@ -6387,6 +6387,16 @@
       "source": "Reunión \"Inside the V 2.8 · Session 1/3\" · 2026-06-09",
       "date": "2026-06-09",
       "confidence": "hipotesis"
+    },
+    {
+      "id": "gotcha-abs-monto",
+      "cat": "gotcha",
+      "title": "ABS_MONTO no es MOV_AMOUNT: la llave de monto se CREA (valor absoluto)",
+      "body": "MOV_AMOUNT viene con signo (PAYMENT positivo, REFUND negativo). Para las barridas hay que CREAR la columna de transformación ABS_MONTO = ABS(MOV_AMOUNT) (salida Número) en la unión. Con MOV_AMOUNT directo: la compensación da CERO cruces (+700 nunca = −700) y los REFUNDs no cruzan contra FD (IMPORTE de FD siempre positivo, signo aparte en SIGNO). MOV_AMOUNT cruda se conserva con su signo para el saldo acumulado.",
+      "evidence": "Verificado en DB_DOTA_v3 (56.777 filas): PAYMENT 56.481 todos positivos, REFUND 296 todos negativos. FD: IMPORTE positivo + columna SIGNO. Confusión real del usuario en el Paso 12 (2026-06-11).",
+      "source": "análisis de datos + sesión 2026-06-11",
+      "date": "2026-06-11",
+      "confidence": "verificado"
     }
   ]
 }
