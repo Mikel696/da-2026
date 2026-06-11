@@ -57,7 +57,17 @@
       </div>
     </details>
     <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a pestaña &gt;30s · realtime activo</span>
+    <span id="syncOutboxBadge" style="display:none;font-size:10.5px;font-family:'IBM Plex Mono',monospace;background:rgba(234,179,8,.15);border:1px solid #eab308;color:#eab308;border-radius:6px;padding:2px 8px"></span>
   </div>
+  <script>
+  (function(){
+    const b=document.getElementById('syncOutboxBadge');
+    function upd(n){ if(!b)return; if(n>0){ b.style.display='inline-block'; b.textContent='⏳ '+n+' cambio'+(n===1?'':'s')+' en cola'; } else { b.style.display='none'; } }
+    window.addEventListener('cloud:outbox_change',e=>upd((e.detail&&e.detail.count)||0));
+    window.addEventListener('cloud:session_expired',()=>{ if(b){ b.style.display='inline-block'; b.style.borderColor='#ef4444'; b.style.color='#ef4444'; b.style.background='rgba(239,68,68,.12)'; b.textContent='🔒 Sesión vencida — iniciá sesión para subir los cambios en cola'; } });
+    try{ upd(JSON.parse(localStorage.getItem('cloud_outbox')||'[]').length); }catch(e){}
+  })();
+  </script>
 
   <!-- Guía de uso rápida — se cierra y queda cerrada -->
   <div id="onboardBanner" style="background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(167,139,250,.10));border:1px solid rgba(6,182,212,.3);border-radius:12px;padding:14px 18px;margin-bottom:14px;font-size:13px;line-height:1.7">
@@ -714,7 +724,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/cloud-sync.js?v=p2"></script>
+<script src="js/cloud-sync.js?v=p3"></script>
 <!-- 14-WORK + shared notebook engine -->
 <script src="js/nb-shared.js?v=p18"></script>
 <script src="js/nb-engine.js"></script>

@@ -360,6 +360,7 @@ const CLOUD = (() => {
 
   async function pushState(storeKey, payload) {
     if (!_ready()) {
+      _outboxAdd(storeKey);
       _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
       _scheduleFlush();
       return;
@@ -367,8 +368,24 @@ const CLOUD = (() => {
     try {
       await _pushStateRaw(storeKey, payload);
       console.log('[CLOUD] pushState OK:', storeKey);
+      _outboxRemove(storeKey);
     } catch (e) {
       console.error('[CLOUD] pushState error:', storeKey, e);
+      // Sesión vencida → auto-refresh (patrón family-system) y un reintento
+      const msg = String(e && (e.message || e));
+      if (/jwt|expired|401|invalid.*token|not.*auth/i.test(msg)) {
+        try {
+          await SB.auth.refreshSession();
+          await _pushStateRaw(storeKey, payload);
+          console.log('[CLOUD] pushState OK tras refresh de sesión:', storeKey);
+          _outboxRemove(storeKey);
+          return;
+        } catch (e2) {
+          console.warn('[CLOUD] sesión irrecuperable — cambios quedan en outbox');
+          window.dispatchEvent(new CustomEvent('cloud:session_expired'));
+        }
+      }
+      _outboxAdd(storeKey);
       _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
       _scheduleFlush();
     }
@@ -684,23 +701,51 @@ const CLOUD = (() => {
 
   /* ══════════════════════════════════════════════════════════════
      localStorage.setItem Proxy — Automatic write-through
+     + OUTBOX persistente (patrón family-system): todo cambio real
+       queda en cola en disco hasta confirmar push — sobrevive
+       logout, refresh y crash. Nada se queda sin subir.
   ══════════════════════════════════════════════════════════════ */
 
   const _origSetItem = localStorage.setItem.bind(localStorage);
+
+  const _OUTBOX_KEY = 'cloud_outbox';
+  function _outboxGet(){ try { return JSON.parse(localStorage.getItem(_OUTBOX_KEY)||'[]'); } catch { return []; } }
+  function _outboxSet(a){ _origSetItem(_OUTBOX_KEY, JSON.stringify(a)); window.dispatchEvent(new CustomEvent('cloud:outbox_change',{detail:{count:a.length}})); }
+  function _outboxAdd(key){ const a=_outboxGet(); if(a.indexOf(key)===-1){ a.push(key); _outboxSet(a); } }
+  function _outboxRemove(key){ const a=_outboxGet(); const i=a.indexOf(key); if(i>=0){ a.splice(i,1); _outboxSet(a); } }
+  async function _flushOutbox(){
+    if (!_ready()) return;
+    const keys=_outboxGet(); if(!keys.length) return;
+    console.log('[CLOUD] outbox flush:', keys.length, 'keys', keys);
+    for(const key of keys.slice()){
+      const raw=localStorage.getItem(key);
+      if(raw===null){ _outboxRemove(key); continue; }
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
+      catch(e){ console.warn('[CLOUD] outbox push failed', key, e); }
+    }
+  }
 
   // Debounce map: key → timeoutId (avoid flooding Supabase on rapid writes)
   const _debounceMap = new Map();
   const _DEBOUNCE_MS = 1500;
 
   localStorage.setItem = function(key, value) {
+    const prev = localStorage.getItem(key);
     // Always write to actual localStorage immediately
     _origSetItem(key, value);
 
     // Skip non-syncable keys and our own metadata key
-    if (key === _TS_META_KEY) return;
+    if (key === _TS_META_KEY || key === _OUTBOX_KEY) return;
     if (!_shouldSync(key)) return;
 
-    // CRITICAL: Do NOT stamp timestamps or push while initial sync is running.
+    // No-op write (mismo contenido) → no stamp, no push. Mata el timestamp
+    // poisoning de los re-saves de arranque en TODOS los módulos.
+    if (prev === value) return;
+
+    // Cambio REAL → a la outbox persistente SIEMPRE (aún deslogueado/hidratando)
+    _outboxAdd(key);
+
+    // Durante hidratación inicial no stampeamos TS (el motor está escribiendo)
     if (_syncing || !_initialSyncDone) return;
 
     // Update local timestamp
@@ -804,7 +849,7 @@ const CLOUD = (() => {
 
   window.addEventListener('sb:signed_in', () => {
     console.log('[CLOUD] sb:signed_in received — starting fullSyncAll + realtime');
-    setTimeout(() => { fullSyncAll(); setupRealtime(); }, 300);
+    setTimeout(() => { fullSyncAll().then(()=>_flushOutbox()).catch(()=>{}); setupRealtime(); }, 300);
   });
 
   /* ═══════════════════════════════════════════════════════════════
@@ -923,6 +968,8 @@ const CLOUD = (() => {
     forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics,
     // Immediate push / realtime
     pushNow, setupRealtime, teardownRealtime,
+    // Outbox persistente (cambios pendientes de subir)
+    flushOutbox: _flushOutbox, outboxCount: () => _outboxGet().length,
     // Utilities
     SYNC_REGISTRY, DYNAMIC_PREFIXES
   };
