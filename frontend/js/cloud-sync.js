@@ -462,6 +462,49 @@ const CLOUD = (() => {
     }
   }
 
+  /* ── STRUCTURAL MERGE para cuadernos (nested data) ─────────────
+   * Los cuadernos son objetos anidados {nbId:{pages:[...]}}: el LWW
+   * por key completa pierde páginas cuando dos devices divergen.
+   * Acá se mergea por página (gana p.updated más reciente; lo que
+   * existe en un solo lado se conserva). Empate → gana cloud.      */
+  const NB_DATA_KEYS = new Set(['work_nb_data', 'not_nb_data', 'sys_notebook']);
+  const NB_META_KEYS = new Set(['work_nb_meta', 'not_nb_meta', 'sys_notebook_meta']);
+
+  function _mergeNbData(local, cloud) {
+    const out = {};
+    const ids = new Set([...Object.keys(local || {}), ...Object.keys(cloud || {})]);
+    ids.forEach(id => {
+      const l = (local || {})[id], c = (cloud || {})[id];
+      if (!l) { out[id] = c; return; }
+      if (!c) { out[id] = l; return; }
+      const byPage = {};
+      [...(c.pages || []), ...(l.pages || [])].forEach(p => {
+        if (!p || p.id == null) return;
+        const prev = byPage[p.id];
+        if (!prev || String(p.updated || '') > String(prev.updated || '')) byPage[p.id] = p;
+      });
+      out[id] = { ...c, ...l, pages: Object.values(byPage).sort((a, b) => String(a.created || '').localeCompare(String(b.created || ''))) };
+    });
+    return out;
+  }
+  function _mergeNbMeta(local, cloud) {
+    const by = {}; const ts = x => String((x && (x.updated || x.created)) || '');
+    [...(cloud || []), ...(local || [])].forEach(m => {
+      if (!m || m.id == null) return;
+      const p = by[m.id];
+      if (!p || ts(m) > ts(p)) by[m.id] = m;
+    });
+    return Object.values(by);
+  }
+  /** Devuelve el merge estructural si la key es de cuadernos; null si no aplica. */
+  function _structuralMerge(key, localVal, cloudVal) {
+    try {
+      if (NB_DATA_KEYS.has(key)) return _mergeNbData(localVal, cloudVal);
+      if (NB_META_KEYS.has(key)) return _mergeNbMeta(localVal, cloudVal);
+    } catch (e) { console.warn('[CLOUD] structuralMerge failed for', key, e); }
+    return null;
+  }
+
   /**
    * Reconcile a single localStorage key against the cloud map.
    * First-sync safe: local data uploads if cloud is empty.
@@ -475,7 +518,21 @@ const CLOUD = (() => {
     const cloudExists = cloud !== null;
 
     if (cloudExists && localExists) {
-      // Both exist — compare timestamps
+      // Cuadernos → merge estructural por página (nunca pisa un lado entero)
+      const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
+      if (sm !== null) {
+        const mergedStr = JSON.stringify(sm);
+        _origSetItem(key, mergedStr);
+        if (mergedStr !== JSON.stringify(cloud.payload)) {
+          console.log('[CLOUD] reconcile MERGE→both:', key);
+          await pushState(key, sm);
+        } else {
+          console.log('[CLOUD] reconcile MERGE (cloud ya completo):', key);
+        }
+        _setLocalTs(key, Date.now());
+        return;
+      }
+      // Resto — compare timestamps (LWW por key)
       const localTs = _getLocalTs(key);
       const cloudTs = new Date(cloud.updated_at || 0).getTime();
 
@@ -549,7 +606,9 @@ const CLOUD = (() => {
         if (SKIP_KEYS.has(key)) continue;
         const isSyncable = _registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p));
         if (!isSyncable) continue;
-        _origSetItem(key, JSON.stringify(cloud.payload));
+        // Cuadernos: ni siquiera el force pisa páginas locales — merge estructural
+        const smF = _structuralMerge(key, _safeParse(localStorage.getItem(key)), cloud.payload);
+        _origSetItem(key, JSON.stringify(smF !== null ? smF : cloud.payload));
         _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
         keys.push(key);
         applied++;
@@ -796,6 +855,17 @@ const CLOUD = (() => {
     // INSERT or UPDATE → write new payload to local, stamp TS
     const payloadVal = row.payload;
     const cloudTs = new Date(row.updated_at || 0).getTime();
+    // Cuadernos → merge estructural: lo remoto entra SIEMPRE, sin pisar páginas locales
+    const smRt = _structuralMerge(key, _safeParse(localStorage.getItem(key)), payloadVal);
+    if (smRt !== null) {
+      const mergedStr = JSON.stringify(smRt);
+      _origSetItem(key, mergedStr);
+      _setLocalTs(key, cloudTs);
+      // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop: payload idéntico → no difiere más)
+      if (mergedStr !== JSON.stringify(payloadVal)) { pushNow(key).catch(()=>{}); }
+      window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
+      return;
+    }
     // Only overwrite if cloud TS is newer than local TS (avoid clobbering local writes that haven't pushed yet)
     const localTs = _getLocalTs(key);
     if (cloudTs <= localTs) {

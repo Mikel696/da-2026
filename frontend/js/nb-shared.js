@@ -120,9 +120,9 @@
     } catch { return null; }
   }
   async function cloudUploadAttachment(id, blob){
-    if (!window.SB) return { ok:false, reason:'sb-not-loaded' };
+    if (!window.SB) { _queuePendingUpload(id); return { ok:false, reason:'sb-not-loaded' }; }
     const uid = await _currentUserId();
-    if (!uid) return { ok:false, reason:'not-authenticated' };
+    if (!uid) { _queuePendingUpload(id); return { ok:false, reason:'not-authenticated' }; }
     const path = uid + '/' + id;
     try {
       const { error } = await window.SB.storage.from(BUCKET).upload(path, blob, {
@@ -131,14 +131,43 @@
       });
       if (error) {
         console.warn('[NBShared] cloud upload failed:', error.message || error);
+        _queuePendingUpload(id);
         return { ok:false, reason:'upload-failed', error };
       }
+      _unqueuePendingUpload(id);
       return { ok:true, path };
     } catch (e) {
       console.warn('[NBShared] cloud upload exception:', e);
+      _queuePendingUpload(id);
       return { ok:false, reason:'exception', error:e };
     }
   }
+
+  /* ── Retry queue: uploads que fallaron (ej. device deslogueado al pegar la imagen).
+     Local-only por diseño (los blobs viven en el IDB de ESTE device).
+     Al loguearse (o al cargar con sesión activa) se reintentan solos. */
+  const PENDING_UP_KEY = 'nb_pending_uploads';
+  function _pendingUps(){ try { return JSON.parse(localStorage.getItem(PENDING_UP_KEY)||'[]'); } catch { return []; } }
+  function _setPendingUps(a){ try { localStorage.setItem(PENDING_UP_KEY, JSON.stringify(a)); } catch {} }
+  function _queuePendingUpload(id){ const a=_pendingUps(); if(a.indexOf(id)===-1){ a.push(id); _setPendingUps(a); } }
+  function _unqueuePendingUpload(id){ const a=_pendingUps(); const i=a.indexOf(id); if(i>=0){ a.splice(i,1); _setPendingUps(a); } }
+  async function retryPendingUploads(){
+    const a=_pendingUps(); if(!a.length) return;
+    const uid = await _currentUserId(); if(!uid) return;
+    console.log('[NBShared] reintentando uploads pendientes:', a.length);
+    let ok=0;
+    for(const id of a.slice()){
+      try{
+        const rec=await getBlob(id);
+        if(!rec || !rec.blob){ _unqueuePendingUpload(id); continue; }
+        const r=await cloudUploadAttachment(id, rec.blob);
+        if(r.ok) ok++;
+      }catch(e){ /* queda en cola para el próximo intento */ }
+    }
+    if(ok) console.log('[NBShared] ✓ uploads recuperados:', ok);
+  }
+  window.addEventListener('sb:signed_in', () => setTimeout(retryPendingUploads, 4000));
+  setTimeout(retryPendingUploads, 8000);
   async function cloudDownloadAttachment(id){
     if (!window.SB) return null;
     const uid = await _currentUserId();

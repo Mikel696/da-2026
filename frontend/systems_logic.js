@@ -2661,8 +2661,12 @@ const NB = (function() {
     if (!page) return;
     const tIn = document.getElementById('nbTitle-' + sid);
     const bIn = document.getElementById('nbBody-' + sid);
-    if (tIn) page.title = tIn.value;
-    if (bIn) page.body = bIn.innerHTML;
+    const newTitle = tIn ? tIn.value : page.title;
+    const newBody  = bIn ? bIn.innerHTML : page.body;
+    // Sin cambios reales → NO re-sellar updated (evita envenenar el merge cross-device)
+    if (newTitle === page.title && newBody === page.body) return;
+    page.title = newTitle;
+    page.body  = newBody;
     page.updated = new Date().toISOString();
     save(d);
     const badge = document.getElementById('nbSaved-' + sid);
