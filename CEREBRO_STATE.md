@@ -3330,12 +3330,16 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 
 **Auditoría (leída del código, no de memoria):**
 - ✅ Anon key pública por diseño ([supabase-client.js:9](frontend/js/supabase-client.js)) — segura SOLO si RLS está activo.
-- 🔴 **RLS = toda la defensa, no verificable desde el cliente.** Signup abierto ([auth.js:38](frontend/js/auth.js)) → cualquier extraño crea cuenta en la misma DB; si RLS falla en 1 tabla, lee/escribe datos ajenos. → Entregado `SUPABASE_RLS_AUDIT.sql` (4 bloques: rls_enabled en las 5 tablas + políticas + bucket attachments privado + políticas storage). Pendiente: Miguel corre el SQL y pega resultado.
-- 🟡 Superficie XSS: `innerHTML = template` masivo en módulos. auth.js escapa bien (`_escHtml`); falta pase de auditoría de interpolación de datos de usuario. → Pendiente próximo turno.
+- ✅ **RLS VERIFICADO LIMPIO (2026-06-16, vía SQL en dashboard).** Las 5 tablas (`app_state, vacancies, sys_tasks, class_sessions, user_prefs`) con `rls_enabled=true`. SELECT/UPDATE/DELETE con `USING (auth.uid()=user_id)`; INSERT con `WITH CHECK (auth.uid()=user_id)`; bucket `attachments` privado. Conclusión: un extraño logueado queda 100% aislado — no lee, edita, borra NI inyecta filas ajenas. Signup abierto ([auth.js:38](frontend/js/auth.js)) es seguro porque RLS aísla cada cuenta. Script de auditoría reusable: `SUPABASE_RLS_AUDIT.sql`.
+- ✅ **Superficie XSS — pase #1 cerrado en los sinks de datos EXTERNOS.** Reframe del modelo de amenaza: RLS impide inyección cross-user → el innerHTML de datos del PROPIO usuario es self-XSS (riesgo bajo). El riesgo real = feeds RSS / APIs públicas renderizados sin escapar. Corregido:
+  - **core.js** (dashboard 1-IND): `renderJobs` (RemoteOK API) y `renderNews` (KDNuggets RSS) inyectaban `title/company/tags/link` crudos. Agregados `escHtml` + `safeUrl` (solo http(s); bloquea javascript:/data:); aplicados a todos los campos externos.
+  - **news.html** (7-NEW · RSS en vivo vía rss2json): `title/desc` ya se escapaban al ingerir; quedaban abiertos `link` (href + onclick JS-string) e `img` (breakout del atributo `src`). Agregados `escAttr` + `safeUrl`; `renderList` y `renderSaved` escapan por contexto (href, src→fallback SVG si no es http, onclick JS-string con `\`/`'`/`"`).
+  - Verificación: 10/10 tests de escape contra payloads (javascript:, breakout de href/src/onclick, `<img onerror>`) en Node. `node --check core.js` OK.
+  - Pendiente pase #2 (opcional, baja prioridad): sinks self-XSS de datos propios en otros módulos.
 
 **Fix desplegado (este commit):**
 - **Bug de flush en cierre de pestaña** ([cloud-sync.js:811](frontend/js/cloud-sync.js)): usaba `SB.auth.session()` (API v1, undefined en supabase-js v2) → el beacon de `beforeunload` mandaba el anon key como Bearer → RLS lo rechazaba → guardados al cerrar tab se perdían en silencio. **Fix:** cache de `_accessToken` vía `SB.auth.getSession()` + `onAuthStateChange` (v2, autoRefresh lo mantiene fresco); el flush ahora lee el token cacheado de forma síncrona.
 - **Cache-bust:** cloud-sync.js?v=p4 → **p5** en las 19 páginas (sin esto los devices siguen con el sync roto cacheado).
 - Verificación: `node --check js/cloud-sync.js` OK. El flush solo se ejercita con sesión real + cierre de tab + RLS (no observable en preview simple).
 
-**Next step:** (1) Miguel corre `SUPABASE_RLS_AUDIT.sql` → interpreto. (2) Pase anti-XSS en módulos. (3) Material de **Tapi** (cero evidencia en el repo) para darle alas al Copilot — no se construye sin fuente.
+**Next step:** Seguridad cerrada (RLS verificado ✅ + flush fix ✅ + XSS sinks externos ✅). Próximo foco = **Copilot Simetrik / Tapi** (prioridad de ingresos). BLOQUEADO por evidencia: "Tapi" no existe en el repo — falta material del usuario (transcripción / PDF / capturas / texto) para construir el tutor sin violar anti-hallucination.

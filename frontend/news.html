@@ -113,6 +113,13 @@ const FEEDS=[
 const API='https://api.rss2json.com/v1/api.json?rss_url=';
 let allArticles=[];
 
+/* Sanitizers XSS — el contenido de los feeds RSS (vía rss2json) NO es
+   confiable: link/img de un item malicioso podrían romper el atributo
+   (src="x"onerror=...) o ser un href javascript:. title/desc ya se
+   escapan al ingerir; link/img se sanean acá por contexto. */
+const escAttr=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const safeUrl=s=>/^https?:\/\//i.test(String(s||'').trim())?String(s).trim():'#';
+
 async function fetchFeed(feed){
 try{
 const r=await fetch(API+encodeURIComponent(feed.url));
@@ -185,8 +192,12 @@ const el=document.getElementById(elId);
 if(!articles.length){el.innerHTML='<div class="error">No se encontraron artículos para esta categoría. Intenta actualizar.</div>';return}
 el.innerHTML=articles.map((a,i)=>{
 const ago=timeAgo(a.date);
-const safeTitle=a.title.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-return '<div class="art"><img class="art-img" src="'+(a.img||'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 70%22><rect fill=%22%23222228%22 width=%22100%22 height=%2270%22/><text x=%2250%22 y=%2240%22 text-anchor=%22middle%22 fill=%22%23a1a1aa%22 font-size=%2212%22>📰</text></svg>')+'" alt="" onerror="this.style.display=\'none\'"><div class="art-body"><div class="art-src '+a.cls+'">'+a.src+'</div><div class="art-title">'+a.title+'</div><div class="art-desc">'+a.desc+'</div><div class="art-footer"><div class="art-date">'+ago+'</div><div class="art-actions"><a href="'+a.link+'" target="_blank" rel="noopener" class="art-btn art-btn-go" onclick="event.stopPropagation()">Leer →</a><button class="art-btn" onclick="event.stopPropagation();saveArticle(\''+safeTitle+'\',\''+a.link+'\',\''+a.src+'\')">💾</button><button class="art-btn" onclick="event.stopPropagation();toTask(\''+safeTitle+'\')">+ Tarea</button></div></div></div></div>';
+const safeTitle=a.title.replace(/\\/g,'\\\\').replace(/"/g,'&quot;').replace(/'/g,"\\'");
+const linkUrl=safeUrl(a.link);
+const linkHref=escAttr(linkUrl);
+const linkJs=linkUrl.replace(/&/g,'&amp;').replace(/\\/g,'\\\\').replace(/"/g,'&quot;').replace(/'/g,"\\'");
+const imgSrc=(a.img&&/^https?:\/\//i.test(a.img))?escAttr(a.img):'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 70%22><rect fill=%22%23222228%22 width=%22100%22 height=%2270%22/><text x=%2250%22 y=%2240%22 text-anchor=%22middle%22 fill=%22%23a1a1aa%22 font-size=%2212%22>📰</text></svg>';
+return '<div class="art"><img class="art-img" src="'+imgSrc+'" alt="" onerror="this.style.display=\'none\'"><div class="art-body"><div class="art-src '+a.cls+'">'+a.src+'</div><div class="art-title">'+a.title+'</div><div class="art-desc">'+a.desc+'</div><div class="art-footer"><div class="art-date">'+ago+'</div><div class="art-actions"><a href="'+linkHref+'" target="_blank" rel="noopener" class="art-btn art-btn-go" onclick="event.stopPropagation()">Leer →</a><button class="art-btn" onclick="event.stopPropagation();saveArticle(\''+safeTitle+'\',\''+linkJs+'\',\''+a.src+'\')">💾</button><button class="art-btn" onclick="event.stopPropagation();toTask(\''+safeTitle+'\')">+ Tarea</button></div></div></div></div>';
 }).join('');
 }
 
@@ -214,7 +225,7 @@ function renderSaved(){
 const saved=getSaved();
 document.getElementById('savedList').innerHTML=saved.length?saved.slice().reverse().map((s,ri)=>{
 const idx=saved.length-1-ri;
-return '<div class="saved"><div style="display:flex;justify-content:space-between"><div class="saved-title"><a href="'+s.link+'" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none">'+s.title+'</a></div><button style="background:none;border:none;color:var(--t3);cursor:pointer" onclick="delSaved('+idx+')">✕</button></div><div class="saved-meta">'+s.src+' · '+new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short'})+'</div></div>';
+return '<div class="saved"><div style="display:flex;justify-content:space-between"><div class="saved-title"><a href="'+escAttr(safeUrl(s.link))+'" target="_blank" rel="noopener" style="color:var(--tx);text-decoration:none">'+s.title+'</a></div><button style="background:none;border:none;color:var(--t3);cursor:pointer" onclick="delSaved('+idx+')">✕</button></div><div class="saved-meta">'+s.src+' · '+new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short'})+'</div></div>';
 }).join(''):'<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px">Sin artículos guardados. Haz click en 💾 en cualquier noticia.</div>';
 }
 

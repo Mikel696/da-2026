@@ -31,6 +31,20 @@ const DB = {
 };
 
 // ┌─────────────────────────────────────────────────────┐
+// │  SANITIZERS XSS — para datos EXTERNOS no confiables  │
+// │  RLS aísla los datos del usuario, pero el contenido  │
+// │  de feeds RSS / APIs públicas (KDNuggets, RemoteOK)  │
+// │  NO es confiable: un item malicioso podría traer     │
+// │  <img onerror> o un href javascript:. Escapar SIEMPRE│
+// │  antes de meterlo en innerHTML.                      │
+// └─────────────────────────────────────────────────────┘
+const escHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
+// Solo http(s) absolutos; bloquea javascript:/data:/vbscript: → '#'
+const safeUrl = (s) => /^https?:\/\//i.test(String(s ?? '').trim()) ? String(s).trim() : '#';
+
+// ┌─────────────────────────────────────────────────────┐
 // │  PROFILE                                            │
 // └─────────────────────────────────────────────────────┘
 const Profile = {
@@ -326,12 +340,12 @@ function renderJobs(el, jobs, src) {
   if (!el) return;
   el.innerHTML = jobs.slice(0, 6).map(j => `
     <div class="job-item">
-      <div class="ji-title"><a href="${j.link}" target="_blank" rel="noopener">${j.title}</a></div>
+      <div class="ji-title"><a href="${escHtml(safeUrl(j.link))}" target="_blank" rel="noopener">${escHtml(j.title)}</a></div>
       <div class="ji-meta">
-        <span class="ji-co">${j.company}</span>
-        ${j.salary ? `<span class="ji-sal">${j.salary}</span>` : ''}
-        ${(j.tags||[]).map(t=>`<span class="ji-tag">${t}</span>`).join('')}
-        <span class="ji-date">${j.date}</span>
+        <span class="ji-co">${escHtml(j.company)}</span>
+        ${j.salary ? `<span class="ji-sal">${escHtml(j.salary)}</span>` : ''}
+        ${(j.tags||[]).map(t=>`<span class="ji-tag">${escHtml(t)}</span>`).join('')}
+        <span class="ji-date">${escHtml(j.date)}</span>
       </div>
     </div>`).join('') +
     `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px;">
@@ -376,8 +390,8 @@ function renderNews(el, items) {
   el.innerHTML = `<div class="news-grid">
     ${items.slice(0,6).map(n => `
       <div class="news-item">
-        <div class="ni-title"><a href="${n.link}" target="_blank" rel="noopener">${n.title.slice(0,88)}${n.title.length>88?'…':''}</a></div>
-        <div class="ni-meta"><span class="ni-src">${n.src}</span>${n.date}</div>
+        <div class="ni-title"><a href="${escHtml(safeUrl(n.link))}" target="_blank" rel="noopener">${escHtml(n.title.slice(0,88))}${n.title.length>88?'…':''}</a></div>
+        <div class="ni-meta"><span class="ni-src">${escHtml(n.src)}</span>${escHtml(n.date)}</div>
       </div>`).join('')}
   </div>`;
 }
