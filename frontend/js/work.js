@@ -2429,6 +2429,205 @@ Slug: foo-bar. Procedé."]`;
     return { fmt, insertLink, insertImg, dictAdd, dictEdit, dictCancel, dictSave, dictDel, dictRender, dictToggle, init };
   })();
 
+  /* ═══════════════════════════════════════════════════════════════
+     WORKSPACE DE IMPLEMENTACIÓN · multi-caso (TAPI + futuros)
+     ───────────────────────────────────────────────────────────────
+     Miguel es Implementation Specialist: hoy TAPI, mañana otros
+     casos/clientes/canales. Cada caso tiene 3 pilares:
+       general  → qué está pasando (estado del proyecto)
+       saber    → qué debo saber (conocimiento / tutor)
+       tasks    → trabajo a EJECUTAR en Simetrik (accionable)
+     DATOS PRIVADOS: work_impl vive en localStorage → app_state
+     (Supabase RLS, por usuario). NUNCA en el repo público.
+  ═══════════════════════════════════════════════════════════════ */
+  const K_IMPL = 'work_impl';
+  const K_IMPL_ACTIVE = 'work_impl_active';   // local-only (selección UI)
+  let _implPillar = 'general';
+
+  function _iesc(s){ const d=document.createElement('div'); d.textContent=(s==null?'':String(s)); return d.innerHTML; }
+  function _implMd(s){
+    let h = _iesc(s||'');
+    h = h.replace(/`([^`]+)`/g,'<code>$1</code>');
+    h = h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    h = h.replace(/^###\s+(.+)$/gm,'<h4 style="margin:12px 0 4px;font-size:13px;color:var(--ac)">$1</h4>');
+    h = h.replace(/^##\s+(.+)$/gm,'<h3 style="margin:14px 0 6px;font-size:15px">$1</h3>');
+    h = h.replace(/(?:^- .+(?:\n|$))+/gm, m => '<ul style="margin:6px 0 6px 18px;padding:0">'+m.trim().split(/\n/).map(li=>'<li style="margin:3px 0">'+li.replace(/^- /,'')+'</li>').join('')+'</ul>');
+    h = h.replace(/(?:^\d+\.\s.+(?:\n|$))+/gm, m => '<ol style="margin:6px 0 6px 20px;padding:0">'+m.trim().split(/\n/).map(li=>'<li style="margin:3px 0">'+li.replace(/^\d+\.\s/,'')+'</li>').join('')+'</ol>');
+    h = h.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+    h = h.replace(/<br>\s*(<(?:h3|h4|ul|ol)>)/g,'$1');
+    return h;
+  }
+
+  function loadImpl(){ try { return JSON.parse(localStorage.getItem(K_IMPL)||'[]'); } catch { return []; } }
+  function saveImpl(arr){ localStorage.setItem(K_IMPL, JSON.stringify(arr)); }
+  function _implActive(){ try { return localStorage.getItem(K_IMPL_ACTIVE)||''; } catch { return ''; } }
+  function _setImplActive(id){ try { localStorage.setItem(K_IMPL_ACTIVE, id||''); } catch {} }
+
+  function implSelect(id){ _setImplActive(id); _implPillar='general'; renderImpl(); }
+  function implPillar(which){ _implPillar=which; renderImpl(); }
+
+  function implNew(){
+    const name = prompt('Nombre del nuevo caso (cliente / canal):');
+    if(!name) return;
+    const arr = loadImpl();
+    const id = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,32) || ('caso-'+Date.now());
+    if(arr.some(c=>c.id===id)){ alert('Ya existe un caso con ese nombre.'); return; }
+    arr.push({ id, name, client:'', role:'Implementation Specialist', channel:'', status:'Nuevo', deadline:'', updatedAt:new Date().toISOString(), general:'', saber:'', tasks:[], sources:[], open:[] });
+    saveImpl(arr); _setImplActive(id); _implPillar='general'; renderImpl();
+  }
+
+  function implDelete(id){
+    if(!confirm('¿Eliminar este caso de tu workspace?')) return;
+    const arr = loadImpl().filter(c=>c.id!==id);
+    saveImpl(arr);
+    if(_implActive()===id) _setImplActive(arr[0]?arr[0].id:'');
+    renderImpl();
+  }
+
+  function implToggleTask(caseId, taskId){
+    const arr = loadImpl();
+    const c = arr.find(x=>x.id===caseId); if(!c) return;
+    const t = (c.tasks||[]).find(x=>x.id===taskId); if(!t) return;
+    t.status = t.status==='done' ? 'todo' : t.status==='doing' ? 'done' : 'doing';
+    c.updatedAt = new Date().toISOString();
+    saveImpl(arr); renderImpl();
+  }
+
+  /** Upsert de un caso (merge by id). Vía privada de ingesta:
+   *  Claude genera WORK.injectImplCase({...}) y Miguel lo corre logueado.
+   *  El proxy de cloud-sync sube a Supabase (RLS) — nunca toca el repo. */
+  function injectImplCase(obj){
+    if(!obj || !obj.id || !obj.name){ console.warn('injectImplCase: falta id/name'); return '✗ objeto inválido (necesita id y name)'; }
+    const arr = loadImpl();
+    const i = arr.findIndex(c=>c.id===obj.id);
+    obj.updatedAt = new Date().toISOString();
+    if(i>=0){ arr[i] = { ...arr[i], ...obj }; } else { arr.push(obj); }
+    saveImpl(arr); _setImplActive(obj.id);
+    renderImpl();
+    const msg = '✅ Caso "'+obj.name+'" cargado · '+((obj.tasks||[]).length)+' tareas. Abrí la pestaña 🚀 Implementación.';
+    console.log('[14-WORK]', msg);
+    return msg;
+  }
+  function injectImplFromJSON(str){ try { return injectImplCase(JSON.parse(str)); } catch(e){ return '✗ JSON inválido: '+e.message; } }
+
+  function implIngestPrompt(id){
+    const c = loadImpl().find(x=>x.id===id);
+    const nm = c?c.name:'(nuevo caso)';
+    const p =
+'# CEREBRO · ACTUALIZA CASO DE IMPLEMENTACIÓN: '+nm+'\n\n'+
+'Tengo info nueva del caso "'+nm+'" (en mi Drive, o la pego abajo).\n\n'+
+'INSTRUCCIONES:\n'+
+'1. Leé el material nuevo (Drive / texto pegado).\n'+
+'2. Actualizá los 3 pilares SIN inventar nada (solo lo que esté en la evidencia):\n'+
+'   - general  → qué está pasando (estado, hitos, cambios, riesgos)\n'+
+'   - saber    → qué debo saber (arquitectura, fuentes, flujo, reglas, glosario)\n'+
+'   - tasks    → trabajo a EJECUTAR en Simetrik (cada tarea: title, detail, simetrik=pasos en la plataforma, status)\n'+
+'3. Lo que no puedas confirmar → array "open" (preguntas), NO lo afirmes.\n'+
+'4. Devolveme un WORK.injectImplCase({...}) listo para correr (datos privados, no van al repo).\n\n'+
+'MATERIAL NUEVO:\n[pegá acá o decime que lea Drive]\n';
+    const out = document.getElementById('implOut');
+    if(out){ document.getElementById('implOutPre').textContent = p; out.style.display='block'; }
+    try{ navigator.clipboard.writeText(p); }catch{}
+  }
+
+  function _implWhen(iso){ if(!iso) return '—'; try{ const d=new Date(iso); return d.toLocaleDateString('es',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}); }catch{ return '—'; } }
+  function _implDueBadge(deadline){
+    try{
+      const d=new Date(deadline+'T00:00:00'); const days=Math.ceil((d-new Date())/86400000);
+      const col = days<0?'#ef4444':days<=3?'#f59e0b':days<=7?'#06b6d4':'var(--t3)';
+      const txt = days<0?('venció hace '+(-days)+'d'):days===0?'¡HOY!':('en '+days+' días');
+      return '<span style="margin-left:auto;font-size:11px;font-weight:700;color:'+col+'">⏰ '+_iesc(deadline)+' · '+txt+'</span>';
+    }catch{ return ''; }
+  }
+
+  function implInit(){
+    const arr = loadImpl();
+    if(arr.length && !arr.some(c=>c.id===_implActive())) _setImplActive(arr[0].id);
+    renderImpl();
+  }
+
+  function renderImpl(){
+    const root = document.getElementById('implRoot');
+    if(!root) return;
+    const arr = loadImpl();
+    if(!arr.length){
+      root.innerHTML =
+        '<div class="cd" style="text-align:center;padding:30px 20px">'+
+        '<div style="font-size:34px;margin-bottom:8px">🚀</div>'+
+        '<div style="font-size:16px;font-weight:700;margin-bottom:6px">Tu Workspace de Implementación está vacío</div>'+
+        '<div style="font-size:12.5px;color:var(--t2);line-height:1.7;max-width:540px;margin:0 auto 14px">Acá vive cada caso que te asignen como Implementation Specialist (TAPI hoy, lo que venga mañana). Cada caso trae 3 pilares: <b>📡 qué está pasando</b>, <b>🧠 qué debo saber</b> y <b>🛠️ el trabajo a ejecutar en Simetrik</b>.</div>'+
+        '<div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:540px;margin:0 auto">Pedile a Claude que cargue tu primer caso: te da un <code>WORK.injectImplCase({...})</code> para correr acá logueado — los datos quedan privados (Supabase RLS), no tocan el repo. O creá uno vacío:</div>'+
+        '<button class="btn bp" style="margin-top:12px" onclick="WORK.implNew()">+ Nuevo caso vacío</button>'+
+        '</div>';
+      return;
+    }
+    const c = arr.find(x=>x.id===(_implActive()||arr[0].id)) || arr[0];
+
+    let h = '<div class="cd" style="margin-bottom:12px">';
+    h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">';
+    h += '<select class="inp" style="max-width:220px;font-weight:700" onchange="WORK.implSelect(this.value)">'+
+         arr.map(x=>'<option value="'+_iesc(x.id)+'"'+(x.id===c.id?' selected':'')+'>'+_iesc(x.name)+'</option>').join('')+'</select>';
+    h += '<button class="btn bg bs" onclick="WORK.implNew()">+ Caso</button>';
+    h += '<button class="btn bo bs" onclick="WORK.implDelete(\''+_iesc(c.id)+'\')">🗑</button>';
+    h += (c.deadline?_implDueBadge(c.deadline):'');
+    h += '</div>';
+    h += '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:11.5px;color:var(--t2)">';
+    if(c.client) h += '<span>🏦 '+_iesc(c.client)+'</span>';
+    if(c.role) h += '<span>👤 '+_iesc(c.role)+'</span>';
+    if(c.channel) h += '<span>🔁 '+_iesc(c.channel)+'</span>';
+    if(c.status) h += '<span>📊 '+_iesc(c.status)+'</span>';
+    h += '<span style="color:var(--t3)">act. '+_implWhen(c.updatedAt)+'</span>';
+    h += '</div></div>';
+
+    const tasksDone = (c.tasks||[]).filter(t=>t.status==='done').length;
+    const tasksTot = (c.tasks||[]).length;
+    const P = [['general','📡 Qué está pasando'],['saber','🧠 Qué debo saber'],['ejecutar','🛠️ Trabajo en Simetrik'+(tasksTot?' ('+tasksDone+'/'+tasksTot+')':'')]];
+    h += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">'+
+         P.map(p=>'<button class="btn '+(_implPillar===p[0]?'bp':'bg')+' bs" onclick="WORK.implPillar(\''+p[0]+'\')">'+p[1]+'</button>').join('')+'</div>';
+
+    h += '<div class="cd">';
+    if(_implPillar==='general'){
+      h += c.general ? _implMd(c.general) : '<div style="color:var(--t3);font-size:12px">Sin contenido todavía. Pedile a Claude que actualice este caso.</div>';
+    } else if(_implPillar==='saber'){
+      h += c.saber ? _implMd(c.saber) : '<div style="color:var(--t3);font-size:12px">Sin contenido todavía.</div>';
+      if((c.open||[]).length){
+        h += '<div style="margin-top:14px;padding:10px 12px;background:rgba(245,158,11,.08);border-radius:8px;border-left:3px solid #f59e0b">';
+        h += '<div style="font-weight:700;font-size:12px;color:#f59e0b;margin-bottom:6px">❓ A confirmar (no inventado)</div>';
+        h += '<ul style="margin:0 0 0 18px;font-size:12px;color:var(--t2)">'+(c.open||[]).map(q=>'<li style="margin:3px 0">'+_iesc(q)+'</li>').join('')+'</ul></div>';
+      }
+      if((c.sources||[]).length){
+        h += '<div style="margin-top:12px;font-size:11.5px;color:var(--t3)">📎 Fuentes: '+(c.sources||[]).map(s=>s.url?'<a href="'+_iesc(s.url)+'" target="_blank" rel="noopener">'+_iesc(s.title||s.url)+'</a>':_iesc(s.title)).join(' · ')+'</div>';
+      }
+    } else {
+      if(!tasksTot){ h += '<div style="color:var(--t3);font-size:12px">Sin tareas todavía.</div>'; }
+      else {
+        const pct = Math.round(tasksDone/tasksTot*100);
+        h += '<div style="margin-bottom:10px"><div style="height:7px;background:var(--bd);border-radius:6px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--gn,#22c55e)"></div></div><div style="font-size:11px;color:var(--t3);margin-top:3px">'+tasksDone+'/'+tasksTot+' completadas ('+pct+'%)</div></div>';
+        h += (c.tasks||[]).map(t=>{
+          const ic = t.status==='done'?'✅':t.status==='doing'?'🔵':'⬜';
+          const col = t.status==='done'?'var(--gn,#22c55e)':t.status==='doing'?'var(--ac)':'var(--bd)';
+          return '<div style="border:1px solid var(--bd);border-left:3px solid '+col+';border-radius:8px;padding:10px 12px;margin-bottom:8px">'+
+            '<div style="display:flex;align-items:flex-start;gap:8px">'+
+            '<span style="cursor:pointer;font-size:16px;user-select:none" onclick="WORK.implToggleTask(\''+_iesc(c.id)+'\',\''+_iesc(t.id)+'\')" title="Cambiar estado (⬜→🔵→✅)">'+ic+'</span>'+
+            '<div style="flex:1"><div style="font-weight:600;font-size:13px;'+(t.status==='done'?'text-decoration:line-through;color:var(--t3)':'')+'">'+_iesc(t.title)+'</div>'+
+            (t.detail?'<div style="font-size:12px;color:var(--t2);margin-top:3px;line-height:1.6">'+_implMd(t.detail)+'</div>':'')+
+            (t.simetrik?'<div style="font-size:11.5px;margin-top:6px;background:rgba(6,182,212,.06);border-radius:6px;padding:7px 10px"><b style="color:var(--ac)">En Simetrik:</b> '+_implMd(t.simetrik)+'</div>':'')+
+            '</div></div></div>';
+        }).join('');
+      }
+    }
+    h += '</div>';
+
+    h += '<div class="cd" style="margin-top:12px;border-left:3px solid var(--vi,#7c3aed)">';
+    h += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">📥 Canal de actualización</div>';
+    h += '<div style="font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:8px">Tenés info nueva (subila a Drive o pegala) → generá el prompt, dámelo y actualizo los 3 pilares + tareas de este caso. Datos privados.</div>';
+    h += '<button class="btn bp bs" style="background:var(--vi,#7c3aed)" onclick="WORK.implIngestPrompt(\''+_iesc(c.id)+'\')">⚡ Generar prompt de actualización</button>';
+    h += '<div id="implOut" style="display:none;margin-top:10px"><pre class="result" id="implOutPre" style="white-space:pre-wrap"></pre><button class="btn bg bs" style="margin-top:6px" onclick="document.getElementById(\'implOut\').style.display=\'none\'">✕ Cerrar</button></div>';
+    h += '</div>';
+
+    root.innerHTML = h;
+  }
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { render(); eco.init(); });
   else setTimeout(() => { render(); eco.init(); }, 0);
 
@@ -2443,6 +2642,8 @@ Slug: foo-bar. Procedé."]`;
     saveMoif, delMoif, editMoif, toggleMoif, copyMoifTranscript, buildMoifPrompt,
     // TUTOR
     tutorSelect, tutorInit, tutorGuiaHoy, tutorShowQuestion,
+    // IMPLEMENTACIÓN (workspace multi-caso · 3 pilares · datos privados)
+    implInit, renderImpl, implSelect, implPillar, implNew, implDelete, implToggleTask, injectImplCase, injectImplFromJSON, implIngestPrompt,
   };
 })();
 window.WORK = WORK;

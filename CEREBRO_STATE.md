@@ -3343,3 +3343,19 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 - Verificación: `node --check js/cloud-sync.js` OK. El flush solo se ejercita con sesión real + cierre de tab + RLS (no observable en preview simple).
 
 **Next step:** Seguridad cerrada (RLS verificado ✅ + flush fix ✅ + XSS sinks externos ✅). Próximo foco = **Copilot Simetrik / Tapi** (prioridad de ingresos). BLOQUEADO por evidencia: "Tapi" no existe en el repo — falta material del usuario (transcripción / PDF / capturas / texto) para construir el tutor sin violar anti-hallucination.
+
+---
+
+## 2026-06-16 · 14-WORK · Workspace de Implementación (multi-caso) + decisión de privacidad
+
+**Contexto:** Miguel es Implementation Specialist (hoy un caso nuevo, mañana otros clientes/canales). Pidió un módulo con 3 pilares por caso: (1) qué está pasando, (2) qué debo saber, (3) trabajo a ejecutar EN Simetrik (su trabajo no es solo documentar, es ejecutar en la plataforma). Además canales de actualización donde él carga info y Claude procesa.
+
+**🔒 Decisión de privacidad (CRÍTICA):** el material de los casos es confidencial de cliente bancario. El cerebro `simetrik-kb.json` se sirve PÚBLICO (verificado: HTTP 200 sin auth en la live URL; repo público). Por eso **el conocimiento de los casos NUNCA va al repo ni a archivos commiteados (incl. este CEREBRO_STATE)** — vive en el store privado `work_impl` (Supabase RLS, por usuario). Patrón: **código público, datos privados.** Fuente del usuario: su carpeta de Drive (conector Drive funciona OK para txt/pdf).
+
+**Implementado (este commit · solo CÓDIGO):**
+- **work.js:** módulo Workspace de Implementación. Store `work_impl` (array de casos `{id,name,client,role,channel,status,deadline,general,saber,tasks[],open[],sources[]}`). Funciones: `loadImpl/saveImpl`, `renderImpl` (selector de casos + badge de deadline + switcher de 3 pilares + lista de tareas con progreso y pasos "En Simetrik"), `implSelect/implPillar/implNew/implDelete/implToggleTask`, `injectImplCase`/`injectImplFromJSON` (vía privada de ingesta — Claude genera el call, Miguel lo corre logueado → proxy sube a Supabase), `implIngestPrompt` (canal de actualización), mini-renderer markdown `_implMd` con escape. Empty-state guía.
+- **work.html:** tab `🚀 Implementación` (dropdown Trabajo), panel `#p-impl` con `#implRoot`, hook de init en el tab-click. work.js?v=p26 → **p27**.
+- **cloud-sync.js:** `work_impl` añadido a SYNC_REGISTRY (privado, RLS). cache-bust cloud-sync p5 → **p6** en las 19 páginas.
+- **Verificado en preview (localhost):** inject→render end-to-end, los 3 pilares renderizan (markdown + listas + caja "A confirmar" + fuentes + tareas con pasos + barra de progreso + badge de deadline), 0 errores de consola. `node --check` OK en work.js y cloud-sync.js.
+
+**Next step:** Miguel corre el `WORK.injectImplCase({...})` del primer caso en su sesión live (datos privados). Luego: auditar/limpiar el cerebro público (separar genérico vs cliente). Posible mejora: Q&A dentro del caso, y profundizar pasos exactos de Operation Center (falta info de plataforma).

@@ -110,6 +110,7 @@
     <div class="navdd" data-g="trabajo">
       <button class="navdd-btn" type="button">🧠 Trabajo &amp; Conocimiento<span class="navdd-cur"></span><span class="navdd-caret">▾</span></button>
       <div class="navdd-menu">
+        <button class="tab" data-p="impl">🚀 Implementación</button>
         <button class="tab" data-p="simetrikkb">🧠 Simetrik KB</button>
         <button class="tab" data-p="dotatest">🧪 Prueba DOTA</button>
         <button class="tab" data-p="dict">📖 Diccionario</button>
@@ -532,6 +533,15 @@ Ejemplo: 'Si RELLENAR no funciona, revisar que el tipo de dato de la columna fue
   </div>
 
   <!-- ═══ TUTOR SIMETRIK ═══ -->
+  <!-- ═══ IMPLEMENTACIÓN · Workspace multi-caso (3 pilares · datos privados) ═══ -->
+  <div class="pnl" id="p-impl">
+    <div class="cd" style="margin-bottom:12px;border-left:3px solid var(--ac,#06b6d4)">
+      <div style="font-size:14px;font-weight:700">🚀 Workspace de Implementación</div>
+      <div style="font-size:11.5px;color:var(--t2);line-height:1.6;margin-top:4px">Tus casos como Implementation Specialist, cada uno con 3 pilares: <b>qué está pasando</b> · <b>qué debo saber</b> · <b>trabajo a ejecutar en Simetrik</b>. 🔒 Privado (solo vos, tras login).</div>
+    </div>
+    <div id="implRoot"></div>
+  </div>
+
   <div class="pnl" id="p-copilot">
 
     <!-- SECCIÓN A: GUÍA DE HOY -->
@@ -688,6 +698,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
     WORK.tutorInit();
     WORK.tutorGuiaHoy();
   }
+  if(t.dataset.p==='impl' && typeof WORK!=='undefined'){ WORK.implInit(); }
 }));
 // ── Nav de 3 desplegables ──
 (function(){
@@ -725,10 +736,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/cloud-sync.js?v=p5"></script>
+<script src="js/cloud-sync.js?v=p6"></script>
 <!-- 14-WORK + shared notebook engine -->
 <script src="js/nb-shared.js?v=p18"></script>
 <script src="js/nb-engine.js"></script>
-<script src="js/work.js?v=p26"></script>
+<script src="js/work.js?v=p27"></script>
 </body>
 </html>
