@@ -3376,3 +3376,17 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 **Verificado en preview:** flujo de import (empty-state → pegar JSON → render del caso) OK, 0 errores. `node --check` OK en ambos.
 
 **Next step:** (1) Miguel habilita realtime con el SQL + recarga. (2) Carga TAPI por el import box (JSON estricto entregado). (3) Pendiente: auditar/limpiar cerebro público; profundizar Operation Center.
+
+---
+
+## 2026-06-16 · 14-WORK · Asistente de proyectos (prompt multimodo) + realtime confirmado
+
+**Realtime:** el `alter publication ... add table app_state` devolvió "already member" → **realtime YA estaba habilitado** en app_state. O sea el sync instantáneo cross-device ya existía; el fix del poll (commit e855e01) es el respaldo. Si persiste lag → debug de la suscripción (buscar en consola `[CLOUD] realtime ✓ suscrito a app_state`).
+
+**Pedido:** el "canal de actualización" debía PREGUNTAR (qué proyecto, update vs nuevo, qué material falta) y poder generar **prep de reuniones, resúmenes y presentaciones** del proyecto activo.
+
+**Implementado ([work.js](frontend/js/work.js)):** `implIngestPrompt(id, mode)` reescrito como **asistente multimodo**. Siempre embebe la lista de proyectos + el JSON del activo como contexto (project-aware) + regla anti-invención. Modos: `ask` (pregunta proyecto + qué necesita + qué material), `update`, `new`, `meeting` (prep accionable), `summary` (resumen ejecutivo), `deck` (estructura de slides, ofrece generar .pptx real vía skill pptx), `free`. UI: barra de 6 botones en el footer del panel + botón "🤖 Prompt: armar proyecto" en el empty-state. work.js p28 → **p29**.
+
+**Verificado en preview:** los 6 modos generan el prompt correcto (ask pregunta el proyecto e incluye contexto; meeting preserva `status` de tareas; deck ofrece .pptx; new crea proyecto), 0 errores de consola. `node --check` OK.
+
+**Next step:** Miguel carga TAPI (import box) y prueba el asistente. Pendiente: auditar/limpiar cerebro público (Ficohsa); profundizar Operation Center + glosario (Chisalca/GC/VPENC) cuando suba material a Drive.

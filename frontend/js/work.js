@@ -2510,27 +2510,55 @@ Slug: foo-bar. Procedé."]`;
   }
   function injectImplFromJSON(str){ try { return injectImplCase(JSON.parse(str)); } catch(e){ return '✗ JSON inválido: '+e.message; } }
 
-  function implIngestPrompt(id){
-    const c = loadImpl().find(x=>x.id===id);
-    const nm = c?c.name:'(nuevo caso)';
-    const cid = c?c.id:'(nuevo)';
-    const p =
-'# CEREBRO · ACTUALIZA CASO DE IMPLEMENTACIÓN\n'+
-'Proyecto activo: **'+nm+'**  ·  id: `'+cid+'`\n\n'+
-'Tengo info nueva del caso "'+nm+'" (en mi Drive, o la pego abajo). Hacé crecer el caso: mergeá lo nuevo sobre el estado actual, no lo pierdas.\n\n'+
-'INSTRUCCIONES:\n'+
-'1. Leé el material nuevo (Drive / texto pegado).\n'+
-'2. Actualizá los 3 pilares SIN inventar nada (solo lo que esté en la evidencia), preservando lo que ya está:\n'+
-'   - general  → qué está pasando (estado, hitos, cambios, riesgos)\n'+
-'   - saber    → qué debo saber (arquitectura, fuentes, flujo, reglas, glosario)\n'+
-'   - tasks    → trabajo a EJECUTAR en Simetrik (cada tarea: id, title, detail, simetrik=pasos en la plataforma, status). Conservá el status de las tareas existentes.\n'+
-'3. Lo que no puedas confirmar → array "open" (preguntas), NO lo afirmes.\n'+
-'4. Devolveme el JSON del caso completo (mismo id="'+cid+'") para pegar en el import del panel. Datos privados, no van al repo.\n\n'+
-'ESTADO ACTUAL DEL CASO (mergeá sobre esto):\n```json\n'+JSON.stringify(c||{id:cid,name:nm},null,1)+'\n```\n\n'+
-'MATERIAL NUEVO:\n[pegá acá o decime que lea mi Drive]\n';
+  /** Generador del prompt-asistente del proyecto. mode:
+   *  ask | update | new | meeting | summary | deck | free
+   *  Siempre lleva la lista de proyectos + el estado del activo como contexto. */
+  function implIngestPrompt(id, mode){
+    mode = mode || 'ask';
+    const all = loadImpl();
+    const c = all.find(x=>x.id===id) || null;
+    const nm = c ? c.name : '(sin caso activo)';
+    const cid = c ? c.id : '(nuevo)';
+    const list = all.length ? all.map(x=>'- '+x.name+' (id: '+x.id+')').join('\n') : '(todavía no hay proyectos cargados)';
+    const ctx = c ? ('\nESTADO ACTUAL DEL PROYECTO "'+nm+'" (id `'+cid+'`):\n```json\n'+JSON.stringify(c,null,1)+'\n```\n') : '';
+
+    let head = '# CEREBRO · ASISTENTE DE PROYECTOS (14-WORK · Simetrik)\n\n';
+    head += 'Soy **Implementation Specialist** en Simetrik. Mis proyectos cargados:\n'+list+'\n';
+    head += '\n**Reglas:** NO inventes datos (solo evidencia: mi Drive / lo que pegue / el estado actual de abajo). Lo que no puedas confirmar, preguntámelo o marcalo "[a confirmar]". Respondé en español.\n';
+
+    let body;
+    if(mode==='update'){
+      body = '\n## Tarea: ACTUALIZAR el proyecto "'+nm+'"\n'+
+        'Tengo info nueva (en mi Drive o la pego abajo). Mergeá sobre el estado actual SIN perder nada (conservá el `status` de las tareas existentes y sus `id`). Actualizá los 3 pilares (general/saber/tasks) y "open". Devolveme el **JSON completo** (mismo id="'+cid+'") para pegar en el import del panel 🚀 Implementación.\n\nMATERIAL NUEVO:\n[pegá acá o decime que lea mi Drive]\n';
+    } else if(mode==='new'){
+      body = '\n## Tarea: CREAR un proyecto NUEVO\n'+
+        'Te paso info de un caso nuevo (Drive o pegada). Preguntá lo mínimo que falte (nombre, cliente, canal, deadline). Armá los 3 pilares con lo que haya y "open" para lo no confirmado. Devolveme el **JSON completo** (con un id corto en minúsculas-con-guiones) para pegar en el import.\n\nMATERIAL:\n[pegá acá o decime que lea mi Drive]\n';
+    } else if(mode==='meeting'){
+      body = '\n## Tarea: PREPARARME una REUNIÓN del proyecto "'+nm+'"\n'+
+        'Con el estado actual (+ lo que pegue), armá una prep accionable y lista para leer:\n'+
+        '- Objetivo y contexto (2 líneas).\n- Estado actual / avances.\n- Pendientes y bloqueos (con responsable si se sabe).\n- Riesgos y decisiones a tomar.\n- Preguntas que debo hacer / temas a confirmar (incluí los "open").\n- Próximos pasos propuestos.\nSi falta algo, marcá "[a confirmar]".\n';
+    } else if(mode==='summary'){
+      body = '\n## Tarea: RESUMEN EJECUTIVO del proyecto "'+nm+'"\n'+
+        'Media página, tono profesional, para alguien que no conoce el caso: qué es, estado actual, arquitectura/flujo en breve, pendientes críticos con fechas, riesgos. Solo evidencia.\n';
+    } else if(mode==='deck'){
+      body = '\n## Tarea: ARMAR PRESENTACIÓN del proyecto "'+nm+'"\n'+
+        'Estructura de slides (título + 3-5 bullets c/u): portada, contexto/objetivo, arquitectura y fuentes, flujo de conciliación, estado actual, pendientes y cronograma, riesgos, próximos pasos. **Si querés que la genere como archivo .pptx real, pedímelo** y la armo. Solo evidencia.\n';
+    } else if(mode==='free'){
+      body = '\n## Consulta libre sobre "'+nm+'"\n[describí qué necesitás]\n';
+    } else { // ask
+      body = '\n## Asistente — preguntame primero\n'+
+        'Antes de ejecutar, PREGUNTAME (1 sola tanda, breve):\n'+
+        '1. **¿Sobre qué proyecto?** (elegí de la lista de arriba, o decí "NUEVO").\n'+
+        '2. **¿Qué necesitás?** → (a) actualizar el caso con info nueva · (b) crear proyecto nuevo · (c) preparar una reunión · (d) resumen ejecutivo/estado · (e) armar presentación (puedo generar .pptx) · (f) otra consulta.\n'+
+        '3. **¿Qué material tenés?** (¿lo subiste al Drive? ¿lo pegás? ¿falta algo que deba pedirte?).\n'+
+        'Después ejecutá. Si el resultado modifica un caso, devolveme el **JSON completo** (mismo id) para pegar en el import del panel.\n';
+    }
+
+    const p = head + ctx + body;
     const out = document.getElementById('implOut');
-    if(out){ document.getElementById('implOutPre').textContent = p; out.style.display='block'; }
+    if(out){ document.getElementById('implOutPre').textContent = p; out.style.display='block'; out.scrollIntoView({behavior:'smooth',block:'nearest'}); }
     try{ navigator.clipboard.writeText(p); }catch{}
+    if(!out){ try{ alert('Prompt copiado al portapapeles. Pegalo en Claude.'); }catch{} }
   }
 
   /** Importar/actualizar un caso pegando su JSON (sin DevTools).
@@ -2574,7 +2602,10 @@ Slug: foo-bar. Procedé."]`;
         '<div style="font-size:16px;font-weight:700;margin-bottom:6px">Tu Workspace de Implementación está vacío</div>'+
         '<div style="font-size:12.5px;color:var(--t2);line-height:1.7;max-width:540px;margin:0 auto 14px">Acá vive cada caso que te asignen como Implementation Specialist (TAPI hoy, lo que venga mañana). Cada caso trae 3 pilares: <b>📡 qué está pasando</b>, <b>🧠 qué debo saber</b> y <b>🛠️ el trabajo a ejecutar en Simetrik</b>.</div>'+
         '<div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:540px;margin:0 auto">Pedile a Claude que cargue tu primer caso: te da un <code>WORK.injectImplCase({...})</code> para correr acá logueado — los datos quedan privados (Supabase RLS), no tocan el repo. O creá uno vacío:</div>'+
-        '<button class="btn bp" style="margin-top:12px" onclick="WORK.implNew()">+ Nuevo caso vacío</button>'+
+        '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">'+
+          '<button class="btn bp" onclick="WORK.implNew()">+ Nuevo caso vacío</button>'+
+          '<button class="btn bg" onclick="WORK.implIngestPrompt(\'\',\'new\')">🤖 Prompt: armar proyecto con Claude</button>'+
+        '</div>'+
         '<details style="margin-top:16px;text-align:left;max-width:560px;margin-left:auto;margin-right:auto" open>'+
           '<summary style="cursor:pointer;font-size:12px;color:var(--ac)">📥 Pegar caso (JSON) para cargar</summary>'+
           '<textarea id="implImportTa" class="inp" style="width:100%;min-height:90px;margin-top:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px" placeholder="Pegá el JSON que te dio Claude (o el WORK.injectImplCase({...}) completo)"></textarea>'+
@@ -2640,10 +2671,18 @@ Slug: foo-bar. Procedé."]`;
     }
     h += '</div>';
 
+    const cidJs = _iesc(c.id);
     h += '<div class="cd" style="margin-top:12px;border-left:3px solid var(--vi,#7c3aed)">';
-    h += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">📥 Canal de actualización</div>';
-    h += '<div style="font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:8px">Tenés info nueva (subila a Drive o pegala) → generá el prompt, dámelo y actualizo los 3 pilares + tareas de este caso. Datos privados.</div>';
-    h += '<button class="btn bp bs" style="background:var(--vi,#7c3aed)" onclick="WORK.implIngestPrompt(\''+_iesc(c.id)+'\')">⚡ Generar prompt de actualización</button>';
+    h += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">🤖 Asistente del proyecto</div>';
+    h += '<div style="font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:8px">Generá un prompt y dámelo en Claude. El asistente puede actualizar el caso, prepararte una reunión, hacer un resumen o armar una presentación — siempre con el contexto de <b>'+_iesc(c.name)+'</b> precargado. Datos privados.</div>';
+    h += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+    h += '<button class="btn bp bs" style="background:var(--vi,#7c3aed)" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'ask\')">🤖 Asistente (preguntame)</button>';
+    h += '<button class="btn bg bs" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'update\')">🔄 Actualizar</button>';
+    h += '<button class="btn bg bs" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'meeting\')">🗓️ Reunión</button>';
+    h += '<button class="btn bg bs" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'summary\')">📋 Resumen</button>';
+    h += '<button class="btn bg bs" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'deck\')">🖥️ Presentación</button>';
+    h += '<button class="btn bg bs" onclick="WORK.implIngestPrompt(\''+cidJs+'\',\'new\')">➕ Nuevo proyecto</button>';
+    h += '</div>';
     h += '<div id="implOut" style="display:none;margin-top:10px"><pre class="result" id="implOutPre" style="white-space:pre-wrap"></pre><button class="btn bg bs" style="margin-top:6px" onclick="document.getElementById(\'implOut\').style.display=\'none\'">✕ Cerrar</button></div>';
     h += '<details style="margin-top:10px"><summary style="cursor:pointer;font-size:11.5px;color:var(--ac)">📥 Pegar caso actualizado (JSON)</summary>'+
          '<textarea id="implImportTa" class="inp" style="width:100%;min-height:80px;margin-top:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px" placeholder="Pegá el JSON que te devuelvo (o el WORK.injectImplCase({...}) completo) para crear/actualizar un caso"></textarea>'+
