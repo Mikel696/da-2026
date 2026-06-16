@@ -2513,21 +2513,38 @@ Slug: foo-bar. Procedé."]`;
   function implIngestPrompt(id){
     const c = loadImpl().find(x=>x.id===id);
     const nm = c?c.name:'(nuevo caso)';
+    const cid = c?c.id:'(nuevo)';
     const p =
-'# CEREBRO · ACTUALIZA CASO DE IMPLEMENTACIÓN: '+nm+'\n\n'+
-'Tengo info nueva del caso "'+nm+'" (en mi Drive, o la pego abajo).\n\n'+
+'# CEREBRO · ACTUALIZA CASO DE IMPLEMENTACIÓN\n'+
+'Proyecto activo: **'+nm+'**  ·  id: `'+cid+'`\n\n'+
+'Tengo info nueva del caso "'+nm+'" (en mi Drive, o la pego abajo). Hacé crecer el caso: mergeá lo nuevo sobre el estado actual, no lo pierdas.\n\n'+
 'INSTRUCCIONES:\n'+
 '1. Leé el material nuevo (Drive / texto pegado).\n'+
-'2. Actualizá los 3 pilares SIN inventar nada (solo lo que esté en la evidencia):\n'+
+'2. Actualizá los 3 pilares SIN inventar nada (solo lo que esté en la evidencia), preservando lo que ya está:\n'+
 '   - general  → qué está pasando (estado, hitos, cambios, riesgos)\n'+
 '   - saber    → qué debo saber (arquitectura, fuentes, flujo, reglas, glosario)\n'+
-'   - tasks    → trabajo a EJECUTAR en Simetrik (cada tarea: title, detail, simetrik=pasos en la plataforma, status)\n'+
+'   - tasks    → trabajo a EJECUTAR en Simetrik (cada tarea: id, title, detail, simetrik=pasos en la plataforma, status). Conservá el status de las tareas existentes.\n'+
 '3. Lo que no puedas confirmar → array "open" (preguntas), NO lo afirmes.\n'+
-'4. Devolveme un WORK.injectImplCase({...}) listo para correr (datos privados, no van al repo).\n\n'+
-'MATERIAL NUEVO:\n[pegá acá o decime que lea Drive]\n';
+'4. Devolveme el JSON del caso completo (mismo id="'+cid+'") para pegar en el import del panel. Datos privados, no van al repo.\n\n'+
+'ESTADO ACTUAL DEL CASO (mergeá sobre esto):\n```json\n'+JSON.stringify(c||{id:cid,name:nm},null,1)+'\n```\n\n'+
+'MATERIAL NUEVO:\n[pegá acá o decime que lea mi Drive]\n';
     const out = document.getElementById('implOut');
     if(out){ document.getElementById('implOutPre').textContent = p; out.style.display='block'; }
     try{ navigator.clipboard.writeText(p); }catch{}
+  }
+
+  /** Importar/actualizar un caso pegando su JSON (sin DevTools).
+   *  Acepta JSON estricto o un WORK.injectImplCase({...}) — limpia el wrapper. */
+  function implImport(taId, msgId){
+    const ta = document.getElementById(taId||'implImportTa');
+    const msg = document.getElementById(msgId||'implImportMsg');
+    if(!ta){ return; }
+    let raw = (ta.value||'').trim();
+    if(!raw){ if(msg){ msg.textContent='Pegá el JSON del caso primero.'; msg.style.color='var(--t3)'; } return; }
+    // tolerar que peguen el call entero: WORK.injectImplCase( {...} );
+    raw = raw.replace(/^[^([{]*WORK\.injectImpl\w*\(/,'').replace(/\)\s*;?\s*$/,'').trim();
+    const r = injectImplFromJSON(raw);
+    if(msg){ msg.textContent = r; msg.style.color = r.indexOf('✅')===0 ? 'var(--gn,#22c55e)' : '#ef4444'; }
   }
 
   function _implWhen(iso){ if(!iso) return '—'; try{ const d=new Date(iso); return d.toLocaleDateString('es',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}); }catch{ return '—'; } }
@@ -2558,6 +2575,11 @@ Slug: foo-bar. Procedé."]`;
         '<div style="font-size:12.5px;color:var(--t2);line-height:1.7;max-width:540px;margin:0 auto 14px">Acá vive cada caso que te asignen como Implementation Specialist (TAPI hoy, lo que venga mañana). Cada caso trae 3 pilares: <b>📡 qué está pasando</b>, <b>🧠 qué debo saber</b> y <b>🛠️ el trabajo a ejecutar en Simetrik</b>.</div>'+
         '<div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:540px;margin:0 auto">Pedile a Claude que cargue tu primer caso: te da un <code>WORK.injectImplCase({...})</code> para correr acá logueado — los datos quedan privados (Supabase RLS), no tocan el repo. O creá uno vacío:</div>'+
         '<button class="btn bp" style="margin-top:12px" onclick="WORK.implNew()">+ Nuevo caso vacío</button>'+
+        '<details style="margin-top:16px;text-align:left;max-width:560px;margin-left:auto;margin-right:auto" open>'+
+          '<summary style="cursor:pointer;font-size:12px;color:var(--ac)">📥 Pegar caso (JSON) para cargar</summary>'+
+          '<textarea id="implImportTa" class="inp" style="width:100%;min-height:90px;margin-top:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px" placeholder="Pegá el JSON que te dio Claude (o el WORK.injectImplCase({...}) completo)"></textarea>'+
+          '<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button class="btn bp bs" onclick="WORK.implImport()">Cargar caso</button><span id="implImportMsg" style="font-size:11px"></span></div>'+
+        '</details>'+
         '</div>';
       return;
     }
@@ -2623,6 +2645,9 @@ Slug: foo-bar. Procedé."]`;
     h += '<div style="font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:8px">Tenés info nueva (subila a Drive o pegala) → generá el prompt, dámelo y actualizo los 3 pilares + tareas de este caso. Datos privados.</div>';
     h += '<button class="btn bp bs" style="background:var(--vi,#7c3aed)" onclick="WORK.implIngestPrompt(\''+_iesc(c.id)+'\')">⚡ Generar prompt de actualización</button>';
     h += '<div id="implOut" style="display:none;margin-top:10px"><pre class="result" id="implOutPre" style="white-space:pre-wrap"></pre><button class="btn bg bs" style="margin-top:6px" onclick="document.getElementById(\'implOut\').style.display=\'none\'">✕ Cerrar</button></div>';
+    h += '<details style="margin-top:10px"><summary style="cursor:pointer;font-size:11.5px;color:var(--ac)">📥 Pegar caso actualizado (JSON)</summary>'+
+         '<textarea id="implImportTa" class="inp" style="width:100%;min-height:80px;margin-top:8px;font-family:\'IBM Plex Mono\',monospace;font-size:11px" placeholder="Pegá el JSON que te devuelvo (o el WORK.injectImplCase({...}) completo) para crear/actualizar un caso"></textarea>'+
+         '<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button class="btn bp bs" onclick="WORK.implImport()">Cargar / actualizar</button><span id="implImportMsg" style="font-size:11px"></span></div></details>';
     h += '</div>';
 
     root.innerHTML = h;
@@ -2643,7 +2668,7 @@ Slug: foo-bar. Procedé."]`;
     // TUTOR
     tutorSelect, tutorInit, tutorGuiaHoy, tutorShowQuestion,
     // IMPLEMENTACIÓN (workspace multi-caso · 3 pilares · datos privados)
-    implInit, renderImpl, implSelect, implPillar, implNew, implDelete, implToggleTask, injectImplCase, injectImplFromJSON, implIngestPrompt,
+    implInit, renderImpl, implSelect, implPillar, implNew, implDelete, implToggleTask, injectImplCase, injectImplFromJSON, implIngestPrompt, implImport,
   };
 })();
 window.WORK = WORK;

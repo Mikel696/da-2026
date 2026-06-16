@@ -948,21 +948,25 @@ const CLOUD = (() => {
 
   /* ── Polling de respaldo (patrón resiliencia family-system) ──────
      Si realtime no entrega eventos (ej. publicación no habilitada en
-     la tabla), los cuadernos igual bajan solos: 1 query liviana cada
-     60s, solo con pestaña visible y sin sync en curso. ── */
+     la tabla), TODO baja igual solo: 1 pull de app_state cada 45s y
+     reconcilia CADA key sincronizable (no solo cuadernos — también
+     prompts, notas, goals, casos, etc.). Solo con pestaña visible y
+     sin sync en curso. _reconcileKey hace merge estructural para
+     cuadernos y LWW por timestamp para el resto, así que es seguro
+     correrlo en loop: solo escribe si la nube trae algo más nuevo. ── */
   setInterval(async () => {
     if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
     try {
-      const keys = [...NB_DATA_KEYS, ...NB_META_KEYS];
-      const { data, error } = await SB.from('app_state')
-        .select('store_key, payload, updated_at')
-        .eq('user_id', _uid())
-        .in('store_key', keys);
-      if (error || !data) return;
-      const map = new Map(data.map(r => [r.store_key, { payload: r.payload, updated_at: r.updated_at }]));
-      for (const key of keys) { if (map.has(key)) await _reconcileKey(key, map); }
+      const cloudMap = await _pullAllStates();
+      if (!cloudMap) return;
+      for (const [key] of cloudMap) {
+        if (SKIP_KEYS.has(key)) continue;
+        if (_registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p))) {
+          await _reconcileKey(key, cloudMap);
+        }
+      }
     } catch (e) { /* silencioso — reintenta en el próximo tick */ }
-  }, 60000);
+  }, 45000);
 
   window.addEventListener('sb:signed_out', () => {
     console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');

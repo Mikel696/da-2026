@@ -3359,3 +3359,20 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 - **Verificado en preview (localhost):** inject→render end-to-end, los 3 pilares renderizan (markdown + listas + caja "A confirmar" + fuentes + tareas con pasos + barra de progreso + badge de deadline), 0 errores de consola. `node --check` OK en work.js y cloud-sync.js.
 
 **Next step:** Miguel corre el `WORK.injectImplCase({...})` del primer caso en su sesión live (datos privados). Luego: auditar/limpiar el cerebro público (separar genérico vs cliente). Posible mejora: Q&A dentro del caso, y profundizar pasos exactos de Operation Center (falta info de plataforma).
+
+---
+
+## 2026-06-16 · PLATAFORMA · Resiliencia de sync (cross-device) + UX de carga sin DevTools
+
+**Reporte del usuario:** "cuadernos, prompts, etc. no actualizan bien o tardan" — quiere ver todo desde cualquier PC. Diagnóstico: los writes suben en ~1.5s, pero la propagación a OTRO device dependía de (1) realtime *si está habilitado*, (2) poll de respaldo 60s que **solo cubría cuadernos** (NB_DATA/META), (3) resync al reenfocar pestaña (>30s). Por eso prompts/notas en una pestaña abierta no bajaban hasta reenfocar/recargar, y cuadernos tardaban.
+
+**Fix 1 — código ([cloud-sync.js](frontend/js/cloud-sync.js), poll de respaldo):** el intervalo ahora hace `_pullAllStates()` y reconcilia **TODAS** las keys sincronizables (registry + dynamic prefixes), no solo cuadernos. Intervalo 60s → **45s**. `_reconcileKey` ya hace merge estructural (cuadernos) y LWW (resto), así que correrlo en loop es seguro (solo escribe si la nube trae algo más nuevo). Resultado: todo converge ≤45s cross-device aunque realtime esté caído.
+
+**Fix 2 — realtime (SQL del usuario, vía instantánea):** entregado para verificar/habilitar `app_state` en la publicación `supabase_realtime` (`alter publication supabase_realtime add table app_state;`). Si no estaba, ese era el motivo del "tarda". Tras habilitar → recargar en cada device para re-suscribir.
+
+**Fix 3 — UX carga de casos sin DevTools ([work.js](frontend/js/work.js)):** `implImport()` + textarea en empty-state y footer del panel Implementación → pegás el JSON del caso y "Cargar" (tolera el wrapper `WORK.injectImplCase(...)`). `implIngestPrompt` ahora es **project-aware + incremental**: lleva el `id`/nombre del proyecto activo + su JSON actual, así Claude crece el caso sobre lo existente sin pisarlo ni perder el status de tareas.
+
+**Cache-bust:** cloud-sync p6 → **p7** (19 páginas) · work.js p27 → **p28** (work.html).
+**Verificado en preview:** flujo de import (empty-state → pegar JSON → render del caso) OK, 0 errores. `node --check` OK en ambos.
+
+**Next step:** (1) Miguel habilita realtime con el SQL + recarga. (2) Carga TAPI por el import box (JSON estricto entregado). (3) Pendiente: auditar/limpiar cerebro público; profundizar Operation Center.
