@@ -3321,3 +3321,21 @@ El cerebro `simetrik-kb.json` (435 entradas, v2026-06-05.7) es la única fuente 
 Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERGE (cloud ya completo): work_nb_data` sin errores; realtime suscrito.
 
 **Recuperación pendiente del incidente:** imágenes de hoy en IndexedDB del PC laboral (script de export listo); transcripción la rehace el usuario (fuente disponible).
+
+---
+
+## 2026-06-16 · PLATAFORMA · Pase de seguridad #1 (handoff de control)
+
+**Contexto:** Miguel delega la dirección técnica y pide priorizar seguridad ("que no nos hackeen") antes de darle alas al Copilot de Simetrik. Decisión de arranque: **seguridad primero**.
+
+**Auditoría (leída del código, no de memoria):**
+- ✅ Anon key pública por diseño ([supabase-client.js:9](frontend/js/supabase-client.js)) — segura SOLO si RLS está activo.
+- 🔴 **RLS = toda la defensa, no verificable desde el cliente.** Signup abierto ([auth.js:38](frontend/js/auth.js)) → cualquier extraño crea cuenta en la misma DB; si RLS falla en 1 tabla, lee/escribe datos ajenos. → Entregado `SUPABASE_RLS_AUDIT.sql` (4 bloques: rls_enabled en las 5 tablas + políticas + bucket attachments privado + políticas storage). Pendiente: Miguel corre el SQL y pega resultado.
+- 🟡 Superficie XSS: `innerHTML = template` masivo en módulos. auth.js escapa bien (`_escHtml`); falta pase de auditoría de interpolación de datos de usuario. → Pendiente próximo turno.
+
+**Fix desplegado (este commit):**
+- **Bug de flush en cierre de pestaña** ([cloud-sync.js:811](frontend/js/cloud-sync.js)): usaba `SB.auth.session()` (API v1, undefined en supabase-js v2) → el beacon de `beforeunload` mandaba el anon key como Bearer → RLS lo rechazaba → guardados al cerrar tab se perdían en silencio. **Fix:** cache de `_accessToken` vía `SB.auth.getSession()` + `onAuthStateChange` (v2, autoRefresh lo mantiene fresco); el flush ahora lee el token cacheado de forma síncrona.
+- **Cache-bust:** cloud-sync.js?v=p4 → **p5** en las 19 páginas (sin esto los devices siguen con el sync roto cacheado).
+- Verificación: `node --check js/cloud-sync.js` OK. El flush solo se ejercita con sesión real + cierre de tab + RLS (no observable en preview simple).
+
+**Next step:** (1) Miguel corre `SUPABASE_RLS_AUDIT.sql` → interpreto. (2) Pase anti-XSS en módulos. (3) Material de **Tapi** (cero evidencia en el repo) para darle alas al Copilot — no se construye sin fuente.

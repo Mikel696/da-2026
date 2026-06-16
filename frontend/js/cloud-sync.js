@@ -98,6 +98,19 @@ const CLOUD = (() => {
   function _uid()   { return window.AUTH?.getUserId() ?? null; }
   function _ready() { return !!(window.SB && _uid()); }
 
+  /* ── Access-token cache ──────────────────────────────────────────
+     `SB.auth.session()` es API v1 (síncrona) y NO existe en v2 → daba
+     undefined y el flush de cierre de pestaña terminaba mandando el
+     anon key como Bearer (RLS lo rechaza → guardado perdido en silencio).
+     Cacheamos el access_token con el listener async de v2; autoRefresh
+     lo mantiene fresco vía el evento TOKEN_REFRESHED. En `beforeunload`
+     leemos esta variable de forma síncrona — sin llamadas async. */
+  let _accessToken = null;
+  try {
+    SB.auth.getSession().then(({ data }) => { _accessToken = data?.session?.access_token ?? null; });
+    SB.auth.onAuthStateChange((_e, session) => { _accessToken = session?.access_token ?? null; });
+  } catch (e) { console.warn('[CLOUD] token cache init failed:', e); }
+
   /* ── Queue: enqueue failed pushes for retry ── */
   const _queue = [];
   let _flushing = false;
@@ -808,7 +821,7 @@ const CLOUD = (() => {
           method: 'POST',
           headers: {
             'apikey': SB.supabaseKey,
-            'Authorization': 'Bearer ' + (SB.auth.session()?.access_token || SB.supabaseKey),
+            'Authorization': 'Bearer ' + (_accessToken || SB.supabaseKey),
             'Content-Type': 'application/json',
             'Prefer': 'resolution=merge-duplicates,return=minimal',
           },
