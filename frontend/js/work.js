@@ -444,10 +444,33 @@ const WORK = (function(){
     alert(report);
     console.log(report);
   }
-  /** Re-render cuando hay auto-resync silencioso */
+  /* ── Guard de edición ──────────────────────────────────────────
+     NUNCA re-renderizar mientras el usuario escribe: el re-render
+     reconstruye el contenteditable y borra lo tipeado. Si llega un
+     cambio de nube mientras editás, se aplica SILENCIOSO a
+     localStorage (sin tocar el DOM) y el re-render se difiere hasta
+     que dejes de escribir (focusout). Los datos no se pierden:
+     _commitNow lee localStorage fresco al guardar. */
+  function _nbEditing(){
+    const a = document.activeElement;
+    return !!(a && (a.isContentEditable || a.tagName === 'INPUT' || a.tagName === 'TEXTAREA'));
+  }
+  let _nbRenderPending = false;
+  function _renderNbSafe(){
+    if (_nbEditing()) { _nbRenderPending = true; return; }
+    _nbRenderPending = false;
+    if (window.WorkNB && WorkNB.render) { try { WorkNB.render(); } catch(e){ console.warn(e); } }
+  }
+  // Cuando dejás de editar, aplicá el render diferido (tras el autosave de 500ms)
+  document.addEventListener('focusout', () => {
+    if (!_nbRenderPending) return;
+    setTimeout(() => { if (_nbRenderPending && !_nbEditing()) _renderNbSafe(); }, 700);
+  }, true);
+
+  /** Re-render cuando hay auto-resync silencioso (nunca interrumpe la edición) */
   window.addEventListener('cloud:auto_resynced', () => {
-    console.log('[14-WORK] auto-resync detected, re-rendering');
-    try { render(); if (eco && eco.dictRender) eco.dictRender(); if (window.WorkNB && WorkNB.render) WorkNB.render(); } catch(e){ console.warn(e); }
+    if (_nbEditing()) { _nbRenderPending = true; return; }
+    try { render(); if (eco && eco.dictRender) eco.dictRender(); _renderNbSafe(); } catch(e){ console.warn(e); }
   });
 
   /** Si un push inmediato falla, mostrar toast rojo bien visible. */
@@ -464,21 +487,16 @@ const WORK = (function(){
     }
   });
 
-  /** Re-render cuando llega un cambio en realtime desde otro device */
+  /** Cambio entrante por realtime — aplica SIN avisos y SIN interrumpir la edición.
+      El dato ya está mergeado en localStorage por cloud-sync; acá solo refrescamos
+      la UI cuando es seguro (no estás escribiendo). */
   window.addEventListener('cloud:realtime_change', (e) => {
     const k = e.detail && e.detail.key;
-    console.log('[14-WORK] realtime change ←', k, e.detail);
+    if (!(k && k.startsWith('work_'))) return;
     try {
-      if (k && k.startsWith('work_')) {
-        // Mostrar toast discreto
-        if (typeof _syncToast === 'function') {
-          _syncToast('⟲ Cambio recibido desde otro PC · ' + k, 'info');
-          _syncToastHide(2000);
-        }
-        render();
-        if (k === 'work_eco_dict' && eco && eco.dictRender) eco.dictRender();
-        if ((k === 'work_nb_meta' || k === 'work_nb_data') && window.WorkNB && WorkNB.render) WorkNB.render();
-      }
+      if (k === 'work_nb_meta' || k === 'work_nb_data') { _renderNbSafe(); }
+      else if (k === 'work_eco_dict') { if (!_nbEditing() && eco && eco.dictRender) eco.dictRender(); }
+      else if (!_nbEditing()) { render(); }
     } catch(err){ console.warn(err); }
   });
 

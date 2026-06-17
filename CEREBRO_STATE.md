@@ -3390,3 +3390,22 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 **Verificado en preview:** los 6 modos generan el prompt correcto (ask pregunta el proyecto e incluye contexto; meeting preserva `status` de tareas; deck ofrece .pptx; new crea proyecto), 0 errores de consola. `node --check` OK.
 
 **Next step:** Miguel carga TAPI (import box) y prueba el asistente. Pendiente: auditar/limpiar cerebro público (Ficohsa); profundizar Operation Center + glosario (Chisalca/GC/VPENC) cuando suba material a Drive.
+
+---
+
+## 2026-06-17 · PLATAFORMA · BUGFIX crítico — el sync borraba lo que se escribía en cuadernos
+
+**Reporte (bloqueante):** al escribir en un cuaderno, un cambio entrante de nube (realtime/poll) re-renderizaba el editor y **borraba lo tipeado**, + avisos repetitivos "cambió desde otro PC" / "sincronizado o no". No podía trabajar.
+
+**Causa raíz:** los handlers de `cloud:realtime_change` y `cloud:auto_resynced` en [work.js](frontend/js/work.js) llamaban `WorkNB.render()` SIN chequear si el usuario estaba editando → reconstruían el `contenteditable` y perdían las teclas desde el último autosave (500ms). Además realtime **re-emitía el eco del propio cambio** como si fuera remoto, y mostraba un toast en cada uno.
+
+**Fix:**
+- **Guard de edición ([work.js](frontend/js/work.js)):** `_nbEditing()` (activeElement contenteditable/input/textarea) + `_renderNbSafe()`. Si estás editando, NO se re-renderiza; el cambio entra silencioso a localStorage (sin tocar el DOM) y el render se difiere a `focusout` (+700ms, tras el autosave). `_commitNow` ya lee localStorage fresco, así que NO se pierde nada (ni lo tuyo ni las páginas remotas). Aplicado a ambos handlers.
+- **Toast eliminado:** se quitó `_syncToast('⟲ Cambio recibido desde otro PC…')`. El sync ahora es silencioso.
+- **Anti-eco ([cloud-sync.js](frontend/js/cloud-sync.js) `handleRealtimeChange`):** si el merge (cuadernos) o el payload (resto) es idéntico al local actual → NO reescribe, NO re-emite el evento. Mata el loop de "cambió desde otro PC" provocado por el propio push.
+- **Badge de cola menos ruidoso ([work.html](frontend/work.html)):** "⏳ N cambios sin subir" solo aparece si el sync se atrasa >4s (backlog real), no en el ciclo normal de 1.5s. Oculta al instante cuando sube.
+- **Cache-bust:** work.js p29 → **p30** · cloud-sync p7 → **p8** (19 páginas).
+
+**Verificado en preview:** espía sobre `WorkNB.render` → **mientras un campo está enfocado: 0 re-renders** (no se borra); **al soltar foco: 1 re-render** (el sync sí aplica). 0 errores de consola. `node --check` OK en ambos.
+
+**Next step:** Miguel prueba escribir en un cuaderno con otra pestaña/PC abierta y confirma que ya no se borra ni aparecen avisos. Luego retomar: cargar TAPI, limpieza del módulo, auditar cerebro público.

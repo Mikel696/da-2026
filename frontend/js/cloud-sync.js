@@ -924,9 +924,12 @@ const CLOUD = (() => {
     const payloadVal = row.payload;
     const cloudTs = new Date(row.updated_at || 0).getTime();
     // Cuadernos → merge estructural: lo remoto entra SIEMPRE, sin pisar páginas locales
-    const smRt = _structuralMerge(key, _safeParse(localStorage.getItem(key)), payloadVal);
+    const _prevLocalRt = localStorage.getItem(key);
+    const smRt = _structuralMerge(key, _safeParse(_prevLocalRt), payloadVal);
     if (smRt !== null) {
       const mergedStr = JSON.stringify(smRt);
+      // Eco de mi propio cambio (o nada nuevo) → NO reescribir ni re-renderizar (mata el loop "cambió desde otro PC")
+      if (mergedStr === _prevLocalRt) return;
       if (_safeWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
       // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop: payload idéntico → no difiere más)
       if (mergedStr !== JSON.stringify(payloadVal)) { pushNow(key).catch(()=>{}); }
@@ -939,7 +942,10 @@ const CLOUD = (() => {
       console.log('[CLOUD] realtime: local newer for', key, '— ignoring cloud event');
       return;
     }
-    if (_safeWrite(key, JSON.stringify(payloadVal))) _setLocalTs(key, cloudTs);
+    // Sin cambio real (eco del propio push) → no re-render
+    const _newStrRt = JSON.stringify(payloadVal);
+    if (_newStrRt === _prevLocalRt) return;
+    if (_safeWrite(key, _newStrRt)) _setLocalTs(key, cloudTs);
     window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
   }
   function teardownRealtime(){
