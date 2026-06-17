@@ -3409,3 +3409,17 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 **Verificado en preview:** espía sobre `WorkNB.render` → **mientras un campo está enfocado: 0 re-renders** (no se borra); **al soltar foco: 1 re-render** (el sync sí aplica). 0 errores de consola. `node --check` OK en ambos.
 
 **Next step:** Miguel prueba escribir en un cuaderno con otra pestaña/PC abierta y confirma que ya no se borra ni aparecen avisos. Luego retomar: cargar TAPI, limpieza del módulo, auditar cerebro público.
+
+---
+
+## 2026-06-17 · 13-NOT + 10-SYS · Sync en vivo de cuadernos con guard de edición (extiende el fix)
+
+**Contexto:** se extendió la protección del bugfix de 14-WORK a los otros dos motores de cuadernos. Descubierto: `notes.js` está MUERTO (no se carga en notes.html); el motor vivo de 13-NOT es `notes-nb.js` (NotNB) + `notes-brain.js`. 10-SYS usa `frontend/systems_logic.js` (SYS + submódulo NB). **Ninguno re-renderizaba con eventos de nube** → sus cuadernos no actualizaban en vivo con la pestaña abierta (solo al recargar/navegar). No tenían el bug de borrado (no re-render), pero tampoco sync en vivo.
+
+**Implementado (mismo patrón guardado que 14-WORK):**
+- **[notes-nb.js](frontend/js/notes-nb.js)** (13-NOT): IIFE al final con `_editing()` guard + `_safe()` (llama `NotNB.render`) + render diferido en `focusout`. Listeners: `cloud:realtime_change` (keys `not_nb*`), `cloud:auto_resynced`, `cloud:sync_complete`. notes-nb.js?v=p18 → **p19** (notes.html).
+- **[systems_logic.js](frontend/systems_logic.js)** (10-SYS): IIFE al final con guard + `_safe()` (llama `SYS.render`) + diferido. Listeners: `cloud:realtime_change` (keys `sys_*`), `cloud:auto_resynced`, `cloud:sync_complete`. systems_logic.js?v=p18 → **p19** (systems.html).
+
+**Verificado en preview (espía de render):** 13-NOT (`NotNB.render`) y 10-SYS (`SYS.render`) → **editando: 0 re-renders · idle: 1 re-render**. 0 errores de consola. `node --check` OK en ambos. Resultado: los 3 módulos de cuadernos (14-WORK, 13-NOT, 10-SYS) ahora sincronizan en vivo cross-device SIN borrar lo que se escribe ni mostrar avisos.
+
+**Next step:** Miguel confirma en los 3 módulos. Retomar: cargar TAPI, limpieza del módulo 14-WORK, auditar cerebro público.

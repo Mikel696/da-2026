@@ -1191,3 +1191,18 @@ const NotNB = (function(){
   };
 })();
 window.NotNB = NotNB;
+
+/* ── Sync en vivo de cuadernos SIN interrumpir la edición (13-NOT) ──
+   Mismo patrón que 14-WORK: si estás escribiendo NO se re-renderiza
+   (borraría lo tipeado). El cambio entra silencioso a localStorage y
+   el render se difiere a focusout (tras el autosave). _commitNow lee
+   localStorage fresco → no se pierde nada. */
+(function(){
+  function _editing(){ const a=document.activeElement; return !!(a && (a.isContentEditable || a.tagName==='INPUT' || a.tagName==='TEXTAREA')); }
+  let _pending=false;
+  function _safe(){ if(_editing()){ _pending=true; return; } _pending=false; try{ if(window.NotNB && NotNB.render) NotNB.render(); }catch(e){ console.warn(e); } }
+  document.addEventListener('focusout', ()=>{ if(!_pending) return; setTimeout(()=>{ if(_pending && !_editing()) _safe(); }, 700); }, true);
+  window.addEventListener('cloud:realtime_change', (e)=>{ const k=e.detail&&e.detail.key; if(k && k.indexOf('not_nb')===0) _safe(); });
+  window.addEventListener('cloud:auto_resynced', _safe);
+  window.addEventListener('cloud:sync_complete', _safe);
+})();
