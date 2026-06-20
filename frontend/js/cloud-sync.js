@@ -591,12 +591,20 @@ const CLOUD = (() => {
         console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
         if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, cloudTs || Date.now());
       } else {
-        // Local is newer → push to cloud, y ALINEAR el TS local con el momento del push.
-        // Sin esto, el local quedaba "siempre más nuevo" y re-subía la misma key en
-        // cada carga (el cascade de "14 cambios sin subir").
-        console.log('[CLOUD] reconcile local→cloud:', key);
-        await pushState(key, _safeParse(localRaw));
-        _setLocalTs(key, Date.now());
+        // "Local más nuevo" por TIMESTAMP — pero SOLO subir si el CONTENIDO realmente
+        // difiere. Si es idéntico al cloud (lo normal una vez sincronizado), NO re-subir:
+        // solo alinear el TS. Comparar normalizado (parse+stringify de ambos lados) evita
+        // falsos positivos por orden de claves. Esto mata el cascade de re-push en CADA
+        // carga/poll que generaba el fantasma de "N cambios sin subir".
+        const localNorm = JSON.stringify(_safeParse(localRaw));
+        const cloudNorm = JSON.stringify(cloud.payload);
+        if (localNorm === cloudNorm) {
+          _setLocalTs(key, cloudTs);                 // ya sincronizado → solo alinear, sin red
+        } else {
+          console.log('[CLOUD] reconcile local→cloud:', key);
+          await pushState(key, _safeParse(localRaw));
+          _setLocalTs(key, Date.now());
+        }
       }
     } else if (cloudExists && !localExists) {
       console.log('[CLOUD] reconcile cloud→local (new):', key);
