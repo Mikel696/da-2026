@@ -3445,3 +3445,14 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 **Resultado esperado:** tras deploy + 1 refresh, el cascade converge y NO reaparece; sync 100% automático (realtime + poll 45s + outbox-retry 20s), sin necesidad del botón "Sincronizar todo".
 
 **Next step:** verificar en la sesión real de Miguel (Chrome MCP) que el cascade desaparece tras cargar p9; confirmar que sus cuadernos reflejan cross-device.
+
+### Actualización (mismo día) · p9 NO bastó → p10 RESUELVE (verificado live)
+La verificación en la sesión real (Chrome MCP) mostró que **p9 seguía con el cascade de 46 keys en cada carga/poll**. Root cause real: la rama "local más nuevo" decidía por TIMESTAMP, y como el push deja el TS local unos ms por encima del cloud, en la carga siguiente local se veía "más nuevo" otra vez → re-subía las 46 aunque el contenido fuera idéntico.
+
+**Fix p10 ([cloud-sync.js](frontend/js/cloud-sync.js) `_reconcileKey`, rama LWW local→cloud):** comparar el CONTENIDO normalizado (`JSON.stringify(_safeParse(localRaw)) === JSON.stringify(cloud.payload)`). Si es idéntico → NO subir, solo `_setLocalTs(cloudTs)` (cero red). Solo se sube cuando el contenido realmente difiere. cloud-sync p9 → **p10**.
+
+**VERIFICADO EN VIVO (Chrome MCP, sesión real de Miguel, work.html p10):** `fullSyncAll START → pullAllStates OK: 52 keys → DONE (3410ms)`; únicos reconciles = los 6 cuadernos en "cloud ya completo" (solo alinean, sin push); **`reconcile local→cloud` = 0** (antes 46/carga); outbox=0, queue=0. El "14 cambios sin subir" quedó eliminado en la raíz. Sync 100% automático: realtime ✓ + poll 45s + outbox-retry 20s. Sin botón.
+
+**Pendiente menor (cosmético, NO bloqueante):** `work_nb_meta` muestra TS local adelantado SOLO en la página work.html (WorkNB re-sella al render) — pero cae en "cloud ya completo" (no sube, no genera pendientes). Revisar si molesta.
+
+**Acción para Miguel:** hard-refresh (Ctrl+Shift+R) en su PC del trabajo UNA vez para tomar p10. Después, automático y sin el botón.
