@@ -970,26 +970,45 @@ const CLOUD = (() => {
     if (_rtChannel) { try { SB.removeChannel(_rtChannel); } catch{} _rtChannel = null; }
   }
 
-  /* ── Polling de respaldo (patrón resiliencia family-system) ──────
-     Si realtime no entrega eventos (ej. publicación no habilitada en
-     la tabla), TODO baja igual solo: 1 pull de app_state cada 45s y
-     reconcilia CADA key sincronizable (no solo cuadernos — también
-     prompts, notas, goals, casos, etc.). Solo con pestaña visible y
-     sin sync en curso. _reconcileKey hace merge estructural para
-     cuadernos y LWW por timestamp para el resto, así que es seguro
-     correrlo en loop: solo escribe si la nube trae algo más nuevo. ── */
-  setInterval(async () => {
-    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+  /* ── Polling de respaldo LIVIANO (resiliencia si realtime falla) ──
+     CLAVE de rendimiento: NO baja los payloads cada vez (work_nb_data
+     puede pesar MBs). El tick solo trae `store_key + updated_at` (bytes)
+     y compara contra el TS local. Solo descarga el payload COMPLETO de
+     las keys cuya nube es más nueva (cambio real). Si no cambió nada →
+     cero descarga de contenido. Realtime sigue siendo la vía instantánea;
+     esto es el respaldo. Solo con pestaña visible y sin sync en curso. ── */
+  /** Pull LIVIANO: trae solo timestamps, baja payload SOLO de lo que cambió.
+   *  Reusado por el poll de respaldo y por el resync al volver a la pestaña. */
+  async function _lightPull() {
+    if (!_ready()) return;
     try {
-      const cloudMap = await _pullAllStates();
-      if (!cloudMap) return;
-      for (const [key] of cloudMap) {
+      // 1) Solo timestamps (bytes) — NO baja los MB de los cuadernos
+      const { data: heads, error } = await SB.from('app_state')
+        .select('store_key, updated_at')
+        .eq('user_id', _uid());
+      if (error || !heads) return;
+      // 2) Keys sincronizables cuya nube es MÁS NUEVA que el local
+      const stale = [];
+      for (const row of heads) {
+        const key = row.store_key;
         if (SKIP_KEYS.has(key)) continue;
-        if (_registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p))) {
-          await _reconcileKey(key, cloudMap);
-        }
+        if (!(_registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p)))) continue;
+        if (new Date(row.updated_at || 0).getTime() > _getLocalTs(key)) stale.push(key);
       }
+      if (!stale.length) return;   // nada nuevo → cero descarga de payloads
+      // 3) Bajar el payload SOLO de las que cambiaron y reconciliar
+      const { data: full, error: e2 } = await SB.from('app_state')
+        .select('store_key, payload, updated_at')
+        .eq('user_id', _uid())
+        .in('store_key', stale);
+      if (e2 || !full) return;
+      const map = new Map(full.map(r => [r.store_key, { payload: r.payload, updated_at: r.updated_at }]));
+      for (const key of stale) { if (map.has(key)) await _reconcileKey(key, map); }
     } catch (e) { /* silencioso — reintenta en el próximo tick */ }
+  }
+  setInterval(() => {
+    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    _lightPull();
   }, 45000);
 
   /* ── Auto-recuperación del outbox (sin botón) ──────────────────────
@@ -1021,12 +1040,11 @@ const CLOUD = (() => {
     if (!_ready() || _syncing) return;
     const age = Date.now() - _lastSyncTs;
     if (age < 30000) return; // less than 30s, skip
-    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — auto-syncing (normal reconcile)');
-    // CRÍTICO: usar fullSyncAll (reconcile con timestamps) en vez de forceResync (sobrescribe siempre).
-    // Si pushNow del delete falló silenciosamente, el cloud está viejo. fullSyncAll detecta que
-    // local es más reciente y empuja local→cloud, preservando el delete. forceResync haría lo
-    // opuesto: traería el cloud viejo y resucitaría el archivo eliminado.
-    await fullSyncAll();
+    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — light pull');
+    // LIVIANO: solo trae lo que cambió en la nube (no re-descarga los MB de cuadernos
+    // en cada cambio de pestaña). Los cambios locales pendientes los sube el outbox-retry.
+    await _lightPull();
+    _lastSyncTs = Date.now();
     window.dispatchEvent(new CustomEvent('cloud:auto_resynced'));
   });
 
