@@ -1411,21 +1411,22 @@
     }
     try {
       const rawUrl = await _readFileAsDataURL(file);
-      // 3 tiers: full → IDB · preview → inline body (sync) · thumb → fallback
-      const full    = await compressImage(rawUrl, { maxDim: 1920, quality: 0.85 });
-      const preview = await compressImage(rawUrl, { maxDim: 1280, quality: 0.78 });
+      // HD ÚNICA fuera del body: full → IDB (local, instantáneo) + Supabase Storage
+      // (cross-device). El body YA NO lleva la imagen embebida — antes el preview
+      // de 1280px pesaba ~180KB inline y por eso los cuadernos llegaban a MBs.
+      // El chip es solo una referencia liviana (ícono + nombre).
+      const full = await compressImage(rawUrl, { maxDim: 1920, quality: 0.85 });
       const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
       try { await putImage(id, full); } catch(e) { /* IDB optional */ }
+      // Subir la HD a Storage en background (cola de reintento si offline/deslogueado).
+      _dataUrlToFile(full, id + '.jpg').then(f => cloudUploadAttachment(id, f)).catch(()=>{});
       const alt = (file.name || 'imagen').replace(/"/g, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       const label = alt.length > 22 ? alt.slice(0, 20) + '…' : alt;
-      // CHIP compacto y DRAGGABLE: no cubre la hoja, popup al click,
-      // arrastrable a cualquier punto del editor para anclar la referencia.
-      // data-preview lleva el preview 1280px (sincroniza cross-device vía JSONB)
-      // data-img-id apunta al full en IDB (HD local) para overlay
+      // CHIP compacto y DRAGGABLE: no cubre la hoja, popup al click.
+      // data-img-id → HD en IDB (local) y en Storage (cross-device, se baja al abrir).
       const html = '<span class="nb-img-chip" contenteditable="false" draggable="true"'
         + ' data-img-id="' + id + '"'
         + ' data-name="' + alt + '"'
-        + ' data-preview="' + preview + '"'
         + ' title="' + alt + ' · click abre HD · arrastra para reubicar">'
         + '<span class="nb-img-chip-ic">🖼️</span>'
         + '<span class="nb-img-chip-name">' + label + '</span>'
@@ -1700,9 +1701,16 @@
     const id = imgEl.getAttribute('data-img-id');
     let src = imgEl.tagName === 'IMG'
       ? imgEl.src
-      : (imgEl.getAttribute('data-preview') || '');
+      : (imgEl.getAttribute('data-preview') || '');   // fallback legacy (imágenes sin migrar)
     if (id) {
-      try { const hd = await getImage(id); if (hd) src = hd; } catch(e) {}
+      try {
+        let hd = await getImage(id);                    // 1) IDB (device origen)
+        if (!hd) {                                       // 2) cross-device → Supabase Storage
+          const blob = await cloudDownloadAttachment(id);
+          if (blob) { hd = await _readFileAsDataURL(blob); try { await putImage(id, hd); } catch(e){} }
+        }
+        if (hd) src = hd;
+      } catch(e) {}
     }
     let ov = document.getElementById('nbImgOverlay');
     if (!ov) {
@@ -1853,9 +1861,62 @@
   }
 
   /* ── PUBLIC API ────────────────────────────────────────────── */
+  /** MIGRACIÓN MANUAL (botón) · libera el peso de las imágenes ya pegadas.
+   *  Mueve la HD de cada chip con `data-preview` inline (~180KB) a Supabase
+   *  Storage + IDB, y quita el `data-preview` del body → la JSONB queda liviana.
+   *  FAIL-SAFE: solo quita el preview si la HD subió OK a Storage (si está en
+   *  cola/offline, lo conserva y se podrá re-correr). IDEMPOTENTE: ignora chips
+   *  ya migrados. NO toca nada más del body (remoción por string exacto).
+   *  @param dataKey 'work_nb_data' | 'not_nb_data' | 'sys_notebook'
+   *  @returns {scanned, optimized, pending, errors, freedKB} */
+  async function optimizeImages(dataKey){
+    let data; try { data = JSON.parse(localStorage.getItem(dataKey) || '{}'); } catch { return { ok:false, reason:'parse' }; }
+    if (!data || typeof data !== 'object') return { ok:false, reason:'empty' };
+    const parser = new DOMParser();
+    let scanned=0, optimized=0, pending=0, errors=0, freed=0;
+    for (const nbId of Object.keys(data)) {
+      const nb = data[nbId];
+      if (!nb || !Array.isArray(nb.pages)) continue;
+      for (const page of nb.pages) {
+        if (!page || typeof page.body !== 'string' || page.body.indexOf('data-preview') === -1) continue;
+        // 1) Extraer {id, preview} de los chips (parse read-only — no re-serializa el body)
+        const doc = parser.parseFromString(page.body, 'text/html');
+        const chips = [...doc.querySelectorAll('.nb-img-chip[data-preview]')]
+          .map(c => ({ id: c.getAttribute('data-img-id'), preview: c.getAttribute('data-preview') || '' }));
+        for (const { id, preview } of chips) {
+          if (!preview) continue;
+          scanned++;
+          if (!id) continue;   // sin id no se puede keyear en Storage → conservar
+          try {
+            // Fuente HD: IDB full (origin) si está; si no, el propio preview inline
+            let hd = null; try { hd = await getImage(id); } catch(e){}
+            if (!hd) { hd = preview; try { await putImage(id, hd); } catch(e){} }
+            const r = await cloudUploadAttachment(id, await _dataUrlToFile(hd, id + '.jpg'));
+            if (r && r.ok) {
+              const needle = ' data-preview="' + preview + '"';
+              if (page.body.indexOf(needle) !== -1) {
+                page.body = page.body.replace(needle, '');
+                page.updated = new Date().toISOString();
+                freed += Math.round(needle.length / 1024);
+                optimized++;
+              }
+            } else {
+              pending++;   // quedó en cola de reintento → NO se quita el preview (seguro)
+            }
+          } catch(e) { errors++; }
+        }
+      }
+    }
+    if (optimized) {
+      try { localStorage.setItem(dataKey, JSON.stringify(data)); }
+      catch(e) { return { ok:false, reason:'quota-save', scanned, optimized, pending, errors, freedKB:freed }; }
+    }
+    return { ok:true, scanned, optimized, pending, errors, freedKB:freed };
+  }
+
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p21-2026-06-02',
+    VERSION: 'p22-2026-06-19',
     /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
        Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
@@ -1872,6 +1933,8 @@
     compressImage, dataUrlBytes,
     // Image IDB pipeline (thumbnail in payload, full in IndexedDB)
     storeImageWithThumbnail, resolveImageData, putImage, getImage, deleteImage, migrateLegacyImages,
+    // Optimización de peso: mover imágenes pegadas a Storage y aligerar la JSONB
+    optimizeImages,
     // Drop modal
     openDropModal, pickAttachmentViaModal, pickImageViaModal, pickImageRecordViaModal,
     _dmCancel, _dmSave, _dmPick,

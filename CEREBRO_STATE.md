@@ -3456,3 +3456,20 @@ La verificación en la sesión real (Chrome MCP) mostró que **p9 seguía con el
 **Pendiente menor (cosmético, NO bloqueante):** `work_nb_meta` muestra TS local adelantado SOLO en la página work.html (WorkNB re-sella al render) — pero cae en "cloud ya completo" (no sube, no genera pendientes). Revisar si molesta.
 
 **Acción para Miguel:** hard-refresh (Ctrl+Shift+R) en su PC del trabajo UNA vez para tomar p10. Después, automático y sin el botón.
+
+---
+
+## 2026-06-19 · PLATAFORMA · Rendimiento: poll/resync livianos (p11) + imágenes fuera del body (nb-shared p19)
+
+**Diagnóstico en vivo (Chrome MCP):** `work_nb_data` = **2.1 MB** (un cuaderno solo 1 MB) porque cada imagen pegada metía un `data-preview` de 1280px (~180KB) **inline en `page.body`**. El poll de 45s + el resync al volver a la pestaña re-descargaban esos 2 MB → app trabada.
+
+**Fix A — sync liviano ([cloud-sync.js](frontend/js/cloud-sync.js), p10→p11):** `_lightPull()` trae solo `store_key+updated_at` (bytes) y descarga payload SOLO de lo que cambió. Usado por el poll 45s y por el resync de visibilitychange (antes hacía `fullSyncAll` = 2 MB en cada cambio de pestaña). **Deployado y vivo.**
+
+**Fix B — imágenes en almacenamiento separado ([nb-shared.js](frontend/js/nb-shared.js), p18→p19):** patrón "código público, datos privados, body liviano".
+- **Pegar imagen** (`_insertImageFromFile`): HD única → IDB (local) + Supabase Storage (bucket `attachments`, cola de reintento). El chip del body YA NO lleva `data-preview` (se eliminó el preview inline de ~180KB). El body queda en bytes.
+- **Abrir HD** (`_openImageHD`): IDB → si miss (otro device) baja de Storage (`cloudDownloadAttachment`) y cachea en IDB. Fallback legacy: `data-preview` (imágenes sin migrar).
+- **Migración MANUAL** (`NBShared.optimizeImages(dataKey)` + botón "🗜️ Optimizar imágenes" en opciones de sync de work.html): mueve la HD de los chips legacy con `data-preview` a Storage y quita el preview del body por **string exacto** (no re-serializa el body). FAIL-SAFE: solo quita el preview si el upload a Storage dio `ok`; si quedó en cola (offline) lo conserva. IDEMPOTENTE.
+
+**Por qué no falla:** el chip es solo referencia (ícono+nombre), nunca dependió de mostrar la imagen inline; la HD tiene 2 copias (IDB origin + Storage) con reintento; nada se borra del body hasta confirmar el upload. Resultado esperado: `work_nb_data` 2.1 MB → ~KB.
+
+**Next step:** verificar EN VIVO (Chrome MCP, sesión real) el viaje a Storage de una imagen nueva, y correr `optimizeImages('work_nb_data')` mirando que libere espacio y que las imágenes sigan abriendo. Pendiente: botón equivalente en 13-NOT/10-SYS (la función ya es genérica).

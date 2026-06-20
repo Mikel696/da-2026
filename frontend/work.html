@@ -54,6 +54,7 @@
         <button class="btn bo bs" data-syncbtn onclick="WORK.forcePush(event)" title="Solo sube al cloud (sobrescribe cloud · usar con cuidado)">⬆ Forzar push</button>
         <button class="btn bo bs" onclick="WORK.showSyncDiagnostics()" title="Estado actual">🔍 Diagnóstico</button>
         <button class="btn bo bs" onclick="WORK.compareLocalVsCloud()" title="Comparativo detallado">⚖ Comparar</button>
+        <button class="btn bo bs" title="Mueve las imágenes pegadas a almacenamiento separado (Storage + IndexedDB) y aligera los cuadernos. Seguro: no quita nada hasta confirmar que la copia subió." onclick="const b=this; if(!confirm('🗜️ Optimizar imágenes\n\nMueve las imágenes pegadas en tus cuadernos a almacenamiento separado y aligera la sincronización. Es seguro: no se borra nada hasta confirmar que la copia subió a la nube.\n\n¿Continuar?'))return; const o=b.textContent; b.textContent='🗜️ Optimizando…'; b.disabled=true; NBShared.optimizeImages('work_nb_data').then(function(r){ alert('✅ Listo\n\nImágenes movidas: '+r.optimized+'\nLiberado: ~'+r.freedKB+' KB\nEn cola (reintenta solo): '+r.pending+'\nErrores: '+r.errors); if(window.WorkNB&&WorkNB.render)WorkNB.render(); }).catch(function(e){ alert('Error: '+(e&&e.message||e)); }).finally(function(){ b.textContent=o; b.disabled=false; });">🗜️ Optimizar imágenes</button>
       </div>
     </details>
     <span style="font-size:10.5px;color:var(--t3);font-family:'IBM Plex Mono',monospace">auto-sync al volver a pestaña &gt;30s · realtime activo</span>
@@ -741,7 +742,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p11"></script>
 <!-- 14-WORK + shared notebook engine -->
-<script src="js/nb-shared.js?v=p18"></script>
+<script src="js/nb-shared.js?v=p19"></script>
 <script src="js/nb-engine.js"></script>
 <script src="js/work.js?v=p30"></script>
 </body>
