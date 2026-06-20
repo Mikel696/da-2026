@@ -142,8 +142,11 @@ const CLOUD = (() => {
           const { error } = await SB.from(TABLES[item.table]).delete().eq('id', item.record.id).eq('user_id', _uid());
           if (error) console.error('[CLOUD] flush delete error:', item.table, error);
         } else if (item.action === 'state_upsert') {
-          // Retry for app_state pushes
+          // Retry for app_state pushes — al confirmar, SACAR del outbox y alinear TS
+          // (sin esto el push se hacía pero el contador quedaba fantasma en "N sin subir")
           await _pushStateRaw(item.record.key, item.record.payload);
+          _setLocalTs(item.record.key, Date.now());
+          _outboxRemove(item.record.key);
         }
       } catch (e) { console.error('[CLOUD] flush exception:', item.table, e); _queue.push(item); }
     }
@@ -565,14 +568,18 @@ const CLOUD = (() => {
       const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
       if (sm !== null) {
         const mergedStr = JSON.stringify(sm);
-        const wrote = _safeWrite(key, mergedStr);
+        if (mergedStr !== localRaw) _safeWrite(key, mergedStr);
         if (mergedStr !== JSON.stringify(cloud.payload)) {
           console.log('[CLOUD] reconcile MERGE→both:', key);
           await pushState(key, sm);
+          _setLocalTs(key, Date.now());
         } else {
+          // Local y nube YA equivalentes → alinear el TS local con el de la nube.
+          // (Sellar Date.now() acá envenenaba el merge: el local quedaba "siempre
+          //  más nuevo" y la key reaparecía como "cambio sin subir" en cada carga.)
           console.log('[CLOUD] reconcile MERGE (cloud ya completo):', key);
+          _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
         }
-        if (wrote) _setLocalTs(key, Date.now());
         return;
       }
       // Resto — compare timestamps (LWW por key)
@@ -584,9 +591,12 @@ const CLOUD = (() => {
         console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
         if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, cloudTs || Date.now());
       } else {
-        // Local is newer → push to cloud
+        // Local is newer → push to cloud, y ALINEAR el TS local con el momento del push.
+        // Sin esto, el local quedaba "siempre más nuevo" y re-subía la misma key en
+        // cada carga (el cascade de "14 cambios sin subir").
         console.log('[CLOUD] reconcile local→cloud:', key);
         await pushState(key, _safeParse(localRaw));
+        _setLocalTs(key, Date.now());
       }
     } else if (cloudExists && !localExists) {
       console.log('[CLOUD] reconcile cloud→local (new):', key);
@@ -973,6 +983,15 @@ const CLOUD = (() => {
       }
     } catch (e) { /* silencioso — reintenta en el próximo tick */ }
   }, 45000);
+
+  /* ── Auto-recuperación del outbox (sin botón) ──────────────────────
+     Si quedó algo sin subir (push transitorio fallido), se reintenta
+     solo cada 20s. _flushOutbox quita del outbox al confirmar. Así el
+     contador "N sin subir" nunca se queda pegado esperando un reload. */
+  setInterval(() => {
+    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    if (_outboxGet().length) _flushOutbox().catch(()=>{});
+  }, 20000);
 
   window.addEventListener('sb:signed_out', () => {
     console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');

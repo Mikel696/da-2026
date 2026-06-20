@@ -3423,3 +3423,25 @@ Verificación live: logs muestran `reconcile MERGE→both: sys_notebook` y `MERG
 **Verificado en preview (espía de render):** 13-NOT (`NotNB.render`) y 10-SYS (`SYS.render`) → **editando: 0 re-renders · idle: 1 re-render**. 0 errores de consola. `node --check` OK en ambos. Resultado: los 3 módulos de cuadernos (14-WORK, 13-NOT, 10-SYS) ahora sincronizan en vivo cross-device SIN borrar lo que se escribe ni mostrar avisos.
 
 **Next step:** Miguel confirma en los 3 módulos. Retomar: cargar TAPI, limpieza del módulo 14-WORK, auditar cerebro público.
+
+---
+
+## 2026-06-19 · PLATAFORMA · ROOT-CAUSE del "14 cambios sin subir" (timestamp poisoning)
+
+**Diagnóstico EN VIVO (Chrome MCP sobre la sesión real de Miguel):** sesión válida, realtime ✓ suscrito, outbox se vaciaba al cargar — PERO cada carga disparaba un cascade `reconcile local→cloud` de ~14 keys (sb_goals, sb_prompts, sb_notes2, work_nb_meta, e4, ruta5, …). Eso era el "14 cambios". Timestamps reales confirmaron: `work_nb_meta` localTS = ahora pero cloud = ayer, **contenido idéntico** → el motor creía local más nuevo y re-subía.
+
+**Causa raíz (en `_reconcileKey`, [cloud-sync.js](frontend/js/cloud-sync.js)):**
+1. Rama de merge de cuadernos: sellaba `_setLocalTs(Date.now())` SIEMPRE (incluso cuando merged===cloud, o sea nada nuevo) → el TS local quedaba perpetuamente "ahora" mientras la nube seguía vieja → re-push eterno.
+2. Rama LWW `local→cloud`: tras `pushState` NO actualizaba el TS local → "local siempre más nuevo".
+3. `_flushQueue` (retry de cola): el `state_upsert` pusheaba OK pero no hacía `_outboxRemove` → contador fantasma "N sin subir".
+
+**Fix (4 cambios, solo bookkeeping de timestamps — cero cambio de datos):**
+- Merge de cuadernos: solo `_setLocalTs(Date.now())` cuando realmente se pushea algo nuevo; si local y nube ya son equivalentes → `_setLocalTs(cloud.updated_at)` (alinea, no envenena). Solo `_safeWrite` si cambió vs local.
+- LWW `local→cloud`: `_setLocalTs(Date.now())` tras el push.
+- `_flushQueue` state_upsert: al confirmar → `_setLocalTs` + `_outboxRemove`.
+- **Auto-recuperación del outbox sin botón:** nuevo `setInterval(20s)` que reintenta `_flushOutbox()` si quedó algo pendiente (con pestaña visible + sesión lista).
+- Cache-bust cloud-sync p8 → **p9** (19 páginas).
+
+**Resultado esperado:** tras deploy + 1 refresh, el cascade converge y NO reaparece; sync 100% automático (realtime + poll 45s + outbox-retry 20s), sin necesidad del botón "Sincronizar todo".
+
+**Next step:** verificar en la sesión real de Miguel (Chrome MCP) que el cascade desaparece tras cargar p9; confirmar que sus cuadernos reflejan cross-device.
