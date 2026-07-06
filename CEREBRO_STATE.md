@@ -1,8 +1,27 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-05-31
+- **Última actualización:** 2026-07-06
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🚀 4-RUT · Hub PROYECTO ATLAS — 2026-07-06
+
+### Qué es
+Sección nueva al tope de `ruta.html`: hub de continuidad multi-IA del **Proyecto ATLAS** (maestría 12 semanas en Ingeniería de IA Aplicada, doble vía servicios + empleo remoto). La constitución del proyecto vive fuera del repo en `E:\CLAUDE\My Project\` (PLAN_MAESTRO.html v2.0 + BITACORA.md + CLAUDE.md + PROMPTS_ATLAS.md).
+
+### Implementación
+- **`frontend/js/atlas.js`** (nuevo, IIFE `ATLAS`): 10 secciones colapsables — setup Claude Project paso a paso, setup Gemini Gem, 5 prompts copiables (2 maestros + diario + dominical + rescate), ruta diaria rellenable (checkboxes estudio/construcción/inglés + nota), currículo 12 semanas (18 items · 4 módulos con links), 10 certificaciones priorizadas (gratis primero), plan de inglés, protocolo dominical con generador de evento recurrente de Google Calendar, guía GitHub, 7 hacks.
+- **Botón "📋 Copiar Estado ATLAS"** (sticky): genera bloque de estado (semana/12, racha, currículo %, últimos 7 días, siguiente pendiente) para pegar en cualquier IA — la memoria del proyecto vive en la web, las IAs son intercambiables.
+- **Keys nuevas en SYNC_REGISTRY** (`cloud-sync.js`): `atlas_daily`, `atlas_curr`, `atlas_meta` — cross-device via Supabase.
+- `ruta.html`: stub `#atlasStub` + badge nav `🚀 ATLAS` + `<script src="js/atlas.js?v=1">`. La ruta Data Analyst clásica de 28 semanas queda intacta debajo.
+
+### Verificado en preview local
+Render completo (10 secciones, 18 items currículo, 10 certs, 3+2 prompts), guardado diario + racha + toggle currículo + Estado generado OK, 0 errores de consola.
+
+### Pendiente
+- Miguel: aprobar plan, crear Project en claude.ai y Gem en Gemini (guías en el hub), fijar hora diaria y domingo.
 
 ---
 

@@ -331,7 +331,10 @@ const CLOUD = (() => {
     'jt_s8',
     // ─── 2-APP Second Brain · 2026-05-15 (2-APP.P3) ───
     // Historial de análisis de vacantes (snapshots + outcomes para el Coach)
-    'app_analyses'
+    'app_analyses',
+    // ─── 4-RUT · Proyecto ATLAS · 2026-07-06 ───
+    // Ruta diaria (array), currículo/certs checkmarks (obj), meta/config (obj)
+    'atlas_daily', 'atlas_curr', 'atlas_meta'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */

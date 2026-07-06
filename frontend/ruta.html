@@ -102,8 +102,11 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 </style>
 </head>
 <body>
-<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Ruta Data Analyst</span></div><div class="nav-r"><div class="bdg bdg-g">📍 Fase <span id="curP">1</span>/7</div><div class="bdg bdg-a"><span id="gPct">0</span>%</div></div></nav>
+<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Ruta Data Analyst</span></div><div class="nav-r"><a href="#atlas" class="bdg bdg-a" style="text-decoration:none">🚀 ATLAS</a><div class="bdg bdg-g">📍 Fase <span id="curP">1</span>/7</div><div class="bdg bdg-a"><span id="gPct">0</span>%</div></div></nav>
 <div class="wrap">
+<div id="atlas"></div>
+<div id="atlasStub"></div>
+<div class="rt-label" style="margin-top:36px">· ruta data analyst clásica · 28 semanas ·</div>
 <div class="rt-hero"><div class="rt-sub">ruta de aprendizaje · 28 semanas</div><h1>De cero a <em>Data Analyst</em><br>en 7 meses.</h1><p>Cada lección te dice exactamente QUÉ estudiar, DÓNDE hacerlo y CÓMO ejecutarlo. Click en cualquier lección para ver la guía paso a paso. Tu progreso se guarda automáticamente.</p></div>
 <div class="rt-stats"><div class="rt-s"><div class="rt-sv" id="stL">0/0</div><div class="rt-sl2">Lecciones</div></div><div class="rt-s"><div class="rt-sv" id="stP">1</div><div class="rt-sl2">Fase</div></div><div class="rt-s"><div class="rt-sv" id="stPr">0</div><div class="rt-sl2">Proyectos</div></div><div class="rt-s"><div class="rt-sv" id="stD">0</div><div class="rt-sl2">Días</div></div></div>
 <div class="rt-pbar"><div class="rt-pbar-top"><span>Progreso total</span><b id="pLbl">0%</b></div><div class="rt-bar"><div class="rt-bar-fill" id="gBar" style="width:0%"></div></div></div>
@@ -530,5 +533,6 @@ render();
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p11"></script>
 <script src="js/ruta.js"></script>
+<script src="js/atlas.js?v=1"></script>
 </body>
 </html>
