@@ -1,7 +1,8 @@
 /* ════════════════════════════════════════════════════════════════
-   4-RUT · PROYECTO ATLAS — Ingeniería de IA Aplicada
-   Hub de continuidad multi-IA: prompts, ruta diaria, currículo,
-   certificaciones y Estado copiable para Claude + Gemini.
+   4-RUT · PROYECTO ATLAS v3.0 — El Camino de los Certificados
+   Cert-first · visual · 1h/día · una sola cosa a la vez.
+   F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle
+   → F4 IA Aplicada (la v2.0 vive ahí, pospuesta no cancelada).
    Keys: atlas_daily (array) · atlas_curr (obj) · atlas_meta (obj)
    — las 3 registradas en SYNC_REGISTRY de cloud-sync.js.
    ════════════════════════════════════════════════════════════════ */
@@ -13,205 +14,167 @@ const ATLAS = (() => {
   const sJ=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
   const getDaily=()=>gJ(K_DAILY,[]);
   const getCurr=()=>gJ(K_CURR,{});
-  const getMeta=()=>gJ(K_META,{start:'2026-07-06'});
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 
   /* ══════════════════════════════════════════════════════════
-     CURRÍCULO — 12 semanas · 4 módulos (espejo de PLAN_MAESTRO v2.0)
+     LA RUTA v3.0 — 4 fases · certificados en orden de dificultad
   ══════════════════════════════════════════════════════════ */
+  const AYUDA='Si algo del curso no se entiende: pégale el pantallazo o el texto a Claude y pide "explícamelo con manzanas". Nunca te quedes atascado más de 10 minutos.';
   const CURR=[
-  {id:'M1',icon:'🐍',name:'Módulo 1 · Fundamentos de producción',weeks:'Semanas 1–3 · jul 6–26',
+  {id:'F1',icon:'📊',name:'Fase 1 · Certificado Google de Análisis de Datos',weeks:'jul → sep 2026',
+   why:'100% guiado y visual (videos + clics, casi nada de código), disponible en español, valida lo que ya haces en Simetrik y es el certificado de entrada más reconocido del mercado.',
    items:[
-    {id:'m1-1',t:'Setup del laboratorio',d:'Python + VS Code + Git configurados y verificados',steps:[
-      {s:'Instala <strong>Python 3.12+</strong> (marca "Add to PATH" al instalar)',link:'https://www.python.org/downloads/',ln:'python.org'},
-      {s:'Instala <strong>VS Code</strong> + extensión oficial de Python',link:'https://code.visualstudio.com/',ln:'VS Code'},
-      {s:'Instala <strong>Git</strong> y configura tu nombre/email (git config --global)',link:'https://git-scm.com/downloads',ln:'Git'},
-      {s:'Pídele a Claude: <em>"Verifica mi setup: guíame para correr python --version, git --version y un hola-mundo"</em>'},
-    ],check:'Ejecutaste un script .py desde la terminal y hiciste tu primer commit.'},
-    {id:'m1-2',t:'Python desde JS',d:'Sintaxis, tipos, funciones, módulos — el puente desde JavaScript',steps:[
-      {s:'Curso interactivo gratis con certificado: <strong>Kaggle Intro to Programming + Python</strong>',link:'https://www.kaggle.com/learn/python',ln:'Kaggle Learn — Python'},
-      {s:'Cada día: 1 lección con Claude usando el Prompt Diario (sección Prompts). Claude te da el reto; tú lo tecleas — jamás copies/pegues su código.'},
-      {s:'Refuerzo opcional pago: <strong>boot.dev</strong> (gamificado, muy bueno para constancia)',link:'https://www.boot.dev/',ln:'boot.dev'},
-    ],check:'Puedes escribir funciones, listas/dicts, comprehensions y leer archivos sin googlear.'},
-    {id:'m1-3',t:'Git & GitHub nivel pro',d:'Commits, branches, PRs, README que venden',steps:[
-      {s:'Curso oficial interactivo gratis: <strong>GitHub Skills</strong> (Introduction to GitHub + Communicate using Markdown)',link:'https://skills.github.com/',ln:'GitHub Skills'},
-      {s:'Crea el repo <strong>atlas-portfolio</strong> (público) — ahí vive TODO tu progreso.'},
-      {s:'Hábito: <strong>1 commit diario mínimo</strong>. El gráfico verde de GitHub es tu credencial silenciosa ante reclutadores.'},
-    ],check:'Repo atlas-portfolio creado, con README y racha de commits de 7+ días.'},
-    {id:'m1-4',t:'APIs REST a fondo',d:'Consumir, autenticar, paginar, manejar errores + FastAPI básico',steps:[
-      {s:'Aprende requests con Python',link:'https://realpython.com/api-integration-in-python/',ln:'Real Python — APIs'},
-      {s:'Practica con 2–3 APIs públicas gratuitas (clima, crypto, países)',link:'https://github.com/public-apis/public-apis',ln:'Public APIs List'},
-      {s:'Tutorial oficial de <strong>FastAPI</strong> (solo First Steps → Query Params)',link:'https://fastapi.tiangolo.com/tutorial/',ln:'FastAPI Tutorial'},
-    ],check:'Consumiste una API con auth y paginación, y expusiste un endpoint propio con FastAPI.'},
-    {id:'m1-5',t:'🏆 PROYECTO 1',d:'API propia desplegada que consume una fuente externa, con README impecable',steps:[
-      {s:'Con Claude: diseña y construye una mini-API (ej: agregador de datos de una API pública con caché y endpoints propios).'},
-      {s:'Súbela a GitHub con README profesional: qué hace, screenshot, cómo correrla, qué aprendiste.'},
-    ],check:'Proyecto 1 público en GitHub y funcionando. Puedes explicarlo en 60 segundos.'},
+    {id:'f1-1',t:'Cuenta Coursera + AYUDA ECONÓMICA (hoy, 20 min)',d:'La beca tarda 2-3 semanas en aprobarse — por eso es el paso 1',steps:[
+      {s:'Crea tu cuenta en Coursera con tu Gmail',link:'https://www.coursera.org/professional-certificates/google-data-analytics',ln:'Coursera — Google Data Analytics'},
+      {s:'En la página del certificado, clic en <b>"Ayuda económica disponible"</b> (bajo el precio) y llena la solicitud (15 min, respuestas honestas y simples).'},
+      {s:'Mientras aprueban: usa la <b>prueba gratis de 7 días</b> para arrancar el Curso 1. En ajustes del curso cambia el idioma a <b>español</b>.'},
+    ],check:'Solicitud de ayuda enviada y Curso 1 abierto en español.'},
+    {id:'f1-2',t:'Curso 1 · Fundamentos: datos en todas partes',d:'~2 semanas a 1h/día · el más largo porque construye la base',steps:[{s:'1 hora al día: 45 min de video/lecturas + 15 min de notas en tu registro diario (abajo). '+AYUDA}],check:'Curso 1 aprobado (badge en Coursera).'},
+    {id:'f1-3',t:'Curso 2 · Hacer preguntas para tomar decisiones',d:'~1 semana',steps:[{s:'Mismo ritmo. Verás que esto YA lo haces en tu trabajo — ahora le pones nombre y método.'}],check:'Curso 2 aprobado.'},
+    {id:'f1-4',t:'Curso 3 · Preparar los datos para explorarlos',d:'~1 semana',steps:[{s:'Aquí empieza SQL suave (BigQuery guiado). '+AYUDA}],check:'Curso 3 aprobado.'},
+    {id:'f1-5',t:'Curso 4 · Procesar los datos (limpieza)',d:'~1 semana',steps:[{s:'Limpieza de datos = el 80% del trabajo real. Conecta esto con lo que haces en Simetrik.'}],check:'Curso 4 aprobado.'},
+    {id:'f1-6',t:'Curso 5 · Analizar los datos',d:'~1 semana',steps:[{s:'Hojas de cálculo + SQL para responder preguntas. Tu terreno.'}],check:'Curso 5 aprobado.'},
+    {id:'f1-7',t:'Curso 6 · Compartir con visualizaciones (Tableau)',d:'~1 semana · tu lado visual brilla aquí',steps:[{s:'Tableau Public es gratis, arrastrar y soltar. Guarda tus gráficos — sirven de portafolio.'}],check:'Curso 6 aprobado y 1 visualización propia guardada.'},
+    {id:'f1-8',t:'Curso 7 · Análisis con R (verlo ligero)',d:'~1 semana · sin estresarse',steps:[{s:'R es opcional en el mercado. Míralo para aprobar, sin exigirte dominarlo — tu lenguaje será Python (Fase 3).'}],check:'Curso 7 aprobado.'},
+    {id:'f1-9',t:'Curso 8 · Caso práctico final → 🎓 CERTIFICADO 1',d:'~1 semana · tu primer credencial de mercado',steps:[
+      {s:'El caso final se hace con calma, es tu primera pieza de portafolio.'},
+      {s:'Al recibir el certificado: agrégalo a LinkedIn (Coursera tiene botón directo) y celébralo — es real.'},
+    ],check:'🎓 Certificado Google Data Analytics en tu LinkedIn.'},
    ]},
-  {id:'M2',icon:'🧠',name:'Módulo 2 · Ingeniería LLM',weeks:'Semanas 4–6 · jul 27–ago 16',
+  {id:'F2',icon:'📈',name:'Fase 2 · Power BI + Certificación Microsoft PL-300',weeks:'oct → nov 2026',
+   why:'Power BI es la herramienta MÁS visual del mercado (arrastrar y soltar, cero código) y la más pedida en vacantes remotas de datos en LATAM. Con tu condición de estudiante CUN el examen tiene descuento.',
    items:[
-    {id:'m2-1',t:'APIs de Claude y Gemini',d:'Chat, system prompts, streaming, manejo de tokens y costos',steps:[
-      {s:'Cursos oficiales gratis de Anthropic: <strong>Anthropic Academy</strong> (Claude with the Anthropic API)',link:'https://anthropic.skilljar.com/',ln:'Anthropic Academy'},
-      {s:'Documentación de la API de Gemini (tienes tier gratuito para desarrollo)',link:'https://ai.google.dev/gemini-api/docs',ln:'Gemini API Docs'},
-      {s:'Ejercicio: el mismo mini-chat en consola contra ambas APIs — compara respuestas, latencia y costo.'},
-    ],check:'Llamaste a ambas APIs desde Python, con system prompt y control de tokens.'},
-    {id:'m2-2',t:'Tool Use / Function Calling',d:'El corazón de los agentes: la IA ejecuta TUS funciones',steps:[
-      {s:'Guía oficial de tool use de Anthropic (está en la Academy y en docs.anthropic.com)',link:'https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview',ln:'Anthropic — Tool Use'},
-      {s:'Ejercicio con Claude: asistente que consulta una "base de datos" local (JSON) vía funciones: buscar producto, calcular total, registrar pedido.'},
-    ],check:'Tu código define herramientas, el modelo las invoca y tú orquestas el loop completo.'},
-    {id:'m2-3',t:'Embeddings y búsqueda semántica',d:'Vectores, similitud, cuándo usarlos (base de RAG)',steps:[
-      {s:'Short course gratis: <strong>DeepLearning.AI</strong> (busca "Embeddings" o "Vector Databases")',link:'https://www.deeplearning.ai/short-courses/',ln:'DeepLearning.AI Short Courses'},
-      {s:'Práctica: indexa 50 frases y busca por significado (no por palabra exacta) con Chroma local.',link:'https://docs.trychroma.com/',ln:'Chroma Docs'},
-    ],check:'Explicas qué es un embedding con tus palabras y montaste búsqueda semántica local.'},
-    {id:'m2-4',t:'n8n — la fábrica visual',d:'Self-hosted gratis · el vehículo de entrega para clientes',steps:[
-      {s:'Curso oficial gratis con badge: <strong>n8n Level 1</strong>',link:'https://docs.n8n.io/courses/level-one/',ln:'n8n Course L1'},
-      {s:'Luego <strong>Level 2</strong> (avanzado)',link:'https://docs.n8n.io/courses/level-two/',ln:'n8n Course L2'},
-      {s:'Meta: <strong>10 workflows</strong> construidos (usa plantillas de la comunidad como base)',link:'https://n8n.io/workflows/',ln:'n8n Templates'},
-    ],check:'Badges L1+L2 obtenidos y 10 workflows funcionando en tu instancia.'},
-    {id:'m2-5',t:'🏆 PROYECTO 2',d:'Asistente con tool-use sobre datos reales (ej: bot de inventario por Telegram)',steps:[
-      {s:'Con Claude: define alcance pequeño y útil. Constrúyelo en Python puro O n8n+código (decide con tu profesor).'},
-      {s:'GitHub + video-demo de 60s (Gemini te ayuda a guionarlo).'},
-    ],check:'Proyecto 2 público, con demo grabada. Un extraño entiende qué hace en 1 minuto.'},
+    {id:'f2-1',t:'Descuento de estudiante + instalar Power BI',d:'30 min de setup',steps:[
+      {s:'En tu perfil de Microsoft Learn, verifica tu condición de <b>estudiante</b> (correo CUN) — activa el descuento del examen (~50%)',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',ln:'Certificación PL-300'},
+      {s:'Instala <b>Power BI Desktop</b> (gratis)',link:'https://www.microsoft.com/es-es/download/details.aspx?id=58494',ln:'Descargar Power BI Desktop'},
+    ],check:'Estudiante verificado y Power BI abierto en tu PC.'},
+    {id:'f2-2',t:'Ruta oficial Microsoft Learn para PL-300',d:'~4 semanas · gratis y en español',steps:[
+      {s:'Sigue la ruta de aprendizaje oficial "Preparación para el examen PL-300" módulo por módulo (es interactiva, con laboratorios guiados)',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',ln:'Ruta PL-300 en MS Learn'},
+      {s:AYUDA},
+    ],check:'Ruta de MS Learn completada (todos los módulos con check verde).'},
+    {id:'f2-3',t:'Proyecto: dashboard con TUS datos reales',d:'~1 semana · con Claude como copiloto',steps:[
+      {s:'Exporta tus datos de finanzas personales (módulo 12-FIN) y construye un dashboard real: gastos por mes, categorías, tendencias.'},
+      {s:'Claude te guía pantalla por pantalla. Este dashboard va al portafolio (repo atlas-portfolio).'},
+    ],check:'Dashboard funcionando con datos tuyos + screenshot en el repo.'},
+    {id:'f2-4',t:'Simulacros del examen',d:'~1 semana',steps:[
+      {s:'Microsoft ofrece <b>Practice Assessment</b> gratis del PL-300 — hazlo hasta pasar con 85%+',link:'https://learn.microsoft.com/es-es/credentials/certifications/practice-assessments-for-microsoft-certifications',ln:'Practice Assessments'},
+      {s:'Las preguntas que falles: me las pegas y las destripamos juntos.'},
+    ],check:'Simulacro en 85%+ dos veces seguidas.'},
+    {id:'f2-5',t:'Examen PL-300 → 🎓 CERTIFICADO 2 (Microsoft oficial)',d:'1 día · ~USD $80-100 con descuento',steps:[
+      {s:'Agenda el examen online (con supervisión remota) o en centro Pearson VUE. Con el descuento de estudiante aplicado.'},
+      {s:'Al aprobar: LinkedIn + <b>empezar a aplicar a vacantes remotas junior</b> de Data Analyst/BI desde tu módulo 5-JOB. Este certificado ya abre puertas reales.'},
+    ],check:'🎓 Microsoft Certified: Power BI Data Analyst Associate. Aplicando a vacantes.'},
    ]},
-  {id:'M3',icon:'📚',name:'Módulo 3 · RAG + Agentes (la especialización que paga)',weeks:'Semanas 7–9 · ago 17–sep 6',
+  {id:'F3',icon:'🐍',name:'Fase 3 · Python sin dolor (Kaggle Learn)',weeks:'dic 2026 → ene 2027',
+   why:'Kaggle es gratis, corre en el navegador (cero instalación, cero terminal), lecciones cortas y ves el resultado de tu código AL INSTANTE — hecho para aprendices visuales. Aquí el código entra, y entra suave.',
    items:[
-    {id:'m3-1',t:'RAG de producción',d:'Chunking, retrieval, re-ranking, evaluación — el premium de +$40-80/h',steps:[
-      {s:'Short courses de <strong>DeepLearning.AI</strong>: "Building Applications with Vector Databases" / RAG',link:'https://www.deeplearning.ai/short-courses/',ln:'DeepLearning.AI'},
-      {s:'Construye con Claude un RAG local: tus PDFs → chunks → Chroma → respuestas con citas.'},
-      {s:'Aprende a MEDIR calidad: casos de prueba, respuestas esperadas, % de aciertos.'},
-    ],check:'Tu RAG responde con citas correctas y sabes medir cuándo falla.'},
-    {id:'m3-2',t:'Agentes',d:'Loops agénticos, orquestación, memoria, guardrails',steps:[
-      {s:'Curso gratis con certificado: <strong>Hugging Face Agents Course</strong>',link:'https://huggingface.co/learn/agents-course',ln:'HF Agents Course'},
-      {s:'Guía de Anthropic: "Building Effective Agents" — léela con Claude y discútanla',link:'https://www.anthropic.com/research/building-effective-agents',ln:'Anthropic — Effective Agents'},
-      {s:'Regla de oro: workflow simple > agente complejo. Aprende a decidir cuál usar.'},
-    ],check:'Certificado HF obtenido + construiste un agente con 2+ herramientas y memoria.'},
-    {id:'m3-3',t:'💵 Primeros gigs (arranca la Vía A)',d:'Vender automatizaciones simples MIENTRAS estudias',steps:[
-      {s:'Perfil en <strong>Workana</strong> (mercado hispano) + <strong>Upwork</strong>: "Automatización e Integración de IA"',link:'https://www.workana.com/',ln:'Workana'},
-      {s:'5 propuestas/día con la plantilla que Claude te redacta. Gigs objetivo: $50–150 (scraping suave, workflows n8n, chatbots simples).'},
-      {s:'Cada entrega: pedir reseña SIEMPRE. Meta del módulo: 3 gigs cobrados.'},
-    ],check:'Primeros $ cobrados vía Payoneer y 3+ reseñas 5★.'},
-    {id:'m3-4',t:'🏆 PROYECTO 3',d:'RAG completo: "chatea con los documentos de tu negocio" — demo pública',steps:[
-      {s:'El proyecto estrella: sube docs → pregunta → respuestas con citas. UI simple (Streamlit o HTML).'},
-      {s:'Deploy público (Módulo 4 lo pule) + GitHub + video-demo.'},
-    ],check:'Proyecto 3 con demo pública en vivo. Es tu mejor argumento de venta.'},
+    {id:'f3-1',t:'Kaggle · Intro to Programming',d:'~5 horas',steps:[{s:'Crea cuenta en Kaggle y arranca. Cada lección: lees 10 min, practicas 20 en el mismo navegador.',link:'https://www.kaggle.com/learn/intro-to-programming',ln:'Kaggle — Intro to Programming'}],check:'Mini-certificado de Kaggle obtenido.'},
+    {id:'f3-2',t:'Kaggle · Python',d:'~5 horas',steps:[{s:'El curso central. '+AYUDA,link:'https://www.kaggle.com/learn/python',ln:'Kaggle — Python'}],check:'Mini-certificado obtenido.'},
+    {id:'f3-3',t:'Kaggle · Pandas',d:'~4 horas · tablas de datos con código',steps:[{s:'Pandas = Excel con superpoderes. Todo lo que sabes de hojas de cálculo se traduce aquí.',link:'https://www.kaggle.com/learn/pandas',ln:'Kaggle — Pandas'}],check:'Mini-certificado obtenido.'},
+    {id:'f3-4',t:'Kaggle · Data Visualization',d:'~4 horas',steps:[{s:'Gráficos con código. Tu cierre perfecto: visual + Python juntos.',link:'https://www.kaggle.com/learn/data-visualization',ln:'Kaggle — Data Visualization'}],check:'Mini-certificado obtenido.'},
+    {id:'f3-5',t:'Mini-proyecto con Claude: analiza TUS datos',d:'~1 semana · el examen final real',steps:[
+      {s:'Con Claude: un análisis de tus datos reales (finanzas, hábitos del 9-GOA, lo que quieras) en un notebook de Kaggle — de la pregunta al gráfico.'},
+      {s:'Publícalo en Kaggle + súbelo al repo atlas-portfolio con README.'},
+    ],check:'Notebook público con un análisis tuyo de punta a punta. Ya programas en Python.'},
    ]},
-  {id:'M4',icon:'🚢',name:'Módulo 4 · Deploy + Portafolio + Venta',weeks:'Semanas 10–12 · sep 7–27',
+  {id:'F4',icon:'🤖',name:'Fase 4 · Inteligencia Artificial Aplicada',weeks:'2027 · se desbloquea al llegar',
+   why:'La meta original de ATLAS no se canceló — se pospuso hasta tener piso. Con 2 certificados + Python básico: agentes, RAG y automatización con salida real a ingresos. El detalle lo diseñamos al cerrar la Fase 3 (la v2.0 archivada es la referencia).',
    items:[
-    {id:'m4-1',t:'Docker + deploy real',d:'Contenedores, VPS/Railway/Render, dominio propio',steps:[
-      {s:'Tutorial oficial: <strong>Docker 101</strong>',link:'https://www.docker.com/101-tutorial/',ln:'Docker 101'},
-      {s:'Dockeriza el Proyecto 3 y móntalo en un VPS de $5–8/mes (con Claude paso a paso).'},
-    ],check:'Tu RAG corre 24/7 en internet con tu dominio.'},
-    {id:'m4-2',t:'Seguridad y evals de LLM apps',d:'Prompt injection, sanitización, control de costos',steps:[
-      {s:'Estudia el <strong>OWASP Top 10 para LLMs</strong> con Claude (una sesión)',link:'https://owasp.org/www-project-top-10-for-large-language-model-applications/',ln:'OWASP LLM Top 10'},
-      {s:'Aplica 3 defensas a tu Proyecto 3: validación de input, límites de gasto, output filtering.'},
-    ],check:'Sabes explicar prompt injection y tu app tiene defensas reales.'},
-    {id:'m4-3',t:'Portafolio + LinkedIn ES/EN',d:'La identidad profesional: AI Engineer',steps:[
-      {s:'Web en GitHub Pages con los 3 proyectos + video-demos (Gemini produce los visuales).'},
-      {s:'LinkedIn: titular "AI Engineer | Automatización & RAG | Python" — About en ES y EN con Claude.'},
-      {s:'Primer post de LinkedIn mostrando el Proyecto 3 (guion con Gemini).'},
-    ],check:'Portafolio en vivo + LinkedIn optimizado + primer post publicado.'},
-    {id:'m4-4',t:'🏆 GRADUACIÓN ATLAS',d:'Checkpoint final de la maestría',steps:[
-      {s:'Sesión de evaluación con Claude: te hace entrevista técnica simulada de 30 min (en español y luego en inglés).'},
-      {s:'Revisión del plan: activar Fase 2 (Tracción) del PLAN_MAESTRO — paquetes A1/A2/A3 a la venta.'},
-    ],check:'Superaste la entrevista simulada. Eres oficialmente peligroso. 🎓'},
+    {id:'f4-1',t:'Google AI Essentials (certificado corto, puente)',d:'~8 horas',steps:[{s:'Certificado rápido de Google sobre uso profesional de IA. Calentamiento de la fase.',link:'https://www.coursera.org/professional-certificates/google-ai-essentials',ln:'Google AI Essentials'}],check:'🎓 Certificado obtenido.'},
+    {id:'f4-2',t:'Automatización visual con n8n (L1 + L2)',d:'~3 semanas · cajas y flechas, no código',steps:[{s:'Cursos oficiales gratis con badge',link:'https://docs.n8n.io/courses/',ln:'n8n Courses'}],check:'Badges L1+L2 y tus primeros workflows reales.'},
+    {id:'f4-3',t:'Agentes de IA + RAG → proyecto de portafolio',d:'~6 semanas · aquí vuelve lo mejor de la v2.0',steps:[
+      {s:'Curso de agentes de Hugging Face (gratis, con certificado)',link:'https://huggingface.co/learn/agents-course',ln:'HF Agents Course'},
+      {s:'Proyecto estrella con Claude: "chatea con tus documentos" (RAG) — demo pública para vender o para entrevistas.'},
+    ],check:'🎓 Certificado HF + demo pública funcionando. Bienvenido a la ingeniería de IA.'},
    ]},
   ];
 
   /* ══════════════════════════════════════════════════════════
-     CERTIFICACIONES — priorizadas (gratis primero)
+     CERTIFICACIONES v3 — los hitos de la ruta (en orden)
   ══════════════════════════════════════════════════════════ */
   const CERTS=[
-    {id:'c-kaggle',t:'Kaggle Learn · Python + Intro to Programming',tag:'GRATIS',when:'M1',link:'https://www.kaggle.com/learn',d:'Certificados rápidos y respetados para arrancar. 2–4 h cada uno.'},
-    {id:'c-fcc',t:'freeCodeCamp · Scientific Computing with Python',tag:'GRATIS',when:'M1–M2',link:'https://www.freecodecamp.org/learn/scientific-computing-with-python/',d:'Certificación completa (~60 h, hazla en paralelo sin bloquear el plan). Muy citada en CVs.'},
-    {id:'c-gh',t:'GitHub Skills (badges oficiales)',tag:'GRATIS',when:'M1',link:'https://skills.github.com/',d:'Badges de GitHub que aparecen en tu perfil. Reclutadores los ven.'},
-    {id:'c-anthropic',t:'Anthropic Academy · Claude with the API',tag:'GRATIS',when:'M2',link:'https://anthropic.skilljar.com/',d:'El curso oficial del fabricante de tu herramienta principal. Diferenciador brutal.'},
-    {id:'c-n8n',t:'n8n · Level 1 + Level 2 (badges oficiales)',tag:'GRATIS',when:'M2',link:'https://docs.n8n.io/courses/',d:'La credencial exacta del servicio que venderás en la Vía A.'},
-    {id:'c-hf',t:'Hugging Face · AI Agents Course (certificado)',tag:'GRATIS',when:'M3',link:'https://huggingface.co/learn/agents-course',d:'Certificado de agentes del hub de IA más famoso del mundo.'},
-    {id:'c-dlai',t:'DeepLearning.AI · Short Courses (RAG, Embeddings, Agents)',tag:'GRATIS',when:'M2–M3',link:'https://www.deeplearning.ai/short-courses/',d:'De Andrew Ng. 1–2 h cada uno. Colecciona 4–6 de tu especialidad.'},
-    {id:'c-efset',t:'EF SET English Certificate (50 min, nivel CEFR)',tag:'GRATIS',when:'M2 y M4',link:'https://www.efset.org/',d:'Certificado de inglés gratis y linkeable en LinkedIn. Tómalo 2 veces: antes/después, para VER tu progreso.'},
-    {id:'c-duo',t:'Duolingo English Test (score oficial)',tag:'~$65 USD',when:'Fase 3',link:'https://englishtest.duolingo.com/',d:'Cuando la Vía B se active: score de inglés aceptado por empresas. Solo cuando el EF SET te dé B2.'},
-    {id:'c-aws',t:'AWS Certified Cloud Practitioner',tag:'$100 USD',when:'Fase 3 (opcional)',link:'https://aws.amazon.com/certification/certified-cloud-practitioner/',d:'Solo si la Vía B lo pide. Con lo aprendido en M4 la preparas en 3–4 semanas.'},
+    {id:'c-gda',t:'Google Data Analytics Professional Certificate',tag:'BECA / $49 mes',when:'F1',link:'https://www.coursera.org/professional-certificates/google-data-analytics',d:'El certificado de entrada al mercado de datos. Ayuda económica de Coursera disponible (solicitar el día 1).'},
+    {id:'c-pl300',t:'Microsoft PL-300 · Power BI Data Analyst Associate',tag:'~$80 estudiante',when:'F2',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',d:'Certificación oficial Microsoft. La más pedida en vacantes BI remotas LATAM. Descuento verificando estudiante CUN.'},
+    {id:'c-kaggle',t:'Kaggle Learn · 4 mini-certificados de Python',tag:'GRATIS',when:'F3',link:'https://www.kaggle.com/learn',d:'Intro to Programming, Python, Pandas y Data Visualization — en el navegador, resultado inmediato.'},
+    {id:'c-aie',t:'Google AI Essentials',tag:'BECA / pago',when:'F4',link:'https://www.coursera.org/professional-certificates/google-ai-essentials',d:'Puente corto hacia la fase de IA.'},
+    {id:'c-n8n',t:'n8n · Level 1 + Level 2 (badges oficiales)',tag:'GRATIS',when:'F4',link:'https://docs.n8n.io/courses/',d:'Automatización visual — la credencial del servicio vendible a PYMEs.'},
+    {id:'c-hf',t:'Hugging Face · AI Agents Course',tag:'GRATIS',when:'F4',link:'https://huggingface.co/learn/agents-course',d:'Certificado de agentes del hub de IA más famoso del mundo.'},
+    {id:'c-efset',t:'EF SET English Certificate (50 min)',tag:'GRATIS',when:'cuando quieras',link:'https://www.efset.org/',d:'Certificado de inglés gratis y linkeable. Tómalo 2 veces (antes/después) para VER tu progreso.'},
   ];
 
   /* ══════════════════════════════════════════════════════════
-     PROMPTS — la biblioteca de continuidad multi-IA
+     PROMPTS v3 — continuidad multi-IA
   ══════════════════════════════════════════════════════════ */
   const P_CLAUDE=[
-'ERES: el Profesor, CTO y socio del PROYECTO ATLAS de Miguel Angel Barros (Colombia, Ing. de Sistemas 9no semestre, viene de JavaScript, 2-3 h/dia disponibles).',
+'ERES: el acompanante de estudio del PROYECTO ATLAS v3.0 de Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL, 1 h/dia).',
 '',
-'EL PROYECTO: Miguel domina Ingenieria de IA Aplicada en 12 semanas (4 modulos) con doble via de ingresos: (A) servicios de automatizacion/IA a PYMEs desde la semana 7; (B) empleo remoto nearshore como AI Engineer al graduarse.',
+'EL PROYECTO (v3.0 — camino de certificados, en orden): F1 Google Data Analytics (Coursera, jul-sep 2026) -> F2 Power BI + examen PL-300 (oct-nov) -> F3 Python en Kaggle Learn (dic-ene) -> F4 IA Aplicada (2027: n8n, agentes, RAG). Una sola cosa a la vez; los cursos ya estan hechos por Google/Microsoft/Kaggle — tu NO dictas lecciones.',
 '',
-'CURRICULO: M1 Fundamentos (sem 1-3): Python desde JS, Git/GitHub, APIs REST, FastAPI -> Proyecto 1: API propia. M2 Ingenieria LLM (sem 4-6): APIs Claude/Gemini, tool use, embeddings, n8n -> Proyecto 2: asistente tool-use. M3 RAG+Agentes (sem 7-9): RAG produccion, agentes, primeros gigs -> Proyecto 3: RAG demo publica. M4 Deploy (sem 10-12): Docker, seguridad LLM, portafolio, LinkedIn -> graduacion.',
+'TU TRABAJO REAL:',
+'1. DESBLOQUEAR: cuando Miguel pegue un pantallazo o texto de un curso que no entiende, explicaselo CON MANZANAS: analogias simples, tablas, ejemplos con SUS datos (finanzas, conciliaciones de Simetrik, notas de la CUN). Es aprendiz visual: diagramas y ejemplos concretos antes que definiciones abstractas.',
+'2. CONSTANCIA: preguntale por su racha y su registro diario. Si lleva dias sin estudiar, sin regano: ayudale a retomar con la accion mas pequena posible (20 min cuentan).',
+'3. PROYECTOS (F2 en adelante): el dashboard de Power BI y el mini-proyecto de Kaggle se hacen JUNTOS, tu como copiloto paso a paso, siempre de lo visual hacia el codigo.',
+'4. NO AGREGAR CURSOS NI CAMBIAR EL PLAN: si Miguel propone algo nuevo, anotalo como "idea aparcada" para la revision dominical. Anti-dispersion es sagrado.',
 '',
-'PROTOCOLO DE CADA SESION:',
-'1. Si Miguel pega un bloque "ESTADO PROYECTO ATLAS", leelo: ahi esta la semana, el modulo, la racha y lo pendiente. Si NO lo pega, pideselo antes de empezar (el lo copia desde su web da-2026 > Ruta > ATLAS con un boton).',
-'2. Da la leccion del dia en este formato EXACTO: (a) CONCEPTO en 5 min, con analogia a JavaScript cuando aplique; (b) CODIGO GUIADO: Miguel teclea, tu NUNCA le das el bloque completo para copiar; (c) RETO sin ayuda (5-15 min); (d) CORRECCION linea por linea explicando el porque; (e) MINI-QUIZ de 3 preguntas.',
-'3. Si el reto no se supera, NO avances: re-explica distinto y da un reto mas facil.',
-'4. Cierra SIEMPRE con el BLOQUE CIERRE: === CIERRE ATLAS === Fecha / Leccion vista / Resultado del reto (superado o no) / Concepto debil a repasar / Proxima leccion / 1 frase para la bitacora === FIN ===. Miguel guarda eso en su tracker diario.',
-'',
-'REGLAS: responde siempre en espanol (el codigo y terminos tecnicos en ingles). Honestidad brutal: si Miguel no domina algo, dilo. Nada de teoria infinita: 70% practica. Anti-dispersion: si Miguel propone cambiar de tecnologia o plan, recuerdale la regla de las 12 semanas y anota la idea para la revision dominical. No inventes datos ni links: si no estas seguro, dilo. Se exigente: el estandar es codigo de produccion, no de tutorial.',
+'REGLAS: espanol siempre. Nunca respondas "eso lo veras mas adelante" — desbloquea la duda YA con lo minimo necesario. No inventes links ni contenido de cursos. Honestidad carinosa: si algo no lo domina, dilo y repasenlo distinto. Cierra cada sesion con 1 linea para su bitacora.',
   ].join('\n');
 
   const P_GEMINI=[
-'ERES: la Investigadora, Bibliotecaria y Coach de ingles del PROYECTO ATLAS de Miguel Angel Barros (Colombia, Ing. de Sistemas 9no semestre, hispanohablante, ingles en mejora, 2-3 h/dia).',
+'ERES: la investigadora, bibliotecaria y coach de ingles del PROYECTO ATLAS v3.0 de Miguel Angel Barros (Colombia, hispanohablante, aprendiz visual, 1 h/dia).',
 '',
-'EL PROYECTO: Miguel domina Ingenieria de IA Aplicada en 12 semanas (Python -> APIs LLM -> RAG -> agentes -> deploy) con doble via de ingresos: (A) servicios de automatizacion a PYMEs, (B) empleo remoto nearshore como AI Engineer. Su profesor de codigo es Claude; TU rol es complementario, no duplicado.',
+'EL PROYECTO: camino de certificados en orden: F1 Google Data Analytics -> F2 Power BI PL-300 -> F3 Python Kaggle -> F4 IA Aplicada (2027). Su acompanante de estudio es Claude; tu rol es complementario.',
 '',
-'TUS 4 FUNCIONES:',
-'1. INVESTIGACION: cuando pida "investiga X", usa busqueda profunda y entrega: hallazgos con fuentes, 3 conclusiones accionables, y que significa para ATLAS. Temas tipicos: nichos de clientes, tarifas, herramientas, vacantes remotas LATAM.',
-'2. BIBLIOTECA: ayudale a digerir documentacion tecnica y cursos: resumenes por niveles (basico -> profundo), tarjetas de repaso, quizzes de lo estudiado en la semana.',
-'3. INGLES DIARIO (20 min): al pedir "ingles de hoy", haz una mini-sesion hablada: (a) el explica en ingles lo que programo hoy, tu corriges pronunciacion y gramatica con carino pero sin dejar pasar errores; (b) 5 palabras nuevas de vocabulario tecnico de IA con ejemplo; (c) 1 pregunta de entrevista tecnica en ingles para responder oral. Nivel actual: intermedio-bajo; sube la dificultad gradualmente.',
-'4. MARKETING: guiones de video-demos (60s), posts de LinkedIn (ES/EN), imagenes para el portafolio.',
+'TUS FUNCIONES:',
+'1. BIBLIOTECA: resumenes visuales de lo que estudio en la semana (tablas, esquemas), tarjetas de repaso y quizzes cortos.',
+'2. INGLES (10-20 min, opcional pero valioso): mini-sesion hablada — el explica en ingles lo que estudio hoy, tu corriges con carino; 5 palabras tecnicas de datos; sube dificultad gradual.',
+'3. INVESTIGACION: cuando pida "investiga X" — vacantes remotas junior LATAM de Data Analyst/BI, salarios, que piden. Con fuentes.',
+'4. MARKETING (F2+): posts de LinkedIn mostrando certificados y dashboards (ES/EN).',
 '',
-'PROTOCOLO: si Miguel pega un bloque "ESTADO PROYECTO ATLAS", usalo como contexto de donde va. Responde en espanol salvo en la sesion de ingles. No inventes fuentes: si no encuentras evidencia, dilo. Cierra cada sesion con 1 linea resumen para su bitacora.',
+'PROTOCOLO: si pega un bloque "ESTADO PROYECTO ATLAS", usalo como contexto. Espanol salvo la sesion de ingles. No inventes fuentes.',
   ].join('\n');
 
   const P_DIARIO=[
-'Hola profesor. Sesion diaria ATLAS.',
+'Hola. Sesion de estudio ATLAS v3.0.',
 '',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado" en da-2026 > Ruta > ATLAS]',
 '',
-'Tiempo disponible hoy: ___ minutos.',
-'Como me senti ayer con el tema: (facil / normal / me costo / no entendi ___).',
+'Hoy estudie/voy a estudiar: ___ (curso y leccion).',
+'Me atasque en / no entendi: ___ (pega pantallazo o texto si tienes).',
+'Tiempo disponible: ___ minutos.',
 '',
-'Dame la leccion de hoy siguiendo el protocolo (concepto -> codigo guiado -> reto -> correccion -> quiz -> BLOQUE CIERRE).',
+'Explicame lo que no entendi con manzanas (soy visual: analogias, tablas, ejemplos con mis datos). Si no me atasque, hazme 3 preguntas de repaso de lo de hoy y dame la linea para mi bitacora.',
   ].join('\n');
 
   const P_DOMINGO=[
-'Sesion dominical ATLAS (45 min). Modo: director de proyecto, exigente y honesto.',
+'Revision dominical ATLAS v3.0 (20 min). Modo: director de proyecto, honesto y practico.',
 '',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado"]',
 '',
-'Revisa conmigo, en este orden:',
-'1. KPIs de la semana: dias de protocolo cumplidos (racha), items del curriculo completados vs plan, minutos de ingles, commits en GitHub, y (desde M3) propuestas enviadas + $ facturado.',
-'2. Diagnostico: donde me atrase y POR QUE (sin excusas blandas).',
-'3. Decision: que ajustamos la proxima semana (maximo 2 ajustes).',
-'4. Ideas aparcadas: te pego las ideas que anote en la semana; dime cuales merecen entrar al plan y cuales mueren hoy.',
-'5. Plan de la semana: lista dia por dia (lun-sab) con leccion/tarea concreta.',
-'6. Cierra con BLOQUE CIERRE para mi bitacora.',
+'Revisa conmigo:',
+'1. Racha y dias estudiados esta semana (la meta es 5+ de 7, con 20 min ya cuenta).',
+'2. Donde voy en la fase actual vs el calendario del plan. Atrasado? Por que, sin excusas blandas.',
+'3. Que UNA cosa ajustamos la proxima semana.',
+'4. Ideas aparcadas: cuales mueren hoy y cuales esperan a su fase.',
+'5. Cierra con 1 linea para la bitacora.',
   ].join('\n');
 
   const P_RESCATE=[
-'CONTEXTO DE EMERGENCIA — Continuidad del PROYECTO ATLAS.',
+'CONTEXTO DE EMERGENCIA — Continuidad del PROYECTO ATLAS v3.0.',
 '',
-'Soy Miguel Angel Barros (Colombia, Ing. de Sistemas 9no semestre). Estoy en un plan de 12 semanas para dominar Ingenieria de IA Aplicada (Python -> APIs LLM -> RAG -> agentes -> deploy), con doble via de ingresos: (A) servicios de automatizacion/IA a PYMEs hispanas desde la semana 7 (paquetes: workflow $100-400, RAG a medida $500-2000, retainer $200-800/mes), y (B) empleo remoto nearshore como AI Engineer al graduarme. Mi profesor de codigo es Claude, mi investigadora es Gemini. Protocolo diario de 2-3 h: estudio activo + construccion + 20 min de ingles + bitacora. Revision dominical semanal. Regla anti-dispersion: 12 semanas sin cambiar el plan. Plan completo en E:\\CLAUDE\\My Project\\PLAN_MAESTRO.html.',
+'Soy Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL). Mi plan es el "camino de los certificados": F1 Google Data Analytics (Coursera, jul-sep 2026) -> F2 Power BI + examen PL-300 con descuento estudiante (oct-nov) -> F3 Python en Kaggle Learn (dic-ene) -> F4 IA Aplicada (2027: n8n, agentes, RAG — mi meta de fondo). Reglas: una sola cosa a la vez, 1 h/dia (20 min cuentan), cero dias de cero, ideas nuevas se aparcan para el domingo. Claude me desbloquea dudas con explicaciones visuales; Gemini investiga y entrena mi ingles. Plan visual completo: E:\\CLAUDE\\My Project\\PLAN_MAESTRO.html y el hub ATLAS en mi web da-2026 (Ruta).',
 '',
 'Mi estado actual es:',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado"]',
 '',
-'Asume tu rol (profesor si eres Claude, investigadora/coach si eres Gemini) y continuemos exactamente donde iba. No me hagas re-explicar el proyecto.',
+'Asume tu rol y continuemos exactamente donde iba. No me hagas re-explicar el proyecto.',
   ].join('\n');
 
   const PROMPTS={pclaude:P_CLAUDE,pgemini:P_GEMINI,pdiario:P_DIARIO,pdomingo:P_DOMINGO,prescate:P_RESCATE};
 
   /* ══════════════════════════════════════════════════════════
-     ESTADO COPIABLE — el corazón de la continuidad
+     ESTADO COPIABLE
   ══════════════════════════════════════════════════════════ */
-  function weekNum(){
-    const st=new Date((getMeta().start||'2026-07-06')+'T00:00:00');
-    return Math.min(12,Math.max(1,Math.floor((new Date()-st)/(7*864e5))+1));
-  }
   function streak(){
     const days=new Set(getDaily().filter(e=>e.est||e.con||e.eng).map(e=>e.d));
     let n=0;const d=new Date();
@@ -229,26 +192,27 @@ const ATLAS = (() => {
     const c=getCurr();let dn=0;CERTS.forEach(x=>{if(c[x.id])dn++});
     return{t:CERTS.length,dn};
   }
-  function currentModule(){
+  function currentFase(){
     const c=getCurr();
-    for(const m of CURR){if(m.items.some(i=>!c[i.id]))return m;}
-    return CURR[CURR.length-1];
+    for(let i=0;i<CURR.length;i++){if(CURR[i].items.some(x=>!c[x.id]))return{m:CURR[i],n:i+1};}
+    return{m:CURR[CURR.length-1],n:CURR.length};
   }
   function nextItem(){
     const c=getCurr();
-    for(const m of CURR){for(const i of m.items){if(!c[i.id])return m.icon+' '+i.t;}}
-    return '🎓 Currículo completo — activar Fase 2 del plan';
+    for(const m of CURR){for(const i of m.items){if(!c[i.id])return{fase:m,item:i};}}
+    return null;
   }
   function buildEstado(){
-    const cs=currStats(),ce=certStats(),m=currentModule();
-    const last7=getDaily().slice(-7).map(e=>e.d.slice(5)+' ['+(e.est?'E':'-')+(e.con?'C':'-')+(e.eng?'I':'-')+']').join(' · ')||'(sin registros aún)';
+    const cs=currStats(),ce=certStats(),cf=currentFase(),nx=nextItem();
+    const last7=getDaily().slice(-7).map(e=>e.d.slice(5)+' ['+(e.est?'E':'-')+(e.con?'N':'-')+(e.eng?'I':'-')+']').join(' · ')||'(sin registros aún)';
     const lastNote=(getDaily().slice(-1)[0]||{}).note||'—';
-    return ['=== ESTADO PROYECTO ATLAS · '+todayISO()+' ===',
-      'Semana del plan: '+weekNum()+'/12 · Módulo actual: '+m.id+' ('+m.name.split('·')[1].trim()+')',
-      'Racha de protocolo: '+streak()+(streak()===1?' día':' días')+' · Currículo: '+cs.dn+'/'+cs.t+' items ('+cs.pct+'%) · Certificaciones: '+ce.dn+'/'+ce.t,
-      'Últimos 7 días [E=estudio C=construcción I=inglés]: '+last7,
+    return ['=== ESTADO PROYECTO ATLAS v3.0 · '+todayISO()+' ===',
+      'Ruta: F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle → F4 IA Aplicada',
+      'Fase actual: '+cf.n+'/4 ('+cf.m.name.split('·')[1].trim()+') · Pasos: '+cs.dn+'/'+cs.t+' ('+cs.pct+'%) · Certificados: '+ce.dn+'/'+ce.t,
+      'Racha de estudio: '+streak()+(streak()===1?' día':' días'),
+      'Últimos 7 días [E=estudio N=notas I=inglés]: '+last7,
       'Última nota de bitácora: "'+lastNote+'"',
-      'SIGUIENTE PENDIENTE: '+nextItem(),
+      'QUÉ TOCA AHORA: '+(nx?nx.fase.icon+' '+nx.item.t:'🎓 Ruta completa — diseñar Fase 4 en detalle'),
       '=== FIN ESTADO ==='].join('\n');
   }
 
@@ -264,13 +228,13 @@ const ATLAS = (() => {
 
   /* ── Google Calendar link (domingo recurrente) ── */
   function calLink(){
-    const d=new Date();d.setDate(d.getDate()+((7-d.getDay())%7)); // próximo domingo (o hoy si es domingo)
+    const d=new Date();d.setDate(d.getDate()+((7-d.getDay())%7));
     const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
     return 'https://calendar.google.com/calendar/render?action=TEMPLATE'+
-      '&text='+encodeURIComponent('🚀 ATLAS · Revisión Dominical con la IA')+
-      '&dates='+y+m+dd+'T140000/'+y+m+dd+'T144500'+
+      '&text='+encodeURIComponent('🚀 ATLAS · Revisión Dominical (20 min)')+
+      '&dates='+y+m+dd+'T140000/'+y+m+dd+'T142000'+
       '&recur='+encodeURIComponent('RRULE:FREQ=WEEKLY;BYDAY=SU')+
-      '&details='+encodeURIComponent('1) Abrir da-2026 → Ruta → ATLAS → botón Copiar Estado.\n2) Abrir Claude (Project ATLAS) → pegar Prompt Dominical + Estado.\n3) Registrar decisiones en la bitácora y marcar el check del domingo.');
+      '&details='+encodeURIComponent('1) Abrir da-2026 → Ruta → ATLAS → botón Copiar Estado.\n2) Claude → pegar Prompt Dominical + Estado.\n3) Guardar la línea en la bitácora.');
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -283,7 +247,7 @@ const ATLAS = (() => {
           note=document.getElementById('atNote').value.trim();
     if(!est&&!con&&!eng&&!note)return;
     const list=getDaily(),d=todayISO(),ix=list.findIndex(e=>e.d===d);
-    const entry={d,est,con,eng,note,week:weekNum()};
+    const entry={d,est,con,eng,note,fase:currentFase().n};
     if(ix>=0)list[ix]=entry;else list.push(entry);
     sJ(K_DAILY,list);
     document.getElementById('atNote').value='';
@@ -299,8 +263,8 @@ const ATLAS = (() => {
   function renderDaily(){
     const box=document.getElementById('atDailyList');if(!box)return;
     box.innerHTML=getDaily().slice(-14).reverse().map(e=>
-      '<div class="rt-log-e"><div class="rt-log-d">'+esc(e.d)+' · sem '+(e.week||'?')+' · '+
-      (e.est?'📖':'·')+(e.con?'🔨':'·')+(e.eng?'🇺🇸':'·')+'</div>'+esc(e.note||'(sin nota)')+'</div>').join('')||'<div style="font-size:12px;color:var(--t3)">Aún no hay registros. Hoy es un gran día para el primero.</div>';
+      '<div class="rt-log-e"><div class="rt-log-d">'+esc(e.d)+' · '+(e.fase?('F'+e.fase):('sem '+(e.week||'?')))+' · '+
+      (e.est?'📖':'·')+(e.con?'📝':'·')+(e.eng?'🇺🇸':'·')+'</div>'+esc(e.note||'(sin nota)')+'</div>').join('')||'<div style="font-size:12px;color:var(--t3)">Aún no hay registros. Hoy es un gran día para el primero.</div>';
   }
 
   /* ── Curriculum / cert toggles ── */
@@ -315,17 +279,19 @@ const ATLAS = (() => {
      RENDER
   ══════════════════════════════════════════════════════════ */
   function renderHeader(){
-    const cs=currStats();
+    const cs=currStats(),cf=currentFase(),nx=nextItem();
     const el=document.getElementById('atHead');if(!el)return;
     el.innerHTML=
+      '<div class="at-hoy"><div class="at-hoy-tag">▶ QUÉ TOCA HOY</div>'+
+      '<div class="at-hoy-acc">'+(nx?esc(nx.item.t):'🎉 ¡Ruta completa!')+'</div>'+
+      (nx?'<div class="at-hoy-fase">'+nx.fase.icon+' '+esc(nx.fase.name)+' · '+esc(nx.fase.weeks)+'</div>':'')+'</div>'+
       '<div class="at-kpis">'+
-      '<div class="at-kpi"><div class="at-kv">Sem '+weekNum()+'/12</div><div class="at-kl">del plan</div></div>'+
+      '<div class="at-kpi"><div class="at-kv">Fase '+cf.n+'/4</div><div class="at-kl">de la ruta</div></div>'+
       '<div class="at-kpi"><div class="at-kv">🔥 '+streak()+'</div><div class="at-kl">racha días</div></div>'+
-      '<div class="at-kpi"><div class="at-kv">'+cs.dn+'/'+cs.t+'</div><div class="at-kl">currículo</div></div>'+
-      '<div class="at-kpi"><div class="at-kv">'+certStats().dn+'/'+certStats().t+'</div><div class="at-kl">certificaciones</div></div>'+
+      '<div class="at-kpi"><div class="at-kv">'+cs.dn+'/'+cs.t+'</div><div class="at-kl">pasos</div></div>'+
+      '<div class="at-kpi"><div class="at-kv">'+certStats().dn+'/'+certStats().t+'</div><div class="at-kl">certificados</div></div>'+
       '</div>'+
-      '<div class="rt-bar" style="margin:10px 0 4px"><div class="rt-bar-fill" style="width:'+cs.pct+'%"></div></div>'+
-      '<div style="font-size:11px;color:var(--t3)">Siguiente pendiente: <b style="color:var(--tx)">'+esc(nextItem())+'</b></div>';
+      '<div class="rt-bar" style="margin:10px 0 4px"><div class="rt-bar-fill" style="width:'+cs.pct+'%"></div></div>';
   }
 
   function lesHTML(item){
@@ -338,7 +304,7 @@ const ATLAS = (() => {
       h+='<div class="rt-step"><div class="rt-step-n">'+(gi+1)+'</div><div class="rt-step-body">'+g.s+
          (g.link?'<br><a href="'+g.link+'" target="_blank" rel="noopener">🔗 '+g.ln+'</a>':'')+'</div></div>';
     });
-    if(item.check)h+='<div class="rt-checkpoint"><b>✅ Lo dominas cuando:</b>'+item.check+'</div>';
+    if(item.check)h+='<div class="rt-checkpoint"><b>✅ Lo lograste cuando:</b>'+item.check+'</div>';
     return h+'</div></div></div>';
   }
 
@@ -357,6 +323,10 @@ const ATLAS = (() => {
 .at-hero{background:linear-gradient(135deg,rgba(34,197,94,.06),rgba(139,92,246,.05));border:1px solid rgba(34,197,94,.2);border-radius:12px;padding:18px 20px;margin-bottom:14px}
 .at-hero h2{font-family:'Newsreader',serif;font-size:20px;margin-bottom:4px}
 .at-hero p{font-size:12px;color:var(--t2)}
+.at-hoy{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(139,92,246,.06));border:2px solid rgba(239,68,68,.45);border-radius:12px;padding:14px 16px;margin-top:12px;text-align:center}
+.at-hoy-tag{font-size:10px;font-weight:800;letter-spacing:2px;color:#ef4444}
+.at-hoy-acc{font-size:16px;font-weight:700;margin:6px 0 2px}
+.at-hoy-fase{font-size:11px;color:var(--t3)}
 .at-kpis{display:flex;gap:1px;background:var(--bd);border-radius:8px;overflow:hidden;margin-top:12px}
 .at-kpi{flex:1;background:var(--c1);padding:8px;text-align:center}
 .at-kv{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--gn)}
@@ -369,6 +339,7 @@ const ATLAS = (() => {
 .at-sec.open .rt-les-arrow{transform:rotate(180deg)}
 .at-sec-body{display:none;padding:4px 16px 16px;border-top:1px solid var(--bd)}
 .at-sec.open .at-sec-body{display:block}
+.at-fase-why{background:var(--el);border-left:3px solid var(--gn);border-radius:6px;padding:9px 12px;font-size:12px;color:var(--t2);margin:10px 0}
 .at-prompt{background:var(--el);border:1px solid var(--bd);border-radius:9px;padding:12px 14px;margin:10px 0}
 .at-pr-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .at-pre{background:#07090d;border:1px solid var(--bd);border-radius:7px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--t2);white-space:pre-wrap;max-height:180px;overflow-y:auto;margin-top:8px}
@@ -386,69 +357,23 @@ const ATLAS = (() => {
       document.head.appendChild(st);
     }
 
-    const sec=(id,icon,title,body)=>'<div class="at-sec" id="'+id+'"><div class="at-sec-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+icon+'</span><b>'+title+'</b><div class="rt-les-arrow">▼</div></div><div class="at-sec-body">'+body+'</div></div>';
+    const sec=(id,icon,title,body,open)=>'<div class="at-sec'+(open?' open':'')+'" id="'+id+'"><div class="at-sec-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+icon+'</span><b>'+title+'</b><div class="rt-les-arrow">▼</div></div><div class="at-sec-body">'+body+'</div></div>';
 
-    let h='<div class="at-hero"><h2>🚀 Proyecto ATLAS — <em style="color:var(--gn)">Ingeniería de IA Aplicada</em></h2>'+
-      '<p>12 semanas · doble vía (servicios + carrera remota) · Claude enseña y construye · Gemini investiga y entrena tu inglés. Constitución completa: <b>E:\\CLAUDE\\My Project\\PLAN_MAESTRO.html</b></p>'+
+    let h='<div class="at-hero"><h2>🚀 Proyecto ATLAS v3.0 — <em style="color:var(--gn)">El Camino de los Certificados</em></h2>'+
+      '<p>Cert-first · visual · <b>una sola cosa a la vez</b> · 1 h/día (20 min cuentan) · F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle → F4 IA Aplicada. Las 3 reglas: el recuadro rojo dice qué toca; cero días de cero; si te pierdes, pégale el pantallazo a Claude — jamás abandones en silencio.</p>'+
       '<div id="atHead"></div></div>';
 
-    /* ── 1 · SETUP CLAUDE ── */
-    h+=sec('atSetC','🤖','Paso 1 · Montar el cuartel en Claude (una sola vez)',
-      '<div class="at-step-mini"><b>A. Crear el Project (claude.ai):</b><br>'+
-      '1. Entra a <a href="https://claude.ai/projects" target="_blank" rel="noopener">claude.ai/projects</a> → botón <b>"+ New project"</b> → nómbralo <b>PROYECTO ATLAS</b>.<br>'+
-      '2. En el panel del proyecto busca <b>"Set custom instructions"</b> (Instrucciones personalizadas) → pega el <b>Prompt Maestro Claude</b> (abajo) → guarda.<br>'+
-      '3. En <b>"Project knowledge"</b> sube: PLAN_MAESTRO.html y BITACORA.md (desde E:\\CLAUDE\\My Project). Re-sube la bitácora cada domingo — así el Project "recuerda" aunque cambie el modelo.<br>'+
-      '4. Desde hoy, TODA sesión diaria de estudio se abre DENTRO de ese Project (nuevo chat dentro del proyecto, nunca chat suelto).</div>'+
-      '<div class="at-step-mini"><b>B. Qué modelo elegir en el selector:</b><br>'+
-      '• <b>Lección diaria y código:</b> el <b>Sonnet</b> más reciente — rápido, excelente en código, gasta menos límite de tu plan Pro.<br>'+
-      '• <b>Decisiones de arquitectura, planes, revisión dominical:</b> el modelo más capaz disponible en tu selector (<b>Opus</b> o superior si tu plan lo muestra).<br>'+
-      '• <b>Construir en tu PC (proyectos, portafolio):</b> <b>Claude Code</b> — abre una terminal en E:\\CLAUDE\\My Project (ya dejé un CLAUDE.md ahí que le da todo el contexto automáticamente).</div>'+
-      promptCard('Prompt Maestro Claude','Va en las Custom Instructions del Project — define su rol de Profesor/CTO para siempre','pclaude'));
-
-    /* ── 2 · SETUP GEMINI ── */
-    h+=sec('atSetG','💎','Paso 2 · Montar el cuartel en Gemini (una sola vez)',
-      '<div class="at-step-mini"><b>A. Crear la Gem:</b><br>'+
-      '1. Entra a <a href="https://gemini.google.com/gems/create" target="_blank" rel="noopener">gemini.google.com</a> → menú lateral → <b>"Explorar Gems"</b> → <b>"+ Nueva Gem"</b>.<br>'+
-      '2. Nombre: <b>ATLAS · Mentor</b>. En "Instrucciones" pega el <b>Prompt Maestro Gemini</b> (abajo).<br>'+
-      '3. En "Conocimiento" adjunta PLAN_MAESTRO.html y BITACORA.md (mismos archivos; re-sube la bitácora los domingos).<br>'+
-      '4. Guarda. Tus sesiones con Gemini siempre arrancan desde esa Gem.</div>'+
-      '<div class="at-step-mini"><b>B. Qué herramienta de Google usar para qué:</b><br>'+
-      '• <b>Gem ATLAS·Mentor (modelo Pro):</b> sesión diaria de inglés + repasos + marketing.<br>'+
-      '• <b>Deep Research:</b> investigaciones semanales (nichos, tarifas, vacantes). Actívalo en el selector de herramientas del prompt.<br>'+
-      '• <b>NotebookLM</b> (<a href="https://notebooklm.google.com" target="_blank" rel="noopener">notebooklm.google.com</a>): tu biblioteca — crea un notebook "ATLAS" y sube ahí docs de cursos, APIs y n8n; pregunta contra tus fuentes y genera resúmenes de audio para escuchar mientras caminas.<br>'+
-      '• <b>Gemini Live (voz):</b> la sesión hablada de inglés de 20 min — hablar &gt; leer.</div>'+
-      promptCard('Prompt Maestro Gemini','Va en las Instrucciones de la Gem — investigadora, bibliotecaria y coach de inglés','pgemini'));
-
-    /* ── 3 · PROMPTS DIARIOS ── */
-    h+=sec('atPr','📋','Paso 3 · Prompts de operación diaria (copiar y pegar)',
-      promptCard('Prompt Diario (lección)','Cada día, en un chat nuevo DENTRO del Project ATLAS de Claude','pdiario')+
-      promptCard('Prompt Dominical (revisión)','Domingos 45 min — con el modelo más capaz del selector','pdomingo')+
-      promptCard('Prompt de Rescate (continuidad)','Si la IA "no recuerda" o estrenas modelo/cuenta: contexto completo en un pegado','prescate')+
-      '<div class="at-hack"><b>⚡ El truco que lo une todo</b>Los prompts piden tu ESTADO. No lo escribas a mano jamás: el botón verde flotante <b>"Copiar Estado ATLAS"</b> (abajo a la derecha) genera el bloque con tu semana, racha, currículo y siguiente pendiente — leído directo de esta página. Pegar y listo: cualquier IA, cualquier modelo, cualquier día, sabe exactamente dónde vas.</div>');
-
-    /* ── 4 · RUTA DIARIA ── */
-    h+=sec('atDay','📆','Ruta diaria — registra tu día (se guarda y sincroniza)',
-      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Marca los bloques que cumpliste HOY y guarda una nota de 1 línea. Esto alimenta tu racha, el Estado copiable y el sync a la nube (cross-device).</div>'+
-      '<div class="at-chkrow">'+
-      '<label><input type="checkbox" id="atEst"> 📖 Estudio (60–90 min)</label>'+
-      '<label><input type="checkbox" id="atCon"> 🔨 Construcción (45–60 min)</label>'+
-      '<label><input type="checkbox" id="atEng"> 🇺🇸 Inglés (20 min)</label>'+
-      '</div>'+
-      '<textarea class="rt-log-area" id="atNote" placeholder="¿Qué aprendiste/construiste hoy? ¿Qué te costó? (1-3 líneas)"></textarea>'+
-      '<div style="margin-top:8px"><button class="rt-pbtn rt-next" onclick="ATLAS.saveDay()" style="font-size:11px;padding:7px 14px">💾 Guardar día</button>'+
-      '<span style="font-size:11px;color:var(--t3);margin-left:10px">Día mínimo viable: 30 min de estudio + nota. La racha no se rompe — se encoge.</span></div>'+
-      '<div id="atDailyList" style="margin-top:12px"></div>');
-
-    /* ── 5 · CURRÍCULO ── */
+    /* ── 1 · LA RUTA ── */
     let cur='';
     CURR.forEach(m=>{
-      cur+='<div class="rt-label" style="margin-top:14px">'+m.icon+' '+m.name+' · <span style="color:var(--gn)">'+m.weeks+'</span></div>';
+      cur+='<div class="rt-label" style="margin-top:14px">'+m.icon+' '+m.name+' · <span style="color:var(--gn)">'+m.weeks+'</span></div>'+
+        '<div class="at-fase-why"><b>Por qué:</b> '+m.why+'</div>';
       m.items.forEach(i=>cur+=lesHTML(i));
     });
-    h+=sec('atCur','🎓','Currículo de la maestría — 12 semanas · marca cada skill conquistada',
-      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Click en cada item para ver el paso a paso con links. El círculo marca completado (se guarda y sincroniza). Claude desarrolla cada lección a tu medida — esto es el mapa, él es el territorio.</div>'+cur);
+    h+=sec('atCur','🗺️','La Ruta — marca cada paso conquistado (se guarda y sincroniza)',
+      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Click en cada paso para ver el detalle con links. El círculo marca completado — alimenta el recuadro "QUÉ TOCA HOY", tu % y el Estado copiable.</div>'+cur,true);
 
-    /* ── 6 · CERTIFICACIONES ── */
+    /* ── 2 · CERTIFICADOS ── */
     let cert='';
     CERTS.forEach(x=>{
       const ok=!!getCurr()[x.id];
@@ -459,48 +384,56 @@ const ATLAS = (() => {
         '<span style="font-size:10px;color:var(--t3);flex-shrink:0">'+x.when+'</span>'+
         '<a href="'+x.link+'" target="_blank" rel="noopener" style="font-size:11px;color:var(--a2);flex-shrink:0">🔗 Abrir</a></div></div>';
     });
-    h+=sec('atCert','🏅','Certificaciones priorizadas — gratis primero, pagas solo cuando pesan',
-      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Orden de ataque: las GRATIS en su módulo correspondiente. Las pagas (Duolingo, AWS) SOLO cuando la Vía B lo exija — no antes. Regla: <b>3 proyectos en GitHub valen más que 10 certificados</b>; los certificados acompañan, no reemplazan.</div>'+cert);
+    h+=sec('atCert','🏅','Los certificados de la ruta — tus hitos de mercado',
+      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Cada fase termina en credencial real para LinkedIn. Regla: no se compra ni se agenda nada de una fase futura — el dinero y la energía van a la fase ACTUAL.</div>'+cert);
 
-    /* ── 7 · INGLÉS ── */
-    h+=sec('atEng2','🇺🇸','Inglés — la palanca salarial nº1 (20 min diarios, innegociable)',
-      '<div class="at-step-mini">'+
-      '<b>El sistema (20 min/día, ya está en tu checklist diaria):</b><br>'+
-      '1. <b>Lun–Vie con Gemini Live (voz):</b> abre la Gem ATLAS·Mentor y di <i>"inglés de hoy"</i> — explica EN INGLÉS lo que programaste, ella te corrige; 5 palabras técnicas nuevas; 1 pregunta de entrevista oral.<br>'+
-      '2. <b>Sábados con Claude:</b> pídele <i>"simula 10 min de entrevista técnica en inglés sobre lo que aprendí esta semana"</i> — por texto primero, por voz cuando te sientas listo.<br>'+
-      '3. <b>Inmersión pasiva:</b> los videos de los cursos (DeepLearning.AI, HF) véelos en inglés con subtítulos en inglés. NotebookLM te genera resúmenes de audio en inglés de tus propios apuntes.<br><br>'+
-      '<b>Medición (no opcional):</b> <a href="https://www.efset.org/" target="_blank" rel="noopener">EF SET</a> gratis en la semana 2 (línea base) y en la semana 12 (progreso). Certificado linkeable en LinkedIn. Cuando llegues a B2: Duolingo English Test para la Vía B.</div>');
+    /* ── 3 · RUTA DIARIA ── */
+    h+=sec('atDay','📆','Ruta diaria — registra tu día (se guarda y sincroniza)',
+      '<div style="font-size:12px;color:var(--t2);margin:8px 0">Marca lo que cumpliste HOY + nota de 1 línea. Alimenta tu racha y el Estado copiable. La hora ideal: la misma todos los días.</div>'+
+      '<div class="at-chkrow">'+
+      '<label><input type="checkbox" id="atEst"> 📖 Curso (45 min)</label>'+
+      '<label><input type="checkbox" id="atCon"> 📝 Notas / práctica (15 min)</label>'+
+      '<label><input type="checkbox" id="atEng"> 🇺🇸 Inglés (opcional)</label>'+
+      '</div>'+
+      '<textarea class="rt-log-area" id="atNote" placeholder="¿Qué viste hoy en el curso? ¿Qué no entendiste? (1-3 líneas)"></textarea>'+
+      '<div style="margin-top:8px"><button class="rt-pbtn rt-next" onclick="ATLAS.saveDay()" style="font-size:11px;padding:7px 14px">💾 Guardar día</button>'+
+      '<span style="font-size:11px;color:var(--t3);margin-left:10px">Día mínimo viable: 20 min + nota. Cero días de cero.</span></div>'+
+      '<div id="atDailyList" style="margin-top:12px"></div>');
 
-    /* ── 8 · DOMINGO ── */
-    h+=sec('atSun','🗓️','El Domingo Sagrado — cómo las IAs "recuerdan" todo el proyecto',
-      '<div class="at-step-mini"><b>El ritual (45 min, mismo día, misma hora):</b><br>'+
-      '1. Abre esta página → botón <b>Copiar Estado ATLAS</b>.<br>'+
-      '2. Abre Claude → Project ATLAS → chat nuevo → pega <b>Prompt Dominical + Estado</b>. Revisión completa de KPIs y plan de la semana.<br>'+
-      '3. Guarda el BLOQUE CIERRE que te dé en la bitácora (y en el registro diario de arriba).<br>'+
-      '4. Re-sube BITACORA.md actualizada al Project knowledge de Claude y a la Gem de Gemini (2 min). <b>Este paso es la memoria de largo plazo de ambas IAs.</b><br>'+
-      '5. (Cada 2 domingos) Pide a Gemini Deep Research UNA investigación estratégica: nichos, tarifas, o vacantes remotas junior AI LATAM.</div>'+
-      '<a class="rt-pbtn rt-next" style="text-decoration:none;display:inline-flex;margin-top:6px" href="'+calLink()+'" target="_blank" rel="noopener">📅 Crear evento recurrente en Google Calendar (domingos 2:00 PM)</a>'+
-      '<div class="at-hack" style="margin-top:12px"><b>🧠 Por qué funciona aunque cambien los modelos</b>La memoria del proyecto NO vive en ninguna IA: vive en TRES lugares tuyos — esta página (estado vivo sincronizado), la bitácora (historia), y GitHub (evidencia). Las IAs son motores intercambiables que leen ese estado. Si mañana cambia el modelo, el chat, o la empresa: pegas el Prompt de Rescate + Estado y sigues como si nada. Eres inmune a la rotación de modelos.</div>');
+    /* ── 4 · CLAUDE COMO DESBLOQUEADOR ── */
+    h+=sec('atSetC','🤖','Claude: tu desbloqueador de dudas (setup una sola vez)',
+      '<div class="at-step-mini"><b>A. Crear el Project (claude.ai):</b><br>'+
+      '1. Entra a <a href="https://claude.ai/projects" target="_blank" rel="noopener">claude.ai/projects</a> → <b>"+ New project"</b> → nómbralo <b>PROYECTO ATLAS</b>.<br>'+
+      '2. En <b>"Set custom instructions"</b> pega el <b>Prompt Maestro Claude</b> (abajo) → guarda.<br>'+
+      '3. En <b>"Project knowledge"</b> sube PLAN_MAESTRO.html y BITACORA.md (E:\\CLAUDE\\My Project). Re-sube la bitácora los domingos.<br>'+
+      '4. <b>El uso real del día a día:</b> algo del curso no se entiende → pantallazo → pegarlo en un chat del Project → "explícamelo con manzanas". Eso es todo. Sin ceremonia.</div>'+
+      promptCard('Prompt Maestro Claude','Custom Instructions del Project — define su rol de acompañante visual','pclaude')+
+      promptCard('Prompt Diario (para dudas o repaso)','Chat nuevo dentro del Project cuando estudies','pdiario'));
 
-    /* ── 9 · GITHUB ── */
-    h+=sec('atGH','🐙','GitHub — tu credencial pública (paso a paso)',
-      '<div class="at-step-mini">'+
-      '1. Tu cuenta ya existe: <a href="https://github.com/Mikel696" target="_blank" rel="noopener">github.com/Mikel696</a>. Complétala: foto, bio ("Systems Engineer → AI Engineer · Python · LLMs · Automation"), ubicación Colombia.<br>'+
-      '2. Crea el repo <b>atlas-portfolio</b> (público) — semana 1, con Claude. Estructura: /proyecto-1-api, /proyecto-2-asistente, /proyecto-3-rag, README raíz que te presenta.<br>'+
-      '3. <b>Perfil README:</b> crea un repo llamado exactamente <b>Mikel696</b> — su README.md se muestra en tu portada de GitHub. Claude te lo diseña (quién eres, stack, proyectos, cómo contactarte).<br>'+
-      '4. <b>1 commit diario mínimo</b> (aunque sea la nota del día en el repo). El calendario verde de contribuciones es lo primero que mira un reclutador técnico.<br>'+
-      '5. Semana 10: activa <b>GitHub Pages</b> en atlas-portfolio → tu web de portafolio gratis en mikel696.github.io/atlas-portfolio.<br>'+
-      '6. Cada proyecto lleva README con: qué hace, screenshot/GIF, stack, cómo correrlo, qué aprendiste. Claude revisa cada README antes de publicar.</div>');
+    /* ── 5 · GEMINI ── */
+    h+=sec('atSetG','💎','Gemini: biblioteca, inglés e investigación (setup una sola vez)',
+      '<div class="at-step-mini">1. <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a> → "Explorar Gems" → "+ Nueva Gem" → nombre <b>ATLAS · Mentor</b> → pega el prompt de abajo en Instrucciones → guarda.<br>'+
+      '2. <b>NotebookLM</b> (<a href="https://notebooklm.google.com" target="_blank" rel="noopener">notebooklm.google.com</a>): crea el notebook "ATLAS" y sube tus apuntes semanales — genera resúmenes de AUDIO para repasar caminando (oro para memoria visual/auditiva).<br>'+
+      '3. <b>Gemini Live (voz):</b> cuando quieras practicar inglés hablado (opcional en F1, valioso desde F2).</div>'+
+      promptCard('Prompt Maestro Gemini','Instrucciones de la Gem','pgemini'));
 
-    /* ── 10 · HACKS ── */
-    h+=sec('atHk','⚡','Hacks del oficio — lo que casi nadie usa',
-      '<div class="at-hack"><b>1 · La IA como profesor socrático, no como máquina de respuestas</b>El 95% pide "hazme el código" y no aprende nada. Tu Prompt Maestro obliga a Claude a hacerte teclear y a no avanzar si fallas el reto. Esa fricción ES el aprendizaje. No la saltes pidiéndole el código directo — te estarías robando a ti mismo.</div>'+
-      '<div class="at-hack"><b>2 · Doble profesor = detector de humo</b>Cuando algo no te cierre, pregunta lo mismo a Claude y a Gemini por separado. Si coinciden, es sólido. Si difieren, encontraste un punto fino: profundiza ahí — esos matices son los que se preguntan en entrevistas.</div>'+
-      '<div class="at-hack"><b>3 · NotebookLM con TUS apuntes, no solo docs ajenos</b>Cada domingo sube tu bitácora de la semana a NotebookLM y pídele un resumen de audio. Escuchar TU propia semana narrada consolida memoria a largo plazo (efecto testing + spaced repetition gratis).</div>'+
-      '<div class="at-hack"><b>4 · El API tier gratuito de Gemini como laboratorio</b>Para practicar código LLM sin gastar: la API de Gemini tiene free tier generoso. Prototipa ahí, y aprende la API de Claude con los créditos mínimos ($5) solo cuando el ejercicio lo pida. Costo de laboratorio: casi cero.</div>'+
-      '<div class="at-hack"><b>5 · Construye en público (build in public)</b>1 post corto de LinkedIn cada semana desde la semana 4: "Semana N aprendiendo ingeniería de IA: construí X, aprendí Y". Los clientes de la Vía A y los reclutadores de la Vía B te encontrarán a TI — inbound, no solo outbound. Gemini redacta, tú publicas.</div>'+
-      '<div class="at-hack"><b>6 · Los proyectos de cliente son currículo</b>Desde M3, cada gig se hace con estándar de portafolio: pide permiso de mostrar versión anonimizada. 3 gigs = 3 casos de estudio = tarifas más altas. El trabajo se convierte en marketing sin costo extra.</div>'+
-      '<div class="at-hack"><b>7 · Al PC también le toca (Claude Code)</b>Para construir los proyectos usa Claude Code apuntando a E:\\CLAUDE\\My Project — ya tiene un CLAUDE.md con todo el contexto de ATLAS. Es la diferencia entre "chatear sobre código" y tener un ingeniero DENTRO de tu disco duro.</div>');
+    /* ── 6 · DOMINGO ── */
+    h+=sec('atSun','🗓️','El Domingo (20 min) — la revisión que mantiene todo vivo',
+      '<div class="at-step-mini">1. Botón <b>Copiar Estado ATLAS</b> (flotante, abajo) → Claude → Project ATLAS → pega <b>Prompt Dominical + Estado</b>.<br>'+
+      '2. Guarda la línea de cierre en tu registro diario.<br>'+
+      '3. Re-sube BITACORA.md al Project knowledge (memoria de largo plazo de la IA).</div>'+
+      '<a class="rt-pbtn rt-next" style="text-decoration:none;display:inline-flex;margin-top:6px" href="'+calLink()+'" target="_blank" rel="noopener">📅 Crear recordatorio dominical en Google Calendar</a>'+
+      promptCard('Prompt Dominical','Domingos, 20 min','pdomingo')+
+      promptCard('Prompt de Rescate','Si la IA "no recuerda" o estrenas modelo: contexto completo en un pegado','prescate')+
+      '<div class="at-hack"><b>🧠 Por qué eres inmune a cambios de modelo</b>La memoria del proyecto no vive en ninguna IA: vive en esta página (estado sincronizado), tu bitácora (historia) y tus certificados (evidencia). Cualquier IA, cualquier día: Prompt de Rescate + Estado y sigues como si nada.</div>');
+
+    /* ── 7 · HACKS v3 ── */
+    h+=sec('atHk','⚡','Trucos del oficio (v3 — para aprendiz visual)',
+      '<div class="at-hack"><b>1 · La regla del pantallazo</b>Atascado más de 10 minutos = pantallazo a Claude. No es trampa: es cómo estudia la gente que avanza. El curso da la estructura; Claude da la explicación a TU medida.</div>'+
+      '<div class="at-hack"><b>2 · Conecta todo con tus datos</b>Cada concepto nuevo, pregúntate: "¿cómo se ve esto en mis finanzas / en Simetrik / en mis notas de la CUN?". Un concepto anclado a TU vida no se olvida.</div>'+
+      '<div class="at-hack"><b>3 · El registro diario ES el método</b>La nota de 1 línea al final de cada sesión (qué vi, qué no entendí) vale más que 2 horas extra de video. Obliga al cerebro a cerrar el archivo del día.</div>'+
+      '<div class="at-hack"><b>4 · Certificado terminado = LinkedIn el mismo día</b>No los acumules en silencio. Cada credencial publicada te acerca reclutadores mientras duermes (y Gemini te redacta el post en 2 min).</div>'+
+      '<div class="at-hack"><b>5 · NotebookLM con TUS apuntes</b>Domingos: sube tus notas de la semana y pide el resumen de audio. Escuchar tu propia semana narrada consolida memoria de largo plazo gratis.</div>');
 
     /* ── Botón estado flotante ── */
     h+='<div class="at-estado"><button class="rt-pbtn rt-next" style="font-size:12px;padding:10px 18px" onclick="ATLAS.copyEstado(this)">📋 Copiar Estado ATLAS</button></div>';

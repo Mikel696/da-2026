@@ -1,8 +1,31 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-07-06
+- **Última actualización:** 2026-07-09
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🗺️ 4-RUT · ATLAS v3.0 — Camino de los Certificados — 2026-07-09
+
+### Qué cambió y por qué
+Miguel reportó que ATLAS v2.0 (maestría autodidacta 12 sem con lecciones de código desde el día 1) era **confusa y lo bloqueó** — se atascó en la primera función de Python, bitácora vacía 06→09 jul. Pidió: certificados primero, formato visual, cero pérdida de tiempo. **Es aprendiz VISUAL** — regla permanente para diseñarle cualquier cosa.
+
+### La ruta v3.0 (reescritura completa de `atlas.js`, `?v=3`)
+- **F1 jul→sep 2026:** Google Data Analytics (Coursera, español; ayuda económica se solicita el DÍA 1 — tarda 2-3 sem). 9 pasos.
+- **F2 oct→nov:** Power BI + examen PL-300 (MS Learn gratis; descuento estudiante CUN; ~$80-100). Dashboard con datos del 12-FIN → repo atlas-portfolio. Al certificar: aplicar a remotos junior desde 5-JOB.
+- **F3 dic→ene 2027:** Python en Kaggle Learn (gratis, navegador, visual). 4 micro-cursos + mini-proyecto.
+- **F4 2027 (candado):** IA Aplicada — n8n, agentes HF, RAG. La v2.0 vive ahí (archivada en `E:\CLAUDE\My Project\PLAN_MAESTRO_v2_archivo.html`).
+- **UI nueva:** recuadro rojo **"QUÉ TOCA HOY"** (primer paso sin marcar, computed), KPI "Fase N/4" (reemplaza "Sem N/12"), cada fase con su "Por qué". 22 pasos + 7 certs marcables. Prompts v3 (Claude = acompañante que desbloquea con explicaciones visuales, NO profesor socrático; diario/dominical/rescate actualizados). Daily tracker: 📖 Curso 45min + 📝 Notas 15min + 🇺🇸 Inglés opcional (mismos campos est/con/eng — sync intacto).
+- **Datos:** mismas keys `atlas_daily/atlas_curr/atlas_meta` en SYNC_REGISTRY. Ids nuevos (f1-1…f4-3, c-gda…) — los checks viejos (m1-1…) quedan huérfanos e inofensivos en `atlas_curr`. Entradas daily nuevas llevan `fase` en vez de `week` (render soporta ambos).
+- **Espejo local:** `E:\CLAUDE\My Project\` actualizado (PLAN_MAESTRO.html v3.0 visual standalone, CLAUDE.md rol v3, BITACORA.md con historia de versiones).
+
+### Verificado en preview local
+HOY box correcto ("Cuenta Coursera + AYUDA ECONÓMICA"), Fase 1/4, 22 pasos, 7 certs, buildEstado() v3 OK, 0 errores de consola.
+
+### Pendiente
+- Miguel: cuenta Coursera + solicitar ayuda económica (paso 1 del mapa).
+- `PROMPTS_ATLAS.md` (espejo local de prompts) desactualizado respecto a v3 — regenerar en próxima sesión ATLAS.
 
 ---
 
