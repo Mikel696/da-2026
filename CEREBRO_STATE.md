@@ -6,7 +6,27 @@
 
 ---
 
-## ✨ 4-RUT · ATLAS v3.1 — IA desde el Día 1 — 2026-07-09 (mismo día que v3.0)
+## 🎯 4-RUT · ATLAS v3.2 — Directo al Ingreso — 2026-07-09 (tercer ajuste del día, versión FINAL acordada)
+
+### Qué cambió y por qué
+Miguel precisó el rumbo: la meta es **la habilidad que paga** (el negocio de IA/automatización), no coleccionar cursos de IA; quiere **SQL, Python y Power BI como complementos**, **solo certificaciones con peso real de mercado**, **inglés innegociable**, y corrigió un dato de perfil crítico: **NO sabe programar** (cero JS/Python — los docs decían "viene de JavaScript"; los sistemas da-2026 los construyó Claude bajo su dirección).
+
+### La ruta v3.2 (5 fases, en `atlas.js`)
+- **F1 jul:** Google AI Essentials (sin cambios). 🎓
+- **F2 ago→sep:** n8n — la habilidad vendible (sin cambios). 🎖️🎖️
+- **F3 oct→dic (NUEVA):** Datos con peso — Kaggle Intro to SQL (mini-cert) + ruta MS Learn + **examen PL-300** (⭐ el cert de más peso LATAM, descuento estudiante ~$80-100, única inversión) → aplicar a remotos desde 5-JOB. Ids `a5-*`.
+- **F4 ene→feb 27:** Python Kaggle (ex-F3, "su PRIMER lenguaje").
+- **F5 mar→may 27:** Agentes+RAG (ex-F4) → graduación ~may 2027.
+- **Inglés = pilar transversal innegociable:** 15 min/día hablados (Gemini Live), EF SET línea base ESTA SEMANA + trimestral (primero en lista de certs), tracker diario dice "innegociable", prompts lo auditan (diario y dominical), hack #6 nuevo.
+- **Prompts v3.2:** todos declaran "NO sabe programar — analogías con Excel, jamás código antes de F4". Contadores 4→5 fases (estado + KPI header). 21 pasos + 7 certs.
+- **Espejo local:** PLAN_MAESTRO.html v3.2 (5 fases + caja de inglés, key `atlas_v32_progress`), CLAUDE.md, BITACORA.md, PROMPTS_ATLAS.md. Memoria actualizada (perfil: no programa aún).
+
+### Pendiente
+- Miguel: cuenta Coursera + ayuda económica AI Essentials (20 min) + EF SET esta semana + inglés diario desde hoy.
+
+---
+
+## ✨ 4-RUT · ATLAS v3.1 — IA desde el Día 1 — 2026-07-09 (mismo día que v3.0; superseded por v3.2)
 
 ### Qué cambió y por qué
 Miguel corrigió el rumbo de la v3.0 el mismo día: *"lo de análisis de datos está bien, pero quiero foco en las habilidades de IA, más visual, camino claro sin desvíos, lo más rápido posible"*. La v3.1 conserva la **metodología** v3.0 (visual, cert-first, HOY box, 1h/día) y cambia la **ruta**: IA como columna vertebral desde el día 1, graduación ~ene 2027 (un año antes).
