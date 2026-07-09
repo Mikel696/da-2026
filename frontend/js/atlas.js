@@ -321,7 +321,8 @@ const ATLAS = (() => {
 
   function lesHTML(item){
     const ok=!!getCurr()[item.id];
-    let h='<div class="rt-les"><div class="rt-les-head" onclick="togLesson(this)">'+
+    // Abierto por defecto: Miguel es aprendiz visual — links y pasos SIEMPRE a la vista (clic en el título colapsa)
+    let h='<div class="rt-les open"><div class="rt-les-head" onclick="togLesson(this)">'+
       '<div class="rt-chk'+(ok?' done':'')+'" onclick="ATLAS.togItem(\''+item.id+'\',this);event.stopPropagation()">'+(ok?'✓':'')+'</div>'+
       '<div class="rt-les-info"><div class="rt-les-title'+(ok?' struck':'')+'">'+item.t+'</div><div class="rt-les-brief">'+item.d+'</div></div>'+
       '<div class="rt-les-arrow">▼</div></div><div class="rt-les-body"><div class="rt-les-content">';
