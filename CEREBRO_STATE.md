@@ -6,7 +6,28 @@
 
 ---
 
-## 🗺️ 4-RUT · ATLAS v3.0 — Camino de los Certificados — 2026-07-09
+## ✨ 4-RUT · ATLAS v3.1 — IA desde el Día 1 — 2026-07-09 (mismo día que v3.0)
+
+### Qué cambió y por qué
+Miguel corrigió el rumbo de la v3.0 el mismo día: *"lo de análisis de datos está bien, pero quiero foco en las habilidades de IA, más visual, camino claro sin desvíos, lo más rápido posible"*. La v3.1 conserva la **metodología** v3.0 (visual, cert-first, HOY box, 1h/día) y cambia la **ruta**: IA como columna vertebral desde el día 1, graduación ~ene 2027 (un año antes).
+
+### La ruta v3.1 (en `atlas.js`, commiteada)
+- **F1 jul 2026 (~2-3 sem):** Google AI Essentials — Coursera, español, 5 cursos ~10h, CERO código, ayuda económica día 1. **Link verificado y corregido** (el de v3.0-WIP daba 404): `coursera.org/specializations/ai-essentials-google`. 🎓 Cert 1.
+- **F2 ago→sep:** n8n automatización visual de IA — setup Docker con Claude, badges oficiales L1+L2, 5 automatizaciones reales con datos propios, opcional primer servicio 💵.
+- **F3 oct→nov:** Python en Kaggle (3 mini-certs) + primer script llamando API de IA (tier gratis Gemini).
+- **F4 dic→ene 2027:** HF Agents Course (🎓 cert) + Anthropic Academy (tool use) + 🏆 proyecto RAG público → graduación: servicios a PYMEs y/o vacantes IA desde 5-JOB.
+- **Datos:** mismas keys sync; ids nuevos `a1-*…a4-*`, certs `c-aie/c-n8n/c-kaggle/c-hf/c-anthropic/c-efset` (16 pasos + 6 certs). Estado copiable v3.1.
+- **Espejo local sincronizado:** `E:\CLAUDE\My Project\` — PLAN_MAESTRO.html v3.1 (mapa visual, key `atlas_v31_progress`), CLAUDE.md (historia v2→v3→v3.1 + rol), BITACORA.md, PROMPTS_ATLAS.md regenerado (pendiente de v3.0 saldado).
+
+### Verificado en preview local (09-jul)
+Hero v3.1, HOY box "Cuenta Coursera + AYUDA ECONÓMICA", Fase 1/4, 16 pasos, 6 certs, buildEstado() v3.1, links Coursera correctos, 0 errores consola.
+
+### Pendiente
+- Miguel: cuenta Coursera + solicitar ayuda económica de **AI Essentials** (paso 1 del mapa, 20 min).
+
+---
+
+## 🗺️ 4-RUT · ATLAS v3.0 — Camino de los Certificados — 2026-07-09 (superseded por v3.1 el mismo día)
 
 ### Qué cambió y por qué
 Miguel reportó que ATLAS v2.0 (maestría autodidacta 12 sem con lecciones de código desde el día 1) era **confusa y lo bloqueó** — se atascó en la primera función de Python, bitácora vacía 06→09 jul. Pidió: certificados primero, formato visual, cero pérdida de tiempo. **Es aprendiz VISUAL** — regla permanente para diseñarle cualquier cosa.

@@ -1,8 +1,8 @@
 /* ════════════════════════════════════════════════════════════════
-   4-RUT · PROYECTO ATLAS v3.0 — El Camino de los Certificados
+   4-RUT · PROYECTO ATLAS v3.1 — IA desde el Día 1
    Cert-first · visual · 1h/día · una sola cosa a la vez.
-   F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle
-   → F4 IA Aplicada (la v2.0 vive ahí, pospuesta no cancelada).
+   F1 Google AI Essentials → F2 n8n (automatización visual) →
+   F3 Python Kaggle → F4 Agentes + RAG (Hugging Face).
    Keys: atlas_daily (array) · atlas_curr (obj) · atlas_meta (obj)
    — las 3 registradas en SYNC_REGISTRY de cloud-sync.js.
    ════════════════════════════════════════════════════════════════ */
@@ -18,124 +18,121 @@ const ATLAS = (() => {
   const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 
   /* ══════════════════════════════════════════════════════════
-     LA RUTA v3.0 — 4 fases · certificados en orden de dificultad
+     LA RUTA v3.1 — IA desde el día 1 · 4 fases · certificados
   ══════════════════════════════════════════════════════════ */
   const AYUDA='Si algo del curso no se entiende: pégale el pantallazo o el texto a Claude y pide "explícamelo con manzanas". Nunca te quedes atascado más de 10 minutos.';
   const CURR=[
-  {id:'F1',icon:'📊',name:'Fase 1 · Certificado Google de Análisis de Datos',weeks:'jul → sep 2026',
-   why:'100% guiado y visual (videos + clics, casi nada de código), disponible en español, valida lo que ya haces en Simetrik y es el certificado de entrada más reconocido del mercado.',
+  {id:'F1',icon:'✨',name:'Fase 1 · Google AI Essentials — tu primer certificado de IA',weeks:'jul 2026 · ~2-3 semanas',
+   why:'Empiezas EN IA desde el día 1: qué es, cómo usarla bien y el arte del prompting. 100% videos y práctica guiada, en español, CERO código, ~10 horas totales. Certificado de Google en tu LinkedIn en semanas, no meses.',
    items:[
-    {id:'f1-1',t:'Cuenta Coursera + AYUDA ECONÓMICA (hoy, 20 min)',d:'La beca tarda 2-3 semanas en aprobarse — por eso es el paso 1',steps:[
-      {s:'Crea tu cuenta en Coursera con tu Gmail',link:'https://www.coursera.org/professional-certificates/google-data-analytics',ln:'Coursera — Google Data Analytics'},
-      {s:'En la página del certificado, clic en <b>"Ayuda económica disponible"</b> (bajo el precio) y llena la solicitud (15 min, respuestas honestas y simples).'},
-      {s:'Mientras aprueban: usa la <b>prueba gratis de 7 días</b> para arrancar el Curso 1. En ajustes del curso cambia el idioma a <b>español</b>.'},
-    ],check:'Solicitud de ayuda enviada y Curso 1 abierto en español.'},
-    {id:'f1-2',t:'Curso 1 · Fundamentos: datos en todas partes',d:'~2 semanas a 1h/día · el más largo porque construye la base',steps:[{s:'1 hora al día: 45 min de video/lecturas + 15 min de notas en tu registro diario (abajo). '+AYUDA}],check:'Curso 1 aprobado (badge en Coursera).'},
-    {id:'f1-3',t:'Curso 2 · Hacer preguntas para tomar decisiones',d:'~1 semana',steps:[{s:'Mismo ritmo. Verás que esto YA lo haces en tu trabajo — ahora le pones nombre y método.'}],check:'Curso 2 aprobado.'},
-    {id:'f1-4',t:'Curso 3 · Preparar los datos para explorarlos',d:'~1 semana',steps:[{s:'Aquí empieza SQL suave (BigQuery guiado). '+AYUDA}],check:'Curso 3 aprobado.'},
-    {id:'f1-5',t:'Curso 4 · Procesar los datos (limpieza)',d:'~1 semana',steps:[{s:'Limpieza de datos = el 80% del trabajo real. Conecta esto con lo que haces en Simetrik.'}],check:'Curso 4 aprobado.'},
-    {id:'f1-6',t:'Curso 5 · Analizar los datos',d:'~1 semana',steps:[{s:'Hojas de cálculo + SQL para responder preguntas. Tu terreno.'}],check:'Curso 5 aprobado.'},
-    {id:'f1-7',t:'Curso 6 · Compartir con visualizaciones (Tableau)',d:'~1 semana · tu lado visual brilla aquí',steps:[{s:'Tableau Public es gratis, arrastrar y soltar. Guarda tus gráficos — sirven de portafolio.'}],check:'Curso 6 aprobado y 1 visualización propia guardada.'},
-    {id:'f1-8',t:'Curso 7 · Análisis con R (verlo ligero)',d:'~1 semana · sin estresarse',steps:[{s:'R es opcional en el mercado. Míralo para aprobar, sin exigirte dominarlo — tu lenguaje será Python (Fase 3).'}],check:'Curso 7 aprobado.'},
-    {id:'f1-9',t:'Curso 8 · Caso práctico final → 🎓 CERTIFICADO 1',d:'~1 semana · tu primer credencial de mercado',steps:[
-      {s:'El caso final se hace con calma, es tu primera pieza de portafolio.'},
-      {s:'Al recibir el certificado: agrégalo a LinkedIn (Coursera tiene botón directo) y celébralo — es real.'},
-    ],check:'🎓 Certificado Google Data Analytics en tu LinkedIn.'},
+    {id:'a1-1',t:'Cuenta Coursera + AYUDA ECONÓMICA (hoy, 20 min)',d:'La beca tarda 2-3 semanas en aprobarse — por eso es el paso 1',steps:[
+      {s:'Crea tu cuenta en Coursera con tu Gmail',link:'https://www.coursera.org/specializations/ai-essentials-google',ln:'Coursera — Google AI Essentials'},
+      {s:'Clic en <b>"Ayuda económica disponible"</b> (bajo el precio) y llena la solicitud (15 min, honesto y simple).'},
+      {s:'Mientras aprueban: usa la <b>prueba gratis de 7 días</b> — con ~1h/día puedes terminar el certificado ANTES de pagar un solo peso. En ajustes cambia el idioma a <b>español</b>.'},
+    ],check:'Solicitud de ayuda enviada y curso 1 abierto en español.'},
+    {id:'a1-2',t:'Cursos 1-2 · Introducción a la IA + Productividad con IA',d:'~3 horas (1h + 2h, verificado)',steps:[{s:'1 hora al día: 45 min de video/práctica + 15 min de notas en tu registro diario (abajo). '+AYUDA}],check:'Cursos 1 y 2 aprobados (badges en Coursera).'},
+    {id:'a1-3',t:'Cursos 3-4 · El arte del prompting + IA responsable',d:'~3 horas (2h + 1h) · el corazón del certificado',steps:[{s:'El curso de prompting es ORO para ti: lo que aprendas ahí lo aplicas el mismo día conmigo y con Gemini. Guarda tus mejores prompts en tu módulo 8-PRO.'}],check:'Cursos 3 y 4 aprobados.'},
+    {id:'a1-4',t:'Curso 5 · Mantenerse al día en IA → 🎓 CERTIFICADO 1',d:'~2 horas + cierre',steps:[
+      {s:'Termina el último curso y descarga tu certificado.'},
+      {s:'Publícalo en LinkedIn el MISMO día (Coursera tiene botón directo). Tu primera credencial de IA es real.'},
+    ],check:'🎓 Google AI Essentials en tu LinkedIn.'},
    ]},
-  {id:'F2',icon:'📈',name:'Fase 2 · Power BI + Certificación Microsoft PL-300',weeks:'oct → nov 2026',
-   why:'Power BI es la herramienta MÁS visual del mercado (arrastrar y soltar, cero código) y la más pedida en vacantes remotas de datos en LATAM. Con tu condición de estudiante CUN el examen tiene descuento.',
+  {id:'F2',icon:'🔧',name:'Fase 2 · n8n — construir automatizaciones de IA (visual)',weeks:'ago → sep 2026',
+   why:'n8n es programación 100% VISUAL: cajas y flechas, cero código. Con él construyes agentes y automatizaciones de IA REALES — y es exactamente la habilidad vendible a PYMEs del plan original. Aquí dejas de estudiar IA y empiezas a FABRICARLA.',
    items:[
-    {id:'f2-1',t:'Descuento de estudiante + instalar Power BI',d:'30 min de setup',steps:[
-      {s:'En tu perfil de Microsoft Learn, verifica tu condición de <b>estudiante</b> (correo CUN) — activa el descuento del examen (~50%)',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',ln:'Certificación PL-300'},
-      {s:'Instala <b>Power BI Desktop</b> (gratis)',link:'https://www.microsoft.com/es-es/download/details.aspx?id=58494',ln:'Descargar Power BI Desktop'},
-    ],check:'Estudiante verificado y Power BI abierto en tu PC.'},
-    {id:'f2-2',t:'Ruta oficial Microsoft Learn para PL-300',d:'~4 semanas · gratis y en español',steps:[
-      {s:'Sigue la ruta de aprendizaje oficial "Preparación para el examen PL-300" módulo por módulo (es interactiva, con laboratorios guiados)',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',ln:'Ruta PL-300 en MS Learn'},
+    {id:'a2-1',t:'Montar tu n8n (conmigo, ~30 min)',d:'Tu PC ya tiene Docker instalado — lo usamos',steps:[
+      {s:'Sesión conmigo (Claude Code): levantamos n8n local con Docker en tu PC, paso a paso. Alternativa sin instalar nada: prueba gratis de n8n Cloud.',link:'https://docs.n8n.io/hosting/installation/docker/',ln:'n8n con Docker (guía oficial)'},
+    ],check:'n8n abre en tu navegador y creaste tu primer workflow de prueba.'},
+    {id:'a2-2',t:'Curso oficial n8n Level 1 → 🎖️ badge',d:'~2 semanas a 1h/día · interactivo',steps:[
+      {s:'Curso oficial gratis, con badge verificable al aprobar el quiz final',link:'https://docs.n8n.io/courses/level-one/',ln:'n8n Course — Level 1'},
       {s:AYUDA},
-    ],check:'Ruta de MS Learn completada (todos los módulos con check verde).'},
-    {id:'f2-3',t:'Proyecto: dashboard con TUS datos reales',d:'~1 semana · con Claude como copiloto',steps:[
-      {s:'Exporta tus datos de finanzas personales (módulo 12-FIN) y construye un dashboard real: gastos por mes, categorías, tendencias.'},
-      {s:'Claude te guía pantalla por pantalla. Este dashboard va al portafolio (repo atlas-portfolio).'},
-    ],check:'Dashboard funcionando con datos tuyos + screenshot en el repo.'},
-    {id:'f2-4',t:'Simulacros del examen',d:'~1 semana',steps:[
-      {s:'Microsoft ofrece <b>Practice Assessment</b> gratis del PL-300 — hazlo hasta pasar con 85%+',link:'https://learn.microsoft.com/es-es/credentials/certifications/practice-assessments-for-microsoft-certifications',ln:'Practice Assessments'},
-      {s:'Las preguntas que falles: me las pegas y las destripamos juntos.'},
-    ],check:'Simulacro en 85%+ dos veces seguidas.'},
-    {id:'f2-5',t:'Examen PL-300 → 🎓 CERTIFICADO 2 (Microsoft oficial)',d:'1 día · ~USD $80-100 con descuento',steps:[
-      {s:'Agenda el examen online (con supervisión remota) o en centro Pearson VUE. Con el descuento de estudiante aplicado.'},
-      {s:'Al aprobar: LinkedIn + <b>empezar a aplicar a vacantes remotas junior</b> de Data Analyst/BI desde tu módulo 5-JOB. Este certificado ya abre puertas reales.'},
-    ],check:'🎓 Microsoft Certified: Power BI Data Analyst Associate. Aplicando a vacantes.'},
+    ],check:'🎖️ Badge Level 1 obtenido.'},
+    {id:'a2-3',t:'Curso oficial n8n Level 2 → 🎖️ badge',d:'~2 semanas · manejo de datos y errores',steps:[
+      {s:'La continuación oficial',link:'https://docs.n8n.io/courses/level-two/',ln:'n8n Course — Level 2'},
+    ],check:'🎖️ Badge Level 2 obtenido.'},
+    {id:'a2-4',t:'Construir 5 automatizaciones de IA REALES (conmigo)',d:'~2-3 semanas · tu primer portafolio de IA',steps:[
+      {s:'Ideas con tus propios datos: resumen diario de tus correos CUN con IA · clasificador de gastos (12-FIN) · alerta de vacantes que cruce tu 5-JOB · digest de noticias IA (7-NEW) · lo que se te ocurra. Las plantillas de la comunidad son tu base.',link:'https://n8n.io/workflows/',ln:'Plantillas n8n'},
+      {s:'Cada una: screenshot + descripción de 3 líneas en tu repo atlas-portfolio. Eso ES un portafolio de automatización con IA.'},
+    ],check:'5 workflows con IA funcionando y documentados.'},
+    {id:'a2-5',t:'(Opcional 💵) Primer servicio real',d:'La vía de ingresos del plan original arranca aquí',steps:[
+      {s:'Ofrece UNA automatización a un conocido con negocio (gratis o simbólico la primera — a cambio de testimonio). Con eso validas que puedes vender esto.'},
+    ],check:'Primera automatización entregada a alguien real.'},
    ]},
-  {id:'F3',icon:'🐍',name:'Fase 3 · Python sin dolor (Kaggle Learn)',weeks:'dic 2026 → ene 2027',
-   why:'Kaggle es gratis, corre en el navegador (cero instalación, cero terminal), lecciones cortas y ves el resultado de tu código AL INSTANTE — hecho para aprendices visuales. Aquí el código entra, y entra suave.',
+  {id:'F3',icon:'🐍',name:'Fase 3 · Python sin dolor (Kaggle Learn)',weeks:'oct → nov 2026',
+   why:'Para pasar de armar automatizaciones a construir agentes serios, toca algo de código — y Kaggle es la forma visual: gratis, en el navegador, cero instalación, resultado AL INSTANTE. Llegas al código con motivo: potenciar tu IA.',
    items:[
-    {id:'f3-1',t:'Kaggle · Intro to Programming',d:'~5 horas',steps:[{s:'Crea cuenta en Kaggle y arranca. Cada lección: lees 10 min, practicas 20 en el mismo navegador.',link:'https://www.kaggle.com/learn/intro-to-programming',ln:'Kaggle — Intro to Programming'}],check:'Mini-certificado de Kaggle obtenido.'},
-    {id:'f3-2',t:'Kaggle · Python',d:'~5 horas',steps:[{s:'El curso central. '+AYUDA,link:'https://www.kaggle.com/learn/python',ln:'Kaggle — Python'}],check:'Mini-certificado obtenido.'},
-    {id:'f3-3',t:'Kaggle · Pandas',d:'~4 horas · tablas de datos con código',steps:[{s:'Pandas = Excel con superpoderes. Todo lo que sabes de hojas de cálculo se traduce aquí.',link:'https://www.kaggle.com/learn/pandas',ln:'Kaggle — Pandas'}],check:'Mini-certificado obtenido.'},
-    {id:'f3-4',t:'Kaggle · Data Visualization',d:'~4 horas',steps:[{s:'Gráficos con código. Tu cierre perfecto: visual + Python juntos.',link:'https://www.kaggle.com/learn/data-visualization',ln:'Kaggle — Data Visualization'}],check:'Mini-certificado obtenido.'},
-    {id:'f3-5',t:'Mini-proyecto con Claude: analiza TUS datos',d:'~1 semana · el examen final real',steps:[
-      {s:'Con Claude: un análisis de tus datos reales (finanzas, hábitos del 9-GOA, lo que quieras) en un notebook de Kaggle — de la pregunta al gráfico.'},
-      {s:'Publícalo en Kaggle + súbelo al repo atlas-portfolio con README.'},
-    ],check:'Notebook público con un análisis tuyo de punta a punta. Ya programas en Python.'},
+    {id:'a3-1',t:'Kaggle · Intro to Programming',d:'~5 horas',steps:[{s:'Crea cuenta en Kaggle y arranca. Cada lección: lees 10 min, practicas 20 en el mismo navegador.',link:'https://www.kaggle.com/learn/intro-to-programming',ln:'Kaggle — Intro to Programming'}],check:'Mini-certificado obtenido.'},
+    {id:'a3-2',t:'Kaggle · Python',d:'~5 horas · el curso central',steps:[{s:AYUDA,link:'https://www.kaggle.com/learn/python',ln:'Kaggle — Python'}],check:'Mini-certificado obtenido.'},
+    {id:'a3-3',t:'Kaggle · Pandas',d:'~4 horas · datos con código',steps:[{s:'Pandas = Excel con superpoderes. Todo lo que sabes de hojas de cálculo se traduce aquí.',link:'https://www.kaggle.com/learn/pandas',ln:'Kaggle — Pandas'}],check:'Mini-certificado obtenido.'},
+    {id:'a3-4',t:'Tu primer script de IA en Python (conmigo)',d:'~1 semana · unir los dos mundos',steps:[
+      {s:'Con Claude: un script que llama a una API de IA (el tier gratuito de Gemini sirve de laboratorio sin gastar) y hace algo útil con tus datos. Tu PC ya tiene Python 3.13 listo.'},
+      {s:'Al repo atlas-portfolio con README.'},
+    ],check:'Ejecutaste TU código llamando a una IA. Ya eres peligroso.'},
    ]},
-  {id:'F4',icon:'🤖',name:'Fase 4 · Inteligencia Artificial Aplicada',weeks:'2027 · se desbloquea al llegar',
-   why:'La meta original de ATLAS no se canceló — se pospuso hasta tener piso. Con 2 certificados + Python básico: agentes, RAG y automatización con salida real a ingresos. El detalle lo diseñamos al cerrar la Fase 3 (la v2.0 archivada es la referencia).',
+  {id:'F4',icon:'🤖',name:'Fase 4 · Agentes + RAG — la graduación ATLAS',weeks:'dic 2026 → ene 2027',
+   why:'La meta final del plan original: construir agentes de IA y sistemas RAG con certificado internacional y proyecto público. Llegas aquí con prompting (F1), automatización (F2) y Python (F3) — el orden correcto.',
    items:[
-    {id:'f4-1',t:'Google AI Essentials (certificado corto, puente)',d:'~8 horas',steps:[{s:'Certificado rápido de Google sobre uso profesional de IA. Calentamiento de la fase.',link:'https://www.coursera.org/professional-certificates/google-ai-essentials',ln:'Google AI Essentials'}],check:'🎓 Certificado obtenido.'},
-    {id:'f4-2',t:'Automatización visual con n8n (L1 + L2)',d:'~3 semanas · cajas y flechas, no código',steps:[{s:'Cursos oficiales gratis con badge',link:'https://docs.n8n.io/courses/',ln:'n8n Courses'}],check:'Badges L1+L2 y tus primeros workflows reales.'},
-    {id:'f4-3',t:'Agentes de IA + RAG → proyecto de portafolio',d:'~6 semanas · aquí vuelve lo mejor de la v2.0',steps:[
-      {s:'Curso de agentes de Hugging Face (gratis, con certificado)',link:'https://huggingface.co/learn/agents-course',ln:'HF Agents Course'},
-      {s:'Proyecto estrella con Claude: "chatea con tus documentos" (RAG) — demo pública para vender o para entrevistas.'},
-    ],check:'🎓 Certificado HF + demo pública funcionando. Bienvenido a la ingeniería de IA.'},
+    {id:'a4-1',t:'Hugging Face · AI Agents Course → 🎓 certificado',d:'~4-5 semanas · gratis',steps:[
+      {s:'El curso de agentes del hub de IA más famoso del mundo, con certificado',link:'https://huggingface.co/learn/agents-course',ln:'HF Agents Course'},
+      {s:AYUDA},
+    ],check:'🎓 Certificado de agentes de Hugging Face.'},
+    {id:'a4-2',t:'Anthropic Academy · Claude con la API',d:'~1 semana · gratis, del fabricante de tu IA',steps:[
+      {s:'Cursos oficiales de Anthropic: API, tool use — lo que hace que un agente ACTÚE',link:'https://anthropic.skilljar.com/',ln:'Anthropic Academy'},
+    ],check:'Hiciste tool-use real: Claude ejecutando funciones TUYAS.'},
+    {id:'a4-3',t:'🏆 Proyecto estrella: "chatea con tus documentos" (RAG)',d:'~3 semanas · con Claude como copiloto',steps:[
+      {s:'Subes documentos → preguntas → respuestas con citas. Demo pública + GitHub + video de 60s.'},
+      {s:'Publícalo en LinkedIn. Con esto en la mano: servicios de IA a PYMEs y/o vacantes de IA desde tu 5-JOB. Graduación ATLAS. 🎓'},
+    ],check:'Demo pública funcionando. Oficialmente construyes IA.'},
    ]},
   ];
 
   /* ══════════════════════════════════════════════════════════
-     CERTIFICACIONES v3 — los hitos de la ruta (en orden)
+     CERTIFICACIONES v3.1 — los hitos de la ruta (en orden)
   ══════════════════════════════════════════════════════════ */
   const CERTS=[
-    {id:'c-gda',t:'Google Data Analytics Professional Certificate',tag:'BECA / $49 mes',when:'F1',link:'https://www.coursera.org/professional-certificates/google-data-analytics',d:'El certificado de entrada al mercado de datos. Ayuda económica de Coursera disponible (solicitar el día 1).'},
-    {id:'c-pl300',t:'Microsoft PL-300 · Power BI Data Analyst Associate',tag:'~$80 estudiante',when:'F2',link:'https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/',d:'Certificación oficial Microsoft. La más pedida en vacantes BI remotas LATAM. Descuento verificando estudiante CUN.'},
-    {id:'c-kaggle',t:'Kaggle Learn · 4 mini-certificados de Python',tag:'GRATIS',when:'F3',link:'https://www.kaggle.com/learn',d:'Intro to Programming, Python, Pandas y Data Visualization — en el navegador, resultado inmediato.'},
-    {id:'c-aie',t:'Google AI Essentials',tag:'BECA / pago',when:'F4',link:'https://www.coursera.org/professional-certificates/google-ai-essentials',d:'Puente corto hacia la fase de IA.'},
-    {id:'c-n8n',t:'n8n · Level 1 + Level 2 (badges oficiales)',tag:'GRATIS',when:'F4',link:'https://docs.n8n.io/courses/',d:'Automatización visual — la credencial del servicio vendible a PYMEs.'},
-    {id:'c-hf',t:'Hugging Face · AI Agents Course',tag:'GRATIS',when:'F4',link:'https://huggingface.co/learn/agents-course',d:'Certificado de agentes del hub de IA más famoso del mundo.'},
+    {id:'c-aie',t:'Google AI Essentials',tag:'BECA / $49',when:'F1',link:'https://www.coursera.org/specializations/ai-essentials-google',d:'Tu primer certificado de IA — Google, en español, cero código, ~10 horas (5 cursos). Ayuda económica de Coursera (solicitar el día 1).'},
+    {id:'c-n8n',t:'n8n · Level 1 + Level 2 (badges oficiales)',tag:'GRATIS',when:'F2',link:'https://docs.n8n.io/courses/',d:'La credencial de la herramienta con la que fabricarás y venderás automatizaciones de IA.'},
+    {id:'c-kaggle',t:'Kaggle Learn · 3 mini-certificados de Python',tag:'GRATIS',when:'F3',link:'https://www.kaggle.com/learn',d:'Intro to Programming, Python y Pandas — en el navegador, resultado inmediato.'},
+    {id:'c-hf',t:'Hugging Face · AI Agents Course',tag:'GRATIS',when:'F4',link:'https://huggingface.co/learn/agents-course',d:'Certificado de agentes del hub de IA más famoso del mundo. La joya de la ruta.'},
+    {id:'c-anthropic',t:'Anthropic Academy · Claude con la API',tag:'GRATIS',when:'F4',link:'https://anthropic.skilljar.com/',d:'El curso oficial del fabricante de tu herramienta principal. Diferenciador brutal.'},
     {id:'c-efset',t:'EF SET English Certificate (50 min)',tag:'GRATIS',when:'cuando quieras',link:'https://www.efset.org/',d:'Certificado de inglés gratis y linkeable. Tómalo 2 veces (antes/después) para VER tu progreso.'},
   ];
 
   /* ══════════════════════════════════════════════════════════
-     PROMPTS v3 — continuidad multi-IA
+     PROMPTS v3.1 — continuidad multi-IA
   ══════════════════════════════════════════════════════════ */
+  const RUTA_TXT='F1 Google AI Essentials (prompting, sin codigo) -> F2 n8n automatizacion visual (badges L1+L2, primeros servicios) -> F3 Python en Kaggle -> F4 Agentes + RAG (certificado Hugging Face, proyecto publico)';
+
   const P_CLAUDE=[
-'ERES: el acompanante de estudio del PROYECTO ATLAS v3.0 de Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL, 1 h/dia).',
+'ERES: el acompanante de estudio del PROYECTO ATLAS v3.1 de Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL, 1 h/dia).',
 '',
-'EL PROYECTO (v3.0 — camino de certificados, en orden): F1 Google Data Analytics (Coursera, jul-sep 2026) -> F2 Power BI + examen PL-300 (oct-nov) -> F3 Python en Kaggle Learn (dic-ene) -> F4 IA Aplicada (2027: n8n, agentes, RAG). Una sola cosa a la vez; los cursos ya estan hechos por Google/Microsoft/Kaggle — tu NO dictas lecciones.',
+'EL PROYECTO (v3.1 — IA desde el dia 1, camino de certificados): '+RUTA_TXT+'. Una sola cosa a la vez; los cursos ya estan hechos por Google/n8n/Kaggle/HF — tu NO dictas lecciones.',
 '',
 'TU TRABAJO REAL:',
 '1. DESBLOQUEAR: cuando Miguel pegue un pantallazo o texto de un curso que no entiende, explicaselo CON MANZANAS: analogias simples, tablas, ejemplos con SUS datos (finanzas, conciliaciones de Simetrik, notas de la CUN). Es aprendiz visual: diagramas y ejemplos concretos antes que definiciones abstractas.',
 '2. CONSTANCIA: preguntale por su racha y su registro diario. Si lleva dias sin estudiar, sin regano: ayudale a retomar con la accion mas pequena posible (20 min cuentan).',
-'3. PROYECTOS (F2 en adelante): el dashboard de Power BI y el mini-proyecto de Kaggle se hacen JUNTOS, tu como copiloto paso a paso, siempre de lo visual hacia el codigo.',
+'3. CONSTRUIR JUNTOS (F2 en adelante): el setup de n8n, las 5 automatizaciones, el script de Python y el proyecto RAG se hacen con vos de copiloto paso a paso, siempre de lo visual hacia el codigo.',
 '4. NO AGREGAR CURSOS NI CAMBIAR EL PLAN: si Miguel propone algo nuevo, anotalo como "idea aparcada" para la revision dominical. Anti-dispersion es sagrado.',
 '',
-'REGLAS: espanol siempre. Nunca respondas "eso lo veras mas adelante" — desbloquea la duda YA con lo minimo necesario. No inventes links ni contenido de cursos. Honestidad carinosa: si algo no lo domina, dilo y repasenlo distinto. Cierra cada sesion con 1 linea para su bitacora.',
+'REGLAS: espanol siempre. Nunca respondas "eso lo veras mas adelante" — desbloquea la duda YA con lo minimo necesario. No inventes links ni contenido de cursos. Honestidad carinosa: si algo no lo domina, dilo y repasenlo distinto. Jamas usar material de Simetrik. Cierra cada sesion con 1 linea para su bitacora.',
   ].join('\n');
 
   const P_GEMINI=[
-'ERES: la investigadora, bibliotecaria y coach de ingles del PROYECTO ATLAS v3.0 de Miguel Angel Barros (Colombia, hispanohablante, aprendiz visual, 1 h/dia).',
+'ERES: la investigadora, bibliotecaria y coach de ingles del PROYECTO ATLAS v3.1 de Miguel Angel Barros (Colombia, hispanohablante, aprendiz visual, 1 h/dia).',
 '',
-'EL PROYECTO: camino de certificados en orden: F1 Google Data Analytics -> F2 Power BI PL-300 -> F3 Python Kaggle -> F4 IA Aplicada (2027). Su acompanante de estudio es Claude; tu rol es complementario.',
+'EL PROYECTO: IA desde el dia 1, camino de certificados: '+RUTA_TXT+'. Su acompanante de estudio es Claude; tu rol es complementario.',
 '',
 'TUS FUNCIONES:',
 '1. BIBLIOTECA: resumenes visuales de lo que estudio en la semana (tablas, esquemas), tarjetas de repaso y quizzes cortos.',
-'2. INGLES (10-20 min, opcional pero valioso): mini-sesion hablada — el explica en ingles lo que estudio hoy, tu corriges con carino; 5 palabras tecnicas de datos; sube dificultad gradual.',
-'3. INVESTIGACION: cuando pida "investiga X" — vacantes remotas junior LATAM de Data Analyst/BI, salarios, que piden. Con fuentes.',
-'4. MARKETING (F2+): posts de LinkedIn mostrando certificados y dashboards (ES/EN).',
+'2. INGLES (10-20 min, opcional pero valioso): mini-sesion hablada — el explica en ingles lo que estudio hoy, tu corriges con carino; 5 palabras tecnicas de IA; sube dificultad gradual.',
+'3. INVESTIGACION: cuando pida "investiga X" — mercado de automatizacion/IA para PYMEs hispanas, tarifas, vacantes remotas junior de IA en LATAM. Con fuentes.',
+'4. MARKETING (F2+): posts de LinkedIn mostrando certificados, automatizaciones y el proyecto RAG (ES/EN).',
 '',
 'PROTOCOLO: si pega un bloque "ESTADO PROYECTO ATLAS", usalo como contexto. Espanol salvo la sesion de ingles. No inventes fuentes.',
   ].join('\n');
 
   const P_DIARIO=[
-'Hola. Sesion de estudio ATLAS v3.0.',
+'Hola. Sesion de estudio ATLAS v3.1.',
 '',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado" en da-2026 > Ruta > ATLAS]',
 '',
@@ -147,7 +144,7 @@ const ATLAS = (() => {
   ].join('\n');
 
   const P_DOMINGO=[
-'Revision dominical ATLAS v3.0 (20 min). Modo: director de proyecto, honesto y practico.',
+'Revision dominical ATLAS v3.1 (20 min). Modo: director de proyecto, honesto y practico.',
 '',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado"]',
 '',
@@ -160,9 +157,9 @@ const ATLAS = (() => {
   ].join('\n');
 
   const P_RESCATE=[
-'CONTEXTO DE EMERGENCIA — Continuidad del PROYECTO ATLAS v3.0.',
+'CONTEXTO DE EMERGENCIA — Continuidad del PROYECTO ATLAS v3.1.',
 '',
-'Soy Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL). Mi plan es el "camino de los certificados": F1 Google Data Analytics (Coursera, jul-sep 2026) -> F2 Power BI + examen PL-300 con descuento estudiante (oct-nov) -> F3 Python en Kaggle Learn (dic-ene) -> F4 IA Aplicada (2027: n8n, agentes, RAG — mi meta de fondo). Reglas: una sola cosa a la vez, 1 h/dia (20 min cuentan), cero dias de cero, ideas nuevas se aparcan para el domingo. Claude me desbloquea dudas con explicaciones visuales; Gemini investiga y entrena mi ingles. Plan visual completo: E:\\CLAUDE\\My Project\\PLAN_MAESTRO.html y el hub ATLAS en mi web da-2026 (Ruta).',
+'Soy Miguel Angel Barros (Colombia, Ing. de Sistemas CUN, analista en Simetrik, aprendiz VISUAL). Mi plan es "IA desde el dia 1, camino de certificados": '+RUTA_TXT+'. Reglas: una sola cosa a la vez, 1 h/dia (20 min cuentan), cero dias de cero, ideas nuevas se aparcan para el domingo. Claude me desbloquea dudas con explicaciones visuales y construye conmigo; Gemini investiga y entrena mi ingles. Plan visual: hub ATLAS en mi web da-2026 (Ruta) + E:\\CLAUDE\\My Project\\.',
 '',
 'Mi estado actual es:',
 '[PEGA AQUI TU ESTADO — boton "Copiar Estado"]',
@@ -206,13 +203,13 @@ const ATLAS = (() => {
     const cs=currStats(),ce=certStats(),cf=currentFase(),nx=nextItem();
     const last7=getDaily().slice(-7).map(e=>e.d.slice(5)+' ['+(e.est?'E':'-')+(e.con?'N':'-')+(e.eng?'I':'-')+']').join(' · ')||'(sin registros aún)';
     const lastNote=(getDaily().slice(-1)[0]||{}).note||'—';
-    return ['=== ESTADO PROYECTO ATLAS v3.0 · '+todayISO()+' ===',
-      'Ruta: F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle → F4 IA Aplicada',
+    return ['=== ESTADO PROYECTO ATLAS v3.1 · '+todayISO()+' ===',
+      'Ruta (IA desde el día 1): F1 AI Essentials → F2 n8n → F3 Python Kaggle → F4 Agentes+RAG',
       'Fase actual: '+cf.n+'/4 ('+cf.m.name.split('·')[1].trim()+') · Pasos: '+cs.dn+'/'+cs.t+' ('+cs.pct+'%) · Certificados: '+ce.dn+'/'+ce.t,
       'Racha de estudio: '+streak()+(streak()===1?' día':' días'),
       'Últimos 7 días [E=estudio N=notas I=inglés]: '+last7,
       'Última nota de bitácora: "'+lastNote+'"',
-      'QUÉ TOCA AHORA: '+(nx?nx.fase.icon+' '+nx.item.t:'🎓 Ruta completa — diseñar Fase 4 en detalle'),
+      'QUÉ TOCA AHORA: '+(nx?nx.fase.icon+' '+nx.item.t:'🎓 Ruta completa — graduación ATLAS'),
       '=== FIN ESTADO ==='].join('\n');
   }
 
@@ -359,8 +356,8 @@ const ATLAS = (() => {
 
     const sec=(id,icon,title,body,open)=>'<div class="at-sec'+(open?' open':'')+'" id="'+id+'"><div class="at-sec-head" onclick="this.parentElement.classList.toggle(\'open\')"><span>'+icon+'</span><b>'+title+'</b><div class="rt-les-arrow">▼</div></div><div class="at-sec-body">'+body+'</div></div>';
 
-    let h='<div class="at-hero"><h2>🚀 Proyecto ATLAS v3.0 — <em style="color:var(--gn)">El Camino de los Certificados</em></h2>'+
-      '<p>Cert-first · visual · <b>una sola cosa a la vez</b> · 1 h/día (20 min cuentan) · F1 Google Data Analytics → F2 Power BI PL-300 → F3 Python Kaggle → F4 IA Aplicada. Las 3 reglas: el recuadro rojo dice qué toca; cero días de cero; si te pierdes, pégale el pantallazo a Claude — jamás abandones en silencio.</p>'+
+    let h='<div class="at-hero"><h2>🚀 Proyecto ATLAS v3.1 — <em style="color:var(--gn)">IA desde el Día 1</em></h2>'+
+      '<p>Cert-first · visual · <b>una sola cosa a la vez</b> · 1 h/día (20 min cuentan) · F1 Google AI Essentials → F2 n8n (automatización visual) → F3 Python Kaggle → F4 Agentes + RAG. Las 3 reglas: el recuadro rojo dice qué toca; cero días de cero; si te pierdes, pégale el pantallazo a Claude — jamás abandones en silencio.</p>'+
       '<div id="atHead"></div></div>';
 
     /* ── 1 · LA RUTA ── */
@@ -428,11 +425,11 @@ const ATLAS = (() => {
       '<div class="at-hack"><b>🧠 Por qué eres inmune a cambios de modelo</b>La memoria del proyecto no vive en ninguna IA: vive en esta página (estado sincronizado), tu bitácora (historia) y tus certificados (evidencia). Cualquier IA, cualquier día: Prompt de Rescate + Estado y sigues como si nada.</div>');
 
     /* ── 7 · HACKS v3 ── */
-    h+=sec('atHk','⚡','Trucos del oficio (v3 — para aprendiz visual)',
+    h+=sec('atHk','⚡','Trucos del oficio (para aprendiz visual)',
       '<div class="at-hack"><b>1 · La regla del pantallazo</b>Atascado más de 10 minutos = pantallazo a Claude. No es trampa: es cómo estudia la gente que avanza. El curso da la estructura; Claude da la explicación a TU medida.</div>'+
-      '<div class="at-hack"><b>2 · Conecta todo con tus datos</b>Cada concepto nuevo, pregúntate: "¿cómo se ve esto en mis finanzas / en Simetrik / en mis notas de la CUN?". Un concepto anclado a TU vida no se olvida.</div>'+
+      '<div class="at-hack"><b>2 · Aplica lo aprendido EL MISMO DÍA</b>Lo que veas de prompting (F1) úsalo esa misma tarde conmigo o con Gemini. Lo que armes en n8n (F2) conéctalo a TUS datos (correos, finanzas, vacantes). Un concepto usado el mismo día no se olvida.</div>'+
       '<div class="at-hack"><b>3 · El registro diario ES el método</b>La nota de 1 línea al final de cada sesión (qué vi, qué no entendí) vale más que 2 horas extra de video. Obliga al cerebro a cerrar el archivo del día.</div>'+
-      '<div class="at-hack"><b>4 · Certificado terminado = LinkedIn el mismo día</b>No los acumules en silencio. Cada credencial publicada te acerca reclutadores mientras duermes (y Gemini te redacta el post en 2 min).</div>'+
+      '<div class="at-hack"><b>4 · Certificado terminado = LinkedIn el mismo día</b>No los acumules en silencio. Cada credencial publicada te acerca reclutadores y clientes mientras duermes (Gemini te redacta el post en 2 min).</div>'+
       '<div class="at-hack"><b>5 · NotebookLM con TUS apuntes</b>Domingos: sube tus notas de la semana y pide el resumen de audio. Escuchar tu propia semana narrada consolida memoria de largo plazo gratis.</div>');
 
     /* ── Botón estado flotante ── */
