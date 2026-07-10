@@ -2613,6 +2613,7 @@ const NB = (function() {
   }
 
   function newPage(sid) {
+    _flushPendingNB(sid);
     const d = getSubjectData(sid);
     const sub = d[sid];
     const page = { id: Date.now(), title: '', body: '', links: [], images: [], created: new Date().toISOString(), updated: new Date().toISOString() };
@@ -2624,6 +2625,7 @@ const NB = (function() {
   }
 
   async function openPage(sid, pid) {
+    _flushPendingNB(sid);
     activePage[sid] = pid;
     openSubjects.add(sid);
     // Auto-migrate legacy {data} images to {id, thumbnail} on first open
@@ -2642,6 +2644,7 @@ const NB = (function() {
 
   function deletePage(sid, pid) {
     if (!confirm('¿Eliminar esta página?')) return;
+    _flushPendingNB(sid);
     const d = load();
     const sub = d[sid];
     if (!sub) return;
@@ -2679,6 +2682,12 @@ const NB = (function() {
   function autoSave(sid) {
     clearTimeout(saveTimers[sid]);
     saveTimers[sid] = setTimeout(() => _commitNow(sid), 500);
+  }
+  /* Flush ANTES de mover activePage[sid]: un timer pendiente que dispare después
+     del cambio de página buscaría la página nueva y descartaría la edición
+     (las mutaciones vía toolbar no pasan por focusout). */
+  function _flushPendingNB(sid){
+    if (saveTimers[sid]) { clearTimeout(saveTimers[sid]); delete saveTimers[sid]; _commitNow(sid); }
   }
   function flushAllNB(){
     Object.keys(saveTimers).forEach(sid => { clearTimeout(saveTimers[sid]); _commitNow(sid); });

@@ -219,6 +219,7 @@ const NotNB = (function(){
   }
 
   function selectActive(id){
+    if (activeNbId) _flushPending(activeNbId);
     setActive(id);
     activePageId = null;
     render();
@@ -235,6 +236,7 @@ const NotNB = (function(){
 
   /* ── PAGE OPS ─────────────────────────────────────────────── */
   function newPage(nbId){
+    _flushPending(nbId);
     const data = loadData();
     if (!data[nbId]) data[nbId] = { pages: [] };
     const page = { id: Date.now(), title: '', body: '', images: [], attachments: [], links: [], created: new Date().toISOString(), updated: new Date().toISOString() };
@@ -245,6 +247,7 @@ const NotNB = (function(){
   }
 
   async function openPage(nbId, pid){
+    _flushPending(nbId);
     activePageId = pid;
     // Migrate legacy {data: ...} images to {id, thumbnail} on first open.
     // Keeps localStorage payload small + makes images survive cross-PC sync.
@@ -266,6 +269,7 @@ const NotNB = (function(){
 
   function deletePage(nbId, pid){
     if (!confirm('¿Eliminar esta página?')) return;
+    _flushPending(nbId);
     const data = loadData();
     if (!data[nbId]) return;
     const page = data[nbId].pages.find(p => p.id === pid);
@@ -298,6 +302,12 @@ const NotNB = (function(){
   function autoSave(nbId){
     clearTimeout(saveTimers[nbId]);
     saveTimers[nbId] = setTimeout(() => _commitNow(nbId), 500);
+  }
+  /* Flush ANTES de mover activePageId: un timer pendiente que dispare después
+     del cambio de página buscaría la página nueva y descartaría la edición
+     (las mutaciones vía toolbar no pasan por focusout). */
+  function _flushPending(nbId){
+    if (saveTimers[nbId]) { clearTimeout(saveTimers[nbId]); delete saveTimers[nbId]; _commitNow(nbId); }
   }
   function flushAll(){
     Object.keys(saveTimers).forEach(nbId => { clearTimeout(saveTimers[nbId]); _commitNow(nbId); });

@@ -692,6 +692,7 @@ const CLOUD = (() => {
     try {
       await _pushStateRaw(key, _safeParse(raw));
       _setLocalTs(key, Date.now());
+      _outboxRemove(key);
       console.log('[CLOUD] forcePush OK:', key);
       return { ok:true };
     } catch (e) {
@@ -717,6 +718,7 @@ const CLOUD = (() => {
       try {
         await _pushStateRaw(key, _safeParse(raw));
         _setLocalTs(key, Date.now());
+        _outboxRemove(key);
         pushed++;
       } catch (e) {
         failed++;
@@ -813,7 +815,10 @@ const CLOUD = (() => {
       _debounceMap.delete(key);
       const raw = localStorage.getItem(key);
       if (raw === null) continue;
-      try { await _pushStateRaw(key, _safeParse(raw)); }
+      // Al confirmar: alinear TS + sacar del outbox (sin esto el contador
+      // "N sin subir" quedaba fantasma hasta el retry de 20s y lightPull
+      // re-descargaba la key como si la nube fuera más nueva).
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
       catch(e) { console.warn('[CLOUD] flushPending failed for', key, e); }
     }
   }
@@ -874,6 +879,7 @@ const CLOUD = (() => {
     try {
       await _pushStateRaw(key, _safeParse(raw));
       _setLocalTs(key, Date.now());
+      _outboxRemove(key);
       console.log('[CLOUD] pushNow OK:', key);
       return { ok:true };
     } catch (e) {
@@ -934,9 +940,11 @@ const CLOUD = (() => {
     if (!key) return;
     console.log('[CLOUD] realtime ←', evType, key);
     if (evType === 'DELETE') {
-      // Remove local key too
+      // Remove local key too — removeItem, NO escribir "null": los módulos
+      // hacen JSON.parse(getItem(k) || '[]') y un string "null" parsea a null
+      // rompiendo cualquier .length/.map sin try/catch.
       if (localStorage.getItem(key) !== null) {
-        _origSetItem(key, JSON.stringify(null));
+        try { localStorage.removeItem(key); } catch(e) {}
       }
       window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: 'delete' } }));
       return;
