@@ -1,8 +1,36 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-07-09
+- **Última actualización:** 2026-07-10
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🛡️ WHOLE-PROJECT · Hardening cuadernos + sync + launcher — 2026-07-10 (PROJECT.P3 · commit 83b10df)
+
+### Qué se hizo
+Pasada integral de robustez sobre la infra compartida, con 3 bugs reales encontrados y arreglados (auditoría completa de cloud-sync.js 1117 líneas + stack de cuadernos):
+
+1. **Carrera de autosave en cuadernos (pérdida de datos · 13-NOT/14-WORK/10-SYS)** — `openPage`/`newPage`/`deletePage`/`selectActive` movían `activePageId` sin flushear el timer de autosave de 500ms. El `focusout` cubría el tipeo, pero las mutaciones vía toolbar (insertar imagen/lista/code despachan `input` → autoSave debounced) se PERDÍAN si cambiabas de página en <500ms: el timer disparaba con el puntero nuevo y el guard descartaba el cambio. Fix: `_flushPending(nbId)` al entrar a las 4 operaciones, replicado idéntico en `notes-nb.js`, `work.js` y `systems_logic.js` (regla de paridad).
+2. **Motor cloud-sync (3 goteras)** — (a) el flush de debounce al ocultar pestaña (`_flushPendingPushes`) pusheaba sin alinear TS local ni limpiar el outbox → contador fantasma "N sin subir" hasta 20s y re-descarga innecesaria en el lightPull; (b) el DELETE de realtime escribía el string `"null"` en localStorage (JSON.parse→null revienta `.length/.map` en módulos sin try/catch) → ahora `removeItem`; (c) `pushNow`/`forcePushKey`/`forcePushAll` no sacaban la key del outbox al confirmar.
+3. **prompt() letal en 1-IND** — en primera visita (`sb_name` vacío) el prompt del nombre corría inline en el script del launcher; en entornos sin diálogos (sandbox/kiosk/automation) `prompt()` LANZA → moría TODO el script: sin rail, sin router Cerebro, sin stats. Fix: diferido 1.2s + try/catch (el nombre es cosmético; el launcher ya no depende de él). Repro confirmado en preview.
+
+### Visual 1-IND
+- +2 tarjetas que faltaban en el grid de módulos: 🗺️ Mind Map Studio (15-MM) y 📄 APA Document Studio (16-APA) — estaban solo en el rail lateral. Grid ahora 15 tarjetas.
+- Eliminado el CTA vencido "🎯 Simetrik Interview · 15 Abr" del Quick Workshop (la entrevista pasó — Miguel ya trabaja ahí).
+
+### Verificación (preview local, server `da-2026`)
+- Test de regresión de la carrera: PASS en 13-NOT y 14-WORK (marker insertado vía "toolbar" sobrevive el cambio de página inmediato, con `updated` re-sellado correcto).
+- Anti-restamp: navegar páginas SIN editar no toca `updated` (guard intacto — clave para el merge cross-device).
+- Launcher: `Cerebro` object, rail 16 items, quote/stats renderizando, consolas limpias en index/systems/work.
+- `node --check` OK en los 4 JS tocados.
+
+### Cache-busters
+`cloud-sync.js?v=p12` (19 páginas) · `notes-nb.js?v=p20` · `work.js?v=p31` · `systems_logic.js?v=p20`.
+
+### Pendiente (next-angles del run)
+- **Vista HOY en 1-IND** (idea #4 del brainstorm PROJECT.P3, blueprint completo en PROMPT_RUNS.md): agregador diario cross-módulo con adaptadores read-only + writes solo en `sb_habits`/`sys_tasks`.
+- Merge estructural para `work_moif_meetings` · limpieza de blobs huérfanos (IDB/Storage) al borrar páginas · fase futura per-record de cuadernos.
 
 ---
 

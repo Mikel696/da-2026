@@ -160,6 +160,17 @@ The user runs the same prompt multiple times across sessions. Without history:
 <!-- Whole-project triad · tab 🧩 Módulos → "🌐 PROYECTO COMPLETO".
      Append entries for: PROJECT.P1 (improve), PROJECT.P2 (audit), PROJECT.P3 (creative). -->
 
+### ID:PROJECT.P3 · 2026-07-09
+- Commit: 83b10df
+- Scope: infra compartida (cloud-sync.js) · stack cuadernos (notes-nb.js · work.js · systems_logic.js) · 1-IND (index.html) · 19 HTML cache-bust
+- Changed: Fase 1 entregó 5 ideas sistema (Spotlight Ctrl+K · Inbox universal · Grafo global · Vista HOY · Organizador Karpathy); el usuario eligió #4 Vista HOY y se armó el blueprint (adaptadores read-only + 2 write-through, cero keys nuevas), pero pivotó a hardening whole-project antes de codificar. Auditoría completa del motor de sync (1117 líneas) + stack NB → 3 bugs REALES arreglados:
+  1. **Carrera de autosave (pérdida de datos)**: openPage/newPage/deletePage/selectActive movían activePageId sin flushear el timer de 500ms — ediciones vía toolbar (imagen/lista/code, que no pasan por focusout) se descartaban al cambiar de página rápido. Fix `_flushPending` replicado en los 3 módulos NB.
+  2. **cloud-sync**: `_flushPendingPushes` (visibilitychange) pusheaba sin alinear TS ni limpiar outbox → contador fantasma "N sin subir" + re-descarga en lightPull; realtime DELETE escribía string `"null"` (JSON.parse→null rompe módulos sin try/catch) → ahora removeItem; pushNow/forcePushKey/forcePushAll limpian outbox al confirmar.
+  3. **prompt() letal en 1-IND**: primera visita (sb_name vacío) ejecutaba prompt() inline; en entornos sin diálogos (sandbox/kiosk/automation) LANZA y mataba todo el script del launcher (rail + router Cerebro). Fix: diferido 1.2s + try/catch. Repro confirmado en preview ("prompt() is not supported").
+  - Visual 1-IND: +2 tarjetas faltantes en el grid (15-MM, 16-APA — estaban solo en el rail) · eliminado CTA vencido "Simetrik Interview · 15 Abr".
+  - Verificación: regresión de la carrera PASS en 13-NOT y 14-WORK (marker sobrevive switch <500ms) · no-restamp sin cambios PASS · launcher PASS (Cerebro object, rail 16 items) · consolas limpias en index/systems/work.
+- Next: (a) codificar la Vista HOY (blueprint listo: adaptadores sys_tasks/sb_habits/atlas_daily/eng_srs_deck/da_vacancies, writes solo hábitos+tareas) · (b) merge estructural para work_moif_meetings · (c) limpiar blobs huérfanos de IDB/Storage al borrar páginas con imágenes · (d) fase futura: tabla per-record para cuadernos (modelo family-system). NO rehacer los 3 fixes.
+
 ## 📚 Library Prompts
 
 <!-- Append entries below for: LIB.bootstrap, LIB.bug-hunt, LIB.sync-audit, LIB.design-audit, LIB.cross-module, LIB.capabilities-audit, etc. -->
