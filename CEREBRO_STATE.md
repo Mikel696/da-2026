@@ -1,8 +1,37 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-07-10
+- **Última actualización:** 2026-07-15
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## ☁️ ESTÁNDAR DE SYNC DE CUADERNOS — 2026-07-15 (PROJECT.P3 CONT · commit 7108878)
+
+### El problema reportado
+"No veo en el otro PC ni lo que escribo ni las imágenes pegadas." Análisis a fondo del pipeline completo (push → app_state → pull → Storage).
+
+### Causa raíz (triple)
+1. **Imágenes nunca subían**: `retryPendingUploads` buscaba el blob solo en el store de ADJUNTOS de IDB; las HD de imágenes viven en STORE_IMG → cada `img_*` encolado (pegado estando deslogueado/offline o con fallo transitorio) se sacaba de la cola **sin subir jamás** a Storage. El otro PC no tenía de dónde bajarlas.
+2. **Chips ciegos**: los chips nuevos no llevaban thumbnail inline — sin HD en Storage, el otro device veía un chip vacío (overlay en blanco).
+3. **Cero visibilidad**: con sesión vencida/deslogueada NADA sube (queda en outbox) y no había señal visible fuera de work.html.
+
+### El estándar implementado (aplica a los 3 módulos con cuadernos — comparten nb-shared + cloud-sync)
+- **Retry de uploads arreglado**: fallback a STORE_IMG (getImage→File); solo descarta si el blob no existe en ningún store. Triggers: signed_in, online, carga, y cada 60s si hay cola.
+- **Thumbnail inline `data-preview` (~320px, 3-10KB)** dentro del chip → viaja con el body por app_state → **la imagen se VE en cualquier device siempre**; la HD llega vía Storage al abrir el overlay (con fallback al preview + aviso claro si aún no subió).
+- **`NBShared.reuploadMissingImages()`**: repara el HISTÓRICO — escanea los 3 stores de cuadernos, lista Storage (1 llamada) y sube las HD que el bug viejo dejó tiradas en el IDB de origen. Cableado al botón "Sincronizar ahora".
+- **Badge ☁ universal (19 páginas)** abajo a la derecha: `✓ sincronizado` / `⏳ N cambios · M img` / `☁ sin sesión` / `🔒 sesión vencida`. Click → **panel doctor**: sesión, última sync, outbox, imágenes pendientes, realtime, memoria local + botones **Sincronizar ahora** (pull+push+outbox+imágenes+reparación) y **Traer de la nube** (merge estructural, no pisa local). API: `CLOUD.doctor()`, `CLOUD.syncNow()`.
+- **Boot resilience**: si el pull inicial falla, retry con backoff (antes la página quedaba muda sin poll ni outbox hasta un reload) · recovery de JWT vencido también en el PULL · listener `online` · re-suscripción realtime cada 5 min.
+- **Insert a prueba de todo**: si execCommand y el range fallan, `insertAdjacentHTML` — nunca más imagen guardada en IDB sin chip visible.
+
+### Tests (preview local)
+Paste→chip con preview dentro del body guardado PASS · retry conserva cola en fallo y sube desde STORE_IMG en éxito PASS · overlay fallback a thumbnail PASS · recuperación histórica PASS · badge+doctor en notes/work PASS · consolas limpias · node --check OK.
+
+### ACCIÓN DEL USUARIO (para activar todo)
+1. **Ctrl+F5 en ambos PCs** (toma cloud-sync p13 + nb-shared p20).
+2. Mirar el **badge ☁** en ambos: si dice "sin sesión" → Iniciar sesión (causa #1 histórica de "no sincroniza").
+3. En el PC donde se pegaron las imágenes: click badge → **Sincronizar ahora** (sube el histórico perdido).
+4. Opcional (sync instantáneo tiempo real): en Supabase → SQL editor → `alter publication supabase_realtime add table public.app_state;` (pendiente desde 2026-06-11; sin esto el respaldo es el poll de 45s).
 
 ---
 

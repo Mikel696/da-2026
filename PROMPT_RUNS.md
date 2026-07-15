@@ -171,6 +171,14 @@ The user runs the same prompt multiple times across sessions. Without history:
   - Verificación: regresión de la carrera PASS en 13-NOT y 14-WORK (marker sobrevive switch <500ms) · no-restamp sin cambios PASS · launcher PASS (Cerebro object, rail 16 items) · consolas limpias en index/systems/work.
 - Next: (a) codificar la Vista HOY (blueprint listo: adaptadores sys_tasks/sb_habits/atlas_daily/eng_srs_deck/da_vacancies, writes solo hábitos+tareas) · (b) merge estructural para work_moif_meetings · (c) limpiar blobs huérfanos de IDB/Storage al borrar páginas con imágenes · (d) fase futura: tabla per-record para cuadernos (modelo family-system). NO rehacer los 3 fixes.
 
+### ID:PROJECT.P3 (CONT · estándar sync cuadernos) · 2026-07-15
+- Commit: 7108878
+- Scope: nb-shared.js · cloud-sync.js · 19 HTML cache-bust (p13/p20)
+- Changed: El usuario reportó que texto e imágenes de cuadernos NO llegaban al otro PC. CAUSA RAÍZ triple: (1) `retryPendingUploads` buscaba el blob solo en el store de ADJUNTOS — las HD de imágenes viven en STORE_IMG → todo `img_*` encolado (pegado offline/deslogueado) se sacaba de la cola SIN subir jamás a Storage; (2) los chips nuevos no llevaban thumbnail inline → sin HD en Storage el otro PC no veía nada; (3) sin sesión nada sube y no había ninguna señal visible. FIXES (estándar para los 3 módulos de cuadernos, que comparten nb-shared+cloud-sync): retry con fallback a STORE_IMG + triggers extra (online/60s) · chip con `data-preview` ~320px que viaja dentro del body por app_state (la imagen SE VE siempre; la HD baja de Storage al abrir) · overlay con fallback a preview y aviso si no hay nada · red final `insertAdjacentHTML` (imagen en IDB sin chip = invisible) · `reuploadMissingImages()` repara el histórico (escanea los 3 stores, `storage.list` 1 call, sube lo que falte) · **badge ☁ universal en las 19 páginas** con panel doctor (sesión/última sync/outbox/imágenes/realtime/quota + botones Sincronizar ahora y Traer de la nube) · boot resilience (retry backoff del fullSyncAll fallido) · JWT recovery en el pull · listener `online` · re-suscripción realtime cada 5 min.
+- Tests preview: paste→chip con preview en body guardado PASS · retry conserva cola en fallo / sube desde STORE_IMG en éxito PASS · overlay fallback PASS · recovery histórico PASS · badge+doctor PASS · consolas limpias.
+- PENDIENTE DEL USUARIO: (1) Ctrl+F5 en ambos PCs; (2) verificar badge ☁ verde (sesión iniciada) en ambos; (3) en el PC de origen de las imágenes: badge → Sincronizar ahora; (4) opcional realtime instantáneo: correr en Supabase SQL editor `alter publication supabase_realtime add table public.app_state;`
+- Next: si tras esto algo sigue sin cruzar, el doctor (`CLOUD.doctor()` o click en badge) dice exactamente dónde se atora. Fase futura: tabla per-record.
+
 ## 📚 Library Prompts
 
 <!-- Append entries below for: LIB.bootstrap, LIB.bug-hunt, LIB.sync-audit, LIB.design-audit, LIB.cross-module, LIB.capabilities-audit, etc. -->
