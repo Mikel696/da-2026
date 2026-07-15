@@ -440,6 +440,7 @@ const CLOUD = (() => {
 
   let _syncing = false;
   let _initialSyncDone = false;
+  let _bootRetryDelay = 10000;
 
   async function fullSyncAll() {
     if (!_ready()) { console.warn('[CLOUD] fullSyncAll skipped (not ready)'); return; }
@@ -455,7 +456,16 @@ const CLOUD = (() => {
 
       // ── Step 2: Pull all app_state rows in one query ──
       const cloudMap = await _pullAllStates();
-      if (!cloudMap) { console.warn('[CLOUD] fullSyncAll: pullAllStates failed, skipping JSONB sync'); return; }
+      if (!cloudMap) {
+        // Antes: un fallo acá dejaba _initialSyncDone=false PARA SIEMPRE →
+        // sin poll de 45s, sin outbox-retry, sin realtime: la página quedaba
+        // muda hasta un reload. Ahora se reintenta solo con backoff.
+        console.warn('[CLOUD] fullSyncAll: pullAllStates failed — reintento en ' + (_bootRetryDelay/1000) + 's');
+        setTimeout(() => { if (!_initialSyncDone) fullSyncAll(); }, _bootRetryDelay);
+        _bootRetryDelay = Math.min(_bootRetryDelay * 2, 120000);
+        return;
+      }
+      _bootRetryDelay = 10000;
 
       // ── Step 3: Reconcile static registry keys ──
       for (const key of SYNC_REGISTRY) {
@@ -994,9 +1004,17 @@ const CLOUD = (() => {
     if (!_ready()) return;
     try {
       // 1) Solo timestamps (bytes) — NO baja los MB de los cuadernos
-      const { data: heads, error } = await SB.from('app_state')
+      let { data: heads, error } = await SB.from('app_state')
         .select('store_key, updated_at')
         .eq('user_id', _uid());
+      // Sesión vencida en el PULL (antes solo el push se auto-recuperaba):
+      // refresh + un reintento; si muere, avisar a la UI (badge 🔒).
+      if (error && /jwt|expired|401|invalid.*token/i.test(String(error.message||error))) {
+        try {
+          await SB.auth.refreshSession();
+          ({ data: heads, error } = await SB.from('app_state').select('store_key, updated_at').eq('user_id', _uid()));
+        } catch (e2) { window.dispatchEvent(new CustomEvent('cloud:session_expired')); return; }
+      }
       if (error || !heads) return;
       // 2) Keys sincronizables cuya nube es MÁS NUEVA que el local
       const stale = [];
@@ -1031,6 +1049,21 @@ const CLOUD = (() => {
     if (_outboxGet().length) _flushOutbox().catch(()=>{});
   }, 20000);
 
+  /* ── Volvió la red → recuperar todo lo pendiente de una ── */
+  window.addEventListener('online', () => {
+    if (!_ready()) return;
+    setTimeout(() => {
+      if (!_initialSyncDone) { fullSyncAll().then(()=>_flushOutbox()).catch(()=>{}); }
+      else { _lightPull(); _flushOutbox().catch(()=>{}); }
+    }, 1500);
+  });
+
+  /* ── Realtime caído (CHANNEL_ERROR anula _rtChannel) → re-suscribir solo ── */
+  setInterval(() => {
+    if (document.hidden || !_ready() || !_initialSyncDone) return;
+    if (!_rtChannel) setupRealtime();
+  }, 300000);
+
   window.addEventListener('sb:signed_out', () => {
     console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');
     _queue.length = 0;
@@ -1061,6 +1094,128 @@ const CLOUD = (() => {
 
 
   /* ══════════════════════════════════════════════════════════════
+     BADGE UNIVERSAL DE SYNC + PANEL DOCTOR (estándar en TODAS las páginas)
+     El 90% de los "no sincroniza" era invisible: sesión vencida, outbox
+     lleno, imágenes sin subir. Este badge lo hace obvio en cualquier
+     módulo y da botones de recuperación de 1 click.
+  ══════════════════════════════════════════════════════════════ */
+  let _sessionExpired = false;
+  window.addEventListener('cloud:session_expired', () => { _sessionExpired = true; _renderSyncBadge(); });
+  window.addEventListener('sb:signed_in',  () => { _sessionExpired = false; _renderSyncBadge(); });
+  window.addEventListener('sb:signed_out', () => { _renderSyncBadge(); });
+
+  function _pendingImgs(){ try { return (JSON.parse(localStorage.getItem('nb_pending_uploads')||'[]')).length; } catch { return 0; } }
+  function _quotaMB(){
+    try {
+      let n = 0;
+      for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); n += k.length + (localStorage.getItem(k)||'').length; }
+      return Math.round(n / 1024 / 1024 * 10) / 10;
+    } catch { return 0; }
+  }
+  function doctor(){
+    const d = diagnostics();
+    d.outbox = _outboxGet().length;
+    d.pending_images = _pendingImgs();
+    d.realtime = !!_rtChannel;
+    d.session_expired = _sessionExpired;
+    d.local_mb = _quotaMB();
+    return d;
+  }
+
+  function _injectSyncBadge(){
+    if (window.self !== window.top) return;               // en iframe: lo muestra el padre
+    if (document.getElementById('cloudSyncBadge')) return;
+    const css = document.createElement('style');
+    css.textContent =
+      '#cloudSyncBadge{position:fixed;bottom:14px;right:14px;z-index:99990;display:flex;align-items:center;gap:6px;'+
+        'padding:6px 12px;border-radius:999px;font:600 11px "IBM Plex Mono",monospace;cursor:pointer;user-select:none;'+
+        'background:var(--card,#18181b);border:1px solid var(--bd,#27272a);color:var(--tx2,#d4d4d8);'+
+        'box-shadow:0 6px 24px rgba(0,0,0,.45);transition:border-color .2s,color .2s}'+
+      '#cloudSyncBadge.ok{border-color:rgba(16,185,129,.5);color:#34d399}'+
+      '#cloudSyncBadge.warn{border-color:rgba(245,158,11,.6);color:#fbbf24}'+
+      '#cloudSyncBadge.err{border-color:rgba(239,68,68,.7);color:#f87171}'+
+      '#cloudSyncPanel{position:fixed;bottom:52px;right:14px;z-index:99991;width:290px;display:none;'+
+        'background:var(--card,#18181b);border:1px solid var(--bd,#27272a);border-radius:12px;padding:14px;'+
+        'font:12px "IBM Plex Sans",sans-serif;color:var(--tx,#e4e4e7);box-shadow:0 16px 48px rgba(0,0,0,.6)}'+
+      '#cloudSyncPanel.open{display:block}'+
+      '#cloudSyncPanel .csp-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(63,63,70,.4);font-size:11px}'+
+      '#cloudSyncPanel .csp-row b{font-weight:600}'+
+      '#cloudSyncPanel .csp-btn{width:100%;margin-top:8px;padding:8px;border:none;border-radius:8px;cursor:pointer;'+
+        'font:600 12px "IBM Plex Sans",sans-serif;background:var(--ac,#7c3aed);color:#fff}'+
+      '#cloudSyncPanel .csp-btn.sec{background:var(--el,#27272a);color:var(--tx2,#d4d4d8)}';
+    document.head.appendChild(css);
+    const badge = document.createElement('div');
+    badge.id = 'cloudSyncBadge';
+    badge.onclick = () => { _renderSyncPanel(); document.getElementById('cloudSyncPanel').classList.toggle('open'); };
+    document.body.appendChild(badge);
+    const panel = document.createElement('div');
+    panel.id = 'cloudSyncPanel';
+    document.body.appendChild(panel);
+    _renderSyncBadge();
+    // Re-render por eventos propios + cambios desde OTRAS pestañas/iframes (storage)
+    ['cloud:outbox_change','cloud:sync_complete','cloud:auto_resynced','cloud:force_resynced',
+     'cloud:quota_exceeded','nb:pending_uploads','cloud:realtime_change'].forEach(ev =>
+      window.addEventListener(ev, _renderSyncBadge));
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cloud_outbox' || e.key === 'nb_pending_uploads') _renderSyncBadge();
+    });
+    setInterval(_renderSyncBadge, 10000);
+  }
+
+  function _renderSyncBadge(){
+    const el = document.getElementById('cloudSyncBadge');
+    if (!el) return;
+    const logged = !!(window.AUTH && AUTH.isLoggedIn && AUTH.isLoggedIn());
+    const outbox = _outboxGet().length, imgs = _pendingImgs();
+    let cls = '', txt = '';
+    if (_sessionExpired)      { cls = 'err';  txt = '🔒 sesión vencida'; }
+    else if (!logged)         { cls = 'warn'; txt = '☁ sin sesión — no sincroniza'; }
+    else if (outbox + imgs)   { cls = 'warn'; txt = '⏳ ' + (outbox ? outbox + ' cambios' : '') + (outbox && imgs ? ' · ' : '') + (imgs ? imgs + ' img' : ''); }
+    else                      { cls = 'ok';   txt = '✓ sincronizado'; }
+    el.className = cls;
+    el.textContent = txt;
+    const panel = document.getElementById('cloudSyncPanel');
+    if (panel && panel.classList.contains('open')) _renderSyncPanel();
+  }
+
+  function _renderSyncPanel(){
+    const panel = document.getElementById('cloudSyncPanel');
+    if (!panel) return;
+    const d = doctor();
+    const logged = !!d.uid;
+    const age = d.last_sync_age_s == null ? '—' : (d.last_sync_age_s < 90 ? d.last_sync_age_s + 's' : Math.round(d.last_sync_age_s/60) + ' min');
+    panel.innerHTML =
+      '<div style="font-weight:700;margin-bottom:8px">☁ Estado de sincronización</div>'+
+      '<div class="csp-row"><span>Sesión</span><b>' + (d.session_expired ? '🔒 vencida' : (logged ? '🟢 activa' : '🔴 sin iniciar')) + '</b></div>'+
+      '<div class="csp-row"><span>Última sync</span><b>' + age + '</b></div>'+
+      '<div class="csp-row"><span>Cambios sin subir</span><b>' + d.outbox + '</b></div>'+
+      '<div class="csp-row"><span>Imágenes sin subir</span><b>' + d.pending_images + '</b></div>'+
+      '<div class="csp-row"><span>Tiempo real</span><b>' + (d.realtime ? '🟢 activo' : '⚪ apagado (poll 45s)') + '</b></div>'+
+      '<div class="csp-row" style="border-bottom:none"><span>Memoria local</span><b>' + d.local_mb + ' MB / ~10</b></div>'+
+      (!logged
+        ? '<div style="margin-top:8px;font-size:11px;color:#fbbf24">Sin sesión NADA sube ni baja de la nube. Los cambios quedan guardados en este PC y se suben al entrar.</div>'+
+          '<button class="csp-btn" onclick="window.AUTH&&AUTH.openModal()">Iniciar sesión</button>'
+        : '<button class="csp-btn" onclick="CLOUD.syncNow()">🔄 Sincronizar ahora</button>'+
+          '<button class="csp-btn sec" onclick="if(confirm(\'Baja TODO desde la nube (merge por página, no pisa lo local) y recarga. ¿Seguir?\')){CLOUD.forceResyncFromCloud().then(()=>location.reload())}">⬇ Traer de la nube y recargar</button>')+
+      '<button class="csp-btn sec" onclick="document.getElementById(\'cloudSyncPanel\').classList.remove(\'open\')">Cerrar</button>';
+  }
+
+  /** Sync manual integral: pull+push+outbox+imágenes. El botón del badge. */
+  async function syncNow(){
+    if (!_ready()) { if (window.AUTH) AUTH.openModal(); return { ok:false, reason:'not-ready' }; }
+    await fullSyncAll();
+    await _flushOutbox();
+    try { if (window.NBShared && NBShared.retryPendingUploads) await NBShared.retryPendingUploads(); } catch(e){}
+    // Repara el histórico: sube imágenes que Storage no tiene y este device sí
+    try { if (window.NBShared && NBShared.reuploadMissingImages) await NBShared.reuploadMissingImages(); } catch(e){}
+    _renderSyncBadge();
+    return { ok:true };
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _injectSyncBadge);
+  else _injectSyncBadge();
+
+  /* ══════════════════════════════════════════════════════════════
      Public API
   ══════════════════════════════════════════════════════════════ */
 
@@ -1070,7 +1225,7 @@ const CLOUD = (() => {
     // Tier 2 — app_state (JSONB)
     pushState, fullSyncAll,
     // Manual recovery
-    forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics,
+    forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics, doctor, syncNow,
     // Immediate push / realtime
     pushNow, setupRealtime, teardownRealtime,
     // Outbox persistente (cambios pendientes de subir)

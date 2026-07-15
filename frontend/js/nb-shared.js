@@ -148,9 +148,13 @@
      Al loguearse (o al cargar con sesión activa) se reintentan solos. */
   const PENDING_UP_KEY = 'nb_pending_uploads';
   function _pendingUps(){ try { return JSON.parse(localStorage.getItem(PENDING_UP_KEY)||'[]'); } catch { return []; } }
-  function _setPendingUps(a){ try { localStorage.setItem(PENDING_UP_KEY, JSON.stringify(a)); } catch {} }
+  function _setPendingUps(a){
+    try { localStorage.setItem(PENDING_UP_KEY, JSON.stringify(a)); } catch {}
+    try { window.dispatchEvent(new CustomEvent('nb:pending_uploads', { detail: { count: a.length } })); } catch {}
+  }
   function _queuePendingUpload(id){ const a=_pendingUps(); if(a.indexOf(id)===-1){ a.push(id); _setPendingUps(a); } }
   function _unqueuePendingUpload(id){ const a=_pendingUps(); const i=a.indexOf(id); if(i>=0){ a.splice(i,1); _setPendingUps(a); } }
+  function pendingUploadsCount(){ return _pendingUps().length; }
   async function retryPendingUploads(){
     const a=_pendingUps(); if(!a.length) return;
     const uid = await _currentUserId(); if(!uid) return;
@@ -158,16 +162,68 @@
     let ok=0;
     for(const id of a.slice()){
       try{
-        const rec=await getBlob(id);
-        if(!rec || !rec.blob){ _unqueuePendingUpload(id); continue; }
-        const r=await cloudUploadAttachment(id, rec.blob);
-        if(r.ok) ok++;
+        // El blob puede vivir en el store de ADJUNTOS o en el de IMÁGENES HD
+        // (los img_* de putImage). Antes solo se miraba adjuntos → los ids de
+        // imagen se sacaban de la cola sin subir JAMÁS (por eso las imágenes
+        // pegadas offline/deslogueado nunca aparecían en el otro PC).
+        let blob = null;
+        const rec = await getBlob(id);
+        if (rec && rec.blob) blob = rec.blob;
+        if (!blob) {
+          const dataUrl = await getImage(id);
+          if (dataUrl) blob = await _dataUrlToFile(dataUrl, id + '.jpg');
+        }
+        if (!blob) { _unqueuePendingUpload(id); continue; } // no existe en ningún store
+        const r = await cloudUploadAttachment(id, blob);
+        if (r.ok) ok++;
       }catch(e){ /* queda en cola para el próximo intento */ }
     }
     if(ok) console.log('[NBShared] ✓ uploads recuperados:', ok);
   }
   window.addEventListener('sb:signed_in', () => setTimeout(retryPendingUploads, 4000));
+  window.addEventListener('online', () => setTimeout(retryPendingUploads, 2000));
   setTimeout(retryPendingUploads, 8000);
+  setInterval(() => { if (!document.hidden && _pendingUps().length) retryPendingUploads(); }, 60000);
+
+  /* ── RECUPERACIÓN: re-subir imágenes que Storage no tiene ─────────
+     El bug histórico del retry descartó uploads pendientes de la cola
+     sin subirlos; esas HD siguen en el IDB del device de origen pero
+     ya nadie las reintentaba. Esto escanea TODOS los cuadernos (los 3
+     módulos), lista lo que ya existe en Storage (1 llamada) y sube
+     solo lo que falta y esté disponible en este device. */
+  async function reuploadMissingImages(){
+    const uid = await _currentUserId();
+    if (!uid) return { ok:false, reason:'no-session' };
+    const NB_KEYS = ['work_nb_data', 'not_nb_data', 'sys_notebook'];
+    const ids = new Set();
+    NB_KEYS.forEach(k => {
+      const s = localStorage.getItem(k) || '';
+      const re = /data-img-id=\\?"([^"\\]+)/g; let m;
+      while ((m = re.exec(s))) ids.add(m[1]);
+    });
+    if (!ids.size) return { ok:true, checked:0, uploaded:0, missing_local:0 };
+    let existing = new Set();
+    try {
+      const { data, error } = await window.SB.storage.from(BUCKET).list(uid, { limit: 1000 });
+      if (error) return { ok:false, reason:'list-failed', error };
+      (data || []).forEach(f => existing.add(f.name));
+    } catch(e) { return { ok:false, reason:'list-exception', error:e }; }
+    let uploaded = 0, missingLocal = 0;
+    for (const id of ids){
+      if (existing.has(id)) continue;
+      let blob = null;
+      try {
+        const rec = await getBlob(id);
+        if (rec && rec.blob) blob = rec.blob;
+        if (!blob) { const du = await getImage(id); if (du) blob = await _dataUrlToFile(du, id + '.jpg'); }
+      } catch(e) {}
+      if (!blob) { missingLocal++; continue; }     // la HD vive en el otro device
+      const r = await cloudUploadAttachment(id, blob);
+      if (r.ok) uploaded++;
+    }
+    if (uploaded) console.log('[NBShared] ✓ imágenes recuperadas a Storage:', uploaded);
+    return { ok:true, checked: ids.size, uploaded, missing_local: missingLocal };
+  }
   async function cloudDownloadAttachment(id){
     if (!window.SB) return null;
     const uid = await _currentUserId();
@@ -1420,6 +1476,11 @@
       try { await putImage(id, full); } catch(e) { /* IDB optional */ }
       // Subir la HD a Storage en background (cola de reintento si offline/deslogueado).
       _dataUrlToFile(full, id + '.jpg').then(f => cloudUploadAttachment(id, f)).catch(()=>{});
+      // THUMBNAIL inline (~10KB) DENTRO del chip: viaja con el body por app_state,
+      // así el otro device SIEMPRE ve la imagen (aunque Storage esté caído o el
+      // upload siga pendiente). La HD llega después vía Storage al abrir.
+      let thumb = '';
+      try { thumb = await compressImage(rawUrl, { maxDim: 320, quality: 0.55 }); } catch(e) {}
       const alt = (file.name || 'imagen').replace(/"/g, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       const label = alt.length > 22 ? alt.slice(0, 20) + '…' : alt;
       // CHIP compacto y DRAGGABLE: no cubre la hoja, popup al click.
@@ -1427,6 +1488,7 @@
       const html = '<span class="nb-img-chip" contenteditable="false" draggable="true"'
         + ' data-img-id="' + id + '"'
         + ' data-name="' + alt + '"'
+        + (thumb ? ' data-preview="' + thumb + '"' : '')
         + ' title="' + alt + ' · click abre HD · arrastra para reubicar">'
         + '<span class="nb-img-chip-ic">🖼️</span>'
         + '<span class="nb-img-chip-name">' + label + '</span>'
@@ -1454,6 +1516,12 @@
           r.deleteContents();
           r.insertNode(frag);
         }
+      }
+      // ÚLTIMA RED: si ni execCommand ni el range lograron insertar (sin caret
+      // válido), append al final. Sin esto la imagen quedaba guardada en IDB
+      // pero SIN chip en la página → imagen invisible e inalcanzable.
+      if (editor && !editor.querySelector('[data-img-id="' + id + '"]')) {
+        editor.insertAdjacentHTML('beforeend', html);
       }
       if (editor) editor.dispatchEvent(new Event('input', { bubbles: true }));
       return true;
@@ -1701,7 +1769,8 @@
     const id = imgEl.getAttribute('data-img-id');
     let src = imgEl.tagName === 'IMG'
       ? imgEl.src
-      : (imgEl.getAttribute('data-preview') || '');   // fallback legacy (imágenes sin migrar)
+      : (imgEl.getAttribute('data-preview') || '');   // thumbnail inline (viaja con el body)
+    let hdMissing = false;
     if (id) {
       try {
         let hd = await getImage(id);                    // 1) IDB (device origen)
@@ -1710,7 +1779,12 @@
           if (blob) { hd = await _readFileAsDataURL(blob); try { await putImage(id, hd); } catch(e){} }
         }
         if (hd) src = hd;
-      } catch(e) {}
+        else hdMissing = true;                          // solo tenemos el thumbnail (o nada)
+      } catch(e) { hdMissing = true; }
+    }
+    if (!src) {
+      alert('Esta imagen todavía no está disponible en este dispositivo.\n\nLa versión HD aún no terminó de subirse desde el PC donde se pegó. Abrí el cuaderno en ese PC con sesión iniciada (el badge ☁ abajo a la derecha muestra si quedan imágenes por subir) y reintentá acá en un momento.');
+      return;
     }
     let ov = document.getElementById('nbImgOverlay');
     if (!ov) {
@@ -1916,7 +1990,8 @@
 
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p22-2026-06-19',
+    VERSION: 'p23-2026-07-10',
+    pendingUploadsCount, retryPendingUploads, reuploadMissingImages,
     /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
        Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
