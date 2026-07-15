@@ -564,6 +564,27 @@ const CLOUD = (() => {
     }
   }
 
+  /** Escritura de una key de CUADERNO con red de seguridad anti-pérdida.
+   *  Si la nueva versión pierde contenido (menos imágenes/páginas/texto que
+   *  la local), snapshotea la local a IndexedDB ANTES de pisarla y avisa a
+   *  la UI. Así un device viejo que re-sella una versión pobre nunca borra
+   *  de forma permanente el contenido rico — siempre se puede restaurar. */
+  function _nbGuardedWrite(key, newStr) {
+    if (!NB_DATA_KEYS.has(key)) return _safeWrite(key, newStr);
+    try {
+      const oldObj = _safeParse(localStorage.getItem(key)) || {};
+      const newObj = _safeParse(newStr) || {};
+      const losses = (window.NBShared && NBShared.nbDetectRegression)
+        ? NBShared.nbDetectRegression(oldObj, newObj) : [];
+      if (losses.length) {
+        if (window.NBShared && NBShared.snapshotNb) NBShared.snapshotNb(key, oldObj, 'sync-regresion:' + key).catch(()=>{});
+        console.warn('[CLOUD] ⚠ regresión de cuaderno al sincronizar', key, '— snapshot guardado. Pérdidas:', losses);
+        window.dispatchEvent(new CustomEvent('cloud:nb_regression', { detail: { key, losses } }));
+      }
+    } catch (e) { /* la protección nunca debe bloquear la escritura */ }
+    return _safeWrite(key, newStr);
+  }
+
   /**
    * Reconcile a single localStorage key against the cloud map.
    * First-sync safe: local data uploads if cloud is empty.
@@ -581,7 +602,7 @@ const CLOUD = (() => {
       const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
       if (sm !== null) {
         const mergedStr = JSON.stringify(sm);
-        if (mergedStr !== localRaw) _safeWrite(key, mergedStr);
+        if (mergedStr !== localRaw) _nbGuardedWrite(key, mergedStr);
         if (mergedStr !== JSON.stringify(cloud.payload)) {
           console.log('[CLOUD] reconcile MERGE→both:', key);
           await pushState(key, sm);
@@ -678,9 +699,12 @@ const CLOUD = (() => {
         if (SKIP_KEYS.has(key)) continue;
         const isSyncable = _registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p));
         if (!isSyncable) continue;
-        // Cuadernos: ni siquiera el force pisa páginas locales — merge estructural
+        // Cuadernos: ni siquiera el force pisa páginas locales — merge estructural + guard anti-pérdida
         const smF = _structuralMerge(key, _safeParse(localStorage.getItem(key)), cloud.payload);
-        if (_safeWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload))) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        const wrote = NB_DATA_KEYS.has(key)
+          ? _nbGuardedWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload))
+          : _safeWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload));
+        if (wrote) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
         keys.push(key);
         applied++;
       }
@@ -969,7 +993,7 @@ const CLOUD = (() => {
       const mergedStr = JSON.stringify(smRt);
       // Eco de mi propio cambio (o nada nuevo) → NO reescribir ni re-renderizar (mata el loop "cambió desde otro PC")
       if (mergedStr === _prevLocalRt) return;
-      if (_safeWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
+      if (_nbGuardedWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
       // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop: payload idéntico → no difiere más)
       if (mergedStr !== JSON.stringify(payloadVal)) { pushNow(key).catch(()=>{}); }
       window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
@@ -1100,9 +1124,11 @@ const CLOUD = (() => {
      módulo y da botones de recuperación de 1 click.
   ══════════════════════════════════════════════════════════════ */
   let _sessionExpired = false;
+  let _nbRegression = false;   // se prendió una protección anti-pérdida → hay snapshot restaurable
   window.addEventListener('cloud:session_expired', () => { _sessionExpired = true; _renderSyncBadge(); });
   window.addEventListener('sb:signed_in',  () => { _sessionExpired = false; _renderSyncBadge(); });
   window.addEventListener('sb:signed_out', () => { _renderSyncBadge(); });
+  window.addEventListener('cloud:nb_regression', () => { _nbRegression = true; _renderSyncBadge(); });
 
   function _pendingImgs(){ try { return (JSON.parse(localStorage.getItem('nb_pending_uploads')||'[]')).length; } catch { return 0; } }
   function _quotaMB(){
@@ -1169,6 +1195,7 @@ const CLOUD = (() => {
     const outbox = _outboxGet().length, imgs = _pendingImgs();
     let cls = '', txt = '';
     if (_sessionExpired)      { cls = 'err';  txt = '🔒 sesión vencida'; }
+    else if (_nbRegression)   { cls = 'warn'; txt = '⚠ versión anterior guardada'; }
     else if (!logged)         { cls = 'warn'; txt = '☁ sin sesión — no sincroniza'; }
     else if (outbox + imgs)   { cls = 'warn'; txt = '⏳ ' + (outbox ? outbox + ' cambios' : '') + (outbox && imgs ? ' · ' : '') + (imgs ? imgs + ' img' : ''); }
     else                      { cls = 'ok';   txt = '✓ sincronizado'; }
@@ -1197,7 +1224,36 @@ const CLOUD = (() => {
           '<button class="csp-btn" onclick="window.AUTH&&AUTH.openModal()">Iniciar sesión</button>'
         : '<button class="csp-btn" onclick="CLOUD.syncNow()">🔄 Sincronizar ahora</button>'+
           '<button class="csp-btn sec" onclick="if(confirm(\'Baja TODO desde la nube (merge por página, no pisa lo local) y recarga. ¿Seguir?\')){CLOUD.forceResyncFromCloud().then(()=>location.reload())}">⬇ Traer de la nube y recargar</button>')+
+      '<button class="csp-btn sec" onclick="CLOUD._toggleHistory()">🕘 Versiones anteriores de cuadernos</button>'+
+      '<div id="cspHistory" style="display:none;margin-top:8px;max-height:200px;overflow-y:auto"></div>'+
       '<button class="csp-btn sec" onclick="document.getElementById(\'cloudSyncPanel\').classList.remove(\'open\')">Cerrar</button>';
+  }
+
+  async function _toggleHistory(){
+    const box = document.getElementById('cspHistory');
+    if (!box) return;
+    if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    box.innerHTML = '<div style="font-size:11px;color:var(--tx3,#a1a1aa);padding:6px">Cargando…</div>';
+    if (!(window.NBShared && NBShared.listNbHistory)) { box.innerHTML = '<div style="font-size:11px;padding:6px">Historial no disponible.</div>'; return; }
+    const NAMES = { sys_notebook:'⚙️ Ing. Sistemas', not_nb_data:'📝 Notas', work_nb_data:'🔧 Simetrik' };
+    const list = await NBShared.listNbHistory();
+    if (!list.length) { box.innerHTML = '<div style="font-size:11px;color:var(--tx3,#a1a1aa);padding:6px">Sin versiones guardadas. Aparecen automáticamente cuando una sincronización iba a reducir un cuaderno.</div>'; return; }
+    box.innerHTML = list.map(s => {
+      const when = new Date(s.savedAt).toLocaleString('es');
+      const sm = s.summary;
+      return '<div style="border:1px solid var(--bd,#27272a);border-radius:8px;padding:8px;margin-bottom:6px;font-size:11px">'+
+        '<div style="font-weight:600">' + (NAMES[s.storeKey]||s.storeKey) + '</div>'+
+        '<div style="color:var(--tx3,#a1a1aa)">' + when + ' · ' + sm.pages + ' pág · ' + sm.imgs + ' img · ' + Math.round(sm.chars/1000) + 'k car</div>'+
+        '<button class="csp-btn" style="margin-top:6px" onclick="CLOUD._restore(' + s.seq + ')">↩ Restaurar esta versión</button>'+
+        '</div>';
+    }).join('');
+  }
+  async function _restore(seq){
+    if (!confirm('Restaurar esta versión guardada. La versión actual se respalda primero (por si acaso) y luego se sube a la nube. ¿Seguir?')) return;
+    const r = await NBShared.restoreNbSnapshot(seq);
+    if (r.ok) { _nbRegression = false; alert('✓ Versión restaurada. Sincronizando…'); try { await syncNow(); } catch(e){} location.reload(); }
+    else alert('No se pudo restaurar: ' + (r.reason||'error'));
   }
 
   /** Sync manual integral: pull+push+outbox+imágenes. El botón del badge. */
@@ -1226,6 +1282,8 @@ const CLOUD = (() => {
     pushState, fullSyncAll,
     // Manual recovery
     forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics, doctor, syncNow,
+    // Historial / restauración de cuadernos (anti-pérdida)
+    _toggleHistory, _restore,
     // Immediate push / realtime
     pushNow, setupRealtime, teardownRealtime,
     // Outbox persistente (cambios pendientes de subir)

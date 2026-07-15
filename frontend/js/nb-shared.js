@@ -49,7 +49,8 @@
   const DB_NAME = 'da2026_nb';
   const STORE = 'attachments';
   const STORE_IMG = 'images';
-  const VERSION = 2;
+  const STORE_HIST = 'nb_history';   // v3: historial de versiones de cuadernos (anti-pérdida)
+  const VERSION = 3;
   const MAX_BYTES = 52428800; // 50 MB hard limit
   let _dbPromise = null;
 
@@ -65,11 +66,108 @@
         if (!db.objectStoreNames.contains(STORE_IMG)) {
           db.createObjectStore(STORE_IMG, { keyPath: 'id' });
         }
+        if (!db.objectStoreNames.contains(STORE_HIST)) {
+          db.createObjectStore(STORE_HIST, { keyPath: 'seq', autoIncrement: true });
+        }
       };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
     return _dbPromise;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     HISTORIAL DE VERSIONES DE CUADERNOS (anti-pérdida cross-device)
+     ──────────────────────────────────────────────────────────────
+     El merge de sync decide por timestamp: una versión más nueva pero
+     más POBRE (device viejo que re-sella) puede pisar contenido rico.
+     Antes de CUALQUIER sobrescritura que reduzca contenido, guardamos
+     un snapshot acá → toda pérdida es recuperable con 1 click.
+     Guardado en IDB (no localStorage) para no competir por la cuota.
+  ══════════════════════════════════════════════════════════════ */
+  function nbRichness(obj){
+    const out = {};
+    for (const nbId of Object.keys(obj || {})){
+      const pages = (obj[nbId] && obj[nbId].pages) || [];
+      let chars = 0, imgs = 0;
+      for (const p of pages){ const b = (p && p.body) || ''; chars += b.length; imgs += (b.match(/nb-img-chip|data-img-id/g) || []).length; }
+      out[nbId] = { chars, imgs, pages: pages.length };
+    }
+    return out;
+  }
+  /** Devuelve los cuadernos que PERDERÍAN contenido si oldObj→newObj. */
+  function nbDetectRegression(oldObj, newObj){
+    const ro = nbRichness(oldObj), rn = nbRichness(newObj);
+    const losses = [];
+    for (const nbId of Object.keys(ro)){
+      const a = ro[nbId], b = rn[nbId] || { chars:0, imgs:0, pages:0 };
+      // Regresión = pierde imágenes, o pierde páginas, o el texto encoge > 15%
+      if (b.imgs < a.imgs || b.pages < a.pages || b.chars < a.chars * 0.85){
+        losses.push({ nbId, before: a, after: b });
+      }
+    }
+    return losses;
+  }
+  function _summarizeNb(obj){
+    const r = nbRichness(obj); let chars = 0, imgs = 0, nbs = 0, pages = 0;
+    for (const id of Object.keys(r)){ chars += r[id].chars; imgs += r[id].imgs; pages += r[id].pages; nbs++; }
+    return { notebooks: nbs, pages, chars, imgs };
+  }
+  async function snapshotNb(storeKey, payloadObj, reason){
+    try {
+      const db = await openDB();
+      await new Promise((res, rej) => {
+        const tx = db.transaction(STORE_HIST, 'readwrite');
+        tx.objectStore(STORE_HIST).add({ storeKey, savedAt: new Date().toISOString(), reason: reason || '', payload: payloadObj });
+        tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error);
+      });
+      _pruneHistory(storeKey, 20).catch(()=>{});
+      return true;
+    } catch(e){ console.warn('[NBShared] snapshotNb failed', e); return false; }
+  }
+  async function _pruneHistory(storeKey, keep){
+    const db = await openDB();
+    const all = await new Promise((res) => {
+      const tx = db.transaction(STORE_HIST, 'readonly');
+      const rq = tx.objectStore(STORE_HIST).getAll();
+      rq.onsuccess = () => res(rq.result || []); rq.onerror = () => res([]);
+    });
+    const mine = all.filter(r => r.storeKey === storeKey).sort((a,b)=>a.seq-b.seq);
+    const drop = mine.slice(0, Math.max(0, mine.length - keep));
+    if (!drop.length) return;
+    const db2 = await openDB();
+    const tx = db2.transaction(STORE_HIST, 'readwrite');
+    drop.forEach(r => tx.objectStore(STORE_HIST).delete(r.seq));
+  }
+  async function listNbHistory(storeKey){
+    const db = await openDB();
+    return new Promise((res) => {
+      const tx = db.transaction(STORE_HIST, 'readonly');
+      const rq = tx.objectStore(STORE_HIST).getAll();
+      rq.onsuccess = () => {
+        let all = rq.result || [];
+        if (storeKey) all = all.filter(r => r.storeKey === storeKey);
+        all.sort((a,b)=>b.seq-a.seq);
+        res(all.map(r => ({ seq:r.seq, storeKey:r.storeKey, savedAt:r.savedAt, reason:r.reason, summary:_summarizeNb(r.payload) })));
+      };
+      rq.onerror = () => res([]);
+    });
+  }
+  async function getNbSnapshot(seq){
+    const db = await openDB();
+    return new Promise((res) => {
+      const tx = db.transaction(STORE_HIST, 'readonly');
+      const rq = tx.objectStore(STORE_HIST).get(seq);
+      rq.onsuccess = () => res(rq.result || null); rq.onerror = () => res(null);
+    });
+  }
+  /** Restaura un snapshot: respalda el actual, escribe el guardado (el proxy lo sube). */
+  async function restoreNbSnapshot(seq){
+    const snap = await getNbSnapshot(seq);
+    if (!snap) return { ok:false, reason:'not-found' };
+    try { const cur = localStorage.getItem(snap.storeKey); if (cur) await snapshotNb(snap.storeKey, JSON.parse(cur), 'pre-restore'); } catch(e){}
+    try { localStorage.setItem(snap.storeKey, JSON.stringify(snap.payload)); } catch(e){ return { ok:false, reason:'write-failed', error:String(e) }; }
+    return { ok:true, storeKey: snap.storeKey, summary: _summarizeNb(snap.payload) };
   }
 
   async function putBlob(id, blob, meta){
@@ -1990,8 +2088,10 @@
 
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p23-2026-07-10',
+    VERSION: 'p24-2026-07-15',
     pendingUploadsCount, retryPendingUploads, reuploadMissingImages,
+    // Historial de versiones / anti-pérdida
+    nbRichness, nbDetectRegression, snapshotNb, listNbHistory, getNbSnapshot, restoreNbSnapshot,
     /* Smoke test: en DevTools console deberías ver "[NBShared] loaded p17"
        Si ves un número menor o nada, estás cargando JS cacheado. */
     fmtExtended, toolbarHtml, insertImage, insertCodeBlock, applyHighlight, openImageMenu,
