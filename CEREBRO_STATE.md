@@ -6,6 +6,32 @@
 
 ---
 
+## 🛟 INCIDENTE + FIX · Pérdida de cuaderno por merge timestamp-only — 2026-07-15 (commit 0d82897)
+
+### Qué pasó (diagnóstico en vivo vía Chrome MCP sobre el live site)
+Miguel reportó que los cuadernos de materias de 10-SYS diferían entre sus 2 PCs. Comparé página por página este PC vs la nube (sesión real). Hallazgo:
+- **`admin_bd`**: local 176KB/**21 img** (editado 10-jul) vs nube 118KB/9img (congelado 22-jun). **`calidad_sw`**: local 227KB/**21 img** (10-jul) vs nube 170KB/9img (22-jun). El resto igual.
+- **Se presenció el clobber EN VIVO**: el otro PC (motor viejo, datos de junio) re-selló su versión pobre de `admin_bd` con fecha de HOY 15:36:52 y la subió. El merge estructural decide **solo por timestamp** → la versión más nueva pero más pobre GANÓ y **pisó la rica en este PC** (irreversible en ese momento). Al empujar `calidad_sw` rico a la nube, el otro PC lo revirtió en **3 segundos**.
+- **Pérdida real**: el TEXTO rico de `admin_bd` (10-jul) se perdió (solo existía en este PC, sin backup previo). Imágenes probablemente rescatables del IDB (112 imágenes). `calidad_sw` quedó a salvo en este PC (+ backup manual `sys_notebook_bak_2026-07-15154518`).
+
+### Causa raíz
+`_mergeNbData` (y el LWW general) confían solo en `updated`. Un device viejo que re-guarda una versión pobre le pone timestamp nuevo → gana y destruye contenido rico, en silencio y sin recuperación. Además el motor viejo (whole-key LWW) del otro PC re-empuja su estado stale como reacción a cualquier cambio (ping-pong).
+
+### Fix de raíz (commit 0d82897 · estándar para los 3 módulos de cuadernos)
+- **Historial de versiones en IndexedDB** (`nb-shared.js`): store nuevo `nb_history` (DB v2→v3, conserva `attachments`+`images`). `nbDetectRegression()` marca cuando una versión pierde imágenes/páginas/>15% de texto. `snapshotNb/listNbHistory/restoreNbSnapshot` (cap 20 por key, en IDB para no competir por la cuota).
+- **Guard anti-pérdida** (`cloud-sync.js`): `_nbGuardedWrite()` envuelve TODA sobrescritura de cuaderno vía sync (reconcile + realtime + forceResync). Si la entrante reduce contenido, **snapshotea la local rica ANTES de pisarla** y emite `cloud:nb_regression`. La pérdida ya nunca es permanente.
+- **Badge**: estado `⚠ versión anterior guardada` + panel con "Versiones anteriores de cuadernos" (lista con resumen + Restaurar; el restore respalda la actual primero, reversible).
+- Verificado en preview: detección (sin falso positivo en crecimiento), migración IDB, restore end-to-end, badge+panel. Cache-bust cloud-sync p14 / nb-shared p21 (VERSION p24).
+
+### Recuperación pendiente (acción del usuario)
+1. **Ctrl+F5 en ESTE PC** (carga motor p14/p21, migra IDB a v3).
+2. **En el OTRO PC: Ctrl+F5** (o cerrar la pestaña) para que tome el motor nuevo y DEJE de re-subir la versión vieja — es la fuente del clobber.
+3. Con el otro PC ya en el motor nuevo, en este PC: badge ☁ → **Sincronizar ahora** → sube `calidad_sw` rico; ya no lo revierten.
+4. `admin_bd` texto: perdido (sin backup previo al incidente). Imágenes: rescatables del IDB si se quiere, en otra sesión.
+5. Pendiente histórico (recomendado): en Supabase SQL → `alter publication supabase_realtime add table public.app_state;`
+
+---
+
 ## ☁️ ESTÁNDAR DE SYNC DE CUADERNOS — 2026-07-15 (PROJECT.P3 CONT · commit 7108878)
 
 ### El problema reportado
