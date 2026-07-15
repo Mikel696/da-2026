@@ -602,8 +602,8 @@ const CLOUD = (() => {
       const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
       if (sm !== null) {
         const mergedStr = JSON.stringify(sm);
-        if (mergedStr !== localRaw) _nbGuardedWrite(key, mergedStr);
-        if (mergedStr !== JSON.stringify(cloud.payload)) {
+        if (!_deepEqual(sm, _safeParse(localRaw))) _nbGuardedWrite(key, mergedStr);
+        if (!_deepEqual(sm, cloud.payload)) {
           console.log('[CLOUD] reconcile MERGE→both:', key);
           await pushState(key, sm);
           _setLocalTs(key, Date.now());
@@ -627,12 +627,10 @@ const CLOUD = (() => {
       } else {
         // "Local más nuevo" por TIMESTAMP — pero SOLO subir si el CONTENIDO realmente
         // difiere. Si es idéntico al cloud (lo normal una vez sincronizado), NO re-subir:
-        // solo alinear el TS. Comparar normalizado (parse+stringify de ambos lados) evita
-        // falsos positivos por orden de claves. Esto mata el cascade de re-push en CADA
-        // carga/poll que generaba el fantasma de "N cambios sin subir".
-        const localNorm = JSON.stringify(_safeParse(localRaw));
-        const cloudNorm = JSON.stringify(cloud.payload);
-        if (localNorm === cloudNorm) {
+        // solo alinear el TS. Deep-equal (inmune al orden de claves — el compare por
+        // string normalizado NO canonicaliza el orden y generaba re-pushes fantasma
+        // que alimentaban el ping-pong entre PCs).
+        if (_deepEqual(_safeParse(localRaw), cloud.payload)) {
           _setLocalTs(key, cloudTs);                 // ya sincronizado → solo alinear, sin red
         } else {
           console.log('[CLOUD] reconcile local→cloud:', key);
@@ -967,11 +965,61 @@ const CLOUD = (() => {
       console.warn('[CLOUD] realtime setup exception:', e);
     }
   }
+  /* ── Igualdad PROFUNDA (independiente del orden de claves) ─────────
+     El compare por string fallaba cuando el mismo contenido venía con
+     otro orden de claves → el eco del propio push parecía "cambio
+     remoto", se reescribía localStorage y se re-renderizaba la UI en
+     CADA pausa de tipeo. Con deep-equal el eco muere en la puerta. */
+  function _deepEqual(a, b){
+    if (a === b) return true;
+    if (a === null || b === null || typeof a !== typeof b) return false;
+    if (typeof a !== 'object') return false;
+    const aArr = Array.isArray(a), bArr = Array.isArray(b);
+    if (aArr !== bArr) return false;
+    if (aArr) {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) if (!_deepEqual(a[i], b[i])) return false;
+      return true;
+    }
+    const ka = Object.keys(a), kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    for (const k of ka) if (!_deepEqual(a[k], b[k])) return false;
+    return true;
+  }
+
+  /* ── Detector de edición activa ────────────────────────────────────
+     REGLA DE ORO UX: la sync NUNCA toca la UI (ni el localStorage que
+     la respalda) mientras el usuario está escribiendo. "Editando" =
+     foco en editor/input O tipeó hace <4s (cubre pausas y clics). */
+  let _lastUserInput = 0;
+  ['input', 'keydown', 'compositionstart'].forEach(ev =>
+    document.addEventListener(ev, (e) => {
+      const t = e.target;
+      if (t && (t.isContentEditable || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) _lastUserInput = Date.now();
+    }, true));
+  function _userIsEditing(){
+    const a = document.activeElement;
+    if (a && (a.isContentEditable || a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) return true;
+    return (Date.now() - _lastUserInput) < 4000;
+  }
+
+  /* Cambios remotos que llegan MIENTRAS se edita → se guardan acá y se
+     aplican de una al quedar idle. Nada se pierde, nada interrumpe. */
+  const _rtDeferred = new Map();   // key → último payload de evento
+  setInterval(() => {
+    if (!_rtDeferred.size || _userIsEditing()) return;
+    const items = [..._rtDeferred.values()];
+    _rtDeferred.clear();
+    items.forEach(p => { try { handleRealtimeChange(p); } catch(e){} });
+  }, 2000);
+
   function handleRealtimeChange(payload){
     const evType = payload.eventType; // INSERT | UPDATE | DELETE
     const row = payload.new || payload.old || {};
     const key = row.store_key;
     if (!key) return;
+    // Usuario escribiendo → diferir TODO (aplicación + render) hasta idle.
+    if (_userIsEditing()) { _rtDeferred.set(key, payload); return; }
     console.log('[CLOUD] realtime ←', evType, key);
     if (evType === 'DELETE') {
       // Remove local key too — removeItem, NO escribir "null": los módulos
@@ -988,14 +1036,17 @@ const CLOUD = (() => {
     const cloudTs = new Date(row.updated_at || 0).getTime();
     // Cuadernos → merge estructural: lo remoto entra SIEMPRE, sin pisar páginas locales
     const _prevLocalRt = localStorage.getItem(key);
-    const smRt = _structuralMerge(key, _safeParse(_prevLocalRt), payloadVal);
+    const _localObjRt = _safeParse(_prevLocalRt);
+    const smRt = _structuralMerge(key, _localObjRt, payloadVal);
     if (smRt !== null) {
+      // Eco de mi propio cambio (o nada nuevo) → alinear TS y salir SIN escribir,
+      // SIN push y SIN evento. Deep-equal: inmune al orden de claves (el compare
+      // por string generaba un falso "cambió desde otro PC" en cada push propio).
+      if (_deepEqual(smRt, _localObjRt)) { _setLocalTs(key, cloudTs); return; }
       const mergedStr = JSON.stringify(smRt);
-      // Eco de mi propio cambio (o nada nuevo) → NO reescribir ni re-renderizar (mata el loop "cambió desde otro PC")
-      if (mergedStr === _prevLocalRt) return;
       if (_nbGuardedWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
-      // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop: payload idéntico → no difiere más)
-      if (mergedStr !== JSON.stringify(payloadVal)) { pushNow(key).catch(()=>{}); }
+      // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop)
+      if (!_deepEqual(smRt, payloadVal)) { pushNow(key).catch(()=>{}); }
       window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
       return;
     }
@@ -1005,10 +1056,9 @@ const CLOUD = (() => {
       console.log('[CLOUD] realtime: local newer for', key, '— ignoring cloud event');
       return;
     }
-    // Sin cambio real (eco del propio push) → no re-render
-    const _newStrRt = JSON.stringify(payloadVal);
-    if (_newStrRt === _prevLocalRt) return;
-    if (_safeWrite(key, _newStrRt)) _setLocalTs(key, cloudTs);
+    // Sin cambio real (eco del propio push) → alinear TS, no re-render
+    if (_deepEqual(payloadVal, _localObjRt)) { _setLocalTs(key, cloudTs); return; }
+    if (_safeWrite(key, JSON.stringify(payloadVal))) _setLocalTs(key, cloudTs);
     window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
   }
   function teardownRealtime(){
@@ -1061,6 +1111,7 @@ const CLOUD = (() => {
   }
   setInterval(() => {
     if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    if (_userIsEditing()) return;   // jamás mover datos bajo los pies del usuario
     _lightPull();
   }, 45000);
 
@@ -1284,6 +1335,8 @@ const CLOUD = (() => {
     forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics, doctor, syncNow,
     // Historial / restauración de cuadernos (anti-pérdida)
     _toggleHistory, _restore,
+    // Hooks internos (tests / diagnóstico)
+    _rtHandle: handleRealtimeChange, _isEditing: _userIsEditing, _deferredCount: () => _rtDeferred.size,
     // Immediate push / realtime
     pushNow, setupRealtime, teardownRealtime,
     // Outbox persistente (cambios pendientes de subir)
