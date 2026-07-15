@@ -6,6 +6,21 @@
 
 ---
 
+## 🤫 SYNC INVISIBLE · deep-equal + difere durante tipeo — 2026-07-15 (commit 96c82c3)
+
+### Queja real: "se refresca cada segundo, no me deja escribir"
+Causa: (1) el detector de eco comparaba strings crudos — el mismo contenido con otro orden de claves parecía "cambio remoto" → write + evento + re-render tras CADA pausa de tipeo; (2) el guard de los módulos solo miraba `activeElement` en el instante del evento; (3) ping-pong con el otro PC = eventos entrantes continuos.
+
+### Fix (cloud-sync.js p15 · aplica a todos los módulos)
+- `_deepEqual` recursivo reemplaza todos los compares por string (eco realtime NB/no-NB, decisión de re-push del merge, content-compare del reconcile). Eco → alinear TS y NADA más.
+- `_userIsEditing()`: foco en editor/input O tipeo hace <4s.
+- Cola `_rtDeferred`: los cambios remotos que llegan mientras se edita NO tocan ni localStorage ni la UI; se aplican de una al quedar idle (flusher 2s). El poll de 45s también respeta la edición.
+- Regla de oro implantada: **la sync jamás toca la pantalla mientras el usuario escribe — todo por debajo**.
+- Tests preview: eco con orden distinto → 0 writes/0 eventos PASS · remoto durante tipeo → diferido, aplicado 1 vez al idle, merge unión conservado PASS.
+- NOTA: el ping-pong muere del todo cuando AMBOS PCs cargan p15 (Ctrl+F5).
+
+---
+
 ## 🛟 INCIDENTE + FIX · Pérdida de cuaderno por merge timestamp-only — 2026-07-15 (commit 0d82897)
 
 ### Qué pasó (diagnóstico en vivo vía Chrome MCP sobre el live site)
