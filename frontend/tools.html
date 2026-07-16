@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DA-2026 · Mantenimiento del PC</title>
+<title>DA-2026 · Herramientas — Hub de Ingeniería de Sistemas</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <!-- Design System v1.0 · tokens canónicos -->
@@ -63,20 +63,13 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 </style>
 </head>
 <body>
-<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Mantenimiento del PC</span></div></nav>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Hub de Ingeniería de Sistemas</span></div></nav>
 <div class="wr">
-<div class="hero"><h1>Mantén tu PC <em>en su punto óptimo</em>.</h1><p>Centro de mantenimiento del equipo: limpieza, actualizaciones de hardware/software priorizadas, recomendaciones calidad/precio, tips y prompts listos para que Claude ejecute cada tarea. Basado en el diagnóstico real del 02-06-2026.</p></div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px">
-  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--rd)">7.6%</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">C: libre · crítico</div></div>
-  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--am)">4.5 GB</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">RAM libre · ajustada</div></div>
-  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">3/3</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Discos SMART OK</div></div>
-  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">0</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Amenazas activas</div></div>
-</div>
-<div class="tip" style="margin-bottom:18px"><b>🖥️ Tu equipo</b><p>Intel <strong>Core i3-10100</strong> (4C/8T) · <strong>16 GB RAM</strong> DDR4-2667 dual channel · <strong>Radeon RX 580</strong> 4 GB · 3 discos: HP NVMe 250 GB (C:) + Kingston SSD 894 GB (D:/E:) + WD HDD 932 GB <em>antiguo</em> (F:/G:) · Ethernet 1 Gbps. <strong>Prioridad #1: liberar C: y aliviar la RAM.</strong></p></div>
+<div class="hero"><h1>Tu hub central de <em>Ingeniería de Sistemas</em>.</h1><p>Un solo lugar para dominar los temas de tu carrera: el <strong>Coach</strong> convierte cada caso real que ya viviste (el internet de Claro, el ACA de préstamos, este mismo Cerebro, el bug del sync) en secciones completas con analogías, simulaciones de empresa, kits de comandos y rutas de recursos. Más el centro de mantenimiento de tu PC de siempre.</p></div>
 
 <div class="tabs">
-<button class="tab on" data-p="clean">🧹 Limpieza</button>
+<button class="tab on" data-p="coach">🎓 Coach Ing. Sistemas</button>
+<button class="tab" data-p="clean">🧹 Limpieza</button>
 <button class="tab" data-p="updates">⬆️ Actualizaciones</button>
 <button class="tab" data-p="upgrades">🛒 Calidad/Precio</button>
 <button class="tab" data-p="tips">💡 Tips</button>
@@ -84,7 +77,19 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 </div>
 
 <!-- ═══ LIMPIEZA ═══ -->
-<div class="pnl on" id="p-clean">
+<div class="pnl on" id="p-coach">
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><a href="pages/coach-sistemas.html" target="_blank" rel="noopener" style="font-size:11px;color:var(--a2);text-decoration:none;font-weight:600;padding:5px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--c1)">↗ Abrir en pestaña completa</a></div>
+<iframe src="pages/coach-sistemas.html" title="Coach de Ingeniería de Sistemas" style="width:100%;height:80vh;border:1px solid var(--bd);border-radius:12px;background:var(--bg)" loading="lazy"></iframe>
+</div>
+
+<div class="pnl" id="p-clean">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px">
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--rd)">7.6%</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">C: libre · crítico</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--am)">4.5 GB</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">RAM libre · ajustada</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">3/3</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Discos SMART OK</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">0</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Amenazas activas</div></div>
+</div>
+<div class="tip" style="margin-bottom:14px"><b>🖥️ Tu equipo</b><p>Intel <strong>Core i3-10100</strong> (4C/8T) · <strong>16 GB RAM</strong> DDR4-2667 dual channel · <strong>Radeon RX 580</strong> 4 GB · 3 discos: HP NVMe 250 GB (C:) + Kingston SSD 894 GB (D:/E:) + WD HDD 932 GB <em>antiguo</em> (F:/G:) · Ethernet 1 Gbps. <strong>Prioridad #1: liberar C: y aliviar la RAM.</strong></p></div>
 <div class="tip"><b>🧹 Regla de oro</b><p>Mantén siempre <strong>≥15% libre en C:</strong>. Por debajo de eso Windows pagina al disco y todo se vuelve lento. Estos comandos son seguros: no tocan tus archivos, solo cachés y temporales que se regeneran. Ejecútalos en <strong>PowerShell</strong> (los marcados 🛡️ requieren "Ejecutar como administrador").</p></div>
 
 <div class="lb">· limpieza rápida — semanal (2 min) ·</div>
