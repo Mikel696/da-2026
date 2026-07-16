@@ -1,8 +1,36 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-07-15
+- **Última actualización:** 2026-07-16
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🎓 6-TOO · Coach de Ingeniería de Sistemas — 2026-07-16 (commit 6051e01)
+
+### Qué es
+6-TOO pasa de "Mantenimiento del PC" a **Hub central de Ingeniería de Sistemas**. Nueva página `pages/coach-sistemas.html` (standalone + da-strip/in-iframe) embebida como tab principal de tools.html, con el mantenimiento del PC intacto en sus tabs.
+
+### Las 7 secciones (cada una anclada en un CASO REAL de Miguel)
+1. **🌐 Redes** — el caso Claro del 14-jul (402 Mbps OK, culpable: DNS del ZTE F680) · analogía agenda de contactos · triage de 4 comandos de un NOC L1.
+2. **🗄️ Bases de Datos** — ACA préstamos + Supabase del propio Cerebro + "conciliaciones Simetrik = JOINs" · SQL traducido a Excel.
+3. **🕸️ Ing. Web** — da-2026 en producción como credencial · analogía restaurante · F12/Network como habilidad #1.
+4. **✅ Calidad de SW** — el incidente del sync del 15-jul como lección viva (race condition, regresión, post-mortem) · pirámide de pruebas.
+5. **📐 Mat. Especiales** — Fourier=licuado, complejos=coordenadas con giro, FFT en mantenimiento predictivo.
+6. **🔬 Investigación** — el diagnóstico Claro mapeado al método científico · IMRyD · tie-in con 16-APA.
+7. **🖥️ Hardware & SO** — su PC real (C: crítico, plan clon SN7100) · jerarquía de memoria como restaurante.
+
+### Estructura por sección (formato para aprendiz visual)
+Caso real (timeline) → analogía → diagrama de cajas → "un día en la empresa" (ticket del rol) → kit de comandos → checklist de dominio → ruta de recursos con badges (GRATIS/ES/EN/Empezá acá).
+
+### Datos
+- Progreso: `too_coach_v1` (40 logros, barra global + contador por sección). **Local-only por diseño** (precedente: work_learn_progress).
+- 30 recursos externos verificados: NetAcad, Packet Tracer, Cloudflare Learning ES, Professor Messer (Net+/A+), NetworkChuck, SQLBolt, Kaggle Intro to SQL, pgexercises, W3Schools, MS Learn ES, freeCodeCamp ES, MDN ES, javascript.info, midudev, mouredev, ISTQB, Guru99, Ministry of Testing, 3Blue1Brown, El Traductor de Ingeniería, Khan ES, GeoGebra, Scholar, Zotero, Scribbr ES, Purdue OWL, CrystalDiskInfo, Ventoy, MemTest86.
+- index.html: tarjeta 6-TOO → "Hub de Ingeniería de Sistemas".
+- Verificado en preview: 7 secciones/40 checks/30 recursos, persistencia+progreso OK, tabs PC intactas, consola limpia.
+
+### Next
+Ingesta de nuevas materias como secciones · botón "copiar prompt de profundización" por sección · cruce con Vista HOY (pendiente PROJECT.P3).
 
 ---
 
