@@ -552,3 +552,16 @@ The user runs the same prompt multiple times across sessions. Without history:
   - Segundo bug hallado al verificar en vivo: el caché de 6h congelaba el panel degradado. TTL ahora depende de la salud: 6h si completa, 15 min si parcial; caché sin `snapshotAt` cuenta como degradado y se cura solo.
 - Verificación EN PRODUCCIÓN: allorigins + datos.gov.co rotos a propósito → 7/7 visibles · caché envenenado de hace 30 min → se cura solo a 7/7 · última corrida con el proxy caído de verdad (`live:false`) → panel completo desde la foto, rotulado con su fecha.
 - Next: extender la foto a DTF/UVR/TES es barato (mismo script). Para Fase 2, las consultas pesadas de FIC (2,88M filas) conviene precomputarlas en la misma Action en vez de pegarle a Socrata desde el navegador.
+
+### ID:PROJECT.P1 (MANDATO · mantenimiento continuo) · 2026-08-11
+- Commit: 9871f83 · 438b055 · fb27d1d · ac244a8
+- Scope: 1-IND (pages/configurar.html) · 12-FIN (finance.html, fin-calc.js, fin-world.js, fin-colombia.js) · infra (cloud-sync.js SKIP_KEYS, 28 páginas cache-bust) · CI (.github/workflows) · docs (CLAUDE.md, PROMPT_MANTENIMIENTO.md)
+- Changed: Se asume el mandato de mantenimiento continuo y se ejecuta la cola por prioridad.
+  1. **Backup real** — export capturaba 1 clave de 21 (filtro `da2026_`); import escribía sin preguntar y restauraba `_cloud_ts`, lo que dejaba a la nube deshacer el restore; `resetAll` solo borraba el namespace legacy. Los tres medidos y arreglados. Cierra el hallazgo #2 de la auditoría (cache-bust en las 9 páginas de pages/); las 28 van en lockstep.
+  2. **Calculadora flotante** — 10 funciones financieras con explicación llana, alimentadas por FINCO, accesible desde cualquier sección y scroll. Matemática verificada contra cálculo independiente.
+  3. **Panel global** — recolector server-side (Yahoo 429 al navegador pero OK desde servidor; RSS sin CORS) → data/world.json. 12 instrumentos + 24 titulares, agrupados con criterio colombiano.
+  4. **Proxy eliminado** — allorigins fuera del proyecto. Única fuente externa en el navegador: datos.gov.co.
+  5. **Marco de trabajo** — CLAUDE.md con el mandato (P0-P4 + 7 reglas de oficio) y PROMPT_MANTENIMIENTO.md autocontenido con chequeo de salud ejecutable (se corrigió el paso que usaba `gh`: no está instalado).
+- Defectos propios hallados AL VERIFICAR (no al escribir): variación diaria calculada con `chartPreviousClose` (−0,08% vs −0,28% real) · entidades numéricas crudas en titulares · caché degradado congelado 6h · TRM atribuida a Banrep siendo de datos.gov.co · deltas con ventanas incomparables entre series.
+- Verificación: en PRODUCCIÓN, no en preview. HOY 7/7 · GLOBAL 5 grupos/12 instrumentos/24 titulares/enlaces seguros · calculadora operativa desde otra sección estando scrolleado · Mi plata intacta · 13-NOT/14-WORK/10-SYS/1-IND sin regresión.
+- Next: **12-FIN Fase 2** (comparador CDT `axk9-g2nh` + crédito `yvb2-ppaa` + screener FIC `qhpu-8ixx` con filtros anti-espejismo por defecto). Luego: radar SECOP II (`p6dx-8zbt`) · hallazgo #3 (namespace `da2026_` sin sync) · medir cuota de localStorage · Vista HOY en 1-IND. NO rehacer nada de lo de arriba.

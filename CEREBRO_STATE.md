@@ -3,6 +3,71 @@
 - **Última actualización:** 2026-08-11
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+- **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
+  y `PROMPT_MANTENIMIENTO.md` para arrancar sesión.
+
+---
+
+## 🛠 MANDATO DE MANTENIMIENTO CONTINUO — 2026-08-11 (commits 9871f83 → ac244a8)
+
+Miguel delegó la dirección técnica: *"mantenlo rodando al 100%, implementa mejoras cada día,
+analiza cada módulo, simplifica y protege"*. Se formalizó en CLAUDE.md (5 obligaciones P0-P4 +
+7 reglas de oficio) y en `PROMPT_MANTENIMIENTO.md` (prompt autocontenido con chequeo de salud
+ejecutable, cola priorizada y el procedimiento de reanudación de Supabase).
+
+### 💾 El backup ahora respalda de verdad (commit 9871f83)
+Tres defectos en la misma tarjeta de "Mi Perfil", los tres medidos:
+1. **`exportBackup` filtraba por `da2026_`** — namespace que solo tiene ~10 claves legacy de
+   core.js. Medido con datos sembrados: **el export viejo capturaba 1 clave; el nuevo, 21**.
+   Ahora: localStorage completo + manifiesto (fecha, tamaño, desglose por módulo) + conteo de
+   las imágenes de IndexedDB que el .json no puede cubrir, **declarado en vez de omitido**.
+2. **`importBackup` escribía sin preguntar.** Ahora hay vista previa con cifras reales, y NO
+   restaura `_cloud_ts` ni `cloud_outbox`: con sus marcas viejas la nube ganaría el merge y
+   **desharía el restore en silencio**. Verificado: lo restaurado entra a la outbox y sube.
+3. **`resetAll` llamaba a `DB.clear()`** — solo borraba `da2026_`: prometía borrar todo y dejaba
+   el 95%. Ahora borra todo, con doble confirmación, y avisa que la copia en la nube sobrevive.
+
+**Cache-bust `?v=p16` en las 9 páginas de `pages/`** → cierra el hallazgo #2 de PROJECT.P1.
+Las 28 páginas del proyecto van ahora en lockstep. Queda solo el #3 (namespace `da2026_` sin sync).
+
+### 🧮 Calculadora financiera flotante (commit 438b055)
+Burbuja fija abajo a la **izquierda** (la derecha la ocupa el badge ☁). Vive fuera del flujo:
+funciona en cualquier sección y a cualquier altura del scroll. `Alt+C` abre, `Escape` cierra.
+**10 calculadoras** con "para qué sirve" en lenguaje llano y la lectura del resultado en cristiano:
+interés compuesto · rendimiento real · cuota de crédito · conversión de tasas · CDT neto ·
+meta de ahorro · dólares⇄pesos · costo de oportunidad · vivir de rentas · poder de compra.
+Se alimenta de FINCO (TRM, inflación, tasa de política entran solas, marcadas "en vivo").
+**Matemática verificada contra cálculo independiente**: 24% E.A. → 1,809% mensual (NO 2% — la
+trampa clásica, y se muestra la diferencia) · cuota 10M/24%/36m = $380.381 · Fisher exacto 2,80%
+junto a la resta de servilleta 2,97%.
+
+### 🌍 Panel global auto-actualizable (commit ac244a8)
+`scripts/fetch-world.mjs` + la Action diaria → `data/world.json` (16 KB): 10 instrumentos de
+Yahoo (que responde 429 al navegador pero bien desde servidor), 5 feeds RSS y CoinGecko.
+Frontend agrupado con sentido local — bolsas / materias primas / dólar / **Colombia en Nueva York**
+(Ecopetrol y Bancolombia en ADR) / cripto — cada uno con su "por qué importa".
+Muro de 24 titulares que **enlaza siempre a la fuente original**; el Cerebro no reescribe noticias.
+Los RSS son contenido externo no confiable: todo escapado, enlaces filtrados a http(s) con
+`rel="noopener noreferrer"`.
+
+**Dos defectos propios hallados al verificar y corregidos antes de commitear:**
+(a) la variación diaria salía mal — `meta.previousClose` viene `undefined` y `chartPreviousClose`
+es el cierre anterior al RANGO (un mes atrás): daba −0,08% donde el movimiento real era −0,28%.
+Ahora se calcula desde la serie de cierres. (b) Titulares con entidades numéricas crudas
+(`Relevante &#124; MinHacienda`); decodificador reescrito, con `&amp;` resuelto al final a
+propósito para no alterar el texto de la fuente.
+
+### 🧹 Proxy público eliminado del proyecto
+`allorigins` salió de 12-FIN. Devolvía 522 intermitente a las peticiones con cabecera `Origin`,
+su fallo ensuciaba la consola con un error CORS que el navegador emite y **no se puede capturar**,
+y los indicadores que refrescaba cambian una vez al mes. **Un tercero gratuito que aporta poco y
+falla seguido es deuda, no redundancia.** Única fuente externa que queda en el navegador:
+`datos.gov.co` (oficial, CORS abierto). Todo lo demás entra por la foto diaria del repo.
+
+### Verificado EN PRODUCCIÓN (no en preview)
+HOY 7/7 indicadores · GLOBAL 5 grupos, 12 instrumentos, 24 titulares, enlaces seguros, 0 entidades
+crudas · CALCULADORA abre desde la sección Global estando scrolleado, 10 calculadoras con datos
+en vivo · **Mi plata intacta** (5 tabs, KPIs, formulario, meta).
 
 ---
 
