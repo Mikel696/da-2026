@@ -349,7 +349,10 @@ const CLOUD = (() => {
     // por eso DYNAMIC_PREFIXES los subiría solos: el caché son cientos de KB
     // de series que se regeneran cada 6h contra la fuente oficial — no es
     // dato del usuario y no tiene por qué viajar a Supabase.
-    'fin_mkt_cache', 'fin_ui_prefs'
+    'fin_mkt_cache', 'fin_ui_prefs',
+    // Estado de la calculadora flotante: se reescribe en CADA tecla. Si
+    // sincronizara, cada dígito tecleado dispararía un push a Supabase.
+    'fin_calc_state'
   ]);
 
   const _registrySet = new Set(SYNC_REGISTRY);

@@ -16,13 +16,22 @@
 const FINCO = (() => {
 
   /* Foto diaria del repo: MISMO origen, sin CORS, sin proxy, sin llaves.
-     Es la base sobre la que todo lo demás solo refresca. La genera
-     scripts/fetch-macro.mjs desde GitHub Actions (ver .github/workflows). */
+     La genera scripts/fetch-macro.mjs desde GitHub Actions.
+     Trae las 7 series del Banco de la República con su historia. */
   const SNAPSHOT = 'data/macro-co.json';
 
-  const PROXY   = 'https://api.allorigins.win/raw?url=';
-  const BANREP  = 'https://totoro.banrep.gov.co/estadisticas-economicas/DataSerie?tipoConsulta=indicadores_principales&idIndicador=1';
+  /* TRM oficial en directo. CORS abierto, sin llave: es el único dato que
+     cambia a diario y por eso vale traerlo en vivo. */
   const TRM_URL = 'https://www.datos.gov.co/resource/ceyp-9c7c.json?$order=vigenciadesde%20DESC&$limit=90';
+
+  /* NOTA · el proxy público (allorigins) se eliminó el 2026-08-11.
+     Servía para alcanzar el Banrep desde el navegador, pero: (a) devolvía
+     522 de forma intermitente a las peticiones con cabecera Origin, (b) su
+     fallo ensuciaba la consola con un error CORS que el navegador emite y
+     no se puede capturar, y (c) los indicadores que refrescaba cambian una
+     vez al mes o al trimestre — la foto diaria ya los cubre de sobra.
+     Un tercero gratuito que aporta poco y falla seguido es deuda, no
+     redundancia. La TRM, que sí es diaria, viene directo arriba. */
 
   const CACHE_KEY = 'fin_mkt_cache';   // local-only (en SKIP_KEYS de cloud-sync)
   const TTL_MS    = 6 * 60 * 60 * 1000;
@@ -111,43 +120,7 @@ const FINCO = (() => {
     return j;
   }
 
-  async function _fetchBanrep() {
-    const url = PROXY + encodeURIComponent(BANREP);
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Banrep HTTP ' + res.status);
-    const raw = await res.json();
-
-    const out = {};
-    for (const sid in SERIES) {
-      const s = raw[sid];
-      if (!s || !Array.isArray(s.data) || !s.data.length) continue;
-
-      // La serie viene [[timestampMs, valor], ...] en orden ascendente.
-      const pts = s.data
-        .filter(p => Array.isArray(p) && p.length >= 2 && isFinite(+p[1]))
-        .map(p => [+p[0], +p[1]]);
-      if (!pts.length) continue;
-
-      const last = pts[pts.length - 1];
-      const meta = SERIES[sid];
-      out[meta.key] = {
-        label: meta.label,
-        unit:  meta.unit,
-        kind:  meta.kind,
-        value: last[1],
-        asOf:  new Date(last[0]).toISOString(),
-        source: 'Banco de la República',
-        // Guardamos ~15 meses: la ventana de comparación se recorta al
-        // pintar, para que la miniatura y el % midan EXACTAMENTE lo mismo.
-        series: pts.slice(-400)
-      };
-    }
-    if (!Object.keys(out).length) throw new Error('Banrep devolvió 0 series usables');
-    return out;
-  }
-
-  /** TRM oficial directo de datos.gov.co (CORS abierto). Fuente primaria
-   *  de la TRM y respaldo cuando el proxy del Banrep falla. */
+  /** TRM oficial directo de datos.gov.co (CORS abierto, sin llave). */
   async function _fetchTrm() {
     const res = await fetch(TRM_URL, { cache: 'no-store' });
     if (!res.ok) throw new Error('TRM HTTP ' + res.status);
@@ -199,9 +172,7 @@ const FINCO = (() => {
        2. datos.gov.co directo, que refresca la TRM del día,
        3. el proxy del Banrep, que es "mejor si está" y nada más.
        Todas en paralelo; cada una solo pisa lo suyo si tuvo éxito. */
-    const [snap, trm, banrep] = await Promise.allSettled([
-      _fetchSnapshot(), _fetchTrm(), _fetchBanrep()
-    ]);
+    const [snap, trm] = await Promise.allSettled([_fetchSnapshot(), _fetchTrm()]);
 
     if (snap.status === 'fulfilled') {
       Object.assign(data, snap.value.data);
@@ -209,10 +180,6 @@ const FINCO = (() => {
     } else {
       errors.push('Foto del repo: ' + (snap.reason && snap.reason.message));
     }
-
-    // El proxy es un extra. Que falle NO es una falla del panel: solo
-    // significa que las cifras vienen de la foto de hoy en vez del minuto.
-    if (banrep.status === 'fulfilled') Object.assign(data, banrep.value);
 
     // datos.gov.co manda sobre todo para la TRM: llega directo, sin
     // intermediario que pueda degradarla.
@@ -231,12 +198,14 @@ const FINCO = (() => {
       data,
       fetchedAt: Date.now(),
       snapshotAt: snapAt,
-      live: banrep.status === 'fulfilled',
+      live: trm.status === 'fulfilled',
       partial: errors.length > 0,
       errors
     };
     _cacheSet(_state);
     render();
+    // La calculadora flotante escucha esto para refrescar sus campos "en vivo".
+    window.dispatchEvent(new CustomEvent('finco:updated', { detail: { keys: Object.keys(data) } }));
     return _state;
   }
 
@@ -434,9 +403,8 @@ const FINCO = (() => {
           <div class="fc-title">🇨🇴 El pulso de Colombia</div>
           <div class="fc-sub">${
             has && st && st.snapshotAt
-              ? (st.live
-                  ? 'Cifras oficiales al minuto · Banco de la República y datos.gov.co'
-                  : 'Foto del ' + _dateEs(st.snapshotAt) + ' · Banco de la República y datos.gov.co')
+              ? 'Banco de la República · actualizado ' + _dateEs(st.snapshotAt)
+                + (st.live ? ' · TRM en directo de datos.gov.co' : '')
               : 'Cifras oficiales del Banco de la República y datos.gov.co'
           }</div>
         </div>
