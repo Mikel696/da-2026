@@ -352,7 +352,9 @@ const CLOUD = (() => {
     'fin_mkt_cache', 'fin_ui_prefs',
     // Estado de la calculadora flotante: se reescribe en CADA tecla. Si
     // sincronizara, cada dígito tecleado dispararía un push a Supabase.
-    'fin_calc_state'
+    'fin_calc_state',
+    // Foto de mercados y titulares: se regenera sola desde data/world.json.
+    'fin_world_cache'
   ]);
 
   const _registrySet = new Set(SYNC_REGISTRY);

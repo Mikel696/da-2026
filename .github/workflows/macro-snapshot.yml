@@ -1,4 +1,4 @@
-name: Foto diaria · macro Colombia
+name: Foto diaria · macro Colombia + mundo
 
 # Deja frontend/data/macro-co.json actualizado en el repo.
 # El frontend lo lee de su MISMO origen: sin proxy, sin llaves, sin CORS.
@@ -28,17 +28,21 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Traer indicadores
+      - name: Traer indicadores de Colombia
         run: node scripts/fetch-macro.mjs
+
+      - name: Traer mercados y prensa financiera
+        run: node scripts/fetch-world.mjs
+        continue-on-error: true   # si el mundo falla, la foto de Colombia igual se commitea
 
       - name: Commitear si cambió
         run: |
-          if [[ -z $(git status --porcelain frontend/data/macro-co.json) ]]; then
+          if [[ -z $(git status --porcelain frontend/data/) ]]; then
             echo "Sin cambios — no se commitea."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add frontend/data/macro-co.json
-          git commit -m "chore(12-FIN): foto macro Colombia $(date -u +%Y-%m-%d)"
+          git add frontend/data/
+          git commit -m "chore(12-FIN): foto diaria de datos $(date -u +%Y-%m-%d)"
           git push
