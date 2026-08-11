@@ -27,6 +27,12 @@ const FINCO = (() => {
   const CACHE_KEY = 'fin_mkt_cache';   // local-only (en SKIP_KEYS de cloud-sync)
   const TTL_MS    = 6 * 60 * 60 * 1000;
 
+  /* Si la última carga quedó incompleta (una fuente caída) NO se puede
+     honrar el TTL largo: el panel degradado se quedaría pegado 6 horas
+     aunque la fuente ya se haya recuperado a los dos minutos. Un caché
+     malo se reintenta pronto; uno bueno descansa. */
+  const TTL_DEGRADED_MS = 15 * 60 * 1000;
+
   /* Mapa de series del Banrep → nuestra nomenclatura.
      Las etiquetas son NUESTRAS: el campo `unidad` que devuelve la API
      viene con la codificación rota ("Variaci?n porcentual"). */
@@ -170,7 +176,12 @@ const FINCO = (() => {
     if (_loading) return _state;
     const cached = _cacheGet();
 
-    if (!force && cached && cached.fetchedAt && (Date.now() - cached.fetchedAt) < TTL_MS) {
+    // `snapshotAt` ausente = caché de una versión anterior del motor:
+    // también se trata como degradado para que se renueve solo.
+    const healthy = cached && cached.partial === false && cached.snapshotAt;
+    const ttl = healthy ? TTL_MS : TTL_DEGRADED_MS;
+
+    if (!force && cached && cached.fetchedAt && (Date.now() - cached.fetchedAt) < ttl) {
       _state = cached;
       return _state;
     }
