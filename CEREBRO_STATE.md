@@ -79,10 +79,34 @@ formulario, meta de ahorro) · calculadora real (9,5% nominal → **+3,47% real*
 **sin regresión en 13-NOT, 14-WORK, 10-SYS y 1-IND** (namespaces vivos, 0 recursos locales fallidos, todos en p16).
 Desplegado y confirmado en vivo: `fin-colombia.js` → 200, `finance.html` sirve p16 + las 8 secciones.
 
+### 🔥 Fallo en PRODUCCIÓN y su arreglo (commits 15e183d + 0abd902)
+El preview local pasó verde, pero **el live site salió con 1 de 7 indicadores**. Medido:
+`allorigins` responde **200 sin cabecera `Origin`** (curl) y **522 con `Origin: mikel696.github.io`**
+(navegador). Banrep directo: 200. → **un proxy público gratuito no puede sostener el camino crítico.**
+
+**Fix (adelantado de la Fase 4):**
+- `scripts/fetch-macro.mjs` — trae Banrep + datos.gov.co del lado **servidor** (sin CORS de por medio) y deja
+  `frontend/data/macro-co.json` (26 KB · 7 series · ~400 puntos). Sin dependencias. Si NINGUNA fuente responde
+  sale con código 1 y **preserva la foto anterior** en vez de escribir basura.
+- `.github/workflows/macro-snapshot.yml` — cron diario 11:20 UTC (06:20 CO, tras publicarse la TRM) + disparo
+  manual. Solo commitea si el archivo cambió.
+- **Nuevo orden de carga**, de lo más confiable a lo más fresco: (1) foto del repo — mismo origen, imposible
+  que falle si la página cargó; (2) datos.gov.co directo, refresca la TRM del día; (3) proxy del Banrep, que
+  pasa a ser *mejor si está*. **Que el proxy falle ya no es una falla del panel.** El subtítulo declara el
+  origen real: «al minuto» o «Foto del \<fecha\>».
+- **TTL según salud del caché**: 6 h si la carga fue completa, **15 min si quedó parcial**. Sin esto, quien
+  visitara durante una caída se quedaba con el panel degradado 6 horas aunque la fuente se recuperara enseguida.
+  Un caché sin `snapshotAt` (motor anterior) también cuenta como degradado → se cura solo, sin limpiar nada.
+
+**Verificado en el live site**, no en preview: rompiendo a propósito allorigins Y datos.gov.co → 7/7 indicadores
+siguen visibles · caché envenenado de hace 30 min → se cura solo a 7/7 · en la última corrida el proxy estaba
+caído de verdad (`live:false`) y el panel salió completo desde la foto, rotulado con su fecha.
+
 ### Next
 Fase 2 — comparador de CDT y de crédito por banco + screener de FIC **con filtros anti-espejismo por defecto**
 (el ranking crudo pone primero un fondo forestal en liquidación con 1 574% anual y 12 inversionistas).
-Fase 3 — global + radar SECOP. Fase 4 — laboratorio, noticias y foto diaria vía GitHub Action.
+Fase 3 — global + radar SECOP. Fase 4 — laboratorio y muro de noticias.
+La foto diaria ya quedó hecha acá; extenderla a más series (DTF, UVR, TES) es barato.
 
 ---
 

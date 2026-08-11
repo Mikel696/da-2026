@@ -542,3 +542,13 @@ The user runs the same prompt multiple times across sessions. Without history:
   - **cloud-sync**: `fin_mkt_cache` y `fin_ui_prefs` a SKIP_KEYS — `fin_` está en DYNAMIC_PREFIXES y los habría subido solos. Verificado por comportamiento (outbox), no leyendo código.
 - Verificación: 7/7 series en vivo con errors:[] · Mi plata intacta (5 tabs/KPIs/form/meta) · calculadora real 9,5% → +3,47% con IPC 6,03% · 13-NOT/14-WORK/10-SYS/1-IND sin regresión, todos en p16 · desplegado y confirmado en el live site.
 - Next: Fase 2 — comparador de CDT (`axk9-g2nh`) y de crédito (`yvb2-ppaa`) banco por banco + screener de FIC (`qhpu-8ixx`, 2,88M filas) CON los filtros anti-espejismo por defecto: el orden crudo por rentabilidad pone primero un fondo forestal EN LIQUIDACIÓN con 1 574% anual y 12 inversionistas. Filtros sanos (tipo general, >1000 inversionistas, sin liquidación) dan el cuadro real. Fase 3 — global + radar SECOP II (`p6dx-8zbt`). Fase 4 — laboratorio, muro de noticias y foto diaria vía GitHub Action. NO rehacer la Fase 1.
+
+### ID:12-FIN.P1 (CONT · resiliencia) · 2026-08-11
+- Commit: 15e183d + 0abd902
+- Files: scripts/fetch-macro.mjs (NUEVO) · .github/workflows/macro-snapshot.yml (NUEVO) · frontend/data/macro-co.json (NUEVO, generado) · frontend/js/fin-colombia.js · frontend/finance.html (p3)
+- Changed: **El preview local mintió.** Verde en localhost, pero el live site salió con 1 de 7 indicadores. Medición: allorigins da 200 sin cabecera `Origin` (curl) y **522 con `Origin: mikel696.github.io`** (navegador); Banrep directo 200. Lección: un proxy público gratuito no puede estar en el camino crítico, y **verificar en preview no equivale a verificar en producción** — el origen cambia el resultado.
+  - Foto diaria del lado servidor vía GitHub Action → `data/macro-co.json` leído desde el MISMO origen: sin proxy, sin CORS, sin llaves, y viaja con la página (offline real).
+  - Orden de carga por confiabilidad: foto del repo → datos.gov.co directo → proxy como extra. El subtítulo declara el origen ("al minuto" vs "Foto del <fecha>").
+  - Segundo bug hallado al verificar en vivo: el caché de 6h congelaba el panel degradado. TTL ahora depende de la salud: 6h si completa, 15 min si parcial; caché sin `snapshotAt` cuenta como degradado y se cura solo.
+- Verificación EN PRODUCCIÓN: allorigins + datos.gov.co rotos a propósito → 7/7 visibles · caché envenenado de hace 30 min → se cura solo a 7/7 · última corrida con el proxy caído de verdad (`live:false`) → panel completo desde la foto, rotulado con su fecha.
+- Next: extender la foto a DTF/UVR/TES es barato (mismo script). Para Fase 2, las consultas pesadas de FIC (2,88M filas) conviene precomputarlas en la misma Action en vez de pegarle a Socrata desde el navegador.
