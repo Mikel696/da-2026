@@ -57,7 +57,7 @@
       <!-- BACKUP -->
       <div class="dash-card span-2">
         <div class="dc-header"><h3>💾 Backup de Progreso</h3></div>
-        <div class="box box-s" style="margin-bottom:16px;"><strong>Importante:</strong> Tu progreso se guarda en este navegador. Haz backup semanal para no perder tus avances si limpias el caché o cambias de dispositivo.</div>
+        <div class="box box-s" style="margin-bottom:16px;"><strong>Qué respalda:</strong> todas las claves de este navegador — notas, cuadernos, finanzas, materias, Simetrik y perfil. <strong>Qué no:</strong> las imágenes de cuadernos, que viven en IndexedDB y no caben en un .json; el archivo te dice cuántas quedaron fuera.<br/><strong>Por qué importa:</strong> el 10 de agosto de 2026 Supabase pausó el proyecto por inactividad y este archivo fue la única copia disponible. Exportá una vez por semana.</div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <button class="btn btn-acid" onclick="exportBackup()">⬇️ Exportar progreso (.json)</button>
           <label class="btn btn-ghost" style="cursor:pointer;">⬆️ Importar backup <input type="file" accept=".json" onchange="importBackup(event)" style="display:none;"/></label>
@@ -111,7 +111,7 @@ desde BASE_URL = 'https://mikel696.github.io/da-2026'
   </div>
 </main>
 <div id="toast"></div>
-<script src="../js/core.js"></script>
+<script src="../js/core.js?v=p16"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   loadProfile();
@@ -173,44 +173,208 @@ function renderProfileStats() {
   </div>`;
 }
 
-window.exportBackup = function() {
+/* ═══════════════════════════════════════════════════════════════
+   BACKUP · reescrito 2026-08-11
+   ─────────────────────────────────────────────────────────────
+   El export anterior filtraba por `da2026_`, y ese namespace solo
+   contiene ~10 keys legacy de core.js (perfil, xp, racha). TODO el
+   Cerebro real — cuadernos, finanzas, notas, Simetrik, materias —
+   usa keys crudas (not_nb_*, work_*, fin_*, sys_*, eng_*, sb_*…),
+   así que el archivo salía prácticamente vacío. Se descubrió el
+   2026-08-10, cuando Supabase se pausó y este era el único respaldo.
+
+   Ahora se exporta el localStorage COMPLETO, y se declara lo que el
+   archivo NO puede cubrir (los binarios de IndexedDB).
+═══════════════════════════════════════════════════════════════ */
+
+/* Claves internas del motor de sync. Se exportan como referencia pero
+   NO se restauran: si volvieran con sus marcas de tiempo viejas, la
+   nube ganaría el merge y desharía el restore en silencio. Sin ellas,
+   lo restaurado se sella con fecha de hoy y sube. */
+const SYNC_INTERNALS = ['_cloud_ts', 'cloud_outbox'];
+
+function _dumpLocalStorage() {
   const data = {};
-  Object.keys(localStorage).filter(k => k.startsWith('da2026_')).forEach(k => {
-    data[k] = localStorage.getItem(k);
+  let bytes = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k === null) continue;
+    const v = localStorage.getItem(k);
+    data[k] = v;
+    bytes += k.length + (v ? v.length : 0);
+  }
+  return { data, bytes };
+}
+
+/** Cuenta los binarios de cuadernos que viven en IndexedDB. NO viajan
+ *  en el .json (serían cientos de MB en base64); se informa para que
+ *  quede claro qué cubre el respaldo y qué no. */
+async function _countIdbBlobs() {
+  return new Promise(resolve => {
+    let done = false;
+    const finish = v => { if (!done) { done = true; resolve(v); } };
+    setTimeout(() => finish(null), 4000);
+    try {
+      const req = indexedDB.open('da2026_nb');
+      req.onerror = () => finish(null);
+      req.onsuccess = () => {
+        const db = req.result;
+        const names = ['images', 'attachments'].filter(n => db.objectStoreNames.contains(n));
+        if (!names.length) return finish({ images: 0, attachments: 0 });
+        const out = {};
+        let pending = names.length;
+        names.forEach(n => {
+          try {
+            const c = db.transaction(n, 'readonly').objectStore(n).count();
+            c.onsuccess = () => { out[n] = c.result; if (--pending === 0) finish(out); };
+            c.onerror   = () => { out[n] = null;     if (--pending === 0) finish(out); };
+          } catch { out[n] = null; if (--pending === 0) finish(out); }
+        });
+      };
+    } catch { finish(null); }
   });
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+}
+
+window.exportBackup = async function() {
+  toast('Preparando respaldo…');
+  const { data, bytes } = _dumpLocalStorage();
+  const keys = Object.keys(data);
+
+  if (!keys.length) {
+    toast('⚠️ No hay nada que respaldar en este navegador');
+    return;
+  }
+
+  const blobs = await _countIdbBlobs();
+
+  // Resumen por módulo, para que el archivo sea auditable de un vistazo.
+  const PREFIXES = {
+    'sb_':'1-IND · Dashboard', 'app_':'2-APP · Aplicaciones', 'eng_':'3-ENG · Inglés',
+    'ruta_':'4-RUT · Ruta', 'atlas_':'4-RUT · ATLAS', 'jt':'5-JOB · Empleos',
+    'too_':'6-TOO · Herramientas', 'news_':'7-NEW · Noticias', 'plab':'8-PRO · Prompts',
+    'sys_':'10-SYS · Sistemas', 'fin_':'12-FIN · Finanzas', 'not_':'13-NOT · Notas',
+    'work_':'14-WORK · Simetrik', 'tools_':'15-MM/16-APA', 'apa_':'16-APA · APA',
+    'da2026_':'Perfil (core)'
+  };
+  const byModule = {};
+  keys.forEach(k => {
+    const p = Object.keys(PREFIXES).find(p => k.startsWith(p));
+    const name = p ? PREFIXES[p] : 'Otros';
+    byModule[name] = (byModule[name] || 0) + 1;
+  });
+
+  const payload = {
+    _manifiesto: {
+      formato: 'da2026-backup/2',
+      generado: new Date().toISOString(),
+      origen: location.origin,
+      total_keys: keys.length,
+      bytes_aprox: bytes,
+      por_modulo: byModule,
+      no_incluido: {
+        nota: 'Las imágenes y adjuntos de cuadernos viven en IndexedDB y no caben en este archivo.',
+        imagenes: blobs ? blobs.images : 'no se pudo contar',
+        adjuntos: blobs ? blobs.attachments : 'no se pudo contar'
+      },
+      no_restaurable: SYNC_INTERNALS
+    },
+    data
+  };
+
+  const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `da2026-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `cerebro-backup-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
-  toast('✓ Backup exportado');
+  setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+
+  const mb = (bytes / 1048576).toFixed(2);
+  toast(`✓ ${keys.length} claves · ${mb} MB respaldados`);
+  console.log('[BACKUP]', payload._manifiesto);
 };
 
 window.importBackup = function(e) {
-  const file = e.target.files[0]; if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';                      // permite reintentar el mismo archivo
+
   const reader = new FileReader();
-  reader.onload = (ev) => {
-    try {
-      const data = JSON.parse(ev.target.result);
-      Object.entries(data).forEach(([k, v]) => localStorage.setItem(k, v));
-      toast('✓ Progreso restaurado — recarga la página');
-      setTimeout(() => location.reload(), 1500);
-    } catch { toast('⚠️ Archivo inválido'); }
+  reader.onload = ev => {
+    let parsed;
+    try { parsed = JSON.parse(ev.target.result); }
+    catch { toast('⚠️ El archivo no es un JSON válido'); return; }
+
+    // Acepta el formato nuevo {_manifiesto, data} y el viejo (plano).
+    const data = (parsed && parsed.data && typeof parsed.data === 'object') ? parsed.data : parsed;
+    const man  = parsed && parsed._manifiesto;
+
+    if (!data || typeof data !== 'object' || !Object.keys(data).length) {
+      toast('⚠️ El archivo no contiene datos'); return;
+    }
+
+    const entries = Object.entries(data).filter(([k]) => !SYNC_INTERNALS.includes(k));
+    const actuales = localStorage.length;
+
+    // Vista previa ANTES de escribir: restaurar pisa lo que hay, y eso
+    // tiene que ser una decisión informada, no una sorpresa.
+    const resumen =
+      `¿Restaurar este respaldo?\n\n` +
+      `Del archivo:  ${entries.length} claves` +
+      (man ? `\nGenerado:     ${new Date(man.generado).toLocaleString('es-CO')}` : '') +
+      (man && man.bytes_aprox ? `\nTamaño:       ${(man.bytes_aprox/1048576).toFixed(2)} MB` : '') +
+      `\n\nEn este navegador ahora hay ${actuales} claves.\n` +
+      `Las que coincidan por nombre serán SOBRESCRITAS.\n` +
+      `Las que existan solo acá se conservan.\n\n` +
+      (man && man.no_incluido ? `Nota: las imágenes de cuadernos no viajan en el archivo.\n\n` : '') +
+      `Se subirá a la nube después de restaurar.`;
+
+    if (!confirm(resumen)) { toast('Restauración cancelada'); return; }
+
+    let ok = 0, fail = 0;
+    for (const [k, v] of entries) {
+      // localStorage.setItem pasa por el proxy de cloud-sync → cada clave
+      // entra a la outbox y se empuja a Supabase.
+      try { localStorage.setItem(k, v); ok++; }
+      catch (err) { fail++; console.warn('[BACKUP] no se pudo restaurar', k, err && err.name); }
+    }
+
+    if (fail) {
+      toast(`⚠️ ${ok} restauradas · ${fail} fallaron (¿espacio lleno?)`);
+      console.warn('[BACKUP] ' + fail + ' claves fallaron — probable QuotaExceededError');
+    } else {
+      toast(`✓ ${ok} claves restauradas — recargando…`);
+    }
+    setTimeout(() => location.reload(), fail ? 4000 : 1800);
   };
   reader.readAsText(file);
 };
 
 window.resetAll = function() {
-  if (!confirm('¿Seguro? Se borrará TODO tu progreso, notas y perfil. Esta acción no se puede deshacer.')) return;
-  DB.clear();
+  /* Antes llamaba a DB.clear(), que solo borra el namespace `da2026_`
+     (~10 claves legacy): prometía borrar todo y dejaba intacto el 95%.
+     Y como removeItem no pasa por el proxy de sync, la nube ni se entera
+     y lo restaura en el siguiente login. Ahora se dice la verdad. */
+  const n = localStorage.length;
+  if (!confirm(
+    `Se borrarán las ${n} claves de este navegador: notas, cuadernos, finanzas, ` +
+    `materias y perfil.\n\n` +
+    `OJO: tu copia en la nube NO se borra. Si volvés a iniciar sesión, ` +
+    `todo se descarga de nuevo.\n\n` +
+    `¿Exportaste un respaldo antes? Esta acción no se puede deshacer localmente.`
+  )) return;
+  if (!confirm('Última confirmación: borrar los datos locales del Cerebro.')) return;
+
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+  keys.forEach(k => { try { localStorage.removeItem(k); } catch {} });
   toast('Sistema reseteado — redirigiendo...');
   setTimeout(() => location.href = url(''), 1500);
 };
 </script>
 <!-- Auth chain: must load on every page so session persists platform-wide -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="../js/supabase-client.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/cloud-sync.js"></script>
+<script src="../js/supabase-client.js?v=p16"></script>
+<script src="../js/auth.js?v=p16"></script>
+<script src="../js/cloud-sync.js?v=p16"></script>
 </body>
 </html>

@@ -47,7 +47,7 @@
   </div>
 </main>
 <div id="toast"></div>
-<script src="../js/core.js"></script>
+<script src="../js/core.js?v=p16"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   renderPrompts('all');
@@ -112,8 +112,8 @@ window.delCustom = (id) => { DB.set('custom_prompts', DB.get('custom_prompts',[]
 <style>.filter-btn{background:var(--ink3);border:1px solid var(--border);color:var(--txt3);font-family:var(--fm);font-size:.72rem;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .18s}.filter-btn:hover,.filter-btn.active{background:var(--acid-d);border-color:rgba(200,255,0,.3);color:var(--acid)}</style>
 <!-- Auth chain: must load on every page so session persists platform-wide -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="../js/supabase-client.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/cloud-sync.js"></script>
+<script src="../js/supabase-client.js?v=p16"></script>
+<script src="../js/auth.js?v=p16"></script>
+<script src="../js/cloud-sync.js?v=p16"></script>
 </body>
 </html>
