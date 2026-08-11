@@ -87,18 +87,32 @@ Se reanuda desde https://supabase.com/dashboard/project/mbuhlxypuvlxxylryjzi con
 "Resume" (la UI en español lo rotula mal: "Proyecto de currículum"). Los datos sobreviven.
 NO ingreses credenciales por el usuario — si pide login, devolvele el control.
 
-═══════════ COLA DE TRABAJO (a 2026-08-11, revisá CEREBRO_STATE por si cambió) ═══════════
-P0 · 12-FIN Fase 2 — comparador de CDT (axk9-g2nh) y crédito (yvb2-ppaa) banco por banco
-     + screener de FIC (qhpu-8ixx, 2,88M filas) CON filtros anti-espejismo por defecto:
-     el orden crudo pone primero un fondo EN LIQUIDACIÓN con 1.574% anual y 12 inversionistas.
-P1 · 12-FIN Fase 3 — panel global (Finnhub 60/min y Twelve Data 800/día, ambos CORS
-     abiertos con llave gratis) + radar SECOP II (p6dx-8zbt) + calendario económico.
-P2 · Hallazgo #3 de la auditoría PROJECT.P1: el namespace da2026_* (core.js: perfil, XP,
+═══════════ COLA DE TRABAJO (a 2026-08-11 · revisá CEREBRO_STATE por si cambió) ═══════════
+12-FIN va 5 de 8 secciones vivas: Hoy · Mi plata · Colombia · Global · Radar.
+P0 · 12-FIN "Inteligencia" — directorio curado de analistas y casas de research + guardar
+     artículos a 13-NOT. El muro de titulares ya existe en Global; esto es la capa curada.
+P1 · 12-FIN "Laboratorio" — bitácora de tesis de inversión (escribís qué pensás y por qué,
+     el sistema te lo recuerda después). La calculadora ya vive en la burbuja flotante.
+P2 · 12-FIN "Ajustes" — llaves de API (SOLO locales, JAMÁS en SYNC), watchlist, estado de
+     cada conexión. Habilita Finnhub (60/min) y Twelve Data (800/día) para ampliar Global.
+P3 · Hallazgo #3 de la auditoría PROJECT.P1: el namespace da2026_* (core.js: perfil, XP,
      racha) NO está en SYNC_REGISTRY → es local para siempre. Decidir si se sincroniza.
-P3 · Medir la cuota de localStorage (4,8 MB medidos, techo ~5-10 MB). Casi todo el código
+P4 · Medir la cuota de localStorage (4,8 MB medidos, techo ~5-10 MB). Casi todo el código
      guarda con try{}catch{} y un QuotaExceededError se tragaría en silencio.
-P4 · Vista HOY en 1-IND — agregador diario cross-módulo (blueprint en PROMPT_RUNS.md).
-P5 · Merge estructural para work_moif_meetings · limpieza de blobs huérfanos IDB/Storage.
+P5 · Vista HOY en 1-IND — agregador diario cross-módulo (blueprint en PROMPT_RUNS.md).
+P6 · Merge estructural para work_moif_meetings · limpieza de blobs huérfanos IDB/Storage.
+
+═══════════ TRAMPAS DE DATOS YA DETECTADAS (no repetir el error) ═══════════
+· VERIFICAR max(fecha) DE TODO DATASET ANTES DE CONSTRUIR SOBRE ÉL. El dataset yvb2-ppaa
+  parecía ser el de tasas de crédito y llevaba congelado desde junio de 2022 — cuatro años.
+  El vigente es qzsc-9esp. Un dataset viejo presentado como actual es peor que no tenerlo.
+· LOS RANKINGS CRUDOS MIENTEN. El screener de FIC sin filtrar pone primero un fondo EN
+  LIQUIDACIÓN con 1.574% anual y 12 inversionistas; las tasas de crédito sin filtrar
+  muestran bancos con "0% de consumo". Filtros de calidad SIEMPRE por defecto y visibles.
+· Yahoo Finance responde 429 al navegador pero 200 desde servidor → va en la Action.
+· Un listener global sobre un atributo genérico (data-del) es una trampa para el módulo que
+  llegue después: finance.js disparaba FIN.del() al borrar una alerta del Radar. Acotá el
+  selector a su contenedor.
 
 ═══════════ FUENTES DE DATOS VERIFICADAS (curl con headers CORS, 2026-08-10) ═══════════
 Directas desde el navegador, sin llave:
