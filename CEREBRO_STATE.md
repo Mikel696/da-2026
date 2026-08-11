@@ -1,8 +1,88 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-07-16
+- **Última actualización:** 2026-08-11
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
+
+---
+
+## 🛟 INCIDENTE · Supabase pausado — pérdida total de sync durante horas — 2026-08-10/11
+
+### Qué pasó
+Login del Cerebro fallaba con `Failed to fetch` en todas las páginas. Diagnóstico por capas:
+`mbuhlxypuvlxxylryjzi.supabase.co` daba **NXDOMAIN en Google 8.8.8.8, Cloudflare 1.1.1.1 y DNS-over-HTTPS**
+(este último descarta el router del usuario, sospechoso histórico por el caso Claro). Control: `supabase.co`
+resolvía bien y un proyecto inventado daba el mismo NXDOMAIN → Supabase no usa comodín.
+
+**Causa raíz: el plan gratuito de Supabase pausa los proyectos tras ~1 semana sin actividad, y al pausarlos
+les quita el registro DNS.** Desde afuera es indistinguible de un proyecto borrado — solo el panel lo aclara.
+Diagnóstico inicial dijo "eliminado o pausado-y-retirado"; era pausado. Corregido al ver el dashboard.
+
+### Resolución
+Vía Chrome MCP sobre la sesión ya autenticada del usuario (sin ingresar credenciales): panel → el proyecto
+existía, pausado, con **datos y backups intactos** y reanudable hasta el **2026-09-08**. Botón `Resume`
+(la UI en español lo rotula "Proyecto de currículum", traducción rota de *Resume project*) → restauración.
+Verificado tras completar: DNS → 104.18.38.10 · `/auth/v1/health` → GoTrue v2.195.0 · login con credenciales
+falsas → `invalid_credentials` (o sea, el servidor responde) · `app_state` vía REST → 200.
+
+### Lecciones
+1. **El offline-first cumplió.** Con el backend muerto la app siguió 100% usable; no hay gate de sesión.
+2. **La red de seguridad NO existía.** El backup de `pages/configurar.html` filtra por `da2026_` y ese
+   namespace solo tiene ~10 keys legacy de `core.js` — los cuadernos, finanzas, notas y Simetrik usan keys
+   crudas y **quedaban fuera del archivo**. El usuario respaldó con un script en consola: **111 keys · 4,8 MB**.
+3. **Riesgo de cuota:** 4,8 MB está cerca del techo de localStorage y casi todo el código guarda con
+   `try{...}catch{}` — un `QuotaExceededError` se tragaría en silencio. Pendiente medir.
+4. Para que no se repita: abrir el Cerebro al menos una vez por semana, o pasar a Pro.
+
+### Pendiente
+Arreglar `exportBackup` (Fase 3 del pase de seguridad, ver PROJECT.P1) · backup del segundo PC · medir cuota.
+
+---
+
+## 💰 12-FIN · Fase 1 · Centro Financiero — pulso macro de Colombia — 2026-08-11 (commit 586d452)
+
+### Qué cambió
+12-FIN pasa de registro de gastos a **centro financiero de 8 secciones**. Fase 1 entrega el shell + la
+sección **Hoy** viva. Las 6 secciones sin construir declaran su fase real en vez de mostrar UI vacía o falsa.
+
+### Investigación previa (24 endpoints probados con curl, headers CORS incluidos)
+Sirven directo desde el navegador sin llave: **datos.gov.co (Socrata)** · **Banrep mercado cambiario**
+(dólar intradía) · **CoinGecko** · **Binance** · **Banco Mundial** · **SEC data.sec.gov**.
+Con llave gratuita y CORS abierto: **Finnhub** (60/min) · **Twelve Data** (800/día).
+Descartados: **Yahoo Finance** (429) · **Alpha Vantage** (solo 25/día).
+Hallazgos de alto valor para fases siguientes: **FIC de Superfinanciera** (`qhpu-8ixx`, 2,88M filas, corte
+diario, con `rentabilidad_anual` por fondo) · **tasas de captación** (`axk9-g2nh`) y **colocación**
+(`yvb2-ppaa`) banco por banco · **SECOP II** (`p6dx-8zbt`) para contratación pública.
+
+### `js/fin-colombia.js` (NUEVO · IIFE `FINCO`)
+- **Banrep `DataSerie`**: TRM, tasa de política, IBR, inflación, PIB, desempleo y cuenta corriente con serie
+  histórica **en una sola llamada**. No expone CORS → pasa por el proxy de allorigins que ya usa 7-NEW.
+- **datos.gov.co** (CORS abierto, sin llave) es la fuente **primaria** de la TRM y el respaldo si el proxy cae.
+  Las dos fuentes son independientes vía `Promise.allSettled`: si una falla, la otra igual entra.
+- **Caché local 6 h.** Sin red muestra el último valor **con su fecha de corte**. Nunca estima ni rellena.
+- **Ventana uniforme de 12 meses** con el período real impreso junto al %. Sin esto un `+35%` al lado de la
+  inflación medía 5 años mientras el de la TRM medía 3 meses — el mismo vicio del número sin contexto.
+- Series negativas (cuenta corriente) informan **diferencia en puntos**, no % sobre base negativa.
+- **Cada tarjeta cita su fuente verdadera**: la TRM dice datos.gov.co, no Banrep.
+- Semáforo de inflación: el usuario mete la tasa de su producto y ve el **rendimiento real** descontada la
+  inflación. Miniaturas SVG a mano, sin librerías.
+
+### Infra compartida
+`cloud-sync.js` → `fin_mkt_cache` y `fin_ui_prefs` a **SKIP_KEYS**: empiezan por `fin_` y `DYNAMIC_PREFIXES`
+los habría subido solos a Supabase (cientos de KB regenerados cada 6 h, no dato del usuario).
+**Verificado por comportamiento**, no por lectura de código: al escribirlas NO entran a la outbox; `fin_my_rate` sí.
+Cache-bust `cloud-sync p15 → p16` en las 19 páginas (el motor debe ir en lockstep — causa del clobber de julio).
+
+### Verificación en preview
+7/7 series en vivo con `errors: []` · navegación entre las 8 secciones · **Mi plata intacta** (5 tabs, KPIs,
+formulario, meta de ahorro) · calculadora real (9,5% nominal → **+3,47% real** con inflación 6,03%) ·
+**sin regresión en 13-NOT, 14-WORK, 10-SYS y 1-IND** (namespaces vivos, 0 recursos locales fallidos, todos en p16).
+Desplegado y confirmado en vivo: `fin-colombia.js` → 200, `finance.html` sirve p16 + las 8 secciones.
+
+### Next
+Fase 2 — comparador de CDT y de crédito por banco + screener de FIC **con filtros anti-espejismo por defecto**
+(el ranking crudo pone primero un fondo forestal en liquidación con 1 574% anual y 12 inversionistas).
+Fase 3 — global + radar SECOP. Fase 4 — laboratorio, noticias y foto diaria vía GitHub Action.
 
 ---
 

@@ -179,6 +179,24 @@ The user runs the same prompt multiple times across sessions. Without history:
 - PENDIENTE DEL USUARIO: (1) Ctrl+F5 en ambos PCs; (2) verificar badge ☁ verde (sesión iniciada) en ambos; (3) en el PC de origen de las imágenes: badge → Sincronizar ahora; (4) opcional realtime instantáneo: correr en Supabase SQL editor `alter publication supabase_realtime add table public.app_state;`
 - Next: si tras esto algo sigue sin cruzar, el doctor (`CLOUD.doctor()` o click en badge) dice exactamente dónde se atora. Fase futura: tabla per-record.
 
+### ID:PROJECT.P1 · 2026-08-10 (AUDITORÍA · sin commit)
+- Commit: - (read-only)
+- Scope: barrido del shell compartido — 28 HTML, cloud-sync.js, core.js, pages/*
+- Changed: nada. Primera ejecución de PROJECT.P1; se entregó el TOP-3 de oportunidades con evidencia:
+  1. **🔴 El backup no respalda nada.** `pages/configurar.html:178` filtra `k.startsWith('da2026_')`, pero ese
+     namespace (`DB.NS` de core.js) solo tiene ~10 keys legacy. Todo el Cerebro real (`not_nb_*`, `work_*`,
+     `sys_*`, `fin_*`, `eng_*`, `tools_*`, `atlas_*`, `sb_*`, `jt8`) usa keys crudas y queda FUERA del archivo.
+     No existe otro export global en el repo. **Confirmado en la práctica el 2026-08-10**: durante el incidente
+     de Supabase el usuario tuvo que respaldar con un script en consola (111 keys · 4,8 MB).
+  2. **🟡 9 páginas de `pages/` cargan la infra sin cache-bust** (`../js/cloud-sync.js`, `auth.js`,
+     `supabase-client.js`, `core.js` sin `?v=`), mientras las 19 principales van pineadas. Tras cada deploy del
+     motor hay ventana en que esas pestañas arrancan con el anterior — el "motor viejo" del clobber del 15-jul.
+  3. **🟡 El namespace `da2026_*` no sincroniza.** Profile/XP/Streak de core.js:51-109 no están en SYNC_REGISTRY
+     ni matchean DYNAMIC_PREFIXES → el perfil de "Mi Perfil" es local para siempre.
+- Next: ejecutar el pase (1 → 3 → 2 por impacto). El #1 subió a urgente tras el incidente: si Supabase se vuelve
+  a pausar, el único respaldo del usuario es un botón que saca un archivo casi vacío. NO re-auditar: los tres
+  hallazgos están verificados con file:line.
+
 ## 📚 Library Prompts
 
 <!-- Append entries below for: LIB.bootstrap, LIB.bug-hunt, LIB.sync-audit, LIB.design-audit, LIB.cross-module, LIB.capabilities-audit, etc. -->
@@ -514,3 +532,13 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Changed: CAUSA RAÍZ FINAL del "no sincroniza": QuotaExceededError — localStorage 9.65MB/10 (work_nb_data 6MB por imágenes base64 LEGACY embebidas en bodies de páginas viejas: Mi Cargo 1.8MB, Jhonattan 1.3MB, Ficohsa 1.1MB...). El merge funcionaba pero el write local explotaba y abortaba TODO fullSyncAll. (a) MIGRACIÓN ejecutada in-page vía Chrome MCP: 11 imágenes inline + 8 chips gordos → IndexedDB + chip con thumbnail ~10KB (canvas 280px JPEG 0.5) + 16 blobs subidos a Supabase Storage (cross-device). localStorage 9.65→4.39MB; work_nb_data 6.0→1.5MB; not_nb 1.2→0.8; sys 0.9→0.5. (b) MOTOR: _safeWrite() quota-guard en TODOS los caminos de escritura (reconcile estructural/cloud-wins/cloud-new, realtime ×2, forceResync) — una key gorda ya no aborta la sync, emite cloud:quota_exceeded; badge rojo en work.html. (c) POLLING DE RESPALDO: cada 60s (pestaña visible) reconcile liviano de las 6 NB keys — sync cross-device funciona aunque realtime esté caído. (d) Confirmado vía test: realtime NO entrega eventos (publicación no incluye app_state) → pendiente que el usuario corra: alter publication supabase_realtime add table public.app_state;
 - INCIDENTE COLATERAL: el slim re-stampeó updated en páginas tocadas → la "Prueba Dota" local (contenido 06-05) le ganó a la edición 21:52Z del PC laboral en el merge y la pisó en cloud. Esa versión vive SOLO en el laboral → rescate modo-avión instruido (desconectar red → abrir work.html → copiar contenido → reconectar). LECCIÓN: las migraciones NUNCA deben re-stampear updated si el contenido textual no cambió.
 - Next: usuario corre el SQL de realtime · rescate Prueba Dota en laboral · Ctrl+F5 en laboral (motor p4 + payload flaco le alivia su quota también).
+
+### ID:12-FIN.P1 · 2026-08-11
+- Commit: 586d452
+- Files: frontend/js/fin-colombia.js (NUEVO · ~380 líneas IIFE) · frontend/finance.html (shell de 8 secciones + router) · frontend/css/finance.css (+~110 líneas) · frontend/js/cloud-sync.js (SKIP_KEYS) · 19 HTML cache-bust p16
+- Changed: Fase 1 del rediseño de 12-FIN a Centro Financiero. Investigación previa de 24 endpoints probados con curl (headers CORS incluidos, nada asumido). Sirven directo sin llave: datos.gov.co Socrata, Banrep mercado cambiario (dólar intradía), CoinGecko, Binance, Banco Mundial, SEC. Con llave gratis y CORS: Finnhub (60/min), Twelve Data (800/día). Descartados: Yahoo (429), Alpha Vantage (25/día).
+  - **`FINCO`**: Banrep DataSerie entrega TRM + tasa de política + IBR + inflación + PIB + desempleo + cuenta corriente con historia en UNA llamada (sin CORS → proxy de 7-NEW); datos.gov.co como fuente primaria de TRM y respaldo. `Promise.allSettled` para que la caída de una no tumbe a la otra. Caché 6h, offline muestra el último valor con su fecha.
+  - **Tres defectos propios detectados AL VERIFICAR y corregidos antes de commitear**: (a) la TRM se atribuía a Banrep siendo de datos.gov.co; (b) los deltas comparaban primer vs último punto de 60 registros → ventanas de 3 meses a 15 años según la cadencia de cada serie, incomparables entre sí; (c) % sobre la cuenta corriente negativa. Fix: ventana uniforme de 12 meses con el período real impreso, y puntos en vez de % cuando hay negativos.
+  - **cloud-sync**: `fin_mkt_cache` y `fin_ui_prefs` a SKIP_KEYS — `fin_` está en DYNAMIC_PREFIXES y los habría subido solos. Verificado por comportamiento (outbox), no leyendo código.
+- Verificación: 7/7 series en vivo con errors:[] · Mi plata intacta (5 tabs/KPIs/form/meta) · calculadora real 9,5% → +3,47% con IPC 6,03% · 13-NOT/14-WORK/10-SYS/1-IND sin regresión, todos en p16 · desplegado y confirmado en el live site.
+- Next: Fase 2 — comparador de CDT (`axk9-g2nh`) y de crédito (`yvb2-ppaa`) banco por banco + screener de FIC (`qhpu-8ixx`, 2,88M filas) CON los filtros anti-espejismo por defecto: el orden crudo por rentabilidad pone primero un fondo forestal EN LIQUIDACIÓN con 1 574% anual y 12 inversionistas. Filtros sanos (tipo general, >1000 inversionistas, sin liquidación) dan el cuadro real. Fase 3 — global + radar SECOP II (`p6dx-8zbt`). Fase 4 — laboratorio, muro de noticias y foto diaria vía GitHub Action. NO rehacer la Fase 1.
