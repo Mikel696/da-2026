@@ -242,3 +242,54 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .fw-nmeta{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)}
 .fw-empty{background:var(--c1);border:1px dashed var(--bd2);border-radius:var(--radius-md);padding:26px 18px;text-align:center;font-size:12.5px;color:var(--t2);display:flex;flex-direction:column;align-items:center;gap:12px}
 .fw-foot{font-size:10.5px;color:var(--t3);line-height:1.6;margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)}
+
+/* ═══════════ 12-FIN · Sección Colombia (fin-co.js) ═══════════ */
+.fco-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;margin-bottom:14px}
+.fco-tab{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:9px 11px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color var(--transition-fast),background var(--transition-fast)}
+.fco-tab:hover{border-color:var(--bd2);background:var(--el)}
+.fco-tab.on{border-color:var(--ac);background:var(--color-accent-bg)}
+.fco-tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.fco-tab b{display:block;font-size:12px;font-weight:600;color:var(--tx)}
+.fco-tab span{display:block;font-size:9.5px;color:var(--t3);margin-top:2px;line-height:1.35}
+.fco-tab.on span{color:var(--t2)}
+
+.fco-intro{background:var(--c1);border-left:2px solid var(--ac);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:11px 13px;font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:12px}
+.fco-intro b{color:var(--tx);display:block;margin-bottom:3px}
+.fco-intro em{font-style:italic;color:var(--am)}
+
+.fco-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.fco-controls label{font-size:11px;color:var(--t2)}
+.fco-controls .sel{width:auto;min-width:130px}
+.fco-chk{display:flex;align-items:center;gap:5px;cursor:pointer}
+.fco-chk input{accent-color:var(--ac);cursor:pointer}
+
+.fco-scroll{overflow-x:auto;border:1px solid var(--bd);border-radius:var(--radius-md);background:var(--c1)}
+.fco-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
+.fco-tbl thead th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-align:left;font-weight:500;padding:8px 10px;border-bottom:1px solid var(--bd2);white-space:nowrap;background:var(--el)}
+.fco-tbl td{padding:8px 10px;border-bottom:1px solid var(--bd);color:var(--t2);vertical-align:top}
+.fco-tbl tr:last-child td{border-bottom:0}
+.fco-tbl tbody tr:hover{background:var(--el)}
+.fco-tbl-sm{font-size:11px;min-width:300px}
+.fco-n{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--tx)}
+th.fco-n{color:var(--t3)}
+.fco-big{font-size:14px;font-weight:600}
+.fco-good{color:var(--gn)} .fco-bad{color:var(--rd)} .fco-dim{color:var(--t3)}
+.fco-pos{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);width:26px}
+.fco-name{color:var(--tx);line-height:1.4}
+.fco-name em{display:block;font-style:normal;font-size:10px;color:var(--t3);margin-top:2px}
+
+.fco-usura{background:var(--color-red-bg);border:1px solid rgba(239,68,68,.28);border-radius:var(--radius-md);padding:14px;margin-bottom:16px}
+.fco-usura-h{font-size:12px;font-weight:600;color:var(--tx)}
+.fco-usura-n{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:700;color:var(--rd);letter-spacing:-.02em;margin:4px 0}
+.fco-usura-d{font-size:11.5px;color:var(--t2);line-height:1.6}
+.fco-more{margin-top:10px}
+.fco-more summary{font-size:11px;color:var(--a2);cursor:pointer;padding:4px 0}
+.fco-more summary:focus-visible{outline:none;box-shadow:var(--shadow-glow);border-radius:3px}
+.fco-more[open] summary{margin-bottom:7px}
+
+.fco-block{margin-bottom:16px}
+.fco-blabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--a2);margin-bottom:7px}
+.fco-blabel em{display:block;font-family:'IBM Plex Sans',sans-serif;font-style:normal;font-size:11px;letter-spacing:0;text-transform:none;color:var(--t3);margin-top:3px}
+.fco-empty{background:var(--c1);border:1px dashed var(--bd2);border-radius:var(--radius-md);padding:28px 18px;text-align:center;font-size:12.5px;color:var(--t2);display:flex;flex-direction:column;align-items:center;gap:10px}
+.fco-src{font-size:10.5px;color:var(--t3);line-height:1.6;margin-top:10px;padding-top:9px;border-top:1px solid var(--bd)}
+.fco-src b{color:var(--am)}

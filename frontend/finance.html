@@ -36,7 +36,7 @@
   <nav class="secs" id="secNav" aria-label="Secciones de Finanzas">
     <button class="sec on"   data-s="hoy"    aria-current="page">🎯 Hoy</button>
     <button class="sec"      data-s="plata">💵 Mi plata</button>
-    <button class="sec sec-soon" data-s="col"   data-fase="2">🇨🇴 Colombia</button>
+    <button class="sec"          data-s="col">🇨🇴 Colombia</button>
     <button class="sec"          data-s="glob">🌍 Global</button>
     <button class="sec sec-soon" data-s="radar" data-fase="3">🔭 Radar</button>
     <button class="sec sec-soon" data-s="intel" data-fase="4">📚 Inteligencia</button>
@@ -47,6 +47,11 @@
   <!-- ═══ SECCIÓN · HOY ═══ -->
   <section class="sc on" id="s-hoy">
     <div id="p-hoy"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · COLOMBIA ═══ -->
+  <section class="sc" id="s-col">
+    <div id="p-col"></div>
   </section>
 
   <!-- ═══ SECCIÓN · GLOBAL ═══ -->
@@ -198,6 +203,7 @@
 <script src="js/cloud-sync.js?v=p16"></script>
 <script src="js/finance.js"></script>
 <script src="js/fin-colombia.js?v=p5"></script>
+<script src="js/fin-co.js?v=p1"></script>
 <script src="js/fin-world.js?v=p1"></script>
 <script src="js/fin-calc.js?v=p1"></script>
 <script>
@@ -206,7 +212,6 @@
    pantalla vacía o una UI de mentira. */
 (() => {
   const SOON = {
-    col:   ['🇨🇴','Colombia', 'Comparador de CDT y de crédito banco por banco con datos de la Superfinanciera, screener de fondos de inversión sobre 2,8 millones de registros oficiales, y seguimiento de tu fondo de pensiones.'],
     radar: ['🔭','Radar',     'Contratos públicos filtrados por tu perfil, reglas de alerta que vos definís y el calendario de decisiones del Banrep y la Fed.'],
     intel: ['📚','Inteligencia','Muro de noticias en vivo de medios financieros y el directorio curado de analistas y casas de research.'],
     lab:   ['🧮','Laboratorio','Interés compuesto descontando inflación, simulador CDT contra fondo contra acciones, y punto de equilibrio de un emprendimiento.'],
@@ -235,7 +240,8 @@
       const el = document.getElementById('s-' + id);
       if (el) el.classList.add('on');
       if (id === 'hoy'  && window.FINCO)    FINCO.render();
-      if (id === 'glob' && window.FINWORLD) FINWORLD.init();
+      if (id === 'glob' && window.FINWORLD)    FINWORLD.init();
+      if (id === 'col'  && window.FINCO_PANEL) FINCO_PANEL.init();
     }
 
     try { localStorage.setItem('fin_ui_prefs', JSON.stringify({ sec: id })); } catch {}

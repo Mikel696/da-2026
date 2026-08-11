@@ -31,6 +31,10 @@ jobs:
       - name: Traer indicadores de Colombia
         run: node scripts/fetch-macro.mjs
 
+      - name: Traer tasas de credito y tope de usura
+        run: node scripts/fetch-credit.mjs
+        continue-on-error: true
+
       - name: Traer mercados y prensa financiera
         run: node scripts/fetch-world.mjs
         continue-on-error: true   # si el mundo falla, la foto de Colombia igual se commitea
