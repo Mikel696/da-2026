@@ -1,0 +1,44 @@
+name: Foto diaria · macro Colombia
+
+# Deja frontend/data/macro-co.json actualizado en el repo.
+# El frontend lo lee de su MISMO origen: sin proxy, sin llaves, sin CORS.
+# (El proxy público que se usaba desde el navegador devolvió 522 en
+#  producción — un tercero gratuito no puede estar en el camino crítico.)
+
+on:
+  schedule:
+    # 11:20 UTC ≈ 06:20 en Colombia, después de que el Banrep publica la TRM.
+    - cron: '20 11 * * *'
+  workflow_dispatch:        # botón manual en la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: macro-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Traer indicadores
+        run: node scripts/fetch-macro.mjs
+
+      - name: Commitear si cambió
+        run: |
+          if [[ -z $(git status --porcelain frontend/data/macro-co.json) ]]; then
+            echo "Sin cambios — no se commitea."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/data/macro-co.json
+          git commit -m "chore(12-FIN): foto macro Colombia $(date -u +%Y-%m-%d)"
+          git push

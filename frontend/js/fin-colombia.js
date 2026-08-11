@@ -15,6 +15,11 @@
 
 const FINCO = (() => {
 
+  /* Foto diaria del repo: MISMO origen, sin CORS, sin proxy, sin llaves.
+     Es la base sobre la que todo lo demás solo refresca. La genera
+     scripts/fetch-macro.mjs desde GitHub Actions (ver .github/workflows). */
+  const SNAPSHOT = 'data/macro-co.json';
+
   const PROXY   = 'https://api.allorigins.win/raw?url=';
   const BANREP  = 'https://totoro.banrep.gov.co/estadisticas-economicas/DataSerie?tipoConsulta=indicadores_principales&idIndicador=1';
   const TRM_URL = 'https://www.datos.gov.co/resource/ceyp-9c7c.json?$order=vigenciadesde%20DESC&$limit=90';
@@ -89,6 +94,16 @@ const FINCO = (() => {
 
 
   /* ── Fetch ── */
+
+  /** La foto del repo. Nunca depende de terceros: si la página carga,
+   *  esto carga. Es lo que garantiza que el panel jamás salga vacío. */
+  async function _fetchSnapshot() {
+    const res = await fetch(SNAPSHOT, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('snapshot HTTP ' + res.status);
+    const j = await res.json();
+    if (!j || !j.data || !Object.keys(j.data).length) throw new Error('snapshot vacío');
+    return j;
+  }
 
   async function _fetchBanrep() {
     const url = PROXY + encodeURIComponent(BANREP);
@@ -166,17 +181,32 @@ const FINCO = (() => {
     const prev = cached && cached.data ? cached.data : {};
     const data = Object.assign({}, prev);
     const errors = [];
+    let snapAt = null;
 
-    // Las dos fuentes son independientes: si una cae, la otra igual entra.
-    const [banrep, trm] = await Promise.allSettled([_fetchBanrep(), _fetchTrm()]);
+    /* Orden deliberado, de lo más confiable a lo más fresco:
+       1. la foto del repo (mismo origen, nunca falla si la página cargó),
+       2. datos.gov.co directo, que refresca la TRM del día,
+       3. el proxy del Banrep, que es "mejor si está" y nada más.
+       Todas en paralelo; cada una solo pisa lo suyo si tuvo éxito. */
+    const [snap, trm, banrep] = await Promise.allSettled([
+      _fetchSnapshot(), _fetchTrm(), _fetchBanrep()
+    ]);
 
+    if (snap.status === 'fulfilled') {
+      Object.assign(data, snap.value.data);
+      snapAt = snap.value.generatedAt || null;
+    } else {
+      errors.push('Foto del repo: ' + (snap.reason && snap.reason.message));
+    }
+
+    // El proxy es un extra. Que falle NO es una falla del panel: solo
+    // significa que las cifras vienen de la foto de hoy en vez del minuto.
     if (banrep.status === 'fulfilled') Object.assign(data, banrep.value);
-    else errors.push('Banrep: ' + (banrep.reason && banrep.reason.message));
 
-    // La TRM de datos.gov.co manda sobre la del Banrep (misma cifra oficial,
-    // pero acá llega directo, sin intermediario que pueda degradarla).
+    // datos.gov.co manda sobre todo para la TRM: llega directo, sin
+    // intermediario que pueda degradarla.
     if (trm.status === 'fulfilled') data.trm = trm.value;
-    else errors.push('TRM: ' + (trm.reason && trm.reason.message));
+    else if (snap.status !== 'fulfilled') errors.push('TRM: ' + (trm.reason && trm.reason.message));
 
     _loading = false;
 
@@ -189,6 +219,8 @@ const FINCO = (() => {
     _state = {
       data,
       fetchedAt: Date.now(),
+      snapshotAt: snapAt,
+      live: banrep.status === 'fulfilled',
       partial: errors.length > 0,
       errors
     };
@@ -389,7 +421,13 @@ const FINCO = (() => {
       <div class="fc-head">
         <div>
           <div class="fc-title">🇨🇴 El pulso de Colombia</div>
-          <div class="fc-sub">Cifras oficiales del Banco de la República y datos.gov.co</div>
+          <div class="fc-sub">${
+            has && st && st.snapshotAt
+              ? (st.live
+                  ? 'Cifras oficiales al minuto · Banco de la República y datos.gov.co'
+                  : 'Foto del ' + _dateEs(st.snapshotAt) + ' · Banco de la República y datos.gov.co')
+              : 'Cifras oficiales del Banco de la República y datos.gov.co'
+          }</div>
         </div>
         <div class="fc-actions">
           ${status}
