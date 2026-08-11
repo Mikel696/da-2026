@@ -565,3 +565,15 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Defectos propios hallados AL VERIFICAR (no al escribir): variación diaria calculada con `chartPreviousClose` (−0,08% vs −0,28% real) · entidades numéricas crudas en titulares · caché degradado congelado 6h · TRM atribuida a Banrep siendo de datos.gov.co · deltas con ventanas incomparables entre series.
 - Verificación: en PRODUCCIÓN, no en preview. HOY 7/7 · GLOBAL 5 grupos/12 instrumentos/24 titulares/enlaces seguros · calculadora operativa desde otra sección estando scrolleado · Mi plata intacta · 13-NOT/14-WORK/10-SYS/1-IND sin regresión.
 - Next: **12-FIN Fase 2** (comparador CDT `axk9-g2nh` + crédito `yvb2-ppaa` + screener FIC `qhpu-8ixx` con filtros anti-espejismo por defecto). Luego: radar SECOP II (`p6dx-8zbt`) · hallazgo #3 (namespace `da2026_` sin sync) · medir cuota de localStorage · Vista HOY en 1-IND. NO rehacer nada de lo de arriba.
+
+### ID:12-FIN.P2 (Fases 2 y 3) · 2026-08-11
+- Commit: 46099e6 · e48e2a6
+- Files: scripts/fetch-credit.mjs (NUEVO) · frontend/data/credit-co.json (NUEVO) · frontend/js/fin-co.js (NUEVO) · frontend/js/fin-radar.js (NUEVO) · frontend/js/finance.js (fix colisión) · css/finance.css · finance.html · workflow
+- Changed: Fase 2 (Colombia: CDT / crédito+usura / screener FIC / pensiones) y Fase 3 parcial (Radar: SECOP II + reglas de vigilancia). 12-FIN queda en 5 de 8 secciones vivas.
+  - **Elección de implementación MEDIDA por recurso**: FIC 895ms y CDT 1,2s y SECOP 627ms → en vivo; crédito 4,8s → precomputado en la Action. No se asumió: se cronometró.
+  - **Dataset trampa**: `yvb2-ppaa` (el que figuraba en la investigación inicial como fuente de tasas de crédito) llevaba congelado desde junio 2022. Sustituido por `qzsc-9esp` + `pare-7x5i`. Regla nueva: verificar max(fecha) antes de construir.
+  - **Tope de usura** (TIBC × 1,5) como dato destacado: casi nadie lo conoce y sirve para saber si te están cobrando ilegalmente. Hoy consumo: 29,66%.
+  - **Bug de raíz arreglado**: `finance.js` escuchaba `[data-del]` en todo el documento → borrar una alerta del Radar disparaba `FIN.del()` + push espurio a Supabase. Listener acotado; Radar renombrado a `data-alert-del`.
+  - **NO se construyó el calendario económico**: sin fuente verificada de fechas 2026 del Banrep/DANE. Se prefirió el hueco a inventarlo.
+- Verificación EN PRODUCCIÓN: CDT Pichincha 13,52%/+7,07% real · usura 29,66% · fondos Credicorp 37,26% con 2.229 inversionistas · Radar 40 procesos/$3,1 mil M · borrado de transacciones intacto tras el fix.
+- Next: Inteligencia (directorio curado) · Laboratorio (bitácora de tesis) · Ajustes (llaves de API locales). NO rehacer Colombia ni Radar.

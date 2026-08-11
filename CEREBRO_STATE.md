@@ -8,6 +8,57 @@
 
 ---
 
+## 🇨🇴🔭 12-FIN · Fases 2 y 3 — Colombia + Radar — 2026-08-11 (commits 46099e6 · e48e2a6)
+
+**5 de 8 secciones vivas**: Hoy · Mi plata · Colombia · Global · Radar.
+Faltan: Inteligencia · Laboratorio · Ajustes.
+
+### Decisión de arquitectura POR RECURSO (medida, no supuesta)
+| Recurso | Medido | Elección |
+|---|---|---|
+| Screener FIC (`qhpu-8ixx`) | 895 ms | **En vivo** — rápido y el usuario cambia filtros |
+| Comparador CDT (`axk9-g2nh`) | 1,2 s | **En vivo** — varía por plazo |
+| SECOP II (`p6dx-8zbt`) | 627 ms | **En vivo** |
+| Tasas de crédito (`qzsc-9esp`) | **4,8 s** | **Precomputado** en la Action |
+| TIBC / usura (`pare-7x5i`) | mínimo | **Precomputado** — cambia una vez al mes |
+
+### 🚨 Dataset trampa detectado
+`yvb2-ppaa` ("Tasas de Interés Activas"), que parecía EL dataset de crédito y así figuraba en la
+investigación inicial, **se congeló en junio de 2022** — cuatro años desactualizado. Presentarlo como
+"lo que te cobran hoy" habría sido exactamente el dato engañoso que este módulo evita.
+Reemplazado por **`qzsc-9esp`** (corte 2026-07-31) + **`pare-7x5i`** para el tope legal.
+**Lección: verificar `max(fecha)` de todo dataset ANTES de construir sobre él.**
+
+### 🇨🇴 Sección Colombia (Fase 2)
+- **💰 CDT** — quién PAGA más, por plazo, con columna de rendimiento **real** descontando la inflación
+  en vivo de FINCO. Hoy: Pichincha 13,52% → **+7,07% real**.
+- **🏦 Crédito** — quién COBRA menos en 4 tipos, y arriba el **TOPE LEGAL DE USURA**: cobrar por encima
+  es delito. Sale de la fórmula legal (TIBC × 1,5) y se muestra el cálculo para que sea verificable.
+  Hoy, consumo: **29,66%**.
+- **📈 Fondos** — screener con filtros anti-espejismo **puestos por defecto**. Sin ellos el primer puesto
+  es un fondo forestal en liquidación con 1.574% anual y 12 inversionistas.
+- **👴 Pensiones** — valor de unidad diario por AFP.
+- Filtros de calidad en el precómputo: mínimo 200 créditos por entidad y se excluyen tasas bajo 2%
+  (un "0% de consumo" es promocional o error de reporte, no una oferta).
+
+### 🔭 Radar (Fase 3)
+- **Contratos públicos** SECOP II filtrados por las palabras del oficio, con ciudad, presupuesto mínimo
+  y ventana de días. Hoy con el perfil por defecto: **40 procesos · $3,1 mil M**.
+- **Reglas de vigilancia** sobre los indicadores reales, evaluadas al abrir. Sincronizan.
+- **NO se construyó el "calendario económico"**: no hay fuente verificada de las fechas 2026 de las
+  juntas del Banrep ni del DANE. Inventarlo habría sido fácil y deshonesto.
+
+### 🐛 Fix de raíz · colisión de selectores entre módulos
+`finance.js` escuchaba `click` en **todo el documento** buscando `[data-del]`. Cualquier módulo que
+usara ese atributo en la misma página —el Radar lo hacía para borrar alertas— disparaba `FIN.del()`
+con un id ajeno y un `renderAll()`. No borraba datos (los ids son UUID) pero **escribía en localStorage
+y empujaba a Supabase sin razón**. Listener acotado a `#recentTx`/`#allTx`; el Radar usa
+`data-alert-del`. Verificado: borrar una alerta ya no toca transacciones ni genera push espurio, y el
+borrado real de transacciones sigue intacto.
+**Regla nueva: un listener global sobre un atributo genérico es una trampa para el módulo que llegue después.**
+
+---
+
 ## 🛠 MANDATO DE MANTENIMIENTO CONTINUO — 2026-08-11 (commits 9871f83 → ac244a8)
 
 Miguel delegó la dirección técnica: *"mantenlo rodando al 100%, implementa mejoras cada día,
