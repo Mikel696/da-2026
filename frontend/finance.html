@@ -28,9 +28,39 @@
 <div class="wr">
   <!-- ── Hero ── -->
   <div class="hero">
-    <h1>Controla tu <em>dinero</em>.</h1>
-    <p>Ingresos, gastos por categoría, balance mensual y metas de ahorro. Cada peso cuenta.</p>
+    <h1>Tu centro <em>financiero</em>.</h1>
+    <p>Tu plata al día y las cifras oficiales del país, en el mismo lugar. Cada dato con su fuente y su fecha.</p>
   </div>
+
+  <!-- ══ Secciones del módulo ══ -->
+  <nav class="secs" id="secNav" aria-label="Secciones de Finanzas">
+    <button class="sec on"   data-s="hoy"    aria-current="page">🎯 Hoy</button>
+    <button class="sec"      data-s="plata">💵 Mi plata</button>
+    <button class="sec sec-soon" data-s="col"   data-fase="2">🇨🇴 Colombia</button>
+    <button class="sec sec-soon" data-s="glob"  data-fase="3">🌍 Global</button>
+    <button class="sec sec-soon" data-s="radar" data-fase="3">🔭 Radar</button>
+    <button class="sec sec-soon" data-s="intel" data-fase="4">📚 Inteligencia</button>
+    <button class="sec sec-soon" data-s="lab"   data-fase="4">🧮 Laboratorio</button>
+    <button class="sec sec-soon" data-s="cfg"   data-fase="3">⚙️ Ajustes</button>
+  </nav>
+
+  <!-- ═══ SECCIÓN · HOY ═══ -->
+  <section class="sc on" id="s-hoy">
+    <div id="p-hoy"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · EN CONSTRUCCIÓN ═══ -->
+  <section class="sc" id="s-soon">
+    <div class="soon-card">
+      <div class="soon-ico" id="soonIco">🚧</div>
+      <h2 id="soonTitle">En construcción</h2>
+      <p id="soonBody"></p>
+      <a class="btn bo bs" href="index.html">← Volver al Cerebro</a>
+    </div>
+  </section>
+
+  <!-- ═══ SECCIÓN · MI PLATA (todo lo que ya existía) ═══ -->
+  <section class="sc" id="s-plata">
 
   <!-- ── Month Navigation ── -->
   <div class="month-nav" id="monthNav">
@@ -152,13 +182,72 @@
       <div id="savInfo"></div>
     </div>
   </div>
+
+  </section><!-- /s-plata -->
 </div>
 
 <!-- ── Scripts ── -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/cloud-sync.js?v=p15"></script>
+<script src="js/cloud-sync.js?v=p16"></script>
 <script src="js/finance.js"></script>
+<script src="js/fin-colombia.js?v=p1"></script>
+<script>
+/* ── Router de secciones de 12-FIN ──────────────────────────────
+   Las secciones sin construir muestran su fase real en vez de una
+   pantalla vacía o una UI de mentira. */
+(() => {
+  const SOON = {
+    col:   ['🇨🇴','Colombia', 'Comparador de CDT y de crédito banco por banco con datos de la Superfinanciera, screener de fondos de inversión sobre 2,8 millones de registros oficiales, y seguimiento de tu fondo de pensiones.'],
+    glob:  ['🌍','Global',    'Índices, acciones y ETF con tu lista de seguimiento, cripto y materias primas, y el cruce que de verdad mueve al peso: petróleo y dólar.'],
+    radar: ['🔭','Radar',     'Contratos públicos filtrados por tu perfil, reglas de alerta que vos definís y el calendario de decisiones del Banrep y la Fed.'],
+    intel: ['📚','Inteligencia','Muro de noticias en vivo de medios financieros y el directorio curado de analistas y casas de research.'],
+    lab:   ['🧮','Laboratorio','Interés compuesto descontando inflación, simulador CDT contra fondo contra acciones, y punto de equilibrio de un emprendimiento.'],
+    cfg:   ['⚙️','Ajustes',   'Tus llaves de API (guardadas solo en este equipo), lista de seguimiento, umbrales de alerta y el estado de cada conexión.']
+  };
+
+  const nav = document.getElementById('secNav');
+  if (!nav) return;
+
+  function show(id) {
+    document.querySelectorAll('.sc').forEach(s => s.classList.remove('on'));
+    nav.querySelectorAll('.sec').forEach(b => {
+      const on = b.dataset.s === id;
+      b.classList.toggle('on', on);
+      if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+
+    if (SOON[id]) {
+      const [ico, title, body] = SOON[id];
+      const fase = nav.querySelector(`[data-s="${id}"]`).dataset.fase;
+      document.getElementById('soonIco').textContent = ico;
+      document.getElementById('soonTitle').textContent = title + ' · llega en la Fase ' + fase;
+      document.getElementById('soonBody').textContent = body;
+      document.getElementById('s-soon').classList.add('on');
+    } else {
+      const el = document.getElementById('s-' + id);
+      if (el) el.classList.add('on');
+      if (id === 'hoy' && window.FINCO) FINCO.render();
+    }
+
+    try { localStorage.setItem('fin_ui_prefs', JSON.stringify({ sec: id })); } catch {}
+  }
+
+  nav.addEventListener('click', e => {
+    const b = e.target.closest('.sec');
+    if (b) show(b.dataset.s);
+  });
+
+  let start = 'hoy';
+  try {
+    const p = JSON.parse(localStorage.getItem('fin_ui_prefs') || 'null');
+    if (p && p.sec && (SOON[p.sec] || document.getElementById('s-' + p.sec))) start = p.sec;
+  } catch {}
+  show(start);
+
+  if (window.FINCO) FINCO.init();
+})();
+</script>
 </body>
 </html>

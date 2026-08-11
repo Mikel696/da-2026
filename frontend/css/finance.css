@@ -118,3 +118,99 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
   .tabs{flex-wrap:wrap}
   .tab{min-width:calc(33% - 2px)}
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   12-FIN · Fase 1 — Secciones del módulo + panel macro Colombia
+   Tokens del Design System v1.0 · sin colores sueltos salvo los
+   de las miniaturas SVG, que se inyectan desde JS por serie.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Navegación de secciones ── */
+.secs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:3px;margin-bottom:var(--space-5);overflow-x:auto;scrollbar-width:thin}
+.sec{flex:0 0 auto;padding:8px 12px;border-radius:var(--radius-sm);font-size:11.5px;font-weight:500;color:var(--t2);cursor:pointer;border:none;background:none;font-family:inherit;white-space:nowrap;transition:color var(--transition-fast),background var(--transition-fast)}
+.sec:hover{color:var(--tx);background:var(--el)}
+.sec.on{color:#fff;background:var(--ac)}
+.sec:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.sec-soon{opacity:.55}
+.sec-soon::after{content:'·';margin-left:5px;color:var(--am)}
+.sec-soon.on{opacity:1}
+
+.sc{display:none}
+.sc.on{display:block;animation:fcFade .25s ease}
+@keyframes fcFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ── Cabecera del panel macro ── */
+.fc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.fc-title{font-family:'Newsreader',serif;font-size:19px;font-weight:600}
+.fc-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.fc-actions{display:flex;align-items:center;gap:8px}
+
+.fc-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;border-radius:var(--radius-sm);border:1px solid transparent;white-space:nowrap}
+.fc-badge-ok{color:var(--gn);background:var(--color-green-bg);border-color:rgba(34,197,94,.3)}
+.fc-badge-warn{color:var(--am);background:var(--color-amber-bg);border-color:rgba(234,179,8,.3)}
+.fc-badge-off{color:var(--t3);background:var(--el);border-color:var(--bd)}
+.fc-badge-load{color:var(--cy);background:var(--color-cyan-bg);border-color:rgba(6,182,212,.3)}
+
+/* ── Tarjetas de indicador ── */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-bottom:6px}
+.fc-card{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:12px 13px;transition:border-color var(--transition-fast),transform var(--transition-fast)}
+.fc-card:hover{border-color:var(--bd2);transform:translateY(-1px)}
+.fc-lbl{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--t3)}
+.fc-val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:21px;font-weight:600;color:var(--tx);margin:7px 0 2px;letter-spacing:-.02em}
+.fc-val small{font-size:10.5px;color:var(--t3);font-weight:400;margin-left:4px}
+.fc-src{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--t3);opacity:.8;margin-top:3px}
+.fc-spark{width:100%;height:30px;display:block}
+
+.fc-d{font-family:'IBM Plex Mono',monospace;font-size:10px;font-variant-numeric:tabular-nums}
+.fc-up{color:var(--gn)}
+.fc-down{color:var(--rd)}
+.fc-flat{color:var(--t3)}
+
+/* ── Estados vacío / parcial ── */
+.fc-empty{background:var(--c1);border:1px dashed var(--bd2);border-radius:var(--radius-md);padding:26px 18px;text-align:center;font-size:12.5px;color:var(--t2);display:flex;flex-direction:column;align-items:center;gap:12px}
+.fc-warn{background:var(--color-amber-bg);border:1px solid rgba(234,179,8,.3);border-radius:var(--radius-sm);padding:9px 12px;font-size:11.5px;color:var(--t2);margin-top:8px}
+.fc-warn-d{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--t3);margin-top:4px;word-break:break-word}
+
+/* ── Semáforo de inflación ── */
+.fc-infl{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.fc-infl-n{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:700;color:var(--am);line-height:1;letter-spacing:-.02em}
+.fc-infl-l{font-size:10.5px;color:var(--t3);margin-top:3px}
+.fc-infl-bar{flex:1;min-width:130px;height:7px;background:var(--el);border-radius:4px;position:relative;overflow:visible}
+.fc-infl-fill{height:100%;background:linear-gradient(90deg,var(--am),var(--or));border-radius:4px}
+.fc-infl-mark{position:absolute;top:-3px;width:2px;height:13px;background:var(--t2);border-radius:1px}
+.fc-infl-gap{font-family:'IBM Plex Mono',monospace;font-size:11px;white-space:nowrap}
+
+.fc-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.fc-tbl th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-align:left;font-weight:500;padding:6px 8px;border-bottom:1px solid var(--bd2)}
+.fc-tbl td{padding:8px;border-bottom:1px solid var(--bd);color:var(--t2)}
+.fc-tbl tr:last-child td{border-bottom:0}
+.fc-tbl .fc-n{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;text-align:right;color:var(--tx);white-space:nowrap}
+.fc-tbl th.fc-n{color:var(--t3)}
+
+.fc-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.fc-tag-g{color:var(--gn);background:var(--color-green-bg)}
+.fc-tag-r{color:var(--rd);background:var(--color-red-bg)}
+.fc-tag-c{color:var(--cy);background:var(--color-cyan-bg)}
+
+.fc-rate{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
+.fc-rate label{font-size:11.5px;color:var(--t2)}
+.fc-rate .inp{max-width:110px;width:auto}
+.fc-rate span{font-size:11.5px;color:var(--t3)}
+.fc-note{font-size:11px;color:var(--t3);margin-top:10px;line-height:1.6}
+
+/* ── Sección en construcción ── */
+.soon-card{background:var(--c1);border:1px dashed var(--bd2);border-radius:var(--radius-md);padding:44px 26px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.soon-ico{font-size:38px;line-height:1}
+.soon-card h2{font-family:'Newsreader',serif;font-size:20px;font-weight:600}
+.soon-card p{font-size:12.5px;color:var(--t2);max-width:52ch;line-height:1.65}
+
+@media (max-width:640px){
+  .fc-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .fc-infl{gap:10px}
+  .fc-infl-n{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  .sc.on{animation:none}
+  .fc-card:hover{transform:none}
+}
+.fc-span{opacity:.6;font-size:8.5px;margin-left:1px}

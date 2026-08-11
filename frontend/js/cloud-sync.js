@@ -344,7 +344,12 @@ const CLOUD = (() => {
   const SKIP_KEYS = new Set([
     'news_cache',
     // Dedicated-table keys handled by Tier 1:
-    'da_vacancies', 'sys_tasks', 'sys_class_sessions'
+    'da_vacancies', 'sys_tasks', 'sys_class_sessions',
+    // 12-FIN · caché de mercado y preferencia de UI. Empiezan por 'fin_' y
+    // por eso DYNAMIC_PREFIXES los subiría solos: el caché son cientos de KB
+    // de series que se regeneran cada 6h contra la fuente oficial — no es
+    // dato del usuario y no tiene por qué viajar a Supabase.
+    'fin_mkt_cache', 'fin_ui_prefs'
   ]);
 
   const _registrySet = new Set(SYNC_REGISTRY);
