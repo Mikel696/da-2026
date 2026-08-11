@@ -38,7 +38,7 @@
     <button class="sec"      data-s="plata">💵 Mi plata</button>
     <button class="sec"          data-s="col">🇨🇴 Colombia</button>
     <button class="sec"          data-s="glob">🌍 Global</button>
-    <button class="sec sec-soon" data-s="radar" data-fase="3">🔭 Radar</button>
+    <button class="sec"          data-s="radar">🔭 Radar</button>
     <button class="sec sec-soon" data-s="intel" data-fase="4">📚 Inteligencia</button>
     <button class="sec sec-soon" data-s="lab"   data-fase="4">🧮 Laboratorio</button>
     <button class="sec sec-soon" data-s="cfg"   data-fase="3">⚙️ Ajustes</button>
@@ -47,6 +47,11 @@
   <!-- ═══ SECCIÓN · HOY ═══ -->
   <section class="sc on" id="s-hoy">
     <div id="p-hoy"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · RADAR ═══ -->
+  <section class="sc" id="s-radar">
+    <div id="p-radar"></div>
   </section>
 
   <!-- ═══ SECCIÓN · COLOMBIA ═══ -->
@@ -201,9 +206,10 @@
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p16"></script>
-<script src="js/finance.js"></script>
+<script src="js/finance.js?v=p2"></script>
 <script src="js/fin-colombia.js?v=p5"></script>
 <script src="js/fin-co.js?v=p1"></script>
+<script src="js/fin-radar.js?v=p1"></script>
 <script src="js/fin-world.js?v=p1"></script>
 <script src="js/fin-calc.js?v=p1"></script>
 <script>
@@ -212,7 +218,6 @@
    pantalla vacía o una UI de mentira. */
 (() => {
   const SOON = {
-    radar: ['🔭','Radar',     'Contratos públicos filtrados por tu perfil, reglas de alerta que vos definís y el calendario de decisiones del Banrep y la Fed.'],
     intel: ['📚','Inteligencia','Muro de noticias en vivo de medios financieros y el directorio curado de analistas y casas de research.'],
     lab:   ['🧮','Laboratorio','Interés compuesto descontando inflación, simulador CDT contra fondo contra acciones, y punto de equilibrio de un emprendimiento.'],
     cfg:   ['⚙️','Ajustes',   'Tus llaves de API (guardadas solo en este equipo), lista de seguimiento, umbrales de alerta y el estado de cada conexión.']
@@ -242,6 +247,7 @@
       if (id === 'hoy'  && window.FINCO)    FINCO.render();
       if (id === 'glob' && window.FINWORLD)    FINWORLD.init();
       if (id === 'col'  && window.FINCO_PANEL) FINCO_PANEL.init();
+      if (id === 'radar'&& window.FINRADAR)    FINRADAR.init();
     }
 
     try { localStorage.setItem('fin_ui_prefs', JSON.stringify({ sec: id })); } catch {}

@@ -312,9 +312,16 @@ document.getElementById('qAmt').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') document.getElementById('qSubmit').click();
 });
 
-/* ── Delete transaction (event delegation) ── */
+/* ── Delete transaction (event delegation) ──
+   Acotado a los contenedores de movimientos. Antes escuchaba `[data-del]`
+   en TODO el documento: cualquier módulo que usara ese atributo en la misma
+   página (el Radar lo hacía para borrar alertas) disparaba FIN.del() con un
+   id ajeno y un renderAll(). No borraba nada — los ids son UUID y ninguno
+   coincidía — pero sí escribía en localStorage y empujaba a Supabase sin
+   razón. Un listener global sobre un atributo genérico es una trampa para
+   el módulo que llegue después. */
 document.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-del]');
+  const btn = e.target.closest('#recentTx [data-del], #allTx [data-del]');
   if (!btn) return;
   FIN.del(btn.dataset.del);
   renderAll();
