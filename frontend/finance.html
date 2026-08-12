@@ -211,7 +211,8 @@
 <script src="js/fin-co.js?v=p1"></script>
 <script src="js/fin-radar.js?v=p1"></script>
 <script src="js/fin-world.js?v=p1"></script>
-<script src="js/fin-calc.js?v=p1"></script>
+<script src="js/fin-news.js?v=p1"></script>
+<script src="js/fin-calc.js?v=p2"></script>
 <script>
 /* ── Router de secciones de 12-FIN ──────────────────────────────
    Las secciones sin construir muestran su fase real en vez de una
@@ -269,6 +270,7 @@
   // Fuera del router a propósito: la burbuja es fija y debe vivir en
   // cualquier sección y a cualquier altura del scroll.
   if (window.FINCALC) FINCALC.init();
+  if (window.FINNEWS) FINNEWS.init();
 })();
 </script>
 </body>

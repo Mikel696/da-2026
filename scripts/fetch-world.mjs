@@ -44,7 +44,9 @@ const FEEDS = [
   { u:'https://feeds.bbci.co.uk/news/business/rss.xml', n:'BBC Business',    tag:'🌎' }
 ];
 
-const MAX_PER_FEED = 6;
+/* Pool amplio a propósito: para escoger las 5 con más impacto hay que tener
+   de dónde escoger. Al muro solo llegan 24; el resto existe para puntuar. */
+const MAX_PER_FEED = 25;
 const SPARK_POINTS = 30;
 
 const get = async (url, asText) => {
@@ -176,7 +178,60 @@ feedResults.forEach((r, i) => {
 
 // Más recientes primero; las sin fecha al final.
 news.sort((a, b) => (b.date ? Date.parse(b.date) : 0) - (a.date ? Date.parse(a.date) : 0));
-news = news.slice(0, 24);
+const poolCompleto = news;          // se puntúa sobre TODO lo traído
+news = news.slice(0, 24);           // al muro solo van las 24 más recientes
+
+/* ── Las 5 del día ──────────────────────────────────────────────
+   "Relevante" no es "reciente". Se puntúa por IMPACTO SOBRE EL
+   BOLSILLO de alguien que vive en Colombia, con criterios explícitos
+   y el motivo guardado en cada nota: un ranking sin criterio visible
+   es una caja negra, y este módulo no las usa. */
+const TEMAS = [
+  { re:/\b(d[oó]lar|trm|peso colombiano|tasa de cambio|devaluaci[oó]n|revaluaci[oó]n)\b/i, p:5, t:'el dólar' },
+  { re:/\b(inflaci[oó]n|ipc|costo de vida|precios al consumidor)\b/i,                       p:5, t:'la inflación' },
+  { re:/\b(banco de la rep[uú]blica|banrep|tasa de inter[eé]s|tasas de inter[eé]s|pol[ií]tica monetaria)\b/i, p:5, t:'las tasas' },
+  { re:/\b(salario m[ií]nimo|reforma (tributaria|pensional|laboral)|impuestos?|dian)\b/i,   p:4, t:'lo que te descuentan' },
+  { re:/\b(ecopetrol|bancolombia|grupo aval|cibest|nutresa|isa|colcap|bvc|bolsa de valores)\b/i, p:3, t:'empresas colombianas' },
+  { re:/\b(petr[oó]leo|brent|crudo|caf[eé]|carb[oó]n)\b/i,                                  p:3, t:'lo que Colombia exporta' },
+  { re:/\b(cdt|ahorro|cr[eé]dito|hipotec|usura|endeudamiento)\b/i,                          p:3, t:'ahorro y crédito' },
+  { re:/\b(fed|reserva federal|recesi[oó]n|wall street|s&p|nasdaq)\b/i,                     p:2, t:'mercados globales' },
+  { re:/\b(empleo|desempleo|pib|crecimiento econ[oó]mico)\b/i,                              p:2, t:'la economía del país' }
+];
+
+const HORAS_DIA = 30;   // "del día" con margen para husos y publicación nocturna
+
+function puntuar(n) {
+  const txt = n.title || '';
+  let score = 0;
+  const motivos = [];
+  for (const t of TEMAS) {
+    if (t.re.test(txt)) { score += t.p; if (!motivos.includes(t.t)) motivos.push(t.t); }
+  }
+  if (!score) return null;                       // sin tema de impacto → fuera
+  // La prensa financiera local pesa más: le habla directo a su bolsillo.
+  if (n.tag === '🇨🇴') score += 2;
+  // Frescura: dentro del día suma, más viejo resta.
+  const h = n.date ? (Date.now() - Date.parse(n.date)) / 3600000 : 999;
+  if (h <= 6) score += 3; else if (h <= 12) score += 2; else if (h <= 24) score += 1;
+  return { score, motivos, horas: h };
+}
+
+const candidatas = poolCompleto
+  .map(n => { const s = puntuar(n); return s ? Object.assign({}, n, s) : null; })
+  .filter(n => n && n.horas <= HORAS_DIA)
+  .sort((a, b) => b.score - a.score);
+
+/* Diversidad de fuentes: máximo 2 por medio, para que un solo diario
+   no se quede con las 5 y el panel deje de mostrar el panorama. */
+const porFuente = {};
+const destacadas = [];
+for (const n of candidatas) {
+  porFuente[n.source] = (porFuente[n.source] || 0) + 1;
+  if (porFuente[n.source] > 2) continue;
+  destacadas.push({ title:n.title, link:n.link, date:n.date, source:n.source, tag:n.tag,
+                    score:n.score, motivos:n.motivos });
+  if (destacadas.length === 5) break;
+}
 
 if (!markets.length && !news.length) {
   console.error('✗ Ni mercados ni noticias. No se sobrescribe el archivo.');
@@ -189,7 +244,8 @@ const payload = {
   partial: errors.length > 0,
   errors,
   markets,
-  news
+  news,
+  destacadas
 };
 
 await mkdir(dirname(OUT), { recursive: true });
@@ -201,4 +257,6 @@ markets.forEach(m => console.log(
   `${m.dayPct != null ? (m.dayPct >= 0 ? '+' : '') + m.dayPct.toFixed(2) + '%' : '—'}`
 ));
 console.log(`   titulares por fuente: ${[...new Set(news.map(n => n.source))].join(', ')}`);
+console.log(`   ── LAS ${destacadas.length} DEL DÍA ──`);
+destacadas.forEach((d,i) => console.log(`   ${i+1}. [${String(d.score).padStart(2)}] ${d.source.padEnd(16)} ${d.motivos.join(', ').padEnd(30)} ${d.title.slice(0,52)}`));
 if (errors.length) console.log('   errores: ' + errors.join(' · '));

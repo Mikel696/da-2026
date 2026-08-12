@@ -354,7 +354,9 @@ const CLOUD = (() => {
     // sincronizara, cada dígito tecleado dispararía un push a Supabase.
     'fin_calc_state',
     // Foto de mercados y titulares: se regenera sola desde data/world.json.
-    'fin_world_cache'
+    'fin_world_cache',
+    // Burbuja de noticias: caché regenerable + marca de qué día ya se miró.
+    'fin_news_cache', 'fin_news_seen'
   ]);
 
   const _registrySet = new Set(SYNC_REGISTRY);

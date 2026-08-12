@@ -463,6 +463,9 @@ const FINCALC = (() => {
       b.classList.toggle('on', _open);
       b.setAttribute('aria-expanded', String(_open));
     }
+    // Solo una burbuja abierta a la vez: comparten el mismo hueco de la
+    // esquina inferior izquierda. La de noticias hace lo simétrico.
+    if (_open && window.FINNEWS && FINNEWS.toggle) FINNEWS.toggle(false);
     if (_open) _render();
   }
 
