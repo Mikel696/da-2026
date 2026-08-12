@@ -1,9 +1,9 @@
 name: Foto diaria · macro Colombia + mundo
 
-# Deja frontend/data/macro-co.json actualizado en el repo.
-# El frontend lo lee de su MISMO origen: sin proxy, sin llaves, sin CORS.
-# (El proxy público que se usaba desde el navegador devolvió 522 en
-#  producción — un tercero gratuito no puede estar en el camino crítico.)
+# Actualiza frontend/data/*.json en el repo Y publica el sitio.
+# El frontend lee esos archivos desde su MISMO origen: sin proxy, sin llaves,
+# sin CORS. (El proxy público que se usaba desde el navegador devolvió 522 en
+# producción — un tercero gratuito no puede estar en el camino crítico.)
 
 on:
   schedule:
@@ -13,7 +13,6 @@ on:
 
 permissions:
   contents: write
-  pages: write        # necesario para pedir el despliegue a mano (ver abajo)
 
 concurrency:
   group: macro-snapshot
@@ -22,6 +21,8 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
     steps:
       - uses: actions/checkout@v4
 
@@ -41,9 +42,11 @@ jobs:
         continue-on-error: true   # si el mundo falla, la foto de Colombia igual se commitea
 
       - name: Commitear si cambió
+        id: commit
         run: |
           if [[ -z $(git status --porcelain frontend/data/) ]]; then
-            echo "Sin cambios — no se commitea."
+            echo "Sin cambios — no se commitea ni se despliega."
+            echo "pushed=0" >> $GITHUB_OUTPUT
             exit 0
           fi
           git config user.name  "github-actions[bot]"
@@ -51,26 +54,47 @@ jobs:
           git add frontend/data/
           git commit -m "chore(12-FIN): foto diaria de datos $(date -u +%Y-%m-%d)"
           git push
-          echo "PUSHED=1" >> $GITHUB_ENV
+          echo "pushed=1" >> $GITHUB_OUTPUT
 
-      # ── Sin este paso, el dato se actualiza en el repo y NUNCA llega al sitio ──
-      # GitHub no dispara workflows (incluido pages-build-deployment) con los push
-      # hechos usando GITHUB_TOKEN: es una protección anti-recursión documentada.
-      # Resultado observado el 2026-08-12: la Action commiteó a las 12:02 UTC y
-      # cuatro horas después el sitio seguía sirviendo la foto del día anterior.
-      # Se pide el build de Pages explícitamente por la API.
-      - name: Pedir el despliegue de GitHub Pages
-        if: env.PUSHED == '1'
-        continue-on-error: true
-        run: |
-          code=$(curl -s -o /tmp/pages.json -w "%{http_code}" -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/pages/builds")
-          echo "POST /pages/builds -> HTTP $code"
-          cat /tmp/pages.json
-          if [ "$code" != "201" ]; then
-            echo "::warning::Pages no aceptó la petición de build (HTTP $code)."
-            echo "::warning::Si persiste: Settings > Pages > Source = GitHub Actions, o revisá que Pages esté activo."
-          fi
+  # ══════════════════════════════════════════════════════════════════════
+  #  Sin este job, el dato se actualizaba en el repo y NUNCA llegaba al sitio.
+  #
+  #  GitHub no dispara workflows con los push hechos usando GITHUB_TOKEN
+  #  (protección anti-recursión documentada), así que el push del bot no
+  #  activaba deploy.yml. Medido el 2026-08-12: la Action commiteó a las
+  #  12:02 UTC y cuatro horas después Pages seguía sirviendo la foto de ayer.
+  #
+  #  El primer intento fue pedir el build por la API REST (/pages/builds).
+  #  Devolvió HTTP 403: ese endpoint solo sirve cuando Pages está en modo
+  #  "rama". Acá Pages está en modo "GitHub Actions" (ver deploy.yml), y el
+  #  único camino válido es desplegar con las acciones oficiales. Eso es
+  #  esto: los mismos pasos de deploy.yml, disparados desde acá.
+  # ══════════════════════════════════════════════════════════════════════
+  deploy:
+    needs: snapshot
+    if: needs.snapshot.outputs.pushed == '1'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write        # lo exige actions/deploy-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages           # mismo grupo que deploy.yml: se serializan, no compiten
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main          # el commit que el bot acaba de empujar, no el que disparó el run
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './'         # el repo entero, para que /frontend/ quede accesible
+
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
