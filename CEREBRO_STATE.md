@@ -8,6 +8,55 @@
 
 ---
 
+## 🏁 12-FIN · Fase 4 — módulo COMPLETO, 8 de 8 secciones — 2026-08-12 (commit 9cdbdaf)
+
+**Hoy · Mi plata · Colombia · Global · Radar · Inteligencia · Laboratorio · Ajustes.** Cero en construcción.
+
+### 📚 Inteligencia
+25 fuentes en 5 grupos, **cada URL comprobada con una petición real** antes de publicarse. Cada una
+responde qué es y **cuándo te sirve** — eso es lo que separa un directorio de un montón de enlaces.
+El orden de los grupos es la tesis: arriba el número original, abajo las opiniones sobre ese número.
+Vive en `data/fin-sources.json`, editable sin tocar código. La única no verificable (Bloomberg
+devuelve desafío anti-robot) va marcada **«sin verificar»** en vez de presentarse como comprobada.
+Puente a 13-NOT con el formato REAL de `notes-brain.js`, leído del módulo antes de escribir.
+
+### 🧮 Laboratorio · bitácora de tesis
+Lo único del módulo que **enseña a decidir** en vez de informar. Escribís qué creés y por qué; el
+sistema congela TRM, inflación y tasa de ese instante y te las devuelve el día de la revisión junto a
+las de ese momento. No se puede reescribir la historia: el razonamiento queda con fecha.
+El panel no opina ni puntúa — solo devuelve lo que vos escribiste.
+
+### ⚙️ Ajustes · salud de datos
+Nace del incidente del 12-ago: el módulo mostró datos de ayer durante horas y **nada lo delataba**.
+Ahora dice de cuándo es cada archivo, si la actualización corrió y si las fuentes responden.
+Llaves de API en `fin_apikeys` → **SKIP_KEYS por SEGURIDAD**, no por eficiencia: empieza por `fin_`
+y sin esa línea DYNAMIC_PREFIXES las subiría a Supabase.
+
+### 🐛 El bug que el propio panel destapó a los dos minutos de existir
+`credit-co.json` en producción tenía **cero modalidades de usura**. La fuente falló de forma
+transitoria durante la corrida del bot y **el recolector sobrescribió el archivo bueno con uno
+incompleto**. La guardia solo preservaba el anterior si fallaba TODO — pero
+**el daño real lo hace el éxito parcial**: escribe, parece que funcionó, y se lleva por delante lo
+que sí servía.
+
+Fix en `scripts/_prev.mjs`, aplicado a los tres recolectores:
+- `conservarSiVacio` — una sección vacía conserva su último valor bueno.
+- `fusionarPorClave` — **y elemento por elemento**: al probar el primer fix, 3 de 4 tipos de crédito
+  llegaron y el cuarto dio timeout; el archivo se escribió con 3 y el que faltaba desapareció.
+  Ahora cada elemento que falla conserva el suyo. **Nadie desaparece por una caída de 30 segundos.**
+- Timeout de la consulta más pesada (6,7M filas): 90 s → 150 s.
+
+Verificado: usura 0 → 7 · tipos 3 → 4 · los 3 archivos completos y en producción.
+
+**Regla nueva: el éxito parcial de un recolector NUNCA debe degradar el archivo. Preservar por
+elemento, no por archivo.**
+
+### Verificado en producción
+8 secciones · 25 fuentes con 1 marcada sin verificar · Laboratorio operativo · Ajustes con las 3
+fuentes «al día» · tope de usura 29,66% con sus 7 modalidades recuperadas.
+
+---
+
 ## 🧊 12-FIN · Mi caché congelaba el panel en la foto de ayer — 2026-08-12 (commit ae32f20)
 
 Miguel reportó que seguía viendo «actualizado 11 de ago» con el servidor ya sirviendo el 12.

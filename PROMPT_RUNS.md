@@ -588,3 +588,12 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Defectos propios hallados al probar: puntuar noticias DESPUÉS de recortar a 24 (elegía de un subconjunto) · MAX_PER_FEED=6 dejaba solo 1 noticia calificada.
 - Verificado en PRODUCCIÓN: 7 indicadores con corte 12-ago · TRM 3.121,07 · 5 noticias con motivo · burbujas sin solaparse · briefing con datos sembrados (US$ 801, ahorro pierde 48.210/año).
 - Next: **confirmar que el fix de Pages funciona** revisando mañana que `generatedAt` en el sitio traiga la fecha del día sin push manual. Luego: Inteligencia · Laboratorio · Ajustes.
+
+### ID:12-FIN.P4 (Fase 4 · módulo completo) · 2026-08-12
+- Commit: 9cdbdaf
+- Files: frontend/data/fin-sources.json (NUEVO) · js/fin-intel.js · js/fin-lab.js · js/fin-cfg.js (NUEVOS) · scripts/_prev.mjs (NUEVO) · los 3 recolectores · fin-colombia.js · cloud-sync.js · css · finance.html
+- Changed: 12-FIN queda COMPLETO en 8 de 8 secciones. Inteligencia (25 fuentes con cada URL comprobada, con "qué es" y "cuándo te sirve", puente a 13-NOT) · Laboratorio (bitácora de tesis que congela el contexto de mercado y te confronta después — lo único que enseña a decidir en vez de informar) · Ajustes (salud de datos + llaves locales por seguridad).
+- **El hallazgo de la sesión**: el panel de salud, a los dos minutos de existir, destapó que `credit-co.json` tenía CERO usura en producción — una caída transitoria hizo que el recolector sobrescribiera el archivo bueno con uno incompleto. La guardia solo protegía el caso "falla todo"; el daño lo hace el éxito parcial. Fix en dos niveles: preservar sección vacía Y fusionar elemento por elemento (al probar el primer fix apareció el mismo bug a menor escala: 3 de 4 tipos de crédito y el cuarto desaparecido).
+- Bug propio: `FININTEL.init()` ponía `_loading=true` antes de llamar a `load()`, cuyo guard empieza con `if (_data || _loading) return` — la bandera anti-duplicados impedía la primera carga.
+- Verificado en producción: 8 secciones, 25 fuentes (1 marcada sin verificar), usura 29,66% con 7 modalidades recuperadas, Ajustes con las 3 fuentes al día.
+- Next: 12-FIN no necesita más secciones. Lo que sigue es de OTROS módulos — Vista HOY en 1-IND (blueprint listo), hallazgo #3 de PROJECT.P1 (namespace da2026_ sin sync), medir cuota de localStorage. NO agregar secciones a 12-FIN por agregar: el módulo ya cubre su función.
