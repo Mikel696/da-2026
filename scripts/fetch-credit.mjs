@@ -15,6 +15,7 @@
 ═══════════════════════════════════════════════════════════════ */
 
 import { writeFile, mkdir } from 'node:fs/promises';
+import { leerPrevio, conservarSiVacio, fusionarPorClave } from './_prev.mjs';
 import { dirname } from 'node:path';
 
 const OUT  = 'frontend/data/credit-co.json';
@@ -34,7 +35,7 @@ const MIN_CREDITOS = 200;   // por debajo, el promedio de un banco es ruido
 const TOP = 18;
 
 const get = async url => {
-  const res = await fetch(url, { headers:{ 'User-Agent': UA }, signal: AbortSignal.timeout(90000) });
+  const res = await fetch(url, { headers:{ 'User-Agent': UA }, signal: AbortSignal.timeout(150000) });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 };
@@ -96,6 +97,7 @@ async function fetchTipo(def, fecha) {
 /* ── Main ── */
 
 const errors = [];
+const previo = await leerPrevio(OUT);   // para no degradar a vacío lo que ya servía
 
 let fecha = null;
 try {
@@ -113,7 +115,8 @@ const [usuraRes, ...tipoRes] = await Promise.allSettled([
   ...TIPOS.map(d => fetchTipo(d, fecha))
 ]);
 
-const usura = usuraRes.status === 'fulfilled' ? usuraRes.value : [];
+let usura = usuraRes.status === 'fulfilled' ? usuraRes.value : [];
+usura = conservarSiVacio(usura, previo && previo.usura, 'usura', errors);
 if (usuraRes.status !== 'fulfilled') errors.push('usura: ' + (usuraRes.reason?.message || usuraRes.reason));
 
 const tipos = [];
@@ -128,6 +131,10 @@ if (!tipos.length && !usura.length) {
   process.exit(1);
 }
 
+// Fusión por tipo: si 'Consumo' da timeout pero los otros tres llegan,
+// se conserva el Consumo de ayer en vez de borrarlo del archivo.
+const tiposFinal = fusionarPorClave(tipos, previo && previo.tipos, t => t.tipo, 'tipos de crédito', errors);
+
 const payload = {
   generatedAt: new Date().toISOString(),
   fechaCorte: fecha,
@@ -135,16 +142,16 @@ const payload = {
   partial: errors.length > 0,
   errors,
   usura,
-  tipos,
+  tipos: tiposFinal,
   fuente: 'Superintendencia Financiera vía datos.gov.co (qzsc-9esp · pare-7x5i)'
 };
 
 await mkdir(dirname(OUT), { recursive: true });
 await writeFile(OUT, JSON.stringify(payload), 'utf8');
 
-console.log(`✓ ${OUT} · corte ${fecha.slice(0,10)} · ${tipos.length} tipos · ${usura.length} modalidades de usura · ${errors.length ? 'PARCIAL' : 'completo'}`);
+console.log(`✓ ${OUT} · corte ${fecha.slice(0,10)} · ${tiposFinal.length} tipos · ${usura.length} modalidades de usura · ${errors.length ? 'PARCIAL' : 'completo'}`);
 usura.forEach(u => console.log(`   USURA ${u.modalidad.padEnd(34)} TIBC ${u.tibc.toFixed(2)}% → tope legal ${u.usura.toFixed(2)}%`));
-tipos.forEach(t => {
+tiposFinal.forEach(t => {
   const b = t.bancos[0];
   console.log(`   ${t.label.padEnd(26)} ${t.bancos.length} bancos · más barato: ${b.tasa}% (${b.banco.slice(0,30)})`);
 });

@@ -390,6 +390,18 @@ const FINCO = (() => {
       </button>`);
     }
 
+    // 1b. Tesis que toca revisar. El aprendizaje se evapora si no se cierra
+    // a tiempo: cuando ya sabés el desenlace, es fácil recordar que "siempre
+    // lo supiste". Por eso el aviso sube acá arriba.
+    let tesis = 0;
+    try { tesis = (window.FINLAB && FINLAB.pendientes()) || 0; } catch {}
+    if (tesis > 0) {
+      partes.push(`<button class="fbr-card fbr-alert" id="fbrGoLab">
+        <span class="fbr-k">🧮 ${tesis} ${tesis === 1 ? 'tesis para revisar' : 'tesis para revisar'}</span>
+        <span class="fbr-v">Ver en el Laboratorio →</span>
+      </button>`);
+    }
+
     // 2. Tu mes real, traído de finance.js si está disponible.
     let m = null;
     try {
@@ -509,6 +521,12 @@ const FINCO = (() => {
       const b = document.querySelector('.sec[data-s="radar"]');
       if (b) b.click();
       setTimeout(() => { const t = document.querySelector('[data-rdt="alerts"]'); if (t) t.click(); }, 120);
+    };
+
+    const goLab = document.getElementById('fbrGoLab');
+    if (goLab) goLab.onclick = () => {
+      const b = document.querySelector('.sec[data-s="lab"]');
+      if (b) b.click();
     };
 
     const r = document.getElementById('fcRefresh');

@@ -39,15 +39,24 @@
     <button class="sec"          data-s="col">🇨🇴 Colombia</button>
     <button class="sec"          data-s="glob">🌍 Global</button>
     <button class="sec"          data-s="radar">🔭 Radar</button>
-    <button class="sec sec-soon" data-s="intel" data-fase="4">📚 Inteligencia</button>
-    <button class="sec sec-soon" data-s="lab"   data-fase="4">🧮 Laboratorio</button>
-    <button class="sec sec-soon" data-s="cfg"   data-fase="3">⚙️ Ajustes</button>
+    <button class="sec"          data-s="intel">📚 Inteligencia</button>
+    <button class="sec"          data-s="lab">🧮 Laboratorio</button>
+    <button class="sec"          data-s="cfg">⚙️ Ajustes</button>
   </nav>
 
   <!-- ═══ SECCIÓN · HOY ═══ -->
   <section class="sc on" id="s-hoy">
     <div id="p-hoy"></div>
   </section>
+
+  <!-- ═══ SECCIÓN · INTELIGENCIA ═══ -->
+  <section class="sc" id="s-intel"><div id="p-intel"></div></section>
+
+  <!-- ═══ SECCIÓN · LABORATORIO ═══ -->
+  <section class="sc" id="s-lab"><div id="p-lab"></div></section>
+
+  <!-- ═══ SECCIÓN · AJUSTES ═══ -->
+  <section class="sc" id="s-cfg"><div id="p-cfg"></div></section>
 
   <!-- ═══ SECCIÓN · RADAR ═══ -->
   <section class="sc" id="s-radar">
@@ -207,9 +216,12 @@
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p16"></script>
 <script src="js/finance.js?v=p2"></script>
-<script src="js/fin-colombia.js?v=p7"></script>
+<script src="js/fin-colombia.js?v=p8"></script>
 <script src="js/fin-co.js?v=p1"></script>
 <script src="js/fin-radar.js?v=p1"></script>
+<script src="js/fin-intel.js?v=p1"></script>
+<script src="js/fin-lab.js?v=p1"></script>
+<script src="js/fin-cfg.js?v=p1"></script>
 <script src="js/fin-world.js?v=p2"></script>
 <script src="js/fin-news.js?v=p2"></script>
 <script src="js/fin-calc.js?v=p2"></script>
@@ -218,11 +230,7 @@
    Las secciones sin construir muestran su fase real en vez de una
    pantalla vacía o una UI de mentira. */
 (() => {
-  const SOON = {
-    intel: ['📚','Inteligencia','Muro de noticias en vivo de medios financieros y el directorio curado de analistas y casas de research.'],
-    lab:   ['🧮','Laboratorio','Interés compuesto descontando inflación, simulador CDT contra fondo contra acciones, y punto de equilibrio de un emprendimiento.'],
-    cfg:   ['⚙️','Ajustes',   'Tus llaves de API (guardadas solo en este equipo), lista de seguimiento, umbrales de alerta y el estado de cada conexión.']
-  };
+  const SOON = {};   // 8 de 8 secciones construidas
 
   const nav = document.getElementById('secNav');
   if (!nav) return;
@@ -249,6 +257,9 @@
       if (id === 'glob' && window.FINWORLD)    FINWORLD.init();
       if (id === 'col'  && window.FINCO_PANEL) FINCO_PANEL.init();
       if (id === 'radar'&& window.FINRADAR)    FINRADAR.init();
+      if (id === 'intel'&& window.FININTEL)    FININTEL.init();
+      if (id === 'lab'  && window.FINLAB)      FINLAB.init();
+      if (id === 'cfg'  && window.FINCFG)      FINCFG.init();
     }
 
     try { localStorage.setItem('fin_ui_prefs', JSON.stringify({ sec: id })); } catch {}

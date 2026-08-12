@@ -1,0 +1,101 @@
+{
+  "verificado": "2026-08-12",
+  "nota": "Cada URL se comprobó con una petición real antes de publicarse. Las marcadas 'sinVerificar' devuelven un bloqueo anti-bot: el servidor responde, pero no se pudo confirmar el contenido de forma automática.",
+  "grupos": [
+    {
+      "id": "primaria",
+      "titulo": "Fuente primaria",
+      "sub": "Acá está el número, no la opinión de alguien sobre el número. Es adonde va el que quiere estar seguro.",
+      "fuentes": [
+        {
+          "n": "Banco de la República",
+          "u": "https://www.banrep.gov.co/es",
+          "p": "El banco central. Publica la TRM, la tasa de política y la inflación.",
+          "c": "Cuando alguien te diga «subieron las tasas», acá confirmás si es cierto y cuánto."
+        },
+        {
+          "n": "Banrep · decisiones de tasa",
+          "u": "https://www.banrep.gov.co/es/decisiones-politica-monetaria",
+          "p": "Los comunicados de la junta, con el razonamiento completo.",
+          "c": "Antes de mover plata a un CDT: si la junta va a bajar tasas, asegurar una tasa larga hoy vale más."
+        },
+        {
+          "n": "Banrep · encuesta de expectativas",
+          "u": "https://www.banrep.gov.co/es/encuesta-mensual-expectativas-analistas-economicos",
+          "p": "Qué esperan los analistas profesionales para inflación, tasas y dólar.",
+          "c": "Para contrastar tu corazonada contra el consenso de quienes viven de esto."
+        },
+        {
+          "n": "DANE",
+          "u": "https://www.dane.gov.co/",
+          "p": "La oficina de estadística. De acá sale el dato oficial de inflación y desempleo.",
+          "c": "El IPC del mes sale acá primero; la prensa lo cuenta después."
+        },
+        {
+          "n": "DANE · inflación (IPC)",
+          "u": "https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc",
+          "p": "El desglose: qué subió y qué bajó, por categoría.",
+          "c": "Para ver si lo que a vos te subió es lo mismo que subió al promedio."
+        },
+        {
+          "n": "Superintendencia Financiera",
+          "u": "https://www.superfinanciera.gov.co/",
+          "p": "Vigila bancos y fondos. Publica las tasas que cada entidad reporta.",
+          "c": "Para confirmar que una entidad está vigilada ANTES de ponerle un peso."
+        },
+        {
+          "n": "datos.gov.co",
+          "u": "https://www.datos.gov.co/",
+          "p": "El catálogo abierto del Estado. De acá salen las cifras de este módulo.",
+          "c": "Si querés auditar cualquier número de este panel, el dataset original está acá."
+        }
+      ]
+    },
+    {
+      "id": "prensa",
+      "titulo": "Prensa financiera",
+      "sub": "El contexto del día. Útil para enterarte rápido, pero recordá: interpretan, y a veces se equivocan.",
+      "fuentes": [
+        { "n": "La República", "u": "https://www.larepublica.co/", "p": "Diario económico colombiano.", "c": "Lectura diaria corta para saber qué se movió." },
+        { "n": "Valora Analitik", "u": "https://www.valoraanalitik.com/", "p": "Mercado local, empresas y regulación, con buen detalle.", "c": "Cuando querés entender por qué se movió una acción colombiana." },
+        { "n": "Bloomberg Línea Colombia", "u": "https://www.bloomberglinea.com/colombia/", "p": "Enfoque regional latinoamericano.", "c": "Para ver a Colombia comparada con sus vecinos." },
+        { "n": "Forbes Colombia", "u": "https://forbes.co/", "p": "Negocios y perspectivas empresariales.", "c": "Más de fondo, menos de coyuntura diaria." }
+      ]
+    },
+    {
+      "id": "research",
+      "titulo": "Casas de análisis",
+      "sub": "Informes profesionales, gratuitos y públicos. Ojo: los publica quien también te vende productos — leelos sabiendo eso.",
+      "fuentes": [
+        { "n": "Investigaciones Bancolombia", "u": "https://www.bancolombia.com/empresas/capital-inteligente/investigaciones-economicas", "p": "Proyecciones de inflación, tasas y dólar.", "c": "Su informe anual de perspectivas es la referencia más citada del país." },
+        { "n": "Corficolombiana", "u": "https://investigaciones.corficolombiana.com/", "p": "Análisis macro y sectorial.", "c": "Buen detalle en sectores específicos." },
+        { "n": "Davivienda Corredores", "u": "https://www.daviviendacorredores.com/", "p": "Research de renta variable colombiana.", "c": "Cuando mirás acciones de la bolsa local." },
+        { "n": "Fedesarrollo", "u": "https://www.fedesarrollo.org.co/", "p": "Centro de pensamiento independiente. No vende productos financieros.", "c": "La voz más neutral del listado: no tiene nada que venderte." },
+        { "n": "ANIF", "u": "https://www.anif.com.co/", "p": "Análisis económico y financiero.", "c": "Buenos informes sobre crédito y sistema financiero." }
+      ]
+    },
+    {
+      "id": "registros",
+      "titulo": "Registros públicos",
+      "sub": "Los papeles que las empresas están obligadas a presentar. Es lo que casi nadie lee y donde está lo importante.",
+      "fuentes": [
+        { "n": "Bolsa de Valores de Colombia", "u": "https://www.bvc.com.co/", "p": "Precios, emisores e información relevante de la bolsa local.", "c": "Los hechos relevantes de una empresa colombiana salen acá antes que en prensa." },
+        { "n": "SEC · EDGAR", "u": "https://www.sec.gov/edgar/search/", "p": "Todos los reportes de empresas listadas en EE. UU.", "c": "Si mirás una acción gringa, acá está lo que ELLA declara, sin intermediarios." },
+        { "n": "Asobancaria", "u": "https://www.asobancaria.com/", "p": "Gremio bancario: cifras del sector.", "c": "Para entender cómo va el crédito en el país." },
+        { "n": "Ministerio de Hacienda", "u": "https://www.minhacienda.gov.co/", "p": "Deuda pública, presupuesto y política fiscal.", "c": "Cuando se habla de reforma tributaria, el documento original está acá." }
+      ]
+    },
+    {
+      "id": "global",
+      "titulo": "Análisis independiente global",
+      "sub": "En inglés. No hablan de Colombia, pero explican las fuerzas que después llegan acá.",
+      "fuentes": [
+        { "n": "Net Interest", "u": "https://www.netinterest.co/", "p": "Bancos, seguros y fintech, escrito por un ex gestor de fondos.", "c": "Si querés entender cómo gana plata un banco de verdad." },
+        { "n": "Money & Macro", "u": "https://moneymacro.substack.com/", "p": "Política monetaria explicada sin jerga.", "c": "El mejor punto de entrada para entender por qué los bancos centrales hacen lo que hacen." },
+        { "n": "Doomberg", "u": "https://doomberg.substack.com/", "p": "Energía y materias primas.", "c": "Relevante para Colombia: vivimos del petróleo y el carbón." },
+        { "n": "The Bear Cave", "u": "https://thebearcave.substack.com/", "p": "Investigación sobre empresas con problemas de gobierno corporativo.", "c": "Enseña a detectar señales de alarma en una empresa." },
+        { "n": "Money Stuff · Matt Levine", "u": "https://www.bloomberg.com/opinion/authors/ARbTQlRLRjE/matthew-s-levine", "p": "La columna más leída de finanzas. Explica lo complejo con humor.", "c": "Gratis por correo, pero el sitio pide registro.", "sinVerificar": true }
+      ]
+    }
+  ]
+}

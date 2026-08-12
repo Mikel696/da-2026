@@ -18,6 +18,7 @@
 ═══════════════════════════════════════════════════════════════ */
 
 import { writeFile, mkdir } from 'node:fs/promises';
+import { leerPrevio } from './_prev.mjs';
 import { dirname } from 'node:path';
 
 const BANREP = 'https://totoro.banrep.gov.co/estadisticas-economicas/DataSerie?tipoConsulta=indicadores_principales&idIndicador=1';
@@ -96,7 +97,8 @@ async function fetchTrm() {
 /* ── Main ── */
 
 const errors = [];
-const data = {};
+const previo = await leerPrevio(OUT);
+const data = Object.assign({}, (previo && previo.data) || {});   // base: lo último bueno
 
 const [banrep, trm] = await Promise.allSettled([fetchBanrep(), fetchTrm()]);
 

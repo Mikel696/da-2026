@@ -15,6 +15,7 @@
 ═══════════════════════════════════════════════════════════════ */
 
 import { writeFile, mkdir } from 'node:fs/promises';
+import { leerPrevio, conservarSiVacio, fusionarPorClave } from './_prev.mjs';
 import { dirname } from 'node:path';
 
 const OUT = 'frontend/data/world.json';
@@ -153,6 +154,7 @@ async function fetchFeed(f) {
 /* ── Main ── */
 
 const errors = [];
+const previo = await leerPrevio(OUT);
 
 const marketResults = await Promise.allSettled([
   ...SYMBOLS.map(fetchSymbol),
@@ -239,24 +241,30 @@ if (!markets.length && !news.length) {
   process.exit(1);            // preserva la foto anterior
 }
 
+// Cada instrumento conserva su último valor bueno: si Yahoo falla con
+// un símbolo, ese no desaparece del tablero — queda con su fecha.
+const marketsFinal    = fusionarPorClave(markets, previo && previo.markets, m => m.key, 'mercados', errors);
+const newsFinal       = conservarSiVacio(news,       previo && previo.news,       'titulares', errors);
+const destacadasFinal = conservarSiVacio(destacadas, previo && previo.destacadas, 'selección del día', errors);
+
 const payload = {
   generatedAt: new Date().toISOString(),
   partial: errors.length > 0,
   errors,
-  markets,
-  news,
-  destacadas
+  markets: marketsFinal,
+  news: newsFinal,
+  destacadas: destacadasFinal
 };
 
 await mkdir(dirname(OUT), { recursive: true });
 await writeFile(OUT, JSON.stringify(payload), 'utf8');
 
-console.log(`✓ ${OUT} · ${markets.length} instrumentos · ${news.length} titulares · ${errors.length ? 'PARCIAL' : 'completo'}`);
-markets.forEach(m => console.log(
+console.log(`✓ ${OUT} · ${marketsFinal.length} instrumentos · ${newsFinal.length} titulares · ${errors.length ? 'PARCIAL' : 'completo'}`);
+marketsFinal.forEach(m => console.log(
   `   ${m.name.padEnd(20)} ${String(m.price).padStart(11)} ${(m.currency||'').padEnd(4)} ` +
   `${m.dayPct != null ? (m.dayPct >= 0 ? '+' : '') + m.dayPct.toFixed(2) + '%' : '—'}`
 ));
-console.log(`   titulares por fuente: ${[...new Set(news.map(n => n.source))].join(', ')}`);
-console.log(`   ── LAS ${destacadas.length} DEL DÍA ──`);
-destacadas.forEach((d,i) => console.log(`   ${i+1}. [${String(d.score).padStart(2)}] ${d.source.padEnd(16)} ${d.motivos.join(', ').padEnd(30)} ${d.title.slice(0,52)}`));
+console.log(`   titulares por fuente: ${[...new Set(newsFinal.map(n => n.source))].join(', ')}`);
+console.log(`   ── LAS ${destacadasFinal.length} DEL DÍA ──`);
+destacadasFinal.forEach((d,i) => console.log(`   ${i+1}. [${String(d.score).padStart(2)}] ${d.source.padEnd(16)} ${d.motivos.join(', ').padEnd(30)} ${d.title.slice(0,52)}`));
 if (errors.length) console.log('   errores: ' + errors.join(' · '));

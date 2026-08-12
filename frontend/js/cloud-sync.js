@@ -356,7 +356,11 @@ const CLOUD = (() => {
     // Foto de mercados y titulares: se regenera sola desde data/world.json.
     'fin_world_cache',
     // Burbuja de noticias: caché regenerable + marca de qué día ya se miró.
-    'fin_news_cache', 'fin_news_seen'
+    'fin_news_cache', 'fin_news_seen',
+    // 🔒 LLAVES DE API. Exclusión de SEGURIDAD, no de eficiencia: empieza por
+    // 'fin_' y sin esta línea DYNAMIC_PREFIXES las subiría a Supabase. Un
+    // secreto que no viaja no se puede interceptar en el camino.
+    'fin_apikeys'
   ]);
 
   const _registrySet = new Set(SYNC_REGISTRY);
