@@ -577,3 +577,14 @@ The user runs the same prompt multiple times across sessions. Without history:
   - **NO se construyó el calendario económico**: sin fuente verificada de fechas 2026 del Banrep/DANE. Se prefirió el hueco a inventarlo.
 - Verificación EN PRODUCCIÓN: CDT Pichincha 13,52%/+7,07% real · usura 29,66% · fondos Credicorp 37,26% con 2.229 inversionistas · Radar 40 procesos/$3,1 mil M · borrado de transacciones intacto tras el fix.
 - Next: Inteligencia (directorio curado) · Laboratorio (bitácora de tesis) · Ajustes (llaves de API locales). NO rehacer Colombia ni Radar.
+
+### ID:12-FIN.P3 (verificación + noticias + briefing) · 2026-08-12
+- Commit: d395137 · cdb63d3
+- Files: .github/workflows/macro-snapshot.yml · scripts/fetch-world.mjs · frontend/js/fin-news.js (NUEVO) · fin-calc.js · fin-colombia.js · cloud-sync.js · css/finance.css · finance.html
+- Changed:
+  1. **FALLO CRÍTICO encontrado al verificar lo programado**: la Action corría, commiteaba (25bcfaf, 12:02 UTC) y el sitio seguía sirviendo la foto del día anterior 4 horas después. Causa: GitHub NO dispara workflows con push hechos con GITHUB_TOKEN (anti-recursión), así que `pages-build-deployment` nunca se lanzaba. **El fallo era invisible porque mis propios push sí desplegaban** — cada verificación tras un commit mío salía verde. Fix: `pages: write` + POST a /pages/builds. **DESPLEGADO PERO NO PROBADO**: solo se ejercita en la próxima corrida del bot o con «Run workflow» manual.
+  2. **Burbuja de noticias** a la izquierda (left 70, junto a la calculadora en 14, exclusión mutua). Solo 5 del día, elegidas en servidor por impacto sobre el bolsillo, con el motivo visible en cada nota. Punto rojo de no-leído por día.
+  3. **Briefing del día** en Hoy: cruza FINCO + finance.js + fin-radar, que estaban aisladas. Reglas cumplidas con salto al Radar, tu mes, en dólares, y lo que la inflación le come a tu ahorro quieto.
+- Defectos propios hallados al probar: puntuar noticias DESPUÉS de recortar a 24 (elegía de un subconjunto) · MAX_PER_FEED=6 dejaba solo 1 noticia calificada.
+- Verificado en PRODUCCIÓN: 7 indicadores con corte 12-ago · TRM 3.121,07 · 5 noticias con motivo · burbujas sin solaparse · briefing con datos sembrados (US$ 801, ahorro pierde 48.210/año).
+- Next: **confirmar que el fix de Pages funciona** revisando mañana que `generatedAt` en el sitio traiga la fecha del día sin push manual. Luego: Inteligencia · Laboratorio · Ajustes.

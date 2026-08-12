@@ -8,6 +8,46 @@
 
 ---
 
+## 🚨 12-FIN · El despliegue automático NO llegaba al sitio — 2026-08-12 (commit d395137)
+
+### El fallo, encontrado porque Miguel pidió verificar
+La Action corría bien y **el sitio nunca se enteraba**:
+
+| | |
+|---|---|
+| Action ejecutada hoy | ✅ 12:02 UTC · commit `25bcfaf` |
+| Datos frescos en el repo (`raw.githubusercontent`) | ✅ `2026-08-12T12:02` |
+| **Lo que servía GitHub Pages 4 h después** | ❌ **`2026-08-11T17:34`** |
+
+**Causa raíz:** GitHub **no dispara workflows con los push hechos usando `GITHUB_TOKEN`** — protección
+anti-recursión documentada. El workflow `pages-build-deployment` nunca se lanzaba. Los push de Miguel sí
+desplegaban (30 s), los del bot no (nunca). Por eso el fallo era invisible: cada vez que yo verificaba
+tras un commit propio, todo salía bien.
+
+**Fix:** permiso `pages: write` + `POST /repos/{repo}/pages/builds` explícito tras el push, con
+`continue-on-error` y un `::warning::` que indica qué revisar si Pages rechaza la petición.
+
+⚠️ **El fix está desplegado pero NO probado**: solo se ejercita en la próxima corrida del bot
+(mañana 11:20 UTC) o si se dispara «Run workflow» a mano en la pestaña Actions.
+
+### 📰 Burbuja de noticias del día
+Segunda burbuja a la izquierda (left 70, junto a la calculadora en left 14; exclusión mutua porque
+comparten el hueco). `Alt+N` abre. Punto rojo mientras no hayas visto la selección de hoy.
+Muestra **solo 5**, elegidas en el servidor con criterios explícitos y **con el motivo visible en cada
+nota**: tema de impacto (dólar, inflación, tasas, impuestos, empresas colombianas, exportaciones,
+ahorro y crédito) + peso de la prensa local + frescura, ventana de 30 h, máximo 2 por medio.
+Dos defectos propios corregidos al probar: se puntuaba **después** de recortar a 24 titulares (se elegían
+las 5 mejores de un charco, no del río) y `MAX_PER_FEED` era 6 (solo calificaba 1 noticia).
+
+### 🎯 Briefing del día — las tres capas por fin se hablan
+Análisis de la función del módulo: un centro de mando debe decir **qué requiere atención hoy**. Había
+tres capas construidas y aisladas: cifras del país (FINCO), plata real (finance.js) y reglas
+(fin-radar). La pestaña Hoy abre ahora con: reglas que se cumplieron (con salto directo al Radar) ·
+tu mes real · ese balance en dólares a la TRM de hoy · **lo que la inflación le come a tu ahorro
+quieto**, en pesos y al año. Cada tarjeta aparece solo si hay dato que la sostenga.
+
+---
+
 ## 🇨🇴🔭 12-FIN · Fases 2 y 3 — Colombia + Radar — 2026-08-11 (commits 46099e6 · e48e2a6)
 
 **5 de 8 secciones vivas**: Hoy · Mi plata · Colombia · Global · Radar.
