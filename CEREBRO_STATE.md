@@ -55,8 +55,24 @@ tras un commit propio, todo salía bien.
 **Fix:** permiso `pages: write` + `POST /repos/{repo}/pages/builds` explícito tras el push, con
 `continue-on-error` y un `::warning::` que indica qué revisar si Pages rechaza la petición.
 
-⚠️ **El fix está desplegado pero NO probado**: solo se ejercita en la próxima corrida del bot
-(mañana 11:20 UTC) o si se dispara «Run workflow» a mano en la pestaña Actions.
+### ✅ VERIFICADO — pero el primer intento estaba mal (commit af99924)
+Al disparar el workflow a mano, el bot commiteó y **diez minutos después Pages seguía sirviendo el
+archivo viejo**. El propio `::warning::` que dejé lo delató: **«Pages no aceptó la petición de build
+(HTTP 403)»**.
+
+**Por qué 403:** `POST /repos/{repo}/pages/builds` solo funciona con Pages en modo **rama**. Este repo
+tiene Pages en modo **GitHub Actions** (de ahí `deploy.yml` con `actions/deploy-pages@v4`). En ese
+modo el endpoint REST está deshabilitado.
+
+**Fix correcto:** job `deploy` dentro del mismo workflow, con los pasos oficiales
+(`configure-pages` → `upload-pages-artifact` → `deploy-pages`), que corre solo si hubo push.
+Detalles que importan: `ref: main` en el checkout (sin eso se despliega el commit que DISPARÓ el run,
+no el que el bot acaba de empujar) · `id-token: write` · `concurrency: pages` compartido con
+deploy.yml · output `pushed` entre jobs (`GITHUB_ENV` no cruza jobs).
+
+**Prueba de extremo a extremo (2026-08-12 17:02 UTC):** disparo manual → bot commitea `e47e30e` en 80 s
+→ **Pages se despliega solo en 60 s** → el sitio sirve `world.json` de hace 1 minuto, badge
+«✓ dato de hoy». Sin ningún push mío. **La cadena de auto-actualización está probada completa.**
 
 ### 📰 Burbuja de noticias del día
 Segunda burbuja a la izquierda (left 70, junto a la calculadora en left 14; exclusión mutua porque

@@ -115,8 +115,11 @@ P6 · Merge estructural para work_moif_meetings · limpieza de blobs huérfanos 
   panel mostró "actualizado 11 de ago" seis horas con el servidor sirviendo el 12.
 · Un indicador de frescura debe medir la edad del DATO, no la de la descarga. "✓ hace 18 min" sobre
   una foto de ayer es peor que no mostrar nada: parece verificado y no lo está.
-· Los push del bot con GITHUB_TOKEN NO disparan el despliegue de Pages (anti-recursión). Hay que pedir
-  el build por API. Y ojo: el fallo es invisible si verificás justo después de un push propio.
+· Los push del bot con GITHUB_TOKEN NO disparan el despliegue de Pages (anti-recursión). Y ojo: el
+  fallo es INVISIBLE si verificás justo después de un push propio — el tuyo sí despliega.
+  El endpoint REST /pages/builds NO sirve acá: da 403 porque Pages está en modo "GitHub Actions".
+  La solución que funciona (verificada de extremo a extremo) es un job deploy con
+  configure-pages -> upload-pages-artifact -> deploy-pages, con ref: main en el checkout.
 · Un listener global sobre un atributo genérico (data-del) es una trampa para el módulo que
   llegue después: finance.js disparaba FIN.del() al borrar una alerta del Radar. Acotá el
   selector a su contenedor.
