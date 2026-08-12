@@ -8,6 +8,34 @@
 
 ---
 
+## 🧊 12-FIN · Mi caché congelaba el panel en la foto de ayer — 2026-08-12 (commit ae32f20)
+
+Miguel reportó que seguía viendo «actualizado 11 de ago» con el servidor ya sirviendo el 12.
+**El dato estaba bien; el bug era mío.**
+
+**El síntoma que lo delataba:** el panel se contradecía solo. El subtítulo decía «11 de ago» mientras
+la tarjeta de la TRM —que se trae en vivo— decía «corte 12 de ago» justo al lado.
+
+**Causa:** le puse un TTL de 6 h a un archivo de 26 KB de **nuestro propio origen**. Ese TTL tiene
+sentido para APIs externas con cuota; para un archivo propio solo sirve para quedarse viejo. El
+navegador bajó la foto cuando producción aún servía la de ayer, la guardó, y quedó pegado 6 horas.
+
+**Fix (los tres módulos):** fuera la puerta de TTL — el snapshot se pide siempre, una vez por carga.
+El caché de localStorage queda solo como respaldo sin red. `?d=YYYY-MM-DD` en la URL para esquivar
+la CDN al cruzar medianoche. Constantes TTL eliminadas (código muerto).
+
+**Mejora del indicador:** el badge medía la edad de la DESCARGA, no la del DATO — decía «✓ hace 18 min»
+mostrando lo de ayer. Ahora dice «✓ dato de hoy», y si la Action lleva >36 h sin correr se pone ámbar
+con «⚠ dato de <fecha>». El panel ya no puede mentir por omisión.
+
+**Regla nueva: nunca poner TTL a un recurso del propio origen. El caché HTTP ya hace ese trabajo;
+un TTL en localStorage encima solo agrega una forma de quedarse viejo sin darse cuenta.**
+
+Verificado en producción reproduciendo el caso exacto: caché de ayer marcado como sano → tras recargar,
+subtítulo y tarjeta coinciden en «12 de ago», badge «✓ dato de hoy», noticias curadas.
+
+---
+
 ## 🚨 12-FIN · El despliegue automático NO llegaba al sitio — 2026-08-12 (commit d395137)
 
 ### El fallo, encontrado porque Miguel pidió verificar

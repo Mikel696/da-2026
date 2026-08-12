@@ -110,6 +110,13 @@ P6 · Merge estructural para work_moif_meetings · limpieza de blobs huérfanos 
   LIQUIDACIÓN con 1.574% anual y 12 inversionistas; las tasas de crédito sin filtrar
   muestran bancos con "0% de consumo". Filtros de calidad SIEMPRE por defecto y visibles.
 · Yahoo Finance responde 429 al navegador pero 200 desde servidor → va en la Action.
+· NUNCA poner TTL de caché a un recurso del PROPIO origen. El caché HTTP ya hace ese trabajo; un TTL
+  en localStorage encima solo agrega una forma de quedarse viejo sin enterarse. Paso de verdad: el
+  panel mostró "actualizado 11 de ago" seis horas con el servidor sirviendo el 12.
+· Un indicador de frescura debe medir la edad del DATO, no la de la descarga. "✓ hace 18 min" sobre
+  una foto de ayer es peor que no mostrar nada: parece verificado y no lo está.
+· Los push del bot con GITHUB_TOKEN NO disparan el despliegue de Pages (anti-recursión). Hay que pedir
+  el build por API. Y ojo: el fallo es invisible si verificás justo después de un push propio.
 · Un listener global sobre un atributo genérico (data-del) es una trampa para el módulo que
   llegue después: finance.js disparaba FIN.del() al borrar una alerta del Radar. Acotá el
   selector a su contenedor.
