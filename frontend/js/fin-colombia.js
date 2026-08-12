@@ -368,6 +368,62 @@ const FINCO = (() => {
       </div>`;
   }
 
+  /* ── Briefing del día ──────────────────────────────────────────
+     Un centro de mando tiene que decir qué requiere atención HOY.
+     Acá se cruzan las tres capas que hasta ahora vivían separadas:
+     las cifras del país, TU plata (finance.js) y TUS reglas (fin-radar).
+     Sin este bloque el módulo mostraba datos; con él, responde. */
+  function _briefing(d) {
+    const partes = [];
+
+    // 1. Reglas que se cumplieron — estaban enterradas en la pestaña Radar.
+    let alertas = 0;
+    try { alertas = (window.FINRADAR && FINRADAR.pendientes()) || 0; } catch {}
+    if (alertas > 0) {
+      partes.push(`<button class="fbr-card fbr-alert" id="fbrGoRadar">
+        <span class="fbr-k">🔔 ${alertas} ${alertas === 1 ? 'regla se cumplió' : 'reglas se cumplieron'}</span>
+        <span class="fbr-v">Ver en el Radar →</span>
+      </button>`);
+    }
+
+    // 2. Tu mes real, traído de finance.js si está disponible.
+    let m = null;
+    try {
+      if (typeof FIN !== 'undefined' && typeof calcMetrics === 'function') m = calcMetrics(FIN.getAll());
+    } catch {}
+
+    if (m && (m.inc || m.exp)) {
+      const signo = m.bal >= 0 ? '+' : '';
+      partes.push(`<div class="fbr-card">
+        <span class="fbr-k">Tu mes</span>
+        <span class="fbr-v ${m.bal >= 0 ? 'fc-up' : 'fc-down'}">${signo}${_nf(m.bal, 0)}</span>
+        <span class="fbr-sub">${_nf(m.inc,0)} entró · ${_nf(m.exp,0)} salió</span>
+      </div>`);
+
+      // 3. Tu balance en dólares de hoy — el mismo número, otra perspectiva.
+      if (d.trm && d.trm.value) {
+        partes.push(`<div class="fbr-card">
+          <span class="fbr-k">Eso en dólares</span>
+          <span class="fbr-v">US$ ${_nf(m.bal / d.trm.value, 0)}</span>
+          <span class="fbr-sub">a la TRM de hoy</span>
+        </div>`);
+      }
+
+      // 4. Lo que la inflación le hace a tu ahorro si se queda quieto.
+      if (d.cpi && d.cpi.value && m.sav > 0) {
+        const pierde = m.sav * (d.cpi.value / 100);
+        partes.push(`<div class="fbr-card">
+          <span class="fbr-k">Tu ahorro quieto pierde</span>
+          <span class="fbr-v fc-down">−${_nf(pierde, 0)}</span>
+          <span class="fbr-sub">al año, por inflación de ${_nf(d.cpi.value)}%</span>
+        </div>`);
+      }
+    }
+
+    if (!partes.length) return '';
+    return `<div class="fbr">${partes.join('')}</div>`;
+  }
+
   function render() {
     const host = document.getElementById('p-hoy');
     if (!host) return;
@@ -414,6 +470,7 @@ const FINCO = (() => {
         </div>
       </div>
 
+      ${has ? _briefing(d) : ''}
       ${has ? `<div class="fc-grid">${cards}</div>` : `
         <div class="fc-empty">
           Todavía no se han traído los indicadores.
@@ -434,6 +491,13 @@ const FINCO = (() => {
   }
 
   function _wire() {
+    const goRadar = document.getElementById('fbrGoRadar');
+    if (goRadar) goRadar.onclick = () => {
+      const b = document.querySelector('.sec[data-s="radar"]');
+      if (b) b.click();
+      setTimeout(() => { const t = document.querySelector('[data-rdt="alerts"]'); if (t) t.click(); }, 120);
+    };
+
     const r = document.getElementById('fcRefresh');
     if (r) r.onclick = () => load(true);
 
