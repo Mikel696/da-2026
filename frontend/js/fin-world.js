@@ -13,8 +13,6 @@ const FINWORLD = (() => {
 
   const SRC = 'data/world.json';
   const CACHE_KEY = 'fin_world_cache';     // local (en SKIP_KEYS)
-  const TTL_MS = 3 * 60 * 60 * 1000;
-  const TTL_DEGRADED_MS = 15 * 60 * 1000;
 
   const GROUPS = [
     { id:'indices',  label:'Bolsas del mundo',    hint:'Cómo viene el ánimo de los mercados grandes.' },
@@ -60,18 +58,16 @@ const FINWORLD = (() => {
   async function load(force) {
     if (_loading) return _state;
     const cached = cacheGet();
-    const healthy = cached && cached.partial === false;
-    const ttl = healthy ? TTL_MS : TTL_DEGRADED_MS;
-
-    if (!force && cached && cached.fetchedAt && (Date.now() - cached.fetchedAt) < ttl) {
-      _state = cached;
-      return _state;
-    }
+    /* Sin puerta de TTL: world.json es un archivo de nuestro propio origen.
+       El TTL de 3 h dejaba el panel pegado en la foto de ayer aunque el
+       servidor ya tuviera la de hoy (ver fin-colombia.js). El caché queda
+       solo como respaldo para cuando no hay red. */
 
     _loading = true;
     render();
     try {
-      const res = await fetch(SRC, { cache:'no-cache' });
+      const dia = new Date().toISOString().slice(0,10);
+      const res = await fetch(`${SRC}?d=${dia}`, { cache:'no-cache' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const j = await res.json();
       _state = {

@@ -34,13 +34,7 @@ const FINCO = (() => {
      redundancia. La TRM, que sí es diaria, viene directo arriba. */
 
   const CACHE_KEY = 'fin_mkt_cache';   // local-only (en SKIP_KEYS de cloud-sync)
-  const TTL_MS    = 6 * 60 * 60 * 1000;
 
-  /* Si la última carga quedó incompleta (una fuente caída) NO se puede
-     honrar el TTL largo: el panel degradado se quedaría pegado 6 horas
-     aunque la fuente ya se haya recuperado a los dos minutos. Un caché
-     malo se reintenta pronto; uno bueno descansa. */
-  const TTL_DEGRADED_MS = 15 * 60 * 1000;
 
   /* Mapa de series del Banrep → nuestra nomenclatura.
      Las etiquetas son NUESTRAS: el campo `unidad` que devuelve la API
@@ -111,9 +105,15 @@ const FINCO = (() => {
   /* ── Fetch ── */
 
   /** La foto del repo. Nunca depende de terceros: si la página carga,
-   *  esto carga. Es lo que garantiza que el panel jamás salga vacío. */
+   *  esto carga. Es lo que garantiza que el panel jamás salga vacío.
+   *
+   *  El parámetro `?d=YYYY-MM-DD` cambia cada día: garantiza una URL nueva
+   *  al cruzar la medianoche y esquiva cualquier copia vieja que la CDN de
+   *  GitHub Pages tenga guardada. Dentro del mismo día la URL es estable,
+   *  así que el caché HTTP (600 s) sigue haciendo su trabajo. */
   async function _fetchSnapshot() {
-    const res = await fetch(SNAPSHOT, { cache: 'no-cache' });
+    const dia = new Date().toISOString().slice(0, 10);
+    const res = await fetch(`${SNAPSHOT}?d=${dia}`, { cache: 'no-cache' });
     if (!res.ok) throw new Error('snapshot HTTP ' + res.status);
     const j = await res.json();
     if (!j || !j.data || !Object.keys(j.data).length) throw new Error('snapshot vacío');
@@ -149,15 +149,19 @@ const FINCO = (() => {
     if (_loading) return _state;
     const cached = _cacheGet();
 
-    // `snapshotAt` ausente = caché de una versión anterior del motor:
-    // también se trata como degradado para que se renueve solo.
-    const healthy = cached && cached.partial === false && cached.snapshotAt;
-    const ttl = healthy ? TTL_MS : TTL_DEGRADED_MS;
+    /* NO hay puerta de TTL acá, a propósito.
+       Antes, un caché "sano" de menos de 6 h cortocircuitaba la carga entera.
+       Consecuencia real (2026-08-12): el navegador bajó la foto cuando el
+       servidor todavía servía la de ayer, la guardó, y el panel quedó pegado
+       en «actualizado 11 de ago» durante seis horas AUNQUE el servidor ya
+       tenía la del 12 — con la tarjeta de la TRM, que sí es en vivo, diciendo
+       «corte 12 de ago» justo al lado. El panel se contradecía solo.
 
-    if (!force && cached && cached.fetchedAt && (Date.now() - cached.fetchedAt) < ttl) {
-      _state = cached;
-      return _state;
-    }
+       El snapshot es un archivo de 26 KB de NUESTRO propio origen: traerlo no
+       cuesta cuota ni depende de nadie. Se pide siempre, una vez por carga de
+       página, y el caché HTTP (600 s) evita el tráfico repetido.
+       El caché en localStorage queda para lo único que sirve de verdad:
+       tener algo que mostrar cuando no hay red. */
 
     _loading = true;
     render();   // pinta el estado "actualizando" sobre lo que ya haya
@@ -432,15 +436,24 @@ const FINCO = (() => {
     const d  = (st && st.data) || {};
     const has = Object.keys(d).length > 0;
 
+    /* El badge mide la edad del DATO, no la de la descarga.
+       Antes mostraba `fetchedAt` — cuándo el navegador bajó el archivo — y eso
+       decía «✓ hace 18 min» mientras enseñaba la foto de ayer: parecía fresco
+       y no lo estaba. Lo que importa es de cuándo es la cifra. */
+    const edadDato = st && st.snapshotAt ? Date.now() - Date.parse(st.snapshotAt) : null;
+    const viejo = edadDato != null && edadDato > 36 * 3600 * 1000;   // >36 h = la Action no corrió
+
     let status;
     if (_loading) {
       status = `<span class="fc-badge fc-badge-load">⟳ actualizando…</span>`;
     } else if (!has) {
       status = `<span class="fc-badge fc-badge-off">sin datos aún</span>`;
     } else if (st && st.partial) {
-      status = `<span class="fc-badge fc-badge-warn">parcial · ${_ageLabel(st.fetchedAt)}</span>`;
+      status = `<span class="fc-badge fc-badge-warn">parcial · dato de ${_dateEs(st.snapshotAt)}</span>`;
+    } else if (viejo) {
+      status = `<span class="fc-badge fc-badge-warn" title="La actualización diaria no corrió">⚠ dato de ${_dateEs(st.snapshotAt)}</span>`;
     } else {
-      status = `<span class="fc-badge fc-badge-ok">✓ ${_ageLabel(st && st.fetchedAt)}</span>`;
+      status = `<span class="fc-badge fc-badge-ok">✓ dato de hoy</span>`;
     }
 
     const cards = has ? [

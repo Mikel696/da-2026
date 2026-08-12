@@ -9,7 +9,7 @@
    criterio a la vista es una caja negra, y acá no se usan.
 
    Se refresca solo: la GitHub Action reescribe data/world.json cada
-   día. El navegador cachea 3 h y revalida.
+   día y el navegador lo pide en cada carga (mismo origen, sin cuota).
 
    Los titulares son contenido externo no confiable: todo escapado y
    los enlaces filtrados a http(s) con rel="noopener noreferrer".
@@ -20,7 +20,6 @@ const FINNEWS = (() => {
   const SRC = 'data/world.json';
   const CACHE_KEY = 'fin_news_cache';      // local (en SKIP_KEYS)
   const SEEN_KEY  = 'fin_news_seen';       // local: qué día ya miró
-  const TTL_MS = 3 * 60 * 60 * 1000;
 
   let _open = false, _state = null, _loading = false;
 
@@ -44,12 +43,12 @@ const FINNEWS = (() => {
   async function load(force) {
     if (_loading) return _state;
     const c = cacheGet();
-    if (!force && c && c.fetchedAt && (Date.now() - c.fetchedAt) < TTL_MS && (c.items||[]).length) {
-      _state = c; return _state;
-    }
+    /* Sin puerta de TTL: mismo origen, y las noticias del día tienen que
+       poder cambiar durante el día. El caché es respaldo sin red. */
     _loading = true;
     try {
-      const res = await fetch(SRC, { cache:'no-cache' });
+      const dia = new Date().toISOString().slice(0,10);
+      const res = await fetch(`${SRC}?d=${dia}`, { cache:'no-cache' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const j = await res.json();
       _state = {
