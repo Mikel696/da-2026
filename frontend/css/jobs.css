@@ -180,3 +180,34 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .jr-empty span{font-size:11px;color:var(--t3);max-width:52ch;line-height:1.6}
 .jr-pie{font-size:10.5px;color:var(--t3);line-height:1.6;margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)}
 .jr-pie b{color:var(--cy)}
+
+/* ── Aviso de frescura ── */
+.jr-banner{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:var(--radius-md);margin-bottom:14px;flex-wrap:wrap}
+.jr-banner-ok{background:var(--color-green-bg);border:1px solid rgba(34,197,94,.32)}
+.jr-banner-old{background:var(--color-amber-bg);border:1px solid rgba(234,179,8,.32)}
+.jr-banner-ico{font-size:17px;flex-shrink:0}
+.jr-banner-ok .jr-banner-ico{color:var(--gn)}
+.jr-banner-old .jr-banner-ico{color:var(--am)}
+.jr-banner-txt{display:flex;flex-direction:column;gap:2px;flex:1;min-width:200px}
+.jr-banner-txt b{font-size:13px;color:var(--tx)}
+.jr-banner-txt span{font-size:11px;color:var(--t2);line-height:1.5}
+.jr-banner-hot{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--or);background:var(--color-orange-bg);padding:4px 9px;border-radius:4px;white-space:nowrap}
+.jr-vent{display:block;font-size:11.5px;color:var(--t2);line-height:1.6;margin-top:7px;padding-left:2px}
+.jr-vent b{color:var(--a2)}
+.jr-nueva{color:var(--or);font-weight:600}
+
+/* ── Palabras clave del ATS ── */
+.jr-kw{border-top:1px dashed var(--bd);padding-top:8px}
+.jr-kw summary{font-size:11.5px;color:var(--a2);cursor:pointer;padding:3px 0;font-weight:500}
+.jr-kw summary:focus-visible{outline:none;box-shadow:var(--shadow-glow);border-radius:3px}
+.jr-kw[open] summary{margin-bottom:8px}
+.jr-kw-body{display:flex;flex-direction:column;gap:9px}
+.jr-kw-row{display:flex;flex-direction:column;gap:5px}
+.jr-kw-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+.jr-kw-si{color:var(--gn)} .jr-kw-no{color:var(--am)}
+.jr-kw-chips{display:flex;flex-wrap:wrap;gap:4px}
+.jr-chip{font-size:10.5px;padding:3px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace}
+.jr-chip-si{color:var(--gn);background:var(--color-green-bg);border:1px solid rgba(34,197,94,.25)}
+.jr-chip-no{color:var(--am);background:var(--color-amber-bg);border:1px solid rgba(234,179,8,.25)}
+.jr-kw-nota{font-size:10.5px;color:var(--t3);line-height:1.6;background:var(--el);border-radius:var(--radius-sm);padding:8px 10px}
+.jr-kw-nota b{color:var(--t2)}

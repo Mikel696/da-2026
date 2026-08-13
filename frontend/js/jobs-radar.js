@@ -31,7 +31,24 @@ const JOBRADAR = (() => {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   const safeUrl = u => /^https?:\/\//i.test(String(u || '')) ? String(u) : '#';
-  const cuando = d => d == null ? '' : d === 0 ? 'hoy' : d === 1 ? 'ayer' : `hace ${d} días`;
+
+  /* Antigüedad en horas cuando importa. Las primeras 48 h son la ventana
+     donde el reclutador todavía está revisando lo que llega. */
+  const RECIENTE_H = 48;
+  const cuando = j => {
+    const h = j.horas;
+    if (h == null) return j.dias != null ? `hace ${j.dias} días` : '';
+    if (h < 1) return 'recién publicada';
+    // Hasta el umbral se muestra en HORAS. Antes redondeaba a días y el
+    // badge 🔥 quedaba junto a "hace 2 días": el mismo dato diciendo dos
+    // cosas distintas. La etiqueta y la marca tienen que coincidir.
+    if (h < RECIENTE_H) return `hace ${h} h`;
+    const d = Math.round(h / 24);
+    return d === 1 ? 'ayer' : `hace ${d} días`;
+  };
+  const esReciente = j => j.horas != null && j.horas < RECIENTE_H;
+
+  const HOY = new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const vistosGet = () => { try { return JSON.parse(localStorage.getItem(VISTOS_KEY) || '[]'); } catch { return []; } };
   const vistosSet = a => { try { localStorage.setItem(VISTOS_KEY, JSON.stringify(a.slice(-300))); } catch {} };
@@ -99,12 +116,32 @@ const JOBRADAR = (() => {
         ${j.esAts ? '<span class="jr-ats">directo de la empresa</span>' : `<span class="jr-fuente">${esc(j.fuente)}</span>`}
         ${j.ubicacion ? `<span>📍 ${esc(j.ubicacion.slice(0, 40))}</span>` : ''}
         ${j.salario ? `<span class="jr-sal">${esc(j.salario)}</span>` : ''}
-        <span class="jr-fecha">${esc(cuando(j.dias))}</span>
+        <span class="jr-fecha${esReciente(j) ? ' jr-nueva' : ''}">${esReciente(j) ? '🔥 ' : ''}${esc(cuando(j))}</span>
       </div>
       <div class="jr-por">
         <b>Por qué te sale:</b> ${esc((j.motivos || []).join(' · ')) || 'coincidencia general'}
         ${j.peros?.length ? `<span class="jr-pero">⚠ ${esc(j.peros.join(' · '))}</span>` : ''}
       </div>
+
+      ${j.kw ? `<details class="jr-kw">
+        <summary>🎯 Las palabras que esta vacante busca en tu CV</summary>
+        <div class="jr-kw-body">
+          ${j.kw.tenes?.length ? `<div class="jr-kw-row">
+            <span class="jr-kw-lbl jr-kw-si">Ya lo tenés · ponelo textual</span>
+            <span class="jr-kw-chips">${j.kw.tenes.map(k => `<span class="jr-chip jr-chip-si">${esc(k)}</span>`).join('')}</span>
+          </div>` : ''}
+          ${j.kw.faltan?.length ? `<div class="jr-kw-row">
+            <span class="jr-kw-lbl jr-kw-no">Lo piden y no lo mencionás</span>
+            <span class="jr-kw-chips">${j.kw.faltan.map(k => `<span class="jr-chip jr-chip-no">${esc(k)}</span>`).join('')}</span>
+          </div>` : ''}
+          <div class="jr-kw-nota">
+            El filtro automático de la empresa descarta CVs por coincidencia de palabras
+            <b>antes de que un humano los lea</b>. Si algo de la izquierda no está escrito
+            tal cual en tu CV, agregalo. Lo de la derecha: si lo sabés aunque sea a nivel
+            básico, decilo con honestidad; si no, ya sabés qué estudiar para la próxima.
+          </div>
+        </div>
+      </details>` : ''}
       <div class="jr-acc">
         <a class="btn bp bs" href="${esc(safeUrl(j.url))}" target="_blank" rel="noopener noreferrer">Ver oferta ↗</a>
         <button class="btn bg bs" data-guardar="${i}">+ A mi tablero</button>
@@ -137,21 +174,43 @@ const JOBRADAR = (() => {
     const r = _data.resumen || {};
     const gen = _data.generatedAt ? new Date(_data.generatedAt) : null;
 
+    /* Aviso de frescura: lo primero que se ve. Compara la fecha del feed
+       con hoy, y si la actualización diaria no corrió lo dice en ámbar en
+       vez de dejarte creer que estás mirando lo de hoy. */
+    const horasFeed = gen ? (Date.now() - gen.getTime()) / 3600000 : null;
+    const alDia = horasFeed != null && horasFeed < 30;
+    const recientes = todas.filter(esReciente).length;
+
     host.innerHTML = `
+      <div class="jr-banner ${alDia ? 'jr-banner-ok' : 'jr-banner-old'}">
+        <span class="jr-banner-ico">${alDia ? '✓' : '⚠'}</span>
+        <span class="jr-banner-txt">
+          <b>${alDia ? `Actualizado a hoy, ${HOY}` : `Última actualización: ${gen ? gen.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }) : 'desconocida'}`}</b>
+          <span>${alDia
+            ? `${r.revisadas || 0} vacantes revisadas esta mañana en ${(_data.fuentes || []).length} fuentes · se renueva solo cada día`
+            : 'La actualización diaria no corrió. Lo que ves es de una fecha anterior.'}</span>
+        </span>
+        ${recientes ? `<span class="jr-banner-hot">🔥 ${recientes} publicada${recientes === 1 ? '' : 's'} en las últimas 48 h</span>` : ''}
+      </div>
+
       <div class="jr-head">
         <div>
           <div class="jr-h1">🔎 Radar de vacantes</div>
-          <div class="jr-h2">${r.revisadas || 0} vacantes revisadas hoy en ${(_data.fuentes || []).length} fuentes ·
-            ${gen ? 'actualizado ' + gen.toLocaleString('es-CO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : ''}</div>
+          <div class="jr-h2">${gen ? 'corrida de las ' + gen.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) : ''}</div>
         </div>
       </div>
 
       <div class="jr-intro">
-        <b>Lo que este radar hace y ningún portal hace por vos:</b>
-        te dice si <em>podés</em> postularte desde Colombia. De ${r.revisadas || 0} vacantes revisadas,
-        <b>${r.descartadasPorRegion || 0}</b> encajaban con tu perfil pero estaban restringidas a otra
-        región — descartadas para que no gastes la tarde en ellas.
-        Cada una que ves muestra <em>por qué</em> salió.
+        <b>Tus tres ventajas sobre los demás aspirantes:</b>
+        <span class="jr-vent"><b>1 · No perdés el tiempo.</b> De ${r.revisadas || 0} revisadas,
+          <b>${r.descartadasPorRegion || 0}</b> encajaban con tu perfil pero estaban restringidas a otra región.
+          Descartadas. El resto declara que acepta LatAm o no lo especifica.</span>
+        <span class="jr-vent"><b>2 · Sabés qué palabras poner en el CV.</b> Las empresas filtran por
+          coincidencia de términos antes de que un humano lea. Cada vacante te dice cuáles busca —
+          abrí «🎯 Las palabras que esta vacante busca».</span>
+        <span class="jr-vent"><b>3 · Llegás por la puerta de la empresa.</b> Las marcadas
+          <em>directo de la empresa</em> vienen del sistema de contratación oficial, no de un
+          agregador. Y ves las horas exactas desde que se publicó.</span>
       </div>
 
       <div class="jr-filtros">

@@ -46,7 +46,7 @@ const FUENTES = [
    Dan MUCHA mejor señal que los portales remotos: son empresas
    concretas, con ubicación explícita, y contratan en LatAm. */
 const ATS = {
-  greenhouse: s => `https://boards-api.greenhouse.io/v1/boards/${s}/jobs`,
+  greenhouse: s => `https://boards-api.greenhouse.io/v1/boards/${s}/jobs?content=true`,
   lever:      s => `https://api.lever.co/v0/postings/${s}?mode=json`,
   ashby:      s => `https://api.ashbyhq.com/posting-api/job-board/${s}`
 };
@@ -144,7 +144,7 @@ const PARSERS = {
     fecha: j.updated_at ? new Date(j.updated_at).toISOString() : null,
     ubicacion: j.location?.name || '',
     tags: (j.metadata || []).map(m => m.value).filter(x => typeof x === 'string'),
-    desc: '', salario: null, esAts: true
+    desc: limpia(j.content || '').slice(0, 6000), salario: null, esAts: true
   })),
   lever: (raw, emp) => (Array.isArray(raw) ? raw : []).map(j => ({
     titulo: j.text, empresa: emp.nombre, url: j.hostedUrl,
@@ -161,6 +161,51 @@ const PARSERS = {
     desc: limpia(j.descriptionPlain || '').slice(0, 900), salario: null, esAts: true
   }))
 };
+
+
+/* ═══ VENTAJA COMPETITIVA · palabras que el filtro automático busca ═══
+   Greenhouse, Lever y Ashby descartan CVs por coincidencia de palabras
+   ANTES de que un humano los lea. La mayoría de los aspirantes manda el
+   mismo CV genérico a todo. Saber qué términos exactos pide CADA vacante
+   y ajustar el CV a eso es la diferencia entre pasar el filtro o no.
+
+   Vocabulario cerrado a propósito: solo términos verificables en el texto.
+   Nada de inferir habilidades que la oferta no nombra. */
+const VOCABULARIO = [
+  'SQL','Python','Power BI','Tableau','Looker','Excel','Google Sheets','R','SAS','SPSS',
+  'ETL','Airflow','dbt','Snowflake','BigQuery','Redshift','Databricks','Spark','Hadoop',
+  'AWS','Azure','GCP','Docker','Git','API','REST','Postgres','MySQL','MongoDB','NoSQL',
+  'Salesforce','HubSpot','SAP','Oracle','NetSuite','QuickBooks','Workday','Jira','Notion',
+  'Looker Studio','Data Studio','Metabase','Qlik','Alteryx','VBA','Macros','Pivot',
+  'Machine Learning','Statistics','A/B Testing','Forecasting','Modeling','Dashboards',
+  'KPI','OKR','Agile','Scrum','Lean','Six Sigma','Process Improvement',
+  'Reconciliation','Accounts Payable','Accounts Receivable','GAAP','IFRS','Audit',
+  'Financial Modeling','Budgeting','Forecast','Cash Flow','P&L','Close Process',
+  'Stakeholder','Cross-functional','Documentation','Training','Onboarding','Implementation'
+];
+
+/* Lo que Miguel YA puede sostener en una entrevista, según su experiencia real
+   (Simetrik: conciliaciones · Brinks: AP/análisis financiero · Ing. Sistemas). */
+const YA_TIENE = new Set([
+  'SQL','Excel','Power BI','Google Sheets','Reconciliation','Accounts Payable',
+  'Accounts Receivable','Dashboards','KPI','Documentation','Process Improvement',
+  'Stakeholder','Cross-functional','Implementation','Onboarding','Training',
+  'Pivot','Macros','API','Postgres','MySQL','Jira','Agile','Audit','Close Process'
+]);
+
+function palabrasClave(texto) {
+  const t = String(texto || '');
+  if (t.length < 200) return null;          // sin descripción no se inventa nada
+  const hallados = VOCABULARIO.filter(k => {
+    const re = new RegExp('(^|[^a-zA-Z])' + k.replace(/[.*+?^${}()|[]\]/g, '\/* ═══ Puntaje, con motivos visibles ═══ */') + '([^a-zA-Z]|$)', 'i');
+    return re.test(t);
+  });
+  if (!hallados.length) return null;
+  return {
+    tenes:  hallados.filter(k => YA_TIENE.has(k)),
+    faltan: hallados.filter(k => !YA_TIENE.has(k))
+  };
+}
 
 /* ═══ Puntaje, con motivos visibles ═══ */
 function puntuar(j) {
@@ -251,7 +296,9 @@ for (const j of crudas) {
 const evaluadas = [...vistos.values()].map(j => {
   const p = puntuar(j);
   const e = elegibilidad(j.ubicacion);
-  return { ...j, ...p, elegibilidad: e.estado, elegibilidadNota: e.nota };
+  const kw = palabrasClave(j.desc);
+  const horas = j.fecha ? Math.round((Date.now() - Date.parse(j.fecha)) / 3600000) : null;
+  return { ...j, ...p, horas, kw, elegibilidad: e.estado, elegibilidadNota: e.nota };
 });
 
 const relevantes = evaluadas
@@ -268,6 +315,7 @@ const relevantes = evaluadas
     titulo: j.titulo, empresa: j.empresa || '—', url: j.url, fuente: j.fuente,
     fecha: j.fecha, dias: j.dias, ubicacion: j.ubicacion, salario: j.salario,
     score: j.score, motivos: j.motivos, peros: j.peros, esAts: !!j.esAts,
+    horas: j.horas, kw: j.kw,
     elegibilidad: j.elegibilidad, elegibilidadNota: j.elegibilidadNota,
     tambienEn: [...new Set(j.tambienEn)]
   }));
