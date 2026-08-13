@@ -89,7 +89,11 @@ const JOBRADAR = (() => {
       status: 'saved',
       ts: Date.now(),
       focusArea: area,
-      match: { pct: Math.min(99, Math.round(job.score * 2.2)), found: job.motivos || [], missing: job.peros || [] },
+      /* El puntaje no es un porcentaje de nada: es una suma de señales.
+         Mostrarlo como "99% de afinidad" prometía una precisión que el dato
+         no tiene. Se mapea a una banda honesta y con techo en 80: ninguna
+         coincidencia automática merece decirte que sos el candidato ideal. */
+      match: { pct: Math.min(80, Math.round(25 + job.score * 0.75)), found: job.motivos || [], missing: job.peros || [] },
       notes: `Del radar · ${job.fuente} · ${job.elegibilidadNota}` +
              (job.salario ? ` · ${job.salario}` : '') +
              (job.peros?.length ? `\n\nA tener en cuenta: ${job.peros.join(', ')}` : '')
