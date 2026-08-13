@@ -19,7 +19,8 @@
 <div class="stats"><div class="stat"><div class="sv" id="sD">1</div><div class="sl2">Días</div></div><div class="stat"><div class="sv" id="sA">0</div><div class="sl2">Aplicado</div></div><div class="stat"><div class="sv" id="sI">0</div><div class="sl2">Entrevista</div></div><div class="stat"><div class="sv" id="sO">0</div><div class="sl2">Finalista</div></div></div>
 
 <div class="tabs">
-<button class="tab on" data-p="li">🔵 LinkedIn</button>
+<button class="tab on" data-p="rad">🔎 Radar</button>
+<button class="tab" data-p="li">🔵 LinkedIn</button>
 <button class="tab" data-p="ct">💼 Computrabajo</button>
 <button class="tab" data-p="pt">🔍 Job Portals</button>
 <button class="tab" data-p="tr">📋 Tracker</button>
@@ -27,7 +28,9 @@
 </div>
 
 <!-- ═══ LINKEDIN ═══ -->
-<div class="pnl on" id="p-li">
+<div class="pnl on" id="p-rad"><div id="p-radar-jobs"></div></div>
+
+<div class="pnl" id="p-li">
 <div class="lb">· linkedin · búsqueda avanzada por rol e idioma · clic para expandir ·</div>
 <div class="tip tip-v"><b>🔵 LinkedIn — Motor de búsqueda principal</b><p>Queries booleanas pre-optimizadas: <strong>8+ años CxP · trilingüe ES/PT/EN · SQL + Power BI · Teleperformance activo</strong>. Cada botón abre la búsqueda exacta en nueva pestaña. Los primeros acordeones están expandidos por defecto.</p></div>
 
@@ -471,5 +474,7 @@ Arrastra tarjetas entre columnas o usa los botones para avanzar. Click en una ta
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p16"></script>
 <script src="js/jobs.js"></script>
+<script src="js/jobs-radar.js?v=p1"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{if(window.JOBRADAR)JOBRADAR.init();});</script>
 </body>
 </html>

@@ -1,0 +1,18 @@
+{
+  "verificado": "2026-08-13",
+  "nota": "Empresas que publican sus vacantes por API pública de su sistema de contratación (ATS). Señal MUY superior a los portales remotos genéricos: son empresas reales, con ubicación explícita, y la mayoría contrata en LatAm. Cada slug se comprobó con una petición real antes de entrar acá. Para agregar una empresa: probá su slug en el ATS que use y sumala a la lista — no hace falta tocar código.",
+  "comoAgregar": {
+    "greenhouse": "https://boards-api.greenhouse.io/v1/boards/SLUG/jobs",
+    "lever": "https://api.lever.co/v0/postings/SLUG?mode=json",
+    "ashby": "https://api.ashbyhq.com/posting-api/job-board/SLUG"
+  },
+  "empresas": [
+    { "slug": "clara",    "nombre": "Clara",    "ats": "greenhouse", "que": "Fintech de gastos corporativos · México/LatAm" },
+    { "slug": "bitso",    "nombre": "Bitso",    "ats": "greenhouse", "que": "Exchange cripto más grande de LatAm" },
+    { "slug": "laika",    "nombre": "Laika",    "ats": "greenhouse", "que": "E-commerce de mascotas · Colombia" },
+    { "slug": "belvo",    "nombre": "Belvo",    "ats": "ashby",      "que": "Open finance LatAm · datos bancarios" },
+    { "slug": "simetrik", "nombre": "Simetrik", "ats": "ashby",      "que": "Tu empresa — movilidad interna" },
+    { "slug": "bold",     "nombre": "Bold",     "ats": "ashby",      "que": "Pagos · Colombia" },
+    { "slug": "fintual",  "nombre": "Fintual",  "ats": "lever",      "que": "Inversión automatizada · Chile/México" }
+  ]
+}

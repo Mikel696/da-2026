@@ -1,4 +1,4 @@
-name: Foto diaria · macro Colombia + mundo
+name: Foto diaria · datos y vacantes
 
 # Actualiza frontend/data/*.json en el repo Y publica el sitio.
 # El frontend lee esos archivos desde su MISMO origen: sin proxy, sin llaves,
@@ -40,6 +40,10 @@ jobs:
       - name: Traer mercados y prensa financiera
         run: node scripts/fetch-world.mjs
         continue-on-error: true   # si el mundo falla, la foto de Colombia igual se commitea
+
+      - name: Traer vacantes para 5-JOB
+        run: node scripts/fetch-jobs.mjs
+        continue-on-error: true
 
       - name: Commitear si cambió
         id: commit
