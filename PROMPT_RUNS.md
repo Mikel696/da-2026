@@ -608,3 +608,13 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Tres errores propios corregidos midiendo: (1) mezclé afinidad con elegibilidad — marketing en Bogotá calificaba por decir "LatAm"; (2) penalizaba por palabras de la DESCRIPCIÓN, lo que dejó el radar en 0 resultados; (3) parchear con manipulación de cadenas convirtió los `\b` de los regex en caracteres 0x08 y ningún patrón matcheaba — el volcado de bytes lo delató, se reescribió el archivo limpio.
 - Verificado en producción: 464 revisadas → 16 relevantes → 6 abiertas · 4 descartadas por región · Kanban intacto.
 - Next: medir el embudo real cuando tenga datos (dónde pierde: ¿no aplica, o aplica y no le responden?) · sumar más empresas al jobs-companies.json a medida que aparezcan · alerta cuando salga una con score alto.
+
+### ID:5-JOB.P2 (frescura + ventaja competitiva) · 2026-08-13
+- Commit: 0850c5d · bd367d3
+- Files: scripts/fetch-jobs.mjs (Greenhouse ?content=true + extracción de palabras) · frontend/js/jobs-radar.js · css/jobs.css · jobs.html
+- Changed: Miguel pidió (a) saber que las búsquedas están al día y (b) VER la ventaja competitiva, que decía no percibir. Tenía razón: estaba construida y escondida.
+  - **Aviso de frescura**: "✓ Actualizado a hoy, 13 de agosto de 2026 · 464 revisadas en 11 fuentes". Si el feed tiene más de 30 h se pone ámbar y lo dice, en vez de dejarlo creer que mira lo de hoy. Mismo principio que el badge de 12-FIN.
+  - **LA VENTAJA REAL (nueva)**: los ATS descartan CVs por coincidencia de palabras antes de que un humano lea. Ahora cada vacante abre "🎯 Las palabras que esta vacante busca en tu CV" con dos columnas: las que ya puede sostener (ponerlas textual) y las que piden y no menciona. Habilitado con `?content=true` en Greenhouse (9.908 caracteres por vacante). Vocabulario CERRADO de ~70 términos verificables: no se infiere ninguna habilidad que la oferta no nombre; sin descripción no se muestra la sección.
+- Dos defectos propios corregidos al probar: (1) el badge 🔥 "reciente" salía junto a "hace 2 días" — el mismo dato diciendo dos cosas; hasta 48 h se muestra en horas. (2) La afinidad se mapeaba con ×2,2 y techo 99, así que casi todo llegaba a "99%" — un número confiado que el dato no sostiene. Nueva escala con techo en 80.
+- Verificado en producción: aviso verde con la fecha de hoy · 9 publicadas en 48 h · 8 de 10 con palabras clave · guardar al Kanban con afinidad 80% · badge coherente ("🔥 hace 47 h").
+- Next: cuando tenga historial de postulaciones, medir el embudo real (¿dónde pierde: no aplica, o aplica y no le responden?). Sumar empresas a jobs-companies.json a medida que aparezcan.
