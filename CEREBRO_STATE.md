@@ -8,6 +8,40 @@
 
 ---
 
+## 🔎 5-JOB · Radar diario de vacantes — 2026-08-13 (commit bcaf1ac)
+
+**Respuesta a "¿trae información diaria?": NO traía nada.** Cero peticiones de red, Kanban 100% manual,
+y una `loadLiveJobs()` en core.js que traía empleos de RemoteOK **y no la llamaba nadie** — código
+muerto hace meses.
+
+### El dato que definió el diseño (medido antes de escribir código)
+**De 100 vacantes de RemoteOK, CERO declaran aceptar candidatos de LatAm. En Remotive, 56%.**
+El mayor desperdicio de tiempo de alguien que busca empleo remoto desde Colombia no es *encontrar*
+vacantes: es descubrir a mitad de la postulación que eran solo para EE. UU.
+**Por eso la elegibilidad es filtro DURO, no un punto más.**
+
+### 11 fuentes
+4 portales remotos + **7 ATS de empresas que contratan en LatAm**, verificados uno por uno con petición
+real: Clara, Bitso, Laika (Greenhouse) · Belvo, Simetrik, Bold (Ashby) · Fintual (Lever).
+Los ATS dan señal muy superior: empresas concretas con ubicación explícita. La lista vive en
+`jobs-companies.json`, editable sin tocar código.
+Hoy: **464 revisadas → 445 únicas → 36 con señal de rol → 16 relevantes · 6 abiertas a LatAm**.
+Arriba: Data Analyst en Clara, y el **Paid Analyst de Simetrik** (movilidad interna).
+
+### Tres errores propios, corregidos midiendo
+1. **Mezclé afinidad con elegibilidad** — un empleo de marketing en Bogotá calificaba solo por decir
+   "LatAm". Ahora la región no suma afinidad y se exige al menos una señal de ROL.
+2. **Penalizaba por palabras de la descripción** — un puesto de analista en una empresa de ventas se
+   castigaba por la palabra "sales" del texto. Dejó el radar en CERO resultados.
+3. **Los `` de los regex se volvieron caracteres 0x08** al parchear el archivo con manipulación de
+   cadenas: ningún patrón matcheaba y el puntaje venía solo del bonus de frescura. El volcado de bytes
+   lo delató. **Lección: no parchear código con escapes vía sustitución de texto.**
+
+Durante el desarrollo, el guardián de `_prev.mjs` preservó el feed anterior de 35 cuando una versión
+del filtro dejó 0 resultados. La regla del éxito parcial funcionando en otro módulo.
+
+---
+
 ## 🏁 12-FIN · Fase 4 — módulo COMPLETO, 8 de 8 secciones — 2026-08-12 (commit 9cdbdaf)
 
 **Hoy · Mi plata · Colombia · Global · Radar · Inteligencia · Laboratorio · Ajustes.** Cero en construcción.

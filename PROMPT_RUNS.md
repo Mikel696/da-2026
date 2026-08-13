@@ -597,3 +597,14 @@ The user runs the same prompt multiple times across sessions. Without history:
 - Bug propio: `FININTEL.init()` ponía `_loading=true` antes de llamar a `load()`, cuyo guard empieza con `if (_data || _loading) return` — la bandera anti-duplicados impedía la primera carga.
 - Verificado en producción: 8 secciones, 25 fuentes (1 marcada sin verificar), usura 29,66% con 7 modalidades recuperadas, Ajustes con las 3 fuentes al día.
 - Next: 12-FIN no necesita más secciones. Lo que sigue es de OTROS módulos — Vista HOY en 1-IND (blueprint listo), hallazgo #3 de PROJECT.P1 (namespace da2026_ sin sync), medir cuota de localStorage. NO agregar secciones a 12-FIN por agregar: el módulo ya cubre su función.
+
+### ID:5-JOB.P1 (radar de vacantes) · 2026-08-13
+- Commit: bcaf1ac
+- Files: scripts/fetch-jobs.mjs (NUEVO) · frontend/data/jobs-companies.json (NUEVO) · frontend/data/jobs-feed.json (NUEVO) · frontend/js/jobs-radar.js (NUEVO) · jobs.html · css/jobs.css · workflow
+- Changed: **5-JOB no traía NADA diario** — cero peticiones de red, Kanban 100% manual, y una `loadLiveJobs()` en core.js que nadie llamaba (código muerto). Ahora hay radar diario de 11 fuentes.
+  - **El dato que definió el diseño**: de 100 vacantes de RemoteOK, CERO aceptan LatAm; en Remotive, 56%. La elegibilidad es filtro DURO, no un punto más.
+  - 7 ATS de empresas LatAm verificados uno por uno (Clara, Bitso, Laika, Belvo, Simetrik, Bold, Fintual). Señal muy superior a los portales genéricos. Lista editable en jobs-companies.json.
+  - Un clic manda la vacante al Kanban existente con el motivo y el % de afinidad.
+- Tres errores propios corregidos midiendo: (1) mezclé afinidad con elegibilidad — marketing en Bogotá calificaba por decir "LatAm"; (2) penalizaba por palabras de la DESCRIPCIÓN, lo que dejó el radar en 0 resultados; (3) parchear con manipulación de cadenas convirtió los `\b` de los regex en caracteres 0x08 y ningún patrón matcheaba — el volcado de bytes lo delató, se reescribió el archivo limpio.
+- Verificado en producción: 464 revisadas → 16 relevantes → 6 abiertas · 4 descartadas por región · Kanban intacto.
+- Next: medir el embudo real cuando tenga datos (dónde pierde: ¿no aplica, o aplica y no le responden?) · sumar más empresas al jobs-companies.json a medida que aparezcan · alerta cuando salga una con score alto.
