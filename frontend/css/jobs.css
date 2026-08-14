@@ -211,3 +211,13 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .jr-chip-no{color:var(--am);background:var(--color-amber-bg);border:1px solid rgba(234,179,8,.25)}
 .jr-kw-nota{font-size:10.5px;color:var(--t3);line-height:1.6;background:var(--el);border-radius:var(--radius-sm);padding:8px 10px}
 .jr-kw-nota b{color:var(--t2)}
+
+/* ── Bloques: lo nuevo arriba, separado ── */
+.jr-sec{display:flex;flex-direction:column;gap:2px;margin:18px 0 9px;padding-left:2px}
+.jr-sec:first-of-type{margin-top:4px}
+.jr-sec-t{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.jr-sec-s{font-size:11px;color:var(--t3);line-height:1.5;max-width:64ch}
+.jr-sec-hot .jr-sec-t{color:var(--or)}
+.jr-sec-hot .jr-sec-s{color:var(--t2)}
+.jr-card-nueva{border-color:rgba(249,115,22,.35);position:relative}
+.jr-nuevo-tag{position:absolute;top:-8px;right:11px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--or);background:var(--bg);border:1px solid rgba(249,115,22,.4);padding:2px 7px;border-radius:3px}

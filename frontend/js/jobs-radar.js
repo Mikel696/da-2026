@@ -25,7 +25,13 @@ const JOBRADAR = (() => {
   const SRC = 'data/jobs-feed.json';
   const VISTOS_KEY = 'jt_radar_vistos';   // local: cuáles ya descartaste
 
-  let _data = null, _loading = false, _filtro = 'abiertas';
+  /* Por defecto se muestran TODAS las que encajan, no solo las que declaran
+     LatAm. Motivo medido el 14-ago: las 7 vacantes publicadas en las últimas
+     48 h eran todas "dudosa", así que el filtro "solo abiertas" escondía el
+     100% de lo nuevo y el radar parecía congelado en las de Clara.
+     "Dudosa" significa que la oferta NO DICE la región — no que te rechacen.
+     Cada tarjeta muestra su estado, así que la decisión queda a la vista. */
+  let _data = null, _loading = false, _filtro = 'todas';
 
   const esc = s => String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -35,8 +41,21 @@ const JOBRADAR = (() => {
   /* Antigüedad en horas cuando importa. Las primeras 48 h son la ventana
      donde el reclutador todavía está revisando lo que llega. */
   const RECIENTE_H = 48;
+
+  /* Las horas se calculan AHORA, no cuando corrió la Action.
+     El campo `horas` del archivo queda congelado en el momento de la
+     recolección: decía "90 h" cuando ya eran 95. Un dato de tiempo tiene
+     que envejecer con el reloj de quien lo mira. */
+  const horasDe = j => {
+    if (j.fecha) {
+      const h = (Date.now() - Date.parse(j.fecha)) / 3600000;
+      if (isFinite(h)) return Math.round(h);
+    }
+    return j.horas != null ? j.horas : null;
+  };
+
   const cuando = j => {
-    const h = j.horas;
+    const h = horasDe(j);
     if (h == null) return j.dias != null ? `hace ${j.dias} días` : '';
     if (h < 1) return 'recién publicada';
     // Hasta el umbral se muestra en HORAS. Antes redondeaba a días y el
@@ -46,12 +65,24 @@ const JOBRADAR = (() => {
     const d = Math.round(h / 24);
     return d === 1 ? 'ayer' : `hace ${d} días`;
   };
-  const esReciente = j => j.horas != null && j.horas < RECIENTE_H;
+  const esReciente = j => { const h = horasDe(j); return h != null && h < RECIENTE_H; };
 
   const HOY = new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const vistosGet = () => { try { return JSON.parse(localStorage.getItem(VISTOS_KEY) || '[]'); } catch { return []; } };
   const vistosSet = a => { try { localStorage.setItem(VISTOS_KEY, JSON.stringify(a.slice(-300))); } catch {} };
+
+  /* Qué vacantes ya aparecieron en visitas anteriores. Sirve para marcar
+     "nueva para vos": no es lo mismo recién publicada que no vista antes. */
+  const CONOCIDAS_KEY = 'jt_radar_conocidas';
+  const conocidasGet = () => { try { return JSON.parse(localStorage.getItem(CONOCIDAS_KEY) || '[]'); } catch { return []; } };
+  const conocidasMarcar = urls => {
+    try {
+      const prev = conocidasGet();
+      const set = [...new Set(prev.concat(urls))];
+      localStorage.setItem(CONOCIDAS_KEY, JSON.stringify(set.slice(-400)));
+    } catch {}
+  };
 
   /* ── Carga ── */
   async function load() {
@@ -102,14 +133,15 @@ const JOBRADAR = (() => {
   }
 
   /* ── Render ── */
-  function tarjeta(j, i) {
+  function tarjeta(j, i, esNueva) {
     const badge = j.elegibilidad === 'abierta'
       ? '<span class="jr-el jr-ok">✓ acepta LatAm</span>'
       : j.elegibilidad === 'dudosa'
       ? '<span class="jr-el jr-dudo">? no lo dice</span>'
       : '<span class="jr-el jr-nd">sin declarar</span>';
 
-    return `<div class="jr-card" data-i="${i}">
+    return `<div class="jr-card${esNueva ? ' jr-card-nueva' : ''}" data-i="${i}">
+      ${esNueva ? '<span class="jr-nuevo-tag">nueva para vos</span>' : ''}
       <div class="jr-top">
         <span class="jr-score" title="Afinidad con tu perfil">${j.score}</span>
         <span class="jr-titulo">${esc(j.titulo)}</span>
@@ -178,6 +210,17 @@ const JOBRADAR = (() => {
     const r = _data.resumen || {};
     const gen = _data.generatedAt ? new Date(_data.generatedAt) : null;
 
+    /* ── Lo nuevo va ARRIBA, separado ──────────────────────────────
+       El orden anterior era elegibilidad → puntaje, y eso enterraba lo
+       recién publicado: las vacantes viejas de una empresa grande puntúan
+       más que una nueva, así que el radar mostraba la misma lista todos
+       los días aunque el archivo se actualizara bien. Lo reciente compite
+       en su propio bloque, ordenado por hora, no por puntaje. */
+    const nuevas  = lista.filter(esReciente).sort((a, b) => horasDe(a) - horasDe(b));
+    const resto   = lista.filter(j => !esReciente(j));
+    const yaVisto = conocidasGet();
+    const esNuevaParaVos = j => !yaVisto.includes(j.url);
+
     /* Aviso de frescura: lo primero que se ve. Compara la fecha del feed
        con hoy, y si la actualización diaria no corrió lo dice en ámbar en
        vez de dejarte creer que estás mirando lo de hoy. */
@@ -227,19 +270,36 @@ const JOBRADAR = (() => {
         ${vistos.length ? `<button class="jr-f jr-reset" id="jrLimpiar">↺ Ver las ${vistos.length} descartadas</button>` : ''}
       </div>
 
-      ${lista.length
-        ? `<div class="jr-list">${lista.map(tarjeta).join('')}</div>`
-        : `<div class="jr-empty">
+      ${nuevas.length ? `
+        <div class="jr-sec jr-sec-hot">
+          <span class="jr-sec-t">🔥 Recién publicadas · últimas 48 horas</span>
+          <span class="jr-sec-s">Acá está la ventaja: llegar antes de que se llene de postulantes. Ordenadas por hora, no por puntaje.</span>
+        </div>
+        <div class="jr-list">${nuevas.map((j, i) => tarjeta(j, lista.indexOf(j), esNuevaParaVos(j))).join('')}</div>` : ''}
+
+      ${resto.length ? `
+        <div class="jr-sec">
+          <span class="jr-sec-t">Las demás que encajan con tu perfil</span>
+          <span class="jr-sec-s">Siguen abiertas, pero llevan más tiempo publicadas. Ordenadas por afinidad.</span>
+        </div>
+        <div class="jr-list">${resto.map(j => tarjeta(j, lista.indexOf(j), esNuevaParaVos(j))).join('')}</div>` : ''}
+
+      ${!lista.length
+        ? `<div class="jr-empty">
              ${_filtro === 'abiertas'
                ? 'Hoy ninguna declara aceptar LatAm.<span>Mirá «Todas las que encajan»: las dudosas no dicen la región, y a veces sí aceptan. Vale leerlas.</span>'
-               : 'Ya revisaste todas las de hoy.<span>El radar se actualiza solo cada mañana.</span>'}
-           </div>`}
+               : 'Ya revisaste todas las de hoy.<span>El radar vuelve a buscar tres veces al día.</span>'}
+           </div>` : ''}
 
       <div class="jr-pie">
         Fuentes: ${esc((_data.fuentes || []).join(' · '))}.
         Las marcadas <b>«directo de la empresa»</b> vienen del sistema de contratación oficial:
         son las de mejor señal. Postularte se hace en el sitio de la empresa; acá solo te enterás de que existen.
       </div>`;
+
+    // Marcar como conocidas DESPUÉS de pintarlas: en la próxima visita solo
+    // llevarán el sello "nueva para vos" las que no viste hoy.
+    conocidasMarcar(lista.map(j => j.url));
 
     wire();
   }

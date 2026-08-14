@@ -96,6 +96,15 @@ const CONTRA = [
   { re: /(m\/f\/d|m\/w\/d|deutsch|german)/i,                   p: -6,  t: 'mercado alemán' }
 ];
 
+/* Mercado alemán: se cuela por todos lados y no te sirve. La penalización
+   de arriba mira solo el cargo, y así pasaban "Data Analyst Schwerpunkt
+   Healthcare" o cualquier vacante de una GmbH. Esto lo descarta de raíz
+   mirando también la empresa y palabras inequívocas del texto. */
+const MERCADO_ALEMAN = /(gmbh|\bag\b|werkstudent|schwerpunkt|mitarbeiter|festanstellung|unbefristet|standort|m\/w\/d|m\/f\/d|\(d\/m\/w\)|berufserfahrung)/i;
+const esAleman = j =>
+  MERCADO_ALEMAN.test(`${j.empresa || ''} ${j.titulo || ''}`) ||
+  (/(deutschland|münchen|munich|berlin|hamburg|frankfurt|köln|stuttgart)/i.test(j.ubicacion || ''));
+
 /* ═══ ELEGIBILIDAD — el filtro que ahorra el tiempo de verdad ═══ */
 const ABIERTO = /latam|latin ?america|colombia|americas|worldwide|anywhere|global|south america/i;
 const CERRADO = /(usa only|us only|united states only|must be located in the us|eu only|europe only|uk only|canada only|india only|deutschland)/i;
@@ -302,6 +311,7 @@ const evaluadas = [...vistos.values()].map(j => {
 });
 
 const relevantes = evaluadas
+  .filter(j => !esAleman(j))                     // no le sirve y ensuciaba lo "recién publicado"
   .filter(j => j.tieneRol)                       // sin señal de ROL no entra, por muy LatAm que sea
   .filter(j => j.score >= (j.esAts ? 8 : 14))    // el ATS ya es señal: se le exige menos
   .filter(j => j.dias <= MAX_DIAS)
