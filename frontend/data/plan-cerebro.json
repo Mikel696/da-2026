@@ -120,8 +120,9 @@
         {
           "id": "O4.2", "modulo": "infra", "estado": "pendiente", "prioridad": "P2",
           "titulo": "El namespace da2026_ no sincroniza",
-          "problema": "Perfil, XP y racha de core.js son locales para siempre. Hallazgo #3 de la auditoría, sin resolver.",
-          "entrega": "Decisión y ejecución: se sincroniza o se documenta por qué no."
+          "problema": "core.js:20 define DB.NS = 'da2026_' y bajo ese prefijo guarda 6 claves (profile, xp, streak, tasks, notes, sessions). El prefijo no aparece en ninguna parte de cloud-sync.js — DYNAMIC_PREFIXES es solo ['fin_','sb_pomo_']. Son locales para siempre: en el otro PC la racha arranca de cero. Hallazgo #3 de la auditoría, sin resolver. Verificado el 17-ago.",
+          "entrega": "Decisión y ejecución: se sincroniza (probando el merge antes, con backup hecho) o se documenta por qué no y la interfaz deja de prometerlo. Lo que no vale es el estado actual, donde parece que sincroniza.",
+          "verificacion": "Escribir una clave da2026_* desde la consola y mirar la outbox. No alcanza con que el registro «se vea bien»."
         },
         {
           "id": "O4.3", "modulo": "docs", "estado": "pendiente", "prioridad": "P2",
