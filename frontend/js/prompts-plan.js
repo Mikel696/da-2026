@@ -75,7 +75,14 @@ const PROMPTSPLAN = (() => {
       return;
     }
 
-    const items = (_data.prompts || []).map((p, i) => `
+    // Orden por prioridad: lo que toca ahora arriba. El JSON conserva el orden
+    // de escritura; ordenar acá evita tener que mantenerlo a mano en dos lados.
+    const orden = { P0: 0, P1: 1, P2: 2, P3: 3 };
+    const lista = (_data.prompts || [])
+      .map((p, i) => ({ p, i }))
+      .sort((a, b) => (orden[a.p.prioridad] ?? 9) - (orden[b.p.prioridad] ?? 9) || a.i - b.i);
+
+    const items = lista.map(({ p, i }) => `
       <div class="pp-card">
         <div class="pp-top">
           <span class="pp-id">${esc(p.id)}</span>

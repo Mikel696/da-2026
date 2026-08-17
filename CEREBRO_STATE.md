@@ -57,6 +57,33 @@ copiado compone cabecera + cuerpo (952 caracteres en la prueba), y el cambio de 
 las 6 que ya existían. 13-NOT renderiza 4 olas / 12 tareas / 7 criterios / 4 hitos, y los filtros de
 prioridad responden (P0 → 4 tareas en 3 olas; P3 → 1). Consola sin errores en ambos.
 
+**Dos defectos propios, encontrados al verificar en producción:**
+
+1. **Parcheé `prompts.html` con sustitución de texto y el `replace('</body>')` matcheó un `</body>`
+   que estaba DENTRO del texto de un prompt** — inyectó el `<script>` en medio de una cadena de JS.
+   Misma clase de error que los `\b` convertidos en `0x08` del 13 de agosto. Revertido con
+   `git checkout` y rehecho con `Edit` sobre anclas exactas. La regla ya estaba escrita y la
+   volví a incumplir: **no se parchea código con sustitución de texto.**
+
+2. **Los estilos del plan de 13-NOT iban a un archivo que la página no carga.** En producción la
+   pestaña renderizaba las 12 tareas sin ningún estilo: fondo transparente, sin borde, prioridades
+   en color de texto plano. En local yo había comprobado que los elementos **existían**, no que se
+   **vieran**. `notes.html` nunca enlazó `css/notes.css`; sus estilos viven embebidos en su propio
+   `<style>`. Las 52 reglas se movieron ahí.
+
+   **Hallazgo abierto → tarea O4.4 (P1):** `css/notes.css` lleva meses tragándose ediciones en
+   silencio — el commit `da90c35` ("ancho unificado a 1200px en los 3 módulos") también lo tocó
+   creyendo que aplicaba, y `module-prompts.js:30` sigue documentando que 13-NOT lo usa. Hay que
+   decidir si se rescata o se borra, y revisar si hay más CSS huérfano en las 28 páginas.
+
+**Corrección de un dato del propio plan:** la ficha de O4.2 decía "perfil, XP y racha". Verificado:
+`core.js:20` define `DB.NS = 'da2026_'` y guarda **6 claves** (`profile`, `xp`, `streak`, `tasks`,
+`notes`, `sessions`), y `DB` lo usan también `apply.js` y `dashboard.js`. El prefijo no aparece en
+ninguna línea de `cloud-sync.js`.
+
+**Estado del plan:** 13 tareas, todas con criterio de verificación, 12 con prompt listo. La única
+sin prompt es O3.3 y es a propósito — es una decisión de Miguel sobre 11-ACC, no algo que se ejecute.
+
 **Pendiente de esta tanda:** O4.3 — el resumen de estado presente al inicio de este archivo
 (4.071 líneas en orden cronológico siguen siendo caras de leer). Quedó como tarea P2 del plan.
 
