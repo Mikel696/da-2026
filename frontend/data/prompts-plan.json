@@ -2,69 +2,98 @@
   "version": "1.0",
   "actualizado": "2026-08-17",
   "nota": "Un prompt por tarea del plan. Cada uno arranca una sesión autocontenida: trae el contexto mínimo necesario, el problema real, qué entrega y cómo se verifica. Nada de prompts genéricos de 40 líneas que hay que editar antes de usar — se copian y se pegan.",
-
   "cabecera": "Sos el INGENIERO A CARGO de DA-2026 «Cerebro». Dirigís, decidís y ejecutás.\nREPO: E:\\Aplicaciones\\ANALISIS DE DATOS\\Pagina Web\\HTML\\da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nSTACK: Vanilla JS · IIFE · localStorage → render() → DOM · Supabase JSONB · sin frameworks.\n\nANTES DE TOCAR CÓDIGO leé: CLAUDE.md (mandato y reglas) · PROMPT_MANTENIMIENTO.md (chequeo de salud y trampas conocidas) · data/plan-cerebro.json (esta tarea).\n\nLAS 3 REGLAS QUE MÁS SE INCUMPLEN:\n1. Verificá en PRODUCCIÓN, no en preview. El preview pasó verde y el live salió roto más de una vez.\n2. Probá el COMPORTAMIENTO, no leas el código. ¿Sincroniza esa clave? Escribila y mirá la outbox.\n3. Un dato sin fuente no se muestra. Campo vacío + fecha del último valor bueno.\n\nAL CERRAR: actualizar el estado de la tarea en data/plan-cerebro.json, anotar en PROMPT_RUNS.md, commit y push.",
-
   "prompts": [
     {
-      "id": "O1.1", "modulo": "1-IND", "prioridad": "P0",
-      "titulo": "Vista HOY · el briefing que cruza todo",
-      "cuerpo": "TAREA O1.1 · Construir la Vista HOY en 1-IND (index.html).\n\nEL PROBLEMA: hay 16 módulos y el dashboard solo muestra tarjetas para entrar a cada uno. No dice qué requiere atención HOY.\n\nQUÉ ENTREGA: un panel arriba del dashboard que cruce, leyendo los stores que ya existen:\n· tesis vencidas → FINLAB.pendientes() y fin_theses\n· alertas disparadas → FINRADAR.pendientes() y fin_alerts\n· vacantes nuevas sin ver → data/jobs-feed.json vs jt_radar_conocidas\n· entregas próximas → sys_tasks\n· hábitos del día → sb_habits\n· tarjetas SRS pendientes → eng_srs_deck\n\nREUSÁ el patrón de briefing ya probado en fin-colombia.js (función _briefing): cada tarjeta aparece SOLO si hay dato que la sostenga, y el clic salta al módulo correspondiente.\n\nSOLO LECTURA salvo marcar un hábito o completar una tarea.\n\nVERIFICACIÓN: con los stores vacíos el panel no inventa nada; con datos sembrados aparece cada tarjeta y su clic navega bien."
-    },
-    {
-      "id": "O1.2", "modulo": "2-APP", "prioridad": "P0",
+      "id": "O1.2",
+      "modulo": "2-APP",
+      "prioridad": "P0",
       "titulo": "Del radar a la postulación",
       "cuerpo": "TAREA O1.2 · Conectar el radar de 5-JOB con el analizador de 2-APP.\n\nEL PROBLEMA: 5-JOB ya extrae las palabras que cada vacante busca en el CV (campo `kw.tenes` y `kw.faltan` de data/jobs-feed.json). 2-APP tiene el analizador ATS y el tejedor de CV. No se conocen: hay que copiar y pegar la oferta a mano.\n\nQUÉ ENTREGA: botón «Preparar postulación» en cada tarjeta del radar → abre apply.html con la vacante ya cargada (título, empresa, descripción, palabras clave) y el análisis ATS corrido.\n\nCÓMO PASAR EL DATO: mirá primero cómo apply.html recibe hoy una vacante (hay un handler de ?clip=1). Reusá ese camino en vez de inventar otro.\n\nVERIFICACIÓN: desde una tarjeta del radar se llega a 2-APP con todo cargado sin teclear nada."
     },
     {
-      "id": "O2.1", "modulo": "7-NEW", "prioridad": "P0",
+      "id": "O2.1",
+      "modulo": "7-NEW",
+      "prioridad": "P0",
       "titulo": "Noticias del lado servidor, con criterio",
       "cuerpo": "TAREA O2.1 · Sacar el proxy de terceros de 7-NEW y darle criterio.\n\nEL PROBLEMA: news.html depende de api.rss2json.com — un tercero gratuito en el camino crítico, exactamente lo que reventó en 12-FIN el 11 de agosto (allorigins devolvió 522 solo a las peticiones del navegador). Y muestra un volcado de RSS sin filtrar por lo que a Miguel le sirve.\n\nQUÉ ENTREGA: scripts/fetch-news.mjs en la GitHub Action → frontend/data/news-feed.json → news.html lo lee del MISMO origen.\n\nCOPIÁ EL PATRÓN de scripts/fetch-world.mjs, que ya hace esto para prensa financiera: Promise.allSettled por fuente, dedupe, puntuación con el motivo visible, y _prev.mjs para que un fallo parcial no degrade el archivo.\n\nFUENTES: verificá cada RSS con una petición real antes de incluirlo. Temas: análisis de datos, IA aplicada, automatización, carrera en datos.\n\nVERIFICACIÓN: cero llamadas a rss2json desde el navegador, consola limpia, aviso de frescura que se pone ámbar si la Action no corrió."
     },
     {
-      "id": "O2.3", "modulo": "3-ENG", "prioridad": "P1",
+      "id": "O2.3",
+      "modulo": "3-ENG",
+      "prioridad": "P1",
       "titulo": "Inglés con el material que vas a leer de verdad",
       "cuerpo": "TAREA O2.3 · Alimentar 3-ENG con las descripciones reales de vacantes.\n\nEL PROBLEMA: el inglés es innegociable para el trabajo remoto, pero se practica con oraciones inventadas. Mientras tanto data/jobs-feed.json baja descripciones completas de vacantes reales en inglés todos los días.\n\nQUÉ ENTREGA:\n· vocabulario del día extraído de una vacante real, con enlace a la oferta\n· las palabras que más se repiten en las vacantes que le interesan\n· frases del sector para practicar pronunciación (ya hay TTS en el módulo)\n\nNO INVENTES vocabulario: todo término mostrado tiene que estar en el texto de una oferta real, y hay que poder abrir esa oferta.\n\nVERIFICACIÓN: cada palabra del día muestra de qué vacante salió y el enlace funciona."
     },
     {
-      "id": "O1.3", "modulo": "9-GOA", "prioridad": "P1",
+      "id": "O1.3",
+      "modulo": "9-GOA",
+      "prioridad": "P1",
       "titulo": "Hábitos verificados por evidencia",
       "cuerpo": "TAREA O1.3 · Que los hábitos comprobables se marquen solos.\n\nEL PROBLEMA: todos los hábitos se marcan a mano. Un hábito auto-reportado mide la memoria, no la conducta.\n\nQUÉ ENTREGA: los hábitos que el sistema PUEDE comprobar se marcan con evidencia:\n· «apliqué a un empleo» → una tarjeta pasó a `applied` en da_vacancies hoy\n· «escribí una tesis» → alta en fin_theses hoy\n· «registré mis gastos» → movimiento nuevo en fin_YYYY-MM hoy\n· «practiqué inglés» → repaso en eng_srs_deck hoy\n\nLos que no se pueden comprobar SIGUEN MANUALES y la interfaz dice cuáles son cuáles. No mientas sobre lo que el sistema sabe.\n\nVERIFICACIÓN: guardar una vacante en el tablero marca su hábito sin tocar nada más."
     },
     {
-      "id": "O3.1", "modulo": "4-RUT", "prioridad": "P1",
+      "id": "O3.1",
+      "modulo": "4-RUT",
+      "prioridad": "P1",
       "titulo": "ATLAS detecta el desvío",
       "cuerpo": "TAREA O3.1 · Que la ruta avise cuando el plan y la realidad se separan.\n\nEL PROBLEMA: la Fase 1 estaba planeada para julio de 2026; el 14 de agosto el progreso marcaba 0%. El módulo muestra el plan pero no dice que el plan se corrió. Una ruta que no detecta el desvío es un póster.\n\nQUÉ ENTREGA: comparación entre la fase que tocaría por calendario y el avance real, con el desfase en días y una pregunta honesta — ¿se reprograma la ruta o se retoma el ritmo? Sin regaños ni gamificación falsa: el dato y la decisión.\n\nVERIFICACIÓN: con progreso 0% y la fase vencida, el módulo lo dice en la primera pantalla."
     },
     {
-      "id": "O4.1", "modulo": "infra", "prioridad": "P0",
+      "id": "O4.1",
+      "modulo": "infra",
+      "prioridad": "P0",
       "titulo": "Cuota de localStorage: medirla y protegerla",
       "cuerpo": "TAREA O4.1 · Que un QuotaExceededError deje de tragarse en silencio.\n\nEL PROBLEMA: 4,8 MB medidos el 10 de agosto, techo típico 5-10 MB. Casi todo el código guarda con `try{...}catch{}` vacío: si la cuota se llena, la app dice «guardado» y NO guardó. Es un vector de pérdida de datos — P0 del mandato.\n\nQUÉ ENTREGA:\n· medición real del uso por clave (navigator.storage.estimate + suma por clave)\n· aviso visible al acercarse al techo, en el badge ☁ que ya existe\n· que el catch distinga QuotaExceededError y avise en vez de callarse\n\nEMPEZÁ POR MEDIR en el navegador real de Miguel antes de decidir umbrales.\n\nVERIFICACIÓN: llenar la cuota a propósito en una pestaña de prueba y confirmar que el sistema avisa en vez de perder el dato en silencio."
     },
     {
-      "id": "O2.2", "modulo": "1-IND", "prioridad": "P1",
-      "titulo": "Sacar rss2json del dashboard y borrar el código muerto",
-      "cuerpo": "TAREA O2.2 · Limpiar 1-IND.\n\nEL PROBLEMA: index.html usa api.rss2json.com (mismo proxy frágil que 7-NEW) y core.js tiene una función loadLiveJobs() que trae empleos de RemoteOK y NO LA LLAMA NADIE — código muerto desde hace meses. 5-JOB ya tiene su radar.\n\nQUÉ ENTREGA: el dashboard lee los archivos que ya generan los recolectores (news-feed.json cuando exista, jobs-feed.json ya existe). Se borra loadLiveJobs y sus ayudantes si no quedan usos.\n\nANTES DE BORRAR: `grep -rn loadLiveJobs` en todo el repo y confirmar que no lo usa nadie.\n\nVERIFICACIÓN: cero llamadas a rss2json; el dashboard sigue mostrando novedades."
+      "id": "O2.2",
+      "modulo": "1-IND",
+      "prioridad": "P0",
+      "titulo": "El feed del dashboard está roto AHORA",
+      "cuerpo": "TAREA O2.2 · Sacar rss2json de 1-IND y barrer el código muerto.\n\nEL PROBLEMA — YA NO ES HIPOTÉTICO. Verificado el 17-ago desde el navegador:\n\n    fetch('https://api.rss2json.com/v1/api.json?rss_url=…') → **422**\n\n`index.html:renderFeed()` pide 4 feeds a ese proxy y los 4 fallan. El bloque «feed en vivo — noticias reales» del dashboard está vacío en producción y la consola escupe un 422 por intento. Es exactamente lo que reventó en 12-FIN el 11 de agosto: un tercero gratuito en el camino crítico.\n\nQUÉ ENTREGA: el dashboard lee un archivo del MISMO origen que genera la Action.\n· Si ya hiciste O2.1, `data/news-feed.json` existe → consumilo y listo.\n· Si no, hacé O2.1 primero: son el mismo recolector.\n\nCÓDIGO MUERTO A BARRER (verificado el 17-ago):\n· `js/core.js:313` define `loadLiveJobs()` — trae empleos de RemoteOK y **no la llama nadie**. 5-JOB ya tiene su radar. ⚠️ `core.js` SÍ se carga (desde `pages/configurar.html`, `empleos.html` e `ingles.html`), así que borrá la función, NO el archivo.\n· `js/index.js` también usa rss2json, pero ese archivo entero está huérfano — se resuelve en la tarea O4.5, no acá.\n\nVERIFICACIÓN: abrir el dashboard en PRODUCCIÓN y comprobar cero peticiones a rss2json en la pestaña Red, consola sin 422, y el bloque de novedades mostrando algo. Y `grep -rn loadLiveJobs` sin resultados fuera de los comentarios."
     },
     {
-      "id": "O3.2", "modulo": "10-SYS", "prioridad": "P2",
+      "id": "O3.2",
+      "modulo": "10-SYS",
+      "prioridad": "P2",
       "titulo": "Que la pantalla no se contradiga sola",
       "cuerpo": "TAREA O3.2 · Coherencia temporal en 10-SYS.\n\nEL PROBLEMA: el encabezado dice «26V02» y el contador dice «45 días restantes», pero esos 45 días son del fin de 26V03. Dos componentes leen períodos distintos y el usuario ve un número que pertenece a un período que el rótulo no nombra.\n\nMiguel marca el cierre de período a mano, así que NO hay que adivinar cuál está activo ni inventar el calendario del siguiente. El arreglo es que un solo período mande en toda la pantalla y que, si terminó, la interfaz lo diga.\n\nNO INVENTES materias ni fechas del período nuevo: sin evidencia de CDigital, campo vacío y pedirla.\n\nVERIFICACIÓN: rótulo, contador y materias hablan siempre del mismo período."
     },
     {
-      "id": "O4.2", "modulo": "infra", "prioridad": "P2",
+      "id": "O4.2",
+      "modulo": "infra",
+      "prioridad": "P2",
       "titulo": "El namespace da2026_ no sincroniza",
       "cuerpo": "TAREA O4.2 · Resolver el namespace `da2026_`, que nunca sale del dispositivo.\n\nEL PROBLEMA (verificado el 17-ago): `frontend/js/core.js:20` define `DB.NS = 'da2026_'` y bajo ese prefijo guarda **6 claves**: `profile`, `xp`, `streak`, `tasks`, `notes`, `sessions`. El prefijo `da2026_` **no aparece en ninguna parte de `cloud-sync.js`** — `DYNAMIC_PREFIXES` es solo `['fin_', 'sb_pomo_']`. O sea: son locales para siempre. Si Miguel abre el Cerebro en el otro PC, su racha arranca de cero. Es el hallazgo #3 de la auditoría y sigue sin resolver.\n\nOJO: `DB` también lo usan `apply.js` y `dashboard.js`, así que el alcance es mayor que core.js.\n\nQUÉ ENTREGA: la decisión ejecutada, no un informe.\n· Si esos datos DEBEN cruzar dispositivos → sumar el prefijo al registro de sync y probarlo de verdad.\n· Si son locales por diseño (que es defendible: la racha de un equipo puede no significar nada en el otro) → dejarlos, pero **documentarlo donde se vea** y que la interfaz no prometa lo que no hace.\n\nLo que NO vale es dejarlo como está: hoy parece que sincroniza y no sincroniza.\n\nCÓMO PROBARLO (regla 2 del oficio: probá el comportamiento, no leas el código): escribí una clave `da2026_*` desde la consola y mirá si aparece en la outbox. No alcanza con que el `SYNC_REGISTRY` «se vea bien».\n\nCUIDADO — P0 del mandato: si decidís sincronizar, el primer pull en un dispositivo con datos viejos puede pisar los nuevos. Revisá cómo `_mergeByUpdatedAt` trata estas claves ANTES de habilitarlas, y probá con un backup hecho.\n\nVERIFICACIÓN: dos dispositivos (o dos perfiles del navegador) mostrando lo mismo — o la interfaz diciendo con todas las letras que ese dato es de este equipo."
     },
     {
-      "id": "O4.4", "modulo": "13-NOT", "prioridad": "P1",
+      "id": "O4.4",
+      "modulo": "13-NOT",
+      "prioridad": "P1",
       "titulo": "CSS huérfano: cambios que no aplican y nadie nota",
       "cuerpo": "TAREA O4.4 · Resolver css/notes.css, que se traga las ediciones en silencio.\n\nEL PROBLEMA: `frontend/notes.html` NO enlaza `css/notes.css`. Nunca lo hizo. Sus estilos viven embebidos en el bloque `<style>` de la página (líneas 17-78) y las hojas que carga son design-tokens, components, nb-shared y auth.\n\nEl archivo lleva meses recibiendo cambios que no aplican:\n· el commit da90c35 («ancho de página unificado a 1200px en los 3 módulos») lo editó creyendo que servía\n· el 17 de agosto le agregué 54 reglas del plan y en producción se veían sin estilo\n· `js/module-prompts.js:30` sigue documentando que 13-NOT usa `css/notes.css`, así que la próxima sesión vuelve a caer en lo mismo\n\nQUÉ ENTREGA: una decisión ejecutada, no un diagnóstico.\n1. Comparar las reglas de `css/notes.css` contra las embebidas en notes.html y contra `nb-shared.css`.\n2. Si hay algo único que DEBERÍA estar aplicando, moverlo al `<style>` de notes.html.\n3. Si no queda nada útil, borrar el archivo.\n4. En los dos casos, corregir la ficha de `module-prompts.js:30`.\n\nEXTENDÉ EL CHEQUEO: ¿hay más CSS huérfano? Cruzá cada `frontend/css/*.css` contra los `<link>` de las 28 páginas. Un archivo que nadie carga es una trampa esperando.\n\nVERIFICACIÓN: cambiá una regla a un color absurdo y confirmá que se ve (o que el archivo ya no existe). Hoy no cambia nada y eso es justo lo que no se nota."
     },
     {
-      "id": "O4.3", "modulo": "docs", "prioridad": "P2",
+      "id": "O4.3",
+      "modulo": "docs",
+      "prioridad": "P2",
       "titulo": "CEREBRO_STATE con resumen arriba",
       "cuerpo": "TAREA O4.3 · Hacer legible el estado del proyecto.\n\nEL PROBLEMA: CEREBRO_STATE.md tiene 4.071 líneas en orden cronológico. Una sesión que «lee el estado» quema un contexto enorme antes de escribir una línea, y lo viejo pesa más que lo presente.\n\nQUÉ ENTREGA: arriba, un resumen del estado PRESENTE — una línea por módulo con su estado real y su última fecha. Abajo o en archivo aparte, el histórico completo (no se borra: es la memoria de por qué las cosas son como son).\n\nVERIFICACIÓN: leyendo solo las primeras 60 líneas se entiende en qué está cada módulo hoy."
+    },
+    {
+      "id": "O2.4",
+      "modulo": "3-ENG",
+      "prioridad": "P1",
+      "titulo": "El mazo SRS tiene dos formas incompatibles",
+      "cuerpo": "TAREA O2.4 · Unificar el esquema de eng_srs_deck.\n\nEL PROBLEMA (verificado el 17-ago): dos productores escriben en el MISMO mazo con formas distintas.\n· `js/eng-import.js` crea `{id, front, back, box, due: <epoch ms>}`\n· `js/notes-brain.js` (SrsBridge.addCard) crea `{id, q, a, box, interval, ease, reps, nextReview: 'YYYY-MM-DD'}`\n\nY el contador autoritativo, `js/eng-practice.js:_genSRS`, filtra con:\n    deck.filter(c => !c.due || c.due <= now)\n\nEse `!c.due` hace que TODA tarjeta creada desde 13-NOT cuente como vencida para siempre — aunque su `nextReview` sea de dentro de un año. El repaso espaciado deja de espaciar.\n\nQUÉ ENTREGA: un solo esquema y un solo lugar que decida qué está vencido.\n1. Elegir el formato (sugerencia: `due` en epoch, que es lo que el contador ya entiende) y migrar las tarjetas existentes del otro formato.\n2. **P0 del mandato: es dato del usuario.** La migración no puede perder ni una tarjeta ni su progreso (`box`, `reps`, `ease`). Hacé backup antes y contá tarjetas antes/después.\n3. Exponer una función única de «¿está vencida?» que consuman 3-ENG, 13-NOT y la Vista HOY.\n\nOJO — hay un tercer consumidor: `frontend/js/hoy.js:fSrs()` replica hoy la expresión defectuosa A PROPÓSITO, para no mostrar un número que contradiga a 3-ENG. Cuando unifiques, simplificalo y borrá el comentario que explica la réplica.\n\nVERIFICACIÓN: creá una tarjeta desde 13-NOT con repaso a 7 días y confirmá que NO aparece como vencida hoy — ni en 3-ENG ni en el dashboard. Y que el total de tarjetas es el mismo que antes de migrar."
+    },
+    {
+      "id": "O4.5",
+      "modulo": "infra",
+      "prioridad": "P1",
+      "titulo": "559 líneas de JavaScript que no carga nadie",
+      "cuerpo": "TAREA O4.5 · Resolver el JavaScript huérfano.\n\nEL PROBLEMA (verificado el 17-ago): `frontend/js/index.js` (425 líneas) y `frontend/js/dashboard.js` (134) no los referencia NINGUNA página. Cero `<script src>`, cero carga dinámica, cero menciones en todo el repo.\n\n`index.js` es lo más llamativo: contiene un «mission control» entero — `renderUrgentTasks()`, `renderPipeline()`, `renderWeeklyGoal()`, `renderRecentActivity()` — que es un intento previo de la Vista HOY, muerto en el disco desde hace meses.\n\nEs el mismo patrón que `css/notes.css` (tarea O4.4): archivos que reciben ediciones que no aplican y nadie se entera.\n\n⚠️ CUIDADO — `frontend/js/core.js` SÍ SE CARGA. Lo usan `pages/configurar.html`, `pages/empleos.html` y `pages/ingles.html`. No lo borres de paso por parecerse.\n\nQUÉ ENTREGA:\n1. Revisar si hay lógica en `index.js` que valga la pena rescatar hacia `js/hoy.js` (la Vista HOY ya cubre buena parte de su intención).\n2. Borrar lo que no se rescate.\n3. **Extender el barrido**: cruzar cada `frontend/js/*.js` contra los `<script src>` de las 28 páginas. Si aparecieron dos huérfanos, pueden aparecer más.\n\nVERIFICACIÓN: `grep -rn` del nombre de cada archivo en todo el repo ANTES de borrar. Después, abrir index.html en producción y confirmar que no se rompió nada."
     }
   ]
 }

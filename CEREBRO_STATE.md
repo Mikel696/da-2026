@@ -11,6 +11,40 @@
 
 ---
 
+## ⚡ 1-IND · Vista HOY — 2026-08-17 (tarea O1.1 · HECHA)
+
+El dashboard tenía 16 tarjetas para **entrar** a los módulos y ninguna que dijera qué requiere
+atención. Ahora cruza seis fuentes que ya existían: alertas disparadas y tesis vencidas (12-FIN),
+vacantes abiertas a LatAm sin ver (5-JOB), entregas próximas (10-SYS), hábitos sin marcar (9-GOA)
+y tarjetas SRS (3-ENG). Archivo: `frontend/js/hoy.js`.
+
+**Lo que lo hace confiable es lo que NO hace.** Distingue dos silencios que se parecen: «al día»
+(verificado — hay datos y no hay pendientes) y «sin datos todavía» (el módulo nunca se usó). Con los
+seis stores vacíos no pinta una sola tarjeta ni un solo número. No haber usado 9-GOA no es tener
+los hábitos al día, y el panel lo dice con todas las letras.
+
+**Es un espejo, no una segunda autoridad.** Cada fuente se cuenta con la misma expresión que usa su
+módulo. Donde el módulo tiene un defecto se replicó igual y se anotó como tarea, en vez de
+arreglarlo por libre y dejar dos números contradictorios en pantalla.
+
+**La trampa que había que esquivar — y por qué importa para cualquier módulo que escriba:**
+`sys_tasks` está en `SKIP_KEYS` de `cloud-sync.js`. El proxy lo ignora **a propósito** porque es
+tabla dedicada Tier 1, empujada con `CLOUD.push()` explícito desde `systems_logic.js:saveTasks`.
+Escribirlo solo con `setItem` habría guardado local **sin sincronizar**: marcabas la entrega en el
+dashboard y en el otro PC seguía pendiente. Pérdida silenciosa, P0 del mandato. `completarTarea()`
+replica el push explícito; `sb_habits` sí es Tier 2 y viaja por el proxy.
+Comprobado midiendo la outbox, no leyendo el código.
+
+**Tres hallazgos nuevos, todos con evidencia, todos ya en el plan:**
+
+| Tarea | Qué se encontró |
+|---|---|
+| **O4.5** (P1) | `js/index.js` (425 líneas) y `js/dashboard.js` (134) **no los carga nadie** — cero referencias en el repo. `index.js` trae un «mission control» que es un intento previo de esta misma tarea, muerto en disco. Mismo patrón que `css/notes.css`. ⚠️ `core.js` **sí** se carga, desde `pages/`. |
+| **O2.4** (P1) | `eng_srs_deck` tiene **dos esquemas incompatibles** (`due` epoch vs `nextReview` fecha). Como `_genSRS` filtra con `!c.due`, toda tarjeta creada desde 13-NOT cuenta como vencida **para siempre**: el repaso espaciado deja de espaciar. |
+| **O2.2** → **P0** | `api.rss2json.com` devuelve **422 ahora mismo**, verificado con petición real. El feed del dashboard está roto hoy, no es un riesgo futuro. |
+
+---
+
 ## 🗺️ Plan de desarrollo · el plan como DATOS — 2026-08-17
 
 Miguel pidió revisar toda la documentación, optimizar los prompts, proponer un plan para los 16

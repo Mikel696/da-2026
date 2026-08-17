@@ -65,7 +65,7 @@
         {
           "id": "O1.1",
           "modulo": "1-IND",
-          "estado": "pendiente",
+          "estado": "hecho",
           "prioridad": "P0",
           "titulo": "Vista HOY · el briefing que cruza todo",
           "problema": "El dashboard muestra tarjetas de módulos, no te dice qué requiere tu atención hoy. El blueprint lleva pendiente desde julio.",
@@ -116,9 +116,9 @@
           "id": "O2.2",
           "modulo": "1-IND",
           "estado": "pendiente",
-          "prioridad": "P1",
+          "prioridad": "P0",
           "titulo": "Sacar rss2json del dashboard",
-          "problema": "Mismo proxy frágil. Además hay una loadLiveJobs() muerta que ya no hace falta: 5-JOB tiene su radar.",
+          "problema": "api.rss2json.com devuelve 422 AHORA MISMO — verificado el 17-ago desde el navegador. El feed de noticias del dashboard está roto en producción, no es un riesgo futuro. Además hay código muerto (ver O4.5).",
           "entrega": "El dashboard lee los archivos que ya generan los recolectores. Se borra el código muerto.",
           "verificacion": "Cero llamadas a rss2json desde el navegador (mirá la pestaña Red, no el código) y el dashboard sigue mostrando novedades. Antes de borrar loadLiveJobs: `grep -rn loadLiveJobs` en todo el repo y confirmar que no lo usa nadie."
         },
@@ -132,6 +132,17 @@
           "entrega": "Las descripciones del radar alimentan el módulo: vocabulario de las ofertas reales al mazo SRS, frases del sector para practicar, y las palabras que más se repiten en las vacantes que te interesan.",
           "verificacion": "El vocabulario del día sale de una vacante real, con el enlace a la oferta de donde salió.",
           "reusa": "jobs-feed.json ya trae la descripción completa de cada vacante."
+        },
+        {
+          "id": "O2.4",
+          "modulo": "3-ENG",
+          "estado": "pendiente",
+          "prioridad": "P1",
+          "titulo": "El mazo SRS tiene dos formas incompatibles",
+          "problema": "Dos productores escriben en eng_srs_deck con esquemas distintos: eng-import.js usa {front, back, due:epoch} y notes-brain.js usa {q, a, nextReview:'YYYY-MM-DD'}. El contador de eng-practice.js:_genSRS filtra con (!c.due || c.due <= now), así que TODA tarjeta creada desde 13-NOT cuenta como vencida para siempre, aunque su nextReview sea de dentro de un año. Verificado el 17-ago al construir la Vista HOY.",
+          "entrega": "Un solo esquema. Migrar las tarjetas existentes de un formato al otro (sin perder ninguna: es dato del usuario) y dejar un solo lugar que decida qué está vencido, consumido por 3-ENG, 13-NOT y la Vista HOY.",
+          "verificacion": "Crear una tarjeta desde 13-NOT con repaso a 7 días y confirmar que NO aparece como vencida hoy, ni en 3-ENG ni en el dashboard.",
+          "reusa": "La Vista HOY (js/hoy.js:fSrs) hoy replica el defecto a propósito para no contradecir al módulo. Cuando esto se arregle, se simplifica sola."
         }
       ]
     },
@@ -217,11 +228,28 @@
           "entrega": "Decisión y ejecución: comparar sus reglas contra las embebidas y contra nb-shared.css. Si hay algo único que debería aplicar, moverlo al <style> de notes.html; si no, borrar el archivo. En ambos casos corregir la ficha de module-prompts.js.",
           "verificacion": "Editar una regla del archivo y confirmar que cambia (o que ya no existe). Hoy no cambia nada y eso no se nota.",
           "reusa": "Mismo chequeo vale para las otras páginas: ¿hay más CSS huérfano? `grep -L` de cada css/*.css contra los <link> de las 28 páginas."
+        },
+        {
+          "id": "O4.5",
+          "modulo": "infra",
+          "estado": "pendiente",
+          "prioridad": "P1",
+          "titulo": "559 líneas de JavaScript que no carga nadie",
+          "problema": "js/index.js (425 líneas) y js/dashboard.js (134) no están referenciados en ninguna página ni se cargan dinámicamente — cero referencias en todo el repo, verificado el 17-ago. index.js contiene un 'mission control' completo (renderUrgentTasks, renderPipeline, renderWeeklyGoal, renderRecentActivity) que es un intento previo de la Vista HOY, muerto en el disco. Es el mismo patrón que css/notes.css (O4.4): archivos que reciben ediciones que no aplican.",
+          "entrega": "Revisar si hay lógica que valga la pena rescatar hacia js/hoy.js, y borrar lo demás. OJO: js/core.js SÍ se carga (desde pages/configurar.html, empleos.html e ingles.html) — no lo borres de paso.",
+          "verificacion": "grep -rn del nombre de cada archivo en todo el repo antes de borrar. Después, index.html sigue funcionando igual.",
+          "reusa": "Mismo barrido que O4.4, pero para .js: cruzar cada frontend/js/*.js contra los <script src> de las 28 páginas."
         }
       ]
     }
   ],
   "hecho": [
+    {
+      "id": "H5",
+      "modulo": "1-IND",
+      "fecha": "2026-08-17",
+      "que": "Vista HOY: el dashboard cruza seis fuentes y dice qué requiere atención, distinguiendo \"al día\" de \"sin datos todavía\". Marca hábitos y completa entregas sin salir de ahí."
+    },
     {
       "id": "H1",
       "modulo": "12-FIN",
