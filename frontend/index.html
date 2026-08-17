@@ -160,42 +160,6 @@ body.in-frame.frame-loading .frame-load{display:block}
   #stageFrame{left:48px;width:calc(100% - 48px)}
 }
 
-/* ══ ⚡ Vista HOY · js/hoy.js ══ */
-.hoy{margin-bottom:20px}
-.hoy-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.hoy-h1{font-size:13px;font-weight:600;color:var(--tx)}
-.hoy-fresh{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--em)}
-.hoy-fresh-old{color:var(--am,#f59e0b)}
-.hoy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-.hoy-c{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;
-  background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:13px 15px;
-  font-family:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
-.hoy-c:hover{border-color:var(--ac2);transform:translateY(-1px)}
-.hoy-lista{cursor:default}
-.hoy-lista:hover{transform:none;border-color:var(--bd)}
-.hoy-n{font-size:24px;font-weight:700;line-height:1;color:var(--tx)}
-.hoy-t{font-size:12px;font-weight:600;color:var(--tx2);line-height:1.35}
-.hoy-d{font-size:11px;color:var(--tx3);line-height:1.45}
-.hoy-x{font-size:10px;color:var(--tx3);font-style:italic;line-height:1.4}
-.hoy-ir{font-size:10.5px;color:var(--ac2);margin-top:5px;background:none;border:none;
-  padding:0;font-family:inherit;cursor:pointer}
-.hoy-items{width:100%;margin-top:7px;display:flex;flex-direction:column;gap:4px}
-.hoy-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx2)}
-.hoy-item-t{flex:1;line-height:1.35}
-.hoy-item-d{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--tx3)}
-.hoy-venc{color:var(--rd)}
-.hoy-check{background:none;border:1px solid var(--bd);border-radius:50%;width:17px;height:17px;
-  flex-shrink:0;color:var(--tx3);cursor:pointer;font-size:10px;line-height:1;padding:0}
-.hoy-check:hover{border-color:var(--em);color:var(--em)}
-.hoy-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.hoy-chip{font-size:10.5px;padding:4px 9px;border-radius:14px;background:var(--bg);
-  border:1px solid var(--bd);color:var(--tx2);cursor:pointer;font-family:inherit}
-.hoy-chip:hover{border-color:var(--em);color:var(--em)}
-.hoy-vacio{font-size:11.5px;line-height:1.6;color:var(--tx3);background:var(--el);
-  border:1px solid var(--bd);border-radius:10px;padding:12px 15px}
-.hoy-vacio b{color:var(--tx2)}
-.hoy-sindato{display:block;margin-top:5px}
-@media(max-width:768px){.hoy-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -212,8 +176,6 @@ body.in-frame.frame-loading .frame-load{display:block}
 <main class="main">
 <div class="header"><div class="header-text"><div class="header-sub">centro de gestión personal</div><h1>Tu segundo <em>cerebro</em>,<br>todo en un solo lugar.</h1><p>Estudio, trabajo, idiomas, finanzas, objetivos. Cada módulo es un sistema completo. Todo conectado, nada se pierde.</p></div><div class="header-video"><video autoplay loop muted playsinline preload="auto" aria-hidden="true"><source src="brain.mp4" type="video/mp4"></video></div></div>
 <div class="qstats"><div class="qstat"><div class="qstat-v" id="statDays">0</div><div class="qstat-l">Días activo</div></div><div class="qstat"><div class="qstat-v" id="statHours">0h</div><div class="qstat-l">Horas estudio</div></div><div class="qstat"><div class="qstat-v" id="statTasks">0</div><div class="qstat-l">Workshops</div></div><div class="qstat"><div class="qstat-v" id="statProd">—</div><div class="qstat-l">Productividad</div></div><div class="qstat"><div class="qstat-v" id="statStreak">0</div><div class="qstat-l">Racha</div></div></div>
-<div class="sec-label">· qué requiere tu atención ·</div>
-<div id="hoyPanel" class="hoy"></div>
 <div class="sec-label">· hoy ·</div>
 <div class="dash-grid">
 <div class="today"><div class="today-header"><div class="today-title">⚡ Quick Workshop</div><div class="today-date" id="todayDate"></div></div><div style="font-size:11px;color:var(--tx3);margin-bottom:12px;line-height:1.5">Pick a topic to work on right now. We'll decide later if it becomes a module.</div><div class="ws-grid"><a class="ws-btn" onclick="startWorkshop('interview')"><span class="ws-icon">🎤</span>Interview Prep</a><a class="ws-btn" onclick="startWorkshop('test')"><span class="ws-icon">📝</span>Knowledge Test</a><a class="ws-btn" onclick="startWorkshop('course')"><span class="ws-icon">🎓</span>Quick Course</a><a class="ws-btn" onclick="startWorkshop('debug')"><span class="ws-icon">🐛</span>Debug Session</a><a class="ws-btn" onclick="startWorkshop('english')"><span class="ws-icon">🗣️</span>English Practice</a><a class="ws-btn" onclick="startWorkshop('code')"><span class="ws-icon">💻</span>Code Challenge</a></div><div class="ws-custom"><input class="ws-input" id="wsInput" placeholder="Or type a custom topic..." onkeydown="if(event.key==='Enter')startWorkshop(this.value)"><button class="ws-go" onclick="startWorkshop(document.getElementById('wsInput').value)">Go →</button></div><div id="wsHistory" style="margin-top:10px"></div></div>
@@ -475,8 +437,5 @@ window.Cerebro = Cerebro;
 <script src="js/supabase-client.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/cloud-sync.js?v=p16"></script>
-<!-- ⚡ Vista HOY · cruza los stores de 12-FIN, 5-JOB, 10-SYS, 9-GOA y 3-ENG -->
-<script src="js/hoy.js?v=p1"></script>
-<script>document.addEventListener('DOMContentLoaded',()=>{if(window.HOY)HOY.init();});</script>
 </body>
 </html>
