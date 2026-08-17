@@ -65,12 +65,12 @@
         {
           "id": "O1.1",
           "modulo": "1-IND",
-          "estado": "hecho",
+          "estado": "descartada",
           "prioridad": "P0",
-          "titulo": "Vista HOY · el briefing que cruza todo",
-          "problema": "El dashboard muestra tarjetas de módulos, no te dice qué requiere tu atención hoy. El blueprint lleva pendiente desde julio.",
-          "entrega": "Un panel que cruza: tesis vencidas (12-FIN) · alertas disparadas (12-FIN) · vacantes nuevas sin ver (5-JOB) · entregas próximas (10-SYS) · hábitos del día (9-GOA) · tarjetas SRS pendientes (3-ENG). Solo lectura salvo marcar hábitos y tareas.",
-          "verificacion": "Cada tarjeta aparece solo si hay dato que la sostenga. Con los stores vacíos el panel no inventa nada.",
+          "titulo": "Vista HOY (DESCARTADA por Miguel)",
+          "problema": "Se construyó y se quitó el mismo día. Miguel: «si necesito ver o actualizar algo que es manual lo hago yo, no me digas». El panel le recordaba tareas personales (estudiar, hábitos, entregas) y eso no es trabajo de la página.",
+          "entrega": "Nada. Revertida en el commit e035276.",
+          "verificacion": "PRINCIPIO QUE QUEDA: el foco es la ingeniería de la página, no gestionarle la vida. Antes de construir algo que le diga a Miguel qué hacer con su tiempo — no se construye.",
           "reusa": "El patrón de briefing ya probado en la pestaña Hoy de 12-FIN."
         },
         {
@@ -87,10 +87,10 @@
         {
           "id": "O1.3",
           "modulo": "9-GOA",
-          "estado": "pendiente",
+          "estado": "a-decidir",
           "prioridad": "P1",
           "titulo": "Hábitos verificados por evidencia, no por honor",
-          "problema": "Marcás el hábito a mano. Un hábito auto-reportado mide tu memoria, no tu conducta.",
+          "problema": "[EN DUDA tras descartar O1.1] Automatizar el marcado de hábitos cae en la misma categoría que la Vista HOY: gestión de tareas personales, que Miguel dijo que prefiere manejar él. Preguntarle antes de invertir en esto.",
           "entrega": "Los hábitos que el sistema PUEDE comprobar se marcan solos: «apliqué a un empleo» (5-JOB), «escribí una tesis» (12-FIN), «practiqué inglés» (3-ENG), «registré un gasto» (12-FIN). Los que no se pueden comprobar siguen manuales y se dicen manuales.",
           "verificacion": "Guardar una vacante en el tablero marca el hábito del día sin tocar nada."
         }
@@ -136,13 +136,24 @@
         {
           "id": "O2.4",
           "modulo": "3-ENG",
+          "estado": "hecho",
+          "prioridad": "P1",
+          "titulo": "Unificar el mazo SRS (hecho parcialmente)",
+          "problema": "RESUELTO EL CONTEO. Había DOS motores sobre eng_srs_deck con definiciones distintas de «vencida» (srs.js usa nextReview, eng-practice.js usa due) y dos productores con formas incompatibles. Cada motor daba por vencidas todas las tarjetas del otro: Miguel veía 202 pendientes sobre un mazo que ningún código cargado le permite practicar.",
+          "entrega": "js/srs-core.js: una forma canónica, una función de vencimiento, lector tolerante de las tres formas históricas. No migra nada en disco. Probado: mazo de 202 con formas mezcladas y 52 vencidas reales → antes 152, ahora 52.",
+          "verificacion": "HECHO. QUEDA PENDIENTE lo de abajo (O2.5): no hay UI para practicar ese mazo.",
+          "reusa": "La Vista HOY (js/hoy.js:fSrs) hoy replica el defecto a propósito para no contradecir al módulo. Cuando esto se arregle, se simplifica sola."
+        },
+        {
+          "id": "O2.5",
+          "modulo": "3-ENG",
           "estado": "pendiente",
           "prioridad": "P1",
-          "titulo": "El mazo SRS tiene dos formas incompatibles",
-          "problema": "Dos productores escriben en eng_srs_deck con esquemas distintos: eng-import.js usa {front, back, due:epoch} y notes-brain.js usa {q, a, nextReview:'YYYY-MM-DD'}. El contador de eng-practice.js:_genSRS filtra con (!c.due || c.due <= now), así que TODA tarjeta creada desde 13-NOT cuenta como vencida para siempre, aunque su nextReview sea de dentro de un año. Verificado el 17-ago al construir la Vista HOY.",
-          "entrega": "Un solo esquema. Migrar las tarjetas existentes de un formato al otro (sin perder ninguna: es dato del usuario) y dejar un solo lugar que decida qué está vencido, consumido por 3-ENG, 13-NOT y la Vista HOY.",
-          "verificacion": "Crear una tarjeta desde 13-NOT con repaso a 7 días y confirmar que NO aparece como vencida hoy, ni en 3-ENG ni en el dashboard.",
-          "reusa": "La Vista HOY (js/hoy.js:fSrs) hoy replica el defecto a propósito para no contradecir al módulo. Cuando esto se arregle, se simplifica sola."
+          "titulo": "No existe repaso espaciado: la pestaña Flashcards solo baraja",
+          "problema": "Verificado el 17-ago. La pestaña 🃏 Flashcards de english.html NO usa eng_srs_deck. js/eng.js:_buildFC arma un mazo en memoria desde el JSON (vocabulary + professional), lo baraja, y rateFC() solo suma XP. Sin cajas, sin fechas, sin persistencia. El motor Leitner real (js/srs.js, 392 líneas, con boxes 1-5 e intervalos 1/3/7/14/30) es HUÉRFANO: ninguna página lo carga. Resultado: las tarjetas que Miguel crea desde 13-NOT o importa no se pueden repasar en ningún lado, y el contador de la sesión diaria apunta a un mazo inaccesible.",
+          "entrega": "Decidir y ejecutar: (a) cablear srs.js a english.html con la UI de repaso que ya trae, usando SRSCORE como capa de datos; o (b) si el repaso espaciado no le sirve a Miguel, borrar srs.js y quitar el contador de la sesión diaria. Lo que no vale es el estado actual, donde el número existe y la práctica no.",
+          "verificacion": "Crear una tarjeta desde 13-NOT, repasarla en 3-ENG, calificarla, y confirmar que cambia de caja y NO vuelve a aparecer hasta su fecha. Hoy eso es imposible.",
+          "reusa": "js/srs-core.js ya normaliza el mazo y define el vencimiento. js/srs.js ya tiene el algoritmo y el render."
         }
       ]
     },
@@ -234,9 +245,9 @@
           "modulo": "infra",
           "estado": "pendiente",
           "prioridad": "P1",
-          "titulo": "559 líneas de JavaScript que no carga nadie",
-          "problema": "js/index.js (425 líneas) y js/dashboard.js (134) no están referenciados en ninguna página ni se cargan dinámicamente — cero referencias en todo el repo, verificado el 17-ago. index.js contiene un 'mission control' completo (renderUrgentTasks, renderPipeline, renderWeeklyGoal, renderRecentActivity) que es un intento previo de la Vista HOY, muerto en el disco. Es el mismo patrón que css/notes.css (O4.4): archivos que reciben ediciones que no aplican.",
-          "entrega": "Revisar si hay lógica que valga la pena rescatar hacia js/hoy.js, y borrar lo demás. OJO: js/core.js SÍ se carga (desde pages/configurar.html, empleos.html e ingles.html) — no lo borres de paso.",
+          "titulo": "951 líneas de JavaScript que no carga nadie",
+          "problema": "Verificado el 17-ago. TRES archivos sin una sola referencia en el repo: js/index.js (425 líneas, un «mission control» que era un intento previo de la Vista HOY), js/dashboard.js (134) y js/srs.js (392, el motor Leitner completo). Y prompts.html:1791 y :1805 DOCUMENTAN que 3-ENG y 13-NOT usan srs.js — las dos cosas falsas, así que la próxima sesión vuelve a caer. Mismo patrón que css/notes.css.",
+          "entrega": "Barrer los tres. srs.js NO se borra hasta resolver O2.5 (puede que se rescate). Corregir las fichas de module-prompts.js y prompts.html. ⚠️ js/core.js SÍ se carga, desde pages/configurar.html, empleos.html e ingles.html.",
           "verificacion": "grep -rn del nombre de cada archivo en todo el repo antes de borrar. Después, index.html sigue funcionando igual.",
           "reusa": "Mismo barrido que O4.4, pero para .js: cruzar cada frontend/js/*.js contra los <script src> de las 28 páginas."
         }
@@ -245,10 +256,10 @@
   ],
   "hecho": [
     {
-      "id": "H5",
-      "modulo": "1-IND",
+      "id": "H6",
+      "modulo": "3-ENG",
       "fecha": "2026-08-17",
-      "que": "Vista HOY: el dashboard cruza seis fuentes y dice qué requiere atención, distinguiendo \"al día\" de \"sin datos todavía\". Marca hábitos y completa entregas sin salir de ahí."
+      "que": "Sección «Defenderme»: 152 frases en 9 situaciones reales, cada una con cuándo usarla. Y el contador del mazo dejó de marcar 202 pendientes falsos."
     },
     {
       "id": "H1",
