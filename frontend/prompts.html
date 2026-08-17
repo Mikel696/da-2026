@@ -75,6 +75,47 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 .hist-output.exp{max-height:none}
 .hist-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px}.hist-del:hover{color:var(--rd)}
 @media(max-width:768px){.wrap{padding:14px 12px}.hero h1{font-size:22px}.tabs{flex-wrap:wrap}}
+
+/* ══ 🚀 Plan · prompts-plan.js ══ */
+.pp-head{margin-bottom:14px}
+.pp-h1{font-size:19px;font-weight:700;color:var(--tx)}
+.pp-h2{font-size:11px;color:var(--t3);font-family:'IBM Plex Mono',monospace;margin-top:3px}
+.pp-intro{background:var(--el);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;
+  padding:13px 15px;font-size:12.5px;line-height:1.65;color:var(--t2);margin-bottom:16px}
+.pp-intro b{color:var(--tx);display:block;margin-bottom:5px}
+.pp-link{display:block;margin-top:7px;font-size:11.5px;color:var(--t3)}
+.pp-link b{display:inline;color:var(--a2)}
+.pp-list{display:flex;flex-direction:column;gap:9px}
+.pp-card{background:var(--el);border:1px solid var(--bd);border-radius:9px;padding:13px 15px}
+.pp-top{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.pp-id{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--ac);
+  background:var(--c1);padding:2px 7px;border-radius:4px}
+.pp-mod{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--t3);
+  border:1px solid var(--bd2);padding:2px 7px;border-radius:4px}
+.pp-prio{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.4px}
+.pp-P0{background:var(--rg);color:var(--rd)}
+.pp-P1{background:var(--amg);color:var(--am)}
+.pp-P2,.pp-P3{background:var(--c1);color:var(--t3)}
+.pp-titulo{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:9px;line-height:1.4}
+.pp-ver{margin-bottom:9px}
+.pp-ver summary{font-size:11.5px;color:var(--t3);cursor:pointer;user-select:none;padding:3px 0}
+.pp-ver summary:hover{color:var(--a2)}
+.pp-pre{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;color:var(--t2);
+  white-space:pre-wrap;word-break:break-word;background:var(--c1);border:1px solid var(--bd);
+  border-radius:6px;padding:11px 13px;margin-top:7px;max-height:340px;overflow-y:auto}
+.pp-copy{width:100%;background:var(--ac);color:#fff;border:none;border-radius:7px;padding:9px;
+  font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.pp-copy:hover{background:var(--a2)}
+.pp-copy.ok{background:var(--gn)}
+.pp-fallback{width:100%;height:130px;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+  background:var(--c1);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:8px}
+.pp-cab{margin-top:16px;background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:11px 14px}
+.pp-cab summary{font-size:12px;color:var(--t3);cursor:pointer;user-select:none}
+.pp-cab summary:hover{color:var(--a2)}
+.pp-pie{margin-top:12px;font-size:11.5px;line-height:1.6;color:var(--t3);
+  border-top:1px solid var(--bd);padding-top:11px}
+.pp-empty{text-align:center;padding:34px 16px;color:var(--t3);font-size:13px}
+.pp-empty .btn{display:block;margin:12px auto 0}
 </style>
 </head>
 <body>
@@ -83,7 +124,8 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 <div class="hero"><div class="hero-sub">laboratorio de prompts</div><h1>Tu idea → <em>prompt perfecto</em>.</h1><p>Escribe tu idea en bruto y el sistema la transforma en un prompt optimizado con las mejores prácticas de prompt engineering. 100% instantáneo, sin API, sin costo.</p></div>
 
 <div class="tabs">
-<button class="tab on" data-p="claude">🎯 Claude Optimize</button>
+<button class="tab on" data-p="planp">🚀 Plan</button>
+<button class="tab" data-p="claude">🎯 Claude Optimize</button>
 <button class="tab" data-p="opt">⚡ Optimizar</button>
 <button class="tab" data-p="modules">🧩 Módulos</button>
 <button class="tab" data-p="lib">📚 Librería</button>
@@ -91,8 +133,11 @@ body{line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
 <button class="tab" data-p="history">📜 Historial</button>
 </div>
 
+<!-- ══════ PLAN · un prompt listo por cada tarea del plan de desarrollo ══════ -->
+<div class="pnl on" id="p-planp"><div id="p-planprompts"></div></div>
+
 <!-- ══════ CLAUDE OPTIMIZE (DA-2026 project context injector) ══════ -->
-<div class="pnl on" id="p-claude">
+<div class="pnl" id="p-claude">
 <div class="tip"><b>🎯 Claude Optimizer · DA-2026 Context Injector <span style="font-size:10px;font-weight:400;color:var(--t3)">v2026-05-15.B</span></b><p>Toma cualquier prompt (raw o ya optimizado por <strong>Optimize</strong>) y le inyecta el <strong>environment actual del Cerebro</strong>: paths reales del repo · archivos del módulo (post Design System v1.0) · storage keys reales (post Bug Hunt · incluye <code>jt_s8</code>) · auth chain mandatory · CEREBRO_STATE update obligatorio · deliverable spec · <strong>capabilities disponibles</strong> (Plan mode · Sub-agents Explore/Plan/general-purpose · Worktrees · Skills · MCP Chrome/Preview · TodoWrite · ScheduleWakeup · CronCreate · spawn_task · mark_chapter) · y constraints específicas según señales detectadas. <strong>Pipeline:</strong> idea cruda → <em>⚡ Optimize</em> (prompt engineering) → <em>🎯 Claude Optimizer</em> (DA-2026 + capabilities) → pegar en Claude Code.</p></div>
 
 <div class="card">
@@ -2209,5 +2254,8 @@ renderHist();
 </script>
 <!-- 🧩 Módulos · 48 prompts modulares (16 × 3) -->
 <script src="js/module-prompts.js?v=p2"></script>
+<!-- 🚀 Plan · un prompt por tarea de data/plan-cerebro.json -->
+<script src="js/prompts-plan.js?v=p1"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{ if(window.PROMPTSPLAN) PROMPTSPLAN.init(); });</script>
 </body>
 </html>

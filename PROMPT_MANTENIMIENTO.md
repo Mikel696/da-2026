@@ -167,10 +167,29 @@ Si algo está roto, proponé el arreglo pero NO lo apliques sin luz verde.
 
 ---
 
+## 🗺️ De dónde sale la cola de trabajo
+
+**No la inventes ni la deduzcas de este archivo.** El plan vivo está en
+`frontend/data/plan-cerebro.json`: 4 olas, tareas con `estado` y `prioridad`, y los
+**7 criterios que definen "terminado"**. Es la misma fuente que ve Miguel — no hay copia en `.md`.
+
+- **Para elegir qué sigue:** leé ese JSON y tomá un `estado: "pendiente"` con la prioridad más alta.
+- **Para arrancar la tarea:** el prompt ya está escrito en `frontend/data/prompts-plan.json`
+  (uno por tarea, con problema real + entrega + verificación). Miguel también los copia desde
+  **8-PRO → pestaña 🚀 Plan**.
+- **Al cerrarla:** cambiá su `estado` a `"hecho"` en `plan-cerebro.json` y sumá el hito al array
+  `hecho`. Las vistas de 13-NOT y 8-PRO se actualizan solas — no hay nada más que editar.
+
+Los planes de abril están en `docs/archivo/` con un índice de qué pasó con cada uno. Son historia:
+no son cola de trabajo.
+
+---
+
 ## 📌 Prompts especializados que ya existen
 
 | Archivo | Para qué |
 |---|---|
+| `frontend/data/prompts-plan.json` | **Un prompt por tarea del plan** — se copian desde 8-PRO → 🚀 Plan |
 | `PROMPT_14-WORK.md` | Sesión de Simetrik (14-WORK) con memoria operativa completa |
 | `PROMPT_14-WORK_SIMETRIK-INGEST.md` | Ingesta al Knowledge Engine con gate de validación |
 | `PROMPT_14-WORK_TEST.md` | Plantilla para desarrollar pruebas técnicas tipo DOTA |
@@ -179,3 +198,4 @@ Si algo está roto, proponé el arreglo pero NO lo apliques sin luz verde.
 ---
 
 *Creado 2026-08-11 · al asumir el mandato de mantenimiento continuo.*
+*2026-08-17 · la cola de trabajo pasó a `plan-cerebro.json`; los planes de abril, a `docs/archivo/`.*

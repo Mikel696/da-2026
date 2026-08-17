@@ -1,10 +1,64 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-08-11
+- **Última actualización:** 2026-08-17
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
   y `PROMPT_MANTENIMIENTO.md` para arrancar sesión.
+- **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
+  Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
+  Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🗺️ Plan de desarrollo · el plan como DATOS — 2026-08-17
+
+Miguel pidió revisar toda la documentación, optimizar los prompts, proponer un plan para los 16
+módulos y **dejarlo en notas, actualizable a medida que se desarrolla**.
+
+**La decisión de diseño:** el plan no es un documento, es un JSON versionado. Un `.md` se edita a
+mano, se duplica y envejece — exactamente lo que pasó con los 8 `PLAN_*.md` de abril, todos con el
+sello "DRAFT — Awaiting approval" describiendo trabajo que ya estaba en producción. Ahora hay
+**una sola fuente**: `frontend/data/plan-cerebro.json`, que leen tanto Miguel como la sesión de
+Claude que ejecuta las tareas. No hay forma de que digan cosas distintas.
+
+**Qué define "terminado".** Siete criterios explícitos, sacados de lo que hizo buenos a 12-FIN y
+5-JOB: dato real de fuente primaria · se actualiza solo · dice de cuándo es · todo número lleva su
+período · los rankings muestran su criterio · el éxito parcial no degrada · habla con los demás
+módulos. Un módulo está listo cuando los cumple los siete, no cuando "se ve bien".
+
+**El diagnóstico que ordenó las olas.** De 16 módulos, solo 2 tienen datos que se actualizan solos
+(12-FIN, 5-JOB). Y **1-IND y 7-NEW siguen dependiendo de `api.rss2json.com`** — la misma clase de
+proxy gratuito de tercero que reventó en 12-FIN el 11 de agosto. Por eso matarlos es una ola propia.
+
+| Ola | Qué resuelve | Tareas |
+|---|---|---|
+| **O1 · Conectar el sistema** | 16 módulos que casi no se hablan. El valor está en el cruce. | Vista HOY · radar→2-APP · hábitos por evidencia |
+| **O2 · Matar los proxies** | Terceros gratuitos en el camino crítico. | 7-NEW y 1-IND del lado servidor · 3-ENG con vacantes reales |
+| **O3 · Carrera y estudio** | Muestran planes pero no detectan el desvío. | 4-RUT · 10-SYS · decidir 11-ACC |
+| **O4 · Higiene y protección** | P0 del mandato. Deudas medidas, no hipótesis. | Cuota localStorage · namespace `da2026_` · este archivo |
+
+**8-PRO rehecho de raíz.** Los prompts que había eran plantillas de 40 líneas con huecos tipo
+`[DESCRIBE TU TAREA]`. Un prompt que exige trabajo antes de usarlo no se usa. Los 10 nuevos
+(`data/prompts-plan.json`) traen el problema real, qué entrega y cómo se verifica — se copian y se
+pegan. La cabecera común (rol, qué leer antes, **las 3 reglas que más se incumplen**) se antepone
+sola al copiar.
+
+**Documentación archivada.** Los 8 `PLAN_*.md` de abril pasaron a `docs/archivo/` con un índice que
+dice qué pasó con cada uno. No se borran: varios comentarios de cabecera en `frontend/js/` los citan
+como origen de la arquitectura de su módulo.
+
+**Archivos:** `frontend/data/plan-cerebro.json` · `frontend/data/prompts-plan.json` ·
+`frontend/js/notes-plan.js` (13-NOT) · `frontend/js/prompts-plan.js` (8-PRO) ·
+`docs/archivo/README.md`.
+
+**Verificado en local antes de desplegar:** 8-PRO renderiza 10 tarjetas con sus 10 botones, el texto
+copiado compone cabecera + cuerpo (952 caracteres en la prueba), y el cambio de pestañas no rompió
+las 6 que ya existían. 13-NOT renderiza 4 olas / 12 tareas / 7 criterios / 4 hitos, y los filtros de
+prioridad responden (P0 → 4 tareas en 3 olas; P3 → 1). Consola sin errores en ambos.
+
+**Pendiente de esta tanda:** O4.3 — el resumen de estado presente al inicio de este archivo
+(4.071 líneas en orden cronológico siguen siendo caras de leer). Quedó como tarea P2 del plan.
 
 ---
 

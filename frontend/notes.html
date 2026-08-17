@@ -89,6 +89,7 @@ body{line-height:var(--leading-normal)}
 <button class="tab" data-p="journal">📓 Journal</button>
 <button class="tab" data-p="notebooks">📚 Cuadernos</button>
 <button class="tab" data-p="graph">🗺️ Grafo</button>
+<button class="tab" data-p="plan">🗺️ Plan</button>
 </div>
 
 <!-- NEW NOTE -->
@@ -136,6 +137,8 @@ body{line-height:var(--leading-normal)}
 </div>
 
 <!-- GRAPH (13-NOT.P3 · F4 Knowledge Graph Canvas) -->
+<div class="pnl" id="p-plan"></div>
+
 <div class="pnl" id="p-graph">
 <div class="lb">· grafo de conocimiento · cada nota es un nodo ·</div>
 <div id="graphRoot"></div>
@@ -288,5 +291,7 @@ renderNotes();renderJournal();updateStats();
 <script src="js/notes-nb.js?v=p20"></script>
 <!-- 13-NOT Second Brain Layer (5 phases · CLI/Daily · Wiki-links · SRS pipeline · Graph · Organizer) -->
 <script src="js/notes-brain.js"></script>
+<script src="js/notes-plan.js?v=p1"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector('[data-p="plan"]');if(t)t.addEventListener("click",()=>{if(window.NOTPLAN)NOTPLAN.init();});});</script>
 </body>
 </html>

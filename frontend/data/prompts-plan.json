@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "actualizado": "2026-08-14",
+  "nota": "Un prompt por tarea del plan. Cada uno arranca una sesión autocontenida: trae el contexto mínimo necesario, el problema real, qué entrega y cómo se verifica. Nada de prompts genéricos de 40 líneas que hay que editar antes de usar — se copian y se pegan.",
+
+  "cabecera": "Sos el INGENIERO A CARGO de DA-2026 «Cerebro». Dirigís, decidís y ejecutás.\nREPO: E:\\Aplicaciones\\ANALISIS DE DATOS\\Pagina Web\\HTML\\da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nSTACK: Vanilla JS · IIFE · localStorage → render() → DOM · Supabase JSONB · sin frameworks.\n\nANTES DE TOCAR CÓDIGO leé: CLAUDE.md (mandato y reglas) · PROMPT_MANTENIMIENTO.md (chequeo de salud y trampas conocidas) · data/plan-cerebro.json (esta tarea).\n\nLAS 3 REGLAS QUE MÁS SE INCUMPLEN:\n1. Verificá en PRODUCCIÓN, no en preview. El preview pasó verde y el live salió roto más de una vez.\n2. Probá el COMPORTAMIENTO, no leas el código. ¿Sincroniza esa clave? Escribila y mirá la outbox.\n3. Un dato sin fuente no se muestra. Campo vacío + fecha del último valor bueno.\n\nAL CERRAR: actualizar el estado de la tarea en data/plan-cerebro.json, anotar en PROMPT_RUNS.md, commit y push.",
+
+  "prompts": [
+    {
+      "id": "O1.1", "modulo": "1-IND", "prioridad": "P0",
+      "titulo": "Vista HOY · el briefing que cruza todo",
+      "cuerpo": "TAREA O1.1 · Construir la Vista HOY en 1-IND (index.html).\n\nEL PROBLEMA: hay 16 módulos y el dashboard solo muestra tarjetas para entrar a cada uno. No dice qué requiere atención HOY.\n\nQUÉ ENTREGA: un panel arriba del dashboard que cruce, leyendo los stores que ya existen:\n· tesis vencidas → FINLAB.pendientes() y fin_theses\n· alertas disparadas → FINRADAR.pendientes() y fin_alerts\n· vacantes nuevas sin ver → data/jobs-feed.json vs jt_radar_conocidas\n· entregas próximas → sys_tasks\n· hábitos del día → sb_habits\n· tarjetas SRS pendientes → eng_srs_deck\n\nREUSÁ el patrón de briefing ya probado en fin-colombia.js (función _briefing): cada tarjeta aparece SOLO si hay dato que la sostenga, y el clic salta al módulo correspondiente.\n\nSOLO LECTURA salvo marcar un hábito o completar una tarea.\n\nVERIFICACIÓN: con los stores vacíos el panel no inventa nada; con datos sembrados aparece cada tarjeta y su clic navega bien."
+    },
+    {
+      "id": "O1.2", "modulo": "2-APP", "prioridad": "P0",
+      "titulo": "Del radar a la postulación",
+      "cuerpo": "TAREA O1.2 · Conectar el radar de 5-JOB con el analizador de 2-APP.\n\nEL PROBLEMA: 5-JOB ya extrae las palabras que cada vacante busca en el CV (campo `kw.tenes` y `kw.faltan` de data/jobs-feed.json). 2-APP tiene el analizador ATS y el tejedor de CV. No se conocen: hay que copiar y pegar la oferta a mano.\n\nQUÉ ENTREGA: botón «Preparar postulación» en cada tarjeta del radar → abre apply.html con la vacante ya cargada (título, empresa, descripción, palabras clave) y el análisis ATS corrido.\n\nCÓMO PASAR EL DATO: mirá primero cómo apply.html recibe hoy una vacante (hay un handler de ?clip=1). Reusá ese camino en vez de inventar otro.\n\nVERIFICACIÓN: desde una tarjeta del radar se llega a 2-APP con todo cargado sin teclear nada."
+    },
+    {
+      "id": "O2.1", "modulo": "7-NEW", "prioridad": "P0",
+      "titulo": "Noticias del lado servidor, con criterio",
+      "cuerpo": "TAREA O2.1 · Sacar el proxy de terceros de 7-NEW y darle criterio.\n\nEL PROBLEMA: news.html depende de api.rss2json.com — un tercero gratuito en el camino crítico, exactamente lo que reventó en 12-FIN el 11 de agosto (allorigins devolvió 522 solo a las peticiones del navegador). Y muestra un volcado de RSS sin filtrar por lo que a Miguel le sirve.\n\nQUÉ ENTREGA: scripts/fetch-news.mjs en la GitHub Action → frontend/data/news-feed.json → news.html lo lee del MISMO origen.\n\nCOPIÁ EL PATRÓN de scripts/fetch-world.mjs, que ya hace esto para prensa financiera: Promise.allSettled por fuente, dedupe, puntuación con el motivo visible, y _prev.mjs para que un fallo parcial no degrade el archivo.\n\nFUENTES: verificá cada RSS con una petición real antes de incluirlo. Temas: análisis de datos, IA aplicada, automatización, carrera en datos.\n\nVERIFICACIÓN: cero llamadas a rss2json desde el navegador, consola limpia, aviso de frescura que se pone ámbar si la Action no corrió."
+    },
+    {
+      "id": "O2.3", "modulo": "3-ENG", "prioridad": "P1",
+      "titulo": "Inglés con el material que vas a leer de verdad",
+      "cuerpo": "TAREA O2.3 · Alimentar 3-ENG con las descripciones reales de vacantes.\n\nEL PROBLEMA: el inglés es innegociable para el trabajo remoto, pero se practica con oraciones inventadas. Mientras tanto data/jobs-feed.json baja descripciones completas de vacantes reales en inglés todos los días.\n\nQUÉ ENTREGA:\n· vocabulario del día extraído de una vacante real, con enlace a la oferta\n· las palabras que más se repiten en las vacantes que le interesan\n· frases del sector para practicar pronunciación (ya hay TTS en el módulo)\n\nNO INVENTES vocabulario: todo término mostrado tiene que estar en el texto de una oferta real, y hay que poder abrir esa oferta.\n\nVERIFICACIÓN: cada palabra del día muestra de qué vacante salió y el enlace funciona."
+    },
+    {
+      "id": "O1.3", "modulo": "9-GOA", "prioridad": "P1",
+      "titulo": "Hábitos verificados por evidencia",
+      "cuerpo": "TAREA O1.3 · Que los hábitos comprobables se marquen solos.\n\nEL PROBLEMA: todos los hábitos se marcan a mano. Un hábito auto-reportado mide la memoria, no la conducta.\n\nQUÉ ENTREGA: los hábitos que el sistema PUEDE comprobar se marcan con evidencia:\n· «apliqué a un empleo» → una tarjeta pasó a `applied` en da_vacancies hoy\n· «escribí una tesis» → alta en fin_theses hoy\n· «registré mis gastos» → movimiento nuevo en fin_YYYY-MM hoy\n· «practiqué inglés» → repaso en eng_srs_deck hoy\n\nLos que no se pueden comprobar SIGUEN MANUALES y la interfaz dice cuáles son cuáles. No mientas sobre lo que el sistema sabe.\n\nVERIFICACIÓN: guardar una vacante en el tablero marca su hábito sin tocar nada más."
+    },
+    {
+      "id": "O3.1", "modulo": "4-RUT", "prioridad": "P1",
+      "titulo": "ATLAS detecta el desvío",
+      "cuerpo": "TAREA O3.1 · Que la ruta avise cuando el plan y la realidad se separan.\n\nEL PROBLEMA: la Fase 1 estaba planeada para julio de 2026; el 14 de agosto el progreso marcaba 0%. El módulo muestra el plan pero no dice que el plan se corrió. Una ruta que no detecta el desvío es un póster.\n\nQUÉ ENTREGA: comparación entre la fase que tocaría por calendario y el avance real, con el desfase en días y una pregunta honesta — ¿se reprograma la ruta o se retoma el ritmo? Sin regaños ni gamificación falsa: el dato y la decisión.\n\nVERIFICACIÓN: con progreso 0% y la fase vencida, el módulo lo dice en la primera pantalla."
+    },
+    {
+      "id": "O4.1", "modulo": "infra", "prioridad": "P0",
+      "titulo": "Cuota de localStorage: medirla y protegerla",
+      "cuerpo": "TAREA O4.1 · Que un QuotaExceededError deje de tragarse en silencio.\n\nEL PROBLEMA: 4,8 MB medidos el 10 de agosto, techo típico 5-10 MB. Casi todo el código guarda con `try{...}catch{}` vacío: si la cuota se llena, la app dice «guardado» y NO guardó. Es un vector de pérdida de datos — P0 del mandato.\n\nQUÉ ENTREGA:\n· medición real del uso por clave (navigator.storage.estimate + suma por clave)\n· aviso visible al acercarse al techo, en el badge ☁ que ya existe\n· que el catch distinga QuotaExceededError y avise en vez de callarse\n\nEMPEZÁ POR MEDIR en el navegador real de Miguel antes de decidir umbrales.\n\nVERIFICACIÓN: llenar la cuota a propósito en una pestaña de prueba y confirmar que el sistema avisa en vez de perder el dato en silencio."
+    },
+    {
+      "id": "O2.2", "modulo": "1-IND", "prioridad": "P1",
+      "titulo": "Sacar rss2json del dashboard y borrar el código muerto",
+      "cuerpo": "TAREA O2.2 · Limpiar 1-IND.\n\nEL PROBLEMA: index.html usa api.rss2json.com (mismo proxy frágil que 7-NEW) y core.js tiene una función loadLiveJobs() que trae empleos de RemoteOK y NO LA LLAMA NADIE — código muerto desde hace meses. 5-JOB ya tiene su radar.\n\nQUÉ ENTREGA: el dashboard lee los archivos que ya generan los recolectores (news-feed.json cuando exista, jobs-feed.json ya existe). Se borra loadLiveJobs y sus ayudantes si no quedan usos.\n\nANTES DE BORRAR: `grep -rn loadLiveJobs` en todo el repo y confirmar que no lo usa nadie.\n\nVERIFICACIÓN: cero llamadas a rss2json; el dashboard sigue mostrando novedades."
+    },
+    {
+      "id": "O3.2", "modulo": "10-SYS", "prioridad": "P2",
+      "titulo": "Que la pantalla no se contradiga sola",
+      "cuerpo": "TAREA O3.2 · Coherencia temporal en 10-SYS.\n\nEL PROBLEMA: el encabezado dice «26V02» y el contador dice «45 días restantes», pero esos 45 días son del fin de 26V03. Dos componentes leen períodos distintos y el usuario ve un número que pertenece a un período que el rótulo no nombra.\n\nMiguel marca el cierre de período a mano, así que NO hay que adivinar cuál está activo ni inventar el calendario del siguiente. El arreglo es que un solo período mande en toda la pantalla y que, si terminó, la interfaz lo diga.\n\nNO INVENTES materias ni fechas del período nuevo: sin evidencia de CDigital, campo vacío y pedirla.\n\nVERIFICACIÓN: rótulo, contador y materias hablan siempre del mismo período."
+    },
+    {
+      "id": "O4.3", "modulo": "docs", "prioridad": "P2",
+      "titulo": "CEREBRO_STATE con resumen arriba",
+      "cuerpo": "TAREA O4.3 · Hacer legible el estado del proyecto.\n\nEL PROBLEMA: CEREBRO_STATE.md tiene 4.071 líneas en orden cronológico. Una sesión que «lee el estado» quema un contexto enorme antes de escribir una línea, y lo viejo pesa más que lo presente.\n\nQUÉ ENTREGA: arriba, un resumen del estado PRESENTE — una línea por módulo con su estado real y su última fecha. Abajo o en archivo aparte, el histórico completo (no se borra: es la memoria de por qué las cosas son como son).\n\nVERIFICACIÓN: leyendo solo las primeras 60 líneas se entiende en qué está cada módulo hoy."
+    }
+  ]
+}
