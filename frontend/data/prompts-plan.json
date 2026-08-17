@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "actualizado": "2026-08-14",
+  "actualizado": "2026-08-17",
   "nota": "Un prompt por tarea del plan. Cada uno arranca una sesión autocontenida: trae el contexto mínimo necesario, el problema real, qué entrega y cómo se verifica. Nada de prompts genéricos de 40 líneas que hay que editar antes de usar — se copian y se pegan.",
 
   "cabecera": "Sos el INGENIERO A CARGO de DA-2026 «Cerebro». Dirigís, decidís y ejecutás.\nREPO: E:\\Aplicaciones\\ANALISIS DE DATOS\\Pagina Web\\HTML\\da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nSTACK: Vanilla JS · IIFE · localStorage → render() → DOM · Supabase JSONB · sin frameworks.\n\nANTES DE TOCAR CÓDIGO leé: CLAUDE.md (mandato y reglas) · PROMPT_MANTENIMIENTO.md (chequeo de salud y trampas conocidas) · data/plan-cerebro.json (esta tarea).\n\nLAS 3 REGLAS QUE MÁS SE INCUMPLEN:\n1. Verificá en PRODUCCIÓN, no en preview. El preview pasó verde y el live salió roto más de una vez.\n2. Probá el COMPORTAMIENTO, no leas el código. ¿Sincroniza esa clave? Escribila y mirá la outbox.\n3. Un dato sin fuente no se muestra. Campo vacío + fecha del último valor bueno.\n\nAL CERRAR: actualizar el estado de la tarea en data/plan-cerebro.json, anotar en PROMPT_RUNS.md, commit y push.",
