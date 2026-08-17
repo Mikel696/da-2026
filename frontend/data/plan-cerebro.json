@@ -128,6 +128,14 @@
           "titulo": "CEREBRO_STATE con resumen arriba",
           "problema": "4.071 líneas en orden cronológico. Una sesión que «lee el estado» quema contexto enorme antes de empezar.",
           "entrega": "Resumen del estado presente arriba y archivo histórico aparte."
+        },
+        {
+          "id": "O4.4", "modulo": "13-NOT", "estado": "pendiente", "prioridad": "P1",
+          "titulo": "css/notes.css se traga los cambios en silencio",
+          "problema": "notes.html NO enlaza css/notes.css — nunca lo hizo. Sus estilos viven embebidos en el <style> de la página. El archivo huérfano lleva meses recibiendo ediciones que no aplican: el commit da90c35 («ancho unificado a 1200px en los 3 módulos») lo tocó creyendo que servía, y el 17 de agosto le agregué 54 reglas del plan que no se veían en producción. Además module-prompts.js:30 sigue documentando que 13-NOT lo usa, así que la próxima sesión vuelve a caer.",
+          "entrega": "Decisión y ejecución: comparar sus reglas contra las embebidas y contra nb-shared.css. Si hay algo único que debería aplicar, moverlo al <style> de notes.html; si no, borrar el archivo. En ambos casos corregir la ficha de module-prompts.js.",
+          "verificacion": "Editar una regla del archivo y confirmar que cambia (o que ya no existe). Hoy no cambia nada y eso no se nota.",
+          "reusa": "Mismo chequeo vale para las otras páginas: ¿hay más CSS huérfano? `grep -L` de cada css/*.css contra los <link> de las 28 páginas."
         }
       ]
     }
