@@ -51,14 +51,19 @@ const ENG_PRACTICE = (function(){
     if(!Array.isArray(deck) || !deck.length){
       return { count: 0, total: 0, empty: true };
     }
-    const now = Date.now();
-    const due = deck.filter(c => !c.due || c.due <= now);
+    /* Antes: deck.filter(c => !c.due || c.due <= now).
+       Ese `!c.due` daba por vencida TODA tarjeta canónica — que usa
+       nextReview, no due — así que el contador marcaba el mazo entero
+       como pendiente todos los días (202 en el equipo de Miguel). Ahora
+       usa la misma autoridad que la pestaña Flashcards: SRSCORE. */
+    const due = window.SRSCORE ? SRSCORE.vencidas() : deck.filter(c => !c.due || c.due <= Date.now());
+    const norm = window.SRSCORE ? SRSCORE.leer() : deck;
     return {
       count: Math.min(due.length, SRS_TARGET),
-      total: deck.length,
+      total: norm.length,
       due: due.length,
       empty: false,
-      sample: deck.slice(0, 3).map(c => c.front || c.f || '?')
+      sample: norm.slice(0, 3).map(c => c.q || c.front || c.f || '?')
     };
   }
 

@@ -689,3 +689,41 @@ select.ff-i{cursor:pointer}
   .tm-side{position:static;max-height:none}
   .tm-svg-wrap{padding:6px}
 }
+
+/* ══════════════════════════════════════════════════════════
+   🛡️ Defenderme · js/eng-survival.js
+   Frases por situación. El campo "cuándo" es el que enseña:
+   sin él esto sería otra lista de vocabulario.
+══════════════════════════════════════════════════════════ */
+.sv-intro{background:var(--el);border:1px solid var(--bd);border-left:3px solid var(--ac);
+  border-radius:8px;padding:12px 15px;font-size:12.5px;line-height:1.65;color:var(--t2);margin-bottom:14px}
+.sv-barra{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.sv-buscar{flex:1;padding:9px 13px;background:var(--el);border:1px solid var(--bd);border-radius:8px;
+  color:var(--tx);font-family:inherit;font-size:12.5px}
+.sv-buscar:focus{outline:none;border-color:var(--ac)}
+.sv-conteo{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3);white-space:nowrap}
+.sv-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.sv-tb{font-size:11px;padding:5px 11px;border-radius:16px;background:var(--el);border:1px solid var(--bd);
+  color:var(--t2);cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s}
+.sv-tb:hover{border-color:var(--ac);color:var(--tx)}
+.sv-tb.on{background:var(--ag);border-color:var(--ac);color:var(--a2)}
+.sv-tb em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--t3);margin-left:3px}
+.sv-g{margin-bottom:22px}
+.sv-g-h{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.sv-g-p{font-size:11.5px;line-height:1.6;color:var(--t3);margin-bottom:10px;
+  border-left:2px solid var(--bd2);padding-left:10px}
+.sv-fs{display:flex;flex-direction:column;gap:7px}
+.sv-f{background:var(--el);border:1px solid var(--bd);border-radius:9px;padding:11px 14px;
+  transition:border-color .15s}
+.sv-f:hover{border-color:var(--bd2)}
+.sv-en{display:flex;align-items:flex-start;gap:8px}
+.sv-play{background:none;border:none;cursor:pointer;font-size:13px;padding:0;line-height:1.5;
+  flex-shrink:0;opacity:.65;transition:opacity .15s}
+.sv-play:hover,.sv-play.playing{opacity:1}
+.sv-en-t{font-size:14px;font-weight:600;color:var(--tx);line-height:1.45}
+.sv-es{font-size:12px;color:var(--t2);margin:3px 0 0 21px;line-height:1.45}
+.sv-cuando{font-size:11px;color:var(--t3);margin:6px 0 0 21px;line-height:1.55;
+  border-top:1px solid var(--bd);padding-top:6px}
+.sv-cuando b{color:var(--a2);font-weight:600}
+.sv-vacio{text-align:center;padding:30px 16px;color:var(--t3);font-size:13px}
+@media(max-width:768px){.sv-barra{flex-direction:column;align-items:stretch}.sv-conteo{text-align:right}}

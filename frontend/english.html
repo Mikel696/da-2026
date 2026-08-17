@@ -46,7 +46,8 @@
 
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab on" data-p="surv">📖 Vocabulary</button>
+    <button class="tab on" data-p="defen">🛡️ Defenderme</button>
+    <button class="tab" data-p="surv">📖 Vocabulary</button>
     <button class="tab" data-p="tense">⏰ Tiempos</button>
     <button class="tab" data-p="gram">🧠 Grammar</button>
     <button class="tab" data-p="und">👂 Understand</button>
@@ -64,7 +65,10 @@
   <!-- ═══ PANELS ═══ -->
 
   <!-- Vocabulary -->
-  <div class="pnl on" id="p-surv">
+  <!-- 🛡️ Defenderme · 152 frases por situación · js/eng-survival.js -->
+  <div class="pnl on" id="p-defen"></div>
+
+  <div class="pnl" id="p-surv">
     <div class="sl">· vocabulary ·</div>
     <div class="sd">Click 🔊 to listen (click again to stop). Hover over a word to see the translation. Click the row to see an example sentence.</div>
     <div class="tipbox"><b>💡 Quick Method</b><p><strong>Read each example out loud 3 times.</strong> Use 🔊 to compare your pronunciation. Your brain retains contexts, not lists.</p></div>
@@ -193,6 +197,8 @@
 <script src="js/eng-errors.js"></script>
 <script src="js/eng-practice.js"></script>
 <script src="js/english.js" defer></script>
-<script>document.addEventListener('DOMContentLoaded',()=>{if(window.ENG_TENSES)ENG_TENSES.init();});</script>
+<script src="js/srs-core.js?v=p1"></script>
+<script src="js/eng-survival.js?v=p1"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{if(window.ENG_TENSES)ENG_TENSES.init();if(window.ENGSURV)ENGSURV.init();});</script>
 </body>
 </html>
