@@ -3,24 +3,59 @@
   "actualizado": "2026-08-17",
   "titulo": "Plan de desarrollo del Cerebro",
   "premisa": "Llevar los 16 módulos al nivel de 12-FIN y 5-JOB. Ese nivel tiene una definición concreta, no es una sensación — está en los 7 criterios de abajo. Un módulo 'terminado' es el que los cumple todos.",
-
   "criterios": [
-    { "c": "Dato real de fuente primaria", "d": "Verificado con una petición real antes de construir encima. Si la fuente no responde, campo vacío con la fecha del último valor bueno — nunca una estimación." },
-    { "c": "Se actualiza solo", "d": "Recolector del lado servidor en la GitHub Action → archivo en el repo → el navegador lo lee de su MISMO origen. Sin proxies de terceros en el camino crítico." },
-    { "c": "Dice de cuándo es", "d": "Aviso de frescura visible. Si la actualización no corrió, se pone ámbar y lo dice en vez de dejarte creer que mirás lo de hoy." },
-    { "c": "Todo número lleva su período", "d": "Un % sin ventana no significa nada. Un dato sin corte tampoco." },
-    { "c": "Los rankings muestran su criterio", "d": "Nada de cajas negras: cada elemento dice por qué salió y qué lo penalizó." },
-    { "c": "El éxito parcial no degrada", "d": "Si una fuente falla, conserva su último valor bueno — por elemento, no por archivo." },
-    { "c": "Habla con los demás módulos", "d": "El valor no está en 16 herramientas sueltas sino en que se crucen." }
+    {
+      "c": "Dato real de fuente primaria",
+      "d": "Verificado con una petición real antes de construir encima. Si la fuente no responde, campo vacío con la fecha del último valor bueno — nunca una estimación."
+    },
+    {
+      "c": "Se actualiza solo",
+      "d": "Recolector del lado servidor en la GitHub Action → archivo en el repo → el navegador lo lee de su MISMO origen. Sin proxies de terceros en el camino crítico."
+    },
+    {
+      "c": "Dice de cuándo es",
+      "d": "Aviso de frescura visible. Si la actualización no corrió, se pone ámbar y lo dice en vez de dejarte creer que mirás lo de hoy."
+    },
+    {
+      "c": "Todo número lleva su período",
+      "d": "Un % sin ventana no significa nada. Un dato sin corte tampoco."
+    },
+    {
+      "c": "Los rankings muestran su criterio",
+      "d": "Nada de cajas negras: cada elemento dice por qué salió y qué lo penalizó."
+    },
+    {
+      "c": "El éxito parcial no degrada",
+      "d": "Si una fuente falla, conserva su último valor bueno — por elemento, no por archivo."
+    },
+    {
+      "c": "Habla con los demás módulos",
+      "d": "El valor no está en 16 herramientas sueltas sino en que se crucen."
+    }
   ],
-
   "estado_actual": {
-    "con_datos_automaticos": ["12-FIN", "5-JOB"],
-    "con_proxy_de_tercero": ["1-IND", "7-NEW"],
-    "sin_datos_vivos": ["3-ENG", "8-PRO", "9-GOA", "11-ACC"],
-    "herramientas_sin_datos_por_diseño": ["13-NOT", "14-WORK", "15-MM", "16-APA", "6-TOO"]
+    "con_datos_automaticos": [
+      "12-FIN",
+      "5-JOB"
+    ],
+    "con_proxy_de_tercero": [
+      "1-IND",
+      "7-NEW"
+    ],
+    "sin_datos_vivos": [
+      "3-ENG",
+      "8-PRO",
+      "9-GOA",
+      "11-ACC"
+    ],
+    "herramientas_sin_datos_por_diseño": [
+      "13-NOT",
+      "14-WORK",
+      "15-MM",
+      "16-APA",
+      "6-TOO"
+    ]
   },
-
   "olas": [
     {
       "id": "O1",
@@ -28,7 +63,10 @@
       "porque": "Hay 16 módulos y casi no se hablan. El valor de un segundo cerebro no está en las herramientas sueltas: está en que se crucen. Es la ola de mayor impacto por esfuerzo.",
       "items": [
         {
-          "id": "O1.1", "modulo": "1-IND", "estado": "pendiente", "prioridad": "P0",
+          "id": "O1.1",
+          "modulo": "1-IND",
+          "estado": "pendiente",
+          "prioridad": "P0",
           "titulo": "Vista HOY · el briefing que cruza todo",
           "problema": "El dashboard muestra tarjetas de módulos, no te dice qué requiere tu atención hoy. El blueprint lleva pendiente desde julio.",
           "entrega": "Un panel que cruza: tesis vencidas (12-FIN) · alertas disparadas (12-FIN) · vacantes nuevas sin ver (5-JOB) · entregas próximas (10-SYS) · hábitos del día (9-GOA) · tarjetas SRS pendientes (3-ENG). Solo lectura salvo marcar hábitos y tareas.",
@@ -36,7 +74,10 @@
           "reusa": "El patrón de briefing ya probado en la pestaña Hoy de 12-FIN."
         },
         {
-          "id": "O1.2", "modulo": "2-APP", "estado": "pendiente", "prioridad": "P0",
+          "id": "O1.2",
+          "modulo": "2-APP",
+          "estado": "pendiente",
+          "prioridad": "P0",
           "titulo": "Del radar a la postulación, sin copiar y pegar",
           "problema": "5-JOB ya extrae las palabras que cada vacante busca en tu CV. 2-APP tiene el analizador ATS y el tejedor de CV. No se conocen.",
           "entrega": "Botón en cada tarjeta del radar: «Preparar postulación» → abre 2-APP con la vacante cargada, las palabras clave ya puestas y el CV adaptado a esa oferta.",
@@ -44,7 +85,10 @@
           "reusa": "jobs-feed.json ya trae `kw.tenes` y `kw.faltan` por vacante."
         },
         {
-          "id": "O1.3", "modulo": "9-GOA", "estado": "pendiente", "prioridad": "P1",
+          "id": "O1.3",
+          "modulo": "9-GOA",
+          "estado": "pendiente",
+          "prioridad": "P1",
           "titulo": "Hábitos verificados por evidencia, no por honor",
           "problema": "Marcás el hábito a mano. Un hábito auto-reportado mide tu memoria, no tu conducta.",
           "entrega": "Los hábitos que el sistema PUEDE comprobar se marcan solos: «apliqué a un empleo» (5-JOB), «escribí una tesis» (12-FIN), «practiqué inglés» (3-ENG), «registré un gasto» (12-FIN). Los que no se pueden comprobar siguen manuales y se dicen manuales.",
@@ -58,7 +102,10 @@
       "porque": "1-IND y 7-NEW dependen de api.rss2json.com, un tercero gratuito en el camino crítico — exactamente lo que reventó en 12-FIN el 11 de agosto. Y hay módulos sin ningún dato vivo.",
       "items": [
         {
-          "id": "O2.1", "modulo": "7-NEW", "estado": "pendiente", "prioridad": "P0",
+          "id": "O2.1",
+          "modulo": "7-NEW",
+          "estado": "pendiente",
+          "prioridad": "P0",
           "titulo": "Noticias del lado servidor, con criterio",
           "problema": "Depende de un proxy público y muestra un volcado de RSS sin filtrar por lo que a vos te sirve.",
           "entrega": "Recolector en la Action (mismo patrón que fetch-world.mjs), fuentes de datos e IA verificadas una por una, puntuación por relevancia con el motivo visible, y aviso de frescura.",
@@ -66,13 +113,20 @@
           "reusa": "scripts/fetch-world.mjs ya hace exactamente esto para prensa financiera."
         },
         {
-          "id": "O2.2", "modulo": "1-IND", "estado": "pendiente", "prioridad": "P1",
+          "id": "O2.2",
+          "modulo": "1-IND",
+          "estado": "pendiente",
+          "prioridad": "P1",
           "titulo": "Sacar rss2json del dashboard",
           "problema": "Mismo proxy frágil. Además hay una loadLiveJobs() muerta que ya no hace falta: 5-JOB tiene su radar.",
-          "entrega": "El dashboard lee los archivos que ya generan los recolectores. Se borra el código muerto."
+          "entrega": "El dashboard lee los archivos que ya generan los recolectores. Se borra el código muerto.",
+          "verificacion": "Cero llamadas a rss2json desde el navegador (mirá la pestaña Red, no el código) y el dashboard sigue mostrando novedades. Antes de borrar loadLiveJobs: `grep -rn loadLiveJobs` en todo el repo y confirmar que no lo usa nadie."
         },
         {
-          "id": "O2.3", "modulo": "3-ENG", "estado": "pendiente", "prioridad": "P1",
+          "id": "O2.3",
+          "modulo": "3-ENG",
+          "estado": "pendiente",
+          "prioridad": "P1",
           "titulo": "Inglés con el material que de verdad vas a leer",
           "problema": "El inglés es innegociable para el trabajo remoto, pero practicás con oraciones inventadas. Mientras tanto, 5-JOB baja descripciones de vacantes reales en inglés todos los días.",
           "entrega": "Las descripciones del radar alimentan el módulo: vocabulario de las ofertas reales al mazo SRS, frases del sector para practicar, y las palabras que más se repiten en las vacantes que te interesan.",
@@ -87,22 +141,34 @@
       "porque": "Muestran planes pero no detectan cuando el plan y la realidad se separan.",
       "items": [
         {
-          "id": "O3.1", "modulo": "4-RUT", "estado": "pendiente", "prioridad": "P1",
+          "id": "O3.1",
+          "modulo": "4-RUT",
+          "estado": "pendiente",
+          "prioridad": "P1",
           "titulo": "ATLAS detecta el desvío",
           "problema": "La Fase 1 estaba planeada para julio; estamos en agosto y el progreso marca 0%. El módulo muestra el plan pero no dice que el plan se corrió. Una ruta que no detecta el desvío es un póster.",
-          "entrega": "Comparación entre fase planeada y avance real, con el desfase en días y una pregunta honesta: ¿se reprograma o se retoma?"
+          "entrega": "Comparación entre fase planeada y avance real, con el desfase en días y una pregunta honesta: ¿se reprograma o se retoma?",
+          "verificacion": "Con progreso 0% y la fase vencida, el módulo lo dice en la primera pantalla — sin tener que abrir nada."
         },
         {
-          "id": "O3.2", "modulo": "10-SYS", "estado": "pendiente", "prioridad": "P2",
+          "id": "O3.2",
+          "modulo": "10-SYS",
+          "estado": "pendiente",
+          "prioridad": "P2",
           "titulo": "Coherencia temporal",
           "problema": "El rótulo dice un período y el contador de días usa otro. Miguel prefiere marcar el cierre a mano, así que el arreglo es que la interfaz no se contradiga.",
-          "entrega": "Un solo período manda en toda la pantalla, y si terminó lo dice."
+          "entrega": "Un solo período manda en toda la pantalla, y si terminó lo dice.",
+          "verificacion": "El rótulo, el contador de días y la lista de materias hablan siempre del mismo período. Si terminó, se ve que terminó."
         },
         {
-          "id": "O3.3", "modulo": "11-ACC", "estado": "a-decidir", "prioridad": "P3",
+          "id": "O3.3",
+          "modulo": "11-ACC",
+          "estado": "a-decidir",
+          "prioridad": "P3",
           "titulo": "Decidir qué hacer con Contabilidad",
           "problema": "Es estático y su función se superpone con 14-WORK ahora que trabajás en Simetrik. Antes de invertir esfuerzo hay que decidir si se levanta o se absorbe.",
-          "entrega": "Decisión tomada con Miguel. No se construye nada hasta eso."
+          "entrega": "Decisión tomada con Miguel. No se construye nada hasta eso.",
+          "verificacion": "No aplica: es una decisión de Miguel, no una tarea de código. Se cierra cuando él elija si 11-ACC se levanta o lo absorbe 14-WORK."
         }
       ]
     },
@@ -112,26 +178,40 @@
       "porque": "P0 del mandato: que no se pierdan datos. Son deudas medidas, no hipótesis.",
       "items": [
         {
-          "id": "O4.1", "modulo": "infra", "estado": "pendiente", "prioridad": "P0",
+          "id": "O4.1",
+          "modulo": "infra",
+          "estado": "pendiente",
+          "prioridad": "P0",
           "titulo": "Cuota de localStorage: medirla y protegerla",
           "problema": "4,8 MB medidos el 10 de agosto, techo típico 5-10 MB. Casi todo el código guarda con try{}catch{} silencioso: un QuotaExceededError te diría «guardado» sin guardar.",
-          "entrega": "Medición real, aviso visible al acercarse al techo, y que el error deje de tragarse en silencio."
+          "entrega": "Medición real, aviso visible al acercarse al techo, y que el error deje de tragarse en silencio.",
+          "verificacion": "Llenar la cuota a propósito en una pestaña de prueba y confirmar que el sistema AVISA en vez de perder el dato en silencio. Medir primero en el navegador real antes de fijar umbrales."
         },
         {
-          "id": "O4.2", "modulo": "infra", "estado": "pendiente", "prioridad": "P2",
+          "id": "O4.2",
+          "modulo": "infra",
+          "estado": "pendiente",
+          "prioridad": "P2",
           "titulo": "El namespace da2026_ no sincroniza",
           "problema": "core.js:20 define DB.NS = 'da2026_' y bajo ese prefijo guarda 6 claves (profile, xp, streak, tasks, notes, sessions). El prefijo no aparece en ninguna parte de cloud-sync.js — DYNAMIC_PREFIXES es solo ['fin_','sb_pomo_']. Son locales para siempre: en el otro PC la racha arranca de cero. Hallazgo #3 de la auditoría, sin resolver. Verificado el 17-ago.",
           "entrega": "Decisión y ejecución: se sincroniza (probando el merge antes, con backup hecho) o se documenta por qué no y la interfaz deja de prometerlo. Lo que no vale es el estado actual, donde parece que sincroniza.",
           "verificacion": "Escribir una clave da2026_* desde la consola y mirar la outbox. No alcanza con que el registro «se vea bien»."
         },
         {
-          "id": "O4.3", "modulo": "docs", "estado": "pendiente", "prioridad": "P2",
+          "id": "O4.3",
+          "modulo": "docs",
+          "estado": "pendiente",
+          "prioridad": "P2",
           "titulo": "CEREBRO_STATE con resumen arriba",
           "problema": "4.071 líneas en orden cronológico. Una sesión que «lee el estado» quema contexto enorme antes de empezar.",
-          "entrega": "Resumen del estado presente arriba y archivo histórico aparte."
+          "entrega": "Resumen del estado presente arriba y archivo histórico aparte.",
+          "verificacion": "Leyendo solo las primeras 60 líneas se entiende en qué está cada módulo hoy."
         },
         {
-          "id": "O4.4", "modulo": "13-NOT", "estado": "pendiente", "prioridad": "P1",
+          "id": "O4.4",
+          "modulo": "13-NOT",
+          "estado": "pendiente",
+          "prioridad": "P1",
           "titulo": "css/notes.css se traga los cambios en silencio",
           "problema": "notes.html NO enlaza css/notes.css — nunca lo hizo. Sus estilos viven embebidos en el <style> de la página. El archivo huérfano lleva meses recibiendo ediciones que no aplican: el commit da90c35 («ancho unificado a 1200px en los 3 módulos») lo tocó creyendo que servía, y el 17 de agosto le agregué 54 reglas del plan que no se veían en producción. Además module-prompts.js:30 sigue documentando que 13-NOT lo usa, así que la próxima sesión vuelve a caer.",
           "entrega": "Decisión y ejecución: comparar sus reglas contra las embebidas y contra nb-shared.css. Si hay algo único que debería aplicar, moverlo al <style> de notes.html; si no, borrar el archivo. En ambos casos corregir la ficha de module-prompts.js.",
@@ -141,11 +221,30 @@
       ]
     }
   ],
-
   "hecho": [
-    { "id": "H1", "modulo": "12-FIN", "fecha": "2026-08-12", "que": "Módulo completo: 8 secciones, datos oficiales de Colombia y del mundo, calculadora flotante, radar SECOP, bitácora de tesis y panel de salud." },
-    { "id": "H2", "modulo": "5-JOB", "fecha": "2026-08-14", "que": "Radar de vacantes de 13 empresas + 4 portales, con filtro de elegibilidad LatAm y las palabras que cada vacante busca en tu CV." },
-    { "id": "H3", "modulo": "infra", "fecha": "2026-08-12", "que": "La cadena de auto-actualización probada de extremo a extremo: la Action publica sola en el sitio." },
-    { "id": "H4", "modulo": "1-IND", "fecha": "2026-08-12", "que": "El backup respalda de verdad (antes capturaba 1 clave de 21)." }
+    {
+      "id": "H1",
+      "modulo": "12-FIN",
+      "fecha": "2026-08-12",
+      "que": "Módulo completo: 8 secciones, datos oficiales de Colombia y del mundo, calculadora flotante, radar SECOP, bitácora de tesis y panel de salud."
+    },
+    {
+      "id": "H2",
+      "modulo": "5-JOB",
+      "fecha": "2026-08-14",
+      "que": "Radar de vacantes de 13 empresas + 4 portales, con filtro de elegibilidad LatAm y las palabras que cada vacante busca en tu CV."
+    },
+    {
+      "id": "H3",
+      "modulo": "infra",
+      "fecha": "2026-08-12",
+      "que": "La cadena de auto-actualización probada de extremo a extremo: la Action publica sola en el sitio."
+    },
+    {
+      "id": "H4",
+      "modulo": "1-IND",
+      "fecha": "2026-08-12",
+      "que": "El backup respalda de verdad (antes capturaba 1 clave de 21)."
+    }
   ]
 }
