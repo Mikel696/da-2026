@@ -263,21 +263,333 @@ table.tbl tr:hover td{background:var(--bg3)}
 </style>
 </head>
 <body>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CAPA 2 · VIDA, PIEZAS, PRÁCTICA, CUADERNO, BUSCADOR
+═══════════════════════════════════════════════════════════ */
+
+/* ── Barra de progreso de lectura ───────────────────────── */
+#readbar{position:fixed;top:0;left:0;height:2px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--ac),var(--r-aux));transition:width .1s linear;pointer-events:none}
+
+/* ── Entrada escalonada ─────────────────────────────────── */
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.stagger>*{animation:rise .34s cubic-bezier(.2,.7,.3,1) backwards}
+.stagger>*:nth-child(1){animation-delay:.02s}.stagger>*:nth-child(2){animation-delay:.04s}
+.stagger>*:nth-child(3){animation-delay:.06s}.stagger>*:nth-child(4){animation-delay:.08s}
+.stagger>*:nth-child(5){animation-delay:.10s}.stagger>*:nth-child(6){animation-delay:.12s}
+.stagger>*:nth-child(7){animation-delay:.14s}.stagger>*:nth-child(8){animation-delay:.16s}
+.stagger>*:nth-child(n+9){animation-delay:.18s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── Hero vivo ──────────────────────────────────────────── */
+.hero{position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;top:-60%;right:-12%;width:420px;height:420px;pointer-events:none;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 68%);animation:float 14s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-26px,26px) scale(1.12)}}
+
+/* ── Tarjetas vivas ─────────────────────────────────────── */
+.w,.p,.tip,.card,.mold{will-change:transform}
+.tip{transition:.2s cubic-bezier(.2,.7,.3,1)}
+.tip:hover{transform:translateY(-3px);border-color:var(--acbd);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.w:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.p:hover{box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.stat{transition:.2s}
+.stat:hover{transform:translateY(-3px);border-color:var(--acbd)}
+
+/* ── Toast ──────────────────────────────────────────────── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(140%);z-index:300;
+  background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);padding:11px 20px;border-radius:99px;
+  font-size:13.5px;font-weight:600;box-shadow:0 10px 34px rgba(0,0,0,.55);transition:transform .3s cubic-bezier(.2,.9,.3,1);
+  display:flex;align-items:center;gap:9px;max-width:90vw}
+#toast.on{transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:rgba(34,197,94,.5)}
+#toast.warn{border-color:rgba(234,179,8,.5)}
+
+/* ── Buscador global (Ctrl+K) ───────────────────────────── */
+#omni{position:fixed;inset:0;z-index:250;background:rgba(9,9,11,.78);backdrop-filter:blur(7px);
+  display:none;align-items:flex-start;justify-content:center;padding:9vh 16px 16px}
+#omni.on{display:flex}
+.omni-box{width:100%;max-width:660px;background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);overflow:hidden;animation:rise .2s ease}
+.omni-in{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--tx);
+  font-family:var(--fs);font-size:18px;padding:17px 20px;outline:none}
+.omni-in::placeholder{color:var(--t3)}
+.omni-res{max-height:52vh;overflow-y:auto}
+.omni-r{display:flex;align-items:center;gap:11px;padding:10px 18px;cursor:pointer;border-bottom:1px solid rgba(39,39,42,.5)}
+.omni-r:hover,.omni-r.sel{background:var(--acbg)}
+.omni-r .k{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:2px 7px;border-radius:5px;
+  background:var(--bg4);color:var(--t3);white-space:nowrap;min-width:62px;text-align:center}
+.omni-r .t{flex:1;min-width:0;font-weight:600;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.omni-r .s{color:var(--t3);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:44%}
+.omni-foot{padding:9px 18px;border-top:1px solid var(--bd);font-size:11px;color:var(--t3);display:flex;gap:14px;flex-wrap:wrap}
+.omni-foot kbd{background:var(--bg4);border:1px solid var(--bd2);border-radius:4px;padding:1px 5px;font-family:var(--fm);font-size:10px}
+
+/* ── MÓDULO PIEZAS ──────────────────────────────────────── */
+.pz{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;margin-bottom:15px;transition:.2s}
+.pz:hover{border-color:var(--bd2)}
+.pz-h{display:flex;align-items:center;gap:14px;padding:17px 20px;cursor:pointer;list-style:none;transition:.16s}
+.pz-h::-webkit-details-marker{display:none}
+.pz-h::after{content:"▾";margin-left:auto;color:var(--t3);transition:.25s;font-size:14px}
+.pz[open] .pz-h::after{transform:rotate(180deg)}
+.pz-h:hover{background:var(--bg3)}
+.pz[open] .pz-h{border-bottom:1px solid var(--bd);background:var(--bg3)}
+.pz-ico{width:44px;height:44px;min-width:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;border:1px solid}
+.pz-t{font-size:19px;font-weight:800;letter-spacing:-.5px;line-height:1.2}
+.pz-s{font-size:12.5px;color:var(--t3);margin-top:2px}
+.pz-b{padding:20px}
+.pz-q{background:var(--bg3);border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:15px 18px;margin-bottom:17px;
+  font-size:15px;line-height:1.65}
+.pz-q b{color:var(--tx)}
+.pz-sec{margin-top:20px}
+.pz-sec>h5{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;color:var(--ac2);
+  margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.pz-sec>h5::before{content:"";width:16px;height:1px;background:var(--acbd)}
+.pz-sec p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:9px}
+.pz-sec p b{color:var(--tx)}
+.pz-test{background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.24);border-radius:var(--rad-s);padding:14px 17px;margin:12px 0}
+.pz-test .lb{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.1px;color:var(--r-aux);margin-bottom:7px}
+.pz-test p{font-size:14px;color:var(--t2);margin:0;line-height:1.65}
+.pz-trap{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.24);border-radius:var(--rad-s);padding:14px 17px;margin:12px 0}
+.pz-trap .lb{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.1px;color:var(--r-neg);margin-bottom:7px}
+.pz-trap p{font-size:14px;color:var(--t2);margin:0 0 7px;line-height:1.65}
+.pz-ex{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border-radius:var(--rad-s);padding:11px 14px;margin-bottom:8px}
+.pz-ex .bd{flex:1;min-width:0}
+.pz-ex .en{font-weight:700;font-size:15px;line-height:1.45}
+.pz-ex .es{color:var(--t3);font-size:13px;font-style:italic;margin-top:2px}
+.pz-ex .nt{font-size:12.5px;color:var(--r-aux);margin-top:5px}
+.pz-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.pz-w{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;
+  padding:5px 10px;font-size:13px;cursor:pointer;transition:.14s}
+.pz-w:hover{border-color:var(--acbd);background:var(--acbg)}
+.pz-w b{font-weight:700}
+.pz-w span{color:var(--t3);font-size:11.5px}
+.pz-go{display:inline-flex;align-items:center;gap:7px;background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);
+  border-radius:var(--rad-s);padding:9px 15px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;transition:.16s}
+.pz-go:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+/* Mini quiz de piezas */
+.qz{background:var(--bg2);border:1px solid var(--acbd);border-radius:var(--rad);padding:20px;margin-top:26px}
+.qz-q{font-size:19px;font-weight:700;margin:10px 0 16px;letter-spacing:-.4px;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.qz-opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.qz-o{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-s);padding:12px;
+  font-family:var(--fs);font-size:14px;font-weight:600;cursor:pointer;transition:.15s;text-align:left}
+.qz-o:hover:not(:disabled){border-color:var(--ac);background:var(--acbg)}
+.qz-o.good{background:rgba(34,197,94,.16);border-color:var(--ok);color:#4ade80}
+.qz-o.bad{background:rgba(239,68,68,.16);border-color:var(--bad);color:#f87171}
+.qz-o:disabled{cursor:default}
+.qz-fb{margin-top:14px;font-size:14px;color:var(--t2);line-height:1.65;padding:12px 15px;background:var(--bg3);
+  border-radius:var(--rad-s);border-left:3px solid var(--ac);display:none}
+.qz-fb.on{display:block;animation:rise .25s ease}
+.qz-fb b{color:var(--tx)}
+
+/* ── MÓDULO PRÁCTICA (SRS Leitner) ──────────────────────── */
+.pr-wrap{max-width:720px;margin:0 auto}
+.pr-boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:22px}
+.pr-box{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad-s);padding:12px 8px;text-align:center;transition:.18s}
+.pr-box.hot{border-color:var(--acbd);background:var(--acbg)}
+.pr-box .n{font-family:var(--fm);font-size:20px;font-weight:700;color:var(--ac2)}
+.pr-box .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);font-weight:700;margin-top:3px}
+.pr-box .d{font-size:9px;color:var(--t3);margin-top:2px;opacity:.7}
+.card3d{background:var(--bg2);border:1px solid var(--bd2);border-radius:18px;padding:38px 28px;text-align:center;
+  min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  box-shadow:0 14px 44px rgba(0,0,0,.42);animation:rise .3s ease}
+.card3d .side{font-family:var(--fm);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3)}
+.card3d .front{font-size:clamp(23px,4.6vw,34px);font-weight:800;letter-spacing:-1px;line-height:1.22}
+.card3d .back{font-size:19px;color:var(--ac2);font-weight:600}
+.card3d .extra{font-size:13.5px;color:var(--t2);background:var(--bg3);border-radius:var(--rad-s);padding:10px 14px;
+  max-width:100%;font-family:var(--fm);line-height:1.55}
+.card3d .hint{font-size:13px;color:var(--t3)}
+.pr-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}
+.pr-b{border-radius:var(--rad-s);padding:14px 10px;font-family:var(--fs);font-size:14px;font-weight:700;cursor:pointer;transition:.15s;border:1px solid}
+.pr-b small{display:block;font-size:10px;font-weight:500;opacity:.75;margin-top:2px}
+.pr-b.no{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);color:#f87171}
+.pr-b.mid{background:rgba(234,179,8,.1);border-color:rgba(234,179,8,.35);color:#eab308}
+.pr-b.yes{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:#4ade80}
+.pr-b:hover{transform:translateY(-2px);filter:brightness(1.35)}
+.pr-show{width:100%;margin-top:16px;background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);
+  border-radius:var(--rad-s);padding:14px;font-family:var(--fs);font-size:14.5px;font-weight:700;cursor:pointer;transition:.15s}
+.pr-show:hover{background:var(--ac);color:#fff}
+.pr-src{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.pr-done{text-align:center;padding:44px 20px}
+.pr-done .big{font-size:50px;margin-bottom:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.pr-done h3{font-size:23px;font-weight:800;letter-spacing:-.6px;margin-bottom:9px}
+.pr-done p{color:var(--t2);font-size:14.5px;max-width:46ch;margin:0 auto 18px}
+
+/* ── MÓDULO CUADERNO ────────────────────────────────────── */
+.nb{display:grid;grid-template-columns:250px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.nb{grid-template-columns:1fr}}
+.nb-side{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:13px;position:sticky;top:64px;max-height:calc(100vh - 90px);overflow-y:auto}
+@media(max-width:860px){.nb-side{position:relative;top:0;max-height:none}}
+.nb-side h4{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);margin-bottom:9px}
+.nb-new{width:100%;background:var(--acbg);border:1px dashed var(--acbd);color:var(--ac2);border-radius:var(--rad-s);
+  padding:10px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:11px;transition:.15s}
+.nb-new:hover{background:var(--ac);color:#fff;border-style:solid}
+.nb-item{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:var(--rad-s);cursor:pointer;transition:.14s;margin-bottom:4px}
+.nb-item:hover{background:var(--bg3)}
+.nb-item.on{background:var(--acbg);border:1px solid var(--acbd)}
+.nb-item .ic{font-size:14px}
+.nb-item .tt{flex:1;min-width:0;font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-item .ct{font-family:var(--fm);font-size:10px;color:var(--t3)}
+.nb-main{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;min-height:520px;display:flex;flex-direction:column}
+.nb-top{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg3)}
+.nb-title{flex:1;min-width:140px;background:transparent;border:none;color:var(--tx);font-family:var(--fs);
+  font-size:17px;font-weight:700;outline:none;letter-spacing:-.3px}
+.nb-title::placeholder{color:var(--t3)}
+.nb-pg{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:11.5px;color:var(--t3)}
+.nbb{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);width:28px;height:28px;border-radius:7px;
+  cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;transition:.14s;padding:0;flex-shrink:0}
+.nbb:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.nbb.wide{width:auto;padding:0 10px;gap:6px;font-size:12px;font-weight:600;font-family:var(--fs)}
+.nbb.danger:hover{background:var(--bad);border-color:var(--bad)}
+.nb-tools{padding:8px 12px;border-bottom:1px solid var(--bd);display:flex;gap:4px;flex-wrap:wrap;align-items:center;background:var(--bg2)}
+.nb-sep{width:1px;height:20px;background:var(--bd2);margin:0 4px}
+.nb-ed{flex:1;padding:22px 26px;outline:none;font-size:15.5px;line-height:1.78;overflow-y:auto;min-height:380px}
+.nb-ed:empty::before{content:attr(data-ph);color:var(--t3);pointer-events:none}
+.nb-ed h1{font-size:25px;font-weight:800;margin:16px 0 9px;letter-spacing:-.6px}
+.nb-ed h2{font-size:19px;font-weight:700;margin:14px 0 7px;letter-spacing:-.3px}
+.nb-ed ul,.nb-ed ol{margin:9px 0 9px 24px}
+.nb-ed li{margin-bottom:5px}
+.nb-ed hr{border:none;border-top:1px solid var(--bd2);margin:18px 0}
+.nb-ed a{color:var(--ac2)}
+.nb-ed blockquote{border-left:3px solid var(--ac);padding-left:14px;margin:12px 0;color:var(--t2);font-style:italic}
+.nb-ed code,.nb-ed .codeblk{font-family:var(--fm);font-size:13.5px;background:var(--bg4);border-radius:6px;padding:2px 6px}
+.nb-ed .codeblk{display:block;padding:13px 16px;margin:12px 0;border-left:3px solid var(--r-aux);white-space:pre-wrap;line-height:1.6}
+.nb-ed mark{border-radius:3px;padding:1px 3px;color:#09090b;font-weight:600}
+.nb-ed mark.y{background:#fde047}.nb-ed mark.g{background:#86efac}.nb-ed mark.p{background:#f9a8d4}
+.nb-ed .tg{display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  padding:2px 8px;border-radius:5px;margin:0 3px;vertical-align:middle}
+.nb-ed .tg-ok{background:rgba(34,197,94,.18);color:#4ade80}
+.nb-ed .tg-rev{background:rgba(234,179,8,.18);color:#eab308}
+.nb-ed .tg-err{background:rgba(239,68,68,.18);color:#f87171}
+.nb-ed .chk{display:block;padding-left:2px;margin:3px 0}
+.nb-ed .chk .cb{cursor:pointer;user-select:none;font-weight:400;font-size:17px;margin-right:5px;color:var(--ac2);display:inline-block;transition:.14s}
+.nb-ed .chk .cb:hover{transform:scale(1.2)}
+.nb-ed .chk.done{text-decoration:line-through;opacity:.5}
+/* Tarjeta EN/ES insertable con audio */
+.nb-ed .encard{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--bd2);
+  border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:12px 15px;margin:12px 0}
+.nb-ed .encard .cc{flex:1;min-width:0}
+.nb-ed .encard .ce{font-weight:700;font-size:16px}
+.nb-ed .encard .cs{color:var(--ac2);font-size:13.5px;margin-top:2px}
+.nb-stat{padding:8px 16px;border-top:1px solid var(--bd);font-size:11.5px;color:var(--t3);display:flex;
+  justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--fm);background:var(--bg3)}
+.nb-stat .sv{color:var(--ok)}
+.nb-empty{text-align:center;padding:70px 20px;color:var(--t3)}
+.nb-empty .e1{font-size:42px;margin-bottom:12px;opacity:.5}
+
+/* ── Racha / progreso ───────────────────────────────────── */
+.streak{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--bd);
+  padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.streak b{color:var(--ac2);font-family:var(--fm)}
+.pbar{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:8px}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--r-aux));
+  border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.3,1)}
+.stat .pbar{margin-top:10px}
+
+/* ── Barra superior compacta ────────────────────────────
+   Con 7 pestañas + buscador + racha + audio, la cabecera se partía en
+   dos filas hasta en 1440px y se comía 140px de alto. Todo esto es
+   para que quepa en UNA fila y el contenido gane pantalla. */
+.tb-in{gap:10px;padding:7px 18px;flex-wrap:nowrap}
+/* Las pestañas van en UNA sola fila que se desliza si no caben.
+   Envolverlas partía la cabecera en dos y robaba 90px de alto. */
+.tabs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1px;min-width:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:7px 11px;font-size:13px;gap:6px}
+.tab b{font-size:9.5px;padding:1px 5px}
+.brand{font-size:14px}
+.brand{font-size:14px;flex:0 0 auto}
+.brand small{display:none}
+/* El panel de voz vive en un desplegable: en la barra ocupaba 267px y
+   empujaba fuera de vista las pestañas Cuaderno y Método. */
+.audiowrap{position:relative;flex:0 0 auto}
+.audiopop{position:absolute;right:0;top:calc(100% + 8px);width:250px;background:var(--bg2);
+  border:1px solid var(--bd2);border-radius:var(--rad);padding:14px;box-shadow:0 18px 46px rgba(0,0,0,.6);
+  display:none;z-index:120;animation:rise .18s ease}
+.audiopop.on{display:block}
+.audiopop label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--t3);margin:0 0 6px}
+.audiopop label+*{margin-bottom:13px}
+.audiopop select{width:100%;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);
+  font-family:var(--fs);font-size:13px;padding:8px 9px;border-radius:var(--rad-s);cursor:pointer}
+.audiopop input[type=range]{width:100%;accent-color:var(--ac);cursor:pointer}
+.audiohint{font-size:11.5px;color:var(--t3);line-height:1.55;border-top:1px solid var(--bd);padding-top:10px}
+.audiohint b{color:var(--ac2);font-family:var(--fm)}
+#audioBtn .spd{font-size:10.5px}
+#omniBtn .kbd{font-size:9.5px;padding:1px 5px}
+.streak{padding:4px 10px;font-size:11.5px}
+@media(max-width:1180px){
+  #omniBtn span.kbd{display:none}
+  .brand small{display:none}
+}
+@media(max-width:900px){
+  .tab{padding:7px 9px;font-size:12.5px}
+  #omniBtn,.streak{display:none}
+}
+@media(max-width:640px){
+  .tb-in{flex-wrap:wrap}
+  .brand{width:100%}
+  .audiobar{order:3}
+}
+
+/* ── Botón "guardar en cuaderno" en las tarjetas ────────── */
+.w-fav.nbsend{right:29px}
+.p-fav.nbsend{right:31px}
+.w-cat{margin-right:40px}
+.w-fav.nbsend:hover,.p-fav.nbsend:hover{color:var(--ac2);transform:scale(1.15)}
+
+/* ── Utilidades ─────────────────────────────────────────── */
+.hl{background:rgba(139,92,246,.28);border-radius:3px;padding:0 2px}
+.kbd{background:var(--bg4);border:1px solid var(--bd2);border-radius:5px;padding:2px 7px;font-family:var(--fm);font-size:11px;color:var(--t2)}
+.btn{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-s);padding:9px 15px;
+  font-family:var(--fs);font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--acbd);background:var(--acbg);color:var(--ac2)}
+.btn.pri{background:var(--acbg);border-color:var(--acbd);color:var(--ac2)}
+.btn.pri:hover{background:var(--ac);color:#fff}
+@media print{#readbar,#omni,#toast,.nb-side,.nb-tools,.pr-acts,.pr-show{display:none!important}}
+</style>
+<div id="readbar"></div>
+<div id="toast"></div>
+
+<div id="omni">
+  <div class="omni-box">
+    <input class="omni-in" id="omniIn" placeholder="Buscar palabra, frase, pieza o sección…" autocomplete="off" spellcheck="false">
+    <div class="omni-res" id="omniRes"></div>
+    <div class="omni-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> moverse</span>
+      <span><kbd>Enter</kbd> abrir</span>
+      <span><kbd>Esc</kbd> cerrar</span>
+      <span style="margin-left:auto">busca en 2000 palabras + 1000 frases + piezas + método</span>
+    </div>
+  </div>
+</div>
+
 <div class="topbar">
   <div class="tb-in">
     <div class="brand">ENGLISH ENGINE<small>método sin gramática · da-2026</small></div>
     <div class="tabs">
       <button class="tab on" data-p="p0">🧭 Estructura</button>
+      <button class="tab" data-p="pz">🧩 Piezas</button>
       <button class="tab" data-p="p1">📚 Palabras <b id="tc1">0</b></button>
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
+      <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
+      <button class="tab" data-p="nb">📓 Cuaderno</button>
       <button class="tab" data-p="p3">🎯 Método</button>
     </div>
-    <div class="audiobar">
-      <label>Voz</label>
-      <select id="voiceSel"><option>cargando…</option></select>
-      <label>Vel</label>
-      <input type="range" id="rateSel" min="0.5" max="1.2" step="0.05" value="0.9">
-      <span class="spd" id="rateVal">0.90</span>
+    <button class="nbb wide" id="omniBtn" title="Buscar en todo el documento (Ctrl+K)">🔍 <span class="kbd" style="font-size:10px">Ctrl K</span></button>
+    <div class="streak" title="Días seguidos estudiando · repasos de hoy">🔥 <b id="streakN">0</b> <span style="color:var(--t3);font-weight:500">días</span></div>
+    <div class="audiowrap">
+      <button class="nbb wide" id="audioBtn" title="Elegir voz y velocidad de la pronunciación">🔊 <span class="spd" id="rateVal">0.90</span></button>
+      <div class="audiopop" id="audioPop">
+        <label for="voiceSel">Voz en inglés</label>
+        <select id="voiceSel"><option>cargando…</option></select>
+        <label for="rateSel">Velocidad</label>
+        <input type="range" id="rateSel" min="0.5" max="1.2" step="0.05" value="0.9">
+        <div class="audiohint">Más lento al principio: <b>0.75</b> te deja oír cada sonido. Súbelo cuando ya entiendas.</div>
+        <button class="btn pri" id="audioTest" style="width:100%;justify-content:center;margin-top:9px">▶ Probar esta voz</button>
+      </div>
     </div>
   </div>
 </div>
@@ -438,11 +750,589 @@ table.tbl tr:hover td{background:var(--bg3)}
   <div class="note"><b>Si apilas varios adjetivos</b>, el orden nativo es: <b>opinión → tamaño → edad → forma → color → origen → material → propósito</b>. No lo memorices: <i>a beautiful little old round brown Italian wooden dining table</i>. En la vida real casi nunca usas más de dos.</div>
 
   <h2 class="sec"><span class="n">05</span> Cómo usar este documento</h2>
+  <p class="lead">Siete pestañas, pero un solo recorrido. Este es el orden que funciona.</p>
   <div class="grid g3">
-    <div class="tip"><div class="tn">Paso 1</div><h4>Lee esta página dos veces</h4><p>No pases a los otros módulos hasta que los <b>5 moldes</b> te suenen obvios. Son el esqueleto donde vas a colgar todo lo demás.</p></div>
-    <div class="tip"><div class="tn">Paso 2</div><h4>Frases antes que palabras</h4><p>Ve al <b>Módulo 2</b>, no al 1. Aprende bloques completos con su audio. Las palabras sueltas del Módulo 1 son tu diccionario de consulta, no tu material de estudio diario.</p></div>
-    <div class="tip"><div class="tn">Paso 3</div><h4>Escucha, no leas</h4><p>Cada frase y cada palabra tiene 🔊. <b>Dale play y repite en voz alta.</b> Leer en silencio no construye pronunciación ni memoria muscular.</p></div>
+    <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Lee esta página dos veces</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Son el esqueleto donde cuelga todo lo demás.</p></div>
+    <div class="tip"><div class="tn">Paso 2</div><h4>🧩 ¿No sabes qué es un verbo?</h4><p>Abre <b>Las Piezas</b>. Cada tipo de palabra explicado desde cero, con su analogía y su prueba para reconocerla. <b>Si algo no te cuadra, la respuesta está ahí.</b></p><button class="pz-go" onclick="APP.go('pz')" style="margin-top:10px">🧩 Ir a Las Piezas →</button></div>
+    <div class="tip"><div class="tn">Paso 3</div><h4>💬 Frases antes que palabras</h4><p>Ve al <b>Módulo 2</b>, no al 1. Aprende bloques completos con su audio. Las 2000 palabras del Módulo 1 son tu diccionario de consulta, no tu estudio diario.</p></div>
+    <div class="tip"><div class="tn">Paso 4</div><h4>★ Marca lo que te sirve</h4><p>El botón <b>★</b> de cada palabra y frase la manda a tu práctica. El botón <b>📓</b> la guarda en tu cuaderno. No estudies lo que ya sabes.</p></div>
+    <div class="tip"><div class="tn">Paso 5 · cada día</div><h4>🧪 Practica 10 minutos</h4><p>La pestaña <b>Práctica</b> usa repetición espaciada: te muestra justo lo que estás por olvidar. Es lo único de este documento que <b>debes abrir todos los días</b>.</p><button class="pz-go" onclick="APP.go('pr')" style="margin-top:10px">🧪 Ir a Práctica →</button></div>
+    <div class="tip"><div class="tn">Paso 6</div><h4>📓 Escribe lo tuyo</h4><p>El <b>Cuaderno</b> es donde esto se vuelve tuyo. Anota tus errores, tus dudas y las frases que quieras usar mañana. Lo que tú escribes se te queda; lo que solo lees, no.</p></div>
   </div>
+
+  <div class="note ok" style="margin-top:22px"><b>Atajo:</b> pulsa <span class="kbd">Ctrl</span> + <span class="kbd">K</span> en cualquier momento para buscar en todo el documento — las 2000 palabras, las 1000 frases, las piezas y el método, todo de una vez. También funciona la tecla <span class="kbd">/</span>.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE PZ · LAS PIEZAS · qué es cada tipo de palabra
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="pz">
+  <div class="hero">
+    <div class="kick">las piezas · empieza aquí si nunca entendiste nada</div>
+    <h1>¿Qué es un verbo?<br>¿Y un <em>adjetivo</em>?</h1>
+    <p>Aquí no se da nada por sabido. Cada tipo de palabra explicado desde cero, con su analogía, su prueba para reconocerla en tres segundos y la trampa que te tiende el español. <b style="color:var(--tx)">Si algo del Módulo 1 o 2 no te cuadra, la respuesta está en esta página.</b></p>
+  </div>
+
+  <div class="pz-q" style="font-size:16px;margin-bottom:26px">
+    <b>La idea que hace que todo encaje:</b> una frase en inglés es como <b>una escena de película</b>. Hay <b>actores y objetos</b> (los sustantivos), pasa <b>una acción</b> (el verbo), los actores tienen <b>vestuario</b> (los adjetivos), el director da <b>indicaciones</b> (los adverbios) y hay un <b>GPS</b> que dice dónde y cuándo pasa (las preposiciones). Cada tipo de palabra tiene <b>un solo oficio</b>. Cuando sabes el oficio de cada pieza, dejas de memorizar y empiezas a entender.
+  </div>
+
+  <h3 class="sub" style="margin-top:0">Una frase real, con cada pieza marcada</h3>
+  <p class="lead">Mira esta frase. Debajo, cada palabra dice qué oficio tiene. Esta misma lógica se repite en las 1000 frases del Módulo 2.</p>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="spk lg" data-say="My older brother always works very quickly at the new office.">🔊</button>
+      <div>
+        <div style="font-size:20px;font-weight:700;letter-spacing:-.4px">My older brother always works very quickly at the new office.</div>
+        <div style="color:var(--t3);font-size:13.5px;font-style:italic;margin-top:3px">Mi hermano mayor siempre trabaja muy rápido en la oficina nueva.</div>
+      </div>
+    </div>
+    <div class="tw"><table class="tbl" style="margin:0">
+      <tr><th style="width:110px">Palabra</th><th style="width:150px">Qué pieza es</th><th>Qué oficio cumple ahí</th></tr>
+      <tr><td><b>My</b></td><td><span class="slot s-suj" style="font-size:11px;padding:2px 7px">determinante</span></td><td>Señala <b>de quién</b> es el hermano. Es el dedo que apunta.</td></tr>
+      <tr><td><b>older</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">adjetivo</span></td><td>Dice <b>cómo es</b> el hermano. Es su vestuario.</td></tr>
+      <tr><td><b>brother</b></td><td><span class="slot s-suj" style="font-size:11px;padding:2px 7px">sustantivo</span></td><td>Es <b>el actor</b> de la escena. Quien hace la acción.</td></tr>
+      <tr><td><b>always</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">adverbio</span></td><td>Dice <b>con qué frecuencia</b> pasa. Indicación del director.</td></tr>
+      <tr><td><b>works</b></td><td><span class="slot s-ver" style="font-size:11px;padding:2px 7px">verbo</span></td><td>Es <b>la acción</b>. Lo que ocurre en la escena.</td></tr>
+      <tr><td><b>very</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">adverbio</span></td><td>Sube el volumen del que sigue. Otra indicación.</td></tr>
+      <tr><td><b>quickly</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">adverbio</span></td><td>Dice <b>cómo</b> hace la acción.</td></tr>
+      <tr><td><b>at</b></td><td><span class="slot s-aux" style="font-size:11px;padding:2px 7px">preposición</span></td><td>Es el <b>GPS</b>: avisa que viene un lugar.</td></tr>
+      <tr><td><b>the</b></td><td><span class="slot s-suj" style="font-size:11px;padding:2px 7px">determinante</span></td><td>Señala <b>cuál</b> oficina: una que ya conocemos.</td></tr>
+      <tr><td><b>new</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">adjetivo</span></td><td>Vestuario de la oficina: <b>cómo es</b>.</td></tr>
+      <tr><td><b>office</b></td><td><span class="slot s-com" style="font-size:11px;padding:2px 7px">sustantivo</span></td><td>Otro objeto de la escena: <b>el lugar</b>.</td></tr>
+    </table></div>
+  </div>
+  <div class="note info"><b>Fíjate en algo:</b> once palabras, pero solo <b>cinco oficios distintos</b>. En inglés no hay cientos de reglas — hay un puñado de piezas que se repiten toda la vida. Abre cada una abajo y quedará claro.</div>
+
+  <h2 class="sec"><span class="n">01</span> Las 12 piezas, una por una</h2>
+  <p class="lead">Haz clic en cualquiera para abrirla. Empieza por SUSTANTIVO y VERBO: con esas dos ya puedes armar una frase.</p>
+
+  <!-- ─────────── SUSTANTIVO ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#22d3ee;background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.34)">📦</div>
+      <div><div class="pz-t">SUSTANTIVO <span style="font-size:12px;color:var(--t3);font-weight:500">· noun</span></div>
+      <div class="pz-s">Las cosas, las personas, los lugares · 877 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el actor y los objetos</b> de la escena. Todo lo que puedes <b>señalar con el dedo</b>, tocar, ver o nombrar es un sustantivo. <i>Perro, casa, mesa, Miguel, Colombia, dinero, tiempo, amor</i>. Si existe y tiene nombre, es un sustantivo.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Ponle <b>"the"</b> o <b>"a"</b> delante. Si suena bien, es un sustantivo.<br>
+        <b>the</b> dog ✓ · <b>a</b> house ✓ · <b>the</b> money ✓ → son sustantivos.<br>
+        <b>the</b> run ✗ · <b>a</b> beautiful ✗ → esos no lo son.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Para qué sirve · dónde va</h5>
+      <p>Ocupa <b>dos casillas del molde</b>: la del <span class="slot s-suj" style="font-size:11px;padding:1px 6px">SUJETO</span> (quien hace la acción) y la del <span class="slot s-com" style="font-size:11px;padding:1px 6px">COMPLEMENTO</span> (lo que recibe la acción). En <i>The dog ate the food</i>, <b>dog</b> es el sujeto y <b>food</b> el complemento — el mismo tipo de pieza en dos puestos distintos.</p></div>
+
+      <div class="pz-sec"><h5>Cómo se usa · las 3 reglas que importan</h5>
+      <p><b>1 · El plural casi siempre es -s.</b> one book → two book<b>s</b>. Si termina en -s, -sh, -ch, -x se le pone <b>-es</b>: box → box<b>es</b>, watch → watch<b>es</b>.</p>
+      <p><b>2 · Hay plurales rebeldes</b> que hay que aprender de memoria porque son los más usados: man→<b>men</b>, woman→<b>women</b>, child→<b>children</b>, foot→<b>feet</b>, tooth→<b>teeth</b>, person→<b>people</b>, life→<b>lives</b>.</p>
+      <p><b>3 · Hay sustantivos que NO se pueden contar</b> y por eso <b>nunca llevan -s</b>: no puedes decir "dos aguas". Los grandes son: <b>water, money, time, information, advice, work, news, homework, furniture, luggage, bread, rice, music, help</b>. Con estos se dice <i>some</i> o <i>a lot of</i>, nunca <i>many</i>.</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ I need some advice<b>s</b></span> → <span style="color:var(--ok)">✓ I need some <b>advice</b></span>. En español "consejos" lleva s; en inglés <i>advice</i> jamás la lleva.</p>
+        <p><span style="color:var(--r-neg)">✗ The people <b>is</b> nice</span> → <span style="color:var(--ok)">✓ The people <b>are</b> nice</span>. <i>People</i> ya es plural por dentro, aunque no termine en -s.</p>
+        <p><span style="color:var(--r-neg)">✗ I have 25 <b>years</b></span> → <span style="color:var(--ok)">✓ I'<b>m</b> 25</span>. La edad en inglés no se tiene, <b>se es</b>.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="The dog is in the house.">🔊</button><div class="bd"><div class="en">The <b style="color:#22d3ee">dog</b> is in the <b style="color:#22d3ee">house</b>.</div><div class="es">El perro está en la casa.</div><div class="nt">Dos sustantivos: uno de sujeto, uno de lugar.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I need more information.">🔊</button><div class="bd"><div class="en">I need more <b style="color:#22d3ee">information</b>.</div><div class="es">Necesito más información.</div><div class="nt">Incontable: nunca informations.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="My two brothers are engineers.">🔊</button><div class="bd"><div class="en">My two <b style="color:#22d3ee">brothers</b> are <b style="color:#22d3ee">engineers</b>.</div><div class="es">Mis dos hermanos son ingenieros.</div><div class="nt">Ojo: las profesiones también son sustantivos y van en plural.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="sust">📚 Ver los 877 sustantivos del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── VERBO ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#4ade80;background:rgba(74,222,128,.13);border-color:rgba(74,222,128,.34)">⚡</div>
+      <div><div class="pz-t">VERBO <span style="font-size:12px;color:var(--t3);font-weight:500">· verb</span></div>
+      <div class="pz-s">La acción: lo que pasa en la escena · 491 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>lo que ocurre</b>. Correr, comer, trabajar, pensar, ser, tener. Sin verbo no hay frase — es la única pieza que <b>no puedes quitar nunca</b>. Si el sustantivo es el actor, el verbo es lo que el actor hace.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Ponle <b>"to"</b> delante y pregúntate si tiene sentido como acción.<br>
+        <b>to</b> run ✓ · <b>to</b> eat ✓ · <b>to</b> think ✓ → son verbos.<br>
+        <b>to</b> table ✗ · <b>to</b> happy ✗ → esos no.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Para qué sirve · dónde va</h5>
+      <p>Ocupa la casilla <span class="slot s-ver" style="font-size:11px;padding:1px 6px">VERBO</span>, siempre <b>justo después del sujeto</b>. Ese orden no se negocia: en inglés el verbo va en segundo lugar casi siempre.</p></div>
+
+      <div class="pz-sec"><h5>Cómo se usa · la gran diferencia con el español</h5>
+      <p><b>En español el verbo cambia muchísimo:</b> yo com<i>o</i>, tú com<i>es</i>, él com<i>e</i>, nosotros com<i>emos</i>, yo com<i>í</i>, yo com<i>ería</i>… Son decenas de formas.</p>
+      <p><b>En inglés el verbo casi no cambia.</b> Tiene solo <b>cuatro formas</b> en total, para toda la vida:</p>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:130px">Forma</th><th style="width:110px">Ejemplo</th><th>Cuándo aparece</th></tr>
+        <tr><td><b>1 · Desnuda</b></td><td>work</td><td>La forma base. Presente y después de cualquier auxiliar o modal.</td></tr>
+        <tr><td><b>2 · Con -s</b></td><td>work<b>s</b></td><td><b>Solo</b> con he / she / it en presente. Es la única conjugación que existe.</td></tr>
+        <tr><td><b>3 · Con -ing</b></td><td>work<b>ing</b></td><td>Acción en curso. Siempre pegada al motor BE.</td></tr>
+        <tr><td><b>4 · Pasado</b></td><td>work<b>ed</b></td><td>Pasado y participio. En los irregulares cambia de raíz (go → went → gone).</td></tr>
+      </table></div>
+      <p><b>Y ya está.</b> Cuatro formas. Todo lo demás — el futuro, el condicional, lo que en español serían veinte conjugaciones — lo resuelve una palabrita adelante: <b>will, would, have, did, can</b>. Por eso el inglés parece difícil al principio y luego resulta mucho más simple que el español.</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ She doesn't work<b>s</b></span> → <span style="color:var(--ok)">✓ She doe<b>s</b>n't work</span>. Cuando aparece un auxiliar, <b>él se lleva la -s</b> y el verbo vuelve a estar desnudo. La marca de tiempo se pone <b>una sola vez</b>.</p>
+        <p><span style="color:var(--r-neg)">✗ I <b>no</b> understand</span> → <span style="color:var(--ok)">✓ I <b>don't</b> understand</span>. En inglés no puedes poner "no" delante del verbo: necesitas un auxiliar.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo · el mismo verbo en sus 4 formas</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I work every day.">🔊</button><div class="bd"><div class="en">I <b style="color:#4ade80">work</b> every day.</div><div class="es">Trabajo todos los días.</div><div class="nt">Forma 1: desnuda.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="She works every day.">🔊</button><div class="bd"><div class="en">She <b style="color:#4ade80">works</b> every day.</div><div class="es">Ella trabaja todos los días.</div><div class="nt">Forma 2: la única -s del inglés.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I am working right now.">🔊</button><div class="bd"><div class="en">I am <b style="color:#4ade80">working</b> right now.</div><div class="es">Estoy trabajando ahora.</div><div class="nt">Forma 3: -ing pegada al motor BE.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I worked yesterday.">🔊</button><div class="bd"><div class="en">I <b style="color:#4ade80">worked</b> yesterday.</div><div class="es">Trabajé ayer.</div><div class="nt">Forma 4: pasado con -ed.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="verbo">📚 Ver los 491 verbos del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── ADJETIVO ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#fbbf24;background:rgba(251,191,36,.13);border-color:rgba(251,191,36,.34)">🎨</div>
+      <div><div class="pz-t">ADJETIVO <span style="font-size:12px;color:var(--t3);font-weight:500">· adjective</span></div>
+      <div class="pz-s">Cómo ES la cosa: el vestuario del actor · 241 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el vestuario</b>. No es la cosa, es <b>cómo es</b> esa cosa. Un carro es un sustantivo; <b>rojo, nuevo, rápido, caro</b> son adjetivos que le ponen características. Siempre acompañan a un sustantivo, nunca van solos.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Encájalo en el hueco: <b>"It's a ___ car"</b> o <b>"I am ___"</b>.<br>
+        It's a <b>red</b> car ✓ · I am <b>tired</b> ✓ → son adjetivos.<br>
+        It's a <b>run</b> car ✗ · I am <b>house</b> ✗ → esos no.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Para qué sirve · dónde va</h5>
+      <p>Se pega al sustantivo dentro de la casilla del <span class="slot s-com" style="font-size:11px;padding:1px 6px">COMPLEMENTO</span> o del <span class="slot s-suj" style="font-size:11px;padding:1px 6px">SUJETO</span>. También puede ir solo detrás del verbo <b>be</b>: <i>I am tired</i>.</p></div>
+
+      <div class="pz-sec"><h5>Cómo se usa · las 3 reglas de oro</h5>
+      <p><b>1 · Va SIEMPRE antes del sustantivo.</b> Al revés que en español, y esta es la regla que más cuesta.<br>
+      Español: <i>un carro <b>rojo</b></i> → Inglés: <i>a <b>red</b> car</i>.</p>
+      <p><b>2 · NUNCA lleva plural ni género.</b> Esto es un regalo: en español dices roj<i>o</i>, roj<i>a</i>, roj<i>os</i>, roj<i>as</i>. En inglés <b>red</b> es red para siempre.<br>
+      <span style="color:var(--ok)">✓ two <b>red</b> cars</span> · <span style="color:var(--r-neg)">✗ two <b>reds</b> cars</span></p>
+      <p><b>3 · Para comparar</b> hay dos caminos según el largo de la palabra:<br>
+      · <b>Corto (1 sílaba)</b> → se le pega <b>-er</b> y <b>-est</b>: big → bigg<b>er</b> → the bigg<b>est</b>.<br>
+      · <b>Largo (3+ sílabas)</b> → se le pone <b>more</b> y <b>the most</b> delante: expensive → <b>more</b> expensive → <b>the most</b> expensive.<br>
+      · <b>Rebeldes:</b> good → <b>better</b> → <b>the best</b> · bad → <b>worse</b> → <b>the worst</b>.</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ a car red</span> → <span style="color:var(--ok)">✓ a <b>red</b> car</span>. El error número uno de todo hispanohablante.</p>
+        <p><span style="color:var(--r-neg)">✗ more better</span> → <span style="color:var(--ok)">✓ <b>better</b></span>. <i>Better</i> ya significa "más bueno": ponerle <i>more</i> es decirlo dos veces.</p>
+        <p><span style="color:var(--r-neg)">✗ I'm <b>boring</b></span> → <span style="color:var(--ok)">✓ I'm <b>bored</b></span>. Con <b>-ed</b> hablas de lo que <b>tú sientes</b>; con <b>-ing</b>, de lo que <b>la cosa provoca</b>. "I'm boring" significa "soy una persona aburrida".</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I bought a new red car.">🔊</button><div class="bd"><div class="en">I bought a <b style="color:#fbbf24">new red</b> car.</div><div class="es">Compré un carro rojo nuevo.</div><div class="nt">Dos adjetivos, los dos delante, ninguno con -s.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="This is cheaper than that one.">🔊</button><div class="bd"><div class="en">This is <b style="color:#fbbf24">cheaper</b> than that one.</div><div class="es">Este es más barato que ese.</div><div class="nt">Corto → lleva -er.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="That is more expensive.">🔊</button><div class="bd"><div class="en">That is <b style="color:#fbbf24">more expensive</b>.</div><div class="es">Ese es más caro.</div><div class="nt">Largo → lleva more delante.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="adj">📚 Ver los 241 adjetivos del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── ADVERBIO ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#f472b6;background:rgba(244,114,182,.13);border-color:rgba(244,114,182,.34)">🎬</div>
+      <div><div class="pz-t">ADVERBIO <span style="font-size:12px;color:var(--t3);font-weight:500">· adverb</span></div>
+      <div class="pz-s">Cómo se hace la acción: la indicación del director · 87 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>la indicación del director</b>. El adjetivo dice cómo es <b>la cosa</b>; el adverbio dice cómo se hace <b>la acción</b>. <i>Habla <b>rápido</b>, llega <b>tarde</b>, trabaja <b>bien</b>, <b>siempre</b> come aquí</i>.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Pregúntale al verbo: <b>¿cómo? ¿cuándo? ¿dónde? ¿cuánto? ¿con qué frecuencia?</b> La palabra que responde es un adverbio.<br>
+        <i>He works <b>quickly</b></i> → ¿cómo trabaja? rápido. Es adverbio.<br>
+        Atajo visual: <b>si termina en -ly, casi seguro es adverbio</b> (quickly, slowly, really, easily).</p>
+      </div>
+
+      <div class="pz-sec"><h5>Para qué sirve · dónde va</h5>
+      <p>Vive dentro de la casilla del <span class="slot s-com" style="font-size:11px;padding:1px 6px">COMPLEMENTO</span>, pero es la pieza <b>más viajera</b>: según su tipo se para en un sitio distinto. Estas tres posiciones cubren casi todo:</p>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:150px">Tipo</th><th style="width:130px">Dónde se para</th><th>Ejemplo</th></tr>
+        <tr><td><b>Frecuencia</b><br><span style="color:var(--t3);font-size:12px">always, never, usually, often, sometimes</span></td><td><b>Antes</b> del verbo<br>(pero <b>después</b> de <i>be</i>)</td><td>I <b>always</b> work · She is <b>always</b> late</td></tr>
+        <tr><td><b>Modo</b><br><span style="color:var(--t3);font-size:12px">quickly, slowly, well, carefully</span></td><td><b>Después</b> del verbo o al final</td><td>He speaks <b>slowly</b></td></tr>
+        <tr><td><b>Tiempo</b><br><span style="color:var(--t3);font-size:12px">today, now, yesterday, later</span></td><td>Al <b>final</b> (o al inicio)</td><td>I'll call you <b>later</b></td></tr>
+      </table></div></div>
+
+      <div class="pz-sec"><h5>Cómo se usa · el truco de fabricación</h5>
+      <p><b>La mayoría de adverbios se fabrican con un adjetivo + -ly.</b> Es una máquina automática:<br>
+      quick → quick<b>ly</b> · slow → slow<b>ly</b> · careful → careful<b>ly</b> · easy → eas<b>ily</b> · real → real<b>ly</b>.</p>
+      <p><b>Dos rebeldes que se usan todo el tiempo:</b> <b>good</b> es adjetivo y su adverbio es <b>well</b> (no "goodly"). Y <b>fast</b> y <b>hard</b> no cambian: son adjetivo y adverbio a la vez.</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ She sings <b>good</b></span> → <span style="color:var(--ok)">✓ She sings <b>well</b></span>. <i>Good</i> describe una cosa; <i>well</i> describe una acción.</p>
+        <p><span style="color:var(--r-neg)">✗ I go <b>always</b> to the gym</span> → <span style="color:var(--ok)">✓ I <b>always</b> go to the gym</span>. Los de frecuencia se meten <b>antes</b> del verbo, no al final.</p>
+        <p><span style="color:var(--r-neg)">✗ hardly = duramente</span> → <b>hardly</b> significa <b>apenas / casi nada</b>. <i>I hardly slept</i> = casi no dormí. Para "duramente" es <b>hard</b>.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I always arrive early.">🔊</button><div class="bd"><div class="en">I <b style="color:#f472b6">always</b> arrive <b style="color:#f472b6">early</b>.</div><div class="es">Siempre llego temprano.</div><div class="nt">Frecuencia antes del verbo, tiempo al final.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="Please speak more slowly.">🔊</button><div class="bd"><div class="en">Please speak more <b style="color:#f472b6">slowly</b>.</div><div class="es">Por favor habla más despacio.</div><div class="nt">Modo, después del verbo.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="She works very well.">🔊</button><div class="bd"><div class="en">She works very <b style="color:#f472b6">well</b>.</div><div class="es">Ella trabaja muy bien.</div><div class="nt">well, no good.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="adv">📚 Ver los 87 adverbios del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── PRONOMBRE ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#fb923c;background:rgba(251,146,60,.13);border-color:rgba(251,146,60,.34)">👤</div>
+      <div><div class="pz-t">PRONOMBRE <span style="font-size:12px;color:var(--t3);font-weight:500">· pronoun</span></div>
+      <div class="pz-s">El apodo para no repetir el nombre · 38 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el apodo</b>. En vez de repetir "Miguel" cinco veces, dices <b>he</b>. En vez de repetir "la mesa", dices <b>it</b>. Reemplaza a un sustantivo que ya se nombró, para no sonar como un robot.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Si la palabra <b>ocupa el puesto de un nombre pero no nombra nada concreto</b>, es pronombre. <i>I, you, he, she, it, we, they, me, him, her, us, them, this, that</i>. Son poquitos y se usan sin parar: apréndetelos de memoria.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Cómo se usa · la tabla que hay que saber</h5>
+      <p>Cada persona tiene <b>tres formas</b> según el puesto que ocupe en la frase. Es la única tabla de este documento que sí vale la pena memorizar:</p>
+      <div class="tw"><table class="tbl">
+        <tr><th>Si HACE la acción<br><span style="text-transform:none;font-weight:400">(va adelante)</span></th><th>Si RECIBE la acción<br><span style="text-transform:none;font-weight:400">(va detrás del verbo)</span></th><th>Si POSEE algo<br><span style="text-transform:none;font-weight:400">(va antes del sustantivo)</span></th></tr>
+        <tr><td><b>I</b> — yo</td><td><b>me</b> — me, mí</td><td><b>my</b> — mi</td></tr>
+        <tr><td><b>you</b> — tú, usted</td><td><b>you</b> — te, ti</td><td><b>your</b> — tu</td></tr>
+        <tr><td><b>he</b> — él</td><td><b>him</b> — lo, le</td><td><b>his</b> — su (de él)</td></tr>
+        <tr><td><b>she</b> — ella</td><td><b>her</b> — la, le</td><td><b>her</b> — su (de ella)</td></tr>
+        <tr><td><b>it</b> — eso</td><td><b>it</b> — lo</td><td><b>its</b> — su (de eso)</td></tr>
+        <tr><td><b>we</b> — nosotros</td><td><b>us</b> — nos</td><td><b>our</b> — nuestro</td></tr>
+        <tr><td><b>they</b> — ellos</td><td><b>them</b> — los, les</td><td><b>their</b> — su (de ellos)</td></tr>
+      </table></div>
+      <p><b>Cómo leerla:</b> <i><b>I</b> saw <b>her</b> at <b>my</b> office</i> = <b>Yo</b> (hace) <b>la</b> (recibe) <b>mi</b> (posee). Una de cada columna, en ese orden.</p></div>
+
+      <div class="pz-sec"><h5>El pronombre más raro: IT</h5>
+      <p><b>it</b> no significa nada la mitad de las veces. Es un <b>relleno</b> que el inglés necesita porque <b>toda frase obliga a tener sujeto</b>. En español dices "Llueve" sin sujeto; en inglés eso está roto y hay que tapar el hueco con <b>it</b>.</p>
+      <p>Aparece obligatoriamente con: <b>el clima</b> (It's raining), <b>la hora</b> (It's five o'clock), <b>la distancia</b> (It's far) y <b>opiniones generales</b> (It's important to practice).</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ Is very cold today</span> → <span style="color:var(--ok)">✓ <b>It</b>'s very cold today</span>. Nunca dejes la frase sin sujeto.</p>
+        <p><span style="color:var(--r-neg)">✗ Me and my friend went</span> → <span style="color:var(--ok)">✓ <b>My friend and I</b> went</span>. Si la persona <b>hace</b> la acción va <i>I</i>, no <i>me</i>.</p>
+        <p><b>its</b> (su) e <b>it's</b> (it is) suenan igual y son cosas distintas. Truco: si puedes decir "it is" en su lugar, lleva apóstrofo.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="She gave me her number.">🔊</button><div class="bd"><div class="en"><b style="color:#fb923c">She</b> gave <b style="color:#fb923c">me</b> <b style="color:#fb923c">her</b> number.</div><div class="es">Ella me dio su número.</div><div class="nt">Una de cada columna: hace, recibe, posee.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="It's raining and it's cold.">🔊</button><div class="bd"><div class="en"><b style="color:#fb923c">It</b>'s raining and <b style="color:#fb923c">it</b>'s cold.</div><div class="es">Está lloviendo y hace frío.</div><div class="nt">it de relleno, dos veces. No significa nada.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="pron">📚 Ver los 38 pronombres del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── DETERMINANTE ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">👉</div>
+      <div><div class="pz-t">DETERMINANTE <span style="font-size:12px;color:var(--t3);font-weight:500">· determiner · a / an / the</span></div>
+      <div class="pz-s">El dedo que señala cuál y cuántos · 28 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el dedo que señala</b>. Va justo antes del sustantivo y responde <b>¿cuál?</b> o <b>¿cuántos?</b>. <i><b>the</b> dog</i> (ese perro que ya sabemos), <i><b>a</b> dog</i> (un perro cualquiera), <i><b>my</b> dog</i> (el mío), <i><b>some</b> dogs</i> (unos cuantos).</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Si la palabra <b>va pegada delante de un sustantivo</b> y te dice cuál o cuántos, es determinante: <i>a, an, the, my, your, his, her, this, that, these, those, some, any, no, every, each, all, both, much, many</i>.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Cómo se usa · A / AN / THE en tres reglas</h5>
+      <p><b>1 · A / AN = "uno cualquiera"</b>, la primera vez que lo mencionas. <b>Solo con singular contable.</b><br>
+      <i>I saw <b>a</b> dog</i> = vi un perro (no sabes cuál).<br>
+      <b>an</b> se usa cuando la palabra siguiente <b>empieza con sonido de vocal</b>: <b>an</b> apple, <b>an</b> hour (la h es muda, así que empieza con vocal), pero <b>a</b> university (suena "yuniversity", empieza con consonante).</p>
+      <p><b>2 · THE = "ese que los dos ya sabemos"</b>, la segunda vez o cuando es obvio. Sirve para singular, plural e incontables.<br>
+      <i>I saw a dog. <b>The</b> dog was black.</i> Primera vez <b>a</b>, segunda vez <b>the</b>. Esta secuencia es toda la regla.</p>
+      <p><b>3 · SIN NADA</b> cuando hablas de algo <b>en general</b>, en plural o incontable.<br>
+      <i><b>Dogs</b> are friendly</i> = los perros (todos, en general) son amigables. Poner <i>the</i> ahí sería hablar de unos perros concretos.</p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ <b>The</b> life is hard</span> → <span style="color:var(--ok)">✓ Life is hard</span>. En general = <b>sin</b> the. El español mete artículo donde el inglés no.</p>
+        <p><span style="color:var(--r-neg)">✗ I am engineer</span> → <span style="color:var(--ok)">✓ I am <b>an</b> engineer</span>. Las profesiones <b>siempre</b> llevan a/an. Aquí es al revés: el inglés lo pide y el español no.</p>
+        <p><span style="color:var(--r-neg)">✗ I go to <b>the</b> bed</span> → <span style="color:var(--ok)">✓ I go to bed</span>. Expresiones fijas sin artículo: <i>go to bed, go to school, go to work, go home</i>.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I saw a dog. The dog was black.">🔊</button><div class="bd"><div class="en">I saw <b style="color:#94a3b8">a</b> dog. <b style="color:#94a3b8">The</b> dog was black.</div><div class="es">Vi un perro. El perro era negro.</div><div class="nt">Primera vez a, segunda vez the. Toda la regla en una línea.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I am an engineer and I love my job.">🔊</button><div class="bd"><div class="en">I am <b style="color:#94a3b8">an</b> engineer and I love <b style="color:#94a3b8">my</b> job.</div><div class="es">Soy ingeniero y amo mi trabajo.</div><div class="nt">an por el sonido de vocal. my señala de quién.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="det">📚 Ver los 28 determinantes del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── PREPOSICIÓN ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#a78bfa;background:rgba(167,139,250,.13);border-color:rgba(167,139,250,.34)">📍</div>
+      <div><div class="pz-t">PREPOSICIÓN <span style="font-size:12px;color:var(--t3);font-weight:500">· preposition · in / on / at</span></div>
+      <div class="pz-s">El GPS: dónde, cuándo y cómo · 28 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el GPS</b>. Palabritas cortas que colocan las cosas en el espacio y en el tiempo: <b>in, on, at, to, from, with, for, by, about, under, over</b>. Son diminutas y son las que más errores causan, porque casi nunca se traducen una a una.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Si la palabra <b>va antes de un sustantivo</b> y responde <b>¿dónde? ¿cuándo? ¿con qué? ¿para quién?</b>, es preposición. <i>The book is <b>on</b> the table</i> → ¿dónde? on.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Cómo se usa · IN / ON / AT, del más grande al más pequeño</h5>
+      <p>Estas tres son el 70% de todas las preposiciones que vas a usar. La lógica es <b>de grande a pequeño</b>, y funciona igual para lugar y para tiempo:</p>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:60px"></th><th>LUGAR</th><th>TIEMPO</th></tr>
+        <tr><td><b>IN</b><br><span style="color:var(--t3);font-size:11px">grande<br>dentro de</span></td><td>países, ciudades, espacios cerrados<br><b>in</b> Colombia · <b>in</b> the room · <b>in</b> the car</td><td>meses, años, estaciones, siglos<br><b>in</b> March · <b>in</b> 2026 · <b>in</b> the morning</td></tr>
+        <tr><td><b>ON</b><br><span style="color:var(--t3);font-size:11px">mediano<br>sobre</span></td><td>superficies<br><b>on</b> the table · <b>on</b> the wall · <b>on</b> the bus</td><td>días y fechas<br><b>on</b> Monday · <b>on</b> July 4th</td></tr>
+        <tr><td><b>AT</b><br><span style="color:var(--t3);font-size:11px">pequeño<br>punto exacto</span></td><td>puntos concretos<br><b>at</b> home · <b>at</b> work · <b>at</b> the door</td><td>horas exactas<br><b>at</b> 8 o'clock · <b>at</b> night</td></tr>
+      </table></div>
+      <p><b>Regla mental:</b> <i>at 8 o'clock</i> (punto) <i>on Monday</i> (día) <i>in March</i> (mes). De lo pequeño a lo grande, las preposiciones van <b>at → on → in</b>.</p></div>
+
+      <div class="pz-sec"><h5>La verdad incómoda sobre las preposiciones</h5>
+      <p><b>No se pueden traducir.</b> El español dice "depende <b>de</b>" y el inglés dice "depend <b>on</b>". No hay lógica que te salve: <b>la preposición viene pegada al verbo</b> y hay que aprender el bloque completo, no la palabra suelta.</p>
+      <p>Por eso en el Módulo 1 cada verbo trae su preposición en el recuadro del patrón. <b>Memoriza "listen TO", no "listen"</b>.</p>
+      <div class="pz-list">
+        <span class="pz-w" data-say="depend on"><b>depend on</b><span>depender de</span></span>
+        <span class="pz-w" data-say="listen to"><b>listen to</b><span>escuchar</span></span>
+        <span class="pz-w" data-say="wait for"><b>wait for</b><span>esperar a</span></span>
+        <span class="pz-w" data-say="look for"><b>look for</b><span>buscar</span></span>
+        <span class="pz-w" data-say="think about"><b>think about</b><span>pensar en</span></span>
+        <span class="pz-w" data-say="belong to"><b>belong to</b><span>pertenecer a</span></span>
+        <span class="pz-w" data-say="worry about"><b>worry about</b><span>preocuparse por</span></span>
+        <span class="pz-w" data-say="good at"><b>good at</b><span>bueno en</span></span>
+        <span class="pz-w" data-say="interested in"><b>interested in</b><span>interesado en</span></span>
+        <span class="pz-w" data-say="married to"><b>married to</b><span>casado con</span></span>
+      </div>
+      </div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ I depend <b>of</b> you</span> → <span style="color:var(--ok)">✓ I depend <b>on</b> you</span>.</p>
+        <p><span style="color:var(--r-neg)">✗ I'm waiting <b>the</b> bus</span> → <span style="color:var(--ok)">✓ I'm waiting <b>for</b> the bus</span>. <i>Wait</i> exige <b>for</b> siempre.</p>
+        <p><span style="color:var(--r-neg)">✗ I listen music</span> → <span style="color:var(--ok)">✓ I listen <b>to</b> music</span>.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I'll see you at eight on Monday in March.">🔊</button><div class="bd"><div class="en">I'll see you <b style="color:#a78bfa">at</b> eight <b style="color:#a78bfa">on</b> Monday <b style="color:#a78bfa">in</b> March.</div><div class="es">Te veo a las ocho el lunes en marzo.</div><div class="nt">Las tres en una frase, de lo pequeño a lo grande.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="prep">📚 Ver las 28 preposiciones del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── AUXILIAR ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#22d3ee;background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.34)">🔑</div>
+      <div><div class="pz-t">AUXILIAR <span style="font-size:12px;color:var(--t3);font-weight:500">· auxiliary · do / be / have</span></div>
+      <div class="pz-s">El motor que arranca la frase y marca el tiempo</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el motor</b>. No significa nada por sí solo — su único trabajo es <b>decir cuándo pasa la acción</b> y <b>permitir negar y preguntar</b>. Es la pieza que el español no tiene, y por eso es la que más cuesta.</div>
+
+      <div class="pz-sec"><h5>Por qué existe · la comparación que lo aclara todo</h5>
+      <p>En <b>español</b>, el verbo lleva el tiempo por dentro: <i>com<b>o</b></i> (ahora), <i>com<b>í</b></i> (ayer), <i>comer<b>é</b></i> (mañana). El verbo cambia de forma y ya.</p>
+      <p>En <b>inglés</b>, el verbo casi no cambia. Entonces, ¿cómo se sabe cuándo pasó? <b>Poniendo una palabra adelante</b>. Esa palabra es el auxiliar:<br>
+      I <b>eat</b> (ahora) · I <b>did</b> eat / I ate (ayer) · I <b>will</b> eat (mañana) · I <b>have</b> eaten (ya lo hice).</p>
+      <p><b>Solo hay tres motores</b>, y cada uno exige una forma distinta del verbo detrás:</p>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:90px">Motor</th><th style="width:170px">Formas</th><th style="width:130px">Pide detrás</th><th>Para qué sirve</th></tr>
+        <tr><td><b style="color:var(--r-aux)">BE</b></td><td>am, is, are, was, were</td><td>verbo + <b>-ing</b></td><td>Acción en curso: I <b>am</b> work<b>ing</b></td></tr>
+        <tr><td><b style="color:var(--r-ver)">DO</b></td><td>do, does, did</td><td>verbo <b>desnudo</b></td><td>Negar y preguntar: I <b>don't</b> work · <b>Do</b> you work?</td></tr>
+        <tr><td><b style="color:var(--r-com)">HAVE</b></td><td>have, has, had</td><td><b>participio</b></td><td>Pasado que sigue vivo: I <b>have</b> work<b>ed</b></td></tr>
+      </table></div></div>
+
+      <div class="pz-sec"><h5>Cómo se usa · las 3 cosas que hace el auxiliar</h5>
+      <p><b>1 · NEGAR.</b> El "not" no se le puede pegar al verbo: necesita un auxiliar donde agarrarse.<br>
+      I work → I <b>do</b> not work → I <b>don't</b> work.</p>
+      <p><b>2 · PREGUNTAR.</b> Preguntar en inglés es <b>mover el auxiliar al frente</b>. Nada más.<br>
+      You work here → <b>Do</b> you work here?</p>
+      <p><b>3 · RESPONDER CORTO.</b> Se responde con el mismo auxiliar que te preguntaron. Es un eco.<br>
+      <i>Do you work? — Yes, I <b>do</b>.</i> · <i>Are you tired? — Yes, I <b>am</b>.</i> · <i>Can you swim? — Yes, I <b>can</b>.</i></p></div>
+
+      <div class="pz-sec"><h5>La regla de oro: la marca se pone UNA vez</h5>
+      <p>Cuando aparece un auxiliar, <b>él se lleva toda la información de tiempo y persona</b>, y el verbo principal vuelve a estar desnudo. Míralo:</p>
+      <div class="pz-ex"><div class="bd"><div class="en">She work<b style="color:var(--ok)">s</b> → She <b style="color:var(--ok)">does</b>n't work</div><div class="nt">La -s se mudó de <i>work</i> a <i>does</i>. No puede estar en los dos.</div></div></div>
+      <div class="pz-ex"><div class="bd"><div class="en">He work<b style="color:var(--ok)">ed</b> → <b style="color:var(--ok)">Did</b> he work?</div><div class="nt">El pasado se mudó de <i>worked</i> a <i>did</i>.</div></div></div>
+      </div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><span style="color:var(--r-neg)">✗ She doesn't work<b>s</b></span> → <span style="color:var(--ok)">✓ She doesn't <b>work</b></span>. Doble marca: error clásico.</p>
+        <p><span style="color:var(--r-neg)">✗ Did you <b>went</b>?</span> → <span style="color:var(--ok)">✓ <b>Did</b> you <b>go</b>?</span> Con <i>did</i>, el verbo va desnudo.</p>
+        <p><span style="color:var(--r-neg)">✗ Where you live?</span> → <span style="color:var(--ok)">✓ Where <b>do</b> you live?</span> Sin auxiliar no hay pregunta.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Escúchalo</h5>
+      <div class="pz-ex"><button class="spk sm" data-say="I don't work on Sundays. Do you?">🔊</button><div class="bd"><div class="en">I <b style="color:#22d3ee">don't</b> work on Sundays. <b style="color:#22d3ee">Do</b> you?</div><div class="es">No trabajo los domingos. ¿Y tú?</div><div class="nt">El mismo motor DO negando y preguntando.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="Are you working? Yes, I am.">🔊</button><div class="bd"><div class="en"><b style="color:#22d3ee">Are</b> you working? Yes, I <b style="color:#22d3ee">am</b>.</div><div class="es">¿Estás trabajando? Sí.</div><div class="nt">Motor BE. La respuesta hace eco del mismo motor.</div></div></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ─────────── MODAL ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#22d3ee;background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.34)">🎚️</div>
+      <div><div class="pz-t">MODAL <span style="font-size:12px;color:var(--t3);font-weight:500">· modal · can / should / must</span></div>
+      <div class="pz-s">El tono: si puedes, debes o quizá · 8 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el dial del tono</b>. No cambia la acción, cambia <b>tu actitud hacia ella</b>. <i>I work</i> es un hecho. <i>I <b>can</b> work</i> (soy capaz), <i>I <b>must</b> work</i> (obligado), <i>I <b>should</b> work</i> (sería bueno), <i>I <b>might</b> work</i> (tal vez). Misma acción, cinco tonos distintos.</div>
+
+      <div class="pz-test">
+        <div class="lb">🔎 El test de 3 segundos</div>
+        <p>Son <b>solo diez palabras</b> en todo el idioma: <b>can, could, will, would, shall, should, may, might, must, ought to</b>. Si ves una de esas delante de un verbo, es un modal. No hay más.</p>
+      </div>
+
+      <div class="pz-sec"><h5>Cómo se usa · las 3 reglas, iguales para los diez</h5>
+      <p>Los modales son la pieza <b>más fácil del inglés</b> porque no se transforman nunca:</p>
+      <p><b>1 · NUNCA llevan -s.</b> <span style="color:var(--ok)">✓ She <b>can</b> swim</span> · <span style="color:var(--r-neg)">✗ She cans swim</span></p>
+      <p><b>2 · NUNCA llevan "to" detrás.</b> <span style="color:var(--ok)">✓ I <b>can swim</b></span> · <span style="color:var(--r-neg)">✗ I can to swim</span></p>
+      <p><b>3 · NUNCA necesitan "do"</b> para negar o preguntar: ellos mismos son el auxiliar.<br>
+      <span style="color:var(--ok)">✓ I <b>can't</b> swim · <b>Can</b> you swim?</span> · <span style="color:var(--r-neg)">✗ Do you can swim?</span></p></div>
+
+      <div class="pz-sec"><h5>Qué significa cada uno · ordenados por fuerza</h5>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:95px">Modal</th><th style="width:110px">Fuerza</th><th>Qué comunica</th><th style="width:52px">Oír</th></tr>
+        <tr><td><b>must</b></td><td>🔴 Obligación total</td><td>No hay opción. <i>I must go</i> = tengo que irme sí o sí.</td><td><button class="spk sm" data-say="I must go now.">🔊</button></td></tr>
+        <tr><td><b>have to</b></td><td>🔴 Obligación externa</td><td>Lo manda una regla o alguien más. <i>I have to work</i>.</td><td><button class="spk sm" data-say="I have to work tomorrow.">🔊</button></td></tr>
+        <tr><td><b>should</b></td><td>🟡 Consejo</td><td>Sería buena idea, pero tú decides. <i>You should rest</i>.</td><td><button class="spk sm" data-say="You should rest.">🔊</button></td></tr>
+        <tr><td><b>can</b></td><td>🟢 Capacidad o permiso</td><td>Sé hacerlo, o me dejan. <i>I can swim · Can I sit here?</i></td><td><button class="spk sm" data-say="I can swim. Can I sit here?">🔊</button></td></tr>
+        <tr><td><b>could</b></td><td>🟢 Cortesía o pasado</td><td>Versión educada de <i>can</i>. <i>Could you help me?</i></td><td><button class="spk sm" data-say="Could you help me?">🔊</button></td></tr>
+        <tr><td><b>would</b></td><td>🔵 Condicional</td><td>El "-ría" del español. <i>I would go</i> = iría.</td><td><button class="spk sm" data-say="I would go if I could.">🔊</button></td></tr>
+        <tr><td><b>may</b></td><td>⚪ Posibilidad / formal</td><td>Quizá sí. También pedir permiso formal. <i>May I come in?</i></td><td><button class="spk sm" data-say="It may rain. May I come in?">🔊</button></td></tr>
+        <tr><td><b>might</b></td><td>⚪ Posibilidad baja</td><td>Menos seguro que <i>may</i>. <i>I might go</i> = puede que vaya.</td><td><button class="spk sm" data-say="I might go later.">🔊</button></td></tr>
+        <tr><td><b>will</b></td><td>🔵 Futuro / decisión</td><td>Lo decido ahora mismo. <i>I'll get it</i>.</td><td><button class="spk sm" data-say="I'll get it.">🔊</button></td></tr>
+      </table></div></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><b>must not</b> y <b>don't have to</b> parecen lo mismo y son <b>opuestos</b>:<br>
+        <i>You <b>mustn't</b> tell anyone</i> = <b>prohibido</b> contarlo.<br>
+        <i>You <b>don't have to</b> tell anyone</i> = <b>no es necesario</b>, pero puedes si quieres.</p>
+        <p><span style="color:var(--r-neg)">✗ I can to help</span> → <span style="color:var(--ok)">✓ I <b>can help</b></span>. Nunca to después de un modal.</p>
+      </div>
+      <button class="pz-go" data-goto="modal">📚 Ver los modales del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── CONECTOR ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">🌉</div>
+      <div><div class="pz-t">CONECTOR <span style="font-size:12px;color:var(--t3);font-weight:500">· conjunction · and / but / because</span></div>
+      <div class="pz-s">El puente entre dos ideas · 13 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>el puente</b>. Une dos ideas para que no hables como telegrama. Sin conectores dirías: <i>"I was tired. I went home."</i> Con conectores: <i>"I went home <b>because</b> I was tired."</i> Suena humano.</div>
+
+      <div class="pz-sec"><h5>Los 8 que resuelven casi todo</h5>
+      <div class="tw"><table class="tbl">
+        <tr><th style="width:110px">Conector</th><th style="width:110px">Significa</th><th>Ejemplo</th><th style="width:52px">Oír</th></tr>
+        <tr><td><b>and</b></td><td>y (suma)</td><td>Bread <b>and</b> butter.</td><td><button class="spk sm" data-say="Bread and butter.">🔊</button></td></tr>
+        <tr><td><b>but</b></td><td>pero (choca)</td><td>I want to, <b>but</b> I can't.</td><td><button class="spk sm" data-say="I want to, but I can't.">🔊</button></td></tr>
+        <tr><td><b>or</b></td><td>o (elige)</td><td>Tea <b>or</b> coffee?</td><td><button class="spk sm" data-say="Tea or coffee?">🔊</button></td></tr>
+        <tr><td><b>because</b></td><td>porque (causa)</td><td>I'm late <b>because</b> of traffic.</td><td><button class="spk sm" data-say="I'm late because of traffic.">🔊</button></td></tr>
+        <tr><td><b>so</b></td><td>así que (efecto)</td><td>It was late, <b>so</b> I left.</td><td><button class="spk sm" data-say="It was late, so I left.">🔊</button></td></tr>
+        <tr><td><b>if</b></td><td>si (condición)</td><td><b>If</b> it rains, I'll stay.</td><td><button class="spk sm" data-say="If it rains, I'll stay.">🔊</button></td></tr>
+        <tr><td><b>when</b></td><td>cuando</td><td>Call me <b>when</b> you arrive.</td><td><button class="spk sm" data-say="Call me when you arrive.">🔊</button></td></tr>
+        <tr><td><b>although</b></td><td>aunque</td><td><b>Although</b> it's hard, I'll try.</td><td><button class="spk sm" data-say="Although it's hard, I'll try.">🔊</button></td></tr>
+      </table></div></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><b>because</b> + frase completa · <b>because of</b> + una sola cosa.<br>
+        <span style="color:var(--ok)">✓ because <b>there was traffic</b></span> (frase) · <span style="color:var(--ok)">✓ because of <b>the traffic</b></span> (cosa).</p>
+        <p><b>Después de IF y WHEN nunca va WILL.</b> Aunque hables del futuro, se escribe en presente:<br>
+        <span style="color:var(--r-neg)">✗ when I will arrive</span> → <span style="color:var(--ok)">✓ when I <b>arrive</b></span>. El <i>will</i> se queda en la otra mitad: <i>I'<b>ll</b> call you when I arrive</i>.</p>
+      </div>
+      <button class="pz-go" data-goto="conj">📚 Ver los conectores del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── EXPRESIÓN ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#f87171;background:rgba(248,113,113,.13);border-color:rgba(248,113,113,.34)">🧱</div>
+      <div><div class="pz-t">EXPRESIÓN <span style="font-size:12px;color:var(--t3);font-weight:500">· expression / phrasal verb</span></div>
+      <div class="pz-s">Bloques prefabricados que NO se desarman · 174 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> es <b>un bloque ya armado</b>. Varias palabras que juntas significan algo <b>completamente distinto</b> a lo que significan por separado. <i>look</i> es mirar, pero <i>look <b>for</b></i> es buscar y <i>look <b>after</b></i> es cuidar. La palabrita de atrás lo cambia todo.</div>
+
+      <div class="pz-sec"><h5>Por qué es la pieza más importante para sonar natural</h5>
+      <p>Un nativo <b>no arma sus frases palabra por palabra</b>. Tiene miles de bloques memorizados y los saca enteros. Por eso habla rápido sin pensar. Si tú armas cada frase desde cero, siempre vas a ir lento — no por falta de vocabulario, sino porque estás haciendo un trabajo que el nativo ya tiene hecho.</p>
+      <p><b>Aprende el bloque completo, nunca la palabra suelta.</b> Esta es toda la estrategia del documento.</p></div>
+
+      <div class="pz-sec"><h5>El mismo verbo, cinco significados distintos</h5>
+      <p>Mira lo que le pasa a <b>get</b> según lo que venga detrás. Es la misma palabra:</p>
+      <div class="pz-ex"><button class="spk sm" data-say="I get up at six.">🔊</button><div class="bd"><div class="en">get <b style="color:#f87171">up</b></div><div class="es">levantarse — I get up at six.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I don't get it.">🔊</button><div class="bd"><div class="en">get <b style="color:#f87171">it</b></div><div class="es">entender — I don't get it.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="Let's get along.">🔊</button><div class="bd"><div class="en">get <b style="color:#f87171">along</b></div><div class="es">llevarse bien — We get along.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="Just get over it.">🔊</button><div class="bd"><div class="en">get <b style="color:#f87171">over</b></div><div class="es">superar — Just get over it.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="I'll get back to you.">🔊</button><div class="bd"><div class="en">get <b style="color:#f87171">back to</b></div><div class="es">responder después — I'll get back to you.</div></div></div>
+      </div>
+
+      <div class="pz-sec"><h5>La regla del pronombre en medio</h5>
+      <p>Cuando el bloque lleva un objeto, hay una regla que casi nadie explica:</p>
+      <p>· Si el objeto es <b>una cosa nombrada</b>, puede ir en medio o al final:<br>
+      <span style="color:var(--ok)">✓ Turn <b>off</b> the light</span> · <span style="color:var(--ok)">✓ Turn the light <b>off</b></span></p>
+      <p>· Si el objeto es <b>un pronombre</b> (it, them, me), va <b>OBLIGATORIAMENTE en medio</b>:<br>
+      <span style="color:var(--ok)">✓ Turn <b>it</b> off</span> · <span style="color:var(--r-neg)">✗ Turn off it</span></p></div>
+
+      <div class="pz-trap">
+        <div class="lb">⚠️ La trampa del español</div>
+        <p><b>No los traduzcas nunca.</b> Si intentas entender <i>"give up"</i> como "dar arriba", te pierdes. Trátalos como <b>palabras nuevas</b> que casualmente se escriben con dos partes.</p>
+      </div>
+      <button class="pz-go" data-goto="expr">📚 Ver las 174 expresiones del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── NÚMERO ─────────── -->
+  <details class="pz">
+    <summary class="pz-h">
+      <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">🔢</div>
+      <div><div class="pz-t">NÚMERO <span style="font-size:12px;color:var(--t3);font-weight:500">· number</span></div>
+      <div class="pz-s">Cuántos y en qué orden · 15 en el Módulo 1</div></div>
+    </summary>
+    <div class="pz-b">
+      <div class="pz-q"><b>En una frase:</b> dice <b>cuántos</b> hay (one, two, three) o <b>en qué puesto</b> va (first, second, third). Funciona como un determinante: se pega delante del sustantivo.</div>
+
+      <div class="pz-sec"><h5>Cómo se usa · las 3 reglas raras</h5>
+      <p><b>1 · Hundred, thousand y million NUNCA llevan -s</b> cuando van con un número.<br>
+      <span style="color:var(--ok)">✓ two <b>hundred</b> people</span> · <span style="color:var(--r-neg)">✗ two hundreds people</span><br>
+      (Solo llevan -s cuando son vagos: <i>hundreds of people</i> = cientos de personas.)</p>
+      <p><b>2 · Del 21 al 99 se escriben con guion:</b> twenty-one, thirty-five, ninety-nine.</p>
+      <p><b>3 · Los ordinales</b> (el puesto) se hacen con <b>-th</b>, salvo tres rebeldes:<br>
+      1st <b>first</b> · 2nd <b>second</b> · 3rd <b>third</b> · 4th four<b>th</b> · 5th fif<b>th</b> · 12th twelf<b>th</b> · 20th twentie<b>th</b></p></div>
+
+      <div class="pz-sec"><h5>El error de los años y las horas</h5>
+      <p><b>Años:</b> se parten en dos mitades. <b>1985</b> = nineteen eighty-five (no "one thousand nine hundred..."). <b>2026</b> = twenty twenty-six.</p>
+      <p><b>Precios:</b> $25.50 = twenty-five fifty. Se dicen los dos números seguidos, sin "dólares con centavos".</p>
+      <div class="pz-ex"><button class="spk sm" data-say="I was born in nineteen ninety-nine.">🔊</button><div class="bd"><div class="en">I was born in <b>nineteen ninety-nine</b>.</div><div class="es">Nací en 1999.</div></div></div>
+      <div class="pz-ex"><button class="spk sm" data-say="That'll be twenty-five fifty.">🔊</button><div class="bd"><div class="en">That'll be <b>twenty-five fifty</b>.</div><div class="es">Son 25.50.</div></div></div>
+      </div>
+      <button class="pz-go" data-goto="num">📚 Ver los números del Módulo 1 →</button>
+    </div>
+  </details>
+
+  <!-- ─────────── QUIZ ─────────── -->
+  <h2 class="sec"><span class="n">02</span> Compruébalo</h2>
+  <p class="lead">Diez preguntas para ver si las piezas te quedaron claras. No se guarda nota y puedes repetirlo infinitas veces — es para ti, no para calificarte.</p>
+  <div class="qz" id="qzBox"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -507,6 +1397,65 @@ table.tbl tr:hover td{background:var(--bg3)}
 
   <div id="plist"></div>
   <button class="more" id="more2" style="display:none">Mostrar 150 más ↓</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE PR · PRÁCTICA · Leitner (repetición espaciada)
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="pr">
+  <div class="hero">
+    <div class="kick">práctica · el método puesto a trabajar</div>
+    <h1>Repetición <em>espaciada</em>.<br>Lo que sí funciona.</h1>
+    <p>El Módulo 3 dice que ver una frase diez veces hoy no sirve, y verla hoy, mañana, en tres días y en una semana sí. Esto es exactamente eso, automatizado: <b style="color:var(--tx)">el sistema Leitner de 5 cajas.</b></p>
+  </div>
+
+  <div class="note info"><b>Cómo funciona, en una línea:</b> cada tarjeta vive en una caja. Si la aciertas, <b>sube</b> de caja y tarda más en volver. Si fallas, <b>vuelve a la caja 1</b> y la ves mañana. Así el tiempo se te va en lo que te cuesta, no en lo que ya sabes. Las tarjetas salen de lo que marcaste con ★ en los módulos 1 y 2 — y si no has marcado nada, del núcleo de alta frecuencia.</div>
+
+  <div class="pr-wrap">
+    <div class="pr-boxes" id="prBoxes"></div>
+
+    <div class="pr-src">
+      <span class="ctl-lbl" style="align-self:center">Practicar con</span>
+      <button class="chip on" data-src="mix">🎲 Mezcla</button>
+      <button class="chip" data-src="fav">★ Mis marcadas</button>
+      <button class="chip" data-src="words">📚 Palabras</button>
+      <button class="chip" data-src="phrases">💬 Frases</button>
+    </div>
+    <div class="pr-src" style="margin-bottom:22px">
+      <span class="ctl-lbl" style="align-self:center">Dirección</span>
+      <button class="chip on" data-dir="en2es">🇬🇧 Inglés → Español</button>
+      <button class="chip" data-dir="es2en">🇪🇸 Español → Inglés <span class="c">más difícil</span></button>
+    </div>
+
+    <div id="prStage"></div>
+
+    <div class="note" style="margin-top:26px"><b>Regla de honestidad:</b> pulsa <b>«Ya la sé»</b> solo si la dijiste completa <b>en voz alta y sin dudar</b>. Si la reconociste al verla pero no te salía sola, eso es <b>«Casi»</b>. Engañarte aquí solo hace que el sistema te la deje de mostrar antes de tiempo.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE NB · CUADERNO DE INGLÉS
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="nb">
+  <div class="hero">
+    <div class="kick">cuaderno · tu material, no el mío</div>
+    <h1>Lo que <em>tú</em> anotas<br>es lo que se te queda.</h1>
+    <p>Cuadernos con páginas, igual que los del Cerebro: negrita, resaltados, listas, casillas marcables y etiquetas. Más lo que solo tiene sentido aquí — <b style="color:var(--tx)">insertar tarjetas inglés/español con audio y hacer que lea en voz alta lo que escribiste.</b> Todo se guarda solo.</p>
+  </div>
+
+  <div class="note info"><b>Se guarda en este navegador, en este computador.</b> No viaja a ningún servidor ni a tus otros dispositivos — igual que un cuaderno de papel: está donde lo dejaste. Usa <b>⬇ Exportar</b> para sacar una copia de respaldo, y guárdala junto a tus cosas importantes. Si borras los datos del navegador, el cuaderno se va con ellos.</div>
+
+  <div class="nb">
+    <div class="nb-side">
+      <button class="nb-new" id="nbNew">＋ Cuaderno nuevo</button>
+      <h4>Mis cuadernos</h4>
+      <div id="nbList"></div>
+      <h4 style="margin-top:16px">Plantillas</h4>
+      <div id="nbTpl"></div>
+    </div>
+
+    <div class="nb-main" id="nbMain"></div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -811,9 +1760,10 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · método completo · construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · 2026-08-26<br>
-Documento autocontenido: funciona sin internet (salvo las fuentes y los enlaces a YouTube). La pronunciación usa la Web Speech API de tu navegador — no envía nada a ningún servidor.<br>
-Tus marcadores ★, la voz y la velocidad se guardan en este navegador (localStorage). Ctrl+P imprime el documento completo.
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 12 piezas explicadas · practica con repeticion espaciada · cuaderno propio<br>
+Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-08-26<br>
+Documento autocontenido: funciona sin internet (salvo las fuentes y los enlaces a YouTube). La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
+Marcadores, practica, racha y cuaderno se guardan en ESTE navegador (localStorage). Exporta tus cuadernos cada tanto. Ctrl+K busca en todo. Ctrl+P imprime.
 </div>
 <script>
 const RAW_WORDS = `
@@ -3830,18 +4780,36 @@ const APP = (() => {
 
 /* Acceso seguro a localStorage. Algunos contextos (ventana privada, data: URLs,
    navegadores con almacenamiento de sitio bloqueado) LANZAN al solo tocarlo,
-   asi que todo pasa por aqui y la app nunca se cae por eso. */
+   así que todo pasa por aquí y la app nunca se cae por eso. */
 const LS = {
   get(k){ try { return localStorage.getItem(k); } catch(e) { return null; } },
   set(k, v){ try { localStorage.setItem(k, v); } catch(e) {} }
 };
+const store = {
+  get(k, d){ try { const v = LS.get(k); return v === null ? d : (JSON.parse(v) ?? d); } catch(e){ return d; } },
+  set(k, v){ LS.set(k, JSON.stringify(v)); }
+};
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm = s => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const $ = id => document.getElementById(id);
+const today = () => new Date().toISOString().slice(0, 10);
+const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); };
+
+/* ─────────── TOAST ─────────── */
+let toastT;
+function toast(msg, kind){
+  const el = $('toast');
+  el.className = 'on' + (kind ? ' ' + kind : '');
+  el.textContent = msg;
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.className = ''; }, 2400);
+}
 
 /* ─────────── 1 · PRONUNCIACIÓN (Web Speech API) ─────────── */
 const TTS = (() => {
-  let voices = [], chosen = null, rate = 0.9, current = null;
-  const sel = document.getElementById('voiceSel');
-  const rng = document.getElementById('rateSel');
-  const val = document.getElementById('rateVal');
+  let voices = [], chosen = null, rate = 0.9;
+  const sel = $('voiceSel'), rng = $('rateSel'), val = $('rateVal');
 
   function load(){
     const all = window.speechSynthesis ? speechSynthesis.getVoices() : [];
@@ -3851,18 +4819,17 @@ const TTS = (() => {
       sel.disabled = true;
       return;
     }
-    // Preferir voces naturales/en-US
-    const score = v => (/google|natural|premium|enhanced|siri/i.test(v.name)?4:0)
-                     + (/en[-_]US/i.test(v.lang)?2:0)
-                     + (/en[-_]GB/i.test(v.lang)?1:0);
-    voices.sort((a,b) => score(b)-score(a));
-    // Chrome entrega getVoices() vacio en la primera pasada y llena despues via
+    const score = v => (/google|natural|premium|enhanced|siri/i.test(v.name) ? 4 : 0)
+                     + (/en[-_]US/i.test(v.lang) ? 2 : 0)
+                     + (/en[-_]GB/i.test(v.lang) ? 1 : 0);
+    voices.sort((a,b) => score(b) - score(a));
+    // Chrome entrega getVoices() vacío en la primera pasada y lo llena después vía
     // onvoiceschanged: hay que REHABILITAR el select o queda muerto para siempre.
     sel.disabled = false;
     sel.innerHTML = voices.map((v,i) =>
-      `<option value="${i}">${v.name.replace(/^(Microsoft|Google)\s+/,'')} · ${v.lang}</option>`).join('');
+      `<option value="${i}">${esc(v.name.replace(/^(Microsoft|Google)\s+/, ''))} · ${esc(v.lang)}</option>`).join('');
     const saved = LS.get('eng_voice');
-    const idx = saved !== null && voices[saved] ? +saved : 0;
+    const idx = (saved !== null && voices[saved]) ? +saved : 0;
     sel.value = idx; chosen = voices[idx];
   }
 
@@ -3880,7 +4847,7 @@ const TTS = (() => {
   });
 
   const savedRate = LS.get('eng_rate');
-  if(savedRate){ rate = +savedRate; rng.value = rate; }
+  if(savedRate) { rate = +savedRate; rng.value = rate; }
   val.textContent = (+rate).toFixed(2);
   rng.addEventListener('input', () => {
     rate = +rng.value;
@@ -3889,10 +4856,10 @@ const TTS = (() => {
   });
 
   function say(text, btn){
-    if(!window.speechSynthesis) return;
-    speechSynthesis.cancel();
+    if(!window.speechSynthesis || !text) return;
+    try { speechSynthesis.cancel(); } catch(e){}
     document.querySelectorAll('.spk.playing').forEach(b => b.classList.remove('playing'));
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(String(text).slice(0, 500));
     if(chosen) u.voice = chosen;
     u.lang = chosen ? chosen.lang : 'en-US';
     u.rate = rate; u.pitch = 1;
@@ -3900,8 +4867,7 @@ const TTS = (() => {
       btn.classList.add('playing');
       u.onend = u.onerror = () => btn.classList.remove('playing');
     }
-    current = u;
-    speechSynthesis.speak(u);
+    try { speechSynthesis.speak(u); } catch(e){}
   }
   return { say };
 })();
@@ -3909,44 +4875,35 @@ const TTS = (() => {
 // Delegación global: cualquier [data-say] habla
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-say]');
-  if(b){ TTS.say(b.getAttribute('data-say'), b.classList.contains('spk') ? b : null); }
+  if(b) TTS.say(b.getAttribute('data-say'), b.classList.contains('spk') ? b : null);
 });
 
-/* ─────────── 2 · UTILIDADES ─────────── */
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-
-const store = {
-  get(k, d){ try{ return JSON.parse(LS.get(k)) ?? d; }catch(e){ return d; } },
-  set(k, v){ LS.set(k, JSON.stringify(v)); }
-};
-
-/* Colorea el molde estructural — el pilar visible en cada frase */
+/* ─────────── 2 · MOLDES COLOREADOS (el pilar visible) ─────────── */
 const ROLES = [
   [/^(S|SUJ|SUJETO|SUBJ)$/i, 's-suj'],
-  [/^(AUX|do|does|did|am|is|are|was|were|have|has|had|will|would|can|could|should|shall|must|may|might|be|been|being|used\s*to|going\s*to|had\s*better|'ll|'d|'ve|'re|'m|'s)$/i, 's-aux'],
-  [/^(V|VERB|VERBO|V-ing|V-ed|VERB-ing|PP|PARTICIPIO|BASE)$/i, 's-ver'],
+  [/^(AUX|do|does|did|am|is|are|was|were|have|has|had|will|would|can|could|should|shall|must|may|might|be|been|being|used\s*to|going\s*to|gotta|'ll|'d|'ve|'re|'m|'s)$/i, 's-aux'],
+  [/^(V|VERB|VERBO|V-ing|V-ed|VERB-ing|PP|PARTICIPIO|BASE|gone)$/i, 's-ver'],
   [/^(OBJ|COMP|C|ADJ|ADV|N|NOUN|LUGAR|TIEMPO|X|CANT)$/i, 's-com'],
   [/^(not|n't|never|no)$/i, 's-neg'],
-  [/^(WH|What|Where|When|Who|Why|Which|How|Whose|How\s+\w+)$/i, 's-wh']
+  [/^(WH|What|Where|When|Who|Why|Which|How|Whose)$/i, 's-wh']
 ];
 function paintMold(m){
   return esc(m).split(/(\s\+\s|\s)/).map(tok => {
     const t = tok.trim();
     if(!t || t === '+') return tok === ' + ' ? ' <span style="color:var(--t3)">+</span> ' : tok;
-    for(const [re, cls] of ROLES){ if(re.test(t)) return `<span class="${cls}" style="padding:1px 6px;font-size:11px">${tok}</span>`; }
+    for(const [re, cls] of ROLES){
+      if(re.test(t)) return `<span class="${cls}" style="padding:1px 6px;font-size:11px">${tok}</span>`;
+    }
     return tok;
   }).join('');
 }
 
-/* ─────────── 3 · PARSEO DE DATOS ─────────── */
-// WORDS: en|es|cat|uso|exEn|exEs
+/* ─────────── 3 · DATOS ─────────── */
 const WORDS = RAW_WORDS.map((r, i) => {
   const p = r.split('|');
   return { i:i+1, en:p[0], es:p[1], cat:p[2], use:p[3], xe:p[4], xs:p[5],
            k: norm(p[0]+' '+p[1]+' '+p[3]+' '+p[4]) };
 });
-// PHRASES: en|es|tense|func|mold|note
 const PHRASES = RAW_PHRASES.map((r, i) => {
   const p = r.split('|');
   return { i:i+1, en:p[0], es:p[1], t:p[2], f:p[3], m:p[4], n:p[5],
@@ -3979,18 +4936,43 @@ const BANDS = [
   { id:'b6', lb:'1501-2000', a:1501, b:2000 }
 ];
 
-/* ─────────── 4 · FAVORITOS ─────────── */
+/* ─────────── 4 · MARCADORES ─────────── */
 let favW = new Set(store.get('eng_fav_w', []));
 let favP = new Set(store.get('eng_fav_p', []));
 const saveFav = () => { store.set('eng_fav_w', [...favW]); store.set('eng_fav_p', [...favP]); };
 
-/* ─────────── 5 · MÓDULO 1 · PALABRAS ─────────── */
+/* ─────────── 5 · RACHA ─────────── */
+const Streak = (() => {
+  let s = store.get('eng_streak', { last:null, days:0, log:{} });
+  function ping(){
+    const t = today();
+    if(s.last === t) { s.log[t] = (s.log[t] || 0) + 1; store.set('eng_streak', s); return; }
+    const yest = addDays(-1);
+    s.days = (s.last === yest) ? s.days + 1 : 1;
+    s.last = t;
+    s.log[t] = (s.log[t] || 0) + 1;
+    // conservar solo 120 días de historial
+    const keys = Object.keys(s.log).sort();
+    while(keys.length > 120) delete s.log[keys.shift()];
+    store.set('eng_streak', s);
+    render();
+  }
+  function render(){
+    const el = $('streakN'); if(!el) return;
+    el.textContent = s.days || 0;
+    const t = $('streakT');
+    if(t) t.textContent = s.log[today()] || 0;
+  }
+  return { ping, render, get data(){ return s; } };
+})();
+
+/* ─────────── 6 · MÓDULO 1 · PALABRAS ─────────── */
 const M1 = { q:'', band:'all', cat:'all', fav:false, shown:200 };
-const elW = document.getElementById('wlist');
+const elW = () => $('wlist');
 
 function filterWords(){
   const q = norm(M1.q.trim());
-  const bd = BANDS.find(b => b.id === M1.band);
+  const bd = BANDS.find(b => b.id === M1.band) || BANDS[0];
   return WORDS.filter(w =>
     w.i >= bd.a && w.i <= bd.b &&
     (M1.cat === 'all' || w.cat === M1.cat) &&
@@ -3999,13 +4981,14 @@ function filterWords(){
   );
 }
 function wordCard(w){
-  return `<div class="w${favW.has(w.i)?' done':''}" data-w="${w.i}">
-    <button class="w-fav${favW.has(w.i)?' on':''}" data-fw="${w.i}" title="Marcar">${favW.has(w.i)?'★':'☆'}</button>
+  return `<div class="w${favW.has(w.i) ? ' done' : ''}" data-w="${w.i}">
+    <button class="w-fav${favW.has(w.i) ? ' on' : ''}" data-fw="${w.i}" title="Marcar para practicar">${favW.has(w.i) ? '★' : '☆'}</button>
+    <button class="w-fav nbsend" data-nb-en="${esc(w.en)}" data-nb-es="${esc(w.es)}" title="Guardar en mi cuaderno">📓</button>
     <div class="w-top">
       <span class="w-rk">${w.i}</span>
       <span class="w-en">${esc(w.en)}</span>
       <button class="spk sm" data-say="${esc(w.en)}" title="Pronunciar">🔊</button>
-      <span class="w-cat cat-${w.cat}">${w.cat}</span>
+      <span class="w-cat cat-${w.cat}" data-pz="${w.cat}" style="cursor:pointer" title="¿Qué es un ${esc(CAT_LABEL[w.cat] || w.cat)}? — abre la explicación">${w.cat}</span>
     </div>
     <div class="w-es">${esc(w.es)}</div>
     <div class="w-use">${esc(w.use)}</div>
@@ -4018,23 +5001,25 @@ function wordCard(w){
 function renderWords(reset){
   if(reset) M1.shown = 200;
   const res = filterWords();
-  document.getElementById('n1').textContent = res.length;
+  $('n1').textContent = res.length;
+  const box = elW();
   if(!res.length){
-    elW.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="e1">🔍</div>Sin resultados. Prueba otra búsqueda o quita un filtro.</div>';
-    document.getElementById('more1').style.display = 'none';
+    box.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="e1">🔍</div>Sin resultados. Prueba otra búsqueda o quita un filtro.</div>';
+    $('more1').style.display = 'none';
     return;
   }
-  elW.innerHTML = res.slice(0, M1.shown).map(wordCard).join('');
-  const mb = document.getElementById('more1');
+  box.className = 'wgrid' + (M1.shown <= 200 ? ' stagger' : '');
+  box.innerHTML = res.slice(0, M1.shown).map(wordCard).join('');
+  const mb = $('more1');
   if(res.length > M1.shown){
     mb.style.display = 'block';
     mb.textContent = `Mostrar 200 más ↓  (${res.length - M1.shown} restantes)`;
   } else mb.style.display = 'none';
 }
 
-/* ─────────── 6 · MÓDULO 2 · FRASES ─────────── */
+/* ─────────── 7 · MÓDULO 2 · FRASES ─────────── */
 const M2 = { q:'', func:'all', tense:'all', fav:false, shown:150 };
-const elP = document.getElementById('plist');
+const elP = () => $('plist');
 
 function filterPhrases(){
   const q = norm(M2.q.trim());
@@ -4046,16 +5031,17 @@ function filterPhrases(){
   );
 }
 function phraseCard(p){
-  return `<div class="p${favP.has(p.i)?' done':''}">
-    <button class="p-fav${favP.has(p.i)?' on':''}" data-fp="${p.i}" title="Marcar">${favP.has(p.i)?'★':'☆'}</button>
+  return `<div class="p${favP.has(p.i) ? ' done' : ''}">
+    <button class="p-fav${favP.has(p.i) ? ' on' : ''}" data-fp="${p.i}" title="Marcar para practicar">${favP.has(p.i) ? '★' : '☆'}</button>
+    <button class="p-fav nbsend" data-nb-en="${esc(p.en)}" data-nb-es="${esc(p.es)}" title="Guardar en mi cuaderno">📓</button>
     <div class="p-top">
       <button class="spk lg" data-say="${esc(p.en)}" title="Pronunciar">🔊</button>
       <div class="p-body">
         <div class="p-en" data-say="${esc(p.en)}" style="cursor:pointer">${esc(p.en)}</div>
         <div class="p-es">${esc(p.es)}</div>
         <div class="p-meta">
-          <span class="tag t">${TENSE_LABEL[p.t] || p.t}</span>
-          <span class="tag f">${FUNC_LABEL[p.f] || p.f}</span>
+          <span class="tag t">${esc(TENSE_LABEL[p.t] || p.t)}</span>
+          <span class="tag f">${esc(FUNC_LABEL[p.f] || p.f)}</span>
           <span class="tag">#${p.i}</span>
         </div>
         <div class="p-mold">${paintMold(p.m)}</div>
@@ -4067,24 +5053,26 @@ function phraseCard(p){
 function renderPhrases(reset){
   if(reset) M2.shown = 150;
   const res = filterPhrases();
-  document.getElementById('n2').textContent = res.length;
+  $('n2').textContent = res.length;
+  const box = elP();
   if(!res.length){
-    elP.innerHTML = '<div class="empty"><div class="e1">🔍</div>Sin resultados. Prueba otra búsqueda o quita un filtro.</div>';
-    document.getElementById('more2').style.display = 'none';
+    box.innerHTML = '<div class="empty"><div class="e1">🔍</div>Sin resultados. Prueba otra búsqueda o quita un filtro.</div>';
+    $('more2').style.display = 'none';
     return;
   }
-  elP.innerHTML = res.slice(0, M2.shown).map(phraseCard).join('');
-  const mb = document.getElementById('more2');
+  box.className = M2.shown <= 150 ? 'stagger' : '';
+  box.innerHTML = res.slice(0, M2.shown).map(phraseCard).join('');
+  const mb = $('more2');
   if(res.length > M2.shown){
     mb.style.display = 'block';
     mb.textContent = `Mostrar 150 más ↓  (${res.length - M2.shown} restantes)`;
   } else mb.style.display = 'none';
 }
 
-/* ─────────── 7 · CHIPS DE FILTRO ─────────── */
+/* ─────────── 8 · CHIPS ─────────── */
 function buildChips(el, items, active, onPick){
   el.innerHTML = items.map(it =>
-    `<button class="chip${it.id === active ? ' on' : ''}" data-v="${it.id}">${esc(it.lb)}${it.n !== undefined ? `<span class="c">${it.n}</span>` : ''}</button>`
+    `<button class="chip${it.id === active ? ' on' : ''}" data-v="${esc(it.id)}">${esc(it.lb)}${it.n !== undefined ? `<span class="c">${it.n}</span>` : ''}</button>`
   ).join('');
   el.onclick = e => {
     const c = e.target.closest('.chip'); if(!c) return;
@@ -4099,94 +5087,742 @@ function countBy(arr, key){
   return m;
 }
 
-/* ─────────── 8 · ARRANQUE ─────────── */
+/* ─────────── 9 · PIEZAS · quiz ─────────── */
+const QUIZ = [
+  { q:'En <b>"I bought a new car"</b>, ¿qué pieza es <b>new</b>?', o:['Adjetivo','Sustantivo','Verbo','Adverbio'], a:0,
+    fb:'<b>Adjetivo.</b> Dice cómo ES el carro. Y fíjate dónde está: <b>antes</b> del sustantivo, como manda el inglés.' },
+  { q:'¿Cuál de estas piezas <b>nunca</b> lleva plural en inglés?', o:['El adjetivo','El sustantivo','El pronombre','El número'], a:0,
+    fb:'<b>El adjetivo.</b> <i>two red cars</i>, jamás <i>two reds cars</i>. En español el adjetivo copia el número; en inglés se queda quieto para siempre.' },
+  { q:'En <b>"She works quickly"</b>, ¿qué es <b>quickly</b>?', o:['Adverbio','Adjetivo','Verbo','Preposición'], a:0,
+    fb:'<b>Adverbio.</b> Responde <i>¿cómo trabaja?</i> — describe la ACCIÓN, no una cosa. Y termina en <b>-ly</b>, la pista más fácil.' },
+  { q:'¿Cuál está bien escrita?', o:["She doesn't work","She doesn't works","She don't works","She not works"], a:0,
+    fb:'La marca de tiempo se pone <b>una sola vez</b>: la lleva <i>doe<b>s</b></i> y el verbo vuelve a estar desnudo. Poner la -s dos veces es el error más común del hispanohablante.' },
+  { q:'¿Qué motor exige que el verbo lleve <b>-ing</b> detrás?', o:['BE (am/is/are)','DO (do/does/did)','HAVE (have/has)','WILL'], a:0,
+    fb:'<b>BE.</b> Cada motor pide una forma distinta: BE → <b>-ing</b> · HAVE → <b>participio</b> · DO, WILL y modales → <b>verbo desnudo</b>.' },
+  { q:'En <b>"It\'s raining"</b>, ¿qué oficio cumple <b>it</b>?', o:['Rellenar el hueco del sujeto','Señalar la lluvia','Es un adjetivo','No hace nada, sobra'], a:0,
+    fb:'Es el <b>sujeto de relleno</b>. En inglés toda frase obliga a tener sujeto, así que cuando no hay nadie se pone <i>it</i>. En español dices "Llueve" sin sujeto; ahí está la diferencia.' },
+  { q:'¿Qué preposición se usa con una <b>hora exacta</b>?', o:['at — at 8 o\'clock','in — in 8 o\'clock','on — on 8 o\'clock','to — to 8 o\'clock'], a:0,
+    fb:'<b>at</b>, porque es el punto más pequeño. La escalera es: <b>at</b> una hora → <b>on</b> un día → <b>in</b> un mes. De lo pequeño a lo grande.' },
+  { q:'Después de un modal como <b>can</b> o <b>should</b>, ¿qué va?', o:['El verbo desnudo: can swim','El verbo con to: can to swim','El verbo con -ing: can swimming','El verbo con -s: can swims'], a:0,
+    fb:'<b>Verbo desnudo, siempre.</b> Los modales nunca llevan <i>to</i>, nunca llevan <i>-s</i> y nunca necesitan <i>do</i> para negar o preguntar. Son la pieza más fácil del idioma.' },
+  { q:'<b>"I\'m boring"</b> significa…', o:['Soy una persona aburrida','Estoy aburrido','Me aburro rápido','Está aburrido'], a:0,
+    fb:'Con <b>-ing</b> describes lo que TÚ le provocas a los demás. Para decir "estoy aburrido" es <b>I\'m bor<u>ed</u></b>. La regla: <b>-ed</b> lo siento yo, <b>-ing</b> lo causa la cosa.' },
+  { q:'¿Cuál es correcta?', o:['Where do you live?','Where you live?','Where live you?','Where you do live?'], a:0,
+    fb:'Preguntar en inglés es <b>mover el auxiliar al frente</b>. Si no hay ninguno visible, aparece <b>do / does / did</b> para ocupar esa casilla. Sin auxiliar no hay pregunta.' }
+];
+let qzI = 0, qzScore = 0, qzOrder = [];
+function qzShuffle(){ qzOrder = QUIZ.map((_,i)=>i).sort(()=>Math.random()-0.5); }
+function renderQuiz(){
+  const box = $('qzBox'); if(!box) return;
+  if(qzI >= qzOrder.length){
+    const pct = Math.round(qzScore / qzOrder.length * 100);
+    box.innerHTML = `<div class="pr-done" style="padding:26px 10px">
+      <div class="big">${pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📖'}</div>
+      <h3>${qzScore} de ${qzOrder.length} correctas</h3>
+      <p>${pct >= 80 ? 'Las piezas te quedaron claras. Ya puedes leer los módulos 1 y 2 entendiendo qué hace cada palabra.'
+        : pct >= 50 ? 'Vas bien. Vuelve a abrir las piezas que fallaste y repite — no hay límite de intentos.'
+        : 'Sin problema: esto es exactamente para lo que existe esta página. Abre las piezas de arriba con calma y vuelve.'}</p>
+      <button class="btn pri" id="qzAgain">↻ Repetir el quiz</button></div>`;
+    $('qzAgain').onclick = () => { qzI = 0; qzScore = 0; qzShuffle(); renderQuiz(); };
+    return;
+  }
+  const q = QUIZ[qzOrder[qzI]];
+  const opts = q.o.map((t, i) => ({ t, ok: i === q.a })).sort(() => Math.random() - 0.5);
+  box.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <span class="tag t">Pregunta ${qzI+1} de ${qzOrder.length}</span>
+      <span class="cnt">Aciertos: <b>${qzScore}</b></span>
+    </div>
+    <div class="qz-q">${q.q}</div>
+    <div class="qz-opts">${opts.map((o,i) => `<button class="qz-o" data-i="${i}" data-ok="${o.ok}">${o.t}</button>`).join('')}</div>
+    <div class="qz-fb" id="qzFb"></div>
+    <button class="btn pri" id="qzNext" style="margin-top:14px;display:none">Siguiente →</button>`;
+  box.querySelectorAll('.qz-o').forEach(b => {
+    b.onclick = () => {
+      const ok = b.dataset.ok === 'true';
+      box.querySelectorAll('.qz-o').forEach(x => {
+        x.disabled = true;
+        if(x.dataset.ok === 'true') x.classList.add('good');
+      });
+      if(!ok) b.classList.add('bad'); else qzScore++;
+      const fb = $('qzFb');
+      fb.className = 'qz-fb on';
+      fb.innerHTML = (ok ? '<b style="color:#4ade80">✓ Correcto. </b>' : '<b style="color:#f87171">✗ No era esa. </b>') + q.fb;
+      $('qzNext').style.display = 'inline-flex';
+      Streak.ping();
+    };
+  });
+  $('qzNext').onclick = () => { qzI++; renderQuiz(); };
+}
+
+/* ─────────── 10 · PRÁCTICA · Leitner ─────────── */
+const SRS = (() => {
+  const KEY = 'eng_srs';
+  const GAP = [0, 1, 2, 4, 8, 16];   // días de espera por caja (índice = caja)
+  let db = store.get(KEY, {});
+  let cfg = { src:'mix', dir:'en2es' };
+  let queue = [], cur = null, flipped = false, doneCount = 0;
+
+  const idOf = c => (c.kind === 'w' ? 'w:' : 'p:') + c.i;
+  const save = () => store.set(KEY, db);
+
+  function pool(){
+    let ws = WORDS.map(w => ({ kind:'w', i:w.i, front:w.en, back:w.es, extra:w.use, ex:w.xe }));
+    let ps = PHRASES.map(p => ({ kind:'p', i:p.i, front:p.en, back:p.es, extra:p.m, ex:p.n }));
+    if(cfg.src === 'words') return ws;
+    if(cfg.src === 'phrases') return ps;
+    if(cfg.src === 'fav'){
+      const f = ws.filter(c => favW.has(c.i)).concat(ps.filter(c => favP.has(c.i)));
+      return f;
+    }
+    // mezcla: prioriza lo marcado, completa con el núcleo de alta frecuencia
+    const fav = ws.filter(c => favW.has(c.i)).concat(ps.filter(c => favP.has(c.i)));
+    const core = ws.filter(c => c.i <= 300).concat(ps.filter(c => c.i <= 300));
+    const seen = new Set(fav.map(idOf));
+    return fav.concat(core.filter(c => !seen.has(idOf(c))));
+  }
+
+  function build(){
+    const p = pool();
+    if(!p.length) return [];
+    const t = today();
+    const due = [], fresh = [];
+    p.forEach(c => {
+      const rec = db[idOf(c)];
+      if(!rec) fresh.push(c);
+      else if(rec.due <= t) due.push(c);
+    });
+    due.sort((a,b) => (db[idOf(a)].b - db[idOf(b)].b));
+    const need = Math.max(0, 20 - due.length);
+    return due.concat(fresh.slice(0, need));
+  }
+
+  function boxes(){
+    const c = [0,0,0,0,0];
+    Object.values(db).forEach(r => { if(r.b >= 1 && r.b <= 5) c[r.b-1]++; });
+    return c;
+  }
+
+  function renderBoxes(){
+    const el = $('prBoxes'); if(!el) return;
+    const c = boxes(), t = today();
+    const dueNow = Object.values(db).filter(r => r.due <= t).length;
+    el.innerHTML = c.map((n, i) => {
+      const hot = queue.length && cur && db[idOf(cur)] && db[idOf(cur)].b === i+1;
+      return `<div class="pr-box${hot ? ' hot' : ''}"><div class="n">${n}</div>
+        <div class="l">Caja ${i+1}</div><div class="d">${GAP[i+1]} día${GAP[i+1] > 1 ? 's' : ''}</div></div>`;
+    }).join('');
+    const b = $('prDue'); if(b) b.textContent = dueNow;
+  }
+
+  function start(){
+    queue = build(); doneCount = 0; flipped = false;
+    next();
+  }
+  function next(){
+    cur = queue.shift() || null;
+    flipped = false;
+    render();
+  }
+  function grade(level){   // 0 = fallé · 1 = casi · 2 = la sé
+    if(!cur) return;
+    const id = idOf(cur);
+    const rec = db[id] || { b:1, due:today() };
+    if(level === 0) rec.b = 1;
+    else if(level === 1) rec.b = Math.max(1, rec.b);
+    else rec.b = Math.min(5, rec.b + 1);
+    rec.due = addDays(GAP[rec.b]);
+    rec.seen = (rec.seen || 0) + 1;
+    db[id] = rec; save();
+    doneCount++;
+    Streak.ping();
+    if(level === 0) queue.push(cur);   // la fallada vuelve al final de esta sesión
+    next();
+  }
+
+  function render(){
+    const st = $('prStage'); if(!st) return;
+    renderBoxes();
+    if(!cur){
+      const p = pool();
+      st.innerHTML = `<div class="pr-done">
+        <div class="big">${p.length ? '✅' : '☆'}</div>
+        <h3>${p.length ? 'Sesión terminada' : 'No hay nada que practicar'}</h3>
+        <p>${p.length
+          ? (doneCount ? `Repasaste <b>${doneCount}</b> tarjeta${doneCount>1?'s':''}. Las que acertaste vuelven más adelante; las que fallaste, mañana. Vuelve mañana y el sistema sabrá exactamente qué mostrarte.`
+                       : 'Todo lo que tenías pendiente ya está al día. Marca palabras o frases con ★ en los módulos 1 y 2 para meter material nuevo.')
+          : 'Ve al Módulo 1 o 2 y marca con <b>★</b> lo que quieras practicar. Con la fuente <b>Mezcla</b> también entra automáticamente el núcleo de alta frecuencia.'}</p>
+        <button class="btn pri" id="prRestart">${p.length ? '↻ Otra ronda' : '📚 Ir al Módulo 1'}</button></div>`;
+      $('prRestart').onclick = () => {
+        if(!p.length){ go('p1'); return; }
+        start();
+      };
+      return;
+    }
+    const front = cfg.dir === 'en2es' ? cur.front : cur.back;
+    const back  = cfg.dir === 'en2es' ? cur.back  : cur.front;
+    const sayTxt = cur.front;   // el audio SIEMPRE es el inglés
+    const rec = db[idOf(cur)];
+    st.innerHTML = `
+      <div class="card3d">
+        <div class="side">${cur.kind === 'w' ? 'palabra' : 'frase'} · ${cfg.dir === 'en2es' ? 'inglés' : 'español'}${rec ? ' · caja ' + rec.b : ' · nueva'}</div>
+        <div class="front">${esc(front)}</div>
+        ${cfg.dir === 'en2es' ? `<button class="spk lg" data-say="${esc(sayTxt)}">🔊</button>` : ''}
+        ${flipped ? `<div class="back">${esc(back)}</div>
+          ${cur.extra ? `<div class="extra">${cur.kind === 'p' ? paintMold(cur.extra) : esc(cur.extra)}</div>` : ''}
+          ${cfg.dir === 'es2en' ? `<button class="spk lg" data-say="${esc(sayTxt)}">🔊</button>` : ''}`
+        : `<div class="hint">Dilo en voz alta antes de girar.</div>`}
+      </div>
+      ${flipped
+        ? `<div class="pr-acts">
+             <button class="pr-b no"  data-g="0">✗ Fallé<small>vuelve mañana</small></button>
+             <button class="pr-b mid" data-g="1">~ Casi<small>se queda igual</small></button>
+             <button class="pr-b yes" data-g="2">✓ Ya la sé<small>sube de caja</small></button>
+           </div>`
+        : `<button class="pr-show" id="prFlip">Girar tarjeta &nbsp;<span class="kbd">Espacio</span></button>`}
+      <div style="text-align:center;margin-top:14px;font-family:var(--fm);font-size:11.5px;color:var(--t3)">
+        Quedan ${queue.length} en esta ronda · repasadas ${doneCount}
+      </div>`;
+    if(!flipped){
+      $('prFlip').onclick = () => { flipped = true; render(); };
+      if(cfg.dir === 'en2es') TTS.say(sayTxt);
+    } else {
+      st.querySelectorAll('[data-g]').forEach(b => b.onclick = () => grade(+b.dataset.g));
+      if(cfg.dir === 'es2en') TTS.say(sayTxt);
+    }
+  }
+
+  function key(e){
+    if($('pr').classList.contains('on') === false) return;
+    if(e.target.matches('input,textarea,[contenteditable="true"]')) return;
+    if(!cur) return;
+    if(e.code === 'Space'){ e.preventDefault(); if(!flipped){ flipped = true; render(); } return; }
+    if(flipped && ['1','2','3'].includes(e.key)){ e.preventDefault(); grade(+e.key - 1); }
+  }
+
+  function setCfg(k, v){ cfg[k] = v; start(); }
+  return { start, render, renderBoxes, key, setCfg };
+})();
+
+/* ─────────── 11 · CUADERNO ─────────── */
+const NB = (() => {
+  const KEY = 'eng_nb';
+  let d = store.get(KEY, null);
+  if(!d || !Array.isArray(d.books)) d = { books: [], active: null };
+  let saveT = null, dirty = false;
+
+  const TPL = [
+    { ic:'📖', t:'Vocabulario nuevo', h:'<h2>Palabras de hoy</h2><p>Anota la palabra, qué significa y <b>una frase tuya</b> donde la usarías. La frase propia es lo que la fija.</p><ul><li><br></li></ul>' },
+    { ic:'💬', t:'Frases que quiero usar', h:'<h2>Frases para mi próxima conversación</h2><p>Del Módulo 2. Copia la frase, di en voz alta 5 veces, y escribe <b>cuándo la vas a usar</b>.</p><ul><li><br></li></ul>' },
+    { ic:'❌', t:'Mis errores', h:'<h2>Errores que cometí</h2><p>El error, la corrección y <b>por qué</b> (qué pieza puse fuera de su casilla). Este cuaderno es el que más rápido te hace mejorar.</p><ul><li><br></li></ul>' },
+    { ic:'🎧', t:'Sesión de escucha', h:'<h2>Qué escuché hoy</h2><p><b>Video / pódcast:</b> <br><b>Cuánto entendí:</b> <br><b>3 frases que rescaté:</b></p><ul><li><br></li></ul>' },
+    { ic:'❓', t:'Dudas pendientes', h:'<h2>No entendí esto</h2><p>Escribe la duda tal cual te surgió. Cuando la resuelvas, márcala con la etiqueta ✓ APRENDIDO.</p><ul><li><br></li></ul>' },
+    { ic:'📅', t:'Diario de práctica', h:'<h2>' + new Date().toLocaleDateString('es-CO', {day:'numeric', month:'long', year:'numeric'}) + '</h2><p><b>Minutos:</b> <br><b>Qué hice:</b> <br><b>Cómo me sentí:</b> <br><b>Mañana:</b> </p>' }
+  ];
+
+  const cur = () => d.books.find(b => b.id === d.active) || null;
+  const curPage = () => { const b = cur(); return b ? b.pages[b.cur] : null; };
+
+  function persist(){ store.set(KEY, d); dirty = false; const s = $('nbSaved'); if(s) s.textContent = 'guardado ' + new Date().toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'}); }
+  function commitNow(){
+    const b = cur(); if(!b) return;
+    const ed = $('nbEd');
+    if(ed && b.pages[b.cur]){ b.pages[b.cur].html = ed.innerHTML; }
+    b.updatedAt = new Date().toISOString();
+    persist();
+  }
+  function autoSave(){
+    dirty = true;
+    const s = $('nbSaved'); if(s) s.textContent = 'escribiendo…';
+    clearTimeout(saveT);
+    saveT = setTimeout(commitNow, 700);
+  }
+  function flush(){ if(dirty){ clearTimeout(saveT); commitNow(); } }
+  window.addEventListener('beforeunload', flush);
+  document.addEventListener('visibilitychange', () => { if(document.hidden) flush(); });
+
+  function create(title, icon, html){
+    const b = { id: 'nb' + Date.now() + Math.floor(Math.random()*999), title: title || 'Cuaderno sin título',
+      icon: icon || '📓', pages: [{ title:'Página 1', html: html || '' }], cur: 0,
+      createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    d.books.unshift(b); d.active = b.id; persist(); render();
+    toast('Cuaderno creado', 'ok');
+  }
+
+  function renderSide(){
+    const list = $('nbList');
+    list.innerHTML = d.books.length
+      ? d.books.map(b => `<div class="nb-item${b.id === d.active ? ' on' : ''}" data-b="${b.id}">
+          <span class="ic">${b.icon}</span><span class="tt">${esc(b.title)}</span><span class="ct">${b.pages.length}p</span></div>`).join('')
+      : '<div style="font-size:12.5px;color:var(--t3);padding:6px 2px;line-height:1.6">Aún no tienes cuadernos. Crea uno en blanco o arranca con una plantilla ↓</div>';
+    list.onclick = e => {
+      const it = e.target.closest('[data-b]'); if(!it) return;
+      flush(); d.active = it.dataset.b; persist(); render();
+    };
+    const tpl = $('nbTpl');
+    tpl.innerHTML = TPL.map((t,i) => `<div class="nb-item" data-t="${i}">
+      <span class="ic">${t.ic}</span><span class="tt">${esc(t.t)}</span><span class="ct">＋</span></div>`).join('');
+    tpl.onclick = e => {
+      const it = e.target.closest('[data-t]'); if(!it) return;
+      const t = TPL[+it.dataset.t];
+      flush(); create(t.t, t.ic, t.h);
+    };
+  }
+
+  function render(){
+    renderSide();
+    const main = $('nbMain'), b = cur();
+    if(!b){
+      main.innerHTML = `<div class="nb-empty"><div class="e1">📓</div>
+        <div style="font-size:16px;font-weight:700;color:var(--t2);margin-bottom:8px">Ningún cuaderno abierto</div>
+        <div style="font-size:13.5px;max-width:40ch;margin:0 auto;line-height:1.65">Crea uno en blanco con <b>＋ Cuaderno nuevo</b>, o empieza con una de las plantillas de la izquierda — están pensadas para inglés.</div></div>`;
+      return;
+    }
+    const pg = b.pages[b.cur];
+    main.innerHTML = `
+      <div class="nb-top">
+        <button class="nbb" id="nbIcon" title="Cambiar icono">${b.icon}</button>
+        <input class="nb-title" id="nbTitle" value="${esc(b.title)}" placeholder="Título del cuaderno">
+        <div class="nb-pg">
+          <button class="nbb" id="nbPrev" title="Página anterior">‹</button>
+          <span id="nbPgN">${b.cur+1} / ${b.pages.length}</span>
+          <button class="nbb" id="nbNext" title="Página siguiente">›</button>
+          <button class="nbb" id="nbAddPg" title="Nueva página">＋</button>
+        </div>
+        <button class="nbb wide" id="nbExport" title="Descargar una copia">⬇ Exportar</button>
+        <button class="nbb danger" id="nbDel" title="Eliminar cuaderno">🗑</button>
+      </div>
+      <div class="nb-tools">
+        <button class="nbb" data-cmd="bold" title="Negrita (Ctrl+B)"><b>B</b></button>
+        <button class="nbb" data-cmd="italic" title="Cursiva"><i>I</i></button>
+        <button class="nbb" data-blk="h1" title="Título grande">H1</button>
+        <button class="nbb" data-blk="h2" title="Título mediano">H2</button>
+        <button class="nbb" data-blk="p" title="Texto normal">¶</button>
+        <span class="nb-sep"></span>
+        <button class="nbb" data-cmd="insertUnorderedList" title="Lista con viñetas">•</button>
+        <button class="nbb" data-cmd="insertOrderedList" title="Lista numerada">1.</button>
+        <button class="nbb" data-ins="hr" title="Línea separadora">—</button>
+        <button class="nbb" data-ins="chk" title="Casilla marcable">☐</button>
+        <span class="nb-sep"></span>
+        <button class="nbb" data-mark="y" title="Resaltar amarillo" style="background:#fde047;color:#000">A</button>
+        <button class="nbb" data-mark="g" title="Resaltar verde" style="background:#86efac;color:#000">A</button>
+        <button class="nbb" data-mark="p" title="Resaltar rosa" style="background:#f9a8d4;color:#000">A</button>
+        <span class="nb-sep"></span>
+        <button class="nbb wide" data-tag="ok" style="color:#4ade80" title="Etiqueta APRENDIDO">✓ Aprendido</button>
+        <button class="nbb wide" data-tag="rev" style="color:#eab308" title="Etiqueta REPASAR">↻ Repasar</button>
+        <button class="nbb wide" data-tag="err" style="color:#f87171" title="Etiqueta ERROR MÍO">✗ Error</button>
+        <span class="nb-sep"></span>
+        <button class="nbb wide" data-ins="encard" style="color:var(--ac2)" title="Insertar tarjeta inglés/español con audio">🎴 Tarjeta EN/ES</button>
+        <button class="nbb wide" id="nbSpeak" style="color:var(--ac2)" title="Leer en inglés lo que tengas seleccionado">🔊 Leer selección</button>
+        <span class="nb-sep"></span>
+        <button class="nbb" data-cmd="removeFormat" title="Quitar formato">✕</button>
+      </div>
+      <div class="nb-ed" id="nbEd" contenteditable="true" spellcheck="false"
+           data-ph="Escribe aquí. Selecciona texto en inglés y pulsa 🔊 Leer selección para escucharlo.">${pg.html || ''}</div>
+      <div class="nb-stat">
+        <span>Página <b>${b.cur+1}</b> de ${b.pages.length} · <span id="nbWords">0</span> palabras</span>
+        <span class="sv" id="nbSaved">guardado</span>
+      </div>`;
+    wire(b);
+  }
+
+  function wire(b){
+    const ed = $('nbEd');
+    $('nbTitle').oninput = e => { b.title = e.target.value; autoSave(); renderSide(); };
+    $('nbIcon').onclick = () => {
+      const ics = ['📓','📔','📕','📗','📘','📙','🗒️','📝','🎧','💬','❌','⭐','🧠','🎯'];
+      b.icon = ics[(ics.indexOf(b.icon) + 1) % ics.length];
+      $('nbIcon').textContent = b.icon; autoSave(); renderSide();
+    };
+    $('nbPrev').onclick = () => { if(b.cur > 0){ commitNow(); b.cur--; persist(); render(); } };
+    $('nbNext').onclick = () => { if(b.cur < b.pages.length-1){ commitNow(); b.cur++; persist(); render(); } };
+    $('nbAddPg').onclick = () => {
+      commitNow();
+      b.pages.push({ title:'Página ' + (b.pages.length+1), html:'' });
+      b.cur = b.pages.length - 1; persist(); render(); toast('Página nueva', 'ok');
+    };
+    $('nbDel').onclick = () => {
+      if(!confirm(`¿Eliminar el cuaderno "${b.title}" con sus ${b.pages.length} página(s)?\n\nEsto NO se puede deshacer. Si quieres conservarlo, cancela y usa ⬇ Exportar primero.`)) return;
+      d.books = d.books.filter(x => x.id !== b.id);
+      d.active = d.books.length ? d.books[0].id : null;
+      persist(); render(); toast('Cuaderno eliminado', 'warn');
+    };
+    $('nbExport').onclick = () => exportBook(b);
+    $('nbSpeak').onclick = () => {
+      const t = String(window.getSelection()).trim();
+      if(!t) return toast('Selecciona primero el texto que quieres oír', 'warn');
+      TTS.say(t);
+    };
+
+    // Barra de herramientas
+    document.querySelectorAll('.nb-tools [data-cmd]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      try { document.execCommand(btn.dataset.cmd, false, null); } catch(err){}
+      autoSave();
+    });
+    document.querySelectorAll('.nb-tools [data-blk]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      try { document.execCommand('formatBlock', false, btn.dataset.blk); } catch(err){}
+      autoSave();
+    });
+    document.querySelectorAll('.nb-tools [data-mark]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      const sel = window.getSelection();
+      if(!sel.rangeCount || sel.isCollapsed) { toast('Selecciona el texto que quieres resaltar', 'warn'); return; }
+      const r = sel.getRangeAt(0);
+      const mk = document.createElement('mark');
+      mk.className = btn.dataset.mark;
+      try { mk.appendChild(r.extractContents()); r.insertNode(mk); } catch(err){}
+      sel.removeAllRanges(); autoSave();
+    });
+    document.querySelectorAll('.nb-tools [data-tag]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      const map = { ok:['tg-ok','✓ APRENDIDO'], rev:['tg-rev','↻ REPASAR'], err:['tg-err','✗ ERROR MÍO'] };
+      const [cls, txt] = map[btn.dataset.tag];
+      insertHTML(`<span class="tg ${cls}" contenteditable="false">${txt}</span>&nbsp;`);
+      autoSave();
+    });
+    document.querySelectorAll('.nb-tools [data-ins]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      const k = btn.dataset.ins;
+      if(k === 'hr') insertHTML('<hr><br>');
+      // OJO: <div> dentro de <p> lo desenvuelve el navegador y la casilla deja de
+      // ser clicable. Con <span display:block> sobrevive a insertHTML.
+      if(k === 'chk') insertHTML('<span class="chk"><b class="cb" contenteditable="false">☐</b> Escribe la tarea aquí</span><br>');
+      if(k === 'encard') insertHTML(
+        '<div class="encard"><button class="spk sm encard-say" contenteditable="false">🔊</button>' +
+        '<div class="cc"><div class="ce">Escribe la frase en inglés</div><div class="cs">y aquí su significado</div></div></div><br>');
+      autoSave();
+    });
+
+    ed.oninput = () => { autoSave(); countWords(); };
+    ed.onblur = flush;
+    // Pegar siempre en texto plano: evita traer estilos de fuera que rompen el diseño
+    ed.onpaste = e => {
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData('text/plain');
+      insertHTML(esc(t).replace(/\n/g, '<br>'));
+      autoSave();
+    };
+    ed.onclick = e => {
+      const cb = e.target.closest('.cb');
+      if(cb){
+        const c = cb.closest('.chk');
+        const done = c.classList.toggle('done');
+        cb.textContent = done ? '☑' : '☐';
+        autoSave();
+      }
+      const s = e.target.closest('.encard-say');
+      if(s){
+        const card = s.closest('.encard');
+        const txt = card && card.querySelector('.ce') ? card.querySelector('.ce').textContent : '';
+        TTS.say(txt, s);
+      }
+    };
+    countWords();
+  }
+
+  function insertHTML(html){
+    try { document.execCommand('insertHTML', false, html); } catch(e){}
+  }
+  function countWords(){
+    const ed = $('nbEd'), el = $('nbWords');
+    if(!ed || !el) return;
+    const t = ed.innerText.trim();
+    el.textContent = t ? t.split(/\s+/).length : 0;
+  }
+
+  function exportBook(b){
+    const pages = b.pages.map((p, i) =>
+      `<section><h1>${esc(b.title)} · página ${i+1}</h1>${p.html || '<p><i>(vacía)</i></p>'}</section><hr>`).join('\n');
+    const doc = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<title>${esc(b.title)} · English Engine</title>
+<style>body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;max-width:820px;margin:40px auto;padding:0 22px;line-height:1.7;color:#18181b}
+h1{font-size:22px;border-bottom:2px solid #8b5cf6;padding-bottom:7px;margin-top:38px}
+mark.y{background:#fde047}mark.g{background:#86efac}mark.p{background:#f9a8d4}
+.tg{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;background:#eee}
+.encard{border-left:3px solid #8b5cf6;background:#f6f5ff;padding:10px 15px;margin:12px 0;border-radius:8px}
+.encard .ce{font-weight:700}.encard .cs{color:#666;font-size:14px}
+.encard .spk{display:none}.chk{margin:4px 0}.chk.done{text-decoration:line-through;opacity:.55}
+hr{border:none;border-top:1px solid #ddd;margin:30px 0}
+footer{margin-top:46px;color:#888;font-size:12px;border-top:1px solid #ddd;padding-top:14px}</style></head>
+<body>${pages}
+<footer>Exportado desde ENGLISH ENGINE · DA-2026 · ${new Date().toLocaleString('es-CO')}</footer></body></html>`;
+    try {
+      const blob = new Blob([doc], { type:'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = b.title.replace(/[^\w\sÁÉÍÓÚáéíóúÑñ-]/g, '').trim().replace(/\s+/g, '-') + '.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      toast('Copia descargada', 'ok');
+    } catch(e){
+      toast('El navegador bloqueó la descarga', 'warn');
+    }
+  }
+
+  // Enviar una palabra o frase del documento al cuaderno abierto
+  function push(en, es){
+    let b = cur();
+    if(!b){ create('Vocabulario nuevo', '📖', ''); b = cur(); }
+    const pg = b.pages[b.cur];
+    pg.html = (pg.html || '') +
+      `<div class="encard"><button class="spk sm encard-say" contenteditable="false">🔊</button>` +
+      `<div class="cc"><div class="ce">${esc(en)}</div><div class="cs">${esc(es)}</div></div></div>`;
+    persist();
+    if($('nb').classList.contains('on')) render();
+    toast('Guardado en «' + b.title + '»', 'ok');
+  }
+
+  function newBlank(){ flush(); create('Cuaderno sin título', '📓', ''); }
+
+  return { render, push, flush, newBlank, get count(){ return d.books.length; } };
+})();
+
+/* ─────────── 12 · BUSCADOR GLOBAL (Ctrl+K) ─────────── */
+const Omni = (() => {
+  let idx = null, sel = 0, res = [];
+  function build(){
+    if(idx) return idx;
+    idx = [];
+    WORDS.forEach(w => idx.push({ k:'palabra', t:w.en, s:w.es, key:w.k, go:['p1', w.en], say:w.en }));
+    PHRASES.forEach(p => idx.push({ k:'frase', t:p.en, s:p.es, key:p.k, go:['p2', p.en], say:p.en }));
+    document.querySelectorAll('#pz .pz').forEach(el => {
+      const t = el.querySelector('.pz-t').textContent.trim();
+      const s = el.querySelector('.pz-s').textContent.trim();
+      idx.push({ k:'pieza', t, s, key:norm(t+' '+s), el });
+    });
+    document.querySelectorAll('#p3 h2.sec, #p0 h2.sec').forEach(el => {
+      const t = el.textContent.replace(/^\d+\s*/, '').trim();
+      idx.push({ k:'sección', t, s:el.closest('.pane').id === 'p3' ? 'Módulo 3 · Método' : 'Estructura', key:norm(t), el });
+    });
+    return idx;
+  }
+  function open(){
+    build();
+    $('omni').classList.add('on');
+    const i = $('omniIn'); i.value = ''; i.focus();
+    res = []; sel = 0; paint();
+  }
+  function close(){ $('omni').classList.remove('on'); }
+  function search(q){
+    const n = norm(q.trim());
+    if(!n){ res = []; sel = 0; return paint(); }
+    const starts = [], has = [];
+    for(const it of build()){
+      const p = it.key.indexOf(n);
+      if(p === 0) starts.push(it);
+      else if(p > 0) has.push(it);
+      if(starts.length > 40) break;
+    }
+    res = starts.concat(has).slice(0, 40);
+    sel = 0; paint();
+  }
+  function paint(){
+    const box = $('omniRes');
+    if(!res.length){
+      box.innerHTML = `<div style="padding:22px;color:var(--t3);font-size:13.5px;text-align:center">
+        ${$('omniIn').value.trim() ? 'Nada coincide con eso.' : 'Escribe para buscar en las 2000 palabras, las 1000 frases, las piezas y el método.'}</div>`;
+      return;
+    }
+    box.innerHTML = res.map((r, i) =>
+      `<div class="omni-r${i === sel ? ' sel' : ''}" data-i="${i}"><span class="k">${r.k}</span>
+       <span class="t">${esc(r.t)}</span><span class="s">${esc(r.s)}</span></div>`).join('');
+    box.querySelectorAll('.omni-r').forEach(el => el.onclick = () => pick(+el.dataset.i));
+    const cur = box.querySelector('.sel'); if(cur) cur.scrollIntoView({ block:'nearest' });
+  }
+  function pick(i){
+    const r = res[i]; if(!r) return;
+    close();
+    if(r.go){
+      const [pane, term] = r.go;
+      go(pane);
+      const inp = pane === 'p1' ? $('q1') : $('q2');
+      inp.value = term;
+      inp.dispatchEvent(new Event('input'));
+      if(r.say) setTimeout(() => TTS.say(r.say), 120);
+    } else if(r.el){
+      go(r.el.closest('.pane').id);
+      setTimeout(() => {
+        if(r.el.tagName === 'DETAILS') r.el.open = true;
+        r.el.scrollIntoView({ behavior:'smooth', block:'center' });
+      }, 90);
+    }
+  }
+  function key(e){
+    if(!$('omni').classList.contains('on')) return;
+    if(e.key === 'Escape'){ close(); return; }
+    if(e.key === 'ArrowDown'){ e.preventDefault(); sel = Math.min(sel+1, res.length-1); paint(); }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); sel = Math.max(sel-1, 0); paint(); }
+    if(e.key === 'Enter'){ e.preventDefault(); pick(sel); }
+  }
+  return { open, close, search, key };
+})();
+
+/* ─────────── 13 · NAVEGACIÓN ─────────── */
+function go(paneId){
+  const tab = document.querySelector(`.tab[data-p="${paneId}"]`);
+  if(tab) tab.click();
+}
+
+/* ─────────── 14 · ARRANQUE ─────────── */
 function init(){
-  document.getElementById('tc1').textContent = WORDS.length;
-  document.getElementById('tc2').textContent = PHRASES.length;
-  document.getElementById('st1').textContent = WORDS.length;
-  document.getElementById('st2').textContent = PHRASES.length;
+  $('tc1').textContent = WORDS.length;
+  $('tc2').textContent = PHRASES.length;
+  $('st1').textContent = WORDS.length;
+  $('st2').textContent = PHRASES.length;
 
-  // Chips módulo 1
-  buildChips(document.getElementById('bands'), BANDS, 'all', v => { M1.band = v; renderWords(true); });
+  buildChips($('bands'), BANDS, 'all', v => { M1.band = v; renderWords(true); });
   const wc = countBy(WORDS, 'cat');
-  const catItems = [{ id:'all', lb:'Todas', n:WORDS.length }].concat(
-    Object.keys(CAT_LABEL).filter(c => wc[c]).sort((a,b) => wc[b]-wc[a])
-      .map(c => ({ id:c, lb:CAT_LABEL[c], n:wc[c] })));
-  buildChips(document.getElementById('cats'), catItems, 'all', v => { M1.cat = v; renderWords(true); });
+  buildChips($('cats'),
+    [{ id:'all', lb:'Todas', n:WORDS.length }].concat(
+      Object.keys(CAT_LABEL).filter(c => wc[c]).sort((a,b) => wc[b]-wc[a]).map(c => ({ id:c, lb:CAT_LABEL[c], n:wc[c] }))),
+    'all', v => { M1.cat = v; renderWords(true); });
 
-  // Chips módulo 2
   const fc = countBy(PHRASES, 'f');
-  const funcItems = [{ id:'all', lb:'Todas', n:PHRASES.length }].concat(
-    Object.keys(FUNC_LABEL).filter(f => fc[f]).sort((a,b) => fc[b]-fc[a])
-      .map(f => ({ id:f, lb:FUNC_LABEL[f], n:fc[f] })));
-  buildChips(document.getElementById('funcs'), funcItems, 'all', v => { M2.func = v; renderPhrases(true); });
+  buildChips($('funcs'),
+    [{ id:'all', lb:'Todas', n:PHRASES.length }].concat(
+      Object.keys(FUNC_LABEL).filter(f => fc[f]).sort((a,b) => fc[b]-fc[a]).map(f => ({ id:f, lb:FUNC_LABEL[f], n:fc[f] }))),
+    'all', v => { M2.func = v; renderPhrases(true); });
   const tc = countBy(PHRASES, 't');
-  const tenseItems = [{ id:'all', lb:'Todos', n:PHRASES.length }].concat(
-    Object.keys(TENSE_LABEL).filter(t => tc[t]).sort((a,b) => tc[b]-tc[a])
-      .map(t => ({ id:t, lb:TENSE_LABEL[t], n:tc[t] })));
-  buildChips(document.getElementById('tenses'), tenseItems, 'all', v => { M2.tense = v; renderPhrases(true); });
+  buildChips($('tenses'),
+    [{ id:'all', lb:'Todos', n:PHRASES.length }].concat(
+      Object.keys(TENSE_LABEL).filter(t => tc[t]).sort((a,b) => tc[b]-tc[a]).map(t => ({ id:t, lb:TENSE_LABEL[t], n:tc[t] }))),
+    'all', v => { M2.tense = v; renderPhrases(true); });
 
-  // Búsquedas
   let t1, t2;
-  document.getElementById('q1').addEventListener('input', e => {
+  $('q1').addEventListener('input', e => {
     clearTimeout(t1); t1 = setTimeout(() => { M1.q = e.target.value; renderWords(true); }, 140);
   });
-  document.getElementById('q2').addEventListener('input', e => {
+  $('q2').addEventListener('input', e => {
     clearTimeout(t2); t2 = setTimeout(() => { M2.q = e.target.value; renderPhrases(true); }, 140);
   });
 
-  // Favoritos
-  document.getElementById('fav1').onclick = e => {
-    M1.fav = !M1.fav; e.currentTarget.classList.toggle('on', M1.fav); renderWords(true);
-  };
-  document.getElementById('fav2').onclick = e => {
-    M2.fav = !M2.fav; e.currentTarget.classList.toggle('on', M2.fav); renderPhrases(true);
-  };
-  document.getElementById('more1').onclick = () => { M1.shown += 200; renderWords(); };
-  document.getElementById('more2').onclick = () => { M2.shown += 150; renderPhrases(); };
+  $('fav1').onclick = e => { M1.fav = !M1.fav; e.currentTarget.classList.toggle('on', M1.fav); renderWords(true); };
+  $('fav2').onclick = e => { M2.fav = !M2.fav; e.currentTarget.classList.toggle('on', M2.fav); renderPhrases(true); };
+  $('more1').onclick = () => { M1.shown += 200; renderWords(); };
+  $('more2').onclick = () => { M2.shown += 150; renderPhrases(); };
 
-  // Marcar / desmarcar
+  // Marcar / desmarcar · saltar a la pieza · guardar en el cuaderno
   document.addEventListener('click', e => {
     const fw = e.target.closest('[data-fw]');
     if(fw){
       const id = +fw.dataset.fw;
       favW.has(id) ? favW.delete(id) : favW.add(id);
-      saveFav(); renderWords(); return;
+      saveFav(); renderWords();
+      SRS.renderBoxes();
+      toast(favW.has(id) ? '★ Añadida a tu práctica' : 'Quitada de tu práctica');
+      return;
     }
     const fp = e.target.closest('[data-fp]');
     if(fp){
       const id = +fp.dataset.fp;
       favP.has(id) ? favP.delete(id) : favP.add(id);
-      saveFav(); renderPhrases(); return;
+      saveFav(); renderPhrases();
+      SRS.renderBoxes();
+      toast(favP.has(id) ? '★ Añadida a tu práctica' : 'Quitada de tu práctica');
+      return;
+    }
+    const nbs = e.target.closest('[data-nb-en]');
+    if(nbs){ NB.push(nbs.dataset.nbEn, nbs.dataset.nbEs); return; }
+    const pz = e.target.closest('[data-pz]');
+    if(pz){
+      go('pz');
+      setTimeout(() => {
+        const map = { sust:0, verbo:1, adj:2, adv:3, pron:4, det:5, prep:6, modal:8, conj:9, expr:10, num:11 };
+        const all = document.querySelectorAll('#pz .pz');
+        const idx = { sust:0, verbo:1, adj:2, adv:3, pron:4, det:5, prep:6, aux:7, modal:8, conj:9, expr:10, num:11 }[pz.dataset.pz];
+        const el = all[idx];
+        if(el){ el.open = true; el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+      }, 90);
+      return;
+    }
+    const gt = e.target.closest('[data-goto]');
+    if(gt){
+      go('p1');
+      setTimeout(() => {
+        M1.q = ''; $('q1').value = '';
+        M1.band = 'all'; M1.cat = gt.dataset.goto; M1.fav = false;
+        [...$('bands').children].forEach((c,i) => c.classList.toggle('on', i === 0));
+        [...$('cats').children].forEach(c => c.classList.toggle('on', c.dataset.v === gt.dataset.goto));
+        renderWords(true);
+      }, 60);
+      return;
     }
   });
 
   // Tabs
   document.querySelectorAll('.tab').forEach(b => {
     b.onclick = () => {
+      NB.flush();
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
       document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
       b.classList.add('on');
-      document.getElementById(b.dataset.p).classList.add('on');
+      const pane = $(b.dataset.p);
+      pane.classList.add('on');
       window.scrollTo({ top:0, behavior:'smooth' });
       LS.set('eng_tab', b.dataset.p);
-      if(b.dataset.p === 'p1' && !elW.children.length) renderWords(true);
-      if(b.dataset.p === 'p2' && !elP.children.length) renderPhrases(true);
+      if(b.dataset.p === 'p1' && !elW().children.length) renderWords(true);
+      if(b.dataset.p === 'p2' && !elP().children.length) renderPhrases(true);
+      if(b.dataset.p === 'pr') SRS.start();
+      if(b.dataset.p === 'nb') NB.render();
+      if(b.dataset.p === 'pz' && !$('qzBox').children.length){ qzShuffle(); renderQuiz(); }
     };
   });
-  const lastTab = LS.get('eng_tab');
-  if(lastTab && document.getElementById(lastTab)){
-    document.querySelector(`.tab[data-p="${lastTab}"]`)?.click();
-  }
 
+  // Fuentes de práctica
+  document.querySelectorAll('[data-src]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('[data-src]').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); SRS.setCfg('src', b.dataset.src);
+  });
+  document.querySelectorAll('[data-dir]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('[data-dir]').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); SRS.setCfg('dir', b.dataset.dir);
+  });
+
+  $('nbNew').onclick = () => NB.newBlank();
+
+  // Panel de voz
+  $('audioBtn').onclick = e => { e.stopPropagation(); $('audioPop').classList.toggle('on'); };
+  $('audioPop').onclick = e => e.stopPropagation();
+  $('audioTest').onclick = () => TTS.say('This is how I sound. Listen carefully and repeat.');
+  document.addEventListener('click', () => $('audioPop').classList.remove('on'));
+
+  // Buscador global
+  $('omniIn').addEventListener('input', e => Omni.search(e.target.value));
+  $('omni').addEventListener('click', e => { if(e.target.id === 'omni') Omni.close(); });
+  $('omniBtn').onclick = () => Omni.open();
+
+  document.addEventListener('keydown', e => {
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); Omni.open(); return; }
+    if(e.key === '/' && !e.target.matches('input,textarea,[contenteditable="true"]')){ e.preventDefault(); Omni.open(); return; }
+    Omni.key(e);
+    SRS.key(e);
+  });
+
+  // Barra de progreso de lectura
+  const bar = $('readbar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }, { passive:true });
+
+  Streak.render();
   renderWords(true);
   renderPhrases(true);
+  qzShuffle(); renderQuiz();
+  SRS.renderBoxes();
+  NB.render();
+
+  const lastTab = LS.get('eng_tab');
+  if(lastTab && $(lastTab)) go(lastTab);
 }
 
 document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast };
 })();
 </script>

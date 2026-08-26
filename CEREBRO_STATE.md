@@ -11,6 +11,65 @@
 
 ---
 
+## 🗣 3-ENG · ENGLISH ENGINE v2 — 2026-08-26 (piezas + práctica + cuaderno)
+
+Miguel revisó la v1 y pidió tres cosas: **explicar qué es un verbo / adjetivo / modal / sustantivo
+como para alguien que no sabe nada**, **un cuaderno con las opciones de los del Cerebro pero
+enfocado en inglés**, y más vida en el diseño. De 4 pestañas pasó a 7. ~508 KB, sigue siendo un
+solo archivo sin dependencias.
+
+### 🧩 Las Piezas (nuevo)
+Las 12 clases de palabra explicadas desde cero bajo una metáfora única: **la frase es una escena de
+película** — sustantivo = actores y objetos · verbo = la acción · adjetivo = el vestuario · adverbio =
+la indicación del director · preposición = el GPS · determinante = el dedo que señala · auxiliar = el
+motor · modal = el dial del tono · conector = el puente · expresión = bloque prefabricado.
+Cada pieza trae: analogía, **test de 3 segundos** para reconocerla, dónde va en el molde, reglas
+mínimas, **la trampa del español** y ejemplos con audio. Cierra con un quiz de 10 preguntas que
+baraja opciones y explica el porqué de cada respuesta.
+
+**Cableado en los dos sentidos:** la etiqueta de categoría de cada palabra del Módulo 1 es clicable y
+abre su pieza; cada pieza tiene un botón que devuelve al Módulo 1 ya filtrado por esa categoría.
+
+### 🧪 Práctica (nuevo · Leitner)
+Repetición espaciada de 5 cajas con intervalos 1/2/4/8/16 días. El Módulo 3 predicaba repetición
+espaciada y el documento no la ofrecía: esto cierra esa incoherencia. Fuentes: mezcla, solo
+marcadas ★, palabras o frases. Dos direcciones (EN→ES y ES→EN). Atajos: Espacio gira, 1/2/3
+califican. Store `eng_srs`.
+
+### 📓 Cuaderno (nuevo)
+Adopta las **opciones** de los cuadernos del Cerebro sin la dependencia de `nb-shared.js` (105 KB +
+CSS), que habría roto la portabilidad del archivo único. Páginas con navegación, negrita/cursiva,
+H1/H2, listas, resaltados en 3 colores, casillas marcables, separador y quitar formato. Más lo que
+solo tiene sentido aquí: **tarjeta EN/ES insertable con botón de audio**, **leer en voz alta la
+selección**, 6 plantillas de inglés (vocabulario, frases, errores, escucha, dudas, diario) y
+exportar a .html. Autosave con el patrón del proyecto (`commitNow` + debounce 700ms + flush en
+blur/visibilitychange/beforeunload). Store `eng_nb`. **Es local a un navegador, por diseño — el
+documento lo dice y ofrece exportar.**
+
+### Diseño y fluidez
+Entrada escalonada de tarjetas, hero con gradiente flotante, elevación en hover, toasts, barra de
+progreso de lectura, racha diaria (`eng_streak`) y **buscador global Ctrl+K** sobre las 2000
+palabras + 1000 frases + piezas + secciones del método.
+
+**La cabecera pasó de 140 px a 49 px.** Con 7 pestañas se partía en dos filas hasta en 1440 px y
+dejaba Cuaderno y Método fuera de vista. Se arregló con pestañas en una fila deslizable y moviendo
+el control de voz a un desplegable (ocupaba 267 px él solo).
+
+### Tres bugs cazados verificando, no leyendo
+1. **La casilla marcable no se insertaba.** Era un `<div>` y el navegador lo desenvuelve al meterlo
+   dentro de un `<p>`: quedaba texto suelto, no un elemento clicable. Ahora es
+   `<span class="chk">` con `display:block` y un `<b class="cb">` para el toggle.
+2. `$('nbNew').onclick` estaba cableado a una función vacía — el botón «Cuaderno nuevo» no hacía nada.
+3. La cabecera de dos filas (arriba).
+
+**Persistencia verificada de verdad**, no por inspección: se levantó `npx serve` en localhost:3456
+porque el panel de preview sirve `data:` URLs y ahí `localStorage` **lanza**. Con origen real se
+escribió cuaderno + favorito + tarjeta SRS + racha, se recargó la página y **los cuatro volvieron**.
+Verificado además: quiz, saltos pieza↔módulo, flujo completo de práctica, autosave, navegación de
+páginas, buscador global y las 7 pestañas a 375 px sin scroll horizontal.
+
+---
+
 ## 🗣 3-ENG · ENGLISH ENGINE — 2026-08-26 (documento maestro)
 
 Miguel pidió un documento .html completo con tres módulos y pronunciación en cada palabra y frase.
