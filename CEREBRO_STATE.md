@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-08-17
+- **Última actualización:** 2026-08-26
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,42 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🗣 3-ENG · ENGLISH ENGINE — 2026-08-26 (documento maestro)
+
+Miguel pidió un documento .html completo con tres módulos y pronunciación en cada palabra y frase.
+Archivo: `frontend/pages/english-engine.html` — **un solo archivo, ~390 KB, sin dependencias**
+(solo Google Fonts). Se abre con doble clic y funciona sin internet. Enlazado desde el hero de 3-ENG.
+
+**Pilar: la estructura.** El documento abre con la pestaña 🧭 Estructura (las 4 piezas, los 5 moldes,
+los 3 motores BE/DO/HAVE, la rejilla de 12 tiempos, S-V-O-M-P-T) y ese mismo código de color
+—🟣 sujeto · 🔵 auxiliar · 🟢 verbo · 🟡 complemento · 🔴 not · 🩷 WH— reaparece en el molde de
+cada una de las 1000 frases. No es decoración: es el hilo que conecta los tres módulos.
+
+- **M1 · 2000 palabras** ordenadas por frecuencia real (no alfabético), en 6 bloques. Cada una con
+  su pieza del molde, su colocación típica y ejemplo bilingüe. 877 sust · 491 verbos · 241 adj · 174 expr.
+- **M2 · 1000 frases** con molde estructural coloreado, tiempo verbal y una nota de regla en una línea.
+  39 situaciones × 11 tiempos. 405 presente simple · 147 imperativo · 108 expresión fija · 92 modales.
+- **M3 · Método** — 7 principios, rutina de 30 min, 10 errores a evitar, 10 acciones, 18 atajos de
+  lógica, 9 fallas de pronunciación del hispanohablante, 16 falsos amigos, 12 errores estructurales,
+  videos y plan de 90 días.
+
+**Honestidad de fuentes.** YouTube no entrega transcripciones a un lector automático: **no pude ver**
+**los 2 videos que pasó Miguel**. Lo que sí hice fue verificar uno por uno que los 12 enlaces existen
+(título de página comprobado el 2026-08-26). El documento dice esto en su propia sección de videos —
+no finge haberlos analizado. Los canales se describen por lo que publican, nunca por un video puntual.
+
+**Dos bugs cazados verificando en el navegador** (no leyendo el código):
+1. El `<select>` de voz quedaba `disabled` para siempre: Chrome devuelve `getVoices()` vacío en la
+   primera pasada y lo llena después vía `onvoiceschanged`, pero nada rehabilitaba el select.
+2. Todo acceso a `localStorage` estaba desnudo. En ventana privada o con almacenamiento de sitio
+   bloqueado **lanza** al solo tocarlo, y tumbaba la app entera. Ahora pasa por el helper `LS`.
+
+Verificado en navegador: 2000/1000 cargadas, búsqueda insensible a acentos (café = cafe),
+filtros por bloque/pieza/situación/tiempo, marcadores ★, paginación, TTS disparando audio real,
+y móvil 375px sin scroll horizontal.
 
 ---
 
