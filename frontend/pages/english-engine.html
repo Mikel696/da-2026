@@ -4888,12 +4888,15 @@ My uncle lives abroad.|Mi tío vive en el exterior.|pres|familia|S + V-s + ADV|a
    Usa el MISMO Supabase y la MISMA tabla app_state que el resto
    del Cerebro, pero con merge propio POR ENTIDAD.
 
-   Por qué no reusa cloud-sync.js:
-   1. Tocarlo obliga a subir version en las 28 paginas (CLAUDE.md
-      regla 7). Aqui el blast radius es cero.
-   2. Su merge de app_state es last-write-wins sobre el objeto
-      COMPLETO — el mismo mecanismo que perdio un cuaderno el
-      15-jul. Para cuadernos eso no es aceptable.
+   Por que no reusa cloud-sync.js: tocarlo obliga a subir version en
+   las 28 paginas (CLAUDE.md regla 7). Manteniendolo aparte, el blast
+   radius de este modulo es cero.
+
+   CORRECCION 2026-08-26: la primera version de este comentario decia
+   que el merge de cloud-sync.js era last-write-wins sobre el objeto
+   completo. Era FALSO para cuadernos: ya tenia _mergeNbData con merge
+   por pagina. Hoy ademas se generalizo a arrays de entidades y se le
+   agregaron lapidas, asi que los dos motores comparten criterio.
 
    Garantia: localStorage sigue siendo la fuente de verdad. Si no
    hay red, si el CDN no carga o si Supabase esta caido, la app
@@ -4909,11 +4912,27 @@ const CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supab
 const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak'];
 
 let sb = null, user = null, state = 'off', dirty = new Set(), pushT = null, booting = false;
+/* Último payload subido por clave, SOLO en memoria. Portado de la idea de
+   _deepEqual en cloud-sync.js: subir contenido idéntico una y otra vez es el
+   "ping-pong" que ellos ya documentaron. En memoria y no en disco a propósito:
+   al recargar se olvida y el primer push siempre sale, así jamás se puede
+   quedar un cambio real sin subir por culpa de esta optimización. */
+const lastSent = new Map();
 const listeners = [];
 
 const LS = {
   get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
-  set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+  /* Guard de cuota, portado de cloud-sync.js: si una clave no entra, se avisa
+     y las demás siguen. Antes el fallo era mudo y el dato mezclado se perdía
+     sin que nadie se enterara. */
+  set(k, v){
+    try { localStorage.setItem(k, v); return true; }
+    catch(e){
+      console.error('[SYNC] no se pudo guardar', k, '(' + Math.round(String(v).length/1024) + ' KB)', e);
+      try { window.dispatchEvent(new CustomEvent('eng:quota', { detail:{ key:k, kb: Math.round(String(v).length/1024) } })); } catch(_){}
+      return false;
+    }
+  }
 };
 const J = {
   get(k, d){ try { const v = LS.get(k); return v === null ? d : (JSON.parse(v) ?? d); } catch(e){ return d; } },
@@ -5078,6 +5097,11 @@ async function pull(){
       if(r && String(r.t || '') > stampOf(k)) { J.set(k, r.p || []); stamp(k); }
     });
 
+    // Lo que quedó igual que la nube no necesita re-subirse
+    KEYS.forEach(k => {
+      const rr = remote[k];
+      if(rr && JSON.stringify(rr.p) === JSON.stringify(J.get(k, null))) lastSent.set(k, JSON.stringify(rr.p));
+    });
     J.set('eng_sync_last', new Date().toISOString());
     setState('ready');
     return true;
@@ -5093,13 +5117,19 @@ async function pushKeys(keys){
   if(!c || !user || !keys.length) return false;
   setState('syncing');
   try {
-    const rows = keys.map(k => ({
-      user_id: user.id, store_key: k,
-      payload: J.get(k, k === 'eng_nb' ? { books:[], active:null } : (k.startsWith('eng_fav') || k === 'eng_nb_trash' ? [] : {})),
-      updated_at: new Date().toISOString()
-    }));
-    const { error } = await c.from('app_state').upsert(rows, { onConflict:'user_id,store_key' });
+    const rows = [];
+    keys.forEach(k => {
+      const payload = J.get(k, k === 'eng_nb' ? { books:[], active:null }
+        : (k.startsWith('eng_fav') || k === 'eng_nb_trash' ? [] : {}));
+      const str = JSON.stringify(payload);
+      if(lastSent.get(k) === str){ dirty.delete(k); return; }   // idéntico → no re-subir
+      rows.push({ user_id: user.id, store_key: k, payload, updated_at: new Date().toISOString(), _str: str });
+    });
+    if(!rows.length){ setState('ready'); return true; }
+    const { error } = await c.from('app_state')
+      .upsert(rows.map(({ _str, ...row }) => row), { onConflict:'user_id,store_key' });
     if(error) throw error;
+    rows.forEach(r => lastSent.set(r.store_key, r._str));
     keys.forEach(k => dirty.delete(k));
     J.set('eng_sync_last', new Date().toISOString());
     setState('ready');
@@ -5259,6 +5289,11 @@ const UNDO = (() => {
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const norm = s => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const $ = id => document.getElementById(id);
+/* e.target no siempre es un Element: cuando el evento llega con document como
+   destino, .matches no existe y el manejador entero reventaba (se caia tambien
+   el Escape que venia despues en el mismo listener). */
+const isTyping = el => !!(el && typeof el.matches === 'function'
+  && el.matches('input,textarea,select,[contenteditable="true"]'));
 const today = () => new Date().toISOString().slice(0, 10);
 const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); };
 
@@ -5788,7 +5823,7 @@ const SRS = (() => {
 
   function key(e){
     if($('pr').classList.contains('on') === false) return;
-    if(e.target.matches('input,textarea,[contenteditable="true"]')) return;
+    if(isTyping(e.target)) return;
     if(!cur) return;
     if(e.code === 'Space'){ e.preventDefault(); if(!flipped){ flipped = true; render(); } return; }
     if(flipped && ['1','2','3'].includes(e.key)){ e.preventDefault(); grade(+e.key - 1); }
@@ -6546,6 +6581,11 @@ function init(){
 
   $('nbNew').onclick = () => NB.newBlank();
 
+  // Aviso si el navegador rechaza una escritura por falta de espacio
+  window.addEventListener("eng:quota", e => {
+    toast("Sin espacio para guardar " + (e.detail && e.detail.key || "") + ". Exporta tus cuadernos.", "warn");
+  });
+
   // Panel de sincronización
   if(window.SYNC){
     SYNC.onState((st) => {
@@ -6567,8 +6607,7 @@ function init(){
 
   // Deshacer con Ctrl+Z (fuera del editor, donde Ctrl+Z ya es el del texto)
   document.addEventListener('keydown', e => {
-    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z'
-       && !e.target.matches('input,textarea,[contenteditable="true"]')){
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !isTyping(e.target)){
       e.preventDefault();
       const u = UNDO.undo();
       if(u){ refreshAll(); toast('Deshecho: ' + u.label, 'warn'); }
@@ -6590,7 +6629,7 @@ function init(){
 
   document.addEventListener('keydown', e => {
     if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); Omni.open(); return; }
-    if(e.key === '/' && !e.target.matches('input,textarea,[contenteditable="true"]')){ e.preventDefault(); Omni.open(); return; }
+    if(e.key === '/' && !isTyping(e.target)){ e.preventDefault(); Omni.open(); return; }
     Omni.key(e);
     SRS.key(e);
   });

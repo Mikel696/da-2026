@@ -282,6 +282,8 @@ const CLOUD = (() => {
 
   /* ── Sync Registry: static keys to sync via app_state ── */
   const SYNC_REGISTRY = [
+    // Lápidas de borrado (derivadas en el proxy · merge por unión)
+    'cloud_tombstones',
     // Arrays — user-generated data
     'sb_goals', 'sb_habits', 'sb_reviews', 'sb_notes2', 'sb_ratings',
     'eng_notes', 'eng_srs_deck', 'eng_tense_progress', 'eng_imported_lessons', 'eng_error_log', 'eng_daily_session', 'eng_practice_streak',
@@ -534,11 +536,17 @@ const CLOUD = (() => {
   const NB_DATA_KEYS = new Set(['work_nb_data', 'not_nb_data', 'sys_notebook']);
   const NB_META_KEYS = new Set(['work_nb_meta', 'not_nb_meta', 'sys_notebook_meta']);
 
-  function _mergeNbData(local, cloud) {
+  function _mergeNbData(local, cloud, tomb) {
     const out = {};
     const ids = new Set([...Object.keys(local || {}), ...Object.keys(cloud || {})]);
     ids.forEach(id => {
       const l = (local || {})[id], c = (cloud || {})[id];
+      // Lápida: si el cuaderno se borró DESPUÉS de su última página tocada, no revive
+      if (tomb && tomb[String(id)]) {
+        const last = [...((l && l.pages) || []), ...((c && c.pages) || [])]
+          .reduce((mx, pg) => String((pg && pg.updated) || '') > mx ? String(pg.updated) : mx, '');
+        if (String(tomb[String(id)]) >= last) return;
+      }
       if (!l) { out[id] = c; return; }
       if (!c) { out[id] = l; return; }
       const byPage = {};
@@ -551,20 +559,147 @@ const CLOUD = (() => {
     });
     return out;
   }
-  function _mergeNbMeta(local, cloud) {
+  function _mergeNbMeta(local, cloud, tomb) {
     const by = {}; const ts = x => String((x && (x.updated || x.created)) || '');
     [...(cloud || []), ...(local || [])].forEach(m => {
       if (!m || m.id == null) return;
       const p = by[m.id];
       if (!p || ts(m) > ts(p)) by[m.id] = m;
     });
+    if (tomb) Object.keys(by).forEach(id => { if (_isBuried(tomb, id, ts(by[id]))) delete by[id]; });
     return Object.values(by);
   }
-  /** Devuelve el merge estructural si la key es de cuadernos; null si no aplica. */
+  /* ── MERGE ESTRUCTURAL GENÉRICO para arrays de entidades ───────
+   * El merge por página existía SOLO para cuadernos (6 keys). Todo lo demás
+   * anidado caía en LWW por key completa: si agregás un caso en el celular y
+   * otro distinto en el PC, gana el más nuevo por timestamp y el otro se
+   * pierde ENTERO. Es la misma clase de bug del 15-jul en módulos a los que
+   * todavía no les había tocado.
+   *
+   * ⚠️ Sólo entran keys cuya FORMA fue verificada leyendo el código que las
+   * escribe. Declarar mal una key acá corrompe datos: ante la duda, afuera.
+   *   - work_kb quedó AFUERA: es un string plano, no un array.
+   *   - ts = campo de fecha real de modificación cuando existe; donde sólo
+   *     hay fecha de creación, la unión igual evita perder entradas enteras. */
+  const ARRAY_MERGE_KEYS = {
+    tools_mindmaps:     { id: 'id', ts: 'updated'   },  // mindmap.js  · updated en cada edición
+    tools_canvases:     { id: 'id', ts: 'updated'   },  // canvas.js   · updated en cada edición
+    tools_apa_docs:     { id: 'id', ts: 'updated'   },  // apa.js      · updated en cada edición
+    work_eco_dict:      { id: 'id', ts: 'updated'   },  // work.js     · updated en cada entrada
+    work_impl:          { id: 'id', ts: 'updatedAt' },  // work.js     · updatedAt
+    work_cases:         { id: 'id', ts: 'date'      },  // work.js     · sólo fecha de alta
+    work_errors:        { id: 'id', ts: 'date'      },
+    work_learnings:     { id: 'id', ts: 'date'      },
+    work_moif_meetings: { id: 'id', ts: 'updated'   }
+  };
+
+  /* ── LÁPIDAS (tombstones) ──────────────────────────────────────
+   * Antes no existían: el merge era una unión pura de ids, así que borrar
+   * algo en un device y reconectar otro que todavía lo tenía lo RESUCITABA
+   * (y lo re-subía). Ahora, al escribir una key sincronizada, se detecta qué
+   * ids desaparecieron y se anota la fecha. La lápida sólo mata un item si es
+   * MÁS NUEVA que su última modificación — si editaste después de borrar en
+   * otro equipo, gana la edición. El sesgo siempre es a no perder datos.
+   * Se derivan acá, en el proxy, para no tener que tocar ningún módulo. */
+  const _TOMB_KEY = 'cloud_tombstones';
+  const _TOMB_TTL_MS = 60 * 864e5;   // 60 días
+
+  function _tombAll() { return _safeParse(localStorage.getItem(_TOMB_KEY)) || {}; }
+  function _tombFor(key) { return _tombAll()[key] || {}; }
+
+  /** Extrae el conjunto de ids de un valor, sea array de entidades u objeto. */
+  function _idsOf(key, val) {
+    const out = new Set();
+    if (!val) return out;
+    if (Array.isArray(val)) {
+      const cfg = ARRAY_MERGE_KEYS[key];
+      const idf = (cfg && cfg.id) || 'id';
+      val.forEach(it => { if (it && it[idf] != null) out.add(String(it[idf])); });
+    } else if (typeof val === 'object') {
+      Object.keys(val).forEach(k => out.add(String(k)));
+    }
+    return out;
+  }
+
+  /** Compara el valor anterior con el nuevo y anota los ids que se fueron. */
+  function _tombRecord(key, prevRaw, nextRaw) {
+    if (!ARRAY_MERGE_KEYS[key] && !NB_META_KEYS.has(key) && !NB_DATA_KEYS.has(key)) return;
+    try {
+      const before = _idsOf(key, _safeParse(prevRaw));
+      if (!before.size) return;
+      const after = _idsOf(key, _safeParse(nextRaw));
+      const gone = [...before].filter(id => !after.has(id));
+      if (!gone.length) return;
+      const all = _tombAll();
+      const mine = all[key] || (all[key] = {});
+      const now = new Date().toISOString();
+      gone.forEach(id => { mine[id] = now; });
+      _origSetItem(_TOMB_KEY, JSON.stringify(_tombPurge(all)));
+      _outboxAdd(_TOMB_KEY);
+      console.log('[CLOUD] lápidas anotadas en', key, gone);
+      if (_initialSyncDone && !_syncing) {
+        _setLocalTs(_TOMB_KEY, Date.now());
+        pushState(_TOMB_KEY, _tombAll());
+      }
+    } catch (e) { console.warn('[CLOUD] tombRecord falló para', key, e); }
+  }
+
+  function _tombPurge(all) {
+    const limit = new Date(Date.now() - _TOMB_TTL_MS).toISOString();
+    Object.keys(all || {}).forEach(k => {
+      Object.keys(all[k] || {}).forEach(id => { if (String(all[k][id]) < limit) delete all[k][id]; });
+      if (!Object.keys(all[k] || {}).length) delete all[k];
+    });
+    return all || {};
+  }
+
+  /** Unión de lápidas de los dos lados: gana la fecha de borrado más reciente. */
+  function _mergeTombstones(local, cloud) {
+    const out = {};
+    const keys = new Set([...Object.keys(local || {}), ...Object.keys(cloud || {})]);
+    keys.forEach(k => {
+      const a = (local || {})[k] || {}, b = (cloud || {})[k] || {};
+      const m = {};
+      new Set([...Object.keys(a), ...Object.keys(b)]).forEach(id => {
+        m[id] = String(a[id] || '') > String(b[id] || '') ? a[id] : b[id];
+      });
+      out[k] = m;
+    });
+    return _tombPurge(out);
+  }
+
+  /** ¿La lápida de este id es más nueva que su última modificación? */
+  function _isBuried(tomb, id, itemTs) {
+    const d = tomb[String(id)];
+    return !!d && String(d) >= String(itemTs || '');
+  }
+
+  /** Merge genérico de un array de entidades por id. Devuelve null si la
+   *  forma no es la esperada — así cae al LWW de siempre y nunca rompe. */
+  function _mergeArrayById(key, local, cloud) {
+    const cfg = ARRAY_MERGE_KEYS[key];
+    if (!cfg) return null;
+    if (!Array.isArray(local) || !Array.isArray(cloud)) return null;   // guarda de forma
+    const tomb = _tombFor(key);
+    const ts = x => String((x && (x[cfg.ts] || x.updated || x.updatedAt || x.date || x.created)) || '');
+    const by = new Map();
+    [...cloud, ...local].forEach(it => {
+      if (!it || it[cfg.id] == null) return;
+      const k = String(it[cfg.id]);
+      const prev = by.get(k);
+      if (!prev || ts(it) > ts(prev)) by.set(k, it);
+    });
+    by.forEach((it, k) => { if (_isBuried(tomb, k, ts(it))) by.delete(k); });
+    return [...by.values()];
+  }
+
+  /** Devuelve el merge estructural si la key lo soporta; null si no aplica. */
   function _structuralMerge(key, localVal, cloudVal) {
     try {
-      if (NB_DATA_KEYS.has(key)) return _mergeNbData(localVal, cloudVal);
-      if (NB_META_KEYS.has(key)) return _mergeNbMeta(localVal, cloudVal);
+      if (key === _TOMB_KEY) return _mergeTombstones(localVal, cloudVal);
+      if (NB_DATA_KEYS.has(key)) return _mergeNbData(localVal, cloudVal, _tombFor(key));
+      if (NB_META_KEYS.has(key)) return _mergeNbMeta(localVal, cloudVal, _tombFor(key));
+      if (ARRAY_MERGE_KEYS[key])  return _mergeArrayById(key, localVal, cloudVal);
     } catch (e) { console.warn('[CLOUD] structuralMerge failed for', key, e); }
     return null;
   }
@@ -838,6 +973,9 @@ const CLOUD = (() => {
 
     // Cambio REAL → a la outbox persistente SIEMPRE (aún deslogueado/hidratando)
     _outboxAdd(key);
+
+    // Anotar qué ids desaparecieron, para que el borrado se propague y no resucite
+    _tombRecord(key, prev, value);
 
     // Durante hidratación inicial no stampeamos TS (el motor está escribiendo)
     if (_syncing || !_initialSyncDone) return;
@@ -1358,7 +1496,12 @@ const CLOUD = (() => {
     // Outbox persistente (cambios pendientes de subir)
     flushOutbox: _flushOutbox, outboxCount: () => _outboxGet().length,
     // Utilities
-    SYNC_REGISTRY, DYNAMIC_PREFIXES
+    SYNC_REGISTRY, DYNAMIC_PREFIXES,
+    // Merge estructural + lápidas (pruebas / diagnóstico)
+    _merge: { array: _mergeArrayById, nbData: _mergeNbData, nbMeta: _mergeNbMeta,
+              tombs: _mergeTombstones, structural: _structuralMerge },
+    _tomb: { all: _tombAll, forKey: _tombFor, record: _tombRecord, purge: _tombPurge },
+    ARRAY_MERGE_KEYS
   };
 })();
 

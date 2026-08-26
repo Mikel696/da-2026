@@ -11,6 +11,64 @@
 
 ---
 
+## ☁️ GLOBAL · cloud-sync.js v p17 — 2026-08-26 (merge generico + lapidas)
+
+Los dos huecos detectados en la auditoria del motor de sync, cerrados. **Cache-bust en
+lockstep: las 28 paginas pasaron de `?v=p16` a `?v=p17`** (regla 7 de CLAUDE.md).
+
+### Hueco 2 · el merge estructural era lista blanca de 6 claves
+`_structuralMerge` solo cubria cuadernos (`*_nb_data`, `*_nb_meta`). Todo lo demas anidado
+caia en LWW por key completa: agregar un caso en el celular y otro en el PC hacia que
+**se perdiera uno entero**. Misma clase de bug del 15-jul, en modulos a los que no les
+habia tocado todavia.
+
+Ahora hay `ARRAY_MERGE_KEYS`, un registro de forma `{campoId, campoFecha}` con **9 claves
+cuya forma se verifico leyendo el codigo que las escribe**:
+
+| clave | fecha | nota |
+|---|---|---|
+| tools_mindmaps · tools_canvases · tools_apa_docs | `updated` | se actualiza en cada edicion |
+| work_eco_dict | `updated` | |
+| work_impl | `updatedAt` | campo distinto, verificado |
+| work_cases · work_errors · work_learnings | `date` | solo fecha de alta; la union igual evita perder entradas |
+| work_moif_meetings | `updated` | |
+
+**`work_kb` quedo AFUERA a proposito: es un string plano, no un array.** Meterlo lo habria
+corrompido. Guarda de forma en `_mergeArrayById`: si algun lado no es array devuelve `null`
+y cae al LWW de siempre — nunca rompe.
+
+### Hueco 1 · no habia lapidas: los borrados resucitaban
+El merge era union pura de ids, asi que borrar algo en un equipo y reconectar otro que
+todavia lo tenia lo **revivia y lo re-subia**.
+
+Ahora hay `cloud_tombstones` (en SYNC_REGISTRY, con merge por union). **Se derivan solas en
+el proxy de `setItem`**, comparando el valor anterior con el nuevo: ningun modulo tuvo que
+tocarse. Una lapida solo mata un item si es **mas nueva que su ultima modificacion** — si
+editaste despues de borrar en otro equipo, gana la edicion. Se purgan a los 60 dias.
+Aplicadas tambien a `_mergeNbData` y `_mergeNbMeta`.
+
+### 3-ENG · portado desde cloud-sync.js
+- **Guard de contenido identico** antes de subir (el `_deepEqual` que evita el ping-pong
+  entre equipos). En memoria y no en disco: al recargar se olvida y el primer push siempre
+  sale, asi la optimizacion nunca puede dejar un cambio real sin subir.
+- **Guard de cuota** al escribir: una clave que no entra ya no tumba el merge entero, avisa
+  por evento `eng:quota` y sale un toast.
+
+### Bug cazado de paso
+`e.target.matches is not a function`: cuando un keydown llega con `document` como destino,
+`.matches` no existe y **el manejador entero reventaba** — se caia tambien el `Escape` que
+venia despues en el mismo listener. Resuelto con un helper `isTyping()` en los 3 sitios.
+
+### Verificacion
+Merge probado en el motor real cargado en `notes.html`: regresion de cuadernos sin lapidas
+identica a antes · union sin perdida de entradas · las 4 guardas de forma (string, objeto,
+clave no registrada, null) devuelven `null` · derivacion automatica de lapidas al borrar ·
+no resucita · la edicion posterior gana · union de lapidas.
+Carga limpia y **cero errores de consola** en notes, work, mindmap, apa y english-engine,
+todos sirviendo `?v=p17`. Diff del cache-bust: **28 archivos, 28 lineas** (una por pagina).
+
+---
+
 ## 🗣 3-ENG · ENGLISH ENGINE v3.1 — 2026-08-26 (filtros contraibles)
 
 Miguel: los dos bloques de chips de Palabras y Frases no dejaban ver el contenido.
