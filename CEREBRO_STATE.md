@@ -11,6 +11,36 @@
 
 ---
 
+## 🗣 3-ENG · ENGLISH ENGINE v3.1 — 2026-08-26 (filtros contraibles)
+
+Miguel: los dos bloques de chips de Palabras y Frases no dejaban ver el contenido.
+Ahora se contraen solos al bajar y el boton «Filtros» los reabre.
+
+| | Desplegado | Contraido | Recupera |
+|---|---|---|---|
+| Frases (escritorio) | 400 px | 58 px | **342 px** |
+| Palabras (escritorio) | 230 px | 58 px | **172 px** |
+| Frases (movil 375) | 943 px | 138 px | **805 px** |
+
+En movil el bloque era mas alto que la pantalla entera. Ademas el panel contraido
+**dice que filtros estan puestos** (ej. «Filtros 1 · Trabajo»), para no abrirlo a ciegas,
+y elegir un filtro con el panel abierto lo cierra solo para ver el resultado enseguida.
+El alto de la cabecera se mide a JS y se expone como `--hh` (antes estaba fijo en 56 px).
+
+### Lo que costo: tres intentos, misma causa raiz
+El panel de preview NO compone fotogramas, y eso rompe TRES mecanismos seguidos:
+1. `IntersectionObserver` — no entrega ni una sola llamada sin renderizado.
+2. `requestAnimationFrame` — tampoco corre.
+3. Los **eventos `scroll` ni siquiera se emiten** (`window.scrollTo` mueve la posicion
+   pero no dispara nada): verificado con un listener limpio → 0 eventos.
+
+Quedo con listener de `scroll` + throttle por `setTimeout` (no rAF, por el punto 2).
+La logica se verifico llamando `CTL.apply()` a mano en las dos direcciones y en los dos
+modulos. **Lo unico no verificable aqui es que el navegador emita el evento scroll** —
+eso lo confirma Miguel en su navegador real.
+
+---
+
 ## 🗣 3-ENG · ENGLISH ENGINE v3 — 2026-08-26 (sincronización + deshacer)
 
 Miguel pidió dos cosas, con una regla explícita: **no romper nada de lo ya hecho**.

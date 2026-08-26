@@ -540,6 +540,33 @@ table.tbl tr:hover td{background:var(--bg3)}
 .w-cat{margin-right:40px}
 .w-fav.nbsend:hover,.p-fav.nbsend:hover{color:var(--ac2);transform:scale(1.15)}
 
+/* ── Filtros que se contraen al bajar ────────────────────
+   Los dos bloques de chips ocupaban ~350 px pegados arriba y no dejaban
+   ver el contenido. Al despegarse del tope se contraen solos; el botón
+   «Filtros» los vuelve a abrir cuando hagan falta. */
+.ctl{top:var(--hh,56px)}
+.ctl-sentinel{height:1px;margin:0;padding:0}
+.ctl-f{transition:opacity .18s ease}
+.ctl.min{padding:9px 15px}
+.ctl.min .ctl-f{display:none}
+.ctl.min .ctl-row{margin-top:0;padding-top:0;border-top:none}
+.ctl-tog{display:none;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--bd2);
+  color:var(--t2);padding:7px 13px;border-radius:99px;font-family:var(--fs);font-size:12.5px;
+  font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.ctl-tog:hover{border-color:var(--acbd);color:var(--ac2);background:var(--acbg)}
+.ctl.min .ctl-tog,.ctl.open .ctl-tog{display:inline-flex}
+.ctl-tog .ar{font-size:10px;transition:.22s;opacity:.75}
+.ctl.open .ctl-tog .ar{transform:rotate(180deg)}
+.ctl.open .ctl-tog{border-color:var(--acbd);color:var(--ac2);background:var(--acbg)}
+.ctl-tog .n{background:var(--ac);color:#fff;font-family:var(--fm);font-size:10px;font-weight:700;
+  padding:1px 6px;border-radius:99px;min-width:17px;text-align:center}
+/* Desplegado sobre el contenido: abrirlo no debe volver a empujar la página */
+.ctl.open{max-height:calc(100vh - var(--hh,56px) - 24px);overflow-y:auto;box-shadow:0 18px 44px rgba(0,0,0,.6)}
+@media(max-width:640px){
+  /* En móvil también se queda pegado: contraído es una sola línea */
+  .ctl{position:sticky;top:var(--hh,56px)}
+}
+
 /* ── Deshacer dentro del aviso ──────────────────────────── */
 .toast-act{background:var(--ac);border:none;color:#fff;font-family:var(--fs);font-size:12.5px;
   font-weight:700;padding:5px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;transition:.14s}
@@ -1418,17 +1445,21 @@ table.tbl tr:hover td{background:var(--bg3)}
 
   <div class="note info"><b>Cómo se lee cada tarjeta:</b> el número gris es su puesto de frecuencia. La etiqueta de color dice <b>qué pieza del molde ocupa</b> (verbo, sustantivo, auxiliar…). El recuadro monoespaciado es <b>el patrón</b> — la palabra casi nunca va sola, va pegada a otras. Memoriza el patrón, no la palabra.</div>
 
-  <div class="ctl">
+  <div class="ctl-sentinel"></div>
+  <div class="ctl" id="ctl1">
     <div class="ctl-row">
       <input class="srch" id="q1" placeholder="Buscar en inglés o español…  (ej: get, tiempo, though)" autocomplete="off">
       <span class="cnt">Mostrando <b id="n1">0</b> / 2000</span>
       <button class="chip" id="fav1">★ Solo mis marcadas</button>
+      <button class="ctl-tog" data-tog="ctl1" title="Mostrar u ocultar los filtros">
+        <span class="lb">Filtros</span><span class="ar">▾</span>
+      </button>
     </div>
-    <div class="ctl-row">
+    <div class="ctl-row ctl-f">
       <span class="ctl-lbl">Bloque</span>
       <div id="bands" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
-    <div class="ctl-row">
+    <div class="ctl-row ctl-f">
       <span class="ctl-lbl">Pieza</span>
       <div id="cats" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
@@ -1450,17 +1481,21 @@ table.tbl tr:hover td{background:var(--bg3)}
 
   <div class="note info"><b>La regla de oro de este módulo:</b> nunca estudies una frase leyéndola. Dale 🔊, escúchala, repítela en voz alta hasta que te salga sin pensar, y recién ahí lee el molde para <i>ver por qué funciona</i>. El orden importa: <b>oído → boca → entendimiento</b>. Al revés no funciona.</div>
 
-  <div class="ctl">
+  <div class="ctl-sentinel"></div>
+  <div class="ctl" id="ctl2">
     <div class="ctl-row">
       <input class="srch" id="q2" placeholder="Buscar frase en inglés o español…  (ej: how much, disculpa, would)" autocomplete="off">
       <span class="cnt">Mostrando <b id="n2">0</b> / 1000</span>
       <button class="chip" id="fav2">★ Solo mis marcadas</button>
+      <button class="ctl-tog" data-tog="ctl2" title="Mostrar u ocultar los filtros">
+        <span class="lb">Filtros</span><span class="ar">▾</span>
+      </button>
     </div>
-    <div class="ctl-row">
+    <div class="ctl-row ctl-f">
       <span class="ctl-lbl">Situación</span>
       <div id="funcs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
-    <div class="ctl-row">
+    <div class="ctl-row ctl-f">
       <span class="ctl-lbl">Tiempo</span>
       <div id="tenses" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     </div>
@@ -5466,6 +5501,7 @@ function renderWords(reset){
   }
   box.className = 'wgrid' + (M1.shown <= 200 ? ' stagger' : '');
   box.innerHTML = res.slice(0, M1.shown).map(wordCard).join('');
+  CTL.label('ctl1');
   const mb = $('more1');
   if(res.length > M1.shown){
     mb.style.display = 'block';
@@ -5518,6 +5554,7 @@ function renderPhrases(reset){
   }
   box.className = M2.shown <= 150 ? 'stagger' : '';
   box.innerHTML = res.slice(0, M2.shown).map(phraseCard).join('');
+  CTL.label('ctl2');
   const mb = $('more2');
   if(res.length > M2.shown){
     mb.style.display = 'block';
@@ -6237,6 +6274,79 @@ function go(paneId){
   if(tab) tab.click();
 }
 
+/* ─────────── 13b · FILTROS CONTRAÍBLES ───────────
+   Los dos bloques de chips ocupaban ~350 px pegados al tope y tapaban el
+   contenido. Al despegarse se contraen solos; el botón «Filtros» los abre. */
+const CTL = (() => {
+  function headerH(){
+    const t = document.querySelector('.topbar');
+    document.documentElement.style.setProperty('--hh', ((t ? t.offsetHeight : 56) + 4) + 'px');
+  }
+  /** El botón contraído dice QUÉ filtros están puestos, para no abrirlo a ciegas. */
+  function label(id){
+    const el = $(id); if(!el) return;
+    const tog = el.querySelector('.ctl-tog'); if(!tog) return;
+    const names = [];
+    if(id === 'ctl1'){
+      if(M1.band !== 'all'){ const b = BANDS.find(x => x.id === M1.band); if(b) names.push(b.lb.split(' ·')[0]); }
+      if(M1.cat !== 'all') names.push(CAT_LABEL[M1.cat] || M1.cat);
+      if(M1.fav) names.push('★ marcadas');
+    } else {
+      if(M2.func !== 'all') names.push(FUNC_LABEL[M2.func] || M2.func);
+      if(M2.tense !== 'all') names.push(TENSE_LABEL[M2.tense] || M2.tense);
+      if(M2.fav) names.push('★ marcadas');
+    }
+    const lb = tog.querySelector('.lb');
+    lb.innerHTML = names.length
+      ? 'Filtros <span class="n">' + names.length + '</span> · ' + esc(names.join(' · '))
+      : 'Filtros';
+  }
+  function collapse(el){ el.classList.remove('open'); el.classList.add('min'); }
+  function expand(el){ el.classList.remove('min'); el.classList.add('open'); }
+
+  /* Se detecta con scroll y no con IntersectionObserver a propósito: el IO
+     depende de que el navegador esté componiendo fotogramas, y en contextos
+     donde no lo hace (pestaña oculta, paneles embebidos) no entrega ni una
+     sola llamada — el panel se quedaría desplegado para siempre. */
+  const panels = [];
+  let ticking = false;
+  function apply(){
+    ticking = false;
+    const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 56;
+    panels.forEach(({ el, sent }) => {
+      if(!el.offsetParent) return;                 // pestaña no visible: no tocar
+      const stuck = sent.getBoundingClientRect().top <= hh;
+      if(stuck){ if(!el.classList.contains('open')) el.classList.add('min'); }
+      else el.classList.remove('min', 'open');
+    });
+  }
+  // Throttle por temporizador y NO por requestAnimationFrame: rAF tampoco corre
+  // cuando el navegador no compone fotogramas, y el panel se quedaba abierto.
+  function onScroll(){ if(!ticking){ ticking = true; setTimeout(apply, 60); } }
+
+  function wire(id){
+    const el = $(id); if(!el) return;
+    const sent = el.previousElementSibling;
+    if(sent && sent.classList.contains('ctl-sentinel')){
+      panels.push({ el, sent });
+      if(panels.length === 1){
+        window.addEventListener('scroll', onScroll, { passive:true });
+        window.addEventListener('resize', onScroll);
+      }
+    }
+    el.querySelector('.ctl-tog').onclick = () => {
+      el.classList.contains('open') ? collapse(el) : expand(el);
+    };
+    // Elegir un filtro con el panel abierto lo vuelve a cerrar: ves el resultado enseguida
+    el.querySelectorAll('.ctl-f').forEach(r => r.addEventListener('click', e => {
+      if(e.target.closest('.chip') && el.classList.contains('open'))
+        setTimeout(() => { collapse(el); label(id); }, 120);
+    }));
+    label(id);
+  }
+  return { headerH, wire, label, apply };
+})();
+
 /* ─────────── 14 · REFRESCO GLOBAL ───────────
    Deshacer y sincronizar cambian el almacenamiento por debajo. Sin esto,
    el disco quedaría actualizado y la pantalla mostrando lo viejo. */
@@ -6420,6 +6530,7 @@ function init(){
       if(b.dataset.p === 'pr') SRS.start();
       if(b.dataset.p === 'nb') NB.render();
       if(b.dataset.p === 'pz' && !$('qzBox').children.length){ qzShuffle(); renderQuiz(); }
+      CTL.headerH(); setTimeout(CTL.apply, 60);   // la cabecera cambia de alto entre pestañas
     };
   });
 
@@ -6491,6 +6602,10 @@ function init(){
     bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
   }, { passive:true });
 
+  CTL.headerH();
+  window.addEventListener('resize', CTL.headerH);
+  CTL.wire('ctl1'); CTL.wire('ctl2');
+
   Streak.render();
   renderWords(true);
   renderPhrases(true);
@@ -6506,7 +6621,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
