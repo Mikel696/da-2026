@@ -11,6 +11,62 @@
 
 ---
 
+## 🗣 3-ENG · ENGLISH ENGINE v3 — 2026-08-26 (sincronización + deshacer)
+
+Miguel pidió dos cosas, con una regla explícita: **no romper nada de lo ya hecho**.
+Todo lo de v1 y v2 quedó verificado intacto antes de dar por buena la entrega.
+
+### ☁️ Sincronización cross-device
+Usa **el mismo Supabase, la misma tabla `app_state` y la misma sesión** que el resto del Cerebro
+(mismo proyecto = misma clave de sesión, así que si ya entró en otra página del Cerebro, aquí
+arranca solo). Claves sincronizadas: `eng_nb`, `eng_nb_trash`, `eng_fav_w`, `eng_fav_p`,
+`eng_srs`, `eng_streak`.
+
+**Por qué NO reusa `cloud-sync.js`** — las dos razones son de fondo:
+1. Tocarlo obliga a subir versión en **las 28 páginas** (CLAUDE.md regla 7). Eso es romper cosas
+   fuera del encargo. Así el blast radius es cero: no se tocó ningún archivo compartido.
+2. Su merge de `app_state` es **last-write-wins sobre el objeto completo** — el mismo mecanismo
+   que perdió un cuaderno el 15-jul. Para cuadernos es inaceptable.
+
+**Merge propio, por entidad, verificado con 6 escenarios:**
+- Cuadernos: se comparan **uno a uno por `id`**, nunca el bloque completo.
+- Páginas: cada una con `id` y sello `u` propios; se **unen página por página**. El escenario del
+  15-jul (mismo cuaderno editado en PC y celular con páginas distintas) ahora conserva **las dos**.
+- Borrado: lápidas con `deletedAt` para que se propague en vez de resucitar — pero si editaste
+  DESPUÉS de borrar en otro equipo, **gana la edición**. El sesgo siempre es a no perder datos.
+- Práctica: por tarjeta, con sello `ts`; gana el repaso más reciente.
+- Racha: une los días de todos los equipos y recalcula la seguidilla.
+- Marcadores: aquí sí last-write-wins, son baratos de rehacer.
+
+**Offline-first intacto (P1).** El SDK se carga del CDN **solo al activar la sincronización**.
+localStorage sigue siendo la fuente de verdad. Probado: con `SYNC.touch` lanzando excepción en
+cada guardado, marcadores y cuaderno **siguen guardando** y la app queda intacta.
+
+### ↶ Deshacer, papelera y edición
+- **Deshacer** en guardar-en-cuaderno, borrar tarjeta, borrar página, borrar cuaderno y marcar ★.
+  Botón en el aviso (8 s) + **Ctrl+Z** global (desactivado dentro del editor, donde Ctrl+Z es el
+  del texto). Pila de 25 acciones; cada una guarda una foto de las claves afectadas.
+- **Papelera**: borrar un cuaderno lo manda ahí, no lo destruye. Restaurable, se purga sola a los
+  30 días, y el borrado definitivo sí pide confirmación.
+- **Borrar página** (antes solo se podían añadir) y **borrar tarjetas EN/ES sueltas** al pasar el
+  cursor, sin tocar el resto de la página.
+
+### Bug crítico cazado ejecutando
+`window.SYNC` era `undefined`: un `const` de nivel superior **no se cuelga de `window`**, así que
+`if(window.SYNC)` era falso y **la sincronización no arrancaba nunca** — además dejaba muerto el
+`SYNC.touch()` de cada guardado. Se arregló con `window.SYNC = SYNC` (mismo patrón que
+`window.CLOUD = CLOUD` en cloud-sync.js) y `window.APP = APP`.
+
+### Verificación
+Regresión completa de v1+v2 antes de cerrar: búsqueda con acentos, filtros, moldes coloreados,
+12 piezas, quiz, saltos pieza↔módulo, práctica, buscador global y panel de voz — todo OK.
+Nuevo: deshacer en las 5 acciones, papelera crear/restaurar/purgar, borrar página + deshacer,
+6 escenarios de merge, carga real del SDK desde CDN con respuesta real del servidor de Supabase
+(credenciales falsas → error traducido al español), y las 7 pestañas a 375 px sin desbordes.
+El login exitoso lo confirma Miguel: no se piden contraseñas.
+
+---
+
 ## 🗣 3-ENG · ENGLISH ENGINE v2 — 2026-08-26 (piezas + práctica + cuaderno)
 
 Miguel revisó la v1 y pidió tres cosas: **explicar qué es un verbo / adjetivo / modal / sustantivo
