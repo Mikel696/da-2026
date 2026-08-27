@@ -39,26 +39,48 @@ const TOP = 18;
    este script funciona desde un PC y falla en la Action desde el 22-ago.
    Es OPCIONAL — si el secreto no esta puesto, todo sigue funcionando igual,
    solo que con el cupo bajo de siempre. */
-const APP_TOKEN = process.env.SOCRATA_APP_TOKEN || '';
+/* Socrata acepta DOS credenciales distintas y no son intercambiables:
+     · App Token  → cabecera  X-App-Token         (solo sube el cupo; NO es secreto)
+     · API Key    → autenticacion basica ID:SECRET (el secret SI es sensible)
+   Se admiten las dos porque el panel de datos.gov.co entrega una u otra segun
+   por donde entres, y mandar una por la via de la otra devuelve 403.
+   Si no hay ninguna, el script funciona igual con el cupo bajo de siempre. */
+const APP_TOKEN  = process.env.SOCRATA_APP_TOKEN  || '';
+const KEY_ID     = process.env.SOCRATA_KEY_ID     || '';
+const KEY_SECRET = process.env.SOCRATA_KEY_SECRET || '';
+const BASIC = (KEY_ID && KEY_SECRET)
+  ? 'Basic ' + Buffer.from(KEY_ID + ':' + KEY_SECRET).toString('base64')
+  : '';
 
 const REINTENTOS = 3;
 const espera = ms => new Promise(r => setTimeout(r, ms));
 
-/* Un token mal pegado devuelve 403 y romperia TODO — peor que no tener token.
-   Al primer 403 se descarta y se sigue sin el: en el peor caso queda como hoy,
-   nunca peor. Probado a proposito con un token invalido. */
-let tokenDescartado = false;
+/* Una credencial mal pegada devuelve 403 y romperia TODO — peor que no tener
+   ninguna. Al primer 403 se descarta y se sigue sin ella: en el peor caso queda
+   como hoy, nunca peor. Probado a proposito con credenciales invalidas. */
+let credDescartada = false;
+
+function credEnUso(){
+  if (credDescartada) return 'ninguna';
+  if (BASIC) return 'API Key (basica)';
+  if (APP_TOKEN) return 'App Token';
+  return 'ninguna';
+}
 
 const get = async (url, etiqueta = '') => {
   let ultimo;
   for (let intento = 1; intento <= REINTENTOS; intento++) {
     try {
       const headers = { 'User-Agent': UA };
-      if (APP_TOKEN && !tokenDescartado) headers['X-App-Token'] = APP_TOKEN;
+      if (!credDescartada) {
+        // La API Key manda si estan las dos: identifica mejor y da el mismo cupo alto
+        if (BASIC) headers['Authorization'] = BASIC;
+        else if (APP_TOKEN) headers['X-App-Token'] = APP_TOKEN;
+      }
       const res = await fetch(url, { headers, signal: AbortSignal.timeout(90000) });
-      if (res.status === 403 && APP_TOKEN && !tokenDescartado) {
-        tokenDescartado = true;
-        console.warn('  ⚠ SOCRATA_APP_TOKEN rechazado (403). Revisalo. Sigo sin token.');
+      if (res.status === 403 && !credDescartada && (BASIC || APP_TOKEN)) {
+        credDescartada = true;
+        console.warn('  ⚠ Credencial de Socrata rechazada (403). Revisala. Sigo sin ella.');
         continue;                      // reintenta ya mismo, sin gastar el intento en esperar
       }
       if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -130,9 +152,9 @@ async function fetchTipo(def, fecha) {
 /* ── Main ── */
 
 const errors = [];
-console.log(APP_TOKEN
-  ? '· Socrata con token de aplicación (cupo alto)'
-  : '· Socrata SIN token — cupo bajo compartido por IP. Si falla en la Action, ese es el motivo.');
+console.log((BASIC || APP_TOKEN)
+  ? '· Socrata autenticado con ' + credEnUso() + ' (cupo alto)'
+  : '· Socrata SIN credencial — cupo bajo compartido por IP. Si falla en la Action, ese es el motivo.');
 const previo = await leerPrevio(OUT);   // para no degradar a vacío lo que ya servía
 
 let fecha = null;

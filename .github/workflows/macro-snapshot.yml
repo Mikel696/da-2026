@@ -48,7 +48,13 @@ jobs:
           # por eso este paso falla desde el 22-ago aunque funcione desde un PC.
           # Es OPCIONAL: si el secreto no existe llega vacio y el script sigue
           # igual que hoy. Si llega mal, el script lo descarta al primer 403.
-          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+          # Socrata acepta DOS credenciales y NO son intercambiables:
+          #   App Token -> cabecera X-App-Token   (no es secreto)
+          #   API Key   -> basica ID:SECRET       (el secret SI es sensible)
+          # Con poner UNA de las dos alcanza. Si no hay ninguna, sigue igual que hoy.
+          SOCRATA_APP_TOKEN:  ${{ secrets.SOCRATA_APP_TOKEN }}
+          SOCRATA_KEY_ID:     ${{ secrets.SOCRATA_KEY_ID }}
+          SOCRATA_KEY_SECRET: ${{ secrets.SOCRATA_KEY_SECRET }}
 
       - name: Traer mercados y prensa financiera
         run: node scripts/fetch-world.mjs
