@@ -11,6 +11,47 @@
 
 ---
 
+## 💰 12-FIN · tasas de credito congeladas desde el 22-ago — 2026-08-27
+
+Miguel reporto que finanzas y noticias no actualizaban y sospecho del cambio de sync del 26.
+**No fue eso.** Prueba: lo unico que cambio en finance.html y news.html fue la linea del
+cache-bust (p16->p17); 0 commits mios tocaron scripts/, workflows ni fin-*.js; la Action
+corrio SOBRE mi commit de8e763 y commiteo datos bien (599b053).
+
+### Lo que si estaba roto
+**Tasas de credito: desde el 22-ago 15:41**, cuatro dias antes de mi primer commit (26-ago
+11:31). Rastreado snapshot por snapshot: el ultimo completo fue 3cf1e67 del 22 a las 11:40.
+Fallaban usura, Consumo y Productivo con `fetch failed` (nivel de conexion, no HTTP).
+El sistema hacia lo correcto: conservaba el ultimo valor bueno y marcaba `partial: true`.
+
+**Causa:** el script corria bien desde un PC (probado: completo en 28 s) y fallaba solo en
+los runners. Lanzaba **5 consultas pesadas en paralelo** a datos.gov.co sin token: cupo
+estrecho por IP y las IP de GitHub estan saturadas. Por eso `fetch-macro.mjs`, que hace UNA
+consulta al mismo dominio, si funcionaba.
+
+### Arreglo
+- **Consultas en SERIE** en vez de `Promise.allSettled` de 5. Se conserva la forma
+  `{status,value,reason}` para no tocar nada aguas abajo. Bonus: bajo de 28 s a **9 s**.
+- **Reintentos** con espera creciente (3s, 12s) y etiqueta por consulta en el log.
+- **Token opcional de Socrata** via `SOCRATA_APP_TOKEN` (secreto de GitHub -> `X-App-Token`).
+  Sin secreto funciona igual que hoy.
+- **Blindaje del token:** un token mal pegado devuelve **403 y rompia TODO** — peor que no
+  tenerlo. Probado a proposito con un token invalido. Ahora al primer 403 lo descarta y sigue
+  sin el: en el peor caso queda como hoy, nunca peor.
+
+### Noticias (pendiente, punto 2)
+3 de 8 fuentes. Dependen de `api.rss2json.com`, gratuito de terceros: **200 desde mi maquina,
+422/500 desde mikel696.github.io**. Mismo patron de origen del incidente del 11-ago y la
+misma violacion del P1. Propuesto: mover la lectura de RSS a la Action y servir un news.json.
+
+### Nota honesta
+El `credit-co.json` de este commit lo genero un `import()` mio que use como chequeo de
+sintaxis — en ESM eso EJECUTA el modulo. Fue un accidente, pero el dato es correcto: se
+contrasto contra la fuente oficial (43.64% y 19.77% coinciden, vigencia agosto 2026, 0
+valores incoherentes, `partial:false`). Se conserva porque destraba las tasas hoy mismo.
+
+---
+
 ## ☁️ GLOBAL · cloud-sync.js v p17 — 2026-08-26 (merge generico + lapidas)
 
 Los dos huecos detectados en la auditoria del motor de sync, cerrados. **Cache-bust en

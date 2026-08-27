@@ -42,6 +42,13 @@ jobs:
       - name: Traer tasas de credito y tope de usura
         run: node scripts/fetch-credit.mjs
         continue-on-error: true
+        env:
+          # Token de Socrata (datos.gov.co). Sin el, las peticiones comparten
+          # un cupo estrecho por IP y las IP de los runners estan saturadas:
+          # por eso este paso falla desde el 22-ago aunque funcione desde un PC.
+          # Es OPCIONAL: si el secreto no existe llega vacio y el script sigue
+          # igual que hoy. Si llega mal, el script lo descarta al primer 403.
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
 
       - name: Traer mercados y prensa financiera
         run: node scripts/fetch-world.mjs

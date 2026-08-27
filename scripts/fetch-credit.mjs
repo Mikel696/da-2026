@@ -34,15 +34,48 @@ const TIPOS = [
 const MIN_CREDITOS = 200;   // por debajo, el promedio de un banco es ruido
 const TOP = 18;
 
-const get = async url => {
-  const res = await fetch(url, { headers:{ 'User-Agent': UA }, signal: AbortSignal.timeout(150000) });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
+/* Token de Socrata (datos.gov.co). SIN token, las peticiones comparten un cupo
+   estrecho por IP y las IP de los runners de GitHub estan saturadas: por eso
+   este script funciona desde un PC y falla en la Action desde el 22-ago.
+   Es OPCIONAL — si el secreto no esta puesto, todo sigue funcionando igual,
+   solo que con el cupo bajo de siempre. */
+const APP_TOKEN = process.env.SOCRATA_APP_TOKEN || '';
+
+const REINTENTOS = 3;
+const espera = ms => new Promise(r => setTimeout(r, ms));
+
+/* Un token mal pegado devuelve 403 y romperia TODO — peor que no tener token.
+   Al primer 403 se descarta y se sigue sin el: en el peor caso queda como hoy,
+   nunca peor. Probado a proposito con un token invalido. */
+let tokenDescartado = false;
+
+const get = async (url, etiqueta = '') => {
+  let ultimo;
+  for (let intento = 1; intento <= REINTENTOS; intento++) {
+    try {
+      const headers = { 'User-Agent': UA };
+      if (APP_TOKEN && !tokenDescartado) headers['X-App-Token'] = APP_TOKEN;
+      const res = await fetch(url, { headers, signal: AbortSignal.timeout(90000) });
+      if (res.status === 403 && APP_TOKEN && !tokenDescartado) {
+        tokenDescartado = true;
+        console.warn('  ⚠ SOCRATA_APP_TOKEN rechazado (403). Revisalo. Sigo sin token.');
+        continue;                      // reintenta ya mismo, sin gastar el intento en esperar
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    } catch (e) {
+      ultimo = e;
+      const msg = (e && (e.message || e.name)) || String(e);
+      console.warn(`  · ${etiqueta || 'consulta'} intento ${intento}/${REINTENTOS}: ${msg}`);
+      if (intento < REINTENTOS) await espera(3000 * intento * intento);   // 3s, 12s
+    }
+  }
+  throw ultimo;
 };
 
 /* ── Tasa de usura vigente ── */
 async function fetchUsura() {
-  const rows = await get(`${BASE}/pare-7x5i.json?$order=vigencia_desde%20DESC&$limit=40`);
+  const rows = await get(`${BASE}/pare-7x5i.json?$order=vigencia_desde%20DESC&$limit=40`, 'usura');
   if (!Array.isArray(rows) || !rows.length) throw new Error('TIBC sin filas');
 
   // Se queda con la vigencia más reciente por modalidad.
@@ -77,7 +110,7 @@ async function fetchTipo(def, fecha) {
     `&$group=nombre_entidad&$having=sum(numero_de_creditos)>${MIN_CREDITOS}` +
     `&$order=tasa ASC&$limit=${TOP}`;
 
-  const rows = await get(encodeURI(q));
+  const rows = await get(encodeURI(q), def.label);
   const bancos = (Array.isArray(rows) ? rows : [])
     .map(r => ({
       banco: r.nombre_entidad,
@@ -97,11 +130,14 @@ async function fetchTipo(def, fecha) {
 /* ── Main ── */
 
 const errors = [];
+console.log(APP_TOKEN
+  ? '· Socrata con token de aplicación (cupo alto)'
+  : '· Socrata SIN token — cupo bajo compartido por IP. Si falla en la Action, ese es el motivo.');
 const previo = await leerPrevio(OUT);   // para no degradar a vacío lo que ya servía
 
 let fecha = null;
 try {
-  const m = await get(`${BASE}/qzsc-9esp.json?$select=max(fecha_corte)`);
+  const m = await get(`${BASE}/qzsc-9esp.json?$select=max(fecha_corte)`, 'fecha de corte');
   fecha = m?.[0]?.max_fecha_corte;
 } catch (e) { errors.push('fecha de corte: ' + e.message); }
 
@@ -110,10 +146,24 @@ if (!fecha) {
   process.exit(1);
 }
 
-const [usuraRes, ...tipoRes] = await Promise.allSettled([
-  fetchUsura(),
-  ...TIPOS.map(d => fetchTipo(d, fecha))
-]);
+/* En SERIE y no con Promise.allSettled: cinco consultas pesadas a la vez
+   contra el mismo host es justo lo que dispara el estrangulamiento. En serie
+   tarda unos segundos mas y molesta mucho menos a la fuente.
+   Se conserva la forma {status, value, reason} para no tocar nada de abajo. */
+const tareas = [
+  { fn: () => fetchUsura(), etiqueta: 'usura' },
+  ...TIPOS.map(d => ({ fn: () => fetchTipo(d, fecha), etiqueta: d.label }))
+];
+const resultados = [];
+for (const t of tareas) {
+  try {
+    resultados.push({ status: 'fulfilled', value: await t.fn() });
+  } catch (e) {
+    resultados.push({ status: 'rejected', reason: e });
+  }
+  await espera(400);   // respiro entre consultas
+}
+const [usuraRes, ...tipoRes] = resultados;
 
 let usura = usuraRes.status === 'fulfilled' ? usuraRes.value : [];
 usura = conservarSiVacio(usura, previo && previo.usura, 'usura', errors);
