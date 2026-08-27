@@ -11,6 +11,49 @@
 
 ---
 
+## 🔀 3-ENG · BIFURCACIONES — 2026-08-27 (la tecnica de pizarra de Miguel)
+
+Miguel mando dos fotos de pizarra (THAT/WHAT/TO y DONT/DIDNT/WONT) y pidio copiar y
+mejorar esa tecnica. **Lo que la hace funcionar** no es que sea gramatica bonita: es que
+**parte de su confusion, no del ingles**. Una palabra suya (QUE, NO) que se bifurca en
+varias inglesas, con el oficio de cada rama en una linea.
+
+### Las 5 mejoras sobre la pizarra original
+1. **El hueco lo llena el.** La foto trae la respuesta escrita; aqui elige y recien ahi
+   aparece el porque. Si acierta de casualidad, la explicacion se lo dice igual.
+2. **Test de 3 segundos por rama.** La pizarra solo etiqueta el oficio ("Preguntas");
+   aqui cada rama trae como DECIDIR sin pensarlo.
+3. **La trampa del espanol** en cada bifurcacion: el ✗ concreto y su ✓.
+4. **Audio** en cada rama y en la frase completa al acertar.
+5. **Progreso**: marca las dominadas, filtro de pendientes, y sincroniza cross-device
+   (`eng_bifur` sumada a SYNC.KEYS).
+
+### Contenido · 24 bifurcaciones verificadas
+QUE · NO · POR/PARA · HACER · DECIR · ESPERAR · VER/MIRAR · MUY/MUCHO · YA/TODAVIA · EN ·
+SER/ESTAR · SABER/CONOCER · PEDIR/PREGUNTAR · LLEVAR/TRAER · HAY · DESDE/HACE ·
+TAMBIEN/TAMPOCO · CUANTO · COMO · TOMAR · PONER · DE · SI · QUEDAR.
+
+Incluye dos **inversas** (SER/ESTAR y SABER/CONOCER: dos palabras suyas -> una sola
+inglesa) porque son las unicas que le REGALAN trabajo, y eso motiva.
+
+### Fidelidad visual
+Se reprodujo el look de pizarra con CSS: circulo verde ovalado (`border-radius:50%/58%`)
+rotado -1.5deg alrededor de la palabra espanola, flechas ↑ subiendo desde cada rama,
+vinetas • en los ejemplos y el hueco como linea subrayada. Los colores de las ramas son
+los del pilar de estructura, para que el ojo los reconozca de los otros modulos.
+
+### Nota de arquitectura
+El modulo `BF` va DENTRO del IIFE de APP porque usa `store`, `TTS`, `Streak`, `toast` y
+`doUndoable`, que son privados. Los datos (`BIFUR`) van fuera, como `RAW_WORDS`.
+
+### Verificacion
+24 cargadas, 8 pestanas. Probado: fallar (marca la correcta + explica), acertar todo
+(5/5, tarjeta dominada, guardada), filtro de pendientes bajo de 24 a 23, progreso
+sobrevive recarga. Regresion completa de los 7 modulos previos intacta. Movil 375 px sin
+desbordes en las 8 pestanas, ramas apiladas a una columna.
+
+---
+
 ## 💰 12-FIN · tasas de credito congeladas desde el 22-ago — 2026-08-27
 
 Miguel reporto que finanzas y noticias no actualizaban y sospecho del cambio de sync del 26.

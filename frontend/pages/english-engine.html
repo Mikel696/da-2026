@@ -637,6 +637,105 @@ table.tbl tr:hover td{background:var(--bg3)}
 .btn.pri:hover{background:var(--ac);color:#fff}
 @media print{#readbar,#omni,#toast,.nb-side,.nb-tools,.pr-acts,.pr-show{display:none!important}}
 </style>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   BIFURCACIONES · una palabra tuya, varias suyas
+   Inspirado en las pizarras que le funcionan a Miguel:
+   la palabra española arriba, las inglesas abriéndose debajo.
+═══════════════════════════════════════════════════════════ */
+
+.bf{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:0;margin-bottom:20px;
+  overflow:hidden;transition:.2s}
+.bf:hover{border-color:var(--bd2)}
+.bf.done{border-color:rgba(34,197,94,.34)}
+
+/* ── Cabecera: la palabra española, circulada como en la pizarra ── */
+.bf-top{padding:22px 20px 18px;text-align:center;position:relative;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(139,92,246,.10),transparent 70%)}
+.bf-ask{font-family:var(--fm);font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--t3);margin-bottom:12px}
+.bf-word{display:inline-block;font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-1.4px;
+  color:var(--ok);padding:6px 26px;position:relative;line-height:1.1}
+/* el círculo a mano alzada */
+.bf-word::before{content:"";position:absolute;inset:-8px -6px;border:2.5px solid var(--ok);
+  border-radius:50%/58%;opacity:.75;transform:rotate(-1.5deg)}
+.bf-sub{font-size:13px;color:var(--t2);margin-top:14px;max-width:52ch;margin-left:auto;margin-right:auto;line-height:1.55}
+
+/* ── Las ramas ── */
+.bf-arms{display:grid;gap:10px;padding:0 16px 16px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.bf-arm{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--rad);padding:14px 15px;
+  position:relative;transition:.16s;border-top:3px solid}
+.bf-arm:hover{background:var(--bg4)}
+/* la flecha que sube hacia la palabra española */
+.bf-arm::before{content:"↑";position:absolute;top:-19px;left:50%;transform:translateX(-50%);
+  font-size:15px;opacity:.5}
+.bf-arm .w{font-size:21px;font-weight:800;letter-spacing:-.6px;display:flex;align-items:center;gap:9px}
+.bf-arm .j{font-size:12.5px;color:var(--t2);margin-top:5px;font-weight:600;line-height:1.4}
+.bf-arm .t{font-size:12.5px;color:var(--t3);margin-top:9px;padding-top:9px;border-top:1px dashed var(--bd);line-height:1.55}
+.bf-arm .t b{color:var(--t2)}
+.bf-arm .t::before{content:"🔎 ";opacity:.75}
+.arm-suj{border-top-color:var(--r-suj)} .arm-suj .w{color:var(--r-suj)}
+.arm-aux{border-top-color:var(--r-aux)} .arm-aux .w{color:var(--r-aux)}
+.arm-ver{border-top-color:var(--r-ver)} .arm-ver .w{color:var(--r-ver)}
+.arm-com{border-top-color:var(--r-com)} .arm-com .w{color:var(--r-com)}
+.arm-neg{border-top-color:var(--r-neg)} .arm-neg .w{color:var(--r-neg)}
+.arm-wh{border-top-color:var(--r-wh)}   .arm-wh .w{color:var(--r-wh)}
+
+/* ── La trampa del español ── */
+.bf-trap{margin:0 16px 16px;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.24);
+  border-radius:var(--rad);padding:12px 15px;font-size:13px;color:var(--t2);line-height:1.6}
+.bf-trap b{color:var(--tx)}
+.bf-trap .no{color:var(--r-neg);font-weight:700}
+.bf-trap .si{color:var(--ok);font-weight:700}
+
+/* ── Ejercicios ── */
+.bf-ex{border-top:1px solid var(--bd);padding:16px}
+.bf-ex-h{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+  color:var(--ac2);margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.bf-ex-h .sc{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--t3);letter-spacing:0;text-transform:none}
+.bf-q{background:var(--bg3);border-radius:var(--rad-s);padding:13px 15px;margin-bottom:9px;transition:.18s}
+.bf-q.ok{background:rgba(34,197,94,.08);box-shadow:inset 0 0 0 1px rgba(34,197,94,.28)}
+.bf-q.bad{background:rgba(239,68,68,.07);box-shadow:inset 0 0 0 1px rgba(239,68,68,.26)}
+.bf-q .esp{font-size:14.5px;color:var(--ac2);font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.bf-q .esp::before{content:"•";opacity:.6}
+.bf-q .ing{font-size:17px;font-weight:600;display:flex;align-items:center;gap:9px;flex-wrap:wrap;line-height:1.6}
+/* el hueco */
+.bf-gap{display:inline-flex;align-items:center;justify-content:center;min-width:74px;height:31px;
+  border:none;border-bottom:2.5px solid var(--ac);background:var(--acbg);color:var(--ac2);
+  font-family:var(--fs);font-size:15px;font-weight:800;cursor:pointer;border-radius:6px 6px 0 0;
+  padding:0 11px;transition:.15s;vertical-align:middle}
+.bf-gap:hover{background:var(--ac);color:#fff}
+.bf-gap.ok{background:rgba(34,197,94,.2);border-bottom-color:var(--ok);color:#4ade80;cursor:default}
+.bf-gap.bad{background:rgba(239,68,68,.18);border-bottom-color:var(--bad);color:#f87171}
+.bf-opts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.bf-opt{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:99px;
+  padding:7px 15px;font-family:var(--fs);font-size:13.5px;font-weight:700;cursor:pointer;transition:.14s}
+.bf-opt:hover{border-color:var(--ac);background:var(--acbg);color:var(--ac2)}
+.bf-opt:disabled{opacity:.4;cursor:default}
+.bf-opt.good{background:rgba(34,197,94,.18);border-color:var(--ok);color:#4ade80}
+.bf-opt.wrong{background:rgba(239,68,68,.18);border-color:var(--bad);color:#f87171}
+.bf-why{margin-top:11px;font-size:13px;color:var(--t2);line-height:1.6;padding:10px 13px;
+  background:var(--bg2);border-radius:var(--rad-s);border-left:3px solid var(--ac);display:none}
+.bf-why.on{display:block;animation:rise .22s ease}
+.bf-why b{color:var(--tx)}
+
+/* ── Controles del módulo ── */
+.bf-nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.bf-pill{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:99px;
+  padding:7px 14px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;transition:.14s;
+  display:inline-flex;align-items:center;gap:7px}
+.bf-pill:hover{border-color:var(--bd2);color:var(--tx)}
+.bf-pill.on{background:var(--acbg);border-color:var(--acbd);color:var(--ac2)}
+.bf-pill .tick{color:var(--ok);font-size:11px}
+
+@media(max-width:620px){
+  .bf-arms{grid-template-columns:1fr}
+  .bf-arm::before{display:none}
+  .bf-q .ing{font-size:15.5px}
+}
+@media print{.bf-opts,.bf-nav{display:none!important}.bf-why{display:block!important}}
+</style>
 <div id="readbar"></div>
 <div id="toast"></div>
 
@@ -669,6 +768,7 @@ table.tbl tr:hover td{background:var(--bg3)}
     <div class="tabs">
       <button class="tab on" data-p="p0">🧭 Estructura</button>
       <button class="tab" data-p="pz">🧩 Piezas</button>
+      <button class="tab" data-p="bf">🔀 Bifurcaciones</button>
       <button class="tab" data-p="p1">📚 Palabras <b id="tc1">0</b></button>
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
       <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
@@ -1570,6 +1670,24 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
+     PANE BF · BIFURCACIONES · una palabra tuya, varias suyas
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="bf">
+  <div class="hero">
+    <div class="kick">bifurcaciones · donde el español te traiciona</div>
+    <h1>Una palabra tuya.<br><em>Varias</em> suyas.</h1>
+    <p>Tú dices <b style="color:var(--tx)">QUE</b>. El inglés te obliga a elegir entre <b>that</b>, <b>what</b>, <b>to</b> y <b>than</b>. Tú dices <b style="color:var(--tx)">NO</b>, y él te pide <b>don't</b>, <b>doesn't</b>, <b>didn't</b> o <b>won't</b>. <b style="color:var(--tx)">Ahí es donde de verdad te trabas</b> — no en el vocabulario.</p>
+  </div>
+
+  <div class="note info"><b>Cómo funciona:</b> arriba está tu palabra en español, y debajo se abren los caminos que toma en inglés. Cada camino trae <b>el trabajo que hace</b> y un <b>test de 3 segundos</b> para decidir sin pensarlo. Después vienen los ejemplos — pero <b>el hueco lo llenas tú</b>: eliges, y recién ahí aparece por qué. Si aciertas de casualidad, la explicación te lo dice igual.</div>
+
+  <div class="note"><b>La única forma de que esto sirva:</b> antes de tocar el hueco, <b>di la frase completa en voz alta</b> con la palabra que creas. Si la eliges con el ratón sin haberla dicho, estás jugando a las adivinanzas, no aprendiendo. Al acertar suena la frase entera: repítela.</div>
+
+  <div class="bf-nav" id="bfNav"></div>
+  <div id="bfList"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
      PANE 3 · MÓDULO 3 · EL MÉTODO
 ══════════════════════════════════════════════════════════ -->
 <div class="pane" id="p3">
@@ -1871,8 +1989,8 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 12 piezas explicadas · practica con repeticion espaciada · cuaderno propio<br>
-Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-08-26<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 12 piezas · 24 bifurcaciones · practica espaciada · cuaderno propio<br>
+Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-08-27<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
 </div>
@@ -4883,6 +5001,360 @@ My uncle lives abroad.|Mi tío vive en el exterior.|pres|familia|S + V-s + ADV|a
 `.trim().split(String.fromCharCode(10));
 
 /* ══════════════════════════════════════════════════════════════
+   BIFURCACIONES · una palabra tuya, varias suyas
+   ──────────────────────────────────────────────────────────────
+   q  = la palabra española que se bifurca
+   r  = ramas: w palabra inglesa · j su oficio · t test de 3 seg · c color
+   x  = la trampa que te tiende el español
+   e  = ejercicios: es español · en inglés con _ donde va el hueco ·
+        ok respuesta · w por qué · o opciones (si no, se usan las ramas)
+════════════════════════════════════════════════════════════════ */
+const BIFUR = [
+
+{ q:'QUE', sub:'Una sola palabra tuya que en inglés se parte en cuatro. Es la que más errores causa, y la que más rápido se arregla.',
+  r:[
+    {w:'THAT', j:'Conecta 2 ideas', c:'suj', t:'Va después de un verbo de cabeza: <b>know, think, say, believe</b>. De hecho casi siempre puedes quitarlo y la frase sigue bien.'},
+    {w:'WHAT', j:'Pregunta, o "lo que"', c:'wh',  t:'Si abre una pregunta, o si en español puedes decir <b>"lo que"</b> — es WHAT.'},
+    {w:'TO',   j:'Une 2 verbos', c:'ver', t:'Si justo después viene <b>otro verbo</b>, el puente siempre es TO.'},
+    {w:'THAN', j:'Compara', c:'com', t:'Si antes hay un comparativo (<b>more, better, bigger, less</b>) — es THAN.'}
+  ],
+  x:{no:'I need that buy eggs', si:'I need <b>to</b> buy eggs', why:'En español "necesito <b>comprar</b>" no lleva nada en medio, pero el inglés exige el puente TO entre dos verbos. Es el error número uno.'},
+  e:[
+    {es:'Necesito comprar huevos', en:'I need _ buy eggs', ok:'TO', w:'Dos verbos pegados: <b>need</b> + <b>buy</b>. Entre verbos, siempre TO.'},
+    {es:'¿Qué necesitas?', en:'_ do you need?', ok:'WHAT', w:'Abre una pregunta, así que es WHAT. Y fíjate que detrás va el molde completo: WH + auxiliar + sujeto + verbo.'},
+    {es:'Ella sabe que estoy bien', en:'She knows _ I\'m good', ok:'THAT', w:'Después de <b>knows</b> viene una idea completa. Dato: aquí THAT es opcional — «She knows I\'m good» también es correcto.'},
+    {es:'Esto es mejor que eso', en:'This is better _ that', ok:'THAN', w:'Hay un comparativo (<b>better</b>) delante, así que toca THAN. Ojo con la trampa visual: <i>than</i> compara, <i>that</i> señala.'},
+    {es:'No sé qué decir', en:'I don\'t know _ to say', ok:'WHAT', w:'Aquí "qué" es <b>"lo que"</b>, no una pregunta — pero igual se traduce WHAT.'}
+  ]},
+
+{ q:'NO', sub:'Tu "no" es siempre el mismo. El inglés cambia de palabra según CUÁNDO pasa y QUIÉN lo hace.',
+  r:[
+    {w:"DON'T",   j:'No + ahora', c:'aux', t:'Presente con <b>I, you, we, they</b>.'},
+    {w:"DOESN'T", j:'No + ahora (él/ella)', c:'neg', t:'Presente con <b>he, she, it</b>. Aquí se muda la -s.'},
+    {w:"DIDN'T",  j:'No + ayer', c:'ver', t:'Cualquier pasado, para todas las personas. El verbo detrás va desnudo.'},
+    {w:"WON'T",   j:'No + mañana', c:'com', t:'Futuro. Es <b>will not</b> apretado.'}
+  ],
+  x:{no:"She don't work here", si:"She <b>doesn't</b> work here", why:'Con <b>he/she/it</b> la -s no desaparece: <b>se muda al auxiliar</b>. Y una vez que está en el auxiliar, el verbo se queda desnudo — nunca «doesn\'t works».'},
+  e:[
+    {es:'Yo no bebo cerveza', en:'I _ drink beer', ok:"DON'T", w:'Presente y el sujeto es <b>I</b>.'},
+    {es:'Ella no bebe cerveza', en:'She _ drink beer', ok:"DOESN'T", w:'Misma frase, pero el sujeto es <b>She</b>. La -s se fue al auxiliar y <b>drink</b> quedó desnudo.'},
+    {es:'Yo no estudié ayer', en:'I _ study yesterday', ok:"DIDN'T", w:'Pasado. Fíjate que se dice <b>study</b>, no <i>studied</i>: el DIDN\'T ya carga el pasado.'},
+    {es:'Yo no trabajaré mañana', en:'I _ work tomorrow', ok:"WON'T", w:'Futuro. <b>won\'t</b> = will not.'},
+    {es:'Él no vino a la reunión', en:'He _ come to the meeting', ok:"DIDN'T", w:'Aunque el sujeto sea <b>He</b>, en pasado siempre es DIDN\'T — no existe «doesn\'t» en pasado.'}
+  ]},
+
+{ q:'POR / PARA', sub:'Dos palabras tuyas que se reparten entre cuatro suyas. Aquí traducir palabra por palabra no funciona nunca.',
+  r:[
+    {w:'FOR',        j:'Para quién · cuánto tiempo', c:'com', t:'Responde <b>¿para quién?</b> o <b>¿durante cuánto?</b>'},
+    {w:'TO',         j:'Hacia dónde · para + verbo', c:'ver', t:'Si le sigue un <b>verbo</b> o un <b>destino</b>.'},
+    {w:'BY',         j:'Cómo · quién lo hizo', c:'aux', t:'El medio o el autor: <b>by bus, by Shakespeare</b>.'},
+    {w:'BECAUSE OF', j:'Por culpa de', c:'neg', t:'Si hay un <b>culpable</b> de algo.'}
+  ],
+  x:{no:'I came for help you', si:'I came <b>to</b> help you', why:'"Para + verbo" es <b>TO</b>, no FOR. FOR se usa con cosas y personas, no con acciones.'},
+  e:[
+    {es:'Esto es para ti', en:'This is _ you', ok:'FOR', w:'Responde ¿para quién? → FOR.'},
+    {es:'Vine para ayudarte', en:'I came _ help you', ok:'TO', w:'"Para + verbo" siempre es TO. Aquí <b>help</b> es un verbo.'},
+    {es:'Llego tarde por el tráfico', en:'I\'m late _ the traffic', ok:'BECAUSE OF', w:'El tráfico es el culpable. Ojo: <b>because of</b> + cosa · <b>because</b> + frase completa.'},
+    {es:'Voy en bus', en:'I go _ bus', ok:'BY', w:'El medio de transporte va con BY, y sin artículo: <b>by bus</b>, no «by the bus».'},
+    {es:'Trabajé por dos horas', en:'I worked _ two hours', ok:'FOR', w:'Duración → FOR. Si fuera un punto de inicio sería <i>since</i>.'}
+  ]},
+
+{ q:'HACER', sub:'Un verbo tuyo, dos suyos. La regla es de una línea y no falla nunca.',
+  r:[
+    {w:'DO',   j:'Ejecutar algo que ya existe', c:'ver', t:'La tarea ya existía y tú solo la haces: <b>do the work, do homework, do the dishes</b>.'},
+    {w:'MAKE', j:'Crear algo que no existía', c:'com', t:'Al terminar hay algo <b>nuevo</b> que antes no estaba: <b>make dinner, make a decision, make money</b>.'}
+  ],
+  x:{no:'I have to do a decision', si:'I have to <b>make</b> a decision', why:'Antes de decidir la decisión no existía; después sí. Eso la vuelve MAKE. La tarea, en cambio, ya estaba puesta: esa es DO.'},
+  e:[
+    {es:'Tengo que hacer la tarea', en:'I have to _ my homework', ok:'DO', w:'La tarea ya te la asignaron. No creas nada nuevo, la ejecutas.'},
+    {es:'Necesito tomar una decisión', en:'I need to _ a decision', ok:'MAKE', w:'La decisión no existía. La estás creando.'},
+    {es:'Voy a hacer la cena', en:'I\'m going to _ dinner', ok:'MAKE', w:'Antes no había cena; después sí. Algo nuevo → MAKE.'},
+    {es:'Ella hace ejercicio todos los días', en:'She _es exercise every day', ok:'DO', w:'La expresión fija es <b>do exercise</b>. Es una actividad, no una creación.'},
+    {es:'Cometí un error', en:'I _ a mistake', ok:'MADE', o:['MADE','DID'], w:'En inglés los errores se <b>fabrican</b>: <b>make a mistake</b>. Aquí en pasado: made.'}
+  ]},
+
+{ q:'DECIR', sub:'La diferencia se decide con una sola pregunta: ¿nombras a la persona justo después?',
+  r:[
+    {w:'SAY',  j:'Decir algo', c:'ver', t:'No nombras a quién. <b>Say something.</b>'},
+    {w:'TELL', j:'Decirle a alguien', c:'suj', t:'Justo detrás va <b>la persona</b>: tell <b>me</b>, tell <b>him</b>.'}
+  ],
+  x:{no:'He said me the truth', si:'He <b>told</b> me the truth', why:'Si aparece la persona pegada detrás, es TELL. Para usar SAY con persona hay que meter <i>to</i>: «He said it <b>to me</b>».'},
+  e:[
+    {es:'Dime la verdad', en:'_ me the truth', ok:'TELL', w:'Viene <b>me</b> justo detrás → TELL.'},
+    {es:'¿Qué dijiste?', en:'What did you _ ?', ok:'SAY', w:'No hay persona detrás → SAY.'},
+    {es:'No le digas a nadie', en:'Don\'t _ anyone', ok:'TELL', w:'<b>anyone</b> es la persona → TELL.'},
+    {es:'Él dijo que estaba bien', en:'He _ it was fine', ok:'SAID', o:['SAID','TOLD'], w:'Detrás viene una idea, no una persona → SAID (pasado de say).'},
+    {es:'Cuéntame qué pasó', en:'_ me what happened', ok:'TELL', w:'<b>me</b> detrás → TELL. Y fíjate: <i>what happened</i> sin auxiliar, porque no es pregunta directa.'}
+  ]},
+
+{ q:'ESPERAR', sub:'Tres cosas muy distintas comparten una palabra en español. En inglés se separan y la confusión desaparece.',
+  r:[
+    {w:'WAIT',   j:'Esperar de pie, que pase el tiempo', c:'ver', t:'Si estás <b>parado esperando</b>. Siempre <b>wait FOR</b> alguien.'},
+    {w:'HOPE',   j:'Ojalá, deseo que pase', c:'com', t:'Si es un <b>deseo</b> y no sabes si se cumplirá.'},
+    {w:'EXPECT', j:'Dar por hecho que pasará', c:'aux', t:'Si lo <b>das por seguro</b> o lo tienes previsto.'}
+  ],
+  x:{no:'I\'m waiting the bus', si:'I\'m waiting <b>for</b> the bus', why:'<b>wait</b> exige <b>for</b> siempre. Y no confundas: esperar un bus es WAIT, esperar que llegue pronto es HOPE.'},
+  e:[
+    {es:'Te estoy esperando', en:'I\'m _ing for you', ok:'WAIT', w:'Estás ahí parado → WAIT, y con FOR obligatorio.'},
+    {es:'Espero que estés bien', en:'I _ you\'re well', ok:'HOPE', w:'Es un deseo, no sabes si se cumple → HOPE.'},
+    {es:'Espero respuesta hoy', en:'I _ a reply today', ok:'EXPECT', w:'Lo das por hecho, está previsto → EXPECT.'},
+    {es:'Espera un momento', en:'_ a moment', ok:'WAIT', w:'Detener el tiempo → WAIT. Sin FOR porque no hay persona.'}
+  ]},
+
+{ q:'VER / MIRAR', sub:'El español ya los separa un poco. El inglés los separa del todo, y añade un tercero.',
+  r:[
+    {w:'SEE',   j:'Ver sin querer', c:'suj', t:'Te entra por los ojos <b>sin que lo busques</b>. También significa <b>entender</b>.'},
+    {w:'LOOK',  j:'Dirigir la mirada', c:'ver', t:'Giras la cabeza a propósito. Siempre <b>look AT</b>.'},
+    {w:'WATCH', j:'Ver algo que se mueve', c:'com', t:'Algo que <b>dura y cambia</b>: TV, una película, un partido.'}
+  ],
+  x:{no:'I\'m looking a movie', si:'I\'m <b>watching</b> a movie', why:'Una película dura y se mueve → WATCH. LOOK es solo girar la mirada un instante, y siempre lleva AT.'},
+  e:[
+    {es:'Mira esto', en:'_ at this', ok:'LOOK', w:'Diriges la mirada a propósito → LOOK, con AT pegado.'},
+    {es:'Veo películas de noche', en:'I _ movies at night', ok:'WATCH', w:'Algo que dura y se mueve → WATCH.'},
+    {es:'Lo vi ayer en la calle', en:'I _ him on the street yesterday', ok:'SAW', o:['SAW','LOOKED','WATCHED'], w:'No lo buscabas, te lo topaste → SEE (pasado: saw).'},
+    {es:'Ya entiendo', en:'I _', ok:'SEE', w:'<b>I see</b> = ya entiendo. Uno de los usos más comunes y menos enseñados.'}
+  ]},
+
+{ q:'MUY / MUCHO', sub:'Se eligen por lo que viene DETRÁS, no por lo que quieres decir.',
+  r:[
+    {w:'VERY',    j:'Muy + adjetivo', c:'com', t:'Detrás va un <b>adjetivo</b>: very good, very tired.'},
+    {w:'MUCH',    j:'Mucho de algo que no se cuenta', c:'aux', t:'Detrás va algo <b>incontable</b>: much time, much money.'},
+    {w:'MANY',    j:'Muchos que sí se cuentan', c:'ver', t:'Detrás va un <b>plural contable</b>: many people, many times.'},
+    {w:'A LOT OF',j:'Mucho, para todo', c:'suj', t:'El comodín en frases afirmativas: sirve para contables e incontables.'}
+  ],
+  x:{no:'I have very hunger', si:'I\'m <b>very hungry</b>', why:'VERY solo va con adjetivos. Y ojo: el hambre en inglés no se tiene, <b>se es</b> — I\'m hungry.'},
+  e:[
+    {es:'Es muy importante', en:'It\'s _ important', ok:'VERY', w:'<b>important</b> es adjetivo → VERY.'},
+    {es:'¿Cuánto tiempo?', en:'How _ time?', ok:'MUCH', w:'<b>time</b> es incontable → MUCH.'},
+    {es:'¿Cuántas personas vinieron?', en:'How _ people came?', ok:'MANY', w:'<b>people</b> se cuenta → MANY.'},
+    {es:'Tengo mucho trabajo', en:'I have _ work', ok:'A LOT OF', w:'En afirmativo el natural es <b>a lot of</b>. «much work» suena a libro de texto.'}
+  ]},
+
+{ q:'YA / TODAVÍA', sub:'Tres palabras inglesas que se eligen por el tipo de frase: afirmativa, negativa o pregunta.',
+  r:[
+    {w:'ALREADY', j:'Ya, antes de lo esperado', c:'ver', t:'Solo en <b>afirmativas</b>. Va en medio de la frase.'},
+    {w:'YET',     j:'Todavía no · ¿ya?', c:'neg', t:'Solo en <b>negativas y preguntas</b>, y siempre <b>al final</b>.'},
+    {w:'STILL',   j:'Todavía, sigue pasando', c:'aux', t:'La acción <b>continúa</b>. Va antes del verbo.'}
+  ],
+  x:{no:'I have finished already the work yet', si:'I\'ve <b>already</b> finished the work', why:'ALREADY y YET no conviven. Regla corta: afirmativa → already (en medio) · negativa o pregunta → yet (al final).'},
+  e:[
+    {es:'Ya terminé', en:'I\'ve _ finished', ok:'ALREADY', w:'Afirmativa → ALREADY, y va en medio.'},
+    {es:'Todavía no termino', en:'I haven\'t finished _', ok:'YET', w:'Negativa → YET, y siempre al final.'},
+    {es:'Todavía estoy trabajando', en:'I\'m _ working', ok:'STILL', w:'La acción sigue en curso → STILL, antes del verbo.'},
+    {es:'¿Ya comiste?', en:'Have you eaten _ ?', ok:'YET', w:'Pregunta → YET, al final.'}
+  ]},
+
+{ q:'EN', sub:'Tu "en" cubre tres tamaños distintos. El inglés los separa: de lo grande a lo pequeño.',
+  r:[
+    {w:'IN', j:'Grande · dentro de', c:'suj', t:'Países, ciudades, meses, años, espacios cerrados.'},
+    {w:'ON', j:'Mediano · sobre', c:'ver', t:'Superficies, días y fechas.'},
+    {w:'AT', j:'Pequeño · punto exacto', c:'com', t:'Horas exactas y puntos concretos: at home, at work.'}
+  ],
+  x:{no:'I\'ll see you in Monday at March', si:'I\'ll see you <b>on</b> Monday <b>in</b> March', why:'La escalera es fija: <b>at</b> una hora → <b>on</b> un día → <b>in</b> un mes. De lo pequeño a lo grande, siempre.'},
+  e:[
+    {es:'Nos vemos a las ocho', en:'See you _ eight', ok:'AT', w:'Hora exacta → AT, el más pequeño.'},
+    {es:'Nos vemos el lunes', en:'See you _ Monday', ok:'ON', w:'Un día → ON.'},
+    {es:'Nos vemos en marzo', en:'See you _ March', ok:'IN', w:'Un mes → IN, el más grande.'},
+    {es:'El libro está sobre la mesa', en:'The book is _ the table', ok:'ON', w:'Superficie → ON.'},
+    {es:'Estoy en casa', en:'I\'m _ home', ok:'AT', w:'<b>at home</b> es expresión fija: se ve como un punto, no como un espacio.'}
+  ]},
+
+{ q:'SER / ESTAR', sub:'Aquí es al revés: dos palabras tuyas se funden en UNA sola suya. Esta bifurcación te regala trabajo.',
+  r:[
+    {w:'BE', j:'Ser y estar, todo junto', c:'aux', t:'Una sola palabra para las dos. Lo que cambia es la <b>forma</b>: am, is, are, was, were.'}
+  ],
+  x:{no:'I have 25 years / I have hungry', si:'I\'<b>m</b> 25 · I\'<b>m</b> hungry', why:'Edad, hambre, frío, calor y miedo en inglés <b>no se tienen: se son</b>. Todos van con BE, no con HAVE. Es el error más delator del hispanohablante.'},
+  e:[
+    {es:'Tengo 25 años', en:'I _ 25', ok:'AM', o:['AM','HAVE'], w:'La edad es un estado → BE. Nunca «I have 25 years».'},
+    {es:'Tengo hambre', en:'I _ hungry', ok:'AM', o:['AM','HAVE'], w:'El hambre también es un estado → I\'m hungry.'},
+    {es:'Hace frío hoy', en:'It _ cold today', ok:'IS', o:['IS','HAS','MAKES'], w:'El clima va con BE y con el sujeto de relleno <b>it</b>.'},
+    {es:'Ella es ingeniera', en:'She _ an engineer', ok:'IS', o:['IS','ARE','AM'], w:'Y las profesiones llevan <b>an</b>: nunca «She is engineer».'}
+  ]},
+
+{ q:'SABER / CONOCER', sub:'Otra que te regala trabajo: dos verbos tuyos, uno solo suyo.',
+  r:[
+    {w:'KNOW', j:'Saber y conocer, todo junto', c:'ver', t:'Una sola palabra. Si quieres marcar "conocer por primera vez", ahí sí cambia a <b>meet</b>.'}
+  ],
+  x:{no:'I know her yesterday', si:'I <b>met</b> her yesterday', why:'<b>know</b> es tener el conocimiento; <b>meet</b> es el momento de conocer a alguien. Confundirlos cambia el sentido por completo.'},
+  e:[
+    {es:'No sé', en:'I don\'t _', ok:'KNOW', w:'Saber → KNOW.'},
+    {es:'¿Conoces a María?', en:'Do you _ María?', ok:'KNOW', w:'Conocer a alguien que ya conoces → KNOW.'},
+    {es:'La conocí el año pasado', en:'I _ her last year', ok:'MET', o:['MET','KNEW'], w:'El momento en que la conociste → MEET (pasado: met).'}
+  ]}
+
+];
+
+BIFUR.push(
+
+{ q:'PEDIR / PREGUNTAR', sub:'Una sola palabra inglesa, pero con o sin una preposición que lo cambia todo.',
+  r:[
+    {w:'ASK',     j:'Preguntar algo', c:'ver', t:'Buscas <b>información</b>. Ask a question, ask me.'},
+    {w:'ASK FOR', j:'Pedir una cosa', c:'com', t:'Buscas que te <b>den algo</b>. Ask for help, ask for the bill.'}
+  ],
+  x:{no:'I asked the bill', si:'I asked <b>for</b> the bill', why:'Sin FOR estás preguntándole algo a la cuenta. Con FOR la estás pidiendo. Esa palabrita cambia el verbo entero.'},
+  e:[
+    {es:'¿Te puedo preguntar algo?', en:'Can I _ you something?', ok:'ASK', w:'Buscas información → ASK, sin FOR.'},
+    {es:'Pide ayuda', en:'_ help', ok:'ASK FOR', w:'Quieres que te den algo → ASK FOR.'},
+    {es:'Me pidió el número', en:'He _ my number', ok:'ASKED FOR', o:['ASKED FOR','ASKED'], w:'Quería que se lo dieras → ASK FOR (pasado: asked for).'}
+  ]},
+
+{ q:'LLEVAR / TRAER', sub:'Se elige por la dirección: ¿hacia dónde va la cosa respecto de ti?',
+  r:[
+    {w:'TAKE',  j:'Llevar de aquí hacia allá', c:'ver', t:'La cosa <b>se aleja</b> de donde estás.'},
+    {w:'BRING', j:'Traer de allá hacia aquí', c:'suj', t:'La cosa <b>viene</b> hacia donde estás.'},
+    {w:'WEAR',  j:'Llevar puesto', c:'com', t:'Si es <b>ropa sobre el cuerpo</b>.'},
+    {w:'CARRY', j:'Cargar con las manos', c:'aux', t:'El <b>peso físico</b> de sostener algo.'}
+  ],
+  x:{no:'I\'m using a blue shirt', si:'I\'m <b>wearing</b> a blue shirt', why:'La ropa no se "usa" en inglés, <b>se lleva puesta</b>: WEAR. USE es para herramientas y objetos.'},
+  e:[
+    {es:'Trae tu portátil', en:'_ your laptop', ok:'BRING', w:'Que venga hacia donde yo estoy → BRING.'},
+    {es:'Llévate esto', en:'_ this with you', ok:'TAKE', w:'Que se aleje de aquí → TAKE.'},
+    {es:'Lleva una camisa azul', en:'He\'s _ing a blue shirt', ok:'WEAR', w:'Ropa puesta → WEAR.'},
+    {es:'Déjame cargar eso', en:'Let me _ that', ok:'CARRY', w:'Peso físico en las manos → CARRY.'}
+  ]},
+
+{ q:'HAY', sub:'Tu "hay" no tiene sujeto. El inglés no lo permite, así que inventa uno.',
+  r:[
+    {w:'THERE IS',  j:'Hay + una cosa', c:'suj', t:'Singular o incontable.'},
+    {w:'THERE ARE', j:'Hay + varias cosas', c:'ver', t:'Plural.'}
+  ],
+  x:{no:'Have a problem / Is a problem', si:'<b>There is</b> a problem', why:'"Hay" no es <i>have</i> ni <i>is</i> a secas. El inglés exige sujeto, y para esto usa el relleno <b>there</b>.'},
+  e:[
+    {es:'Hay un problema', en:'_ a problem', ok:'THERE IS', w:'Una sola cosa → THERE IS.'},
+    {es:'Hay dos opciones', en:'_ two options', ok:'THERE ARE', w:'Plural → THERE ARE.'},
+    {es:'No hay tiempo', en:'_ no time', ok:'THERE IS', w:'<b>time</b> es incontable → THERE IS.'},
+    {es:'Había mucha gente', en:'_ a lot of people', ok:'THERE WERE', o:['THERE WERE','THERE WAS'], w:'<b>people</b> ya es plural, y en pasado → THERE WERE.'}
+  ]},
+
+{ q:'DESDE / HACE', sub:'Las tres marcan tiempo, pero cada una responde una pregunta distinta.',
+  r:[
+    {w:'SINCE', j:'Desde un punto', c:'suj', t:'Le sigue <b>cuándo empezó</b>: since 2020, since Monday.'},
+    {w:'FOR',   j:'Durante cuánto', c:'com', t:'Le sigue una <b>duración</b>: for two years, for a while.'},
+    {w:'AGO',   j:'Hace tanto tiempo', c:'ver', t:'Va <b>después</b> del tiempo y pide pasado: two days ago.'}
+  ],
+  x:{no:'I work here since two years', si:'I\'ve worked here <b>for</b> two years', why:'Dos años es una <b>duración</b> → FOR. SINCE necesita un punto en el calendario. Y ojo: esto pide <b>have worked</b>, no <i>work</i>.'},
+  e:[
+    {es:'Trabajo aquí desde 2023', en:'I\'ve worked here _ 2023', ok:'SINCE', w:'2023 es un punto exacto → SINCE.'},
+    {es:'Trabajo aquí hace tres años', en:'I\'ve worked here _ three years', ok:'FOR', w:'Tres años es duración → FOR.'},
+    {es:'Te llamé hace una hora', en:'I called you an hour _', ok:'AGO', w:'AGO va DETRÁS del tiempo, nunca delante. Y pide pasado simple.'}
+  ]},
+
+{ q:'TAMBIÉN / TAMPOCO', sub:'Se eligen según si la frase es positiva o negativa. Y cambian de sitio.',
+  r:[
+    {w:'TOO',     j:'También, al final', c:'com', t:'Frase <b>positiva</b>, y va al final.'},
+    {w:'ALSO',    j:'También, en medio', c:'ver', t:'Frase positiva, pero <b>en medio</b> de la frase.'},
+    {w:'EITHER',  j:'Tampoco, al final', c:'neg', t:'Frase <b>negativa</b>, al final.'},
+    {w:'NEITHER', j:'Yo tampoco (respuesta)', c:'aux', t:'Respuesta corta a algo negativo: <b>Neither do I</b>.'}
+  ],
+  x:{no:'I don\'t like it too', si:'I don\'t like it <b>either</b>', why:'En frase negativa nunca va TOO. La pareja es: positiva → <b>too</b> · negativa → <b>either</b>.'},
+  e:[
+    {es:'Yo también voy', en:'I\'m going _', ok:'TOO', w:'Positiva y al final → TOO.'},
+    {es:'También hablo francés', en:'I _ speak French', ok:'ALSO', w:'Positiva pero en medio → ALSO.'},
+    {es:'A mí tampoco me gusta', en:'I don\'t like it _', ok:'EITHER', w:'Negativa → EITHER.'},
+    {es:'— Yo tampoco', en:'_ do I', ok:'NEITHER', w:'Respuesta corta a algo negativo → NEITHER + auxiliar + sujeto.'}
+  ]},
+
+{ q:'CUÁNTO', sub:'Tu "cuánto" pregunta cuatro cosas distintas. El inglés las separa todas.',
+  r:[
+    {w:'HOW MUCH',  j:'Cuánto de algo incontable', c:'suj', t:'Dinero, tiempo, agua. También <b>precio</b>.'},
+    {w:'HOW MANY',  j:'Cuántos que se cuentan', c:'ver', t:'Personas, veces, cosas en plural.'},
+    {w:'HOW LONG',  j:'Cuánto tiempo dura', c:'com', t:'Duración de algo.'},
+    {w:'HOW OFTEN', j:'Cada cuánto', c:'aux', t:'Frecuencia con que pasa.'}
+  ],
+  x:{no:'How much people came?', si:'<b>How many</b> people came?', why:'<b>people</b> se cuenta uno por uno → HOW MANY. La prueba: si puedes ponerle un número delante, es MANY.'},
+  e:[
+    {es:'¿Cuánto cuesta?', en:'_ is it?', ok:'HOW MUCH', w:'El precio siempre va con HOW MUCH.'},
+    {es:'¿Cuántas personas vienen?', en:'_ people are coming?', ok:'HOW MANY', w:'Se cuentan → HOW MANY.'},
+    {es:'¿Cuánto se demora?', en:'_ does it take?', ok:'HOW LONG', w:'Duración → HOW LONG.'},
+    {es:'¿Cada cuánto entrenas?', en:'_ do you train?', ok:'HOW OFTEN', w:'Frecuencia → HOW OFTEN.'}
+  ]},
+
+{ q:'COMO', sub:'Tres significados muy distintos escondidos bajo la misma palabra.',
+  r:[
+    {w:'LIKE', j:'Parecido a', c:'com', t:'Si puedes decir <b>"parecido a"</b>.'},
+    {w:'AS',   j:'En calidad de', c:'suj', t:'Si es un <b>rol o función</b> real: I work as a designer.'},
+    {w:'HOW',  j:'De qué manera', c:'wh',  t:'Si es una <b>pregunta</b> o "de qué modo".'}
+  ],
+  x:{no:'I work like a designer', si:'I work <b>as</b> a designer', why:'Con LIKE dices que <i>te pareces</i> a un diseñador sin serlo. Con AS dices que lo <b>eres</b>. Cambia el sentido por completo.'},
+  e:[
+    {es:'Trabajo como diseñador', en:'I work _ a designer', ok:'AS', w:'Es tu rol real → AS.'},
+    {es:'Sabe como su mamá', en:'It tastes _ his mom\'s', ok:'LIKE', w:'Parecido a → LIKE.'},
+    {es:'¿Cómo se dice esto?', en:'_ do you say this?', ok:'HOW', w:'Pregunta de manera → HOW.'}
+  ]},
+
+{ q:'TOMAR', sub:'Uno de los verbos más traicioneros: en inglés depende de QUÉ tomas.',
+  r:[
+    {w:'TAKE',  j:'Tomar transporte, tiempo, decisiones', c:'ver', t:'take a bus, take time, take a break.'},
+    {w:'DRINK', j:'Tomar líquido', c:'com', t:'Solo si <b>se bebe</b>.'},
+    {w:'HAVE',  j:'Tomar comida o bebida (social)', c:'suj', t:'Lo natural al pedir: have a coffee, have lunch.'}
+  ],
+  x:{no:'I take a coffee every morning', si:'I <b>have</b> a coffee every morning', why:'TAKE a coffee suena a que lo agarras y te lo llevas. Para consumirlo, lo natural es <b>have</b> — o <b>drink</b> si quieres marcar el acto de beber.'},
+  e:[
+    {es:'Tomo el bus al trabajo', en:'I _ the bus to work', ok:'TAKE', w:'Transporte → TAKE.'},
+    {es:'No tomo alcohol', en:'I don\'t _ alcohol', ok:'DRINK', w:'Líquido, marcando el hábito → DRINK.'},
+    {es:'¿Tomamos un café?', en:'Shall we _ a coffee?', ok:'HAVE', w:'Consumo social → HAVE. Es lo que dice un nativo.'},
+    {es:'Tomemos un descanso', en:'Let\'s _ a break', ok:'TAKE', w:'<b>take a break</b> es expresión fija.'}
+  ]},
+
+{ q:'PONER', sub:'Se decide por lo que pones y dónde: la preposición hace todo el trabajo.',
+  r:[
+    {w:'PUT',     j:'Colocar en un sitio', c:'ver', t:'Poner algo <b>en algún lugar</b>.'},
+    {w:'PUT ON',  j:'Ponerse ropa', c:'com', t:'Ropa <b>sobre el cuerpo</b>.'},
+    {w:'TURN ON', j:'Encender un aparato', c:'aux', t:'Luz, televisor, música: algo que <b>se enciende</b>.'}
+  ],
+  x:{no:'Put the light', si:'<b>Turn on</b> the light', why:'La luz no se coloca, <b>se enciende</b>. Y recuerda la regla del pronombre: <b>turn it on</b>, nunca «turn on it».'},
+  e:[
+    {es:'Ponlo en la mesa', en:'_ it on the table', ok:'PUT', w:'Colocar en un sitio → PUT.'},
+    {es:'Ponte la chaqueta', en:'_ your jacket', ok:'PUT ON', w:'Ropa → PUT ON.'},
+    {es:'Prende la luz', en:'_ the light', ok:'TURN ON', w:'Aparato → TURN ON.'},
+    {es:'Préndelo', en:'Turn _ on', ok:'IT', o:['IT','ON IT'], w:'Con pronombre va OBLIGATORIAMENTE en medio: <b>turn it on</b>.'}
+  ]},
+
+{ q:'DE', sub:'Tu "de" es un comodín. El inglés lo reparte en cuatro según qué relación exprese.',
+  r:[
+    {w:'OF',    j:'De, parte de algo', c:'suj', t:'Relación entre <b>cosas</b>: the end of the movie.'},
+    {w:'FROM',  j:'De, procedencia', c:'ver', t:'De dónde <b>viene</b>: I\'m from Colombia.'},
+    {w:'ABOUT', j:'De, acerca de', c:'com', t:'El <b>tema</b> del que se habla.'},
+    {w:"'S",    j:'De, posesión de persona', c:'aux', t:'Dueño primero: <b>my brother\'s car</b>.'}
+  ],
+  x:{no:'The car of my brother', si:'My <b>brother\'s</b> car', why:'Con personas la posesión se invierte: dueño + \'s + cosa. El <i>of</i> queda para cosas.'},
+  e:[
+    {es:'Soy de Colombia', en:'I\'m _ Colombia', ok:'FROM', w:'Procedencia → FROM.'},
+    {es:'El final de la película', en:'The end _ the movie', ok:'OF', w:'Relación entre cosas → OF.'},
+    {es:'Cuéntame de eso', en:'Tell me _ it', ok:'ABOUT', w:'El tema → ABOUT.'},
+    {es:'El carro de mi hermano', en:'My brother_ car', ok:"'S", w:'Persona dueña → \'s, y va antes de la cosa.'}
+  ]},
+
+{ q:'SI', sub:'Dos "si" distintos que en español suenan igual. Uno de ellos tiene una regla que casi nadie enseña.',
+  r:[
+    {w:'IF',      j:'Si pasa esto, entonces...', c:'ver', t:'Condición real. <b>Detrás nunca va will.</b>'},
+    {w:'WHETHER', j:'Si sí o si no', c:'com', t:'Cuando hay <b>dos opciones</b>: whether or not.'}
+  ],
+  x:{no:'I\'ll call you if I will arrive', si:'I\'ll call you <b>if I arrive</b>', why:'Después de <b>if</b> y de <b>when</b> el futuro se escribe en presente. El <i>will</i> se queda en la otra mitad de la frase.'},
+  e:[
+    {es:'Si llueve, me quedo', en:'_ it rains, I\'ll stay', ok:'IF', w:'Condición → IF, y con presente detrás aunque hables del futuro.'},
+    {es:'No sé si ir', en:'I don\'t know _ to go', ok:'WHETHER', w:'Dos opciones (ir o no) → WHETHER, y admite <i>to</i> detrás.'},
+    {es:'Te llamo cuando llegue', en:'I\'ll call you when I _', ok:'ARRIVE', o:['ARRIVE','WILL ARRIVE'], w:'Después de <b>when</b>, presente. Nunca «when I will arrive».'}
+  ]},
+
+{ q:'QUEDAR', sub:'Uno de los verbos más resbalosos del español. En inglés son cuatro cosas sin relación.',
+  r:[
+    {w:'STAY',      j:'Quedarse en un sitio', c:'ver', t:'Permanecer donde estás.'},
+    {w:'FIT',       j:'Quedar de talla', c:'com', t:'Si es cuestión de <b>tamaño</b>.'},
+    {w:'BE LEFT',   j:'Quedar de sobra', c:'aux', t:'Lo que <b>sobra</b>: there\'s none left.'},
+    {w:'MEET UP',   j:'Quedar con alguien', c:'suj', t:'Ponerse de acuerdo para <b>verse</b>.'}
+  ],
+  x:{no:'This shirt doesn\'t stay me', si:'This shirt doesn\'t <b>fit</b> me', why:'La talla es FIT. Y si hablas de <i>estilo</i> —"te queda bien ese color"— entonces es <b>suit</b>.'},
+  e:[
+    {es:'Me quedo en casa', en:'I\'ll _ home', ok:'STAY', w:'Permanecer → STAY.'},
+    {es:'No me queda', en:'It doesn\'t _ me', ok:'FIT', w:'Talla → FIT.'},
+    {es:'No queda café', en:'There\'s no coffee _', ok:'LEFT', o:['LEFT','STAY','FIT'], w:'Lo que sobra → <b>left</b>. There\'s none left.'},
+    {es:'Quedamos mañana', en:'Let\'s _ tomorrow', ok:'MEET UP', w:'Ponerse de acuerdo para verse → MEET UP.'}
+  ]}
+
+);
+
+/* ══════════════════════════════════════════════════════════════
    SYNC · progreso en todos tus dispositivos
    ──────────────────────────────────────────────────────────────
    Usa el MISMO Supabase y la MISMA tabla app_state que el resto
@@ -4909,7 +5381,7 @@ const SUPA_URL  = 'https://mbuhlxypuvlxxylryjzi.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idWhseHlwdXZseHh5bHJ5anppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTc0NTQsImV4cCI6MjA5MDYzMzQ1NH0.vO7DInzO4Cu1unQ9-KL65Z3ev1WQfCcj60ZtK4-GQn8';
 const CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 
-const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak'];
+const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak', 'eng_bifur'];
 
 let sb = null, user = null, state = 'off', dirty = new Set(), pushT = null, booting = false;
 /* Último payload subido por clave, SOLO en memoria. Portado de la idea de
@@ -5091,10 +5563,10 @@ async function pull(){
     J.set('eng_streak', mergeStreak(J.get('eng_streak', { last:null, days:0, log:{} }),
                                     remote.eng_streak ? remote.eng_streak.p : null));
 
-    // 5 · marcadores: aqui si gana el mas reciente (son baratos de rehacer)
-    ['eng_fav_w', 'eng_fav_p'].forEach(k => {
+    // 5 · marcadores y progreso simple: gana el mas reciente (baratos de rehacer)
+    ['eng_fav_w', 'eng_fav_p', 'eng_bifur'].forEach(k => {
       const r = remote[k];
-      if(r && String(r.t || '') > stampOf(k)) { J.set(k, r.p || []); stamp(k); }
+      if(r && String(r.t || '') > stampOf(k)) { J.set(k, r.p || (k === 'eng_bifur' ? {} : [])); stamp(k); }
     });
 
     // Lo que quedó igual que la nube no necesita re-subirse
@@ -6309,6 +6781,138 @@ function go(paneId){
   if(tab) tab.click();
 }
 
+/* ─────────── BIFURCACIONES ───────────
+   La técnica de las pizarras que le funcionan a Miguel, pero con el hueco
+   sin resolver: el ejemplo no enseña la respuesta hasta que él elige. */
+const BF = (() => {
+  let filtro = 'all';
+  const hechas = () => store.get('eng_bifur', {});
+  const marcar = (i, v) => { const h = hechas(); if(v) h[i] = 1; else delete h[i]; store.set('eng_bifur', h); };
+
+  /* Frase completa, con el hueco ya relleno, para poder oírla */
+  const frase = (ex, resp) => ex.en.split('_').join(' ' + resp.toLowerCase() + ' ')
+    .replace(/\s+/g, ' ').replace(/\s+([.,?!])/g, '$1').trim();
+
+  function ejHTML(b, ex, i, j){
+    const partes = ex.en.split('_');
+    const ops = ex.o || b.r.map(a => a.w);
+    return `<div class="bf-q" data-q="${i}-${j}">
+      <div class="esp">${esc(ex.es)}</div>
+      <div class="ing">${esc(partes[0])}<button class="bf-gap" data-gap="${i}-${j}">?</button>${esc(partes[1] || '')}</div>
+      <div class="bf-opts" data-opts="${i}-${j}" style="display:none">
+        ${ops.map(o => `<button class="bf-opt" data-pick="${esc(o)}" data-for="${i}-${j}">${esc(o)}</button>`).join('')}
+      </div>
+      <div class="bf-why" data-why="${i}-${j}"></div>
+    </div>`;
+  }
+
+  function card(b, i){
+    const ok = !!hechas()[i];
+    return `<div class="bf${ok ? ' done' : ''}" data-bf="${i}">
+      <div class="bf-top">
+        <div class="bf-ask">¿cuál usarías?</div>
+        <div class="bf-word">${esc(b.q)}</div>
+        <div class="bf-sub">${b.sub}</div>
+      </div>
+      <div class="bf-arms">
+        ${b.r.map(a => `<div class="bf-arm arm-${a.c}">
+          <div class="w">${esc(a.w)}<button class="spk sm" data-say="${esc(a.w)}" title="Oír">🔊</button></div>
+          <div class="j">${a.j}</div>
+          <div class="t">${a.t}</div>
+        </div>`).join('')}
+      </div>
+      <div class="bf-trap">
+        <b>La trampa del español:</b><br>
+        <span class="no">✗ ${b.x.no}</span> &nbsp;→&nbsp; <span class="si">✓ ${b.x.si}</span><br>
+        <span style="display:block;margin-top:7px">${b.x.why}</span>
+      </div>
+      <div class="bf-ex">
+        <div class="bf-ex-h">Rellena el hueco <span class="sc" data-sc="${i}">0 / ${b.e.length}</span></div>
+        ${b.e.map((ex, j) => ejHTML(b, ex, i, j)).join('')}
+      </div>
+    </div>`;
+  }
+
+  function render(){
+    const nav = $('bfNav'), box = $('bfList');
+    if(!nav || !box) return;
+    const h = hechas();
+    nav.innerHTML = `<button class="bf-pill${filtro === 'all' ? ' on' : ''}" data-f="all">Todas <b>${BIFUR.length}</b></button>`
+      + `<button class="bf-pill${filtro === 'todo' ? ' on' : ''}" data-f="todo">Pendientes <b>${BIFUR.length - Object.keys(h).length}</b></button>`
+      + BIFUR.map((b, i) => `<button class="bf-pill${filtro === String(i) ? ' on' : ''}" data-f="${i}">${esc(b.q)}${h[i] ? ' <span class="tick">✓</span>' : ''}</button>`).join('');
+    nav.onclick = e => {
+      const p = e.target.closest('[data-f]'); if(!p) return;
+      filtro = p.dataset.f; render();
+      box.scrollIntoView({ behavior:'smooth', block:'start' });
+    };
+    const lista = filtro === 'all' ? BIFUR.map((b, i) => [b, i])
+      : filtro === 'todo' ? BIFUR.map((b, i) => [b, i]).filter(([, i]) => !h[i])
+      : BIFUR.map((b, i) => [b, i]).filter(([, i]) => String(i) === filtro);
+    box.innerHTML = lista.length
+      ? lista.map(([b, i]) => card(b, i)).join('')
+      : `<div class="pr-done"><div class="big">🎉</div><h3>Ninguna pendiente</h3>
+         <p>Resolviste las ${BIFUR.length} bifurcaciones. Vuelve en unos días y repítelas: el objetivo no es acertar una vez, es que la respuesta te salga sin pensar.</p>
+         <button class="btn pri" id="bfReset">↻ Empezar de nuevo</button></div>`;
+    const rb = $('bfReset');
+    if(rb) rb.onclick = () => {
+      doUndoable('Reiniciar bifurcaciones', ['eng_bifur'], () => { store.set('eng_bifur', {}); render(); }, 'Progreso reiniciado');
+    };
+  }
+
+  /* Un solo manejador para todos los huecos y opciones */
+  function wire(){
+    const box = $('bfList'); if(!box) return;
+    box.addEventListener('click', e => {
+      const gap = e.target.closest('[data-gap]');
+      if(gap){
+        const o = box.querySelector(`[data-opts="${gap.dataset.gap}"]`);
+        if(o) o.style.display = o.style.display === 'none' ? 'flex' : 'none';
+        return;
+      }
+      const pick = e.target.closest('[data-pick]');
+      if(!pick) return;
+      const id = pick.dataset.for;
+      const [i, j] = id.split('-').map(Number);
+      const b = BIFUR[i], ex = b.e[j];
+      const acerto = pick.dataset.pick.toUpperCase() === String(ex.ok).toUpperCase();
+
+      const q = box.querySelector(`[data-q="${id}"]`);
+      const g = box.querySelector(`[data-gap="${id}"]`);
+      const why = box.querySelector(`[data-why="${id}"]`);
+      const opts = box.querySelector(`[data-opts="${id}"]`);
+
+      opts.querySelectorAll('.bf-opt').forEach(o => {
+        o.disabled = true;
+        if(o.dataset.pick.toUpperCase() === String(ex.ok).toUpperCase()) o.classList.add('good');
+        else if(o === pick) o.classList.add('wrong');
+      });
+      g.textContent = ex.ok;
+      g.classList.add(acerto ? 'ok' : 'bad');
+      q.classList.add(acerto ? 'ok' : 'bad');
+      why.className = 'bf-why on';
+      why.innerHTML = (acerto ? '<b style="color:#4ade80">✓ Correcto. </b>' : '<b style="color:#f87171">✗ Era ' + esc(ex.ok) + '. </b>') + ex.w
+        + ` <button class="spk sm" data-say="${esc(frase(ex, ex.ok))}" title="Oír la frase completa" style="margin-left:6px">🔊</button>`;
+      TTS.say(frase(ex, ex.ok));
+      Streak.ping();
+
+      // ¿Ya resolvió todos los ejemplos de esta bifurcación?
+      const card = box.querySelector(`[data-bf="${i}"]`);
+      const resueltos = card.querySelectorAll('.bf-gap.ok, .bf-gap.bad').length;
+      const sc = card.querySelector(`[data-sc="${i}"]`);
+      const aciertos = card.querySelectorAll('.bf-gap.ok').length;
+      if(sc) sc.textContent = `${aciertos} / ${b.e.length}`;
+      if(resueltos === b.e.length){
+        card.classList.add('done');
+        marcar(i, true);
+        if(aciertos === b.e.length) toast('«' + b.q + '» dominada · ' + aciertos + '/' + b.e.length, 'ok');
+      }
+    });
+  }
+
+  function reload(){ render(); }
+  return { render, wire, reload };
+})();
+
 /* ─────────── 13b · FILTROS CONTRAÍBLES ───────────
    Los dos bloques de chips ocupaban ~350 px pegados al tope y tapaban el
    contenido. Al despegarse se contraen solos; el botón «Filtros» los abre. */
@@ -6387,6 +6991,7 @@ const CTL = (() => {
    el disco quedaría actualizado y la pantalla mostrando lo viejo. */
 function refreshAll(){
   reloadFavs();
+  BF.reload();
   NB.reload();
   SRS.reload();
   Streak.reload();
@@ -6565,6 +7170,7 @@ function init(){
       if(b.dataset.p === 'pr') SRS.start();
       if(b.dataset.p === 'nb') NB.render();
       if(b.dataset.p === 'pz' && !$('qzBox').children.length){ qzShuffle(); renderQuiz(); }
+      if(b.dataset.p === 'bf' && !$('bfList').children.length) BF.render();
       CTL.headerH(); setTimeout(CTL.apply, 60);   // la cabecera cambia de alto entre pestañas
     };
   });
@@ -6649,6 +7255,7 @@ function init(){
   renderWords(true);
   renderPhrases(true);
   qzShuffle(); renderQuiz();
+  BF.render(); BF.wire();
   SRS.renderBoxes();
   NB.render();
 
@@ -6660,7 +7267,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
