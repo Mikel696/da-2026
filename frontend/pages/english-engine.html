@@ -747,7 +747,7 @@ table.tbl tr:hover td{background:var(--bg3)}
       <span><kbd>↑</kbd><kbd>↓</kbd> moverse</span>
       <span><kbd>Enter</kbd> abrir</span>
       <span><kbd>Esc</kbd> cerrar</span>
-      <span style="margin-left:auto">busca en 2000 palabras + 1000 frases + piezas + método</span>
+      <span style="margin-left:auto">busca en palabras, frases, bifurcaciones, piezas y método</span>
     </div>
   </div>
 </div>
@@ -755,7 +755,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 <div id="syncModal">
   <div class="sync-box">
     <div class="sync-head">
-      <div><b>☁️ Tu progreso en todos lados</b><small>cuadernos · marcadores · práctica · racha</small></div>
+      <div><b>☁️ Tu progreso en todos lados</b><small>cuadernos · marcadores · práctica · bifurcaciones · racha</small></div>
       <button class="nbb" id="syncClose" title="Cerrar (Esc)">✕</button>
     </div>
     <div class="sync-body" id="syncBody"></div>
@@ -802,18 +802,39 @@ table.tbl tr:hover td{background:var(--bg3)}
   <div class="hero">
     <div class="kick">el pilar · antes de memorizar nada</div>
     <h1>El inglés no se estudia.<br>Se <em>arma</em>.</h1>
-    <p>El español conjuga el verbo. El inglés mueve piezas en un orden fijo. Si entiendes las <b style="color:var(--tx)">piezas</b> y el <b style="color:var(--tx)">orden</b>, dejas de traducir y empiezas a construir. Todo lo demás de este documento — las 2000 palabras y las 1000 frases — cuelga de esta única idea.</p>
+    <p>El español conjuga el verbo. El inglés mueve piezas en un orden fijo. Si entiendes las <b style="color:var(--tx)">piezas</b> y el <b style="color:var(--tx)">orden</b>, dejas de traducir y empiezas a construir. Todo lo demás de este documento — las 2000 palabras, las 1000 frases, las 24 bifurcaciones y tu práctica diaria — cuelga de esta única idea.</p>
   </div>
 
-  <div class="grid g4" style="margin-bottom:34px">
+  <div class="grid g4" style="margin-bottom:16px">
     <div class="stat"><div class="sv" id="st1">2000</div><div class="sl">Palabras</div></div>
     <div class="stat"><div class="sv" id="st2">1000</div><div class="sl">Frases</div></div>
+    <div class="stat"><div class="sv" id="st3">24</div><div class="sl">Bifurcaciones</div></div>
+    <div class="stat"><div class="sv">12</div><div class="sl">Piezas</div></div>
     <div class="stat"><div class="sv">5</div><div class="sl">Moldes</div></div>
     <div class="stat"><div class="sv">3</div><div class="sl">Motores</div></div>
   </div>
 
-  <h2 class="sec"><span class="n">01</span> Las 4 piezas de toda oración</h2>
-  <p class="lead">Toda frase en inglés se pinta con estos cuatro colores. En los módulos 1 y 2 vas a ver estos mismos colores una y otra vez — así el patrón se te queda en el ojo, no en la memoria.</p>
+  <div class="card" style="margin-bottom:32px;border-color:var(--acbd);background:linear-gradient(96deg,rgba(139,92,246,.07),transparent 65%)">
+    <div style="font-family:var(--fm);font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ac2);margin-bottom:9px">empieza aquí · tu primera sesión</div>
+    <h3 style="font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">30 minutos, hoy, en este orden</h3>
+    <p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:15px">No abras ocho pestañas a la vez. Hoy solo haz esto — y en voz alta, siempre:</p>
+    <div class="tw"><table class="tbl" style="margin:0">
+      <tr><th style="width:64px">Min</th><th style="width:150px">Dónde</th><th>Qué haces exactamente</th></tr>
+      <tr><td><b>0-10</b></td><td>🧭 Aquí mismo</td><td>Lee esta página hasta el final. No memorices: solo entiende <b>los 5 moldes</b> y <b>los 3 motores</b>.</td></tr>
+      <tr><td><b>10-20</b></td><td>🔀 Bifurcaciones</td><td>Abre <b>solo dos</b>: <b>QUE</b> y <b>NO</b>. Son las que más errores te ahorran. Di cada frase en voz alta ANTES de tocar el hueco.</td></tr>
+      <tr><td><b>20-28</b></td><td>💬 Frases</td><td>Filtra por <b>Saludos</b>. Escucha 10 con 🔊, repítelas, y marca con <b>★</b> las 5 que más usarías.</td></tr>
+      <tr><td><b>28-30</b></td><td>🧪 Práctica</td><td>Ábrela y repasa esas 5. Mañana te las vuelve a mostrar solas.</td></tr>
+    </table></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px">
+      <button class="btn pri" onclick="APP.go('bf')">🔀 Empezar por QUE y NO →</button>
+      <button class="btn" onclick="APP.go('p2')">💬 Ir a Frases</button>
+      <button class="btn" onclick="APP.go('pz')">🧩 No sé qué es un verbo</button>
+    </div>
+    <div class="note" style="margin:15px 0 0"><b>Mañana no empieces de cero:</b> abre <b>🧪 Práctica</b> primero. Es lo único que tienes que hacer todos los días sin falta — 10 minutos. Todo lo demás es opcional.</div>
+  </div>
+
+  <h2 class="sec"><span class="n">01</span> Las 6 piezas · y cuándo aparece cada una</h2>
+  <p class="lead">Toda frase en inglés se arma con estas seis piezas, pero <b style="color:var(--tx)">no todas aparecen siempre</b>: dos son obligatorias y las otras solo salen cuando las necesitas. Estos mismos seis colores se repiten en <b style="color:var(--tx)">todo el documento</b> — en el molde de cada una de las 1000 frases y en las 24 bifurcaciones — para que el patrón se te quede en el ojo, no en la memoria.</p>
 
   <div class="legend">
     <span class="slot s-suj">SUJETO · quién</span>
@@ -823,6 +844,30 @@ table.tbl tr:hover td{background:var(--bg3)}
     <span class="slot s-neg">NOT · negación</span>
     <span class="slot s-wh">WH · la pregunta abierta</span>
   </div>
+
+  <div class="tw"><table class="tbl">
+    <tr><th style="width:190px">Pieza</th><th style="width:135px">¿Cuándo aparece?</th><th>Cómo reconocerla</th></tr>
+    <tr><td><span class="slot s-suj" style="font-size:12px;padding:2px 8px">SUJETO</span></td>
+        <td><b style="color:var(--ok)">SIEMPRE</b></td>
+        <td>Quién hace la acción. No se puede quitar nunca — ni aunque no signifique nada, como el <b>it</b> de <i>It's raining</i>.</td></tr>
+    <tr><td><span class="slot s-ver" style="font-size:12px;padding:2px 8px">VERBO</span></td>
+        <td><b style="color:var(--ok)">SIEMPRE</b></td>
+        <td>La acción o el estado. Sin verbo no hay frase.</td></tr>
+    <tr><td><span class="slot s-com" style="font-size:12px;padding:2px 8px">COMPLEMENTO</span></td>
+        <td>Casi siempre</td>
+        <td>Qué, dónde, cuándo, cómo. <i>I work</i> ya es una frase completa; el complemento la llena.</td></tr>
+    <tr><td><span class="slot s-aux" style="font-size:12px;padding:2px 8px">AUXILIAR</span></td>
+        <td>Al negar, preguntar o marcar tiempo</td>
+        <td>El motor: <b>do, does, did, am, is, are, have, has, will</b>. En <i>I work here</i> no hay ninguno; en <i>I <b>don't</b> work here</i> sí.</td></tr>
+    <tr><td><span class="slot s-neg" style="font-size:12px;padding:2px 8px">not</span></td>
+        <td>Solo al negar</td>
+        <td>Nunca va sola: se agarra siempre de un auxiliar.</td></tr>
+    <tr><td><span class="slot s-wh" style="font-size:12px;padding:2px 8px">WH</span></td>
+        <td>Solo en preguntas abiertas</td>
+        <td>what, where, when, who, why, which, how, whose. Se pega al frente de todo lo demás.</td></tr>
+  </table></div>
+
+  <div class="note info"><b>Por qué esto importa más que memorizar seis nombres:</b> las dos primeras te dicen qué <b>no puedes omitir jamás</b> — y omitir el sujeto es el error que más delata a un hispanohablante. Las otras cuatro te dicen <b>qué se enciende</b> cuando pasas de afirmar a negar o preguntar. Ese encendido es todo el Molde 2 y el Molde 3 que vienen abajo.</div>
 
   <div class="card" style="margin-bottom:14px">
     <h3 class="sub" style="margin-top:0">La regla madre: el sujeto NUNCA se cae</h3>
@@ -948,17 +993,19 @@ table.tbl tr:hover td{background:var(--bg3)}
   <div class="note"><b>Si apilas varios adjetivos</b>, el orden nativo es: <b>opinión → tamaño → edad → forma → color → origen → material → propósito</b>. No lo memorices: <i>a beautiful little old round brown Italian wooden dining table</i>. En la vida real casi nunca usas más de dos.</div>
 
   <h2 class="sec"><span class="n">05</span> Cómo usar este documento</h2>
-  <p class="lead">Siete pestañas, pero un solo recorrido. Este es el orden que funciona.</p>
+  <p class="lead">Ocho pestañas, pero un solo recorrido. Este es el orden que funciona — y cada una tiene un papel distinto, no son ocho versiones de lo mismo.</p>
   <div class="grid g3">
-    <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Lee esta página dos veces</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Son el esqueleto donde cuelga todo lo demás.</p></div>
-    <div class="tip"><div class="tn">Paso 2</div><h4>🧩 ¿No sabes qué es un verbo?</h4><p>Abre <b>Las Piezas</b>. Cada tipo de palabra explicado desde cero, con su analogía y su prueba para reconocerla. <b>Si algo no te cuadra, la respuesta está ahí.</b></p><button class="pz-go" onclick="APP.go('pz')" style="margin-top:10px">🧩 Ir a Las Piezas →</button></div>
-    <div class="tip"><div class="tn">Paso 3</div><h4>💬 Frases antes que palabras</h4><p>Ve al <b>Módulo 2</b>, no al 1. Aprende bloques completos con su audio. Las 2000 palabras del Módulo 1 son tu diccionario de consulta, no tu estudio diario.</p></div>
-    <div class="tip"><div class="tn">Paso 4</div><h4>★ Marca lo que te sirve</h4><p>El botón <b>★</b> de cada palabra y frase la manda a tu práctica. El botón <b>📓</b> la guarda en tu cuaderno. No estudies lo que ya sabes.</p></div>
-    <div class="tip"><div class="tn">Paso 5 · cada día</div><h4>🧪 Practica 10 minutos</h4><p>La pestaña <b>Práctica</b> usa repetición espaciada: te muestra justo lo que estás por olvidar. Es lo único de este documento que <b>debes abrir todos los días</b>.</p><button class="pz-go" onclick="APP.go('pr')" style="margin-top:10px">🧪 Ir a Práctica →</button></div>
-    <div class="tip"><div class="tn">Paso 6</div><h4>📓 Escribe lo tuyo</h4><p>El <b>Cuaderno</b> es donde esto se vuelve tuyo. Anota tus errores, tus dudas y las frases que quieras usar mañana. Lo que tú escribes se te queda; lo que solo lees, no.</p></div>
+    <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Estructura · el esqueleto</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Es donde cuelga todo lo demás. Vuelve aquí siempre que una frase te suene rara.</p></div>
+    <div class="tip"><div class="tn">Paso 2 · si hace falta</div><h4>🧩 Piezas · el diccionario de conceptos</h4><p>¿No sabes qué es un verbo, un adjetivo o un modal? Cada tipo de palabra explicado desde cero, con su analogía y su prueba de 3 segundos. <b>Solo abre la que no entiendas.</b></p><button class="pz-go" onclick="APP.go('pz')" style="margin-top:10px">🧩 Ir a Piezas →</button></div>
+    <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 3 · el que más rinde</div><h4>🔀 Bifurcaciones · donde te trabas</h4><p>Tú dices <b>QUE</b> y el inglés te pide elegir entre cuatro palabras. Aquí es donde de verdad fallas — no en el vocabulario. <b>24 casos, con el hueco para que lo llenes tú.</b></p><button class="pz-go" onclick="APP.go('bf')" style="margin-top:10px">🔀 Ir a Bifurcaciones →</button></div>
+    <div class="tip"><div class="tn">Paso 4</div><h4>💬 Frases antes que palabras</h4><p>Aprende bloques completos con su audio, no palabras sueltas. Las 2000 palabras son tu <b>diccionario de consulta</b>, no tu estudio diario.</p><button class="pz-go" onclick="APP.go('p2')" style="margin-top:10px">💬 Ir a Frases →</button></div>
+    <div class="tip"><div class="tn">Paso 5</div><h4>★ y 📓 · marca lo que te sirve</h4><p><b>★</b> manda esa palabra o frase a tu práctica diaria. <b>📓</b> la guarda en tu cuaderno. No estudies lo que ya sabes: marca solo lo que te cuesta.</p></div>
+    <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 6 · TODOS los días</div><h4>🧪 Práctica · 10 minutos</h4><p>Repetición espaciada: te muestra justo lo que estás por olvidar. <b>Es lo único que no puedes saltarte.</b> Un día perdido no es grave; una semana te devuelve tres.</p><button class="pz-go" onclick="APP.go('pr')" style="margin-top:10px">🧪 Ir a Práctica →</button></div>
+    <div class="tip"><div class="tn">Paso 7</div><h4>📓 Cuaderno · lo tuyo</h4><p>Anota tus errores, tus dudas y las frases que quieras usar mañana. <b>Lo que tú escribes se te queda; lo que solo lees, no.</b> Exporta de vez en cuando.</p></div>
+    <div class="tip"><div class="tn">Cuando quieras</div><h4>🎯 Método · el manual</h4><p>Los 7 principios, la rutina de 30 min, los 10 errores que cuestan meses, 18 atajos de lógica y los canales de YouTube verificados. <b>Léelo un domingo</b>, no en medio del estudio.</p></div>
   </div>
 
-  <div class="note ok" style="margin-top:22px"><b>Atajo:</b> pulsa <span class="kbd">Ctrl</span> + <span class="kbd">K</span> en cualquier momento para buscar en todo el documento — las 2000 palabras, las 1000 frases, las piezas y el método, todo de una vez. También funciona la tecla <span class="kbd">/</span>.</div>
+  <div class="note ok" style="margin-top:22px"><b>Tres atajos que te ahorran tiempo:</b> <span class="kbd">Ctrl</span>+<span class="kbd">K</span> busca en TODO de una vez — las 2000 palabras, las 1000 frases, las piezas y el método (también funciona la tecla <span class="kbd">/</span>). <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> deshace lo último que borraste o guardaste. Y el botón <b>☁️</b> de arriba te lleva el progreso al celular.</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -1989,7 +2036,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 12 piezas · 24 bifurcaciones · practica espaciada · cuaderno propio<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · practica espaciada · cuaderno propio<br>
 Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-08-27<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
@@ -6703,6 +6750,11 @@ const Omni = (() => {
     idx = [];
     WORDS.forEach(w => idx.push({ k:'palabra', t:w.en, s:w.es, key:w.k, go:['p1', w.en], say:w.en }));
     PHRASES.forEach(p => idx.push({ k:'frase', t:p.en, s:p.es, key:p.k, go:['p2', p.en], say:p.en }));
+    if(typeof BIFUR !== 'undefined') BIFUR.forEach((b, n) => {
+      idx.push({ k:'bifurcación', t:b.q + '  →  ' + b.r.map(x => x.w).join(' · '),
+                 s:'una palabra tuya, varias suyas', key:norm(b.q + ' ' + b.r.map(x => x.w).join(' ')),
+                 bf:n });
+    });
     document.querySelectorAll('#pz .pz').forEach(el => {
       const t = el.querySelector('.pz-t').textContent.trim();
       const s = el.querySelector('.pz-s').textContent.trim();
@@ -6757,6 +6809,12 @@ const Omni = (() => {
       inp.value = term;
       inp.dispatchEvent(new Event('input'));
       if(r.say) setTimeout(() => TTS.say(r.say), 120);
+    } else if(r.bf !== undefined){
+      go('bf');
+      setTimeout(() => {
+        const p = document.querySelector(`#bfNav .bf-pill[data-f="${r.bf}"]`);
+        if(p) p.click();
+      }, 120);
     } else if(r.el){
       go(r.el.closest('.pane').id);
       setTimeout(() => {
@@ -7069,6 +7127,7 @@ function init(){
   $('tc2').textContent = PHRASES.length;
   $('st1').textContent = WORDS.length;
   $('st2').textContent = PHRASES.length;
+  const st3 = $('st3'); if(st3 && typeof BIFUR !== 'undefined') st3.textContent = BIFUR.length;
 
   buildChips($('bands'), BANDS, 'all', v => { M1.band = v; renderWords(true); });
   const wc = countBy(WORDS, 'cat');

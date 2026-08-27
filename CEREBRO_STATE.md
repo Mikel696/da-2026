@@ -11,6 +11,47 @@
 
 ---
 
+## 🧭 3-ENG · ESTRUCTURA puesta al dia — 2026-08-27
+
+Miguel iba a empezar a estudiar y detecto que la pagina de entrada mentia: decia
+«se pinta con estos CUATRO colores» y la leyenda mostraba SEIS. Auditoria completa
+del pane: eran **cuatro desajustes**, no uno.
+
+| Decia | Realidad | Arreglo |
+|---|---|---|
+| «cuatro colores» | 6 en la leyenda | Tabla de las 6 con **cuando aparece cada una** |
+| «Siete pestanas» | 8 desde hoy | Ocho, y con Bifurcaciones entre los pasos |
+| 4 stats (2000/1000/5/3) | 8 modulos | 6 stats, con Bifurcaciones y Piezas |
+| hero: «2000 palabras y 1000 frases» | tambien piezas y bifurcaciones | mencion completa |
+
+**El arreglo de los colores es mejor que corregir el numero.** En vez de decir «son seis»,
+ahora una tabla explica que **no todas aparecen siempre**: SUJETO y VERBO son obligatorios
+(y omitir el sujeto es el error que mas delata al hispanohablante), COMPLEMENTO casi
+siempre, y AUXILIAR / not / WH **se encienden** solo al negar o preguntar. Ese encendido
+es exactamente lo que enseñan el Molde 2 y el Molde 3 de mas abajo, asi que la tabla ahora
+prepara lo que sigue en vez de contradecirlo.
+
+### Añadido: «Tu primera sesion»
+Bloque nuevo arriba del todo con un plan de 30 min por minutos (10 estructura · 10
+bifurcaciones QUE y NO · 8 frases de saludos · 2 practica) y tres botones que saltan.
+Pedido por el contexto: dijo «para comenzar ahora si mi estudio».
+
+### De paso
+- `st3` (bifurcaciones) sale de `BIFUR.length`, no de un numero escrito a mano — no se
+  puede volver a desincronizar.
+- El **buscador global ahora indexa las bifurcaciones**: buscar «QUE» muestra
+  «QUE → THAT · WHAT · TO · THAN» y al abrirla filtra esa ficha.
+- Etiquetas corregidas: el panel de sync ya decia que sincroniza y no listaba
+  bifurcaciones; el pie del buscador prometia lo que no indexaba.
+
+### Verificacion
+Las 4 afirmaciones falsas ya no aparecen. Botones de primera sesion y del Paso 3 llevan a
+`bf`. Buscador encuentra y abre bifurcaciones. Regresion: 2000 palabras, 1000 frases, 12
+piezas, 24 bifurcaciones, quiz, 6 plantillas, 5 cajas, 12 videos, filtros contraibles
+364→58 px. Movil 375 px sin desbordes en las 8 pestanas.
+
+---
+
 ## 🔀 3-ENG · BIFURCACIONES — 2026-08-27 (la tecnica de pizarra de Miguel)
 
 Miguel mando dos fotos de pizarra (THAT/WHAT/TO y DONT/DIDNT/WONT) y pidio copiar y
