@@ -46,10 +46,18 @@
 .ws-go{padding:7px 14px;background:var(--ac);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background var(--transition-fast),transform var(--transition-fast)}.ws-go:hover{background:var(--ac2);transform:translateY(-1px)}
 .ofertas-btn{width:100%;padding:10px 16px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .2s}
 .ofertas-btn:hover{border-color:var(--em);background:rgba(16,185,129,.06)}
-.ofertas-dd{display:none;position:absolute;top:100%;left:0;right:0;z-index:40;background:var(--card);border:1px solid var(--bd);border-radius:10px;margin-top:4px;padding:6px;max-height:320px;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.ofertas-dd{display:none;position:absolute;top:100%;left:0;z-index:40;width:min(520px,90vw);background:var(--card);border:1px solid var(--bd);border-radius:12px;margin-top:6px;padding:10px;max-height:min(560px,72vh);overflow-y:auto;box-shadow:0 18px 50px rgba(0,0,0,.6)}
 .ofertas-dd.open{display:block}
-.ofertas-dd a{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;text-decoration:none;color:var(--tx);font-size:11px;font-weight:500;transition:all .15s}
-.ofertas-dd a:hover{background:var(--el)}
+.od-head{padding:4px 6px 10px;border-bottom:1px solid var(--bd);margin-bottom:8px;font-size:10px;color:var(--tx3);line-height:1.5}
+.od-cat{margin-bottom:12px}
+.od-cat-t{font-size:11px;font-weight:700;color:var(--tx);padding:4px 6px 2px;display:flex;align-items:center;gap:6px}
+.od-cat-n{font-size:9.5px;color:var(--tx3);padding:0 6px 6px;line-height:1.5}
+.ofertas-dd a{display:block;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--tx);transition:all .14s;border:1px solid transparent}
+.ofertas-dd a:hover{background:var(--el);border-color:var(--bd)}
+.od-n{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px}
+.od-n .ar{margin-left:auto;font-size:10px;color:var(--tx3)}
+.od-w{font-size:10px;color:var(--tx3);line-height:1.5;margin-top:3px}
+.od-star{font-size:9px;background:rgba(245,158,11,.16);color:#f59e0b;padding:1px 5px;border-radius:4px;font-weight:700}
 .task{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(39,39,42,.5)}.task:last-of-type{border-bottom:none}
 .task-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
 .task-check:hover{border-color:var(--gn)}.task-check.done{background:var(--gn);border-color:var(--gn);color:#fff}
@@ -181,7 +189,7 @@ body.in-frame.frame-loading .frame-load{display:block}
 <div class="today"><div class="today-header"><div class="today-title">⚡ Quick Workshop</div><div class="today-date" id="todayDate"></div></div><div style="font-size:11px;color:var(--tx3);margin-bottom:12px;line-height:1.5">Pick a topic to work on right now. We'll decide later if it becomes a module.</div><div class="ws-grid"><a class="ws-btn" onclick="startWorkshop('interview')"><span class="ws-icon">🎤</span>Interview Prep</a><a class="ws-btn" onclick="startWorkshop('test')"><span class="ws-icon">📝</span>Knowledge Test</a><a class="ws-btn" onclick="startWorkshop('course')"><span class="ws-icon">🎓</span>Quick Course</a><a class="ws-btn" onclick="startWorkshop('debug')"><span class="ws-icon">🐛</span>Debug Session</a><a class="ws-btn" onclick="startWorkshop('english')"><span class="ws-icon">🗣️</span>English Practice</a><a class="ws-btn" onclick="startWorkshop('code')"><span class="ws-icon">💻</span>Code Challenge</a></div><div class="ws-custom"><input class="ws-input" id="wsInput" placeholder="Or type a custom topic..." onkeydown="if(event.key==='Enter')startWorkshop(this.value)"><button class="ws-go" onclick="startWorkshop(document.getElementById('wsInput').value)">Go →</button></div><div id="wsHistory" style="margin-top:10px"></div></div>
 <div class="sidebar">
 <div class="pomo"><div class="pomo-title">🍅 Temporizador de Estudio</div><div class="pomo-time" id="pomoTime">25:00</div><div class="pomo-btns"><button class="pomo-btn pomo-start" id="pomoBtn" onclick="togglePomo()">▶ Iniciar</button><button class="pomo-btn pomo-reset" onclick="resetPomo()">↺ Reset</button></div><div class="pomo-log">Sesiones hoy: <strong id="pomoCount">0</strong> · Total: <strong id="pomoTotal">0</strong></div><div class="rate-panel" id="ratePanel"><div class="rate-q">¿Qué tan productiva fue esta sesión?</div><div class="rate-stars"><span class="rate-star" onclick="rateSess(1)">⭐</span><span class="rate-star" onclick="rateSess(2)">⭐</span><span class="rate-star" onclick="rateSess(3)">⭐</span><span class="rate-star" onclick="rateSess(4)">⭐</span><span class="rate-star" onclick="rateSess(5)">⭐</span></div></div></div>
-<div class="cajita"><div style="position:relative"><button class="ofertas-btn" onclick="this.parentElement.querySelector('.ofertas-dd').classList.toggle('open')">🎁 Ofertas & Links <span style="font-size:10px">▼</span></button><div class="ofertas-dd" id="cajitaDeals"></div></div></div>
+<div class="cajita"><div style="position:relative"><button class="ofertas-btn" onclick="this.parentElement.querySelector('.ofertas-dd').classList.toggle('open')">🎁 Ofertas reales <span style="font-size:9px;opacity:.7;font-weight:500">· 35 verificadas</span> <span style="font-size:10px">▼</span></button><div class="ofertas-dd" id="cajitaDeals"></div></div></div>
 </div></div>
 <div class="sec-label">· módulos ·</div>
 <div class="modules">
@@ -224,10 +232,30 @@ function rateSess(v){document.querySelectorAll('.rate-star').forEach((s,i)=>s.cl
 const pt=new Date().toISOString().split('T')[0];document.getElementById('pomoCount').textContent=localStorage.getItem('sb_pomo_'+pt)||'0';document.getElementById('pomoTotal').textContent=localStorage.getItem('sb_pomo_total')||'0';
 function renderDeals(){
   const el = document.getElementById('cajitaDeals');
+  const esc = t => String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   fetch('data/recommendations.json').then(r=>r.json()).then(data=>{
-    if(!data||!data.quickLinks)return;
-    el.innerHTML = data.quickLinks.map(l=>'<a href="'+l.url+'" target="_blank" rel="noopener">'+l.label+'<span style="margin-left:auto;font-size:10px;color:var(--tx3)">→</span></a>').join('');
-  }).catch(()=>{el.innerHTML='<div style="padding:8px;color:var(--tx3);font-size:10px">Offline</div>'});
+    const d = data && data.dealsV2;
+    // Sin el bloque nuevo se cae al listado simple de siempre: nunca queda vacio
+    if(!d || !d.cats){
+      if(!data||!data.quickLinks)return;
+      el.innerHTML = data.quickLinks.map(l=>'<a href="'+l.url+'" target="_blank" rel="noopener"><div class="od-n">'+esc(l.label)+'<span class="ar">→</span></div></a>').join('');
+      return;
+    }
+    let html = '<div class="od-head">'+esc(d.verified)+' Lo marcado con <span class="od-star">TOP</span> es lo que más ventaja te da.</div>';
+    d.cats.forEach(c=>{
+      const items = d.sites.filter(s=>s.cat===c.id);
+      if(!items.length) return;
+      html += '<div class="od-cat"><div class="od-cat-t">'+c.icon+' '+esc(c.label)+'</div>';
+      if(c.note) html += '<div class="od-cat-n">'+esc(c.note)+'</div>';
+      items.forEach(s=>{
+        html += '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'
+             +  '<div class="od-n">'+esc(s.name)+(s.star?' <span class="od-star">TOP</span>':'')+'<span class="ar">→</span></div>'
+             +  '<div class="od-w">'+esc(s.why)+'</div></a>';
+      });
+      html += '</div>';
+    });
+    el.innerHTML = html;
+  }).catch(()=>{el.innerHTML='<div style="padding:8px;color:var(--tx3);font-size:10px">Sin conexión</div>'});
 }
 document.addEventListener('click',e=>{if(!e.target.closest('.cajita')){document.querySelectorAll('.ofertas-dd.open').forEach(d=>d.classList.remove('open'))}})
 function updateStats(){if(!localStorage.getItem('sb_start'))localStorage.setItem('sb_start',new Date().toISOString());document.getElementById('statDays').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('sb_start')))/864e5));document.getElementById('statStreak').textContent=(localStorage.getItem('sb_streak')||'0')+'🔥';document.getElementById('statHours').textContent=(localStorage.getItem('sb_hours')||'0')+'h';const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');if(r.length){document.getElementById('statProd').textContent=(r.reduce((a,x)=>a+x.v,0)/r.length).toFixed(1)+'⭐'}}

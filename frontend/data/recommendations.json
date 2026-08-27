@@ -1,49 +1,368 @@
 {
-  "categories": [
+ "categories": [
+  {
+   "id": "games",
+   "label": "🎮 Juegos Gratis",
+   "items": [
     {
-      "id": "games",
-      "label": "🎮 Juegos Gratis",
-      "items": [
-        { "title": "Epic Games: I Need Spirit! Off-Road Edition", "link": "https://store.epicgames.com/es-ES/p/need-for-spirit-offroad-edition-7eee16", "source": "Epic Games" },
-        { "title": "Turmoil", "link": "https://luna.amazon.com/claims/turmoil-epic/dp/amzn1.pg.item.d7d941e2-d63a-41cb-9ebb-1ca172de03b0?tag=pccajita-20", "source": "Amazon Luna" },
-        { "title": "Mahokenshi - The Samurai Deckbuilder", "link": "https://luna.amazon.com/claims/mahokenshi-the-samurai-deckbuilder-gog/dp/amzn1.pg.item.63d1e16c-0f19-4672-b3d6-128f62e58a3f?tag=pccajita-20", "source": "Amazon Luna" },
-        { "title": "Veil of Darkness", "link": "https://luna.amazon.com/claims/veil-of-darkness-gog/dp/amzn1.pg.item.837b8893-53b0-4072-8f3f-24037351b77d?tag=pccajita-20", "source": "Amazon Luna" },
-        { "title": "Total War: Rome II - Emperor Edition", "link": "https://luna.amazon.com/claims/total-war-rome-ii-emperor-edition-epic/dp/amzn1.pg.item.e39ffc2d-d79a-4f43-946d-47c9f6949d9b?tag=pccajita-20", "source": "Amazon Luna" },
-        { "title": "Sir Questionnaire", "link": "https://luna.amazon.com/claims/sir-questionnaire-gog/dp/amzn1.pg.item.6dd1d038-96ea-4b01-af91-64731bfa55ef?tag=pccajita-20", "source": "Amazon Luna" }
-      ]
+     "title": "Epic Games: I Need Spirit! Off-Road Edition",
+     "link": "https://store.epicgames.com/es-ES/p/need-for-spirit-offroad-edition-7eee16",
+     "source": "Epic Games"
     },
     {
-      "id": "learning",
-      "label": "📚 Cursos Gratis",
-      "items": [
-        { "title": "Recompensas Totales: Compensación y Beneficios", "link": "https://www.udemy.com/course/total-rewards-recompensas-totales-compensacion-y-beneficios/?couponCode=PAPAHR_MAR_04", "source": "Udemy" },
-        { "title": "PETI Estratégico: Tecnología, Negocio y Decisión", "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450", "source": "Udemy" }
-      ]
+     "title": "Turmoil",
+     "link": "https://luna.amazon.com/claims/turmoil-epic/dp/amzn1.pg.item.d7d941e2-d63a-41cb-9ebb-1ca172de03b0?tag=pccajita-20",
+     "source": "Amazon Luna"
     },
     {
-      "id": "tools",
-      "label": "🛠️ Herramientas",
-      "items": [
-        { "title": "Pi3.AI — Interview Practice", "link": "https://pi.ai", "source": "Pi AI" }
-      ]
+     "title": "Mahokenshi - The Samurai Deckbuilder",
+     "link": "https://luna.amazon.com/claims/mahokenshi-the-samurai-deckbuilder-gog/dp/amzn1.pg.item.63d1e16c-0f19-4672-b3d6-128f62e58a3f?tag=pccajita-20",
+     "source": "Amazon Luna"
+    },
+    {
+     "title": "Veil of Darkness",
+     "link": "https://luna.amazon.com/claims/veil-of-darkness-gog/dp/amzn1.pg.item.837b8893-53b0-4072-8f3f-24037351b77d?tag=pccajita-20",
+     "source": "Amazon Luna"
+    },
+    {
+     "title": "Total War: Rome II - Emperor Edition",
+     "link": "https://luna.amazon.com/claims/total-war-rome-ii-emperor-edition-epic/dp/amzn1.pg.item.e39ffc2d-d79a-4f43-946d-47c9f6949d9b?tag=pccajita-20",
+     "source": "Amazon Luna"
+    },
+    {
+     "title": "Sir Questionnaire",
+     "link": "https://luna.amazon.com/claims/sir-questionnaire-gog/dp/amzn1.pg.item.6dd1d038-96ea-4b01-af91-64731bfa55ef?tag=pccajita-20",
+     "source": "Amazon Luna"
     }
+   ]
+  },
+  {
+   "id": "learning",
+   "label": "📚 Cursos Gratis",
+   "items": [
+    {
+     "title": "Recompensas Totales: Compensación y Beneficios",
+     "link": "https://www.udemy.com/course/total-rewards-recompensas-totales-compensacion-y-beneficios/?couponCode=PAPAHR_MAR_04",
+     "source": "Udemy"
+    },
+    {
+     "title": "PETI Estratégico: Tecnología, Negocio y Decisión",
+     "link": "https://www.udemy.com/course/peti-estrategico-conectando-tecnologia-negocio-y-decision/?couponCode=E36FA035EF00E8B89450",
+     "source": "Udemy"
+    }
+   ]
+  },
+  {
+   "id": "tools",
+   "label": "🛠️ Herramientas",
+   "items": [
+    {
+     "title": "Pi3.AI — Interview Practice",
+     "link": "https://pi.ai",
+     "source": "Pi AI"
+    }
+   ]
+  }
+ ],
+ "quickLinks": [
+  {
+   "label": "GitHub Student Pack",
+   "url": "https://education.github.com/pack"
+  },
+  {
+   "label": "Azure for Students",
+   "url": "https://azure.microsoft.com/es-es/free/students/"
+  },
+  {
+   "label": "Class Central · gratis",
+   "url": "https://www.classcentral.com/collection/top-free-online-courses"
+  },
+  {
+   "label": "Kaggle Learn",
+   "url": "https://www.kaggle.com/learn"
+  },
+  {
+   "label": "Real.Discount",
+   "url": "https://www.real.discount/"
+  },
+  {
+   "label": "CamelCamelCamel",
+   "url": "https://camelcamelcamel.com/"
+  },
+  {
+   "label": "Keepa",
+   "url": "https://keepa.com/"
+  },
+  {
+   "label": "Epic Games · gratis",
+   "url": "https://store.epicgames.com/free-games"
+  },
+  {
+   "label": "IsThereAnyDeal",
+   "url": "https://isthereanydeal.com/"
+  }
+ ],
+ "dealsV2": {
+  "updated": "2026-08-27",
+  "verified": "Todos los enlaces respondieron al verificarlos el 2026-08-27.",
+  "cats": [
+   {
+    "id": "estudiante",
+    "icon": "🎓",
+    "label": "Gratis por ser estudiante",
+    "note": "Lo que más plata vale y casi nadie reclama. Necesitas tu correo @cun.edu.co."
+   },
+   {
+    "id": "cursos",
+    "icon": "📚",
+    "label": "Cursos y certificados gratis",
+    "note": "Certificaciones que sí pesan en una hoja de vida."
+   },
+   {
+    "id": "cupones",
+    "icon": "🎟️",
+    "label": "Cupones Udemy · cursos de pago, gratis",
+    "note": "Cupones al 100% que caducan en horas. Entra, inscríbete y queda tuyo para siempre."
+   },
+   {
+    "id": "precios",
+    "icon": "📉",
+    "label": "Antes de comprar: ¿es oferta de verdad?",
+    "note": "Aquí está la ventaja real. Un “50% OFF” sobre un precio inflado la semana pasada no es descuento."
+   },
+   {
+    "id": "juegos",
+    "icon": "🎮",
+    "label": "Juegos gratis y precios reales",
+    "note": ""
+   },
+   {
+    "id": "colombia",
+    "icon": "🇨🇴",
+    "label": "Compras en Colombia",
+    "note": ""
+   }
   ],
-  "quickLinks": [
-    { "label": "🎮 Epic Games Free", "url": "https://store.epicgames.com/es-ES/free-games", "color": "#8b5cf6" },
-    { "label": "📚 Udemy Gratis", "url": "https://www.udemy.com/courses/free/", "color": "#22c55e" },
-    { "label": "🛒 PromoCajita", "url": "https://promocajita.com/gratis", "color": "#f97316" },
-    { "label": "🤖 Pi3.AI", "url": "https://pi.ai", "color": "#06b6d4" },
-    { "label": "🛍️ Amazon Colombia", "url": "https://www.amazon.com.co/deals", "color": "#ff9900" },
-    { "label": "💰 Linio Ofertas", "url": "https://www.linio.com.co/ofertas", "color": "#e91e63" },
-    { "label": "📦 MercadoLibre Ofertas", "url": "https://www.mercadolibre.com.co/ofertas", "color": "#ffe600" },
-    { "label": "🏷️ Falabella Cyber", "url": "https://www.falabella.com.co/falabella-co/collection/ofertas", "color": "#8cc63f" },
-    { "label": "💻 Alkosto Tech", "url": "https://www.alkosto.com/computadores-tablets", "color": "#e74c3c" },
-    { "label": "🎓 Coursera Gratis", "url": "https://www.coursera.org/courses?query=free", "color": "#0056d2" },
-    { "label": "📊 Kaggle Learn", "url": "https://www.kaggle.com/learn", "color": "#20beff" },
-    { "label": "🆓 FreeCodeCamp", "url": "https://www.freecodecamp.org/", "color": "#0a0a23" },
-    { "label": "🔥 Amazon US Deals", "url": "https://www.amazon.com/deals", "color": "#ff9900" },
-    { "label": "📱 Exito Ofertas", "url": "https://www.exito.com/tecnologia", "color": "#ffdd00" },
-    { "label": "🎮 Steam Sales", "url": "https://store.steampowered.com/specials/", "color": "#1b2838" },
-    { "label": "🏪 Rappi Tienda", "url": "https://www.rappi.com.co/", "color": "#ff441f" }
+  "sites": [
+   {
+    "cat": "estudiante",
+    "name": "GitHub Student Pack",
+    "url": "https://education.github.com/pack",
+    "star": 1,
+    "why": "El más valioso de todos: JetBrains completo, $200 en DigitalOcean, dominio gratis y +100 herramientas. Ojo: los registros de Copilot Pro se pausaron en abr-2026, hoy dan Copilot Free."
+   },
+   {
+    "cat": "estudiante",
+    "name": "Azure for Students",
+    "url": "https://azure.microsoft.com/es-es/free/students/",
+    "star": 1,
+    "why": "$100 de crédito SIN tarjeta de crédito. Sirve para montar bases de datos y practicar lo de la U."
+   },
+   {
+    "cat": "estudiante",
+    "name": "JetBrains Educación",
+    "url": "https://www.jetbrains.com/community/education/",
+    "why": "PyCharm, DataGrip e IntelliJ completos gratis mientras seas estudiante. DataGrip solo cuesta ~$100/año."
+   },
+   {
+    "cat": "estudiante",
+    "name": "Figma Education",
+    "url": "https://www.figma.com/education/",
+    "why": "Plan Professional gratis. Útil para los mockups de Ing. Web."
+   },
+   {
+    "cat": "estudiante",
+    "name": "Notion for Education",
+    "url": "https://www.notion.com/product/notion-for-education",
+    "why": "Plan Plus gratis con correo estudiantil."
+   },
+   {
+    "cat": "estudiante",
+    "name": "Canva Educación",
+    "url": "https://www.canva.com/education/",
+    "why": "Canva Pro gratis: presentaciones de la U y diagramas."
+   },
+   {
+    "cat": "estudiante",
+    "name": "Google Skills",
+    "url": "https://www.skills.google/",
+    "why": "Rutas de Google Cloud con laboratorios. Antes se llamaba Cloud Skills Boost."
+   },
+   {
+    "cat": "cursos",
+    "name": "Class Central · gratis",
+    "url": "https://www.classcentral.com/collection/top-free-online-courses",
+    "star": 1,
+    "why": "Buscador de los mejores cursos gratis de Harvard, MIT y Stanford en un solo sitio. Empieza aquí antes que en Google."
+   },
+   {
+    "cat": "cursos",
+    "name": "freeCodeCamp",
+    "url": "https://www.freecodecamp.org/",
+    "why": "Certificaciones gratis y reconocidas. La de Data Analysis con Python te sirve directo."
+   },
+   {
+    "cat": "cursos",
+    "name": "Kaggle Learn",
+    "url": "https://www.kaggle.com/learn",
+    "star": 1,
+    "why": "Micro-cursos de datos, cortos y prácticos: SQL, Pandas, visualización. Lo más rentable por hora invertida."
+   },
+   {
+    "cat": "cursos",
+    "name": "Microsoft Learn",
+    "url": "https://learn.microsoft.com/es-es/training/",
+    "why": "Rutas oficiales gratis, en español, y preparan certificaciones de pago."
+   },
+   {
+    "cat": "cursos",
+    "name": "Cisco NetAcad",
+    "url": "https://www.netacad.com/",
+    "why": "Cursos de redes gratis. Directo para la materia de Redes."
+   },
+   {
+    "cat": "cursos",
+    "name": "CS50 · Harvard",
+    "url": "https://cs50.harvard.edu/x/",
+    "why": "El mejor curso de introducción a la programación que existe. Gratis y completo."
+   },
+   {
+    "cat": "cursos",
+    "name": "edX",
+    "url": "https://www.edx.org/",
+    "why": "Modo audit: ves el curso completo gratis, solo pagas si quieres el certificado."
+   },
+   {
+    "cat": "cursos",
+    "name": "Coursera · gratis",
+    "url": "https://www.coursera.org/courses?query=free",
+    "why": "También tiene ayuda financiera: se puede pedir el certificado sin pagar."
+   },
+   {
+    "cat": "cupones",
+    "name": "Real.Discount",
+    "url": "https://www.real.discount/",
+    "star": 1,
+    "why": "El que más cupones al 100% publica al día. Filtra por categoría y entra rápido: caducan en horas."
+   },
+   {
+    "cat": "cupones",
+    "name": "DiscUdemy",
+    "url": "https://www.discudemy.com/",
+    "why": "Limpio y sin tanto anuncio. Bueno para revisar de noche."
+   },
+   {
+    "cat": "cupones",
+    "name": "CouponScorpion",
+    "url": "https://couponscorpion.com/",
+    "why": "Muchos cursos de Excel, Python y SQL gratis."
+   },
+   {
+    "cat": "cupones",
+    "name": "UdemyFreebies",
+    "url": "https://www.udemyfreebies.com/",
+    "why": "Otra fuente distinta: lo que no aparece en una, suele estar en esta."
+   },
+   {
+    "cat": "precios",
+    "name": "CamelCamelCamel",
+    "url": "https://camelcamelcamel.com/",
+    "star": 1,
+    "why": "Pega el link de Amazon y te muestra el HISTÓRICO de precios. Sabrás si el descuento es real o si el precio subió antes de bajar."
+   },
+   {
+    "cat": "precios",
+    "name": "Keepa",
+    "url": "https://keepa.com/",
+    "star": 1,
+    "why": "Lo mismo pero con extensión: te pone la gráfica dentro de Amazon y te avisa cuando baje al precio que tú digas."
+   },
+   {
+    "cat": "precios",
+    "name": "Amazon Deals",
+    "url": "https://www.amazon.com/deals",
+    "why": "Las ofertas del día. Verifícalas siempre en Camel o Keepa antes de comprar."
+   },
+   {
+    "cat": "precios",
+    "name": "Slickdeals",
+    "url": "https://slickdeals.net/",
+    "why": "Comunidad que caza errores de precio y ofertas reales. Lo que llega a portada suele valer la pena."
+   },
+   {
+    "cat": "juegos",
+    "name": "Epic Games · gratis",
+    "url": "https://store.epicgames.com/free-games",
+    "star": 1,
+    "why": "Un juego gratis CADA SEMANA, tuyo para siempre. Reclámalo aunque no lo vayas a jugar."
+   },
+   {
+    "cat": "juegos",
+    "name": "GOG · regalos",
+    "url": "https://www.gog.com/en/partner/free_games",
+    "why": "Juegos gratis sin DRM. Los regalos son por tiempo limitado."
+   },
+   {
+    "cat": "juegos",
+    "name": "Prime Gaming",
+    "url": "https://gaming.amazon.com/",
+    "why": "Si tienes Amazon Prime, ya estás pagando por esto: juegos y contenido gratis cada mes."
+   },
+   {
+    "cat": "juegos",
+    "name": "IsThereAnyDeal",
+    "url": "https://isthereanydeal.com/",
+    "star": 1,
+    "why": "Compara el precio de un juego en TODAS las tiendas y te avisa cuando llegue al precio que quieras."
+   },
+   {
+    "cat": "juegos",
+    "name": "SteamDB · rebajas",
+    "url": "https://steamdb.info/sales/",
+    "why": "Mejor que la página de Steam: muestra el descuento real y si el precio ya estuvo más bajo antes."
+   },
+   {
+    "cat": "juegos",
+    "name": "Humble Bundle",
+    "url": "https://www.humblebundle.com/",
+    "why": "Paquetes de juegos y libros técnicos por poco. Los bundles de libros de programación valen mucho."
+   },
+   {
+    "cat": "juegos",
+    "name": "Steam · ofertas",
+    "url": "https://store.steampowered.com/specials/",
+    "why": "Las rebajas oficiales."
+   },
+   {
+    "cat": "colombia",
+    "name": "MercadoLibre Ofertas",
+    "url": "https://www.mercadolibre.com.co/ofertas",
+    "why": "Ofertas del día. Compara siempre con el precio de lista antes de comprar."
+   },
+   {
+    "cat": "colombia",
+    "name": "Éxito Tecnología",
+    "url": "https://www.exito.com/tecnologia",
+    "why": "Buenos precios en tecnología, sobre todo en temporada."
+   },
+   {
+    "cat": "colombia",
+    "name": "Ktronix",
+    "url": "https://www.ktronix.com/",
+    "why": "Especializada en tecnología. Suele ganarle a Alkosto en portátiles."
+   },
+   {
+    "cat": "colombia",
+    "name": "Alkosto",
+    "url": "https://www.alkosto.com/",
+    "why": "Usa el buscador de arriba: sus URL de categoría cambian y se rompen."
+   },
+   {
+    "cat": "colombia",
+    "name": "Falabella",
+    "url": "https://www.falabella.com.co/falabella-co",
+    "why": "Absorbió a Linio Colombia, que ya no existe."
+   }
   ]
+ }
 }

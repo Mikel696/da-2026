@@ -11,6 +11,48 @@
 
 ---
 
+## 🎁 1-IND · OFERTAS REALES — 2026-08-27 (rediseño + auditoria de enlaces)
+
+Miguel pidio ofertas de verdad, no una lista de portadas. Lo primero fue auditar lo que
+habia: **de 16 enlaces, 4 estaban rotos o mentian**.
+
+| Enlace | Problema |
+|---|---|
+| `linio.com.co/ofertas` | **muerto** (000). Linio Colombia ya no existe, lo absorbio Falabella |
+| `alkosto.com/computadores-tablets` | 404 |
+| `amazon.com.co/deals` | decia «Amazon Colombia» pero **redirige a Amazon US** — Amazon no opera en Colombia |
+| `falabella.com.co/.../ofertas` | la coleccion no existe, tira a la portada |
+
+### El criterio del rediseño
+Un enlace a «Amazon Deals» no es una ventaja: lo tiene cualquiera. La ventaja es **saber si
+el descuento es real**. Por eso ahora cada enlace lleva un campo `why` que explica que te da,
+y hay una categoria entera dedicada a **historico de precios** (CamelCamelCamel, Keepa).
+
+**6 categorias · 35 enlaces**, priorizando lo que pidio (educacion, Amazon, compras, juegos):
+1. **Gratis por ser estudiante** — lo de mas valor sin reclamar. GitHub Student Pack de
+   primero: JetBrains completo, $200 DigitalOcean, dominio. Azure $100 sin tarjeta.
+2. **Cursos y certificados gratis** — Class Central, Kaggle Learn, freeCodeCamp, CS50.
+3. **Cupones Udemy** — Real.Discount, DiscUdemy, CouponScorpion, UdemyFreebies.
+4. **Antes de comprar** — CamelCamelCamel y Keepa. La ventaja real.
+5. **Juegos** — Epic semanal, GOG, Prime Gaming, IsThereAnyDeal, SteamDB.
+6. **Colombia** — MercadoLibre, Exito, Ktronix, Alkosto, Falabella.
+
+### Precision, no promesa
+El GitHub Student Pack se anuncia con el matiz real: **los registros de Copilot Pro se
+pausaron en abr-2026** y hoy dan Copilot Free. Prometer Copilot Pro habria sido vender humo.
+
+### Verificacion
+**Los 35 enlaces comprobados uno por uno: 0 rotos.** 32 responden 200; 3
+(CamelCamelCamel, Slickdeals, SteamDB) devuelven 403 a curl pero se confirmo por cabeceras
+que estan **vivos detras de Cloudflare** (`Server: cloudflare` + `cf-ray`), no caidos.
+
+UI: de lista plana estrecha a panel de 520 px con categorias, nota por categoria, insignia
+TOP en los 9 de mayor ventaja y el porque bajo cada nombre. Movil 375 px: 338 px de ancho,
+sin desborde. Dashboard intacto (15 modulos, feed, reloj). Respaldo del `renderDeals` viejo:
+si `dealsV2` faltara, cae al listado simple en vez de quedar vacio.
+
+---
+
 ## 🧭 3-ENG · ESTRUCTURA puesta al dia — 2026-08-27
 
 Miguel iba a empezar a estudiar y detecto que la pagina de entrada mentia: decia
