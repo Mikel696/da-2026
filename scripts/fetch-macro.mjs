@@ -39,13 +39,30 @@ const SERIES = {
 
 const MAX_POINTS = 400;   // ~15 meses de serie diaria
 
+/* Este script es el unico paso SIN continue-on-error: si revienta, la corrida
+   entera falla y no se commitea nada (paso el 26-ago, corrida #42). Un fallo
+   pasajero de red no puede costar la foto del dia, asi que reintenta. */
+const REINTENTOS = 3;
+const espera = ms => new Promise(r => setTimeout(r, ms));
+
 async function getJson(url, label) {
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'da-2026-cerebro/1.0 (+https://github.com/Mikel696/da-2026)' },
-    signal: AbortSignal.timeout(45000)
-  });
-  if (!res.ok) throw new Error(`${label}: HTTP ${res.status}`);
-  return res.json();
+  let ultimo;
+  for (let intento = 1; intento <= REINTENTOS; intento++) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'da-2026-cerebro/1.0 (+https://github.com/Mikel696/da-2026)' },
+        signal: AbortSignal.timeout(45000)
+      });
+      if (!res.ok) throw new Error(`${label}: HTTP ${res.status}`);
+      return await res.json();
+    } catch (e) {
+      ultimo = e;
+      const msg = (e && (e.message || e.name)) || String(e);
+      console.warn(`  · ${label} intento ${intento}/${REINTENTOS}: ${msg}`);
+      if (intento < REINTENTOS) await espera(3000 * intento * intento);   // 3s, 12s
+    }
+  }
+  throw ultimo;
 }
 
 async function fetchBanrep() {

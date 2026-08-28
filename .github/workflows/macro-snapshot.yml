@@ -7,14 +7,25 @@ name: Foto diaria · datos y vacantes
 
 on:
   schedule:
-    # Tres corridas al día. Una sola no alcanzaba para las vacantes: se
-    # publican a toda hora, y con una corrida matinal las de la tarde
-    # aparecían recién al día siguiente, ya con un día de antigüedad.
-    # Los datos financieros no cambian tanto intradía, pero el recolector
-    # no commitea si el archivo no cambió, así que repetir sale gratis.
-    - cron: '20 11 * * *'   # 06:20 en Colombia · tras publicarse la TRM
-    - cron: '20 15 * * *'   # 10:20 en Colombia
-    - cron: '20 20 * * *'   # 15:20 en Colombia
+    # ── Medido el 28-ago-2026 ──────────────────────────────────────────
+    # Hasta el 26-ago las tres corridas entraban con 21-43 min de retraso.
+    # Desde entonces GitHub empezó a soltarlas: retrasos de 3,4 h · 4,1 h ·
+    # 8,1 h, y dos de las tres franjas dejaron de dispararse. Resultado:
+    # datos de 16 h de antigüedad aunque la fuente estuviera perfecta.
+    #
+    # Dos cambios contra eso:
+    #  1. MINUTOS RAROS. El :20 (como :00, :15, :30) es de los más pedidos
+    #     y es justo donde GitHub encola y descarta. Ninguno redondo acá.
+    #  2. SEIS franjas en vez de tres, cada ~3 h. Aunque se caiga la mitad,
+    #     el dato no pasa de ~6 h. El repo es PÚBLICO: los minutos de
+    #     Actions son ilimitados, y el recolector no commitea si nada
+    #     cambió — repetir de verdad sale gratis.
+    - cron: '7 11 * * *'    # 06:07 en Colombia · tras publicarse la TRM
+    - cron: '23 14 * * *'   # 09:23 en Colombia
+    - cron: '41 17 * * *'   # 12:41 en Colombia
+    - cron: '9 20 * * *'    # 15:09 en Colombia
+    - cron: '37 23 * * *'   # 18:37 en Colombia
+    - cron: '51 2 * * *'    # 21:51 en Colombia
   workflow_dispatch:        # botón manual en la pestaña Actions
 
 permissions:
