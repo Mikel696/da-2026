@@ -110,7 +110,8 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `14-WORK` | `work.html` | 🟢 Ecosistema Simetrik (Empieza Aquí, Playbook, Diccionario 100+, Curso, Notas, Cuadernos, Casos, Errores, Aprendizajes, KB, Copilot) — **PRODUCCIÓN** |
 | `15-MM` | `mindmap.html` | Mind Map Studio (jsMind + Free Canvas Miro-style) |
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
-| `17-IA` | `pages/ai-engine.html` | 🟢 AI Engine — documento maestro autocontenido para dominar la IA — **PRODUCCIÓN** |
+| `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
+| `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
 ---
@@ -248,50 +249,61 @@ Existe `PROMPT_14-WORK.md` en la raíz del repo con el prompt maestro completo (
 
 ---
 
-## 🤖 PROTOCOLO 17-IA · AI ENGINE
+## 🥋 PROTOCOLO 17-IA · AI DOJO + AI ENGINE
 
-Documento maestro autocontenido (`frontend/pages/ai-engine.html`) con la **misma metodología** que el
-English Engine: un pilar único, piezas de colores fijos que se repiten en todo el documento,
-bifurcaciones con el hueco sin resolver, práctica Leitner y cuaderno propio.
+Dos piezas con papeles distintos. **No confundirlas: el orden importa.**
 
-### El pilar
-**«La IA no se aprende. Se dirige.»** Todo encargo se arma con **6 piezas**, cada una con su color fijo
-— el mismo sistema de 6 colores del English Engine, con otro significado:
-
-| Pieza | Color | Variable |
+| | Qué es | Cuándo se toca |
 |---|---|---|
-| ROL · desde dónde responde | violeta | `--r-rol` |
-| TAREA · el verbo (única obligatoria) | verde | `--r-tar` |
-| CONTEXTO · el material | cian | `--r-ctx` |
-| FORMATO · cómo lo entrega | ámbar | `--r-fmt` |
-| LÍMITES · qué NO debe hacer | rojo | `--r-lim` |
-| CRITERIO · cuándo está bien | rosa | `--r-cri` |
+| **🥋 AI Dojo** (`pages/ai-dojo.html`) | **El taller.** Donde se practica. Es la puerta de entrada y el módulo principal. | Aquí se añade contenido nuevo por defecto. |
+| **📚 AI Engine** (`pages/ai-engine.html`) | **La biblioteca.** Consulta: 283 términos, 31 fichas de herramientas, 98 prompts. | Solo para material de referencia. |
 
-### 10 pestañas
-`p0` Estructura (el pilar, 5 moldes, 3 motores, escalera de confianza) · `pz` Piezas (17 conceptos desde
-cero + quiz de 14) · `mo` Modelos (31 fichas) · `bf` ¿Cuál uso? (13 bifurcaciones × 5 ejercicios) ·
-`orq` Orquesta (12 patrones multi-IA) · `p1` Términos (283) · `p2` Prompts (98 con molde visible) ·
-`pr` Práctica (Leitner 5 cajas) · `nb` Cuaderno · `p3` Método.
+### Por qué el Dojo existe · la lección que lo originó
+La primera versión de 17-IA copió literalmente la estructura del English Engine (vocabulario por
+frecuencia + Leitner + flashcards). **Miguel lo rechazó, y tenía razón:**
 
-### 🚨 Regla de integridad de datos de este módulo
-**El catálogo NO afirma ningún dato que caduque** — ni precios, ni nombres de versión, ni límites de
-plan, ni tamaños de ventana. Una ficha desactualizada es peor que ninguna: parece verdad. Cada ficha
-lleva su campo `ver` (fecha de corte, hoy `2026-05`) visible en la tarjeta y **enlace a la página
-oficial**. Lo que sí se afirma es lo estable: para qué sirve, dónde falla, cómo se le habla.
-Al añadir o tocar una ficha, **mantener esa regla**.
+> En inglés el cuello de botella es la **memoria** — por eso Leitner funciona.
+> En IA el cuello de botella es el **criterio**, y el criterio no se memoriza: se construye
+> produciendo cosas reales y aprendiendo a juzgarlas.
 
-### Storage (todas sincronizadas vía el SYNC propio del documento)
-`ia_nb`, `ia_nb_trash`, `ia_fav_t`, `ia_fav_p`, `ia_fav_m`, `ia_srs`, `ia_streak`, `ia_bifur`.
-Locales: `ia_meta`, `ia_tab`, `ia_voice`, `ia_rate`, `ia_sync_last`.
-**No usa `cloud-sync.js`** — lleva su propio SYNC embebido contra la misma tabla `app_state`, igual que
-el English Engine. Así el blast radius al tocarlo es cero y no obliga a subir versión en las 28 páginas.
+Saberse 283 términos no hace a nadie bueno con IA. Hacer 40 encargos reales y saber detectar cuándo
+la respuesta está mal, sí. **Lección general: antes de copiar la forma de un módulo que funciona,
+preguntarse si el problema que resuelve es el mismo.**
 
-### Cómo se edita
-El archivo se construye por partes y se concatena; las partes viven en el scratchpad de la sesión que lo
-creó. Para cambios pequeños, editar directamente el HTML. Los datos son **strings crudos separados por
-`|`** (igual que `RAW_WORDS`/`RAW_PHRASES` del English Engine): `RAW_TERMS` (6 campos), `RAW_PROMPTS`
-(7 campos, la virgulilla `~` es salto de línea dentro del prompt), y objetos JS para `MODELS`, `BIFUR`
-y `PATRONES`. Al tocar los datos, **verificar el número de campos por línea** antes de commitear.
+### El pilar del Dojo
+**«Nadie se vuelve bueno con IA leyendo sobre IA.»** Todo lo que hay pide **producir un artefacto**
+con un caso real. Nada se completa leyendo.
+
+### Las 5 habilidades que entrena · una pestaña cada una
+**ENCARGAR** (🛠️ Banco) · **ELEGIR** (⚔️ Ring) · **JUZGAR** (📐 Criterio, la decisiva) ·
+**ORQUESTAR** (🎼 Proyectos) · **DEMOSTRAR** (🎒 Evidencia).
+
+### 9 pestañas
+`d0` Dojo (pilar + estado + qué hacer hoy, calculado del progreso real) · `pt` **Proyectos** (15
+partituras multi-IA **con ejecutor**) · `ms` Misiones (42 en 6 cinturones) · `bt` Banco (constructor
+de encargos + auditor) · `rg` Ring (comparador → tabla personal derivada) · `cr` Criterio (18 casos de
+caza + 10 rúbricas) · `sa` Saber (52 conceptos) · `ev` Evidencia (portafolio + banco de pruebas) ·
+`bi` Bitácora.
+
+### El ejecutor de proyectos · la pieza que hay que cuidar
+Cada paso de una partitura lleva un prompt con dos marcadores:
+- `[corchetes]` → lo rellena el usuario (se pinta en ámbar)
+- `{{N}}` → **se sustituye por la salida que el usuario pegó en el paso N**
+
+Eso es lo que encadena las IAs. **Invariante:** todo `{{N}}` debe apuntar a un paso ANTERIOR
+(`N >= 1 && N <= idx`). El validador del scratchpad lo comprueba; si añades un proyecto, compruébalo.
+
+### Storage (sincronizado con merge por entidad)
+`dojo_ms`, `dojo_pt`, `dojo_cr` (objetos {id:{...,ts}}) · `dojo_rg`, `dojo_pf`, `dojo_bc` (arrays con
+id+ts) · `dojo_nb`, `dojo_nb_trash`, `dojo_streak`. Locales: `dojo_bank`, `dojo_tab`.
+**Merge por entidad, nunca por bloque:** si marca una misión en el móvil y otra en el PC, quedan las
+dos. Igual que el Engine, lleva su **SYNC propio embebido** contra `app_state` — no toca
+`cloud-sync.js`, así que no obliga a subir versión en las 28 páginas.
+
+### Regla de integridad heredada del Engine
+El catálogo de herramientas **no afirma precios, versiones ni límites de plan**. Fecha de corte
+visible (`ver`) + enlace oficial. Aplica igual a cualquier ficha nueva en cualquiera de las dos
+páginas.
 
 ---
 

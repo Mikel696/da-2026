@@ -11,55 +11,75 @@
 
 ---
 
-## 🤖 17-IA · AI ENGINE — 2026-08-28 (modulo nuevo · documento maestro)
+## 🥋 17-IA · AI DOJO — 2026-08-28 (rediseño desde el metodo)
 
-Miguel pidio **la misma metodologia del English Engine, pero para dominar la IA**. No un hub con
-pestanas: el documento maestro autocontenido, y que fuera el mas grande del proyecto.
+### El error, y por que importa
+La primera version copio literalmente el molde del English Engine: vocabulario por frecuencia,
+Leitner, flashcards. **Miguel lo rechazo en cuanto lo vio**, y tenia razon:
 
-`frontend/pages/ai-engine.html` · **5.345 lineas · 486 KB · cero dependencias**
+> *"creo que tomaste todo literal, no era copiar el curso de ingles, tenias que analizar que para
+> estudiar IA es diferente."*
 
-### Lo que se copio del English Engine (la metodologia, no el texto)
-| English Engine | AI Engine |
-|---|---|
-| «El ingles no se estudia, se **arma**» | «La IA no se aprende, se **dirige**» |
-| 6 piezas de la frase, colores fijos | **6 piezas del encargo**, mismos 6 colores |
-| 5 moldes que generan el 90% | **5 moldes** de lo que le vas a pedir |
-| 3 motores (BE / DO / HAVE) | **3 motores**: chat, con fuente, agente |
-| Bifurcaciones: 1 palabra tuya, varias suyas | **1 tarea tuya, varias herramientas suyas** |
-| 2000 palabras por frecuencia | **283 terminos** por utilidad real |
-| 1000 frases con su molde visible | **98 prompts** con su molde visible |
-| Practica Leitner 5 cajas | igual, sobre terminos y prompts |
-| Cuaderno con plantillas de ingles | cuaderno con **plantillas de IA** |
-| Modulo 3 · Metodo | Metodo: 8 principios, rutina 20 min, 10 errores caros, plan 90 dias |
+Lo es, y de forma fundamental. **En ingles el cuello de botella es la MEMORIA** — hay que recuperar
+la palabra en medio segundo mientras hablas, y por eso Leitner y 2000 palabras funcionan. **En IA el
+cuello de botella es el CRITERIO**: la informacion esta a un clic, lo que falta es saber que pedir y
+si lo que volvio sirve. Y el criterio no se memoriza — se construye produciendo y juzgando.
 
-### Lo que es nuevo, porque el dominio lo pedia
-- **🤖 Modelos** — 31 fichas. Cada una responde tres preguntas y nada mas: donde gana, donde pierde,
-  como se le habla. Mas la trampa de cada herramienta.
-- **🎼 Orquesta** — 12 patrones de trabajo multi-IA (generador↔critico, relevo, panel, cadena de
-  contexto, sala limpia, fabrica con red...) con pasos, prompt copiable por paso, coste/riesgo y un
-  caso concreto. Era una peticion explicita: «como trabajar en equipo con varias IAs».
-- **Escalera de confianza** — 5 niveles que dicen cuanto verificar segun lo que este en juego.
+Ademas el error caro es distinto: en ingles es decir mal una frase (se corrige y ya); en IA es
+**aceptar una respuesta falsa que suena perfecta** — y ese error no se nota, que es su gracia.
 
-### La decision de integridad que define el modulo
-**El catalogo NO afirma ningun dato que caduque.** Ni precios, ni versiones, ni limites de plan, ni
-tamanos de ventana. Mi corte de conocimiento es 2026-05 y hoy es 2026-08: una ficha con un precio
-inventado no es un error menor, es **una mentira con formato de verdad**. Cada ficha lleva su fecha de
-corte visible en la tarjeta y enlace a la pagina oficial. Lo que si se afirma es lo estable: para que
-sirve, donde falla, como se le habla. **El enlace es la verdad de hoy; la ficha es el criterio.**
+**Leccion para el proyecto: antes de copiar la forma de un modulo que funciona, preguntarse si el
+problema que resuelve es el mismo.** Copiar la forma sin el diagnostico es lo que produjo la v1.
 
-### Verificado en navegador (no solo escrito)
-283 terminos · 98 prompts · 31 modelos · 13 bifurcaciones (65 ejercicios) · 12 patrones · 17 piezas ·
-quiz de 14. Probado: cambio de pestanas, bifurcacion con acierto y con fallo (marca verde/roja +
-explicacion + contador), filtros y busqueda del catalogo, Leitner (girar + calificar + avance),
-quiz con feedback, Ctrl+K sobre las 5 fuentes, y el molde coloreado de cada prompt.
-Cero errores de consola. Validador de datos en el scratchpad (`check.js`): campos por linea,
-duplicados de termino, respuesta `ok` presente en las opciones de cada bifurcacion.
+### Lo que se construyo
+`frontend/pages/ai-dojo.html` · **3.979 lineas · 348 KB · cero dependencias**
 
-### Enganchado al Cerebro
-- Tarjeta en el dashboard (`index.html`) junto a English Academy + entrada en el rail de navegacion.
-- Enlace `←` a `../index.html` en la barra superior.
-- SYNC propio embebido contra la misma tabla `app_state`, claves `ia_*`. **No toca `cloud-sync.js`**,
-  asi que no obliga a subir version en las 28 paginas (regla 7 de CLAUDE.md).
+Un taller, no un diccionario. Todo pide **producir un artefacto** con un caso real.
+
+| Pestaña | Qué entrena | Contenido |
+|---|---|---|
+| 🎼 **Proyectos** | Orquestar | **15 partituras multi-IA con ejecutor** |
+| 🎯 Misiones | La rutina | 42 reps en 6 cinturones |
+| 🛠️ Banco | Encargar | Constructor de encargos + auditor |
+| ⚔️ Ring | Elegir | Comparador → su tabla personal |
+| 📐 Criterio | **Juzgar** | 18 casos de caza + 10 rúbricas |
+| 🧠 Saber | Soporte | 52 conceptos, cada uno con "qué haces distinto" |
+| 🎒 Evidencia | Demostrar | Portafolio + su banco de pruebas |
+
+### La pieza estrella · el ejecutor de partituras
+Cada proyecto reparte un trabajo entre 3-6 herramientas. Cada paso trae el prompt exacto, y **lo que
+el usuario pega de vuelta se inyecta automaticamente en los prompts de los pasos siguientes**
+(marcador `{{N}}`). Es lo que convierte una guia en una herramienta: no lee sobre orquestacion,
+orquesta. Con puntos de control humanos donde no se puede seguir a ciegas.
+
+Ejemplos: *El informe blindado* (investigar con fuente → redactar → criticar con OTRO modelo →
+verificar dato por dato) · *El detective de la conciliacion* (anonimizar en local → analizar con el
+modelo grande → aplicar sobre lo real, **sin que ningun dato de cliente salga del equipo**) ·
+*La fabrica con red* (modelo pequeño procesa, aparta lo dudoso, modelo grande resuelve, tu firmas).
+
+### Decisiones de diseño que vale la pena conservar
+- **La habilidad central es JUZGAR, no saber.** Por eso existe la caza de fallos: 18 salidas de IA
+  realistas con un fallo escondido. Se entrena como un radiologo mira placas.
+- **La tabla de herramientas se DERIVA de sus veredictos**, no se escribe aparte. Asi refleja lo que
+  midio el, y no caduca porque la actualiza al usarla.
+- **El "que hacer hoy" se calcula del estado real**: proyecto a medias > mision del cinturon actual >
+  proyecto nuevo. Una sola recomendacion, no un menu.
+- **El auditor del banco no puntua el texto**: comprueba que piezas faltan y que riesgo se esta
+  corriendo (datos sin proteccion contra invento, calculo sin codigo, pregunta que invita al si,
+  material sin blindaje contra inyeccion, datos sensibles).
+
+### El Engine no se tiro: cambio de papel
+`ai-engine.html` sigue vivo como **la biblioteca** (283 terminos, 31 fichas, 98 prompts) y se enlaza
+desde el Dojo. Pero deja de ser la puerta de entrada: **la biblioteca se consulta, el taller se
+practica.**
+
+### Verificado en navegador
+15 proyectos · 42 misiones · 6 cinturones · 18 casos de caza · 10 rubricas · 52 conceptos · 6 piezas ·
+8 plantillas. Probado el flujo completo: **encadenamiento del ejecutor** (pegar salida del paso 1 →
+aparece dentro de los prompts de los pasos 2 y 3), auditor del banco pasando de 1/6 a 5/6, Ring con
+estrellas y tabla personal derivada, caza con feedback, mision marcada y contadores de portada
+actualizados. Cero errores de consola. Validador de datos en el scratchpad que ademas comprueba el
+invariante de las inyecciones (`{{N}}` siempre apunta a un paso anterior).
 
 ---
 
