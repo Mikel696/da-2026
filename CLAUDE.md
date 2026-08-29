@@ -110,6 +110,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `14-WORK` | `work.html` | 🟢 Ecosistema Simetrik (Empieza Aquí, Playbook, Diccionario 100+, Curso, Notas, Cuadernos, Casos, Errores, Aprendizajes, KB, Copilot) — **PRODUCCIÓN** |
 | `15-MM` | `mindmap.html` | Mind Map Studio (jsMind + Free Canvas Miro-style) |
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
+| `17-IA` | `pages/ai-engine.html` | 🟢 AI Engine — documento maestro autocontenido para dominar la IA — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
 ---
@@ -244,6 +245,53 @@ Locales (no sincronizan, por diseño): `work_eco_dict_seed_v`, `work_eco_dict_br
 
 ### Prompt operativo
 Existe `PROMPT_14-WORK.md` en la raíz del repo con el prompt maestro completo (contexto + arquitectura + memoria operativa + protocolo de ejecución). El usuario lo copia, agrega instrucciones al final, y se ejecuta como sesión autocontenida.
+
+---
+
+## 🤖 PROTOCOLO 17-IA · AI ENGINE
+
+Documento maestro autocontenido (`frontend/pages/ai-engine.html`) con la **misma metodología** que el
+English Engine: un pilar único, piezas de colores fijos que se repiten en todo el documento,
+bifurcaciones con el hueco sin resolver, práctica Leitner y cuaderno propio.
+
+### El pilar
+**«La IA no se aprende. Se dirige.»** Todo encargo se arma con **6 piezas**, cada una con su color fijo
+— el mismo sistema de 6 colores del English Engine, con otro significado:
+
+| Pieza | Color | Variable |
+|---|---|---|
+| ROL · desde dónde responde | violeta | `--r-rol` |
+| TAREA · el verbo (única obligatoria) | verde | `--r-tar` |
+| CONTEXTO · el material | cian | `--r-ctx` |
+| FORMATO · cómo lo entrega | ámbar | `--r-fmt` |
+| LÍMITES · qué NO debe hacer | rojo | `--r-lim` |
+| CRITERIO · cuándo está bien | rosa | `--r-cri` |
+
+### 10 pestañas
+`p0` Estructura (el pilar, 5 moldes, 3 motores, escalera de confianza) · `pz` Piezas (17 conceptos desde
+cero + quiz de 14) · `mo` Modelos (31 fichas) · `bf` ¿Cuál uso? (13 bifurcaciones × 5 ejercicios) ·
+`orq` Orquesta (12 patrones multi-IA) · `p1` Términos (283) · `p2` Prompts (98 con molde visible) ·
+`pr` Práctica (Leitner 5 cajas) · `nb` Cuaderno · `p3` Método.
+
+### 🚨 Regla de integridad de datos de este módulo
+**El catálogo NO afirma ningún dato que caduque** — ni precios, ni nombres de versión, ni límites de
+plan, ni tamaños de ventana. Una ficha desactualizada es peor que ninguna: parece verdad. Cada ficha
+lleva su campo `ver` (fecha de corte, hoy `2026-05`) visible en la tarjeta y **enlace a la página
+oficial**. Lo que sí se afirma es lo estable: para qué sirve, dónde falla, cómo se le habla.
+Al añadir o tocar una ficha, **mantener esa regla**.
+
+### Storage (todas sincronizadas vía el SYNC propio del documento)
+`ia_nb`, `ia_nb_trash`, `ia_fav_t`, `ia_fav_p`, `ia_fav_m`, `ia_srs`, `ia_streak`, `ia_bifur`.
+Locales: `ia_meta`, `ia_tab`, `ia_voice`, `ia_rate`, `ia_sync_last`.
+**No usa `cloud-sync.js`** — lleva su propio SYNC embebido contra la misma tabla `app_state`, igual que
+el English Engine. Así el blast radius al tocarlo es cero y no obliga a subir versión en las 28 páginas.
+
+### Cómo se edita
+El archivo se construye por partes y se concatena; las partes viven en el scratchpad de la sesión que lo
+creó. Para cambios pequeños, editar directamente el HTML. Los datos son **strings crudos separados por
+`|`** (igual que `RAW_WORDS`/`RAW_PHRASES` del English Engine): `RAW_TERMS` (6 campos), `RAW_PROMPTS`
+(7 campos, la virgulilla `~` es salto de línea dentro del prompt), y objetos JS para `MODELS`, `BIFUR`
+y `PATRONES`. Al tocar los datos, **verificar el número de campos por línea** antes de commitear.
 
 ---
 

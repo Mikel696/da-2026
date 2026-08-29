@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-08-26
+- **Última actualización:** 2026-08-28
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,58 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🤖 17-IA · AI ENGINE — 2026-08-28 (modulo nuevo · documento maestro)
+
+Miguel pidio **la misma metodologia del English Engine, pero para dominar la IA**. No un hub con
+pestanas: el documento maestro autocontenido, y que fuera el mas grande del proyecto.
+
+`frontend/pages/ai-engine.html` · **5.345 lineas · 486 KB · cero dependencias**
+
+### Lo que se copio del English Engine (la metodologia, no el texto)
+| English Engine | AI Engine |
+|---|---|
+| «El ingles no se estudia, se **arma**» | «La IA no se aprende, se **dirige**» |
+| 6 piezas de la frase, colores fijos | **6 piezas del encargo**, mismos 6 colores |
+| 5 moldes que generan el 90% | **5 moldes** de lo que le vas a pedir |
+| 3 motores (BE / DO / HAVE) | **3 motores**: chat, con fuente, agente |
+| Bifurcaciones: 1 palabra tuya, varias suyas | **1 tarea tuya, varias herramientas suyas** |
+| 2000 palabras por frecuencia | **283 terminos** por utilidad real |
+| 1000 frases con su molde visible | **98 prompts** con su molde visible |
+| Practica Leitner 5 cajas | igual, sobre terminos y prompts |
+| Cuaderno con plantillas de ingles | cuaderno con **plantillas de IA** |
+| Modulo 3 · Metodo | Metodo: 8 principios, rutina 20 min, 10 errores caros, plan 90 dias |
+
+### Lo que es nuevo, porque el dominio lo pedia
+- **🤖 Modelos** — 31 fichas. Cada una responde tres preguntas y nada mas: donde gana, donde pierde,
+  como se le habla. Mas la trampa de cada herramienta.
+- **🎼 Orquesta** — 12 patrones de trabajo multi-IA (generador↔critico, relevo, panel, cadena de
+  contexto, sala limpia, fabrica con red...) con pasos, prompt copiable por paso, coste/riesgo y un
+  caso concreto. Era una peticion explicita: «como trabajar en equipo con varias IAs».
+- **Escalera de confianza** — 5 niveles que dicen cuanto verificar segun lo que este en juego.
+
+### La decision de integridad que define el modulo
+**El catalogo NO afirma ningun dato que caduque.** Ni precios, ni versiones, ni limites de plan, ni
+tamanos de ventana. Mi corte de conocimiento es 2026-05 y hoy es 2026-08: una ficha con un precio
+inventado no es un error menor, es **una mentira con formato de verdad**. Cada ficha lleva su fecha de
+corte visible en la tarjeta y enlace a la pagina oficial. Lo que si se afirma es lo estable: para que
+sirve, donde falla, como se le habla. **El enlace es la verdad de hoy; la ficha es el criterio.**
+
+### Verificado en navegador (no solo escrito)
+283 terminos · 98 prompts · 31 modelos · 13 bifurcaciones (65 ejercicios) · 12 patrones · 17 piezas ·
+quiz de 14. Probado: cambio de pestanas, bifurcacion con acierto y con fallo (marca verde/roja +
+explicacion + contador), filtros y busqueda del catalogo, Leitner (girar + calificar + avance),
+quiz con feedback, Ctrl+K sobre las 5 fuentes, y el molde coloreado de cada prompt.
+Cero errores de consola. Validador de datos en el scratchpad (`check.js`): campos por linea,
+duplicados de termino, respuesta `ok` presente en las opciones de cada bifurcacion.
+
+### Enganchado al Cerebro
+- Tarjeta en el dashboard (`index.html`) junto a English Academy + entrada en el rail de navegacion.
+- Enlace `←` a `../index.html` en la barra superior.
+- SYNC propio embebido contra la misma tabla `app_state`, claves `ia_*`. **No toca `cloud-sync.js`**,
+  asi que no obliga a subir version en las 28 paginas (regla 7 de CLAUDE.md).
 
 ---
 
