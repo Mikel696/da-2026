@@ -11,6 +11,57 @@
 
 ---
 
+## ⏳ 3-ENG · Marcadores de tiempo — 2026-09-02
+
+### El caso
+«Tengo hambre ayer» / «I'm hungry yesterday». Las dos en verde. Ninguno de los dos analizadores
+comprobaba lo más elemental: **si dices AYER, el verbo va en pasado**.
+
+Lo llamativo es que **el dato ya estaba en el documento**: cada tiempo del Laboratorio lleva su
+campo `pistas` («yesterday · last week · in 2020 · two days ago»). Lo tenía escrito como
+explicación y nunca lo había usado como comprobación.
+
+### Lo que se añadió
+Chequeo de **marcador temporal contra tiempo verbal**, en los dos idiomas:
+- pasado (`yesterday`, `last week`, `X ago`, `in 2020` / `ayer`, `anoche`, `hace X`, `en 2020`)
+  con verbo en presente, futuro o continuo → **rojo**, con la frase ya corregida
+- futuro (`tomorrow`, `next week` / `mañana`, `la semana que viene`) con verbo en pasado → rojo
+- `right now` con presente simple → naranja, sugiriendo el continuo
+- **Guarda:** «Desde ayer trabajo aquí» y «Since yesterday I've been here» son correctas — ahí el
+  marcador es un punto de partida, no un momento cerrado. Sin esa guarda se marcarían bien frases
+  correctas.
+
+### El bug de fondo que esto destapó
+`tiempo()` **no reconocía ningún verbo regular en pasado**. La prueba era `esV2(w) && !esPP(w)`,
+pero para un verbo regular «worked» es a la vez pasado y participio, así que la condición **nunca
+se cumplía**. Consecuencia: *It happened two days ago* se leía como **presente simple**, y el panel
+«Qué estás usando» llevaba mintiendo desde el primer día en toda frase en pasado regular.
+Reescrito: ahora busca si hay un `have/has/had` haciendo de auxiliar de verdad (con participio
+detrás) y, si no lo hay, un verbo en forma de pasado significa pasado simple.
+
+### La barra invertida, por cuarta vez
+El heredoc del shell volvió a comerse una barra y dejó `split(/s+/)` en vez de `split(/\s+/)`,
+rompiendo la exclusión del marcador **sin dar ningún error**. Van cuatro en esta sesión:
+`\s*` → `s*` (coletillas), `\b` → `b` (marcador de futuro), `\s+` → `s+` (separación).
+Queda `scratchpad/eng/fix_barras.js`, que además **rastrea** el archivo buscando otras barras
+comidas en vez de descubrirlas de una en una. **Regla: nada con regex o comillas pasa por heredoc.**
+
+### Medición
+| | falsos positivos |
+|---|---|
+| al añadir el chequeo | 6 en inglés · 6 en español |
+| tras arreglar `tiempo()` y acotar los marcadores | **0 · 0 · 0** |
+
+0 en las 1000 frases inglesas, 0 en las 1000 españolas, 0 en los 2000 ejemplos.
+Bancos: **66 casos en inglés, 20 en español**, todos pasando.
+
+### Y un defecto cosmético
+La corrección salía como «I was hungry yesterday**..**» porque dos arreglos se solapaban: uno
+cambiaba la frase entera y el otro le añadía el punto que ya tenía. Se normaliza al final en vez de
+intentar que no se solapen nunca.
+
+---
+
 ## 🇪🇸 3-ENG · El semáforo miraba al sitio equivocado — 2026-09-02
 
 ### Lo que vio Miguel

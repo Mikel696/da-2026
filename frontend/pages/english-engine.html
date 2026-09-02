@@ -8125,6 +8125,80 @@ document.addEventListener('click', e => {
 
 
 /* ══════════════════════════════════════════════════════════════════════
+   MARCADORES DE TIEMPO · el tiempo verbal tiene que casar con el «cuándo»
+   ──────────────────────────────────────────────────────────────────────
+   Miguel escribió «Tengo hambre ayer» / «I'm hungry yesterday» y las dos
+   salieron verdes. Ninguno de los dos analizadores comprobaba lo más
+   básico: si dices AYER, el verbo va en pasado.
+
+   El dato ya estaba en el documento — cada tiempo del Laboratorio lleva su
+   campo `pistas` («yesterday · last week · in 2020 · two days ago»). Lo
+   tenía como explicación y nunca lo usé como comprobación.
+════════════════════════════════════════════════════════════════════════ */
+const MARC = (() => {
+  const DIA = '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)';
+  const EN_PAS = new RegExp('\\b(yesterday|the day before yesterday|last\\s+(night|week|month|year|summer|winter|time|' + DIA + ')|' +
+    '(\\d+|a|two|three|four|five|six|ten|twenty)\\s+(second|minute|hour|day|week|month|year)s?\\s+ago|in\\s+(19|20)\\d\\d)\\b', 'i');
+  const EN_FUT = new RegExp('\\b(tomorrow|the day after tomorrow|next\\s+(week|month|year|summer|winter|time|' + DIA + ')|' +
+    'soon)\\b', 'i');
+  const EN_AHORA = /\b(right now|at the moment|at present|currently)\b/i;
+
+  const ES_PAS = /\b(ayer|anteayer|anoche|antenoche|la\s+semana\s+pasada|el\s+(mes|año)\s+pasado|hace\s+(\d+|un|una|dos|tres|cuatro|cinco|diez)\s+(segundo|minuto|hora|día|semana|mes|año)s?|en\s+(19|20)\d\d)\b/i;
+  const ES_FUT = /\b(mañana|pasado\s+mañana|la\s+semana\s+que\s+viene|la\s+próxima\s+semana|el\s+(mes|año)\s+que\s+viene|pronto|dentro\s+de)\b/i;
+
+  /* «Desde ayer trabajo aquí» y «Since yesterday I've been here» SÍ llevan
+     presente/perfecto: el marcador es un punto de partida, no un momento
+     cerrado. Sin esta guarda se marcarían frases correctas. */
+  const EN_ARRANQUE = /\b(since|from|until|till|up to)\b/i;
+  const ES_ARRANQUE = /\b(desde|hasta)\b/i;
+
+  return { EN_PAS, EN_FUT, EN_AHORA, ES_PAS, ES_FUT, EN_ARRANQUE, ES_ARRANQUE };
+})();
+
+/* ── Inglés: convierte a pasado lo que se pueda, para poder ofrecer el ✓ ── */
+function aPasadoEN(pal){
+  const M = { am:'was', is:'was', are:'were', "'m":'was',
+              have:'had', has:'had', do:'did', does:'did',
+              will:'would', can:'could' };
+  let hecho = false;
+  const out = pal.map(w => {
+    if(M[w] && !hecho){ hecho = true; return M[w]; }
+    return w;
+  });
+  if(!hecho){
+    // Sin auxiliar: se pasa el verbo principal a su forma de pasado
+    for(let i = 0; i < out.length; i++){
+      const w = out[i];
+      if(LEX.AUX.has(w) || LEX.SUJ.has(w) || LEX.WH.has(w)) continue;
+      const r = LEX.raiz(w);
+      if(r && LEX.verboConocido(r) && !LEX.esV2(w)){ out[i] = LEX.conj(r, 'v2'); hecho = true; break; }
+    }
+  }
+  if(!hecho) return null;
+  let s = out.join(' ').replace(/\s+/g, ' ').trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/* ── Español: presente → pasado. Los irregulares más usados van a mano
+     porque son justo los que más aparecen. ── */
+const ES_A_PASADO = {
+  tengo:'tenía', tienes:'tenías', tiene:'tenía', tenemos:'teníamos', tienen:'tenían',
+  soy:'era', eres:'eras', es:'era', somos:'éramos', son:'eran',
+  estoy:'estaba', estás:'estabas', está:'estaba', estamos:'estábamos', están:'estaban',
+  voy:'iba', vas:'ibas', va:'iba', vamos:'íbamos', van:'iban',
+  hago:'hacía', haces:'hacías', hace:'hacía', hacemos:'hacíamos', hacen:'hacían',
+  puedo:'podía', puedes:'podías', puede:'podía', podemos:'podíamos', pueden:'podían',
+  quiero:'quería', quieres:'querías', quiere:'quería', queremos:'queríamos', quieren:'querían',
+  sé:'sabía', sabes:'sabías', sabe:'sabía', sabemos:'sabíamos', saben:'sabían',
+  digo:'decía', dices:'decías', dice:'decía', decimos:'decíamos', dicen:'decían',
+  veo:'veía', ves:'veías', ve:'veía', vemos:'veíamos', ven:'veían',
+  hay:'había', doy:'daba', da:'daba', pongo:'ponía', pone:'ponía',
+  vengo:'venía', viene:'venía', salgo:'salía', sale:'salía'
+};
+/* Presentes irregulares que hay que reconocer aunque su terminación engañe */
+const ES_PRESENTE = new Set(Object.keys(ES_A_PASADO));
+
+/* ══════════════════════════════════════════════════════════════════════
    MOTOR v2 · cadena verbal, léxico ampliado y sugerencias
    ──────────────────────────────────────────────────────────────────────
    Origen: Miguel escribió «Why do you aren't finished your university?» y
@@ -8698,20 +8772,27 @@ const ANL = (() => {
 
   /* Qué tiempo verbal está usando. Devuelve el id de LAB_T para poder
      reutilizar su explicación en vez de escribirla otra vez. */
+  /* BUG que estuvo aquí desde el principio: para un verbo regular, «worked»
+     es a la vez pasado y participio, así que la prueba «esV2 && !esPP» nunca
+     se cumplía y TODA frase en pasado regular se leía como presente. Por eso
+     «It happened two days ago» salía como «Presente simple». */
   function tiempo(t){
-    const i = t.findIndex(w => LEX.AUX.has(w));
     const hay = w => t.includes(w);
+    // ¿Hay un have/has/had haciendo de auxiliar (o sea, con participio detrás)?
+    const iHave = t.findIndex((w, j) => LEX.AUX_HAVE.has(w) &&
+      t.slice(j+1, j+4).some(x => LEX.esPP(x) || x === 'been'));
     if(hay('would')) return 'cond';
     if(hay('will'))  return 'fut';
     if(t.some((w,j)=>LEX.AUX_BE.has(w) && t[j+1]==='going' && t[j+2]==='to')) return 'going';
-    if(t.some((w,j)=>LEX.AUX_HAVE.has(w) && (t[j+1]==='been'||t[j+2]==='been'))) return 'perfcont';
-    if(hay('had')) return 'pastperf';
-    if(t.some(w=>LEX.AUX_HAVE.has(w) && w!=='had')) return 'perf';
+    if(iHave > -1 && t.slice(iHave+1, iHave+3).includes('been')) return 'perfcont';
+    if(iHave > -1 && t[iHave] === 'had') return 'pastperf';
+    if(iHave > -1) return 'perf';
     if(t.some((w,j)=>['was','were'].includes(w) && t.slice(j+1,j+3).some(LEX.esING))) return 'pastcont';
     if(t.some((w,j)=>['am','is','are'].includes(w) && t.slice(j+1,j+3).some(LEX.esING))) return 'cont';
-    if(hay('did') || t.some(w=>LEX.esV2(w) && !LEX.AUX.has(w) && LEX.raiz(w))) {
-      if(t.some(w=>['was','were','did'].includes(w)) || t.some(w=>LEX.esV2(w)&&!LEX.esPP(w))) return 'past';
-    }
+    if(hay('did') || hay('was') || hay('were')) return 'past';
+    // Verbo en forma de pasado y sin un «have» delante → pasado simple
+    if(t.some(w => !LEX.AUX.has(w) && LEX.raiz(w) && LEX.raiz(w) !== w &&
+                   LEX.formasValidas(LEX.raiz(w), 'v2').has(w) && !LEX.esING(w))) return 'past';
     return 'pres';
   }
 
@@ -8761,6 +8842,33 @@ const ANL = (() => {
 
     // Trampas de calco (patrones de alta confianza)
     TRAMPAS.forEach(tr => { if(tr.re.test(f)) add('rojo', tr.regla, tr.t, tr.por, tr.mal, tr.bien); });
+
+    /* El tiempo verbal tiene que casar con el «cuándo». «I'm hungry yesterday»
+       era el caso que se colaba: presente con un marcador de pasado. */
+    if(typeof MARC !== 'undefined'){
+      const tv = tiempo(t);
+      const arranque = MARC.EN_ARRANQUE.test(f);   // «since yesterday» sí lleva perfecto
+      if(MARC.EN_PAS.test(f) && !arranque && ['pres','cont','fut','going','perf','perfcont','cond'].includes(tv)){
+        const arr = MARC.EN_PAS.exec(f)[0];
+        const fix = aPasadoEN(pal);
+        add('rojo','R-tiempo','«' + arr + '» pide pasado',
+          'Si dices <b>cuándo</b> pasó y ya terminó, el verbo va en <b>pasado simple</b>. ' +
+          (tv === 'perf' ? 'Con el presente perfecto <b>no puedes decir cuándo</b>: en cuanto lo dices, cambia a pasado simple.'
+                         : 'El marcador y el verbo tienen que apuntar al mismo momento.'),
+          f.trim(), fix ? fix + (/[.?!]$/.test(fix) ? '' : '.') : 'pon el verbo en pasado');
+      }
+      if(MARC.EN_FUT.test(f) && ['past','pastcont','pastperf','perf'].includes(tv)){
+        const arr = MARC.EN_FUT.exec(f)[0];
+        add('rojo','R-tiempo','«' + arr + '» no puede ir en pasado',
+          'Ese marcador apunta al futuro, pero el verbo está en pasado. Usa <b>will</b> o <b>going to</b>.',
+          f.trim(), 'pon el verbo en futuro');
+      }
+      if(MARC.EN_AHORA.test(f) && tv === 'pres'){
+        add('naranja','R-tiempo','«' + MARC.EN_AHORA.exec(f)[0] + '» pide presente continuo',
+          'Para lo que está pasando <b>en este instante</b> va <b>be + -ing</b>, no el presente simple.',
+          f.trim(), 'usa am/is/are + verbo-ing');
+      }
+    }
 
     // La cadena verbal: el hueco que dejaba pasar «Why do you aren't finished…»
     // Se le pasan los tokens CON puntuacion: sin la coma no puede separar
@@ -9000,6 +9108,11 @@ const ANL = (() => {
     ["He can swim, can't he?",'verde'], ['Need a hand?','verde'],
     ['Any questions before we finish?','verde'],
     ['She always work here.','rojo'], ['I no have money.','rojo'],
+    // Marcadores temporales — el caso que se colaba
+    ["I'm hungry yesterday.",'rojo'], ['I work here yesterday.','rojo'],
+    ['I have worked here yesterday.','rojo'], ['I will go tomorrow.','verde'],
+    ['I went there yesterday.','verde'], ['I was hungry yesterday.','verde'],
+    ["I've been here since yesterday.",'verde'], ['I go to the gym every day.','verde'],
     ['I have no money.','verde'], ['No problem.','verde'],
     ['Long time no see.','verde'], ['No pain, no gain.','verde'],
     // El fallo que encontró Miguel: pasaba por buena y es una frase rota
@@ -9225,6 +9338,32 @@ const ES = (() => {
           ant + ' ' + w, ant + ' ' + CAMBIA_1S(w));
     });
 
+    /* 2b · El tiempo verbal contra el «cuándo». «Tengo hambre ayer» era el
+       caso que se colaba: presente con marcador de pasado. */
+    if(typeof MARC !== 'undefined' && MARC.ES_PAS.test(f) && !MARC.ES_ARRANQUE.test(f)){
+      const arr = MARC.ES_PAS.exec(f)[0];
+      const iv = tk.findIndex(w => ES_PRESENTE.has(w) || /^(?!.*(é|í|ó|aste|iste|aron|ieron|aba|ía))(o|as|es|amos|emos|imos|an|en)$/.test(w.slice(-4)));
+      /* «hace dos días» es el marcador; su «hace» no es el verbo de la frase.
+         Sin esto, «Pasó hace dos días» se marcaba como error. */
+      const marcador = new Set(arr.toLowerCase().split(/\s+/));
+      const v = tk.find(w => ES_PRESENTE.has(w) && !marcador.has(w));
+      if(v)
+        add('rojo','ES-tiempo','«' + arr + '» pide pasado, y «' + v + '» está en presente',
+          'Si dices <b>cuándo</b> pasó, el verbo tiene que ir en pasado. <b>' + v + '</b> es presente: ' +
+          'con «' + arr + '» va <b>' + ES_A_PASADO[v] + '</b>.',
+          v + ' … ' + arr, ES_A_PASADO[v] + ' … ' + arr);
+    }
+    if(typeof MARC !== 'undefined' && MARC.ES_FUT.test(f) && !MARC.ES_ARRANQUE.test(f)){
+      /* -amos e -imos valen para presente Y pasado («hablamos» es los dos),
+         y -ré es futuro, no pasado. Solo las terminaciones inconfundibles. */
+      const v = tk.find(w => /(aste|ó|asteis|aron|iste|ió|isteis|ieron)$/.test(w) && w.length > 3
+                             && !/ré$/.test(w));
+      if(v)
+        add('rojo','ES-tiempo','«' + MARC.ES_FUT.exec(f)[0] + '» no va con un verbo en pasado',
+          'Ese marcador apunta al futuro y el verbo está en pasado. No pueden ir juntos.',
+          v, 'ponlo en futuro o presente');
+    }
+
     // 3 · Faltas de escritura inconfundibles
     FALTAS.forEach(([re, bien]) => {
       const m = f.match(re);
@@ -9286,6 +9425,8 @@ const ES = (() => {
     if(!tocado) return null;
     out = out.trim();
     out = out.charAt(0).toUpperCase() + out.slice(1);
+    // Dos arreglos que se solapan pueden dejar «yesterday..» o « .»
+    out = out.replace(/([.?!])\1+$/, '$1').replace(/\s+([.?!])/g, '$1');
     if(/\?$/.test(out) && !/^¿/.test(out)) out = '¿' + out;
     if(/!$/.test(out) && !/^¡/.test(out)) out = '¡' + out;
     if(!/[.?!]$/.test(out)) out += '.';
@@ -9309,7 +9450,11 @@ const ES = (() => {
     ['Nosotros comimos temprano.', 'verde'],
     ['Ellos comieron temprano.', 'verde'],
     ['Un momento, por favor.', 'verde'],
-    ['Las casas son grandes.', 'verde']
+    ['Las casas son grandes.', 'verde'],
+    // Marcadores temporales — el caso que se colaba
+    ['Tengo hambre ayer.', 'rojo'], ['Tenía hambre ayer.', 'verde'],
+    ['Ayer comí una manzana.', 'verde'], ['Voy al gimnasio todos los días.', 'verde'],
+    ['Desde ayer tengo hambre.', 'verde'], ['Ayer estoy cansado.', 'rojo']
   ];
   function probar(){
     const fallos = [];
@@ -9461,6 +9606,8 @@ const WR = (() => {
     if(!tocado) return null;
     out = out.trim();
     out = out.charAt(0).toUpperCase() + out.slice(1);
+    // Dos arreglos que se solapan pueden dejar «yesterday..» o « .»
+    out = out.replace(/([.?!])\1+$/, '$1').replace(/\s+([.?!])/g, '$1');
     if(!/[.?!]$/.test(out)) out += /\?/.test(txt) ? '?' : '.';
     // Auto-verificación: ¿la corrección quedó realmente limpia?
     const rev = ANL.analizar(out);
