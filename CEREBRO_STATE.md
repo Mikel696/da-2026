@@ -11,6 +11,62 @@
 
 ---
 
+## 🇪🇸 3-ENG · El semáforo miraba al sitio equivocado — 2026-09-02
+
+### Lo que vio Miguel
+Escribió en el recuadro de español **«ayer me comió un manzana»** —que tiene dos errores— y el
+semáforo dijo **🟢 Correcta**.
+
+### La causa, que era de diseño
+Yo analizaba **siempre el inglés**. Si escribía en español, el traductor convertía su español malo
+en inglés bueno (*Yesterday I ate an apple.*) y yo daba el visto bueno **a una frase que él no había
+escrito**. La luz estaba mirando al sitio equivocado: no hay error de detección, hay error de a
+quién se mira.
+
+### Lo que se hizo
+**1 · Analizador de español (`ES`), 100% local.** Revisa:
+- **Concordancia de género y número**: `un manzana` → `una manzana`, `la problema` → `el problema`.
+  Con las excepciones que hacen falta de verdad: `el agua`/`el área` (femeninas con «a» tónica),
+  `la mano`/`la foto`, y los de género común (`el/la colega`, `el/la analista`), donde **las dos
+  formas son correctas y por tanto no se corrige nada**.
+- **Persona del verbo**: `yo comió` → error. Y `me comió` → aviso naranja con el porqué:
+  *«me comió significa que otra persona te hizo eso a ti; si fuiste tú, es me comí»*.
+- **Tildes de interrogativos** (`¿donde` → `¿dónde`), solo cuando abren la pregunta.
+- **Signos de apertura** `¿` `¡`, mayúscula inicial y ~30 faltas de escritura inconfundibles.
+
+**2 · La luz es la del recuadro donde escribes.** Si escribes en español se revisa tu español y lo
+dice (*«revisando tu español»*); el inglés traducido se muestra debajo, pero **no manda en el
+semáforo**.
+
+**3 · El análisis del español no espera a la red.** La primera versión lo dejaba detrás del
+«⏳ Traduciendo…» y no se veía nada. Es local: sale en cuanto escribes, con o sin internet.
+
+### Medición, con la misma disciplina
+Corpus: las **1000 traducciones al español** de las frases y los **2000 ejemplos** de las palabras,
+que son español correcto conocido.
+
+| ronda | falsos positivos |
+|---|---|
+| primera versión | 6,30 % |
+| tras arreglar `\b` con acentos y excluir números | 1,70 % |
+| tras género común, «-ma» ambiguo y quitar mucho/todo | 0,30 % |
+| final | **0,00 % en las 1000 frases · 0,00 % en los 2000 ejemplos** |
+
+Y 9/9 errores de español cazados, banco de 14 casos entero, **sin tocar el inglés** (sigue en 0
+falsos positivos y 58/58 de su banco).
+
+### El bug más instructivo
+`\bd\b` **encontraba la «d» de «días»**: para JavaScript la «í» no es carácter de palabra, así que
+hay frontera ahí. Marcaba «Buenos días» como falta. Se resolvió con una frontera propia que incluye
+vocales acentuadas y ñ. **En español, `\b` no sirve.**
+
+### Criterio que se repitió
+Donde el español admite las dos formas —`el/la colega`, `-ma` (problema es masculino pero cama es
+femenino), `mas` sin tilde que sí existe— **no se corrige**. Inventar un error es peor que dejar
+pasar uno.
+
+---
+
 ## 🧠 3-ENG · Motor v2 del corrector — 2026-09-02 (la frase que pasó por buena)
 
 ### El fallo

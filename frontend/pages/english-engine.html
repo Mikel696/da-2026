@@ -1037,6 +1037,8 @@ table.tbl tr:hover td{background:var(--bg3)}
 .wr-sq{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
 .wr-ses{font-size:12px;color:var(--t2)}
 .wr-sw{font-size:11.5px;line-height:1.7;color:var(--t3);margin-bottom:8px}
+.wr-sep{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;
+  margin:16px 0 9px;padding-top:12px;border-top:1px solid var(--bd)}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -2404,7 +2406,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector con semaforo y sugerencias · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector de ingles Y de espanol con semaforo y sugerencias · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
 Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-02<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
@@ -9026,6 +9028,302 @@ const ANL = (() => {
 })();
 
 
+
+
+
+
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   ANALIZADOR DE ESPAÑOL
+   ──────────────────────────────────────────────────────────────────────
+   Miguel escribió «ayer me comió un manzana» y el semáforo dijo CORRECTA.
+   El motivo: yo analizaba la TRADUCCIÓN, no lo que él había escrito. El
+   traductor convierte español malo en inglés bueno, así que la luz verde
+   estaba mirando al sitio equivocado.
+
+   Ahora cada recuadro se revisa por su cuenta y la luz es la del texto
+   que estás escribiendo tú.
+════════════════════════════════════════════════════════════════════════ */
+
+/* Género por terminación + las excepciones, que en español son las que
+   de verdad hacen falta. Sin la lista de excepciones esto marcaría mal
+   «el problema», «la mano» y «el agua». */
+const ES_MASC_EN_A = new Set(['problema','sistema','tema','idioma','programa','clima','día',
+  'mapa','planeta','poema','drama','esquema','dilema','síntoma','teorema','diploma','panorama',
+  'sofá','aroma','fantasma','enigma','trauma','diagrama','telegrama','crucigrama','tranvía',
+  'pijama','karma']);
+/* Estas cambian de significado con el género — las dos formas son correctas,
+   así que no se puede afirmar que ninguna esté mal: guardia, cura, policía,
+   vigía, coma, cometa, papa, orden, capital, frente. */
+const ES_FEM_EN_O = new Set(['mano','foto','moto','radio','libido','dinamo','soprano']);
+/* Femeninas que empiezan por «a» tónica: llevan EL/UN en singular, y está bien */
+const ES_A_TONICA = new Set(['agua','alma','hacha','área','águila','aula','hambre','arma','ave',
+  'alba','ancla','ala','acta','aguja','arpa','asma','aya','hada','haya','habla']);
+
+/* Genero comun que no sigue ninguna terminacion: «el colega» y «la colega»
+   son las dos correctas, asi que no hay nada que corregir. */
+const ES_COMUN = new Set(['colega','atleta','camarada','guía','espía','terapeuta','poeta',
+  'centinela','indígena','homicida','suicida','testigo','cómplice','mártir','rehén','modelo',
+  'juez','líder','miembro','personaje','víctima','persona']);
+
+const ES = (() => {
+  const FEM = /(ción|sión|zón|dad|tad|tud|umbre|eza|ura|anza|encia|ancia|itis|sis|a)$/;
+  const MASC = /(aje|ambre|ismo|miento|dor|ete|ín|or|o)$/;
+
+  function genero(w){
+    // El plural se busca por su singular: «los días» viene de «día»
+    const sing = /es$/.test(w) ? w.slice(0, -2) : (/s$/.test(w) ? w.slice(0, -1) : w);
+    if(ES_MASC_EN_A.has(w) || ES_MASC_EN_A.has(sing)) return 'm';
+    if(ES_FEM_EN_O.has(w)  || ES_FEM_EN_O.has(sing))  return 'f';
+    // «-ma» no se puede deducir: problema y sistema son masculinos, cama y
+    // forma femeninas. Sin lista explícita, mejor callarse.
+    if(/mas?$/.test(w)) return null;
+    /* Genero comun: la misma forma sirve para los dos («el colega» y «la
+       colega», «un analista» y «una analista»). No hay nada que corregir. */
+    if(/(ista|istas|ante|antes|ente|entes|eta|etas|oga|ogas|iatra|cida)$/.test(w)) return null;
+    if(ES_COMUN.has(w) || ES_COMUN.has(sing)) return null;
+    if(/(ción|sión|zón|dad|tad|tud|umbre|eza|ura|anza|encia|ancia|itis)$/.test(w)) return 'f';
+    if(/(aje|ambre|ismo|miento|dor)$/.test(w)) return 'm';
+    if(/as$/.test(w) && w.length > 3) return 'f';
+    if(/os$/.test(w) && w.length > 3) return 'm';
+    if(/a$/.test(w))  return 'f';
+    if(/o$/.test(w))  return 'm';
+    return null;                       // -e, consonante: no se puede saber → no se toca
+  }
+  /* Los numeros no llevan genero propio: «las cinco», «las ocho» (horas) son
+     correctas y mi regla del -o las marcaba como masculinas. */
+  const NUMEROS = new Set(['uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez',
+    'once','doce','trece','catorce','quince','dieciseis','dieciséis','veinte','treinta','cuarenta',
+    'cincuenta','sesenta','setenta','ochenta','noventa','cien','ciento','mil','media','cuarto']);
+  const numero = w => /s$/.test(w) && w.length > 3 ? 'p' : 's';
+
+  const ART = {
+    el:['m','s'], la:['f','s'], los:['m','p'], las:['f','p'],
+    un:['m','s'], una:['f','s'], unos:['m','p'], unas:['f','p'],
+    este:['m','s'], esta:['f','s'], estos:['m','p'], estas:['f','p'],
+    ese:['m','s'], esa:['f','s'], esos:['m','p'], esas:['f','p'],
+    aquel:['m','s'], aquella:['f','s'],
+    nuestro:['m','s'], nuestra:['f','s'], nuestros:['m','p'], nuestras:['f','p'],
+    otro:['m','s'], otra:['f','s'], otros:['m','p'], otras:['f','p'],
+    // mucho/todo quedan fuera a propósito: casi siempre son adverbio o
+    // pronombre («mucho para enviarlo», «todo va bien»), no artículo.
+    muchas:['f','p'], muchos:['m','p']
+  };
+  const CORRIGE = {
+    'm,s':'el/un', 'f,s':'la/una', 'm,p':'los/unos', 'f,p':'las/unas'
+  };
+  const PAREJA = { el:'la', un:'una', la:'el', una:'un', los:'las', las:'los',
+    unos:'unas', unas:'unos', este:'esta', esta:'este', ese:'esa', esa:'ese',
+    estos:'estas', estas:'estos', otro:'otra', otra:'otro', mucho:'mucha', mucha:'mucho',
+    todo:'toda', toda:'todo', nuestro:'nuestra', nuestra:'nuestro' };
+
+  /* Persona del verbo por la terminación. Solo las formas inconfundibles:
+     si hay duda no se dice nada. */
+/* Terminar en -í o -é no basta para ser verbo: aquí, así, café y bebé
+     tambien lo hacen, y por eso «Ella trabaja aquí» salia marcada. */
+  const NO_VERBO = new Set(['aquí','ahí','allí','así','casi','ají','café','bebé','puré','pie',
+    'sí','mí','ti','tí','magrebí','iraní','israelí','maní','colibrí','frenesí','ayer','hoy']);
+  function persona(w){
+    if(NO_VERBO.has(w)) return null;
+    if(/[áéíóú]$/.test(w) && /ó$/.test(w)) return '3s';       // comió, habló
+    if(/(é|í)$/.test(w)) return '1s';                          // comí, hablé
+    if(/(aste|iste)$/.test(w)) return '2s';                    // comiste, hablaste
+    if(/(aron|ieron)$/.test(w)) return '3p';                   // comieron
+    if(/(amos|emos|imos)$/.test(w)) return '1p';
+    if(/(áis|éis|ís)$/.test(w)) return '2p';
+    return null;
+  }
+  const NOMBRE_P = { '1s':'yo', '2s':'tú', '3s':'él/ella', '1p':'nosotros', '2p':'vosotros', '3p':'ellos' };
+  const SUJ_P = { yo:'1s', tú:'2s', tu:'2s', él:'3s', ella:'3s', usted:'3s',
+    nosotros:'1p', nosotras:'1p', vosotros:'2p', ellos:'3p', ellas:'3p', ustedes:'3p' };
+  const CAMBIA_1S = w => w.replace(/ió$/, 'í').replace(/ó$/, 'é');
+
+  /* OJO con \b en español: en «días» la «í» no cuenta como letra para JS, así
+     que \bd\b SÍ encuentra esa d y marcaba «Buenos días» como falta. Hay que
+     usar una frontera que incluya las vocales acentuadas y la ñ. */
+  const B0 = '(?<![\\wáéíóúüñÁÉÍÓÚÜÑ])', B1 = '(?![\\wáéíóúüñÁÉÍÓÚÜÑ])';
+  const pal = (w, bien) => [new RegExp(B0 + w + B1, 'gi'), bien];
+
+  /* Errores de escritura inconfundibles: no dependen del contexto */
+  const FALTAS = [
+    ['aser','hacer'], ['haser','hacer'], ['nadien','nadie'], ['haiga','haya'], ['haigan','hayan'],
+    ['dijistes','dijiste'], ['fuistes','fuiste'], ['hicistes','hiciste'], ['distes','diste'],
+    ['vinistes','viniste'], ['veniste','viniste'], ['comistes','comiste'], ['pudistes','pudiste'],
+    ['tuvistes','tuviste'], ['dentrar','entrar'], ['iva','iba'], ['ivan','iban'],
+    ['ablar','hablar'], ['aber','haber'], ['muncho','mucho'], ['agora','ahora'], ['truje','traje'],
+    ['xq','porque'], ['pq','porque'], ['tb','también'], ['xfa','por favor'], ['tmb','también'],
+    ['dnd','dónde'], ['qro','quiero'], ['aki','aquí'], ['asi','así'], ['tambien','también'],
+    ['despues','después'], ['tambien','también']
+  ].map(([m, b]) => pal(m, b));
+
+  /* Interrogativos: dentro de una pregunta SIEMPRE llevan tilde */
+  const INTERROG = { que:'qué', donde:'dónde', como:'cómo', cuando:'cuándo',
+    quien:'quién', quienes:'quiénes', cual:'cuál', cuales:'cuáles',
+    cuanto:'cuánto', cuanta:'cuánta', cuantos:'cuántos', cuantas:'cuántas', porque:'por qué' };
+
+  function frases(txt){
+    return String(txt || '').split(/(?<=[.?!])\s+|\n+/).map(s => s.trim()).filter(s => s.length > 1);
+  }
+  const limpiar = w => w.toLowerCase().replace(/[¿¡.,;:!?"()]/g, '');
+
+  function revisar(f){
+    const H = [];
+    const add = (sev, regla, t, por, mal, bien) => H.push({ sev, regla, t, por, mal, bien });
+    const tk = f.split(/\s+/).map(limpiar).filter(Boolean);
+    const pregunta = /\?/.test(f);
+
+    // 1 · Concordancia de género y número
+    tk.forEach((w, i) => {
+      const a = ART[w];
+      if(!a) return;
+      const sig = tk[i+1];
+      if(!sig || ART[sig]) return;
+      /* «Esa no era…»: detras del determinante hay una palabra funcional,
+         no un sustantivo. Y en «No los confundas» ese «los» es pronombre
+         atono, no articulo — se reconoce porque va detras de «no». */
+      const FUNC = new Set(['no','ya','sí','si','que','más','muy','tan','como','cual','cuando','donde','me','te','se','le','nos','lo','la','los','las']);
+      if(FUNC.has(sig)) return;
+      if(['lo','la','los','las','le','les'].includes(w) && tk[i-1] === 'no') return;
+      if(NUMEROS.has(sig) || /^[0-9]/.test(sig)) return;   // «las cinco» está bien
+      const g = genero(sig), n = numero(sig);
+      if(!g) return;
+      // «el agua», «un área»: femeninas con «a» tónica que llevan el/un. Correcto.
+      if(g === 'f' && a[0] === 'm' && a[1] === 's' && ES_A_TONICA.has(sig)) return;
+      if(g !== a[0])
+        add('rojo','ES-gen','«' + sig + '» es ' + (g === 'f' ? 'femenino' : 'masculino'),
+          'El artículo tiene que ir en el mismo género que el sustantivo. <b>' + sig + '</b> es ' +
+          (g === 'f' ? 'femenino, así que pide <b>la / una</b>' : 'masculino, así que pide <b>el / un</b>') + '.',
+          w + ' ' + sig, (PAREJA[w] || CORRIGE[g + ',' + n]) + ' ' + sig);
+      else if(n !== a[1])
+        add('rojo','ES-num','No concuerda el número',
+          'Si el sustantivo va en ' + (n === 'p' ? 'plural' : 'singular') + ', el artículo también.',
+          w + ' ' + sig, (CORRIGE[g + ',' + n] || '').split('/')[0] + ' ' + sig);
+    });
+
+    // 2 · Persona del verbo
+    tk.forEach((w, i) => {
+      const p = persona(w);
+      if(!p) return;
+      /* El sujeto tiene que estar PEGADO al verbo (saltando solo un «no» o
+         un adverbio corto). Antes miraba dos palabras atras y se saltaba el
+         verbo de verdad: en «Ella trabaja aqui» emparejaba «ella» con «aqui». */
+      const SALTA = new Set(['no','ya','siempre','nunca','también','tampoco','solo','sólo']);
+      let k = i - 1;
+      while(k >= 0 && SALTA.has(tk[k])) k--;
+      const ant = tk[k];
+      const suj = SUJ_P[ant];
+      if(suj && suj !== p)
+        add('rojo','ES-per','«' + ant + '» no va con «' + w + '»',
+          '<b>' + w + '</b> es de <b>' + NOMBRE_P[p] + '</b>, pero el sujeto es <b>' + NOMBRE_P[suj] + '</b>. El verbo se conjuga según quién hace la acción.',
+          (SUJ_P[ant] ? ant : ant2) + ' ' + w, (SUJ_P[ant] ? ant : ant2) + ' …');
+      // «me comió» sin sujeto de 3ª: casi siempre querías decir «me comí»
+      else if(!suj && ['me','nos'].includes(ant) && p === '3s' && !tk.slice(0, i-1).some(x => SUJ_P[x]))
+        add('naranja','ES-refl','¿Querías decir «' + ant + ' ' + CAMBIA_1S(w) + '»?',
+          '<b>' + ant + ' ' + w + '</b> significa que <b>otra persona</b> te hizo eso a ti. Si el que ' +
+          'hizo la acción eres tú, va en primera persona: <b>' + ant + ' ' + CAMBIA_1S(w) + '</b>.',
+          ant + ' ' + w, ant + ' ' + CAMBIA_1S(w));
+    });
+
+    // 3 · Faltas de escritura inconfundibles
+    FALTAS.forEach(([re, bien]) => {
+      const m = f.match(re);
+      if(m) add('rojo','ES-orto','«' + m[0] + '» se escribe «' + bien + '»',
+        'Es una forma que no existe en español escrito.', m[0], bien);
+    });
+
+    // 4 · Tildes de los interrogativos
+    const PREPOS = new Set(['de','a','por','para','con','en','hasta','desde','sobre','hacia']);
+    if(pregunta) tk.forEach((w, i) => {
+      const t = INTERROG[w];
+      if(!t) return;
+      /* Solo cuenta si ABRE la pregunta (o va tras una preposición: «¿De
+         dónde eres?»). Más adentro, «que» es conjunción y está bien. */
+      if(!(i === 0 || (i === 1 && PREPOS.has(tk[0])))) return;
+      add('rojo','ES-tilde','En pregunta, «' + w + '» lleva tilde',
+        'Los interrogativos (<b>qué, dónde, cómo, cuándo, quién, cuál, cuánto</b>) se acentúan siempre que preguntan, aunque la pregunta sea indirecta.',
+        w, t);
+    });
+
+    // 5 · Signos de apertura
+    if(/\?$/.test(f.trim()) && !/^¿/.test(f.trim()))
+      add('naranja','ES-signo','Falta el «¿» de apertura',
+        'El español abre y cierra las preguntas. Es de los pocos idiomas que lo hace, y se nota cuando falta.',
+        f.trim().slice(0, 18) + '…', '¿' + f.trim().slice(0, 18) + '…');
+    if(/!$/.test(f.trim()) && !/^¡/.test(f.trim()))
+      add('naranja','ES-signo','Falta el «¡» de apertura',
+        'Igual que las preguntas, las exclamaciones se abren y se cierran.',
+        f.trim().slice(0, 18) + '…', '¡' + f.trim().slice(0, 18) + '…');
+
+    // 6 · Mayúscula inicial
+    if(/^[a-záéíóúñü]/.test(f.trim()))
+      add('naranja','ES-may','Empieza con mayúscula', 'Detalle de escritura.',
+        f.trim().slice(0, 16) + '…', f.trim().charAt(0).toUpperCase() + f.trim().slice(1, 16) + '…');
+
+    return H;
+  }
+
+  function analizar(txt){
+    const fs = frases(txt);
+    if(!fs.length) return null;
+    const todas = [];
+    fs.forEach(f => todas.push(...revisar(f)));
+    const rojos = todas.filter(x => x.sev === 'rojo').length;
+    const naranjas = todas.filter(x => x.sev === 'naranja').length;
+    return { luz: rojos ? 'rojo' : naranjas ? 'naranja' : 'verde',
+             rojos, naranjas, hallazgos: todas };
+  }
+
+  /* Corrige lo que es sustitución limpia y vuelve a revisar, igual que en
+     inglés: no se da por buena una frase que sigue mal. */
+  function corregir(txt, hallazgos){
+    let out = txt, tocado = false;
+    hallazgos.forEach(h => {
+      if(!h.bien || !h.mal || h.bien.includes('…') || h.bien.includes('/')) return;
+      const re = new RegExp(h.mal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      if(re.test(out)){ out = out.replace(re, h.bien); tocado = true; }
+    });
+    if(!tocado) return null;
+    out = out.trim();
+    out = out.charAt(0).toUpperCase() + out.slice(1);
+    if(/\?$/.test(out) && !/^¿/.test(out)) out = '¿' + out;
+    if(/!$/.test(out) && !/^¡/.test(out)) out = '¡' + out;
+    if(!/[.?!]$/.test(out)) out += '.';
+    const rev = analizar(out);
+    const quedan = rev ? rev.hallazgos.filter(h => h.sev === 'rojo') : [];
+    return { txt: out, limpia: quedan.length === 0, quedan };
+  }
+
+  /* Casos con respuesta conocida, para poder repetir la comprobación */
+  const CASOS = [
+    ['ayer me comió un manzana.', 'rojo'],
+    ['Comí una manzana ayer.', 'verde'],
+    ['El problema es difícil.', 'verde'],
+    ['La problema es difícil.', 'rojo'],
+    ['El agua está fría.', 'verde'],
+    ['Tengo la mano rota.', 'verde'],
+    ['Yo comió una manzana.', 'rojo'],
+    ['¿Dónde trabajas?', 'verde'],
+    ['¿Donde trabajas?', 'rojo'],
+    ['Voy a aser la tarea.', 'rojo'],
+    ['Nosotros comimos temprano.', 'verde'],
+    ['Ellos comieron temprano.', 'verde'],
+    ['Un momento, por favor.', 'verde'],
+    ['Las casas son grandes.', 'verde']
+  ];
+  function probar(){
+    const fallos = [];
+    CASOS.forEach(([f, esp]) => {
+      const r = analizar(f);
+      if(!r || r.luz !== esp)
+        fallos.push(f + ' → esperaba ' + esp + ', dio ' + (r ? r.luz : 'nada') +
+          (r ? ' [' + r.hallazgos.map(h => h.regla).join(',') + ']' : ''));
+    });
+    return { casos: CASOS.length, fallos };
+  }
+  return { analizar, corregir, probar, genero, persona, CASOS };
+})();
+
 /* ══════════════════════════════════════════════════════════════════════
    BUSCADOR DE CONTEXTO · abre la palabra en el mejor recurso gratis
    ──────────────────────────────────────────────────────────────────────
@@ -9205,10 +9503,42 @@ const WR = (() => {
 
     // Siempre se analiza el INGLÉS: el tuyo si lo escribiste, o el traducido
     const ingles = (dir === 'en' ? en : (ultimo.trad || '')).trim();
+
+    /* Si estás escribiendo en español, el análisis de TU español sale ya:
+       es local y no depende de la red. Solo el inglés espera la traducción. */
     if(!ingles){
-      cont.innerHTML = `<div class="wr-esp">${ultimo.err
-        ? '⚠️ ' + esc(ultimo.err) + '<div class="wr-espd">Escribe tu intento en el recuadro de inglés y te lo corrijo igual — <b>esa parte no necesita internet</b>.</div>'
-        : '⏳ Traduciendo…'}</div>`;
+      const rE = dir === 'es' && es.trim() ? ES.analizar(es) : null;
+      const gE = rE ? rE.hallazgos.filter(h => h.sev !== 'info') : [];
+      const cE = rE ? ES.corregir(es, rE.hallazgos) : null;
+      const LE = LUZ[rE ? rE.luz : 'verde'];
+      cont.innerHTML = (rE ? `
+        <div class="wr-sem ${rE.luz}">
+          <div class="wr-luces">
+            <span class="wr-luz${rE.luz==='verde'?' on v':''}"></span>
+            <span class="wr-luz${rE.luz==='naranja'?' on n':''}"></span>
+            <span class="wr-luz${rE.luz==='rojo'?' on r':''}"></span>
+          </div>
+          <div class="wr-semt"><b>${LE.ico} ${LE.t}</b><span>${LE.d}</span></div>
+          <span class="wr-badge">revisando tu español</span>
+        </div>
+        ${gE.length ? `<div class="wr-card">
+          <div class="wr-ct">🇪🇸 Qué corregir en tu español · ${gE.length}</div>
+          ${gE.map(h => `<div class="wr-h ${h.sev}">
+            <div class="wr-ht"><span class="wr-hr">${esc(h.regla)}</span>${h.t}</div>
+            <div class="wr-hp">${h.por}</div>
+            <div class="wr-hx"><span class="dx-bad">✗ ${esc(h.mal)}</span><span class="dx-good">✓ ${esc(h.bien)}</span></div>
+          </div>`).join('')}
+          ${cE ? `<div class="wr-fix" style="font-size:15px;margin-top:12px">${esc(cE.txt)}</div>
+            <button class="lab-b" data-wrses2="${esc(cE.txt)}">⬆️ Poner esta en el recuadro</button>` : ''}
+        </div>` : `<div class="wr-card ok"><div class="wr-ct">🇪🇸 Tu español está bien</div>
+          <div class="wr-cb">Revisé concordancia de género y número, conjugación, tildes de
+          interrogativos, signos de apertura y las faltas de escritura más comunes.</div></div>`}` : '')
+        + `<div class="wr-esp">${ultimo.err
+          ? '⚠️ ' + esc(ultimo.err) + '<div class="wr-espd">El análisis de arriba <b>no necesita internet</b>. Para el inglés sí hace falta.</div>'
+          : '⏳ Traduciendo al inglés…'}</div>`;
+      cont.querySelectorAll('[data-wrses2]').forEach(b => b.onclick = () => {
+        $('wrEs').value = b.dataset.wrses2; dir = 'es'; cambio(true);
+      });
       return;
     }
 
@@ -9255,19 +9585,47 @@ const WR = (() => {
       }
     }
 
+    /* La luz es la del recuadro en el que estás escribiendo. Si escribes en
+       español se revisa TU español; el inglés traducido se revisa aparte y
+       se muestra debajo, pero no manda en el semáforo. */
+    const rES = es.trim() ? ES.analizar(es) : null;
+    const propio = dir === 'es' ? rES : r;
+    const Lp = LUZ[propio ? propio.luz : 'verde'];
+    const gravesES = rES ? rES.hallazgos.filter(h => h.sev !== 'info') : [];
+    const corrES = dir === 'es' && rES ? ES.corregir(es, rES.hallazgos) : null;
+
     cont.innerHTML = `
-      <div class="wr-sem ${r.luz}">
+      <div class="wr-sem ${propio ? propio.luz : 'verde'}">
         <div class="wr-luces">
-          <span class="wr-luz${r.luz==='verde'?' on v':''}"></span>
-          <span class="wr-luz${r.luz==='naranja'?' on n':''}"></span>
-          <span class="wr-luz${r.luz==='rojo'?' on r':''}"></span>
+          <span class="wr-luz${propio && propio.luz==='verde'?' on v':''}"></span>
+          <span class="wr-luz${propio && propio.luz==='naranja'?' on n':''}"></span>
+          <span class="wr-luz${propio && propio.luz==='rojo'?' on r':''}"></span>
         </div>
-        <div class="wr-semt"><b>${L.ico} ${L.t}</b><span>${L.d}</span></div>
-        ${dir === 'es' ? '<span class="wr-badge">análisis del inglés traducido</span>' : ''}
+        <div class="wr-semt"><b>${Lp.ico} ${Lp.t}</b><span>${Lp.d}</span></div>
+        <span class="wr-badge">revisando tu ${dir === 'es' ? 'español' : 'inglés'}</span>
       </div>
 
+      ${dir === 'es' && gravesES.length ? `<div class="wr-card">
+        <div class="wr-ct">🇪🇸 Qué corregir en tu español · ${gravesES.length}</div>
+        ${gravesES.map(h => `<div class="wr-h ${h.sev}">
+          <div class="wr-ht"><span class="wr-hr">${esc(h.regla)}</span>${h.t}</div>
+          <div class="wr-hp">${h.por}</div>
+          <div class="wr-hx"><span class="dx-bad">✗ ${esc(h.mal)}</span><span class="dx-good">✓ ${esc(h.bien)}</span></div>
+        </div>`).join('')}
+        ${corrES ? `<div class="wr-fix" style="font-size:15px;margin-top:12px">${esc(corrES.txt)}</div>
+          ${corrES.limpia ? '' : '<div class="wr-cb">Corregí lo que pude; revisa el resto arriba.</div>'}
+          <button class="lab-b" data-wrses2="${esc(corrES.txt)}">⬆️ Poner esta en el recuadro</button>` : ''}
+      </div>` : ''}
+
+      ${dir === 'es' && rES && rES.luz === 'verde' ? `<div class="wr-card ok">
+        <div class="wr-ct">🇪🇸 Tu español está bien</div>
+        <div class="wr-cb">Revisé concordancia de género y número, conjugación, tildes de interrogativos,
+          signos de apertura y las faltas de escritura más comunes.</div></div>` : ''}
+
+      ${dir === 'es' ? '<div class="wr-sep">Y así queda en inglés:</div>' : ''}
+
       <div class="wr-card">
-        <div class="wr-ct">🧩 Las 6 piezas de tu frase</div>
+        <div class="wr-ct">🧩 Las 6 piezas ${dir === 'es' ? 'del inglés' : 'de tu frase'}</div>
         <div class="wr-pz">${piezasHTML(f0.piezas)}</div>
         <div class="wr-nota">Toca cualquier pieza para buscarla en el diccionario. Son los mismos colores de todo el documento.</div>
       </div>
@@ -9318,6 +9676,9 @@ const WR = (() => {
 
     cont.querySelectorAll('[data-wrusar]').forEach(b => b.onclick = () => {
       $('wrEn').value = b.dataset.wrusar; dir = 'en'; cambio(true);
+    });
+    cont.querySelectorAll('[data-wrses2]').forEach(b => b.onclick = () => {
+      $('wrEs').value = b.dataset.wrses2; dir = 'es'; cambio(true);
     });
   }
 
@@ -9851,7 +10212,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
