@@ -862,6 +862,81 @@ table.tbl tr:hover td{background:var(--bg3)}
 .lab-long{margin-top:9px;font-size:11.5px;color:var(--t3);line-height:1.6}
 .lab-long i{color:var(--t2);font-family:var(--fm);font-size:11px;font-style:normal}
 .lab-rs{margin-left:8px;font-size:11px;color:var(--t3);font-family:var(--fm)}
+
+/* ═══════════ LABORATORIO v2 · vistas, línea de tiempo, reto ═══════════ */
+.lab-vistas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
+.lab-v{flex:1 1 auto;background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:10px;
+  padding:9px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.lab-v:hover{border-color:var(--ac);color:var(--tx)}
+.lab-v.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.lab-lb b{color:var(--ac2);font-weight:700}
+.lab-es{font-size:11.5px;color:var(--t3);margin-top:7px}
+.lab-acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:13px}
+.lab-b{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:9px;
+  padding:7px 14px;font-size:11.5px;cursor:pointer;font-family:inherit;transition:all .15s}
+.lab-b:hover{border-color:var(--ac);color:var(--tx)}
+.lab-b.grande{display:block;margin:14px auto 0;padding:10px 26px;font-size:13px;font-weight:700;
+  background:var(--ac);border-color:var(--ac);color:#fff}
+.lab-mas{font-weight:400;font-size:11px;color:var(--t3)}
+.lab-nota{font-size:11.5px;line-height:1.7;color:var(--t2);background:var(--bg3);border:1px solid var(--bd);
+  border-radius:9px;padding:10px 13px;margin-bottom:12px}
+
+/* tarjetas de explicación */
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px;margin-top:12px}
+.lab-card{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.lab-card.err{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.22)}
+.lab-ct{font-size:11.5px;font-weight:700;color:var(--tx);margin-bottom:7px}
+.lab-cb{font-size:12px;line-height:1.7;color:var(--t2)}
+.lab-pistas{margin-top:8px;font-size:10.5px;color:var(--t3);line-height:1.6}
+.lab-pistas b{color:var(--r-com);font-family:var(--fm);font-size:10px}
+.lab-ep{display:flex;flex-direction:column;gap:4px;margin-bottom:7px}
+
+/* línea del tiempo */
+.lt{margin-top:4px}
+.lt-b{position:relative;height:26px;background:var(--bg4);border-radius:7px;overflow:hidden;border:1px solid var(--bd)}
+.lt-now{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--bd2)}
+.lt-m{position:absolute;top:5px;bottom:5px;border-radius:5px;background:var(--r-aux);opacity:.85}
+.lt-m.tramo{background:repeating-linear-gradient(90deg,var(--r-aux) 0 6px,transparent 6px 11px)}
+.lt-m.flecha{background:linear-gradient(90deg,rgba(34,211,238,.25),var(--r-aux))}
+.lt-b.irreal{display:grid;place-items:center;background:repeating-linear-gradient(45deg,var(--bg4) 0 7px,var(--bg3) 7px 14px)}
+.lt-irreal{font-size:10px;color:var(--t3);font-style:italic}
+.lt-x{display:flex;justify-content:space-between;font-size:9.5px;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.lt-t{font-size:11px;color:var(--r-aux);margin-top:5px;font-weight:600}
+
+/* filas comparativas clicables */
+.lab-row[data-labt],.lab-row[data-labf]{cursor:pointer}
+.lab-row[data-labt]:hover,.lab-row[data-labf]:hover{border-color:var(--bd2)}
+.lab-pos{font-size:10px;color:var(--r-aux);font-weight:700;background:rgba(34,211,238,.13);
+  border:1px solid rgba(34,211,238,.3);border-radius:20px;padding:2px 8px}
+
+/* ponte a prueba */
+.lab-reto{text-align:center;padding:6px 0}
+.lab-marc{font-size:11px;color:var(--t3);margin-bottom:12px}
+.lab-marc b{color:var(--ac2)}
+.lab-rq{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px}
+.lab-rq b{color:var(--tx)}
+.lab-rfr{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.lab-hueco{display:inline-grid;place-items:center;min-width:52px;height:30px;border-radius:8px;
+  border:2px dashed var(--r-aux);color:var(--r-aux);font-weight:800;font-size:15px;background:rgba(34,211,238,.08)}
+.lab-rt{font-size:11px;color:var(--t3);margin-bottom:9px}
+.lab-ops{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.lab-op{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:9px;
+  padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fm);transition:all .15s}
+.lab-op:hover:not(:disabled){border-color:var(--ac);background:var(--bg4)}
+.lab-op.bien{background:rgba(34,197,94,.18);border-color:var(--ok);color:#4ade80}
+.lab-op.mal{background:rgba(239,68,68,.18);border-color:var(--bad);color:#f87171}
+.lab-op.off{opacity:.4}
+.lab-fb{margin-top:14px;padding:12px 14px;border-radius:10px;text-align:left;font-size:12.5px;line-height:1.75}
+.lab-fb.ok{background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.28)}
+.lab-fb.no{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.26)}
+.lab-fbt{font-weight:800;margin-bottom:6px;color:var(--tx)}
+.lab-fbs{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-family:var(--fm);font-size:12px;color:var(--tx)}
+@media(max-width:760px){
+  .lab-v{flex:1 1 45%;font-size:10.5px;padding:8px 6px}
+  .lab-grid{grid-template-columns:1fr}
+  .lab-ops{flex-direction:column}
+}
+.lab-fin{font-size:15px;font-weight:700;color:var(--t2);margin-left:-3px}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -1022,7 +1097,8 @@ table.tbl tr:hover td{background:var(--bg3)}
   <div id="fpBox"></div>
 
   <h2 class="sec"><span class="n">01c</span> Laboratorio · mira aparecer el auxiliar</h2>
-  <p class="lead">Aquí es donde «marcar tiempo» deja de ser una frase de tabla. Escoge una acción, cámbiale el tiempo y la forma, y observa qué pasa con las casillas de colores. <b>Lo importante:</b> en presente simple afirmativo no hay ninguna casilla azul; en cuanto pides «ahora mismo» o «ya hecho», <b>aparece sola</b>. Marca la casilla de abajo para ver los cinco tiempos de un golpe.</p>
+  <p class="lead">Aquí es donde «marcar tiempo» deja de ser una frase de tabla. Escoge una acción, cámbiale el tiempo y la forma, y observa qué pasa con las casillas de colores. <b>Lo importante:</b> en presente simple afirmativo no hay ninguna casilla azul; en cuanto pides «ahora mismo» o «ya hecho», <b>aparece sola</b>.</p>
+  <p class="lead"><b>16 frases base × 10 tiempos × 4 formas = 640 frases</b>, y cada una te dice qué hace el auxiliar ahí, por qué el verbo va en esa forma, cuándo la usarías de verdad, el error típico del hispanohablante y dónde cae en la línea del tiempo. Arriba tienes cuatro vistas: <b>🔍 una sola</b> (el detalle completo) · <b>📅 los 10 tiempos</b> (ahí se ve <i>aparecer</i> el auxiliar) · <b>🔀 las 4 formas</b> (ahí se ve <i>moverse</i>) · <b>🎯 ponte a prueba</b> (adivina el auxiliar, porque mirar no es aprender).</p>
   <div class="lab" id="labBox"></div>
   <div class="note info" style="margin-top:14px"><b>Cómo leerlo:</b> fíjate en que el verbo <b>se desnuda</b> cada vez que aparece un auxiliar. <i>She work<b>s</b></i> pierde la -s en <i>She <b>does</b>n't work</i>; <i>I work<b>ed</b></i> vuelve a <i>work</i> en <i><b>Did</b> I work?</i>. El tiempo se paga <b>una sola vez por frase</b>: o lo lleva el verbo, o lo lleva el auxiliar. Nunca los dos. Ese es el error #1 de todo hispanohablante.</div>
 
@@ -2189,7 +2265,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de tiempos · 30 terminos de glosario · 15 reglas no negociables · practica espaciada · cuaderno propio<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · practica espaciada · cuaderno propio<br>
 Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-01<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
@@ -7264,170 +7340,443 @@ const PIEZAS = [
 /* ══════════════════ LABORATORIO DE TRANSFORMACIÓN ══════════════════
    La misma frase cambiando de tiempo y de forma, para VER aparecer el
    auxiliar. Es la demostración de que "marcar tiempo" es un trabajo real
-   y no una frase suelta en una tabla. */
+   y no una frase suelta en una tabla.
+
+   16 frases base × 10 tiempos × 4 formas = 640 frases generadas, cada una
+   con: qué hace el auxiliar ahí · por qué el verbo va en esa forma ·
+   cuándo la usarías de verdad · el error típico del hispanohablante ·
+   y dónde cae en la línea del tiempo.
+
+   Cuatro vistas: una sola · los 10 tiempos · las 4 formas · ponte a prueba.
+═══════════════════════════════════════════════════════════════════════ */
 
 const LAB_BASES = [
-  { id:'work', suj:'I',   p:1, ver:'work',  vs:'work',   v2:'worked', ving:'working', vpp:'worked',
-    com:'at a bank', wh:'Where', whDrop:1, es:'trabajar en un banco' },
-  { id:'live', suj:'She', p:3, ver:'live',  vs:'lives',  v2:'lived',  ving:'living',  vpp:'lived',
-    com:'in Bogotá', wh:'Where', whDrop:1, es:'ella vivir en Bogotá' },
-  { id:'eat',  suj:'They',p:1, ver:'eat',   vs:'eat',    v2:'ate',    ving:'eating',  vpp:'eaten',
-    com:'breakfast', wh:'What', whDrop:1, es:'ellos desayunar' },
-  { id:'call', suj:'He',  p:3, ver:'call',  vs:'calls',  v2:'called', ving:'calling', vpp:'called',
-    com:'his mother', wh:'Who', whDrop:1, es:'él llamar a su mamá' },
-  { id:'stud', suj:'You', p:1, ver:'study', vs:'study',  v2:'studied',ving:'studying',vpp:'studied',
-    com:'English', wh:'What', whDrop:1, es:'tú estudiar inglés' }
+  // ── Trabajo ──
+  { id:'work',   g:'Trabajo',    suj:'I',    p:1, ver:'work',   vs:'works',    v2:'worked',   ving:'working',   vpp:'worked',   com:'at a bank',    wh:'Where', whDrop:1, es:'yo trabajar en un banco' },
+  { id:'finish', g:'Trabajo',    suj:'He',   p:3, ver:'finish', vs:'finishes', v2:'finished', ving:'finishing', vpp:'finished', com:'the report',   wh:'What',  whDrop:1, es:'él terminar el informe' },
+  { id:'write',  g:'Trabajo',    suj:'We',   p:1, ver:'write',  vs:'writes',   v2:'wrote',    ving:'writing',   vpp:'written',  com:'emails',       wh:'What',  whDrop:1, es:'nosotros escribir correos' },
+  { id:'send',   g:'Trabajo',    suj:'She',  p:3, ver:'send',   vs:'sends',    v2:'sent',     ving:'sending',   vpp:'sent',     com:'the invoice',  wh:'What',  whDrop:1, es:'ella enviar la factura' },
+  // ── Día a día ──
+  { id:'eat',    g:'Día a día',  suj:'They', p:1, ver:'eat',    vs:'eats',     v2:'ate',      ving:'eating',    vpp:'eaten',    com:'breakfast',    wh:'What',  whDrop:1, es:'ellos desayunar' },
+  { id:'live',   g:'Día a día',  suj:'She',  p:3, ver:'live',   vs:'lives',    v2:'lived',    ving:'living',    vpp:'lived',    com:'in Bogotá',    wh:'Where', whDrop:1, es:'ella vivir en Bogotá' },
+  { id:'call',   g:'Día a día',  suj:'He',   p:3, ver:'call',   vs:'calls',    v2:'called',   ving:'calling',   vpp:'called',   com:'his mother',   wh:'Who',   whDrop:1, es:'él llamar a su mamá' },
+  { id:'watch',  g:'Día a día',  suj:'She',  p:3, ver:'watch',  vs:'watches',  v2:'watched',  ving:'watching',  vpp:'watched',  com:'movies',       wh:'What',  whDrop:1, es:'ella ver películas' },
+  { id:'drive',  g:'Día a día',  suj:'They', p:1, ver:'drive',  vs:'drives',   v2:'drove',    ving:'driving',   vpp:'driven',   com:'to work',      wh:'Where', whDrop:1, es:'ellos ir en carro al trabajo' },
+  // ── Estudio ──
+  { id:'study',  g:'Estudio',    suj:'You',  p:1, ver:'study',  vs:'studies',  v2:'studied',  ving:'studying',  vpp:'studied',  com:'English',      wh:'What',  whDrop:1, es:'tú estudiar inglés' },
+  { id:'learn',  g:'Estudio',    suj:'I',    p:1, ver:'learn',  vs:'learns',   v2:'learned',  ving:'learning',  vpp:'learned',  com:'new words',    wh:'What',  whDrop:1, es:'yo aprender palabras nuevas' },
+  { id:'speak',  g:'Estudio',    suj:'He',   p:3, ver:'speak',  vs:'speaks',   v2:'spoke',    ving:'speaking',  vpp:'spoken',   com:'English',      wh:'What',  whDrop:1, es:'él hablar inglés' },
+  // ── Irregulares que hay que dominar ──
+  { id:'go',     g:'Irregulares clave', suj:'I',    p:1, ver:'go',   vs:'goes',  v2:'went',   ving:'going',  vpp:'gone',   com:'to the gym',   wh:'Where', whDrop:1, es:'yo ir al gimnasio' },
+  { id:'do',     g:'Irregulares clave', suj:'I',    p:1, ver:'do',   vs:'does',  v2:'did',    ving:'doing',  vpp:'done',   com:'my homework',  wh:'What',  whDrop:1, es:'yo hacer mi tarea' },
+  { id:'take',   g:'Irregulares clave', suj:'She',  p:3, ver:'take', vs:'takes', v2:'took',   ving:'taking', vpp:'taken',  com:'the bus',      wh:'What',  whDrop:1, es:'ella tomar el bus' },
+  { id:'buy',    g:'Irregulares clave', suj:'We',   p:1, ver:'buy',  vs:'buys',  v2:'bought', ving:'buying', vpp:'bought', com:'a car',        wh:'What',  whDrop:1, es:'nosotros comprar un carro' }
 ];
 
+/* Cada tiempo trae TODO lo que hace falta para explicarlo, no solo su nombre.
+   `linea` coloca la acción en la barra del tiempo (0 = pasado, 50 = ahora). */
 const LAB_T = [
-  { id:'pres', n:'Presente simple',   h:'Lo que haces siempre o en general' },
-  { id:'past', n:'Pasado simple',     h:'Lo que ya pasó y terminó' },
-  { id:'fut',  n:'Futuro · will',     h:'Lo que todavía no pasa' },
-  { id:'cont', n:'Presente continuo', h:'Lo que está pasando ahora mismo' },
-  { id:'perf', n:'Presente perfecto', h:'Lo que ya está hecho, sin decir cuándo' }
+{ id:'pres', n:'Presente simple', h:'Rutina y hechos', corto:'Presente',
+  linea:{ d:4, a:96, tipo:'tramo', txt:'Siempre / en general' },
+  porqueSin:'En presente simple afirmativo <b>no hay auxiliar</b>. El verbo va solo, y él mismo lleva la única marca que existe: la <b>-s</b> cuando el sujeto es he / she / it.',
+  porqueOp:'Apareció <b>{aux}</b>, y no significa nada: entró solo para poder {acción}. Es un motor de arranque — no es el viaje.',
+  verboPor:'Con un auxiliar delante el verbo se <b>desnuda</b>: pierde la -s. El tiempo se paga una sola vez por frase.',
+  cuando:'Lo que haces por costumbre o lo que es verdad en general. <i>I work at a bank</i> significa «ese es mi trabajo», <b>no</b> «estoy trabajando ahora mismo».',
+  pistas:'always · usually · every day · never · on Mondays',
+  error:{ mal:'She work here.', bien:'She works here.', por:'La -s de he/she/it no se negocia en afirmativa.' } },
+
+{ id:'past', n:'Pasado simple', h:'Empezó y terminó', corto:'Pasado',
+  linea:{ d:16, a:24, tipo:'punto', txt:'Terminado, con su momento' },
+  porqueSin:'Tampoco hay auxiliar. El pasado está <b>dentro del propio verbo</b>: {base} → {v2}.',
+  porqueOp:'Apareció <b>did</b>, y con él el pasado se mudó del verbo al auxiliar.',
+  verboPor:'Por eso el verbo vuelve a su forma base ({v2} → {base}). Si lo dejas en pasado, estarías marcando el tiempo <b>dos veces</b>.',
+  cuando:'Algo que empezó y terminó, casi siempre con un momento concreto. Si puedes decir <i>cuándo</i>, va aquí.',
+  pistas:'yesterday · last week · in 2020 · two days ago',
+  error:{ mal:'Did you went?', bien:'Did you go?', por:'El «did» ya carga el pasado. El verbo va desnudo.' } },
+
+{ id:'fut', n:'Futuro · will', h:'Aún no pasa', corto:'will',
+  linea:{ d:72, a:80, tipo:'punto', txt:'Todavía no pasa' },
+  porque:'Aquí el auxiliar está <b>marcando tiempo</b>: <b>will</b> es lo único en toda la frase que dice que la acción aún no ocurrió.',
+  verboPor:'El verbo <b>nunca cambia</b>: siempre desnudo, para todas las personas. Por eso el futuro con <i>will</i> es el tiempo más fácil del inglés.',
+  cuando:'Una decisión que tomas <b>en el momento de hablar</b>, una promesa o una predicción. <i>I\'ll help you</i> = lo acabas de decidir.',
+  pistas:'tomorrow · next week · I think… · probably',
+  error:{ mal:'I will to work.', bien:'I will work.', por:'Después de un modal nunca va «to».' } },
+
+{ id:'going', n:'Futuro · going to', h:'Plan ya decidido', corto:'going to',
+  linea:{ d:64, a:74, tipo:'punto', txt:'Ya lo tenías planeado' },
+  porque:'El auxiliar de verdad es <b>be</b> ({aux}): es el que se mueve y el que recibe el <i>not</i>. <b>going to</b> se queda quieto — no es «ir a un lugar», es una fórmula fija que significa «voy a».',
+  verboPor:'Después de <i>going to</i> el verbo va desnudo.',
+  cuando:'Un plan que <b>ya estaba decidido antes</b> de que empezaras a hablar. Hablando, este futuro se usa <b>más que <i>will</i></b> — si solo aprendes <i>will</i>, suenas a libro.',
+  pistas:'tonight · this weekend · I already decided',
+  error:{ mal:'I go to study tonight.', bien:'I\'m going to study tonight.', por:'Sin el «be» delante no hay futuro: eso sería presente.' } },
+
+{ id:'cont', n:'Presente continuo', h:'Ahora mismo', corto:'Continuo',
+  linea:{ d:45, a:55, tipo:'punto', txt:'En curso, en este instante' },
+  porque:'Aquí el auxiliar está <b>marcando tiempo</b>: <b>{aux}</b> (el verbo <i>be</i>) dice que la acción está <b>en curso ahora mismo</b>. Fíjate en que aparece <b>incluso afirmando</b> — no estás negando ni preguntando nada.',
+  verboPor:'El verbo se pone en <b>-ing</b>. Sin el <i>be</i> delante, el -ing solo no es una frase.',
+  cuando:'Lo que pasa en este instante, o un plan muy cercano y ya fijado: <i>I\'m meeting her tomorrow</i>.',
+  pistas:'right now · at the moment · look! · today',
+  error:{ mal:'I am work.', bien:'I am working.', por:'El «be» pide -ing. Los dos van juntos o ninguno.' } },
+
+{ id:'pastcont', n:'Pasado continuo', h:'Estaba en curso', corto:'Pas. cont.',
+  linea:{ d:10, a:32, tipo:'tramo', txt:'Estaba pasando, en el pasado' },
+  porque:'El auxiliar es <b>be en pasado</b> ({aux}). Dice que la acción <b>estaba en curso</b> en un momento del pasado, no que terminara.',
+  verboPor:'-ing, igual que el presente continuo. Lo único que cambia entre los dos es el auxiliar.',
+  cuando:'El fondo de una escena: lo que estaba pasando cuando pasó otra cosa. <i>I was working when she called</i>.',
+  pistas:'when… · while… · at 8 o\'clock yesterday',
+  error:{ mal:'I was work when she called.', bien:'I was working when she called.', por:'Mismo caso: «was» pide -ing.' } },
+
+{ id:'perf', n:'Presente perfecto', h:'Hecho, sin decir cuándo', corto:'Perfecto',
+  linea:{ d:14, a:50, tipo:'flecha', txt:'En algún momento, hasta hoy' },
+  porque:'<b>{aux}</b> dice que la acción <b>ya está hecha</b>, pero <b>sin decir cuándo</b>. Esa es toda la diferencia con el pasado simple.',
+  verboPor:'El verbo pasa a <span class="gl" data-glo="participio">participio</span> ({base} → {vpp}), que es la forma que siempre sigue a <i>have</i>.',
+  cuando:'Experiencias de vida y cosas terminadas sin fecha. <i>I have worked at a bank</i> = alguna vez, da igual cuándo. <b>En cuanto digas cuándo, cambia a pasado simple.</b>',
+  pistas:'ever · never · already · yet · just · so far',
+  error:{ mal:'I have worked there yesterday.', bien:'I worked there yesterday.', por:'Con un momento concreto («yesterday») va pasado simple, no perfecto.' } },
+
+{ id:'pastperf', n:'Pasado perfecto', h:'El pasado del pasado', corto:'Pas. perf.',
+  linea:{ d:4, a:11, tipo:'punto', txt:'Antes de otra cosa del pasado' },
+  porque:'<b>had</b> marca lo que pasó <b>antes de otro momento del pasado</b>. Por eso se le dice «el pasado del pasado».',
+  verboPor:'Participio, igual que con <i>have</i> ({base} → {vpp}).',
+  cuando:'Cuando cuentas dos cosas del pasado y quieres dejar clarísimo cuál fue primero: <i>When she called, I had already finished</i>.',
+  pistas:'already · before · by the time… · when…',
+  error:{ mal:'When she called, I already finished.', bien:'When she called, I had already finished.', por:'Sin «had» no se sabe qué pasó primero.' } },
+
+{ id:'perfcont', n:'Presente perfecto continuo', h:'Lleva tiempo y sigue', corto:'Perf. cont.',
+  linea:{ d:14, a:56, tipo:'flecha', txt:'Empezó antes y sigue ahora' },
+  porque:'Aquí hay <b>dos</b> auxiliares: <b>{aux}</b> y <b>been</b>. Solo el primero se mueve al preguntar y solo él recibe el <i>not</i>; <b>been</b> se queda siempre quieto en su sitio.',
+  verboPor:'-ing, porque la acción <b>sigue en curso</b>.',
+  cuando:'Cuánto <b>llevas</b> haciendo algo y todavía lo haces. En español dirías «llevo dos años trabajando aquí» — en inglés es <i>I have been working here for two years</i>.',
+  pistas:'for two years · since 2020 · all day · lately',
+  error:{ mal:'I work here since two years.', bien:'I have been working here for two years.', por:'«llevo…» no se traduce con presente simple. Y «since» va con fechas, «for» con duraciones.' } },
+
+{ id:'cond', n:'Condicional · would', h:'El «-ría»', corto:'would',
+  linea:{ d:0, a:0, tipo:'irreal', txt:'No es real: hipótesis o cortesía' },
+  porque:'<b>would</b> es exactamente el <b>«-ría»</b> del español: trabaja<b>ría</b>, i<b>ría</b>, se<b>ría</b>. No sitúa la acción en el tiempo: la saca de la realidad.',
+  verboPor:'Verbo desnudo, como con todos los <span class="gl" data-glo="modal">modales</span>. Nunca <i>to</i>, nunca <i>-s</i>, nunca <i>-ed</i>.',
+  cuando:'Algo que no es real —hipótesis o deseo— o para pedir algo con educación. <i>Would you help me?</i> es mucho más amable que <i>Can you help me?</i>',
+  pistas:'if… · I think I would… · would you…?',
+  error:{ mal:'I would to work there.', bien:'I would work there.', por:'Modal + verbo desnudo. El «to» sobra siempre.' } }
 ];
+
 const LAB_F = [
-  { id:'af', n:'Afirmar',  h:'Decir que sí' },
-  { id:'ne', n:'Negar',    h:'Decir que no' },
-  { id:'pr', n:'Preguntar',h:'Pregunta de sí o no' },
-  { id:'wh', n:'WH',       h:'Pregunta abierta' }
+  { id:'af', n:'Afirmar',   h:'Decir que sí' },
+  { id:'ne', n:'Negar',     h:'Decir que no' },
+  { id:'pr', n:'Preguntar', h:'Pregunta de sí o no' },
+  { id:'wh', n:'WH',        h:'Pregunta abierta' }
+];
+
+const LAB_VISTAS = [
+  { id:'una',     n:'🔍 Una sola',       h:'La frase en detalle, con toda la explicación' },
+  { id:'tiempos', n:'📅 Los 10 tiempos', h:'La misma frase en los 10 tiempos: ahí se ve aparecer el auxiliar' },
+  { id:'formas',  n:'🔀 Las 4 formas',   h:'Afirmar, negar, preguntar y WH: ahí se ve MOVERSE el auxiliar' },
+  { id:'reto',    n:'🎯 Ponte a prueba', h:'Adivina qué auxiliar toca. Producir, no solo mirar' }
 ];
 
 const LAB = (() => {
-  const st = { base:'work', t:'pres', f:'af', todos:false };
+  const st = { base:'work', t:'pres', f:'af', vista:'una' };
+  const reto = { q:null, resp:null, aciertos:0, intentos:0 };
 
   const beP = b => b.suj === 'I' ? 'am' : (b.p === 3 ? 'is' : 'are');
   const beD = b => (b.suj === 'I' || b.p === 3) ? 'was' : 'were';
   const doP = b => b.p === 3 ? 'does' : 'do';
   const hvP = b => b.p === 3 ? 'has' : 'have';
 
-  /* Devuelve { tk:[{r,t}], aux:'am'|null, porque:'...' } */
-  function armar(b, t, f){
-    const S = { r:'suj', t:b.suj }, C = { r:'com', t:b.com }, NOT = { r:'neg', t:'not' };
-    const V  = { r:'ver', t:b.ver }, VS = { r:'ver', t:b.vs }, V2 = { r:'ver', t:b.v2 };
-    const ING = { r:'ver', t:b.ving }, PP = { r:'ver', t:b.vpp };
-    const WH = { r:'wh', t:b.wh };
-    const com = (f === 'wh' && b.whDrop) ? [] : [C];
-
-    // Qué auxiliar manda en cada combinación, y qué está haciendo ahí
-    let A = null, porque = '';
-    if(t === 'pres'){
-      if(f === 'af'){ A = null; porque = 'En presente simple afirmativo <b>no hay auxiliar</b>. El verbo va solo y él mismo lleva la marca de persona (la -s de he/she/it).'; }
-      else { A = doP(b); porque = `Apareció <b>${A}</b>. No aporta significado: entró solo para poder ${f==='af'?'':(f==='ne'?'sostener el <i>not</i>':'saltar al frente y volver esto una pregunta')}. Por eso el verbo perdió la -s y quedó desnudo.`; }
-    } else if(t === 'past'){
-      if(f === 'af'){ A = null; porque = 'En pasado simple afirmativo <b>tampoco hay auxiliar</b>. El pasado está dentro del propio verbo: <b>' + b.ver + ' → ' + b.v2 + '</b>.'; }
-      else { A = 'did'; porque = 'Apareció <b>did</b>, y con él el pasado se mudó del verbo al auxiliar: el verbo vuelve a su forma base (<b>' + b.v2 + ' → ' + b.ver + '</b>). El tiempo se marca <b>una sola vez</b>.'; }
-    } else if(t === 'fut'){
-      A = 'will'; porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>will</b> es lo único que dice que la acción todavía no pasó. El verbo no cambia nunca — por eso el futuro es el tiempo más fácil del inglés.';
-    } else if(t === 'cont'){
-      A = f === 'af' || f === 'ne' || f === 'pr' || f === 'wh' ? beP(b) : beP(b);
-      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> (el verbo <i>be</i>) dice que la acción está <b>en curso ahora mismo</b>. El verbo se pone en <b>-ing</b>. Fíjate en que el auxiliar aparece incluso afirmando.';
-    } else {
-      A = hvP(b);
-      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> dice que la acción <b>ya está hecha</b>, sin precisar cuándo. El verbo pasa a <span class="gl" data-glo="participio">participio</span> (<b>' + b.vpp + '</b>).';
+  /* Qué auxiliares lleva cada tiempo. El PRIMERO de `af` es el operador:
+     el que salta al frente en las preguntas y el que recibe el `not`.
+     Los demás (been, going to) se quedan siempre donde están. */
+  function plan(b, t){
+    switch(t){
+      case 'pres':     return { af:[],                    op:doP(b), f:'s',  fOp:'base' };
+      case 'past':     return { af:[],                    op:'did',  f:'v2', fOp:'base' };
+      case 'fut':      return { af:['will'],              f:'base' };
+      case 'going':    return { af:[beP(b), 'going to'],  f:'base' };
+      case 'cont':     return { af:[beP(b)],              f:'ing' };
+      case 'pastcont': return { af:[beD(b)],              f:'ing' };
+      case 'perf':     return { af:[hvP(b)],              f:'pp' };
+      case 'pastperf': return { af:['had'],               f:'pp' };
+      case 'perfcont': return { af:[hvP(b), 'been'],      f:'ing' };
+      default:         return { af:['would'],             f:'base' };
     }
+  }
+  const formaVerbo = (b, k) => k === 's'  ? (b.p === 3 ? b.vs : b.ver)
+                             : k === 'v2' ? b.v2 : k === 'ing' ? b.ving
+                             : k === 'pp' ? b.vpp : b.ver;
 
-    // El verbo que toca según el tiempo
-    const cuerpo = t === 'cont' ? ING : t === 'perf' ? PP
-                 : t === 'past' ? (A ? V : V2)
-                 : t === 'fut'  ? V
-                 : (A ? V : (b.p === 3 ? VS : V));
+  const rellena = (txt, b, aux) => String(txt || '')
+    .split('{aux}').join(aux || '')
+    .split('{base}').join(b.ver)
+    .split('{v2}').join(b.v2)
+    .split('{vpp}').join(b.vpp);
+
+  function armar(b, t, f){
+    const P = plan(b, t), info = LAB_T.find(x => x.id === t);
+    const sinAux = P.af.length === 0;
+    const op = sinAux ? P.op : P.af[0];
+    const resto = sinAux ? [] : P.af.slice(1);
+    const clave = (f === 'af') ? P.f : (sinAux ? P.fOp : P.f);
+
+    const S = { r:'suj', t:b.suj }, V = { r:'ver', t:formaVerbo(b, clave) };
+    const com = (f === 'wh' && b.whDrop) ? [] : [{ r:'com', t:b.com }];
+    const A = x => ({ r:'aux', t:x });
 
     let tk;
-    if(f === 'af'){
-      tk = A ? [S, {r:'aux', t:A}, cuerpo, ...com] : [S, cuerpo, ...com];
-    } else if(f === 'ne'){
-      tk = [S, {r:'aux', t:A}, NOT, cuerpo, ...com];
-    } else if(f === 'pr'){
-      tk = [{r:'aux', t:A}, S, cuerpo, ...com];
-      tk.push({ r:'q', t:'?' });
-    } else {
-      tk = [WH, {r:'aux', t:A}, S, cuerpo, ...com];
-      tk.push({ r:'q', t:'?' });
-    }
+    if(f === 'af')      tk = sinAux ? [S, V, ...com] : [S, ...P.af.map(A), V, ...com];
+    else if(f === 'ne') tk = [S, A(op), { r:'neg', t:'not' }, ...resto.map(A), V, ...com];
+    else if(f === 'pr') tk = [A(op), S, ...resto.map(A), V, ...com, { r:'q', t:'?' }];
+    else                tk = [{ r:'wh', t:b.wh }, A(op), S, ...resto.map(A), V, ...com, { r:'q', t:'?' }];
     if(f === 'af' || f === 'ne') tk.push({ r:'q', t:'.' });
-    return { tk, aux:A, porque };
+
+    const hayAux = !(sinAux && f === 'af');
+    const auxVisible = hayAux ? op : null;
+    const accion = f === 'ne' ? 'sostener el <i>not</i>'
+                 : f === 'pr' ? 'saltar al frente y convertir esto en pregunta'
+                 : 'encabezar la pregunta';
+
+    let porque;
+    if(sinAux && f === 'af')      porque = rellena(info.porqueSin, b, null);
+    else if(sinAux)               porque = rellena(info.porqueOp, b, op).split('{acción}').join(accion);
+    else                          porque = rellena(info.porque, b, op);
+
+    return { tk, aux:auxVisible, auxTodos:[op, ...resto].filter(Boolean), hayAux,
+             porque, verboPor:rellena(info.verboPor, b, op),
+             cuando:info.cuando, pistas:info.pistas, error:info.error, linea:info.linea, info };
   }
 
-  /* El sujeto solo va en mayuscula si abre la frase. En una pregunta el
-     auxiliar va delante, asi que "Do They" tenia que ser "Do they". */
-  const texto = o => o.tk.map((x, i) =>
-      (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase() : x.t
-    ).join(' ')
-    .replace(/ ([.?])/g, '$1')
-    .replace(/^(\w)/, c => c.toUpperCase());
-
-  /* Asi se dice de verdad. Aprender solo la forma larga es la razon por la
+  /* Así se habla de verdad. Aprender solo la forma larga es la razón por la
      que se entiende leyendo y no escuchando (regla no negociable #12). */
   const CONTR = [
-    [/\bI am not\b/g, "I'm not"], [/\bwill not\b/g, "won't"],
-    [/\bdo not\b/g, "don't"],   [/\bdoes not\b/g, "doesn't"], [/\bdid not\b/g, "didn't"],
-    [/\bis not\b/g, "isn't"],   [/\bare not\b/g, "aren't"],
-    [/\bwas not\b/g, "wasn't"], [/\bwere not\b/g, "weren't"],
-    [/\bhave not\b/g, "haven't"], [/\bhas not\b/g, "hasn't"], [/\bhad not\b/g, "hadn't"]
+    [/\bI am not\b/g, "I'm not"],
+    [/\bwill not\b/g, "won't"],   [/\bwould not\b/g, "wouldn't"],
+    [/\bdo not\b/g, "don't"],     [/\bdoes not\b/g, "doesn't"], [/\bdid not\b/g, "didn't"],
+    [/\bis not\b/g, "isn't"],     [/\bare not\b/g, "aren't"],
+    [/\bwas not\b/g, "wasn't"],   [/\bwere not\b/g, "weren't"],
+    [/\bhave not\b/g, "haven't"], [/\bhas not\b/g, "hasn't"],   [/\bhad not\b/g, "hadn't"],
+    // afirmativas con «be», que es como suena de verdad
+    [/\bI am\b/g, "I'm"],     [/\bYou are\b/g, "You're"], [/\bWe are\b/g, "We're"],
+    [/\bThey are\b/g, "They're"], [/\bHe is\b/g, "He's"], [/\bShe is\b/g, "She's"]
   ];
   const contraer = t => CONTR.reduce((a, [re, v]) => a.replace(re, v), t);
 
-  const CLS = { suj:'s-suj', aux:'s-aux', ver:'s-ver', com:'s-com', neg:'s-neg', wh:'s-wh' };
+  const texto = o => o.tk.map((x, i) =>
+      (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase() : x.t
+    ).join(' ').replace(/ ([.?])/g, '$1').replace(/^(\w)/, c => c.toUpperCase());
 
-  function tokensHTML(o){
-    return o.tk.filter(x => x.r !== 'q')
-      .map(x => `<span class="slot ${CLS[x.r]} lab-tk">${esc(x.t)}</span>`).join('<span class="lab-p">+</span>');
+  const CLS = { suj:'s-suj', aux:'s-aux', ver:'s-ver', com:'s-com', neg:'s-neg', wh:'s-wh' };
+  const tokensHTML = o => o.tk.filter(x => x.r !== 'q')
+    .map(x => `<span class="slot ${CLS[x.r]} lab-tk">${esc(x.t)}</span>`).join('<span class="lab-p">+</span>');
+
+  /* La línea del tiempo: para un aprendiz visual vale más que el nombre del tiempo */
+  function lineaHTML(L){
+    if(L.tipo === 'irreal'){
+      return `<div class="lt"><div class="lt-b irreal"><span class="lt-irreal">no ocurre en la línea del tiempo</span></div>
+        <div class="lt-x"><span>antes</span><span>ahora</span><span>después</span></div>
+        <div class="lt-t">${esc(L.txt)}</div></div>`;
+    }
+    const izq = L.d, ancho = Math.max(2, L.a - L.d);
+    return `<div class="lt"><div class="lt-b">
+        <div class="lt-now"></div>
+        <div class="lt-m ${L.tipo}" style="left:${izq}%;width:${ancho}%"></div>
+      </div>
+      <div class="lt-x"><span>antes</span><span>ahora</span><span>después</span></div>
+      <div class="lt-t">${esc(L.txt)}</div></div>`;
   }
 
+  // ─────────── VISTA 1 · una sola frase, con todo ───────────
+  function vistaUna(b){
+    const o = armar(b, st.t, st.f);
+    const largo = texto(o), frase = contraer(largo);
+    return `
+    <div class="lab-out">
+      <div class="lab-form">${tokensHTML(o)}</div>
+      <div class="lab-sent">${esc(frase)} <button class="spk" data-say="${esc(frase)}">🔊</button></div>
+      <div class="lab-es">${esc(b.es)} · <b>${esc(o.info.n)}</b> · ${esc(LAB_F.find(x => x.id === st.f).n)}</div>
+      ${frase !== largo ? `<div class="lab-long">Forma larga: <i>${esc(largo)}</i> — correcta, pero nadie habla así. <button class="spk sm" data-say="${esc(largo)}">🔊</button></div>` : ''}
+      <div class="lab-acts">
+        <button class="lab-b" data-nb-en="${esc(frase)}" data-nb-es="${esc(b.es)}">📓 Guardar en mi cuaderno</button>
+        <button class="lab-b" data-labr="azar">🎲 Otra frase al azar</button>
+      </div>
+    </div>
+
+    <div class="lab-why ${o.hayAux ? 'has' : 'no'}">
+      <div class="lab-wt">${o.hayAux ? `🔧 El auxiliar aquí es <span class="slot s-aux">${esc(o.aux)}</span>${o.auxTodos.length > 1 ? ` <span class="lab-mas">+ <span class="slot s-aux">${esc(o.auxTodos[1])}</span>, que no se mueve</span>` : ''}` : '🚫 Aquí no hay ningún auxiliar'}</div>
+      <div class="lab-wd">${o.porque}</div>
+    </div>
+
+    <div class="lab-grid">
+      <div class="lab-card"><div class="lab-ct">🧩 Por qué el verbo va así</div><div class="lab-cb">${o.verboPor}</div></div>
+      <div class="lab-card"><div class="lab-ct">💬 Cuándo lo usarías de verdad</div><div class="lab-cb">${o.cuando}</div>
+        <div class="lab-pistas">Palabras que lo delatan: <b>${esc(o.pistas)}</b></div></div>
+      <div class="lab-card err"><div class="lab-ct">⚠️ El error que ibas a cometer</div>
+        <div class="lab-ep"><span class="dx-bad">✗ ${esc(o.error.mal)}</span><span class="dx-good">✓ ${esc(o.error.bien)} <button class="spk sm" data-say="${esc(o.error.bien)}">🔊</button></span></div>
+        <div class="lab-cb">${o.error.por}</div></div>
+      <div class="lab-card"><div class="lab-ct">⏳ Dónde cae en el tiempo</div>${lineaHTML(o.linea)}</div>
+    </div>`;
+  }
+
+  // ─────────── VISTA 2 · los 10 tiempos ───────────
+  function vistaTiempos(b){
+    return `<div class="lab-nota">Misma frase, misma forma (<b>${esc(LAB_F.find(x => x.id === st.f).n)}</b>), los 10 tiempos. Mira la columna de la derecha: <b>en los dos primeros no hay auxiliar</b> y en cuanto cambias de tiempo, aparece solo.</div>
+    <div class="lab-all">` + LAB_T.map(T => {
+      const o = armar(b, T.id, st.f);
+      return `<div class="lab-row${T.id === st.t ? ' hi' : ''}" data-labt="${T.id}">
+        <div class="lab-rn">${esc(T.n)}<span>${esc(T.h)}</span></div>
+        <div class="lab-rf">${tokensHTML(o)}<span class="lab-rs">${esc(contraer(texto(o)))}</span></div>
+        <div class="lab-ra">${o.hayAux ? `<span class="slot s-aux">${esc(o.aux)}</span>` : '<span class="lab-none">sin auxiliar</span>'}</div>
+        <button class="spk sm" data-say="${esc(contraer(texto(o)))}">🔊</button>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // ─────────── VISTA 3 · las 4 formas ───────────
+  function vistaFormas(b){
+    const T = LAB_T.find(x => x.id === st.t);
+    return `<div class="lab-nota">Mismo tiempo (<b>${esc(T.n)}</b>), las 4 formas. Aquí no se ve aparecer el auxiliar: se ve <b>MOVERSE</b>. Fíjate en que al preguntar salta a la primera casilla.</div>
+    <div class="lab-all">` + LAB_F.map(F => {
+      const o = armar(b, st.t, F.id);
+      const pos = o.hayAux ? (o.tk.findIndex(x => x.r === 'aux') + 1) : 0;
+      return `<div class="lab-row${F.id === st.f ? ' hi' : ''}" data-labf="${F.id}">
+        <div class="lab-rn">${esc(F.n)}<span>${esc(F.h)}</span></div>
+        <div class="lab-rf">${tokensHTML(o)}<span class="lab-rs">${esc(contraer(texto(o)))}</span></div>
+        <div class="lab-ra">${o.hayAux ? `<span class="lab-pos">casilla ${pos}</span>` : '<span class="lab-none">sin auxiliar</span>'}</div>
+        <button class="spk sm" data-say="${esc(contraer(texto(o)))}">🔊</button>
+      </div>`;
+    }).join('') + '</div>';
+  }
+
+  // ─────────── VISTA 4 · ponte a prueba ───────────
+  const POOL = ['do','does','did','am','is','are','was','were','have','has','had','will','would','(ninguno)'];
+
+  function nuevoReto(){
+    const b = LAB_BASES[Math.floor(Math.random() * LAB_BASES.length)];
+    const T = LAB_T[Math.floor(Math.random() * LAB_T.length)];
+    const F = LAB_F[Math.floor(Math.random() * LAB_F.length)];
+    const o = armar(b, T.id, F.id);
+    const bien = o.hayAux ? o.aux : '(ninguno)';
+    const opciones = [bien];
+    while(opciones.length < 4){
+      const c = POOL[Math.floor(Math.random() * POOL.length)];
+      if(!opciones.includes(c)) opciones.push(c);
+    }
+    opciones.sort(() => Math.random() - 0.5);
+    reto.q = { b, T, F, o, bien, opciones };
+    reto.resp = null;
+  }
+
+  function vistaReto(){
+    if(!reto.q) nuevoReto();
+    const { b, T, F, o, bien, opciones } = reto.q;
+    /* El esqueleto respeta las mismas reglas que la frase final: el sujeto
+       solo va en mayuscula si abre la frase, y el signo de cierre se conserva. */
+    const HUECO = '<span class="lab-hueco">?</span>';
+    let puesto = false;
+    const piezas = [];
+    o.tk.forEach((x, i) => {
+      if(x.r === 'q'){ piezas.push(`<span class="lab-fin">${esc(x.t)}</span>`); return; }
+      if(!puesto && o.hayAux && x.r === 'aux' && x.t === o.aux){ piezas.push(HUECO); puesto = true; return; }
+      const t = (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase()
+              : (i === 0 ? x.t.charAt(0).toUpperCase() + x.t.slice(1) : x.t);
+      piezas.push(`<span class="slot ${CLS[x.r]} lab-tk">${esc(t)}</span>`);
+      // Sin auxiliar el hueco va justo detras del sujeto: es donde se duda
+      if(!puesto && !o.hayAux && x.r === 'suj'){ piezas.push(HUECO); puesto = true; }
+    });
+    const conHueco = piezas.join(' ');
+
+    const acertado = reto.resp === bien;
+    return `<div class="lab-reto">
+      <div class="lab-marc">Aciertos: <b>${reto.aciertos}</b> de <b>${reto.intentos}</b>${reto.intentos >= 5 ? ` · ${Math.round(reto.aciertos / reto.intentos * 100)}%` : ''}</div>
+      <div class="lab-rq">Quieres decir «<b>${esc(b.es)}</b>» en <b>${esc(T.n)}</b>, forma <b>${esc(F.n).toLowerCase()}</b>.</div>
+      <div class="lab-rfr">${conHueco}</div>
+      <div class="lab-rt">¿Qué va en el hueco?</div>
+      <div class="lab-ops">${opciones.map(op =>
+        `<button class="lab-op${reto.resp ? (op === bien ? ' bien' : (op === reto.resp ? ' mal' : ' off')) : ''}" data-labop="${esc(op)}"${reto.resp ? ' disabled' : ''}>${esc(op)}</button>`).join('')}</div>
+      ${reto.resp ? `<div class="lab-fb ${acertado ? 'ok' : 'no'}">
+          <div class="lab-fbt">${acertado ? '✓ Correcto' : '✗ Era «' + esc(bien) + '»'}</div>
+          <div class="lab-wd">${o.porque}</div>
+          <div class="lab-fbs">${esc(contraer(texto(o)))} <button class="spk sm" data-say="${esc(contraer(texto(o)))}">🔊</button></div>
+        </div>
+        <button class="lab-b grande" data-labr="otro">Siguiente →</button>` : ''}
+    </div>`;
+  }
+
+  // ─────────── render ───────────
   function render(){
     const cont = $('labBox'); if(!cont) return;
     const b = LAB_BASES.find(x => x.id === st.base) || LAB_BASES[0];
-
     const chips = (arr, sel, key) => arr.map(x =>
-      `<button class="lab-c${x.id === sel ? ' on' : ''}" data-lab="${key}" data-v="${x.id}" title="${esc(x.h)}">${esc(x.n)}</button>`).join('');
+      `<button class="lab-c${x.id === sel ? ' on' : ''}" data-lab="${key}" data-labv="${x.id}" title="${esc(x.h || '')}">${esc(x.corto || x.n)}</button>`).join('');
 
-    let salida;
-    if(st.todos){
-      // Vista comparativa: los 5 tiempos a la vez, misma forma. Aquí se ve
-      // de un golpe que el auxiliar aparece y desaparece segun el tiempo.
-      salida = '<div class="lab-all">' + LAB_T.map(T => {
-        const o = armar(b, T.id, st.f);
-        return `<div class="lab-row${T.id === st.t ? ' hi' : ''}">
-          <div class="lab-rn">${esc(T.n)}<span>${esc(T.h)}</span></div>
-          <div class="lab-rf">${tokensHTML(o)}<span class="lab-rs">${esc(contraer(texto(o)))}</span></div>
-          <div class="lab-ra">${o.aux ? `<span class="slot s-aux">${esc(o.aux)}</span>` : '<span class="lab-none">sin auxiliar</span>'}</div>
-          <button class="spk sm" data-say="${esc(contraer(texto(o)))}">🔊</button>
-        </div>`;
-      }).join('') + '</div>';
-    } else {
-      const o = armar(b, st.t, st.f);
-      const largo = texto(o);
-      const frase = contraer(largo);
-      salida = `<div class="lab-out">
-        <div class="lab-form">${tokensHTML(o)}</div>
-        <div class="lab-sent">${esc(frase)} <button class="spk" data-say="${esc(frase)}">🔊</button></div>
-        ${frase !== largo ? `<div class="lab-long">Forma larga: <i>${esc(largo)}</i> — correcta, pero nadie habla así. <button class="spk sm" data-say="${esc(largo)}">🔊</button></div>` : ''}
-      </div>
-      <div class="lab-why ${o.aux ? 'has' : 'no'}">
-        <div class="lab-wt">${o.aux ? `🔧 El auxiliar aquí es <span class="slot s-aux">${esc(o.aux)}</span>` : '🚫 Aquí no hay auxiliar'}</div>
-        <div class="lab-wd">${o.porque}</div>
-      </div>`;
-    }
+    const grupos = [...new Set(LAB_BASES.map(x => x.g))];
+    const opciones = grupos.map(g => `<optgroup label="${esc(g)}">` + LAB_BASES.filter(x => x.g === g).map(x =>
+      `<option value="${x.id}"${x.id === st.base ? ' selected' : ''}>${esc(x.suj + ' ' + x.ver + ' ' + x.com)} · ${esc(x.es)}</option>`).join('') + '</optgroup>').join('');
+
+    const enReto = st.vista === 'reto';
+    const salida = enReto ? vistaReto()
+                 : st.vista === 'tiempos' ? vistaTiempos(b)
+                 : st.vista === 'formas'  ? vistaFormas(b)
+                 : vistaUna(b);
 
     cont.innerHTML = `
-      <div class="lab-ctl">
-        <div class="lab-g"><span class="lab-lb">Frase base</span>
-          <select id="labBase" class="lab-sel">${LAB_BASES.map(x =>
-            `<option value="${x.id}"${x.id === st.base ? ' selected' : ''}>${esc(x.suj + ' ' + x.ver + ' ' + x.com)} · ${esc(x.es)}</option>`).join('')}</select></div>
-        <div class="lab-g"><span class="lab-lb">Tiempo · cuándo pasa</span><div class="lab-cs">${chips(LAB_T, st.t, 't')}</div></div>
+      <div class="lab-vistas">${LAB_VISTAS.map(v =>
+        `<button class="lab-v${v.id === st.vista ? ' on' : ''}" data-lab="vista" data-labv="${v.id}" title="${esc(v.h)}">${esc(v.n)}</button>`).join('')}</div>
+      ${enReto ? '' : `<div class="lab-ctl">
+        <div class="lab-g"><span class="lab-lb">Frase base <b>· ${LAB_BASES.length} para elegir</b></span>
+          <select id="labBase" class="lab-sel">${opciones}</select></div>
+        ${st.vista !== 'formas' ? '' : ''}
+        <div class="lab-g"><span class="lab-lb">Tiempo · cuándo pasa <b>· ${LAB_T.length}</b></span><div class="lab-cs">${chips(LAB_T, st.t, 't')}</div></div>
         <div class="lab-g"><span class="lab-lb">Forma · qué haces con ella</span><div class="lab-cs">${chips(LAB_F, st.f, 'f')}</div></div>
-        <label class="lab-tg"><input type="checkbox" id="labAll"${st.todos ? ' checked' : ''}> Ver los 5 tiempos a la vez <b>(así se ve aparecer el auxiliar)</b></label>
-      </div>
+      </div>`}
       ${salida}`;
 
     const sel = $('labBase'); if(sel) sel.onchange = e => { st.base = e.target.value; render(); };
-    const chk = $('labAll');  if(chk) chk.onchange = e => { st.todos = e.target.checked; render(); };
     cont.querySelectorAll('[data-lab]').forEach(bt => bt.onclick = () => {
-      st[bt.dataset.lab] = bt.dataset.v; render();
+      const k = bt.dataset.lab;
+      if(k === 'vista'){ st.vista = bt.dataset.labv; if(st.vista === 'reto' && !reto.q) nuevoReto(); }
+      else st[k] = bt.dataset.labv;
+      render();
+    });
+    // Filas clicables en las vistas comparativas
+    cont.querySelectorAll('[data-labt]').forEach(r => r.onclick = e => {
+      if(e.target.closest('[data-say]')) return;
+      st.t = r.dataset.labt; render();
+    });
+    cont.querySelectorAll('[data-labf]').forEach(r => r.onclick = e => {
+      if(e.target.closest('[data-say]')) return;
+      st.f = r.dataset.labf; render();
+    });
+    cont.querySelectorAll('[data-labr]').forEach(bt => bt.onclick = () => {
+      if(bt.dataset.labr === 'azar') st.base = LAB_BASES[Math.floor(Math.random() * LAB_BASES.length)].id;
+      else nuevoReto();
+      render();
+    });
+    cont.querySelectorAll('[data-labop]').forEach(bt => bt.onclick = () => {
+      if(reto.resp) return;
+      reto.resp = bt.dataset.labop;
+      reto.intentos++;
+      if(reto.resp === reto.q.bien) reto.aciertos++;
+      render();
     });
   }
-  return { render };
+
+  /* Comprueba que las 640 combinaciones se generen sin huecos. Se puede
+     llamar desde la consola: APP.LAB.auditar() */
+  function auditar(){
+    const malas = [];
+    for(const b of LAB_BASES) for(const T of LAB_T) for(const F of LAB_F){
+      const o = armar(b, T.id, F.id);
+      const s = contraer(texto(o));
+      if(/undefined|NaN|\s\s|^\s|null/.test(s)) malas.push(b.id + '/' + T.id + '/' + F.id + ': ' + s);
+      if(!o.porque || !o.verboPor || !o.cuando) malas.push(b.id + '/' + T.id + '/' + F.id + ': falta explicación');
+    }
+    return { combinaciones: LAB_BASES.length * LAB_T.length * LAB_F.length, malas };
+  }
+  function todas(){
+    const out = [];
+    for(const b of LAB_BASES) for(const T of LAB_T) for(const F of LAB_F)
+      out.push(b.id + '|' + T.id + '|' + F.id + '|' + contraer(texto(armar(b, T.id, F.id))));
+    return out;
+  }
+  return { render, auditar, todas };
 })();
 
 /* ══════════════════ REGLAS NO NEGOCIABLES ══════════════════

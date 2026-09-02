@@ -11,6 +11,70 @@
 
 ---
 
+## 🧪 3-ENG · Laboratorio v2 — 2026-09-01 (la seccion que le gusto, potenciada)
+
+> Miguel: *"me encantó la seccion de Laboratorio, puedes ampliarla con mas ejemplos y dar mejor
+> las explicaciones… potenciala a lo que mas puedas, sin dañar nada"*.
+
+### De 100 a 640 frases, y de una explicacion a cinco
+
+| | antes | ahora |
+|---|---|---|
+| Frases base | 5 | **16**, agrupadas (Trabajo · Día a día · Estudio · Irregulares clave) |
+| Tiempos | 5 | **10** (+ going to, pasado continuo, pasado perfecto, presente perfecto continuo, would) |
+| Combinaciones | 100 | **640** |
+| Explicacion | 1 linea | **5 bloques** por frase |
+| Vistas | 1 + casilla | **4** |
+
+**Los 5 bloques de cada frase:** que hace el auxiliar ahi · **por que el verbo va en esa forma** ·
+**cuando la usarias de verdad** (+ las palabras que delatan el tiempo: *always, yesterday, for two
+years…*) · **el error tipico del hispanohablante** con ✗/✓ · **donde cae en la linea del tiempo**
+(barra visual con ANTES / AHORA / DESPUES; punto, tramo punteado o flecha segun el tiempo — para un
+aprendiz visual eso vale mas que el nombre del tiempo).
+
+**Las 4 vistas:**
+- **🔍 Una sola** — el detalle completo, + botones «guardar en mi cuaderno» y «otra al azar».
+- **📅 Los 10 tiempos** — ahí se ve **aparecer** el auxiliar: `sin auxiliar · sin auxiliar · will ·
+  am · am · was · have · had · have · would`.
+- **🔀 Las 4 formas** — ahí se ve **moverse**. Con presente perfecto continuo queda clarisimo:
+  `have` salta a la casilla 1 al preguntar y **`been` nunca se mueve**.
+- **🎯 Ponte a prueba** — la frase con el auxiliar en blanco y 4 opciones. La opcion **«(ninguno)»**
+  es la mejor pregunta del modulo: `She ? lives in Bogotá` obliga a saber que el presente simple
+  afirmativo **no lleva auxiliar**. Marcador de aciertos, feedback con la explicacion y audio.
+
+### Reuso en vez de codigo nuevo
+El boton «guardar en mi cuaderno» no lleva JS propio: usa los atributos `data-nb-en` / `data-nb-es`
+y el handler global que **ya existia**. Igual el audio con `data-say`. Cero superficie nueva.
+
+### Verificacion
+- **Las 640 frases generadas y revisadas.** Participios irregulares correctos: *written, eaten,
+  driven, spoken, gone, done, taken, bought*. Detector de patrones imposibles (modal + verbo
+  conjugado, doble marca de tiempo, have + -ing sin been): **0 coincidencias**.
+- `APP.LAB.auditar()` queda en el codigo para repetir la comprobacion desde consola.
+- 60 retos seguidos: esqueleto siempre bien formado, sujeto en minuscula a mitad de frase,
+  signo de cierre conservado.
+- Movil 375px: las 4 vistas sin desborde horizontal.
+- Regresion: 8 pestañas · fichas · 15 reglas · glosario sin huecos · chips `data-goto` ·
+  favoritos de palabra y frase sin ids invalidos · 2000 palabras · 1000 frases · `SYNC.KEYS` 7 ·
+  **0 errores de consola**.
+
+### Dos defectos que aparecieron al MIRAR la captura, no al leer el codigo
+1. En el reto, el esqueleto mostraba `? They eaten breakfast` — sujeto en mayuscula a mitad de
+   frase y sin el signo final.
+2. Cuando la respuesta era «(ninguno)», el hueco salia **delante del sujeto**, sugiriendo que ahi
+   iria un auxiliar. Ahora va entre sujeto y verbo, que es donde se duda de verdad.
+
+### El auditor de colisiones, arreglado
+`scratchpad/eng/auditar.js` compara clases, ids y `data-*` nuevos contra los previos. **Estaba dando
+falsos positivos** (dijo que `.fp` y `.lt` ya existian; ninguna de las dos era cierta) porque el
+escapado se corrompia al ir en linea con `node -e`. Ahora va como archivo y lleva un **control
+positivo**: comprueba que detecta `data-fp`, que si existia. Un auditor que no puede fallar no sirve.
+Con el arreglado: 0 choques de clase, 0 de id, y el unico `data-*` compartido accidental (`data-v`)
+renombrado a `data-labv`. Los que quedan (`data-say`, `data-nb-en`, `data-nb-es`) son **reuso
+deliberado**.
+
+---
+
 ## 🩹 3-ENG · la colision de atributos que corrompia favoritos — 2026-09-01
 
 ### Lo que Miguel vio
