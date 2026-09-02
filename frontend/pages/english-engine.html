@@ -8350,9 +8350,21 @@ const SUG = (() => {
         break;
       }
     }
+    let pista = null;
+    if(!ver){
+      /* Aqui do/have/be no estan ayudando a nadie: son el verbo de verdad.
+         «What you did yesterday?» = que HICISTE ayer. */
+      const i = pal.findIndex(w => LEX.AUX_DO.has(w) || LEX.AUX_HAVE.has(w));
+      if(i > -1){
+        ver = LEX.AUX_DO.has(pal[i]) ? 'do' : 'have';
+        forma = 'base';
+        pista = ['did','had','was','were'].includes(pal[i]) ? ['past','perf','pastperf'] : null;
+        resto = pal.slice(i + 1).filter(x => /[a-z]/.test(x));
+      }
+    }
     if(!ver) return null;
     let com = (resto || []).join(' ').trim();
-    return { wh, neg, suj, ver, forma, com };
+    return { wh, neg, suj, ver, forma, com, pista };
   }
 
   /* «finish your university» no se dice: en inglés se estudia/termina
@@ -8363,23 +8375,51 @@ const SUG = (() => {
     SIN_POSESIVO.forEach(n => {
       c = c.replace(new RegExp('\\b(your|my|his|her|our|their|the)\\s+' + n + '\\b', 'gi'), n);
     });
-    return c.trim();
+    // Si la sugerencia repitiera el error que acabo de marcar, no serviría de nada
+    c = c.replace(/\bsince\s+(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+(year|month|week|day|hour)/gi, 'for $1 $2');
+    // Los idiomas van con mayúscula: se pierde al pasar todo a minúsculas
+    c = c.replace(/\b(english|spanish|french|german|italian|portuguese|chinese|japanese)\b/g,
+                  m => m.charAt(0).toUpperCase() + m.slice(1));
+    return c.replace(/\s+/g, ' ').trim();
   }
 
   function candidatas(pal, esPregunta){
     const it = intencion(pal);
     if(!it || !it.ver) return [];
+    // «What happened?» / «Who works here?»: el WH es el sujeto, no hay nada que rehacer
+    if((it.wh === 'who' || it.wh === 'what') &&
+       !pal.some((w, n) => n > 0 && LEX.SUJ.has(w) && !LEX.WH.has(w))) return [];
     const com = limpiarCom(it.com);
     const p = ['he','she','it'].includes(it.suj) ? 3 : 1;
     const base = {
       suj: it.suj.charAt(0).toUpperCase() + it.suj.slice(1), p,
       ver: it.ver, vs: LEX.conj(it.ver, 's'), v2: LEX.conj(it.ver, 'v2'),
       ving: LEX.conj(it.ver, 'ing'), vpp: LEX.conj(it.ver, 'pp'),
-      com: com || '', wh: it.wh ? it.wh.charAt(0).toUpperCase() + it.wh.slice(1) : 'What', whDrop: 0
+      com: com || '', wh: it.wh ? it.wh.charAt(0).toUpperCase() + it.wh.slice(1) : 'What',
+      whDrop: com ? 0 : 1              // sin complemento no se deja el hueco vacío
     };
     const f = it.wh ? 'wh' : (esPregunta ? 'pr' : (it.neg ? 'ne' : 'af'));
+
+    /* Si usaste un modal, ese modal ES tu intención: «Do you can help me?»
+       quiere decir «Can you help me?». Se arma a mano porque el generador
+       del Laboratorio no cubre modales sueltos. */
+    const MOD = ['can','could','should','would','must','may','might','will'];
+    const modal = pal.find(w => MOD.includes(w));
+    if(modal){
+      const v = it.ver, S = base.suj, C = com ? ' ' + com : '';
+      const neg = it.neg ? "n't" : '';
+      let fm;
+      if(it.wh)          fm = base.wh + ' ' + modal + neg + ' ' + S.toLowerCase() + ' ' + v + C + '?';
+      else if(esPregunta)fm = modal.charAt(0).toUpperCase() + modal.slice(1) + neg + ' ' + S.toLowerCase() + ' ' + v + C + '?';
+      else               fm = S + ' ' + modal + neg + ' ' + v + C + '.';
+      return [{ frase: fm.replace(/\s+/g, ' ').replace(/ ([.?])/g, '$1'),
+                tiempo: 'modal',
+                info: { n:'Modal · ' + modal,
+                        cuando:'Los modales cambian el <b>tono</b>: si puedes, si debes, si quizá. Van con el verbo desnudo, sin <i>to</i> y sin <i>-s</i>, y <b>no admiten do/does/did</b> delante.' } }];
+    }
     // En pregunta WH la negación se conserva usando la forma negativa contraída
-    const tiempos = (it.forma === 'pp' ? PARTICIPIO_PISTA
+    const tiempos = it.pista ? it.pista
+                  : (it.forma === 'pp' ? PARTICIPIO_PISTA
                    : it.forma === 'ing' ? ING_PISTA : BASE_PISTA);
 
     const out = [];
@@ -8750,6 +8790,21 @@ const ANL = (() => {
           f.trim(), (antes ? antes + " don't/doesn't " : "don't ") + (pal[iNot+1]||'…'));
     }
 
+    // «I no have money» = «no tengo dinero» traducido palabra por palabra.
+    // En ingles «no» solo niega sustantivos (no money); al verbo lo niega «don't».
+    pal.forEach((w, i) => {
+      if(w !== 'no' || i === 0) return;
+      // Solo el patron del calco: SUJETO + no + VERBO. Asi «Long time no see»
+      // y «No pain, no gain» (modismos fijos) no saltan.
+      if(!LEX.SUJ.has(pal[i-1])) return;
+      const sig = pal[i+1];
+      if(!sig || !LEX.raiz(sig) || LEX.es(sig,'sust') || LEX.es(sig,'adj')) return;
+      const aux = LEX.TERCERA.has(pal[i-1]) ? "doesn't" : "don't";
+      add('rojo','R2',"«No» no niega verbos: eso es «don't»",
+        "En español «<b>no</b> tengo» niega el verbo. En inglés <b>no</b> solo niega <b>sustantivos</b> (<i>no money</i>, <i>no problem</i>). Para negar la acción hace falta un auxiliar: <b>don't / doesn't / didn't</b>.",
+        pal[i-1] + ' no ' + sig, pal[i-1] + ' ' + aux + ' ' + sig);
+    });
+
     // R3 · pregunta sin auxiliar al frente
     // La coletilla («…, isn't it?», «…, do you?») no convierte la frase en
     // pregunta mal armada: lo de delante es una afirmación y está bien.
@@ -8771,7 +8826,11 @@ const ANL = (() => {
       const iSuj = pal.findIndex((w, n) => n >= k && LEX.SUJ.has(w) && !LEX.WH.has(w));
       const hayAuxEnCabeza = pal.slice(k, iSuj > -1 ? iSuj : k + 4).some(w => LEX.AUX.has(w));
       if(LEX.WH.has(p0)){
-        const sujetoEsWh = p0 === 'who' || p0 === 'what';
+        /* «What happened?» — ahí el WH ES el sujeto y no lleva auxiliar.
+           Pero «What you did yesterday?» tiene sujeto propio («you»), así que
+           el WH no es el sujeto y le falta el auxiliar. Sin esto se colaba. */
+        const sujetoEsWh = (p0 === 'who' || p0 === 'what') &&
+          !pal.some((w, n) => n > k && LEX.SUJ.has(w) && !LEX.WH.has(w));
         if(!hayAuxEnCabeza && !sujetoEsWh)
           add('rojo','R3','Falta el auxiliar en la pregunta',
             'La fórmula es fija: <b>WH + auxiliar + sujeto + verbo</b>. El WH <b>no reemplaza</b> al auxiliar, van los dos.',
@@ -8938,7 +8997,9 @@ const ANL = (() => {
     ["It's cold, isn't it?",'verde'], ["You're coming, aren't you?",'verde'],
     ["He can swim, can't he?",'verde'], ['Need a hand?','verde'],
     ['Any questions before we finish?','verde'],
-    ['She always work here.','rojo'],
+    ['She always work here.','rojo'], ['I no have money.','rojo'],
+    ['I have no money.','verde'], ['No problem.','verde'],
+    ['Long time no see.','verde'], ['No pain, no gain.','verde'],
     // El fallo que encontró Miguel: pasaba por buena y es una frase rota
     ["Why do you aren't finished your university?",'rojo'],
     ['I do am working.','rojo'], ['She does have finished.','rojo'],

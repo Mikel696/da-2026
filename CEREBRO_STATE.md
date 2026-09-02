@@ -71,6 +71,20 @@ nunca para afirmar un error.
 
 Y a la vez: **20/20 errores cazados** (los 19 de antes + el de Miguel) y el banco de 53 casos entero.
 
+### Segunda ronda, probando con errores tipicos
+Salieron cuatro defectos mas, todos arreglados y con su caso en el banco:
+- **«What you did yesterday?» pasaba por buena** — otro falso negativo. Mi guarda «el WH es el
+  sujeto» era demasiado amplia: solo vale si NO hay otro sujeto detras.
+- Las sugerencias **perdian el modal**: de «Do you can help me?» proponian «Do you help me?».
+  Ahora conservan el modal → **«Can you help me?»**.
+- **Arrastraban el error señalado** a la sugerencia (). Ahora lo corrigen.
+- **«I no have money»** (el calco de «no tengo dinero») pasaba por buena. En ingles  solo
+  niega sustantivos; al verbo lo niega . Acotado al patron SUJETO + no + VERBO para no
+  tocar los modismos («Long time no see», «No pain, no gain»).
+
+**Marcador final: 0 falsos positivos en las 1000 frases · 24/24 errores cazados · banco de 58 casos entero.**
+
+---
 ### Lo que NO hace
 No es una inteligencia artificial y no llega al 100 %. Reconoce estructuras, no significado: puede
 dejar pasar un error de vocabulario o de matiz. Cuando no sabe, **lo dice** en vez de inventar un
