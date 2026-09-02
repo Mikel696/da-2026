@@ -937,6 +937,97 @@ table.tbl tr:hover td{background:var(--bg3)}
   .lab-ops{flex-direction:column}
 }
 .lab-fin{font-size:15px;font-weight:700;color:var(--t2);margin-left:-3px}
+
+/* ═══════════ BUSCADOR DE CONTEXTO (diccionarios externos) ═══════════ */
+.dic-pop{position:absolute;z-index:950;background:var(--bg2);border:1px solid var(--ac);
+  border-radius:13px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.65);animation:glin .15s ease}
+.dic-h{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.dic-w{font-size:15px;font-weight:800;color:var(--tx);font-family:var(--fm)}
+.dic-x{margin-left:auto;background:none;border:0;color:var(--t3);cursor:pointer;font-size:12px}
+.dic-x:hover{color:var(--tx)}
+.dic-sub{font-size:10px;color:var(--t3);margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--bd)}
+.dic-o{display:block;padding:9px 11px;border-radius:9px;text-decoration:none;color:var(--tx);
+  border:1px solid transparent;transition:all .14s;margin-bottom:5px}
+.dic-o:hover{background:var(--bg3);border-color:var(--bd2)}
+.dic-o.top{background:rgba(139,92,246,.09);border-color:var(--acbd)}
+.dic-n{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.dic-tag{font-size:9px;background:var(--ac);color:#fff;padding:1px 7px;border-radius:20px;font-weight:700}
+.dic-q{font-size:11px;line-height:1.6;color:var(--t3);margin-top:4px}
+
+/* ═══════════ MÓDULO ESCRIBIR ═══════════ */
+.wr-box{border:1px solid var(--ac);border-radius:14px;padding:15px;background:var(--bg2);margin-bottom:16px}
+.wr-cols{display:grid;grid-template-columns:1fr 34px 1fr;gap:10px;align-items:end}
+.wr-col{display:flex;flex-direction:column;gap:6px;min-width:0}
+.wr-lb{font-size:11px;font-weight:700;color:var(--tx);display:flex;flex-direction:column}
+.wr-lb span{font-size:10px;font-weight:400;color:var(--t3)}
+.wr-ta{width:100%;background:var(--bg3);border:1px solid var(--bd);color:var(--tx);border-radius:10px;
+  padding:11px 13px;font-size:14px;font-family:inherit;line-height:1.6;resize:vertical;min-height:74px}
+.wr-ta:focus{outline:none;border-color:var(--ac);background:var(--bg4)}
+.wr-flecha{text-align:center;color:var(--ac);font-size:18px;padding-bottom:22px}
+.wr-bar{display:flex;align-items:center;gap:12px;margin-top:11px;flex-wrap:wrap}
+.wr-hint{font-size:10.5px;color:var(--t3)}
+.wr-hint b{color:var(--t2)}
+
+.wr-sem{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:12px;margin-bottom:12px;flex-wrap:wrap}
+.wr-sem.verde{background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.32)}
+.wr-sem.naranja{background:rgba(234,179,8,.09);border:1px solid rgba(234,179,8,.32)}
+.wr-sem.rojo{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.32)}
+.wr-luces{display:flex;gap:5px;flex:none;padding:5px 7px;background:#0b0b0e;border-radius:20px;border:1px solid var(--bd)}
+.wr-luz{width:13px;height:13px;border-radius:50%;background:#26262c}
+.wr-luz.on.v{background:var(--ok);box-shadow:0 0 10px rgba(34,197,94,.75)}
+.wr-luz.on.n{background:var(--warn);box-shadow:0 0 10px rgba(234,179,8,.75)}
+.wr-luz.on.r{background:var(--bad);box-shadow:0 0 10px rgba(239,68,68,.75)}
+.wr-semt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wr-semt b{font-size:14px;color:var(--tx)}
+.wr-semt span{font-size:11.5px;color:var(--t2);line-height:1.6}
+.wr-badge{margin-left:auto;font-size:9.5px;color:var(--t3);background:var(--bg3);
+  border:1px solid var(--bd);padding:3px 9px;border-radius:20px}
+
+.wr-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.wr-card.ok{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.24)}
+.wr-card.fix{background:rgba(139,92,246,.07);border-color:var(--acbd)}
+.wr-card.info{background:var(--bg3)}
+.wr-ct{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:9px}
+.wr-cb{font-size:12px;line-height:1.75;color:var(--t2)}
+.wr-pz{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.wr-tk{font-size:13.5px;padding:4px 11px;cursor:pointer;transition:transform .13s}
+.wr-tk:hover{transform:translateY(-2px);filter:brightness(1.2)}
+.wr-nota{font-size:10.5px;color:var(--t3);line-height:1.6}
+.wr-usa{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.wr-chip{font-size:11.5px;font-weight:700;background:var(--acbg);color:var(--ac2);
+  border:1px solid var(--acbd);border-radius:20px;padding:4px 12px}
+.wr-chip.alt{background:rgba(34,211,238,.12);color:var(--r-aux);border-color:rgba(34,211,238,.3)}
+.wr-h{padding:11px 0;border-bottom:1px dashed var(--bd)}
+.wr-h:last-child{border-bottom:0;padding-bottom:0}
+.wr-ht{font-size:12.5px;font-weight:700;color:var(--tx);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.wr-hr{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:5px;flex:none}
+.wr-h.rojo .wr-hr{background:rgba(239,68,68,.18);color:#f87171}
+.wr-h.naranja .wr-hr{background:rgba(234,179,8,.18);color:var(--warn)}
+.wr-hp{font-size:11.5px;line-height:1.7;color:var(--t3);margin-bottom:7px}
+.wr-hx{display:flex;flex-direction:column;gap:3px}
+.wr-fix{font-size:17px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.wr-acts{display:flex;gap:8px;flex-wrap:wrap}
+.wr-esp{padding:22px;text-align:center;color:var(--t2);font-size:12.5px;line-height:1.7;
+  background:var(--bg2);border:1px solid var(--bd);border-radius:12px}
+.wr-espd{font-size:11.5px;color:var(--t3);margin-top:8px}
+.wr-vacio{text-align:center;padding:26px 18px;background:var(--bg2);border:1px dashed var(--bd2);border-radius:14px}
+.wr-vico{font-size:32px;margin-bottom:8px}
+.wr-vt{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:7px}
+.wr-vd{font-size:12px;line-height:1.75;color:var(--t3);max-width:620px;margin:0 auto}
+.wr-ej{margin-top:16px;font-size:11px;color:var(--t3);display:flex;gap:7px;flex-wrap:wrap;justify-content:center;align-items:center}
+.wr-eb{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:8px;
+  padding:6px 11px;font-size:11.5px;cursor:pointer;font-family:var(--fm)}
+.wr-eb:hover{border-color:var(--bad);color:var(--tx)}
+@media(max-width:760px){
+  .wr-cols{grid-template-columns:1fr;gap:12px}
+  .wr-flecha{display:none}
+  .wr-fix{font-size:15px}
+}
+
+.dicb{background:none;border:0;cursor:pointer;font-size:11px;opacity:.45;padding:2px 3px;
+  transition:opacity .14s,transform .14s;line-height:1}
+.dicb:hover{opacity:1;transform:scale(1.25)}
+.wr-card.parcial{background:rgba(234,179,8,.07);border-color:rgba(234,179,8,.3)}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -974,6 +1065,7 @@ table.tbl tr:hover td{background:var(--bg3)}
       <button class="tab" data-p="p1">📚 Palabras <b id="tc1">0</b></button>
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
       <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
+      <button class="tab" data-p="wr">✍️ Escribir</button>
       <button class="tab" data-p="nb">📓 Cuaderno</button>
       <button class="tab" data-p="p3">🎯 Método</button>
     </div>
@@ -1916,6 +2008,44 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
+     PANE WR · ESCRIBIR · el corrector con semáforo
+     El análisis es 100% local. La traducción es un apoyo con red.
+  ═══════════════════════════════════════════════════════════ -->
+<div class="pane" id="wr">
+  <div class="hero">
+    <div class="kick">escribir · producir, no solo reconocer</div>
+    <h1>Se te viene una frase.<br><em>Escríbela</em> y mira qué pasa.</h1>
+    <p>Escribe en <b style="color:var(--tx)">inglés</b> y te digo si está bien, <b style="color:var(--tx)">qué regla rompiste</b> y por qué.
+      Escribe en <b style="color:var(--tx)">español</b> y te doy el inglés y te explico cómo se arma.
+      El semáforo lo resume: <b style="color:var(--ok)">verde</b> correcta, <b style="color:var(--warn)">naranja</b> se entiende pero suena raro,
+      <b style="color:var(--bad)">rojo</b> rompe una regla no negociable.</p>
+  </div>
+
+  <div class="note info" style="margin-bottom:16px"><b>Lo que revisa, y lo que no:</b> el corrector conoce las <b>15 reglas no negociables</b>,
+    las 2000 palabras del documento con su categoría, los verbos irregulares y las trampas de traducción literal del español.
+    <b>No es una inteligencia artificial</b>: si una palabra no está en las 2000, te lo dice en vez de inventarse un veredicto.
+    Todo eso funciona <b>sin internet</b>; solo la traducción necesita red.</div>
+
+  <div class="wr-box">
+    <div class="wr-cols">
+      <div class="wr-col">
+        <div class="wr-lb">🇬🇧 English <span>escribe aquí para que te corrija</span></div>
+        <textarea id="wrEn" class="wr-ta" rows="3" placeholder="I have been working here for two years."></textarea>
+      </div>
+      <div class="wr-flecha">⇄</div>
+      <div class="wr-col">
+        <div class="wr-lb">🇪🇸 Español <span>o aquí, para que te dé el inglés</span></div>
+        <textarea id="wrEs" class="wr-ta" rows="3" placeholder="Llevo dos años trabajando aquí."></textarea>
+      </div>
+    </div>
+    <div class="wr-bar"><button class="lab-b" id="wrClear">🧹 Limpiar</button>
+      <span class="wr-hint">Doble clic sobre <b>cualquier palabra</b> del documento para abrir su diccionario.</span></div>
+  </div>
+
+  <div id="wrOut"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
      PANE NB · CUADERNO DE INGLÉS
 ══════════════════════════════════════════════════════════ -->
 <div class="pane" id="nb">
@@ -2265,7 +2395,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · practica espaciada · cuaderno propio<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector con semaforo · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
 Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-01<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
@@ -6289,7 +6419,7 @@ function wordCard(w){
     <div class="w-top">
       <span class="w-rk">${w.i}</span>
       <span class="w-en">${esc(w.en)}</span>
-      <button class="spk sm" data-say="${esc(w.en)}" title="Pronunciar">🔊</button>
+      <button class="dicb" data-dic="${esc(w.en)}" title="Buscar en el diccionario">🔎</button><button class="spk sm" data-say="${esc(w.en)}" title="Pronunciar">🔊</button>
       <span class="w-cat cat-${w.cat}" data-pz="${w.cat}" style="cursor:pointer" title="¿Qué es un ${esc(CAT_LABEL[w.cat] || w.cat)}? — abre la explicación">${w.cat}</span>
     </div>
     <div class="w-es">${esc(w.es)}</div>
@@ -6338,7 +6468,7 @@ function phraseCard(p){
     <button class="p-fav${favP.has(p.i) ? ' on' : ''}" data-fp="${p.i}" title="Marcar para practicar">${favP.has(p.i) ? '★' : '☆'}</button>
     <button class="p-fav nbsend" data-nb-en="${esc(p.en)}" data-nb-es="${esc(p.es)}" title="Guardar en mi cuaderno">📓</button>
     <div class="p-top">
-      <button class="spk lg" data-say="${esc(p.en)}" title="Pronunciar">🔊</button>
+      <button class="dicb" data-dic="${esc(p.en)}" title="Ver esta frase en contexto real">🔎</button><button class="spk lg" data-say="${esc(p.en)}" title="Pronunciar">🔊</button>
       <div class="p-body">
         <div class="p-en" data-say="${esc(p.en)}" style="cursor:pointer">${esc(p.en)}</div>
         <div class="p-es">${esc(p.es)}</div>
@@ -7969,6 +8099,796 @@ document.addEventListener('click', e => {
 });
 
 
+
+/* ══════════════════════════════════════════════════════════════════════
+   MÓDULO ESCRIBIR · el corrector con semáforo
+   ──────────────────────────────────────────────────────────────────────
+   Escribes en inglés → te dice si está bien, qué regla rompiste y por qué.
+   Escribes en español → te da el inglés y te explica su estructura.
+
+   DECISIÓN DE DISEÑO (regla P1 del proyecto: ningún tercero en el camino
+   crítico): el ANALIZADOR es 100% local y determinista — funciona sin
+   internet, siempre. La traducción es un apoyo que se pide a la red; si
+   falla, se dice claramente y todo lo demás sigue funcionando.
+
+   El análisis se apoya en lo que ya existe en el documento:
+   · las 2000 palabras traen su categoría (491 verbos, 877 sustantivos,
+     241 adjetivos, 28 preposiciones…): ese es el diccionario del corrector
+   · las 15 reglas no negociables son los chequeos
+   · los tiempos y sus explicaciones se reutilizan de LAB_T, no se repiten
+════════════════════════════════════════════════════════════════════════ */
+
+/* Verbos irregulares · base, pasado, participio. Sin esto el corrector
+   confundiría "went" con una palabra desconocida y no vería "Did you went". */
+const IRREG_RAW = `be|was|been;have|had|had;do|did|done;go|went|gone;say|said|said;get|got|gotten;
+make|made|made;know|knew|known;think|thought|thought;take|took|taken;see|saw|seen;come|came|come;
+want|wanted|wanted;give|gave|given;find|found|found;tell|told|told;become|became|become;
+leave|left|left;feel|felt|felt;put|put|put;bring|brought|brought;begin|began|begun;keep|kept|kept;
+hold|held|held;write|wrote|written;stand|stood|stood;hear|heard|heard;let|let|let;mean|meant|meant;
+set|set|set;meet|met|met;run|ran|run;pay|paid|paid;sit|sat|sat;speak|spoke|spoken;lie|lay|lain;
+lead|led|led;read|read|read;grow|grew|grown;lose|lost|lost;fall|fell|fallen;send|sent|sent;
+build|built|built;understand|understood|understood;draw|drew|drawn;break|broke|broken;
+spend|spent|spent;cut|cut|cut;rise|rose|risen;drive|drove|driven;buy|bought|bought;
+wear|wore|worn;choose|chose|chosen;seek|sought|sought;throw|threw|thrown;catch|caught|caught;
+deal|dealt|dealt;win|won|won;forget|forgot|forgotten;lay|laid|laid;sell|sold|sold;
+fight|fought|fought;bear|bore|borne;teach|taught|taught;eat|ate|eaten;sleep|slept|slept;
+drink|drank|drunk;swim|swam|swum;sing|sang|sung;ring|rang|rung;fly|flew|flown;
+hide|hid|hidden;ride|rode|ridden;shake|shook|shaken;steal|stole|stolen;
+hurt|hurt|hurt;cost|cost|cost;hit|hit|hit;shut|shut|shut;quit|quit|quit;
+spread|spread|spread;beat|beat|beaten;bite|bit|bitten;blow|blew|blown;
+freeze|froze|frozen;wake|woke|woken;prove|proved|proven`;
+
+/* Incontables: nunca llevan -s. Es de los errores más constantes del
+   hispanohablante porque en español SÍ se cuentan («un consejo, dos consejos»). */
+/* Solo los que NO tienen ningún sentido contable. Quedaron fuera work, time,
+   experience, help, love, water, paper, hair, money, music, damage… porque sí
+   se cuentan en algún uso y hacían saltar el corrector con frases correctas
+   («It works», «three times»). Medido contra las 1000 frases del documento. */
+const UNCOUNT = `advice information furniture homework knowledge luggage baggage equipment
+research progress traffic weather bread rice sugar salt evidence feedback software
+accommodation permission`.split(/\s+/);
+
+/* Trampas de traducción literal desde el español. Cada una es un patrón que,
+   cuando aparece, es error casi seguro — por eso van en rojo. */
+const TRAMPAS = [
+  // Exige «years»: «I have one brother» no es la edad y no debe saltar
+  { re:/\b(i|you|we|they|he|she)\s+(have|has)\s+(\d+|twenty|thirty|forty|fifty)\s+years?\b/i,
+    regla:'R13', t:'La edad se TIENE con «be», no con «have»',
+    por:'En español «tengo 30 años»; en inglés se <b>es</b> esa edad, no se tiene. Igual con el hambre, el frío, el calor, la sed y el miedo.',
+    mal:'I have 30 years.', bien:'I am 30. · I am 30 years old.' },
+  { re:/\b(i|you|we|they|he|she)\s+(have|has)\s+(hungry|cold|hot|thirsty|sleepy|afraid|scared|lucky|right|wrong)\b/i,
+    regla:'R13', t:'Estas sensaciones van con «be»',
+    por:'«Tengo hambre / frío / miedo» se dice con <b>be</b>: <i>I am hungry</i>. Con «have» estarías diciendo que posees el hambre.',
+    mal:'I have hungry.', bien:'I am hungry.' },
+  { re:/\b(i|you|we|they)\s+am\s+agree\b|\b(i)\s+am\s+agree\b/i,
+    regla:'R-calco', t:'«Agree» ya es el verbo: no lleva «be»',
+    por:'<i>Agree</i> significa «estar de acuerdo» él solito. Ponerle <i>am</i> delante es decir «yo soy estar de acuerdo».',
+    mal:'I am agree.', bien:'I agree.' },
+  { re:/\bthe\s+people\s+(is|was)\b|\bpeople\s+(is|was)\b/i,
+    regla:'R14', t:'«People» ya es plural',
+    por:'<i>People</i> es el plural de <i>person</i>. Pide verbo en plural: <b>are</b>, <b>were</b>.',
+    mal:'The people is waiting.', bien:'The people are waiting.' },
+  { re:/\bdepends?\s+of\b/i, regla:'R-prep', t:'«Depend» va con ON, no con OF',
+    por:'La preposición no se traduce una por una. «Depende <b>de</b>» es <i>depends <b>on</b></i>.',
+    mal:'It depends of you.', bien:'It depends on you.' },
+  { re:/\bmarried\s+with\b/i, regla:'R-prep', t:'«Married» va con TO',
+    por:'«Casado <b>con</b>» es <i>married <b>to</b></i>, no <i>with</i>.',
+    mal:'She is married with him.', bien:'She is married to him.' },
+  { re:/\bsince\s+(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+(year|month|week|day|hour)s?\b/i,
+    regla:'R-since', t:'Duración va con FOR, no con SINCE',
+    por:'<b>since</b> es para un punto de partida (<i>since 2020</i>, <i>since Monday</i>). Para una <b>duración</b> va <b>for</b>: <i>for two years</i>.',
+    mal:'I work here since two years.', bien:'I have been working here for two years.' },
+  { re:/\bthe\s+most\s+(big|small|old|young|fast|easy|hard|tall|short|nice|cheap)\b/i,
+    regla:'R-super', t:'Adjetivo corto: -est, no «the most»',
+    por:'Los adjetivos de una sílaba forman el superlativo con <b>-est</b>: <i>the bigg<b>est</b></i>. «the most» es para los largos.',
+    mal:'the most big', bien:'the biggest' },
+  { re:/\bmore\s+(better|worse|bigger|older|easier)\b/i,
+    regla:'R-comp', t:'No se compara dos veces',
+    por:'<i>better</i> ya significa «mejor». <i>more better</i> es como decir «más mejor».',
+    mal:'more better', bien:'better' },
+  { re:/\bexplain\s+me\b|\bsay\s+me\b/i, regla:'R-prep', t:'«Explain» necesita TO',
+    por:'<i>explain</i> y <i>say</i> no llevan la persona pegada: va <b>to me</b>. (<i>tell</i> sí: <i>tell me</i>.)',
+    mal:'Explain me this.', bien:'Explain this to me. · Tell me this.' },
+  { re:/\b(with|for|to|about|from)\s+(who|what)\s+(is|are|am|do|does|did|will|would|have|has)\b/i,
+    regla:'R15', t:'La preposición se queda al FINAL',
+    por:'En español la preposición viaja con la pregunta («¿<b>Con</b> quién…?»). En inglés se queda plantada al final.',
+    mal:'With who are you going?', bien:'Who are you going with?' }
+];
+
+/* ─────────── El diccionario del corrector, armado de las 2000 palabras ─────────── */
+const LEX = (() => {
+  const POS = new Map();            // palabra -> Set de categorías
+  WORDS.forEach(w => {
+    const k = w.en.toLowerCase();
+    if(!POS.has(k)) POS.set(k, new Set());
+    POS.get(k).add(w.cat);
+  });
+  const V2 = new Map(), PP = new Map(), BASE = new Map();
+  IRREG_RAW.replace(/\s+/g, '').split(';').filter(Boolean).forEach(r => {
+    const [b, v2, vpp] = r.split('|');
+    if(!b) return;
+    BASE.set(b, { v2, vpp }); V2.set(v2, b); PP.set(vpp, b);
+    if(!POS.has(b)) POS.set(b, new Set(['verbo'])); else POS.get(b).add('verbo');
+  });
+
+  const AUX_BE   = new Set(['am','is','are','was','were','be','been','being']);
+  const AUX_HAVE = new Set(['have','has','had']);
+  const AUX_DO   = new Set(['do','does','did']);
+  const MODAL    = new Set(['can','could','will','would','shall','should','may','might','must']);
+  const AUX = new Set([...AUX_BE, ...AUX_HAVE, ...AUX_DO, ...MODAL]);
+  const SUJ = new Set(['i','you','he','she','it','we','they','there','this','that','these','those','who','someone','somebody','everyone','everybody','nobody','nothing','something']);
+  const TERCERA = new Set(['he','she','it','this','that','someone','somebody','everyone','everybody','nobody']);
+  const WH = new Set(['what','where','when','who','why','which','how','whose','whom']);
+  const NEGS = new Set(['never','nothing','nobody','none','nowhere','neither','no']);
+  // Preposiciones tras las que el verbo va en -ing. «to» queda fuera: es infinitivo.
+  const PREP_ING = new Set(['for','of','about','without','before','after','by','in','on','at','with','from','instead']);
+
+  const cat = w => POS.get(w) || new Set();
+  const es  = (w, c) => cat(w).has(c);
+  const esVerbo = w => es(w, 'verbo') || BASE.has(w) || V2.has(w) || PP.has(w);
+
+  /* De una forma conjugada al infinitivo. Devuelve null si no parece verbo. */
+  function raiz(w){
+    if(V2.has(w)) return V2.get(w);
+    if(PP.has(w)) return PP.get(w);
+    if(/ied$/.test(w)  && esVerbo(w.slice(0,-3) + 'y')) return w.slice(0,-3) + 'y';
+    if(/ed$/.test(w)   && esVerbo(w.slice(0,-2))) return w.slice(0,-2);
+    if(/ed$/.test(w)   && esVerbo(w.slice(0,-1))) return w.slice(0,-1);
+    if(/([bdgklmnprt])\1ed$/.test(w) && esVerbo(w.slice(0,-3))) return w.slice(0,-3);
+    if(/ying$/.test(w) && esVerbo(w.slice(0,-4) + 'ie')) return w.slice(0,-4) + 'ie';
+    if(/ing$/.test(w)  && esVerbo(w.slice(0,-3))) return w.slice(0,-3);
+    if(/ing$/.test(w)  && esVerbo(w.slice(0,-3) + 'e')) return w.slice(0,-3) + 'e';
+    if(/([bdgklmnprt])\1ing$/.test(w) && esVerbo(w.slice(0,-4))) return w.slice(0,-4);
+    if(/ies$/.test(w)  && esVerbo(w.slice(0,-3) + 'y')) return w.slice(0,-3) + 'y';
+    if(/(es)$/.test(w) && esVerbo(w.slice(0,-2))) return w.slice(0,-2);
+    if(/s$/.test(w)    && esVerbo(w.slice(0,-1))) return w.slice(0,-1);
+    if(esVerbo(w)) return w;              // ya estaba en infinitivo
+    return null;
+  }
+  const esV2  = w => V2.has(w) || (/ed$/.test(w) && !!raiz(w));
+  const esPP  = w => PP.has(w) || (/ed$/.test(w) && !!raiz(w));
+  const esING = w => /ing$/.test(w) && !!raiz(w);
+  const es3ra = w => /s$/.test(w) && !AUX.has(w) && !!raiz(w) && raiz(w) !== w;
+  /* Verbo desnudo: la forma base, sin -s, -ed, -ing ni to */
+  const esBase = w => esVerbo(w) && !esING(w) && !V2.has(w) && !PP.has(w) && !es3ra(w) && !/ed$/.test(w);
+
+  /* 3ª forma correcta de un verbo, para poder proponer la corrección */
+  function conj(b, forma){
+    const irr = BASE.get(b);
+    if(forma === 'v2')  return irr ? irr.v2  : (/e$/.test(b) ? b+'d' : /[^aeiou]y$/.test(b) ? b.slice(0,-1)+'ied' : b+'ed');
+    if(forma === 'pp')  return irr ? irr.vpp : (/e$/.test(b) ? b+'d' : /[^aeiou]y$/.test(b) ? b.slice(0,-1)+'ied' : b+'ed');
+    if(forma === 'ing') return /ie$/.test(b) ? b.slice(0,-2)+'ying' : /e$/.test(b) && b!=='be' ? b.slice(0,-1)+'ing' : b+'ing';
+    if(forma === 's')   return /(s|sh|ch|x|z|o)$/.test(b) ? b+'es' : /[^aeiou]y$/.test(b) ? b.slice(0,-1)+'ies' : b+'s';
+    return b;
+  }
+  return { POS, cat, es, esVerbo, raiz, esV2, esPP, esING, es3ra, esBase, conj,
+           AUX, AUX_BE, AUX_HAVE, AUX_DO, MODAL, SUJ, TERCERA, WH, NEGS, PREP_ING,
+           UNCOUNT:new Set(UNCOUNT), BASE };
+})();
+
+/* ─────────── EL ANALIZADOR ─────────── */
+const ANL = (() => {
+  const CONTRA = {
+    "don't":"do not","doesn't":"does not","didn't":"did not","isn't":"is not","aren't":"are not",
+    "wasn't":"was not","weren't":"were not","haven't":"have not","hasn't":"has not","hadn't":"had not",
+    "won't":"will not","wouldn't":"would not","can't":"can not","cannot":"can not","couldn't":"could not",
+    "shouldn't":"should not","mustn't":"must not","shan't":"shall not",
+    "i'm":"i am","you're":"you are","he's":"he is","she's":"she is","it's":"it is",
+    "we're":"we are","they're":"they are","that's":"that is","there's":"there is","what's":"what is",
+    "how's":"how is","where's":"where is","who's":"who is","when's":"when is","why's":"why is",
+    "here's":"here is","she'd":"she would","he'd":"he would","we'd":"we would","they'd":"they would",
+    "you'd":"you would","i've":"i have","you've":"you have","we've":"we have","they've":"they have",
+    "i'll":"i will","you'll":"you will","he'll":"he will","she'll":"she will","it'll":"it will",
+    "we'll":"we will","they'll":"they will","i'd":"i would","let's":"let us"
+  };
+
+  function frases(txt){
+    return String(txt||'').split(/(?<=[.?!])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>1);
+  }
+  function tokenizar(f){
+    const crudos = f.toLowerCase().match(/[a-záéíóúñü]+(?:'[a-z]+)?|[.?!,;:]/g) || [];
+    const t = [];
+    crudos.forEach(w => {
+      if(CONTRA[w]) CONTRA[w].split(' ').forEach(p => t.push(p));
+      else t.push(w);
+    });
+    return t;
+  }
+
+  /* Qué tiempo verbal está usando. Devuelve el id de LAB_T para poder
+     reutilizar su explicación en vez de escribirla otra vez. */
+  function tiempo(t){
+    const i = t.findIndex(w => LEX.AUX.has(w));
+    const hay = w => t.includes(w);
+    if(hay('would')) return 'cond';
+    if(hay('will'))  return 'fut';
+    if(t.some((w,j)=>LEX.AUX_BE.has(w) && t[j+1]==='going' && t[j+2]==='to')) return 'going';
+    if(t.some((w,j)=>LEX.AUX_HAVE.has(w) && (t[j+1]==='been'||t[j+2]==='been'))) return 'perfcont';
+    if(hay('had')) return 'pastperf';
+    if(t.some(w=>LEX.AUX_HAVE.has(w) && w!=='had')) return 'perf';
+    if(t.some((w,j)=>['was','were'].includes(w) && t.slice(j+1,j+3).some(LEX.esING))) return 'pastcont';
+    if(t.some((w,j)=>['am','is','are'].includes(w) && t.slice(j+1,j+3).some(LEX.esING))) return 'cont';
+    if(hay('did') || t.some(w=>LEX.esV2(w) && !LEX.AUX.has(w) && LEX.raiz(w))) {
+      if(t.some(w=>['was','were','did'].includes(w)) || t.some(w=>LEX.esV2(w)&&!LEX.esPP(w))) return 'past';
+    }
+    return 'pres';
+  }
+
+  function forma(t, f){
+    if(/\?/.test(f)) return LEX.WH.has(t[0]) ? 'wh' : 'pr';
+    if(t.includes('not')) return 'ne';
+    return 'af';
+  }
+
+  /* Reparto de las 6 piezas, para pintarlo con los mismos colores de siempre */
+  function piezas(t){
+    const out = t.map(w => ({ w, r:'com' }));
+    let vistoSuj = false, vistoVer = false;
+    out.forEach((o, i) => {
+      const w = o.w;
+      if(i === 0 && LEX.WH.has(w)){ o.r = 'wh'; return; }
+      if(w === 'not'){ o.r = 'neg'; return; }
+      if(LEX.AUX.has(w) || w === 'been' || w === 'going'){
+        // «be» como verbo principal (I am tired) no es auxiliar
+        const sigue = out.slice(i+1, i+3).map(x=>x.w);
+        const esAux = w === 'been' || w === 'going'
+          || sigue.some(s => LEX.esING(s) || LEX.esPP(s) || LEX.esBase(s) || s === 'not' || s === 'going');
+        o.r = esAux ? 'aux' : 'ver';
+        if(o.r === 'ver') vistoVer = true;
+        return;
+      }
+      if(!vistoSuj && (LEX.SUJ.has(w) || LEX.es(w,'pron') || LEX.es(w,'sust') || LEX.es(w,'det'))){
+        o.r = 'suj'; if(!LEX.es(w,'det')) vistoSuj = true; return;
+      }
+      if(!vistoVer && LEX.esVerbo(w)){ o.r = 'ver'; vistoVer = true; return; }
+    });
+    return out;
+  }
+
+  /* ─────── Los chequeos. Cada uno solo dispara cuando está seguro:
+     un corrector que grita en falso es peor que no tener corrector. ─────── */
+  function revisar(f){
+    const t = tokenizar(f);
+    const pal = t.filter(w => /[a-z]/.test(w));
+    const H = [];
+    const add = (sev, regla, tt, por, mal, bien) => H.push({ sev, regla, t:tt, por, mal, bien });
+    const pregunta = /\?/.test(f);
+    const iNot = pal.indexOf('not');
+    const iAux = pal.findIndex(w => LEX.AUX.has(w));
+
+    if(!pal.length) return { H, t:pal };
+
+    // Trampas de calco (patrones de alta confianza)
+    TRAMPAS.forEach(tr => { if(tr.re.test(f)) add('rojo', tr.regla, tr.t, tr.por, tr.mal, tr.bien); });
+
+    // R16 · ¿hay verbo? Solo se exige si hay un SUJETO: si no lo hay, es un
+    // fragmento («Good morning.», «Not bad, thanks.») y eso es inglés válido.
+    const hayVerbo = pal.some(w => LEX.esVerbo(w));
+    const haySujeto = pal.some(w => LEX.SUJ.has(w));
+    if(!hayVerbo && haySujeto && pal.length > 2)
+      add('info','R16','No reconocí el verbo',
+        'Toda frase necesita <b>sujeto + verbo</b>. Aquí no encontré ninguno — pero ojo: <b>puede ser que el verbo no esté entre las 2000 palabras del documento</b>, no que falte. Si estás seguro de tu verbo, ignora este aviso; búscalo con 🔎 para confirmarlo.',
+        f.trim(), '');
+
+    // R1 · sujeto obligatorio
+    const arrancaConBe = ['is','are','am','was','were'].includes(pal[0]);
+    if(arrancaConBe && !pregunta)
+      add('rojo','R1','Falta el sujeto',
+        'En español dices «Llueve» o «Es difícil» sin sujeto. En inglés <b>siempre</b> hay alguien al frente, aunque sea un <span class="gl" data-glo="sujetorelleno">it</span> que no significa nada.',
+        f.trim(), 'It ' + f.trim().charAt(0).toLowerCase() + f.trim().slice(1));
+
+    // R2 · el not nunca va solo
+    if(iNot > 0 && hayVerbo && haySujeto && !['rather','but','or','and','why'].includes(pal[iNot-1])){
+      const antes = pal[iNot-1];
+      if(!(LEX.AUX.has(antes) || LEX.MODAL.has(antes)))
+        add('rojo','R2','El «not» nunca va solo',
+          'El <i>not</i> necesita un auxiliar donde agarrarse. Si la frase no tenía ninguno, entra <b>do / does / did</b> solo para sostenerlo.',
+          f.trim(), (antes ? antes + " don't/doesn't " : "don't ") + (pal[iNot+1]||'…'));
+    }
+
+    // R3 · pregunta sin auxiliar al frente
+    // La coletilla («…, isn't it?», «…, do you?») no convierte la frase en
+    // pregunta mal armada: lo de delante es una afirmación y está bien.
+    const coletilla = /,\s*\w+n['’]?t\s+(i|you|he|she|it|we|they|there)\s*\?/i.test(f)
+                   || /,\s*(do|does|did|is|are|was|were|have|has|will|can|could|should)\s+(i|you|he|she|it|we|they|there)\s*\?/i.test(f);
+    // Elíptica de conversación: el sujeto se omite a propósito y es correcto
+    // hablando («Need a hand?», «Any questions before we finish?»). El error
+    // que sí hay que cazar es el que ARRANCA con el sujeto: «You are coming?».
+    const eliptica = !pal.some(w => LEX.SUJ.has(w))
+                  || !(LEX.SUJ.has(pal[0]) || LEX.WH.has(pal[0]) || LEX.AUX.has(pal[0])
+                       || ['hello','hi','hey','ok','okay','so','well','and','but','excuse','sorry'].includes(pal[0]));
+    if(pregunta && hayVerbo && !coletilla && !eliptica){
+      // Saltar saludos y muletillas antes de la pregunta de verdad
+      const SALUDO = new Set(['hello','hi','hey','ok','okay','so','well','and','but','thanks','please','sorry','excuse','me','good']);
+      let k = 0; while(k < pal.length - 1 && SALUDO.has(pal[k])) k++;
+      const p0 = pal[k];
+      // El auxiliar tiene que estar ANTES del sujeto, no en cualquier sitio:
+      // "You are coming?" lo tiene, pero detrás — y por eso está mal.
+      const iSuj = pal.findIndex((w, n) => n >= k && LEX.SUJ.has(w) && !LEX.WH.has(w));
+      const hayAuxEnCabeza = pal.slice(k, iSuj > -1 ? iSuj : k + 4).some(w => LEX.AUX.has(w));
+      if(LEX.WH.has(p0)){
+        const sujetoEsWh = p0 === 'who' || p0 === 'what';
+        if(!hayAuxEnCabeza && !sujetoEsWh)
+          add('rojo','R3','Falta el auxiliar en la pregunta',
+            'La fórmula es fija: <b>WH + auxiliar + sujeto + verbo</b>. El WH <b>no reemplaza</b> al auxiliar, van los dos.',
+            f.trim(), p0 + ' do/does/did ' + pal.slice(k+1).join(' ') + '?');
+      } else if(!LEX.AUX.has(p0)){
+        add('rojo','R3','Preguntar es mover el auxiliar al frente',
+          'En inglés no basta con subir la voz. La pregunta se hace <b>sacando el auxiliar y poniéndolo delante del sujeto</b>.',
+          f.trim(), 'Do/Does/Did ' + pal.slice(k).join(' ') + '?');
+      }
+    }
+
+    // R4 · el tiempo se marca una sola vez
+    pal.forEach((w, i) => {
+      if(!LEX.AUX_DO.has(w) && !LEX.MODAL.has(w)) return;
+      // Se salta el sujeto y los adverbios, pero NO otro auxiliar: si lo que
+      // sigue es have/be, es modal perfecto o pasiva y está bien.
+      let j = i + 1;
+      while(j < pal.length && (pal[j] === 'not' || LEX.es(pal[j],'adv') ||
+            LEX.SUJ.has(pal[j]) || LEX.es(pal[j],'det') || LEX.es(pal[j],'pron'))) j++;
+      const sig = pal[j];
+      if(!sig || !LEX.esVerbo(sig) || LEX.AUX.has(sig)) return;
+      const b = LEX.raiz(sig);
+      if(b && sig !== b && !LEX.esING(sig))
+        add('rojo','R4','El tiempo se marca UNA sola vez',
+          'El auxiliar <b>' + w + '</b> ya carga el tiempo y la persona. Por eso el verbo que le sigue va <span class="gl" data-glo="desnudo">desnudo</span>: sin -s, sin -ed.',
+          w + ' … ' + sig, w + ' … ' + b);
+    });
+
+    // R5 · la -s de he/she/it
+    if(iAux === -1 && !pregunta){
+      const iS = pal.findIndex(w => LEX.TERCERA.has(w));
+      const abreOracion = iS === 0 || (iS > 0 && [',','and','but','because','that','when','if'].includes(pal[iS-1]));
+      if(iS > -1 && abreOracion){
+        let n = iS + 1;
+        while(n < pal.length && LEX.es(pal[n],'adv')) n++;   // «She always work here»
+        const v = pal[n];
+        // Solo si es la forma BASE de un verbo: si raiz() devuelve otra cosa,
+        // ya viene conjugado («works» → raiz «work») y está bien.
+        if(v && LEX.esVerbo(v) && LEX.esBase(v) && !LEX.esV2(v) && LEX.raiz(v) === v && v !== 'be')
+          add('rojo','R5','Falta la -s de he/she/it',
+            'En presente simple afirmativo, con <b>he / she / it</b> el verbo lleva <b>-s</b>. Es la única conjugación que tiene el inglés.',
+            pal[iS] + ' ' + v, pal[iS] + ' ' + LEX.conj(v, 's'));
+      }
+    }
+
+    // R7 · una sola negación
+    if(iNot > -1 && pal.some(w => LEX.NEGS.has(w) && w !== 'no'))
+      add('rojo','R7','Doble negación: dice lo contrario',
+        'En español «no vi nada» lleva dos negaciones y está bien. En inglés se <b>anulan</b>: <i>I didn\'t see nothing</i> significa que SÍ viste algo. Con auxiliar negado va <b>anything</b>.',
+        f.trim(), 'usa «anything / anybody / ever» en vez de «nothing / nobody / never»');
+
+    // R9 · preposición + verbo en -ing
+    pal.forEach((w, i) => {
+      if(!LEX.PREP_ING.has(w)) return;
+      const sig = pal[i+1], tras = pal[i+2];
+      const OBJ = new Set(['me','you','him','her','it','us','them','the','a','an','my','your','his','their','our','this','that']);
+      const claramenteVerbo = tras && OBJ.has(tras);
+      if(sig && LEX.esVerbo(sig) && LEX.esBase(sig) && !LEX.AUX.has(sig) && claramenteVerbo)
+        add('rojo','R9','Después de preposición, el verbo va en -ing',
+          'Tras <b>for, of, about, without, before, after, by</b>… el verbo se pone en <span class="gl" data-glo="gerundio">-ing</span>. (La excepción es <i>to</i>, que es infinitivo.)',
+          w + ' ' + sig, w + ' ' + LEX.conj(sig, 'ing'));
+    });
+
+    // R10 · modal sin «to» y sin «-s»
+    pal.forEach((w, i) => {
+      if(!LEX.MODAL.has(w)) return;
+      if(pal[i+1] === 'to' && pal[i+2] && LEX.esVerbo(pal[i+2]))
+        add('rojo','R10','Los modales no llevan «to»',
+          'Después de un <span class="gl" data-glo="modal">modal</span> el verbo va desnudo, sin <i>to</i>.',
+          w + ' to ' + pal[i+2], w + ' ' + pal[i+2]);
+    });
+    pal.forEach(w => {
+      if(/^(cans|coulds|wills|woulds|shoulds|musts|mays|mights)$/.test(w))
+        add('rojo','R10','Los modales no llevan -s',
+          'Los modales nunca cambian de forma: <i>he <b>can</b></i>, no <i>he cans</i>.', w, w.slice(0,-1));
+    });
+
+    // R11 · incontables sin plural
+    pal.forEach(w => {
+      if(/s$/.test(w) && LEX.UNCOUNT.has(w.slice(0,-1)))
+        add('rojo','R11','«' + w.slice(0,-1) + '» es <span class="gl" data-glo="incontable">incontable</span>: nunca lleva -s',
+          'En español se cuenta («un consejo, dos consejos»), en inglés no. Para contarlo se usa un envase: <i>a piece of ' + w.slice(0,-1) + '</i>.',
+          w, w.slice(0,-1));
+    });
+
+    // R8 · nada entre el verbo y su objeto
+    pal.forEach((w, i) => {
+      if(!['very','really','quite','so','too'].includes(w)) return;
+      const ant = pal[i-1], sig1 = pal[i+1], sig2 = pal[i+2];
+      if(ant && LEX.esVerbo(ant) && !LEX.AUX.has(ant) && sig1 && LEX.es(sig1,'adv') && sig2 && (LEX.es(sig2,'sust') || LEX.SUJ.has(sig2)))
+        add('rojo','R8','Nada se mete entre el verbo y su objeto',
+          'Primero el <b>qué</b>, después el <b>cómo</b>. <i>I speak English very well</i>, no <i>I speak very well English</i>.',
+          ant + ' ' + w + ' ' + sig1 + ' ' + sig2, ant + ' ' + sig2 + ' ' + w + ' ' + sig1);
+    });
+
+    // R12 · naranja: la forma larga donde se contrae
+    const largas = [['do not',"don't"],['does not',"doesn't"],['did not',"didn't"],
+      ['is not',"isn't"],['are not',"aren't"],['have not',"haven't"],['has not',"hasn't"],
+      ['will not',"won't"],['cannot',"can't"],['can not',"can't"],['i am',"I'm"]];
+    const bajo = f.toLowerCase();
+    largas.forEach(([l, c]) => {
+      if(bajo.includes(l))
+        add('naranja','R12','Hablando se dice «' + c + '»',
+          'No es un error, pero <b>nadie habla así</b>. Si solo practicas la forma larga, entiendes leyendo y no escuchando.',
+          l, c);
+    });
+
+    // Cosmético
+    if(/[a-záéíóúñ]/.test(f.trim()[0] || ''))
+      add('naranja','R-may','Empieza con mayúscula', 'Detalle de escritura, no de gramática.',
+        f.trim().slice(0,14) + '…', f.trim().charAt(0).toUpperCase() + f.trim().slice(1,14) + '…');
+    if(!/[.?!]$/.test(f.trim()))
+      add('naranja','R-punt','Falta el signo final', 'El punto o el signo de interrogación cierran la frase.',
+        f.trim().slice(-14), f.trim().slice(-14) + (pregunta ? '?' : '.'));
+
+    // Palabras que no puedo verificar
+    const desconocidas = pal.filter(w => !LEX.POS.has(w) && !LEX.AUX.has(w) && !LEX.SUJ.has(w)
+      && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2);
+    if(desconocidas.length)
+      add('info','R-desc','No puedo verificar: ' + desconocidas.join(', '),
+        'Esas palabras no están en las 2000 del documento, así que <b>no las revisé</b>. No significa que estén mal — significa que no lo sé. Búscalas en el diccionario con el botón 🔎.',
+        desconocidas.join(', '), '');
+
+    return { H, t:pal };
+  }
+
+  function analizar(txt){
+    const fs = frases(txt);
+    if(!fs.length) return null;
+    const todas = [], porFrase = [];
+    fs.forEach(f => {
+      const { H, t } = revisar(f);
+      todas.push(...H);
+      porFrase.push({ f, H, t, piezas:piezas(t), tiempo:tiempo(t), forma:forma(t, f) });
+    });
+    const rojos = todas.filter(x => x.sev === 'rojo').length;
+    const naranjas = todas.filter(x => x.sev === 'naranja').length;
+    const luz = rojos ? 'rojo' : naranjas ? 'naranja' : 'verde';
+    return { luz, rojos, naranjas, hallazgos:todas, frases:porFrase };
+  }
+
+  /* Comprobación automática: casos con respuesta conocida. Se puede correr
+     desde la consola con APP.ANL.probar() — si un chequeo deja de disparar,
+     esto lo dice. */
+  const CASOS = [
+    ['I work at a bank.','verde'], ["She doesn't work here.",'verde'],
+    ['Where do you live?','verde'], ["I'm going to study tonight.",'verde'],
+    ['I have been working here for two years.','verde'],
+    ['She work here.','rojo'], ['I not understand.','rojo'], ['Where you live?','rojo'],
+    ['Did you went?','rojo'], ['Is very difficult.','rojo'], ['I have 30 years.','rojo'],
+    ['The people is waiting.','rojo'], ['I need some advices.','rojo'],
+    ['She can to swim.','rojo'], ['Thanks for help me.','rojo'],
+    ['It depends of you.','rojo'], ['I work here since two years.','rojo'],
+    ['I am agree.','rojo'], ['You are coming?','rojo'],
+    // Correctas que el corrector marcaba mal (medido contra las 1000 frases)
+    ['Good morning.','verde'], ['Not bad, thanks.','verde'], ['Hello, how are you?','verde'],
+    ['How long have you been here?','verde'], ['How old are you?','verde'],
+    ['You could have told me.','verde'], ['It can be done.','verde'],
+    ['It works like a charm.','verde'], ['Let it go.','verde'],
+    ['Have a seat.','verde'], ["Let's keep in touch.",'verde'],
+    ['I have one brother and two sisters.','verde'], ['Either one works.','verde'],
+    ['Can we reschedule?','verde'], ['I missed my flight.','verde'],
+    ['To sum up, it works.','verde'], ['It depends on the situation.','verde'],
+    ["It's cold, isn't it?",'verde'], ["You're coming, aren't you?",'verde'],
+    ["He can swim, can't he?",'verde'], ['Need a hand?','verde'],
+    ['Any questions before we finish?','verde'],
+    ['She always work here.','rojo']
+  ];
+  function probar(){
+    const fallos = [];
+    CASOS.forEach(([f, esperado]) => {
+      const r = analizar(f);
+      if(!r || r.luz !== esperado)
+        fallos.push(f + ' → esperaba ' + esperado + ', dio ' + (r ? r.luz : 'nada') +
+          (r ? ' [' + r.hallazgos.filter(h=>h.sev!=='info').map(h=>h.regla).join(',') + ']' : ''));
+    });
+    return { casos:CASOS.length, fallos };
+  }
+  return { analizar, probar, piezas, tokenizar, tiempo, CASOS };
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   BUSCADOR DE CONTEXTO · abre la palabra en el mejor recurso gratis
+   ──────────────────────────────────────────────────────────────────────
+   Los cuatro se probaron el 02-sep-2026 abriéndolos de verdad con la
+   palabra "as". Los cuatro cargan completos, sin login y sin muro de pago.
+   Cada uno da un tipo DISTINTO de contexto, por eso están los cuatro:
+   uno solo se queda corto.
+
+   Funciona en TODO el documento: doble clic sobre cualquier palabra.
+════════════════════════════════════════════════════════════════════════ */
+const RECURSOS = [
+  { id:'wr', n:'WordReference', ico:'📖', mejor:'palabra',
+    q:'El más completo inglés↔español. Separa los sentidos por función (adverbio, conjunción, preposición…) y <b>cada uno trae su ejemplo traducido</b>. Abajo, foros donde nativos discuten los matices.',
+    url:w => 'https://www.wordreference.com/es/translation.asp?tranword=' + encodeURIComponent(w) },
+  { id:'cam', n:'Cambridge', ico:'🎓', mejor:'aprender',
+    q:'Pensado para quien aprende: te dice el <b>nivel</b> de la palabra (A1, A2, B1…), trae recuadros de gramática y muchos ejemplos graduados, con audio UK y US.',
+    url:w => 'https://dictionary.cambridge.org/dictionary/english-spanish/' + encodeURIComponent(w) },
+  { id:'rev', n:'Reverso Context', ico:'🔀', mejor:'frase',
+    q:'Frases reales en los dos idiomas, una al lado de la otra. <b>El mejor para expresiones de varias palabras</b> y para ver cómo se usa de verdad, no cómo dice el diccionario.',
+    url:w => 'https://context.reverso.net/translation/english-spanish/' + encodeURIComponent(w) },
+  { id:'you', n:'YouGlish', ico:'🎧', mejor:'oído',
+    q:'La palabra <b>dicha por gente real</b> en miles de vídeos de YouTube, con subtítulo y el contexto de la frase. Es lo más parecido a oírla en la calle.',
+    url:w => 'https://youglish.com/pronounce/' + encodeURIComponent(w) + '/english' }
+];
+
+const DIC = (() => {
+  let pop = null;
+  const cerrar = () => { if(pop){ pop.remove(); pop = null; } };
+
+  function abrir(texto, x, y){
+    cerrar();
+    const t = String(texto || '').trim().replace(/\s+/g, ' ');
+    if(!t) return;
+    const varias = t.split(' ').length > 1;
+    // Una palabra suelta → WordReference. Varias → Reverso, que es el que sirve para frases.
+    const orden = varias ? ['rev','wr','cam','you'] : ['wr','cam','rev','you'];
+    const lista = orden.map(id => RECURSOS.find(r => r.id === id));
+
+    pop = document.createElement('div');
+    pop.className = 'dic-pop';
+    pop.innerHTML = `<div class="dic-h"><span class="dic-w">${esc(t)}</span>
+        <button class="spk sm" data-say="${esc(t)}" title="Oírla">🔊</button>
+        <button class="dic-x" title="Cerrar">✕</button></div>
+      <div class="dic-sub">${varias ? 'Expresión de varias palabras' : 'Palabra suelta'} · abre en una pestaña nueva</div>
+      ${lista.map((r, i) => `<a class="dic-o${i === 0 ? ' top' : ''}" href="${r.url(t)}" target="_blank" rel="noopener">
+        <div class="dic-n">${r.ico} ${esc(r.n)}${i === 0 ? '<span class="dic-tag">el mejor para esto</span>' : ''}</div>
+        <div class="dic-q">${r.q}</div></a>`).join('')}`;
+    document.body.appendChild(pop);
+
+    const ancho = Math.min(340, window.innerWidth - 24);
+    pop.style.width = ancho + 'px';
+    pop.style.left = Math.max(12, Math.min(x - ancho / 2, window.innerWidth - ancho - 12)) + 'px';
+    const alto = pop.offsetHeight;
+    pop.style.top = (y + alto + 16 > window.innerHeight ? y - alto - 10 : y + 12) + window.scrollY + 'px';
+    pop.querySelector('.dic-x').onclick = cerrar;
+  }
+
+  /* Doble clic en cualquier palabra del documento. Asi funciona en TODOS
+     los modulos sin tener que tocar el render de cada uno. */
+  document.addEventListener('dblclick', e => {
+    if(e.target.closest('input,textarea,[contenteditable="true"],.dic-pop,a,button')) return;
+    const sel = (window.getSelection && window.getSelection().toString() || '').trim();
+    if(!sel || sel.length > 40 || !/^[a-zA-Z][a-zA-Z' -]*$/.test(sel)) return;
+    abrir(sel, e.clientX, e.clientY);
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-dic]');
+    if(b){ e.preventDefault(); e.stopPropagation();
+      const r = b.getBoundingClientRect();
+      abrir(b.getAttribute('data-dic'), r.left + r.width / 2, r.bottom); return; }
+    if(!e.target.closest('.dic-pop')) cerrar();
+  });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrar(); });
+  window.addEventListener('scroll', cerrar, { passive:true });
+  return { abrir, cerrar, RECURSOS };
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   MÓDULO ESCRIBIR · los dos recuadros + semáforo
+════════════════════════════════════════════════════════════════════════ */
+const WR = (() => {
+  let dir = 'en';                 // en qué recuadro estás escribiendo
+  let tmr = null, pidiendo = false;
+  let ultimo = { en:'', es:'', trad:null, err:null };
+
+  const LUZ = {
+    verde:   { ico:'🟢', t:'Correcta',  d:'No encontré nada que corregir con las reglas del documento.' },
+    naranja: { ico:'🟠', t:'Parcial',   d:'Se entiende y no está mal, pero hay cosas que la harían sonar nativa.' },
+    rojo:    { ico:'🔴', t:'Hay errores', d:'Rompe al menos una regla no negociable. Míralas abajo, una por una.' }
+  };
+
+  /* ── Traducción. Es un APOYO, no el camino crítico: si se cae, el
+     corrector sigue funcionando entero y se dice que se cayó. ── */
+  async function traducir(txt, de, a){
+    const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + de +
+                '&tl=' + a + '&dt=t&q=' + encodeURIComponent(txt);
+    try{
+      const r = await fetch(url);
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      const s = j[0].map(x => x[0]).join('').trim();
+      if(s) return { txt:s, fuente:'Google Translate' };
+      throw new Error('vacío');
+    }catch(e){
+      // Segundo intento solo para es→en: en el otro sentido esta fuente
+      // devolvía disparates (medido el 02-sep) y prefiero no dar nada
+      // antes que dar algo falso.
+      if(de === 'es'){
+        try{
+          const r2 = await fetch('https://api.mymemory.translated.net/get?q=' +
+            encodeURIComponent(txt) + '&langpair=es|en');
+          const j2 = await r2.json();
+          const s2 = j2 && j2.responseData && j2.responseData.translatedText;
+          if(s2) return { txt:s2.trim(), fuente:'MyMemory (respaldo)' };
+        }catch(e2){}
+      }
+      return null;
+    }
+  }
+
+  /* Aplica las correcciones que son sustituciones limpias de texto, y DESPUÉS
+     vuelve a analizar el resultado. Solo se llama «corregida» si al revisarla
+     de nuevo sale en verde: presentar como correcta una frase que sigue mal
+     sería peor que no ofrecer nada. Si quedan cosas, se dice cuáles. */
+  function corregir(txt, hallazgos){
+    let out = txt, tocado = false;
+    hallazgos.forEach(h => {
+      if(h.sev === 'info' || !h.bien || !h.mal) return;
+      if(/^[(«]/.test(h.bien) || h.bien.includes('«') || h.bien.includes('…')) return;
+      const bien = h.bien.split(' · ')[0];
+      const re = new RegExp(h.mal.replace(/[.*+?^${}()|[\]\\]/g, '\\/* ─────────── BIFURCACIONES ───────────'), 'i');
+      if(re.test(out)){ out = out.replace(re, bien); tocado = true; }
+    });
+    if(!tocado) return null;
+    out = out.trim();
+    out = out.charAt(0).toUpperCase() + out.slice(1);
+    if(!/[.?!]$/.test(out)) out += /\?/.test(txt) ? '?' : '.';
+    // Auto-verificación: ¿la corrección quedó realmente limpia?
+    const rev = ANL.analizar(out);
+    const quedan = rev ? rev.hallazgos.filter(h => h.sev === 'rojo') : [];
+    return { txt:out, limpia: quedan.length === 0, quedan };
+  }
+
+  const CLS = { suj:'s-suj', aux:'s-aux', ver:'s-ver', com:'s-com', neg:'s-neg', wh:'s-wh' };
+  const NOMBRE = { suj:'SUJETO', aux:'AUXILIAR', ver:'VERBO', com:'COMPLEMENTO', neg:'not', wh:'WH' };
+
+  function piezasHTML(pz){
+    return pz.filter(p => /[a-z]/.test(p.w))
+      .map(p => `<span class="slot ${CLS[p.r]} wr-tk" data-dic="${esc(p.w)}" title="${NOMBRE[p.r]} · doble clic o toca para buscarla">${esc(p.w)}</span>`)
+      .join('<span class="lab-p">+</span>');
+  }
+
+  const FORMA = { af:'Afirmar', ne:'Negar', pr:'Preguntar', wh:'Pregunta abierta' };
+
+  function render(){
+    const cont = $('wrOut'); if(!cont) return;
+    const en = ($('wrEn') || {}).value || '';
+    const es = ($('wrEs') || {}).value || '';
+
+    if(!en.trim() && !es.trim()){
+      cont.innerHTML = `<div class="wr-vacio">
+        <div class="wr-vico">✍️</div>
+        <div class="wr-vt">Escribe la frase que se te venga a la cabeza</div>
+        <div class="wr-vd">Da igual el recuadro. Escribe en <b>inglés</b> y te digo si está bien y qué regla rompiste;
+          escribe en <b>español</b> y te doy el inglés y te explico por qué se arma así.<br>
+          Todo el análisis funciona <b>sin internet</b>. Solo la traducción necesita red.</div>
+        <div class="wr-ej">Prueba con una de estas, que están mal a propósito:
+          ${['She work here.','I not understand.','Where you live?','Did you went?','I have 30 years.']
+            .map(x => `<button class="wr-eb" data-wrej="${esc(x)}">${esc(x)}</button>`).join('')}</div>
+      </div>`;
+      cont.querySelectorAll('[data-wrej]').forEach(b => b.onclick = () => {
+        $('wrEn').value = b.dataset.wrej; dir = 'en'; cambio(true);
+      });
+      return;
+    }
+
+    // Siempre se analiza el INGLÉS: el tuyo si lo escribiste, o el traducido
+    const ingles = (dir === 'en' ? en : (ultimo.trad || '')).trim();
+    if(!ingles){
+      cont.innerHTML = `<div class="wr-esp">${ultimo.err
+        ? '⚠️ ' + esc(ultimo.err) + '<div class="wr-espd">Escribe tu intento en el recuadro de inglés y te lo corrijo igual — <b>esa parte no necesita internet</b>.</div>'
+        : '⏳ Traduciendo…'}</div>`;
+      return;
+    }
+
+    const r = ANL.analizar(ingles);
+    if(!r){ cont.innerHTML = ''; return; }
+    const L = LUZ[r.luz];
+    const f0 = r.frases[0];
+    const T = LAB_T.find(x => x.id === f0.tiempo);
+    const corr = dir === 'en' ? corregir(ingles, r.hallazgos) : null;
+    const graves = r.hallazgos.filter(h => h.sev !== 'info');
+    const infos  = r.hallazgos.filter(h => h.sev === 'info');
+
+    cont.innerHTML = `
+      <div class="wr-sem ${r.luz}">
+        <div class="wr-luces">
+          <span class="wr-luz${r.luz==='verde'?' on v':''}"></span>
+          <span class="wr-luz${r.luz==='naranja'?' on n':''}"></span>
+          <span class="wr-luz${r.luz==='rojo'?' on r':''}"></span>
+        </div>
+        <div class="wr-semt"><b>${L.ico} ${L.t}</b><span>${L.d}</span></div>
+        ${dir === 'es' ? '<span class="wr-badge">análisis del inglés traducido</span>' : ''}
+      </div>
+
+      <div class="wr-card">
+        <div class="wr-ct">🧩 Las 6 piezas de tu frase</div>
+        <div class="wr-pz">${piezasHTML(f0.piezas)}</div>
+        <div class="wr-nota">Toca cualquier pieza para buscarla en el diccionario. Son los mismos colores de todo el documento.</div>
+      </div>
+
+      <div class="wr-card">
+        <div class="wr-ct">⏳ Qué estás usando</div>
+        <div class="wr-usa"><span class="wr-chip">${esc(T ? T.n : 'Presente simple')}</span>
+          <span class="wr-chip alt">${esc(FORMA[f0.forma])}</span></div>
+        <div class="wr-cb">${T ? T.cuando : ''}</div>
+        ${T ? `<div class="wr-cb" style="margin-top:7px">${T.verboPor}</div>
+        <div class="lab-pistas">Palabras que delatan este tiempo: <b>${esc(T.pistas)}</b></div>` : ''}
+        <button class="lab-b" onclick="APP.go('p0')" style="margin-top:10px">🧪 Verla en el Laboratorio →</button>
+      </div>
+
+      ${graves.length ? `<div class="wr-card">
+        <div class="wr-ct">🔧 Qué corregir · ${graves.length}</div>
+        ${graves.map(h => `<div class="wr-h ${h.sev}">
+          <div class="wr-ht"><span class="wr-hr">${esc(h.regla)}</span>${h.t}</div>
+          <div class="wr-hp">${h.por}</div>
+          <div class="wr-hx"><span class="dx-bad">✗ ${esc(h.mal)}</span><span class="dx-good">✓ ${esc(h.bien)}</span></div>
+        </div>`).join('')}
+      </div>` : `<div class="wr-card ok">
+        <div class="wr-ct">✅ Nada que corregir</div>
+        <div class="wr-cb">Revisé las 15 reglas no negociables y las trampas de traducción literal más comunes, y esta frase las pasa todas.</div>
+      </div>`}
+
+      ${infos.length ? infos.map(h => `<div class="wr-card info">
+        <div class="wr-ct">ℹ️ ${h.t}</div><div class="wr-cb">${h.por}</div></div>`).join('') : ''}
+
+      ${corr ? `<div class="wr-card ${corr.limpia ? 'fix' : 'parcial'}">
+        <div class="wr-ct">${corr.limpia ? '✍️ Tu frase, corregida' : '⚠️ Corregí lo que pude — todavía no está lista'}</div>
+        <div class="wr-fix">${esc(corr.txt)} <button class="spk" data-say="${esc(corr.txt)}">🔊</button></div>
+        ${corr.limpia ? '' : `<div class="wr-cb" style="margin-bottom:10px">Le apliqué los arreglos que son un cambio directo de palabra,
+          y volví a revisarla: <b>sigue teniendo ${corr.quedan.length} problema${corr.quedan.length > 1 ? 's' : ''}</b>
+          (${corr.quedan.map(q => esc(q.t)).join(' · ')}). Ese hay que rehacerlo a mano, no es cambiar una palabra por otra —
+          mira arriba el ✓ de esa regla. <b>No te la doy por buena.</b></div>`}
+        <div class="wr-acts">
+          ${corr.limpia ? `<button class="lab-b" data-nb-en="${esc(corr.txt)}" data-nb-es="${esc(dir === 'en' ? (ultimo.trad || es) : es)}">📓 Guardar en mi cuaderno</button>` : ''}
+          <button class="lab-b" data-wrusar="${esc(corr.txt)}">⬆️ Ponerla en el recuadro y seguir</button>
+        </div>
+      </div>` : (dir === 'en' && r.luz === 'verde' ? `<div class="wr-acts" style="margin-top:10px">
+          <button class="lab-b" data-nb-en="${esc(ingles.trim())}" data-nb-es="${esc(ultimo.trad || es)}">📓 Guardar en mi cuaderno</button>
+        </div>` : '')}
+
+      ${ultimo.err ? `<div class="wr-card info"><div class="wr-ct">⚠️ Traductor sin conexión</div>
+        <div class="wr-cb">${esc(ultimo.err)} <b>El análisis de arriba no se vio afectado</b>: es 100% local.</div></div>` : ''}`;
+
+    cont.querySelectorAll('[data-wrusar]').forEach(b => b.onclick = () => {
+      $('wrEn').value = b.dataset.wrusar; dir = 'en'; cambio(true);
+    });
+  }
+
+  /* Se dispara al escribir. La traducción va con retardo para no pedirla
+     en cada tecla; el análisis es local y se repinta al instante. */
+  function cambio(inmediato){
+    render();
+    clearTimeout(tmr);
+    tmr = setTimeout(async () => {
+      const en = $('wrEn').value.trim(), es = $('wrEs').value.trim();
+      const src = dir === 'en' ? en : es;
+      if(!src){ if(dir === 'en') $('wrEs').value = ''; else $('wrEn').value = ''; ultimo.trad = null; render(); return; }
+      if(pidiendo) return;
+      pidiendo = true; ultimo.err = null;
+      const t = await traducir(src, dir === 'en' ? 'en' : 'es', dir === 'en' ? 'es' : 'en');
+      pidiendo = false;
+      if(t){
+        ultimo.trad = t.txt; ultimo.fuente = t.fuente;
+        if(dir === 'en') $('wrEs').value = t.txt; else $('wrEn').value = t.txt;
+      } else {
+        ultimo.trad = null;
+        ultimo.err = 'No pude contactar el traductor (sin internet, o el servicio no respondió).';
+      }
+      render();
+    }, inmediato ? 120 : 700);
+  }
+
+  function wire(){
+    const a = $('wrEn'), b = $('wrEs');
+    if(!a || !b) return;
+    a.addEventListener('input', () => { dir = 'en'; cambio(); });
+    b.addEventListener('input', () => { dir = 'es'; cambio(); });
+    a.addEventListener('focus', () => { dir = 'en'; });
+    b.addEventListener('focus', () => { dir = 'es'; });
+    const lim = $('wrClear');
+    if(lim) lim.onclick = () => { a.value = ''; b.value = ''; ultimo = { en:'', es:'', trad:null, err:null }; render(); };
+    render();
+  }
+  return { render, wire, traducir, corregir };
+})();
+
+
 /* ─────────── BIFURCACIONES ───────────
    La técnica de las pizarras que le funcionan a Miguel, pero con el hueco
    sin resolver: el ejemplo no enseña la respuesta hasta que él elige. */
@@ -8446,6 +9366,7 @@ function init(){
   qzShuffle(); renderQuiz();
   BF.render(); BF.wire();
   PZ.render(); LAB.render(); RG.render();
+  WR.wire();
   sanearFavs();
   ['p0','pz','p3'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
   SRS.renderBoxes();
@@ -8459,7 +9380,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.

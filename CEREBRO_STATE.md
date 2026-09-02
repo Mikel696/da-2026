@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-01
+- **Última actualización:** 2026-09-02
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,102 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## ✍️ 3-ENG · Escribir + buscador de diccionario — 2026-09-02
+
+Dos encargos de Miguel: (1) que cualquier palabra, en cualquier módulo, lleve al mejor recurso
+gratis con muchísimo más contexto; (2) un módulo para escribir sus propias frases, con traducción
+en los dos sentidos, corrección explicada y semáforo verde/naranja/rojo.
+
+### 1 · El buscador de contexto
+Los cuatro recursos se **probaron abriéndolos de verdad** con la palabra "as" el 02-sep. Los cuatro
+cargan completos, sin login ni muro de pago, y cada uno da un tipo **distinto** de contexto:
+
+| | para qué es el mejor |
+|---|---|
+| **WordReference** | Sentidos separados por función, **cada uno con su ejemplo traducido**, + foros de nativos. El mejor para una palabra suelta. |
+| **Cambridge** | Nivel CEFR de la palabra (A1/A2/B1…), recuadros de gramática, ejemplos graduados. El mejor para *aprenderla*. |
+| **Reverso Context** | Frases reales en los dos idiomas, lado a lado. **El mejor para expresiones de varias palabras.** |
+| **YouGlish** | La palabra dicha por gente real en miles de vídeos. El mejor para el oído. |
+
+Se abre con **doble clic sobre cualquier palabra del documento** — así funciona en todos los
+módulos sin tocar el render de ninguno — y con el botón 🔎 en las filas de palabras y de frases.
+Una palabra suelta ofrece WordReference primero; una expresión, Reverso.
+
+### 2 · El módulo Escribir (pestaña ✍️, pane `wr`)
+Dos recuadros, EN y ES. Escribes en cualquiera y el otro se rellena. Debajo: semáforo, las
+**6 piezas** de tu frase con los colores de siempre, qué tiempo y forma estás usando (con la
+explicación **reutilizada de `LAB_T`**, no duplicada), los hallazgos con ✗/✓ y el porqué, y la
+frase corregida.
+
+**Decisión de arquitectura (regla P1: ningún tercero en el camino crítico):** el **analizador es
+100% local y determinista** — funciona sin internet. La traducción es un apoyo con red; si falla,
+se dice y todo lo demás sigue entero.
+
+**El corrector no es una IA.** Se apoya en lo que ya había: las 2000 palabras **con su categoría**
+(491 verbos, 877 sustantivos, 241 adjetivos, 28 preposiciones) son su diccionario; las 15 reglas
+no negociables son sus chequeos. Se le añadieron 85 verbos irregulares, los incontables y 11
+trampas de calco del español (edad con *have*, *depends of*, *since two years*, *I am agree*…).
+
+### El traductor: se eligió con evidencia, no por fama
+Probados **desde el origen real** `mikel696.github.io` (el proyecto ya tuvo un incidente con un
+tercero que respondía distinto según el `Origin`), con 6 frases de control:
+
+| API | aciertos | veredicto |
+|---|---|---|
+| `translate.googleapis.com` (gtx) | **6/6** | elegido |
+| Lingva | 0/6 | caído |
+| MyMemory | 3/6 | **descartado como principal** |
+
+MyMemory devolvía `I have been working here for two years` → *"elaborado a clic durante cuatro
+años"*, y *"dos años"* → *"four years"*. Eso no es traducir: es enseñar cosas falsas. Queda solo
+como respaldo es→en, donde sí acertaba.
+
+### La medición que lo cambió todo: falsos positivos
+Un corrector que marca en rojo inglés correcto es **peor que no tener corrector**. Se midió contra
+las **1000 frases del propio documento**, que son inglés correcto conocido:
+
+| ronda | falsos positivos |
+|---|---|
+| primera versión | **19,9 %** (199 de 1000) |
+| tras arreglar 11 causas | 5,3 % |
+| tras degradar R16 y arreglar R3/R4/R5 | 1,10 % |
+| tras coletillas y elípticas | **0,00 %** |
+
+Y a la vez, el banco de 42 casos con respuesta conocida (19 malos que **deben** salir rojos) pasa
+entero. Las causas fueron todas mías: `raiz()` devolvía «works» en vez de «work»; R3 solo miraba la
+posición 1 y no reconocía *«How long have you been here?»*; R9 no distinguía *touch* sustantivo de
+verbo; R4 no entendía el modal perfecto *«could have told»*.
+
+**La decisión de fondo:** R16 («no hay verbo») pasó de **error a aviso**. Con 491 verbos no puedo
+demostrar que *«I missed my flight»* no tiene verbo — el que no lo conoce soy yo. **Afirmar un
+error desde la propia ignorancia es justo lo que este proyecto no hace.** Ahora dice: *«puede ser
+que el verbo no esté entre las 2000, no que falte»*.
+
+### La corrección se auto-verifica
+Antes ofrecía *«She works here since two years.»* como «tu frase corregida» — había aplicado la -s
+pero no el *since→for*, y **la presentaba como buena**. Ahora, tras aplicar los arreglos, **vuelve
+a analizar el resultado**: si sigue habiendo rojos, la etiqueta cambia a *«Corregí lo que pude —
+todavía no está lista»*, dice qué falta y **no ofrece guardarla**. Dar por buena una frase que
+sigue mal es el mismo pecado que inventarse un dato.
+
+### Verificación
+0 falsos positivos en 1000 frases · 42/42 del banco · las 9 pestañas · laboratorio 640/640 ·
+fichas · 15 reglas · glosario sin huecos · chips `data-goto` · favoritos sin ids inválidos ·
+🔎 abre los 4 recursos · traducción en los dos sentidos comprobada en vivo · móvil 375px sin
+desborde (el único es `.hero`, que ya venía de antes) · **0 errores de consola**.
+
+Colisiones: `data-say`, `data-nb-en`, `data-nb-es` son **reuso deliberado** de handlers que ya
+existían — el botón «guardar en mi cuaderno» no lleva JS propio. Ningún choque nuevo de clase ni de id.
+
+### Nota de oficio
+Tres veces en esta sesión el heredoc del shell se comió las barras invertidas de una expresión
+regular (`\s*` → `s*`), y una de ellas dejó el chequeo de coletillas muerto sin avisar.
+**Para contenido con regex o comillas: herramienta de escritura o edición exacta, nunca heredoc.**
+Y cuando la reinyección repetida de bloques solapados rompió el archivo, lo que funcionó fue
+**restaurar del respaldo y aplicar el parche una sola vez**, no seguir parcheando encima.
 
 ---
 
