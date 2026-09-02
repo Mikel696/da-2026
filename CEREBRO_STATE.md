@@ -11,6 +11,62 @@
 
 ---
 
+## 🩹 3-ENG · la colision de atributos que corrompia favoritos — 2026-09-01
+
+### Lo que Miguel vio
+> *"al darle desplegar a cualquier, por ejemplo al sujeto, no se despliega y dice añadida a practicas?"*
+
+### Dos fallos, y el segundo estaba tapado por el primero
+
+**1 · Colision de `data-*` con corrupcion de datos.** El proyecto YA tenia un handler global
+`closest('[data-fp]')` = *marcar frase favorita*. Yo use `data-fp` para las fichas nuevas, asi que
+cada click hacia `+fp.dataset.fp` → `+"suj"` → **NaN**, metia `NaN` en `eng_fav_p` y ese NaN
+**se sincronizaba a los otros dispositivos**. No era un boton que no abre: era escritura de basura
+en el dato del usuario.
+
+Habia **tres** colisiones, no una:
+| mio | ya existia | consecuencia |
+|---|---|---|
+| `data-fp` | favorito de frase | NaN en `eng_fav_p` |
+| `data-goto` | 11 chips que saltan a Palabras filtradas | mi handler cerraba las fichas al azar |
+| `data-g` | notas del SRS, leidas con `+b.dataset.g` | latente |
+
+Renombrado todo lo mio a nombres que no existian: `data-ficha`, `data-fichah`, `data-pieza`,
+`data-glo`. Verificado que el bloque didactico tiene **0** apariciones de los tres originales y que
+los originales siguen intactos.
+
+**2 · Referencia muerta del renombrado anterior.** Al pasar `.pz-*` → `.fp-*` (para no chocar con
+la pestaña Piezas) renombre el atributo `data-pzt` pero **no** su lectura `b.dataset.pzt`. Leia
+`undefined`, asi que `abierta` siempre quedaba en `undefined` y ninguna ficha abria nunca.
+
+**Por que mi prueba no lo detecto:** comprobaba `acordeonCierra: true`, que **da verdadero
+justo cuando la funcion esta rota** (nada abierto → nada que cerrar). Y el otro caso que probe
+—la leyenda— usaba una ruta de codigo distinta (`PZ.abrir`) que si funcionaba.
+**Leccion: una prueba que pasa con la funcion rota no es una prueba.** Toda prueba de "abre"
+tiene que afirmar contenido visible (`offsetHeight > 80` + hay ejemplos), no ausencia de estado.
+
+### Reparacion del dato (P0)
+`favLimpios()` filtra al leer: solo enteros dentro del catalogo (`1..WORDS.length`). Todo lo demas
+—null, NaN, texto, fuera de rango— se descarta. `sanearFavs()` reescribe limpio **una sola vez** y
+solo si de verdad sobraba algo; un favorito legitimo nunca se toca. Probado sembrando basura:
+`[5,null,12,"suj",99999,7]` → `[5,12,7]`.
+
+### Barrida de regresion (click real, no llamada a funcion)
+Lo mio: 6 fichas abren con contenido/ejemplos/regla/error/tip y cierran · leyenda → ficha ·
+glosario abre y cierra con Escape · laboratorio (presente af sin auxiliar, continuo con `am`,
+contraccion `I'm not`) · 15 reglas con sus 15 ✗/✓.
+Lo que ya existia: favorito de palabra y **de frase** (sin ids invalidos) · los 11 chips
+`data-goto` filtran por categoria **y ya no mueven las fichas** · 8 pestañas · 12 piezas ·
+bifurcaciones · cajas de Leitner · **cuaderno: crea, edita y autoguarda, y el auto-marcado del
+glosario no entra ahi (0 `.gl` dentro de `#nb`)** · Ctrl+K · `SYNC.KEYS` con sus 7 claves ·
+0 errores de consola.
+
+### Regla que queda
+**Antes de inventar un `data-*` o una clase, buscarla en el archivo.** No basta con revisar
+las clases CSS: los atributos tienen handlers globales que no se ven desde el CSS.
+
+---
+
 ## 🧭 3-ENG · ESTRUCTURA didactica — 2026-09-01 (la funcion sin ejemplo)
 
 ### El defecto que lo origino

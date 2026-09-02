@@ -850,8 +850,8 @@ table.tbl tr:hover td{background:var(--bg3)}
 .rg-x{display:flex;flex-direction:column;gap:3px}
 
 /* ═══════════ ATAJO A LAS FICHAS DESDE LA LEYENDA ═══════════ */
-.legend .slot[data-goto]{cursor:pointer;transition:transform .14s}
-.legend .slot[data-goto]:hover{transform:translateY(-2px);filter:brightness(1.18)}
+.legend .slot[data-pieza]{cursor:pointer;transition:transform .14s}
+.legend .slot[data-pieza]:hover{transform:translateY(-2px);filter:brightness(1.18)}
 
 /* ═══════════ EJEMPLOS DENTRO DE LA TABLA DE PIEZAS ═══════════ */
 .tex{margin-top:6px;padding:6px 9px;border-radius:7px;background:var(--bg3);
@@ -964,12 +964,12 @@ table.tbl tr:hover td{background:var(--bg3)}
   <p class="lead">Toda frase en inglés se arma con estas seis piezas, pero <b style="color:var(--tx)">no todas aparecen siempre</b>: dos son obligatorias y las otras solo salen cuando las necesitas. Estos mismos seis colores se repiten en <b style="color:var(--tx)">todo el documento</b> — en el molde de cada una de las 1000 frases y en las 24 bifurcaciones — para que el patrón se te quede en el ojo, no en la memoria.</p>
 
   <div class="legend">
-    <span class="slot s-suj" data-goto="suj" title="Ver la ficha completa">SUJETO · quién</span>
-    <span class="slot s-aux" data-goto="aux" title="Ver la ficha completa">AUXILIAR · el tiempo</span>
-    <span class="slot s-ver" data-goto="ver" title="Ver la ficha completa">VERBO · la acción</span>
-    <span class="slot s-com" data-goto="com" title="Ver la ficha completa">COMPLEMENTO · qué/dónde/cuándo</span>
-    <span class="slot s-neg" data-goto="neg" title="Ver la ficha completa">NOT · negación</span>
-    <span class="slot s-wh" data-goto="wh" title="Ver la ficha completa">WH · la pregunta abierta</span>
+    <span class="slot s-suj" data-pieza="suj" title="Ver la ficha completa">SUJETO · quién</span>
+    <span class="slot s-aux" data-pieza="aux" title="Ver la ficha completa">AUXILIAR · el tiempo</span>
+    <span class="slot s-ver" data-pieza="ver" title="Ver la ficha completa">VERBO · la acción</span>
+    <span class="slot s-com" data-pieza="com" title="Ver la ficha completa">COMPLEMENTO · qué/dónde/cuándo</span>
+    <span class="slot s-neg" data-pieza="neg" title="Ver la ficha completa">NOT · negación</span>
+    <span class="slot s-wh" data-pieza="wh" title="Ver la ficha completa">WH · la pregunta abierta</span>
   </div>
   <div class="note" style="margin-top:-10px"><b>Toca cualquiera de esos seis colores</b> y se abre su ficha completa, más abajo: qué es en palabras simples, <b>un ejemplo por cada caso</b> en que aparece, su regla no negociable y el error típico que comete un hispanohablante.</div>
 
@@ -6130,13 +6130,41 @@ const BANDS = [
 ];
 
 /* ─────────── 4 · MARCADORES ─────────── */
-let favW = new Set(store.get('eng_fav_w', []));
-let favP = new Set(store.get('eng_fav_p', []));
+/* Un favorito valido es un entero dentro del catalogo. Cualquier otra cosa
+   (null, NaN, texto) es basura de un click mal enrutado y se descarta.
+   Paso de verdad el 01-sep-2026: un [data-fp] mio choco con el de "marcar
+   frase" del proyecto, +"suj" dio NaN y ese NaN entro aqui y se sincronizo.
+   Filtrar al leer cuesta nada y hace imposible que un id invalido rompa la
+   practica o viaje a los otros dispositivos. */
+const favLimpios = (bruto, max) => {
+  const out = new Set();
+  for(const v of (Array.isArray(bruto) ? bruto : [])){
+    const n = typeof v === 'number' ? v : parseInt(v, 10);
+    if(Number.isInteger(n) && n >= 1 && n <= max) out.add(n);
+  }
+  return out;
+};
+let favW = favLimpios(store.get('eng_fav_w', []), WORDS.length);
+let favP = favLimpios(store.get('eng_fav_p', []), PHRASES.length);
 const saveFav = () => { store.set('eng_fav_w', [...favW]); store.set('eng_fav_p', [...favP]); };
 const reloadFavs = () => {
-  favW = new Set(store.get('eng_fav_w', []));
-  favP = new Set(store.get('eng_fav_p', []));
+  favW = favLimpios(store.get('eng_fav_w', []), WORDS.length);
+  favP = favLimpios(store.get('eng_fav_p', []), PHRASES.length);
 };
+
+/* Si lo guardado traia basura, se reescribe limpio UNA vez. Solo escribe
+   cuando de verdad sobra algo: un favorito legitimo nunca se toca. */
+function sanearFavs(){
+  const bw = store.get('eng_fav_w', []), bp = store.get('eng_fav_p', []);
+  const sucio = (Array.isArray(bw) && bw.length !== favW.size)
+             || (Array.isArray(bp) && bp.length !== favP.size);
+  if(sucio){
+    console.warn('[eng] favoritos con entradas invalidas — se reescriben limpios',
+      { palabras: (bw||[]).length + '->' + favW.size, frases: (bp||[]).length + '->' + favP.size });
+    saveFav();
+  }
+  return sucio;
+}
 
 /* ─────────── 5 · RACHA ─────────── */
 const Streak = (() => {
@@ -6996,7 +7024,7 @@ function go(paneId){
 /* ══════════════════════════════════════════════════════════════
    GLOSARIO EMERGENTE
    Ninguna palabra técnica se queda sin explicar. Cualquier término
-   marcado con <b class="gl" data-g="clave">…</b> abre una ficha con
+   marcado con <b class="gl" data-glo="clave">…</b> abre una ficha con
    su significado en palabras simples, un ejemplo y audio.
    Regla: si aparece una palabra de gramática, TIENE que estar aquí.
 ════════════════════════════════════════════════════════════════ */
@@ -7059,7 +7087,7 @@ const GL = (() => {
   }
   document.addEventListener('click', e => {
     const t = e.target.closest('.gl');
-    if(t){ e.preventDefault(); e.stopPropagation(); abrir(t, t.dataset.g); return; }
+    if(t){ e.preventDefault(); e.stopPropagation(); abrir(t, t.dataset.glo); return; }
     if(!e.target.closest('.gl-pop')) cerrar();
   });
   window.addEventListener('scroll', cerrar, { passive:true });
@@ -7068,8 +7096,8 @@ const GL = (() => {
   /** Comprueba que no haya ningún término marcado sin definición. */
   function auditar(){
     const faltan = new Set();
-    document.querySelectorAll('.gl[data-g]').forEach(el => { if(!GLOSARIO[el.dataset.g]) faltan.add(el.dataset.g); });
-    return { terminos: Object.keys(GLOSARIO).length, marcados: document.querySelectorAll('.gl[data-g]').length, sinDefinir: [...faltan] };
+    document.querySelectorAll('.gl[data-glo]').forEach(el => { if(!GLOSARIO[el.dataset.glo]) faltan.add(el.dataset.glo); });
+    return { terminos: Object.keys(GLOSARIO).length, marcados: document.querySelectorAll('.gl[data-glo]').length, sinDefinir: [...faltan] };
   }
   return { auditar, cerrar };
 })();
@@ -7149,7 +7177,7 @@ const PIEZAS = [
            {en:'She left.', es:'Se fue.'} ] }
   ],
   regla:'El orden por defecto es <b>QUÉ → DÓNDE → CUÁNDO</b>. Nunca metas nada entre el verbo y su objeto directo.',
-  error:{ mal:'I speak very well English.', bien:'I speak English very well.', por:'«very well» es un <span class="gl" data-g="adverbio">adverbio</span> y se metió entre el verbo y su objeto. Primero el qué (<i>English</i>), después el cómo.' },
+  error:{ mal:'I speak very well English.', bien:'I speak English very well.', por:'«very well» es un <span class="gl" data-glo="adverbio">adverbio</span> y se metió entre el verbo y su objeto. Primero el qué (<i>English</i>), después el cómo.' },
   tip:'Si dudas del orden, di primero el <b>qué</b>. Lo demás casi siempre puede ir después sin sonar raro.'
 },
 {
@@ -7178,7 +7206,7 @@ const PIEZAS = [
   tip:'Truco para saber cuál usar: mira la frase afirmativa. <b>¿Ya tenía auxiliar?</b> Si sí (<i>am, is, have, will…</i>), ese mismo se mueve o recibe el <i>not</i>. Si no tenía ninguno, entra <b>do / does / did</b>.',
   extra:{
     t:'Caso puntual: la pregunta que NO lleva auxiliar',
-    d:'Cuando el <span class="gl" data-g="sujeto">sujeto</span> es justo lo que estás preguntando, no hay nada que mover al frente — y el auxiliar desaparece. Es la única pregunta sin auxiliar.',
+    d:'Cuando el <span class="gl" data-glo="sujeto">sujeto</span> es justo lo que estás preguntando, no hay nada que mover al frente — y el auxiliar desaparece. Es la única pregunta sin auxiliar.',
     ex:[ {en:'Who works here?', es:'¿Quién trabaja aquí? → "who" YA es el sujeto'},
          {en:'What happened?', es:'¿Qué pasó? → nada de "did"'},
          {en:'Who did you call?', es:'¿A quién llamaste? → aquí "who" NO es el sujeto (tú lo eres), así que sí lleva "did"'} ]
@@ -7296,7 +7324,7 @@ const LAB = (() => {
       porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> (el verbo <i>be</i>) dice que la acción está <b>en curso ahora mismo</b>. El verbo se pone en <b>-ing</b>. Fíjate en que el auxiliar aparece incluso afirmando.';
     } else {
       A = hvP(b);
-      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> dice que la acción <b>ya está hecha</b>, sin precisar cuándo. El verbo pasa a <span class="gl" data-g="participio">participio</span> (<b>' + b.vpp + '</b>).';
+      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> dice que la acción <b>ya está hecha</b>, sin precisar cuándo. El verbo pasa a <span class="gl" data-glo="participio">participio</span> (<b>' + b.vpp + '</b>).';
     }
 
     // El verbo que toca según el tiempo
@@ -7426,7 +7454,7 @@ const REGLAS = [
     mal:'Thanks for help me.', bien:'Thanks for helping me.' },
   { n:'Los modales no llevan <i>to</i> ni <i>-s</i>.', d:'can, could, will, would, should, must, may, might.',
     mal:'She can to swim. · He cans swim.', bien:'She can swim. · He can swim.' },
-  { n:'El sustantivo <span class="gl" data-g="incontable">incontable</span> nunca lleva -s.', d:'information, advice, money, furniture, homework, news.',
+  { n:'El sustantivo <span class="gl" data-glo="incontable">incontable</span> nunca lleva -s.', d:'information, advice, money, furniture, homework, news.',
     mal:'I need some advices.', bien:'I need some advice.' },
   { n:'Las contracciones no son opcionales.', d:'Nadie dice <i>I do not know</i> hablando. Si solo estudias la forma larga, no vas a entender lo que oyes.',
     mal:'I do not know. (suena a robot)', bien:'I don\'t know.' },
@@ -7526,7 +7554,7 @@ function glAutoMarcar(root, maxPorTermino = 2){
     const despues = n.splitText(m.index);
     despues.splitText(m[1].length);
     const b = document.createElement('span');
-    b.className = 'gl'; b.setAttribute('data-g', clave);
+    b.className = 'gl'; b.setAttribute('data-glo', clave);
     b.textContent = despues.nodeValue;
     despues.parentNode.replaceChild(b, despues);
     hechos++;
@@ -7545,8 +7573,8 @@ const PZ = (() => {
     const c = $('fpBox'); if(!c) return;
     c.innerHTML = PIEZAS.map(p => {
       const on = p.id === abierta;
-      return `<div class="fp${on ? ' on' : ''}" data-fp="${p.id}">
-        <button class="fp-h" data-fpt="${p.id}">
+      return `<div class="fp${on ? ' on' : ''}" data-ficha="${p.id}">
+        <button class="fp-h" data-fichah="${p.id}">
           <span class="slot ${p.cls}">${esc(p.n)}</span>
           <span class="fp-sub">${esc(p.sub)}</span>
           <span class="fp-when ${p.tono}">${p.cuando}</span>
@@ -7573,13 +7601,13 @@ const PZ = (() => {
     }).join('');
 
     glAutoMarcar(c, 1);
-    c.querySelectorAll('[data-fpt]').forEach(b => b.onclick = () => {
-      abierta = (abierta === b.dataset.pzt) ? null : b.dataset.pzt;
+    c.querySelectorAll('[data-fichah]').forEach(b => b.onclick = () => {
+      abierta = (abierta === b.dataset.fichah) ? null : b.dataset.fichah;
       render();
     });
   }
   function abrir(id){ abierta = id; render();
-    const el = document.querySelector(`[data-fp="${id}"]`);
+    const el = document.querySelector(`[data-ficha="${id}"]`);
     if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
   }
   return { render, abrir };
@@ -7587,8 +7615,8 @@ const PZ = (() => {
 
 /* Los colores de la leyenda llevan a su ficha */
 document.addEventListener('click', e => {
-  const g = e.target.closest('[data-goto]');
-  if(g && typeof PZ !== 'undefined') PZ.abrir(g.getAttribute('data-goto'));
+  const g = e.target.closest('[data-pieza]');
+  if(g && typeof PZ !== 'undefined') PZ.abrir(g.getAttribute('data-pieza'));
 });
 
 
@@ -8069,6 +8097,7 @@ function init(){
   qzShuffle(); renderQuiz();
   BF.render(); BF.wire();
   PZ.render(); LAB.render(); RG.render();
+  sanearFavs();
   ['p0','pz','p3'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
   SRS.renderBoxes();
   NB.render();
@@ -8081,7 +8110,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
