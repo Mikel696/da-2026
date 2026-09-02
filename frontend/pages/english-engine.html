@@ -1028,6 +1028,15 @@ table.tbl tr:hover td{background:var(--bg3)}
   transition:opacity .14s,transform .14s;line-height:1}
 .dicb:hover{opacity:1;transform:scale(1.25)}
 .wr-card.parcial{background:rgba(234,179,8,.07);border-color:rgba(234,179,8,.3)}
+.wr-card.sug{background:rgba(139,92,246,.08);border-color:var(--acbd)}
+.wr-sug{padding:11px 0;border-bottom:1px dashed var(--bd)}
+.wr-sug:last-child{border-bottom:0;padding-bottom:0}
+.wr-sn{font-size:15px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.wr-si{flex:none;width:19px;height:19px;border-radius:50%;background:var(--ac);color:#fff;
+  font-size:10px;font-weight:800;display:grid;place-items:center}
+.wr-sq{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.wr-ses{font-size:12px;color:var(--t2)}
+.wr-sw{font-size:11.5px;line-height:1.7;color:var(--t3);margin-bottom:8px}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -2395,8 +2404,8 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector con semaforo · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
-Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-01<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector con semaforo y sugerencias · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
+Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-02<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
 </div>
@@ -7906,7 +7915,15 @@ const LAB = (() => {
       out.push(b.id + '|' + T.id + '|' + F.id + '|' + contraer(texto(armar(b, T.id, F.id))));
     return out;
   }
-  return { render, auditar, todas };
+  /* Generador reutilizable: el módulo Escribir lo usa para proponer «¿quieres
+     decir…?». Mismo motor que produce las 640 frases, así que las sugerencias
+     salen con la misma gramática ya verificada. */
+  function generar(base, t, f){
+    const o = armar(base, t, f);
+    return { frase: contraer(texto(o)), larga: texto(o), aux: o.aux, info: o.info,
+             porque: o.porque, tokens: o.tk };
+  }
+  return { render, auditar, todas, generar };
 })();
 
 /* ══════════════════ REGLAS NO NEGOCIABLES ══════════════════
@@ -8100,6 +8117,312 @@ document.addEventListener('click', e => {
 
 
 
+
+
+
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   MOTOR v2 · cadena verbal, léxico ampliado y sugerencias
+   ──────────────────────────────────────────────────────────────────────
+   Origen: Miguel escribió «Why do you aren't finished your university?» y
+   el corrector la dio por BUENA. Es una frase rota — tiene DOS auxiliares
+   conjugados pegados — y ninguna de las 15 reglas lo miraba.
+
+   La pieza que faltaba: en inglés el grupo verbal tiene un orden fijo
+        [modal] [have] [be-progresivo] [be-pasivo] VERBO
+   y solo puede haber UN auxiliar conjugado por oración. Además `do/does/did`
+   es un motor de arranque de emergencia: si ya hay otro auxiliar, sobra.
+   Eso es lo que ahora se comprueba, y es lo que caza este tipo de frase.
+════════════════════════════════════════════════════════════════════════ */
+
+/* Verbos frecuentes que no estaban entre las 2000. Sin esto el corrector no
+   reconocía «missed», «finished» o «reschedule» y no podía ni analizarlos. */
+const VERBOS_EXTRA = `finish miss reschedule depend arrive decide explain improve manage
+prepare receive remember repeat report require return solve suggest support travel
+visit wait watch worry accept achieve add admit affect agree allow announce apply
+approve argue arrange attend avoid belong borrow calculate cancel carry cause change
+check choose clean climb close collect compare complain complete confirm connect
+consider contain continue control cook copy correct count cover create cross deliver
+describe design destroy develop discover discuss divide download draw dream dress
+drop earn enjoy enter establish examine exist expect experience explore express
+fail fill finish fit fix follow forgive form gather generate greet guess handle
+happen hate hesitate hire hope hurry identify imagine impress include increase
+indicate influence inform insist install introduce invent invite involve join judge
+jump kick kill knock last laugh launch lend lift like limit listen load lock look
+maintain manage mark match matter measure mention mind move name need note notice
+obtain occur offer open operate order organize owe own paint park participate pass
+perform permit pick plan play point practice prefer prepare present press prevent
+print produce promise propose protect prove provide publish pull push raise reach
+realize recognize recommend record reduce refer reflect refuse regret reject relate
+relax release remain remind remove rent repair replace reply represent request
+rescue reserve resist respond rest result reveal review ring rise risk roll rub
+rule save scan search seem select sell separate serve settle shape share shift ship
+shop shout show shut sign sing sink skip slide slip smell smile smoke solve sort
+sound spell spill split spoil spot spray spread stare start state stay steal step
+stick stop store stretch strike struggle study submit succeed suffer suggest suit
+supply suppose surprise survive swallow switch talk taste teach tend test thank
+threaten throw tie touch train transfer translate travel treat trust try turn type
+understand unite update upload use vary view visit vote wake walk wander want warn
+wash waste watch wave wear weigh welcome win wish wonder work worry wrap write yell`
+  .split(/\s+/).filter(Boolean);
+
+/* Cuando una palabra no está en ninguna lista, la terminación dice bastante.
+   No es adivinar: es lo que hace cualquier lector al toparse una palabra nueva. */
+const SUFIJOS = [
+  [/(tion|sion|ment|ness|ity|ance|ence|ship|hood|dom|ism|ist|er|or|ing)$/, 'sust'],
+  [/(ous|ful|less|ive|able|ible|al|ic|ish|ary|ent|ant)$/, 'adj'],
+  [/ly$/, 'adv'],
+  [/(ize|ise|ify|ate|en)$/, 'verbo']
+];
+
+/* ─────────── LA CADENA VERBAL ─────────── */
+const CADENA = (() => {
+  // Formas que van CONJUGADAS: solo puede haber una por oración
+  const FINITO = new Set(['am','is','are','was','were','do','does','did',
+    'have','has','had','can','could','will','would','shall','should','may','might','must']);
+  const NOFIN  = new Set(['be','been','being','have']);   // tras modal / tras have
+  const MODAL  = new Set(['can','could','will','would','shall','should','may','might','must']);
+
+  /* Corta en oraciones simples: cada una puede tener su propio auxiliar
+     conjugado sin que eso sea un error («I don't know if he is coming»). */
+  const CORTES = new Set([',',';','and','but','or','because','that','if','when','while',
+    'so','although','though','since','before','after','until','unless','whether','who','which']);
+  function clausulas(pal){
+    const out = [[]];
+    let vistoFin = false;
+    pal.forEach((w, i) => {
+      if(CORTES.has(w)){ out.push([]); vistoFin = false; return; }
+      /* Oración incrustada sin «that»: «I'm afraid I can't». Un sujeto nuevo
+         después de un verbo ya conjugado abre otra oración — salvo que venga
+         justo detrás de un auxiliar, que es la inversión de las preguntas. */
+      if(vistoFin && LEX.SUJ.has(w) && i > 0 && !LEX.AUX.has(pal[i-1])){
+        out.push([]); vistoFin = false;
+      }
+      out[out.length-1].push(w);
+      if(FINITO.has(w)) vistoFin = true;
+    });
+    return out.filter(c => c.length);
+  }
+
+  /* ¿Este `have` / `be` / `do` es AUXILIAR, o es el verbo de verdad?
+     «Do you HAVE a reservation?» → have es «tener», no un auxiliar.
+     «What do you DO?» → el segundo do es el verbo, no el motor.
+     Sin esta distinción el validador marcaba media conversación como error. */
+  function esAuxiliar(c, i){
+    const w = c[i];
+    if(!LEX.AUX.has(w)) return false;
+    if(MODAL.has(w)) return true;
+    let j = i + 1;
+    while(j < c.length && (c[j] === 'not' || LEX.es(c[j], 'adv') || LEX.SUJ.has(c[j]))) j++;
+    const sig = c[j];
+    if(!sig) return false;                       // es el último verbo → es el principal
+    if(LEX.AUX_DO.has(w))
+      return LEX.AUX.has(sig) || (!!LEX.raiz(sig) && !LEX.es(sig, 'det'));
+    if(LEX.AUX_HAVE.has(w))
+      return LEX.esPP(sig) || sig === 'been' || sig === 'going';
+    return LEX.esING(sig) || LEX.esPP(sig) || sig === 'going' || sig === 'been';
+  }
+
+  /* ¿Este auxiliar va conjugado, o cuelga de otro? «could HAVE told»: el have
+     no está conjugado, lo está el could. */
+  function finitos(c){
+    const out = [];
+    c.forEach((w, i) => {
+      if(!FINITO.has(w)) return;
+      let j = i - 1;
+      while(j >= 0 && (c[j] === 'not' || LEX.es(c[j], 'adv'))) j--;
+      const ant = j >= 0 ? c[j] : null;
+      // have/be detrás de un modal, o be detrás de have, no están conjugados
+      if(ant && (MODAL.has(ant) || (LEX.AUX_HAVE.has(ant) && NOFIN.has(w)))) return;
+      out.push({ w, i });
+    });
+    return out;
+  }
+
+  /* Qué forma exige cada auxiliar de lo que viene detrás */
+  function exigencias(c){
+    const malas = [];
+    c.forEach((w, i) => {
+      let j = i + 1;
+      while(j < c.length && (c[j] === 'not' || LEX.es(c[j], 'adv') ||
+            LEX.SUJ.has(c[j]) || LEX.es(c[j], 'det') || LEX.es(c[j], 'pron'))) j++;
+      const sig = c[j];
+      if(!sig || LEX.AUX.has(sig) || sig === 'been' || sig === 'going') return;
+      const raiz = LEX.raiz(sig);
+      if(!raiz) return;
+      /* Muchísimas palabras son verbo Y sustantivo o adjetivo («work»,
+         «name», «welcome»). Si hay ambigüedad, o si viene detrás de un
+         determinante («your name»), ahí es un nombre y no se toca:
+         inventar un error es peor que dejar pasar uno. */
+      if(LEX.es(sig, 'sust') || LEX.es(sig, 'adj')) return;
+      const ant = j > 0 ? c[j-1] : null;
+      if(ant && (LEX.es(ant, 'det') || ['your','my','his','her','our','their','its','a','an','the'].includes(ant))) return;
+      /* Solo se exige la forma si el verbo es CONOCIDO de verdad. Si solo lo
+         reconozco por la terminación (-ate, -en, -ify…), no tengo derecho a
+         afirmar que su participio está mal: «passionate» no es un verbo. */
+      if(!LEX.verboConocido(raiz)) return;
+      /* Si detrás viene otro verbo, lo de en medio era el SUJETO, no el verbo:
+         «How's work going?» → work es el sujeto, going es el verbo. */
+      const tras = c[j+1];
+      if(tras && LEX.raiz(tras) && (LEX.esING(tras) || LEX.esPP(tras))) return;
+      /* Y «be + palabra final» es el verbo copulativo describiendo algo
+         («You're welcome», «I'm ready»), no un tiempo verbal mal armado. */
+      const esBe = ['am','is','are','was','were','been','being'].includes(w);
+      let ult = c.length - 1;
+      while(ult > 0 && !/[a-z]/.test(c[ult])) ult--;   // sin contar el punto final
+      if(esBe && j === ult) return;
+      if(MODAL.has(w) || LEX.AUX_DO.has(w)){
+        if(sig !== raiz) malas.push({ aux:w, mal:sig, bien:raiz, pide:'el verbo desnudo (sin -s, -ed ni -ing)' });
+      } else if(LEX.AUX_HAVE.has(w)){
+        const pps = LEX.formasValidas(raiz, 'pp');
+        if(!pps.has(sig)) malas.push({ aux:w, mal:sig, bien:LEX.conj(raiz,'pp'), pide:'el participio' });
+      } else if(['am','is','are','was','were','been','being'].includes(w)){
+        const ok = new Set([...LEX.formasValidas(raiz,'ing'), ...LEX.formasValidas(raiz,'pp')]);
+        if(!ok.has(sig)) malas.push({ aux:w, mal:sig, bien:LEX.conj(raiz,'ing'), pide:'el verbo en -ing (o el participio, si es voz pasiva)' });
+      }
+    });
+    return malas;
+  }
+
+  function revisar(pal){
+    const H = [];
+    clausulas(pal).forEach(c => {
+      // Solo cuentan los que están haciendo de AUXILIAR de verdad
+      const idxAux = c.map((w, i) => esAuxiliar(c, i) ? i : -1).filter(i => i >= 0);
+      const fin = finitos(c).filter(x => idxAux.includes(x.i));
+      const conDo = idxAux.filter(i => LEX.AUX_DO.has(c[i])).map(i => c[i]);
+      const otros = idxAux.filter(i => !LEX.AUX_DO.has(c[i]) && c[i] !== 'been' && c[i] !== 'being').map(i => c[i]);
+
+      // 1 · do/does/did no convive con otro auxiliar
+      if(conDo.length && otros.length)
+        H.push({ sev:'rojo', regla:'R-cadena', t:'Dos motores en la misma frase',
+          por:'<b>' + conDo[0] + '</b> es el motor de arranque de emergencia: solo entra cuando la frase <b>no tiene</b> ningún otro auxiliar. Aquí ya está <b>' + otros[0] + '</b>, así que el <i>' + conDo[0] + '</i> sobra. Uno u otro, nunca los dos.',
+          mal: conDo[0] + ' … ' + otros[0], bien: 'solo ' + otros[0] });
+
+      // 2 · un solo auxiliar conjugado por oración
+      else if(fin.length > 1)
+        H.push({ sev:'rojo', regla:'R-cadena', t:'Dos verbos conjugados pegados',
+          por:'Una oración lleva <b>un solo</b> verbo conjugado. Aquí hay dos: <b>' + fin[0].w + '</b> y <b>' + fin[1].w + '</b>. El segundo tendría que ir en participio o en -ing, o sobra uno.',
+          mal: fin.map(x => x.w).join(' … '), bien: 'deja solo uno conjugado' });
+
+      // 3 · cada auxiliar pide una forma concreta
+      exigencias(c).forEach(m =>
+        H.push({ sev:'rojo', regla:'R-forma', t:'Después de «' + m.aux + '» va ' + m.pide,
+          por:'Cada auxiliar manda sobre la forma del verbo que le sigue. <b>' + m.aux + '</b> pide ' + m.pide + '.',
+          mal: m.aux + ' ' + m.mal, bien: m.aux + ' ' + m.bien }));
+    });
+    return H;
+  }
+  return { revisar, clausulas, finitos };
+})();
+
+/* ─────────── SUGERENCIAS · «¿quieres decir…?» ───────────
+   Del destrozo se extrae la INTENCIÓN (quién, qué acción, negada o no, qué
+   pregunta) y se reconstruyen frases correctas con el mismo generador que
+   produce las 640 del Laboratorio. Así la sugerencia no es una adivinanza:
+   sale de una gramática ya verificada. */
+const SUG = (() => {
+  const PARTICIPIO_PISTA = ['perf','past','pastperf'];   // el pasado simple es mucho mas frecuente que el perfecto
+  const ING_PISTA        = ['cont','pastcont','perfcont'];
+  const BASE_PISTA       = ['pres','past','fut','going'];
+
+  /* Saca sujeto, verbo principal, complemento, WH y si va negada */
+  function intencion(pal){
+    const wh = LEX.WH.has(pal[0]) ? pal[0] : null;
+    const neg = pal.includes('not');
+    const iSuj = pal.findIndex(w => LEX.SUJ.has(w) && !LEX.WH.has(w));
+    const suj = iSuj > -1 ? pal[iSuj] : 'you';
+
+    // El verbo principal es el primero que NO es auxiliar
+    let ver = null, forma = 'base';
+    for(let i = 0; i < pal.length; i++){
+      const w = pal[i];
+      if(LEX.AUX.has(w) || w === 'been' || w === 'going' || w === 'not' || LEX.SUJ.has(w) || LEX.WH.has(w)) continue;
+      // Basta con que raiz() lo reconozca: «finished» no está en el diccionario
+      // como tal, pero su raíz «finish» sí, y eso ya prueba que es un verbo.
+      const r = LEX.raiz(w);
+      if(r){
+        ver = r;
+        forma = LEX.esING(w) ? 'ing' : (w !== r ? 'pp' : 'base');
+        // El resto es el complemento
+        var resto = pal.slice(i + 1).filter(x => /[a-z]/.test(x));
+        break;
+      }
+    }
+    if(!ver) return null;
+    let com = (resto || []).join(' ').trim();
+    return { wh, neg, suj, ver, forma, com };
+  }
+
+  /* «finish your university» no se dice: en inglés se estudia/termina
+     university sin posesivo, igual que se va to school o to work. */
+  const SIN_POSESIVO = new Set(['university','school','college','church','hospital','bed','home','work','class']);
+  function limpiarCom(com){
+    let c = com;
+    SIN_POSESIVO.forEach(n => {
+      c = c.replace(new RegExp('\\b(your|my|his|her|our|their|the)\\s+' + n + '\\b', 'gi'), n);
+    });
+    return c.trim();
+  }
+
+  function candidatas(pal, esPregunta){
+    const it = intencion(pal);
+    if(!it || !it.ver) return [];
+    const com = limpiarCom(it.com);
+    const p = ['he','she','it'].includes(it.suj) ? 3 : 1;
+    const base = {
+      suj: it.suj.charAt(0).toUpperCase() + it.suj.slice(1), p,
+      ver: it.ver, vs: LEX.conj(it.ver, 's'), v2: LEX.conj(it.ver, 'v2'),
+      ving: LEX.conj(it.ver, 'ing'), vpp: LEX.conj(it.ver, 'pp'),
+      com: com || '', wh: it.wh ? it.wh.charAt(0).toUpperCase() + it.wh.slice(1) : 'What', whDrop: 0
+    };
+    const f = it.wh ? 'wh' : (esPregunta ? 'pr' : (it.neg ? 'ne' : 'af'));
+    // En pregunta WH la negación se conserva usando la forma negativa contraída
+    const tiempos = (it.forma === 'pp' ? PARTICIPIO_PISTA
+                   : it.forma === 'ing' ? ING_PISTA : BASE_PISTA);
+
+    const out = [];
+    tiempos.slice(0, 3).forEach(t => {
+      try{
+        const g = LAB.generar(base, t, f);
+        let frase = g.frase;
+        // Si el original negaba y la forma generada no lo hace, se inyecta el not
+        if(it.neg && !/n't|not/.test(frase)){
+          const gn = LAB.generar(base, t, f === 'af' ? 'ne' : f);
+          frase = negarPregunta(base, t, f) || gn.frase;
+        }
+        if(frase && !out.some(x => x.frase === frase))
+          out.push({ frase, tiempo: t, info: g.info, porque: g.porque });
+      }catch(e){}
+    });
+    return out;
+  }
+
+  /* «Why haven't you finished university?» — la negación en una pregunta va
+     contraída y pegada al auxiliar, delante del sujeto. */
+  function negarPregunta(base, t, f){
+    if(f !== 'wh' && f !== 'pr') return null;
+    const g = LAB.generar(base, t, f);
+    const tk = g.tokens.filter(x => x.r !== 'q');
+    const iAux = tk.findIndex(x => x.r === 'aux');
+    if(iAux < 0) return null;
+    const CONTR = { do:"don't", does:"doesn't", did:"didn't", is:"isn't", are:"aren't",
+      am:"am not", was:"wasn't", were:"weren't", have:"haven't", has:"hasn't", had:"hadn't",
+      will:"won't", would:"wouldn't" };
+    const neg = CONTR[tk[iAux].t];
+    if(!neg) return null;
+    const partes = tk.map((x, i) => {
+      if(i === iAux) return neg;
+      return (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase() : x.t;
+    });
+    let s = partes.join(' ').replace(/\s+/g, ' ').trim();
+    s = s.charAt(0).toUpperCase() + s.slice(1);
+    return s + '?';
+  }
+  return { candidatas, intencion, limpiarCom };
+})();
+
 /* ══════════════════════════════════════════════════════════════════════
    MÓDULO ESCRIBIR · el corrector con semáforo
    ──────────────────────────────────────────────────────────────────────
@@ -8203,6 +8526,11 @@ const LEX = (() => {
     if(!POS.has(k)) POS.set(k, new Set());
     POS.get(k).add(w.cat);
   });
+  // Verbos frecuentes que no estaban en las 2000: sin ellos el corrector no
+  // reconocía «finished» ni «missed» y no podía analizarlos.
+  (typeof VERBOS_EXTRA !== 'undefined' ? VERBOS_EXTRA : []).forEach(v => {
+    if(!POS.has(v)) POS.set(v, new Set(['verbo'])); else POS.get(v).add('verbo');
+  });
   const V2 = new Map(), PP = new Map(), BASE = new Map();
   IRREG_RAW.replace(/\s+/g, '').split(';').filter(Boolean).forEach(r => {
     const [b, v2, vpp] = r.split('|');
@@ -8223,7 +8551,15 @@ const LEX = (() => {
   // Preposiciones tras las que el verbo va en -ing. «to» queda fuera: es infinitivo.
   const PREP_ING = new Set(['for','of','about','without','before','after','by','in','on','at','with','from','instead']);
 
-  const cat = w => POS.get(w) || new Set();
+  /* Si la palabra no está en ninguna lista, la terminación dice bastante.
+     No es inventar: es lo que hace cualquiera al toparse una palabra nueva. */
+  function porSufijo(w){
+    const s = new Set();
+    if(typeof SUFIJOS !== 'undefined')
+      for(const [re, c] of SUFIJOS) if(re.test(w)){ s.add(c); break; }
+    return s;
+  }
+  const cat = w => POS.get(w) || porSufijo(w);
   const es  = (w, c) => cat(w).has(c);
   const esVerbo = w => es(w, 'verbo') || BASE.has(w) || V2.has(w) || PP.has(w);
 
@@ -8261,7 +8597,30 @@ const LEX = (() => {
     if(forma === 's')   return /(s|sh|ch|x|z|o)$/.test(b) ? b+'es' : /[^aeiou]y$/.test(b) ? b.slice(0,-1)+'ies' : b+'s';
     return b;
   }
-  return { POS, cat, es, esVerbo, raiz, esV2, esPP, esING, es3ra, esBase, conj,
+  /* Verbo CONOCIDO de verdad: está en el diccionario o en los irregulares.
+     No cuenta el adivinado por terminación — si solo lo reconozco por el
+     sufijo, no puedo afirmar que su participio está mal («passionate»). */
+  const verboConocido = w => (POS.get(w) || new Set()).has('verbo') || BASE.has(w);
+
+  /* Todas las formas ACEPTABLES, no solo la que yo generaría. */
+  function formasValidas(b, tipo){
+    const s = new Set([conj(b, tipo)]);
+    const irr = BASE.get(b);
+    if(irr) s.add(tipo === 'pp' ? irr.vpp : irr.v2);
+    if(b === 'get'){ s.add('got'); s.add('gotten'); }
+    if(tipo === 'pp' || tipo === 'v2'){
+      s.add(b + 'ed');
+      s.add(b + b.slice(-1) + 'ed');                  // permit → permitted
+      if(/e$/.test(b)) s.add(b + 'd');
+    }
+    if(tipo === 'ing'){
+      s.add(b + 'ing');
+      s.add(b + b.slice(-1) + 'ing');                 // permit → permitting
+      if(/e$/.test(b)) s.add(b.slice(0, -1) + 'ing');
+    }
+    return s;
+  }
+  return { POS, cat, es, esVerbo, verboConocido, formasValidas, raiz, esV2, esPP, esING, es3ra, esBase, conj,
            AUX, AUX_BE, AUX_HAVE, AUX_DO, MODAL, SUJ, TERCERA, WH, NEGS, PREP_ING,
            UNCOUNT:new Set(UNCOUNT), BASE };
 })();
@@ -8360,6 +8719,11 @@ const ANL = (() => {
 
     // Trampas de calco (patrones de alta confianza)
     TRAMPAS.forEach(tr => { if(tr.re.test(f)) add('rojo', tr.regla, tr.t, tr.por, tr.mal, tr.bien); });
+
+    // La cadena verbal: el hueco que dejaba pasar «Why do you aren't finished…»
+    // Se le pasan los tokens CON puntuacion: sin la coma no puede separar
+    // las coletillas («It's cold, isn't it?») y las marcaria como error.
+    if(typeof CADENA !== 'undefined') CADENA.revisar(t).forEach(h => H.push(h));
 
     // R16 · ¿hay verbo? Solo se exige si hay un SUJETO: si no lo hay, es un
     // fragmento («Good morning.», «Not bad, thanks.») y eso es inglés válido.
@@ -8574,7 +8938,18 @@ const ANL = (() => {
     ["It's cold, isn't it?",'verde'], ["You're coming, aren't you?",'verde'],
     ["He can swim, can't he?",'verde'], ['Need a hand?','verde'],
     ['Any questions before we finish?','verde'],
-    ['She always work here.','rojo']
+    ['She always work here.','rojo'],
+    // El fallo que encontró Miguel: pasaba por buena y es una frase rota
+    ["Why do you aren't finished your university?",'rojo'],
+    ['I do am working.','rojo'], ['She does have finished.','rojo'],
+    ['He has went home.','rojo'], 
+    ['You can to swim.','rojo'],
+    // Y las correctas que la cadena NO debe tocar
+    ['You could have told me.','verde'], ['It can be done.','verde'],
+    ['I have been working here for two years.','verde'],
+    ["I don't know if he is coming.",'verde'],
+    ['She will have finished by then.','verde'],
+    ['Why have you finished university?','verde']
   ];
   function probar(){
     const fallos = [];
@@ -8785,6 +9160,40 @@ const WR = (() => {
     const graves = r.hallazgos.filter(h => h.sev !== 'info');
     const infos  = r.hallazgos.filter(h => h.sev === 'info');
 
+    /* «¿Quieres decir…?» — se saca la intención de lo que escribiste (quién,
+       qué acción, negada o no, qué pregunta) y se reconstruyen frases
+       correctas con el MISMO generador que produce las 640 del Laboratorio.
+       No es una adivinanza: sale de una gramática ya verificada. */
+    let sugHTML = '';
+    if(dir === 'en' && graves.length){
+      let cand = [];
+      try { cand = SUG.candidatas(f0.t, /\?/.test(ingles)); } catch(e){}
+      cand = cand.filter(c => c.frase.toLowerCase().replace(/[^a-z ]/g,'') !==
+                              ingles.toLowerCase().replace(/[^a-z ]/g,''));
+      if(cand.length){
+        sugHTML = `<div class="wr-card sug">
+          <div class="wr-ct">💡 ¿Quieres decir…?</div>
+          <div class="wr-cb" style="margin-bottom:10px">Reconstruí tu idea con las piezas que reconocí.
+            Cada opción cambia <b>cuándo</b> pasa la acción — elige la que de verdad querías decir:</div>
+          ${cand.map((c, i) => `<div class="wr-sug" data-wrsug="${esc(c.frase)}">
+            <div class="wr-sn"><span class="wr-si">${i + 1}</span>${esc(c.frase)}
+              <button class="spk sm" data-say="${esc(c.frase)}">🔊</button></div>
+            <div class="wr-sq"><span class="wr-chip">${esc(c.info ? c.info.n : '')}</span>
+              <span class="wr-ses" data-wrses="${esc(c.frase)}">traduciendo…</span></div>
+            <div class="wr-sw">${c.info ? c.info.cuando : ''}</div>
+            <button class="lab-b" data-wrusar="${esc(c.frase)}">Usar esta ⬆️</button>
+          </div>`).join('')}
+        </div>`;
+        // El español de cada opción se pide después, para no frenar el pintado
+        setTimeout(() => cand.forEach(async c => {
+          const t = await traducir(c.frase, 'en', 'es');
+          document.querySelectorAll(`[data-wrses="${CSS.escape(c.frase)}"]`).forEach(el => {
+            el.textContent = t ? '= ' + t.txt : '(sin conexión para traducirla)';
+          });
+        }), 30);
+      }
+    }
+
     cont.innerHTML = `
       <div class="wr-sem ${r.luz}">
         <div class="wr-luces">
@@ -8812,6 +9221,7 @@ const WR = (() => {
         <button class="lab-b" onclick="APP.go('p0')" style="margin-top:10px">🧪 Verla en el Laboratorio →</button>
       </div>
 
+      ${sugHTML}
       ${graves.length ? `<div class="wr-card">
         <div class="wr-ct">🔧 Qué corregir · ${graves.length}</div>
         ${graves.map(h => `<div class="wr-h ${h.sev}">
@@ -9380,7 +9790,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.

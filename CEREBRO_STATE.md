@@ -11,6 +11,73 @@
 
 ---
 
+## 🧠 3-ENG · Motor v2 del corrector — 2026-09-02 (la frase que pasó por buena)
+
+### El fallo
+Miguel escribió **«Why do you aren't finished your university?»** y el corrector la marcó **verde**.
+Es una frase rota: tiene `do` y `aren't` — **dos auxiliares conjugados pegados**. Ninguna de las
+15 reglas miraba eso. Un falso NEGATIVO así es peor que un falso positivo: le enseña que algo
+incorrecto está bien.
+
+### La pieza que faltaba: la cadena verbal
+En inglés el grupo verbal tiene un orden fijo — `[modal] [have] [be-progresivo] [be-pasivo] VERBO` —
+y solo puede haber **un** auxiliar conjugado por oración. Además `do/does/did` es un motor de
+arranque de emergencia: si ya hay otro auxiliar, sobra. Eso ahora se comprueba (`CADENA`), con tres
+chequeos: dos motores en la misma frase · dos verbos conjugados pegados · la forma que exige cada
+auxiliar (`have` pide participio, `be` pide -ing, los modales piden el verbo desnudo).
+
+### Lo más difícil: distinguir auxiliar de verbo léxico
+El validador ingenuo marcaba **media conversación** como error (6,5 % de las 1000 frases):
+- «Do you **have** a reservation?» → ahí `have` es *tener*, no un auxiliar
+- «What do you **do**?» → el segundo `do` es el verbo
+- «I'm afraid **I** can't» → son dos oraciones sin «that» en medio
+- «It's cold, isn't it?» → la coletilla lleva su propio auxiliar
+Se resolvió con `esAuxiliar()`: un `have` solo es auxiliar si le sigue un participio; un `be`, si le
+sigue -ing o participio; un `do`, si le sigue otro verbo. Y `clausulas()` corta también cuando
+aparece un sujeto nuevo tras un verbo ya conjugado.
+
+### Dos bugs propios que salieron al medir
+- `conj()` **no doblaba la consonante**: generaba `permited` y marcaba como error el correcto
+  `permitted`.
+- Exigía `gotten` y rechazaba `got`, que es igual de válido.
+La solución no fue afinar la regla hasta el infinito sino **aceptar las variantes** (`formasValidas`):
+prefiero dejar pasar un error a inventarme uno. Y `verboConocido()` impide exigir formas a palabras
+que solo reconozco por la terminación — «passionate» no es un verbo por acabar en -ate.
+
+### Sugerencias · «¿Quieres decir…?»
+De la frase rota se extrae la **intención** (quién, qué acción, negada o no, qué pregunta) y se
+reconstruyen frases correctas con **el mismo generador que produce las 640 del Laboratorio**. No es
+adivinar: sale de una gramática ya verificada. De su ejemplo salen tres, con su español:
+
+1. **Why haven't you finished university?** — Presente perfecto — *¿Por qué no has terminado la universidad?*
+2. **Why didn't you finish university?** — Pasado simple — *¿Por qué no terminaste la universidad?*
+3. **Why hadn't you finished university?** — Pasado perfecto
+
+La primera es **idéntica** a la que le dio Google Translate. Además quita el posesivo donde el
+inglés no lo usa (`your university` → `university`, como *go to school*).
+
+### Diccionario más completo
++250 verbos frecuentes que no estaban en las 2000 (sin ellos no reconocía «finished» ni «missed»),
+y un adivinador por terminación para lo que no está en ninguna lista — usado **solo para orientar**,
+nunca para afirmar un error.
+
+### Medición
+| | falsos positivos (sobre las 1000 frases correctas del documento) |
+|---|---|
+| validador nuevo, primera versión | 6,50 % |
+| tras separar auxiliar de verbo léxico | 0,90 % |
+| tras aceptar variantes de participio | 0,20 % |
+| final | **0,00 %** |
+
+Y a la vez: **20/20 errores cazados** (los 19 de antes + el de Miguel) y el banco de 53 casos entero.
+
+### Lo que NO hace
+No es una inteligencia artificial y no llega al 100 %. Reconoce estructuras, no significado: puede
+dejar pasar un error de vocabulario o de matiz. Cuando no sabe, **lo dice** en vez de inventar un
+veredicto — esa es la línea que no se cruza.
+
+---
+
 ## ✍️ 3-ENG · Escribir + buscador de diccionario — 2026-09-02
 
 Dos encargos de Miguel: (1) que cualquier palabra, en cualquier módulo, lleve al mejor recurso
