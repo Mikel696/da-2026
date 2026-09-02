@@ -11,6 +11,57 @@
 
 ---
 
+## 🧠 3-ENG · Morfología del verbo español — 2026-09-02
+
+### La crítica, que era de método
+> *«no puedes corregir cositas, debes hacer un cerebro completo, razonable que identifique todo error»*
+
+Miguel escribió «Hice el almuerzo mañana por la tarde» y salió verde. El fallo puntual: `hice` es un
+pretérito irregular y mi «detector de verbos» era **una lista de terminaciones**, no un analizador.
+Parchear «hice» habría sido otra cosita. Tenía razón en el diagnóstico de fondo: estaba jugando al
+topo en vez de construir algo que razone.
+
+### Lo que se construyó
+**`MORFO`, un analizador morfológico del verbo español.** Dada CUALQUIER forma devuelve su
+infinitivo, su tiempo y su persona:
+- conjugación regular completa de `-ar / -er / -ir` en presente, pretérito, imperfecto, futuro y
+  condicional
+- **38 verbos irregulares** con sus paradigmas completos (ser, estar, haber, tener, hacer, ir,
+  poder, decir, ver, dar, saber, querer, poner, venir, salir, traer, oír, andar, conducir…)
+- vocabulario de **434 lemas**: los del propio documento (las 2000 palabras traen su traducción, y
+  las de categoría «verbo» son infinitivos) más ~150 verbos frecuentes explícitos
+- **10.664 formas indexadas**, con `auditar()` de 17 pruebas para poder repetir la comprobación
+
+**Y de esa única fuente salen ahora las comprobaciones**, en vez de una regla suelta por caso:
+concordancia de persona (`Yo hizo` → error) y tiempo verbal contra marcador temporal (`mañana` +
+`hice` → error). Si una forma es ambigua —`hablamos` es presente y pretérito a la vez— **no se dice
+nada**: la ambigüedad es una respuesta legítima.
+
+### Un fallo de clase, no de caso
+Al medir apareció que `ser` producía formas inventadas: `se`, `semos`, `sen`. Causa: aplicaba el
+generador regular **también** a los verbos que ya tienen paradigma irregular. Por eso «Se jubiló el
+año pasado» se leía como un verbo en presente. Arreglado en la raíz —los irregulares se saltan el
+generador—, y con ello desaparecieron 364 formas falsas de golpe. **Ese es el tipo de arreglo que
+Miguel estaba pidiendo:** uno que elimina una clase entera de errores, no uno.
+
+### Medición
+| | falsos positivos |
+|---|---|
+| al enchufar la morfología | 3 en frases · 5 en ejemplos |
+| tras el fallo de clase y quitar `tu` posesivo | **0 · 0 · 0** |
+
+0 en las 1000 frases españolas, 0 en las 1000 inglesas, 0 en los 2000 ejemplos.
+Bancos: **66 casos en inglés, 30 en español**, más 17 de morfología. Todos pasando.
+
+### Lo que sigue sin poder hacer, dicho claro
+Esto reconoce **estructura**, no significado. Un error de vocabulario, de registro o de matiz se le
+escapa, y «identificar todo error» no es alcanzable sin un modelo de lenguaje —que rompería la
+regla P1 del proyecto (funcionar sin red) y metería un tercero en el camino crítico. Lo que sí
+cambia es el método: **ya no se parchea caso por caso, se amplía el analizador**, y cada frase que
+Miguel manda entra al banco de pruebas para que no pueda repetirse.
+
+---
+
 ## ⏳ 3-ENG · Marcadores de tiempo — 2026-09-02
 
 ### El caso

@@ -2406,7 +2406,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector de ingles Y de espanol con semaforo y sugerencias · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de 640 frases en 10 tiempos · 30 terminos de glosario · 15 reglas no negociables · corrector de ingles Y de espanol (10.664 formas verbales) con semaforo y sugerencias · buscador en 4 diccionarios · practica espaciada · cuaderno propio<br>
 Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-02<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
@@ -9147,6 +9147,182 @@ const ANL = (() => {
 
 
 
+
+/* ══════════════════════════════════════════════════════════════════════
+   MORFOLOGÍA DEL VERBO ESPAÑOL
+   ──────────────────────────────────────────────────────────────────────
+   Miguel: «no puedes corregir cositas, debes hacer un cerebro completo».
+   Tenía razón en el método, no solo en el error. Mi detección de verbos era
+   una lista de terminaciones, así que «hice» —pretérito irregular— no se
+   reconocía, y parchear «hice» habría sido otra cosita.
+
+   Esto conjuga de verdad: dada CUALQUIER forma, devuelve su infinitivo, su
+   tiempo y su persona. De esa única fuente salen todas las comprobaciones
+   (concordancia de persona, tiempo contra marcador temporal), en vez de
+   una regla suelta por caso.
+════════════════════════════════════════════════════════════════════════ */
+const MORFO = (() => {
+
+  /* Terminaciones regulares. Futuro y condicional se pegan al infinitivo
+     entero, por eso van aparte. */
+  const REG = {
+    ar: { pres:['o','as','a','amos','áis','an'],
+          pret:['é','aste','ó','amos','asteis','aron'],
+          imp:['aba','abas','aba','ábamos','abais','aban'] },
+    er: { pres:['o','es','e','emos','éis','en'],
+          pret:['í','iste','ió','imos','isteis','ieron'],
+          imp:['ía','ías','ía','íamos','íais','ían'] },
+    ir: { pres:['o','es','e','imos','ís','en'],
+          pret:['í','iste','ió','imos','isteis','ieron'],
+          imp:['ía','ías','ía','íamos','íais','ían'] }
+  };
+  const FUT  = ['é','ás','á','emos','éis','án'];
+  const COND = ['ía','ías','ía','íamos','íais','ían'];
+
+  /* Los irregulares más usados, con sus formas completas. Son pocos verbos
+     pero son los que más aparecen en cualquier frase real. */
+  const IRR_RAW = `
+ser|soy,eres,es,somos,sois,son|fui,fuiste,fue,fuimos,fuisteis,fueron|era,eras,era,éramos,erais,eran|ser
+estar|estoy,estás,está,estamos,estáis,están|estuve,estuviste,estuvo,estuvimos,estuvisteis,estuvieron|estaba,estabas,estaba,estábamos,estabais,estaban|estar
+haber|he,has,ha,hemos,habéis,han|hube,hubiste,hubo,hubimos,hubisteis,hubieron|había,habías,había,habíamos,habíais,habían|habr
+tener|tengo,tienes,tiene,tenemos,tenéis,tienen|tuve,tuviste,tuvo,tuvimos,tuvisteis,tuvieron|tenía,tenías,tenía,teníamos,teníais,tenían|tendr
+hacer|hago,haces,hace,hacemos,hacéis,hacen|hice,hiciste,hizo,hicimos,hicisteis,hicieron|hacía,hacías,hacía,hacíamos,hacíais,hacían|har
+ir|voy,vas,va,vamos,vais,van|fui,fuiste,fue,fuimos,fuisteis,fueron|iba,ibas,iba,íbamos,ibais,iban|ir
+poder|puedo,puedes,puede,podemos,podéis,pueden|pude,pudiste,pudo,pudimos,pudisteis,pudieron|podía,podías,podía,podíamos,podíais,podían|podr
+decir|digo,dices,dice,decimos,decís,dicen|dije,dijiste,dijo,dijimos,dijisteis,dijeron|decía,decías,decía,decíamos,decíais,decían|dir
+ver|veo,ves,ve,vemos,veis,ven|vi,viste,vio,vimos,visteis,vieron|veía,veías,veía,veíamos,veíais,veían|ver
+dar|doy,das,da,damos,dais,dan|di,diste,dio,dimos,disteis,dieron|daba,dabas,daba,dábamos,dabais,daban|dar
+saber|sé,sabes,sabe,sabemos,sabéis,saben|supe,supiste,supo,supimos,supisteis,supieron|sabía,sabías,sabía,sabíamos,sabíais,sabían|sabr
+querer|quiero,quieres,quiere,queremos,queréis,quieren|quise,quisiste,quiso,quisimos,quisisteis,quisieron|quería,querías,quería,queríamos,queríais,querían|querr
+poner|pongo,pones,pone,ponemos,ponéis,ponen|puse,pusiste,puso,pusimos,pusisteis,pusieron|ponía,ponías,ponía,poníamos,poníais,ponían|pondr
+venir|vengo,vienes,viene,venimos,venís,vienen|vine,viniste,vino,vinimos,vinisteis,vinieron|venía,venías,venía,veníamos,veníais,venían|vendr
+salir|salgo,sales,sale,salimos,salís,salen|salí,saliste,salió,salimos,salisteis,salieron|salía,salías,salía,salíamos,salíais,salían|saldr
+traer|traigo,traes,trae,traemos,traéis,traen|traje,trajiste,trajo,trajimos,trajisteis,trajeron|traía,traías,traía,traíamos,traíais,traían|traer
+caer|caigo,caes,cae,caemos,caéis,caen|caí,caíste,cayó,caímos,caísteis,cayeron|caía,caías,caía,caíamos,caíais,caían|caer
+oír|oigo,oyes,oye,oímos,oís,oyen|oí,oíste,oyó,oímos,oísteis,oyeron|oía,oías,oía,oíamos,oíais,oían|oir
+andar|ando,andas,anda,andamos,andáis,andan|anduve,anduviste,anduvo,anduvimos,anduvisteis,anduvieron|andaba,andabas,andaba,andábamos,andabais,andaban|andar
+conducir|conduzco,conduces,conduce,conducimos,conducís,conducen|conduje,condujiste,condujo,condujimos,condujisteis,condujeron|conducía,conducías,conducía,conducíamos,conducíais,conducían|conducir
+conocer|conozco,conoces,conoce,conocemos,conocéis,conocen|conocí,conociste,conoció,conocimos,conocisteis,conocieron|conocía,conocías,conocía,conocíamos,conocíais,conocían|conocer
+volver|vuelvo,vuelves,vuelve,volvemos,volvéis,vuelven|volví,volviste,volvió,volvimos,volvisteis,volvieron|volvía,volvías,volvía,volvíamos,volvíais,volvían|volver
+pedir|pido,pides,pide,pedimos,pedís,piden|pedí,pediste,pidió,pedimos,pedisteis,pidieron|pedía,pedías,pedía,pedíamos,pedíais,pedían|pedir
+seguir|sigo,sigues,sigue,seguimos,seguís,siguen|seguí,seguiste,siguió,seguimos,seguisteis,siguieron|seguía,seguías,seguía,seguíamos,seguíais,seguían|seguir
+sentir|siento,sientes,siente,sentimos,sentís,sienten|sentí,sentiste,sintió,sentimos,sentisteis,sintieron|sentía,sentías,sentía,sentíamos,sentíais,sentían|sentir
+dormir|duermo,duermes,duerme,dormimos,dormís,duermen|dormí,dormiste,durmió,dormimos,dormisteis,durmieron|dormía,dormías,dormía,dormíamos,dormíais,dormían|dormir
+morir|muero,mueres,muere,morimos,morís,mueren|morí,moriste,murió,morimos,moristeis,murieron|moría,morías,moría,moríamos,moríais,morían|morir
+empezar|empiezo,empiezas,empieza,empezamos,empezáis,empiezan|empecé,empezaste,empezó,empezamos,empezasteis,empezaron|empezaba,empezabas,empezaba,empezábamos,empezabais,empezaban|empezar
+encontrar|encuentro,encuentras,encuentra,encontramos,encontráis,encuentran|encontré,encontraste,encontró,encontramos,encontrasteis,encontraron|encontraba,encontrabas,encontraba,encontrábamos,encontrabais,encontraban|encontrar
+entender|entiendo,entiendes,entiende,entendemos,entendéis,entienden|entendí,entendiste,entendió,entendimos,entendisteis,entendieron|entendía,entendías,entendía,entendíamos,entendíais,entendían|entender
+jugar|juego,juegas,juega,jugamos,jugáis,juegan|jugué,jugaste,jugó,jugamos,jugasteis,jugaron|jugaba,jugabas,jugaba,jugábamos,jugabais,jugaban|jugar
+leer|leo,lees,lee,leemos,leéis,leen|leí,leíste,leyó,leímos,leísteis,leyeron|leía,leías,leía,leíamos,leíais,leían|leer
+creer|creo,crees,cree,creemos,creéis,creen|creí,creíste,creyó,creímos,creísteis,creyeron|creía,creías,creía,creíamos,creíais,creían|creer
+pensar|pienso,piensas,piensa,pensamos,pensáis,piensan|pensé,pensaste,pensó,pensamos,pensasteis,pensaron|pensaba,pensabas,pensaba,pensábamos,pensabais,pensaban|pensar
+cerrar|cierro,cierras,cierra,cerramos,cerráis,cierran|cerré,cerraste,cerró,cerramos,cerrasteis,cerraron|cerraba,cerrabas,cerraba,cerrábamos,cerrabais,cerraban|cerrar
+contar|cuento,cuentas,cuenta,contamos,contáis,cuentan|conté,contaste,contó,contamos,contasteis,contaron|contaba,contabas,contaba,contábamos,contabais,contaban|contar
+costar|cuesto,cuestas,cuesta,costamos,costáis,cuestan|costé,costaste,costó,costamos,costasteis,costaron|costaba,costabas,costaba,costábamos,costabais,costaban|costar
+llover|llueve,llueve,llueve,llueve,llueve,llueven|llovió,llovió,llovió,llovió,llovió,llovieron|llovía,llovía,llovía,llovía,llovía,llovían|llover
+`.trim();
+
+  const TIEMPOS = { pres:'presente', pret:'pasado', imp:'pasado', fut:'futuro', cond:'condicional' };
+  const NOMBRE = { pres:'presente', pret:'pretérito', imp:'imperfecto', fut:'futuro', cond:'condicional' };
+  const PERSONA = ['1s','2s','3s','1p','2p','3p'];
+
+  /* El vocabulario de verbos sale del propio documento: las 2000 palabras
+     traen su traducción, y las de categoría «verbo» son infinitivos en
+     español. Así el analizador no se inventa lemas que no existen. */
+  /* Verbos frecuentes del español, para que la cobertura no dependa de lo
+     que haya caído en la lista de palabras. Con estos + los del documento,
+     el analizador cubre lo que se escribe de verdad. */
+  const LEMAS = new Set(`hablar comer vivir trabajar estudiar necesitar buscar llamar llegar
+pasar quedar dejar llevar entrar tomar tratar mirar contar empezar esperar existir
+levantar intentar usar ocurrar escuchar cambiar presentar crear considerar aparecer
+aceptar realizar acabar preguntar terminar recordar permitir aprender olvidar comprar
+vender pagar ganar perder ayudar cuidar cocinar limpiar lavar caminar correr nadar
+bailar cantar dibujar pintar viajar visitar invitar recibir enviar mandar guardar
+abrir cubrir subir bajar mover parar seguir crecer nacer vivir morir sentar acostar
+despertar bañar vestir peinar casar separar divorciar enamorar odiar amar querer
+desear soñar pensar creer saber conocer entender comprender explicar enseñar
+mostrar indicar señalar apuntar anotar escribir leer contestar responder repetir
+practicar mejorar avanzar lograr conseguir obtener alcanzar tocar sonar oler probar
+gustar encantar molestar preocupar alegrar entristecer asustar sorprender
+descansar dormir soñar despertar madrugar tardar durar acompañar`
+    .trim().split(/s+/));
+  try{
+    WORDS.forEach(w => {
+      if(w.cat !== 'verbo') return;
+      String(w.es || '').split(/[\/,;]/).forEach(x => {
+        const v = x.trim().toLowerCase().replace(/^(se\s+)/, '');
+        if(/^[a-záéíóúñü]+(ar|er|ir)$/.test(v)) LEMAS.add(v);
+      });
+    });
+  }catch(e){}
+
+  /* Índice inverso: forma → análisis. Se construye una vez. */
+  const IDX = new Map();
+  const mete = (forma, lema, t, p) => {
+    if(!forma) return;
+    if(!IDX.has(forma)) IDX.set(forma, []);
+    const y = IDX.get(forma);
+    if(!y.some(a => a.lema === lema && a.t === t && a.p === p)) y.push({ lema, t, p });
+  };
+
+  const IRREGULARES = new Set();
+  IRR_RAW.split('\n').forEach(linea => {
+    const [lema, pres, pret, imp, raizFut] = linea.split('|');
+    if(!lema) return;
+    LEMAS.add(lema); IRREGULARES.add(lema);
+    [['pres', pres], ['pret', pret], ['imp', imp]].forEach(([t, lista]) => {
+      (lista || '').split(',').forEach((f, i) => mete(f.trim(), lema, t, PERSONA[i]));
+    });
+    FUT.forEach((e, i)  => mete(raizFut + e, lema, 'fut', PERSONA[i]));
+    COND.forEach((e, i) => mete(raizFut + e, lema, 'cond', PERSONA[i]));
+  });
+
+  // Y ahora todos los regulares del vocabulario
+  LEMAS.forEach(lema => {
+    // Los irregulares ya tienen sus formas: conjugarlos como regulares
+    // inventaba palabras que no existen («ser» → «se», «semos»).
+    if(IRREGULARES.has(lema)) return;
+    const conj = lema.slice(-2);
+    const tabla = REG[conj];
+    if(!tabla) return;
+    const raiz = lema.slice(0, -2);
+    Object.entries(tabla).forEach(([t, ends]) =>
+      ends.forEach((e, i) => mete(raiz + e, lema, t, PERSONA[i])));
+    FUT.forEach((e, i)  => mete(lema + e, lema, 'fut', PERSONA[i]));
+    COND.forEach((e, i) => mete(lema + e, lema, 'cond', PERSONA[i]));
+  });
+
+  /* Dada una palabra, ¿qué puede ser? Devuelve [] si no es un verbo
+     conocido — y eso es una respuesta legítima, no un error. */
+  function analizar(w){ return IDX.get(String(w || '').toLowerCase()) || []; }
+
+  /* Momento al que apunta: presente / pasado / futuro / condicional.
+     Si la palabra es ambigua (habl«amos» es presente y pretérito a la vez)
+     devuelve las dos y quien pregunte decide. */
+  function momentos(w){ return [...new Set(analizar(w).map(a => TIEMPOS[a.t]))]; }
+  function personas(w){ return [...new Set(analizar(w).map(a => a.p))]; }
+  const esVerbo = w => analizar(w).length > 0;
+
+  function auditar(){
+    const pruebas = [
+      ['hice','pasado','1s'], ['hizo','pasado','3s'], ['tengo','presente','1s'],
+      ['tenía','pasado','1s'], ['fue','pasado','3s'], ['somos','presente','1p'],
+      ['comí','pasado','1s'], ['comió','pasado','3s'], ['comemos','presente','1p'],
+      ['trabajaré','futuro','1s'], ['trabajaría','condicional','1s'],
+      ['dijo','pasado','3s'], ['pusimos','pasado','1p'], ['vino','pasado','3s'],
+      ['estuve','pasado','1s'], ['supo','pasado','3s'], ['veo','presente','1s']
+    ];
+    const fallos = [];
+    pruebas.forEach(([w, m, p]) => {
+      if(!momentos(w).includes(m) || !personas(w).includes(p))
+        fallos.push(w + ' → ' + JSON.stringify(momentos(w)) + ' ' + JSON.stringify(personas(w)) +
+          ' (esperaba ' + m + ' ' + p + ')');
+    });
+    return { formasIndexadas: IDX.size, lemas: LEMAS.size, pruebas: pruebas.length, fallos };
+  }
+  return { analizar, momentos, personas, esVerbo, auditar, LEMAS, IDX, NOMBRE };
+})();
+
 /* ══════════════════════════════════════════════════════════════════════
    ANALIZADOR DE ESPAÑOL
    ──────────────────────────────────────────────────────────────────────
@@ -9248,7 +9424,9 @@ const ES = (() => {
     return null;
   }
   const NOMBRE_P = { '1s':'yo', '2s':'tú', '3s':'él/ella', '1p':'nosotros', '2p':'vosotros', '3p':'ellos' };
-  const SUJ_P = { yo:'1s', tú:'2s', tu:'2s', él:'3s', ella:'3s', usted:'3s',
+  /* «tu» sin tilde es el posesivo («tu ayuda»), no el pronombre. Meterlo
+     aquí hacía saltar «Gracias por tu ayuda» como error de concordancia. */
+  const SUJ_P = { yo:'1s', tú:'2s', él:'3s', ella:'3s', usted:'3s',
     nosotros:'1p', nosotras:'1p', vosotros:'2p', ellos:'3p', ellas:'3p', ustedes:'3p' };
   const CAMBIA_1S = w => w.replace(/ió$/, 'í').replace(/ó$/, 'é');
 
@@ -9314,9 +9492,14 @@ const ES = (() => {
           w + ' ' + sig, (CORRIGE[g + ',' + n] || '').split('/')[0] + ' ' + sig);
     });
 
-    // 2 · Persona del verbo
+    // 2 · Persona del verbo — sale del analizador morfológico, no de una
+    //     lista de terminaciones. Así reconoce «hice», «puso», «vino»…
     tk.forEach((w, i) => {
-      const p = persona(w);
+      const ana = (typeof MORFO !== 'undefined') ? MORFO.analizar(w) : [];
+      const pers = ana.length ? [...new Set(ana.map(a => a.p))] : (persona(w) ? [persona(w)] : []);
+      if(!pers.length) return;
+      // Si la forma vale para varias personas («hablamos»), no hay nada que objetar
+      const p = pers.length === 1 ? pers[0] : null;
       if(!p) return;
       /* El sujeto tiene que estar PEGADO al verbo (saltando solo un «no» o
          un adverbio corto). Antes miraba dos palabras atras y se saltaba el
@@ -9340,8 +9523,38 @@ const ES = (() => {
 
     /* 2b · El tiempo verbal contra el «cuándo». «Tengo hambre ayer» era el
        caso que se colaba: presente con marcador de pasado. */
-    if(typeof MARC !== 'undefined' && MARC.ES_PAS.test(f) && !MARC.ES_ARRANQUE.test(f)){
-      const arr = MARC.ES_PAS.exec(f)[0];
+    /* El tiempo verbal contra el «cuándo», con el analizador morfológico:
+       ya no depende de terminaciones sueltas, así que reconoce cualquier
+       forma — «hice», «puso», «tuvo», «anduvo»… */
+    if(typeof MARC !== 'undefined' && typeof MORFO !== 'undefined' && !MARC.ES_ARRANQUE.test(f)){
+      const enMarcador = m => new Set(m.toLowerCase().split(/\s+/));
+      const verboDe = (excluir) => {
+        for(const w of tk){
+          if(excluir.has(w)) continue;
+          const ms = MORFO.momentos(w);
+          if(ms.length === 1) return { w, m: ms[0] };   // solo si NO es ambigua
+        }
+        return null;
+      };
+      if(MARC.ES_PAS.test(f)){
+        const arr = MARC.ES_PAS.exec(f)[0];
+        const v = verboDe(enMarcador(arr));
+        if(v && (v.m === 'presente' || v.m === 'futuro'))
+          add('rojo','ES-tiempo','«' + arr + '» pide pasado, y «' + v.w + '» está en ' + v.m,
+            'Si dices <b>cuándo</b> pasó, el verbo va en pasado. <b>' + v.w + '</b> está en ' + v.m + '.',
+            v.w + ' … ' + arr, 'pon «' + v.w + '» en pasado');
+      }
+      if(MARC.ES_FUT.test(f)){
+        const arr = MARC.ES_FUT.exec(f)[0];
+        const v = verboDe(enMarcador(arr));
+        if(v && v.m === 'pasado')
+          add('rojo','ES-tiempo','«' + arr + '» apunta al futuro, y «' + v.w + '» está en pasado',
+            'El marcador dice que aún no ha pasado, pero el verbo lo da por terminado. No pueden ir juntos.',
+            v.w + ' … ' + arr, 'pon «' + v.w + '» en futuro o presente');
+      }
+    }
+    if(false){
+      const arr = '';
       const iv = tk.findIndex(w => ES_PRESENTE.has(w) || /^(?!.*(é|í|ó|aste|iste|aron|ieron|aba|ía))(o|as|es|amos|emos|imos|an|en)$/.test(w.slice(-4)));
       /* «hace dos días» es el marcador; su «hace» no es el verbo de la frase.
          Sin esto, «Pasó hace dos días» se marcaba como error. */
@@ -9353,16 +9566,7 @@ const ES = (() => {
           'con «' + arr + '» va <b>' + ES_A_PASADO[v] + '</b>.',
           v + ' … ' + arr, ES_A_PASADO[v] + ' … ' + arr);
     }
-    if(typeof MARC !== 'undefined' && MARC.ES_FUT.test(f) && !MARC.ES_ARRANQUE.test(f)){
-      /* -amos e -imos valen para presente Y pasado («hablamos» es los dos),
-         y -ré es futuro, no pasado. Solo las terminaciones inconfundibles. */
-      const v = tk.find(w => /(aste|ó|asteis|aron|iste|ió|isteis|ieron)$/.test(w) && w.length > 3
-                             && !/ré$/.test(w));
-      if(v)
-        add('rojo','ES-tiempo','«' + MARC.ES_FUT.exec(f)[0] + '» no va con un verbo en pasado',
-          'Ese marcador apunta al futuro y el verbo está en pasado. No pueden ir juntos.',
-          v, 'ponlo en futuro o presente');
-    }
+
 
     // 3 · Faltas de escritura inconfundibles
     FALTAS.forEach(([re, bien]) => {
@@ -9454,7 +9658,15 @@ const ES = (() => {
     // Marcadores temporales — el caso que se colaba
     ['Tengo hambre ayer.', 'rojo'], ['Tenía hambre ayer.', 'verde'],
     ['Ayer comí una manzana.', 'verde'], ['Voy al gimnasio todos los días.', 'verde'],
-    ['Desde ayer tengo hambre.', 'verde'], ['Ayer estoy cansado.', 'rojo']
+    ['Desde ayer tengo hambre.', 'verde'], ['Ayer estoy cansado.', 'rojo'],
+    // Irregulares que las terminaciones no cazaban
+    ['Hice el almuerzo mañana por la tarde.', 'rojo'],
+    ['Hice el almuerzo ayer por la tarde.', 'verde'],
+    ['Haré el almuerzo mañana por la tarde.', 'verde'],
+    ['Ayer puse la mesa.', 'verde'], ['Mañana puse la mesa.', 'rojo'],
+    ['Ayer vengo temprano.', 'rojo'], ['Ayer vine temprano.', 'verde'],
+    ['Yo hizo la tarea.', 'rojo'], ['Yo hice la tarea.', 'verde'],
+    ['Nosotros hablamos ayer.', 'verde']
   ];
   function probar(){
     const fallos = [];
@@ -10359,7 +10571,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
