@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-08-28
+- **Última actualización:** 2026-09-01
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,80 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧭 3-ENG · ESTRUCTURA didactica — 2026-09-01 (la funcion sin ejemplo)
+
+### El defecto que lo origino
+Miguel leyo la tabla de las 6 piezas y encontro esto:
+
+> *"la funcion del auxiliar, «Marcar tiempo» no tiene ningun ejemplo para mi entendimiento"*
+
+La fila decia que el auxiliar sirve **"al negar, preguntar o marcar tiempo"** y solo enseñaba
+un ejemplo de *negar*. Tres funciones nombradas, una ilustrada. Tenia razon.
+
+**La leccion, que vale para todo el proyecto:** *nombrar una funcion no es explicarla*. Si un
+texto enumera N cosas que algo hace, tiene que traer N ejemplos. Una lista sin ejemplos se lee
+como si fuera informacion, pero no enseña nada — y el hueco solo se descubre cuando alguien
+intenta usarla. **Regla nueva: toda funcion enumerada lleva su propio ejemplo.**
+
+### Lo que se hizo (todo aditivo — no se borro nada)
+
+**1 · La tabla de las 6 piezas, con ejemplo por caso.** Las seis filas ahora traen sus casos
+ilustrados dentro de la celda. La del auxiliar enseña sus **tres** trabajos:
+- negar → *I work here* → *I **don't** work here*
+- preguntar → *You work here* → ***Do** you work here?*
+- **marcar tiempo** → *I work* → *I **am** working · I **have** worked · I **will** work · I **had** worked*
+
+**2 · Seccion `01b` · Ficha completa de cada pieza.** Seis fichas plegables (`#fpBox`), datos en
+`PIEZAS`. Cada una: *en palabras simples* · **24 casos con 59 ejemplos con audio** · regla no
+negociable · el error tipico del hispanohablante (✗ vs ✓ con el porque) · tip. Arranca abierta la
+del auxiliar. Los seis colores de la leyenda son botones que llevan a su ficha.
+
+**3 · Seccion `01c` · Laboratorio de transformacion (`#labBox`, modulo `LAB`).** La pieza clave.
+5 frases base × 5 tiempos × 4 formas = **100 combinaciones generadas**, con las casillas de
+colores y un panel que dice *que esta haciendo el auxiliar ahi*. La casilla "ver los 5 tiempos a
+la vez" pone en una columna `sin auxiliar · sin auxiliar · will · are · have`: ahi «marcar tiempo»
+deja de ser una frase de tabla y se ve.
+
+**4 · Seccion `05` · Las 15 reglas no negociables (`#regBox`).** Las que, si se rompen, la frase
+deja de ser ingles. Cada una con el error real que produce. "Como usar este documento" paso a `06`.
+
+**5 · Glosario emergente (`GLOSARIO`, 30 terminos) + auto-marcado (`glAutoMarcar`).** Marcar a mano
+cada termino en 660 KB no escala y siempre quedan huecos — que es exactamente el bug original. El
+auto-marcado recorre **solo nodos de texto** y envuelve las primeras apariciones de cada termino en
+los paneles de explicacion (`p0`, `pz`, `p3`): **74 marcados, 0 sin definir**. Nunca toca atributos,
+codigo, ejemplos, ni el cuaderno (`contenteditable`), asi que no puede corromper contenido.
+
+### Verificado en navegador (no leyendo el codigo)
+- **Diff contra produccion antes de construir:** 16 lineas reemplazadas, **todas** las que se
+  quisieron enriquecer. Cero perdidas accidentales.
+- **Las 100 combinaciones del laboratorio revisadas una por una**, gramaticalmente correctas.
+- **El auto-marcado es demostrablemente sin perdida:** se clona cada panel, se le pasa el marcador
+  otra vez y `textContent` antes === despues en los tres. Prueba reproducible en consola.
+- 8 pestañas renderizando · 2000 palabras · 1000 frases · 97 elementos de bifurcaciones ·
+  12 piezas · SYNC con todos sus metodos · **0 errores de consola**.
+- Glosario abre/cierra, Escape funciona, la leyenda abre su ficha, el acordeon alterna,
+  Ctrl+K sigue vivo. Movil 375px: sin desborde horizontal, la rejilla del laboratorio colapsa.
+
+### Dos defectos encontrados **probando**, no leyendo
+1. `Do They eat breakfast?` — el sujeto conservaba la mayuscula a mitad de frase.
+2. `I do not work at a bank.` — mostraba la forma larga, justo lo que la **regla 12 del propio
+   documento** dice que nadie usa hablando. Ahora manda la contraccion (`I don't work`) y la forma
+   larga queda debajo como referencia.
+
+### Colisiones evitadas (por que las clases se llaman `fp-` y no `pz-`)
+`.pz`, `.pz-h`, `.pz-b` **ya existian** en `07_css2.css` para la pestaña Piezas. Usar ese prefijo
+habria roto esa pestaña. Se renombro todo a `.fp-`. Igual `.bad`/`.good`: existen como selectores
+compuestos (`.qz-o.bad`, `.bf-q.bad`) y una regla suelta les habria cambiado el color — se usa
+`.dx-bad`/`.dx-good`. **Antes de crear una clase, buscarla.**
+
+### Archivos
+`frontend/pages/english-engine.html` (665 KB, autocontenido). Partes en el scratchpad:
+`15_glosario.js` · `16_piezas.js` · `17_didac.css` · `18_glosauto.js`, ensambladas dentro del
+IIFE de `APP` por `patch_wire.js` / `patch_auto.js`. **No toca `cloud-sync.js`** — lleva su SYNC
+propio embebido, asi que no obliga a subir version en las 28 paginas.
 
 ---
 

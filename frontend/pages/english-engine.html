@@ -736,6 +736,133 @@ table.tbl tr:hover td{background:var(--bg3)}
 }
 @media print{.bf-opts,.bf-nav{display:none!important}.bf-why{display:block!important}}
 </style>
+<style>
+
+/* ═══════════ GLOSARIO EMERGENTE ═══════════ */
+.gl{border-bottom:1.5px dotted var(--ac);cursor:help;font-weight:600;color:var(--tx)}
+.gl:hover{background:rgba(139,92,246,.14);border-radius:3px}
+.gl::after{content:'?';font-size:8px;vertical-align:super;color:var(--ac);margin-left:1px;font-weight:800}
+.gl-pop{position:absolute;z-index:900;background:var(--bg2);border:1px solid var(--ac);
+  border-radius:12px;padding:12px 14px;box-shadow:0 18px 50px rgba(0,0,0,.6);animation:glin .14s ease}
+@keyframes glin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.gl-t{font-size:13px;font-weight:800;color:var(--ac);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.gl-x{margin-left:auto;background:none;border:0;color:var(--t3);cursor:pointer;font-size:12px;padding:0 2px}
+.gl-x:hover{color:var(--tx)}
+.gl-d{font-size:12px;line-height:1.65;color:var(--t2)}
+.gl-e{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-size:12px;
+  color:var(--tx);font-family:ui-monospace,'Cascadia Code',monospace}
+
+/* ═══════════ FICHAS DE LAS PIEZAS ═══════════ */
+.fp{border:1px solid var(--bd);border-radius:12px;margin-bottom:10px;overflow:hidden;
+  background:var(--bg2);transition:border-color .18s}
+.fp.on{border-color:var(--ac);box-shadow:0 6px 26px rgba(0,0,0,.28)}
+.fp-h{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;background:none;
+  border:0;cursor:pointer;text-align:left;color:var(--tx);flex-wrap:wrap}
+.fp-h:hover{background:var(--bg3)}
+.fp-sub{font-size:11.5px;color:var(--t3)}
+.fp-when{margin-left:auto;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+  background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}
+.fp-when.ok{background:rgba(34,197,94,.14);color:var(--ok);border-color:rgba(34,197,94,.3)}
+.fp-when.warn{background:rgba(234,179,8,.14);color:var(--warn);border-color:rgba(234,179,8,.3)}
+.fp-ar{font-size:10px;color:var(--t3)}
+.fp-b{padding:0 14px 14px}
+.fp-simple{font-size:12.5px;line-height:1.7;color:var(--t2);background:var(--bg3);
+  padding:11px 13px;border-radius:9px;border-left:3px solid var(--ac);margin-bottom:12px}
+.fp-caso{margin-bottom:12px;padding-left:12px;border-left:2px solid var(--bd)}
+.fp-caso.extra{border-left-color:var(--warn);background:rgba(234,179,8,.05);
+  padding:10px 12px;border-radius:0 9px 9px 0}
+.fp-ct{font-size:12.5px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.fp-cn{flex:none;width:19px;height:19px;border-radius:50%;background:var(--ac);color:#fff;
+  font-size:10px;display:grid;place-items:center;font-weight:800}
+.fp-caso.extra .fp-cn{background:var(--warn)}
+.fp-cd{font-size:11.5px;line-height:1.7;color:var(--t3);margin-bottom:7px}
+.fp-ex{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;padding:5px 0;
+  border-bottom:1px dashed var(--bd)}
+.fp-ex:last-child{border-bottom:0}
+.fp-en{font-weight:600;font-size:13px;color:var(--tx)}
+.fp-es{font-size:11.5px;color:var(--t3)}
+.fp-regla{margin:12px 0;padding:11px 13px;border-radius:9px;font-size:12.5px;line-height:1.7;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:var(--t2)}
+.fp-err{margin-bottom:10px;padding:11px 13px;border-radius:9px;
+  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22)}
+.fp-et{font-size:11.5px;font-weight:700;color:#ef4444;margin-bottom:7px}
+.fp-ep{display:flex;flex-direction:column;gap:4px;margin-bottom:7px}
+.fp-ew{font-size:11.5px;line-height:1.7;color:var(--t3)}
+.fp-tip{font-size:12px;line-height:1.7;color:var(--t2);padding:10px 12px;border-radius:9px;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.22)}
+.dx-bad,.dx-good{font-size:12.5px;font-family:ui-monospace,'Cascadia Code',monospace}
+.dx-bad{color:#ef4444}
+.dx-good{color:var(--ok)}
+
+/* ═══════════ LABORATORIO ═══════════ */
+.lab{border:1px solid var(--ac);border-radius:14px;padding:16px;background:var(--bg2);
+  box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.lab-ctl{display:flex;flex-direction:column;gap:11px;padding-bottom:14px;margin-bottom:14px;
+  border-bottom:1px solid var(--bd)}
+.lab-g{display:flex;flex-direction:column;gap:5px}
+.lab-lb{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)}
+.lab-sel{background:var(--bg3);border:1px solid var(--bd);color:var(--tx);border-radius:8px;
+  padding:8px 10px;font-size:12px;font-family:inherit;max-width:100%}
+.lab-cs{display:flex;gap:6px;flex-wrap:wrap}
+.lab-c{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:20px;
+  padding:6px 13px;font-size:11.5px;cursor:pointer;font-family:inherit;transition:all .15s}
+.lab-c:hover{border-color:var(--ac);color:var(--tx)}
+.lab-c.on{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700}
+.lab-tg{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--t2);cursor:pointer}
+.lab-tg b{color:var(--ac)}
+.lab-out{text-align:center;padding:8px 0 14px}
+.lab-form{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.lab-tk{font-size:14px;padding:5px 12px;animation:labpop .22s ease}
+@keyframes labpop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.lab-p{color:var(--t3);font-size:12px}
+.lab-sent{font-size:19px;font-weight:700;color:var(--tx);display:flex;align-items:center;
+  justify-content:center;gap:10px;flex-wrap:wrap}
+.lab-why{padding:12px 14px;border-radius:10px;font-size:12.5px;line-height:1.75}
+.lab-why.has{background:rgba(234,179,8,.09);border:1px solid rgba(234,179,8,.28)}
+.lab-why.no{background:var(--bg3);border:1px solid var(--bd)}
+.lab-wt{font-weight:700;color:var(--tx);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lab-wd{color:var(--t2)}
+.lab-all{display:flex;flex-direction:column;gap:7px}
+.lab-row{display:grid;grid-template-columns:150px 1fr 110px 32px;gap:10px;align-items:center;
+  padding:9px 11px;border-radius:9px;background:var(--bg3);border:1px solid transparent}
+.lab-row.hi{border-color:var(--ac);background:rgba(139,92,246,.09)}
+.lab-rn{font-size:11.5px;font-weight:700;color:var(--tx);display:flex;flex-direction:column}
+.lab-rn span{font-size:10px;font-weight:400;color:var(--t3)}
+.lab-rf{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.lab-rf .lab-tk{font-size:11.5px;padding:2px 8px}
+.lab-ra{text-align:center}
+.lab-none{font-size:10px;color:var(--t3);font-style:italic}
+@media(max-width:760px){
+  .lab-row{grid-template-columns:1fr;gap:6px}
+  .lab-ra{text-align:left}
+  .lab-sent{font-size:16px}
+}
+
+/* ═══════════ REGLAS NO NEGOCIABLES ═══════════ */
+.rg{display:flex;gap:12px;padding:13px;border-radius:11px;background:var(--bg2);
+  border:1px solid var(--bd);margin-bottom:9px;transition:border-color .16s}
+.rg:hover{border-color:var(--ac)}
+.rg-n{flex:none;width:27px;height:27px;border-radius:8px;background:rgba(239,68,68,.14);
+  color:#ef4444;font-weight:800;font-size:12px;display:grid;place-items:center}
+.rg-b{flex:1;min-width:0}
+.rg-t{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.rg-d{font-size:11.5px;color:var(--t3);line-height:1.65;margin-bottom:7px}
+.rg-x{display:flex;flex-direction:column;gap:3px}
+
+/* ═══════════ ATAJO A LAS FICHAS DESDE LA LEYENDA ═══════════ */
+.legend .slot[data-goto]{cursor:pointer;transition:transform .14s}
+.legend .slot[data-goto]:hover{transform:translateY(-2px);filter:brightness(1.18)}
+
+/* ═══════════ EJEMPLOS DENTRO DE LA TABLA DE PIEZAS ═══════════ */
+.tex{margin-top:6px;padding:6px 9px;border-radius:7px;background:var(--bg3);
+  border-left:2px solid var(--bd2);font-size:11.5px;line-height:1.75;color:var(--t2)}
+.tex+.tex{margin-top:5px}
+.tex.hi{border-left-color:var(--r-aux);background:rgba(34,211,238,.07)}
+.tex i{color:var(--tx);font-style:normal;font-family:var(--fm);font-size:11px}
+.lab-long{margin-top:9px;font-size:11.5px;color:var(--t3);line-height:1.6}
+.lab-long i{color:var(--t2);font-family:var(--fm);font-size:11px;font-style:normal}
+.lab-rs{margin-left:8px;font-size:11px;color:var(--t3);font-family:var(--fm)}
+</style>
 <div id="readbar"></div>
 <div id="toast"></div>
 
@@ -837,46 +964,67 @@ table.tbl tr:hover td{background:var(--bg3)}
   <p class="lead">Toda frase en inglés se arma con estas seis piezas, pero <b style="color:var(--tx)">no todas aparecen siempre</b>: dos son obligatorias y las otras solo salen cuando las necesitas. Estos mismos seis colores se repiten en <b style="color:var(--tx)">todo el documento</b> — en el molde de cada una de las 1000 frases y en las 24 bifurcaciones — para que el patrón se te quede en el ojo, no en la memoria.</p>
 
   <div class="legend">
-    <span class="slot s-suj">SUJETO · quién</span>
-    <span class="slot s-aux">AUXILIAR · el tiempo</span>
-    <span class="slot s-ver">VERBO · la acción</span>
-    <span class="slot s-com">COMPLEMENTO · qué/dónde/cuándo</span>
-    <span class="slot s-neg">NOT · negación</span>
-    <span class="slot s-wh">WH · la pregunta abierta</span>
+    <span class="slot s-suj" data-goto="suj" title="Ver la ficha completa">SUJETO · quién</span>
+    <span class="slot s-aux" data-goto="aux" title="Ver la ficha completa">AUXILIAR · el tiempo</span>
+    <span class="slot s-ver" data-goto="ver" title="Ver la ficha completa">VERBO · la acción</span>
+    <span class="slot s-com" data-goto="com" title="Ver la ficha completa">COMPLEMENTO · qué/dónde/cuándo</span>
+    <span class="slot s-neg" data-goto="neg" title="Ver la ficha completa">NOT · negación</span>
+    <span class="slot s-wh" data-goto="wh" title="Ver la ficha completa">WH · la pregunta abierta</span>
   </div>
+  <div class="note" style="margin-top:-10px"><b>Toca cualquiera de esos seis colores</b> y se abre su ficha completa, más abajo: qué es en palabras simples, <b>un ejemplo por cada caso</b> en que aparece, su regla no negociable y el error típico que comete un hispanohablante.</div>
 
   <div class="tw"><table class="tbl">
     <tr><th style="width:190px">Pieza</th><th style="width:135px">¿Cuándo aparece?</th><th>Cómo reconocerla</th></tr>
     <tr><td><span class="slot s-suj" style="font-size:12px;padding:2px 8px">SUJETO</span></td>
         <td><b style="color:var(--ok)">SIEMPRE</b></td>
-        <td>Quién hace la acción. No se puede quitar nunca — ni aunque no signifique nada, como el <b>it</b> de <i>It's raining</i>.</td></tr>
+        <td>Quién hace la acción. No se puede quitar nunca — ni aunque no signifique nada.
+        <div class="tex"><b>Hay alguien:</b> <i>I work at a bank.</i> · <b>No hay nadie:</b> <i><b>It</b> is raining.</i> (llueve) · <b>Algo existe:</b> <i><b>There</b> is a problem.</i> (hay un problema)</div></td></tr>
     <tr><td><span class="slot s-ver" style="font-size:12px;padding:2px 8px">VERBO</span></td>
         <td><b style="color:var(--ok)">SIEMPRE</b></td>
-        <td>La acción o el estado. Sin verbo no hay frase.</td></tr>
+        <td>La acción o el estado. Sin verbo no hay frase.
+        <div class="tex"><b>Acción:</b> <i>She <b>runs</b> every morning.</i> · <b>Estado:</b> <i>I <b>am</b> tired.</i> · <b>La única conjugación:</b> la -s de he/she/it — <i>I work</i> → <i>She work<b>s</b></i></div></td></tr>
     <tr><td><span class="slot s-com" style="font-size:12px;padding:2px 8px">COMPLEMENTO</span></td>
         <td>Casi siempre</td>
-        <td>Qué, dónde, cuándo, cómo. <i>I work</i> ya es una frase completa; el complemento la llena.</td></tr>
+        <td>Qué, dónde, cuándo, cómo. <i>I work</i> ya es una frase completa; el complemento la llena.
+        <div class="tex"><b>Qué:</b> <i>I need <b>help</b>.</i> · <b>Dónde:</b> <i>I work <b>at home</b>.</i> · <b>Cuándo:</b> <i>I finished it <b>yesterday</b>.</i> · <b>Cómo:</b> <i>He explained it <b>clearly</b>.</i></div></td></tr>
     <tr><td><span class="slot s-aux" style="font-size:12px;padding:2px 8px">AUXILIAR</span></td>
-        <td>Al negar, preguntar o marcar tiempo</td>
-        <td>El motor: <b>do, does, did, am, is, are, have, has, will</b>. En <i>I work here</i> no hay ninguno; en <i>I <b>don't</b> work here</i> sí.</td></tr>
+        <td>En <b>tres</b> casos, y cada uno tiene su ejemplo abajo</td>
+        <td>El motor: <b>do, does, did, am, is, are, was, were, have, has, had, will</b>. No significa nada por sí solo — solo hace uno de estos tres trabajos:
+        <div class="tex"><b>1 · Negar</b> — <i>I work here</i> → <i>I <b>don't</b> work here</i> (entró <i>do</i> para sostener el <i>not</i>)</div>
+        <div class="tex"><b>2 · Preguntar</b> — <i>You work here</i> → <i><b>Do</b> you work here?</i> (el auxiliar salta al frente)</div>
+        <div class="tex hi"><b>3 · Marcar tiempo</b> — aquí no niegas ni preguntas, y aun así aparece, porque es él quien dice <b>cuándo</b>:<br>
+        <i>I work</i> (siempre) → <i>I <b>am</b> working</i> (ahora) · <i>I <b>have</b> worked</i> (ya hecho) · <i>I <b>will</b> work</i> (aún no) · <i>I <b>had</b> worked</i> (antes de otra cosa)</div></td></tr>
     <tr><td><span class="slot s-neg" style="font-size:12px;padding:2px 8px">not</span></td>
         <td>Solo al negar</td>
-        <td>Nunca va sola: se agarra siempre de un auxiliar.</td></tr>
+        <td>Nunca va sola: se agarra siempre de un auxiliar o de un <span class="gl" data-g="modal">modal</span>.
+        <div class="tex"><b>Con auxiliar prestado:</b> <i>I <b>don't</b> smoke.</i> · <b>Con el que ya estaba:</b> <i>She <b>isn't</b> working.</i> · <b>Con modal:</b> <i>I <b>can't</b> swim.</i></div></td></tr>
     <tr><td><span class="slot s-wh" style="font-size:12px;padding:2px 8px">WH</span></td>
         <td>Solo en preguntas abiertas</td>
-        <td>what, where, when, who, why, which, how, whose. Se pega al frente de todo lo demás.</td></tr>
+        <td>what, where, when, who, why, which, how, whose. Se pega al frente <b>sin quitar el auxiliar</b>.
+        <div class="tex"><b>Fórmula fija:</b> WH + auxiliar + sujeto + verbo — <i><b>Where do you</b> live?</i> · <i><b>What did she</b> say?</i></div>
+        <div class="tex"><b>Ojo:</b> <i>Where you live?</i> está mal. El WH no reemplaza al auxiliar: van los dos.</div></td></tr>
   </table></div>
 
   <div class="note info"><b>Por qué esto importa más que memorizar seis nombres:</b> las dos primeras te dicen qué <b>no puedes omitir jamás</b> — y omitir el sujeto es el error que más delata a un hispanohablante. Las otras cuatro te dicen <b>qué se enciende</b> cuando pasas de afirmar a negar o preguntar. Ese encendido es todo el Molde 2 y el Molde 3 que vienen abajo.</div>
 
   <div class="card" style="margin-bottom:14px">
     <h3 class="sub" style="margin-top:0">La regla madre: el sujeto NUNCA se cae</h3>
-    <p class="lead" style="margin-bottom:14px">En español dices <i>"Llueve"</i>, <i>"Está bien"</i>, <i>"Hace frío"</i> — sin sujeto. En inglés eso es un error de estructura, no de vocabulario. Siempre hay alguien al frente, aunque sea un <b style="color:var(--r-suj)">it</b> vacío que no significa nada.</p>
+    <p class="lead" style="margin-bottom:14px">En español dices <i>"Llueve"</i>, <i>"Está bien"</i>, <i>"Hace frío"</i> — sin sujeto. En inglés eso es un error de estructura, no de vocabulario. Siempre hay alguien al frente, aunque sea un <span class="gl" data-g="sujetorelleno">sujeto de relleno</span> — un <b style="color:var(--r-suj)">it</b> vacío que no significa nada.</p>
     <div class="mini"><span class="m-en">It rains a lot here.</span> <span class="arr">·</span> <span class="m-es">Llueve mucho aquí.</span> <button class="spk sm" data-say="It rains a lot here.">🔊</button></div>
     <div class="mini"><span class="m-en">It is cold today.</span> <span class="arr">·</span> <span class="m-es">Hace frío hoy.</span> <button class="spk sm" data-say="It is cold today.">🔊</button></div>
     <div class="mini"><span class="m-en">There is a problem.</span> <span class="arr">·</span> <span class="m-es">Hay un problema.</span> <button class="spk sm" data-say="There is a problem.">🔊</button></div>
     <div class="note"><b>Analogía Excel:</b> el sujeto es la columna A. Puedes dejarla con un valor de relleno (<code>it</code>, <code>there</code>), pero no puedes borrar la columna — la tabla se rompe.</div>
   </div>
+
+  <h2 class="sec"><span class="n">01b</span> La ficha completa de cada pieza</h2>
+  <p class="lead">La tabla de arriba te dice <b>qué</b> hace cada pieza. Esto te dice <b>cómo se ve haciéndolo</b>. Cada caso que se menciona trae su propio ejemplo con audio — porque nombrar una función sin enseñarla no es explicarla. Empieza abierta la del <b>auxiliar</b>: es la que genera todas las dudas.</p>
+  <p class="lead" style="font-size:12.5px">¿Ves una palabra <span class="gl" data-g="auxiliar">subrayada con puntitos</span>? Tócala: te dice qué significa en palabras simples, con ejemplo. Está en todo el documento.</p>
+  <div id="fpBox"></div>
+
+  <h2 class="sec"><span class="n">01c</span> Laboratorio · mira aparecer el auxiliar</h2>
+  <p class="lead">Aquí es donde «marcar tiempo» deja de ser una frase de tabla. Escoge una acción, cámbiale el tiempo y la forma, y observa qué pasa con las casillas de colores. <b>Lo importante:</b> en presente simple afirmativo no hay ninguna casilla azul; en cuanto pides «ahora mismo» o «ya hecho», <b>aparece sola</b>. Marca la casilla de abajo para ver los cinco tiempos de un golpe.</p>
+  <div class="lab" id="labBox"></div>
+  <div class="note info" style="margin-top:14px"><b>Cómo leerlo:</b> fíjate en que el verbo <b>se desnuda</b> cada vez que aparece un auxiliar. <i>She work<b>s</b></i> pierde la -s en <i>She <b>does</b>n't work</i>; <i>I work<b>ed</b></i> vuelve a <i>work</i> en <i><b>Did</b> I work?</i>. El tiempo se paga <b>una sola vez por frase</b>: o lo lleva el verbo, o lo lleva el auxiliar. Nunca los dos. Ese es el error #1 de todo hispanohablante.</div>
 
   <h2 class="sec"><span class="n">02</span> Los 5 moldes que generan el 90% de lo que se dice</h2>
   <p class="lead">No son reglas para memorizar. Son cinco plantillas. Aprendes a rellenarlas y ya puedes decir casi cualquier cosa, en cualquier tiempo.</p>
@@ -992,7 +1140,12 @@ table.tbl tr:hover td{background:var(--bg3)}
   </div>
   <div class="note"><b>Si apilas varios adjetivos</b>, el orden nativo es: <b>opinión → tamaño → edad → forma → color → origen → material → propósito</b>. No lo memorices: <i>a beautiful little old round brown Italian wooden dining table</i>. En la vida real casi nunca usas más de dos.</div>
 
-  <h2 class="sec"><span class="n">05</span> Cómo usar este documento</h2>
+  <h2 class="sec"><span class="n">05</span> Las 15 reglas no negociables</h2>
+  <p class="lead">Todo lo demás del documento son atajos, tips y costumbres. <b>Esto no.</b> Estas quince son las que, si las rompes, la frase deja de ser inglés — no suena rara, sino que dice otra cosa o no se entiende. Cada una viene con el error real que produce, para que lo reconozcas cuando te salga.</p>
+  <div id="regBox"></div>
+  <div class="note warn" style="margin-top:16px"><b>Cómo usarlas de verdad:</b> no las memorices las quince hoy. Lee la lista una vez, y cuando alguien te corrija o algo te suene mal, vuelve aquí y busca cuál rompiste. Una regla que ya te costó un error se queda; una que solo leíste, no.</div>
+
+  <h2 class="sec"><span class="n">06</span> Cómo usar este documento</h2>
   <p class="lead">Ocho pestañas, pero un solo recorrido. Este es el orden que funciona — y cada una tiene un papel distinto, no son ocho versiones de lo mismo.</p>
   <div class="grid g3">
     <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Estructura · el esqueleto</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Es donde cuelga todo lo demás. Vuelve aquí siempre que una frase te suene rara.</p></div>
@@ -2036,8 +2189,8 @@ table.tbl tr:hover td{background:var(--bg3)}
 </div>
 </div>
 <div class="foot">
-<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · practica espaciada · cuaderno propio<br>
-Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-08-27<br>
+<b>ENGLISH ENGINE</b> · 2000 palabras · 1000 frases · 24 bifurcaciones · 12 piezas · 6 fichas de estructura con 59 ejemplos · laboratorio de tiempos · 30 terminos de glosario · 15 reglas no negociables · practica espaciada · cuaderno propio<br>
+Construido para BARROS TORRES MIGUEL ANGEL · DA-2026 · actualizado 2026-09-01<br>
 Documento autocontenido: funciona sin internet. La pronunciacion usa la Web Speech API de tu navegador — no envia nada a ningun servidor.<br>
 Sin cuenta, todo se guarda en ESTE navegador. Con cuenta, se sincroniza con tus otros dispositivos. Ctrl+K busca · Ctrl+Z deshace · Ctrl+P imprime.
 </div>
@@ -6839,6 +6992,606 @@ function go(paneId){
   if(tab) tab.click();
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   GLOSARIO EMERGENTE
+   Ninguna palabra técnica se queda sin explicar. Cualquier término
+   marcado con <b class="gl" data-g="clave">…</b> abre una ficha con
+   su significado en palabras simples, un ejemplo y audio.
+   Regla: si aparece una palabra de gramática, TIENE que estar aquí.
+════════════════════════════════════════════════════════════════ */
+const GLOSARIO = {
+  sujeto:      { t:'Sujeto', d:'Quién hace la acción. Es la primera casilla de la frase y en inglés <b>no se puede quitar nunca</b>.', e:'<b>I</b> work · <b>She</b> works · <b>It</b> rains', s:'I work. She works. It rains.' },
+  verbo:       { t:'Verbo', d:'La acción o el estado: correr, comer, ser, tener. Sin verbo no hay frase.', e:'I <b>work</b> · I <b>am</b> tired', s:'I work. I am tired.' },
+  complemento: { t:'Complemento', d:'Todo lo que completa la frase: qué, dónde, cuándo, cómo. Se puede quitar y la frase sigue de pie.', e:'I work <b>at a bank</b>', s:'I work at a bank.' },
+  auxiliar:    { t:'Auxiliar', d:'Un verbo que <b>ayuda</b> a otro. No significa nada por sí solo: solo marca el tiempo, o permite negar y preguntar. Son <b>do, does, did, am, is, are, was, were, have, has, had, will</b>.', e:'I <b>don\'t</b> work · <b>Do</b> you work? · I <b>am</b> working', s:"I don't work. Do you work? I am working." },
+  modal:       { t:'Modal', d:'Una palabra que cambia el <b>tono</b> de la acción: si puedes, si debes, si quizá. Son solo diez: can, could, will, would, shall, should, may, might, must, ought to.', e:'I <b>can</b> swim · You <b>should</b> rest', s:'I can swim. You should rest.' },
+  infinitivo:  { t:'Infinitivo', d:'El verbo en su forma base, sin cambiar nada. En español termina en -ar, -er, -ir (<i>trabajar</i>). En inglés es el verbo desnudo, a veces con <b>to</b> delante.', e:'to <b>work</b> · to <b>eat</b> · I need <b>to go</b>', s:'to work, to eat. I need to go.' },
+  desnudo:     { t:'Verbo desnudo', d:'El verbo <b>sin nada</b>: sin -s, sin -ing, sin -ed y sin <i>to</i>. Es la forma que va después de un auxiliar o un modal.', e:'I don\'t <b>work</b> · I can <b>swim</b>', s:"I don't work. I can swim." },
+  participio:  { t:'Participio', d:'La tercera forma del verbo, la que va después de <b>have</b>. En español sería <i>trabaj<b>ado</b></i>, <i>com<b>ido</b></i>. En inglés suele terminar en -ed, pero los irregulares cambian.', e:'work → work<b>ed</b> · eat → <b>eaten</b> · go → <b>gone</b>', s:'worked, eaten, gone.' },
+  gerundio:    { t:'Gerundio (-ing)', d:'El verbo con <b>-ing</b>. Marca que la acción <b>está en curso</b>. En español sería <i>trabaj<b>ando</b></i>.', e:'work<b>ing</b> · eat<b>ing</b> · I am <b>working</b>', s:'working, eating. I am working.' },
+  contable:    { t:'Contable', d:'Algo que puedes <b>contar con números</b>: un libro, dos libros. Lleva plural y admite <i>many</i>.', e:'one book, two book<b>s</b> · <b>many</b> people', s:'one book, two books, many people.' },
+  incontable:  { t:'Incontable', d:'Algo que <b>no se cuenta de uno en uno</b>: no dices «dos aguas». Nunca lleva -s y usa <i>much</i>.', e:'water, money, time, <b>advice</b>, information', s:'water, money, time, advice, information.' },
+  comparativo: { t:'Comparativo', d:'Cuando comparas dos cosas: <b>más</b> grande <b>que</b>. Corto lleva <b>-er</b>, largo lleva <b>more</b>.', e:'bigg<b>er</b> than · <b>more</b> expensive than', s:'bigger than, more expensive than.' },
+  superlativo: { t:'Superlativo', d:'Cuando algo es <b>el máximo</b>: el más grande de todos. Siempre con <b>the</b>.', e:'<b>the</b> bigg<b>est</b> · <b>the most</b> expensive', s:'the biggest, the most expensive.' },
+  imperativo:  { t:'Imperativo', d:'Una orden o instrucción. Se dice con el <b>verbo solo</b>, sin sujeto.', e:'<b>Come</b> here · <b>Don\'t</b> worry', s:"Come here. Don't worry." },
+  afirmativa:  { t:'Frase afirmativa', d:'Una frase que dice que sí, sin negar ni preguntar.', e:'I work here.', s:'I work here.' },
+  negativa:    { t:'Frase negativa', d:'Una frase con <b>not</b>. En inglés el <i>not</i> siempre necesita un auxiliar donde agarrarse.', e:'I do<b>n\'t</b> work here.', s:"I don't work here." },
+  interrogativa:{ t:'Frase interrogativa', d:'Una pregunta. En inglés se hace <b>moviendo el auxiliar al frente</b>, no subiendo la voz.', e:'<b>Do</b> you work here?', s:'Do you work here?' },
+  conjugar:    { t:'Conjugar', d:'Cambiar la forma del verbo según quién y cuándo. El español conjuga muchísimo (<i>como, comes, comí</i>); <b>el inglés casi no conjuga</b>: solo añade -s con he/she/it.', e:'yo como, tú comes → I eat, you eat, she eat<b>s</b>', s:'I eat, you eat, she eats.' },
+  contraccion: { t:'Contracción', d:'Dos palabras apretadas en una con apóstrofo. <b>No es informal: es como se habla siempre.</b> Si solo aprendes la forma larga, no vas a entender nada hablado.', e:'do not → <b>don\'t</b> · I am → <b>I\'m</b> · I will → <b>I\'ll</b>', s:"don't, I'm, I'll." },
+  phrasal:     { t:'Phrasal verb', d:'Un verbo + una palabrita que <b>le cambia el significado por completo</b>. Se aprende como si fuera una palabra nueva.', e:'look = mirar · look <b>for</b> = buscar · look <b>after</b> = cuidar', s:'look, look for, look after.' },
+  pasiva:      { t:'Voz pasiva', d:'Cuando lo importante es <b>qué pasó</b>, no quién lo hizo. Se arma con <b>be + participio</b>.', e:'The report <b>was sent</b> · English <b>is spoken</b> here', s:'The report was sent. English is spoken here.' },
+  condicional: { t:'Condicional', d:'El «-ría» del español: iría, sería, podría. En inglés es siempre <b>would + verbo desnudo</b>.', e:'I <b>would</b> go · That <b>would</b> be great', s:'I would go. That would be great.' },
+  sustantivo:  { t:'Sustantivo', d:'Las cosas, personas y lugares. Todo lo que puedes señalar con el dedo o nombrar.', e:'dog, house, money, Miguel', s:'dog, house, money.' },
+  adjetivo:    { t:'Adjetivo', d:'Cómo <b>es</b> una cosa. En inglés va SIEMPRE antes del sustantivo y nunca lleva plural.', e:'a <b>red</b> car · two <b>red</b> cars', s:'a red car, two red cars.' },
+  adverbio:    { t:'Adverbio', d:'Cómo se <b>hace</b> la acción, o cuándo y dónde. Muchos terminan en <b>-ly</b>.', e:'He works <b>quickly</b> · I <b>always</b> work', s:'He works quickly. I always work.' },
+  preposicion: { t:'Preposición', d:'Palabritas que colocan las cosas en el espacio y el tiempo: in, on, at, to, for, with. <b>Casi nunca se traducen una por una.</b>', e:'<b>at</b> eight · <b>on</b> Monday · <b>in</b> March', s:'at eight, on Monday, in March.' },
+  pronombre:   { t:'Pronombre', d:'El apodo que reemplaza a un nombre para no repetirlo.', e:'Miguel → <b>he</b> · the table → <b>it</b>', s:'he, she, it, they.' },
+  determinante:{ t:'Determinante', d:'La palabra que va antes del sustantivo y dice <b>cuál</b> o <b>cuántos</b>: a, an, the, my, this, some.', e:'<b>the</b> dog · <b>my</b> dog · <b>some</b> dogs', s:'the dog, my dog, some dogs.' },
+  tiempoverbal:{ t:'Tiempo verbal', d:'La marca de <b>cuándo</b> pasa la acción: antes, ahora o después. En inglés esa marca casi siempre la lleva el auxiliar, no el verbo.', e:'I work<b>ed</b> (antes) · I <b>am</b> working (ahora) · I <b>will</b> work (después)', s:'I worked. I am working. I will work.' },
+  sujetorelleno:{ t:'Sujeto de relleno', d:'Un <b>it</b> o <b>there</b> que no significa nada, puesto solo porque el inglés <b>exige</b> que toda frase tenga sujeto.', e:'<b>It</b>\'s raining · <b>There</b> is a problem', s:"It's raining. There is a problem." }
+};
+
+const GL = (() => {
+  let pop = null;
+  function cerrar(){ if(pop){ pop.remove(); pop = null; } }
+  function abrir(el, clave){
+    cerrar();
+    const g = GLOSARIO[clave];
+    if(!g) return;
+    pop = document.createElement('div');
+    pop.className = 'gl-pop';
+    pop.innerHTML = `<div class="gl-t">${esc(g.t)}<button class="gl-x" title="Cerrar">✕</button></div>
+      <div class="gl-d">${g.d}</div>
+      <div class="gl-e">${g.e}${g.s ? ` <button class="spk sm" data-say="${esc(g.s)}" title="Oír">🔊</button>` : ''}</div>`;
+    document.body.appendChild(pop);
+    const r = el.getBoundingClientRect();
+    const ancho = Math.min(330, window.innerWidth - 24);
+    pop.style.width = ancho + 'px';
+    let izq = r.left + r.width / 2 - ancho / 2;
+    izq = Math.max(12, Math.min(izq, window.innerWidth - ancho - 12));
+    pop.style.left = izq + 'px';
+    // Si no cabe abajo, se abre hacia arriba
+    const alto = pop.offsetHeight;
+    pop.style.top = (r.bottom + alto + 12 > window.innerHeight ? r.top - alto - 8 : r.bottom + 8) + window.scrollY + 'px';
+    pop.querySelector('.gl-x').onclick = cerrar;
+  }
+  document.addEventListener('click', e => {
+    const t = e.target.closest('.gl');
+    if(t){ e.preventDefault(); e.stopPropagation(); abrir(t, t.dataset.g); return; }
+    if(!e.target.closest('.gl-pop')) cerrar();
+  });
+  window.addEventListener('scroll', cerrar, { passive:true });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrar(); });
+
+  /** Comprueba que no haya ningún término marcado sin definición. */
+  function auditar(){
+    const faltan = new Set();
+    document.querySelectorAll('.gl[data-g]').forEach(el => { if(!GLOSARIO[el.dataset.g]) faltan.add(el.dataset.g); });
+    return { terminos: Object.keys(GLOSARIO).length, marcados: document.querySelectorAll('.gl[data-g]').length, sinDefinir: [...faltan] };
+  }
+  return { auditar, cerrar };
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   FICHAS DE LAS 6 PIEZAS · LABORATORIO · REGLAS NO NEGOCIABLES
+   ──────────────────────────────────────────────────────────────────────
+   Origen: la tabla de las 6 piezas decía que el auxiliar sirve para
+   "negar, preguntar o marcar tiempo" y solo mostraba ejemplo de NEGAR.
+   Nombrar una función sin enseñarla no es explicar. Regla de este archivo:
+   TODO caso que se nombre lleva su propio ejemplo, con audio.
+═══════════════════════════════════════════════════════════════════════ */
+
+const PIEZAS = [
+{
+  id:'suj', cls:'s-suj', n:'SUJETO', sub:'quién hace la acción',
+  cuando:'SIEMPRE', tono:'ok',
+  simple:'La persona o cosa que hace la acción. Es la primera casilla y en inglés <b>no se puede quitar nunca</b>, ni siquiera cuando no significa nada.',
+  casos:[
+    { t:'Cuando hay alguien de verdad', d:'El caso normal: alguien concreto hace algo.',
+      ex:[ {en:'I work at a bank.', es:'Trabajo en un banco.'},
+           {en:'My sister lives in Bogotá.', es:'Mi hermana vive en Bogotá.'} ] },
+    { t:'Cuando NO hay nadie: el <b>it</b> de relleno', d:'El clima, la hora, la distancia y las sensaciones no tienen dueño. El español los deja sin sujeto (<i>llueve</i>); el inglés <b>obliga</b> a poner un <b>it</b> que no significa nada. Es un tornillo de estructura, no una palabra con sentido.',
+      ex:[ {en:'It is raining.', es:'Está lloviendo. (no existe "is raining" solo)'},
+           {en:'It is eight o\'clock.', es:'Son las ocho.'},
+           {en:'It takes two hours.', es:'Toma dos horas.'} ] },
+    { t:'Cuando algo existe: el <b>there</b>', d:'Para decir «hay», el inglés no tiene una palabra suelta: usa <b>there</b> como sujeto de relleno + el verbo <b>be</b>.',
+      ex:[ {en:'There is a problem.', es:'Hay un problema.'},
+           {en:'There are two options.', es:'Hay dos opciones.'} ] },
+    { t:'Cuando das una orden: la única excepción', d:'El imperativo es el <b>único</b> lugar donde el sujeto desaparece, porque ya se sabe que es «tú».',
+      ex:[ {en:'Close the door.', es:'Cierra la puerta.'},
+           {en:'Don\'t worry.', es:'No te preocupes.'} ] }
+  ],
+  regla:'Si tu frase en inglés no empieza por alguien (o por <b>it</b> / <b>there</b>), está rota. La única excepción es una orden.',
+  error:{ mal:'Is very difficult.', bien:'It is very difficult.', por:'En español «Es muy difícil» va sin sujeto. En inglés hay que poner el <b>it</b> aunque no signifique nada. Este es el error que más delata a un hispanohablante.' },
+  tip:'Antes de hablar, pregúntate «¿quién?». Si la respuesta es «nadie», la respuesta correcta es <b>it</b> o <b>there</b>, no el vacío.'
+},
+{
+  id:'ver', cls:'s-ver', n:'VERBO', sub:'la acción o el estado',
+  cuando:'SIEMPRE', tono:'ok',
+  simple:'Lo que se hace o lo que se es. Sin verbo no hay frase, solo un montón de palabras.',
+  casos:[
+    { t:'Verbo de acción', d:'Algo que se hace y se puede ver.',
+      ex:[ {en:'She runs every morning.', es:'Ella corre cada mañana.'} ] },
+    { t:'Verbo de estado', d:'No se hace nada, se <b>es</b> o se <b>está</b>. El más importante es <b>be</b>.',
+      ex:[ {en:'I am tired.', es:'Estoy cansado.'},
+           {en:'He seems happy.', es:'Parece feliz.'} ] },
+    { t:'La única conjugación que existe: la <b>-s</b> de he/she/it', d:'El español cambia el verbo seis veces (<i>como, comes, come, comemos…</i>). El inglés lo deja quieto <b>salvo</b> con he/she/it en presente, que le pega una <b>-s</b>. Eso es todo.',
+      ex:[ {en:'I work. You work. We work.', es:'Yo trabajo. Tú trabajas. Nosotros trabajamos.'},
+           {en:'He works. She works. It works.', es:'Él trabaja. Ella trabaja. Eso funciona.'} ] },
+    { t:'Cuando hay auxiliar, el verbo queda <b>desnudo</b>', d:'En cuanto aparece un auxiliar o un modal, el verbo pierde la -s, el -ed y el -ing. Toda la información de tiempo se la lleva el auxiliar.',
+      ex:[ {en:'She works here.', es:'Ella trabaja aquí. (con -s)'},
+           {en:'She doesn\'t work here.', es:'Ella no trabaja aquí. (la -s se la llevó "does")'},
+           {en:'Does she work here?', es:'¿Ella trabaja aquí? (igual: "work" desnudo)'} ] }
+  ],
+  regla:'El verbo lleva la marca de tiempo <b>solo cuando está solo</b>. Si tiene un auxiliar delante, va desnudo: sin -s, sin -ed, sin to.',
+  error:{ mal:'She doesn\'t works here.', bien:'She doesn\'t work here.', por:'La -s ya está dentro de <b>does</b>. Ponerla dos veces es marcar el tiempo dos veces.' },
+  tip:'La marca de tercera persona se paga <b>una sola vez</b> por frase. O la lleva el verbo, o la lleva el auxiliar. Nunca los dos.'
+},
+{
+  id:'com', cls:'s-com', n:'COMPLEMENTO', sub:'qué · dónde · cuándo · cómo',
+  cuando:'Casi siempre', tono:'',
+  simple:'Todo lo que completa la frase. Si lo quitas, la frase sigue siendo correcta, solo dice menos.',
+  casos:[
+    { t:'Qué (objeto directo)', d:'La cosa que recibe la acción. Va pegada al verbo, sin nada en medio.',
+      ex:[ {en:'I need help.', es:'Necesito ayuda.'} ] },
+    { t:'Dónde (lugar)', d:'',
+      ex:[ {en:'I work at home.', es:'Trabajo en casa.'} ] },
+    { t:'Cuándo (tiempo)', d:'Va al final, o al principio si quieres darle énfasis. <b>Nunca entre el verbo y su objeto.</b>',
+      ex:[ {en:'I finished the report yesterday.', es:'Terminé el informe ayer.'},
+           {en:'Yesterday I finished the report.', es:'Ayer terminé el informe.'} ] },
+    { t:'Cómo (modo)', d:'',
+      ex:[ {en:'He explained it clearly.', es:'Lo explicó con claridad.'} ] },
+    { t:'Cuando no hay complemento', d:'Muchas frases se sostienen sin él. Sujeto + verbo ya es una frase completa.',
+      ex:[ {en:'It works.', es:'Funciona.'},
+           {en:'She left.', es:'Se fue.'} ] }
+  ],
+  regla:'El orden por defecto es <b>QUÉ → DÓNDE → CUÁNDO</b>. Nunca metas nada entre el verbo y su objeto directo.',
+  error:{ mal:'I speak very well English.', bien:'I speak English very well.', por:'«very well» es un <span class="gl" data-g="adverbio">adverbio</span> y se metió entre el verbo y su objeto. Primero el qué (<i>English</i>), después el cómo.' },
+  tip:'Si dudas del orden, di primero el <b>qué</b>. Lo demás casi siempre puede ir después sin sonar raro.'
+},
+{
+  id:'aux', cls:'s-aux', n:'AUXILIAR', sub:'el motor de la frase',
+  cuando:'Tres casos, ninguno opcional', tono:'warn',
+  simple:'Un verbo que <b>ayuda</b> a otro verbo y por sí solo no significa nada. Piénsalo como el motor de arranque: no es el viaje, pero sin él el carro no prende. Son <b>do, does, did, am, is, are, was, were, have, has, had, will</b>.',
+  casos:[
+    { t:'Trabajo 1 · NEGAR', d:'El <b>not</b> no puede flotar solo: necesita un auxiliar donde agarrarse. Si la frase no tenía ninguno, aparece <b>do / does / did</b> únicamente para sostener el <i>not</i>.',
+      ex:[ {en:'I work here.', es:'Trabajo aquí. → sin auxiliar'},
+           {en:'I don\'t work here.', es:'No trabajo aquí. → apareció "do" para sostener el not'},
+           {en:'She didn\'t call me.', es:'Ella no me llamó. → apareció "did"'} ] },
+    { t:'Trabajo 2 · PREGUNTAR', d:'En español preguntas subiendo la voz: «¿Trabajas aquí?». En inglés eso <b>no funciona</b>: hay que sacar un auxiliar y ponerlo delante del sujeto. Ese salto al frente es la pregunta.',
+      ex:[ {en:'You work here.', es:'Trabajas aquí. → afirmación'},
+           {en:'Do you work here?', es:'¿Trabajas aquí? → "do" saltó al frente'},
+           {en:'Did she call you?', es:'¿Ella te llamó?'} ] },
+    { t:'Trabajo 3 · MARCAR TIEMPO', d:'Este es el que casi nadie explica. Aquí <b>no estás negando ni preguntando</b>: la frase es afirmativa y aun así aparece un auxiliar, porque es él quien dice <b>cuándo</b> pasa la acción. El verbo ya no puede solo. Mira la misma acción, <i>work</i>, cambiando de tiempo — y fíjate en que lo único que cambia de verdad es el auxiliar:',
+      ex:[ {en:'I work.', es:'Trabajo. (siempre, en general) → SIN auxiliar'},
+           {en:'I am working.', es:'Estoy trabajando (ahora mismo) → "am" marca en curso'},
+           {en:'I have worked.', es:'He trabajado (ya está hecho) → "have" marca terminado'},
+           {en:'I will work.', es:'Trabajaré → "will" marca que aún no pasó'},
+           {en:'I had worked.', es:'Había trabajado (antes de otra cosa) → "had" marca anterior al pasado'},
+           {en:'I was working.', es:'Estaba trabajando → "was" marca en curso, pero en el pasado'} ] }
+  ],
+  regla:'Hay <b>un solo</b> auxiliar mandando por frase, y es él quien carga el tiempo y la persona. El verbo que le sigue va siempre desnudo.',
+  error:{ mal:'You work here? · I not work here.', bien:'Do you work here? · I don\'t work here.', por:'Sin auxiliar, en inglés no hay ni pregunta ni negación. Subir la voz no basta y el <i>not</i> no se sostiene solo.' },
+  tip:'Truco para saber cuál usar: mira la frase afirmativa. <b>¿Ya tenía auxiliar?</b> Si sí (<i>am, is, have, will…</i>), ese mismo se mueve o recibe el <i>not</i>. Si no tenía ninguno, entra <b>do / does / did</b>.',
+  extra:{
+    t:'Caso puntual: la pregunta que NO lleva auxiliar',
+    d:'Cuando el <span class="gl" data-g="sujeto">sujeto</span> es justo lo que estás preguntando, no hay nada que mover al frente — y el auxiliar desaparece. Es la única pregunta sin auxiliar.',
+    ex:[ {en:'Who works here?', es:'¿Quién trabaja aquí? → "who" YA es el sujeto'},
+         {en:'What happened?', es:'¿Qué pasó? → nada de "did"'},
+         {en:'Who did you call?', es:'¿A quién llamaste? → aquí "who" NO es el sujeto (tú lo eres), así que sí lleva "did"'} ]
+  }
+},
+{
+  id:'neg', cls:'s-neg', n:'not', sub:'la negación',
+  cuando:'Solo al negar', tono:'',
+  simple:'La palabra que convierte un sí en un no. En inglés <b>nunca va sola</b>: siempre pegada a un auxiliar o a un modal.',
+  casos:[
+    { t:'Con auxiliar de apoyo (do/does/did)', d:'Cuando la frase no tenía auxiliar, entra uno solo para sostener el not.',
+      ex:[ {en:'I don\'t smoke.', es:'No fumo.'},
+           {en:'He doesn\'t drive.', es:'Él no maneja.'},
+           {en:'We didn\'t go.', es:'No fuimos.'} ] },
+    { t:'Con el auxiliar que ya estaba', d:'Si la frase ya tenía uno, no entra ninguno nuevo: el not se cuelga del que hay.',
+      ex:[ {en:'She isn\'t working today.', es:'Ella no está trabajando hoy.'},
+           {en:'They haven\'t finished.', es:'No han terminado.'},
+           {en:'I won\'t be late.', es:'No llegaré tarde. (will + not = won\'t)'} ] },
+    { t:'Con un modal', d:'Los modales sostienen el not directamente, sin ayuda de nadie.',
+      ex:[ {en:'I can\'t swim.', es:'No sé nadar.'},
+           {en:'You shouldn\'t worry.', es:'No deberías preocuparte.'} ] },
+    { t:'La negación que NO usa <i>not</i>', d:'Con <b>never, nothing, nobody, no</b> la frase ya es negativa. Añadir <i>not</i> sería negar dos veces, y en inglés eso <b>se anula</b> en vez de reforzarse.',
+      ex:[ {en:'I never go there.', es:'Nunca voy allá.'},
+           {en:'I have nothing to say.', es:'No tengo nada que decir.'} ] }
+  ],
+  regla:'Una sola negación por frase. En español «no vi nada» lleva dos y está bien; en inglés <i>I didn\'t see nothing</i> significa literalmente que sí viste algo.',
+  error:{ mal:'I don\'t know nothing.', bien:'I don\'t know anything. · I know nothing.', por:'Doble negación. Elige una: o niegas con el auxiliar y usas <b>anything</b>, o niegas con <b>nothing</b> y dejas el verbo en positivo.' },
+  tip:'En cuanto oigas <b>never / nothing / nobody</b>, apaga el <i>not</i>. Ya está negado.'
+},
+{
+  id:'wh', cls:'s-wh', n:'WH', sub:'la pregunta abierta',
+  cuando:'Solo en preguntas abiertas', tono:'',
+  simple:'Las palabras con las que preguntas algo que no se contesta con sí o no: <b>what, where, when, who, why, which, how, whose</b>. Se pegan al frente de todo lo demás.',
+  casos:[
+    { t:'La fórmula fija', d:'Siempre igual: WH + auxiliar + sujeto + verbo. El orden no cambia nunca.',
+      ex:[ {en:'Where do you live?', es:'¿Dónde vives?'},
+           {en:'What did she say?', es:'¿Qué dijo ella?'},
+           {en:'When does it start?', es:'¿Cuándo empieza?'} ] },
+    { t:'How + una palabra: la familia completa', d:'<b>how</b> se combina para medir cualquier cosa.',
+      ex:[ {en:'How much does it cost?', es:'¿Cuánto cuesta? (dinero, incontable)'},
+           {en:'How many people are coming?', es:'¿Cuántas personas vienen? (contable)'},
+           {en:'How long does it take?', es:'¿Cuánto tarda?'},
+           {en:'How often do you go?', es:'¿Cada cuánto vas?'} ] },
+    { t:'La preposición se queda al final', d:'En español la preposición viaja con la pregunta (<i>¿<b>Con</b> quién…?</i>). En inglés hablado se queda plantada al final de la frase.',
+      ex:[ {en:'Who are you talking to?', es:'¿Con quién estás hablando?'},
+           {en:'What are you looking for?', es:'¿Qué estás buscando?'},
+           {en:'Where are you from?', es:'¿De dónde eres?'} ] }
+  ],
+  regla:'La palabra WH va al frente, pero <b>no reemplaza al auxiliar</b>: el auxiliar sigue ahí, justo detrás. La única excepción es cuando el WH es el sujeto (<i>Who called?</i>).',
+  error:{ mal:'Where you live?', bien:'Where do you live?', por:'Se puso el WH al frente pero se olvidó el auxiliar. WH y auxiliar van juntos, no uno en vez del otro.' },
+  tip:'Cuenta las casillas al preguntar: <b>WH · auxiliar · sujeto · verbo</b>. Si te faltó la segunda, la pregunta suena a traducción literal.'
+}
+];
+
+/* ══════════════════ LABORATORIO DE TRANSFORMACIÓN ══════════════════
+   La misma frase cambiando de tiempo y de forma, para VER aparecer el
+   auxiliar. Es la demostración de que "marcar tiempo" es un trabajo real
+   y no una frase suelta en una tabla. */
+
+const LAB_BASES = [
+  { id:'work', suj:'I',   p:1, ver:'work',  vs:'work',   v2:'worked', ving:'working', vpp:'worked',
+    com:'at a bank', wh:'Where', whDrop:1, es:'trabajar en un banco' },
+  { id:'live', suj:'She', p:3, ver:'live',  vs:'lives',  v2:'lived',  ving:'living',  vpp:'lived',
+    com:'in Bogotá', wh:'Where', whDrop:1, es:'ella vivir en Bogotá' },
+  { id:'eat',  suj:'They',p:1, ver:'eat',   vs:'eat',    v2:'ate',    ving:'eating',  vpp:'eaten',
+    com:'breakfast', wh:'What', whDrop:1, es:'ellos desayunar' },
+  { id:'call', suj:'He',  p:3, ver:'call',  vs:'calls',  v2:'called', ving:'calling', vpp:'called',
+    com:'his mother', wh:'Who', whDrop:1, es:'él llamar a su mamá' },
+  { id:'stud', suj:'You', p:1, ver:'study', vs:'study',  v2:'studied',ving:'studying',vpp:'studied',
+    com:'English', wh:'What', whDrop:1, es:'tú estudiar inglés' }
+];
+
+const LAB_T = [
+  { id:'pres', n:'Presente simple',   h:'Lo que haces siempre o en general' },
+  { id:'past', n:'Pasado simple',     h:'Lo que ya pasó y terminó' },
+  { id:'fut',  n:'Futuro · will',     h:'Lo que todavía no pasa' },
+  { id:'cont', n:'Presente continuo', h:'Lo que está pasando ahora mismo' },
+  { id:'perf', n:'Presente perfecto', h:'Lo que ya está hecho, sin decir cuándo' }
+];
+const LAB_F = [
+  { id:'af', n:'Afirmar',  h:'Decir que sí' },
+  { id:'ne', n:'Negar',    h:'Decir que no' },
+  { id:'pr', n:'Preguntar',h:'Pregunta de sí o no' },
+  { id:'wh', n:'WH',       h:'Pregunta abierta' }
+];
+
+const LAB = (() => {
+  const st = { base:'work', t:'pres', f:'af', todos:false };
+
+  const beP = b => b.suj === 'I' ? 'am' : (b.p === 3 ? 'is' : 'are');
+  const beD = b => (b.suj === 'I' || b.p === 3) ? 'was' : 'were';
+  const doP = b => b.p === 3 ? 'does' : 'do';
+  const hvP = b => b.p === 3 ? 'has' : 'have';
+
+  /* Devuelve { tk:[{r,t}], aux:'am'|null, porque:'...' } */
+  function armar(b, t, f){
+    const S = { r:'suj', t:b.suj }, C = { r:'com', t:b.com }, NOT = { r:'neg', t:'not' };
+    const V  = { r:'ver', t:b.ver }, VS = { r:'ver', t:b.vs }, V2 = { r:'ver', t:b.v2 };
+    const ING = { r:'ver', t:b.ving }, PP = { r:'ver', t:b.vpp };
+    const WH = { r:'wh', t:b.wh };
+    const com = (f === 'wh' && b.whDrop) ? [] : [C];
+
+    // Qué auxiliar manda en cada combinación, y qué está haciendo ahí
+    let A = null, porque = '';
+    if(t === 'pres'){
+      if(f === 'af'){ A = null; porque = 'En presente simple afirmativo <b>no hay auxiliar</b>. El verbo va solo y él mismo lleva la marca de persona (la -s de he/she/it).'; }
+      else { A = doP(b); porque = `Apareció <b>${A}</b>. No aporta significado: entró solo para poder ${f==='af'?'':(f==='ne'?'sostener el <i>not</i>':'saltar al frente y volver esto una pregunta')}. Por eso el verbo perdió la -s y quedó desnudo.`; }
+    } else if(t === 'past'){
+      if(f === 'af'){ A = null; porque = 'En pasado simple afirmativo <b>tampoco hay auxiliar</b>. El pasado está dentro del propio verbo: <b>' + b.ver + ' → ' + b.v2 + '</b>.'; }
+      else { A = 'did'; porque = 'Apareció <b>did</b>, y con él el pasado se mudó del verbo al auxiliar: el verbo vuelve a su forma base (<b>' + b.v2 + ' → ' + b.ver + '</b>). El tiempo se marca <b>una sola vez</b>.'; }
+    } else if(t === 'fut'){
+      A = 'will'; porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>will</b> es lo único que dice que la acción todavía no pasó. El verbo no cambia nunca — por eso el futuro es el tiempo más fácil del inglés.';
+    } else if(t === 'cont'){
+      A = f === 'af' || f === 'ne' || f === 'pr' || f === 'wh' ? beP(b) : beP(b);
+      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> (el verbo <i>be</i>) dice que la acción está <b>en curso ahora mismo</b>. El verbo se pone en <b>-ing</b>. Fíjate en que el auxiliar aparece incluso afirmando.';
+    } else {
+      A = hvP(b);
+      porque = 'Aquí el auxiliar está <b>marcando tiempo</b>: <b>' + A + '</b> dice que la acción <b>ya está hecha</b>, sin precisar cuándo. El verbo pasa a <span class="gl" data-g="participio">participio</span> (<b>' + b.vpp + '</b>).';
+    }
+
+    // El verbo que toca según el tiempo
+    const cuerpo = t === 'cont' ? ING : t === 'perf' ? PP
+                 : t === 'past' ? (A ? V : V2)
+                 : t === 'fut'  ? V
+                 : (A ? V : (b.p === 3 ? VS : V));
+
+    let tk;
+    if(f === 'af'){
+      tk = A ? [S, {r:'aux', t:A}, cuerpo, ...com] : [S, cuerpo, ...com];
+    } else if(f === 'ne'){
+      tk = [S, {r:'aux', t:A}, NOT, cuerpo, ...com];
+    } else if(f === 'pr'){
+      tk = [{r:'aux', t:A}, S, cuerpo, ...com];
+      tk.push({ r:'q', t:'?' });
+    } else {
+      tk = [WH, {r:'aux', t:A}, S, cuerpo, ...com];
+      tk.push({ r:'q', t:'?' });
+    }
+    if(f === 'af' || f === 'ne') tk.push({ r:'q', t:'.' });
+    return { tk, aux:A, porque };
+  }
+
+  /* El sujeto solo va en mayuscula si abre la frase. En una pregunta el
+     auxiliar va delante, asi que "Do They" tenia que ser "Do they". */
+  const texto = o => o.tk.map((x, i) =>
+      (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase() : x.t
+    ).join(' ')
+    .replace(/ ([.?])/g, '$1')
+    .replace(/^(\w)/, c => c.toUpperCase());
+
+  /* Asi se dice de verdad. Aprender solo la forma larga es la razon por la
+     que se entiende leyendo y no escuchando (regla no negociable #12). */
+  const CONTR = [
+    [/\bI am not\b/g, "I'm not"], [/\bwill not\b/g, "won't"],
+    [/\bdo not\b/g, "don't"],   [/\bdoes not\b/g, "doesn't"], [/\bdid not\b/g, "didn't"],
+    [/\bis not\b/g, "isn't"],   [/\bare not\b/g, "aren't"],
+    [/\bwas not\b/g, "wasn't"], [/\bwere not\b/g, "weren't"],
+    [/\bhave not\b/g, "haven't"], [/\bhas not\b/g, "hasn't"], [/\bhad not\b/g, "hadn't"]
+  ];
+  const contraer = t => CONTR.reduce((a, [re, v]) => a.replace(re, v), t);
+
+  const CLS = { suj:'s-suj', aux:'s-aux', ver:'s-ver', com:'s-com', neg:'s-neg', wh:'s-wh' };
+
+  function tokensHTML(o){
+    return o.tk.filter(x => x.r !== 'q')
+      .map(x => `<span class="slot ${CLS[x.r]} lab-tk">${esc(x.t)}</span>`).join('<span class="lab-p">+</span>');
+  }
+
+  function render(){
+    const cont = $('labBox'); if(!cont) return;
+    const b = LAB_BASES.find(x => x.id === st.base) || LAB_BASES[0];
+
+    const chips = (arr, sel, key) => arr.map(x =>
+      `<button class="lab-c${x.id === sel ? ' on' : ''}" data-lab="${key}" data-v="${x.id}" title="${esc(x.h)}">${esc(x.n)}</button>`).join('');
+
+    let salida;
+    if(st.todos){
+      // Vista comparativa: los 5 tiempos a la vez, misma forma. Aquí se ve
+      // de un golpe que el auxiliar aparece y desaparece segun el tiempo.
+      salida = '<div class="lab-all">' + LAB_T.map(T => {
+        const o = armar(b, T.id, st.f);
+        return `<div class="lab-row${T.id === st.t ? ' hi' : ''}">
+          <div class="lab-rn">${esc(T.n)}<span>${esc(T.h)}</span></div>
+          <div class="lab-rf">${tokensHTML(o)}<span class="lab-rs">${esc(contraer(texto(o)))}</span></div>
+          <div class="lab-ra">${o.aux ? `<span class="slot s-aux">${esc(o.aux)}</span>` : '<span class="lab-none">sin auxiliar</span>'}</div>
+          <button class="spk sm" data-say="${esc(contraer(texto(o)))}">🔊</button>
+        </div>`;
+      }).join('') + '</div>';
+    } else {
+      const o = armar(b, st.t, st.f);
+      const largo = texto(o);
+      const frase = contraer(largo);
+      salida = `<div class="lab-out">
+        <div class="lab-form">${tokensHTML(o)}</div>
+        <div class="lab-sent">${esc(frase)} <button class="spk" data-say="${esc(frase)}">🔊</button></div>
+        ${frase !== largo ? `<div class="lab-long">Forma larga: <i>${esc(largo)}</i> — correcta, pero nadie habla así. <button class="spk sm" data-say="${esc(largo)}">🔊</button></div>` : ''}
+      </div>
+      <div class="lab-why ${o.aux ? 'has' : 'no'}">
+        <div class="lab-wt">${o.aux ? `🔧 El auxiliar aquí es <span class="slot s-aux">${esc(o.aux)}</span>` : '🚫 Aquí no hay auxiliar'}</div>
+        <div class="lab-wd">${o.porque}</div>
+      </div>`;
+    }
+
+    cont.innerHTML = `
+      <div class="lab-ctl">
+        <div class="lab-g"><span class="lab-lb">Frase base</span>
+          <select id="labBase" class="lab-sel">${LAB_BASES.map(x =>
+            `<option value="${x.id}"${x.id === st.base ? ' selected' : ''}>${esc(x.suj + ' ' + x.ver + ' ' + x.com)} · ${esc(x.es)}</option>`).join('')}</select></div>
+        <div class="lab-g"><span class="lab-lb">Tiempo · cuándo pasa</span><div class="lab-cs">${chips(LAB_T, st.t, 't')}</div></div>
+        <div class="lab-g"><span class="lab-lb">Forma · qué haces con ella</span><div class="lab-cs">${chips(LAB_F, st.f, 'f')}</div></div>
+        <label class="lab-tg"><input type="checkbox" id="labAll"${st.todos ? ' checked' : ''}> Ver los 5 tiempos a la vez <b>(así se ve aparecer el auxiliar)</b></label>
+      </div>
+      ${salida}`;
+
+    const sel = $('labBase'); if(sel) sel.onchange = e => { st.base = e.target.value; render(); };
+    const chk = $('labAll');  if(chk) chk.onchange = e => { st.todos = e.target.checked; render(); };
+    cont.querySelectorAll('[data-lab]').forEach(bt => bt.onclick = () => {
+      st[bt.dataset.lab] = bt.dataset.v; render();
+    });
+  }
+  return { render };
+})();
+
+/* ══════════════════ REGLAS NO NEGOCIABLES ══════════════════
+   No son consejos. Son las que, si las rompes, la frase deja de ser
+   inglés. Cada una con el error real que produce. */
+const REGLAS = [
+  { n:'Toda frase lleva sujeto.', d:'Aunque no signifique nada. La única excepción es una orden.',
+    mal:'Is raining.', bien:'It is raining.' },
+  { n:'El <i>not</i> nunca va solo.', d:'Siempre pegado a un auxiliar o a un modal.',
+    mal:'I not understand.', bien:'I don\'t understand.' },
+  { n:'Preguntar es mover el auxiliar al frente, no subir la voz.', d:'La entonación no convierte una afirmación en pregunta.',
+    mal:'You are coming?', bien:'Are you coming?' },
+  { n:'El tiempo se marca una sola vez.', d:'Si lo lleva el auxiliar, el verbo queda desnudo.',
+    mal:'Did you went?', bien:'Did you go?' },
+  { n:'La -s de he/she/it no se negocia.', d:'En presente simple afirmativo, siempre.',
+    mal:'She work here.', bien:'She works here.' },
+  { n:'El adjetivo va antes del sustantivo y nunca lleva plural.', d:'Al revés que en español.',
+    mal:'a car red · two reds cars', bien:'a red car · two red cars' },
+  { n:'Una sola negación por frase.', d:'Dos negaciones se anulan y dicen lo contrario.',
+    mal:'I don\'t know nothing.', bien:'I don\'t know anything.' },
+  { n:'Nada se mete entre el verbo y su objeto.', d:'Primero el qué, después el cómo y el cuándo.',
+    mal:'I like very much this.', bien:'I like this very much.' },
+  { n:'Después de una preposición, el verbo va en -ing.', d:'Sin excepciones que valga la pena aprender ahora.',
+    mal:'Thanks for help me.', bien:'Thanks for helping me.' },
+  { n:'Los modales no llevan <i>to</i> ni <i>-s</i>.', d:'can, could, will, would, should, must, may, might.',
+    mal:'She can to swim. · He cans swim.', bien:'She can swim. · He can swim.' },
+  { n:'El sustantivo <span class="gl" data-g="incontable">incontable</span> nunca lleva -s.', d:'information, advice, money, furniture, homework, news.',
+    mal:'I need some advices.', bien:'I need some advice.' },
+  { n:'Las contracciones no son opcionales.', d:'Nadie dice <i>I do not know</i> hablando. Si solo estudias la forma larga, no vas a entender lo que oyes.',
+    mal:'I do not know. (suena a robot)', bien:'I don\'t know.' },
+  { n:'La edad se <b>tiene</b> con <i>be</i>, no con <i>have</i>.', d:'Igual el calor, el frío, el hambre y el miedo.',
+    mal:'I have 30 years. · I have hungry.', bien:'I am 30. · I am hungry.' },
+  { n:'<i>People</i> ya es plural.', d:'Y pide verbo en plural.',
+    mal:'The people is waiting.', bien:'The people are waiting.' },
+  { n:'Al preguntar, la preposición se queda al final.', d:'No viaja con la palabra WH.',
+    mal:'With who are you going?', bien:'Who are you going with?' }
+];
+
+const RG = (() => {
+  function render(){
+    const c = $('regBox'); if(!c) return;
+    c.innerHTML = REGLAS.map((r, i) => `<div class="rg">
+      <div class="rg-n">${i + 1}</div>
+      <div class="rg-b">
+        <div class="rg-t">${r.n}</div>
+        <div class="rg-d">${r.d}</div>
+        <div class="rg-x"><span class="dx-bad">✗ ${esc(r.mal)}</span><span class="dx-good">✓ ${esc(r.bien)} <button class="spk sm" data-say="${esc(r.bien.split('·')[0].trim())}">🔊</button></span></div>
+      </div></div>`).join('');
+  }
+  return { render };
+})();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   AUTO-MARCADO DEL GLOSARIO
+   Marcar a mano cada termino en 660 KB de documento no escala y siempre
+   quedan huecos — justo el problema original: una palabra suelta sin
+   explicar. Esto recorre SOLO nodos de texto y envuelve las primeras
+   apariciones de cada termino. Nunca toca atributos, ni codigo, ni el
+   cuaderno del usuario (contenteditable), asi que no puede corromper nada.
+════════════════════════════════════════════════════════════════════════ */
+const GL_FORMAS = [
+  ['sujetos','sujeto'], ['sujeto','sujeto'],
+  ['complementos','complemento'], ['complemento','complemento'],
+  ['auxiliares','auxiliar'], ['auxiliar','auxiliar'],
+  ['modales','modal'], ['modal','modal'],
+  ['infinitivo','infinitivo'],
+  ['participios','participio'], ['participio','participio'],
+  ['gerundio','gerundio'],
+  ['incontables','incontable'], ['incontable','incontable'],
+  ['contables','contable'], ['contable','contable'],
+  ['comparativo','comparativo'], ['superlativo','superlativo'],
+  ['imperativo','imperativo'],
+  ['contracciones','contraccion'], ['contraccion','contraccion'], ['contracción','contraccion'],
+  ['phrasal verbs','phrasal'], ['phrasal verb','phrasal'],
+  ['voz pasiva','pasiva'],
+  ['condicional','condicional'],
+  ['sustantivos','sustantivo'], ['sustantivo','sustantivo'],
+  ['adjetivos','adjetivo'], ['adjetivo','adjetivo'],
+  ['adverbios','adverbio'], ['adverbio','adverbio'],
+  ['preposiciones','preposicion'], ['preposición','preposicion'],
+  ['pronombres','pronombre'], ['pronombre','pronombre'],
+  ['determinantes','determinante'], ['determinante','determinante'],
+  ['tiempo verbal','tiempoverbal'],
+  ['verbo desnudo','desnudo']
+].filter(([, k]) => GLOSARIO[k]);          // si falta la definicion, no se marca
+
+const GL_RE = new RegExp(
+  '(?<![\\w\\u00C0-\\u024F])(' +
+  GL_FORMAS.map(([f]) => f.replace(/[.*+?^${}()|[\]\\]/g, '\\/* ══════════════════ FICHAS DE LAS PIEZAS ══════════════════ */')).join('|') +
+  ')(?![\\w\\u00C0-\\u024F])', 'i');
+
+const GL_CLAVE = new Map(GL_FORMAS.map(([f, k]) => [f.toLowerCase(), k]));
+
+/* Zonas que NO se tocan: interactivas, de codigo, de ejemplo, o del usuario */
+const GL_NO = 'script,style,button,input,textarea,select,option,code,kbd,' +
+              '.gl,.gl-pop,.fp-ex,.tex,.mini,.m-en,.m-es,.formula,.slot,' +
+              '[contenteditable],[data-say],[data-gap],.nb-page,.bf-q';
+
+function glAutoMarcar(root, maxPorTermino = 2){
+  if(!root) return 0;
+  const usados = Object.create(null);
+  let hechos = 0;
+
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n){
+      if(!n.nodeValue || n.nodeValue.length < 5) return NodeFilter.FILTER_REJECT;
+      if(!n.parentElement || n.parentElement.closest(GL_NO)) return NodeFilter.FILTER_REJECT;
+      return GL_RE.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+
+  const pend = [];
+  while(w.nextNode()) pend.push(w.currentNode);
+
+  for(const n of pend){
+    if(!n.parentNode) continue;
+    const m = GL_RE.exec(n.nodeValue);
+    if(!m) continue;
+    const clave = GL_CLAVE.get(m[1].toLowerCase());
+    if(!clave) continue;
+    if((usados[clave] = (usados[clave] || 0) + 1) > maxPorTermino) continue;
+
+    const despues = n.splitText(m.index);
+    despues.splitText(m[1].length);
+    const b = document.createElement('span');
+    b.className = 'gl'; b.setAttribute('data-g', clave);
+    b.textContent = despues.nodeValue;
+    despues.parentNode.replaceChild(b, despues);
+    hechos++;
+  }
+  return hechos;
+}
+
+/* ══════════════════ FICHAS DE LAS PIEZAS ══════════════════ */
+const PZ = (() => {
+  let abierta = 'aux';   // arranca abierta la del auxiliar: es la que genera la duda
+
+  const exHTML = ex => ex.map(e =>
+    `<div class="fp-ex"><span class="fp-en">${esc(e.en)}</span><button class="spk sm" data-say="${esc(e.en)}">🔊</button><span class="fp-es">${e.es}</span></div>`).join('');
+
+  function render(){
+    const c = $('fpBox'); if(!c) return;
+    c.innerHTML = PIEZAS.map(p => {
+      const on = p.id === abierta;
+      return `<div class="fp${on ? ' on' : ''}" data-fp="${p.id}">
+        <button class="fp-h" data-fpt="${p.id}">
+          <span class="slot ${p.cls}">${esc(p.n)}</span>
+          <span class="fp-sub">${esc(p.sub)}</span>
+          <span class="fp-when ${p.tono}">${p.cuando}</span>
+          <span class="fp-ar">${on ? '▲' : '▼'}</span>
+        </button>
+        <div class="fp-b"${on ? '' : ' hidden'}>
+          <div class="fp-simple"><b>En palabras simples:</b> ${p.simple}</div>
+          ${p.casos.map((k, i) => `<div class="fp-caso">
+            <div class="fp-ct"><span class="fp-cn">${i + 1}</span>${k.t}</div>
+            ${k.d ? `<div class="fp-cd">${k.d}</div>` : ''}
+            ${exHTML(k.ex)}
+          </div>`).join('')}
+          ${p.extra ? `<div class="fp-caso extra">
+            <div class="fp-ct"><span class="fp-cn">★</span>${p.extra.t}</div>
+            <div class="fp-cd">${p.extra.d}</div>${exHTML(p.extra.ex)}</div>` : ''}
+          <div class="fp-regla"><b>🔒 Regla no negociable:</b> ${p.regla}</div>
+          <div class="fp-err">
+            <div class="fp-et">⚠️ El error típico del hispanohablante</div>
+            <div class="fp-ep"><span class="dx-bad">✗ ${esc(p.error.mal)}</span><span class="dx-good">✓ ${esc(p.error.bien)}</span></div>
+            <div class="fp-ew">${p.error.por}</div>
+          </div>
+          <div class="fp-tip"><b>💡 Tip:</b> ${p.tip}</div>
+        </div></div>`;
+    }).join('');
+
+    glAutoMarcar(c, 1);
+    c.querySelectorAll('[data-fpt]').forEach(b => b.onclick = () => {
+      abierta = (abierta === b.dataset.pzt) ? null : b.dataset.pzt;
+      render();
+    });
+  }
+  function abrir(id){ abierta = id; render();
+    const el = document.querySelector(`[data-fp="${id}"]`);
+    if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  return { render, abrir };
+})();
+
+/* Los colores de la leyenda llevan a su ficha */
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-goto]');
+  if(g && typeof PZ !== 'undefined') PZ.abrir(g.getAttribute('data-goto'));
+});
+
+
 /* ─────────── BIFURCACIONES ───────────
    La técnica de las pizarras que le funcionan a Miguel, pero con el hueco
    sin resolver: el ejemplo no enseña la respuesta hasta que él elige. */
@@ -7315,6 +8068,8 @@ function init(){
   renderPhrases(true);
   qzShuffle(); renderQuiz();
   BF.render(); BF.wire();
+  PZ.render(); LAB.render(); RG.render();
+  ['p0','pz','p3'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
   SRS.renderBoxes();
   NB.render();
 
@@ -7326,7 +8081,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
