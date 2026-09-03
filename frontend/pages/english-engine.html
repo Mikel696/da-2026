@@ -7699,6 +7699,45 @@ const LAB = (() => {
   ];
   const contraer = t => CONTR.reduce((a, [re, v]) => a.replace(re, v), t);
 
+  /* La glosa española, conjugada de verdad. Antes era el texto fijo en
+     infinitivo de la frase base y no seguía al tiempo elegido: la frase en
+     inglés decía «I worked at a bank» y debajo ponía el presente. */
+  const ES_P = { yo:'1s', tú:'2s', tu:'2s', él:'3s', ella:'3s',
+                 nosotros:'1p', nosotras:'1p', ellos:'3p', ellas:'3p' };
+  const ES_WH = { Where:'Dónde', What:'Qué', Who:'A quién' };
+
+  function glosaES(b, t, f){
+    if(typeof MORFO === 'undefined' || !MORFO.conjugar) return b.es;
+    const par = String(b.es || '').trim().split(/\s+/);
+    const suj = par[0], lema = par[1], com = par.slice(2).join(' ');
+    const p = ES_P[suj];
+    if(!p || !lema) return b.es;
+    const C = (l, ti) => MORFO.conjugar(l, ti, p);
+    let v;
+    switch(t){
+      case 'pres':     v = C(lema, 'pres'); break;
+      case 'past':     v = C(lema, 'pret'); break;
+      case 'fut':      v = C(lema, 'fut');  break;
+      case 'cond':     v = C(lema, 'cond'); break;
+      case 'going':    v = C('ir', 'pres') + ' a ' + lema; break;
+      case 'cont':     v = C('estar', 'pres') + ' ' + MORFO.gerundio(lema); break;
+      case 'pastcont': v = C('estar', 'imp')  + ' ' + MORFO.gerundio(lema); break;
+      case 'perf':     v = C('haber', 'pres') + ' ' + MORFO.participio(lema); break;
+      case 'pastperf': v = C('haber', 'imp')  + ' ' + MORFO.participio(lema); break;
+      case 'perfcont': v = C('haber', 'pres') + ' estado ' + MORFO.gerundio(lema); break;
+      default:         v = null;
+    }
+    if(!v || /null|undefined/.test(v)) return b.es;          // si no lo sé, dejo lo que había
+    const cola = (f === 'wh' && b.whDrop) ? '' : (com ? ' ' + com : '');
+    let s;
+    if(f === 'af')      s = suj.charAt(0).toUpperCase() + suj.slice(1) + ' ' + v + cola + '.';
+    else if(f === 'ne') s = suj.charAt(0).toUpperCase() + suj.slice(1) + ' no ' + v + cola + '.';
+    // En preguntas el español deja caer el pronombre: «¿Trabajaste en un banco?»
+    else if(f === 'pr') s = '¿' + v.charAt(0).toUpperCase() + v.slice(1) + cola + '?';
+    else                s = '¿' + (ES_WH[b.wh] || 'Qué') + ' ' + v + cola + '?';
+    return s.replace(/\s+/g, ' ').trim();
+  }
+
   const texto = o => o.tk.map((x, i) =>
       (x.r === 'suj' && i > 0 && x.t !== 'I') ? x.t.toLowerCase() : x.t
     ).join(' ').replace(/ ([.?])/g, '$1').replace(/^(\w)/, c => c.toUpperCase());
@@ -7731,7 +7770,7 @@ const LAB = (() => {
     <div class="lab-out">
       <div class="lab-form">${tokensHTML(o)}</div>
       <div class="lab-sent">${esc(frase)} <button class="spk" data-say="${esc(frase)}">🔊</button></div>
-      <div class="lab-es">${esc(b.es)} · <b>${esc(o.info.n)}</b> · ${esc(LAB_F.find(x => x.id === st.f).n)}</div>
+      <div class="lab-es">${esc(glosaES(b, st.t, st.f))} · <b>${esc(o.info.n)}</b> · ${esc(LAB_F.find(x => x.id === st.f).n)}</div>
       ${frase !== largo ? `<div class="lab-long">Forma larga: <i>${esc(largo)}</i> — correcta, pero nadie habla así. <button class="spk sm" data-say="${esc(largo)}">🔊</button></div>` : ''}
       <div class="lab-acts">
         <button class="lab-b" data-nb-en="${esc(frase)}" data-nb-es="${esc(b.es)}">📓 Guardar en mi cuaderno</button>
@@ -9232,7 +9271,7 @@ llover|llueve,llueve,llueve,llueve,llueve,llueven|llovió,llovió,llovió,llovi�
   /* Verbos frecuentes del español, para que la cobertura no dependa de lo
      que haya caído en la lista de palabras. Con estos + los del documento,
      el analizador cubre lo que se escribe de verdad. */
-  const LEMAS = new Set(`hablar comer vivir trabajar estudiar necesitar buscar llamar llegar
+  const LEMAS = new Set(`hablar desayunar almorzar cenar merendar comer vivir trabajar estudiar necesitar buscar llamar llegar
 pasar quedar dejar llevar entrar tomar tratar mirar contar empezar esperar existir
 levantar intentar usar ocurrar escuchar cambiar presentar crear considerar aparecer
 aceptar realizar acabar preguntar terminar recordar permitir aprender olvidar comprar
@@ -9245,7 +9284,7 @@ mostrar indicar señalar apuntar anotar escribir leer contestar responder repeti
 practicar mejorar avanzar lograr conseguir obtener alcanzar tocar sonar oler probar
 gustar encantar molestar preocupar alegrar entristecer asustar sorprender
 descansar dormir soñar despertar madrugar tardar durar acompañar`
-    .trim().split(/s+/));
+    .trim().split(/\s+/));
   try{
     WORDS.forEach(w => {
       if(w.cat !== 'verbo') return;
@@ -9258,11 +9297,16 @@ descansar dormir soñar despertar madrugar tardar durar acompañar`
 
   /* Índice inverso: forma → análisis. Se construye una vez. */
   const IDX = new Map();
+  /* Además del índice inverso (forma → análisis) se guarda el directo
+     (lema+tiempo+persona → forma), que es lo que hace falta para GENERAR. */
+  const FWD = new Map();
   const mete = (forma, lema, t, p) => {
     if(!forma) return;
     if(!IDX.has(forma)) IDX.set(forma, []);
     const y = IDX.get(forma);
     if(!y.some(a => a.lema === lema && a.t === t && a.p === p)) y.push({ lema, t, p });
+    const k = lema + '|' + t + '|' + p;
+    if(!FWD.has(k)) FWD.set(k, forma);
   };
 
   const IRREGULARES = new Set();
@@ -9303,6 +9347,29 @@ descansar dormir soñar despertar madrugar tardar durar acompañar`
   function personas(w){ return [...new Set(analizar(w).map(a => a.p))]; }
   const esVerbo = w => analizar(w).length > 0;
 
+  /* GENERAR: la operación contraria a analizar. Con el índice directo ya
+     construido no hace falta ninguna tabla nueva. */
+  function conjugar(lema, t, p){ return FWD.get(lema + '|' + t + '|' + p) || null; }
+
+  const GER_IRR = { ir:'yendo', ver:'viendo', decir:'diciendo', venir:'viniendo',
+    poder:'pudiendo', dormir:'durmiendo', morir:'muriendo', pedir:'pidiendo',
+    seguir:'siguiendo', sentir:'sintiendo', oír:'oyendo', traer:'trayendo',
+    caer:'cayendo', leer:'leyendo', creer:'creyendo' };
+  const PART_IRR = { hacer:'hecho', decir:'dicho', ver:'visto', poner:'puesto',
+    volver:'vuelto', escribir:'escrito', morir:'muerto', abrir:'abierto',
+    romper:'roto', cubrir:'cubierto', ir:'ido', ser:'sido' };
+
+  function gerundio(lema){
+    if(GER_IRR[lema]) return GER_IRR[lema];
+    if(/ar$/.test(lema)) return lema.slice(0, -2) + 'ando';
+    return lema.slice(0, -2) + 'iendo';
+  }
+  function participio(lema){
+    if(PART_IRR[lema]) return PART_IRR[lema];
+    if(/ar$/.test(lema)) return lema.slice(0, -2) + 'ado';
+    return lema.slice(0, -2) + 'ido';
+  }
+
   function auditar(){
     const pruebas = [
       ['hice','pasado','1s'], ['hizo','pasado','3s'], ['tengo','presente','1s'],
@@ -9320,7 +9387,8 @@ descansar dormir soñar despertar madrugar tardar durar acompañar`
     });
     return { formasIndexadas: IDX.size, lemas: LEMAS.size, pruebas: pruebas.length, fallos };
   }
-  return { analizar, momentos, personas, esVerbo, auditar, LEMAS, IDX, NOMBRE };
+  return { analizar, momentos, personas, esVerbo, auditar, conjugar, gerundio, participio,
+           LEMAS, IDX, FWD, NOMBRE };
 })();
 
 /* ══════════════════════════════════════════════════════════════════════
