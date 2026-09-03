@@ -1039,6 +1039,24 @@ table.tbl tr:hover td{background:var(--bg3)}
 .wr-sw{font-size:11.5px;line-height:1.7;color:var(--t3);margin-bottom:8px}
 .wr-sep{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;
   margin:16px 0 9px;padding-top:12px;border-top:1px solid var(--bd)}
+
+/* ═══════════ BARRA DE PESTAÑAS · que se vean TODAS ═══════════
+   La barra estaba en `flex-wrap:nowrap` con scroll horizontal y la barra de
+   scroll oculta. Con 8 pestañas cabía; al entrar «Escribir» como novena,
+   «Cuaderno» y «Método» quedaron fuera del borde SIN ninguna pista de que
+   siguieran ahí — Miguel dio por hecho que el cuaderno había desaparecido.
+   En pantalla ancha se dejan envolver; en móvil se conserva el deslizamiento
+   (que ahí funciona con el dedo) pero con un degradado que avisa. */
+@media(min-width:820px){
+  .tabs{flex-wrap:wrap;overflow:visible}
+}
+@media(max-width:819px){
+  .tabs{position:relative}
+  .tb-in{position:relative}
+  /* Degradado en el borde: dice que hay más pestañas hacia la derecha */
+  .tb-in::after{content:'';position:absolute;right:0;top:0;bottom:0;width:34px;
+    pointer-events:none;background:linear-gradient(90deg,transparent,rgba(9,9,11,.92))}
+}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>

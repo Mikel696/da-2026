@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-02
+- **Última actualización:** 2026-09-03
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,38 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🗂 3-ENG · Las pestañas Cuaderno y Método estaban fuera de pantalla — 2026-09-03
+
+### La pregunta de Miguel
+> *«¿por qué no veo el módulo de cuadernos?»*
+
+Porque **no estaba en pantalla**. Al añadir «✍️ Escribir» como novena pestaña, la barra pasó a
+necesitar 949 px y solo disponía de 808: se cortaban 141 px, y con ellos **📓 Cuaderno y 🎯 Método**.
+
+La regla que lo causaba estaba en `07_css2.css`:
+`.tabs{flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none}` — una barra deslizable con la
+barra de scroll **oculta**. En móvil funciona (se desliza con el dedo); en escritorio con ratón
+**no hay ninguna pista** de que haya más pestañas, así que simplemente desaparecen.
+
+### Por qué mis pruebas no lo vieron
+Comprobaba el **panel**, no el **botón**:
+`window.APP.go('nb')` → `display !== 'none'` ✓ — y eso pasa aunque el botón esté fuera del borde.
+Es la tercera vez en esta serie que una prueba pasa con la cosa rota. Ahora la comprobación de
+pestañas hace **clic en el botón real** y verifica que su rectángulo está dentro de la pantalla.
+
+### El arreglo
+- **≥ 820 px**: las pestañas envuelven a una segunda fila. Todas visibles, nada que deslizar.
+- **< 820 px**: se conserva el deslizamiento (que en táctil es lo correcto) y se añade un
+  **degradado en el borde derecho** que avisa de que hay más.
+
+### Verificación
+Las 9 pestañas con clic real: botón presente, dentro de pantalla, abre su panel y queda marcado.
+Móvil 375 px: Cuaderno alcanzable deslizando, degradado presente, sin desborde de página.
+Y sin tocar contenido: 0 falsos positivos en los dos correctores, los tres bancos completos,
+laboratorio 640/640, 15 reglas, glosario sin huecos.
 
 ---
 
