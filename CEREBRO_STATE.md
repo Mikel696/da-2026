@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-08
+- **Última actualización:** 2026-09-08 (Estudio 18-MUS)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,142 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎚️ 18-MUS · El Estudio · grabar, editar, mezclar y exportar — 2026-09-08
+
+### El encargo, ampliado a mitad de construcción
+Miguel pidió más: grabar voz con cancelación de ruido y efectos, crear y mezclar pistas,
+melodías completas con instrumentación de cada género, **agregar y quitar instrumentos**,
+**editar la pista entera con loops**, y **exportar en los formatos requeridos**. Y que cuando
+el módulo no pueda hacer algo, genere el prompt que diga dónde y cómo hacerlo.
+
+### La decisión que hace usable un editor para alguien que no sabe armonía
+Las pistas melódicas **no guardan notas, guardan GRADOS**. Se dibuja una forma en una rejilla
+y el motor la traduce al acorde que toque en cada compás. Consecuencia práctica: **no se puede
+equivocar de nota**. Dibuje lo que dibuje, está en tono. Y cambiar de tonalidad o de progresión
+no le borra lo dibujado, porque lo que guardó fue la forma, no las alturas.
+
+Dos modos: grados **del acorde** (siempre consonante — bajos y armonías) o **de la escala**
+(más movimiento, permite notas de paso — melodías y riffs).
+
+El resto del modelo copia a propósito el de FL Studio, que ya maneja: patrón de 16 casillas por
+pista + secciones donde suena. Cero conceptos nuevos que aprender.
+
+### Piezas nuevas
+| Archivo | Qué es |
+|---|---|
+| `js/music-inst.js` | Instrumentos de género + arreglista |
+| `js/music-export.js` | WAV · MIDI · stems · medición |
+| `js/music-rec.js` | Micrófono + cadena de voz de 9 módulos |
+| `js/music-studio.js` | Proyecto editable, pistas, canales de mezcla |
+| `js/music-ui.js` | La interfaz del Estudio |
+
+### Instrumentos: síntesis, no samples
+Guitarra y requinto por **Karplus-Strong** (modelado físico real: ruido en una línea de retardo
+realimentada a través de un paso-bajos). Se calcula a AudioBuffer y **no** con DelayNode porque
+un lazo de realimentación en Web Audio tiene un retardo mínimo de un bloque de render — 128
+muestras ≈ 2,9 ms — lo que techa la frecuencia en ~344 Hz: inservible para una guitarra.
+
+Acordeón (tres lengüetas desafinadas + vibrato), metales (el filtro ABRE con el ataque, que es
+lo que suena a metal), marimba (armónico a 4× la fundamental, que es como se afina de verdad),
+campana (FM con razón inarmónica), flauta con soplo, 808 con glide, stabs.
+
+### Grabación
+Cadena de 9 módulos con preset por género. Cuatro decisiones que importan:
+1. **Se graba la señal CRUDA**, antes de los efectos. La cadena sigue siendo ajustable después:
+   si mañana sobra la reverb se baja, no hay que volver a cantar.
+2. **Captura sin pérdida** por AudioWorklet (ScriptProcessor de respaldo). MediaRecorder era
+   menos código pero comprime a Opus, y empezar con pérdida algo que se va a comprimir otra vez
+   al distribuir es empezar mal.
+3. **"Medir el cuarto"** calibra la puerta con el ruido de fondo REAL de su casa, no con un
+   umbral genérico.
+4. **autoGainControl siempre apagado**: sube y baja el volumen solo y arruina la dinámica de una
+   interpretación cantada.
+
+El quita-sibilancias es un **EQ dinámico** en 7 kHz, no un divisor de bandas: partir la señal
+mete problemas de fase justo en el punto de corte.
+
+### Exportación
+WAV 16/24 bits, **MIDI**, stems por instrumento y proyecto JSON.
+
+El MIDI es el que más le sirve: lleva las notas, no el sonido. Se abre en FL Studio con cada
+pista en su instrumento General MIDI (guitarra 27, bajo 33, acordeón 21, percusión en canal 10)
+y ahí reemplaza el sintetizador por un acordeón grabado de verdad. Es el puente exacto entre la
+maqueta y su DAW.
+
+**MP3 no se genera, a propósito.** Exigiría una librería externa y rompe la arquitectura vanilla
+del Cerebro. Queda documentado en el puente, no escondido.
+
+### El render se colgaba · cómo se arregló
+En un render offline **todos los nodos existen desde el instante cero**: no hay reproducción
+progresiva que los vaya creando. Una canción entera de golpe son ~8.000 nodos vivos, y el coste
+crece peor que lineal — pasaba de 45 s y seguía.
+
+Dos arreglos, medidos:
+1. **Percusión a buffer.** Cada sonido se calcula una vez como forma de onda en JS y se dispara.
+   Antes unas palmas eran NUEVE nodos por golpe (tres ráfagas × fuente + filtro + ganancia).
+   Bonus musical: garantiza que lo exportado suene **idéntico** a lo monitoreado.
+2. **Render por tramos con suma solapada.** Tramos de 8 compases, cada uno con cola extra, que
+   se suman. Es exacto porque la cadena hasta el bus es lineal — y se comprobó: pico y RMS
+   idénticos con tramos de 8 y de 16 compases.
+
+Resultado: **colgado → 39 s → 23 s → 12,2 s** para un tema de 3:14 (16× tiempo real).
+
+### Mezcla real sin tocar quince funciones
+Cada pista tiene canal propio con ganancia y panorama de potencia constante. Se logró con
+`MAUDIO.withDest`, que intercambia el bus de destino antes de la llamada y lo restaura después:
+funciona porque los quince instrumentos leen `master` de forma síncrona. El volumen es volumen,
+no un truco escalando la velocidad de las notas.
+
+### El puente · ser honesto sobre el límite
+Cinco cosas que no caben en un navegador (voz IA, separación de stems, máster final,
+instrumentos reales, mezcla multipista), cada una con **por qué**, **dónde** y **cómo volver**.
+Cada una genera una instrucción ya rellenada con los datos reales de la canción abierta: título,
+género, BPM, tonalidad, progresión, estructura e instrumentación.
+
+### Fallos que encontró la verificación (ninguno se ve leyendo el código)
+1. **Dos pestañas se llamaban "Estudio".** La de inicio pasó a "Inicio".
+2. **Cambiar de género arrastraba la progresión anterior**: daba vallenatos con progresión de
+   champeta.
+3. **El título autogenerado no seguía al género**: exportaba un archivo llamado
+   "Idea-en-Champeta" que era una salsa.
+4. **Dos pistas llamadas "Guitarra"** en champeta (hace armonía Y riff). Ahora el papel va en el
+   nombre.
+
+### Incidente de la sesión · casi me llevo medio motor por delante
+Un script de reemplazo con una regex `[\s\S]*?` para borrar código muerto se comió `ctx()`,
+las voces melódicas y las funciones de render de `music-audio.js`. Se recuperó del respaldo que
+se había hecho un minuto antes y se rehízo el reemplazo **solo por índices de línea, sin regex**.
+**Lección: para editar por script un archivo verificado, copia primero y splice por rango — nunca
+una regex codiciosa sobre todo el archivo.**
+
+### Verificado (en producción, no solo en localhost)
+Los 7 módulos cargan · proyecto se genera por género con su arreglo · agregar instrumento pasa de
+1.924 a 1.996 eventos y quitarlo vuelve al punto de partida · reproducción con posición, sección
+y pasos iluminados · WAV, MIDI, stems y proyecto se producen con el tamaño y tipo correctos ·
+**MIDI validado parseando el archivo de vuelta**: cabecera correcta, formato 1, PPQ 480, cada
+note-on con su note-off (sin eso FL Studio se queda con notas colgadas) y cada pista en su
+programa GM.
+
+### ⚠️ NO verificado
+**La grabación por micrófono no se pudo probar de extremo a extremo**: el panel de navegador de
+las pruebas bloquea `getUserMedia`. Lo que sí está comprobado es que la ruta de fallo degrada con
+elegancia (avisa y la interfaz sigue usable). **La captura, la calidad y la cadena en vivo las
+tiene que probar Miguel con auriculares puestos** — y es lo primero que hay que confirmar en la
+próxima sesión.
+
+### Sync
+`mus_proy` al SYNC_REGISTRY (pocos KB: guarda grados y patrones, no audio). Las tomas de voz
+viven en IndexedDB local (`da2026_mus`) y **no viajan** — hay que exportarlas para no perderlas.
+Cache-bust en lockstep: `cloud-sync.js` p18 → **p19 en las 29 páginas**.
+
+### Lo que queda
+- Colocar las tomas de voz en un compás concreto (hoy entran desde el segundo 0).
+- Editar la estructura desde la interfaz (añadir o quitar secciones).
+- Importar un proyecto `.musproy.json` (hoy se exporta pero no se vuelve a cargar).
+- Automatización de volumen por sección.
 
 ---
 

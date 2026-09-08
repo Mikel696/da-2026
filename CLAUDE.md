@@ -344,6 +344,41 @@ Aquí no es la memoria — es el **criterio auditivo**, y ese solo se entrena oy
    `useFlats(keyPc, mode)` decide sostenidos o bemoles por círculo de quintas. Escribirlo mal
    delata al que no sabe — y el módulo existe precisamente para que no lo delaten.
 
+### El Estudio (pestaña `st`) · lo que hay que respetar
+
+**Las pistas melódicas guardan GRADOS, no notas.** Es la decisión de la que depende todo el
+módulo: Miguel dibuja una forma y el motor la traduce al acorde de cada compás, así que no puede
+equivocarse de nota, y cambiar de tonalidad no le borra el trabajo. **No sustituir por alturas
+absolutas** por muy conveniente que parezca en el momento.
+
+| Archivo | Responsabilidad |
+|---|---|
+| `js/music-inst.js` | Timbres de género (Karplus-Strong, acordeón, metales…) + arreglista |
+| `js/music-export.js` | WAV · MIDI · stems · medición de pico y RMS |
+| `js/music-rec.js` | Micrófono + cadena de voz de 9 módulos |
+| `js/music-studio.js` | Proyecto editable, pistas, canales de mezcla, IndexedDB |
+| `js/music-ui.js` | Interfaz del Estudio (aparte, para no reventar music.js) |
+
+**Reglas del estudio**
+1. **Render offline por tramos, siempre.** Todos los nodos existen desde el instante cero; una
+   canción entera de golpe (~8.000 nodos) se cuelga. Tramos de 8 compases sumados con
+   solapamiento — es exacto porque la cadena hasta el bus es lineal.
+2. **La percusión va a buffer, no a grafo.** Además de rendimiento, es lo que garantiza que lo
+   exportado suene idéntico a lo monitoreado. Una mezcla que no coincide con su archivo no sirve.
+3. **Se graba crudo, antes de los efectos.** La cadena tiene que seguir siendo ajustable sin
+   volver a cantar.
+4. **`autoGainControl: false` siempre.** Arruina la dinámica de una voz cantada.
+5. **Nada de librerías para exportar.** Por eso no hay MP3: exigiría un codificador externo y
+   rompe la arquitectura vanilla. Está documentado en el puente, no escondido.
+6. **El MIDI se valida parseándolo de vuelta.** Lo que importa no es que se generen bytes: es que
+   cada note-on tenga su note-off. Sin eso, FL Studio se queda con notas colgadas.
+7. **Las tomas de voz son local-only** (IndexedDB `da2026_mus`). No van a Supabase. Hay que
+   decírselo al usuario en la interfaz, no dejarlo suponer.
+
+**Para editar por script un archivo ya verificado:** copia de respaldo primero y splice **por
+índices de línea**. Una regex `[\s\S]*?` codiciosa se llevó por delante medio `music-audio.js`
+en la sesión del 8-sep.
+
 ### Formato de los patrones rítmicos
 `patron: { kick:[…], clap:[…], snare:[…], hat:[…], perc:[…], clave:[…] }` — arrays de casillas
 **1-indexadas** sobre una rejilla de 16 semicorcheas, porque así las cuenta un músico («el golpe
