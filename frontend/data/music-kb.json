@@ -1,11 +1,10 @@
 {
   "meta": {
     "modulo": "18-MUS",
-    "version": "1.0",
+    "version": "1.1",
     "corte": "2026-09-08",
     "nota": "Cerebro musical. Regla de integridad: cada bloque lleva 'conf' (alta/media/hipotesis) y 'fuente'. Nada de precios ni versiones afirmadas en el arsenal: cambian y quedan mintiendo. Los rangos de BPM marcados conf 'media' son consenso de oficio, no dato documental."
   },
-
   "teoria": [
     {
       "id": "t01",
@@ -84,260 +83,1105 @@
       "conf": "alta"
     }
   ],
-
   "progresiones": [
-    { "id": "p01", "nombre": "La de los 4 acordes (pop universal)", "grados": ["I","V","vi","IV"], "ctx": "mayor", "uso": "Pop, balada, vallenato moderno, cualquier cosa que quieras que suene familiar de inmediato", "nota": "Es la más usada de la historia de la música popular. No es cliché: es infraestructura." },
-    { "id": "p02", "nombre": "La nostálgica", "grados": ["vi","IV","I","V"], "ctx": "mayor", "uso": "Pop emocional, coros que 'levantan'", "nota": "Misma que la anterior pero arrancando desde el acorde triste. Empieza melancólica y termina esperanzada." },
-    { "id": "p03", "nombre": "Andaluza / la del perreo", "grados": ["i","VII","VI","V"], "ctx": "menor", "uso": "Reggaetón, flamenco, trap latino", "nota": "Baja escalonadamente. Suena a tensión que nunca se resuelve del todo — por eso engancha en loop." },
-    { "id": "p04", "nombre": "Loop urbano oscuro", "grados": ["i","VI","III","VII"], "ctx": "menor", "uso": "Reggaetón, trap, afrobeats", "nota": "El caballo de batalla del urbano. En Am: Am–F–C–G. Se puede repetir 3 minutos sin cansar." },
-    { "id": "p05", "nombre": "Vaivén de dos acordes", "grados": ["i","VII"], "ctx": "menor", "uso": "Champeta, afrobeats, dancehall", "nota": "Dos acordes alternando. Deja todo el protagonismo al ritmo y a la guitarra." },
-    { "id": "p06", "nombre": "Clásica caribeña", "grados": ["I","IV","V"], "ctx": "mayor", "uso": "Vallenato paseo, cumbia, merengue", "nota": "Los tres acordes fundamentales. El vallenato clásico vive casi entero aquí." },
-    { "id": "p07", "nombre": "Menor caribeña", "grados": ["i","iv","V"], "ctx": "menor", "uso": "Salsa dura, vallenato de despecho, bolero", "nota": "El V mayor (no menor) es lo que le da el sabor dramático. Es la diferencia entre triste y desgarrado." },
-    { "id": "p08", "nombre": "Turnaround de salsa/jazz", "grados": ["ii","V","I"], "ctx": "mayor", "uso": "Salsa, bossa, montunos", "nota": "El motor armónico del Caribe sofisticado. Se encadena consigo mismo indefinidamente." },
-    { "id": "p09", "nombre": "Montuno menor", "grados": ["i","iv","i","V"], "ctx": "menor", "uso": "Salsa, son montuno, guaguancó", "nota": "Sobre esto se monta el coro-pregón. El piano repite la figura y el sonero improvisa encima." },
-    { "id": "p10", "nombre": "Bachata clásica", "grados": ["i","VI","III","VII"], "ctx": "menor", "uso": "Bachata, balada latina", "nota": "Mismo esqueleto del loop urbano, pero con guitarra de requinto y a 125 BPM cambia por completo de género." },
-    { "id": "p11", "nombre": "Corrido / regional", "grados": ["I","IV","I","V"], "ctx": "mayor", "uso": "Corridos tumbados, música mexicana, ranchera", "nota": "Sencillísima a propósito. Toda la identidad está en el requinto, el bajo sexto y la letra." },
-    { "id": "p12", "nombre": "Ascenso épico", "grados": ["vi","IV","V","I"], "ctx": "mayor", "uso": "Último coro, puentes, momentos de subida", "nota": "Guárdala para el clímax. Si la usas todo el tiempo pierde el efecto." }
+    {
+      "id": "p01",
+      "nombre": "La de los 4 acordes (pop universal)",
+      "grados": [
+        "I",
+        "V",
+        "vi",
+        "IV"
+      ],
+      "ctx": "mayor",
+      "uso": "Pop, balada, vallenato moderno, cualquier cosa que quieras que suene familiar de inmediato",
+      "nota": "Es la más usada de la historia de la música popular. No es cliché: es infraestructura."
+    },
+    {
+      "id": "p02",
+      "nombre": "La nostálgica",
+      "grados": [
+        "vi",
+        "IV",
+        "I",
+        "V"
+      ],
+      "ctx": "mayor",
+      "uso": "Pop emocional, coros que 'levantan'",
+      "nota": "Misma que la anterior pero arrancando desde el acorde triste. Empieza melancólica y termina esperanzada."
+    },
+    {
+      "id": "p03",
+      "nombre": "Andaluza / la del perreo",
+      "grados": [
+        "i",
+        "VII",
+        "VI",
+        "V"
+      ],
+      "ctx": "menor",
+      "uso": "Reggaetón, flamenco, trap latino",
+      "nota": "Baja escalonadamente. Suena a tensión que nunca se resuelve del todo — por eso engancha en loop."
+    },
+    {
+      "id": "p04",
+      "nombre": "Loop urbano oscuro",
+      "grados": [
+        "i",
+        "VI",
+        "III",
+        "VII"
+      ],
+      "ctx": "menor",
+      "uso": "Reggaetón, trap, afrobeats",
+      "nota": "El caballo de batalla del urbano. En Am: Am–F–C–G. Se puede repetir 3 minutos sin cansar."
+    },
+    {
+      "id": "p05",
+      "nombre": "Vaivén de dos acordes",
+      "grados": [
+        "i",
+        "VII"
+      ],
+      "ctx": "menor",
+      "uso": "Champeta, afrobeats, dancehall",
+      "nota": "Dos acordes alternando. Deja todo el protagonismo al ritmo y a la guitarra."
+    },
+    {
+      "id": "p06",
+      "nombre": "Clásica caribeña",
+      "grados": [
+        "I",
+        "IV",
+        "V"
+      ],
+      "ctx": "mayor",
+      "uso": "Vallenato paseo, cumbia, merengue",
+      "nota": "Los tres acordes fundamentales. El vallenato clásico vive casi entero aquí."
+    },
+    {
+      "id": "p07",
+      "nombre": "Menor caribeña",
+      "grados": [
+        "i",
+        "iv",
+        "V"
+      ],
+      "ctx": "menor",
+      "uso": "Salsa dura, vallenato de despecho, bolero",
+      "nota": "El V mayor (no menor) es lo que le da el sabor dramático. Es la diferencia entre triste y desgarrado."
+    },
+    {
+      "id": "p08",
+      "nombre": "Turnaround de salsa/jazz",
+      "grados": [
+        "ii",
+        "V",
+        "I"
+      ],
+      "ctx": "mayor",
+      "uso": "Salsa, bossa, montunos",
+      "nota": "El motor armónico del Caribe sofisticado. Se encadena consigo mismo indefinidamente."
+    },
+    {
+      "id": "p09",
+      "nombre": "Montuno menor",
+      "grados": [
+        "i",
+        "iv",
+        "i",
+        "V"
+      ],
+      "ctx": "menor",
+      "uso": "Salsa, son montuno, guaguancó",
+      "nota": "Sobre esto se monta el coro-pregón. El piano repite la figura y el sonero improvisa encima."
+    },
+    {
+      "id": "p10",
+      "nombre": "Bachata clásica",
+      "grados": [
+        "i",
+        "VI",
+        "III",
+        "VII"
+      ],
+      "ctx": "menor",
+      "uso": "Bachata, balada latina",
+      "nota": "Mismo esqueleto del loop urbano, pero con guitarra de requinto y a 125 BPM cambia por completo de género."
+    },
+    {
+      "id": "p11",
+      "nombre": "Corrido / regional",
+      "grados": [
+        "I",
+        "IV",
+        "I",
+        "V"
+      ],
+      "ctx": "mayor",
+      "uso": "Corridos tumbados, música mexicana, ranchera",
+      "nota": "Sencillísima a propósito. Toda la identidad está en el requinto, el bajo sexto y la letra."
+    },
+    {
+      "id": "p12",
+      "nombre": "Ascenso épico",
+      "grados": [
+        "vi",
+        "IV",
+        "V",
+        "I"
+      ],
+      "ctx": "mayor",
+      "uso": "Último coro, puentes, momentos de subida",
+      "nota": "Guárdala para el clímax. Si la usas todo el tiempo pierde el efecto."
+    }
   ],
-
   "estructuras": [
-    { "id": "e01", "nombre": "Estándar radio/streaming", "duracion": "2:45 – 3:15", "bloques": [["Intro",4],["Verso 1",16],["Pre-coro",8],["Coro",16],["Verso 2",16],["Pre-coro",8],["Coro",16],["Puente",8],["Coro final",16],["Outro",4]], "uso": "Pop, balada, vallenato romántico", "nota": "Compases, no segundos. A 95 BPM un compás ≈ 2.5 s." },
-    { "id": "e02", "nombre": "Urbano moderno (gancho temprano)", "duracion": "2:10 – 2:50", "bloques": [["Gancho/Coro",8],["Verso 1",16],["Coro",16],["Verso 2",16],["Coro",16],["Outro",4]], "uso": "Reggaetón, trap latino, afrobeats", "nota": "Abre con el coro. El oyente sabe en 10 segundos si se queda. Estructura hecha para el skip." },
-    { "id": "e03", "nombre": "Vallenato clásico", "duracion": "3:30 – 4:30", "bloques": [["Intro acordeón",8],["Verso 1",16],["Coro",16],["Solo de acordeón ('la nota')",16],["Verso 2",16],["Coro",16],["Coro + saludos",16]], "uso": "Vallenato paseo y son", "nota": "El solo de acordeón no es adorno: es el sello del género y donde el acordeonero se luce." },
-    { "id": "e04", "nombre": "Salsa (con montuno)", "duracion": "4:00 – 6:00", "bloques": [["Intro",8],["Cuerpo / Verso 1",16],["Cuerpo / Verso 2",16],["Puente",8],["Mambo (metales)",16],["Coro–Pregón (montuno)",32],["Moña / cierre",16]], "uso": "Salsa dura, salsa romántica", "nota": "La salsa es larga a propósito: el montuno es la fiesta. Para streaming se hace una edit de 3:30." },
-    { "id": "e05", "nombre": "Champeta / picó", "duracion": "3:00 – 4:00", "bloques": [["Hook de guitarra",8],["Verso 1",16],["Coro",16],["Despeluque (break percusivo)",8],["Verso 2",16],["Coro",16],["Coro repetido",16]], "uso": "Champeta africana y urbana", "nota": "El 'despeluque' es el momento de bajarlo todo y dejar la percusión. Es el clímax de baile.", "conf": "media", "fuente": "Estructura descrita por productores del género; el término 'despeluque' es de uso popular en Cartagena, no académico." }
+    {
+      "id": "e01",
+      "nombre": "Estándar radio/streaming",
+      "duracion": "2:45 – 3:15",
+      "bloques": [
+        [
+          "Intro",
+          4
+        ],
+        [
+          "Verso 1",
+          16
+        ],
+        [
+          "Pre-coro",
+          8
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Verso 2",
+          16
+        ],
+        [
+          "Pre-coro",
+          8
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Puente",
+          8
+        ],
+        [
+          "Coro final",
+          16
+        ],
+        [
+          "Outro",
+          4
+        ]
+      ],
+      "uso": "Pop, balada, vallenato romántico",
+      "nota": "Compases, no segundos. A 95 BPM un compás ≈ 2.5 s."
+    },
+    {
+      "id": "e02",
+      "nombre": "Urbano moderno (gancho temprano)",
+      "duracion": "2:10 – 2:50",
+      "bloques": [
+        [
+          "Gancho/Coro",
+          8
+        ],
+        [
+          "Verso 1",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Verso 2",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Outro",
+          4
+        ]
+      ],
+      "uso": "Reggaetón, trap latino, afrobeats",
+      "nota": "Abre con el coro. El oyente sabe en 10 segundos si se queda. Estructura hecha para el skip."
+    },
+    {
+      "id": "e03",
+      "nombre": "Vallenato clásico",
+      "duracion": "3:30 – 4:30",
+      "bloques": [
+        [
+          "Intro acordeón",
+          8
+        ],
+        [
+          "Verso 1",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Solo de acordeón ('la nota')",
+          16
+        ],
+        [
+          "Verso 2",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Coro + saludos",
+          16
+        ]
+      ],
+      "uso": "Vallenato paseo y son",
+      "nota": "El solo de acordeón no es adorno: es el sello del género y donde el acordeonero se luce."
+    },
+    {
+      "id": "e04",
+      "nombre": "Salsa (con montuno)",
+      "duracion": "4:00 – 6:00",
+      "bloques": [
+        [
+          "Intro",
+          8
+        ],
+        [
+          "Cuerpo / Verso 1",
+          16
+        ],
+        [
+          "Cuerpo / Verso 2",
+          16
+        ],
+        [
+          "Puente",
+          8
+        ],
+        [
+          "Mambo (metales)",
+          16
+        ],
+        [
+          "Coro–Pregón (montuno)",
+          32
+        ],
+        [
+          "Moña / cierre",
+          16
+        ]
+      ],
+      "uso": "Salsa dura, salsa romántica",
+      "nota": "La salsa es larga a propósito: el montuno es la fiesta. Para streaming se hace una edit de 3:30."
+    },
+    {
+      "id": "e05",
+      "nombre": "Champeta / picó",
+      "duracion": "3:00 – 4:00",
+      "bloques": [
+        [
+          "Hook de guitarra",
+          8
+        ],
+        [
+          "Verso 1",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Despeluque (break percusivo)",
+          8
+        ],
+        [
+          "Verso 2",
+          16
+        ],
+        [
+          "Coro",
+          16
+        ],
+        [
+          "Coro repetido",
+          16
+        ]
+      ],
+      "uso": "Champeta africana y urbana",
+      "nota": "El 'despeluque' es el momento de bajarlo todo y dejar la percusión. Es el clímax de baile.",
+      "conf": "media",
+      "fuente": "Estructura descrita por productores del género; el término 'despeluque' es de uso popular en Cartagena, no académico."
+    }
   ],
-
   "generos": [
     {
       "id": "reggaeton",
       "nombre": "Reggaetón",
       "emoji": "🔥",
       "familia": "Urbano latino",
-      "bpm": { "min": 88, "max": 100, "tipico": 95 },
+      "bpm": {
+        "min": 88,
+        "max": 100,
+        "tipico": 95
+      },
       "bpm_conf": "alta",
       "bpm_fuente": "Rango documentado: perreo clásico 90–98, urbano moderno tiende a 100–105. 95 es el estándar global.",
       "compas": "4/4",
       "steps": 16,
       "tono": "Menor casi siempre. Am, Cm, F#m, Gm son los de cajón.",
-      "patron": { "kick": [1,9], "clap": [4,7,12,15], "hat": [1,3,5,7,9,11,13,15], "perc": [] },
+      "patron": {
+        "kick": [
+          1,
+          9
+        ],
+        "clap": [
+          4,
+          7,
+          12,
+          15
+        ],
+        "hat": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "perc": []
+      },
       "patron_nota": "El clap en las casillas 4-7-12-15 ES el dembow. Es el 'a' del tiempo 1, el 'y' del 2, el 'a' del 3 y el 'y' del 4. Cámbialo y deja de ser reggaetón. El kick va en los tiempos 1 y 3.",
-      "progresiones": ["p04","p03","p05"],
+      "progresiones": [
+        "p04",
+        "p03",
+        "p05"
+      ],
       "estructura": "e02",
-      "instrumentacion": ["Kick corto y seco", "Clap/snare capa doble", "Hi-hat en corcheas", "Bajo 808 siguiendo el kick", "Pad o piano oscuro", "Un solo elemento melódico memorable (marimba, flauta, guitarra filtrada)"],
+      "instrumentacion": [
+        "Kick corto y seco",
+        "Clap/snare capa doble",
+        "Hi-hat en corcheas",
+        "Bajo 808 siguiendo el kick",
+        "Pad o piano oscuro",
+        "Un solo elemento melódico memorable (marimba, flauta, guitarra filtrada)"
+      ],
       "gancho": "El vacío. El reggaetón que pega tiene POCOS elementos. Si suena lleno, quítale cosas hasta que respire.",
-      "errores": ["Meter demasiados instrumentos melódicos", "Hi-hats en semicorcheas todo el tiempo (eso es trap, no reggaetón)", "Bajo y kick peleando en la misma frecuencia", "Coro que llega después del segundo 30"],
+      "errores": [
+        "Meter demasiados instrumentos melódicos",
+        "Hi-hats en semicorcheas todo el tiempo (eso es trap, no reggaetón)",
+        "Bajo y kick peleando en la misma frecuencia",
+        "Coro que llega después del segundo 30"
+      ],
       "prompt_ia": "reggaeton, 95 BPM, A minor, dembow pattern, sparse arrangement, deep 808 bass, dry clap, male vocal, melancholic but danceable, radio-ready",
       "referencias_nota": "Escucha 3 éxitos actuales del género y cuenta cuántos instrumentos hay sonando al tiempo en el coro. Casi siempre son 4 o 5.",
-      "conf": "alta"
+      "conf": "alta",
+      "arreglo": {
+        "bajo": "reggaeton",
+        "armonia": "stabs",
+        "color": "marimba",
+        "lead": "none",
+        "pad": true,
+        "notas": "Pocos elementos. El vacío es parte del sonido."
+      }
     },
     {
       "id": "vallenato",
       "nombre": "Vallenato",
       "emoji": "🪗",
       "familia": "Caribe colombiano",
-      "bpm": { "min": 80, "max": 100, "tipico": 90 },
+      "bpm": {
+        "min": 80,
+        "max": 100,
+        "tipico": 90
+      },
       "bpm_conf": "alta",
       "bpm_fuente": "Paseo en 4/4, Andante–Moderato (80–100). Es el aire más comercial de los cuatro.",
       "compas": "4/4 (paseo). El merengue vallenato y la puya van en 6/8, el son también.",
       "steps": 16,
       "tono": "Mayor para lo alegre (C, G, D), menor para el despecho (Am, Em).",
-      "patron": { "kick": [1,5,9,13], "clap": [5,13], "hat": [3,7,11,15], "perc": [1,4,7,10,13,16] },
+      "patron": {
+        "kick": [
+          1,
+          5,
+          9,
+          13
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [
+          3,
+          7,
+          11,
+          15
+        ],
+        "perc": [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16
+        ]
+      },
       "patron_nota": "La caja vallenata lleva el pulso y la guacharaca hace el raspado constante (aquí representado en 'perc'). El paseo es de pulso firme, no sincopado: por eso se puede bailar abrazado.",
-      "progresiones": ["p06","p01","p07"],
+      "progresiones": [
+        "p06",
+        "p01",
+        "p07"
+      ],
       "estructura": "e03",
-      "instrumentacion": ["Acordeón diatónico (el protagonista absoluto)", "Caja vallenata", "Guacharaca", "Bajo eléctrico", "Guitarra de acompañamiento"],
+      "instrumentacion": [
+        "Acordeón diatónico (el protagonista absoluto)",
+        "Caja vallenata",
+        "Guacharaca",
+        "Bajo eléctrico",
+        "Guitarra de acompañamiento"
+      ],
       "gancho": "La historia. El vallenato es narrativo: cuenta un hecho concreto con nombres, lugares y fechas. La gente llora con el detalle, no con la abstracción.",
-      "errores": ["Letra genérica sin historia concreta", "Quitar el solo de acordeón por 'modernizar'", "Confundir los cuatro aires: si dices 'paseo' y lo escribes en 6/8, es merengue"],
+      "errores": [
+        "Letra genérica sin historia concreta",
+        "Quitar el solo de acordeón por 'modernizar'",
+        "Confundir los cuatro aires: si dices 'paseo' y lo escribes en 6/8, es merengue"
+      ],
       "aires": [
-        { "nombre": "Paseo", "compas": "4/4", "caracter": "Andante-moderato. Alegre y algo romántico. Es el aire más comercial." },
-        { "nombre": "Merengue", "compas": "6/8", "caracter": "Rápido (allegro), patrón de dos golpes, influencia española marcada." },
-        { "nombre": "Puya", "compas": "6/8", "caracter": "El más rápido. Arranca parecido al merengue y abre en un 'cierre' donde todos improvisan." },
-        { "nombre": "Son", "compas": "6/8", "caracter": "Lento (adagio), el más delicado y complejo. Se usa para el lamento." }
+        {
+          "nombre": "Paseo",
+          "compas": "4/4",
+          "caracter": "Andante-moderato. Alegre y algo romántico. Es el aire más comercial."
+        },
+        {
+          "nombre": "Merengue",
+          "compas": "6/8",
+          "caracter": "Rápido (allegro), patrón de dos golpes, influencia española marcada."
+        },
+        {
+          "nombre": "Puya",
+          "compas": "6/8",
+          "caracter": "El más rápido. Arranca parecido al merengue y abre en un 'cierre' donde todos improvisan."
+        },
+        {
+          "nombre": "Son",
+          "compas": "6/8",
+          "caracter": "Lento (adagio), el más delicado y complejo. Se usa para el lamento."
+        }
       ],
       "aires_fuente": "Los cuatro aires clásicos del vallenato, documentados en fuentes culturales colombianas (Señal Colombia, El Tiempo).",
       "prompt_ia": "vallenato paseo, 90 BPM, C major, diatonic accordion lead, caja vallenata, guacharaca, storytelling male vocal, Colombian Caribbean, warm acoustic production",
-      "conf": "alta"
+      "conf": "alta",
+      "arreglo": {
+        "bajo": "vallenato",
+        "armonia": "guitarra",
+        "color": "acordeon",
+        "lead": "acordeon",
+        "pad": false,
+        "notas": "El acordeón manda: lleva la intro y el solo."
+      }
     },
     {
       "id": "champeta",
       "nombre": "Champeta",
       "emoji": "🌴",
       "familia": "Afrocaribe colombiano",
-      "bpm": { "min": 95, "max": 115, "tipico": 105 },
+      "bpm": {
+        "min": 95,
+        "max": 115,
+        "tipico": 105
+      },
       "bpm_conf": "media",
       "bpm_fuente": "⚠️ Rango de oficio, NO documental. La búsqueda no arrojó una fuente que fije BPM de champeta. Verificar midiendo 10 tracks de referencia reales antes de dar este número por bueno.",
       "compas": "4/4",
       "steps": 16,
       "tono": "Mayor o menor, pero con muy pocos acordes. Dos suele ser suficiente.",
-      "patron": { "kick": [1,7,9,15], "clap": [5,13], "hat": [3,5,7,9,11,13,15], "perc": [2,4,6,8,10,12,14,16] },
+      "patron": {
+        "kick": [
+          1,
+          7,
+          9,
+          15
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "perc": [
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
       "patron_nota": "La base rítmica manda sobre la melodía y la armonía. Congas insistentes en las casillas débiles, kick sincopado. Es música hecha para picó: tiene que mover el cuerpo antes de que entiendas la letra.",
-      "progresiones": ["p05","p06"],
+      "progresiones": [
+        "p05",
+        "p06"
+      ],
       "estructura": "e05",
-      "instrumentacion": ["Guitarra eléctrica con hook corto, repetitivo y con swing (herencia del soukous congolés)", "Bajo simple y machacón", "Congas", "Batería", "Sintetizador", "Voz"],
+      "instrumentacion": [
+        "Guitarra eléctrica con hook corto, repetitivo y con swing (herencia del soukous congolés)",
+        "Bajo simple y machacón",
+        "Congas",
+        "Batería",
+        "Sintetizador",
+        "Voz"
+      ],
       "gancho": "El riff de guitarra. En champeta el hook NO es la voz: es la guitarra. Si el riff no engancha en 4 compases, no hay canción.",
-      "errores": ["Armonía complicada — la champeta vive de 2 acordes", "Guitarra sin swing (si la cuantizas al 100% se muere)", "Olvidar el 'despeluque': el break donde solo queda la percusión"],
+      "errores": [
+        "Armonía complicada — la champeta vive de 2 acordes",
+        "Guitarra sin swing (si la cuantizas al 100% se muere)",
+        "Olvidar el 'despeluque': el break donde solo queda la percusión"
+      ],
       "contexto": "Nace en Cartagena, se autorreconoce como género en los años 80. Su medio de difusión fueron los picós — sistemas de sonido móviles que recorrían los barrios. Mezcla soukous congolés con ritmos afrocaribeños.",
       "contexto_fuente": "Radio Nacional de Colombia, EcuRed, colombia.co",
       "prompt_ia": "champeta, 105 BPM, repetitive swung electric guitar riff, soukous influence, congas, simple bass, Cartagena Caribbean, party energy, picó sound system",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "champeta",
+        "armonia": "guitarra",
+        "color": "guitarra",
+        "lead": "guitarra",
+        "pad": false,
+        "notas": "El hook es la guitarra, no la voz."
+      }
     },
     {
       "id": "salsa",
       "nombre": "Salsa",
       "emoji": "🎺",
       "familia": "Caribe / afrocubano",
-      "bpm": { "min": 150, "max": 215, "tipico": 180 },
+      "bpm": {
+        "min": 150,
+        "max": 215,
+        "tipico": 180
+      },
       "bpm_conf": "alta",
       "bpm_fuente": "Salsa romántica 150–195 (≈175), salsa dura 185–215 (≈200), timba cubana 195–250 (≈220). Los productores la sienten en half-time, alrededor de 90.",
       "compas": "4/4 sobre clave de dos compases",
       "steps": 16,
       "tono": "Menor para la salsa dura, mayor para la romántica.",
-      "patron": { "kick": [1,9], "clap": [4,7,11,13], "hat": [1,3,5,7,9,11,13,15], "perc": [3,7,11,15] },
+      "patron": {
+        "kick": [
+          1,
+          9
+        ],
+        "clap": [
+          4,
+          7,
+          11,
+          13
+        ],
+        "hat": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "perc": [
+          3,
+          7,
+          11,
+          15
+        ]
+      },
       "patron_nota": "⚠️ Simplificación. La clave real ocupa DOS compases (3-2 o 2-3) y aquí está comprimida en uno para el simulador. La clave son (3-2) golpea en 1, 4, 7 | 11, 13. TODO en la salsa se alinea a la clave: si la melodía va 'cruzada' respecto a la clave, cualquier músico caribeño lo detecta al instante.",
-      "progresiones": ["p08","p09","p07"],
+      "progresiones": [
+        "p08",
+        "p09",
+        "p07"
+      ],
       "estructura": "e04",
-      "instrumentacion": ["Piano (montuno: figura repetida de 2 compases)", "Bajo con tumbao (anticipa el tiempo)", "Congas, bongó, timbal", "Sección de metales: trompetas y trombones", "Coro (3 voces) + sonero"],
+      "instrumentacion": [
+        "Piano (montuno: figura repetida de 2 compases)",
+        "Bajo con tumbao (anticipa el tiempo)",
+        "Congas, bongó, timbal",
+        "Sección de metales: trompetas y trombones",
+        "Coro (3 voces) + sonero"
+      ],
       "gancho": "El coro-pregón. El coro repite una frase corta; el sonero improvisa encima. Es lo que la gente corea en la fiesta.",
-      "errores": ["Escribir la melodía sin respetar la clave", "Bajo tocando en el tiempo 1 (el tumbao anticipa, no cae)", "Metales sonando todo el tiempo — deben entrar como puntuación", "Producirla como pop: la salsa necesita aire y dinámica real"],
+      "errores": [
+        "Escribir la melodía sin respetar la clave",
+        "Bajo tocando en el tiempo 1 (el tumbao anticipa, no cae)",
+        "Metales sonando todo el tiempo — deben entrar como puntuación",
+        "Producirla como pop: la salsa necesita aire y dinámica real"
+      ],
       "prompt_ia": "salsa dura, 190 BPM, 3-2 son clave, piano montuno, anticipated bass tumbao, congas bongo timbales, trumpet and trombone section, coro-pregón, New York Fania style",
-      "conf": "alta"
+      "conf": "alta",
+      "arreglo": {
+        "bajo": "tumbao",
+        "armonia": "montuno",
+        "color": "metales",
+        "lead": "metales",
+        "pad": false,
+        "notas": "Piano en montuno; los metales entran como puntuación."
+      }
     },
     {
       "id": "pop",
       "nombre": "Pop latino",
       "emoji": "✨",
       "familia": "Pop",
-      "bpm": { "min": 90, "max": 125, "tipico": 105 },
+      "bpm": {
+        "min": 90,
+        "max": 125,
+        "tipico": 105
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango de oficio. El pop latino comercial se mueve casi siempre entre 90 y 125.",
       "compas": "4/4",
       "steps": 16,
       "tono": "Cualquiera. Se elige por la voz del intérprete, no por el género.",
-      "patron": { "kick": [1,9], "clap": [5,13], "hat": [1,3,5,7,9,11,13,15], "perc": [] },
+      "patron": {
+        "kick": [
+          1,
+          9
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "perc": []
+      },
       "patron_nota": "Kick en 1 y 3, snare en 2 y 4. El patrón más neutro que existe: sirve de lienzo para cualquier melodía.",
-      "progresiones": ["p01","p02","p12"],
+      "progresiones": [
+        "p01",
+        "p02",
+        "p12"
+      ],
       "estructura": "e01",
-      "instrumentacion": ["Piano o guitarra acústica como base", "Batería programada", "Bajo", "Pads", "Coros doblados en el estribillo"],
+      "instrumentacion": [
+        "Piano o guitarra acústica como base",
+        "Batería programada",
+        "Bajo",
+        "Pads",
+        "Coros doblados en el estribillo"
+      ],
       "gancho": "La letra universal + el pre-coro. El pop es el género donde el pre-coro hace más trabajo: es la rampa emocional.",
-      "errores": ["Coro que no contrasta con el verso", "Producción llena desde el compás 1 (no dejas hacia dónde crecer)", "Letra abstracta sin una imagen concreta"],
+      "errores": [
+        "Coro que no contrasta con el verso",
+        "Producción llena desde el compás 1 (no dejas hacia dónde crecer)",
+        "Letra abstracta sin una imagen concreta"
+      ],
       "prompt_ia": "latin pop, 105 BPM, C major, acoustic guitar and piano, warm production, emotional female vocal, big layered chorus, radio-ready mix",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "pop",
+        "armonia": "piano",
+        "color": "campana",
+        "lead": "none",
+        "pad": true,
+        "notas": "Lienzo neutro: la voz es la protagonista."
+      }
     },
     {
       "id": "afrobeats",
       "nombre": "Afrobeats",
       "emoji": "🌍",
       "familia": "Afro global",
-      "bpm": { "min": 100, "max": 115, "tipico": 107 },
+      "bpm": {
+        "min": 100,
+        "max": 115,
+        "tipico": 107
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango de oficio, consenso de producción. Verificar contra referencias.",
       "compas": "4/4",
       "steps": 16,
       "tono": "Mayor o menor, armonía muy simple (2–3 acordes).",
-      "patron": { "kick": [1,4,7,11,14], "clap": [5,13], "hat": [1,3,4,7,9,11,12,15], "perc": [2,6,8,10,14,16] },
+      "patron": {
+        "kick": [
+          1,
+          4,
+          7,
+          11,
+          14
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [
+          1,
+          3,
+          4,
+          7,
+          9,
+          11,
+          12,
+          15
+        ],
+        "perc": [
+          2,
+          6,
+          8,
+          10,
+          14,
+          16
+        ]
+      },
       "patron_nota": "Kick sincopado (patrón 3+3+2 desplazado) con percusión ligera constante. Nunca es un four-on-the-floor.",
-      "progresiones": ["p05","p04"],
+      "progresiones": [
+        "p05",
+        "p04"
+      ],
       "estructura": "e02",
-      "instrumentacion": ["Log drum / kick melódico", "Shakers y percusión ligera constante", "Guitarra o marimba con riff corto", "Bajo redondo", "Voces con muchos ad-libs"],
+      "instrumentacion": [
+        "Log drum / kick melódico",
+        "Shakers y percusión ligera constante",
+        "Guitarra o marimba con riff corto",
+        "Bajo redondo",
+        "Voces con muchos ad-libs"
+      ],
       "gancho": "El groove hipnótico. Poca variación, mucha repetición, todo el peso en el pocket rítmico.",
-      "errores": ["Cuantizar todo al 100% (el afrobeats respira, tiene swing)", "Sobrecargar la armonía"],
+      "errores": [
+        "Cuantizar todo al 100% (el afrobeats respira, tiene swing)",
+        "Sobrecargar la armonía"
+      ],
       "por_que_te_sirve": "🎯 **Es tu puente internacional.** La champeta y el afrobeats comparten raíz africana. Un tema champeta-afrobeats en español + inglés es exactamente el tipo de híbrido que cruza fronteras — y casi nadie lo está haciendo bien todavía.",
       "prompt_ia": "afrobeats, 107 BPM, log drum bass, syncopated kick, light shakers, short guitar riff, laid-back vocal with ad-libs, Lagos meets Caribbean",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "afro",
+        "armonia": "marimba",
+        "color": "guitarra",
+        "lead": "none",
+        "pad": true,
+        "notas": "Groove hipnótico, poca variación armónica."
+      }
     },
     {
       "id": "bachata",
       "nombre": "Bachata",
       "emoji": "💃",
       "familia": "Caribe dominicano",
-      "bpm": { "min": 120, "max": 140, "tipico": 128 },
+      "bpm": {
+        "min": 120,
+        "max": 140,
+        "tipico": 128
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango de oficio. La bachata moderna tiende a la parte alta del rango.",
       "compas": "4/4",
       "steps": 16,
       "tono": "Menor predominante.",
-      "patron": { "kick": [1,5,9,13], "clap": [7,15], "hat": [3,7,11,15], "perc": [4,8,12,16] },
+      "patron": {
+        "kick": [
+          1,
+          5,
+          9,
+          13
+        ],
+        "clap": [
+          7,
+          15
+        ],
+        "hat": [
+          3,
+          7,
+          11,
+          15
+        ],
+        "perc": [
+          4,
+          8,
+          12,
+          16
+        ]
+      },
       "patron_nota": "El golpe característico cae en el cuarto tiempo (el 'paso con levantada' del baile). La güira marca constante.",
-      "progresiones": ["p10","p07"],
+      "progresiones": [
+        "p10",
+        "p07"
+      ],
       "estructura": "e01",
-      "instrumentacion": ["Requinto (guitarra lead con arpegios y adornos)", "Segunda guitarra rítmica", "Bajo", "Bongó", "Güira"],
+      "instrumentacion": [
+        "Requinto (guitarra lead con arpegios y adornos)",
+        "Segunda guitarra rítmica",
+        "Bajo",
+        "Bongó",
+        "Güira"
+      ],
       "gancho": "El requinto. Igual que el acordeón en el vallenato: es la firma sonora que hace reconocible el género en 2 segundos.",
-      "errores": ["Requinto sin adornos (suena a pop con güira)", "Letra sin drama — la bachata es despecho o deseo, no términos medios"],
+      "errores": [
+        "Requinto sin adornos (suena a pop con güira)",
+        "Letra sin drama — la bachata es despecho o deseo, no términos medios"
+      ],
       "por_que_te_sirve": "Mercado enorme y estable en streaming, con mucha demanda de canciones nuevas y menos saturación que el reggaetón.",
       "prompt_ia": "bachata, 128 BPM, A minor, requinto guitar lead with ornaments, bongo, güira, romantic male vocal, Dominican, modern urban bachata production",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "bachata",
+        "armonia": "guitarra",
+        "color": "requinto",
+        "lead": "requinto",
+        "pad": false,
+        "notas": "El requinto adorna en cada hueco que deja la voz."
+      }
     },
     {
       "id": "cumbia",
       "nombre": "Cumbia",
       "emoji": "🥁",
       "familia": "Caribe colombiano",
-      "bpm": { "min": 85, "max": 110, "tipico": 95 },
+      "bpm": {
+        "min": 85,
+        "max": 110,
+        "tipico": 95
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango de oficio; varía muchísimo entre cumbia tradicional, sonidera mexicana y cumbia pop argentina.",
       "compas": "2/4 sentido como 4/4",
       "steps": 16,
       "tono": "Mayor o menor, armonía de 3 acordes.",
-      "patron": { "kick": [1,5,9,13], "clap": [5,13], "hat": [3,7,11,15], "perc": [1,3,4,7,9,11,12,15] },
+      "patron": {
+        "kick": [
+          1,
+          5,
+          9,
+          13
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [
+          3,
+          7,
+          11,
+          15
+        ],
+        "perc": [
+          1,
+          3,
+          4,
+          7,
+          9,
+          11,
+          12,
+          15
+        ]
+      },
       "patron_nota": "El patrón de llamador/tambor alegre da el balanceo. En cumbia moderna se reemplaza por percusión electrónica pero el acento se conserva.",
-      "progresiones": ["p06","p07"],
+      "progresiones": [
+        "p06",
+        "p07"
+      ],
       "estructura": "e01",
-      "instrumentacion": ["Gaita o acordeón", "Tambor alegre y llamador", "Guacharaca / maracón", "Bajo", "Guitarra o teclado"],
+      "instrumentacion": [
+        "Gaita o acordeón",
+        "Tambor alegre y llamador",
+        "Guacharaca / maracón",
+        "Bajo",
+        "Guitarra o teclado"
+      ],
       "gancho": "El balanceo. La cumbia es el ritmo colombiano más exportado: hay escenas gigantes en México, Argentina, Perú y Chile.",
-      "errores": ["Tocarla demasiado rápido", "Perder el acento característico al programarla en cuadrícula recta"],
+      "errores": [
+        "Tocarla demasiado rápido",
+        "Perder el acento característico al programarla en cuadrícula recta"
+      ],
       "por_que_te_sirve": "🎯 **Es la puerta a México y Argentina.** Un colombiano haciendo cumbia tiene credibilidad de origen automática en mercados donde el género mueve millones.",
       "prompt_ia": "cumbia colombiana, 95 BPM, gaita and accordion, tambor alegre, llamador, guacharaca, warm analog production, danceable",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "cumbia",
+        "armonia": "guitarra",
+        "color": "flauta",
+        "lead": "flauta",
+        "pad": false,
+        "notas": "La gaita (aquí una flauta sintetizada) lleva el motivo."
+      }
     },
     {
       "id": "trap",
       "nombre": "Trap latino",
       "emoji": "🕶️",
       "familia": "Urbano latino",
-      "bpm": { "min": 130, "max": 150, "tipico": 140 },
+      "bpm": {
+        "min": 130,
+        "max": 150,
+        "tipico": 140
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango de oficio. Se escribe a 140 pero se siente en half-time (≈70).",
       "compas": "4/4",
       "steps": 16,
       "tono": "Menor oscuro. F#m, Cm, Ebm.",
-      "patron": { "kick": [1,7,11], "clap": [9], "hat": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], "perc": [] },
+      "patron": {
+        "kick": [
+          1,
+          7,
+          11
+        ],
+        "clap": [
+          9
+        ],
+        "hat": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "perc": []
+      },
       "patron_nota": "Snare/clap SOLO en el tiempo 3 (casilla 9) — eso es el half-time que define el trap. Hi-hats en semicorcheas con rolls (tresillos) puntuales.",
-      "progresiones": ["p04","p03"],
+      "progresiones": [
+        "p04",
+        "p03"
+      ],
       "estructura": "e02",
-      "instrumentacion": ["808 con glide (el bajo y el kick son el mismo sonido)", "Hi-hats rápidos con rolls", "Clap seco", "Melodía oscura: piano, campanas, flauta, arpa"],
+      "instrumentacion": [
+        "808 con glide (el bajo y el kick son el mismo sonido)",
+        "Hi-hats rápidos con rolls",
+        "Clap seco",
+        "Melodía oscura: piano, campanas, flauta, arpa"
+      ],
       "gancho": "El 808. En trap el bajo ES la canción. Si el 808 no se siente en el pecho, no hay tema.",
-      "errores": ["Kick y 808 separados y peleando", "Rolls de hi-hat cada compás (aburre)", "Melodía demasiado alegre"],
+      "errores": [
+        "Kick y 808 separados y peleando",
+        "Rolls de hi-hat cada compás (aburre)",
+        "Melodía demasiado alegre"
+      ],
       "prompt_ia": "latin trap, 140 BPM half-time, F# minor, sliding 808 bass, fast hi-hat rolls, dark bell melody, autotuned male vocal, moody",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "808",
+        "armonia": "pad",
+        "color": "campana",
+        "lead": "none",
+        "pad": true,
+        "notas": "El 808 ES la canción. Todo lo demás acompaña."
+      }
     },
     {
       "id": "regional",
       "nombre": "Música mexicana / Corridos tumbados",
       "emoji": "🤠",
       "familia": "Regional mexicano",
-      "bpm": { "min": 80, "max": 140, "tipico": 100 },
+      "bpm": {
+        "min": 80,
+        "max": 140,
+        "tipico": 100
+      },
       "bpm_conf": "media",
       "bpm_fuente": "Rango amplio de oficio: el corrido tumbado suele ir lento (80–110), el sierreño y la banda más rápido.",
       "compas": "3/4 o 4/4 según el subgénero",
       "steps": 16,
       "tono": "Mayor, armonía de 3 acordes.",
-      "patron": { "kick": [1,9], "clap": [5,13], "hat": [], "perc": [3,7,11,15] },
+      "patron": {
+        "kick": [
+          1,
+          9
+        ],
+        "clap": [
+          5,
+          13
+        ],
+        "hat": [],
+        "perc": [
+          3,
+          7,
+          11,
+          15
+        ]
+      },
       "patron_nota": "En corrido tumbado muchas veces NO hay batería: el ritmo lo llevan el bajo sexto y el tololoche. El patrón aquí es una aproximación.",
-      "progresiones": ["p11","p06"],
+      "progresiones": [
+        "p11",
+        "p06"
+      ],
       "estructura": "e01",
-      "instrumentacion": ["Requinto / guitarra de 12 cuerdas", "Bajo sexto", "Tololoche o tuba", "Voz sin procesar (crudeza deliberada)"],
+      "instrumentacion": [
+        "Requinto / guitarra de 12 cuerdas",
+        "Bajo sexto",
+        "Tololoche o tuba",
+        "Voz sin procesar (crudeza deliberada)"
+      ],
       "gancho": "La letra y la crudeza. Es el género de mayor crecimiento en música latina. La producción es deliberadamente sencilla — casi acústica.",
-      "errores": ["Sobreproducirlo", "Autotune evidente (el género premia la voz cruda)", "Escribir letras sin especificidad narrativa"],
+      "errores": [
+        "Sobreproducirlo",
+        "Autotune evidente (el género premia la voz cruda)",
+        "Escribir letras sin especificidad narrativa"
+      ],
       "por_que_te_sirve": "🎯 **Es donde hay más demanda de composiciones nuevas ahora mismo.** Muchos intérpretes, pocos compositores buenos. Si aprendes a escribir corrido con historia real, tienes mercado.",
       "prompt_ia": "corrido tumbado, 100 BPM, acoustic requinto guitar, bajo sexto, tololoche, raw unprocessed male vocal, narrative, intimate live-room production",
-      "conf": "media"
+      "conf": "media",
+      "arreglo": {
+        "bajo": "regional",
+        "armonia": "guitarra",
+        "color": "requinto",
+        "lead": "requinto",
+        "pad": false,
+        "notas": "Casi acústico. En corrido tumbado muchas veces no hay batería."
+      }
     }
   ],
-
   "fabrica": [
     {
-      "id": "f1", "n": 1, "nombre": "Idea", "emoji": "💡",
+      "id": "f1",
+      "n": 1,
+      "nombre": "Idea",
+      "emoji": "💡",
       "objetivo": "Convertir un impulso vago en una frase que quepa en un renglón.",
       "entregable": "Una ficha con: título tentativo · una línea de concepto · para quién es · qué siente el que la escucha.",
       "como": [
@@ -346,12 +1190,19 @@
         "Si es para vender: nombra al artista objetivo. Escucha sus 3 últimos lanzamientos. Tu canción tiene que sonar a su próximo paso, no a su disco pasado.",
         "Escoge género + BPM + tonalidad en esta estación, no después. Son las tres decisiones que amarran todo lo demás."
       ],
-      "herramientas": ["Catálogo de este módulo", "Claude / Gemini para explorar ángulos", "Notas de voz del celular"],
+      "herramientas": [
+        "Catálogo de este módulo",
+        "Claude / Gemini para explorar ángulos",
+        "Notas de voz del celular"
+      ],
       "gotcha": "El error #1 es empezar por el beat. Si arrancas por el beat, terminas con un beat bonito y sin canción. Arranca por la frase.",
       "prompt": "Eres mi asistente de composición. Tengo esta idea cruda: [DESCRIBE EN 2 LÍNEAS].\nGénero objetivo: [GÉNERO]. Artista al que quiero vendérsela: [ARTISTA].\n\nDame:\n1. Cinco títulos posibles, cortos, que se puedan cantar.\n2. La frase de una línea que resume la canción.\n3. Qué siente exactamente el oyente en el coro (una emoción concreta, no 'nostalgia').\n4. Tres ángulos distintos de la misma idea — el obvio, el opuesto y el lateral.\n5. Por qué esta canción encaja con [ARTISTA] y qué tendría que tener para que la considere.\nNo escribas letra todavía."
     },
     {
-      "id": "f2", "n": 2, "nombre": "Letra", "emoji": "✍️",
+      "id": "f2",
+      "n": 2,
+      "nombre": "Letra",
+      "emoji": "✍️",
       "objetivo": "Escribir la letra completa con el coro terminado ANTES de tocar una nota.",
       "entregable": "Letra estructurada por bloques (Verso 1 / Pre / Coro / Verso 2 / Puente), con el gancho marcado.",
       "como": [
@@ -361,12 +1212,19 @@
         "Marca la sílaba fuerte de cada línea. Tiene que caer en el golpe del ritmo. Si no cae, cambia la palabra, no el ritmo.",
         "Subraya los 7–15 segundos que vas a usar en TikTok. Si no encuentras ninguno, la letra no está lista."
       ],
-      "herramientas": ["Claude / Gemini (tienes ambos)", "Diccionario de rimas en español", "Grabadora de voz para probar la métrica"],
+      "herramientas": [
+        "Claude / Gemini (tienes ambos)",
+        "Diccionario de rimas en español",
+        "Grabadora de voz para probar la métrica"
+      ],
       "gotcha": "La IA escribe letras correctas y genéricas. Úsala para estructurar y para buscar alternativas de una línea que no te cuadra — no para que escriba la canción. La especificidad tiene que salir de ti: la IA no sabe cómo huele tu barrio.",
       "prompt": "Actúa como coescritor de [GÉNERO] en español colombiano.\n\nTítulo: [TÍTULO]\nConcepto: [UNA LÍNEA]\nEmoción del coro: [EMOCIÓN]\nBPM: [BPM] · Tonalidad: [TONO]\n\nReglas:\n- Coro: máximo 4 líneas, con una frase que se repita.\n- Versos: imágenes CONCRETAS (objetos, lugares, horas). Prohibido: 'corazón roto', 'mar de lágrimas', 'alma'.\n- Español colombiano natural, no neutro de traducción.\n- Marca con MAYÚSCULA la sílaba que cae en el golpe fuerte de cada línea.\n\nEntrega: Coro / Verso 1 / Pre-coro / Verso 2 / Puente.\nAl final, señala cuál fragmento de 8 segundos es el gancho para redes y por qué."
     },
     {
-      "id": "f3", "n": 3, "nombre": "Armonía y melodía", "emoji": "🎹",
+      "id": "f3",
+      "n": 3,
+      "nombre": "Armonía y melodía",
+      "emoji": "🎹",
       "objetivo": "Ponerle acordes y melodía a la letra, sin saber tocar.",
       "entregable": "Progresión escrita en números romanos + tonalidad + un audio cantando la melodía sobre los acordes (aunque cantes mal).",
       "como": [
@@ -376,12 +1234,19 @@
         "Si el coro no despega, prueba subir la melodía del coro 3 o 4 notas por encima del verso. Ese salto es el 90% del efecto.",
         "Graba la maqueta de voz aunque desafines. Es el documento que prueba que la melodía es TUYA (importa legalmente — ver Legal)."
       ],
-      "herramientas": ["Simulador de progresiones (este módulo)", "Moises — le sacas acordes, tono y BPM a canciones que te gustan", "Grabadora de voz"],
+      "herramientas": [
+        "Simulador de progresiones (este módulo)",
+        "Moises — le sacas acordes, tono y BPM a canciones que te gustan",
+        "Grabadora de voz"
+      ],
       "gotcha": "No busques la progresión 'original'. Las progresiones no son originales — son de dominio público y nadie las puede reclamar. Lo tuyo es la melodía y la letra. Ahí está tu propiedad.",
       "prompt": "Tengo esta letra en [GÉNERO], [BPM] BPM, tonalidad [TONO]:\n[PEGA LA LETRA]\n\n1. Propón 3 progresiones en NÚMEROS ROMANOS que funcionen para este género, y dime en qué se diferencian emocionalmente.\n2. Para el coro, dime si conviene la misma progresión del verso o cambiarla, y por qué.\n3. Describe el contorno melódico del coro: dónde sube, dónde baja, cuál es la nota más alta y en qué sílaba cae.\n4. Dime qué rango vocal necesita — si un cantante promedio la puede cantar o hay que bajarla de tono.\nExplícamelo sin jerga: soy visual y no leo partitura."
     },
     {
-      "id": "f4", "n": 4, "nombre": "Maqueta", "emoji": "🎧",
+      "id": "f4",
+      "n": 4,
+      "nombre": "Maqueta",
+      "emoji": "🎧",
       "objetivo": "Tener la canción sonando completa aunque sea fea. Sirve para decidir si vale la pena producirla.",
       "entregable": "Un audio de 2–3 minutos con la estructura completa.",
       "como": [
@@ -390,12 +1255,19 @@
         "Escucha la maqueta al día siguiente, no el mismo día. El entusiasmo del momento te miente.",
         "Test brutal: mándale 20 segundos a 3 personas sin explicar nada. Si nadie pregunta '¿qué es eso?', vuelve a la estación 2."
       ],
-      "herramientas": ["Suno / ElevenLabs Music / Udio (ver Arsenal y sus notas legales)", "FL Studio", "BandLab (gratis)"],
+      "herramientas": [
+        "Suno / ElevenLabs Music / Udio (ver Arsenal y sus notas legales)",
+        "FL Studio",
+        "BandLab (gratis)"
+      ],
       "gotcha": "⚠️ **Legal, importante:** una maqueta generada por IA no te convierte en autor de la grabación, y en varias plataformas el material del plan gratuito no se puede usar comercialmente. Usa la IA para EXPLORAR. Lo que vendes debe tener autoría humana documentable. Lee la sección Legal antes de publicar nada generado.",
       "prompt": "[Para el generador de IA — pega esto en el campo de estilo]\n[GÉNERO], [BPM] BPM, [TONO], [3 ELEMENTOS DE INSTRUMENTACIÓN], [TIPO DE VOZ], [MOOD], production style: [REFERENCIA GENÉRICA, NO UN ARTISTA REAL]\n\n[En el campo de letra pega tu letra con las etiquetas de sección]"
     },
     {
-      "id": "f5", "n": 5, "nombre": "Voz", "emoji": "🎤",
+      "id": "f5",
+      "n": 5,
+      "nombre": "Voz",
+      "emoji": "🎤",
       "objetivo": "Conseguir la voz definitiva de la maqueta o del máster.",
       "entregable": "Pista de voz limpia, seca, sin efectos, separada del instrumental.",
       "como": [
@@ -405,12 +1277,19 @@
         "Graba en la habitación más blanda de la casa (con ropa, cortinas, cama). El clóset abierto lleno de ropa es la mejor cabina gratis que existe.",
         "Graba el coro 3 veces y apílalas. Eso solo ya te sube el nivel una categoría."
       ],
-      "herramientas": ["Micrófono USB de entrada", "Audacity / FL Studio para grabar", "Kits AI, Voice-Swap, Synthesizer V, ACE Studio (ver Arsenal)"],
+      "herramientas": [
+        "Micrófono USB de entrada",
+        "Audacity / FL Studio para grabar",
+        "Kits AI, Voice-Swap, Synthesizer V, ACE Studio (ver Arsenal)"
+      ],
       "gotcha": "🚫 **Nunca clones la voz de un artista real.** Es motivo de retiro inmediato en las plataformas y de demanda. Las voces 'clearly recognizable as another artist's voice' requieren consentimiento documentado del artista. No hay atajo aquí.",
       "prompt": "Tengo una pista de voz cruda para [GÉNERO]. Dime, paso a paso y sin jerga:\n1. Orden exacto de procesamiento (qué va primero, qué va después) para que suene profesional.\n2. Qué hace cada paso en palabras simples y qué pasa si lo salto.\n3. Cómo sé que me pasé de la mano en cada uno.\n4. Qué es lo mínimo indispensable si solo puedo hacer 3 cosas."
     },
     {
-      "id": "f6", "n": 6, "nombre": "Producción", "emoji": "🎛️",
+      "id": "f6",
+      "n": 6,
+      "nombre": "Producción",
+      "emoji": "🎛️",
       "objetivo": "Convertir la maqueta en un arreglo real con dinámica.",
       "entregable": "Proyecto de DAW organizado + stems exportados (batería, bajo, armonía, melodía, voz).",
       "como": [
@@ -419,12 +1298,19 @@
         "Cada sección debe tener UNA cosa nueva que no estaba antes. Una sola. Eso mantiene la atención.",
         "Exporta stems SIEMPRE. Son lo que le entregas al artista que te compra, y lo que te salva si el proyecto se corrompe."
       ],
-      "herramientas": ["FL Studio (ya lo manejas — su step sequencer es exactamente la rejilla de 16 casillas)", "Splice / librerías de samples del género", "Moises para sacar stems de referencias y estudiar arreglos"],
+      "herramientas": [
+        "FL Studio (ya lo manejas — su step sequencer es exactamente la rejilla de 16 casillas)",
+        "Splice / librerías de samples del género",
+        "Moises para sacar stems de referencias y estudiar arreglos"
+      ],
       "gotcha": "El síndrome del 'ya casi'. Una canción producida al 85% y publicada vale infinitamente más que cinco al 95% guardadas en el disco. Ponte fecha de corte antes de empezar.",
       "prompt": "Estoy produciendo [GÉNERO] a [BPM] BPM en FL Studio. Tengo: [LISTA DE LO QUE YA TENGO].\n\n1. ¿Qué elementos le faltan a un arreglo típico del género y en qué sección entra cada uno?\n2. Dame el plan de dinámica sección por sección: qué suena y qué se calla en cada una.\n3. ¿Cuál es el error más común de un productor novato en este género específico?\n4. Dame un checklist de 8 puntos para saber si el arreglo está terminado."
     },
     {
-      "id": "f7", "n": 7, "nombre": "Mezcla y máster", "emoji": "📊",
+      "id": "f7",
+      "n": 7,
+      "nombre": "Mezcla y máster",
+      "emoji": "📊",
       "objetivo": "Que suene bien en un celular, en un carro y en unos audífonos baratos.",
       "entregable": "WAV 24 bits final + versión instrumental + versión a capela.",
       "como": [
@@ -433,12 +1319,19 @@
         "Deja headroom: exporta la mezcla con picos alrededor de −6 dB para que el máster tenga espacio de trabajo.",
         "Exporta SIEMPRE tres versiones: la mezcla completa, el instrumental (sin voz) y la a capela (solo voz). Las tres se venden por separado."
       ],
-      "herramientas": ["iZotope Ozone (control total)", "LANDR / Masterchannel / BandLab Mastering (rápido)", "Sonarworks SoundID si mezclas con audífonos"],
+      "herramientas": [
+        "iZotope Ozone (control total)",
+        "LANDR / Masterchannel / BandLab Mastering (rápido)",
+        "Sonarworks SoundID si mezclas con audífonos"
+      ],
       "gotcha": "Mezclar con los audífonos que usas para todo te va a engañar. Todos los audífonos mienten distinto. Referencia: pon una canción comercial del mismo género al lado y compara volumen y brillo constantemente.",
       "prompt": "Terminé la mezcla de un tema de [GÉNERO]. Dame:\n1. Un checklist de 10 puntos de mezcla específico para este género (qué frecuencias pelean, qué debe dominar).\n2. Los rangos de referencia de loudness para streaming y qué pasa si me paso.\n3. Cómo comparar mi mezcla con una referencia comercial sin engañarme con el volumen.\n4. Las 3 señales de que necesito un ingeniero de verdad y no un máster automático."
     },
     {
-      "id": "f8", "n": 8, "nombre": "Empaque", "emoji": "📦",
+      "id": "f8",
+      "n": 8,
+      "nombre": "Empaque",
+      "emoji": "📦",
       "objetivo": "Que la canción sea un producto identificable y rastreable, no un archivo suelto.",
       "entregable": "Carpeta completa: audio + arte + metadata + split sheet firmado + registro DNDA.",
       "como": [
@@ -448,12 +1341,20 @@
         "Registra la obra en la DNDA (Colombia, gratuito). Es tu comprobante de que la escribiste tú y en qué fecha.",
         "Si usaste IA en algún punto, deja constancia interna de QUÉ hizo la IA y QUÉ hiciste tú. Lo vas a necesitar."
       ],
-      "herramientas": ["Canva / Photoshop / generadores de imagen para el arte", "Plantilla de split sheet (este módulo)", "derechodeautor.gov.co", "Distribuidora para el ISRC"],
+      "herramientas": [
+        "Canva / Photoshop / generadores de imagen para el arte",
+        "Plantilla de split sheet (este módulo)",
+        "derechodeautor.gov.co",
+        "Distribuidora para el ISRC"
+      ],
       "gotcha": "El ISRC identifica la GRABACIÓN. Si re-subes la canción con un ISRC distinto, pierdes el historial de reproducciones y las playlists. Guarda tus ISRC en el catálogo de este módulo.",
       "prompt": "Voy a publicar un tema de [GÉNERO] titulado [TÍTULO].\n\n1. Dame la lista completa de metadata que necesito antes de subirlo a una distribuidora.\n2. Explícame qué es ISRC, ISWC y UPC — cuál identifica qué, y cuál me dan y cuál pido yo.\n3. Dame el texto de un split sheet simple en español que pueda firmar con un colaborador.\n4. Checklist de lo que tengo que tener guardado para poder demostrar autoría dentro de 5 años."
     },
     {
-      "id": "f9", "n": 9, "nombre": "Lanzamiento y venta", "emoji": "🚀",
+      "id": "f9",
+      "n": 9,
+      "nombre": "Lanzamiento y venta",
+      "emoji": "🚀",
       "objetivo": "Que la canción llegue a oídos y a compradores. No es el final: es donde empieza el trabajo real.",
       "entregable": "Canción publicada + 12 piezas de contenido + pitch enviado a X artistas.",
       "como": [
@@ -463,78 +1364,463 @@
         "Pitch paralelo: mientras sube el tema, manda la maqueta a artistas objetivo. Ver sección Negocio para el guion.",
         "Mide a las 2 semanas: guardados, cuánto duran escuchando, de dónde vienen. Eso decide qué haces en el siguiente tema."
       ],
-      "herramientas": ["DistroKid / TuneCore / CD Baby / Amuse", "Camtasia (ya lo manejas) / CapCut / DaVinci Resolve", "Spotify for Artists", "BeatStars o pitch directo"],
+      "herramientas": [
+        "DistroKid / TuneCore / CD Baby / Amuse",
+        "Camtasia (ya lo manejas) / CapCut / DaVinci Resolve",
+        "Spotify for Artists",
+        "BeatStars o pitch directo"
+      ],
       "gotcha": "Publicar y esperar no es una estrategia. El 90% del resultado de un lanzamiento se decide en las 4 semanas ANTES de que salga, no después.",
       "prompt": "Lanzo [TÍTULO], [GÉNERO], el [FECHA]. Público: [DESCRIBE].\n\n1. Calendario día por día desde D-28 hasta D+14: qué hago cada día.\n2. Doce ideas de contenido corto a partir de UNA sola canción, cada una con su gancho de primer segundo.\n3. Un guion de pitch de 5 líneas para mandarle la canción a un artista.\n4. Las 5 métricas que debo mirar a las 2 semanas y qué decisión tomo con cada resultado."
     }
   ],
-
   "arsenal": [
-    { "id":"a01","cat":"Generación","nombre":"Suno","url":"https://suno.com","rol":"Genera una canción completa (voz + instrumental) desde un texto.","costo":"suscripción","ver":"2026-09-08",
-      "porque":"Es el más rápido para explorar una idea y oírla sonando. Bueno para maquetas y para probar si un concepto funciona.",
-      "riesgo":"⚠️ Tras el acuerdo con Warner (nov-2025) los términos cambiaron: se otorga licencia de explotación comercial a los suscriptores de pago, pero se retiró el lenguaje de 'propiedad' del usuario. Lo generado en plan gratuito no se puede usar comercialmente. Lee los términos vigentes antes de vender nada.","conf":"alta" },
-    { "id":"a02","cat":"Generación","nombre":"Udio","url":"https://udio.com","rol":"Generador de canciones, competidor directo de Suno.","costo":"suscripción","ver":"2026-09-08",
-      "porque":"Calidad comparable en pruebas frente a frente.","riesgo":"⚠️ Las descargas de audio, video y stems estuvieron deshabilitadas durante la transición a su plataforma co-licenciada con UMG. Verifica el estado actual antes de depender de él.","conf":"media" },
-    { "id":"a03","cat":"Generación","nombre":"ElevenLabs Music","url":"https://elevenlabs.io","rol":"Generación musical con salida licenciada comercialmente desde el inicio.","costo":"suscripción","ver":"2026-09-08",
-      "porque":"🎯 **La historia legal más limpia de las tres.** Si el destino es comercial o para un cliente, este es el camino de menor riesgo.","riesgo":"Menos control estilístico fino que Suno en algunos géneros.","conf":"alta" },
-    { "id":"a04","cat":"Generación","nombre":"Soundraw","url":"https://soundraw.io","rol":"Música libre de regalías para contenido.","costo":"suscripción","ver":"2026-09-08","porque":"Pensado para creadores de contenido, no para lanzamientos artísticos. Útil para fondos de tus videos.","riesgo":"No es para vender composiciones.","conf":"media" },
-    { "id":"a05","cat":"Generación","nombre":"Riffusion","url":"https://riffusion.com","rol":"Generación musical alternativa.","costo":"freemium","ver":"2026-09-08","porque":"Otra voz en el ring; útil para contrastar resultados.","riesgo":"Verifica sus términos comerciales.","conf":"media" },
-
-    { "id":"a10","cat":"Voz","nombre":"Kits AI","url":"https://kits.ai","rol":"Convierte tu voz grabada en otra voz, usando modelos licenciados y libres de regalías.","costo":"freemium","ver":"2026-09-08",
-      "porque":"🎯 **Resuelve tu problema de que no eres cantante.** Cantas tú (aportas la interpretación y la melodía = autoría humana) y sale con otro timbre. Fue adquirida por Splice.","riesgo":"Solo usa los modelos licenciados de la plataforma. Nunca subas un modelo entrenado con la voz de un artista real.","conf":"alta" },
-    { "id":"a11","cat":"Voz","nombre":"Voice-Swap","url":"https://voice-swap.ai","rol":"Conversión de voz con modelos de artistas que cedieron licencia.","costo":"suscripción","ver":"2026-09-08","porque":"Modelos con licencia explícita del artista — cadena de derechos clara.","riesgo":"Revisa qué permite cada modelo: no todos autorizan uso comercial.","conf":"media" },
-    { "id":"a12","cat":"Voz","nombre":"Synthesizer V (Dreamtonics)","url":"https://dreamtonics.com","rol":"Sintetiza una voz cantada a partir de notas + letra que tú escribes.","costo":"licencia","ver":"2026-09-08","porque":"No necesitas cantar en absoluto: escribes la melodía y él la canta. Soporta coros polifónicos.","riesgo":"Curva de aprendizaje; suena sintético si no lo trabajas.","conf":"media" },
-    { "id":"a13","cat":"Voz","nombre":"ACE Studio","url":"https://acestudio.ai","rol":"Síntesis vocal + instrumentos IA en un mismo entorno.","costo":"suscripción","ver":"2026-09-08","porque":"Alternativa todo-en-uno a Synthesizer V.","riesgo":"Igual que arriba.","conf":"media" },
-
-    { "id":"a20","cat":"DAW","nombre":"FL Studio","url":"https://www.image-line.com","rol":"Tu estación de trabajo principal.","costo":"licencia una vez","ver":"2026-09-08",
-      "porque":"🎯 **Ya lo manejas — no lo cambies.** Su step sequencer ES la rejilla de 16 casillas de este módulo. Para reggaetón, champeta y trap es de lo mejor que hay.","riesgo":"Ninguno relevante. Es una ventaja que ya tengas la curva superada.","conf":"alta" },
-    { "id":"a21","cat":"DAW","nombre":"Reaper","url":"https://www.reaper.fm","rol":"DAW alternativa, muy liviana.","costo":"licencia barata","ver":"2026-09-08","porque":"Corre en PCs modestos y es infinitamente configurable.","riesgo":"Interfaz austera; menos orientado a beats que FL.","conf":"media" },
-    { "id":"a22","cat":"DAW","nombre":"BandLab","url":"https://www.bandlab.com","rol":"DAW en el navegador + masterización.","costo":"gratis","ver":"2026-09-08","porque":"Cero fricción para bocetar desde cualquier equipo.","riesgo":"Limitado para producción seria.","conf":"media" },
-
-    { "id":"a30","cat":"Análisis","nombre":"Moises","url":"https://moises.ai","rol":"Separa cualquier canción en pistas y detecta acordes, tono y BPM.","costo":"freemium","ver":"2026-09-08",
-      "porque":"🎯 **Tu escuela de armonía sin profesor.** Le metes una canción que te gusta y te dice los acordes. Es la forma más rápida de aprender qué usan los que ya venden. Úsalo para ESTUDIAR, no para copiar.","riesgo":"Los acordes detectados no siempre son exactos en música densa; verifica con el oído.","conf":"alta" },
-    { "id":"a31","cat":"Análisis","nombre":"LALAL.AI","url":"https://www.lalal.ai","rol":"Separación de pistas de alta calidad, hasta 10 stems.","costo":"por uso","ver":"2026-09-08","porque":"Calidad muy alta, sobre todo aislando voces.","riesgo":"Sin detección de acordes.","conf":"alta" },
-    { "id":"a32","cat":"Análisis","nombre":"Ultimate Vocal Remover (UVR + Demucs)","url":"https://github.com/Anjok07/ultimatevocalremovergui","rol":"Separación de pistas local y gratuita.","costo":"gratis","ver":"2026-09-08","porque":"Gratis, ilimitado, corre en tu PC, no sube nada a internet. Con ensemble de Demucs la calidad compite con lo pago.","riesgo":"Requiere instalación y un PC decente. Es lento sin GPU potente.","conf":"alta" },
-
-    { "id":"a40","cat":"Mezcla/Máster","nombre":"iZotope Ozone","url":"https://www.izotope.com","rol":"Masterización con asistente y control manual completo.","costo":"licencia","ver":"2026-09-08","porque":"El estándar cuando quieres decidir tú y no aceptar lo que salga.","riesgo":"Es fácil pasarse. Menos siempre es más.","conf":"alta" },
-    { "id":"a41","cat":"Mezcla/Máster","nombre":"LANDR","url":"https://www.landr.com","rol":"Masterización automática + licenciamiento de covers.","costo":"suscripción","ver":"2026-09-08","porque":"Rápido, y además ofrece licenciamiento de canciones cover.","riesgo":"Resultado genérico; no reemplaza a un ingeniero.","conf":"alta" },
-    { "id":"a42","cat":"Mezcla/Máster","nombre":"Sonarworks SoundID","url":"https://www.sonarworks.com","rol":"Corrige la respuesta de tus audífonos.","costo":"licencia","ver":"2026-09-08","porque":"🎯 Si mezclas con audífonos (lo más probable), esto es lo que evita que tus mezclas suenen mal en otros equipos.","riesgo":"Necesita que tu modelo de audífonos esté en su base.","conf":"media" },
-
-    { "id":"a50","cat":"Distribución","nombre":"DistroKid","url":"https://distrokid.com","rol":"Sube tu música a Spotify, Apple Music y demás.","costo":"suscripción anual","ver":"2026-09-08","porque":"El más rápido en publicar y el que mejor resuelve los covers (licencia mecánica vía Harry Fox Agency como complemento).","riesgo":"⚠️ Si dejas de pagar, tu música baja de las tiendas.","conf":"alta" },
-    { "id":"a51","cat":"Distribución","nombre":"CD Baby","url":"https://cdbaby.com","rol":"Distribución con pago único por lanzamiento.","costo":"pago único por release","ver":"2026-09-08","porque":"🎯 **Tu música se queda arriba para siempre**, no depende de que sigas pagando. Cobra un porcentaje de las regalías en vez de una anualidad.","riesgo":"Se queda con un % de streaming y un % mayor de sync y de lo recaudado vía MLC. Compara según tu volumen.","conf":"alta" },
-    { "id":"a52","cat":"Distribución","nombre":"TuneCore","url":"https://www.tunecore.com","rol":"Distribución + administración editorial.","costo":"suscripción","ver":"2026-09-08","porque":"Su brazo de publishing recauda mecánicos e internacionales por ti.","riesgo":"Comisión sobre lo editorial + costo de alta por compositor.","conf":"media" },
-    { "id":"a53","cat":"Distribución","nombre":"Amuse","url":"https://www.amuse.io","rol":"Distribución con capa gratuita.","costo":"gratis / suscripción","ver":"2026-09-08","porque":"Punto de entrada sin costo para tus primeros lanzamientos.","riesgo":"Si dejas el plan, la música baja. Menos servicios.","conf":"media" },
-
-    { "id":"a60","cat":"Venta","nombre":"BeatStars","url":"https://www.beatstars.com","rol":"Mercado para vender pistas: licencias no exclusivas y exclusivas.","costo":"comisión por venta","ver":"2026-09-08",
-      "porque":"🎯 **El mercado más grande por volumen.** Es donde los artistas van a buscar pistas. Cobra comisión sobre cada venta.","riesgo":"Está saturado. Sin tráfico propio desde redes, tu perfil no lo encuentra nadie. Por eso el módulo Universo importa tanto como el musical.","conf":"alta" },
-    { "id":"a61","cat":"Venta","nombre":"Airbit","url":"https://airbit.com","rol":"Mercado de pistas alternativo.","costo":"suscripción, sin comisión por venta","ver":"2026-09-08","porque":"No cobra comisión sobre las ventas — conviene cuando ya vendes con volumen.","riesgo":"Menos tráfico orgánico que BeatStars.","conf":"alta" },
-    { "id":"a62","cat":"Venta","nombre":"Songtradr / Artlist / Musicbed / Music Vine","url":"https://www.songtradr.com","rol":"Licenciamiento sincronizado: publicidad, series, videojuegos.","costo":"variable","ver":"2026-09-08","porque":"🎯 **El sync paga mucho mejor que el streaming.** Un solo uso en publicidad puede valer más que un año de reproducciones.","riesgo":"Necesitas dueño de derechos 100% limpio y stems. Si usaste IA sin poder acreditar autoría, aquí te rebotan.","conf":"media" },
-    { "id":"a63","cat":"Venta","nombre":"SubmitHub","url":"https://www.submithub.com","rol":"Enviar tu música a curadores, blogs y playlists.","costo":"por envío","ver":"2026-09-08","porque":"Camino directo a curadores sin contactos previos.","riesgo":"Se paga por envío y la tasa de respuesta positiva es baja. No lo uses hasta tener un tema realmente terminado.","conf":"media" },
-
-    { "id":"a70","cat":"Legal","nombre":"DNDA Colombia","url":"https://www.derechodeautor.gov.co","rol":"Registro oficial de tu obra ante el Estado colombiano.","costo":"gratis","ver":"2026-09-08",
-      "porque":"🎯 **Gratis y es tu título de propiedad.** Deja constancia legal con fecha de que la canción es tuya. Primer paso de todo.","riesgo":"Requiere letra + partitura en PDF; si no tienes partitura puedes registrar la letra como obra literaria o adjuntar el audio (MP3/WAV/ZIP). El título del formulario debe coincidir EXACTAMENTE con el del archivo o te devuelven el trámite.","conf":"alta" },
-    { "id":"a71","cat":"Legal","nombre":"SAYCO","url":"https://www.sayco.org","rol":"Sociedad que recauda tus regalías de autor cuando la canción suena en público.","costo":"afiliación","ver":"2026-09-08","porque":"Cobra por ti cuando tu música suena en radio, TV, plataformas y locales.","riesgo":"La afiliación como autor exige acreditar un número de obras (se ha exigido 20 con sus fonogramas) y el certificado de registro de la DNDA. Verifica los requisitos vigentes directamente con ellos.","conf":"media" },
-    { "id":"a72","cat":"Legal","nombre":"The MLC","url":"https://www.themlc.com","rol":"Recauda regalías mecánicas de streaming en Estados Unidos.","costo":"gratis","ver":"2026-09-08","porque":"Si tu música se escucha en EE. UU. y no estás registrado aquí, esa plata se queda sin reclamar.","riesgo":"Es específico de EE. UU.; no reemplaza a SAYCO.","conf":"alta" },
-    { "id":"a73","cat":"Legal","nombre":"Songfile (HFA) / Easy Song","url":"https://www.songfile.com","rol":"Licencia mecánica para publicar covers.","costo":"por licencia","ver":"2026-09-08","porque":"Es el trámite que hace legal publicar la versión de una canción ajena.","riesgo":"Solo aplica si la canción original ya se publicó y tú conservas letra, melodía y título esencialmente intactos.","conf":"alta" },
-
-    { "id":"a80","cat":"Visual","nombre":"Camtasia","url":"https://www.techsmith.com/camtasia","rol":"Edición de video.","costo":"licencia","ver":"2026-09-08","porque":"🎯 Ya lo manejas. Perfecto para videos con texto en pantalla, lyric videos y contenido explicativo.","riesgo":"No está pensado para video vertical de redes; para eso rinde más CapCut o DaVinci.","conf":"alta" },
-    { "id":"a81","cat":"Visual","nombre":"DaVinci Resolve","url":"https://www.blackmagicdesign.com/products/davinciresolve","rol":"Edición de video profesional.","costo":"gratis","ver":"2026-09-08","porque":"Gratis y de nivel profesional, con corrección de color de cine.","riesgo":"Pesado; exige buen PC.","conf":"alta" },
-    { "id":"a82","cat":"Visual","nombre":"CapCut","url":"https://www.capcut.com","rol":"Edición rápida de video vertical.","costo":"freemium","ver":"2026-09-08","porque":"Hecho para el formato de redes; el más rápido para producir en volumen.","riesgo":"Revisa los términos de uso comercial de sus plantillas y músicas.","conf":"media" },
-    { "id":"a83","cat":"Visual","nombre":"Canva","url":"https://www.canva.com","rol":"Arte de portada y piezas gráficas.","costo":"freemium","ver":"2026-09-08","porque":"Suficiente para portadas de 3000×3000 y piezas de redes.","riesgo":"Cuidado con plantillas muy reconocibles: tu identidad visual debe ser tuya.","conf":"media" },
-
-    { "id":"a90","cat":"Analítica","nombre":"Spotify for Artists","url":"https://artists.spotify.com","rol":"Datos de tu música en Spotify + pitch editorial.","costo":"gratis","ver":"2026-09-08","porque":"🎯 Es donde envías la canción a consideración editorial. Hay que hacerlo con semanas de anticipación al lanzamiento.","riesgo":"Solo cubre Spotify.","conf":"alta" },
-    { "id":"a91","cat":"Analítica","nombre":"Chartmetric","url":"https://chartmetric.com","rol":"Inteligencia de mercado musical.","costo":"freemium","ver":"2026-09-08","porque":"Para investigar a los artistas a los que vas a pitchear: qué lanzan, con quién trabajan, cómo crecen.","riesgo":"La capa gratuita es limitada.","conf":"media" }
+    {
+      "id": "a01",
+      "cat": "Generación",
+      "nombre": "Suno",
+      "url": "https://suno.com",
+      "rol": "Genera una canción completa (voz + instrumental) desde un texto.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Es el más rápido para explorar una idea y oírla sonando. Bueno para maquetas y para probar si un concepto funciona.",
+      "riesgo": "⚠️ Tras el acuerdo con Warner (nov-2025) los términos cambiaron: se otorga licencia de explotación comercial a los suscriptores de pago, pero se retiró el lenguaje de 'propiedad' del usuario. Lo generado en plan gratuito no se puede usar comercialmente. Lee los términos vigentes antes de vender nada.",
+      "conf": "alta"
+    },
+    {
+      "id": "a02",
+      "cat": "Generación",
+      "nombre": "Udio",
+      "url": "https://udio.com",
+      "rol": "Generador de canciones, competidor directo de Suno.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Calidad comparable en pruebas frente a frente.",
+      "riesgo": "⚠️ Las descargas de audio, video y stems estuvieron deshabilitadas durante la transición a su plataforma co-licenciada con UMG. Verifica el estado actual antes de depender de él.",
+      "conf": "media"
+    },
+    {
+      "id": "a03",
+      "cat": "Generación",
+      "nombre": "ElevenLabs Music",
+      "url": "https://elevenlabs.io",
+      "rol": "Generación musical con salida licenciada comercialmente desde el inicio.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "🎯 **La historia legal más limpia de las tres.** Si el destino es comercial o para un cliente, este es el camino de menor riesgo.",
+      "riesgo": "Menos control estilístico fino que Suno en algunos géneros.",
+      "conf": "alta"
+    },
+    {
+      "id": "a04",
+      "cat": "Generación",
+      "nombre": "Soundraw",
+      "url": "https://soundraw.io",
+      "rol": "Música libre de regalías para contenido.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Pensado para creadores de contenido, no para lanzamientos artísticos. Útil para fondos de tus videos.",
+      "riesgo": "No es para vender composiciones.",
+      "conf": "media"
+    },
+    {
+      "id": "a05",
+      "cat": "Generación",
+      "nombre": "Riffusion",
+      "url": "https://riffusion.com",
+      "rol": "Generación musical alternativa.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "Otra voz en el ring; útil para contrastar resultados.",
+      "riesgo": "Verifica sus términos comerciales.",
+      "conf": "media"
+    },
+    {
+      "id": "a10",
+      "cat": "Voz",
+      "nombre": "Kits AI",
+      "url": "https://kits.ai",
+      "rol": "Convierte tu voz grabada en otra voz, usando modelos licenciados y libres de regalías.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "🎯 **Resuelve tu problema de que no eres cantante.** Cantas tú (aportas la interpretación y la melodía = autoría humana) y sale con otro timbre. Fue adquirida por Splice.",
+      "riesgo": "Solo usa los modelos licenciados de la plataforma. Nunca subas un modelo entrenado con la voz de un artista real.",
+      "conf": "alta"
+    },
+    {
+      "id": "a11",
+      "cat": "Voz",
+      "nombre": "Voice-Swap",
+      "url": "https://voice-swap.ai",
+      "rol": "Conversión de voz con modelos de artistas que cedieron licencia.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Modelos con licencia explícita del artista — cadena de derechos clara.",
+      "riesgo": "Revisa qué permite cada modelo: no todos autorizan uso comercial.",
+      "conf": "media"
+    },
+    {
+      "id": "a12",
+      "cat": "Voz",
+      "nombre": "Synthesizer V (Dreamtonics)",
+      "url": "https://dreamtonics.com",
+      "rol": "Sintetiza una voz cantada a partir de notas + letra que tú escribes.",
+      "costo": "licencia",
+      "ver": "2026-09-08",
+      "porque": "No necesitas cantar en absoluto: escribes la melodía y él la canta. Soporta coros polifónicos.",
+      "riesgo": "Curva de aprendizaje; suena sintético si no lo trabajas.",
+      "conf": "media"
+    },
+    {
+      "id": "a13",
+      "cat": "Voz",
+      "nombre": "ACE Studio",
+      "url": "https://acestudio.ai",
+      "rol": "Síntesis vocal + instrumentos IA en un mismo entorno.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Alternativa todo-en-uno a Synthesizer V.",
+      "riesgo": "Igual que arriba.",
+      "conf": "media"
+    },
+    {
+      "id": "a20",
+      "cat": "DAW",
+      "nombre": "FL Studio",
+      "url": "https://www.image-line.com",
+      "rol": "Tu estación de trabajo principal.",
+      "costo": "licencia una vez",
+      "ver": "2026-09-08",
+      "porque": "🎯 **Ya lo manejas — no lo cambies.** Su step sequencer ES la rejilla de 16 casillas de este módulo. Para reggaetón, champeta y trap es de lo mejor que hay.",
+      "riesgo": "Ninguno relevante. Es una ventaja que ya tengas la curva superada.",
+      "conf": "alta"
+    },
+    {
+      "id": "a21",
+      "cat": "DAW",
+      "nombre": "Reaper",
+      "url": "https://www.reaper.fm",
+      "rol": "DAW alternativa, muy liviana.",
+      "costo": "licencia barata",
+      "ver": "2026-09-08",
+      "porque": "Corre en PCs modestos y es infinitamente configurable.",
+      "riesgo": "Interfaz austera; menos orientado a beats que FL.",
+      "conf": "media"
+    },
+    {
+      "id": "a22",
+      "cat": "DAW",
+      "nombre": "BandLab",
+      "url": "https://www.bandlab.com",
+      "rol": "DAW en el navegador + masterización.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "Cero fricción para bocetar desde cualquier equipo.",
+      "riesgo": "Limitado para producción seria.",
+      "conf": "media"
+    },
+    {
+      "id": "a30",
+      "cat": "Análisis",
+      "nombre": "Moises",
+      "url": "https://moises.ai",
+      "rol": "Separa cualquier canción en pistas y detecta acordes, tono y BPM.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "🎯 **Tu escuela de armonía sin profesor.** Le metes una canción que te gusta y te dice los acordes. Es la forma más rápida de aprender qué usan los que ya venden. Úsalo para ESTUDIAR, no para copiar.",
+      "riesgo": "Los acordes detectados no siempre son exactos en música densa; verifica con el oído.",
+      "conf": "alta"
+    },
+    {
+      "id": "a31",
+      "cat": "Análisis",
+      "nombre": "LALAL.AI",
+      "url": "https://www.lalal.ai",
+      "rol": "Separación de pistas de alta calidad, hasta 10 stems.",
+      "costo": "por uso",
+      "ver": "2026-09-08",
+      "porque": "Calidad muy alta, sobre todo aislando voces.",
+      "riesgo": "Sin detección de acordes.",
+      "conf": "alta"
+    },
+    {
+      "id": "a32",
+      "cat": "Análisis",
+      "nombre": "Ultimate Vocal Remover (UVR + Demucs)",
+      "url": "https://github.com/Anjok07/ultimatevocalremovergui",
+      "rol": "Separación de pistas local y gratuita.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "Gratis, ilimitado, corre en tu PC, no sube nada a internet. Con ensemble de Demucs la calidad compite con lo pago.",
+      "riesgo": "Requiere instalación y un PC decente. Es lento sin GPU potente.",
+      "conf": "alta"
+    },
+    {
+      "id": "a40",
+      "cat": "Mezcla/Máster",
+      "nombre": "iZotope Ozone",
+      "url": "https://www.izotope.com",
+      "rol": "Masterización con asistente y control manual completo.",
+      "costo": "licencia",
+      "ver": "2026-09-08",
+      "porque": "El estándar cuando quieres decidir tú y no aceptar lo que salga.",
+      "riesgo": "Es fácil pasarse. Menos siempre es más.",
+      "conf": "alta"
+    },
+    {
+      "id": "a41",
+      "cat": "Mezcla/Máster",
+      "nombre": "LANDR",
+      "url": "https://www.landr.com",
+      "rol": "Masterización automática + licenciamiento de covers.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Rápido, y además ofrece licenciamiento de canciones cover.",
+      "riesgo": "Resultado genérico; no reemplaza a un ingeniero.",
+      "conf": "alta"
+    },
+    {
+      "id": "a42",
+      "cat": "Mezcla/Máster",
+      "nombre": "Sonarworks SoundID",
+      "url": "https://www.sonarworks.com",
+      "rol": "Corrige la respuesta de tus audífonos.",
+      "costo": "licencia",
+      "ver": "2026-09-08",
+      "porque": "🎯 Si mezclas con audífonos (lo más probable), esto es lo que evita que tus mezclas suenen mal en otros equipos.",
+      "riesgo": "Necesita que tu modelo de audífonos esté en su base.",
+      "conf": "media"
+    },
+    {
+      "id": "a50",
+      "cat": "Distribución",
+      "nombre": "DistroKid",
+      "url": "https://distrokid.com",
+      "rol": "Sube tu música a Spotify, Apple Music y demás.",
+      "costo": "suscripción anual",
+      "ver": "2026-09-08",
+      "porque": "El más rápido en publicar y el que mejor resuelve los covers (licencia mecánica vía Harry Fox Agency como complemento).",
+      "riesgo": "⚠️ Si dejas de pagar, tu música baja de las tiendas.",
+      "conf": "alta"
+    },
+    {
+      "id": "a51",
+      "cat": "Distribución",
+      "nombre": "CD Baby",
+      "url": "https://cdbaby.com",
+      "rol": "Distribución con pago único por lanzamiento.",
+      "costo": "pago único por release",
+      "ver": "2026-09-08",
+      "porque": "🎯 **Tu música se queda arriba para siempre**, no depende de que sigas pagando. Cobra un porcentaje de las regalías en vez de una anualidad.",
+      "riesgo": "Se queda con un % de streaming y un % mayor de sync y de lo recaudado vía MLC. Compara según tu volumen.",
+      "conf": "alta"
+    },
+    {
+      "id": "a52",
+      "cat": "Distribución",
+      "nombre": "TuneCore",
+      "url": "https://www.tunecore.com",
+      "rol": "Distribución + administración editorial.",
+      "costo": "suscripción",
+      "ver": "2026-09-08",
+      "porque": "Su brazo de publishing recauda mecánicos e internacionales por ti.",
+      "riesgo": "Comisión sobre lo editorial + costo de alta por compositor.",
+      "conf": "media"
+    },
+    {
+      "id": "a53",
+      "cat": "Distribución",
+      "nombre": "Amuse",
+      "url": "https://www.amuse.io",
+      "rol": "Distribución con capa gratuita.",
+      "costo": "gratis / suscripción",
+      "ver": "2026-09-08",
+      "porque": "Punto de entrada sin costo para tus primeros lanzamientos.",
+      "riesgo": "Si dejas el plan, la música baja. Menos servicios.",
+      "conf": "media"
+    },
+    {
+      "id": "a60",
+      "cat": "Venta",
+      "nombre": "BeatStars",
+      "url": "https://www.beatstars.com",
+      "rol": "Mercado para vender pistas: licencias no exclusivas y exclusivas.",
+      "costo": "comisión por venta",
+      "ver": "2026-09-08",
+      "porque": "🎯 **El mercado más grande por volumen.** Es donde los artistas van a buscar pistas. Cobra comisión sobre cada venta.",
+      "riesgo": "Está saturado. Sin tráfico propio desde redes, tu perfil no lo encuentra nadie. Por eso el módulo Universo importa tanto como el musical.",
+      "conf": "alta"
+    },
+    {
+      "id": "a61",
+      "cat": "Venta",
+      "nombre": "Airbit",
+      "url": "https://airbit.com",
+      "rol": "Mercado de pistas alternativo.",
+      "costo": "suscripción, sin comisión por venta",
+      "ver": "2026-09-08",
+      "porque": "No cobra comisión sobre las ventas — conviene cuando ya vendes con volumen.",
+      "riesgo": "Menos tráfico orgánico que BeatStars.",
+      "conf": "alta"
+    },
+    {
+      "id": "a62",
+      "cat": "Venta",
+      "nombre": "Songtradr / Artlist / Musicbed / Music Vine",
+      "url": "https://www.songtradr.com",
+      "rol": "Licenciamiento sincronizado: publicidad, series, videojuegos.",
+      "costo": "variable",
+      "ver": "2026-09-08",
+      "porque": "🎯 **El sync paga mucho mejor que el streaming.** Un solo uso en publicidad puede valer más que un año de reproducciones.",
+      "riesgo": "Necesitas dueño de derechos 100% limpio y stems. Si usaste IA sin poder acreditar autoría, aquí te rebotan.",
+      "conf": "media"
+    },
+    {
+      "id": "a63",
+      "cat": "Venta",
+      "nombre": "SubmitHub",
+      "url": "https://www.submithub.com",
+      "rol": "Enviar tu música a curadores, blogs y playlists.",
+      "costo": "por envío",
+      "ver": "2026-09-08",
+      "porque": "Camino directo a curadores sin contactos previos.",
+      "riesgo": "Se paga por envío y la tasa de respuesta positiva es baja. No lo uses hasta tener un tema realmente terminado.",
+      "conf": "media"
+    },
+    {
+      "id": "a70",
+      "cat": "Legal",
+      "nombre": "DNDA Colombia",
+      "url": "https://www.derechodeautor.gov.co",
+      "rol": "Registro oficial de tu obra ante el Estado colombiano.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "🎯 **Gratis y es tu título de propiedad.** Deja constancia legal con fecha de que la canción es tuya. Primer paso de todo.",
+      "riesgo": "Requiere letra + partitura en PDF; si no tienes partitura puedes registrar la letra como obra literaria o adjuntar el audio (MP3/WAV/ZIP). El título del formulario debe coincidir EXACTAMENTE con el del archivo o te devuelven el trámite.",
+      "conf": "alta"
+    },
+    {
+      "id": "a71",
+      "cat": "Legal",
+      "nombre": "SAYCO",
+      "url": "https://www.sayco.org",
+      "rol": "Sociedad que recauda tus regalías de autor cuando la canción suena en público.",
+      "costo": "afiliación",
+      "ver": "2026-09-08",
+      "porque": "Cobra por ti cuando tu música suena en radio, TV, plataformas y locales.",
+      "riesgo": "La afiliación como autor exige acreditar un número de obras (se ha exigido 20 con sus fonogramas) y el certificado de registro de la DNDA. Verifica los requisitos vigentes directamente con ellos.",
+      "conf": "media"
+    },
+    {
+      "id": "a72",
+      "cat": "Legal",
+      "nombre": "The MLC",
+      "url": "https://www.themlc.com",
+      "rol": "Recauda regalías mecánicas de streaming en Estados Unidos.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "Si tu música se escucha en EE. UU. y no estás registrado aquí, esa plata se queda sin reclamar.",
+      "riesgo": "Es específico de EE. UU.; no reemplaza a SAYCO.",
+      "conf": "alta"
+    },
+    {
+      "id": "a73",
+      "cat": "Legal",
+      "nombre": "Songfile (HFA) / Easy Song",
+      "url": "https://www.songfile.com",
+      "rol": "Licencia mecánica para publicar covers.",
+      "costo": "por licencia",
+      "ver": "2026-09-08",
+      "porque": "Es el trámite que hace legal publicar la versión de una canción ajena.",
+      "riesgo": "Solo aplica si la canción original ya se publicó y tú conservas letra, melodía y título esencialmente intactos.",
+      "conf": "alta"
+    },
+    {
+      "id": "a80",
+      "cat": "Visual",
+      "nombre": "Camtasia",
+      "url": "https://www.techsmith.com/camtasia",
+      "rol": "Edición de video.",
+      "costo": "licencia",
+      "ver": "2026-09-08",
+      "porque": "🎯 Ya lo manejas. Perfecto para videos con texto en pantalla, lyric videos y contenido explicativo.",
+      "riesgo": "No está pensado para video vertical de redes; para eso rinde más CapCut o DaVinci.",
+      "conf": "alta"
+    },
+    {
+      "id": "a81",
+      "cat": "Visual",
+      "nombre": "DaVinci Resolve",
+      "url": "https://www.blackmagicdesign.com/products/davinciresolve",
+      "rol": "Edición de video profesional.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "Gratis y de nivel profesional, con corrección de color de cine.",
+      "riesgo": "Pesado; exige buen PC.",
+      "conf": "alta"
+    },
+    {
+      "id": "a82",
+      "cat": "Visual",
+      "nombre": "CapCut",
+      "url": "https://www.capcut.com",
+      "rol": "Edición rápida de video vertical.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "Hecho para el formato de redes; el más rápido para producir en volumen.",
+      "riesgo": "Revisa los términos de uso comercial de sus plantillas y músicas.",
+      "conf": "media"
+    },
+    {
+      "id": "a83",
+      "cat": "Visual",
+      "nombre": "Canva",
+      "url": "https://www.canva.com",
+      "rol": "Arte de portada y piezas gráficas.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "Suficiente para portadas de 3000×3000 y piezas de redes.",
+      "riesgo": "Cuidado con plantillas muy reconocibles: tu identidad visual debe ser tuya.",
+      "conf": "media"
+    },
+    {
+      "id": "a90",
+      "cat": "Analítica",
+      "nombre": "Spotify for Artists",
+      "url": "https://artists.spotify.com",
+      "rol": "Datos de tu música en Spotify + pitch editorial.",
+      "costo": "gratis",
+      "ver": "2026-09-08",
+      "porque": "🎯 Es donde envías la canción a consideración editorial. Hay que hacerlo con semanas de anticipación al lanzamiento.",
+      "riesgo": "Solo cubre Spotify.",
+      "conf": "alta"
+    },
+    {
+      "id": "a91",
+      "cat": "Analítica",
+      "nombre": "Chartmetric",
+      "url": "https://chartmetric.com",
+      "rol": "Inteligencia de mercado musical.",
+      "costo": "freemium",
+      "ver": "2026-09-08",
+      "porque": "Para investigar a los artistas a los que vas a pitchear: qué lanzan, con quién trabajan, cómo crecen.",
+      "riesgo": "La capa gratuita es limitada.",
+      "conf": "media"
+    }
   ],
-
   "legal": [
     {
-      "id": "l01", "titulo": "Los dos derechos que tiene toda canción", "orden": 1,
+      "id": "l01",
+      "titulo": "Los dos derechos que tiene toda canción",
+      "orden": 1,
       "cuerpo": "**Derecho de la obra** (composición: letra + melodía) y **derecho del fonograma** (la grabación). Cada uno genera plata distinta y se puede vender por separado.\n\n- La obra genera: regalías de ejecución pública (radio, bares, TV → SAYCO en Colombia) y regalías mecánicas (streaming, copias → MLC en EE. UU.).\n- El fonograma genera: pago por reproducción de esa grabación específica.\n\n**Para tu modelo de negocio esto es lo central:** cuando le vendes una composición a un artista, le vendes o licencias derechos sobre la OBRA. Él graba su propio fonograma. Tú, como coautor, sigues cobrando de esa obra para siempre.",
       "accion": "Nunca firmes nada que diga 'cesión total de derechos' sin entender si incluye la obra o solo la grabación.",
       "conf": "alta"
     },
     {
-      "id": "l02", "titulo": "IA y propiedad: la línea que no puedes cruzar", "orden": 2,
+      "id": "l02",
+      "titulo": "IA y propiedad: la línea que no puedes cruzar",
+      "orden": 2,
       "cuerpo": "La Oficina de Derechos de Autor de EE. UU. publicó en **enero de 2025** su informe sobre registrabilidad de obras con IA. Dos conclusiones que te afectan directamente:\n\n1. Una obra generada con IA **sí puede registrarse cuando incorpora autoría humana significativa**.\n2. **Los prompts por sí solos NO bastan.** Escribir una descripción y apretar 'generar' no te convierte en autor del resultado.\n\nLa parte generada por IA se excluye del registro; se protege lo que aportó el humano.\n\nEn paralelo, **Suno modificó sus términos tras el acuerdo con Warner (nov-2025)**: a los suscriptores de pago se les concede licencia para explotar comercialmente lo que generan, pero se retiró el lenguaje de 'propiedad' del usuario. Lo generado en cuenta gratuita no es de uso comercial.",
       "traduccion": "Puedes usar IA para vender música. Lo que NO puedes es fingir que eres el autor de algo que hizo la máquina sola, ni vender derechos exclusivos que no tienes.",
       "accion": "🎯 **Tu estrategia defendible:** que la letra sea tuya (escrita, no generada), que la melodía sea tuya (cantada por ti aunque desafines — guarda esa grabación con fecha), y que la IA quede como herramienta de producción y de timbre. Documenta el proceso en el catálogo de este módulo: qué hiciste tú, qué hizo la máquina. Esa bitácora es tu defensa.",
@@ -542,137 +1828,567 @@
       "fuente": "U.S. Copyright Office, 'Copyright and Artificial Intelligence, Part 2: Copyrightability' (29-ene-2025). Cambios de términos de Suno reportados tras el acuerdo con Warner Music Group (nov-2025)."
     },
     {
-      "id": "l03", "titulo": "Covers: qué necesitas para publicar la canción de otro", "orden": 3,
+      "id": "l03",
+      "titulo": "Covers: qué necesitas para publicar la canción de otro",
+      "orden": 3,
       "cuerpo": "Un cover NO es libre. Necesitas una **licencia mecánica**. La buena noticia: en EE. UU. es una licencia *obligatoria* — el dueño no puede negártela si cumples los requisitos.\n\n**Requisitos:**\n- La canción original ya debe haberse publicado.\n- Debes conservar letra, melodía y título esencialmente sin alterar. Si la cambias sustancialmente (otro idioma, otra letra), ya es una **obra derivada** y ahí sí necesitas permiso expreso, que te pueden negar.\n\n**Dónde se saca:** el complemento de cover de tu distribuidora (DistroKid la tramita vía Harry Fox Agency), Songfile de HFA, Easy Song, o LANDR.\n\n**Cuánto:** una tarifa legal por copia, del orden de **12–13 centavos de dólar** para canciones de 5 minutos o menos. Esa tarifa se ajusta cada año — **verifícala antes de licenciar**, no la des por fija.\n\n**En YouTube:** Content ID identifica el cover y lo reclama. El video normalmente se queda arriba, pero los ingresos se reparten con el titular de la obra — y en muchos casos se van completos para él. Puedes participar del reparto si estás en el Programa de Socios de YouTube y el editor reclama el video.",
       "accion": "Los covers son excelente combustible de redes y pésimo negocio directo. Úsalos para conseguir audiencia, no para conseguir plata.",
       "conf": "alta",
       "fuente": "Documentación de DistroKid sobre covers (licencias vía HFA), guías de licenciamiento mecánico 2026, Centro de ayuda de YouTube sobre monetización de covers."
     },
     {
-      "id": "l04", "titulo": "Colombia: qué hacer y en qué orden", "orden": 4,
+      "id": "l04",
+      "titulo": "Colombia: qué hacer y en qué orden",
+      "orden": 4,
       "cuerpo": "Tres entidades, tres funciones distintas:\n\n**1. DNDA** (derechodeautor.gov.co) — La entidad del Estado. Registras la obra y queda constancia legal de que es tuya. **Es gratis.** Requisitos: letra y partitura en PDF. Si no tienes partitura, puedes registrar la letra como obra literaria, o adjuntar la composición en audio (MP3, WAV o ZIP).\n\n⚠️ Dos causales de devolución muy comunes: (a) el título del formulario debe coincidir **exactamente** con el del archivo que adjuntas; (b) en 'año de creación' va el año en que **terminaste** la obra, no en el que empezaste.\n\n**2. SAYCO** (sayco.org) — La sociedad de gestión de autores y compositores. Recauda cuando tu canción suena en radio, TV, plataformas o establecimientos. Para afiliarte como autor se ha exigido acreditar un número de obras (se ha pedido veinte, con sus fonogramas y carátulas) más el certificado de registro de la DNDA. **Verifica los requisitos vigentes directamente con SAYCO** antes de armar la carpeta.\n\n**3. ACINPRO** — Recauda para intérpretes y productores de fonogramas. Es la otra mitad del cuadro: no reemplaza a SAYCO, la complementa.",
       "accion": "Orden práctico: (1) Registra cada obra en la DNDA desde ya — gratis y con fecha cierta. (2) Acumula obras registradas. (3) Cuando llegues al número que exija SAYCO, afíliate. Empieza hoy con la número uno.",
       "conf": "alta",
       "fuente": "Dirección Nacional de Derecho de Autor (derechodeautor.gov.co), SAYCO (sayco.org)."
     },
     {
-      "id": "l05", "titulo": "Splits: repartir antes, no después", "orden": 5,
+      "id": "l05",
+      "titulo": "Splits: repartir antes, no después",
+      "orden": 5,
       "cuerpo": "El **split** es el porcentaje de la obra que le toca a cada autor. Suma 100%.\n\n**Regla de oro del oficio:** el split se acuerda y se firma **el mismo día de la sesión**, antes de que nadie sepa si la canción va a pegar. Repartir después de un éxito es donde mueren las amistades y donde se congelan las regalías durante años.\n\n**Repartos habituales** (no son ley, son costumbre negociable):\n- Dos autores que escribieron todo juntos: 50/50.\n- Letra por un lado, música por el otro: normalmente 50/50.\n- Con productor que aportó melodía o estructura: se le suele reconocer participación en la obra, además de su parte del fonograma.\n\n**Un split sheet mínimo necesita:** título · fecha · nombre legal completo de cada autor · documento · % de cada uno · sociedad de gestión de cada uno · firma de todos.",
       "accion": "Usa la calculadora de splits de este módulo y guarda el resultado en la ficha de la canción. Que quede escrito, aunque sea por WhatsApp con foto de la firma.",
       "conf": "alta"
     },
     {
-      "id": "l06", "titulo": "Los códigos: cuál es cuál", "orden": 6,
+      "id": "l06",
+      "titulo": "Los códigos: cuál es cuál",
+      "orden": 6,
       "cuerpo": "- **ISRC** → identifica una **grabación** concreta. Te lo da tu distribuidora. Único por cada versión (la original y el remix llevan ISRC distintos).\n- **ISWC** → identifica la **obra** (composición). Lo asigna la sociedad de gestión / editorial.\n- **UPC** → identifica el **lanzamiento** (el sencillo o el álbum como producto). Te lo da la distribuidora.\n\n⚠️ **Advertencia práctica:** si vuelves a subir una canción con un ISRC diferente, pierdes el historial de reproducciones y sales de las playlists en las que estabas. Si alguna vez cambias de distribuidora, lleva tus ISRC contigo.",
       "accion": "Guarda todos tus códigos en el Catálogo de este módulo. Es el tipo de dato que se pierde y que después cuesta carísimo recuperar.",
       "conf": "alta"
     },
     {
-      "id": "l07", "titulo": "Cómo se le vende una canción a un artista", "orden": 7,
+      "id": "l07",
+      "titulo": "Cómo se le vende una canción a un artista",
+      "orden": 7,
       "cuerpo": "Tres formas, de menos a más ingreso a largo plazo:\n\n**1. Licencia no exclusiva de pista (lease).** Le vendes el derecho a usar tu pista, pero se la puedes vender a otros también. Precio bajo, volumen alto.\n\n**2. Licencia exclusiva.** Solo él la puede usar. Precio bastante más alto. Ojo: define por escrito si le cedes el fonograma, la obra, o ambos, y por cuánto tiempo.\n\n**3. Coautoría (lo que más te conviene).** Él graba tu canción y tú quedas como coautor con un % de la obra. No cobras mucho de entrada, pero cobras **cada vez que suene, para siempre**.\n\n**Referencias de precio observadas en el mercado de pistas (corte 2026-09-08, verificar):** las licencias no exclusivas suelen moverse entre 20 y 100+ USD; las exclusivas entre 300 y 5.000+ USD. Varía enormemente según la reputación del productor.\n\n**Editoriales (publishing):** si más adelante firmas con una editorial, hay dos figuras típicas — *administración* (ellos recaudan y se quedan un porcentaje menor, tú conservas el control) y *co-publishing* (te quedas con tu mitad de autor más la mitad de la parte editorial).",
       "accion": "🎯 Para tu objetivo de independencia financiera: prioriza la **coautoría** sobre la venta exclusiva. Una venta exclusiva se gasta. Un % de coautoría paga durante décadas.",
       "conf": "media",
       "fuente": "Rangos de precio observados en guías de mercado de pistas 2026. Verificar antes de fijar tarifas."
     },
     {
-      "id": "l08", "titulo": "Banderas rojas · lo que te tumba la carrera", "orden": 8,
+      "id": "l08",
+      "titulo": "Banderas rojas · lo que te tumba la carrera",
+      "orden": 8,
       "cuerpo": "🚫 **Clonar la voz de un artista real.** Las plataformas exigen consentimiento documentado del artista cuando la voz es reconociblemente la suya. Sin eso: retiro inmediato, sin importar lo que afirmes.\n\n🚫 **Vender derechos que no tienes.** Si la base es de un generador de IA cuyos términos no te dan lo que estás vendiendo, estás vendiendo humo. En sync te lo van a auditar.\n\n🚫 **Subir en volumen contenido genérico.** Las plataformas filtran cargas masivas, títulos duplicados, manipulación de metadata y pistas artificialmente cortas. Una plataforma reportó haber retirado más de 75 millones de pistas de spam en un año.\n\n🚫 **No declarar el uso de IA.** El estándar DDEX de divulgación de IA en los créditos ya está en marcha. Declarar no penaliza; ocultar sí es riesgo.\n\n🚫 **No registrar nada.** Sin registro no tienes cómo probar que fuiste primero.",
       "accion": "Cada una de estas es reversible salvo la primera. Con la voz clonada de un artista real no hay segunda oportunidad.",
       "conf": "alta",
       "fuente": "Políticas de IA y spam anunciadas por Spotify (sep-2025), adopción del estándar DDEX de divulgación de IA en créditos."
     },
     {
-      "id": "l09", "titulo": "Hasta dónde llego yo y dónde empieza un abogado", "orden": 9,
+      "id": "l09",
+      "titulo": "Hasta dónde llego yo y dónde empieza un abogado",
+      "orden": 9,
       "cuerpo": "Yo te organizo el panorama, te preparo los borradores, te digo qué preguntar y te señalo dónde está el riesgo. **No soy abogado y esto no es asesoría legal.**\n\n**Necesitas un abogado de entretenimiento en Colombia cuando:**\n- Vas a firmar cualquier contrato con una editorial, sello o mánager.\n- Vas a ceder derechos exclusivos por una suma relevante.\n- Hay dinero internacional de por medio (contrato en otra jurisdicción).\n- Alguien te reclama o tú vas a reclamar.\n\n**Lo que sí puedo hacer:** prepararte el borrador y la lista de preguntas para que la consulta con el abogado dure 40 minutos en vez de 4 horas. Eso te ahorra plata de verdad.",
       "conf": "alta"
     }
   ],
-
   "negocio": [
     {
-      "id": "n01", "titulo": "De dónde sale realmente la plata", "orden": 1,
+      "id": "n01",
+      "titulo": "De dónde sale realmente la plata",
+      "orden": 1,
       "cuerpo": "Seis caminos, ordenados por qué tan rápido pagan:\n\n**1. Servicios de producción por encargo** — el más rápido. Alguien te paga por producirle su canción. Cobras al entregar.\n**2. Venta de pistas** — licencias no exclusivas y exclusivas en mercados de pistas. Ingreso intermitente pero temprano.\n**3. Sync (publicidad, series, videojuegos)** — el que mejor paga por unidad. Un solo uso puede valer más que un año de streaming.\n**4. Coautoría con artistas** — el que mejor paga a largo plazo. Cobras mientras la canción exista.\n**5. Streaming de tu propia música** — el más lento y el que menos paga por reproducción. No es un ingreso: es una vitrina.\n**6. Audiencia (contenido, marca, patrocinios)** — no es música, es el activo que hace posible todos los anteriores.",
       "realidad": "⚠️ **Dato duro que hay que decir:** vivir del streaming propio requiere volúmenes de reproducción enormes. Los primeros ingresos reales de casi todos los que lo logran vienen de los caminos 1, 2 y 3 — no del 5. Planea con esa realidad, no contra ella.",
       "conf": "alta"
     },
     {
-      "id": "n02", "titulo": "Cómo se le pitchea a un artista sin quemar el contacto", "orden": 2,
+      "id": "n02",
+      "titulo": "Cómo se le pitchea a un artista sin quemar el contacto",
+      "orden": 2,
       "cuerpo": "**Investiga primero.** Escucha sus últimos tres lanzamientos. Tu canción tiene que sonar a su próximo paso, no a lo que ya hizo.\n\n**El mensaje: cinco líneas máximo.**\n1. Quién eres, en una línea, con algo concreto (no 'soy productor apasionado').\n2. Por qué él específicamente — nombra una canción suya y qué notaste.\n3. Qué tienes: título, género, duración, en una línea.\n4. Un solo enlace privado. Nunca un archivo adjunto, nunca cinco canciones.\n5. Una pregunta cerrada: '¿te la mando completa?'\n\n**Respeta los holds.** Si un artista te pide reservar la canción, lo normal son 30 a 60 días. Si va a ser más, se conversa. No la vendas a otro durante ese periodo — la industria es pequeña y eso se sabe.\n\n**La verdad incómoda:** la mayoría de canciones que un artista graba llegan por relación (editorial, coescritura, alguien que conoce a alguien), no por mensaje frío. El mensaje frío funciona, pero es el camino más largo. Construir relación es el corto.",
       "accion": "Regla del uno: una canción, un artista, un enlace, una pregunta. Mandar el catálogo completo es la forma más rápida de que no te contesten.",
       "conf": "alta"
     },
     {
-      "id": "n03", "titulo": "El error de secuencia que hunde a la mayoría", "orden": 3,
+      "id": "n03",
+      "titulo": "El error de secuencia que hunde a la mayoría",
+      "orden": 3,
       "cuerpo": "La secuencia que casi todos intentan: *hacer 30 canciones → subirlas a un mercado → esperar*.\n\nEsa secuencia falla porque los mercados de pistas están saturados: si nadie llega a tu perfil, no importa qué tan buenas sean.\n\n**La secuencia que sí funciona:**\n1. **Audiencia primero, aunque sea pequeña.** 500 personas que te ven trabajar valen más que 30 canciones sin público.\n2. **Que el contenido MUESTRE el proceso.** Tú tienes una ventaja rara: sabes de datos, sabes de sistemas y estás construyendo esto desde cero. Ese proceso ES el contenido.\n3. **Vende cuando ya haya gente mirando.** Ahí el mercado de pistas deja de ser una lotería y pasa a ser un botón de pago.",
       "accion": "🎯 Tu ventaja competitiva no es que compongas mejor que otros mil. Es que estás documentando cómo un ingeniero de sistemas construye un negocio musical desde cero, con método. Eso casi nadie lo está contando.",
       "conf": "media"
     },
     {
-      "id": "n04", "titulo": "Cómo poner precio sin regalarte ni asustarte", "orden": 4,
+      "id": "n04",
+      "titulo": "Cómo poner precio sin regalarte ni asustarte",
+      "orden": 4,
       "cuerpo": "**Producción por encargo:** cobra por proyecto, no por hora. Define exactamente cuántas revisiones incluye (dos es lo normal) y qué se entrega (mezcla, máster, stems). Sin eso, un cliente te puede pedir revisiones indefinidamente.\n\n**Pistas:** empieza en la parte baja del rango de mercado hasta tener testimonios y casos. Sube precio cada 10 ventas, no por fecha.\n\n**Exclusivas:** el precio depende de lo que el comprador va a hacer con ella. Una exclusiva para un artista sin público no vale lo mismo que para uno con alcance real. Pregunta siempre para qué es.\n\n**Coautoría:** aquí no hay precio de entrada, hay porcentaje. Es la que menos paga hoy y más paga en diez años.",
       "accion": "Ten una lista de precios ESCRITA antes de que te pregunten. Improvisar el precio en el chat es la forma más segura de cobrar menos de lo que vale.",
       "conf": "media"
     }
   ],
-
   "universo": [
     {
-      "id": "u01", "titulo": "Qué es un 'universo' y por qué no es lo mismo que una cuenta", "orden": 1,
+      "id": "u01",
+      "titulo": "Qué es un 'universo' y por qué no es lo mismo que una cuenta",
+      "orden": 1,
       "cuerpo": "Un universo es un mundo con reglas propias que el público reconoce en dos segundos. Necesita seis piezas fijas:\n\n1. **Nombre** — corto, pronunciable en español y en inglés, buscable (que no compita con algo enorme que ya existe).\n2. **Tesis** — una frase que explique por qué existes. No 'hago música': algo que solo tú puedas decir.\n3. **Paleta y tipografía** — dos colores y una tipografía, siempre las mismas. Es lo que hace que reconozcan tu video antes de leerlo.\n4. **Punto de vista** — ¿quién habla? ¿Tú a cámara? ¿Solo las manos? ¿Un personaje?\n5. **Formato recurrente** — una serie con nombre propio que la gente espera. Esto es lo que convierte espectadores en seguidores.\n6. **Ritual** — algo que se repite en cada pieza: una frase de entrada, un gesto, un sonido.",
       "accion": "Escoge las seis y NO las cambies durante seis meses. La consistencia es lo que construye reconocimiento; la variedad lo destruye.",
       "conf": "media"
     },
     {
-      "id": "u02", "titulo": "El sistema de contenido: una canción son doce piezas", "orden": 2,
+      "id": "u02",
+      "titulo": "El sistema de contenido: una canción son doce piezas",
+      "orden": 2,
       "cuerpo": "El cambio de mentalidad de 2026: **una canción no es una pieza de contenido, son doce.**\n\nDe un solo tema salen:\n1. El gancho de 7–15 s en bruto\n2. El mismo gancho con la letra en pantalla\n3. Cómo nació la idea\n4. El momento en que la letra cambió\n5. Antes/después de producción\n6. El error que casi arruina el tema\n7. Explicación del ritmo del género (educativo)\n8. Encuesta: ¿versión A o versión B?\n9. Reacción de alguien escuchándola por primera vez\n10. La canción en otro género\n11. Tú cantándola mal antes de arreglarla (honestidad = conexión)\n12. El resultado final\n\n**Frecuencia:** mínimo tres publicaciones por semana. Los artistas que publican con esa frecuencia ven bastante más tráfico hacia su perfil de streaming que los que publican una vez.\n\n**Mezcla sugerida:** alrededor de 40% música directa (fragmentos, interpretaciones, estudio) y el resto historia, proceso, comunidad y educación.",
       "accion": "El gancho de 7–15 s se decide en la estación 2 de la Fábrica — antes de producir. Estructura la canción para que ese momento caiga dentro de los primeros 30 segundos del tema.",
       "conf": "alta",
       "fuente": "Guías de estrategia de lanzamiento y de contenido corto para artistas independientes, 2026."
     },
     {
-      "id": "u03", "titulo": "Orden de plataformas y para qué sirve cada una", "orden": 3,
+      "id": "u03",
+      "titulo": "Orden de plataformas y para qué sirve cada una",
+      "orden": 3,
       "cuerpo": "- **TikTok** — descubrimiento. Donde te encuentran los que no te conocen.\n- **Instagram Reels** — conversión. Donde el que te descubrió decide si te sigue.\n- **YouTube Shorts** — permanencia. Lo que sigue dando resultados meses después.\n- **YouTube largo** — profundidad y autoridad. Aquí es donde vive el contenido de proceso, y donde un futuro cliente decide si eres serio.\n- **Spotify** — destino, no descubrimiento. La gente llega aquí desde otro lado.\n\nEl mismo video vertical sirve en las tres primeras. No lo rehagas: repúblicalo.",
       "accion": "Empieza por una sola plataforma hasta que domines el formato. Tres plataformas a medias no es tres veces el resultado: es cero.",
       "conf": "alta"
     },
     {
-      "id": "u04", "titulo": "Calendario de lanzamiento", "orden": 4,
+      "id": "u04",
+      "titulo": "Calendario de lanzamiento",
+      "orden": 4,
       "cuerpo": "**D-28** — Subir a la distribuidora. Es el mínimo para que te consideren en playlists editoriales.\n**D-28 a D-15** — Contenido de 'estoy haciendo algo'. Sin revelar el tema todavía.\n**D-14** — Revelar título y portada. Enviar el pitch editorial en Spotify for Artists.\n**D-14 a D-1** — Un fragmento del gancho cada dos o tres días, cambiando el ángulo.\n**Día 0** — Salida. Publicar el video del gancho completo. Mensaje directo a las personas que ya interactuaron.\n**D+1 a D+14** — Contenido de proceso y reacciones. Aquí la mayoría abandona: es exactamente donde hay que insistir.\n**D+14** — Medir: guardados, tiempo de escucha, origen del tráfico. Decidir qué se replica en el próximo tema.",
       "accion": "Si hoy no tienes cuatro semanas de anticipación, la canción que sale la próxima semana no es un lanzamiento: es una publicación. No pasa nada — pero no esperes resultados de lanzamiento.",
       "conf": "alta"
     }
   ],
-
   "glosario": [
-    { "t": "BPM", "d": "Golpes por minuto. La velocidad de la canción. 95 BPM es reggaetón; 180 es salsa." },
-    { "t": "Tonalidad / tono", "d": "El grupo de 7 notas que usa la canción. Determina qué acordes suenan bien." },
-    { "t": "Acorde", "d": "Tres o más notas sonando al tiempo." },
-    { "t": "Progresión", "d": "La secuencia de acordes que se repite. El esqueleto armónico." },
-    { "t": "Grado / número romano", "d": "Forma de nombrar un acorde por su posición, no por su nombre. Sirve en cualquier tonalidad." },
-    { "t": "Gancho (hook)", "d": "El fragmento que se te queda pegado. En 2026 también es el clip que se usa en redes." },
-    { "t": "Stem", "d": "Cada pista por separado (solo batería, solo voz, solo bajo). Lo que le entregas a quien te compra." },
-    { "t": "Maqueta (demo)", "d": "Versión provisional de la canción, hecha para decidir si vale la pena producirla." },
-    { "t": "A capela", "d": "Solo la voz, sin instrumental." },
-    { "t": "Mezcla", "d": "Equilibrar los instrumentos entre sí." },
-    { "t": "Máster", "d": "Ajuste final de volumen y brillo del conjunto, ya mezclado." },
-    { "t": "Headroom", "d": "El espacio que dejas antes del máximo, para que el máster tenga con qué trabajar." },
-    { "t": "Obra / composición", "d": "La letra + la melodía. 'La receta'." },
-    { "t": "Fonograma / grabación", "d": "El archivo de audio concreto. 'El plato servido'." },
-    { "t": "Split", "d": "El porcentaje de la obra que le corresponde a cada autor. Suma 100%." },
-    { "t": "Licencia mecánica", "d": "El permiso que necesitas para publicar la versión de una canción ajena (cover)." },
-    { "t": "Sync", "d": "Licenciar tu música para video: publicidad, series, videojuegos. Lo mejor pagado por unidad." },
-    { "t": "ISRC", "d": "Código que identifica una grabación específica." },
-    { "t": "ISWC", "d": "Código que identifica la obra (la composición)." },
-    { "t": "UPC", "d": "Código que identifica el lanzamiento como producto." },
-    { "t": "PRO / sociedad de gestión", "d": "Entidad que recauda por ti cuando tu música suena en público. En Colombia: SAYCO." },
-    { "t": "Publishing / editorial", "d": "Quien administra y explota tus obras a cambio de un porcentaje." },
-    { "t": "Lease", "d": "Licencia no exclusiva de una pista: se la puedes vender a varios." },
-    { "t": "Exclusiva", "d": "Licencia donde solo un comprador puede usar la pista." },
-    { "t": "Hold", "d": "Reserva temporal que pide un artista sobre tu canción mientras decide. Normalmente 30 a 60 días." },
-    { "t": "Dembow", "d": "El patrón rítmico que define el reggaetón. Golpes en las casillas 4, 7, 12 y 15 de 16." },
-    { "t": "Clave", "d": "Patrón de dos compases que gobierna toda la música afrocaribeña. Puede ser 3-2 o 2-3." },
-    { "t": "Montuno", "d": "La sección de la salsa donde se repite un coro y el sonero improvisa encima." },
-    { "t": "Tumbao", "d": "El patrón del bajo en la música caribeña. Anticipa el tiempo en vez de caer en él." },
-    { "t": "Aires del vallenato", "d": "Los cuatro ritmos del género: paseo, merengue, puya y son." }
-  ]
+    {
+      "t": "BPM",
+      "d": "Golpes por minuto. La velocidad de la canción. 95 BPM es reggaetón; 180 es salsa."
+    },
+    {
+      "t": "Tonalidad / tono",
+      "d": "El grupo de 7 notas que usa la canción. Determina qué acordes suenan bien."
+    },
+    {
+      "t": "Acorde",
+      "d": "Tres o más notas sonando al tiempo."
+    },
+    {
+      "t": "Progresión",
+      "d": "La secuencia de acordes que se repite. El esqueleto armónico."
+    },
+    {
+      "t": "Grado / número romano",
+      "d": "Forma de nombrar un acorde por su posición, no por su nombre. Sirve en cualquier tonalidad."
+    },
+    {
+      "t": "Gancho (hook)",
+      "d": "El fragmento que se te queda pegado. En 2026 también es el clip que se usa en redes."
+    },
+    {
+      "t": "Stem",
+      "d": "Cada pista por separado (solo batería, solo voz, solo bajo). Lo que le entregas a quien te compra."
+    },
+    {
+      "t": "Maqueta (demo)",
+      "d": "Versión provisional de la canción, hecha para decidir si vale la pena producirla."
+    },
+    {
+      "t": "A capela",
+      "d": "Solo la voz, sin instrumental."
+    },
+    {
+      "t": "Mezcla",
+      "d": "Equilibrar los instrumentos entre sí."
+    },
+    {
+      "t": "Máster",
+      "d": "Ajuste final de volumen y brillo del conjunto, ya mezclado."
+    },
+    {
+      "t": "Headroom",
+      "d": "El espacio que dejas antes del máximo, para que el máster tenga con qué trabajar."
+    },
+    {
+      "t": "Obra / composición",
+      "d": "La letra + la melodía. 'La receta'."
+    },
+    {
+      "t": "Fonograma / grabación",
+      "d": "El archivo de audio concreto. 'El plato servido'."
+    },
+    {
+      "t": "Split",
+      "d": "El porcentaje de la obra que le corresponde a cada autor. Suma 100%."
+    },
+    {
+      "t": "Licencia mecánica",
+      "d": "El permiso que necesitas para publicar la versión de una canción ajena (cover)."
+    },
+    {
+      "t": "Sync",
+      "d": "Licenciar tu música para video: publicidad, series, videojuegos. Lo mejor pagado por unidad."
+    },
+    {
+      "t": "ISRC",
+      "d": "Código que identifica una grabación específica."
+    },
+    {
+      "t": "ISWC",
+      "d": "Código que identifica la obra (la composición)."
+    },
+    {
+      "t": "UPC",
+      "d": "Código que identifica el lanzamiento como producto."
+    },
+    {
+      "t": "PRO / sociedad de gestión",
+      "d": "Entidad que recauda por ti cuando tu música suena en público. En Colombia: SAYCO."
+    },
+    {
+      "t": "Publishing / editorial",
+      "d": "Quien administra y explota tus obras a cambio de un porcentaje."
+    },
+    {
+      "t": "Lease",
+      "d": "Licencia no exclusiva de una pista: se la puedes vender a varios."
+    },
+    {
+      "t": "Exclusiva",
+      "d": "Licencia donde solo un comprador puede usar la pista."
+    },
+    {
+      "t": "Hold",
+      "d": "Reserva temporal que pide un artista sobre tu canción mientras decide. Normalmente 30 a 60 días."
+    },
+    {
+      "t": "Dembow",
+      "d": "El patrón rítmico que define el reggaetón. Golpes en las casillas 4, 7, 12 y 15 de 16."
+    },
+    {
+      "t": "Clave",
+      "d": "Patrón de dos compases que gobierna toda la música afrocaribeña. Puede ser 3-2 o 2-3."
+    },
+    {
+      "t": "Montuno",
+      "d": "La sección de la salsa donde se repite un coro y el sonero improvisa encima."
+    },
+    {
+      "t": "Tumbao",
+      "d": "El patrón del bajo en la música caribeña. Anticipa el tiempo en vez de caer en él."
+    },
+    {
+      "t": "Aires del vallenato",
+      "d": "Los cuatro ritmos del género: paseo, merengue, puya y son."
+    }
+  ],
+  "estudio": {
+    "cadena": [
+      {
+        "id": "limpieza",
+        "nombre": "Limpieza",
+        "emoji": "🧹",
+        "def": true,
+        "que": "Corta el ruido de fondo del cuarto y los graves que no son tu voz.",
+        "como": "Combina la supresión de ruido del navegador con un filtro que borra todo por debajo de 80 Hz.",
+        "cuando": "Encendido casi siempre, salvo que notés que se come las notas largas.",
+        "ojo": "⚠️ La supresión del navegador está afinada para HABLAR, no para CANTAR. En notas sostenidas puede sonar entrecortada. Si pasa, apagala y dejá solo la puerta de ruido."
+      },
+      {
+        "id": "puerta",
+        "nombre": "Puerta de ruido",
+        "emoji": "🚪",
+        "def": true,
+        "que": "Silencia todo lo que esté por debajo de un umbral — el ventilador, el PC, la calle — cuando no estás cantando.",
+        "como": "Grabá 2 segundos de silencio con \"Medir el cuarto\" y el umbral se calibra solo, apenas por encima de tu ruido de fondo real.",
+        "cuando": "Casi siempre. Es lo que hace que una toma casera suene grabada en un estudio.",
+        "ojo": "Si te corta el final de las palabras, bajá el umbral. Es el error más común con puertas."
+      },
+      {
+        "id": "deesser",
+        "nombre": "Quita-sibilancias",
+        "emoji": "🐍",
+        "def": true,
+        "que": "Baja las \"s\" y \"ch\" que suenan como un silbido molesto.",
+        "como": "Comprime solo la banda de 6–9 kHz, que es donde vive la \"s\". El resto de la voz no se toca.",
+        "cuando": "Si al escucharte las \"s\" saltan más que las palabras.",
+        "ojo": "Pasarse hace que suenes con la boca llena. Menos es más."
+      },
+      {
+        "id": "comp",
+        "nombre": "Compresor",
+        "emoji": "📊",
+        "def": true,
+        "que": "Empareja: sube lo que cantaste flojo y baja lo que cantaste fuerte.",
+        "como": "Cuando la señal pasa un umbral, la reduce automáticamente. Es un ingeniero moviendo el fader por vos, mil veces por segundo.",
+        "cuando": "Siempre en voz. Es lo que más separa una toma casera de una comercial.",
+        "ojo": "Demasiado y la voz queda plana, sin emoción. Buscá que respire."
+      },
+      {
+        "id": "eq",
+        "nombre": "Ecualizador",
+        "emoji": "🎚️",
+        "def": true,
+        "que": "Tres perillas: quita el barro, sube la presencia, agrega aire.",
+        "como": "El barro (200–400 Hz) es lo que la hace sonar tapada. La presencia (3 kHz) la trae al frente. El aire (10 kHz) es el brillo.",
+        "cuando": "Siempre. Los presets por género ya lo dejan en un punto sensato.",
+        "ojo": "Ecualizá QUITANDO antes que sumando. Si subís todo, no subiste nada."
+      },
+      {
+        "id": "sat",
+        "nombre": "Saturación",
+        "emoji": "🔥",
+        "def": false,
+        "que": "Calor. Hace que la voz suene grabada en cinta y no en un computador.",
+        "como": "Distorsión muy suave que agrega armónicos que no estaban en la señal.",
+        "cuando": "Reggaetón, trap y urbano en general. En balada, apenas un toque.",
+        "ojo": "Es adictiva. Si la escuchás como efecto, ya te pasaste."
+      },
+      {
+        "id": "doble",
+        "nombre": "Doblador",
+        "emoji": "👥",
+        "def": false,
+        "que": "Suena como si hubieras cantado dos veces al tiempo. Engorda el coro.",
+        "como": "Copia la voz con un retardo de ~20 ms y la desafina un pelo, una copia a cada lado del estéreo.",
+        "cuando": "SOLO en el coro. En el verso le quita intimidad.",
+        "ojo": "Sustituye al truco de grabar el coro 3 veces. Si podés grabarlo de verdad 3 veces, eso siempre suena mejor."
+      },
+      {
+        "id": "rev",
+        "nombre": "Reverb",
+        "emoji": "🏛️",
+        "def": true,
+        "que": "Pone la voz dentro de un espacio en vez de dejarla pegada a la cara.",
+        "como": "Simula los rebotes de una sala. Acá se genera matemáticamente — no hay archivos que descargar.",
+        "cuando": "Siempre algo. Balada mucho, reggaetón poquito.",
+        "ojo": "Mucha reverb aleja la voz y enturbia la letra. Si no se entiende lo que decís, bajala."
+      },
+      {
+        "id": "delay",
+        "nombre": "Delay",
+        "emoji": "🔁",
+        "def": false,
+        "que": "Eco rítmico. Rellena los huecos entre frases.",
+        "como": "Repite la voz sincronizada al tempo de la canción, cada repetición más bajita.",
+        "cuando": "Al final de las frases del coro. Es el efecto más característico del urbano.",
+        "ojo": "Si suena debajo de toda la letra, se vuelve un enredo."
+      }
+    ],
+    "presets": [
+      {
+        "id": "p_reggaeton",
+        "nombre": "Reggaetón · voz al frente",
+        "gen": "reggaeton",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 1,
+          "rev": 1,
+          "delay": 1,
+          "compTh": -22,
+          "compRa": 5,
+          "eqBajo": -3,
+          "eqMedio": -2,
+          "eqAlto": 4,
+          "deessAmt": 6,
+          "satAmt": 0.35,
+          "dobleAmt": 0.4,
+          "revAmt": 0.16,
+          "delayAmt": 0.2
+        },
+        "por": "Seca, brillante y comprimida duro. La voz tiene que ganarle al 808 sin subir el volumen."
+      },
+      {
+        "id": "p_vallenato",
+        "nombre": "Vallenato · natural y cálida",
+        "gen": "vallenato",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 0,
+          "rev": 1,
+          "delay": 0,
+          "compTh": -18,
+          "compRa": 3,
+          "eqBajo": -1,
+          "eqMedio": 1,
+          "eqAlto": 2,
+          "deessAmt": 4,
+          "satAmt": 0.15,
+          "dobleAmt": 0,
+          "revAmt": 0.3,
+          "delayAmt": 0
+        },
+        "por": "El vallenato se canta, no se produce. Poca compresión, algo de sala, cero trucos."
+      },
+      {
+        "id": "p_salsa",
+        "nombre": "Salsa · presente y viva",
+        "gen": "salsa",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 0,
+          "rev": 1,
+          "delay": 0,
+          "compTh": -20,
+          "compRa": 4,
+          "eqBajo": -2,
+          "eqMedio": 2,
+          "eqAlto": 3,
+          "deessAmt": 5,
+          "satAmt": 0.2,
+          "dobleAmt": 0,
+          "revAmt": 0.24,
+          "delayAmt": 0
+        },
+        "por": "Tiene que sonar como alguien cantando en vivo delante de una orquesta, no como una pista."
+      },
+      {
+        "id": "p_trap",
+        "nombre": "Trap · ancha y procesada",
+        "gen": "trap",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 1,
+          "rev": 1,
+          "delay": 1,
+          "compTh": -26,
+          "compRa": 8,
+          "eqBajo": -4,
+          "eqMedio": -3,
+          "eqAlto": 5,
+          "deessAmt": 7,
+          "satAmt": 0.5,
+          "dobleAmt": 0.6,
+          "revAmt": 0.12,
+          "delayAmt": 0.35
+        },
+        "por": "Compresión pesada, doblador abierto y delay largo. Acá el efecto ES parte de la interpretación."
+      },
+      {
+        "id": "p_pop",
+        "nombre": "Pop · pulida",
+        "gen": "pop",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 1,
+          "rev": 1,
+          "delay": 1,
+          "compTh": -21,
+          "compRa": 4,
+          "eqBajo": -2,
+          "eqMedio": 0,
+          "eqAlto": 3,
+          "deessAmt": 5,
+          "satAmt": 0.2,
+          "dobleAmt": 0.3,
+          "revAmt": 0.22,
+          "delayAmt": 0.12
+        },
+        "por": "Equilibrio. Que suene cara sin que se note qué le hicieron."
+      },
+      {
+        "id": "p_balada",
+        "nombre": "Balada · íntima",
+        "gen": "pop",
+        "v": {
+          "limpieza": 1,
+          "puerta": 1,
+          "deesser": 1,
+          "comp": 1,
+          "eq": 1,
+          "sat": 1,
+          "doble": 0,
+          "rev": 1,
+          "delay": 0,
+          "compTh": -16,
+          "compRa": 3,
+          "eqBajo": 0,
+          "eqMedio": 1,
+          "eqAlto": 2,
+          "deessAmt": 4,
+          "satAmt": 0.1,
+          "dobleAmt": 0,
+          "revAmt": 0.38,
+          "delayAmt": 0
+        },
+        "por": "Cerca del oído y con sala grande detrás. La dinámica se respeta: si cantás bajito, se oye bajito."
+      }
+    ],
+    "antes": [
+      "Buscá el sitio más BLANDO de la casa. Un clóset abierto lleno de ropa es la mejor cabina gratis que existe: la ropa se come los rebotes.",
+      "Apagá el ventilador, el aire y todo lo que zumbe. Cerrá la ventana. Dos minutos de esto valen más que cualquier plugin.",
+      "El micrófono a un palmo de la boca (15–20 cm) y un poco de lado, no de frente: así las \"p\" no revientan.",
+      "Grabá 2 segundos de silencio y dale a \"Medir el cuarto\". Eso calibra la puerta con TU cuarto, no con uno genérico.",
+      "Cantá la canción entera una vez antes de grabar. La primera toma casi nunca es la buena y la voz necesita calentarse.",
+      "Grabá SIEMPRE con auriculares. Si la pista sale por parlantes, el micrófono la recoge y ya no se puede separar nada."
+    ],
+    "puente": [
+      {
+        "id": "voz-ia",
+        "titulo": "Convertir tu voz en la de otro cantante",
+        "dentro": "no",
+        "porque": "Requiere modelos de voz entrenados que no caben ni corren dentro de un navegador.",
+        "donde": "Kits AI (kits.ai) o Voice-Swap (voice-swap.ai) — únicamente modelos LICENCIADOS y libres de regalías.",
+        "como": "Exportá tu toma en WAV desde el mezclador → subila a la plataforma → elegí un modelo licenciado → descargá el resultado y volvé a importarlo acá como pista.",
+        "ojo": "Cantás vos: la interpretación y la melodía siguen siendo tuyas, y eso es tu autoría humana. Solo cambia el timbre. Nunca uses un modelo de la voz de un artista real."
+      },
+      {
+        "id": "stems",
+        "titulo": "Sacarle las pistas separadas a una canción existente",
+        "dentro": "no",
+        "porque": "La separación por IA necesita modelos de varios cientos de megas.",
+        "donde": "Moises (moises.ai) para estudiar acordes, tono y BPM · UVR + Demucs si lo querés local y gratis.",
+        "como": "Subí la canción que te gusta → pedí los stems → escuchá el bajo solo y la batería sola. Así se aprenden arreglos de verdad.",
+        "ojo": "Es para ESTUDIAR, no para copiar. Sacar los stems de un tema ajeno y usarlos en el tuyo es infracción."
+      },
+      {
+        "id": "master",
+        "titulo": "Máster final para distribuir",
+        "dentro": "parcial",
+        "porque": "Acá tenés una cadena de máster decente para maquetas. Para un lanzamiento comercial querés oídos entrenados o un servicio dedicado.",
+        "donde": "iZotope Ozone si querés control · LANDR o BandLab Mastering si querés rápido · un ingeniero real si el tema es importante.",
+        "como": "Exportá la mezcla desde acá (el exportador ya te deja margen de cabecera) → subila al servicio → compará contra un tema comercial del mismo género.",
+        "ojo": "Nunca masterices una mezcla ya limitada. Si el exportador te avisa que estás pasado, se arregla la MEZCLA, no el máster."
+      },
+      {
+        "id": "instr",
+        "titulo": "Instrumentos reales y librerías de sonidos",
+        "dentro": "parcial",
+        "porque": "Acá todo se sintetiza en vivo. Suena bien para maqueta, pero no reemplaza un acordeón grabado ni una sección de metales real.",
+        "donde": "FL Studio con librerías del género · Splice para samples · un músico de sesión para el acordeón o el requinto.",
+        "como": "Exportá los stems desde acá → abrilos en FL Studio como guía → reemplazá pista por pista con el sonido bueno.",
+        "ojo": "La maqueta de acá ya fija tempo, tonalidad, estructura y arreglo. Eso es el 70% del trabajo: lo que falta es el timbre."
+      },
+      {
+        "id": "mix-pro",
+        "titulo": "Mezcla profesional multipista",
+        "dentro": "parcial",
+        "porque": "El mezclador de acá cubre voz y pista. Una mezcla comercial son 30–60 canales con procesamiento individual.",
+        "donde": "FL Studio (que ya manejás) o Reaper · o directamente un ingeniero de mezcla.",
+        "como": "Exportá los stems por separado desde acá → importalos en tu DAW → mezclá con el arreglo ya resuelto.",
+        "ojo": "Si la maqueta suena bien acá, una mezcla profesional la va a mejorar. Si suena mal acá, el problema es el ARREGLO, y eso ningún ingeniero lo arregla."
+      }
+    ]
+  }
 }

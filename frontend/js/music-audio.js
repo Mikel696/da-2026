@@ -60,6 +60,19 @@ const MAUDIO = (() => {
      Se crea perezosamente: los navegadores bloquean el audio hasta
      que hay un gesto del usuario. La primera llamada viene siempre
      desde un click. */
+  /** Ruido blanco reutilizable: base de caja, hi-hat y palmas.
+   *  Va atado al contexto porque un AudioBuffer no se puede usar en un
+   *  contexto distinto del que lo creó. */
+  function hacerRuido(contexto) {
+    const len = contexto.sampleRate * 2;
+    const b = contexto.createBuffer(1, len, contexto.sampleRate);
+    const d = b.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+
+  const esOffline = c => c && typeof c.startRendering === 'function';
+
   function ctx() {
     if (!ac) {
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -68,14 +81,41 @@ const MAUDIO = (() => {
       master = ac.createGain();
       master.gain.value = 0.75;
       master.connect(ac.destination);
-      // Ruido blanco reutilizable: base de caja, hi-hat y palmas.
-      const len = ac.sampleRate * 2;
-      noiseBuf = ac.createBuffer(1, len, ac.sampleRate);
-      const d = noiseBuf.getChannelData(0);
-      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      noiseBuf = hacerRuido(ac);
     }
-    if (ac.state === 'suspended') ac.resume();
+    // Un OfflineAudioContext también nace 'suspended', pero llamarle
+    // resume() lo arranca fuera de startRendering() y arruina el render.
+    if (ac.state === 'suspended' && !esOffline(ac)) ac.resume();
     return ac;
+  }
+
+  /* ═══ Render offline ══════════════════════════════════════════
+     Para exportar no se graba la reproducción en tiempo real: se
+     redirige todo el motor a un OfflineAudioContext y se renderiza
+     tan rápido como pueda la máquina. Una canción de 3 minutos sale
+     en un par de segundos, sin pérdida y sin ruido de la tarjeta. */
+  let _liveAc = null, _liveMaster = null, _liveNoise = null;
+
+  function beginRender(off) {
+    _liveAc = ac; _liveMaster = master; _liveNoise = noiseBuf;
+    ac = off;
+    master = off.createGain();
+    master.gain.value = 0.75;
+    master.connect(off.destination);
+    noiseBuf = hacerRuido(off);
+    if (window.MINST && MINST.limpiarCache) MINST.limpiarCache();
+    return master;
+  }
+  function endRender() {
+    ac = _liveAc; master = _liveMaster; noiseBuf = _liveNoise;
+    _liveAc = _liveMaster = _liveNoise = null;
+    if (window.MINST && MINST.limpiarCache) MINST.limpiarCache();
+  }
+  /** Dispara un instrumento en un instante concreto. Lo usa el
+   *  exportador para agendar la canción entera de una sola vez. */
+  function playInst(nombre, t, opts) {
+    const fn = INSTS[nombre];
+    if (fn) fn(t, opts || {});
   }
 
   const supported = () => !!(window.AudioContext || window.webkitAudioContext);
@@ -150,101 +190,167 @@ const MAUDIO = (() => {
     o.start(t); o2.start(t); o.stop(t + dur + 0.05); o2.stop(t + dur + 0.05);
   }
 
-  /* ═══ Percusión sintetizada ═══════════════════════════════════ */
+  /* ═══ Percusión · sintetizada a buffer ════════════════════════
+     Cada sonido se calcula UNA sola vez como forma de onda en JavaScript
+     y se cachea por contexto. Antes cada golpe montaba su propio grafo:
+     unas palmas eran nueve nodos (tres ráfagas × fuente + filtro +
+     ganancia), y en un tema de 3 minutos eso son casi tres mil nodos
+     solo de palmas — exportar se volvía inviable.
 
-  function noiseSrc(t, dur) {
+     Una caja de ritmos real funciona así: el sonido es fijo y se
+     dispara. Y hay una razón musical además de la de rendimiento: si
+     cada golpe se sintetizara con ruido nuevo, lo exportado NO sonaría
+     igual que lo monitoreado, y una mezcla que no coincide con su
+     archivo es una mezcla que no sirve. */
+
+  const percCache = new WeakMap();   // contexto → Map(tipo → AudioBuffer)
+
+  const PERC_DUR = { kick:0.42, snare:0.24, clap:0.26, hat:0.07, hatOpen:0.30, perc:0.24, clave:0.09 };
+  /* Volúmenes relativos: dejan el kit equilibrado sin tocar nada. El
+     hi-hat va muy abajo porque su energía cae donde el oído es más
+     sensible y a igual amplitud se percibe mucho más fuerte. */
+  const PERC_VOL = { kick:1.0, snare:0.70, clap:0.75, hat:0.28, hatOpen:0.30, perc:0.60, clave:0.50 };
+
+  function hacerPerc(tipo, sr) {
+    const dur = PERC_DUR[tipo] || 0.3;
+    const n = Math.ceil(sr * dur);
+    const d = new Float32Array(n);
+    const rnd = () => Math.random() * 2 - 1;
+
+    if (tipo === 'kick') {
+      // La caída de 150 Hz a 45 Hz en unos 25 ms ES el "boom".
+      let fase = 0;
+      for (let i = 0; i < n; i++) {
+        const t = i / sr;
+        const f = 45 + 105 * Math.exp(-t / 0.024);
+        fase += 2 * Math.PI * f / sr;
+        d[i] = Math.sin(fase) * Math.exp(-t / 0.105);
+      }
+
+    } else if (tipo === 'hat' || tipo === 'hatOpen') {
+      const dec = tipo === 'hat' ? 0.013 : 0.075;
+      const ah = 1 / (1 + 2 * Math.PI * 7500 / sr);   // paso-altos de un polo
+      let y = 0, xp = 0;
+      for (let i = 0; i < n; i++) {
+        const x = rnd();
+        y = ah * (y + x - xp); xp = x;
+        d[i] = y * Math.exp(-(i / sr) / dec);
+      }
+
+    } else if (tipo === 'snare') {
+      // Ruido con banda + un tono corto que le da cuerpo. Sin el tono
+      // suena a "psh"; sin el ruido, a tambor de juguete.
+      const ah = 1 / (1 + 2 * Math.PI * 900 / sr);
+      const al = 2 * Math.PI * 4500 / sr;
+      let hp = 0, xp = 0, lp = 0, fase = 0;
+      for (let i = 0; i < n; i++) {
+        const t = i / sr, x = rnd();
+        hp = ah * (hp + x - xp); xp = x;
+        lp += al * (hp - lp);
+        fase += 2 * Math.PI * 190 / sr;
+        d[i] = lp * Math.exp(-t / 0.055) * 0.85 + Math.sin(fase) * Math.exp(-t / 0.030) * 0.45;
+      }
+
+    } else if (tipo === 'clap') {
+      // Tres ráfagas separadas ~9 ms: eso es lo que el oído interpreta
+      // como varias manos y no como un solo golpe.
+      const rafagas = [0, 0.009, 0.019];
+      const ah = 1 / (1 + 2 * Math.PI * 800 / sr);
+      const al = 2 * Math.PI * 2600 / sr;
+      let hp = 0, xp = 0, lp = 0;
+      for (let i = 0; i < n; i++) {
+        const t = i / sr, x = rnd();
+        hp = ah * (hp + x - xp); xp = x;
+        lp += al * (hp - lp);
+        let env = 0;
+        for (let k = 0; k < 3; k++) {
+          const dt = t - rafagas[k];
+          if (dt >= 0) env += Math.exp(-dt / (k === 2 ? 0.055 : 0.006)) * (k === 2 ? 1 : 0.55);
+        }
+        d[i] = lp * Math.min(env, 1.4);
+      }
+
+    } else if (tipo === 'perc') {
+      const al = 2 * Math.PI * 2600 / sr;
+      let fase = 0, lp = 0;
+      for (let i = 0; i < n; i++) {
+        const t = i / sr;
+        const f = 190 + 150 * Math.exp(-t / 0.02);
+        fase += 2 * Math.PI * f / sr;
+        lp += al * (rnd() - lp);
+        d[i] = Math.sin(fase) * Math.exp(-t / 0.055) * 0.9 + lp * Math.exp(-t / 0.008) * 0.25;
+      }
+
+    } else if (tipo === 'clave') {
+      let f1 = 0, f2 = 0;
+      for (let i = 0; i < n; i++) {
+        const t = i / sr;
+        f1 += 2 * Math.PI * 2400 / sr;
+        f2 += 2 * Math.PI * 1180 / sr;
+        d[i] = (Math.sin(f1) * 0.6 + Math.sin(f2) * 0.4) * Math.exp(-t / 0.014);
+      }
+    }
+
+    // Normaliza: así los valores de PERC_VOL significan lo mismo para
+    // todos y no dependen de cómo salió cada síntesis.
+    let pico = 0;
+    for (let i = 0; i < n; i++) { const v = Math.abs(d[i]); if (v > pico) pico = v; }
+    if (pico > 0) { const k = 0.95 / pico; for (let i = 0; i < n; i++) d[i] *= k; }
+    return d;
+  }
+
+  function bufPerc(tipo) {
     const a = ctx();
+    let mapa = percCache.get(a);
+    if (!mapa) { mapa = new Map(); percCache.set(a, mapa); }
+    let b = mapa.get(tipo);
+    if (!b) {
+      const datos = hacerPerc(tipo, a.sampleRate);
+      b = a.createBuffer(1, datos.length, a.sampleRate);
+      b.copyToChannel(datos, 0);
+      mapa.set(tipo, b);
+    }
+    return b;
+  }
+
+  /** Dispara un golpe: fuente + ganancia. Dos nodos, no nueve. */
+  function golpe(tipo, t, v) {
+    const a = ctx(); if (!a) return;
     const s = a.createBufferSource();
-    s.buffer = noiseBuf;
-    s.playbackRate.value = 1;
-    s.start(t, Math.random() * 1.5, dur + 0.02);
-    return s;
+    s.buffer = bufPerc(tipo);
+    const g = a.createGain();
+    g.gain.value = (v == null ? 1 : v) * (PERC_VOL[tipo] || 0.7);
+    s.connect(g); g.connect(master);
+    s.start(t);
   }
 
-  /** Bombo: la caída de tono de 150Hz a 45Hz en 90ms ES el "boom". */
-  function drKick(t, v = 1) {
-    const a = ctx(); if (!a) return;
-    const o = a.createOscillator(), g = a.createGain();
-    o.type = 'sine';
-    o.frequency.setValueAtTime(150, t);
-    o.frequency.exponentialRampToValueAtTime(45, t + 0.09);
-    g.gain.setValueAtTime(v * 1.0, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
-    o.connect(g); g.connect(master);
-    o.start(t); o.stop(t + 0.4);
-  }
-
-  /** Caja: ruido filtrado + un tono corto que le da el "cuerpo". */
-  function drSnare(t, v = 1) {
-    const a = ctx(); if (!a) return;
-    const n = noiseSrc(t, 0.2), nf = a.createBiquadFilter(), ng = a.createGain();
-    nf.type = 'bandpass'; nf.frequency.value = 1900; nf.Q.value = 0.7;
-    ng.gain.setValueAtTime(v * 0.55, t);
-    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.17);
-    n.connect(nf); nf.connect(ng); ng.connect(master);
-
-    const o = a.createOscillator(), og = a.createGain();
-    o.type = 'triangle'; o.frequency.setValueAtTime(190, t);
-    og.gain.setValueAtTime(v * 0.35, t);
-    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
-    o.connect(og); og.connect(master); o.start(t); o.stop(t + 0.12);
-  }
-
-  /** Palmas: tres ráfagas de 8ms separadas. Esa separación es lo
-   *  que el oído lee como "varias manos" y no como una sola. */
-  function drClap(t, v = 1) {
-    const a = ctx(); if (!a) return;
-    [0, 0.009, 0.018].forEach((off, i) => {
-      const n = noiseSrc(t + off, 0.06), f = a.createBiquadFilter(), g = a.createGain();
-      f.type = 'bandpass'; f.frequency.value = 1250; f.Q.value = 1.2;
-      g.gain.setValueAtTime(v * (i === 2 ? 0.6 : 0.32), t + off);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + off + (i === 2 ? 0.15 : 0.04));
-      n.connect(f); f.connect(g); g.connect(master);
-    });
-  }
-
-  function drHat(t, v = 1, open = false) {
-    const a = ctx(); if (!a) return;
-    const dur = open ? 0.22 : 0.045;
-    const n = noiseSrc(t, dur), f = a.createBiquadFilter(), g = a.createGain();
-    f.type = 'highpass'; f.frequency.value = 7500;
-    g.gain.setValueAtTime(v * 0.22, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    n.connect(f); f.connect(g); g.connect(master);
-  }
-
-  /** Conga/percusión: caída de tono en el rango medio + un toque
-   *  de ruido para el "slap" del cuero. */
-  function drPerc(t, v = 1) {
-    const a = ctx(); if (!a) return;
-    const o = a.createOscillator(), g = a.createGain();
-    o.type = 'sine';
-    o.frequency.setValueAtTime(340, t);
-    o.frequency.exponentialRampToValueAtTime(190, t + 0.06);
-    g.gain.setValueAtTime(v * 0.5, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
-    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.2);
-
-    const n = noiseSrc(t, 0.03), f = a.createBiquadFilter(), ng = a.createGain();
-    f.type = 'bandpass'; f.frequency.value = 2600;
-    ng.gain.setValueAtTime(v * 0.1, t);
-    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
-    n.connect(f); f.connect(ng); ng.connect(master);
-  }
-
-  /** Clave/madera: dos senos agudos y muy cortos. */
-  function drClave(t, v = 1) {
-    const a = ctx(); if (!a) return;
-    [2400, 1180].forEach((fr, i) => {
-      const o = a.createOscillator(), g = a.createGain();
-      o.type = 'sine'; o.frequency.value = fr;
-      g.gain.setValueAtTime(v * (i ? 0.18 : 0.3), t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-      o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.06);
-    });
-  }
+  const drKick  = (t, v = 1) => golpe('kick', t, v);
+  const drSnare = (t, v = 1) => golpe('snare', t, v);
+  const drClap  = (t, v = 1) => golpe('clap', t, v);
+  const drHat   = (t, v = 1, open = false) => golpe(open ? 'hatOpen' : 'hat', t, v);
+  const drPerc  = (t, v = 1) => golpe('perc', t, v);
+  const drClave = (t, v = 1) => golpe('clave', t, v);
 
   const DRUMS = { kick: drKick, snare: drSnare, clap: drClap, hat: drHat, perc: drPerc, clave: drClave };
+
+  /* ═══ Registro de instrumentos ════════════════════════════════
+     Firma única `fn(tiempo, {midi, dur, vel})` para que el scheduler
+     no tenga que saber si lo que toca es un bombo o un acordeón.
+     music-inst.js añade aquí los timbres de género (guitarra, acordeón,
+     metales…) sin tocar este archivo. */
+  const INSTS = {
+    kick:  (t, o) => drKick(t, o.vel),
+    snare: (t, o) => drSnare(t, o.vel),
+    clap:  (t, o) => drClap(t, o.vel),
+    hat:   (t, o) => drHat(t, o.vel, o.open),
+    perc:  (t, o) => drPerc(t, o.vel),
+    clave: (t, o) => drClave(t, o.vel),
+    piano: (t, o) => voicePiano(midiToFreq(o.midi), t, o.dur, 0.15 * o.vel),
+    pad:   (t, o) => voicePad(midiToFreq(o.midi), t, o.dur, 0.09 * o.vel),
+    bajo:  (t, o) => voiceBass(midiToFreq(o.midi), t, o.dur, 0.30 * o.vel)
+  };
+  function registerInst(nombre, fn) { INSTS[nombre] = fn; }
+  const hasInst = n => !!INSTS[n];
 
   /* ═══ Acordes ═════════════════════════════════════════════════ */
 
@@ -344,15 +450,51 @@ const MAUDIO = (() => {
     visQueue.push({ type: 'step', step: s, t });
   }
 
+  /** Modo canción: en vez de un compás en bucle, recorre una lista de
+   *  eventos en posiciones absolutas. `porPaso` viene precalculado como
+   *  array indexado por paso — buscar en él es O(1), que es lo que hace
+   *  falta cuando el scheduler corre cada 25 ms durante 3 minutos. */
+  function scheduleSongStep(s, t) {
+    const stepS = (60 / cfg.bpm) / 4;
+    const evs = cfg.porPaso[s];
+    if (evs) {
+      for (const e of evs) {
+        const fn = INSTS[e.i];
+        if (!fn) continue;
+        fn(t, { midi: e.m, dur: (e.d || 1) * stepS * 0.95, vel: e.v == null ? 1 : e.v, open: e.o });
+      }
+    }
+    visQueue.push({ type: 'step', step: s % 16, t, abs: s });
+    if (cfg.secPorPaso && cfg.secPorPaso[s] !== undefined) {
+      visQueue.push({ type: 'sec', sec: cfg.secPorPaso[s], t });
+    }
+  }
+
   function tick() {
     const a = ctx(); if (!a) return;
-    const steps = cfg.steps || 16;
-    const stepDur = (60 / cfg.bpm) / (steps / 4);   // 16 pasos = semicorcheas en 4/4
-    while (nextTime < a.currentTime + AHEAD_S) {
-      scheduleStep(step, nextTime);
-      nextTime += stepDur;
-      step++;
-      if (step >= steps) { step = 0; bar++; }
+    if (cfg.mode === 'song') {
+      const stepDur = (60 / cfg.bpm) / 4;
+      while (nextTime < a.currentTime + AHEAD_S) {
+        if (step >= cfg.totalSteps) {
+          // Deja sonar las colas (reverb, notas largas) antes de cortar.
+          const fin = nextTime + 1.6;
+          setTimeout(() => { if (playing) { stop(); if (cfg && cfg.onEnd) cfg.onEnd(); } },
+                     Math.max(0, (fin - a.currentTime) * 1000));
+          return;
+        }
+        scheduleSongStep(step, nextTime);
+        nextTime += stepDur;
+        step++;
+      }
+    } else {
+      const steps = cfg.steps || 16;
+      const stepDur = (60 / cfg.bpm) / (steps / 4);   // 16 pasos = semicorcheas en 4/4
+      while (nextTime < a.currentTime + AHEAD_S) {
+        scheduleStep(step, nextTime);
+        nextTime += stepDur;
+        step++;
+        if (step >= steps) { step = 0; bar++; }
+      }
     }
     timer = setTimeout(tick, LOOKAHEAD_MS);
   }
@@ -373,9 +515,31 @@ const MAUDIO = (() => {
     if (!playing || !ac) return;
     while (visQueue.length && visQueue[0].t <= ac.currentTime) {
       const e = visQueue.shift();
-      if (e.type === 'step' && cfg.onStep) cfg.onStep(e.step);
+      if (e.type === 'step' && cfg.onStep) cfg.onStep(e.step, e.abs);
       if (e.type === 'chord' && cfg.onChord) cfg.onChord(e.bar);
+      if (e.type === 'sec' && cfg.onSection) cfg.onSection(e.sec);
     }
+  }
+
+  /** Arranca una canción completa a partir de una lista de eventos.
+   *  `eventos`: [{i:instrumento, s:paso absoluto, m:midi, d:duración en
+   *  pasos, v:velocidad}]. */
+  function startSong(options) {
+    stop();
+    const a = ctx(); if (!a) return false;
+    const o = options || {};
+    const porPaso = [];
+    for (const e of (o.eventos || [])) {
+      (porPaso[e.s] || (porPaso[e.s] = [])).push(e);
+    }
+    cfg = Object.assign({ mode: 'song', bpm: 95 }, o, { porPaso });
+    step = 0; bar = 0;
+    visQueue.length = 0;
+    nextTime = a.currentTime + 0.08;
+    playing = true;
+    tick();
+    visTimer = setInterval(visDrain, 16);
+    return true;
   }
 
   function start(options) {
@@ -413,7 +577,13 @@ const MAUDIO = (() => {
     NOTES, NOTES_ES, NOTES_FLAT, useFlats, nameToPc, noteName, midiToFreq,
     parseDegree, buildProgression, chordLabel, chordMidis,
     playChordNow, playNoteNow, hit: (k, v) => { ctx(); DRUMS[k] && DRUMS[k](ac.currentTime + 0.02, v || 1); },
-    start, stop, setBpm, setDrumVol, setMasterVol
+    start, startSong, stop, setBpm, setDrumVol, setMasterVol,
+    // Acceso para music-inst.js y music-studio.js: comparten el mismo
+    // AudioContext y el mismo bus. Dos contextos en la misma página
+    // significan dos relojes distintos — y ahí se acabó la sincronía.
+    ac: () => ctx(), bus: () => { ctx(); return master; },
+    registerInst, hasInst, QUAL, voicePiano, voicePad, voiceBass,
+    beginRender, endRender, playInst, listaInst: () => Object.keys(INSTS)
   };
 })();
 
