@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-03
+- **Última actualización:** 2026-09-08
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,80 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎵 18-MUS · Nuevo módulo · Cerebro Musical — 2026-09-08
+
+### El encargo
+Miguel quiere lanzar un proyecto musical: publicar sus composiciones y **vendérselas a artistas**
+nacionales e internacionales, con un universo de redes alrededor. El problema de fondo lo dijo él:
+**no sabe de acordes ni de estructuras de canción**. Géneros pedidos: reggaetón, vallenato,
+champeta, salsa, pop — y los que yo recomiende.
+
+### La decisión de diseño que manda sobre todo
+La primera tentación era copiar el molde del English Engine: tarjetas, Leitner, memorizar teoría.
+**Es el error que ya cometimos con 17-IA** (ver `feedback_no_copiar_el_molde`). En inglés el cuello
+de botella es la memoria; aquí no. Nadie compone porque se sepa la definición de «progresión».
+
+Así que el módulo no explica teoría: **la hace sonar**. `music-audio.js` sintetiza acordes y ritmos
+en el navegador con Web Audio pura — cero librerías, cero samples, cero red. Miguel elige un género,
+le da a Tocar y oye el dembow con su progresión encima. Puede prender y apagar casillas de una
+rejilla de 16 y oír cómo cambia. **Eso enseña; leer no.**
+
+### Lo que hay (9 pestañas)
+`es` Estudio · `fu` Fundamentos (teoría sonora + piano + rejilla) · `gn` Géneros (ADN de 10) ·
+`fa` Fábrica (9 estaciones idea→canción, 41 pasos, 9 prompts) · `ar` Arsenal (36 herramientas
+investigadas) · `le` Legal (9 bloques + calculadora de splits) · `ne` Negocio · `un` Universo ·
+`ca` Catálogo (CRUD de obras).
+
+### Investigación (corte 2026-09-08)
+Se investigó y se citó, no se inventó: términos de Suno tras el acuerdo con Warner (nov-2025 —
+licencia de explotación, **no** propiedad; plan gratuito no comercial), estado de descargas de Udio
+durante la transición con UMG, informe de la US Copyright Office sobre registrabilidad con IA
+(29-ene-2025: los prompts solos no bastan), licencias mecánicas para covers y la tarifa por copia,
+Content ID de YouTube, política de IA y spam de Spotify (divulgación DDEX), y el circuito colombiano
+DNDA / SAYCO / ACINPRO con sus requisitos y causales de devolución reales.
+
+### Regla de integridad aplicada
+Cada dato lleva `conf` (**alta** = con fuente / **media** = consenso de oficio / **hipótesis**) y se
+pinta como distintivo en la ficha del género. El BPM de la champeta salió marcado `media` con aviso
+explícito: **la búsqueda no arrojó ninguna fuente que lo fije**, así que el rango es de oficio y
+hay que verificarlo midiendo tracks reales. Mejor un hueco visible que un número inventado.
+El arsenal **no afirma precios ni versiones** (regla heredada de 17-IA): categoría de costo
+cualitativa + fecha de corte + enlace oficial.
+
+### Los tres fallos que encontró la verificación en navegador
+1. **`const MAUDIO` no es `window.MAUDIO`.** Un `const` de nivel superior en un script clásico vive
+   en el ámbito léxico global, no como propiedad de `window`. Todos los guardas `if (window.MAUDIO)`
+   fallaban en silencio: los acordes no se pintaban y el sonido no arrancaba. Arreglado publicándolo
+   explícitamente, igual que `window.NBShared`. **Esto no se ve leyendo el código** — solo probando.
+2. **`requestAnimationFrame` puede dar cero frames.** El bucle visual que ilumina el pulso dependía
+   de rAF, que se muere cuando el navegador no está componiendo la página. El audio seguía sonando y
+   el usuario perdía justo lo pedagógico: ver dónde cae el 1. Cambiado a `setInterval` de 16 ms.
+3. **Notación enarmónica.** Mostraba `Cm G# D# A#` donde un músico escribe `Cm Ab Eb Bb`. Para quien
+   está aprendiendo a hablar con músicos, eso lo delata. Añadida tabla de bemoles + elección de
+   escritura según la tonalidad (círculo de quintas). Ahora Do menor → **Cm Ab Eb Bb**.
+
+### Verificado en navegador (localhost:3456, no solo leyendo código)
+Las 9 pestañas renderizan con su contenido completo · progresión i–VI–III–VII en La menor da
+**Am F C G** y transpone correcto en 9 tonalidades probadas · Tocar arranca el scheduler, ilumina
+los 16 pasos y recorre los acordes · CRUD del catálogo guarda y pinta · la calculadora de splits
+bloquea a 90% y genera el acuerdo a 100% · tarjeta en el dashboard + botón en el rail (19) ·
+carga dentro del iframe del Cerebro con su nav propia oculta.
+
+### Sync
+`mus_songs`, `mus_check`, `mus_univ`, `mus_lab` al SYNC_REGISTRY. `mus_tab` queda local a propósito.
+`guardarLab()` va con debounce de 700 ms **porque el slider de BPM dispara `oninput` en cada pixel**
+del arrastre — sin eso, arrastrarlo sería una ráfaga de push a Supabase (el mismo motivo por el que
+`fin_calc_state` está excluido). Se vacía en `pagehide` y al ocultar la pestaña.
+Cache-bust en lockstep: `cloud-sync.js` p17 → **p18 en las 29 páginas**.
+
+### Lo que queda (v2)
+- Reproductor de la estructura completa (ahora el loop es de un compás; falta encadenar secciones).
+- Exportar el patrón de la rejilla a MIDI para abrirlo directo en FL Studio.
+- Metrónomo con cuenta de entrada y compases en 6/8 reales (vallenato merengue, puya, son).
+- Fichas de artistas objetivo para el pitch, enganchadas al catálogo.
 
 ---
 

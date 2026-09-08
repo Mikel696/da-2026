@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>DA-2026 · Cerebro Musical</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/music.css?v=m1">
+</head>
+<body>
+
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a>
+    <div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span>
+    <div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">18-MUS · Cerebro Musical</span>
+  </div>
+</nav>
+
+<div class="wr">
+
+  <div class="hero">
+    <h1>De una idea a una <em>canción vendible</em>.</h1>
+    <p>Teoría que suena en vez de leerse · el ADN de 10 géneros · la línea de montaje de 9 estaciones ·
+       el arsenal investigado · lo legal en español · y el negocio sin humo.</p>
+  </div>
+
+  <div class="mus-tabs" id="musTabs" role="tablist"></div>
+
+  <div class="mus-pane" id="pane-es"></div>
+  <div class="mus-pane" id="pane-fu" hidden></div>
+  <div class="mus-pane" id="pane-gn" hidden></div>
+  <div class="mus-pane" id="pane-fa" hidden></div>
+  <div class="mus-pane" id="pane-ar" hidden></div>
+  <div class="mus-pane" id="pane-le" hidden></div>
+  <div class="mus-pane" id="pane-ne" hidden></div>
+  <div class="mus-pane" id="pane-un" hidden></div>
+  <div class="mus-pane" id="pane-ca" hidden></div>
+
+</div>
+
+<script>
+  // El Cerebro carga los módulos en un iframe desde el rail lateral.
+  // Cuando eso pasa, la barra de navegación propia sobra.
+  if (window.self !== window.top) document.body.classList.add('in-iframe');
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p18"></script>
+
+<script src="js/music-audio.js?v=m4"></script>
+<script src="js/music.js?v=m3"></script>
+</body>
+</html>

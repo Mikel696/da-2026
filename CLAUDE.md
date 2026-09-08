@@ -112,6 +112,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
+| `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
 ---
@@ -306,6 +307,66 @@ visible (`ver`) + enlace oficial. Aplica igual a cualquier ficha nueva en cualqu
 páginas.
 
 ---
+
+## 🎵 PROTOCOLO 18-MUS · CEREBRO MUSICAL
+
+Módulo para el proyecto musical de Miguel: componer, producir y **vender composiciones a artistas**.
+Punto de partida no negociable: **no sabe acordes ni estructuras**. Todo el diseño sale de ahí.
+
+### El pilar
+**«No necesitás saber música. Necesitás saber decidir.»**
+El módulo **no explica teoría: la hace sonar.** Si una idea de contenido nuevo se puede leer pero
+no oír, probablemente esté mal planteada. Esto es la aplicación directa de la lección de 17-IA:
+antes de replicar la forma de un módulo que funciona, comprobar que el cuello de botella es el mismo.
+Aquí no es la memoria — es el **criterio auditivo**, y ese solo se entrena oyendo y comparando.
+
+### Piezas
+| Archivo | Qué es |
+|---|---|
+| `frontend/music.html` | Página del módulo, 9 pestañas |
+| `frontend/js/music-audio.js` | **Motor de audio.** Web Audio pura: osciladores, ruido y envolventes. Cero librerías, cero samples, cero red. |
+| `frontend/js/music.js` | Lógica, render y laboratorio (`MUS`) |
+| `frontend/css/music.css` | Estilos. Acento del módulo: **magenta `#ec4899`** |
+| `frontend/data/music-kb.json` | **El cerebro.** Géneros, progresiones, estructuras, fábrica, arsenal, legal, negocio, universo, glosario |
+
+### Reglas del motor de audio (`music-audio.js`)
+1. **Scheduler de lookahead, no `setTimeout` a pelo.** Un timer de JS despierta cada 25 ms y agenda
+   los eventos de los próximos 100 ms contra el reloj de `AudioContext`. El timer decide **qué**
+   agendar; el reloj de audio decide **cuándo** suena. Con `setTimeout` solo, el ritmo se arrastra
+   de forma audible.
+2. **Nada de `requestAnimationFrame` para el bucle visual.** rAF se queda en **cero frames** cuando
+   el navegador no está componiendo la página; el audio sigue y el usuario pierde la guía del pulso,
+   que es justo lo que enseña. Va con `setInterval` de 16 ms.
+3. **Publicar en `window` explícitamente.** `const MAUDIO = …` de nivel superior vive en el ámbito
+   léxico global, **no** como propiedad de `window`. Sin `window.MAUDIO = MAUDIO`, cada guarda
+   `if (window.MAUDIO)` falla en silencio. Mismo caso que `window.NBShared`.
+4. **Notación con la escritura correcta.** Do menor se escribe `Cm Ab Eb Bb`, nunca `Cm G# D# A#`.
+   `useFlats(keyPc, mode)` decide sostenidos o bemoles por círculo de quintas. Escribirlo mal
+   delata al que no sabe — y el módulo existe precisamente para que no lo delaten.
+
+### Formato de los patrones rítmicos
+`patron: { kick:[…], clap:[…], snare:[…], hat:[…], perc:[…], clave:[…] }` — arrays de casillas
+**1-indexadas** sobre una rejilla de 16 semicorcheas, porque así las cuenta un músico («el golpe
+del 4»), no como índice de array. El dembow es `clap: [4,7,12,15]`.
+
+### 🚨 Reglas de integridad de 18-MUS
+1. **Todo dato lleva `conf`:** `alta` (con fuente documental) · `media` (consenso de oficio, sin
+   fuente que lo fije) · `hipotesis`. Se pinta como distintivo visible en la ficha. El BPM de la
+   champeta está en `media` **con aviso explícito de que no se encontró fuente** — verificar
+   midiendo tracks reales antes de darlo por bueno.
+2. **El arsenal NO afirma precios, versiones ni límites de plan.** Regla heredada de 17-IA: una
+   cifra vieja es peor que ninguna. Categoría de costo cualitativa + fecha de corte (`ver`) +
+   enlace oficial. El precio se confirma en la fuente el día que se vaya a pagar.
+3. **Nunca poner el nombre de un artista real en un prompt de generación,** ni sugerir clonar una
+   voz reconocible. Se describe el **sonido**, no la persona. Es motivo de retiro en plataforma y
+   de demanda, y no tiene segunda oportunidad.
+4. **La sección Legal abre con el aviso de que no es asesoría legal** y dice explícitamente dónde
+   empieza el abogado. Se puede preparar el borrador y la lista de preguntas; no se puede firmar por él.
+5. **Las reglas de IA y música cambian rápido.** Todo bloque legal lleva fecha de corte y fuente.
+   Antes de que Miguel tome una decisión económica sobre esa base, revalidar.
+
+---
+
 
 ## 📝 REGLA DE ORO: ACTUALIZAR SIEMPRE
 **CADA VEZ que se modifique código, datos o funcionalidad:**

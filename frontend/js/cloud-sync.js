@@ -336,7 +336,12 @@ const CLOUD = (() => {
     'app_analyses',
     // ─── 4-RUT · Proyecto ATLAS · 2026-07-06 ───
     // Ruta diaria (array), currículo/certs checkmarks (obj), meta/config (obj)
-    'atlas_daily', 'atlas_curr', 'atlas_meta'
+    'atlas_daily', 'atlas_curr', 'atlas_meta',
+    // ─── 18-MUS Cerebro Musical · 2026-09-08 ───
+    // Catálogo de obras, progreso de la fábrica, identidad del universo y
+    // el estado del laboratorio (incluye patrones de ritmo hechos a mano).
+    // mus_tab queda local a propósito: cada device en su pestaña.
+    'mus_songs', 'mus_check', 'mus_univ', 'mus_lab'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */
