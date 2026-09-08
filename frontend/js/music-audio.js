@@ -352,6 +352,20 @@ const MAUDIO = (() => {
   function registerInst(nombre, fn) { INSTS[nombre] = fn; }
   const hasInst = n => !!INSTS[n];
 
+  /** Toca `fn` enrutando su salida a otro nodo en vez del bus principal.
+   *
+   *  Funciona sin tocar ni uno de los quince instrumentos porque todos
+   *  leen `master` en el momento de la llamada, de forma síncrona: se
+   *  intercambia antes y se restaura después. Es lo que permite que
+   *  cada pista tenga su propio volumen y panorama de verdad, en vez de
+   *  falsear el volumen escalando la velocidad de las notas. */
+  function withDest(nodo, fn) {
+    if (!nodo) return fn();
+    const prev = master;
+    master = nodo;
+    try { return fn(); } finally { master = prev; }
+  }
+
   /* ═══ Acordes ═════════════════════════════════════════════════ */
 
   /** "V7" o "imaj7" → { pc, qual, label }
@@ -461,7 +475,9 @@ const MAUDIO = (() => {
       for (const e of evs) {
         const fn = INSTS[e.i];
         if (!fn) continue;
-        fn(t, { midi: e.m, dur: (e.d || 1) * stepS * 0.95, vel: e.v == null ? 1 : e.v, open: e.o });
+        const opts = { midi: e.m, dur: (e.d || 1) * stepS * 0.95, vel: e.v == null ? 1 : e.v, open: e.o };
+        const dest = e.p && cfg.dests ? cfg.dests[e.p] : null;
+        if (dest) withDest(dest, () => fn(t, opts)); else fn(t, opts);
       }
     }
     visQueue.push({ type: 'step', step: s % 16, t, abs: s });
@@ -582,7 +598,7 @@ const MAUDIO = (() => {
     // AudioContext y el mismo bus. Dos contextos en la misma página
     // significan dos relojes distintos — y ahí se acabó la sincronía.
     ac: () => ctx(), bus: () => { ctx(); return master; },
-    registerInst, hasInst, QUAL, voicePiano, voicePad, voiceBass,
+    registerInst, hasInst, withDest, QUAL, voicePiano, voicePad, voiceBass,
     beginRender, endRender, playInst, listaInst: () => Object.keys(INSTS)
   };
 })();

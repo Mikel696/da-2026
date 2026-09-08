@@ -372,7 +372,7 @@ const MUS = (function () {
 
   /* ═══ TABS ════════════════════════════════════════════════════ */
   const TABS = [
-    ['es', '🎛️', 'Estudio'], ['fu', '🎹', 'Fundamentos'], ['gn', '🧬', 'Géneros'],
+    ['es', '🎛️', 'Inicio'], ['fu', '🎹', 'Fundamentos'], ['gn', '🧬', 'Géneros'], ['st', '🎚️', 'Estudio'],
     ['fa', '🏭', 'Fábrica'],  ['ar', '🧰', 'Arsenal'],     ['le', '⚖️', 'Legal'],
     ['ne', '💰', 'Negocio'],  ['un', '🌌', 'Universo'],    ['ca', '📀', 'Catálogo']
   ];
@@ -384,9 +384,22 @@ const MUS = (function () {
     document.querySelectorAll('.mus-tab').forEach(b => b.classList.toggle('on', b.dataset.t === t));
     document.querySelectorAll('.mus-pane').forEach(p => p.hidden = p.id !== 'pane-' + t);
     if (t !== 'fu' && t !== 'gn') labStop();
-    const r = { es: renderEstudio, fu: renderFundamentos, gn: renderGeneros, fa: renderFabrica,
+    if (t !== 'st' && window.MSTUDIO) MSTUDIO.parar();
+    const r = { es: renderEstudio, fu: renderFundamentos, gn: renderGeneros, st: renderEstudioGrab, fa: renderFabrica,
                 ar: renderArsenal, le: renderLegal, ne: renderNegocio, un: renderUniverso, ca: renderCatalogo };
     if (r[t]) r[t]();
+  }
+
+  /* El Estudio vive en music-ui.js: es una interfaz entera (pistas,
+     grabación, mezcla, exportación) y meterla acá habría vuelto este
+     archivo inmanejable. */
+  function renderEstudioGrab() {
+    if (!window.MUSUI) {
+      const el = $('pane-st');
+      if (el) el.innerHTML = '<div class=mus-warn>El motor del estudio no cargó. Recargá la página.</div>';
+      return;
+    }
+    MUSUI.render();
   }
 
   /* ═══ ESTUDIO (home) ══════════════════════════════════════════ */
@@ -877,6 +890,7 @@ splits.map(s => '  _____________________________\n  ' + (s.n || '') + '\n').join
     const nav = $('musTabs');
     if (nav) nav.innerHTML = TABS.map(([id, ic, n]) =>
       '<button class="mus-tab" data-t="' + id + '" onclick="MUS.tab(\'' + id + '\')"><span>' + ic + '</span>' + n + '</button>').join('');
+    if (window.MUSUI) MUSUI.init(KB);
     let t = 'es';
     try { t = localStorage.getItem(K_TAB) || 'es'; } catch (e) {}
     if (!TABS.some(x => x[0] === t)) t = 'es';
@@ -888,7 +902,7 @@ splits.map(s => '  _____________________________\n  ' + (s.n || '') + '\n').join
   }
 
   return {
-    init, tab: showTab, irFabrica,
+    init, tab: showTab, irFabrica, toast, copiar: copy,
     // laboratorio
     play: labPlay, stop: labStop, setBpm: labSetBpm, setKey: labSetKey, setMode: labSetMode,
     setProg: labSetProg, setGenero: labSetGenero, toggleDrums: labToggleDrums, voice: labVoice,

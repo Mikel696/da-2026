@@ -341,7 +341,11 @@ const CLOUD = (() => {
     // Catálogo de obras, progreso de la fábrica, identidad del universo y
     // el estado del laboratorio (incluye patrones de ritmo hechos a mano).
     // mus_tab queda local a propósito: cada device en su pestaña.
-    'mus_songs', 'mus_check', 'mus_univ', 'mus_lab'
+    'mus_songs', 'mus_check', 'mus_univ', 'mus_lab',
+    // Proyecto del Estudio: pistas, patrones y mezcla. Pequeno (unos KB)
+    // porque guarda GRADOS y patrones, no audio. Las tomas de voz viven
+    // en IndexedDB local y no viajan.
+    'mus_proy'
   ];
 
   /* ── Dynamic key prefixes discovered at runtime ── */
