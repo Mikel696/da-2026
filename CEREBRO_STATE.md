@@ -60,6 +60,23 @@ La regla quedó escrita en `CLAUDE.md`. La prueba que lo detecta no es de sintax
 comportamiento (`test_escape.js`): evalúa la expresión y comprueba que `"a.b"` escapado deja de
 casar con `"axb"` — pasa en el reparado y falla en el corrupto.
 
+### El espacio dejó de regalar la palabra — 2026-09-09 (mismo día, tras probarlo Miguel)
+Lo cazó jugando: *«no tiene gracia que en traducir, dictado y escuchar me dé la palabra al darle
+espacio»*. Tenía razón dos veces. En `palabraHTML` la condición era `i > S.w`, así que **la ficha
+activa se mostraba entera** — con su traducción y su categoría: el juego te enseñaba justo lo que
+te pedía escribir. Y en Escuchar no se tapaba nada, o sea que la fase «a ciegas» mostraba la frase
+completa; la fase se llamaba así y no lo era.
+
+Ahora `tapada(i)` decide por modo, y es la regla que pidió:
+**Leer y Hablar** la frase se ve entera (ahí sí se regala: es el material) · **Traducir y Dictado**
+se tapa también la activa (`i >= S.w`) · **Escuchar** se tapa hasta la fase 3, la de «con el texto».
+
+Y el ESPACIO ya no perdona: si la palabra está mal **no avanza y no dice cuál era**, se vuelve a
+pedir la misma. Para que eso no sea una trampa sin salida hay una escalera: a los 2 fallos una
+pista que no es la respuesta (inicial + número de letras), a los 4 un botón explícito
+«Enséñamela y sigue». El rango dice la verdad: una palabra sacada tras fallar **no cuenta como
+acertada** (`okPal` solo sube si `intentos === 0`), y cada palabra fallada se cuenta una sola vez.
+
 ### Verificación (navegador, no lectura de código)
 0 falsos positivos en las 1000 frases EN y las 1000 ES · siguen cazados los 4 errores conocidos
 (`Why do you aren't finished…`, `I'm hungry yesterday`, `ayer me comió un manzana`, `Hice el

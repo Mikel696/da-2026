@@ -1107,6 +1107,13 @@ table.tbl tr:hover td{background:var(--bg3)}
 .cf-pie{font-size:11px;color:var(--t3);margin-top:10px}
 .cf-pie b{color:var(--t2)}
 
+/* La pista que aparece cuando llevas dos fallos en la misma palabra */
+.cf-ayuda{margin-top:10px;padding:8px 14px;border-radius:9px;display:inline-flex;
+  align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;font-size:11.5px;
+  color:var(--t2);background:rgba(234,179,8,.09);border:1px solid rgba(234,179,8,.32)}
+.cf-ayuda b{color:var(--warn);font-family:var(--fm);font-size:13px}
+.cf-ayuda .cf-b{margin-top:0;padding:5px 11px;font-size:11px}
+
 .cf-chispa{position:absolute;top:14px;right:18px;font-size:13px;font-weight:800;opacity:0;
   transform:translateY(6px);transition:all .18s;pointer-events:none}
 .cf-chispa.on{opacity:1;transform:none}
@@ -10376,7 +10383,7 @@ const CLUB = (() => {
 
   const S = {
     modo:'trad', pack:'todas', lista:[], i:0, activo:false,
-    tok:[], pide:0, w:0, buf:'', errTecla:0, okPal:0, malPal:0,
+    tok:[], pide:0, w:0, buf:'', errTecla:0, okPal:0, malPal:0, intentos:0,
     combo:0, comboMax:0, pts:0, fase:0, dicho:'', escuchando:false,
     ronda:{ hechas:0, perfectas:0, pts:0 }, fin:null
   };
@@ -10405,7 +10412,7 @@ const CLUB = (() => {
     if(!p) return;
     S.tok = tokeniza(p.en);
     S.pide = S.tok.filter(w => !esDada(w)).length;   // lo que de verdad se teclea
-    S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0;
+    S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0; S.intentos = 0;
     saltaDadas();
     S.fase = 0; S.dicho = '';
     S.activo = (S.modo === 'trad' || S.modo === 'dict');
@@ -10437,21 +10444,44 @@ const CLUB = (() => {
     render();
   }
 
+  /* El ESPACIO ya no perdona: si la palabra está mal, NO se avanza y no se
+     enseña cuál era. Se vuelve a pedir la misma. La única salida es teclearla
+     bien o pedirla a propósito con el botón (ver `rendirse`). */
   function confirmar(){
     const meta = S.tok[S.w];
     if(!meta) return;
-    const bien = igual(S.buf, meta);
-    if(bien){
-      S.okPal++; S.combo++; S.comboMax = Math.max(S.comboMax, S.combo);
-      S.pts += (S.combo >= 20 ? 20 : 10);           // a los 20 de combo, el doble
-      chispa(S.combo >= 20 ? '¡DOBLE!' : (S.combo >= 5 ? '¡Perfect!' : 'Bien'), true);
-    } else {
-      S.malPal++; S.combo = 0;
-      chispa('era «' + meta + '»', false);
+
+    if(igual(S.buf, meta)){
+      // Solo cuenta como buena si la clavó sin fallar antes. El rango dice la verdad.
+      if(!S.intentos){
+        S.okPal++; S.combo++; S.comboMax = Math.max(S.comboMax, S.combo);
+        S.pts += (S.combo >= 20 ? 20 : 10);         // a los 20 de combo, el doble
+        chispa(S.combo >= 20 ? '¡DOBLE!' : (S.combo >= 5 ? '¡Perfect!' : 'Bien'), true);
+      } else {
+        chispa('esa era', true);                    // llegó, pero le costó
+      }
+      S.buf = ''; S.intentos = 0; S.w++; saltaDadas();
+      if(S.w >= S.tok.length) terminar(); else render();
+      return;
     }
-    S.buf = ''; S.w++; saltaDadas();
-    if(S.w >= S.tok.length) terminar();
-    else render();
+
+    // Fallo: se queda en la misma palabra. Se cuenta una sola vez por palabra.
+    if(!S.intentos) S.malPal++;
+    S.intentos++; S.combo = 0; S.buf = '';
+    chispa(S.intentos >= 2 ? 'sigue sin ser · mira la pista' : 'todavía no · otra vez', false);
+    render();
+  }
+
+  /* Salida explícita. El ESPACIO nunca regala la palabra, pero si de verdad no
+     sale hay que poder seguir: se pide a propósito. Ya estaba contada como
+     fallada, así que no vuelve a penalizar. */
+  function rendirse(){
+    const meta = S.tok[S.w];
+    if(!meta) return;
+    if(!S.intentos) S.malPal++;
+    chispa('era «' + meta + '»', false);
+    S.buf = ''; S.intentos = 0; S.combo = 0; S.w++; saltaDadas();
+    if(S.w >= S.tok.length) terminar(); else render();
   }
 
   function terminar(){
@@ -10494,12 +10524,24 @@ const CLUB = (() => {
     ];
   };
 
+  /* ¿Se tapa esta ficha?
+     En Leer y Hablar la frase ES el material de trabajo: se ve entera, y ahí
+     sí se regala la palabra. En Traducir y Dictado hay que sacarla de la
+     cabeza, así que se tapa TAMBIÉN la que está activa — si no, el juego te
+     está enseñando justo lo que te pide escribir. En Escuchar se tapa hasta
+     la tercera fase, que es la que se llama «con el texto». */
+  function tapada(i){
+    if(S.modo === 'trad' || S.modo === 'dict') return i >= S.w;
+    if(S.modo === 'esc') return S.fase < 2;
+    return false;                                   // leer y habla
+  }
+
   function palabraHTML(w, i){
     const base = limpia(w);
     const d = IDX_W.get(base);
     const est = i < S.w ? 'hecha' : (i === S.w ? 'activa' : 'pend');
     // Una ficha dada nunca se tapa: no hay nada que adivinar en ella
-    const oculta = (S.modo === 'trad' || S.modo === 'dict') && i > S.w && !esDada(w);
+    const oculta = !esDada(w) && tapada(i);
     return `<span class="cf-w ${est}" data-cfw="${esc(w)}">
       <span class="cf-wt">${oculta ? '·'.repeat(Math.max(2, base.length)) : esc(w)}</span>
       <span class="cf-wg">${oculta ? '' : esc(d ? d.es.split(' / ')[0] : '')}</span>
@@ -10530,13 +10572,23 @@ const CLUB = (() => {
     : /* habla */     `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
                        <div class="cf-es">${esc(p.es)}</div>`;
 
+    /* Escalera de ayuda. Como el ESPACIO ya no deja pasar, hace falta una
+       salida o el juego se convierte en una trampa: a los 2 fallos una pista
+       que no es la respuesta, a los 4 el botón para pedirla de verdad. */
+    const ayuda = (m === 'trad' || m === 'dict') && S.intentos >= 2 ? `
+      <div class="cf-ayuda">
+        Empieza por <b>${esc((lim[0] || '').toUpperCase())}</b> · tiene <b>${lim.length}</b> letras
+        ${S.intentos >= 4 ? `<button class="cf-b" data-cfver>Enséñamela y sigue</button>` : ''}
+      </div>` : '';
+
     const tecleando = (m === 'trad' || m === 'dict') ? `
       <div class="cf-linea">
         <span class="cf-hecho">${esc(escrito)}</span>
         <span class="cf-buf">${tecleado}<span class="cf-cur"></span></span>
       </div>
+      ${ayuda}
       <div class="cf-pie">Palabra <b>${Math.min(S.tok.slice(0, S.w).filter(w => !esDada(w)).length + 1, S.pide)}</b> de <b>${S.pide}</b>
-        · el <span class="kbd">ESPACIO</span> confirma cada palabra</div>` : '';
+        · el <span class="kbd">ESPACIO</span> confirma — si está mal, no pasa</div>` : '';
 
     return `<div class="cf-card">
       ${cabecera}
@@ -10669,6 +10721,7 @@ const CLUB = (() => {
       if(S.i >= S.lista.length - 1){ S.finVisto = true; render(); return; }
       S.i++; cargar(); render();
     });
+    c.querySelectorAll('[data-cfver]').forEach(b => b.onclick = () => rendirse());
     c.querySelectorAll('[data-cffase]').forEach(b => b.onclick = () => { S.fase = Math.min(2, S.fase + 1); render(); });
     c.querySelectorAll('[data-cfsay]').forEach(b => b.onclick = () => {
       const r = parseFloat(b.dataset.cfsay) || 1;
