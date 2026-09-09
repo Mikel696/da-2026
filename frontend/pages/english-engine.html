@@ -8292,14 +8292,23 @@ const GL_NO = 'script,style,button,input,textarea,select,option,code,kbd,' +
                  <button>, ya excluidos), asi que marcar dentro no se come nada. */
               '.w-en,.w-es,.w-cat,.w-rk,.w-ex,.p-en,.p-es,.p-mold,.p-meta,.tag';
 
-function glAutoMarcar(root, maxPorTermino = 2){
+const CUPO_GL = 6;   // marcas por termino y pestaña
+function glAutoMarcar(root, maxPorTermino = CUPO_GL){
   if(!root) return 0;
   const usados = Object.create(null);
-  /* El cupo arranca contando lo que YA está marcado. Sin esto, llamar dos
-     veces sobre la misma zona añadía otras dos marcas por término, y como
-     ahora se repasa cada vez que se abre una pestaña, se irían acumulando. */
-  root.querySelectorAll('.gl[data-glo]').forEach(el => {
+  /* El cupo arranca contando lo que ya puso ESTE marcador (data-auto), para
+     que repasar una pestaña al abrirla no acumule marcas.
+     Las marcas escritas a mano en el HTML NO cuentan: son deliberadas, y si
+     gastaran cupo le robarían el sitio a las automáticas — fue justo lo que
+     dejó sin «?» la palabra «auxiliar» de la fila de `not`. */
+  /* Y como mucho UNA marca por término dentro del mismo elemento, para que un
+     párrafo denso no se lleve todo el cupo y deje sin «?» a las menciones de
+     más abajo — que es lo que pasó con «auxiliar» en las filas de la tabla. */
+  const porBloque = new WeakMap();
+  const yaEn = el => { let s = porBloque.get(el); if(!s){ s = new Set(); porBloque.set(el, s); } return s; };
+  root.querySelectorAll('.gl[data-auto]').forEach(el => {
     usados[el.dataset.glo] = (usados[el.dataset.glo] || 0) + 1;
+    if(el.parentElement) yaEn(el.parentElement).add(el.dataset.glo);
   });
   let hechos = 0;
 
@@ -8331,10 +8340,14 @@ function glAutoMarcar(root, maxPorTermino = 2){
     if(cola && cola.nodeValue && cola.nodeValue.length >= 5) pend.push(cola);
 
     if(!clave) continue;
+    const bloque = despues.parentNode;
+    if(bloque && bloque.nodeType === 1 && yaEn(bloque).has(clave)) continue;   // ya hay una aquí
     if((usados[clave] = (usados[clave] || 0) + 1) > maxPorTermino) continue;
+    if(bloque && bloque.nodeType === 1) yaEn(bloque).add(clave);
 
     const b = document.createElement('span');
     b.className = 'gl'; b.setAttribute('data-glo', clave);
+    b.setAttribute('data-auto', '1');        // puesta por el marcador, no a mano
     b.textContent = despues.nodeValue;
     despues.parentNode.replaceChild(b, despues);
     hechos++;
@@ -11261,7 +11274,7 @@ function init(){
          (las listas, las bifurcaciones), así que marcarlas solo al arrancar
          dejaba sin marcar todo lo que aún no existía. Es idempotente: el cupo
          cuenta las marcas que ya hay, así que abrir diez veces no añade nada. */
-      glAutoMarcar(pane, 2);
+      glAutoMarcar(pane, CUPO_GL);
       CTL.headerH(); setTimeout(CTL.apply, 60);   // la cabecera cambia de alto entre pestañas
     };
   });
@@ -11356,7 +11369,7 @@ function init(){
      marcaban nunca: existian y no habia forma de llegar a ellas. Medido, el
      documento entero cuesta unos 60 ms una sola vez, y las filas de datos
      quedan fuera por GL_NO. */
-  ['p0','pz','p3','p1','p2','bf','wr','cf'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
+  ['p0','pz','p3','p1','p2','bf','wr','cf'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, CUPO_GL); });
   SRS.renderBoxes();
   NB.render();
 
