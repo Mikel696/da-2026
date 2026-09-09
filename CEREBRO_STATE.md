@@ -77,6 +77,43 @@ pista que no es la respuesta (inicial + número de letras), a los 4 un botón ex
 «Enséñamela y sigue». El rango dice la verdad: una palabra sacada tras fallar **no cuenta como
 acertada** (`okPal` solo sube si `intentos === 0`), y cada palabra fallada se cuenta una sola vez.
 
+### Las fichas del glosario que no abrían — 2026-09-09
+Miguel encerró en rojo dos términos que no desplegaban nada. La causa era una errata:
+tres marcas escribían **`data-g=`** en vez de `data-glo=` (`modal`, `sujetorelleno`, y la demo
+«¿ves una palabra subrayada con puntitos? Tócala» — que precisamente no se podía tocar). Las
+definiciones existían las tres; solo el atributo estaba mal. Ojo al corregir: `08_app.js` usa
+`data-g="0|1|2"` **legítimamente** en los botones de calificar de Práctica — esos no se tocan.
+
+**Por qué sobrevivió:** `GL.auditar()` filtraba por `.gl[data-glo]`, así que una marca con el
+atributo mal escrito le era invisible y reportaba «sinDefinir: []» con tres fichas muertas.
+Una auditoría que solo mira lo bien formado no audita: confirma. Ahora recorre **todas** las
+`.gl`, nombra el atributo y el pane de cada una rota, y añade `huerfanas` (fichas sin ningún
+camino). Probada metiéndole los dos fallos a propósito: los caza.
+
+**Dos fallos de fondo que salieron al revisar el resto:**
+1. `glAutoMarcar` marcaba **solo la primera coincidencia de cada nodo de texto**, así que en un
+   párrafo que nombra tres términos los otros dos no se marcaban nunca. Por eso `contable`,
+   `comparativo` o `continuo` existían sin que hubiera forma de abrirlas. Ahora la cola del nodo
+   vuelve a la cola de proceso.
+2. Solo se recorrían **tres pestañas** (`p0`, `pz`, `p3`), y varias se pintan al abrirlas. Ahora
+   se repasa al abrir cada pestaña — y el marcador es **idempotente** (el cupo cuenta las marcas
+   que ya hay), comprobado dando tres vueltas al documento: 187 marcas, 187, 187.
+
+**9 fichas nuevas**, elegidas por frecuencia real en el texto: presente simple (sale 71 veces y
+no tenía ficha), pasado simple, presente perfecto, futuro, continuo, singular/plural, verbo
+irregular, sílaba y posesivo. Más 7 que existían pero eran inalcanzables (afirmativa, negativa,
+conjugar, pasiva, verbo…). De 30 fichas a 39, y de 27 alcanzables a 35.
+
+**Lo que NO se marca, a propósito:** en las fichas de las listas se protege el dato — la palabra,
+su traducción, su categoría, su ejemplo, el molde — porque ahí una marca sería un error de
+contenido. Las **notas** sí se marcan: son prosa, y es donde el lector se topa con «presente
+perfecto» sin saber qué es. Verificado que no cae ninguna marca en `.w-en/.w-es/.p-en/.p-es/.tag`
+y que los botones de la ficha siguen respondiendo. Coste medido: 13 ms en la pestaña más pesada.
+
+Siguen sin marcarse 4 fichas: `gerundio`, `superlativo` e `interrogativa` **no aparecen en ningún
+texto** del documento (no hay dónde), y `presente perfecto` solo sale en la etiqueta de tiempo de
+las fichas de frase, que es dato protegido.
+
 ### Verificación (navegador, no lectura de código)
 0 falsos positivos en las 1000 frases EN y las 1000 ES · siguen cazados los 4 errores conocidos
 (`Why do you aren't finished…`, `I'm hungry yesterday`, `ayer me comió un manzana`, `Hice el

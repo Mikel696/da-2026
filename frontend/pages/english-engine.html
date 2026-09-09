@@ -1301,7 +1301,7 @@ table.tbl tr:hover td{background:var(--bg3)}
         <i>I work</i> (siempre) → <i>I <b>am</b> working</i> (ahora) · <i>I <b>have</b> worked</i> (ya hecho) · <i>I <b>will</b> work</i> (aún no) · <i>I <b>had</b> worked</i> (antes de otra cosa)</div></td></tr>
     <tr><td><span class="slot s-neg" style="font-size:12px;padding:2px 8px">not</span></td>
         <td>Solo al negar</td>
-        <td>Nunca va sola: se agarra siempre de un auxiliar o de un <span class="gl" data-g="modal">modal</span>.
+        <td>Nunca va sola: se agarra siempre de un auxiliar o de un <span class="gl" data-glo="modal">modal</span>.
         <div class="tex"><b>Con auxiliar prestado:</b> <i>I <b>don't</b> smoke.</i> · <b>Con el que ya estaba:</b> <i>She <b>isn't</b> working.</i> · <b>Con modal:</b> <i>I <b>can't</b> swim.</i></div></td></tr>
     <tr><td><span class="slot s-wh" style="font-size:12px;padding:2px 8px">WH</span></td>
         <td>Solo en preguntas abiertas</td>
@@ -1314,7 +1314,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 
   <div class="card" style="margin-bottom:14px">
     <h3 class="sub" style="margin-top:0">La regla madre: el sujeto NUNCA se cae</h3>
-    <p class="lead" style="margin-bottom:14px">En español dices <i>"Llueve"</i>, <i>"Está bien"</i>, <i>"Hace frío"</i> — sin sujeto. En inglés eso es un error de estructura, no de vocabulario. Siempre hay alguien al frente, aunque sea un <span class="gl" data-g="sujetorelleno">sujeto de relleno</span> — un <b style="color:var(--r-suj)">it</b> vacío que no significa nada.</p>
+    <p class="lead" style="margin-bottom:14px">En español dices <i>"Llueve"</i>, <i>"Está bien"</i>, <i>"Hace frío"</i> — sin sujeto. En inglés eso es un error de estructura, no de vocabulario. Siempre hay alguien al frente, aunque sea un <span class="gl" data-glo="sujetorelleno">sujeto de relleno</span> — un <b style="color:var(--r-suj)">it</b> vacío que no significa nada.</p>
     <div class="mini"><span class="m-en">It rains a lot here.</span> <span class="arr">·</span> <span class="m-es">Llueve mucho aquí.</span> <button class="spk sm" data-say="It rains a lot here.">🔊</button></div>
     <div class="mini"><span class="m-en">It is cold today.</span> <span class="arr">·</span> <span class="m-es">Hace frío hoy.</span> <button class="spk sm" data-say="It is cold today.">🔊</button></div>
     <div class="mini"><span class="m-en">There is a problem.</span> <span class="arr">·</span> <span class="m-es">Hay un problema.</span> <button class="spk sm" data-say="There is a problem.">🔊</button></div>
@@ -1323,7 +1323,7 @@ table.tbl tr:hover td{background:var(--bg3)}
 
   <h2 class="sec"><span class="n">01b</span> La ficha completa de cada pieza</h2>
   <p class="lead">La tabla de arriba te dice <b>qué</b> hace cada pieza. Esto te dice <b>cómo se ve haciéndolo</b>. Cada caso que se menciona trae su propio ejemplo con audio — porque nombrar una función sin enseñarla no es explicarla. Empieza abierta la del <b>auxiliar</b>: es la que genera todas las dudas.</p>
-  <p class="lead" style="font-size:12.5px">¿Ves una palabra <span class="gl" data-g="auxiliar">subrayada con puntitos</span>? Tócala: te dice qué significa en palabras simples, con ejemplo. Está en todo el documento.</p>
+  <p class="lead" style="font-size:12.5px">¿Ves una palabra <span class="gl" data-glo="auxiliar">subrayada con puntitos</span>? Tócala: te dice qué significa en palabras simples, con ejemplo. Está en todo el documento.</p>
   <div id="fpBox"></div>
 
   <h2 class="sec"><span class="n">01c</span> Laboratorio · mira aparecer el auxiliar</h2>
@@ -7432,7 +7432,22 @@ const GLOSARIO = {
   pronombre:   { t:'Pronombre', d:'El apodo que reemplaza a un nombre para no repetirlo.', e:'Miguel → <b>he</b> · the table → <b>it</b>', s:'he, she, it, they.' },
   determinante:{ t:'Determinante', d:'La palabra que va antes del sustantivo y dice <b>cuál</b> o <b>cuántos</b>: a, an, the, my, this, some.', e:'<b>the</b> dog · <b>my</b> dog · <b>some</b> dogs', s:'the dog, my dog, some dogs.' },
   tiempoverbal:{ t:'Tiempo verbal', d:'La marca de <b>cuándo</b> pasa la acción: antes, ahora o después. En inglés esa marca casi siempre la lleva el auxiliar, no el verbo.', e:'I work<b>ed</b> (antes) · I <b>am</b> working (ahora) · I <b>will</b> work (después)', s:'I worked. I am working. I will work.' },
-  sujetorelleno:{ t:'Sujeto de relleno', d:'Un <b>it</b> o <b>there</b> que no significa nada, puesto solo porque el inglés <b>exige</b> que toda frase tenga sujeto.', e:'<b>It</b>\'s raining · <b>There</b> is a problem', s:"It's raining. There is a problem." }
+  sujetorelleno:{ t:'Sujeto de relleno', d:'Un <b>it</b> o <b>there</b> que no significa nada, puesto solo porque el inglés <b>exige</b> que toda frase tenga sujeto.', e:'<b>It</b>\'s raining · <b>There</b> is a problem', s:"It's raining. There is a problem." },
+
+  /* Los nombres de los tiempos. El documento los usa en cada página — «presente
+     simple» sale 71 veces — y hasta ahora no tenían ficha: se nombraba el
+     tiempo sin explicar nunca qué es. */
+  presentesimple:{ t:'Presente simple', d:'El tiempo de lo que es <b>siempre verdad</b> o se repite por costumbre — <b>no</b> de lo que está pasando ahora mismo. El verbo va desnudo; solo con <i>he/she/it</i> se le pega una <b>-s</b>. Para negar y preguntar pide prestado <b>do/does</b>.', e:'I <b>work</b> here · She work<b>s</b> here · <b>Do</b> you work here?', s:'I work here. She works here. Do you work here?' },
+  pasadosimple: { t:'Pasado simple', d:'Algo que empezó y <b>terminó</b> en el pasado, en un momento cerrado (ayer, en 2019). El verbo lleva <b>-ed</b>, o cambia entero si es irregular. Al negar y preguntar entra <b>did</b>, y entonces el verbo vuelve a quedar desnudo.', e:'I work<b>ed</b> yesterday · I <b>went</b> home · <b>Did</b> you work?', s:'I worked yesterday. I went home. Did you work?' },
+  presenteperfecto:{ t:'Presente perfecto', d:'<b>have/has + participio</b>. Dice que algo <b>ya está hecho</b> sin decir cuándo, o que sigue vivo hasta hoy. Ojo: si dices el momento exacto ya no es este tiempo, es pasado simple — <i>I have worked yesterday</i> está mal.', e:'I <b>have worked</b> here for two years · <b>Have</b> you eaten?', s:'I have worked here for two years. Have you eaten?' },
+  futuro:      { t:'Futuro', d:'Lo que todavía no ha pasado. En inglés <b>no hay una terminación de futuro</b> como el <i>-é</i> del español: se arma con <b>will + verbo desnudo</b>, o con <b>be going to</b> cuando ya estaba decidido.', e:'I <b>will</b> call you · I<b>\'m going to</b> study', s:"I will call you. I'm going to study." },
+  continuo:    { t:'Continuo (o progresivo)', d:'El tiempo de lo que <b>está en curso</b>. Siempre se arma igual: <b>be + verbo en -ing</b>. Cambias el <i>be</i> y cambias de momento, sin tocar el verbo.', e:'I <b>am</b> work<b>ing</b> (ahora) · I <b>was</b> work<b>ing</b> (entonces)', s:'I am working. I was working.' },
+
+  /* Términos que el documento venía dando por sabidos */
+  plural:      { t:'Singular y plural', d:'Singular es <b>uno</b>; plural es <b>más de uno</b>. En inglés el plural del sustantivo casi siempre es una <b>-s</b>. Cuidado con la trampa: la <b>-s</b> en el sustantivo significa <i>muchos</i>, pero la <b>-s</b> en el verbo significa justo lo contrario — <i>uno solo</i>.', e:'one book → two book<b>s</b> · she work<b>s</b> (una sola persona) · child → <b>children</b>', s:'one book, two books. She works. child, children.' },
+  irregular:   { t:'Verbo irregular', d:'Un verbo que <b>no</b> hace el pasado con <b>-ed</b>: cambia por dentro. No hay regla que lo prediga, se aprenden de memoria — pero son un grupo cerrado, no crecen.', e:'go → <b>went</b> → <b>gone</b> · eat → <b>ate</b> → <b>eaten</b>', s:'go, went, gone. eat, ate, eaten.' },
+  silaba:      { t:'Sílaba', d:'Cada golpe de voz al pronunciar una palabra: <i>big</i> tiene una, <i>ex-pen-si-ve</i> tiene cuatro. Importa porque el comparativo depende de eso: las cortas llevan <b>-er</b> y las largas llevan <b>more</b>.', e:'big (1) → bigg<b>er</b> · expensive (4) → <b>more</b> expensive', s:'big, bigger. expensive, more expensive.' },
+  posesivo:    { t:'Posesivo', d:'Dice <b>de quién</b> es algo. En inglés va delante del sustantivo (my, your, his, her, our, their) o con <b>apóstrofo + s</b> pegado al dueño.', e:'<b>my</b> car · Ana<b>\'s</b> car · the boys<b>\'</b> room', s:"my car. Ana's car." }
 };
 
 const GL = (() => {
@@ -7467,11 +7482,30 @@ const GL = (() => {
   window.addEventListener('scroll', cerrar, { passive:true });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrar(); });
 
-  /** Comprueba que no haya ningún término marcado sin definición. */
+  /** Comprueba que ninguna marca del glosario esté muerta.
+      Mira TODAS las `.gl`, no solo las que traen `data-glo` bien puesto: la
+      versión anterior filtraba por `.gl[data-glo]` y por eso tres marcas
+      escritas `data-g=` le eran invisibles — decía «sinDefinir: []» mientras
+      Miguel las tocaba y no salía nada. Una auditoría que solo mira lo bien
+      formado no audita: confirma. */
   function auditar(){
-    const faltan = new Set();
-    document.querySelectorAll('.gl[data-glo]').forEach(el => { if(!GLOSARIO[el.dataset.glo]) faltan.add(el.dataset.glo); });
-    return { terminos: Object.keys(GLOSARIO).length, marcados: document.querySelectorAll('.gl[data-glo]').length, sinDefinir: [...faltan] };
+    const todas = [...document.querySelectorAll('.gl')];
+    const sinClave = [], sinDefinir = new Set();
+    todas.forEach(el => {
+      const k = el.dataset.glo;
+      if(!k) sinClave.push({ txt: el.textContent.trim().slice(0, 40),
+                             attrs: [...el.attributes].map(a => a.name).join(','),
+                             pane: (el.closest('.pane') || {}).id || '?' });
+      else if(!GLOSARIO[k]) sinDefinir.add(k);
+    });
+    // Fichas que existen pero a las que no se llega por ningún camino
+    const alcanzables = new Set(todas.map(el => el.dataset.glo).filter(Boolean));
+    if(typeof GL_CLAVE !== 'undefined') GL_CLAVE.forEach(k => alcanzables.add(k));
+    const huerfanas = Object.keys(GLOSARIO).filter(k => !alcanzables.has(k));
+
+    return { terminos: Object.keys(GLOSARIO).length, marcados: todas.length,
+             sinClave, sinDefinir: [...sinDefinir], huerfanas,
+             ok: !sinClave.length && !sinDefinir.size };
   }
   return { auditar, cerrar };
 })();
@@ -8206,7 +8240,35 @@ const GL_FORMAS = [
   ['pronombres','pronombre'], ['pronombre','pronombre'],
   ['determinantes','determinante'], ['determinante','determinante'],
   ['tiempo verbal','tiempoverbal'],
-  ['verbo desnudo','desnudo']
+  ['verbo desnudo','desnudo'],
+
+  /* ── EL ORDEN IMPORTA ──────────────────────────────────────────────
+     La alternancia del regex se resuelve de izquierda a derecha, así que
+     toda forma que EMPIECE por otra tiene que ir antes. Por eso lo que
+     sigue va al final: 'verbo desnudo' y 'voz pasiva' ya están arriba, y
+     'verbo'/'pasiva' a secas no pueden adelantarlas. Dentro de cada par,
+     el plural primero ('plurales' antes que 'plural').           */
+
+  // Los nombres de los tiempos: el documento los usaba sin explicarlos
+  ['presente simple','presentesimple'], ['pasado simple','pasadosimple'],
+  ['presente perfecto','presenteperfecto'],
+  ['continuos','continuo'], ['continuo','continuo'], ['progresivo','continuo'],
+  ['futuro','futuro'],
+
+  // Términos que se daban por sabidos
+  ['plurales','plural'], ['plural','plural'], ['singular','plural'],
+  ['irregulares','irregular'], ['irregular','irregular'],
+  ['sílabas','silaba'], ['sílaba','silaba'],
+  ['posesivos','posesivo'], ['posesivo','posesivo'],
+
+  // Fichas que ya existían pero a las que no llegaba ningún camino
+  ['afirmativas','afirmativa'], ['afirmativa','afirmativa'],
+  ['negativas','negativa'], ['negativa','negativa'],
+  ['interrogativas','interrogativa'], ['interrogativa','interrogativa'],
+  ['conjugación','conjugar'], ['conjugar','conjugar'],
+  ['infinitivos','infinitivo'], ['gerundios','gerundio'],
+  ['pasiva','pasiva'],
+  ['verbos','verbo'], ['verbo','verbo']
 ].filter(([, k]) => GLOSARIO[k]);          // si falta la definicion, no se marca
 
 const GL_RE = new RegExp(
@@ -8219,11 +8281,26 @@ const GL_CLAVE = new Map(GL_FORMAS.map(([f, k]) => [f.toLowerCase(), k]));
 /* Zonas que NO se tocan: interactivas, de codigo, de ejemplo, o del usuario */
 const GL_NO = 'script,style,button,input,textarea,select,option,code,kbd,' +
               '.gl,.gl-pop,.fp-ex,.tex,.mini,.m-en,.m-es,.formula,.slot,' +
-              '[contenteditable],[data-say],[data-gap],.nb-page,.bf-q';
+              '[contenteditable],[data-say],[data-gap],.nb-page,.bf-q,' +
+              /* De las fichas de las listas (2000 palabras, 1000 frases) se
+                 protege el DATO — la palabra, su traduccion, su categoria, su
+                 ejemplo, el molde — porque ahi una marca seria un error de
+                 contenido, no una ayuda. Las NOTAS si se marcan: son prosa
+                 explicativa, y es donde el lector se topa con «presente
+                 perfecto» o «infinitivo» sin saber que son.
+                 Las filas no tienen manejador de clic (lo interactivo son
+                 <button>, ya excluidos), asi que marcar dentro no se come nada. */
+              '.w-en,.w-es,.w-cat,.w-rk,.w-ex,.p-en,.p-es,.p-mold,.p-meta,.tag';
 
 function glAutoMarcar(root, maxPorTermino = 2){
   if(!root) return 0;
   const usados = Object.create(null);
+  /* El cupo arranca contando lo que YA está marcado. Sin esto, llamar dos
+     veces sobre la misma zona añadía otras dos marcas por término, y como
+     ahora se repasa cada vez que se abre una pestaña, se irían acumulando. */
+  root.querySelectorAll('.gl[data-glo]').forEach(el => {
+    usados[el.dataset.glo] = (usados[el.dataset.glo] || 0) + 1;
+  });
   let hechos = 0;
 
   const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -8242,11 +8319,20 @@ function glAutoMarcar(root, maxPorTermino = 2){
     const m = GL_RE.exec(n.nodeValue);
     if(!m) continue;
     const clave = GL_CLAVE.get(m[1].toLowerCase());
+
+    const despues = n.splitText(m.index);
+    const cola = despues.splitText(m[1].length);   // lo que queda por detrás
+
+    /* La cola vuelve a la cola. Antes se marcaba SOLO la primera coincidencia
+       de cada nodo de texto, así que en un párrafo que nombra tres términos
+       los otros dos no se marcaban nunca: por eso fichas como «continuo»,
+       «comparativo» o «superlativo» existían y no había forma de abrirlas.
+       Termina siempre: cada vuelta consume al menos el término encontrado. */
+    if(cola && cola.nodeValue && cola.nodeValue.length >= 5) pend.push(cola);
+
     if(!clave) continue;
     if((usados[clave] = (usados[clave] || 0) + 1) > maxPorTermino) continue;
 
-    const despues = n.splitText(m.index);
-    despues.splitText(m[1].length);
     const b = document.createElement('span');
     b.className = 'gl'; b.setAttribute('data-glo', clave);
     b.textContent = despues.nodeValue;
@@ -11171,6 +11257,11 @@ function init(){
       if(b.dataset.p === 'nb') NB.render();
       if(b.dataset.p === 'pz' && !$('qzBox').children.length){ qzShuffle(); renderQuiz(); }
       if(b.dataset.p === 'bf' && !$('bfList').children.length) BF.render();
+      /* Repaso del glosario al abrir. Varias pestañas se pintan aquí mismo
+         (las listas, las bifurcaciones), así que marcarlas solo al arrancar
+         dejaba sin marcar todo lo que aún no existía. Es idempotente: el cupo
+         cuenta las marcas que ya hay, así que abrir diez veces no añade nada. */
+      glAutoMarcar(pane, 2);
       CTL.headerH(); setTimeout(CTL.apply, 60);   // la cabecera cambia de alto entre pestañas
     };
   });
@@ -11260,7 +11351,12 @@ function init(){
   WR.wire();
   CLUB.init();
   sanearFavs();
-  ['p0','pz','p3'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
+  /* Antes solo se recorrian tres pestañas, asi que fichas como «pasado simple»
+     o «irregular» — que viven en Palabras, Frases y Bifurcaciones — no se
+     marcaban nunca: existian y no habia forma de llegar a ellas. Medido, el
+     documento entero cuesta unos 60 ms una sola vez, y las filas de datos
+     quedan fuera por GL_NO. */
+  ['p0','pz','p3','p1','p2','bf','wr','cf'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
   SRS.renderBoxes();
   NB.render();
 
