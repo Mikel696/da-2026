@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-08 (Estudio 18-MUS)
+- **Última actualización:** 2026-09-09 (Club de Frases 3-ENG + reparación del escapado)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,66 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 3-ENG · Club de Frases + la trampa del `$&` — 2026-09-09
+
+### Lo que pidió Miguel
+Investigar **julebu.co** a fondo e implementar una sección con **la misma metodología**.
+
+### Qué es esa metodología, y por qué encaja aquí
+Julebu (句乐部, «el club de las frases», 700.000 usuarios en China; revisado 09-sep-2026) no
+hace estudiar frases: hace **construirlas a golpe de tecla**. Ves el español, tecleas el inglés
+palabra por palabra, el **ESPACIO** confirma cada una, los aciertos seguidos suman **combo** y a
+los 20 la puntuación se dobla. Al final, un rango de **C a SSS**.
+
+Encaja porque el material ya estaba: **las 1000 frases del documento traen su molde**
+(`S + was + ADJ`), su traducción, su tiempo y su nota. Las «ranuras» de ellos son **las 6 piezas
+de colores** que el documento ya usa en todas las demás pestañas. No hubo que inventar datos.
+
+**Una diferencia declarada en la propia página:** ellos muestran la transcripción fonética (IPA)
+de cada palabra. No hay fuente verificada de IPA para estas 2000 palabras, así que **no se pone**
+— en su lugar, el audio real. Regla de «un dato sin fuente no se muestra», aplicada.
+
+### Piezas
+`27_club.js` (módulo `CLUB`, ~460 líneas) · `03g_club.html` (pane `cf`) · `28_club.css`
+(51 clases, todas con prefijo `cf-`). Progreso en `eng_cf`, sincronizado con **merge por
+entidad** reusando `mergeSrs` — si juega una ronda en el móvil y otra en el PC, quedan las dos.
+5 modos: Leer · Traducir · Dictado · Escuchar (3 fases) · Hablar. 42 paquetes. Lo que salga
+por debajo de 90 se marca ★ solo y cae en la Práctica diaria.
+
+### Un fallo que cazó la propia auditoría
+`limpia()` borraba todo lo que no fuera `a-z`, así que las fichas `30%`, `2023` y la barra de
+`Yes, please. / No, thanks.` quedaban **vacías: imposibles de teclear**. La ronda se habría
+quedado clavada ahí. Arreglado en dos partes: se conservan las cifras (`30%` se teclea `30`), y
+las fichas sin nada que teclear son **dadas** — no se piden, no puntúan y no cuentan en el total.
+Quedan 2 fichas dadas en las 1000 frases. `APP.CLUB.auditar()` → 0 fallos.
+
+### 🚨 La trampa del `$&` · un fallo mío que llevaba sesiones en producción
+`String.replace(a, b)` **interpreta `$&`, `` $` ``, `$'` y `$1` dentro de `b`**. Los parches que
+inyectaban código lo hacían con `replace`, y ese código contenía
+`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')` para escapar expresiones regulares — así que el `$&`
+se sustituía por el texto del ancla y quedaba `'\\/* ─── BIFURCACIONES ───'`.
+
+Lo grave: **es JavaScript válido**. `node --check` pasó verde en todas las sesiones. Dejó roto
+el escapado en dos sitios reales — el corrector (`corregir()`) y el auto-marcador del glosario
+(`GL_RE`) — y **llegó a producción** (líneas 8075 y 9901 del HTML publicado). Peor: el script
+que escribí para repararlo cayó en la misma trampa y anidó la corrupción al correr dos veces.
+
+Reparado por **índice de línea con asignación literal**, y reinyectado con `split().join()`.
+La regla quedó escrita en `CLAUDE.md`. La prueba que lo detecta no es de sintaxis sino de
+comportamiento (`test_escape.js`): evalúa la expresión y comprueba que `"a.b"` escapado deja de
+casar con `"axb"` — pasa en el reparado y falla en el corrupto.
+
+### Verificación (navegador, no lectura de código)
+0 falsos positivos en las 1000 frases EN y las 1000 ES · siguen cazados los 4 errores conocidos
+(`Why do you aren't finished…`, `I'm hungry yesterday`, `ayer me comió un manzana`, `Hice el
+almuerzo mañana`) · Laboratorio 640/640 · MORFO 17/17 y 11.585 formas · 10 pestañas visibles ·
+los 10 panes pintan · los 5 modos del Club pintan · ronda completa tecleada con eventos reales
+de teclado en las 4 frases que estaban rotas → SSS, 0 atascos · camino del error probado (combo
+a 0, rango C, guardado) · la app sobrevive a `eng_cf`, `eng_fav_p` y `eng_srs` corrompidos a
+propósito · `eng_cf` registrado en `SYNC.KEYS` y con marca en `eng_meta`.
 
 ---
 

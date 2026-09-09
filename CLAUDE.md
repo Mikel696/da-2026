@@ -379,6 +379,16 @@ absolutas** por muy conveniente que parezca en el momento.
 índices de línea**. Una regex `[\s\S]*?` codiciosa se llevó por delante medio `music-audio.js`
 en la sesión del 8-sep.
 
+**Cuando lo que se inserta es CÓDIGO, `split(a).join(b)` — nunca `replace(a, b)`.**
+`String.replace` interpreta `$&`, `` $` ``, `$'` y `$1` **dentro del reemplazo**. Como el código
+inyectado contiene `.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')` para escapar expresiones regulares,
+ese `$&` se sustituía por el texto del ancla. El resultado sigue siendo **JavaScript válido**, así
+que `node --check` no dice nada y el escapado queda roto en silencio: llegó a producción y estuvo
+varias sesiones sin que nadie lo viera (9-sep). Y el reparador que se escriba para arreglarlo cae
+en la misma trampa si usa `replace` — hay que reparar por índice de línea con asignación literal.
+Un `node --check` verde **no es prueba**: la prueba es evaluar la expresión y comprobar que
+`"a.b"` escapado deja de casar con `"axb"`.
+
 ### Formato de los patrones rítmicos
 `patron: { kick:[…], clap:[…], snare:[…], hat:[…], perc:[…], clave:[…] }` — arrays de casillas
 **1-indexadas** sobre una rejilla de 16 semicorcheas, porque así las cuenta un músico («el golpe

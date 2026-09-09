@@ -1057,6 +1057,107 @@ table.tbl tr:hover td{background:var(--bg3)}
   .tb-in::after{content:'';position:absolute;right:0;top:0;bottom:0;width:34px;
     pointer-events:none;background:linear-gradient(90deg,transparent,rgba(9,9,11,.92))}
 }
+
+/* ═══════════ CLUB DE FRASES ═══════════ */
+.cf-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.cf-modos{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.cf-m{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:20px;
+  padding:7px 14px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.cf-m:hover{border-color:var(--ac);color:var(--tx)}
+.cf-m.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.cf-marc{display:flex;align-items:center;gap:12px;font-size:11.5px;color:var(--t3);flex:none}
+.cf-combo{padding:4px 11px;border-radius:20px;background:var(--bg3);border:1px solid var(--bd);transition:all .2s}
+.cf-combo b{color:var(--t2)}
+.cf-combo.vivo{background:rgba(234,179,8,.16);border-color:var(--warn);color:var(--warn)}
+.cf-combo.vivo b{color:var(--warn);font-size:14px}
+.cf-pts b{color:var(--ac2);font-size:14px}
+.cf-prog{font-family:var(--fm)}
+.cf-sel{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.cf-hint{font-size:11px;color:var(--t3);margin-bottom:14px}
+
+.cf-card{position:relative;border:1px solid var(--ac);border-radius:16px;padding:24px;
+  background:var(--bg2);box-shadow:0 10px 36px rgba(0,0,0,.3);text-align:center}
+.cf-es{font-size:17px;color:var(--t2);line-height:1.6;margin-bottom:4px}
+.cf-es.sordo{color:var(--t3);font-size:13px}
+.cf-en{font-size:22px;font-weight:800;color:var(--tx);letter-spacing:-.3px}
+.cf-molde{margin:14px 0;font-size:12px;color:var(--t3);font-family:var(--fm)}
+
+/* Las ranuras: cada palabra con su significado y su categoría */
+.cf-slots{display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}
+.cf-w{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 11px;border-radius:10px;
+  border:1px solid var(--bd);background:var(--bg3);cursor:pointer;transition:all .16s;min-width:52px}
+.cf-w:hover{border-color:var(--ac);transform:translateY(-2px)}
+.cf-w.hecha{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.09)}
+.cf-w.activa{border-color:var(--warn);background:rgba(234,179,8,.1);box-shadow:0 0 0 2px rgba(234,179,8,.18)}
+.cf-w.pend{opacity:.55}
+.cf-wt{font-size:15px;font-weight:700;color:var(--tx);font-family:var(--fm)}
+.cf-wg{font-size:10.5px;color:var(--t2)}
+.cf-wc{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
+
+/* La línea donde se teclea */
+.cf-linea{font-family:var(--fm);font-size:22px;min-height:34px;display:flex;align-items:center;
+  justify-content:center;gap:9px;flex-wrap:wrap;margin-top:6px}
+.cf-hecho{color:var(--t3)}
+.cf-buf{color:var(--tx);font-weight:700}
+.cf-buf .ok{color:var(--ok)}
+.cf-buf .no{color:var(--bad);text-decoration:underline wavy}
+.cf-cur{display:inline-block;width:2px;height:22px;background:var(--ac);vertical-align:middle;
+  animation:cfpar 1s steps(2) infinite;margin-left:1px}
+@keyframes cfpar{0%,50%{opacity:1}51%,100%{opacity:0}}
+.cf-pie{font-size:11px;color:var(--t3);margin-top:10px}
+.cf-pie b{color:var(--t2)}
+
+.cf-chispa{position:absolute;top:14px;right:18px;font-size:13px;font-weight:800;opacity:0;
+  transform:translateY(6px);transition:all .18s;pointer-events:none}
+.cf-chispa.on{opacity:1;transform:none}
+.cf-chispa.ok{color:var(--ok)}
+.cf-chispa.no{color:var(--bad)}
+
+.cf-b{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:9px;
+  padding:8px 15px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;margin-top:10px}
+.cf-b:hover{border-color:var(--ac);color:var(--tx)}
+.cf-b.grande{display:block;margin:16px auto 0;padding:11px 28px;font-size:13.5px;font-weight:700;
+  background:var(--ac);border-color:var(--ac);color:#fff}
+.cf-b.rec{background:var(--bad);border-color:var(--bad);color:#fff;animation:cfrec 1s infinite}
+@keyframes cfrec{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* Escuchar en tres fases */
+.cf-fase{padding:6px 0}
+.cf-ft{font-size:14px;font-weight:800;color:var(--ac2);margin-bottom:5px}
+.cf-fd{font-size:12px;color:var(--t3);line-height:1.7;max-width:520px;margin:0 auto}
+
+/* Hablar */
+.cf-habla{margin-top:6px}
+.cf-cmp{margin-top:14px;padding:13px;border-radius:11px;background:var(--bg3);border:1px solid var(--bd)}
+.cf-cmpt{font-size:12.5px;color:var(--t2);margin-bottom:8px}
+.cf-cmpt b{color:var(--ac2);font-size:15px}
+.cf-cmpl{font-size:16px;font-family:var(--fm);line-height:1.9}
+.cf-nota{font-size:10.5px;color:var(--t3);line-height:1.65;margin-top:9px;max-width:560px;
+  margin-left:auto;margin-right:auto}
+
+/* Resultado */
+.cf-fin{margin-top:14px;padding:20px;border-radius:14px;background:var(--bg2);
+  border:1px solid var(--bd);text-align:center}
+.cf-rango{display:inline-grid;place-items:center;width:74px;height:74px;border-radius:50%;
+  border:3px solid;font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+.cf-fint{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:12px}
+.cf-stats{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:11.5px;color:var(--t3)}
+.cf-stats b{color:var(--tx);font-size:15px}
+
+/* Por qué se arma así */
+.cf-why{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--bd)}
+.cf-wt2{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:9px}
+.cf-wl{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.cf-nn{font-size:12px;line-height:1.75;color:var(--t2);padding:9px 12px;border-radius:9px;
+  background:var(--bg3);border-left:3px solid var(--ac)}
+
+@media(max-width:760px){
+  .cf-card{padding:16px}
+  .cf-en{font-size:18px}
+  .cf-linea{font-size:18px}
+  .cf-marc{width:100%;justify-content:space-between}
+  .cf-stats{gap:12px}
+}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -1094,6 +1195,7 @@ table.tbl tr:hover td{background:var(--bg3)}
       <button class="tab" data-p="p1">📚 Palabras <b id="tc1">0</b></button>
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
       <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
+      <button class="tab" data-p="cf">🎮 Club de Frases</button>
       <button class="tab" data-p="wr">✍️ Escribir</button>
       <button class="tab" data-p="nb">📓 Cuaderno</button>
       <button class="tab" data-p="p3">🎯 Método</button>
@@ -2072,6 +2174,33 @@ table.tbl tr:hover td{background:var(--bg3)}
   </div>
 
   <div id="wrOut"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE CF · CLUB DE FRASES
+     La metodología de julebu.co con las 1000 frases del documento.
+  ═══════════════════════════════════════════════════════════ -->
+<div class="pane" id="cf">
+  <div class="hero">
+    <div class="kick">club de frases · el método de julebu, con tu material</div>
+    <h1>No estudies frases.<br><em>Constrúyelas</em> a golpe de tecla.</h1>
+    <p>Ves el español, y <b style="color:var(--tx)">tecleas el inglés palabra por palabra</b>. El
+      <span class="kbd">ESPACIO</span> confirma cada una. Aciertos seguidos suman <b style="color:var(--tx)">combo</b>,
+      y a los 20 la puntuación se dobla. Al final, un rango de <b>C</b> a <b>SSS</b>.
+      Lo que te salga flojo se marca solo y cae en tu Práctica diaria.</p>
+  </div>
+
+  <div class="note info" style="margin-bottom:16px"><b>De dónde sale esto:</b> es la metodología de
+    <a href="https://julebu.co/" target="_blank" rel="noopener" style="color:var(--ac2)">julebu.co</a>
+    (句乐部, «el club de las frases» — 700.000 usuarios en China), revisada el 09-sep-2026: se aprende por
+    <b>frases enteras</b>, partidas en sus piezas gramaticales, tecleándolas como un juego de combos.
+    Encaja aquí porque <b>tus 1000 frases ya traen su molde</b> (<i>S + was + ADJ</i>), su traducción, su
+    tiempo y una nota — y las «ranuras» de ellos son <b>las 6 piezas de colores</b> que ya usas en todo el documento.
+    <br><b>Una diferencia honesta:</b> ellos muestran la transcripción fonética (IPA) de cada palabra.
+    No tengo una fuente verificada de IPA para estas 2000 palabras, así que <b>no me la invento</b>:
+    en su lugar tienes el audio real, que sí es de fiar.</div>
+
+  <div id="cfBox"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -5816,7 +5945,7 @@ const SUPA_URL  = 'https://mbuhlxypuvlxxylryjzi.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idWhseHlwdXZseHh5bHJ5anppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTc0NTQsImV4cCI6MjA5MDYzMzQ1NH0.vO7DInzO4Cu1unQ9-KL65Z3ev1WQfCcj60ZtK4-GQn8';
 const CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 
-const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak', 'eng_bifur'];
+const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak', 'eng_bifur', 'eng_cf'];
 
 let sb = null, user = null, state = 'off', dirty = new Set(), pushT = null, booting = false;
 /* Último payload subido por clave, SOLO en memoria. Portado de la idea de
@@ -5993,6 +6122,9 @@ async function pull(){
 
     // 3 · practica, tarjeta a tarjeta
     J.set('eng_srs', mergeSrs(J.get('eng_srs', {}), remote.eng_srs ? remote.eng_srs.p : {}));
+
+    // 3b · club de frases, frase a frase (misma forma que la practica)
+    J.set('eng_cf', mergeSrs(J.get('eng_cf', {}), remote.eng_cf ? remote.eng_cf.p : {}));
 
     // 4 · racha
     J.set('eng_streak', mergeStreak(J.get('eng_streak', { last:null, days:0, log:{} }),
@@ -8072,7 +8204,7 @@ const GL_FORMAS = [
 
 const GL_RE = new RegExp(
   '(?<![\\w\\u00C0-\\u024F])(' +
-  GL_FORMAS.map(([f]) => f.replace(/[.*+?^${}()|[\]\\]/g, '\\/* ══════════════════ FICHAS DE LAS PIEZAS ══════════════════ */')).join('|') +
+  GL_FORMAS.map(([f]) => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') +
   ')(?![\\w\\u00C0-\\u024F])', 'i');
 
 const GL_CLAVE = new Map(GL_FORMAS.map(([f, k]) => [f.toLowerCase(), k]));
@@ -9898,7 +10030,7 @@ const WR = (() => {
       if(h.sev === 'info' || !h.bien || !h.mal) return;
       if(/^[(«]/.test(h.bien) || h.bien.includes('«') || h.bien.includes('…')) return;
       const bien = h.bien.split(' · ')[0];
-      const re = new RegExp(h.mal.replace(/[.*+?^${}()|[\]\\]/g, '\\/* ─────────── BIFURCACIONES ───────────'), 'i');
+      const re = new RegExp(h.mal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
       if(re.test(out)){ out = out.replace(re, bien); tocado = true; }
     });
     if(!tocado) return null;
@@ -10165,6 +10297,435 @@ const WR = (() => {
   return { render, wire, traducir, corregir };
 })();
 
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   CLUB DE FRASES · el método de julebu.co, con nuestro material
+   ──────────────────────────────────────────────────────────────────────
+   Miguel pidió replicar la metodología de julebu.co (句乐部, «el club de
+   las frases»): 700.000 usuarios en China aprendiendo inglés **tecleando
+   frases enteras como si fuera un juego de combos**.
+
+   Lo que hacen, revisado en su web el 09-sep-2026:
+   · Se aprende por FRASES, nunca por palabras sueltas.
+   · La frase se muestra partida en RANURAS gramaticales, y cada palabra
+     lleva su significado y su categoría.
+   · Tecleas palabra por palabra; el ESPACIO confirma cada una.
+   · Aciertos seguidos = COMBO. A los 20 se dobla la puntuación.
+     Rangos C → B → A → S → SS → SSS (SSS pide ≥95 % de acierto).
+   · Seis modos: leer · traducir · dictado · escuchar en 3 fases ·
+     hablar con puntuación · vídeo.
+   · Repaso espaciado que se ajusta según cómo respondiste.
+
+   Por qué encaja aquí sin inventar nada: las 1000 frases del documento YA
+   traen molde gramatical (`S + was + ADJ`), traducción, tiempo, función y
+   una nota didáctica; y las 2000 palabras traen categoría y uso. Sus
+   «ranuras» son nuestras 6 piezas de colores, que ya son el pilar de todo
+   el documento.
+
+   Lo que NO se copia, y se dice: ellos muestran transcripción fonética
+   (IPA) de cada palabra. **No tenemos una fuente verificada de IPA para
+   estas 2000 palabras, así que no se inventa**: en su lugar va el audio
+   real, que sí tenemos. Y su «profesor de IA» aquí es el análisis
+   estructural que ya existe — no una IA, y se avisa.
+════════════════════════════════════════════════════════════════════════ */
+const CLUB = (() => {
+  const K = 'eng_cf';
+  const RONDA = 8;                    // frases por vuelta
+
+  const MODOS = [
+    { id:'leer',  n:'📖 Leer',     h:'Calentamiento: lee, toca cualquier palabra y escúchala' },
+    { id:'trad',  n:'✍️ Traducir', h:'Ves el español, tecleas el inglés. El modo principal' },
+    { id:'dict',  n:'🎧 Dictado',  h:'Solo oyes. Teclea lo que escuchaste' },
+    { id:'esc',   n:'👂 Escuchar', h:'Tres fases: a ciegas → lento → con el texto' },
+    { id:'habla', n:'🎤 Hablar',   h:'Lo dices en voz alta y se compara con lo que se esperaba' }
+  ];
+  const RANGOS = [
+    { r:'SSS', min:100, cero:true, c:'#f0abfc', d:'Perfecta y sin un solo fallo de tecla' },
+    { r:'SS',  min:95,  c:'#a78bfa', d:'Casi impecable' },
+    { r:'S',   min:90,  c:'#22d3ee', d:'Muy buena' },
+    { r:'A',   min:80,  c:'#4ade80', d:'Bien' },
+    { r:'B',   min:65,  c:'#fbbf24', d:'Se entiende, hay que repasarla' },
+    { r:'C',   min:0,   c:'#f87171', d:'A la práctica diaria' }
+  ];
+
+  /* Índice de palabras para la ficha emergente: significado y categoría.
+     Sale de las 2000 del documento, no de ningún sitio inventado. */
+  const IDX_W = (() => {
+    const m = new Map();
+    WORDS.forEach(w => { const k = w.en.toLowerCase(); if(!m.has(k)) m.set(k, w); });
+    return m;
+  })();
+  /* Se conservan las CIFRAS: "30%" se teclea "30" y "2023." se teclea "2023".
+     Si se borraran, esas fichas quedarian vacias y la ronda se atascaria ahi. */
+  const limpia = s => String(s || '').toLowerCase().replace(/[^a-z0-9']/g, '');
+  /* Ficha DADA: no queda nada que teclear (la barra de "Yes, please. / No, thanks.").
+     No se pide, no puntua y no cuenta en el total: viene puesta. */
+  const esDada = w => !limpia(w).length;
+
+  const prog = () => store.get(K, {});
+  const guarda = (id, dat) => {
+    const p = prog();
+    const a = p[id] || { v:0, ok:0, mejor:null };
+    p[id] = { v:a.v + 1, ok:a.ok + (dat.ok ? 1 : 0),
+              mejor: mejorDe(a.mejor, dat.rango), ts: Date.now() };
+    store.set(K, p);
+  };
+  const ORDEN = ['C','B','A','S','SS','SSS'];
+  const mejorDe = (a, b) => ORDEN.indexOf(b) > ORDEN.indexOf(a || 'C' ) ? b : (a || b);
+
+  const S = {
+    modo:'trad', pack:'todas', lista:[], i:0, activo:false,
+    tok:[], pide:0, w:0, buf:'', errTecla:0, okPal:0, malPal:0,
+    combo:0, comboMax:0, pts:0, fase:0, dicho:'', escuchando:false,
+    ronda:{ hechas:0, perfectas:0, pts:0 }, fin:null
+  };
+
+  /* ── Preparar la frase: se parte en palabras conservando la puntuación ── */
+  function tokeniza(en){ return String(en || '').trim().split(/\s+/); }
+  const igual = (a, b) => limpia(a) === limpia(b);
+
+  function baraja(a){ const x = a.slice(); for(let i = x.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1)); [x[i], x[j]] = [x[j], x[i]]; } return x; }
+
+  function arma(){
+    const p = prog();
+    let base = PHRASES;
+    if(S.pack === 'fallos')  base = PHRASES.filter(x => { const d = p[x.i]; return d && d.mejor && ORDEN.indexOf(d.mejor) < 3; });
+    else if(S.pack === 'fav') base = PHRASES.filter(x => favP.has(x.i));
+    else if(S.pack === 'nuevas') base = PHRASES.filter(x => !p[x.i]);
+    else if(S.pack !== 'todas') base = PHRASES.filter(x => x.f === S.pack);
+    if(!base.length) base = PHRASES;
+    S.lista = baraja(base).slice(0, RONDA);
+    S.i = 0; S.ronda = { hechas:0, perfectas:0, pts:0 }; S.fin = null;
+    cargar();
+  }
+  function cargar(){
+    const p = S.lista[S.i];
+    if(!p) return;
+    S.tok = tokeniza(p.en);
+    S.pide = S.tok.filter(w => !esDada(w)).length;   // lo que de verdad se teclea
+    S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0;
+    saltaDadas();
+    S.fase = 0; S.dicho = '';
+    S.activo = (S.modo === 'trad' || S.modo === 'dict');
+    if(S.modo === 'dict') setTimeout(() => TTS.say(p.en), 320);
+  }
+  const actual = () => S.lista[S.i];
+  /* Adelanta el cursor por encima de las fichas dadas. Sin esto la ronda
+     se queda esperando que teclees una barra, y no hay barra que teclear. */
+  function saltaDadas(){ while(S.w < S.tok.length && esDada(S.tok[S.w])) S.w++; }
+
+  /* ── El teclado: escribes libre, el ESPACIO confirma cada palabra ── */
+  function tecla(e){
+    if(!S.activo) return;
+    const pane = $('cf');
+    if(!pane || getComputedStyle(pane).display === 'none') return;
+    if(isTyping(e.target)) return;
+    const k = e.key;
+    if(k === ' '){ e.preventDefault(); confirmar(); return; }
+    // Enter cierra la ronda si detras solo quedan fichas dadas
+    if(k === 'Enter'){ e.preventDefault(); if(S.tok.slice(S.w + 1).every(esDada)) confirmar(); return; }
+    if(k === 'Backspace'){ e.preventDefault(); S.buf = S.buf.slice(0, -1); render(); return; }
+    if(k.length !== 1) return;
+    e.preventDefault();
+    const meta = S.tok[S.w] || '';
+    // Cuenta como fallo de tecla si diverge de lo esperado en esa posición
+    const pos = S.buf.length;
+    if(limpia(meta)[pos] !== k.toLowerCase()) S.errTecla++;
+    S.buf += k;
+    render();
+  }
+
+  function confirmar(){
+    const meta = S.tok[S.w];
+    if(!meta) return;
+    const bien = igual(S.buf, meta);
+    if(bien){
+      S.okPal++; S.combo++; S.comboMax = Math.max(S.comboMax, S.combo);
+      S.pts += (S.combo >= 20 ? 20 : 10);           // a los 20 de combo, el doble
+      chispa(S.combo >= 20 ? '¡DOBLE!' : (S.combo >= 5 ? '¡Perfect!' : 'Bien'), true);
+    } else {
+      S.malPal++; S.combo = 0;
+      chispa('era «' + meta + '»', false);
+    }
+    S.buf = ''; S.w++; saltaDadas();
+    if(S.w >= S.tok.length) terminar();
+    else render();
+  }
+
+  function terminar(){
+    const p = actual();
+    const tot = S.pide || S.tok.length;      // el % se mide sobre lo que se pidio
+    const pc = Math.round(S.okPal / tot * 100);
+    const r = RANGOS.find(x => pc >= x.min && (!x.cero || S.errTecla === 0)) || RANGOS[RANGOS.length - 1];
+    S.activo = false;
+    S.fin = { rango:r, pc, tot, err:S.errTecla };
+    S.ronda.hechas++; S.ronda.pts += S.pts;
+    if(r.r === 'SSS' || r.r === 'SS') S.ronda.perfectas++;
+    guarda(p.i, { ok: pc >= 90, rango: r.r });
+    /* Lo que sale flojo se manda a la práctica diaria, que es donde vive
+       el repaso espaciado que ya existe. */
+    if(pc < 90 && !favP.has(p.i)){
+      favP.add(p.i); saveFav(); SRS.renderBoxes();
+    }
+    Streak.hit && Streak.hit();
+    render();
+  }
+
+  /* Aviso corto sobre la tarjeta, como el «Perfect» de ellos */
+  function chispa(txt, bien){
+    const c = $('cfChispa'); if(!c) return;
+    c.textContent = txt;
+    c.className = 'cf-chispa ' + (bien ? 'ok' : 'no') + ' on';
+    clearTimeout(c._t); c._t = setTimeout(() => { c.className = 'cf-chispa'; }, 700);
+  }
+
+  /* ── Pintado ── */
+  const PACKS = () => {
+    const p = prog();
+    const fs = [...new Set(PHRASES.map(x => x.f))];
+    return [
+      { id:'todas',  n:'Todas · ' + PHRASES.length },
+      { id:'nuevas', n:'Sin ver · ' + PHRASES.filter(x => !p[x.i]).length },
+      { id:'fallos', n:'Mis fallos · ' + PHRASES.filter(x => { const d = p[x.i]; return d && d.mejor && ORDEN.indexOf(d.mejor) < 3; }).length },
+      { id:'fav',    n:'★ Marcadas · ' + PHRASES.filter(x => favP.has(x.i)).length },
+      ...fs.map(f => ({ id:f, n:(FUNC_LABEL[f] || f) + ' · ' + PHRASES.filter(x => x.f === f).length }))
+    ];
+  };
+
+  function palabraHTML(w, i){
+    const base = limpia(w);
+    const d = IDX_W.get(base);
+    const est = i < S.w ? 'hecha' : (i === S.w ? 'activa' : 'pend');
+    // Una ficha dada nunca se tapa: no hay nada que adivinar en ella
+    const oculta = (S.modo === 'trad' || S.modo === 'dict') && i > S.w && !esDada(w);
+    return `<span class="cf-w ${est}" data-cfw="${esc(w)}">
+      <span class="cf-wt">${oculta ? '·'.repeat(Math.max(2, base.length)) : esc(w)}</span>
+      <span class="cf-wg">${oculta ? '' : esc(d ? d.es.split(' / ')[0] : '')}</span>
+      <span class="cf-wc">${oculta ? '' : esc(d ? (CAT_LABEL[d.cat] || d.cat) : '')}</span>
+    </span>`;
+  }
+
+  function tarjeta(){
+    const p = actual();
+    if(!p) return '';
+    const m = S.modo;
+    const escrito = S.tok.slice(0, S.w).join(' ');
+    const meta = S.tok[S.w] || '';
+    const lim = limpia(meta);
+    let tecleado = '';
+    for(let i = 0; i < S.buf.length; i++){
+      const ok = S.buf[i].toLowerCase() === lim[i];
+      tecleado += `<span class="${ok ? 'ok' : 'no'}">${esc(S.buf[i])}</span>`;
+    }
+
+    const cabecera =
+      m === 'trad'  ? `<div class="cf-es">${esc(p.es)}</div>`
+    : m === 'dict'  ? `<div class="cf-es sordo">Solo el audio — teclea lo que oigas
+                         <button class="spk" data-say="${esc(p.en)}">🔊</button></div>`
+    : m === 'leer'  ? `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
+                       <div class="cf-es">${esc(p.es)}</div>`
+    : m === 'esc'   ? faseEscuchar(p)
+    : /* habla */     `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
+                       <div class="cf-es">${esc(p.es)}</div>`;
+
+    const tecleando = (m === 'trad' || m === 'dict') ? `
+      <div class="cf-linea">
+        <span class="cf-hecho">${esc(escrito)}</span>
+        <span class="cf-buf">${tecleado}<span class="cf-cur"></span></span>
+      </div>
+      <div class="cf-pie">Palabra <b>${Math.min(S.tok.slice(0, S.w).filter(w => !esDada(w)).length + 1, S.pide)}</b> de <b>${S.pide}</b>
+        · el <span class="kbd">ESPACIO</span> confirma cada palabra</div>` : '';
+
+    return `<div class="cf-card">
+      ${cabecera}
+      <div class="cf-molde">${paintMold(p.m)}</div>
+      <div class="cf-slots">${S.tok.map(palabraHTML).join('')}</div>
+      ${tecleando}
+      ${m === 'habla' ? bloqueHablar(p) : ''}
+      <div class="cf-chispa" id="cfChispa"></div>
+    </div>`;
+  }
+
+  function faseEscuchar(p){
+    const F = [
+      { t:'1 · A ciegas', d:'Sin texto y a velocidad normal. No pasa nada si no pillas todo.', r:1 },
+      { t:'2 · Lento',    d:'La misma frase, más despacio. Ahora deberías cazar más palabras.', r:0.6 },
+      { t:'3 · Con texto',d:'Ahora sí, léela mientras la oyes. Aquí es donde encaja lo que oíste.', r:0.85 }
+    ];
+    const f = F[S.fase] || F[0];
+    return `<div class="cf-fase">
+      <div class="cf-ft">${esc(f.t)}</div>
+      <div class="cf-fd">${esc(f.d)}</div>
+      <button class="cf-b grande" data-cfsay="${f.r}">🔊 Oír</button>
+      ${S.fase >= 2 ? `<div class="cf-en" style="margin-top:12px">${esc(p.en)}</div>
+                       <div class="cf-es">${esc(p.es)}</div>` : ''}
+      ${S.fase < 2 ? `<button class="cf-b" data-cffase="1">Siguiente fase →</button>` : ''}
+    </div>`;
+  }
+
+  function bloqueHablar(p){
+    const hay = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    if(!hay) return `<div class="cf-nota">Tu navegador no trae reconocimiento de voz, así que este
+      modo no puede puntuarte. En Chrome sí funciona. Mientras tanto, usa el 🔊 y repite en voz alta.</div>`;
+    return `<div class="cf-habla">
+      <button class="cf-b grande ${S.escuchando ? 'rec' : ''}" data-cfrec="1">
+        ${S.escuchando ? '⏹ Detener' : '🎤 Decirla'}</button>
+      ${S.dicho ? comparaHTML(p.en, S.dicho) : '<div class="cf-nota">Dale al micrófono y dila en voz alta.</div>'}
+    </div>`;
+  }
+
+  /* Compara palabra a palabra lo que se esperaba con lo que se entendió */
+  function comparaHTML(meta, dicho){
+    const a = tokeniza(meta), b = tokeniza(dicho);
+    const usados = b.map(limpia);
+    let ok = 0;
+    const html = a.map(w => { const i = usados.indexOf(limpia(w));
+      if(i > -1){ usados[i] = ' '; ok++; return `<span class="dx-good">${esc(w)}</span>`; }
+      return `<span class="dx-bad">${esc(w)}</span>`; }).join(' ');
+    const pc = Math.round(ok / a.length * 100);
+    return `<div class="cf-cmp">
+      <div class="cf-cmpt">Se entendió el <b>${pc}%</b></div>
+      <div class="cf-cmpl">${html}</div>
+      <div class="cf-nota">Lo que se oyó: «${esc(dicho)}». <b>Ojo:</b> esto usa el reconocimiento de voz
+        del navegador, que necesita internet y se equivoca con acentos. Es una guía, no una nota.</div>
+    </div>`;
+  }
+
+  function porQue(){
+    const p = actual(); if(!p) return '';
+    const T = TENSE_LABEL[p.t] || p.t;
+    return `<div class="cf-why">
+      <div class="cf-wt2">🧩 Por qué se arma así</div>
+      <div class="cf-wl"><span class="wr-chip">${esc(T)}</span>
+        <span class="wr-chip alt">${esc(FUNC_LABEL[p.f] || p.f)}</span></div>
+      <div class="cf-molde">${paintMold(p.m)}</div>
+      ${p.n ? `<div class="cf-nn">${esc(p.n)}</div>` : ''}
+      <div class="cf-nota">Esto sale del molde, el tiempo y la nota de la propia frase —
+        <b>no es una inteligencia artificial</b>. Para el matiz de una palabra, tócala arriba o
+        búscala con 🔎.</div>
+    </div>`;
+  }
+
+  function resultado(){
+    const f = S.fin; if(!f) return '';
+    const ult = S.i >= S.lista.length - 1;
+    return `<div class="cf-fin">
+      <div class="cf-rango" style="color:${f.rango.c};border-color:${f.rango.c}">${f.rango.r}</div>
+      <div class="cf-fint">${esc(f.rango.d)}</div>
+      <div class="cf-stats">
+        <span><b>${f.pc}%</b> acierto</span>
+        <span><b>${S.comboMax}</b> combo máximo</span>
+        <span><b>${f.err}</b> fallos de tecla</span>
+        <span><b>+${S.pts}</b> puntos</span>
+      </div>
+      ${f.pc < 90 ? '<div class="cf-nota">Esta frase se marcó ★ y entra en tu <b>Práctica</b> diaria.</div>' : ''}
+      <button class="cf-b grande" data-cfnext="1">${ult ? 'Ver la ronda →' : 'Siguiente frase →'}</button>
+    </div>`;
+  }
+
+  function rondaFin(){
+    return `<div class="cf-fin">
+      <div class="cf-rango" style="color:var(--ac);border-color:var(--ac)">🏁</div>
+      <div class="cf-fint">Ronda terminada · ${S.ronda.hechas} frases</div>
+      <div class="cf-stats">
+        <span><b>${S.ronda.perfectas}</b> impecables</span>
+        <span><b>${S.comboMax}</b> combo máximo</span>
+        <span><b>${S.ronda.pts}</b> puntos</span>
+      </div>
+      <button class="cf-b grande" data-cfotra="1">Otra ronda →</button>
+    </div>`;
+  }
+
+  function render(){
+    const c = $('cfBox'); if(!c) return;
+    const p = actual();
+    const rondaAcabada = S.fin && S.i >= S.lista.length - 1 && S.finVisto;
+    c.innerHTML = `
+      <div class="cf-bar">
+        <div class="cf-modos">${MODOS.map(m => `<button class="cf-m${m.id === S.modo ? ' on' : ''}"
+          data-cfmodo="${m.id}" title="${esc(m.h)}">${esc(m.n)}</button>`).join('')}</div>
+        <div class="cf-marc">
+          <span class="cf-combo${S.combo >= 5 ? ' vivo' : ''}">combo <b>${S.combo}</b></span>
+          <span class="cf-pts"><b>${S.pts}</b> pts</span>
+          <span class="cf-prog">${Math.min(S.i + 1, S.lista.length)}/${S.lista.length}</span>
+        </div>
+      </div>
+      <div class="cf-sel">
+        <span class="lab-lb">Paquete</span>
+        <select id="cfPack" class="lab-sel">${PACKS().map(k =>
+          `<option value="${k.id}"${k.id === S.pack ? ' selected' : ''}>${esc(k.n)}</option>`).join('')}</select>
+        <button class="cf-b" data-cfotra="1">🔄 Nueva ronda</button>
+      </div>
+      <div class="cf-hint">${esc((MODOS.find(m => m.id === S.modo) || {}).h || '')}</div>
+      ${rondaAcabada ? rondaFin() : (tarjeta() + (S.fin ? resultado() : '') + porQue())}`;
+
+    const sel = $('cfPack');
+    if(sel) sel.onchange = e => { S.pack = e.target.value; arma(); render(); };
+    c.querySelectorAll('[data-cfmodo]').forEach(b => b.onclick = () => { S.modo = b.dataset.cfmodo; cargar(); render(); });
+    c.querySelectorAll('[data-cfotra]').forEach(b => b.onclick = () => { S.finVisto = false; arma(); render(); });
+    c.querySelectorAll('[data-cfnext]').forEach(b => b.onclick = () => {
+      if(S.i >= S.lista.length - 1){ S.finVisto = true; render(); return; }
+      S.i++; cargar(); render();
+    });
+    c.querySelectorAll('[data-cffase]').forEach(b => b.onclick = () => { S.fase = Math.min(2, S.fase + 1); render(); });
+    c.querySelectorAll('[data-cfsay]').forEach(b => b.onclick = () => {
+      const r = parseFloat(b.dataset.cfsay) || 1;
+      TTS.say(actual().en, null, r);
+    });
+    c.querySelectorAll('[data-cfrec]').forEach(b => b.onclick = () => oir());
+    c.querySelectorAll('[data-cfw]').forEach(b => b.onclick = () => {
+      const w = b.dataset.cfw; TTS.say(w); DIC.abrir(limpia(w), b.getBoundingClientRect().left + 20, b.getBoundingClientRect().bottom);
+    });
+    // En los modos sin teclado se avanza con un botón
+    if((S.modo === 'leer' || S.modo === 'esc' || S.modo === 'habla') && !S.fin && !rondaAcabada){
+      const b = document.createElement('button');
+      b.className = 'cf-b grande'; b.textContent = 'Siguiente →';
+      b.onclick = () => { if(S.i >= S.lista.length - 1){ S.finVisto = true; S.fin = S.fin || {}; render(); }
+                          else { S.i++; cargar(); render(); } };
+      c.querySelector('.cf-card').appendChild(b);
+    }
+  }
+
+  /* ── Reconocimiento de voz para el modo Hablar ── */
+  let rec = null;
+  function oir(){
+    const R = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!R) return;
+    if(S.escuchando && rec){ rec.stop(); return; }
+    rec = new R();
+    rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
+    rec.onresult = e => { S.dicho = e.results[0][0].transcript || ''; };
+    rec.onerror = () => { S.dicho = ''; toast('No se pudo oír el micrófono', 'warn'); };
+    rec.onend = () => { S.escuchando = false; render(); };
+    S.escuchando = true; render();
+    try { rec.start(); } catch(e){ S.escuchando = false; render(); }
+  }
+
+  function init(){
+    arma();
+    render();
+    document.addEventListener('keydown', tecla);
+  }
+
+  /* Comprobación repetible desde consola: APP.CLUB.auditar() */
+  function auditar(){
+    const malas = [];
+    let dadas = 0;
+    PHRASES.forEach(p => {
+      const t = tokeniza(p.en);
+      const pide = t.filter(w => !esDada(w));
+      dadas += t.length - pide.length;
+      // Solo es un fallo si NO queda nada que teclear en toda la frase
+      if(!pide.length) malas.push('sin nada que teclear: ' + p.en);
+      if(!p.m) malas.push('sin molde: ' + p.en);
+    });
+    return { frases:PHRASES.length, modos:MODOS.length,
+             paquetes:PACKS().length, fichasDadas:dadas, malas };
+  }
+  return { init, render, arma, auditar, S, MODOS, RANGOS };
+})();
 
 /* ─────────── BIFURCACIONES ───────────
    La técnica de las pizarras que le funcionan a Miguel, pero con el hueco
@@ -10644,6 +11205,7 @@ function init(){
   BF.render(); BF.wire();
   PZ.render(); LAB.render(); RG.render();
   WR.wire();
+  CLUB.init();
   sanearFavs();
   ['p0','pz','p3'].forEach(id => { const p = $(id); if(p) glAutoMarcar(p, 2); });
   SRS.renderBoxes();
@@ -10657,7 +11219,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC, CLUB };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
