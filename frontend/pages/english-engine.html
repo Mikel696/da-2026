@@ -8665,8 +8665,16 @@ const CADENA = (() => {
       const conDo = idxAux.filter(i => LEX.AUX_DO.has(c[i])).map(i => c[i]);
       const otros = idxAux.filter(i => !LEX.AUX_DO.has(c[i]) && c[i] !== 'been' && c[i] !== 'being').map(i => c[i]);
 
+      /* Excepción: el imperativo negativo. «Don't be worried», «Don't be late»
+         llevan do + be y son correctos — el do no está ahí para marcar tiempo,
+         sino para negar una orden. Se reconoce porque la cláusula arranca con
+         el do y no tiene sujeto delante. */
+      const esNeg = w => /^(n['’]?t|not)$/.test(w || '');
+      const ordenNegada = /^(do|does|did)(n['’]?t)?$/.test(c[0] || '')
+                       && c[esNeg(c[1]) ? 2 : 1] === 'be';
+
       // 1 · do/does/did no convive con otro auxiliar
-      if(conDo.length && otros.length)
+      if(conDo.length && otros.length && !ordenNegada)
         H.push({ sev:'rojo', regla:'R-cadena', t:'Dos motores en la misma frase',
           por:'<b>' + conDo[0] + '</b> es el motor de arranque de emergencia: solo entra cuando la frase <b>no tiene</b> ningún otro auxiliar. Aquí ya está <b>' + otros[0] + '</b>, así que el <i>' + conDo[0] + '</i> sobra. Uno u otro, nunca los dos.',
           mal: conDo[0] + ' … ' + otros[0], bien: 'solo ' + otros[0] });
@@ -8992,6 +9000,15 @@ const LEX = (() => {
     if(esVerbo(w)) return w;              // ya estaba en infinitivo
     return null;
   }
+  /* ¿Es este token un verbo EN CUALQUIER FORMA?
+     `esVerbo` solo conoce las bases y los irregulares, así que «works»,
+     «worked», «working» o «lived» no contaban como verbo — la mitad de las
+     formas regulares. Consecuencia medida el 09-sep: con «she works here?»
+     el motor decía «no reconocí el verbo» y se saltaba la regla de pregunta.
+     No se toca `esVerbo` porque `raiz` lo usa por dentro y se entrarían a
+     llamar en círculo; esto es una capa por encima. */
+  const esVerboForma = w => esVerbo(w) || !!raiz(w);
+
   const esV2  = w => V2.has(w) || (/ed$/.test(w) && !!raiz(w));
   const esPP  = w => PP.has(w) || (/ed$/.test(w) && !!raiz(w));
   const esING = w => /ing$/.test(w) && !!raiz(w);
@@ -9031,7 +9048,7 @@ const LEX = (() => {
     }
     return s;
   }
-  return { POS, cat, es, esVerbo, verboConocido, formasValidas, raiz, esV2, esPP, esING, es3ra, esBase, conj,
+  return { POS, cat, es, esVerbo, esVerboForma, verboConocido, formasValidas, raiz, esV2, esPP, esING, es3ra, esBase, conj,
            AUX, AUX_BE, AUX_HAVE, AUX_DO, MODAL, SUJ, TERCERA, WH, NEGS, PREP_ING,
            UNCOUNT:new Set(UNCOUNT), BASE };
 })();
@@ -9143,7 +9160,10 @@ const ANL = (() => {
     if(typeof MARC !== 'undefined'){
       const tv = tiempo(t);
       const arranque = MARC.EN_ARRANQUE.test(f);   // «since yesterday» sí lleva perfecto
-      if(MARC.EN_PAS.test(f) && !arranque && ['pres','cont','fut','going','perf','perfcont','cond'].includes(tv)){
+      /* Sin verbo no hay tiempo que corregir: «Better than yesterday.» no está
+         en presente, es que no tiene verbo. Antes se marcaba como error. */
+      const conVerbo = pal.some(w => LEX.esVerboForma(w));
+      if(conVerbo && MARC.EN_PAS.test(f) && !arranque && ['pres','cont','fut','going','perf','perfcont','cond'].includes(tv)){
         const arr = MARC.EN_PAS.exec(f)[0];
         const fix = aPasadoEN(pal);
         add('rojo','R-tiempo','«' + arr + '» pide pasado',
@@ -9172,7 +9192,7 @@ const ANL = (() => {
 
     // R16 · ¿hay verbo? Solo se exige si hay un SUJETO: si no lo hay, es un
     // fragmento («Good morning.», «Not bad, thanks.») y eso es inglés válido.
-    const hayVerbo = pal.some(w => LEX.esVerbo(w));
+    const hayVerbo = pal.some(w => LEX.esVerboForma(w));
     const haySujeto = pal.some(w => LEX.SUJ.has(w));
     if(!hayVerbo && haySujeto && pal.length > 2)
       add('info','R16','No reconocí el verbo',
@@ -9210,18 +9230,69 @@ const ANL = (() => {
         pal[i-1] + ' no ' + sig, pal[i-1] + ' ' + aux + ' ' + sig);
     });
 
+    /* Arma la pregunta BIEN a partir de las palabras de una afirmación.
+       Antes esto anteponía «Do/Does/Did» siempre, así que para «you can
+       drive?» proponía «Do you can drive?» — enseñar mal es peor que no
+       decir nada. Dos casos:
+       · Ya hay auxiliar o modal → la pregunta se hace moviendo ESE al frente.
+       · No hay ninguno → hay que traer do/does/did, y cuál depende del sujeto
+         y del tiempo; el verbo vuelve a su forma desnuda.
+       Si no se puede determinar con seguridad, se deja el menú «Do/Does/Did»
+       en vez de inventar una forma. */
+    function preguntaBien(ws){
+      if(!ws.length) return '?';
+      /* ¿Cuál de estas palabras es el auxiliar que hay que mover al frente?
+         · be y los modales: siempre. «she is ready?» → «Is she ready?», aunque
+           detrás no haya otro verbo (ready es adjetivo).
+         · have: solo si le sigue un participio. Si no, es el verbo «tener» y
+           la pregunta se hace con do — «you have a car?» → «Do you have a car?».
+         · do/does/did: solo si hay otro verbo detrás. En «What you did
+           yesterday?» el «did» ES el verbo, y moverlo dejaba la frase coja
+           («What did you yesterday?»); así cae al do-support y sale bien. */
+      const auxMovible = (w, n) => {
+        if(LEX.AUX_BE.has(w) || LEX.MODAL.has(w)) return true;
+        if(LEX.AUX_HAVE.has(w)) return ws.slice(n + 1).some(x => LEX.esPP(x));
+        if(LEX.AUX_DO.has(w))   return ws.slice(n + 1).some(x => LEX.esVerboForma(x) && !LEX.AUX.has(x));
+        return false;
+      };
+      const iAux = ws.findIndex((w, n) => n > 0 && LEX.AUX.has(w) && auxMovible(w, n));
+      if(iAux > 0)
+        return ws[iAux] + ' ' + ws.slice(0, iAux).concat(ws.slice(iAux + 1)).join(' ') + '?';
+
+      const iSu = ws.findIndex(w => LEX.SUJ.has(w) && !LEX.WH.has(w));
+      const suj = iSu > -1 ? ws[iSu] : '';
+      const iV  = ws.findIndex((w, n) => n > iSu && LEX.esVerboForma(w));
+      const v   = iV > -1 ? ws[iV] : '';
+      const base = v ? LEX.raiz(v) : '';
+      if(!v || !base) return 'do/does/did ' + ws.join(' ') + '?';
+
+      let aux = '';
+      if(LEX.esV2(v) && !LEX.es3ra(v) && base !== v) aux = 'did';
+      else if(LEX.es3ra(v) || LEX.TERCERA.has(suj))  aux = 'does';
+      else if(suj)                                    aux = 'do';
+      if(!aux) return 'do/does/did ' + ws.join(' ') + '?';
+      return aux + ' ' + ws.map((w, n) => n === iV ? base : w).join(' ') + '?';
+    }
+    const mayusIni = s => s.charAt(0).toUpperCase() + s.slice(1);
+
     // R3 · pregunta sin auxiliar al frente
     // La coletilla («…, isn't it?», «…, do you?») no convierte la frase en
     // pregunta mal armada: lo de delante es una afirmación y está bien.
     const coletilla = /,\s*\w+n['’]?t\s+(i|you|he|she|it|we|they|there)\s*\?/i.test(f)
-                   || /,\s*(do|does|did|is|are|was|were|have|has|will|can|could|should)\s+(i|you|he|she|it|we|they|there)\s*\?/i.test(f);
+                   || /,\s*(do|does|did|is|are|was|were|have|has|will|can|could|should)\s+(i|you|he|she|it|we|they|there)\s*\?/i.test(f)
+                   /* «It's hard, you know?» · «…, right?» — la coletilla no es
+                      una pregunta mal armada: lo de delante es una afirmación. */
+                   || /,\s*(you know|you see|right|ok|okay|yeah|no)\s*\?$/i.test(f.trim());
+    /* Fórmulas fijas que preguntan SIN invertir nada. No son un error:
+       son así en inglés y corregirlas sería enseñar mal. */
+    const formulaFija = /^\s*(what if|how come|what about|how about|why not|what for)\b/i.test(f.trim());
     // Elíptica de conversación: el sujeto se omite a propósito y es correcto
     // hablando («Need a hand?», «Any questions before we finish?»). El error
     // que sí hay que cazar es el que ARRANCA con el sujeto: «You are coming?».
     const eliptica = !pal.some(w => LEX.SUJ.has(w))
                   || !(LEX.SUJ.has(pal[0]) || LEX.WH.has(pal[0]) || LEX.AUX.has(pal[0])
                        || ['hello','hi','hey','ok','okay','so','well','and','but','excuse','sorry'].includes(pal[0]));
-    if(pregunta && hayVerbo && !coletilla && !eliptica){
+    if(pregunta && hayVerbo && !coletilla && !eliptica && !formulaFija){
       // Saltar saludos y muletillas antes de la pregunta de verdad
       const SALUDO = new Set(['hello','hi','hey','ok','okay','so','well','and','but','thanks','please','sorry','excuse','me','good']);
       let k = 0; while(k < pal.length - 1 && SALUDO.has(pal[k])) k++;
@@ -9233,17 +9304,23 @@ const ANL = (() => {
       if(LEX.WH.has(p0)){
         /* «What happened?» — ahí el WH ES el sujeto y no lleva auxiliar.
            Pero «What you did yesterday?» tiene sujeto propio («you»), así que
-           el WH no es el sujeto y le falta el auxiliar. Sin esto se colaba. */
-        const sujetoEsWh = (p0 === 'who' || p0 === 'what') &&
-          !pal.some((w, n) => n > k && LEX.SUJ.has(w) && !LEX.WH.has(w));
+           el WH no es el sujeto y le falta el auxiliar.
+           La prueba correcta es qué viene JUSTO DETRÁS del WH: si es un verbo,
+           el WH es el sujeto. La versión anterior exigía que no hubiera ningún
+           pronombre en toda la frase, y por eso «Who called you?» o «What
+           caused this?» salían marcadas como error siendo inglés correcto —
+           ahí «you» y «this» son el objeto, no el sujeto. */
+        const sig = pal[k + 1];
+        const sujetoEsWh = (p0 === 'who' || p0 === 'what') && !!sig &&
+          !LEX.AUX.has(sig) && LEX.esVerboForma(sig);
         if(!hayAuxEnCabeza && !sujetoEsWh)
           add('rojo','R3','Falta el auxiliar en la pregunta',
             'La fórmula es fija: <b>WH + auxiliar + sujeto + verbo</b>. El WH <b>no reemplaza</b> al auxiliar, van los dos.',
-            f.trim(), p0 + ' do/does/did ' + pal.slice(k+1).join(' ') + '?');
+            f.trim(), mayusIni(p0) + ' ' + preguntaBien(pal.slice(k + 1)));
       } else if(!LEX.AUX.has(p0)){
         add('rojo','R3','Preguntar es mover el auxiliar al frente',
           'En inglés no basta con subir la voz. La pregunta se hace <b>sacando el auxiliar y poniéndolo delante del sujeto</b>.',
-          f.trim(), 'Do/Does/Did ' + pal.slice(k).join(' ') + '?');
+          f.trim(), mayusIni(preguntaBien(pal.slice(k))));
       }
     }
 
@@ -10099,7 +10176,24 @@ const WR = (() => {
 
   /* ── Traducción. Es un APOYO, no el camino crítico: si se cae, el
      corrector sigue funcionando entero y se dice que se cayó. ── */
+  /* Una pregunta se reconoce por el «?» final, no por el «¿» de apertura.
+     Medido el 09-sep contra el traductor: «tu puedes manejar?» devolvía
+     «you can drive?» (una afirmación con signo), y «¿tu puedes manejar?»
+     devolvía «Can you drive?». O sea, el resultado dependía de un signo que
+     casi nadie teclea. Aquí se le pone antes de enviarlo — al usuario no se
+     le cambia lo que escribió, solo se le manda al traductor bien formado. */
+  function normalizarES(txt){
+    return String(txt || '').split(/\n/).map(linea => {
+      const t = linea.trim();
+      if(!t) return linea;
+      if(/\?\s*$/.test(t) && !t.includes('¿')) return '¿' + t;
+      if(/!\s*$/.test(t) && !t.includes('¡')) return '¡' + t;
+      return linea;
+    }).join('\n');
+  }
+
   async function traducir(txt, de, a){
+    if(de === 'es') txt = normalizarES(txt);
     const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + de +
                 '&tl=' + a + '&dt=t&q=' + encodeURIComponent(txt);
     try{
