@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-09 (Club de Frases 3-ENG + reparación del escapado)
+- **Última actualización:** 2026-09-10 (3-ENG: Canciones, hoja del cuaderno, Club por habilidades)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,75 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎵 3-ENG · Canciones, la hoja y el Club por habilidades — 2026-09-10
+
+### Canciones · karaoke didáctico (pestaña `sg`, la 11ª)
+**La letra la pone Miguel.** Las letras tienen derechos de autor y no pueden vivir dentro del
+documento, así que se aplica lo mismo que en el Cuaderno: *tu material, no el mío*. Está dicho
+en la propia página, no escondido.
+
+Por línea: oírla · oírla **3 veces en bucle** · **taparle palabras** y teclearlas oyendo · marcarla
+como aprendida. Velocidad Normal/Lenta/Muy lenta sin tocar la del resto del documento. La palabra
+que suena se ilumina con `onboundary`; donde el navegador no lo dé, la línea se oye igual y no se
+ilumina. Cualquier palabra se toca y abre su ficha del diccionario. Si pega el enlace de YouTube,
+el vídeo se ve ahí mismo (`youtube-nocookie`, y del enlace **solo** se extrae el id de 11
+caracteres — nunca se construye una URL con texto suelto del usuario).
+
+Delante va el **método en 5 pasos** —a ciegas, con letra, línea a línea en bucle, cazar los
+recortes (*gonna/wanna/ain't*, que es donde se escapa el inglés hablado), y otra vez sin letra— más
+cómo elegir canción y cómo no. Y **12 sugerencias** de pop/rock/rap con *por qué* sirve cada una:
+va dicho que es criterio sobre tempo, claridad y repetición, **no un dato medido**.
+**Las dos con lenguaje explícito van marcadas «solo adultos»** con aviso aparte: su hija usa esta
+página, y eso se dice antes, no después. Sincroniza en `eng_song` con merge por entidad.
+
+### El Club: cada modo entrena una cosa distinta
+Miguel: *«escucha, traducir y dictado son casi lo mismo»*. Lo eran — el mismo ejercicio con otra
+puerta de entrada. Ahora:
+
+| Modo | Entrada | Qué hace | Entrena |
+|---|---|---|---|
+| Leer | inglés a la vista | elige el significado entre tres | entender |
+| Armar | español | toca las palabras revueltas, **sin teclado** | el orden |
+| Traducir | español | la teclea entera de memoria | producir |
+| Dictado | solo audio | **rellena los huecos**, no transcribe | oído fino |
+| Escuchar | solo audio | elige cuál de tres parecidas oyó | distinguir |
+| Hablar | la frase | la dice en voz alta | pronunciar |
+
+Leer ya **no enseña la traducción** (si la enseñara no habría nada que elegir) y Escuchar no
+enseña ni texto ni molde. Los dos **puntúan y guardan progreso**: antes tenían un «Siguiente» que
+dejaba pasar sin responder, así que no alimentaban nada.
+
+La auditoría ahora recorre **las 1000 frases contra cada modo** y cazó dos cosas que jugando no se
+ven: frases gemelas del documento que comparten traducción producían **tres opciones idénticas**
+(imposible de responder, y dos de las tres contaban como fallo), y una frase se quedaba sin
+señuelos parecidos. Las dos corregidas → `APP.CLUB.auditar()` en 0.
+
+### La hoja del cuaderno
+- **El color ya no se pega al dar Enter.** El navegador clonaba el `<mark>` en la línea nueva;
+  ahora el Enter parte el párrafo y lo que baja sale fuera de la marca, y se barren las marcas
+  vacías (las que reenganchan el color sin verse).
+- **Seis tamaños de letra por hoja** y **A− / A+** para un trozo suelto, en siete escalones.
+- **Todo lo de dentro pasó de px a `em`** — esa era la razón de que los títulos y las tarjetas no
+  siguieran al tamaño de la hoja.
+- La cinta de opciones ya no se esconde: cabecera *sticky*.
+- Aprendido/Repasar/Error son **pegatinas arrastrables**, con la posición en % para que no se
+  descoloquen al cambiar el ancho.
+- **20 pegatinas dibujadas aquí**, cristal de neón: el color saturado va en el **contorno** y el
+  relleno no pasa del **19%** de opacidad — por eso son translúcidas y no flúor, y el texto de la
+  hoja se sigue leyendo por debajo.
+- Se quitó el **scroll anidado** (editor con barra propia dentro de una página que también
+  scrollea): era la causa de que no se sintiera fluido.
+
+### Capa de estilo (`29_vibe.css`)
+Va aparte y **solo añade**: quitarla del build devuelve el documento exacto a como estaba.
+**No toca los seis colores de las piezas** —no son decoración, son lo que enseña el documento— ni
+baja el contraste del texto. Lección anotada en el propio archivo: un degradado recortado al texto
+dejó el número de sección **invisible** por especificidad; se cazó mirando la pantalla, no
+suponiendo.
+
 
 ---
 
