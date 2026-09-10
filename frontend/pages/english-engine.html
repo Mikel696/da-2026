@@ -472,6 +472,22 @@ table.tbl tr:hover td{background:var(--bg3)}
 .stk-rev{background:#eab308;color:#3a2c00;border:2px solid #fde047}
 .stk-err{background:#ef4444;color:#3d0505;border:2px solid #f87171}
 .stk-emo{background:transparent;box-shadow:none;font-size:34px;padding:2px;line-height:1;border:none}
+
+/* ── Pegatinas dibujadas · cristal de neón ──
+   El color va en el CONTORNO; el relleno se queda translúcido para que se
+   siga leyendo el texto de la hoja por debajo. El brillo es un halo suave,
+   no un flúor: dos sombras cortas en vez de una grande y saturada. */
+.stk-pg{background:transparent;border:none;box-shadow:none;padding:0}
+.pg-svg{width:46px;height:46px;display:block;overflow:visible;
+  fill:currentColor;fill-opacity:.19;
+  stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 5px currentColor) drop-shadow(0 2px 7px rgba(0,0,0,.5));
+  opacity:.92;transition:opacity .14s,transform .14s}
+.stk-i:hover .pg-svg{opacity:1}
+/* En la paleta se ven algo más pequeñas y sin tanto halo */
+.emo-b .pg-svg{width:30px;height:30px;filter:drop-shadow(0 0 3px currentColor)}
+.emo-g{grid-template-columns:repeat(5,1fr);gap:6px}
+.emo-b{padding:6px;display:grid;place-items:center}
 .stk-x{position:absolute;top:-8px;right:-8px;width:19px;height:19px;border-radius:50%;
   background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);font-size:10px;
   cursor:pointer;opacity:0;transition:.14s;display:grid;place-items:center;padding:0}
@@ -487,32 +503,36 @@ table.tbl tr:hover td{background:var(--bg3)}
   padding:3px;transition:.12s;line-height:1}
 .emo-b:hover{background:var(--bg4);transform:scale(1.25)}
 .nb-ed:empty::before{content:attr(data-ph);color:var(--t3);pointer-events:none}
-.nb-ed h1{font-size:25px;font-weight:800;margin:16px 0 9px;letter-spacing:-.6px}
-.nb-ed h2{font-size:19px;font-weight:700;margin:14px 0 7px;letter-spacing:-.3px}
+/* Todo lo de dentro de la hoja va en EM, no en px: así el tamaño de la hoja
+   arrastra también a lo que ya estaba escrito —títulos, tarjetas, casillas—.
+   Con px fijos, cambiar el tamaño movía el texto normal y dejaba los títulos
+   igual, que es justo lo que Miguel vio. */
+.nb-ed h1{font-size:1.61em;font-weight:800;margin:16px 0 9px;letter-spacing:-.6px}
+.nb-ed h2{font-size:1.23em;font-weight:700;margin:14px 0 7px;letter-spacing:-.3px}
 .nb-ed ul,.nb-ed ol{margin:9px 0 9px 24px}
 .nb-ed li{margin-bottom:5px}
 .nb-ed hr{border:none;border-top:1px solid var(--bd2);margin:18px 0}
 .nb-ed a{color:var(--ac2)}
 .nb-ed blockquote{border-left:3px solid var(--ac);padding-left:14px;margin:12px 0;color:var(--t2);font-style:italic}
-.nb-ed code,.nb-ed .codeblk{font-family:var(--fm);font-size:13.5px;background:var(--bg4);border-radius:6px;padding:2px 6px}
+.nb-ed code,.nb-ed .codeblk{font-family:var(--fm);font-size:.87em;background:var(--bg4);border-radius:6px;padding:2px 6px}
 .nb-ed .codeblk{display:block;padding:13px 16px;margin:12px 0;border-left:3px solid var(--r-aux);white-space:pre-wrap;line-height:1.6}
 .nb-ed mark{border-radius:3px;padding:1px 3px;color:#09090b;font-weight:600}
 .nb-ed mark.y{background:#fde047}.nb-ed mark.g{background:#86efac}.nb-ed mark.p{background:#f9a8d4}
-.nb-ed .tg{display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+.nb-ed .tg{display:inline-block;font-size:.68em;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
   padding:2px 8px;border-radius:5px;margin:0 3px;vertical-align:middle}
 .nb-ed .tg-ok{background:rgba(34,197,94,.18);color:#4ade80}
 .nb-ed .tg-rev{background:rgba(234,179,8,.18);color:#eab308}
 .nb-ed .tg-err{background:rgba(239,68,68,.18);color:#f87171}
 .nb-ed .chk{display:block;padding-left:2px;margin:3px 0}
-.nb-ed .chk .cb{cursor:pointer;user-select:none;font-weight:400;font-size:17px;margin-right:5px;color:var(--ac2);display:inline-block;transition:.14s}
+.nb-ed .chk .cb{cursor:pointer;user-select:none;font-weight:400;font-size:1.1em;margin-right:5px;color:var(--ac2);display:inline-block;transition:.14s}
 .nb-ed .chk .cb:hover{transform:scale(1.2)}
 .nb-ed .chk.done{text-decoration:line-through;opacity:.5}
 /* Tarjeta EN/ES insertable con audio */
 .nb-ed .encard{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--bd2);
   border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:12px 15px;margin:12px 0}
 .nb-ed .encard .cc{flex:1;min-width:0}
-.nb-ed .encard .ce{font-weight:700;font-size:16px}
-.nb-ed .encard .cs{color:var(--ac2);font-size:13.5px;margin-top:2px}
+.nb-ed .encard .ce{font-weight:700;font-size:1.03em}
+.nb-ed .encard .cs{color:var(--ac2);font-size:.87em;margin-top:2px}
 .nb-stat{padding:8px 16px;border-top:1px solid var(--bd);font-size:11.5px;color:var(--t3);display:flex;
   justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--fm);background:var(--bg3)}
 .nb-stat .sv{color:var(--ok)}
@@ -7281,7 +7301,9 @@ const NB = (() => {
         <button class="nbb" data-mark="g" title="Resaltar verde" style="background:#86efac;color:#000">A</button>
         <button class="nbb" data-mark="p" title="Resaltar rosa" style="background:#f9a8d4;color:#000">A</button>
         <span class="nb-sep"></span>
-        <select class="nb-size" id="nbSize" title="Tamaño de la letra de esta hoja">
+        <button class="nbb" data-fz="-1" title="Achicar el texto seleccionado">A−</button>
+        <button class="nbb" data-fz="1" title="Agrandar el texto seleccionado">A+</button>
+        <select class="nb-size" id="nbSize" title="Tamaño de la letra de toda la hoja">
           ${[['xs','Muy pequeña'],['s','Pequeña'],['m','Normal'],['l','Grande'],['xl','Muy grande'],['xxl','Enorme']]
             .map(([v,n]) => `<option value="${v}"${(pg.size||'m') === v ? ' selected' : ''}>${n}</option>`).join('')}
         </select>
@@ -7383,6 +7405,36 @@ const NB = (() => {
       if(hoja) hoja.className = 'nb-hoja s-' + pg.size;
       autoSave();
     };
+
+    /* ── Tamaño de un trozo suelto ──
+       El selector de arriba cambia la hoja entera; esto cambia SOLO lo que
+       tengas seleccionado, y se guarda con el texto. Va en `em`, así que
+       además sigue respetando el tamaño general de la hoja. */
+    const FZ = { 1:'.6', 2:'.72', 3:'.85', 4:'1', 5:'1.25', 6:'1.6', 7:'2.1' };
+    const pintaFz = el => { el.style.fontSize = (FZ[el.dataset.n] || '1') + 'em'; };
+    document.querySelectorAll('.nb-tools [data-fz]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault(); ed.focus();
+      const sel = window.getSelection();
+      if(!sel.rangeCount || sel.isCollapsed){
+        toast('Selecciona antes el texto que quieres agrandar o achicar', 'warn'); return;
+      }
+      const paso = +btn.dataset.fz;
+      const r = sel.getRangeAt(0);
+      const cont = r.startContainer.nodeType === 3 ? r.startContainer.parentElement : r.startContainer;
+      const ya = cont && cont.closest ? cont.closest('.fz') : null;
+      // Si ya tenía tamaño y es justo ese trozo, se sube o baja un escalón
+      if(ya && ya.textContent === r.toString()){
+        ya.dataset.n = Math.max(1, Math.min(7, (+ya.dataset.n || 4) + paso));
+        pintaFz(ya);
+      } else {
+        const sp = document.createElement('span');
+        sp.className = 'fz';
+        sp.dataset.n = Math.max(1, Math.min(7, 4 + paso));
+        pintaFz(sp);
+        try { sp.appendChild(r.extractContents()); r.insertNode(sp); } catch(err){}
+      }
+      sel.removeAllRanges(); autoSave();
+    });
 
     /* ── Pegatinas ──
        Las tres etiquetas dejan de ser texto dentro del párrafo y pasan a ser
@@ -7528,8 +7580,12 @@ const NB = (() => {
     const l = pegatinasDe(pg);
     capa.innerHTML = l.map(s => {
       const par = STK[s.t];
-      return `<div class="stk-i ${par ? par[1] : 'stk-emo'}" data-id="${s.id}"
-                   style="left:${s.x}%;top:${s.y}%">${par ? par[0] : esc(s.t)}<button class="stk-x" title="Quitar">✕</button></div>`;
+      // Tres formas posibles: etiqueta, pegatina dibujada, o un emoji suelto
+      // de los que se guardaron antes de que existieran las propias.
+      const cuerpo = par ? par[0] : (PEGA[s.t] ? svgPega(s.t) : esc(s.t));
+      const clase  = par ? par[1] : (PEGA[s.t] ? 'stk-pg' : 'stk-emo');
+      return `<div class="stk-i ${clase}" data-id="${s.id}"
+                   style="left:${s.x}%;top:${s.y}%">${cuerpo}<button class="stk-x" title="Quitar">✕</button></div>`;
     }).join('');
     capa.querySelectorAll('.stk-i').forEach(el => arrastrar(el, b));
   }
@@ -7567,23 +7623,53 @@ const NB = (() => {
     };
   }
 
-  /* Paleta de emojis · para que la hoja no sea solo texto.
-     Se eligieron los que sirven para estudiar y los que le gustan a una niña. */
-  const EMOJIS = ('⭐🌟✨🔥💡❤️🧡💛💚💙💜🎯✅❌❓❗📌📎🔖🏆🥇🎉🎈🎁🌈☀️🌸🌺🦄🐱🐶🐼🐨🦊🐰🦋🐢🐧🍀🍎🍓🍕🍩🧁🎂' +
-    '📚📖✏️🖍️🔊🎧🎤💬🗣️🧠👀👍👎🙌👏💪⏰📅🚀🛑⚠️💯🤔😀😂😍🥳😎🤩😴🤯').match(/./gu) || [];
+  /* ══════════ PEGATINAS PROPIAS ══════════
+     Dibujadas aquí, no son emojis del sistema. Mismo lenguaje que los que
+     todo el mundo reconoce —estrella, fuego, corazón— pero con forma propia y
+     acabado de cristal de neón: relleno translúcido, contorno fino luminoso y
+     un brillo suave. Nada de flúor: el color saturado se queda en el contorno
+     y el relleno no pasa del 22% de opacidad, para que se lean encima de la
+     hoja sin tapar el texto que hay debajo. Todas sobre rejilla de 24×24. */
+  const PEGA = {
+    estrella:{ c:'#a78bfa', n:'Estrella', d:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>' },
+    corazon: { c:'#fb7185', n:'Corazon',  d:'<path d="M12 20.5S3.5 15 3.5 9.2A4.7 4.7 0 0 1 12 6.6a4.7 4.7 0 0 1 8.5 2.6c0 5.8-8.5 11.3-8.5 11.3z"/>' },
+    fuego:   { c:'#fb923c', n:'Fuego',    d:'<path d="M12 2.5c3.2 3.3 5.5 6 5.5 9.3a5.5 5.5 0 1 1-11 0c0-1.6.6-3 1.7-4.4.3 1 .9 1.8 1.8 2.2.2-3 .8-5.3 2-7.1z"/>' },
+    rayo:    { c:'#fbbf24', n:'Rayo',     d:'<path d="M13.5 2L5 13h5l-1.5 9L19 10h-5.5z"/>' },
+    hecho:   { c:'#4ade80', n:'Hecho',    d:'<circle cx="12" cy="12" r="8.6"/><path d="M7.9 12.4l2.9 2.9 5.3-6" fill="none"/>' },
+    fallo:   { c:'#f87171', n:'Fallo',    d:'<circle cx="12" cy="12" r="8.6"/><path d="M9 9l6 6M15 9l-6 6" fill="none"/>' },
+    duda:    { c:'#38bdf8', n:'Duda',     d:'<circle cx="12" cy="12" r="8.6"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .8-1 1.5v.4" fill="none"/><circle cx="12" cy="16.2" r="1"/>' },
+    idea:    { c:'#facc15', n:'Idea',     d:'<path d="M12 3a5.4 5.4 0 0 0-3.1 9.8c.5.4.7 1 .7 1.6v.5h4.8v-.5c0-.6.2-1.2.7-1.6A5.4 5.4 0 0 0 12 3z"/><path d="M9.9 18h4.2M10.6 20.4h2.8" fill="none"/>' },
+    diana:   { c:'#f472b6', n:'Diana',    d:'<circle cx="12" cy="12" r="8.6" fill="none"/><circle cx="12" cy="12" r="5.2" fill="none"/><circle cx="12" cy="12" r="2"/>' },
+    reloj:   { c:'#22d3ee', n:'Tiempo',   d:'<circle cx="12" cy="12" r="8.6"/><path d="M12 6.9v5.4l3.4 2" fill="none"/>' },
+    chip:    { c:'#a78bfa', n:'Memoria',  d:'<rect x="6.5" y="6.5" width="11" height="11" rx="2.6"/><path d="M10 3.4v3M14 3.4v3M10 17.6v3M14 17.6v3M3.4 10h3M3.4 14h3M17.6 10h3M17.6 14h3" fill="none"/>' },
+    ojo:     { c:'#38bdf8', n:'Fijate',   d:'<path d="M2.6 12S6.2 6.2 12 6.2 21.4 12 21.4 12 17.8 17.8 12 17.8 2.6 12 2.6 12z"/><circle cx="12" cy="12" r="2.7"/>' },
+    onda:    { c:'#2dd4bf', n:'Escucha',  d:'<path d="M5 10v4M8.5 7.5v9M12 5v14M15.5 8v8M19 10.5v3" fill="none"/>' },
+    burbuja: { c:'#c084fc', n:'Dilo',     d:'<path d="M4 5.4h16a1.6 1.6 0 0 1 1.6 1.6v7.6A1.6 1.6 0 0 1 20 16.2h-7.4L8 20.4v-4.2H4A1.6 1.6 0 0 1 2.4 14.6V7A1.6 1.6 0 0 1 4 5.4z"/>' },
+    libro:   { c:'#60a5fa', n:'Estudia',  d:'<path d="M3.6 4.6h5.6a2.8 2.8 0 0 1 2.8 1.8 2.8 2.8 0 0 1 2.8-1.8h5.6v13.4h-5.6a2.8 2.8 0 0 0-2.8 1.8 2.8 2.8 0 0 0-2.8-1.8H3.6z"/><path d="M12 6.4v13.4" fill="none"/>' },
+    trofeo:  { c:'#fbbf24', n:'Logro',    d:'<path d="M7.5 3.6h9v5a4.5 4.5 0 0 1-9 0z"/><path d="M7.5 5.4H4.8v1.4a3 3 0 0 0 2.7 3M16.5 5.4h2.7v1.4a3 3 0 0 1-2.7 3" fill="none"/><path d="M12 13.4v3.4M8.6 20.4h6.8" fill="none"/>' },
+    cohete:  { c:'#f472b6', n:'Despega',  d:'<path d="M12 2.6c3 2.5 4.6 5.7 4.6 9.3l-1.7 3.4H9.1L7.4 11.9c0-3.6 1.6-6.8 4.6-9.3z"/><path d="M9.1 15.3L6.4 18l1.6.3.4 1.7zM14.9 15.3L17.6 18l-1.6.3-.4 1.7z"/><circle cx="12" cy="9.6" r="1.9" fill="none"/>' },
+    luna:    { c:'#818cf8', n:'Repaso',   d:'<path d="M15.6 3.2A9 9 0 1 0 20.8 14 7.3 7.3 0 0 1 15.6 3.2z"/>' },
+    gema:    { c:'#22d3ee', n:'Joya',     d:'<path d="M7.2 3.6h9.6l4 5.6L12 20.4 3.2 9.2z"/><path d="M3.2 9.2h17.6M7.2 3.6L12 20.4 16.8 3.6" fill="none"/>' },
+    corona:  { c:'#facc15', n:'Corona',   d:'<path d="M3.4 8.4l4 3.2L12 5l4.6 6.6 4-3.2-1.8 10H5.2z"/>' }
+  };
+  const svgPega = k => {
+    const s = PEGA[k]; if(!s) return '';
+    return '<svg viewBox="0 0 24 24" class="pg-svg" style="color:' + s.c + '">' + s.d + '</svg>';
+  };
 
   function paletaEmojis(b, ancla){
     document.querySelectorAll('.emo-pop').forEach(x => x.remove());
     const pop = document.createElement('div');
     pop.className = 'emo-pop';
-    pop.innerHTML = '<div class="emo-t">Pegatinas · toca una y luego arrástrala en la hoja</div>' +
-      '<div class="emo-g">' + EMOJIS.map(e => `<button class="emo-b">${e}</button>`).join('') + '</div>';
+    pop.innerHTML = '<div class="emo-t">Pegatinas · toca una y luego arrástrala por la hoja</div>' +
+      '<div class="emo-g">' + Object.keys(PEGA).map(k =>
+        `<button class="emo-b" data-pg="${k}" title="${esc(PEGA[k].n)}">${svgPega(k)}</button>`).join('') + '</div>';
     document.body.appendChild(pop);
     const r = ancla.getBoundingClientRect();
     pop.style.left = Math.max(10, Math.min(r.left, window.innerWidth - 340)) + 'px';
     pop.style.top  = (r.bottom + window.scrollY + 6) + 'px';
     pop.querySelectorAll('.emo-b').forEach(bt => bt.onclick = () => {
-      ponerPegatina(b, bt.textContent);
+      ponerPegatina(b, bt.dataset.pg);
       pop.remove();
     });
     const fuera = ev => { if(!ev.target.closest('.emo-pop') && ev.target !== ancla){ pop.remove(); document.removeEventListener('click', fuera); } };
