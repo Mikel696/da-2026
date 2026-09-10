@@ -1168,6 +1168,20 @@ table.tbl tr:hover td{background:var(--bg3)}
 .cf-b.rec{background:var(--bad);border-color:var(--bad);color:#fff;animation:cfrec 1s infinite}
 @keyframes cfrec{0%,100%{opacity:1}50%{opacity:.6}}
 
+/* ── Las tres opciones de Leer y Escuchar ──
+   Al resolver, la buena se pinta verde SIEMPRE (aunque hayas fallado) y la
+   tuya en rojo: lo que enseña es ver las dos juntas. */
+.cf-ops{display:flex;flex-direction:column;gap:9px;margin-top:16px;max-width:560px;
+  margin-left:auto;margin-right:auto}
+.cf-op{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:12px;
+  padding:13px 17px;font-size:15px;line-height:1.5;cursor:pointer;text-align:left;
+  font-family:inherit;transition:transform .12s,border-color .12s,background .12s}
+.cf-op:hover:not(:disabled){border-color:var(--ac);background:var(--bg4);transform:translateX(4px)}
+.cf-op:disabled{cursor:default}
+.cf-op.buena{border-color:var(--ok);background:rgba(34,197,94,.15);color:var(--tx);font-weight:700}
+.cf-op.mala{border-color:var(--bad);background:rgba(239,68,68,.15)}
+.cf-op.apagada{opacity:.35}
+
 /* ── Banco de palabras del modo Armar ──
    Botones grandes y con aire: se juega con el dedo, y es el modo pensado
    para quien todavía no teclea. */
@@ -10761,13 +10775,23 @@ const CLUB = (() => {
      a ciegas de golpe. «Armar» es el puente — las palabras están delante y solo
      hay que ponerlas en orden. Es además el único modo que se puede jugar sin
      saber teclear, que era lo que dejaba fuera a una niña. */
+  /* Cada modo entrena UNA cosa distinta y se juega distinto.
+     Antes Traducir, Dictado y Escuchar eran el mismo ejercicio con otra puerta
+     de entrada —leer u oír, y luego reproducir la frase entera—, así que no
+     eran tres modos sino uno repetido tres veces. Ahora:
+       Leer     entender   · eliges qué significa
+       Armar    el orden   · tocas las palabras
+       Traducir producir   · la tecleas entera de memoria
+       Dictado  oído fino  · solo rellenas los huecos que faltan
+       Escuchar distinguir · eliges cuál de tres frases parecidas oíste
+       Hablar   pronunciar · la dices en voz alta                            */
   const MODOS = [
-    { id:'leer',  n:'📖 Leer',     h:'1 · Calentamiento: lee, toca cualquier palabra y escúchala', niv:1 },
-    { id:'arma',  n:'🧩 Armar',    h:'2 · Las palabras están ahí, revueltas: tócalas en orden', niv:2 },
-    { id:'trad',  n:'✍️ Traducir', h:'3 · Ves el español y tecleas el inglés de memoria', niv:3 },
-    { id:'dict',  n:'🎧 Dictado',  h:'4 · Solo oyes. Teclea lo que escuchaste', niv:4 },
-    { id:'esc',   n:'👂 Escuchar', h:'Tres fases: a ciegas → lento → con el texto', niv:2 },
-    { id:'habla', n:'🎤 Hablar',   h:'Lo dices en voz alta y se compara con lo que se esperaba', niv:3 }
+    { id:'leer',  n:'📖 Leer',     h:'Entender · lee la frase y elige qué significa' },
+    { id:'arma',  n:'🧩 Armar',    h:'El orden · las palabras están revueltas, tócalas en orden' },
+    { id:'trad',  n:'✍️ Traducir', h:'Producir · ves el español y la tecleas entera de memoria' },
+    { id:'dict',  n:'🎧 Dictado',  h:'Oído fino · solo oyes, y rellenas las palabras que faltan' },
+    { id:'esc',   n:'👂 Escuchar', h:'Distinguir · elige cuál de las tres frases parecidas oíste' },
+    { id:'habla', n:'🎤 Hablar',   h:'Pronunciar · la dices en voz alta y se compara' }
   ];
   const RANGOS = [
     { r:'SSS', min:100, cero:true, c:'#f0abfc', d:'Perfecta y sin un solo fallo de tecla' },
@@ -10833,21 +10857,100 @@ const CLUB = (() => {
     const p = S.lista[S.i];
     if(!p) return;
     S.tok = tokeniza(p.en);
-    S.pide = S.tok.filter(w => !esDada(w)).length;   // lo que de verdad se teclea
     S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0; S.intentos = 0;
-    saltaDadas();
-    S.fase = 0; S.dicho = '';
-    /* El banco del modo Armar: las mismas palabras de la frase, revueltas.
-       Se guarda el índice original para poder decir cuál tocaba. */
+    S.fase = 0; S.dicho = ''; S.elegida = -1; S.resuelta = false;
+
+    /* Dictado: no se teclea la frase entera —eso ya es Traducir—, solo las
+       palabras que faltan. Es la habilidad de verdad al escuchar: cazar
+       palabras sueltas dentro del chorro, no transcribir. */
+    S.huecos = S.modo === 'dict' ? huecosDe(p) : [];
+
+    /* Leer y Escuchar son de ELEGIR, no de producir. Los señuelos salen del
+       propio documento y, cuando se puede, del mismo molde: así se parecen de
+       verdad y hay que fijarse, en vez de descartar por el largo. */
+    S.ops = S.modo === 'leer' ? opciones(p, 'es')
+          : S.modo === 'esc'  ? opciones(p, 'en') : [];
+
+    /* El banco del modo Armar: las mismas palabras de la frase, revueltas. */
     S.banco = baraja(S.tok.map((w, i) => ({ i, w })).filter(x => !esDada(x.w)));
     S.usadas = [];
+
+    S.pide = (S.modo === 'leer' || S.modo === 'esc') ? 1
+           : S.tok.filter((w, i) => pedida(i)).length;
+    saltaDadas();
     S.activo = (S.modo === 'trad' || S.modo === 'dict');
-    if(S.modo === 'dict') setTimeout(() => TTS.say(p.en), 320);
+    if(S.modo === 'dict' || S.modo === 'esc') setTimeout(() => TTS.say(p.en), 340);
+  }
+
+  /* ¿Se pide esta ficha al usuario?
+     En Dictado solo los huecos; en los demás, todo lo que no venga dado. */
+  function pedida(i){
+    const w = S.tok[i];
+    if(w === undefined || esDada(w)) return false;
+    if(S.modo === 'dict') return S.huecos.indexOf(i) >= 0;
+    return true;
+  }
+
+  /* Los huecos del dictado: uno de cada dos candidatos, siempre los mismos
+     para la misma frase (así no cambian al repintar y se puede reintentar). */
+  function huecosDe(p){
+    const tk = tokeniza(p.en);
+    const cand = tk.map((w, i) => ({ w, i })).filter(x => !esDada(x.w) && limpia(x.w).length >= 2);
+    if(!cand.length) return tk.map((w, i) => i).filter(i => !esDada(tk[i]));
+    const desde = (p.i || 0) % 2;
+    const sel = cand.filter((x, k) => k % 2 === desde).map(x => x.i);
+    return sel.length ? sel : [cand[0].i];
+  }
+
+  /* Tres opciones: la buena y dos señuelos. Se prefieren frases del mismo
+     molde — si no, del mismo tipo de función; y si tampoco, cualquiera. */
+  function opciones(p, campo){
+    const bueno = p[campo];
+    /* Se descartan las que TRADUCEN IGUAL, no solo la misma frase. El
+       documento tiene casi gemelas —«Correct me if I'm wrong» y «…, but…»
+       comparten traducción— y salían tres opciones idénticas: imposible de
+       responder, y una de las tres contaba como fallo. Lo cazó la auditoría. */
+    const otras = PHRASES.filter(x => x.i !== p.i && x[campo] && x[campo] !== bueno);
+    const mismoMolde = otras.filter(x => x.m && x.m === p.m);
+    const mismaFunc  = otras.filter(x => x.f && x.f === p.f);
+    const bolsa = mismoMolde.length >= 2 ? mismoMolde
+                : mismaFunc.length  >= 2 ? mismaFunc : otras;
+    /* Primero se buscan señuelos parecidos; si esa bolsa no da para dos
+       distintos, se tira del resto. Siempre salen tres opciones. */
+    const senuelos = [];
+    for(const fuente of [bolsa, otras]){
+      for(const c of baraja(fuente)){
+        if(senuelos.some(s => s[campo] === c[campo])) continue;  // ni repetidas entre sí
+        senuelos.push(c);
+        if(senuelos.length === 2) break;
+      }
+      if(senuelos.length === 2) break;
+    }
+    return baraja([p, ...senuelos]).map(x => ({ i: x.i, txt: x[campo] }));
+  }
+
+  /* Elegir en Leer / Escuchar. Puntúa como una pregunta: se acierta o no. */
+  function elegir(n){
+    if(S.resuelta) return;
+    const p = actual(), op = S.ops[n];
+    if(!p || !op) return;
+    S.elegida = n; S.resuelta = true;
+    if(op.i === p.i){
+      S.okPal = 1; S.combo++; S.comboMax = Math.max(S.comboMax, S.combo);
+      S.pts += (S.combo >= 20 ? 20 : 10);
+      chispa(S.combo >= 20 ? '¡DOBLE!' : '¡Esa es!', true);
+    } else {
+      S.malPal = 1; S.combo = 0;
+      chispa('esa no', false);
+    }
+    render();
+    // Un momento para ver cuál era la buena antes de cerrar la frase
+    setTimeout(() => { if(S.resuelta && !S.fin) terminar(); }, 900);
   }
   const actual = () => S.lista[S.i];
   /* Adelanta el cursor por encima de las fichas dadas. Sin esto la ronda
      se queda esperando que teclees una barra, y no hay barra que teclear. */
-  function saltaDadas(){ while(S.w < S.tok.length && esDada(S.tok[S.w])) S.w++; }
+  function saltaDadas(){ while(S.w < S.tok.length && !pedida(S.w)) S.w++; }
 
   /* ── El teclado: escribes libre, el ESPACIO confirma cada palabra ── */
   function tecla(e){
@@ -10987,9 +11090,11 @@ const CLUB = (() => {
      está enseñando justo lo que te pide escribir. En Escuchar se tapa hasta
      la tercera fase, que es la que se llama «con el texto». */
   function tapada(i){
-    if(S.modo === 'trad' || S.modo === 'dict' || S.modo === 'arma') return i >= S.w;
-    if(S.modo === 'esc') return S.fase < 2;
-    return false;                                   // leer y habla
+    // Dictado: solo se tapan los huecos que aún no has rellenado. El resto de
+    // la frase se ve — es lo que te deja engancharte para cazar lo que falta.
+    if(S.modo === 'dict') return pedida(i) && i >= S.w;
+    if(S.modo === 'trad' || S.modo === 'arma') return i >= S.w;
+    return false;                                   // leer, escuchar y habla
   }
 
   function palabraHTML(w, i){
@@ -11021,13 +11126,28 @@ const CLUB = (() => {
     const cabecera =
       m === 'arma'  ? `<div class="cf-es">${esc(p.es)}</div>`
     : m === 'trad'  ? `<div class="cf-es">${esc(p.es)}</div>`
-    : m === 'dict'  ? `<div class="cf-es sordo">Solo el audio — teclea lo que oigas
-                         <button class="spk" data-say="${esc(p.en)}">🔊</button></div>`
+    : m === 'dict'  ? `<div class="cf-es sordo">Óyela y rellena lo que falta
+                         <button class="spk" data-say="${esc(p.en)}">🔊</button>
+                         <button class="spk" data-cfsay="0.6" title="Más despacio">🐢</button></div>`
+    // Leer: la frase inglesa a la vista, pero SIN su traducción — si se
+    // enseñara, no habría nada que elegir.
     : m === 'leer'  ? `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
-                       <div class="cf-es">${esc(p.es)}</div>`
-    : m === 'esc'   ? faseEscuchar(p)
+                       <div class="cf-es sordo">¿Qué significa?</div>`
+    // Escuchar: solo el audio. Ni la frase ni la traducción.
+    : m === 'esc'   ? `<div class="cf-es sordo">Solo el audio · ¿cuál de las tres oíste?
+                         <button class="spk" data-say="${esc(p.en)}">🔊</button>
+                         <button class="spk" data-cfsay="0.6" title="Más despacio">🐢</button></div>`
     : /* habla */     `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
                        <div class="cf-es">${esc(p.es)}</div>`;
+
+    /* Las tres opciones de Leer y Escuchar. Al resolver se pinta la buena en
+       verde y, si fallaste, la tuya en rojo: se aprende viendo la diferencia. */
+    const eleccion = (m === 'leer' || m === 'esc') ? `
+      <div class="cf-ops">${S.ops.map((o, n) => {
+        let cls = '';
+        if(S.resuelta) cls = o.i === p.i ? ' buena' : (n === S.elegida ? ' mala' : ' apagada');
+        return `<button class="cf-op${cls}" data-cfop="${n}"${S.resuelta ? ' disabled' : ''}>${esc(o.txt)}</button>`;
+      }).join('')}</div>` : '';
 
     /* Escalera de ayuda. Como el ESPACIO ya no deja pasar, hace falta una
        salida o el juego se convierte en una trampa: a los 2 fallos una pista
@@ -11058,8 +11178,9 @@ const CLUB = (() => {
 
     return `<div class="cf-card">
       ${cabecera}
-      <div class="cf-molde">${paintMold(p.m)}</div>
-      <div class="cf-slots">${S.tok.map(palabraHTML).join('')}</div>
+      ${m === 'esc' ? '' : `<div class="cf-molde">${paintMold(p.m)}</div>`}
+      ${m === 'esc' ? '' : `<div class="cf-slots">${S.tok.map(palabraHTML).join('')}</div>`}
+      ${eleccion}
       ${tecleando}
       ${banco}
       ${m === 'habla' ? bloqueHablar(p) : ''}
@@ -11190,6 +11311,7 @@ const CLUB = (() => {
     });
     c.querySelectorAll('[data-cfver]').forEach(b => b.onclick = () => rendirse());
     c.querySelectorAll('[data-cfb]').forEach(b => b.onclick = () => tocarBanco(+b.dataset.cfb));
+    c.querySelectorAll('[data-cfop]').forEach(b => b.onclick = () => elegir(+b.dataset.cfop));
     c.querySelectorAll('[data-cffase]').forEach(b => b.onclick = () => { S.fase = Math.min(2, S.fase + 1); render(); });
     c.querySelectorAll('[data-cfsay]').forEach(b => b.onclick = () => {
       const r = parseFloat(b.dataset.cfsay) || 1;
@@ -11200,7 +11322,10 @@ const CLUB = (() => {
       const w = b.dataset.cfw; TTS.say(w); DIC.abrir(limpia(w), b.getBoundingClientRect().left + 20, b.getBoundingClientRect().bottom);
     });
     // En los modos sin teclado se avanza con un botón
-    if((S.modo === 'leer' || S.modo === 'esc' || S.modo === 'habla') && !S.fin && !rondaAcabada){
+    /* Solo Leer y Hablar necesitan un botón para pasar. Escuchar ya no: se
+       resuelve eligiendo, igual que Leer, y entonces manda el resultado.
+       Antes el botón dejaba saltar la frase sin responder — y sin puntuar. */
+    if((S.modo === 'habla') && !S.fin && !rondaAcabada){
       const b = document.createElement('button');
       b.className = 'cf-b grande'; b.textContent = 'Siguiente →';
       b.onclick = () => { if(S.i >= S.lista.length - 1){ S.finVisto = true; S.fin = S.fin || {}; render(); }
@@ -11231,19 +11356,35 @@ const CLUB = (() => {
   }
 
   /* Comprobación repetible desde consola: APP.CLUB.auditar() */
+  /* Comprobación repetible desde consola: APP.CLUB.auditar()
+     Se revisan las 1000 frases contra CADA modo, porque un modo que se atasca
+     en una frase de mil no se descubre jugando: se descubre midiendo. */
   function auditar(){
     const malas = [];
-    let dadas = 0;
+    let dadas = 0, sinSenuelos = 0, huecosCero = 0;
     PHRASES.forEach(p => {
       const t = tokeniza(p.en);
       const pide = t.filter(w => !esDada(w));
       dadas += t.length - pide.length;
-      // Solo es un fallo si NO queda nada que teclear en toda la frase
       if(!pide.length) malas.push('sin nada que teclear: ' + p.en);
       if(!p.m) malas.push('sin molde: ' + p.en);
+
+      // Dictado: tiene que quedar al menos un hueco que rellenar
+      const h = huecosDe(p);
+      if(!h.length){ huecosCero++; malas.push('dictado sin huecos: ' + p.en); }
+
+      // Leer y Escuchar: tres opciones distintas, y una de ellas la buena
+      ['es','en'].forEach(campo => {
+        const o = opciones(p, campo);
+        const textos = new Set(o.map(x => x.txt));
+        if(o.length !== 3 || textos.size !== 3){ sinSenuelos++;
+          malas.push('opciones repetidas (' + campo + '): ' + p.en); }
+        if(!o.some(x => x.i === p.i)) malas.push('sin la buena (' + campo + '): ' + p.en);
+      });
     });
-    return { frases:PHRASES.length, modos:MODOS.length,
-             paquetes:PACKS().length, fichasDadas:dadas, malas };
+    return { frases:PHRASES.length, modos:MODOS.length, paquetes:PACKS().length,
+             fichasDadas:dadas, dictadoSinHuecos:huecosCero, opcionesMalas:sinSenuelos,
+             malas: malas.slice(0, 12), totalMalas: malas.length };
   }
   return { init, render, arma, auditar, S, MODOS, RANGOS };
 })();
