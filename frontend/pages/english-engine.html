@@ -1168,6 +1168,20 @@ table.tbl tr:hover td{background:var(--bg3)}
 .cf-b.rec{background:var(--bad);border-color:var(--bad);color:#fff;animation:cfrec 1s infinite}
 @keyframes cfrec{0%,100%{opacity:1}50%{opacity:.6}}
 
+/* ── Banco de palabras del modo Armar ──
+   Botones grandes y con aire: se juega con el dedo, y es el modo pensado
+   para quien todavía no teclea. */
+.cf-banco{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:16px}
+.cf-bw{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:12px;
+  padding:11px 17px;font-size:17px;font-weight:700;font-family:var(--fm);cursor:pointer;
+  transition:transform .12s,background .12s,border-color .12s;min-width:56px}
+.cf-bw:hover{border-color:var(--ac);background:var(--bg4);transform:translateY(-3px)}
+.cf-bw:active{transform:translateY(0) scale(.96)}
+.cf-bw.usada{opacity:.28;border-style:dashed;cursor:default;transform:none}
+.cf-bw.mala{border-color:var(--bad);background:rgba(239,68,68,.16);animation:cfno .4s}
+@keyframes cfno{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}
+  40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
 /* Escuchar en tres fases */
 .cf-fase{padding:6px 0}
 .cf-ft{font-size:14px;font-weight:800;color:var(--ac2);margin-bottom:5px}
@@ -10741,12 +10755,19 @@ const CLUB = (() => {
   const K = 'eng_cf';
   const RONDA = 8;                    // frases por vuelta
 
+  /* Los modos son una ESCALERA, de menos a más exigente, y se muestran en ese
+     orden. Antes faltaba el segundo peldaño: salvo «Leer», todos pedían
+     producir la frase entera de memoria, así que se pasaba de mirar a teclear
+     a ciegas de golpe. «Armar» es el puente — las palabras están delante y solo
+     hay que ponerlas en orden. Es además el único modo que se puede jugar sin
+     saber teclear, que era lo que dejaba fuera a una niña. */
   const MODOS = [
-    { id:'leer',  n:'📖 Leer',     h:'Calentamiento: lee, toca cualquier palabra y escúchala' },
-    { id:'trad',  n:'✍️ Traducir', h:'Ves el español, tecleas el inglés. El modo principal' },
-    { id:'dict',  n:'🎧 Dictado',  h:'Solo oyes. Teclea lo que escuchaste' },
-    { id:'esc',   n:'👂 Escuchar', h:'Tres fases: a ciegas → lento → con el texto' },
-    { id:'habla', n:'🎤 Hablar',   h:'Lo dices en voz alta y se compara con lo que se esperaba' }
+    { id:'leer',  n:'📖 Leer',     h:'1 · Calentamiento: lee, toca cualquier palabra y escúchala', niv:1 },
+    { id:'arma',  n:'🧩 Armar',    h:'2 · Las palabras están ahí, revueltas: tócalas en orden', niv:2 },
+    { id:'trad',  n:'✍️ Traducir', h:'3 · Ves el español y tecleas el inglés de memoria', niv:3 },
+    { id:'dict',  n:'🎧 Dictado',  h:'4 · Solo oyes. Teclea lo que escuchaste', niv:4 },
+    { id:'esc',   n:'👂 Escuchar', h:'Tres fases: a ciegas → lento → con el texto', niv:2 },
+    { id:'habla', n:'🎤 Hablar',   h:'Lo dices en voz alta y se compara con lo que se esperaba', niv:3 }
   ];
   const RANGOS = [
     { r:'SSS', min:100, cero:true, c:'#f0abfc', d:'Perfecta y sin un solo fallo de tecla' },
@@ -10816,6 +10837,10 @@ const CLUB = (() => {
     S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0; S.intentos = 0;
     saltaDadas();
     S.fase = 0; S.dicho = '';
+    /* El banco del modo Armar: las mismas palabras de la frase, revueltas.
+       Se guarda el índice original para poder decir cuál tocaba. */
+    S.banco = baraja(S.tok.map((w, i) => ({ i, w })).filter(x => !esDada(x.w)));
+    S.usadas = [];
     S.activo = (S.modo === 'trad' || S.modo === 'dict');
     if(S.modo === 'dict') setTimeout(() => TTS.say(p.en), 320);
   }
@@ -10871,6 +10896,36 @@ const CLUB = (() => {
     S.intentos++; S.combo = 0; S.buf = '';
     chispa(S.intentos >= 2 ? 'sigue sin ser · mira la pista' : 'todavía no · otra vez', false);
     render();
+  }
+
+  /* ── Modo Armar ──
+     Se toca una palabra del banco. Si es la que toca, entra; si no, se avisa
+     sin decir cuál era. Puntúa igual que teclear: solo cuenta como acertada la
+     que se clava a la primera, así que el rango sigue diciendo la verdad. */
+  function tocarBanco(pos){
+    const cand = S.banco[pos];
+    if(!cand || S.usadas.includes(pos)) return;
+    const meta = S.tok[S.w];
+    if(!meta) return;
+
+    if(igual(cand.w, meta)){
+      if(!S.intentos){
+        S.okPal++; S.combo++; S.comboMax = Math.max(S.comboMax, S.combo);
+        S.pts += (S.combo >= 20 ? 20 : 10);
+        chispa(S.combo >= 20 ? '¡DOBLE!' : (S.combo >= 5 ? '¡Perfect!' : 'Bien'), true);
+      } else chispa('esa era', true);
+      S.usadas.push(pos);
+      TTS.say(cand.w);                       // se oye la palabra al colocarla
+      S.intentos = 0; S.w++; saltaDadas();
+      if(S.w >= S.tok.length) terminar(); else render();
+      return;
+    }
+    if(!S.intentos) S.malPal++;
+    S.intentos++; S.combo = 0;
+    chispa('esa no · escucha otra vez', false);
+    render();
+    const b = document.querySelector('[data-cfb="' + pos + '"]');
+    if(b){ b.classList.add('mala'); setTimeout(() => b.classList.remove('mala'), 420); }
   }
 
   /* Salida explícita. El ESPACIO nunca regala la palabra, pero si de verdad no
@@ -10932,7 +10987,7 @@ const CLUB = (() => {
      está enseñando justo lo que te pide escribir. En Escuchar se tapa hasta
      la tercera fase, que es la que se llama «con el texto». */
   function tapada(i){
-    if(S.modo === 'trad' || S.modo === 'dict') return i >= S.w;
+    if(S.modo === 'trad' || S.modo === 'dict' || S.modo === 'arma') return i >= S.w;
     if(S.modo === 'esc') return S.fase < 2;
     return false;                                   // leer y habla
   }
@@ -10964,7 +11019,8 @@ const CLUB = (() => {
     }
 
     const cabecera =
-      m === 'trad'  ? `<div class="cf-es">${esc(p.es)}</div>`
+      m === 'arma'  ? `<div class="cf-es">${esc(p.es)}</div>`
+    : m === 'trad'  ? `<div class="cf-es">${esc(p.es)}</div>`
     : m === 'dict'  ? `<div class="cf-es sordo">Solo el audio — teclea lo que oigas
                          <button class="spk" data-say="${esc(p.en)}">🔊</button></div>`
     : m === 'leer'  ? `<div class="cf-en">${esc(p.en)} <button class="spk" data-say="${esc(p.en)}">🔊</button></div>
@@ -10982,6 +11038,15 @@ const CLUB = (() => {
         ${S.intentos >= 4 ? `<button class="cf-b" data-cfver>Enséñamela y sigue</button>` : ''}
       </div>` : '';
 
+    /* El banco de palabras. Las ya colocadas se quedan a la vista, apagadas,
+       para que se entienda que salieron de ahí. */
+    const banco = m === 'arma' ? `
+      <div class="cf-banco">${S.banco.map((x, n) =>
+        `<button class="cf-bw${S.usadas.includes(n) ? ' usada' : ''}" data-cfb="${n}"
+                 ${S.usadas.includes(n) ? 'disabled' : ''}>${esc(x.w)}</button>`).join('')}</div>
+      <div class="cf-pie">Palabra <b>${Math.min(S.tok.slice(0, S.w).filter(w => !esDada(w)).length + 1, S.pide)}</b>
+        de <b>${S.pide}</b> · tócalas en el orden correcto</div>` : '';
+
     const tecleando = (m === 'trad' || m === 'dict') ? `
       <div class="cf-linea">
         <span class="cf-hecho">${esc(escrito)}</span>
@@ -10996,6 +11061,7 @@ const CLUB = (() => {
       <div class="cf-molde">${paintMold(p.m)}</div>
       <div class="cf-slots">${S.tok.map(palabraHTML).join('')}</div>
       ${tecleando}
+      ${banco}
       ${m === 'habla' ? bloqueHablar(p) : ''}
       <div class="cf-chispa" id="cfChispa"></div>
     </div>`;
@@ -11123,6 +11189,7 @@ const CLUB = (() => {
       S.i++; cargar(); render();
     });
     c.querySelectorAll('[data-cfver]').forEach(b => b.onclick = () => rendirse());
+    c.querySelectorAll('[data-cfb]').forEach(b => b.onclick = () => tocarBanco(+b.dataset.cfb));
     c.querySelectorAll('[data-cffase]').forEach(b => b.onclick = () => { S.fase = Math.min(2, S.fase + 1); render(); });
     c.querySelectorAll('[data-cfsay]').forEach(b => b.onclick = () => {
       const r = parseFloat(b.dataset.cfsay) || 1;
