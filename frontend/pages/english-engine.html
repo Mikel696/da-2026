@@ -1370,6 +1370,118 @@ h2.sec .n{
 ::-webkit-scrollbar-track{ background: var(--bg2) }
 ::-webkit-scrollbar-thumb{ background: var(--bd2); border-radius:20px; border:3px solid var(--bg2) }
 ::-webkit-scrollbar-thumb:hover{ background: var(--ac) }
+
+/* ═══════════ CANCIONES ═══════════ */
+.sg-grid{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:start}
+@media(max-width:880px){.sg-grid{grid-template-columns:1fr}}
+
+.sg-side{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:13px;
+  position:sticky;top:12px}
+.sg-nueva{width:100%;background:var(--ac);border:none;color:#fff;border-radius:var(--rad-s);
+  padding:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.sg-nueva:hover{filter:brightness(1.12)}
+.sg-lbl{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--t3);margin:16px 0 8px}
+.sg-item{width:100%;text-align:left;background:transparent;border:1px solid transparent;
+  border-radius:var(--rad-s);padding:9px 11px;cursor:pointer;font-family:inherit;
+  color:var(--t2);display:block;margin-bottom:3px;transition:.14s}
+.sg-item:hover{background:var(--bg3)}
+.sg-item.on{background:var(--acbg);border-color:var(--acbd);color:var(--tx)}
+.sg-item b{display:block;font-size:13.5px;font-weight:700}
+.sg-item span{font-size:11.5px;color:var(--t3)}
+.sg-vacio{font-size:12.5px;color:var(--t3);padding:6px 2px;line-height:1.6}
+
+.sg-main{min-width:0}
+.sg-cab{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.sg-in{background:var(--bg2);border:1px solid var(--bd);color:var(--tx);border-radius:var(--rad-s);
+  padding:9px 13px;font-family:inherit;font-size:14px;outline:none;transition:.14s}
+.sg-in:focus{border-color:var(--ac)}
+.sg-in.t{flex:1;min-width:180px;font-size:17px;font-weight:700}
+.sg-in.a{width:170px}
+.sg-in.url{width:100%;font-size:12.5px;font-family:var(--fm);margin-bottom:14px}
+
+.sg-b{background:var(--bg3);border:1px solid var(--bd2);color:var(--t2);border-radius:var(--rad-s);
+  padding:8px 13px;font-family:inherit;font-size:12.5px;cursor:pointer;transition:.15s}
+.sg-b:hover{border-color:var(--ac);color:var(--tx)}
+.sg-b.danger:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+.sg-b.grande{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700;
+  font-size:14px;padding:11px 22px;margin-top:12px}
+
+.sg-pega{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:20px}
+.sg-pega-t{font-size:16px;font-weight:700;margin-bottom:6px}
+.sg-p{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:12px;max-width:70ch}
+.sg-ta{width:100%;min-height:230px;background:var(--bg3);border:1px solid var(--bd2);
+  border-radius:var(--rad-s);color:var(--tx);padding:14px;font-family:var(--fm);font-size:13.5px;
+  line-height:1.75;outline:none;resize:vertical}
+.sg-ta:focus{border-color:var(--ac)}
+
+.sg-yt{position:relative;padding-top:56.25%;border-radius:var(--rad);overflow:hidden;
+  border:1px solid var(--bd);margin-bottom:14px;background:#000}
+.sg-yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+.sg-mando{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2);
+  border:1px solid var(--bd);border-radius:var(--rad);padding:11px 14px;margin-bottom:14px;
+  position:sticky;top:8px;z-index:7}
+.sg-lbl2{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+.sg-v{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:20px;
+  padding:6px 13px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:.14s}
+.sg-v:hover{border-color:var(--ac);color:var(--tx)}
+.sg-v.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.sg-prog{margin-left:auto;font-size:11.5px;color:var(--t3);font-family:var(--fm)}
+
+/* ── Las líneas ── */
+.sg-letra{display:flex;flex-direction:column;gap:6px}
+.sg-l{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--bd);
+  border-left:3px solid transparent;border-radius:var(--rad-s);padding:10px 14px;transition:.16s}
+.sg-l:hover{border-color:var(--bd2);border-left-color:var(--bd2)}
+.sg-l.sonando{border-left-color:var(--ac);background:var(--bg3);
+  box-shadow:0 0 0 1px rgba(139,92,246,.25)}
+.sg-l.hecha{opacity:.62;border-left-color:var(--ok)}
+.sg-l-h{display:flex;gap:3px;flex-shrink:0;padding-top:1px}
+.sg-ic{width:26px;height:26px;background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);
+  border-radius:7px;cursor:pointer;font-size:11px;display:grid;place-items:center;transition:.14s;padding:0}
+.sg-ic:hover{border-color:var(--ac);color:var(--tx)}
+.sg-ic.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.sg-t{flex:1;min-width:0;font-size:16px;line-height:1.75}
+.sg-w{cursor:pointer;border-radius:4px;padding:0 1px;transition:background .12s,color .12s}
+.sg-w:hover{background:var(--acbg);color:var(--ac2)}
+.sg-w.ahora{background:var(--ac);color:#fff;font-weight:700}
+.sg-w.hueco{font-family:var(--fm);color:var(--t3);letter-spacing:1px;background:var(--bg4);
+  border-radius:5px;padding:0 5px}
+.sg-w.hueco.activo{color:var(--warn);background:rgba(234,179,8,.14);
+  box-shadow:0 0 0 1px rgba(234,179,8,.4)}
+.sg-w.ok{color:var(--ok);font-weight:700}
+
+/* ── El método y las sugerencias ── */
+.sg-metodo{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:22px}
+.sg-metodo h3{font-size:19px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
+.sg-metodo h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px}
+.sg-pasos{list-style:none;counter-reset:p;display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.sg-pasos li{background:var(--bg3);border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:12px 15px}
+.sg-pasos b{display:block;font-size:14px;margin-bottom:4px}
+.sg-pasos span{font-size:13px;color:var(--t2);line-height:1.65}
+.sg-dos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:700px){.sg-dos{grid-template-columns:1fr}}
+.sg-col{border-radius:var(--rad-s);padding:14px 16px;border:1px solid}
+.sg-col ul{margin:0;padding-left:17px}
+.sg-col li{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:5px}
+.sg-col.ok{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.26)}
+.sg-col.ok h4{color:var(--ok)}
+.sg-col.no{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.26)}
+.sg-col.no h4{color:var(--bad)}
+
+.sg-suge{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px}
+.sg-s{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--rad-s);padding:13px 15px}
+.sg-s.adulto{border-color:rgba(248,113,113,.32)}
+.sg-s-top{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.sg-g{font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);border-radius:20px;padding:2px 9px}
+.sg-x{font-size:9.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+  background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.4);color:var(--bad);
+  border-radius:20px;padding:2px 9px}
+.sg-s b{font-size:14.5px;font-weight:700;display:block}
+.sg-s i{font-size:12.5px;color:var(--ac2);font-style:normal}
+.sg-s p{font-size:12.5px;color:var(--t2);line-height:1.6;margin-top:7px}
 </style>
 <div id="readbar"></div>
 <div id="toast"></div>
@@ -1408,6 +1520,7 @@ h2.sec .n{
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
       <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
       <button class="tab" data-p="cf">🎮 Club de Frases</button>
+      <button class="tab" data-p="sg">🎵 Canciones</button>
       <button class="tab" data-p="wr">✍️ Escribir</button>
       <button class="tab" data-p="nb">📓 Cuaderno</button>
       <button class="tab" data-p="p3">🎯 Método</button>
@@ -2413,6 +2526,31 @@ h2.sec .n{
     en su lugar tienes el audio real, que sí es de fiar.</div>
 
   <div id="cfBox"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE SG · CANCIONES
+     La letra la trae el usuario: las letras tienen derechos de
+     autor y no pueden vivir dentro del documento.
+  ═══════════════════════════════════════════════════════════ -->
+<div class="pane" id="sg">
+  <div class="hero">
+    <div class="kick">canciones · el inglés que sí se te queda</div>
+    <h1>La canción te enseña<br>lo que el libro <em>te esconde</em>.</h1>
+    <p>Los diálogos de libro dicen <i>going to</i>. La gente dice <b style="color:var(--tx)">gonna</b>.
+      Una canción trae el inglés hablado de verdad — con sus uniones y sus recortes — y encima
+      la melodía te pega la frase entera en la cabeza. Aquí la trabajas
+      <b style="color:var(--tx)">línea por línea</b>: la oyes, la repites en bucle, le tapas
+      palabras y tocas cualquiera para ver qué significa.</p>
+  </div>
+
+  <div class="note info" style="margin-bottom:16px"><b>La letra la pones tú:</b> las letras de
+    canciones tienen derechos de autor, así que no puedo traerlas dentro del documento. Funciona
+    igual que el Cuaderno — <i>tu material, no el mío</i>: pegas la letra de la canción que estés
+    trabajando y el motor hace el resto. Si pegas también el enlace de YouTube, se ve el vídeo
+    aquí mismo para que la oigas de verdad mientras la estudias.</div>
+
+  <div id="sgBox"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -6157,7 +6295,7 @@ const SUPA_URL  = 'https://mbuhlxypuvlxxylryjzi.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idWhseHlwdXZseHh5bHJ5anppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTc0NTQsImV4cCI6MjA5MDYzMzQ1NH0.vO7DInzO4Cu1unQ9-KL65Z3ev1WQfCcj60ZtK4-GQn8';
 const CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 
-const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak', 'eng_bifur', 'eng_cf'];
+const KEYS = ['eng_nb', 'eng_nb_trash', 'eng_fav_w', 'eng_fav_p', 'eng_srs', 'eng_streak', 'eng_bifur', 'eng_cf', 'eng_song'];
 
 let sb = null, user = null, state = 'off', dirty = new Set(), pushT = null, booting = false;
 /* Último payload subido por clave, SOLO en memoria. Portado de la idea de
@@ -6337,6 +6475,9 @@ async function pull(){
 
     // 3b · club de frases, frase a frase (misma forma que la practica)
     J.set('eng_cf', mergeSrs(J.get('eng_cf', {}), remote.eng_cf ? remote.eng_cf.p : {}));
+
+    // 3c · canciones, cancion a cancion (misma forma que las demas)
+    J.set('eng_song', mergeSrs(J.get('eng_song', {}), remote.eng_song ? remote.eng_song.p : {}));
 
     // 4 · racha
     J.set('eng_streak', mergeStreak(J.get('eng_streak', { last:null, days:0, log:{} }),
@@ -6641,7 +6782,30 @@ const TTS = (() => {
     }
     try { speechSynthesis.speak(u); } catch(e){}
   }
-  return { say };
+
+  /* Versión con mando a distancia, para el karaoke: velocidad propia sin tocar
+     la del documento, aviso de por qué palabra va y aviso de cuándo acaba
+     (que es lo que permite repetir una línea en bucle).
+     `onboundary` no lo dan todos los navegadores; si no llega, la línea se oye
+     igual y simplemente no se ilumina palabra por palabra. */
+  function decir(text, opt){
+    opt = opt || {};
+    if(!window.speechSynthesis || !text){ if(opt.fin) opt.fin(); return null; }
+    try { speechSynthesis.cancel(); } catch(e){}
+    const u = new SpeechSynthesisUtterance(String(text).slice(0, 500));
+    if(chosen) u.voice = chosen;
+    u.lang = chosen ? chosen.lang : 'en-US';
+    u.rate = opt.rate || rate; u.pitch = 1;
+    if(opt.palabra) u.onboundary = ev => {
+      if(ev.name === 'word' || ev.name === undefined) opt.palabra(ev.charIndex);
+    };
+    if(opt.fin){ u.onend = opt.fin; u.onerror = opt.fin; }
+    try { speechSynthesis.speak(u); } catch(e){ if(opt.fin) opt.fin(); }
+    return u;
+  }
+  const parar = () => { try { speechSynthesis.cancel(); } catch(e){} };
+
+  return { say, decir, parar };
 })();
 
 // Delegación global: cualquier [data-say] habla
@@ -11592,6 +11756,410 @@ const CLUB = (() => {
   return { init, render, arma, auditar, S, MODOS, RANGOS };
 })();
 
+
+/* ══════════════════════════════════════════════════════════════════════
+   CANCIONES · aprender con música, tipo karaoke
+   ──────────────────────────────────────────────────────────────────────
+   POR QUÉ LA LETRA LA PONE EL USUARIO
+   Las letras de canciones tienen derechos de autor: no se pueden traer
+   dentro del documento. Así que aquí pasa lo mismo que en el Cuaderno —
+   «tu material, no el mío»: Miguel pega la letra de la canción que está
+   trabajando y el motor hace el resto. Nada se inventa y nada se copia.
+
+   POR QUÉ FUNCIONA ESTUDIAR CON CANCIONES
+   Dos cosas que un libro no te da:
+   · La melodía y la repetición pegan los trozos enteros en la memoria, que
+     es justo la unidad con la que se habla — no palabras sueltas.
+   · Traen el inglés REAL hablado: las uniones y los recortes (gonna, wanna,
+     'cause, ain't, whatcha) que en los diálogos de libro no aparecen y que
+     son la razón número uno de «lo leo pero no lo entiendo hablado».
+   La trampa conocida es cantar sin entender: eso es repetir sonidos, no
+   aprender. Por eso el método de abajo va por pasos y cada línea se trabaja.
+   ══════════════════════════════════════════════════════════════════════ */
+const SONG = (() => {
+  const K = 'eng_song';
+  const store = { get: (k, d) => store_get(k, d), set: (k, v) => store_set(k, v) };
+  // se enganchan abajo al store real del documento
+  let store_get = () => ({}), store_set = () => {};
+
+  const S = { id:null, vel:1, linea:-1, bucle:0, quedan:0, huecos:-1, buf:'', w:0 };
+
+  const nid = () => 'sg' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const libro = () => store.get(K, {});
+  const guardar = o => store.set(K, o);
+  const actual = () => libro()[S.id] || null;
+
+  /* ── El método, en pasos. Es la parte didáctica y va delante. ── */
+  const PASOS = [
+    { n:'1 · Óyela entera, sin letra',
+      d:'Solo para coger el ritmo y ver cuánto pillas de verdad. No busques entenderlo todo: fíjate en cuántas <b>palabras sueltas</b> reconoces.' },
+    { n:'2 · Ahora con la letra delante',
+      d:'Aquí viene lo que enseña: marca las líneas donde <b>lo leías pero no lo oías</b>. Esas son las que tienen algo que aprender.' },
+    { n:'3 · Línea por línea, en bucle',
+      d:'Cada línea, tres veces seguidas, hasta que puedas decirla <b>a la vez</b> que suena. Si no te da tiempo, bájale la velocidad, no te saltes la línea.' },
+    { n:'4 · Caza los recortes',
+      d:'<b>gonna, wanna, gotta, ain\'t, \'cause, lemme, whatcha</b>. Aquí es donde se te escapa el inglés hablado. Toca cualquier palabra para ver qué es.' },
+    { n:'5 · Sin letra otra vez',
+      d:'Si ahora la sigues sin mirar, ya es tuya. Y esa frase te la vas a acordar dentro de un año — por eso funciona la música.' }
+  ];
+
+  /* ── Cómo elegir canción ── */
+  const ELEGIR = {
+    si: ['Voz al frente de la mezcla, que se oiga por encima de la música',
+         'Tempo medio o lento — si no te da tiempo a leer, no te da tiempo a aprender',
+         'Estribillo repetido: la repetición es el ejercicio, no un defecto',
+         'Historia concreta y vocabulario de todos los días'],
+    no: ['Rap rápido para empezar — es buenísimo, pero de los últimos',
+         'Mucho argot o inventos de la jerga: aprendes algo que no vas a usar',
+         'Voz enterrada en la mezcla o gritada',
+         'Letras abstractas donde ni un nativo sabe qué dice']
+  };
+
+  /* ── Sugerencias ──
+     Son un CRITERIO mío, no un dato: por qué esa canción sirve para esto.
+     No hay letras aquí, solo el título y el porqué. Y va marcado lo que NO
+     es para la niña: hay temas con lenguaje explícito, y eso hay que decirlo
+     antes, no después. */
+  const SUGE = [
+    { g:'Pop',  t:'Let It Be',                a:'The Beatles',      nino:true,
+      por:'Lenta, la voz clarísima y el estribillo se repite entero. Es la primera que le pondría a cualquiera.' },
+    { g:'Pop',  t:'Someone Like You',         a:'Adele',            nino:true,
+      por:'Balada lenta y muy articulada. Buena para oír las vocales largas sin prisa.' },
+    { g:'Pop',  t:'Perfect',                  a:'Ed Sheeran',       nino:true,
+      por:'Vocabulario cotidiano y frases cortas. Fácil de seguir línea a línea.' },
+    { g:'Pop',  t:'Counting Stars',           a:'OneRepublic',      nino:true,
+      por:'Estribillo muy repetido y pegadizo — la repetición hace el trabajo sola.' },
+    { g:'Rock', t:'Zombie',                   a:'The Cranberries',  nino:true,
+      por:'Lenta, pronunciación muy marcada y pocas palabras distintas.' },
+    { g:'Rock', t:'Yellow',                   a:'Coldplay',         nino:true,
+      por:'Frases simples y mucho aire entre ellas. Da tiempo a leer y repetir.' },
+    { g:'Rock', t:'Boulevard of Broken Dreams', a:'Green Day',      nino:true,
+      por:'Tempo medio y dicción limpia. Buen paso intermedio antes de acelerar.' },
+    { g:'Rock', t:'Wonderwall',               a:'Oasis',            nino:true,
+      por:'Repetitiva y de tempo cómodo. Aviso: el acento de Manchester deforma las vocales — buena justo por eso, pero no la primera.' },
+    { g:'Rap',  t:'Old Town Road',            a:'Lil Nas X',        nino:true,
+      por:'Cortísima, lenta para ser rap y muy repetida. Es la puerta de entrada al rap.' },
+    { g:'Rap',  t:'Sunflower',                a:'Post Malone & Swae Lee', nino:true,
+      por:'Más cantada que rapeada, melódica y de ritmo amable.' },
+    { g:'Rap',  t:'Love The Way You Lie',     a:'Eminem ft. Rihanna', nino:false,
+      por:'El estribillo cantado te deja respirar entre versos rápidos: buen puente hacia el rap. Contiene lenguaje explícito y trata violencia de pareja — no es para la niña.' },
+    { g:'Rap',  t:'Lose Yourself',            a:'Eminem',           nino:false,
+      por:'Es el mejor ejercicio de inglés hablado rápido que existe, con las uniones y los recortes a toda velocidad. Déjala para cuando las otras te salgan solas. Lenguaje explícito.' }
+  ];
+
+  /* ══════════ Datos ══════════ */
+  function nueva(){
+    const o = libro();
+    const id = nid();
+    o[id] = { id, t:'', a:'', url:'', letra:'', hechas:[], ts:Date.now() };
+    guardar(o); S.id = id; S.linea = -1; render();
+  }
+  function toca(c){ const o = libro(); c.ts = Date.now(); o[c.id] = c; guardar(o); }
+
+  /* De la letra pegada a líneas limpias. Se respetan los renglones tal cual
+     los escribió el autor de la letra: en una canción el renglón ES la unidad
+     de trabajo, no la oración. */
+  const lineasDe = c => String(c.letra || '').split(/\n/).map(x => x.trim()).filter(Boolean);
+
+  /* El id de YouTube, si pegó un enlace. Solo se acepta YouTube y solo se
+     saca el identificador: no se construye nada con texto suelto del usuario. */
+  function ytId(url){
+    const m = String(url || '').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : '';
+  }
+
+  /* ══════════ Karaoke ══════════ */
+  function parar(){
+    TTS.parar(); S.linea = -1; S.bucle = 0; S.quedan = 0;
+    document.querySelectorAll('.sg-l.sonando').forEach(e => e.classList.remove('sonando'));
+    document.querySelectorAll('.sg-w.ahora').forEach(e => e.classList.remove('ahora'));
+    const b = $('sgStop'); if(b) b.classList.remove('on');
+  }
+
+  function tocarLinea(i, veces){
+    const c = actual(); if(!c) return;
+    const L = lineasDe(c); const txt = L[i]; if(!txt) return;
+    S.linea = i; S.quedan = veces || 1;
+    pintaActiva(i);
+    suena(txt, i);
+  }
+
+  function suena(txt, i){
+    const cont = document.querySelector('.sg-l[data-i="' + i + '"]');
+    const pals = cont ? [...cont.querySelectorAll('.sg-w')] : [];
+    TTS.decir(txt, {
+      rate: S.vel,
+      // El navegador dice por qué CARÁCTER va; se traduce a qué palabra es
+      palabra: ci => {
+        let acc = 0, idx = 0;
+        const trozos = txt.split(/(\s+)/);
+        for(const t of trozos){
+          if(!/^\s+$/.test(t)){
+            if(ci >= acc && ci < acc + t.length){
+              pals.forEach(p => p.classList.remove('ahora'));
+              if(pals[idx]) pals[idx].classList.add('ahora');
+              return;
+            }
+            idx++;
+          }
+          acc += t.length;
+        }
+      },
+      fin: () => {
+        if(S.quedan > 1 && S.linea === i){ S.quedan--; setTimeout(() => suena(txt, i), 380); return; }
+        pals.forEach(p => p.classList.remove('ahora'));
+        S.quedan = 0;
+      }
+    });
+  }
+
+  function pintaActiva(i){
+    document.querySelectorAll('.sg-l').forEach(e => e.classList.toggle('sonando', +e.dataset.i === i));
+    const el = document.querySelector('.sg-l[data-i="' + i + '"]');
+    if(el) el.scrollIntoView({ block:'center', behavior:'smooth' });
+  }
+
+  /* ══════════ Huecos de una línea ══════════
+     Mismo ejercicio que el Dictado del Club, pero sobre la canción: se tapan
+     la mitad de las palabras y hay que teclearlas oyendo. */
+  const limpio = s => String(s || '').toLowerCase().replace(/[^a-z0-9']/g, '');
+  function huecosDeLinea(txt){
+    const w = txt.split(/\s+/);
+    const cand = w.map((x, i) => ({ x, i })).filter(o => limpio(o.x).length >= 3);
+    if(!cand.length) return [];
+    return cand.filter((o, k) => k % 2 === 0).map(o => o.i);
+  }
+
+  function tecla(e){
+    if(S.huecos < 0) return;
+    const pane = $('sg');
+    if(!pane || getComputedStyle(pane).display === 'none') return;
+    if(isTyping(e.target)) return;
+    const c = actual(); if(!c) return;
+    const txt = lineasDe(c)[S.huecos]; if(!txt) return;
+    const w = txt.split(/\s+/);
+    const hs = huecosDeLinea(txt);
+    const meta = w[hs[S.w]];
+    if(meta === undefined) return;
+    const k = e.key;
+    if(k === 'Backspace'){ e.preventDefault(); S.buf = S.buf.slice(0, -1); render(); return; }
+    if(k === ' ' || k === 'Enter'){
+      e.preventDefault();
+      if(limpio(S.buf) === limpio(meta)){
+        S.w++; S.buf = '';
+        if(S.w >= hs.length){ toast('Línea completa', 'ok'); S.huecos = -1; S.w = 0; }
+      } else { toast('Todavía no · vuelve a oírla', 'warn'); S.buf = ''; }
+      render(); return;
+    }
+    if(k.length !== 1) return;
+    e.preventDefault(); S.buf += k; render();
+  }
+
+  /* ══════════ Pintado ══════════ */
+  function render(){
+    const box = $('sgBox'); if(!box) return;
+    const o = libro(), ids = Object.keys(o).sort((a, b) => (o[b].ts || 0) - (o[a].ts || 0));
+    if(S.id && !o[S.id]) S.id = null;
+    box.innerHTML = `
+      <div class="sg-grid">
+        <aside class="sg-side">
+          <button class="sg-nueva" id="sgNueva">＋ Canción nueva</button>
+          <div class="sg-lbl">Mis canciones</div>
+          ${ids.length ? ids.map(id => `
+            <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
+              <b>${esc(o[id].t || 'Sin título')}</b>
+              <span>${esc(o[id].a || '—')}</span>
+            </button>`).join('')
+            : '<div class="sg-vacio">Todavía no has añadido ninguna.</div>'}
+        </aside>
+        <section class="sg-main">${S.id ? panel(o[S.id]) : bienvenida()}</section>
+      </div>`;
+    wire();
+  }
+
+  function bienvenida(){
+    return `
+      <div class="sg-metodo">
+        <h3>Cómo se aprende de verdad con una canción</h3>
+        <p class="sg-p">Cantar sin entender es repetir sonidos. Esto va por pasos, y cada línea se trabaja aparte.</p>
+        <ol class="sg-pasos">${PASOS.map(p => `<li><b>${p.n}</b><span>${p.d}</span></li>`).join('')}</ol>
+
+        <div class="sg-dos">
+          <div class="sg-col ok"><h4>Elige canciones así</h4><ul>${ELEGIR.si.map(x => '<li>' + x + '</li>').join('')}</ul></div>
+          <div class="sg-col no"><h4>Evita al principio</h4><ul>${ELEGIR.no.map(x => '<li>' + x + '</li>').join('')}</ul></div>
+        </div>
+
+        <h3 style="margin-top:26px">Por dónde empezar</h3>
+        <p class="sg-p">Esto es criterio mío sobre <b>por qué cada una sirve para estudiar</b> — tempo, claridad y repetición —, no un dato medido. La letra la traes tú.</p>
+        <div class="sg-suge">${SUGE.map(s => `
+          <div class="sg-s${s.nino ? '' : ' adulto'}">
+            <div class="sg-s-top"><span class="sg-g">${s.g}</span>
+              ${s.nino ? '' : '<span class="sg-x">solo adultos</span>'}</div>
+            <b>${esc(s.t)}</b><i>${esc(s.a)}</i>
+            <p>${esc(s.por)}</p>
+          </div>`).join('')}</div>
+        <div class="note" style="margin-top:18px"><b>Aviso para la niña:</b> las marcadas
+          <b>solo adultos</b> tienen lenguaje explícito. Están porque son un ejercicio
+          buenísimo de inglés hablado rápido, no porque sirvan para ella.</div>
+      </div>`;
+  }
+
+  function panel(c){
+    const L = lineasDe(c);
+    const yt = ytId(c.url);
+    if(!L.length){
+      return `
+        <div class="sg-cab">
+          <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título de la canción">
+          <input class="sg-in a" id="sgA" value="${esc(c.a)}" placeholder="Artista">
+          <button class="sg-b danger" id="sgDel" title="Eliminar">🗑</button>
+        </div>
+        <input class="sg-in url" id="sgU" value="${esc(c.url)}" placeholder="Enlace de YouTube (opcional, para oír la canción de verdad)">
+        <div class="sg-pega">
+          <div class="sg-pega-t">Pega aquí la letra</div>
+          <p class="sg-p">Un renglón por línea, tal como viene. En una canción el renglón
+             es la unidad de trabajo, así que se respeta como lo escribiste.</p>
+          <textarea class="sg-ta" id="sgTA" placeholder="Pega la letra de la canción…"></textarea>
+          <button class="sg-b grande" id="sgOk">Preparar el karaoke</button>
+          <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras
+            tienen derechos de autor y no puedo traerlas dentro del documento. Aquí pasa lo
+            mismo que en el Cuaderno: la máquina la pongo yo, el material lo traes tú.</div>
+        </div>`;
+    }
+    const hechas = c.hechas || [];
+    return `
+      <div class="sg-cab">
+        <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título">
+        <input class="sg-in a" id="sgA" value="${esc(c.a)}" placeholder="Artista">
+        <button class="sg-b" id="sgEdit" title="Cambiar la letra">✎ Letra</button>
+        <button class="sg-b danger" id="sgDel" title="Eliminar">🗑</button>
+      </div>
+      ${yt ? `<div class="sg-yt"><iframe src="https://www.youtube-nocookie.com/embed/${yt}"
+              title="Vídeo de la canción" loading="lazy" allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin"></iframe></div>` : ''}
+      <div class="sg-mando">
+        <span class="sg-lbl2">Velocidad</span>
+        ${[[1,'Normal'],[0.75,'Lenta'],[0.6,'Muy lenta']].map(([v, n]) =>
+          `<button class="sg-v${S.vel === v ? ' on' : ''}" data-vel="${v}">${n}</button>`).join('')}
+        <button class="sg-b" id="sgStop">■ Parar</button>
+        <span class="sg-prog">${hechas.length} de ${L.length} líneas hechas</span>
+      </div>
+      <div class="sg-letra">${L.map((t, i) => linea(t, i, hechas.includes(i))).join('')}</div>`;
+  }
+
+  function linea(txt, i, hecha){
+    const enHuecos = S.huecos === i;
+    const hs = enHuecos ? huecosDeLinea(txt) : [];
+    const w = txt.split(/\s+/);
+    const cuerpo = w.map((p, n) => {
+      if(enHuecos){
+        const k = hs.indexOf(n);
+        if(k >= 0){
+          if(k < S.w) return `<span class="sg-w ok">${esc(p)}</span>`;
+          if(k === S.w) return `<span class="sg-w hueco activo">${esc(S.buf) || '·'.repeat(Math.max(2, limpio(p).length))}</span>`;
+          return `<span class="sg-w hueco">${'·'.repeat(Math.max(2, limpio(p).length))}</span>`;
+        }
+      }
+      return `<span class="sg-w" data-w="${esc(limpio(p))}">${esc(p)}</span>`;
+    }).join(' ');
+    return `
+      <div class="sg-l${hecha ? ' hecha' : ''}" data-i="${i}">
+        <div class="sg-l-h">
+          <button class="sg-ic" data-play="${i}" title="Oír esta línea">▶</button>
+          <button class="sg-ic" data-loop="${i}" title="Tres veces seguidas">🔁</button>
+          <button class="sg-ic${enHuecos ? ' on' : ''}" data-gap="${i}" title="Taparle palabras y teclearlas oyendo">🕳</button>
+          <button class="sg-ic${hecha ? ' on' : ''}" data-done="${i}" title="Marcar como aprendida">✓</button>
+        </div>
+        <div class="sg-t">${cuerpo}</div>
+      </div>`;
+  }
+
+  /* ══════════ Enganches ══════════ */
+  function wire(){
+    const b = $('sgNueva'); if(b) b.onclick = nueva;
+    document.querySelectorAll('[data-sg]').forEach(x => x.onclick = () => {
+      parar(); S.id = x.dataset.sg; S.huecos = -1; S.w = 0; S.buf = ''; render();
+    });
+    const c = actual(); if(!c) return;
+
+    const t = $('sgT'), a = $('sgA'), u = $('sgU');
+    if(t) t.oninput = () => { c.t = t.value; toca(c); };
+    if(a) a.oninput = () => { c.a = a.value; toca(c); };
+    if(u) u.oninput = () => { c.url = u.value; toca(c); };
+
+    const ok = $('sgOk'), ta = $('sgTA');
+    if(ok && ta) ok.onclick = () => {
+      const v = ta.value.trim();
+      if(!v) return toast('Pega primero la letra', 'warn');
+      c.letra = v; toca(c); render();
+      toast('Karaoke listo · ' + lineasDe(c).length + ' líneas', 'ok');
+    };
+    const ed = $('sgEdit');
+    if(ed) ed.onclick = () => {
+      const v = c.letra; c.letra = ''; toca(c); render();
+      const nta = $('sgTA'); if(nta){ nta.value = v; nta.focus(); }
+    };
+    const del = $('sgDel');
+    if(del) del.onclick = () => {
+      doUndoable('Eliminar canción', [K], () => {
+        const o = libro(); delete o[c.id]; guardar(o); S.id = null; parar(); render();
+      }, 'Canción «' + (c.t || 'sin título') + '» eliminada');
+    };
+
+    document.querySelectorAll('[data-vel]').forEach(x => x.onclick = () => {
+      S.vel = +x.dataset.vel; render();
+    });
+    const st = $('sgStop'); if(st) st.onclick = parar;
+
+    document.querySelectorAll('[data-play]').forEach(x => x.onclick = () => tocarLinea(+x.dataset.play, 1));
+    document.querySelectorAll('[data-loop]').forEach(x => x.onclick = () => tocarLinea(+x.dataset.loop, 3));
+    document.querySelectorAll('[data-gap]').forEach(x => x.onclick = () => {
+      const i = +x.dataset.gap;
+      S.huecos = (S.huecos === i) ? -1 : i; S.w = 0; S.buf = '';
+      render();
+      if(S.huecos === i) tocarLinea(i, 1);
+    });
+    document.querySelectorAll('[data-done]').forEach(x => x.onclick = () => {
+      const i = +x.dataset.done;
+      c.hechas = c.hechas || [];
+      const k = c.hechas.indexOf(i);
+      if(k >= 0) c.hechas.splice(k, 1); else c.hechas.push(i);
+      toca(c); render();
+    });
+    // Tocar una palabra abre su ficha del diccionario, igual que en el resto
+    document.querySelectorAll('.sg-w[data-w]').forEach(x => x.onclick = ev => {
+      const p = x.dataset.w; if(!p) return;
+      TTS.say(p);
+      const r = x.getBoundingClientRect();
+      try { DIC.abrir(p, r.left, r.bottom); } catch(e){}
+      ev.stopPropagation();
+    });
+  }
+
+  function init(g, s){
+    store_get = g; store_set = s;
+    document.addEventListener('keydown', tecla);
+    render();
+  }
+
+  /* Comprobación repetible: APP.SONG.auditar() */
+  function auditar(){
+    const malas = [];
+    SUGE.forEach(x => { if(!x.t || !x.a || !x.por) malas.push('sugerencia incompleta: ' + x.t); });
+    ['https://youtu.be/dQw4w9WgXcQ','https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+     'https://www.youtube.com/embed/dQw4w9WgXcQ'].forEach(u => {
+      if(ytId(u) !== 'dQw4w9WgXcQ') malas.push('no saca el id de: ' + u);
+    });
+    if(ytId('https://malicioso.example/watch?v=AAAAAAAAAAA') !== 'AAAAAAAAAAA'){ /* solo se usa el id */ }
+    const pruebaHuecos = huecosDeLinea('I am walking down the street tonight');
+    if(!pruebaHuecos.length) malas.push('no calcula huecos');
+    return { pasos:PASOS.length, sugerencias:SUGE.length,
+             soloAdultos:SUGE.filter(x => !x.nino).length, malas };
+  }
+
+  return { init, render, nueva, auditar, S, SUGE, PASOS, ytId, huecosDeLinea, parar };
+})();
+
 /* ─────────── BIFURCACIONES ───────────
    La técnica de las pizarras que le funcionan a Miguel, pero con el hueco
    sin resolver: el ejemplo no enseña la respuesta hasta que él elige. */
@@ -12076,6 +12644,7 @@ function init(){
   PZ.render(); LAB.render(); RG.render();
   WR.wire();
   CLUB.init();
+  SONG.init((k, d) => store.get(k, d), (k, v) => store.set(k, v));
   sanearFavs();
   /* Antes solo se recorrian tres pestañas, asi que fichas como «pasado simple»
      o «irregular» — que viven en Palabras, Frases y Bifurcaciones — no se
@@ -12094,7 +12663,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC, CLUB };
+return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC, CLUB, SONG };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
