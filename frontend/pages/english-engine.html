@@ -445,7 +445,47 @@ table.tbl tr:hover td{background:var(--bg3)}
 .nbb.danger:hover{background:var(--bad);border-color:var(--bad)}
 .nb-tools{padding:8px 12px;border-bottom:1px solid var(--bd);display:flex;gap:4px;flex-wrap:wrap;align-items:center;background:var(--bg2)}
 .nb-sep{width:1px;height:20px;background:var(--bd2);margin:0 4px}
-.nb-ed{flex:1;padding:22px 26px;outline:none;font-size:15.5px;line-height:1.78;overflow-y:auto;min-height:380px}
+/* ══════════ LA HOJA ══════════
+   Antes el editor tenía scroll propio DENTRO de una página que también
+   scrollea: dos barras anidadas, y por eso no se sentía fluido. Ahora la hoja
+   crece con lo que escribes y quien scrollea es la página, una sola vez. */
+.nb-head{position:sticky;top:0;z-index:8;background:var(--bg2);
+  border-radius:14px 14px 0 0;box-shadow:0 8px 20px -14px rgba(0,0,0,.85)}
+.nb-hoja{position:relative}
+.nb-ed{flex:1;padding:26px 30px;outline:none;line-height:1.78;min-height:66vh;
+  font-size:var(--nb-fs,15.5px)}
+/* Tamaño de letra, por hoja */
+.nb-hoja.s-xs{--nb-fs:12.5px}.nb-hoja.s-s{--nb-fs:14px}.nb-hoja.s-m{--nb-fs:15.5px}
+.nb-hoja.s-l{--nb-fs:18px}.nb-hoja.s-xl{--nb-fs:21px}.nb-hoja.s-xxl{--nb-fs:25px}
+.nb-size{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:7px;
+  height:28px;padding:0 6px;font-size:11.5px;font-family:inherit;cursor:pointer;outline:none}
+
+/* ── Pegatinas · se sueltan donde uno quiera ── */
+.nb-stk{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.stk-i{position:absolute;pointer-events:auto;cursor:grab;user-select:none;
+  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  padding:5px 10px;border-radius:20px;white-space:nowrap;
+  box-shadow:0 4px 14px -4px rgba(0,0,0,.55);transition:transform .12s}
+.stk-i:hover{transform:scale(1.06)}
+.stk-i.arrastrando{cursor:grabbing;transform:scale(1.12) rotate(-3deg);z-index:9}
+.stk-ok{background:#22c55e;color:#052e12;border:2px solid #4ade80}
+.stk-rev{background:#eab308;color:#3a2c00;border:2px solid #fde047}
+.stk-err{background:#ef4444;color:#3d0505;border:2px solid #f87171}
+.stk-emo{background:transparent;box-shadow:none;font-size:34px;padding:2px;line-height:1;border:none}
+.stk-x{position:absolute;top:-8px;right:-8px;width:19px;height:19px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);font-size:10px;
+  cursor:pointer;opacity:0;transition:.14s;display:grid;place-items:center;padding:0}
+.stk-i:hover .stk-x{opacity:1}
+.stk-x:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+
+/* ── Paleta de emojis ── */
+.emo-pop{position:absolute;z-index:80;width:330px;background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:14px;padding:12px;box-shadow:0 18px 50px -12px rgba(0,0,0,.85)}
+.emo-t{font-size:11px;color:var(--t3);margin-bottom:9px}
+.emo-g{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;max-height:230px;overflow-y:auto}
+.emo-b{background:transparent;border:none;font-size:20px;cursor:pointer;border-radius:7px;
+  padding:3px;transition:.12s;line-height:1}
+.emo-b:hover{background:var(--bg4);transform:scale(1.25)}
 .nb-ed:empty::before{content:attr(data-ph);color:var(--t3);pointer-events:none}
 .nb-ed h1{font-size:25px;font-weight:800;margin:16px 0 9px;letter-spacing:-.6px}
 .nb-ed h2{font-size:19px;font-weight:700;margin:14px 0 7px;letter-spacing:-.3px}
@@ -7066,6 +7106,7 @@ const NB = (() => {
     }
     const pg = b.pages[b.cur];
     main.innerHTML = `
+      <div class="nb-head">
       <div class="nb-top">
         <button class="nbb" id="nbIcon" title="Cambiar icono">${b.icon}</button>
         <input class="nb-title" id="nbTitle" value="${esc(b.title)}" placeholder="Título del cuaderno">
@@ -7095,17 +7136,27 @@ const NB = (() => {
         <button class="nbb" data-mark="g" title="Resaltar verde" style="background:#86efac;color:#000">A</button>
         <button class="nbb" data-mark="p" title="Resaltar rosa" style="background:#f9a8d4;color:#000">A</button>
         <span class="nb-sep"></span>
-        <button class="nbb wide" data-tag="ok" style="color:#4ade80" title="Etiqueta APRENDIDO">✓ Aprendido</button>
-        <button class="nbb wide" data-tag="rev" style="color:#eab308" title="Etiqueta REPASAR">↻ Repasar</button>
-        <button class="nbb wide" data-tag="err" style="color:#f87171" title="Etiqueta ERROR MÍO">✗ Error</button>
+        <select class="nb-size" id="nbSize" title="Tamaño de la letra de esta hoja">
+          ${[['xs','Muy pequeña'],['s','Pequeña'],['m','Normal'],['l','Grande'],['xl','Muy grande'],['xxl','Enorme']]
+            .map(([v,n]) => `<option value="${v}"${(pg.size||'m') === v ? ' selected' : ''}>${n}</option>`).join('')}
+        </select>
+        <span class="nb-sep"></span>
+        <button class="nbb wide stk" data-stk="ok" title="Pegatina APRENDIDO · se arrastra a donde quieras">✓ Aprendido</button>
+        <button class="nbb wide stk" data-stk="rev" title="Pegatina REPASAR · se arrastra a donde quieras">↻ Repasar</button>
+        <button class="nbb wide stk" data-stk="err" title="Pegatina ERROR MÍO · se arrastra a donde quieras">✗ Error</button>
+        <button class="nbb wide" id="nbEmoji" title="Pegatinas y emojis">😀 Pegatinas</button>
         <span class="nb-sep"></span>
         <button class="nbb wide" data-ins="encard" style="color:var(--ac2)" title="Insertar tarjeta inglés/español con audio">🎴 Tarjeta EN/ES</button>
         <button class="nbb wide" id="nbSpeak" style="color:var(--ac2)" title="Leer en inglés lo que tengas seleccionado">🔊 Leer selección</button>
         <span class="nb-sep"></span>
         <button class="nbb" data-cmd="removeFormat" title="Quitar formato">✕</button>
       </div>
-      <div class="nb-ed" id="nbEd" contenteditable="true" spellcheck="false"
-           data-ph="Escribe aquí. Selecciona texto en inglés y pulsa 🔊 Leer selección para escucharlo.">${pg.html || ''}</div>
+      </div>
+      <div class="nb-hoja s-${pg.size || 'm'}" id="nbHoja">
+        <div class="nb-ed" id="nbEd" contenteditable="true" spellcheck="false"
+             data-ph="Escribe aquí. Selecciona texto en inglés y pulsa 🔊 Leer selección para escucharlo.">${pg.html || ''}</div>
+        <div class="nb-stk" id="nbStk"></div>
+      </div>
       <div class="nb-stat">
         <span>Página <b>${b.cur+1}</b> de ${b.pages.length} · <span id="nbWords">0</span> palabras</span>
         <span class="sv" id="nbSaved">guardado</span>
@@ -7176,13 +7227,30 @@ const NB = (() => {
       try { mk.appendChild(r.extractContents()); r.insertNode(mk); } catch(err){}
       sel.removeAllRanges(); autoSave();
     });
-    document.querySelectorAll('.nb-tools [data-tag]').forEach(btn => btn.onmousedown = e => {
-      e.preventDefault(); ed.focus();
-      const map = { ok:['tg-ok','✓ APRENDIDO'], rev:['tg-rev','↻ REPASAR'], err:['tg-err','✗ ERROR MÍO'] };
-      const [cls, txt] = map[btn.dataset.tag];
-      insertHTML(`<span class="tg ${cls}" contenteditable="false">${txt}</span>&nbsp;`);
+    /* ── Tamaño de la letra de la hoja ──
+       Se guarda EN LA PÁGINA, no en un ajuste global: una hoja de vocabulario
+       para la niña puede querer letra enorme y otra de apuntes letra pequeña. */
+    const selSize = $('nbSize');
+    if(selSize) selSize.onchange = () => {
+      const pg = b.pages[b.cur];
+      pg.size = selSize.value;
+      const hoja = $('nbHoja');
+      if(hoja) hoja.className = 'nb-hoja s-' + pg.size;
       autoSave();
+    };
+
+    /* ── Pegatinas ──
+       Las tres etiquetas dejan de ser texto dentro del párrafo y pasan a ser
+       pegatinas que se sueltan donde uno quiera, como en un cuaderno de papel.
+       Se guardan en la página, con la posición en PORCENTAJE para que no se
+       descoloquen al cambiar el ancho de la ventana. */
+    document.querySelectorAll('.nb-tools [data-stk]').forEach(btn => btn.onmousedown = e => {
+      e.preventDefault();
+      ponerPegatina(b, btn.dataset.stk);
     });
+    const btnEmo = $('nbEmoji');
+    if(btnEmo) btnEmo.onclick = () => paletaEmojis(b, btnEmo);
+    pintarPegatinas(b);
     document.querySelectorAll('.nb-tools [data-ins]').forEach(btn => btn.onmousedown = e => {
       e.preventDefault(); ed.focus();
       const k = btn.dataset.ins;
@@ -7196,7 +7264,60 @@ const NB = (() => {
       autoSave();
     });
 
-    ed.oninput = () => { autoSave(); countWords(); };
+    /* ── El color no se pega ──
+       Al pulsar Enter con el cursor dentro de un resaltado, el navegador
+       CLONA el <mark> en la línea nueva y todo lo que escribes después sale
+       resaltado. Aquí se corta: si el cursor está dentro de una marca, la
+       línea nueva se crea FUERA de ella. Y después de cualquier cambio se
+       barren las marcas que quedaron vacías, que son las que reenganchan
+       el color sin que se vea nada. */
+    function marcaDelCursor(){
+      const sel = window.getSelection();
+      if(!sel.rangeCount) return null;
+      const n = sel.getRangeAt(0).startContainer;
+      const el = n.nodeType === 3 ? n.parentElement : n;
+      return el && el.closest ? el.closest('mark') : null;
+    }
+    function limpiarMarcasVacias(){
+      ed.querySelectorAll('mark').forEach(m => {
+        if(!m.textContent.replace(/​/g, '').trim()){
+          const p = m.parentNode; if(!p) return;
+          while(m.firstChild) p.insertBefore(m.firstChild, m);
+          m.remove();
+        }
+      });
+    }
+    ed.addEventListener('keydown', e => {
+      if(e.key !== 'Enter' || e.shiftKey) return;
+      const mk = marcaDelCursor();
+      if(!mk) return;
+      e.preventDefault();
+      /* Se parte el PÁRRAFO por donde está el cursor —como haría un Enter
+         normal— y lo que baja se saca de la marca, que es lo que el navegador
+         no hace. Cortar solo hasta el final del <mark> dejaría arriba el resto
+         de la línea. */
+      const sel = window.getSelection();
+      const r = sel.getRangeAt(0);
+      const bloque = mk.closest('p,li,h1,h2,div') || mk;
+      const resto = r.cloneRange();
+      resto.setEnd(bloque, bloque.childNodes.length);
+      const cola = resto.extractContents();
+      // Quitarle el resaltado a lo que baja
+      cola.querySelectorAll && cola.querySelectorAll('mark').forEach(m => {
+        while(m.firstChild) m.parentNode.insertBefore(m.firstChild, m);
+        m.remove();
+      });
+      const p = document.createElement('p');
+      if(cola.textContent.trim()) p.appendChild(cola); else p.appendChild(document.createElement('br'));
+      bloque.parentNode.insertBefore(p, bloque.nextSibling);
+      limpiarMarcasVacias();
+      const nr = document.createRange();
+      nr.setStart(p, 0); nr.collapse(true);
+      sel.removeAllRanges(); sel.addRange(nr);
+      autoSave(); countWords();
+    });
+
+    ed.oninput = () => { limpiarMarcasVacias(); autoSave(); countWords(); };
     ed.onblur = flush;
     // Pegar siempre en texto plano: evita traer estilos de fuera que rompen el diseño
     ed.onpaste = e => {
@@ -7235,6 +7356,93 @@ const NB = (() => {
 
   function insertHTML(html){
     try { document.execCommand('insertHTML', false, html); } catch(e){}
+  }
+
+  /* ══════════════ PEGATINAS DE LA HOJA ══════════════
+     Modelo: pg.stk = [{ id, t, x, y }] · t = 'ok'|'rev'|'err' o un emoji.
+     x/y en % del alto y ancho de la hoja, para que aguanten el cambio de
+     tamaño de la ventana. Es un campo nuevo: las páginas que no lo tengan
+     siguen funcionando igual. */
+  const STK = { ok:['✓ APRENDIDO','stk-ok'], rev:['↻ REPASAR','stk-rev'], err:['✗ ERROR MÍO','stk-err'] };
+
+  function pegatinasDe(pg){ if(!Array.isArray(pg.stk)) pg.stk = []; return pg.stk; }
+
+  function ponerPegatina(b, t){
+    const pg = b.pages[b.cur];
+    const l = pegatinasDe(pg);
+    // Escalonadas para que no caigan una encima de otra
+    const n = l.length;
+    l.push({ id: pid(), t, x: 8 + (n % 5) * 7, y: 6 + (n % 7) * 6 });
+    autoSave(); pintarPegatinas(b);
+    toast('Pegatina puesta · arrástrala donde quieras', 'ok');
+  }
+
+  function pintarPegatinas(b){
+    const capa = $('nbStk'); if(!capa) return;
+    const pg = b.pages[b.cur];
+    const l = pegatinasDe(pg);
+    capa.innerHTML = l.map(s => {
+      const par = STK[s.t];
+      return `<div class="stk-i ${par ? par[1] : 'stk-emo'}" data-id="${s.id}"
+                   style="left:${s.x}%;top:${s.y}%">${par ? par[0] : esc(s.t)}<button class="stk-x" title="Quitar">✕</button></div>`;
+    }).join('');
+    capa.querySelectorAll('.stk-i').forEach(el => arrastrar(el, b));
+  }
+
+  /* Arrastrar con puntero: funciona igual con ratón y con el dedo. */
+  function arrastrar(el, b){
+    el.querySelector('.stk-x').onclick = ev => {
+      ev.stopPropagation();
+      const pg = b.pages[b.cur];
+      pg.stk = pegatinasDe(pg).filter(s => s.id !== el.dataset.id);
+      autoSave(); pintarPegatinas(b);
+    };
+    el.onpointerdown = ev => {
+      if(ev.target.closest('.stk-x')) return;
+      ev.preventDefault();
+      const capa = $('nbStk'), caja = capa.getBoundingClientRect();
+      const dx = ev.clientX - el.getBoundingClientRect().left;
+      const dy = ev.clientY - el.getBoundingClientRect().top;
+      el.classList.add('arrastrando');
+      el.setPointerCapture(ev.pointerId);
+      const mover = m => {
+        const x = ((m.clientX - dx - caja.left) / caja.width) * 100;
+        const y = ((m.clientY - dy - caja.top) / caja.height) * 100;
+        el.style.left = Math.max(0, Math.min(94, x)) + '%';
+        el.style.top  = Math.max(0, Math.min(97, y)) + '%';
+      };
+      const soltar = () => {
+        el.classList.remove('arrastrando');
+        el.onpointermove = null; el.onpointerup = null;
+        const pg = b.pages[b.cur];
+        const s = pegatinasDe(pg).find(x => x.id === el.dataset.id);
+        if(s){ s.x = parseFloat(el.style.left); s.y = parseFloat(el.style.top); autoSave(); }
+      };
+      el.onpointermove = mover; el.onpointerup = soltar;
+    };
+  }
+
+  /* Paleta de emojis · para que la hoja no sea solo texto.
+     Se eligieron los que sirven para estudiar y los que le gustan a una niña. */
+  const EMOJIS = ('⭐🌟✨🔥💡❤️🧡💛💚💙💜🎯✅❌❓❗📌📎🔖🏆🥇🎉🎈🎁🌈☀️🌸🌺🦄🐱🐶🐼🐨🦊🐰🦋🐢🐧🍀🍎🍓🍕🍩🧁🎂' +
+    '📚📖✏️🖍️🔊🎧🎤💬🗣️🧠👀👍👎🙌👏💪⏰📅🚀🛑⚠️💯🤔😀😂😍🥳😎🤩😴🤯').match(/./gu) || [];
+
+  function paletaEmojis(b, ancla){
+    document.querySelectorAll('.emo-pop').forEach(x => x.remove());
+    const pop = document.createElement('div');
+    pop.className = 'emo-pop';
+    pop.innerHTML = '<div class="emo-t">Pegatinas · toca una y luego arrástrala en la hoja</div>' +
+      '<div class="emo-g">' + EMOJIS.map(e => `<button class="emo-b">${e}</button>`).join('') + '</div>';
+    document.body.appendChild(pop);
+    const r = ancla.getBoundingClientRect();
+    pop.style.left = Math.max(10, Math.min(r.left, window.innerWidth - 340)) + 'px';
+    pop.style.top  = (r.bottom + window.scrollY + 6) + 'px';
+    pop.querySelectorAll('.emo-b').forEach(bt => bt.onclick = () => {
+      ponerPegatina(b, bt.textContent);
+      pop.remove();
+    });
+    const fuera = ev => { if(!ev.target.closest('.emo-pop') && ev.target !== ancla){ pop.remove(); document.removeEventListener('click', fuera); } };
+    setTimeout(() => document.addEventListener('click', fuera), 0);
   }
   function countWords(){
     const ed = $('nbEd'), el = $('nbWords');
