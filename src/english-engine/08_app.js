@@ -5092,6 +5092,23 @@ const CLUB = (() => {
        Dictado  oído fino  · solo rellenas los huecos que faltan
        Escuchar distinguir · eliges cuál de tres frases parecidas oíste
        Hablar   pronunciar · la dices en voz alta                            */
+  /* ══════════ LA ESCALERA ══════════
+     Cada frase se sube en seis peldanos, SIEMPRE en el mismo orden, y no se
+     pasa al siguiente sin aprobar el de abajo. El orden no es capricho: va de
+     recibir a producir, que es como se aprende un idioma.
+
+       1 Leer      entiendes lo que dice          (entrada, lo mas facil)
+       2 Escuchar  lo reconoces de oido           (entrada, sin leerlo)
+       3 Armar     colocas las palabras en orden  (estructura, con ayuda)
+       4 Dictado   oyes y rellenas lo que falta   (oido + escribir)
+       5 Traducir  la escribes entera de memoria  (produccion escrita)
+       6 Hablar    la dices en voz alta           (produccion oral, lo mas dificil)
+
+     Y la frase siguiente vuelve a empezar por Leer: cada frase se gana entera,
+     no se arrastra media aprendida. */
+  const ESCALERA = ['leer','esc','arma','dict','trad','habla'];
+  const UMBRAL = 80;   // % para dar un peldano por pasado
+
   const MODOS = [
     { id:'leer',  n:'📖 Leer',     h:'Entender · lee la frase y elige qué significa' },
     { id:'arma',  n:'🧩 Armar',    h:'El orden · las palabras están revueltas, tócalas en orden' },
@@ -5135,7 +5152,7 @@ const CLUB = (() => {
   const mejorDe = (a, b) => ORDEN.indexOf(b) > ORDEN.indexOf(a || 'C' ) ? b : (a || b);
 
   const S = {
-    modo:'trad', pack:'todas', lista:[], i:0, activo:false,
+    modo:'leer', paso:0, pack:'todas', lista:[], i:0, activo:false,
     tok:[], pide:0, w:0, buf:'', errTecla:0, okPal:0, malPal:0, intentos:0,
     combo:0, comboMax:0, pts:0, fase:0, dicho:'', escuchando:false,
     ronda:{ hechas:0, perfectas:0, pts:0 }, fin:null
@@ -5163,6 +5180,8 @@ const CLUB = (() => {
   function cargar(){
     const p = S.lista[S.i];
     if(!p) return;
+    // El modo NO se elige: sale del peldano en el que vas.
+    S.modo = ESCALERA[S.paso] || ESCALERA[0];
     S.tok = tokeniza(p.en);
     S.w = 0; S.buf = ''; S.errTecla = 0; S.okPal = 0; S.malPal = 0; S.intentos = 0;
     S.fase = 0; S.dicho = ''; S.elegida = -1; S.resuelta = false;
@@ -5360,6 +5379,13 @@ const CLUB = (() => {
     S.ronda.hechas++; S.ronda.pts += S.pts;
     if(r.r === 'SSS' || r.r === 'SS') S.ronda.perfectas++;
     guarda(p.i, { ok: pc >= 90, rango: r.r });
+
+    /* El peldano se pasa o no se pasa. Si no llegas al liston, la MISMA frase
+       se repite en el MISMO modo: es lo que pediste, y ademas es lo que hace
+       que sirva -- pasar de largo sin acertar es justo lo que no ensena. */
+    S.paso0 = S.paso;
+    S.pasado = pc >= UMBRAL;
+    S.ultimoPeldano = S.paso >= ESCALERA.length - 1;
     /* Lo que sale flojo se manda a la práctica diaria, que es donde vive
        el repaso espaciado que ya existe. */
     if(pc < 90 && !favP.has(p.i)){
@@ -5367,6 +5393,22 @@ const CLUB = (() => {
     }
     Streak.hit && Streak.hit();
     render();
+  }
+
+  /* ══════════ AVANZAR ══════════
+     Tres salidas y una sola regla: solo se sube si se ha pasado.
+       · no pasaste     → misma frase, mismo peldano, otra vez
+       · pasaste        → misma frase, peldano siguiente
+       · ultimo peldano → frase siguiente, y vuelta a Leer */
+  function avanzar(){
+    if(!S.pasado){                      // repetir el peldano
+      S.fin = null; cargar(); render(); return;
+    }
+    if(!S.ultimoPeldano){               // subir un peldano, misma frase
+      S.paso++; S.fin = null; cargar(); render(); return;
+    }
+    if(S.i >= S.lista.length - 1){ S.finVisto = true; render(); return; }
+    S.i++; S.paso = 0; S.fin = null; cargar(); render();   // frase nueva, desde Leer
   }
 
   /* Aviso corto sobre la tarjeta, como el «Perfect» de ellos */
@@ -5555,6 +5597,31 @@ const CLUB = (() => {
     </div>`;
   }
 
+  /* Lo que dice la puerta. Aprobar es llegar al ${UMBRAL}%: por debajo se repite
+     el mismo peldano con la misma frase. */
+  function puerta(){
+    if(!S.pasado)
+      return `<div class="cf-puerta no">Te falta para pasar: hay que llegar al <b>${UMBRAL}%</b>
+        y te has quedado en <b>${S.fin.pc}%</b>. Este peldaño se repite — que es justo
+        lo que hace que se te quede.</div>`;
+    if(!S.ultimoPeldano){
+      const sig = MODOS.find(m => m.id === ESCALERA[S.paso + 1]) || {};
+      return `<div class="cf-puerta si">Peldaño superado. Ahora la misma frase, pero
+        <b>${esc(sig.n || '')}</b> · ${esc(sig.h || '')}</div>`;
+    }
+    return `<div class="cf-puerta si">Frase completa: la entiendes, la reconoces de oído,
+      la ordenas, la escribes y la dices. <b>La siguiente empieza otra vez por Leer.</b></div>`;
+  }
+
+  function textoBoton(ult){
+    if(!S.pasado) return '↻ Repetir este peldaño';
+    if(!S.ultimoPeldano){
+      const sig = MODOS.find(m => m.id === ESCALERA[S.paso + 1]) || {};
+      return 'Seguir: ' + (sig.n || '') + ' →';
+    }
+    return ult ? 'Ver la ronda →' : 'Frase siguiente →';
+  }
+
   function resultado(){
     const f = S.fin; if(!f) return '';
     const ult = S.i >= S.lista.length - 1;
@@ -5568,7 +5635,8 @@ const CLUB = (() => {
         <span><b>+${S.pts}</b> puntos</span>
       </div>
       ${f.pc < 90 ? '<div class="cf-nota">Esta frase se marcó ★ y entra en tu <b>Práctica</b> diaria.</div>' : ''}
-      <button class="cf-b grande" data-cfnext="1">${ult ? 'Ver la ronda →' : 'Siguiente frase →'}</button>
+      ${puerta()}
+      <button class="cf-b grande" data-cfnext="1">${textoBoton(ult)}</button>
     </div>`;
   }
 
@@ -5591,8 +5659,12 @@ const CLUB = (() => {
     const rondaAcabada = S.fin && S.i >= S.lista.length - 1 && S.finVisto;
     c.innerHTML = `
       <div class="cf-bar">
-        <div class="cf-modos">${MODOS.map(m => `<button class="cf-m${m.id === S.modo ? ' on' : ''}"
-          data-cfmodo="${m.id}" title="${esc(m.h)}">${esc(m.n)}</button>`).join('')}</div>
+        <div class="cf-modos">${ESCALERA.map((id, k) => {
+          const m = MODOS.find(x => x.id === id) || {};
+          const estado = k < S.paso ? ' hecho' : k === S.paso ? ' on' : ' cerrado';
+          return `<span class="cf-m${estado}" title="${esc(m.h || '')}">${
+            k < S.paso ? '✓ ' : ''}${esc(m.n || id)}</span>`;
+        }).join('')}</div>
         <div class="cf-marc">
           <span class="cf-combo${S.combo >= 5 ? ' vivo' : ''}">combo <b>${S.combo}</b></span>
           <span class="cf-pts"><b>${S.pts}</b> pts</span>
@@ -5605,17 +5677,15 @@ const CLUB = (() => {
           `<option value="${k.id}"${k.id === S.pack ? ' selected' : ''}>${esc(k.n)}</option>`).join('')}</select>
         <button class="cf-b" data-cfotra="1">🔄 Nueva ronda</button>
       </div>
-      <div class="cf-hint">${esc((MODOS.find(m => m.id === S.modo) || {}).h || '')}</div>
+      <div class="cf-hint"><b>Peldaño ${S.paso + 1} de ${ESCALERA.length}</b> ·
+        ${esc((MODOS.find(m => m.id === S.modo) || {}).h || '')}</div>
       ${rondaAcabada ? rondaFin() : (tarjeta() + (S.fin ? resultado() : '') + porQue())}`;
 
     const sel = $('cfPack');
     if(sel) sel.onchange = e => { S.pack = e.target.value; arma(); render(); };
     c.querySelectorAll('[data-cfmodo]').forEach(b => b.onclick = () => { S.modo = b.dataset.cfmodo; cargar(); render(); });
     c.querySelectorAll('[data-cfotra]').forEach(b => b.onclick = () => { S.finVisto = false; arma(); render(); });
-    c.querySelectorAll('[data-cfnext]').forEach(b => b.onclick = () => {
-      if(S.i >= S.lista.length - 1){ S.finVisto = true; render(); return; }
-      S.i++; cargar(); render();
-    });
+    c.querySelectorAll('[data-cfnext]').forEach(b => b.onclick = () => avanzar());
     c.querySelectorAll('[data-cfver]').forEach(b => b.onclick = () => rendirse());
     c.querySelectorAll('[data-cfb]').forEach(b => b.onclick = () => tocarBanco(+b.dataset.cfb));
     c.querySelectorAll('[data-cfop]').forEach(b => b.onclick = () => elegir(+b.dataset.cfop));
@@ -5635,8 +5705,7 @@ const CLUB = (() => {
     if((S.modo === 'habla') && !S.fin && !rondaAcabada){
       const b = document.createElement('button');
       b.className = 'cf-b grande'; b.textContent = 'Siguiente →';
-      b.onclick = () => { if(S.i >= S.lista.length - 1){ S.finVisto = true; S.fin = S.fin || {}; render(); }
-                          else { S.i++; cargar(); render(); } };
+      b.onclick = () => avanzar();
       c.querySelector('.cf-card').appendChild(b);
     }
   }
