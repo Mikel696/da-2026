@@ -4,11 +4,11 @@
 @media(max-width:880px){.sg-grid{grid-template-columns:1fr}}
 
 .sg-side{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:13px;
-  position:sticky;top:12px}
+  position:sticky;top:calc(var(--hh,56px) + 8px);max-height:calc(100vh - var(--hh,56px) - 28px);overflow-y:auto}
 .sg-nueva{width:100%;background:var(--ac);border:none;color:#fff;border-radius:var(--rad-s);
   padding:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
 .sg-nueva:hover{filter:brightness(1.12)}
-.sg-lbl{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+.sg-lbl{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
   color:var(--t3);margin:16px 0 8px}
 .sg-item{width:100%;text-align:left;background:transparent;border:1px solid transparent;
   border-radius:var(--rad-s);padding:9px 11px;cursor:pointer;font-family:inherit;
@@ -52,8 +52,8 @@
 
 /* ── El mando único de la canción ── */
 .sg-mando{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2);
-  border:1px solid var(--bd);border-radius:var(--rad);padding:11px 14px;margin-bottom:12px;
-  position:sticky;top:8px;z-index:7}
+  border:1px solid var(--bd);border-radius:var(--rad);padding:11px 14px;margin-bottom:14px;
+  position:sticky;top:calc(var(--hh,56px) + 6px);z-index:7}
 .sg-mando2{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .sg-pp{width:42px;height:42px;border-radius:50%;background:var(--ac);border:none;color:#fff;
   font-size:16px;cursor:pointer;display:grid;place-items:center;transition:.15s;flex-shrink:0}
@@ -61,12 +61,12 @@
 .sg-pp.on{background:var(--warn);color:#2a2000}
 .sg-t0{font-family:var(--fm);font-size:11.5px;color:var(--t3);min-width:38px;text-align:center}
 .sg-barra{flex:1;min-width:120px;height:5px;-webkit-appearance:none;appearance:none;
-  background:var(--bg4);border-radius:20px;outline:none;cursor:pointer}
+  background:var(--bg4);border-radius:var(--rad-p);outline:none;cursor:pointer}
 .sg-barra::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
   background:var(--ac);cursor:pointer;border:2px solid var(--bg2)}
 .sg-barra::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ac);
   cursor:pointer;border:2px solid var(--bg2)}
-.sg-sel{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:7px;
+.sg-sel{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:var(--rad-xs);
   height:30px;padding:0 7px;font-size:12px;font-family:inherit;cursor:pointer;outline:none}
 .sg-b.on{background:var(--ac);border-color:var(--ac);color:#fff}
 
@@ -78,7 +78,7 @@
   border-radius:var(--rad);padding:11px 14px;margin-bottom:12px}
 .sg-expr-t{font-size:12px;color:var(--t3);margin-bottom:8px;letter-spacing:.2px}
 .sg-expr-l{display:flex;gap:7px;flex-wrap:wrap}
-.sg-expr-b{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:18px;
+.sg-expr-b{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-l);
   padding:6px 12px;font-family:var(--fm);font-size:12.5px;cursor:pointer;transition:.14s;
   display:inline-flex;align-items:baseline;gap:7px}
 .sg-expr-b:hover{border-color:var(--ac);background:var(--bg4)}
@@ -94,25 +94,25 @@
   padding:15px 17px;margin-bottom:12px}
 .sg-ver-t{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:9px}
 .sg-ver-t b{font-size:19px;font-family:var(--fm)}
-.sg-ver-ok{font-size:13.5px;color:var(--t2);line-height:1.6;padding:9px 13px;border-radius:9px;
+.sg-ver-ok{font-size:13.5px;color:var(--t2);line-height:1.6;padding:9px 13px;border-radius:var(--rad-s);
   background:rgba(34,197,94,.07);border-left:3px solid var(--ok);margin-bottom:8px}
 .sg-ver-ok b{color:var(--tx)}
 .sg-ver-u{display:block;font-size:12px;color:var(--t3);margin-top:3px}
 /* El puente: por que camino se llego a la palabra. Va en morado y antes que
    el resultado, porque es lo que evita aprender mal: si buscas "going", lo
    que el diccionario trae es "go", y eso hay que verlo. */
-.sg-ver-via{font-size:13px;color:var(--t2);line-height:1.55;padding:8px 13px;border-radius:9px;
+.sg-ver-via{font-size:13px;color:var(--t2);line-height:1.55;padding:8px 13px;border-radius:var(--rad-s);
   background:rgba(139,92,246,.09);border-left:3px solid var(--ac);margin-bottom:8px}
 .sg-ver-via b{color:var(--tx);font-family:var(--fm)}
 .sg-ver-f{display:block;font-family:var(--fm);font-size:12.5px;color:var(--ac2);margin-top:4px}
 .sg-ver-f.aqui{color:var(--ok);font-weight:600}
 .sg-ver-f i{font-style:normal;color:var(--t3);font-family:var(--f)}
-.sg-ver-no{font-size:13.5px;color:var(--t2);line-height:1.6;padding:9px 13px;border-radius:9px;
+.sg-ver-no{font-size:13.5px;color:var(--t2);line-height:1.6;padding:9px 13px;border-radius:var(--rad-s);
   background:rgba(234,179,8,.07);border-left:3px solid var(--warn);margin-bottom:9px}
 .sg-ver-no b{color:var(--tx)}
 .sg-ver-links{display:flex;gap:7px;flex-wrap:wrap}
 .sg-link{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);
-  border:1px solid var(--bd2);color:var(--t2);border-radius:20px;padding:8px 14px;
+  border:1px solid var(--bd2);color:var(--t2);border-radius:var(--rad-p);padding:8px 14px;
   font-size:12.5px;font-weight:600;text-decoration:none;transition:.14s}
 .sg-link:hover{border-color:var(--ac);color:var(--tx);background:var(--bg4);transform:translateY(-1px)}
 .sg-link.chico{padding:6px 11px;font-size:11.5px;opacity:.75}
@@ -120,19 +120,19 @@
 
 /* Los subtítulos, con aire de subtítulo: fondo oscuro, centrados y grandes.
    Van justo debajo del vídeo, que es donde se miran. */
-.sg-texto{background:#0b0b0f;border:1px solid var(--bd);border-radius:var(--rad);
+.sg-texto{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rad);
   padding:22px 26px;max-height:52vh;overflow-y:auto;text-align:center}
 .sg-p2{font-size:16.5px;line-height:1.85;color:#e8e8ee;margin:0 0 4px;
   text-shadow:0 1px 3px rgba(0,0,0,.6)}
-.sg-p2:hover{background:rgba(255,255,255,.03);border-radius:6px}
-.sg-texto .sg-w{cursor:pointer;border-radius:4px;padding:0 1px;transition:background .12s,color .12s}
+.sg-p2:hover{background:rgba(255,255,255,.03);border-radius:var(--rad-xs)}
+.sg-texto .sg-w{cursor:pointer;border-radius:6px;padding:0 1px;transition:background .12s,color .12s}
 .sg-texto .sg-w:hover{background:var(--ac);color:#fff}
 .sg-texto .sg-w.hit{background:rgba(234,179,8,.28);color:#fde047;font-weight:700;
   box-shadow:0 0 0 1px rgba(234,179,8,.45)}
 
 /* ── El puente con el resto del documento ── */
 .sg-pop{position:absolute;z-index:90;background:var(--bg2);border:1px solid var(--bd2);
-  border-radius:13px;padding:14px 16px;box-shadow:0 20px 54px -14px rgba(0,0,0,.85)}
+  border-radius:var(--rad);padding:14px 16px;box-shadow:0 20px 54px -14px rgba(0,0,0,.85)}
 .sg-pop-t{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:5px}
 .sg-pop-d{font-size:13.5px;color:var(--ac2);line-height:1.5}
 .sg-pop-u{font-size:12px;color:var(--t3);line-height:1.55;margin-top:5px}
@@ -143,11 +143,11 @@
 .sg-guard-t{font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:8px}
 .sg-guard-d{font-size:12.5px;color:var(--t2);line-height:1.6;max-width:70ch}
 .sg-chips{display:flex;flex-wrap:wrap;gap:6px}
-.sg-chip{position:relative;background:var(--bg3);border:1px solid var(--bd2);border-radius:20px;
+.sg-chip{position:relative;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--rad-p);
   padding:5px 24px 5px 12px;font-size:13px;font-family:var(--fm);cursor:pointer;transition:.14s}
 .sg-chip:hover{border-color:var(--ac);color:var(--ac2)}
 .sg-chip-x{position:absolute;right:5px;top:50%;transform:translateY(-50%);background:transparent;
-  border:none;color:var(--t3);font-size:10px;cursor:pointer;padding:2px 4px;border-radius:50%}
+  border:none;color:var(--t3);font-size:11px;cursor:pointer;padding:2px 4px;border-radius:50%}
 .sg-chip-x:hover{background:var(--bad);color:#fff}
 .sg-nueva.lleno{background:var(--bg4);color:var(--t3);cursor:not-allowed}
 /* Cada vídeo se borra desde su propia fila, no solo cuando la lista se llena */
@@ -162,7 +162,7 @@
 .sg-b.anclar{background:var(--warn);border-color:var(--warn);color:#2a2000;font-weight:700}
 .sg-b.anclar:hover{filter:brightness(1.1)}
 
-.sg-num{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:7px;
+.sg-num{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-xs);
   height:30px;width:74px;padding:0 8px;font-size:12px;font-family:var(--fm);outline:none}
 .sg-num:focus{border-color:var(--ac)}
 .sg-sync.listo{border-style:solid;border-color:rgba(34,197,94,.32);
@@ -175,22 +175,21 @@
   background:linear-gradient(90deg,rgba(234,179,8,.08),transparent 70%)}
 .sg-sync-t{font-size:13.5px;font-weight:700;margin-bottom:3px}
 .sg-sync-d{font-size:12.5px;color:var(--t2);line-height:1.6;max-width:68ch}
-.sg-sync-ahora{font-size:19px;font-weight:700;margin:12px 0;padding:11px 15px;border-radius:10px;
+.sg-sync-ahora{font-size:19px;font-weight:700;margin:12px 0;padding:11px 15px;border-radius:var(--rad-s);
   background:var(--bg3);border-left:3px solid var(--warn);font-family:var(--fm)}
 .sg-sync-bs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .sg-sync-bs .sg-b.grande{margin-top:0}
 
 /* La línea que suena ahora, y la hora a la que entra */
 .sg-l.conTiempo .sg-ir{border-color:rgba(139,92,246,.45);color:var(--ac2)}
-.sg-hora{font-family:var(--fm);font-size:10.5px;color:var(--t3);align-self:center;flex-shrink:0}
+.sg-hora{font-family:var(--fm);font-size:11px;color:var(--t3);align-self:center;flex-shrink:0}
 .sg-letra.sincronizando .sg-l{opacity:.5}
 .sg-letra.sincronizando .sg-l.sonando{opacity:1}
 
-.sg-mando{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--bg2);
-  border:1px solid var(--bd);border-radius:var(--rad);padding:11px 14px;margin-bottom:14px;
-  position:sticky;top:8px;z-index:7}
-.sg-lbl2{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
-.sg-v{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:20px;
+/* El mando se define una sola vez, arriba. Aquí había una copia literal
+   con otro margen, ganando en silencio. */
+.sg-lbl2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+.sg-v{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:var(--rad-p);
   padding:6px 13px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:.14s}
 .sg-v:hover{border-color:var(--ac);color:var(--tx)}
 .sg-v.on{background:var(--ac);border-color:var(--ac);color:#fff}
@@ -206,15 +205,15 @@
 .sg-l.hecha{opacity:.62;border-left-color:var(--ok)}
 .sg-l-h{display:flex;gap:3px;flex-shrink:0;padding-top:1px}
 .sg-ic{width:26px;height:26px;background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);
-  border-radius:7px;cursor:pointer;font-size:11px;display:grid;place-items:center;transition:.14s;padding:0}
+  border-radius:var(--rad-xs);cursor:pointer;font-size:11px;display:grid;place-items:center;transition:.14s;padding:0}
 .sg-ic:hover{border-color:var(--ac);color:var(--tx)}
 .sg-ic.on{background:var(--ac);border-color:var(--ac);color:#fff}
 .sg-t{flex:1;min-width:0;font-size:16px;line-height:1.75}
-.sg-w{cursor:pointer;border-radius:4px;padding:0 1px;transition:background .12s,color .12s}
+.sg-w{cursor:pointer;border-radius:6px;padding:0 1px;transition:background .12s,color .12s}
 .sg-w:hover{background:var(--acbg);color:var(--ac2)}
 .sg-w.ahora{background:var(--ac);color:#fff;font-weight:700}
 .sg-w.hueco{font-family:var(--fm);color:var(--t3);letter-spacing:1px;background:var(--bg4);
-  border-radius:5px;padding:0 5px}
+  border-radius:6px;padding:0 5px}
 .sg-w.hueco.activo{color:var(--warn);background:rgba(234,179,8,.14);
   box-shadow:0 0 0 1px rgba(234,179,8,.4)}
 .sg-w.ok{color:var(--ok);font-weight:700}
@@ -241,11 +240,32 @@
 .sg-s{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--rad-s);padding:13px 15px}
 .sg-s.adulto{border-color:rgba(248,113,113,.32)}
 .sg-s-top{display:flex;align-items:center;gap:7px;margin-bottom:7px}
-.sg-g{font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
-  background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);border-radius:20px;padding:2px 9px}
-.sg-x{font-size:9.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+.sg-g{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);border-radius:var(--rad-p);padding:2px 9px}
+.sg-x{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
   background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.4);color:var(--bad);
-  border-radius:20px;padding:2px 9px}
+  border-radius:var(--rad-p);padding:2px 9px}
 .sg-s b{font-size:14.5px;font-weight:700;display:block}
 .sg-s i{font-size:12.5px;color:var(--ac2);font-style:normal}
 .sg-s p{font-size:12.5px;color:var(--t2);line-height:1.6;margin-top:7px}
+
+/* ══════════ MÓVIL ══════════
+   El mando se metía debajo de la cabecera pegajosa (resuelto arriba con
+   `--hh`) y el campo del artista tenía 170px fijos que reventaban la fila. */
+@media(max-width:640px){
+  .sg-side{position:relative;top:0;max-height:none}
+  .sg-cab{gap:6px}
+  .sg-in.a{width:100%}
+  .sg-in.t{min-width:0;flex:1 1 100%}
+  .sg-mando{padding:9px 10px;gap:6px}
+  .sg-mando2{gap:8px}
+  .sg-barra{flex:1 1 100%;min-width:0;order:5}
+  .sg-texto{padding:16px 14px;max-height:46vh}
+  .sg-p2{font-size:15.5px}
+  .sg-l{padding:10px 11px;gap:8px}
+  .sg-t{font-size:15px}
+  .sg-metodo{padding:16px 14px}
+  .sg-suge{grid-template-columns:1fr}
+  .sg-ta{min-height:180px;font-size:13px}
+  .sg-expr-l,.sg-ver-links,.sg-chips{gap:6px}
+}

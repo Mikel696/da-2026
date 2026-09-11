@@ -7045,6 +7045,16 @@ function init(){
       const pane = $(b.dataset.p);
       pane.classList.add('on');
       window.scrollTo({ top:0, behavior:'smooth' });
+      /* Y la tira de pestañas se mueve para enseñar la activa. En movil solo
+         caben tres de las once: sin esto, al abrir «Cuaderno» o «Metodo» la
+         pestaña en la que estas queda fuera de la vista y parece que no ha
+         pasado nada. `inline:'center'` la deja en medio; `block:'nearest'`
+         evita que ademas mueva la pagina en vertical.
+         SIN behavior:'smooth', y esto esta MEDIDO: la linea de arriba ya lanza
+         un scroll suave de la ventana, y dos desplazamientos suaves a la vez se
+         cancelan -- la tira se quedaba en 0 sin dar ningun error. Instantaneo
+         funciona, y en una tira de 350 px ni se nota. */
+      try { b.scrollIntoView({ inline:'center', block:'nearest' }); } catch(e){}
       LS.set('eng_tab', b.dataset.p);
       if(b.dataset.p === 'p1' && !elW().children.length) renderWords(true);
       if(b.dataset.p === 'p2' && !elP().children.length) renderPhrases(true);

@@ -132,3 +132,154 @@ estaba en el HTML publicado y en otros archivos del repositorio.
 Copias de seguridad, scripts de parche de un solo uso y archivos intermedios de cuando se
 generó el vocabulario. Eran ~180 archivos de ruido. Si hace falta recuperar algo, está en el
 historial de git del HTML construido.
+
+---
+
+## 🎨 La capa visual · dónde se toca y qué no
+
+El aspecto sale de ocho piezas. **Ninguna de ellas es JavaScript**, y ese es el
+contrato: el HTML y el motor hablan por nombres, así que un `id`, un `data-*` o
+una de las clases que el motor conmuta (`.on .sel .open .done .good .bad .wrong
+.min .spin .playing` …) no se renombra nunca, por muy feo que sea el nombre.
+
+| Pieza | Qué manda |
+|---|---|
+| `01_head.html` | Fuentes, tokens (`:root`), base, cabecera, portadas, tarjetas de palabra y de frase, tablas, táctil |
+| `07_css2.css` | Buscador global, piezas, práctica, cuaderno, barra de pestañas, filtros |
+| `11_bifur.css` · `17_didac.css` · `22_wr.css` · `28_club.css` · `31_song.css` | Cada módulo |
+| `29_vibe.css` | Capa de acabado. **Se puede quitar entera del build** y el documento sigue entero |
+
+**Los seis colores de las piezas** (`--r-suj --r-aux --r-ver --r-com --r-neg
+--r-wh`) no se reasignan ni se reordenan: no son decoración, son lo que enseña
+el documento, y aparecen igual en las once secciones.
+
+### §fuentes · por qué las declaraciones están dentro
+
+Había un `<link rel="stylesheet">` a `fonts.googleapis.com`. Una hoja de estilo
+externa **bloquea el primer pintado**: con el wifi apagado la página se quedaba
+en blanco hasta que la petición fallaba, justo en el módulo que presume de
+funcionar sin internet.
+
+Ahora los `@font-face` van dentro del `<style>` y apuntan directo al `.woff2`.
+Una fuente **no** bloquea el pintado; con `font-display:swap` el texto sale al
+instante con la pila del sistema y se cambia cuando llega. Medido: **una hoja
+externa bloqueante → cero**.
+
+- Outfit es variable: **un archivo** cubre de 300 a 800.
+- IBM Plex Mono no lo es: va el 400 (declarado `400 500`, así que cubre los dos)
+  y el 600.
+- Solo el subconjunto **latino**. Español e inglés caben enteros ahí.
+- Si algún día Google rota la ruta `v15`/`v20`, la fuente deja de bajar y se ve
+  con la pila del sistema. Se degrada, no se rompe. Para actualizarla:
+  `curl 'https://fonts.googleapis.com/css2?family=Outfit:wght@300..800'` y copiar
+  la URL nueva.
+
+### §rendimiento · lo que de verdad costaba
+
+Medido en el navegador, tres pasadas, mediana, mismo ancho (1244px):
+
+| | antes | después |
+|---|---|---|
+| Nodos en el DOM | 12 961 | 12 961 |
+| Reglas CSS | 1045 | 1029 |
+| Hojas externas bloqueantes | 1 | **0** |
+| `DOMContentLoaded` | 227 ms | **204 ms** |
+| `load` | 293 ms | **233 ms** |
+| Recálculo de estilo ×20 | 580 ms (567–602) | **172 ms** (165–178) |
+
+Los dos primeros bailan mucho entre pasadas (servidor local, todo en caché);
+el del recálculo es el estable y el que manda.
+
+Tres cosas que conviene no volver a hacer:
+
+1. **`will-change:transform` sobre `.w, .p, .tip, .card, .mold`** — o sea, sobre
+   miles de elementos. Eso no acelera nada: le pide al navegador una capa de
+   composición por elemento «por si acaso». Lo que se mueve de verdad se
+   promociona solo al empezar la transición.
+2. **`backdrop-filter` en algo pegajoso** (`.topbar`, `.ctl`). El desenfoque se
+   recalcula en cada fotograma del scroll. Fondo sólido y a correr.
+3. **Animaciones en bucle infinito** (`respira` en `body::before`, `float` en
+   `.hero::after`). Mantienen una capa compuesta encendida durante los cuarenta
+   minutos que dura una sesión de estudio, y encima distraen.
+
+Y una que sí funciona: **`content-visibility:auto` + `contain-intrinsic-size:
+auto <alto>`** en `.w` y `.p`. El navegador se salta la maquetación de las
+tarjetas que no están en pantalla; **el nodo sigue en el DOM**, así que el motor
+las encuentra igual. Cuesta unos 12 ms repartidos al recorrer la lista y ahorra
+~410 ms de recálculo. El `<alto>` (178px y 180px) está **medido**, no estimado:
+si cambian mucho las tarjetas, volver a medirlo.
+
+**Lo que NO arregla el CSS:** los 13 000 nodos. De ellos, ~9 600 los construye
+`08_app.js` al arrancar — `renderWords(true)`, `renderPhrases(true)`,
+`BF.render()` y compañía, **fuera** de las guardas perezosas que el propio
+código ya tiene unas líneas más abajo, en el `onclick` de las pestañas. Bajar de
+6 000 nodos es una tarea de JavaScript, no de hojas de estilo.
+
+Y una comprobación que salió negativa y conviene no repetir: cambiar
+`.pane:not(.on)` de `display:none` a `content-visibility:hidden` **no compensa**
+(770 → 716 ms en la misma pasada, un 7%) y encima rompe la guarda `if(!el.offsetParent) return` de
+`CTL.apply`, porque con `content-visibility` el elemento sí tiene `offsetParent`.
+`display:none` ya es lo barato: un panel oculto no cuesta ni maquetación ni
+pintado.
+
+### §pestañas · tres intentos y lo que quedó
+
+1. Fila única con scroll y barra oculta → «Cuaderno» y «Método» quedaban fuera
+   del borde sin ninguna pista. Miguel dio el cuaderno por desaparecido.
+2. Envolver siempre → la cabecera se partía y robaba 90px.
+3. La mezcla de las dos, cada mitad en un archivo distinto (`07_css2.css` y
+   `22_wr.css`), pisándose.
+
+Lo que hay ahora, **en un solo sitio** (`07_css2.css`):
+
+- La tira es un bloque que **no se parte por la mitad**: `order` deja la marca y
+  los botones arriba y, si las once no caben al lado, la tira baja **entera** a
+  su propia fila.
+- Las once caben en los **1244px útiles** de la cabecera (el contenedor está
+  topado en 1280). Medido: con 12px de aire lateral suman 1258 y se parte por
+  «Método»; con 10 suman 1203.
+- En móvil (≤819px) la tira ocupa **todo el ancho** — antes se quedaba con los
+  ~230px que sobraban al lado de los botones y se veían **dos** pestañas de
+  once. Ahora se desliza con anclaje, barra de scroll fina y la siguiente
+  pestaña asomando cortada por el borde.
+
+**Lo que falta y no se puede hacer desde CSS:** al cambiar de pestaña, la tira
+no se desplaza sola para enseñar la que está activa. En móvil eso significa que
+si abres «Método» y recargas, la tira arranca por «Estructura» y la activa queda
+fuera de vista. Se arregla con **una línea** en el `onclick` de las pestañas de
+`08_app.js`:
+
+```js
+b.scrollIntoView({ inline: 'center', block: 'nearest' });
+```
+
+### Cómo se comprueba que la capa visual no rompió nada
+
+Además de las ocho auditorías de arriba, en el navegador y sobre el HTML
+construido:
+
+```js
+// 1 · ninguna pestaña queda invisible ni vacía
+const ids=[...document.querySelectorAll('.tabs .tab')].map(b=>b.dataset.p);
+for(const id of ids){ document.querySelector(`[data-p="${id}"]`).click();
+  await new Promise(r=>setTimeout(r,150));
+  const p=document.getElementById(id);
+  console.log(id, Math.round(p.getBoundingClientRect().height),
+              getComputedStyle(p).webkitTextFillColor); }
+
+// 2 · nada desborda en horizontal (probar a 360px)
+const cw=document.documentElement.clientWidth;
+const enScroller=el=>{let n=el.parentElement;while(n&&n!==document.body){
+  const o=getComputedStyle(n).overflowX; if(o!=='visible')return true; n=n.parentElement;} return false;};
+[...document.querySelectorAll('.pane.on *')].filter(el=>{
+  const r=el.getBoundingClientRect();
+  return r.width>0 && (r.right>cw+1.5||r.left<-1.5) && !enScroller(el); }).length   // 0
+
+// 3 · contraste de los tokens de texto (mínimo 4,5:1; el principal, 7:1)
+```
+
+**Ojo con las capturas de pantalla en un panel oculto o escalado:** salen
+partes en negro que en el DOM están perfectamente maquetadas. Si algo parece
+invisible, **medirlo** (`getBoundingClientRect` de un hijo) antes de darlo por
+roto. Mismo motivo por el que aquí no se usa `requestAnimationFrame`: sin
+fotogramas no corre nada, ni el scroll suave.

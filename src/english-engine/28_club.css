@@ -2,12 +2,12 @@
 /* ═══════════ CLUB DE FRASES ═══════════ */
 .cf-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .cf-modos{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-.cf-m{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:20px;
+.cf-m{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:var(--rad-p);
   padding:7px 14px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
 .cf-m:hover{border-color:var(--ac);color:var(--tx)}
 .cf-m.on{background:var(--ac);border-color:var(--ac);color:#fff}
 .cf-marc{display:flex;align-items:center;gap:12px;font-size:11.5px;color:var(--t3);flex:none}
-.cf-combo{padding:4px 11px;border-radius:20px;background:var(--bg3);border:1px solid var(--bd);transition:all .2s}
+.cf-combo{padding:4px 11px;border-radius:var(--rad-p);background:var(--bg3);border:1px solid var(--bd);transition:all .2s}
 .cf-combo b{color:var(--t2)}
 .cf-combo.vivo{background:rgba(234,179,8,.16);border-color:var(--warn);color:var(--warn)}
 .cf-combo.vivo b{color:var(--warn);font-size:14px}
@@ -16,7 +16,7 @@
 .cf-sel{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .cf-hint{font-size:11px;color:var(--t3);margin-bottom:14px}
 
-.cf-card{position:relative;border:1px solid var(--ac);border-radius:16px;padding:24px;
+.cf-card{position:relative;border:1px solid var(--ac);border-radius:var(--rad-l);padding:24px;
   background:var(--bg2);box-shadow:0 10px 36px rgba(0,0,0,.3);text-align:center}
 .cf-es{font-size:17px;color:var(--t2);line-height:1.6;margin-bottom:4px}
 .cf-es.sordo{color:var(--t3);font-size:13px}
@@ -25,15 +25,15 @@
 
 /* Las ranuras: cada palabra con su significado y su categoría */
 .cf-slots{display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}
-.cf-w{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 11px;border-radius:10px;
+.cf-w{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 11px;border-radius:var(--rad-s);
   border:1px solid var(--bd);background:var(--bg3);cursor:pointer;transition:all .16s;min-width:52px}
 .cf-w:hover{border-color:var(--ac);transform:translateY(-2px)}
 .cf-w.hecha{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.09)}
 .cf-w.activa{border-color:var(--warn);background:rgba(234,179,8,.1);box-shadow:0 0 0 2px rgba(234,179,8,.18)}
 .cf-w.pend{opacity:.55}
 .cf-wt{font-size:15px;font-weight:700;color:var(--tx);font-family:var(--fm)}
-.cf-wg{font-size:10.5px;color:var(--t2)}
-.cf-wc{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
+.cf-wg{font-size:11px;color:var(--t2)}
+.cf-wc{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
 
 /* La línea donde se teclea */
 .cf-linea{font-family:var(--fm);font-size:22px;min-height:34px;display:flex;align-items:center;
@@ -49,7 +49,7 @@
 .cf-pie b{color:var(--t2)}
 
 /* La pista que aparece cuando llevas dos fallos en la misma palabra */
-.cf-ayuda{margin-top:10px;padding:8px 14px;border-radius:9px;display:inline-flex;
+.cf-ayuda{margin-top:10px;padding:8px 14px;border-radius:var(--rad-s);display:inline-flex;
   align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;font-size:11.5px;
   color:var(--t2);background:rgba(234,179,8,.09);border:1px solid rgba(234,179,8,.32)}
 .cf-ayuda b{color:var(--warn);font-family:var(--fm);font-size:13px}
@@ -61,7 +61,7 @@
 .cf-chispa.ok{color:var(--ok)}
 .cf-chispa.no{color:var(--bad)}
 
-.cf-b{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:9px;
+.cf-b{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:var(--rad-s);
   padding:8px 15px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;margin-top:10px}
 .cf-b:hover{border-color:var(--ac);color:var(--tx)}
 .cf-b.grande{display:block;margin:16px auto 0;padding:11px 28px;font-size:13.5px;font-weight:700;
@@ -74,7 +74,7 @@
    tuya en rojo: lo que enseña es ver las dos juntas. */
 .cf-ops{display:flex;flex-direction:column;gap:9px;margin-top:16px;max-width:560px;
   margin-left:auto;margin-right:auto}
-.cf-op{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:12px;
+.cf-op{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:var(--rad);
   padding:13px 17px;font-size:15px;line-height:1.5;cursor:pointer;text-align:left;
   font-family:inherit;transition:transform .12s,border-color .12s,background .12s}
 .cf-op:hover:not(:disabled){border-color:var(--ac);background:var(--bg4);transform:translateX(4px)}
@@ -87,7 +87,7 @@
    Botones grandes y con aire: se juega con el dedo, y es el modo pensado
    para quien todavía no teclea. */
 .cf-banco{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:16px}
-.cf-bw{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:12px;
+.cf-bw{background:var(--bg3);border:2px solid var(--bd2);color:var(--tx);border-radius:var(--rad);
   padding:11px 17px;font-size:17px;font-weight:700;font-family:var(--fm);cursor:pointer;
   transition:transform .12s,background .12s,border-color .12s;min-width:56px}
 .cf-bw:hover{border-color:var(--ac);background:var(--bg4);transform:translateY(-3px)}
@@ -104,15 +104,15 @@
 
 /* Hablar */
 .cf-habla{margin-top:6px}
-.cf-cmp{margin-top:14px;padding:13px;border-radius:11px;background:var(--bg3);border:1px solid var(--bd)}
+.cf-cmp{margin-top:14px;padding:13px;border-radius:var(--rad-s);background:var(--bg3);border:1px solid var(--bd)}
 .cf-cmpt{font-size:12.5px;color:var(--t2);margin-bottom:8px}
 .cf-cmpt b{color:var(--ac2);font-size:15px}
 .cf-cmpl{font-size:16px;font-family:var(--fm);line-height:1.9}
-.cf-nota{font-size:10.5px;color:var(--t3);line-height:1.65;margin-top:9px;max-width:560px;
+.cf-nota{font-size:11px;color:var(--t3);line-height:1.65;margin-top:9px;max-width:560px;
   margin-left:auto;margin-right:auto}
 
 /* Resultado */
-.cf-fin{margin-top:14px;padding:20px;border-radius:14px;background:var(--bg2);
+.cf-fin{margin-top:14px;padding:20px;border-radius:var(--rad);background:var(--bg2);
   border:1px solid var(--bd);text-align:center}
 .cf-rango{display:inline-grid;place-items:center;width:74px;height:74px;border-radius:50%;
   border:3px solid;font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:10px}
@@ -121,10 +121,10 @@
 .cf-stats b{color:var(--tx);font-size:15px}
 
 /* Por qué se arma así */
-.cf-why{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--bg2);border:1px solid var(--bd)}
+.cf-why{margin-top:12px;padding:14px 16px;border-radius:var(--rad);background:var(--bg2);border:1px solid var(--bd)}
 .cf-wt2{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:9px}
 .cf-wl{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
-.cf-nn{font-size:12px;line-height:1.75;color:var(--t2);padding:9px 12px;border-radius:9px;
+.cf-nn{font-size:12px;line-height:1.75;color:var(--t2);padding:9px 12px;border-radius:var(--rad-s);
   background:var(--bg3);border-left:3px solid var(--ac)}
 
 @media(max-width:760px){

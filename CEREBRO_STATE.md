@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-11 (3-ENG: diccionario a 4231 palabras + auditoría de vocabulario básico)
+- **Última actualización:** 2026-09-11 (3-ENG: rediseño visual — sistema de tokens, móvil y rendimiento)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,102 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎨 3-ENG · Rediseño visual: profesional, con tacto, y 3,3× más rápido de recalcular — 2026-09-11 (noche)
+
+Encargo de Miguel: **más profesional, más viva y más rápida, sin romper nada.**
+Solo CSS — ni una línea de `08_app.js`, ni un `id`, ni un `data-*`, ni una clase
+que el motor conmute. `git diff --stat` lo confirma: los ocho archivos tocados son
+hojas de estilo.
+
+### Lo que de verdad costaba (medido, no estimado)
+
+Tres pasadas, mediana, mismo ancho, antes y después en la misma sesión:
+
+| | antes | después |
+|---|---|---|
+| `DOMContentLoaded` | 227 ms | **204 ms** |
+| `load` | 293 ms | **233 ms** |
+| Recálculo de estilo ×20 | 580 ms | **172 ms** (−70%) |
+| Hojas de estilo externas bloqueantes | 1 | **0** |
+| Reglas CSS | 1045 | 1029 |
+| Nodos en el DOM | 12 961 | 12 961 |
+
+Los culpables no eran los que decía el encargo:
+
+1. **`will-change:transform` sobre miles de tarjetas.** Le pedía al navegador una
+   capa de composición por elemento «por si acaso». Fuera.
+2. **`backdrop-filter` en la cabecera y en la barra de filtros**, que son pegajosas:
+   el desenfoque se recalculaba en **cada fotograma del scroll**. Fondo sólido.
+3. **Dos animaciones en bucle infinito** (el fondo latiendo, la bola de luz de la
+   portada). Cuarenta minutos de estudio con una capa compuesta encendida a cambio
+   de nada — y encima contradicen el propio encargo: «viva no es animada».
+4. **La hoja de Google Fonts**, que bloqueaba el primer pintado: con el wifi
+   apagado la página esperaba a que la petición fallara. Ahora los `@font-face` van
+   dentro y apuntan al `.woff2`. **Cero terceros en el camino crítico** (P1).
+
+Lo que sí ayuda: `content-visibility:auto` en las 4231 tarjetas de palabra y las
+1000 de frase. El nodo **sigue en el DOM** — el motor las encuentra igual.
+
+### 🚨 Lo que el CSS NO puede arreglar · tarea pendiente de JavaScript
+
+**Los 13 000 nodos no bajan con hojas de estilo.** ~9 600 los construye
+`08_app.js` al arrancar (`renderWords(true)`, `renderPhrases(true)`, `BF.render()`…
+en el `init`), **saltándose las guardas perezosas que el propio código ya tiene**
+unas líneas más abajo, en el `onclick` de las pestañas. El objetivo de <6000 nodos
+es una tarea de JS.
+
+Y comprobado que **no** compensa: pasar los paneles ocultos de `display:none` a
+`content-visibility:hidden` da un 7% y rompe la guarda `offsetParent` de
+`CTL.apply`. Un panel en `display:none` ya no cuesta ni maquetación ni pintado.
+
+**Falta una línea de JS para cerrar el móvil:** al cambiar de pestaña la tira no se
+desplaza para enseñar la activa (`b.scrollIntoView({inline:"center"})`).
+
+### Lo visible
+
+- **Contraste.** `--t3` estaba en **4,15:1** — por debajo del mínimo, y es el color
+  de casi toda la letra pequeña del documento. Ahora 6,3:1. Los tres niveles de
+  texto: 19,2 / 9,8 / 6,3. **Nada por debajo de 11px** (había de 9).
+- **La barra de once pestañas en móvil.** Se quedaba con los ~230px que sobraban al
+  lado de los botones: se veían **dos de once**. Ahora ocupa todo el ancho, con
+  anclaje, barra de scroll visible y la siguiente asomando por el borde.
+- **Un sistema, no once.** Trece radios sueltos entre 6 y 20px → una escala de
+  cinco. Misma tarjeta, mismo borde, misma luz interior y la misma sombra en todo
+  el documento.
+- **Se nota al tocar.** Una sola regla de `:active` para todo lo que se pulsa, y un
+  destello corto **una vez** al acertar. Nada de confeti: se está estudiando.
+- **44px de zona de toque**, agrandando el área invisible donde no se puede crecer
+  (y **sin** agrandarla donde los vecinos están pegados — ahí crecen de verdad).
+- **Borradas 16 reglas muertas**: `.acc`, `.accb`, `.audiobar`, `.pbar`, `.hl` y una
+  copia literal de `.sg-mando`. Cero apariciones en el documento construido.
+- Dos fallos de paso: `var(--f)` en `31_song.css` no existía (el token ahora sí), y
+  el «?» del glosario heredaba `-webkit-text-fill-color:transparent` dentro de un
+  titular en degradado.
+
+### Lo que subió y no debía
+
+El archivo pesa **3,4 kB gzip más** (394,6 → 397,9 kB). Sigue por debajo del techo
+de 400 kB, pero el encargo decía «no subir». Es el precio de los `@font-face`
+inlineados y de las reglas nuevas de móvil y táctil, ya descontando las 16 muertas.
+Se puede recuperar recortando comentarios; no se hizo porque el rastro vale más.
+
+### Verificado
+
+Las **diez auditorías** en verde sobre el HTML construido, incluida la larga del
+README (los cuatro contadores de falsos positivos a 0). Las once pestañas abiertas
+una a una: contenido visible, cero desbordes horizontales a 360px, cero errores en
+consola. A mano: Ctrl+K busca y salta, los filtros de banda y categoría responden
+(4231 → 200 → 7), «ver más» pasa de 200 a 400, el semáforo de Escribir va de verde
+a rojo, el cuaderno escribe/pagina/guarda en `eng_nb`, el reproductor de YouTube
+monta el iframe 16:9 con su mando, y los seis modos del Club arrancan.
+
+**Dónde se edita:** `src/english-engine/*.css` + el `<style>` de `01_head.html`, y
+`bash src/english-engine/build.sh`. El README de esa carpeta documenta ahora la
+capa visual, las tres trampas de rendimiento y los tres intentos de la barra de
+pestañas.
 
 ---
 
