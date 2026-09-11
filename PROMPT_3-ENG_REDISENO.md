@@ -5,30 +5,57 @@
 
 ---
 
-## ⚠️ Antes de pegarlo: lee esto
+## ✅ Listo para usar
 
-**El archivo `english-engine.html` NO se escribe a mano: se ENSAMBLA** desde unas 25 piezas
-(`01_head.html`, `07_css2.css`, `08_app.js`, `_W*.txt`…) con un `build.sh`. Esas piezas viven
-hoy en mi directorio de trabajo temporal, **no en el repositorio**.
+Las piezas del build ya están en el repositorio (`src/english-engine/`), así que Claude Design
+puede trabajar sobre las hojas de estilo y nada se pisa. Comprobado: el build desde un clon
+limpio produce un archivo **idéntico byte a byte** al que está publicado.
 
-Consecuencia práctica: si Claude Design edita el archivo construido y yo después reconstruyo
-desde las piezas, **su trabajo se pierde**. Y al revés.
-
-**Las dos formas de hacerlo bien:**
-
-| Opción | Cómo | Cuándo |
-|---|---|---|
-| **A · La segura** (recomendada) | Yo subo las piezas al repo primero. Claude Design trabaja sobre `07_css2.css` y las demás hojas. Nada se pisa nunca. | Si quieres que esto se pueda repetir |
-| **B · La rápida** | Claude Design edita el HTML construido. Yo vuelvo a partirlo en piezas después. | Un rediseño de una vez |
-
-Dímelo y lo dejo listo antes de que empieces. **Con la opción B hay que avisarme en cuanto
-termine**, o el siguiente cambio que yo haga borra el suyo.
+Cuando te devuelva el trabajo, pásamelo: corro la regresión completa antes de que llegue a
+producción.
 
 ---
 
 ═══════════════════════════════════════════════════════════════════════════
 
 # Rediseño visual · English Engine
+
+## Dónde trabajas · esto es lo primero
+
+El archivo `frontend/pages/english-engine.html` (1,2 MB) **no se edita a mano: se ENSAMBLA**
+desde las piezas de `src/english-engine/` con un script.
+
+**Tú editas las hojas de estilo de esa carpeta. No el HTML construido.**
+
+| Archivo | Qué contiene | ¿Tuyo? |
+|---|---|---|
+| `src/english-engine/01_head.html` | Los tokens del tema (`:root`) y el CSS base | ✅ sí |
+| `src/english-engine/07_css2.css` | El grueso del estilo: portada, pestañas, tarjetas, cuaderno | ✅ sí |
+| `src/english-engine/11_bifur.css` | Bifurcaciones | ✅ sí |
+| `src/english-engine/17_didac.css` | Fichas didácticas | ✅ sí |
+| `src/english-engine/22_wr.css` | Sección Escribir | ✅ sí |
+| `src/english-engine/28_club.css` | Club de Frases | ✅ sí |
+| `src/english-engine/29_vibe.css` | Capa de diseño **añadida**, se puede quitar entera | ✅ sí |
+| `src/english-engine/31_song.css` | Vídeos | ✅ sí |
+| `src/english-engine/02*.html`, `03*.html`, `04-06*.html` | La estructura HTML | ⚠️ con cuidado (ver contrato) |
+| `src/english-engine/08_app.js` | **Todo el motor, 409 kB** | 🔴 NO |
+| `src/english-engine/09_sync.js`, `12/13_*.js`, `33_expr.js` | Sincronización y datos | 🔴 NO |
+| `src/english-engine/_W*.txt`, `_P.txt` | Las 4231 palabras y las 1000 frases | 🔴 NO |
+
+**Después de cada cambio, reconstruyes y verificas sobre el resultado:**
+
+```bash
+bash src/english-engine/build.sh
+```
+
+Eso reescribe `frontend/pages/english-engine.html`. El script falla con error si el ensamblado
+se come alguna pieza. **Abre siempre el HTML construido para comprobar, nunca las piezas
+sueltas.**
+
+Lee `src/english-engine/README.md` antes de empezar: documenta el orden del build y tres
+trampas que ya han roto cosas aquí.
+
+---
 
 ## Qué es esto
 
