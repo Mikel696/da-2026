@@ -1442,6 +1442,28 @@ h2.sec .n{
   height:30px;padding:0 7px;font-size:12px;font-family:inherit;cursor:pointer;outline:none}
 .sg-b.on{background:var(--ac);border-color:var(--ac);color:#fff}
 
+/* ── El karaoke: solo tres líneas ──
+   La que pasó arriba, la que suena en grande, la que viene abajo. Es lo que
+   se mira mientras suena; la letra entera queda debajo para estudiar. */
+.sg-kar{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);
+  padding:20px 22px;margin-bottom:12px;display:flex;flex-direction:column;gap:7px;
+  align-items:center;text-align:center;min-height:150px;justify-content:center}
+.kr{transition:color .2s,opacity .2s,transform .2s;line-height:1.4;max-width:100%}
+.kr.ant,.kr.sig{font-size:15px;color:var(--t3);opacity:.6}
+.kr.act{font-size:clamp(20px,3.2vw,30px);font-weight:800;letter-spacing:-.4px;color:var(--tx)}
+.kr.vacia{min-height:1em;color:var(--t3);font-weight:400;font-size:15px;opacity:.5}
+.sg-kar.quieto .kr.act{color:var(--t3);font-weight:600;font-size:17px}
+/* La palabra que suena. Lo ya cantado se apaga; lo que viene espera. */
+.kw{transition:color .12s,background .12s;border-radius:5px;padding:0 2px}
+.kw.ya{color:var(--t3)}
+.kw.viva{background:var(--ac);color:#fff;box-shadow:0 0 18px -4px var(--ac)}
+
+.sg-num{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:7px;
+  height:30px;width:74px;padding:0 8px;font-size:12px;font-family:var(--fm);outline:none}
+.sg-num:focus{border-color:var(--ac)}
+.sg-sync.listo{border-style:solid;border-color:rgba(34,197,94,.32);
+  background:linear-gradient(90deg,rgba(34,197,94,.06),transparent 70%)}
+
 /* ── Sincronizar la letra ── */
 .sg-sync{background:var(--bg2);border:1px dashed var(--bd2);border-radius:var(--rad);
   padding:14px 16px;margin-bottom:12px}
@@ -11840,9 +11862,9 @@ const SONG = (() => {
      La API de YouTube se carga solo cuando hace falta. Si no llega —sin red,
      o bloqueada— la sección sigue funcionando: cada línea se puede oír con la
      voz del navegador, como hasta ahora. */
-  const P = { player:null, listo:false, estado:-1, vel:1, verVideo:true, t:0, dur:0,
-              tic:null, linea:-1, sync:false, syncI:0, bucleA:null, bucleB:null, bucleI:-1,
-              api:'no' };
+  const P = { player:null, vid:null, listo:false, estado:-1, vel:1, verVideo:true, t:0, dur:0,
+              tic:null, linea:-1, pal:-1, ajuste:false,
+              bucleA:null, bucleB:null, bucleI:-1, api:'no' };
 
   function cargarAPI(cb){
     if(window.YT && window.YT.Player){ cb(); return; }
@@ -11908,6 +11930,7 @@ const SONG = (() => {
       return;
     }
     const c = actual(); if(!c) return;
+    const L = lineasDe(c);
     const T = c.tiempos || [];
     if(!T.length) return;
     // Qué línea toca: la última cuyo arranque ya pasó
@@ -11915,7 +11938,55 @@ const SONG = (() => {
     for(let k = 0; k < T.length; k++){
       if(typeof T[k] === 'number' && T[k] <= t + 0.08) i = k;
     }
-    if(i !== P.linea){ P.linea = i; marcaLinea(i); }
+    if(i !== P.linea){ P.linea = i; marcaLinea(i); pintaKaraoke(i, 0); }
+    else if(i >= 0){
+      // Dentro de la línea: qué palabra va sonando ahora
+      const t0 = T[i];
+      const t1 = (typeof T[i + 1] === 'number') ? T[i + 1]
+               : (typeof c.outro === 'number' ? c.outro : t0 + 4);
+      const frac = t1 > t0 ? Math.max(0, Math.min(1, (t - t0) / (t1 - t0))) : 0;
+      const n = palabraDe(L[i] || '', frac);
+      if(n !== P.pal){ P.pal = n; pintaPalabra(n); }
+    }
+  }
+
+  /* Pinta las tres líneas del karaoke. Se reconstruye solo cuando CAMBIA la
+     línea; dentro de ella solo se mueve el resaltado de la palabra, que es
+     mucho más barato que repintar. */
+  function pintaKaraoke(i, pal){
+    const caja = document.querySelector('.sg-kar');
+    const c = actual(); if(!caja || !c) return;
+    const L = lineasDe(c);
+    caja.classList.toggle('quieto', i < 0);
+    const pon = (cls, k) => {
+      const el = caja.querySelector('.kr.' + cls);
+      if(!el) return;
+      const txt = L[k];
+      if(txt === undefined){ el.textContent = ''; el.classList.add('vacia'); return; }
+      el.classList.remove('vacia');
+      if(cls !== 'act'){ el.textContent = txt; return; }
+      el.innerHTML = txt.split(/\s+/).map((w, n) =>
+        `<span class="kw" data-k="${n}">${esc(w)}</span>`).join(' ');
+    };
+    if(i < 0){
+      pon('ant', -1);
+      const a = caja.querySelector('.kr.act');
+      if(a){ a.textContent = '— dale al play —'; a.classList.add('vacia'); }
+      pon('sig', 0);
+      return;
+    }
+    pon('ant', i - 1); pon('act', i); pon('sig', i + 1);
+    P.pal = -1; pintaPalabra(pal || 0);
+  }
+
+  function pintaPalabra(n){
+    const act = document.querySelector('.sg-kar .kr.act');
+    if(!act) return;
+    act.querySelectorAll('.kw').forEach(w => {
+      const k = +w.dataset.k;
+      w.classList.toggle('ya', k < n);
+      w.classList.toggle('viva', k === n);
+    });
   }
 
   function marcaLinea(i){
@@ -11939,37 +12010,6 @@ const SONG = (() => {
   const manda = (f, ...a) => { try { if(P.player && P.listo && P.player[f]) P.player[f](...a); } catch(e){} };
   function irA(seg){ manda('seekTo', Math.max(0, seg), true); }
 
-  /* ── Marcar el arranque de una línea ── */
-  function marcarAhora(){
-    const c = actual(); if(!c || !P.listo) return;
-    /* Si la canción NO está sonando, marcar guardaría 0 en todas las líneas y
-       dejaría la sincronía arruinada sin que se note hasta después. Pasó en
-       las pruebas: el navegador bloqueó el autoplay y salieron cuatro ceros. */
-    if(P.estado !== 1){
-      toast('Primero dale al play: la canción tiene que estar sonando', 'warn');
-      return;
-    }
-    const L = lineasDe(c);
-    if(P.syncI >= L.length){ P.sync = false; render(); return; }
-    c.tiempos = c.tiempos || [];
-    let t = 0; try { t = P.player.getCurrentTime(); } catch(e){}
-    c.tiempos[P.syncI] = Math.max(0, t - 0.15);   // el dedo siempre llega tarde
-    P.syncI++;
-    toca(c);
-    if(P.syncI >= L.length){ P.sync = false; toast('Letra sincronizada entera', 'ok'); }
-    render();
-  }
-  function deshacerMarca(){
-    const c = actual(); if(!c) return;
-    if(P.syncI <= 0) return;
-    P.syncI--;
-    c.tiempos = c.tiempos || [];
-    c.tiempos[P.syncI] = null;
-    toca(c);
-    const t = P.syncI > 0 ? c.tiempos[P.syncI - 1] : 0;
-    if(typeof t === 'number') irA(t);
-    render();
-  }
 
   const nid = () => 'sg' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const libro = () => store.get(K, {});
@@ -12121,13 +12161,11 @@ const SONG = (() => {
     const pane0 = $('sg');
     if(!pane0 || getComputedStyle(pane0).display === 'none') return;
     if(isTyping(e.target)) return;
-    // Sincronizando: el ESPACIO marca dónde entra la línea. Es lo único que
-    // hace falta tener a mano, porque se va marcando al ritmo de la canción.
-    if(P.sync){
-      if(e.key === ' '){ e.preventDefault(); marcarAhora(); return; }
-      if(e.key === 'Backspace'){ e.preventDefault(); deshacerMarca(); return; }
-      if(e.key === 'Escape'){ P.sync = false; render(); return; }
-      return;
+    /* Con la canción sonando, el ESPACIO dice «esta línea entra AHORA» y todo
+       lo de abajo se recoloca. Es el ajuste fino, y solo se usa cuando hace
+       falta — no hay que marcar las cuarenta líneas. */
+    if(S.huecos < 0 && P.listo && P.estado === 1 && e.key === ' '){
+      e.preventDefault(); reanclar(); return;
     }
     if(S.huecos < 0) return;
     const pane = pane0;
@@ -12151,31 +12189,73 @@ const SONG = (() => {
     e.preventDefault(); S.buf += k; render();
   }
 
-  /* ══════════ Pintado ══════════ */
+  /* ══════════ Pintado ══════════
+     ESTO ES LO QUE ROMPÍA EL KARAOKE, y merece quedar escrito.
+     Antes `render()` reescribía TODO el contenedor de golpe — incluido el
+     hueco donde vive el reproductor de YouTube. Como el reproductor es un
+     iframe montado por la API sobre ese hueco, al reescribir el HTML el
+     iframe desaparecía: cero iframes en la página. Y como la guarda miraba
+     `P.player` (que seguía siendo un objeto), creía que el reproductor estaba
+     vivo y no lo remontaba. Resultado: el reloj se quedaba en 0:00 y la letra
+     no seguía nada. Eso es exactamente lo que Miguel veía.
+
+     Ahora el panel va en dos piezas:
+       · `sgFijo` — cabecera, vídeo y mando. Se pinta UNA VEZ por canción y no
+         se vuelve a tocar, así que el reproductor sobrevive.
+       · `sgVar`  — karaoke, sincronía y letra. Se repinta cuanto haga falta.  */
   function render(){
     const box = $('sgBox'); if(!box) return;
-    const o = libro(), ids = Object.keys(o).sort((a, b) => (o[b].ts || 0) - (o[a].ts || 0));
+    const o = libro();
     if(S.id && !o[S.id]) S.id = null;
-    box.innerHTML = `
-      <div class="sg-grid">
-        <aside class="sg-side">
-          <button class="sg-nueva" id="sgNueva">＋ Canción nueva</button>
-          <div class="sg-lbl">Mis canciones</div>
-          ${ids.length ? ids.map(id => `
-            <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
-              <b>${esc(o[id].t || 'Sin título')}</b>
-              <span>${esc(o[id].a || '—')}</span>
-            </button>`).join('')
-            : '<div class="sg-vacio">Todavía no has añadido ninguna.</div>'}
-        </aside>
-        <section class="sg-main">${S.id ? panel(o[S.id]) : bienvenida()}</section>
-      </div>`;
+
+    if(box.dataset.song !== (S.id || '') || !$('sgVar')){
+      box.dataset.song = S.id || '';
+      box.innerHTML = `
+        <div class="sg-grid">
+          <aside class="sg-side" id="sgSide"></aside>
+          <section class="sg-main"><div id="sgFijo"></div><div id="sgVar"></div></section>
+        </div>`;
+      // El contenedor se rehízo: el reproductor de antes ya no existe
+      P.player = null; P.vid = null; P.listo = false; P.linea = -1; P.pal = -1;
+    }
+    pintaSide(o);
+    if(S.id){ pintaFijo(o[S.id]); pintaVar(o[S.id]); }
+    else { $('sgFijo').innerHTML = ''; $('sgVar').innerHTML = bienvenida(); }
     wire();
-    /* Repintar borra la clase de la línea que suena, y el pulso solo la
-       vuelve a poner CUANDO CAMBIA de línea — así que al ocultar el vídeo o
-       tocar cualquier botón, el subrayado se apagaba hasta la línea siguiente.
-       Se vuelve a marcar aquí. */
     if(P.linea >= 0) marcaLinea(P.linea);
+  }
+
+  function pintaSide(o){
+    const el = $('sgSide'); if(!el) return;
+    const ids = Object.keys(o).sort((a, b) => (o[b].ts || 0) - (o[a].ts || 0));
+    el.innerHTML = `
+      <button class="sg-nueva" id="sgNueva">＋ Canción nueva</button>
+      <div class="sg-lbl">Mis canciones</div>
+      ${ids.length ? ids.map(id => `
+        <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
+          <b>${esc(o[id].t || 'Sin título')}</b>
+          <span>${esc(o[id].a || '—')}</span>
+        </button>`).join('')
+        : '<div class="sg-vacio">Todavía no has añadido ninguna.</div>'}`;
+  }
+
+  /* Solo se rehace si cambia algo que obligue: la canción, su enlace, o si
+     todavía no hay letra. Mientras la firma no cambie, no se toca — y el
+     iframe del reproductor sigue donde estaba, sonando. */
+  function pintaFijo(c){
+    const el = $('sgFijo'); if(!el) return;
+    const yt = ytId(c.url);
+    const firma = c.id + '|' + yt + '|' + (lineasDe(c).length ? 'letra' : 'vacia');
+    if(el.dataset.firma === firma && (!yt || el.querySelector('iframe'))) return;
+    el.dataset.firma = firma;
+    el.innerHTML = cabecera(c) + (lineasDe(c).length ? mandoHTML(c, yt) : '');
+    P.player = null; P.vid = null; P.listo = false;
+  }
+
+  function pintaVar(c){
+    const el = $('sgVar'); if(!el) return;
+    const L = lineasDe(c);
+    el.innerHTML = L.length ? cuerpo(c, L) : pegarLetra(c);
   }
 
   function bienvenida(){
@@ -12205,37 +12285,26 @@ const SONG = (() => {
       </div>`;
   }
 
-  function panel(c){
-    const L = lineasDe(c);
-    const yt = ytId(c.url);
-    if(!L.length){
-      return `
-        <div class="sg-cab">
-          <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título de la canción">
-          <input class="sg-in a" id="sgA" value="${esc(c.a)}" placeholder="Artista">
-          <button class="sg-b danger" id="sgDel" title="Eliminar">🗑</button>
-        </div>
-        <input class="sg-in url" id="sgU" value="${esc(c.url)}" placeholder="Enlace de YouTube (opcional, para oír la canción de verdad)">
-        <div class="sg-pega">
-          <div class="sg-pega-t">Pega aquí la letra</div>
-          <p class="sg-p">Un renglón por línea, tal como viene. En una canción el renglón
-             es la unidad de trabajo, así que se respeta como lo escribiste.</p>
-          <textarea class="sg-ta" id="sgTA" placeholder="Pega la letra de la canción…"></textarea>
-          <button class="sg-b grande" id="sgOk">Preparar el karaoke</button>
-          <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras
-            tienen derechos de autor y no puedo traerlas dentro del documento. Aquí pasa lo
-            mismo que en el Cuaderno: la máquina la pongo yo, el material lo traes tú.</div>
-        </div>`;
-    }
-    const hechas = c.hechas || [];
+  /* ── La cabecera y el mando: la parte que NO se repinta ──
+     Todo lo que vive aquí sobrevive a los repintados, y por eso el
+     reproductor sigue sonando cuando cambia cualquier otra cosa. */
+  function cabecera(c){
+    const conLetra = lineasDe(c).length > 0;
     return `
       <div class="sg-cab">
-        <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título">
+        <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título de la canción">
         <input class="sg-in a" id="sgA" value="${esc(c.a)}" placeholder="Artista">
-        <button class="sg-b" id="sgEdit" title="Cambiar la letra">✎ Letra</button>
+        ${conLetra ? '<button class="sg-b" id="sgEdit" title="Cambiar la letra">✎ Letra</button>' : ''}
         <button class="sg-b danger" id="sgDel" title="Eliminar">🗑</button>
       </div>
-      ${yt ? `
+      ${conLetra ? '' : `<input class="sg-in url" id="sgU" value="${esc(c.url)}"
+         placeholder="Enlace de YouTube (para oír la canción de verdad)">`}`;
+  }
+
+  function mandoHTML(c, yt){
+    if(!yt) return `<div class="note" style="margin-bottom:14px"><b>Pega el enlace de YouTube</b>
+      con el botón <b>✎ Letra</b> y tendrás la canción con un solo play, y la letra siguiéndola.</div>`;
+    return `
       <div class="sg-yt${P.verVideo ? '' : ' oculto'}"><div id="sgPlayer"></div></div>
       <div class="sg-mando">
         <button class="sg-pp" id="sgPP" title="Reproducir / pausa">▶</button>
@@ -12252,16 +12321,35 @@ const SONG = (() => {
         </select>
         <button class="sg-b${P.verVideo ? ' on' : ''}" id="sgVer"
                 title="Ver u ocultar el vídeo. Oculto, la canción sigue sonando">👁</button>
-      </div>
-      ${barraSync(c, L)}
-      ` : `<div class="note" style="margin-bottom:14px"><b>Pega el enlace de YouTube</b> arriba y
-             tendrás la canción sonando con un solo play, y la letra siguiéndola sola.</div>`}
+      </div>`;
+  }
+
+  /* ── Lo que sí se repinta ── */
+  function cuerpo(c, L){
+    const hechas = c.hechas || [];
+    return `
+      ${ytId(c.url) ? karaoke3(c, L) + barraSync(c, L) : ''}
       <div class="sg-mando2">
         <span class="sg-prog">${hechas.length} de ${L.length} líneas hechas</span>
         ${cuantasTiempos(c) ? `<span class="sg-prog">· ${cuantasTiempos(c)} de ${L.length} sincronizadas</span>` : ''}
         ${P.bucleA != null ? `<button class="sg-b on" id="sgBucleOff">🔁 Bucle activo · quitar</button>` : ''}
       </div>
-      <div class="sg-letra${P.sync ? ' sincronizando' : ''}">${L.map((t, i) => linea(t, i, hechas.includes(i), c)).join('')}</div>`;
+      <div class="sg-letra">${L.map((t, i) => linea(t, i, hechas.includes(i), c)).join('')}</div>`;
+  }
+
+  function pegarLetra(c){
+    return `
+      <div class="sg-pega">
+        <div class="sg-pega-t">Pega aquí la letra</div>
+        <p class="sg-p">Un renglón por línea, tal como viene. En una canción el renglón es la
+           unidad de trabajo, así que se respeta como lo escribiste.</p>
+        <textarea class="sg-ta" id="sgTA" placeholder="Pega la letra de la canción…">${esc(c.letra || '')}</textarea>
+        <button class="sg-b grande" id="sgOk">Preparar el karaoke</button>
+        <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras tienen
+          derechos de autor y no pueden vivir dentro del documento. Aquí pasa lo mismo que en el
+          Cuaderno: la máquina la pongo yo, el material lo traes tú. Los subtítulos que verás en el
+          vídeo los sirve YouTube, que es quien tiene la licencia.</div>
+      </div>`;
   }
 
   function linea(txt, i, hecha, c){
@@ -12294,6 +12382,102 @@ const SONG = (() => {
       </div>`;
   }
 
+  /* ══════════ SINCRONIZAR DE VERDAD ══════════
+     El botón anterior no sincronizaba: te ponía a marcar línea por línea a
+     mano. Eso no es un botón que trabaje, es una tarea disfrazada de botón.
+
+     Ahora al pulsarlo reparte los tiempos él solo. ¿Cómo, si no puede oír la
+     canción? Por el PESO de cada línea: una línea de catorce sílabas tarda
+     más en cantarse que una de cuatro. Se cuentan las sílabas de cada línea,
+     se descuenta la entrada instrumental y el final, y se reparte la duración
+     de la canción en proporción. No es perfecto —ninguna estimación lo es—
+     pero deja la letra andando desde el primer clic, y desde ahí se ajusta
+     sobre la marcha con el ESPACIO: cada vez que corriges una línea, TODAS
+     las de abajo se recolocan solas. En dos o tres toques queda cuadrada. */
+  function silabas(p){
+    const w = limpio(p);
+    if(!w) return 0;
+    const g = w.replace(/e$/, '').match(/[aeiouy]+/g);
+    return Math.max(1, g ? g.length : 1);
+  }
+  const pesoLinea = t => Math.max(1, String(t).split(/\s+/).reduce((a, w) => a + silabas(w), 0));
+
+  /* Qué palabra toca dentro de la línea, según lo avanzada que vaya.
+     Se reparte igual: por sílabas, no por número de palabras — «I» y
+     «immediately» no duran lo mismo. */
+  function palabraDe(txt, frac){
+    const ws = String(txt).split(/\s+/);
+    const p = ws.map(silabas);
+    const tot = p.reduce((a, b) => a + b, 0) || 1;
+    let acc = 0;
+    for(let i = 0; i < ws.length; i++){
+      const a = acc / tot, b = (acc + p[i]) / tot;
+      if(frac >= a && frac < b) return i;
+      acc += p[i];
+    }
+    return frac >= 1 ? ws.length - 1 : 0;
+  }
+
+  function sincronizarAuto(){
+    const c = actual(); if(!c) return;
+    const L = lineasDe(c);
+    if(!L.length) return;
+    if(!P.listo || !P.dur){ toast('Espera a que cargue la canción y vuelve a darle', 'warn'); return; }
+    const dur = P.dur;
+    // Entrada instrumental y coda: casi ninguna canción empieza a cantar en 0:00
+    const ini = typeof c.intro === 'number' ? c.intro : Math.min(14, dur * 0.06);
+    const fin = typeof c.outro === 'number' ? c.outro : Math.max(ini + 2, dur - Math.min(12, dur * 0.05));
+    const pesos = L.map(pesoLinea);
+    const total = pesos.reduce((a, b) => a + b, 0) || 1;
+    let t = ini;
+    c.tiempos = L.map((_, i) => { const v = t; t += (fin - ini) * (pesos[i] / total); return +v.toFixed(2); });
+    c.intro = +ini.toFixed(2); c.outro = +fin.toFixed(2);
+    toca(c);
+    P.linea = -1; P.ajuste = true;
+    render();
+    toast('Letra repartida · dale al play y ajusta con ESPACIO', 'ok');
+  }
+
+  /* Ajuste sobre la marcha: el ESPACIO dice «esta línea entra AHORA», y todo
+     lo que viene detrás se recoloca en proporción. Es lo que hace que
+     converja rápido en vez de tener que marcar las cuarenta líneas. */
+  function reanclar(){
+    const c = actual(); if(!c || !P.listo) return;
+    if(P.estado !== 1){ toast('La canción tiene que estar sonando', 'warn'); return; }
+    const L = lineasDe(c);
+    let t = 0; try { t = P.player.getCurrentTime(); } catch(e){ return; }
+    const T = (c.tiempos && c.tiempos.length === L.length) ? c.tiempos.slice() : L.map(() => 0);
+    // La línea que se está cantando ahora mismo: la que el usuario está oyendo
+    let i = P.linea >= 0 ? P.linea : 0;
+    if(i >= L.length) i = L.length - 1;
+    T[i] = +Math.max(0, t - 0.12).toFixed(2);
+    // Recolocar de i+1 en adelante entre este instante y el final
+    const fin = typeof c.outro === 'number' ? c.outro : Math.max(t + 2, P.dur - 4);
+    const pesos = L.map(pesoLinea);
+    const cola = pesos.slice(i + 1);
+    const tot = cola.reduce((a, b) => a + b, 0);
+    if(tot > 0){
+      let tt = T[i] + (fin - T[i]) * (pesos[i] / (pesos[i] + tot));
+      for(let k = i + 1; k < L.length; k++){
+        T[k] = +tt.toFixed(2);
+        tt += (fin - T[i]) * (pesos[k] / (pesos[i] + tot));
+      }
+    }
+    c.tiempos = T; toca(c);
+    P.linea = i; pintaKaraoke(i, 0);
+    toast('Línea ' + (i + 1) + ' ajustada · las de abajo se recolocaron', 'ok');
+  }
+
+  /* Correr TODA la letra unos décimas, para cuando va entera adelantada o
+     atrasada. Es el ajuste más común y no necesita tocar línea por línea. */
+  function correrTodo(seg){
+    const c = actual(); if(!c || !c.tiempos) return;
+    c.tiempos = c.tiempos.map(x => typeof x === 'number' ? +Math.max(0, x + seg).toFixed(2) : x);
+    if(typeof c.intro === 'number') c.intro = Math.max(0, c.intro + seg);
+    toca(c);
+    P.linea = -1;
+  }
+
   const reloj = s => {
     if(typeof s !== 'number' || !isFinite(s)) return '—';
     const m = Math.floor(s / 60), g = Math.floor(s % 60);
@@ -12304,27 +12488,46 @@ const SONG = (() => {
   /* La barra de sincronizar. Es la pieza que hace posible el karaoke sin
      copiar nada: Miguel marca UNA VEZ dónde arranca cada línea y desde
      entonces la letra va sola. */
+  /* La vista de karaoke: SOLO tres líneas — la que pasó, la que suena y la
+     que viene. Es lo que se mira mientras suena la canción; la letra entera
+     queda debajo para el trabajo de estudio. */
+  function karaoke3(c, L){
+    const i = P.linea;
+    const fila = (k, cls) => {
+      const t = L[k];
+      if(t === undefined) return `<div class="kr ${cls} vacia"></div>`;
+      if(cls !== 'act') return `<div class="kr ${cls}">${esc(t)}</div>`;
+      return `<div class="kr act" id="krAct">${t.split(/\s+/).map((w, n) =>
+        `<span class="kw" data-k="${n}">${esc(w)}</span>`).join(' ')}</div>`;
+    };
+    return `
+      <div class="sg-kar${i < 0 ? ' quieto' : ''}">
+        ${fila(i - 1, 'ant')}
+        ${i < 0 ? '<div class="kr act vacia">— dale al play —</div>' : fila(i, 'act')}
+        ${fila(i + 1, 'sig')}
+      </div>`;
+  }
+
   function barraSync(c, L){
     const n = cuantasTiempos(c);
-    if(!P.sync) return `
-      <div class="sg-sync">
-        <div class="sg-sync-t">${n ? `Sincronizada · ${n} de ${L.length} líneas`
-          : 'Todavía sin sincronizar'}</div>
-        <div class="sg-sync-d">${n
-          ? 'Dale al play y la letra se subraya sola. Toca cualquier línea para saltar ahí.'
-          : 'Dale una pasada marcando dónde entra cada línea y la letra irá sola para siempre.'}</div>
-        <button class="sg-b grande" id="sgSyncOn">${n ? '↻ Volver a sincronizar' : '⏱ Sincronizar la letra'}</button>
-      </div>`;
     return `
-      <div class="sg-sync activo">
-        <div class="sg-sync-t">Sincronizando · línea ${Math.min(P.syncI + 1, L.length)} de ${L.length}</div>
-        <div class="sg-sync-d">Suena la canción: pulsa <span class="kbd">ESPACIO</span> —o el botón—
-          justo cuando <b>empieza a cantarse</b> la línea marcada. Si te pasas, deshaz y sigue.</div>
-        <div class="sg-sync-ahora">${esc(L[P.syncI] || '· terminado ·')}</div>
+      <div class="sg-sync${n ? ' listo' : ''}">
+        <div class="sg-sync-t">${n
+          ? `Letra sincronizada · ${n} de ${L.length} líneas`
+          : 'La letra todavía no sigue a la canción'}</div>
+        <div class="sg-sync-d">${n
+          ? 'Si alguna línea entra antes o después, dale al play y pulsa <span class="kbd">ESPACIO</span> justo cuando empiece a cantarse: esa línea se ajusta y <b>todas las de abajo se recolocan solas</b>.'
+          : 'Pulsa el botón y la letra queda repartida por toda la canción según lo larga que sea cada línea. Después se afina sobre la marcha.'}</div>
         <div class="sg-sync-bs">
-          <button class="sg-b grande" id="sgMarcar">Marcar esta línea</button>
-          <button class="sg-b" id="sgDeshacer">↶ Deshacer</button>
-          <button class="sg-b" id="sgSyncOff">Terminar</button>
+          <button class="sg-b grande" id="sgAuto">${n ? '↻ Repartir otra vez' : '⏱ Sincronizar la letra'}</button>
+          ${n ? `
+          <span class="sg-lbl2">Va desfasada</span>
+          <button class="sg-b" id="sgAtras5" title="Toda la letra medio segundo antes">−0,5s</button>
+          <button class="sg-b" id="sgAlante5" title="Toda la letra medio segundo después">+0,5s</button>
+          <span class="sg-lbl2">Entra a</span>
+          <input class="sg-num" id="sgIntro" type="number" step="0.5" min="0"
+                 value="${typeof c.intro === 'number' ? c.intro : 0}" title="Segundo en que empieza a cantarse">
+          <span class="sg-lbl2">s</span>` : ''}
         </div>
       </div>`;
   }
@@ -12378,15 +12581,17 @@ const SONG = (() => {
     const vv = $('sgVer');
     if(vv) vv.onclick = () => { P.verVideo = !P.verVideo; render(); };
 
-    // Sincronizar la letra propia (opcional)
-    const so = $('sgSyncOn');
-    if(so) so.onclick = () => {
-      if(!P.listo) return toast('Espera a que cargue la canción', 'warn');
-      P.sync = true; P.syncI = 0; irA(0); manda('playVideo'); render();
+    /* Sincronizar: un botón que TRABAJA al pulsarlo. Reparte los tiempos por
+       el peso de cada línea; después se afina sobre la marcha. */
+    const au = $('sgAuto'); if(au) au.onclick = sincronizarAuto;
+    const a5 = $('sgAtras5');  if(a5) a5.onclick = () => { correrTodo(-0.5); render(); };
+    const d5 = $('sgAlante5'); if(d5) d5.onclick = () => { correrTodo(0.5); render(); };
+    const inp = $('sgIntro');
+    if(inp) inp.onchange = () => {
+      const v = parseFloat(inp.value);
+      if(isNaN(v)) return;
+      c.intro = Math.max(0, v); toca(c); sincronizarAuto();
     };
-    const sf = $('sgSyncOff'); if(sf) sf.onclick = () => { P.sync = false; render(); };
-    const mk = $('sgMarcar');  if(mk) mk.onclick = marcarAhora;
-    const dh = $('sgDeshacer'); if(dh) dh.onclick = deshacerMarca;
     const bo = $('sgBucleOff');
     if(bo) bo.onclick = () => { P.bucleA = P.bucleB = null; P.bucleI = -1; render(); };
 
