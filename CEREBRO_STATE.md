@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-11 (3-ENG: diccionario a 4016 palabras + 231 expresiones, y 6 fallos del corrector arreglados)
+- **Última actualización:** 2026-09-11 (3-ENG: diccionario a 4231 palabras + auditoría de vocabulario básico)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,37 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🚽 3-ENG · «¿Cómo es posible que no esté la palabra Toilet?» — 2026-09-11 (tarde)
+
+Miguel encontró el agujero con **una sola palabra**. Y tenía toda la razón: el
+diccionario había llegado a 4000 palabras **sin «toilet», sin «boy» y sin «girl»**.
+
+### El fallo no fue de memoria, fue de método
+Las 2000 palabras nuevas se generaron **por temas que se me ocurrían**. Y por temas
+uno nunca escribe «niño», «váter» ni «doce»: **da por hecho que ya están**. Lo obvio
+es exactamente lo que no se lista.
+
+Barriendo **881 palabras de uso corriente** faltaban **223**: los números del once al
+noventa, los ordinales del cuarto al décimo, el baño entero (shower, shampoo,
+toothbrush, towel), media despensa (beef, pork, ham, bacon, salmon, tuna) y medio
+armario (trousers, blouse, underwear, slippers). **4016 → 4231.**
+
+Se añaden también las variantes británicas que salen en los subtítulos: *neighbour,
+colourful, theatre, tyre, petrol, pavement, trousers, tin, torch, loo*.
+
+### Lo que vale más que las 223 palabras
+ comprueba ahora **175 palabras de supervivencia** — lo que hay que
+poder decir para pedir algo, llegar a un sitio y seguir una conversación. Si falta
+una, **la nombra**.
+
+**Probado rompiéndolo:** quitando «toilet» y «boy» del índice,  pasa a
+ y dice cuáles faltan. Un test que no falla cuando debe no es un test.
+
+**La regla:** cuando el contenido se genera por temas, hace falta una lista de suelo
+que se compruebe sola. El hueco lo tiene que encontrar la auditoría, no el usuario.
 
 ---
 
