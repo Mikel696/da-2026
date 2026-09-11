@@ -2649,32 +2649,36 @@ h2.sec .n{
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     PANE SG · CANCIONES
-     La letra la trae el usuario: las letras tienen derechos de
-     autor y no pueden vivir dentro del documento.
+     PANE SG · VÍDEOS
+     El texto lo trae el usuario: los subtítulos tienen derechos
+     de autor y no pueden vivir dentro del documento.
   ═══════════════════════════════════════════════════════════ -->
 <div class="pane" id="sg">
   <div class="hero">
     <div class="kick">vídeos · el inglés que de verdad se habla</div>
-    <h1>Estudia <em>cualquier vídeo</em><br>línea por línea.</h1>
+    <h1>Mira el vídeo.<br><em>Busca lo que no entendiste.</em></h1>
     <p>Los diálogos de libro dicen <i>going to</i>. La gente dice <b style="color:var(--tx)">gonna</b>.
       Un vídeo real —una canción, una entrevista, una escena, una charla— trae el inglés hablado
-      con sus uniones y sus recortes. Aquí lo trabajas
-      <b style="color:var(--tx)">línea por línea</b>, como subtítulos: la línea que se está
-      diciendo va en grande, y tocas cualquier palabra para saber qué significa, guardarla en tu
-      Práctica o buscarla en el resto del documento.</p>
+      con sus uniones y sus recortes. Aquí pones el vídeo con
+      <b style="color:var(--tx)">sus propios subtítulos encendidos</b>, y debajo queda el texto
+      entero para leerlo con calma y <b style="color:var(--tx)">buscar dentro</b>: cuántas veces
+      sale esa palabra, si está en el documento con su traducción y sus ejemplos, y si no está,
+      dónde mirarla fuera.</p>
   </div>
 
-  <div class="note info" style="margin-bottom:16px"><b>Usa los subtítulos que genera el propio
-    vídeo, en dos clics:</b> en YouTube, debajo del vídeo, abre <b>«···  Mostrar transcripción»</b>,
-    selecciona todo y cópialo. Pégalo aquí una vez y queda <b>sincronizado clavado</b> — son sus
-    tiempos, no una estimación. También entiende archivos <b>.srt</b>, <b>.vtt</b> y <b>.lrc</b>.
+  <div class="note info" style="margin-bottom:16px"><b>El texto lo pegas tú, en dos clics:</b>
+    en YouTube, debajo del vídeo, abre <b>«···  Mostrar transcripción»</b>, selecciona todo y
+    cópialo. También entiende archivos <b>.srt</b>, <b>.vtt</b> y <b>.lrc</b>: las marcas de
+    tiempo se quitan solas y queda el diálogo limpio.
     <br><b>Por qué hay que pegarlo y no se baja solo:</b> el reproductor de YouTube va en un iframe
     de otro dominio y su API <b>no expone el texto</b> de los subtítulos; además su servidor no
     autoriza peticiones desde otra web. Una extensión de navegador sí puede porque vive dentro de
     YouTube; una página como esta, no. Esos dos clics son el puente.
-    <br>Y en el reproductor están encendidos los <b>subtítulos de YouTube</b>: te sirven de guía
-    aunque no pegues nada.</div>
+    <br><b>Y la letra no se subraya sola al compás.</b> Se intentó y no salía: sin los segundos
+    exactos de cada línea —el mismo muro de arriba— solo queda estimarlos, y una estimación se va
+    desviando conforme avanza el vídeo. Para estudiar, eso es peor que no tener nada. Los
+    subtítulos que van al compás son los del propio reproductor: esos son exactos y los pone
+    YouTube, que es quien tiene la licencia.</div>
 
   <div id="sgBox"></div>
 </div>
@@ -6909,29 +6913,9 @@ const TTS = (() => {
     try { speechSynthesis.speak(u); } catch(e){}
   }
 
-  /* Versión con mando a distancia, para el karaoke: velocidad propia sin tocar
-     la del documento, aviso de por qué palabra va y aviso de cuándo acaba
-     (que es lo que permite repetir una línea en bucle).
-     `onboundary` no lo dan todos los navegadores; si no llega, la línea se oye
-     igual y simplemente no se ilumina palabra por palabra. */
-  function decir(text, opt){
-    opt = opt || {};
-    if(!window.speechSynthesis || !text){ if(opt.fin) opt.fin(); return null; }
-    try { speechSynthesis.cancel(); } catch(e){}
-    const u = new SpeechSynthesisUtterance(String(text).slice(0, 500));
-    if(chosen) u.voice = chosen;
-    u.lang = chosen ? chosen.lang : 'en-US';
-    u.rate = opt.rate || rate; u.pitch = 1;
-    if(opt.palabra) u.onboundary = ev => {
-      if(ev.name === 'word' || ev.name === undefined) opt.palabra(ev.charIndex);
-    };
-    if(opt.fin){ u.onend = opt.fin; u.onerror = opt.fin; }
-    try { speechSynthesis.speak(u); } catch(e){ if(opt.fin) opt.fin(); }
-    return u;
-  }
   const parar = () => { try { speechSynthesis.cancel(); } catch(e){} };
 
-  return { say, decir, parar };
+  return { say, parar };
 })();
 
 // Delegación global: cualquier [data-say] habla
@@ -11911,16 +11895,18 @@ const SONG = (() => {
   const S = { id:null, vel:1, linea:-1, bucle:0, quedan:0, huecos:-1, buf:'', w:0, q:'' };
 
   /* ══════════ EL REPRODUCTOR ══════════
-     Un solo Play/Pausa/Stop para la canción entera, con barra para moverse y
-     atrás/adelante. La letra se subraya sola siguiendo el reloj del vídeo.
+     Play/Pausa/Stop, barra para moverse, atrás y adelante 5 segundos, y
+     velocidad propia (1× · 0.75× · 0.5×) sin tocar la del resto del documento.
+     Los subtítulos van encendidos (cc_load_policy:1): los pinta YouTube.
 
-     POR QUÉ LOS TIEMPOS LOS PONE MIGUEL Y NO SE BAJAN DE INTERNET
-     Un karaoke necesita saber en qué segundo entra cada línea. Esos datos
-     existen, pero vienen con la letra: bajarlos de una web de letras es
-     copiar la letra igual, solo que a través de un programa. Así que se hace
-     al revés y sale mejor: una pasada marcando el arranque de cada línea —un
-     par de minutos, una sola vez— y a partir de ahí la letra va sola, con SU
-     canción y SU timing. Es exactamente como se han hecho siempre los .lrc.
+     POR QUÉ AQUÍ NO SE SUBRAYA LA LETRA AL COMPÁS
+     Haría falta saber en qué segundo entra cada línea, y ese dato no se puede
+     conseguir: el reproductor va en un iframe de otro dominio, su API no
+     expone el texto de los subtítulos, y su servidor no autoriza peticiones
+     desde otra web. Se intentó estimarlo por sílabas y se iba desincronizando
+     conforme avanzaba — para estudiar, eso es peor que no tener nada. Así que
+     se hace lo que sí sale exacto: los subtítulos los pone YouTube dentro de
+     su vídeo, y aquí debajo queda el texto entero para leerlo y buscar en él.
 
      La API de YouTube se carga solo cuando hace falta. Si no llega —sin red,
      o bloqueada— la sección sigue funcionando: cada línea se puede oír con la
@@ -12074,9 +12060,9 @@ const SONG = (() => {
     { n:'1 · Óyela entera, sin letra',
       d:'Solo para coger el ritmo y ver cuánto pillas de verdad. No busques entenderlo todo: fíjate en cuántas <b>palabras sueltas</b> reconoces.' },
     { n:'2 · Ahora con la letra delante',
-      d:'Aquí viene lo que enseña: marca las líneas donde <b>lo leías pero no lo oías</b>. Esas son las que tienen algo que aprender.' },
-    { n:'3 · Línea por línea, en bucle',
-      d:'Cada línea, tres veces seguidas, hasta que puedas decirla <b>a la vez</b> que suena. Si no te da tiempo, bájale la velocidad, no te saltes la línea.' },
+      d:'Aquí viene lo que enseña: mientras suena, lee el texto de abajo y fíjate en las líneas donde <b>lo leías pero no lo oías</b>. Esas son las que tienen algo que aprender.' },
+    { n:'3 · La línea que se te escapó, otra vez',
+      d:'Vuelve con <b>« 5s</b>, bájale a <b>0.75×</b> o <b>0.5×</b> y óyela hasta que la cojas. Si aun así no sale, no es tu oído: es que ahí hay un recorte. Ve al paso 4.' },
     { n:'4 · Caza los recortes',
       d:'<b>gonna, wanna, gotta, ain\'t, \'cause, lemme, whatcha</b>. Aquí es donde se te escapa el inglés hablado. Toca cualquier palabra para ver qué es.' },
     { n:'5 · Sin letra otra vez',
@@ -12319,7 +12305,7 @@ const SONG = (() => {
 
   function mandoHTML(c, yt){
     if(!yt) return `<div class="note" style="margin-bottom:14px"><b>Pega el enlace de YouTube</b>
-      con el botón <b>✎ Subtítulos</b> y tendrás la canción con un solo play, y la letra siguiéndola.</div>`;
+      con el botón <b>✎ Subtítulos</b> y lo verás aquí mismo, con sus subtítulos encendidos.</div>`;
     return `
       <div class="sg-yt${P.verVideo ? '' : ' oculto'}"><div id="sgPlayer"></div></div>
       <div class="sg-mando">
@@ -12340,11 +12326,6 @@ const SONG = (() => {
       </div>`;
   }
 
-  /* ── Lo que sí se repinta ──
-     YA NO SE PINTA LA LETRA ENTERA. Tenerla debajo obligaba a arrastrar la
-     pantalla hasta la línea que sonaba, y eso tiraba la página hacia abajo
-     cada pocos segundos: imposible mirar el vídeo. Ahora la letra vive solo
-     en las tres líneas del karaoke, que es lo que hay que mirar. */
   /* ── El cuerpo: buscador + subtítulos enteros ──
      Se quitó el karaoke. Sincronizar línea a línea nunca iba a quedar fino sin
      los tiempos reales, y encima tapaba lo útil. Ahora es lo que de verdad
@@ -12431,10 +12412,11 @@ const SONG = (() => {
       <div class="sg-pega">
         <div class="sg-pega-t">Pega aquí la transcripción del vídeo</div>
         <p class="sg-p"><b>En YouTube, bajo el vídeo: «···  Mostrar transcripción»</b> → seleccionar
-           todo → copiar → pegar aquí. Son los subtítulos que genera el propio vídeo, con sus
-           tiempos, así que queda sincronizado <b>clavado</b> de una vez.
-           <br>También valen archivos <b>.srt</b>, <b>.vtt</b> o <b>.lrc</b>. Y si pegas texto sin
-           tiempos, se reparte y se afina a mano.</p>
+           todo → copiar → pegar aquí. Son los subtítulos que genera el propio vídeo, así que
+           dicen exactamente lo que se habla.
+           <br>También valen archivos <b>.srt</b>, <b>.vtt</b> o <b>.lrc</b>: los tiempos se quitan
+           solos y queda el texto limpio. <b>Los subtítulos que ves mientras corre el vídeo los pone
+           YouTube</b>; esto de aquí es para leerlo con calma y para buscar palabras dentro.</p>
         <textarea class="sg-ta" id="sgTA" placeholder="Pega los subtítulos o la transcripción…">${esc(c.letra || '')}</textarea>
         <button class="sg-b grande" id="sgOk">Preparar el vídeo</button>
         <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras tienen
@@ -12445,28 +12427,10 @@ const SONG = (() => {
   }
 
 
-  /* ══════════ SINCRONIZAR DE VERDAD ══════════
-     El botón anterior no sincronizaba: te ponía a marcar línea por línea a
-     mano. Eso no es un botón que trabaje, es una tarea disfrazada de botón.
-
-     Ahora al pulsarlo reparte los tiempos él solo. ¿Cómo, si no puede oír la
-     canción? Por el PESO de cada línea: una línea de catorce sílabas tarda
-     más en cantarse que una de cuatro. Se cuentan las sílabas de cada línea,
-     se descuenta la entrada instrumental y el final, y se reparte la duración
-     de la canción en proporción. No es perfecto —ninguna estimación lo es—
-     pero deja la letra andando desde el primer clic, y desde ahí se ajusta
-     sobre la marcha con el ESPACIO: cada vez que corriges una línea, TODAS
-     las de abajo se recolocan solas. En dos o tres toques queda cuadrada. */
-
-  /* Qué palabra toca dentro de la línea, según lo avanzada que vaya.
-     Se reparte igual: por sílabas, no por número de palabras — «I» y
-     «immediately» no duran lo mismo. */
-
-  /* ══════════ IMPORTAR UNA LETRA QUE YA TRAE TIEMPOS ══════════
-     Si lo que pegas es un archivo de subtítulos (.srt / .vtt) o de karaoke
-     (.lrc), los tiempos ya vienen dentro. Se detecta solo al pegar: se separa
-     el texto de los tiempos y la canción queda sincronizada al instante, sin
-     tocar ningún botón. Es el camino bueno — sale clavado, no estimado.
+  /* ══════════ QUITARLE LOS TIEMPOS A UN ARCHIVO DE SUBTÍTULOS ══════════
+     Si lo que pegas es un .srt / .vtt / .lrc o la transcripción de YouTube,
+     viene lleno de marcas de tiempo. Se detecta solo al pegar y se separa el
+     texto de las marcas, para que abajo quede el diálogo limpio y legible.
      Aquí no se descarga nada de ningún sitio: se lee lo que TÚ pegas, igual
      que el Cuaderno lee lo que tú escribes. */
   function aSegundos(h, m, s, ms){
@@ -12622,12 +12586,12 @@ const SONG = (() => {
         c.exactos = true;
         c.intro = conT.tiempos[0];
         toca(c); P.linea = -1; render();
-        toast('Subtítulos importados · ' + conT.lineas.length + ' líneas ya sincronizadas', 'ok');
+        toast('Subtítulos importados · ' + conT.lineas.length + ' líneas', 'ok');
         return;
       }
       c.letra = v; c.tiempos = null; c.anclas = []; c.exactos = false;
       toca(c); P.linea = -1; render();
-      toast('Subtítulos listos · ' + lineasDe(c).length + ' líneas. Ahora dale a Sincronizar', 'ok');
+      toast('Subtítulos listos · ' + lineasDe(c).length + ' líneas', 'ok');
     };
     const ed = $('sgEdit');
     if(ed) ed.onclick = () => {
