@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-10 (3-ENG: la sección de vídeos deja el karaoke y pasa a ser buscador de subtítulos)
+- **Última actualización:** 2026-09-11 (3-ENG: diccionario a 4016 palabras + 231 expresiones, y 6 fallos del corrector arreglados)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,101 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 📖 3-ENG · El diccionario a 4000 y los 6 fallos que destapó — 2026-09-11
+
+### De dónde salió
+Miguel: *«el diccionario de las 2000 palabras se quedó pequeño, no encuentra
+muchas de las palabras de las canciones»*. Tenía razón, pero **el tamaño era el
+tercero de tres problemas**, y no el mayor. Medido contra el corpus del propio
+documento (1000 frases + 2000 ejemplos = 11.571 palabras), la búsqueda
+encontraba el **78,6 %**.
+
+| Qué fallaba | Cuánto costaba |
+|---|---|
+| **No existían las contracciones** — `don't`, `it's`, `I'm`, `can't` | Son las palabras **más frecuentes del inglés hablado** |
+| **No se buscaba por la raíz** — `going`, `plans`, `missed` fallaban con `go`, `plan`, `miss` dentro | 237 palabras distintas |
+| **Faltaban palabras de verdad** | 462 distintas |
+
+`LEX.raiz` ya existía **pero es solo para verbos**: exige que el resultado sea
+un verbo conocido, así que `windows → window` o `minutes → minute` se le
+escapaban. De ahí el módulo nuevo.
+
+### Lo que hay ahora
+- **`BUSCA`** — 95 contracciones y recortes (`gonna`, `wanna`, `ain't`,
+  `'cause`, `y'all`, `nothin'`) cada uno con su forma completa; plurales,
+  pasados, gerundios, comparativos, superlativos, adverbios e irregulares
+  probados **contra el propio diccionario**, sea la categoría que sea. Y dice
+  siempre **por qué camino llegó**: si buscas «going», tienes que ver que lo
+  que hay dentro es «go», o se aprende mal.
+- **`EXPR`** — 231 expresiones compuestas. `give up` no es «dar arriba». Se
+  detectan **conjugadas**: «I gave up» encuentra «give up».
+- **4016 palabras.** Las 2000 primeras intactas y en su orden de frecuencia;
+  las 2016 nuevas en archivos aparte (`_W2*.txt`) y **por tema**, no por
+  frecuencia — la banda se llama «2001-4016 · por temas» y no finge un orden
+  que no tiene.
+
+**Cobertura medida: 78,6 % → 98,7 %.**
+
+### Las tres trampas del oficio que costaron tiempo
+1. **Lematizar la frase entera rompe las expresiones.** «I gave up» necesita
+   que `gave → give`, pero llevar TODO a su base convierte «held hands» en
+   «hold hand» y deja de casar con «hold hands». La regla buena es la del
+   idioma: **solo el verbo de cabeza se conjuga**; lo que viene detrás no se
+   toca.
+2. **`walkin' → walking → walk` son DOS saltos** y el primer intento solo daba
+   uno. Sin apóstrofo hay que exigir que se llegue por el camino del gerundio,
+   o `sin` acabaría siendo `sing`.
+3. **Escribir fichas a ciegas es tirar la mitad del trabajo.** El primer lote
+   salió con **152 de 242 repetidas**. Generando primero la lista de candidatas
+   y filtrándola contra lo que ya había, los siguientes salieron a **cero**.
+
+### Los 6 fallos del corrector que esto destapó
+Las palabras nuevas metieron **20 falsos positivos**. Ninguno era un ejemplo
+malo: eran fallos que hasta ahora **nada pisaba**.
+
+1. **«corazón» lo daba por femenino.** La regla de `-zón` es buena para
+   *razón* y *sazón*, no para *corazón* ni *buzón*.
+2. **«microondas», «paraguas», «cortafuegos», «rompecabezas»** → plurales
+   femeninos. Son **invariables en -s**.
+3. **«guardia» y «astronauta»** → femeninos. Son de **género común**.
+4. **«La admiro» → «el admiro».** Leía el **pronombre** `la` como artículo y un
+   verbo como sustantivo. El peor de los seis: sale en cualquier frase normal.
+5. **«It's sort of blue» → pedía «is sorting».** Y hubo que arreglarlo en
+   **dos sitios**: el etiquetador y `exigencias()` tienen criterios propios, y
+   hacerlo solo en uno deja el fallo vivo en el otro.
+6. **«Bear in mind» y «So what if»** → reglas que no contemplaban los bloques
+   hechos (`in mind`, `by heart`, `at least`…) ni una muletilla delante de la
+   fórmula fija.
+
+### Y un fallo mío al arreglarlos
+Marqué los invariables en -s como **singulares** y rompí «los lunes». No son
+singulares: es que **no se puede saber** por la forma —«el lunes» y «los lunes»
+son correctos los dos—. Ahora `numero()` devuelve `null` y no se corrige.
+**Cuando no se sabe, no se corrige**, que es la regla de la casa.
+
+### Lo que casi se queda desfasado
+Las bandas del Módulo 1 estaban **clavadas a 2000**: «Todas» se habría quedado
+mostrando la mitad del diccionario sin avisar de nada. Ahora salen de
+`WORDS.length`, igual que el contador del total, que también estaba a mano.
+**Regla:** un número escrito a mano sobre el tamaño de los datos es una mentira
+con fecha de caducidad.
+
+### El build ahora se comprueba a sí mismo
+Al meter los archivos nuevos, un acento grave entre comillas **dobles** hizo
+que bash lo leyera como sustitución de comando: salió un HTML de **846 KB en
+vez de 1 MB** y el script siguió diciendo «construido» tan tranquilo. Ahora
+`build.sh` verifica que las piezas grandes están dentro y **sale con error** si
+falta alguna. Probado rompiéndolo a propósito.
+
+### Verificado (localhost, sobre el archivo construido)
+0 falsos positivos en los 4 corpus (1000 frases EN, 1000 ES, 4016 ejemplos EN,
+4016 ES) · `LAB` `MORFO` `CLUB` `GL` `SONG` `BUSCA` `EXPR` en verde · 11
+pestañas y 11 paneles · contador 4016/4016 · y las reglas **siguen cazando** lo
+que deben (*Do you can drive?*, *La problema*, *El casa*, *Los libro*) sin
+marcar lo que está bien (*El corazón me sangra*, *los lunes*, *el lunes*).
 
 ---
 
