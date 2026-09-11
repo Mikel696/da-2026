@@ -1458,6 +1458,32 @@ h2.sec .n{
 .kw.ya{color:var(--t3)}
 .kw.viva{background:var(--ac);color:#fff;box-shadow:0 0 18px -4px var(--ac)}
 
+/* ── El puente con el resto del documento ── */
+.sg-kar .kr.act .kw{cursor:pointer}
+.sg-kar .kr.act .kw:hover{background:var(--bg4);color:var(--ac2)}
+.sg-kar .kr.act .kw.viva:hover{background:var(--ac);color:#fff}
+.sg-pop{position:absolute;z-index:90;background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:13px;padding:14px 16px;box-shadow:0 20px 54px -14px rgba(0,0,0,.85)}
+.sg-pop-t{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.sg-pop-d{font-size:13.5px;color:var(--ac2);line-height:1.5}
+.sg-pop-u{font-size:12px;color:var(--t3);line-height:1.55;margin-top:5px}
+.sg-pop-bs{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+.sg-pop-bs .sg-b{font-size:11.5px;padding:6px 10px}
+
+.sg-guard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:14px 16px}
+.sg-guard-t{font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.sg-guard-d{font-size:12.5px;color:var(--t2);line-height:1.6;max-width:70ch}
+.sg-chips{display:flex;flex-wrap:wrap;gap:6px}
+.sg-chip{position:relative;background:var(--bg3);border:1px solid var(--bd2);border-radius:20px;
+  padding:5px 24px 5px 12px;font-size:13px;font-family:var(--fm);cursor:pointer;transition:.14s}
+.sg-chip:hover{border-color:var(--ac);color:var(--ac2)}
+.sg-chip-x{position:absolute;right:5px;top:50%;transform:translateY(-50%);background:transparent;
+  border:none;color:var(--t3);font-size:10px;cursor:pointer;padding:2px 4px;border-radius:50%}
+.sg-chip-x:hover{background:var(--bad);color:#fff}
+.sg-nueva.lleno{background:var(--bg4);color:var(--t3);cursor:not-allowed}
+.sg-b.anclar{background:var(--warn);border-color:var(--warn);color:#2a2000;font-weight:700}
+.sg-b.anclar:hover{filter:brightness(1.1)}
+
 .sg-num{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:7px;
   height:30px;width:74px;padding:0 8px;font-size:12px;font-family:var(--fm);outline:none}
 .sg-num:focus{border-color:var(--ac)}
@@ -1583,7 +1609,7 @@ h2.sec .n{
       <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
       <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
       <button class="tab" data-p="cf">🎮 Club de Frases</button>
-      <button class="tab" data-p="sg">🎵 Canciones</button>
+      <button class="tab" data-p="sg">🎬 Vídeos</button>
       <button class="tab" data-p="wr">✍️ Escribir</button>
       <button class="tab" data-p="nb">📓 Cuaderno</button>
       <button class="tab" data-p="p3">🎯 Método</button>
@@ -2598,20 +2624,24 @@ h2.sec .n{
   ═══════════════════════════════════════════════════════════ -->
 <div class="pane" id="sg">
   <div class="hero">
-    <div class="kick">canciones · el inglés que sí se te queda</div>
-    <h1>La canción te enseña<br>lo que el libro <em>te esconde</em>.</h1>
+    <div class="kick">vídeos · el inglés que de verdad se habla</div>
+    <h1>Estudia <em>cualquier vídeo</em><br>línea por línea.</h1>
     <p>Los diálogos de libro dicen <i>going to</i>. La gente dice <b style="color:var(--tx)">gonna</b>.
-      Una canción trae el inglés hablado de verdad — con sus uniones y sus recortes — y encima
-      la melodía te pega la frase entera en la cabeza. Aquí la trabajas
-      <b style="color:var(--tx)">línea por línea</b>: la oyes, la repites en bucle, le tapas
-      palabras y tocas cualquiera para ver qué significa.</p>
+      Un vídeo real —una canción, una entrevista, una escena, una charla— trae el inglés hablado
+      con sus uniones y sus recortes. Aquí lo trabajas
+      <b style="color:var(--tx)">línea por línea</b>, como subtítulos: la línea que se está
+      diciendo va en grande, y tocas cualquier palabra para saber qué significa, guardarla en tu
+      Práctica o buscarla en el resto del documento.</p>
   </div>
 
-  <div class="note info" style="margin-bottom:16px"><b>La letra la pones tú:</b> las letras de
-    canciones tienen derechos de autor, así que no puedo traerlas dentro del documento. Funciona
-    igual que el Cuaderno — <i>tu material, no el mío</i>: pegas la letra de la canción que estés
-    trabajando y el motor hace el resto. Si pegas también el enlace de YouTube, se ve el vídeo
-    aquí mismo para que la oigas de verdad mientras la estudias.</div>
+  <div class="note info" style="margin-bottom:16px"><b>Los subtítulos los pones tú.</b> Funciona
+    igual que el Cuaderno — <i>tu material, no el mío</i>: pegas el enlace del vídeo y sus
+    subtítulos, y el motor hace el resto.
+    <br><b>Lo más rápido:</b> si pegas un archivo de subtítulos <b>.srt</b>, <b>.vtt</b> o
+    <b>.lrc</b>, los tiempos ya vienen dentro y queda sincronizado <b>clavado</b>, sin tocar nada.
+    Si pegas solo el texto, un clic lo reparte y lo afinas anclando.
+    <br>Y en el propio reproductor están encendidos los <b>subtítulos de YouTube</b>, que los sirve
+    YouTube: te valen de guía para saber qué se está diciendo en cada momento.</div>
 
   <div id="sgBox"></div>
 </div>
@@ -11979,6 +12009,65 @@ const SONG = (() => {
     P.pal = -1; pintaPalabra(pal || 0);
   }
 
+  /* ══════════ EL PUENTE CON EL RESTO DEL DOCUMENTO ══════════
+     Tocar una palabra de la línea grande abre su ficha y, sobre todo, la
+     conecta con lo que ya existe: se oye, se guarda en la Práctica diaria
+     (las mismas ★ de las 2000 palabras) y se busca en todo el documento —
+     palabras, frases, bifurcaciones y método— con el buscador de siempre.
+     Un vídeo deja de ser una isla. */
+  const IDX_EN = (() => {
+    const m = new Map();
+    WORDS.forEach(w => { const k = String(w.en || '').toLowerCase(); if(!m.has(k)) m.set(k, w); });
+    return m;
+  })();
+
+  function fichaPalabra(p, x, y){
+    document.querySelectorAll('.sg-pop').forEach(e => e.remove());
+    const w = IDX_EN.get(p);
+    const c = actual();
+    const yaEsta = c && (c.pal || []).indexOf(p) >= 0;
+    const pop = document.createElement('div');
+    pop.className = 'sg-pop';
+    pop.innerHTML = `
+      <div class="sg-pop-t">${esc(p)}
+        <button class="spk sm" data-say="${esc(p)}" title="Oír">🔊</button></div>
+      <div class="sg-pop-d">${w ? esc(w.es) : 'No está en las 2000 palabras del documento — igual la puedes guardar.'}</div>
+      ${w && w.use ? `<div class="sg-pop-u">${esc(w.use)}</div>` : ''}
+      <div class="sg-pop-bs">
+        <button class="sg-b" data-pop="fav">${yaEsta ? '✓ Guardada' : '★ Guardar'}</button>
+        <button class="sg-b" data-pop="buscar">🔍 Buscar en el documento</button>
+        ${w ? `<button class="sg-b" data-pop="ir">📚 Ver su ficha</button>` : ''}
+      </div>`;
+    document.body.appendChild(pop);
+    const ancho = Math.min(320, window.innerWidth - 24);
+    pop.style.width = ancho + 'px';
+    pop.style.left = Math.max(12, Math.min(x - ancho / 2, window.innerWidth - ancho - 12)) + 'px';
+    pop.style.top = (y + window.scrollY + 8) + 'px';
+
+    pop.querySelector('[data-pop="fav"]').onclick = () => {
+      if(!c) return;
+      c.pal = c.pal || [];
+      const k = c.pal.indexOf(p);
+      if(k >= 0) c.pal.splice(k, 1); else c.pal.push(p);
+      // Y a la Práctica diaria, que es donde vuelve a aparecer sola
+      if(w){
+        if(k < 0) favW.add(w.i); else favW.delete(w.i);
+        saveFav(); try { refreshAll(); } catch(e){}
+      }
+      toca(c); pop.remove(); pintaVar(c); wire();
+      toast(k >= 0 ? 'Quitada' : (w ? 'Guardada · la verás en tu Práctica' : 'Guardada en este vídeo'), 'ok');
+    };
+    pop.querySelector('[data-pop="buscar"]').onclick = () => {
+      pop.remove();
+      try { Omni.open(); const i = $('omniIn'); if(i){ i.value = p; Omni.search(p); } } catch(e){}
+    };
+    const ir = pop.querySelector('[data-pop="ir"]');
+    if(ir) ir.onclick = () => { pop.remove(); go('p1'); try { Omni.open(); const i=$('omniIn'); if(i){ i.value=p; Omni.search(p); } } catch(e){} };
+
+    const fuera = ev => { if(!ev.target.closest('.sg-pop')){ pop.remove(); document.removeEventListener('click', fuera); } };
+    setTimeout(() => document.addEventListener('click', fuera), 0);
+  }
+
   function pintaPalabra(n){
     const act = document.querySelector('.sg-kar .kr.act');
     if(!act) return;
@@ -11989,16 +12078,11 @@ const SONG = (() => {
     });
   }
 
-  function marcaLinea(i){
-    document.querySelectorAll('.sg-l.sonando').forEach(e => e.classList.remove('sonando'));
-    if(i < 0) return;
-    const el = document.querySelector('.sg-l[data-i="' + i + '"]');
-    if(!el) return;
-    el.classList.add('sonando');
-    const caja = el.getBoundingClientRect();
-    if(caja.top < 90 || caja.bottom > window.innerHeight - 40)
-      el.scrollIntoView({ block:'center', behavior:'smooth' });
-  }
+  /* Antes esto arrastraba la pantalla hasta la línea que sonaba, dentro de la
+     lista larga de abajo. Cada pocos segundos la página daba un salto y el
+     vídeo se te iba de la vista. La lista ya no existe y el karaoke está
+     siempre delante, así que aquí no se mueve nada. */
+  function marcaLinea(){ /* el karaoke se pinta en pintaKaraoke */ }
 
   function pintaPP(){
     const b = $('sgPP'); if(!b) return;
@@ -12075,8 +12159,17 @@ const SONG = (() => {
   ];
 
   /* ══════════ Datos ══════════ */
+  /* Tope de tres. Un vídeo con su letra y sus tiempos ocupa poco, pero el
+     almacenamiento del navegador es finito y lo comparte con el cuaderno, la
+     práctica y todo lo demás — y ahí no se puede perder nada. Antes de que
+     empiece a fallar por llenarse, se avisa y se pide borrar uno. */
+  const TOPE = 3;
   function nueva(){
     const o = libro();
+    if(Object.keys(o).length >= TOPE){
+      toast('Solo caben ' + TOPE + ' vídeos · borra uno para añadir otro', 'warn');
+      return;
+    }
     const id = nid();
     o[id] = { id, t:'', a:'', url:'', letra:'', hechas:[], ts:Date.now() };
     guardar(o); S.id = id; S.linea = -1; render();
@@ -12229,8 +12322,9 @@ const SONG = (() => {
     const el = $('sgSide'); if(!el) return;
     const ids = Object.keys(o).sort((a, b) => (o[b].ts || 0) - (o[a].ts || 0));
     el.innerHTML = `
-      <button class="sg-nueva" id="sgNueva">＋ Canción nueva</button>
-      <div class="sg-lbl">Mis canciones</div>
+      <button class="sg-nueva${ids.length >= TOPE ? ' lleno' : ''}" id="sgNueva">
+        ${ids.length >= TOPE ? '✕ Lleno · borra uno' : '＋ Vídeo nuevo'}</button>
+      <div class="sg-lbl">Mis vídeos · ${ids.length} de ${TOPE}</div>
       ${ids.length ? ids.map(id => `
         <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
           <b>${esc(o[id].t || 'Sin título')}</b>
@@ -12292,18 +12386,18 @@ const SONG = (() => {
     const conLetra = lineasDe(c).length > 0;
     return `
       <div class="sg-cab">
-        <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título de la canción">
+        <input class="sg-in t" id="sgT" value="${esc(c.t)}" placeholder="Título del vídeo">
         <input class="sg-in a" id="sgA" value="${esc(c.a)}" placeholder="Artista">
-        ${conLetra ? '<button class="sg-b" id="sgEdit" title="Cambiar la letra">✎ Letra</button>' : ''}
+        ${conLetra ? '<button class="sg-b" id="sgEdit" title="Cambiar los subtítulos">✎ Subtítulos</button>' : ''}
         <button class="sg-b danger" id="sgDel" title="Eliminar">🗑</button>
       </div>
       ${conLetra ? '' : `<input class="sg-in url" id="sgU" value="${esc(c.url)}"
-         placeholder="Enlace de YouTube (para oír la canción de verdad)">`}`;
+         placeholder="Enlace de YouTube del vídeo">`}`;
   }
 
   function mandoHTML(c, yt){
     if(!yt) return `<div class="note" style="margin-bottom:14px"><b>Pega el enlace de YouTube</b>
-      con el botón <b>✎ Letra</b> y tendrás la canción con un solo play, y la letra siguiéndola.</div>`;
+      con el botón <b>✎ Subtítulos</b> y tendrás la canción con un solo play, y la letra siguiéndola.</div>`;
     return `
       <div class="sg-yt${P.verVideo ? '' : ' oculto'}"><div id="sgPlayer"></div></div>
       <div class="sg-mando">
@@ -12313,38 +12407,52 @@ const SONG = (() => {
         <button class="sg-b" id="sgFwd" title="Adelante 5 segundos">5s »</button>
         <span class="sg-t0" id="sgT0">0:00</span>
         <input type="range" class="sg-barra" id="sgBarra" min="0" max="100" value="0" step="0.1"
-               title="Mover por la canción">
+               title="Mover por el vídeo">
         <span class="sg-t0" id="sgT1">—</span>
-        <select class="sg-sel" id="sgVel" title="Velocidad de la canción">
+        <select class="sg-sel" id="sgVel" title="Velocidad del vídeo">
           ${[[1,'1×'],[0.75,'0.75×'],[0.5,'0.5×']].map(([v, n]) =>
             `<option value="${v}"${P.vel === v ? ' selected' : ''}>${n}</option>`).join('')}
         </select>
         <button class="sg-b${P.verVideo ? ' on' : ''}" id="sgVer"
-                title="Ver u ocultar el vídeo. Oculto, la canción sigue sonando">👁</button>
+                title="Ver u ocultar la imagen. Oculto, el audio sigue">👁</button>
       </div>`;
   }
 
-  /* ── Lo que sí se repinta ── */
+  /* ── Lo que sí se repinta ──
+     YA NO SE PINTA LA LETRA ENTERA. Tenerla debajo obligaba a arrastrar la
+     pantalla hasta la línea que sonaba, y eso tiraba la página hacia abajo
+     cada pocos segundos: imposible mirar el vídeo. Ahora la letra vive solo
+     en las tres líneas del karaoke, que es lo que hay que mirar. */
   function cuerpo(c, L){
-    const hechas = c.hechas || [];
     return `
       ${ytId(c.url) ? karaoke3(c, L) + barraSync(c, L) : ''}
-      <div class="sg-mando2">
-        <span class="sg-prog">${hechas.length} de ${L.length} líneas hechas</span>
-        ${cuantasTiempos(c) ? `<span class="sg-prog">· ${cuantasTiempos(c)} de ${L.length} sincronizadas</span>` : ''}
-        ${P.bucleA != null ? `<button class="sg-b on" id="sgBucleOff">🔁 Bucle activo · quitar</button>` : ''}
-      </div>
-      <div class="sg-letra">${L.map((t, i) => linea(t, i, hechas.includes(i), c)).join('')}</div>`;
+      ${guardadas(c)}`;
+  }
+
+  /* Las palabras que ha guardado de ESTE vídeo. Es el puente con el resto del
+     documento: cada una se puede oír, buscar en las 2000 palabras y las 1000
+     frases, y mandar a la Práctica diaria. */
+  function guardadas(c){
+    const g = c.pal || [];
+    return `
+      <div class="sg-guard">
+        <div class="sg-guard-t">Palabras que te llevaste de aquí
+          <span class="sg-prog">${g.length ? g.length : 'ninguna todavía'}</span></div>
+        ${g.length ? `<div class="sg-chips">${g.map(p => `
+          <span class="sg-chip" data-pal="${esc(p)}">${esc(p)}<button class="sg-chip-x" data-quita="${esc(p)}" title="Quitar">✕</button></span>`).join('')}</div>`
+        : `<div class="sg-guard-d">Toca cualquier palabra de la línea grande: te dice qué
+             significa, la puedes guardar en tu Práctica y buscarla en el resto del documento.</div>`}
+      </div>`;
   }
 
   function pegarLetra(c){
     return `
       <div class="sg-pega">
-        <div class="sg-pega-t">Pega aquí la letra</div>
+        <div class="sg-pega-t">Pega aquí los subtítulos</div>
         <p class="sg-p">Un renglón por línea, tal como viene. En una canción el renglón es la
            unidad de trabajo, así que se respeta como lo escribiste.</p>
-        <textarea class="sg-ta" id="sgTA" placeholder="Pega la letra de la canción…">${esc(c.letra || '')}</textarea>
-        <button class="sg-b grande" id="sgOk">Preparar el karaoke</button>
+        <textarea class="sg-ta" id="sgTA" placeholder="Pega los subtítulos o la transcripción…">${esc(c.letra || '')}</textarea>
+        <button class="sg-b grande" id="sgOk">Preparar el vídeo</button>
         <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras tienen
           derechos de autor y no pueden vivir dentro del documento. Aquí pasa lo mismo que en el
           Cuaderno: la máquina la pongo yo, el material lo traes tú. Los subtítulos que verás en el
@@ -12352,35 +12460,6 @@ const SONG = (() => {
       </div>`;
   }
 
-  function linea(txt, i, hecha, c){
-    const enHuecos = S.huecos === i;
-    const hs = enHuecos ? huecosDeLinea(txt) : [];
-    const T = (c && c.tiempos) || [];
-    const marcada = typeof T[i] === 'number';
-    const w = txt.split(/\s+/);
-    const cuerpo = w.map((p, n) => {
-      if(enHuecos){
-        const k = hs.indexOf(n);
-        if(k >= 0){
-          if(k < S.w) return `<span class="sg-w ok">${esc(p)}</span>`;
-          if(k === S.w) return `<span class="sg-w hueco activo">${esc(S.buf) || '·'.repeat(Math.max(2, limpio(p).length))}</span>`;
-          return `<span class="sg-w hueco">${'·'.repeat(Math.max(2, limpio(p).length))}</span>`;
-        }
-      }
-      return `<span class="sg-w" data-w="${esc(limpio(p))}">${esc(p)}</span>`;
-    }).join(' ');
-    return `
-      <div class="sg-l${hecha ? ' hecha' : ''}${marcada ? ' conTiempo' : ''}" data-i="${i}">
-        <div class="sg-l-h">
-          <button class="sg-ic sg-ir" data-ir="${i}" title="${marcada ? 'Saltar aquí en la canción' : 'Oír solo esta línea'}">▶</button>
-          <button class="sg-ic${P.bucleI === i ? ' on' : ''}" data-ab="${i}" title="Repetir este trozo en bucle">🔁</button>
-          <button class="sg-ic${enHuecos ? ' on' : ''}" data-gap="${i}" title="Taparle palabras y teclearlas oyendo">🕳</button>
-          <button class="sg-ic${hecha ? ' on' : ''}" data-done="${i}" title="Marcar como aprendida">✓</button>
-        </div>
-        <div class="sg-t">${cuerpo}</div>
-        ${marcada ? `<span class="sg-hora">${reloj(T[i])}</span>` : ''}
-      </div>`;
-  }
 
   /* ══════════ SINCRONIZAR DE VERDAD ══════════
      El botón anterior no sincronizaba: te ponía a marcar línea por línea a
@@ -12508,7 +12587,7 @@ const SONG = (() => {
     const c = actual(); if(!c) return;
     const L = lineasDe(c);
     if(!L.length) return;
-    if(!P.listo || !P.dur){ toast('Espera a que cargue la canción y vuelve a darle', 'warn'); return; }
+    if(!P.listo || !P.dur){ toast('Espera a que cargue el vídeo y vuelve a darle', 'warn'); return; }
     const dur = P.dur;
     // Entrada instrumental y coda: casi ninguna canción empieza a cantar en 0:00
     const ini = typeof c.intro === 'number' ? c.intro : Math.min(14, dur * 0.06);
@@ -12521,7 +12600,7 @@ const SONG = (() => {
     toca(c);
     P.linea = -1; P.ajuste = true;
     render();
-    toast('Letra repartida · dale al play y ajusta con ESPACIO', 'ok');
+    toast('Subtítulos repartidos · dale al play y ancla donde falle', 'ok');
   }
 
   /* Ajuste sobre la marcha: el ESPACIO dice «esta línea entra AHORA», y todo
@@ -12529,7 +12608,7 @@ const SONG = (() => {
      converja rápido en vez de tener que marcar las cuarenta líneas. */
   function reanclar(){
     const c = actual(); if(!c || !P.listo) return;
-    if(P.estado !== 1){ toast('La canción tiene que estar sonando', 'warn'); return; }
+    if(P.estado !== 1){ toast('El vídeo tiene que estar sonando', 'warn'); return; }
     const L = lineasDe(c);
     let t = 0; try { t = P.player.getCurrentTime(); } catch(e){ return; }
     const T = (c.tiempos && c.tiempos.length === L.length) ? c.tiempos.slice() : L.map(() => 0);
@@ -12591,24 +12670,30 @@ const SONG = (() => {
 
   function barraSync(c, L){
     const n = cuantasTiempos(c);
+    const anc = (c.anclas || []).length;
     return `
       <div class="sg-sync${n ? ' listo' : ''}">
         <div class="sg-sync-t">${n
-          ? `Letra sincronizada · ${n} de ${L.length} líneas`
-          : 'La letra todavía no sigue a la canción'}</div>
+          ? `Subtítulos sincronizados · ${n} de ${L.length} líneas${anc ? ` · ${anc} ancla${anc > 1 ? 's' : ''}` : ''}`
+          : 'Los subtítulos todavía no siguen al vídeo'}</div>
         <div class="sg-sync-d">${n
-          ? 'Si alguna línea entra antes o después, dale al play y pulsa <span class="kbd">ESPACIO</span> justo cuando empiece a cantarse: esa línea se ajusta y <b>todas las de abajo se recolocan solas</b>.'
-          : 'Pulsa el botón y la letra queda repartida por toda la canción según lo larga que sea cada línea. Después se afina sobre la marcha.'}</div>
+          ? 'El reparto es una <b>estimación</b> y se va desfasando. La forma rápida de cuadrarla: dale al play y, cuando oigas empezar la línea grande, pulsa <b>📍 Anclar</b>. Esa línea queda fija y las demás se recolocan alrededor. Con tres o cuatro anclas, repartidas por la canción, queda clavada.'
+          : 'Pulsa el botón y la letra queda repartida por toda la canción según lo larga que sea cada línea. Después se afina anclando.'}</div>
         <div class="sg-sync-bs">
-          <button class="sg-b grande" id="sgAuto">${n ? '↻ Repartir otra vez' : '⏱ Sincronizar la letra'}</button>
+          ${n ? `<button class="sg-b anclar" id="sgAnclar" title="La línea grande entra AHORA (o pulsa ESPACIO)">📍 Anclar esta línea</button>` : ''}
+          <button class="sg-b${n ? '' : ' grande'}" id="sgAuto">${n ? '↻ Repartir de cero' : '⏱ Sincronizar'}</button>
           ${n ? `
-          <span class="sg-lbl2">Va desfasada</span>
-          <button class="sg-b" id="sgAtras5" title="Toda la letra medio segundo antes">−0,5s</button>
-          <button class="sg-b" id="sgAlante5" title="Toda la letra medio segundo después">+0,5s</button>
-          <span class="sg-lbl2">Entra a</span>
+          <button class="sg-b" id="sgAtras5" title="Todo medio segundo antes">−0,5s</button>
+          <button class="sg-b" id="sgAlante5" title="Todo medio segundo después">+0,5s</button>
+          <span class="sg-lbl2">Canta de</span>
           <input class="sg-num" id="sgIntro" type="number" step="0.5" min="0"
-                 value="${typeof c.intro === 'number' ? c.intro : 0}" title="Segundo en que empieza a cantarse">
-          <span class="sg-lbl2">s</span>` : ''}
+                 value="${typeof c.intro === 'number' ? +c.intro.toFixed(1) : 0}" title="Segundo en que empieza a cantarse">
+          <span class="sg-lbl2">a</span>
+          <input class="sg-num" id="sgOutro" type="number" step="1" min="0"
+                 value="${typeof c.outro === 'number' ? +c.outro.toFixed(0) : ''}" title="Segundo en que deja de cantarse">
+          <span class="sg-lbl2">s</span>
+          ${anc ? `<button class="sg-b" id="sgSinAnclas" title="Empezar las anclas de cero">Quitar anclas</button>` : ''}
+          ` : ''}
         </div>
       </div>`;
   }
@@ -12629,7 +12714,7 @@ const SONG = (() => {
     const ok = $('sgOk'), ta = $('sgTA');
     if(ok && ta) ok.onclick = () => {
       const v = ta.value.trim();
-      if(!v) return toast('Pega primero la letra', 'warn');
+      if(!v) return toast('Pega primero los subtítulos', 'warn');
       /* ¿Lo que pegaste YA trae los tiempos dentro (.srt / .vtt / .lrc)?
          Entonces la canción queda sincronizada clavada, sin estimar nada y
          sin tocar ningún botón. */
@@ -12644,7 +12729,7 @@ const SONG = (() => {
         return;
       }
       c.letra = v; c.tiempos = null; c.anclas = []; toca(c); P.linea = -1; render();
-      toast('Letra lista · ' + lineasDe(c).length + ' líneas. Ahora dale a Sincronizar', 'ok');
+      toast('Subtítulos listos · ' + lineasDe(c).length + ' líneas. Ahora dale a Sincronizar', 'ok');
     };
     const ed = $('sgEdit');
     if(ed) ed.onclick = () => {
@@ -12653,9 +12738,9 @@ const SONG = (() => {
     };
     const del = $('sgDel');
     if(del) del.onclick = () => {
-      doUndoable('Eliminar canción', [K], () => {
+      doUndoable('Eliminar vídeo', [K], () => {
         const o = libro(); delete o[c.id]; guardar(o); S.id = null; parar(); render();
-      }, 'Canción «' + (c.t || 'sin título') + '» eliminada');
+      }, 'Vídeo «' + (c.t || 'sin título') + '» eliminada');
     };
 
     /* ── El mando único de la canción ── */
@@ -12680,11 +12765,53 @@ const SONG = (() => {
     const au = $('sgAuto'); if(au) au.onclick = sincronizarAuto;
     const a5 = $('sgAtras5');  if(a5) a5.onclick = () => { correrTodo(-0.5); render(); };
     const d5 = $('sgAlante5'); if(d5) d5.onclick = () => { correrTodo(0.5); render(); };
+    /* Tocar una palabra de la línea grande: ficha, guardar y buscar.
+       Va por DELEGACIÓN sobre el contenedor, no palabra por palabra: la línea
+       grande se reconstruye cada vez que cambia de línea, así que unos
+       manejadores puestos en cada <span> se irían con ella al primer cambio.
+       Esa es la misma trampa que mató al reproductor, y aquí se evita. */
+    const kar = document.querySelector('.sg-kar');
+    if(kar) kar.onclick = ev => {
+      const x = ev.target.closest('.kr.act .kw');
+      if(!x) return;
+      const p = limpio(x.textContent); if(!p) return;
+      ev.stopPropagation();
+      TTS.say(p);
+      const r = x.getBoundingClientRect();
+      fichaPalabra(p, r.left + r.width / 2, r.bottom);
+    };
+    document.querySelectorAll('[data-pal]').forEach(x => x.onclick = ev => {
+      if(ev.target.closest('[data-quita]')) return;
+      const p = x.dataset.pal; TTS.say(p);
+      const r = x.getBoundingClientRect();
+      fichaPalabra(p, r.left + r.width / 2, r.bottom);
+    });
+    document.querySelectorAll('[data-quita]').forEach(x => x.onclick = ev => {
+      ev.stopPropagation();
+      const p = x.dataset.quita;
+      c.pal = (c.pal || []).filter(v => v !== p);
+      const w = IDX_EN.get(p);
+      if(w){ favW.delete(w.i); saveFav(); try { refreshAll(); } catch(e){} }
+      toca(c); pintaVar(c); wire();
+    });
+
+    const an = $('sgAnclar'); if(an) an.onclick = reanclar;
+    const sa = $('sgSinAnclas');
+    if(sa) sa.onclick = () => { c.anclas = []; toca(c); sincronizarAuto(); };
     const inp = $('sgIntro');
     if(inp) inp.onchange = () => {
       const v = parseFloat(inp.value);
       if(isNaN(v)) return;
-      c.intro = Math.max(0, v); toca(c); sincronizarAuto();
+      c.intro = Math.max(0, v); c.anclas = []; toca(c); sincronizarAuto();
+    };
+    /* El final del canto importa tanto como el principio: si la canción tiene
+       dos minutos de instrumental al final, repartir hasta el segundo último
+       estira la letra y todo entra tarde. */
+    const out = $('sgOutro');
+    if(out) out.onchange = () => {
+      const v = parseFloat(out.value);
+      if(isNaN(v)) return;
+      c.outro = Math.max((c.intro || 0) + 2, v); c.anclas = []; toca(c); sincronizarAuto();
     };
     const bo = $('sgBucleOff');
     if(bo) bo.onclick = () => { P.bucleA = P.bucleB = null; P.bucleI = -1; render(); };
