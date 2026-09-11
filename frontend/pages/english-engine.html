@@ -1459,7 +1459,15 @@ h2.sec .n{
   background:rgba(34,197,94,.07);border-left:3px solid var(--ok);margin-bottom:8px}
 .sg-ver-ok b{color:var(--tx)}
 .sg-ver-u{display:block;font-size:12px;color:var(--t3);margin-top:3px}
+/* El puente: por que camino se llego a la palabra. Va en morado y antes que
+   el resultado, porque es lo que evita aprender mal: si buscas "going", lo
+   que el diccionario trae es "go", y eso hay que verlo. */
+.sg-ver-via{font-size:13px;color:var(--t2);line-height:1.55;padding:8px 13px;border-radius:9px;
+  background:rgba(139,92,246,.09);border-left:3px solid var(--ac);margin-bottom:8px}
+.sg-ver-via b{color:var(--tx);font-family:var(--fm)}
 .sg-ver-f{display:block;font-family:var(--fm);font-size:12.5px;color:var(--ac2);margin-top:4px}
+.sg-ver-f.aqui{color:var(--ok);font-weight:600}
+.sg-ver-f i{font-style:normal;color:var(--t3);font-family:var(--f)}
 .sg-ver-no{font-size:13.5px;color:var(--t2);line-height:1.6;padding:9px 13px;border-radius:9px;
   background:rgba(234,179,8,.07);border-left:3px solid var(--warn);margin-bottom:9px}
 .sg-ver-no b{color:var(--tx)}
@@ -6397,6 +6405,385 @@ BIFUR.push(
   ]}
 
 );
+/* ─────────── 3c · EXPRESIONES COMPUESTAS ───────────
+   El inglés hablado va casi todo en bloques de dos o tres palabras, y ninguna
+   de ellas por separado dice lo que significa el bloque:
+
+       give up    · «dar» + «arriba» = RENDIRSE
+       break up   · «romper» + «arriba» = CORTAR con alguien
+       hang on    · «colgar» + «en» = ESPERA
+
+   Buscar «up» en una canción y que salga «arriba» es exactamente el fallo que
+   hace que la letra no se entienda. Por eso, cuando una palabra entra en una
+   expresión, se enseña la expresión entera.
+
+   Formato de cada línea:  inglés | español | cuándo se usa | ejemplo EN | ejemplo ES
+   Nada de esto se descarga de ningún sitio: es vocabulario, igual que las
+   palabras y las frases del documento.                                        */
+const RAW_EXPR = `
+give up|rendirse / dejarlo|dejar de intentar algo|Don't give up on me.|No te rindas conmigo.
+give in|ceder|dejar de resistirse|She finally gave in.|Al final cedió.
+give back|devolver|regresar algo prestado|Give me back my heart.|Devuélveme el corazón.
+give away|regalar / delatar|entregar gratis · o descubrir un secreto|His face gave him away.|Su cara lo delató.
+give out|repartir / agotarse|entregar a varios · o quedarse sin fuerzas|My legs gave out.|Me fallaron las piernas.
+break up|cortar / romper (pareja)|terminar una relación|We broke up last year.|Cortamos el año pasado.
+break down|derrumbarse / averiarse|llorar sin poder parar · o dejar de funcionar|I broke down and cried.|Me derrumbé y lloré.
+break out|estallar / escapar|empezar de golpe · o fugarse|A fire broke out.|Estalló un incendio.
+break in|entrar a la fuerza|forzar una puerta|Someone broke in last night.|Alguien entró anoche.
+break through|abrirse paso|superar una barrera|The sun broke through the clouds.|El sol se abrió paso entre las nubes.
+hang on|espera / aguanta|pedir que esperen · o resistir|Hang on, I'm coming.|Espera, ya voy.
+hang out|pasar el rato|estar con gente sin plan|We just hang out on Fridays.|Los viernes solo pasamos el rato.
+hang up|colgar (el teléfono)|cortar la llamada|Don't hang up on me.|No me cuelgues.
+hang around|rondar / quedarse|estar por ahí sin hacer nada|He hangs around the corner.|Ronda por la esquina.
+hold on|espera / agárrate|pedir tiempo · o resistir|Hold on a little longer.|Aguanta un poco más.
+hold back|contenerse / retener|no dejar salir algo|I can't hold back the tears.|No puedo contener las lágrimas.
+hold up|aguantar / atracar|soportar peso · o robar a mano armada|Will it hold up?|¿Aguantará?
+hold out|resistir|no rendirse todavía|They held out for weeks.|Resistieron semanas.
+hold onto|aferrarse a|no soltar algo|Hold onto this feeling.|Aférrate a este sentimiento.
+let go|soltar / dejar ir|dejar de aferrarse|I had to let you go.|Tuve que dejarte ir.
+let down|defraudar|fallarle a alguien|I won't let you down.|No te voy a fallar.
+let in|dejar entrar|abrir la puerta a alguien|Let me in.|Déjame entrar.
+let out|dejar salir / soltar|liberar algo|Let it all out.|Suéltalo todo.
+let off|perdonar / soltar|no castigar|The judge let him off.|El juez lo dejó ir.
+get up|levantarse|salir de la cama|I get up at six.|Me levanto a las seis.
+get out|salir / largarse|irse de un sitio|Get out of my head.|Sal de mi cabeza.
+get over|superar|dejar atrás algo doloroso|I can't get over you.|No te puedo superar.
+get back|volver / recuperar|regresar · o recobrar algo|I want to get back to you.|Quiero volver contigo.
+get along|llevarse bien|entenderse con alguien|We get along fine.|Nos llevamos bien.
+get away|escapar|irse lejos|Let's get away tonight.|Escapémonos esta noche.
+get through|superar / comunicarse|pasar un mal trago · o lograr contactar|We'll get through this.|Vamos a salir de esta.
+get in|entrar / subir|meterse en un coche o sitio|Get in the car.|Sube al coche.
+get off|bajarse|salir de un transporte|Get off the bus here.|Bájate aquí del autobús.
+get on|subirse / seguir|entrar a un transporte · o continuar|Get on with it.|Sigue con eso.
+get it|entender|captar la idea|Now I get it.|Ahora lo entiendo.
+get used to|acostumbrarse a|dejar de resultar raro|I got used to being alone.|Me acostumbré a estar solo.
+come on|vamos / venga|animar o meter prisa|Come on, you can do it.|Vamos, tú puedes.
+come over|pasarse por aquí|visitar|Come over tonight.|Pásate esta noche.
+come back|volver|regresar|Come back to me.|Vuelve conmigo.
+come out|salir / revelarse|aparecer · o decir la verdad de uno|The truth came out.|Salió la verdad.
+come up|surgir|aparecer de repente|Something came up.|Surgió algo.
+come across|toparse con|encontrar por casualidad|I came across an old photo.|Me topé con una foto vieja.
+come down|bajar / venirse abajo|descender · o derrumbarse|The walls came down.|Los muros se vinieron abajo.
+come around|pasarse / recapacitar|visitar · o cambiar de opinión|He'll come around.|Va a recapacitar.
+come apart|deshacerse|romperse en pedazos|I'm coming apart.|Me estoy deshaciendo.
+go on|seguir / continuar|no parar|Go on without me.|Sigue sin mí.
+go out|salir|salir de casa o de fiesta|We went out last night.|Salimos anoche.
+go through|pasar por|atravesar algo duro|You don't know what I went through.|No sabes por lo que pasé.
+go back|volver|regresar a algo o alguien|I can't go back.|No puedo volver.
+go away|irse / largarse|marcharse|The pain won't go away.|El dolor no se va.
+go down|bajar / pasar|descender · o suceder|What went down last night?|¿Qué pasó anoche?
+go off|estallar / sonar|explotar · o sonar una alarma|My alarm went off.|Sonó mi alarma.
+go for it|lánzate|animar a intentarlo|Just go for it.|Lánzate y ya.
+go ahead|adelante|dar permiso para seguir|Go ahead, I'm listening.|Adelante, te escucho.
+take off|despegar / quitarse|un avión · o quitarse ropa|Take off your coat.|Quítate el abrigo.
+take over|tomar el control|quedarse al mando|She took over the band.|Se quedó al mando de la banda.
+take back|retirar lo dicho / recuperar|deshacer unas palabras|I take it back.|Retiro lo dicho.
+take out|sacar / llevarse|extraer · o comida para llevar|Take out the trash.|Saca la basura.
+take up|empezar (una afición) / ocupar|ponerse a hacer algo nuevo|I took up guitar.|Me puse con la guitarra.
+take care of|cuidar de|hacerse cargo|I'll take care of you.|Yo te cuido.
+take it easy|con calma|pedir que se relajen|Take it easy on yourself.|No seas duro contigo.
+put on|ponerse / poner|vestirse · o hacer sonar algo|Put on that old song.|Pon esa canción vieja.
+put off|aplazar|dejar para después|Don't put it off.|No lo dejes para después.
+put out|apagar / sacar|extinguir un fuego|Put out the fire.|Apaga el fuego.
+put up with|aguantar|soportar algo molesto|I can't put up with this.|No aguanto esto.
+put down|dejar / menospreciar|soltar algo · o humillar|Put down the phone.|Deja el teléfono.
+put away|guardar|poner en su sitio|Put your things away.|Guarda tus cosas.
+put back|devolver a su sitio|dejar donde estaba|Put it back together.|Vuelve a armarlo.
+turn on|encender|dar corriente o luz|Turn on the lights.|Enciende las luces.
+turn off|apagar|cortar corriente o luz|Turn off the radio.|Apaga la radio.
+turn up|subir (volumen) / aparecer|más fuerte · o presentarse|Turn it up.|Súbelo.
+turn down|bajar / rechazar|menos volumen · o decir que no|She turned me down.|Me rechazó.
+turn around|darse la vuelta / cambiar|girar · o enderezar algo|Turn around and look at me.|Date la vuelta y mírame.
+turn into|convertirse en|pasar a ser otra cosa|It turned into a mess.|Se convirtió en un lío.
+turn out|resultar|acabar siendo|It turned out fine.|Al final salió bien.
+look for|buscar|intentar encontrar|I'm looking for you.|Te estoy buscando.
+look after|cuidar de|hacerse cargo de alguien|Look after yourself.|Cuídate.
+look up|buscar (en un libro) / mejorar|consultar un dato · o ir a mejor|Things are looking up.|Las cosas van mejorando.
+look forward to|tener ganas de|esperar algo con ilusión|I look forward to seeing you.|Tengo ganas de verte.
+look out|cuidado|avisar de un peligro|Look out behind you.|Cuidado detrás de ti.
+look back|mirar atrás|recordar el pasado|Don't look back.|No mires atrás.
+look into|investigar|estudiar un asunto|I'll look into it.|Lo voy a mirar.
+look down on|menospreciar|creerse superior|Don't look down on me.|No me menosprecies.
+run out|acabarse|quedarse sin algo|We're running out of time.|Se nos acaba el tiempo.
+run away|huir|escaparse|Let's run away together.|Huyamos juntos.
+run into|toparse con|encontrar por casualidad|I ran into her downtown.|Me la topé en el centro.
+run over|atropellar|pasar por encima con un vehículo|A car ran over the sign.|Un coche arrolló la señal.
+fall in love|enamorarse|empezar a querer a alguien|I fell in love with you.|Me enamoré de ti.
+fall apart|desmoronarse|romperse por dentro|Everything falls apart.|Todo se desmorona.
+fall for|caer rendido / picar|enamorarse · o creerse un engaño|I fell for you hard.|Caí rendido por ti.
+fall out|pelearse|romper la amistad|They fell out over money.|Se pelearon por dinero.
+fall behind|quedarse atrás|ir con retraso|Don't fall behind.|No te quedes atrás.
+figure out|descifrar / darse cuenta|entender algo difícil|I can't figure you out.|No te logro descifrar.
+work out|salir bien / entrenar|resolverse · o hacer ejecicio|It didn't work out.|No salió bien.
+work on|trabajar en|dedicarle esfuerzo a algo|I'm working on myself.|Estoy trabajando en mí.
+find out|enterarse|descubrir algo|She found out the truth.|Se enteró de la verdad.
+show up|aparecer|presentarse en un sitio|He never showed up.|Nunca apareció.
+show off|presumir|lucirse delante de otros|Stop showing off.|Deja de presumir.
+grow up|crecer|hacerse mayor|We grew up here.|Crecimos aquí.
+grow apart|distanciarse|dejar de estar unidos|We just grew apart.|Simplemente nos distanciamos.
+wake up|despertarse|dejar de dormir|Wake up, it's over.|Despierta, se acabó.
+stay up|quedarse despierto|no irse a dormir|I stayed up all night.|Me quedé despierto toda la noche.
+calm down|calmarse|bajar la intensidad|Calm down, breathe.|Cálmate, respira.
+slow down|ir más despacio|reducir la velocidad|Slow down, we have time.|Más despacio, hay tiempo.
+settle down|asentarse / calmarse|echar raíces · o tranquilizarse|I'm not ready to settle down.|No estoy listo para sentar cabeza.
+cheer up|animarse|ponerse de mejor humor|Cheer up, it's not over.|Anímate, no se acabó.
+shut up|callarse|dejar de hablar|Shut up and dance.|Cállate y baila.
+stand up|ponerse de pie / defender|levantarse · o dar la cara|Stand up for yourself.|Da la cara por ti.
+stand by|apoyar / esperar|estar al lado de alguien|Stand by me.|Quédate a mi lado.
+stand out|destacar|llamar la atención|You stand out in a crowd.|Destacas entre la gente.
+sit down|sentarse|tomar asiento|Sit down with me.|Siéntate conmigo.
+lie down|tumbarse|echarse|Lie down and rest.|Túmbate y descansa.
+back down|echarse atrás|retirarse de una postura|I won't back down.|No me voy a echar atrás.
+back up|apoyar / retroceder|respaldar a alguien · o dar marcha atrás|I'll back you up.|Yo te respaldo.
+blow up|estallar|explotar · o enfadarse mucho|The whole thing blew up.|Todo estalló.
+blow away|dejar sin palabras|impresionar muchísimo|That song blew me away.|Esa canción me dejó sin palabras.
+bring up|sacar un tema / criar|mencionar · o educar a un hijo|Don't bring that up.|No saques ese tema.
+bring back|traer de vuelta|hacer recordar|This brings back memories.|Esto me trae recuerdos.
+bring down|hundir|derribar o desanimar|Don't let it bring you down.|No dejes que te hunda.
+call off|cancelar|suspender algo planeado|They called off the show.|Cancelaron el concierto.
+call back|devolver la llamada|volver a llamar|I'll call you back.|Te devuelvo la llamada.
+carry on|seguir adelante|continuar pese a todo|Carry on without me.|Sigue sin mí.
+catch up|ponerse al día / alcanzar|llegar donde van los demás|The past caught up with me.|El pasado me alcanzó.
+check out|mirar / marcharse|echar un vistazo · o dejar el hotel|Check out this song.|Mira esta canción.
+chill out|relajarse|tranquilizarse|Just chill out.|Relájate.
+count on|contar con|confiar en alguien|You can count on me.|Puedes contar conmigo.
+cut off|cortar / interrumpir|separar o dejar sin algo|He cut me off.|Me cortó.
+deal with|lidiar con|hacer frente a algo|I can deal with it.|Puedo con eso.
+end up|acabar / terminar|llegar a un final no previsto|We ended up alone.|Acabamos solos.
+fed up|harto|cansado de algo|I'm fed up with waiting.|Estoy harto de esperar.
+fill up|llenar|completar hasta arriba|Fill up my glass.|Llena mi vaso.
+hurry up|date prisa|apurar a alguien|Hurry up, it's late.|Date prisa, es tarde.
+keep on|seguir|no parar de hacer algo|Keep on running.|Sigue corriendo.
+keep up|mantener el ritmo|no quedarse atrás|I can't keep up with you.|No te sigo el ritmo.
+keep away|mantenerse lejos|no acercarse|Keep away from trouble.|Aléjate de los problemas.
+knock out|dejar KO|dejar inconsciente o impresionar|That chorus knocks me out.|Ese estribillo me deja KO.
+laugh at|reírse de|burlarse|They laughed at me.|Se rieron de mí.
+lay down|tumbarse / soltar|echarse · o dejar algo|Lay down your arms.|Baja las armas.
+leave out|dejar fuera|no incluir|Don't leave me out.|No me dejes fuera.
+live on|seguir viviendo|sobrevivir en el recuerdo|Your song lives on.|Tu canción sigue viva.
+make up|inventar / reconciliarse / maquillaje|tres sentidos distintos|Let's kiss and make up.|Hagamos las paces.
+make out|besuquearse / distinguir|dos sentidos muy distintos|I can't make out the words.|No distingo la letra.
+make it|lograrlo|conseguirlo o llegar|We're gonna make it.|Lo vamos a lograr.
+mess up|fastidiar|hacerlo mal|I messed it up.|La fastidié.
+miss out|perderse algo|quedarse sin vivirlo|Don't miss out.|No te lo pierdas.
+move on|pasar página|seguir adelante tras algo|It's time to move on.|Toca pasar página.
+pass away|fallecer|forma suave de decir «morir»|He passed away in May.|Falleció en mayo.
+pass out|desmayarse|perder el conocimiento|I almost passed out.|Casi me desmayo.
+pay off|dar resultado / saldar|valer la pena · o terminar de pagar|The wait paid off.|La espera valió la pena.
+pick up|recoger / aprender|coger algo · o pillar una costumbre|Pick up the pieces.|Recoge los pedazos.
+point out|señalar|hacer notar algo|She pointed out my mistake.|Señaló mi error.
+pull over|parar (un vehículo)|echarse a un lado|Pull over here.|Párate aquí.
+pull through|salir adelante|sobrevivir a algo grave|You'll pull through.|Vas a salir de esta.
+push through|abrirse paso|seguir pese a la dificultad|Push through the pain.|Sigue pese al dolor.
+reach out|tender la mano|contactar o pedir ayuda|Reach out when you need me.|Escríbeme cuando me necesites.
+rip off|estafar|cobrar de más|They ripped me off.|Me estafaron.
+set up|montar / tender una trampa|preparar algo · o incriminar|I was set up.|Me tendieron una trampa.
+settle for|conformarse con|aceptar menos de lo que se quería|Don't settle for less.|No te conformes con menos.
+sing along|cantar a coro|acompañar cantando|Sing along with me.|Canta conmigo.
+sleep in|dormir hasta tarde|no madrugar|I slept in today.|Hoy dormí hasta tarde.
+slip away|escabullirse|irse sin que se note|The night slipped away.|La noche se escapó.
+sort out|arreglar|resolver un lío|We'll sort it out.|Ya lo arreglamos.
+speak up|hablar más alto / alzar la voz|que se oiga · o dar la cara|Speak up for yourself.|Alza la voz por ti.
+split up|separarse|romper una pareja o un grupo|The band split up.|El grupo se separó.
+stick around|quedarse|no marcharse todavía|Stick around a while.|Quédate un rato.
+stick together|mantenerse unidos|no separarse|We stick together.|Nos mantenemos unidos.
+stick with|seguir con|no abandonar algo|Stick with it.|No lo dejes.
+take after|parecerse a|salir como un familiar|She takes after her mother.|Salió como su madre.
+tear apart|destrozar|romper en pedazos|It tore me apart.|Me destrozó.
+think over|pensárselo|reflexionar antes de decidir|Think it over.|Piénsatelo.
+throw away|tirar|deshacerse de algo|Don't throw it away.|No lo tires.
+try on|probarse (ropa)|ver si queda bien|Try it on.|Pruébatelo.
+try out|probar|hacer una prueba|Try out the new one.|Prueba el nuevo.
+wait up|esperar despierto|no acostarse esperando a alguien|Don't wait up for me.|No me esperes despierto.
+walk away|marcharse|irse dejando algo atrás|I walked away from it all.|Me fui de todo aquello.
+warm up|calentar|subir la temperatura o preparar el cuerpo|Warm up before you sing.|Calienta antes de cantar.
+watch out|cuidado|avisar de un peligro|Watch out for the step.|Cuidado con el escalón.
+wear out|desgastar / agotar|quedarse sin fuerza o sin uso|I'm worn out.|Estoy agotado.
+wipe out|arrasar|destruir por completo|The storm wiped it out.|La tormenta lo arrasó.
+work through|superar poco a poco|resolver algo por partes|Work through the pain.|Ve superando el dolor.
+write down|apuntar|escribir para no olvidar|Write it down.|Apúntalo.
+zone out|quedarse ido|desconectar mentalmente|I zoned out for a second.|Me quedé ido un segundo.
+all along|desde el principio|todo el tiempo|You knew all along.|Lo sabías desde el principio.
+all over|por todas partes / se acabó|en todos lados · o terminado|It's all over now.|Ya se acabó todo.
+after all|al fin y al cabo|introduce la razón de fondo|After all, we tried.|Al fin y al cabo lo intentamos.
+at all|en absoluto|refuerza una negación|I don't mind at all.|No me importa en absoluto.
+at least|al menos|lo mínimo|At least you tried.|Al menos lo intentaste.
+as well|también|va al final de la frase|I'm coming as well.|Yo voy también.
+by the way|por cierto|cambiar de tema|By the way, I miss you.|Por cierto, te echo de menos.
+for good|para siempre|definitivamente|She's gone for good.|Se fue para siempre.
+for real|en serio|de verdad|Is this for real?|¿Esto es en serio?
+in a while|dentro de un rato|pasado un tiempo|See you in a while.|Nos vemos en un rato.
+no matter what|pase lo que pase|sin importar nada|I'm here no matter what.|Estoy aquí pase lo que pase.
+once again|otra vez|de nuevo|Here we go once again.|Allá vamos otra vez.
+on my own|por mi cuenta|solo, sin ayuda|I did it on my own.|Lo hice por mi cuenta.
+out of nowhere|de la nada|sin avisar|You came out of nowhere.|Apareciste de la nada.
+right now|ahora mismo|en este instante|I need you right now.|Te necesito ahora mismo.
+so far|hasta ahora|hasta este momento|So far, so good.|Hasta ahora, bien.
+such a|tan / menudo|refuerza un sustantivo|You're such a liar.|Eres un mentiroso.
+the other day|el otro día|hace poco|I saw him the other day.|Lo vi el otro día.
+used to|solía|algo que ya no se hace|I used to love you.|Yo te quería antes.
+what if|y si…|plantear una posibilidad|What if I stayed?|¿Y si me quedara?
+no way|ni de broma / no puede ser|negativa rotunda o sorpresa|No way, I don't believe it.|No puede ser, no me lo creo.
+never mind|da igual|dejarlo pasar|Never mind, forget it.|Da igual, olvídalo.
+come true|hacerse realidad|cumplirse un sueño|My dreams came true.|Mis sueños se hicieron realidad.
+make sense|tener sentido|resultar lógico|It doesn't make sense.|No tiene sentido.
+take place|ocurrir|tener lugar|It took place at night.|Ocurrió de noche.
+keep in touch|seguir en contacto|no perderse la pista|Let's keep in touch.|Sigamos en contacto.
+lose touch|perder el contacto|dejar de hablarse|We lost touch years ago.|Perdimos el contacto hace años.
+break someone's heart|romperle el corazón a alguien|hacer mucho daño sentimental|You broke my heart.|Me rompiste el corazón.
+change one's mind|cambiar de opinión|decidir otra cosa|I changed my mind.|Cambié de opinión.
+fall asleep|quedarse dormido|empezar a dormir|I fell asleep on the couch.|Me quedé dormido en el sofá.
+get married|casarse|contraer matrimonio|They got married in June.|Se casaron en junio.
+have fun|pasarlo bien|disfrutar|Have fun tonight.|Pásalo bien esta noche.
+hold hands|ir de la mano|cogerse de las manos|We held hands all night.|Fuimos de la mano toda la noche.
+make a mistake|cometer un error|equivocarse|I made a mistake.|Cometí un error.
+take a chance|arriesgarse|jugársela|Take a chance on me.|Arriésgate conmigo.
+tell the truth|decir la verdad|no mentir|Just tell me the truth.|Solo dime la verdad.
+waste time|perder el tiempo|malgastarlo|Don't waste my time.|No me hagas perder el tiempo.
+on fire|encendido / arrasando|literal o «en racha»|Tonight we're on fire.|Esta noche arrasamos.
+out of my mind|fuera de mis cabales|loco|I'm out of my mind for you.|Estoy loco por ti.
+over and over|una y otra vez|repetidamente|I play it over and over.|La pongo una y otra vez.
+little by little|poco a poco|de forma gradual|Little by little I healed.|Poco a poco me curé.
+side by side|lado a lado|juntos|We walked side by side.|Caminamos lado a lado.
+face to face|cara a cara|en persona|Say it face to face.|Dímelo a la cara.
+now and then|de vez en cuando|ocasionalmente|I think of you now and then.|Pienso en ti de vez en cuando.
+sooner or later|tarde o temprano|acabará pasando|Sooner or later you'll know.|Tarde o temprano lo sabrás.
+here we go|allá vamos|empezar algo|Here we go again.|Allá vamos otra vez.
+let it be|déjalo estar|no forzar las cosas|Just let it be.|Déjalo estar.
+let me know|avísame|pedir que te informen|Let me know how it goes.|Avísame cómo va.
+no big deal|no es para tanto|quitarle importancia|It's no big deal.|No es para tanto.
+`.trim().split(String.fromCharCode(10));
+
+const EXPR = (() => {
+  const LISTA = RAW_EXPR.map((r, i) => {
+    const p = r.split('|');
+    return { i:i+1, en:p[0], es:p[1], use:p[2], xe:p[3], xs:p[4] };
+  });
+
+  /* Índice palabra → expresiones que la contienen. Se construye una vez.
+     «up» sale en decenas de expresiones y eso es exactamente el punto: si en
+     la canción dice «give up», buscar «up» tiene que llevar a «give up», no a
+     «arriba». */
+  const POR_PAL = new Map();
+  LISTA.forEach(e => {
+    new Set(e.en.toLowerCase().split(/[^a-z']+/).filter(Boolean)).forEach(p => {
+      if(!POR_PAL.has(p)) POR_PAL.set(p, []);
+      POR_PAL.get(p).push(e);
+    });
+  });
+
+  const IDX = new Map();
+  LISTA.forEach(e => { if(!IDX.has(e.en)) IDX.set(e.en, e); });
+
+  /* Busca la palabra dentro de las expresiones. Devuelve primero las que la
+     llevan al principio (give up cuando buscas «give»), que es lo que uno
+     espera ver arriba del todo. */
+  function buscar(q){
+    const w = String(q || '').toLowerCase().trim();
+    if(!w) return [];
+    const exacta = IDX.get(w);
+    if(exacta) return [exacta];
+    const lista = (POR_PAL.get(w) || []).slice();
+    lista.sort((a, b) => a.en.indexOf(w) - b.en.indexOf(w) || a.en.length - b.en.length);
+    return lista;
+  }
+
+  /* Las expresiones que salen en un texto.
+
+     No vale buscar la cadena tal cual: la canción dice «I gave up», no «give
+     up». Pero tampoco vale llevar TODAS las palabras a su base, porque
+     entonces «held hands» se convierte en «hold hand» y deja de casar con
+     «hold hands». La regla buena es la del idioma: **el verbo de cabeza es el
+     único que se conjuga**; lo que viene detrás no se toca. Así que se recorre
+     el texto palabra por palabra y en cada posición se prueba la expresión
+     dejando que solo la primera venga en cualquier forma. */
+  function enTexto(txt){
+    const B = (window.APP && window.APP.BUSCA) || null;
+    const toks = String(txt || '').toLowerCase()
+      .replace(/[^a-z' ]+/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+    if(!toks.length) return [];
+
+    const base = p => {
+      try { const r = window.APP.LEX.raiz(p); if(r) return r; } catch(e){}
+      if(B){ const r = B.buscar(p); if(r && r.w && r.via === 'forma') return r.w.en; }
+      return p;
+    };
+    const lem = toks.map(base);
+
+    return LISTA.filter(e => {
+      if(e.en.indexOf('someone') >= 0 || e.en.indexOf("one's") >= 0) return false;
+      const ps = e.en.split(' ');
+      for(let i = 0; i + ps.length <= toks.length; i++){
+        let casa = true;
+        for(let j = 0; j < ps.length; j++){
+          const t = toks[i + j];
+          const ok = (j === 0) ? (t === ps[0] || lem[i + j] === ps[0]) : (t === ps[j]);
+          if(!ok){ casa = false; break; }
+        }
+        if(casa) return true;
+      }
+      return false;
+    });
+  }
+
+  function auditar(){
+    const malas = [];
+    const vistas = new Set();
+    const B = (window.APP && window.APP.BUSCA) || null;
+
+    LISTA.forEach(e => {
+      if(!e.en || !e.es || !e.use || !e.xe || !e.xs) malas.push('incompleta: ' + e.en);
+      if(e.en.indexOf(' ') < 0) malas.push('no es compuesta: ' + e.en);
+      if(vistas.has(e.en)) malas.push('repetida: ' + e.en);
+      vistas.add(e.en);
+
+      /* Que el ejemplo use de verdad la expresión. El primer intento comparaba
+         letra por letra y marcaba 44 buenas como malas: los ejemplos van en
+         PASADO —«broke up», «went out», «fell in love»— y eso es justo como se
+         habla. Así que la partícula se busca tal cual, y el verbo se busca por
+         su raíz, que para eso está el buscador. */
+      const partes = e.en.toLowerCase().replace(/someone's|one's|someone/g, ' ').split(/\s+/).filter(Boolean);
+      const ej = e.xe.toLowerCase().replace(/[^a-z' ]+/g, ' ').split(/\s+/).filter(Boolean);
+      const cabeza = partes[0];
+      const resto = partes.slice(1);
+
+      const faltan = resto.filter(p => ej.indexOf(p) < 0);
+      if(faltan.length) malas.push('al ejemplo de «' + e.en + '» le falta «' + faltan.join(' ') + '»: ' + e.xe);
+
+      if(B){
+        /* Un verbo irregular como «gave» tiene FICHA PROPIA en el diccionario,
+           asi que el buscador devuelve «gave», no «give» — y eso es correcto.
+           Por eso hay que preguntar por tres caminos antes de dar por malo un
+           ejemplo. El primer comprobador solo miraba uno y marco 44 ejemplos
+           buenos como malos: un test que acusa de mas es tan inutil como uno
+           que no acusa nada. */
+        const esElVerbo = p => {
+          if(p === cabeza) return true;
+          const r = B.buscar(p);
+          if(r && r.w && r.w.en === cabeza) return true;
+          try { if(window.APP.LEX.raiz(p) === cabeza) return true; } catch(err){}
+          return false;
+        };
+        if(!ej.some(esElVerbo))
+          malas.push('el ejemplo de «' + e.en + '» no usa «' + cabeza + '» en ninguna forma: ' + e.xe);
+      }
+    });
+
+    /* Pruebas de fuego. Sin las negativas, un buscador que dijera «sí» a todo
+       aprobaría este examen. */
+    if(!buscar('up').some(e => e.en === 'give up')) malas.push('buscar «up» no encuentra «give up»');
+    if(!buscar('give').some(e => e.en === 'give up')) malas.push('buscar «give» no encuentra «give up»');
+    if(buscar('zzqx').length) malas.push('«zzqx» devuelve expresiones y no debería');
+    if(!enTexto("I won't give up on you").some(e => e.en === 'give up'))
+      malas.push('enTexto no detecta «give up» en una frase que lo lleva');
+    if(enTexto("the sky is blue tonight").length)
+      malas.push('enTexto se inventa expresiones en una frase que no lleva ninguna');
+
+    return { malas, ok: malas.length === 0, total: LISTA.length, conBuscador: !!B };
+  }
+
+  return { LISTA, buscar, enTexto, auditar, IDX };
+})();
 
 /* ══════════════════════════════════════════════════════════════
    SYNC · progreso en todos tus dispositivos
@@ -6956,6 +7343,312 @@ const PHRASES = RAW_PHRASES.map((r, i) => {
            k: norm(p[0]+' '+p[1]+' '+p[5]) };
 });
 
+/* ─────────── 3b · BUSCAR UNA PALABRA DE VERDAD ───────────
+   Buscar con `IDX.get(palabra)` a secas fallaba en tres de cada diez palabras
+   de un texto hablado, y no porque faltaran del diccionario:
+
+     · `don't`, `it's`, `I'm`, `can't`  → contracciones. Son las palabras MÁS
+       frecuentes del inglés hablado y ninguna estaba.
+     · `going`, `plans`, `missed`       → la misma palabra con otra terminación.
+     · `walkin'`, `gonna`, `'cause`     → cómo suena de verdad en una canción.
+
+   `LEX.raiz` ya existía pero solo sirve para VERBOS: exige que el resultado sea
+   un verbo conocido, así que `windows → window` o `minutes → minute` se le
+   escapan. Aquí se prueba contra el propio diccionario, sea la categoría que
+   sea, y se dice SIEMPRE por qué camino se llegó: si buscas «going» tienes que
+   ver que lo encontrado es «go», no creerte que el diccionario trae «going».  */
+const BUSCA = (() => {
+  const IDX = new Map();
+  WORDS.forEach(w => { const k = String(w.en || '').toLowerCase(); if(!IDX.has(k)) IDX.set(k, w); });
+
+  /* ── Contracciones y recortes del habla ──
+     Cada una lleva su forma completa y qué significa. No se resuelven «hacia»
+     el diccionario y ya: `don't` no es `do`, es `do` + negación, y eso hay que
+     decirlo o se aprende mal. `base` es solo la palabra con la que ampliar. */
+  const CONTRA = {
+    // ── ser / estar ──
+    "i'm":    { full:"I am",        es:"yo soy / estoy",            base:"be" },
+    "you're": { full:"you are",     es:"tú eres / estás",           base:"be" },
+    "he's":   { full:"he is / he has", es:"él es / está · él ha",   base:"be" },
+    "she's":  { full:"she is / she has", es:"ella es / está · ella ha", base:"be" },
+    "it's":   { full:"it is / it has", es:"es / está · ha",         base:"be" },
+    "we're":  { full:"we are",      es:"nosotros somos / estamos",  base:"be" },
+    "they're":{ full:"they are",    es:"ellos son / están",         base:"be" },
+    "that's": { full:"that is",     es:"eso es",                    base:"that" },
+    "there's":{ full:"there is",    es:"hay",                       base:"there" },
+    "here's": { full:"here is",     es:"aquí está",                 base:"here" },
+    "what's": { full:"what is",     es:"qué es / qué pasa",         base:"what" },
+    "where's":{ full:"where is",    es:"dónde está",                base:"where" },
+    "who's":  { full:"who is",      es:"quién es",                  base:"who" },
+    "how's":  { full:"how is",      es:"cómo está / cómo va",       base:"how" },
+    "when's": { full:"when is",     es:"cuándo es",                 base:"when" },
+    "let's":  { full:"let us",      es:"vamos a… (propuesta)",      base:"let" },
+
+    // ── haber (perfecto) ──
+    "i've":   { full:"I have",      es:"yo he",                     base:"have" },
+    "you've": { full:"you have",    es:"tú has",                    base:"have" },
+    "we've":  { full:"we have",     es:"nosotros hemos",            base:"have" },
+    "they've":{ full:"they have",   es:"ellos han",                 base:"have" },
+
+    // ── futuro ──
+    "i'll":   { full:"I will",      es:"yo voy a / yo …-é",         base:"will" },
+    "you'll": { full:"you will",    es:"tú vas a / tú …-ás",        base:"will" },
+    "he'll":  { full:"he will",     es:"él va a",                   base:"will" },
+    "she'll": { full:"she will",    es:"ella va a",                 base:"will" },
+    "it'll":  { full:"it will",     es:"va a",                      base:"will" },
+    "we'll":  { full:"we will",     es:"nosotros vamos a",          base:"will" },
+    "they'll":{ full:"they will",   es:"ellos van a",               base:"will" },
+
+    // ── condicional / pasado ──
+    "i'd":    { full:"I would / I had", es:"yo …-ría · yo había",   base:"would" },
+    "you'd":  { full:"you would / you had", es:"tú …-rías · tú habías", base:"would" },
+    "he'd":   { full:"he would / he had", es:"él …-ría · él había", base:"would" },
+    "she'd":  { full:"she would / she had", es:"ella …-ría",        base:"would" },
+    "we'd":   { full:"we would / we had", es:"nosotros …-ríamos",   base:"would" },
+    "they'd": { full:"they would / they had", es:"ellos …-rían",    base:"would" },
+
+    // ── negaciones ──
+    "don't":     { full:"do not",     es:"no (presente)",           base:"do" },
+    "doesn't":   { full:"does not",   es:"no (él / ella / eso)",    base:"do" },
+    "didn't":    { full:"did not",    es:"no (pasado)",             base:"do" },
+    "isn't":     { full:"is not",     es:"no es / no está",         base:"be" },
+    "aren't":    { full:"are not",    es:"no son / no están",       base:"be" },
+    "wasn't":    { full:"was not",    es:"no era / no estaba",      base:"be" },
+    "weren't":   { full:"were not",   es:"no eran / no estaban",    base:"be" },
+    "haven't":   { full:"have not",   es:"no he / no hemos",        base:"have" },
+    "hasn't":    { full:"has not",    es:"no ha",                   base:"have" },
+    "hadn't":    { full:"had not",    es:"no había",                base:"have" },
+    "won't":     { full:"will not",   es:"no voy a / no …-é",       base:"will" },
+    "wouldn't":  { full:"would not",  es:"no …-ría",                base:"would" },
+    "can't":     { full:"cannot",     es:"no puedo / no puede",     base:"can" },
+    "cannot":    { full:"can not",    es:"no puedo / no puede",     base:"can" },
+    "couldn't":  { full:"could not",  es:"no pude / no podría",     base:"could" },
+    "shouldn't": { full:"should not", es:"no debería",              base:"should" },
+    "mustn't":   { full:"must not",   es:"no debe (prohibido)",     base:"must" },
+    "needn't":   { full:"need not",   es:"no hace falta",           base:"need" },
+    "shan't":    { full:"shall not",  es:"no …-é (muy formal)",     base:"shall" },
+
+    /* ── Cómo suena de verdad ──
+       Esto es lo que se oye en una canción y no está en ningún libro. No son
+       errores: son la pronunciación normal, escrita tal cual se dice. */
+    "ain't":   { full:"am not / is not / are not / have not", es:"no soy · no es · no he",
+                 nota:"Muy común cantando y en habla informal. En un examen NO." },
+    "gonna":   { full:"going to",   es:"voy a / vas a (futuro)",    base:"go",
+                 nota:"Solo vale para el futuro: I'm gonna leave. Nunca para ir a un sitio." },
+    "wanna":   { full:"want to",    es:"quiero / quieres",          base:"want" },
+    "gotta":   { full:"(have) got to", es:"tengo que",              base:"get" },
+    "oughta":  { full:"ought to",   es:"debería",                   base:"ought" },
+    "gimme":   { full:"give me",    es:"dame",                      base:"give" },
+    "lemme":   { full:"let me",     es:"déjame",                    base:"let" },
+    "kinda":   { full:"kind of",    es:"algo así / más o menos",    base:"kind" },
+    "sorta":   { full:"sort of",    es:"algo así / más o menos",    base:"sort" },
+    "outta":   { full:"out of",     es:"fuera de",                  base:"out" },
+    "lotta":   { full:"lot of",     es:"mucho / un montón de",      base:"lot" },
+    "dunno":   { full:"don't know", es:"no sé",                     base:"know" },
+    "cuz":     { full:"because",    es:"porque",                    base:"because" },
+    "coz":     { full:"because",    es:"porque",                    base:"because" },
+    "cos":     { full:"because",    es:"porque",                    base:"because" },
+    "'cause":  { full:"because",    es:"porque",                    base:"because" },
+    "cause":   { full:"because · causa", es:"porque (cantando) · causa", base:"because",
+                 nota:"Cantando casi siempre es «because» con la be comida." },
+    "'em":     { full:"them",       es:"los / las / les",           base:"them" },
+    "em":      { full:"them",       es:"los / las / les",           base:"them" },
+    "y'all":   { full:"you all",    es:"ustedes / vosotros",        base:"you",
+                 nota:"Del sur de Estados Unidos. Muy usado en rap y country." },
+    "ya":      { full:"you",        es:"tú / te",                   base:"you" },
+    "whatcha": { full:"what are you / what do you", es:"qué estás / qué vas a", base:"what" },
+    "gotcha":  { full:"got you",    es:"te pillé / entendido",      base:"get" },
+    "betcha":  { full:"bet you",    es:"te apuesto",                base:"bet" },
+    "'til":    { full:"until",      es:"hasta",                     base:"until" },
+    "til":     { full:"until",      es:"hasta",                     base:"until" },
+    "till":    { full:"until",      es:"hasta",                     base:"until" },
+    "ma":      { full:"my",         es:"mi",                        base:"my" },
+    "nah":     { full:"no",         es:"nah / no",                  base:"no" },
+    "yeah":    { full:"yes",        es:"sí",                        base:"yes" },
+    "yep":     { full:"yes",        es:"sí",                        base:"yes" },
+    "nope":    { full:"no",         es:"no",                        base:"no" },
+    "o'clock": { full:"of the clock", es:"en punto",                base:"clock" },
+
+    /* Estas son sustantivos con la -g comida, y la regla general NO puede
+       cogerlas sola: sin apóstrofo solo se acepta el recorte cuando se llega
+       por el camino del gerundio, o «sin» acabaría siendo «sing». Como no son
+       verbos, van escritas una a una. Salen en cada canción. */
+    "nothin":     { full:"nothing",    es:"nada",            base:"nothing" },
+    "nuthin":     { full:"nothing",    es:"nada",            base:"nothing" },
+    "somethin":   { full:"something",  es:"algo",            base:"something" },
+    "anythin":    { full:"anything",   es:"cualquier cosa",  base:"anything" },
+    "everythin":  { full:"everything", es:"todo",            base:"everything" },
+    "mornin":     { full:"morning",    es:"mañana",          base:"morning" },
+    "evenin":     { full:"evening",    es:"tarde / noche",   base:"evening" },
+    "darlin":     { full:"darling",    es:"cariño",          base:"darling" },
+    "somethin'":  { full:"something",  es:"algo",            base:"something" },
+    "nothin'":    { full:"nothing",    es:"nada",            base:"nothing" }
+  };
+
+  /* Plurales que no siguen ninguna regla: hay que saberlos de memoria. */
+  const PLUR_IRR = {
+    children:'child', feet:'foot', teeth:'tooth', men:'man', women:'woman',
+    people:'person', mice:'mouse', geese:'goose', oxen:'ox', dice:'die',
+    lives:'life', wives:'wife', knives:'knife', leaves:'leaf', halves:'half',
+    wolves:'wolf', shelves:'shelf', thieves:'thief', loaves:'loaf', selves:'self',
+    calves:'calf', elves:'elf', scarves:'scarf', hooves:'hoof', ourselves:'self',
+    themselves:'self', yourselves:'self'
+  };
+
+  const dobles = w => /([bdfglmnprtz])\1$/.test(w);
+
+  /* Todas las formas base que PODRÍA tener esta palabra. No se decide cuál es
+     la buena por reglas: se prueban contra el diccionario y gana la que exista.
+     Cada candidata dice de qué terminación viene, para poder explicarlo. */
+  function candidatos(w){
+    const c = [];
+    const add = (base, como) => { if(base && base.length > 1) c.push([base, como]); };
+
+    if(/'s$/.test(w)) add(w.slice(0, -2), 'posesivo');
+    if(/s'$/.test(w)) add(w.slice(0, -2), 'posesivo en plural');
+    if(PLUR_IRR[w])   add(PLUR_IRR[w], 'plural irregular');
+
+    if(/ies$/.test(w)){ add(w.slice(0, -3) + 'y', 'plural'); }
+    if(/ves$/.test(w)){ add(w.slice(0, -3) + 'f', 'plural'); add(w.slice(0, -3) + 'fe', 'plural'); }
+    if(/(ch|sh|ss|x|z|o)es$/.test(w)) add(w.slice(0, -2), 'plural');
+    if(/es$/.test(w))  add(w.slice(0, -1), 'plural');
+    if(/s$/.test(w) && !/ss$/.test(w)) add(w.slice(0, -1), 'plural o 3ª persona');
+
+    if(/ied$/.test(w)) add(w.slice(0, -3) + 'y', 'pasado');
+    if(/ed$/.test(w)){
+      add(w.slice(0, -2), 'pasado o participio');
+      add(w.slice(0, -1), 'pasado o participio');
+      if(dobles(w.slice(0, -2))) add(w.slice(0, -3), 'pasado');
+    }
+    if(/ying$/.test(w)) add(w.slice(0, -4) + 'ie', 'gerundio');
+    if(/in'$/.test(w))  add(w.slice(0, -3) + 'ing', 'cantando se come la g');
+    if(/ing$/.test(w)){
+      add(w.slice(0, -3), 'gerundio');
+      add(w.slice(0, -3) + 'e', 'gerundio');
+      if(dobles(w.slice(0, -3))) add(w.slice(0, -4), 'gerundio');
+    }
+    if(/iest$/.test(w)) add(w.slice(0, -4) + 'y', 'superlativo');
+    if(/est$/.test(w)){
+      add(w.slice(0, -3), 'superlativo');
+      add(w.slice(0, -2), 'superlativo');
+      if(dobles(w.slice(0, -3))) add(w.slice(0, -4), 'superlativo');
+    }
+    if(/ier$/.test(w)) add(w.slice(0, -3) + 'y', 'comparativo');
+    if(/er$/.test(w)){
+      add(w.slice(0, -2), 'comparativo o «el que hace»');
+      add(w.slice(0, -1), 'comparativo o «el que hace»');
+      if(dobles(w.slice(0, -2))) add(w.slice(0, -3), 'comparativo');
+    }
+    if(/ily$/.test(w)) add(w.slice(0, -3) + 'y', 'adverbio');
+    if(/ly$/.test(w))  add(w.slice(0, -2), 'adverbio');
+    if(/ness$/.test(w)) add(w.slice(0, -4), 'sustantivo de un adjetivo');
+    if(/less$/.test(w)) add(w.slice(0, -4), 'sin eso');
+    if(/ful$/.test(w))  add(w.slice(0, -3), 'lleno de eso');
+    return c;
+  }
+
+  /* Cómo se escribe cantando → cómo se escribe de verdad. Es un paso APARTE
+     porque después hay que seguir buscando: «walkin'» no está en el diccionario
+     y «walking» tampoco — hay que llegar hasta «walk», y eso son dos saltos.
+     El primer intento solo daba uno, y por eso fallaba. */
+  function comoSeEscribe(w){
+    if(/in'$/.test(w)) return [w.slice(0, -3) + 'ing', true];   // con apóstrofo: seguro
+    if(/[a-z]{3,}in$/.test(w)) return [w.slice(0, -2) + 'ing', false];  // sin él: hay que comprobar
+    return [null, false];
+  }
+
+  /* El resultado dice SIEMPRE por dónde se llegó:
+       via 'exacta'   · la palabra está tal cual
+       via 'contra'   · es una contracción o un recorte del habla
+       via 'forma'    · es otra forma de una palabra que sí está
+       null           · no está, y entonces se manda fuera */
+  function buscar(q){
+    const w0 = String(q || '').toLowerCase().trim();
+    if(!w0) return null;
+
+    const exacta = IDX.get(w0);
+    if(exacta) return { via:'exacta', w:exacta };
+
+    const ct = CONTRA[w0];
+    if(ct) return { via:'contra', w:IDX.get(ct.base) || null, contra:ct, forma:w0 };
+
+    // Sin apóstrofo: muchos subtítulos escriben «dont» o «im»
+    const sinAp = w0.replace(/'/g, '');
+    for(const k in CONTRA){
+      if(k.replace(/'/g, '') === sinAp && k !== w0)
+        return { via:'contra', w:IDX.get(CONTRA[k].base) || null, contra:CONTRA[k], forma:k };
+    }
+
+    /* La -g comida. Con apóstrofo no hay duda. SIN apóstrofo hay que hilar fino:
+       «thin» no es «thing» comiéndose nada, y dar eso por bueno sería enseñarle
+       una palabra que no es. Así que sin apóstrofo solo vale si se llega por el
+       camino del gerundio — «walkin» → «walking» → «walk» —, nunca por acierto
+       directo. Es la diferencia entre reconocer un recorte e inventárselo. */
+    const [ing, seguro] = comoSeEscribe(w0);
+    if(ing){
+      if(seguro){
+        const ex = IDX.get(ing);
+        if(ex) return { via:'forma', w:ex, base:ing, como:'cantando se come la g', forma:w0 };
+      }
+      for(const [base, como] of candidatos(ing)){
+        const w = IDX.get(base);
+        if(w && (seguro || como === 'gerundio'))
+          return { via:'forma', w, base, como:'cantando se come la g · ' + como, forma:w0 };
+      }
+    }
+
+    for(const [base, como] of candidatos(w0)){
+      const w = IDX.get(base);
+      if(w) return { via:'forma', w, base, como, forma:w0 };
+    }
+
+    // Último intento: el lematizador de verbos, que sabe los irregulares
+    try {
+      const r = LEX.raiz(w0);
+      if(r && r !== w0 && IDX.get(r))
+        return { via:'forma', w:IDX.get(r), base:r, como:'verbo irregular', forma:w0 };
+    } catch(e){}
+
+    return null;
+  }
+
+  /* Una auditoría que solo confirma lo que ya funciona no vale nada. Aquí hay
+     tres clases de caso: las que tienen que resolverse a una palabra concreta,
+     las que tienen que resolverse a SÍ MISMAS porque tienen ficha propia, y las
+     que NO se pueden encontrar de ninguna manera. Sin las últimas, un buscador
+     que dijera «sí» a todo pasaría el examen. */
+  function auditar(){
+    const malas = [];
+    const debeDar = [
+      ['going','go'], ['plans','plan'], ['missed','miss'], ['windows','window'],
+      ['minutes','minute'], ['children','child'], ['feet','foot'], ['lives','life'],
+      ["walkin'",'walk'], ['walkin','walk'], ['bigger','big'], ['easiest','easy'],
+      ["don't",'do'], ["it's",'be'], ["can't",'can'], ['gonna','go'], ['wanna','want'],
+      ["'cause",'because'], ["y'all",'you'], ['taken','take'], ['dont','do'],
+      ["nothin'",'nothing'], ['babies','baby'], ['tried','try'], ['stopped','stop']
+    ];
+    for(const [entra, esperada] of debeDar){
+      const r = buscar(entra);
+      if(!r){ malas.push(entra + ' → no lo encuentra'); continue; }
+      if(!r.w){ malas.push(entra + ' → lo reconoce pero no lleva a ninguna ficha'); continue; }
+      if(r.w.en !== esperada) malas.push(entra + ' → ' + r.w.en + ', se esperaba ' + esperada);
+    }
+    // Con ficha propia: el acierto exacto manda, no se les busca raíz
+    for(const p of ['quickly', 'ran', 'was', 'went']){
+      const r = buscar(p);
+      if(!r || r.via !== 'exacta') malas.push(p + ' → debería ser acierto exacto y no lo es');
+    }
+    // Lo que NO puede encontrarse. Si esto pasa, el buscador está diciendo que sí a todo.
+    for(const x of ['zzqx', 'blorptium', 'xyzzyfied', 'qwertyui', 'thisisnotaword']){
+      const r = buscar(x);
+      if(r) malas.push(x + ' → devuelve ' + (r.w ? r.w.en : r.via) + ' y no debería dar nada');
+    }
+    return { malas, ok: malas.length === 0, contracciones:Object.keys(CONTRA).length,
+             palabras: IDX.size };
+  }
+
+  return { buscar, auditar, IDX, CONTRA };
+})();
 const CAT_LABEL = { verbo:'Verbos', sust:'Sustantivos', adj:'Adjetivos', adv:'Adverbios',
   prep:'Preposiciones', pron:'Pronombres', conj:'Conectores', det:'Determinantes',
   num:'Números', expr:'Expresiones', modal:'Modales' };
@@ -12361,13 +13054,55 @@ const SONG = (() => {
 
   /* El veredicto de la búsqueda: cuántas veces sale aquí, si está en el
      documento, y si no, los cuatro diccionarios. */
+  /* Cuenta cuántas veces sale en ESTE vídeo. Cuenta también las otras formas
+     de la misma palabra: si buscas «go», «going» y «goes» también cuentan, que
+     es lo que uno quiere saber de verdad. */
+  function vecesEn(L, q){
+    const nq = norma(limpio(q));
+    if(!nq) return 0;
+    const raizQ = (BUSCA.buscar(nq) || {}).w;
+    let n = 0;
+    L.forEach(t => t.split(/\s+/).forEach(p => {
+      const c = norma(limpio(p));
+      if(!c) return;
+      if(c.indexOf(nq) >= 0){ n++; return; }
+      if(raizQ){ const r = BUSCA.buscar(c); if(r && r.w === raizQ) n++; }
+    }));
+    return n;
+  }
+
   function veredicto(q, L){
     const nq = norma(limpio(q));
     if(!nq) return '';
-    let veces = 0;
-    L.forEach(t => t.split(/\s+/).forEach(p => { if(norma(limpio(p)).indexOf(nq) >= 0) veces++; }));
-    const w = IDX_EN.get(nq);
+    const veces = vecesEn(L, q);
+    const r = BUSCA.buscar(nq);
+    const w = r && r.w;
     const frases = PHRASES.filter(p => norma(p.en).indexOf(nq) >= 0).slice(0, 3);
+    /* Las expresiones. Van primero LAS QUE SALEN EN ESTE VÍDEO: si la canción
+       dice «give up», buscar «up» tiene que llevar ahí y no a cuatro phrasal
+       verbs cualesquiera de los doscientos que hay. Después, si queda hueco,
+       las demás que lleven la palabra. */
+    const rq = BUSCA.buscar(nq);
+    const base = (rq && rq.w) ? rq.w.en : nq;
+    const lleva = e => {
+      const ps = e.en.toLowerCase().split(/[^a-z']+/);
+      return ps.indexOf(nq) >= 0 || ps.indexOf(base) >= 0;
+    };
+    const aqui = EXPR.enTexto(L.join(' ')).filter(lleva);
+    const fuera = EXPR.buscar(nq).filter(e => aqui.indexOf(e) < 0);
+    const expr = aqui.concat(fuera).slice(0, 4);
+    const nAqui = Math.min(aqui.length, expr.length);
+    const hayAlgo = !!(w || frases.length || expr.length || (r && r.via === 'contra'));
+
+    /* Por qué camino se llegó. Se dice SIEMPRE: si buscas «going» tienes que
+       ver que lo que hay en el diccionario es «go». Si no, aprendes mal. */
+    const puente = (r && r.via === 'contra') ? `
+        <div class="sg-ver-via"><b>${esc(r.forma)}</b> = <b>${esc(r.contra.full)}</b>
+          · ${esc(r.contra.es)}
+          ${r.contra.nota ? `<span class="sg-ver-u">${esc(r.contra.nota)}</span>` : ''}</div>`
+      : (r && r.via === 'forma') ? `
+        <div class="sg-ver-via"><b>${esc(r.forma)}</b> es <b>${esc(r.base)}</b>
+          · ${esc(r.como)}</div>` : '';
 
     return `
       <div class="sg-ver">
@@ -12375,19 +13110,26 @@ const SONG = (() => {
           <b>${esc(q)}</b>
           <span class="sg-prog">${veces ? veces + (veces === 1 ? ' vez en este vídeo' : ' veces en este vídeo') : 'no aparece en este vídeo'}</span>
         </div>
+        ${puente}
         ${w ? `
-          <div class="sg-ver-ok">✓ Está en las 2000 palabras · <b>${esc(w.es)}</b>
-            ${w.use ? `<span class="sg-ver-u">${esc(w.use)}</span>` : ''}</div>` : ''}
+          <div class="sg-ver-ok">✓ Está en el diccionario · <b>${esc(w.es)}</b>
+            ${w.use ? `<span class="sg-ver-u">${esc(w.use)}</span>` : ''}
+            ${w.xe ? `<span class="sg-ver-u">${esc(w.xe)} — ${esc(w.xs || '')}</span>` : ''}</div>` : ''}
+        ${expr.length ? `
+          <div class="sg-ver-ok">✓ ${nAqui ? (nAqui === 1 ? 'Esta expresión sale en este vídeo' : 'Estas expresiones salen en este vídeo') : 'Entra en estas expresiones'}:
+            ${expr.map((e, k) => `<span class="sg-ver-f${k < nAqui ? ' aqui' : ''}"><b>${esc(e.en)}</b> · ${esc(e.es)}${
+              e.use ? ` <i>(${esc(e.use)})</i>` : ''}</span>`).join('')}
+            ${nAqui && nAqui < expr.length ? '<span class="sg-ver-u">Las de abajo no salen aquí, pero llevan la misma palabra.</span>' : ''}</div>` : ''}
         ${frases.length ? `
           <div class="sg-ver-ok">✓ Sale en ${frases.length === 3 ? 'varias de' : ''} las 1000 frases:
             ${frases.map(p => `<span class="sg-ver-f">${esc(p.en)}</span>`).join('')}</div>` : ''}
-        ${(!w && !frases.length) ? `
+        ${!hayAlgo ? `
           <div class="sg-ver-no">Esta palabra <b>no está en el documento</b>. Mírala fuera:</div>
-          <div class="sg-ver-links">${RECURSOS.map(r =>
-            `<a class="sg-link" href="${r.url(q)}" target="_blank" rel="noopener"
-                title="${esc(r.mejor)}">${r.ico} ${esc(r.n)}</a>`).join('')}</div>` : `
-          <div class="sg-ver-links">${RECURSOS.map(r =>
-            `<a class="sg-link chico" href="${r.url(q)}" target="_blank" rel="noopener">${r.ico} ${esc(r.n)}</a>`).join('')}</div>`}
+          <div class="sg-ver-links">${RECURSOS.map(rc =>
+            `<a class="sg-link" href="${rc.url(q)}" target="_blank" rel="noopener"
+                title="${esc(rc.mejor)}">${rc.ico} ${esc(rc.n)}</a>`).join('')}</div>` : `
+          <div class="sg-ver-links">${RECURSOS.map(rc =>
+            `<a class="sg-link chico" href="${rc.url(q)}" target="_blank" rel="noopener">${rc.ico} ${esc(rc.n)}</a>`).join('')}</div>`}
       </div>`;
   }
 
@@ -13245,7 +13987,7 @@ document.readyState === 'loading'
   ? document.addEventListener('DOMContentLoaded', init)
   : init();
 
-return { WORDS, PHRASES, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC, CLUB, SONG };
+return { WORDS, PHRASES, BUSCA, TTS, NB, SRS, Omni, go, toast, refreshAll, UNDO, CTL, BF, PZ, LAB, RG, GL, GLOSARIO, PIEZAS, REGLAS, glAutoMarcar, sanearFavs, WR, ANL, LEX, DIC, RECURSOS, SUG, CADENA, ES, MORFO, MARC, CLUB, SONG };
 })();
 
 // Mismo motivo que en SYNC: sin esto, window.APP no existe y SYNC no puede repintar.
