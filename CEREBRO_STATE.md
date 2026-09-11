@@ -58,6 +58,15 @@ dejar el texto limpio.
 3. **`DIC` lleva un `dblclick` global en `document`.** El `stopPropagation()` del manejador
    propio es lo que evita que se abran dos cosas a la vez. Si alguien lo quita, vuelve.
 
+### Y lo que casi se queda mal
+Quitar una función es la mitad del trabajo; la otra mitad es **quitar lo que la anunciaba**.
+Quedaron cinco textos de cara al usuario vendiendo la sincronía muerta —«la letra siguiéndola»,
+«queda sincronizado clavado», «líneas ya sincronizadas», «ahora dale a Sincronizar» y un paso 3
+del método que mandaba repetir una línea en bucle con un botón que ya no existe— más `TTS.decir()`,
+que solo usaba el karaoke y se quedó con **0 llamadas** en todo el documento. Se fue todo en el
+commit siguiente. **Regla:** después de arrancar una función, buscar su nombre y sus promesas en
+el texto de la página, no solo en el código.
+
 ### Verificado (localhost:3456, sobre el archivo ya construido)
 0 falsos positivos en los 4 corpus · `LAB` `MORFO` `CLUB` `GL` `SONG` en verde · 11 pestañas
 visibles, 11 paneles abren · 0 errores de consola · búsqueda dentro y fuera del documento ·
