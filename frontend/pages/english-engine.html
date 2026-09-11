@@ -2643,14 +2643,16 @@ h2.sec .n{
       Práctica o buscarla en el resto del documento.</p>
   </div>
 
-  <div class="note info" style="margin-bottom:16px"><b>Los subtítulos los pones tú.</b> Funciona
-    igual que el Cuaderno — <i>tu material, no el mío</i>: pegas el enlace del vídeo y sus
-    subtítulos, y el motor hace el resto.
-    <br><b>Lo más rápido:</b> si pegas un archivo de subtítulos <b>.srt</b>, <b>.vtt</b> o
-    <b>.lrc</b>, los tiempos ya vienen dentro y queda sincronizado <b>clavado</b>, sin tocar nada.
-    Si pegas solo el texto, un clic lo reparte y lo afinas anclando.
-    <br>Y en el propio reproductor están encendidos los <b>subtítulos de YouTube</b>, que los sirve
-    YouTube: te valen de guía para saber qué se está diciendo en cada momento.</div>
+  <div class="note info" style="margin-bottom:16px"><b>Usa los subtítulos que genera el propio
+    vídeo, en dos clics:</b> en YouTube, debajo del vídeo, abre <b>«···  Mostrar transcripción»</b>,
+    selecciona todo y cópialo. Pégalo aquí una vez y queda <b>sincronizado clavado</b> — son sus
+    tiempos, no una estimación. También entiende archivos <b>.srt</b>, <b>.vtt</b> y <b>.lrc</b>.
+    <br><b>Por qué hay que pegarlo y no se baja solo:</b> el reproductor de YouTube va en un iframe
+    de otro dominio y su API <b>no expone el texto</b> de los subtítulos; además su servidor no
+    autoriza peticiones desde otra web. Una extensión de navegador sí puede porque vive dentro de
+    YouTube; una página como esta, no. Esos dos clics son el puente.
+    <br>Y en el reproductor están encendidos los <b>subtítulos de YouTube</b>: te sirven de guía
+    aunque no pegues nada.</div>
 
   <div id="sgBox"></div>
 </div>
@@ -12468,9 +12470,12 @@ const SONG = (() => {
   function pegarLetra(c){
     return `
       <div class="sg-pega">
-        <div class="sg-pega-t">Pega aquí los subtítulos</div>
-        <p class="sg-p">Un renglón por línea, tal como viene. En una canción el renglón es la
-           unidad de trabajo, así que se respeta como lo escribiste.</p>
+        <div class="sg-pega-t">Pega aquí la transcripción del vídeo</div>
+        <p class="sg-p"><b>En YouTube, bajo el vídeo: «···  Mostrar transcripción»</b> → seleccionar
+           todo → copiar → pegar aquí. Son los subtítulos que genera el propio vídeo, con sus
+           tiempos, así que queda sincronizado <b>clavado</b> de una vez.
+           <br>También valen archivos <b>.srt</b>, <b>.vtt</b> o <b>.lrc</b>. Y si pegas texto sin
+           tiempos, se reparte y se afina a mano.</p>
         <textarea class="sg-ta" id="sgTA" placeholder="Pega los subtítulos o la transcripción…">${esc(c.letra || '')}</textarea>
         <button class="sg-b grande" id="sgOk">Preparar el vídeo</button>
         <div class="note" style="margin-top:14px"><b>Por qué la pones tú:</b> las letras tienen
@@ -12547,6 +12552,34 @@ const SONG = (() => {
         out.tiempos.push(+aSegundos(m[1], m[2], m[3], m[4]).toFixed(2));
       });
       if(out.lineas.length) return out;
+    }
+
+    /* ── TRANSCRIPCIÓN DE YOUTUBE ──
+       Es el formato que sale del botón «Mostrar transcripción» del propio
+       YouTube: una marca de tiempo suelta y el texto, o bien el tiempo en una
+       línea y el texto en la siguiente. Son los subtítulos QUE GENERA EL
+       VÍDEO, con sus tiempos ya dentro — o sea, exactamente lo que hace falta.
+       El usuario los copia de YouTube y los pega aquí una sola vez. */
+    {
+      const fs2 = bruto.replace(/\r/g, '').split('\n').map(x => x.trim()).filter(Boolean);
+      const soloHora = /^(\d{1,2}:)?\d{1,2}:\d{2}$/;
+      const horaYtexto = /^((?:\d{1,2}:)?\d{1,2}:\d{2})\s+(.+)$/;
+      const res = { lineas: [], tiempos: [] };
+      for(let i = 0; i < fs2.length; i++){
+        let hh = null, tx = null;
+        const m1 = fs2[i].match(horaYtexto);
+        if(m1){ hh = m1[1]; tx = m1[2]; }
+        else if(soloHora.test(fs2[i]) && fs2[i + 1] && !soloHora.test(fs2[i + 1])){
+          hh = fs2[i]; tx = fs2[i + 1]; i++;
+        }
+        if(hh == null || !tx) continue;
+        const p = hh.split(':').map(Number);
+        const seg = p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1];
+        res.lineas.push(tx);
+        res.tiempos.push(+seg.toFixed(2));
+      }
+      // Al menos tres marcas para no confundirlo con un texto que cite una hora
+      if(res.lineas.length >= 3) return res;
     }
 
     // ── LRC: «[01:23.45] texto», admitiendo varias marcas en la misma línea
@@ -12945,6 +12978,20 @@ const SONG = (() => {
       malas.push('el importador de .lrc no saca bien los tiempos');
     if(importarConTiempos('solo texto sin tiempos\nsegunda linea') !== null)
       malas.push('confunde texto normal con subtitulos');
+
+    /* La transcripcion de YouTube, en sus dos formas: el tiempo pegado al
+       texto y el tiempo en su propia linea. */
+    const yt1 = '0:11 primera linea\n0:15 segunda linea\n1:02 tercera linea\n';
+    const c1 = importarConTiempos(yt1);
+    if(!c1 || c1.lineas.length !== 3 || c1.tiempos[0] !== 11 || c1.tiempos[2] !== 62)
+      malas.push('no lee la transcripcion de YouTube (tiempo y texto juntos)');
+    const yt2 = '0:11\nprimera linea\n0:15\nsegunda linea\n1:02\ntercera linea\n';
+    const c2 = importarConTiempos(yt2);
+    if(!c2 || c2.lineas.length !== 3 || c2.tiempos[2] !== 62 || c2.lineas[0] !== 'primera linea')
+      malas.push('no lee la transcripcion de YouTube (tiempo en su linea)');
+    const yt3 = '1:23:45 con horas\n1:23:50 otra\n1:24:00 otra mas\n';
+    const c3 = importarConTiempos(yt3);
+    if(!c3 || c3.tiempos[0] !== 5025) malas.push('no lee transcripciones con horas');
 
     /* Las anclas: corregir una línea NO debe mover las que ya anclaste.
        Es la propiedad que hace que ajustar no destruya el trabajo previo. */
