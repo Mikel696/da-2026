@@ -30,12 +30,12 @@ Se añaden también las variantes británicas que salen en los subtítulos: *nei
 colourful, theatre, tyre, petrol, pavement, trousers, tin, torch, loo*.
 
 ### Lo que vale más que las 223 palabras
- comprueba ahora **175 palabras de supervivencia** — lo que hay que
+`BUSCA.auditar()` comprueba ahora **175 palabras de supervivencia** — lo que hay que
 poder decir para pedir algo, llegar a un sitio y seguir una conversación. Si falta
 una, **la nombra**.
 
-**Probado rompiéndolo:** quitando «toilet» y «boy» del índice,  pasa a
- y dice cuáles faltan. Un test que no falla cuando debe no es un test.
+**Probado rompiéndolo:** quitando «toilet» y «boy» del índice, `auditar()` pasa a
+`ok:false` y dice cuáles faltan. Un test que no falla cuando debe no es un test.
 
 **La regla:** cuando el contenido se genera por temas, hace falta una lista de suelo
 que se compruebe sola. El hueco lo tiene que encontrar la auditoría, no el usuario.
