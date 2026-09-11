@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-11 (3-ENG: rediseño visual — sistema de tokens, móvil y rendimiento)
+- **Última actualización:** 2026-09-11 (3-ENG: rediseño visual verificado + «She have» ya se caza)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -104,6 +104,66 @@ monta el iframe 16:9 con su mando, y los seis modos del Club arrancan.
 `bash src/english-engine/build.sh`. El README de esa carpeta documenta ahora la
 capa visual, las tres trampas de rendimiento y los tres intentos de la barra de
 pestañas.
+
+---
+
+## ✅ 3-ENG · Verificación del rediseño, y el fallo que destapó — 2026-09-11 (noche)
+
+La sesión de diseño entregó la capa visual. **Mi trabajo no era creerme el informe: era
+comprobarlo.** Todo pasó, y de paso salieron tres cosas que merecen quedar escritas.
+
+### Lo que se verificó, no lo que decía el informe
+
+Contrato JS-DOM intacto (130 `id`, 66 `data-*`, 38 clases que el motor conmuta), motor
+**idéntico byte a byte**, build reproducible, 0 falsos positivos en los 4 corpus, 8 auditorías
+en verde, 11 pestañas sin desbordes a 375 px, 0 errores de consola, y las 3 URL de fuentes
+respondiendo 200.
+
+### Tres veces en que el equivocado era MI medidor
+
+1. **Marqué «texto invisible»** en Piezas. La **captura de pantalla** lo desmintió: era el
+   patrón normal de texto en degradado (`background-clip:text` en el padre, relleno
+   transparente heredado en el hijo). Un detector automático no sustituye a mirar.
+2. **Mi medidor de contraste** daba 1,56:1 en medio documento porque **no componía los fondos
+   translúcidos**. Rehecho apilando capas: 9 de 2870 elementos por debajo del mínimo (0,3 %).
+3. **Mis dos primeras pruebas de rendimiento** no detectaban mejora — una daba 12 % peor.
+   Medían lo que `content-visibility` **no** optimiza. Con una maquetación completa forzada,
+   que es el escenario real de la lista de 4231 tarjetas: **6214 ms → 136 ms**.
+
+**La lección:** una medida que contradice un informe honesto es, la mayoría de las veces, una
+medida mal hecha. Antes de acusar, revisar el instrumento.
+
+### Dos desplazamientos suaves a la vez se cancelan
+
+Al añadir el desplazamiento de la tira de pestañas, la primera versión con `behavior:'smooth'`
+**no funcionaba y no daba ningún error**: la línea de arriba ya lanzaba un `window.scrollTo`
+suave, y el navegador solo atiende uno. Instantáneo sí funciona, y en una tira de 350 px ni se
+nota.
+
+### El fallo de fondo que destapó: «She have a car» pasaba en VERDE
+
+La regla de la -s arranca con `if(iAux === -1)` — solo corre si la frase **no tiene auxiliar**.
+Y `have` está en la lista de auxiliares, así que con «She have…» no llegaba ni a mirarse.
+Medido: `She go to work` y `He want it` sí daban rojo; `She have a car`, `He have two dogs`,
+`It have a problem` y `She have been working` pasaban las cuatro.
+
+Es de los errores más comunes de un hispanohablante, porque en español «tener» no cambia ahí.
+
+Arreglado con una regla **aparte** (R5b), no aflojando la original: relajar el `iAux === -1`
+habría abierto la puerta a marcar «She can have it» o «She should have known», que están bien.
+**8 casos cazados, 18 que no se tocan**, 0 falsos positivos en los corpus después de añadirla.
+
+Sigue sin marcarse «My sister have a job», que está mal: el sujeto es un sustantivo, «my
+sisters have» está bien, y por la forma no se puede saber cuál de los dos es. **Cuando no se
+sabe, no se corrige.**
+
+### Pendiente, declarado
+
+- El peso subió 3,4 kB gzip (394,6 → 397,9). Bajo el techo de 400, pero el encargo decía «no
+  subir». Es el precio de los `@font-face` y de las reglas nuevas de móvil.
+- Los ~13 000 nodos del DOM **no bajan, y no es cosa del CSS**: unos 9600 los construye
+  `08_app.js` en el arranque saltándose sus propias guardas perezosas (`renderWords(true)`,
+  `renderPhrases(true)`, `BF.render()`). Es una tarea de JavaScript, pendiente.
 
 ---
 
