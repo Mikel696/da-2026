@@ -1481,6 +1481,15 @@ h2.sec .n{
   border:none;color:var(--t3);font-size:10px;cursor:pointer;padding:2px 4px;border-radius:50%}
 .sg-chip-x:hover{background:var(--bad);color:#fff}
 .sg-nueva.lleno{background:var(--bg4);color:var(--t3);cursor:not-allowed}
+/* Cada vídeo se borra desde su propia fila, no solo cuando la lista se llena */
+.sg-item-w{position:relative;display:flex;align-items:stretch;gap:3px;margin-bottom:3px}
+.sg-item-w .sg-item{flex:1;margin-bottom:0;min-width:0}
+.sg-item-x{background:transparent;border:1px solid transparent;color:var(--t3);border-radius:var(--rad-s);
+  width:30px;cursor:pointer;font-size:12px;flex-shrink:0;opacity:0;transition:.14s}
+.sg-item-w:hover .sg-item-x{opacity:1}
+.sg-item-x:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+.sg-b.empieza{background:var(--ok);border-color:var(--ok);color:#052e12;font-weight:700}
+.sg-b.empieza:hover{filter:brightness(1.1)}
 .sg-b.anclar{background:var(--warn);border-color:var(--warn);color:#2a2000;font-weight:700}
 .sg-b.anclar:hover{filter:brightness(1.1)}
 
@@ -11998,10 +12007,16 @@ const SONG = (() => {
       el.innerHTML = txt.split(/\s+/).map((w, n) =>
         `<span class="kw" data-k="${n}">${esc(w)}</span>`).join(' ');
     };
+    /* Antes de la primera línea NO se escribe nada: los subtítulos tampoco
+       ponen texto mientras solo suena la música. Solo se deja ver, apagada, la
+       que va a entrar — para saber que está a punto. */
     if(i < 0){
       pon('ant', -1);
       const a = caja.querySelector('.kr.act');
-      if(a){ a.textContent = '— dale al play —'; a.classList.add('vacia'); }
+      if(a){
+        a.textContent = P.estado === 1 ? '' : '— dale al play —';
+        a.classList.add('vacia');
+      }
       pon('sig', 0);
       return;
     }
@@ -12089,6 +12104,8 @@ const SONG = (() => {
     const sonando = P.estado === 1;
     b.textContent = sonando ? '⏸' : '▶';
     b.classList.toggle('on', sonando);
+    // El hueco antes de la primera línea cambia según esté sonando o parado
+    if(P.linea < 0) pintaKaraoke(-1, 0);
   }
 
   const manda = (f, ...a) => { try { if(P.player && P.listo && P.player[f]) P.player[f](...a); } catch(e){} };
@@ -12326,11 +12343,14 @@ const SONG = (() => {
         ${ids.length >= TOPE ? '✕ Lleno · borra uno' : '＋ Vídeo nuevo'}</button>
       <div class="sg-lbl">Mis vídeos · ${ids.length} de ${TOPE}</div>
       ${ids.length ? ids.map(id => `
-        <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
-          <b>${esc(o[id].t || 'Sin título')}</b>
-          <span>${esc(o[id].a || '—')}</span>
-        </button>`).join('')
-        : '<div class="sg-vacio">Todavía no has añadido ninguna.</div>'}`;
+        <div class="sg-item-w">
+          <button class="sg-item${id === S.id ? ' on' : ''}" data-sg="${id}">
+            <b>${esc(o[id].t || 'Sin título')}</b>
+            <span>${esc(o[id].a || '—')}</span>
+          </button>
+          <button class="sg-item-x" data-borra="${id}" title="Eliminar este vídeo">🗑</button>
+        </div>`).join('')
+        : '<div class="sg-vacio">Todavía no has añadido ninguno.</div>'}`;
   }
 
   /* Solo se rehace si cambia algo que obligue: la canción, su enlace, o si
@@ -12608,9 +12628,10 @@ const SONG = (() => {
      converja rápido en vez de tener que marcar las cuarenta líneas. */
   function reanclar(){
     const c = actual(); if(!c || !P.listo) return;
-    if(P.estado !== 1){ toast('El vídeo tiene que estar sonando', 'warn'); return; }
     const L = lineasDe(c);
     let t = 0; try { t = P.player.getCurrentTime(); } catch(e){ return; }
+    // Sonando o en pausa da igual; lo que no vale es anclar en el segundo cero
+    if(t < 0.5){ toast('Muévete hasta donde entra esa línea y vuelve a pulsar', 'warn'); return; }
     const T = (c.tiempos && c.tiempos.length === L.length) ? c.tiempos.slice() : L.map(() => 0);
     // La línea que se está cantando ahora mismo: la que el usuario está oyendo
     let i = P.linea >= 0 ? P.linea : 0;
@@ -12680,6 +12701,7 @@ const SONG = (() => {
           ? 'El reparto es una <b>estimación</b> y se va desfasando. La forma rápida de cuadrarla: dale al play y, cuando oigas empezar la línea grande, pulsa <b>📍 Anclar</b>. Esa línea queda fija y las demás se recolocan alrededor. Con tres o cuatro anclas, repartidas por la canción, queda clavada.'
           : 'Pulsa el botón y la letra queda repartida por toda la canción según lo larga que sea cada línea. Después se afina anclando.'}</div>
         <div class="sg-sync-bs">
+          ${n ? `<button class="sg-b empieza" id="sgEmpieza" title="Fija el segundo exacto en que arranca el habla o el canto">🎤 Empieza aquí</button>` : ''}
           ${n ? `<button class="sg-b anclar" id="sgAnclar" title="La línea grande entra AHORA (o pulsa ESPACIO)">📍 Anclar esta línea</button>` : ''}
           <button class="sg-b${n ? '' : ' grande'}" id="sgAuto">${n ? '↻ Repartir de cero' : '⏱ Sincronizar'}</button>
           ${n ? `
@@ -12703,6 +12725,18 @@ const SONG = (() => {
     const b = $('sgNueva'); if(b) b.onclick = nueva;
     document.querySelectorAll('[data-sg]').forEach(x => x.onclick = () => {
       parar(); S.id = x.dataset.sg; S.huecos = -1; S.w = 0; S.buf = ''; render();
+    });
+    /* Borrar CUALQUIER vídeo desde la lista, esté donde esté — no solo cuando
+       se llena. Va con deshacer, como todo lo que borra algo en el documento. */
+    document.querySelectorAll('[data-borra]').forEach(x => x.onclick = ev => {
+      ev.stopPropagation();
+      const id = x.dataset.borra, o0 = libro(), v = o0[id];
+      if(!v) return;
+      doUndoable('Eliminar vídeo', [K], () => {
+        const o = libro(); delete o[id]; guardar(o);
+        if(S.id === id){ S.id = null; TTS.parar(); paraTic(); P.player = null; P.vid = null; P.listo = false; }
+        render();
+      }, 'Vídeo «' + (v.t || 'sin título') + '» eliminado');
     });
     const c = actual(); if(!c) return;
 
@@ -12795,6 +12829,24 @@ const SONG = (() => {
       toca(c); pintaVar(c); wire();
     });
 
+    /* «Empieza aquí»: el reparto ADIVINA dónde arranca el habla, y en un vídeo
+       con entrada instrumental larga se equivoca por mucho — la primera línea
+       aparecía mientras todavía sonaba la música. Esto lo fija exacto: se pulsa
+       justo cuando empieza a hablarse o cantarse, y todo se reparte desde ahí. */
+    const em = $('sgEmpieza');
+    if(em) em.onclick = () => {
+      if(!P.listo) return toast('Espera a que cargue el vídeo', 'warn');
+      let t = 0; try { t = P.player.getCurrentTime(); } catch(e){ return; }
+      /* Vale sonando o en pausa: pararlo justo en el primer golpe de voz es
+         una forma perfectamente buena de marcarlo. Lo único que no se acepta
+         es marcar en el segundo cero, que es el error que arruina el reparto
+         sin que se note. */
+      if(t < 0.5) return toast('Muévete hasta donde empieza a hablarse y vuelve a pulsar', 'warn');
+      c.intro = +Math.max(0, t - 0.2).toFixed(2);
+      c.anclas = [];
+      toca(c); sincronizarAuto();
+      toast('Empieza en ' + reloj(c.intro) + ' · repartido desde ahí', 'ok');
+    };
     const an = $('sgAnclar'); if(an) an.onclick = reanclar;
     const sa = $('sgSinAnclas');
     if(sa) sa.onclick = () => { c.anclas = []; toca(c); sincronizarAuto(); };
