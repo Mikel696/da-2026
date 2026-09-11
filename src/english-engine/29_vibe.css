@@ -1,0 +1,117 @@
+
+/* ══════════════════════════════════════════════════════════════════════
+   CAPA DE ESTILO · «profesional pero llamativa»
+   Va en un archivo aparte y solo AÑADE encima: si algo no gusta, se quita
+   esta capa del build y el documento vuelve exactamente a como estaba.
+
+   Dos reglas que no se tocan:
+   · Los seis colores de las piezas (suj/aux/ver/com/neg/wh) NO se alteran:
+     no son decoración, son lo que enseña el documento.
+   · Nada baja el contraste del texto. El brillo se pone en bordes, fondos
+     y acentos, nunca quitándole legibilidad a lo que hay que leer.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --grad: linear-gradient(100deg, #8b5cf6, #22d3ee 55%, #f472b6);
+  --grad-suave: linear-gradient(100deg, rgba(139,92,246,.16), rgba(34,211,238,.10) 55%, rgba(244,114,182,.12));
+  --glow: 0 0 0 1px rgba(139,92,246,.30), 0 10px 40px -14px rgba(139,92,246,.55);
+}
+
+/* ── El fondo respira ──────────────────────────────────────────────────
+   Tres luces en vez de dos, y muy lenta: se nota que está vivo sin marear
+   ni robar atención a lo que se está leyendo. */
+body::before{
+  background:
+    radial-gradient(900px 520px at 12% -8%, rgba(139,92,246,.15), transparent 62%),
+    radial-gradient(760px 460px at 92% 4%,  rgba(34,211,238,.10), transparent 60%),
+    radial-gradient(680px 420px at 50% 106%, rgba(244,114,182,.08), transparent 62%);
+  animation: respira 22s ease-in-out infinite alternate;
+}
+@keyframes respira{ from{ transform:translate3d(0,0,0) scale(1); } to{ transform:translate3d(0,-14px,0) scale(1.045); } }
+@media (prefers-reduced-motion: reduce){ body::before{ animation:none } }
+
+/* ── Cabecera y pestañas ─────────────────────────────────────────────── */
+.tab{ transition: background .18s, color .18s, border-color .18s, transform .12s; }
+.tab:hover{ transform: translateY(-1px); }
+.tab.on{
+  background: var(--grad-suave);
+  border-color: rgba(139,92,246,.42);
+  box-shadow: 0 6px 20px -10px rgba(139,92,246,.65);
+}
+/* La franja de color bajo la pestaña activa: dice dónde estás de un vistazo */
+.tab.on::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:-1px; height:2px;
+  border-radius:2px; background: var(--grad);
+}
+.tab{ position:relative; }
+
+/* ── Portadas ────────────────────────────────────────────────────────── */
+.hero .kick{
+  display:inline-block; padding:4px 11px; border-radius:20px;
+  background: var(--grad-suave); border:1px solid rgba(139,92,246,.28);
+  color: var(--ac2); letter-spacing:2.2px;
+}
+.hero h1 em{ background-image: var(--grad); }
+/* Un hilo de color al pie de la portada, en vez de la línea gris de siempre */
+.hero{ border-bottom:none; position:relative; }
+.hero::before{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+  background: linear-gradient(90deg, rgba(139,92,246,.55), rgba(34,211,238,.30) 45%, transparent 85%);
+}
+
+/* ── Tarjetas ────────────────────────────────────────────────────────── */
+.card{
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  box-shadow: 0 1px 0 rgba(255,255,255,.035) inset, 0 10px 30px -22px rgba(0,0,0,.9);
+}
+.card:hover{
+  border-color: rgba(139,92,246,.30);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 18px 44px -24px rgba(0,0,0,.95);
+}
+
+/* ── Avisos ──────────────────────────────────────────────────────────── */
+.note{ border-left-width:3px; box-shadow: 0 1px 0 rgba(255,255,255,.03) inset; }
+.note.info{ background: linear-gradient(90deg, rgba(34,211,238,.07), transparent 70%); }
+.note.ok{   background: linear-gradient(90deg, rgba(34,197,94,.07),  transparent 70%); }
+
+/* ── Números de sección ──────────────────────────────────────────────────
+   OJO: aquí puse primero un degradado recortado al texto y el número quedó
+   INVISIBLE. `h2.sec .n` gana en especificidad, así que su fondo sólido se
+   mantenía mientras mi `-webkit-text-fill-color:transparent` sí se aplicaba.
+   Lección: en una capa que solo añade, nada de text-fill transparente sin
+   controlar quién pone el fondo. Se tiñe el chip y punto. */
+h2.sec .n{
+  background: var(--grad-suave);
+  border-color: rgba(139,92,246,.42);
+  color: var(--ac2);
+}
+
+/* ── El Club, que es donde se juega ──────────────────────────────────── */
+.cf-m.on{ background: var(--grad); border-color:transparent; box-shadow: var(--glow); }
+.cf-card{
+  border-color: rgba(139,92,246,.34);
+  background:
+    radial-gradient(520px 220px at 50% -30%, rgba(139,92,246,.10), transparent 70%),
+    var(--bg2);
+}
+.cf-combo.vivo{ box-shadow: 0 0 0 1px rgba(234,179,8,.35), 0 0 22px -6px rgba(234,179,8,.55); }
+.cf-b.grande{ background: var(--grad); border-color:transparent; box-shadow: var(--glow); }
+.cf-b.grande:hover{ filter: brightness(1.1); transform: translateY(-1px); }
+.cf-rango{ box-shadow: 0 0 34px -8px currentColor; }
+
+/* ── La hoja del cuaderno ────────────────────────────────────────────── */
+.nb-head{ border-bottom:1px solid var(--bd); }
+.nb-head::after{
+  content:""; display:block; height:2px;
+  background: linear-gradient(90deg, rgba(139,92,246,.55), rgba(34,211,238,.28) 50%, transparent 90%);
+}
+.nbb{ transition: background .14s, color .14s, border-color .14s, transform .12s; }
+.nbb:hover{ transform: translateY(-1px); }
+
+/* ── Detalles que se notan al usarla ─────────────────────────────────── */
+:focus-visible{ outline:2px solid var(--ac2); outline-offset:2px; border-radius:4px; }
+::selection{ background: rgba(139,92,246,.34); color:#fff; }
+::-webkit-scrollbar{ width:11px; height:11px }
+::-webkit-scrollbar-track{ background: var(--bg2) }
+::-webkit-scrollbar-thumb{ background: var(--bd2); border-radius:20px; border:3px solid var(--bg2) }
+::-webkit-scrollbar-thumb:hover{ background: var(--ac) }

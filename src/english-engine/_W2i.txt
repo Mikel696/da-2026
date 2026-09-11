@@ -1,0 +1,229 @@
+curtain|cortina|sust|tapa la ventana|Draw the curtain.|Corre la cortina.
+rug|alfombra|sust|más pequeña que carpet|A wool rug.|Una alfombra de lana.
+cushion|cojín|sust|para sentarse cómodo|A soft cushion.|Un cojín blando.
+mattress|colchón|sust|donde duermes|A hard mattress.|Un colchón duro.
+vase|jarrón|sust|para las flores|Flowers in a vase.|Flores en un jarrón.
+clock|reloj (de pared)|sust|watch es el de muñeca|The clock struck twelve.|El reloj dio las doce.
+poster|póster|sust|el cartel de la pared|A concert poster.|Un póster de concierto.
+sticker|pegatina|sust|se pega|Stickers on my guitar.|Pegatinas en mi guitarra.
+magnet|imán|sust|atrae el metal|A fridge magnet.|Un imán de nevera.
+doorway|umbral|sust|el hueco de la puerta|Standing in the doorway.|De pie en el umbral.
+entrance|entrada|sust|por donde se entra|The main entrance.|La entrada principal.
+corridor|pasillo|sust|más británico que hallway|A long corridor.|Un pasillo largo.
+garage|garaje|sust|donde va el coche|Band practice in the garage.|Ensayo en el garaje.
+barn|granero|sust|el edificio de la granja|An old red barn.|Un viejo granero rojo.
+chimney|chimenea|sust|por donde sale el humo|Smoke from the chimney.|Humo de la chimenea.
+farm|granja|sust|donde se cultiva|Grew up on a farm.|Crecí en una granja.
+suburb|las afueras|sust|el barrio de fuera|A quiet suburb.|Unas afueras tranquilas.
+neighborhood|barrio|sust|británico: neighbourhood|My old neighborhood.|Mi viejo barrio.
+district|distrito|sust|una zona de la ciudad|The business district.|El distrito de negocios.
+province|provincia|sust|división de un país|A northern province.|Una provincia del norte.
+county|condado|sust|división en R.U. y EE.UU.|A rural county.|Un condado rural.
+outskirts|las afueras|sust|siempre en plural|On the outskirts of town.|En las afueras del pueblo.
+countryside|el campo|sust|fuera de la ciudad|Out in the countryside.|Allá en el campo.
+oak|roble|sust|árbol grande y fuerte|An old oak tree.|Un viejo roble.
+pine|pino|sust|árbol de hoja fina|Pine forest.|Bosque de pinos.
+palm|palmera / palma|sust|el árbol o la mano|Palm trees on the beach.|Palmeras en la playa.
+bush|arbusto|sust|planta baja y tupida|Behind the bush.|Detrás del arbusto.
+grass|hierba|sust|lo verde del suelo|Lie on the grass.|Túmbate en la hierba.
+weed|mala hierba|sust|la que no quieres|Pull the weeds.|Arranca las malas hierbas.
+vine|enredadera|sust|planta que trepa|Vines on the wall.|Enredaderas en el muro.
+trunk|tronco|sust|también el maletero|The tree trunk.|El tronco del árbol.
+bark|corteza / ladrido|sust|del árbol o del perro|The dog's bark.|El ladrido del perro.
+thorn|espina|sust|lo que pincha en la rosa|Every rose has a thorn.|Cada rosa tiene su espina.
+petal|pétalo|sust|la hoja de la flor|Fallen petals.|Pétalos caídos.
+stem|tallo|sust|lo que sostiene la flor|A long stem.|Un tallo largo.
+pollen|polen|sust|el polvo de las flores|Pollen in the air.|Polen en el aire.
+mud|barro|sust|tierra con agua|Stuck in the mud.|Atascado en el barro.
+clay|arcilla|sust|barro para moldear|Feet of clay.|Pies de barro.
+rock|roca|sust|también el género musical|Solid as a rock.|Firme como una roca.
+pebble|guijarro|sust|piedra pequeña y lisa|Pebbles on the shore.|Guijarros en la orilla.
+gravel|grava|sust|piedrecillas sueltas|A gravel road.|Un camino de grava.
+twilight|crepúsculo|sust|la luz que queda|In the twilight.|En el crepúsculo.
+daylight|luz del día|sust|la claridad del sol|Broad daylight.|A plena luz del día.
+daytime|de día|sust|lo contrario de nighttime|Daytime hours.|Horas de día.
+nighttime|de noche|sust|cuando es de noche|Nighttime in the city.|Noche en la ciudad.
+moonlight|luz de luna|sust|la que da la luna|Dancing in the moonlight.|Bailando a la luz de la luna.
+starlight|luz de las estrellas|sust|la de la noche clara|Under the starlight.|Bajo la luz de las estrellas.
+sunlight|luz del sol|sust|la que da el sol|Sunlight through the window.|Luz del sol por la ventana.
+darkness|oscuridad|sust|falta de luz|Out of the darkness.|Fuera de la oscuridad.
+brightness|luminosidad|sust|cuánta luz hay|Lower the brightness.|Baja la luminosidad.
+octave|octava|sust|ocho notas de distancia|Sing it an octave lower.|Cántalo una octava más bajo.
+groove|ritmo pegadizo|sust|el balanceo de la música|That song has a groove.|Esa canción tiene ritmo.
+riff|riff|sust|la frase que repite la guitarra|That guitar riff.|Ese riff de guitarra.
+remix|remezcla|sust|la canción rehecha|A dance remix.|Una remezcla bailable.
+playlist|lista de reproducción|sust|las canciones elegidas|Add it to my playlist.|Añádela a mi lista.
+vinyl|vinilo|sust|el disco grande|I collect vinyl.|Colecciono vinilos.
+cassette|casete|sust|la cinta de los ochenta|An old cassette.|Un casete viejo.
+radio|radio|sust|donde suenan las canciones|On the radio.|En la radio.
+supporter|seguidor|sust|quien apoya|A loyal supporter.|Un seguidor leal.
+reviewer|crítico|sust|quien reseña|A harsh reviewer.|Un crítico duro.
+rating|valoración|sust|las estrellas que le dan|A five-star rating.|Una valoración de cinco estrellas.
+applause|aplausos|sust|el ruido de aplaudir|A round of applause.|Una ronda de aplausos.
+encore|bis|sust|la canción extra|The crowd wanted an encore.|El público quería un bis.
+rehearsal|ensayo|sust|practicar antes del show|Band rehearsal.|Ensayo de la banda.
+gig|bolo|sust|un concierto informal|We played a gig.|Tocamos un bolo.
+backstage|entre bastidores|sust|detrás del escenario|Meet me backstage.|Nos vemos entre bastidores.
+spotlight|foco|sust|la luz que te señala|In the spotlight.|Bajo los focos.
+carpenter|carpintero|sust|trabaja la madera|A skilled carpenter.|Un carpintero hábil.
+architect|arquitecto|sust|diseña edificios|The architect drew it.|El arquitecto lo dibujó.
+photographer|fotógrafo|sust|hace fotos|A wedding photographer.|Un fotógrafo de bodas.
+director|director|sust|de cine o de empresa|The film director.|El director de cine.
+editor|editor|sust|corrige y monta|The editor cut it.|El editor lo cortó.
+translator|traductor|sust|pasa de un idioma a otro|A good translator.|Un buen traductor.
+interpreter|intérprete|sust|traduce hablando|We need an interpreter.|Necesitamos un intérprete.
+consultant|consultor|sust|asesora desde fuera|An outside consultant.|Un consultor externo.
+assistant|asistente|sust|quien ayuda|My assistant will call.|Mi asistente llamará.
+secretary|secretario|sust|lleva la agenda|Ask the secretary.|Pregunta al secretario.
+receptionist|recepcionista|sust|el de la entrada|The receptionist smiled.|El recepcionista sonrió.
+accountant|contador|sust|lleva las cuentas|Talk to the accountant.|Habla con el contador.
+banker|banquero|sust|trabaja en el banco|A retired banker.|Un banquero jubilado.
+salesman|vendedor|sust|quien vende|A pushy salesman.|Un vendedor insistente.
+resignation|renuncia|sust|dejar el trabajo|He handed in his resignation.|Presentó su renuncia.
+retirement|jubilación|sust|dejar de trabajar por edad|Early retirement.|Jubilación anticipada.
+internship|prácticas|sust|trabajar para aprender|A summer internship.|Unas prácticas de verano.
+apprentice|aprendiz|sust|aprende un oficio|A young apprentice.|Un joven aprendiz.
+supervisor|supervisor|sust|quien te revisa el trabajo|Ask your supervisor.|Pregunta a tu supervisor.
+subordinate|subordinado|sust|quien está por debajo|Treat subordinates well.|Trata bien a los subordinados.
+agenda|orden del día|sust|los puntos de la reunión|What's on the agenda?|¿Qué hay en el orden del día?
+memo|nota interna|sust|de memorandum|Send a memo.|Manda una nota.
+milestone|hito|sust|un punto importante|A major milestone.|Un hito importante.
+turnover|facturación|sust|también rotación de personal|Annual turnover.|Facturación anual.
+overhead|gastos fijos|sust|lo que cuesta mantener|Cut the overhead.|Reduce los gastos fijos.
+invoice|factura|sust|el papel del cobro|Send the invoice.|Manda la factura.
+quotation|presupuesto|sust|también «cita textual»|Request a quotation.|Pide un presupuesto.
+withdrawal|retirada|sust|sacar dinero o retirarse|A cash withdrawal.|Una retirada de efectivo.
+deposit|depósito|sust|meter dinero o la fianza|Pay a deposit.|Paga una fianza.
+tactic|táctica|sust|el modo concreto de hacerlo|A clever tactic.|Una táctica lista.
+framework|marco|sust|la estructura de trabajo|A clear framework.|Un marco claro.
+benchmark|referencia|sust|con qué se compara|Set the benchmark.|Marca la referencia.
+metric|métrica|sust|lo que se mide|The key metric.|La métrica clave.
+indicator|indicador|sust|la señal que avisa|A good indicator.|Un buen indicador.
+questionnaire|cuestionario|sust|la lista de preguntas|Fill the questionnaire.|Rellena el cuestionario.
+variable|variable|sust|lo que puede cambiar|An unknown variable.|Una variable desconocida.
+correlation|correlación|sust|cuando dos cosas van juntas|A strong correlation.|Una correlación fuerte.
+hypothesis|hipótesis|sust|lo que se supone antes de probar|Test the hypothesis.|Pon a prueba la hipótesis.
+desktop|escritorio|sust|el ordenador de mesa|On my desktop.|En mi escritorio.
+server|servidor|sust|donde viven los datos|The server is down.|El servidor está caído.
+archive|archivo|sust|lo guardado de antes|Check the archive.|Mira el archivo.
+directory|directorio|sust|la carpeta del sistema|The root directory.|El directorio raíz.
+shortcut|atajo|sust|el camino corto|A keyboard shortcut.|Un atajo de teclado.
+icon|icono|sust|el dibujito que se pulsa|Click the icon.|Pulsa el icono.
+toolbar|barra de herramientas|sust|la fila de botones|Hide the toolbar.|Oculta la barra.
+tab|pestaña|sust|también «la cuenta»|Open a new tab.|Abre una pestaña nueva.
+algorithm|algoritmo|sust|los pasos que sigue el programa|The algorithm decides.|El algoritmo decide.
+script|guion / script|sust|de cine o de programa|Run the script.|Ejecuta el script.
+array|arreglo|sust|la lista de datos|An empty array.|Un arreglo vacío.
+string|cadena|sust|texto en programación|An empty string.|Una cadena vacía.
+integer|entero|sust|número sin decimales|A positive integer.|Un entero positivo.
+boolean|booleano|sust|verdadero o falso|A boolean value.|Un valor booleano.
+syntax|sintaxis|sust|cómo se escribe correctamente|A syntax error.|Un error de sintaxis.
+compiler|compilador|sust|traduce el código|The compiler failed.|El compilador falló.
+debugger|depurador|sust|busca los fallos|Use the debugger.|Usa el depurador.
+encryption|cifrado|sust|esconder los datos|Strong encryption.|Cifrado fuerte.
+firewall|cortafuegos|sust|bloquea lo peligroso|Behind a firewall.|Tras un cortafuegos.
+antivirus|antivirus|sust|contra los virus|Update the antivirus.|Actualiza el antivirus.
+malware|software malicioso|sust|programas que dañan|Malware on the laptop.|Software malicioso en el portátil.
+phishing|suplantación|sust|el correo que te engaña|A phishing email.|Un correo de suplantación.
+scam|estafa|sust|el engaño para sacar dinero|It's a scam.|Es una estafa.
+hacker|hacker|sust|quien entra donde no debe|A hacker got in.|Entró un hacker.
+patch|parche|sust|el arreglo de un fallo|Install the patch.|Instala el parche.
+coward|cobarde|sust|quien no se atreve|Don't be a coward.|No seas cobarde.
+villain|villano|sust|el malo de la historia|Every story has a villain.|Toda historia tiene un villano.
+opponent|rival|sust|contra quien juegas|A tough opponent.|Un rival duro.
+ally|aliado|sust|quien está de tu lado|A close ally.|Un aliado cercano.
+mentor|mentor|sust|quien te guía|He was my mentor.|Fue mi mentor.
+master|maestro|sust|también «dominar»|A master of the craft.|Un maestro del oficio.
+adolescence|adolescencia|sust|entre niño y adulto|Through adolescence.|Durante la adolescencia.
+maturity|madurez|sust|cuando ya eres adulto|Signs of maturity.|Señales de madurez.
+lifetime|toda una vida|sust|lo que dura una vida|Once in a lifetime.|Una vez en la vida.
+ancestry|ascendencia|sust|de dónde vienes|Italian ancestry.|Ascendencia italiana.
+heritage|herencia cultural|sust|lo que te dejaron los tuyos|Cultural heritage.|Patrimonio cultural.
+custom|costumbre|sust|también «a medida»|A local custom.|Una costumbre del lugar.
+divorce|divorcio|sust|romper el matrimonio|After the divorce.|Tras el divorcio.
+separation|separación|sust|dejar de vivir juntos|A trial separation.|Una separación de prueba.
+reunion|reencuentro|sust|volver a verse|A family reunion.|Un reencuentro familiar.
+reconciliation|reconciliación|sust|hacer las paces|A slow reconciliation.|Una reconciliación lenta.
+quarrel|riña|sust|discusión con enfado|A silly quarrel.|Una riña tonta.
+fight|pelea|sust|también el verbo|Don't start a fight.|No empieces una pelea.
+makeup|maquillaje|sust|también «reconciliarse»|She wore no makeup.|No llevaba maquillaje.
+breakup|ruptura|sust|cuando una pareja corta|After the breakup.|Tras la ruptura.
+pregnancy|embarazo|sust|los nueve meses|A difficult pregnancy.|Un embarazo difícil.
+birth|nacimiento|sust|cuando se nace|Give birth.|Dar a luz.
+childbirth|parto|sust|el momento de nacer|During childbirth.|Durante el parto.
+infant|bebé|sust|más formal que baby|A newborn infant.|Un bebé recién nacido.
+toddler|niño pequeño|sust|el que ya camina|A noisy toddler.|Un niño pequeño ruidoso.
+grownup|adulto|sust|informal de adult|Ask a grownup.|Pregunta a un adulto.
+elder|mayor|sust|los de más edad|Respect your elders.|Respeta a los mayores.
+senior|mayor / veterano|sust|de edad o de rango|A senior citizen.|Una persona mayor.
+grave|tumba|sust|también «grave»|Flowers on the grave.|Flores en la tumba.
+cemetery|cementerio|sust|donde están las tumbas|An old cemetery.|Un cementerio viejo.
+coffin|ataúd|sust|donde va el cuerpo|A wooden coffin.|Un ataúd de madera.
+burial|entierro|sust|el acto de enterrar|A private burial.|Un entierro privado.
+mourning|luto|sust|el tiempo de duelo|In mourning.|De luto.
+grief|duelo|sust|el dolor de la pérdida|Overcome by grief.|Vencido por el duelo.
+carnival|carnaval|sust|la fiesta de disfraces|Carnival in February.|Carnaval en febrero.
+parade|desfile|sust|la gente que marcha|A street parade.|Un desfile callejero.
+fireworks|fuegos artificiales|sust|siempre en plural|Fireworks at midnight.|Fuegos artificiales a medianoche.
+circus|circo|sust|payasos y acróbatas|The circus is in town.|El circo está en la ciudad.
+bedroom|dormitorio|sust|donde está la cama|A small bedroom.|Un dormitorio pequeño.
+living|salón|sust|living room|In the living room.|En el salón.
+dining|comedor|sust|dining room|The dining room table.|La mesa del comedor.
+tablecloth|mantel|sust|cubre la mesa|A white tablecloth.|Un mantel blanco.
+brunch|brunch|sust|entre desayuno y almuerzo|Sunday brunch.|Brunch de domingo.
+supper|cena ligera|sust|más informal que dinner|A light supper.|Una cena ligera.
+appetizer|entrante|sust|antes del plato fuerte|Order an appetizer.|Pide un entrante.
+starter|entrante|sust|británico · EE.UU. appetizer|Soup as a starter.|Sopa de entrante.
+waitress|camarera|sust|waiter es el masculino|The waitress smiled.|La camarera sonrió.
+bartender|camarero de barra|sust|el que sirve las copas|Ask the bartender.|Pregunta al camarero.
+barista|barista|sust|el que hace el café|A skilled barista.|Un barista hábil.
+hostess|anfitriona|sust|host es el masculino|A gracious hostess.|Una anfitriona atenta.
+oil|aceite|sust|también «petróleo»|Olive oil.|Aceite de oliva.
+vinegar|vinagre|sust|agrio, para la ensalada|Oil and vinegar.|Aceite y vinagre.
+mustard|mostaza|sust|amarilla y picante|A drop of mustard.|Una gota de mostaza.
+ketchup|kétchup|sust|salsa de tomate dulce|Fries with ketchup.|Patatas con kétchup.
+mayonnaise|mayonesa|sust|blanca y cremosa|Too much mayonnaise.|Demasiada mayonesa.
+dressing|aliño|sust|para la ensalada|Salad dressing.|Aliño de ensalada.
+seasoning|condimento|sust|lo que da sabor|Add some seasoning.|Añade condimento.
+roast|asar|verbo|al horno y despacio|Roast the chicken.|Asa el pollo.
+steam|cocer al vapor|verbo|también «el vapor»|Steam the vegetables.|Cuece las verduras al vapor.
+simmer|hervir a fuego lento|verbo|burbujeo suave|Let it simmer.|Déjalo a fuego lento.
+whisk|batir|verbo|con varillas|Whisk the eggs.|Bate los huevos.
+knead|amasar|verbo|trabajar la masa|Knead the dough.|Amasa la masa.
+stuffed|lleno|adj|no puedo más|I'm stuffed.|Estoy llenísimo.
+starving|muerto de hambre|adj|con muchísima hambre|I'm starving.|Me muero de hambre.
+craving|antojo|sust|ganas fuertes de algo|A sugar craving.|Un antojo de dulce.
+appetite|apetito|sust|las ganas de comer|I lost my appetite.|Perdí el apetito.
+nutrition|nutrición|sust|cómo alimenta la comida|Good nutrition.|Buena nutrición.
+vitamin|vitamina|sust|lo que necesita el cuerpo|Vitamin C.|Vitamina C.
+protein|proteína|sust|para el músculo|A protein shake.|Un batido de proteína.
+workout|entrenamiento|sust|la sesión de ejercicio|A hard workout.|Un entrenamiento duro.
+warmup|calentamiento|sust|antes de entrenar|A short warmup.|Un calentamiento corto.
+cooldown|vuelta a la calma|sust|después de entrenar|Don't skip the cooldown.|No te saltes la vuelta a la calma.
+endurance|resistencia|sust|aguantar mucho tiempo|Build endurance.|Gana resistencia.
+flexibility|flexibilidad|sust|cuánto te doblas|Work on flexibility.|Trabaja la flexibilidad.
+posture|postura|sust|cómo te colocas|Fix your posture.|Corrige la postura.
+injury|lesión|sust|el daño al cuerpo|A knee injury.|Una lesión de rodilla.
+sprain|esguince|sust|torcedura de ligamento|An ankle sprain.|Un esguince de tobillo.
+fracture|fractura|sust|el hueso roto|A small fracture.|Una fractura pequeña.
+strain|tirón|sust|también «tensión»|A muscle strain.|Un tirón muscular.
+rehabilitation|rehabilitación|sust|recuperarse poco a poco|Months of rehabilitation.|Meses de rehabilitación.
+physiotherapy|fisioterapia|sust|la terapia del movimiento|Start physiotherapy.|Empieza fisioterapia.
+emotional|emocional|adj|de los sentimientos|An emotional song.|Una canción emocional.
+spiritual|espiritual|adj|del alma|A spiritual journey.|Un viaje espiritual.
+psychological|psicológico|adj|de la mente|A psychological effect.|Un efecto psicológico.
+anxiety|ansiedad|sust|la inquietud constante|Anxiety at night.|Ansiedad de noche.
+depression|depresión|sust|la tristeza profunda|Living with depression.|Vivir con depresión.
+trauma|trauma|sust|la herida que queda|Childhood trauma.|Trauma de infancia.
+phobia|fobia|sust|el miedo irracional|A phobia of heights.|Fobia a las alturas.
+addiction|adicción|sust|no poder dejarlo|Fighting addiction.|Luchando contra la adicción.
+counseling|orientación|sust|hablar con un profesional|She started counseling.|Empezó orientación.
+meditation|meditación|sust|quedarse quieto y respirar|Daily meditation.|Meditación diaria.
+mindfulness|atención plena|sust|estar en el presente|Practice mindfulness.|Practica la atención plena.
+breathing|respiración|sust|el acto de respirar|Breathing exercises.|Ejercicios de respiración.
+relaxation|relajación|sust|soltar la tensión|A relaxation technique.|Una técnica de relajación.
+empathy|empatía|sust|sentir lo que siente otro|Show some empathy.|Ten algo de empatía.
+compassion|compasión|sust|querer aliviar el dolor ajeno|Act with compassion.|Actúa con compasión.
+sympathy|comprensión|sust|acompañar en el dolor|You have my sympathy.|Te acompaño en el sentimiento.
+tolerance|tolerancia|sust|aceptar lo distinto|Zero tolerance.|Tolerancia cero.
+acceptance|aceptación|sust|dejar de pelearse con ello|The stage of acceptance.|La etapa de la aceptación.

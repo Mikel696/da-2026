@@ -1,0 +1,34 @@
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE PR · PRÁCTICA · Leitner (repetición espaciada)
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="pr">
+  <div class="hero">
+    <div class="kick">práctica · el método puesto a trabajar</div>
+    <h1>Repetición <em>espaciada</em>.<br>Lo que sí funciona.</h1>
+    <p>El Módulo 3 dice que ver una frase diez veces hoy no sirve, y verla hoy, mañana, en tres días y en una semana sí. Esto es exactamente eso, automatizado: <b style="color:var(--tx)">el sistema Leitner de 5 cajas.</b></p>
+  </div>
+
+  <div class="note info"><b>Cómo funciona, en una línea:</b> cada tarjeta vive en una caja. Si la aciertas, <b>sube</b> de caja y tarda más en volver. Si fallas, <b>vuelve a la caja 1</b> y la ves mañana. Así el tiempo se te va en lo que te cuesta, no en lo que ya sabes. Las tarjetas salen de lo que marcaste con ★ en los módulos 1 y 2 — y si no has marcado nada, del núcleo de alta frecuencia.</div>
+
+  <div class="pr-wrap">
+    <div class="pr-boxes" id="prBoxes"></div>
+
+    <div class="pr-src">
+      <span class="ctl-lbl" style="align-self:center">Practicar con</span>
+      <button class="chip on" data-src="mix">🎲 Mezcla</button>
+      <button class="chip" data-src="fav">★ Mis marcadas</button>
+      <button class="chip" data-src="words">📚 Palabras</button>
+      <button class="chip" data-src="phrases">💬 Frases</button>
+    </div>
+    <div class="pr-src" style="margin-bottom:22px">
+      <span class="ctl-lbl" style="align-self:center">Dirección</span>
+      <button class="chip on" data-dir="en2es">🇬🇧 Inglés → Español</button>
+      <button class="chip" data-dir="es2en">🇪🇸 Español → Inglés <span class="c">más difícil</span></button>
+    </div>
+
+    <div id="prStage"></div>
+
+    <div class="note" style="margin-top:26px"><b>Regla de honestidad:</b> pulsa <b>«Ya la sé»</b> solo si la dijiste completa <b>en voz alta y sin dudar</b>. Si la reconociste al verla pero no te salía sola, eso es <b>«Casi»</b>. Engañarte aquí solo hace que el sistema te la deje de mostrar antes de tiempo.</div>
+  </div>
+</div>

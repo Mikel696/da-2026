@@ -1,0 +1,99 @@
+<style>
+/* ═══════════════════════════════════════════════════════════
+   BIFURCACIONES · una palabra tuya, varias suyas
+   Inspirado en las pizarras que le funcionan a Miguel:
+   la palabra española arriba, las inglesas abriéndose debajo.
+═══════════════════════════════════════════════════════════ */
+
+.bf{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:0;margin-bottom:20px;
+  overflow:hidden;transition:.2s}
+.bf:hover{border-color:var(--bd2)}
+.bf.done{border-color:rgba(34,197,94,.34)}
+
+/* ── Cabecera: la palabra española, circulada como en la pizarra ── */
+.bf-top{padding:22px 20px 18px;text-align:center;position:relative;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(139,92,246,.10),transparent 70%)}
+.bf-ask{font-family:var(--fm);font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--t3);margin-bottom:12px}
+.bf-word{display:inline-block;font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-1.4px;
+  color:var(--ok);padding:6px 26px;position:relative;line-height:1.1}
+/* el círculo a mano alzada */
+.bf-word::before{content:"";position:absolute;inset:-8px -6px;border:2.5px solid var(--ok);
+  border-radius:50%/58%;opacity:.75;transform:rotate(-1.5deg)}
+.bf-sub{font-size:13px;color:var(--t2);margin-top:14px;max-width:52ch;margin-left:auto;margin-right:auto;line-height:1.55}
+
+/* ── Las ramas ── */
+.bf-arms{display:grid;gap:10px;padding:0 16px 16px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.bf-arm{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--rad);padding:14px 15px;
+  position:relative;transition:.16s;border-top:3px solid}
+.bf-arm:hover{background:var(--bg4)}
+/* la flecha que sube hacia la palabra española */
+.bf-arm::before{content:"↑";position:absolute;top:-19px;left:50%;transform:translateX(-50%);
+  font-size:15px;opacity:.5}
+.bf-arm .w{font-size:21px;font-weight:800;letter-spacing:-.6px;display:flex;align-items:center;gap:9px}
+.bf-arm .j{font-size:12.5px;color:var(--t2);margin-top:5px;font-weight:600;line-height:1.4}
+.bf-arm .t{font-size:12.5px;color:var(--t3);margin-top:9px;padding-top:9px;border-top:1px dashed var(--bd);line-height:1.55}
+.bf-arm .t b{color:var(--t2)}
+.bf-arm .t::before{content:"🔎 ";opacity:.75}
+.arm-suj{border-top-color:var(--r-suj)} .arm-suj .w{color:var(--r-suj)}
+.arm-aux{border-top-color:var(--r-aux)} .arm-aux .w{color:var(--r-aux)}
+.arm-ver{border-top-color:var(--r-ver)} .arm-ver .w{color:var(--r-ver)}
+.arm-com{border-top-color:var(--r-com)} .arm-com .w{color:var(--r-com)}
+.arm-neg{border-top-color:var(--r-neg)} .arm-neg .w{color:var(--r-neg)}
+.arm-wh{border-top-color:var(--r-wh)}   .arm-wh .w{color:var(--r-wh)}
+
+/* ── La trampa del español ── */
+.bf-trap{margin:0 16px 16px;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.24);
+  border-radius:var(--rad);padding:12px 15px;font-size:13px;color:var(--t2);line-height:1.6}
+.bf-trap b{color:var(--tx)}
+.bf-trap .no{color:var(--r-neg);font-weight:700}
+.bf-trap .si{color:var(--ok);font-weight:700}
+
+/* ── Ejercicios ── */
+.bf-ex{border-top:1px solid var(--bd);padding:16px}
+.bf-ex-h{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+  color:var(--ac2);margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.bf-ex-h .sc{margin-left:auto;font-family:var(--fm);font-size:11px;color:var(--t3);letter-spacing:0;text-transform:none}
+.bf-q{background:var(--bg3);border-radius:var(--rad-s);padding:13px 15px;margin-bottom:9px;transition:.18s}
+.bf-q.ok{background:rgba(34,197,94,.08);box-shadow:inset 0 0 0 1px rgba(34,197,94,.28)}
+.bf-q.bad{background:rgba(239,68,68,.07);box-shadow:inset 0 0 0 1px rgba(239,68,68,.26)}
+.bf-q .esp{font-size:14.5px;color:var(--ac2);font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.bf-q .esp::before{content:"•";opacity:.6}
+.bf-q .ing{font-size:17px;font-weight:600;display:flex;align-items:center;gap:9px;flex-wrap:wrap;line-height:1.6}
+/* el hueco */
+.bf-gap{display:inline-flex;align-items:center;justify-content:center;min-width:74px;height:31px;
+  border:none;border-bottom:2.5px solid var(--ac);background:var(--acbg);color:var(--ac2);
+  font-family:var(--fs);font-size:15px;font-weight:800;cursor:pointer;border-radius:6px 6px 0 0;
+  padding:0 11px;transition:.15s;vertical-align:middle}
+.bf-gap:hover{background:var(--ac);color:#fff}
+.bf-gap.ok{background:rgba(34,197,94,.2);border-bottom-color:var(--ok);color:#4ade80;cursor:default}
+.bf-gap.bad{background:rgba(239,68,68,.18);border-bottom-color:var(--bad);color:#f87171}
+.bf-opts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.bf-opt{background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);border-radius:99px;
+  padding:7px 15px;font-family:var(--fs);font-size:13.5px;font-weight:700;cursor:pointer;transition:.14s}
+.bf-opt:hover{border-color:var(--ac);background:var(--acbg);color:var(--ac2)}
+.bf-opt:disabled{opacity:.4;cursor:default}
+.bf-opt.good{background:rgba(34,197,94,.18);border-color:var(--ok);color:#4ade80}
+.bf-opt.wrong{background:rgba(239,68,68,.18);border-color:var(--bad);color:#f87171}
+.bf-why{margin-top:11px;font-size:13px;color:var(--t2);line-height:1.6;padding:10px 13px;
+  background:var(--bg2);border-radius:var(--rad-s);border-left:3px solid var(--ac);display:none}
+.bf-why.on{display:block;animation:rise .22s ease}
+.bf-why b{color:var(--tx)}
+
+/* ── Controles del módulo ── */
+.bf-nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.bf-pill{background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:99px;
+  padding:7px 14px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;transition:.14s;
+  display:inline-flex;align-items:center;gap:7px}
+.bf-pill:hover{border-color:var(--bd2);color:var(--tx)}
+.bf-pill.on{background:var(--acbg);border-color:var(--acbd);color:var(--ac2)}
+.bf-pill .tick{color:var(--ok);font-size:11px}
+
+@media(max-width:620px){
+  .bf-arms{grid-template-columns:1fr}
+  .bf-arm::before{display:none}
+  .bf-q .ing{font-size:15.5px}
+}
+@media print{.bf-opts,.bf-nav{display:none!important}.bf-why{display:block!important}}
+</style>

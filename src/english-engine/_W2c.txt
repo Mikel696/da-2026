@@ -1,0 +1,202 @@
+fine|bien|adj|I'm fine = estoy bien|Everything is fine.|Todo está bien.
+large|grande|adj|más formal que big|A large crowd.|Una gran multitud.
+tall|alto|adj|de personas y edificios|He's very tall.|Es muy alto.
+short|bajo / corto|adj|de altura o de duración|A short song.|Una canción corta.
+quick|rápido|adj|de poca duración|A quick question.|Una pregunta rápida.
+pretty|bonito|adv|también «bastante»|That's pretty good.|Está bastante bien.
+sweet|dulce|adj|de sabor o de carácter|You're so sweet.|Eres muy dulce.
+bitter|amargo|adj|sabor · o resentido|A bitter ending.|Un final amargo.
+sour|agrio|adj|como el limón|It tastes sour.|Sabe agrio.
+spicy|picante|adj|que pica en la boca|Too spicy for me.|Demasiado picante para mí.
+delicious|delicioso|adj|que sabe muy bien|This is delicious.|Esto está delicioso.
+fresh|fresco|adj|recién hecho|A fresh start.|Un comienzo nuevo.
+rotten|podrido|adj|pasado, echado a perder|The fruit is rotten.|La fruta está podrida.
+wet|mojado|adj|lo contrario de dry|My shirt is wet.|Mi camisa está mojada.
+rainy|lluvioso|adj|con lluvia|A rainy Sunday.|Un domingo lluvioso.
+windy|ventoso|adj|con mucho viento|It's windy outside.|Hace viento fuera.
+cloudy|nublado|adj|con nubes|A cloudy morning.|Una mañana nublada.
+sunny|soleado|adj|con sol|A sunny day.|Un día soleado.
+foggy|con niebla|adj|cuesta ver|The road was foggy.|La carretera tenía niebla.
+freezing|helado|adj|frío extremo|It's freezing in here.|Hace un frío helado aquí.
+boiling|hirviendo|adj|calor extremo|It's boiling today.|Hace un calor asfixiante.
+rich|rico|adj|de dinero o de sabor|Rich or poor.|Rico o pobre.
+broke|sin blanca|adj|sin dinero · pasado de break|I'm broke this month.|Estoy sin blanca este mes.
+broken|roto|adj|participio de break|A broken heart.|Un corazón roto.
+lonely|solitario|adj|solo y con pena|A lonely night.|Una noche solitaria.
+numb|entumecido|adj|sin sentir nada|I feel numb.|Me siento entumecido.
+empty|vacío|adj|sin nada dentro|An empty room.|Una habitación vacía.
+dead|muerto|adj|sin vida · también «agotado»|The battery is dead.|La batería está muerta.
+awake|despierto|adj|sin dormir|Still awake at three.|Despierto todavía a las tres.
+asleep|dormido|adj|fall asleep = quedarse dormido|She's asleep.|Está dormida.
+restless|inquieto|adj|que no puede parar|A restless heart.|Un corazón inquieto.
+exhausted|agotado|adj|sin fuerzas|I'm exhausted.|Estoy agotado.
+wild|salvaje|adj|sin domar|A wild night.|Una noche salvaje.
+crazy|loco|adj|crazy about = loco por|You drive me crazy.|Me vuelves loco.
+mad|enfadado / loco|adj|EE.UU. enfadado · R.U. loco|Don't be mad at me.|No te enfades conmigo.
+steady|firme|adj|que no se mueve|A steady hand.|Un pulso firme.
+bright|brillante / listo|adj|de luz o de cabeza|A bright future.|Un futuro brillante.
+dull|apagado / aburrido|adj|sin brillo ni gracia|A dull afternoon.|Una tarde aburrida.
+shiny|reluciente|adj|que refleja la luz|Shiny shoes.|Zapatos relucientes.
+smooth|suave|adj|sin asperezas|Smooth as silk.|Suave como la seda.
+rough|áspero / duro|adj|con asperezas · o difícil|A rough week.|Una semana dura.
+harsh|duro|adj|de palabras o de clima|That's a harsh word.|Esa palabra es dura.
+tough|duro / difícil|adj|de carácter o de situación|A tough decision.|Una decisión difícil.
+gentle|suave / amable|adj|sin brusquedad|Be gentle with her.|Sé amable con ella.
+tender|tierno|adj|de carne o de trato|A tender moment.|Un momento tierno.
+cruel|cruel|adj|que hace daño a propósito|Life can be cruel.|La vida puede ser cruel.
+polite|educado|adj|con buenas formas|Be polite.|Sé educado.
+rude|maleducado|adj|sin modales|That was rude.|Eso fue de mala educación.
+honest|honesto|adj|to be honest = la verdad|To be honest, no.|La verdad, no.
+fair|justo|adj|también «feria» y «rubio»|That's not fair.|Eso no es justo.
+unfair|injusto|adj|lo contrario de fair|It feels unfair.|Se siente injusto.
+loyal|leal|adj|que no falla|A loyal friend.|Un amigo leal.
+brave|valiente|adj|que no se achica|Be brave.|Sé valiente.
+shy|tímido|adj|le cuesta hablar|I was too shy.|Era demasiado tímido.
+awkward|incómodo|adj|situación rara|An awkward silence.|Un silencio incómodo.
+annoying|molesto|adj|que irrita|That's annoying.|Eso es molesto.
+frustrating|frustrante|adj|que da rabia|It's frustrating.|Es frustrante.
+frustrated|frustrado|adj|cómo te sientes tú|I felt frustrated.|Me sentí frustrado.
+confused|confundido|adj|sin entender nada|I'm confused.|Estoy confundido.
+confusing|confuso|adj|lo que confunde|The rules are confusing.|Las reglas son confusas.
+stuck|atascado|adj|sin poder avanzar|I'm stuck here.|Estoy atascado aquí.
+complicated|complicado|adj|con muchas partes|It's complicated.|Es complicado.
+incredible|increíble|adj|difícil de creer|You're incredible.|Eres increíble.
+passionate|apasionado|adj|con mucha emoción|He's passionate about music.|Le apasiona la música.
+risky|arriesgado|adj|con peligro|That's risky.|Eso es arriesgado.
+healthy|sano|adj|con buena salud|Stay healthy.|Mantente sano.
+sore|dolorido|adj|que duele al tocarlo|My throat is sore.|Me duele la garganta.
+dizzy|mareado|adj|con la cabeza dando vueltas|I feel dizzy.|Me siento mareado.
+allergic|alérgico|adj|allergic TO something|I'm allergic to nuts.|Soy alérgico a los frutos secos.
+married|casado|adj|get married = casarse|They got married.|Se casaron.
+teenage|adolescente|adj|de trece a diecinueve|A teenage dream.|Un sueño adolescente.
+native|nativo|adj|native speaker|A native speaker.|Un hablante nativo.
+fluent|fluido|adj|fluent in English|She's fluent in English.|Habla inglés con fluidez.
+favorite|favorito|adj|británico: favourite|My favorite song.|Mi canción favorita.
+usual|habitual|adj|as usual = como siempre|The usual place.|El sitio de siempre.
+uneven|desigual|adj|que no está parejo|An uneven floor.|Un suelo desigual.
+plastic|de plástico|adj|también el material|A plastic cup.|Un vaso de plástico.
+artificial|artificial|adj|hecho por el hombre|Artificial light.|Luz artificial.
+European|europeo|adj|de Europa|A European tour.|Una gira europea.
+French|francés|adj|de Francia|French music.|Música francesa.
+endless|interminable|adj|sin final|An endless night.|Una noche interminable.
+timeless|atemporal|adj|que no envejece|A timeless song.|Una canción atemporal.
+priceless|no tiene precio|adj|vale más que el dinero|That look was priceless.|Esa cara no tenía precio.
+worthless|sin valor|adj|que no vale nada|I felt worthless.|Me sentí un inútil.
+hopeless|sin esperanza|adj|sin salida|It's not hopeless.|No está perdido.
+careless|descuidado|adj|sin poner atención|A careless mistake.|Un error por descuido.
+fearless|sin miedo|adj|que no teme nada|Young and fearless.|Joven y sin miedo.
+speechless|sin palabras|adj|de la impresión|I was speechless.|Me quedé sin palabras.
+homeless|sin hogar|adj|sin casa donde vivir|Helping homeless people.|Ayudando a gente sin hogar.
+beautiful|hermoso|adj|más fuerte que pretty|You're beautiful.|Eres hermosa.
+gorgeous|precioso|adj|muy guapo o muy bonito|She looks gorgeous.|Está preciosa.
+ugly|feo|adj|lo contrario de beautiful|An ugly truth.|Una verdad fea.
+handsome|guapo|adj|se dice de hombres|A handsome stranger.|Un desconocido guapo.
+cute|mono|adj|bonito y pequeño|That's so cute.|Qué mono.
+elegant|elegante|adj|con buen gusto|An elegant dress.|Un vestido elegante.
+messy|desordenado|adj|todo revuelto|A messy room.|Una habitación desordenada.
+tidy|ordenado|adj|todo en su sitio|Keep it tidy.|Mantenlo ordenado.
+crowded|abarrotado|adj|lleno de gente|The bar was crowded.|El bar estaba abarrotado.
+willing|dispuesto|adj|willing to = dispuesto a|I'm willing to try.|Estoy dispuesto a intentarlo.
+eager|deseoso|adj|con muchas ganas|Eager to learn.|Con ganas de aprender.
+curious|curioso|adj|con ganas de saber|I'm curious about it.|Me da curiosidad.
+jealous|celoso|adj|jealous OF someone|Don't be jealous.|No tengas celos.
+guilty|culpable|adj|feel guilty = sentirse culpable|I feel guilty.|Me siento culpable.
+innocent|inocente|adj|sin culpa|He's innocent.|Es inocente.
+grateful|agradecido|adj|con gratitud|I'm grateful for you.|Te estoy agradecido.
+thankful|agradecido|adj|parecido a grateful|Thankful for today.|Agradecido por hoy.
+hopeful|esperanzado|adj|con esperanza|I'm hopeful.|Tengo esperanza.
+cheerful|alegre|adj|de buen humor|A cheerful tune.|Una melodía alegre.
+peaceful|tranquilo|adj|en paz|A peaceful morning.|Una mañana tranquila.
+powerful|poderoso|adj|con mucha fuerza|A powerful voice.|Una voz poderosa.
+meaningful|con sentido|adj|que significa algo|A meaningful gift.|Un regalo con sentido.
+awful|horrible|adj|muy malo|That was awful.|Eso fue horrible.
+dreadful|espantoso|adj|muy malo, más formal|A dreadful mistake.|Un error espantoso.
+scary|que da miedo|adj|informal de frightening|A scary movie.|Una película de miedo.
+creepy|siniestro|adj|que da mal rollo|That's creepy.|Eso da mal rollo.
+weird|raro|adj|informal de strange|That's weird.|Qué raro.
+odd|extraño|adj|también «impar»|An odd question.|Una pregunta extraña.
+plain|sencillo / liso|adj|sin adornos|A plain white shirt.|Una camisa blanca lisa.
+fancy|elegante / lujoso|adj|también «apetecer» en R.U.|A fancy restaurant.|Un restaurante elegante.
+casual|informal|adj|sin etiqueta|Casual clothes.|Ropa informal.
+ancient|antiquísimo|adj|de hace muchos siglos|An ancient story.|Una historia antiquísima.
+used|usado|adj|de segunda mano|A used guitar.|Una guitarra de segunda mano.
+hardly|apenas|adv|casi nada · NO es «duramente»|I hardly know you.|Apenas te conozco.
+barely|apenas|adv|por muy poco|I barely made it.|Llegué por los pelos.
+nearly|casi|adv|parecido a almost|Nearly done.|Casi terminado.
+rarely|rara vez|adv|casi nunca|I rarely go out.|Rara vez salgo.
+seldom|pocas veces|adv|más formal que rarely|He seldom calls.|Pocas veces llama.
+frequently|con frecuencia|adv|muchas veces|She travels frequently.|Viaja con frecuencia.
+constantly|constantemente|adv|sin parar|He's constantly late.|Llega tarde constantemente.
+occasionally|de vez en cuando|adv|a ratos|I drink occasionally.|Bebo de vez en cuando.
+twice|dos veces|adv|una vez = once|I called twice.|Llamé dos veces.
+once|una vez|adv|también «una vez que»|Once upon a time.|Érase una vez.
+quite|bastante|adv|R.U. suaviza, EE.UU. refuerza|That's quite good.|Está bastante bien.
+rather|más bien|adv|would rather = preferiría|I'd rather stay.|Preferiría quedarme.
+somewhat|un tanto|adv|en cierta medida|Somewhat better.|Un tanto mejor.
+fairly|bastante|adv|ni mucho ni poco|Fairly easy.|Bastante fácil.
+extremely|extremadamente|adv|al máximo|Extremely tired.|Extremadamente cansado.
+incredibly|increíblemente|adv|refuerza mucho|Incredibly lucky.|Increíblemente afortunado.
+deeply|profundamente|adv|muy adentro|Deeply sorry.|Profundamente arrepentido.
+truly|de verdad|adv|sin fingir|I truly mean it.|Lo digo de verdad.
+merely|meramente|adv|nada más que eso|Merely a friend.|Solo un amigo.
+simply|sencillamente|adv|sin más|Simply beautiful.|Sencillamente hermoso.
+gently|con suavidad|adv|sin brusquedad|Hold it gently.|Sostenlo con suavidad.
+loudly|en voz alta|adv|con mucho volumen|Sing loudly.|Canta fuerte.
+softly|bajito|adv|con poco volumen|She spoke softly.|Habló bajito.
+tightly|con fuerza|adv|bien apretado|Hold me tightly.|Abrázame fuerte.
+closely|de cerca|adv|sin perder detalle|Watch closely.|Mira de cerca.
+widely|ampliamente|adv|por todas partes|Widely known.|Ampliamente conocido.
+forward|hacia delante|adv|look forward to|Move forward.|Sigue adelante.
+backward|hacia atrás|adv|británico: backwards|Step backward.|Da un paso atrás.
+upward|hacia arriba|adv|también upwards|Looking upward.|Mirando hacia arriba.
+onward|hacia delante|adv|también onwards|From here onward.|De aquí en adelante.
+inward|hacia dentro|adv|en el interior|An inward struggle.|Una lucha interior.
+outward|hacia fuera|adv|hacia el exterior|An outward sign.|Una señal externa.
+ahead|delante|adv|go ahead = adelante|The road ahead.|El camino que viene.
+aside|a un lado|adv|apartado|Step aside.|Hazte a un lado.
+apart|separado|adv|fall apart = desmoronarse|Worlds apart.|Mundos aparte.
+along|a lo largo de|prep|along the way|Come along.|Ven conmigo.
+beyond|más allá de|prep|pasado ese punto|Beyond the stars.|Más allá de las estrellas.
+within|dentro de|prep|en el interior de|Within an hour.|Dentro de una hora.
+throughout|a lo largo de todo|prep|de principio a fin|Throughout the night.|A lo largo de toda la noche.
+despite|a pesar de|prep|no lleva «of»|Despite the rain.|A pesar de la lluvia.
+towards|hacia|prep|también toward|Walking towards you.|Caminando hacia ti.
+among|entre (varios)|prep|between es entre DOS|Among friends.|Entre amigos.
+beneath|debajo de|prep|más literario que under|Beneath the surface.|Bajo la superficie.
+alongside|junto a|prep|al lado de|Alongside my friends.|Junto a mis amigos.
+amid|en medio de|prep|rodeado de algo|Amid the noise.|En medio del ruido.
+plus|más|prep|además de|Plus the tax.|Más los impuestos.
+minus|menos|prep|quitando|Minus the fees.|Menos las comisiones.
+versus|contra|prep|en una comparación|Me versus the world.|Yo contra el mundo.
+per|por|prep|per hour, per person|Ten per person.|Diez por persona.
+via|a través de|prep|por esa vía|Via email.|Por correo electrónico.
+though|aunque|conj|al final: «pero»|It's late, though.|Aunque es tarde.
+whereas|mientras que|conj|marca un contraste|I stayed, whereas he left.|Yo me quedé, mientras que él se fue.
+nor|ni|conj|neither… nor|Neither you nor I.|Ni tú ni yo.
+thus|así pues|conj|muy formal|Thus, we agreed.|Así pues, acordamos.
+hence|de ahí que|conj|muy formal|Hence the delay.|De ahí el retraso.
+afterwards|después|adv|más tarde|We talked afterwards.|Hablamos después.
+beforehand|de antemano|adv|antes de que pase|Tell me beforehand.|Dímelo de antemano.
+nowadays|hoy en día|adv|en los tiempos de ahora|Nowadays it's easy.|Hoy en día es fácil.
+someday|algún día|adv|en un futuro sin fecha|Someday we'll know.|Algún día lo sabremos.
+sometime|en algún momento|adv|sometimes es «a veces»|Call me sometime.|Llámame algún día.
+anytime|cuando sea|adv|en cualquier momento|Anytime you want.|Cuando quieras.
+forever|para siempre|adv|sin final|Forever and always.|Por siempre jamás.
+shortly|en breve|adv|dentro de poco|I'll be there shortly.|Llego en breve.
+nearby|cerca|adv|a poca distancia|There's a bar nearby.|Hay un bar cerca.
+abroad|en el extranjero|adv|fuera del país|She lives abroad.|Vive en el extranjero.
+indeed|efectivamente|adv|confirma con fuerza|Indeed it is.|Efectivamente, lo es.
+anyhow|de todas formas|adv|parecido a anyway|Anyhow, let's go.|En fin, vamos.
+elsewhere|en otra parte|adv|en otro sitio|Look elsewhere.|Busca en otra parte.
+hey|oye|expr|llamar la atención|Hey, wait up.|Oye, espera.
+oh|ah|expr|sorpresa o comprensión|Oh, I see.|Ah, ya veo.
+wow|guau|expr|admiración|Wow, that's great.|Guau, qué bien.
+ouch|ay|expr|dolor repentino|Ouch, that hurts.|Ay, eso duele.
+oops|uy|expr|un error pequeño|Oops, my bad.|Uy, culpa mía.
+shall|deberé / ¿…?|modal|R.U. formal · shall we?|Shall we dance?|¿Bailamos?
+ought|debería|modal|ought to = should|You ought to rest.|Deberías descansar.
+least|menos|det|at least = al menos|At least we tried.|Al menos lo intentamos.
+less|menos|det|para incontables|Less noise, please.|Menos ruido, por favor.
+second|segundo|sust|de tiempo o de orden|Wait a second.|Espera un segundo.
+third|tercero|num|después del segundo|The third verse.|La tercera estrofa.
+set|conjunto / poner|sust|set up = montar|A set of rules.|Un conjunto de reglas.

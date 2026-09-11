@@ -1,0 +1,2000 @@
+the|el / la / los / las|det|the + algo YA conocido · nunca cambia de forma|Close the door, please.|Cierra la puerta, por favor.
+be|ser / estar|verbo|am, is, are, was, were · motor de estados y de -ing|I am tired today.|Estoy cansado hoy.
+to|a / para|prep|to + lugar (destino) · to + verbo (infinitivo)|I want to go to work.|Quiero ir al trabajo.
+of|de|prep|posesión de cosas: the end of the movie|The name of the street.|El nombre de la calle.
+and|y|conj|une dos piezas del mismo tipo|Bread and butter.|Pan y mantequilla.
+a|un / una|det|a + consonante · an + vocal · solo singular|I need a break.|Necesito un descanso.
+in|en / dentro de|prep|in + mes, año, ciudad, espacio cerrado|She lives in Bogota.|Ella vive en Bogotá.
+that|ese / que|pron|that = eso allá · that = que (enlaza frases)|I think that it works.|Creo que funciona.
+have|tener / haber|verbo|have got = tener · have + participio = perfecto|I have two brothers.|Tengo dos hermanos.
+I|yo|pron|SIEMPRE en mayúscula, esté donde esté|I don't know.|No sé.
+it|eso / ello|pron|sujeto fantasma del clima, la hora y la distancia|It is raining.|Está lloviendo.
+for|para / durante / por|prep|for + duración (for two years)|This is for you.|Esto es para ti.
+not|no|adv|siempre después del auxiliar, nunca solo|I am not ready.|No estoy listo.
+on|en / sobre|prep|on + día, fecha, superficie|The book is on the table.|El libro está sobre la mesa.
+with|con|prep|with + compañía o instrumento|Come with me.|Ven conmigo.
+he|él|pron|pide verbo con -s en presente|He works here.|Él trabaja aquí.
+as|como / mientras|conj|as + rol · as + frase (mientras)|I work as a designer.|Trabajo como diseñador.
+you|tú / usted / ustedes|pron|singular y plural son la misma palabra|You are right.|Tienes razón.
+do|hacer|verbo|do/does/did = auxiliar comodín para negar y preguntar|What do you do?|¿A qué te dedicas?
+at|en / a las|prep|at + hora, punto exacto, dirección|See you at eight.|Nos vemos a las ocho.
+this|este / esto|pron|this = esto aquí cerca · plural: these|This is my house.|Esta es mi casa.
+but|pero|conj|contrapone lo anterior|I want to, but I can't.|Quiero, pero no puedo.
+his|su (de él)|det|no cambia con el género de la cosa|His car is new.|Su carro es nuevo.
+by|por / junto a|prep|by = autor o medio (by bus, by Shakespeare)|I go by bus.|Voy en bus.
+from|de / desde|prep|from + origen · from A to B|I am from Colombia.|Soy de Colombia.
+they|ellos / ellas|pron|también se usa para una persona sin género|They are coming.|Ellos vienen.
+we|nosotros|pron|we = tú y yo, o mi grupo|We need more time.|Necesitamos más tiempo.
+say|decir|verbo|say something · NUNCA say me (es tell me)|What did you say?|¿Qué dijiste?
+her|su (de ella) / la|det|sirve de posesivo y de objeto|I saw her yesterday.|La vi ayer.
+she|ella|pron|pide verbo con -s en presente|She likes coffee.|A ella le gusta el café.
+or|o|conj|alternativa entre dos|Tea or coffee?|¿Té o café?
+an|un / una|det|an solo antes de sonido vocal|It's an idea.|Es una idea.
+will|(futuro)|modal|will + verbo desnudo · contracción: I'll|I will call you.|Te llamaré.
+my|mi|det|siempre antes del sustantivo|My name is Miguel.|Mi nombre es Miguel.
+one|uno|num|one = número · one = evitar repetir el sustantivo|I need one more.|Necesito uno más.
+all|todo / todos|det|all the + plural · all day|All the students came.|Vinieron todos los estudiantes.
+would|(condicional -ría)|modal|would + verbo desnudo · I'd like = quisiera|I would go if I could.|Iría si pudiera.
+there|allí / hay|adv|there is / there are = hay|There is a problem.|Hay un problema.
+their|su (de ellos)|det|no confundir con there ni they're|Their house is big.|Su casa es grande.
+what|qué / lo que|pron|What + auxiliar + sujeto + verbo?|What do you need?|¿Qué necesitas?
+so|así que / tan|conj|so + adjetivo (tan) · so = por eso|It's so cold.|Hace tanto frío.
+up|arriba|adv|cambia el verbo: get up, wake up, give up|Stand up, please.|Ponte de pie, por favor.
+out|fuera|adv|go out, find out, run out of|Let's go out tonight.|Salgamos esta noche.
+if|si (condición)|conj|después de if NUNCA va will|If it rains, I'll stay.|Si llueve, me quedo.
+about|sobre / acerca de|prep|talk about, think about, worry about|Tell me about it.|Cuéntame sobre eso.
+who|quién|pron|si who es el sujeto, no lleva auxiliar|Who called you?|¿Quién te llamó?
+get|conseguir / llegar / volverse|verbo|el comodín: get up, get to, get it, get tired|I get up at six.|Me levanto a las seis.
+which|cuál|pron|which cuando hay opciones limitadas|Which one do you want?|¿Cuál quieres?
+go|ir|verbo|go to + lugar · go + -ing (actividad)|I go to the gym.|Voy al gimnasio.
+me|me / mí|pron|va después del verbo o de preposición|Give me a minute.|Dame un minuto.
+when|cuando|conj|después de when NUNCA va will|Call me when you arrive.|Llámame cuando llegues.
+make|hacer / fabricar|verbo|make = crear algo nuevo (make a decision)|I need to make a call.|Necesito hacer una llamada.
+can|poder / saber|modal|can + verbo desnudo · sin -s, sin to|Can you help me?|¿Puedes ayudarme?
+like|gustar / como|verbo|like + -ing · like = similar a|I like this song.|Me gusta esta canción.
+time|tiempo / vez|sust|incontable (tiempo) y contable (veces)|I don't have time.|No tengo tiempo.
+no|no / ningún|det|no + sustantivo · not + verbo|There is no time.|No hay tiempo.
+just|solo / apenas / justo|adv|just + pasado = acabar de|I just finished.|Acabo de terminar.
+him|le / lo / él|pron|versión objeto de he|I told him already.|Ya le dije.
+know|saber / conocer|verbo|know that · know how to · una palabra para las dos|I know what you mean.|Sé a qué te refieres.
+take|tomar / llevar / tardar|verbo|take a bus, take time, take care|It takes ten minutes.|Toma diez minutos.
+people|gente / personas|sust|YA es plural: the people ARE|The people are nice.|La gente es amable.
+into|hacia dentro|prep|movimiento hacia el interior|She walked into the room.|Ella entró a la sala.
+year|año|sust|last year, next year, this year|I'm 25 years old.|Tengo 25 años.
+your|tu / su|det|no confundir con you're (you are)|What's your name?|¿Cómo te llamas?
+good|bueno|adj|good = adjetivo · well = adverbio|That's a good idea.|Es una buena idea.
+some|algunos / un poco|det|some en afirmativo · any en negativo|I have some questions.|Tengo algunas preguntas.
+could|podría|modal|versión cortés y pasada de can|Could you help me?|¿Podrías ayudarme?
+them|les / los|pron|versión objeto de they|I saw them at work.|Los vi en el trabajo.
+see|ver / entender|verbo|I see = ya entiendo|I see what you mean.|Ya entiendo.
+other|otro|adj|the other = el otro · another = uno más|On the other hand.|Por otro lado.
+than|que (comparativo)|conj|siempre después de un comparativo|Better than yesterday.|Mejor que ayer.
+then|entonces / luego|adv|orden en el tiempo, no causa|First eat, then we talk.|Primero come, luego hablamos.
+now|ahora|adv|pide presente continuo casi siempre|I'm busy right now.|Estoy ocupado ahora mismo.
+look|mirar|verbo|look at, look for, look after cambian todo|Look at this.|Mira esto.
+only|solo / únicamente|adv|va justo antes de lo que limita|I only need five minutes.|Solo necesito cinco minutos.
+come|venir|verbo|come from, come back, come in|Come back later.|Vuelve más tarde.
+its|su (de una cosa)|det|SIN apóstrofo · it's = it is|The dog ate its food.|El perro comió su comida.
+over|sobre / más de / terminado|prep|over = más de + número · it's over = se acabó|It's over now.|Ya se acabó.
+think|pensar / creer|verbo|think about · I think so = creo que sí|I think you're right.|Creo que tienes razón.
+also|también|adv|va en medio de la frase, no al final|I also speak French.|También hablo francés.
+back|atrás / de vuelta|adv|come back, go back, call back|I'll be back soon.|Vuelvo pronto.
+after|después de|prep|after + sustantivo o -ing|After work I go home.|Después del trabajo voy a casa.
+use|usar|verbo|use for + -ing · used to = solía|How do you use this?|¿Cómo se usa esto?
+two|dos|num|two, second, twice|I have two options.|Tengo dos opciones.
+how|cómo / qué tan|adv|how much, how many, how long, how often|How are you?|¿Cómo estás?
+our|nuestro|det|no confundir con hour (suenan igual)|Our team is ready.|Nuestro equipo está listo.
+work|trabajar / trabajo|verbo|work at + empresa · work on + proyecto|I work at a bank.|Trabajo en un banco.
+first|primero|num|first, second, third · at first = al principio|First things first.|Lo primero es lo primero.
+well|bien|adv|adverbio de good · también muletilla|She sings very well.|Ella canta muy bien.
+way|manera / camino|sust|by the way = por cierto|That's the best way.|Esa es la mejor manera.
+even|incluso / aun|adv|even + comparativo = aún más|Even better.|Aún mejor.
+new|nuevo|adj|siempre antes del sustantivo|I bought a new phone.|Compré un teléfono nuevo.
+want|querer|verbo|want + to + verbo · want + sustantivo|I want to learn English.|Quiero aprender inglés.
+because|porque|conj|because + frase · because of + sustantivo|I'm late because of traffic.|Llego tarde por el tráfico.
+any|algún / ningún|det|any en preguntas y negaciones|Do you have any questions?|¿Tienes alguna pregunta?
+these|estos|pron|plural de this|These are my notes.|Estos son mis apuntes.
+give|dar|verbo|give someone something · give up = rendirse|Give me a second.|Dame un segundo.
+day|día|sust|all day, every day, one day|Have a nice day.|Que tengas buen día.
+most|la mayoría / más|det|most people · the most + adjetivo largo|Most people agree.|La mayoría está de acuerdo.
+us|nos / nosotros|pron|versión objeto de we|Let us know.|Avísanos.
+is|es / está|verbo|forma de be para he, she, it|He is my boss.|Él es mi jefe.
+are|son / están|verbo|forma de be para you, we, they|We are ready.|Estamos listos.
+am|soy / estoy|verbo|forma de be solo para I · contracción I'm|I am from here.|Soy de aquí.
+was|era / estaba / fue|verbo|pasado de be para I, he, she, it|It was a good day.|Fue un buen día.
+were|eran / estaban|verbo|pasado de be para you, we, they|They were at home.|Estaban en casa.
+been|sido / estado|verbo|participio de be · siempre tras have|I have been there.|He estado allí.
+has|tiene / ha|verbo|have para he, she, it|She has a car.|Ella tiene un carro.
+had|tenía / había|verbo|pasado de have · had + participio = pluscuamperfecto|I had already eaten.|Ya había comido.
+said|dijo|verbo|pasado irregular de say|He said no.|Él dijo que no.
+did|hizo|verbo|pasado de do · auxiliar de todo el pasado simple|Did you call her?|¿La llamaste?
+more|más|adv|more + adjetivo largo (more important)|I need more time.|Necesito más tiempo.
+very|muy|adv|very + adjetivo · nunca very + verbo|It's very important.|Es muy importante.
+much|mucho|det|much + incontable · en negativo y pregunta|How much is it?|¿Cuánto cuesta?
+many|muchos|det|many + contable en plural|How many people?|¿Cuántas personas?
+must|deber (obligación)|modal|must = obligación fuerte · sin to, sin -s|I must go now.|Debo irme ahora.
+should|debería|modal|should = consejo, no obligación|You should rest.|Deberías descansar.
+may|poder (permiso/posibilidad)|modal|may = quizá · versión formal de can|It may rain later.|Puede que llueva luego.
+might|podría (posibilidad)|modal|más dudoso que may|I might go.|Puede que vaya.
+need|necesitar|verbo|need + to + verbo · need + sustantivo|I need to talk to you.|Necesito hablar contigo.
+thing|cosa|sust|the thing is = el asunto es|That's the thing.|De eso se trata.
+man|hombre|sust|plural irregular: men|He's a good man.|Es un buen hombre.
+woman|mujer|sust|plural irregular: women (suena wímen)|She's a strong woman.|Es una mujer fuerte.
+child|niño / hijo|sust|plural irregular: children|They have one child.|Tienen un hijo.
+world|mundo|sust|in the world · around the world|The best in the world.|El mejor del mundo.
+life|vida|sust|plural irregular: lives|That's life.|Así es la vida.
+hand|mano|sust|on the other hand = por otro lado|Give me a hand.|Échame una mano.
+part|parte|sust|be part of · take part in|It's part of the job.|Es parte del trabajo.
+place|lugar|sust|take place = ocurrir|This place is nice.|Este lugar es bonito.
+week|semana|sust|last week, next week, this week|See you next week.|Nos vemos la próxima semana.
+case|caso|sust|in case = por si acaso · in any case|Just in case.|Por si acaso.
+point|punto / sentido|sust|the point is · there's no point|What's the point?|¿Qué sentido tiene?
+company|empresa|sust|work for a company|I work for a big company.|Trabajo para una empresa grande.
+number|número|sust|a number of = varios|What's your number?|¿Cuál es tu número?
+group|grupo|sust|a group of people|We work in a group.|Trabajamos en grupo.
+problem|problema|sust|no problem = de nada / no hay lío|No problem at all.|Sin ningún problema.
+fact|hecho|sust|in fact = de hecho|In fact, I agree.|De hecho, estoy de acuerdo.
+right|correcto / derecho|adj|you're right · right now · turn right|That's right.|Es correcto.
+old|viejo / de edad|adj|How old are you? = ¿qué edad tienes?|My old laptop broke.|Mi portátil viejo se dañó.
+great|genial / grande|adj|That's great! como reacción positiva|That sounds great.|Suena genial.
+big|grande|adj|big = tamaño físico · great = calidad|It's a big city.|Es una ciudad grande.
+small|pequeño|adj|small = tamaño · little = tamaño + cariño|A small problem.|Un problema pequeño.
+high|alto (cosas)|adj|high price, high level · tall para personas|The price is too high.|El precio es muy alto.
+low|bajo|adj|low price, low battery|Battery is low.|La batería está baja.
+long|largo|adj|How long? = ¿cuánto tiempo?|It won't take long.|No tomará mucho.
+little|poco / pequeño|adj|a little = un poco · little = casi nada|Just a little, please.|Solo un poco, por favor.
+own|propio|adj|my own = mío propio · on my own = solo|I have my own place.|Tengo mi propio lugar.
+same|mismo|adj|SIEMPRE con the: the same|It's the same thing.|Es lo mismo.
+different|diferente|adj|different from · different than (US)|That's a different story.|Esa es otra historia.
+next|próximo / siguiente|adj|next week SIN the|What's next?|¿Qué sigue?
+last|último / pasado|adj|last night, last year, at last|Last night was fun.|Anoche fue divertido.
+early|temprano|adv|early ≠ soon (pronto)|I woke up early.|Me desperté temprano.
+late|tarde|adv|be late = llegar tarde · lately = últimamente|Sorry I'm late.|Perdón por llegar tarde.
+few|pocos|det|a few = unos cuantos · few = casi ninguno|A few minutes ago.|Hace unos minutos.
+both|ambos|det|both of us · both + plural|Both options work.|Ambas opciones sirven.
+each|cada uno|det|each + singular|Each person pays.|Cada persona paga.
+every|cada / todos los|det|every day = todos los días · siempre singular|I go every day.|Voy todos los días.
+another|otro (uno más)|det|another + singular · other + plural|Can I have another one?|¿Me das otro?
+such|tal / tan|det|such a + adjetivo + sustantivo|It's such a good idea.|Es una idea tan buena.
+still|todavía|adv|still en afirmativo · yet en negativo|I'm still working.|Todavía estoy trabajando.
+again|otra vez|adv|siempre al final de la frase|Say that again.|Repite eso.
+too|demasiado / también|adv|too + adjetivo = demasiado · too al final = también|It's too expensive.|Es demasiado caro.
+never|nunca|adv|never ya es negativo: no lleva don't|I never eat meat.|Nunca como carne.
+always|siempre|adv|va antes del verbo principal|She always arrives early.|Ella siempre llega temprano.
+often|a menudo|adv|How often? = ¿con qué frecuencia?|I often work late.|A menudo trabajo hasta tarde.
+sometimes|a veces|adv|puede ir al inicio de la frase|Sometimes I forget.|A veces se me olvida.
+usually|normalmente|adv|va antes del verbo, después de be|I usually take the bus.|Normalmente tomo el bus.
+here|aquí|adv|come here · over here|I'm here.|Estoy aquí.
+where|dónde|adv|Where + auxiliar + sujeto + verbo?|Where do you live?|¿Dónde vives?
+why|por qué|adv|Why? · Because... · Why not?|Why did you do that?|¿Por qué hiciste eso?
+before|antes de|prep|before + sustantivo o -ing|Call me before you leave.|Llámame antes de irte.
+until|hasta|prep|until = hasta un momento en el tiempo|Wait until tomorrow.|Espera hasta mañana.
+while|mientras|conj|while + frase completa|I read while I wait.|Leo mientras espero.
+since|desde|prep|since + momento exacto · for + duración|I've been here since 2020.|Estoy aquí desde 2020.
+during|durante|prep|during + sustantivo · for + duración|During the meeting.|Durante la reunión.
+between|entre (dos)|prep|between A and B|Between you and me.|Entre tú y yo.
+through|a través de|prep|se pronuncia zrú · go through = pasar por|We went through a lot.|Pasamos por mucho.
+under|debajo de|prep|under = físicamente debajo|It's under the table.|Está debajo de la mesa.
+above|encima de|prep|above = más arriba sin tocar|The sky above us.|El cielo sobre nosotros.
+below|debajo de|prep|below = más abajo en escala|See the note below.|Ve la nota de abajo.
+without|sin|prep|without + sustantivo o -ing|I can't work without coffee.|No puedo trabajar sin café.
+against|contra|prep|be against = estar en contra|I'm against that idea.|Estoy en contra de esa idea.
+around|alrededor / como|prep|around = aproximadamente + número|Around ten people came.|Vinieron como diez personas.
+near|cerca de|prep|near + lugar · nearby = cercano|Is there a bank near here?|¿Hay un banco cerca?
+behind|detrás de|prep|behind schedule = con retraso|I'm behind on my work.|Voy atrasado con el trabajo.
+across|al otro lado|prep|across from = en frente de|The bank is across the street.|El banco está al cruzar la calle.
+off|apagado / fuera|adv|turn off, take off, day off|Turn off the light.|Apaga la luz.
+down|abajo|adv|sit down, write down, calm down|Write it down.|Anótalo.
+together|juntos|adv|siempre al final|Let's do it together.|Hagámoslo juntos.
+home|casa (hogar)|sust|go home SIN to · at home|I'm going home.|Me voy a casa.
+school|colegio / escuela|sust|at school, go to school SIN the|She's at school.|Está en el colegio.
+family|familia|sust|puede ser singular o plural|How's your family?|¿Cómo está tu familia?
+friend|amigo|sust|a friend of mine = un amigo mío|He's my best friend.|Es mi mejor amigo.
+house|casa (edificio)|sust|house = edificio · home = hogar|They bought a house.|Compraron una casa.
+car|carro / coche|sust|by car · in the car|My car won't start.|Mi carro no arranca.
+money|dinero|sust|INCONTABLE: nunca monies ni much moneys|I don't have money.|No tengo dinero.
+food|comida|sust|incontable · a meal = una comida|The food was great.|La comida estuvo genial.
+water|agua|sust|incontable · a glass of water|Can I have some water?|¿Me das agua?
+city|ciudad|sust|plural: cities|Which city are you from?|¿De qué ciudad eres?
+country|país / campo|sust|plural: countries|What country are you from?|¿De qué país eres?
+job|trabajo (puesto)|sust|job = puesto · work = actividad|I got a new job.|Conseguí un trabajo nuevo.
+find|encontrar|verbo|pasado: found · find out = averiguar|I can't find my keys.|No encuentro mis llaves.
+tell|decir a alguien|verbo|tell + PERSONA + cosa · pasado: told|Tell me the truth.|Dime la verdad.
+ask|preguntar / pedir|verbo|ask for = pedir · ask about = preguntar por|Can I ask you something?|¿Te puedo preguntar algo?
+feel|sentir|verbo|feel + adjetivo (sin like) · pasado: felt|I feel better today.|Me siento mejor hoy.
+try|intentar|verbo|try to + verbo · try + -ing = probar|I'll try to help.|Intentaré ayudar.
+leave|irse / dejar|verbo|pasado: left · leave for + destino|What time do you leave?|¿A qué hora te vas?
+call|llamar|verbo|call someone SIN to · call back|I'll call you later.|Te llamo más tarde.
+keep|mantener / seguir|verbo|keep + -ing = seguir haciendo|Keep going.|Sigue adelante.
+let|dejar / permitir|verbo|let + persona + verbo desnudo|Let me know.|Avísame.
+start|empezar|verbo|start + -ing o start to + verbo|Let's start now.|Empecemos ahora.
+seem|parecer|verbo|seem + adjetivo · it seems that|It seems easy.|Parece fácil.
+help|ayudar|verbo|help someone + verbo desnudo o con to|Can you help me?|¿Puedes ayudarme?
+talk|hablar (conversar)|verbo|talk to someone · talk about something|We need to talk.|Tenemos que hablar.
+turn|girar / volverse|verbo|turn on/off, turn around, turn out|Turn left here.|Gira a la izquierda aquí.
+show|mostrar|verbo|show someone something · pasado: showed|Let me show you.|Déjame mostrarte.
+hear|oír|verbo|hear = oír sin querer · listen = escuchar a propósito|I can't hear you.|No te oigo.
+play|jugar / tocar|verbo|play + deporte · play the + instrumento|I play guitar.|Toco guitarra.
+run|correr / dirigir|verbo|pasado: ran · run a business = dirigir|She runs the company.|Ella dirige la empresa.
+move|mover / mudarse|verbo|move to + ciudad · move in/out|We moved to Bogota.|Nos mudamos a Bogotá.
+live|vivir|verbo|live in + ciudad · live with + persona|Where do you live?|¿Dónde vives?
+believe|creer|verbo|believe in = creer en · I can't believe it|I believe you.|Te creo.
+bring|traer|verbo|bring = traer acá · take = llevar allá · pasado: brought|Bring your laptop.|Trae tu portátil.
+happen|pasar / ocurrir|verbo|What happened? · it happens|What happened to you?|¿Qué te pasó?
+write|escribir|verbo|pasado: wrote · participio: written|Write it down.|Anótalo.
+sit|sentarse|verbo|sit down · pasado: sat|Please sit down.|Por favor siéntate.
+stand|estar de pie / soportar|verbo|stand up · I can't stand it = no lo soporto|Stand up, please.|Ponte de pie.
+lose|perder|verbo|pasado: lost · lose ≠ loose (suelto)|Don't lose it.|No lo pierdas.
+pay|pagar|verbo|pay for + cosa · pasado: paid|I'll pay for dinner.|Yo pago la cena.
+meet|conocer / reunirse|verbo|pasado: met · nice to meet you|Let's meet tomorrow.|Reunámonos mañana.
+learn|aprender|verbo|learn to + verbo · learn about|I'm learning English.|Estoy aprendiendo inglés.
+change|cambiar|verbo|change my mind = cambiar de opinión|Things change.|Las cosas cambian.
+understand|entender|verbo|pasado: understood · I don't understand|Do you understand?|¿Entiendes?
+watch|ver (con atención)|verbo|watch TV, watch a movie · see a person|I watch movies at night.|Veo películas de noche.
+follow|seguir|verbo|follow me · as follows|Follow me, please.|Sígueme, por favor.
+stop|parar / dejar de|verbo|stop + -ing = dejar de · stop to = parar para|Stop worrying.|Deja de preocuparte.
+create|crear|verbo|create + algo nuevo|We created a system.|Creamos un sistema.
+speak|hablar (idiomas)|verbo|speak + idioma · pasado: spoke|Do you speak English?|¿Hablas inglés?
+read|leer|verbo|pasado: read (se pronuncia red)|I read the report.|Leí el informe.
+spend|gastar / pasar tiempo|verbo|spend money on · spend time + -ing|I spend too much.|Gasto demasiado.
+grow|crecer|verbo|pasado: grew · grow up = criarse|The company is growing.|La empresa está creciendo.
+open|abrir|verbo|open ≠ opened · be open = estar abierto|Can you open the door?|¿Puedes abrir la puerta?
+walk|caminar|verbo|walk to + lugar · go for a walk|I walk to work.|Camino al trabajo.
+win|ganar (competir)|verbo|win a game · earn money = ganar dinero|We won the game.|Ganamos el partido.
+teach|enseñar|verbo|pasado: taught · teach someone something|She teaches math.|Ella enseña matemáticas.
+offer|ofrecer|verbo|offer someone something · a job offer|They offered me a job.|Me ofrecieron un trabajo.
+remember|recordar|verbo|remember + -ing (recordar haber hecho)|Do you remember me?|¿Te acuerdas de mí?
+forget|olvidar|verbo|pasado: forgot · forget to = olvidar hacer|Don't forget to call.|No olvides llamar.
+buy|comprar|verbo|pasado: bought · buy someone something|I bought a new phone.|Compré un teléfono nuevo.
+wait|esperar|verbo|wait for someone · SIEMPRE con for|Wait for me.|Espérame.
+send|enviar|verbo|pasado: sent · send someone something|Send me the file.|Envíame el archivo.
+build|construir|verbo|pasado: built · build up|They built a house.|Construyeron una casa.
+stay|quedarse|verbo|stay at + hotel · stay with + persona|I'll stay home.|Me quedaré en casa.
+fall|caer|verbo|pasado: fell · fall asleep, fall in love|Be careful, don't fall.|Cuidado, no te caigas.
+cut|cortar|verbo|pasado: cut (igual) · cut off, cut down|Cut it in half.|Córtalo por la mitad.
+reach|alcanzar / contactar|verbo|reach out = contactar|I can't reach him.|No logro contactarlo.
+put|poner|verbo|pasado: put (igual) · put on, put off, put up with|Put it on the table.|Ponlo en la mesa.
+mean|significar / querer decir|verbo|pasado: meant · What do you mean?|What does it mean?|¿Qué significa?
+night|noche|sust|at night · last night · tonight|Good night.|Buenas noches.
+morning|mañana (parte del día)|sust|in the morning · this morning|Good morning.|Buenos días.
+afternoon|tarde|sust|in the afternoon|See you this afternoon.|Nos vemos esta tarde.
+evening|tarde-noche|sust|de 6pm hasta dormir · in the evening|Good evening.|Buenas noches (al llegar).
+hour|hora (duración)|sust|la h es muda: an hour · o'clock para la hora|It takes two hours.|Toma dos horas.
+minute|minuto|sust|in a minute = ya mismo|Give me a minute.|Dame un minuto.
+month|mes|sust|last month, next month, in March|See you next month.|Nos vemos el próximo mes.
+moment|momento|sust|at the moment = ahora mismo|One moment, please.|Un momento, por favor.
+name|nombre|sust|first name, last name, full name|What's your name?|¿Cómo te llamas?
+word|palabra|sust|in other words = en otras palabras|In a word: yes.|En una palabra: sí.
+question|pregunta|sust|ask a question · NUNCA make a question|Good question.|Buena pregunta.
+answer|respuesta|sust|answer to · answer the phone|I need an answer.|Necesito una respuesta.
+idea|idea|sust|have an idea · no idea = ni idea|That's a good idea.|Esa es una buena idea.
+story|historia / cuento|sust|tell a story · a long story short|It's a long story.|Es una historia larga.
+book|libro / reservar|sust|book a table = reservar mesa|I'm reading a book.|Estoy leyendo un libro.
+room|habitación / espacio|sust|room = espacio (incontable)|Is there room for me?|¿Hay espacio para mí?
+door|puerta|sust|next door = al lado|Close the door.|Cierra la puerta.
+phone|teléfono|sust|on the phone · phone number|Answer the phone.|Contesta el teléfono.
+computer|computador|sust|on the computer|My computer is slow.|Mi computador va lento.
+office|oficina|sust|at the office · in the office|I'm at the office.|Estoy en la oficina.
+business|negocio|sust|incontable como actividad · do business|It's just business.|Son solo negocios.
+service|servicio|sust|customer service|The service was great.|El servicio fue excelente.
+price|precio|sust|the price of · at a good price|What's the price?|¿Cuál es el precio?
+order|pedido / orden|sust|in order to = para · out of order = dañado|Can I take your order?|¿Puedo tomar su pedido?
+market|mercado|sust|the job market · on the market|The market is growing.|El mercado está creciendo.
+team|equipo|sust|on a team (US) · in a team (UK)|We're a good team.|Somos buen equipo.
+meeting|reunión|sust|have a meeting · be in a meeting|I'm in a meeting.|Estoy en una reunión.
+report|informe|sust|write a report · report to someone|Send me the report.|Envíame el informe.
+project|proyecto|sust|work on a project|The project is done.|El proyecto está listo.
+message|mensaje|sust|leave a message · send a message|I left you a message.|Te dejé un mensaje.
+information|información|sust|INCONTABLE: nunca informations|I need more information.|Necesito más información.
+data|datos|sust|se usa en singular y plural|The data shows that...|Los datos muestran que...
+system|sistema|sust|the system is down|The system is down.|El sistema está caído.
+level|nivel|sust|at the next level|What's your English level?|¿Cuál es tu nivel de inglés?
+result|resultado|sust|as a result = como resultado|The results are good.|Los resultados son buenos.
+reason|razón|sust|the reason why · for that reason|What's the reason?|¿Cuál es la razón?
+example|ejemplo|sust|for example = por ejemplo|For example, this one.|Por ejemplo, este.
+kind|tipo / amable|sust|kind of = medio, tipo|What kind of work?|¿Qué tipo de trabajo?
+type|tipo|sust|type of + sustantivo|What type is it?|¿De qué tipo es?
+side|lado|sust|on the other side · side by side|On my side.|De mi lado.
+end|final|sust|at the end · in the end = al final de todo|At the end of the day.|Al final del día.
+area|área / zona|sust|in this area|In my area of work.|En mi área de trabajo.
+sure|seguro|adj|Are you sure? · for sure = sin duda|I'm not sure.|No estoy seguro.
+ready|listo|adj|be ready for · get ready = alistarse|Are you ready?|¿Estás listo?
+easy|fácil|adj|easy to + verbo · take it easy|That was easy.|Eso fue fácil.
+hard|difícil / duro|adj|hard = difícil · hardly = apenas|It's hard to explain.|Es difícil de explicar.
+free|libre / gratis|adj|free time · for free = gratis|Are you free tonight?|¿Estás libre esta noche?
+full|lleno|adj|full of · I'm full = estoy lleno|The room is full.|La sala está llena.
+sorry|lo siento|adj|I'm sorry · sorry about that|Sorry, my mistake.|Perdón, mi error.
+happy|feliz|adj|happy about / with · happy to + verbo|I'm happy for you.|Me alegro por ti.
+sad|triste|adj|sad about something|That's a sad story.|Es una historia triste.
+tired|cansado|adj|tired of = harto de|I'm really tired.|Estoy muy cansado.
+busy|ocupado|adj|busy with · busy + -ing|I'm busy right now.|Estoy ocupado ahora.
+important|importante|adj|it's important to + verbo|This is important.|Esto es importante.
+possible|posible|adj|as soon as possible = lo antes posible|Is that possible?|¿Eso es posible?
+real|real / de verdad|adj|real ≠ really (adverbio)|Is this for real?|¿Esto va en serio?
+true|verdadero / cierto|adj|come true = hacerse realidad|That's true.|Eso es cierto.
+best|el mejor|adj|superlativo irregular de good|That's the best option.|Es la mejor opción.
+better|mejor|adj|comparativo de good · better than|This is better.|Esto está mejor.
+worse|peor|adj|comparativo de bad|It got worse.|Empeoró.
+worst|el peor|adj|superlativo de bad|That's the worst part.|Esa es la peor parte.
+nice|agradable / bonito|adj|nice to meet you · that's nice|You're very nice.|Eres muy amable.
+bad|malo|adj|not bad = nada mal|That's too bad.|Qué lástima.
+fast|rápido|adj|fast sirve de adjetivo y adverbio|You talk too fast.|Hablas muy rápido.
+slow|lento|adj|slow down = ir más despacio|The internet is slow.|El internet está lento.
+hot|caliente / calor|adj|I'm hot = tengo calor|It's hot today.|Hace calor hoy.
+cold|frío|adj|I'm cold = tengo frío · a cold = un resfriado|It's cold outside.|Hace frío afuera.
+warm|tibio / cálido|adj|entre cold y hot|Keep it warm.|Mantenlo caliente.
+cool|fresco / genial|adj|cool = genial en lenguaje coloquial|That's cool.|Qué chévere.
+clean|limpio|adj|clean up = limpiar todo|Keep it clean.|Mantenlo limpio.
+dirty|sucio|adj|get dirty = ensuciarse|My hands are dirty.|Tengo las manos sucias.
+cheap|barato|adj|cheap a veces implica mala calidad|It was really cheap.|Estuvo muy barato.
+expensive|caro|adj|NO existe expensive-er: more expensive|That's too expensive.|Eso es muy caro.
+safe|seguro (sin peligro)|adj|safe ≠ sure · be safe|Is it safe here?|¿Es seguro aquí?
+careful|cuidadoso|adj|be careful · careful with|Be careful!|¡Ten cuidado!
+similar|similar|adj|similar to · NUNCA similar than|They're very similar.|Son muy parecidos.
+available|disponible|adj|be available for|Are you available?|¿Estás disponible?
+common|común|adj|have something in common|That's very common.|Eso es muy común.
+young|joven|adj|young ≠ new|She's very young.|Ella es muy joven.
+strong|fuerte|adj|strong coffee, strong opinion|He's a strong candidate.|Es un candidato fuerte.
+weak|débil|adj|a weak signal|The signal is weak.|La señal está débil.
+heavy|pesado|adj|heavy rain, heavy traffic|This bag is heavy.|Esta maleta pesa.
+light|ligero / luz|adj|light = luz y ligero|Turn on the light.|Prende la luz.
+dark|oscuro|adj|get dark = oscurecer|It's getting dark.|Está oscureciendo.
+quiet|silencioso / tranquilo|adj|be quiet = callarse|Please be quiet.|Por favor guarda silencio.
+loud|fuerte (sonido)|adj|out loud = en voz alta|The music is too loud.|La música está muy fuerte.
+close|cerca / cerrar|adj|close to = cerca de · close the door|We're very close.|Somos muy cercanos.
+far|lejos|adj|How far? · so far = hasta ahora|Is it far from here?|¿Queda lejos de aquí?
+deep|profundo|adj|in deep trouble|It's not that deep.|No es tan profundo.
+wrong|equivocado|adj|be wrong · What's wrong? = ¿qué pasa?|Something is wrong.|Algo anda mal.
+clear|claro|adj|Is that clear? · make it clear|It's not clear to me.|No me queda claro.
+simple|sencillo|adj|simple ≠ simply (adverbio)|Keep it simple.|Manténlo sencillo.
+difficult|difícil|adj|difficult to + verbo|It's difficult for me.|Es difícil para mí.
+serious|serio|adj|Are you serious? = ¿en serio?|This is serious.|Esto es serio.
+funny|gracioso|adj|funny ≠ fun (divertido)|That's funny.|Qué gracioso.
+fun|divertido|sust|have fun · it was fun|We had a lot of fun.|Nos divertimos mucho.
+angry|enojado|adj|angry at / with someone|Don't be angry.|No te enojes.
+afraid|asustado|adj|be afraid of · I'm afraid = me temo|I'm afraid of dogs.|Le tengo miedo a los perros.
+glad|contento|adj|glad to + verbo|I'm glad you came.|Me alegra que vinieras.
+proud|orgulloso|adj|proud of|I'm proud of you.|Estoy orgulloso de ti.
+worried|preocupado|adj|worried about|Don't be worried.|No te preocupes.
+surprised|sorprendido|adj|surprised by / at|I was surprised.|Me sorprendí.
+interested|interesado|adj|interested IN · interesting = interesante|I'm interested in that.|Me interesa eso.
+excited|emocionado|adj|excited about|I'm excited about it.|Estoy emocionado con eso.
+bored|aburrido (yo)|adj|I'm bored ≠ I'm boring|I'm so bored.|Estoy muy aburrido.
+sick|enfermo|adj|be sick · sick of = harto de|I feel sick.|Me siento mal.
+hungry|hambriento|adj|I'm hungry, NUNCA I have hungry|Are you hungry?|¿Tienes hambre?
+thirsty|sediento|adj|I'm thirsty, NUNCA I have thirst|I'm really thirsty.|Tengo mucha sed.
+alone|solo|adj|alone ≠ lonely (que se siente solo)|I live alone.|Vivo solo.
+enough|suficiente|adv|enough + sust · adjetivo + enough|That's enough.|Es suficiente.
+almost|casi|adv|almost + adjetivo o verbo|I'm almost done.|Ya casi termino.
+maybe|quizá|adv|maybe al inicio · may be = puede ser|Maybe tomorrow.|Quizá mañana.
+probably|probablemente|adv|va antes del verbo principal|I'll probably go.|Probablemente vaya.
+really|de verdad / muy|adv|really + adjetivo · really? = ¿en serio?|It's really good.|Está muy bueno.
+actually|en realidad|adv|NO significa actualmente (currently)|Actually, I disagree.|En realidad, no coincido.
+already|ya|adv|already en afirmativo · yet en negativo|I already did it.|Ya lo hice.
+yet|todavía / ya|adv|not yet = todavía no · en preguntas: ¿ya?|Have you finished yet?|¿Ya terminaste?
+soon|pronto|adv|as soon as = tan pronto como|See you soon.|Hasta pronto.
+today|hoy|adv|sin preposición: NUNCA in today|What are you doing today?|¿Qué haces hoy?
+tomorrow|mañana|adv|the day after tomorrow = pasado mañana|See you tomorrow.|Nos vemos mañana.
+yesterday|ayer|adv|the day before yesterday = anteayer|I saw him yesterday.|Lo vi ayer.
+tonight|esta noche|adv|una sola palabra|What's the plan tonight?|¿Cuál es el plan esta noche?
+ago|hace (tiempo)|adv|va DESPUÉS del tiempo: two days ago|I called you an hour ago.|Te llamé hace una hora.
+finally|finalmente|adv|marca el último paso|Finally, we're done.|Finalmente terminamos.
+suddenly|de repente|adv|abre una frase de narración|Suddenly, it started raining.|De repente empezó a llover.
+quickly|rápidamente|adv|adjetivo + -ly = adverbio|Do it quickly.|Hazlo rápido.
+slowly|lentamente|adv|speak slowly, please|Can you speak slowly?|¿Puedes hablar despacio?
+carefully|con cuidado|adv|listen carefully|Read it carefully.|Léelo con cuidado.
+exactly|exactamente|adv|Exactly! como confirmación|That's exactly right.|Es exactamente así.
+especially|especialmente|adv|se pronuncia espéshali|Especially on Mondays.|Especialmente los lunes.
+instead|en vez de|adv|instead of + sustantivo o -ing|Let's go tomorrow instead.|Vamos mañana en su lugar.
+anyway|de todas formas|adv|cierra o retoma un tema|Anyway, let's continue.|En fin, sigamos.
+however|sin embargo|adv|va al inicio, con coma|However, there's a problem.|Sin embargo, hay un problema.
+although|aunque|conj|although + frase completa|Although it's hard, I'll try.|Aunque es difícil, lo intentaré.
+unless|a menos que|conj|unless ya es negativo|Unless you tell me.|A menos que me digas.
+whether|si (alternativa)|conj|whether or not|I don't know whether to go.|No sé si ir.
+therefore|por lo tanto|adv|formal, para conclusiones|Therefore, we decided to wait.|Por lo tanto, decidimos esperar.
+besides|además|adv|besides + sustantivo o -ing|Besides, it's too late.|Además, es muy tarde.
+three|tres|num|third = tercero|I have three meetings.|Tengo tres reuniones.
+four|cuatro|num|fourth · forty = 40|Four people came.|Vinieron cuatro personas.
+five|cinco|num|fifth · fifty = 50|Give me five minutes.|Dame cinco minutos.
+six|seis|num|sixth · sixty = 60|It's six o'clock.|Son las seis.
+seven|siete|num|seventh · seventy = 70|Seven days a week.|Siete días a la semana.
+eight|ocho|num|eighth · eighty = 80|I start at eight.|Empiezo a las ocho.
+nine|nueve|num|ninth (sin e) · ninety = 90|Nine out of ten.|Nueve de cada diez.
+ten|diez|num|tenth · ten times = diez veces|Ten dollars, please.|Diez dólares, por favor.
+twenty|veinte|num|twenty-one, twenty-two con guion|I'm twenty years old.|Tengo veinte años.
+hundred|cien|num|SIN plural: two hundred, no hundreds|Two hundred people.|Doscientas personas.
+thousand|mil|num|SIN plural tras número: five thousand|A thousand times.|Mil veces.
+million|millón|num|a million dollars|One million users.|Un millón de usuarios.
+Monday|lunes|sust|MAYÚSCULA obligatoria · on Monday|See you on Monday.|Nos vemos el lunes.
+Tuesday|martes|sust|siempre con mayúscula|The meeting is Tuesday.|La reunión es el martes.
+Wednesday|miércoles|sust|se pronuncia wénsdei|Every Wednesday.|Todos los miércoles.
+Thursday|jueves|sust|con th al inicio|I'm free on Thursday.|Estoy libre el jueves.
+Friday|viernes|sust|TGIF = gracias a Dios es viernes|Have a good Friday.|Feliz viernes.
+Saturday|sábado|sust|the weekend = sábado y domingo|On Saturday morning.|El sábado en la mañana.
+Sunday|domingo|sust|es el primer día de la semana en EE.UU.|I rest on Sundays.|Descanso los domingos.
+January|enero|sust|in January · siempre con mayúscula|It starts in January.|Empieza en enero.
+February|febrero|sust|se pronuncia fébruari|Since February.|Desde febrero.
+March|marzo|sust|march también es marchar|In early March.|A principios de marzo.
+April|abril|sust|in April|The deadline is April.|La fecha límite es abril.
+May|mayo|sust|también es el modal may|By the end of May.|Para finales de mayo.
+June|junio|sust|se pronuncia yun|June and July.|Junio y julio.
+July|julio|sust|se pronuncia yulái|Since July.|Desde julio.
+August|agosto|sust|se pronuncia ógost|In August we travel.|En agosto viajamos.
+September|septiembre|sust|abreviado Sept.|September first.|Primero de septiembre.
+October|octubre|sust|in October|Starting October.|A partir de octubre.
+November|noviembre|sust|in November|Until November.|Hasta noviembre.
+December|diciembre|sust|in December|December is busy.|Diciembre es ocupado.
+mother|madre|sust|mom / mum en el día a día|My mother called.|Mi mamá llamó.
+father|padre|sust|dad en el día a día|My father works here.|Mi papá trabaja aquí.
+brother|hermano|sust|brothers = hermanos varones|I have one brother.|Tengo un hermano.
+sister|hermana|sust|siblings = hermanos en general|My sister lives abroad.|Mi hermana vive fuera.
+son|hijo|sust|se pronuncia igual que sun|He has two sons.|Tiene dos hijos.
+daughter|hija|sust|la gh es muda: dóter|Their daughter is five.|Su hija tiene cinco.
+wife|esposa|sust|plural: wives|This is my wife.|Ella es mi esposa.
+husband|esposo|sust|no existe husbands irregular|Her husband is a doctor.|Su esposo es médico.
+baby|bebé|sust|plural: babies|They have a new baby.|Tienen un bebé nuevo.
+kid|niño (coloquial)|sust|kids = hijos en habla informal|How are the kids?|¿Cómo están los niños?
+parent|padre o madre|sust|parents = padres · relatives = parientes|My parents live here.|Mis papás viven aquí.
+head|cabeza|sust|head of = jefe de · headache|I have a headache.|Me duele la cabeza.
+eye|ojo|sust|keep an eye on = vigilar|Look me in the eye.|Mírame a los ojos.
+face|cara / enfrentar|sust|face a problem = enfrentar|Wash your face.|Lávate la cara.
+mouth|boca|sust|word of mouth = de boca en boca|Open your mouth.|Abre la boca.
+foot|pie|sust|plural irregular: feet · on foot = a pie|My foot hurts.|Me duele el pie.
+arm|brazo|sust|arms también son armas|He broke his arm.|Se rompió el brazo.
+leg|pierna|sust|pull someone's leg = tomar el pelo|My legs are tired.|Tengo las piernas cansadas.
+heart|corazón|sust|se pronuncia jart · by heart = de memoria|Learn it by heart.|Apréndelo de memoria.
+hair|pelo|sust|INCONTABLE: my hair IS, no are|Your hair looks nice.|Tu pelo se ve bien.
+health|salud|sust|incontable · healthy = saludable|Health comes first.|La salud es primero.
+doctor|médico|sust|see a doctor · Dr. + apellido|I need to see a doctor.|Necesito ver un médico.
+hospital|hospital|sust|in the hospital (US) · in hospital (UK)|He's in the hospital.|Está en el hospital.
+medicine|medicina|sust|take medicine, NUNCA drink|Take your medicine.|Tómate la medicina.
+pain|dolor|sust|be in pain · painful|I feel a lot of pain.|Siento mucho dolor.
+coffee|café|sust|a coffee = una taza de café|Do you want coffee?|¿Quieres café?
+tea|té|sust|a cup of tea|I prefer tea.|Prefiero té.
+bread|pan|sust|INCONTABLE: a loaf of bread|I need to buy bread.|Necesito comprar pan.
+meat|carne|sust|incontable · beef, chicken, pork|I don't eat meat.|No como carne.
+fish|pescado / pez|sust|plural: fish (igual)|Do you like fish?|¿Te gusta el pescado?
+chicken|pollo|sust|incontable como comida|Chicken and rice.|Pollo con arroz.
+rice|arroz|sust|INCONTABLE: nunca rices|A plate of rice.|Un plato de arroz.
+fruit|fruta|sust|incontable en general · fruits = variedades|Eat more fruit.|Come más fruta.
+vegetable|verdura|sust|veggies en coloquial|I love vegetables.|Me encantan las verduras.
+egg|huevo|sust|contable: two eggs|How do you want your eggs?|¿Cómo quieres los huevos?
+milk|leche|sust|INCONTABLE: a glass of milk|We're out of milk.|Se nos acabó la leche.
+sugar|azúcar|sust|incontable · no sugar, please|No sugar, thanks.|Sin azúcar, gracias.
+salt|sal|sust|incontable · pass the salt|Can you pass the salt?|¿Me pasas la sal?
+breakfast|desayuno|sust|have breakfast, NUNCA take|What's for breakfast?|¿Qué hay de desayuno?
+lunch|almuerzo|sust|have lunch · lunch break|Let's have lunch.|Almorcemos.
+dinner|cena|sust|have dinner · dinner time|Dinner is ready.|La cena está lista.
+restaurant|restaurante|sust|at a restaurant|Let's go to a restaurant.|Vamos a un restaurante.
+table|mesa|sust|book a table = reservar mesa|A table for two.|Una mesa para dos.
+chair|silla|sust|take a chair = siéntate|Pull up a chair.|Acerca una silla.
+bed|cama|sust|go to bed SIN the · in bed|I'm going to bed.|Me voy a dormir.
+kitchen|cocina|sust|in the kitchen|She's in the kitchen.|Está en la cocina.
+bathroom|baño|sust|restroom en lugares públicos|Where's the bathroom?|¿Dónde está el baño?
+window|ventana|sust|open the window|Open the window, please.|Abre la ventana, por favor.
+floor|piso / suelo|sust|floor = piso del edificio y suelo|On the third floor.|En el tercer piso.
+wall|pared|sust|off the wall = raro|Put it on the wall.|Ponlo en la pared.
+key|llave / clave|sust|the key to = la clave de|I lost my keys.|Perdí mis llaves.
+bag|bolso / maleta|sust|handbag, backpack|Where's my bag?|¿Dónde está mi bolso?
+clothes|ropa|sust|SIEMPRE plural: clothes ARE|I need new clothes.|Necesito ropa nueva.
+shirt|camisa|sust|t-shirt = camiseta|That's a nice shirt.|Bonita camisa.
+shoe|zapato|sust|a pair of shoes|My shoes are wet.|Mis zapatos están mojados.
+color|color|sust|colour en inglés británico|What color is it?|¿De qué color es?
+white|blanco|adj|black and white|A white shirt.|Una camisa blanca.
+black|negro|adj|black coffee = café sin leche|Black or with milk?|¿Negro o con leche?
+red|rojo|adj|in the red = en números rojos|The red one, please.|El rojo, por favor.
+blue|azul|adj|feeling blue = triste|I like the blue one.|Me gusta el azul.
+green|verde|adj|green light = luz verde|The green button.|El botón verde.
+yellow|amarillo|adj|yellow light|A yellow car.|Un carro amarillo.
+street|calle|sust|on the street · street name|What street is it on?|¿En qué calle queda?
+road|carretera|sust|on the road = de viaje|The road is closed.|La vía está cerrada.
+bus|bus|sust|by bus · take the bus|I take the bus to work.|Tomo el bus al trabajo.
+train|tren|sust|by train · catch a train|The train is late.|El tren viene tarde.
+plane|avión|sust|airplane · by plane · catch a plane|My plane leaves at six.|Mi avión sale a las seis.
+airport|aeropuerto|sust|at the airport · pick up at the airport|I'm at the airport.|Estoy en el aeropuerto.
+ticket|tiquete / boleto|sust|a one-way ticket · a round trip|I bought the tickets.|Compré los tiquetes.
+flight|vuelo|sust|a direct flight · flight number|My flight was delayed.|Mi vuelo se retrasó.
+trip|viaje (ida y vuelta)|sust|take a trip · business trip|Have a good trip.|Buen viaje.
+travel|viajar|verbo|travel = actividad general, incontable|I travel for work.|Viajo por trabajo.
+hotel|hotel|sust|stay at a hotel · check in|We stayed at a hotel.|Nos quedamos en un hotel.
+luggage|equipaje|sust|INCONTABLE: nunca luggages|Where's my luggage?|¿Dónde está mi equipaje?
+passport|pasaporte|sust|passport number|Show me your passport.|Muéstrame tu pasaporte.
+map|mapa|sust|on the map|Check the map.|Mira el mapa.
+left|izquierda|adj|on the left · turn left|Turn left at the corner.|Gira a la izquierda en la esquina.
+straight|derecho / recto|adv|go straight = siga derecho|Go straight ahead.|Siga derecho.
+corner|esquina|sust|on the corner · around the corner|It's around the corner.|Está a la vuelta.
+block|cuadra|sust|two blocks away|It's three blocks from here.|Está a tres cuadras.
+station|estación|sust|bus station, train station|Where's the station?|¿Dónde está la estación?
+manager|jefe / gerente|sust|report to my manager|I spoke with my manager.|Hablé con mi jefe.
+boss|jefe (coloquial)|sust|my boss says|My boss is on vacation.|Mi jefe está de vacaciones.
+employee|empleado|sust|employer = empleador|We have 50 employees.|Tenemos 50 empleados.
+client|cliente|sust|client = de servicios · customer = de tienda|The client is waiting.|El cliente está esperando.
+customer|cliente (comprador)|sust|customer service|Customer service was great.|El servicio al cliente fue excelente.
+interview|entrevista|sust|a job interview · interview for|I have an interview.|Tengo una entrevista.
+resume|hoja de vida|sust|CV en inglés británico|Send me your resume.|Envíame tu hoja de vida.
+skill|habilidad|sust|soft skills · a skill set|What are your skills?|¿Cuáles son tus habilidades?
+experience|experiencia|sust|INCONTABLE como conocimiento|I have five years of experience.|Tengo cinco años de experiencia.
+salary|salario|sust|annual salary · a raise = un aumento|What's the salary?|¿Cuál es el salario?
+deadline|fecha límite|sust|meet a deadline = cumplirla|The deadline is Friday.|La fecha límite es el viernes.
+task|tarea (de trabajo)|sust|assign a task|I finished the task.|Terminé la tarea.
+goal|meta|sust|set a goal · reach a goal|What's your goal?|¿Cuál es tu meta?
+budget|presupuesto|sust|on budget · over budget|We're over budget.|Nos pasamos del presupuesto.
+process|proceso|sust|in the process of|It's a slow process.|Es un proceso lento.
+solution|solución|sust|a solution to a problem|We found a solution.|Encontramos una solución.
+issue|problema / tema|sust|más suave que problem|There's an issue.|Hay un problema.
+detail|detalle|sust|in detail · details|Send me the details.|Envíame los detalles.
+option|opción|sust|have options · the best option|What are my options?|¿Cuáles son mis opciones?
+decision|decisión|sust|MAKE a decision, no take|I made a decision.|Tomé una decisión.
+value|valor|sust|add value · valuable|It adds a lot of value.|Aporta mucho valor.
+quality|calidad|sust|high quality · quality control|The quality is good.|La calidad es buena.
+amount|cantidad|sust|amount + incontable · number + contable|A large amount of data.|Una gran cantidad de datos.
+rate|tasa / tarifa|sust|interest rate · at any rate|What's the rate?|¿Cuál es la tarifa?
+percent|por ciento|sust|20 percent · percentage|Twenty percent off.|Veinte por ciento de descuento.
+average|promedio|sust|on average = en promedio|Above average.|Por encima del promedio.
+total|total|sust|in total = en total|What's the total?|¿Cuál es el total?
+cost|costo / costar|verbo|pasado: cost (igual)|How much does it cost?|¿Cuánto cuesta?
+save|ahorrar / guardar|verbo|save money · save a file|Save the file.|Guarda el archivo.
+earn|ganar (dinero)|verbo|earn money · win a game|How much do you earn?|¿Cuánto ganas?
+owe|deber (dinero)|verbo|owe someone money|I owe you one.|Te debo una.
+borrow|pedir prestado|verbo|borrow FROM someone|Can I borrow your pen?|¿Me prestas tu lapicero?
+lend|prestar|verbo|lend TO someone · pasado: lent|Can you lend me ten dollars?|¿Me prestas diez dólares?
+bank|banco|sust|at the bank · bank account|I need to go to the bank.|Necesito ir al banco.
+account|cuenta|sust|bank account · take into account|Check your account.|Revisa tu cuenta.
+card|tarjeta|sust|credit card, debit card|Do you take cards?|¿Aceptan tarjeta?
+cash|efectivo|sust|in cash · pay cash|Cash or card?|¿Efectivo o tarjeta?
+bill|factura / billete|sust|pay the bill · a ten-dollar bill|Can I have the bill?|¿Me trae la cuenta?
+receipt|recibo|sust|la p es MUDA: risít|Keep the receipt.|Guarda el recibo.
+discount|descuento|sust|a discount on|Is there a discount?|¿Hay descuento?
+email|correo|sust|send an email · email address|I sent you an email.|Te envié un correo.
+file|archivo|sust|attach a file · save a file|Open the file.|Abre el archivo.
+folder|carpeta|sust|carpet = alfombra, no carpeta|It's in that folder.|Está en esa carpeta.
+password|contraseña|sust|change your password|I forgot my password.|Olvidé mi contraseña.
+screen|pantalla|sust|on the screen · share your screen|Share your screen.|Comparte tu pantalla.
+software|software|sust|INCONTABLE: nunca softwares|We need new software.|Necesitamos software nuevo.
+website|sitio web|sust|on a website · visit a website|Check the website.|Revisa el sitio web.
+internet|internet|sust|ON the internet, no in|The internet is down.|El internet está caído.
+network|red|sust|social network · networking|The network is slow.|La red está lenta.
+device|dispositivo|sust|mobile device|Which device do you use?|¿Qué dispositivo usas?
+app|aplicación|sust|download an app|Download the app.|Descarga la aplicación.
+link|enlace|sust|click a link · send a link|Send me the link.|Envíame el enlace.
+click|hacer clic|verbo|click ON something|Click on the button.|Haz clic en el botón.
+download|descargar|verbo|download from|Download it here.|Descárgalo aquí.
+upload|subir (a la red)|verbo|upload to|Upload the file.|Sube el archivo.
+share|compartir|verbo|share WITH someone|Share it with the team.|Compártelo con el equipo.
+check|revisar|verbo|check out, check in, double-check|Let me check.|Déjame revisar.
+update|actualizar|verbo|update someone on something|Keep me updated.|Mantenme al tanto.
+fix|arreglar|verbo|fix a problem · a quick fix|Can you fix it?|¿Puedes arreglarlo?
+break|romper / pausa|verbo|pasado: broke · take a break|Let's take a break.|Tomemos un descanso.
+choose|elegir|verbo|pasado: chose · choice = elección|You have to choose.|Tienes que elegir.
+decide|decidir|verbo|decide to + verbo · decide on|I decided to stay.|Decidí quedarme.
+agree|estar de acuerdo|verbo|I agree, NUNCA I'm agree|I completely agree.|Estoy totalmente de acuerdo.
+explain|explicar|verbo|explain something TO someone|Can you explain that?|¿Puedes explicar eso?
+suggest|sugerir|verbo|suggest + -ing · suggest that|I suggest waiting.|Sugiero esperar.
+mention|mencionar|verbo|don't mention it = de nada|As I mentioned before.|Como mencioné antes.
+discuss|discutir (tratar)|verbo|discuss something SIN about|Let's discuss it.|Discutámoslo.
+prepare|preparar|verbo|prepare for something|I need to prepare.|Necesito prepararme.
+finish|terminar|verbo|finish + -ing · be finished|I finished early.|Terminé temprano.
+continue|continuar|verbo|continue + -ing o to + verbo|Please continue.|Por favor continúa.
+improve|mejorar|verbo|improve at something|I want to improve my English.|Quiero mejorar mi inglés.
+practice|practicar|verbo|practice + -ing|Practice every day.|Practica todos los días.
+repeat|repetir|verbo|Could you repeat that?|Can you repeat that?|¿Puedes repetir eso?
+get up|levantarse|expr|de la cama, en la mañana|I get up at six every day.|Me levanto a las seis todos los días.
+wake up|despertarse|expr|wake up ≠ get up (abrir los ojos vs pararse)|I woke up late.|Me desperté tarde.
+give up|rendirse|expr|give up + -ing = dejar de|Don't give up.|No te rindas.
+look for|buscar|expr|SIEMPRE con for · search for|I'm looking for my phone.|Estoy buscando mi teléfono.
+look after|cuidar|expr|look after someone|Can you look after the dog?|¿Puedes cuidar al perro?
+look up|consultar|expr|look up a word in the dictionary|Look it up online.|Búscalo en internet.
+find out|averiguar|expr|find out about something|I'll find out.|Voy a averiguar.
+figure out|descifrar|expr|figure out how to|I can't figure it out.|No logro entenderlo.
+work out|resultar / ejercitarse|expr|it worked out = salió bien|It worked out fine.|Salió bien.
+turn on|encender|expr|turn on the light|Turn on the TV.|Prende el televisor.
+turn off|apagar|expr|turn off the computer|Turn off your phone.|Apaga tu teléfono.
+turn out|resultar|expr|it turns out that = resulta que|It turned out great.|Resultó genial.
+put on|ponerse (ropa)|expr|put on a jacket|Put on your jacket.|Ponte la chaqueta.
+take off|quitarse / despegar|expr|take off your shoes · the plane took off|Take off your shoes.|Quítate los zapatos.
+pick up|recoger|expr|pick someone up · pick up the phone|I'll pick you up at eight.|Te recojo a las ocho.
+drop off|dejar (a alguien)|expr|drop someone off|Can you drop me off?|¿Me puedes dejar?
+come back|volver|expr|come back = volver acá|I'll come back tomorrow.|Vuelvo mañana.
+go back|regresar|expr|go back = volver allá|I need to go back.|Necesito regresar.
+get back|volver / recuperar|expr|get back to someone = responder|I'll get back to you.|Te respondo luego.
+run out of|quedarse sin|expr|run out of time, money, milk|We ran out of time.|Se nos acabó el tiempo.
+deal with|lidiar con|expr|deal with a problem|I'll deal with it.|Yo me encargo.
+depend on|depender de|expr|SIEMPRE con on|It depends on you.|Depende de ti.
+belong to|pertenecer a|expr|this belongs to me|That belongs to her.|Eso le pertenece a ella.
+care about|importar|expr|care about someone|I care about you.|Me importas.
+worry about|preocuparse por|expr|don't worry about it|Don't worry about it.|No te preocupes por eso.
+think about|pensar en|expr|think about ≠ think of|I'm thinking about it.|Lo estoy pensando.
+talk about|hablar de|expr|talk about a topic|What are you talking about?|¿De qué estás hablando?
+wait for|esperar a|expr|SIEMPRE con for|I'm waiting for you.|Te estoy esperando.
+ask for|pedir|expr|ask for help|Ask for help.|Pide ayuda.
+apply for|postular a|expr|apply for a job|I applied for the job.|Postulé al trabajo.
+focus on|enfocarse en|expr|focus on one thing|Focus on your goals.|Enfócate en tus metas.
+count on|contar con|expr|you can count on me|You can count on me.|Puedes contar conmigo.
+show up|aparecer|expr|show up late|He didn't show up.|No apareció.
+set up|configurar / montar|expr|set up a meeting|Let's set up a call.|Agendemos una llamada.
+check out|revisar / salir del hotel|expr|check out this article|Check out this website.|Mira este sitio web.
+carry out|llevar a cabo|expr|carry out a plan|We carried out the plan.|Llevamos a cabo el plan.
+point out|señalar|expr|point out a mistake|She pointed out the error.|Ella señaló el error.
+bring up|mencionar / criar|expr|bring up a topic|Don't bring that up.|No menciones eso.
+end up|terminar siendo|expr|end up + -ing|We ended up staying.|Terminamos quedándonos.
+go on|continuar / pasar|expr|What's going on? = ¿qué pasa?|What's going on?|¿Qué está pasando?
+hang on|espera|expr|hang on a second|Hang on a second.|Espera un segundo.
+hang up|colgar (teléfono)|expr|hang up on someone|Don't hang up.|No cuelgues.
+calm down|calmarse|expr|calm down, please|Calm down.|Cálmate.
+grow up|criarse|expr|grow up in a place|I grew up in Bogota.|Crecí en Bogotá.
+get along|llevarse bien|expr|get along with someone|We get along well.|Nos llevamos bien.
+get over|superar|expr|get over a problem|Get over it.|Supéralo.
+get rid of|deshacerse de|expr|get rid of something|Get rid of that.|Deshazte de eso.
+make sure|asegurarse|expr|make sure that|Make sure it works.|Asegúrate de que funcione.
+take care of|encargarse de|expr|take care of a task|I'll take care of it.|Yo me encargo.
+keep up with|mantenerse al día|expr|keep up with the news|I can't keep up.|No logro seguir el ritmo.
+break down|averiarse|expr|the car broke down|My car broke down.|Mi carro se varó.
+break up|terminar (pareja)|expr|break up with someone|They broke up.|Terminaron.
+cheer up|animarse|expr|cheer up!|Cheer up!|¡Ánimo!
+shut up|callarse|expr|es muy fuerte · be quiet es cortés|Please be quiet.|Por favor guarda silencio.
+watch out|tener cuidado|expr|watch out! como alerta|Watch out!|¡Cuidado!
+figure|figura / suponer|verbo|go figure = quién lo diría|I figured as much.|Me lo imaginaba.
+appear|aparecer / parecer|verbo|más formal que seem|It appears to be correct.|Parece ser correcto.
+consider|considerar|verbo|consider + -ing|I'm considering it.|Lo estoy considerando.
+expect|esperar (prever)|verbo|expect ≠ wait · expect someone|I expect a reply today.|Espero respuesta hoy.
+hope|esperar (desear)|verbo|hope + presente para futuro|I hope you're well.|Espero que estés bien.
+wish|desear|verbo|wish + pasado = deseo irreal|I wish I could go.|Ojalá pudiera ir.
+prefer|preferir|verbo|prefer A to B · prefer + -ing|I prefer coffee.|Prefiero café.
+enjoy|disfrutar|verbo|enjoy + -ing, NUNCA enjoy to|I enjoy reading.|Disfruto leer.
+avoid|evitar|verbo|avoid + -ing, NUNCA avoid to|Avoid making mistakes.|Evita cometer errores.
+mind|importar / mente|verbo|Do you mind? · never mind|Never mind.|Olvídalo.
+allow|permitir|verbo|allow someone to + verbo|They allowed me to leave.|Me permitieron salir.
+accept|aceptar|verbo|accept an offer|I accept.|Acepto.
+refuse|rechazar|verbo|refuse to + verbo|He refused to answer.|Se negó a responder.
+admit|admitir|verbo|admit + -ing|I admit I was wrong.|Admito que me equivoqué.
+deny|negar|verbo|deny + -ing|He denied it.|Lo negó.
+promise|prometer|verbo|promise to + verbo|I promise I'll call.|Prometo que llamo.
+complain|quejarse|verbo|complain about something|Stop complaining.|Deja de quejarte.
+apologize|disculparse|verbo|apologize for something|I apologize for the delay.|Me disculpo por la demora.
+thank|agradecer|verbo|thank someone for|Thank you for coming.|Gracias por venir.
+invite|invitar|verbo|invite someone to|Thanks for inviting me.|Gracias por invitarme.
+join|unirse|verbo|join a team, join us|Join us for lunch.|Únete a almorzar.
+introduce|presentar (personas)|verbo|introduce someone to|Let me introduce myself.|Permíteme presentarme.
+describe|describir|verbo|describe something to someone|Describe the problem.|Describe el problema.
+compare|comparar|verbo|compare A with B|Compare the two options.|Compara las dos opciones.
+include|incluir|verbo|including = incluyendo|Does it include tax?|¿Incluye impuestos?
+provide|proporcionar|verbo|provide someone with|We provide support.|Brindamos soporte.
+require|requerir|verbo|require + sustantivo|This requires more time.|Esto requiere más tiempo.
+control|controlar|verbo|be in control · out of control|It's out of my control.|Está fuera de mi control.
+manage|manejar / lograr|verbo|manage to + verbo = lograr|I managed to finish.|Logré terminar.
+support|apoyar|verbo|support ≠ soportar (put up with)|I support your decision.|Apoyo tu decisión.
+develop|desarrollar|verbo|develop a skill|We're developing an app.|Estamos desarrollando una app.
+design|diseñar|verbo|design for · by design|Who designed this?|¿Quién diseñó esto?
+test|probar|verbo|test something out|Let's test it.|Probémoslo.
+measure|medir|verbo|measure results|How do you measure it?|¿Cómo lo mides?
+analyze|analizar|verbo|analyse en inglés británico|We need to analyze the data.|Necesitamos analizar los datos.
+review|revisar|verbo|review a document|Please review this.|Por favor revisa esto.
+approve|aprobar|verbo|approve of something|The budget was approved.|El presupuesto fue aprobado.
+reject|rechazar|verbo|reject an offer|They rejected the proposal.|Rechazaron la propuesta.
+achieve|lograr|verbo|achieve a goal|We achieved our goal.|Logramos nuestra meta.
+student|estudiante|sust|a student of · student loan|I'm a student.|Soy estudiante.
+teacher|profesor|sust|a teacher of English|My teacher is great.|Mi profesor es genial.
+class|clase|sust|in class · take a class|I have class at eight.|Tengo clase a las ocho.
+course|curso|sust|take a course · of course = claro|I'm taking a course.|Estoy tomando un curso.
+lesson|lección|sust|learn a lesson|That was a good lesson.|Esa fue una buena lección.
+exam|examen|sust|take an exam · pass an exam|I have an exam tomorrow.|Tengo examen mañana.
+grade|nota / grado|sust|get a good grade|I got a good grade.|Saqué buena nota.
+homework|tarea|sust|INCONTABLE: nunca homeworks|I have a lot of homework.|Tengo mucha tarea.
+note|nota / apunte|sust|take notes · a note to self|Take notes.|Toma apuntes.
+paper|papel / artículo|sust|a research paper|I wrote a paper.|Escribí un artículo.
+page|página|sust|on page ten|Go to page five.|Ve a la página cinco.
+subject|materia / tema|sust|the subject of an email|What's the subject?|¿Cuál es el tema?
+language|idioma|sust|speak a language|How many languages?|¿Cuántos idiomas?
+knowledge|conocimiento|sust|INCONTABLE: nunca knowledges|He has a lot of knowledge.|Tiene mucho conocimiento.
+research|investigación|sust|INCONTABLE · do research|I did some research.|Hice algo de investigación.
+study|estudiar / estudio|verbo|study for an exam|I study at night.|Estudio de noche.
+mistake|error|sust|MAKE a mistake, no do|Everyone makes mistakes.|Todos cometemos errores.
+error|error (técnico)|sust|an error message|There's an error.|Hay un error.
+progress|progreso|sust|INCONTABLE · make progress|You're making progress.|Estás progresando.
+effort|esfuerzo|sust|make an effort|It takes effort.|Requiere esfuerzo.
+attention|atención|sust|pay attention · pay ≠ give|Pay attention.|Pon atención.
+chance|oportunidad / azar|sust|take a chance · by chance|Give me a chance.|Dame una oportunidad.
+opportunity|oportunidad|sust|an opportunity to + verbo|It's a great opportunity.|Es una gran oportunidad.
+risk|riesgo|sust|take a risk · at risk|It's worth the risk.|Vale la pena el riesgo.
+future|futuro|sust|in the future|In the near future.|En el futuro cercano.
+past|pasado|sust|in the past|That's in the past.|Eso quedó en el pasado.
+present|presente / regalo|sust|at present = actualmente|It's a present for you.|Es un regalo para ti.
+history|historia (materia)|sust|history ≠ story (cuento)|I studied history.|Estudié historia.
+government|gobierno|sust|the government IS o ARE|The government decided.|El gobierno decidió.
+law|ley|sust|against the law · lawyer|It's against the law.|Va contra la ley.
+police|policía|sust|SIEMPRE plural: police ARE|The police are here.|La policía está aquí.
+war|guerra|sust|at war · go to war|The war ended.|La guerra terminó.
+peace|paz|sust|in peace · peace of mind|Leave me in peace.|Déjame en paz.
+power|poder / energía|sust|power outage = apagón|The power is out.|Se fue la luz.
+energy|energía|sust|incontable · have energy|I have no energy today.|No tengo energía hoy.
+nature|naturaleza|sust|in nature · natural|I love nature.|Me encanta la naturaleza.
+weather|clima|sust|INCONTABLE · How's the weather?|The weather is nice.|El clima está agradable.
+rain|lluvia / llover|sust|it rains · rainy|It's going to rain.|Va a llover.
+sun|sol|sust|in the sun · sunny|The sun is out.|Salió el sol.
+wind|viento|sust|windy · wind también es enrollar|It's very windy.|Hace mucho viento.
+snow|nieve|sust|it snows · snowy|It never snows here.|Aquí nunca nieva.
+sky|cielo|sust|in the sky|The sky is blue.|El cielo está azul.
+sea|mar|sust|by the sea · at sea|We live near the sea.|Vivimos cerca del mar.
+river|río|sust|on the river · by the river|The river is wide.|El río es ancho.
+mountain|montaña|sust|in the mountains|We went to the mountains.|Fuimos a la montaña.
+tree|árbol|sust|a tree · trees|There's a tree outside.|Hay un árbol afuera.
+animal|animal|sust|wild animal · pet|I love animals.|Me encantan los animales.
+dog|perro|sust|walk the dog|Do you have a dog?|¿Tienes perro?
+cat|gato|sust|a cat · kittens|My cat is sleeping.|Mi gato está durmiendo.
+bird|pájaro|sust|birds fly|A bird flew by.|Pasó volando un pájaro.
+music|música|sust|INCONTABLE · listen to music|I listen to music.|Escucho música.
+song|canción|sust|a song · play a song|What song is this?|¿Qué canción es esta?
+movie|película|sust|film en inglés británico|Let's watch a movie.|Veamos una película.
+game|juego / partido|sust|play a game · win a game|The game starts at eight.|El partido empieza a las ocho.
+sport|deporte|sust|play sports · do sports|What sports do you play?|¿Qué deportes practicas?
+news|noticias|sust|INCONTABLE: the news IS|The news is good.|Las noticias son buenas.
+picture|foto / imagen|sust|take a picture|Take a picture.|Toma una foto.
+photo|foto|sust|photograph · plural: photos|Send me the photos.|Envíame las fotos.
+video|video|sust|watch a video|Watch this video.|Mira este video.
+party|fiesta|sust|throw a party · go to a party|There's a party tonight.|Hay una fiesta esta noche.
+holiday|feriado / vacaciones|sust|on holiday (UK) · vacation (US)|Next Monday is a holiday.|El próximo lunes es feriado.
+vacation|vacaciones|sust|on vacation · take a vacation|I'm on vacation.|Estoy de vacaciones.
+weekend|fin de semana|sust|on the weekend (US) · at the weekend (UK)|Have a good weekend.|Buen fin de semana.
+birthday|cumpleaños|sust|Happy birthday!|When's your birthday?|¿Cuándo es tu cumpleaños?
+gift|regalo|sust|gift = present|It's a gift.|Es un regalo.
+love|amor / amar|verbo|love + -ing · I'd love to|I love this song.|Me encanta esta canción.
+hate|odiar|verbo|hate + -ing|I hate waiting.|Odio esperar.
+miss|extrañar / perder|verbo|miss someone · miss the bus|I miss you.|Te extraño.
+laugh|reír|verbo|laugh at someone|Don't laugh at me.|No te rías de mí.
+cry|llorar|verbo|cry about something|She started to cry.|Empezó a llorar.
+smile|sonreír|verbo|smile at someone|Just smile.|Solo sonríe.
+sleep|dormir|verbo|pasado: slept · go to sleep|I didn't sleep well.|No dormí bien.
+dream|soñar / sueño|verbo|dream about · a dream job|It was just a dream.|Fue solo un sueño.
+eat|comer|verbo|pasado: ate · eat out = comer fuera|Let's eat.|Comamos.
+drink|beber|verbo|pasado: drank · a drink|What do you want to drink?|¿Qué quieres tomar?
+cook|cocinar|verbo|cook dinner · a cook|I cook every day.|Cocino todos los días.
+wash|lavar|verbo|wash your hands|Wash your hands.|Lávate las manos.
+drive|conducir|verbo|pasado: drove · a driver|Can you drive?|¿Sabes manejar?
+fly|volar|verbo|pasado: flew · fly to a place|I fly to Miami tomorrow.|Vuelo a Miami mañana.
+swim|nadar|verbo|pasado: swam · go swimming|Can you swim?|¿Sabes nadar?
+dance|bailar|verbo|go dancing|Let's dance.|Bailemos.
+sing|cantar|verbo|pasado: sang · a singer|She sings well.|Ella canta bien.
+draw|dibujar|verbo|pasado: drew · draw a picture|I can't draw.|No sé dibujar.
+listen|escuchar|verbo|listen TO something|Listen to me.|Escúchame.
+touch|tocar|verbo|don't touch · keep in touch|Don't touch that.|No toques eso.
+smell|oler|verbo|smell + adjetivo|That smells good.|Eso huele bien.
+taste|saber (sabor)|verbo|taste + adjetivo|It tastes great.|Sabe delicioso.
+sound|sonar|verbo|sound + adjetivo · sounds good|That sounds good.|Suena bien.
+wear|usar (ropa)|verbo|pasado: wore · wear a shirt|What are you wearing?|¿Qué te vas a poner?
+carry|cargar / llevar|verbo|carry a bag|Let me carry that.|Déjame cargar eso.
+throw|lanzar|verbo|pasado: threw · throw away|Throw it away.|Bótalo.
+catch|atrapar / tomar|verbo|pasado: caught · catch a bus|I need to catch the bus.|Necesito tomar el bus.
+track|rastrear|verbo|keep track of = llevar el control|We track the numbers daily.|Rastreamos los números a diario.
+handle|manejar (algo)|verbo|handle a situation|I can handle it.|Yo puedo con eso.
+match|coincidir|verbo|match with · a match|The numbers don't match.|Los números no coinciden.
+sort|ordenar|verbo|sort by · sort out = resolver|Sort by date.|Ordena por fecha.
+filter|filtrar|verbo|filter by · a filter|Filter the results.|Filtra los resultados.
+count|contar|verbo|count on = contar con|Count the rows.|Cuenta las filas.
+add|añadir|verbo|add to · add up = cuadrar|Add a column.|Añade una columna.
+remove|quitar|verbo|remove from|Remove the duplicates.|Quita los duplicados.
+replace|reemplazar|verbo|replace A with B|Replace the old file.|Reemplaza el archivo viejo.
+copy|copiar|verbo|copy and paste|Copy this cell.|Copia esta celda.
+paste|pegar|verbo|paste into|Paste it here.|Pégalo aquí.
+delete|borrar|verbo|delete a file|Don't delete that.|No borres eso.
+select|seleccionar|verbo|select all|Select the range.|Selecciona el rango.
+search|buscar|verbo|search FOR something|Search for the file.|Busca el archivo.
+row|fila|sust|rows and columns|Delete that row.|Borra esa fila.
+column|columna|sust|column A · a column of numbers|Add a new column.|Agrega una columna nueva.
+cell|celda|sust|cell reference|Click on the cell.|Haz clic en la celda.
+sheet|hoja|sust|spreadsheet · worksheet|Check the other sheet.|Revisa la otra hoja.
+chart|gráfico|sust|a bar chart, a pie chart|Make a chart.|Haz un gráfico.
+graph|gráfica|sust|a line graph|Look at the graph.|Mira la gráfica.
+range|rango|sust|a range of values|Select the range.|Selecciona el rango.
+sum|suma|sust|the sum of · sum up|What's the sum?|¿Cuál es la suma?
+formula|fórmula|sust|plural: formulas o formulae|The formula is wrong.|La fórmula está mal.
+query|consulta|sust|run a query|Write the query.|Escribe la consulta.
+database|base de datos|sust|in the database|It's in the database.|Está en la base de datos.
+record|registro|sust|RE-cord = registro · re-CORD = grabar|Check the records.|Revisa los registros.
+field|campo|sust|a required field|Fill in this field.|Llena este campo.
+source|fuente|sust|the data source|Where's the source?|¿Cuál es la fuente?
+output|salida / resultado|sust|the output of a process|Check the output.|Revisa el resultado.
+input|entrada|sust|user input · give input|We need your input.|Necesitamos tu opinión.
+trend|tendencia|sust|a trend line · trending|The trend is clear.|La tendencia es clara.
+growth|crecimiento|sust|growth rate|We had strong growth.|Tuvimos un buen crecimiento.
+increase|aumentar|verbo|increase by 10%|Sales increased.|Las ventas aumentaron.
+decrease|disminuir|verbo|decrease from A to B|Costs decreased.|Los costos bajaron.
+sales|ventas|sust|SIEMPRE plural en este sentido|Sales are up.|Las ventas subieron.
+revenue|ingresos|sust|incontable · revenue growth|Revenue doubled.|Los ingresos se duplicaron.
+profit|ganancia|sust|make a profit|We made a profit.|Tuvimos ganancia.
+loss|pérdida|sust|at a loss · cut losses|It was a big loss.|Fue una gran pérdida.
+stock|inventario / acción|sust|out of stock = agotado|It's out of stock.|Está agotado.
+supply|suministro|sust|supply and demand|Supply is limited.|El suministro es limitado.
+demand|demanda|sust|in demand = solicitado|Demand is high.|La demanda es alta.
+deal|trato|sust|close a deal · a good deal|It's a good deal.|Es un buen trato.
+contract|contrato|sust|sign a contract|Sign the contract.|Firma el contrato.
+agreement|acuerdo|sust|reach an agreement|We reached an agreement.|Llegamos a un acuerdo.
+policy|política (norma)|sust|company policy|That's our policy.|Esa es nuestra política.
+rule|regla|sust|follow the rules · as a rule|Those are the rules.|Esas son las reglas.
+standard|estándar|sust|meet the standard|It meets the standard.|Cumple el estándar.
+performance|desempeño|sust|performance review|Great performance.|Excelente desempeño.
+feedback|retroalimentación|sust|INCONTABLE: nunca feedbacks|Can I get some feedback?|¿Me das retroalimentación?
+approach|enfoque|sust|a different approach|Let's try another approach.|Probemos otro enfoque.
+strategy|estrategia|sust|a long-term strategy|What's the strategy?|¿Cuál es la estrategia?
+plan|plan / planear|sust|plan to + verbo · a backup plan|What's the plan?|¿Cuál es el plan?
+step|paso|sust|step by step · the next step|What's the next step?|¿Cuál es el siguiente paso?
+stage|etapa|sust|at this stage|We're at the final stage.|Estamos en la etapa final.
+phase|fase|sust|phase one, phase two|The first phase is done.|La primera fase terminó.
+version|versión|sust|the latest version|Which version is this?|¿Qué versión es esta?
+tool|herramienta|sust|the right tool for the job|What tools do you use?|¿Qué herramientas usas?
+resource|recurso|sust|human resources|We need more resources.|Necesitamos más recursos.
+role|rol|sust|play a role in|What's my role?|¿Cuál es mi rol?
+position|puesto / posición|sust|apply for a position|I applied for the position.|Postulé al puesto.
+responsibility|responsabilidad|sust|take responsibility|That's my responsibility.|Esa es mi responsabilidad.
+duty|deber|sust|on duty · off duty|It's my duty.|Es mi deber.
+department|departamento|sust|the sales department|Which department?|¿Cuál departamento?
+industry|industria|sust|the tech industry|In this industry.|En esta industria.
+sector|sector|sust|the public sector|The financial sector.|El sector financiero.
+career|carrera profesional|sust|career ≠ race (carrera de correr)|A career in data.|Una carrera en datos.
+degree|título / grado|sust|a degree in · degrees Celsius|I have a degree in engineering.|Tengo un título en ingeniería.
+certificate|certificado|sust|get a certificate|I got the certificate.|Obtuve el certificado.
+training|capacitación|sust|INCONTABLE · on-the-job training|We need more training.|Necesitamos más capacitación.
+workshop|taller|sust|attend a workshop|There's a workshop today.|Hay un taller hoy.
+presentation|presentación|sust|give a presentation|I have a presentation.|Tengo una presentación.
+slide|diapositiva|sust|slide deck = presentación|Go to the next slide.|Pasa a la siguiente diapositiva.
+schedule|agenda / agendar|sust|schedule a meeting · behind schedule|Let's schedule a call.|Agendemos una llamada.
+appointment|cita (formal)|sust|make an appointment|I have an appointment.|Tengo una cita.
+date|fecha / cita|sust|a due date · go on a date|What's the date today?|¿Qué fecha es hoy?
+event|evento|sust|attend an event|It's a big event.|Es un evento grande.
+location|ubicación|sust|the location of|What's the location?|¿Cuál es la ubicación?
+remote|remoto|adj|work remotely|I work remotely.|Trabajo de forma remota.
+hybrid|híbrido|adj|a hybrid model|We have a hybrid schedule.|Tenemos horario híbrido.
+overtime|horas extra|sust|work overtime|I worked overtime.|Trabajé horas extra.
+shift|turno|sust|the night shift|I work the night shift.|Trabajo el turno de noche.
+raise|aumento|sust|ask for a raise|I asked for a raise.|Pedí un aumento.
+bonus|bono|sust|a year-end bonus|We got a bonus.|Nos dieron un bono.
+please|por favor|adv|al inicio o al final de la petición|Come in, please.|Pase, por favor.
+thanks|gracias|expr|thanks a lot · thanks for + -ing|Thanks for your help.|Gracias por tu ayuda.
+welcome|bienvenido / de nada|expr|you're welcome = de nada|You're welcome.|De nada.
+hello|hola|expr|formal · hi es informal|Hello, how are you?|Hola, ¿cómo estás?
+hi|hola (informal)|expr|hey es aún más informal|Hi, nice to see you.|Hola, qué gusto verte.
+bye|chao|expr|goodbye es más formal|Bye, see you later.|Chao, nos vemos.
+yes|sí|adv|yeah y yep son informales|Yes, of course.|Sí, claro.
+okay|está bien|expr|OK · are you okay?|Okay, let's go.|Bueno, vamos.
+excuse me|disculpe|expr|para interrumpir o pasar|Excuse me, can I ask something?|Disculpe, ¿puedo preguntar algo?
+of course|por supuesto|expr|of course not = por supuesto que no|Of course you can.|Por supuesto que puedes.
+absolutely|absolutamente|expr|sí enfático|Absolutely!|¡Por supuesto!
+definitely|definitivamente|expr|definitely not = para nada|I'll definitely be there.|Sin duda estaré ahí.
+obviously|obviamente|adv|cuidado: puede sonar grosero|Obviously, that helps.|Obviamente eso ayuda.
+basically|básicamente|adv|muletilla muy común|Basically, it works like this.|Básicamente funciona así.
+apparently|aparentemente|adv|por lo que se ve|Apparently, it's closed.|Al parecer está cerrado.
+hopefully|ojalá|adv|abre la frase|Hopefully it works.|Ojalá funcione.
+unfortunately|desafortunadamente|adv|abre malas noticias|Unfortunately, it's too late.|Lamentablemente es muy tarde.
+luckily|por suerte|adv|abre buenas noticias|Luckily, I had a backup.|Por suerte tenía un respaldo.
+honestly|honestamente|adv|to be honest = para ser sincero|Honestly, I don't know.|Sinceramente, no sé.
+seriously|en serio|adv|reacción de sorpresa|Seriously?|¿En serio?
+certainly|ciertamente|adv|formal, muy cortés|Certainly, sir.|Por supuesto, señor.
+frankly|francamente|adv|frankly speaking|Frankly, I disagree.|Francamente, no coincido.
+clearly|claramente|adv|introduce una conclusión|Clearly, we need help.|Claramente necesitamos ayuda.
+mainly|principalmente|adv|mostly es sinónimo|Mainly on weekends.|Principalmente los fines de semana.
+mostly|en su mayoría|adv|mostly = casi todo|Mostly good news.|En general, buenas noticias.
+generally|generalmente|adv|in general = en general|Generally speaking.|En términos generales.
+recently|recientemente|adv|pide presente perfecto|I've recently moved.|Me acabo de mudar.
+lately|últimamente|adv|lately ≠ late (tarde)|I've been busy lately.|He estado ocupado últimamente.
+currently|actualmente|adv|NO es actually (en realidad)|I'm currently working.|Actualmente estoy trabajando.
+immediately|inmediatamente|adv|right away es más natural|Do it immediately.|Hazlo de inmediato.
+eventually|finalmente|adv|NO es eventualmente|Eventually, we finished.|Al final terminamos.
+meanwhile|mientras tanto|adv|abre una frase paralela|Meanwhile, I'll wait.|Mientras tanto, espero.
+otherwise|de lo contrario|adv|introduce la consecuencia|Hurry, otherwise we'll be late.|Apúrate, si no llegamos tarde.
+somehow|de alguna manera|adv|somehow it worked|Somehow it worked.|De alguna forma funcionó.
+somewhere|en algún lugar|adv|anywhere en negativo|It's somewhere here.|Está por aquí en alguna parte.
+anywhere|en cualquier parte|adv|not anywhere = en ninguna parte|I can't find it anywhere.|No lo encuentro por ningún lado.
+everywhere|en todas partes|adv|una sola palabra|I looked everywhere.|Busqué por todas partes.
+nowhere|en ninguna parte|adv|ya es negativo|We're getting nowhere.|No estamos avanzando.
+everything|todo|pron|everything IS, singular|Everything is fine.|Todo está bien.
+something|algo|pron|something en afirmativo|I need something.|Necesito algo.
+anything|cualquier cosa|pron|anything en negativo y pregunta|Do you need anything?|¿Necesitas algo?
+nothing|nada|pron|ya es negativo: no lleva don't|Nothing happened.|No pasó nada.
+everyone|todos|pron|everyone IS, singular|Everyone is here.|Todos están aquí.
+someone|alguien|pron|somebody es igual|Someone called you.|Alguien te llamó.
+anyone|cualquiera|pron|anyone en negativo y pregunta|Does anyone know?|¿Alguien sabe?
+no one|nadie|pron|nobody es igual|No one answered.|Nadie contestó.
+myself|yo mismo|pron|by myself = solo|I did it myself.|Lo hice yo mismo.
+yourself|tú mismo|pron|help yourself = sírvete|Take care of yourself.|Cuídate.
+himself|él mismo|pron|reflexivo de he|He hurt himself.|Se lastimó.
+herself|ella misma|pron|reflexivo de she|She told me herself.|Ella misma me dijo.
+ourselves|nosotros mismos|pron|by ourselves = solos|We did it ourselves.|Lo hicimos nosotros mismos.
+themselves|ellos mismos|pron|reflexivo de they|They organized it themselves.|Ellos mismos lo organizaron.
+each other|el uno al otro|pron|recíproco entre dos|We help each other.|Nos ayudamos mutuamente.
+whose|de quién|pron|whose ≠ who's (who is)|Whose is this?|¿De quién es esto?
+whatever|lo que sea|pron|solo también significa da igual|Whatever you want.|Lo que quieras.
+whenever|cuando sea|pron|whenever you like|Come whenever you want.|Ven cuando quieras.
+wherever|donde sea|pron|wherever you go|Wherever you go.|Adondequiera que vayas.
+whoever|quien sea|pron|whoever wants to|Whoever wants to come.|Quien quiera venir.
+several|varios|det|several + plural|Several people asked.|Varias personas preguntaron.
+various|diversos|adj|various options|For various reasons.|Por diversas razones.
+plenty|de sobra|det|plenty of time|We have plenty of time.|Tenemos tiempo de sobra.
+lots|montones|det|lots of = a lot of|Lots of people came.|Vino mucha gente.
+none|ninguno|pron|none of them|None of them worked.|Ninguno funcionó.
+neither|ninguno de dos|det|neither... nor|Neither option works.|Ninguna opción sirve.
+either|cualquiera de dos|det|either... or|Either one is fine.|Cualquiera de los dos sirve.
+half|mitad|sust|half of · half an hour|Half of the team.|La mitad del equipo.
+quarter|cuarto|sust|a quarter past = y cuarto|A quarter to five.|Un cuarto para las cinco.
+double|doble|adj|double check = revisar dos veces|Double the amount.|El doble de la cantidad.
+single|solo / soltero|adj|a single person · every single day|Not a single mistake.|Ni un solo error.
+whole|entero|adj|the whole day = todo el día|The whole team came.|Vino todo el equipo.
+entire|entero (enfático)|adj|the entire process|The entire day.|El día entero.
+extra|extra|adj|an extra hour|I need extra time.|Necesito tiempo extra.
+main|principal|adj|the main reason|That's the main issue.|Ese es el problema principal.
+major|importante|adj|a major change|It's a major problem.|Es un problema importante.
+minor|menor|adj|a minor issue|It's a minor detail.|Es un detalle menor.
+basic|básico|adj|the basics = lo básico|Just the basics.|Solo lo básico.
+advanced|avanzado|adj|advanced level|At an advanced level.|A nivel avanzado.
+specific|específico|adj|be specific|Be more specific.|Sé más específico.
+general|general|adj|in general|In general terms.|En términos generales.
+particular|particular|adj|in particular = en especial|Nothing in particular.|Nada en particular.
+normal|normal|adj|normally = normalmente|That's normal.|Eso es normal.
+strange|extraño|adj|weird es más coloquial|That's strange.|Qué extraño.
+perfect|perfecto|adj|perfectly = perfectamente|That's perfect.|Perfecto.
+terrible|terrible|adj|awful es sinónimo|The weather was terrible.|El clima estuvo terrible.
+amazing|increíble|adj|reacción positiva fuerte|That's amazing!|¡Qué increíble!
+awesome|genial|adj|muy usado en inglés americano|That's awesome.|Está buenísimo.
+wonderful|maravilloso|adj|más formal que awesome|You did a wonderful job.|Hiciste un trabajo maravilloso.
+useful|útil|adj|useful for + -ing|That's very useful.|Eso es muy útil.
+useless|inútil|adj|it's useless|This is useless.|Esto no sirve.
+helpful|servicial|adj|be helpful|You've been very helpful.|Has sido de mucha ayuda.
+comfortable|cómodo|adj|se pronuncia cómftabol|Make yourself comfortable.|Ponte cómodo.
+appreciate|agradecer|verbo|I appreciate it = te lo agradezco|I really appreciate it.|Te lo agradezco mucho.
+arrive|llegar|verbo|arrive AT un lugar · arrive IN una ciudad|What time do you arrive?|¿A qué hora llegas?
+attend|asistir a|verbo|attend, NO assist (que es ayudar)|I'll attend the meeting.|Asistiré a la reunión.
+belong|pertenecer|verbo|belong to someone|Does this belong to you?|¿Esto es tuyo?
+bother|molestar|verbo|don't bother = no te molestes|Sorry to bother you.|Perdón por molestarte.
+cancel|cancelar|verbo|cancel a meeting|I had to cancel.|Tuve que cancelar.
+catch up|ponerse al día|expr|catch up with someone|Let's catch up soon.|Pongámonos al día pronto.
+cause|causar|verbo|cause a problem|What caused this?|¿Qué causó esto?
+charge|cobrar / cargar|verbo|charge for · charge a battery|How much do you charge?|¿Cuánto cobras?
+claim|afirmar / reclamar|verbo|claim that|He claims he was there.|Afirma que estuvo allí.
+collect|recolectar|verbo|collect data|We collect data daily.|Recolectamos datos a diario.
+confirm|confirmar|verbo|confirm a booking|Can you confirm?|¿Puedes confirmar?
+connect|conectar|verbo|connect to · connect with|I can't connect.|No me puedo conectar.
+contain|contener|verbo|contain ≠ container|What does it contain?|¿Qué contiene?
+convince|convencer|verbo|convince someone to|You convinced me.|Me convenciste.
+cover|cubrir|verbo|cover costs · cover a topic|That covers everything.|Eso cubre todo.
+deliver|entregar|verbo|deliver a package|When will you deliver?|¿Cuándo entregas?
+depend|depender|verbo|SIEMPRE depend on|That depends.|Eso depende.
+destroy|destruir|verbo|destroy something|It destroyed the file.|Destruyó el archivo.
+discover|descubrir|verbo|discover that|We discovered a bug.|Descubrimos un error.
+divide|dividir|verbo|divide by · divide into|Divide it by two.|Divídelo entre dos.
+drop|dejar caer / bajar|verbo|drop by = pasar a visitar|Prices dropped.|Los precios bajaron.
+enter|entrar / ingresar|verbo|enter a room SIN to|Enter your password.|Ingresa tu contraseña.
+escape|escapar|verbo|escape from|There's no escape.|No hay escapatoria.
+exist|existir|verbo|it exists · existence|Does that exist?|¿Eso existe?
+expand|expandir|verbo|expand into a market|We're expanding.|Nos estamos expandiendo.
+express|expresar|verbo|express an opinion|Express yourself.|Exprésate.
+fail|fallar / reprobar|verbo|fail to + verbo|I failed the exam.|Reprobé el examen.
+fill|llenar|verbo|fill in a form · fill out|Fill in the form.|Llena el formulario.
+fit|caber / quedar|verbo|it fits me = me queda|It doesn't fit.|No cabe.
+fold|doblar|verbo|fold clothes|Fold the paper.|Dobla el papel.
+force|forzar|verbo|force someone to|Don't force it.|No lo fuerces.
+gain|ganar / obtener|verbo|gain experience|I gained experience.|Gané experiencia.
+guess|adivinar / suponer|verbo|I guess so = supongo|Guess what?|¿Adivina qué?
+hide|esconder|verbo|pasado: hid · hide from|Don't hide it.|No lo escondas.
+hire|contratar|verbo|hire someone · we're hiring|They hired me.|Me contrataron.
+hurt|doler / lastimar|verbo|pasado: hurt (igual)|My head hurts.|Me duele la cabeza.
+identify|identificar|verbo|identify a problem|Identify the cause.|Identifica la causa.
+imagine|imaginar|verbo|imagine + -ing|Imagine that.|Imagínate eso.
+indicate|indicar|verbo|indicate that|The data indicates a trend.|Los datos indican una tendencia.
+inform|informar|verbo|inform someone about|Please inform the team.|Por favor informa al equipo.
+insist|insistir|verbo|insist on + -ing|If you insist.|Si insistes.
+intend|pretender|verbo|intend to + verbo|I intend to finish today.|Pretendo terminar hoy.
+invest|invertir|verbo|invest in something|Invest in yourself.|Invierte en ti.
+involve|involucrar|verbo|involve someone in|What does it involve?|¿Qué implica?
+judge|juzgar|verbo|don't judge|Don't judge too fast.|No juzgues tan rápido.
+jump|saltar|verbo|jump to conclusions|Don't jump to conclusions.|No saques conclusiones apresuradas.
+kick|patear|verbo|kick off = arrancar|Let's kick off the project.|Arranquemos el proyecto.
+lay|colocar|verbo|lay ≠ lie · lay something down|Lay it on the table.|Colócalo en la mesa.
+lie|mentir / acostarse|verbo|lie down · tell a lie|Don't lie to me.|No me mientas.
+lift|levantar|verbo|lift weights|Can you lift this?|¿Puedes levantar esto?
+limit|limitar|verbo|a time limit|There's no limit.|No hay límite.
+lock|cerrar con llave|verbo|lock the door|Lock the door.|Cierra con llave.
+mark|marcar|verbo|mark as read|Mark it as done.|Márcalo como hecho.
+matter|importar|verbo|it doesn't matter · what's the matter?|It doesn't matter.|No importa.
+notice|notar|verbo|notice that · give notice|I didn't notice.|No me di cuenta.
+occur|ocurrir|verbo|it occurred to me = se me ocurrió|It occurred to me later.|Se me ocurrió después.
+organize|organizar|verbo|organise en inglés británico|I need to organize this.|Necesito organizar esto.
+perform|realizar / actuar|verbo|perform a task|The team performed well.|El equipo se desempeñó bien.
+pick|escoger|verbo|pick one · pick up|Pick a number.|Escoge un número.
+prevent|prevenir|verbo|prevent someone from + -ing|Prevent the problem.|Previene el problema.
+print|imprimir|verbo|print out|Print this page.|Imprime esta página.
+protect|proteger|verbo|protect from / against|Protect your data.|Protege tus datos.
+prove|probar / demostrar|verbo|prove a point|Prove it.|Demuéstralo.
+publish|publicar|verbo|publish an article|They published the report.|Publicaron el informe.
+pull|jalar|verbo|pull ≠ push|Pull the door.|Jala la puerta.
+push|empujar|verbo|push a button|Push here.|Empuja aquí.
+realize|darse cuenta|verbo|NO es realizar (carry out)|I didn't realize.|No me di cuenta.
+recognize|reconocer|verbo|recognise en inglés británico|I didn't recognize you.|No te reconocí.
+recommend|recomendar|verbo|recommend + -ing|What do you recommend?|¿Qué recomiendas?
+reduce|reducir|verbo|reduce costs|We reduced costs.|Redujimos costos.
+refer|referirse|verbo|refer to something|Refer to page ten.|Consulta la página diez.
+reflect|reflejar|verbo|reflect on = reflexionar|It reflects our values.|Refleja nuestros valores.
+relax|relajarse|verbo|just relax|Relax, it's fine.|Relájate, está bien.
+release|lanzar / soltar|verbo|release a product|They released a new version.|Lanzaron una versión nueva.
+rely|confiar|verbo|rely ON someone|You can rely on me.|Puedes confiar en mí.
+remain|permanecer|verbo|remain + adjetivo|Please remain calm.|Por favor mantén la calma.
+remind|recordar a alguien|verbo|remind someone to|Remind me tomorrow.|Recuérdame mañana.
+repair|reparar|verbo|repair = fix (más formal)|Can you repair it?|¿Puedes repararlo?
+reply|responder|verbo|reply TO someone|Please reply soon.|Por favor responde pronto.
+respond|responder|verbo|respond to something|He didn't respond.|No respondió.
+rest|descansar|verbo|the rest = el resto|You need to rest.|Necesitas descansar.
+return|regresar / devolver|verbo|return to · return an item|I'll return tomorrow.|Regreso mañana.
+ring|sonar / llamar|verbo|pasado: rang · a ring|The phone is ringing.|El teléfono está sonando.
+rise|subir|verbo|pasado: rose · rise ≠ raise|Prices are rising.|Los precios están subiendo.
+sell|vender|verbo|pasado: sold · sell out|They sell everything.|Venden de todo.
+separate|separar|verbo|separate from|Keep them separate.|Mantenlos separados.
+serve|servir|verbo|serve customers|How can I serve you?|¿En qué le puedo servir?
+settle|resolver / asentarse|verbo|settle down · settle a dispute|Let's settle this.|Resolvamos esto.
+shake|sacudir|verbo|shake hands · pasado: shook|Shake it well.|Agítalo bien.
+shoot|disparar|verbo|pasado: shot · shoot a video|They shot the video here.|Grabaron el video aquí.
+shut|cerrar|verbo|pasado: shut (igual) · shut down|Shut it down.|Apágalo.
+sign|firmar / letrero|verbo|sign a document · a sign|Sign here, please.|Firme aquí, por favor.
+solve|resolver|verbo|solve a problem|We solved it.|Lo resolvimos.
+split|dividir|verbo|pasado: split (igual) · split the bill|Let's split the bill.|Dividamos la cuenta.
+spread|extender|verbo|pasado: spread (igual)|The news spread fast.|La noticia se regó rápido.
+steal|robar|verbo|pasado: stole · steal from|Someone stole my phone.|Alguien me robó el teléfono.
+stick|pegar / atascarse|verbo|stick to a plan · pasado: stuck|Stick to the plan.|Cíñete al plan.
+strike|golpear / huelga|verbo|go on strike|They went on strike.|Se fueron a huelga.
+succeed|tener éxito|verbo|succeed in + -ing|You will succeed.|Vas a tener éxito.
+suffer|sufrir|verbo|suffer from|He suffers from stress.|Sufre de estrés.
+suppose|suponer|verbo|be supposed to = se supone que|I suppose so.|Supongo que sí.
+survive|sobrevivir|verbo|survive a situation|We survived the week.|Sobrevivimos la semana.
+switch|cambiar / interruptor|verbo|switch to something|Switch to dark mode.|Cambia a modo oscuro.
+tie|atar / empatar|verbo|a tie = corbata o empate|It's a tie.|Está empatado.
+translate|traducir|verbo|translate from A to B|Can you translate this?|¿Puedes traducir esto?
+treat|tratar|verbo|treat someone well|Treat people well.|Trata bien a la gente.
+trust|confiar|verbo|trust someone SIN in|I trust you.|Confío en ti.
+warn|advertir|verbo|warn someone about|I warned you.|Te lo advertí.
+waste|desperdiciar|verbo|waste time · a waste|Don't waste time.|No pierdas el tiempo.
+weigh|pesar|verbo|the gh es muda: wei|How much does it weigh?|¿Cuánto pesa?
+wonder|preguntarse|verbo|I wonder if = me pregunto si|I wonder why.|Me pregunto por qué.
+worry|preocuparse|verbo|worry about · don't worry|Don't worry.|No te preocupes.
+access|acceder|verbo|access to something|I can't access the file.|No puedo acceder al archivo.
+act|actuar|verbo|act like = comportarse como|Act normal.|Actúa normal.
+adapt|adaptar|verbo|adapt to something|You have to adapt.|Tienes que adaptarte.
+address|abordar / dirección|verbo|address an issue|Let's address this.|Abordemos esto.
+adjust|ajustar|verbo|adjust to something|Adjust the settings.|Ajusta la configuración.
+admire|admirar|verbo|admire someone for|I admire your work.|Admiro tu trabajo.
+affect|afectar|verbo|affect = verbo · effect = sustantivo|How does it affect us?|¿Cómo nos afecta?
+afford|permitirse|verbo|can't afford it = no me alcanza|I can't afford it.|No me alcanza.
+aim|apuntar|verbo|aim to + verbo|We aim to improve.|Buscamos mejorar.
+announce|anunciar|verbo|announce that|They announced the news.|Anunciaron la noticia.
+apply|aplicar / postular|verbo|apply for a job · apply to|Apply for the position.|Postula al puesto.
+argue|discutir (pelear)|verbo|argue about something|Let's not argue.|No discutamos.
+arrange|organizar|verbo|arrange a meeting|I'll arrange it.|Yo lo organizo.
+assume|asumir|verbo|assume that|Don't assume.|No asumas.
+attach|adjuntar|verbo|attach a file|I attached the file.|Adjunté el archivo.
+attract|atraer|verbo|attract attention|It attracts customers.|Atrae clientes.
+base|basar|verbo|based on = basado en|Based on the data.|Con base en los datos.
+beat|vencer|verbo|pasado: beat · beat a record|We beat the record.|Rompimos el récord.
+behave|comportarse|verbo|behave well|Behave yourself.|Compórtate.
+blame|culpar|verbo|blame someone for|Don't blame me.|No me culpes.
+boost|impulsar|verbo|boost sales|It boosted our sales.|Impulsó nuestras ventas.
+calculate|calcular|verbo|calculate the total|Calculate the average.|Calcula el promedio.
+capture|capturar|verbo|capture data|Capture the moment.|Captura el momento.
+celebrate|celebrar|verbo|celebrate something|Let's celebrate.|Celebremos.
+challenge|desafiar / reto|verbo|a challenge · challenging|It's a big challenge.|Es un gran reto.
+clarify|aclarar|verbo|clarify a point|Let me clarify.|Déjame aclarar.
+combine|combinar|verbo|combine A with B|Combine both files.|Combina ambos archivos.
+comment|comentar|verbo|comment on something|No comment.|Sin comentarios.
+commit|comprometerse|verbo|commit to something|I'm committed to it.|Estoy comprometido.
+communicate|comunicar|verbo|communicate with someone|We need to communicate.|Necesitamos comunicarnos.
+compete|competir|verbo|compete with / against|We compete globally.|Competimos globalmente.
+complete|completar|verbo|complete a task|Complete the form.|Completa el formulario.
+concentrate|concentrarse|verbo|concentrate on something|I can't concentrate.|No me puedo concentrar.
+conclude|concluir|verbo|conclude that|We concluded that it works.|Concluimos que funciona.
+conduct|realizar|verbo|conduct research|We conducted a survey.|Realizamos una encuesta.
+confuse|confundir|verbo|confusing = confuso|Don't confuse them.|No los confundas.
+consist|consistir|verbo|consist OF|It consists of three parts.|Consta de tres partes.
+constitute|constituir|verbo|formal, en textos legales|That constitutes a breach.|Eso constituye un incumplimiento.
+consume|consumir|verbo|consume resources|It consumes a lot of memory.|Consume mucha memoria.
+contribute|contribuir|verbo|contribute to something|Everyone contributed.|Todos contribuyeron.
+convert|convertir|verbo|convert A into B|Convert it to PDF.|Conviértelo a PDF.
+correct|corregir|verbo|correct me if I'm wrong|Correct me if I'm wrong.|Corrígeme si me equivoco.
+criticize|criticar|verbo|criticise en inglés británico|Don't criticize.|No critiques.
+declare|declarar|verbo|declare income|Do you have anything to declare?|¿Tiene algo que declarar?
+define|definir|verbo|define a term|Define the scope.|Define el alcance.
+demonstrate|demostrar|verbo|demonstrate how|Let me demonstrate.|Déjame demostrarlo.
+detect|detectar|verbo|detect an error|We detected an issue.|Detectamos un problema.
+determine|determinar|verbo|determine the cause|Determine the root cause.|Determina la causa raíz.
+disagree|no estar de acuerdo|verbo|disagree with someone|I disagree.|No estoy de acuerdo.
+disappear|desaparecer|verbo|it disappeared|The file disappeared.|El archivo desapareció.
+distribute|distribuir|verbo|distribute among|Distribute the tasks.|Distribuye las tareas.
+document|documentar|verbo|document a process|Document everything.|Documenta todo.
+edit|editar|verbo|edit a file|Edit the document.|Edita el documento.
+educate|educar|verbo|educate someone about|Educate your team.|Capacita a tu equipo.
+eliminate|eliminar|verbo|eliminate errors|Eliminate the duplicates.|Elimina los duplicados.
+emphasize|enfatizar|verbo|emphasise en inglés británico|I want to emphasize this.|Quiero enfatizar esto.
+enable|habilitar|verbo|enable a feature|Enable the option.|Habilita la opción.
+encourage|animar|verbo|encourage someone to|I encourage you to try.|Te animo a intentarlo.
+engage|involucrar|verbo|engage with someone|Engage with the team.|Involúcrate con el equipo.
+ensure|asegurar|verbo|ensure that|Ensure it works.|Asegúrate de que funcione.
+establish|establecer|verbo|establish a process|We established a rule.|Establecimos una regla.
+estimate|estimar|verbo|an estimate = un estimado|Estimate the cost.|Estima el costo.
+evaluate|evaluar|verbo|evaluate results|Evaluate the options.|Evalúa las opciones.
+examine|examinar|verbo|examine closely|Examine the data.|Examina los datos.
+exchange|intercambiar|verbo|exchange A for B|Can I exchange this?|¿Puedo cambiar esto?
+exclude|excluir|verbo|exclude from|Exclude the outliers.|Excluye los valores atípicos.
+expose|exponer|verbo|be exposed to|Expose yourself to English.|Exponte al inglés.
+extend|extender|verbo|extend a deadline|Can we extend the deadline?|¿Podemos extender el plazo?
+extract|extraer|verbo|extract data from|Extract the data.|Extrae los datos.
+focus|enfocar|verbo|focus ON something|Focus on this.|Enfócate en esto.
+generate|generar|verbo|generate a report|Generate the report.|Genera el informe.
+guarantee|garantizar|verbo|guarantee that|I can't guarantee it.|No puedo garantizarlo.
+guide|guiar|verbo|a guide · guide someone|Let me guide you.|Déjame guiarte.
+highlight|resaltar|verbo|highlight a point|Highlight the key rows.|Resalta las filas clave.
+ignore|ignorar|verbo|ignore a message|Just ignore it.|Solo ignóralo.
+illustrate|ilustrar|verbo|illustrate a point|This illustrates the problem.|Esto ilustra el problema.
+implement|implementar|verbo|implement a solution|We implemented the fix.|Implementamos el arreglo.
+imply|implicar|verbo|imply that|Are you implying something?|¿Estás insinuando algo?
+impress|impresionar|verbo|be impressed by|I'm impressed.|Estoy impresionado.
+influence|influir|verbo|influence someone|It influenced my decision.|Influyó en mi decisión.
+initiate|iniciar|verbo|formal · start es más común|Initiate the process.|Inicia el proceso.
+inspire|inspirar|verbo|inspire someone to|You inspire me.|Me inspiras.
+install|instalar|verbo|install software|Install the update.|Instala la actualización.
+integrate|integrar|verbo|integrate with|Integrate both systems.|Integra ambos sistemas.
+interpret|interpretar|verbo|interpret data|How do you interpret this?|¿Cómo interpretas esto?
+interrupt|interrumpir|verbo|sorry to interrupt|Sorry to interrupt.|Perdón por interrumpir.
+investigate|investigar|verbo|investigate a case|We're investigating.|Estamos investigando.
+launch|lanzar|verbo|launch a product|We launch next month.|Lanzamos el próximo mes.
+locate|ubicar|verbo|be located in|Where is it located?|¿Dónde está ubicado?
+maintain|mantener|verbo|maintain a system|Maintain the standard.|Mantén el estándar.
+minimize|minimizar|verbo|minimise en inglés británico|Minimize the risk.|Minimiza el riesgo.
+modify|modificar|verbo|modify a file|Don't modify the original.|No modifiques el original.
+monitor|monitorear|verbo|monitor progress|Monitor the results.|Monitorea los resultados.
+negotiate|negociar|verbo|negotiate with someone|Let's negotiate.|Negociemos.
+observe|observar|verbo|observe a pattern|We observed a pattern.|Observamos un patrón.
+obtain|obtener|verbo|formal · get es más común|Obtain the approval.|Obtén la aprobación.
+operate|operar|verbo|operate a machine|How do you operate it?|¿Cómo se opera?
+participate|participar|verbo|participate IN something|Participate in the meeting.|Participa en la reunión.
+persuade|persuadir|verbo|persuade someone to|You persuaded me.|Me persuadiste.
+predict|predecir|verbo|predict results|Hard to predict.|Difícil de predecir.
+prioritize|priorizar|verbo|prioritise en inglés británico|Prioritize the tasks.|Prioriza las tareas.
+proceed|proceder|verbo|proceed with something|Let's proceed.|Procedamos.
+promote|promover / ascender|verbo|be promoted|She got promoted.|La ascendieron.
+propose|proponer|verbo|propose a solution|I propose a change.|Propongo un cambio.
+purchase|comprar|verbo|formal · buy es más común|Complete the purchase.|Completa la compra.
+qualify|calificar|verbo|qualify for something|Do I qualify?|¿Califico?
+quit|renunciar / dejar|verbo|pasado: quit · quit smoking|I quit my job.|Renuncié a mi trabajo.
+react|reaccionar|verbo|react to something|How did they react?|¿Cómo reaccionaron?
+recover|recuperar|verbo|recover from|I'm recovering.|Me estoy recuperando.
+register|registrar|verbo|register for something|Register for the course.|Regístrate al curso.
+regret|arrepentirse|verbo|regret + -ing|I regret nothing.|No me arrepiento de nada.
+relate|relacionar|verbo|relate to something|I can relate to that.|Me identifico con eso.
+represent|representar|verbo|represent a company|I represent the team.|Represento al equipo.
+request|solicitar|verbo|a request · request that|Submit your request.|Envía tu solicitud.
+resolve|resolver|verbo|resolve an issue|We resolved it.|Lo resolvimos.
+respect|respetar|verbo|respect someone|I respect your decision.|Respeto tu decisión.
+retire|jubilarse|verbo|retire from work|He retired last year.|Se jubiló el año pasado.
+reveal|revelar|verbo|reveal information|The data reveals a trend.|Los datos revelan una tendencia.
+satisfy|satisfacer|verbo|be satisfied with|Are you satisfied?|¿Estás satisfecho?
+score|anotar / puntaje|verbo|a high score|What's the score?|¿Cómo va el marcador?
+secure|asegurar|verbo|secure a deal|Secure the connection.|Asegura la conexión.
+seek|buscar|verbo|pasado: sought · formal|We seek new talent.|Buscamos nuevo talento.
+simplify|simplificar|verbo|simplify a process|Simplify the process.|Simplifica el proceso.
+specify|especificar|verbo|specify a requirement|Please specify.|Por favor especifica.
+submit|enviar / presentar|verbo|submit a form|Submit the report.|Envía el informe.
+substitute|sustituir|verbo|substitute A for B|Substitute this value.|Sustituye este valor.
+summarize|resumir|verbo|summarise en inglés británico|Can you summarize?|¿Puedes resumir?
+survey|encuestar|verbo|conduct a survey|We surveyed 100 users.|Encuestamos a 100 usuarios.
+sustain|sostener|verbo|sustainable = sostenible|Can we sustain this?|¿Podemos sostener esto?
+target|apuntar a|verbo|a target audience|Target the right users.|Apunta a los usuarios correctos.
+transfer|transferir|verbo|transfer to an account|Transfer the funds.|Transfiere los fondos.
+transform|transformar|verbo|transform data|It transformed the business.|Transformó el negocio.
+upgrade|mejorar (versión)|verbo|upgrade to a new version|Upgrade your plan.|Mejora tu plan.
+validate|validar|verbo|validate data|Validate the input.|Valida la entrada.
+verify|verificar|verbo|verify the source|Verify the numbers.|Verifica los números.
+view|ver / vista|verbo|point of view = punto de vista|In my view.|En mi opinión.
+visit|visitar|verbo|visit a place · a visit|Come visit us.|Ven a visitarnos.
+vote|votar|verbo|vote for someone|Let's vote.|Votemos.
+accident|accidente|sust|by accident = por accidente|It was an accident.|Fue un accidente.
+action|acción|sust|take action|Take action now.|Actúa ahora.
+activity|actividad|sust|plural: activities|What activities?|¿Cuáles actividades?
+advantage|ventaja|sust|take advantage of|That's an advantage.|Eso es una ventaja.
+advice|consejo|sust|INCONTABLE: nunca advices|Give me some advice.|Dame un consejo.
+age|edad|sust|at the age of|At what age?|¿A qué edad?
+air|aire|sust|incontable · in the air|Fresh air.|Aire fresco.
+alternative|alternativa|sust|an alternative to|Is there an alternative?|¿Hay una alternativa?
+analysis|análisis|sust|plural: analyses|The analysis is done.|El análisis está listo.
+attempt|intento|sust|make an attempt|On my first attempt.|En mi primer intento.
+attitude|actitud|sust|a positive attitude|Great attitude.|Excelente actitud.
+audience|público|sust|a target audience|Know your audience.|Conoce a tu público.
+authority|autoridad|sust|the authorities = las autoridades|Who has the authority?|¿Quién tiene la autoridad?
+balance|equilibrio|sust|work-life balance|Find the balance.|Encuentra el equilibrio.
+behavior|comportamiento|sust|behaviour en inglés británico|Strange behavior.|Comportamiento extraño.
+benefit|beneficio|sust|benefit from|What are the benefits?|¿Cuáles son los beneficios?
+board|junta / tablero|sust|on board = a bordo|The board approved it.|La junta lo aprobó.
+brand|marca|sust|brand name|It's a strong brand.|Es una marca fuerte.
+capacity|capacidad|sust|at full capacity|We're at full capacity.|Estamos a capacidad máxima.
+category|categoría|sust|plural: categories|Which category?|¿Cuál categoría?
+character|carácter / personaje|sust|a character in a story|He has good character.|Tiene buen carácter.
+choice|elección|sust|make a choice · have no choice|It's your choice.|Es tu decisión.
+circumstance|circunstancia|sust|under the circumstances|Under these circumstances.|Bajo estas circunstancias.
+community|comunidad|sust|plural: communities|A strong community.|Una comunidad fuerte.
+concept|concepto|sust|a key concept|I get the concept.|Entiendo el concepto.
+concern|preocupación|sust|to whom it may concern|That's my concern.|Esa es mi preocupación.
+condition|condición|sust|in good condition · on the condition|In perfect condition.|En perfecto estado.
+conflict|conflicto|sust|a conflict of interest|There's a conflict.|Hay un conflicto.
+connection|conexión|sust|a slow connection|The connection is bad.|La conexión está mala.
+consequence|consecuencia|sust|as a consequence|Face the consequences.|Enfrenta las consecuencias.
+content|contenido|sust|CON-tent = contenido · con-TENT = satisfecho|Great content.|Excelente contenido.
+context|contexto|sust|in context · out of context|In this context.|En este contexto.
+crisis|crisis|sust|plural: crises|It's a crisis.|Es una crisis.
+culture|cultura|sust|company culture|Company culture matters.|La cultura de empresa importa.
+currency|moneda|sust|foreign currency|Which currency?|¿Qué moneda?
+damage|daño|sust|INCONTABLE · do damage|The damage is done.|El daño está hecho.
+danger|peligro|sust|in danger · dangerous|There's no danger.|No hay peligro.
+description|descripción|sust|a job description|Read the description.|Lee la descripción.
+difference|diferencia|sust|make a difference|What's the difference?|¿Cuál es la diferencia?
+direction|dirección (rumbo)|sust|in the right direction|Which direction?|¿En qué dirección?
+discussion|discusión (charla)|sust|have a discussion|A good discussion.|Una buena conversación.
+distance|distancia|sust|in the distance · long-distance|What's the distance?|¿Cuál es la distancia?
+economy|economía|sust|the global economy|The economy is growing.|La economía está creciendo.
+edge|borde / ventaja|sust|cutting edge = vanguardia|On the edge.|Al borde.
+effect|efecto|sust|effect = sustantivo · affect = verbo|The side effects.|Los efectos secundarios.
+element|elemento|sust|a key element|A key element.|Un elemento clave.
+emotion|emoción|sust|show emotion|Control your emotions.|Controla tus emociones.
+environment|entorno|sust|the work environment|A good work environment.|Un buen ambiente laboral.
+equipment|equipo (aparatos)|sust|INCONTABLE: nunca equipments|We need new equipment.|Necesitamos equipos nuevos.
+evidence|evidencia|sust|INCONTABLE: nunca evidences|There's no evidence.|No hay evidencia.
+expense|gasto|sust|at my expense|Travel expenses.|Gastos de viaje.
+factor|factor|sust|a key factor|That's a big factor.|Ese es un factor importante.
+failure|fracaso|sust|failure to + verbo|Failure is part of it.|El fracaso es parte del proceso.
+feature|característica|sust|a new feature|I like that feature.|Me gusta esa función.
+form|formulario / forma|sust|fill out a form|Complete the form.|Llena el formulario.
+freedom|libertad|sust|freedom of speech|Freedom of choice.|Libertad de elección.
+function|función|sust|a function of|What's its function?|¿Cuál es su función?
+habit|hábito|sust|a good habit · break a habit|It's just a habit.|Es solo un hábito.
+impact|impacto|sust|have an impact on|A big impact.|Un gran impacto.
+importance|importancia|sust|the importance of|The importance of practice.|La importancia de practicar.
+improvement|mejora|sust|an improvement in|A big improvement.|Una gran mejora.
+income|ingreso|sust|monthly income|My monthly income.|Mi ingreso mensual.
+instance|instancia / caso|sust|for instance = por ejemplo|For instance, this one.|Por ejemplo, este.
+insurance|seguro|sust|INCONTABLE · health insurance|Do you have insurance?|¿Tienes seguro?
+intention|intención|sust|have the intention to|That wasn't my intention.|Esa no era mi intención.
+interest|interés|sust|be interested in · interest rate|It's in your interest.|Es en tu interés.
+item|artículo / ítem|sust|an item on a list|Each item counts.|Cada ítem cuenta.
+journey|viaje / trayecto|sust|journey = el trayecto · trip = ida y vuelta|It's a long journey.|Es un trayecto largo.
+justice|justicia|sust|incontable|Justice for all.|Justicia para todos.
+lack|falta|sust|lack OF something|A lack of time.|Falta de tiempo.
+majority|mayoría|sust|the majority of|The majority agreed.|La mayoría estuvo de acuerdo.
+manner|manera|sust|in a manner of speaking|In a professional manner.|De manera profesional.
+material|material|sust|raw materials|What material is it?|¿De qué material es?
+means|medio|sust|by means of · by all means|By all means.|Por supuesto.
+memory|memoria / recuerdo|sust|plural: memories|Good memories.|Buenos recuerdos.
+method|método|sust|a method for|What method do you use?|¿Qué método usas?
+model|modelo|sust|a business model|A new model.|Un modelo nuevo.
+motivation|motivación|sust|incontable|I lost motivation.|Perdí la motivación.
+occasion|ocasión|sust|on this occasion|On several occasions.|En varias ocasiones.
+operation|operación|sust|in operation|The operation was a success.|La operación fue un éxito.
+opinion|opinión|sust|in my opinion = en mi opinión|What's your opinion?|¿Cuál es tu opinión?
+outcome|resultado|sust|the outcome of|A good outcome.|Un buen resultado.
+owner|dueño|sust|the owner of|Who's the owner?|¿Quién es el dueño?
+pattern|patrón|sust|a pattern in the data|I see a pattern.|Veo un patrón.
+period|período|sust|over a period of|During that period.|Durante ese período.
+permission|permiso|sust|INCONTABLE · ask for permission|Ask for permission.|Pide permiso.
+perspective|perspectiva|sust|from my perspective|A new perspective.|Una nueva perspectiva.
+pressure|presión|sust|under pressure|I'm under pressure.|Estoy bajo presión.
+priority|prioridad|sust|top priority|That's my priority.|Esa es mi prioridad.
+procedure|procedimiento|sust|standard procedure|Follow the procedure.|Sigue el procedimiento.
+proof|prueba|sust|INCONTABLE · proof of|Do you have proof?|¿Tienes pruebas?
+property|propiedad|sust|plural: properties|It's private property.|Es propiedad privada.
+proposal|propuesta|sust|submit a proposal|Send the proposal.|Envía la propuesta.
+purpose|propósito|sust|on purpose = a propósito|What's the purpose?|¿Cuál es el propósito?
+reality|realidad|sust|in reality = en realidad|The reality is different.|La realidad es distinta.
+region|región|sust|in the region of|In this region.|En esta región.
+relationship|relación|sust|a working relationship|A good relationship.|Una buena relación.
+requirement|requisito|sust|meet the requirements|What are the requirements?|¿Cuáles son los requisitos?
+response|respuesta|sust|in response to|I got a response.|Recibí una respuesta.
+route|ruta|sust|se pronuncia rut o raut|The fastest route.|La ruta más rápida.
+safety|seguridad (física)|sust|safety first|Safety first.|La seguridad primero.
+sample|muestra|sust|a sample size|Take a sample.|Toma una muestra.
+scale|escala|sust|on a large scale|On a small scale.|A pequeña escala.
+scope|alcance|sust|out of scope|That's out of scope.|Eso está fuera del alcance.
+security|seguridad (protección)|sust|data security|Security is important.|La seguridad es importante.
+sense|sentido|sust|make sense = tener sentido|That makes sense.|Eso tiene sentido.
+series|serie|sust|singular y plural igual|A series of steps.|Una serie de pasos.
+session|sesión|sust|a training session|A short session.|Una sesión corta.
+setting|configuración|sust|settings = ajustes|Change the settings.|Cambia la configuración.
+situation|situación|sust|in this situation|A difficult situation.|Una situación difícil.
+society|sociedad|sust|in society|Modern society.|La sociedad moderna.
+space|espacio|sust|make space for|We need more space.|Necesitamos más espacio.
+speed|velocidad|sust|at full speed|What's the speed?|¿Cuál es la velocidad?
+staff|personal|sust|SIEMPRE plural: staff ARE|The staff are ready.|El personal está listo.
+statement|declaración|sust|a bank statement|Make a statement.|Haz una declaración.
+status|estado|sust|the current status|What's the status?|¿Cuál es el estado?
+structure|estructura|sust|sentence structure|The structure is clear.|La estructura es clara.
+success|éxito|sust|NO es suceso (event)|It was a success.|Fue un éxito.
+suggestion|sugerencia|sust|make a suggestion|Any suggestions?|¿Alguna sugerencia?
+surface|superficie|sust|on the surface|On the surface it looks fine.|En la superficie se ve bien.
+technique|técnica|sust|a good technique|Learn the technique.|Aprende la técnica.
+technology|tecnología|sust|incontable en general|New technology.|Tecnología nueva.
+term|término / plazo|sust|long-term · in terms of|In the long term.|A largo plazo.
+theory|teoría|sust|in theory = en teoría|In theory, yes.|En teoría, sí.
+threat|amenaza|sust|a threat to|It's not a threat.|No es una amenaza.
+topic|tema|sust|off topic = fuera de tema|Change the topic.|Cambia de tema.
+traffic|tráfico|sust|INCONTABLE · heavy traffic|The traffic is bad.|El tráfico está pesado.
+treatment|tratamiento|sust|a medical treatment|The treatment worked.|El tratamiento funcionó.
+trouble|problema|sust|INCONTABLE · be in trouble|I'm in trouble.|Estoy en problemas.
+truth|verdad|sust|tell the truth|Tell me the truth.|Dime la verdad.
+unit|unidad|sust|a unit of measure|Which unit?|¿Qué unidad?
+user|usuario|sust|user experience|The user is confused.|El usuario está confundido.
+variety|variedad|sust|a variety of|A wide variety.|Una gran variedad.
+volume|volumen|sust|turn up the volume|High volume.|Volumen alto.
+warning|advertencia|sust|a warning sign|That's a warning.|Eso es una advertencia.
+wealth|riqueza|sust|incontable|Wealth and health.|Riqueza y salud.
+weight|peso|sust|lose weight · gain weight|What's the weight?|¿Cuál es el peso?
+width|ancho|sust|wide = ancho (adjetivo)|The width of the table.|El ancho de la mesa.
+worth|valor|adj|it's worth it = vale la pena|It's worth trying.|Vale la pena intentar.
+absolute|absoluto|adj|absolutely = absolutamente|An absolute must.|Algo absolutamente necesario.
+accurate|preciso|adj|accurate data|Is the data accurate?|¿Los datos son precisos?
+active|activo|adj|be active in|Stay active.|Mantente activo.
+actual|real|adj|NO es actual (current)|The actual number is higher.|El número real es más alto.
+additional|adicional|adj|additional cost|No additional cost.|Sin costo adicional.
+adequate|adecuado|adj|adequate for|That's adequate.|Eso es adecuado.
+alive|vivo|adj|va después del verbo, no antes|He's still alive.|Sigue vivo.
+annual|anual|adj|annual report|The annual report.|El informe anual.
+appropriate|apropiado|adj|appropriate for|That's not appropriate.|Eso no es apropiado.
+aware|consciente|adj|be aware of|Are you aware of that?|¿Estás al tanto de eso?
+brief|breve|adj|in brief · briefly|Keep it brief.|Sé breve.
+capable|capaz|adj|capable OF + -ing|You're capable of this.|Eres capaz de esto.
+central|central|adj|central to something|The central issue.|El tema central.
+certain|cierto / seguro|adj|be certain of|I'm certain.|Estoy seguro.
+civil|civil|adj|civil rights|Civil engineering.|Ingeniería civil.
+complex|complejo|adj|a complex system|It's more complex.|Es más complejo.
+constant|constante|adj|constantly = constantemente|Constant improvement.|Mejora constante.
+critical|crítico|adj|critical thinking|It's critical.|Es crítico.
+current|actual|adj|currently = actualmente|The current version.|La versión actual.
+daily|diario|adj|daily routine|My daily routine.|Mi rutina diaria.
+digital|digital|adj|digital transformation|Digital tools.|Herramientas digitales.
+direct|directo|adj|directly = directamente|A direct answer.|Una respuesta directa.
+effective|eficaz|adj|effective at + -ing|A very effective method.|Un método muy eficaz.
+efficient|eficiente|adj|efficient ≠ effective|Be more efficient.|Sé más eficiente.
+electric|eléctrico|adj|electricity = electricidad|An electric car.|Un carro eléctrico.
+equal|igual|adj|equal to · equally|Equal opportunities.|Igualdad de oportunidades.
+essential|esencial|adj|it's essential to|That's essential.|Eso es esencial.
+exact|exacto|adj|exactly = exactamente|The exact number.|El número exacto.
+extreme|extremo|adj|extremely = extremadamente|An extreme case.|Un caso extremo.
+familiar|familiar (conocido)|adj|familiar WITH something|Are you familiar with it?|¿Lo conoces?
+final|final|adj|finally = finalmente|That's my final answer.|Esa es mi respuesta final.
+financial|financiero|adj|financial statements|Financial results.|Resultados financieros.
+flexible|flexible|adj|flexible hours|We're flexible.|Somos flexibles.
+foreign|extranjero|adj|la g es muda: fórin|A foreign language.|Un idioma extranjero.
+former|anterior|adj|my former boss|My former company.|Mi empresa anterior.
+formal|formal|adj|formally = formalmente|A formal request.|Una solicitud formal.
+frequent|frecuente|adj|frequently = frecuentemente|A frequent problem.|Un problema frecuente.
+global|global|adj|globally = globalmente|A global market.|Un mercado global.
+gradual|gradual|adj|gradually = poco a poco|A gradual change.|Un cambio gradual.
+huge|enorme|adj|más fuerte que big|A huge difference.|Una diferencia enorme.
+ideal|ideal|adj|ideally = idealmente|The ideal candidate.|El candidato ideal.
+illegal|ilegal|adj|legal = legal|That's illegal.|Eso es ilegal.
+immediate|inmediato|adj|immediately = de inmediato|An immediate response.|Una respuesta inmediata.
+impossible|imposible|adj|it's impossible to|Nothing is impossible.|Nada es imposible.
+independent|independiente|adj|independent of|Be independent.|Sé independiente.
+individual|individual|adj|an individual = una persona|Individual results.|Resultados individuales.
+initial|inicial|adj|initially = inicialmente|The initial plan.|El plan inicial.
+inner|interno|adj|inner circle|Inner strength.|Fuerza interior.
+instant|instantáneo|adj|instantly = al instante|Instant results.|Resultados instantáneos.
+intelligent|inteligente|adj|smart es más coloquial|She's very intelligent.|Ella es muy inteligente.
+internal|interno|adj|internal ≠ external|An internal issue.|Un problema interno.
+international|internacional|adj|international business|An international team.|Un equipo internacional.
+legal|legal|adj|legally = legalmente|It's legal here.|Aquí es legal.
+local|local|adj|locally = localmente|A local business.|Un negocio local.
+logical|lógico|adj|logically = lógicamente|That's logical.|Eso es lógico.
+massive|masivo|adj|massive = enorme|A massive change.|Un cambio enorme.
+mental|mental|adj|mental health|Mental health matters.|La salud mental importa.
+modern|moderno|adj|modern technology|A modern approach.|Un enfoque moderno.
+multiple|múltiple|adj|multiple options|Multiple reasons.|Múltiples razones.
+narrow|estrecho|adj|narrow ≠ wide|A narrow street.|Una calle estrecha.
+national|nacional|adj|nationally = nacionalmente|A national holiday.|Un feriado nacional.
+natural|natural|adj|naturally = naturalmente|It sounds natural.|Suena natural.
+negative|negativo|adj|a negative impact|A negative result.|Un resultado negativo.
+nervous|nervioso|adj|nervous about|I'm nervous.|Estoy nervioso.
+obvious|obvio|adj|obviously = obviamente|It's obvious.|Es obvio.
+official|oficial|adj|officially = oficialmente|It's official.|Es oficial.
+online|en línea|adj|be online · go online|I work online.|Trabajo en línea.
+opposite|opuesto|adj|the opposite of|The opposite is true.|Lo contrario es cierto.
+original|original|adj|originally = originalmente|The original file.|El archivo original.
+outside|afuera|adv|outside ≠ inside|Let's go outside.|Salgamos afuera.
+overall|general|adj|overall results|Overall, it went well.|En general, salió bien.
+personal|personal|adj|personally = personalmente|It's personal.|Es personal.
+physical|físico|adj|physical activity|Physical health.|Salud física.
+political|político|adj|politics = la política|A political issue.|Un tema político.
+poor|pobre|adj|poor quality = mala calidad|Poor performance.|Bajo desempeño.
+popular|popular|adj|popular with|It's very popular.|Es muy popular.
+positive|positivo|adj|be positive = estar seguro|Stay positive.|Mantente positivo.
+potential|potencial|adj|a potential problem|Great potential.|Gran potencial.
+practical|práctico|adj|practically = prácticamente|A practical solution.|Una solución práctica.
+previous|anterior|adj|previously = anteriormente|The previous version.|La versión anterior.
+primary|primario|adj|primarily = principalmente|The primary goal.|El objetivo principal.
+private|privado|adj|privately = en privado|A private meeting.|Una reunión privada.
+professional|profesional|adj|professionally = profesionalmente|Be professional.|Sé profesional.
+public|público|adj|in public · publicly|A public event.|Un evento público.
+rare|raro (poco común)|adj|rarely = rara vez|That's rare.|Eso es raro.
+recent|reciente|adj|recently = recientemente|A recent change.|Un cambio reciente.
+regular|regular|adj|regularly = regularmente|A regular customer.|Un cliente frecuente.
+relevant|relevante|adj|relevant TO something|Is that relevant?|¿Eso es relevante?
+reliable|confiable|adj|a reliable source|A reliable source.|Una fuente confiable.
+responsible|responsable|adj|responsible FOR|Who's responsible?|¿Quién es responsable?
+scientific|científico|adj|scientific method|Scientific evidence.|Evidencia científica.
+sensitive|sensible|adj|NO es sensato (sensible)|Sensitive information.|Información sensible.
+severe|severo|adj|severely = severamente|A severe problem.|Un problema severo.
+sharp|afilado / agudo|adj|sharp increase|A sharp increase.|Un aumento marcado.
+significant|significativo|adj|significantly = significativamente|A significant change.|Un cambio significativo.
+smart|inteligente / listo|adj|smart phone · smart move|That's a smart move.|Esa es una jugada inteligente.
+social|social|adj|social media|Social skills.|Habilidades sociales.
+solid|sólido|adj|a solid plan|A solid argument.|Un argumento sólido.
+special|especial|adj|specially = especialmente|Nothing special.|Nada especial.
+stable|estable|adj|stability = estabilidad|A stable connection.|Una conexión estable.
+successful|exitoso|adj|successfully = exitosamente|A successful project.|Un proyecto exitoso.
+sufficient|suficiente|adj|enough es más común|That's sufficient.|Eso es suficiente.
+suitable|adecuado|adj|suitable FOR|Is it suitable?|¿Es adecuado?
+technical|técnico|adj|technically = técnicamente|A technical problem.|Un problema técnico.
+temporary|temporal|adj|temporarily = temporalmente|It's temporary.|Es temporal.
+thick|grueso|adj|thick ≠ thin|A thick book.|Un libro grueso.
+thin|delgado|adj|thin ≠ fat|A thin line.|Una línea delgada.
+tiny|diminuto|adj|más pequeño que small|A tiny detail.|Un detalle diminuto.
+traditional|tradicional|adj|traditionally = tradicionalmente|The traditional way.|La manera tradicional.
+typical|típico|adj|typically = típicamente|That's typical.|Eso es típico.
+unique|único|adj|unique to something|It's unique.|Es único.
+universal|universal|adj|universally = universalmente|A universal rule.|Una regla universal.
+unusual|inusual|adj|unusually = inusualmente|That's unusual.|Eso es inusual.
+urgent|urgente|adj|urgently = urgentemente|It's urgent.|Es urgente.
+valid|válido|adj|a valid point|That's a valid point.|Ese es un buen punto.
+valuable|valioso|adj|valuable information|Valuable feedback.|Retroalimentación valiosa.
+virtual|virtual|adj|virtually = prácticamente|A virtual meeting.|Una reunión virtual.
+visible|visible|adj|visibly = visiblemente|It's not visible.|No es visible.
+visual|visual|adj|visually = visualmente|A visual learner.|Un aprendiz visual.
+vital|vital|adj|vitally = vitalmente|It's vital.|Es vital.
+wide|ancho|adj|widely = ampliamente|A wide range.|Una amplia gama.
+wise|sabio|adj|wisely = sabiamente|That's a wise choice.|Es una elección sabia.
+above all|sobre todo|expr|introduce lo más importante|Above all, be honest.|Sobre todo, sé honesto.
+after all|después de todo|expr|cierra una justificación|After all, we tried.|Después de todo, lo intentamos.
+as well|también|expr|va al final de la frase|I'm going as well.|Yo también voy.
+as well as|así como|expr|conecta dos elementos|Speed as well as quality.|Velocidad así como calidad.
+at least|al menos|expr|at least + cantidad|At least ten people.|Al menos diez personas.
+at last|por fin|expr|expresa alivio|At last, we finished.|Por fin terminamos.
+by the way|por cierto|expr|BTW en escritura informal|By the way, I called you.|Por cierto, te llamé.
+for example|por ejemplo|expr|e.g. en escritura|For example, this case.|Por ejemplo, este caso.
+in fact|de hecho|expr|refuerza o corrige|In fact, it's easier.|De hecho, es más fácil.
+in general|en general|expr|abre una generalización|In general, it works.|En general, funciona.
+in order to|para|expr|más formal que to solo|In order to succeed.|Para tener éxito.
+in other words|en otras palabras|expr|reformula lo dicho|In other words, no.|En otras palabras, no.
+in particular|en particular|expr|destaca un caso|This one in particular.|Este en particular.
+in spite of|a pesar de|expr|in spite of + sustantivo|In spite of the rain.|A pesar de la lluvia.
+instead of|en vez de|expr|instead of + sustantivo o -ing|Instead of waiting.|En vez de esperar.
+no longer|ya no|expr|va antes del verbo|I no longer work there.|Ya no trabajo allí.
+on the other hand|por otro lado|expr|contrapone dos ideas|On the other hand, it's cheaper.|Por otro lado, es más barato.
+on time|a tiempo|expr|on time ≠ in time|Be on time.|Llega a tiempo.
+in time|justo a tiempo|expr|con margen suficiente|We arrived just in time.|Llegamos justo a tiempo.
+right now|ahora mismo|expr|pide presente continuo|I'm working right now.|Estoy trabajando ahora mismo.
+so far|hasta ahora|expr|pide presente perfecto|So far, so good.|Hasta ahora, todo bien.
+such as|tal como|expr|introduce ejemplos|Tools such as Excel.|Herramientas como Excel.
+that's why|por eso|expr|introduce la consecuencia|That's why I called.|Por eso llamé.
+up to|hasta|expr|up to you = tú decides|It's up to you.|Tú decides.
+as soon as|tan pronto como|expr|después NUNCA va will|As soon as I arrive.|Tan pronto llegue.
+as long as|siempre que|expr|condición|As long as it works.|Siempre que funcione.
+even though|aunque|expr|even though + frase|Even though it's hard.|Aunque sea difícil.
+in case|por si acaso|expr|in case + presente|Take it in case it rains.|Llévalo por si llueve.
+rather than|en lugar de|expr|prefiere una opción|Rather than waiting.|En lugar de esperar.
+as far as|hasta donde|expr|as far as I know = que yo sepa|As far as I know, yes.|Que yo sepa, sí.
+kind of|medio / como|expr|suaviza lo que dices|It's kind of hard.|Es medio difícil.
+a lot of|mucho|expr|sirve para contables e incontables|A lot of work.|Mucho trabajo.
+a bit|un poco|expr|a bit + adjetivo|It's a bit late.|Es un poco tarde.
+a little|un poco|expr|a little + incontable|A little sugar.|Un poco de azúcar.
+a few|unos cuantos|expr|a few + contable plural|A few minutes.|Unos minutos.
+no matter|no importa|expr|no matter what / how|No matter what happens.|Pase lo que pase.
+as usual|como siempre|expr|cierra o abre la frase|As usual, he was late.|Como siempre, llegó tarde.
+at the same time|al mismo tiempo|expr|simultáneo o contraste|At the same time, be careful.|Al mismo tiempo, ten cuidado.
+in advance|por adelantado|expr|thanks in advance|Thanks in advance.|Gracias de antemano.
+on average|en promedio|expr|abre un dato|On average, two hours.|En promedio, dos horas.
+on purpose|a propósito|expr|intencionalmente|I didn't do it on purpose.|No lo hice a propósito.
+at once|de inmediato / a la vez|expr|all at once = todo de golpe|Do it at once.|Hazlo de inmediato.
+by far|por mucho|expr|refuerza un superlativo|By far the best.|Por mucho, el mejor.
+after a while|después de un rato|expr|narración|After a while, it stopped.|Después de un rato, paró.
+from now on|de ahora en adelante|expr|marca un cambio|From now on, I'll practice daily.|De ahora en adelante practicaré a diario.
+once in a while|de vez en cuando|expr|frecuencia baja|Once in a while.|De vez en cuando.
+all the time|todo el tiempo|expr|frecuencia máxima|It happens all the time.|Pasa todo el tiempo.
+most of the time|la mayor parte del tiempo|expr|frecuencia alta|Most of the time it works.|La mayor parte del tiempo funciona.
+at the moment|en este momento|expr|equivale a right now|Not at the moment.|En este momento no.
+these days|hoy en día|expr|pide presente simple|These days everything is online.|Hoy en día todo es en línea.
+back then|en ese entonces|expr|pide pasado|Back then it was different.|En ese entonces era distinto.
+sooner or later|tarde o temprano|expr|orden fijo, no al revés|Sooner or later.|Tarde o temprano.
+more or less|más o menos|expr|aproximación|More or less ten.|Más o menos diez.
+over and over|una y otra vez|expr|repetición|I said it over and over.|Lo dije una y otra vez.
+little by little|poco a poco|expr|progreso gradual|Little by little.|Poco a poco.
+step by step|paso a paso|expr|instrucciones|Step by step.|Paso a paso.
+face to face|cara a cara|expr|reunión presencial|Let's talk face to face.|Hablemos cara a cara.
+side by side|lado a lado|expr|comparación|Compare them side by side.|Compáralos lado a lado.
+around the corner|a la vuelta|expr|cerca en espacio o tiempo|It's just around the corner.|Está a la vuelta.
+out of order|dañado|expr|máquinas y aparatos|The elevator is out of order.|El ascensor está dañado.
+out of stock|agotado|expr|productos|It's out of stock.|Está agotado.
+on sale|en oferta|expr|for sale = en venta|It's on sale.|Está en oferta.
+for sale|en venta|expr|for sale ≠ on sale|The house is for sale.|La casa está en venta.
+in charge of|a cargo de|expr|be in charge of|Who's in charge?|¿Quién está a cargo?
+in touch|en contacto|expr|keep in touch · get in touch|Let's keep in touch.|Mantengámonos en contacto.
+on my way|en camino|expr|respuesta cuando te esperan|I'm on my way.|Voy en camino.
+on the way|de camino|expr|on the way to|It's on the way.|Queda de camino.
+in a hurry|con prisa|expr|be in a hurry|I'm in a hurry.|Tengo prisa.
+out of date|desactualizado|expr|up to date = al día|The data is out of date.|Los datos están desactualizados.
+up to date|al día|expr|keep something up to date|Keep it up to date.|Mantenlo al día.
+on hold|en espera|expr|put someone on hold|Please hold.|Por favor espere.
+on board|a bordo / de acuerdo|expr|get someone on board|Everyone is on board.|Todos están de acuerdo.
+in person|en persona|expr|opuesto de online|Let's meet in person.|Reunámonos en persona.
+by heart|de memoria|expr|learn by heart|I know it by heart.|Me lo sé de memoria.
+by mistake|por error|expr|opuesto de on purpose|I did it by mistake.|Lo hice por error.
+on my own|por mi cuenta|expr|by myself es igual|I did it on my own.|Lo hice por mi cuenta.
+at first|al principio|expr|abre una narración|At first it was hard.|Al principio fue difícil.
+in the end|al final|expr|resultado final|In the end, it worked.|Al final, funcionó.
+at the end|al final de|expr|at the end OF something|At the end of the day.|Al final del día.
+first of all|antes que nada|expr|ordena una lista|First of all, thank you.|Antes que nada, gracias.
+last but not least|por último pero no menos importante|expr|cierra una lista|Last but not least, practice.|Por último, practica.
+to be honest|para ser sincero|expr|suaviza una opinión fuerte|To be honest, I disagree.|Para ser sincero, no coincido.
+in my opinion|en mi opinión|expr|IMO en escritura informal|In my opinion, it's fine.|En mi opinión, está bien.
+as I said|como dije|expr|retoma un punto|As I said before.|Como dije antes.
+you know|sabes|expr|muletilla conversacional|It's hard, you know?|Es difícil, ¿sabes?
+I mean|o sea|expr|reformula lo que dijiste|I mean, it's complicated.|O sea, es complicado.
+that is|es decir|expr|i.e. en escritura|That is, we need more time.|Es decir, necesitamos más tiempo.
+let's say|digamos|expr|introduce una hipótesis|Let's say it works.|Digamos que funciona.
+what if|y si|expr|what if + presente o pasado|What if it fails?|¿Y si falla?
+how come|cómo así|expr|NO lleva auxiliar después|How come you didn't call?|¿Cómo así que no llamaste?
+no way|ni de broma|expr|negación enfática|No way!|¡Ni loco!
+of course not|por supuesto que no|expr|negación cortés y firme|Of course not.|Por supuesto que no.
+not at all|para nada|expr|también significa de nada|Not at all.|Para nada.
+never mind|olvídalo|expr|cierra un tema|Never mind, it's fine.|Olvídalo, está bien.
+no worries|no hay problema|expr|respuesta a una disculpa|No worries.|No hay problema.
+my bad|culpa mía|expr|muy informal|My bad, sorry.|Culpa mía, perdón.
+good point|buen punto|expr|reconoce un argumento|That's a good point.|Ese es un buen punto.
+fair enough|me parece justo|expr|acepta un argumento|Fair enough.|Me parece justo.
+makes sense|tiene sentido|expr|that makes sense|That makes sense.|Eso tiene sentido.
+sounds good|suena bien|expr|acepta una propuesta|Sounds good to me.|Me parece bien.
+I see|ya veo|expr|confirma que entendiste|I see what you mean.|Ya veo lo que dices.
+got it|entendido|expr|muy usado en el trabajo|Got it, thanks.|Entendido, gracias.
+hold on|espera|expr|hold on a second|Hold on a second.|Espera un segundo.
+go ahead|adelante|expr|da permiso|Go ahead, ask me.|Adelante, pregúntame.
+take your time|tómate tu tiempo|expr|sin prisa|Take your time.|Tómate tu tiempo.
+what's up|qué tal|expr|saludo informal|Hey, what's up?|Hola, ¿qué tal?
+how's it going|cómo va todo|expr|saludo informal|How's it going?|¿Cómo va todo?
+went|fue / fui|verbo|pasado irregular de go|I went home early.|Me fui a casa temprano.
+gone|ido|verbo|participio de go · he's gone = se fue|He's already gone.|Ya se fue.
+came|vino|verbo|pasado de come|She came late.|Ella llegó tarde.
+got|consiguió|verbo|pasado de get · I've got = tengo|I got your message.|Recibí tu mensaje.
+made|hizo|verbo|pasado y participio de make|I made a mistake.|Cometí un error.
+took|tomó|verbo|pasado de take · participio: taken|It took two hours.|Tomó dos horas.
+saw|vio|verbo|pasado de see · participio: seen|I saw him yesterday.|Lo vi ayer.
+knew|sabía|verbo|pasado de know · participio: known|I knew it.|Lo sabía.
+thought|pensó|verbo|pasado de think · también sustantivo|I thought so.|Eso pensé.
+found|encontró|verbo|pasado de find|I found the file.|Encontré el archivo.
+gave|dio|verbo|pasado de give · participio: given|He gave me advice.|Me dio un consejo.
+told|dijo|verbo|pasado de tell|I told you.|Te lo dije.
+felt|sintió|verbo|pasado de feel|I felt tired.|Me sentí cansado.
+kept|mantuvo|verbo|pasado de keep|He kept quiet.|Se quedó callado.
+began|empezó|verbo|pasado de begin · participio: begun|It began last year.|Empezó el año pasado.
+brought|trajo|verbo|pasado de bring|I brought my laptop.|Traje mi portátil.
+bought|compró|verbo|pasado de buy|I bought it online.|Lo compré en línea.
+built|construyó|verbo|pasado de build|They built it fast.|Lo construyeron rápido.
+caught|atrapó|verbo|pasado de catch|I caught the bus.|Alcancé el bus.
+chose|eligió|verbo|pasado de choose · participio: chosen|I chose this one.|Elegí este.
+drove|condujo|verbo|pasado de drive · participio: driven|She drove to work.|Manejó al trabajo.
+ate|comió|verbo|pasado de eat · participio: eaten|I already ate.|Ya comí.
+fell|cayó|verbo|pasado de fall · participio: fallen|He fell asleep.|Se quedó dormido.
+flew|voló|verbo|pasado de fly · participio: flown|We flew to Miami.|Volamos a Miami.
+forgot|olvidó|verbo|pasado de forget · participio: forgotten|I forgot my keys.|Olvidé mis llaves.
+grew|creció|verbo|pasado de grow · participio: grown|The team grew fast.|El equipo creció rápido.
+heard|oyó|verbo|pasado de hear · se pronuncia jerd|I heard you.|Te escuché.
+held|sostuvo|verbo|pasado de hold|She held the door.|Sostuvo la puerta.
+lost|perdió|verbo|pasado de lose|I lost my phone.|Perdí mi teléfono.
+met|conoció|verbo|pasado de meet|We met last year.|Nos conocimos el año pasado.
+paid|pagó|verbo|pasado de pay|I already paid.|Ya pagué.
+ran|corrió|verbo|pasado de run · participio: run|He ran to the office.|Corrió a la oficina.
+sold|vendió|verbo|pasado de sell|They sold everything.|Vendieron todo.
+sent|envió|verbo|pasado de send|I sent the email.|Envié el correo.
+spoke|habló|verbo|pasado de speak · participio: spoken|I spoke with her.|Hablé con ella.
+spent|gastó|verbo|pasado de spend|I spent two hours on it.|Le dediqué dos horas.
+stood|se paró|verbo|pasado de stand|He stood up.|Se puso de pie.
+taught|enseñó|verbo|pasado de teach|She taught me English.|Ella me enseñó inglés.
+understood|entendió|verbo|pasado de understand|I understood everything.|Entendí todo.
+won|ganó|verbo|pasado de win · se pronuncia uan|We won the contract.|Ganamos el contrato.
+wrote|escribió|verbo|pasado de write · participio: written|I wrote it down.|Lo anoté.
+begin|empezar|verbo|begin ≠ start (más formal)|Let's begin.|Empecemos.
+hold|sostener|verbo|hold on = espera · hold a meeting|Hold this, please.|Sostén esto, por favor.
+lead|liderar|verbo|pasado: led · a leader|Who leads the team?|¿Quién lidera el equipo?
+piece|pieza / pedazo|sust|a piece of advice · a piece of cake|A piece of advice.|Un consejo.
+sight|vista|sust|out of sight · at first sight|Out of sight.|Fuera de vista.
+size|talla / tamaño|sust|what size? · one size fits all|What size do you need?|¿Qué talla necesitas?
+speech|discurso|sust|give a speech|He gave a speech.|Dio un discurso.
+spot|lugar / mancha|sust|on the spot = en el acto|A good spot.|Un buen lugar.
+stuff|cosas|sust|INCONTABLE · muy informal|I have a lot of stuff.|Tengo muchas cosas.
+tip|consejo / propina|sust|leave a tip · a useful tip|Thanks for the tip.|Gracias por el consejo.
+crowd|multitud|sust|a crowd of people|A big crowd.|Una gran multitud.
+guy|tipo|sust|you guys = ustedes (informal)|He's a nice guy.|Es buen tipo.
+lady|señora|sust|ladies and gentlemen|The lady over there.|La señora de allá.
+sir|señor|sust|trato formal a un hombre|Excuse me, sir.|Disculpe, señor.
+madam|señora|sust|ma'am en habla informal|Yes, madam.|Sí, señora.
+neighbor|vecino|sust|neighbour en inglés británico|My neighbor is loud.|Mi vecino hace ruido.
+partner|socio / pareja|sust|business partner|My business partner.|Mi socio.
+colleague|colega|sust|a work colleague|A colleague of mine.|Un colega mío.
+guest|invitado|sust|be my guest = adelante|We have guests.|Tenemos invitados.
+member|miembro|sust|a team member|A team member.|Un miembro del equipo.
+leader|líder|sust|a team leader|A good leader.|Un buen líder.
+expert|experto|sust|an expert in / on|Ask an expert.|Pregúntale a un experto.
+engineer|ingeniero|sust|a software engineer|I'm an engineer.|Soy ingeniero.
+analyst|analista|sust|a data analyst|A data analyst.|Un analista de datos.
+developer|desarrollador|sust|a software developer|He's a developer.|Es desarrollador.
+designer|diseñador|sust|a UX designer|She's a designer.|Ella es diseñadora.
+nurse|enfermero|sust|a nurse practitioner|The nurse will come.|La enfermera vendrá.
+lawyer|abogado|sust|see a lawyer|Talk to a lawyer.|Habla con un abogado.
+driver|conductor|sust|a taxi driver|The driver is waiting.|El conductor está esperando.
+waiter|mesero|sust|waitress = mesera|Call the waiter.|Llama al mesero.
+seller|vendedor|sust|salesperson es más común|A good seller.|Un buen vendedor.
+buyer|comprador|sust|the buyer's market|The buyer decides.|El comprador decide.
+worker|trabajador|sust|a hard worker|A hard worker.|Un trabajador dedicado.
+citizen|ciudadano|sust|a citizen of|A US citizen.|Un ciudadano estadounidense.
+adult|adulto|sust|an adult · adulthood|Two adults, please.|Dos adultos, por favor.
+teenager|adolescente|sust|teen es la forma corta|My teenage son.|Mi hijo adolescente.
+gentleman|caballero|sust|plural: gentlemen|Ladies and gentlemen.|Damas y caballeros.
+stranger|desconocido|sust|a total stranger|Don't talk to strangers.|No hables con extraños.
+crew|tripulación|sust|the flight crew|The whole crew.|Toda la tripulación.
+population|población|sust|the local population|The population is growing.|La población está creciendo.
+generation|generación|sust|the next generation|A new generation.|Una nueva generación.
+ability|capacidad|sust|the ability to + verbo|The ability to learn.|La capacidad de aprender.
+achievement|logro|sust|a great achievement|A big achievement.|Un gran logro.
+addition|adición|sust|in addition to = además de|In addition, we saved time.|Además, ahorramos tiempo.
+adventure|aventura|sust|an adventure|What an adventure.|Qué aventura.
+advertisement|anuncio|sust|ad es la forma corta|I saw the advertisement.|Vi el anuncio.
+agency|agencia|sust|plural: agencies|A travel agency.|Una agencia de viajes.
+alarm|alarma|sust|set an alarm|Set an alarm.|Pon una alarma.
+angle|ángulo|sust|from another angle|From this angle.|Desde este ángulo.
+apartment|apartamento|sust|flat en inglés británico|I rent an apartment.|Alquilo un apartamento.
+appearance|apariencia|sust|make an appearance|Don't judge by appearance.|No juzgues por la apariencia.
+application|solicitud / app|sust|submit an application|Fill in the application.|Llena la solicitud.
+argument|discusión / argumento|sust|have an argument = pelear|A strong argument.|Un argumento fuerte.
+arrival|llegada|sust|on arrival · departure|The arrival time.|La hora de llegada.
+aspect|aspecto|sust|an aspect of|An important aspect.|Un aspecto importante.
+assistance|asistencia|sust|INCONTABLE · need assistance|I need assistance.|Necesito asistencia.
+assumption|suposición|sust|make an assumption|That's an assumption.|Eso es una suposición.
+background|antecedentes|sust|a professional background|What's your background?|¿Cuál es tu formación?
+barrier|barrera|sust|a language barrier|The language barrier.|La barrera del idioma.
+basis|base|sust|on a daily basis = a diario|On a regular basis.|De forma regular.
+battle|batalla|sust|fight a battle|An uphill battle.|Una batalla cuesta arriba.
+belief|creencia|sust|plural: beliefs|A strong belief.|Una creencia firme.
+bottom|fondo|sust|bottom line = lo esencial|At the bottom.|En el fondo.
+boundary|límite|sust|set boundaries|Set clear boundaries.|Pon límites claros.
+branch|sucursal / rama|sust|a bank branch|The main branch.|La sucursal principal.
+breath|aliento|sust|take a breath · breathe = respirar|Take a deep breath.|Respira profundo.
+bridge|puente|sust|build a bridge|Cross the bridge.|Cruza el puente.
+building|edificio|sust|an office building|A tall building.|Un edificio alto.
+button|botón|sust|press a button|Press the button.|Presiona el botón.
+campaign|campaña|sust|run a campaign|A marketing campaign.|Una campaña de marketing.
+candidate|candidato|sust|the best candidate|A strong candidate.|Un candidato fuerte.
+capital|capital|sust|capital city · capital letter|In capital letters.|En mayúsculas.
+ceiling|techo|sust|a glass ceiling|Look at the ceiling.|Mira el techo.
+center|centro|sust|centre en inglés británico|In the center.|En el centro.
+century|siglo|sust|the 21st century|In this century.|En este siglo.
+chain|cadena|sust|a supply chain|The supply chain.|La cadena de suministro.
+chapter|capítulo|sust|the next chapter|Read chapter three.|Lee el capítulo tres.
+child care|cuidado infantil|sust|childcare services|Childcare is expensive.|El cuidado infantil es caro.
+circle|círculo|sust|a full circle|In a circle.|En círculo.
+climate|clima (general)|sust|climate ≠ weather (del día)|Climate change.|Cambio climático.
+club|club|sust|join a club|A book club.|Un club de lectura.
+coast|costa|sust|on the coast|The east coast.|La costa este.
+code|código|sust|a dress code · source code|Enter the code.|Ingresa el código.
+collection|colección|sust|a data collection|A large collection.|Una gran colección.
+combination|combinación|sust|a combination of|A good combination.|Una buena combinación.
+comfort|comodidad|sust|a comfort zone|Out of my comfort zone.|Fuera de mi zona de confort.
+commitment|compromiso|sust|make a commitment|A long-term commitment.|Un compromiso a largo plazo.
+communication|comunicación|sust|communication skills|Good communication.|Buena comunicación.
+comparison|comparación|sust|in comparison to|By comparison.|En comparación.
+competition|competencia|sust|the competition = los rivales|Tough competition.|Competencia dura.
+complaint|queja|sust|file a complaint|A formal complaint.|Una queja formal.
+component|componente|sust|a key component|A key component.|Un componente clave.
+conference|conferencia|sust|a conference call|A tech conference.|Una conferencia de tecnología.
+confidence|confianza|sust|INCONTABLE · self-confidence|Build confidence.|Genera confianza.
+confusion|confusión|sust|cause confusion|Sorry for the confusion.|Perdón por la confusión.
+consideration|consideración|sust|take into consideration|Under consideration.|En consideración.
+construction|construcción|sust|under construction|Under construction.|En construcción.
+contact|contacto|sust|make contact · a contact|Keep in contact.|Mantén el contacto.
+conversation|conversación|sust|have a conversation|A long conversation.|Una conversación larga.
+council|consejo (junta)|sust|the city council|The council decided.|El consejo decidió.
+couple|pareja / par|sust|a couple of = un par de|A couple of days.|Un par de días.
+courage|valentía|sust|INCONTABLE · have the courage|It takes courage.|Requiere valentía.
+credit|crédito|sust|give credit · credit card|Give her credit.|Dale el crédito.
+crime|crimen|sust|commit a crime|It's a crime.|Es un delito.
+critic|crítico (persona)|sust|criticism = la crítica|A harsh critic.|Un crítico duro.
+cycle|ciclo|sust|a life cycle|A full cycle.|Un ciclo completo.
+debate|debate|sust|a heated debate|An open debate.|Un debate abierto.
+debt|deuda|sust|la b es MUDA: det|Pay off the debt.|Paga la deuda.
+decade|década|sust|for a decade|Over a decade.|Más de una década.
+defense|defensa|sust|defence en inglés británico|In his defense.|En su defensa.
+delay|retraso|sust|a flight delay|Sorry for the delay.|Perdón por la demora.
+delivery|entrega|sust|free delivery|Fast delivery.|Entrega rápida.
+depth|profundidad|sust|in depth = a fondo|In more depth.|Con más profundidad.
+desire|deseo|sust|a desire to + verbo|A strong desire.|Un deseo fuerte.
+diet|dieta|sust|be on a diet|A balanced diet.|Una dieta balanceada.
+difficulty|dificultad|sust|have difficulty + -ing|With some difficulty.|Con algo de dificultad.
+disaster|desastre|sust|a natural disaster|It was a disaster.|Fue un desastre.
+distribution|distribución|sust|a distribution channel|The distribution is uneven.|La distribución es despareja.
+draft|borrador|sust|a first draft|It's just a draft.|Es solo un borrador.
+duration|duración|sust|for the duration of|The duration is two hours.|La duración es de dos horas.
+ease|facilidad|sust|with ease · ease of use|With ease.|Con facilidad.
+edition|edición|sust|a limited edition|The latest edition.|La última edición.
+emergency|emergencia|sust|in case of emergency|It's an emergency.|Es una emergencia.
+employment|empleo|sust|unemployment = desempleo|Full-time employment.|Empleo de tiempo completo.
+entry|entrada|sust|no entry = prohibido el paso|The entry is free.|La entrada es gratis.
+exception|excepción|sust|with the exception of|An exception to the rule.|Una excepción a la regla.
+excuse|excusa|sust|make an excuse|That's no excuse.|Eso no es excusa.
+exercise|ejercicio|sust|do exercise · an exercise|Do the exercise.|Haz el ejercicio.
+existence|existencia|sust|come into existence|The existence of a pattern.|La existencia de un patrón.
+expectation|expectativa|sust|meet expectations|Manage expectations.|Maneja las expectativas.
+expression|expresión|sust|a common expression|A useful expression.|Una expresión útil.
+extent|alcance|sust|to some extent = hasta cierto punto|To a large extent.|En gran medida.
+facility|instalación|sust|plural: facilities|A new facility.|Una instalación nueva.
+faith|fe|sust|have faith in|Have a little faith.|Ten un poco de fe.
+fear|miedo|sust|fear of + -ing|Fear of failure.|Miedo al fracaso.
+fee|tarifa|sust|a service fee|What's the fee?|¿Cuál es la tarifa?
+flow|flujo|sust|cash flow · a workflow|Go with the flow.|Déjate llevar.
+frame|marco|sust|a time frame|What's the time frame?|¿Cuál es el plazo?
+gap|brecha|sust|a gap in the data|There's a gap.|Hay una brecha.
+gate|puerta (aeropuerto)|sust|the boarding gate|Which gate?|¿Cuál puerta?
+glass|vidrio / vaso|sust|a glass of water|A glass of water.|Un vaso de agua.
+guideline|pauta|sust|follow the guidelines|Follow the guidelines.|Sigue las pautas.
+height|altura|sust|se pronuncia jait|What's the height?|¿Cuál es la altura?
+hint|pista|sust|give a hint|Give me a hint.|Dame una pista.
+hole|agujero|sust|a hole in the plan|There's a hole.|Hay un hueco.
+identity|identidad|sust|proof of identity|Your identity is safe.|Tu identidad está segura.
+impression|impresión|sust|a first impression|A good first impression.|Una buena primera impresión.
+incident|incidente|sust|report an incident|A minor incident.|Un incidente menor.
+index|índice|sust|plural: indexes o indices|Check the index.|Revisa el índice.
+inspection|inspección|sust|carry out an inspection|A quick inspection.|Una inspección rápida.
+instruction|instrucción|sust|follow the instructions|Read the instructions.|Lee las instrucciones.
+intelligence|inteligencia|sust|artificial intelligence|Artificial intelligence.|Inteligencia artificial.
+interaction|interacción|sust|human interaction|Every interaction counts.|Cada interacción cuenta.
+introduction|introducción|sust|an introduction to|A short introduction.|Una breve introducción.
+investment|inversión|sust|return on investment|A good investment.|Una buena inversión.
+label|etiqueta|sust|read the label|Read the label.|Lee la etiqueta.
+layer|capa|sust|a layer of security|Another layer.|Otra capa.
+league|liga|sust|out of my league|A different league.|Otra liga.
+length|longitud|sust|at length = extensamente|What's the length?|¿Cuál es la longitud?
+license|licencia|sust|licence en inglés británico|A driver's license.|Una licencia de conducir.
+lifestyle|estilo de vida|sust|a healthy lifestyle|A healthy lifestyle.|Un estilo de vida saludable.
+line|línea / fila|sust|stand in line = hacer fila|Wait in line.|Espera en la fila.
+list|lista|sust|make a list · a to-do list|Make a list.|Haz una lista.
+load|carga|sust|a workload|A heavy load.|Una carga pesada.
+loan|préstamo|sust|take out a loan|I got a loan.|Conseguí un préstamo.
+log|registro|sust|a log file · log in|Check the logs.|Revisa los registros.
+luck|suerte|sust|INCONTABLE · good luck|Good luck!|¡Buena suerte!
+machine|máquina|sust|a washing machine|The machine is broken.|La máquina está dañada.
+maintenance|mantenimiento|sust|INCONTABLE|Scheduled maintenance.|Mantenimiento programado.
+management|gestión|sust|project management|Good management.|Buena gestión.
+margin|margen|sust|a profit margin|A thin margin.|Un margen estrecho.
+media|medios|sust|social media · the media|Social media.|Redes sociales.
+medium|medio|adj|medium size · plural: media|Medium size, please.|Talla mediana, por favor.
+menu|menú|sust|the main menu|Can I see the menu?|¿Me trae el menú?
+metal|metal|sust|made of metal|It's made of metal.|Es de metal.
+mile|milla|sust|1 mile = 1.6 km|It's two miles away.|Está a dos millas.
+mission|misión|sust|a mission statement|Our mission.|Nuestra misión.
+mix|mezcla|sust|a good mix|A mix of both.|Una mezcla de ambos.
+mode|modo|sust|dark mode · in mode|Switch to dark mode.|Cambia a modo oscuro.
+motion|movimiento|sust|in motion · set in motion|Set it in motion.|Ponlo en marcha.
+neck|cuello|sust|a bottleneck = cuello de botella|My neck hurts.|Me duele el cuello.
+object|objeto|sust|OB-ject = objeto · ob-JECT = objetar|A small object.|Un objeto pequeño.
+objective|objetivo|sust|the main objective|Our objective is clear.|Nuestro objetivo es claro.
+obligation|obligación|sust|under no obligation|No obligation.|Sin obligación.
+odds|probabilidades|sust|SIEMPRE plural · against all odds|The odds are low.|Las probabilidades son bajas.
+opening|apertura|sust|a job opening = una vacante|A job opening.|Una vacante.
+origin|origen|sust|the origin of|The origin of the problem.|El origen del problema.
+package|paquete|sust|a benefits package|The package arrived.|El paquete llegó.
+pace|ritmo|sust|at your own pace|At my own pace.|A mi propio ritmo.
+panel|panel|sust|a control panel|The control panel.|El panel de control.
+parking|estacionamiento|sust|INCONTABLE · a parking lot|Free parking.|Estacionamiento gratis.
+path|camino|sust|a career path|The right path.|El camino correcto.
+payment|pago|sust|make a payment|Payment received.|Pago recibido.
+peak|pico / cima|sust|peak hours|Peak hours.|Horas pico.
+penalty|penalización|sust|a late penalty|A penalty fee.|Una multa.
+percentage|porcentaje|sust|a high percentage|What percentage?|¿Qué porcentaje?
+permit|permiso (documento)|sust|a work permit|A work permit.|Un permiso de trabajo.
+phrase|frase|sust|a common phrase|A useful phrase.|Una frase útil.
+pitch|propuesta / lanzamiento|sust|an elevator pitch|Give me your pitch.|Dame tu propuesta.
+platform|plataforma|sust|a digital platform|Which platform?|¿Qué plataforma?
+plot|trama|sust|the plot of a story|The plot is simple.|La trama es simple.
+point of view|punto de vista|expr|from my point of view|From my point of view.|Desde mi punto de vista.
+pool|piscina / fondo común|sust|a talent pool|A talent pool.|Un banco de talento.
+portion|porción|sust|a large portion|A small portion.|Una porción pequeña.
+possibility|posibilidad|sust|the possibility of|There's a possibility.|Hay una posibilidad.
+post|publicación / puesto|sust|a blog post · post office|A new post.|Una publicación nueva.
+prediction|predicción|sust|make a prediction|My prediction.|Mi predicción.
+preference|preferencia|sust|a personal preference|What's your preference?|¿Cuál es tu preferencia?
+presence|presencia|sust|an online presence|A strong presence.|Una presencia fuerte.
+prevention|prevención|sust|fraud prevention|Prevention is better.|Prevenir es mejor.
+principle|principio|sust|on principle · principal = director|A basic principle.|Un principio básico.
+privacy|privacidad|sust|INCONTABLE · a privacy policy|Respect my privacy.|Respeta mi privacidad.
+prize|premio|sust|win a prize|First prize.|Primer premio.
+production|producción|sust|in production|In production.|En producción.
+profile|perfil|sust|a LinkedIn profile|Update your profile.|Actualiza tu perfil.
+promotion|ascenso / promoción|sust|get a promotion|I got a promotion.|Me ascendieron.
+proportion|proporción|sust|in proportion to|Out of proportion.|Desproporcionado.
+protection|protección|sust|data protection|Data protection.|Protección de datos.
+provider|proveedor|sust|a service provider|Our provider.|Nuestro proveedor.
+publication|publicación|sust|a monthly publication|The publication date.|La fecha de publicación.
+punishment|castigo|sust|capital punishment|A harsh punishment.|Un castigo duro.
+quantity|cantidad|sust|quality over quantity|Quality over quantity.|Calidad sobre cantidad.
+question mark|signo de interrogación|sust|solo va al final en inglés|Add a question mark.|Agrega un signo de interrogación.
+queue|fila|sust|se pronuncia kiú · line en EE.UU.|Join the queue.|Haz la fila.
+reaction|reacción|sust|a chain reaction|What was the reaction?|¿Cuál fue la reacción?
+reader|lector|sust|an avid reader|A regular reader.|Un lector habitual.
+reception|recepción|sust|at reception|Meet me at reception.|Nos vemos en recepción.
+recognition|reconocimiento|sust|voice recognition|She deserves recognition.|Ella merece reconocimiento.
+recommendation|recomendación|sust|make a recommendation|My recommendation.|Mi recomendación.
+recovery|recuperación|sust|a full recovery|A quick recovery.|Una pronta recuperación.
+reduction|reducción|sust|a cost reduction|A price reduction.|Una reducción de precio.
+reference|referencia|sust|for future reference|For your reference.|Para tu referencia.
+reform|reforma|sust|a tax reform|A major reform.|Una gran reforma.
+refund|reembolso|sust|get a refund|I want a refund.|Quiero un reembolso.
+registration|registro|sust|a registration form|Complete the registration.|Completa el registro.
+regulation|regulación|sust|follow the regulations|New regulations.|Nuevas regulaciones.
+rejection|rechazo|sust|handle rejection|Handle rejection well.|Maneja bien el rechazo.
+reminder|recordatorio|sust|set a reminder|Set a reminder.|Pon un recordatorio.
+rent|arriendo|sust|pay the rent|The rent is due.|Se vence el arriendo.
+replacement|reemplazo|sust|a replacement part|We need a replacement.|Necesitamos un reemplazo.
+reputation|reputación|sust|a good reputation|A solid reputation.|Una reputación sólida.
+resolution|resolución|sust|a New Year's resolution|A high resolution.|Una resolución alta.
+restriction|restricción|sust|lift a restriction|No restrictions.|Sin restricciones.
+retail|venta al detal|sust|retail price|The retail price.|El precio al público.
+reward|recompensa|sust|a reward for|A well-earned reward.|Una recompensa merecida.
+rhythm|ritmo|sust|se pronuncia rídem|Find your rhythm.|Encuentra tu ritmo.
+ride|viaje corto|sust|give someone a ride|Can you give me a ride?|¿Me das un aventón?
+rival|rival|sust|a close rival|Our main rival.|Nuestro rival principal.
+roof|techo (exterior)|sust|plural: roofs|The roof is leaking.|El techo gotea.
+root|raíz|sust|the root cause|The root of the problem.|La raíz del problema.
+round|ronda|sust|a round of interviews|The second round.|La segunda ronda.
+routine|rutina|sust|a daily routine|My morning routine.|Mi rutina matutina.
+sale|venta|sust|on sale · a sale|A big sale.|Una gran venta.
+satisfaction|satisfacción|sust|customer satisfaction|Customer satisfaction.|Satisfacción del cliente.
+scene|escena|sust|behind the scenes|Behind the scenes.|Tras bambalinas.
+science|ciencia|sust|computer science|Data science.|Ciencia de datos.
+season|temporada|sust|the high season|The rainy season.|La temporada de lluvias.
+seat|asiento|sust|take a seat = siéntate|Take a seat.|Toma asiento.
+secret|secreto|sust|keep a secret|It's a secret.|Es un secreto.
+section|sección|sust|the next section|In this section.|En esta sección.
+segment|segmento|sust|a market segment|A key segment.|Un segmento clave.
+selection|selección|sust|a wide selection|A good selection.|Una buena selección.
+seminar|seminario|sust|attend a seminar|A free seminar.|Un seminario gratis.
+sentence|oración / condena|sust|write a sentence|Read the sentence.|Lee la oración.
+sequence|secuencia|sust|in sequence|The correct sequence.|La secuencia correcta.
+shame|vergüenza|sust|what a shame = qué lástima|What a shame.|Qué lástima.
+shape|forma|sust|in good shape = en buena forma|What shape is it?|¿Qué forma tiene?
+shelf|estante|sust|plural: shelves|On the top shelf.|En el estante de arriba.
+ship|barco / enviar|sust|ship an order|The ship arrived.|El barco llegó.
+shock|impacto|sust|be in shock|It was a shock.|Fue un impacto.
+shop|tienda|sust|store en inglés americano|A coffee shop.|Una cafetería.
+shortage|escasez|sust|a shortage of|A staff shortage.|Escasez de personal.
+shoulder|hombro|sust|shoulder to shoulder|My shoulder hurts.|Me duele el hombro.
+signal|señal|sust|a weak signal|The signal is weak.|La señal está débil.
+silence|silencio|sust|in silence|An awkward silence.|Un silencio incómodo.
+site|sitio|sust|on site = en el lugar|On the construction site.|En la obra.
+skin|piel|sust|skin care|Sensitive skin.|Piel sensible.
+slice|rebanada|sust|a slice of bread|A slice of pizza.|Una porción de pizza.
+slot|espacio (de agenda)|sust|a time slot|Book a slot.|Reserva un espacio.
+smoke|humo|sust|no smoking = prohibido fumar|I smell smoke.|Huelo humo.
+snack|refrigerio|sust|have a snack|Grab a snack.|Come algo ligero.
+soil|suelo (tierra)|sust|fertile soil|Rich soil.|Suelo fértil.
+soldier|soldado|sust|a brave soldier|A young soldier.|Un soldado joven.
+soul|alma|sust|heart and soul|Body and soul.|Cuerpo y alma.
+soup|sopa|sust|a bowl of soup|A bowl of soup.|Un plato de sopa.
+spare|de repuesto|adj|spare time · spare parts|In my spare time.|En mi tiempo libre.
+speaker|hablante / parlante|sust|a native speaker|A native speaker.|Un hablante nativo.
+specialist|especialista|sust|a specialist in|A data specialist.|Un especialista en datos.
+spirit|espíritu|sust|team spirit|Team spirit.|Espíritu de equipo.
+spring|primavera|sust|in spring · also = resorte|Spring is my favorite.|La primavera es mi favorita.
+summer|verano|sust|in summer · summertime|See you in summer.|Nos vemos en verano.
+autumn|otoño|sust|fall en inglés americano|In autumn.|En otoño.
+winter|invierno|sust|in winter · wintertime|Winter is cold.|El invierno es frío.
+square|cuadrado / plaza|sust|a town square · square meters|The main square.|La plaza principal.
+stadium|estadio|sust|at the stadium|A full stadium.|Un estadio lleno.
+stair|escalón|sust|stairs = escaleras (plural)|Take the stairs.|Toma las escaleras.
+stamp|sello|sust|a postage stamp|I need a stamp.|Necesito una estampilla.
+star|estrella|sust|a five-star hotel|A five-star hotel.|Un hotel cinco estrellas.
+state|estado|sust|a state of mind|In a bad state.|En mal estado.
+statistic|estadística|sust|statistics = la estadística|The statistics show growth.|Las estadísticas muestran crecimiento.
+steel|acero|sust|INCONTABLE · steal = robar|Made of steel.|Hecho de acero.
+stone|piedra|sust|a stone wall|A stone wall.|Un muro de piedra.
+store|tienda / almacenar|sust|store data|Store it safely.|Guárdalo seguro.
+storm|tormenta|sust|a storm is coming|A big storm.|Una gran tormenta.
+stream|flujo / transmitir|sust|live stream|A live stream.|Una transmisión en vivo.
+strength|fuerza|sust|strengths and weaknesses|My biggest strength.|Mi mayor fortaleza.
+stress|estrés|sust|under stress · stressed|I'm under a lot of stress.|Tengo mucho estrés.
+struggle|lucha|sust|struggle with something|It's a struggle.|Es una lucha.
+studio|estudio (lugar)|sust|a recording studio|A small studio.|Un estudio pequeño.
+style|estilo|sust|in style · a writing style|That's my style.|Ese es mi estilo.
+suit|traje / quedar bien|sust|a business suit · it suits you|Wear a suit.|Ponte un traje.
+summary|resumen|sust|in summary = en resumen|Give me a summary.|Dame un resumen.
+supplier|proveedor|sust|a main supplier|Our supplier.|Nuestro proveedor.
+surprise|sorpresa|sust|what a surprise|What a surprise!|¡Qué sorpresa!
+symbol|símbolo|sust|a symbol of|A symbol of hope.|Un símbolo de esperanza.
+talent|talento|sust|INCONTABLE en general|She has talent.|Ella tiene talento.
+tax|impuesto|sust|income tax · tax-free|Plus tax.|Más impuestos.
+telephone|teléfono|sust|phone es más común|Answer the telephone.|Contesta el teléfono.
+television|televisión|sust|TV es la forma corta|On television.|En televisión.
+temperature|temperatura|sust|take your temperature|What's the temperature?|¿Cuál es la temperatura?
+tendency|tendencia|sust|a tendency to + verbo|I have a tendency to overthink.|Tiendo a pensar de más.
+tension|tensión|sust|ease the tension|There's some tension.|Hay algo de tensión.
+terminal|terminal|sust|airport terminal|Which terminal?|¿Cuál terminal?
+text|texto|sust|text message · text someone|Send me a text.|Mándame un mensaje.
+theme|tema (motivo)|sust|a common theme|The main theme.|El tema principal.
+throat|garganta|sust|a sore throat|I have a sore throat.|Me duele la garganta.
+title|título|sust|a job title|What's your title?|¿Cuál es tu cargo?
+tone|tono|sust|tone of voice|Watch your tone.|Cuida tu tono.
+tongue|lengua|sust|mother tongue = lengua materna|My mother tongue.|Mi lengua materna.
+tooth|diente|sust|plural irregular: teeth|Brush your teeth.|Cepíllate los dientes.
+top|parte de arriba|sust|on top of = encima de|At the top.|En la cima.
+tour|recorrido|sust|a guided tour|A city tour.|Un recorrido por la ciudad.
+tourist|turista|sust|a tourist attraction|A tourist spot.|Un sitio turístico.
+towel|toalla|sust|a beach towel|A clean towel.|Una toalla limpia.
+tower|torre|sust|a control tower|A tall tower.|Una torre alta.
+town|pueblo|sust|in town · downtown|A small town.|Un pueblo pequeño.
+trade|comercio|sust|free trade|International trade.|Comercio internacional.
+tradition|tradición|sust|a family tradition|A family tradition.|Una tradición familiar.
+transaction|transacción|sust|a bank transaction|The transaction failed.|La transacción falló.
+transport|transporte|sust|public transport|Public transport.|Transporte público.
+trial|prueba / juicio|sust|a free trial|A free trial.|Una prueba gratis.
+trick|truco|sust|the trick is to|Here's a trick.|Aquí va un truco.
+truck|camión|sust|lorry en inglés británico|A delivery truck.|Un camión de reparto.
+tube|tubo|sust|the tube = el metro de Londres|A plastic tube.|Un tubo de plástico.
+tunnel|túnel|sust|at the end of the tunnel|Through the tunnel.|Por el túnel.
+uncle|tío|sust|aunt = tía|My uncle called.|Mi tío llamó.
+aunt|tía|sust|se pronuncia ant o ánt|My aunt lives here.|Mi tía vive aquí.
+understanding|comprensión|sust|a mutual understanding|Thanks for your understanding.|Gracias por tu comprensión.
+uniform|uniforme|sust|wear a uniform|A school uniform.|Un uniforme escolar.
+union|sindicato / unión|sust|a labor union|The European Union.|La Unión Europea.
+universe|universo|sust|the whole universe|The entire universe.|Todo el universo.
+university|universidad|sust|at university (UK) · in college (US)|I study at university.|Estudio en la universidad.
+vehicle|vehículo|sust|se pronuncia víikol|A company vehicle.|Un vehículo de empresa.
+victim|víctima|sust|a victim of|A victim of fraud.|Una víctima de fraude.
+victory|victoria|sust|a clear victory|A big victory.|Una gran victoria.
+village|aldea|sust|a small village|A small village.|Una aldea pequeña.
+virus|virus|sust|plural: viruses|A computer virus.|Un virus informático.
+vision|visión|sust|a clear vision|A clear vision.|Una visión clara.
+voice|voz|sust|tone of voice · voice note|Lower your voice.|Baja la voz.
+volunteer|voluntario|sust|volunteer work|I volunteer on weekends.|Soy voluntario los fines de semana.
+wage|salario (por hora)|sust|minimum wage|The minimum wage.|El salario mínimo.
+wave|ola / onda|sust|a heat wave|A big wave.|Una ola grande.
+weakness|debilidad|sust|strengths and weaknesses|My weakness is time.|Mi debilidad es el tiempo.
+weapon|arma|sust|a secret weapon|A secret weapon.|Un arma secreta.
+web|web|sust|the web · a web page|On the web.|En la web.
+wedding|boda|sust|a wedding ring|Their wedding is Saturday.|Su boda es el sábado.
+welfare|bienestar|sust|social welfare|Employee welfare.|Bienestar del empleado.
+west|oeste|sust|in the west · western|To the west.|Hacia el oeste.
+east|este|sust|in the east · eastern|The east side.|El lado este.
+north|norte|sust|in the north · northern|Head north.|Ve hacia el norte.
+south|sur|sust|in the south · southern|In the south.|En el sur.
+wheel|rueda|sust|behind the wheel = al volante|The front wheel.|La rueda delantera.
+wine|vino|sust|a glass of wine|A glass of wine.|Una copa de vino.
+wing|ala|sust|take under your wing|The left wing.|El ala izquierda.
+winner|ganador|sust|the winner takes all|And the winner is...|Y el ganador es...
+wire|cable|sust|a wire · wireless = inalámbrico|Check the wire.|Revisa el cable.
+wisdom|sabiduría|sust|INCONTABLE · words of wisdom|Words of wisdom.|Palabras sabias.
+witness|testigo|sust|a witness to|There were no witnesses.|No hubo testigos.
+wood|madera|sust|INCONTABLE · wooden = de madera|Made of wood.|Hecho de madera.
+wound|herida|sust|se pronuncia uund|A deep wound.|Una herida profunda.
+writer|escritor|sust|a technical writer|She's a writer.|Ella es escritora.
+writing|escritura|sust|in writing = por escrito|Put it in writing.|Ponlo por escrito.
+yard|patio / yarda|sust|a backyard|In the yard.|En el patio.
+youth|juventud|sust|INCONTABLE como etapa|In my youth.|En mi juventud.
+zone|zona|sust|a time zone · comfort zone|Which time zone?|¿Qué zona horaria?
+belt|cinturón|sust|a seat belt|Fasten your seat belt.|Abróchate el cinturón.
+bottle|botella|sust|a bottle of water|A bottle of water.|Una botella de agua.
+box|caja|sust|think outside the box|In this box.|En esta caja.
+brain|cerebro|sust|brainstorm = lluvia de ideas|Use your brain.|Usa el cerebro.
+bus stop|paradero|sust|at the bus stop|At the bus stop.|En el paradero.
+camera|cámara|sust|turn on your camera|Turn on your camera.|Prende tu cámara.
+candle|vela|sust|light a candle|Light a candle.|Enciende una vela.
+cap|gorra|sust|a baseball cap|Wear a cap.|Ponte una gorra.
+carpet|alfombra|sust|NO es carpeta (folder)|A red carpet.|Una alfombra roja.
+ceiling fan|ventilador de techo|sust|turn on the fan|Turn on the ceiling fan.|Prende el ventilador.
+chocolate|chocolate|sust|dark chocolate|I love chocolate.|Me encanta el chocolate.
+coat|abrigo|sust|put on a coat|Take your coat.|Lleva tu abrigo.
+coin|moneda|sust|flip a coin|Flip a coin.|Lanza una moneda.
+cup|taza|sust|a cup of coffee|A cup of coffee.|Una taza de café.
+desk|escritorio|sust|at my desk|I'm at my desk.|Estoy en mi escritorio.

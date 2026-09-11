@@ -1,0 +1,9 @@
+# Las piezas del English Engine se concatenan tal cual para formar un HTML de
+# 1,2 MB. Con core.autocrlf=true (lo normal en Windows) git las devolveria con
+# saltos CRLF al hacer checkout, el build daria un archivo distinto byte a byte,
+# y la comprobacion de "identico al publicado" dejaria de valer.
+#
+# Aqui se fija LF de forma explicita: el build tiene que ser reproducible en
+# cualquier maquina.
+src/english-engine/** text eol=lf
+frontend/pages/english-engine.html text eol=lf

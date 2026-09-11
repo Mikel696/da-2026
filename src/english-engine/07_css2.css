@@ -1,0 +1,434 @@
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CAPA 2 · VIDA, PIEZAS, PRÁCTICA, CUADERNO, BUSCADOR
+═══════════════════════════════════════════════════════════ */
+
+/* ── Barra de progreso de lectura ───────────────────────── */
+#readbar{position:fixed;top:0;left:0;height:2px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--ac),var(--r-aux));transition:width .1s linear;pointer-events:none}
+
+/* ── Entrada escalonada ─────────────────────────────────── */
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.stagger>*{animation:rise .34s cubic-bezier(.2,.7,.3,1) backwards}
+.stagger>*:nth-child(1){animation-delay:.02s}.stagger>*:nth-child(2){animation-delay:.04s}
+.stagger>*:nth-child(3){animation-delay:.06s}.stagger>*:nth-child(4){animation-delay:.08s}
+.stagger>*:nth-child(5){animation-delay:.10s}.stagger>*:nth-child(6){animation-delay:.12s}
+.stagger>*:nth-child(7){animation-delay:.14s}.stagger>*:nth-child(8){animation-delay:.16s}
+.stagger>*:nth-child(n+9){animation-delay:.18s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── Hero vivo ──────────────────────────────────────────── */
+.hero{position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;top:-60%;right:-12%;width:420px;height:420px;pointer-events:none;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 68%);animation:float 14s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-26px,26px) scale(1.12)}}
+
+/* ── Tarjetas vivas ─────────────────────────────────────── */
+.w,.p,.tip,.card,.mold{will-change:transform}
+.tip{transition:.2s cubic-bezier(.2,.7,.3,1)}
+.tip:hover{transform:translateY(-3px);border-color:var(--acbd);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.w:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.p:hover{box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.stat{transition:.2s}
+.stat:hover{transform:translateY(-3px);border-color:var(--acbd)}
+
+/* ── Toast ──────────────────────────────────────────────── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(140%);z-index:300;
+  background:var(--bg4);border:1px solid var(--bd2);color:var(--tx);padding:11px 20px;border-radius:99px;
+  font-size:13.5px;font-weight:600;box-shadow:0 10px 34px rgba(0,0,0,.55);transition:transform .3s cubic-bezier(.2,.9,.3,1);
+  display:flex;align-items:center;gap:9px;max-width:90vw}
+#toast.on{transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:rgba(34,197,94,.5)}
+#toast.warn{border-color:rgba(234,179,8,.5)}
+
+/* ── Buscador global (Ctrl+K) ───────────────────────────── */
+#omni{position:fixed;inset:0;z-index:250;background:rgba(9,9,11,.78);backdrop-filter:blur(7px);
+  display:none;align-items:flex-start;justify-content:center;padding:9vh 16px 16px}
+#omni.on{display:flex}
+.omni-box{width:100%;max-width:660px;background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);overflow:hidden;animation:rise .2s ease}
+.omni-in{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--tx);
+  font-family:var(--fs);font-size:18px;padding:17px 20px;outline:none}
+.omni-in::placeholder{color:var(--t3)}
+.omni-res{max-height:52vh;overflow-y:auto}
+.omni-r{display:flex;align-items:center;gap:11px;padding:10px 18px;cursor:pointer;border-bottom:1px solid rgba(39,39,42,.5)}
+.omni-r:hover,.omni-r.sel{background:var(--acbg)}
+.omni-r .k{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:2px 7px;border-radius:5px;
+  background:var(--bg4);color:var(--t3);white-space:nowrap;min-width:62px;text-align:center}
+.omni-r .t{flex:1;min-width:0;font-weight:600;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.omni-r .s{color:var(--t3);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:44%}
+.omni-foot{padding:9px 18px;border-top:1px solid var(--bd);font-size:11px;color:var(--t3);display:flex;gap:14px;flex-wrap:wrap}
+.omni-foot kbd{background:var(--bg4);border:1px solid var(--bd2);border-radius:4px;padding:1px 5px;font-family:var(--fm);font-size:10px}
+
+/* ── MÓDULO PIEZAS ──────────────────────────────────────── */
+.pz{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;margin-bottom:15px;transition:.2s}
+.pz:hover{border-color:var(--bd2)}
+.pz-h{display:flex;align-items:center;gap:14px;padding:17px 20px;cursor:pointer;list-style:none;transition:.16s}
+.pz-h::-webkit-details-marker{display:none}
+.pz-h::after{content:"▾";margin-left:auto;color:var(--t3);transition:.25s;font-size:14px}
+.pz[open] .pz-h::after{transform:rotate(180deg)}
+.pz-h:hover{background:var(--bg3)}
+.pz[open] .pz-h{border-bottom:1px solid var(--bd);background:var(--bg3)}
+.pz-ico{width:44px;height:44px;min-width:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;border:1px solid}
+.pz-t{font-size:19px;font-weight:800;letter-spacing:-.5px;line-height:1.2}
+.pz-s{font-size:12.5px;color:var(--t3);margin-top:2px}
+.pz-b{padding:20px}
+.pz-q{background:var(--bg3);border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:15px 18px;margin-bottom:17px;
+  font-size:15px;line-height:1.65}
+.pz-q b{color:var(--tx)}
+.pz-sec{margin-top:20px}
+.pz-sec>h5{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;color:var(--ac2);
+  margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.pz-sec>h5::before{content:"";width:16px;height:1px;background:var(--acbd)}
+.pz-sec p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:9px}
+.pz-sec p b{color:var(--tx)}
+.pz-test{background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.24);border-radius:var(--rad-s);padding:14px 17px;margin:12px 0}
+.pz-test .lb{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.1px;color:var(--r-aux);margin-bottom:7px}
+.pz-test p{font-size:14px;color:var(--t2);margin:0;line-height:1.65}
+.pz-trap{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.24);border-radius:var(--rad-s);padding:14px 17px;margin:12px 0}
+.pz-trap .lb{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.1px;color:var(--r-neg);margin-bottom:7px}
+.pz-trap p{font-size:14px;color:var(--t2);margin:0 0 7px;line-height:1.65}
+.pz-ex{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border-radius:var(--rad-s);padding:11px 14px;margin-bottom:8px}
+.pz-ex .bd{flex:1;min-width:0}
+.pz-ex .en{font-weight:700;font-size:15px;line-height:1.45}
+.pz-ex .es{color:var(--t3);font-size:13px;font-style:italic;margin-top:2px}
+.pz-ex .nt{font-size:12.5px;color:var(--r-aux);margin-top:5px}
+.pz-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.pz-w{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;
+  padding:5px 10px;font-size:13px;cursor:pointer;transition:.14s}
+.pz-w:hover{border-color:var(--acbd);background:var(--acbg)}
+.pz-w b{font-weight:700}
+.pz-w span{color:var(--t3);font-size:11.5px}
+.pz-go{display:inline-flex;align-items:center;gap:7px;background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);
+  border-radius:var(--rad-s);padding:9px 15px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;transition:.16s}
+.pz-go:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+/* Mini quiz de piezas */
+.qz{background:var(--bg2);border:1px solid var(--acbd);border-radius:var(--rad);padding:20px;margin-top:26px}
+.qz-q{font-size:19px;font-weight:700;margin:10px 0 16px;letter-spacing:-.4px;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.qz-opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.qz-o{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-s);padding:12px;
+  font-family:var(--fs);font-size:14px;font-weight:600;cursor:pointer;transition:.15s;text-align:left}
+.qz-o:hover:not(:disabled){border-color:var(--ac);background:var(--acbg)}
+.qz-o.good{background:rgba(34,197,94,.16);border-color:var(--ok);color:#4ade80}
+.qz-o.bad{background:rgba(239,68,68,.16);border-color:var(--bad);color:#f87171}
+.qz-o:disabled{cursor:default}
+.qz-fb{margin-top:14px;font-size:14px;color:var(--t2);line-height:1.65;padding:12px 15px;background:var(--bg3);
+  border-radius:var(--rad-s);border-left:3px solid var(--ac);display:none}
+.qz-fb.on{display:block;animation:rise .25s ease}
+.qz-fb b{color:var(--tx)}
+
+/* ── MÓDULO PRÁCTICA (SRS Leitner) ──────────────────────── */
+.pr-wrap{max-width:720px;margin:0 auto}
+.pr-boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:22px}
+.pr-box{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad-s);padding:12px 8px;text-align:center;transition:.18s}
+.pr-box.hot{border-color:var(--acbd);background:var(--acbg)}
+.pr-box .n{font-family:var(--fm);font-size:20px;font-weight:700;color:var(--ac2)}
+.pr-box .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);font-weight:700;margin-top:3px}
+.pr-box .d{font-size:9px;color:var(--t3);margin-top:2px;opacity:.7}
+.card3d{background:var(--bg2);border:1px solid var(--bd2);border-radius:18px;padding:38px 28px;text-align:center;
+  min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  box-shadow:0 14px 44px rgba(0,0,0,.42);animation:rise .3s ease}
+.card3d .side{font-family:var(--fm);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3)}
+.card3d .front{font-size:clamp(23px,4.6vw,34px);font-weight:800;letter-spacing:-1px;line-height:1.22}
+.card3d .back{font-size:19px;color:var(--ac2);font-weight:600}
+.card3d .extra{font-size:13.5px;color:var(--t2);background:var(--bg3);border-radius:var(--rad-s);padding:10px 14px;
+  max-width:100%;font-family:var(--fm);line-height:1.55}
+.card3d .hint{font-size:13px;color:var(--t3)}
+.pr-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}
+.pr-b{border-radius:var(--rad-s);padding:14px 10px;font-family:var(--fs);font-size:14px;font-weight:700;cursor:pointer;transition:.15s;border:1px solid}
+.pr-b small{display:block;font-size:10px;font-weight:500;opacity:.75;margin-top:2px}
+.pr-b.no{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.35);color:#f87171}
+.pr-b.mid{background:rgba(234,179,8,.1);border-color:rgba(234,179,8,.35);color:#eab308}
+.pr-b.yes{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:#4ade80}
+.pr-b:hover{transform:translateY(-2px);filter:brightness(1.35)}
+.pr-show{width:100%;margin-top:16px;background:var(--acbg);border:1px solid var(--acbd);color:var(--ac2);
+  border-radius:var(--rad-s);padding:14px;font-family:var(--fs);font-size:14.5px;font-weight:700;cursor:pointer;transition:.15s}
+.pr-show:hover{background:var(--ac);color:#fff}
+.pr-src{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.pr-done{text-align:center;padding:44px 20px}
+.pr-done .big{font-size:50px;margin-bottom:14px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.pr-done h3{font-size:23px;font-weight:800;letter-spacing:-.6px;margin-bottom:9px}
+.pr-done p{color:var(--t2);font-size:14.5px;max-width:46ch;margin:0 auto 18px}
+
+/* ── MÓDULO CUADERNO ────────────────────────────────────── */
+.nb{display:grid;grid-template-columns:250px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.nb{grid-template-columns:1fr}}
+.nb-side{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:13px;position:sticky;top:64px;max-height:calc(100vh - 90px);overflow-y:auto}
+@media(max-width:860px){.nb-side{position:relative;top:0;max-height:none}}
+.nb-side h4{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);margin-bottom:9px}
+.nb-new{width:100%;background:var(--acbg);border:1px dashed var(--acbd);color:var(--ac2);border-radius:var(--rad-s);
+  padding:10px;font-family:var(--fs);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:11px;transition:.15s}
+.nb-new:hover{background:var(--ac);color:#fff;border-style:solid}
+.nb-item{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:var(--rad-s);cursor:pointer;transition:.14s;margin-bottom:4px}
+.nb-item:hover{background:var(--bg3)}
+.nb-item.on{background:var(--acbg);border:1px solid var(--acbd)}
+.nb-item .ic{font-size:14px}
+.nb-item .tt{flex:1;min-width:0;font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-item .ct{font-family:var(--fm);font-size:10px;color:var(--t3)}
+.nb-main{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;min-height:520px;display:flex;flex-direction:column}
+.nb-top{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg3)}
+.nb-title{flex:1;min-width:140px;background:transparent;border:none;color:var(--tx);font-family:var(--fs);
+  font-size:17px;font-weight:700;outline:none;letter-spacing:-.3px}
+.nb-title::placeholder{color:var(--t3)}
+.nb-pg{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:11.5px;color:var(--t3)}
+.nbb{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);width:28px;height:28px;border-radius:7px;
+  cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;transition:.14s;padding:0;flex-shrink:0}
+.nbb:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+.nbb.wide{width:auto;padding:0 10px;gap:6px;font-size:12px;font-weight:600;font-family:var(--fs)}
+.nbb.danger:hover{background:var(--bad);border-color:var(--bad)}
+.nb-tools{padding:8px 12px;border-bottom:1px solid var(--bd);display:flex;gap:4px;flex-wrap:wrap;align-items:center;background:var(--bg2)}
+.nb-sep{width:1px;height:20px;background:var(--bd2);margin:0 4px}
+/* ══════════ LA HOJA ══════════
+   Antes el editor tenía scroll propio DENTRO de una página que también
+   scrollea: dos barras anidadas, y por eso no se sentía fluido. Ahora la hoja
+   crece con lo que escribes y quien scrollea es la página, una sola vez. */
+.nb-head{position:sticky;top:0;z-index:8;background:var(--bg2);
+  border-radius:14px 14px 0 0;box-shadow:0 8px 20px -14px rgba(0,0,0,.85)}
+.nb-hoja{position:relative}
+.nb-ed{flex:1;padding:26px 30px;outline:none;line-height:1.78;min-height:66vh;
+  font-size:var(--nb-fs,15.5px)}
+/* Tamaño de letra, por hoja */
+.nb-hoja.s-xs{--nb-fs:12.5px}.nb-hoja.s-s{--nb-fs:14px}.nb-hoja.s-m{--nb-fs:15.5px}
+.nb-hoja.s-l{--nb-fs:18px}.nb-hoja.s-xl{--nb-fs:21px}.nb-hoja.s-xxl{--nb-fs:25px}
+.nb-size{background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);border-radius:7px;
+  height:28px;padding:0 6px;font-size:11.5px;font-family:inherit;cursor:pointer;outline:none}
+
+/* ── Pegatinas · se sueltan donde uno quiera ── */
+.nb-stk{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.stk-i{position:absolute;pointer-events:auto;cursor:grab;user-select:none;
+  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  padding:5px 10px;border-radius:20px;white-space:nowrap;
+  box-shadow:0 4px 14px -4px rgba(0,0,0,.55);transition:transform .12s}
+.stk-i:hover{transform:scale(1.06)}
+.stk-i.arrastrando{cursor:grabbing;transform:scale(1.12) rotate(-3deg);z-index:9}
+.stk-ok{background:#22c55e;color:#052e12;border:2px solid #4ade80}
+.stk-rev{background:#eab308;color:#3a2c00;border:2px solid #fde047}
+.stk-err{background:#ef4444;color:#3d0505;border:2px solid #f87171}
+.stk-emo{background:transparent;box-shadow:none;font-size:34px;padding:2px;line-height:1;border:none}
+
+/* ── Pegatinas dibujadas · cristal de neón ──
+   El color va en el CONTORNO; el relleno se queda translúcido para que se
+   siga leyendo el texto de la hoja por debajo. El brillo es un halo suave,
+   no un flúor: dos sombras cortas en vez de una grande y saturada. */
+.stk-pg{background:transparent;border:none;box-shadow:none;padding:0}
+.pg-svg{width:46px;height:46px;display:block;overflow:visible;
+  fill:currentColor;fill-opacity:.19;
+  stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 5px currentColor) drop-shadow(0 2px 7px rgba(0,0,0,.5));
+  opacity:.92;transition:opacity .14s,transform .14s}
+.stk-i:hover .pg-svg{opacity:1}
+/* En la paleta se ven algo más pequeñas y sin tanto halo */
+.emo-b .pg-svg{width:30px;height:30px;filter:drop-shadow(0 0 3px currentColor)}
+.emo-g{grid-template-columns:repeat(5,1fr);gap:6px}
+.emo-b{padding:6px;display:grid;place-items:center}
+.stk-x{position:absolute;top:-8px;right:-8px;width:19px;height:19px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--bd2);color:var(--t2);font-size:10px;
+  cursor:pointer;opacity:0;transition:.14s;display:grid;place-items:center;padding:0}
+.stk-i:hover .stk-x{opacity:1}
+.stk-x:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+
+/* ── Paleta de emojis ── */
+.emo-pop{position:absolute;z-index:80;width:330px;background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:14px;padding:12px;box-shadow:0 18px 50px -12px rgba(0,0,0,.85)}
+.emo-t{font-size:11px;color:var(--t3);margin-bottom:9px}
+.emo-g{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;max-height:230px;overflow-y:auto}
+.emo-b{background:transparent;border:none;font-size:20px;cursor:pointer;border-radius:7px;
+  padding:3px;transition:.12s;line-height:1}
+.emo-b:hover{background:var(--bg4);transform:scale(1.25)}
+.nb-ed:empty::before{content:attr(data-ph);color:var(--t3);pointer-events:none}
+/* Todo lo de dentro de la hoja va en EM, no en px: así el tamaño de la hoja
+   arrastra también a lo que ya estaba escrito —títulos, tarjetas, casillas—.
+   Con px fijos, cambiar el tamaño movía el texto normal y dejaba los títulos
+   igual, que es justo lo que Miguel vio. */
+.nb-ed h1{font-size:1.61em;font-weight:800;margin:16px 0 9px;letter-spacing:-.6px}
+.nb-ed h2{font-size:1.23em;font-weight:700;margin:14px 0 7px;letter-spacing:-.3px}
+.nb-ed ul,.nb-ed ol{margin:9px 0 9px 24px}
+.nb-ed li{margin-bottom:5px}
+.nb-ed hr{border:none;border-top:1px solid var(--bd2);margin:18px 0}
+.nb-ed a{color:var(--ac2)}
+.nb-ed blockquote{border-left:3px solid var(--ac);padding-left:14px;margin:12px 0;color:var(--t2);font-style:italic}
+.nb-ed code,.nb-ed .codeblk{font-family:var(--fm);font-size:.87em;background:var(--bg4);border-radius:6px;padding:2px 6px}
+.nb-ed .codeblk{display:block;padding:13px 16px;margin:12px 0;border-left:3px solid var(--r-aux);white-space:pre-wrap;line-height:1.6}
+.nb-ed mark{border-radius:3px;padding:1px 3px;color:#09090b;font-weight:600}
+.nb-ed mark.y{background:#fde047}.nb-ed mark.g{background:#86efac}.nb-ed mark.p{background:#f9a8d4}
+.nb-ed .tg{display:inline-block;font-size:.68em;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  padding:2px 8px;border-radius:5px;margin:0 3px;vertical-align:middle}
+.nb-ed .tg-ok{background:rgba(34,197,94,.18);color:#4ade80}
+.nb-ed .tg-rev{background:rgba(234,179,8,.18);color:#eab308}
+.nb-ed .tg-err{background:rgba(239,68,68,.18);color:#f87171}
+.nb-ed .chk{display:block;padding-left:2px;margin:3px 0}
+.nb-ed .chk .cb{cursor:pointer;user-select:none;font-weight:400;font-size:1.1em;margin-right:5px;color:var(--ac2);display:inline-block;transition:.14s}
+.nb-ed .chk .cb:hover{transform:scale(1.2)}
+.nb-ed .chk.done{text-decoration:line-through;opacity:.5}
+/* Tarjeta EN/ES insertable con audio */
+.nb-ed .encard{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--bd2);
+  border-left:3px solid var(--ac);border-radius:var(--rad-s);padding:12px 15px;margin:12px 0}
+.nb-ed .encard .cc{flex:1;min-width:0}
+.nb-ed .encard .ce{font-weight:700;font-size:1.03em}
+.nb-ed .encard .cs{color:var(--ac2);font-size:.87em;margin-top:2px}
+.nb-stat{padding:8px 16px;border-top:1px solid var(--bd);font-size:11.5px;color:var(--t3);display:flex;
+  justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--fm);background:var(--bg3)}
+.nb-stat .sv{color:var(--ok)}
+.nb-empty{text-align:center;padding:70px 20px;color:var(--t3)}
+.nb-empty .e1{font-size:42px;margin-bottom:12px;opacity:.5}
+
+/* ── Racha / progreso ───────────────────────────────────── */
+.streak{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--bd);
+  padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.streak b{color:var(--ac2);font-family:var(--fm)}
+.pbar{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:8px}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--r-aux));
+  border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.3,1)}
+.stat .pbar{margin-top:10px}
+
+/* ── Barra superior compacta ────────────────────────────
+   Con 7 pestañas + buscador + racha + audio, la cabecera se partía en
+   dos filas hasta en 1440px y se comía 140px de alto. Todo esto es
+   para que quepa en UNA fila y el contenido gane pantalla. */
+.tb-in{gap:10px;padding:7px 18px;flex-wrap:nowrap}
+/* Las pestañas van en UNA sola fila que se desliza si no caben.
+   Envolverlas partía la cabecera en dos y robaba 90px de alto. */
+.tabs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1px;min-width:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:7px 11px;font-size:13px;gap:6px}
+.tab b{font-size:9.5px;padding:1px 5px}
+.brand{font-size:14px}
+.brand{font-size:14px;flex:0 0 auto}
+.brand small{display:none}
+/* El panel de voz vive en un desplegable: en la barra ocupaba 267px y
+   empujaba fuera de vista las pestañas Cuaderno y Método. */
+.audiowrap{position:relative;flex:0 0 auto}
+.audiopop{position:absolute;right:0;top:calc(100% + 8px);width:250px;background:var(--bg2);
+  border:1px solid var(--bd2);border-radius:var(--rad);padding:14px;box-shadow:0 18px 46px rgba(0,0,0,.6);
+  display:none;z-index:120;animation:rise .18s ease}
+.audiopop.on{display:block}
+.audiopop label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--t3);margin:0 0 6px}
+.audiopop label+*{margin-bottom:13px}
+.audiopop select{width:100%;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);
+  font-family:var(--fs);font-size:13px;padding:8px 9px;border-radius:var(--rad-s);cursor:pointer}
+.audiopop input[type=range]{width:100%;accent-color:var(--ac);cursor:pointer}
+.audiohint{font-size:11.5px;color:var(--t3);line-height:1.55;border-top:1px solid var(--bd);padding-top:10px}
+.audiohint b{color:var(--ac2);font-family:var(--fm)}
+#audioBtn .spd{font-size:10.5px}
+#omniBtn .kbd{font-size:9.5px;padding:1px 5px}
+.streak{padding:4px 10px;font-size:11.5px}
+@media(max-width:1180px){
+  #omniBtn span.kbd{display:none}
+  .brand small{display:none}
+}
+@media(max-width:900px){
+  .tab{padding:7px 9px;font-size:12.5px}
+  #omniBtn,.streak{display:none}
+}
+@media(max-width:640px){
+  .tb-in{flex-wrap:wrap}
+  .brand{width:100%}
+  .audiobar{order:3}
+}
+
+/* ── Botón "guardar en cuaderno" en las tarjetas ────────── */
+.w-fav.nbsend{right:29px}
+.p-fav.nbsend{right:31px}
+.w-cat{margin-right:40px}
+.w-fav.nbsend:hover,.p-fav.nbsend:hover{color:var(--ac2);transform:scale(1.15)}
+
+/* ── Filtros que se contraen al bajar ────────────────────
+   Los dos bloques de chips ocupaban ~350 px pegados arriba y no dejaban
+   ver el contenido. Al despegarse del tope se contraen solos; el botón
+   «Filtros» los vuelve a abrir cuando hagan falta. */
+.ctl{top:var(--hh,56px)}
+.ctl-sentinel{height:1px;margin:0;padding:0}
+.ctl-f{transition:opacity .18s ease}
+.ctl.min{padding:9px 15px}
+.ctl.min .ctl-f{display:none}
+.ctl.min .ctl-row{margin-top:0;padding-top:0;border-top:none}
+.ctl-tog{display:none;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--bd2);
+  color:var(--t2);padding:7px 13px;border-radius:99px;font-family:var(--fs);font-size:12.5px;
+  font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.ctl-tog:hover{border-color:var(--acbd);color:var(--ac2);background:var(--acbg)}
+.ctl.min .ctl-tog,.ctl.open .ctl-tog{display:inline-flex}
+.ctl-tog .ar{font-size:10px;transition:.22s;opacity:.75}
+.ctl.open .ctl-tog .ar{transform:rotate(180deg)}
+.ctl.open .ctl-tog{border-color:var(--acbd);color:var(--ac2);background:var(--acbg)}
+.ctl-tog .n{background:var(--ac);color:#fff;font-family:var(--fm);font-size:10px;font-weight:700;
+  padding:1px 6px;border-radius:99px;min-width:17px;text-align:center}
+/* Desplegado sobre el contenido: abrirlo no debe volver a empujar la página */
+.ctl.open{max-height:calc(100vh - var(--hh,56px) - 24px);overflow-y:auto;box-shadow:0 18px 44px rgba(0,0,0,.6)}
+@media(max-width:640px){
+  /* En móvil también se queda pegado: contraído es una sola línea */
+  .ctl{position:sticky;top:var(--hh,56px)}
+}
+
+/* ── Deshacer dentro del aviso ──────────────────────────── */
+.toast-act{background:var(--ac);border:none;color:#fff;font-family:var(--fs);font-size:12.5px;
+  font-weight:700;padding:5px 12px;border-radius:99px;cursor:pointer;white-space:nowrap;transition:.14s}
+.toast-act:hover{filter:brightness(1.18);transform:scale(1.04)}
+
+/* ── Sincronización ─────────────────────────────────────── */
+#syncBtn{font-size:14px}
+#syncBtn.spin{animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#syncModal{position:fixed;inset:0;z-index:260;background:rgba(9,9,11,.8);backdrop-filter:blur(7px);
+  display:none;align-items:center;justify-content:center;padding:20px}
+#syncModal.on{display:flex}
+.sync-box{width:100%;max-width:440px;background:var(--bg2);border:1px solid var(--bd2);border-radius:16px;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);overflow:hidden;animation:rise .22s ease;max-height:88vh;display:flex;flex-direction:column}
+.sync-head{padding:15px 18px;border-bottom:1px solid var(--bd);background:var(--bg3);
+  display:flex;align-items:center;gap:12px}
+.sync-head b{font-size:15.5px;letter-spacing:-.3px;display:block}
+.sync-head small{font-size:11.5px;color:var(--t3);display:block;margin-top:2px}
+.sync-head .nbb{margin-left:auto}
+.sync-body{padding:18px;overflow-y:auto}
+.sync-on{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.sync-on b{font-size:14.5px;display:block}
+.sync-on small{font-size:12px;color:var(--t3);display:block;margin-top:1px}
+.sync-dot{width:11px;height:11px;min-width:11px;border-radius:50%}
+.sync-dot.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.sync-dot.off{background:var(--t3);box-shadow:0 0 0 4px rgba(113,113,122,.15)}
+.sync-info{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.sync-info>div{background:var(--bg3);border-radius:var(--rad-s);padding:10px 12px}
+.sync-info span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.9px;color:var(--t3);font-weight:700}
+.sync-info b{font-size:13px;font-family:var(--fm);margin-top:3px;display:block}
+.sync-note{font-size:12.5px;color:var(--t2);line-height:1.6;background:var(--bg3);border-left:3px solid var(--ac);
+  border-radius:var(--rad-s);padding:11px 13px;margin-bottom:13px}
+.sync-note b{color:var(--tx)}
+.sync-lb{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--t3);margin:0 0 6px}
+.sync-in{width:100%;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fs);
+  font-size:14px;padding:10px 12px;border-radius:var(--rad-s);outline:none;margin-bottom:12px;transition:.15s}
+.sync-in:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acbg)}
+.sync-err{display:none;font-size:12.5px;color:#f87171;background:rgba(239,68,68,.09);
+  border:1px solid rgba(239,68,68,.28);border-radius:var(--rad-s);padding:9px 12px;margin-bottom:12px;line-height:1.5}
+.sync-err.on{display:block;animation:rise .2s ease}
+
+/* ── Papelera del cuaderno ──────────────────────────────── */
+.nb-trash-item{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:var(--rad-s);
+  background:var(--bg3);margin-bottom:5px;border:1px solid var(--bd)}
+.nb-trash-item .ic{font-size:14px}
+.nb-trash-item .tt{flex:1;min-width:0}
+.nb-trash-item .tt b{display:block;font-size:12.5px;font-weight:600;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.nb-trash-item .tt small{display:block;font-size:10px;color:var(--t3);margin-top:1px}
+.nb-trash-item .nbb{width:24px;height:24px;font-size:11px}
+
+/* ── Borrar una tarjeta EN/ES suelta ────────────────────── */
+.nb-ed .encard{position:relative}
+.nb-ed .encard-del{position:absolute;top:7px;right:8px;background:var(--bg4);border:1px solid var(--bd2);
+  color:var(--t3);width:22px;height:22px;border-radius:6px;cursor:pointer;font-size:11px;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;opacity:0;transition:.14s;padding:0}
+.nb-ed .encard:hover .encard-del{opacity:1}
+.nb-ed .encard-del:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+
+/* ── Utilidades ─────────────────────────────────────────── */
+.hl{background:rgba(139,92,246,.28);border-radius:3px;padding:0 2px}
+.kbd{background:var(--bg4);border:1px solid var(--bd2);border-radius:5px;padding:2px 7px;font-family:var(--fm);font-size:11px;color:var(--t2)}
+.btn{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:var(--rad-s);padding:9px 15px;
+  font-family:var(--fs);font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--acbd);background:var(--acbg);color:var(--ac2)}
+.btn.pri{background:var(--acbg);border-color:var(--acbd);color:var(--ac2)}
+.btn.pri:hover{background:var(--ac);color:#fff}
+@media print{#readbar,#omni,#toast,.nb-side,.nb-tools,.pr-acts,.pr-show{display:none!important}}
+</style>

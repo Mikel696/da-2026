@@ -1,0 +1,164 @@
+lot|montón|sust|a lot of = un montón de|That's a lot of work.|Eso es un montón de trabajo.
+bit|poco|sust|a bit = un poco|Wait a bit.|Espera un poco.
+shot|intento / disparo|sust|give it a shot = inténtalo|Give it a shot.|Dale una oportunidad.
+care|cuidado|sust|take care = cuídate|Take care of yourself.|Cuídate.
+fault|culpa|sust|it's my fault = es culpa mía|It's not your fault.|No es culpa tuya.
+pleasure|placer|sust|my pleasure = un placer|It's a pleasure.|Es un placer.
+patience|paciencia|sust|aguantar sin enfadarse|Thanks for your patience.|Gracias por tu paciencia.
+relief|alivio|sust|lo que se siente al pasar el mal rato|What a relief.|Qué alivio.
+charm|encanto|sust|lo que atrae de alguien|She has real charm.|Tiene mucho encanto.
+rumor|rumor|sust|lo que se dice sin confirmar|It's just a rumor.|Es solo un rumor.
+favor|favor|sust|do me a favor|Do me a favor.|Hazme un favor.
+noise|ruido|sust|sonido molesto|What's that noise?|¿Qué es ese ruido?
+moon|luna|sust|sale de noche|Under the same moon.|Bajo la misma luna.
+sunrise|amanecer|sust|cuando sale el sol|Stay till sunrise.|Quédate hasta el amanecer.
+sunset|atardecer|sust|cuando se pone el sol|We watched the sunset.|Vimos el atardecer.
+dawn|alba|sust|la primera luz del día|At the break of dawn.|Al romper el alba.
+dusk|anochecer|sust|la última luz|We met at dusk.|Nos vimos al anochecer.
+midnight|medianoche|sust|las doce de la noche|It's past midnight.|Ya pasó la medianoche.
+shadow|sombra|sust|lo que deja un cuerpo en la luz|You're just a shadow.|Solo eres una sombra.
+flame|llama|sust|la parte viva del fuego|An old flame.|Un antiguo amor.
+spark|chispa|sust|el principio de un fuego|There was a spark.|Hubo una chispa.
+ash|ceniza|sust|lo que queda al quemarse|Nothing but ashes.|Nada más que cenizas.
+dust|polvo|sust|lo que se posa en todo|Dust on the record.|Polvo sobre el disco.
+sand|arena|sust|la playa y el desierto|Sand in my shoes.|Arena en los zapatos.
+ocean|océano|sust|más grande que «sea»|An ocean between us.|Un océano entre nosotros.
+shore|orilla|sust|donde el agua toca la tierra|Back to the shore.|De vuelta a la orilla.
+tide|marea|sust|el subir y bajar del mar|The tide is turning.|La marea está cambiando.
+thunder|trueno|sust|el sonido del rayo|Thunder in the distance.|Truenos a lo lejos.
+lightning|relámpago|sust|la luz del rayo|Lightning lit the sky.|Un relámpago iluminó el cielo.
+cloud|nube|sust|lo que tapa el sol|Head in the clouds.|Con la cabeza en las nubes.
+breeze|brisa|sust|viento suave|A warm breeze.|Una brisa cálida.
+flower|flor|sust|lo que da la planta|Flowers in her hair.|Flores en su pelo.
+rose|rosa|sust|la flor del amor|A single red rose.|Una sola rosa roja.
+leaf|hoja|sust|plural: leaves|Leaves on the ground.|Hojas en el suelo.
+seed|semilla|sust|de donde nace la planta|Plant a seed.|Planta una semilla.
+hill|colina|sust|monte pequeño|Over the hill.|Al otro lado de la colina.
+valley|valle|sust|entre dos montañas|Down in the valley.|Allá en el valle.
+desert|desierto|sust|tierra sin agua|Lost in the desert.|Perdido en el desierto.
+island|isla|sust|tierra rodeada de agua|We're an island.|Somos una isla.
+lake|lago|sust|agua quieta rodeada de tierra|Swim in the lake.|Nada en el lago.
+forest|bosque|sust|muchos árboles juntos|Deep in the forest.|En lo hondo del bosque.
+ground|suelo|sust|donde pisas|Feet on the ground.|Los pies en la tierra.
+lips|labios|sust|casi siempre en plural|Your name on my lips.|Tu nombre en mis labios.
+chest|pecho|sust|donde está el corazón|A weight on my chest.|Un peso en el pecho.
+bone|hueso|sust|plural: bones|I feel it in my bones.|Lo siento en los huesos.
+vein|vena|sust|por donde va la sangre|Fire in my veins.|Fuego en las venas.
+finger|dedo (de la mano)|sust|plural: fingers|Fingers crossed.|Cruzo los dedos.
+toe|dedo (del pie)|sust|plural: toes|On my toes.|De puntillas.
+knee|rodilla|sust|plural: knees|Down on one knee.|De rodillas.
+ear|oreja / oído|sust|con lo que oyes|In one ear, out the other.|Por un oído entra y por otro sale.
+cheek|mejilla|sust|el lado de la cara|Tears on her cheek.|Lágrimas en su mejilla.
+chin|barbilla|sust|debajo de la boca|Chin up.|Levanta la barbilla.
+waist|cintura|sust|la parte más estrecha|Hands on my waist.|Manos en la cintura.
+sweetheart|cariño|sust|forma de llamar a quien quieres|Goodnight, sweetheart.|Buenas noches, cariño.
+darling|cariño|sust|más británico que sweetheart|Hello, darling.|Hola, cariño.
+honey|cariño / miel|sust|también el alimento|Come here, honey.|Ven aquí, cariño.
+lover|amante|sust|quien te ama|Two lovers in the rain.|Dos amantes bajo la lluvia.
+crush|enamoramiento|sust|have a crush on = estar colado|I have a crush on him.|Estoy colado por él.
+romance|romance|sust|historia de amor|A summer romance.|Un romance de verano.
+heartbreak|desamor|sust|el dolor de un amor roto|Nothing but heartbreak.|Nada más que desamor.
+soulmate|alma gemela|sust|la persona que encaja contigo|You're my soulmate.|Eres mi alma gemela.
+fool|tonto|sust|quien se deja engañar|I was a fool.|Fui un tonto.
+liar|mentiroso|sust|quien miente|You're a liar.|Eres un mentiroso.
+enemy|enemigo|sust|lo contrario de friend|My own worst enemy.|Mi peor enemigo.
+hero|héroe|sust|quien salva a otros|You're my hero.|Eres mi héroe.
+devil|diablo|sust|el mal en persona|A deal with the devil.|Un pacto con el diablo.
+angel|ángel|sust|el bien en persona|You're an angel.|Eres un ángel.
+ghost|fantasma|sust|el que ya no está|Chasing ghosts.|Persiguiendo fantasmas.
+king|rey|sust|quien manda|King of nothing.|Rey de nada.
+queen|reina|sust|la que manda|She's a queen.|Es una reina.
+somebody|alguien|pron|persona sin nombrar|Somebody knows.|Alguien lo sabe.
+nobody|nadie|pron|ninguna persona|Nobody told me.|Nadie me lo dijo.
+mine|el mío|pron|lo que me pertenece|That heart is mine.|Ese corazón es mío.
+yours|el tuyo|pron|lo que te pertenece|I'm yours.|Soy tuyo.
+ours|el nuestro|pron|lo que es de los dos|This night is ours.|Esta noche es nuestra.
+theirs|el suyo (de ellos)|pron|lo que es de ellos|The choice was theirs.|La decisión fue suya.
+gym|gimnasio|sust|donde se entrena|I go to the gym.|Voy al gimnasio.
+elevator|ascensor|sust|británico: lift|Take the elevator.|Coge el ascensor.
+stairs|escaleras|sust|casi siempre en plural|Up the stairs.|Escaleras arriba.
+hallway|pasillo|sust|el paso entre habitaciones|Down the hallway.|Por el pasillo.
+basement|sótano|sust|debajo de la casa|We played in the basement.|Tocábamos en el sótano.
+attic|ático|sust|justo bajo el tejado|Boxes in the attic.|Cajas en el ático.
+garden|jardín|sust|donde crecen las plantas|Out in the garden.|Allá en el jardín.
+fence|valla|sust|lo que marca el límite|On the fence.|Indeciso.
+porch|porche|sust|la entrada cubierta|Sitting on the porch.|Sentado en el porche.
+couch|sofá|sust|también: sofa|Asleep on the couch.|Dormido en el sofá.
+pillow|almohada|sust|donde apoyas la cabeza|Tears on my pillow.|Lágrimas en mi almohada.
+blanket|manta|sust|para taparse|Under the blanket.|Bajo la manta.
+mirror|espejo|sust|donde te ves|Look in the mirror.|Mírate al espejo.
+drawer|cajón|sust|se saca y se mete|In the top drawer.|En el cajón de arriba.
+closet|armario|sust|donde va la ropa|In the closet.|En el armario.
+plate|plato|sust|donde se come|A lot on my plate.|Tengo mucho encima.
+bowl|cuenco|sust|más hondo que el plato|A bowl of soup.|Un cuenco de sopa.
+fork|tenedor|sust|para pinchar la comida|Fork and knife.|Tenedor y cuchillo.
+knife|cuchillo|sust|plural: knives|Sharp as a knife.|Afilado como un cuchillo.
+spoon|cuchara|sust|para lo líquido|A spoon of sugar.|Una cuchara de azúcar.
+cake|pastel|sust|piece of cake = está tirado|It's a piece of cake.|Está tirado.
+pizza|pizza|sust|comida italiana|Let's order pizza.|Pidamos pizza.
+candy|caramelo|sust|británico: sweets|Sweet like candy.|Dulce como un caramelo.
+honeymoon|luna de miel|sust|el viaje tras la boda|The honeymoon is over.|Se acabó la luna de miel.
+funeral|funeral|sust|la despedida de un muerto|We met at a funeral.|Nos conocimos en un funeral.
+taxi|taxi|sust|coche de alquiler con chófer|Call me a taxi.|Llámame un taxi.
+fare|tarifa|sust|lo que cuesta el viaje|The fare is twenty.|La tarifa son veinte.
+suitcase|maleta|sust|para el equipaje|Pack your suitcase.|Haz la maleta.
+downtown|centro (de la ciudad)|sust|la zona céntrica|Meet me downtown.|Nos vemos en el centro.
+sidewalk|acera|sust|británico: pavement|Cracks in the sidewalk.|Grietas en la acera.
+crosswalk|paso de cebra|sust|para cruzar la calle|Use the crosswalk.|Usa el paso de cebra.
+traffic light|semáforo|sust|rojo, ámbar y verde|Stop at the traffic light.|Para en el semáforo.
+parking lot|aparcamiento|sust|donde se dejan los coches|In the parking lot.|En el aparcamiento.
+highway|autopista|sust|carretera rápida|Life is a highway.|La vida es una autopista.
+alley|callejón|sust|calle estrecha|Down a dark alley.|Por un callejón oscuro.
+church|iglesia|sust|donde se reza|Bells from the church.|Campanas de la iglesia.
+bell|campana|sust|suena al golpearla|Ring the bell.|Toca la campana.
+prison|prisión|sust|donde se cumple condena|A prison of my own.|Una prisión mía.
+court|tribunal / cancha|sust|justicia o deporte|See you in court.|Nos vemos en el tribunal.
+guitar|guitarra|sust|el instrumento de cuerda|Pick up the guitar.|Coge la guitarra.
+drum|tambor|sust|marca el ritmo|Feel the drums.|Siente los tambores.
+piano|piano|sust|teclas blancas y negras|She plays piano.|Toca el piano.
+band|banda|sust|el grupo de músicos|We started a band.|Montamos una banda.
+lyrics|letra|sust|las palabras de la canción|I wrote the lyrics.|Escribí la letra.
+chorus|estribillo|sust|la parte que se repite|Sing the chorus.|Canta el estribillo.
+verse|estrofa|sust|la parte que cambia|The second verse.|La segunda estrofa.
+melody|melodía|sust|la línea que se canta|A simple melody.|Una melodía sencilla.
+rhyme|rima|sust|palabras que suenan igual al final|It doesn't rhyme.|No rima.
+album|álbum|sust|el conjunto de canciones|Their first album.|Su primer álbum.
+concert|concierto|sust|el directo|We went to a concert.|Fuimos a un concierto.
+fan|fan / ventilador|sust|quien admira · o el aparato|I'm a big fan.|Soy muy fan.
+battery|batería (pila)|sust|la que da energía|The battery is dead.|La batería está muerta.
+math|matemáticas|sust|británico: maths|I'm bad at math.|Se me dan mal las matemáticas.
+pen|bolígrafo|sust|para escribir|Lend me a pen.|Préstame un bolígrafo.
+calendar|calendario|sust|donde van las fechas|It's on my calendar.|Está en mi calendario.
+accent|acento|sust|cómo suena tu inglés|I love your accent.|Me encanta tu acento.
+vocabulary|vocabulario|sust|las palabras que sabes|Build your vocabulary.|Amplía tu vocabulario.
+pronunciation|pronunciación|sust|cómo se dice|Work on pronunciation.|Trabaja la pronunciación.
+headache|dolor de cabeza|sust|también «un quebradero»|I have a headache.|Me duele la cabeza.
+fever|fiebre|sust|temperatura alta|She has a fever.|Tiene fiebre.
+ambulance|ambulancia|sust|para emergencias|Call an ambulance.|Llama a una ambulancia.
+theft|robo|sust|el delito de robar|Report the theft.|Denuncia el robo.
+fraud|fraude|sust|engaño para sacar dinero|It was a fraud.|Fue un fraude.
+trash|basura|sust|británico: rubbish|Take out the trash.|Saca la basura.
+laundry|colada|sust|la ropa por lavar|Do the laundry.|Haz la colada.
+dish|plato (de comida)|sust|do the dishes = fregar|My favorite dish.|Mi plato favorito.
+soccer|fútbol|sust|británico: football|He plays soccer.|Juega al fútbol.
+ball|pelota|sust|la del juego|Throw the ball.|Lanza la pelota.
+basket|cesta|sust|también la canasta|A basket of fruit.|Una cesta de fruta.
+nail|clavo / uña|sust|hit the nail on the head|You hit the nail on the head.|Diste en el clavo.
+straw|paja / pajita|sust|the last straw = la gota que colma|That's the last straw.|Es la gota que colma el vaso.
+worm|gusano|sust|the early bird gets the worm|The early bird gets the worm.|A quien madruga, Dios le ayuda.
+rocket|cohete|sust|it's not rocket science|It's not rocket science.|No es tan difícil.
+badge|insignia|sust|lo que identifica|Wear your badge.|Lleva tu identificación.
+article|artículo|sust|un texto · o a/an/the|I read an article.|Leí un artículo.
+podcast|podcast|sust|audio para escuchar|I listen to podcasts.|Escucho podcasts.
+discrepancy|discrepancia|sust|una diferencia que no cuadra|There's a discrepancy.|Hay una discrepancia.
+dataset|conjunto de datos|sust|los datos de un análisis|Load the dataset.|Carga el conjunto de datos.
+outlier|valor atípico|sust|el dato que se sale|Remove the outliers.|Quita los valores atípicos.
+approval|aprobación|sust|el visto bueno|Waiting for approval.|Esperando la aprobación.
+breach|brecha|sust|una violación de seguridad|A data breach.|Una brecha de datos.
+bug|fallo|sust|un error de programa|I found a bug.|Encontré un fallo.
+conclusion|conclusión|sust|a lo que se llega|Don't jump to conclusions.|No saques conclusiones precipitadas.
+funds|fondos|sust|el dinero disponible|Insufficient funds.|Fondos insuficientes.
+minimum|mínimo|sust|lo menos posible|The bare minimum.|Lo mínimo indispensable.
+convenience|comodidad|sust|at your convenience|At your convenience.|Cuando te venga bien.
+front|frente|sust|in front of = delante de|In front of me.|Delante de mí.
+loop|bucle|sust|keep me in the loop|Keep me in the loop.|Mantenme al tanto.

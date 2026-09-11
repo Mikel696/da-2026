@@ -1,0 +1,1000 @@
+Hello, how are you?|Hola, ¿cómo estás?|pres|saludos|WH + are + S ?|El saludo universal. La respuesta esperada NO es larga: I'm good, thanks.
+Hi, how's it going?|Hola, ¿cómo va todo?|prescont|saludos|WH + is + S + V-ing ?|Más informal que how are you. How's = how is.
+Good morning.|Buenos días.|fija|saludos|Expresión fija|Hasta el mediodía. Después: good afternoon.
+Good afternoon.|Buenas tardes.|fija|saludos|Expresión fija|Desde el mediodía hasta las 6 pm aproximadamente.
+Good evening.|Buenas noches (al llegar).|fija|saludos|Expresión fija|Al SALUDAR de noche. Al despedirse es good night.
+Good night.|Buenas noches (al irse).|fija|saludos|Expresión fija|Solo para despedirse o antes de dormir. Nunca para saludar.
+What's up?|¿Qué tal?|fija|saludos|Expresión fija|Muy informal. Respuesta típica: not much / nothing much.
+How have you been?|¿Cómo has estado?|perf|saludos|WH + have + S + been ?|Present perfect: para alguien que no ves hace tiempo.
+Long time no see.|Cuánto tiempo sin verte.|fija|saludos|Expresión fija|Gramaticalmente rara pero totalmente natural. No la corrijas.
+Nice to see you again.|Qué gusto verte otra vez.|fija|saludos|Expresión fija|see = ya lo conocías. meet = primera vez.
+It's good to see you.|Me alegra verte.|pres|saludos|It + is + ADJ + to + V|El it fantasma. Nunca digas Is good to see you.
+How's your day going?|¿Cómo va tu día?|prescont|smalltalk|WH + is + S + V-ing ?|Continuo porque el día está en curso ahora mismo.
+I'm good, thanks. And you?|Estoy bien, gracias. ¿Y tú?|pres|saludos|S + am + ADJ|And you? devuelve la pregunta. Siempre devuélvela.
+Not bad, thanks.|Nada mal, gracias.|fija|saludos|Expresión fija|Respuesta neutra y muy común. Menos entusiasta que I'm great.
+Pretty good, actually.|Bastante bien, la verdad.|fija|saludos|Expresión fija|pretty aquí significa bastante, no bonito.
+Nice to meet you.|Mucho gusto.|fija|presentarse|Expresión fija|Solo la PRIMERA vez que ves a alguien.
+It's a pleasure to meet you.|Es un placer conocerlo.|pres|presentarse|It + is + N + to + V|Versión formal, para entrevistas y negocios.
+My name is Miguel.|Me llamo Miguel.|pres|presentarse|S + is + COMP|Literalmente mi nombre ES. En español usamos me llamo.
+I'm Miguel, nice to meet you.|Soy Miguel, mucho gusto.|pres|presentarse|S + am + COMP|Más natural que My name is en contextos informales.
+What's your name?|¿Cómo te llamas?|pres|presentarse|WH + is + S ?|Literalmente cuál es tu nombre. No existe how do you call yourself.
+Where are you from?|¿De dónde eres?|pres|presentarse|WH + are + S + from ?|from se queda al final. Nunca From where are you.
+I'm from Colombia.|Soy de Colombia.|pres|presentarse|S + am + from + COMP|Nacionalidad y origen usan el motor BE.
+What do you do?|¿A qué te dedicas?|pres|presentarse|WH + do + S + V ?|Pregunta por la profesión. No es qué estás haciendo.
+I work as a data analyst.|Trabajo como analista de datos.|pres|presentarse|S + V + as + COMP|as + rol. Siempre lleva a o an antes de la profesión.
+I'm a systems engineering student.|Soy estudiante de ingeniería de sistemas.|pres|presentarse|S + am + COMP|Las profesiones SIEMPRE llevan a o an en inglés.
+How long have you been here?|¿Cuánto llevas aquí?|perf|smalltalk|WH + have + S + been + COMP ?|Empezó antes y sigue: present perfect obligatorio.
+I've been here for two years.|Llevo dos años aquí.|perf|presentarse|S + have + been + COMP|for + duración. Nunca I have two years here.
+How old are you?|¿Cuántos años tienes?|pres|presentarse|WH + ADJ + are + S ?|La edad es un ESTADO: motor BE, no HAVE.
+I'm twenty-five.|Tengo veinticinco.|pres|presentarse|S + am + COMP|years old es opcional. I'm 25 basta.
+Where do you live?|¿Dónde vives?|pres|presentarse|WH + do + S + V ?|do aparece porque no hay otro auxiliar.
+I live in Bogota.|Vivo en Bogotá.|pres|presentarse|S + V + in + COMP|in + ciudad. at + dirección exacta.
+Do you speak English?|¿Hablas inglés?|pres|presentarse|do + S + V + OBJ ?|speak para idiomas. talk es conversar.
+I'm learning English.|Estoy aprendiendo inglés.|prescont|estudio|S + am + V-ing + OBJ|En curso ahora, en esta etapa de tu vida.
+I'm still learning.|Todavía estoy aprendiendo.|prescont|estudio|S + am + still + V-ing|still va entre el auxiliar y el verbo.
+Could you speak more slowly, please?|¿Podría hablar más despacio?|modal|ayuda|could + S + V + COMP ?|could es la versión cortés de can.
+Could you repeat that, please?|¿Podría repetir eso?|modal|ayuda|could + S + V + OBJ ?|Frase que salva conversaciones. Memorízala primero.
+Sorry, I didn't catch that.|Perdón, no alcancé a oír.|past|ayuda|S + did + not + V + OBJ|catch that = captar lo dicho. Más natural que I didn't hear.
+What does that mean?|¿Qué significa eso?|pres|ayuda|WH + does + S + V ?|does porque el sujeto es that (tercera persona).
+How do you say this in English?|¿Cómo se dice esto en inglés?|pres|ayuda|WH + do + S + V + OBJ ?|El you impersonal: se dice, no tú dices.
+How do you spell that?|¿Cómo se escribe eso?|pres|ayuda|WH + do + S + V + OBJ ?|spell = deletrear. Se usa muchísimo con nombres.
+I don't understand.|No entiendo.|pres|ayuda|S + do + not + V|Tres palabras que valen oro. Nunca I no understand.
+I don't know.|No sé.|pres|ayuda|S + do + not + V|El do aparece solo para poder negar.
+Can you help me?|¿Me puedes ayudar?|modal|ayuda|can + S + V + OBJ ?|can va primero para preguntar. Sin do.
+Thank you very much.|Muchas gracias.|fija|cortesia|Expresión fija|Más formal que thanks.
+Thanks a lot.|Mil gracias.|fija|cortesia|Expresión fija|Informal y muy usado.
+Thanks for your help.|Gracias por tu ayuda.|fija|cortesia|thanks + for + N|thanks for + sustantivo o + verbo-ing.
+Thanks for coming.|Gracias por venir.|fija|cortesia|thanks + for + V-ing|Después de for SIEMPRE va -ing, nunca infinitivo.
+You're welcome.|De nada.|pres|cortesia|S + are + ADJ|La respuesta estándar a thank you.
+No problem.|No hay problema.|fija|cortesia|Expresión fija|Alternativa informal a you're welcome.
+Don't mention it.|Ni lo menciones.|imper|cortesia|do + not + V + OBJ|Muy cortés. Equivale a no fue nada.
+My pleasure.|Con gusto.|fija|cortesia|Expresión fija|Elegante. Muy usado en servicio al cliente.
+Excuse me.|Disculpe.|fija|cortesia|Expresión fija|Para INTERRUMPIR o pedir paso. Antes del hecho.
+I'm sorry.|Lo siento.|pres|disculpas|S + am + ADJ|Para DISCULPARSE por algo ya hecho. Después del hecho.
+Sorry about that.|Perdón por eso.|fija|disculpas|Expresión fija|Ligero y natural para errores pequeños.
+I'm sorry for the delay.|Perdón por la demora.|pres|disculpas|S + am + ADJ + for + N|sorry for + sustantivo. sorry about también funciona.
+I apologize for the confusion.|Me disculpo por la confusión.|pres|disculpas|S + V + for + N|Registro formal, ideal para correos de trabajo.
+It's my fault.|Es mi culpa.|pres|disculpas|It + is + COMP|El it fantasma otra vez. Nunca Is my fault.
+It won't happen again.|No volverá a pasar.|fut|disculpas|It + will + not + V + COMP|won't = will not. Se usa siempre en habla real.
+Please forgive me.|Por favor perdóname.|imper|disculpas|V + OBJ|Imperativo: verbo desnudo, sin sujeto.
+That's okay.|Está bien.|pres|disculpas|That + is + ADJ|Respuesta a una disculpa.
+Don't worry about it.|No te preocupes por eso.|imper|disculpas|do + not + V + about + OBJ|Negativo del imperativo: siempre don't + verbo.
+No worries.|Sin problema.|fija|disculpas|Expresión fija|Muy común en inglés australiano y americano.
+Goodbye.|Adiós.|fija|despedidas|Expresión fija|Formal. Bye es lo normal en el día a día.
+See you later.|Nos vemos luego.|fija|despedidas|Expresión fija|La despedida más común. See ya en habla rápida.
+See you tomorrow.|Nos vemos mañana.|fija|despedidas|Expresión fija|Sin preposición: NUNCA see you in tomorrow.
+Take care.|Cuídate.|imper|despedidas|V + OBJ|Cálido y cortés. Sirve con cualquiera.
+Have a good day.|Que tengas buen día.|imper|despedidas|V + a + ADJ + N|Imperativo con have. Muy usado en servicio.
+Have a good weekend.|Buen fin de semana.|imper|despedidas|V + a + ADJ + N|Los viernes es casi obligatorio decirlo.
+I have to go now.|Tengo que irme ya.|pres|despedidas|S + have + to + V|have to = obligación. Se pronuncia jaf tu.
+It was nice talking to you.|Fue un gusto hablar contigo.|past|despedidas|It + was + ADJ + V-ing|Después de nice va -ing, no infinitivo.
+Let's keep in touch.|Mantengamos el contacto.|imper|despedidas|Let + us + V + COMP|Let's = propuesta que te incluye a ti.
+Talk to you soon.|Hablamos pronto.|fija|despedidas|Expresión fija|Se abrevia TTYS en mensajes.
+Say hi to your family.|Saluda a tu familia.|imper|despedidas|V + COMP + to + OBJ|say hi to alguien. Nunca say hi your family.
+Nice weather today, isn't it?|Buen clima hoy, ¿no?|pres|smalltalk|COMP + is + not + it ?|Question tag: afirmas y confirmas al final.
+How was your weekend?|¿Cómo estuvo tu fin de semana?|past|smalltalk|WH + was + S ?|Pasado porque el fin de semana ya terminó.
+Did you do anything fun?|¿Hiciste algo divertido?|past|smalltalk|did + S + V + OBJ ?|did marca todo el pasado. El verbo va desnudo.
+How's work going?|¿Cómo va el trabajo?|prescont|smalltalk|WH + is + S + V-ing ?|Continuo: algo que está en marcha.
+Any plans for the weekend?|¿Algún plan para el fin de semana?|fija|smalltalk|Expresión fija|Versión corta de Do you have any plans.
+The weather is terrible today.|El clima está terrible hoy.|pres|tiempo|S + is + ADJ + COMP|weather es INCONTABLE: nunca weathers.
+It's really hot today.|Hace mucho calor hoy.|pres|tiempo|It + is + ADJ + COMP|El clima siempre lleva el it fantasma.
+It's freezing in here.|Está congelado aquí.|pres|tiempo|It + is + ADJ + COMP|freezing = exageración normal, no literal.
+It looks like it's going to rain.|Parece que va a llover.|goingto|tiempo|It + looks like + S + is + going to + V|going to porque hay evidencia visible ahora.
+It's been raining all day.|Ha estado lloviendo todo el día.|perf|tiempo|S + have + been + V-ing + COMP|Empezó antes y sigue: perfecto continuo.
+What time is it?|¿Qué hora es?|pres|tiempo|WH + N + is + it ?|El it fantasma también carga la hora.
+It's half past three.|Son las tres y media.|pres|tiempo|It + is + COMP|half past = y media. quarter past = y cuarto.
+It's a quarter to five.|Son un cuarto para las cinco.|pres|tiempo|It + is + COMP|to = faltan. past = pasadas.
+What day is it today?|¿Qué día es hoy?|pres|tiempo|WH + N + is + it + COMP ?|today no lleva preposición.
+I'm running late.|Voy retrasado.|prescont|tiempo|S + am + V-ing + ADJ|running late es más natural que I'm late a secas.
+I'll be there in ten minutes.|Llego en diez minutos.|fut|tiempo|S + will + be + COMP|in + tiempo = dentro de. Nunca in ten minutes more.
+Sorry I'm late.|Perdón por la demora.|pres|disculpas|S + am + ADJ|Frase de supervivencia diaria.
+Are you free tonight?|¿Estás libre esta noche?|pres|planes|are + S + ADJ + COMP ?|free = libre de compromisos.
+What are you doing this weekend?|¿Qué haces este fin de semana?|prescont|planes|WH + are + S + V-ing + COMP ?|Presente continuo para planes YA acordados.
+I'm meeting a friend tomorrow.|Voy a ver a un amigo mañana.|prescont|planes|S + am + V-ing + OBJ + COMP|Continuo con futuro: plan confirmado en agenda.
+I'm going to study tonight.|Voy a estudiar esta noche.|goingto|planes|S + am + going to + V + COMP|going to = intención decidida antes de hablar.
+I'll call you later.|Te llamo más tarde.|fut|planes|S + will + V + OBJ + COMP|will = decisión tomada en este instante.
+Let's meet at eight.|Reunámonos a las ocho.|imper|planes|Let + us + V + at + COMP|at + hora exacta.
+Does that work for you?|¿Te sirve así?|pres|planes|does + S + V + for + OBJ ?|work for someone = convenirle a alguien.
+Sounds good to me.|Me parece bien.|pres|acuerdo|V + ADJ + to + OBJ|Sin sujeto: es la forma corta natural.
+I'm afraid I can't.|Me temo que no puedo.|pres|cortesia|S + am + ADJ + S + can + not|I'm afraid suaviza un rechazo. No es tener miedo.
+Maybe another time.|Quizá en otra ocasión.|fija|cortesia|Expresión fija|Cierra un rechazo sin cerrar la puerta.
+Can we reschedule?|¿Podemos reagendar?|modal|planes|can + S + V ?|re- + verbo = volver a hacerlo.
+A table for two, please.|Una mesa para dos, por favor.|fija|restaurante|Expresión fija|Sin verbo. Así se pide en la vida real.
+Do you have a reservation?|¿Tiene reservación?|pres|restaurante|do + S + V + OBJ ?|Lo primero que te preguntan al entrar.
+I have a reservation under Miguel.|Tengo una reserva a nombre de Miguel.|pres|restaurante|S + V + OBJ + under + COMP|under + nombre. No in the name of.
+Can I see the menu, please?|¿Me trae el menú, por favor?|modal|restaurante|can + S + V + OBJ ?|can I = pedir para mí. can you = pedirle al otro.
+What do you recommend?|¿Qué recomienda?|pres|restaurante|WH + do + S + V ?|Frase de oro para no equivocarte pidiendo.
+What's the special today?|¿Cuál es el plato del día?|pres|restaurante|WH + is + S + COMP ?|the special = el plato del día.
+I'd like the chicken, please.|Quisiera el pollo, por favor.|cond|restaurante|S + would + like + OBJ|I'd like es más cortés que I want. Úsalo siempre.
+I'll have the same.|Yo pido lo mismo.|fut|restaurante|S + will + V + OBJ|will have = decisión tomada ahora mismo.
+Can I get a coffee?|¿Me da un café?|modal|restaurante|can + S + V + OBJ ?|get aquí es conseguir o que me traigan.
+Could we have some water?|¿Nos podría traer agua?|modal|restaurante|could + S + V + OBJ ?|some porque water es incontable.
+Is this dish spicy?|¿Este plato es picante?|pres|restaurante|is + S + ADJ ?|BE al frente para preguntar. Sin do.
+I'm allergic to nuts.|Soy alérgico a las nueces.|pres|restaurante|S + am + ADJ + to + OBJ|allergic TO. Frase que puede salvarte la vida.
+I'm a vegetarian.|Soy vegetariano.|pres|restaurante|S + am + COMP|Lleva a porque es un sustantivo contable.
+Does it come with fries?|¿Viene con papas?|pres|restaurante|does + S + V + with + OBJ ?|come with = venir acompañado de.
+Can I have the bill, please?|¿Me trae la cuenta?|modal|restaurante|can + S + V + OBJ ?|bill en UK · check en EE.UU.
+Can we split the bill?|¿Podemos dividir la cuenta?|modal|restaurante|can + S + V + OBJ ?|split the bill = pagar cada uno lo suyo.
+It's on me.|Yo invito.|pres|restaurante|It + is + on + OBJ|on me = va por mi cuenta. Muy natural.
+Do you take cards?|¿Aceptan tarjeta?|pres|restaurante|do + S + V + OBJ ?|take aquí es aceptar como medio de pago.
+Keep the change.|Quédate con el vuelto.|imper|restaurante|V + OBJ|change = vuelto y también cambio.
+Everything was delicious.|Todo estuvo delicioso.|past|restaurante|S + was + ADJ|everything es SINGULAR: was, no were.
+The food was great, thanks.|La comida estuvo excelente, gracias.|past|restaurante|S + was + ADJ|food es incontable: siempre singular.
+I'm just looking, thanks.|Solo estoy mirando, gracias.|prescont|compras|S + am + just + V-ing|La frase para que no te persigan en una tienda.
+How much is this?|¿Cuánto cuesta esto?|pres|compras|WH + much + is + S ?|how much para precio o incontables.
+How much does it cost?|¿Cuánto cuesta?|pres|compras|WH + much + does + S + V ?|Versión con verbo. Ambas son correctas.
+That's too expensive.|Eso es muy caro.|pres|compras|That + is + too + ADJ|too = demasiado, con carga negativa. very es neutro.
+Do you have this in a larger size?|¿Lo tiene en talla más grande?|pres|compras|do + S + V + OBJ + in + COMP ?|larger = comparativo corto con -er.
+Can I try it on?|¿Me lo puedo probar?|modal|compras|can + S + V + OBJ + on ?|try on = probarse ropa. El objeto va en medio.
+Where's the fitting room?|¿Dónde están los probadores?|pres|compras|WH + is + S ?|Where's = where is.
+It doesn't fit.|No me queda.|pres|compras|S + does + not + V|fit = de talla. suit = de estilo.
+I'll take it.|Me lo llevo.|fut|compras|S + will + V + OBJ|Decisión de compra tomada en el momento.
+Is it on sale?|¿Está en oferta?|pres|compras|is + S + on + COMP ?|on sale = rebajado. for sale = en venta.
+Do you have a discount?|¿Tienen descuento?|pres|compras|do + S + V + OBJ ?|Pregunta directa y aceptable.
+Can I get a refund?|¿Me pueden devolver el dinero?|modal|compras|can + S + V + OBJ ?|refund = devolución de dinero.
+I'd like to return this.|Quisiera devolver esto.|cond|compras|S + would + like + to + V + OBJ|would like TO + verbo. Con sustantivo va sin to.
+Do you have the receipt?|¿Tiene el recibo?|pres|compras|do + S + V + OBJ ?|receipt: la p es MUDA. Se dice risít.
+It's out of stock.|Está agotado.|pres|compras|It + is + COMP|out of stock = sin existencias.
+Can you hold it for me?|¿Me lo puede apartar?|modal|compras|can + S + V + OBJ + for + OBJ ?|hold = reservar o apartar un producto.
+Cash or card?|¿Efectivo o tarjeta?|fija|compras|Expresión fija|Sin verbo. Así se pregunta de verdad.
+I'm paying by card.|Voy a pagar con tarjeta.|prescont|dinero|S + am + V-ing + by + COMP|pay BY card · pay IN cash.
+Can I pay in cash?|¿Puedo pagar en efectivo?|modal|dinero|can + S + V + in + COMP ?|in cash lleva in, no with.
+How much do I owe you?|¿Cuánto te debo?|pres|dinero|WH + much + do + S + V + OBJ ?|owe someone money. El orden es fijo.
+I can't afford it.|No me alcanza.|modal|dinero|S + can + not + V + OBJ|afford = tener el dinero suficiente. No es permitirse.
+It's a good deal.|Es un buen trato.|pres|dinero|It + is + COMP|deal = trato o buen precio.
+It's a waste of money.|Es un desperdicio de dinero.|pres|dinero|It + is + COMP|a waste of + incontable.
+I'm saving money.|Estoy ahorrando dinero.|prescont|dinero|S + am + V-ing + OBJ|save = ahorrar y también guardar un archivo.
+I need to withdraw some cash.|Necesito retirar efectivo.|pres|dinero|S + V + to + V + OBJ|need TO + verbo. Nunca need that.
+Can you lend me twenty dollars?|¿Me prestas veinte dólares?|modal|dinero|can + S + V + OBJ + OBJ ?|lend = yo te presto. borrow = yo pido prestado.
+Can I borrow your charger?|¿Me prestas tu cargador?|modal|dinero|can + S + V + OBJ ?|borrow FROM. lend TO. No los confundas.
+I'll pay you back tomorrow.|Te pago mañana.|fut|dinero|S + will + V + OBJ + back + COMP|pay back = devolver dinero prestado.
+Excuse me, where's the bathroom?|Disculpe, ¿dónde está el baño?|pres|direcciones|WH + is + S ?|En EE.UU. también restroom.
+How do I get to the station?|¿Cómo llego a la estación?|pres|direcciones|WH + do + S + V + to + COMP ?|get to = llegar a. Más natural que arrive.
+Is it far from here?|¿Queda lejos de aquí?|pres|direcciones|is + S + ADJ + from + COMP ?|far from. near NO lleva preposición.
+It's about ten minutes away.|Queda como a diez minutos.|pres|direcciones|It + is + COMP + away|about = aproximadamente. away = de distancia.
+Go straight ahead.|Siga derecho.|imper|direcciones|V + COMP|Imperativo puro: verbo desnudo, sin sujeto.
+Turn left at the corner.|Gire a la izquierda en la esquina.|imper|direcciones|V + COMP + at + COMP|turn left, no turn to the left.
+It's on your right.|Está a su derecha.|pres|direcciones|It + is + on + COMP|on your right, con posesivo.
+It's just around the corner.|Está a la vuelta.|pres|direcciones|It + is + COMP|Significa muy cerca, no literalmente en la esquina.
+It's next to the bank.|Está al lado del banco.|pres|direcciones|It + is + next to + COMP|next to = al lado de. near = cerca de.
+It's across from the park.|Está frente al parque.|pres|direcciones|It + is + across from + COMP|across from = en frente, al otro lado.
+Can you show me on the map?|¿Me lo muestra en el mapa?|modal|direcciones|can + S + V + OBJ + on + COMP ?|show someone something: dos objetos seguidos.
+I think I'm lost.|Creo que estoy perdido.|pres|direcciones|S + V + S + am + ADJ|I think + frase completa, sin that obligatorio.
+Am I on the right track?|¿Voy por buen camino?|pres|direcciones|am + S + on + COMP ?|on the right track sirve literal y figurado.
+Which bus goes downtown?|¿Cuál bus va al centro?|pres|transporte|WH + S + V + COMP ?|which es sujeto: NO lleva does.
+How much is the fare?|¿Cuánto vale el pasaje?|pres|transporte|WH + much + is + S ?|fare = tarifa de transporte. ticket = el boleto.
+Where do I get off?|¿Dónde me bajo?|pres|transporte|WH + do + S + V + off ?|get off = bajarse de un bus o tren.
+Does this bus go to the airport?|¿Este bus va al aeropuerto?|pres|transporte|does + S + V + to + COMP ?|does porque this bus es tercera persona.
+I need a taxi, please.|Necesito un taxi, por favor.|pres|transporte|S + V + OBJ|need + sustantivo directo, sin to.
+Can you take me to this address?|¿Me lleva a esta dirección?|modal|transporte|can + S + V + OBJ + to + COMP ?|take = llevar allá. bring = traer acá.
+How long does it take?|¿Cuánto se demora?|pres|transporte|WH + long + does + S + V ?|take aquí es tardar, no tomar.
+The train is delayed.|El tren viene retrasado.|pres|transporte|S + is + ADJ|delayed = participio usado como adjetivo.
+I missed my flight.|Perdí mi vuelo.|past|viaje|S + V + OBJ|miss = perder un transporte y también extrañar.
+What time does the flight leave?|¿A qué hora sale el vuelo?|pres|viaje|WH + does + S + V ?|Horarios fijos van en presente simple.
+Where do I check in?|¿Dónde hago el check-in?|pres|viaje|WH + do + S + V + COMP ?|check in = registrarse. check out = salir.
+I have one suitcase to check.|Tengo una maleta para documentar.|pres|viaje|S + V + OBJ + to + V|to + verbo = para hacer algo.
+Is this seat taken?|¿Está ocupado este asiento?|pres|viaje|is + S + ADJ ?|taken = participio como adjetivo. Muy usado.
+Could I have a window seat?|¿Me podría dar ventanilla?|modal|viaje|could + S + V + OBJ ?|could I = petición cortés para uno mismo.
+I'm here on business.|Vengo por negocios.|pres|viaje|S + am + COMP|on business · on vacation. Siempre con on.
+I'm here on vacation.|Vengo de vacaciones.|pres|viaje|S + am + COMP|holiday en inglés británico.
+How long are you staying?|¿Cuánto tiempo se queda?|prescont|viaje|WH + long + are + S + V-ing ?|Continuo porque es una estadía planeada.
+I'm staying for a week.|Me quedo una semana.|prescont|viaje|S + am + V-ing + for + COMP|for + duración.
+I have a reservation.|Tengo una reserva.|pres|hotel|S + V + OBJ|booking en inglés británico.
+I'd like to check in, please.|Quisiera registrarme.|cond|hotel|S + would + like + to + V|Frase estándar en recepción.
+What time is checkout?|¿A qué hora es la salida?|pres|hotel|WH + N + is + S ?|checkout como sustantivo va junto.
+Is breakfast included?|¿Incluye desayuno?|pres|hotel|is + S + ADJ ?|included = participio como adjetivo.
+Is there Wi-Fi in the room?|¿Hay wifi en la habitación?|pres|hotel|is + there + S + in + COMP ?|there is = hay. Nunca has para esto.
+What's the Wi-Fi password?|¿Cuál es la clave del wifi?|pres|hotel|WH + is + S ?|La pregunta más internacional del planeta.
+The air conditioning isn't working.|El aire no funciona.|prescont|quejas|S + is + not + V-ing|Continuo: el problema está ocurriendo ahora.
+There's a problem with my room.|Hay un problema con mi habitación.|pres|quejas|There + is + S + with + COMP|a problem WITH something.
+Could I get a wake-up call?|¿Me podría despertar por teléfono?|modal|hotel|could + S + V + OBJ ?|a wake-up call: sustantivo compuesto con guion.
+Can I leave my luggage here?|¿Puedo dejar mi equipaje aquí?|modal|hotel|can + S + V + OBJ + COMP ?|luggage es INCONTABLE: nunca luggages.
+I'd like to extend my stay.|Quisiera extender mi estadía.|cond|hotel|S + would + like + to + V + OBJ|stay como sustantivo = la estadía.
+This isn't what I ordered.|Esto no es lo que pedí.|pres|quejas|S + is + not + WH + S + V|Pregunta indirecta: el orden vuelve a normal.
+I'd like to speak to the manager.|Quisiera hablar con el gerente.|cond|quejas|S + would + like + to + V + to + OBJ|speak TO someone. Cortés pero firme.
+This is unacceptable.|Esto es inaceptable.|pres|quejas|S + is + ADJ|Registro formal para una queja seria.
+I've been waiting for an hour.|Llevo una hora esperando.|perf|quejas|S + have + been + V-ing + for + COMP|Empezó antes y sigue: perfecto continuo.
+Could you fix this, please?|¿Podría arreglar esto?|modal|quejas|could + S + V + OBJ ?|could suaviza incluso una queja.
+I want a refund.|Quiero un reembolso.|pres|quejas|S + V + OBJ|Directo. Para suavizar: I'd like a refund.
+Can I get some help here?|¿Me pueden ayudar aquí?|modal|ayuda|can + S + V + OBJ + COMP ?|some help porque help es incontable.
+I'm working on it.|Estoy en eso.|prescont|trabajo|S + am + V-ing + on + OBJ|work ON something. La respuesta estándar cuando te presionan.
+I'll get back to you.|Te respondo luego.|fut|trabajo|S + will + V + back + to + OBJ|get back to someone = dar una respuesta después.
+Let me check and get back to you.|Déjame revisar y te aviso.|imper|trabajo|Let + OBJ + V + COMP|Let me = permíteme. Verbo desnudo después.
+Can we schedule a call?|¿Podemos agendar una llamada?|modal|trabajo|can + S + V + OBJ ?|schedule se pronuncia skéyul en EE.UU.
+Does Tuesday work for you?|¿Te sirve el martes?|pres|trabajo|does + S + V + for + OBJ ?|work for someone = convenirle a alguien.
+I'm available after three.|Estoy disponible después de las tres.|pres|trabajo|S + am + ADJ + after + COMP|available = libre para reunirse.
+I'm in a meeting right now.|Estoy en una reunión ahora.|prescont|trabajo|S + am + in + COMP|Estado presente: se usa BE, no continuo del verbo.
+Sorry, I'm swamped today.|Perdón, estoy hasta el cuello hoy.|pres|trabajo|S + am + ADJ + COMP|swamped = desbordado de trabajo. Muy natural.
+I'm running behind schedule.|Voy atrasado con el cronograma.|prescont|trabajo|S + am + V-ing + COMP|behind schedule = retrasado respecto al plan.
+Can you send me the file?|¿Me puedes enviar el archivo?|modal|trabajo|can + S + V + OBJ + OBJ ?|send me the file: dos objetos, persona primero.
+I've attached the document.|Adjunté el documento.|perf|email|S + have + V-ed + OBJ|Perfecto: acción reciente con efecto ahora.
+Please find the report attached.|Adjunto encontrará el informe.|imper|email|V + OBJ + ADJ|Fórmula fija de correo formal. No la analices.
+Let me know if you have questions.|Avísame si tienes preguntas.|imper|email|Let + OBJ + V + if + S + V + OBJ|let someone know = avisarle.
+Looking forward to hearing from you.|Quedo atento a su respuesta.|fija|email|Expresión fija|Después de forward to va -ing, NUNCA infinitivo.
+Thanks in advance for your help.|Gracias de antemano por tu ayuda.|fija|email|Expresión fija|in advance = por adelantado.
+Please let me know your thoughts.|Por favor cuéntame qué opinas.|imper|email|V + OBJ + V + OBJ|thoughts = opiniones, en plural.
+I'll keep you posted.|Te mantendré informado.|fut|email|S + will + V + OBJ + ADJ|keep someone posted = mantener al tanto.
+Just following up on my last email.|Solo doy seguimiento a mi correo anterior.|prescont|email|V-ing + up + on + COMP|follow up = insistir sin sonar molesto.
+Apologies for the late reply.|Disculpas por la respuesta tardía.|fija|email|Expresión fija|Fórmula fija. Muy usada en correo profesional.
+Could you clarify what you mean?|¿Podría aclarar a qué se refiere?|modal|email|could + S + V + WH + S + V ?|Pregunta indirecta: what you mean, no what do you mean.
+As discussed, I'm sending the file.|Como acordamos, envío el archivo.|prescont|email|As + V-ed + S + am + V-ing + OBJ|as discussed = fórmula fija de correo.
+Please confirm receipt.|Por favor confirme recibido.|imper|email|V + OBJ|Registro muy formal. Imperativo puro.
+I hope this email finds you well.|Espero que esté bien.|pres|email|S + V + S + V + OBJ + ADJ|Fórmula estándar de apertura en inglés de negocios.
+Best regards,|Saludos cordiales,|fija|email|Expresión fija|Cierre estándar. Kind regards también funciona.
+Let's get started.|Empecemos.|imper|reuniones|Let + us + V + ADJ|Abre una reunión sin rodeos.
+Can everyone hear me?|¿Todos me escuchan?|modal|reuniones|can + S + V + OBJ ?|everyone es SINGULAR pero suena a plural.
+You're on mute.|Tienes el micrófono apagado.|pres|reuniones|S + are + on + COMP|La frase más dicha del siglo XXI.
+Sorry, can you repeat that?|Perdón, ¿puedes repetir?|modal|reuniones|can + S + V + OBJ ?|Pídelo sin pena. Todos lo hacen.
+Let me share my screen.|Déjame compartir mi pantalla.|imper|reuniones|Let + OBJ + V + OBJ|Let me + verbo desnudo, sin to.
+Can you see my screen?|¿Ves mi pantalla?|modal|reuniones|can + S + V + OBJ ?|Con verbos de percepción se usa can, no continuo.
+I'd like to add something.|Quisiera agregar algo.|cond|reuniones|S + would + like + to + V + OBJ|Forma cortés de pedir la palabra.
+Sorry to interrupt, but...|Perdón por interrumpir, pero...|fija|reuniones|Expresión fija|sorry TO + verbo cuando aún no lo hiciste.
+Could I jump in here?|¿Puedo intervenir?|modal|reuniones|could + S + V + in + COMP ?|jump in = meterse a la conversación.
+That's a good point.|Ese es un buen punto.|pres|reuniones|That + is + COMP|Reconoce un argumento antes de contradecirlo.
+I see your point, but...|Entiendo tu punto, pero...|pres|opiniones|S + V + OBJ|Fórmula de desacuerdo cortés.
+Let's move on to the next topic.|Pasemos al siguiente tema.|imper|reuniones|Let + us + V + on + to + COMP|move on to = avanzar al siguiente punto.
+Let's circle back to that.|Volvamos a eso después.|imper|reuniones|Let + us + V + back + to + OBJ|circle back = retomar más tarde.
+Are we all on the same page?|¿Estamos todos de acuerdo?|pres|reuniones|are + S + on + COMP ?|on the same page = alineados en el entendimiento.
+Let's take this offline.|Hablemos esto aparte.|imper|reuniones|Let + us + V + OBJ + COMP|take offline = discutirlo fuera de la reunión.
+Who's taking notes?|¿Quién toma nota?|prescont|reuniones|WH + is + V-ing + OBJ ?|who es sujeto: no lleva auxiliar extra.
+What are the next steps?|¿Cuáles son los siguientes pasos?|pres|reuniones|WH + are + S ?|steps es plural: are, no is.
+Any questions before we finish?|¿Alguna pregunta antes de terminar?|fija|reuniones|Expresión fija|before + frase completa.
+Thanks everyone for your time.|Gracias a todos por su tiempo.|fija|reuniones|Expresión fija|Cierre estándar de reunión.
+Tell me about yourself.|Cuéntame sobre ti.|imper|entrevista|V + OBJ + about + OBJ|La primera pregunta de casi toda entrevista.
+Why are you interested in this role?|¿Por qué te interesa este puesto?|pres|entrevista|WH + are + S + ADJ + in + COMP ?|interested IN, nunca interested on.
+What are your strengths?|¿Cuáles son tus fortalezas?|pres|entrevista|WH + are + S ?|strengths y weaknesses van siempre juntas.
+What's your biggest weakness?|¿Cuál es tu mayor debilidad?|pres|entrevista|WH + is + S ?|biggest = superlativo corto con -est.
+Where do you see yourself in five years?|¿Dónde te ves en cinco años?|pres|entrevista|WH + do + S + V + OBJ + in + COMP ?|in + tiempo = dentro de.
+Why did you leave your last job?|¿Por qué dejaste tu último trabajo?|past|entrevista|WH + did + S + V + OBJ ?|did marca el pasado, el verbo va desnudo.
+I have five years of experience.|Tengo cinco años de experiencia.|pres|entrevista|S + V + COMP + of + N|experience es INCONTABLE aquí: nunca experiences.
+I'm good at solving problems.|Soy bueno resolviendo problemas.|pres|entrevista|S + am + ADJ + at + V-ing|good AT + verbo-ing. Nunca good in.
+I work well under pressure.|Trabajo bien bajo presión.|pres|entrevista|S + V + ADV + under + COMP|under pressure: preposición fija.
+I'm a fast learner.|Aprendo rápido.|pres|entrevista|S + am + COMP|Sustantivo compuesto: más natural que I learn fast.
+I'm passionate about data.|Me apasionan los datos.|pres|entrevista|S + am + ADJ + about + COMP|passionate ABOUT something.
+I led a team of five people.|Lideré un equipo de cinco personas.|past|entrevista|S + V-ed + OBJ + of + COMP|led es el pasado irregular de lead.
+I improved the process by 30%.|Mejoré el proceso en un 30%.|past|entrevista|S + V-ed + OBJ + by + COMP|by + porcentaje para expresar la mejora.
+I'm looking for new challenges.|Busco nuevos retos.|prescont|entrevista|S + am + V-ing + for + OBJ|look FOR = buscar. Siempre con for.
+Do you have any questions for me?|¿Tienes preguntas para mí?|pres|entrevista|do + S + V + OBJ + for + OBJ ?|any en pregunta. some en afirmativo.
+When can I expect to hear back?|¿Cuándo tendré noticias?|modal|entrevista|WH + can + S + V + to + V + back ?|hear back = recibir respuesta.
+Thank you for your time today.|Gracias por su tiempo hoy.|fija|entrevista|Expresión fija|Cierre obligatorio de toda entrevista.
+I'm very interested in the position.|Estoy muy interesado en el puesto.|pres|entrevista|S + am + ADV + ADJ + in + COMP|Cierra dejando clara tu intención.
+What's the salary range?|¿Cuál es el rango salarial?|pres|entrevista|WH + is + S ?|Pregunta legítima. Hazla al final.
+Is this position remote?|¿Este puesto es remoto?|pres|entrevista|is + S + ADJ ?|remote · hybrid · on-site.
+I'd like to negotiate the offer.|Quisiera negociar la oferta.|cond|entrevista|S + would + like + to + V + OBJ|Cortés y profesional. Nunca I want.
+I accept the offer.|Acepto la oferta.|pres|entrevista|S + V + OBJ|Presente simple para decisiones formales.
+When can I start?|¿Cuándo puedo empezar?|modal|entrevista|WH + can + S + V ?|can + verbo desnudo, sin to.
+Could you explain that again?|¿Podría explicarlo de nuevo?|modal|ayuda|could + S + V + OBJ + COMP ?|again SIEMPRE va al final.
+I'm not sure I follow.|No estoy seguro de entender.|pres|ayuda|S + am + not + ADJ + S + V|follow = seguir el hilo de una idea.
+Let me make sure I understand.|Déjame confirmar que entendí.|imper|ayuda|Let + OBJ + V + ADJ + S + V|make sure = asegurarse.
+Correct me if I'm wrong.|Corrígeme si me equivoco.|imper|ayuda|V + OBJ + if + S + am + ADJ|if + presente para condición real.
+Does that make sense?|¿Tiene sentido?|pres|ayuda|does + S + V + OBJ ?|make sense = tener sentido. Nunca have sense.
+In other words, we need more time.|En otras palabras, necesitamos más tiempo.|pres|conectores|COMP + S + V + OBJ|Reformula lo que acabas de decir.
+On the other hand, it's cheaper.|Por otro lado, es más barato.|pres|conectores|COMP + S + is + ADJ|Contrapone dos ideas. Siempre con coma.
+As a result, sales went up.|Como resultado, las ventas subieron.|past|conectores|COMP + S + V-ed + COMP|Introduce la consecuencia.
+However, there's a problem.|Sin embargo, hay un problema.|pres|conectores|COMP + there + is + S|however va al inicio y con coma.
+Therefore, we decided to wait.|Por lo tanto, decidimos esperar.|past|conectores|COMP + S + V-ed + to + V|Registro formal. Para conclusiones.
+For example, take this case.|Por ejemplo, mira este caso.|imper|conectores|COMP + V + OBJ|for example o for instance: son iguales.
+In addition, we saved time.|Además, ahorramos tiempo.|past|conectores|COMP + S + V-ed + OBJ|in addition TO + sustantivo. Solo, va con coma.
+First of all, let me explain.|Antes que nada, déjame explicar.|imper|conectores|COMP + Let + OBJ + V|Ordena una lista de ideas.
+To sum up, it works.|En resumen, funciona.|pres|conectores|COMP + S + V|to sum up = para resumir. Cierra una idea.
+That being said, I agree.|Dicho eso, estoy de acuerdo.|pres|conectores|COMP + S + V|Concede algo antes de dar tu posición.
+I completely agree.|Estoy totalmente de acuerdo.|pres|acuerdo|S + ADV + V|agree es VERBO: nunca I'm agree.
+I couldn't agree more.|No podría estar más de acuerdo.|cond|acuerdo|S + could + not + V + ADV|Suena a negación pero es el acuerdo más fuerte.
+That's exactly what I think.|Es exactamente lo que pienso.|pres|acuerdo|That + is + WH + S + V|what aquí significa lo que.
+You're absolutely right.|Tienes toda la razón.|pres|acuerdo|S + are + ADV + ADJ|right como adjetivo: tener razón.
+I see what you mean.|Entiendo lo que dices.|pres|acuerdo|S + V + WH + S + V|Orden normal después de what: no lleva auxiliar.
+Fair enough.|Me parece justo.|fija|acuerdo|Expresión fija|Acepta un argumento sin entusiasmo.
+I'm not so sure about that.|No estoy tan seguro de eso.|pres|opiniones|S + am + not + ADV + ADJ + about + OBJ|Desacuerdo suave y muy cortés.
+I respectfully disagree.|Discrepo respetuosamente.|pres|opiniones|S + ADV + V|Formal. Ideal para reuniones tensas.
+I see it differently.|Yo lo veo distinto.|pres|opiniones|S + V + OBJ + ADV|Desacuerdo sin confrontación.
+That's not quite right.|Eso no está del todo bien.|pres|opiniones|That + is + not + ADV + ADJ|not quite = no del todo. Muy diplomático.
+In my opinion, it's too risky.|En mi opinión, es muy arriesgado.|pres|opiniones|COMP + S + is + too + ADJ|too + adjetivo = demasiado, con carga negativa.
+From my point of view...|Desde mi punto de vista...|fija|opiniones|Expresión fija|Alternativa a in my opinion.
+It depends on the situation.|Depende de la situación.|pres|opiniones|S + V + on + OBJ|depend ON siempre. Nunca depend of.
+I think so.|Creo que sí.|pres|opiniones|S + V + ADV|so reemplaza toda la frase anterior.
+I don't think so.|Creo que no.|pres|opiniones|S + do + not + V + ADV|Se niega el think, no el so. Regla clave.
+It's up to you.|Tú decides.|pres|opiniones|It + is + up to + OBJ|up to someone = decisión de esa persona.
+Whatever you prefer.|Lo que prefieras.|pres|cortesia|WH + S + V|whatever = lo que sea que.
+I wake up at six every day.|Me despierto a las seis todos los días.|pres|casa|S + V + at + COMP + COMP|Presente simple = rutina. every day sin the.
+I usually have coffee first.|Normalmente tomo café primero.|pres|casa|S + ADV + V + OBJ + COMP|usually va antes del verbo principal.
+I'm making breakfast.|Estoy haciendo el desayuno.|prescont|casa|S + am + V-ing + OBJ|make breakfast, nunca do breakfast.
+I take a shower every morning.|Me baño todas las mañanas.|pres|casa|S + V + OBJ + COMP|take a shower, no make a shower.
+I brush my teeth twice a day.|Me cepillo los dientes dos veces al día.|pres|casa|S + V + OBJ + COMP|twice a day. Nunca two times in the day.
+I leave home at seven.|Salgo de casa a las siete.|pres|casa|S + V + OBJ + at + COMP|leave home sin preposición.
+I get home around six.|Llego a casa como a las seis.|pres|casa|S + V + OBJ + around + COMP|get home SIN to. Nunca get to home.
+I go to bed late.|Me acuesto tarde.|pres|casa|S + V + to + COMP + ADV|go to bed sin the. Es una expresión fija.
+I'm doing the dishes.|Estoy lavando la loza.|prescont|casa|S + am + V-ing + OBJ|do the dishes, no wash the dishes (aunque se entiende).
+Can you take out the trash?|¿Puedes sacar la basura?|modal|casa|can + S + V + out + OBJ ?|take out: el objeto puede ir en medio o al final.
+The washing machine is broken.|La lavadora está dañada.|pres|casa|S + is + ADJ|broken = participio como adjetivo.
+I need to do the laundry.|Necesito lavar la ropa.|pres|casa|S + V + to + V + OBJ|do the laundry es la expresión fija.
+Could you turn down the music?|¿Podrías bajar la música?|modal|casa|could + S + V + down + OBJ ?|turn down = bajar volumen. turn up = subir.
+I forgot to lock the door.|Olvidé cerrar con llave.|past|casa|S + V-ed + to + V + OBJ|forget TO + verbo = olvidar hacer algo.
+Make yourself at home.|Siéntete como en casa.|imper|cortesia|V + OBJ + at + COMP|Expresión fija de hospitalidad.
+Help yourself.|Sírvete.|imper|cortesia|V + OBJ|Se usa con comida y bebida.
+Come in, please.|Pase, por favor.|imper|cortesia|V + in + COMP|come in = entrar hacia donde estoy yo.
+Have a seat.|Toma asiento.|imper|cortesia|V + OBJ|Más cortés que sit down.
+Would you like something to drink?|¿Quieres algo de tomar?|cond|cortesia|would + S + like + OBJ + to + V ?|something to drink: to + verbo = para.
+Yes, please. / No, thanks.|Sí, por favor. / No, gracias.|fija|cortesia|Expresión fija|Nunca respondas solo yes o no: suena cortante.
+How's your family?|¿Cómo está tu familia?|pres|familia|WH + is + S ?|family puede ser singular o plural.
+Do you have any brothers or sisters?|¿Tienes hermanos?|pres|familia|do + S + V + OBJ ?|No hay una palabra para hermanos en general: siblings es formal.
+I have one brother and two sisters.|Tengo un hermano y dos hermanas.|pres|familia|S + V + OBJ + and + OBJ|have = tener. Motor HAVE en sentido de posesión.
+I'm the oldest.|Soy el mayor.|pres|familia|S + am + COMP|oldest = superlativo. the es obligatorio.
+Are you married?|¿Estás casado?|pres|familia|are + S + ADJ ?|married = adjetivo. Motor BE, no HAVE.
+I'm single.|Soy soltero.|pres|familia|S + am + ADJ|single también significa uno solo.
+Do you have kids?|¿Tienes hijos?|pres|familia|do + S + V + OBJ ?|kids es informal y natural. children es neutro.
+My son is five years old.|Mi hijo tiene cinco años.|pres|familia|S + is + COMP|La edad va con BE, no con HAVE.
+I live with my parents.|Vivo con mis papás.|pres|familia|S + V + with + OBJ|parents = padres. relatives = parientes.
+We get along well.|Nos llevamos bien.|pres|familia|S + V + ADV|get along = llevarse bien. Con with si hay persona.
+I miss my family.|Extraño a mi familia.|pres|sentimientos|S + V + OBJ|miss = extrañar. No lleva preposición.
+I'm proud of you.|Estoy orgulloso de ti.|pres|sentimientos|S + am + ADJ + of + OBJ|proud OF siempre.
+I'm so happy for you.|Me alegro mucho por ti.|pres|sentimientos|S + am + ADV + ADJ + for + OBJ|happy FOR someone = alegrarse por alguien.
+Congratulations!|¡Felicitaciones!|fija|sentimientos|Expresión fija|SIEMPRE en plural, con s final.
+I'm sorry to hear that.|Lamento escuchar eso.|pres|sentimientos|S + am + ADJ + to + V + OBJ|La respuesta estándar a una mala noticia.
+That's too bad.|Qué lástima.|pres|sentimientos|That + is + too + ADJ|too bad aquí no es demasiado malo: es qué pena.
+Cheer up!|¡Ánimo!|imper|sentimientos|V + up|Phrasal verb sin objeto.
+Don't give up.|No te rindas.|imper|sentimientos|do + not + V + up|give up = rendirse. Con -ing significa dejar de.
+You can do it.|Tú puedes.|modal|sentimientos|S + can + V + OBJ|can + verbo desnudo.
+I'm really excited about this.|Estoy muy emocionado con esto.|pres|sentimientos|S + am + ADV + ADJ + about + OBJ|excited ABOUT. Nunca excited for something.
+I'm nervous about the interview.|Estoy nervioso por la entrevista.|pres|sentimientos|S + am + ADJ + about + OBJ|nervous ABOUT something.
+I'm worried about him.|Estoy preocupado por él.|pres|sentimientos|S + am + ADJ + about + OBJ|worried ABOUT. Nunca worried for.
+I feel much better now.|Me siento mucho mejor ahora.|pres|salud|S + V + ADV + ADJ + COMP|much + comparativo = mucho más.
+I'm exhausted.|Estoy agotado.|pres|sentimientos|S + am + ADJ|Más fuerte que tired.
+I'm stressed out.|Estoy estresado.|pres|sentimientos|S + am + ADJ + out|stressed out = pasado de estrés.
+I need a break.|Necesito un descanso.|pres|sentimientos|S + V + OBJ|break = descanso corto. rest = descanso general.
+That's frustrating.|Eso es frustrante.|pres|sentimientos|That + is + ADJ|-ing describe la COSA. -ed describe a la persona.
+I'm frustrated.|Estoy frustrado.|pres|sentimientos|S + am + ADJ|-ed = lo que YO siento. No confundir con frustrating.
+It drives me crazy.|Me vuelve loco.|pres|sentimientos|S + V + OBJ + ADJ|drive someone crazy: expresión fija.
+I can't stand it.|No lo soporto.|modal|sentimientos|S + can + not + V + OBJ|can't stand = no soportar. No es estar de pie.
+I don't feel well.|No me siento bien.|pres|salud|S + do + not + V + ADV|feel well para salud. feel good para ánimo.
+I have a headache.|Me duele la cabeza.|pres|salud|S + V + OBJ|Los dolores usan HAVE + a + dolor.
+I have a sore throat.|Me duele la garganta.|pres|salud|S + V + OBJ|sore = adolorido. Muy usado con throat.
+My back hurts.|Me duele la espalda.|pres|salud|S + V|hurt como verbo: la parte del cuerpo es el sujeto.
+I have a fever.|Tengo fiebre.|pres|salud|S + V + OBJ|a fever lleva artículo. Es contable en inglés.
+I have a cold.|Estoy resfriado.|pres|salud|S + V + OBJ|a cold = resfriado. NO es constipated.
+I feel dizzy.|Me siento mareado.|pres|salud|S + V + ADJ|feel + adjetivo, sin like.
+I need to see a doctor.|Necesito ver un médico.|pres|salud|S + V + to + V + OBJ|see a doctor es la expresión fija.
+Where does it hurt?|¿Dónde le duele?|pres|salud|WH + does + S + V ?|does porque it es tercera persona.
+How long have you felt this way?|¿Desde cuándo se siente así?|perf|salud|WH + long + have + S + V-ed + COMP ?|Perfecto: empezó antes y sigue.
+Are you allergic to anything?|¿Es alérgico a algo?|pres|salud|are + S + ADJ + to + OBJ ?|anything en pregunta. something en afirmativo.
+Take this twice a day.|Tome esto dos veces al día.|imper|salud|V + OBJ + COMP|twice a day: la frecuencia va al final.
+Get well soon.|Que te mejores.|imper|salud|V + ADJ + ADV|get + adjetivo = volverse. Muy común.
+Call an ambulance!|¡Llame una ambulancia!|imper|emergencia|V + OBJ|Imperativo puro. Sin sujeto.
+Help! I need help!|¡Auxilio! ¡Necesito ayuda!|pres|emergencia|S + V + OBJ|help es incontable: sin a.
+There's been an accident.|Hubo un accidente.|perf|emergencia|There + have + been + S|there has been = ha habido.
+Call the police.|Llame a la policía.|imper|emergencia|V + OBJ|police es plural, pero aquí es el objeto.
+I lost my passport.|Perdí mi pasaporte.|past|emergencia|S + V-ed + OBJ|lost es el pasado irregular de lose.
+My phone was stolen.|Me robaron el teléfono.|past|emergencia|S + was + V-ed|Voz pasiva: el objeto se vuelve sujeto.
+I need to report a theft.|Necesito reportar un robo.|pres|emergencia|S + V + to + V + OBJ|theft = el delito. thief = el ladrón.
+Is anyone hurt?|¿Hay algún herido?|pres|emergencia|is + S + ADJ ?|anyone es singular: is, no are.
+Stay calm.|Mantén la calma.|imper|emergencia|V + ADJ|stay + adjetivo = permanecer en un estado.
+Watch out!|¡Cuidado!|imper|emergencia|V + out|Alerta inmediata. También look out.
+Be careful.|Ten cuidado.|imper|emergencia|V + ADJ|Imperativo de be: siempre desnudo.
+Is everything okay?|¿Todo bien?|pres|smalltalk|is + S + ADJ ?|everything es SINGULAR: is.
+What happened?|¿Qué pasó?|past|pasado|WH + V-ed ?|what es sujeto: NO lleva did.
+I went there last year.|Fui allá el año pasado.|past|pasado|S + V-ed + COMP + COMP|last year sin the. Pide pasado simple.
+I used to work at a bank.|Antes trabajaba en un banco.|past|pasado|S + used to + V + at + COMP|used to = costumbre pasada que ya no existe.
+When I was a kid, I played soccer.|Cuando era niño, jugaba fútbol.|past|pasado|WH + S + was + COMP + S + V-ed + OBJ|Dos pasados simples: el hábito de la infancia.
+I was studying when you called.|Estaba estudiando cuando llamaste.|pastcont|pasado|S + was + V-ing + WH + S + V-ed|Continuo = lo largo. Simple = lo que lo interrumpe.
+I've never been to Europe.|Nunca he ido a Europa.|perf|pasado|S + have + never + been + to + COMP|been to = haber ido y vuelto. gone to = sigue allá.
+Have you ever tried sushi?|¿Alguna vez has probado sushi?|perf|pasado|have + S + ever + V-ed + OBJ ?|ever = alguna vez en la vida. Pide perfecto.
+I've already finished.|Ya terminé.|perf|pasado|S + have + already + V-ed|already en afirmativo. yet en negativo y pregunta.
+I haven't finished yet.|Todavía no termino.|perf|pasado|S + have + not + V-ed + yet|yet SIEMPRE al final de la frase.
+I just got here.|Acabo de llegar.|past|pasado|S + just + V-ed + COMP|just + pasado = acabar de. Muy usado en EE.UU.
+It happened two days ago.|Pasó hace dos días.|past|pasado|S + V-ed + COMP + ago|ago va DESPUÉS del tiempo. Nunca ago two days.
+I had already left when she arrived.|Ya me había ido cuando ella llegó.|past|pasado|S + had + already + V-ed + WH + S + V-ed|had + participio = lo más antiguo de dos pasados.
+That was a long time ago.|Eso fue hace mucho tiempo.|past|pasado|That + was + COMP + ago|a long time ago: expresión fija.
+Things were different back then.|Las cosas eran distintas en ese entonces.|past|pasado|S + were + ADJ + COMP|things es plural: were, no was.
+I remember it clearly.|Lo recuerdo claramente.|pres|pasado|S + V + OBJ + ADV|remember + objeto directo, sin preposición.
+I'll never forget that day.|Nunca olvidaré ese día.|fut|pasado|S + will + never + V + OBJ|never va entre will y el verbo.
+What are you going to do?|¿Qué vas a hacer?|goingto|planes|WH + are + S + going to + V ?|going to = plan ya decidido.
+I'm going to look for a new job.|Voy a buscar trabajo nuevo.|goingto|planes|S + am + going to + V + for + OBJ|look FOR = buscar.
+I'm thinking about moving.|Estoy pensando en mudarme.|prescont|planes|S + am + V-ing + about + V-ing|think about + -ing. Nunca think in.
+I hope to travel next year.|Espero viajar el año que viene.|pres|planes|S + V + to + V + COMP|hope TO + verbo cuando el sujeto es el mismo.
+I plan to finish this month.|Planeo terminar este mes.|pres|planes|S + V + to + V + COMP|plan TO + verbo, siempre con to.
+We'll see what happens.|Ya veremos qué pasa.|fut|planes|S + will + V + WH + V-s|Pregunta indirecta: sin auxiliar.
+Let's play it by ear.|Vamos viendo sobre la marcha.|imper|planes|Let + us + V + OBJ + by + COMP|play it by ear = improvisar según pase.
+Fingers crossed.|Crucemos los dedos.|fija|planes|Expresión fija|Sin verbo. Se dice tal cual.
+Can I ask you something?|¿Te puedo preguntar algo?|modal|permiso|can + S + V + OBJ + OBJ ?|can I = permiso informal. may I = formal.
+May I come in?|¿Puedo pasar?|modal|permiso|may + S + V + in ?|may es el más formal de los tres.
+Could I borrow this?|¿Podría prestarme esto?|modal|permiso|could + S + V + OBJ ?|could = petición cortés, no pasado aquí.
+Is it okay if I leave early?|¿Está bien si salgo temprano?|pres|permiso|is + it + ADJ + if + S + V + ADV ?|Después de if va presente, aunque hables del futuro.
+Do you mind if I sit here?|¿Te importa si me siento aquí?|pres|permiso|do + S + V + if + S + V + COMP ?|Ojo: la respuesta amable es No, not at all.
+Would you mind closing the window?|¿Te importaría cerrar la ventana?|cond|permiso|would + S + V + V-ing + OBJ ?|Después de mind SIEMPRE va -ing.
+Go ahead.|Adelante.|imper|permiso|V + ADV|Da permiso de forma breve y natural.
+Sure, no problem.|Claro, sin problema.|fija|permiso|Expresión fija|Concede permiso de forma relajada.
+I'm afraid you can't.|Me temo que no puede.|modal|permiso|S + am + ADJ + S + can + not|I'm afraid suaviza la negativa.
+You're not allowed to park here.|No se permite parquear aquí.|modal|permiso|S + are + not + allowed + to + V + COMP|be allowed to = tener permiso.
+Smoking is not permitted.|No se permite fumar.|pres|permiso|S + is + not + V-ed|El sujeto es smoking: verbo en -ing como sustantivo.
+You have to wear a badge.|Tiene que usar carné.|modal|trabajo|S + have + to + V + OBJ|have to = obligación externa, de la regla.
+You must be on time.|Debe llegar a tiempo.|modal|trabajo|S + must + V + COMP|must = obligación fuerte, sin to, sin -s.
+You don't have to come.|No tienes que venir.|modal|permiso|S + do + not + have + to + V|No hay obligación. Distinto de must not.
+You mustn't tell anyone.|No debes contarle a nadie.|modal|permiso|S + must + not + V + OBJ|mustn't = prohibición. Muy distinto de don't have to.
+You should try it.|Deberías probarlo.|modal|sugerir|S + should + V + OBJ|should = consejo, no obligación.
+You shouldn't worry so much.|No deberías preocuparte tanto.|modal|sugerir|S + should + not + V + ADV|should + verbo desnudo, siempre.
+You'd better hurry.|Más te vale apurarte.|modal|sugerir|S + had + better + V|had better + verbo desnudo. Advertencia fuerte.
+Why don't we go together?|¿Por qué no vamos juntos?|pres|sugerir|WH + do + not + S + V + ADV ?|Es una sugerencia, no una pregunta real.
+How about going tomorrow?|¿Qué tal si vamos mañana?|fija|sugerir|How about + V-ing ?|Después de how about SIEMPRE va -ing.
+What about the other option?|¿Y la otra opción?|fija|sugerir|What about + N ?|Idéntico a how about. Ambos piden -ing o sustantivo.
+Let's try something different.|Probemos algo distinto.|imper|sugerir|Let + us + V + OBJ|Let's + verbo desnudo. Incluye al que habla.
+Shall we begin?|¿Comenzamos?|modal|sugerir|shall + S + V ?|shall solo con I y we, y suena formal o británico.
+Do you want to grab lunch?|¿Quieres que almorcemos?|pres|sugerir|do + S + V + to + V + OBJ ?|grab = tomar rápido. Muy coloquial y natural.
+I suggest we wait.|Sugiero que esperemos.|pres|sugerir|S + V + S + V|Después de suggest va presente desnudo, sin to.
+It might be a good idea.|Podría ser buena idea.|modal|sugerir|It + might + be + COMP|might = posibilidad más débil que may.
+Have you tried restarting it?|¿Has probado reiniciarlo?|perf|sugerir|have + S + V-ed + V-ing + OBJ ?|try + -ing = probar a hacer algo.
+If I were you, I'd wait.|Yo que tú, esperaría.|cond|sugerir|If + S + were + OBJ + S + would + V|Condicional irreal: SIEMPRE were, nunca was.
+I would if I could.|Lo haría si pudiera.|cond|sugerir|S + would + if + S + could|Los dos verbos van en su forma condicional.
+If it rains, we'll stay home.|Si llueve, nos quedamos en casa.|cond|planes|If + S + V + S + will + V + COMP|Condición REAL: presente en el if, will en la otra mitad.
+If I had more time, I would travel.|Si tuviera más tiempo, viajaría.|cond|planes|If + S + had + OBJ + S + would + V|Condición IRREAL: pasado en el if, would después.
+If I had known, I would have called.|Si hubiera sabido, habría llamado.|cond|pasado|If + S + had + V-ed + S + would + have + V-ed|Arrepentimiento del pasado. El tercer condicional.
+I wish I had more time.|Ojalá tuviera más tiempo.|cond|sentimientos|S + V + S + had + OBJ|wish + pasado = deseo que NO se cumple.
+I wish I could help.|Ojalá pudiera ayudar.|cond|sentimientos|S + V + S + could + V|could porque el deseo es irreal.
+I should have studied more.|Debí haber estudiado más.|cond|pasado|S + should + have + V-ed + ADV|should have = arrepentimiento por lo que no hiciste.
+You could have told me.|Me pudiste haber dicho.|cond|pasado|S + could + have + V-ed + OBJ|Reproche suave por una oportunidad perdida.
+It must have been difficult.|Debió ser difícil.|cond|pasado|It + must + have + been + ADJ|must have = deducción sobre el pasado.
+He might have forgotten.|Puede que se le haya olvidado.|cond|pasado|S + might + have + V-ed|might have = posibilidad en el pasado.
+This is better than that.|Esto es mejor que eso.|pres|comparar|S + is + ADJ + than + OBJ|better ya es comparativo: nunca more better.
+It's cheaper than I thought.|Es más barato de lo que pensaba.|pres|comparar|S + is + ADJ + than + S + V-ed|Adjetivo corto: + er. Adjetivo largo: more +.
+This is more expensive.|Esto es más caro.|pres|comparar|S + is + more + ADJ|expensive es largo: lleva more, no -er.
+It's the best option.|Es la mejor opción.|pres|comparar|S + is + the + ADJ + N|El superlativo SIEMPRE lleva the.
+That's the worst part.|Esa es la peor parte.|pres|comparar|S + is + the + ADJ + N|worst = superlativo irregular de bad.
+It's not as hard as it looks.|No es tan difícil como parece.|pres|comparar|S + is + not + as + ADJ + as + COMP|as... as = tan... como. Igualdad.
+It's the same as before.|Es igual que antes.|pres|comparar|S + is + the + ADJ + as + COMP|the same AS. Nunca the same than.
+It's different from what I expected.|Es distinto a lo que esperaba.|pres|comparar|S + is + ADJ + from + WH + S + V-ed|different FROM. En EE.UU. también than.
+It's twice as expensive.|Cuesta el doble.|pres|comparar|S + is + COMP + as + ADJ|twice as + adjetivo = el doble de.
+The more I practice, the better I get.|Mientras más practico, mejor me va.|pres|estudio|The + more + S + V + the + ADJ + S + V|Estructura doble the: la comparación progresiva.
+How many people are coming?|¿Cuánta gente viene?|prescont|comparar|WH + many + S + are + V-ing ?|many para contables. people ya es plural.
+There's too much noise.|Hay demasiado ruido.|pres|quejas|There + is + too + much + N|too much + incontable. too many + contable.
+There are too many options.|Hay demasiadas opciones.|pres|quejas|There + are + too + many + N|options es contable: many, no much.
+I don't have enough time.|No tengo suficiente tiempo.|pres|tiempo|S + do + not + V + enough + N|enough va ANTES del sustantivo.
+It's not good enough.|No es lo bastante bueno.|pres|opiniones|S + is + not + ADJ + enough|enough va DESPUÉS del adjetivo. Regla invertida.
+I have a few questions.|Tengo unas cuantas preguntas.|pres|reuniones|S + V + a + few + N|a few = unos cuantos (positivo). few = casi ninguno.
+There's very little time.|Queda muy poco tiempo.|pres|tiempo|There + is + ADV + little + N|little + incontable. few + contable.
+Most people agree.|La mayoría está de acuerdo.|pres|opiniones|Most + N + V|most people sin the cuando es en general.
+Almost everyone came.|Casi todos vinieron.|past|smalltalk|Almost + S + V-ed|everyone es singular pero lleva verbo plural en pasado igual.
+None of them worked.|Ninguno funcionó.|past|quejas|None + of + OBJ + V-ed|none of + plural puede llevar verbo singular o plural.
+Both options are fine.|Ambas opciones sirven.|pres|opiniones|Both + N + are + ADJ|both + plural. either + singular.
+Either one works.|Cualquiera de los dos sirve.|pres|opiniones|Either + N + V|either + singular. Es uno de dos.
+Neither of them called.|Ninguno de los dos llamó.|past|quejas|Neither + of + OBJ + V-ed|neither ya es negativo: no lleva didn't.
+Each person pays separately.|Cada persona paga por separado.|pres|dinero|Each + N + V + ADV|each + SINGULAR siempre.
+Every day is different.|Cada día es diferente.|pres|smalltalk|Every + N + is + ADJ|every + singular, aunque signifique todos.
+All the seats are taken.|Todos los asientos están ocupados.|pres|transporte|All + the + N + are + ADJ|all the + plural.
+I'll be there in a minute.|Estoy ahí en un minuto.|fut|tiempo|S + will + be + COMP + in + COMP|in + tiempo = dentro de. Nunca within a minute aquí.
+It takes about an hour.|Toma como una hora.|pres|tiempo|S + V + about + COMP|an hour: la h es muda, por eso an.
+I'll be right back.|Ya vuelvo.|fut|despedidas|S + will + be + ADV + COMP|right aquí es enseguida, no correcto.
+Give me a second.|Dame un segundo.|imper|ayuda|V + OBJ + OBJ|give me + cosa: dos objetos seguidos.
+Hold on a minute.|Espera un minuto.|imper|telefono|V + on + COMP|hold on = esperar, sobre todo al teléfono.
+Hello, who's speaking?|Hola, ¿quién habla?|prescont|telefono|WH + is + V-ing ?|who es sujeto: no lleva auxiliar extra.
+This is Miguel speaking.|Habla Miguel.|prescont|telefono|This + is + COMP + V-ing|Al teléfono se dice this is, no I am.
+Can I speak to Ana, please?|¿Puedo hablar con Ana?|modal|telefono|can + S + V + to + OBJ ?|speak TO. En EE.UU. también speak with.
+She's not available right now.|No está disponible ahora.|pres|telefono|S + is + not + ADJ + COMP|available = disponible para atender.
+Can I take a message?|¿Le puedo tomar un mensaje?|modal|telefono|can + S + V + OBJ ?|take a message = anotar un recado.
+Could you call me back?|¿Me podría devolver la llamada?|modal|telefono|could + S + V + OBJ + back ?|call back = devolver la llamada.
+The line is busy.|La línea está ocupada.|pres|telefono|S + is + ADJ|busy sirve para líneas y para personas.
+I can't hear you well.|No te escucho bien.|modal|telefono|S + can + not + V + OBJ + ADV|Con hear se usa can, no el continuo.
+You're breaking up.|Se te está cortando.|prescont|telefono|S + are + V-ing + up|break up también es terminar una relación.
+Let me call you back.|Déjame devolverte la llamada.|imper|telefono|Let + OBJ + V + OBJ + back|Let me + verbo desnudo.
+Sorry, wrong number.|Perdón, número equivocado.|fija|telefono|Expresión fija|Sin verbo. Se dice tal cual.
+Thanks for calling.|Gracias por llamar.|fija|telefono|thanks + for + V-ing|Después de for siempre va -ing.
+My internet is down.|Mi internet está caído.|pres|tecnologia|S + is + ADJ|down = fuera de servicio. up = funcionando.
+The site isn't loading.|El sitio no carga.|prescont|tecnologia|S + is + not + V-ing|Continuo porque está pasando ahora.
+Have you tried turning it off and on?|¿Probaste apagarlo y prenderlo?|perf|tecnologia|have + S + V-ed + V-ing + OBJ ?|El consejo técnico universal. try + -ing.
+I forgot my password.|Olvidé mi contraseña.|past|tecnologia|S + V-ed + OBJ|forgot es el pasado irregular de forget.
+Can you send me the link?|¿Me mandas el enlace?|modal|tecnologia|can + S + V + OBJ + OBJ ?|send me the link: persona primero, cosa después.
+The file is too large to send.|El archivo pesa mucho para enviarlo.|pres|tecnologia|S + is + too + ADJ + to + V|too + adjetivo + to + verbo = demasiado para.
+It's not working.|No funciona.|prescont|tecnologia|S + is + not + V-ing|Continuo para una falla que ocurre ahora.
+Did you save it?|¿Lo guardaste?|past|tecnologia|did + S + V + OBJ ?|did + verbo desnudo. Nunca did you saved.
+Back up your files.|Haz respaldo de tus archivos.|imper|tecnologia|V + up + OBJ|back up como verbo va separado. backup como sustantivo, junto.
+I'll share my screen.|Voy a compartir mi pantalla.|fut|tecnologia|S + will + V + OBJ|will = decisión inmediata.
+Can you zoom in a bit?|¿Puedes acercar un poco?|modal|tecnologia|can + S + V + in + COMP ?|zoom in = acercar. zoom out = alejar.
+Let me look it up.|Déjame buscarlo.|imper|tecnologia|Let + OBJ + V + OBJ + up|look up: con pronombre, el objeto va en MEDIO.
+I'll figure it out.|Ya lo resuelvo.|fut|trabajo|S + will + V + OBJ + out|figure out = descifrar. El pronombre va en medio.
+It works like a charm.|Funciona de maravilla.|pres|tecnologia|S + V + like + COMP|Expresión fija muy natural.
+I need to get up earlier.|Necesito levantarme más temprano.|pres|phrasal|S + V + to + V + up + ADV|get up = salir de la cama.
+Don't give up now.|No te rindas ahora.|imper|phrasal|do + not + V + up + COMP|give up = rendirse. Sin objeto.
+I'm looking for a new job.|Estoy buscando trabajo nuevo.|prescont|phrasal|S + am + V-ing + for + OBJ|look for = buscar. SIEMPRE con for.
+Can you look after my dog?|¿Puedes cuidar a mi perro?|modal|phrasal|can + S + V + after + OBJ ?|look after = cuidar de alguien o algo.
+I'll look into it.|Voy a investigarlo.|fut|phrasal|S + will + V + into + OBJ|look into = investigar un asunto.
+I found out yesterday.|Me enteré ayer.|past|phrasal|S + V-ed + out + COMP|find out = enterarse, averiguar.
+I can't figure it out.|No logro entenderlo.|modal|phrasal|S + can + not + V + OBJ + out|figure out = descifrar algo complicado.
+It worked out well.|Salió bien al final.|past|phrasal|S + V-ed + out + ADV|work out = resultar bien. También ejercitarse.
+Turn off the lights, please.|Apaga las luces, por favor.|imper|phrasal|V + off + OBJ + COMP|turn off = apagar. Con sustantivo va al final.
+Turn it on.|Préndelo.|imper|phrasal|V + OBJ + on|Con PRONOMBRE el objeto va en medio: turn it on.
+It turned out to be true.|Resultó ser cierto.|past|phrasal|S + V-ed + out + to + be + ADJ|turn out = resultar ser.
+Put on your jacket.|Ponte la chaqueta.|imper|phrasal|V + on + OBJ|put on = ponerse ropa.
+Take off your shoes.|Quítate los zapatos.|imper|phrasal|V + off + OBJ|take off = quitarse ropa. También despegar un avión.
+I'll pick you up at eight.|Te recojo a las ocho.|fut|phrasal|S + will + V + OBJ + up + at + COMP|pick up: con pronombre va en medio.
+Can you drop me off here?|¿Me puedes dejar aquí?|modal|phrasal|can + S + V + OBJ + off + COMP ?|drop off = dejar a alguien en un lugar.
+I'll come back later.|Vuelvo más tarde.|fut|phrasal|S + will + V + back + ADV|come back = volver hacia acá.
+I need to go back.|Necesito regresar.|pres|phrasal|S + V + to + V + back|go back = volver hacia allá.
+I'll get back to you soon.|Te respondo pronto.|fut|phrasal|S + will + V + back + to + OBJ|get back to someone = dar respuesta.
+We ran out of time.|Se nos acabó el tiempo.|past|phrasal|S + V-ed + out + of + N|run out of = quedarse sin algo.
+I'll deal with it.|Yo me encargo.|fut|phrasal|S + will + V + with + OBJ|deal with = lidiar con un problema.
+It depends on you.|Depende de ti.|pres|phrasal|S + V + on + OBJ|depend ON siempre. Nunca depend of.
+You can count on me.|Puedes contar conmigo.|modal|phrasal|S + can + V + on + OBJ|count on = confiar en alguien.
+He didn't show up.|No apareció.|past|phrasal|S + did + not + V + up|show up = presentarse, aparecer.
+Let's set up a meeting.|Agendemos una reunión.|imper|phrasal|Let + us + V + up + OBJ|set up = organizar, configurar.
+Check out this article.|Mira este artículo.|imper|phrasal|V + out + OBJ|check out = echar un vistazo. También salir del hotel.
+She pointed out the error.|Ella señaló el error.|past|phrasal|S + V-ed + out + OBJ|point out = señalar algo que otros no vieron.
+Don't bring that up again.|No vuelvas a mencionar eso.|imper|phrasal|do + not + V + OBJ + up + COMP|bring up = sacar un tema.
+We ended up staying home.|Terminamos quedándonos en casa.|past|phrasal|S + V-ed + up + V-ing + COMP|end up + -ing = terminar haciendo.
+What's going on?|¿Qué está pasando?|prescont|phrasal|WH + is + V-ing + on ?|go on = ocurrir. La pregunta más usada.
+Hang on a second.|Espera un segundo.|imper|phrasal|V + on + COMP|hang on = esperar. hang up = colgar.
+Don't hang up.|No cuelgues.|imper|phrasal|do + not + V + up|hang up = colgar el teléfono.
+Calm down, please.|Cálmate, por favor.|imper|phrasal|V + down + COMP|calm down = tranquilizarse.
+I grew up in Bogota.|Crecí en Bogotá.|past|phrasal|S + V-ed + up + in + COMP|grow up = criarse. grew es irregular.
+We get along really well.|Nos llevamos muy bien.|pres|phrasal|S + V + along + ADV|get along with someone.
+Just get over it.|Supéralo ya.|imper|phrasal|V + over + OBJ|get over = superar algo doloroso.
+I need to get rid of this.|Necesito deshacerme de esto.|pres|phrasal|S + V + to + V + rid + of + OBJ|get rid of = deshacerse de algo.
+Make sure you save it.|Asegúrate de guardarlo.|imper|phrasal|V + ADJ + S + V + OBJ|make sure + frase, sin that obligatorio.
+I'll take care of it.|Yo me encargo de eso.|fut|phrasal|S + will + V + care + of + OBJ|take care of = encargarse.
+I can't keep up.|No logro seguir el ritmo.|modal|phrasal|S + can + not + V + up|keep up with = mantenerse al día.
+My car broke down.|Mi carro se varó.|past|phrasal|S + V-ed + down|break down = averiarse una máquina.
+They broke up last month.|Terminaron el mes pasado.|past|phrasal|S + V-ed + up + COMP|break up = terminar una relación.
+Slow down a bit.|Ve un poco más despacio.|imper|phrasal|V + down + COMP|slow down = reducir velocidad o ritmo.
+Speak up, please.|Habla más fuerte, por favor.|imper|phrasal|V + up + COMP|speak up = subir la voz. También dar tu opinión.
+Write it down.|Anótalo.|imper|phrasal|V + OBJ + down|write down: con pronombre el objeto va en medio.
+Fill out this form.|Llena este formulario.|imper|phrasal|V + out + OBJ|fill out en EE.UU. · fill in en Reino Unido.
+Cut down on sugar.|Reduce el azúcar.|imper|phrasal|V + down + on + OBJ|cut down on = reducir el consumo de algo.
+I'm cutting back on coffee.|Estoy reduciendo el café.|prescont|phrasal|S + am + V-ing + back + on + OBJ|cut back on = recortar gradualmente.
+Let's move on.|Sigamos adelante.|imper|phrasal|Let + us + V + on|move on = pasar al siguiente punto o etapa.
+Hold on, I'm coming.|Espera, ya voy.|imper|phrasal|V + on + S + am + V-ing|I'm coming = ya voy. Nunca I go.
+Watch out for the step.|Cuidado con el escalón.|imper|phrasal|V + out + for + OBJ|watch out for = estar alerta a algo.
+Sign up for the course.|Inscríbete al curso.|imper|phrasal|V + up + for + OBJ|sign up = inscribirse. sign in = iniciar sesión.
+Log in with your email.|Inicia sesión con tu correo.|imper|phrasal|V + in + with + OBJ|log in / log out. También sign in.
+Back me up on this.|Apóyame en esto.|imper|phrasal|V + OBJ + up + on + COMP|back someone up = respaldar a alguien.
+Let's split up.|Separémonos.|imper|phrasal|Let + us + V + up|split up = dividirse en grupos.
+Let it go.|Déjalo ir.|imper|idioms|V + OBJ + V|let it go = soltar, no insistir más.
+It's a piece of cake.|Es pan comido.|pres|idioms|S + is + COMP|Algo muy fácil. Expresión fija.
+It costs an arm and a leg.|Cuesta un ojo de la cara.|pres|idioms|S + V + COMP|Muy caro. No lo traduzcas literal.
+Break a leg!|¡Mucha suerte!|imper|idioms|V + OBJ|Se le dice a alguien antes de actuar o presentar.
+It's not rocket science.|No es tan complicado.|pres|idioms|S + is + not + COMP|Algo que cualquiera puede entender.
+I'm all ears.|Soy todo oídos.|pres|idioms|S + am + COMP|Estoy escuchando con atención.
+It rings a bell.|Me suena.|pres|idioms|S + V + OBJ|Algo que te resulta vagamente familiar.
+Let's call it a day.|Dejémoslo por hoy.|imper|idioms|Let + us + V + OBJ + COMP|Terminar la jornada de trabajo.
+It's a long shot.|Es poco probable.|pres|idioms|S + is + COMP|Una posibilidad remota.
+Hit the nail on the head.|Diste en el clavo.|past|idioms|V + OBJ + on + COMP|Acertar exactamente.
+Better late than never.|Más vale tarde que nunca.|fija|idioms|Expresión fija|Refrán fijo. No lo modifiques.
+Actions speak louder than words.|Las acciones valen más que las palabras.|pres|idioms|S + V + ADV + than + N|Refrán muy usado.
+Practice makes perfect.|La práctica hace al maestro.|pres|idioms|S + V + ADJ|Sin artículos. Es fija así.
+It's easier said than done.|Es más fácil decirlo que hacerlo.|pres|idioms|S + is + ADJ + V-ed + than + V-ed|Estructura fija comparativa.
+Don't judge a book by its cover.|No juzgues por las apariencias.|imper|idioms|do + not + V + OBJ + by + COMP|Refrán fijo.
+The ball is in your court.|La decisión es tuya.|pres|idioms|S + is + in + COMP|Ahora te toca a ti actuar.
+I'm on the fence.|Estoy indeciso.|pres|idioms|S + am + on + COMP|No decidirse entre dos opciones.
+That's the last straw.|Es la gota que colmó el vaso.|pres|idioms|That + is + COMP|El límite de la paciencia.
+It slipped my mind.|Se me olvidó.|past|idioms|S + V-ed + OBJ|Más natural que I forgot en contexto casual.
+I'm swamped with work.|Estoy hasta el cuello de trabajo.|pres|idioms|S + am + ADJ + with + N|swamped = desbordado.
+Let's touch base next week.|Hablemos la próxima semana.|imper|idioms|Let + us + V + OBJ + COMP|touch base = ponerse al día brevemente.
+It's a win-win.|Todos ganan.|pres|idioms|S + is + COMP|Situación beneficiosa para ambas partes.
+Think outside the box.|Piensa distinto.|imper|idioms|V + COMP + OBJ|Salirse de lo convencional.
+Cut to the chase.|Ve al grano.|imper|idioms|V + to + COMP|Ir directo a lo importante.
+Keep me in the loop.|Mantenme al tanto.|imper|idioms|V + OBJ + in + COMP|in the loop = dentro del circuito de información.
+It's up in the air.|Está sin definir.|pres|idioms|S + is + COMP|Algo aún no decidido.
+Let's get the ball rolling.|Pongamos esto en marcha.|imper|idioms|Let + us + V + OBJ + V-ing|Arrancar un proyecto.
+That's a game changer.|Eso lo cambia todo.|pres|idioms|That + is + COMP|Algo que transforma la situación.
+I'm burned out.|Estoy quemado.|pres|idioms|S + am + ADJ|Agotamiento por exceso de trabajo.
+It's not my cup of tea.|No es lo mío.|pres|idioms|S + is + not + COMP|Algo que no te gusta particularmente.
+Once in a blue moon.|Muy de vez en cuando.|fija|idioms|Expresión fija|Frecuencia muy baja.
+Time flies.|El tiempo vuela.|pres|idioms|S + V|Dos palabras. Presente simple para verdades.
+Better safe than sorry.|Más vale prevenir.|fija|idioms|Expresión fija|Refrán fijo. Sin verbo.
+It's now or never.|Es ahora o nunca.|pres|idioms|It + is + COMP|Expresión fija de urgencia.
+No pain, no gain.|Sin esfuerzo no hay recompensa.|fija|idioms|Expresión fija|Sin verbos. Estructura fija.
+So far, so good.|Hasta ahora, todo bien.|fija|idioms|Expresión fija|Respuesta común a How's it going.
+Easier said than done.|Del dicho al hecho hay mucho trecho.|fija|idioms|Expresión fija|Versión corta, sin it's.
+Long story short.|En resumen.|fija|idioms|Expresión fija|Abrevia una historia larga.
+Speak of the devil.|Hablando del rey de Roma.|imper|idioms|V + of + OBJ|Cuando aparece justo de quien hablabas.
+It takes two to tango.|La culpa no es de uno solo.|pres|idioms|S + V + COMP + to + V|Refrán fijo sobre responsabilidad compartida.
+What do you do for a living?|¿De qué trabajas?|pres|trabajo|WH + do + S + V + for + COMP ?|for a living = para vivir. Muy natural.
+How long have you worked there?|¿Cuánto llevas trabajando allí?|perf|trabajo|WH + long + have + S + V-ed + COMP ?|Empezó antes y sigue: present perfect.
+I've worked here since 2023.|Trabajo aquí desde 2023.|perf|trabajo|S + have + V-ed + COMP + since + COMP|since + punto exacto. for + duración.
+I'm in charge of reporting.|Estoy a cargo de los informes.|pres|trabajo|S + am + in charge of + V-ing|Después de of siempre va -ing.
+I report to the finance manager.|Le reporto al gerente financiero.|pres|trabajo|S + V + to + OBJ|report TO someone.
+I handle the reconciliations.|Manejo las conciliaciones.|pres|trabajo|S + V + OBJ|handle = encargarse de algo operativo.
+My job involves a lot of Excel.|Mi trabajo implica mucho Excel.|pres|trabajo|S + V + COMP|involve + sustantivo o + -ing.
+I'm responsible for the data quality.|Soy responsable de la calidad de los datos.|pres|trabajo|S + am + ADJ + for + N|responsible FOR. Nunca responsible of.
+I usually work from home.|Normalmente trabajo desde casa.|pres|trabajo|S + ADV + V + from + COMP|work from home. Nunca work in home.
+I'm working late tonight.|Voy a trabajar hasta tarde hoy.|prescont|trabajo|S + am + V-ing + ADV + COMP|Continuo para un plan concreto de hoy.
+I have a deadline tomorrow.|Tengo una fecha límite mañana.|pres|trabajo|S + V + OBJ + COMP|deadline: una sola palabra.
+Can you take a look at this?|¿Puedes echarle un vistazo a esto?|modal|trabajo|can + S + V + OBJ + at + OBJ ?|take a look AT something.
+I need this by Friday.|Necesito esto para el viernes.|pres|trabajo|S + V + OBJ + by + COMP|by = a más tardar. until = hasta ese momento.
+Let's touch base tomorrow.|Hablemos mañana.|imper|trabajo|Let + us + V + OBJ + COMP|touch base = ponerse al día rápido.
+I'm blocked on this task.|Estoy bloqueado con esta tarea.|pres|trabajo|S + am + ADJ + on + OBJ|blocked ON something en jerga de trabajo.
+Who's the point of contact?|¿Quién es el contacto?|pres|trabajo|WH + is + S ?|point of contact = persona responsable.
+I'll loop you in.|Te incluyo en el correo.|fut|trabajo|S + will + V + OBJ + in|loop someone in = sumar a alguien al hilo.
+Let me know if that works.|Avísame si te sirve.|imper|trabajo|Let + OBJ + V + if + S + V|work aquí es funcionar o convenir.
+I owe you an update.|Te debo una actualización.|pres|trabajo|S + V + OBJ + OBJ|owe someone something: dos objetos.
+Can we push it to next week?|¿Podemos moverlo a la próxima semana?|modal|trabajo|can + S + V + OBJ + to + COMP ?|push = posponer en jerga laboral.
+I'm on it.|Estoy en eso.|pres|trabajo|S + am + on + OBJ|Respuesta corta que suena muy profesional.
+Consider it done.|Dalo por hecho.|imper|trabajo|V + OBJ + ADJ|Expresión fija de compromiso.
+I'll take care of the rest.|Yo me encargo del resto.|fut|trabajo|S + will + V + care + of + OBJ|the rest = lo que falta.
+That's out of my hands.|Eso no depende de mí.|pres|trabajo|That + is + out of + COMP|Expresión fija: fuera de mi control.
+It's not my call.|No es mi decisión.|pres|trabajo|S + is + not + COMP|call aquí es la decisión final.
+Let's align on the priorities.|Alineémonos en las prioridades.|imper|reuniones|Let + us + V + on + OBJ|align ON something en jerga corporativa.
+Can you walk me through it?|¿Me lo puedes explicar paso a paso?|modal|trabajo|can + S + V + OBJ + through + OBJ ?|walk someone through = guiar paso a paso.
+I'll send it over shortly.|Se lo envío en breve.|fut|email|S + will + V + OBJ + over + ADV|send over = enviar. shortly = pronto.
+Please review and approve.|Por favor revise y apruebe.|imper|email|V + and + V|Dos imperativos seguidos, muy usado en correo.
+Any updates on this?|¿Hay novedades de esto?|fija|email|Expresión fija|Sin verbo. Muy usado en seguimiento.
+I'll circle back with the numbers.|Vuelvo con los números.|fut|email|S + will + V + back + with + OBJ|circle back = retomar el tema después.
+Sorry for the back and forth.|Perdón por tanto ida y vuelta.|fija|email|Expresión fija|back and forth = intercambio repetido.
+Let's park that for now.|Dejemos eso pendiente por ahora.|imper|reuniones|Let + us + V + OBJ + for + COMP|park = posponer un tema.
+Does that answer your question?|¿Eso responde tu pregunta?|pres|reuniones|does + S + V + OBJ ?|answer sin preposición: answer the question.
+I'd like to double-check that.|Quisiera verificarlo otra vez.|cond|trabajo|S + would + like + to + V + OBJ|double-check = revisar dos veces.
+The numbers don't add up.|Los números no cuadran.|pres|trabajo|S + do + not + V + up|add up = cuadrar, tener sentido.
+There's a discrepancy here.|Hay una discrepancia aquí.|pres|trabajo|There + is + S + COMP|discrepancy = diferencia entre dos fuentes.
+I found the root cause.|Encontré la causa raíz.|past|trabajo|S + V-ed + OBJ|root cause: dos sustantivos juntos.
+Let me run the numbers.|Déjame correr los números.|imper|trabajo|Let + OBJ + V + OBJ|run the numbers = calcular.
+The data looks off.|Los datos se ven raros.|pres|trabajo|S + V + ADJ|look + adjetivo. off = extraño, mal.
+Can you filter by date?|¿Puedes filtrar por fecha?|modal|trabajo|can + S + V + by + COMP ?|filter BY, sort BY, group BY.
+I'll clean up the dataset.|Voy a limpiar el conjunto de datos.|fut|trabajo|S + will + V + up + OBJ|clean up = limpiar a fondo.
+There are duplicates in the file.|Hay duplicados en el archivo.|pres|trabajo|There + are + S + in + COMP|there are + plural.
+The report is due Monday.|El informe se entrega el lunes.|pres|trabajo|S + is + ADJ + COMP|be due = tener fecha de entrega.
+I'm behind on my tasks.|Estoy atrasado con mis tareas.|pres|trabajo|S + am + ADV + on + OBJ|behind ON something = atrasado en algo.
+I'll prioritize that.|Voy a priorizar eso.|fut|trabajo|S + will + V + OBJ|prioritize + objeto directo.
+Let's break it into steps.|Dividámoslo en pasos.|imper|trabajo|Let + us + V + OBJ + into + COMP|break into = dividir en partes.
+What's the scope of this?|¿Cuál es el alcance de esto?|pres|trabajo|WH + is + S + of + OBJ ?|scope = alcance de un proyecto.
+That's out of scope.|Eso está fuera del alcance.|pres|trabajo|That + is + out of + COMP|Frase clave para proteger tu tiempo.
+I need more context.|Necesito más contexto.|pres|trabajo|S + V + more + N|context es incontable aquí.
+Could you elaborate?|¿Podría profundizar?|modal|reuniones|could + S + V ?|elaborate = explicar con más detalle.
+Just to clarify...|Solo para aclarar...|fija|reuniones|Expresión fija|Abre una corrección educada.
+If I understand correctly...|Si entiendo bien...|pres|reuniones|If + S + V + ADV|Confirma antes de responder.
+Correct me if I'm wrong, but...|Corrígeme si me equivoco, pero...|imper|reuniones|V + OBJ + if + S + am + ADJ|Fórmula de desacuerdo cortés.
+That's a great question.|Es una excelente pregunta.|pres|reuniones|That + is + COMP|Gana tiempo mientras piensas la respuesta.
+Let me think about it.|Déjame pensarlo.|imper|reuniones|Let + OBJ + V + about + OBJ|think ABOUT. Nunca think in.
+I'll get you an answer today.|Te doy una respuesta hoy.|fut|trabajo|S + will + V + OBJ + OBJ + COMP|get someone something: dos objetos.
+Off the top of my head...|Así de memoria...|fija|reuniones|Expresión fija|Antes de dar un dato aproximado.
+I don't have the exact number.|No tengo el número exacto.|pres|reuniones|S + do + not + V + OBJ|Honestidad profesional. Suena bien.
+Let me confirm and revert.|Déjame confirmar y responder.|imper|email|Let + OBJ + V + and + V|revert = responder, en inglés de negocios.
+Thanks for flagging that.|Gracias por señalarlo.|fija|trabajo|Expresión fija|flag = alertar sobre un problema.
+Good catch.|Buen ojo.|fija|trabajo|Expresión fija|Cuando alguien detecta un error.
+My bad.|Culpa mía.|fija|disculpas|Expresión fija|Muy informal. Solo con colegas cercanos.
+No rush.|Sin prisa.|fija|cortesia|Expresión fija|Quita presión al otro.
+Whenever you get a chance.|Cuando puedas.|fija|cortesia|Expresión fija|Petición sin urgencia.
+At your earliest convenience.|A la brevedad posible.|fija|email|Expresión fija|Muy formal. Para correo profesional.
+As soon as possible.|Lo antes posible.|fija|email|Expresión fija|ASAP en escritura informal.
+Take your time.|Tómate tu tiempo.|imper|cortesia|V + OBJ + N|Expresión fija muy cortés.
+I appreciate your patience.|Agradezco tu paciencia.|pres|cortesia|S + V + OBJ|appreciate + objeto, sin for.
+I really appreciate it.|Te lo agradezco mucho.|pres|cortesia|S + ADV + V + OBJ|Más cálido que thank you a secas.
+That means a lot to me.|Eso significa mucho para mí.|pres|sentimientos|S + V + COMP + to + OBJ|mean a lot to someone.
+I owe you one.|Te debo una.|pres|cortesia|S + V + OBJ + OBJ|one reemplaza a favor.
+It was nothing.|No fue nada.|past|cortesia|S + was + OBJ|Quita importancia a un favor.
+Anytime.|Cuando quieras.|fija|cortesia|Expresión fija|Una sola palabra. Respuesta cálida a gracias.
+I'm happy to help.|Con gusto ayudo.|pres|cortesia|S + am + ADJ + to + V|happy TO + verbo.
+Let me know if you need anything.|Avísame si necesitas algo.|imper|cortesia|Let + OBJ + V + if + S + V + OBJ|anything en la condicional.
+Feel free to ask.|No dudes en preguntar.|imper|cortesia|V + ADJ + to + V|feel free TO + verbo.
+I'd be glad to.|Con mucho gusto.|cond|cortesia|S + would + be + ADJ + to|Termina en to: el verbo se sobreentiende.
+Sure thing.|Claro que sí.|fija|cortesia|Expresión fija|Informal y muy natural.
+Absolutely.|Por supuesto.|fija|acuerdo|Expresión fija|Una palabra que reemplaza toda una frase.
+Definitely.|Definitivamente.|fija|acuerdo|Expresión fija|Confirmación fuerte.
+Of course.|Claro.|fija|acuerdo|Expresión fija|Neutro y siempre correcto.
+No doubt.|Sin duda.|fija|acuerdo|Expresión fija|Confirma sin reservas.
+That's fair.|Es justo.|pres|acuerdo|That + is + ADJ|Acepta un argumento razonable.
+I get it.|Entiendo.|pres|acuerdo|S + V + OBJ|get = entender en habla informal.
+Got it.|Entendido.|fija|acuerdo|Expresión fija|Confirma que recibiste la instrucción.
+Makes sense.|Tiene sentido.|pres|acuerdo|V + N|Sin sujeto: forma corta natural.
+Understood.|Entendido.|fija|acuerdo|Expresión fija|Formal. Muy usado en instrucciones.
+Will do.|Lo haré.|fut|acuerdo|will + V|Sin sujeto. Respuesta corta muy común.
+Noted.|Anotado.|fija|acuerdo|Expresión fija|Confirma que registraste algo.
+Sounds like a plan.|Me parece buen plan.|pres|acuerdo|V + like + COMP|Acepta una propuesta con entusiasmo.
+Let's do it.|Hagámoslo.|imper|acuerdo|Let + us + V + OBJ|Cierra un acuerdo.
+I'm in.|Cuenta conmigo.|pres|acuerdo|S + am + COMP|Dos palabras. Aceptas participar.
+Count me in.|Anótame.|imper|acuerdo|V + OBJ + in|count someone in = incluir a alguien.
+I'm on board.|Estoy de acuerdo.|pres|acuerdo|S + am + on + COMP|on board = alineado con la idea.
+I'm studying English every day.|Estoy estudiando inglés todos los días.|prescont|estudio|S + am + V-ing + OBJ + COMP|Continuo para una etapa temporal de tu vida.
+I study for two hours a day.|Estudio dos horas al día.|pres|estudio|S + V + for + COMP|Simple para la rutina fija.
+How do you practice speaking?|¿Cómo practicas el habla?|pres|estudio|WH + do + S + V + V-ing ?|Después de practice va -ing, nunca infinitivo.
+I listen to podcasts.|Escucho pódcast.|pres|estudio|S + V + to + OBJ|listen TO siempre. Nunca listen music.
+I watch movies in English.|Veo películas en inglés.|pres|estudio|S + V + OBJ + in + COMP|watch para contenido. see para personas.
+I read every night.|Leo todas las noches.|pres|estudio|S + V + COMP|every night sin the ni preposición.
+I'm trying to improve my accent.|Estoy tratando de mejorar mi acento.|prescont|estudio|S + am + V-ing + to + V + OBJ|try TO = intentar. try + -ing = probar.
+I need to expand my vocabulary.|Necesito ampliar mi vocabulario.|pres|estudio|S + V + to + V + OBJ|vocabulary es INCONTABLE: nunca vocabularies.
+I keep forgetting words.|Se me siguen olvidando palabras.|prescont|estudio|S + V + V-ing + OBJ|keep + -ing = seguir haciendo algo.
+I'm getting better.|Estoy mejorando.|prescont|estudio|S + am + V-ing + ADJ|get + comparativo = ir volviéndose.
+It's getting easier.|Se está poniendo más fácil.|prescont|estudio|S + is + V-ing + ADJ|easier: adjetivo corto con -er.
+I can understand more now.|Ahora entiendo más.|modal|estudio|S + can + V + more + COMP|Con understand se usa can, no el continuo.
+I still struggle with pronunciation.|Todavía batallo con la pronunciación.|pres|estudio|S + still + V + with + OBJ|struggle WITH something.
+I make a lot of mistakes.|Cometo muchos errores.|pres|estudio|S + V + COMP + of + N|MAKE a mistake, nunca do a mistake.
+Mistakes are part of learning.|Los errores son parte del aprendizaje.|pres|estudio|S + are + COMP + of + V-ing|Después de of va -ing.
+Practice every single day.|Practica todos los días sin falta.|imper|estudio|V + COMP|every single day enfatiza sin excepción.
+Don't be afraid to make mistakes.|No tengas miedo de equivocarte.|imper|estudio|do + not + be + ADJ + to + V|afraid TO + verbo cuando es una acción.
+Repeat after me.|Repite después de mí.|imper|estudio|V + after + OBJ|Instrucción típica de clase.
+Say it out loud.|Dilo en voz alta.|imper|estudio|V + OBJ + COMP|out loud = en voz alta. Expresión fija.
+Read it again.|Léelo otra vez.|imper|estudio|V + OBJ + COMP|again SIEMPRE al final.
+Write it down so you remember.|Anótalo para que recuerdes.|imper|estudio|V + OBJ + down + so + S + V|so = para que. Sin that.
+I learn best by listening.|Aprendo mejor escuchando.|pres|estudio|S + V + ADV + by + V-ing|by + -ing = mediante hacer algo.
+I'm a visual learner.|Aprendo mejor con imágenes.|pres|estudio|S + am + COMP|Sustantivo compuesto muy natural.
+It takes time and practice.|Toma tiempo y práctica.|pres|estudio|S + V + N + and + N|Ambos son incontables: sin artículo.
+Little by little.|Poco a poco.|fija|estudio|Expresión fija|También step by step.
+Keep going, you're doing great.|Sigue, lo estás haciendo muy bien.|imper|estudio|V + V-ing + S + are + V-ing + ADV|keep + -ing = seguir haciendo.
+Don't compare yourself to others.|No te compares con otros.|imper|estudio|do + not + V + OBJ + to + OBJ|compare TO. También compare with.
+Consistency beats intensity.|La constancia le gana a la intensidad.|pres|estudio|S + V + OBJ|Presente simple para verdades generales.
+I've been studying for six months.|Llevo seis meses estudiando.|perf|estudio|S + have + been + V-ing + for + COMP|Empezó antes y sigue: perfecto continuo.
+I started learning last year.|Empecé a aprender el año pasado.|past|estudio|S + V-ed + V-ing + COMP|start + -ing o start to. Ambos válidos.
+I'll keep practicing.|Voy a seguir practicando.|fut|estudio|S + will + V + V-ing|keep + -ing siempre.
+By next year I'll be fluent.|Para el próximo año hablaré fluido.|fut|estudio|by + COMP + S + will + be + ADJ|by + fecha = para esa fecha, a más tardar.
+I hope I can do it.|Espero poder hacerlo.|pres|estudio|S + V + S + can + V + OBJ|hope + frase completa. Sin that obligatorio.
+I know I can.|Sé que puedo.|pres|sentimientos|S + V + S + can|El verbo después de can se sobreentiende.
+Never give up on yourself.|Nunca te rindas contigo.|imper|sentimientos|V + V + up + on + OBJ|give up ON someone o something.
+One day at a time.|Un día a la vez.|fija|sentimientos|Expresión fija|Sin verbo. Muy usada para procesos largos.
+It's worth the effort.|Vale la pena el esfuerzo.|pres|sentimientos|S + is + ADJ + OBJ|worth + sustantivo. worth + -ing también.
+It's worth trying.|Vale la pena intentar.|pres|sentimientos|S + is + ADJ + V-ing|Después de worth SIEMPRE va -ing.
+I'm glad I did it.|Me alegra haberlo hecho.|pres|sentimientos|S + am + ADJ + S + V-ed + OBJ|glad + frase en pasado.
+That was worth it.|Eso valió la pena.|past|sentimientos|That + was + ADJ + OBJ|worth it: expresión fija con pronombre.
+What a relief!|¡Qué alivio!|fija|sentimientos|Expresión fija|what a + sustantivo = qué + sustantivo.
+What a mess!|¡Qué desastre!|fija|sentimientos|Expresión fija|Exclamativo con what a.
+How annoying!|¡Qué fastidio!|fija|sentimientos|Expresión fija|how + adjetivo. what a + sustantivo.
+I can't believe it.|No lo puedo creer.|modal|sentimientos|S + can + not + V + OBJ|Reacción de sorpresa muy común.
+You're kidding!|¡No me digas!|prescont|sentimientos|S + are + V-ing|kid = bromear. Reacción de incredulidad.
+That's incredible.|Es increíble.|pres|sentimientos|That + is + ADJ|Reacción positiva fuerte.
+No way!|¡No puede ser!|fija|sentimientos|Expresión fija|Sorpresa o negación enfática.
+Are you serious?|¿En serio?|pres|sentimientos|are + S + ADJ ?|Pide confirmación de algo sorprendente.
+You must be joking.|Debes estar bromeando.|modal|sentimientos|S + must + be + V-ing|must aquí es deducción, no obligación.
+That's a shame.|Qué lástima.|pres|sentimientos|That + is + COMP|shame no es solo vergüenza: también lástima.
+I feel bad about it.|Me siento mal por eso.|pres|sentimientos|S + V + ADJ + about + OBJ|feel bad ABOUT something.
+Don't take it personally.|No lo tomes personal.|imper|sentimientos|do + not + V + OBJ + ADV|take something personally.
+It's nothing personal.|No es nada personal.|pres|sentimientos|S + is + COMP|nothing personal: el adjetivo va después.
+Let's agree to disagree.|Aceptemos que no coincidimos.|imper|opiniones|Let + us + V + to + V|Cierra un desacuerdo sin pelea.
+We'll figure it out.|Ya lo resolveremos.|fut|sentimientos|S + will + V + OBJ + out|Tranquiliza sin prometer nada concreto.
+Everything will be fine.|Todo va a estar bien.|fut|sentimientos|S + will + be + ADJ|everything es singular: will be.
+It could be worse.|Podría ser peor.|cond|sentimientos|S + could + be + ADJ|worse = comparativo irregular de bad.
+Look on the bright side.|Míralo por el lado bueno.|imper|sentimientos|V + on + COMP|Expresión fija de optimismo.
+Things will get better.|Las cosas van a mejorar.|fut|sentimientos|S + will + V + ADJ|get + comparativo = volverse.
+Hang in there.|Aguanta.|imper|sentimientos|V + in + COMP|Ánimo en un momento difícil.
+You've got this.|Tú puedes con esto.|perf|sentimientos|S + have + V-ed + OBJ|Muy usado para dar ánimo.
+I believe in you.|Creo en ti.|pres|sentimientos|S + V + in + OBJ|believe IN someone = confiar en su capacidad.
+Thanks for being there.|Gracias por estar ahí.|fija|sentimientos|thanks + for + V-ing|Después de for siempre -ing.
+I couldn't have done it without you.|No lo habría logrado sin ti.|cond|sentimientos|S + could + not + have + V-ed + OBJ + without + OBJ|Condicional del pasado. without + sustantivo.
+I owe you big time.|Te debo una grande.|pres|sentimientos|S + V + OBJ + COMP|big time = mucho, en habla informal.
+It's the least I can do.|Es lo menos que puedo hacer.|pres|cortesia|S + is + the + ADJ + S + can + V|the least: superlativo de little.
+Don't worry, I've got it.|Tranquilo, yo me encargo.|imper|ayuda|do + not + V + S + have + V-ed + OBJ|I've got it = yo me hago cargo.
+Need a hand?|¿Te ayudo?|fija|ayuda|Expresión fija|Versión corta de Do you need a hand.
+Let me give you a hand.|Déjame darte una mano.|imper|ayuda|Let + OBJ + V + OBJ + OBJ|give someone a hand = ayudar.
+Is there anything I can do?|¿Hay algo que pueda hacer?|pres|ayuda|is + there + OBJ + S + can + V ?|there is + anything en pregunta.
+What can I do for you?|¿En qué te puedo ayudar?|modal|ayuda|WH + can + S + V + for + OBJ ?|La fórmula estándar de servicio al cliente.
+How can I help you?|¿Cómo le puedo ayudar?|modal|ayuda|WH + can + S + V + OBJ ?|help someone sin preposición.
+I'm here if you need me.|Aquí estoy si me necesitas.|pres|ayuda|S + am + COMP + if + S + V + OBJ|if + presente para condición real.
+Just let me know.|Solo avísame.|imper|ayuda|V + Let + OBJ + V|just suaviza el imperativo.
+I'll do my best.|Haré lo mejor que pueda.|fut|trabajo|S + will + V + OBJ|do my best: expresión fija con do.
+I did what I could.|Hice lo que pude.|past|trabajo|S + V-ed + WH + S + could|what = lo que. Sin auxiliar después.
+It's out of my control.|Está fuera de mi control.|pres|trabajo|S + is + out of + COMP|Expresión fija de límites.
+I tried everything.|Intenté todo.|past|trabajo|S + V-ed + OBJ|everything como objeto directo.
+Let's give it a try.|Intentémoslo.|imper|sugerir|Let + us + V + OBJ + OBJ|give it a try = darle una oportunidad.
+It's worth a shot.|Vale la pena intentarlo.|pres|sugerir|S + is + ADJ + OBJ|a shot = un intento.
+What have we got to lose?|¿Qué tenemos que perder?|perf|sugerir|WH + have + S + V-ed + to + V ?|Pregunta retórica para animar.
+Let's take it one step at a time.|Vamos paso a paso.|imper|sugerir|Let + us + V + OBJ + COMP|one step at a time: expresión fija.
+Slow and steady wins the race.|Despacio pero seguro se gana.|pres|idioms|S + V + OBJ|Refrán fijo. Verbo en singular.
+Rome wasn't built in a day.|Roma no se construyó en un día.|past|idioms|S + was + not + V-ed + in + COMP|Pasiva en pasado. Refrán fijo.
+Nothing worth having comes easy.|Nada que valga la pena es fácil.|pres|idioms|S + V + ADV|worth having = que vale la pena tener.
+You get what you pay for.|Lo barato sale caro.|pres|idioms|S + V + WH + S + V + for|La preposición se queda al final.
+Better done than perfect.|Mejor hecho que perfecto.|fija|idioms|Expresión fija|Sin verbo. Estructura comparativa fija.
+Don't put all your eggs in one basket.|No lo apuestes todo a una carta.|imper|idioms|do + not + V + OBJ + in + COMP|Refrán fijo sobre diversificar.
+Two heads are better than one.|Dos cabezas piensan mejor que una.|pres|idioms|S + are + ADJ + than + OBJ|heads es plural: are, no is.
+When in Rome, do as the Romans do.|Donde fueres, haz lo que vieres.|imper|idioms|WH + in + COMP + V + as + S + V|Estructura fija. No la desarmes.
+The early bird catches the worm.|Al que madruga Dios lo ayuda.|pres|idioms|S + V + OBJ|Presente simple para verdades generales.
+Don't count your chickens before they hatch.|No cantes victoria antes de tiempo.|imper|idioms|do + not + V + OBJ + before + S + V|Después de before va presente, no futuro.
+Out of sight, out of mind.|Ojos que no ven, corazón que no siente.|fija|idioms|Expresión fija|Sin verbos. Estructura paralela fija.
+There's no place like home.|No hay como estar en casa.|pres|idioms|There + is + no + N + like + COMP|there is + no + sustantivo.
+Home sweet home.|Hogar dulce hogar.|fija|idioms|Expresión fija|Tres palabras. Se dice al llegar a casa.
+I work here.|Trabajo aquí.|pres|trabajo|S + V + COMP|Molde 1 puro. La base de todo.
+She works here.|Ella trabaja aquí.|pres|trabajo|S + V-s + COMP|La única -s del presente: he, she, it.
+I don't work here.|No trabajo aquí.|pres|trabajo|S + do + not + V + COMP|Aparece do solo para poder negar.
+She doesn't work here.|Ella no trabaja aquí.|pres|trabajo|S + does + not + V + COMP|La -s se muda al auxiliar: doeS.
+Do you work here?|¿Trabajas aquí?|pres|trabajo|do + S + V + COMP ?|Preguntar = mover el auxiliar al frente.
+Does she work here?|¿Ella trabaja aquí?|pres|trabajo|does + S + V + COMP ?|does lleva la marca. work queda desnudo.
+Where do you work?|¿Dónde trabajas?|pres|trabajo|WH + do + S + V ?|WH pegado adelante del molde de pregunta.
+Yes, I do. / No, I don't.|Sí. / No.|pres|trabajo|Yes + S + do|Respuesta corta: eco del mismo auxiliar.
+I worked there last year.|Trabajé allí el año pasado.|past|pasado|S + V-ed + COMP + COMP|-ed marca el pasado en verbos regulares.
+I didn't work yesterday.|No trabajé ayer.|past|pasado|S + did + not + V + COMP|did lleva el pasado. work vuelve a estar desnudo.
+Did you work yesterday?|¿Trabajaste ayer?|past|pasado|did + S + V + COMP ?|did al frente. Nunca did you worked.
+What did you do yesterday?|¿Qué hiciste ayer?|past|pasado|WH + did + S + V + COMP ?|Aquí hay dos do: el auxiliar y el verbo.
+I'm working right now.|Estoy trabajando ahora.|prescont|trabajo|S + am + V-ing + COMP|Motor BE + -ing = acción en curso.
+I'm not working today.|Hoy no estoy trabajando.|prescont|trabajo|S + am + not + V-ing + COMP|not va justo después del BE.
+Are you working today?|¿Estás trabajando hoy?|prescont|trabajo|are + S + V-ing + COMP ?|BE se mueve al frente para preguntar.
+I was working when you called.|Estaba trabajando cuando llamaste.|pastcont|pasado|S + was + V-ing + WH + S + V-ed|Continuo = fondo. Simple = interrupción.
+I have worked here for years.|Llevo años trabajando aquí.|perf|trabajo|S + have + V-ed + COMP + for + COMP|Motor HAVE + participio. Empezó antes, sigue.
+She has worked here since 2020.|Ella trabaja aquí desde 2020.|perf|trabajo|S + has + V-ed + since + COMP|has para he, she, it. since + punto exacto.
+I haven't worked there.|No he trabajado allí.|perf|trabajo|S + have + not + V-ed + COMP|not entre el have y el participio.
+Have you ever worked abroad?|¿Alguna vez has trabajado afuera?|perf|trabajo|have + S + ever + V-ed + COMP ?|ever = alguna vez en la vida.
+I will work tomorrow.|Trabajaré mañana.|fut|planes|S + will + V + COMP|will + verbo DESNUDO, siempre.
+I won't work on Sunday.|No trabajaré el domingo.|fut|planes|S + will + not + V + COMP|won't = will not. Se usa siempre en habla.
+Will you work this weekend?|¿Trabajarás este fin de semana?|fut|planes|will + S + V + COMP ?|will al frente para preguntar.
+I'm going to work on it.|Voy a trabajar en eso.|goingto|planes|S + am + going to + V + on + OBJ|going to = plan ya decidido antes de hablar.
+I would work if they paid me.|Trabajaría si me pagaran.|cond|planes|S + would + V + if + S + V-ed + OBJ|would + verbo desnudo. Pasado en el if.
+I can work from home.|Puedo trabajar desde casa.|modal|trabajo|S + can + V + from + COMP|Modal: sin to, sin -s.
+I have to work late.|Tengo que trabajar hasta tarde.|modal|trabajo|S + have + to + V + ADV|have to = obligación externa.
+I should work on that.|Debería trabajar en eso.|modal|trabajo|S + should + V + on + OBJ|should = consejo.
+Work harder.|Trabaja más duro.|imper|trabajo|V + ADV|Imperativo: verbo desnudo, sin sujeto.
+Don't work too much.|No trabajes demasiado.|imper|trabajo|do + not + V + ADV|Imperativo negativo: SIEMPRE don't + verbo.
+Let's work together.|Trabajemos juntos.|imper|trabajo|Let + us + V + ADV|Let's = propuesta que te incluye.
+Who works here?|¿Quién trabaja aquí?|pres|trabajo|WH + V-s + COMP ?|who es el SUJETO: no lleva does.
+Who did you call?|¿A quién llamaste?|past|telefono|WH + did + S + V ?|Aquí who es objeto: sí lleva did.
+What's happening?|¿Qué está pasando?|prescont|smalltalk|WH + is + V-ing ?|what es sujeto: no lleva otro auxiliar.
+How often do you exercise?|¿Con qué frecuencia haces ejercicio?|pres|salud|WH + often + do + S + V ?|how often pide la frecuencia.
+How far is it?|¿Qué tan lejos queda?|pres|direcciones|WH + far + is + S ?|how far pide distancia.
+How much is it?|¿Cuánto cuesta?|pres|compras|WH + much + is + S ?|how much para precio.
+How many are there?|¿Cuántos hay?|pres|comparar|WH + many + are + there ?|there are invertido para preguntar.
+Whose car is this?|¿De quién es este carro?|pres|smalltalk|WH + N + is + S ?|whose = de quién. No confundir con who's.
+Which one do you prefer?|¿Cuál prefieres?|pres|compras|WH + S + do + S + V ?|which cuando hay opciones concretas.
+You're coming, aren't you?|Vienes, ¿verdad?|prescont|smalltalk|S + are + V-ing + are + not + S ?|Question tag: afirmas y confirmas al final.
+You don't like it, do you?|No te gusta, ¿verdad?|pres|opiniones|S + do + not + V + OBJ + do + S ?|Frase negativa → tag afirmativo.
+It's cold, isn't it?|Hace frío, ¿no?|pres|tiempo|S + is + ADJ + is + not + S ?|El tag siempre invierte el signo.
+He can swim, can't he?|Él sabe nadar, ¿no?|modal|smalltalk|S + can + V + can + not + S ?|El tag repite el mismo modal.
+There's a problem, isn't there?|Hay un problema, ¿cierto?|pres|quejas|There + is + S + is + not + there ?|Con there is, el tag usa there.
+I'd rather stay home.|Prefiero quedarme en casa.|cond|planes|S + would + rather + V + COMP|would rather + verbo DESNUDO. Sin to.
+I'd rather not talk about it.|Prefiero no hablar de eso.|cond|opiniones|S + would + rather + not + V + about + OBJ|La negación va entre rather y el verbo.
+I'd love to.|Me encantaría.|cond|acuerdo|S + would + V + to|Termina en to: el verbo se sobreentiende.
+I'd hate to bother you.|Odiaría molestarte.|cond|cortesia|S + would + V + to + V + OBJ|would hate TO + verbo.
+It's supposed to rain.|Se supone que va a llover.|pres|tiempo|S + is + supposed + to + V|be supposed to = se supone que.
+You're not supposed to park here.|No se supone que parquees aquí.|pres|permiso|S + are + not + supposed + to + V + COMP|Regla o norma que alguien impuso.
+I used to smoke.|Antes fumaba.|past|pasado|S + used to + V|used to = costumbre pasada que ya no existe.
+I'm used to working late.|Estoy acostumbrado a trabajar tarde.|pres|trabajo|S + am + used to + V-ing|OJO: be used TO + -ing. Distinto de used to.
+I'm getting used to it.|Me estoy acostumbrando.|prescont|sentimientos|S + am + V-ing + used to + OBJ|get used to = ir acostumbrándose.
+It's about time.|Ya era hora.|pres|sentimientos|S + is + COMP|Expresión fija de impaciencia.
+It's high time we left.|Ya es hora de que nos vayamos.|pres|sugerir|S + is + COMP + S + V-ed|Estructura fija: lleva pasado después.
+There used to be a store here.|Antes había una tienda aquí.|past|pasado|There + used to + be + S + COMP|there used to be = antes había.
+There's going to be a change.|Va a haber un cambio.|goingto|trabajo|There + is + going to + be + S|there is going to be = va a haber.
+There must be a mistake.|Debe haber un error.|modal|quejas|There + must + be + S|there must be = debe haber.
+There might be a delay.|Puede que haya retraso.|modal|viaje|There + might + be + S|might = posibilidad baja.
+It seems there's a problem.|Parece que hay un problema.|pres|quejas|S + V + there + is + S|Frase dentro de frase: sin auxiliar extra.
+It looks like it's closed.|Parece que está cerrado.|pres|compras|S + V + like + S + is + ADJ|look like + frase completa.
+It sounds like a good idea.|Suena a buena idea.|pres|acuerdo|S + V + like + COMP|sound like + sustantivo.
+It feels like Monday.|Se siente como lunes.|pres|smalltalk|S + V + like + COMP|feel like + sustantivo.
+I feel like going out.|Tengo ganas de salir.|pres|planes|S + V + like + V-ing|feel like + -ing = tener ganas de.
+I don't feel like cooking.|No tengo ganas de cocinar.|pres|casa|S + do + not + V + like + V-ing|Después de feel like SIEMPRE -ing.
+What do you feel like eating?|¿Qué se te antoja comer?|pres|restaurante|WH + do + S + V + like + V-ing ?|Muy natural para elegir comida.
+Do you want me to help?|¿Quieres que te ayude?|pres|ayuda|do + S + V + OBJ + to + V ?|want someone TO + verbo. Sin that.
+I want you to know something.|Quiero que sepas algo.|pres|sentimientos|S + V + OBJ + to + V + OBJ|Nunca I want that you know.
+He told me to wait.|Me dijo que esperara.|past|pasado|S + V-ed + OBJ + to + V|tell someone TO + verbo.
+She asked me to call her.|Me pidió que la llamara.|past|pasado|S + V-ed + OBJ + to + V + OBJ|ask someone TO + verbo.
+He said he was busy.|Dijo que estaba ocupado.|past|pasado|S + V-ed + S + was + ADJ|Estilo indirecto: el tiempo retrocede un paso.
+She said she would come.|Dijo que vendría.|past|pasado|S + V-ed + S + would + V|will se vuelve would en estilo indirecto.
+They told me they had finished.|Me dijeron que habían terminado.|past|pasado|S + V-ed + OBJ + S + had + V-ed|El pasado se vuelve pluscuamperfecto.
+I don't know where he is.|No sé dónde está.|pres|ayuda|S + do + not + V + WH + S + is|Pregunta indirecta: el orden vuelve a normal.
+Do you know what time it is?|¿Sabes qué hora es?|pres|tiempo|do + S + V + WH + N + S + is ?|Nunca what time is it dentro de otra frase.
+Could you tell me where it is?|¿Me podría decir dónde está?|modal|direcciones|could + S + V + OBJ + WH + S + is ?|Indirecta: where it is, no where is it.
+I wonder if he'll come.|Me pregunto si vendrá.|fut|planes|S + V + if + S + will + V|I wonder if = me pregunto si.
+I'm not sure whether to go.|No sé si ir.|pres|planes|S + am + not + ADJ + WH + to + V|whether + to + verbo.
+Let me know whether you can make it.|Avísame si puedes venir.|imper|planes|Let + OBJ + V + WH + S + can + V + OBJ|make it = lograr asistir.
+The meeting was canceled.|La reunión fue cancelada.|past|reuniones|S + was + V-ed|Pasiva: el objeto pasa a ser sujeto.
+The report is being reviewed.|El informe está siendo revisado.|prescont|trabajo|S + is + being + V-ed|Pasiva en continuo: is being + participio.
+It was made in China.|Fue hecho en China.|past|compras|S + was + V-ed + in + COMP|Pasiva: no importa quién lo hizo.
+English is spoken here.|Aquí se habla inglés.|pres|estudio|S + is + V-ed + COMP|La pasiva reemplaza al se impersonal español.
+The file has been sent.|El archivo ya fue enviado.|perf|email|S + have + been + V-ed|Pasiva en perfecto: has been + participio.
+It needs to be fixed.|Necesita arreglarse.|pres|tecnologia|S + V + to + be + V-ed|need to be + participio.
+It can be done.|Se puede hacer.|modal|trabajo|S + can + be + V-ed|Modal + be + participio.
+Nothing was decided.|No se decidió nada.|past|reuniones|S + was + V-ed|nothing ya es negativo: no lleva wasn't.
+Everything is under control.|Todo está bajo control.|pres|trabajo|S + is + under + COMP|everything es singular: is.
+Nobody knows.|Nadie sabe.|pres|smalltalk|S + V-s|nobody es singular y ya negativo.
+Somebody called you.|Alguien te llamó.|past|telefono|S + V-ed + OBJ|somebody y someone son idénticos.
+Anything else?|¿Algo más?|fija|compras|Expresión fija|else va DESPUÉS: anything else, no else anything.
+Nothing else, thanks.|Nada más, gracias.|fija|compras|Expresión fija|Cierra un pedido.
+Something like that.|Algo así.|fija|smalltalk|Expresión fija|Cierra una explicación aproximada.
+Anyone can learn English.|Cualquiera puede aprender inglés.|modal|estudio|S + can + V + OBJ|anyone en afirmativo = cualquiera.
+No one told me.|Nadie me dijo.|past|quejas|S + V-ed + OBJ|no one ya es negativo: no lleva didn't.
+Everyone makes mistakes.|Todos cometen errores.|pres|estudio|S + V-s + OBJ|everyone es SINGULAR: makes con -s.
+Could you do me a favor?|¿Me haces un favor?|modal|ayuda|could + S + V + OBJ + OBJ ?|do someone a favor: dos objetos seguidos.
+Would you mind helping me?|¿Te importaría ayudarme?|cond|ayuda|would + S + V + V-ing + OBJ ?|Después de mind SIEMPRE -ing.
+I was wondering if you could help.|Me preguntaba si podría ayudar.|pastcont|ayuda|S + was + V-ing + if + S + could + V|La petición más cortés del inglés. Memorízala.
+Sorry to bother you, but...|Perdón por molestarte, pero...|fija|cortesia|Expresión fija|Abre una interrupción con cortesía.
+Do you have a minute?|¿Tienes un minuto?|pres|trabajo|do + S + V + OBJ ?|Pide permiso antes de robar tiempo.
+Is now a good time?|¿Es buen momento?|pres|trabajo|is + S + COMP ?|Muy cortés antes de una llamada.
+Can this wait?|¿Esto puede esperar?|modal|trabajo|can + S + V ?|Pregunta directa sobre prioridad.
+It's urgent.|Es urgente.|pres|trabajo|S + is + ADJ|Dos palabras que cambian toda prioridad.
+It can wait.|Puede esperar.|modal|trabajo|S + can + V|Respuesta que baja la presión.
+I'll be with you in a minute.|Ya lo atiendo.|fut|trabajo|S + will + be + with + OBJ + in + COMP|be with someone = atender a alguien.
+Thanks for waiting.|Gracias por esperar.|fija|cortesia|thanks + for + V-ing|Después de for va -ing siempre.
+Sorry for the wait.|Perdón por la espera.|fija|cortesia|Expresión fija|wait aquí es sustantivo.
+How's everything going?|¿Cómo va todo?|prescont|smalltalk|WH + is + S + V-ing ?|everything es singular: is.
+Same as always.|Como siempre.|fija|smalltalk|Expresión fija|Respuesta neutra y natural.
+Can't complain.|No me quejo.|modal|smalltalk|can + not + V|Sin sujeto. Respuesta muy común.
+Been busy.|He estado ocupado.|perf|smalltalk|been + ADJ|Se cae el I've. Habla real informal.
+Same here.|Igual yo.|fija|acuerdo|Expresión fija|Confirma que te pasa lo mismo.
+Me too.|Yo también.|fija|acuerdo|Expresión fija|Para frases AFIRMATIVAS.
+Me neither.|Yo tampoco.|fija|acuerdo|Expresión fija|Para frases NEGATIVAS. No me too.
+So do I.|Yo también.|pres|acuerdo|so + do + S|Eco del auxiliar. So am I, so can I.
+Neither do I.|Yo tampoco.|pres|acuerdo|neither + do + S|Versión negativa de so do I.
+Not really.|No mucho.|fija|opiniones|Expresión fija|Negación suave, muy usada.
+Sort of.|Más o menos.|fija|opiniones|Expresión fija|kind of es idéntico.
+I guess so.|Supongo que sí.|pres|opiniones|S + V + ADV|Acuerdo sin convicción.
+If you say so.|Si tú lo dices.|pres|opiniones|if + S + V + ADV|Acepta sin estar convencido.
+It is what it is.|Es lo que es.|pres|idioms|S + is + WH + S + is|Aceptación de algo que no cambia.
+Whatever happens, happens.|Pase lo que pase.|pres|idioms|WH + V-s + V-s|Estructura fija de resignación.
+We'll cross that bridge when we come to it.|Ya veremos cuando llegue el momento.|fut|idioms|S + will + V + OBJ + WH + S + V + to + OBJ|Después de when va presente, no futuro.
+One thing at a time.|Una cosa a la vez.|fija|idioms|Expresión fija|Sin verbo. Expresión de enfoque.
+First things first.|Lo primero es lo primero.|fija|idioms|Expresión fija|Ordena prioridades.
+Last but not least.|Por último pero no menos importante.|fija|conectores|Expresión fija|Cierra una lista.
+To be honest with you...|Para serte sincero...|fija|opiniones|Expresión fija|Abre una opinión franca.
+If you ask me...|Si me preguntas...|pres|opiniones|if + S + V + OBJ|Introduce tu opinión personal.
+As far as I know...|Que yo sepa...|pres|opiniones|as far as + S + V|Limita tu afirmación a lo que sabes.
+Correct me if I'm mistaken.|Corrígeme si me equivoco.|imper|opiniones|V + OBJ + if + S + am + ADJ|Versión formal de if I'm wrong.
+I might be wrong, but...|Puede que esté equivocado, pero...|modal|opiniones|S + might + be + ADJ|Abre un desacuerdo con humildad.
+Don't quote me on that.|No me cites en eso.|imper|opiniones|do + not + V + OBJ + on + OBJ|Cuando das un dato sin estar seguro.
+I heard that...|Escuché que...|past|smalltalk|S + V-ed + S|Introduce información de segunda mano.
+Apparently...|Al parecer...|fija|smalltalk|Expresión fija|Marca que no lo viste tú.
+Rumor has it that...|Se rumorea que...|pres|smalltalk|Expresión fija|Fórmula fija para chismes.
+Between you and me...|Entre tú y yo...|fija|smalltalk|Expresión fija|Abre una confidencia. Nunca between you and I.
+Keep it to yourself.|Guárdatelo.|imper|smalltalk|V + OBJ + to + OBJ|Pide discreción.
+It's a secret.|Es un secreto.|pres|smalltalk|S + is + COMP|Dos palabras claras.
+I won't tell anyone.|No le diré a nadie.|fut|smalltalk|S + will + not + V + OBJ|anyone porque la frase ya es negativa.
+Your secret is safe with me.|Tu secreto está seguro conmigo.|pres|smalltalk|S + is + ADJ + with + OBJ|Expresión fija de confianza.
+Can I get your number?|¿Me das tu número?|modal|smalltalk|can + S + V + OBJ ?|get aquí es obtener.
+Let's stay in touch.|Sigamos en contacto.|imper|despedidas|Let + us + V + in + COMP|stay in touch = mantener el contacto.
+Text me when you get home.|Escríbeme cuando llegues.|imper|despedidas|V + OBJ + WH + S + V + COMP|Después de when va presente, no futuro.
+Drive safe.|Maneja con cuidado.|imper|despedidas|V + ADJ|Gramaticalmente sería safely, pero así se dice.
+Get home safe.|Llega bien a casa.|imper|despedidas|V + COMP + ADJ|get home sin to.
+Have a good one.|Que te vaya bien.|imper|despedidas|V + a + ADJ + OBJ|one reemplaza day. Muy informal.
+Catch you later.|Nos vemos.|imper|despedidas|V + OBJ + ADV|Informal. Versión de see you later.
+I'm off.|Ya me voy.|pres|despedidas|S + am + off|off = de salida. Dos palabras.
+I gotta go.|Me tengo que ir.|pres|despedidas|S + gotta + V|gotta = got to. Solo en habla informal.
+Let me walk you out.|Déjame acompañarte a la salida.|imper|despedidas|Let + OBJ + V + OBJ + out|walk someone out = acompañar afuera.
+It was great catching up.|Qué bueno ponernos al día.|past|despedidas|S + was + ADJ + V-ing|Después de great va -ing.
+We should do this again.|Deberíamos repetirlo.|modal|despedidas|S + should + V + OBJ + COMP|Cierra un encuentro agradable.
+Let's grab coffee sometime.|Tomemos un café algún día.|imper|planes|Let + us + V + OBJ + COMP|grab = tomar algo rápido.
+I'll text you the details.|Te mando los detalles por mensaje.|fut|planes|S + will + V + OBJ + OBJ|text como verbo: enviar mensaje.
+Put it in my calendar.|Ponlo en mi calendario.|imper|planes|V + OBJ + in + COMP|in the calendar. También on the calendar.
+I'm double-booked.|Tengo dos compromisos a la vez.|pres|planes|S + am + ADJ|double-booked: adjetivo compuesto con guion.
+Something came up.|Me surgió algo.|past|planes|S + V-ed + up|come up = surgir imprevistamente.
+I have to reschedule.|Tengo que reagendar.|modal|planes|S + have + to + V|have to = obligación por circunstancias.
+Can we move it to Friday?|¿Lo movemos al viernes?|modal|planes|can + S + V + OBJ + to + COMP ?|move to = cambiar de fecha.
+Does that still work?|¿Sigue funcionando así?|pres|planes|does + S + still + V ?|still entre el sujeto y el verbo.
+I'm free after four.|Estoy libre después de las cuatro.|pres|planes|S + am + ADJ + after + COMP|after + hora.
+Let's say six o'clock.|Digamos a las seis.|imper|planes|Let + us + V + COMP|let's say = propone un valor concreto.
+See you then.|Nos vemos entonces.|fija|despedidas|Expresión fija|Cierra un acuerdo de hora.
+I'll be there.|Ahí estaré.|fut|planes|S + will + be + COMP|Compromiso de asistencia.
+Don't be late.|No llegues tarde.|imper|planes|do + not + be + ADJ|Imperativo negativo de be.
+I'm on my way.|Voy en camino.|pres|transporte|S + am + on + COMP|Expresión fija. OMW en mensajes.
+I'm almost there.|Ya casi llego.|pres|transporte|S + am + ADV + COMP|almost + adverbio de lugar.
+I'm stuck in traffic.|Estoy varado en el tráfico.|pres|transporte|S + am + ADJ + in + COMP|stuck = atascado. traffic es incontable.
+I'll be a few minutes late.|Llegaré unos minutos tarde.|fut|transporte|S + will + be + COMP + ADJ|a few + contable plural.
+Go ahead without me.|Sigan sin mí.|imper|planes|V + ADV + without + OBJ|without + pronombre objeto: me, no I.
+Save me a seat.|Guárdame un puesto.|imper|planes|V + OBJ + OBJ|save someone something: dos objetos.
+Is this seat free?|¿Está libre este puesto?|pres|transporte|is + S + ADJ ?|También Is this seat taken.
+Do you mind moving over?|¿Te importaría correrte?|pres|transporte|do + S + V + V-ing + ADV ?|Después de mind siempre -ing.
+Excuse me, coming through.|Permiso, voy pasando.|prescont|transporte|V + OBJ + V-ing + through|Para abrirse paso entre gente.
+After you.|Después de usted.|fija|cortesia|Expresión fija|Cede el paso. Dos palabras.
+Sorry, my fault.|Perdón, culpa mía.|fija|disculpas|Expresión fija|Se dice al chocar con alguien.
+No harm done.|No pasó nada.|fija|disculpas|Expresión fija|Acepta una disculpa por algo menor.
+Accidents happen.|Los accidentes pasan.|pres|disculpas|S + V|Verdad general: presente simple.
+It happens to everyone.|Le pasa a todos.|pres|disculpas|S + V-s + to + OBJ|everyone es singular: happens.
+Don't beat yourself up.|No te castigues.|imper|sentimientos|do + not + V + OBJ + up|beat someone up = ser duro consigo mismo.
+Move on.|Sigue adelante.|imper|sentimientos|V + on|Dos palabras. Pasar página.
+Tomorrow is another day.|Mañana es otro día.|pres|sentimientos|S + is + COMP|another + singular.
+Take it easy.|Tómalo con calma.|imper|sentimientos|V + OBJ + ADJ|También es una despedida informal.
+Don't sweat it.|No te preocupes.|imper|sentimientos|do + not + V + OBJ|Muy informal. sweat = sudar.
+Chill out.|Relájate.|imper|sentimientos|V + out|Muy informal. Solo con amigos.
+It's all good.|Todo bien.|pres|sentimientos|S + is + COMP|Cierra un malentendido sin drama.
+We're good.|Estamos bien.|pres|sentimientos|S + are + ADJ|Confirma que no hay problema entre ustedes.
+No hard feelings.|Sin rencores.|fija|sentimientos|Expresión fija|Cierra un desacuerdo en buenos términos.
+Let bygones be bygones.|Lo pasado, pasado.|imper|idioms|V + S + be + COMP|Expresión fija de reconciliación.
+Life goes on.|La vida sigue.|pres|idioms|S + V-s + on|Tres palabras. Presente simple.
+Onwards and upwards.|Para adelante y para arriba.|fija|idioms|Expresión fija|Cierre optimista. Sin verbo.
+Keep it up.|Sigue así.|imper|estudio|V + OBJ + up|keep it up = mantener el buen ritmo.
+You're doing great.|Lo estás haciendo muy bien.|prescont|estudio|S + are + V-ing + ADV|Continuo porque está en curso.
+Well done.|Bien hecho.|fija|estudio|Expresión fija|Dos palabras. Reconocimiento breve.
+I'm going to look for an apartment.|Voy a buscar apartamento.|goingto|casa|S + am + going to + V + for + OBJ|going to = plan que ya tenías antes de hablar.
+She's going to call you back.|Ella te va a devolver la llamada.|goingto|telefono|S + is + going to + V + OBJ + back|is going to para he, she, it.
+We're going to be late.|Vamos a llegar tarde.|goingto|transporte|S + are + going to + be + ADJ|Predicción con evidencia clara ahora.
+Are you going to apply?|¿Vas a postular?|goingto|entrevista|are + S + going to + V ?|BE al frente para preguntar.
+It's not going to work.|Eso no va a funcionar.|goingto|opiniones|S + is + not + going to + V|not va justo después del BE.
+I was going to call you.|Te iba a llamar.|goingto|telefono|S + was + going to + V + OBJ|was going to = intención que no se cumplió.
+They were waiting outside.|Estaban esperando afuera.|pastcont|pasado|S + were + V-ing + COMP|were para you, we, they.
+I wasn't paying attention.|No estaba poniendo atención.|pastcont|reuniones|S + was + not + V-ing + OBJ|pay attention, nunca put attention.
+What were you doing?|¿Qué estabas haciendo?|pastcont|pasado|WH + were + S + V-ing ?|were al frente para preguntar.
+It was raining all night.|Estuvo lloviendo toda la noche.|pastcont|tiempo|S + was + V-ing + COMP|Continuo para acción larga en el pasado.
+While I was cooking, he called.|Mientras cocinaba, él llamó.|pastcont|casa|WH + S + was + V-ing + S + V-ed|while + continuo. La interrupción va en simple.
+I've lost my keys.|Perdí mis llaves.|perf|emergencia|S + have + V-ed + OBJ|Perfecto: pasó antes y el efecto es AHORA.
+He's gone to the bank.|Se fue al banco.|perf|trabajo|S + have + gone + to + COMP|gone to = sigue allá. been to = ya volvió.
+Have you been to London?|¿Has estado en Londres?|perf|viaje|have + S + been + to + COMP ?|been to = fue y volvió.
+I've had this laptop for years.|Tengo este portátil hace años.|perf|tecnologia|S + have + V-ed + OBJ + for + COMP|Empezó antes y sigue: nunca I have it for years.
+She's just arrived.|Acaba de llegar.|perf|viaje|S + have + just + V-ed|just + perfecto = acabar de.
+We haven't decided yet.|Todavía no decidimos.|perf|reuniones|S + have + not + V-ed + yet|yet SIEMPRE al final.
+How many times have you tried?|¿Cuántas veces has intentado?|perf|estudio|WH + many + N + have + S + V-ed ?|Perfecto para contar experiencias de vida.
+This is the best trip I've ever had.|Es el mejor viaje que he tenido.|perf|viaje|S + is + the + ADJ + N + S + have + ever + V-ed|Superlativo + perfecto con ever.
+Could I have a room with a view?|¿Me da una habitación con vista?|modal|hotel|could + S + V + OBJ + with + OBJ ?|with + característica del cuarto.
+Is there room service?|¿Hay servicio a la habitación?|pres|hotel|is + there + S ?|there is para preguntar si existe algo.
+The key card doesn't work.|La llave no funciona.|pres|hotel|S + does + not + V|does porque key card es tercera persona.
+Could you call me a taxi?|¿Me podría pedir un taxi?|modal|hotel|could + S + V + OBJ + OBJ ?|call someone a taxi: dos objetos.
+What time is breakfast served?|¿A qué hora sirven el desayuno?|pres|hotel|WH + N + is + S + V-ed ?|Pasiva: no importa quién sirve.
+I'd like a late checkout.|Quisiera salida tardía.|cond|hotel|S + would + like + OBJ|would like + sustantivo, sin to.
+Where's the emergency exit?|¿Dónde está la salida de emergencia?|pres|emergencia|WH + is + S ?|exit = salida. NO significa éxito.
+I don't feel safe here.|No me siento seguro aquí.|pres|emergencia|S + do + not + V + ADJ + COMP|safe = sin peligro. sure = seguro de algo.
+Is there a doctor nearby?|¿Hay un médico cerca?|pres|emergencia|is + there + S + ADV ?|nearby no lleva preposición.
+My uncle lives abroad.|Mi tío vive en el exterior.|pres|familia|S + V-s + ADV|abroad SIN preposición: nunca in abroad.

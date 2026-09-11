@@ -1,0 +1,84 @@
+blow|soplar|verbo|blew, blown · blow up = estallar|The wind blows cold.|El viento sopla frío.
+sweep|barrer|verbo|swept, swept|Sweep the floor.|Barre el suelo.
+creep|arrastrarse|verbo|crept, crept · creepy = siniestro|The fear creeps in.|El miedo se cuela.
+cling|aferrarse|verbo|clung, clung · cling to|Don't cling to the past.|No te aferres al pasado.
+fling|arrojar|verbo|flung, flung|He flung the door open.|Abrió la puerta de golpe.
+sting|picar|verbo|stung, stung · de una abeja|The words still sting.|Las palabras aún escuecen.
+shrink|encoger|verbo|shrank, shrunk|The shirt shrank.|La camisa encogió.
+weave|tejer|verbo|wove, woven|She weaves the story.|Teje la historia.
+seek out|buscar activamente|verbo|ir a por ello|Seek out the truth.|Ve a por la verdad.
+lay down|dejar / tumbar|verbo|laid, laid|Lay down your fears.|Deja a un lado tus miedos.
+dig|cavar|verbo|dug, dug · dig in = ponerse a ello|Dig a little deeper.|Cava un poco más hondo.
+grind|moler|verbo|ground, ground · the daily grind|The daily grind.|La rutina de siempre.
+bind|atar|verbo|bound, bound|Bound by a promise.|Atado por una promesa.
+lend a hand|echar una mano|verbo|ayudar|Lend me a hand.|Échame una mano.
+shed|derramar|verbo|shed, shed · shed tears|Don't shed a tear.|No derrames ni una lágrima.
+spit|escupir|verbo|spat, spat · también rapear|Spit the truth.|Suelta la verdad.
+swear in|jurar el cargo|verbo|tomar posesión|They swore him in.|Le tomaron juramento.
+bet|apostar|verbo|bet, bet · I bet = seguro que|I bet you will.|Seguro que lo haces.
+quit on|abandonar a|verbo|dejar tirado|Don't quit on me.|No me dejes tirado.
+count in|contar con|verbo|incluir a alguien|Count me in.|Cuenta conmigo.
+count out|no contar con|verbo|dejar fuera|Count me out.|A mí no me cuentes.
+wear off|pasarse el efecto|verbo|dejar de hacer efecto|The pain wore off.|El dolor se pasó.
+pull off|lograrlo|verbo|conseguir algo difícil|You pulled it off.|Lo lograste.
+call out|señalar|verbo|decir algo en público|She called him out.|Lo señaló en público.
+call on|recurrir a|verbo|pedir ayuda a alguien|Call on me.|Cuenta conmigo.
+turn away|rechazar|verbo|no dejar entrar|Don't turn me away.|No me rechaces.
+draw near|acercarse|verbo|estar cada vez más cerca|Winter draws near.|Se acerca el invierno.
+set off|salir / provocar|verbo|empezar un viaje o una reacción|We set off at dawn.|Salimos al amanecer.
+set aside|apartar|verbo|guardar para después|Set aside some money.|Aparta algo de dinero.
+set in|instalarse|verbo|empezar y quedarse|The cold set in.|Se instaló el frío.
+bring about|provocar|verbo|hacer que ocurra|It brought about change.|Provocó un cambio.
+bring along|traer contigo|verbo|llevar a alguien o algo|Bring a friend along.|Trae a un amigo.
+look over|revisar|verbo|echar un vistazo completo|Look it over.|Revísalo.
+look through|mirar de arriba abajo|verbo|revisar todo el contenido|I looked through the album.|Miré todo el álbum.
+hold off|aguantar / retrasar|verbo|esperar antes de actuar|Hold off for now.|Espera de momento.
+keep off|mantenerse fuera|verbo|no pisar ni tocar|Keep off the grass.|No pises el césped.
+keep out|no entrar|verbo|prohibido el paso|Keep out.|Prohibido el paso.
+work up|armarse (de valor)|verbo|reunir fuerzas para algo|I worked up the courage.|Me armé de valor.
+open up|abrirse|verbo|contar lo que sientes|You can open up to me.|Te puedes abrir conmigo.
+close off|cerrar el paso|verbo|bloquear|They closed off the street.|Cortaron la calle.
+shut down|apagar / cerrar|verbo|dejar de funcionar|The system shut down.|El sistema se apagó.
+start over|empezar de cero|verbo|volver al principio|Let's start over.|Empecemos de cero.
+sign up|apuntarse|verbo|inscribirse|Sign up for the class.|Apúntate a la clase.
+sign in|iniciar sesión|verbo|entrar en una cuenta|Sign in with your email.|Inicia sesión con tu correo.
+log out|cerrar sesión|verbo|salir de la cuenta|Log out when you finish.|Cierra sesión al terminar.
+stand up for|dar la cara por|verbo|defender a alguien|Stand up for what's right.|Da la cara por lo justo.
+watch over|velar por|verbo|cuidar de lejos|She watches over me.|Vela por mí.
+wait on|atender|verbo|servir a un cliente|He waits on tables.|Sirve mesas.
+hang in there|aguanta|verbo|no rendirse|Hang in there.|Aguanta ahí.
+ring true|sonar a verdad|verbo|parecer cierto|That rings true.|Eso suena a verdad.
+pride|orgullo|sust|take pride in = enorgullecerse|Swallow your pride.|Traga tu orgullo.
+guilt|culpa|sust|el peso de haber hecho mal|The guilt eats me.|La culpa me come.
+sorrow|pena|sust|tristeza honda|Drowning in sorrow.|Ahogado en pena.
+joy|alegría|sust|felicidad viva|Tears of joy.|Lágrimas de alegría.
+bliss|dicha|sust|felicidad total|Pure bliss.|Dicha pura.
+rage|furia|sust|ira muy fuerte|Rage in his eyes.|Furia en sus ojos.
+fury|furia|sust|parecido a rage|The fury passed.|La furia pasó.
+temper|genio|sust|lose your temper = perder los estribos|Watch your temper.|Cuida ese genio.
+mood|humor|sust|in the mood = con ganas|I'm not in the mood.|No estoy de humor.
+vibe|onda|sust|el ambiente que se siente|Good vibes only.|Solo buenas ondas.
+fate|destino|sust|lo que estaba escrito|It was fate.|Fue el destino.
+destiny|destino|sust|más solemne que fate|Our destiny.|Nuestro destino.
+meaning|significado|sust|lo que quiere decir|The meaning of it all.|El sentido de todo esto.
+apology|disculpa|sust|apologies = disculpas|Accept my apology.|Acepta mis disculpas.
+clue|pista|sust|lo que ayuda a resolver|No clue.|Ni idea.
+burden|carga|sust|lo que pesa por dentro|A heavy burden.|Una carga pesada.
+chaos|caos|sust|desorden total|Beautiful chaos.|Un caos hermoso.
+harmony|armonía|sust|en música y en la vida|Living in harmony.|Viviendo en armonía.
+laughter|risa|sust|el sonido de reír|I miss your laughter.|Echo de menos tu risa.
+tune in|sintonizar|verbo|prestar atención a algo|Tune in tonight.|Sintoniza esta noche.
+beauty|belleza|sust|lo que es hermoso|The beauty of it.|La belleza de eso.
+childhood|infancia|sust|los años de niño|A childhood memory.|Un recuerdo de infancia.
+adulthood|edad adulta|sust|cuando ya eres mayor|The weight of adulthood.|El peso de ser adulto.
+forgiveness|perdón|sust|el acto de perdonar|Ask for forgiveness.|Pide perdón.
+mercy|piedad|sust|clemencia con quien falló|Have mercy.|Ten piedad.
+kindness|amabilidad|sust|tratar bien a otros|A small kindness.|Una pequeña amabilidad.
+honesty|honestidad|sust|decir la verdad siempre|Honesty first.|La honestidad primero.
+loyalty|lealtad|sust|no fallar nunca|Loyalty over everything.|Lealtad por encima de todo.
+host|anfitrión|sust|quien recibe|A great host.|Un gran anfitrión.
+gang|pandilla|sust|grupo de amigos o banda|The old gang.|La vieja pandilla.
+buddy|colega|sust|amigo, informal|Hey, buddy.|Oye, colega.
+mate|colega|sust|muy británico|Alright, mate?|¿Qué tal, colega?
+folks|la gente / los padres|sust|informal y cariñoso|How are your folks?|¿Cómo están tus padres?
+crowd out|desplazar|verbo|dejar sin sitio|Noise crowds out thought.|El ruido desplaza al pensamiento.

@@ -1,0 +1,301 @@
+<div id="readbar"></div>
+<div id="toast"></div>
+
+<div id="omni">
+  <div class="omni-box">
+    <input class="omni-in" id="omniIn" placeholder="Buscar palabra, frase, pieza o sección…" autocomplete="off" spellcheck="false">
+    <div class="omni-res" id="omniRes"></div>
+    <div class="omni-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> moverse</span>
+      <span><kbd>Enter</kbd> abrir</span>
+      <span><kbd>Esc</kbd> cerrar</span>
+      <span style="margin-left:auto">busca en palabras, frases, bifurcaciones, piezas y método</span>
+    </div>
+  </div>
+</div>
+
+<div id="syncModal">
+  <div class="sync-box">
+    <div class="sync-head">
+      <div><b>☁️ Tu progreso en todos lados</b><small>cuadernos · marcadores · práctica · bifurcaciones · racha</small></div>
+      <button class="nbb" id="syncClose" title="Cerrar (Esc)">✕</button>
+    </div>
+    <div class="sync-body" id="syncBody"></div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="tb-in">
+    <div class="brand">ENGLISH ENGINE<small>método sin gramática · da-2026</small></div>
+    <div class="tabs">
+      <button class="tab on" data-p="p0">🧭 Estructura</button>
+      <button class="tab" data-p="pz">🧩 Piezas</button>
+      <button class="tab" data-p="bf">🔀 Bifurcaciones</button>
+      <button class="tab" data-p="p1">📚 Palabras <b id="tc1">0</b></button>
+      <button class="tab" data-p="p2">💬 Frases <b id="tc2">0</b></button>
+      <button class="tab" data-p="pr">🧪 Práctica <b id="prDue">0</b></button>
+      <button class="tab" data-p="cf">🎮 Club de Frases</button>
+      <button class="tab" data-p="sg">🎬 Vídeos</button>
+      <button class="tab" data-p="wr">✍️ Escribir</button>
+      <button class="tab" data-p="nb">📓 Cuaderno</button>
+      <button class="tab" data-p="p3">🎯 Método</button>
+    </div>
+    <button class="nbb wide" id="omniBtn" title="Buscar en todo el documento (Ctrl+K)">🔍 <span class="kbd" style="font-size:10px">Ctrl K</span></button>
+    <button class="nbb" id="syncBtn" title="Sincronización desactivada — pulsa para activarla">☁️</button>
+    <div class="streak" title="Días seguidos estudiando · repasos de hoy">🔥 <b id="streakN">0</b> <span style="color:var(--t3);font-weight:500">días</span></div>
+    <div class="audiowrap">
+      <button class="nbb wide" id="audioBtn" title="Elegir voz y velocidad de la pronunciación">🔊 <span class="spd" id="rateVal">0.90</span></button>
+      <div class="audiopop" id="audioPop">
+        <label for="voiceSel">Voz en inglés</label>
+        <select id="voiceSel"><option>cargando…</option></select>
+        <label for="rateSel">Velocidad</label>
+        <input type="range" id="rateSel" min="0.5" max="1.2" step="0.05" value="0.9">
+        <div class="audiohint">Más lento al principio: <b>0.75</b> te deja oír cada sonido. Súbelo cuando ya entiendas.</div>
+        <button class="btn pri" id="audioTest" style="width:100%;justify-content:center;margin-top:9px">▶ Probar esta voz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE 0 · EL PILAR: LA ESTRUCTURA
+══════════════════════════════════════════════════════════ -->
+<div class="pane on" id="p0">
+
+  <div class="hero">
+    <div class="kick">el pilar · antes de memorizar nada</div>
+    <h1>El inglés no se estudia.<br>Se <em>arma</em>.</h1>
+    <p>El español conjuga el verbo. El inglés mueve piezas en un orden fijo. Si entiendes las <b style="color:var(--tx)">piezas</b> y el <b style="color:var(--tx)">orden</b>, dejas de traducir y empiezas a construir. Todo lo demás de este documento — las 2000 palabras, las 1000 frases, las 24 bifurcaciones y tu práctica diaria — cuelga de esta única idea.</p>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="stat"><div class="sv" id="st1">4000</div><div class="sl">Palabras</div></div>
+    <div class="stat"><div class="sv" id="st2">1000</div><div class="sl">Frases</div></div>
+    <div class="stat"><div class="sv" id="st3">24</div><div class="sl">Bifurcaciones</div></div>
+    <div class="stat"><div class="sv">12</div><div class="sl">Piezas</div></div>
+    <div class="stat"><div class="sv">5</div><div class="sl">Moldes</div></div>
+    <div class="stat"><div class="sv">3</div><div class="sl">Motores</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:32px;border-color:var(--acbd);background:linear-gradient(96deg,rgba(139,92,246,.07),transparent 65%)">
+    <div style="font-family:var(--fm);font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ac2);margin-bottom:9px">empieza aquí · tu primera sesión</div>
+    <h3 style="font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">30 minutos, hoy, en este orden</h3>
+    <p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:15px">No abras ocho pestañas a la vez. Hoy solo haz esto — y en voz alta, siempre:</p>
+    <div class="tw"><table class="tbl" style="margin:0">
+      <tr><th style="width:64px">Min</th><th style="width:150px">Dónde</th><th>Qué haces exactamente</th></tr>
+      <tr><td><b>0-10</b></td><td>🧭 Aquí mismo</td><td>Lee esta página hasta el final. No memorices: solo entiende <b>los 5 moldes</b> y <b>los 3 motores</b>.</td></tr>
+      <tr><td><b>10-20</b></td><td>🔀 Bifurcaciones</td><td>Abre <b>solo dos</b>: <b>QUE</b> y <b>NO</b>. Son las que más errores te ahorran. Di cada frase en voz alta ANTES de tocar el hueco.</td></tr>
+      <tr><td><b>20-28</b></td><td>💬 Frases</td><td>Filtra por <b>Saludos</b>. Escucha 10 con 🔊, repítelas, y marca con <b>★</b> las 5 que más usarías.</td></tr>
+      <tr><td><b>28-30</b></td><td>🧪 Práctica</td><td>Ábrela y repasa esas 5. Mañana te las vuelve a mostrar solas.</td></tr>
+    </table></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px">
+      <button class="btn pri" onclick="APP.go('bf')">🔀 Empezar por QUE y NO →</button>
+      <button class="btn" onclick="APP.go('p2')">💬 Ir a Frases</button>
+      <button class="btn" onclick="APP.go('pz')">🧩 No sé qué es un verbo</button>
+    </div>
+    <div class="note" style="margin:15px 0 0"><b>Mañana no empieces de cero:</b> abre <b>🧪 Práctica</b> primero. Es lo único que tienes que hacer todos los días sin falta — 10 minutos. Todo lo demás es opcional.</div>
+  </div>
+
+  <h2 class="sec"><span class="n">01</span> Las 6 piezas · y cuándo aparece cada una</h2>
+  <p class="lead">Toda frase en inglés se arma con estas seis piezas, pero <b style="color:var(--tx)">no todas aparecen siempre</b>: dos son obligatorias y las otras solo salen cuando las necesitas. Estos mismos seis colores se repiten en <b style="color:var(--tx)">todo el documento</b> — en el molde de cada una de las 1000 frases y en las 24 bifurcaciones — para que el patrón se te quede en el ojo, no en la memoria.</p>
+
+  <div class="legend">
+    <span class="slot s-suj" data-pieza="suj" title="Ver la ficha completa">SUJETO · quién</span>
+    <span class="slot s-aux" data-pieza="aux" title="Ver la ficha completa">AUXILIAR · el tiempo</span>
+    <span class="slot s-ver" data-pieza="ver" title="Ver la ficha completa">VERBO · la acción</span>
+    <span class="slot s-com" data-pieza="com" title="Ver la ficha completa">COMPLEMENTO · qué/dónde/cuándo</span>
+    <span class="slot s-neg" data-pieza="neg" title="Ver la ficha completa">NOT · negación</span>
+    <span class="slot s-wh" data-pieza="wh" title="Ver la ficha completa">WH · la pregunta abierta</span>
+  </div>
+  <div class="note" style="margin-top:-10px"><b>Toca cualquiera de esos seis colores</b> y se abre su ficha completa, más abajo: qué es en palabras simples, <b>un ejemplo por cada caso</b> en que aparece, su regla no negociable y el error típico que comete un hispanohablante.</div>
+
+  <div class="tw"><table class="tbl">
+    <tr><th style="width:190px">Pieza</th><th style="width:135px">¿Cuándo aparece?</th><th>Cómo reconocerla</th></tr>
+    <tr><td><span class="slot s-suj" style="font-size:12px;padding:2px 8px">SUJETO</span></td>
+        <td><b style="color:var(--ok)">SIEMPRE</b></td>
+        <td>Quién hace la acción. No se puede quitar nunca — ni aunque no signifique nada.
+        <div class="tex"><b>Hay alguien:</b> <i>I work at a bank.</i> · <b>No hay nadie:</b> <i><b>It</b> is raining.</i> (llueve) · <b>Algo existe:</b> <i><b>There</b> is a problem.</i> (hay un problema)</div></td></tr>
+    <tr><td><span class="slot s-ver" style="font-size:12px;padding:2px 8px">VERBO</span></td>
+        <td><b style="color:var(--ok)">SIEMPRE</b></td>
+        <td>La acción o el estado. Sin verbo no hay frase.
+        <div class="tex"><b>Acción:</b> <i>She <b>runs</b> every morning.</i> · <b>Estado:</b> <i>I <b>am</b> tired.</i> · <b>La única conjugación:</b> la -s de he/she/it — <i>I work</i> → <i>She work<b>s</b></i></div></td></tr>
+    <tr><td><span class="slot s-com" style="font-size:12px;padding:2px 8px">COMPLEMENTO</span></td>
+        <td>Casi siempre</td>
+        <td>Qué, dónde, cuándo, cómo. <i>I work</i> ya es una frase completa; el complemento la llena.
+        <div class="tex"><b>Qué:</b> <i>I need <b>help</b>.</i> · <b>Dónde:</b> <i>I work <b>at home</b>.</i> · <b>Cuándo:</b> <i>I finished it <b>yesterday</b>.</i> · <b>Cómo:</b> <i>He explained it <b>clearly</b>.</i></div></td></tr>
+    <tr><td><span class="slot s-aux" style="font-size:12px;padding:2px 8px">AUXILIAR</span></td>
+        <td>En <b>tres</b> casos, y cada uno tiene su ejemplo abajo</td>
+        <td>El motor: <b>do, does, did, am, is, are, was, were, have, has, had, will</b>. No significa nada por sí solo — solo hace uno de estos tres trabajos:
+        <div class="tex"><b>1 · Negar</b> — <i>I work here</i> → <i>I <b>don't</b> work here</i> (entró <i>do</i> para sostener el <i>not</i>)</div>
+        <div class="tex"><b>2 · Preguntar</b> — <i>You work here</i> → <i><b>Do</b> you work here?</i> (el auxiliar salta al frente)</div>
+        <div class="tex hi"><b>3 · Marcar tiempo</b> — aquí no niegas ni preguntas, y aun así aparece, porque es él quien dice <b>cuándo</b>:<br>
+        <i>I work</i> (siempre) → <i>I <b>am</b> working</i> (ahora) · <i>I <b>have</b> worked</i> (ya hecho) · <i>I <b>will</b> work</i> (aún no) · <i>I <b>had</b> worked</i> (antes de otra cosa)</div></td></tr>
+    <tr><td><span class="slot s-neg" style="font-size:12px;padding:2px 8px">not</span></td>
+        <td>Solo al negar</td>
+        <td>Nunca va sola: se agarra siempre de un auxiliar o de un <span class="gl" data-glo="modal">modal</span>.
+        <div class="tex"><b>Con auxiliar prestado:</b> <i>I <b>don't</b> smoke.</i> · <b>Con el que ya estaba:</b> <i>She <b>isn't</b> working.</i> · <b>Con modal:</b> <i>I <b>can't</b> swim.</i></div></td></tr>
+    <tr><td><span class="slot s-wh" style="font-size:12px;padding:2px 8px">WH</span></td>
+        <td>Solo en preguntas abiertas</td>
+        <td>what, where, when, who, why, which, how, whose. Se pega al frente <b>sin quitar el auxiliar</b>.
+        <div class="tex"><b>Fórmula fija:</b> WH + auxiliar + sujeto + verbo — <i><b>Where do you</b> live?</i> · <i><b>What did she</b> say?</i></div>
+        <div class="tex"><b>Ojo:</b> <i>Where you live?</i> está mal. El WH no reemplaza al auxiliar: van los dos.</div></td></tr>
+  </table></div>
+
+  <div class="note info"><b>Por qué esto importa más que memorizar seis nombres:</b> las dos primeras te dicen qué <b>no puedes omitir jamás</b> — y omitir el sujeto es el error que más delata a un hispanohablante. Las otras cuatro te dicen <b>qué se enciende</b> cuando pasas de afirmar a negar o preguntar. Ese encendido es todo el Molde 2 y el Molde 3 que vienen abajo.</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h3 class="sub" style="margin-top:0">La regla madre: el sujeto NUNCA se cae</h3>
+    <p class="lead" style="margin-bottom:14px">En español dices <i>"Llueve"</i>, <i>"Está bien"</i>, <i>"Hace frío"</i> — sin sujeto. En inglés eso es un error de estructura, no de vocabulario. Siempre hay alguien al frente, aunque sea un <span class="gl" data-glo="sujetorelleno">sujeto de relleno</span> — un <b style="color:var(--r-suj)">it</b> vacío que no significa nada.</p>
+    <div class="mini"><span class="m-en">It rains a lot here.</span> <span class="arr">·</span> <span class="m-es">Llueve mucho aquí.</span> <button class="spk sm" data-say="It rains a lot here.">🔊</button></div>
+    <div class="mini"><span class="m-en">It is cold today.</span> <span class="arr">·</span> <span class="m-es">Hace frío hoy.</span> <button class="spk sm" data-say="It is cold today.">🔊</button></div>
+    <div class="mini"><span class="m-en">There is a problem.</span> <span class="arr">·</span> <span class="m-es">Hay un problema.</span> <button class="spk sm" data-say="There is a problem.">🔊</button></div>
+    <div class="note"><b>Analogía Excel:</b> el sujeto es la columna A. Puedes dejarla con un valor de relleno (<code>it</code>, <code>there</code>), pero no puedes borrar la columna — la tabla se rompe.</div>
+  </div>
+
+  <h2 class="sec"><span class="n">01b</span> La ficha completa de cada pieza</h2>
+  <p class="lead">La tabla de arriba te dice <b>qué</b> hace cada pieza. Esto te dice <b>cómo se ve haciéndolo</b>. Cada caso que se menciona trae su propio ejemplo con audio — porque nombrar una función sin enseñarla no es explicarla. Empieza abierta la del <b>auxiliar</b>: es la que genera todas las dudas.</p>
+  <p class="lead" style="font-size:12.5px">¿Ves una palabra <span class="gl" data-glo="auxiliar">subrayada con puntitos</span>? Tócala: te dice qué significa en palabras simples, con ejemplo. Está en todo el documento.</p>
+  <div id="fpBox"></div>
+
+  <h2 class="sec"><span class="n">01c</span> Laboratorio · mira aparecer el auxiliar</h2>
+  <p class="lead">Aquí es donde «marcar tiempo» deja de ser una frase de tabla. Escoge una acción, cámbiale el tiempo y la forma, y observa qué pasa con las casillas de colores. <b>Lo importante:</b> en presente simple afirmativo no hay ninguna casilla azul; en cuanto pides «ahora mismo» o «ya hecho», <b>aparece sola</b>.</p>
+  <p class="lead"><b>16 frases base × 10 tiempos × 4 formas = 640 frases</b>, y cada una te dice qué hace el auxiliar ahí, por qué el verbo va en esa forma, cuándo la usarías de verdad, el error típico del hispanohablante y dónde cae en la línea del tiempo. Arriba tienes cuatro vistas: <b>🔍 una sola</b> (el detalle completo) · <b>📅 los 10 tiempos</b> (ahí se ve <i>aparecer</i> el auxiliar) · <b>🔀 las 4 formas</b> (ahí se ve <i>moverse</i>) · <b>🎯 ponte a prueba</b> (adivina el auxiliar, porque mirar no es aprender).</p>
+  <div class="lab" id="labBox"></div>
+  <div class="note info" style="margin-top:14px"><b>Cómo leerlo:</b> fíjate en que el verbo <b>se desnuda</b> cada vez que aparece un auxiliar. <i>She work<b>s</b></i> pierde la -s en <i>She <b>does</b>n't work</i>; <i>I work<b>ed</b></i> vuelve a <i>work</i> en <i><b>Did</b> I work?</i>. El tiempo se paga <b>una sola vez por frase</b>: o lo lleva el verbo, o lo lleva el auxiliar. Nunca los dos. Ese es el error #1 de todo hispanohablante.</div>
+
+  <h2 class="sec"><span class="n">02</span> Los 5 moldes que generan el 90% de lo que se dice</h2>
+  <p class="lead">No son reglas para memorizar. Son cinco plantillas. Aprendes a rellenarlas y ya puedes decir casi cualquier cosa, en cualquier tiempo.</p>
+
+  <div class="mold">
+    <div class="mh"><span class="mn">MOLDE 1</span><span class="mt">Afirmar</span></div>
+    <div class="formula"><span class="slot s-suj">SUJETO</span><span class="plus">+</span><span class="slot s-ver">VERBO</span><span class="plus">+</span><span class="slot s-com">COMPLEMENTO</span></div>
+    <div class="ex"><button class="spk sm" data-say="I work at a bank.">🔊</button><span class="en"><span class="slot s-suj">I</span> <span class="slot s-ver">work</span> <span class="slot s-com">at a bank</span>.</span><span class="es">Trabajo en un banco.</span></div>
+    <div class="ex"><button class="spk sm" data-say="She wants a new laptop.">🔊</button><span class="en"><span class="slot s-suj">She</span> <span class="slot s-ver">wants</span> <span class="slot s-com">a new laptop</span>.</span><span class="es">Ella quiere un portátil nuevo.</span></div>
+    <div class="why"><b>La única trampa:</b> con <b>he / she / it</b> el verbo lleva <b>-s</b> en presente. Es lo único que "conjuga" el inglés en presente. Todo lo demás va desnudo: I work, you work, we work, they work — <b>she workS</b>.</div>
+  </div>
+
+  <div class="mold">
+    <div class="mh"><span class="mn">MOLDE 2</span><span class="mt">Negar</span></div>
+    <div class="formula"><span class="slot s-suj">SUJETO</span><span class="plus">+</span><span class="slot s-aux">AUXILIAR</span><span class="plus">+</span><span class="slot s-neg">not</span><span class="plus">+</span><span class="slot s-ver">VERBO</span><span class="plus">+</span><span class="slot s-com">COMP.</span></div>
+    <div class="ex"><button class="spk sm" data-say="I don't work on Sundays.">🔊</button><span class="en"><span class="slot s-suj">I</span> <span class="slot s-aux">do</span><span class="slot s-neg">n't</span> <span class="slot s-ver">work</span> <span class="slot s-com">on Sundays</span>.</span><span class="es">No trabajo los domingos.</span></div>
+    <div class="ex"><button class="spk sm" data-say="She doesn't want a new laptop.">🔊</button><span class="en"><span class="slot s-suj">She</span> <span class="slot s-aux">does</span><span class="slot s-neg">n't</span> <span class="slot s-ver">want</span> <span class="slot s-com">a new laptop</span>.</span><span class="es">Ella no quiere un portátil nuevo.</span></div>
+    <div class="why"><b>El detalle que casi nadie explica:</b> cuando aparece el auxiliar, la <b>-s</b> se muda al auxiliar y el verbo vuelve a estar desnudo. <span style="color:var(--r-neg)">✗ She doesn't wants</span> · <span style="color:var(--ok)">✓ She doe<b>s</b>n't want</span>. La marca de tiempo se lleva <b>una sola vez</b>, y siempre en la primera pieza.</div>
+  </div>
+
+  <div class="mold">
+    <div class="mh"><span class="mn">MOLDE 3</span><span class="mt">Preguntar sí / no</span></div>
+    <div class="formula"><span class="slot s-aux">AUXILIAR</span><span class="plus">+</span><span class="slot s-suj">SUJETO</span><span class="plus">+</span><span class="slot s-ver">VERBO</span><span class="plus">+</span><span class="slot s-com">COMP.</span><span class="plus">?</span></div>
+    <div class="ex"><button class="spk sm" data-say="Do you work here?">🔊</button><span class="en"><span class="slot s-aux">Do</span> <span class="slot s-suj">you</span> <span class="slot s-ver">work</span> <span class="slot s-com">here</span>?</span><span class="es">¿Trabajas aquí?</span></div>
+    <div class="ex"><button class="spk sm" data-say="Did they finish the report?">🔊</button><span class="en"><span class="slot s-aux">Did</span> <span class="slot s-suj">they</span> <span class="slot s-ver">finish</span> <span class="slot s-com">the report</span>?</span><span class="es">¿Terminaron el informe?</span></div>
+    <div class="why"><b>Preguntar = mover el auxiliar al frente.</b> Eso es todo. En español subes la voz; en inglés cambias el orden. Si no hay auxiliar visible, aparece <b>do / does / did</b> para hacer el trabajo.</div>
+  </div>
+
+  <div class="mold">
+    <div class="mh"><span class="mn">MOLDE 4</span><span class="mt">Preguntar información</span></div>
+    <div class="formula"><span class="slot s-wh">WH</span><span class="plus">+</span><span class="slot s-aux">AUXILIAR</span><span class="plus">+</span><span class="slot s-suj">SUJETO</span><span class="plus">+</span><span class="slot s-ver">VERBO</span><span class="plus">?</span></div>
+    <div class="ex"><button class="spk sm" data-say="Where do you work?">🔊</button><span class="en"><span class="slot s-wh">Where</span> <span class="slot s-aux">do</span> <span class="slot s-suj">you</span> <span class="slot s-ver">work</span>?</span><span class="es">¿Dónde trabajas?</span></div>
+    <div class="ex"><button class="spk sm" data-say="What time does the meeting start?">🔊</button><span class="en"><span class="slot s-wh">What time</span> <span class="slot s-aux">does</span> <span class="slot s-suj">the meeting</span> <span class="slot s-ver">start</span>?</span><span class="es">¿A qué hora empieza la reunión?</span></div>
+    <div class="why"><b>Las 8 llaves WH:</b> what (qué) · where (dónde) · when (cuándo) · who (quién) · why (por qué) · which (cuál) · how (cómo) · whose (de quién). Se pegan adelante del Molde 3 y ya. <b>Excepción única:</b> si el WH <i>es</i> el sujeto, no hay auxiliar → <i>Who called you?</i> (no "Who did call you?").</div>
+  </div>
+
+  <div class="mold">
+    <div class="mh"><span class="mn">MOLDE 5</span><span class="mt">Responder corto (así habla la gente real)</span></div>
+    <div class="formula"><span class="slot s-com">Yes/No</span><span class="plus">+</span><span class="slot s-suj">SUJETO</span><span class="plus">+</span><span class="slot s-aux">AUXILIAR</span><span class="plus">(+ not)</span></div>
+    <div class="ex"><button class="spk sm" data-say="Do you speak English? Yes, I do.">🔊</button><span class="en">Do you speak English? — <span class="slot s-com">Yes</span>, <span class="slot s-suj">I</span> <span class="slot s-aux">do</span>.</span><span class="es">— Sí.</span></div>
+    <div class="ex"><button class="spk sm" data-say="Is she coming? No, she isn't.">🔊</button><span class="en">Is she coming? — <span class="slot s-com">No</span>, <span class="slot s-suj">she</span> <span class="slot s-aux">is</span><span class="slot s-neg">n't</span>.</span><span class="es">— No.</span></div>
+    <div class="why"><b>Regla de eco:</b> respondes con <b>el mismo auxiliar que te preguntaron</b>. Do you…? → I do. Are you…? → I am. Can you…? → I can. Have you…? → I have. Nunca repitas la frase completa: suena a libro de texto.</div>
+  </div>
+
+  <h2 class="sec"><span class="n">03</span> Los 3 motores del tiempo</h2>
+  <p class="lead">Aquí está la lógica real del inglés, la que hace que 12 tiempos verbales dejen de dar miedo. El inglés <b style="color:var(--tx)">no conjuga el verbo principal</b> — le pone un motor adelante. Solo hay tres motores, más <b>will</b> y los modales.</p>
+
+  <div class="grid g3" style="margin-bottom:18px">
+    <div class="card" style="border-left:3px solid var(--r-aux)">
+      <div style="font-family:var(--fm);font-size:11px;color:var(--r-aux);letter-spacing:1.5px;margin-bottom:7px">MOTOR 1</div>
+      <h3 style="font-size:21px;margin-bottom:6px">BE</h3>
+      <p style="font-size:13.5px;color:var(--t2)">am · is · are · was · were<br><b style="color:var(--tx)">Enciende:</b> estados y acciones en curso.<br><b style="color:var(--tx)">Pide:</b> verbo + <b>-ing</b></p>
+      <div class="mini" style="margin-top:11px"><span class="m-en">I <b style="color:var(--r-aux)">am</b> work<b style="color:var(--r-ver)">ing</b>.</span><button class="spk sm" data-say="I am working.">🔊</button></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--r-ver)">
+      <div style="font-family:var(--fm);font-size:11px;color:var(--r-ver);letter-spacing:1.5px;margin-bottom:7px">MOTOR 2</div>
+      <h3 style="font-size:21px;margin-bottom:6px">DO</h3>
+      <p style="font-size:13.5px;color:var(--t2)">do · does · did<br><b style="color:var(--tx)">Enciende:</b> negar y preguntar en simple.<br><b style="color:var(--tx)">Pide:</b> verbo desnudo</p>
+      <div class="mini" style="margin-top:11px"><span class="m-en"><b style="color:var(--r-ver)">Did</b> you work?</span><button class="spk sm" data-say="Did you work?">🔊</button></div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--r-com)">
+      <div style="font-family:var(--fm);font-size:11px;color:var(--r-com);letter-spacing:1.5px;margin-bottom:7px">MOTOR 3</div>
+      <h3 style="font-size:21px;margin-bottom:6px">HAVE</h3>
+      <p style="font-size:13.5px;color:var(--t2)">have · has · had<br><b style="color:var(--tx)">Enciende:</b> el pasado que toca el presente.<br><b style="color:var(--tx)">Pide:</b> participio (3ª forma)</p>
+      <div class="mini" style="margin-top:11px"><span class="m-en">I <b style="color:var(--r-com)">have</b> worked.</span><button class="spk sm" data-say="I have worked.">🔊</button></div>
+    </div>
+  </div>
+
+  <div class="note info"><b>Esta es LA idea:</b> el motor decide la forma del verbo que va detrás. BE → <b>-ing</b>. HAVE → <b>participio</b>. DO / WILL / modales → <b>verbo desnudo</b>. Si dominas esas tres correspondencias, ya sabes armar los 12 tiempos sin memorizar una sola tabla.</div>
+
+  <h3 class="sub">La máquina completa · 12 tiempos en una rejilla</h3>
+  <div class="tw"><table class="tbl">
+    <tr><th></th><th>SIMPLE<br><span style="text-transform:none;font-weight:400">el hecho</span></th><th>CONTINUOUS<br><span style="text-transform:none;font-weight:400">en curso</span></th><th>PERFECT<br><span style="text-transform:none;font-weight:400">ya terminado, con efecto</span></th><th>PERFECT CONT.<br><span style="text-transform:none;font-weight:400">duración hasta aquí</span></th></tr>
+    <tr><td><b>PAST</b></td>
+      <td>I <b style="color:var(--r-ver)">worked</b><br><span style="color:var(--t3);font-size:12px">Trabajé</span></td>
+      <td>I <b style="color:var(--r-aux)">was</b> working<br><span style="color:var(--t3);font-size:12px">Estaba trabajando</span></td>
+      <td>I <b style="color:var(--r-com)">had</b> worked<br><span style="color:var(--t3);font-size:12px">Había trabajado</span></td>
+      <td>I <b style="color:var(--r-com)">had been</b> working<br><span style="color:var(--t3);font-size:12px">Llevaba trabajando</span></td></tr>
+    <tr><td><b>PRESENT</b></td>
+      <td>I <b style="color:var(--r-ver)">work</b><br><span style="color:var(--t3);font-size:12px">Trabajo (rutina)</span></td>
+      <td>I <b style="color:var(--r-aux)">am</b> working<br><span style="color:var(--t3);font-size:12px">Estoy trabajando</span></td>
+      <td>I <b style="color:var(--r-com)">have</b> worked<br><span style="color:var(--t3);font-size:12px">He trabajado</span></td>
+      <td>I <b style="color:var(--r-com)">have been</b> working<br><span style="color:var(--t3);font-size:12px">Llevo trabajando</span></td></tr>
+    <tr><td><b>FUTURE</b></td>
+      <td>I <b style="color:var(--ac2)">will</b> work<br><span style="color:var(--t3);font-size:12px">Trabajaré</span></td>
+      <td>I <b style="color:var(--ac2)">will be</b> working<br><span style="color:var(--t3);font-size:12px">Estaré trabajando</span></td>
+      <td>I <b style="color:var(--ac2)">will have</b> worked<br><span style="color:var(--t3);font-size:12px">Habré trabajado</span></td>
+      <td>I <b style="color:var(--ac2)">will have been</b> working<br><span style="color:var(--t3);font-size:12px">Habré estado trabajando</span></td></tr>
+  </table></div>
+  <div class="note"><b>Verdad incómoda y liberadora:</b> en conversación real se usan <b>4</b> de esas 12 casillas el 95% del tiempo → present simple, past simple, present continuous y present perfect. Las otras 8 las vas a <i>entender</i> al escucharlas mucho antes de necesitar <i>producirlas</i>. No las estudies: reconócelas.</div>
+
+  <h2 class="sec"><span class="n">04</span> El orden dentro del complemento</h2>
+  <p class="lead">Cuando la frase se alarga, el inglés no improvisa: apila la información en una secuencia fija. Se llama <b style="color:var(--tx)">S-V-O-M-P-T</b> y es la razón por la que una traducción literal del español suena rara.</p>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="formula" style="font-size:13px">
+      <span class="slot s-suj">S<br><small style="font-weight:400">quién</small></span><span class="plus">+</span>
+      <span class="slot s-ver">V<br><small style="font-weight:400">acción</small></span><span class="plus">+</span>
+      <span class="slot s-com">O<br><small style="font-weight:400">qué</small></span><span class="plus">+</span>
+      <span class="slot s-com">M<br><small style="font-weight:400">cómo</small></span><span class="plus">+</span>
+      <span class="slot s-com">P<br><small style="font-weight:400">dónde</small></span><span class="plus">+</span>
+      <span class="slot s-com">T<br><small style="font-weight:400">cuándo</small></span>
+    </div>
+    <div class="mini" style="margin-top:14px"><button class="spk sm" data-say="I studied English quietly at home last night.">🔊</button><span class="m-en">I studied English quietly at home last night.</span></div>
+    <p style="font-size:13.5px;color:var(--t2);margin-top:10px"><span style="color:var(--r-neg)">✗</span> <i>I studied last night at home English.</i> — cada pieza fuera de su casilla suena a extranjero aunque las palabras estén bien.</p>
+    <div class="note ok" style="margin-bottom:0"><b>Atajo real:</b> el <b>tiempo (T)</b> es la única pieza que puede saltar al inicio de la frase. <i>Last night I studied English at home.</i> ✓ Todo lo demás se queda quieto.</div>
+  </div>
+
+  <h3 class="sub">Adjetivos: al revés que en español, siempre</h3>
+  <div class="grid g2">
+    <div class="do"><h4>✓ Haz esto</h4><p><b>a red car</b> · <b>an important meeting</b> · <b>three big black leather bags</b><br>El adjetivo va <b>antes</b> del sustantivo y <b>nunca</b> lleva plural.</p></div>
+    <div class="dont"><h4>✗ Evita esto</h4><p><b>a car red</b> · <b>reds cars</b><br>Traducir el orden del español es el error #1 de todo hispanohablante principiante.</p></div>
+  </div>
+  <div class="note"><b>Si apilas varios adjetivos</b>, el orden nativo es: <b>opinión → tamaño → edad → forma → color → origen → material → propósito</b>. No lo memorices: <i>a beautiful little old round brown Italian wooden dining table</i>. En la vida real casi nunca usas más de dos.</div>
+
+  <h2 class="sec"><span class="n">05</span> Las 15 reglas no negociables</h2>
+  <p class="lead">Todo lo demás del documento son atajos, tips y costumbres. <b>Esto no.</b> Estas quince son las que, si las rompes, la frase deja de ser inglés — no suena rara, sino que dice otra cosa o no se entiende. Cada una viene con el error real que produce, para que lo reconozcas cuando te salga.</p>
+  <div id="regBox"></div>
+  <div class="note warn" style="margin-top:16px"><b>Cómo usarlas de verdad:</b> no las memorices las quince hoy. Lee la lista una vez, y cuando alguien te corrija o algo te suene mal, vuelve aquí y busca cuál rompiste. Una regla que ya te costó un error se queda; una que solo leíste, no.</div>
+
+  <h2 class="sec"><span class="n">06</span> Cómo usar este documento</h2>
+  <p class="lead">Ocho pestañas, pero un solo recorrido. Este es el orden que funciona — y cada una tiene un papel distinto, no son ocho versiones de lo mismo.</p>
+  <div class="grid g3">
+    <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Estructura · el esqueleto</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Es donde cuelga todo lo demás. Vuelve aquí siempre que una frase te suene rara.</p></div>
+    <div class="tip"><div class="tn">Paso 2 · si hace falta</div><h4>🧩 Piezas · el diccionario de conceptos</h4><p>¿No sabes qué es un verbo, un adjetivo o un modal? Cada tipo de palabra explicado desde cero, con su analogía y su prueba de 3 segundos. <b>Solo abre la que no entiendas.</b></p><button class="pz-go" onclick="APP.go('pz')" style="margin-top:10px">🧩 Ir a Piezas →</button></div>
+    <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 3 · el que más rinde</div><h4>🔀 Bifurcaciones · donde te trabas</h4><p>Tú dices <b>QUE</b> y el inglés te pide elegir entre cuatro palabras. Aquí es donde de verdad fallas — no en el vocabulario. <b>24 casos, con el hueco para que lo llenes tú.</b></p><button class="pz-go" onclick="APP.go('bf')" style="margin-top:10px">🔀 Ir a Bifurcaciones →</button></div>
+    <div class="tip"><div class="tn">Paso 4</div><h4>💬 Frases antes que palabras</h4><p>Aprende bloques completos con su audio, no palabras sueltas. Las 2000 palabras son tu <b>diccionario de consulta</b>, no tu estudio diario.</p><button class="pz-go" onclick="APP.go('p2')" style="margin-top:10px">💬 Ir a Frases →</button></div>
+    <div class="tip"><div class="tn">Paso 5</div><h4>★ y 📓 · marca lo que te sirve</h4><p><b>★</b> manda esa palabra o frase a tu práctica diaria. <b>📓</b> la guarda en tu cuaderno. No estudies lo que ya sabes: marca solo lo que te cuesta.</p></div>
+    <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 6 · TODOS los días</div><h4>🧪 Práctica · 10 minutos</h4><p>Repetición espaciada: te muestra justo lo que estás por olvidar. <b>Es lo único que no puedes saltarte.</b> Un día perdido no es grave; una semana te devuelve tres.</p><button class="pz-go" onclick="APP.go('pr')" style="margin-top:10px">🧪 Ir a Práctica →</button></div>
+    <div class="tip"><div class="tn">Paso 7</div><h4>📓 Cuaderno · lo tuyo</h4><p>Anota tus errores, tus dudas y las frases que quieras usar mañana. <b>Lo que tú escribes se te queda; lo que solo lees, no.</b> Exporta de vez en cuando.</p></div>
+    <div class="tip"><div class="tn">Cuando quieras</div><h4>🎯 Método · el manual</h4><p>Los 7 principios, la rutina de 30 min, los 10 errores que cuestan meses, 18 atajos de lógica y los canales de YouTube verificados. <b>Léelo un domingo</b>, no en medio del estudio.</p></div>
+  </div>
+
+  <div class="note ok" style="margin-top:22px"><b>Tres atajos que te ahorran tiempo:</b> <span class="kbd">Ctrl</span>+<span class="kbd">K</span> busca en TODO de una vez — las 2000 palabras, las 1000 frases, las piezas y el método (también funciona la tecla <span class="kbd">/</span>). <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> deshace lo último que borraste o guardaste. Y el botón <b>☁️</b> de arriba te lleva el progreso al celular.</div>
+</div>

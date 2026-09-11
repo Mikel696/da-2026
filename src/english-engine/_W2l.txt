@@ -1,0 +1,45 @@
+midnight hour|la hora bruja|sust|justo a medianoche|In the midnight hour.|A la hora bruja.
+heartbeat|latido|sust|el golpe del corazón|A heartbeat away.|A un latido de distancia.
+footstep|paso|sust|el sonido al andar|Footsteps in the hall.|Pasos en el pasillo.
+fingertip|yema del dedo|sust|at your fingertips = a mano|At my fingertips.|Al alcance de la mano.
+eyelid|párpado|sust|lo que cubre el ojo|Heavy eyelids.|Párpados pesados.
+eyebrow|ceja|sust|encima del ojo|Raise an eyebrow.|Levantar una ceja.
+forehead|frente|sust|encima de las cejas|A kiss on the forehead.|Un beso en la frente.
+jaw|mandíbula|sust|drop your jaw = quedarse pasmado|My jaw dropped.|Me quedé pasmado.
+wrinkle|arruga|sust|la marca de los años|Wrinkles around her eyes.|Arrugas alrededor de sus ojos.
+freckle|peca|sust|puntito en la piel|Freckles on her nose.|Pecas en la nariz.
+scarf down|zamparse|verbo|comer muy deprisa|He scarfed it down.|Se lo zampó.
+tiptoe|ir de puntillas|verbo|andar sin hacer ruido|Tiptoe to the door.|Ve de puntillas a la puerta.
+wander off|alejarse|verbo|irse sin rumbo|Don't wander off.|No te alejes.
+doze off|dar una cabezada|verbo|dormirse sin querer|I dozed off.|Di una cabezada.
+stir up|remover|verbo|levantar recuerdos o problemas|It stirs up memories.|Remueve recuerdos.
+well up|llenarse de lágrimas|verbo|los ojos que se humedecen|Tears welled up.|Se le llenaron los ojos.
+choke up|emocionarse|verbo|que no te sale la voz|I choked up.|Se me hizo un nudo.
+light up|iluminarse|verbo|también encender|Your face lit up.|Se te iluminó la cara.
+warm up to|acabar cogiendo cariño|verbo|gustar con el tiempo|I warmed up to him.|Le acabé cogiendo cariño.
+hit it off|congeniar|verbo|caerse bien al instante|We hit it off.|Congeniamos al instante.
+drift apart|distanciarse|verbo|alejarse poco a poco|We drifted apart.|Nos fuimos distanciando.
+make amends|reparar el daño|verbo|compensar lo hecho|I want to make amends.|Quiero reparar el daño.
+bear in mind|tener en cuenta|verbo|no olvidarlo|Bear in mind the time.|Ten en cuenta la hora.
+take for granted|dar por sentado|verbo|no valorar lo que tienes|Don't take me for granted.|No me des por sentado.
+cross my mind|pasárseme por la cabeza|verbo|ocurrírsele a uno|It crossed my mind.|Se me pasó por la cabeza.
+lose track of|perder la cuenta de|verbo|dejar de seguir algo|I lost track of time.|Perdí la noción del tiempo.
+keep track of|llevar la cuenta de|verbo|seguir algo de cerca|Keep track of the days.|Lleva la cuenta de los días.
+get the hang of|cogerle el truco a|verbo|aprender a manejarlo|I got the hang of it.|Le cogí el truco.
+have a soft spot for|tener debilidad por|verbo|un cariño especial|I have a soft spot for her.|Tengo debilidad por ella.
+wear your heart on your sleeve|llevar el corazón en la mano|verbo|no esconder lo que sientes|You wear your heart on your sleeve.|Llevas el corazón en la mano.
+bittersweet|agridulce|adj|bueno y triste a la vez|A bittersweet goodbye.|Un adiós agridulce.
+breathless|sin aliento|adj|de la carrera o la emoción|You leave me breathless.|Me dejas sin aliento.
+weightless|ingrávido|adj|como si no pesaras|I felt weightless.|Me sentí ingrávido.
+untouchable|intocable|adj|que nadie puede alcanzar|We felt untouchable.|Nos sentíamos intocables.
+unstoppable|imparable|adj|que nada lo detiene|We were unstoppable.|Éramos imparables.
+unforgettable|inolvidable|adj|que no se olvida|An unforgettable night.|Una noche inolvidable.
+undeniable|innegable|adj|que no se puede negar|An undeniable truth.|Una verdad innegable.
+overrated|sobrevalorado|adj|menos bueno de lo que dicen|That song is overrated.|Esa canción está sobrevalorada.
+underrated|infravalorado|adj|mejor de lo que dicen|An underrated album.|Un álbum infravalorado.
+carefree|despreocupado|adj|sin preocupaciones|Carefree summer days.|Días de verano despreocupados.
+lighthearted|desenfadado|adj|ligero y alegre|A lighthearted song.|Una canción desenfadada.
+downhearted|desanimado|adj|con el ánimo bajo|Don't be downhearted.|No te desanimes.
+wide awake|bien despierto|adj|sin pizca de sueño|Wide awake at three.|Bien despierto a las tres.
+worn thin|desgastado|adj|que ya no da más|My patience is worn thin.|Mi paciencia está desgastada.
+swear|jurar|verbo|swore, sworn · también decir palabrotas|I swear it is true.|Te juro que es verdad.

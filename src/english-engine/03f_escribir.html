@@ -1,0 +1,38 @@
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE WR · ESCRIBIR · el corrector con semáforo
+     El análisis es 100% local. La traducción es un apoyo con red.
+  ═══════════════════════════════════════════════════════════ -->
+<div class="pane" id="wr">
+  <div class="hero">
+    <div class="kick">escribir · producir, no solo reconocer</div>
+    <h1>Se te viene una frase.<br><em>Escríbela</em> y mira qué pasa.</h1>
+    <p>Escribe en <b style="color:var(--tx)">inglés</b> y te digo si está bien, <b style="color:var(--tx)">qué regla rompiste</b> y por qué.
+      Escribe en <b style="color:var(--tx)">español</b> y te doy el inglés y te explico cómo se arma.
+      El semáforo lo resume: <b style="color:var(--ok)">verde</b> correcta, <b style="color:var(--warn)">naranja</b> se entiende pero suena raro,
+      <b style="color:var(--bad)">rojo</b> rompe una regla no negociable.</p>
+  </div>
+
+  <div class="note info" style="margin-bottom:16px"><b>Lo que revisa, y lo que no:</b> el corrector conoce las <b>15 reglas no negociables</b>,
+    las 4000 palabras del documento con su categoría, los verbos irregulares y las trampas de traducción literal del español.
+    <b>No es una inteligencia artificial</b>: si una palabra no está en el diccionario, te lo dice en vez de inventarse un veredicto.
+    Todo eso funciona <b>sin internet</b>; solo la traducción necesita red.</div>
+
+  <div class="wr-box">
+    <div class="wr-cols">
+      <div class="wr-col">
+        <div class="wr-lb">🇬🇧 English <span>escribe aquí para que te corrija</span></div>
+        <textarea id="wrEn" class="wr-ta" rows="3" placeholder="I have been working here for two years."></textarea>
+      </div>
+      <div class="wr-flecha">⇄</div>
+      <div class="wr-col">
+        <div class="wr-lb">🇪🇸 Español <span>o aquí, para que te dé el inglés</span></div>
+        <textarea id="wrEs" class="wr-ta" rows="3" placeholder="Llevo dos años trabajando aquí."></textarea>
+      </div>
+    </div>
+    <div class="wr-bar"><button class="lab-b" id="wrClear">🧹 Limpiar</button>
+      <span class="wr-hint">Doble clic sobre <b>cualquier palabra</b> del documento para abrir su diccionario.</span></div>
+  </div>
+
+  <div id="wrOut"></div>
+</div>
