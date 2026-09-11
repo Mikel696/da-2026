@@ -12665,6 +12665,19 @@ const SONG = (() => {
     let t = 0; try { t = P.player.getCurrentTime(); } catch(e){ return; }
     // Sonando o en pausa da igual; lo que no vale es anclar en el segundo cero
     if(t < 0.5){ toast('Muévete hasta donde entra esa línea y vuelve a pulsar', 'warn'); return; }
+
+    /* Con tiempos EXACTOS no hay nada que recalcular: si una línea entra tarde,
+       TODAS entran tarde lo mismo. Se corre la pista entera y ya. */
+    if(c.exactos && Array.isArray(c.tiempos) && c.tiempos.length){
+      const i0 = P.linea >= 0 ? P.linea : 0;
+      if(typeof c.tiempos[i0] === 'number'){
+        const desfase = +(Math.max(0, t - 0.12) - c.tiempos[i0]).toFixed(2);
+        correrTodo(desfase);                   // ya guarda; NO volver a guardar el viejo
+        P.linea = -1; render();
+        toast('Corrido ' + (desfase >= 0 ? '+' : '') + desfase.toFixed(1) + 's en toda la pista', 'ok');
+      }
+      return;
+    }
     const T = (c.tiempos && c.tiempos.length === L.length) ? c.tiempos.slice() : L.map(() => 0);
     // La línea que se está cantando ahora mismo: la que el usuario está oyendo
     let i = P.linea >= 0 ? P.linea : 0;
@@ -12684,12 +12697,19 @@ const SONG = (() => {
 
   /* Correr TODA la letra unos décimas, para cuando va entera adelantada o
      atrasada. Es el ajuste más común y no necesita tocar línea por línea. */
+  /* OJO con el objeto: `libro()` parsea el JSON y devuelve una COPIA NUEVA
+     cada vez, así que el `c` que capturó `wire()` queda viejo en cuanto algo
+     guarda. Si el llamante volvía a hacer `toca(c)` con el suyo, pisaba lo
+     recién escrito y el desplazamiento se perdía — pasaba justo eso con
+     «Empieza aquí». Por eso esto DEVUELVE el objeto bueno: hay que seguir
+     trabajando con el que sale de aquí, no con el de antes. */
   function correrTodo(seg){
-    const c = actual(); if(!c || !c.tiempos) return;
+    const c = actual(); if(!c || !c.tiempos) return null;
     c.tiempos = c.tiempos.map(x => typeof x === 'number' ? +Math.max(0, x + seg).toFixed(2) : x);
     if(typeof c.intro === 'number') c.intro = Math.max(0, c.intro + seg);
     toca(c);
     P.linea = -1;
+    return c;
   }
 
   const reloj = s => {
@@ -12728,11 +12748,15 @@ const SONG = (() => {
     return `
       <div class="sg-sync${n ? ' listo' : ''}">
         <div class="sg-sync-t">${n
-          ? `Subtítulos sincronizados · ${n} de ${L.length} líneas${anc ? ` · ${anc} ancla${anc > 1 ? 's' : ''}` : ''}`
+          ? (c.exactos
+              ? `⏱ Tiempos del propio vídeo · ${n} líneas · <b>no se desincroniza</b>`
+              : `Subtítulos repartidos a ojo · ${n} de ${L.length} líneas${anc ? ` · ${anc} ancla${anc > 1 ? 's' : ''}` : ''}`)
           : 'Los subtítulos todavía no siguen al vídeo'}</div>
         <div class="sg-sync-d">${n
-          ? 'El reparto es una <b>estimación</b> y se va desfasando. La forma rápida de cuadrarla: dale al play y, cuando oigas empezar la línea grande, pulsa <b>📍 Anclar</b>. Esa línea queda fija y las demás se recolocan alrededor. Con tres o cuatro anclas, repartidas por la canción, queda clavada.'
-          : 'Pulsa el botón y la letra queda repartida por toda la canción según lo larga que sea cada línea. Después se afina anclando.'}</div>
+          ? (c.exactos
+              ? 'Estos tiempos vienen de la transcripción del vídeo, así que <b>no se van a ir desfasando</b>. Si toda la pista va adelantada o atrasada por igual, los botones de abajo la corren en bloque — los tiempos buenos se conservan.'
+              : '<b>Ojo:</b> aquí los tiempos son una <b>estimación</b> por longitud de línea, y por eso se desfasa según avanza — no hay forma de adivinar las pausas. Para que no pase, pega la transcripción de YouTube (<b>«···  Mostrar transcripción»</b>) y tendrás los tiempos reales. Mientras tanto: pulsa <b>📍 Anclar</b> cada vez que veas que se ha ido, y lo de alrededor se recoloca.')
+          : 'Pulsa el botón y los subtítulos quedan repartidos por el vídeo según lo larga que sea cada línea. Queda mucho mejor si pegas la transcripción de YouTube, que trae los tiempos reales.'}</div>
         <div class="sg-sync-bs">
           ${n ? `<button class="sg-b empieza" id="sgEmpieza" title="Fija el segundo exacto en que arranca el habla o el canto">🎤 Empieza aquí</button>` : ''}
           ${n ? `<button class="sg-b anclar" id="sgAnclar" title="La línea grande entra AHORA (o pulsa ESPACIO)">📍 Anclar esta línea</button>` : ''}
@@ -12790,12 +12814,19 @@ const SONG = (() => {
         c.letra = conT.lineas.join('\n');
         c.tiempos = conT.tiempos;
         c.anclas = [];
+        /* EXACTOS: estos tiempos vienen del propio vídeo, no de una
+           estimación. A partir de aquí no se recalculan nunca — solo se
+           desplazan en bloque si hiciera falta. Machacarlos con el reparto
+           por sílabas era lo que hacía que la letra se fuera desincronizando
+           más adelante después de pulsar «Empieza aquí». */
+        c.exactos = true;
         c.intro = conT.tiempos[0];
         toca(c); P.linea = -1; render();
         toast('Subtítulos importados · ' + conT.lineas.length + ' líneas ya sincronizadas', 'ok');
         return;
       }
-      c.letra = v; c.tiempos = null; c.anclas = []; toca(c); P.linea = -1; render();
+      c.letra = v; c.tiempos = null; c.anclas = []; c.exactos = false;
+      toca(c); P.linea = -1; render();
       toast('Subtítulos listos · ' + lineasDe(c).length + ' líneas. Ahora dale a Sincronizar', 'ok');
     };
     const ed = $('sgEdit');
@@ -12829,7 +12860,15 @@ const SONG = (() => {
 
     /* Sincronizar: un botón que TRABAJA al pulsarlo. Reparte los tiempos por
        el peso de cada línea; después se afina sobre la marcha. */
-    const au = $('sgAuto'); if(au) au.onclick = sincronizarAuto;
+    const au = $('sgAuto');
+    if(au) au.onclick = () => {
+      /* Repartir de cero DESTRUYE los tiempos exactos. Se avisa: recuperarlos
+         obliga a volver a pegar la transcripción. */
+      if(c.exactos && !confirm('Estos tiempos vienen del propio vídeo y son exactos.\n\n' +
+        'Repartir de cero los sustituye por una estimación, que se desfasa.\n\n¿Seguro?')) return;
+      c.exactos = false;
+      sincronizarAuto();
+    };
     const a5 = $('sgAtras5');  if(a5) a5.onclick = () => { correrTodo(-0.5); render(); };
     const d5 = $('sgAlante5'); if(d5) d5.onclick = () => { correrTodo(0.5); render(); };
     /* Tocar una palabra de la línea grande: ficha, guardar y buscar.
@@ -12875,7 +12914,24 @@ const SONG = (() => {
          es marcar en el segundo cero, que es el error que arruina el reparto
          sin que se note. */
       if(t < 0.5) return toast('Muévete hasta donde empieza a hablarse y vuelve a pulsar', 'warn');
-      c.intro = +Math.max(0, t - 0.2).toFixed(2);
+      const nuevo = +Math.max(0, t - 0.2).toFixed(2);
+
+      /* AQUÍ ESTABA EL FALLO que hacía que se desincronizara más adelante.
+         Si los tiempos son EXACTOS (vienen de la transcripción del vídeo),
+         este botón solo debe CORRER TODO EN BLOQUE — nunca recalcular. Antes
+         llamaba al reparto por sílabas, que tiraba los tiempos buenos y los
+         sustituía por una estimación: cuadraba al principio y se iba después.
+         Con tiempos exactos, el desfase es siempre el mismo en toda la pista,
+         así que se arregla con un único desplazamiento. */
+      if(c.exactos && Array.isArray(c.tiempos) && c.tiempos.length){
+        const desfase = nuevo - c.tiempos[0];
+        const c2 = correrTodo(desfase);        // hay que seguir con ESTE objeto
+        if(c2){ c2.intro = c2.tiempos[0]; toca(c2); }
+        P.linea = -1; render();
+        toast('Corrido ' + (desfase >= 0 ? '+' : '') + desfase.toFixed(1) + 's · los tiempos del vídeo se conservan', 'ok');
+        return;
+      }
+      c.intro = nuevo;
       c.anclas = [];
       toca(c); sincronizarAuto();
       toast('Empieza en ' + reloj(c.intro) + ' · repartido desde ahí', 'ok');
@@ -12887,6 +12943,12 @@ const SONG = (() => {
     if(inp) inp.onchange = () => {
       const v = parseFloat(inp.value);
       if(isNaN(v)) return;
+      // Con tiempos exactos, cambiar la entrada corre toda la pista; no recalcula
+      if(c.exactos && Array.isArray(c.tiempos) && c.tiempos.length){
+        const c2 = correrTodo(Math.max(0, v) - c.tiempos[0]);
+        if(c2){ c2.intro = c2.tiempos[0]; toca(c2); }
+        P.linea = -1; render(); return;
+      }
       c.intro = Math.max(0, v); c.anclas = []; toca(c); sincronizarAuto();
     };
     /* El final del canto importa tanto como el principio: si la canción tiene
