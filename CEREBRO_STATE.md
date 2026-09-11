@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-10 (3-ENG: Canciones, hoja del cuaderno, Club por habilidades)
+- **Última actualización:** 2026-09-10 (3-ENG: la sección de vídeos deja el karaoke y pasa a ser buscador de subtítulos)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,60 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎬 3-ENG · La sección de vídeos deja el karaoke y pasa a ser un buscador — 2026-09-10 (tarde)
+
+### Qué pasó
+El karaoke se construyó tres veces y las tres se desincronizaba. La última tentativa
+—«Empieza aquí» + anclas + interpolación por sílabas— cuadraba el arranque y se iba
+perdiendo más adelante. Miguel lo cortó: *«a la mier el karaoke»*. Tenía razón, y la
+razón es de fondo, no de implementación:
+
+**Los tiempos que hacen falta no se pueden conseguir.** El reproductor va en un iframe de
+YouTube (otro dominio) y su API **no expone el texto** de los subtítulos; el servidor de
+`timedtext` no autoriza peticiones desde otra web. Sin los tiempos reales, cualquier
+sincronía es una estimación, y una estimación que se arrastra es peor que no tener nada
+cuando lo que se está haciendo es aprender. Una extensión de navegador sí puede porque
+vive **dentro** de YouTube; una página como esta, no.
+
+### Qué hay ahora
+- **El vídeo con los subtítulos de YouTube encendidos** (`cc_load_policy:1`). Los pinta
+  YouTube, clavados, gratis.
+- **Debajo, el texto completo** que Miguel pega, con pinta de subtítulo (fondo oscuro,
+  centrado, sombra) — no una lista de fichas.
+- **Una casilla de búsqueda.** Dice cuántas veces sale esa palabra **en este vídeo**, la
+  resalta en el texto, y luego el veredicto: si está en las 2000 palabras o en las 1000
+  frases del documento, lo enseña con su traducción y sus ejemplos; si no está,
+  **lo dice** y ofrece las cuatro de fuera (WordReference · Cambridge · Reverso Context ·
+  YouGlish). Nada de inventar una definición que no se tiene.
+- **Clic en una palabra** → su ficha del diccionario. **Doble clic** → el veredicto
+  completo, y se cierra la ficha para no tapar la respuesta.
+
+### Lo que se borró (y por qué no se echa de menos)
+`pintaKaraoke`, `pintaPalabra`, `marcaLinea`, `silabas`, `palabraDe`, `repartir`,
+`recalcular`, `sincronizarAuto`, `reanclar`, `correrTodo`, `karaoke3`, `barraSync`,
+`pesoLinea`, `cuantasTiempos`, `tocarLinea`, `suena`, `pintaActiva`, el bucle A-B y sus
+manejadores, y el CSS de `.sg-kar`/`.kr`/`.kw`. **−293 líneas netas.** El importador de
+`.srt`/`.vtt`/`.lrc`/transcripción se queda: sigue sirviendo para quitar los tiempos y
+dejar el texto limpio.
+
+### Trampas que costaron sangre esta ronda
+1. **Repintar mata a los manejadores puestos elemento a elemento.** Pasó dos veces. El
+   bloque de texto se reconstruye en cada búsqueda; los `onclick` de cada `<span>` se van
+   con él. Va por **delegación** sobre el contenedor.
+2. **`render()` destruía el iframe de YouTube** mientras `P.player` seguía siendo
+   verdadero, así que la guarda de remontaje no saltaba y el reloj se quedaba en 0:00. Se
+   partió en `sgFijo` (cabecera + vídeo + mandos, se pinta una vez por vídeo) y `sgVar`
+   (se repinta cuanto haga falta). **Medido:** cero iframes en la página antes, uno después.
+3. **`DIC` lleva un `dblclick` global en `document`.** El `stopPropagation()` del manejador
+   propio es lo que evita que se abran dos cosas a la vez. Si alguien lo quita, vuelve.
+
+### Verificado (localhost:3456, sobre el archivo ya construido)
+0 falsos positivos en los 4 corpus · `LAB` `MORFO` `CLUB` `GL` `SONG` en verde · 11 pestañas
+visibles, 11 paneles abren · 0 errores de consola · búsqueda dentro y fuera del documento ·
+doble clic · iframe intacto · `eng_song` byte a byte igual antes y después de la prueba.
 
 ---
 
