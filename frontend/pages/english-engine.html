@@ -12418,6 +12418,92 @@ const SONG = (() => {
     return frac >= 1 ? ws.length - 1 : 0;
   }
 
+  /* ══════════ IMPORTAR UNA LETRA QUE YA TRAE TIEMPOS ══════════
+     Si lo que pegas es un archivo de subtítulos (.srt / .vtt) o de karaoke
+     (.lrc), los tiempos ya vienen dentro. Se detecta solo al pegar: se separa
+     el texto de los tiempos y la canción queda sincronizada al instante, sin
+     tocar ningún botón. Es el camino bueno — sale clavado, no estimado.
+     Aquí no se descarga nada de ningún sitio: se lee lo que TÚ pegas, igual
+     que el Cuaderno lee lo que tú escribes. */
+  function aSegundos(h, m, s, ms){
+    const dec = ms == null ? 0 : (+ms) / Math.pow(10, String(ms).length);
+    return (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0) + dec;
+  }
+
+  function importarConTiempos(txt){
+    const bruto = String(txt || '');
+    const out = { lineas: [], tiempos: [] };
+
+    // ── SRT / VTT: «00:00:12,340 --> 00:00:15,100» y debajo el texto
+    if(bruto.indexOf('-->') >= 0){
+      bruto.replace(/\r/g, '').split(/\n\s*\n/).forEach(b => {
+        const ls = b.split('\n').filter(x => x.trim());
+        const iT = ls.findIndex(x => x.indexOf('-->') >= 0);
+        if(iT < 0) return;
+        const m = ls[iT].match(/(\d{1,2}):(\d{2}):(\d{2})[.,](\d{2,3})/);
+        if(!m) return;
+        const texto = ls.slice(iT + 1).join(' ').replace(/<[^>]*>/g, '').trim();
+        if(!texto) return;
+        out.lineas.push(texto);
+        out.tiempos.push(+aSegundos(m[1], m[2], m[3], m[4]).toFixed(2));
+      });
+      if(out.lineas.length) return out;
+    }
+
+    // ── LRC: «[01:23.45] texto», admitiendo varias marcas en la misma línea
+    let algo = false;
+    bruto.replace(/\r/g, '').split('\n').forEach(f => {
+      const marcas = f.match(/\[(\d{1,2}):(\d{2})(?:[.:](\d{2,3}))?\]/g);
+      if(!marcas) return;
+      const texto = f.replace(/\[[^\]]*\]/g, '').trim();
+      if(!texto) return;                                  // cabeceras [ar:], [ti:]…
+      marcas.forEach(mk => {
+        const m = mk.match(/\[(\d{1,2}):(\d{2})(?:[.:](\d{2,3}))?\]/);
+        out.lineas.push(texto);
+        out.tiempos.push(+aSegundos(0, m[1], m[2], m[3]).toFixed(2));
+        algo = true;
+      });
+    });
+    if(!algo) return null;
+    // Un LRC puede traer las marcas desordenadas: se ordenan por tiempo
+    const orden = out.tiempos.map((t, i) => i).sort((a, b) => out.tiempos[a] - out.tiempos[b]);
+    return { lineas: orden.map(i => out.lineas[i]), tiempos: orden.map(i => out.tiempos[i]) };
+  }
+
+  /* ══════════ ANCLAS ══════════
+     Cada vez que corriges una línea con el ESPACIO, esa línea queda ANCLADA.
+     El resto se recalcula interpolando ENTRE anclas, no arrasando con todo lo
+     que hay debajo — así lo que ya cuadraste no se pierde al corregir otra
+     cosa más arriba. Con tres o cuatro anclas la canción entera queda fina. */
+  function repartir(T, pesos, a, ta, b, tb){
+    let tot = 0;
+    for(let k = a; k < b; k++) tot += pesos[k];
+    if(tot <= 0) return;
+    let acc = 0;
+    for(let k = a; k < b; k++){
+      T[k] = +(ta + (tb - ta) * (acc / tot)).toFixed(2);
+      acc += pesos[k];
+    }
+  }
+
+  function recalcular(c){
+    const L = lineasDe(c);
+    if(!L.length) return;
+    const pesos = L.map(pesoLinea);
+    const T = (c.tiempos && c.tiempos.length === L.length) ? c.tiempos.slice() : L.map(() => null);
+    const ini = typeof c.intro === 'number' ? c.intro : 0;
+    const fin = typeof c.outro === 'number' ? c.outro : (P.dur ? P.dur - 4 : ini + L.length * 4);
+    const anclas = (c.anclas || []).slice().sort((a, b) => a - b)
+      .filter(i => i >= 0 && i < L.length && typeof T[i] === 'number');
+    if(!anclas.length){ repartir(T, pesos, 0, ini, L.length, fin); c.tiempos = T; return; }
+    repartir(T, pesos, 0, ini, anclas[0], T[anclas[0]]);
+    for(let k = 0; k < anclas.length - 1; k++)
+      repartir(T, pesos, anclas[k], T[anclas[k]], anclas[k + 1], T[anclas[k + 1]]);
+    const ult = anclas[anclas.length - 1];
+    repartir(T, pesos, ult, T[ult], L.length, Math.max(T[ult] + 2, fin));
+    c.tiempos = T;
+  }
+
   function sincronizarAuto(){
     const c = actual(); if(!c) return;
     const L = lineasDe(c);
@@ -12451,21 +12537,16 @@ const SONG = (() => {
     let i = P.linea >= 0 ? P.linea : 0;
     if(i >= L.length) i = L.length - 1;
     T[i] = +Math.max(0, t - 0.12).toFixed(2);
-    // Recolocar de i+1 en adelante entre este instante y el final
-    const fin = typeof c.outro === 'number' ? c.outro : Math.max(t + 2, P.dur - 4);
-    const pesos = L.map(pesoLinea);
-    const cola = pesos.slice(i + 1);
-    const tot = cola.reduce((a, b) => a + b, 0);
-    if(tot > 0){
-      let tt = T[i] + (fin - T[i]) * (pesos[i] / (pesos[i] + tot));
-      for(let k = i + 1; k < L.length; k++){
-        T[k] = +tt.toFixed(2);
-        tt += (fin - T[i]) * (pesos[k] / (pesos[i] + tot));
-      }
-    }
-    c.tiempos = T; toca(c);
+    c.tiempos = T;
+    /* Esta línea queda ANCLADA, y el resto se recalcula interpolando entre
+       anclas. Antes se arrasaba con todo lo de abajo, así que corregir una
+       línea temprana te borraba el trabajo hecho más adelante. */
+    c.anclas = c.anclas || [];
+    if(c.anclas.indexOf(i) < 0) c.anclas.push(i);
+    recalcular(c);
+    toca(c);
     P.linea = i; pintaKaraoke(i, 0);
-    toast('Línea ' + (i + 1) + ' ajustada · las de abajo se recolocaron', 'ok');
+    toast('Línea ' + (i + 1) + ' anclada · ' + c.anclas.length + ' ancla(s) · el resto se recolocó', 'ok');
   }
 
   /* Correr TODA la letra unos décimas, para cuando va entera adelantada o
@@ -12549,8 +12630,21 @@ const SONG = (() => {
     if(ok && ta) ok.onclick = () => {
       const v = ta.value.trim();
       if(!v) return toast('Pega primero la letra', 'warn');
-      c.letra = v; toca(c); render();
-      toast('Karaoke listo · ' + lineasDe(c).length + ' líneas', 'ok');
+      /* ¿Lo que pegaste YA trae los tiempos dentro (.srt / .vtt / .lrc)?
+         Entonces la canción queda sincronizada clavada, sin estimar nada y
+         sin tocar ningún botón. */
+      const conT = importarConTiempos(v);
+      if(conT && conT.lineas.length){
+        c.letra = conT.lineas.join('\n');
+        c.tiempos = conT.tiempos;
+        c.anclas = [];
+        c.intro = conT.tiempos[0];
+        toca(c); P.linea = -1; render();
+        toast('Subtítulos importados · ' + conT.lineas.length + ' líneas ya sincronizadas', 'ok');
+        return;
+      }
+      c.letra = v; c.tiempos = null; c.anclas = []; toca(c); P.linea = -1; render();
+      toast('Letra lista · ' + lineasDe(c).length + ' líneas. Ahora dale a Sincronizar', 'ok');
     };
     const ed = $('sgEdit');
     if(ed) ed.onclick = () => {
@@ -12658,6 +12752,30 @@ const SONG = (() => {
     if(ytId('https://malicioso.example/watch?v=AAAAAAAAAAA') !== 'AAAAAAAAAAA'){ /* solo se usa el id */ }
     const pruebaHuecos = huecosDeLinea('I am walking down the street tonight');
     if(!pruebaHuecos.length) malas.push('no calcula huecos');
+
+    /* El importador: que saque los tiempos de un .srt y de un .lrc.
+       Texto de prueba propio, no de ninguna canción. */
+    const srt = '1\n00:00:11,500 --> 00:00:15,200\nuna linea de prueba\n\n' +
+                '2\n00:00:15,400 --> 00:00:19,100\notra linea de prueba\n';
+    const a = importarConTiempos(srt);
+    if(!a || a.lineas.length !== 2 || a.tiempos[0] !== 11.5 || a.tiempos[1] !== 15.4)
+      malas.push('el importador de .srt no saca bien los tiempos');
+    const lrc = '[ti:x]\n[00:11.50]una linea\n[00:15.40]otra linea\n';
+    const b = importarConTiempos(lrc);
+    if(!b || b.lineas.length !== 2 || b.tiempos[0] !== 11.5 || b.lineas[0].indexOf('[') >= 0)
+      malas.push('el importador de .lrc no saca bien los tiempos');
+    if(importarConTiempos('solo texto sin tiempos\nsegunda linea') !== null)
+      malas.push('confunde texto normal con subtitulos');
+
+    /* Las anclas: corregir una línea NO debe mover las que ya anclaste.
+       Es la propiedad que hace que ajustar no destruya el trabajo previo. */
+    const falsa = { letra: ['a a a','b b b','c c c','d d d','e e e','f f f'].join('\n'),
+                    tiempos: [0, 10, 20, 30, 40, 50], anclas: [1, 4], intro: 0, outro: 60 };
+    recalcular(falsa);
+    if(falsa.tiempos[1] !== 10 || falsa.tiempos[4] !== 40)
+      malas.push('recalcular mueve las lineas ancladas');
+    if(!(falsa.tiempos[2] > 10 && falsa.tiempos[3] > falsa.tiempos[2] && falsa.tiempos[3] < 40))
+      malas.push('recalcular no interpola entre anclas');
     return { pasos:PASOS.length, sugerencias:SUGE.length,
              soloAdultos:SUGE.filter(x => !x.nino).length, malas };
   }
