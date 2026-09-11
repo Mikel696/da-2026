@@ -3739,6 +3739,38 @@ const ANL = (() => {
       }
     }
 
+    /* R5b · la -s de he/she/it TAMBIEN la lleva «have»
+       «She have a car» → «She has a car». Con he/she/it, «have» en presente es
+       siempre «has»: da igual que sea el verbo principal («She has a car») o el
+       auxiliar del perfecto («She has been working»).
+
+       Lo que NO se toca, y por eso cada condicion esta escrita aparte:
+         · «She doesn't have a car»   → «does» ya carga la persona
+         · «She can/will/should have» → tras un modal va la forma desnuda
+         · «Does she have a car?»     → pregunta, el auxiliar va delante
+         · «My sister have a job»     → el sujeto es un SUSTANTIVO. Esta mal,
+           pero «my sisters have» esta bien y por la forma no se puede saber
+           cual de los dos es. Cuando no se sabe, no se corrige. */
+    if(!pregunta){
+      const iS3 = pal.findIndex(w => LEX.TERCERA.has(w));
+      const abre3 = iS3 === 0 || (iS3 > 0 && [',','and','but','because','that','when','if'].includes(pal[iS3-1]));
+      if(iS3 > -1 && abre3){
+        let k = iS3 + 1;
+        while(k < pal.length && LEX.es(pal[k],'adv')) k++;   // «She never have time»
+        if(pal[k] === 'have'){
+          /* Un modal o do/does/did DELANTE piden la forma desnuda: ahi «have»
+             es correcto y marcarlo seria inventarse un error. */
+          const licencia = pal.slice(0, k).some(w =>
+            LEX.MODAL.has(w) || ['do','does','did','to'].includes(w));
+          if(!licencia)
+            add('rojo','R5','Con he/she/it es «has», no «have»',
+              'Es la misma <b>-s</b> de la tercera persona, y <b>have</b> no se libra: se convierte en <b>has</b>. ' +
+              'En español «tener» no cambia ahí («ella tiene», «ellos tienen» suenan igual de regulares), y por eso se escapa tanto.',
+              pal[iS3] + ' have', pal[iS3] + ' has');
+        }
+      }
+    }
+
     // R7 · una sola negación
     if(iNot > -1 && pal.some(w => LEX.NEGS.has(w) && w !== 'no'))
       add('rojo','R7','Doble negación: dice lo contrario',
