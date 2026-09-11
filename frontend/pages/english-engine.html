@@ -1444,6 +1444,17 @@ h2.sec .n{
 
 
 /* ══════════ BUSCADOR + SUBTÍTULOS ══════════ */
+/* Las expresiones que salen en el video. Van ARRIBA del buscador porque
+   son lo que uno no sabe que tiene que buscar. */
+.sg-expr{background:rgba(139,92,246,.07);border:1px solid var(--bd2);border-left:3px solid var(--ac);
+  border-radius:var(--rad);padding:11px 14px;margin-bottom:12px}
+.sg-expr-t{font-size:12px;color:var(--t3);margin-bottom:8px;letter-spacing:.2px}
+.sg-expr-l{display:flex;gap:7px;flex-wrap:wrap}
+.sg-expr-b{background:var(--bg3);border:1px solid var(--bd2);color:var(--tx);border-radius:18px;
+  padding:6px 12px;font-family:var(--fm);font-size:12.5px;cursor:pointer;transition:.14s;
+  display:inline-flex;align-items:baseline;gap:7px}
+.sg-expr-b:hover{border-color:var(--ac);background:var(--bg4)}
+.sg-expr-b i{font-style:normal;color:var(--t3);font-size:11.5px;font-family:var(--f)}
 .sg-busca{display:flex;gap:8px;align-items:center;margin-bottom:12px}
 .sg-busca-in{flex:1;background:var(--bg2);border:1px solid var(--bd2);color:var(--tx);
   border-radius:var(--rad);padding:12px 16px;font-family:inherit;font-size:15px;outline:none;transition:.14s}
@@ -11032,6 +11043,13 @@ const Omni = (() => {
     idx = [];
     WORDS.forEach(w => idx.push({ k:'palabra', t:w.en, s:w.es, key:w.k, go:['p1', w.en], say:w.en }));
     PHRASES.forEach(p => idx.push({ k:'frase', t:p.en, s:p.es, key:p.k, go:['p2', p.en], say:p.en }));
+    /* Las expresiones compuestas. Sin esto, buscar «give up» en Ctrl+K no daba
+       nada aunque estuviera en el documento con su significado y su ejemplo:
+       el diccionario nuevo solo lo veia la seccion de videos. */
+    if(typeof EXPR !== 'undefined') EXPR.LISTA.forEach(e => idx.push({
+      k:'expresión', t:e.en, s:e.es,
+      key:norm(e.en + ' ' + e.es + ' ' + (e.use || '') + ' ' + (e.xe || '')),
+      dic:e.en, say:e.en }));
     if(typeof BIFUR !== 'undefined') BIFUR.forEach((b, n) => {
       idx.push({ k:'bifurcación', t:b.q + '  →  ' + b.r.map(x => x.w).join(' · '),
                  s:'una palabra tuya, varias suyas', key:norm(b.q + ' ' + b.r.map(x => x.w).join(' ')),
@@ -11091,6 +11109,11 @@ const Omni = (() => {
       inp.value = term;
       inp.dispatchEvent(new Event('input'));
       if(r.say) setTimeout(() => TTS.say(r.say), 120);
+    } else if(r.dic){
+      // La ficha del diccionario ya sabe pintar una expresion, con su
+      // significado y los cuatro diccionarios de fuera si hiciera falta.
+      setTimeout(() => { try { DIC.abrir(r.dic, innerWidth / 2, 140); } catch(e){} }, 90);
+      if(r.say) setTimeout(() => TTS.say(r.say), 220);
     } else if(r.bf !== undefined){
       go('bf');
       setTimeout(() => {
@@ -12873,7 +12896,11 @@ const ANL = (() => {
          pedia «is sorting». Se corrige aqui, en el etiquetador: una pieza mal
          etiquetada estropea TODAS las reglas que la miren, no solo una. */
       if(['sort','kind','type'].includes(w) && out[i+1] && out[i+1].w === 'of') return;
-      if(!vistoVer && LEX.esVerbo(w)){ o.r = 'ver'; vistoVer = true; return; }
+      /* esVerboForma, no esVerbo: el segundo solo conoce los infinitivos y
+         devuelve false para «sleeps», «walked», «goes», «studies», «tried».
+         Con el, la seccion que ENSENA las piezas de la frase pintaba el verbo
+         como complemento -- ensenando justo lo contrario de lo que explica. */
+      if(!vistoVer && LEX.esVerboForma(w)){ o.r = 'ver'; vistoVer = true; return; }
     });
     return out;
   }
@@ -12935,7 +12962,7 @@ const ANL = (() => {
     const haySujeto = pal.some(w => LEX.SUJ.has(w));
     if(!hayVerbo && haySujeto && pal.length > 2)
       add('info','R16','No reconocí el verbo',
-        'Toda frase necesita <b>sujeto + verbo</b>. Aquí no encontré ninguno — pero ojo: <b>puede ser que el verbo no esté entre las 2000 palabras del documento</b>, no que falte. Si estás seguro de tu verbo, ignora este aviso; búscalo con 🔎 para confirmarlo.',
+        'Toda frase necesita <b>sujeto + verbo</b>. Aquí no encontré ninguno — pero ojo: <b>puede ser que el verbo no esté entre las ' + WORDS.length + ' palabras del documento</b>, no que falte. Si estás seguro de tu verbo, ignora este aviso; búscalo con 🔎 para confirmarlo.',
         f.trim(), '');
 
     // R1 · sujeto obligatorio
@@ -13190,7 +13217,7 @@ const ANL = (() => {
       && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2);
     if(desconocidas.length)
       add('info','R-desc','No puedo verificar: ' + desconocidas.join(', '),
-        'Esas palabras no están en las 2000 del documento, así que <b>no las revisé</b>. No significa que estén mal — significa que no lo sé. Búscalas en el diccionario con el botón 🔎.',
+        'Esas palabras no están en las ' + WORDS.length + ' del documento, así que <b>no las revisé</b>. No significa que estén mal — significa que no lo sé. Búscalas en el diccionario con el botón 🔎.',
         desconocidas.join(', '), '');
 
     return { H, t:pal };
@@ -13981,33 +14008,111 @@ const WR = (() => {
       return linea;
     }).join('\n');
   }
+  /* ══════════ EL TRADUCTOR ══════════
+     MEDIDO el 11-sep desde mikel696.github.io, que es lo que importa:
+
+       translate.googleapis.com/translate_a/single  →  Failed to fetch (CORS)
+       translate.google.com/translate_a/single      →  Failed to fetch (CORS)
+       lingva.ml · libretranslate.de                →  Failed to fetch
+       clients5.google.com/translate_a/t            →  200 OK, 680 ms  ✔
+       api.mymemory.translated.net                  →  200 OK, 650 ms  ✔
+
+     El que estaba de PRIMERO llevaba tiempo sin funcionar desde el sitio
+     publicado: Google no autoriza esa ruta desde otro dominio. Lo único que
+     respondía era el respaldo, y el respaldo estaba puesto SOLO para es→en.
+     De ahí el «a veces funciona»: de español a inglés iba por el respaldo, de
+     inglés a español no iba nunca.
+
+     Ahora hay tres fuentes en cadena, las dos primeras comprobadas hoy, y la
+     tercera por si algún día vuelve. Cada una con su tope de tiempo: una
+     petición colgada bloqueaba la traducción entera sin decir nada.           */
+
+  const TRAD_CACHE = 'eng_trad_cache';
+
+  /* Lo ya traducido se guarda. Dos motivos: la misma frase no vuelve a salir a
+     la red —es instantáneo y no gasta cuota— y si te quedas sin internet, lo
+     que ya miraste sigue disponible. Tope de 300 entradas: es una caché, no un
+     almacén, y no puede crecer hasta comerse el espacio del cuaderno. */
+  function cacheLeer(k){
+    try {
+      const c = JSON.parse(LS.get(TRAD_CACHE) || '{}');
+      return c[k] || null;
+    } catch(e){ return null; }
+  }
+  function cacheGuardar(k, v){
+    try {
+      const c = JSON.parse(LS.get(TRAD_CACHE) || '{}');
+      c[k] = v;
+      const ks = Object.keys(c);
+      if(ks.length > 300) ks.slice(0, ks.length - 300).forEach(x => delete c[x]);
+      LS.set(TRAD_CACHE, JSON.stringify(c));
+    } catch(e){}
+  }
+
+  /* Una petición sin tope de tiempo puede quedarse colgada para siempre y el
+     usuario se queda mirando un «traduciendo…» que no acaba nunca. */
+  async function pide(url, ms){
+    const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const t = setTimeout(() => { if(ctl) ctl.abort(); }, ms || 7000);
+    try {
+      const r = await fetch(url, ctl ? { signal: ctl.signal } : undefined);
+      clearTimeout(t);
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.text();
+    } catch(e){ clearTimeout(t); throw e; }
+  }
+
+  const FUENTES = [
+    { n:'Google Translate',
+      url:(q, de, a) => 'https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=' +
+                        de + '&tl=' + a + '&q=' + encodeURIComponent(q),
+      saca: t => { const j = JSON.parse(t);
+                   return Array.isArray(j) ? j.map(x => typeof x === 'string' ? x : (x && x[0]) || '').join('') : null; } },
+
+    { n:'MyMemory',
+      url:(q, de, a) => 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(q) +
+                        '&langpair=' + de + '|' + a,
+      saca: t => { const j = JSON.parse(t);
+                   const s = j && j.responseData && j.responseData.translatedText;
+                   /* MyMemory devuelve el aviso de cuota COMO SI FUERA la
+                      traducción. Si se colara, el usuario leería un error en
+                      inglés creyendo que es su frase traducida. */
+                   if(!s || /MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(s)) return null;
+                   return s; } },
+
+    { n:'Google (ruta antigua)',
+      url:(q, de, a) => 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' +
+                        de + '&tl=' + a + '&dt=t&q=' + encodeURIComponent(q),
+      saca: t => { const j = JSON.parse(t);
+                   return j[0].map(x => x[0]).join(''); } }
+  ];
 
   async function traducir(txt, de, a){
     if(de === 'es') txt = normalizarES(txt);
-    const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' + de +
-                '&tl=' + a + '&dt=t&q=' + encodeURIComponent(txt);
-    try{
-      const r = await fetch(url);
-      if(!r.ok) throw new Error('HTTP ' + r.status);
-      const j = await r.json();
-      const s = j[0].map(x => x[0]).join('').trim();
-      if(s) return { txt:s, fuente:'Google Translate' };
-      throw new Error('vacío');
-    }catch(e){
-      // Segundo intento solo para es→en: en el otro sentido esta fuente
-      // devolvía disparates (medido el 02-sep) y prefiero no dar nada
-      // antes que dar algo falso.
-      if(de === 'es'){
-        try{
-          const r2 = await fetch('https://api.mymemory.translated.net/get?q=' +
-            encodeURIComponent(txt) + '&langpair=es|en');
-          const j2 = await r2.json();
-          const s2 = j2 && j2.responseData && j2.responseData.translatedText;
-          if(s2) return { txt:s2.trim(), fuente:'MyMemory (respaldo)' };
-        }catch(e2){}
+    const limpio = String(txt || '').trim();
+    if(!limpio) return null;
+
+    const clave = de + '>' + a + ':' + limpio;
+    const guardada = cacheLeer(clave);
+    if(guardada) return { txt:guardada.t, fuente:guardada.f, deCache:true };
+
+    const fallos = [];
+    for(const F of FUENTES){
+      try {
+        const crudo = await pide(F.url(limpio, de, a), 7000);
+        const s = (F.saca(crudo) || '').trim();
+        if(s){
+          cacheGuardar(clave, { t:s, f:F.n });
+          return { txt:s, fuente:F.n };
+        }
+        fallos.push(F.n + ': respuesta vacía');
+      } catch(e){
+        fallos.push(F.n + ': ' + (e && e.name === 'AbortError' ? 'tardó demasiado' : 'no responde'));
       }
-      return null;
     }
+    /* Se devuelve POR QUÉ falló cada una. Un «no hay internet» cuando sí lo
+       hay manda a buscar el problema al sitio equivocado. */
+    return { error:true, detalle:fallos };
   }
 
   /* Aplica las correcciones que son sustituciones limpias de texto, y DESPUÉS
@@ -14146,7 +14251,7 @@ const WR = (() => {
         setTimeout(() => cand.forEach(async c => {
           const t = await traducir(c.frase, 'en', 'es');
           document.querySelectorAll(`[data-wrses="${CSS.escape(c.frase)}"]`).forEach(el => {
-            el.textContent = t ? '= ' + t.txt : '(sin conexión para traducirla)';
+            el.textContent = (t && t.txt) ? '= ' + t.txt : '(sin conexión para traducirla)';
           });
         }), 30);
       }
@@ -14262,12 +14367,16 @@ const WR = (() => {
       pidiendo = true; ultimo.err = null;
       const t = await traducir(src, dir === 'en' ? 'en' : 'es', dir === 'en' ? 'es' : 'en');
       pidiendo = false;
-      if(t){
+      if(t && t.txt){
         ultimo.trad = t.txt; ultimo.fuente = t.fuente;
         if(dir === 'en') $('wrEs').value = t.txt; else $('wrEn').value = t.txt;
       } else {
         ultimo.trad = null;
-        ultimo.err = 'No pude contactar el traductor (sin internet, o el servicio no respondió).';
+        /* Se dice QUE fuente fallo y por que. Un «no hay internet» cuando si
+           lo hay manda a buscar el problema al sitio equivocado. */
+        ultimo.err = (t && t.detalle && t.detalle.length)
+          ? 'Ninguna fuente respondio · ' + t.detalle.join(' · ')
+          : 'No pude contactar el traductor (sin internet, o el servicio no respondio).';
       }
       render();
     }, inmediato ? 120 : 700);
@@ -15077,7 +15186,7 @@ const SONG = (() => {
     pop.innerHTML = `
       <div class="sg-pop-t">${esc(p)}
         <button class="spk sm" data-say="${esc(p)}" title="Oír">🔊</button></div>
-      <div class="sg-pop-d">${w ? esc(w.es) : 'No está en las 2000 palabras del documento — igual la puedes guardar.'}</div>
+      <div class="sg-pop-d">${w ? esc(w.es) : 'No está en las ' + WORDS.length + ' palabras del documento — igual la puedes guardar.'}</div>
       ${w && w.use ? `<div class="sg-pop-u">${esc(w.use)}</div>` : ''}
       <div class="sg-pop-bs">
         <button class="sg-b" data-pop="fav">${yaEsta ? '✓ Guardada' : '★ Guardar'}</button>
@@ -15409,8 +15518,29 @@ const SONG = (() => {
      sirve para estudiar: el vídeo con SUS subtítulos, el texto entero debajo
      para leerlo, y un buscador que dice si la palabra está en el documento
      y, si no, la manda a los cuatro diccionarios. */
+  /* Las expresiones que SALEN en este video. No es una lista de adorno: es lo
+     que mas se pierde oyendo, porque ninguna de sus palabras por separado dice
+     lo que significa el bloque. Si no te avisan de que «give up» esta ahi, no
+     la buscas -- ni sabes que existe. Se detectan conjugadas: «I gave up»
+     cuenta. */
+  function expresionesDelVideo(L){
+    let hay = [];
+    try { hay = EXPR.enTexto(L.join(' ')); } catch(e){ return ''; }
+    if(!hay.length) return '';
+    return `
+      <div class="sg-expr">
+        <div class="sg-expr-t">🧩 ${hay.length === 1 ? 'Una expresión que sale aquí'
+          : hay.length + ' expresiones salen en este vídeo'} · tócalas para verlas</div>
+        <div class="sg-expr-l">${hay.slice(0, 14).map(e =>
+          `<button class="sg-expr-b" data-expr="${esc(e.en)}">${esc(e.en)}
+             <i>${esc(e.es)}</i></button>`).join('')}</div>
+        ${hay.length > 14 ? `<div class="sg-ver-u">y ${hay.length - 14} más</div>` : ''}
+      </div>`;
+  }
+
   function cuerpo(c, L){
     return `
+      ${expresionesDelVideo(L)}
       <div class="sg-busca">
         <input class="sg-busca-in" id="sgBuscar" placeholder="Buscar una palabra en estos subtítulos…"
                value="${esc(S.q || '')}" autocomplete="off" spellcheck="false">
@@ -15424,12 +15554,17 @@ const SONG = (() => {
   /* Los subtítulos completos. Cada palabra se puede tocar; si hay búsqueda,
      sus coincidencias van resaltadas. */
   function textoHTML(L, q){
-    const nq = norma(q);
+    /* Una busqueda de varias palabras se resalta palabra a palabra: marcar el
+       bloque entero pediria reconstruir el HTML por trozos y no aporta nada. */
+    const partes = norma(limpioFrase(q)).split(' ').filter(Boolean);
+    const nq = partes.length > 1 ? '' : norma(q);
     return L.map((t, i) => `<p class="sg-p2" data-i="${i}">${
       t.split(/(\s+)/).map(p => {
         if(/^\s+$/.test(p)) return p;
         const base = limpio(p);
-        const hit = nq && norma(base).indexOf(nq) >= 0;
+        const hit = partes.length > 1
+          ? partes.indexOf(norma(base)) >= 0
+          : (nq && norma(base).indexOf(nq) >= 0);
         return `<span class="sg-w${hit ? ' hit' : ''}" data-w="${esc(base)}">${esc(p)}</span>`;
       }).join('')}</p>`).join('');
   }
@@ -15441,9 +15576,44 @@ const SONG = (() => {
   /* Cuenta cuántas veces sale en ESTE vídeo. Cuenta también las otras formas
      de la misma palabra: si buscas «go», «going» y «goes» también cuentan, que
      es lo que uno quiere saber de verdad. */
+  /* Como «limpio», pero SIN comerse los espacios. Hace falta desde que la tira
+     de expresiones manda «give up» al buscador: con el limpiador normal llegaba
+     como «giveup» y el veredicto decia «no aparece» estando delante. */
+  const limpioFrase = s => String(s || '').toLowerCase()
+    .replace(/[^a-z0-9' ]/g, ' ').replace(/\s+/g, ' ').trim();
+
   function vecesEn(L, q){
-    const nq = norma(limpio(q));
-    if(!nq) return 0;
+    const frase = norma(limpioFrase(q));
+    if(!frase) return 0;
+
+    /* Dos o mas palabras: se cuenta como bloque sobre el texto entero, y se
+       mira tambien con los verbos llevados a su base, para que «I gave up»
+       cuente al buscar «give up». */
+    if(frase.indexOf(' ') > 0){
+      const ps = frase.split(' ');
+      const toks = norma(limpioFrase(L.join(' '))).split(' ');
+      /* El pasado irregular tiene FICHA PROPIA («gave» es una entrada), asi que
+         el buscador devuelve «gave» y no «give». Hay que preguntarle tambien al
+         lematizador o «gave up» no cuenta al buscar «give up». Es la misma
+         trampa que ya arregle en EXPR.enTexto y que aqui no aplique. */
+      const base = p => {
+        try { const r = LEX.raiz(p); if(r) return r; } catch(e){}
+        const r = BUSCA.buscar(p); return (r && r.w && r.via === 'forma') ? r.w.en : p;
+      };
+      const lem = toks.map(base);
+      let n = 0;
+      for(let i = 0; i + ps.length <= toks.length; i++){
+        let casa = true;
+        for(let j = 0; j < ps.length; j++){
+          const ok = (j === 0) ? (toks[i+j] === ps[0] || lem[i+j] === ps[0]) : (toks[i+j] === ps[j]);
+          if(!ok){ casa = false; break; }
+        }
+        if(casa) n++;
+      }
+      return n;
+    }
+
+    const nq = frase;
     const raizQ = (BUSCA.buscar(nq) || {}).w;
     let n = 0;
     L.forEach(t => t.split(/\s+/).forEach(p => {
@@ -15456,7 +15626,10 @@ const SONG = (() => {
   }
 
   function veredicto(q, L){
-    const nq = norma(limpio(q));
+    /* Con espacios si son varias palabras; sin ellos para una sola, que es como
+       estan indexadas las fichas del diccionario. */
+    const frase = norma(limpioFrase(q));
+    const nq = frase.indexOf(' ') > 0 ? frase : norma(limpio(q));
     if(!nq) return '';
     const veces = vecesEn(L, q);
     const r = BUSCA.buscar(nq);
@@ -15469,7 +15642,9 @@ const SONG = (() => {
     const rq = BUSCA.buscar(nq);
     const base = (rq && rq.w) ? rq.w.en : nq;
     const lleva = e => {
-      const ps = e.en.toLowerCase().split(/[^a-z']+/);
+      const en = e.en.toLowerCase();
+      if(nq.indexOf(' ') > 0) return en === nq;   // se busco la expresion entera
+      const ps = en.split(/[^a-z']+/);
       return ps.indexOf(nq) >= 0 || ps.indexOf(base) >= 0;
     };
     const aqui = EXPR.enTexto(L.join(' ')).filter(lleva);
@@ -15775,6 +15950,12 @@ const SONG = (() => {
        y unos manejadores puestos en cada <span> se irían con él. Misma trampa
        que mató al reproductor, evitada aquí.
        Vale el doble clic —que es lo que pediste— y también el clic simple. */
+    document.querySelectorAll('[data-expr]').forEach(x => x.onclick = () => {
+      S.q = x.dataset.expr;
+      pintaVar(actual() || c); wire(); TTS.say(S.q);
+      const v = $('sgVeredicto'); if(v) v.scrollIntoView({ block:'nearest', behavior:'smooth' });
+    });
+
     const tx = $('sgTexto');
     if(tx){
       const mirar = ev => {
