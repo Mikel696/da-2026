@@ -269,3 +269,77 @@
   .sg-ta{min-height:180px;font-size:13px}
   .sg-expr-l,.sg-ver-links,.sg-chips{gap:6px}
 }
+
+/* ══════════ EL PUESTO DE TRABAJO · tres columnas a ancho completo ══════════
+   El documento va dentro de un .wrap de 1280 px, que es lo bueno para leer.
+   Pero aqui hacen falta tres cosas a la vez —escribir, ver el video y tener la
+   letra al lado—, y a 1280 px las tres salen estrechas. Asi que esta seccion,
+   y solo esta, se sale de la caja.
+
+   La cuenta: llevar el borde izquierdo al borde de la ventana es -50vw + 50%,
+   y se le devuelven los 20 px de margen del .wrap. */
+#sg .sg-grid{
+  width:calc(100vw - 40px);
+  margin-left:calc(-50vw + 50% + 20px);
+  grid-template-columns:minmax(280px,1fr) minmax(460px,1.25fr) minmax(280px,1fr);
+  gap:16px;
+}
+.sg-col-izq{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sg-col-der{min-width:0}
+
+/* Debajo de 1500 px ya no caben tres: la letra se va abajo, a ancho completo,
+   que es mejor que tres columnas ahogadas. */
+@media(max-width:1500px){
+  #sg .sg-grid{grid-template-columns:minmax(250px,1fr) minmax(420px,1.4fr)}
+  .sg-col-der{grid-column:1 / -1}
+}
+/* Y en movil, una sola columna y en el orden en que se usa. */
+@media(max-width:880px){
+  #sg .sg-grid{width:auto;margin-left:0;grid-template-columns:1fr}
+  .sg-col-der{grid-column:auto}
+}
+
+/* ══════════ ESCRIBIR LO QUE OYES ══════════ */
+.sg-esc{background:var(--bg2);border:1px solid var(--bd);border-left:3px solid var(--ac);
+  border-radius:var(--rad);padding:14px}
+.sg-esc-t{font-size:13.5px;font-weight:600;color:var(--tx);display:flex;align-items:baseline;
+  justify-content:space-between;gap:10px;margin-bottom:6px}
+.sg-esc-d{font-size:12px;color:var(--t3);line-height:1.55;margin-bottom:10px}
+.sg-esc-d b{color:var(--t2)}
+.sg-esc-a{width:100%;min-height:320px;resize:vertical;background:var(--bg);border:1px solid var(--bd2);
+  color:var(--tx);border-radius:var(--rad-s);padding:13px 15px;font-family:var(--fm);
+  font-size:14px;line-height:1.85;outline:none;transition:border-color .14s}
+.sg-esc-a:focus{border-color:var(--ac)}
+.sg-esc-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sg-esc-b .sg-b[disabled]{opacity:.4;cursor:not-allowed}
+
+/* ══════════ EL ESPEJO · lo escrito frente a la letra ══════════
+   No es un corrector: es un espejo. Verde lo que cazaste, ambar lo que pusiste
+   distinto, tachado lo que no llegaste a escribir. */
+.sg-diff{margin-top:12px;background:var(--bg);border:1px solid var(--bd2);border-radius:var(--rad-s);
+  padding:12px;max-height:420px;overflow:auto}
+.sg-diff-t{font-size:13px;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;
+  justify-content:space-between;gap:8px}
+.sg-diff-t b{color:var(--tx)}
+.sg-diff-leyenda{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:11px}
+.sg-d-fila{display:flex;gap:9px;padding:5px 0;border-top:1px solid var(--bd);align-items:flex-start}
+.sg-d-n{font-family:var(--fm);font-size:11px;color:var(--t3);min-width:20px;text-align:right;padding-top:2px}
+.sg-d-l{font-family:var(--fm);font-size:13px;line-height:1.75;flex:1;min-width:0}
+.sg-d-w{border-radius:4px;padding:1px 4px;cursor:help}
+.sg-d-w.ok{color:var(--ok);background:rgba(34,197,94,.10)}
+.sg-d-w.mal{color:var(--warn);background:rgba(234,179,8,.12)}
+.sg-d-w.falta{color:var(--t3);background:var(--bg3);text-decoration:line-through}
+.sg-d-sobra{font-size:11px;color:var(--t3);margin-left:6px}
+
+/* ══════════ LA LETRA, a la derecha ══════════ */
+.sg-letra{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);padding:14px;
+  position:sticky;top:calc(var(--hh, 110px) + 10px)}
+.sg-letra-t{font-size:13.5px;font-weight:600;color:var(--tx);display:flex;align-items:center;
+  gap:8px;margin-bottom:10px}
+.sg-letra-t .sg-b{margin-left:auto}
+.sg-letra-t .sg-b + .sg-b{margin-left:0}
+.sg-letra .sg-texto{max-height:min(62vh,640px);overflow:auto;margin:0}
+.sg-tapada{background:var(--bg);border:1px dashed var(--bd2);border-radius:var(--rad-s);
+  padding:26px 18px;text-align:center;color:var(--t3);font-size:13px;line-height:1.7}
+.sg-tapada b{color:var(--t2)}
+.sg-b.chico{height:26px;padding:0 9px;font-size:11.5px}

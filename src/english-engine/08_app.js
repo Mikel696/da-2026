@@ -1643,7 +1643,10 @@ footer{margin-top:46px;color:#888;font-size:12px;border-top:1px solid #ddd;paddi
 
   function newBlank(){ flush(); create('Cuaderno sin título', '📓', ''); }
 
-  return { render, push, flush, newBlank, reload, restore, renderTrash,
+  /* crear() se publica para que la seccion de Videos pueda abrir un cuaderno
+     con el nombre de la cancion. Asi, cuando lo veas en la lista, sabes de
+     donde salio: «Stan — Eminem» y no «Cuaderno sin titulo 4». */
+  return { render, push, flush, newBlank, crear:create, reload, restore, renderTrash,
            get count(){ return d.books.length; }, get trashCount(){ return trash().length; } };
 })();
 
@@ -6110,15 +6113,22 @@ const SONG = (() => {
       box.dataset.song = S.id || '';
       box.innerHTML = `
         <div class="sg-grid">
-          <aside class="sg-side" id="sgSide"></aside>
+          <aside class="sg-col-izq">
+            <div class="sg-side" id="sgSide"></div>
+            <div id="sgEscribo"></div>
+          </aside>
           <section class="sg-main"><div id="sgFijo"></div><div id="sgVar"></div></section>
+          <aside class="sg-col-der" id="sgLetra"></aside>
         </div>`;
       // El contenedor se rehízo: el reproductor de antes ya no existe
       P.player = null; P.vid = null; P.listo = false; P.linea = -1; P.pal = -1;
     }
     pintaSide(o);
-    if(S.id){ pintaFijo(o[S.id]); pintaVar(o[S.id]); }
-    else { $('sgFijo').innerHTML = ''; $('sgVar').innerHTML = bienvenida(); }
+    if(S.id){ pintaFijo(o[S.id]); pintaVar(o[S.id]); pintaEscribo(o[S.id]); pintaLetra(o[S.id]); }
+    else {
+      $('sgFijo').innerHTML = ''; $('sgVar').innerHTML = bienvenida();
+      $('sgEscribo').innerHTML = ''; $('sgLetra').innerHTML = '';
+    }
     wire();
   }
 
@@ -6153,10 +6163,145 @@ const SONG = (() => {
     P.player = null; P.vid = null; P.listo = false;
   }
 
+  /* ══════════ COLUMNA IZQUIERDA · ESCRIBIR LO QUE OYES ══════════
+     Esto es lo que convierte la seccion en un ejercicio en vez de en un
+     reproductor con texto al lado. Oir solo entra por un oido. Escribir obliga
+     a decidir QUE palabra era, y esa decision es la que deja huella.
+
+     Se guarda solo, por video, en el mismo sitio que lo demas. Nunca sale del
+     navegador ni se manda a ningun sitio: es tu cuaderno, igual que el otro. */
+  function pintaEscribo(c){
+    const el = $('sgEscribo'); if(!el) return;
+    const mio = c.mio || '';
+    const pal = mio.trim() ? mio.trim().split(/\s+/).length : 0;
+    const lin = mio.trim() ? mio.trim().split('\n').filter(x => x.trim()).length : 0;
+    el.innerHTML = `
+      <div class="sg-esc">
+        <div class="sg-esc-t">✍️ Escribe lo que oyes
+          <span class="sg-prog">${pal ? pal + (pal === 1 ? ' palabra · ' : ' palabras · ') + lin + (lin === 1 ? ' línea' : ' líneas') : 'vacío'}</span>
+        </div>
+        <div class="sg-esc-d">Pon el vídeo, para cuando haga falta y escribe. <b>Doble clic</b>
+          en cualquier palabra que hayas escrito para ver qué significa y guardarla.</div>
+        <textarea class="sg-esc-a" id="sgMio" spellcheck="false"
+          placeholder="Escribe aquí lo que vas oyendo, línea por línea…">${esc(mio)}</textarea>
+        <div class="sg-esc-b">
+          <button class="sg-b" id="sgComparar" ${lineasDe(c).length ? '' : 'disabled title="Pega la letra en la columna de la derecha para poder comparar"'}>⚖️ Comparar con la letra</button>
+          <button class="sg-b" id="sgAlCuaderno" ${mio.trim() || lineasDe(c).length ? '' : 'disabled'}>📓 Llevar a un cuaderno</button>
+        </div>
+        <div id="sgDiff"></div>
+      </div>`;
+  }
+
+  /* Lo escrito frente a la letra de verdad, palabra por palabra.
+     No es un corrector de estilo: es un espejo. Se marca lo que acertaste, lo
+     que te falta y lo que pusiste de mas, y se cuenta. Cada linea se compara
+     con la suya, que es como se hace un dictado. */
+  function compara(c){
+    const suyas = (c.mio || '').split('\n').map(x => x.trim()).filter(Boolean);
+    const reales = lineasDe(c);
+    if(!reales.length) return '<div class="sg-ver-no">No hay letra con la que comparar. Pégala en la columna de la derecha.</div>';
+    if(!suyas.length)  return '<div class="sg-ver-no">Todavía no has escrito nada.</div>';
+
+    let acerto = 0, total = 0;
+    const filas = reales.slice(0, Math.max(suyas.length, reales.length)).map((real, i) => {
+      const mia = suyas[i] || '';
+      const pr = real.split(/\s+/).filter(Boolean);
+      const pm = mia.split(/\s+/).filter(Boolean);
+      /* Se compara por posicion. Es lo justo para un dictado: si te comes una
+         palabra, lo que viene detras se descoloca, y eso TAMBIEN es informacion
+         -- te dice donde se te fue el oido. */
+      const marcado = pr.map((w, k) => {
+        total++;
+        const ok = pm[k] && limpio(pm[k]) === limpio(w);
+        if(ok) acerto++;
+        return `<span class="sg-d-w ${ok ? 'ok' : (pm[k] ? 'mal' : 'falta')}"
+                  title="${ok ? 'bien' : (pm[k] ? 'tú pusiste: ' + esc(pm[k]) : 'no la escribiste')}">${esc(w)}</span>`;
+      }).join(' ');
+      const sobra = pm.length > pr.length
+        ? `<span class="sg-d-sobra">+${pm.length - pr.length} de más</span>` : '';
+      return `<div class="sg-d-fila"><span class="sg-d-n">${i + 1}</span>
+        <div class="sg-d-l">${marcado} ${sobra}</div></div>`;
+    }).join('');
+
+    const pc = total ? Math.round(acerto / total * 100) : 0;
+    return `
+      <div class="sg-diff">
+        <div class="sg-diff-t">Cazaste <b>${acerto}</b> de <b>${total}</b> · <b>${pc}%</b>
+          <button class="sg-b chico" id="sgCerrarDiff">✕</button></div>
+        <div class="sg-diff-leyenda">
+          <span class="sg-d-w ok">acertada</span>
+          <span class="sg-d-w mal">pusiste otra</span>
+          <span class="sg-d-w falta">no la escribiste</span>
+        </div>
+        ${filas}
+      </div>`;
+  }
+
+  /* ══════════ COLUMNA DERECHA · LA LETRA ══════════
+     Antes iba debajo del video y obligaba a arrastrar la pantalla. Aqui esta al
+     lado, a la altura de los ojos, y se puede TAPAR: escribir mirando la letra
+     no es un dictado, es copiar. */
+  function pintaLetra(c){
+    const el = $('sgLetra'); if(!el) return;
+    const L = lineasDe(c);
+    if(!L.length){ el.innerHTML = pegarLetra(c); return; }
+    el.innerHTML = `
+      <div class="sg-letra${S.tapada ? ' tapada' : ''}">
+        <div class="sg-letra-t">📄 La letra
+          <button class="sg-b chico" id="sgTapar">${S.tapada ? '👁 Ver' : '🙈 Taparla'}</button>
+          <button class="sg-b chico" id="sgEdit2">✎</button>
+        </div>
+        ${S.tapada
+          ? `<div class="sg-tapada">Tapada mientras escribes.<br><b>Escribir mirándola es copiar,
+               no es un dictado.</b> Destápala cuando quieras comprobar.</div>`
+          : `<div class="sg-texto" id="sgTexto">${textoHTML(L, S.q)}</div>`}
+      </div>`;
+  }
+
+  /* Un cuaderno con el NOMBRE de la cancion, no «Cuaderno sin titulo 4».
+     Asi, cuando lo veas en la lista dentro de un mes, sabes de donde salio.
+     Va lo que TU escribiste y lo que TU pegaste: el motor no pone contenido. */
+  function aCuaderno(c){
+    if(!c) return;
+    const titulo = (c.t || 'Vídeo sin título') + (c.a ? ' — ' + c.a : '');
+    const L = lineasDe(c);
+    const trozo = t => esc(t).replace(/\n/g, '<br>');
+    const html =
+      '<h2>' + esc(titulo) + '</h2>' +
+      (c.url ? '<p><a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.url) + '</a></p>' : '') +
+      (c.mio && c.mio.trim()
+        ? '<h3>Lo que escuché y escribí</h3><p>' + trozo(c.mio.trim()) + '</p>' : '') +
+      (L.length ? '<h3>La letra</h3><p>' + L.map(x => esc(x)).join('<br>') + '</p>' : '') +
+      ((c.pal || []).length
+        ? '<h3>Palabras que me llevé</h3><p>' + (c.pal || []).map(esc).join(' · ') + '</p>' : '');
+    try {
+      NB.crear(titulo, '🎬', html);
+      toast('Cuaderno «' + titulo + '» creado', 'ok');
+      setTimeout(() => go('nb'), 500);
+    } catch(e){ toast('No pude crear el cuaderno', 'warn'); }
+  }
+
+  /* Solo el contador, sin repintar el recuadro: repintarlo mientras escribes
+     te sacaria el cursor de donde estas. */
+  function pintaCuenta(c){
+    const el = document.querySelector('.sg-esc-t .sg-prog'); if(!el) return;
+    const m = (c.mio || '').trim();
+    const pal = m ? m.split(/\s+/).length : 0;
+    const lin = m ? m.split('\n').filter(x => x.trim()).length : 0;
+    el.textContent = pal ? pal + (pal === 1 ? ' palabra · ' : ' palabras · ') + lin + (lin === 1 ? ' línea' : ' líneas') : 'vacío';
+  }
+
   function pintaVar(c){
     const el = $('sgVar'); if(!el) return;
     const L = lineasDe(c);
-    el.innerHTML = L.length ? cuerpo(c, L) : pegarLetra(c);
+    /* La caja de pegar ya no vive aqui: se fue a la columna de la derecha, con
+       la letra. El centro es el video y lo que se hace con el. */
+    el.innerHTML = L.length ? cuerpo(c, L) : sinLetraTodavia();
+  }
+
+  function sinLetraTodavia(){
+    return `<div class="note info" style="margin-top:14px">Pega la letra en la columna de la
+      <b>derecha</b> y empieza a escribir en la de la <b>izquierda</b>. El vídeo, en medio.</div>`;
   }
 
   function bienvenida(){
@@ -6260,7 +6405,6 @@ const SONG = (() => {
         ${S.q ? `<button class="sg-b" id="sgLimpiar">✕</button>` : ''}
       </div>
       <div id="sgVeredicto">${S.q ? veredicto(S.q, L) : ''}</div>
-      <div class="sg-texto" id="sgTexto">${textoHTML(L, S.q)}</div>
       ${guardadas(c)}`;
   }
 
@@ -6669,6 +6813,54 @@ const SONG = (() => {
       const v = $('sgVeredicto'); if(v) v.scrollIntoView({ block:'nearest', behavior:'smooth' });
     });
 
+    /* ── La columna de escribir ── */
+    const mio = $('sgMio');
+    if(mio){
+      let t = null;
+      mio.oninput = () => {
+        const c2 = actual(); if(!c2) return;
+        c2.mio = mio.value;
+        clearTimeout(t);
+        /* Se guarda con un respiro: escribiendo de seguido no hace falta tocar
+           el almacenamiento en cada tecla. Pero al salir del recuadro se guarda
+           ya, para que un cierre de pestana no se lleve la ultima frase. */
+        t = setTimeout(() => { toca(c2); pintaCuenta(c2); }, 600);
+      };
+      mio.onblur = () => { const c2 = actual(); if(c2){ c2.mio = mio.value; toca(c2); } };
+      /* Doble clic: el navegador ya selecciona la palabra, asi que basta con
+         leer la seleccion. Sale la ficha con su significado y el boton de
+         guardarla en la Practica. */
+      mio.ondblclick = () => {
+        const sel = mio.value.slice(mio.selectionStart, mio.selectionEnd);
+        const p = limpio(sel); if(!p) return;
+        const r = mio.getBoundingClientRect();
+        TTS.say(p);
+        fichaPalabra(p, r.left + r.width / 2, r.top + 40);
+      };
+    }
+
+    const cmp = $('sgComparar');
+    if(cmp) cmp.onclick = () => {
+      const c2 = actual(); if(!c2) return;
+      const d = $('sgDiff'); if(d) d.innerHTML = compara(c2);
+      wire();
+    };
+    const cerrarD = $('sgCerrarDiff');
+    if(cerrarD) cerrarD.onclick = () => { const d = $('sgDiff'); if(d) d.innerHTML = ''; };
+
+    const alNb = $('sgAlCuaderno');
+    if(alNb) alNb.onclick = () => aCuaderno(actual());
+
+    /* ── La columna de la letra ── */
+    const tapar = $('sgTapar');
+    if(tapar) tapar.onclick = () => { S.tapada = !S.tapada; pintaLetra(actual()); wire(); };
+    const ed2 = $('sgEdit2');
+    if(ed2) ed2.onclick = () => {
+      const c2 = actual(); if(!c2) return;
+      const v = c2.letra; c2.letra = ''; toca(c2); render();
+      const ta = $('sgTA'); if(ta){ ta.value = v; ta.focus(); }
+    };
+
     const tx = $('sgTexto');
     if(tx){
       const mirar = ev => {
@@ -6701,11 +6893,14 @@ const SONG = (() => {
     });
 
     // Tocar una palabra abre su ficha del diccionario, igual que en el resto
+    /* fichaPalabra, NO DIC.abrir: es la unica que trae el «★ Guardar», que
+       manda la palabra a la Practica diaria. Al rehacer la seccion esto paso a
+       DIC y la opcion desaparecio sin que nadie la quitara a proposito. */
     document.querySelectorAll('.sg-w[data-w]').forEach(x => x.onclick = ev => {
       const p = x.dataset.w; if(!p) return;
       TTS.say(p);
       const r = x.getBoundingClientRect();
-      try { DIC.abrir(p, r.left, r.bottom); } catch(e){}
+      fichaPalabra(p, r.left + r.width / 2, r.bottom);
       ev.stopPropagation();
     });
   }
