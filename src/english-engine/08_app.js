@@ -5894,7 +5894,12 @@ const SONG = (() => {
 
   function fichaPalabra(p, x, y){
     document.querySelectorAll('.sg-pop').forEach(e => e.remove());
-    const w = IDX_EN.get(p);
+    /* BUSCA.buscar, no IDX_EN.get: el segundo solo encuentra la palabra tal
+       cual, asi que «letters» le sonaba a desconocida mientras el veredicto de
+       abajo la resolvia sin problema. Dos sitios mirando lo mismo y diciendo lo
+       contrario es peor que no decir nada. */
+    const r = BUSCA.buscar(p);
+    const w = r && r.w;
     const c = actual();
     const yaEsta = c && (c.pal || []).indexOf(p) >= 0;
     const pop = document.createElement('div');
@@ -5902,8 +5907,14 @@ const SONG = (() => {
     pop.innerHTML = `
       <div class="sg-pop-t">${esc(p)}
         <button class="spk sm" data-say="${esc(p)}" title="Oír">🔊</button></div>
-      <div class="sg-pop-d">${w ? esc(w.es) : 'No está en las ' + WORDS.length + ' palabras del documento — igual la puedes guardar.'}</div>
+      ${r && r.via === 'forma' ? `<div class="sg-pop-via"><b>${esc(r.forma)}</b> es
+          <b>${esc(r.base)}</b> · ${esc(r.como)}</div>` : ''}
+      ${r && r.via === 'contra' ? `<div class="sg-pop-via"><b>${esc(r.forma)}</b> =
+          <b>${esc(r.contra.full)}</b> · ${esc(r.contra.es)}</div>` : ''}
+      <div class="sg-pop-d">${w ? esc(w.es)
+        : 'No está en las ' + WORDS.length + ' palabras del documento — igual la puedes guardar.'}</div>
       ${w && w.use ? `<div class="sg-pop-u">${esc(w.use)}</div>` : ''}
+      ${w && w.xe ? `<div class="sg-pop-u">${esc(w.xe)} — ${esc(w.xs || '')}</div>` : ''}
       <div class="sg-pop-bs">
         <button class="sg-b" data-pop="fav">${yaEsta ? '✓ Guardada' : '★ Guardar'}</button>
         <button class="sg-b" data-pop="buscar">🔍 Buscar en el documento</button>
@@ -6887,7 +6898,8 @@ const SONG = (() => {
       ev.stopPropagation();
       const p = x.dataset.quita;
       c.pal = (c.pal || []).filter(v => v !== p);
-      const w = IDX_EN.get(p);
+      // Se guardo resolviendo la forma, asi que hay que quitarla igual
+      const rq = BUSCA.buscar(p), w = rq && rq.w;
       if(w){ favW.delete(w.i); saveFav(); try { refreshAll(); } catch(e){} }
       toca(c); pintaVar(c); wire();
     });
