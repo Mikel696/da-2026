@@ -118,24 +118,70 @@ function mergeBooks(a, b, trash){
   return { books, active };
 }
 
-/** Un cuaderno presente en los dos lados: se unen sus PAGINAS por id. */
+/** Un cuaderno presente en los dos lados: se unen sus PAGINAS por id.
+ *
+ *  ANTES esto decidia por marca de tiempo y TIRABA la otra version:
+ *      if(!cur || p.u > cur.u) byId.set(p.id, p)
+ *  Es decir, si las dos copias de una pagina tenian contenido distinto, una se
+ *  perdia para siempre y sin aviso.
+ *
+ *  Y la marca de tiempo NO es de fiar entre dispositivos: la pone el reloj de
+ *  cada maquina. Si el movil va cuatro minutos atrasado, lo que escribas ahi
+ *  despues llega con una hora anterior y PIERDE contra lo viejo del ordenador.
+ *  Esa es exactamente la forma del incidente del 15-jul de este proyecto.
+ *
+ *  AHORA: si los dos lados traen contenido distinto para la misma pagina, no
+ *  se elige. Se quedan LAS DOS -- la mas nueva en su sitio y la otra detras,
+ *  marcada. Sobra una pagina; no falta nada. Entre perder trabajo y que sobre
+ *  una pagina que puedes borrar en dos clics, no hay discusion.
+ */
 function mergeOneBook(x, y){
   const newer = String(y.updatedAt || '') > String(x.updatedAt || '') ? y : x;
   const older = newer === y ? x : y;
+
+  const norm = h => String(h == null ? '' : h).replace(/\s+/g, ' ').trim();
   const byId = new Map();
-  const put = p => {
+  const rescatadas = [];
+
+  const put = (p, esDelNuevo) => {
     if(!p) return;
     if(!p.id) p.id = 'pg' + Math.random().toString(36).slice(2, 9);
     const cur = byId.get(p.id);
-    if(!cur || String(p.u || '') > String(cur.u || '')) byId.set(p.id, p);
+    if(!cur){ byId.set(p.id, p); return; }
+
+    const a = norm(cur.html), b = norm(p.html);
+    if(a === b){                       // identicas: da igual cual quede
+      if(String(p.u || '') > String(cur.u || '')) byId.set(p.id, p);
+      return;
+    }
+    /* Una de las dos esta vacia: gana la que tiene algo. Vaciar una pagina no
+       es una edicion que merezca ganarle a un texto escrito. */
+    if(!a){ byId.set(p.id, p); return; }
+    if(!b) return;
+
+    /* Las dos tienen texto y son distintas. Aqui es donde antes se perdia
+       trabajo. Se conserva la mas nueva en su sitio y la otra se guarda con
+       otro id para que aparezca como una pagina mas. */
+    const gana = String(p.u || '') > String(cur.u || '') ? p : cur;
+    const pierde = gana === p ? cur : p;
+    byId.set(p.id, gana);
+    rescatadas.push({
+      ...pierde,
+      id: pierde.id + '-otra' + rescatadas.length,
+      title: (pierde.title || 'Página') + ' · otra versión',
+      _rescatada: true
+    });
   };
-  (older.pages || []).forEach(put);
-  (newer.pages || []).forEach(put);
-  const pages = [...byId.values()];
+
+  (older.pages || []).forEach(p => put(p, false));
+  (newer.pages || []).forEach(p => put(p, true));
+
+  const pages = [...byId.values()].concat(rescatadas);
   return {
     ...newer,
     pages: pages.length ? pages : (newer.pages || [{ title:'Página 1', html:'' }]),
-    cur: Math.min(newer.cur || 0, Math.max(0, pages.length - 1))
+    cur: Math.min(newer.cur || 0, Math.max(0, pages.length - 1)),
+    ...(rescatadas.length ? { _conflictos: rescatadas.length } : {})
   };
 }
 

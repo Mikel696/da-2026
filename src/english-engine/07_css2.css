@@ -177,7 +177,17 @@
 .nb-item .ic{font-size:14px}
 .nb-item .tt{flex:1;min-width:0;font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nb-item .ct{font-family:var(--fm);font-size:11px;color:var(--t3)}
-.nb-main{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;min-height:520px;display:flex;flex-direction:column}
+/* SIN overflow:hidden, y esto es lo importante: position:sticky NO funciona
+   dentro de un ancestro con el desbordamiento oculto -- el elemento se queda
+   pegado a ESE contenedor, que no se desplaza, asi que se va con la pagina.
+   Por eso la cinta de opciones se escondia al bajar, y por eso nunca llego a
+   quedarse fija por mucho que se le cambiara el top. Ademas recortaba el
+   contenido del editor cuando pasaba de la altura de la caja.
+   Las esquinas las redondean ahora las piezas de dentro, que es lo que el
+   overflow estaba tapando. */
+.nb-main{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rad);
+  min-height:520px;display:flex;flex-direction:column}
+.nb-main > *:last-child{border-radius:0 0 var(--rad) var(--rad)}
 .nb-top{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg3)}
 .nb-title{flex:1;min-width:140px;background:transparent;border:none;color:var(--tx);font-family:var(--fs);
   font-size:17px;font-weight:700;outline:none;letter-spacing:-.3px}
