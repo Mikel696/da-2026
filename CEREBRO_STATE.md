@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-11 (3-ENG: rediseño visual verificado + «She have» ya se caza)
+- **Última actualización:** 2026-09-11 (3-ENG: Club en escalera + Vídeos a tres columnas)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -104,6 +104,74 @@ monta el iframe 16:9 con su mando, y los seis modos del Club arrancan.
 `bash src/english-engine/build.sh`. El README de esa carpeta documenta ahora la
 capa visual, las tres trampas de rendimiento y los tres intentos de la barra de
 pestañas.
+
+---
+
+## 🪜 3-ENG · El Club se vuelve escalera y Vídeos un puesto de trabajo — 2026-09-11 (noche)
+
+### El Club · de seis modos sueltos a una escalera por frase
+
+Antes se elegía modo a mano y se saltaba de frase sin haber acertado. Ahora **cada frase se
+sube entera**, siempre en el mismo orden, y no se pasa de peldaño sin pasarlo.
+
+| | Peldaño | Qué entrena |
+|---|---|---|
+| 1 | 📖 Leer | entiendes lo que dice (entrada, lo más fácil) |
+| 2 | 👂 Escuchar | lo reconoces de oído, sin leerlo |
+| 3 | 🧩 Armar | colocas las palabras en orden (estructura, con ayuda) |
+| 4 | 🎧 Dictado | oyes y rellenas lo que falta |
+| 5 | ✍️ Traducir | la escribes entera de memoria |
+| 6 | 🎤 Hablar | la dices en voz alta (lo más difícil) |
+
+**El orden no es capricho: va de recibir a producir**, que es como se aprende un idioma. Y la
+frase siguiente vuelve a empezar por Leer: cada frase se gana entera, no se arrastra media
+aprendida.
+
+**La puerta está en el 80 %.** No llegas → misma frase, mismo peldaño. Pasas → peldaño
+siguiente, misma frase. Sexto superado → frase nueva desde Leer.
+
+Los peldaños de delante **ya no son botones, son `<span>`**: no se puede saltar a ellos, y la
+interfaz lo dice sola sin necesitar un aviso. Y el resultado explica qué va a pasar, para que
+la puerta no parezca un fallo del programa.
+
+### Vídeos · tres columnas a ancho completo
+
+```
+izquierda          centro              derecha
+escribes lo        el vídeo y          la letra que TÚ
+que oyes           sus mandos          pegaste
+```
+
+La sección **se sale del `.wrap` de 1280 px** (`width:calc(100vw - 40px)` +
+`margin-left:calc(-50vw + 50% + 20px)`): a 1280 no caben tres cosas a la vez sin que las tres
+salgan estrechas. Por debajo de 1500 px la letra baja a ancho completo; en móvil, una columna.
+
+**Lo nuevo, y por qué:**
+- **Recuadro para escribir lo que oyes**, guardado automático por vídeo. Oír solo entra por un
+  oído; escribir obliga a decidir **qué** palabra era, y esa decisión es la que deja huella.
+- **Doble clic en cualquier palabra que hayas escrito** → su ficha, con el botón de guardarla.
+- **«Comparar con la letra»: el espejo.** Palabra por palabra y línea por línea — verde lo que
+  cazaste, ámbar lo que pusiste distinto, tachado lo que no llegaste a escribir, y el
+  porcentaje. Es un dictado con corrección, que es el ejercicio que de verdad afina el oído.
+- **«Taparla mientras escribo».** Escribir mirando la letra es copiar, no es un dictado.
+- **«Llevar a un cuaderno»** con el **nombre de la canción**, no «Cuaderno sin título 4». Así
+  dentro de un mes sabes de dónde salió.
+
+### La regresión que Miguel encontró
+
+Tocar una palabra de la letra **ya no ofrecía guardar**. Al rehacer la sección, el clic pasó a
+abrir `DIC.abrir` —la ficha general del diccionario, que no tiene ese botón— y `fichaPalabra()`,
+la única que sí lo tiene, quedó desconectada. **Nadie la quitó: se cayó sola.** Restaurada, y
+comprobado que la palabra entra de verdad en la Práctica.
+
+**La lección:** al sustituir una pieza por otra parecida, hay que comparar **lo que ofrecía**,
+no solo que la nueva funcione. Las dos abrían una ficha; solo una guardaba.
+
+### Lo que no cambia
+
+El motor **no baja ni guarda letras de ningún sitio**. Lo que hay en las dos columnas lo
+escribe o lo pega el usuario, y no sale de su navegador — igual que el Cuaderno. La máquina la
+pongo yo, el material lo trae él.
 
 ---
 
