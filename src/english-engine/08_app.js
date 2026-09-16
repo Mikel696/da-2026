@@ -5418,7 +5418,8 @@ const CLUB = (() => {
     if(!S.pasado){                      // repetir el peldano
       S.fin = null; cargar(); render(); return;
     }
-    if(!S.ultimoPeldano){               // subir un peldano, misma frase
+    // El tope va aparte: nunca más allá del último, pase lo que pase con las banderas
+    if(!S.ultimoPeldano && S.paso < ESCALERA.length - 1){   // subir un peldano, misma frase
       S.paso++; S.fin = null; cargar(); render(); return;
     }
     if(S.i >= S.lista.length - 1){ S.finVisto = true; render(); return; }
@@ -5570,13 +5571,32 @@ const CLUB = (() => {
 
   function bloqueHablar(p){
     const hay = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    // Sin reconocimiento no hay nada que medir: se pasa con tu palabra, y se dice
+    const declarar = `<button class="cf-b" data-cfdecl="1">✓ La dije completa, en voz alta</button>
+      <div class="cf-nota">Sin micrófono no puedo comprobarlo: pulsa solo si de verdad te salió entera y sin leerla.</div>`;
     if(!hay) return `<div class="cf-nota">Tu navegador no trae reconocimiento de voz, así que este
-      modo no puede puntuarte. En Chrome sí funciona. Mientras tanto, usa el 🔊 y repite en voz alta.</div>`;
+      modo no puede puntuarte. En Chrome sí funciona. Mientras tanto, usa el 🔊 y repite en voz alta.</div>
+      ${S.fin ? '' : declarar}`;
     return `<div class="cf-habla">
-      <button class="cf-b grande ${S.escuchando ? 'rec' : ''}" data-cfrec="1">
-        ${S.escuchando ? '⏹ Detener' : '🎤 Decirla'}</button>
-      ${S.dicho ? comparaHTML(p.en, S.dicho) : '<div class="cf-nota">Dale al micrófono y dila en voz alta.</div>'}
+      ${S.fin ? '' : `<button class="cf-b grande ${S.escuchando ? 'rec' : ''}" data-cfrec="1">
+        ${S.escuchando ? '⏹ Detener' : '🎤 Decirla'}</button>`}
+      ${S.dicho ? comparaHTML(p.en, S.dicho) : (S.fin ? '' : '<div class="cf-nota">Dale al micrófono y dila en voz alta. Para pasar, se tiene que entender el ' + UMBRAL + '% de la frase.</div>')}
+      ${S.sinMic && !S.fin ? declarar : ''}
     </div>`;
+  }
+
+  /* Lo que se oyó se puntúa como cualquier otro peldaño: palabra a palabra,
+     con la misma puerta. Antes solo se enseñaba y se podía seguir igual. */
+  function puntuaHabla(){
+    const meta = tokeniza(actual().en), oidas = tokeniza(S.dicho).map(limpia);
+    let ok = 0;
+    meta.forEach(w => { const i = oidas.indexOf(limpia(w)); if(i > -1){ oidas[i] = ' '; ok++; } });
+    S.pide = meta.length; S.okPal = ok; S.malPal = meta.length - ok;
+    terminar();
+  }
+  function hablaDeclarada(){
+    S.pide = S.tok.length; S.okPal = S.tok.length; S.malPal = 0;
+    terminar();
   }
 
   /* Compara palabra a palabra lo que se esperaba con lo que se entendió */
@@ -5716,12 +5736,7 @@ const CLUB = (() => {
     /* Solo Leer y Hablar necesitan un botón para pasar. Escuchar ya no: se
        resuelve eligiendo, igual que Leer, y entonces manda el resultado.
        Antes el botón dejaba saltar la frase sin responder — y sin puntuar. */
-    if((S.modo === 'habla') && !S.fin && !rondaAcabada){
-      const b = document.createElement('button');
-      b.className = 'cf-b grande'; b.textContent = 'Siguiente →';
-      b.onclick = () => avanzar();
-      c.querySelector('.cf-card').appendChild(b);
-    }
+    c.querySelectorAll('[data-cfdecl]').forEach(b => b.onclick = () => hablaDeclarada());
   }
 
   /* ── Reconocimiento de voz para el modo Hablar ── */
@@ -5733,8 +5748,8 @@ const CLUB = (() => {
     rec = new R();
     rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
     rec.onresult = e => { S.dicho = e.results[0][0].transcript || ''; };
-    rec.onerror = () => { S.dicho = ''; toast('No se pudo oír el micrófono', 'warn'); };
-    rec.onend = () => { S.escuchando = false; render(); };
+    rec.onerror = () => { S.dicho = ''; S.sinMic = true; toast('No se pudo oír el micrófono', 'warn'); };
+    rec.onend = () => { S.escuchando = false; if(S.dicho && !S.fin) puntuaHabla(); else render(); };
     S.escuchando = true; render();
     try { rec.start(); } catch(e){ S.escuchando = false; render(); }
   }
