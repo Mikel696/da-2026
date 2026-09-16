@@ -1847,6 +1847,10 @@ h2.sec .n{
   gap:16px;
 }
 .sg-col-izq{display:flex;flex-direction:column;gap:14px;min-width:0}
+/* La lista de vídeos era pegajosa cuando vivía sola en su columna. Ahora tiene
+   debajo «Escribe lo que oyes», y al bajar se le montaba encima y tapaba el
+   encabezado y la primera línea de lo que estabas escribiendo. */
+.sg-col-izq .sg-side{position:relative;top:auto;max-height:none}
 .sg-col-der{min-width:0}
 
 /* Debajo de 1500 px ya no caben tres: la letra se va abajo, a ancho completo,
@@ -1975,7 +1979,7 @@ h2.sec .n{
   <div class="hero">
     <div class="kick">el pilar · antes de memorizar nada</div>
     <h1>El inglés no se estudia.<br>Se <em>arma</em>.</h1>
-    <p>El español conjuga el verbo. El inglés mueve piezas en un orden fijo. Si entiendes las <b style="color:var(--tx)">piezas</b> y el <b style="color:var(--tx)">orden</b>, dejas de traducir y empiezas a construir. Todo lo demás de este documento — las 2000 palabras, las 1000 frases, las 24 bifurcaciones y tu práctica diaria — cuelga de esta única idea.</p>
+    <p>El español conjuga el verbo. El inglés mueve piezas en un orden fijo. Si entiendes las <b style="color:var(--tx)">piezas</b> y el <b style="color:var(--tx)">orden</b>, dejas de traducir y empiezas a construir. Todo lo demás de este documento — las 4000 palabras, las 1000 frases, las 24 bifurcaciones y tu práctica diaria — cuelga de esta única idea.</p>
   </div>
 
   <div class="grid g4" style="margin-bottom:16px">
@@ -1990,7 +1994,7 @@ h2.sec .n{
   <div class="card" style="margin-bottom:32px;border-color:var(--acbd);background:linear-gradient(96deg,rgba(139,92,246,.07),transparent 65%)">
     <div style="font-family:var(--fm);font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ac2);margin-bottom:9px">empieza aquí · tu primera sesión</div>
     <h3 style="font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px">30 minutos, hoy, en este orden</h3>
-    <p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:15px">No abras ocho pestañas a la vez. Hoy solo haz esto — y en voz alta, siempre:</p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:15px">No abras todas las pestañas a la vez. Hoy solo haz esto — y en voz alta, siempre:</p>
     <div class="tw"><table class="tbl" style="margin:0">
       <tr><th style="width:64px">Min</th><th style="width:150px">Dónde</th><th>Qué haces exactamente</th></tr>
       <tr><td><b>0-10</b></td><td>🧭 Aquí mismo</td><td>Lee esta página hasta el final. No memorices: solo entiende <b>los 5 moldes</b> y <b>los 3 motores</b>.</td></tr>
@@ -2193,19 +2197,19 @@ h2.sec .n{
   <div class="note warn" style="margin-top:16px"><b>Cómo usarlas de verdad:</b> no las memorices las quince hoy. Lee la lista una vez, y cuando alguien te corrija o algo te suene mal, vuelve aquí y busca cuál rompiste. Una regla que ya te costó un error se queda; una que solo leíste, no.</div>
 
   <h2 class="sec"><span class="n">06</span> Cómo usar este documento</h2>
-  <p class="lead">Ocho pestañas, pero un solo recorrido. Este es el orden que funciona — y cada una tiene un papel distinto, no son ocho versiones de lo mismo.</p>
+  <p class="lead">Once pestañas, pero un solo recorrido. Este es el orden que funciona — y cada una tiene un papel distinto, no son once versiones de lo mismo.</p>
   <div class="grid g3">
     <div class="tip"><div class="tn">Paso 1 · aquí</div><h4>🧭 Estructura · el esqueleto</h4><p>No pases a nada más hasta que los <b>5 moldes</b> te suenen obvios. Es donde cuelga todo lo demás. Vuelve aquí siempre que una frase te suene rara.</p></div>
     <div class="tip"><div class="tn">Paso 2 · si hace falta</div><h4>🧩 Piezas · el diccionario de conceptos</h4><p>¿No sabes qué es un verbo, un adjetivo o un modal? Cada tipo de palabra explicado desde cero, con su analogía y su prueba de 3 segundos. <b>Solo abre la que no entiendas.</b></p><button class="pz-go" onclick="APP.go('pz')" style="margin-top:10px">🧩 Ir a Piezas →</button></div>
     <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 3 · el que más rinde</div><h4>🔀 Bifurcaciones · donde te trabas</h4><p>Tú dices <b>QUE</b> y el inglés te pide elegir entre cuatro palabras. Aquí es donde de verdad fallas — no en el vocabulario. <b>24 casos, con el hueco para que lo llenes tú.</b></p><button class="pz-go" onclick="APP.go('bf')" style="margin-top:10px">🔀 Ir a Bifurcaciones →</button></div>
-    <div class="tip"><div class="tn">Paso 4</div><h4>💬 Frases antes que palabras</h4><p>Aprende bloques completos con su audio, no palabras sueltas. Las 2000 palabras son tu <b>diccionario de consulta</b>, no tu estudio diario.</p><button class="pz-go" onclick="APP.go('p2')" style="margin-top:10px">💬 Ir a Frases →</button></div>
+    <div class="tip"><div class="tn">Paso 4</div><h4>💬 Frases antes que palabras</h4><p>Aprende bloques completos con su audio, no palabras sueltas. Las 4000 palabras son tu <b>diccionario de consulta</b>, no tu estudio diario.</p><button class="pz-go" onclick="APP.go('p2')" style="margin-top:10px">💬 Ir a Frases →</button></div>
     <div class="tip"><div class="tn">Paso 5</div><h4>★ y 📓 · marca lo que te sirve</h4><p><b>★</b> manda esa palabra o frase a tu práctica diaria. <b>📓</b> la guarda en tu cuaderno. No estudies lo que ya sabes: marca solo lo que te cuesta.</p></div>
     <div class="tip" style="border-color:var(--acbd)"><div class="tn">Paso 6 · TODOS los días</div><h4>🧪 Práctica · 10 minutos</h4><p>Repetición espaciada: te muestra justo lo que estás por olvidar. <b>Es lo único que no puedes saltarte.</b> Un día perdido no es grave; una semana te devuelve tres.</p><button class="pz-go" onclick="APP.go('pr')" style="margin-top:10px">🧪 Ir a Práctica →</button></div>
     <div class="tip"><div class="tn">Paso 7</div><h4>📓 Cuaderno · lo tuyo</h4><p>Anota tus errores, tus dudas y las frases que quieras usar mañana. <b>Lo que tú escribes se te queda; lo que solo lees, no.</b> Exporta de vez en cuando.</p></div>
     <div class="tip"><div class="tn">Cuando quieras</div><h4>🎯 Método · el manual</h4><p>Los 7 principios, la rutina de 30 min, los 10 errores que cuestan meses, 18 atajos de lógica y los canales de YouTube verificados. <b>Léelo un domingo</b>, no en medio del estudio.</p></div>
   </div>
 
-  <div class="note ok" style="margin-top:22px"><b>Tres atajos que te ahorran tiempo:</b> <span class="kbd">Ctrl</span>+<span class="kbd">K</span> busca en TODO de una vez — las 2000 palabras, las 1000 frases, las piezas y el método (también funciona la tecla <span class="kbd">/</span>). <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> deshace lo último que borraste o guardaste. Y el botón <b>☁️</b> de arriba te lleva el progreso al celular.</div>
+  <div class="note ok" style="margin-top:22px"><b>Tres atajos que te ahorran tiempo:</b> <span class="kbd">Ctrl</span>+<span class="kbd">K</span> busca en TODO de una vez — las 4000 palabras, las 1000 frases, las piezas y el método (también funciona la tecla <span class="kbd">/</span>). <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> deshace lo último que borraste o guardaste. Y el botón <b>☁️</b> de arriba te lleva el progreso al celular.</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -2257,7 +2261,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#22d3ee;background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.34)">📦</div>
       <div><div class="pz-t">SUSTANTIVO <span style="font-size:12px;color:var(--t3);font-weight:500">· noun</span></div>
-      <div class="pz-s">Las cosas, las personas, los lugares · 877 en el Módulo 1</div></div>
+      <div class="pz-s">Las cosas, las personas, los lugares · <span data-pzn="sust">2098</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el actor y los objetos</b> de la escena. Todo lo que puedes <b>señalar con el dedo</b>, tocar, ver o nombrar es un sustantivo. <i>Perro, casa, mesa, Miguel, Colombia, dinero, tiempo, amor</i>. Si existe y tiene nombre, es un sustantivo.</div>
@@ -2289,7 +2293,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="I need more information.">🔊</button><div class="bd"><div class="en">I need more <b style="color:#22d3ee">information</b>.</div><div class="es">Necesito más información.</div><div class="nt">Incontable: nunca informations.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="My two brothers are engineers.">🔊</button><div class="bd"><div class="en">My two <b style="color:#22d3ee">brothers</b> are <b style="color:#22d3ee">engineers</b>.</div><div class="es">Mis dos hermanos son ingenieros.</div><div class="nt">Ojo: las profesiones también son sustantivos y van en plural.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="sust">📚 Ver los 877 sustantivos del Módulo 1 →</button>
+      <button class="pz-go" data-goto="sust">📚 Ver los <span data-pzn="sust">2098</span> sustantivos del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2298,7 +2302,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#4ade80;background:rgba(74,222,128,.13);border-color:rgba(74,222,128,.34)">⚡</div>
       <div><div class="pz-t">VERBO <span style="font-size:12px;color:var(--t3);font-weight:500">· verb</span></div>
-      <div class="pz-s">La acción: lo que pasa en la escena · 491 en el Módulo 1</div></div>
+      <div class="pz-s">La acción: lo que pasa en la escena · <span data-pzn="verbo">1015</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>lo que ocurre</b>. Correr, comer, trabajar, pensar, ser, tener. Sin verbo no hay frase — es la única pieza que <b>no puedes quitar nunca</b>. Si el sustantivo es el actor, el verbo es lo que el actor hace.</div>
@@ -2337,7 +2341,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="I am working right now.">🔊</button><div class="bd"><div class="en">I am <b style="color:#4ade80">working</b> right now.</div><div class="es">Estoy trabajando ahora.</div><div class="nt">Forma 3: -ing pegada al motor BE.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="I worked yesterday.">🔊</button><div class="bd"><div class="en">I <b style="color:#4ade80">worked</b> yesterday.</div><div class="es">Trabajé ayer.</div><div class="nt">Forma 4: pasado con -ed.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="verbo">📚 Ver los 491 verbos del Módulo 1 →</button>
+      <button class="pz-go" data-goto="verbo">📚 Ver los <span data-pzn="verbo">1015</span> verbos del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2346,7 +2350,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#fbbf24;background:rgba(251,191,36,.13);border-color:rgba(251,191,36,.34)">🎨</div>
       <div><div class="pz-t">ADJETIVO <span style="font-size:12px;color:var(--t3);font-weight:500">· adjective</span></div>
-      <div class="pz-s">Cómo ES la cosa: el vestuario del actor · 241 en el Módulo 1</div></div>
+      <div class="pz-s">Cómo ES la cosa: el vestuario del actor · <span data-pzn="adj">548</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el vestuario</b>. No es la cosa, es <b>cómo es</b> esa cosa. Un carro es un sustantivo; <b>rojo, nuevo, rápido, caro</b> son adjetivos que le ponen características. Siempre acompañan a un sustantivo, nunca van solos.</div>
@@ -2383,7 +2387,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="This is cheaper than that one.">🔊</button><div class="bd"><div class="en">This is <b style="color:#fbbf24">cheaper</b> than that one.</div><div class="es">Este es más barato que ese.</div><div class="nt">Corto → lleva -er.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="That is more expensive.">🔊</button><div class="bd"><div class="en">That is <b style="color:#fbbf24">more expensive</b>.</div><div class="es">Ese es más caro.</div><div class="nt">Largo → lleva more delante.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="adj">📚 Ver los 241 adjetivos del Módulo 1 →</button>
+      <button class="pz-go" data-goto="adj">📚 Ver los <span data-pzn="adj">548</span> adjetivos del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2392,7 +2396,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#f472b6;background:rgba(244,114,182,.13);border-color:rgba(244,114,182,.34)">🎬</div>
       <div><div class="pz-t">ADVERBIO <span style="font-size:12px;color:var(--t3);font-weight:500">· adverb</span></div>
-      <div class="pz-s">Cómo se hace la acción: la indicación del director · 87 en el Módulo 1</div></div>
+      <div class="pz-s">Cómo se hace la acción: la indicación del director · <span data-pzn="adv">175</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>la indicación del director</b>. El adjetivo dice cómo es <b>la cosa</b>; el adverbio dice cómo se hace <b>la acción</b>. <i>Habla <b>rápido</b>, llega <b>tarde</b>, trabaja <b>bien</b>, <b>siempre</b> come aquí</i>.</div>
@@ -2430,7 +2434,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="Please speak more slowly.">🔊</button><div class="bd"><div class="en">Please speak more <b style="color:#f472b6">slowly</b>.</div><div class="es">Por favor habla más despacio.</div><div class="nt">Modo, después del verbo.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="She works very well.">🔊</button><div class="bd"><div class="en">She works very <b style="color:#f472b6">well</b>.</div><div class="es">Ella trabaja muy bien.</div><div class="nt">well, no good.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="adv">📚 Ver los 87 adverbios del Módulo 1 →</button>
+      <button class="pz-go" data-goto="adv">📚 Ver los <span data-pzn="adv">175</span> adverbios del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2439,7 +2443,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#fb923c;background:rgba(251,146,60,.13);border-color:rgba(251,146,60,.34)">👤</div>
       <div><div class="pz-t">PRONOMBRE <span style="font-size:12px;color:var(--t3);font-weight:500">· pronoun</span></div>
-      <div class="pz-s">El apodo para no repetir el nombre · 38 en el Módulo 1</div></div>
+      <div class="pz-s">El apodo para no repetir el nombre · <span data-pzn="pron">44</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el apodo</b>. En vez de repetir "Miguel" cinco veces, dices <b>he</b>. En vez de repetir "la mesa", dices <b>it</b>. Reemplaza a un sustantivo que ya se nombró, para no sonar como un robot.</div>
@@ -2478,7 +2482,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="She gave me her number.">🔊</button><div class="bd"><div class="en"><b style="color:#fb923c">She</b> gave <b style="color:#fb923c">me</b> <b style="color:#fb923c">her</b> number.</div><div class="es">Ella me dio su número.</div><div class="nt">Una de cada columna: hace, recibe, posee.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="It's raining and it's cold.">🔊</button><div class="bd"><div class="en"><b style="color:#fb923c">It</b>'s raining and <b style="color:#fb923c">it</b>'s cold.</div><div class="es">Está lloviendo y hace frío.</div><div class="nt">it de relleno, dos veces. No significa nada.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="pron">📚 Ver los 38 pronombres del Módulo 1 →</button>
+      <button class="pz-go" data-goto="pron">📚 Ver los <span data-pzn="pron">44</span> pronombres del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2487,7 +2491,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">👉</div>
       <div><div class="pz-t">DETERMINANTE <span style="font-size:12px;color:var(--t3);font-weight:500">· determiner · a / an / the</span></div>
-      <div class="pz-s">El dedo que señala cuál y cuántos · 28 en el Módulo 1</div></div>
+      <div class="pz-s">El dedo que señala cuál y cuántos · <span data-pzn="det">31</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el dedo que señala</b>. Va justo antes del sustantivo y responde <b>¿cuál?</b> o <b>¿cuántos?</b>. <i><b>the</b> dog</i> (ese perro que ya sabemos), <i><b>a</b> dog</i> (un perro cualquiera), <i><b>my</b> dog</i> (el mío), <i><b>some</b> dogs</i> (unos cuantos).</div>
@@ -2517,7 +2521,7 @@ h2.sec .n{
       <div class="pz-ex"><button class="spk sm" data-say="I saw a dog. The dog was black.">🔊</button><div class="bd"><div class="en">I saw <b style="color:#94a3b8">a</b> dog. <b style="color:#94a3b8">The</b> dog was black.</div><div class="es">Vi un perro. El perro era negro.</div><div class="nt">Primera vez a, segunda vez the. Toda la regla en una línea.</div></div></div>
       <div class="pz-ex"><button class="spk sm" data-say="I am an engineer and I love my job.">🔊</button><div class="bd"><div class="en">I am <b style="color:#94a3b8">an</b> engineer and I love <b style="color:#94a3b8">my</b> job.</div><div class="es">Soy ingeniero y amo mi trabajo.</div><div class="nt">an por el sonido de vocal. my señala de quién.</div></div></div>
       </div>
-      <button class="pz-go" data-goto="det">📚 Ver los 28 determinantes del Módulo 1 →</button>
+      <button class="pz-go" data-goto="det">📚 Ver los <span data-pzn="det">31</span> determinantes del Módulo 1 →</button>
     </div>
   </details>
 
@@ -2526,7 +2530,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#a78bfa;background:rgba(167,139,250,.13);border-color:rgba(167,139,250,.34)">📍</div>
       <div><div class="pz-t">PREPOSICIÓN <span style="font-size:12px;color:var(--t3);font-weight:500">· preposition · in / on / at</span></div>
-      <div class="pz-s">El GPS: dónde, cuándo y cómo · 28 en el Módulo 1</div></div>
+      <div class="pz-s">El GPS: dónde, cuándo y cómo · <span data-pzn="prep">44</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el GPS</b>. Palabritas cortas que colocan las cosas en el espacio y en el tiempo: <b>in, on, at, to, from, with, for, by, about, under, over</b>. Son diminutas y son las que más errores causan, porque casi nunca se traducen una a una.</div>
@@ -2632,7 +2636,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#22d3ee;background:rgba(34,211,238,.13);border-color:rgba(34,211,238,.34)">🎚️</div>
       <div><div class="pz-t">MODAL <span style="font-size:12px;color:var(--t3);font-weight:500">· modal · can / should / must</span></div>
-      <div class="pz-s">El tono: si puedes, debes o quizá · 8 en el Módulo 1</div></div>
+      <div class="pz-s">El tono: si puedes, debes o quizá · <span data-pzn="modal">10</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el dial del tono</b>. No cambia la acción, cambia <b>tu actitud hacia ella</b>. <i>I work</i> es un hecho. <i>I <b>can</b> work</i> (soy capaz), <i>I <b>must</b> work</i> (obligado), <i>I <b>should</b> work</i> (sería bueno), <i>I <b>might</b> work</i> (tal vez). Misma acción, cinco tonos distintos.</div>
@@ -2679,7 +2683,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">🌉</div>
       <div><div class="pz-t">CONECTOR <span style="font-size:12px;color:var(--t3);font-weight:500">· conjunction · and / but / because</span></div>
-      <div class="pz-s">El puente entre dos ideas · 13 en el Módulo 1</div></div>
+      <div class="pz-s">El puente entre dos ideas · <span data-pzn="conj">26</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>el puente</b>. Une dos ideas para que no hables como telegrama. Sin conectores dirías: <i>"I was tired. I went home."</i> Con conectores: <i>"I went home <b>because</b> I was tired."</i> Suena humano.</div>
@@ -2713,7 +2717,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#f87171;background:rgba(248,113,113,.13);border-color:rgba(248,113,113,.34)">🧱</div>
       <div><div class="pz-t">EXPRESIÓN <span style="font-size:12px;color:var(--t3);font-weight:500">· expression / phrasal verb</span></div>
-      <div class="pz-s">Bloques prefabricados que NO se desarman · 174 en el Módulo 1</div></div>
+      <div class="pz-s">Bloques prefabricados que NO se desarman · <span data-pzn="expr">201</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> es <b>un bloque ya armado</b>. Varias palabras que juntas significan algo <b>completamente distinto</b> a lo que significan por separado. <i>look</i> es mirar, pero <i>look <b>for</b></i> es buscar y <i>look <b>after</b></i> es cuidar. La palabrita de atrás lo cambia todo.</div>
@@ -2751,7 +2755,7 @@ h2.sec .n{
     <summary class="pz-h">
       <div class="pz-ico" style="color:#94a3b8;background:rgba(148,163,184,.15);border-color:rgba(148,163,184,.34)">🔢</div>
       <div><div class="pz-t">NÚMERO <span style="font-size:12px;color:var(--t3);font-weight:500">· number</span></div>
-      <div class="pz-s">Cuántos y en qué orden · 15 en el Módulo 1</div></div>
+      <div class="pz-s">Cuántos y en qué orden · <span data-pzn="num">39</span> en el Módulo 1</div></div>
     </summary>
     <div class="pz-b">
       <div class="pz-q"><b>En una frase:</b> dice <b>cuántos</b> hay (one, two, three) o <b>en qué puesto</b> va (first, second, third). Funciona como un determinante: se pega delante del sustantivo.</div>
@@ -2996,7 +3000,7 @@ h2.sec .n{
     <p>Cuadernos con páginas, igual que los del Cerebro: negrita, resaltados, listas, casillas marcables y etiquetas. Más lo que solo tiene sentido aquí — <b style="color:var(--tx)">insertar tarjetas inglés/español con audio y hacer que lea en voz alta lo que escribiste.</b> Todo se guarda solo.</p>
   </div>
 
-  <div class="note info"><b>Se guarda en este navegador, en este computador.</b> No viaja a ningún servidor ni a tus otros dispositivos — igual que un cuaderno de papel: está donde lo dejaste. Usa <b>⬇ Exportar</b> para sacar una copia de respaldo, y guárdala junto a tus cosas importantes. Si borras los datos del navegador, el cuaderno se va con ellos.</div>
+  <div class="note info"><b>Se guarda en este navegador, en este computador.</b> Si activas <b>☁️</b> (arriba) con tu cuenta del Cerebro, también viaja a tu cuenta y aparece en tus otros dispositivos; si no, se queda aquí — igual que un cuaderno de papel: está donde lo dejaste. Usa <b>⬇ Exportar</b> para sacar una copia de respaldo, y guárdala junto a tus cosas importantes. Si borras los datos del navegador, el cuaderno se va con ellos.</div>
 
   <div class="nb">
     <div class="nb-side">
@@ -13443,22 +13447,29 @@ const ANL = (() => {
           w + ' … ' + sig, w + ' … ' + b);
     });
 
+    /* Cada he/she/it que ABRE una oración, con lo que hay en SU oración.
+       Antes solo se miraba el primero de la frase, y un auxiliar en otra oración
+       apagaba la regla entera: «She have a car and she like it» dejaba pasar
+       «she like». La oración va del sujeto hasta el siguiente conector. */
+    const CORTA = [',','and','but','because','that','when','if'];
+    const oraciones3 = pal.map((w, i) => i).filter(i => LEX.TERCERA.has(pal[i])
+      && (i === 0 || CORTA.includes(pal[i-1])));
+    const finOracion = i => { let j = i + 1; while(j < pal.length && !CORTA.includes(pal[j])) j++; return j; };
+
     // R5 · la -s de he/she/it
-    if(iAux === -1 && !pregunta){
-      const iS = pal.findIndex(w => LEX.TERCERA.has(w));
-      const abreOracion = iS === 0 || (iS > 0 && [',','and','but','because','that','when','if'].includes(pal[iS-1]));
-      if(iS > -1 && abreOracion){
-        let n = iS + 1;
-        while(n < pal.length && LEX.es(pal[n],'adv')) n++;   // «She always work here»
-        const v = pal[n];
-        // Solo si es la forma BASE de un verbo: si raiz() devuelve otra cosa,
-        // ya viene conjugado («works» → raiz «work») y está bien.
-        if(v && LEX.esVerbo(v) && LEX.esBase(v) && !LEX.esV2(v) && LEX.raiz(v) === v && v !== 'be')
-          add('rojo','R5','Falta la -s de he/she/it',
-            'En presente simple afirmativo, con <b>he / she / it</b> el verbo lleva <b>-s</b>. Es la única conjugación que tiene el inglés.',
-            pal[iS] + ' ' + v, pal[iS] + ' ' + LEX.conj(v, 's'));
-      }
-    }
+    if(!pregunta) oraciones3.forEach(iS => {
+      const tramo = pal.slice(iS + 1, finOracion(iS));
+      if(tramo.some(w => LEX.AUX.has(w) || LEX.MODAL.has(w))) return;   // el auxiliar ya carga la persona
+      let n = iS + 1;
+      while(n < pal.length && LEX.es(pal[n],'adv')) n++;   // «She always work here»
+      const v = pal[n];
+      // Solo si es la forma BASE de un verbo: si raiz() devuelve otra cosa,
+      // ya viene conjugado («works» → raiz «work») y está bien.
+      if(v && LEX.esVerbo(v) && LEX.esBase(v) && !LEX.esV2(v) && LEX.raiz(v) === v && v !== 'be')
+        add('rojo','R5','Falta la -s de he/she/it',
+          'En presente simple afirmativo, con <b>he / she / it</b> el verbo lleva <b>-s</b>. Es la única conjugación que tiene el inglés.',
+          pal[iS] + ' ' + v, pal[iS] + ' ' + LEX.conj(v, 's'));
+    });
 
     /* R5b · la -s de he/she/it TAMBIEN la lleva «have»
        «She have a car» → «She has a car». Con he/she/it, «have» en presente es
@@ -13472,16 +13483,14 @@ const ANL = (() => {
          · «My sister have a job»     → el sujeto es un SUSTANTIVO. Esta mal,
            pero «my sisters have» esta bien y por la forma no se puede saber
            cual de los dos es. Cuando no se sabe, no se corrige. */
-    if(!pregunta){
-      const iS3 = pal.findIndex(w => LEX.TERCERA.has(w));
-      const abre3 = iS3 === 0 || (iS3 > 0 && [',','and','but','because','that','when','if'].includes(pal[iS3-1]));
-      if(iS3 > -1 && abre3){
+    if(!pregunta) oraciones3.forEach(iS3 => {
+      {
         let k = iS3 + 1;
         while(k < pal.length && LEX.es(pal[k],'adv')) k++;   // «She never have time»
         if(pal[k] === 'have'){
-          /* Un modal o do/does/did DELANTE piden la forma desnuda: ahi «have»
-             es correcto y marcarlo seria inventarse un error. */
-          const licencia = pal.slice(0, k).some(w =>
+          /* Un modal o do/does/did DELANTE, dentro de su oración, piden la forma
+             desnuda: ahi «have» es correcto y marcarlo seria inventarse un error. */
+          const licencia = pal.slice(iS3, k).some(w =>
             LEX.MODAL.has(w) || ['do','does','did','to'].includes(w));
           if(!licencia)
             add('rojo','R5','Con he/she/it es «has», no «have»',
@@ -13490,7 +13499,7 @@ const ANL = (() => {
               pal[iS3] + ' have', pal[iS3] + ' has');
         }
       }
-    }
+    });
 
     // R7 · una sola negación
     if(iNot > -1 && pal.some(w => LEX.NEGS.has(w) && w !== 'no'))
@@ -13579,7 +13588,9 @@ const ANL = (() => {
 
     // Palabras que no puedo verificar
     const desconocidas = pal.filter(w => !LEX.POS.has(w) && !LEX.AUX.has(w) && !LEX.SUJ.has(w)
-      && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2);
+      && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2
+      // «years», «boxes», «gonna»: BUSCA resuelve la forma; sin esto decía que no podía verificarlas
+      && !(BUSCA.buscar(w) || {}).w);
     if(desconocidas.length)
       add('info','R-desc','No puedo verificar: ' + desconocidas.join(', '),
         'Esas palabras no están en las ' + WORDS.length + ' del documento, así que <b>no las revisé</b>. No significa que estén mal — significa que no lo sé. Búscalas en el diccionario con el botón 🔎.',
@@ -14579,7 +14590,11 @@ const WR = (() => {
       return;
     }
 
-    const r = ANL.analizar(ingles);
+    /* Si escribiste en español sin punto final, la traducción tampoco lo trae, y
+       el corrector acababa marcando «Falta el signo final» sobre un inglés que no
+       escribiste tú, con el semáforo en verde. Ese detalle es tuyo, no del inglés. */
+    const r = ANL.analizar(dir === 'es' && !/[.?!]$/.test(ingles.trim())
+      ? ingles.trim() + (/\?\s*$|^\s*¿/.test(es) ? '?' : '.') : ingles);
     if(!r){ cont.innerHTML = ''; return; }
     const L = LUZ[r.luz];
     const f0 = r.frases[0];
@@ -16983,6 +16998,8 @@ function init(){
     [{ id:'all', lb:'Todas', n:WORDS.length }].concat(
       Object.keys(CAT_LABEL).filter(c => wc[c]).sort((a,b) => wc[b]-wc[a]).map(c => ({ id:c, lb:CAT_LABEL[c], n:wc[c] }))),
     'all', v => { M1.cat = v; renderWords(true); });
+  // Las cifras de 🧩 Piezas salen de la lista real, no de la de 2000 que había antes
+  document.querySelectorAll('[data-pzn]').forEach(e => { if(wc[e.dataset.pzn]) e.textContent = wc[e.dataset.pzn]; });
 
   const fc = countBy(PHRASES, 'f');
   buildChips($('funcs'),

@@ -3725,22 +3725,29 @@ const ANL = (() => {
           w + ' … ' + sig, w + ' … ' + b);
     });
 
+    /* Cada he/she/it que ABRE una oración, con lo que hay en SU oración.
+       Antes solo se miraba el primero de la frase, y un auxiliar en otra oración
+       apagaba la regla entera: «She have a car and she like it» dejaba pasar
+       «she like». La oración va del sujeto hasta el siguiente conector. */
+    const CORTA = [',','and','but','because','that','when','if'];
+    const oraciones3 = pal.map((w, i) => i).filter(i => LEX.TERCERA.has(pal[i])
+      && (i === 0 || CORTA.includes(pal[i-1])));
+    const finOracion = i => { let j = i + 1; while(j < pal.length && !CORTA.includes(pal[j])) j++; return j; };
+
     // R5 · la -s de he/she/it
-    if(iAux === -1 && !pregunta){
-      const iS = pal.findIndex(w => LEX.TERCERA.has(w));
-      const abreOracion = iS === 0 || (iS > 0 && [',','and','but','because','that','when','if'].includes(pal[iS-1]));
-      if(iS > -1 && abreOracion){
-        let n = iS + 1;
-        while(n < pal.length && LEX.es(pal[n],'adv')) n++;   // «She always work here»
-        const v = pal[n];
-        // Solo si es la forma BASE de un verbo: si raiz() devuelve otra cosa,
-        // ya viene conjugado («works» → raiz «work») y está bien.
-        if(v && LEX.esVerbo(v) && LEX.esBase(v) && !LEX.esV2(v) && LEX.raiz(v) === v && v !== 'be')
-          add('rojo','R5','Falta la -s de he/she/it',
-            'En presente simple afirmativo, con <b>he / she / it</b> el verbo lleva <b>-s</b>. Es la única conjugación que tiene el inglés.',
-            pal[iS] + ' ' + v, pal[iS] + ' ' + LEX.conj(v, 's'));
-      }
-    }
+    if(!pregunta) oraciones3.forEach(iS => {
+      const tramo = pal.slice(iS + 1, finOracion(iS));
+      if(tramo.some(w => LEX.AUX.has(w) || LEX.MODAL.has(w))) return;   // el auxiliar ya carga la persona
+      let n = iS + 1;
+      while(n < pal.length && LEX.es(pal[n],'adv')) n++;   // «She always work here»
+      const v = pal[n];
+      // Solo si es la forma BASE de un verbo: si raiz() devuelve otra cosa,
+      // ya viene conjugado («works» → raiz «work») y está bien.
+      if(v && LEX.esVerbo(v) && LEX.esBase(v) && !LEX.esV2(v) && LEX.raiz(v) === v && v !== 'be')
+        add('rojo','R5','Falta la -s de he/she/it',
+          'En presente simple afirmativo, con <b>he / she / it</b> el verbo lleva <b>-s</b>. Es la única conjugación que tiene el inglés.',
+          pal[iS] + ' ' + v, pal[iS] + ' ' + LEX.conj(v, 's'));
+    });
 
     /* R5b · la -s de he/she/it TAMBIEN la lleva «have»
        «She have a car» → «She has a car». Con he/she/it, «have» en presente es
@@ -3754,16 +3761,14 @@ const ANL = (() => {
          · «My sister have a job»     → el sujeto es un SUSTANTIVO. Esta mal,
            pero «my sisters have» esta bien y por la forma no se puede saber
            cual de los dos es. Cuando no se sabe, no se corrige. */
-    if(!pregunta){
-      const iS3 = pal.findIndex(w => LEX.TERCERA.has(w));
-      const abre3 = iS3 === 0 || (iS3 > 0 && [',','and','but','because','that','when','if'].includes(pal[iS3-1]));
-      if(iS3 > -1 && abre3){
+    if(!pregunta) oraciones3.forEach(iS3 => {
+      {
         let k = iS3 + 1;
         while(k < pal.length && LEX.es(pal[k],'adv')) k++;   // «She never have time»
         if(pal[k] === 'have'){
-          /* Un modal o do/does/did DELANTE piden la forma desnuda: ahi «have»
-             es correcto y marcarlo seria inventarse un error. */
-          const licencia = pal.slice(0, k).some(w =>
+          /* Un modal o do/does/did DELANTE, dentro de su oración, piden la forma
+             desnuda: ahi «have» es correcto y marcarlo seria inventarse un error. */
+          const licencia = pal.slice(iS3, k).some(w =>
             LEX.MODAL.has(w) || ['do','does','did','to'].includes(w));
           if(!licencia)
             add('rojo','R5','Con he/she/it es «has», no «have»',
@@ -3772,7 +3777,7 @@ const ANL = (() => {
               pal[iS3] + ' have', pal[iS3] + ' has');
         }
       }
-    }
+    });
 
     // R7 · una sola negación
     if(iNot > -1 && pal.some(w => LEX.NEGS.has(w) && w !== 'no'))
@@ -3861,7 +3866,9 @@ const ANL = (() => {
 
     // Palabras que no puedo verificar
     const desconocidas = pal.filter(w => !LEX.POS.has(w) && !LEX.AUX.has(w) && !LEX.SUJ.has(w)
-      && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2);
+      && !LEX.WH.has(w) && w !== 'not' && !LEX.raiz(w) && w.length > 2
+      // «years», «boxes», «gonna»: BUSCA resuelve la forma; sin esto decía que no podía verificarlas
+      && !(BUSCA.buscar(w) || {}).w);
     if(desconocidas.length)
       add('info','R-desc','No puedo verificar: ' + desconocidas.join(', '),
         'Esas palabras no están en las ' + WORDS.length + ' del documento, así que <b>no las revisé</b>. No significa que estén mal — significa que no lo sé. Búscalas en el diccionario con el botón 🔎.',
@@ -4861,7 +4868,11 @@ const WR = (() => {
       return;
     }
 
-    const r = ANL.analizar(ingles);
+    /* Si escribiste en español sin punto final, la traducción tampoco lo trae, y
+       el corrector acababa marcando «Falta el signo final» sobre un inglés que no
+       escribiste tú, con el semáforo en verde. Ese detalle es tuyo, no del inglés. */
+    const r = ANL.analizar(dir === 'es' && !/[.?!]$/.test(ingles.trim())
+      ? ingles.trim() + (/\?\s*$|^\s*¿/.test(es) ? '?' : '.') : ingles);
     if(!r){ cont.innerHTML = ''; return; }
     const L = LUZ[r.luz];
     const f0 = r.frases[0];
@@ -7265,6 +7276,8 @@ function init(){
     [{ id:'all', lb:'Todas', n:WORDS.length }].concat(
       Object.keys(CAT_LABEL).filter(c => wc[c]).sort((a,b) => wc[b]-wc[a]).map(c => ({ id:c, lb:CAT_LABEL[c], n:wc[c] }))),
     'all', v => { M1.cat = v; renderWords(true); });
+  // Las cifras de 🧩 Piezas salen de la lista real, no de la de 2000 que había antes
+  document.querySelectorAll('[data-pzn]').forEach(e => { if(wc[e.dataset.pzn]) e.textContent = wc[e.dataset.pzn]; });
 
   const fc = countBy(PHRASES, 'f');
   buildChips($('funcs'),

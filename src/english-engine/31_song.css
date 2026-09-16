@@ -290,6 +290,10 @@
   gap:16px;
 }
 .sg-col-izq{display:flex;flex-direction:column;gap:14px;min-width:0}
+/* La lista de vídeos era pegajosa cuando vivía sola en su columna. Ahora tiene
+   debajo «Escribe lo que oyes», y al bajar se le montaba encima y tapaba el
+   encabezado y la primera línea de lo que estabas escribiendo. */
+.sg-col-izq .sg-side{position:relative;top:auto;max-height:none}
 .sg-col-der{min-width:0}
 
 /* Debajo de 1500 px ya no caben tres: la letra se va abajo, a ancho completo,
