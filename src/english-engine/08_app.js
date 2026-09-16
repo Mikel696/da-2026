@@ -6508,13 +6508,17 @@ const SONG = (() => {
     }
 
     const nq = frase;
-    const raizQ = (BUSCA.buscar(nq) || {}).w;
+    const rq = BUSCA.buscar(nq);
+    // Una contracción se cuenta tal cual: «gonna» y «goes» llevan a «go», pero no son la misma palabra
+    const raizQ = rq && rq.via !== 'contra' ? rq.w : null;
     let n = 0;
     L.forEach(t => t.split(/\s+/).forEach(p => {
       const c = norma(limpio(p));
       if(!c) return;
-      if(c.indexOf(nq) >= 0){ n++; return; }
-      if(raizQ){ const r = BUSCA.buscar(c); if(r && r.w === raizQ) n++; }
+      if(c === nq){ n++; return; }
+      if(raizQ){ const r = BUSCA.buscar(c); if(r && r.w === raizQ && r.via !== 'contra') n++; return; }
+      // Fuera del diccionario solo valen las terminaciones regulares: «crater» cuenta «craters», «is» no cuenta «this»
+      if(nq.length >= 3 && c.startsWith(nq) && /^(s|es|d|ed|ing)$/.test(c.slice(nq.length))) n++;
     }));
     return n;
   }
