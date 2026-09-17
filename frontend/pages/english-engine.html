@@ -10962,6 +10962,22 @@ const NB = (() => {
         <span class="sv" id="nbSaved">guardado</span>
       </div>`;
     wire(b);
+    alInicio(b);
+  }
+
+  /* Solo cuando cambia QUÉ se enseña (otro cuaderno u otra página), y solo con la
+     pestaña a la vista: desde Palabras también se crean cuadernos, y no puede
+     moverte la página que estás leyendo. */
+  let ultimaVista = null;
+  function alInicio(b){
+    const vista = b.id + ':' + b.cur;
+    if(vista === ultimaVista) return;
+    ultimaVista = vista;
+    const pane = $('nb'), main = $('nbMain');
+    if(!pane || !main || !pane.classList.contains('on')) return;
+    const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 56;
+    const top = main.getBoundingClientRect().top;
+    if(top < hh) window.scrollTo(0, Math.max(0, scrollY + top - hh - 12));
   }
 
   function wire(b){
