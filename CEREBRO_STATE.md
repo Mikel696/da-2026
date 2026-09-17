@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-11 (3-ENG: Club en escalera + Vídeos a tres columnas)
+- **Última actualización:** 2026-09-16 (3-ENG: vídeo tutorial completo de 49 min + 7 fallos que destapó)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,107 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎥 3-ENG · El vídeo tutorial completo, y los 7 fallos que salieron grabándolo — 2026-09-16
+
+### El encargo
+
+Miguel pidió un vídeo que explique **cada pestaña, cada herramienta y un ejemplo de uso**, «que deje
+explicado el 100 % del funcionamiento de la página».
+
+### El resultado
+
+**`C:\Users\Miguel Barros\Videos\English Engine\English Engine - Guia completa.mp4`** — 49:15,
+1920×1080, 254 MB. 14 capítulos navegables (marcas de capítulo dentro del MP4), subtítulos en
+español activables, un `.srt` aparte y el índice de capítulos en `… - capitulos.txt`.
+
+| Min | Capítulo | | Min | Capítulo |
+|---|---|---|---|---|
+| 0:00 | Bienvenida y mapa | | 23:39 | 🧪 Práctica |
+| 1:44 | Herramientas de arriba | | 26:16 | 🎮 Club de Frases |
+| 5:21 | 🧭 Estructura | | 31:58 | 🎬 Vídeos |
+| 12:15 | 🧩 Piezas | | 37:45 | ✍️ Escribir |
+| 15:00 | 🔀 Bifurcaciones | | 41:22 | 📓 Cuaderno |
+| 17:59 | 📚 Palabras | | 44:58 | 🎯 Método |
+| 21:21 | 💬 Frases | | 48:14 | Cómo se conecta todo |
+
+### Cómo se hizo (y dónde vive la máquina)
+
+No hay persona delante de la pantalla: el vídeo lo graba un script contra **la página publicada**
+(`mikel696.github.io`), con un perfil de navegador limpio — sin datos de Miguel, sin cuenta.
+
+| Pieza | Qué hace |
+|---|---|
+| `motor.js` | Chrome sin ventana a 1536×864 con zoom 1,25 (sale a 1920×1080 con la letra grande). Graba con el *screencast* de Chrome: cada fotograma con su marca de tiempo. Pinta encima un cursor, el resaltado amarillo, el rótulo y las tarjetas de capítulo. |
+| `guion1/2/3.js` | Los 14 capítulos: narración + acciones. Cada capítulo va en un navegador nuevo, con su preparación fuera de cámara, para poder regrabar uno solo. |
+| `monta.js` | Fotogramas → vídeo a 30 fps; cada voz en el segundo exacto en que empezó; `.srt` por capítulo. |
+| `final.js` | Une los capítulos con marcas de capítulo, subtítulos incrustados y un `.srt` aparte. |
+
+- **Voz:** `edge-tts` (voces neuronales de Microsoft): `es-CO-SalomeNeural` para narrar,
+  `en-US-AndrewNeural` para lo que en la página suena con 🔊. En caché por texto.
+- **Vive fuera del repo**, en `E:\Aplicaciones\ANALISIS DE DATOS\Pagina Web\HTML\video-tutorial-3eng\`
+  (`node_modules` y cientos de MB de fotogramas no tienen nada que hacer en GitHub Pages).
+  Para regrabar tras un cambio: `node graba.js 09` y `node final.js`.
+- **Vídeos:** se usa «Tour of the Moon in 4K» de NASA Goddard (dominio público) y un **texto de
+  práctica escrito para el vídeo**, dicho en pantalla. Ni una letra ni un subtítulo de nadie.
+- **Hablar (Club):** en el vídeo el micrófono va **simulado y se dice en pantalla**.
+
+### Lo que salió al mirar cada pestaña como alguien nuevo
+
+Grabar obliga a hacer cada cosa de verdad, en orden, y a narrar lo que pasa. Salieron siete fallos
+que el uso normal no había destapado:
+
+1. **Hablar no tenía puerta** (`ee1f1ba`). Su botón «Siguiente →» pasaba sin decir nada — el único
+   peldaño sin puerta era el último, justo lo contrario de lo pedido el 11-sep. Y sin `terminar()`,
+   `avanzar()` leía las banderas del peldaño anterior: «Peldaño 7 de 6». Ahora lo que oye el
+   micrófono se puntúa con la puerta del 80 %; sin reconocimiento de voz queda «✓ La dije completa»,
+   dicho claramente. Probado con micrófono simulado: bien, mal y sin micrófono.
+2. **«She have a car and she like it»** dejaba pasar «she like» (`0bd1a66`). R5/R5b miraban solo el
+   PRIMER he/she/it, y un auxiliar en otra oración apagaba la regla. Ahora, una revisión por oración.
+3. **«No puedo verificar: years»** (`0bd1a66`) — el filtro de desconocidas no preguntaba a BUSCA.
+   Mismo fallo que la ficha de Vídeos (`78022ac`), en otro sitio.
+4. **Vídeos contaba «gonna · 2 veces» con una sola** (`e031480`): buscaba por trozo («is» contaba
+   «this») y contaba las contracciones por su verbo base («gonna» sumaba «goes»).
+5. **Textos que decían cosas falsas** (`0bd1a66`): el Cuaderno decía «No viaja a ningún servidor»
+   (sí viaja con ☁️); Piezas mostraba cifras de la lista vieja de 2000 (877 sustantivos, hoy 2098 —
+   ahora salen de la lista real); «las 2000 palabras», «ocho pestañas».
+6. **Vídeos:** la lista de vídeos, pegajosa, tapaba «Escribe lo que oyes» al bajar.
+7. **Cuaderno: la hoja parecía vacía al restaurar o cambiar de cuaderno** (`563aa26`). La
+   cabecera fija de `d748fec` tapaba el principio si la página venía bajada; el contador decía
+   «50 palabras» y no se veía ninguna. **Probablemente es el «no muestra el contenido completo»
+   que Miguel reportó el 11-sep.** No se perdía nada; ahora la vista va al principio de la hoja
+   cuando cambia lo que se enseña.
+
+Regresión tras cada uno: 0 falsos positivos en los 4 corpus, auditorías en 0, 11 pestañas, sin
+errores. Verificado en producción.
+
+### Notas que faltaban del 11-sep
+
+- `d748fec` — la cinta del cuaderno no se quedaba fija (`overflow:hidden` en `.nb-main` rompía el
+  `sticky` y recortaba el contenido) y `mergeOneBook` podía perder texto con relojes desfasados:
+  ahora, si dos versiones de una página difieren, se quedan las dos.
+- `78022ac` — la ficha de Vídeos decía «no está» de una palabra que el veredicto sí encontraba.
+
+### Trampas del grabador (por si hay que regrabar)
+
+- **Un clic a ciegas en una coordenada** cayó sobre «WordReference» (`target=_blank`): la pestaña
+  grabada pasó a segundo plano y Chrome dejó de pintarla — 2 minutos de voz sobre una imagen
+  congelada. `motor.js` cierra ahora cualquier pestaña nueva, y los guiones no hacen clics a ciegas.
+- **Pantalla quieta = sin fotogramas.** Un «latido» de 2 px en la esquina los mantiene, y un
+  vigilante reinicia la captura si se corta. Las animaciones usan `setTimeout`, no
+  `requestAnimationFrame` (se queda en cero cuando no se pinta).
+- **`content-visibility:auto`** mueve las tarjetas después del scroll: `ve()` vuelve a medir, y
+  los clics sobre tarjetas centran el propio botón, no la lista (si no, caen bajo la barra fija).
+- **Comprobar cada capítulo** con `hoja.png` (16 fotogramas) y buscando silencios con pocos
+  fotogramas por segundo: así salieron las dos congelaciones.
+
+### La lección
+
+**Un tutorial es una auditoría.** Explicar una función obliga a usarla entera y a decir en voz
+alta lo que hace; cuando lo que dices y lo que pasa no coinciden, apareció un fallo. Los siete
+estaban en funciones «terminadas y verificadas».
 
 ---
 
