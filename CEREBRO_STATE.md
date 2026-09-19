@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-16 (3-ENG: vídeo tutorial completo de 49 min + 7 fallos que destapó)
+- **Última actualización:** 2026-09-18 (3-ENG: vídeo tutorial v2 — 40 min, voz nueva, música propia, encuadre auditado)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -33,6 +33,25 @@ español activables, un `.srt` aparte y el índice de capítulos en `… - capit
 | 15:00 | 🔀 Bifurcaciones | | 41:22 | 📓 Cuaderno |
 | 17:59 | 📚 Palabras | | 44:58 | 🎯 Método |
 | 21:21 | 💬 Frases | | 48:14 | Cómo se conecta todo |
+
+### v2 — 18-sep: lo que Miguel pidió tras verlo
+
+1. **Desfase entre lo que se dice y lo que se ve.** Su ejemplo: en Estructura se hablaba del
+   final de la pestaña y la imagen subía al principio. **Causa mecánica:** `resalta()` con
+   `sube`/`hasta` desplazaba hasta el CONTENEDOR padre, que empieza arriba de la página. Ahora el
+   desplazamiento va al elemento buscado y el recuadro se recorta si no cabe.
+2. **Auditoría de encuadre, automática.** El motor apunta en cada frase si lo explicado estaba a
+   la vista **al empezar y al terminar** (`linea.json` → `vis0`/`vis1`), y `audita.js` marca lo
+   descuadrado. De 19 frases a 4, y las 4 son desplazamientos intencionados que muestran la
+   sección mientras se narra. Encontró además que yo narraba un botón de «ocultar filtros» que
+   **solo existe en móvil**: en pantalla de ordenador no se veía nada.
+3. **Voz nueva:** `es-CO-GonzaloNeural` a +15 %. El vídeo pasó de 49:15 a **40:05** diciendo lo
+   mismo.
+4. **Música de fondo propia** (`musica.js`): pad, bajo, arpegio con eco y maraca de ruido
+   filtrado, 72 pulsos por minuto, en la menor. Sintetizada aquí, sin samples ni librerías — no
+   hay nada de nadie. Va 21 dB por debajo y se agacha sola bajo la voz (`sidechaincompress`).
+5. **Sin subtítulos:** ni pista dentro del MP4 ni `.srt` al lado (era lo que los encendía solos).
+   La transcripción se queda en `caps/_final/transcripcion.srt`.
 
 ### Cómo se hizo (y dónde vive la máquina)
 
