@@ -16557,7 +16557,22 @@ const SONG = (() => {
     const ve = $('sgVel');
     if(ve) ve.onchange = () => { P.vel = +ve.value; manda('setPlaybackRate', P.vel); };
     const vv = $('sgVer');
-    if(vv) vv.onclick = () => { P.verVideo = !P.verVideo; render(); };
+    if(vv) vv.onclick = () => {
+      P.verVideo = !P.verVideo;
+      /* Sin render(): repintar el mando remonta el iframe y pararía el vídeo.
+         Se cambia solo la clase que lo encoge — el audio sigue sonando. */
+      const mando = document.querySelector('#sgFijo .sg-mando');
+      const antes = mando ? mando.getBoundingClientRect().top : null;
+      const caja = document.querySelector('#sgFijo .sg-yt');
+      if(caja) caja.classList.toggle('oculto', !P.verVideo);
+      vv.classList.toggle('on', P.verVideo);
+      /* La página se acorta (o se alarga) de golpe y la barra de mandos se iría
+         debajo de la cabecera, con este botón dentro. Se queda donde estaba. */
+      if(mando && antes !== null){
+        const desp = mando.getBoundingClientRect().top - antes;
+        if(Math.abs(desp) > 2) window.scrollBy(0, desp);
+      }
+    };
 
     /* ── El buscador ──
        Dice cuántas veces sale la palabra en ESTOS subtítulos, si está en el
