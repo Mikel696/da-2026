@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-18 (3-ENG: vídeo tutorial v2 — 40 min, voz nueva, música propia, encuadre auditado)
+- **Última actualización:** 2026-09-29 (10-SYS: materias 26V05 desde CDigital + módulo reorientado al semestre real)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,57 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## ⚙️ 10-SYS · Período 26V05 registrado + módulo reorientado al semestre real — 2026-09-29
+
+### El encargo
+Revisar cómo están compuestas las materias, traer de CDigital las del período nuevo (sin
+"INDUCCION TICS - ESTUDIANTES") con la misma forma, y cambiar las secciones que no sirven.
+
+### Las 5 materias nuevas (hardcodeadas en `SUBJECTS`, `period: '26V05'`)
+| id | Código · grupo | Docente (Participantes) | CDigital | Horario (Próximos eventos) |
+|---|---|---|---|---|
+| `inteligencia_negocios` | DIS38 · 55500 | FELIPE ALEXANDER GARZON | 126973 | Mié 6:15-8:30 PM · Meet 7896309 |
+| `auditoria_sistemas` | DIS39 · 55506 | ANDRES FELIPE CORREA ESPITIA | 126979 | sin publicar |
+| `computacion_nube` | DIS40 · 55516 | MARIO ALEXANDER REALES MARTINEZ | 126989 | sin publicar |
+| `trabajo_investigacion` | ISD37 · 55520 (bloque único → 19-ene) | MANUEL ALBERTO SALGADO ALBA | 126584 | sin publicar |
+| `english_b1_26v05` | A1I01 · 50610 (26I05, → 23-nov) | ANYI MILENA ALVAREZ COGOLLO | 130590 | L-V 6:15-7:45 PM · Meet 7916129 |
+
+EDWARD ORVEY OVALLE ARIAS figura como Profesor en las 3 DIS (anotado en `desc`, no como docente).
+**Fechas:** las del Bloque I salen de la imagen "Calendario académico virtual" del aula 55500
+(S1 28-sep … S8 16-22 nov, pesos 10/20/10/20/34/2/2/2). Los quizzes/parciales están ocultos en
+CDigital hasta que abren, así que la fecha es el cierre de su semana. Trabajo de Investigación e
+Inglés: cronograma **sin fechas** (no publicadas) — hueco visible, no número inventado.
+Créditos de las nuevas: **no cargados** (no aparecen en CDigital).
+
+### Lo que cambió en el módulo
+- **Período automático:** `detectPeriod()` = período más reciente entre materias "en curso"
+  (antes, `'26V02'` fijo). Registrar las materias del próximo período cambia todo solo.
+- **Materias:** filtro por defecto "📍 Período actual"; lo viejo en "🗂 Historial".
+- **🧮 Notas por materia** (esquema `cun_b8`): acumulado + nota necesaria en lo que falta para
+  una meta editable. Se guarda en `sys_subjects_custom[].notas` (ya sincronizada; sin tocar
+  `cloud-sync.js`). `SYS.setNota(id, clave, valor)` para cargarlas por script.
+- **Dashboard:** semana del bloque + qué vale, próximas clases en vivo con botón Entrar
+  (campo nuevo `clases: [{dias, ini, fin}]`), entregas 14 días, aviso de materias sin horario.
+- **Cifras del encabezado:** materias en curso · entregas 7 días · semana del bloque · vencidas
+  · días al cierre (antes: créditos y % de tareas globales).
+- **Calendario:** "todos los períodos 2026" → plan del bloque semana a semana (`BLOCK_PLANS`).
+- **Malla:** semestre actual calculado (sale 9); ▶ en curso / ✓ ganada con match estricto.
+  Se probó un match difuso contra `academic-history.json` y marcaba "Ingeniería Web" como
+  "Lógica para Ingeniería" → descartado.
+- **CUN Hub:** prompts sin `academic-8vo.json`/26V02 + prompt 5 "SCAN MATERIAS"; historial
+  con fecha de corte (4.49 al 27-mar, 52+6, 8/10); "no hay horarios fijos" → esquema de notas.
+- **Limpieza:** fuera `renderSemaphore` (pintaba en `#semaphoreList`, que no existe),
+  `STUDY_RESOURCES` y `ACADEMIC_SUBJ_IDS`; selector de Clases Perdidas ahora dinámico.
+- **Protección:** `saveSubjectModal` conserva `notas`/`period`/`clases` al editar.
+
+### Pendiente
+- Marcar en 10-SYS el estado de English 26V02 / Placement (siguen "pausada").
+- Horario y Meet de Auditoría, Nube y Trabajo de Investigación cuando los publiquen.
+- Notas finales del 26V02 (SGA) → prompt 3 del CUN Hub.
+- Certificaciones (15 módulos) no se tocó: candidato a recortar si no se usa.
 
 ---
 

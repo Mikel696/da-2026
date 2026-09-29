@@ -103,7 +103,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `7-NEW` | `news.html` | Noticias Data & IA (Live RSS) |
 | `8-PRO` | `prompts.html` | Prompt Lab |
 | `9-GOA` | `goals.html` | Objetivos & Hábitos |
-| `10-SYS` | `systems.html` | 🟢 Ingeniería de Sistemas (CUN 8vo Sem) — **PRODUCCIÓN** |
+| `10-SYS` | `systems.html` | 🟢 Ingeniería de Sistemas (CUN 9no Sem · 26V05) — **PRODUCCIÓN** |
 | `11-ACC` | `accounting.html` | Accounting Associate |
 | `12-FIN` | `finance.html` | Finanzas Personales — **PRODUCCIÓN** |
 | `13-NOT` | `notes.html` | Notas, Journal, SRS Leitner — **PRODUCCIÓN** |
@@ -197,17 +197,27 @@ Estas reglas existen porque ya hubo incidentes de hallucinación masiva (ver lec
 | **CUN 360** | 360.cunapp.pro | Historial completo, GPA, deuda, materias virtuales con docentes |
 | **Gmail CUN** | mail.google.com | Comunicaciones oficiales, alertas |
 
-### Datos académicos verificados (período 26V02):
-- **Inicio:** 2026-03-30 | **Fin:** 2026-07-19
-- **Bloque 1:** 30 Mar — 24 May | **Bloque 2:** 25 May — 19 Jul
-- **5 materias REALES auditadas en CDigital:**
-  - DIS34 Ing. Web · 52211 · BECERRA RAMIREZ HEYNER LEONEL · Mié 6:15 PM · cdigital_id 104362 ✅ COMPLETO
-  - DIS31 Mat. Especiales · 52247 · Juan Sebastián Cortés Cruz · Mié/Vie 6:15-7:45 PM · cdigital_id 101285 ✅ COMPLETO
-  - DIS36 Inv. C&T · 52218 · CORTES TOBAR DARIO FERNANDO · cdigital_id 104253 🟡 PARCIAL (solo Corte 1)
-  - A1I01 Virtual English Beginner 1 · cdigital_id 100774 ⚪ PENDIENTE
-  - CE1026 Placement Test BE Plus · cdigital_id 106289 ⚪ PENDIENTE
+### Datos académicos verificados (período 26V05 · 9no semestre · leídos de CDigital 2026-09-29):
+- **Bloque I:** 28 Sep — 22 Nov 2026 (plan semanal en `BLOCK_PLANS['26V05']`, de la imagen
+  "Calendario académico virtual" del aula 55500). Bloque único: Trabajo de Investigación → 19-ene-2027.
+- DIS38 Inteligencia de Negocios · 55500 · FELIPE ALEXANDER GARZON · Mié 6:15-8:30 PM · cdigital_id 126973
+- DIS39 Auditoría de Sistemas · 55506 · ANDRES FELIPE CORREA ESPITIA · horario sin publicar · 126979
+- DIS40 Computación en la Nube · 55516 · MARIO ALEXANDER REALES MARTINEZ · horario sin publicar · 126989
+- ISD37 Trabajo de Investigación en Ingeniería · 55520 · MANUEL ALBERTO SALGADO ALBA · 126584 (fechas sin publicar)
+- A1I01 Virtual English Beginner 1 · 50610 (26I05) · ANYI MILENA ALVAREZ COGOLLO · L-V 6:15-7:45 PM · 130590
+- Se excluye a propósito "INDUCCION TICS - ESTUDIANTES" (28494).
+- 26V02 (8vo) quedó en 🗂 Historial: 6 ganadas, English 50608 y Placement en "pausada".
 
-`VERIFIED_SUBJECTS = {ing_web, mat_especiales, inv_ciencia}`.
+**Cómo se registra un período nuevo** (prompt 5 del CUN Hub): cada materia en `SUBJECTS` con
+`period`, `code`, `group`, `cdigital_id`, `professor` (Participantes → rol Profesor), `clases`
+`[{dias:[1..7], ini, fin}]` + `schedule` + `subject_links.clase` (Próximos eventos / Meet),
+`cronograma` y `esquema: 'cun_b8'` si sigue el calendario de 8 semanas. Añadir `BLOCK_PLANS[período]`.
+`detectPeriod()` toma el período más reciente de las materias "en curso": no hay que tocar nada más.
+Los quizzes están **ocultos** hasta que abren → su fecha es el cierre de la semana del calendario.
+Sin evidencia de fecha → `date: ''` (hueco visible).
+
+**Notas:** `sys_subjects_custom[].notas` (claves `q1 p1 q2 p2 aca q3 co au` + `meta`), cargables con
+`SYS.setNota(id, clave, valor)` en la pestaña real del live site.
 
 ### Tab 7 · Clases Perdidas (Missed Classes Analyzer) — DIRECT-FETCH PROTOCOL v2
 

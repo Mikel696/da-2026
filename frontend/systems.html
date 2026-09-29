@@ -570,7 +570,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <span class="nav-logo">⚙️ Ingeniería de Sistemas</span>
 </div>
 <div class="nav-r">
-<span class="bdg bdg-sem">8vo Sem · 26V02</span>
+<span class="bdg bdg-sem">9no Sem</span>
 <span class="bdg bdg-period" id="periodBadge">26V01</span>
 </div>
 </nav>
@@ -583,11 +583,11 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <div class="hst">
-<div class="hs"><div class="hsv" id="statMaterias">5</div><div class="hsl">Materias</div></div>
-<div class="hs"><div class="hsv" id="statCredits">9</div><div class="hsl">Créditos</div></div>
-<div class="hs"><div class="hsv" id="statProgress">0%</div><div class="hsl">Avance</div></div>
-<div class="hs"><div class="hsv" id="statPending">0</div><div class="hsl">Pendientes</div></div>
-<div class="hs"><div class="hsv" id="statDaysLeft">0</div><div class="hsl">Días restantes</div></div>
+<div class="hs"><div class="hsv" id="statMaterias">—</div><div class="hsl">Materias en curso</div></div>
+<div class="hs"><div class="hsv" id="statCredits">—</div><div class="hsl">Entregas 7 días</div></div>
+<div class="hs"><div class="hsv" id="statProgress">—</div><div class="hsl">Semana del bloque</div></div>
+<div class="hs"><div class="hsv" id="statPending">—</div><div class="hsl">Vencidas</div></div>
+<div class="hs"><div class="hsv" id="statDaysLeft">—</div><div class="hsl">Días al cierre</div></div>
 </div>
 
 <div class="tabs">
@@ -637,19 +637,20 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
 <div class="pnl" id="pnl1">
-<div class="sl">· materias 26V02 — período actual ·</div>
-<div class="sd">Bloque I (30 Mar - 24 May): Ing Web · Mat Especiales · Inv C&amp;T. Bloque II (25 May - 19 Jul): Admin BD · Calidad SW · Redes Inalámbricas. Continuas: English Beginner · Placement BE Plus.</div>
+<div class="sl">· materias — período actual ·</div>
+<div class="sd" id="subjPeriodHdr"></div>
 <div id="subjectDetail"></div>
 </div>
 
 <!-- ═══════ TAB 2: CALENDARIO ═══════ -->
 <div class="pnl" id="pnl2">
-<div class="sl">· calendario virtual 2026 — período 26V02 ·</div>
-<div class="sd">Timeline basado en el calendario oficial de la CUN. Las fechas se actualizan según el período activo.</div>
+<div class="sl">· calendario del período actual ·</div>
+<div class="sd">Fechas del calendario oficial de la CUN para el período en el que estás matriculado.</div>
 <div id="calendarTimeline"></div>
 
 <div style="margin-top:24px">
-<div class="sl">· todos los períodos 2026 ·</div>
+<div class="sl">· plan del bloque semana a semana ·</div>
+<div class="sd">Qué se evalúa cada semana y cuánto vale. La semana actual va marcada con 📍.</div>
 <div id="allPeriods"></div>
 </div>
 
@@ -663,7 +664,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ═══════ TAB 3: MALLA CURRICULAR ═══════ -->
 <div class="pnl" id="pnl3">
 <div class="sl">· malla curricular — ingeniería de sistemas virtual ·</div>
-<div class="sd">155 créditos · 10 semestres · 3 niveles (Técnica → Tecnología → Ingeniería). Tu semestre actual está resaltado.</div>
+<div class="sd">155 créditos · 10 semestres · 3 niveles (Técnica → Tecnología → Ingeniería). ▶ en curso · ✓ ganada en este módulo. Lo aprobado antes de 26V02 está en CUN Hub → Historial.</div>
 <div class="malla" id="mallaGrid"></div>
 </div>
 
@@ -694,10 +695,11 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div style="background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:14px">
 <div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Prompts para Claude Code</div>
 <div style="font-size:11px;color:var(--t2);line-height:1.8">
-<div style="margin-bottom:8px"><strong style="color:var(--tx)">1. Escaneo completo:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-8vo.json y academic-history.json.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
-<div style="margin-bottom:8px"><strong style="color:var(--tx)">2. Solo notas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas actuales del período 26V02. Actualiza academic-8vo.json con las calificaciones.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">1. Escaneo completo:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN CUN — Escanea todas las tabs CUN abiertas (SGA, CUN 360, CUN Digital, Gmail). Extrae notas, materias, tareas pendientes y alertas. Actualiza academic-history.json y las notas de cada materia (SYS.setNota).');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">2. Solo notas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN NOTAS — Lee la tab del SGA Campus (notr29) y extrae las notas del período en curso. Cárgalas en la pestaña real del live site (systems.html) con SYS.setNota(idMateria, clave, nota) — claves q1 p1 q2 p2 aca q3 co au. Solo notas que veas en SGA; nada inferido.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
 <div style="margin-bottom:8px"><strong style="color:var(--tx)">3. Solo historial:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN HISTORIAL — Lee la tab CUN 360 Dashboard y extrae las 52+ materias del historial completo. Actualiza academic-history.json con notas y promedios.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
-<div><strong style="color:var(--tx)">4. Solo tareas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div style="margin-bottom:8px"><strong style="color:var(--tx)">4. Solo tareas:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN TAREAS — Lee la tab CUN Digital y extrae las actividades/tareas pendientes de cada curso. Agrégalas al task manager del módulo 10-SYS.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
+<div><strong style="color:var(--tx)">5. Materias de período nuevo:</strong> <code style="background:var(--c1);padding:2px 6px;border-radius:3px;color:var(--am);cursor:pointer;font-size:11px" onclick="navigator.clipboard.writeText('CEREBRO: SCAN MATERIAS — Abre cdigital.cun.edu.co/my/courses.php y registra en SUBJECTS de systems_logic.js los cursos del período nuevo (sin INDUCCION TICS) con el formato de las materias existentes: period, code y group del nombre corto, cdigital_id, professor desde Participantes (rol Profesor), clases y schedule desde Próximos eventos, link de Meet, cronograma desde el calendario académico del aula y BLOCK_PLANS del período. Campo sin evidencia queda vacío. Marca las del período anterior como ganadas/perdidas.');this.style.color='var(--gn)';setTimeout(()=>this.style.color='var(--am)',1500)">Click para copiar</code></div>
 </div>
 </div>
 </div>
@@ -705,11 +707,11 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <!-- ACADEMIC HISTORY -->
 <div class="gc" style="margin-top:12px">
 <div class="gc-t" style="margin-bottom:8px">📊 Historial Académico Completo</div>
-<div style="font-size:12px;color:var(--t2);margin-bottom:14px">Datos extraídos del CUN 360. 52 materias aprobadas en 7 semestres.</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:14px">CUN 360 con corte al 27-mar-2026: 52 materias aprobadas en 7 semestres, promedio 4.49. Después de ese corte: 6 materias ganadas en 26V02 (notas sin cargar — usa el prompt 3 para actualizar).</div>
 <div style="display:flex;gap:1px;background:var(--bd);border-radius:8px;overflow:hidden;margin-bottom:14px">
-<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gn)">4.49</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">GPA</div></div>
-<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--vi2)">52</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Aprobadas</div></div>
-<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--am)">7/10</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Semestres</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gn)">4.49</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Promedio · 27-mar</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--vi2)">52+6</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Aprobadas</div></div>
+<div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--am)">8/10</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Semestres cerrados</div></div>
 <div style="flex:1;background:var(--c1);padding:10px;text-align:center"><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--cy)">2</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase">Títulos</div></div>
 </div>
 <div id="historyTimeline"></div>
@@ -727,7 +729,7 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
 <div class="gc-t" style="margin-bottom:14px">📖 Metodología de Estudio CUN Virtual</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
 <div style="padding:10px 14px;background:var(--eg);border:1px solid rgba(16,185,129,.15);border-radius:8px;margin-bottom:10px;color:var(--em)">
-<strong>Modalidad 100% flexible:</strong> No hay horarios fijos de clase. Tú coordinas directamente con cada profesor los encuentros sincrónicos.
+<strong>Cómo se califica una materia de 8 semanas:</strong> Corte 1 30% (Quiz 10 + Parcial 20) · Corte 2 30% (Quiz 10 + Parcial 20) · Corte 3 40% (ACA 34 + Quiz 3, Coevaluación y Autoevaluación 2 c/u). Carga tus notas en 🧮 Notas de cada materia y el módulo te dice cuánto necesitas.
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-top:12px" id="methodSteps"></div>
 </div>
@@ -783,13 +785,7 @@ Abre todas las páginas CUN necesarias en Chrome, inicia sesión en cada una, y 
   <div style="font-size:11px;font-weight:700;color:var(--cy);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🤖 Paso 1 — Genera el prompt para Claude Code</div>
   <input class="cs-url-input" id="classUrl" placeholder="https://drive.google.com/... o https://zoom.us/rec/... o https://meet.google.com/...">
   <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-    <select class="tf-select" id="classSubjSel">
-      <option value="ing_web">Ingeniería Web (DIS34)</option>
-      <option value="mat_especiales">Matemáticas Especiales (DIS31)</option>
-      <option value="inv_ciencia">Inv. Ciencia y Tecnología (DIS36)</option>
-      <option value="english_beginner">English Beginner 1 (A1I01)</option>
-      <option value="placement_test">Placement Test BE (CE1026)</option>
-    </select>
+    <select class="tf-select" id="classSubjSel"></select>
     <button class="tf-btn" style="background:var(--cy);color:#000;font-weight:700" onclick="SYS.copyClassPrompt()">📋 Copiar Prompt para Claude</button>
   </div>
   <div id="classPromptPreview" style="display:none">
@@ -993,6 +989,6 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 <script src="js/cloud-sync.js?v=p19"></script>
 <script src="js/nb-shared.js?v=p21"></script>
 <script src="js/nb-engine.js"></script>
-<script src="systems_logic.js?v=p20"></script>
+<script src="systems_logic.js?v=p21"></script>
 </body>
 </html>
