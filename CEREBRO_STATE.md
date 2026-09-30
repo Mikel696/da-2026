@@ -54,9 +54,31 @@ Créditos de las nuevas: **no cargados** (no aparecen en CDigital).
   `STUDY_RESOURCES` y `ACADEMIC_SUBJ_IDS`; selector de Clases Perdidas ahora dinámico.
 - **Protección:** `saveSubjectModal` conserva `notas`/`period`/`clases` al editar.
 
+### Segunda pasada (mismo día): fechas para TODAS las entregas
+Miguel pidió fechas en cada actividad. Se revisó a fondo: aula por aula, Avisos (vacíos), foros,
+evaluaciones docentes, restricciones de cada actividad, Canvas del curso de inglés y el PDF oficial
+`calendarios_virtuales_2026_.pdf` (pág. 5, 26V05).
+- **Inglés:** "Fechas importantes 26i05" → **cierre de actividades vie 13-nov-2026**. Guía de Inicio
+  2026C → nota = 92% Dexway + 4% autoevaluación + 4% coevaluación; examen final con proctoring.
+- **Materias DIS:** las evaluaciones NO se abren por fecha sino por requisito (verificado en las
+  restricciones): Acuerdo Pedagógico → Eval. docente 1 → Quiz 1 y Parcial 1; Eval. docente 2 → Quiz 2
+  y Parcial 2; Eval. docente 3 → ACA Final y Quiz 3; "Evalúa tu Entorno" → Auto/Coevaluación.
+  Esos pasos entran al cronograma. Al 29-sep: Acuerdo abierto solo en Auditoría; **falta en
+  Inteligencia de Negocios y Nube** (bloquea su Quiz 1).
+- **Trabajo de Investigación:** el docente no publicó ninguna fecha → fechas **estimadas** (un tema
+  cada 2 semanas en 16 semanas), marcadas `est: true` y pintadas "≈ estimada". Reemplazar cuando
+  se publiquen.
+- **Calendario:** fechas institucionales del 26V05 (`CALENDAR['26V05'].extra`): retiros hasta 13-oct,
+  evaluación a docentes 7–27 nov, cierre de notas B1 23-nov, notas únicas 12–18 ene, etc.
+- **Bug de datos corregido:** marcar "Listo" guardaba una copia completa del cronograma que tapaba
+  para siempre fechas nuevas del código. `_mergeSubj()` ahora mezcla por id (conserva done, fecha
+  editada y entregas propias).
+- **Bug corregido:** `todayStr()` usaba UTC → desde las 7 PM de Colombia el módulo vivía en "mañana".
+
 ### Pendiente
 - Marcar en 10-SYS el estado de English 26V02 / Placement (siguen "pausada").
 - Horario y Meet de Auditoría, Nube y Trabajo de Investigación cuando los publiquen.
+- Fechas reales de Trabajo de Investigación (hoy estimadas ≈).
 - Notas finales del 26V02 (SGA) → prompt 3 del CUN Hub.
 - Certificaciones (15 módulos) no se tocó: candidato a recortar si no se usa.
 

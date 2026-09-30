@@ -100,7 +100,7 @@ const SYS = (() => {
     { id: 'auditoria_sistemas', period: '26V05', code: 'DIS39', name: 'Auditoría de Sistemas', group: '55506', icon: '🕵️', color: 'hsl(35,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
       professor: 'ANDRES FELIPE CORREA ESPITIA', cdigital_id: 126979,
       desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Aula: 8 temas con Guía, Video y Recurso por tema. Horario y link de clase aún sin publicar en CDigital (revisar Avisos). En Participantes también figura como profesor EDWARD ORVEY OVALLE ARIAS.',
-      cronograma: cronoB1('aud'),
+      cronograma: cronoB1('aud', true),
       resources: ['https://www.isaca.org/resources/cobit'] },
     { id: 'computacion_nube', period: '26V05', code: 'DIS40', name: 'Computación en la Nube', group: '55516', icon: '☁️', color: 'hsl(190,75%,45%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
       professor: 'MARIO ALEXANDER REALES MARTINEZ', cdigital_id: 126989,
@@ -109,49 +109,61 @@ const SYS = (() => {
       resources: ['https://learn.microsoft.com/es-es/training/azure/', 'https://aws.amazon.com/es/training/'] },
     { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único',
       professor: 'MANUEL ALBERTO SALGADO ALBA', cdigital_id: 126584,
-      desc: 'Período 26V05 · Bloque único (28 Sep 2026 - 19 Ene 2027). Aula: 8 temas con contenido SCORM + Proyecto de Aula. Fechas de ACA y quizzes aún sin publicar en CDigital.',
+      desc: 'Período 26V05 · Bloque único (28 Sep 2026 - 17 Ene 2027, 16 semanas, 8 temas). Aula: contenido SCORM por tema + Proyecto de Aula. El docente NO ha publicado fechas (revisado 29-sep: aula, avisos, foros y calendario oficial): las marcadas ≈ son estimadas a razón de un tema cada 2 semanas. Cada ACA/Quiz se desbloquea al enviar la Evaluación Docente anterior.',
       cronograma: [
-        { id: 'tin_1',  title: 'Foro 1 Temática (Tema 1)',                 date: '', type: 'foro' },
-        { id: 'tin_2',  title: 'Generalidades del Proyecto de Aula (Tema 1)', date: '', type: 'foro' },
-        { id: 'tin_3',  title: 'ACA 1 (Tema 2)',                           date: '', type: 'proyecto' },
-        { id: 'tin_4',  title: 'Quiz 1 (Tema 3)',                          date: '', type: 'quiz' },
-        { id: 'tin_5',  title: 'ACA 2 (Tema 4)',                           date: '', type: 'proyecto' },
-        { id: 'tin_6',  title: 'Quiz 2 (Tema 5)',                          date: '', type: 'quiz' },
-        { id: 'tin_7',  title: 'ACA Final (Tema 7)',                       date: '', type: 'proyecto' },
-        { id: 'tin_8',  title: 'Quiz 3 · Coevaluación · Autoevaluación (Tema 8)', date: '', type: 'quiz' },
+        { id: 'tin_1',  title: 'Foro 1 Temática (Tema 1)',                            date: '2026-10-11', type: 'foro',     est: true },
+        { id: 'tin_2',  title: 'Generalidades del Proyecto de Aula (Tema 1)',         date: '2026-10-11', type: 'foro',     est: true },
+        { id: 'tin_9',  title: 'Evaluación Docente 1 (desbloquea ACA 1 y Quiz 1)',    date: '2026-10-18', type: 'otro',     est: true },
+        { id: 'tin_3',  title: 'ACA 1 (Tema 2)',                                      date: '2026-10-25', type: 'proyecto', est: true },
+        { id: 'tin_4',  title: 'Quiz 1 (Tema 3)',                                     date: '2026-11-08', type: 'quiz',     est: true },
+        { id: 'tin_10', title: 'Evaluación Docente 2 (desbloquea ACA 2 y Quiz 2)',    date: '2026-11-15', type: 'otro',     est: true },
+        { id: 'tin_5',  title: 'ACA 2 (Tema 4)',                                      date: '2026-11-22', type: 'proyecto', est: true },
+        { id: 'tin_6',  title: 'Quiz 2 (Tema 5)',                                     date: '2026-12-06', type: 'quiz',     est: true },
+        { id: 'tin_11', title: 'Evaluación Docente 3 (desbloquea ACA Final)',         date: '2026-12-20', type: 'otro',     est: true },
+        { id: 'tin_7',  title: 'ACA Final (Tema 7)',                                  date: '2027-01-03', type: 'proyecto', est: true },
+        { id: 'tin_8',  title: 'Quiz 3 · Coevaluación · Autoevaluación (Tema 8)',     date: '2027-01-10', type: 'quiz',     est: true },
+        { id: 'tin_12', title: 'Cargue de notas únicas (calendario oficial CUN)',     date: '2027-01-18', type: 'otro' },
       ],
       resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
     { id: 'english_b1_26v05', period: '26V05', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50610', icon: '🇺🇸', color: 'hsl(45,85%,50%)', type: 'Idiomas (IV001) · Bloque único',
       professor: 'ANYI MILENA ALVAREZ COGOLLO', cdigital_id: 130590, schedule: 'Lunes a viernes · 6:15-7:45 PM (Google Meet)',
       clases: [{ dias: [1, 2, 3, 4, 5], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7916129' },
-      desc: 'Período 26I05 · Bloque único (28 Sep - 23 Nov 2026). El curso se hace en una plataforma externa ("Ready? Ingresa a tu curso de inglés"). Reemplaza la matrícula 50608 del 26V02.',
+      desc: 'Período 26I05 · Bloque único. Calendario del curso ("Fechas importantes 26i05"): inicio lun 28-sep, CIERRE DE ACTIVIDADES vie 13-nov-2026, novedades de matrícula 28-sep a 9-oct. Nota (Guía de Inicio 2026C): 92% actividades en Dexway + 4% autoevaluación + 4% coevaluación. El examen final va con proctoring: cédula original a la mano, lugar privado y silencioso. Reemplaza la matrícula 50608 del 26V02.',
       cronograma: [
-        { id: 'en5_1', title: 'Aceptar Términos y Condiciones (sección General del aula)', date: '', type: 'otro' },
-        { id: 'en5_2', title: 'Ingresar al curso en la plataforma externa',                 date: '', type: 'tarea' },
-        { id: 'en5_3', title: 'Autoevaluación',                                              date: '', type: 'quiz' },
-        { id: 'en5_4', title: 'Coevaluación',                                                date: '', type: 'quiz' },
-        { id: 'en5_5', title: 'Evaluación de plataforma',                                    date: '', type: 'otro' },
+        { id: 'en5_1', title: 'Aceptar Términos y Condiciones (sección General del aula)', date: '2026-11-13', type: 'otro' },
+        { id: 'en5_2', title: 'Ingresar al curso en Dexway (plataforma externa)',         date: '2026-11-13', type: 'tarea' },
+        { id: 'en5_6', title: 'Actividades en Dexway · todos los módulos (92%) — 30-40 min diarios', date: '2026-11-13', type: 'proyecto' },
+        { id: 'en5_7', title: 'Examen final con proctoring (cédula a la mano) · a más tardar',            date: '2026-11-13', type: 'parcial' },
+        { id: 'en5_3', title: 'Autoevaluación (4%)',                                        date: '2026-11-13', type: 'quiz' },
+        { id: 'en5_4', title: 'Coevaluación (4%)',                                          date: '2026-11-13', type: 'quiz' },
+        { id: 'en5_5', title: 'Evaluación de plataforma',                                   date: '2026-11-13', type: 'otro' },
       ],
       resources: ['english.html', 'https://www.bbc.co.uk/learningenglish/'] },
   ];
 
   // Cronograma estándar de una materia del Bloque I 26V05 (pesos del calendario oficial).
-  function cronoB1(p) {
+  // Cada evaluación está BLOQUEADA en CDigital hasta cumplir el requisito que se indica
+  // (verificado en las restricciones del aula, 29-sep). `acuerdo` = ya abierto en CDigital.
+  function cronoB1(p, acuerdo = false) {
     return [
+      { id: p + '5_0',  title: 'Abrir el Acuerdo Pedagógico CUN (desbloquea la Evaluación docente 1)', date: '2026-10-04', type: 'tarea', done: acuerdo },
       { id: p + '5_1',  title: 'Introducción · Sesión de clase',                 date: '2026-10-04', type: 'otro' },
-      { id: p + '5_2',  title: 'Evaluación docente 1',                           date: '2026-10-11', type: 'otro' },
+      { id: p + '5_2',  title: 'Evaluación docente 1 (desbloquea Quiz 1 y Parcial 1)', date: '2026-10-11', type: 'tarea' },
       { id: p + '5_3',  title: 'Quiz 1 (10%)',                                   date: '2026-10-11', type: 'quiz' },
       { id: p + '5_4',  title: 'Parcial 1 (20% → 1er Corte 30%)',                date: '2026-10-18', type: 'parcial' },
-      { id: p + '5_5',  title: 'Evaluación docente 2',                           date: '2026-10-25', type: 'otro' },
+      { id: p + '5_5',  title: 'Evaluación docente 2 (desbloquea Quiz 2 y Parcial 2)', date: '2026-10-25', type: 'tarea' },
       { id: p + '5_6',  title: 'Quiz 2 (10%)',                                   date: '2026-10-25', type: 'quiz' },
       { id: p + '5_7',  title: 'Parcial 2 (20% → 2do Corte 30%)',                date: '2026-11-01', type: 'parcial' },
-      { id: p + '5_8',  title: 'Evaluación docente 3',                           date: '2026-11-08', type: 'otro' },
+      { id: p + '5_8',  title: 'Evaluación docente 3 (desbloquea ACA Final y Quiz 3)', date: '2026-11-08', type: 'tarea' },
       { id: p + '5_9',  title: 'ACA Final · Pitch disciplinar-NIP (34%)',        date: '2026-11-08', type: 'proyecto' },
+      { id: p + '5_12', title: 'Evalúa tu Entorno (desbloquea Autoevaluación y Coevaluación)', date: '2026-11-14', type: 'tarea' },
       { id: p + '5_10', title: 'Quiz 3 (2%) · Coevaluación (2%) · Autoevaluación (2%)', date: '2026-11-14', type: 'quiz' },
       { id: p + '5_11', title: 'Cierre de notas',                                date: '2026-11-22', type: 'otro' },
     ];
   }
+
+  const EST_TAG = est => est ? ' <span title="Fecha estimada: el docente aún no la publica en CDigital" style="font-size:9px;padding:1px 6px;border-radius:5px;border:1px dashed var(--am);color:var(--am);white-space:nowrap">≈ estimada</span>' : '';
 
   // Esquema de notas CUN de 8 semanas (Quiz 10 + Parcial 20 por corte 1 y 2; ACA 34 + 3×2 en el corte 3).
   const GRADE_SCHEMES = {
@@ -189,7 +201,18 @@ const SYS = (() => {
     '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' }, gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' }, gradeClose2: { start: '2026-07-14', end: '2026-07-19', label: 'Cierre notas Bloque 2' }, periodClose: { start: '2026-07-20', end: '2026-07-26', label: 'Cierre período' } },
     '26V03': { label: 'Período 26V03', academic: { start: '2026-05-25', end: '2026-09-27' }, block1: { start: '2026-05-25', end: '2026-07-19', label: 'Primer Bloque' }, block2: { start: '2026-07-20', end: '2026-09-27', label: 'Segundo Bloque' } },
     '26V04': { label: 'Período 26V04', academic: { start: '2026-08-03', end: '2026-11-22' }, block1: { start: '2026-08-03', end: '2026-09-27', label: 'Primer Bloque' }, block2: { start: '2026-09-28', end: '2026-11-22', label: 'Segundo Bloque' } },
-    '26V05': { label: 'Período 26V05', academic: { start: '2026-09-28', end: '2027-01-17' }, block1: { start: '2026-09-28', end: '2026-11-22', label: 'Primer Bloque' }, block2: { start: '2026-11-23', end: '2027-01-17', label: 'Segundo Bloque' } },
+    // 26V05: fechas institucionales del PDF oficial calendarios_virtuales_2026 (página 5, leído 29-sep-2026).
+    '26V05': { label: 'Período 26V05', academic: { start: '2026-09-28', end: '2027-01-17' }, block1: { start: '2026-09-28', end: '2026-11-22', label: 'Primer Bloque' }, block2: { start: '2026-11-23', end: '2027-01-17', label: 'Segundo Bloque' },
+      gradeClose1: { start: '2026-11-23', end: '2026-11-23', label: 'Cierre plataforma de notas · Bloque 1' },
+      periodClose: { start: '2027-01-19', end: '2027-01-23', label: 'Cierre de período y cambio de ciclo' },
+      extra: [
+        { start: '2026-09-28', end: '2026-09-30', label: 'Cancelación de asignaturas · primer corte' },
+        { start: '2026-09-28', end: '2026-10-13', label: 'Retiros y aplazamientos' },
+        { start: '2026-11-07', end: '2026-11-27', label: 'Evaluación estudiantil a docentes · Bloque 1' },
+        { start: '2027-01-02', end: '2027-01-20', label: 'Evaluación estudiantil a docentes · Bloque 2' },
+        { start: '2027-01-12', end: '2027-01-18', label: 'Cargue de notas únicas (materias de bloque único)' },
+        { start: '2027-01-20', end: '2027-01-25', label: 'Modificación de notas' },
+      ] },
     '26V06': { label: 'Período 26V06', academic: { start: '2026-11-23', end: '2027-03-28' }, block1: { start: '2026-11-23', end: '2027-01-17', label: 'Primer Bloque' }, block2: { start: '2027-01-18', end: '2027-03-28', label: 'Segundo Bloque' } },
   };
 
@@ -654,8 +677,10 @@ const SYS = (() => {
     return `${dt.getDate()} de ${months[dt.getMonth()]} de ${dt.getFullYear()}`;
   }
 
+  // Fecha LOCAL: con toISOString (UTC), desde las 7 PM de Colombia ya era "mañana".
   function todayStr() {
-    return new Date().toISOString().split('T')[0];
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 
   // El período matriculado es el más reciente entre las materias "en curso".
@@ -713,7 +738,7 @@ const SYS = (() => {
     const ids = new Set(subs.map(s => s.id));
     const items = [];
     subs.forEach(s => (s.cronograma || []).forEach(c => {
-      if (!c.done && c.date && c.type !== 'otro') items.push({ kind: 'crono', s, text: c.title, due: c.date, type: c.type });
+      if (!c.done && c.date && c.type !== 'otro') items.push({ kind: 'crono', s, text: c.title, due: c.date, type: c.type, est: c.est });
     }));
     const byId = Object.fromEntries(subs.map(s => [s.id, s]));
     getTasks().forEach(t => {
@@ -953,7 +978,7 @@ const SYS = (() => {
               return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px${c.done ? ';opacity:.55' : ''}">
                 <div class="atask-check${c.done ? ' done' : ''}" onclick="SYS.toggleCronoEntry('${s.id}','${c.id}')" title="Marcar como ${c.done ? 'pendiente' : 'completada'}">${c.done ? '✓' : ''}</div>
                 ${dl ? `<span class="sem ${sc2}" style="flex-shrink:0;min-width:52px;justify-content:center;font-size:10px">${dl}</span>` : ''}
-                <span style="font-size:12px;flex:1${c.done ? ';text-decoration:line-through' : ''}">${typeIc} ${esc(c.title)}</span>
+                <span style="font-size:12px;flex:1${c.done ? ';text-decoration:line-through' : ''}">${typeIc} ${esc(c.title)}${EST_TAG(c.est && !c.done)}</span>
                 ${c.date ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(c.date)}</span>` : ''}
               </div>`;
             }).join('')}
@@ -1128,7 +1153,8 @@ const SYS = (() => {
       { date: cal.block2?.end, label: cal.block2?.label + ' — Fin', sub: 'Cierre de actividades del segundo bloque' },
       ...(cal.periodClose ? [{ date: cal.periodClose.start, label: cal.periodClose.label, sub: `${formatDateFull(cal.periodClose.start)} → ${formatDateFull(cal.periodClose.end)}` }] : []),
       { date: cal.academic?.end, label: 'Fin del período académico', sub: 'Cierre total del período' },
-    ].filter(e => e.date);
+      ...(cal.extra || []).map(x => ({ date: x.start, label: x.label, sub: x.end !== x.start ? `${formatDateFull(x.start)} → ${formatDateFull(x.end)}` : formatDateFull(x.start) })),
+    ].filter(e => e.date).sort((a, b) => a.date.localeCompare(b.date));
 
     el.innerHTML = `<div class="tl">
       ${events.map(e => {
@@ -1589,7 +1615,7 @@ const SYS = (() => {
       return `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
         <span class="sem ${sc}" style="min-width:52px;justify-content:center">${dl}</span>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(it.due)}</span>
-        <span style="font-size:12px;flex:1">${it.kind === 'crono' ? (typeIc[it.type] || '📌') : '🚦'} ${esc(it.text)}</span>
+        <span style="font-size:12px;flex:1">${it.kind === 'crono' ? (typeIc[it.type] || '📌') : '🚦'} ${esc(it.text)}${EST_TAG(it.est)}</span>
         <span style="font-size:10px;color:var(--t3)">${it.s ? it.s.icon + ' ' + esc(it.s.code || it.s.name) : '📌 General'}</span>
       </div>`;
     };
@@ -1633,7 +1659,7 @@ const SYS = (() => {
     // 2) Entregas del cronograma no marcadas como done
     subjects.forEach(s => (s.cronograma || []).forEach(c => {
       if (!c.done && c.date) {
-        items.push({ kind: 'crono', id: c.id, subj: s.id, text: c.title, due: c.date, type: c.type });
+        items.push({ kind: 'crono', id: c.id, subj: s.id, text: c.title, due: c.date, type: c.type, est: c.est });
       }
     }));
 
@@ -1666,7 +1692,7 @@ const SYS = (() => {
         return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
           <span class="sem ${sc}" style="flex-shrink:0;min-width:56px;justify-content:center">${dl}</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0">${formatDate(it.due)}</span>
-          <span style="font-size:12px;flex:1">${kindIc} ${esc(it.text)}</span>
+          <span style="font-size:12px;flex:1">${kindIc} ${esc(it.text)}${EST_TAG(it.est)}</span>
           ${it.kind === 'crono' ? '<span style="font-size:9px;color:var(--t3);text-transform:uppercase">cronograma</span>' : ''}
         </div>`;
       }).join('');
@@ -2264,12 +2290,33 @@ const SYS = (() => {
   let _subjFilter = 'actual';
   function setSubjFilter(f) { _subjFilter = f; render(); }
 
+  // Marcar una entrega guarda una copia completa del cronograma en subjects_custom.
+  // Sin este merge por id, esa copia tapaba para siempre las fechas y entregas que
+  // se agreguen después en el código. Del usuario se conserva: done, su fecha si la
+  // cambió, y las entregas que él mismo creó.
+  function _mergeSubj(s, o) {
+    if (!o) return s;
+    const m = { ...s, ...o };
+    if (Array.isArray(s.cronograma) && Array.isArray(o.cronograma)) {
+      const oBy = Object.fromEntries(o.cronograma.map(c => [c.id, c]));
+      const baseIds = new Set(s.cronograma.map(c => c.id));
+      m.cronograma = [
+        ...s.cronograma.map(c => {
+          const u = oBy[c.id];
+          return u ? { ...c, done: u.done ?? c.done, date: u.date || c.date } : c;
+        }),
+        ...o.cronograma.filter(c => !baseIds.has(c.id)),
+      ];
+    }
+    return m;
+  }
+
   function getSubjects() {
     const custom = db.get('subjects_custom', []);
     const hidden = new Set(db.get('subjects_hidden', []));
     const overMap = Object.fromEntries(custom.map(s => [s.id, s]));
     const hardIds = new Set(SUBJECTS.map(s => s.id));
-    const base = SUBJECTS.filter(s => !hidden.has(s.id)).map(s => overMap[s.id] ? { ...s, ...overMap[s.id] } : s);
+    const base = SUBJECTS.filter(s => !hidden.has(s.id)).map(s => _mergeSubj(s, overMap[s.id]));
     const extras = custom.filter(s => !hardIds.has(s.id) && !hidden.has(s.id));
     return [...base, ...extras];
   }

@@ -214,7 +214,9 @@ Estas reglas existen porque ya hubo incidentes de hallucinación masiva (ver lec
 `cronograma` y `esquema: 'cun_b8'` si sigue el calendario de 8 semanas. Añadir `BLOCK_PLANS[período]`.
 `detectPeriod()` toma el período más reciente de las materias "en curso": no hay que tocar nada más.
 Los quizzes están **ocultos** hasta que abren → su fecha es el cierre de la semana del calendario.
-Sin evidencia de fecha → `date: ''` (hueco visible).
+Sin fecha publicada: o se deja vacía, o se estima con método explícito y `est: true` (se pinta "≈ estimada"). Nunca una estimada sin marca.
+Las evaluaciones de CDigital se desbloquean por **requisito** (Acuerdo → Eval. docente N → Quiz/Parcial), no por fecha: esos pasos van en el cronograma.
+**`_mergeSubj()`**: el override de `subjects_custom` se mezcla por id de entrega con el código; no volver a `{...base, ...override}` (tapaba fechas nuevas).
 
 **Notas:** `sys_subjects_custom[].notas` (claves `q1 p1 q2 p2 aca q3 co au` + `meta`), cargables con
 `SYS.setNota(id, clave, valor)` en la pestaña real del live site.
