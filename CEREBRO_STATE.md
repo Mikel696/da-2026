@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-09-29 (10-SYS: materias 26V05 desde CDigital + módulo reorientado al semestre real)
+- **Última actualización:** 2026-10-08 (10-SYS: clases grabadas leídas + cuadernos "Ponerme al día" por materia)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,37 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## ⚙️ 10-SYS · Ponerme al día con las clases grabadas (26V05, semanas 1-2) — 2026-10-08
+
+### Qué se hizo
+- Se leyeron las **grabaciones de Meet** de: Inglés (30-sep inducción, 5-oct tutoría), Inteligencia de
+  Negocios (30-sep presentación, 7-oct "importancia de los datos"), Computación en la Nube (1-oct) y
+  Trabajo de Investigación (7-oct) + el archivo del docente "Clases ... P0" (PDF, extraído con pdf.js).
+- **Auditoría 1-oct: sin acceso** ("no tienes permiso"); Miguel debe pedir acceso desde Calendar.
+- Se creó en el cuaderno de cada materia una página **"📌 Ponerme al día"** (qué se vio, reglas del
+  docente, urgente, qué hacer). Se inyectó en la pestaña real: 16 → 21 páginas, sin tocar las suyas.
+  ⚠️ La sesión de Supabase de ese Chrome estaba cerrada: quedó en `cloud_outbox` hasta que inicie sesión.
+- Materias actualizadas en `SUBJECTS` con lo dicho en clase: Auditoría y Nube son **jueves 6:15-7:45**,
+  tutoría de Nube **viernes 6:15-7:15**, inglés **lunes tutoría + mar-vie la misma clase**, correos de
+  docentes, enlaces de grabaciones/material. **Trabajo de Investigación es de 8 semanas, no 16**
+  (las fechas estimadas del 29-sep estaban mal y se retiraron); regla del docente: no resolver nada en
+  la plataforma sin sus instrucciones; notas cierran el 11-nov. `clases[].tipo` ('tutoría') y el
+  Dashboard muestra una sola vez las clases repetidas.
+
+### Hallazgo urgente que se le dio a Miguel
+Quiz 1 de las 3 DIS cierra el **domingo 11-oct** y estaba bloqueado: le falta la **Evaluación Docente 1**.
+
+### Cómo se sacan las transcripciones (para repetirlo)
+- Las clases están en **Google Calendar del correo CUN** (`calendar.google.com/calendar/u/3/`): cada
+  evento trae 3 adjuntos (Recording, Chat, Transcript). El **Transcript (Google Doc) da 403**: solo lo ve
+  el organizador. El **Recording sí** (salvo Auditoría).
+- Desde una pestaña en `drive.google.com`: `fetch('/u/3/get_video_info?docid=ID')` → `ttsurl` → pista
+  `es/asr` en `fmt=json3`. Es la transcripción automática completa, sin abrir el panel de Drive.
+- Inglés: Moodle `mod/googlemeet/view.php?id=7916129` lista las grabaciones con enlace de Drive.
+- Leer cada clase agrupada por minuto (`get_page_text` sobre un `<article>` creado en la página): 50 kB por llamada.
 
 ---
 
