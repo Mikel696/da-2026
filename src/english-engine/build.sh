@@ -56,10 +56,25 @@ OUT="${1:-$RAIZ/frontend/pages/english-engine.html}"
   cat "$SP/12_bifur_data.js"
   cat "$SP/13_bifur_data2.js"
   cat "$SP/33_expr.js"
-  cat "$SP/09_sync.js"
+  # La copia para invitados no lleva la nube — ni, por tanto, la clave de la
+  # base de datos: se comparte un archivo que no puede tocar nada de Miguel.
+  if [ -n "$INVITADOS" ]; then cat "$SP/09_sync_invitados.js"; else cat "$SP/09_sync.js"; fi
   cat "$SP/08_app.js"
   printf '</script>\n'
+  if [ -n "$INVITADOS" ]; then
+    # El botón de la nube no pinta nada aquí, y el aviso del Cuaderno habla de una
+    # sincronización que esta copia no tiene: se arreglan al arrancar.
+    cat "$SP/_invitados.html"
+  fi
 } > "$OUT"
+
+if [ -n "$INVITADOS" ]; then
+  for prohibido in "supabase.co" "signInWithPassword" "SUPA_ANON"; do
+    if grep -q "$prohibido" "$OUT"; then
+      echo "ROTO · la copia para invitados lleva dentro: $prohibido" >&2; exit 1
+    fi
+  done
+fi
 
 # Un "construido" a secas NO es prueba de nada: hay que ver que las piezas
 # grandes siguen dentro del archivo.
