@@ -347,10 +347,27 @@ async function boot(silent){
   } finally { booting = false; }
 }
 
+/* Tope de espera: si el servidor no contesta en 15 s, se avisa en vez de esperar
+   para siempre. No se cancela la petición — si llega después, no estorba. */
+const TOPE_MS = 15000;
+const SIN_SERVIDOR = 'El servidor de tu cuenta no responde (puede estar pausado o caído). ' +
+  'Tus datos siguen guardados en este equipo: no se ha perdido nada.';
+function conTope(promesa){
+  /* Dos formas de fallar, y las dos acaban igual de mal si no se recogen:
+     que no conteste (se queda colgada) y que reviente (fetch lanza con el
+     servidor caído: el navegador lo cuenta como error de CORS). */
+  return Promise.race([
+    Promise.resolve(promesa).catch(e => ({ _tope:true, _err:e })),
+    new Promise(r => setTimeout(() => r({ _tope:true }), TOPE_MS))
+  ]);
+}
+
 async function signIn(email, pass){
   const c = await client();
   if(!c) return { ok:false, msg:'No se pudo cargar el conector. Revisa tu internet.' };
-  const { data, error } = await c.auth.signInWithPassword({ email, password:pass });
+  const res = await conTope(c.auth.signInWithPassword({ email, password:pass }));
+  if(res._tope) return { ok:false, msg: SIN_SERVIDOR };
+  const { data, error } = res;
   if(error) return { ok:false, msg: traducir(error.message) };
   user = data.user;
   await pull();
@@ -360,7 +377,9 @@ async function signIn(email, pass){
 async function signUp(email, pass){
   const c = await client();
   if(!c) return { ok:false, msg:'No se pudo cargar el conector. Revisa tu internet.' };
-  const { data, error } = await c.auth.signUp({ email, password:pass });
+  const res = await conTope(c.auth.signUp({ email, password:pass }));
+  if(res._tope) return { ok:false, msg: SIN_SERVIDOR };
+  const { data, error } = res;
   if(error) return { ok:false, msg: traducir(error.message) };
   if(data.user && data.session){ user = data.user; await pushKeys(KEYS); return { ok:true }; }
   return { ok:true, msg:'Cuenta creada. Revisa tu correo para confirmarla y vuelve a entrar.' };
@@ -379,7 +398,10 @@ function traducir(m){
   if(/already registered|already exists/i.test(s)) return 'Ese correo ya tiene cuenta. Entra en vez de registrarte.';
   if(/password.*6|at least 6/i.test(s)) return 'La contraseña debe tener al menos 6 caracteres.';
   if(/rate limit|too many/i.test(s)) return 'Demasiados intentos. Espera un minuto.';
-  if(/fetch|network/i.test(s)) return 'Sin conexión con el servidor.';
+  /* No es tu contraseña: el servidor no contesta. Pasó el 8-oct-2026 (proyecto
+     pausado) y la pantalla se quedaba en «Conectando…» sin decir nada. */
+  if(/fetch|network/i.test(s)) return 'El servidor de tu cuenta no responde: puede estar pausado, caído, o tú sin internet. ' +
+    'Todo lo tuyo sigue guardado en este equipo — no se ha perdido nada. Vuelve a intentarlo más tarde.';
   return s;
 }
 
