@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-08 (10-SYS: clases grabadas leídas + cuadernos "Ponerme al día" por materia)
+- **Última actualización:** 2026-10-08 (10-SYS: clases grabadas · 3-ENG: Supabase reiniciado, seguridad auditada, copia para compartir)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,66 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🔐 3-ENG · Compartir el Engine, y el día que Supabase estuvo «Unhealthy» — 2026-10-08
+
+### El login roto: no era la contraseña
+
+Medido desde fuera: base de datos **522**, auth **504**, tres intentos. En el panel,
+`mbuhlxypuvlxxylryjzi` figuraba ACTIVO pero con **STATUS: Unhealthy** — 167 errores/hora en la
+puerta de entrada y **0 peticiones llegando a Postgres**. No estaba pausado: estaba enfermo.
+**Settings → General → Restart project** y en ~2 min volvió. (El otro proyecto, «sistema familiar»,
+sí está en pausa, pero no es el del Cerebro.)
+
+Dos trampas que costaron tiempo:
+- Un **401 en `/rest/v1/`** parece señal de vida y no lo es: lo contesta la puerta de entrada, no
+  la base. La prueba real es consultar una tabla.
+- El panel salía **traducido por Chrome**: «Resume project» → «Proyecto de curriculum»,
+  «Checking…» → «De cheques…». Por eso no se entendía qué pulsar.
+
+**Y un fallo propio que lo escondía** (`e6e09e9`): con el servidor caído el `fetch` revienta y
+nadie recogía la excepción — la pantalla se quedaba en «Conectando…» 45 s y más. Ahora se recogen
+las dos formas de fallar (que no conteste y que reviente) y el mensaje dice que los datos siguen en
+el equipo. Medido contra el servidor realmente caído.
+
+### Auditoría de seguridad, por comportamiento
+
+Con la clave anónima del repositorio (que lleva meses en un repo **público**) y sin sesión:
+
+| Prueba | Resultado |
+|---|---|
+| Leer `app_state`, `sys_tasks`, `user_prefs` | `[]` en las tres — **RLS bloquea la lectura** |
+| Insertar | **401 · 42501** «new row violates row-level security policy», en las tres |
+| Borrar | 0 filas afectadas |
+| Crear cuenta | **Estaba permitido** → apagado *Allow new users to sign up*; ahora **422 `signup_disabled`** |
+
+Veredicto: esa clave no sirve para robar ni romper nada. El único agujero era el registro abierto,
+cerrado y verificado desde fuera.
+
+### Compartir el Engine (`0652f50`)
+
+Decidido con `analisis-profundo`: no se comparte el Cerebro (lleva finanzas, trabajo y
+universidad), se comparte **una copia del Engine, sola y sin nube**:
+
+    INVITADOS=1 bash src/english-engine/build.sh ../compartir-engine/index.html
+
+Sustituye `09_sync.js` por `09_sync_invitados.js` (misma superficie, sin conexión) y el build
+**falla** si en la copia aparece `supabase.co`, `signInWithPassword` o `SUPA_ANON`. Comprobado:
+11 pestañas, auditorías en verde, y las únicas peticiones a internet son las tipografías.
+Publicación y puerta (Cloudflare Pages + Access, gratis hasta 50 personas): `COMPARTIR_ENGINE.md`.
+
+**Dato que cambió el planteamiento:** el repositorio `da-2026` es **público y clonable sin
+cuenta**. «Que no me roben la app» hoy no existe como protección; lo que sí se controla es quién
+llega a verla.
+
+### Pendiente
+
+- Sin **copias de seguridad** en Supabase (plan gratuito, «No backups»). El Cerebro guarda local
+  primero, pero la copia debería ser a propósito, no por suerte.
+- Decidir si `da-2026` deja de ser público (obliga a mover el hospedaje: Pages privado es de pago,
+  Cloudflare Pages es gratis).
 
 ---
 
