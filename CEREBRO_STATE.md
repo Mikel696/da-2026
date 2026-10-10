@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-08 (10-SYS: clases grabadas · 3-ENG: Supabase reiniciado, seguridad auditada, copia para compartir)
+- **Última actualización:** 2026-10-09 (10-SYS: recorrido completo de las 5 materias + carpetas del Semestre 9)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,38 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## ⚙️ 10-SYS · Recorrido completo de las 5 materias + carpetas del semestre — 2026-10-09
+
+### Qué se revisó
+Aulas (inventario de las 5: cada actividad, enlaces resueltos, etiquetas), las **24 guías + 24
+presentaciones oficiales** (CDN público `d3my5pcft3hnu9.cloudfront.net/2025/pregrado/{ADES_P|INTNE_V|CC_V}/{PDF|PPT|VIDEOS}/G1..8`),
+syllabus de Nube (Drive), Google Calendar CUN (descripciones de los eventos) y **correo CUN** (bienvenidas,
+correo del docente de TI del 1-oct, respuesta de Idiomas al ticket del Placement Test, resúmenes Read AI).
+
+### Hallazgos nuevos
+- Auditoría: el docente fija el **fin el 15-nov**; esta semana la clase pasó al viernes 9-oct; Meet xwj-puty-htw;
+  coordinador Edward Ovalle; el contenido oficial = guía + video + recurso por tema; Tema 8 = proyecto de auditoría.
+- Nube: grabaciones en el aula dentro de 24 h (mod/googlemeet 7953245); la del 8-oct aún sin permiso.
+- Inglés: Placement Test ($72.000 según correo del 30-sep) o nivelación de unos 2 meses, vía CAMI Ticket; formulario
+  de Reglas de participación.
+- TI: correo del 1-oct confirma "NO REALICEN NINGUNA ACTIVIDAD EN LA PLATAFORMA"; el archivo sigue en P0.
+
+### Entregables
+- `E:\Ing de Sistemas CUN\Semestre 9\` → `00 - EMPIEZA AQUI - Semestre 9.html` + una carpeta por materia con
+  `LEEME - <materia>.html` (ficha, urgente, metodología, calendario, temario con enlaces, clases vistas, recursos y
+  cursos externos, ojo) y subcarpetas `01 Material oficial del curso` (guías y presentaciones en PDF en las 3 DIS),
+  `02 Mis apuntes`, `03 Mis entregas`. La carpeta "NotebookLM" de Miguel en Auditoría no se tocó.
+  Generador en el scratchpad de la sesión (`materias.js` + `gen.js`): los datos viven en un solo objeto.
+- Cuadernos: la página "📌" de cada materia pasó a "Contexto completo + ponerme al día (act. 9-oct)". Se
+  sincronizó (uid presente, outbox 0).
+- `SUBJECTS`: enlaces de clase y grabaciones de Auditoría y Nube, fin de Auditoría, tarea de Reglas de participación en inglés.
+
+### Trampa encontrada
+Chrome bloquea que la página publicada (https) lea `http://localhost` (Local Network Access): el fetch se cuelga
+sin error. Para pasar datos grandes a la pestaña real hay que pegarlos en el script, no servirlos en local.
 
 ---
 
