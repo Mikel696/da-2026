@@ -1609,11 +1609,11 @@ const SYS = (() => {
     let nextHtml = '';
     if (w) {
       const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
-      let next = (w.route || []).map((r, i) => ({ n: i + 1, title: r.title, when: r.when, it: byId[r.item], subj: r.subj, link: (r.links || [])[0] }))
-        .filter(x => !(x.it && wlItemDone(x.it, raw)));
+      let next = (w.route || []).map((r, i) => ({ n: i + 1, title: r.title, when: r.when, it: byId[r.item], subj: r.subj, link: (r.links || [])[0], key: wlRouteKey(w, r) }))
+        .filter(x => !(x.it ? wlItemDone(x.it, raw) : (raw[x.key] && raw[x.key].done)));
       if (!(w.route || []).length) {
         next = w.items.filter(it => !wlItemDone(it, raw)).sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'))
-          .map((it, i) => ({ n: i + 1, title: it.title, when: it.due ? wlFmtDue(it.due) : '', it }));
+          .map((it, i) => ({ n: i + 1, title: it.title, when: it.due ? wlFmtDue(it.due) : '', it, key: it.id }));
       }
       nextHtml = next.slice(0, 3).map(x => {
         const s = getSubjects().find(z => z.id === (x.subj || (x.it && x.it.subj))) || { icon: '📌' };
@@ -1622,7 +1622,7 @@ const SYS = (() => {
           <span style="width:20px;height:20px;border-radius:50%;background:var(--vi);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${x.n}</span>
           <span style="font-size:12px;flex:1;min-width:180px">${s.icon} ${esc(x.title)}${x.when ? ' ' + mute('· ' + esc(x.when)) : ''}</span>
           ${link ? `<a href="${esc(link.url)}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none;white-space:nowrap">${esc(link.label)} ↗</a>` : ''}
-          ${x.it ? `<button onclick="SYS.wlToggle('${x.it.id}')" title="Marcar hecho" style="font-size:10px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ hecho</button>` : ''}
+          ${x.key ? `<button onclick="SYS.wlToggle('${x.key}')" title="Marcar hecho" style="font-size:10px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ hecho</button>` : ''}
         </div>`;
       }).join('') || `<div style="font-size:11.5px;color:var(--gn)">✅ La ruta de esta semana está completa.</div>`;
     }
@@ -1762,6 +1762,8 @@ const SYS = (() => {
     const refs = _cronoRefs(it);
     return refs.length > 0 && refs.every(r => { const c = _cronoEntry(r); return !!(c && c.done); });
   }
+  // Un paso de la ruta sin actividad propia se marca con su propia llave en sys_week_state.
+  function wlRouteKey(w, r) { return r.item || (w.id + '#r' + ((w.route || []).indexOf(r) + 1)); }
   function wlDerived(w, raw) {
     const out = { ...raw };
     w.items.forEach(it => { out[it.id] = { ...(raw[it.id] || {}), done: wlItemDone(it, raw) }; });
@@ -1914,19 +1916,21 @@ const SYS = (() => {
       const steps = (w.route || []).filter(r => {
         const it = byId[r.item];
         const subj = r.subj || (it && it.subj);
-        const isDone = it && st[it.id] && st[it.id].done;
+        const k = wlRouteKey(w, r);
+        const isDone = st[k] && st[k].done;
         return (wlView.subj === 'all' || subj === wlView.subj) && (!wlView.pend || !isDone);
       });
       body = steps.map(r => {
         const it = byId[r.item], s = subjOf(r.subj || (it && it.subj));
-        const isDone = !!(it && st[it.id] && st[it.id].done);
+        const k = wlRouteKey(w, r);
+        const isDone = !!(st[k] && st[k].done);
         const links = (r.links && r.links.length ? r.links : (it && it.links) || []);
         const n = (w.route || []).indexOf(r) + 1;
         return `<div style="display:flex;gap:10px;padding:9px 10px;border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;margin-bottom:6px;background:var(--el);${isDone ? 'opacity:.55' : ''}">
           <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;${isDone ? 'background:rgba(34,197,94,.15);color:#22c55e' : 'background:var(--vi);color:#fff'}">${isDone ? '✓' : n}</div>
           <div style="flex:1;min-width:0">
             <div style="font-size:12.5px;font-weight:600;${isDone ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(r.title)}</div>
-            <div style="font-size:10.5px;color:var(--t3);margin-top:1px">${r.when ? '🗓 ' + esc(r.when) : ''}${r.mins ? ' · ⏱ ' + esc(String(r.mins)) + ' min' : ''}${it && it.due ? ' · cierra ' + wlFmtDue(it.due) : ''}${it ? ` · <a href="#" onclick="SYS.wlToggle('${it.id}');return false" style="color:var(--vi2)">${isDone ? 'desmarcar' : 'marcar hecho'}</a>` : ''}</div>
+            <div style="font-size:10.5px;color:var(--t3);margin-top:1px">${r.when ? '🗓 ' + esc(r.when) : ''}${r.mins ? ' · ⏱ ' + esc(String(r.mins)) + ' min' : ''}${it && it.due ? ' · cierra ' + wlFmtDue(it.due) : ''} · <a href="#" onclick="SYS.wlToggle('${k}');return false" style="color:var(--vi2)">${isDone ? 'desmarcar' : 'marcar hecho'}</a></div>
             ${r.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.5">${esc(r.why)}</div>` : ''}
             ${links.length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${links.map(linkBtn).join('')}</div>` : ''}
           </div>
