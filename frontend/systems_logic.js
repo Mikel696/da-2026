@@ -1850,13 +1850,13 @@ const SYS = (() => {
             <div style="font-size:12.5px;font-weight:600;${sv.done ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(it.title)}${it.weight ? ` <span style="font-size:10px;color:var(--am);font-weight:500">· vale ${esc(it.weight)}</span>` : ''}${EST_TAG(it.est)}</div>
             <div style="font-size:10.5px;color:var(--t3)">${esc(s.name)}${it.due ? ' · ' + wlFmtDue(it.due) : ''} · <span title="${esc(m.tip)}">${m.ic} ${m.label}</span>${sv.st ? ` · <span style="color:var(--vi2)">${esc(sv.st)}</span>` : ''}</div>
             ${it.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px">${esc(it.why)}</div>` : ''}
+            ${(it.links || []).length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${it.links.map(linkBtn).join('')}</div>` : ''}
           </div>
         </div>
-        <details style="margin:4px 0 0 22px"><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Qué hacer, evidencia y enlaces</summary>
+        <details style="margin:4px 0 0 22px"><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Qué hacer y evidencia</summary>
           ${(it.steps || []).length ? `<ol style="font-size:11.5px;color:var(--t2);margin:6px 0;padding-left:18px">${it.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
           ${(it.ev || []).map(quote).join('')}
           <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
-            ${(it.links || []).map(linkBtn).join('')}
             ${canDelegate ? `<button onclick="SYS.wlDelegate('${w.id}','${it.id}')" style="font-size:10px;padding:3px 9px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--vi);color:#fff;border:none">${m.ic} ${it.mode === 'prep' ? 'Pedir preparación' : 'Delegar a Claude'}</button>
             <select onchange="SYS.setWeekItem('${it.id}',{st:this.value})" style="font-size:10px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:2px 4px;font-family:inherit">${WL_STATUS.map(x => `<option value="${x}" ${(sv.st || '') === x ? 'selected' : ''}>${x || 'estado…'}</option>`).join('')}</select>` : `<span style="font-size:10px;color:var(--t3)">${m.ic} ${esc(m.tip)}</span>`}
           </div>
