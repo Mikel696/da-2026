@@ -36,7 +36,15 @@ Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vista
    `content/N`), mensajes nuevos y la grabación de su clase. Fuera de lo que él pidió, en esa aula no se
    recomienda hacer nada (ni evaluaciones docentes del corte siguiente, ni Contenidos, ni ACA, ni quizzes viejos).
 4. **Dexway** (inglés, 92 %): abrir `mod/lti/launch.php?id=7683852` → "Entrar" y leer el avance por unidad, sin
-   iniciar lecciones.
+   iniciar lecciones. Estructura: 4 unidades × 5 lecciones + "Course review" (examen final con cámara).
+5. **Plan del día (`days`)** — es lo que Miguel ve primero ("Tu día"). Cada fecha de la semana lleva `focus`
+   y `tasks` con **para qué** (`why`: qué gana o qué evita, nunca "porque sí"), minutos, enlaces y `item` si
+   corresponde a una actividad. Inglés va **todos los días** (2 lecciones de Dexway ≈ 50 min, marcado `est`).
+   Lo hecho desaparece; lo no hecho de días anteriores se arrastra a hoy.
+6. **Trabajar como estudiante, no como secretario.** Antes de mandar a "leer páginas", Claude prepara el
+   material: una guía de 1 página por evaluación en el cuaderno de la materia (enlazada con `{label, nb:
+   'materia:idPágina'}`), chuletas de inglés por unidad, simulacros cuando los pida. Y `advice`: 3-5 consejos
+   concretos para la semana (dónde está el riesgo, qué clase priorizar cuando chocan, cuándo hacer cada quiz).
 
 ## Protocolo (Chrome de Miguel, con la extensión)
 
@@ -70,6 +78,8 @@ SYS.injectWeek({
     ev: [{ q /*verbatim*/, src, t? /*minuto*/ }], links: [{ label, url }]
   }],
   route: [{ item? /*id de items: hereda check, enlaces y cierre*/, subj?, title, when, mins?, why, links? }],
+  days: { 'AAAA-MM-DD': { focus, tasks: [{ id, subj, title, why /*para qué*/, mins, item?, opt?, est?, links? }] } },
+  advice: ['consejo concreto', …],   // links admite { label, url } o { label, nb: 'materia:idPágina' }
   classes: [{ subj, when, rec: 'ok'|'sin grabación publicada'|'grabación sin permiso', src, sum: [], ev: [], links: [] }],
   next:    [{ when, subj, text, est? }],
   sources: ['...']

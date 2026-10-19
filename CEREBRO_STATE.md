@@ -83,8 +83,23 @@ los entregables (ACA) se hacen juntos y los entrega él.
 - AWS Academy corregido en el parte: el curso es opcional, pero el ACA de Nube va en su Sandbox (dato del 9-oct
   que el parte del 18 había pasado por alto).
 
+### Cuarta pasada · "no me gustó" (23:20-00:10)
+Lo que Miguel reclamó y cómo quedó:
+- **"Si algo ya está hecho, quítalo de la lista"** → todo lo hecho se oculta (Hoy, Ruta, Prioridades, Centro de
+  mando); botón "👁 ver hechas (N)".
+- **"Dime qué tengo que dejar hoy y para qué"** → tarjeta **Tu día** (`days` en el parte): enfoque del día, tareas
+  con "🎯 Para qué", minutos, enlaces y "✓ Hecho"; anillo de avance, tira de 8 días, lo atrasado se arrastra.
+- **"No hay nada de inglés"** → Dexway todos los días (4 u. × 5 lecciones leídas en Dexway; U1 lun-mié, U2 sáb-dom).
+- **"Leer el PDF… ¿para qué?"** → Claude preparó el material: 5 páginas de cuaderno (guía Parcial 1 TI, chuleta
+  Dexway U1-U2, guías Quiz 2 de BI/Nube/Auditoría desde las G4 oficiales), enlazadas con `SYS.openNb`.
+- **"Aconséjame"** → `advice` (5 consejos: el riesgo es inglés, qué clase priorizar cuando chocan, quiz el mismo día).
+- **"Más diseño"** → íconos por materia con su color, anillo SVG, tira de días, enfoque destacado.
+- Revisión completa antes de armarlo: CDigital (5 aulas), correo, `sys_tasks` (solo tareas viejas de 26V02),
+  cuadernos (cada materia tiene 2 páginas propias + la de contexto) y Dexway.
+
 ### Pendiente
-- Dexway: arrancar la Unidad 1 esta semana.
+- Dexway: arrancar la Unidad 1 el lunes 19.
+- Jueves 22: actualizar la guía del Quiz 2 de Auditoría con lo que el profe vea en clase.
 - Encargos 🤖 de la semana: correo pidiendo acceso a grabaciones de Nube; resumen del PDF de Auditoría.
 
 ---
