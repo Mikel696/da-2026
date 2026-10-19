@@ -228,6 +228,11 @@ Las evaluaciones de CDigital se desbloquean por **requisito** (Acuerdo → Eval.
 formularios, evaluaciones) · `prep` (Claude prepara guía y simulacro; **Miguel presenta**) · `juntos` (ACA:
 Claude investiga y redacta el borrador, Miguel revisa y entrega) · `claude`. **Claude no presenta quizzes,
 parciales ni exámenes por Miguel.** Moodle CUN admite una sola sesión: trabajar en la misma pestaña que Miguel.
+El Dashboard entero lee de ahí: la tarjeta de arriba muestra "Lo siguiente" (3 pasos pendientes de la `route`) y
+la barra de números cuenta pendientes/P0/hechas del parte. Un ítem con `crono: 'materia:entrada'` comparte el
+check con el cronograma (`wlToggle` ↔ `toggleCronoEntry`); `SYS.setCrono(refs, {done|date})` sincroniza.
+**El override de una materia guarda solo `cronograma`** (`_setCronoSilent`): guardar la materia entera congelaba
+desc, enlaces y horarios del código en `sys_subjects_custom`.
 
 **Grabaciones de clase (verificado 8-oct-2026):** el evento de Calendar CUN (`/calendar/u/3/`) adjunta Recording + Chat + Transcript. El Transcript (Doc) da 403; el Recording se transcribe desde `drive.google.com` con `get_video_info?docid=ID` → `ttsurl` → pista `asr` `fmt=json3`, sin abrir el panel de Drive. Detalle en CEREBRO_STATE 2026-10-08.
 

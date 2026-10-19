@@ -24,7 +24,9 @@ Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vista
 
 1. **Entrar a CADA una de las 5 aulas** y ver lo que ya hizo: `completionstate` de cada actividad, intentos y
    nota de cada quiz/parcial, entregas, lo que se desbloqueó y lo que apareció nuevo. Lo hecho se marca con
-   `SYS.setWeekItem(id, {done:true})` (cada ítem lleva `cm` = id de CDigital para cruzarlo). Nada se da por
+   `SYS.setWeekItem(id, {done:true})` (cada ítem lleva `cm` = id de CDigital para cruzarlo) y el cronograma
+   de la materia con `SYS.setCrono(['materia:entrada', …], {done:true})` — Dashboard, Materias y Calendario
+   leen de ahí. Un ítem con `crono` comparte el check con esa entrada en los dos sentidos. Nada se da por
    pendiente sin mirarlo. Lo que no se puede ver (formularios de Google, Dexway sin abrir) se dice.
 2. **Ruta de prioridad** (`route`): pasos numerados en el orden en que conviene hacerlos, con cuándo, cuánto
    toma, por qué en ese orden y enlaces. Es la vista que se abre primero y lo primero que va en el chat.
@@ -63,7 +65,8 @@ SYS.injectWeek({
     id, prio: 'p0'|'p1'|'p2'|'p3', subj,   // subj = id de SUBJECTS
     kind: 'parcial'|'quiz'|'tramite'|'curso'|'material'|'entrega'|'aviso',
     mode: 'tu'|'prep'|'juntos'|'claude',
-    title, due: 'AAAA-MM-DDTHH:MM', est?, weight?, why, steps: [], 
+    title, due: 'AAAA-MM-DDTHH:MM', est?, weight?, why, steps: [],
+    cm? /*id de CDigital*/, crono? /*'materia:entrada' del cronograma: el check se comparte*/,
     ev: [{ q /*verbatim*/, src, t? /*minuto*/ }], links: [{ label, url }]
   }],
   route: [{ item? /*id de items: hereda check, enlaces y cierre*/, subj?, title, when, mins?, why, links? }],

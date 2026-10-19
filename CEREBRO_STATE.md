@@ -68,6 +68,21 @@ los entregables (ACA) se hacen juntos y los entrega él.
 - Nuevas exigencias de Miguel en `PROMPT_10-SYS_SEMANA.md`: revisar lo hecho en cada aula, ruta de prioridad,
   y TI como caso aparte (instrucciones por mensaje de CDigital, no correo).
 
+### Tercera pasada · Dashboard compacto y conectado (22:40-23:10)
+- Miguel: "organiza la página del dashboard, que todo esté actualizado y conectado". La tarjeta de arriba
+  repetía un cronograma viejo (Parcial 1 de BI "HOY" ya presentado, 4 "vencidas" falsas).
+- Ahora: semana del bloque en una línea · clases en vivo como píldoras · **"Lo siguiente"** = 3 pasos
+  pendientes de la ruta, con su enlace y "✓ hecho" · cronograma vencido plegado con "✓ ya está". Barra de
+  números = pendientes / P0 / hechas del parte. Accesos en píldoras (portales + aula de cada materia), tarea
+  propia plegada, encabezado más bajo. Gmail CUN por `authuser` (el `u/3` ya apuntaba a otra cuenta).
+- **Checks conectados** con `crono` (11 ítems de S4) y `SYS.setCrono`: se sincronizó el cronograma con lo
+  verificado en CDigital (16 entradas) y `tiv_3` pasó al 21-oct. TI Quiz 1 = 5.0 (verificado).
+- `toggleCronoEntry` y `_setCronoSilent` guardan solo el cronograma en el override.
+- Quedan 3 vencidas sin verificar: "Reglas de participación" de Nube e inglés (formularios de Google, no se
+  ven desde CDigital) y Unidad 1 de Dexway (real: está en cero).
+- AWS Academy corregido en el parte: el curso es opcional, pero el ACA de Nube va en su Sandbox (dato del 9-oct
+  que el parte del 18 había pasado por alto).
+
 ### Pendiente
 - Dexway: arrancar la Unidad 1 esta semana.
 - Encargos 🤖 de la semana: correo pidiendo acceso a grabaciones de Nube; resumen del PDF de Auditoría.
