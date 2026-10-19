@@ -121,7 +121,7 @@ const SYS = (() => {
       cronograma: [
         { id: 'tiv_1', title: 'Leer el archivo de clase P0 (métodos inductivo y deductivo, ejemplo de metodología)', date: '2026-10-13', type: 'tarea' },
         { id: 'tiv_2', title: 'Clase 14-oct: el docente da las instrucciones del quiz y parcial del 1er corte', date: '2026-10-14', type: 'tarea' },
-        { id: 'tiv_3', title: 'Quiz / parcial del 1er corte (semanas 1-3) — solo con instrucciones del docente', date: '2026-10-18', type: 'quiz', est: true },
+        { id: 'tiv_3', title: 'Quiz 1 (Temática 2) y Parcial 1 (Temática 3) del 1er corte — con el PDF del docente (mensaje CDigital 15-oct)', date: '2026-10-21', type: 'quiz' },
         { id: 'tiv_4', title: 'Actividades del 2do corte (semanas 4-5) — solo con instrucciones del docente', date: '2026-11-01', type: 'quiz', est: true },
         { id: 'tiv_5', title: 'Actividades del 3er corte (semanas 6-8) — notas cerradas el 11-nov', date: '2026-11-11', type: 'proyecto' },
       ],
@@ -629,7 +629,7 @@ const SYS = (() => {
     { title: 'CUN Digital', desc: 'LMS principal: aulas virtuales, foros, entregas', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
     { title: 'CUN 360', desc: 'Carnet, horarios, tickets CAMI, pagos', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
     { title: 'SGA Campus (SINU)', desc: 'Notas oficiales · matrícula · historial', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
-    { title: 'Gmail CUN', desc: 'Correo institucional', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
+    { title: 'Gmail CUN', desc: 'Correo institucional', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co#inbox' },
     { title: 'Calendario 2026', desc: 'PDF oficial de calendarios virtuales', icon: '📅', color: 'hsl(172,60%,45%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
     { title: 'Plan de Estudios', desc: 'Malla curricular oficial PDF', icon: '📋', color: 'hsl(45,90%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
   ];
@@ -639,7 +639,7 @@ const SYS = (() => {
     { title: 'CUN 360', desc: 'App central: carnet digital, horarios, tickets CAMI, pagos y chatbot 24/7', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
     { title: 'CUN Digital (Moodle)', desc: 'LMS principal · materiales, foros, entregas, calificaciones', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
     { title: 'SGA Campus (SINU)', desc: 'Matrícula, notas oficiales, historial académico, certificados', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
-    { title: 'Gmail CUN', desc: 'Correo institucional · comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/u/3/?ogbl#inbox' },
+    { title: 'Gmail CUN', desc: 'Correo institucional · comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co#inbox' },
     { title: 'Inducción Virtual', desc: 'Onboarding, guías, kit de bienvenida, tutoriales de plataformas', icon: '🚀', color: 'hsl(172,60%,45%)', url: 'https://cun.edu.co/induccion-virtual/' },
     { title: 'Calendario 2026 (PDF)', desc: 'Documento oficial con fechas de los 6 períodos académicos', icon: '📅', color: 'hsl(320,60%,50%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
     { title: 'Plan de Estudios (PDF)', desc: 'Malla curricular oficial · Ing. de Sistemas Virtual', icon: '📋', color: 'hsl(15,70%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
@@ -747,11 +747,11 @@ const SYS = (() => {
     const ids = new Set(subs.map(s => s.id));
     const items = [];
     subs.forEach(s => (s.cronograma || []).forEach(c => {
-      if (!c.done && c.date && c.type !== 'otro') items.push({ kind: 'crono', s, text: c.title, due: c.date, type: c.type, est: c.est });
+      if (!c.done && c.date && c.type !== 'otro') items.push({ kind: 'crono', s, cid: c.id, text: c.title, due: c.date, type: c.type, est: c.est });
     }));
     const byId = Object.fromEntries(subs.map(s => [s.id, s]));
     getTasks().forEach(t => {
-      if (!t.done && t.due && (ids.has(t.subj) || t.subj === 'general')) items.push({ kind: 'task', s: byId[t.subj], text: t.text, due: t.due });
+      if (!t.done && t.due && (ids.has(t.subj) || t.subj === 'general')) items.push({ kind: 'task', s: byId[t.subj], tid: t.id, text: t.text, due: t.due });
     });
     return items.sort((a, b) => a.due.localeCompare(b.due));
   }
@@ -1204,29 +1204,16 @@ const SYS = (() => {
   }
 
   // ── RENDER: QUICK ACCESS (Tab 3) ──
+  // Accesos del Dashboard en una o dos filas de píldoras: portales CUN y el aula de cada materia.
+  // Los recursos externos de cada materia viven en 📚 Materias, no aquí.
   function renderQuickAccess() {
+    const pill = (url, icon, label, title) => `<a href="${esc(url)}" target="_blank" rel="noopener" title="${esc(title || label)}"
+      style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:var(--el);border:1px solid var(--bd);font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">${icon} ${esc(label)}</a>`;
     const el = document.getElementById('quickAccess');
-    if (!el) return;
-    el.innerHTML = QUICK_ACCESS.map(q => `
-      <a href="${q.url}" target="_blank" rel="noopener" class="qa">
-        <div class="qa-icon" style="background:${q.color}18;border:1px solid ${q.color}30">${q.icon}</div>
-        <div class="qa-info"><div class="qa-title">${q.title}</div><div class="qa-desc">${q.desc}</div></div>
-      </a>
-    `).join('');
-
+    if (el) el.innerHTML = QUICK_ACCESS.map(q => pill(q.url, q.icon, q.title, q.desc)).join('');
     const el2 = document.getElementById('studyResources');
-    if (!el2) return;
-    const host = u => { try { return new URL(u, location.href).hostname.replace('www.', '') || u; } catch { return u; } };
-    const label = u => /^[\w-]+\.html$/.test(u) ? 'Módulo 3-ENG del Cerebro' : host(u);
-    el2.innerHTML = currentSubjects().flatMap(s => [
-      ...(s.cdigital_id ? [{ url: `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}`, t: 'Aula CDigital', s }] : []),
-      ...(s.resources || []).map(r => ({ url: r, t: label(r), s })),
-    ]).map(q => `
-      <a href="${esc(q.url)}" target="_blank" rel="noopener" class="qa">
-        <div class="qa-icon" style="background:${q.s.color}18;border:1px solid ${q.s.color}30">${q.s.icon}</div>
-        <div class="qa-info"><div class="qa-title">${esc(q.s.name)}</div><div class="qa-desc">${esc(q.t)}</div></div>
-      </a>
-    `).join('');
+    if (el2) el2.innerHTML = currentSubjects().filter(s => s.cdigital_id)
+      .map(s => pill(`https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}`, s.icon, 'Aula ' + (s.code || s.name), s.name)).join('');
   }
 
   // ── RENDER: MALLA CURRICULAR (Tab 4) ──
@@ -1402,21 +1389,34 @@ const SYS = (() => {
   }
 
   // ── RENDER: STATS BAR ──
+  // Los números de arriba salen del parte de Semana en vivo (la misma fuente que la ruta);
+  // sin parte, caen al cronograma de las materias.
   function renderStats() {
     const period = detectPeriod();
     const bw = blockWeek(period);
-    const items = pendingItems();
     const today = todayStr();
-    const week = items.filter(it => { const d = daysBetween(today, it.due); return d >= 0 && d <= 7; }).length;
-    const overdue = items.filter(it => it.due < today).length;
     const end = bw ? bw.plan.weeks[bw.total - 1].end : CALENDAR[period]?.academic?.end;
     const daysLeft = end ? Math.max(0, daysBetween(today, end)) : '—';
+    const w = getWeekLive()[0];
+    let todo, p0, done;
+    if (w) {
+      const raw = getWeekState();
+      const d = w.items.filter(it => wlItemDone(it, raw));
+      todo = w.items.length - d.length;
+      p0 = w.items.filter(it => it.prio === 'p0' && !wlItemDone(it, raw)).length;
+      done = `${d.length}/${w.items.length}`;
+    } else {
+      const items = pendingItems();
+      todo = items.filter(it => { const n = daysBetween(today, it.due); return n >= 0 && n <= 7; }).length;
+      p0 = items.filter(it => it.due < today).length;
+      done = '—';
+    }
 
     const setV = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
-    setV('statMaterias', currentSubjects().length);
-    setV('statCredits', week);
     setV('statProgress', bw ? (bw.cur ? `${bw.cur.week}/${bw.total}` : bw.before ? '0/' + bw.total : '✓') : '—');
-    setV('statPending', overdue);
+    setV('statTodo', todo);
+    setV('statP0', p0);
+    setV('statDone', done);
     setV('statDaysLeft', daysLeft);
     const badge = document.getElementById('periodBadge');
     if (badge) badge.textContent = period;
@@ -1574,83 +1574,79 @@ const SYS = (() => {
 
   // ── MAIN RENDER ──
   // ── RENDER: ACTION NOW (What to do right now) ──
+  // Tarjeta de arriba del Dashboard: dónde estoy, a qué clase entro y qué sigue.
+  // "Qué sigue" sale de la ruta de Semana en vivo (misma fuente que todo lo demás);
+  // el cronograma solo aparece si tiene algo vencido sin marcar, plegado y con su botón.
   function renderActionNow() {
     const el = document.getElementById('actionNow');
     if (!el) return;
     const period = detectPeriod();
     const bw = blockWeek(period);
     const today = todayStr();
-    const items = pendingItems();
-    const overdue = items.filter(it => it.due < today);
-    const soon = items.filter(it => it.due >= today && daysBetween(today, it.due) <= 14);
-    const subs = currentSubjects();
-    const btn = (label, js, primary) => `<a href="#" onclick="${js};return false" style="font-size:11px;padding:6px 12px;border-radius:6px;text-decoration:none;${primary ? 'background:var(--vi);color:#fff;font-weight:600' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">${label}</a>`;
+    const mute = t => `<span style="color:var(--t3);font-weight:400">${t}</span>`;
 
-    // 1 · Dónde estoy en el bloque
-    let heroMsg, heroSub;
+    let head;
     if (bw && bw.cur) {
-      heroMsg = `📍 Semana ${bw.cur.week}/${bw.total} · ${bw.plan.label}`;
-      heroSub = `Esta semana (${formatDate(bw.cur.start)} → ${formatDate(bw.cur.end)}): <b>${esc(bw.cur.name)}</b>${bw.cur.weight ? ` · vale ${bw.cur.weight}%` : ''}.`
-        + (bw.next ? ` Siguiente: ${esc(bw.next.name)}${bw.next.weight ? ` (${bw.next.weight}%)` : ''} desde el ${formatDate(bw.next.start)}.` : '');
+      head = `📍 <b>Semana ${bw.cur.week}/${bw.total}</b> · ${esc(bw.cur.name)}${bw.cur.weight ? ` (${bw.cur.weight} %)` : ''} `
+        + mute(`· ${formatDate(bw.cur.start)} → ${formatDate(bw.cur.end)}${bw.next ? ` · luego ${esc(bw.next.name)}${bw.next.weight ? ` (${bw.next.weight} %)` : ''}` : ''}`);
     } else if (bw && bw.before) {
-      const d = daysBetween(today, bw.plan.weeks[0].start);
-      heroMsg = `⏳ El ${bw.plan.label} inicia en ${d} día${d !== 1 ? 's' : ''}`;
-      heroSub = `Semana 1: ${formatDate(bw.plan.weeks[0].start)} → ${formatDate(bw.plan.weeks[0].end)}.`;
+      head = `⏳ <b>${esc(bw.plan.label)}</b> ` + mute(`inicia el ${formatDate(bw.plan.weeks[0].start)}`);
     } else {
-      heroMsg = `📚 Período ${period}`;
-      heroSub = bw && bw.after ? 'El bloque de 8 semanas ya cerró. Registra las notas finales en cada materia.' : 'Sin plan semanal cargado para este período.';
+      head = `📚 <b>Período ${esc(period)}</b>` + (bw && bw.after ? ' ' + mute('· bloque cerrado') : '');
     }
 
-    // 2 · Clases en vivo próximas (horario estructurado de cada materia)
-    const dayName = (c) => c.day === 0 ? 'Hoy' : c.day === 1 ? 'Mañana' : ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][c.date.getDay()] + ' ' + c.date.getDate();
-    const classes = upcomingClasses(6).slice(0, 5);
-    const noSched = subs.filter(s => !(s.clases || []).length && !s.schedule);
-    const classHtml = classes.map(c => {
-      const link = c.s.subject_links?.clase;
-      return `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px;background:var(--el);margin-bottom:4px;${c.live ? 'border:1px solid var(--gn)' : ''}">
-        <span class="sem ${c.day === 0 ? 'sem-p1' : 'sem-p3'}" style="min-width:62px;justify-content:center">${c.live ? '🔴 EN VIVO' : dayName(c)}</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3)">${c.ini}-${c.fin}</span>
-        <span style="font-size:12px;flex:1">${c.s.icon} ${esc(c.s.name)}${c.tipo ? ` <span style="font-size:10px;color:var(--t3)">· ${esc(c.tipo)}</span>` : ''}</span>
-        ${link ? `<a href="${link}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Entrar</a>` : ''}
-      </div>`;
-    }).join('') || '<div style="font-size:11px;color:var(--t3)">Sin clases con horario cargado en los próximos días.</div>';
+    const dayName = c => c.day === 0 ? 'Hoy' : c.day === 1 ? 'Mañana' : ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][c.date.getDay()] + ' ' + c.date.getDate();
+    const classHtml = upcomingClasses(6).slice(0, 5).map(c => {
+      const link = c.s.subject_links && c.s.subject_links.clase;
+      const lbl = c.live ? '🔴 en vivo' : dayName(c);
+      return `<a ${link ? `href="${esc(link)}" target="_blank" rel="noopener"` : ''} title="${esc(c.s.name)} · ${c.ini}-${c.fin}${link ? ' · entrar' : ''}"
+        style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--el);border:1px solid ${c.live ? 'var(--gn)' : 'var(--bd)'};font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">
+        <b style="color:${c.day === 0 ? 'var(--am)' : 'var(--vi2)'}">${lbl}</b>${c.ini} ${c.s.icon} ${esc(c.s.code || c.s.name)}${c.tipo ? ' · ' + esc(c.tipo) : ''}</a>`;
+    }).join('') || `<span style="font-size:11px;color:var(--t3)">Sin clases con horario en los próximos días.</span>`;
 
-    // 3 · Entregas de los próximos 14 días + vencidas
-    const typeIc = { tarea: '📋', parcial: '📝', quiz: '❓', proyecto: '🎯', foro: '💬', otro: '📌' };
-    const dueRow = it => {
-      const d = daysBetween(today, it.due);
-      const sc = d < 0 || d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : 'sem-p2';
-      const dl = d < 0 ? `hace ${-d}d` : d === 0 ? 'HOY' : `${d}d`;
-      return `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
-        <span class="sem ${sc}" style="min-width:52px;justify-content:center">${dl}</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(it.due)}</span>
-        <span style="font-size:12px;flex:1">${it.kind === 'crono' ? (typeIc[it.type] || '📌') : '🚦'} ${esc(it.text)}${EST_TAG(it.est)}</span>
-        <span style="font-size:10px;color:var(--t3)">${it.s ? it.s.icon + ' ' + esc(it.s.code || it.s.name) : '📌 General'}</span>
-      </div>`;
-    };
-    const dueHtml = [...overdue, ...soon].slice(0, 8).map(dueRow).join('') || '<div style="font-size:11px;color:var(--t3)">Nada con fecha en los próximos 14 días.</div>';
+    const w = getWeekLive()[0];
+    const raw = getWeekState();
+    let nextHtml = '';
+    if (w) {
+      const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
+      let next = (w.route || []).map((r, i) => ({ n: i + 1, title: r.title, when: r.when, it: byId[r.item], subj: r.subj, link: (r.links || [])[0] }))
+        .filter(x => !(x.it && wlItemDone(x.it, raw)));
+      if (!(w.route || []).length) {
+        next = w.items.filter(it => !wlItemDone(it, raw)).sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'))
+          .map((it, i) => ({ n: i + 1, title: it.title, when: it.due ? wlFmtDue(it.due) : '', it }));
+      }
+      nextHtml = next.slice(0, 3).map(x => {
+        const s = getSubjects().find(z => z.id === (x.subj || (x.it && x.it.subj))) || { icon: '📌' };
+        const link = x.link || (x.it && (x.it.links || [])[0]);
+        return `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;background:var(--el);margin-bottom:4px;flex-wrap:wrap">
+          <span style="width:20px;height:20px;border-radius:50%;background:var(--vi);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${x.n}</span>
+          <span style="font-size:12px;flex:1;min-width:180px">${s.icon} ${esc(x.title)}${x.when ? ' ' + mute('· ' + esc(x.when)) : ''}</span>
+          ${link ? `<a href="${esc(link.url)}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none;white-space:nowrap">${esc(link.label)} ↗</a>` : ''}
+          ${x.it ? `<button onclick="SYS.wlToggle('${x.it.id}')" title="Marcar hecho" style="font-size:10px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ hecho</button>` : ''}
+        </div>`;
+      }).join('') || `<div style="font-size:11.5px;color:var(--gn)">✅ La ruta de esta semana está completa.</div>`;
+    }
 
+    const overdue = pendingItems().filter(it => it.due < today);
+    const doneBtn = it => it.kind === 'crono'
+      ? `SYS.toggleCronoEntry('${it.s.id}','${it.cid}')`
+      : `SYS.toggleTask(${typeof it.tid === 'number' ? it.tid : `'${String(it.tid).replace(/'/g, '')}'`})`;
+    const overdueHtml = overdue.length ? `<details style="margin-top:8px">
+        <summary style="font-size:11px;color:var(--am);cursor:pointer">⚠ ${overdue.length} entrega${overdue.length !== 1 ? 's' : ''} del cronograma con fecha pasada sin marcar</summary>
+        <div style="margin-top:6px">${overdue.map(it => `<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:11.5px;flex-wrap:wrap">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:44px">${formatDate(it.due)}</span>
+          <span style="flex:1;min-width:180px">${it.s ? it.s.icon : '📌'} ${esc(it.text)}${EST_TAG(it.est)}</span>
+          <button onclick="${doneBtn(it)}" style="font-size:10px;padding:2px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ ya está</button>
+        </div>`).join('')}
+        <div style="font-size:10px;color:var(--t3);padding:4px 8px">Si de verdad está pendiente, déjala: también sale en 📚 Materias.</div></div>
+      </details>` : '';
+
+    const sl = t => `<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px">${t}</div>`;
     el.innerHTML = `
-      <div style="font-size:18px;font-weight:700;margin-bottom:4px">${heroMsg}</div>
-      <div style="font-size:12px;color:var(--t2);line-height:1.6">${heroSub}</div>
-      ${bw?.plan.source ? `<div style="font-size:10px;color:var(--t3);margin-top:2px">Fuente: ${esc(bw.plan.source)}</div>` : ''}
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px">
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🎥 Próximas clases en vivo</div>
-          ${classHtml}
-          ${noSched.length ? `<div style="font-size:10px;color:var(--am);margin-top:6px">⚠ Sin horario publicado: ${noSched.map(s => esc(s.name)).join(' · ')}</div>` : ''}
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">⏱ Entregas · próximos 14 días${overdue.length ? ` · <span style="color:var(--rd)">${overdue.length} vencida${overdue.length !== 1 ? 's' : ''}</span>` : ''}</div>
-          ${dueHtml}
-        </div>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
-        ${btn('📚 Materias', 'showTab(1)', true)}
-        ${btn('📅 Plan del bloque', 'showTab(2)')}
-        ${btn('📹 Clases Perdidas', 'showTab(6)')}
-        <a href="https://cdigital.cun.edu.co/my/courses.php" target="_blank" rel="noopener" style="font-size:11px;padding:6px 12px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;text-decoration:none">🎓 Mis cursos CDigital</a>
-      </div>`;
+      <div style="font-size:14px;line-height:1.5">${head}</div>
+      ${sl('🎥 Clases en vivo')}<div style="display:flex;gap:6px;flex-wrap:wrap">${classHtml}</div>
+      ${w ? sl('⏭ Lo siguiente · de tu ruta') + nextHtml : ''}
+      ${overdueHtml}`;
   }
 
   // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) — TAREAS + CRONOGRAMA combinados ──
@@ -1746,8 +1742,46 @@ const SYS = (() => {
     const st = getWeekState();
     st[id] = { ...(st[id] || {}), ...patch, ts: Date.now() };
     db.set('week_state', st);
-    renderWeekLive();
+    render();
     return '✅ ' + id + ' → ' + JSON.stringify(st[id]);
+  }
+
+  // ── Semana en vivo ↔ cronograma de cada materia ──
+  // Un ítem del parte puede apuntar a entradas del cronograma (`crono: 'materia:entrada'`).
+  // Marcarlo en un lado lo marca en el otro, así Dashboard, Materias y Calendario dicen lo mismo.
+  // Un check explícito de Miguel (true/false) manda; sin check, vale el estado del cronograma.
+  function _cronoRefs(it) { return [].concat(it.crono || []).filter(Boolean); }
+  function _cronoEntry(ref) {
+    const [sid, eid] = ref.split(':');
+    const s = getSubjects().find(x => x.id === sid);
+    return s && (s.cronograma || []).find(c => c.id === eid);
+  }
+  function wlItemDone(it, raw = getWeekState()) {
+    const v = raw[it.id] && raw[it.id].done;
+    if (v === true || v === false) return v;
+    const refs = _cronoRefs(it);
+    return refs.length > 0 && refs.every(r => { const c = _cronoEntry(r); return !!(c && c.done); });
+  }
+  function wlDerived(w, raw) {
+    const out = { ...raw };
+    w.items.forEach(it => { out[it.id] = { ...(raw[it.id] || {}), done: wlItemDone(it, raw) }; });
+    return out;
+  }
+  // Guarda SOLO el cronograma en el override. Guardar la materia entera congelaba en
+  // sys_subjects_custom campos del código (desc, enlaces, horarios) que luego no se actualizaban.
+  function _setCronoSilent(ref, patch) {
+    const [sid, eid] = ref.split(':');
+    const s = getSubjects().find(x => x.id === sid);
+    if (!s || !(s.cronograma || []).some(c => c.id === eid)) return false;
+    const o = db.get('subjects_custom', []).find(x => x.id === sid) || { id: sid };
+    _saveSubj({ ...o, cronograma: s.cronograma.map(c => c.id === eid ? { ...c, ...patch } : c), _updated: new Date().toISOString() });
+    return true;
+  }
+  // Para Claude desde la pestaña real: SYS.setCrono(['ti:tiv_1', ...], {done:true}) o {date:'AAAA-MM-DD'}.
+  function setCrono(refs, patch) {
+    const ok = [].concat(refs).filter(r => _setCronoSilent(r, patch));
+    render();
+    return '✅ ' + ok.length + '/' + [].concat(refs).length + ': ' + ok.join(', ');
   }
 
   // Lo llama Claude al cerrar el parte. Reemplaza la semana con el mismo id y guarda las 12 más recientes.
@@ -1759,12 +1793,18 @@ const SYS = (() => {
     weeks.unshift({ ...w, injected: new Date().toISOString() });
     db.set('week_live', { weeks: weeks.sort((a, b) => b.start.localeCompare(a.start)).slice(0, 12) });
     wlView.week = w.id;
-    renderWeekLive();
+    render();
     return '✅ Semana en vivo ' + w.id + ' · ' + w.items.length + ' actividades · ' + (w.classes || []).length + ' clases';
   }
 
   function wlSet(k, v) { wlView[k] = v; renderWeekLive(); }
-  function wlToggle(id) { const s = getWeekState()[id] || {}; setWeekItem(id, { done: !s.done }); }
+  function wlToggle(id) {
+    const w = getWeekLive().find(x => x.items.some(it => it.id === id));
+    const it = w && w.items.find(x => x.id === id);
+    const val = !(it ? wlItemDone(it) : (getWeekState()[id] || {}).done);
+    if (it) _cronoRefs(it).forEach(r => _setCronoSilent(r, { done: val }));
+    setWeekItem(id, { done: val });
+  }
 
   function wlDue(due) {
     if (!due) return null;
@@ -1827,7 +1867,7 @@ const SYS = (() => {
     const w = weeks.find(x => x.id === wlView.week) || weeks[0];
     if (wlView.tab === 'ruta' && !(w.route || []).length) wlView.tab = 'prio';
     wlView.week = w.id;
-    const st = getWeekState();
+    const st = wlDerived(w, getWeekState());
     const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(0,0%,50%)' };
     const items = w.items.slice().sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'));
     const done = items.filter(it => st[it.id] && st[it.id].done).length;
@@ -2090,7 +2130,7 @@ const SYS = (() => {
       { url: 'https://360.cunapp.pro/#/estudiante/dashboard', name: 'CUN 360' },
       { url: 'https://sigwt.cun.edu.co/sgacampus/#notr29', name: 'SGA Notas' },
       { url: 'https://cdigital.cun.edu.co/', name: 'CUN Digital' },
-      { url: 'https://mail.google.com/mail/u/3/', name: 'Gmail CUN' }
+      { url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co', name: 'Gmail CUN' }
     ];
     _portalIdx = 0;
     // Open first immediately (user-triggered, won't be blocked)
@@ -2771,15 +2811,18 @@ const SYS = (() => {
 
   // ── TOGGLE CRONOGRAMA ENTRY (mark as done/pending) ──
   function toggleCronoEntry(sid, entryId) {
-    const allSubj = getSubjects();
-    const s = allSubj.find(x => x.id === sid);
-    if (!s) return;
-    const crono = (s.cronograma || []).map(c =>
-      c.id === entryId ? { ...c, done: !c.done } : c
-    );
-    // Save back: build a full subj override so the cronograma persists
-    const subj = { ...s, cronograma: crono, _updated: new Date().toISOString() };
-    _saveSubj(subj);
+    const ref = sid + ':' + entryId;
+    const c = _cronoEntry(ref);
+    if (!c) return;
+    const val = !c.done;
+    _setCronoSilent(ref, { done: val });
+    // La actividad de Semana en vivo que apunta a esta entrada queda con el mismo estado.
+    const st = getWeekState();
+    let touched = false;
+    getWeekLive().forEach(w => w.items.forEach(it => {
+      if (_cronoRefs(it).includes(ref)) { st[it.id] = { ...(st[it.id] || {}), done: val, ts: Date.now() }; touched = true; }
+    }));
+    if (touched) db.set('week_state', st);
     render();
   }
 
@@ -2855,7 +2898,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { setNota, injectWeek, setWeekItem, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
+  return { setNota, injectWeek, setWeekItem, setCrono, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
 })();
 window.SYS = SYS;
 

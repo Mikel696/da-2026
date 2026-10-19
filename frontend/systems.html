@@ -50,15 +50,15 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .wrap{max-width:1200px;margin:0 auto;padding:28px 24px 60px;position:relative;z-index:1}
 
 /* HERO */
-.hero{margin-bottom:28px;position:relative}
+.hero{margin-bottom:14px;position:relative}
 .hero-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
-.hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
+.hero h1{font-family:'Newsreader',serif;font-size:24px;font-weight:600;line-height:1.15;margin-bottom:6px}
 .hero h1 em{font-style:italic;color:var(--em)}
 .hero p{font-size:13px;color:var(--t3);max-width:580px}
 .hero-name{color:var(--vi2);font-weight:600}
 
 /* STATS BAR */
-.hst{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:24px;border:1px solid rgba(124,58,237,.15)}
+.hst{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;border:1px solid rgba(124,58,237,.15)}
 .hs{flex:1;background:var(--c1);padding:12px;text-align:center}
 .hs:first-child{border-radius:10px 0 0 10px}.hs:last-child{border-radius:0 10px 10px 0}
 .hsv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--em)}
@@ -578,15 +578,16 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <main class="wrap">
 <div class="hero">
 <div class="hero-sub">Mission Control · CUN Virtual</div>
-<h1>Ingeniería de <em>Sistemas</em>,<br>tu centro de comando.</h1>
-<p>Bienvenido, <span class="hero-name">MIGUEL ANGEL BARROS TORRES</span>. Aquí controlas materias, deadlines, accesos y tu ruta profesional. Todo el semestre en un solo panel.</p>
+<h1>Ingeniería de <em>Sistemas</em> · centro de comando</h1>
+<p><span class="hero-name">MIGUEL ANGEL BARROS TORRES</span> · 9.º semestre · CUN Virtual</p>
 </div>
 
+<!-- Números conectados al parte de Semana en vivo (renderStats) -->
 <div class="hst">
-<div class="hs"><div class="hsv" id="statMaterias">—</div><div class="hsl">Materias en curso</div></div>
-<div class="hs"><div class="hsv" id="statCredits">—</div><div class="hsl">Entregas 7 días</div></div>
 <div class="hs"><div class="hsv" id="statProgress">—</div><div class="hsl">Semana del bloque</div></div>
-<div class="hs"><div class="hsv" id="statPending">—</div><div class="hsl">Vencidas</div></div>
+<div class="hs"><div class="hsv" id="statTodo">—</div><div class="hsl">Pendientes semana</div></div>
+<div class="hs"><div class="hsv" id="statP0" style="color:#ef4444">—</div><div class="hsl">P0 abiertas</div></div>
+<div class="hs"><div class="hsv" id="statDone">—</div><div class="hsl">Hechas semana</div></div>
 <div class="hs"><div class="hsv" id="statDaysLeft">—</div><div class="hsl">Días al cierre</div></div>
 </div>
 
@@ -605,14 +606,18 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <div class="pnl on" id="pnl0">
 
 <!-- ACTION NOW — Hero Card -->
-<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:18px;margin-bottom:16px"></div>
+<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 16px;margin-bottom:12px"></div>
 
 <!-- SEMANA EN VIVO — parte semanal de Claude (datos en sys_week_live, estado en sys_week_state) -->
 <div id="weekLive" style="background:rgba(22,22,26,.75);border:1px solid rgba(124,58,237,.25);border-radius:12px;padding:16px 18px;margin-bottom:16px"></div>
 
-<div class="sl">· agregar tarea académica ·</div>
-<div class="sd">Las tareas se muestran agrupadas por materia en la pestaña <em>Materias</em> con su semáforo de prioridad.</div>
-<div class="task-form">
+<div class="sl" style="margin-bottom:6px">· accesos ·</div>
+<div id="quickAccess" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div>
+<div id="studyResources" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+
+<details style="margin-top:14px">
+<summary style="font-size:11px;color:var(--vi2);cursor:pointer">＋ Agregar una tarea propia (sale en 📚 Materias con su prioridad)</summary>
+<div class="task-form" style="margin-top:8px">
 <input class="tf-input" id="newTaskText" placeholder="Ej: Entregar taller de Ingeniería Web...">
 <select class="tf-select" id="newTaskSubj"></select>
 <select class="tf-select" id="newTaskPriority">
@@ -625,17 +630,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <input class="tf-date" id="newTaskDue" type="date">
 <button class="tf-btn" onclick="SYS.addTask()">+ Agregar</button>
 </div>
-
-<div style="margin-top:24px">
-<div class="sl">· accesos directos — portales académicos ·</div>
-<div class="sd">Todo lo que necesitas a un click. Sin buscar, sin perder tiempo.</div>
-<div class="qa-grid" id="quickAccess"></div>
-</div>
-
-<div style="margin-top:24px">
-<div class="sl">· recursos de estudio ·</div>
-<div class="qa-grid" id="studyResources"></div>
-</div>
+</details>
 </div>
 
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
@@ -992,6 +987,6 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 <script src="js/cloud-sync.js?v=p20"></script>
 <script src="js/nb-shared.js?v=p22"></script>
 <script src="js/nb-engine.js"></script>
-<script src="systems_logic.js?v=p27"></script>
+<script src="systems_logic.js?v=p28"></script>
 </body>
 </html>
