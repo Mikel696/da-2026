@@ -1574,9 +1574,26 @@ const SYS = (() => {
 
   // ── MAIN RENDER ──
   // ── RENDER: ACTION NOW (What to do right now) ──
-  // Tarjeta de arriba del Dashboard: dónde estoy, a qué clase entro y qué sigue.
-  // "Qué sigue" sale de la ruta de Semana en vivo (misma fuente que todo lo demás);
-  // el cronograma solo aparece si tiene algo vencido sin marcar, plegado y con su botón.
+  // ── HOY (tarjeta de arriba del Dashboard) ──
+  // El plan diario lo arma Claude dentro del parte (`days`): qué hacer cada día, para qué
+  // sirve, cuánto toma y dónde se hace. Lo hecho desaparece; lo que quedó de días
+  // anteriores se arrastra a hoy. Sin parte, la tarjeta muestra la semana y las clases.
+  const WL_DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const WL_MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  function wlLinkBtn(l) {
+    const st = 'font-size:10.5px;padding:4px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:7px;color:var(--vi2);text-decoration:none;white-space:nowrap;cursor:pointer;font-family:inherit';
+    if (l.nb) { const [sid, pid] = String(l.nb).split(':'); return `<button onclick="SYS.openNb('${sid}','${pid}')" style="${st}">📓 ${esc(l.label)}</button>`; }
+    return `<a href="${esc(l.url)}" target="_blank" rel="noopener" style="${st}">${esc(l.label)} ↗</a>`;
+  }
+  function wlRing(done, total) {
+    const r = 23, c = 2 * Math.PI * r, p = total ? done / total : 0;
+    return `<svg width="62" height="62" viewBox="0 0 62 62" aria-label="${done} de ${total} hechas hoy">
+      <defs><linearGradient id="wlRingG" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs>
+      <circle cx="31" cy="31" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+      <circle cx="31" cy="31" r="${r}" fill="none" stroke="url(#wlRingG)" stroke-width="6" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - p)).toFixed(1)}" transform="rotate(-90 31 31)"/>
+      <text x="31" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#e5e5e5" font-family="IBM Plex Mono,monospace">${done}/${total}</text></svg>`;
+  }
+
   function renderActionNow() {
     const el = document.getElementById('actionNow');
     if (!el) return;
@@ -1584,47 +1601,85 @@ const SYS = (() => {
     const bw = blockWeek(period);
     const today = todayStr();
     const mute = t => `<span style="color:var(--t3);font-weight:400">${t}</span>`;
-
-    let head;
-    if (bw && bw.cur) {
-      head = `📍 <b>Semana ${bw.cur.week}/${bw.total}</b> · ${esc(bw.cur.name)}${bw.cur.weight ? ` (${bw.cur.weight} %)` : ''} `
-        + mute(`· ${formatDate(bw.cur.start)} → ${formatDate(bw.cur.end)}${bw.next ? ` · luego ${esc(bw.next.name)}${bw.next.weight ? ` (${bw.next.weight} %)` : ''}` : ''}`);
-    } else if (bw && bw.before) {
-      head = `⏳ <b>${esc(bw.plan.label)}</b> ` + mute(`inicia el ${formatDate(bw.plan.weeks[0].start)}`);
-    } else {
-      head = `📚 <b>Período ${esc(period)}</b>` + (bw && bw.after ? ' ' + mute('· bloque cerrado') : '');
-    }
+    const weekLine = bw && bw.cur
+      ? `📍 Semana ${bw.cur.week}/${bw.total} · ${esc(bw.cur.name)}${bw.cur.weight ? ` (${bw.cur.weight} %)` : ''}${bw.next ? ` · luego ${esc(bw.next.name)}${bw.next.weight ? ` (${bw.next.weight} %)` : ''}` : ''}`
+      : bw && bw.before ? `⏳ ${esc(bw.plan.label)} inicia el ${formatDate(bw.plan.weeks[0].start)}` : `📚 Período ${esc(period)}`;
+    const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(263,70%,60%)' };
 
     const dayName = c => c.day === 0 ? 'Hoy' : c.day === 1 ? 'Mañana' : ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][c.date.getDay()] + ' ' + c.date.getDate();
-    const classHtml = upcomingClasses(6).slice(0, 5).map(c => {
+    const classHtml = upcomingClasses(6).slice(0, 6).map(c => {
       const link = c.s.subject_links && c.s.subject_links.clase;
-      const lbl = c.live ? '🔴 en vivo' : dayName(c);
       return `<a ${link ? `href="${esc(link)}" target="_blank" rel="noopener"` : ''} title="${esc(c.s.name)} · ${c.ini}-${c.fin}${link ? ' · entrar' : ''}"
         style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--el);border:1px solid ${c.live ? 'var(--gn)' : 'var(--bd)'};font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">
-        <b style="color:${c.day === 0 ? 'var(--am)' : 'var(--vi2)'}">${lbl}</b>${c.ini} ${c.s.icon} ${esc(c.s.code || c.s.name)}${c.tipo ? ' · ' + esc(c.tipo) : ''}</a>`;
-    }).join('') || `<span style="font-size:11px;color:var(--t3)">Sin clases con horario en los próximos días.</span>`;
+        <b style="color:${c.day === 0 ? 'var(--am)' : 'var(--vi2)'}">${c.live ? '🔴 en vivo' : dayName(c)}</b>${c.ini} ${c.s.icon} ${esc(c.s.code || c.s.name)}${c.tipo ? ' · ' + esc(c.tipo) : ''}</a>`;
+    }).join('') || mute('Sin clases con horario en los próximos días.');
 
     const w = getWeekLive()[0];
-    const raw = getWeekState();
-    let nextHtml = '';
-    if (w) {
+    const days = (w && w.days) || {};
+    const dates = Object.keys(days).sort();
+    let body = '';
+    if (dates.length) {
+      const raw = getWeekState();
       const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
-      let next = (w.route || []).map((r, i) => ({ n: i + 1, title: r.title, when: r.when, it: byId[r.item], subj: r.subj, link: (r.links || [])[0], key: wlRouteKey(w, r) }))
-        .filter(x => !(x.it ? wlItemDone(x.it, raw) : (raw[x.key] && raw[x.key].done)));
-      if (!(w.route || []).length) {
-        next = w.items.filter(it => !wlItemDone(it, raw)).sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'))
-          .map((it, i) => ({ n: i + 1, title: it.title, when: it.due ? wlFmtDue(it.due) : '', it, key: it.id }));
-      }
-      nextHtml = next.slice(0, 3).map(x => {
-        const s = getSubjects().find(z => z.id === (x.subj || (x.it && x.it.subj))) || { icon: '📌' };
-        const link = x.link || (x.it && (x.it.links || [])[0]);
-        return `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;background:var(--el);margin-bottom:4px;flex-wrap:wrap">
-          <span style="width:20px;height:20px;border-radius:50%;background:var(--vi);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${x.n}</span>
-          <span style="font-size:12px;flex:1;min-width:180px">${s.icon} ${esc(x.title)}${x.when ? ' ' + mute('· ' + esc(x.when)) : ''}</span>
-          ${link ? `<a href="${esc(link.url)}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none;white-space:nowrap">${esc(link.label)} ↗</a>` : ''}
-          ${x.key ? `<button onclick="SYS.wlToggle('${x.key}')" title="Marcar hecho" style="font-size:10px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ hecho</button>` : ''}
+      const keyOf = t => t.item || ('p:' + t.id);
+      const isDoneT = t => t.item && byId[t.item] ? wlItemDone(byId[t.item], raw) : !!(raw[keyOf(t)] && raw[keyOf(t)].done);
+      const sel = wlView.day && days[wlView.day] ? wlView.day : (days[today] ? today : (dates.find(d => d >= today) || dates[dates.length - 1]));
+      const seen = new Set();
+      const carry = sel === today ? dates.filter(d => d < sel).flatMap(d => days[d].tasks.filter(t => !t.opt && !isDoneT(t)).map(t => ({ ...t, from: d }))) : [];
+      const list = [...carry, ...days[sel].tasks].filter(t => { const k = keyOf(t); if (seen.has(k)) return false; seen.add(k); return true; });
+      const pending = list.filter(t => !isDoneT(t));
+      const doneN = list.length - pending.length;
+      const minsLeft = pending.filter(t => !t.opt).reduce((a, t) => a + (t.mins || 0), 0);
+      const dt = new Date(sel + 'T12:00');
+      const title = `${WL_DAYS[dt.getDay()]} ${dt.getDate()} de ${WL_MONTHS[dt.getMonth()]}`;
+
+      const row = t => {
+        const s = subjOf(t.subj || (byId[t.item] && byId[t.item].subj));
+        const links = t.links || (byId[t.item] && byId[t.item].links) || [];
+        const tag = (txt, col) => `<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:1px 6px;border-radius:5px;border:1px solid ${col};color:${col};margin-left:6px;vertical-align:middle">${txt}</span>`;
+        return `<div style="display:flex;gap:10px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,${s.color.replace(')', ',.10)').replace('hsl(', 'hsla(')},transparent 55%),var(--el);border:1px solid var(--bd);border-left:3px solid ${s.color};margin-bottom:7px">
+          <div style="flex-shrink:0;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:17px">${s.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;line-height:1.35">${esc(t.title)}${t.from ? tag('pendiente del ' + formatDate(t.from), 'var(--am)') : ''}${t.opt ? tag('opcional', 'var(--t3)') : ''}${t.est ? tag('≈ tiempo estimado', 'var(--t3)') : ''}</div>
+            ${t.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.5">🎯 <b style="color:var(--vi2)">Para qué:</b> ${esc(t.why)}</div>` : ''}
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center">
+              ${t.mins ? `<span style="font-size:10.5px;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.05);color:var(--t2);font-family:'IBM Plex Mono',monospace">⏱ ${t.mins} min</span>` : ''}
+              ${links.map(wlLinkBtn).join('')}
+              <button onclick="SYS.wlToggle('${keyOf(t)}')" style="margin-left:auto;font-size:11px;font-weight:600;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.35)">✓ Hecho</button>
+            </div>
+          </div>
         </div>`;
-      }).join('') || `<div style="font-size:11.5px;color:var(--gn)">✅ La ruta de esta semana está completa.</div>`;
+      };
+
+      const strip = dates.map(d => {
+        const x = new Date(d + 'T12:00'), on = d === sel;
+        const left = days[d].tasks.filter(t => !t.opt && !isDoneT(t)).length;
+        return `<button onclick="SYS.wlSet('day','${d}')" style="flex:1;min-width:52px;padding:6px 4px;border-radius:9px;cursor:pointer;font-family:inherit;text-align:center;${on ? 'background:var(--vi);color:#fff;border:1px solid var(--vi)' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.4px">${WL_DAYS[x.getDay()].slice(0, 3)}${d === today ? ' · hoy' : ''}</div>
+          <div style="font-size:14px;font-weight:700">${x.getDate()}</div>
+          <div style="font-size:9.5px;${left ? 'color:' + (on ? '#fff' : 'var(--am)') : 'color:#22c55e'}">${left ? left + ' por hacer' : '✓ listo'}</div></button>`;
+      }).join('');
+
+      const tomorrow = dates.find(d => d > sel);
+      const nextPrev = tomorrow ? days[tomorrow].tasks.filter(t => !isDoneT(t)) : [];
+      body = `
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          ${wlRing(doneN, list.length)}
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:1px">${sel === today ? 'Tu día' : 'Vista previa'}</div>
+            <div style="font-size:20px;font-weight:700;line-height:1.2">${title}</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">${pending.length ? `${pending.length} por hacer${minsLeft ? ` · ≈ ${minsLeft} min` : ''}` : 'todo listo'} · ${weekLine}</div>
+          </div>
+          ${sel !== today && days[today] ? `<button onclick="SYS.wlSet('day','${today}')" style="font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--vi2);border:1px solid var(--bd)">← volver a hoy</button>` : ''}
+        </div>
+        ${days[sel].focus ? `<div style="margin-top:10px;padding:9px 12px;border-radius:9px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.22);font-size:12px;line-height:1.55">🧭 <b>Enfoque:</b> ${esc(days[sel].focus)}</div>` : ''}
+        <div style="margin-top:10px">${pending.map(row).join('') || `<div style="padding:14px;border-radius:10px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);font-size:12.5px">✅ <b>Cumpliste lo de ${sel === today ? 'hoy' : 'este día'}.</b>${nextPrev.length ? ` Lo próximo (${WL_DAYS[new Date(tomorrow + 'T12:00').getDay()].toLowerCase()}): ${nextPrev.slice(0, 3).map(t => esc(t.title)).join(' · ')}.` : ''}</div>`}</div>
+        ${doneN ? `<div style="font-size:10.5px;color:#22c55e;margin:2px 0 4px">✓ ${doneN} hecha${doneN !== 1 ? 's' : ''} ${sel === today ? 'hoy' : 'este día'} (ya no se muestran)</div>` : ''}
+        <div style="display:flex;gap:5px;margin-top:10px;overflow-x:auto;padding-bottom:2px">${strip}</div>
+        ${(w.advice || []).length ? `<details style="margin-top:10px" open><summary style="font-size:11px;font-weight:700;color:var(--vi2);cursor:pointer;text-transform:uppercase;letter-spacing:.5px">💡 Consejos del comandante</summary>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:11.5px;color:var(--t2);line-height:1.6">${w.advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul></details>` : ''}`;
+    } else {
+      body = `<div style="font-size:14px;line-height:1.5">${weekLine}</div>`;
     }
 
     const overdue = pendingItems().filter(it => it.due < today);
@@ -1641,12 +1696,20 @@ const SYS = (() => {
         <div style="font-size:10px;color:var(--t3);padding:4px 8px">Si de verdad está pendiente, déjala: también sale en 📚 Materias.</div></div>
       </details>` : '';
 
-    const sl = t => `<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px">${t}</div>`;
-    el.innerHTML = `
-      <div style="font-size:14px;line-height:1.5">${head}</div>
-      ${sl('🎥 Clases en vivo')}<div style="display:flex;gap:6px;flex-wrap:wrap">${classHtml}</div>
-      ${w ? sl('⏭ Lo siguiente · de tu ruta') + nextHtml : ''}
+    el.innerHTML = `${body}
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px">🎥 Clases en vivo</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${classHtml}</div>
       ${overdueHtml}`;
+  }
+
+  // Abre una página del cuaderno de una materia desde el Dashboard.
+  function openNb(sid, pid) {
+    const coll = db.get('subjects_collapsed', {});
+    if (!coll[sid]) { coll[sid] = true; db.set('subjects_collapsed', coll); }
+    showTab(1);
+    render();
+    if (window.NB && NB.openPage) NB.openPage(sid, /^\d+$/.test(pid) ? Number(pid) : pid);
+    setTimeout(() => { const c = document.getElementById('subjCard-' + sid); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
   }
 
   // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) — TAREAS + CRONOGRAMA combinados ──
@@ -1730,7 +1793,7 @@ const SYS = (() => {
     claude: { ic: '🤖', label: 'Lo hace Claude',     tip: 'Resúmenes, borradores de correo, organización de material: Claude lo hace completo.' },
   };
   const WL_STATUS = ['', 'delegado a Claude', 'en curso', 'listo para revisar'];
-  const wlView = { week: null, tab: 'ruta', subj: 'all', pend: false };
+  const wlView = { week: null, tab: 'ruta', subj: 'all', pend: true, day: null };
   let wlTimer = null;
 
   function getWeekLive() {
@@ -1799,7 +1862,7 @@ const SYS = (() => {
     return '✅ Semana en vivo ' + w.id + ' · ' + w.items.length + ' actividades · ' + (w.classes || []).length + ' clases';
   }
 
-  function wlSet(k, v) { wlView[k] = v; renderWeekLive(); }
+  function wlSet(k, v) { wlView[k] = v; if (k === 'day') renderActionNow(); else renderWeekLive(); }
   function wlToggle(id) {
     const w = getWeekLive().find(x => x.items.some(it => it.id === id));
     const it = w && w.items.find(x => x.id === id);
@@ -1877,7 +1940,7 @@ const SYS = (() => {
     const pct = items.length ? Math.round(done / items.length * 100) : 0;
     const subjIds = [...new Set(items.map(it => it.subj).concat((w.classes || []).map(c => c.subj)))];
     const chip = (on, label, js) => `<button onclick="${js}" style="font-size:10px;padding:4px 10px;border-radius:12px;cursor:pointer;font-family:inherit;${on ? 'background:var(--vi);color:#fff;border:1px solid var(--vi)' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">${label}</button>`;
-    const linkBtn = l => `<a href="${esc(l.url)}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none;white-space:nowrap">${esc(l.label)} ↗</a>`;
+    const linkBtn = wlLinkBtn;
     const quote = e => `<div style="font-size:11px;color:var(--t2);border-left:2px solid var(--vi2);padding:2px 0 2px 8px;margin:4px 0">“${esc(e.q)}” <span style="color:var(--t3)">— ${esc(e.src)}${e.t ? ' · ' + esc(e.t) : ''}</span></div>`;
     const PRIO_LBL = { p0: 'P0 · hoy', p1: 'P1 · esta semana', p2: 'P2 · importante', p3: 'P3 · cuando puedas' };
 
@@ -1991,7 +2054,7 @@ const SYS = (() => {
       <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
         ${chip(wlView.subj === 'all', 'Todas', "SYS.wlSet('subj','all')")}
         ${subjIds.map(id => { const s = subjOf(id); return chip(wlView.subj === id, s.icon + ' ' + esc(s.code || s.name), `SYS.wlSet('subj','${id}')`); }).join('')}
-        ${wlView.tab !== 'clases' && wlView.tab !== 'next' ? chip(wlView.pend, wlView.pend ? '☑ solo pendientes' : '☐ solo pendientes', `SYS.wlSet('pend',${!wlView.pend})`) : ''}
+        ${wlView.tab !== 'clases' && wlView.tab !== 'next' ? chip(!wlView.pend, wlView.pend ? `👁 ver hechas (${done})` : '🙈 ocultar hechas', `SYS.wlSet('pend',${!wlView.pend})`) : ''}
       </div>
       ${body}
       <div id="wlPromptBox" style="display:none;margin-top:10px;border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:8px 10px;background:var(--vg)">
@@ -2902,7 +2965,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { setNota, injectWeek, setWeekItem, setCrono, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
+  return { setNota, injectWeek, setWeekItem, setCrono, openNb, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
 })();
 window.SYS = SYS;
 
