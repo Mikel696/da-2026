@@ -1330,9 +1330,14 @@
      para que las imágenes ya insertadas dejen de cubrir la hoja. */
   function _migrateInlineImagesToChips(editor){
     if (!editor) return;
-    const imgs = editor.querySelectorAll('img.nb-img');
-    if (!imgs.length) return;
     let changed = false;
+    // Restos del bug de insertHTML (18-oct-2026): ícono y nombre sueltos, fuera de su
+    // ficha. No llevan data-img-id, así que no apuntan a nada: la ficha real quedó aparte.
+    editor.querySelectorAll('.nb-img-chip-ic, .nb-img-chip-name').forEach(sp => {
+      if (!sp.closest('.nb-img-chip')) { sp.remove(); changed = true; }
+    });
+    const imgs = editor.querySelectorAll('img.nb-img');
+    if (!imgs.length) { if (changed) editor.dispatchEvent(new Event('input', { bubbles: true })); return; }
     imgs.forEach(img => {
       const chip = document.createElement('span');
       chip.className = 'nb-img-chip';
@@ -1606,14 +1611,23 @@
         sel.removeAllRanges();
         sel.addRange(r);
       }
-      try { document.execCommand('insertHTML', false, html); }
-      catch(e) {
-        if (sel && sel.rangeCount) {
-          const r = sel.getRangeAt(0);
-          const frag = r.createContextualFragment(html);
-          r.deleteContents();
-          r.insertNode(frag);
-        }
+      // Se arma con DOM y entra por Range, no con execCommand('insertHTML'): dentro de un
+      // <li> Chrome descartaba el span contenteditable=false y dejaba "🖼️image.png" como
+      // texto suelto; la red de abajo no lo reconocía y pegaba una segunda ficha al final.
+      if (sel && sel.rangeCount) {
+        const tpl = document.createElement('template');
+        tpl.innerHTML = html;
+        const chipEl = tpl.content.querySelector('.nb-img-chip');
+        const space = document.createTextNode(' ');
+        const r = sel.getRangeAt(0);
+        r.deleteContents();
+        r.insertNode(space);
+        r.insertNode(chipEl);
+        const after = document.createRange();
+        after.setStartAfter(space);
+        after.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(after);
       }
       // ÚLTIMA RED: si ni execCommand ni el range lograron insertar (sin caret
       // válido), append al final. Sin esto la imagen quedaba guardada en IDB
