@@ -1734,7 +1734,7 @@ const SYS = (() => {
     claude: { ic: '🤖', label: 'Lo hace Claude',     tip: 'Resúmenes, borradores de correo, organización de material: Claude lo hace completo.' },
   };
   const WL_STATUS = ['', 'delegado a Claude', 'en curso', 'listo para revisar'];
-  const wlView = { week: null, tab: 'prio', subj: 'all', pend: false };
+  const wlView = { week: null, tab: 'ruta', subj: 'all', pend: false };
   let wlTimer = null;
 
   function getWeekLive() {
@@ -1823,8 +1823,9 @@ const SYS = (() => {
       el.innerHTML = `<div class="sl">· 📡 semana en vivo ·</div><div class="sd">Todavía no hay parte semanal. Pídele a Claude: <em>"actualiza Semana en vivo"</em> (protocolo en PROMPT_10-SYS_SEMANA.md).</div>`;
       return;
     }
-    const today = todayStr();
-    const w = weeks.find(x => x.id === wlView.week) || weeks.find(x => today >= x.start && today <= x.end) || weeks[0];
+    // Por defecto, el parte más nuevo: el del sábado o domingo ya mira la semana que empieza.
+    const w = weeks.find(x => x.id === wlView.week) || weeks[0];
+    if (wlView.tab === 'ruta' && !(w.route || []).length) wlView.tab = 'prio';
     wlView.week = w.id;
     const st = getWeekState();
     const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(0,0%,50%)' };
@@ -1866,7 +1867,32 @@ const SYS = (() => {
 
     let body = '';
     const filt = it => (wlView.subj === 'all' || it.subj === wlView.subj) && (!wlView.pend || !(st[it.id] && st[it.id].done));
-    if (wlView.tab === 'prio') {
+    if (wlView.tab === 'ruta') {
+      // La ruta es el orden en que Claude recomienda hacer las cosas. Un paso ligado a una
+      // actividad (step.item) se marca hecho con el mismo check de esa actividad.
+      const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
+      const steps = (w.route || []).filter(r => {
+        const it = byId[r.item];
+        const subj = r.subj || (it && it.subj);
+        const isDone = it && st[it.id] && st[it.id].done;
+        return (wlView.subj === 'all' || subj === wlView.subj) && (!wlView.pend || !isDone);
+      });
+      body = steps.map(r => {
+        const it = byId[r.item], s = subjOf(r.subj || (it && it.subj));
+        const isDone = !!(it && st[it.id] && st[it.id].done);
+        const links = (r.links && r.links.length ? r.links : (it && it.links) || []);
+        const n = (w.route || []).indexOf(r) + 1;
+        return `<div style="display:flex;gap:10px;padding:9px 10px;border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;margin-bottom:6px;background:var(--el);${isDone ? 'opacity:.55' : ''}">
+          <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;${isDone ? 'background:rgba(34,197,94,.15);color:#22c55e' : 'background:var(--vi);color:#fff'}">${isDone ? '✓' : n}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12.5px;font-weight:600;${isDone ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(r.title)}</div>
+            <div style="font-size:10.5px;color:var(--t3);margin-top:1px">${r.when ? '🗓 ' + esc(r.when) : ''}${r.mins ? ' · ⏱ ' + esc(String(r.mins)) + ' min' : ''}${it && it.due ? ' · cierra ' + wlFmtDue(it.due) : ''}${it ? ` · <a href="#" onclick="SYS.wlToggle('${it.id}');return false" style="color:var(--vi2)">${isDone ? 'desmarcar' : 'marcar hecho'}</a>` : ''}</div>
+            ${r.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.5">${esc(r.why)}</div>` : ''}
+            ${links.length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${links.map(linkBtn).join('')}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('') || '<div class="sd">Nada con ese filtro.</div>';
+    } else if (wlView.tab === 'prio') {
       const list = items.filter(filt);
       body = ['p0', 'p1', 'p2', 'p3'].map(p => {
         const g = list.filter(it => it.prio === p);
@@ -1901,7 +1927,7 @@ const SYS = (() => {
           <span style="font-size:12px;flex:1">${s.icon} ${esc(n.text)}${EST_TAG(n.est)}</span></div>`; }).join('') || '<div class="sd">Sin anticipos para la próxima semana.</div>';
     }
 
-    const tabs = [['prio', `🎯 Prioridades (${items.length - done})`], ['clases', `🎥 Clases (${(w.classes || []).length})`], ['mando', '🤖 Centro de mando'], ['next', '⏭ Próxima semana']];
+    const tabs = [...((w.route || []).length ? [['ruta', `🧭 Ruta (${w.route.length} pasos)`]] : []), ['prio', `🎯 Prioridades (${items.length - done})`], ['clases', `🎥 Clases (${(w.classes || []).length})`], ['mando', '🤖 Centro de mando'], ['next', '⏭ Próxima semana']];
     el.innerHTML = `
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
         <div>
