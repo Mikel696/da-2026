@@ -221,6 +221,14 @@ Las evaluaciones de CDigital se desbloquean por **requisito** (Acuerdo → Eval.
 **Notas:** `sys_subjects_custom[].notas` (claves `q1 p1 q2 p2 aca q3 co au` + `meta`), cargables con
 `SYS.setNota(id, clave, valor)` en la pestaña real del live site.
 
+**📡 Semana en vivo (Dashboard, desde 18-oct-2026):** parte semanal de Claude. Protocolo completo en
+`PROMPT_10-SYS_SEMANA.md`. El parte se inyecta con `SYS.injectWeek({...})` en la pestaña real del live site →
+`sys_week_live` (Supabase, **nunca en el repo público**: lleva citas de clase y notas). Los checks de Miguel van en
+`sys_week_state`, aparte, para que un parte nuevo no los pise. Cada actividad lleva `mode`: `tu` (trámites,
+formularios, evaluaciones) · `prep` (Claude prepara guía y simulacro; **Miguel presenta**) · `juntos` (ACA:
+Claude investiga y redacta el borrador, Miguel revisa y entrega) · `claude`. **Claude no presenta quizzes,
+parciales ni exámenes por Miguel.** Moodle CUN admite una sola sesión: trabajar en la misma pestaña que Miguel.
+
 **Grabaciones de clase (verificado 8-oct-2026):** el evento de Calendar CUN (`/calendar/u/3/`) adjunta Recording + Chat + Transcript. El Transcript (Doc) da 403; el Recording se transcribe desde `drive.google.com` con `get_video_info?docid=ID` → `ttsurl` → pista `asr` `fmt=json3`, sin abrir el panel de Drive. Detalle en CEREBRO_STATE 2026-10-08.
 
 ### Tab 7 · Clases Perdidas (Missed Classes Analyzer) — DIRECT-FETCH PROTOCOL v2

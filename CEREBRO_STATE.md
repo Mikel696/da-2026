@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-09 (10-SYS: recorrido completo de las 5 materias + carpetas del Semestre 9)
+- **Última actualización:** 2026-10-18 (10-SYS: Semana en vivo — parte semanal interactivo en el Dashboard)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,52 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 📡 10-SYS · Semana en vivo: Claude asume el semestre — 2026-10-18
+
+### El encargo
+Miguel: ver todas las clases de la semana, clasificar las actividades por importancia, darle un parte
+compacto **en el Dashboard**, interactivo, que se actualice cada semana, y poder delegarle trabajo
+("tú eres el comandante"). También pidió que Claude presente quizzes y parciales: **no** — es suplantación
+en una evaluación. Quedó como regla del módulo: Claude prepara (guía + simulacro propio) y Miguel presenta;
+los entregables (ACA) se hacen juntos y los entrega él.
+
+### Lo que se construyó
+- `systems_logic.js` → `renderWeekLive()` + `SYS.injectWeek()`, `setWeekItem()`, `wlSet/wlToggle/wlDelegate`.
+  Tarjeta en el Dashboard con 4 vistas (🎯 Prioridades P0-P3 con cuenta regresiva viva · 🎥 Clases con citas
+  y minuto · 🤖 Centro de mando por modo tú/te preparo/juntos/Claude · ⏭ Próxima semana), filtros por materia
+  y "solo pendientes", y botón que copia el encargo listo para pegarle a Claude.
+- **Datos fuera del repo:** `sys_week_live` (el parte, lo escribe Claude) y `sys_week_state` (los checks de
+  Miguel), separados para que un parte nuevo nunca pise un check. Registradas en `SYNC_REGISTRY`;
+  `cloud-sync.js` p19→p20 en las 29 páginas. El repo es público y el parte lleva citas de clase y notas.
+- `render()` llama a la tarjeta dentro de try/catch: un parte mal formado no tumba el módulo.
+- `PROMPT_10-SYS_SEMANA.md`: protocolo semanal (CDigital, correo, grabaciones, esquema, reglas).
+
+### Lo que encontró el parte de la semana 3 (12-18 oct)
+- **Los 3 Parcial 1 (BI, Auditoría, Nube) cerraban el domingo 18 a las 23:59 y ninguno estaba presentado**
+  a las 21:15. Se le avisó a Miguel en el acto con resúmenes de estudio de cada materia.
+- Quiz 1: BI 5.0 · Auditoría 5.0 · Nube 4.75.
+- TI: el docente dio instrucciones por **mensaje de CDigital** (no por correo): Evaluación Docente 1 → Quiz 1
+  (Temática 2) y Parcial 1 (Temática 3) hasta el 21-oct, con las preguntas en su PDF "Clases ... P0"
+  (versión del 15-oct, págs. 11-13) + un formulario de Acuerdo Pedagógico propio.
+- Auditoría: docente titular nuevo (Andrés Felipe Correa) desde el 15-oct; ACA individual que explica el 29-oct.
+- BI 14-oct: sin grabación; un resumen Read AI de una compañera dice que hubo corte de energía y que el docente
+  quitaría 3 preguntas del Parcial 1.
+- Nube: grabaciones 8 y 15-oct siguen "sin permiso"; el docente envió credenciales de AWS Academy (no se copian).
+- Inglés: Dexway = 92 % (auto 4 % + co 4 %), todo cierra el 13-nov, final vigilado por cámara.
+
+### Trampas encontradas
+- **Moodle CUN admite una sola sesión.** Si Miguel entra a CDigital en otra ventana, la de Claude se cierra
+  (y al revés). Hay que trabajar en la misma pestaña (arrastrarla al grupo de Claude).
+- El índice de cuenta de Google cambió (`u/3` → `u/4`) tras volver a iniciar sesión: usar `?authuser=correo`.
+- `mod_quiz_get_quizzes_by_courses` no está habilitado para estudiantes: las fechas salen de `/mod/quiz/view.php`.
+- pdf.js dentro de Moodle: RequireJS secuestra el UMD; hay que quitar `window.define` mientras carga.
+
+### Pendiente
+- Que Miguel diga en qué unidad de Dexway va (CDigital no lo muestra).
+- Encargos 🤖 de la semana: correo pidiendo acceso a grabaciones de Nube; resumen del PDF de Auditoría.
 
 ---
 

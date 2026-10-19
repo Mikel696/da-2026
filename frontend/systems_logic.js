@@ -1722,10 +1722,226 @@ const SYS = (() => {
     }).join('');
   }
 
+  // ── SEMANA EN VIVO (Dashboard) ──
+  // El parte semanal lo escribe Claude (PROMPT_10-SYS_SEMANA.md) y lo inyecta con
+  // SYS.injectWeek() en la pestaña real del live site: viaja a Supabase y no al repo
+  // público, porque lleva citas de clase. Lo que Miguel marca vive aparte, en
+  // sys_week_state, para que un parte nuevo nunca le pise un check.
+  const WL_MODE = {
+    tu:     { ic: '🙋', label: 'Solo tú',           tip: 'Trámite, formulario o evaluación tuya: Claude no lo hace por ti.' },
+    prep:   { ic: '🧠', label: 'Te preparo',         tip: 'Lo presentas tú. Claude te arma la guía de estudio y un simulacro con preguntas propias.' },
+    juntos: { ic: '🤝', label: 'Lo hacemos juntos',  tip: 'Claude investiga, estructura y redacta el borrador; tú lo revisas, lo haces tuyo y lo entregas.' },
+    claude: { ic: '🤖', label: 'Lo hace Claude',     tip: 'Resúmenes, borradores de correo, organización de material: Claude lo hace completo.' },
+  };
+  const WL_STATUS = ['', 'delegado a Claude', 'en curso', 'listo para revisar'];
+  const wlView = { week: null, tab: 'prio', subj: 'all', pend: false };
+  let wlTimer = null;
+
+  function getWeekLive() {
+    const d = db.get('week_live', null);
+    return (d && Array.isArray(d.weeks) ? d.weeks : []).slice().sort((a, b) => b.start.localeCompare(a.start));
+  }
+  function getWeekState() { return db.get('week_state', {}) || {}; }
+  function setWeekItem(id, patch) {
+    const st = getWeekState();
+    st[id] = { ...(st[id] || {}), ...patch, ts: Date.now() };
+    db.set('week_state', st);
+    renderWeekLive();
+    return '✅ ' + id + ' → ' + JSON.stringify(st[id]);
+  }
+
+  // Lo llama Claude al cerrar el parte. Reemplaza la semana con el mismo id y guarda las 12 más recientes.
+  function injectWeek(w) {
+    if (!w || !w.id || !w.start || !w.end || !Array.isArray(w.items)) return '❌ Faltan id, start, end o items';
+    const bad = w.items.filter(it => !it.id || !it.title || !WL_MODE[it.mode]);
+    if (bad.length) return '❌ Ítems sin id/title/mode válido: ' + bad.map(it => it.id || it.title).join(', ');
+    const weeks = getWeekLive().filter(x => x.id !== w.id);
+    weeks.unshift({ ...w, injected: new Date().toISOString() });
+    db.set('week_live', { weeks: weeks.sort((a, b) => b.start.localeCompare(a.start)).slice(0, 12) });
+    wlView.week = w.id;
+    renderWeekLive();
+    return '✅ Semana en vivo ' + w.id + ' · ' + w.items.length + ' actividades · ' + (w.classes || []).length + ' clases';
+  }
+
+  function wlSet(k, v) { wlView[k] = v; renderWeekLive(); }
+  function wlToggle(id) { const s = getWeekState()[id] || {}; setWeekItem(id, { done: !s.done }); }
+
+  function wlDue(due) {
+    if (!due) return null;
+    const ms = new Date(due.length === 10 ? due + 'T23:59' : due) - new Date();
+    const h = ms / 3600000;
+    if (ms < 0) return { txt: 'venció', cls: 'sem-p0' };
+    if (h < 24) return { txt: `cierra en ${Math.floor(h)}h ${Math.floor((ms % 3600000) / 60000)}m`, cls: 'sem-p0' };
+    const d = Math.ceil(h / 24);
+    return { txt: `en ${d} día${d !== 1 ? 's' : ''}`, cls: d <= 3 ? 'sem-p1' : d <= 7 ? 'sem-p2' : 'sem-p3' };
+  }
+  function wlFmtDue(due) {
+    if (!due) return '';
+    const dt = new Date(due.length === 10 ? due + 'T00:00' : due);
+    const dn = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][dt.getDay()];
+    return `${dn} ${formatDate(due.slice(0, 10))}${due.length > 10 ? ' · ' + due.slice(11, 16) : ''}`;
+  }
+
+  function wlPrompt(w, it) {
+    const s = getSubjects().find(x => x.id === it.subj);
+    const m = WL_MODE[it.mode];
+    const lines = [
+      `CEREBRO · ENCARGO 10-SYS · Semana en vivo ${w.id} · ítem ${it.id}`,
+      `Materia: ${s ? s.name + ' (' + s.code + ')' : 'General'}`,
+      `Encargo: ${it.title}${it.due ? ' · fecha límite ' + wlFmtDue(it.due) : ''}`,
+      `Modo: ${m.label} — ${m.tip}`,
+      it.why ? `Contexto: ${it.why}` : '',
+      (it.steps || []).length ? 'Pasos:\n' + it.steps.map((x, i) => `${i + 1}. ${x}`).join('\n') : '',
+      (it.ev || []).length ? 'Evidencia:\n' + it.ev.map(e => `- "${e.q}" — ${e.src}${e.t ? ' [' + e.t + ']' : ''}`).join('\n') : '',
+      (it.links || []).length ? 'Enlaces:\n' + it.links.map(l => `- ${l.label}: ${l.url}`).join('\n') : '',
+      it.mode === 'prep'
+        ? 'Qué quiero: guía de estudio corta + simulacro con preguntas TUYAS (no las del examen real) y la explicación de cada respuesta. La evaluación la presento yo.'
+        : it.mode === 'juntos'
+          ? 'Qué quiero: investiga con fuentes, propón la estructura y redacta el borrador. Yo lo reviso, lo ajusto y lo entrego.'
+          : 'Qué quiero: hazlo completo y déjame el resultado en el cuaderno de la materia o en su carpeta del Semestre 9.',
+      'Reglas: nada inventado (todo con fuente); no presentes evaluaciones ni envíes formularios o correos por mí.',
+      `Al terminar: SYS.setWeekItem('${it.id}', {st:'listo para revisar'}) en la pestaña real del live site.`,
+    ];
+    return lines.filter(Boolean).join('\n');
+  }
+  function wlDelegate(wid, id) {
+    const w = getWeekLive().find(x => x.id === wid);
+    const it = w && w.items.find(x => x.id === id);
+    if (!it) return;
+    const txt = wlPrompt(w, it);
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => {});
+    setWeekItem(id, { st: 'delegado a Claude' });
+    const pre = document.getElementById('wlPromptBox');
+    if (pre) { pre.style.display = 'block'; pre.querySelector('pre').textContent = txt; }
+  }
+
+  function renderWeekLive() {
+    const el = document.getElementById('weekLive');
+    if (!el) return;
+    const weeks = getWeekLive();
+    if (!weeks.length) {
+      el.innerHTML = `<div class="sl">· 📡 semana en vivo ·</div><div class="sd">Todavía no hay parte semanal. Pídele a Claude: <em>"actualiza Semana en vivo"</em> (protocolo en PROMPT_10-SYS_SEMANA.md).</div>`;
+      return;
+    }
+    const today = todayStr();
+    const w = weeks.find(x => x.id === wlView.week) || weeks.find(x => today >= x.start && today <= x.end) || weeks[0];
+    wlView.week = w.id;
+    const st = getWeekState();
+    const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(0,0%,50%)' };
+    const items = w.items.slice().sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'));
+    const done = items.filter(it => st[it.id] && st[it.id].done).length;
+    const p0open = items.filter(it => it.prio === 'p0' && !(st[it.id] && st[it.id].done)).length;
+    const pct = items.length ? Math.round(done / items.length * 100) : 0;
+    const subjIds = [...new Set(items.map(it => it.subj).concat((w.classes || []).map(c => c.subj)))];
+    const chip = (on, label, js) => `<button onclick="${js}" style="font-size:10px;padding:4px 10px;border-radius:12px;cursor:pointer;font-family:inherit;${on ? 'background:var(--vi);color:#fff;border:1px solid var(--vi)' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">${label}</button>`;
+    const linkBtn = l => `<a href="${esc(l.url)}" target="_blank" rel="noopener" style="font-size:10px;padding:3px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--vi2);text-decoration:none;white-space:nowrap">${esc(l.label)} ↗</a>`;
+    const quote = e => `<div style="font-size:11px;color:var(--t2);border-left:2px solid var(--vi2);padding:2px 0 2px 8px;margin:4px 0">“${esc(e.q)}” <span style="color:var(--t3)">— ${esc(e.src)}${e.t ? ' · ' + esc(e.t) : ''}</span></div>`;
+    const PRIO_LBL = { p0: 'P0 · hoy', p1: 'P1 · esta semana', p2: 'P2 · importante', p3: 'P3 · cuando puedas' };
+
+    const itemRow = it => {
+      const s = subjOf(it.subj), sv = st[it.id] || {}, m = WL_MODE[it.mode], dl = wlDue(it.due);
+      const canDelegate = it.mode !== 'tu';
+      return `<div style="border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;padding:8px 10px;margin-bottom:6px;background:var(--el);${sv.done ? 'opacity:.55' : ''}">
+        <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap">
+          <input type="checkbox" ${sv.done ? 'checked' : ''} onchange="SYS.wlToggle('${it.id}')" title="Marcar como hecho" style="margin-top:3px;accent-color:var(--vi);cursor:pointer">
+          <span class="sem sem-${it.prio}" style="flex-shrink:0">${PRIO_LBL[it.prio] || it.prio}</span>
+          ${dl && !sv.done ? `<span class="sem ${dl.cls}" data-wl-due="${esc(it.due)}" style="flex-shrink:0">${dl.txt}</span>` : ''}
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:12.5px;font-weight:600;${sv.done ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(it.title)}${it.weight ? ` <span style="font-size:10px;color:var(--am);font-weight:500">· vale ${esc(it.weight)}</span>` : ''}${EST_TAG(it.est)}</div>
+            <div style="font-size:10.5px;color:var(--t3)">${esc(s.name)}${it.due ? ' · ' + wlFmtDue(it.due) : ''} · <span title="${esc(m.tip)}">${m.ic} ${m.label}</span>${sv.st ? ` · <span style="color:var(--vi2)">${esc(sv.st)}</span>` : ''}</div>
+            ${it.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px">${esc(it.why)}</div>` : ''}
+          </div>
+        </div>
+        <details style="margin:4px 0 0 22px"><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Qué hacer, evidencia y enlaces</summary>
+          ${(it.steps || []).length ? `<ol style="font-size:11.5px;color:var(--t2);margin:6px 0;padding-left:18px">${it.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
+          ${(it.ev || []).map(quote).join('')}
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
+            ${(it.links || []).map(linkBtn).join('')}
+            ${canDelegate ? `<button onclick="SYS.wlDelegate('${w.id}','${it.id}')" style="font-size:10px;padding:3px 9px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--vi);color:#fff;border:none">${m.ic} ${it.mode === 'prep' ? 'Pedir preparación' : 'Delegar a Claude'}</button>
+            <select onchange="SYS.setWeekItem('${it.id}',{st:this.value})" style="font-size:10px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:2px 4px;font-family:inherit">${WL_STATUS.map(x => `<option value="${x}" ${(sv.st || '') === x ? 'selected' : ''}>${x || 'estado…'}</option>`).join('')}</select>` : `<span style="font-size:10px;color:var(--t3)">${m.ic} ${esc(m.tip)}</span>`}
+          </div>
+        </details>
+      </div>`;
+    };
+
+    let body = '';
+    const filt = it => (wlView.subj === 'all' || it.subj === wlView.subj) && (!wlView.pend || !(st[it.id] && st[it.id].done));
+    if (wlView.tab === 'prio') {
+      const list = items.filter(filt);
+      body = ['p0', 'p1', 'p2', 'p3'].map(p => {
+        const g = list.filter(it => it.prio === p);
+        return g.length ? `<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px">${PRIO_LBL[p]} · ${g.length}</div>${g.map(itemRow).join('')}` : '';
+      }).join('') || '<div class="sd">Nada con ese filtro.</div>';
+    } else if (wlView.tab === 'clases') {
+      body = (w.classes || []).filter(c => wlView.subj === 'all' || c.subj === wlView.subj).map(c => {
+        const s = subjOf(c.subj);
+        const recCls = c.rec === 'ok' ? 'sem-p3' : 'sem-p0';
+        return `<div style="border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;padding:10px 12px;margin-bottom:8px;background:var(--el)">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-size:13px;font-weight:600">${s.icon} ${esc(s.name)}</span>
+            <span style="font-size:10.5px;color:var(--t3)">${esc(c.when || '')}</span>
+            <span class="sem ${recCls}">${c.rec === 'ok' ? '🎥 grabación leída' : '⚠ ' + esc(c.rec)}</span>
+            ${(c.links || []).map(linkBtn).join('')}
+          </div>
+          ${c.src ? `<div style="font-size:10px;color:var(--t3);margin-bottom:4px">Fuente: ${esc(c.src)}</div>` : ''}
+          ${(c.sum || []).length ? `<ul style="font-size:11.5px;color:var(--t2);margin:4px 0;padding-left:18px">${c.sum.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+          ${(c.ev || []).length ? `<details><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Lo que dijo el docente (${c.ev.length})</summary>${c.ev.map(quote).join('')}</details>` : ''}
+        </div>`;
+      }).join('') || '<div class="sd">Sin clases registradas para ese filtro.</div>';
+    } else if (wlView.tab === 'mando') {
+      const byMode = Object.keys(WL_MODE).map(k => {
+        const g = items.filter(it => it.mode === k && filt(it));
+        return `<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600">${WL_MODE[k].ic} ${WL_MODE[k].label} · ${g.length}</div><div style="font-size:11px;color:var(--t3);margin-bottom:4px">${WL_MODE[k].tip}</div>
+          ${g.map(it => { const sv = st[it.id] || {}; return `<div style="font-size:11.5px;padding:3px 0;display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span>${sv.done ? '✅' : '⬜'}</span><span>${subjOf(it.subj).icon} ${esc(it.title)}</span>${sv.st ? `<span class="sem sem-p4">${esc(sv.st)}</span>` : ''}</div>`; }).join('') || '<div style="font-size:11px;color:var(--t3)">—</div>'}</div>`;
+      }).join('');
+      body = `${(w.rules || []).length ? `<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:8px 10px;margin-bottom:10px">${w.rules.map(r => `<div style="font-size:11.5px;color:var(--t2);margin:2px 0">• ${esc(r)}</div>`).join('')}</div>` : ''}${byMode}`;
+    } else {
+      body = (w.next || []).map(n => { const s = subjOf(n.subj); return `<div style="display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:7px;background:var(--el);margin-bottom:4px;flex-wrap:wrap">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:74px">${esc(n.when || '')}</span>
+          <span style="font-size:12px;flex:1">${s.icon} ${esc(n.text)}${EST_TAG(n.est)}</span></div>`; }).join('') || '<div class="sd">Sin anticipos para la próxima semana.</div>';
+    }
+
+    const tabs = [['prio', `🎯 Prioridades (${items.length - done})`], ['clases', `🎥 Clases (${(w.classes || []).length})`], ['mando', '🤖 Centro de mando'], ['next', '⏭ Próxima semana']];
+    el.innerHTML = `
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div>
+          <div class="sl" style="margin-bottom:4px">· 📡 semana en vivo ·</div>
+          <div style="font-size:17px;font-weight:700">${esc(w.title || w.id)}</div>
+          <div style="font-size:10.5px;color:var(--t3)">${formatDate(w.start)} → ${formatDate(w.end)} · parte de ${esc(w.cut || '')}${w.author ? ' · ' + esc(w.author) : ''}</div>
+        </div>
+        ${weeks.length > 1 ? `<select onchange="SYS.wlSet('week',this.value)" style="font-size:11px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;font-family:inherit">${weeks.map(x => `<option value="${esc(x.id)}" ${x.id === w.id ? 'selected' : ''}>${esc(x.title || x.id)}</option>`).join('')}</select>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin:10px 0 6px">
+        <div style="flex:1;height:7px;background:var(--el);border-radius:4px;overflow:hidden;border:1px solid var(--bd)"><div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--vi),var(--tl))"></div></div>
+        <span style="font-size:11px;color:var(--t2);white-space:nowrap">${done}/${items.length} hechas${p0open ? ` · <b style="color:#ef4444">${p0open} P0 abiertas</b>` : ''}</span>
+      </div>
+      ${w.headline ? `<div style="font-size:12.5px;color:var(--t1,#e5e5e5);line-height:1.6;margin-bottom:8px">${esc(w.headline)}</div>` : ''}
+      ${(w.alerts || []).map(a => `<div style="font-size:11.5px;padding:7px 10px;border-radius:7px;margin-bottom:5px;${a.lvl === 'p0' ? 'background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)' : 'background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.22)'}">${a.lvl === 'p0' ? '🚨' : '⚠️'} ${esc(a.text)}</div>`).join('')}
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin:10px 0 6px;border-bottom:1px solid var(--bd);padding-bottom:6px">${tabs.map(([k, l]) => chip(wlView.tab === k, l, `SYS.wlSet('tab','${k}')`)).join('')}</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
+        ${chip(wlView.subj === 'all', 'Todas', "SYS.wlSet('subj','all')")}
+        ${subjIds.map(id => { const s = subjOf(id); return chip(wlView.subj === id, s.icon + ' ' + esc(s.code || s.name), `SYS.wlSet('subj','${id}')`); }).join('')}
+        ${wlView.tab !== 'clases' && wlView.tab !== 'next' ? chip(wlView.pend, wlView.pend ? '☑ solo pendientes' : '☐ solo pendientes', `SYS.wlSet('pend',${!wlView.pend})`) : ''}
+      </div>
+      ${body}
+      <div id="wlPromptBox" style="display:none;margin-top:10px;border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:8px 10px;background:var(--vg)">
+        <div style="font-size:11px;color:var(--vi2);margin-bottom:4px">📋 Encargo copiado. Pégamelo en el chat de Claude y lo arranco.</div>
+        <pre style="white-space:pre-wrap;font-size:10.5px;color:var(--t2);margin:0;max-height:220px;overflow:auto"></pre>
+      </div>
+      ${(w.sources || []).length ? `<div style="font-size:10px;color:var(--t3);margin-top:8px">Fuentes: ${w.sources.map(esc).join(' · ')}</div>` : ''}`;
+
+    // Las cuentas regresivas se refrescan solas cada minuto mientras la pestaña está abierta.
+    if (!wlTimer) wlTimer = setInterval(() => {
+      document.querySelectorAll('[data-wl-due]').forEach(n => { const d = wlDue(n.dataset.wlDue); if (d) { n.textContent = d.txt; n.className = 'sem ' + d.cls; } });
+    }, 60000);
+  }
+
   function render() {
     renderSubjTaskSelects();
     renderStats();
     renderActionNow();
+    // Un parte mal formado no puede tumbar el resto del módulo.
+    try { renderWeekLive(); } catch (e) { console.warn('[10-SYS] Semana en vivo:', e); }
     renderSubjectDetail();
     renderCalendar();
     renderDeadlines();
@@ -2613,7 +2829,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { setNota, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
+  return { setNota, injectWeek, setWeekItem, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
 })();
 window.SYS = SYS;
 
