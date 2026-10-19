@@ -50,6 +50,11 @@ los entregables (ACA) se hacen juntos y los entrega él.
 - El índice de cuenta de Google cambió (`u/3` → `u/4`) tras volver a iniciar sesión: usar `?authuser=correo`.
 - `mod_quiz_get_quizzes_by_courses` no está habilitado para estudiantes: las fechas salen de `/mod/quiz/view.php`.
 - pdf.js dentro de Moodle: RequireJS secuestra el UMD; hay que quitar `window.define` mientras carga.
+- **Cuadernos (NB, 3 módulos):** pegar una imagen con el cursor dentro de una lista dejaba "🖼️image.png"
+  como texto suelto y la ficha real al final de la página. `execCommand('insertHTML')` descarta el span
+  `contenteditable=false` dentro de `<li>`. Ahora la ficha entra por Range y `_migrateInlineImagesToChips`
+  borra los restos sueltos al abrir. `nb-shared.js` p21→p22 (systems, notes, work). Reproducido y
+  probado en local (lista, párrafo y limpieza); producción sirve p22 con el arreglo.
 
 ### Pendiente
 - Que Miguel diga en qué unidad de Dexway va (CDigital no lo muestra).
