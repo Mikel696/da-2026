@@ -56,8 +56,20 @@ los entregables (ACA) se hacen juntos y los entrega él.
   borra los restos sueltos al abrir. `nb-shared.js` p21→p22 (systems, notes, work). Reproducido y
   probado en local (lista, párrafo y limpieza); producción sirve p22 con el arreglo.
 
+### Segunda pasada (misma noche, 22:10)
+- Miguel presentó los 3 Parcial 1: **5.0 / 5.0 / 5.0** (BI, Auditoría, Nube); cargados con `SYS.setNota` (p1).
+  Él mismo los marcó hechos en el Dashboard: el check se usa.
+- Parte **26V05-S4** (19-25 oct) con la vista nueva **🧭 Ruta** (17 pasos numerados con cuándo, cuánto, por qué
+  y enlaces). Se abre primero; el parte por defecto es el más reciente. Los ids que siguen de S3 se conservan.
+- Requisitos verificados en `/course/section.php`: Quiz 2 y Parcial 2 de BI y Nube ← Evaluación Docente 2;
+  Quiz 1 de TI ← Evaluación Docente 1; ACA ← Evaluación Docente 3. Auditoría abre por fecha.
+- **Dexway en cero** (Unit 1 "Lección no iniciada", todas las unidades vacías) — leído por `mod/lti/launch.php`.
+- Recursos de estudio (Guía/Video/Recurso por tema) visibles en cada evaluación; regla en el protocolo.
+- Nuevas exigencias de Miguel en `PROMPT_10-SYS_SEMANA.md`: revisar lo hecho en cada aula, ruta de prioridad,
+  y TI como caso aparte (instrucciones por mensaje de CDigital, no correo).
+
 ### Pendiente
-- Que Miguel diga en qué unidad de Dexway va (CDigital no lo muestra).
+- Dexway: arrancar la Unidad 1 esta semana.
 - Encargos 🤖 de la semana: correo pidiendo acceso a grabaciones de Nube; resumen del PDF de Auditoría.
 
 ---

@@ -203,7 +203,7 @@ Estas reglas existen porque ya hubo incidentes de hallucinación masiva (ver lec
 - DIS38 Inteligencia de Negocios · 55500 · FELIPE ALEXANDER GARZON · Mié 6:15-8:30 PM · cdigital_id 126973
 - DIS39 Auditoría de Sistemas · 55506 · ANDRES FELIPE CORREA ESPITIA · jue 6:15-7:45 PM (Calendar) · 126979
 - DIS40 Computación en la Nube · 55516 · MARIO ALEXANDER REALES MARTINEZ · jue 6:15-7:45 PM + tutoría vie 6:15-7:15 · 126989
-- ISD37 Trabajo de Investigación en Ingeniería · 55520 · MANUEL ALBERTO SALGADO ALBA · 126584 · **8 semanas**, mié 6:15-7:45 PM, notas cierran 11-nov; regla: no resolver nada en la plataforma sin sus instrucciones (todo va en su PDF "Clases ... P0")
+- ISD37 Trabajo de Investigación en Ingeniería · 55520 · MANUEL ALBERTO SALGADO ALBA · 126584 · **8 semanas**, mié 6:15-7:45 PM, notas cierran 11-nov; regla: no resolver nada en la plataforma sin sus instrucciones (todo va en su PDF "Clases ... P0"). **Caso aparte:** da las instrucciones de cada corte en clase, en ese PDF y por **mensaje de CDigital** (no por correo) — revisar las tres fuentes en cada parte
 - A1I01 Virtual English Beginner 1 · 50610 (26I05) · ANYI MILENA ALVAREZ COGOLLO · L-V 6:15-7:45 PM · 130590
 - Se excluye a propósito "INDUCCION TICS - ESTUDIANTES" (28494).
 - 26V02 (8vo) quedó en 🗂 Historial: 6 ganadas, English 50608 y Placement en "pausada".

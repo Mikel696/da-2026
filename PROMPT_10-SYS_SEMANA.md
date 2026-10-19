@@ -20,6 +20,22 @@ Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vista
 - `sys_week_state` → lo que marca Miguel (hecho, estado). Va aparte para que un parte nuevo no pise un check hecho en otro dispositivo.
 - Las dos llaves están en `SYNC_REGISTRY` de `cloud-sync.js`. Se guardan las 12 semanas más recientes.
 
+## Lo que Miguel exige cada vez (18-oct-2026)
+
+1. **Entrar a CADA una de las 5 aulas** y ver lo que ya hizo: `completionstate` de cada actividad, intentos y
+   nota de cada quiz/parcial, entregas, lo que se desbloqueó y lo que apareció nuevo. Lo hecho se marca con
+   `SYS.setWeekItem(id, {done:true})` (cada ítem lleva `cm` = id de CDigital para cruzarlo). Nada se da por
+   pendiente sin mirarlo. Lo que no se puede ver (formularios de Google, Dexway sin abrir) se dice.
+2. **Ruta de prioridad** (`route`): pasos numerados en el orden en que conviene hacerlos, con cuándo, cuánto
+   toma, por qué en ese orden y enlaces. Es la vista que se abre primero y lo primero que va en el chat.
+3. **Trabajo de Investigación es un caso aparte.** El docente (Manuel Salgado) no usa el aula como los demás:
+   da instrucciones por corte en clase, en su PDF "Clases ... P0" y por **mensaje de CDigital**
+   (`core_message_get_conversations`), no por correo. Cada parte revisa: versión del PDF (`last-modified` /
+   `content/N`), mensajes nuevos y la grabación de su clase. Fuera de lo que él pidió, en esa aula no se
+   recomienda hacer nada (ni evaluaciones docentes del corte siguiente, ni Contenidos, ni ACA, ni quizzes viejos).
+4. **Dexway** (inglés, 92 %): abrir `mod/lti/launch.php?id=7683852` → "Entrar" y leer el avance por unidad, sin
+   iniciar lecciones.
+
 ## Protocolo (Chrome de Miguel, con la extensión)
 
 1. **CDigital** (Moodle CUN solo admite UNA sesión: si Miguel tiene CDigital abierto en otra ventana, pedirle que arrastre esa pestaña al grupo de Claude).
@@ -50,11 +66,15 @@ SYS.injectWeek({
     title, due: 'AAAA-MM-DDTHH:MM', est?, weight?, why, steps: [], 
     ev: [{ q /*verbatim*/, src, t? /*minuto*/ }], links: [{ label, url }]
   }],
+  route: [{ item? /*id de items: hereda check, enlaces y cierre*/, subj?, title, when, mins?, why, links? }],
   classes: [{ subj, when, rec: 'ok'|'sin grabación publicada'|'grabación sin permiso', src, sum: [], ev: [], links: [] }],
   next:    [{ when, subj, text, est? }],
   sources: ['...']
 })
 ```
+
+**Ids:** una actividad que pasa de una semana a la siguiente conserva su `id`; así su check y su estado
+siguen valiendo (el estado se guarda por id, no por semana).
 
 **Prioridad:** P0 = cierra en menos de 48 h o bloquea una nota · P1 = cierra esta semana o desbloquea algo · P2 = importante sin fecha cercana · P3 = cuando se pueda.
 
