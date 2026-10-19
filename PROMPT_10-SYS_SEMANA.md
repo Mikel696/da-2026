@@ -65,3 +65,6 @@ SYS.injectWeek({
 3. **Entregables (ACA y similares) = 🤝 juntos.** Claude investiga, estructura y redacta el borrador con fuentes; Miguel lo revisa, lo hace suyo y lo entrega.
 4. **Credenciales nunca en el parte** (AWS, Dexway, CUN). Se dice "están en tu correo del <fecha>".
 5. **Trabajo de Investigación:** solo lo que digan el PDF "Clases ... P0" y los mensajes del docente.
+6. **Toda evaluación lleva sus recursos de estudio en `links`:** primero "Abrir …", luego 📄 Guía · 🎬 Video ·
+   📊 Recurso de cada tema que evalúa (`/mod/url/view.php?id=` de CDigital), y el material del docente si lo hay.
+   Los enlaces se pintan a la vista, fuera del desplegable (falló el 18-oct: Miguel no encontraba de dónde estudiar).
