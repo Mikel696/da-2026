@@ -46,6 +46,14 @@ Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vista
    'materia:idPágina'}`), chuletas de inglés por unidad, simulacros cuando los pida. Y `advice`: 3-5 consejos
    concretos para la semana (dónde está el riesgo, qué clase priorizar cuando chocan, cuándo hacer cada quiz).
 
+7. **Cruzar sus checks con CDigital.** Un check del Dashboard no prueba nada: el 20-oct Miguel tenía marcadas
+   las Evaluaciones Docentes 2 de BI y Nube y en CDigital seguían "Responda a las preguntas" (sin enviar). Si
+   CDigital no lo confirma (`completionstate`, "Usted ya ha finalizado esta actividad", nota o intento
+   finalizado), se desmarca y se le dice por qué.
+8. **Carpetas del Semestre 9** (`E:\Ing de Sistemas CUN\Semestre 9\<materia>`): las guías de Claude van en
+   `04 Guias de estudio` como HTML que abre con doble clic; el material oficial en `01 Material oficial del curso`
+   (descargarlo solo con permiso explícito de Miguel: nombre, origen y tamaño).
+
 ## Protocolo (Chrome de Miguel, con la extensión)
 
 1. **CDigital** (Moodle CUN solo admite UNA sesión: si Miguel tiene CDigital abierto en otra ventana, pedirle que arrastre esa pestaña al grupo de Claude).

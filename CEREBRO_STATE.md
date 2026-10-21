@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-18 (10-SYS: Semana en vivo — parte semanal interactivo en el Dashboard)
+- **Última actualización:** 2026-10-20 (10-SYS: revisión completa, parte S4 al día, guías en las carpetas del semestre)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,25 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 📡 10-SYS · Revisión completa del martes 20-oct (21:36-22:10)
+
+Pedido: "la carpeta de Trabajo de Investigación no tiene ningún archivo, actualiza Dashboard revisando lo que he
+marcado y las prioridades a hoy: Gmail, Drive, CDigital, de todo".
+- **CDigital:** Auditoría ED2 ✔ (verificado "Usted ya ha finalizado"). **BI y Nube ED2 sin enviar** aunque
+  Miguel las marcó el domingo → desmarcadas en `sys_week_state` y en el cronograma (`bi5_5`, `nub5_5`), con
+  aviso P0. TI Quiz 1 = 5.0; TI Parcial 1 pendiente (cierra mié 21, el profe lo quiere antes de las 6:15 p. m.).
+  Sin mensajes nuevos de docentes.
+- **Dexway:** sigue en cero ("Lección no iniciada"). Asesoría del lun 19 leída: el grupo va en la U3, todo cierra el
+  13-nov a las 11:55 p. m., examen final de un intento con cámara, cédula y sin audífonos.
+- **Correo:** solo la invitación a la asesoría de inglés y correos masivos (grados, Bienestar). **Drive:** nada nuevo.
+- **Parte S4** reescrito: plan de mar 20 a dom 25, 3 ítems nuevos de inglés (U3, U4, examen final), la asesoría como
+  clase leída, consejos y ruta al día.
+- **Carpetas:** `04 Guias de estudio` con 7 guías HTML (TI Parcial 1, Dexway chuleta + plan hasta el 13-nov, Quiz 2 de
+  BI/Nube/Auditoría); "Enlaces oficiales del aula (TI)" en `01 Material oficial`; "Lo urgente ahora" del LEEME de TI
+  al día. Pendiente de permiso: descargar el PDF "Clases ... P0" (954 KB, CDigital) y `APA_CUN.pdf` (349 KB, CDN CUN).
 
 ---
 
