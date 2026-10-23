@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-20 (10-SYS: revisión completa, parte S4 al día, guías en las carpetas del semestre)
+- **Última actualización:** 2026-10-22 (Plan Maestro 2026: los 4 proyectos, en Claude Docs)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,23 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧭 Plan Maestro 2026 · jueves 22-oct
+
+Pedido: plan completo para exprimir el plan de Claude en el Cerebro, el inglés, el semestre y un ingreso
+pasivo que **no** sea vender servicios. Documento vivo (privado, en Claude Docs):
+https://claude.ai/artifact/DwUab2n6sHXSnmGKkNNCsw — 6 pestañas, cada proyecto cierra con su paso a paso.
+
+- **Plan Pro** (leído de la cuenta): 20% del cupo semanal usado a 1 día del reinicio. Max no se justifica
+  hoy; criterios para pasarse fijados en el documento.
+- **Medido:** `CLAUDE.md` 477 líneas (la guía oficial pide <200); 63% son protocolos de un solo módulo →
+  candidatos a `.claude/rules/` con `paths`.
+- **Pendiente de decisión de Miguel:** retirar 14-WORK del sitio público · apuesta de ingresos
+  (calculadoras de nómina, prueba en dic-ene, corte 15-feb-2027) · cerrar Proyecto Salida · triage de módulos.
+- Pasado por `analisis-profundo` y `contraparte` (8 hallazgos corregidos antes de escribir).
+- Nada de código tocado en esta sesión.
 
 ---
 
