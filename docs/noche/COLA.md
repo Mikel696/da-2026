@@ -11,6 +11,8 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
 4. **No borrar archivos**, tampoco en la rama. No tocar datos de usuario, Supabase, `cloud-sync.js` ni `nb-shared.js`.
 5. **Tope de 30 minutos.** Si no alcanza, se deja lo hecho en la rama con una nota «quedó en: …» y se marca `[r]` igual.
 6. Repositorio **público**: nada interno del trabajo de Miguel ni de sus clientes.
+7. **Si la rama que dice la tarea no existe en `origin`, no se hace la tarea ni se crea la rama:** se anota
+   «rama X no existe» en el informe y se termina. Solo se crea rama cuando la tarea dice «rama nueva».
 
 ## Estados
 `[ ]` pendiente · `[r]` hecha de noche, espera revisión (rama, commit, verificación) ·
