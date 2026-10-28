@@ -1,0 +1,342 @@
+{
+  "version": 1,
+  "rows": [
+    { "id": "past", "label": "Pasado", "labelEn": "Past", "icon": "⏮️" },
+    { "id": "present", "label": "Presente", "labelEn": "Present", "icon": "▶️" },
+    { "id": "future", "label": "Futuro", "labelEn": "Future", "icon": "⏭️" }
+  ],
+  "cols": [
+    { "id": "simple", "label": "Simple", "icon": "·" },
+    { "id": "continuous", "label": "Continuous", "icon": "▶" },
+    { "id": "perfect", "label": "Perfect", "icon": "◆" },
+    { "id": "perfectContinuous", "label": "Perfect Continuous", "icon": "◈" }
+  ],
+  "tenses": [
+    {
+      "id": "past_simple",
+      "row": "past",
+      "col": "simple",
+      "name": "Past Simple",
+      "nameEs": "Pasado Simple",
+      "level": "basic",
+      "icon": "⏮️",
+      "formula": "Subject + verb-ed (regular) / past form (irregular)",
+      "formulaNeg": "Subject + did not (didn't) + base verb",
+      "formulaQ": "Did + subject + base verb?",
+      "use": "Acciones completadas en el pasado con una hora/fecha específica. La acción ya terminó.",
+      "signalWords": ["yesterday", "last week/month/year", "ago", "in 2020", "when I was...", "then"],
+      "examples": [
+        { "en": "I built a dashboard in 2024.", "es": "Construí un dashboard en 2024." },
+        { "en": "She analyzed the data yesterday.", "es": "Ella analizó los datos ayer." },
+        { "en": "We launched the product two months ago.", "es": "Lanzamos el producto hace dos meses." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I builded a dashboard.", "right": "I built a dashboard.", "why": "build es irregular → built" },
+        { "wrong": "She analyzed yesterday the data.", "right": "She analyzed the data yesterday.", "why": "Tiempo va al final" },
+        { "wrong": "Did you went there?", "right": "Did you go there?", "why": "Después de did → verbo base" }
+      ],
+      "spanishTrap": "En español el pretérito y el imperfecto son tiempos distintos (trabajé / trabajaba). En inglés, ambos se traducen con past simple si la acción está cerrada. Para 'trabajaba' (continuo/habitual), considera past continuous o 'used to'.",
+      "irregularVerbs": ["go→went", "do→did", "have→had", "make→made", "see→saw", "get→got", "take→took", "build→built", "find→found", "write→wrote"]
+    },
+    {
+      "id": "past_continuous",
+      "row": "past",
+      "col": "continuous",
+      "name": "Past Continuous",
+      "nameEs": "Pasado Continuo",
+      "level": "intermediate",
+      "icon": "🎞️",
+      "formula": "Subject + was/were + verb-ing",
+      "formulaNeg": "Subject + wasn't/weren't + verb-ing",
+      "formulaQ": "Was/Were + subject + verb-ing?",
+      "use": "Acción en progreso en un momento específico del pasado. También para dos acciones simultáneas, o como fondo de otra acción puntual (past simple).",
+      "signalWords": ["while", "when", "as", "at 3 PM yesterday", "all day", "the whole morning"],
+      "examples": [
+        { "en": "I was running the query when the server crashed.", "es": "Estaba corriendo el query cuando el servidor se cayó." },
+        { "en": "She was presenting while I was taking notes.", "es": "Ella presentaba mientras yo tomaba notas." },
+        { "en": "We were debugging all night.", "es": "Estuvimos debuggeando toda la noche." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I was run the query.", "right": "I was running the query.", "why": "Verbo en -ing tras was/were" },
+        { "wrong": "I was knowing the answer.", "right": "I knew the answer.", "why": "Verbos de estado (know, want, like) no aceptan -ing" }
+      ],
+      "spanishTrap": "Equivale al imperfecto progresivo ('estaba corriendo'). Mucho más común en inglés narrativo que el imperfecto simple, que casi siempre se traduce con past continuous o 'used to'."
+    },
+    {
+      "id": "past_perfect",
+      "row": "past",
+      "col": "perfect",
+      "name": "Past Perfect",
+      "nameEs": "Pluscuamperfecto",
+      "level": "intermediate",
+      "icon": "📜",
+      "formula": "Subject + had + past participle",
+      "formulaNeg": "Subject + had not (hadn't) + past participle",
+      "formulaQ": "Had + subject + past participle?",
+      "use": "Acción que terminó ANTES de otro momento del pasado. Marca un 'pasado del pasado'. Solo tiene sentido cuando hay otro tiempo pasado en la oración.",
+      "signalWords": ["before", "after", "by the time", "already", "just", "when (with another past)", "until then"],
+      "examples": [
+        { "en": "By the time I arrived, the meeting had ended.", "es": "Cuando llegué, la reunión ya había terminado." },
+        { "en": "She had finished the report before the deadline.", "es": "Ella había terminado el reporte antes del plazo." },
+        { "en": "We had never used Snowflake before that project.", "es": "Nunca habíamos usado Snowflake antes de ese proyecto." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I had went there.", "right": "I had gone there.", "why": "Participio: go → gone (no went)" },
+        { "wrong": "When I arrived, the meeting ended.", "right": "When I arrived, the meeting had ended.", "why": "Para indicar que terminó ANTES, usa past perfect" }
+      ],
+      "spanishTrap": "Equivale exacto al pluscuamperfecto ('había terminado'). El error hispano más común es usar past simple donde se necesita past perfect — el inglés es estricto con el orden temporal."
+    },
+    {
+      "id": "past_perfect_continuous",
+      "row": "past",
+      "col": "perfectContinuous",
+      "name": "Past Perfect Continuous",
+      "nameEs": "Pluscuamperfecto Continuo",
+      "level": "advanced",
+      "icon": "🌀",
+      "formula": "Subject + had been + verb-ing",
+      "formulaNeg": "Subject + had not been + verb-ing",
+      "formulaQ": "Had + subject + been + verb-ing?",
+      "use": "Acción que estuvo en progreso durante un tiempo, antes de otro momento del pasado. Enfatiza la duración acumulada.",
+      "signalWords": ["for", "since", "all day", "before...", "how long"],
+      "examples": [
+        { "en": "I had been working on the migration for 3 months before we launched.", "es": "Había estado trabajando en la migración por 3 meses antes de lanzar." },
+        { "en": "She had been studying SQL since January when she got promoted.", "es": "Ella había estado estudiando SQL desde enero cuando la promovieron." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I had been work for 3 months.", "right": "I had been working for 3 months.", "why": "Tras 'had been' → verbo en -ing" }
+      ],
+      "spanishTrap": "Raro en español de uso diario ('había estado trabajando'). Si te resulta forzado, en muchos casos past perfect simple funciona. Reserva este tiempo para enfatizar duración + interrupción."
+    },
+    {
+      "id": "present_simple",
+      "row": "present",
+      "col": "simple",
+      "name": "Present Simple",
+      "nameEs": "Presente Simple",
+      "level": "basic",
+      "icon": "▶️",
+      "formula": "Subject + base verb (add -s for he/she/it)",
+      "formulaNeg": "Subject + do/does not + base verb",
+      "formulaQ": "Do/Does + subject + base verb?",
+      "use": "Hechos generales, hábitos, rutinas, verdades universales. NO para acciones que pasan ahora — para eso es present continuous.",
+      "signalWords": ["always", "usually", "often", "sometimes", "never", "every day", "on Mondays"],
+      "examples": [
+        { "en": "I work as a data analyst.", "es": "Trabajo como analista de datos." },
+        { "en": "She runs the standup every morning.", "es": "Ella dirige el standup cada mañana." },
+        { "en": "The pipeline processes 1M rows per hour.", "es": "El pipeline procesa 1M de filas por hora." }
+      ],
+      "commonMistakes": [
+        { "wrong": "She work here.", "right": "She works here.", "why": "Tercera persona singular añade -s" },
+        { "wrong": "I no work on Fridays.", "right": "I don't work on Fridays.", "why": "Negativo: do/does + not" },
+        { "wrong": "What you do?", "right": "What do you do?", "why": "Preguntas necesitan auxiliar do/does" }
+      ],
+      "spanishTrap": "Cuidado: 'Trabajo aquí desde 2020' NO es 'I work here since 2020'. Para acción que empezó en el pasado y continúa → present perfect: 'I have worked here since 2020'."
+    },
+    {
+      "id": "present_continuous",
+      "row": "present",
+      "col": "continuous",
+      "name": "Present Continuous",
+      "nameEs": "Presente Continuo",
+      "level": "basic",
+      "icon": "🔄",
+      "formula": "Subject + am/is/are + verb-ing",
+      "formulaNeg": "Subject + am/is/are + not + verb-ing",
+      "formulaQ": "Am/Is/Are + subject + verb-ing?",
+      "use": "Acciones que pasan AHORA mismo, proyectos temporales en curso, o planes futuros con fecha confirmada.",
+      "signalWords": ["now", "right now", "at the moment", "currently", "this week", "today"],
+      "examples": [
+        { "en": "I am working on the churn analysis right now.", "es": "Estoy trabajando en el análisis de churn ahora." },
+        { "en": "We are migrating to BigQuery this quarter.", "es": "Estamos migrando a BigQuery este trimestre." },
+        { "en": "She is presenting tomorrow at 10 AM.", "es": "Ella presenta mañana a las 10." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I working on it.", "right": "I am working on it.", "why": "Falta el auxiliar am/is/are" },
+        { "wrong": "I am knowing the answer.", "right": "I know the answer.", "why": "Verbos de estado no aceptan -ing" },
+        { "wrong": "She is work here.", "right": "She is working here.", "why": "Verbo en -ing tras is/are/am" }
+      ],
+      "spanishTrap": "En español usamos 'estar + gerundio' menos. 'Estoy estudiando inglés' en inglés cotidiano es 'I'm studying English' (proyecto temporal) o 'I study English' (rutina). No son intercambiables."
+    },
+    {
+      "id": "present_perfect",
+      "row": "present",
+      "col": "perfect",
+      "name": "Present Perfect",
+      "nameEs": "Pretérito Perfecto Compuesto",
+      "level": "intermediate",
+      "icon": "📊",
+      "formula": "Subject + have/has + past participle",
+      "formulaNeg": "Subject + have/has + not + past participle",
+      "formulaQ": "Have/Has + subject + past participle?",
+      "use": "Conecta pasado con presente. Tres usos clave: (1) experiencia sin fecha ('I have visited Japan'), (2) acción que empezó en el pasado y SIGUE ('I have worked here for 3 years'), (3) acción reciente con efecto presente ('I have just finished').",
+      "signalWords": ["ever", "never", "already", "yet", "just", "for", "since", "recently", "so far"],
+      "examples": [
+        { "en": "I have worked with Python for 3 years.", "es": "He trabajado con Python por 3 años (y sigo)." },
+        { "en": "She has led multiple cross-functional projects.", "es": "Ha liderado múltiples proyectos." },
+        { "en": "We have already deployed the fix.", "es": "Ya desplegamos la corrección." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I have worked there in 2022.", "right": "I worked there in 2022.", "why": "Con fecha específica → past simple" },
+        { "wrong": "I have work here for 3 years.", "right": "I have worked here for 3 years.", "why": "Participio: work → worked" },
+        { "wrong": "I have see that movie.", "right": "I have seen that movie.", "why": "Participio irregular: see → seen" }
+      ],
+      "spanishTrap": "El uso #2 ('I have lived here for 5 years' = 'Vivo aquí desde hace 5 años') es el más anti-intuitivo. En español usamos presente; en inglés es OBLIGATORIO present perfect.",
+      "irregularParticiples": ["go→gone", "see→seen", "do→done", "be→been", "have→had", "take→taken", "give→given", "speak→spoken", "write→written", "find→found"]
+    },
+    {
+      "id": "present_perfect_continuous",
+      "row": "present",
+      "col": "perfectContinuous",
+      "name": "Present Perfect Continuous",
+      "nameEs": "Pretérito Perfecto Continuo",
+      "level": "intermediate",
+      "icon": "⏳",
+      "formula": "Subject + have/has been + verb-ing",
+      "formulaNeg": "Subject + have/has not been + verb-ing",
+      "formulaQ": "Have/Has + subject + been + verb-ing?",
+      "use": "Acción que empezó en el pasado, sigue en el presente, y enfatiza la DURACIÓN o continuidad. La acción puede o no haber terminado justo ahora.",
+      "signalWords": ["for", "since", "lately", "recently", "all day", "how long"],
+      "examples": [
+        { "en": "I have been learning English for 5 years.", "es": "Llevo 5 años aprendiendo inglés." },
+        { "en": "She has been working on the report all morning.", "es": "Ha estado trabajando en el reporte toda la mañana." },
+        { "en": "We have been waiting for the data since 9 AM.", "es": "Estamos esperando los datos desde las 9." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I am learning English for 5 years.", "right": "I have been learning English for 5 years.", "why": "Duración desde pasado → present perfect continuous" },
+        { "wrong": "I have been knowing him for years.", "right": "I have known him for years.", "why": "Verbos de estado no aceptan -ing" }
+      ],
+      "spanishTrap": "Equivale a 'Llevo X tiempo + gerundio'. Muy común y muy útil — domínalo y suenas mucho más natural en conversaciones de trabajo."
+    },
+    {
+      "id": "future_simple",
+      "row": "future",
+      "col": "simple",
+      "name": "Future Simple",
+      "nameEs": "Futuro Simple",
+      "level": "basic",
+      "icon": "🔮",
+      "formula": "Subject + will + base verb (or: am/is/are going to + base)",
+      "formulaNeg": "Subject + will not (won't) + base verb",
+      "formulaQ": "Will + subject + base verb?",
+      "use": "WILL: decisiones espontáneas, promesas, predicciones, ofertas. GOING TO: planes concretos previos, predicciones con evidencia visible.",
+      "signalWords": ["tomorrow", "next week/month", "in 2 days", "soon", "later", "probably"],
+      "examples": [
+        { "en": "I will send you the report tonight.", "es": "Te enviaré el reporte esta noche." },
+        { "en": "I am going to present at the standup tomorrow.", "es": "Voy a presentar mañana en el standup." },
+        { "en": "We will deploy on Friday if tests pass.", "es": "Desplegaremos el viernes si los tests pasan." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I will to send it.", "right": "I will send it.", "why": "Después de will → verbo base, sin 'to'" },
+        { "wrong": "She will sends the email.", "right": "She will send the email.", "why": "Verbo base, sin -s" },
+        { "wrong": "I will probably go to maybe go.", "right": "I will probably go.", "why": "Will + adverbio + verbo base" }
+      ],
+      "spanishTrap": "El español usa el presente para futuro cercano ('Te llamo mañana'). En inglés, 'I call you tomorrow' suena raro — usa 'I will call you' o 'I'm going to call you'."
+    },
+    {
+      "id": "future_continuous",
+      "row": "future",
+      "col": "continuous",
+      "name": "Future Continuous",
+      "nameEs": "Futuro Continuo",
+      "level": "intermediate",
+      "icon": "📅",
+      "formula": "Subject + will be + verb-ing",
+      "formulaNeg": "Subject + will not be + verb-ing",
+      "formulaQ": "Will + subject + be + verb-ing?",
+      "use": "Acción que estará en progreso en un momento específico del futuro. Muy común para coordinar reuniones o explicar disponibilidad.",
+      "signalWords": ["at 3 PM tomorrow", "this time next week", "while", "all day"],
+      "examples": [
+        { "en": "I will be presenting at 10 AM tomorrow.", "es": "Estaré presentando mañana a las 10." },
+        { "en": "Don't call me at 2 — I will be in a meeting.", "es": "No me llames a las 2 — estaré en reunión." },
+        { "en": "This time next year, we will be using AI agents.", "es": "El año entrante a esta hora estaremos usando agentes de IA." }
+      ],
+      "commonMistakes": [
+        { "wrong": "I will be present at 10 AM.", "right": "I will be presenting at 10 AM.", "why": "Verbo en -ing tras 'will be'" }
+      ],
+      "spanishTrap": "Equivale a 'estaré + gerundio'. Más educado y profesional que el futuro simple para coordinaciones: 'I will be sending the report shortly' suena más pulido que 'I will send the report'."
+    },
+    {
+      "id": "future_perfect",
+      "row": "future",
+      "col": "perfect",
+      "name": "Future Perfect",
+      "nameEs": "Futuro Perfecto",
+      "level": "advanced",
+      "icon": "🎯",
+      "formula": "Subject + will have + past participle",
+      "formulaNeg": "Subject + will not have + past participle",
+      "formulaQ": "Will + subject + have + past participle?",
+      "use": "Acción que estará terminada ANTES de un momento específico del futuro. Útil para deadlines y proyecciones.",
+      "signalWords": ["by", "by the time", "by 2026", "before next month"],
+      "examples": [
+        { "en": "By Friday, I will have finished the migration.", "es": "Para el viernes, habré terminado la migración." },
+        { "en": "By the time you arrive, we will have deployed the fix.", "es": "Cuando llegues, ya habremos desplegado la corrección." },
+        { "en": "By 2027, AI will have transformed analytics.", "es": "Para 2027, la IA habrá transformado el análisis de datos." }
+      ],
+      "commonMistakes": [
+        { "wrong": "By Friday, I will finished the migration.", "right": "By Friday, I will have finished the migration.", "why": "Necesita 'have' antes del participio" },
+        { "wrong": "I will have finish.", "right": "I will have finished.", "why": "Participio: finish → finished" }
+      ],
+      "spanishTrap": "Equivale exacto al futuro compuesto ('habré terminado'). Poco usado en conversación cotidiana, pero esencial en escritura técnica/de negocios."
+    },
+    {
+      "id": "future_perfect_continuous",
+      "row": "future",
+      "col": "perfectContinuous",
+      "name": "Future Perfect Continuous",
+      "nameEs": "Futuro Perfecto Continuo",
+      "level": "advanced",
+      "icon": "🚀",
+      "formula": "Subject + will have been + verb-ing",
+      "formulaNeg": "Subject + will not have been + verb-ing",
+      "formulaQ": "Will + subject + have been + verb-ing?",
+      "use": "Duración acumulada hasta un momento específico del futuro. Enfatiza cuánto tiempo llevará una acción en ese momento.",
+      "signalWords": ["for", "by", "by then", "by next year", "when..."],
+      "examples": [
+        { "en": "By July, I will have been studying English for 6 years.", "es": "Para julio, llevaré 6 años estudiando inglés." },
+        { "en": "By the end of the project, we will have been working on it for 18 months.", "es": "Al final del proyecto, llevaremos 18 meses trabajando en él." }
+      ],
+      "commonMistakes": [
+        { "wrong": "By July, I will have studied for 6 years.", "right": "By July, I will have been studying for 6 years.", "why": "Para enfatizar duración continua → been + -ing" }
+      ],
+      "spanishTrap": "El más raro y formal. Si te suena forzado, future perfect simple es aceptable. Reserva este tiempo solo cuando la duración importa más que el resultado."
+    }
+  ],
+  "verbsTaxonomy": {
+    "stateVerbs": {
+      "label": "Verbos de estado (NO usan -ing)",
+      "list": ["know", "want", "need", "like", "love", "hate", "believe", "understand", "remember", "forget", "mean", "own", "belong", "seem", "appear"]
+    },
+    "modals": {
+      "label": "Modales (siempre + verbo base, sin 'to')",
+      "list": ["can", "could", "may", "might", "must", "shall", "should", "will", "would"]
+    },
+    "auxiliaries": {
+      "label": "Auxiliares (forman tiempos/preguntas/negaciones)",
+      "list": ["do/does/did", "have/has/had", "be (am/is/are/was/were/been)", "will/would"]
+    },
+    "topIrregularVerbs": [
+      { "base": "be", "past": "was/were", "participle": "been" },
+      { "base": "have", "past": "had", "participle": "had" },
+      { "base": "do", "past": "did", "participle": "done" },
+      { "base": "go", "past": "went", "participle": "gone" },
+      { "base": "make", "past": "made", "participle": "made" },
+      { "base": "take", "past": "took", "participle": "taken" },
+      { "base": "see", "past": "saw", "participle": "seen" },
+      { "base": "come", "past": "came", "participle": "come" },
+      { "base": "give", "past": "gave", "participle": "given" },
+      { "base": "find", "past": "found", "participle": "found" },
+      { "base": "get", "past": "got", "participle": "got/gotten" },
+      { "base": "know", "past": "knew", "participle": "known" },
+      { "base": "think", "past": "thought", "participle": "thought" },
+      { "base": "say", "past": "said", "participle": "said" },
+      { "base": "tell", "past": "told", "participle": "told" },
+      { "base": "write", "past": "wrote", "participle": "written" },
+      { "base": "speak", "past": "spoke", "participle": "spoken" },
+      { "base": "build", "past": "built", "participle": "built" },
+      { "base": "send", "past": "sent", "participle": "sent" },
+      { "base": "run", "past": "ran", "participle": "run" }
+    ]
+  }
+}

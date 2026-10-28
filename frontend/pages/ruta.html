@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Ruta 6 Meses · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+<main class="main">
+  <div class="topbar">
+    <div><h1 class="page-title">🗺️ Ruta Curricular · 6 Meses</h1><span class="page-sub" id="greeting">...</span></div>
+    <div class="topbar-right">
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
+      <button class="btn-study" id="btn-sesion">▶ Estudiar</button>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="box box-e" style="margin-bottom:24px;">
+      <strong>🚨 Regla de Hito de Salida:</strong> No avances a la siguiente fase sin completar el hito final (marcado con 🏁). La velocidad sin solidez se detecta en la primera entrevista técnica.
+    </div>
+    <div id="phases-wrap"></div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="../js/core.js?v=p16"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-sesion').onclick = () => location.href = url('pages/sesion.html');
+  buildPhases();
+});
+
+const PHASE_COLORS = ['var(--acid)','var(--sky)','var(--ember)','var(--mint)','var(--purple)','var(--rose)'];
+
+function buildPhases() {
+  const wrap = document.getElementById('phases-wrap'); if (!wrap) return;
+  wrap.innerHTML = Object.entries(CURRICULUM).map(([key, phase], i) => {
+    const ids = phase.tasks.map(t => t.id);
+    const pct = Progress.phasePct(ids);
+    const col = PHASE_COLORS[i];
+    return `<div class="tactic" id="blk-${key}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap;">
+        <div>
+          <span class="tac-label" style="color:${col};background:${col}18;border-color:${col}44;">Mes ${i+1} · ${phase.label}</span>
+          <h3 style="margin-top:8px;">${phase.name}: ${phase.label}</h3>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--fh);font-size:1.5rem;font-weight:800;color:${col};" id="pct-${key}">${pct}%</div>
+          <div style="font-family:var(--fm);font-size:.63rem;color:var(--txt3);">completado</div>
+        </div>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:2px;margin-bottom:18px;overflow:hidden;">
+        <div id="bar-${key}" style="height:100%;width:${pct}%;background:${col};border-radius:2px;transition:width .8s;"></div>
+      </div>
+      <ul class="tasks">
+        ${phase.tasks.map(t => `
+          <li class="ti ${Progress.isChecked(t.id)?'done':''}" id="li-${t.id}">
+            <input type="checkbox" class="tc" id="${t.id}" ${Progress.isChecked(t.id)?'checked':''}>
+            <label for="${t.id}"><strong>${t.text}</strong>${t.detail}</label>
+          </li>`).join('')}
+      </ul>
+    </div>`;
+  }).join('');
+  initTasks();
+  document.querySelectorAll('.tc').forEach(cb =>
+    cb.addEventListener('change', updateBars));
+}
+
+function updateBars() {
+  Object.entries(CURRICULUM).forEach(([key, phase]) => {
+    const pct = Progress.phasePct(phase.tasks.map(t => t.id));
+    const bar = document.getElementById('bar-' + key);
+    const el  = document.getElementById('pct-' + key);
+    if (bar) bar.style.width  = pct + '%';
+    if (el)  el.textContent   = pct + '%';
+  });
+}
+</script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js?v=p16"></script>
+<script src="../js/auth.js?v=p16"></script>
+<script src="../js/cloud-sync.js?v=p22"></script>
+</body>
+</html>

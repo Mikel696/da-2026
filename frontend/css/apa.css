@@ -1,0 +1,213 @@
+/* ════════════════════════════════════════════════════════════════
+   DA-2026 · 16-APA · Document Studio — migrado al Design System v1.0 (2026-05-15)
+   Conserva cyan local (--ac:#06b6d4) como identidad académica del módulo.
+═════════════════════════════════════════════════════════════════ */
+:root{--ac:#06b6d4;--a2:#22d3ee;--ag:rgba(6,182,212,.08);--vi:#7c3aed}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);overflow:hidden}
+
+/* APA BIG BUTTON — acción principal del módulo */
+.apa-big-btn{width:100%;margin-top:14px;padding:16px 24px;background:linear-gradient(135deg,var(--vi),#a78bfa);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;box-shadow:0 4px 14px rgba(124,58,237,.35);transition:transform .12s,box-shadow .12s,filter .12s}
+.apa-big-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.45);filter:brightness(1.05)}
+.apa-big-btn:active{transform:translateY(0)}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
+
+/* Top nav */
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}
+.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ac)}
+.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-mod{background:var(--cg);border:1px solid rgba(6,182,212,.25);color:var(--cy)}
+
+/* Buttons / inputs */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast),filter var(--transition-fast)}
+.btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.bp{background:var(--ac);color:#001518}.bp:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{color:var(--tx);border-color:var(--bd2)}
+.bg{background:var(--gn);color:#001f0d}.bg:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.bs{padding:6px 10px;font-size:11px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:12px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.inp:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--ag)}
+.txa{width:100%;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);padding:10px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:vertical;line-height:1.7;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.txa:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--ag)}
+
+/* ── Shell: 3 columns (list · form · preview) ─────────── */
+.apa-shell{display:grid;grid-template-columns:240px 1fr 540px;height:calc(100vh - 48px);overflow:hidden}
+
+/* ── Left side: documents list ────────────────────────── */
+.apa-side{background:var(--c1);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.apa-side-h{display:flex;align-items:center;justify-content:space-between;padding:14px 14px;border-bottom:1px solid var(--bd)}
+.apa-list{flex:1;overflow-y:auto;padding:10px}
+.apa-item{background:var(--el);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .15s}
+.apa-item:hover{border-color:var(--bd2);background:var(--c1)}
+.apa-item.on{border-color:var(--ac);background:var(--ag)}
+.apa-item-t{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.apa-item-m{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.apa-item-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .15s}
+.apa-item:hover .apa-item-del{opacity:1}
+.apa-item-del:hover{background:var(--rg);color:var(--rd)}
+.apa-empty{text-align:center;padding:30px 14px;color:var(--t3);font-size:12px;border:1px dashed var(--bd);border-radius:8px;margin-top:10px}
+.apa-side-foot{padding:14px;border-top:1px solid var(--bd)}
+
+/* ── Center: form ─────────────────────────────────────── */
+.apa-form{overflow-y:auto;padding:18px 22px;background:var(--bg)}
+.apa-form-h{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.apa-section{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.form-grp{display:flex;flex-direction:column;gap:5px}
+.form-grp label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600}
+.apa-actions{display:flex;align-items:center;gap:8px;padding:14px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;flex-wrap:wrap;position:sticky;bottom:0}
+
+/* ── Right: APA preview pane ──────────────────────────── */
+.apa-preview{background:#2a2a2e;border-left:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.apa-preview-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--c1);border-bottom:1px solid var(--bd)}
+
+/* The "paper" — emulates an A4 sheet on dark backdrop */
+.apa-paper{flex:1;overflow-y:auto;padding:20px;background:#1a1a1e}
+/* APA 7th edition (Student Paper) compliant rules
+   ─ Times New Roman 12pt (or Calibri 11pt — using Times here)
+   ─ Double-spacing (line-height: 2)
+   ─ 1-inch (2.54 cm) margins all sides
+   ─ All headings: 12pt with weight/italic differentiation only
+     (Level 1: bold centered · Level 2: bold left · Level 3: bold italic left)
+   ─ Body text: LEFT-aligned (NOT justified)
+   ─ First-line indent 1.27 cm (0.5") for body paragraphs
+   ─ Page numbers in top-right via @page (kicks in on PDF export) */
+/* Multi-page preview: container holds individual A4 pages stacked
+   vertically with 24px gaps (Google-Docs style). Each .apa-page
+   below is its own A4 sheet with its own page number. */
+.apa-paper-inner{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%}
+
+.apa-page{
+  background:#fff;color:#000;
+  font-family:'Times New Roman','Times',serif;
+  font-size:12pt;line-height:2;
+  padding:2.54cm 2.54cm;
+  width:21cm;max-width:calc(100% - 24px);
+  min-height:29.7cm;
+  box-shadow:0 8px 30px rgba(0,0,0,.55);
+  border-radius:2px;
+  position:relative;
+  page-break-after:always;
+  break-after:page;
+}
+.apa-page:last-child{page-break-after:auto;break-after:auto}
+.apa-page[contenteditable="true"]{outline:2px dashed var(--ac);outline-offset:4px}
+.apa-page[contenteditable="true"]:focus{outline-color:var(--gn);background:#fffef5}
+.apa-page-num{position:absolute;top:1.27cm;right:2.54cm;font-family:'Times New Roman',Times,serif;font-size:12pt;color:#000}
+.apa-page-num-label{position:absolute;top:.5cm;left:1cm;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#999;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+/* APA 7 § 2.3 Student Paper title page:
+   Title 3-4 double-spaced lines from top, centered bold 12pt.
+   NOT vertically centered — top-aligned with calculated padding.
+   Targets the .apa-cover-page modifier on .apa-page AND the inner
+   .apa-cover wrapper produced by buildCoverHTML(). */
+.apa-page.apa-cover-page{padding-top:7em;text-align:center}
+.apa-page .apa-cover{text-align:center;display:block}
+.apa-page .apa-cover h1{font-family:'Times New Roman',Times,serif !important;font-size:12pt !important;font-weight:bold !important;line-height:2 !important;margin:0 0 4em !important;text-align:center !important;text-indent:0 !important}
+.apa-page .apa-cover h1 span{font-weight:normal;font-style:italic}
+.apa-page .apa-cover .apa-cover-meta{font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:2;text-align:center}
+.apa-page .apa-cover .apa-cover-meta div{margin:0;padding:0;text-align:center;text-indent:0}
+/* Explicit page-break helper used between sections (cover → abstract,
+   body → references, references → appendix). Has a non-zero size so
+   html-docx-js converts it to an actual Word page break. */
+.apa-page .apa-pbreak{page-break-after:always;break-after:page;height:1px;line-height:0;margin:0;padding:0}
+/* Body title repeat (APA 7 § 2.16): on the FIRST page after the cover,
+   the title appears bold centered at top, then body begins. */
+.apa-page .apa-body-title{font-size:12pt;font-weight:bold;text-align:center;margin:0 0 1em;line-height:2}
+/* Section headings (APA Level 1): centered bold 12pt — used for the
+   automatic heading rendered for each section (Resumen, Introducción,
+   Conclusiones, etc.). */
+.apa-page .apa-section-title{font-size:12pt;font-weight:bold;text-align:center;margin:1.5em 0 .5em;line-height:2}
+/* Markdown headings inside section content map to APA Levels 2–4 (NOT 1
+   — Level 1 is reserved for the section type heading above). */
+.apa-page h1.apa-h1{font-size:12pt;font-weight:bold;text-align:left;margin:1em 0 .3em}
+.apa-page h2.apa-h2{font-size:12pt;font-weight:bold;font-style:italic;text-align:left;margin:.8em 0 .3em}
+.apa-page h3.apa-h3{font-size:12pt;font-weight:bold;text-align:left;margin:.6em 0 .3em;text-indent:1.27cm}
+.apa-page h4{font-size:12pt;font-weight:bold;font-style:italic;margin:.6em 0 .3em;text-indent:1.27cm}
+.apa-page h5{font-size:12pt;font-weight:bold;margin:.5em 0 .3em;text-indent:1.27cm}
+/* APA 7: body text LEFT-aligned, NOT justified */
+.apa-page p{margin:0;text-indent:1.27cm;text-align:left}
+.apa-page p.apa-no-indent{text-indent:0}
+
+/* Page numbering for PDF export (html2pdf respects @page rules) */
+@page{margin:2.54cm;@top-right{content:counter(page);font-family:'Times New Roman',serif;font-size:12pt}}
+.apa-paper-inner .apa-abstract-h{font-weight:bold;text-align:center;margin-bottom:.4em}
+.apa-paper-inner .apa-abstract p{text-indent:0}
+.apa-paper-inner .apa-references-h{font-weight:bold;text-align:center;margin-top:1em;margin-bottom:.4em}
+.apa-paper-inner .apa-references p{text-indent:-1.27cm;padding-left:1.27cm;margin-bottom:.5em;text-align:left}
+.apa-paper-inner .apa-empty-msg{text-align:center;color:#999;padding:2em;font-style:italic}
+
+/* Fullscreen preview — must collapse template to single column,
+   otherwise hidden items leave the preview in track 1 (0 width). */
+body.apa-full .apa-shell{grid-template-columns:1fr}
+body.apa-full .apa-side,body.apa-full .apa-form{display:none}
+body.apa-full .apa-preview{border-left:none;grid-column:1/-1}
+body.apa-full .apa-paper{padding:24px 40px}
+body.apa-full .apa-paper-inner{max-width:21cm}
+
+/* ── Dynamic section cards ────────────────────────────── */
+.apa-sec-card{background:var(--el);border:1px solid var(--bd);border-radius:9px;padding:12px;margin-bottom:10px;transition:border-color .15s}
+.apa-sec-card:hover{border-color:var(--bd2)}
+.apa-sec-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.apa-sec-type-sel{flex:0 0 auto;background:var(--ag);color:var(--ac);border:1px solid rgba(6,182,212,.25);padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer;outline:none;min-width:160px}
+.apa-sec-type-sel:focus{border-color:var(--ac)}
+.apa-sec-title-inp{flex:1;background:var(--c1);border:1px solid var(--bd);color:var(--tx);font-size:13px;font-weight:600;outline:none;padding:6px 10px;border-radius:6px;min-width:180px}
+.apa-sec-title-inp:focus{border-color:var(--ac)}
+.apa-sec-controls{display:flex;gap:4px;flex-shrink:0}
+.apa-sec-btn{background:none;border:1px solid var(--bd);color:var(--t2);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.apa-sec-btn:hover{border-color:var(--ac);color:var(--ac);background:var(--ag)}
+.apa-sec-btn.del:hover{border-color:var(--rd);color:var(--rd);background:var(--rg)}
+.apa-sec-btn:disabled{opacity:.3;cursor:not-allowed}
+.apa-sec-btn:disabled:hover{border-color:var(--bd);color:var(--t2);background:none}
+.apa-sec-content{width:100%;min-height:80px;background:var(--c1);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;resize:vertical}
+.apa-sec-content:focus{outline:none;border-color:var(--ac)}
+.apa-sec-empty{text-align:center;padding:30px 14px;color:var(--t3);border:1px dashed var(--bd);border-radius:8px;font-size:12px;line-height:1.7}
+
+/* ── Section picker modal ─────────────────────────────── */
+.apa-pick-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.apa-pick-overlay.on{display:flex}
+.apa-pick-modal{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:22px;width:min(480px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.apa-pick-modal h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.apa-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.apa-pick-btn{background:var(--el);border:1px solid var(--bd);color:var(--tx);padding:11px 12px;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;transition:all .15s}
+.apa-pick-btn:hover{border-color:var(--ac);background:var(--ag);transform:translateY(-1px)}
+.apa-pick-btn-ico{font-size:18px}
+.apa-pick-btn-meta{font-size:9px;color:var(--t3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+
+/* Edit-mode active state on the toolbar button */
+.btn.bo.on{background:var(--gn)!important;color:#fff!important;border-color:var(--gn)!important}
+
+/* ── Word-style Font + Paragraph toolbar (visible in edit mode) ── */
+.apa-word-toolbar{display:none;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 12px;background:#f3f3f3;border-bottom:1px solid #d0d0d0}
+body.apa-edit-mode .apa-word-toolbar{display:flex}
+.awt-group{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.awt-btn{background:#fff;border:1px solid #c8c8c8;color:#000;min-width:28px;height:28px;padding:0 6px;border-radius:4px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Sans',sans-serif;line-height:1;transition:all .12s}
+.awt-btn:hover{background:#e9e9e9;border-color:#999}
+.awt-btn:active{background:#dcdcdc}
+.awt-btn b,.awt-btn i,.awt-btn u,.awt-btn s{font-size:13px}
+.apa-word-toolbar select{background:#fff;border:1px solid #c8c8c8;color:#000;padding:3px 6px;font-size:12px;border-radius:4px;height:28px;font-family:inherit}
+.apa-word-toolbar select#awtFontName{min-width:140px}
+.apa-word-toolbar select#awtFontSize{width:55px}
+.apa-word-toolbar select#awtLineHeight{width:90px}
+.awt-sep{width:1px;height:24px;background:#c8c8c8;margin:0 4px;flex-shrink:0}
+.awt-mini-sep{width:1px;height:18px;background:#c8c8c8;margin:0 2px;flex-shrink:0}
+.awt-color-lbl{display:inline-flex;align-items:center;gap:1px;cursor:pointer;font-size:11px;color:#000;background:#fff;border:1px solid #c8c8c8;border-radius:4px;height:28px;padding:0 4px}
+.awt-color-lbl:hover{background:#e9e9e9}
+.awt-color-lbl input[type=color]{width:18px;height:20px;border:none;padding:0;background:none;cursor:pointer;-webkit-appearance:none;appearance:none}
+.awt-color-lbl input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.awt-color-lbl input[type=color]::-webkit-color-swatch{border:none;border-radius:2px}
+
+/* Status toast */
+.apa-status{position:fixed;bottom:20px;right:20px;background:var(--ac);color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .25s;z-index:200;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.apa-status.on{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:1100px){
+  .apa-shell{grid-template-columns:200px 1fr 400px}
+}
+@media(max-width:900px){
+  .apa-shell{grid-template-columns:1fr;height:auto;overflow:visible}
+  body{overflow:auto}
+  .apa-side{height:auto;max-height:200px;border-right:none;border-bottom:1px solid var(--bd)}
+  .apa-preview{border-left:none;border-top:1px solid var(--bd)}
+  .apa-form-h{grid-template-columns:1fr}
+}

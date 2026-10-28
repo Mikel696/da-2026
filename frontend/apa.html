@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · APA Document Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&family=Times:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/apa.css">
+</head>
+<body>
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a><div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span><div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">APA Document Studio</span>
+  </div>
+  <div class="nv-r"><div class="bdg bdg-mod">📄 apa</div></div>
+</nav>
+
+<div class="apa-shell">
+  <!-- LEFT: list of saved documents -->
+  <aside class="apa-side">
+    <div class="apa-side-h">
+      <div style="font-size:13px;font-weight:600">📑 Mis documentos</div>
+      <button class="btn bp bs" onclick="APA.create()">+ Nuevo</button>
+    </div>
+    <div id="apaList" class="apa-list"></div>
+    <div class="apa-side-foot">
+      <div style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;line-height:1.7">
+        💡 <b>APA 7ma edición</b><br>
+        · Times New Roman 12pt<br>
+        · Doble interlineado<br>
+        · Márgenes 1" (2.54cm)<br>
+        · Sangría párrafos 0.5"<br>
+        · Portada centrada
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER: edit form -->
+  <main class="apa-form">
+    <div class="apa-form-h">
+      <div class="form-grp">
+        <label>Tipo de trabajo</label>
+        <select class="inp" id="apaKind" onchange="APA.kindChanged()">
+          <option value="academic">🎓 Académico (10-SYS)</option>
+          <option value="personal">📝 Personal</option>
+        </select>
+      </div>
+      <div class="form-grp" id="apaKindAcademicGrp">
+        <label>Materia</label>
+        <select class="inp" id="apaSubject"></select>
+      </div>
+      <div class="form-grp">
+        <label>Universidad / Institución</label>
+        <input class="inp" id="apaInstitution" placeholder="Corporación Unificada Nacional · CUN">
+      </div>
+      <div class="form-grp">
+        <label>Programa</label>
+        <input class="inp" id="apaProgram" placeholder="Ingeniería de Sistemas">
+      </div>
+      <div class="form-grp">
+        <label>Profesor / a</label>
+        <input class="inp" id="apaProfessor" placeholder="Apellidos, Nombre">
+      </div>
+      <div class="form-grp">
+        <label>Estudiante</label>
+        <input class="inp" id="apaStudent" placeholder="Apellidos, Nombre">
+      </div>
+      <div class="form-grp">
+        <label>Fecha de entrega</label>
+        <input class="inp" id="apaDate" type="date">
+      </div>
+      <div style="grid-column:1/-1;font-size:10px;color:var(--t3);font-style:italic;margin-top:4px;line-height:1.6">
+        💡 <b>Universidad / Programa / Estudiante</b> se autocompletan en futuros documentos. El profesor se rellena al elegir materia (si es de 10-SYS).
+      </div>
+    </div>
+
+    <div class="apa-section">
+      <div class="form-grp">
+        <label>Título del trabajo</label>
+        <input class="inp" id="apaTitle" placeholder="Título principal del documento">
+      </div>
+      <div class="form-grp">
+        <label>Subtítulo (opcional)</label>
+        <input class="inp" id="apaSubtitle" placeholder="Subtítulo si aplica">
+      </div>
+    </div>
+
+    <div class="apa-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-weight:600">📝 Contenido del trabajo</div>
+      </div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:8px;line-height:1.65;padding:10px 12px;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.18);border-radius:8px">
+        <b style="color:var(--vi2)">¿Cómo funciona?</b> Pegá tu trabajo (de Word, Google Docs, PDF, web). No importa la fuente, tamaño o márgenes. Si tu texto tiene títulos como <code>Resumen</code>, <code>Introducción</code>, <code>Metodología</code>, <code>Conclusiones</code> o <code>Referencias</code>, el motor los detecta y los organiza. Después click el botón → todo queda en <b>APA 7</b> (Times 12pt, doble espacio, márgenes 2.54cm, sangría 1.27cm, hanging indent en referencias).
+      </div>
+      <textarea id="apaContent" oninput="APA.updateRawContent()" class="inp" placeholder="Pegá acá tu trabajo en cualquier formato.&#10;&#10;Ejemplo:&#10;&#10;Resumen&#10;Texto de tu resumen...&#10;&#10;Introducción&#10;Texto de tu introducción...&#10;&#10;Metodología&#10;Tu metodología...&#10;&#10;Conclusiones&#10;Tus conclusiones...&#10;&#10;Referencias&#10;Apellido, N. (Año). Título. Editorial." style="width:100%;min-height:340px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.65;resize:vertical;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx)"></textarea>
+      <button class="apa-big-btn" onclick="APA.applyApaNorms()" title="Convierte tu texto al formato APA 7: Times New Roman 12pt, doble espacio, márgenes 2.54cm, sangría 1.27cm, hanging indent en referencias, portada centrada con tus datos">
+        ✨ Aplicar Normas APA 7
+      </button>
+      <details style="margin-top:10px">
+        <summary style="font-size:10px;color:var(--t3);cursor:pointer;user-select:none">Modo avanzado · editar secciones individuales</summary>
+        <div style="display:flex;justify-content:flex-end;margin:8px 0">
+          <button class="btn bp bs" onclick="APA.openSectionPicker()">+ Agregar sección</button>
+        </div>
+        <div id="apaSections"></div>
+        <div style="font-size:10px;color:var(--t3);margin-top:6px;font-style:italic;line-height:1.6">💡 Después de "Aplicar Normas APA" podés reordenar (↑↓) o eliminar secciones individuales acá.</div>
+      </details>
+    </div>
+
+    <div class="apa-actions">
+      <button class="btn bg" onclick="APA.save()">💾 Guardar</button>
+      <button class="btn bo" onclick="APA.copyText()">📋 Copiar texto plano</button>
+      <span style="flex:1"></span>
+      <button class="btn bp" onclick="APA.exportPDF()">📕 PDF</button>
+      <button class="btn bp" onclick="APA.exportWord()" style="background:#2b579a">📘 Word</button>
+      <button class="btn bp" onclick="APA.exportExcel()" style="background:#107c41">📗 Excel</button>
+    </div>
+  </main>
+
+  <!-- RIGHT: live preview pane (formatted APA) -->
+  <aside class="apa-preview">
+    <div class="apa-preview-h">
+      <div style="font-size:13px;font-weight:600">📄 Vista previa APA · multi-página</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn bo bs" onclick="APA.toggleEdit()" id="apaEditBtn" title="Editar texto directamente en las páginas">✏️ Editar preview</button>
+        <button class="btn bo bs" onclick="APA.discardEdits()" title="Volver al render automático desde el form">↻</button>
+        <button class="btn bo bs" onclick="APA.toggleFullPreview()" id="apaFullBtn" title="Ver pantalla completa">⛶ Ampliar</button>
+      </div>
+    </div>
+    <!-- Word-style Font + Paragraph toolbar (only visible in edit mode) -->
+    <div class="apa-word-toolbar" id="apaWordToolbar">
+      <div class="awt-group" data-group="Fuente">
+        <select id="awtFontName" onchange="APA.fmtCmd('fontName', this.value)" title="Fuente">
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Arial">Arial</option>
+          <option value="Calibri">Calibri</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Garamond">Garamond</option>
+        </select>
+        <select id="awtFontSize" onchange="APA.fmtSize(this.value)" title="Tamaño">
+          <option value="8">8</option><option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12" selected>12</option><option value="14">14</option>
+          <option value="16">16</option><option value="18">18</option><option value="20">20</option>
+          <option value="24">24</option><option value="28">28</option><option value="36">36</option>
+          <option value="48">48</option><option value="72">72</option>
+        </select>
+        <button class="awt-btn" onclick="APA.fmtCmd('bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('italic')" title="Cursiva (Ctrl+I)"><i>I</i></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('underline')" title="Subrayado (Ctrl+U)"><u>U</u></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('strikeThrough')" title="Tachado"><s>S</s></button>
+        <button class="awt-btn" onclick="APA.fmtCmd('subscript')" title="Subíndice">X₂</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('superscript')" title="Superíndice">X²</button>
+        <label class="awt-color-lbl" title="Color de texto"><span style="border-bottom:3px solid currentColor;line-height:.7;color:#000;padding:0 1px">A</span><input type="color" value="#000000" onchange="APA.fmtCmd('foreColor', this.value)"></label>
+        <label class="awt-color-lbl" title="Color de resaltado"><span style="background:#ffeb3b;color:#000;padding:0 3px;line-height:1.2">A</span><input type="color" value="#ffeb3b" onchange="APA.fmtCmd('hiliteColor', this.value)"></label>
+        <button class="awt-btn" onclick="APA.fmtCmd('removeFormat')" title="Borrar formato">A↺</button>
+      </div>
+      <span class="awt-sep"></span>
+      <div class="awt-group" data-group="Párrafo">
+        <button class="awt-btn" onclick="APA.fmtCmd('insertUnorderedList')" title="Viñetas">≔</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('insertOrderedList')" title="Numeración">1.</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('outdent')" title="Reducir sangría">⇤</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('indent')" title="Aumentar sangría">⇥</button>
+        <span class="awt-mini-sep"></span>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyLeft')" title="Alinear izquierda">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyCenter')" title="Centrar">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyRight')" title="Alinear derecha">≡</button>
+        <button class="awt-btn" onclick="APA.fmtCmd('justifyFull')" title="Justificar">≡</button>
+        <span class="awt-mini-sep"></span>
+        <select id="awtLineHeight" onchange="APA.fmtLineHeight(this.value)" title="Interlineado">
+          <option value="1">1.0</option>
+          <option value="1.15">1.15</option>
+          <option value="1.5">1.5</option>
+          <option value="2" selected>2.0 (APA)</option>
+          <option value="2.5">2.5</option>
+          <option value="3">3.0</option>
+        </select>
+      </div>
+    </div>
+    <div id="apaPreview" class="apa-paper"></div>
+  </aside>
+</div>
+
+<!-- Section type picker modal -->
+<div class="apa-pick-overlay" id="apaPickOverlay" onclick="if(event.target===this)APA.closeSectionPicker()">
+  <div class="apa-pick-modal" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <h3>📑 Agregar sección</h3>
+      <button class="btn bo bs" onclick="APA.closeSectionPicker()">✕</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Elegí el tipo de sección a insertar al final del documento. Después podés reordenar con ↑↓.</div>
+    <div class="apa-pick-grid" id="apaPickGrid"></div>
+  </div>
+</div>
+
+<!-- Status toast -->
+<div class="apa-status" id="apaStatus"></div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<!-- Auth chain -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<!-- Module logic -->
+<script src="js/apa.js"></script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segundo Cerebro · Centro de Gestión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens + components canónicos (Fase 1 Master UX Sprint · 2026-05-15) -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<style>
+/* 1-IND piloto · design system aplicado · tokens vienen de design-tokens.css */
+*{margin:0;padding:0}body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:8px}.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--ac)}.nav-name{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--tx2)}
+/* margin-right reserves space for the fixed-position #sb-auth-widget (top-right) so greeting/clock don't overlap with email/synced/Salir */
+.nav-r{display:flex;align-items:center;gap:14px;margin-right:260px}.nav-time{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}.nav-greeting{font-size:12px;color:var(--tx2)}
+@media(max-width:768px){.nav-r{margin-right:0}.nav-greeting{display:none}.nav-time{display:none}}
+.main{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.header{margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.header-text{flex:1;min-width:0}.header-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.header h1{font-family:'Newsreader',serif;font-size:34px;font-weight:600;line-height:1.15;margin-bottom:6px}.header h1 em{font-style:italic;color:var(--ac2)}
+.header p{font-size:13px;color:var(--tx3);max-width:520px;line-height:1.6}
+.header-video{width:260px;height:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.header-video video{width:100%;height:100%;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 30px rgba(139,92,246,.15));pointer-events:none}
+.qstats{display:flex;gap:1px;background:var(--bd);border-radius:var(--radius-md);overflow:hidden;margin-bottom:var(--space-6)}
+.qstat{flex:1;background:var(--card);padding:14px 16px;text-align:center;transition:background var(--transition-fast)}.qstat:first-child{border-radius:var(--radius-md) 0 0 var(--radius-md)}.qstat:last-child{border-radius:0 var(--radius-md) var(--radius-md) 0}.qstat:hover{background:var(--el)}
+.qstat-v{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--ac2)}.qstat-l{font-size:10px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.dash-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:28px}
+@media(max-width:900px){.dash-grid{grid-template-columns:1fr}}
+.today{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px}
+.today-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.today-title{font-size:15px;font-weight:600}.today-date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tx3)}
+.ws-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.ws-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 10px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-md);text-decoration:none;color:var(--tx);font-size:11px;font-weight:500;text-align:center;transition:border-color var(--transition-fast),background var(--transition-fast),transform var(--transition-fast);cursor:pointer}
+.ws-btn:hover{border-color:var(--ac);background:var(--acg);transform:translateY(-2px)}
+.ws-btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.ws-icon{font-size:22px}
+.ws-custom{margin-top:8px;display:flex;gap:6px}
+.ws-input{flex:1;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:12px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}.ws-input:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.ws-go{padding:7px 14px;background:var(--ac);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background var(--transition-fast),transform var(--transition-fast)}.ws-go:hover{background:var(--ac2);transform:translateY(-1px)}
+.ofertas-btn{width:100%;padding:10px 16px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .2s}
+.ofertas-btn:hover{border-color:var(--em);background:rgba(16,185,129,.06)}
+.ofertas-dd{display:none;position:absolute;top:100%;left:0;z-index:40;width:min(520px,90vw);background:var(--card);border:1px solid var(--bd);border-radius:12px;margin-top:6px;padding:10px;max-height:min(560px,72vh);overflow-y:auto;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.ofertas-dd.open{display:block}
+.od-head{padding:4px 6px 10px;border-bottom:1px solid var(--bd);margin-bottom:8px;font-size:10px;color:var(--tx3);line-height:1.5}
+.od-cat{margin-bottom:12px}
+.od-cat-t{font-size:11px;font-weight:700;color:var(--tx);padding:4px 6px 2px;display:flex;align-items:center;gap:6px}
+.od-cat-n{font-size:9.5px;color:var(--tx3);padding:0 6px 6px;line-height:1.5}
+.ofertas-dd a{display:block;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--tx);transition:all .14s;border:1px solid transparent}
+.ofertas-dd a:hover{background:var(--el);border-color:var(--bd)}
+.od-n{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px}
+.od-n .ar{margin-left:auto;font-size:10px;color:var(--tx3)}
+.od-w{font-size:10px;color:var(--tx3);line-height:1.5;margin-top:3px}
+.od-star{font-size:9px;background:rgba(245,158,11,.16);color:#f59e0b;padding:1px 5px;border-radius:4px;font-weight:700}
+.task{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(39,39,42,.5)}.task:last-of-type{border-bottom:none}
+.task-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+.task-check:hover{border-color:var(--gn)}.task-check.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.task-text{font-size:13px;flex:1}.task-text.done-text{text-decoration:line-through;color:var(--tx3)}
+.task-cat{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--el)}
+.task-del{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s}.task:hover .task-del{opacity:1}
+.task-add{display:flex;gap:6px;margin-top:12px}
+.task-input{flex:1;padding:8px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:inherit;font-size:12px}.task-input:focus{outline:none;border-color:var(--ac)}
+.task-select{padding:6px 8px;background:var(--el);border:1px solid var(--bd);border-radius:8px;color:var(--tx2);font-family:inherit;font-size:11px}
+.task-btn{padding:7px 14px;background:var(--gn);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:transform var(--transition-fast),filter var(--transition-fast)}.task-btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.pomo{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center}
+.pomo-title{font-size:12px;font-weight:600;margin-bottom:8px}
+.pomo-time{font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:var(--ac2);margin-bottom:8px}
+.pomo-btns{display:flex;gap:6px;justify-content:center;margin-bottom:6px}
+.pomo-btn{padding:6px 14px;border-radius:7px;border:none;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer}
+.pomo-start{background:var(--gn);color:#fff}.pomo-reset{background:var(--el);color:var(--tx2);border:1px solid var(--bd)}
+.pomo-log{font-size:10px;color:var(--tx3);margin-top:4px}
+.rate-panel{background:var(--el);border-radius:8px;padding:10px;margin-top:8px;display:none}
+.rate-q{font-size:11px;color:var(--tx2);margin-bottom:6px}
+.rate-stars{display:flex;gap:4px;justify-content:center}
+.rate-star{font-size:20px;cursor:pointer;filter:grayscale(1);opacity:.4;transition:all .1s}
+.rate-star:hover,.rate-star.on{filter:none;opacity:1;transform:scale(1.2)}
+.cajita{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.cajita-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cajita-title{font-size:12px;font-weight:600;color:var(--em)}
+.cajita-link{font-size:10px;color:var(--tx3);text-decoration:none}.cajita-link:hover{color:var(--em)}
+.cj-deal{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:all .2s}.cj-deal:hover{background:var(--emg);border-radius:6px;padding-left:4px}.cj-deal:last-child{border-bottom:none;padding-bottom:0}
+.cj-icon{flex-shrink:0;width:24px;height:24px;background:var(--emg);color:var(--em);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;border:1px solid rgba(16,185,129,.15)}
+.cj-info{flex:1;min-width:0}
+.cj-title{font-size:11px;font-weight:500;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cj-meta{display:flex;gap:4px}
+.cj-tag{font-size:8px;padding:2px 4px;border-radius:3px;font-weight:600;text-transform:uppercase}
+.cj-free{background:var(--gng);color:var(--gn);border:1px solid rgba(34,197,94,.15)}
+.cj-hot{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.15)}
+.modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-3);margin-bottom:var(--space-6)}
+.mod{display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:var(--radius-lg);padding:var(--space-5);min-height:150px;text-decoration:none;color:inherit;transition:border-color var(--transition-base),transform var(--transition-base),box-shadow var(--transition-base);position:relative;overflow:hidden;cursor:pointer}
+.mod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity var(--transition-base)}
+.mod:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:var(--shadow-lg)}.mod:hover::before{opacity:1}
+.mod:focus-visible{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.mod-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:auto}
+.mod-icon{font-size:22px;margin-bottom:10px}
+.mod-status{font-size:9px;font-weight:600;padding:2px 7px;border-radius:6px;text-transform:uppercase}
+.status-ready{background:var(--acg);color:var(--ac2);border:1px solid rgba(139,92,246,.12)}
+.status-soon{background:rgba(82,82,91,.2);color:var(--tx3);border:1px solid rgba(82,82,91,.2)}
+.mod-title{font-size:15px;font-weight:600;margin-bottom:3px}.mod-desc{font-size:11px;color:var(--tx3);line-height:1.5;margin-bottom:12px}
+.mod-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--tx3)}.mod-tag{padding:2px 6px;border-radius:4px;background:var(--el);font-size:10px;font-weight:500}
+.mod-english::before{background:linear-gradient(90deg,#8b5cf6,#06b6d4)}.mod-ruta::before{background:linear-gradient(90deg,#22c55e,#eab308)}.mod-jobs::before{background:linear-gradient(90deg,#f97316,#ef4444)}.mod-tools::before{background:linear-gradient(90deg,#06b6d4,#22c55e)}.mod-news::before{background:linear-gradient(90deg,#eab308,#f97316)}.mod-prompts::before{background:linear-gradient(90deg,#8b5cf6,#ec4899)}.mod-goals::before{background:linear-gradient(90deg,#22c55e,#06b6d4)}.mod-finance::before{background:linear-gradient(90deg,#eab308,#22c55e)}.mod-systems::before{background:linear-gradient(90deg,#7c3aed,#10b981)}.mod-notes::before{background:linear-gradient(90deg,#a78bfa,#8b5cf6)}.mod-apply::before{background:linear-gradient(90deg,#ef4444,#f97316)}
+.feed{margin-bottom:28px}.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px}
+.feed-card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;display:flex;flex-direction:column}
+.feed-card:hover{border-color:var(--bd2)}.feed-src{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ac2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.feed-title{font-size:13px;font-weight:500;line-height:1.4;flex:1;margin-bottom:8px}
+.feed-bottom{display:flex;justify-content:space-between;align-items:center}.feed-time{font-size:10px;color:var(--tx3)}
+.feed-action{padding:3px 8px;border-radius:5px;border:1px solid var(--bd);background:var(--el);color:var(--tx2);font-family:inherit;font-size:9px;font-weight:600;cursor:pointer;transition:all .2s}
+.feed-action:hover{border-color:var(--gn);color:var(--gn);background:rgba(34,197,94,.06)}
+.quote{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:28px;text-align:center;margin-bottom:20px}
+.quote p{font-family:'Newsreader',serif;font-size:18px;font-style:italic;line-height:1.6;color:var(--tx2)}.quote cite{font-size:12px;color:var(--tx3);display:block;margin-top:10px}
+.footer{text-align:center;padding:20px;font-size:11px;color:var(--tx3);border-top:1px solid var(--bd)}
+@media(max-width:768px){.main{padding:20px 14px}.header{flex-direction:column;text-align:center}.header h1{font-size:24px}.header-video{width:160px;height:160px;order:-1}.modules{grid-template-columns:1fr}.feed-grid{grid-template-columns:1fr}.qstats{flex-wrap:wrap}.qstat{min-width:calc(50% - 1px)}}
+
+/* ════════════════════════════════════════════════════════════════
+   LEFT RAIL · iframe-based module launcher
+   Lets the user switch between modules without leaving index.html
+   (no need to click "← Cerebro"). Each module loads in #stageFrame.
+═════════════════════════════════════════════════════════════════ */
+body{padding-left:64px}
+.rail{position:fixed;left:0;top:0;bottom:0;width:64px;background:linear-gradient(180deg,var(--card),#0d0d10);border-right:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;z-index:60;overflow-y:auto;overflow-x:visible}
+.rail::-webkit-scrollbar{width:0}
+.rail-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--ac),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:18px;margin:12px 0 14px;cursor:pointer;box-shadow:0 4px 14px rgba(139,92,246,.35);transition:transform .15s}
+.rail-logo:hover{transform:scale(1.08)}
+.rail-divider{width:30px;height:1px;background:var(--bd);margin:6px auto}
+.rail-nav{display:flex;flex-direction:column;gap:4px;flex:1;width:100%;padding:0 10px}
+.rail-btn{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .15s;color:var(--tx);position:relative;font-family:inherit}
+.rail-btn:hover{background:var(--el);border-color:var(--bd)}
+.rail-btn.on{background:var(--acg);border-color:var(--ac);color:var(--ac)}
+.rail-btn.on::before{content:'';position:absolute;left:-11px;top:50%;transform:translateY(-50%);width:3px;height:24px;background:var(--ac);border-radius:0 2px 2px 0}
+.rail-logo[data-active="1"]{box-shadow:0 4px 14px rgba(139,92,246,.55),0 0 0 2px var(--ac)}
+/* Body-level global tooltip — escapes the rail's overflow clipping.
+   Positioned via JS at the icon's right edge, fixed to viewport. */
+#cerebroTip{position:fixed;background:var(--card);border:1px solid var(--ac);color:var(--tx);font-size:12px;padding:7px 14px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(-50%) translateX(-8px);transition:opacity .15s,transform .15s;z-index:9999;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.3px;box-shadow:0 8px 24px rgba(0,0,0,.6),0 0 0 1px rgba(139,92,246,.25);display:none}
+#cerebroTip.on{opacity:1;transform:translateY(-50%) translateX(0);display:block}
+#cerebroTip::before{content:'';position:absolute;left:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:var(--card);border-left:1px solid var(--ac);border-bottom:1px solid var(--ac)}
+@media(max-width:768px){#cerebroTip{display:none!important}}
+.rail-bottom{padding:10px 10px 14px;width:100%;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--tx3);text-align:center;letter-spacing:.5px}
+.rail-mode-dot{width:6px;height:6px;border-radius:50%;background:var(--gn);display:inline-block;margin-right:4px;animation:rd 2s infinite}
+@keyframes rd{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Iframe stage — covers the area to the right of the rail when a module is selected */
+#stageFrame{display:none;position:fixed;top:0;left:64px;right:0;bottom:0;border:none;background:var(--bg);z-index:40;width:calc(100% - 64px);height:100vh}
+body.in-frame #stageFrame{display:block}
+body.in-frame .nav,body.in-frame .main,body.in-frame .footer{visibility:hidden}
+
+/* Frame loading skeleton */
+.frame-load{position:fixed;top:50%;left:calc(50% + 32px);transform:translate(-50%,-50%);z-index:41;color:var(--tx3);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;display:none}
+body.in-frame.frame-loading .frame-load{display:block}
+.frame-load::before{content:'';display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Mobile rail collapses to a slim bar; tap toggles full-width drawer */
+@media(max-width:768px){
+  body{padding-left:48px}
+  .rail{width:48px}
+  .rail-logo{width:32px;height:32px;font-size:14px}
+  .rail-btn{width:36px;height:36px;font-size:17px}
+  .rail-btn.on::before{left:-9px;width:2px}
+  .rail-nav{padding:0 6px}
+  .rail-tip{display:none}
+  #stageFrame{left:48px;width:calc(100% - 48px)}
+}
+
+</style>
+</head>
+<body>
+<!-- ═══ LEFT RAIL · module launcher ═══ -->
+<aside class="rail" role="navigation" aria-label="Módulos">
+  <div class="rail-logo" onclick="Cerebro.goHero()" title="Cerebro · Inicio">🧠</div>
+  <nav class="rail-nav" id="railNav"></nav>
+  <div class="rail-bottom"><span class="rail-mode-dot"></span>v8</div>
+</aside>
+<iframe id="stageFrame" title="Cerebro module" loading="lazy" src="about:blank"></iframe>
+<div class="frame-load">Cargando módulo…</div>
+
+<nav class="nav"><div class="nav-brand"><div class="nav-dot"></div><span class="nav-name">segundo cerebro</span></div><div class="nav-r"><span class="nav-greeting" id="greeting"></span><span class="nav-time" id="clock"></span></div></nav>
+<main class="main">
+<div class="header"><div class="header-text"><div class="header-sub">centro de gestión personal</div><h1>Tu segundo <em>cerebro</em>,<br>todo en un solo lugar.</h1><p>Estudio, trabajo, idiomas, finanzas, objetivos. Cada módulo es un sistema completo. Todo conectado, nada se pierde.</p></div><div class="header-video"><video autoplay loop muted playsinline preload="auto" aria-hidden="true"><source src="brain.mp4" type="video/mp4"></video></div></div>
+<div class="qstats"><div class="qstat"><div class="qstat-v" id="statDays">0</div><div class="qstat-l">Días activo</div></div><div class="qstat"><div class="qstat-v" id="statHours">0h</div><div class="qstat-l">Horas estudio</div></div><div class="qstat"><div class="qstat-v" id="statTasks">0</div><div class="qstat-l">Workshops</div></div><div class="qstat"><div class="qstat-v" id="statProd">—</div><div class="qstat-l">Productividad</div></div><div class="qstat"><div class="qstat-v" id="statStreak">0</div><div class="qstat-l">Racha</div></div></div>
+<div class="sec-label">· hoy ·</div>
+<div class="dash-grid">
+<div class="today"><div class="today-header"><div class="today-title">⚡ Quick Workshop</div><div class="today-date" id="todayDate"></div></div><div style="font-size:11px;color:var(--tx3);margin-bottom:12px;line-height:1.5">Pick a topic to work on right now. We'll decide later if it becomes a module.</div><div class="ws-grid"><a class="ws-btn" onclick="startWorkshop('interview')"><span class="ws-icon">🎤</span>Interview Prep</a><a class="ws-btn" onclick="startWorkshop('test')"><span class="ws-icon">📝</span>Knowledge Test</a><a class="ws-btn" onclick="startWorkshop('course')"><span class="ws-icon">🎓</span>Quick Course</a><a class="ws-btn" onclick="startWorkshop('debug')"><span class="ws-icon">🐛</span>Debug Session</a><a class="ws-btn" onclick="startWorkshop('english')"><span class="ws-icon">🗣️</span>English Practice</a><a class="ws-btn" onclick="startWorkshop('code')"><span class="ws-icon">💻</span>Code Challenge</a></div><div class="ws-custom"><input class="ws-input" id="wsInput" placeholder="Or type a custom topic..." onkeydown="if(event.key==='Enter')startWorkshop(this.value)"><button class="ws-go" onclick="startWorkshop(document.getElementById('wsInput').value)">Go →</button></div><div id="wsHistory" style="margin-top:10px"></div></div>
+<div class="sidebar">
+<div class="pomo"><div class="pomo-title">🍅 Temporizador de Estudio</div><div class="pomo-time" id="pomoTime">25:00</div><div class="pomo-btns"><button class="pomo-btn pomo-start" id="pomoBtn" onclick="togglePomo()">▶ Iniciar</button><button class="pomo-btn pomo-reset" onclick="resetPomo()">↺ Reset</button></div><div class="pomo-log">Sesiones hoy: <strong id="pomoCount">0</strong> · Total: <strong id="pomoTotal">0</strong></div><div class="rate-panel" id="ratePanel"><div class="rate-q">¿Qué tan productiva fue esta sesión?</div><div class="rate-stars"><span class="rate-star" onclick="rateSess(1)">⭐</span><span class="rate-star" onclick="rateSess(2)">⭐</span><span class="rate-star" onclick="rateSess(3)">⭐</span><span class="rate-star" onclick="rateSess(4)">⭐</span><span class="rate-star" onclick="rateSess(5)">⭐</span></div></div></div>
+<div class="cajita"><div style="position:relative"><button class="ofertas-btn" onclick="this.parentElement.querySelector('.ofertas-dd').classList.toggle('open')">🎁 Ofertas reales <span style="font-size:9px;opacity:.7;font-weight:500">· 35 verificadas</span> <span style="font-size:10px">▼</span></button><div class="ofertas-dd" id="cajitaDeals"></div></div></div>
+</div></div>
+<div class="sec-label">· módulos ·</div>
+<div class="modules">
+<a href="english.html" class="mod mod-english"><div class="mod-top"><div class="mod-icon">🇺🇸</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">English Academy</div><div class="mod-desc">20 grammar rules, 130+ vocabulary, professional phrases, conversations, exercises, flashcards, interview prep & dojo.</div></div><div class="mod-meta"><span class="mod-tag">10 sections</span><span>Foundation → Interview Dojo</span></div></a>
+<a href="pages/ai-dojo.html" class="mod mod-aidojo" style="border-color:rgba(245,158,11,.22)"><div class="mod-top"><div class="mod-icon">🥋</div><span class="mod-status status-ready" style="color:#fbbf24;background:rgba(245,158,11,.1)">NUEVO</span></div><div><div class="mod-title" style="color:var(--tx)">AI Dojo</div><div class="mod-desc">El taller para volverte bueno con IA: 15 proyectos multi-IA con ejecutor paso a paso, 42 misiones por cinturones, banco de encargos con auditor, ring comparativo y caza de fallos.</div></div><div class="mod-meta"><span class="mod-tag" style="background:#f59e0b;color:#1a1100;border:none">Taller</span><span>Proyectos · Criterio · Portafolio</span></div></a>
+<a href="music.html" class="mod mod-music" style="border-color:rgba(236,72,153,.22)"><div class="mod-top"><div class="mod-icon">🎵</div><span class="mod-status status-ready" style="color:#f472b6;background:rgba(236,72,153,.1)">NUEVO</span></div><div><div class="mod-title" style="color:var(--tx)">Cerebro Musical</div><div class="mod-desc">De una idea a una canción vendible: teoría que suena en vez de leerse, el ADN de 10 géneros con caja de ritmos, la fábrica de 9 estaciones, el arsenal investigado, lo legal en español y el negocio sin humo.</div></div><div class="mod-meta"><span class="mod-tag" style="background:#ec4899;color:#fff;border:none">Estudio</span><span>Componer · Producir · Vender</span></div></a>
+<a href="ruta.html" class="mod mod-ruta"><div class="mod-top"><div class="mod-icon">📊</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Ruta Data Analyst</div><div class="mod-desc">Excel → SQL → Python → Power BI → Tableau. 7 fases, 28 semanas, paso a paso.</div></div><div class="mod-meta"><span class="mod-tag">7 fases</span><span>De cero a junior</span></div></a>
+<a href="jobs.html" class="mod mod-jobs"><div class="mod-top"><div class="mod-icon">💼</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Job Tracker</div><div class="mod-desc">Tracker integrado con Application Center. Vacantes guardadas, kanban, estrategia competitiva LATAM.</div></div><div class="mod-meta"><span class="mod-tag">Pro</span><span>Bidireccional · LATAM · Estrategia</span></div></a>
+<a href="tools.html" class="mod mod-tools"><div class="mod-top"><div class="mod-icon">🎓</div><span class="mod-status status-ready" style="color:#a78bfa;background:rgba(124,58,237,.1)">Hub</span></div><div><div class="mod-title">Hub de Ingeniería de Sistemas</div><div class="mod-desc">Tu coach: Redes, BD, Web, Calidad, Mates, Investigación y Hardware — desde tus casos reales, con checklists y rutas de recursos. + Mantenimiento del PC.</div></div><div class="mod-meta"><span class="mod-tag">7 temas · 30 recursos</span><span>Coach · Casos reales · PC</span></div></a>
+<a href="news.html" class="mod mod-news"><div class="mod-top"><div class="mod-icon">📰</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Noticias Data & IA</div><div class="mod-desc">Noticias reales de 12 fuentes RSS. Auto-actualización cada 5 min. Click para leer.</div></div><div class="mod-meta"><span class="mod-tag">Live RSS</span><span>IA · Data · Tech</span></div></a>
+<a href="prompts.html" class="mod mod-prompts"><div class="mod-top"><div class="mod-icon">🤖</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Prompt Lab</div><div class="mod-desc">Optimizador de prompts, librería, guía para dominar Claude.</div></div><div class="mod-meta"><span class="mod-tag">14 prompts</span><span>SQL · Python · Business</span></div></a>
+<a href="goals.html" class="mod mod-goals"><div class="mod-top"><div class="mod-icon">🎯</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Objetivos & Hábitos</div><div class="mod-desc">Metas 30/60/90 días. Hábitos diarios. Revisión semanal.</div></div><div class="mod-meta"><span class="mod-tag">Tracker</span><span>Metas · Hábitos</span></div></a>
+<a href="systems.html" class="mod mod-systems" style="border-color:rgba(124,58,237,.15)"><div class="mod-top"><div class="mod-icon">⚙️</div><span class="mod-status status-ready" style="color:#a78bfa;background:rgba(124,58,237,.1)">Prioridad</span></div><div><div class="mod-title" style="color:var(--tx)">Ingeniería de Sistemas</div><div class="mod-desc">Mission Control: 8 materias, semáforo P0-P4, calendario CUN, malla curricular y certificaciones.</div></div><div class="mod-meta"><span class="mod-tag" style="background:#7c3aed;color:#fff;border:none">8vo Sem</span><span>CUN Virtual</span></div></a>
+<a href="accounting.html" class="mod mod-accounting" style="border-color:rgba(16,185,129,.15)"><div class="mod-top"><div class="mod-icon">📊</div><span class="mod-status status-ready" style="color:var(--em);background:rgba(16,185,129,.1)">Prioridad</span></div><div><div class="mod-title" style="color:var(--tx)">Accounting Associate</div><div class="mod-desc">Ruta 2026, ADP Master Tax, Excel Deep Dive y Entrevistas STAR.</div></div><div class="mod-meta"><span class="mod-tag" style="background:var(--em);color:#fff;border:none">Senior Lvl</span><span>Brinks Focus</span></div></a>
+<a href="apply.html" class="mod mod-apply" style="border-color:rgba(239,68,68,.15)"><div class="mod-top"><div class="mod-icon">🎯</div><span class="mod-status status-ready" style="color:var(--rd);background:rgba(239,68,68,.1)">NUEVO</span></div><div><div class="mod-title" style="color:var(--tx)">Application Command Center</div><div class="mod-desc">Analizador de vacantes con generaci&oacute;n autom&aacute;tica de CV perfilado, cover letter y prep de entrevista EN/ES.</div></div><div class="mod-meta"><span class="mod-tag" style="background:var(--rd);color:#fff;border:none">Analyzer</span><span>CV · Cover · Interview</span></div></a>
+<a href="finance.html" class="mod mod-finance"><div class="mod-top"><div class="mod-icon">💰</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Finanzas Personales</div><div class="mod-desc">Ingresos, gastos, presupuesto, metas de ahorro y análisis financiero.</div></div><div class="mod-meta"><span class="mod-tag">Tracker</span><span>Presupuesto · Ahorro</span></div></a>
+<a href="notes.html" class="mod mod-notes"><div class="mod-top"><div class="mod-icon">📝</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Notas & Journal</div><div class="mod-desc">Ideas, apuntes, reflexiones diarias.</div></div><div class="mod-meta"><span class="mod-tag">Markdown</span><span>Ideas · Diario</span></div></a>
+<a href="work.html" class="mod mod-work" style="border-color:rgba(6,182,212,.18)"><div class="mod-top"><div class="mod-icon">💼</div><span class="mod-status status-ready" style="color:#06b6d4;background:rgba(6,182,212,.1)">EN OBRA</span></div><div><div class="mod-title" style="color:var(--tx)">Trabajo · Coach</div><div class="mod-desc">Se rehace como coach de implementación y procesos con IA. Hoy: tus cuadernos de trabajo.</div></div><div class="mod-meta"><span class="mod-tag" style="background:#06b6d4;color:#fff;border:none">Cuadernos</span><span>En reconstrucción</span></div></a>
+<a href="mindmap.html" class="mod mod-mindmap"><div class="mod-top"><div class="mod-icon">🗺️</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">Mind Map Studio</div><div class="mod-desc">Mapas mentales jsMind + lienzo libre estilo Miro. Nodos, conexiones, iconos y export.</div></div><div class="mod-meta"><span class="mod-tag">Visual</span><span>jsMind · Canvas libre</span></div></a>
+<a href="apa.html" class="mod mod-apa"><div class="mod-top"><div class="mod-icon">📄</div><span class="mod-status status-ready">Activo</span></div><div><div class="mod-title">APA Document Studio</div><div class="mod-desc">Documentos académicos APA 7 con preview multi-página y toolbar estilo Word.</div></div><div class="mod-meta"><span class="mod-tag">APA 7</span><span>Student Paper · Export</span></div></a>
+</div>
+<div class="sec-label">· feed en vivo — noticias reales · <a href="news.html" style="color:var(--ac2);text-decoration:none;font-size:10px">Ver todas →</a> ·</div>
+<div class="feed"><div class="feed-grid" id="feedGrid"></div></div>
+<div class="quote"><p id="quoteText"></p><cite id="quoteAuthor"></cite></div>
+</main>
+<footer class="footer">Segundo Cerebro · Construido con disciplina · 2026 · <a href="pages/design-system.html" style="color:var(--tx3);text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:10px;border-left:1px solid var(--bd);padding-left:10px;margin-left:6px" title="Design System v1.0">🎨 Design System v1.0</a></footer>
+<script>
+function updateClock(){const n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=h+':'+m;const g=['Buenas noches','Buenos días','Buenas tardes','Buenas noches'],p=h<6?0:h<12?1:h<19?2:3,name=localStorage.getItem('sb_name')||'';document.getElementById('greeting').textContent=g[p]+(name?', '+name:'')}
+updateClock();setInterval(updateClock,30000);
+const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],now=new Date();
+document.getElementById('todayDate').textContent=days[now.getDay()]+' '+now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
+const wsTemplates={interview:'I need to prepare for a job interview. Ask me the role and company, then give me the 5 most likely questions with STAR-method answers based on my profile.',test:'Give me a 10-question knowledge test on the topic I specify. Multiple choice, then grade me and explain wrong answers.',course:'Create a 30-minute crash course on the topic I specify. Structure: concept → example → exercise → summary.',debug:'I have a bug. I will paste the error and code. Find root cause, explain it, and give the fix.',english:'Start an English conversation practice session. Correct my grammar inline. Topics: work, tech, daily life.',code:'Give me a coding challenge appropriate to my level. I will solve it and you review my solution.'};
+function startWorkshop(topic){if(!topic)return;const prompt=wsTemplates[topic]||'Quick workshop on: '+topic;const el=document.createElement('div');el.textContent=prompt;const hist=getWsHist();hist.unshift({topic,date:new Date().toISOString()});if(hist.length>10)hist.length=10;localStorage.setItem('sb_ws_hist',JSON.stringify(hist));renderWsHist();navigator.clipboard.writeText(prompt).then(()=>alert('Workshop prompt copied! Paste it in Claude Code to start.')).catch(()=>alert('Prompt ready:\n\n'+prompt))}
+function getWsHist(){try{return JSON.parse(localStorage.getItem('sb_ws_hist')||'[]')}catch(e){return[]}}
+function renderWsHist(){const h=getWsHist(),el=document.getElementById('wsHistory');if(!h.length){el.innerHTML='';return}el.innerHTML='<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">Recent:</div>'+h.slice(0,3).map(x=>'<span style="display:inline-block;font-size:10px;padding:2px 8px;background:var(--el);border:1px solid var(--bd);border-radius:12px;margin:0 4px 4px 0;color:var(--tx2);cursor:pointer" onclick="startWorkshop(\''+x.topic.replace(/'/g,"\\'")+'\')">'+(wsTemplates[x.topic]?x.topic:x.topic.substring(0,20))+'</span>').join('')}
+renderWsHist();
+let pomoInt=null,pomoSec=1500,pomoOn=false;
+function fmtT(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function togglePomo(){if(pomoOn){clearInterval(pomoInt);pomoOn=false;document.getElementById('pomoBtn').innerHTML='▶ Iniciar';return}pomoOn=true;document.getElementById('pomoBtn').innerHTML='⏸ Pausar';pomoInt=setInterval(()=>{pomoSec--;document.getElementById('pomoTime').textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoOn=false;document.getElementById('pomoBtn').innerHTML='▶ Iniciar';document.getElementById('ratePanel').style.display='block';const total=parseInt(localStorage.getItem('sb_pomo_total')||'0')+1;localStorage.setItem('sb_pomo_total',String(total));const td=new Date().toISOString().split('T')[0],tc=parseInt(localStorage.getItem('sb_pomo_'+td)||'0')+1;localStorage.setItem('sb_pomo_'+td,String(tc));document.getElementById('pomoCount').textContent=tc;document.getElementById('pomoTotal').textContent=total;const hrs=parseInt(localStorage.getItem('sb_hours')||'0');localStorage.setItem('sb_hours',String(hrs+1));updateStats();pomoSec=1500;document.getElementById('pomoTime').textContent=fmtT(pomoSec)}},1000)}
+function resetPomo(){clearInterval(pomoInt);pomoOn=false;pomoSec=1500;document.getElementById('pomoTime').textContent='25:00';document.getElementById('pomoBtn').innerHTML='▶ Iniciar';document.getElementById('ratePanel').style.display='none'}
+function rateSess(v){document.querySelectorAll('.rate-star').forEach((s,i)=>s.classList.toggle('on',i<v));const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');r.push({v,d:new Date().toISOString()});localStorage.setItem('sb_ratings',JSON.stringify(r));setTimeout(()=>document.getElementById('ratePanel').style.display='none',600);updateStats()}
+const pt=new Date().toISOString().split('T')[0];document.getElementById('pomoCount').textContent=localStorage.getItem('sb_pomo_'+pt)||'0';document.getElementById('pomoTotal').textContent=localStorage.getItem('sb_pomo_total')||'0';
+function renderDeals(){
+  const el = document.getElementById('cajitaDeals');
+  const esc = t => String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  fetch('data/recommendations.json').then(r=>r.json()).then(data=>{
+    const d = data && data.dealsV2;
+    // Sin el bloque nuevo se cae al listado simple de siempre: nunca queda vacio
+    if(!d || !d.cats){
+      if(!data||!data.quickLinks)return;
+      el.innerHTML = data.quickLinks.map(l=>'<a href="'+l.url+'" target="_blank" rel="noopener"><div class="od-n">'+esc(l.label)+'<span class="ar">→</span></div></a>').join('');
+      return;
+    }
+    let html = '<div class="od-head">'+esc(d.verified)+' Lo marcado con <span class="od-star">TOP</span> es lo que más ventaja te da.</div>';
+    d.cats.forEach(c=>{
+      const items = d.sites.filter(s=>s.cat===c.id);
+      if(!items.length) return;
+      html += '<div class="od-cat"><div class="od-cat-t">'+c.icon+' '+esc(c.label)+'</div>';
+      if(c.note) html += '<div class="od-cat-n">'+esc(c.note)+'</div>';
+      items.forEach(s=>{
+        html += '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'
+             +  '<div class="od-n">'+esc(s.name)+(s.star?' <span class="od-star">TOP</span>':'')+'<span class="ar">→</span></div>'
+             +  '<div class="od-w">'+esc(s.why)+'</div></a>';
+      });
+      html += '</div>';
+    });
+    el.innerHTML = html;
+  }).catch(()=>{el.innerHTML='<div style="padding:8px;color:var(--tx3);font-size:10px">Sin conexión</div>'});
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.cajita')){document.querySelectorAll('.ofertas-dd.open').forEach(d=>d.classList.remove('open'))}})
+function updateStats(){if(!localStorage.getItem('sb_start'))localStorage.setItem('sb_start',new Date().toISOString());document.getElementById('statDays').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('sb_start')))/864e5));document.getElementById('statStreak').textContent=(localStorage.getItem('sb_streak')||'0')+'🔥';document.getElementById('statHours').textContent=(localStorage.getItem('sb_hours')||'0')+'h';const r=JSON.parse(localStorage.getItem('sb_ratings')||'[]');if(r.length){document.getElementById('statProd').textContent=(r.reduce((a,x)=>a+x.v,0)/r.length).toFixed(1)+'⭐'}}
+function renderFeed(){
+const el=document.getElementById('feedGrid');
+el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:11px">Cargando noticias...</div>';
+const feeds=['https://www.xataka.com/rss.xml','https://www.genbeta.com/rss.xml','https://www.portafolio.co/rss/tecnologia','https://www.eleconomista.es/rss/rss-tecnologia'];
+const srcMap={'xataka.com':'Xataka','genbeta.com':'Genbeta','portafolio.co':'Portafolio','eleconomista.es':'El Economista'};
+const API='https://api.rss2json.com/v1/api.json?rss_url=';
+Promise.allSettled(feeds.map(url=>fetch(API+encodeURIComponent(url)).then(r=>r.json()))).then(results=>{
+let items=[];
+const esc=s=>{const el=document.createElement('div');el.textContent=s||'';return el.innerHTML};
+results.forEach(r=>{if(r.status==='fulfilled'&&r.value.status==='ok'&&r.value.items){
+const host=r.value.feed?.link||'';
+const src=Object.entries(srcMap).find(([k])=>host.includes(k));
+r.value.items.slice(0,4).forEach(it=>items.push({t:esc(it.title),l:it.link,s:src?src[1]:'Tech',d:it.pubDate}));
+}});
+const seen=new Set();items=items.filter(i=>{if(seen.has(i.t))return false;seen.add(i.t);return true});
+items.sort((a,b)=>new Date(b.d)-new Date(a.d));
+if(!items.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:11px">No se pudieron cargar noticias. <a href="news.html" style="color:var(--ac2)">Ir al módulo completo →</a></div>';return}
+el.innerHTML=items.slice(0,8).map(i=>{
+const ago=Math.floor((Date.now()-new Date(i.d))/36e5);
+const agoTxt=ago<1?'Ahora':ago<24?ago+'h':Math.floor(ago/24)+'d';
+return '<div class="feed-card"><div class="feed-src">'+i.s+'</div><div class="feed-title">'+i.t+'</div><div class="feed-bottom"><div class="feed-time">'+agoTxt+'</div><div style="display:flex;gap:3px"><a href="'+i.l+'" target="_blank" rel="noopener" class="feed-action" style="background:var(--ac);border-color:var(--ac);color:#fff" onclick="event.stopPropagation()">Leer →</a><button class="feed-action" onclick="event.stopPropagation();feedToTask(\''+i.t.replace(/'/g,"\\'")+'\')">+ Tarea</button></div></div></div>'}).join('');
+}).catch(()=>{el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:11px">Feed offline. <a href="news.html" style="color:var(--ac2)">Ver noticias →</a></div>'});
+}
+function feedToTask(t){startWorkshop('Read and summarize: '+t)}
+function renderQuote(){const q=[{t:"The goal is to turn data into information, and information into insight.",a:"Carly Fiorina"},{t:"Without data, you're just another person with an opinion.",a:"W. Edwards Deming"},{t:"The world rewards those who are consistent, not those who are motivated.",a:"Anónimo"},{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},{t:"Success is the sum of small efforts, repeated day in and day out.",a:"Robert Collier"},{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},{t:"Every expert was once a beginner.",a:"Helen Hayes"},{t:"What gets measured gets managed.",a:"Peter Drucker"},{t:"Learning never exhausts the mind.",a:"Leonardo da Vinci"},{t:"In God we trust. All others must bring data.",a:"W. Edwards Deming"}];const today=new Date().getDate()%q.length;document.getElementById('quoteText').textContent='"'+q[today].t+'"';document.getElementById('quoteAuthor').textContent='— '+q[today].a}
+/* prompt() diferido y a prueba de entornos sin diálogos (sandbox/kiosk: prompt lanza
+   y mataba TODO el script del launcher — rail y router incluidos). El nombre es
+   cosmético; si el diálogo no existe, el Cerebro sigue funcionando. */
+setTimeout(function(){try{if(!localStorage.getItem('sb_name')){const n=prompt('¿Cuál es tu nombre?');if(n){localStorage.setItem('sb_name',n.trim());updateClock()}}}catch(e){}},1200);
+(function(){const last=localStorage.getItem('sb_last'),today=new Date().toISOString().split('T')[0];if(last!==today){const y=new Date(Date.now()-864e5).toISOString().split('T')[0];let s=parseInt(localStorage.getItem('sb_streak')||'0');if(last===y)s++;else s=1;localStorage.setItem('sb_streak',String(s));localStorage.setItem('sb_last',today)}})();
+document.getElementById('statTasks').textContent=getWsHist().length;updateStats();renderFeed();renderQuote();renderDeals();
+
+// ═══ Cerebro Router · iframe-based module launcher ═══════════════
+// Click any rail icon → loads that module inside #stageFrame without
+// leaving the page. URL hash (#apply, #jobs…) makes deep-links shareable
+// and back/forward browser buttons work. The "Home" icon returns to the
+// dashboard view.
+const Cerebro = (function(){
+  // Module list (Home not included — the 🧠 logo at the top of the rail
+  // is the home link, no need for a duplicate house icon).
+  const MODULES = [
+    ['apply',    '🎯','Application Center',        'apply.html'],
+    ['jobs',     '💼','Job Tracker',               'jobs.html'],
+    ['work',     '🔧','Trabajo · Coach',           'work.html'],
+    ['systems',  '⚙️','Ingeniería de Sistemas',    'systems.html'],
+    ['accounting','📊','Accounting Associate',     'accounting.html'],
+    ['finance',  '💰','Finanzas Personales',       'finance.html'],
+    ['notes',    '📝','Notas & Journal',           'notes.html'],
+    ['english',  '🇺🇸','English Academy',           'english.html'],
+    ['aidojo',   '🥋','AI Dojo · el taller',        'pages/ai-dojo.html'],
+    ['aiengine', '📚','AI Engine · la biblioteca',  'pages/ai-engine.html'],
+    ['music',    '🎵','Cerebro Musical',           'music.html'],
+    ['ruta',     '🛤️','Ruta Data Analyst',         'ruta.html'],
+    ['goals',    '🎯','Objetivos & Hábitos',       'goals.html'],
+    ['news',     '📰','Noticias Data & IA',        'news.html'],
+    ['tools',    '🛠️','Herramientas',              'tools.html'],
+    ['mindmap',  '🗺️','Mind Map Studio',           'mindmap.html'],
+    ['apa',      '📄','APA Document Studio',       'apa.html'],
+    ['prompts',  '✨','Prompts Lab',               'prompts.html'],
+  ];
+
+  /** Single body-level tooltip. Per-button tooltips were being clipped by
+   *  the rail's overflow-y:auto (CSS specifies that overflow-x cannot be
+   *  visible when overflow-y is auto/scroll). Rendering at <body> level
+   *  with position:fixed escapes that clipping context entirely. */
+  function ensureTip(){
+    let tip = document.getElementById('cerebroTip');
+    if (tip) return tip;
+    tip = document.createElement('div');
+    tip.id = 'cerebroTip';
+    tip.setAttribute('role','tooltip');
+    document.body.appendChild(tip);
+    return tip;
+  }
+
+  function showTip(btn){
+    const tip = ensureTip();
+    const r = btn.getBoundingClientRect();
+    tip.textContent = btn.dataset.label || '';
+    tip.style.top = (r.top + r.height/2) + 'px';
+    tip.style.left = (r.right + 12) + 'px';
+    tip.classList.add('on');
+  }
+  function hideTip(){
+    const tip = document.getElementById('cerebroTip');
+    if (tip) tip.classList.remove('on');
+  }
+
+  function buildRail(){
+    const nav = document.getElementById('railNav');
+    if (!nav) return;
+    nav.innerHTML = MODULES.map(([id,ic,name,src]) =>
+      `<button class="rail-btn" data-mod="${id}" data-src="${src}" data-label="${name.replace(/"/g,'&quot;')}" aria-label="${name}" title="${name}">
+         <span class="rail-ico">${ic}</span>
+       </button>`
+    ).join('');
+    nav.querySelectorAll('.rail-btn').forEach(b => {
+      b.addEventListener('click', () => { hideTip(); go(b.dataset.mod); });
+      b.addEventListener('mouseenter', () => showTip(b));
+      b.addEventListener('mouseleave', hideTip);
+      b.addEventListener('focus', () => showTip(b));
+      b.addEventListener('blur', hideTip);
+    });
+    // Also tooltip the brain logo
+    const logo = document.querySelector('.rail-logo');
+    if (logo) {
+      logo.dataset.label = 'Inicio · Cerebro';
+      logo.addEventListener('mouseenter', () => showTip(logo));
+      logo.addEventListener('mouseleave', hideTip);
+    }
+  }
+
+  function go(id){
+    // Logo (🧠) handles 'home' since we removed the duplicate house button
+    if (id === 'home') {
+      document.body.classList.remove('in-frame','frame-loading');
+      const f = document.getElementById('stageFrame');
+      if (f && f.src && !/about:blank$/.test(f.src)) { f.src = 'about:blank'; f.removeAttribute('data-cur'); }
+      if (location.hash && location.hash !== '#home') history.replaceState(null,'','#home');
+      document.title = 'Segundo Cerebro · Centro de Gestión';
+      document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('on'));
+      const logo = document.querySelector('.rail-logo'); if (logo) logo.dataset.active = '1';
+      const target = document.querySelector('.dash-grid');
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 60;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
+      return;
+    }
+    const m = MODULES.find(x => x[0] === id);
+    if (!m) return;
+    const src = m[3];
+    // Update rail active state
+    document.querySelectorAll('.rail-btn').forEach(b => b.classList.toggle('on', b.dataset.mod === id));
+    const logo = document.querySelector('.rail-logo'); if (logo) logo.dataset.active = '0';
+    // Load the module in the iframe (every entry in MODULES has a src)
+    const f = document.getElementById('stageFrame');
+    if (!f) return;
+    document.body.classList.add('in-frame','frame-loading');
+    if (f.dataset.cur !== src) {
+      f.onload = () => document.body.classList.remove('frame-loading');
+      f.src = src;
+      f.dataset.cur = src;
+    } else {
+      document.body.classList.remove('frame-loading');
+    }
+    history.replaceState(null,'','#'+id);
+    document.title = m[2] + ' · Cerebro';
+  }
+
+  /** Intercepta clicks en cualquier <a href="..."> que apunte a un módulo
+   *  conocido (incluye los cards de la sección "módulos", los workshop
+   *  shortcuts y cualquier link interno a un .html de módulo). Sin esto,
+   *  el browser hace navegación completa y pierde el rail lateral.
+   *  Preserva ctrl/cmd/shift/middle-click para abrir en nueva pestaña. */
+  function bindModuleLinks(){
+    const srcMap = Object.fromEntries(MODULES.map(m => [m[3], m[0]]));
+    // Event delegation a body — captura links agregados después también.
+    document.body.addEventListener('click', e => {
+      if (e.defaultPrevented) return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+      const link = e.target.closest('a[href]');
+      if (!link) return;
+      if (link.target === '_blank') return;
+      const href = link.getAttribute('href');
+      // Match exact filename or with hash
+      const cleanHref = href.split('#')[0].split('?')[0];
+      const modId = srcMap[cleanHref];
+      if (!modId) return;
+      e.preventDefault();
+      go(modId);
+    });
+  }
+
+  function init(){
+    buildRail();
+    bindModuleLinks();
+    // Initialize from hash (deep-link) or default to home
+    const hash = (location.hash || '').slice(1).toLowerCase();
+    const found = MODULES.find(m => m[0] === hash);
+    go(found ? hash : 'home');
+  }
+
+  // React to back/forward buttons or external hash changes
+  window.addEventListener('hashchange', () => {
+    const hash = (location.hash || '').slice(1).toLowerCase();
+    if (MODULES.find(m => m[0] === hash)) go(hash);
+    else if (!hash) go('home');
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+  /** Logo click: return to home and scroll to top of page (hero/welcome). */
+  function goHero(){
+    go('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  return { go, goHero, MODULES };
+})();
+window.Cerebro = Cerebro;
+</script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Coach de Ingeniería de Sistemas</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/design-tokens.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+/* 6-TOO · Coach Ing. Sistemas · cada sección ancla en un CASO REAL del usuario */
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.65}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.da-strip{position:sticky;top:0;z-index:100;background:rgba(11,13,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:14px;padding:10px 22px;font-size:13px}
+.da-strip a{color:var(--a2);text-decoration:none;font-weight:600}.da-strip a:hover{color:var(--tx)}
+.da-strip .mod{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3);margin-left:auto}
+body.in-iframe .da-strip{display:none}
+.wrap{max-width:980px;margin:0 auto;padding:26px 22px 90px}
+.hero{padding:24px 26px;background:linear-gradient(135deg,rgba(139,92,246,.07),rgba(6,182,212,.04));border:1px solid var(--bd);border-radius:14px;margin-bottom:16px}
+.hero h1{font-family:'Newsreader',serif;font-size:27px;font-weight:600}.hero h1 em{font-style:italic;color:var(--a2)}
+.hero p{font-size:12.5px;color:var(--t2);max-width:700px;margin-top:6px}
+.gbar{height:10px;background:var(--el);border:1px solid var(--bd);border-radius:99px;overflow:hidden;margin-top:14px}
+.gbar>div{height:100%;background:linear-gradient(90deg,var(--ac),var(--cy));width:0%;transition:width .5s ease;border-radius:99px}
+.gpct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--t3);margin-top:5px}
+/* chips nav */
+.chips{position:sticky;top:0;z-index:90;display:flex;gap:6px;overflow-x:auto;padding:10px 0;background:rgba(9,9,11,.94);backdrop-filter:blur(10px);margin-bottom:8px}
+body:not(.in-iframe) .chips{top:44px}
+.chip{flex-shrink:0;padding:7px 13px;border-radius:99px;font-size:11.5px;font-weight:600;color:var(--t2);background:var(--c1);border:1px solid var(--bd);cursor:pointer;text-decoration:none;white-space:nowrap;transition:all .15s}
+.chip:hover{color:var(--tx);border-color:var(--bd2)}
+.chip.on{color:#fff;background:var(--ac);border-color:var(--ac)}
+/* secciones */
+.sec{margin:26px 0 40px;scroll-margin-top:110px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--bd);padding-bottom:10px;margin-bottom:14px}
+.sec-head h2{font-family:'Newsreader',serif;font-size:23px;font-weight:600}
+.sec-head .why{font-size:11.5px;color:var(--t3)}
+.sec-prog{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--a2)}
+.blk{background:var(--c1);border:1px solid var(--bd);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.blk-t{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.t-caso{color:var(--gn)}.t-ana{color:var(--am)}.t-emp{color:var(--cy)}.t-kit{color:var(--a2)}.t-rec{color:var(--or)}.t-chk{color:var(--pk,#ec4899)}
+.blk p{font-size:12.5px;color:var(--t2);margin-bottom:8px}
+.blk p:last-child{margin-bottom:0}
+.blk strong{color:var(--tx)}.blk em{color:var(--a2);font-style:normal;font-weight:600}
+/* caja de analogía destacada */
+.ana{background:linear-gradient(135deg,rgba(234,179,8,.05),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.18);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.ana .blk-t{margin-bottom:8px}
+.ana p{font-size:13px;color:var(--t2)}
+/* timeline del caso real */
+.tl{border-left:2px solid var(--bd);margin:6px 0 4px 8px;padding-left:18px}
+.tl-i{position:relative;margin-bottom:10px;font-size:12.5px;color:var(--t2)}
+.tl-i::before{content:'';position:absolute;left:-24px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--ac);border:2px solid var(--bg)}
+.tl-i.ok::before{background:var(--gn)}.tl-i.bad::before{background:var(--rd)}
+.tl-i strong{color:var(--tx)}
+/* diagramas de flujo con cajas */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:12px 0;font-size:12px}
+.fbox{background:var(--el);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;text-align:center;min-width:110px;display:flex;flex-direction:column;justify-content:center}
+.fbox b{font-size:12.5px}.fbox span{font-size:10.5px;color:var(--t3)}
+.fbox.good{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06)}
+.fbox.bad{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.06)}
+.farr{display:flex;align-items:center;padding:0 8px;color:var(--a2);font-weight:700;font-size:16px}
+/* tabla kit */
+table.kit{width:100%;border-collapse:collapse;font-size:12px}
+.kit th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);padding:6px 10px;border-bottom:1px solid var(--bd)}
+.kit td{padding:8px 10px;border-bottom:1px solid rgba(63,63,70,.35);color:var(--t2);vertical-align:top}
+.kit td:first-child{font-family:'IBM Plex Mono',monospace;color:var(--cy);white-space:nowrap;font-size:11.5px}
+.kit tr:last-child td{border-bottom:none}
+.kit td strong{color:var(--tx)}
+/* escenario empresa (ticket) */
+.ticket{background:#0b0d12;border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin:10px 0;font-size:12.5px}
+.ticket-h{display:flex;gap:8px;align-items:center;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:11px}
+.ticket-id{color:var(--or);font-weight:700}.ticket-pri{background:var(--rg);color:var(--rd);padding:1px 8px;border-radius:5px;font-size:9.5px;font-weight:700}
+.ticket p{color:var(--t2);margin-bottom:6px}.ticket strong{color:var(--tx)}
+/* checklist */
+.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:9px;cursor:pointer;transition:background .15s}
+.chk:hover{background:var(--el)}
+.chk input{margin-top:3px;width:15px;height:15px;accent-color:var(--gn);cursor:pointer;flex-shrink:0}
+.chk span{font-size:12.5px;color:var(--t2)}
+.chk input:checked+span{color:var(--t3);text-decoration:line-through}
+/* recursos */
+.res{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--el);border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;text-decoration:none;color:var(--tx);transition:all .18s}
+.res:hover{border-color:var(--ac);transform:translateX(3px)}
+.res-i{font-size:20px;flex-shrink:0}
+.res-b{flex:1;min-width:0}.res-n{font-size:12.5px;font-weight:600}.res-d{font-size:10.5px;color:var(--t2);line-height:1.45}
+.res-tags{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:130px}
+.rt{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.rt-free{background:var(--gg,rgba(34,197,94,.1));color:var(--gn)}
+.rt-es{background:var(--ag,rgba(139,92,246,.1));color:var(--a2)}
+.rt-en{background:var(--el);color:var(--t3);border:1px solid var(--bd)}
+.rt-top{background:var(--amg,rgba(234,179,8,.1));color:var(--am)}
+/* código copiable */
+.code{position:relative;background:#0b0d12;border:1px solid var(--bd);border-radius:9px;padding:12px 14px;margin:8px 0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#cfe3ff;white-space:pre-wrap;overflow-x:auto;line-height:1.7}
+.code .cm{color:#5b6b85}
+/* pirámide de pruebas */
+.pyr{display:flex;flex-direction:column;align-items:center;gap:4px;margin:12px 0}
+.pyr>div{border-radius:8px;padding:8px 12px;text-align:center;font-size:11.5px;border:1px solid}
+.pyr b{display:block;font-size:12px}
+.pyr span{font-size:10px;color:var(--t3)}
+@media(max-width:720px){.wrap{padding:16px 12px 70px}.sec-head h2{font-size:19px}.flow{flex-direction:column}.farr{transform:rotate(90deg);padding:4px 0;justify-content:center}}
+</style>
+</head>
+<body>
+<div class="da-strip">
+  <a href="../tools.html">← Herramientas</a>
+  <span class="mod">6-TOO · Coach Ing. Sistemas · v1</span>
+</div>
+<div class="wrap">
+
+<div class="hero">
+  <h1>🎓 Tu coach de <em>Ingeniería de Sistemas</em></h1>
+  <p>Cada sección arranca de un <strong>caso REAL tuyo</strong> (el internet de Claro, el ACA de préstamos, este mismo Cerebro, el bug del sync…), lo explica con analogías visuales, te muestra <strong>cómo se vive en una empresa</strong>, y te deja el kit + la ruta de recursos para dominarlo en serio. Marcá los checklists: son tu medidor de dominio.</p>
+  <div class="gbar"><div id="gFill"></div></div>
+  <div class="gpct" id="gPct">0% de dominio total</div>
+</div>
+
+<div class="chips" id="chips">
+  <a class="chip on" href="#redes">🌐 Redes</a>
+  <a class="chip" href="#bd">🗄️ Bases de Datos</a>
+  <a class="chip" href="#web">🕸️ Ing. Web</a>
+  <a class="chip" href="#calidad">✅ Calidad de SW</a>
+  <a class="chip" href="#mates">📐 Mat. Especiales</a>
+  <a class="chip" href="#invest">🔬 Investigación</a>
+  <a class="chip" href="#hw">🖥️ Hardware & SO</a>
+</div>
+
+<!-- ═══════════════ 1 · REDES ═══════════════ -->
+<section class="sec" id="redes">
+<div class="sec-head"><h2>🌐 Redes & Conectividad</h2><span class="why">por qué tu internet "lento" no era lento</span><span class="sec-prog" data-prog="redes"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · el misterio del Claro de 400 megas (14-jul-2026)</div>
+  <div class="tl">
+    <div class="tl-i"><strong>Síntoma:</strong> pagás 400 Mbps y todo se sentía lento. Sospecha natural: "Claro me está robando".</div>
+    <div class="tl-i ok"><strong>Prueba 1 — velocidad:</strong> speedtest dio <strong>402 Mbps de bajada / 42 de subida, 0% de pérdida de paquetes</strong>. El "cable" estaba perfecto. Primera lección: medir antes de culpar.</div>
+    <div class="tl-i bad"><strong>Prueba 2 — el culpable:</strong> el <strong>DNS del router ZTE F680</strong> respondía lentísimo, y como el router se anuncia por DHCP como DNS de toda la casa, CADA página nueva arrancaba con ese peaje lento.</div>
+    <div class="tl-i ok"><strong>Solución:</strong> usar DNS públicos rápidos (<em>1.1.1.1</em> de Cloudflare / <em>8.8.8.8</em> de Google) en vez del router. Y quedó un monitor (<em>monitor-red-claro.ps1</em>) vigilando la red.</div>
+  </div>
+  <p>Moraleja de ingeniero: <strong>velocidad y latencia son cosas distintas</strong>, y el 80% de los "internet lento" no son el ancho de banda.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 La analogía que lo explica todo</div>
+  <p><strong>El DNS es la agenda de contactos de tu teléfono.</strong> Vos no marcás +57 310 555 1234 — tocás "Mamá". Internet igual: vos escribís <em>google.com</em>, pero las máquinas solo entienden números (la IP, ej. 142.250.78.14). El DNS es quien traduce el nombre al número.</p>
+  <p>Tu problema era: <strong>tenías una autopista de 400 carriles… con una operadora de agenda que tardaba una eternidad en encontrar cada contacto</strong>. Por eso el speedtest (que casi no usa la agenda) daba perfecto, pero navegar (que la consulta a cada rato) se sentía lento.</p>
+  <p>Y el <strong>DHCP</strong> es el portero del edificio: cuando un dispositivo se conecta, le asigna apartamento (su IP privada) y le dice "si necesitás la agenda, usá esta" — el router les estaba recomendando la agenda lenta a TODOS.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-ana">🗺️ El viaje de un clic (tu caso, dibujado)</div>
+  <div class="flow">
+    <div class="fbox"><b>💻 Tu PC</b><span>"quiero youtube.com"</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>📦 Router ZTE</b><span>portero + agenda</span></div>
+    <div class="farr">→</div>
+    <div class="fbox bad"><b>😴 DNS de Claro</b><span>~cientos de ms por consulta</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>🌍 Internet</b><span>recién acá corren los 400 Mbps</span></div>
+  </div>
+  <div class="flow">
+    <div class="fbox"><b>💻 Tu PC</b><span>"quiero youtube.com"</span></div>
+    <div class="farr">→</div>
+    <div class="fbox good"><b>⚡ 1.1.1.1</b><span>respuesta en ~15 ms</span></div>
+    <div class="farr">→</div>
+    <div class="fbox good"><b>🌍 Internet</b><span>la autopista completa, sin peaje lento</span></div>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · Soporte TI / NOC nivel 1</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">TICKET #4821</span><span class="ticket-pri">ALTA</span><span style="color:var(--t3)">· Contabilidad · 8:47 AM</span></div>
+    <p>"No me abre el sistema de facturación. URGE, hoy es cierre."</p>
+    <p><strong>Tu triage profesional (4 comandos, 3 minutos):</strong></p>
+    <p>1️⃣ <em>ping</em> a la puerta del edificio (el gateway) → ¿responde? La red local está viva.<br>
+    2️⃣ <em>ping 8.8.8.8</em> → ¿responde? Hay salida a internet (sin usar la agenda).<br>
+    3️⃣ <em>nslookup sistema.empresa.com</em> → ¿resuelve? Si acá falla, es DNS — <strong>exactamente tu caso de Claro</strong>.<br>
+    4️⃣ <em>tracert</em> → ¿en qué salto del camino se muere? Con eso escalás a nivel 2 <strong>con evidencia</strong>, no con "no sé, no funciona".</p>
+    <p>Eso es lo que separa a un técnico junior valioso: <strong>diagnóstico con método + evidencia</strong>. Vos ya lo hiciste una vez con tu propia red.</p>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-kit">🛠️ Kit de comandos (Windows) — tus herramientas de diagnóstico</div>
+  <table class="kit">
+    <tr><th>Comando</th><th>Qué te dice (en cristiano)</th></tr>
+    <tr><td>ipconfig /all</td><td>Tu identidad en la red: IP, gateway (el portero) y qué DNS estás usando. <strong>Primer comando siempre.</strong></td></tr>
+    <tr><td>ping -n 20 8.8.8.8</td><td>20 "hola, ¿estás ahí?" a Google. Mirá el tiempo (latencia) y si se pierde alguno (pérdida de paquetes).</td></tr>
+    <tr><td>nslookup google.com</td><td>Le pide a tu agenda (DNS) que traduzca el nombre. Si tarda o falla → problema de DNS.</td></tr>
+    <tr><td>nslookup google.com 1.1.1.1</td><td>La misma consulta pero a la agenda de Cloudflare. <strong>Comparar las dos fue lo que destapó tu caso.</strong></td></tr>
+    <tr><td>tracert google.com</td><td>Todos los saltos del camino hasta el destino. Dónde se corta = de quién es la culpa.</td></tr>
+    <tr><td>Test-NetConnection google.com -Port 443</td><td>(PowerShell) ¿Puedo llegar Y entrar por el puerto HTTPS? Prueba de conexión completa.</td></tr>
+  </table>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="redes.dns"><span>Puedo explicar qué es el DNS con la analogía de la agenda, sin leer.</span></label>
+  <label class="chk"><input type="checkbox" data-k="redes.latvsbw"><span>Sé la diferencia entre ancho de banda y latencia, y qué mide cada prueba.</span></label>
+  <label class="chk"><input type="checkbox" data-k="redes.triage"><span>Ejecuté el triage de 4 comandos en mi PC y entiendo cada salida.</span></label>
+  <label class="chk"><input type="checkbox" data-k="redes.dhcp"><span>Puedo explicar qué hace DHCP y qué es una IP privada vs pública.</span></label>
+  <label class="chk"><input type="checkbox" data-k="redes.pt"><span>Armé una red pequeña (router + 2 PCs) en Packet Tracer y se hacen ping.</span></label>
+  <label class="chk"><input type="checkbox" data-k="redes.netacad"><span>Terminé el curso Networking Basics de Cisco (gratis, en español).</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos (en orden)</div>
+  <a class="res" href="https://www.netacad.com" target="_blank" rel="noopener"><span class="res-i">🎓</span><div class="res-b"><div class="res-n">Cisco Networking Academy — "Networking Basics"</div><div class="res-d">EL punto de partida. Curso oficial Cisco, autoguiado, con laboratorios. Buscá "Networking Basics" en el catálogo (disponible en español).</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span><span class="rt rt-top">Empezá acá</span></div></a>
+  <a class="res" href="https://www.netacad.com/courses/packet-tracer" target="_blank" rel="noopener"><span class="res-i">🧪</span><div class="res-b"><div class="res-n">Cisco Packet Tracer</div><div class="res-d">Simulador de redes: armás routers, switches y PCs virtuales y ves los paquetes viajar. Es el "laboratorio" sin comprar equipos.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.cloudflare.com/es-es/learning/dns/what-is-dns/" target="_blank" rel="noopener"><span class="res-i">📖</span><div class="res-b"><div class="res-n">Cloudflare Learning Center — ¿Qué es DNS?</div><div class="res-d">Explicaciones cortas y visuales de DNS, HTTPS, CDN… escritas por los dueños de 1.1.1.1 (tu solución al caso Claro).</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.professormesser.com/network-plus/n10-009/n10-009-video/n10-009-training-course/" target="_blank" rel="noopener"><span class="res-i">🎬</span><div class="res-b"><div class="res-n">Professor Messer — Network+ (curso completo en video)</div><div class="res-d">Cuando quieras el nivel certificable: todo el temario CompTIA Network+ gratis en YouTube. Activá subtítulos.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://www.youtube.com/@NetworkChuck" target="_blank" rel="noopener"><span class="res-i">☕</span><div class="res-b"><div class="res-n">NetworkChuck (YouTube)</div><div class="res-d">El canal que hace las redes adictivas: DNS, VPNs, hackear tu propio router. Perfecto para VER los conceptos en acción.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN · subs</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 2 · BASES DE DATOS ═══════════════ -->
+<section class="sec" id="bd">
+<div class="sec-head"><h2>🗄️ Bases de Datos</h2><span class="why">del ACA de préstamos a tu trabajo real</span><span class="sec-prog" data-prog="bd"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tus casos reales · ya vivís rodeado de bases de datos</div>
+  <p>1️⃣ <strong>Tu ACA de la CUN:</strong> el "Sistema de Control de Préstamos Bancarios" — clientes, préstamos, pagos. Es el caso de negocio perfecto para aprender modelado.</p>
+  <p>2️⃣ <strong>Este mismo Cerebro:</strong> tus cuadernos se guardan en <em>PostgreSQL</em> (Supabase) — cada vez que sincronizás, hay INSERTs y UPDATEs corriendo por debajo.</p>
+  <p>3️⃣ <strong>Tu trabajo en Simetrik:</strong> una conciliación es, literalmente, <strong>cruzar dos tablas gigantes buscando coincidencias</strong>. Cada "barrida" que configurás es un JOIN con condiciones. Ya sos usuario avanzado de bases de datos sin habértelo propuesto.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 Todo SQL traducido a Excel (tu idioma nativo)</div>
+  <p><strong>Tabla</strong> = una hoja de Excel con reglas estrictas: cada columna tiene tipo fijo (no podés meter "hola" en una columna de fechas).</p>
+  <p><strong>Clave primaria (PK)</strong> = la cédula: única, obligatoria, identifica a cada fila para siempre.</p>
+  <p><strong>Clave foránea (FK)</strong> = un BUSCARV permanente y garantizado: la columna "cédula" en PRÉSTAMOS apunta a un cliente que la base <em>te garantiza</em> que existe. Nadie puede borrar al cliente si tiene préstamos: la base no lo permite.</p>
+  <p><strong>JOIN</strong> = BUSCARV entre hojas, pero trayendo todas las columnas que quieras a la vez. <strong>GROUP BY</strong> = tabla dinámica. <strong>Índice</strong> = el índice de un libro: sin él, para encontrar algo hay que leer todas las páginas.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-ana">🗺️ Tu ACA modelado (así piensa un ingeniero de datos)</div>
+  <div class="flow">
+    <div class="fbox"><b>👤 CLIENTES</b><span>cedula (PK) · nombre · tel</span></div>
+    <div class="farr">1 → N</div>
+    <div class="fbox"><b>💰 PRESTAMOS</b><span>id (PK) · cedula (FK) · monto · estado</span></div>
+    <div class="farr">1 → N</div>
+    <div class="fbox"><b>🧾 PAGOS</b><span>id (PK) · prestamo_id (FK) · fecha · valor</span></div>
+  </div>
+  <p><strong>¿Por qué 3 tablas y no 1?</strong> (Eso es la <em>normalización</em>): si metieras todo en una sola hoja, el nombre del cliente se repetiría en cada pago. Un día alguien lo escribe con una letra distinta… y ya tenés "dos clientes". Separar = <strong>cada dato vive en UN solo lugar</strong>. Eso es la Tercera Forma Normal (3FN) explicada sin humo.</p>
+  <div class="code"><span class="cm">-- El reporte que te pedirían un lunes a las 8am:</span>
+<span class="cm">-- "¿Cuánto debe cada cliente con préstamos vencidos?"</span>
+SELECT c.nombre, SUM(p.monto) AS total_vencido
+FROM prestamos p
+JOIN clientes c ON c.cedula = p.cedula   <span class="cm">-- el BUSCARV entre hojas</span>
+WHERE p.estado = 'VENCIDO'               <span class="cm">-- el filtro</span>
+GROUP BY c.nombre                        <span class="cm">-- la tabla dinámica</span>
+ORDER BY total_vencido DESC;             <span class="cm">-- ordenado de peor a mejor</span></div>
+  <p>Leelo en español: "seleccioná nombre y suma de montos, desde préstamos unidos con clientes por cédula, solo los vencidos, agrupado por cliente". <strong>SQL es eso: español estructurado.</strong></p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · Analista de Datos / DBA junior</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">SOLICITUD</span><span style="color:var(--t3)">· Gerencia de Riesgo · lunes 8:00 AM</span></div>
+    <p>"Necesito para las 10 el total de cartera vencida por sucursal, y cuántos clientes tienen más de 2 préstamos activos."</p>
+    <p><strong>Sin SQL:</strong> exportar a Excel, 4 BUSCARV, 2 tablas dinámicas, 1 hora, y rezar que nadie haya tocado el archivo. <strong>Con SQL:</strong> 2 queries, 10 minutos, mismo resultado cada vez que lo corras.</p>
+    <p>Y la conexión con tu trabajo: en Simetrik, "partidas no conciliadas" es exactamente <em>LEFT JOIN … WHERE lado_b IS NULL</em> — "traeme lo del lado A que NO encontró pareja en el lado B". <strong>Ya lo hacés con clicks; saber leerlo en SQL te pone por encima del 80% de tus colegas.</strong></p>
+  </div>
+  <p>Regla de oro profesional que ya viviste con el incidente de tus cuadernos: <strong>backup antes de tocar, y ninguna operación masiva sin transacción</strong> (ACID: la transferencia bancaria descuenta de una cuenta Y acredita en la otra, o no hace ninguna de las dos — jamás la mitad).</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-kit">🛠️ Kit SQL — las 8 piezas que resuelven el 90% del trabajo</div>
+  <table class="kit">
+    <tr><th>Pieza</th><th>Para qué + su equivalente Excel</th></tr>
+    <tr><td>SELECT … FROM</td><td>Elegir columnas de una hoja. La base de todo.</td></tr>
+    <tr><td>WHERE</td><td>El filtro de Excel, pero infinitamente combinable (AND / OR / IN / LIKE).</td></tr>
+    <tr><td>JOIN … ON</td><td><strong>BUSCARV entre hojas.</strong> INNER = solo coincidencias; LEFT = todo el lado izquierdo aunque no haya pareja (así se buscan "los que faltan").</td></tr>
+    <tr><td>GROUP BY</td><td>Tabla dinámica: agrupar y resumir con SUM / COUNT / AVG / MAX.</td></tr>
+    <tr><td>HAVING</td><td>Filtro DESPUÉS de agrupar ("solo clientes con más de 2 préstamos").</td></tr>
+    <tr><td>ORDER BY · LIMIT</td><td>Ordenar y quedarte con el top N.</td></tr>
+    <tr><td>INSERT · UPDATE · DELETE</td><td>Escribir. Regla: <strong>siempre probar el WHERE con un SELECT antes</strong> — un UPDATE sin WHERE modifica TODA la tabla.</td></tr>
+    <tr><td>BEGIN … COMMIT</td><td>Transacción: todo o nada. Tu paracaídas en operaciones delicadas.</td></tr>
+  </table>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="bd.modelo"><span>Dibujé el modelo de 3 tablas de mi ACA con PK y FK, y sé explicar por qué se separa.</span></label>
+  <label class="chk"><input type="checkbox" data-k="bd.3fn"><span>Puedo explicar la normalización con el caso "el nombre repetido en cada pago".</span></label>
+  <label class="chk"><input type="checkbox" data-k="bd.sqlbolt"><span>Terminé las lecciones interactivas de SQLBolt (1 a 12 mínimo).</span></label>
+  <label class="chk"><input type="checkbox" data-k="bd.join"><span>Escribo un JOIN + GROUP BY sin mirar ejemplos.</span></label>
+  <label class="chk"><input type="checkbox" data-k="bd.kaggle"><span>Saqué el certificado "Intro to SQL" de Kaggle (además es la F3 de mi plan ATLAS).</span></label>
+  <label class="chk"><input type="checkbox" data-k="bd.acid"><span>Puedo explicar una transacción ACID con el ejemplo de la transferencia bancaria.</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos (en orden)</div>
+  <a class="res" href="https://sqlbolt.com" target="_blank" rel="noopener"><span class="res-i">⚡</span><div class="res-b"><div class="res-n">SQLBolt</div><div class="res-d">Lecciones interactivas EN el navegador: leés 2 minutos y practicás al instante. La mejor primera hora de SQL de tu vida.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN fácil</span><span class="rt rt-top">Empezá acá</span></div></a>
+  <a class="res" href="https://www.kaggle.com/learn/intro-to-sql" target="_blank" rel="noopener"><span class="res-i">🎓</span><div class="res-b"><div class="res-n">Kaggle Learn — Intro to SQL</div><div class="res-d">Curso corto con certificado, corriendo sobre datos reales gigantes (BigQuery). Ya está en tu plan ATLAS F3 — matás dos pájaros.</div></div><div class="res-tags"><span class="rt rt-free">Gratis + cert</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://www.w3schools.com/sql/" target="_blank" rel="noopener"><span class="res-i">📖</span><div class="res-b"><div class="res-n">W3Schools SQL</div><div class="res-d">Tu diccionario de consulta rápida: cada cláusula con ejemplo ejecutable ("Try it yourself").</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://pgexercises.com" target="_blank" rel="noopener"><span class="res-i">💪</span><div class="res-b"><div class="res-n">PostgreSQL Exercises</div><div class="res-d">Cuando SQLBolt te quede chico: ejercicios progresivos sobre Postgres (el mismo motor de tu Supabase).</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://learn.microsoft.com/es-es/training/" target="_blank" rel="noopener"><span class="res-i">🏅</span><div class="res-b"><div class="res-n">Microsoft Learn (ES) — ruta de datos</div><div class="res-d">Módulos oficiales gratis en español; la ruta que alimenta tu meta PL-300 de ATLAS.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 3 · ING. WEB ═══════════════ -->
+<section class="sec" id="web">
+<div class="sec-head"><h2>🕸️ Ingeniería Web</h2><span class="why">vos YA tenés una app en producción</span><span class="sec-prog" data-prog="web"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · este Cerebro ES tu credencial</div>
+  <p>Mientras tus compañeros de DIS34 hacen su primera página, <strong>vos dirigís un sistema en producción</strong>: 16 módulos, publicado en GitHub Pages, con backend en la nube (Supabase), login con usuarios, sincronización offline-first entre 2 PCs, e imágenes en almacenamiento cloud. Cada concepto de la materia, ya lo tenés funcionando con tu nombre en la URL: <em>mikel696.github.io/da-2026</em>.</p>
+  <p>Esta sección te da el <strong>mapa mental</strong> para que puedas explicar lo que tu sistema hace — que es exactamente lo que un entrevistador quiere oír.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 La web es un restaurante</div>
+  <p><strong>El navegador es el cliente</strong> sentado a la mesa. <strong>El servidor es la cocina.</strong> <strong>HTTP es el mesero</strong>: lleva pedidos con un formato estricto y trae respuestas con un código: <em>200</em> "acá tiene" · <em>404</em> "ese plato no existe" · <em>500</em> "se incendió la cocina" · <em>403</em> "usted no puede pedir eso".</p>
+  <p><strong>Una API REST es el menú numerado</strong>: pedidos estandarizados que cualquier cliente puede hacer sin conocer la cocina. Y dentro de la página: <strong>HTML es el esqueleto</strong> (qué hay), <strong>CSS es la ropa</strong> (cómo se ve), <strong>JavaScript es el cerebro</strong> (qué hace cuando lo tocás).</p>
+  <p><strong>localStorage vs base de datos</strong> = el cajón de tu escritorio (rápido, pero solo en TU escritorio) vs el archivo central de la empresa (lo ven todas las sedes). Tu Cerebro usa los dos: guarda en el cajón al instante y sincroniza al archivo central por debajo — por eso funciona sin internet.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-ana">🗺️ Qué pasa cuando abrís tu propio Cerebro</div>
+  <div class="flow">
+    <div class="fbox"><b>💻 Navegador</b><span>GET /notes.html</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>📄 GitHub Pages</b><span>200 · te da HTML+CSS+JS</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>🧠 JS corre</b><span>lee localStorage y pinta</span></div>
+    <div class="farr">→</div>
+    <div class="fbox good"><b>☁ Supabase</b><span>sync por debajo (API REST)</span></div>
+  </div>
+  <p>💡 <strong>Probalo AHORA</strong>: abrí tu Cerebro, apretá <em>F12</em> → pestaña <em>Network</em> → recargá. Vas a ver cada pedido del "mesero": el HTML, los .js, y las llamadas a supabase.co. Leer esa pestaña es la habilidad #1 de un dev web.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · Desarrollador web junior</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">JIRA WEB-231</span><span style="color:var(--t3)">· Sprint 14</span></div>
+    <p>"El botón 'Descargar factura' no hace nada en producción."</p>
+    <p><strong>Tu flujo:</strong> reproducir → F12 Console (¿error JS?) → F12 Network (¿la API respondió 500? ¿404?) → encontrás que la API devuelve 500 → NO es tu bug de frontend: escalás al backend <strong>con el request exacto adjunto</strong> → cuando lo arreglan, verificás y cerrás el ticket con evidencia.</p>
+    <p>Día a día real: tickets, ramas de git, "pull request" (pedir que revisen tu cambio antes de entrar), deploy. <strong>Vos ya vivís ese ciclo</strong>: cada mejora del Cerebro es commit → push → GitHub Pages despliega. Solo te falta el vocabulario del equipo.</p>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-kit">🛠️ Kit del dev web — lo que hay que saber leer</div>
+  <table class="kit">
+    <tr><th>Pieza</th><th>Qué es</th></tr>
+    <tr><td>GET vs POST</td><td>Pedir información vs enviar información. GET se puede repetir sin miedo; POST crea/cambia cosas.</td></tr>
+    <tr><td>200 · 301 · 403 · 404 · 500</td><td>OK · se mudó · prohibido · no existe · explotó el servidor. Sabelos de memoria: son el idioma de los errores.</td></tr>
+    <tr><td>F12 → Console</td><td>Los errores de JavaScript aparecen acá. Primer lugar donde mirar cuando "no hace nada".</td></tr>
+    <tr><td>F12 → Network</td><td>Todos los pedidos del mesero con su código y su tiempo. Segundo lugar donde mirar.</td></tr>
+    <tr><td>JSON</td><td>El formato de los datos que viajan: llaves y valores. Tus cuadernos viajan a Supabase como JSON.</td></tr>
+    <tr><td>fetch()</td><td>La función JS para llamar APIs. Con ella tu Cerebro habla con Supabase y con los feeds RSS.</td></tr>
+    <tr><td>HTTPS</td><td>El mesero con maletín cerrado con llave: nadie en el camino puede leer el pedido. Por eso el candadito.</td></tr>
+  </table>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="web.restaurante"><span>Puedo explicar cliente/servidor/HTTP con el restaurante, sin leer.</span></label>
+  <label class="chk"><input type="checkbox" data-k="web.network"><span>Abrí F12 → Network en mi Cerebro y entiendo qué es cada fila.</span></label>
+  <label class="chk"><input type="checkbox" data-k="web.codes"><span>Me sé 200/404/500/403 de memoria y qué hacer ante cada uno.</span></label>
+  <label class="chk"><input type="checkbox" data-k="web.pagina"><span>Hice una página desde cero (HTML+CSS+JS) y la publiqué en GitHub Pages yo solo.</span></label>
+  <label class="chk"><input type="checkbox" data-k="web.fetch"><span>Consumí una API pública con fetch() y mostré los datos en pantalla.</span></label>
+  <label class="chk"><input type="checkbox" data-k="web.explicar"><span>Puedo explicar cómo mi Cerebro guarda local y sincroniza a la nube (offline-first).</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos (en orden)</div>
+  <a class="res" href="https://www.freecodecamp.org/espanol/" target="_blank" rel="noopener"><span class="res-i">🔥</span><div class="res-b"><div class="res-n">freeCodeCamp en Español — Diseño Web Responsivo</div><div class="res-d">Certificación completa gratis, 100% práctica en el navegador. El camino estándar mundial para empezar web.</div></div><div class="res-tags"><span class="rt rt-free">Gratis + cert</span><span class="rt rt-es">ES</span><span class="rt rt-top">Empezá acá</span></div></a>
+  <a class="res" href="https://developer.mozilla.org/es/" target="_blank" rel="noopener"><span class="res-i">📕</span><div class="res-b"><div class="res-n">MDN Web Docs (ES)</div><div class="res-d">LA documentación oficial de la web, en español. Cuando dudes de qué hace algo de HTML/CSS/JS, la respuesta correcta está acá.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://javascript.info" target="_blank" rel="noopener"><span class="res-i">📗</span><div class="res-b"><div class="res-n">The Modern JavaScript Tutorial</div><div class="res-d">El mejor libro-web de JavaScript, gratis, con capítulos cortos y ejercicios (tiene traducción parcial al español).</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN/ES</span></div></a>
+  <a class="res" href="https://www.youtube.com/@midudev" target="_blank" rel="noopener"><span class="res-i">🎬</span><div class="res-b"><div class="res-n">midudev (YouTube)</div><div class="res-d">El canal #1 de desarrollo web en español: proyectos completos en vivo, del nivel cero al profesional.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.youtube.com/@mouredev" target="_blank" rel="noopener"><span class="res-i">🎬</span><div class="res-b"><div class="res-n">MoureDev (YouTube)</div><div class="res-d">Programación desde cero en español con rutas claras y comunidad enorme. Complemento perfecto de midudev.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 4 · CALIDAD DE SOFTWARE ═══════════════ -->
+<section class="sec" id="calidad">
+<div class="sec-head"><h2>✅ Calidad de Software</h2><span class="why">el bug que casi te borra un cuaderno</span><span class="sec-prog" data-prog="calidad"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · el incidente del 15 de julio (esta semana)</div>
+  <div class="tl">
+    <div class="tl-i bad"><strong>El bug:</strong> tu cuaderno de Admin. de BD (176 KB, 21 imágenes) fue <strong>sobrescrito por una versión vieja</strong> que venía del otro PC. ¿Cómo? El sistema decidía quién gana comparando solo la FECHA — y la versión pobre, re-guardada hoy, parecía "más nueva" que la rica de hace 5 días.</div>
+    <div class="tl-i"><strong>La caza:</strong> se comparó PC vs nube página por página → se detectó la diferencia → se subió la versión buena → <strong>el otro PC la revirtió en 3 segundos</strong> (se vio el bug ocurriendo EN VIVO). Eso es "reproducir el defecto": la mitad de la batalla.</div>
+    <div class="tl-i ok"><strong>El arreglo de raíz:</strong> no solo se corrigió — se agregó una <strong>red de seguridad</strong>: antes de que cualquier sincronización reduzca un cuaderno, se guarda una copia automática restaurable. El mismo error ya no puede volver a doler.</div>
+    <div class="tl-i ok"><strong>El post-mortem:</strong> quedó documentado qué pasó, por qué, y cómo se previene. Así trabajan los equipos serios.</div>
+  </div>
+  <p>Este ciclo — <em>reproducir → aislar → arreglar → verificar → prevenir</em> — <strong>ES la ingeniería de calidad</strong>. Lo viviste en tu propio sistema, con tus propios datos.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 Los 3 conceptos del incidente, en analogías</div>
+  <p><strong>Condición de carrera (race condition):</strong> dos cajeros del banco actualizan tu saldo a mano al mismo tiempo. El que escribe de último <em>borra</em> lo del otro sin saberlo. Eso le pasaba a tus cuadernos con dos PCs.</p>
+  <p><strong>Regresión:</strong> el plomero arregla la cocina y sin querer rompe el baño. Por eso, después de CADA cambio, se re-prueba lo que ya funcionaba ("pruebas de regresión").</p>
+  <p><strong>Caso borde (edge case):</strong> la puerta funciona perfecto… ¿y si la abren con las manos mojadas, con guantes, a las 3 AM, dos personas a la vez? Los bugs viven en los bordes, no en el camino feliz.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-ana">🗺️ La pirámide de pruebas (probar el restaurante)</div>
+  <div class="pyr">
+    <div style="width:32%;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.06)"><b>🍽️ E2E (extremo a extremo)</b><span>la experiencia completa del cliente: pocas, lentas, valiosas</span></div>
+    <div style="width:56%;border-color:rgba(234,179,8,.4);background:rgba(234,179,8,.06)"><b>🍲 Integración</b><span>¿el plato completo sabe bien? — piezas trabajando juntas</span></div>
+    <div style="width:80%;border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.06)"><b>🥕 Unitarias</b><span>¿cada ingrediente está bueno? — muchas, rápidas, baratas</span></div>
+  </div>
+  <p>Cuanto más abajo atrapás el bug, más barato sale. Un bug que llega a producción (como el del cuaderno) cuesta <strong>datos, tiempo y confianza</strong>.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · Analista QA</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">BUG-1043</span><span class="ticket-pri">CRÍTICA</span><span style="color:var(--t3)">· reportado por vos</span></div>
+    <p><strong>Título:</strong> Al pagar con tarjeta guardada, cobra dos veces si el usuario hace doble clic.</p>
+    <p><strong>Pasos para reproducir:</strong> 1) Agregar producto · 2) Ir a pagar · 3) Doble clic rápido en "Confirmar" · <strong>Esperado:</strong> 1 cobro · <strong>Obtenido:</strong> 2 cobros · <strong>Evidencia:</strong> video + registro.</p>
+    <p>El 80% del valor de un QA está en ese "pasos para reproducir": un bug que el dev puede ver, es un bug muerto. <strong>Severidad</strong> (cuánto daño hace) ≠ <strong>prioridad</strong> (qué tan ya hay que arreglarlo): un error de ortografía en el home puede ser prioridad alta y severidad baja.</p>
+    <p>Conexión con tu trabajo: en Simetrik, validar que una conciliación cuadre contra datos de control <strong>es QA de datos</strong> — mismo músculo.</p>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-kit">🛠️ Kit del cazador de bugs</div>
+  <table class="kit">
+    <tr><th>Herramienta</th><th>Para qué</th></tr>
+    <tr><td>Caso de prueba</td><td>Plantilla mental: <strong>Dado</strong> (contexto) → <strong>Cuando</strong> (acción) → <strong>Entonces</strong> (resultado esperado).</td></tr>
+    <tr><td>Reporte de bug</td><td>Título claro + pasos numerados + esperado vs obtenido + evidencia (captura/video) + entorno.</td></tr>
+    <tr><td>F12 Console</td><td>Tu detector de errores JS. Página "rara" → F12 primero, siempre.</td></tr>
+    <tr><td>Regresión</td><td>Checklist de "lo que ya funcionaba" que se re-corre después de cada cambio.</td></tr>
+    <tr><td>Post-mortem</td><td>Informe sin culpas tras un incidente: qué pasó, causa raíz, cómo se previene. (Tu Cerebro ya tiene dos, en CEREBRO_STATE.md.)</td></tr>
+    <tr><td>Edge cases</td><td>Lista mental: vacío · enorme · duplicado · simultáneo · sin internet · con caracteres raros · a medianoche.</td></tr>
+  </table>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="cal.race"><span>Puedo explicar la condición de carrera con los dos cajeros y con mi caso de los cuadernos.</span></label>
+  <label class="chk"><input type="checkbox" data-k="cal.caso"><span>Escribí un caso de prueba formal (Dado/Cuando/Entonces) para un login.</span></label>
+  <label class="chk"><input type="checkbox" data-k="cal.bug"><span>Reporté un bug con pasos reproducibles y evidencia (aunque sea de mi propio Cerebro).</span></label>
+  <label class="chk"><input type="checkbox" data-k="cal.edge"><span>Diseñé 5 edge cases para un formulario de pago.</span></label>
+  <label class="chk"><input type="checkbox" data-k="cal.piramide"><span>Puedo explicar la pirámide de pruebas con el restaurante.</span></label>
+  <label class="chk"><input type="checkbox" data-k="cal.istqb"><span>Leí el temario ISTQB Foundation (el estándar mundial de QA).</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos</div>
+  <a class="res" href="https://www.istqb.org" target="_blank" rel="noopener"><span class="res-i">🏛️</span><div class="res-b"><div class="res-n">ISTQB — Foundation Level</div><div class="res-d">El estándar mundial de testing. El temario (syllabus) se descarga gratis; la certificación es de las más pedidas para QA junior.</div></div><div class="res-tags"><span class="rt rt-free">Syllabus gratis</span><span class="rt rt-en">EN/ES</span><span class="rt rt-top">El estándar</span></div></a>
+  <a class="res" href="https://www.guru99.com/software-testing.html" target="_blank" rel="noopener"><span class="res-i">📖</span><div class="res-b"><div class="res-n">Guru99 — Software Testing</div><div class="res-d">Tutoriales simples y directos de cada tipo de prueba, con ejemplos. Ideal para el primer barrido completo.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://www.ministryoftesting.com" target="_blank" rel="noopener"><span class="res-i">🌍</span><div class="res-b"><div class="res-n">Ministry of Testing</div><div class="res-d">La comunidad QA más grande del mundo: artículos, retos y cómo es el trabajo real.</div></div><div class="res-tags"><span class="rt rt-free">Freemium</span><span class="rt rt-en">EN</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 5 · MATEMÁTICAS ESPECIALES ═══════════════ -->
+<section class="sec" id="mates">
+<div class="sec-head"><h2>📐 Matemáticas Especiales</h2><span class="why">para qué sirven DE VERDAD</span><span class="sec-prog" data-prog="mates"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · DIS31 y la pregunta honesta</div>
+  <p>"¿Y esto para qué me sirve?" — es LA pregunta correcta. La respuesta corta: <strong>estas matemáticas son el idioma de las señales</strong>, y las señales están en todo: el audio que comprimís, la foto JPEG que pegás en un cuaderno, el ecualizador de Spotify, el sensor de vibración de una máquina. Esta sección no reemplaza tu clase — te da la <strong>intuición visual</strong> para que las fórmulas dejen de ser jeroglíficos.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 Las 3 ideas grandes, en analogías</div>
+  <p><strong>Fourier = la receta del licuado.</strong> Te doy un licuado ya hecho (una señal: audio, voltaje, lo que sea) y la transformada de Fourier te dice EXACTAMENTE cuánta fresa, cuánta banana y cuánta leche tiene (qué frecuencias lo componen y en qué cantidad). Toda señal, por fea que se vea, es una <em>suma de ondas simples</em>. El ecualizador de Spotify es literalmente eso: subir la perilla de "graves" = ponerle más banana al licuado.</p>
+  <p><strong>Números complejos = coordenadas con giro.</strong> No son "imaginarios" en el sentido de inútiles: son una forma de guardar <em>dos cosas a la vez</em> (tamaño y ángulo) en un solo número. Perfectos para describir ondas, que justamente tienen amplitud y fase.</p>
+  <p><strong>Laplace = el traductor.</strong> Tenés un problema imposible en un idioma (ecuaciones diferenciales). Laplace lo traduce a un idioma fácil (álgebra de toda la vida), lo resolvés ahí, y traducís de vuelta. Como resolver un trámite por internet en vez de hacer la fila.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-ana">🗺️ Dónde las vas a encontrar en el mundo real</div>
+  <div class="flow">
+    <div class="fbox"><b>🎵 Audio</b><span>MP3, ecualizador, Shazam = Fourier</span></div>
+    <div class="farr">·</div>
+    <div class="fbox"><b>🖼️ Imágenes</b><span>JPEG comprime tirando frecuencias que el ojo no ve</span></div>
+    <div class="farr">·</div>
+    <div class="fbox"><b>🏭 Industria</b><span>vibración de motores → FFT → mantenimiento predictivo</span></div>
+    <div class="farr">·</div>
+    <div class="fbox"><b>🤖 Tu ruta IA</b><span>la misma intuición reaparece en ML y señales de datos</span></div>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · ¿quién usa esto?</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">CASO REAL</span><span style="color:var(--t3)">· planta industrial</span></div>
+    <p>Un motor caro empieza a fallar sin avisar. El ingeniero pone un sensor de vibración, corre una <strong>FFT</strong> (la Fourier rápida) y ve un pico anormal en cierta frecuencia → "ese pico es el rodamiento X desgastándose" → lo cambian ANTES de que el motor muera. Eso es <strong>mantenimiento predictivo</strong>, y es una industria de miles de millones que corre sobre… la materia que estás viendo.</p>
+    <p>Para tu ruta (datos/IA): no necesitás calcular transformadas a mano en el trabajo — necesitás la <strong>intuición</strong> de qué es una frecuencia y qué te cuenta un espectro. Eso te diferencia cuando toque procesar series de tiempo.</p>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="mat.licuado"><span>Puedo explicar la transformada de Fourier con el licuado, sin fórmulas.</span></label>
+  <label class="chk"><input type="checkbox" data-k="mat.3b1b"><span>Vi el video de Fourier de 3Blue1Brown completo (con subtítulos) y entendí el dibujo del "enrollado".</span></label>
+  <label class="chk"><input type="checkbox" data-k="mat.complejos"><span>Entiendo un número complejo como tamaño + ángulo (no como "algo imaginario raro").</span></label>
+  <label class="chk"><input type="checkbox" data-k="mat.geogebra"><span>Jugué con una serie de Fourier en GeoGebra y vi cómo sumando ondas aparece la señal.</span></label>
+  <label class="chk"><input type="checkbox" data-k="mat.usos"><span>Puedo nombrar 3 usos reales (JPEG, ecualizador, mantenimiento predictivo).</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos (hechos para gente visual)</div>
+  <a class="res" href="https://www.youtube.com/@3blue1brown" target="_blank" rel="noopener"><span class="res-i">🎨</span><div class="res-b"><div class="res-n">3Blue1Brown — "But what is the Fourier Transform?"</div><div class="res-d">La mejor animación matemática jamás hecha. 20 minutos que valen un semestre. Activá subtítulos en español.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN · subs ES</span><span class="rt rt-top">Vela HOY</span></div></a>
+  <a class="res" href="https://www.youtube.com/@ElTraductordeIng" target="_blank" rel="noopener"><span class="res-i">🎬</span><div class="res-b"><div class="res-n">El Traductor de Ingeniería (YouTube)</div><div class="res-d">Canal argentino que "traduce" las mates de ingeniería (Fourier, Laplace, señales) a español claro con dibujos. Hecho para tu caso exacto.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://es.khanacademy.org" target="_blank" rel="noopener"><span class="res-i">🎓</span><div class="res-b"><div class="res-n">Khan Academy (ES)</div><div class="res-d">Para reforzar las bases que la materia asume (trigonometría, complejos, integrales) con ejercicios corregidos al instante.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.geogebra.org" target="_blank" rel="noopener"><span class="res-i">📊</span><div class="res-b"><div class="res-n">GeoGebra</div><div class="res-d">Graficá y TOCÁ las funciones: buscá "Fourier series" en sus materiales y mové los deslizadores. Ver > memorizar.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 6 · INVESTIGACIÓN ═══════════════ -->
+<section class="sec" id="invest">
+<div class="sec-head"><h2>🔬 Investigación en C&T</h2><span class="why">ya investigás como ingeniero (te lo demuestro)</span><span class="sec-prog" data-prog="invest"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · tu diagnóstico de Claro FUE el método científico</div>
+  <div class="tl">
+    <div class="tl-i"><strong>Problema:</strong> "el internet está lento" (observación).</div>
+    <div class="tl-i"><strong>Hipótesis 1:</strong> "Claro no entrega los 400 Mbps" → <strong>Experimento:</strong> speedtest → <strong>Resultado:</strong> 402/42, 0% pérdida → <em>hipótesis rechazada</em>.</div>
+    <div class="tl-i"><strong>Hipótesis 2:</strong> "el DNS del router es lento" → <strong>Experimento:</strong> comparar tiempos de respuesta del DNS del router vs 1.1.1.1 → <em>hipótesis confirmada</em>.</div>
+    <div class="tl-i ok"><strong>Conclusión + acción + informe:</strong> cambiar DNS, dejar un monitor, documentar. <strong>Eso es I+D aplicada</strong> — la materia DIS36 te está enseñando a formalizar lo que ya hacés por instinto.</div>
+  </div>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 IMRyD: el formato universal de todo informe serio</div>
+  <p>Cualquier paper o informe técnico del planeta tiene 4 partes — memorizalas como preguntas:</p>
+  <p><strong>I</strong>ntroducción = <em>¿qué busqué y por qué importa?</em> · <strong>M</strong>étodos = <em>¿cómo lo probé?</em> (con tanto detalle que otro pueda repetirlo) · <strong>R</strong>esultados = <em>¿qué encontré?</em> (datos pelados, sin opinar) · y <strong>D</strong>iscusión = <em>¿qué significa y qué sigue?</em></p>
+  <p>La <strong>pirámide de confianza de fuentes</strong>: papers revisados (Google Scholar) > documentación oficial > blogs técnicos reconocidos > foros > "lo dijo un video". Citá siempre de la mitad de arriba.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · el ingeniero que escribe, asciende</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">POST-MORTEM</span><span style="color:var(--t3)">· tras una caída de producción</span></div>
+    <p>Cayó el sistema 2 horas. El equipo escribe un post-mortem <strong>sin culpas</strong>: línea de tiempo, causa raíz, qué lo detectó, qué lo previene. Se presenta a gerencia. <strong>Tu Cerebro ya tiene dos de estos</strong> (los incidentes de sync en CEREBRO_STATE.md) — releelos con estos ojos: son investigación aplicada.</p>
+    <p>Otras piezas del día a día que usan este músculo: propuestas técnicas ("deberíamos migrar a X porque…" con evidencia), documentación, y en Simetrik: justificar ante el cliente por qué una conciliación cuadra — con datos, no con "confía en mí".</p>
+  </div>
+  <p>💡 Bonus tuyo: para las entregas de la materia ya tenés el <strong>módulo 16-APA</strong> de tu propio Cerebro — formato APA 7 automático.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="inv.metodo"><span>Puedo mapear mi caso Claro a los pasos del método científico, de memoria.</span></label>
+  <label class="chk"><input type="checkbox" data-k="inv.imryd"><span>Escribí un mini-informe IMRyD (1 página) de algún experimento mío.</span></label>
+  <label class="chk"><input type="checkbox" data-k="inv.scholar"><span>Busqué 3 papers de mi tema en Google Scholar y guardé las referencias.</span></label>
+  <label class="chk"><input type="checkbox" data-k="inv.apa"><span>Cité correctamente con mi módulo 16-APA en una entrega real.</span></label>
+  <label class="chk"><input type="checkbox" data-k="inv.zotero"><span>Armé una biblioteca en Zotero con 5+ fuentes de mi próximo trabajo.</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos</div>
+  <a class="res" href="https://scholar.google.com" target="_blank" rel="noopener"><span class="res-i">🔍</span><div class="res-b"><div class="res-n">Google Scholar</div><div class="res-d">El buscador de papers. Truco: el botón "Citar" te da la referencia lista en APA.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span><span class="rt rt-top">Esencial</span></div></a>
+  <a class="res" href="https://www.zotero.org" target="_blank" rel="noopener"><span class="res-i">📚</span><div class="res-b"><div class="res-n">Zotero</div><div class="res-d">Tu biblioteca de fuentes: guardás con 1 clic desde el navegador y te genera la bibliografía sola. Estándar académico.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.scribbr.es" target="_blank" rel="noopener"><span class="res-i">📝</span><div class="res-b"><div class="res-n">Scribbr (ES) — guías APA</div><div class="res-d">Las guías más claras en español de citación APA 7, con ejemplos de cada tipo de fuente.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://owl.purdue.edu" target="_blank" rel="noopener"><span class="res-i">🦉</span><div class="res-b"><div class="res-n">Purdue OWL</div><div class="res-d">La referencia mundial de escritura académica y APA (la fuente que citan todas las demás guías).</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+</div>
+</section>
+
+<!-- ═══════════════ 7 · HARDWARE & SO ═══════════════ -->
+<section class="sec" id="hw">
+<div class="sec-head"><h2>🖥️ Hardware & Sistemas Operativos</h2><span class="why">tu PC es tu laboratorio</span><span class="sec-prog" data-prog="hw"></span></div>
+
+<div class="blk">
+  <div class="blk-t t-caso">📖 Tu caso real · el diagnóstico de tu propia máquina</div>
+  <p>Tu PC (i3-10100 · 16 GB RAM · 3 discos) pasó por un diagnóstico completo: C: crítico con 7.6% libre, RAM ajustada, SMART de los 3 discos OK, y quedó el plan de <strong>clonar el NVMe de 250 GB a un SSD de 1 TB</strong>. Las otras pestañas de este módulo (Limpieza, Actualizaciones, Calidad/Precio) son el plan de acción; <strong>esta sección es la teoría para que entiendas POR QUÉ cada paso</strong>.</p>
+</div>
+
+<div class="ana">
+  <div class="blk-t t-ana">🧠 Tu PC es un restaurante (otra vez, porque funciona)</div>
+  <p><strong>CPU = el chef</strong> (hace el trabajo, sus "núcleos" son sus brazos). <strong>RAM = el mesón de trabajo</strong>: lo que está ahí se agarra al instante, pero se limpia al cerrar (por eso al apagar se pierde lo no guardado). <strong>Disco = la alacena</strong>: lento pero permanente. <strong>El SO (Windows) = el gerente</strong>: decide qué programa usa el mesón, quién espera y quién se va.</p>
+  <p><strong>Tu C: al 7.6%</strong> = un mesón tan lleno que el chef no tiene dónde apoyar el cuchillo: Windows necesita espacio libre en C: para "respirar" (archivos temporales, memoria virtual). Por eso liberar C: acelera TODO aunque no cambies ninguna pieza.</p>
+  <div class="flow" style="margin-top:12px">
+    <div class="fbox good"><b>⚡ Caché CPU</b><span>la mano del chef</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>🔥 RAM</b><span>el mesón (rápido, volátil)</span></div>
+    <div class="farr">→</div>
+    <div class="fbox"><b>💾 SSD/NVMe</b><span>la alacena (persistente)</span></div>
+    <div class="farr">→</div>
+    <div class="fbox bad"><b>🐢 HDD viejo</b><span>la bodega del fondo</span></div>
+  </div>
+  <p style="margin-top:8px">Cada salto hacia la derecha es <strong>~100× más lento</strong>. Por eso mover Windows de un HDD a un SSD transforma una máquina — y por eso tu clon al SN7100 vale la pena.</p>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-emp">🏢 Un día en la empresa · Soporte TI / Sysadmin junior</div>
+  <div class="ticket">
+    <div class="ticket-h"><span class="ticket-id">TICKET #77</span><span style="color:var(--t3)">· recepción · "mi PC está lentísimo"</span></div>
+    <p><strong>Tu triage:</strong> Ctrl+Shift+Esc (Task Manager) → ¿qué está al 100%? · <strong>CPU al 100%</strong> → ¿qué proceso? ¿es normal o es malware? · <strong>RAM al 95%</strong> → demasiadas apps o poca RAM · <strong>Disco al 100% constante</strong> → el clásico: HDD moribundo o Windows sin espacio → verificás salud con SMART (CrystalDiskInfo) → si el disco está muriendo: <strong>backup YA</strong>, después se habla.</p>
+    <p>Otras tareas del rol: clonar/instalar equipos en serie (imaging), USB booteables, inventario de hardware, respaldos programados. Todo lo que hiciste con tu propio PC, pero por flota.</p>
+  </div>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-kit">🛠️ Kit de diagnóstico de máquina</div>
+  <table class="kit">
+    <tr><th>Herramienta</th><th>Qué mirás</th></tr>
+    <tr><td>Ctrl+Shift+Esc</td><td>Task Manager → pestaña Rendimiento: ¿quién es el cuello de botella, CPU, RAM o disco?</td></tr>
+    <tr><td>CrystalDiskInfo</td><td>La salud REAL del disco (SMART): "Bueno" azul = tranquilo; "Precaución" amarillo = backup urgente.</td></tr>
+    <tr><td>winget upgrade --all</td><td>Actualiza todo tu software de una (el gestor de paquetes oficial de Windows).</td></tr>
+    <tr><td>cleanmgr / Sensor de almacenamiento</td><td>Liberar espacio en C: sin instalar nada raro.</td></tr>
+    <tr><td>Rufus / Ventoy</td><td>Crear USB booteable para instalar Windows o rescatar una máquina muerta.</td></tr>
+    <tr><td>MemTest86</td><td>Cuando hay pantallazos azules aleatorios: descartar RAM defectuosa.</td></tr>
+  </table>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-chk">🎯 Checklist de dominio</div>
+  <label class="chk"><input type="checkbox" data-k="hw.taskmgr"><span>Identifiqué el cuello de botella de mi PC con Task Manager (CPU vs RAM vs disco).</span></label>
+  <label class="chk"><input type="checkbox" data-k="hw.smart"><span>Leí el SMART de mis 3 discos con CrystalDiskInfo y sé interpretar los colores.</span></label>
+  <label class="chk"><input type="checkbox" data-k="hw.jerarquia"><span>Puedo explicar la jerarquía caché→RAM→SSD→HDD con el restaurante.</span></label>
+  <label class="chk"><input type="checkbox" data-k="hw.boot"><span>Sé qué pasa desde que aprieto el botón de encender hasta el escritorio (BIOS/UEFI → bootloader → SO).</span></label>
+  <label class="chk"><input type="checkbox" data-k="hw.clon"><span>Ejecuté (o entiendo el plan de) el clon de mi NVMe al SSD de 1 TB.</span></label>
+  <label class="chk"><input type="checkbox" data-k="hw.usb"><span>Creé un USB booteable de Windows con Rufus o Ventoy.</span></label>
+</div>
+
+<div class="blk">
+  <div class="blk-t t-rec">📚 Ruta de recursos</div>
+  <a class="res" href="https://www.professormesser.com/free-a-plus-training/220-1101/220-1101-video/220-1101-training-course/" target="_blank" rel="noopener"><span class="res-i">🎬</span><div class="res-b"><div class="res-n">Professor Messer — CompTIA A+ (curso completo)</div><div class="res-d">TODO el hardware y soporte TI en videos cortos y gratis. Es el temario de la certificación de entrada al mundo TI.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span><span class="rt rt-top">El completo</span></div></a>
+  <a class="res" href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener"><span class="res-i">💾</span><div class="res-b"><div class="res-n">CrystalDiskInfo</div><div class="res-d">La herramienta de salud de discos que ya se usó en tu diagnóstico. Instalala y revisá tus discos cada mes.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-es">ES</span></div></a>
+  <a class="res" href="https://www.ventoy.net" target="_blank" rel="noopener"><span class="res-i">🔌</span><div class="res-b"><div class="res-n">Ventoy</div><div class="res-d">El USB booteable definitivo: copiás las ISO al USB y elegís cuál arrancar. Herramienta diaria de soporte.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+  <a class="res" href="https://www.memtest86.com" target="_blank" rel="noopener"><span class="res-i">🧠</span><div class="res-b"><div class="res-n">MemTest86</div><div class="res-d">Descarta RAM defectuosa cuando hay cuelgues o pantallazos aleatorios.</div></div><div class="res-tags"><span class="rt rt-free">Gratis</span><span class="rt rt-en">EN</span></div></a>
+</div>
+</section>
+
+<div class="blk" style="text-align:center;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(6,182,212,.04))">
+  <p style="font-size:13px"><strong>Cómo usar este hub:</strong> una sección por semana. Leé el caso real → mirá el recurso "Empezá acá" → ejecutá el kit en tu PC → marcá el checklist. Cuando una barra llegue al 100%, ese tema es TUYO — y tenés la historia real para contarlo en una entrevista.</p>
+</div>
+
+</div>
+<script>if(window!==window.top)document.body.classList.add('in-iframe');</script>
+<script>
+/* Coach Ing. Sistemas · progreso local (por diseño, como work_learn_progress: cada device a su ritmo) */
+const COACH = (() => {
+  const KEY = 'too_coach_v1';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } };
+  const save = (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch {} };
+
+  function refresh(){
+    const st = load();
+    const boxes = [...document.querySelectorAll('.chk input[data-k]')];
+    boxes.forEach(b => { b.checked = !!st[b.dataset.k]; });
+    // progreso por sección + global
+    const bySec = {};
+    boxes.forEach(b => {
+      const sec = b.dataset.k.split('.')[0];
+      bySec[sec] = bySec[sec] || { t:0, d:0 };
+      bySec[sec].t++; if (b.checked) bySec[sec].d++;
+    });
+    const MAP = { redes:'redes', bd:'bd', web:'web', cal:'calidad', mat:'mates', inv:'invest', hw:'hw' };
+    Object.keys(bySec).forEach(pfx => {
+      const el = document.querySelector('[data-prog="' + MAP[pfx] + '"]');
+      if (el) { const p = bySec[pfx]; el.textContent = p.d + '/' + p.t + (p.d === p.t ? ' 🏆' : ''); }
+    });
+    const total = boxes.length, done = boxes.filter(b => b.checked).length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    const f = document.getElementById('gFill'); if (f) f.style.width = pct + '%';
+    const g = document.getElementById('gPct'); if (g) g.textContent = pct + '% de dominio total · ' + done + ' de ' + total + ' logros';
+  }
+
+  document.addEventListener('change', (e) => {
+    const b = e.target;
+    if (!b.matches('.chk input[data-k]')) return;
+    const st = load();
+    if (b.checked) st[b.dataset.k] = true; else delete st[b.dataset.k];
+    save(st); refresh();
+  });
+
+  // chips: activo según scroll
+  const secs = [...document.querySelectorAll('.sec')];
+  const chips = [...document.querySelectorAll('.chip')];
+  const spy = () => {
+    let cur = secs[0];
+    for (const s of secs) { if (s.getBoundingClientRect().top < 160) cur = s; }
+    chips.forEach(c => c.classList.toggle('on', c.getAttribute('href') === '#' + cur.id));
+  };
+  document.addEventListener('scroll', spy, { passive: true });
+
+  refresh(); spy();
+  return { refresh };
+})();
+</script>
+</body>
+</html>

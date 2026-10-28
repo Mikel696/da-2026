@@ -1,0 +1,4168 @@
+/* ═══════════════════════════════════════════════════════════════
+   DA-2026 · SYSTEMS ENGINEERING — Mission Control Logic v1.0
+   ─────────────────────────────────────────────────────────────
+   Autor: Miguel Angel Barros Torres · CUN Virtual · 8vo Semestre
+   Módulo: Ingeniería de Sistemas — Semáforo, Calendario, Tracker
+═══════════════════════════════════════════════════════════════ */
+
+const SYS = (() => {
+  // ── STORAGE ──
+  const NS = 'sys_';
+  const db = {
+    get(k, d = null) { try { const v = localStorage.getItem(NS + k); return v !== null ? JSON.parse(v) : d; } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(NS + k, JSON.stringify(v)); } catch {} },
+  };
+
+  // ── SUBJECTS (Período 26V02 — Datos reales CDigital, verificados 2026-04-08) ──
+  const SUBJECTS = [
+    { id: 'ing_web', period: '26V02', code: 'DIS34', name: 'Ingeniería Web', group: '52211', icon: '🌐', color: 'hsl(200,80%,50%)', credits: 3, type: 'Desarrollo de Software', professor: 'BECERRA RAMIREZ HEYNER LEONEL', cdigital_id: 104362, schedule: 'Miércoles 6:15 PM', subject_links: { clase: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403524', grabaciones: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403525', material: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6403526', reglas: 'https://cdigital.cun.edu.co/mod/url/view.php?id=6104282' }, desc: 'Arquitectura web, APIs REST, frameworks frontend/backend, despliegue, seguridad web, patrones MVC.', resources: ['https://developer.mozilla.org/en-US/docs/Learn', 'https://www.freecodecamp.org/learn/back-end-development-and-apis/'] },
+    { id: 'mat_especiales', period: '26V02', code: 'DIS31', name: 'Matemáticas Especiales', group: '52247', icon: '🔢', color: 'hsl(263,70%,55%)', credits: 3, type: 'Ciencia Básica', professor: 'Juan Sebastián Cortés Cruz', professor_email: 'juan_cortesc@cun.edu.co', cdigital_id: 101285, schedule: 'Miércoles y Viernes · 6:15-7:45 PM (Google Meet)', subject_links: { clase: 'https://meet.google.com/tcx-apcm-dey', grabaciones: 'https://drive.google.com/drive/folders/1blfMmlYoI9r30v11cLFNef9rYV41qHHT?usp=sharing', material: 'https://drive.google.com/drive/folders/1kDKLX_mVXxHJZDdD7wT4p3jnLZhp-4ju?usp=sharing' }, desc: 'Números complejos, transformadas de Laplace, series de Fourier, funciones especiales, variable compleja, aplicaciones en ingeniería.', resources: ['https://www.khanacademy.org/math/differential-equations', 'https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/'] },
+    { id: 'inv_ciencia', period: '26V02', code: 'DIS36', name: 'Investigación Ciencia y Tecnología', group: '52218', icon: '🔬', color: 'hsl(320,60%,50%)', credits: 3, type: 'Investigación', professor: 'CORTES TOBAR DARIO FERNANDO', cdigital_id: 104253, desc: 'Metodología de investigación, estado del arte, proyecto de aula, artículos científicos, normas APA, desinformación.', resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
+    { id: 'english_beginner', period: '26V02', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50608', icon: '🇺🇸', color: 'hsl(45,85%,50%)', credits: 0, type: 'Idiomas (IV001)', professor: 'CINDY PAOLA MORENO', schedule: 'Lunes 7:00 PM', cdigital_id: 100774, subject_links: { clase: 'https://cdigital.cun.edu.co/course/view.php?id=100774' }, desc: 'Inglés nivel A1: presentaciones, vocabulario básico, gramática elemental, listening y speaking.', resources: ['https://www.duolingo.com/', 'https://www.bbc.co.uk/learningenglish/'] },
+    { id: 'placement_test', period: '26V02', code: 'CE1026', name: 'Placement Test BE Plus', group: '5TB01', icon: '📝', color: 'hsl(15,70%,50%)', credits: 0, type: 'Idiomas (IV002)', cdigital_id: 106289, desc: 'Test de ubicación para determinar nivel de inglés en el programa BE Plus de la CUN.', resources: ['https://cdigital.cun.edu.co/course/view.php?id=106289'] },
+    // ── BLOQUE 2 (25 May - 19 Jul 2026) ──────────────────────────────
+    { id: 'admin_bd', period: '26V02', code: 'DIS-BD', name: 'Administración de Bases de Datos', group: '52291', icon: '🗄️', color: 'hsl(190,75%,45%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: 'Sergio Alexander Mora Novoa',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Diseño de BD, SQL avanzado, administración, backup/recovery, optimización.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'abd_1',  title: 'Presentación Foro · Prueba Diagnóstica · Reglas de juego', date: '2026-05-31', type: 'foro' },
+        { id: 'abd_2',  title: 'Evaluación docente 1',                                     date: '2026-06-07', type: 'otro' },
+        { id: 'abd_3',  title: 'Quiz 1 (10%)',                                             date: '2026-06-07', type: 'quiz' },
+        { id: 'abd_4',  title: 'Parcial 1 (20% → 1er Corte 30%)',                          date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'abd_5',  title: 'Evaluación docente 2',                                     date: '2026-06-21', type: 'otro' },
+        { id: 'abd_6',  title: 'Quiz 2 (10%)',                                             date: '2026-06-21', type: 'quiz' },
+        { id: 'abd_7',  title: 'Parcial 2 (20% → 2do Corte 30%)',                          date: '2026-06-28', type: 'parcial' },
+        { id: 'abd_8',  title: 'Verificación de notas por estudiantes',                    date: '2026-06-28', type: 'otro' },
+        // ── Tercer Corte (40%) ──
+        { id: 'abd_9',  title: 'Evaluación docente 3',                                     date: '2026-07-05', type: 'otro' },
+        { id: 'abd_10', title: 'Proyecto de Aula · Entrega Final ACA (34%)',               date: '2026-07-05', type: 'proyecto' },
+        { id: 'abd_11', title: 'Quiz 3 (2%)',                                              date: '2026-07-12', type: 'quiz' },
+        { id: 'abd_12', title: 'Auto-Evaluación (2%)',                                     date: '2026-07-12', type: 'otro' },
+        { id: 'abd_13', title: 'Co-Evaluación (2%)',                                       date: '2026-07-12', type: 'otro' },
+        { id: 'abd_14', title: 'Socialización de Notas',                                   date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.postgresqltutorial.com/', 'https://use-the-index-luke.com/'] },
+    { id: 'calidad_sw', period: '26V02', code: 'DIS-CSW', name: 'Calidad del Software', group: '52278', icon: '🛡️', color: 'hsl(160,60%,40%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: 'Alexander Calderón Martínez',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Aseguramiento de calidad, testing, normas ISO/IEC 25010, métricas.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'csw_1',  title: 'Introducción · Sesión de clase',                  date: '2026-05-31', type: 'tarea' },
+        { id: 'csw_2',  title: 'Quiz 1 (10%) · Sesión de Clase',                  date: '2026-06-07', type: 'quiz' },
+        { id: 'csw_3',  title: 'Parcial 1 (20% → 1er Corte 30%)',                 date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'csw_4',  title: 'Quiz 2 (10%) · Sesión de Clase',                  date: '2026-06-21', type: 'quiz' },
+        { id: 'csw_5',  title: 'Parcial 2 (20% → 2do Corte 30%)',                 date: '2026-06-28', type: 'parcial' },
+        // ── Tercer Corte (40%) ──
+        { id: 'csw_6',  title: 'ACA · Pitch Disciplinares-NIP (34%)',             date: '2026-07-05', type: 'proyecto' },
+        { id: 'csw_7',  title: 'Quiz 3 · Sesión de Clase (2%)',                   date: '2026-07-11', type: 'quiz' },
+        { id: 'csw_8',  title: 'Coevaluación (2%)',                               date: '2026-07-11', type: 'otro' },
+        { id: 'csw_9',  title: 'Autoevaluación (2%)',                             date: '2026-07-11', type: 'otro' },
+        { id: 'csw_10', title: 'Cierre de Notas',                                 date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.iso.org/standard/35733.html', 'https://martinfowler.com/articles/practical-test-pyramid.html'] },
+    { id: 'redes_inalambricas', period: '26V02', code: 'DIS-RWL', name: 'Redes Inalámbricas', group: '', icon: '📶', color: 'hsl(280,55%,55%)', credits: 3, type: 'Disciplinares · Bloque II',
+      professor: '',
+      desc: 'Período 26V02 · Bloque II (25 May - 19 Jul 2026). Protocolos WiFi, redes celulares, seguridad inalámbrica, diseño de redes ad-hoc.',
+      cronograma: [
+        // ── Primer Corte (30%) ──
+        { id: 'rwl_1',  title: 'Introducción · Sesión de clase',                  date: '2026-05-31', type: 'tarea' },
+        { id: 'rwl_2',  title: 'Quiz 1 (10%) · Sesión de Clase',                  date: '2026-06-07', type: 'quiz' },
+        { id: 'rwl_3',  title: 'Parcial 1 (20% → 1er Corte 30%)',                 date: '2026-06-14', type: 'parcial' },
+        // ── Segundo Corte (30%) ──
+        { id: 'rwl_4',  title: 'Quiz 2 (10%) · Sesión de Clase',                  date: '2026-06-21', type: 'quiz' },
+        { id: 'rwl_5',  title: 'Parcial 2 (20% → 2do Corte 30%)',                 date: '2026-06-28', type: 'parcial' },
+        // ── Tercer Corte (40%) ──
+        { id: 'rwl_6',  title: 'ACA · Pitch Disciplinares-NIP (34%)',             date: '2026-07-05', type: 'proyecto' },
+        { id: 'rwl_7',  title: 'Quiz 3 · Sesión de Clase (2%)',                   date: '2026-07-11', type: 'quiz' },
+        { id: 'rwl_8',  title: 'Coevaluación (2%)',                               date: '2026-07-11', type: 'otro' },
+        { id: 'rwl_9',  title: 'Autoevaluación (2%)',                             date: '2026-07-11', type: 'otro' },
+        { id: 'rwl_10', title: 'Cierre de Notas',                                 date: '2026-07-19', type: 'otro' },
+      ],
+      resources: ['https://www.wi-fi.org/discover-wi-fi', 'https://www.cisco.com/c/en/us/solutions/enterprise-networks/wireless-networking-overview.html'] },
+
+    // ── PERÍODO 26V05 · verificado en CDigital el 2026-09-29 ──────────────
+    // Fuente: Mis cursos (nombre/grupo/fechas), Participantes (rol Profesor),
+    // estructura del aula (core_courseformat_get_state), Próximos eventos
+    // (horarios de Meet) y la imagen "Calendario académico virtual" del
+    // curso 55500 (fechas y pesos por semana del Bloque I).
+    // Los quizzes/parciales están ocultos en CDigital hasta que abren: la
+    // fecha es el cierre de su semana, no la hora exacta de la actividad.
+    { id: 'inteligencia_negocios', period: '26V05', code: 'DIS38', name: 'Inteligencia de Negocios', group: '55500', icon: '📊', color: 'hsl(200,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+      professor: 'FELIPE ALEXANDER GARZON', cdigital_id: 126973, schedule: 'Miércoles · 6:15-8:30 PM (Google Meet)',
+      clases: [{ dias: [3], ini: '18:15', fin: '20:30' }],
+      subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309' },
+      desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Enfoque del docente: convertir datos en decisiones estratégicas y automatizar (Python + VS Code, luego n8n, Make, agentes). Quiz/parcial abiertos toda su semana y NO se reabren sin excusa reglamentaria; no repite temas: ver la grabación. Grabaciones: aula → "Accede a tus clases sincrónicas" (≈20 min después) o Calendar pidiendo acceso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
+      cronograma: cronoB1('bi', true),
+      resources: ['https://code.visualstudio.com/', 'https://learn.microsoft.com/es-es/power-bi/'] },
+    { id: 'auditoria_sistemas', period: '26V05', code: 'DIS39', name: 'Auditoría de Sistemas', group: '55506', icon: '🕵️', color: 'hsl(35,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+      professor: 'ANDRES FELIPE CORREA ESPITIA', professor_email: 'andres_correa@cun.edu.co', cdigital_id: 126979, schedule: 'Jueves · 6:15-7:45 PM (Google Calendar)',
+      clases: [{ dias: [4], ini: '18:15', fin: '19:45' }],
+      subject_links: { clase: 'https://meet.google.com/xwj-puty-htw', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=8015935', material: 'https://chat.google.com/room/AAQAgOXXdn8' },
+      desc: 'Período 26V05 · el docente fija el fin el 15-nov-2026. Asistencia opcional pero muy recomendada. Ing. de Sistemas, esp. en Educación en Tecnología (bases de datos, SQL, redes, ERP). La clase y su grabación salen en Google Calendar ("Evento sincrónico - AUDITORIA DE SISTEMAS"); la grabación del 1-oct pide solicitar acceso. Material = espacio de Google Chat del curso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
+      cronograma: cronoB1('aud', true),
+      resources: ['https://www.isaca.org/resources/cobit'] },
+    { id: 'computacion_nube', period: '26V05', code: 'DIS40', name: 'Computación en la Nube', group: '55516', icon: '☁️', color: 'hsl(190,75%,45%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+      professor: 'MARIO ALEXANDER REALES MARTINEZ', professor_email: 'mario_reales@cun.edu.co', cdigital_id: 126989, schedule: 'Jueves · 6:15-7:45 PM · Tutoría viernes 6:15-7:15 PM',
+      clases: [{ dias: [4], ini: '18:15', fin: '19:45' }, { dias: [5], ini: '18:15', fin: '19:15', tipo: 'tutoría' }],
+      subject_links: { clase: 'https://meet.google.com/fdo-jdvs-cvr', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7953245', material: 'https://docs.google.com/document/d/1kc103c3OVBIsMqcNjyQmF95_R11nFPXu/edit' },
+      desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Ruta práctica en AWS: el docente da credenciales de AWS Academy Cloud Foundations (curso de 10 semanas, opcional, con insignia) y los laboratorios van en el Sandbox. ACA anunciado: video de ~10 min mostrando funcionando un laboratorio de escalado + balanceo de carga (grupo de la misma ficha o individual). Contacto solo por correo (no da WhatsApp). Material = syllabus.',
+      cronograma: [...cronoB1('nub', true),
+        { id: 'nub5_r', title: 'Diligenciar "Reglas de participación" (formulario del aula, sección RECURSOS CURSO)', date: '2026-10-04', type: 'tarea' },
+        { id: 'nub5_c', title: 'Tener usuario y contraseña de AWS Academy (los entrega el docente; pedirlos si no llegaron)', date: '2026-10-11', type: 'tarea' },
+        { id: 'nub5_aws', title: 'Entrar por primera vez a AWS Academy (sin esto no hay ACA de Nube)', date: '2026-10-29', type: 'tarea' }],
+      resources: ['https://aws.amazon.com/es/training/awsacademy/', 'https://learn.microsoft.com/es-es/training/azure/'] },
+    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · 8 semanas · 2 créditos', credits: 2,
+      professor: 'MANUEL ALBERTO SALGADO ALBA', professor_email: 'manuel_salgado@cun.edu.co', cdigital_id: 126584, schedule: 'Miércoles · 6:15-7:45 PM (Google Meet)',
+      clases: [{ dias: [3], ini: '18:15', fin: '19:45' }],
+      subject_links: { clase: 'https://meet.google.com/yxw-rjzb-qcs', material: 'https://cdigital.cun.edu.co/mod/resource/view.php?id=7994844' },
+      desc: 'Período 26V05 · 8 semanas (28 Sep - 22 Nov 2026). REGLA DEL DOCENTE: no resolver NADA en la plataforma (quiz, parciales, ACA) hasta que él dé instrucciones: lo que hay ahí es de semestres anteriores. Todo el contenido, preguntas y respuestas de quiz/parcial van en su archivo "Clases ... P0" (📂 Material), que actualiza cada clase. Notas cierran el 11-nov. Grabaciones: Google Calendar del correo CUN → evento de la clase → archivo rojo.',
+      cronograma: [
+        { id: 'tiv_1', title: 'Leer el archivo de clase P0 (métodos inductivo y deductivo, ejemplo de metodología)', date: '2026-10-13', type: 'tarea' },
+        { id: 'tiv_2', title: 'Clase 14-oct: el docente da las instrucciones del quiz y parcial del 1er corte', date: '2026-10-14', type: 'tarea' },
+        { id: 'tiv_3', title: 'Quiz 1 (Temática 2) y Parcial 1 (Temática 3) del 1er corte — con el PDF del docente (mensaje CDigital 15-oct)', date: '2026-10-21', type: 'quiz' },
+        { id: 'tiv_4', title: 'Actividades del 2do corte (semanas 4-5) — solo con instrucciones del docente', date: '2026-11-01', type: 'quiz', est: true },
+        { id: 'tiv_5', title: 'Actividades del 3er corte (semanas 6-8) — notas cerradas el 11-nov', date: '2026-11-11', type: 'proyecto' },
+      ],
+      resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
+    { id: 'english_b1_26v05', period: '26V05', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50610', icon: '🇺🇸', color: 'hsl(45,85%,50%)', type: 'Idiomas (IV001) · Bloque único',
+      professor: 'ANYI MILENA ALVAREZ COGOLLO', cdigital_id: 130590, schedule: 'Lun tutoría · Mar-Vie la MISMA clase (elige un día) · 6:15-7:45 PM',
+      clases: [{ dias: [1], ini: '18:15', fin: '19:45', tipo: 'tutoría' }, { dias: [2, 3, 4, 5], ini: '18:15', fin: '19:45' }],
+      subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7916129', grabaciones: 'https://drive.google.com/drive/folders/1RORZrxsNLbwpA309BTyhF6-gcpqFD_0A' },
+      desc: 'Período 26I05 · Bloque único. Calendario del curso ("Fechas importantes 26i05"): inicio lun 28-sep, CIERRE DE ACTIVIDADES vie 13-nov-2026, novedades de matrícula 28-sep a 9-oct. Nota (Guía de Inicio 2026C): 92% actividades en Dexway + 4% autoevaluación + 4% coevaluación. El examen final va con proctoring: cédula original a la mano, lugar privado y silencioso. Reemplaza la matrícula 50608 del 26V02.',
+      cronograma: [
+        { id: 'en5_1', title: 'Aceptar Términos y Condiciones (sección General del aula)', date: '2026-11-13', type: 'otro' },
+        { id: 'en5_2', title: 'Ingresar al curso en Dexway (plataforma externa)',         date: '2026-11-13', type: 'tarea' },
+        { id: 'en5_rp', title: 'Diligenciar "Reglas de participación" (formulario del correo del 30-sep)', date: '2026-10-11', type: 'tarea' },
+        { id: 'en5_u1', title: 'Unidad 1 de Dexway + su quiz (ritmo de la docente: 1 unidad por semana)', date: '2026-10-11', type: 'tarea' },
+        { id: 'en5_u2', title: 'Unidad 2 de Dexway + su quiz (ritmo de la docente)', date: '2026-10-18', type: 'tarea' },
+        { id: 'en5_u3', title: 'Unidad 3 de Dexway + su quiz (ritmo de la docente)', date: '2026-10-25', type: 'tarea' },
+        { id: 'en5_u4', title: 'Unidad 4 de Dexway + su quiz (ritmo de la docente)', date: '2026-11-01', type: 'tarea' },
+        { id: 'en5_6', title: 'Actividades en Dexway · todos los módulos (92%) — 30-40 min diarios', date: '2026-11-13', type: 'proyecto' },
+        { id: 'en5_7', title: 'Examen final con proctoring (cédula a la mano) · a más tardar',            date: '2026-11-13', type: 'parcial' },
+        { id: 'en5_3', title: 'Autoevaluación (4%)',                                        date: '2026-11-13', type: 'quiz' },
+        { id: 'en5_4', title: 'Coevaluación (4%)',                                          date: '2026-11-13', type: 'quiz' },
+        { id: 'en5_5', title: 'Evaluación de plataforma',                                   date: '2026-11-13', type: 'otro' },
+      ],
+      resources: ['english.html', 'https://www.bbc.co.uk/learningenglish/'] },
+  ];
+
+  // Cronograma estándar de una materia del Bloque I 26V05 (pesos del calendario oficial).
+  // Cada evaluación está BLOQUEADA en CDigital hasta cumplir el requisito que se indica
+  // (verificado en las restricciones del aula, 29-sep). `acuerdo` = ya abierto en CDigital.
+  function cronoB1(p, acuerdo = false) {
+    return [
+      { id: p + '5_0',  title: 'Abrir el Acuerdo Pedagógico CUN (desbloquea la Evaluación docente 1)', date: '2026-10-04', type: 'tarea', done: acuerdo },
+      { id: p + '5_1',  title: 'Introducción · Sesión de clase',                 date: '2026-10-04', type: 'otro' },
+      { id: p + '5_2',  title: 'Evaluación docente 1 (desbloquea Quiz 1 y Parcial 1)', date: '2026-10-11', type: 'tarea' },
+      { id: p + '5_3',  title: 'Quiz 1 (10%)',                                   date: '2026-10-11', type: 'quiz' },
+      { id: p + '5_4',  title: 'Parcial 1 (20% → 1er Corte 30%)',                date: '2026-10-18', type: 'parcial' },
+      { id: p + '5_5',  title: 'Evaluación docente 2 (desbloquea Quiz 2 y Parcial 2)', date: '2026-10-25', type: 'tarea' },
+      { id: p + '5_6',  title: 'Quiz 2 (10%)',                                   date: '2026-10-25', type: 'quiz' },
+      { id: p + '5_7',  title: 'Parcial 2 (20% → 2do Corte 30%)',                date: '2026-11-01', type: 'parcial' },
+      { id: p + '5_8',  title: 'Evaluación docente 3 (desbloquea ACA Final y Quiz 3)', date: '2026-11-08', type: 'tarea' },
+      { id: p + '5_9',  title: 'ACA Final · Pitch disciplinar-NIP (34%)',        date: '2026-11-08', type: 'proyecto' },
+      { id: p + '5_12', title: 'Evalúa tu Entorno (desbloquea Autoevaluación y Coevaluación)', date: '2026-11-14', type: 'tarea' },
+      { id: p + '5_10', title: 'Quiz 3 (2%) · Coevaluación (2%) · Autoevaluación (2%)', date: '2026-11-14', type: 'quiz' },
+      { id: p + '5_11', title: 'Cierre de notas',                                date: '2026-11-22', type: 'otro' },
+    ];
+  }
+
+  const EST_TAG = est => est ? ' <span title="Fecha estimada: el docente aún no la publica en CDigital" style="font-size:9px;padding:1px 6px;border-radius:5px;border:1px dashed var(--am);color:var(--am);white-space:nowrap">≈ estimada</span>' : '';
+
+  // ── PASO A PASO de cada entrega (ventana emergente) ──
+  // Un paso es texto o { t, link: { label, url } }. Solo procedimientos verificados, con su fuente:
+  // nada de credenciales ni notas (este archivo es público). Lo que falte aquí lo completa el
+  // parte semanal: su ítem con `crono` = 'materia:entrada' aporta why, steps y enlaces directos.
+  const DEXWAY_URL = 'https://cdigital.cun.edu.co/mod/lti/launch.php?id=7683852';
+  const DEX_IN = [
+    { t: 'Abre Dexway con el botón. Si CDigital te pide iniciar sesión, entra con tu usuario CUN (y cierra CDigital en otras ventanas: admite una sola sesión).', link: { label: 'Entrar a Dexway', url: DEXWAY_URL } },
+    'Sale una página con el nombre "A1I01 VIRTUAL ENGLISH- BEGINNER 1 2026". Pulsa "▶ Entrar": tu curso se abre en una pestaña nueva.',
+    'En la columna del centro, "Lecciones", pulsa la unidad para desplegarla y luego la lección que toca.',
+    'A la derecha, en "Contenido de la lección", pulsa "Iniciar lección" y hazla completa.',
+  ];
+  const dexUnit = (n, lessons, extra) => ({
+    mins: 125,
+    src: 'Pantalla de Dexway revisada el 27-oct (Unidad 1, lección 1: "Lección no iniciada"). Tutorial: correo de la Escuela de Idiomas BE.',
+    steps: [...DEX_IN,
+      `Lecciones de la Unidad ${n}, en este orden: ${lessons.map((l, i) => `(${i + 1}) ${l}`).join(', ')}.`,
+      ...extra,
+      'Ritmo: dos lecciones por día y paras. Si un día haces una sola, al día siguiente haces tres.',
+      'Si te pierdes, en la columna izquierda "Mi curso → Materiales" está la "Guía rápida" de la plataforma.'],
+    links: [{ label: '🎬 Tutorial de Dexway', url: 'https://www.youtube.com/watch?v=g-uEXoXmzkM' }],
+  });
+  const QUIZ_STEPS = [
+    'Antes de abrirlo, 30 minutos con la guía y el simulacro (botón 📝). El reloj corre desde que empiezas.',
+    'Abre la evaluación con su botón y mira arriba "Cierra" y "Límite de tiempo".',
+    'Pulsa "Intente resolver el cuestionario ahora" y confirma "Comenzar intento".',
+    'Responde y avanza con "Página siguiente". Con el navegador de preguntas puedes volver a cualquiera.',
+    'Al final pulsa "Terminar intento…", revisa que ninguna diga "Sin responder" y pulsa "Enviar todo y terminar".',
+    'Comprueba que el intento dice "Finalizado" y tiene calificación. Si tienes otro intento, repasa lo que fallaste antes de usarlo.',
+  ];
+  const GUIDES = {
+    en5_rp: {
+      mins: 5, why: 'Es el acuerdo del curso de inglés. Lo pidió la profe por correo el 30-sep y toma 5 minutos.',
+      src: 'Correo de la profe Anyi Alvarez del 30-sep y el formulario, leído el 27-oct sin enviarlo.',
+      steps: [
+        { t: 'Abre el formulario. Si te pregunta la cuenta, elige tu correo CUN.', link: { label: 'Abrir el formulario', url: 'https://docs.google.com/forms/d/e/1FAIpQLSfXvk2DEJIAqMSJ4bDUpCgn4uadr1d0Y1STj0YMBLTwZiiXPQ/viewform' } },
+        'Marca la casilla "Registrar … como el correo que se incluirá al enviar mi respuesta".',
+        'Programa académico: Ingenieria de Sistemas. Modalidad: Virtual.',
+        'Nombre del facilitador: Anyi Milena Alvarez Cogollo.',
+        'Código de la asignatura: A1I01. ¿Pertenece a la Escuela de Idiomas?: Sí.',
+        'Nombre de la asignatura: Virtual English – Beginner 1. Número de grupo: 50610.',
+        'Tu nombre completo y tu número de cédula.',
+        'Lee los puntos 1 a 11. Marca "Si, acepto" en el 10 y en el 11. En el 12 (Observaciones, es obligatorio) escribe "Ninguna".',
+        'Marca "Sí, acepto." en el 13, pon la fecha de hoy y pulsa "Enviar".',
+        'Comprueba que sale "Se registró tu respuesta". Después pulsa aquí "Ya lo hice".',
+      ],
+    },
+    nub5_r: {
+      mins: 5, why: 'El mismo trámite, para Computación en la Nube. Lleva vencido desde el 4-oct y son 5 minutos.',
+      src: 'Recuadro "RECURSOS CURSO" del aula de Nube y su formulario, leídos el 27-oct sin enviarlo.',
+      steps: [
+        { t: 'Abre el formulario (es el botón "Diligenciar" del recuadro "RECURSOS CURSO", arriba en el aula de Nube). Si te pregunta la cuenta, elige tu correo CUN.', link: { label: 'Abrir el formulario', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeZUdfhZis--4IiBx8dD8Ubo4zxF2BHxT85gcDe_BgP7hHVRw/viewform' } },
+        'Marca la casilla "Registrar … como el correo que se incluirá al enviar mi respuesta".',
+        'Programa académico: Ingenieria de Sistemas. Modalidad: Virtual.',
+        'Nombre del facilitador: Mario Alexander Reales Martinez.',
+        'Código de la asignatura: DIS40. Nombre de la asignatura: Computación en la Nube. Número de grupo: 55516.',
+        'Tu nombre completo y tu número de cédula.',
+        'Lee los puntos 1 a 9. En el 10 (Observaciones, es obligatorio) escribe "Ninguna".',
+        'Marca "Sí, acepto." en el 11, pon la fecha de hoy y pulsa "Enviar".',
+        'Comprueba que sale "Se registró tu respuesta". Después pulsa aquí "Ya lo hice".',
+      ],
+    },
+    nub5_aws: {
+      mins: 20, why: 'Sin esta cuenta no puedes hacer el ACA de Nube (Laboratorio 12). El profe mandó las credenciales el 15-oct.',
+      src: 'Correo "CREDENCIALES AWS - AWS CLOUD FOUNDATIONS 2026" del profe Mario Reales (15-oct) y aviso en clase sobre usuario y email.',
+      steps: [
+        { t: 'Abre tu correo CUN y busca "CREDENCIALES AWS", del profe Mario Reales (15-oct). Ahí están tu Username y tu Password.', link: { label: 'Buscar el correo', url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co#search/CREDENCIALES+AWS' } },
+        { t: 'Abre la página de entrada de AWS Academy.', link: { label: 'Abrir AWS Academy', url: 'https://awsacademy.instructure.com/login/canvas' } },
+        'En el primer campo pega el USERNAME del correo, no tu email: a un compañero que usó el email le salía "contraseña incorrecta". En el segundo, la Password. Que no queden espacios al final.',
+        'Pulsa el botón de entrar. Si aparece la invitación al curso "AWS Academy Cloud Foundations [2026 B]", acéptala.',
+        'Comprueba que el curso aparece en tu panel. Si te pide cambiar la contraseña, anótala en un lugar seguro (en el Cerebro no).',
+        'Si no puedes entrar, escríbele al profe desde tu correo CUN (mario_reales@cun.edu.co). No atiende por WhatsApp.',
+        'El Laboratorio 12 lo hacemos juntos cuando pasen los parciales.',
+      ],
+    },
+    en5_u1: dexUnit(1, ['Greetings', 'People', 'Introducing yourself', 'Role-play: Greetings & Farewells', 'Test exercises'],
+      ['Antes de "Test exercises", repasa 10 minutos la chuleta U1-U2 (cuaderno de inglés, aquí en Materias).']),
+    en5_u2: dexUnit(2, ['How old are you?', 'How are the children?', 'Happy birthday!', 'Mediation: Introducing your friends - Writing assignment', 'Test exercises'],
+      ['El "Writing assignment" se escribe en la plataforma: frases cortas y simples. Si no entiendes la consigna, pégamela en el chat.']),
+    en5_u3: dexUnit(3, ['Meeting new people', "Where I'm from", 'Pleased to meet you', 'Profession and Nationality - Speaking assignment', 'Test exercises'],
+      ['El "Speaking assignment" se graba con micrófono: hazlo en un lugar sin ruido.']),
+    en5_u4: dexUnit(4, ['At the party', 'What is this?', "Who's who", 'Role-play: The party (1)', 'Test exercises'],
+      ['Al terminar la Unidad 4 se desbloquea el examen final.']),
+    en5_7: {
+      mins: 60, why: 'Un solo intento. Se desbloquea al terminar las 4 unidades. No lo dejes para el 13-nov.',
+      src: 'Reglas dichas por la profe el 19-oct y el punto 10 del formulario de Reglas de participación.',
+      steps: [
+        'El día anterior prueba cámara, micrófono y parlantes en el computador (no sirve celular ni tablet).',
+        'Ten a la mano tu cédula ORIGINAL: te toman foto de la cara y del documento.',
+        'Lugar privado y silencioso, sin audífonos, sin que nadie te interrumpa.',
+        { t: 'Entra a Dexway ("▶ Entrar"), despliega "Course review" en la columna del centro y abre "Final Exam".', link: { label: 'Entrar a Dexway', url: DEXWAY_URL } },
+        'Cada sección tiene su propio tiempo: no te quedes pegado en una pregunta.',
+        'Al terminar, haz la encuesta, la autoevaluación (4 %) y la coevaluación (4 %).',
+      ],
+    },
+    tiv_4: {
+      why: 'En Trabajo de Investigación no se hace nada en la plataforma sin instrucción del profe Manuel Salgado.',
+      src: 'Regla del docente (clase del 14-oct) y CLAUDE.md del proyecto.',
+      steps: [
+        'Las instrucciones llegan por tres lados: la clase del miércoles 6:15 p. m., su PDF "Clases … P0" y los mensajes de CDigital (no por correo).',
+        { t: 'Revisa sus mensajes en CDigital.', link: { label: 'Abrir mensajes de CDigital', url: 'https://cdigital.cun.edu.co/message/index.php' } },
+        'Con lo que diga, pídeme la guía: yo la armo y tú presentas.',
+      ],
+    },
+  };
+  // Guía por tipo de entrega del cronograma estándar del Bloque I (cronoB1).
+  const GUIDE_KIND = [
+    [/^(bi|aud|nub)5_[47]$/, { mins: 90, steps: QUIZ_STEPS, why: 'Vale 20 % del corte. Lo presentas tú; yo te dejo la guía y el simulacro.' }],
+    [/^(bi|aud|nub)5_[36]$/, { mins: 30, steps: QUIZ_STEPS, why: 'Vale 10 % del corte.' }],
+    [/^(bi|aud|nub)5_[258]$/, { mins: 5, why: 'Es la evaluación del docente: es tu opinión, no hay respuestas correctas. Además desbloquea las actividades siguientes.', steps: [
+      'Ábrela con su botón (o desde el aula, en la semana que corresponde).',
+      'Pulsa "Responda a las preguntas".',
+      'Contesta cada pregunta sobre el docente.',
+      'Pulsa "Enviar sus respuestas".',
+      'Comprueba que al volver a abrirla dice que ya la completaste.',
+    ] }],
+    [/^(bi|aud|nub)5_9$/, { why: 'Vale 34 %. Lo hacemos juntos: yo investigo y armo la estructura; tú lo escribes con tus palabras, grabas el video y lo entregas.', steps: [
+      'Abre la consigna en el aula y pégamela en el chat (o dime "abre el ACA de …").',
+      'Con eso te armo el paso a paso del ACA y el borrador.',
+      'Tú lo revisas, lo haces tuyo, grabas y lo entregas antes del cierre.',
+    ] }],
+  ];
+
+  // Esquema de notas CUN de 8 semanas (Quiz 10 + Parcial 20 por corte 1 y 2; ACA 34 + 3×2 en el corte 3).
+  const GRADE_SCHEMES = {
+    cun_b8: [
+      { k: 'q1', label: 'Quiz 1', w: 10, cut: 1 },
+      { k: 'p1', label: 'Parcial 1', w: 20, cut: 1 },
+      { k: 'q2', label: 'Quiz 2', w: 10, cut: 2 },
+      { k: 'p2', label: 'Parcial 2', w: 20, cut: 2 },
+      { k: 'aca', label: 'ACA Final', w: 34, cut: 3 },
+      { k: 'q3', label: 'Quiz 3', w: 2, cut: 3 },
+      { k: 'co', label: 'Coevaluación', w: 2, cut: 3 },
+      { k: 'au', label: 'Autoevaluación', w: 2, cut: 3 },
+    ],
+  };
+
+  // ── CALENDAR 2026 (extracted from official PDF) ──
+  const CALENDAR = {
+    '26V01': {
+      label: 'Período 26V01',
+      inscriptions: { start: '2025-12-02', end: '2026-01-28' },
+      academic: { start: '2026-02-02', end: '2026-05-24' },
+      block1: { start: '2026-02-02', end: '2026-03-29', label: 'Primer Bloque' },
+      block2: { start: '2026-03-30', end: '2026-05-24', label: 'Segundo Bloque' },
+      gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' },
+      gradeClose2: { start: '2026-05-26', end: '2026-05-30', label: 'Cierre notas Bloque 2' },
+      periodClose: { start: '2026-05-27', end: '2026-06-01', label: 'Cierre período' },
+      enrollment: [
+        { label: 'Descuento -15%', start: '2025-12-01', end: '2025-12-31' },
+        { label: 'Descuento -10%', start: '2026-01-01', end: '2026-01-08' },
+        { label: 'Descuento -5%', start: '2026-01-09', end: '2026-01-16' },
+        { label: 'Matrícula ordinaria', start: '2026-01-17', end: '2026-01-24' },
+        { label: 'Matrícula extraordinaria (+20%)', start: '2026-01-25', end: '2026-01-31' },
+      ]
+    },
+    '26V02': { label: 'Período 26V02', academic: { start: '2026-03-30', end: '2026-07-19' }, block1: { start: '2026-03-30', end: '2026-05-24', label: 'Primer Bloque' }, block2: { start: '2026-05-25', end: '2026-07-19', label: 'Segundo Bloque' }, gradeClose1: { start: '2026-05-19', end: '2026-05-25', label: 'Cierre notas Bloque 1' }, gradeClose2: { start: '2026-07-14', end: '2026-07-19', label: 'Cierre notas Bloque 2' }, periodClose: { start: '2026-07-20', end: '2026-07-26', label: 'Cierre período' } },
+    '26V03': { label: 'Período 26V03', academic: { start: '2026-05-25', end: '2026-09-27' }, block1: { start: '2026-05-25', end: '2026-07-19', label: 'Primer Bloque' }, block2: { start: '2026-07-20', end: '2026-09-27', label: 'Segundo Bloque' } },
+    '26V04': { label: 'Período 26V04', academic: { start: '2026-08-03', end: '2026-11-22' }, block1: { start: '2026-08-03', end: '2026-09-27', label: 'Primer Bloque' }, block2: { start: '2026-09-28', end: '2026-11-22', label: 'Segundo Bloque' } },
+    // 26V05: fechas institucionales del PDF oficial calendarios_virtuales_2026 (página 5, leído 29-sep-2026).
+    '26V05': { label: 'Período 26V05', academic: { start: '2026-09-28', end: '2027-01-17' }, block1: { start: '2026-09-28', end: '2026-11-22', label: 'Primer Bloque' }, block2: { start: '2026-11-23', end: '2027-01-17', label: 'Segundo Bloque' },
+      gradeClose1: { start: '2026-11-23', end: '2026-11-23', label: 'Cierre plataforma de notas · Bloque 1' },
+      periodClose: { start: '2027-01-19', end: '2027-01-23', label: 'Cierre de período y cambio de ciclo' },
+      extra: [
+        { start: '2026-09-28', end: '2026-09-30', label: 'Cancelación de asignaturas · primer corte' },
+        { start: '2026-09-28', end: '2026-10-13', label: 'Retiros y aplazamientos' },
+        { start: '2026-11-07', end: '2026-11-27', label: 'Evaluación estudiantil a docentes · Bloque 1' },
+        { start: '2027-01-02', end: '2027-01-20', label: 'Evaluación estudiantil a docentes · Bloque 2' },
+        { start: '2027-01-12', end: '2027-01-18', label: 'Cargue de notas únicas (materias de bloque único)' },
+        { start: '2027-01-20', end: '2027-01-25', label: 'Modificación de notas' },
+      ] },
+    '26V06': { label: 'Período 26V06', academic: { start: '2026-11-23', end: '2027-03-28' }, block1: { start: '2026-11-23', end: '2027-01-17', label: 'Primer Bloque' }, block2: { start: '2027-01-18', end: '2027-03-28', label: 'Segundo Bloque' } },
+  };
+
+  // ── PLAN SEMANAL DEL BLOQUE (8 semanas) por período ──
+  // 26V02: calendario oficial CUN 2026A (PDF). 26V05: imagen "Calendario académico
+  // virtual" del aula 55500 (CDigital, leída 2026-09-29) + estructura de temas del aula.
+  const BLOCK_PLANS = {
+    '26V02': { label: 'Bloque I · 26V02', weeks: [
+      { week: 1, start: '2026-03-30', end: '2026-04-05', name: 'Introducción',                                         weight: 0,  cut: 1 },
+      { week: 2, start: '2026-04-06', end: '2026-04-12', name: 'Quiz 1',                                               weight: 10, cut: 1 },
+      { week: 3, start: '2026-04-13', end: '2026-04-19', name: 'Parcial 1',                                            weight: 20, cut: 1, cutLabel: 'Primer Corte 30%' },
+      { week: 4, start: '2026-04-20', end: '2026-04-26', name: 'Quiz 2',                                               weight: 10, cut: 2 },
+      { week: 5, start: '2026-04-27', end: '2026-05-03', name: 'Parcial 2',                                            weight: 20, cut: 2, cutLabel: 'Segundo Corte 30%' },
+      { week: 6, start: '2026-05-04', end: '2026-05-10', name: 'ACA · Pitch Disciplinares-NIP',                        weight: 34, cut: 3 },
+      { week: 7, start: '2026-05-11', end: '2026-05-16', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)', weight: 6,  cut: 3, cutLabel: 'Tercer Corte 40%' },
+      { week: 8, start: '2026-05-18', end: '2026-05-24', name: 'Cierre de Notas',                                      weight: 0,  cut: 3 },
+    ] },
+    '26V05': { label: 'Bloque I · 26V05', source: 'Calendario académico virtual · aula Inteligencia de Negocios 55500 (CDigital, 29-sep-2026)', weeks: [
+      { week: 1, start: '2026-09-28', end: '2026-10-04', name: 'Introducción',                                         weight: 0,  cut: 1 },
+      { week: 2, start: '2026-10-05', end: '2026-10-11', name: 'Quiz 1 · Evaluación docente 1',                        weight: 10, cut: 1 },
+      { week: 3, start: '2026-10-12', end: '2026-10-18', name: 'Parcial 1',                                            weight: 20, cut: 1, cutLabel: 'Primer Corte 30%' },
+      { week: 4, start: '2026-10-19', end: '2026-10-25', name: 'Quiz 2 · Evaluación docente 2',                        weight: 10, cut: 2 },
+      { week: 5, start: '2026-10-26', end: '2026-11-01', name: 'Parcial 2',                                            weight: 20, cut: 2, cutLabel: 'Segundo Corte 30%' },
+      { week: 6, start: '2026-11-02', end: '2026-11-08', name: 'ACA · Pitch disciplinar-NIP',                          weight: 34, cut: 3 },
+      { week: 7, start: '2026-11-09', end: '2026-11-14', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)', weight: 6,  cut: 3, cutLabel: 'Tercer Corte 40%' },
+      { week: 8, start: '2026-11-16', end: '2026-11-22', name: 'Cierre de notas',                                      weight: 0,  cut: 3 },
+    ] },
+  };
+
+  // ── MALLA CURRICULAR (10 semesters, from official PDF) ──
+  const MALLA = [
+    { sem: 1, level: 'Técnica Profesional', subjects: ['Fundamentos de Programación','Introducción a Sistemas Informáticos','Cátedra Pensamiento Cunista I','Cableado Estructurado','Habilidades Comunicativas','Circuitos Básicos','Explorar para Investigar','Espíritu Emprendedor'] },
+    { sem: 2, level: 'Técnica Profesional', subjects: ['Programación Avanzada','Mantenimiento de SO','Cátedra Pensamiento Cunista II','Redes I','Razonamiento Cuantitativo','Arquitectura y Mto. de Computadores','Creatividad y Pensamiento Innovador','Proyecto de Vida'] },
+    { sem: 3, level: 'Técnica Profesional', subjects: ['POO I','Bases de Datos I','Formación Ciudadana','Redes II','Informática y Convergencia','Mantenimiento Dispositivos Móviles','Electiva Complementaria I','Práctica Técnica'] },
+    { sem: 4, level: 'Técnica Profesional', subjects: ['POO II','Bases de Datos II','Cátedra Pensamiento Cunista III','Enrutamiento y Conmutación','Estadística Descriptiva','Lógica para Ingeniería','Electiva Complementaria II','Opción de Grado Técnico'] },
+    { sem: 5, level: 'Tecnología en Desarrollo de Software', subjects: ['Programación Web','Bases de Datos III','Requerimientos de Software','Seguridad en Redes','Fundamentos de Física Eléctrica','Cálculo Diferencial','Electiva Complementaria III','Práctica Tecnológica'] },
+    { sem: 6, level: 'Tecnología en Desarrollo de Software', subjects: ['Desarrollo Web','Diseño de Software','Arquitectura de Software','Computación en la Nube','Álgebra Lineal','Cálculo Integral','Investigación Ciencia y Tecnología','Opción de Grado Tecnológico'] },
+    { sem: 7, level: 'Tecnología en Desarrollo de Software', subjects: ['Ingeniería Web','Calidad de Software','Analitica de Datos','Actualización en Telecomunicaciones','Física Mecánica','Cálculo Multivariado','Plan de Negocios I'] },
+    { sem: 8, level: 'Ingeniería de Sistemas', subjects: ['Matemáticas Discretas','Álgebra Moderna','Refinamiento en Producción de Software','Administración de Base de Datos','Redes Inalámbricas','Ecuaciones Diferenciales','Plan de Negocios II','Electiva de Profundización I'] },
+    { sem: 9, level: 'Ingeniería de Sistemas', subjects: ['Matemáticas Especiales','Inteligencia de Negocios','Gerencia en Proyectos Informáticos','Investigación de Operaciones','Innovación Tecnológica de Redes','Trabajo de Investigación','Electiva de Profundización II'] },
+    { sem: 10, level: 'Ingeniería de Sistemas', subjects: ['Auditoría de Sistemas','Electiva de Profundización III','Práctica Profesional','Opción de Grado Profesional'] },
+  ];
+
+  // ── SKILL MODULES — Roadmap de Ing. Informática + énfasis AI/Data Science ──
+  // Auditado 2026-05-27 · cada SKILL es un módulo desplegable con learning
+  // path ordenado: principiante → intermedio → avanzado → pro.
+  // Cada cert lleva:
+  //   · level: nivel del path
+  //   · learn: qué aprenderás (bullets)
+  //   · relatesTo: cómo se conecta con el siguiente paso
+  //   · reputation: alta / media / nicho — peso del cert en el mercado
+  //   · demand: demanda actual del skill
+  //   · cost: GRATIS o precio si es pro (incluido para que veas la siguiente
+  //     inversión real después de exprimir las gratis).
+  // Fuentes curadas: Harvard, U. Helsinki, Linux Foundation, MIT (vía edX),
+  // Google, Microsoft, AWS, Oracle, IBM, Cisco, Hugging Face, freeCodeCamp,
+  // Kaggle, MongoDB, Databricks, Postman, DeepLearning.AI, Meta, fast.ai,
+  // CertiProf, Scrum.org, Applitools, Atlassian, Docker, Cambridge, EF,
+  // British Council, ISTQB.
+  const SKILL_MODULES = [
+    // ═══ 🐍 PYTHON · base de todo el stack moderno ═══════════════
+    { id: 'python', name: 'Python', icon: '🐍', color: 'hsl(220,80%,55%)',
+      summary: 'El lenguaje #1 del mundo tech. Base de IA, Data Science, automatización y backend moderno.',
+      why: 'Sin Python no podés ser ML Engineer ni Data Scientist. Es la herramienta más versátil y demandada del mercado. Empezá acá.',
+      demand: 'Muy Alta · TIOBE #1 desde 2021',
+      roles: ['Data Scientist', 'ML Engineer', 'Backend Dev', 'Data Engineer', 'AI Researcher', 'DevOps'],
+      duration: '3-6 meses al nivel intermedio sólido',
+      next: ['data_analysis', 'ml'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Intro to Programming (Python)', issuer: 'Kaggle Learn', icon: '🥚', color: 'hsl(120,60%,45%)', desc: 'Python desde cero: variables, loops, funciones. Tu primer paso si nunca programaste.', learn: ['Variables y tipos', 'Conditionals (if/else)', 'Loops (for, while)', 'Funciones'], relatesTo: 'Base para todo lo demás. Después acá, vas a PCAP o HackerRank Basic.', hours: 15, link: 'https://www.kaggle.com/learn/intro-to-programming', free: true, cost: 'GRATIS', reputation: 'Práctico Kaggle', featured: false },
+        { level: 'intermedio', order: 2, name: 'PCAP · Python Programming Essentials', issuer: 'Cisco NetAcad', icon: '🎓', color: 'hsl(220,80%,55%)', desc: 'Curso oficial Cisco completo. La base profesional de Python que todo Ing usa.', learn: ['OOP completo', 'Modules y packages', 'Exceptions', 'File I/O', 'List comprehensions', 'Decoradores'], relatesTo: 'Después: HackerRank Intermediate · prereq directa para PCPP (pro).', hours: 60, link: 'https://www.netacad.com/courses/python-essentials-1', free: true, cost: 'GRATIS', reputation: 'Cisco · reconocido globalmente', featured: true },
+        { level: 'intermedio', order: 3, name: 'Python (Basic + Intermediate)', issuer: 'HackerRank', icon: '✅', color: 'hsl(120,60%,40%)', desc: 'Tests cronometrados con certificado verificable. Bueno para LinkedIn y validar nivel.', learn: ['Sintaxis bajo presión', 'Algoritmos básicos', 'Manejo de strings', 'Funciones avanzadas'], relatesTo: 'Refuerza lo de PCAP. El test mismo es una mini-entrevista técnica.', hours: 20, link: 'https://www.hackerrank.com/skills-directory/python', free: true, cost: 'GRATIS', reputation: 'HackerRank · usado por reclutadores', featured: false },
+        { level: 'avanzado', order: 4, name: 'Problem Solving (Basic + Intermediate)', issuer: 'HackerRank', icon: '🧩', color: 'hsl(45,75%,50%)', desc: 'Estructuras de datos y algoritmos en Python. Esencial para entrevistas FAANG y Big Tech.', learn: ['Big-O y complejidad', 'Arrays, hash maps, trees', 'Recursión y DP básica', 'Greedy y two-pointers'], relatesTo: 'El skill que abre puertas a Big Tech. Combina con LeetCode para práctica continua.', hours: 60, link: 'https://www.hackerrank.com/skills-directory/problem_solving', free: true, cost: 'GRATIS', reputation: 'Estándar entrevistas técnicas', featured: false },
+        { level: 'pro', order: 5, name: 'PCPP-32-101 · Python Professional 1', issuer: 'Python Institute · OpenEDG', icon: '🏆', color: 'hsl(220,80%,40%)', desc: 'Cert oficial vía Pearson VUE. Reconocida globalmente para roles senior Python. Inversión que paga.', learn: ['OOP avanzado', 'GUI', 'Network programming', 'Files & DBs', 'PEPs', 'Math/Stats con Python'], relatesTo: 'El siguiente paso después de PCAP. Diferenciador en CV para roles senior.', hours: 80, link: 'https://pythoninstitute.org/pcpp1', free: false, cost: 'USD 195', reputation: 'Python Institute · industry standard', featured: false },
+      ]
+    },
+
+    // ═══ 🗄️ SQL & BASES DE DATOS ════════════════════════════════
+    { id: 'sql', name: 'SQL & Bases de Datos', icon: '🗄️', color: 'hsl(210,75%,50%)',
+      summary: 'El lenguaje universal de datos. Toda empresa lo necesita y todo Data Scientist lo usa diario.',
+      why: 'SQL es el skill #2 más demandado después de programación. Sin SQL no podés ser Data Analyst, DS, ni siquiera Backend serio. Imprescindible.',
+      demand: 'Muy Alta · transversal a TODO rol de datos',
+      roles: ['Data Analyst', 'Data Engineer', 'DBA', 'BI Developer', 'Backend Dev'],
+      duration: '2-3 meses al nivel avanzado',
+      next: ['data_analysis', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'SQL (Basic)', issuer: 'HackerRank', icon: '🔰', color: 'hsl(210,75%,55%)', desc: 'Empezá acá si nunca tocaste SQL. SELECT, WHERE, JOINs simples.', learn: ['SELECT, FROM, WHERE', 'JOINs (INNER, LEFT)', 'GROUP BY básico', 'Funciones agregadas (COUNT, SUM, AVG)'], relatesTo: 'Base para SQL Intermediate y para Pandas (sintaxis similar).', hours: 10, link: 'https://www.hackerrank.com/skills-verification/sql_basic', free: true, cost: 'GRATIS', reputation: 'HackerRank · estándar reclutadores', featured: true },
+        { level: 'intermedio', order: 2, name: 'SQL (Intermediate)', issuer: 'HackerRank', icon: '📊', color: 'hsl(210,75%,45%)', desc: 'Window functions, CTEs, subqueries complejas. El nivel real de un Data Analyst.', learn: ['Window functions (RANK, ROW_NUMBER)', 'CTEs (WITH)', 'Subqueries correladas', 'CASE WHEN avanzado'], relatesTo: 'Lo que separa juniors de mid-level en entrevistas de datos.', hours: 20, link: 'https://www.hackerrank.com/skills-verification/sql_intermediate', free: true, cost: 'GRATIS', reputation: 'HackerRank · usado en filtros técnicos', featured: false },
+        { level: 'avanzado', order: 3, name: 'SQL (Advanced)', issuer: 'HackerRank', icon: '🚀', color: 'hsl(210,75%,35%)', desc: 'Recursividad, pivot, optimización, indexes. Tema para roles senior.', learn: ['Recursive CTEs', 'PIVOT / UNPIVOT', 'Query optimization', 'Indexing strategy'], relatesTo: 'Prereq mental para los certs Pro de Microsoft/Oracle SQL.', hours: 20, link: 'https://www.hackerrank.com/skills-verification/sql_advanced', free: true, cost: 'GRATIS', reputation: 'HackerRank', featured: false },
+        { level: 'avanzado', order: 4, name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'NoSQL · la BD #1 no-relacional. Cert oficial MongoDB.', learn: ['Documentos vs filas', 'CRUD MongoDB', 'Aggregation pipeline', 'Indexes y performance'], relatesTo: 'Complementa SQL — toda app moderna combina ambos.', hours: 15, link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', free: true, cost: 'GRATIS', reputation: 'MongoDB oficial', featured: false },
+        { level: 'pro', order: 5, name: 'Oracle Database SQL Certified Associate (1Z0-071)', issuer: 'Oracle', icon: '🔶', color: 'hsl(15,80%,50%)', desc: 'Cert oficial Oracle SQL. Reconocida globalmente para roles de DBA y Data Engineer.', learn: ['SQL avanzado Oracle', 'Subqueries multi-tabla', 'DDL/DML completo', 'Schemas y constraints'], relatesTo: 'Después de HackerRank Advanced. Marca tu CV como SQL professional.', hours: 40, link: 'https://education.oracle.com/oracle-database-sql-certified-associate/trackp_457', free: false, cost: 'USD 245', reputation: 'Oracle · industry standard DBA', featured: false },
+      ]
+    },
+
+    // ═══ 📊 ANÁLISIS DE DATOS · Pandas, NumPy, Stats ════════════════
+    { id: 'data_analysis', name: 'Análisis de Datos', icon: '📊', color: 'hsl(43,80%,50%)',
+      summary: 'Limpieza, transformación, exploración. El día a día de un Data Scientist es 80% esto.',
+      why: 'Antes de modelos hay datos. Y los datos vienen sucios, incompletos, sesgados. Saber prepararlos es lo que separa un proyecto exitoso de un fracaso.',
+      demand: 'Muy Alta · base para todo rol DS/DA',
+      roles: ['Data Analyst', 'Data Scientist', 'BI Engineer', 'Analytics Engineer'],
+      duration: '2-4 meses al nivel profesional',
+      next: ['ml', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Pandas', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'La librería Python #1 para datos. DataFrames son tu nuevo Excel con esteroides.', learn: ['DataFrames y Series', 'Indexing y selecting', 'groupby y agregaciones', 'merge y joins', 'missing data'], relatesTo: 'Imprescindible para ML, Viz y todo lo siguiente. Empezá acá.', hours: 12, link: 'https://www.kaggle.com/learn/pandas', free: true, cost: 'GRATIS', reputation: 'Kaggle · referencia Python data', featured: true },
+        { level: 'principiante', order: 2, name: 'Data Visualization', issuer: 'Kaggle Learn', icon: '📈', color: 'hsl(43,80%,50%)', desc: 'Seaborn y matplotlib. Saber mostrar tus hallazgos es 50% del trabajo de un DA.', learn: ['Line, bar, scatter plots', 'Heatmaps y correlaciones', 'Distribution plots', 'Custom styling'], relatesTo: 'Combina con Pandas para reports completos. Prereq para Power BI / Tableau.', hours: 8, link: 'https://www.kaggle.com/learn/data-visualization', free: true, cost: 'GRATIS', reputation: 'Kaggle oficial', featured: false },
+        { level: 'intermedio', order: 3, name: 'IBM Data Science Foundations', issuer: 'IBM SkillsBuild', icon: '💎', color: 'hsl(210,85%,40%)', desc: 'Path completo IBM con badges acreditables y proyectos guiados.', learn: ['Big data concepts', 'Python para datos', 'ML intro', 'Visualización avanzada', 'Storytelling'], relatesTo: 'Te lleva de Pandas/Viz a tener proyectos de portfolio.', hours: 60, link: 'https://skillsbuild.org/students/course-catalog/data-science', free: true, cost: 'GRATIS', reputation: 'IBM · reconocido por reclutadores', featured: true },
+        { level: 'avanzado', order: 4, name: 'Google Data Analytics Professional Certificate', issuer: 'Google · Coursera', icon: '🟦', color: 'hsl(220,85%,55%)', desc: 'Path completo de Google. 7 cursos. Cert profesional reconocido globalmente.', learn: ['SQL avanzado', 'R básico', 'Tableau', 'Análisis exploratorio', 'Storytelling executive'], relatesTo: 'Te prepara para roles Data Analyst con salarios USD 60-80k.', hours: 240, link: 'https://www.coursera.org/professional-certificates/google-data-analytics', free: false, cost: 'USD 49/mes (~6 meses)', reputation: 'Google · top-tier para reclutamiento', featured: false },
+        { level: 'pro', order: 5, name: 'Microsoft Power BI Data Analyst (PL-300)', issuer: 'Microsoft', icon: '🔷', color: 'hsl(45,85%,55%)', desc: 'Cert oficial PL-300. Power BI domina BI corporativo en LATAM. Alta demanda.', learn: ['DAX (Data Analysis Expressions)', 'Power Query', 'Modelado dimensional', 'Dashboards profesionales'], relatesTo: 'Da un upgrade salarial inmediato. Power BI = pasaporte a BI corporativo.', hours: 60, link: 'https://learn.microsoft.com/credentials/certifications/data-analyst-associate/', free: false, cost: 'USD 165', reputation: 'Microsoft · top en BI', featured: false },
+      ]
+    },
+
+    // ═══ 🤖 MACHINE LEARNING ════════════════════════════════════
+    { id: 'ml', name: 'Machine Learning', icon: '🤖', color: 'hsl(195,85%,50%)',
+      summary: 'Construir sistemas que aprenden de datos. El skill más buscado en 2026.',
+      why: 'ML Engineers son los profesionales mejor pagados en tech (USD 120k-200k+). Demanda explotó con la IA generativa. Tu énfasis de carrera.',
+      demand: 'Explosiva · escasez global de talento',
+      roles: ['ML Engineer', 'Data Scientist', 'AI Researcher', 'Applied Scientist'],
+      duration: '6-12 meses con dedicación seria',
+      next: ['deep_learning', 'nlp_genai'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Elements of AI', issuer: 'Universidad de Helsinki', icon: '🎓', color: 'hsl(195,85%,50%)', desc: 'EL curso intro a IA del mundo. +1M completados. Sin código · conceptos sólidos.', learn: ['Qué es IA realmente', 'ML supervisado/no supervisado', 'Redes neuronales conceptual', 'Ética en IA', 'Futuro del trabajo'], relatesTo: 'Punto de partida obligatorio. Cero código. Para tener la mentalidad correcta antes de ensuciarte con Python.', hours: 30, link: 'https://www.elementsofai.com/', free: true, cost: 'GRATIS', reputation: 'Universidad de Helsinki · cert verificable', featured: true },
+        { level: 'principiante', order: 2, name: 'Machine Learning Crash Course', issuer: 'Google', icon: '🔬', color: 'hsl(220,90%,55%)', desc: 'Curso oficial Google. 15 horas con código real en TensorFlow.', learn: ['Loss functions', 'Gradient descent', 'Generalization y overfitting', 'Regularization', 'Neural nets intro'], relatesTo: 'Después de Elements of AI. Te mete las manos en TF sin que duela.', hours: 15, link: 'https://developers.google.com/machine-learning/crash-course', free: true, cost: 'GRATIS', reputation: 'Google AI Education', featured: true },
+        { level: 'intermedio', order: 3, name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🌳', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn práctico. Tu primer modelo real con código que funciona.', learn: ['Decision trees', 'Random forests', 'Cross-validation', 'Model evaluation', 'Sklearn API'], relatesTo: 'Bridge entre teoría (Google MLCC) y práctica diaria en Kaggle.', hours: 8, link: 'https://www.kaggle.com/learn/intro-to-machine-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle · estándar práctico', featured: false },
+        { level: 'intermedio', order: 4, name: 'Intermediate Machine Learning', issuer: 'Kaggle Learn', icon: '🎯', color: 'hsl(195,75%,45%)', desc: 'Pipelines, XGBoost, manejo serio de missing values.', learn: ['Missing values strategies', 'Categorical encoding', 'sklearn Pipelines', 'XGBoost', 'Data leakage'], relatesTo: 'Próximo paso natural. Acá es donde dejás de ser principiante.', hours: 10, link: 'https://www.kaggle.com/learn/intermediate-machine-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'avanzado', order: 5, name: 'Feature Engineering', issuer: 'Kaggle Learn', icon: '⚙️', color: 'hsl(35,80%,50%)', desc: 'El skill más subvalorado y más impactante. Donde se gana o pierde el modelo.', learn: ['Mutual information', 'Target encoding', 'Clustering features', 'Principal components'], relatesTo: 'Una vez sabés esto, ganás competiciones de Kaggle. Y entrevistas.', hours: 8, link: 'https://www.kaggle.com/learn/feature-engineering', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'pro', order: 6, name: 'Machine Learning Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '🏆', color: 'hsl(220,80%,40%)', desc: 'Por Andrew Ng — el GOAT. 3 cursos. El estándar de oro de ML.', learn: ['Linear/Logistic regression desde cero', 'Neural networks fundamentals', 'Unsupervised learning', 'Recommender systems', 'Reinforcement learning'], relatesTo: 'La especialización que ven todos los hiring managers de ML. Inversión que paga.', hours: 100, link: 'https://www.coursera.org/specializations/machine-learning-introduction', free: false, cost: 'USD 49/mes (~3 meses)', reputation: 'Andrew Ng · GOAT de ML', featured: true },
+        { level: 'pro', order: 7, name: 'AWS Certified Machine Learning Specialty (MLS-C01)', issuer: 'AWS', icon: '☁️', color: 'hsl(35,90%,50%)', desc: 'La cert ML más reconocida del mercado. Demuestra que sabés llevar ML a producción.', learn: ['SageMaker', 'Data engineering AWS', 'Modelado', 'ML Ops básico'], relatesTo: 'Para ML Engineers seniors. Después de Andrew Ng + experiencia práctica.', hours: 80, link: 'https://aws.amazon.com/certification/certified-machine-learning-specialty/', free: false, cost: 'USD 300', reputation: 'AWS · top cert ML mercado', featured: false },
+      ]
+    },
+
+    // ═══ 🧠 DEEP LEARNING ═══════════════════════════════════════
+    { id: 'deep_learning', name: 'Deep Learning', icon: '🧠', color: 'hsl(280,70%,55%)',
+      summary: 'Redes neuronales profundas. La tecnología detrás de ChatGPT, Stable Diffusion, autos autónomos.',
+      why: 'Deep learning impulsa todo el boom actual de IA. Para roles avanzados (Research Engineer, AI Scientist) es indispensable.',
+      demand: 'Alta · pico de hype + demanda real',
+      roles: ['Deep Learning Engineer', 'Research Engineer', 'CV Engineer', 'NLP Engineer'],
+      duration: '4-8 meses (requiere ML previo)',
+      next: ['nlp_genai'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Intro to Deep Learning', issuer: 'Kaggle Learn', icon: '🌱', color: 'hsl(280,70%,55%)', desc: 'Redes neuronales con Keras. Sin matemática pesada — pura intuición + código.', learn: ['Neuronas y capas', 'Activation functions', 'Backpropagation intuitiva', 'TensorFlow/Keras basics'], relatesTo: 'Entrada amistosa al DL. Después: Computer Vision o fast.ai.', hours: 8, link: 'https://www.kaggle.com/learn/intro-to-deep-learning', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'intermedio', order: 2, name: 'Computer Vision', issuer: 'Kaggle Learn', icon: '👁️', color: 'hsl(160,70%,45%)', desc: 'CNNs · transfer learning · clasificación de imágenes. Aplicación más popular del DL.', learn: ['Convolutional layers', 'Transfer learning con modelos pre-entrenados', 'Data augmentation', 'Image classification end-to-end'], relatesTo: 'Skill aplicado más demandado dentro de DL. Combina con fast.ai.', hours: 10, link: 'https://www.kaggle.com/learn/computer-vision', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: true },
+        { level: 'avanzado', order: 3, name: 'Practical Deep Learning for Coders', issuer: 'fast.ai', icon: '🚀', color: 'hsl(280,75%,45%)', desc: 'EL curso práctico de DL del mundo. Jeremy Howard te enseña a entrenar SOTA en sesiones reales.', learn: ['fastai library', 'Transfer learning avanzado', 'NLP con DL', 'Tabular DL', 'Mejores prácticas de entrenamiento'], relatesTo: 'No es cert pero es OBLIGATORIO si querés ser serio en DL.', hours: 80, link: 'https://course.fast.ai/', free: true, cost: 'GRATIS', reputation: 'fast.ai · referencia mundial', featured: true },
+        { level: 'pro', order: 4, name: 'Deep Learning Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '🏆', color: 'hsl(280,80%,40%)', desc: 'Andrew Ng nuevamente. 5 cursos. El cert DL más respetado en LATAM y mundo.', learn: ['NNs from scratch', 'CNNs profundos', 'RNNs y LSTMs', 'Transformers basics', 'Strategy de ML projects'], relatesTo: 'Inversión definitiva en DL. Lo que tu LinkedIn necesita para roles DL serios.', hours: 120, link: 'https://www.coursera.org/specializations/deep-learning', free: false, cost: 'USD 49/mes (~4 meses)', reputation: 'Andrew Ng · estándar DL global', featured: true },
+        { level: 'pro', order: 5, name: 'TensorFlow Developer Certificate', issuer: 'Google · TensorFlow', icon: '🔶', color: 'hsl(35,90%,50%)', desc: 'Cert oficial Google de TensorFlow. Examen práctico de 5 horas.', learn: ['TF para CV', 'TF para NLP', 'TF para series temporales', 'Optimización de modelos'], relatesTo: 'Demuestra que SÍ podés codear DL en producción.', hours: 40, link: 'https://www.tensorflow.org/certificate', free: false, cost: 'USD 100', reputation: 'Google TensorFlow oficial', featured: false },
+      ]
+    },
+
+    // ═══ 🤗 NLP & GENERATIVE AI (LLMs) ══════════════════════════
+    { id: 'nlp_genai', name: 'NLP & Generative AI', icon: '🤗', color: 'hsl(45,95%,55%)',
+      summary: 'Procesamiento de Lenguaje Natural + LLMs (GPT, Claude, Llama). El frente más caliente de la IA.',
+      why: 'Toda empresa quiere chatbots, RAG, asistentes. Hugging Face + LangChain dominan el ecosistema. Acá es donde se pagan los salarios USD 200k+.',
+      demand: 'Explosiva 2024-2026 · #1 skill emergente',
+      roles: ['NLP Engineer', 'LLM Engineer', 'AI Application Developer', 'Prompt Engineer'],
+      duration: '3-6 meses (necesitás DL básico antes)',
+      next: [],
+      certs: [
+        { level: 'intermedio', order: 1, name: 'Hugging Face Course (NLP + Transformers)', issuer: 'Hugging Face', icon: '🤗', color: 'hsl(45,95%,55%)', desc: 'El curso oficial de Hugging Face — el GitHub de los modelos AI. NLP de última generación.', learn: ['Transformers architecture', 'BERT, GPT, Llama', 'Fine-tuning', 'Datasets library', 'Deploy con HF Spaces'], relatesTo: 'Después de DL básico. Te conecta directo al ecosistema profesional GenAI.', hours: 60, link: 'https://huggingface.co/learn/nlp-course', free: true, cost: 'GRATIS', reputation: 'Hugging Face · estándar GenAI', featured: true },
+        { level: 'avanzado', order: 2, name: 'NLP Specialization', issuer: 'DeepLearning.AI · Coursera', icon: '💬', color: 'hsl(45,90%,40%)', desc: '4 cursos · Andrew Ng. De clasificación de texto a attention mechanisms.', learn: ['Word embeddings', 'Sentiment analysis', 'Machine translation', 'Seq2Seq', 'Attention y Transformers'], relatesTo: 'Profundiza lo de HF Course con bases teóricas sólidas.', hours: 90, link: 'https://www.coursera.org/specializations/natural-language-processing', free: false, cost: 'USD 49/mes (~3 meses)', reputation: 'DeepLearning.AI', featured: false },
+        { level: 'pro', order: 3, name: 'Microsoft Azure AI Engineer (AI-102)', issuer: 'Microsoft', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Cert oficial AI-102. Construir aplicaciones AI en Azure usando Cognitive Services + OpenAI Service.', learn: ['Azure OpenAI', 'Cognitive Services', 'Language understanding', 'CV en Azure', 'AI responsibility'], relatesTo: 'Para llevar tus skills NLP a un cert empresarial reconocido.', hours: 60, link: 'https://learn.microsoft.com/credentials/certifications/azure-ai-engineer/', free: false, cost: 'USD 165', reputation: 'Microsoft · enterprise AI', featured: false },
+      ]
+    },
+
+    // ═══ ☁️ CLOUD COMPUTING ═════════════════════════════════════
+    { id: 'cloud', name: 'Cloud Computing', icon: '☁️', color: 'hsl(15,80%,50%)',
+      summary: 'AWS, Azure, GCP, Oracle. Toda app moderna corre en cloud — sin cloud, no hay carrera.',
+      why: 'AWS solo factura USD 90B/año. Cloud Architects son top earners. Aprendelo o quedate fuera del 80% de las ofertas.',
+      demand: 'Muy Alta · transversal a todo tech',
+      roles: ['Cloud Engineer', 'Solutions Architect', 'DevOps Engineer', 'Cloud Security'],
+      duration: '3-6 meses (depende del nivel)',
+      next: ['devops', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '🔶', color: 'hsl(15,80%,50%)', desc: 'EXAMEN OFICIAL GRATUITO real. Oracle hace el cert verdaderamente accesible.', learn: ['Cloud concepts', 'Compute, Storage, Networking en OCI', 'Identity & security', 'Pricing y billing'], relatesTo: 'Primera cert cloud sin pagar. Brand reconocido. Buenísima para empezar.', hours: 30, link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', free: true, cost: 'GRATIS', reputation: 'Oracle · cert real sin pago', featured: true },
+        { level: 'principiante', order: 2, name: 'AWS Cloud Quest · Cloud Practitioner', issuer: 'AWS Skill Builder', icon: '🎮', color: 'hsl(35,90%,55%)', desc: 'Aprende AWS jugando en un mundo 3D. Badge oficial digital. Divertido y efectivo.', learn: ['EC2, S3, RDS, Lambda', 'IAM básico', 'VPCs', 'CloudWatch'], relatesTo: 'Te prepara mentalmente para CLF-C02 (cert paga).', hours: 20, link: 'https://aws.amazon.com/training/digital/aws-cloud-quest/', free: true, cost: 'GRATIS', reputation: 'AWS oficial gamificado', featured: true },
+        { level: 'intermedio', order: 3, name: 'Azure Fundamentals (AZ-900) · Path', issuer: 'Microsoft Learn', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Training oficial Microsoft para AZ-900. El curso es gratis (el examen sí cuesta).', learn: ['Azure architecture', 'Compute, networking, storage Azure', 'Identity (Entra ID)', 'Governance'], relatesTo: 'Cubre el 70% de lo que se ve en LATAM (banca y enterprise).', hours: 12, link: 'https://learn.microsoft.com/training/paths/azure-fundamentals/', free: true, cost: 'GRATIS (examen: USD 99)', reputation: 'Microsoft path oficial', featured: false },
+        { level: 'pro', order: 4, name: 'AWS Certified Cloud Practitioner (CLF-C02)', issuer: 'AWS', icon: '☁️', color: 'hsl(35,90%,45%)', desc: 'Primera cert AWS oficial. Inversión mínima · ROI altísimo en CV.', learn: ['Pilares AWS', 'Servicios core profundos', 'Pricing y billing', 'Cloud adoption framework'], relatesTo: 'Te pone en el radar de reclutadores. Punto.', hours: 40, link: 'https://aws.amazon.com/certification/certified-cloud-practitioner/', free: false, cost: 'USD 100', reputation: 'AWS · cert entry-level estándar', featured: false },
+        { level: 'pro', order: 5, name: 'AWS Solutions Architect Associate (SAA-C03)', issuer: 'AWS', icon: '🏗️', color: 'hsl(35,90%,40%)', desc: 'LA cert AWS más demandada y mejor pagada en LATAM. El siguiente nivel tras CLF.', learn: ['Diseño de arquitecturas resilientes', 'Costo + performance', 'Seguridad multi-capa', 'Migration'], relatesTo: 'Salto salarial directo al obtenerla. Apúntale después de 1-2 años AWS hands-on.', hours: 80, link: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/', free: false, cost: 'USD 150', reputation: 'AWS · TOP demanda mercado', featured: true },
+      ]
+    },
+
+    // ═══ 🌐 DESARROLLO WEB ══════════════════════════════════════
+    { id: 'web_dev', name: 'Desarrollo Web', icon: '🌐', color: 'hsl(335,80%,55%)',
+      summary: 'Frontend + Backend + APIs. La especialidad más amplia y con más oportunidades en LATAM.',
+      why: 'Toda empresa necesita devs web. Y el mercado es enorme tanto local como remoto.',
+      demand: 'Alta · sostenida hace 10+ años',
+      roles: ['Frontend Dev', 'Backend Dev', 'Full-stack Dev', 'Web Architect'],
+      duration: '6-12 meses para ser empleable',
+      next: ['devops'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5 + CSS3 + Flexbox + Grid + accesibilidad. 300h. Cert verificable.', learn: ['HTML semántico', 'CSS layouts modernos', 'Responsive design', 'Accesibilidad (a11y)'], relatesTo: 'Punto de partida obligatorio. Base para todo lo siguiente.', hours: 300, link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', free: true, cost: 'GRATIS', reputation: 'freeCodeCamp · referencia global', featured: true },
+        { level: 'intermedio', order: 2, name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS oficial Cisco. Sintaxis · DOM · eventos · async.', learn: ['JS sintaxis moderna (ES6+)', 'DOM manipulation', 'Eventos y closures', 'Async/await y promises'], relatesTo: 'Después de RWD. Te abre el frontend dinámico.', hours: 40, link: 'https://www.netacad.com/courses/javascript-essentials-1', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: false },
+        { level: 'intermedio', order: 3, name: 'JS Algorithms & Data Structures', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6 · OOP · programación funcional · regex. 300h con cert.', learn: ['ES6+ avanzado', 'OOP en JS', 'Functional programming', 'Regex', 'AJAX y APIs'], relatesTo: 'Cierra el ciclo JS pro. Prereq para React seriamente.', hours: 300, link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', free: true, cost: 'GRATIS', reputation: 'fCC', featured: false },
+        { level: 'avanzado', order: 4, name: 'Front End Development Libraries', issuer: 'freeCodeCamp', icon: '⚛️', color: 'hsl(195,85%,55%)', desc: 'React · Redux · Bootstrap · Sass. React = framework #1 del mercado laboral.', learn: ['React hooks', 'Component composition', 'Redux state management', 'CSS frameworks'], relatesTo: 'Con esto sos empleable como Frontend Junior.', hours: 300, link: 'https://www.freecodecamp.org/learn/front-end-development-libraries/', free: true, cost: 'GRATIS', reputation: 'fCC', featured: true },
+        { level: 'avanzado', order: 5, name: 'API Fundamentals (Student Expert)', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST end-to-end. Insignia oficial Postman.', learn: ['REST principles', 'Postman colecciones avanzadas', 'API testing', 'Authentication (JWT, OAuth)'], relatesTo: 'Para entender qué consumís desde frontend y qué exponés como backend.', hours: 20, link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', free: true, cost: 'GRATIS', reputation: 'Postman', featured: false },
+        { level: 'pro', order: 6, name: 'Meta Front-End Developer Certificate', issuer: 'Meta · Coursera', icon: '📘', color: 'hsl(220,85%,55%)', desc: 'Path completo de Meta (Facebook). 9 cursos. Reconocido para roles tier-1.', learn: ['React avanzado', 'UX/UI principles', 'Version control con Git', 'Coding interview prep'], relatesTo: 'Salto a roles mid-level con respaldo de Meta.', hours: 250, link: 'https://www.coursera.org/professional-certificates/meta-front-end-developer', free: false, cost: 'USD 49/mes (~7 meses)', reputation: 'Meta · top frontend cert', featured: false },
+      ]
+    },
+
+    // ═══ 🐧 LINUX & SISTEMAS ════════════════════════════════════
+    { id: 'linux_sys', name: 'Linux & Sistemas', icon: '🐧', color: 'hsl(45,85%,45%)',
+      summary: 'Linux corre el 80% de los servidores del mundo y el 100% del cloud. Sin Linux no hay DevOps ni Cloud.',
+      why: 'Es el sistema operativo de internet. Todo lo serio (servers, AI training, IoT) corre Linux.',
+      demand: 'Alta · prereq para Cloud y DevOps',
+      roles: ['SysAdmin', 'Cloud Engineer', 'DevOps', 'Security Engineer'],
+      duration: '2-4 meses al nivel sólido',
+      next: ['devops', 'cloud'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Linux Essentials', issuer: 'Cisco NetAcad', icon: '🐧', color: 'hsl(45,85%,45%)', desc: 'Línea de comandos · permisos · scripting · networking en Linux. Cert oficial Cisco.', learn: ['Filesystem y navegación', 'Permisos y users', 'Bash básico', 'Networking commands'], relatesTo: 'Base imprescindible para todo lo cloud/devops.', hours: 40, link: 'https://www.netacad.com/courses/linux-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'Introduction to Linux (LFS101)', issuer: 'Linux Foundation · edX', icon: '🏛️', color: 'hsl(30,75%,50%)', desc: 'Curso oficial Linux Foundation. Audit gratis · cert verificable.', learn: ['Linux para usuarios y desarrolladores', 'Distribuciones', 'Package management', 'Scripting'], relatesTo: 'Profundiza lo de Cisco. Prereq mental para LPI y RHCSA.', hours: 40, link: 'https://www.edx.org/course/introduction-to-linux', free: true, cost: 'GRATIS', reputation: 'Linux Foundation', featured: false },
+        { level: 'pro', order: 3, name: 'LPIC-1 Linux Administrator', issuer: 'LPI', icon: '🛡️', color: 'hsl(45,85%,35%)', desc: 'Cert vendor-neutral de Linux. Reconocida globalmente para SysAdmin roles.', learn: ['System architecture', 'Linux installation', 'Shell scripting avanzado', 'Networking config'], relatesTo: 'Estándar para roles SysAdmin pagados.', hours: 80, link: 'https://www.lpi.org/our-certifications/lpic-1-overview', free: false, cost: 'USD 200 x examen (2 exámenes)', reputation: 'LPI · vendor-neutral', featured: false },
+        { level: 'pro', order: 4, name: 'Red Hat Certified System Administrator (RHCSA)', issuer: 'Red Hat', icon: '🎩', color: 'hsl(0,75%,40%)', desc: 'EL cert sysadmin más respetado. Examen 100% práctico (no preguntas).', learn: ['RHEL administration', 'Storage management', 'Selinux', 'systemd avanzado', 'Containers'], relatesTo: 'Cert que justifica salarios USD 70k+ en LATAM.', hours: 120, link: 'https://www.redhat.com/services/certification/rhcsa', free: false, cost: 'USD 400', reputation: 'Red Hat · gold standard sysadmin', featured: false },
+      ]
+    },
+
+    // ═══ 🔌 NETWORKING ══════════════════════════════════════════
+    { id: 'networking', name: 'Networking', icon: '🔌', color: 'hsl(195,80%,45%)',
+      summary: 'TCP/IP, routing, switching, WiFi. La plomería de internet. Sin redes, nada conecta.',
+      why: 'Toda app vive sobre la red. Cisco domina la industria con CCNA como cert puerta-de-entrada.',
+      demand: 'Alta · base de cloud y security',
+      roles: ['Network Engineer', 'Network Admin', 'Cloud Network Specialist'],
+      duration: '4-6 meses para CCNA',
+      next: ['cloud', 'security'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP · OSI · routing · switching básico. Base para CCNA.', learn: ['Modelo OSI y TCP/IP', 'IP addressing y subnetting', 'Switching básico', 'WiFi fundamentals'], relatesTo: 'Empezá acá. Prereq directo para CCNA.', hours: 70, link: 'https://www.netacad.com/courses/networking-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'CCNA Self-Paced', issuer: 'Cisco NetAcad', icon: '📡', color: 'hsl(195,85%,40%)', desc: 'Curso oficial preparatorio para CCNA. NetAcad lo ofrece sin costo de training.', learn: ['Routing dinámico (OSPF)', 'VLANs avanzadas', 'STP', 'WAN technologies', 'Network security básico'], relatesTo: 'Te lleva al examen CCNA (cert paga).', hours: 200, link: 'https://www.netacad.com/courses/networking/ccna-introduction-networks', free: true, cost: 'GRATIS (training)', reputation: 'Cisco NetAcad', featured: false },
+        { level: 'pro', order: 3, name: 'CCNA · 200-301', issuer: 'Cisco', icon: '🏆', color: 'hsl(195,85%,35%)', desc: 'EL cert networking más demandado del mundo. Pasaporte para roles Network Engineer.', learn: ['Routing & switching avanzado', 'Network security', 'Automation y programmability', 'IP services'], relatesTo: 'La inversión que cambia tu CV de junior a empleable seriamente en redes.', hours: 200, link: 'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html', free: false, cost: 'USD 300', reputation: 'Cisco · GOLD STANDARD redes', featured: true },
+      ]
+    },
+
+    // ═══ 🔒 CIBERSEGURIDAD ══════════════════════════════════════
+    { id: 'security', name: 'Ciberseguridad', icon: '🔒', color: 'hsl(0,70%,50%)',
+      summary: 'Defensa, ataque ético, criptografía. La carrera con MENOS desempleo del mundo tech.',
+      why: 'Demanda crónicamente insatisfecha. Salarios top desde junior. Trabajo remoto abundante.',
+      demand: 'Crítica · gap de 4M profesionales globalmente',
+      roles: ['Security Analyst', 'Pentester', 'SOC Engineer', 'Security Architect', 'CISO'],
+      duration: '6-12 meses para entry-level',
+      next: ['cloud'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas · ataques · vulnerabilidades · defensa · ética. Primera capa de pensar seguro.', learn: ['Threat landscape', 'Tipos de ataques (malware, phishing)', 'Defensa básica', 'Ética en seguridad'], relatesTo: 'Punto de partida obligatorio. Te da mentalidad correcta.', hours: 30, link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: true },
+        { level: 'intermedio', order: 2, name: 'Cybersecurity Essentials', issuer: 'Cisco NetAcad', icon: '🛡️', color: 'hsl(0,75%,40%)', desc: 'Criptografía · controles de acceso · respuesta a incidentes. Path hacia CCNA Security.', learn: ['Criptografía simétrica/asimétrica', 'IAM y políticas', 'Incident response', 'Risk management'], relatesTo: 'Profundiza lo intro. Te prepara para Security+ y CCNA Security.', hours: 60, link: 'https://www.netacad.com/courses/cybersecurity-essentials', free: true, cost: 'GRATIS', reputation: 'Cisco', featured: false },
+        { level: 'intermedio', order: 3, name: 'TryHackMe · Pre-Security Path', issuer: 'TryHackMe', icon: '🎯', color: 'hsl(15,80%,50%)', desc: 'Aprende hackeando en labs reales. Práctico vs teórico.', learn: ['Web hacking básico', 'Linux para hackers', 'Network exploitation', 'Scripting offensive'], relatesTo: 'La práctica que te falta de los cursos teóricos.', hours: 60, link: 'https://tryhackme.com/path/outline/presecurity', free: true, cost: 'GRATIS', reputation: 'TryHackMe · práctico', featured: false },
+        { level: 'pro', order: 4, name: 'CompTIA Security+ (SY0-701)', issuer: 'CompTIA', icon: '🔰', color: 'hsl(0,75%,35%)', desc: 'EL cert security entry-level más reconocido. Aprobado por DoD USA.', learn: ['Threat analysis', 'Architecture and design', 'Operations and incident response', 'Compliance'], relatesTo: 'Te abre roles SOC L1, Junior Security Analyst.', hours: 80, link: 'https://www.comptia.org/certifications/security', free: false, cost: 'USD 370', reputation: 'CompTIA · industry standard entry', featured: true },
+        { level: 'pro', order: 5, name: 'CISSP', issuer: 'ISC2', icon: '👑', color: 'hsl(0,80%,30%)', desc: 'EL cert security senior. Necesita 5 años exp. Salarios USD 100k+ inmediatos.', learn: ['8 dominios (Security & Risk · Asset · Architecture · Communication · IAM · Assessment · Ops · Software Dev Security)'], relatesTo: 'El destino final del seniority. Empezá a estudiarlo años antes.', hours: 200, link: 'https://www.isc2.org/certifications/cissp', free: false, cost: 'USD 749', reputation: 'ISC2 · TOP del mundo en security', featured: false },
+      ]
+    },
+
+    // ═══ 🔧 DEVOPS & GIT ════════════════════════════════════════
+    { id: 'devops', name: 'DevOps & Git', icon: '🔧', color: 'hsl(263,50%,50%)',
+      summary: 'Git, Docker, K8s, CI/CD. La cultura + tooling que lleva código a producción confiablemente.',
+      why: 'DevOps Engineers son los mejor pagados después de ML. Es el puente entre dev y ops.',
+      demand: 'Muy Alta · seniors USD 120k+',
+      roles: ['DevOps Engineer', 'SRE', 'Platform Engineer', 'Cloud Engineer'],
+      duration: '4-8 meses para nivel intermedio',
+      next: ['cloud', 'bigdata'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'GitHub Foundations', issuer: 'Microsoft Learn', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git · GitHub Actions · PRs · security. Path oficial con badges + cert disponible.', learn: ['Git workflow profesional', 'PRs y code review', 'GitHub Actions (CI/CD)', 'Branch protection', 'Security scanning'], relatesTo: 'Git es el lenguaje universal del software. Sin esto, no podés colaborar.', hours: 30, link: 'https://learn.microsoft.com/training/paths/github-foundations/', free: true, cost: 'GRATIS', reputation: 'Microsoft Learn · top reconocimiento', featured: true },
+        { level: 'intermedio', order: 2, name: 'Docker · Get Started', issuer: 'Docker Inc.', icon: '🐳', color: 'hsl(200,75%,50%)', desc: 'Containers · imágenes · Dockerfile · networks. Training oficial Docker.', learn: ['Containers vs VMs', 'Dockerfile profesional', 'docker-compose', 'Networking y volumes', 'Multi-stage builds'], relatesTo: 'Containers son la unidad básica del cloud moderno. Antes de K8s.', hours: 20, link: 'https://docs.docker.com/get-started/', free: true, cost: 'GRATIS', reputation: 'Docker oficial', featured: false },
+        { level: 'intermedio', order: 3, name: 'Introduction to DevOps (LFS161)', issuer: 'Linux Foundation · edX', icon: '⚙️', color: 'hsl(280,55%,55%)', desc: 'Curso oficial Linux Foundation. CI/CD · cultura DevOps · automation.', learn: ['Cultura DevOps', 'CI/CD pipelines', 'Infrastructure as Code', 'Monitoring básico'], relatesTo: 'La teoría que necesitás antes de practicar con tools específicas.', hours: 40, link: 'https://www.edx.org/course/introduction-to-devops-practices-and-tools', free: true, cost: 'GRATIS', reputation: 'Linux Foundation', featured: false },
+        { level: 'pro', order: 4, name: 'CKAD · Certified Kubernetes Application Developer', issuer: 'CNCF · Linux Foundation', icon: '☸️', color: 'hsl(263,55%,40%)', desc: 'Cert oficial Kubernetes. Examen 100% práctico de 2 horas. K8s es el cloud OS.', learn: ['Pods y workloads', 'Deployments y services', 'Networking K8s', 'Persistent storage', 'Troubleshooting'], relatesTo: 'Después de dominar Docker. K8s = el siguiente nivel de Cloud Native.', hours: 80, link: 'https://www.cncf.io/training/certification/ckad/', free: false, cost: 'USD 395', reputation: 'CNCF · Kubernetes oficial', featured: true },
+      ]
+    },
+
+    // ═══ 🏞️ BIG DATA & MLOps ════════════════════════════════════
+    { id: 'bigdata', name: 'Big Data & MLOps', icon: '🏞️', color: 'hsl(0,75%,50%)',
+      summary: 'Spark, Kafka, Airflow, ML en producción. Donde los datos masivos se vuelven valor de negocio.',
+      why: 'Toda empresa grande pelea con sus datos. Data Engineers y MLOps Engineers son escasos y bien pagados.',
+      demand: 'Alta · senior shortage crítico',
+      roles: ['Data Engineer', 'MLOps Engineer', 'Analytics Engineer', 'Platform Engineer'],
+      duration: '6-12 meses (requiere SQL + Python sólidos)',
+      next: [],
+      certs: [
+        { level: 'intermedio', order: 1, name: 'Databricks Lakehouse Fundamentals', issuer: 'Databricks Academy', icon: '🏞️', color: 'hsl(0,75%,50%)', desc: 'Lakehouse · Delta Lake · Spark. Cert oficial gratis.', learn: ['Lakehouse architecture', 'Delta Lake', 'Spark intro', 'Unity Catalog'], relatesTo: 'Databricks es la plataforma #1 de Data+AI a escala. Punto de entrada.', hours: 4, link: 'https://customer-academy.databricks.com/learn/course/1325/databricks-lakehouse-platform-accreditation', free: true, cost: 'GRATIS', reputation: 'Databricks oficial', featured: true },
+        { level: 'intermedio', order: 2, name: 'Time Series Forecasting', issuer: 'Kaggle Learn', icon: '⏱️', color: 'hsl(15,75%,50%)', desc: 'Forecasting · tendencias · estacionalidad. Skill core de Data Engineering.', learn: ['Trend y seasonality', 'Time features', 'Forecasting with ML', 'Hybrid models'], relatesTo: 'Caso de uso #1 en industria (ventas, demand, IoT).', hours: 10, link: 'https://www.kaggle.com/learn/time-series', free: true, cost: 'GRATIS', reputation: 'Kaggle', featured: false },
+        { level: 'pro', order: 3, name: 'Databricks Certified Data Engineer Associate', issuer: 'Databricks', icon: '🚀', color: 'hsl(0,80%,40%)', desc: 'Cert oficial Data Engineer en Databricks. Reconocida en Fortune 500.', learn: ['Spark SQL avanzado', 'Delta Lake en producción', 'ETL pipelines', 'Workflows orchestration'], relatesTo: 'Cert que abre puertas a roles Data Engineer USD 100k+.', hours: 60, link: 'https://www.databricks.com/learn/certification/data-engineer-associate', free: false, cost: 'USD 200', reputation: 'Databricks · enterprise gold', featured: false },
+        { level: 'pro', order: 4, name: 'AWS Certified Data Engineer Associate (DEA-C01)', issuer: 'AWS', icon: '⚡', color: 'hsl(35,90%,40%)', desc: 'Cert oficial AWS para Data Engineers. Cubre todo el stack AWS de datos.', learn: ['AWS Glue', 'Kinesis', 'EMR', 'Redshift', 'Lake Formation'], relatesTo: 'Combina con Databricks para tener pasaporte multi-cloud.', hours: 60, link: 'https://aws.amazon.com/certification/certified-data-engineer-associate/', free: false, cost: 'USD 150', reputation: 'AWS oficial', featured: false },
+      ]
+    },
+
+    // ═══ ✅ AGILE & PM ══════════════════════════════════════════
+    { id: 'agile_pm', name: 'Agile & Project Management', icon: '✅', color: 'hsl(172,60%,45%)',
+      summary: 'Scrum, Kanban, Jira. La habilidad humana que separa proyectos exitosos de fracasos.',
+      why: 'Eventualmente liderarás. Y los Project Managers ganan tan bien como los devs senior.',
+      demand: 'Alta · transversal a todo equipo',
+      roles: ['Scrum Master', 'Product Owner', 'Project Manager', 'Tech Lead'],
+      duration: '2-4 meses para SFPC, años para PMP',
+      next: [],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework · roles · eventos. Reconocida en LATAM. Vouchers gratis periódicos.', learn: ['Scrum theory', 'Roles (PO, SM, Dev Team)', 'Events (Sprint, Daily, Review, Retro)', 'Artifacts'], relatesTo: 'Tu primer cert agile profesional.', hours: 15, link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', free: true, cost: 'GRATIS (con voucher)', reputation: 'CertiProf · top LATAM', featured: true },
+        { level: 'intermedio', order: 2, name: 'Jira Fundamentals', issuer: 'Atlassian University', icon: '📋', color: 'hsl(220,85%,50%)', desc: 'Gestión ágil con Jira. Badge oficial Atlassian. Jira = herramienta #1 en empresas tech.', learn: ['Workflows custom', 'Boards (Scrum, Kanban)', 'Reports (Burndown, Velocity)', 'JQL queries'], relatesTo: 'Combina con Scrum SFPC para ser Scrum Master operativo.', hours: 5, link: 'https://university.atlassian.com/student/path/1077727-jira-fundamentals', free: true, cost: 'GRATIS', reputation: 'Atlassian oficial', featured: false },
+        { level: 'pro', order: 3, name: 'Professional Scrum Master I (PSM I)', issuer: 'Scrum.org', icon: '🏆', color: 'hsl(172,60%,35%)', desc: 'Cert Scrum Master más respetada del mercado. Examen open-book online.', learn: ['Scrum profundo', 'Servant leadership', 'Coaching de equipos', 'Métricas ágiles'], relatesTo: 'El upgrade desde SFPC. Reconocida en USA y Europa.', hours: 30, link: 'https://www.scrum.org/professional-scrum-master-i-certification', free: false, cost: 'USD 200', reputation: 'Scrum.org · top del mundo', featured: true },
+        { level: 'pro', order: 4, name: 'Project Management Professional (PMP)', issuer: 'PMI', icon: '👔', color: 'hsl(220,75%,40%)', desc: 'EL cert PM más reconocido del planeta. Requiere 3-5 años exp PM.', learn: ['Project lifecycle completo', 'Predictive + agile + híbrido', 'Stakeholder management', 'Risk management'], relatesTo: 'El destino senior. Salarios PM USD 100k+.', hours: 100, link: 'https://www.pmi.org/certifications/project-management-pmp', free: false, cost: 'USD 555', reputation: 'PMI · GOLD STANDARD PM', featured: false },
+      ]
+    },
+
+    // ═══ 🧪 CALIDAD & TESTING ═══════════════════════════════════
+    { id: 'testing', name: 'Calidad & Testing', icon: '🧪', color: 'hsl(282,60%,50%)',
+      summary: 'QA, test automation, ISTQB. La especialidad que protege el código en producción.',
+      why: 'QA Engineers buenos son escasos. Test Automation Engineers ganan tan bien como devs.',
+      demand: 'Media-Alta · estable y creciente',
+      roles: ['QA Engineer', 'Test Automation Engineer', 'SDET', 'QA Lead'],
+      duration: '3-6 meses para entry-level',
+      next: ['devops'],
+      certs: [
+        { level: 'principiante', order: 1, name: 'Test Automation University', issuer: 'Applitools', icon: '🎓', color: 'hsl(282,60%,50%)', desc: 'Múltiples certs por curso. Selenium · Cypress · Playwright · API testing. La universidad #1 gratuita.', learn: ['Selenium WebDriver', 'Cypress moderno', 'Playwright cross-browser', 'API testing strategies'], relatesTo: 'Stack práctico completo de un Test Automation Engineer.', hours: 60, link: 'https://testautomationu.applitools.com/', free: true, cost: 'GRATIS', reputation: 'Applitools · ref. global', featured: true },
+        { level: 'pro', order: 2, name: 'ISTQB Foundation Level (CTFL)', issuer: 'ISTQB', icon: '🌍', color: 'hsl(282,65%,40%)', desc: 'EL cert testing internacional. Reconocido globalmente para QA Engineers.', learn: ['Fundamentos de testing', 'Test design techniques', 'Test management', 'Tool support para testing'], relatesTo: 'El cert que separa testers amateurs de profesionales.', hours: 40, link: 'https://www.istqb.org/certifications/certified-tester-foundation-level', free: false, cost: 'USD 230', reputation: 'ISTQB · international standard', featured: true },
+      ]
+    },
+
+    // ═══ 🇬🇧 INGLÉS PROFESIONAL ════════════════════════════════
+    { id: 'english', name: 'Inglés Profesional', icon: '🇬🇧', color: 'hsl(220,70%,50%)',
+      summary: 'El 70% de las ofertas tech globales requieren inglés B2+. Sin inglés, te quedas en LATAM con menos salario.',
+      why: 'Triplicás tu rango salarial al pasar de español-only a inglés fluido. Es la inversión #1 de retorno fuera de tech mismo.',
+      demand: 'Crítica · multiplicador salarial inmediato',
+      roles: ['Cualquier rol tech remoto', 'Tech a empresas USA/EU', 'Roles de liderazgo'],
+      duration: '6 meses - 2 años (depende del punto de partida)',
+      next: [],
+      certs: [
+        { level: 'principiante', order: 1, name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test CEFR A1-C2 (50 min). Certificado verificable gratis. Equivalente referencia TOEFL.', learn: ['Tu nivel CEFR actual', 'Listening + Reading', 'Score 0-100'], relatesTo: 'Empezá midiendo tu nivel real. EF SET es la mejor opción gratis.', hours: 1, link: 'https://www.efset.org/', free: true, cost: 'GRATIS', reputation: 'EF · referencia global gratis', featured: true },
+        { level: 'principiante', order: 2, name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test del British Council. App móvil. Resultado CEFR + cert digital verificable gratis.', learn: ['Grammar, vocabulary, reading, listening', 'CEFR level', 'Resultado en 40 min'], relatesTo: 'Confirma tu nivel con la autoridad #1 mundial en inglés.', hours: 1, link: 'https://www.englishscore.com/', free: true, cost: 'GRATIS', reputation: 'British Council · top globally', featured: false },
+        { level: 'pro', order: 3, name: 'Cambridge B2 First (FCE)', issuer: 'Cambridge English', icon: '🎓', color: 'hsl(220,70%,35%)', desc: 'Cert formal nivel B2. Reconocido por universidades y empresas globalmente.', learn: ['Reading & Use of English', 'Writing (essays, emails formales)', 'Listening', 'Speaking face-to-face'], relatesTo: 'Tu primer cert de papel realmente útil para CV internacional.', hours: 100, link: 'https://www.cambridgeenglish.org/exams-and-tests/first/', free: false, cost: 'USD 230', reputation: 'Cambridge · gold standard internacional', featured: false },
+        { level: 'pro', order: 4, name: 'TOEFL iBT', issuer: 'ETS', icon: '🇺🇸', color: 'hsl(220,75%,30%)', desc: 'Cert exigida por universidades y empresas USA. Score 0-120.', learn: ['Reading, Listening, Speaking, Writing', '4 horas test', 'Aceptado en 11,000+ instituciones globalmente'], relatesTo: 'Si tu objetivo es USA (estudios o trabajo), esta es la apuesta.', hours: 50, link: 'https://www.ets.org/toefl', free: false, cost: 'USD 265', reputation: 'ETS · USA standard', featured: true },
+      ]
+    },
+  ];
+
+  /* Helper · obtiene metadata de una materia 10-SYS (no usado en nueva UI
+   * pero conservado por si lo extendemos en el futuro). */
+  const _SUBJ_BADGE = (id) => {
+    const s = SUBJECTS.find(x => x.id === id);
+    return s ? { icon: s.icon, name: s.name, color: s.color } : null;
+  };
+
+  // Legacy: el array CERTS plano se reemplazó por SKILL_MODULES.
+  // Mantengo placeholder vacío para que código externo que importe SYS.CERTS no rompa.
+  const CERT_CATEGORIES = {};
+  const CERT_CATEGORY_ORDER = [];
+
+  const _LEGACY_CERTS = [
+    // ═══ 🤖 INTELIGENCIA ARTIFICIAL (énfasis carrera) ═══
+    { category: 'ai', featured: true,  name: 'Elements of AI', issuer: 'Universidad de Helsinki', icon: '🎓', color: 'hsl(195,85%,50%)', desc: 'EL mejor intro a IA del mundo. ¿Qué es la IA? · ML real · ética · futuro. Certificado oficial verificable. Ya completaron +1M de personas. PUNTO DE PARTIDA OBLIGATORIO.', tags: ['IA', 'Universidad', 'TOP'], subjects: ['inv_ciencia'], link: 'https://www.elementsofai.com/', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'ai', featured: true,  name: 'Machine Learning Crash Course', issuer: 'Google', icon: '🔬', color: 'hsl(220,90%,55%)', desc: 'Curso oficial de Google. 15 horas con código real en TensorFlow. Conceptos + práctica intensiva. Badge de finalización.', tags: ['ML', 'Google', 'TensorFlow'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://developers.google.com/machine-learning/crash-course', difficulty: 'Intermedio', time: '15 horas', free: true },
+    { category: 'ai', featured: true,  name: 'Hugging Face Course (NLP + Transformers)', issuer: 'Hugging Face', icon: '🤗', color: 'hsl(45,95%,55%)', desc: 'NLP de última generación · transformers · BERT · GPT · fine-tuning. Hugging Face es el GitHub de modelos AI. Cert oficial. Necesario para AI moderna.', tags: ['NLP', 'Transformers', 'TOP'], subjects: ['inv_ciencia'], link: 'https://huggingface.co/learn/nlp-course', difficulty: 'Intermedio', time: '6-8 semanas', free: true },
+    { category: 'ai', name: 'Intro to Machine Learning', issuer: 'Kaggle Learn', icon: '🤖', color: 'hsl(195,85%,50%)', desc: 'Scikit-learn · árboles de decisión · random forests · validación cruzada. Cert oficial Kaggle. Tu primer modelo real.', tags: ['ML', 'Python', 'Kaggle'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.kaggle.com/learn/intro-to-machine-learning', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
+    { category: 'ai', name: 'Intermediate Machine Learning', issuer: 'Kaggle Learn', icon: '🎯', color: 'hsl(195,75%,45%)', desc: 'Missing values · variables categóricas · pipelines · cross-validation · XGBoost · data leakage. Continuación natural.', tags: ['ML', 'XGBoost', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/intermediate-machine-learning', difficulty: 'Intermedio', time: '2-3 semanas', free: true },
+    { category: 'ai', name: 'Deep Learning', issuer: 'Kaggle Learn', icon: '🧠', color: 'hsl(280,70%,55%)', desc: 'Redes neuronales · TensorFlow · Keras · entrenamiento · regularización. Cert Kaggle. El siguiente paso después de ML clásico.', tags: ['DL', 'Neural Nets', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/intro-to-deep-learning', difficulty: 'Intermedio-Avanzado', time: '3-4 semanas', free: true },
+    { category: 'ai', name: 'Computer Vision', issuer: 'Kaggle Learn', icon: '👁️', color: 'hsl(160,70%,45%)', desc: 'CNNs · transfer learning · data augmentation · clasificación de imágenes. Cert Kaggle. Skill clave de AI aplicada.', tags: ['CV', 'CNN', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/computer-vision', difficulty: 'Intermedio-Avanzado', time: '2-3 semanas', free: true },
+    { category: 'ai', name: 'Feature Engineering', issuer: 'Kaggle Learn', icon: '⚙️', color: 'hsl(35,80%,50%)', desc: 'Crear features que los modelos puedan aprender. Mutual information · target encoding · clustering. Donde se gana o pierde el modelo.', tags: ['ML', 'Features', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/feature-engineering', difficulty: 'Intermedio', time: '1-2 semanas', free: true },
+
+    // ═══ 📊 CIENCIA DE DATOS (énfasis carrera) ═══
+    { category: 'data_science', featured: true, name: 'Pandas (Data Analysis)', issuer: 'Kaggle Learn', icon: '🐼', color: 'hsl(120,40%,40%)', desc: 'DataFrames · groupby · merge · missing data. La librería #1 para manipular datos en Python. Imprescindible para todo data scientist.', tags: ['Pandas', 'Python', 'TOP'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/pandas', difficulty: 'Básico', time: '1-2 semanas', free: true },
+    { category: 'data_science', name: 'Data Visualization', issuer: 'Kaggle Learn', icon: '📈', color: 'hsl(43,80%,50%)', desc: 'Seaborn · matplotlib · gráficos estadísticos · storytelling. Saber mostrar resultados es 50% del trabajo de un DS.', tags: ['Viz', 'Seaborn', 'Kaggle'], subjects: ['inv_ciencia'], link: 'https://www.kaggle.com/learn/data-visualization', difficulty: 'Básico', time: '1 semana', free: true },
+    { category: 'data_science', featured: true, name: 'IBM Data Science Foundations', issuer: 'IBM SkillsBuild', icon: '💎', color: 'hsl(210,85%,40%)', desc: 'Path completo IBM con badges acreditables. Big data · análisis · ML básico. Reconocido por reclutadores. Incluye proyectos reales.', tags: ['IBM', 'Badges', 'TOP'], subjects: ['inv_ciencia'], link: 'https://skillsbuild.org/students/course-catalog/data-science', difficulty: 'Básico-Intermedio', time: '8-12 semanas', free: true },
+    { category: 'data_science', name: 'Databricks Lakehouse Fundamentals', issuer: 'Databricks Academy', icon: '🏞️', color: 'hsl(0,75%,50%)', desc: 'Lakehouse · Delta Lake · Spark. Databricks es la plataforma #1 de Data + AI a escala. Cert oficial gratis. Skill diferenciador.', tags: ['BigData', 'Spark', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://customer-academy.databricks.com/learn/course/1325/databricks-lakehouse-platform-accreditation', difficulty: 'Básico-Intermedio', time: '2-3 horas', free: true },
+    { category: 'data_science', name: 'Time Series Forecasting', issuer: 'Kaggle Learn', icon: '⏱️', color: 'hsl(15,75%,50%)', desc: 'Forecasting · tendencias · estacionalidad · features cíclicos. Cert Kaggle. Aplica a finanzas, ventas, IoT.', tags: ['Forecasting', 'Python', 'Kaggle'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.kaggle.com/learn/time-series', difficulty: 'Intermedio', time: '1-2 semanas', free: true },
+
+    // ═══ 💻 PROGRAMACIÓN · FUNDAMENTOS ═══
+    { category: 'programming', featured: true, name: 'CS50x · Introduction to Computer Science', issuer: 'HarvardX (edX)', icon: '🏛️', color: 'hsl(0,60%,40%)', desc: 'El curso más famoso del mundo. C · Python · SQL · JavaScript · algoritmos · estructuras. Cert oficial Harvard verificable. Cambia carreras. INVERSIÓN DEL AÑO.', tags: ['Harvard', 'Universidad', 'TOP'], subjects: ['ing_web', 'inv_ciencia'], link: 'https://cs50.harvard.edu/x/', difficulty: 'Básico-Intermedio', time: '10-12 semanas', free: true },
+    { category: 'programming', featured: true, name: 'PCAP · Python Programming Essentials', issuer: 'Cisco NetAcad', icon: '🐍', color: 'hsl(220,80%,55%)', desc: 'Curso oficial Python completo de Cisco (PCAP). Sintaxis · estructuras · OOP · modules · exceptions. Badge oficial. Base de toda IA / DS.', tags: ['Python', 'Cisco', 'TOP'], subjects: ['inv_ciencia', 'mat_especiales'], link: 'https://www.netacad.com/courses/python-essentials-1', difficulty: 'Básico', time: '6-8 semanas', free: true },
+    { category: 'programming', name: 'Python (Basic + Intermediate)', issuer: 'HackerRank', icon: '✅', color: 'hsl(120,60%,40%)', desc: 'Tests cronometrados con certificado verificable. Útil para LinkedIn y portfolio. 2 niveles: Basic + Intermediate.', tags: ['Python', 'HackerRank', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.hackerrank.com/skills-directory/python', difficulty: 'Básico-Intermedio', time: '2 semanas', free: true },
+    { category: 'programming', name: 'Intro to Programming (Python)', issuer: 'Kaggle Learn', icon: '🧠', color: 'hsl(263,70%,55%)', desc: 'Python desde cero · variables · loops · funciones. Cert Kaggle. Si no programaste antes, empezá acá.', tags: ['Python', 'Beginner', 'Kaggle'], subjects: ['mat_especiales'], link: 'https://www.kaggle.com/learn/intro-to-programming', difficulty: 'Principiante', time: '1 semana', free: true },
+    { category: 'programming', name: 'Problem Solving (Basic + Intermediate)', issuer: 'HackerRank', icon: '🧩', color: 'hsl(45,75%,50%)', desc: 'Estructuras de datos · algoritmos · complejidad. Cert HackerRank. Esencial para entrevistas técnicas (Big Tech, FAANG).', tags: ['Algoritmos', 'Entrevistas', 'Oficial'], subjects: ['inv_ciencia'], link: 'https://www.hackerrank.com/skills-directory/problem_solving', difficulty: 'Básico-Intermedio', time: '3-4 semanas', free: true },
+
+    // ═══ 🌐 DESARROLLO WEB ═══
+    { category: 'web', featured: true, name: 'Responsive Web Design', issuer: 'freeCodeCamp', icon: '🎨', color: 'hsl(335,80%,55%)', desc: 'HTML5 · CSS3 · Flexbox · Grid · accesibilidad. 300h con cert verificable. Núcleo del frontend. fCC reconocido globalmente.', tags: ['HTML', 'CSS', 'TOP'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/2022/responsive-web-design/', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'web', name: 'JavaScript Essentials 1', issuer: 'Cisco NetAcad', icon: '🟨', color: 'hsl(45,90%,50%)', desc: 'Fundamentos JS oficial Cisco. Sintaxis · DOM · eventos · async. Badge digital. Refuerza directamente DIS34.', tags: ['JS', 'Cisco', 'Badge'], subjects: ['ing_web'], link: 'https://www.netacad.com/courses/javascript-essentials-1', difficulty: 'Básico', time: '4 semanas', free: true },
+    { category: 'web', name: 'JS Algorithms & Data Structures', issuer: 'freeCodeCamp', icon: '🧮', color: 'hsl(35,90%,50%)', desc: 'ES6 · OOP · algoritmos · programación funcional · regex. 300h con cert. Sale del basic y entra al pro.', tags: ['JS', 'Algoritmos', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
+    { category: 'web', name: 'API Fundamentals · Student Expert', issuer: 'Postman Academy', icon: '📮', color: 'hsl(15,85%,55%)', desc: 'APIs REST · requests · environments · tests · colecciones. Insignia oficial Postman. APIs son el lenguaje de la web moderna.', tags: ['API', 'REST', 'Oficial'], subjects: ['ing_web'], link: 'https://academy.postman.com/path/postman-api-fundamentals-student-expert', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    { category: 'web', name: 'Front End Development Libraries', issuer: 'freeCodeCamp', icon: '⚛️', color: 'hsl(195,85%,55%)', desc: 'React · Redux · Bootstrap · Sass · jQuery. 300h con cert. React es el framework #1 en el mercado laboral.', tags: ['React', 'Redux', 'fCC'], subjects: ['ing_web'], link: 'https://www.freecodecamp.org/learn/front-end-development-libraries/', difficulty: 'Intermedio', time: '8-10 semanas', free: true },
+
+    // ═══ 🗄️ BASES DE DATOS ═══
+    { category: 'databases', featured: true, name: 'SQL (Basic + Intermediate + Advanced)', issuer: 'HackerRank', icon: '🗄️', color: 'hsl(210,75%,50%)', desc: '3 niveles · cada uno con cert verificable. SELECT · JOIN · window functions · CTEs · optimización. SQL es el lenguaje universal de datos.', tags: ['SQL', 'BD', 'TOP'], subjects: ['admin_bd'], link: 'https://www.hackerrank.com/skills-directory/sql', difficulty: 'Básico-Avanzado', time: '3-4 semanas', free: true },
+    { category: 'databases', name: 'MongoDB Basics (M001)', issuer: 'MongoDB University', icon: '🍃', color: 'hsl(142,60%,40%)', desc: 'CRUD · queries · agregaciones · indexes. Cert oficial MongoDB. La NoSQL #1 en el mercado.', tags: ['NoSQL', 'BD', 'Oficial'], subjects: ['admin_bd'], link: 'https://learn.mongodb.com/courses/m001-mongodb-basics', difficulty: 'Básico', time: '2-3 semanas', free: true },
+    { category: 'databases', name: 'MongoDB M121 · Aggregation Framework', issuer: 'MongoDB University', icon: '🔀', color: 'hsl(142,55%,35%)', desc: 'Pipelines · agregaciones complejas · transformaciones. Cert oficial. El skill que separa juniors de seniors en NoSQL.', tags: ['NoSQL', 'Avanzado', 'Oficial'], subjects: ['admin_bd'], link: 'https://learn.mongodb.com/courses/m121-the-mongodb-aggregation-framework', difficulty: 'Intermedio-Avanzado', time: '3-4 semanas', free: true },
+
+    // ═══ 🔌 REDES Y SISTEMAS ═══
+    { category: 'networks', featured: true, name: 'Networking Essentials', issuer: 'Cisco NetAcad', icon: '🌐', color: 'hsl(195,80%,45%)', desc: 'TCP/IP · OSI · routing · switching · WiFi. Base para CCNA (cert paga). Cisco es el estándar de redes globalmente.', tags: ['Redes', 'Cisco', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/networking-essentials', difficulty: 'Básico-Intermedio', time: '6-8 semanas', free: true },
+    { category: 'networks', featured: true, name: 'Linux Essentials', issuer: 'Cisco NetAcad', icon: '🐧', color: 'hsl(45,85%,45%)', desc: 'Línea de comandos · permisos · scripting · networking en Linux. Cert oficial Cisco. Linux corre el 80% de servidores del mundo.', tags: ['Linux', 'Cisco', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/linux-essentials', difficulty: 'Básico', time: '4-6 semanas', free: true },
+    { category: 'networks', name: 'Introduction to Linux (LFS101)', issuer: 'Linux Foundation (edX)', icon: '🏛️', color: 'hsl(30,75%,50%)', desc: 'Curso oficial Linux Foundation · audit gratis · cert verificable. El estándar reconocido por la industria.', tags: ['Linux', 'edX', 'Universidad'], subjects: ['redes_inalambricas'], link: 'https://www.edx.org/course/introduction-to-linux', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+
+    // ═══ 🔒 CIBERSEGURIDAD ═══
+    { category: 'security', featured: true, name: 'Introduction to Cybersecurity', issuer: 'Cisco NetAcad', icon: '🔒', color: 'hsl(0,70%,50%)', desc: 'Amenazas · ataques · vulnerabilidades · defensa · ética. Badge Cisco oficial. Primera capa de pensar en seguro.', tags: ['Seguridad', 'Cisco', 'TOP'], subjects: ['redes_inalambricas', 'calidad_sw'], link: 'https://www.netacad.com/courses/introduction-to-cybersecurity', difficulty: 'Básico', time: '6 semanas', free: true },
+    { category: 'security', name: 'Cybersecurity Essentials', issuer: 'Cisco NetAcad', icon: '🛡️', color: 'hsl(0,75%,40%)', desc: 'Siguiente paso después de Intro. Criptografía · controles de acceso · respuesta a incidentes. Path hacia CCNA Security.', tags: ['Seguridad', 'Cisco', 'Badge'], subjects: ['redes_inalambricas'], link: 'https://www.netacad.com/courses/cybersecurity-essentials', difficulty: 'Intermedio', time: '6-8 semanas', free: true },
+    { category: 'security', name: 'Pre-Security Path', issuer: 'TryHackMe', icon: '🎯', color: 'hsl(15,80%,50%)', desc: 'Aprende hackeando en labs reales · networking · Linux · web · scripting. Badges desbloqueables. Práctico vs teórico.', tags: ['Hacking', 'Labs', 'Práctico'], subjects: ['redes_inalambricas'], link: 'https://tryhackme.com/path/outline/presecurity', difficulty: 'Básico', time: '4-6 semanas', free: true },
+
+    // ═══ ☁️ CLOUD COMPUTING ═══
+    { category: 'cloud', featured: true, name: 'OCI Foundations Associate', issuer: 'Oracle MyLearn', icon: '☁️', color: 'hsl(15,80%,50%)', desc: 'Oracle Cloud Foundations. Examen oficial GRATUITO real (sin trucos). Cert reconocido. Una de las pocas certs cloud verdaderamente gratis.', tags: ['Cloud', 'Oracle', 'TOP'], subjects: ['admin_bd', 'redes_inalambricas'], link: 'https://mylearn.oracle.com/ou/learning-path/become-an-oci-foundations-associate-2024/138393', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+    { category: 'cloud', featured: true, name: 'AWS Cloud Quest · Cloud Practitioner', issuer: 'AWS Skill Builder', icon: '🎮', color: 'hsl(35,90%,55%)', desc: 'Aprende AWS jugando en un mundo 3D. Badge oficial digital. AWS es el cloud #1 del mundo. Path divertido y efectivo.', tags: ['AWS', 'Cloud', 'TOP'], subjects: ['redes_inalambricas'], link: 'https://aws.amazon.com/training/digital/aws-cloud-quest/', difficulty: 'Básico', time: '15-20 horas', free: true },
+    { category: 'cloud', name: 'Microsoft Azure Fundamentals (AZ-900) Path', issuer: 'Microsoft Learn', icon: '🔷', color: 'hsl(210,80%,50%)', desc: 'Training oficial para AZ-900 (cert es paga). Conceptos cloud · servicios Azure · pricing. Badges desbloqueables al avanzar.', tags: ['Azure', 'Microsoft', 'Path'], subjects: ['redes_inalambricas'], link: 'https://learn.microsoft.com/training/paths/azure-fundamentals/', difficulty: 'Básico', time: '8-12 horas', free: true },
+    { category: 'cloud', name: 'Google Cloud Digital Leader Path', issuer: 'Google Cloud Skills Boost', icon: '🟦', color: 'hsl(220,85%,55%)', desc: 'Conceptos GCP · cloud transformation. Badges por completar módulos. Google es el cloud con más crecimiento en LATAM.', tags: ['GCP', 'Google', 'Path'], subjects: [], link: 'https://www.cloudskillsboost.google/paths/9', difficulty: 'Básico', time: '6-8 horas', free: true },
+
+    // ═══ 🔧 DEVOPS · CI/CD ═══
+    { category: 'devops', featured: true, name: 'GitHub Foundations', issuer: 'Microsoft Learn', icon: '🐙', color: 'hsl(263,50%,50%)', desc: 'Git · GitHub Actions · Codespaces · PRs · security. Path oficial con badges + cert disponible. Git es el lenguaje universal del software.', tags: ['Git', 'DevOps', 'TOP'], subjects: ['ing_web', 'calidad_sw'], link: 'https://learn.microsoft.com/training/paths/github-foundations/', difficulty: 'Básico', time: '2-4 semanas', free: true },
+    { category: 'devops', name: 'Introduction to DevOps (LFS161)', issuer: 'Linux Foundation (edX)', icon: '⚙️', color: 'hsl(280,55%,55%)', desc: 'Curso oficial Linux Foundation. CI/CD · cultura DevOps · automation · monitoring. Audit gratis, cert verificable.', tags: ['DevOps', 'edX', 'Universidad'], subjects: ['calidad_sw'], link: 'https://www.edx.org/course/introduction-to-devops-practices-and-tools', difficulty: 'Básico-Intermedio', time: '4-6 semanas', free: true },
+    { category: 'devops', name: 'Docker · Get Started', issuer: 'Docker Inc.', icon: '🐳', color: 'hsl(200,75%,50%)', desc: 'Containers · imágenes · Dockerfile · networks · volumes. Training oficial Docker. Containers son la unidad básica del cloud moderno.', tags: ['Docker', 'Containers', 'Oficial'], subjects: ['ing_web'], link: 'https://docs.docker.com/get-started/', difficulty: 'Básico', time: '1-2 semanas', free: true },
+
+    // ═══ ✅ CALIDAD Y METODOLOGÍA ═══
+    { category: 'quality', featured: true, name: 'Scrum Foundation (SFPC)', issuer: 'CertiProf', icon: '🔄', color: 'hsl(172,60%,45%)', desc: 'Scrum framework · roles · eventos · artefactos. Cert profesional reconocido en LATAM. Vouchers gratis periódicos en redes oficiales.', tags: ['Agile', 'Scrum', 'TOP'], subjects: ['calidad_sw', 'inv_ciencia'], link: 'https://certiprof.com/pages/scrum-foundation-professional-certificate-sfpc-en', difficulty: 'Básico', time: '1-2 semanas', free: true },
+    { category: 'quality', name: 'Test Automation University', issuer: 'Applitools', icon: '🧪', color: 'hsl(282,60%,50%)', desc: 'Múltiples certs por curso. Selenium · Cypress · Playwright · API testing. La universidad #1 de QA automatizado gratuita.', tags: ['Testing', 'QA', 'Oficial'], subjects: ['calidad_sw'], link: 'https://testautomationu.applitools.com/', difficulty: 'Básico-Avanzado', time: '4-12 semanas', free: true },
+    { category: 'quality', name: 'Atlassian University · Jira Fundamentals', issuer: 'Atlassian', icon: '📋', color: 'hsl(220,85%,50%)', desc: 'Gestión ágil con Jira · workflows · sprints · reportes. Badge oficial Atlassian. Jira es la herramienta #1 en empresas tech.', tags: ['Jira', 'Agile', 'Oficial'], subjects: ['calidad_sw'], link: 'https://university.atlassian.com/student/path/1077727-jira-fundamentals', difficulty: 'Básico', time: '4-6 horas', free: true },
+
+    // ═══ 🇬🇧 INGLÉS PROFESIONAL ═══
+    { category: 'english', featured: true, name: 'EF SET English Test', issuer: 'EF Education First', icon: '🇬🇧', color: 'hsl(220,70%,50%)', desc: 'Test CEFR A1-C2 (50 min) · certificado verificable gratis. Equivalente referencia TOEFL/IELTS. EF es global y reconocido.', tags: ['CEFR', 'Test', 'TOP'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.efset.org/', difficulty: 'Variable', time: '50 min', free: true },
+    { category: 'english', name: 'EnglishScore Skills Test', issuer: 'British Council', icon: '🌍', color: 'hsl(0,75%,45%)', desc: 'Test del British Council. Resultado CEFR + cert digital verificable gratis. App móvil. La autoridad #1 mundial en inglés.', tags: ['British Council', 'CEFR', 'Oficial'], subjects: ['english_beginner', 'placement_test'], link: 'https://www.englishscore.com/', difficulty: 'Variable', time: '40 min', free: true },
+  ];
+  const CERTS = _LEGACY_CERTS; // alias
+
+  // ── QUICK ACCESS LINKS ──
+  const QUICK_ACCESS = [
+    { title: 'CUN Digital', desc: 'LMS principal: aulas virtuales, foros, entregas', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
+    { title: 'CUN 360', desc: 'Carnet, horarios, tickets CAMI, pagos', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
+    { title: 'SGA Campus (SINU)', desc: 'Notas oficiales · matrícula · historial', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
+    { title: 'Gmail CUN', desc: 'Correo institucional', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co#inbox' },
+    { title: 'Calendario 2026', desc: 'PDF oficial de calendarios virtuales', icon: '📅', color: 'hsl(172,60%,45%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
+    { title: 'Plan de Estudios', desc: 'Malla curricular oficial PDF', icon: '📋', color: 'hsl(45,90%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
+  ];
+
+  // ── CUN ECOSYSTEM MAP ──
+  const CUN_ECOSYSTEM = [
+    { title: 'CUN 360', desc: 'App central: carnet digital, horarios, tickets CAMI, pagos y chatbot 24/7', icon: '📱', color: 'hsl(82,100%,37%)', url: 'https://360.cunapp.pro/#/estudiante/dashboard' },
+    { title: 'CUN Digital (Moodle)', desc: 'LMS principal · materiales, foros, entregas, calificaciones', icon: '🎓', color: 'hsl(263,70%,55%)', url: 'https://cdigital.cun.edu.co/my/' },
+    { title: 'SGA Campus (SINU)', desc: 'Matrícula, notas oficiales, historial académico, certificados', icon: '🏛️', color: 'hsl(200,80%,50%)', url: 'https://sigwt.cun.edu.co/sgacampus/#home' },
+    { title: 'Gmail CUN', desc: 'Correo institucional · comunicación con profesores y admin', icon: '📧', color: 'hsl(0,70%,55%)', url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co#inbox' },
+    { title: 'Inducción Virtual', desc: 'Onboarding, guías, kit de bienvenida, tutoriales de plataformas', icon: '🚀', color: 'hsl(172,60%,45%)', url: 'https://cun.edu.co/induccion-virtual/' },
+    { title: 'Calendario 2026 (PDF)', desc: 'Documento oficial con fechas de los 6 períodos académicos', icon: '📅', color: 'hsl(320,60%,50%)', url: 'https://repo.cunapp.dev/web/2025/calendarios/calendarios_virtuales_2026_.pdf' },
+    { title: 'Plan de Estudios (PDF)', desc: 'Malla curricular oficial · Ing. de Sistemas Virtual', icon: '📋', color: 'hsl(15,70%,50%)', url: 'https://repo.cunapp.dev/web/2024/planestudios/ingenieria_sistemas_virtual.pdf' },
+    { title: 'CUN App (Google Play)', desc: 'Descarga la app móvil CUN 360 para Android', icon: '🤖', color: 'hsl(120,50%,40%)', url: 'https://play.google.com/store/apps/details?id=co.edu.cun.cun360' },
+  ];
+
+  // ── METHODOLOGY STEPS ──
+  const METHOD_STEPS = [
+    { step: 1, title: 'Revisa CUN Digital', desc: 'Entra al aula virtual de cada materia. Revisa materiales nuevos, foros y actividades del bloque actual.', icon: '📖', action: 'Diario o cada 2 días' },
+    { step: 2, title: 'Entra a las clases en vivo', desc: 'Cada materia trae su horario y el botón 📡 Clase (Google Meet). Si no hay horario publicado, está en Avisos del aula.', icon: '🎥', action: 'Según horario' },
+    { step: 3, title: 'Registra deadlines aquí', desc: 'Cada tarea que veas en CUN Digital, agrégala al semáforo con fecha límite. El sistema la prioriza.', icon: '🚦', action: 'Cada vez que revises CUN Digital' },
+    { step: 4, title: 'Trabaja por prioridad', desc: 'Resuelve P0 (rojo) primero, luego P1 (naranja). Los P2 son tu flujo normal de trabajo.', icon: '⚡', action: 'Diario' },
+    { step: 5, title: 'Entrega en CUN Digital', desc: 'Sube tus trabajos en el LMS. Marca la tarea como completada aquí para trackear tu avance.', icon: '✅', action: 'Antes del deadline' },
+    { step: 6, title: 'Revisa notas en SGA', desc: 'Las calificaciones oficiales aparecen en SGA Campus / SINU. Verifica que coincidan con lo entregado.', icon: '📊', action: 'Después de cierre de notas' },
+  ];
+
+  // ── WEEKLY WORKFLOW ──
+  const WEEKLY_WORKFLOW = [
+    { day: 'Lunes', tasks: ['Dashboard: mirar la semana del bloque y las entregas de 14 días', 'Revisar Avisos de cada aula en CDigital', 'Registrar tareas nuevas en su materia'] },
+    { day: 'Lunes a viernes · 6:15 PM', tasks: ['Clase en vivo de inglés (Meet)', 'Miércoles: también Inteligencia de Negocios (6:15-8:30 PM)'] },
+    { day: 'Entre semana', tasks: ['Guía (G) + Video + Recurso del tema de la semana en cada aula', 'Preparar el quiz o parcial que abre esa semana (ver Plan del bloque)'] },
+    { day: 'Sábado', tasks: ['Entregar lo que cierra el domingo', 'Avanzar el ACA / Proyecto de Aula'] },
+    { day: 'Domingo', tasks: ['Cargar las notas que salieron en 🧮 Notas de cada materia', 'Si faltaste a una clase: 📹 Clases Perdidas con la grabación'] },
+  ];
+
+
+  // ── HELPER FUNCTIONS ──
+  function daysBetween(a, b) {
+    return Math.ceil((new Date(b) - new Date(a)) / 86400000);
+  }
+
+  function formatDate(d) {
+    const dt = new Date(d + 'T00:00:00');
+    const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return `${dt.getDate()} ${months[dt.getMonth()]}`;
+  }
+
+  function formatDateFull(d) {
+    const dt = new Date(d + 'T00:00:00');
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return `${dt.getDate()} de ${months[dt.getMonth()]} de ${dt.getFullYear()}`;
+  }
+
+  // Fecha LOCAL: con toISOString (UTC), desde las 7 PM de Colombia ya era "mañana".
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  // El período matriculado es el más reciente entre las materias "en curso".
+  // Así, al registrar las materias de un período nuevo, todo el módulo cambia solo.
+  function detectPeriod() {
+    const ps = getSubjects().filter(s => s.period && (s.status || 'en_curso') === 'en_curso').map(s => s.period).sort();
+    if (ps.length) return ps[ps.length - 1];
+    const today = todayStr();
+    for (const [id, cal] of Object.entries(CALENDAR)) {
+      if (cal.academic && today >= cal.academic.start && today <= cal.academic.end) return id;
+    }
+    return Object.keys(CALENDAR).pop();
+  }
+
+  // Materias sin período (creadas a mano) cuentan como actuales mientras estén en curso.
+  function isCurrentSubj(s, period = detectPeriod()) {
+    return s.period ? s.period === period : (s.status || 'en_curso') === 'en_curso';
+  }
+  function currentSubjects() {
+    const p = detectPeriod();
+    return getSubjects().filter(s => isCurrentSubj(s, p));
+  }
+
+  function blockWeek(period = detectPeriod()) {
+    const plan = BLOCK_PLANS[period];
+    if (!plan) return null;
+    const t = todayStr();
+    const weeks = plan.weeks;
+    const cur = weeks.find(w => t >= w.start && t <= w.end) || null;
+    const next = weeks.find(w => t < w.start) || null;
+    return { plan, cur, next, total: weeks.length, before: t < weeks[0].start, after: t > weeks[weeks.length - 1].end };
+  }
+
+  // Próximos eventos de clase a partir de `clases: [{dias:[1..7 (lun=1)], ini, fin}]`.
+  function upcomingClasses(daysAhead = 7) {
+    const out = [];
+    const now = new Date();
+    const hhmm = now.toTimeString().slice(0, 5);
+    currentSubjects().forEach(s => (s.clases || []).forEach(c => {
+      for (let i = 0; i <= daysAhead; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+        const dow = d.getDay() || 7;
+        if (!c.dias.includes(dow)) continue;
+        if (i === 0 && c.fin < hhmm) continue;
+        out.push({ s, day: i, date: d, ini: c.ini, fin: c.fin, tipo: c.tipo || '', live: i === 0 && c.ini <= hhmm && hhmm <= c.fin });
+      }
+    }));
+    // Una clase que se repite varios días (inglés) solo cuenta su próxima ocurrencia.
+    const seen = new Set();
+    return out.sort((a, b) => a.day - b.day || a.ini.localeCompare(b.ini))
+      .filter(c => { const k = c.s.id + '|' + c.tipo; if (seen.has(k)) return false; seen.add(k); return true; });
+  }
+
+  // Entregas pendientes (cronograma + tareas) de las materias actuales, ordenadas por fecha.
+  // El tipo 'otro' (introducción, evaluación docente, cierre de notas) no es una entrega.
+  function pendingItems() {
+    const subs = currentSubjects();
+    const ids = new Set(subs.map(s => s.id));
+    const items = [];
+    subs.forEach(s => (s.cronograma || []).forEach(c => {
+      if (!c.done && c.date && c.type !== 'otro') items.push({ kind: 'crono', s, cid: c.id, text: c.title, due: c.date, type: c.type, est: c.est });
+    }));
+    const byId = Object.fromEntries(subs.map(s => [s.id, s]));
+    getTasks().forEach(t => {
+      if (!t.done && t.due && (ids.has(t.subj) || t.subj === 'general')) items.push({ kind: 'task', s: byId[t.subj], tid: t.id, text: t.text, due: t.due });
+    });
+    return items.sort((a, b) => a.due.localeCompare(b.due));
+  }
+
+  function esc(s) {
+    const el = document.createElement('div');
+    el.textContent = s || '';
+    return el.innerHTML;
+  }
+
+  // ── TASK MANAGEMENT ──
+  function getTasks() { return db.get('tasks', []); }
+  function saveTasks(t) {
+    db.set('tasks', t);
+    if (window.CLOUD) t.forEach(task => CLOUD.push('sys_tasks', { ...task, id: String(task.id), updated_at: new Date().toISOString() }));
+  }
+
+  function addTask() {
+    const text = document.getElementById('newTaskText')?.value?.trim();
+    if (!text) return;
+    const subj = document.getElementById('newTaskSubj')?.value || 'general';
+    const priority = document.getElementById('newTaskPriority')?.value || 'p2';
+    const due = document.getElementById('newTaskDue')?.value || '';
+    const tasks = getTasks();
+    tasks.push({ id: Date.now(), text, subj, priority, due, done: false, created: todayStr() });
+    saveTasks(tasks);
+    document.getElementById('newTaskText').value = '';
+    render();
+  }
+
+  function toggleTask(id) {
+    const tasks = getTasks();
+    const t = tasks.find(x => x.id === id);
+    if (t) t.done = !t.done;
+    saveTasks(tasks);
+    render();
+  }
+
+  function deleteTask(id) {
+    if (window.CLOUD) CLOUD.remove('sys_tasks', String(id));
+    saveTasks(getTasks().filter(x => x.id !== id));
+    render();
+  }
+
+  function getTaskPriority(task) {
+    if (task.done) return 'done';
+    if (!task.due) return task.priority || 'p2';
+    const days = daysBetween(todayStr(), task.due);
+    if (days < 0) return 'p0';
+    if (days <= 2) return 'p0';
+    if (days <= 7) return 'p1';
+    return task.priority || 'p2';
+  }
+
+  // ── RENDER: SUBJECT DETAIL (Tab 1) — Embeds tasks semáforo + notebook per subject ──
+  function renderSubjectDetail() {
+    const el = document.getElementById('subjectDetail');
+    if (!el) return;
+    const tasks = getTasks();
+    const priorityMeta = {
+      p0: { icon: '🔴', label: 'CRÍTICO', cls: 'sem-p0' },
+      p1: { icon: '🟠', label: 'URGENTE', cls: 'sem-p1' },
+      p2: { icon: '🟡', label: 'ON TRACK', cls: 'sem-p2' },
+      p3: { icon: '🟢', label: 'FUTURO', cls: 'sem-p3' },
+      p4: { icon: '🟣', label: 'OPCIONAL', cls: 'sem-p4' },
+    };
+
+    const allSubjects = getSubjects();
+    const period = detectPeriod();
+    const cur = allSubjects.filter(s => isCurrentSubj(s, period));
+    const hist = allSubjects.filter(s => !isCurrentSubj(s, period));
+    const counts = { all: allSubjects.length };
+    STATUS_ORDER.forEach(st => counts[st] = 0);
+    allSubjects.forEach(s => { const st = s.status || 'en_curso'; counts[st] = (counts[st] || 0) + 1; });
+    const pill = (f, label) => `<button class="subj-filt-pill ${_subjFilter===f?'on':''}" onclick="SYS.setSubjFilter('${f}')">${label}</button>`;
+    const filterPills = `<div class="subj-filt">
+      ${pill('actual', `📍 Período ${period} (${cur.length})`)}
+      ${hist.length ? pill('historial', `🗂 Historial (${hist.length})`) : ''}
+      ${pill('all', `Todas (${counts.all})`)}
+      ${STATUS_ORDER.map(st => counts[st] > 0 ? pill(st, `${STATUSES[st].icon} ${STATUSES[st].label} (${counts[st]})`) : '').join('')}
+    </div>`;
+    const visible = _subjFilter === 'actual' ? cur
+      : _subjFilter === 'historial' ? hist
+      : _subjFilter === 'all' ? allSubjects
+      : allSubjects.filter(s => (s.status || 'en_curso') === _subjFilter);
+    const hdr = document.getElementById('subjPeriodHdr');
+    if (hdr) {
+      const cal = CALENDAR[period];
+      hdr.textContent = `Período ${period}` + (cal?.academic ? ` · ${formatDate(cal.academic.start)} ${cal.academic.start.slice(0, 4)} → ${formatDate(cal.academic.end)} ${cal.academic.end.slice(0, 4)}` : '') + ` · ${cur.length} materias en curso. Las de períodos anteriores están en 🗂 Historial.`;
+    }
+    const collState = db.get('subjects_collapsed', {});
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">${filterPills}</div>
+      <button class="tf-btn" style="background:var(--vi);font-size:12px;flex-shrink:0" onclick="SYS.openSubjectModal(null)">+ Nueva materia</button>
+    </div>
+    <div class="subj-list-toolbar">
+      <button class="subj-list-btn" onclick="SYS.expandAllSubjects()">▼ Expandir todas</button>
+      <button class="subj-list-btn" onclick="SYS.collapseAllSubjects()">▶ Colapsar todas</button>
+    </div>` + (_subjFilter === 'actual' ? catchUpHtml(cur) : '') + (visible.length === 0 ? `<div class="cs-empty">Sin materias en este estado.</div>` : '') + visible.map(s => {
+      const subjTasks = tasks.filter(t => t.subj === s.id);
+      const done = subjTasks.filter(t => t.done).length;
+      const total = subjTasks.length;
+      const pending = total - done;
+      const pct = total > 0 ? Math.round(done / total * 100) : 0;
+      const cdLink = s.cdigital_id ? `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` : null;
+      const sl = s.subject_links || {};
+
+      // Tasks grouped by priority (semáforo)
+      const grouped = { p0: [], p1: [], p2: [], p3: [], p4: [], done: [] };
+      subjTasks.forEach(t => {
+        if (t.done) grouped.done.push(t);
+        else grouped[getTaskPriority(t)]?.push(t);
+      });
+
+      let tasksHtml = '';
+      ['p0','p1','p2','p3','p4'].forEach(p => {
+        const items = grouped[p];
+        if (!items.length) return;
+        const m = priorityMeta[p];
+        tasksHtml += `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px"><span class="sem ${m.cls}">${m.icon} ${p.toUpperCase()}</span> ${m.label} · ${items.length}</div>` +
+          items.map(t => {
+            const daysLeft = t.due ? daysBetween(todayStr(), t.due) : null;
+            const daysText = daysLeft !== null ? (daysLeft < 0 ? `<span style="color:var(--rd)">Vencido ${Math.abs(daysLeft)}d</span>` : daysLeft === 0 ? '<span style="color:var(--rd)">HOY</span>' : `${daysLeft}d`) : '';
+            return `<div class="atask">
+              <div class="atask-check" onclick="SYS.toggleTask(${t.id})"></div>
+              <span class="atask-text">${esc(t.text)}</span>
+              ${t.due ? `<span class="atask-due">${formatDate(t.due)} · ${daysText}</span>` : ''}
+              <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
+            </div>`;
+          }).join('') + `</div>`;
+      });
+      if (grouped.done.length) {
+        tasksHtml += `<div style="margin-top:8px;opacity:.6"><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">✅ Completadas · ${grouped.done.length}</div>` +
+          grouped.done.slice(0,8).map(t => `<div class="atask">
+            <div class="atask-check done" onclick="SYS.toggleTask(${t.id})">✓</div>
+            <span class="atask-text crossed">${esc(t.text)}</span>
+            <button class="atask-del" onclick="SYS.deleteTask(${t.id})">✕</button>
+          </div>`).join('') + `</div>`;
+      }
+      if (!tasksHtml) tasksHtml = '<div style="font-size:11px;color:var(--t3);padding:6px 0;text-align:center">Sin tareas. Agrega la primera abajo.</div>';
+
+      // Notebook HTML per subject (rendered by NB.renderSubjectPanel)
+      const nbHtml = (window.NB && NB.renderSubjectPanel) ? NB.renderSubjectPanel(s.id) : '';
+
+      const stCur = s.status || 'en_curso';
+      const stMeta = STATUSES[stCur] || STATUSES.en_curso;
+      const dimCard = ['ganada','perdida','retirada'].includes(stCur);
+      const isExpanded = !!collState[s.id];
+      const stMenuHtml = `<div class="subj-st-wrap">
+        <button class="subj-st-bdg st-${stCur}" onclick="event.stopPropagation();SYS.toggleStatusMenu('${s.id}')">${stMeta.icon} ${stMeta.label} ▾</button>
+        <div class="subj-st-menu" id="stMenu-${s.id}">
+          ${STATUS_ORDER.map(st => `<button class="${st===stCur?'cur':''}" onclick="event.stopPropagation();SYS.setSubjectStatus('${s.id}','${st}')">${STATUSES[st].icon} ${STATUSES[st].label}</button>`).join('')}
+        </div>
+      </div>`;
+      // Próxima entrega pendiente (para mostrar en el header colapsado)
+      const today = todayStr();
+      const nextEntry = (s.cronograma || [])
+        .filter(c => !c.done && c.date && daysBetween(today, c.date) >= 0)
+        .sort((a, b) => a.date.localeCompare(b.date))[0];
+      const nextHint = nextEntry ? (() => {
+        const d = daysBetween(today, nextEntry.date);
+        const dl = d === 0 ? 'HOY' : `${d}d`;
+        return `<span class="subj-card-next" title="${esc(nextEntry.title)}">⏱ ${dl} · ${formatDate(nextEntry.date)}</span>`;
+      })() : '';
+      return `<div class="gc subj-card${dimCard?' subj-card-dim':''}${isExpanded?' expanded':''}" id="subjCard-${s.id}" style="border-left:3px solid ${s.color}">
+        <div class="subj-card-h" onclick="SYS.toggleSubjectCard('${s.id}')">
+          <div class="subj-card-h-l">
+            <span class="subj-card-arr">▶</span>
+            <span style="font-size:18px">${s.icon}</span>
+            <span class="gc-t" style="margin:0">${s.name} <span style="font-size:11px;color:var(--t3);font-weight:400">· ${s.code}</span></span>
+          </div>
+          <div class="subj-card-h-r" onclick="event.stopPropagation()">
+            ${nextHint}
+            ${total > 0 ? `<span class="sem sem-p3" style="font-size:10px" title="Progreso">${pct}% (${done}/${total})</span>` : ''}
+            ${stMenuHtml}
+            ${s.grade ? `<span class="sem sem-p3" style="font-size:10px" title="Nota final">📊 ${s.grade}</span>` : ''}
+            ${s.credits ? `<span class="sem sem-p3" style="font-size:10px">${s.credits} créd</span>` : ''}
+            <div class="subj-edit-btns">
+              <button class="subj-btn-edit" onclick="SYS.openSubjectModal('${s.id}')">✏</button>
+              <button class="subj-btn-del" onclick="SYS.deleteSubjectCRUD('${s.id}')">🗑</button>
+            </div>
+          </div>
+        </div>
+        <div class="subj-card-body">
+        ${s.professor ? `<div style="font-size:11px;color:var(--t2);margin-bottom:2px">👨‍🏫 ${s.professor}${s.professor_email ? ` · <a href="mailto:${s.professor_email}" style="color:var(--vi2);text-decoration:none">${s.professor_email}</a>` : ''}</div>` : ''}
+        ${s.schedule ? `<div style="font-size:11px;color:var(--cy);margin-bottom:8px">⏰ ${s.schedule}</div>`
+          : (isCurrentSubj(s) ? `<div style="font-size:11px;color:var(--am);margin-bottom:8px">⏰ Horario sin publicar en CDigital — revisa Avisos del aula.</div>` : '')}
+        ${total > 0 ? `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
+          <div class="pbar" style="flex:1"><div class="pbar-fill pbar-vi" style="width:${pct}%"></div></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--vi2)">${pct}% · ${done}/${total}</span>
+        </div>` : ''}
+
+        <!-- TASKS DROPDOWN -->
+        <div class="sj-drop" id="sjTasks-${s.id}">
+          <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjTasks-${s.id}')">
+            <div>🚦 Tareas <span class="sj-drop-count">(${pending} pendiente${pending!==1?'s':''} · ${done}/${total})</span></div>
+            <span class="sj-drop-arr">▶</span>
+          </div>
+          <div class="sj-drop-body">
+            ${tasksHtml}
+            <div class="sj-task-add">
+              <input id="sjTaskNew-${s.id}" placeholder="Nueva tarea para ${esc(s.name)}..." onkeydown="if(event.key==='Enter')SYS.addSubjectTask('${s.id}')">
+              <select id="sjTaskPri-${s.id}">
+                <option value="p2">🟡 P2</option>
+                <option value="p1">🟠 P1</option>
+                <option value="p0">🔴 P0</option>
+                <option value="p3">🟢 P3</option>
+                <option value="p4">🟣 P4</option>
+              </select>
+              <input type="date" id="sjTaskDue-${s.id}">
+              <button onclick="SYS.addSubjectTask('${s.id}')">+ Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTEBOOK DROPDOWN -->
+        ${nbHtml}
+
+        ${gradeBoxHtml(s)}
+
+        <!-- CRONOGRAMA (solo si tiene entradas · expandido por defecto) -->
+        ${s.cronograma && s.cronograma.length ? `<div class="sj-drop on" id="sjCrono-${s.id}" style="margin-top:8px">
+          <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjCrono-${s.id}')">
+            <div>📅 Cronograma <span class="sj-drop-count">(${s.cronograma.length} entrega${s.cronograma.length!==1?'s':''})</span></div>
+            <span class="sj-drop-arr">▶</span>
+          </div>
+          <div class="sj-drop-body">
+            ${s.cronograma.map(c => {
+              const d = c.date ? daysBetween(todayStr(), c.date) : null;
+              const sc2 = c.done ? 'sem-p3' : d === null ? 'sem-p4' : d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
+              const dl = c.done ? '✓ Listo' : d === null ? '' : d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+              const typeIc = { tarea:'📋', parcial:'📝', quiz:'❓', proyecto:'🎯', foro:'💬', otro:'📌' }[c.type] || '📌';
+              return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px${c.done ? ';opacity:.55' : ''}">
+                <div class="atask-check${c.done ? ' done' : ''}" onclick="SYS.toggleCronoEntry('${s.id}','${c.id}')" title="Marcar como ${c.done ? 'pendiente' : 'completada'}">${c.done ? '✓' : ''}</div>
+                ${dl ? `<span class="sem ${sc2}" style="flex-shrink:0;min-width:52px;justify-content:center;font-size:10px">${dl}</span>` : ''}
+                <span style="font-size:12px;flex:1${c.done ? ';text-decoration:line-through' : ''}">${typeIc} ${esc(c.title)}${EST_TAG(c.est && !c.done)}</span>
+                ${c.date ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3)">${formatDate(c.date)}</span>` : ''}
+                ${c.done ? '' : `<button class="ps-btn ps-btn-sm" onclick="SYS.openStep('${s.id}','${c.id}')" title="Paso a paso con enlaces directos">Paso a paso</button>`}
+              </div>`;
+            }).join('')}
+          </div>
+        </div>` : ''}
+
+        ${(() => {
+          const files = db.get('subj_files_' + s.id, []);
+          if (!files.length) return '';
+          return `<div class="sj-drop on" id="sjFiles-${s.id}" style="margin-top:8px">
+            <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjFiles-${s.id}')">
+              <div>📎 Adjuntos <span class="sj-drop-count">(${files.length})</span></div>
+              <span class="sj-drop-arr">▶</span>
+            </div>
+            <div class="sj-drop-body">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
+                ${files.map(f => {
+                  const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+                  const delBtn = `<button class="att-thumb-del" onclick="event.stopPropagation();SYS.subjectFileDel('${s.id}','${f.id}')" title="Eliminar">✕</button>`;
+                  if (isImg) {
+                    return `<div class="att-thumb" onclick="SYS.openFileViewer('${s.id}','${f.id}')" title="${esc(f.name)}">
+                      ${delBtn}
+                      <img src="${f.data}" alt="${esc(f.name)}">
+                      <div class="att-thumb-cap">${esc(f.name)}</div>
+                    </div>`;
+                  }
+                  const ext = (f.name.split('.').pop() || '').toLowerCase();
+                  const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', zip:'🗜️', rar:'🗜️' };
+                  const ic = icMap[ext] || '📎';
+                  return `<div class="att-thumb" onclick="SYS.subjectFileDL('${s.id}','${f.id}')" title="${esc(f.name)}">
+                    ${delBtn}
+                    <div class="att-thumb-ic">${ic}</div>
+                    <div class="att-thumb-cap">${esc(f.name)}</div>
+                  </div>`;
+                }).join('')}
+              </div>
+            </div>
+          </div>`;
+        })()}
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+          ${cdLink ? `<a href="${cdLink}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:${s.color}18;border:1px solid ${s.color}55;border-radius:6px;color:${s.color};text-decoration:none;font-weight:600">🎓 CDigital</a>` : ''}
+          ${sl.clase ? `<a href="${sl.clase}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📡 Clase</a>` : ''}
+          ${sl.grabaciones ? `<a href="${sl.grabaciones}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📹 Grabaciones</a>` : ''}
+          ${sl.material ? `<a href="${sl.material}" target="_blank" rel="noopener" style="font-size:10px;padding:4px 9px;background:var(--vg);border:1px solid rgba(124,58,237,.25);border-radius:6px;color:var(--vi2);text-decoration:none">📂 Material</a>` : ''}
+        </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // After DOM insertion, restore any open page editors
+    if (window.NB && NB.restoreAfterRender) NB.restoreAfterRender();
+  }
+
+  // ── NOTAS · acumulado y nota necesaria en lo que falta ──
+  function gradeStats(s) {
+    const scheme = GRADE_SCHEMES[s.esquema];
+    if (!scheme) return null;
+    const n = s.notas || {};
+    const meta = parseFloat(n.meta) || 3.0;
+    let pts = 0, done = 0;
+    scheme.forEach(it => { const v = parseFloat(n[it.k]); if (!isNaN(v)) { pts += v * it.w; done += it.w; } });
+    const left = 100 - done;
+    const need = left > 0 ? (meta * 100 - pts) / left : null;
+    return { scheme, n, meta, acum: pts / 100, done, left, need, avg: done ? pts / done : null };
+  }
+
+  function gradeBoxHtml(s) {
+    const g = gradeStats(s);
+    if (!g) return '';
+    let verdict;
+    if (!g.done) verdict = `<span style="color:var(--t3)">Escribe tus notas (0.0-5.0) a medida que salgan.</span>`;
+    else if (g.left === 0) verdict = g.acum >= g.meta ? `<span style="color:var(--gn)">✅ Nota final ${g.acum.toFixed(2)} — meta ${g.meta.toFixed(1)} cumplida.</span>` : `<span style="color:var(--rd)">Nota final ${g.acum.toFixed(2)} — por debajo de ${g.meta.toFixed(1)}.</span>`;
+    else if (g.need <= 0) verdict = `<span style="color:var(--gn)">✅ Ya aseguraste ${g.meta.toFixed(1)} aunque saques 0 en el ${g.left}% que falta.</span>`;
+    else if (g.need > 5) verdict = `<span style="color:var(--rd)">⚠ Para ${g.meta.toFixed(1)} necesitarías ${g.need.toFixed(2)} en el ${g.left}% restante: ya no alcanza con esta meta.</span>`;
+    else verdict = `<span style="color:${g.need >= 4 ? 'var(--or)' : 'var(--cy)'}">Necesitas promediar <b>${g.need.toFixed(2)}</b> en el ${g.left}% que falta para llegar a ${g.meta.toFixed(1)}.</span>`;
+    const inputs = g.scheme.map(it => `<label style="display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--t3)">${it.label} · ${it.w}%
+        <input type="number" min="0" max="5" step="0.1" value="${g.n[it.k] ?? ''}" onchange="SYS.setNota('${s.id}','${it.k}',this.value)" style="width:72px;padding:5px 6px;background:var(--el);border:1px solid var(--bd);border-radius:6px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px">
+      </label>`).join('');
+    return `<div class="sj-drop${g.done ? ' on' : ''}" id="sjNotas-${s.id}" style="margin-top:8px">
+      <div class="sj-drop-h" onclick="SYS.toggleSubjectDrop('sjNotas-${s.id}')">
+        <div>🧮 Notas <span class="sj-drop-count">(${g.done}% evaluado${g.done ? ` · acumulado ${g.acum.toFixed(2)} / 5` : ''})</span></div>
+        <span class="sj-drop-arr">▶</span>
+      </div>
+      <div class="sj-drop-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${inputs}
+          <label style="display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--vi2)">Meta final
+            <input type="number" min="0" max="5" step="0.1" value="${g.meta}" onchange="SYS.setNota('${s.id}','meta',this.value)" style="width:72px;padding:5px 6px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:6px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:12px">
+          </label>
+        </div>
+        <div style="font-size:12px;line-height:1.6">${verdict}</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px">Pesos del calendario académico del bloque: Corte 1 30% · Corte 2 30% · Corte 3 40%. Verifica tus notas oficiales en SGA.</div>
+      </div>
+    </div>`;
+  }
+
+  function setNota(sid, key, value) {
+    const custom = db.get('subjects_custom', []);
+    let entry = custom.find(c => c.id === sid);
+    if (!entry) { entry = { id: sid }; custom.push(entry); }
+    const v = String(value).trim();
+    const num = parseFloat(v);
+    entry.notas = { ...(entry.notas || {}) };
+    if (v === '' || isNaN(num)) delete entry.notas[key];
+    else entry.notas[key] = Math.min(5, Math.max(0, num));
+    entry._updated = new Date().toISOString();
+    db.set('subjects_custom', custom);
+    render();
+    const box = document.getElementById('sjNotas-' + sid);
+    if (box) box.classList.add('on');
+  }
+
+  function toggleSubjectDrop(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('on');
+  }
+
+  // ── COLLAPSIBLE SUBJECT CARDS ──
+  function toggleSubjectCard(id) {
+    const coll = db.get('subjects_collapsed', {});
+    coll[id] = !coll[id];
+    db.set('subjects_collapsed', coll);
+    const el = document.getElementById('subjCard-' + id);
+    if (el) el.classList.toggle('expanded');
+  }
+
+  function expandAllSubjects() {
+    const coll = {};
+    getSubjects().forEach(s => coll[s.id] = true);
+    db.set('subjects_collapsed', coll);
+    render();
+  }
+
+  function collapseAllSubjects() {
+    db.set('subjects_collapsed', {});
+    render();
+  }
+
+  function addSubjectTask(sid) {
+    const inp = document.getElementById('sjTaskNew-' + sid);
+    const pri = document.getElementById('sjTaskPri-' + sid);
+    const due = document.getElementById('sjTaskDue-' + sid);
+    const text = inp?.value?.trim();
+    if (!text) return;
+    const tasks = getTasks();
+    tasks.push({ id: Date.now(), text, subj: sid, priority: pri?.value || 'p2', due: due?.value || '', done: false, created: todayStr() });
+    saveTasks(tasks);
+    if (inp) inp.value = '';
+    render();
+    // Reopen the dropdown that was just used
+    setTimeout(() => {
+      const drop = document.getElementById('sjTasks-' + sid);
+      if (drop) drop.classList.add('on');
+    }, 0);
+  }
+
+  // ── RENDER: CALENDAR TIMELINE (Tab 2) ──
+  function renderCalendar() {
+    const el = document.getElementById('calendarTimeline');
+    if (!el) return;
+    const period = detectPeriod();
+    const cal = CALENDAR[period] || {};
+    const today = todayStr();
+
+    const events = [
+      { date: cal.academic?.start, label: 'Inicio período académico', sub: cal.label },
+      { date: cal.block1?.start, label: cal.block1?.label + ' — Inicio', sub: `${formatDateFull(cal.block1?.start)} → ${formatDateFull(cal.block1?.end)}` },
+      { date: cal.block1?.end, label: cal.block1?.label + ' — Fin', sub: 'Cierre de actividades del primer bloque' },
+      { date: cal.block2?.start, label: cal.block2?.label + ' — Inicio', sub: `${formatDateFull(cal.block2?.start)} → ${formatDateFull(cal.block2?.end)}` },
+      ...(cal.gradeClose1 ? [{ date: cal.gradeClose1.start, label: cal.gradeClose1.label, sub: `${formatDateFull(cal.gradeClose1.start)} → ${formatDateFull(cal.gradeClose1.end)}` }] : []),
+      ...(cal.gradeClose2 ? [{ date: cal.gradeClose2.start, label: cal.gradeClose2.label, sub: `${formatDateFull(cal.gradeClose2.start)} → ${formatDateFull(cal.gradeClose2.end)}` }] : []),
+      { date: cal.block2?.end, label: cal.block2?.label + ' — Fin', sub: 'Cierre de actividades del segundo bloque' },
+      ...(cal.periodClose ? [{ date: cal.periodClose.start, label: cal.periodClose.label, sub: `${formatDateFull(cal.periodClose.start)} → ${formatDateFull(cal.periodClose.end)}` }] : []),
+      { date: cal.academic?.end, label: 'Fin del período académico', sub: 'Cierre total del período' },
+      ...(cal.extra || []).map(x => ({ date: x.start, label: x.label, sub: x.end !== x.start ? `${formatDateFull(x.start)} → ${formatDateFull(x.end)}` : formatDateFull(x.start) })),
+    ].filter(e => e.date).sort((a, b) => a.date.localeCompare(b.date));
+
+    el.innerHTML = `<div class="tl">
+      ${events.map(e => {
+        const isPast = e.date < today;
+        const isNow = e.date === today || (daysBetween(e.date, today) >= -3 && daysBetween(e.date, today) <= 3);
+        const dotClass = isPast ? 'done' : isNow ? 'active' : '';
+        const daysAway = daysBetween(today, e.date);
+        const daysLabel = daysAway < 0 ? `hace ${Math.abs(daysAway)}d` : daysAway === 0 ? 'HOY' : `en ${daysAway}d`;
+        return `<div class="tl-item">
+          <div class="tl-dot ${dotClass}"></div>
+          <div class="tl-date">${formatDate(e.date)} · <span style="color:${daysAway <= 0 ? 'var(--gn)' : daysAway <= 7 ? 'var(--am)' : 'var(--t3)'}">${daysLabel}</span></div>
+          <div class="tl-label">${e.label}</div>
+          <div class="tl-sub">${e.sub}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+    // Plan semana a semana del bloque (qué se evalúa y cuánto vale)
+    const allEl = document.getElementById('allPeriods');
+    if (!allEl) return;
+    const bw = blockWeek(period);
+    if (!bw) { allEl.innerHTML = `<div class="cs-empty">Sin plan semanal cargado para ${period}.</div>`; return; }
+    const cutColor = { 1: 'var(--cy)', 2: 'var(--vi2)', 3: 'var(--em)' };
+    allEl.innerHTML = `<div class="gc" style="padding:10px 12px">
+      ${bw.plan.weeks.map(w => {
+        const isNow = bw.cur && bw.cur.week === w.week;
+        const past = today > w.end;
+        return `<div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:7px;margin-bottom:3px;background:${isNow ? 'var(--vg)' : 'var(--el)'};${isNow ? 'border:1px solid rgba(124,58,237,.4)' : ''}${past ? ';opacity:.5' : ''}">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:${cutColor[w.cut]};min-width:34px">S${w.week}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:110px">${formatDate(w.start)} → ${formatDate(w.end)}</span>
+          <span style="font-size:12px;flex:1">${isNow ? '📍 ' : past ? '✓ ' : ''}${esc(w.name)}</span>
+          ${w.weight ? `<span class="sem sem-p2" style="font-size:10px">${w.weight}%</span>` : ''}
+          ${w.cutLabel ? `<span style="font-size:9px;color:${cutColor[w.cut]};text-transform:uppercase;font-weight:700">${w.cutLabel}</span>` : ''}
+        </div>`;
+      }).join('')}
+      <div style="font-size:10px;color:var(--t3);margin-top:6px">${bw.plan.source ? 'Fuente: ' + esc(bw.plan.source) + '. ' : ''}Aplica a las materias de 8 semanas; las de bloque único (Trabajo de Investigación, Inglés) publican sus fechas aparte.</div>
+    </div>`;
+  }
+
+  // ── RENDER: QUICK ACCESS (Tab 3) ──
+  // Accesos del Dashboard en una o dos filas de píldoras: portales CUN y el aula de cada materia.
+  // Los recursos externos de cada materia viven en 📚 Materias, no aquí.
+  function renderQuickAccess() {
+    const pill = (url, icon, label, title) => `<a href="${esc(url)}" target="_blank" rel="noopener" title="${esc(title || label)}"
+      style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:var(--el);border:1px solid var(--bd);font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">${icon} ${esc(label)}</a>`;
+    const el = document.getElementById('quickAccess');
+    if (el) el.innerHTML = QUICK_ACCESS.map(q => pill(q.url, q.icon, q.title, q.desc)).join('');
+    const el2 = document.getElementById('studyResources');
+    if (el2) el2.innerHTML = currentSubjects().filter(s => s.cdigital_id)
+      .map(s => pill(`https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}`, s.icon, 'Aula ' + (s.code || s.name), s.name)).join('');
+  }
+
+  // ── RENDER: MALLA CURRICULAR (Tab 4) ──
+  function renderMalla() {
+    const el = document.getElementById('mallaGrid');
+    if (!el) return;
+    // Coincidencia estricta de nombre (sin tildes ni conectores). Un match difuso marcaba
+    // "Ingeniería Web" como "Lógica para Ingeniería": mejor sin marca que marca falsa.
+    const STOP = new Set(['de', 'del', 'la', 'el', 'en', 'para', 'y', 'los', 'las']);
+    const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w && !STOP.has(w)).join(' ');
+    const same = (a, b) => { const x = norm(a), y = norm(b); return x === y || x.startsWith(y + ' ') || y.startsWith(x + ' '); };
+    const p = detectPeriod();
+    const subs = getSubjects();
+    const curNames = subs.filter(s => isCurrentSubj(s, p)).map(s => s.name);
+    const wonNames = subs.filter(s => s.status === 'ganada').map(s => s.name);
+    const hits = MALLA.map(m => m.subjects.filter(x => curNames.some(n => same(n, x))).length);
+    const curSem = hits.some(h => h) ? MALLA[hits.indexOf(Math.max(...hits))].sem : null;
+    el.innerHTML = MALLA.map(m => {
+      const isCurrent = m.sem === curSem;
+      const levelColors = {
+        'Técnica Profesional': 'var(--cy)',
+        'Tecnología en Desarrollo de Software': 'var(--am)',
+        'Ingeniería de Sistemas': 'var(--em)',
+      };
+      const color = levelColors[m.level] || 'var(--t3)';
+      return `<div class="malla-sem ${isCurrent ? 'current' : ''}">
+        <div class="malla-num" style="color:${color}">Semestre ${m.sem} ${isCurrent ? '← TÚ ESTÁS AQUÍ' : ''}</div>
+        <div class="malla-title" style="color:${color}">${m.level}</div>
+        <ul class="malla-list">
+          ${m.subjects.map(s => {
+            const now = curNames.some(n => same(n, s));
+            const won = !now && wonNames.some(n => same(n, s));
+            return `<li style="${now ? 'color:var(--tx);font-weight:600' : won ? 'color:var(--gn)' : ''}" title="${now ? 'En curso · ' + p : won ? 'Ganada' : ''}">${now ? '▶' : won ? '✓' : '·'} ${s}</li>`;
+          }).join('')}
+        </ul>
+      </div>`;
+    }).join('');
+  }
+
+  // ── RENDER: CERTIFICATIONS (Tab 5) ──
+  /** RENDER · Skill modules como cards desplegables con learning path.
+   *  Cada skill: header (icon, nombre, demanda, # certs) + body con why,
+   *  roles, roadmap visual y certs ordenados por nivel.
+   *  Estado expandido/colapsado persistido en sys_skills_open. */
+  function renderCerts() {
+    const el = document.getElementById('certList');
+    if (!el) return;
+    const open = db.get('skills_open', {});
+    const LEVELS = {
+      principiante: { label: 'Principiante', icon: '🥚', n: 1, color: '#22c55e' },
+      intermedio:   { label: 'Intermedio',   icon: '🌱', n: 2, color: '#3b82f6' },
+      avanzado:     { label: 'Avanzado',     icon: '🌳', n: 3, color: '#a855f7' },
+      pro:          { label: 'Pro',          icon: '🏆', n: 4, color: '#fbbf24' },
+    };
+    const renderCert = (c) => {
+      const lvl = LEVELS[c.level] || LEVELS.principiante;
+      const learnList = (c.learn || []).map(l => `<li>${esc(l)}</li>`).join('');
+      const starBadge = c.featured
+        ? `<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.15));border:1px solid rgba(245,158,11,.4);color:#fbbf24;margin-left:6px">⭐ TOP</span>`
+        : '';
+      return `<div class="cert-card${c.featured?' cert-featured':''}" style="border-left:3px solid ${lvl.color}">
+        <div class="cert-card-top">
+          <span class="cert-level-badge" style="background:${lvl.color}25;color:${lvl.color};border:1px solid ${lvl.color}55">${lvl.icon} ${lvl.n}. ${lvl.label}</span>
+          <span class="cert-icon-circle" style="background:${c.color}22;border:1px solid ${c.color}55;color:${c.color}">${c.icon}</span>
+          <div class="cert-name-wrap">
+            <div class="cert-name-main">${esc(c.name)}${starBadge}</div>
+            <div class="cert-issuer-sub">${esc(c.issuer)} · ${c.hours}h · <span style="color:${c.free?'#22c55e':'#fbbf24'};font-weight:600">${c.cost || (c.free?'GRATIS':'De pago')}</span></div>
+          </div>
+        </div>
+        <div class="cert-desc-line">${esc(c.desc)}</div>
+        ${learnList ? `<div class="cert-learn-block">
+          <div class="cert-learn-h">📚 Lo que aprenderás:</div>
+          <ul class="cert-learn-list">${learnList}</ul>
+        </div>` : ''}
+        ${c.relatesTo ? `<div class="cert-relates">🔗 <b>Conexión:</b> ${esc(c.relatesTo)}</div>` : ''}
+        ${c.reputation ? `<div class="cert-rep">📊 <b>Reputación:</b> ${esc(c.reputation)}</div>` : ''}
+        <a href="${c.link}" target="_blank" rel="noopener" class="cert-link-btn" style="background:${lvl.color}">Ver certificación →</a>
+      </div>`;
+    };
+
+    const renderSkillModule = (s) => {
+      const isOpen = !!open[s.id];
+      const featuredCount = (s.certs || []).filter(c => c.featured).length;
+      const freeCount = (s.certs || []).filter(c => c.free).length;
+      const proCount = (s.certs || []).filter(c => !c.free).length;
+      const totalHours = (s.certs || []).reduce((sum, c) => sum + (c.hours || 0), 0);
+      // Roadmap visual: pequeñas pills por nivel presente
+      const levelsPresent = [...new Set((s.certs || []).map(c => c.level))];
+      const roadmapHtml = ['principiante','intermedio','avanzado','pro'].map((lv, i, arr) => {
+        const isPresent = levelsPresent.includes(lv);
+        const meta = LEVELS[lv];
+        const cls = isPresent ? '' : ' roadmap-step-empty';
+        return `<span class="roadmap-step${cls}" style="${isPresent?`background:${meta.color}25;color:${meta.color};border-color:${meta.color}55`:''}">${meta.icon} ${meta.label}</span>${i < arr.length-1 ? '<span class="roadmap-arrow">→</span>' : ''}`;
+      }).join('');
+      // Next steps
+      const nextHtml = (s.next || []).map(nid => {
+        const ns = SKILL_MODULES.find(x => x.id === nid);
+        return ns ? `<button class="next-skill-btn" onclick="event.stopPropagation();SYS.openSkill('${ns.id}')">${ns.icon} ${esc(ns.name)}</button>` : '';
+      }).join('');
+      return `<div class="skill-module${isOpen?' on':''}" id="skill-${s.id}" style="border-left:4px solid ${s.color}">
+        <div class="skill-head" onclick="SYS.toggleSkill('${s.id}')">
+          <span class="skill-head-icon" style="background:${s.color}22;border:1px solid ${s.color}55">${s.icon}</span>
+          <div class="skill-head-info">
+            <div class="skill-head-name" style="color:${s.color}">${esc(s.name)}</div>
+            <div class="skill-head-summary">${esc(s.summary)}</div>
+          </div>
+          <div class="skill-head-meta">
+            <span class="skill-meta-pill" style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">📈 ${esc(s.demand)}</span>
+            <span class="skill-meta-pill">${s.certs.length} certs</span>
+            ${featuredCount ? `<span class="skill-meta-pill" style="background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.4)">⭐ ${featuredCount}</span>` : ''}
+          </div>
+          <span class="skill-head-arrow">▶</span>
+        </div>
+        <div class="skill-body">
+          <div class="skill-why">
+            <strong style="color:${s.color}">¿Qué aporta?</strong> ${esc(s.why)}
+          </div>
+          <div class="skill-meta-grid">
+            <div class="skill-meta-item"><b>🎯 Roles:</b> ${(s.roles || []).map(esc).join(' · ')}</div>
+            <div class="skill-meta-item"><b>⏱️ Duración:</b> ${esc(s.duration)}</div>
+            <div class="skill-meta-item"><b>📚 Total:</b> ~${totalHours}h · ${freeCount} gratis · ${proCount} pro</div>
+          </div>
+          <div class="skill-roadmap-title">🗺️ Ruta de aprendizaje:</div>
+          <div class="skill-roadmap">${roadmapHtml}</div>
+          <div class="skill-certs-list">
+            ${(s.certs || []).slice().sort((a,b)=>a.order-b.order).map(renderCert).join('')}
+          </div>
+          ${nextHtml ? `<div class="skill-next">
+            <strong>🎯 Después de dominar ${s.name}, sigue con:</strong>
+            <div class="skill-next-list">${nextHtml}</div>
+          </div>` : ''}
+        </div>
+      </div>`;
+    };
+
+    // Toolbar arriba con expandir / colapsar todo + filtro de demanda
+    const toolbarHtml = `<div class="skills-toolbar">
+      <button class="subj-list-btn" onclick="SYS.expandAllSkills()">▼ Expandir todas</button>
+      <button class="subj-list-btn" onclick="SYS.collapseAllSkills()">▶ Colapsar todas</button>
+      <span style="flex:1"></span>
+      <span style="font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace">${SKILL_MODULES.length} skills · ${SKILL_MODULES.reduce((n,s)=>n+s.certs.length,0)} certs totales</span>
+    </div>`;
+    el.innerHTML = toolbarHtml + SKILL_MODULES.map(renderSkillModule).join('');
+  }
+
+  function toggleSkill(id) {
+    const open = db.get('skills_open', {});
+    open[id] = !open[id];
+    db.set('skills_open', open);
+    const el = document.getElementById('skill-' + id);
+    if (el) el.classList.toggle('on');
+  }
+  function expandAllSkills() {
+    const open = {};
+    SKILL_MODULES.forEach(s => open[s.id] = true);
+    db.set('skills_open', open);
+    renderCerts();
+  }
+  function collapseAllSkills() {
+    db.set('skills_open', {});
+    renderCerts();
+  }
+  function openSkill(id) {
+    showTab(4);
+    const open = db.get('skills_open', {});
+    open[id] = true;
+    db.set('skills_open', open);
+    renderCerts();
+    setTimeout(() => {
+      const el = document.getElementById('skill-' + id);
+      if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }, 100);
+  }
+
+  // ── RENDER: STATS BAR ──
+  // Los números de arriba salen del parte de Semana en vivo (la misma fuente que la ruta);
+  // sin parte, caen al cronograma de las materias.
+  function renderStats() {
+    const period = detectPeriod();
+    const bw = blockWeek(period);
+    const today = todayStr();
+    const end = bw ? bw.plan.weeks[bw.total - 1].end : CALENDAR[period]?.academic?.end;
+    const daysLeft = end ? Math.max(0, daysBetween(today, end)) : '—';
+    const w = getWeekLive()[0];
+    let todo, p0, done;
+    if (w) {
+      const raw = getWeekState();
+      const d = w.items.filter(it => wlItemDone(it, raw));
+      todo = w.items.length - d.length;
+      p0 = w.items.filter(it => it.prio === 'p0' && !wlItemDone(it, raw)).length;
+      done = `${d.length}/${w.items.length}`;
+    } else {
+      const items = pendingItems();
+      todo = items.filter(it => { const n = daysBetween(today, it.due); return n >= 0 && n <= 7; }).length;
+      p0 = items.filter(it => it.due < today).length;
+      done = '—';
+    }
+
+    const setV = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    setV('statProgress', bw ? (bw.cur ? `${bw.cur.week}/${bw.total}` : bw.before ? '0/' + bw.total : '✓') : '—');
+    setV('statTodo', todo);
+    setV('statP0', p0);
+    setV('statDone', done);
+    setV('statDaysLeft', daysLeft);
+    const badge = document.getElementById('periodBadge');
+    if (badge) badge.textContent = period;
+  }
+
+  // ── TAB SYSTEM ──
+  function showTab(n) {
+    document.querySelectorAll('.pnl').forEach((p, i) => p.classList.toggle('on', i === n));
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('on', i === n));
+  }
+
+  // ── RENDER: CUN HUB (Tab 6) ──
+  function renderCUNHub() {
+    const ecoEl = document.getElementById('cunEcosystem');
+    if (ecoEl) {
+      ecoEl.innerHTML = CUN_ECOSYSTEM.map(q => `
+        <a href="${q.url}" target="_blank" rel="noopener" class="qa">
+          <div class="qa-icon" style="background:${q.color}18;border:1px solid ${q.color}30">${q.icon}</div>
+          <div class="qa-info"><div class="qa-title">${q.title}</div><div class="qa-desc">${q.desc}</div></div>
+        </a>
+      `).join('');
+    }
+
+    const methEl = document.getElementById('methodSteps');
+    if (methEl) {
+      methEl.innerHTML = METHOD_STEPS.map(s => `
+        <div style="background:var(--el);border:1px solid var(--bd);border-radius:10px;padding:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:16px">${s.icon}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--vi2)">PASO ${s.step}</span>
+          </div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">${s.title}</div>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:6px">${s.desc}</div>
+          <div style="font-size:10px;padding:3px 8px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:6px;color:var(--vi2);display:inline-block">⏰ ${s.action}</div>
+        </div>
+      `).join('');
+    }
+
+    const wfEl = document.getElementById('weeklyWorkflow');
+    if (wfEl) {
+      wfEl.innerHTML = WEEKLY_WORKFLOW.map(d => `
+        <div style="margin-bottom:10px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--em);font-weight:600;margin-bottom:6px">${d.day.toUpperCase()}</div>
+          ${d.tasks.map(t => `<div style="font-size:12px;color:var(--t2);padding:4px 0 4px 12px;border-left:2px solid var(--bd)">· ${t}</div>`).join('')}
+        </div>
+      `).join('');
+    }
+
+    // Render academic history timeline
+    renderHistoryTimeline();
+
+    // Set default date for bulk import
+    const bulkDate = document.getElementById('bulkDue');
+    if (bulkDate && !bulkDate.value) {
+      bulkDate.value = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+    }
+  }
+
+  // ── BULK IMPORT ──
+  function bulkImport() {
+    const textarea = document.getElementById('bulkImport');
+    const text = textarea?.value?.trim();
+    if (!text) return;
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    if (lines.length === 0) return;
+
+    const subj = document.getElementById('bulkSubj')?.value || 'general';
+    const priority = document.getElementById('bulkPriority')?.value || 'p2';
+    const due = document.getElementById('bulkDue')?.value || '';
+    const tasks = getTasks();
+    let count = 0;
+
+    lines.forEach(line => {
+      tasks.push({ id: Date.now() + count, text: line, subj, priority, due, done: false, created: todayStr() });
+      count++;
+    });
+
+    saveTasks(tasks);
+    textarea.value = '';
+    const result = document.getElementById('bulkResult');
+    if (result) {
+      result.textContent = `✅ ${count} tarea${count !== 1 ? 's' : ''} importada${count !== 1 ? 's' : ''} exitosamente.`;
+      result.style.display = 'block';
+      setTimeout(() => result.style.display = 'none', 4000);
+    }
+    render();
+  }
+
+  // ── EXPORT DATA ──
+  function exportData() {
+    const tasks = getTasks();
+    const data = { version: 1, exported: new Date().toISOString(), tasks };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sys_backup_${todayStr()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── IMPORT DATA ──
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.tasks && Array.isArray(data.tasks)) {
+          const existing = getTasks();
+          const existingIds = new Set(existing.map(t => t.text));
+          let imported = 0;
+          data.tasks.forEach(t => {
+            if (!existingIds.has(t.text)) {
+              existing.push({ ...t, id: Date.now() + imported });
+              imported++;
+            }
+          });
+          saveTasks(existing);
+          render();
+          alert(`✅ Importadas ${imported} tareas nuevas (${data.tasks.length - imported} duplicadas omitidas).`);
+        }
+      } catch { alert('❌ Error al leer el archivo. Asegúrate de que sea un JSON válido.'); }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // ── BULK DELETE — propaga removes a Supabase, no solo localStorage ──
+  function deleteOverdueTasks() {
+    const today = todayStr();
+    const tasks = getTasks();
+    const overdue = tasks.filter(t => !t.done && t.due && t.due < today);
+    if (!overdue.length) { alert('No hay tareas vencidas pendientes.'); return; }
+    if (!confirm(`¿Eliminar ${overdue.length} tarea${overdue.length > 1 ? 's' : ''} vencida${overdue.length > 1 ? 's' : ''}?\n\nLas tareas completadas no se ven afectadas.`)) return;
+    // CRÍTICO: borrar también en Supabase, si no las vencidas vuelven al recargar.
+    if (window.CLOUD) overdue.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
+    const remaining = tasks.filter(t => !overdue.includes(t));
+    saveTasks(remaining);
+    render();
+  }
+
+  function clearCompleted() {
+    const tasks = getTasks();
+    const pending = tasks.filter(t => !t.done);
+    const removed = tasks.filter(t => t.done);
+    if (removed.length === 0) { alert('No hay tareas completadas para limpiar.'); return; }
+    if (!confirm(`¿Eliminar ${removed.length} tarea${removed.length !== 1 ? 's' : ''} completada${removed.length !== 1 ? 's' : ''}?`)) return;
+    // CRÍTICO: borrar también en Supabase para que no vuelvan al recargar.
+    if (window.CLOUD) removed.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
+    saveTasks(pending);
+    render();
+  }
+
+  // ── MAIN RENDER ──
+  // ── RENDER: ACTION NOW (What to do right now) ──
+  // ── HOY (tarjeta de arriba del Dashboard) ──
+  // El plan diario lo arma Claude dentro del parte (`days`): qué hacer cada día, para qué
+  // sirve, cuánto toma y dónde se hace. Lo hecho desaparece; lo que quedó de días
+  // anteriores se arrastra a hoy. Sin parte, la tarjeta muestra la semana y las clases.
+  const WL_DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const WL_MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  function wlLinkBtn(l) {
+    const st = 'font-size:10.5px;padding:4px 10px;background:var(--vg);border:1px solid rgba(124,58,237,.3);border-radius:7px;color:var(--vi2);text-decoration:none;white-space:nowrap;cursor:pointer;font-family:inherit';
+    if (l.nb) { const [sid, pid] = String(l.nb).split(':'); return `<button onclick="SYS.openNb('${sid}','${pid}')" style="${st}">📓 ${esc(l.label)}</button>`; }
+    return `<a href="${esc(l.url)}" target="_blank" rel="noopener" style="${st}">${esc(l.label)} ↗</a>`;
+  }
+  function wlRing(done, total) {
+    const r = 23, c = 2 * Math.PI * r, p = total ? done / total : 0;
+    return `<svg width="62" height="62" viewBox="0 0 62 62" aria-label="${done} de ${total} hechas hoy">
+      <defs><linearGradient id="wlRingG" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs>
+      <circle cx="31" cy="31" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"/>
+      <circle cx="31" cy="31" r="${r}" fill="none" stroke="url(#wlRingG)" stroke-width="6" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - p)).toFixed(1)}" transform="rotate(-90 31 31)"/>
+      <text x="31" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#e5e5e5" font-family="IBM Plex Mono,monospace">${done}/${total}</text></svg>`;
+  }
+
+  function renderActionNow() {
+    const el = document.getElementById('actionNow');
+    if (!el) return;
+    const period = detectPeriod();
+    const bw = blockWeek(period);
+    const today = todayStr();
+    const mute = t => `<span style="color:var(--t3);font-weight:400">${t}</span>`;
+    const weekLine = bw && bw.cur
+      ? `📍 Semana ${bw.cur.week}/${bw.total} · ${esc(bw.cur.name)}${bw.cur.weight ? ` (${bw.cur.weight} %)` : ''}${bw.next ? ` · luego ${esc(bw.next.name)}${bw.next.weight ? ` (${bw.next.weight} %)` : ''}` : ''}`
+      : bw && bw.before ? `⏳ ${esc(bw.plan.label)} inicia el ${formatDate(bw.plan.weeks[0].start)}` : `📚 Período ${esc(period)}`;
+    const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(263,70%,60%)' };
+
+    const dayName = c => c.day === 0 ? 'Hoy' : c.day === 1 ? 'Mañana' : ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][c.date.getDay()] + ' ' + c.date.getDate();
+    const classHtml = upcomingClasses(6).slice(0, 6).map(c => {
+      const link = c.s.subject_links && c.s.subject_links.clase;
+      return `<a ${link ? `href="${esc(link)}" target="_blank" rel="noopener"` : ''} title="${esc(c.s.name)} · ${c.ini}-${c.fin}${link ? ' · entrar' : ''}"
+        style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--el);border:1px solid ${c.live ? 'var(--gn)' : 'var(--bd)'};font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">
+        <b style="color:${c.day === 0 ? 'var(--am)' : 'var(--vi2)'}">${c.live ? '🔴 en vivo' : dayName(c)}</b>${c.ini} ${c.s.icon} ${esc(c.s.code || c.s.name)}${c.tipo ? ' · ' + esc(c.tipo) : ''}</a>`;
+    }).join('') || mute('Sin clases con horario en los próximos días.');
+
+    const w = getWeekLive()[0];
+    const days = (w && w.days) || {};
+    const dates = Object.keys(days).sort();
+    let body = '';
+    if (dates.length) {
+      const raw = getWeekState();
+      const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
+      const keyOf = t => t.item || ('p:' + t.id);
+      const isDoneT = t => t.item && byId[t.item] ? wlItemDone(byId[t.item], raw) : !!(raw[keyOf(t)] && raw[keyOf(t)].done);
+      const sel = wlView.day && days[wlView.day] ? wlView.day : (days[today] ? today : (dates.find(d => d >= today) || dates[dates.length - 1]));
+      const seen = new Set();
+      const carry = sel === today ? dates.filter(d => d < sel).flatMap(d => days[d].tasks.filter(t => !t.opt && !isDoneT(t)).map(t => ({ ...t, from: d }))) : [];
+      const list = [...carry, ...days[sel].tasks].filter(t => { const k = keyOf(t); if (seen.has(k)) return false; seen.add(k); return true; });
+      const pending = list.filter(t => !isDoneT(t));
+      const doneN = list.length - pending.length;
+      const minsLeft = pending.filter(t => !t.opt).reduce((a, t) => a + (t.mins || 0), 0);
+      const dt = new Date(sel + 'T12:00');
+      const title = `${WL_DAYS[dt.getDay()]} ${dt.getDate()} de ${WL_MONTHS[dt.getMonth()]}`;
+
+      const row = t => {
+        const s = subjOf(t.subj || (byId[t.item] && byId[t.item].subj));
+        const links = t.links || (byId[t.item] && byId[t.item].links) || [];
+        const tag = (txt, col) => `<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:1px 6px;border-radius:5px;border:1px solid ${col};color:${col};margin-left:6px;vertical-align:middle">${txt}</span>`;
+        return `<div style="display:flex;gap:10px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,${s.color.replace(')', ',.10)').replace('hsl(', 'hsla(')},transparent 55%),var(--el);border:1px solid var(--bd);border-left:3px solid ${s.color};margin-bottom:7px">
+          <div style="flex-shrink:0;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:17px">${s.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;line-height:1.35">${esc(t.title)}${t.from ? tag('pendiente del ' + formatDate(t.from), 'var(--am)') : ''}${t.opt ? tag('opcional', 'var(--t3)') : ''}${t.est ? tag('≈ tiempo estimado', 'var(--t3)') : ''}</div>
+            ${t.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.5">🎯 <b style="color:var(--vi2)">Para qué:</b> ${esc(t.why)}</div>` : ''}
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center">
+              ${t.mins ? `<span style="font-size:10.5px;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.05);color:var(--t2);font-family:'IBM Plex Mono',monospace">⏱ ${t.mins} min</span>` : ''}
+              ${links.map(wlLinkBtn).join('')}
+              <button onclick="SYS.wlToggle('${keyOf(t)}')" style="margin-left:auto;font-size:11px;font-weight:600;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.35)">✓ Hecho</button>
+            </div>
+          </div>
+        </div>`;
+      };
+
+      const strip = dates.map(d => {
+        const x = new Date(d + 'T12:00'), on = d === sel;
+        const left = days[d].tasks.filter(t => !t.opt && !isDoneT(t)).length;
+        return `<button onclick="SYS.wlSet('day','${d}')" style="flex:1;min-width:52px;padding:6px 4px;border-radius:9px;cursor:pointer;font-family:inherit;text-align:center;${on ? 'background:var(--vi);color:#fff;border:1px solid var(--vi)' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.4px">${WL_DAYS[x.getDay()].slice(0, 3)}${d === today ? ' · hoy' : ''}</div>
+          <div style="font-size:14px;font-weight:700">${x.getDate()}</div>
+          <div style="font-size:9.5px;${left ? 'color:' + (on ? '#fff' : 'var(--am)') : 'color:#22c55e'}">${left ? left + ' por hacer' : '✓ listo'}</div></button>`;
+      }).join('');
+
+      const tomorrow = dates.find(d => d > sel);
+      const nextPrev = tomorrow ? days[tomorrow].tasks.filter(t => !isDoneT(t)) : [];
+      body = `
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          ${wlRing(doneN, list.length)}
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:10px;font-weight:700;color:var(--vi2);text-transform:uppercase;letter-spacing:1px">${sel === today ? 'Tu día' : 'Vista previa'}</div>
+            <div style="font-size:20px;font-weight:700;line-height:1.2">${title}</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">${pending.length ? `${pending.length} por hacer${minsLeft ? ` · ≈ ${minsLeft} min` : ''}` : 'todo listo'} · ${weekLine}</div>
+          </div>
+          ${sel !== today && days[today] ? `<button onclick="SYS.wlSet('day','${today}')" style="font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--vi2);border:1px solid var(--bd)">← volver a hoy</button>` : ''}
+        </div>
+        ${days[sel].focus ? `<div style="margin-top:10px;padding:9px 12px;border-radius:9px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.22);font-size:12px;line-height:1.55">🧭 <b>Enfoque:</b> ${esc(days[sel].focus)}</div>` : ''}
+        <div style="margin-top:10px">${pending.map(row).join('') || `<div style="padding:14px;border-radius:10px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);font-size:12.5px">✅ <b>Cumpliste lo de ${sel === today ? 'hoy' : 'este día'}.</b>${nextPrev.length ? ` Lo próximo (${WL_DAYS[new Date(tomorrow + 'T12:00').getDay()].toLowerCase()}): ${nextPrev.slice(0, 3).map(t => esc(t.title)).join(' · ')}.` : ''}</div>`}</div>
+        ${doneN ? `<div style="font-size:10.5px;color:#22c55e;margin:2px 0 4px">✓ ${doneN} hecha${doneN !== 1 ? 's' : ''} ${sel === today ? 'hoy' : 'este día'} (ya no se muestran)</div>` : ''}
+        <div style="display:flex;gap:5px;margin-top:10px;overflow-x:auto;padding-bottom:2px">${strip}</div>
+        ${(w.advice || []).length ? `<details style="margin-top:10px" open><summary style="font-size:11px;font-weight:700;color:var(--vi2);cursor:pointer;text-transform:uppercase;letter-spacing:.5px">💡 Consejos del comandante</summary>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:11.5px;color:var(--t2);line-height:1.6">${w.advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul></details>` : ''}`;
+    } else {
+      body = `<div style="font-size:14px;line-height:1.5">${weekLine}</div>`;
+    }
+
+    const overdue = pendingItems().filter(it => it.due < today);
+    const doneBtn = it => it.kind === 'crono'
+      ? `SYS.toggleCronoEntry('${it.s.id}','${it.cid}')`
+      : `SYS.toggleTask(${typeof it.tid === 'number' ? it.tid : `'${String(it.tid).replace(/'/g, '')}'`})`;
+    const overdueHtml = overdue.length ? `<details style="margin-top:8px">
+        <summary style="font-size:11px;color:var(--am);cursor:pointer">⚠ ${overdue.length} entrega${overdue.length !== 1 ? 's' : ''} del cronograma con fecha pasada sin marcar</summary>
+        <div style="margin-top:6px">${overdue.map(it => `<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:11.5px;flex-wrap:wrap">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:44px">${formatDate(it.due)}</span>
+          <span style="flex:1;min-width:180px">${it.s ? it.s.icon : '📌'} ${esc(it.text)}${EST_TAG(it.est)}</span>
+          <button onclick="${doneBtn(it)}" style="font-size:10px;padding:2px 8px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--gn);border:1px solid rgba(34,197,94,.3)">✓ ya está</button>
+        </div>`).join('')}
+        <div style="font-size:10px;color:var(--t3);padding:4px 8px">Si de verdad está pendiente, déjala: también sale en 📚 Materias.</div></div>
+      </details>` : '';
+
+    el.innerHTML = `${body}
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px">🎥 Clases en vivo</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${classHtml}</div>
+      ${overdueHtml}`;
+  }
+
+  // Abre una página del cuaderno de una materia desde el Dashboard.
+  function openNb(sid, pid) {
+    const coll = db.get('subjects_collapsed', {});
+    if (!coll[sid]) { coll[sid] = true; db.set('subjects_collapsed', coll); }
+    showTab(1);
+    render();
+    if (window.NB && NB.openPage) NB.openPage(sid, /^\d+$/.test(pid) ? Number(pid) : pid);
+    setTimeout(() => { const c = document.getElementById('subjCard-' + sid); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+  }
+
+  // ── RENDER: ENTREGAS PENDIENTES POR MATERIA (Tab 2) — TAREAS + CRONOGRAMA combinados ──
+  function renderDeadlines() {
+    const el = document.getElementById('deadlinesBySubject');
+    if (!el) return;
+    const today = todayStr();
+    const subjects = currentSubjects();
+    const subjMap = Object.fromEntries(subjects.map(s => [s.id, s]));
+
+    // 1) Tareas pendientes con fecha
+    const items = getTasks().filter(t => !t.done && t.due && (subjMap[t.subj] || t.subj === 'general')).map(t => ({
+      kind: 'task', id: t.id, subj: t.subj, text: t.text, due: t.due
+    }));
+    // 2) Entregas del cronograma no marcadas como done
+    subjects.forEach(s => (s.cronograma || []).forEach(c => {
+      if (!c.done && c.date) {
+        items.push({ kind: 'crono', id: c.id, subj: s.id, text: c.title, due: c.date, type: c.type, est: c.est });
+      }
+    }));
+
+    if (!items.length) {
+      el.innerHTML = `<div class="cs-empty">Sin entregas pendientes. Agrega tareas en cada materia o crea un cronograma desde "✏ Editar".</div>`;
+      return;
+    }
+    items.sort((a, b) => a.due.localeCompare(b.due));
+
+    // Conteo global de vencidas
+    const overdueAll = items.filter(it => it.due < today);
+    const toolbarHtml = overdueAll.length ? `<div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="tf-btn" onclick="SYS.deleteOverdueTasks()" style="background:var(--el);color:var(--rd);border:1px solid rgba(239,68,68,.25);font-size:11px">⏰ Eliminar ${overdueAll.length} tarea${overdueAll.length>1?'s':''} vencida${overdueAll.length>1?'s':''}</button>
+    </div>` : '';
+
+    const bySubj = {};
+    items.forEach(it => {
+      const s = subjMap[it.subj] || { id: it.subj, name: 'General', icon: '📌', color: 'hsl(0,0%,50%)', code: '' };
+      if (!bySubj[s.id]) bySubj[s.id] = { s, items: [] };
+      bySubj[s.id].items.push(it);
+    });
+
+    el.innerHTML = toolbarHtml + Object.values(bySubj).map(({ s, items }) => {
+      const typeIcMap = { tarea:'📋', parcial:'📝', quiz:'❓', proyecto:'🎯', foro:'💬', otro:'📌' };
+      const rows = items.map(it => {
+        const d = daysBetween(today, it.due);
+        const sc = d < 0 ? 'sem-p0' : d <= 2 ? 'sem-p0' : d <= 7 ? 'sem-p1' : d <= 14 ? 'sem-p2' : 'sem-p3';
+        const dl = d < 0 ? `hace ${Math.abs(d)}d` : d === 0 ? 'HOY' : `${d}d`;
+        const kindIc = it.kind === 'crono' ? (typeIcMap[it.type] || '📌') : '🚦';
+        return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;background:var(--el);margin-bottom:4px">
+          <span class="sem ${sc}" style="flex-shrink:0;min-width:56px;justify-content:center">${dl}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0">${formatDate(it.due)}</span>
+          <span style="font-size:12px;flex:1">${kindIc} ${esc(it.text)}${EST_TAG(it.est)}</span>
+          ${it.kind === 'crono' ? '<span style="font-size:9px;color:var(--t3);text-transform:uppercase">cronograma</span>' : ''}
+        </div>`;
+      }).join('');
+      const urgentCount = items.filter(it => { const d = daysBetween(today, it.due); return d <= 2; }).length;
+      return `<div class="gc" style="margin-bottom:8px;padding:14px 16px;border-left:3px solid ${s.color}">
+        <div class="gc-h" style="margin-bottom:10px">
+          <div class="gc-t">
+            <span>${s.icon}</span><span>${esc(s.name)}</span>
+            ${s.code ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)">${s.code}</span>` : ''}
+          </div>
+          <div style="display:flex;gap:4px;align-items:center">
+            ${urgentCount ? `<span class="sem sem-p0">${urgentCount} urgente${urgentCount > 1 ? 's' : ''}</span>` : ''}
+            <span class="sem sem-p3">${items.length} entrega${items.length > 1 ? 's' : ''}</span>
+          </div>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+  }
+
+  // ── SEMANA EN VIVO (Dashboard) ──
+  // El parte semanal lo escribe Claude (PROMPT_10-SYS_SEMANA.md) y lo inyecta con
+  // SYS.injectWeek() en la pestaña real del live site: viaja a Supabase y no al repo
+  // público, porque lleva citas de clase. Lo que Miguel marca vive aparte, en
+  // sys_week_state, para que un parte nuevo nunca le pise un check.
+  const WL_MODE = {
+    tu:     { ic: '🙋', label: 'Solo tú',           tip: 'Trámite, formulario o evaluación tuya: Claude no lo hace por ti.' },
+    prep:   { ic: '🧠', label: 'Te preparo',         tip: 'Lo presentas tú. Claude te arma la guía de estudio y un simulacro con preguntas propias.' },
+    juntos: { ic: '🤝', label: 'Lo hacemos juntos',  tip: 'Claude investiga, estructura y redacta el borrador; tú lo revisas, lo haces tuyo y lo entregas.' },
+    claude: { ic: '🤖', label: 'Lo hace Claude',     tip: 'Resúmenes, borradores de correo, organización de material: Claude lo hace completo.' },
+  };
+  const WL_STATUS = ['', 'delegado a Claude', 'en curso', 'listo para revisar'];
+  const wlView = { week: null, tab: 'ruta', subj: 'all', pend: true, day: null };
+  let wlTimer = null;
+
+  function getWeekLive() {
+    const d = db.get('week_live', null);
+    return (d && Array.isArray(d.weeks) ? d.weeks : []).slice().sort((a, b) => b.start.localeCompare(a.start));
+  }
+  function getWeekState() { return db.get('week_state', {}) || {}; }
+  function setWeekItem(id, patch) {
+    const st = getWeekState();
+    st[id] = { ...(st[id] || {}), ...patch, ts: Date.now() };
+    db.set('week_state', st);
+    render();
+    return '✅ ' + id + ' → ' + JSON.stringify(st[id]);
+  }
+
+  // ── Semana en vivo ↔ cronograma de cada materia ──
+  // Un ítem del parte puede apuntar a entradas del cronograma (`crono: 'materia:entrada'`).
+  // Marcarlo en un lado lo marca en el otro, así Dashboard, Materias y Calendario dicen lo mismo.
+  // Un check explícito de Miguel (true/false) manda; sin check, vale el estado del cronograma.
+  function _cronoRefs(it) { return [].concat(it.crono || []).filter(Boolean); }
+  function _cronoEntry(ref) {
+    const [sid, eid] = ref.split(':');
+    const s = getSubjects().find(x => x.id === sid);
+    return s && (s.cronograma || []).find(c => c.id === eid);
+  }
+  function wlItemDone(it, raw = getWeekState()) {
+    const v = raw[it.id] && raw[it.id].done;
+    if (v === true || v === false) return v;
+    const refs = _cronoRefs(it);
+    return refs.length > 0 && refs.every(r => { const c = _cronoEntry(r); return !!(c && c.done); });
+  }
+  // Un paso de la ruta sin actividad propia se marca con su propia llave en sys_week_state.
+  function wlRouteKey(w, r) { return r.item || (w.id + '#r' + ((w.route || []).indexOf(r) + 1)); }
+  function wlDerived(w, raw) {
+    const out = { ...raw };
+    w.items.forEach(it => { out[it.id] = { ...(raw[it.id] || {}), done: wlItemDone(it, raw) }; });
+    return out;
+  }
+  // Guarda SOLO el cronograma en el override. Guardar la materia entera congelaba en
+  // sys_subjects_custom campos del código (desc, enlaces, horarios) que luego no se actualizaban.
+  function _setCronoSilent(ref, patch) {
+    const [sid, eid] = ref.split(':');
+    const s = getSubjects().find(x => x.id === sid);
+    if (!s || !(s.cronograma || []).some(c => c.id === eid)) return false;
+    const o = db.get('subjects_custom', []).find(x => x.id === sid) || { id: sid };
+    _saveSubj({ ...o, cronograma: s.cronograma.map(c => c.id === eid ? { ...c, ...patch } : c), _updated: new Date().toISOString() });
+    return true;
+  }
+  // Para Claude desde la pestaña real: SYS.setCrono(['ti:tiv_1', ...], {done:true}) o {date:'AAAA-MM-DD'}.
+  function setCrono(refs, patch) {
+    const ok = [].concat(refs).filter(r => _setCronoSilent(r, patch));
+    render();
+    return '✅ ' + ok.length + '/' + [].concat(refs).length + ': ' + ok.join(', ');
+  }
+
+  // Lo llama Claude al cerrar el parte. Reemplaza la semana con el mismo id y guarda las 12 más recientes.
+  function injectWeek(w) {
+    if (!w || !w.id || !w.start || !w.end || !Array.isArray(w.items)) return '❌ Faltan id, start, end o items';
+    const bad = w.items.filter(it => !it.id || !it.title || !WL_MODE[it.mode]);
+    if (bad.length) return '❌ Ítems sin id/title/mode válido: ' + bad.map(it => it.id || it.title).join(', ');
+    const weeks = getWeekLive().filter(x => x.id !== w.id);
+    weeks.unshift({ ...w, injected: new Date().toISOString() });
+    db.set('week_live', { weeks: weeks.sort((a, b) => b.start.localeCompare(a.start)).slice(0, 12) });
+    wlView.week = w.id;
+    render();
+    return '✅ Semana en vivo ' + w.id + ' · ' + w.items.length + ' actividades · ' + (w.classes || []).length + ' clases';
+  }
+
+  function wlSet(k, v) { wlView[k] = v; if (k === 'day') renderActionNow(); else renderWeekLive(); }
+  function wlToggle(id) {
+    const w = getWeekLive().find(x => x.items.some(it => it.id === id));
+    const it = w && w.items.find(x => x.id === id);
+    const val = !(it ? wlItemDone(it) : (getWeekState()[id] || {}).done);
+    if (it) _cronoRefs(it).forEach(r => _setCronoSilent(r, { done: val }));
+    setWeekItem(id, { done: val });
+  }
+
+  function wlDue(due) {
+    if (!due) return null;
+    const ms = new Date(due.length === 10 ? due + 'T23:59' : due) - new Date();
+    const h = ms / 3600000;
+    if (ms < 0) return { txt: 'venció', cls: 'sem-p0' };
+    if (h < 24) return { txt: `cierra en ${Math.floor(h)}h ${Math.floor((ms % 3600000) / 60000)}m`, cls: 'sem-p0' };
+    const d = Math.ceil(h / 24);
+    return { txt: `en ${d} día${d !== 1 ? 's' : ''}`, cls: d <= 3 ? 'sem-p1' : d <= 7 ? 'sem-p2' : 'sem-p3' };
+  }
+  function wlFmtDue(due) {
+    if (!due) return '';
+    const dt = new Date(due.length === 10 ? due + 'T00:00' : due);
+    const dn = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][dt.getDay()];
+    return `${dn} ${formatDate(due.slice(0, 10))}${due.length > 10 ? ' · ' + due.slice(11, 16) : ''}`;
+  }
+
+  function wlPrompt(w, it) {
+    const s = getSubjects().find(x => x.id === it.subj);
+    const m = WL_MODE[it.mode];
+    const lines = [
+      `CEREBRO · ENCARGO 10-SYS · Semana en vivo ${w.id} · ítem ${it.id}`,
+      `Materia: ${s ? s.name + ' (' + s.code + ')' : 'General'}`,
+      `Encargo: ${it.title}${it.due ? ' · fecha límite ' + wlFmtDue(it.due) : ''}`,
+      `Modo: ${m.label} — ${m.tip}`,
+      it.why ? `Contexto: ${it.why}` : '',
+      (it.steps || []).length ? 'Pasos:\n' + it.steps.map((x, i) => `${i + 1}. ${x}`).join('\n') : '',
+      (it.ev || []).length ? 'Evidencia:\n' + it.ev.map(e => `- "${e.q}" — ${e.src}${e.t ? ' [' + e.t + ']' : ''}`).join('\n') : '',
+      (it.links || []).length ? 'Enlaces:\n' + it.links.map(l => `- ${l.label}: ${l.url}`).join('\n') : '',
+      it.mode === 'prep'
+        ? 'Qué quiero: guía de estudio corta + simulacro con preguntas TUYAS (no las del examen real) y la explicación de cada respuesta. La evaluación la presento yo.'
+        : it.mode === 'juntos'
+          ? 'Qué quiero: investiga con fuentes, propón la estructura y redacta el borrador. Yo lo reviso, lo ajusto y lo entrego.'
+          : 'Qué quiero: hazlo completo y déjame el resultado en el cuaderno de la materia o en su carpeta del Semestre 9.',
+      'Reglas: nada inventado (todo con fuente); no presentes evaluaciones ni envíes formularios o correos por mí.',
+      `Al terminar: SYS.setWeekItem('${it.id}', {st:'listo para revisar'}) en la pestaña real del live site.`,
+    ];
+    return lines.filter(Boolean).join('\n');
+  }
+  function wlDelegate(wid, id) {
+    const w = getWeekLive().find(x => x.id === wid);
+    const it = w && w.items.find(x => x.id === id);
+    if (!it) return;
+    const txt = wlPrompt(w, it);
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => {});
+    setWeekItem(id, { st: 'delegado a Claude' });
+    const pre = document.getElementById('wlPromptBox');
+    if (pre) { pre.style.display = 'block'; pre.querySelector('pre').textContent = txt; }
+  }
+
+  function renderWeekLive() {
+    const el = document.getElementById('weekLive');
+    if (!el) return;
+    const weeks = getWeekLive();
+    if (!weeks.length) {
+      el.innerHTML = `<div class="sl">· 📡 semana en vivo ·</div><div class="sd">Todavía no hay parte semanal. Pídele a Claude: <em>"actualiza Semana en vivo"</em> (protocolo en PROMPT_10-SYS_SEMANA.md).</div>`;
+      return;
+    }
+    // Por defecto, el parte más nuevo: el del sábado o domingo ya mira la semana que empieza.
+    const w = weeks.find(x => x.id === wlView.week) || weeks[0];
+    if (wlView.tab === 'ruta' && !(w.route || []).length) wlView.tab = 'prio';
+    wlView.week = w.id;
+    const st = wlDerived(w, getWeekState());
+    const subjOf = id => getSubjects().find(s => s.id === id) || { icon: '📌', name: 'General', code: '', color: 'hsl(0,0%,50%)' };
+    const items = w.items.slice().sort((a, b) => a.prio.localeCompare(b.prio) || (a.due || '9').localeCompare(b.due || '9'));
+    const done = items.filter(it => st[it.id] && st[it.id].done).length;
+    const p0open = items.filter(it => it.prio === 'p0' && !(st[it.id] && st[it.id].done)).length;
+    const pct = items.length ? Math.round(done / items.length * 100) : 0;
+    const subjIds = [...new Set(items.map(it => it.subj).concat((w.classes || []).map(c => c.subj)))];
+    const chip = (on, label, js) => `<button onclick="${js}" style="font-size:10px;padding:4px 10px;border-radius:12px;cursor:pointer;font-family:inherit;${on ? 'background:var(--vi);color:#fff;border:1px solid var(--vi)' : 'background:var(--el);color:var(--t2);border:1px solid var(--bd)'}">${label}</button>`;
+    const linkBtn = wlLinkBtn;
+    const quote = e => `<div style="font-size:11px;color:var(--t2);border-left:2px solid var(--vi2);padding:2px 0 2px 8px;margin:4px 0">“${esc(e.q)}” <span style="color:var(--t3)">— ${esc(e.src)}${e.t ? ' · ' + esc(e.t) : ''}</span></div>`;
+    const PRIO_LBL = { p0: 'P0 · hoy', p1: 'P1 · esta semana', p2: 'P2 · importante', p3: 'P3 · cuando puedas' };
+
+    const itemRow = it => {
+      const s = subjOf(it.subj), sv = st[it.id] || {}, m = WL_MODE[it.mode], dl = wlDue(it.due);
+      const canDelegate = it.mode !== 'tu';
+      return `<div style="border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;padding:8px 10px;margin-bottom:6px;background:var(--el);${sv.done ? 'opacity:.55' : ''}">
+        <div style="display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap">
+          <input type="checkbox" ${sv.done ? 'checked' : ''} onchange="SYS.wlToggle('${it.id}')" title="Marcar como hecho" style="margin-top:3px;accent-color:var(--vi);cursor:pointer">
+          <span class="sem sem-${it.prio}" style="flex-shrink:0">${PRIO_LBL[it.prio] || it.prio}</span>
+          ${dl && !sv.done ? `<span class="sem ${dl.cls}" data-wl-due="${esc(it.due)}" style="flex-shrink:0">${dl.txt}</span>` : ''}
+          <div style="flex:1;min-width:200px">
+            <div style="font-size:12.5px;font-weight:600;${sv.done ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(it.title)}${it.weight ? ` <span style="font-size:10px;color:var(--am);font-weight:500">· vale ${esc(it.weight)}</span>` : ''}${EST_TAG(it.est)}</div>
+            <div style="font-size:10.5px;color:var(--t3)">${esc(s.name)}${it.due ? ' · ' + wlFmtDue(it.due) : ''} · <span title="${esc(m.tip)}">${m.ic} ${m.label}</span>${sv.st ? ` · <span style="color:var(--vi2)">${esc(sv.st)}</span>` : ''}</div>
+            ${it.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px">${esc(it.why)}</div>` : ''}
+            ${(it.links || []).length || _cronoRefs(it).length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${_cronoRefs(it).length ? `<button class="ps-btn ps-btn-sm" onclick="SYS.openStep('${_cronoRefs(it)[0].split(':')[0]}','${_cronoRefs(it)[0].split(':')[1]}')">Paso a paso</button>` : ''}${(it.links || []).map(linkBtn).join('')}</div>` : ''}
+          </div>
+        </div>
+        <details style="margin:4px 0 0 22px"><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Qué hacer y evidencia</summary>
+          ${(it.steps || []).length ? `<ol style="font-size:11.5px;color:var(--t2);margin:6px 0;padding-left:18px">${it.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
+          ${(it.ev || []).map(quote).join('')}
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px">
+            ${canDelegate ? `<button onclick="SYS.wlDelegate('${w.id}','${it.id}')" style="font-size:10px;padding:3px 9px;border-radius:6px;cursor:pointer;font-family:inherit;background:var(--vi);color:#fff;border:none">${m.ic} ${it.mode === 'prep' ? 'Pedir preparación' : 'Delegar a Claude'}</button>
+            <select onchange="SYS.setWeekItem('${it.id}',{st:this.value})" style="font-size:10px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:2px 4px;font-family:inherit">${WL_STATUS.map(x => `<option value="${x}" ${(sv.st || '') === x ? 'selected' : ''}>${x || 'estado…'}</option>`).join('')}</select>` : `<span style="font-size:10px;color:var(--t3)">${m.ic} ${esc(m.tip)}</span>`}
+          </div>
+        </details>
+      </div>`;
+    };
+
+    let body = '';
+    const filt = it => (wlView.subj === 'all' || it.subj === wlView.subj) && (!wlView.pend || !(st[it.id] && st[it.id].done));
+    if (wlView.tab === 'ruta') {
+      // La ruta es el orden en que Claude recomienda hacer las cosas. Un paso ligado a una
+      // actividad (step.item) se marca hecho con el mismo check de esa actividad.
+      const byId = Object.fromEntries(w.items.map(it => [it.id, it]));
+      const steps = (w.route || []).filter(r => {
+        const it = byId[r.item];
+        const subj = r.subj || (it && it.subj);
+        const k = wlRouteKey(w, r);
+        const isDone = st[k] && st[k].done;
+        return (wlView.subj === 'all' || subj === wlView.subj) && (!wlView.pend || !isDone);
+      });
+      body = steps.map(r => {
+        const it = byId[r.item], s = subjOf(r.subj || (it && it.subj));
+        const k = wlRouteKey(w, r);
+        const isDone = !!(st[k] && st[k].done);
+        const links = (r.links && r.links.length ? r.links : (it && it.links) || []);
+        const n = (w.route || []).indexOf(r) + 1;
+        return `<div style="display:flex;gap:10px;padding:9px 10px;border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;margin-bottom:6px;background:var(--el);${isDone ? 'opacity:.55' : ''}">
+          <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;${isDone ? 'background:rgba(34,197,94,.15);color:#22c55e' : 'background:var(--vi);color:#fff'}">${isDone ? '✓' : n}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12.5px;font-weight:600;${isDone ? 'text-decoration:line-through' : ''}">${s.icon} ${esc(r.title)}</div>
+            <div style="font-size:10.5px;color:var(--t3);margin-top:1px">${r.when ? '🗓 ' + esc(r.when) : ''}${r.mins ? ' · ⏱ ' + esc(String(r.mins)) + ' min' : ''}${it && it.due ? ' · cierra ' + wlFmtDue(it.due) : ''} · <a href="#" onclick="SYS.wlToggle('${k}');return false" style="color:var(--vi2)">${isDone ? 'desmarcar' : 'marcar hecho'}</a></div>
+            ${r.why ? `<div style="font-size:11.5px;color:var(--t2);margin-top:3px;line-height:1.5">${esc(r.why)}</div>` : ''}
+            ${links.length ? `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${links.map(linkBtn).join('')}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('') || '<div class="sd">Nada con ese filtro.</div>';
+    } else if (wlView.tab === 'prio') {
+      const list = items.filter(filt);
+      body = ['p0', 'p1', 'p2', 'p3'].map(p => {
+        const g = list.filter(it => it.prio === p);
+        return g.length ? `<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px">${PRIO_LBL[p]} · ${g.length}</div>${g.map(itemRow).join('')}` : '';
+      }).join('') || '<div class="sd">Nada con ese filtro.</div>';
+    } else if (wlView.tab === 'clases') {
+      body = (w.classes || []).filter(c => wlView.subj === 'all' || c.subj === wlView.subj).map(c => {
+        const s = subjOf(c.subj);
+        const recCls = c.rec === 'ok' ? 'sem-p3' : 'sem-p0';
+        return `<div style="border:1px solid var(--bd);border-left:3px solid ${s.color};border-radius:8px;padding:10px 12px;margin-bottom:8px;background:var(--el)">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-size:13px;font-weight:600">${s.icon} ${esc(s.name)}</span>
+            <span style="font-size:10.5px;color:var(--t3)">${esc(c.when || '')}</span>
+            <span class="sem ${recCls}">${c.rec === 'ok' ? '🎥 grabación leída' : '⚠ ' + esc(c.rec)}</span>
+            ${(c.links || []).map(linkBtn).join('')}
+          </div>
+          ${c.src ? `<div style="font-size:10px;color:var(--t3);margin-bottom:4px">Fuente: ${esc(c.src)}</div>` : ''}
+          ${(c.sum || []).length ? `<ul style="font-size:11.5px;color:var(--t2);margin:4px 0;padding-left:18px">${c.sum.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+          ${(c.ev || []).length ? `<details><summary style="font-size:10.5px;color:var(--vi2);cursor:pointer">Lo que dijo el docente (${c.ev.length})</summary>${c.ev.map(quote).join('')}</details>` : ''}
+        </div>`;
+      }).join('') || '<div class="sd">Sin clases registradas para ese filtro.</div>';
+    } else if (wlView.tab === 'mando') {
+      const byMode = Object.keys(WL_MODE).map(k => {
+        const g = items.filter(it => it.mode === k && filt(it));
+        return `<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600">${WL_MODE[k].ic} ${WL_MODE[k].label} · ${g.length}</div><div style="font-size:11px;color:var(--t3);margin-bottom:4px">${WL_MODE[k].tip}</div>
+          ${g.map(it => { const sv = st[it.id] || {}; return `<div style="font-size:11.5px;padding:3px 0;display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span>${sv.done ? '✅' : '⬜'}</span><span>${subjOf(it.subj).icon} ${esc(it.title)}</span>${sv.st ? `<span class="sem sem-p4">${esc(sv.st)}</span>` : ''}</div>`; }).join('') || '<div style="font-size:11px;color:var(--t3)">—</div>'}</div>`;
+      }).join('');
+      body = `${(w.rules || []).length ? `<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:8px 10px;margin-bottom:10px">${w.rules.map(r => `<div style="font-size:11.5px;color:var(--t2);margin:2px 0">• ${esc(r)}</div>`).join('')}</div>` : ''}${byMode}`;
+    } else {
+      body = (w.next || []).map(n => { const s = subjOf(n.subj); return `<div style="display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:7px;background:var(--el);margin-bottom:4px;flex-wrap:wrap">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);min-width:74px">${esc(n.when || '')}</span>
+          <span style="font-size:12px;flex:1">${s.icon} ${esc(n.text)}${EST_TAG(n.est)}</span></div>`; }).join('') || '<div class="sd">Sin anticipos para la próxima semana.</div>';
+    }
+
+    const tabs = [...((w.route || []).length ? [['ruta', `🧭 Ruta (${w.route.length} pasos)`]] : []), ['prio', `🎯 Prioridades (${items.length - done})`], ['clases', `🎥 Clases (${(w.classes || []).length})`], ['mando', '🤖 Centro de mando'], ['next', '⏭ Próxima semana']];
+    el.innerHTML = `
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <div>
+          <div class="sl" style="margin-bottom:4px">· 📡 semana en vivo ·</div>
+          <div style="font-size:17px;font-weight:700">${esc(w.title || w.id)}</div>
+          <div style="font-size:10.5px;color:var(--t3)">${formatDate(w.start)} → ${formatDate(w.end)} · parte de ${esc(w.cut || '')}${w.author ? ' · ' + esc(w.author) : ''}</div>
+        </div>
+        ${weeks.length > 1 ? `<select onchange="SYS.wlSet('week',this.value)" style="font-size:11px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;font-family:inherit">${weeks.map(x => `<option value="${esc(x.id)}" ${x.id === w.id ? 'selected' : ''}>${esc(x.title || x.id)}</option>`).join('')}</select>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin:10px 0 6px">
+        <div style="flex:1;height:7px;background:var(--el);border-radius:4px;overflow:hidden;border:1px solid var(--bd)"><div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--vi),var(--tl))"></div></div>
+        <span style="font-size:11px;color:var(--t2);white-space:nowrap">${done}/${items.length} hechas${p0open ? ` · <b style="color:#ef4444">${p0open} P0 abiertas</b>` : ''}</span>
+      </div>
+      ${w.headline ? `<div style="font-size:12.5px;color:var(--t1,#e5e5e5);line-height:1.6;margin-bottom:8px">${esc(w.headline)}</div>` : ''}
+      ${(w.alerts || []).map(a => `<div style="font-size:11.5px;padding:7px 10px;border-radius:7px;margin-bottom:5px;${a.lvl === 'p0' ? 'background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)' : 'background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.22)'}">${a.lvl === 'p0' ? '🚨' : '⚠️'} ${esc(a.text)}</div>`).join('')}
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin:10px 0 6px;border-bottom:1px solid var(--bd);padding-bottom:6px">${tabs.map(([k, l]) => chip(wlView.tab === k, l, `SYS.wlSet('tab','${k}')`)).join('')}</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
+        ${chip(wlView.subj === 'all', 'Todas', "SYS.wlSet('subj','all')")}
+        ${subjIds.map(id => { const s = subjOf(id); return chip(wlView.subj === id, s.icon + ' ' + esc(s.code || s.name), `SYS.wlSet('subj','${id}')`); }).join('')}
+        ${wlView.tab !== 'clases' && wlView.tab !== 'next' ? chip(!wlView.pend, wlView.pend ? `👁 ver hechas (${done})` : '🙈 ocultar hechas', `SYS.wlSet('pend',${!wlView.pend})`) : ''}
+      </div>
+      ${body}
+      <div id="wlPromptBox" style="display:none;margin-top:10px;border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:8px 10px;background:var(--vg)">
+        <div style="font-size:11px;color:var(--vi2);margin-bottom:4px">📋 Encargo copiado. Pégamelo en el chat de Claude y lo arranco.</div>
+        <pre style="white-space:pre-wrap;font-size:10.5px;color:var(--t2);margin:0;max-height:220px;overflow:auto"></pre>
+      </div>
+      ${(w.sources || []).length ? `<div style="font-size:10px;color:var(--t3);margin-top:8px">Fuentes: ${w.sources.map(esc).join(' · ')}</div>` : ''}`;
+
+    // Las cuentas regresivas se refrescan solas cada minuto mientras la pestaña está abierta.
+    if (!wlTimer) wlTimer = setInterval(() => {
+      document.querySelectorAll('[data-wl-due]').forEach(n => { const d = wlDue(n.dataset.wlDue); if (d) { n.textContent = d.txt; n.className = 'sem ' + d.cls; } });
+    }, 60000);
+  }
+
+  function render() {
+    renderSubjTaskSelects();
+    renderStats();
+    renderActionNow();
+    // Un parte mal formado no puede tumbar el resto del módulo.
+    try { renderWeekLive(); } catch (e) { console.warn('[10-SYS] Semana en vivo:', e); }
+    renderSubjectDetail();
+    renderCalendar();
+    renderDeadlines();
+    renderQuickAccess();
+    renderMalla();
+    renderCerts();
+    renderCUNHub();
+    renderClassSessions();
+  }
+
+  // ── INIT ──
+  function init() {
+    // Set today's date as default for new tasks
+    const dateInput = document.getElementById('newTaskDue');
+    if (dateInput) {
+      const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+      dateInput.value = nextWeek;
+    }
+
+    // ── Migración de seeds ──
+    // v1: tareas con materias falsas (calidad_sw/admin_bd/redes)
+    // v2: seeds parciales — Ing Web + extrapolaciones inventadas para Mat Esp / Inv C&T (PURGADO)
+    // v3: SOLO Ing Web tiene calendario real verificado. Resto pendiente de syllabus del usuario.
+    // v4: Mat Especiales (DIS31) syllabus verificado por usuario — calendario idéntico al de Ing Web (Cortés Cruz, mié/vie 6:15 PM)
+    // v5: Inv C&T (DIS36) — Corte 1 parcial confirmado por usuario (Tarea 1 12-abr, Quiz 1 19-abr, Tarea 2 19-abr). Sin pesos ni Cortes 2-3.
+    // v6: SEED VACÍO. Usuario migrado a cronograma por materia (Subject CRUD). Tareas se crean manualmente o desde Bulk Import.
+    const SEED_VERSION = 6;
+    const STALE_IDS = new Set(['calidad_sw', 'admin_bd', 'redes']);
+    const currentSeedVer = db.get('seed_version', 0);
+    const existing = getTasks();
+    const hasStale = existing.some(t => STALE_IDS.has(t.subj));
+    // Textos de seeds previas (v1, v2 — todas con datos extrapolados/inventados que hay que purgar)
+    const oldSeedTexts = new Set([
+      // v1
+      'Quiz 1 — Ingeniería Web (10%)',
+      'Quiz 1 — Matemáticas Especiales (10%)',
+      'Quiz 1 — Investigación Ciencia y Tecnología (10%)',
+      'Parcial 1 — Ingeniería Web (20%) → 1er Corte 30%',
+      'Parcial 1 — Matemáticas Especiales (20%)',
+      'Parcial 1 — Investigación C&T (20%)',
+      'Quiz 2 — Ingeniería Web (10%)',
+      'Parcial 2 — Ingeniería Web (20%) → 2do Corte 30%',
+      'ACA · Pitch Disciplinares-NIP (34%) — preparar presentación',
+      'Completar inducción Week 2 — Virtual English Beginner',
+      'Presentar Placement Test BE Plus (única actividad)',
+      // v2 — extrapoladas (HALLUCINADAS) para Mat Esp e Inv C&T
+      'Quiz 1 — Matemáticas Especiales (10%)',
+      'Parcial 1 — Matemáticas Especiales (20% → 1er Corte 30%)',
+      'Quiz 2 — Matemáticas Especiales (10%)',
+      'Parcial 2 — Matemáticas Especiales (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Matemáticas Especiales (34%)',
+      'Quiz 3 + Coevaluación + Autoevaluación — Matemáticas Especiales (6% → 3er Corte 40%)',
+      'Quiz 1 — Investigación C&T (10%)',
+      'Parcial 1 — Investigación C&T (20% → 1er Corte 30%)',
+      'Quiz 2 — Investigación C&T (10%)',
+      'Parcial 2 — Investigación C&T (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Investigación C&T (34%)',
+      'Quiz 3 + Coevaluación + Autoevaluación — Investigación C&T (6% → 3er Corte 40%)',
+      // viejos placeholders v0
+      'Revisar material Bloque 1 — Matemáticas Especiales (DIS31)',
+      'Estudiar transformadas y series para primer corte',
+      'Revisar estándares de calidad ISO para entrega',
+      'Configurar entorno de pruebas unitarias — proyecto QA',
+      'Práctica de optimización de queries SQL — Admin BD',
+      'Desarrollar proyecto web con API REST — Ingeniería Web',
+      'Revisar HTML/CSS/JS y frameworks para quiz',
+      'Laboratorio de configuración WiFi empresarial',
+      'Revisar protocolos wireless y seguridad para quiz',
+      'Definir tema y estado del arte — Investigación',
+      'Completar actividad de inducción — English Beginner',
+      'Realizar Placement Test BE Plus',
+      // v5 seeds (purgados en v6 — usuario migró a cronograma por materia)
+      'Quiz 1 — Ingeniería Web (10%)',
+      'Parcial 1 — Ingeniería Web (20% → 1er Corte 30%)',
+      'Quiz 2 — Ingeniería Web (10%)',
+      'Parcial 2 — Ingeniería Web (20% → 2do Corte 30%)',
+      'ACA · Pitch Disciplinares-NIP — Ingeniería Web (34%)',
+      'Quiz 3 + Coev + Auto — Ingeniería Web (6% → 3er Corte 40%)',
+      'Asistir a clase Ing Web — Miércoles 6:15 PM',
+      'Quiz 1 — Mat Especiales (10%)',
+      'Parcial 1 — Mat Especiales (20% → 1er Corte 30%)',
+      'Quiz 2 — Mat Especiales (10%)',
+      'Parcial 2 — Mat Especiales (20% → 2do Corte 30%)',
+      'ACA — Mat Especiales (34%)',
+      'Quiz 3 + Coev + Auto — Mat Especiales (6% → 3er Corte 40%)',
+      'Sesión sincrónica Mat Especiales — Mié/Vie 6:15 PM',
+      'Tarea 1 — Inv C&T (Corte 1)',
+      'Quiz 1 — Inv C&T (Corte 1)',
+      'Tarea 2 — Inv C&T (Corte 1)',
+    ]);
+    if (hasStale || currentSeedVer < SEED_VERSION) {
+      // Preserve user-created tasks; purge stale subjects + all old seed texts.
+      // Mat Esp e Inv C&T (parcial) ahora tienen datos verificados — ya no se filtran sus textos.
+      const userTasks = existing.filter(t =>
+        !STALE_IDS.has(t.subj) &&
+        !oldSeedTexts.has(t.text)
+      );
+      // CRÍTICO: borrar las purgadas también en Supabase — si no, vuelven al sync.
+      const purged = existing.filter(t => !userTasks.includes(t));
+      if (window.CLOUD && purged.length) purged.forEach(t => CLOUD.remove('sys_tasks', String(t.id)));
+      saveTasks(userTasks);
+      db.set('seed_version', SEED_VERSION);
+    }
+
+    // v6 (2026-05-27): SEED_TASKS vacío. El usuario crea tareas manualmente
+    // por materia (botón "+ Agregar" en cada card) o desde Bulk Import.
+    // El cronograma por materia (Subject CRUD) reemplaza el sistema de seeds.
+    const SEED_TASKS = [];
+
+    render();
+  }
+
+  // ── CUN PORTAL OPENER ──
+  // Portal queue — opens one at a time to bypass popup blocker
+  let _portalQueue = [];
+  let _portalIdx = 0;
+
+  function openCUNPortals() {
+    _portalQueue = [
+      { url: 'https://360.cunapp.pro/#/estudiante/dashboard', name: 'CUN 360' },
+      { url: 'https://sigwt.cun.edu.co/sgacampus/#notr29', name: 'SGA Notas' },
+      { url: 'https://cdigital.cun.edu.co/', name: 'CUN Digital' },
+      { url: 'https://mail.google.com/mail/?authuser=miguel.barros@cun.edu.co', name: 'Gmail CUN' }
+    ];
+    _portalIdx = 0;
+    // Open first immediately (user-triggered, won't be blocked)
+    window.open(_portalQueue[0].url, '_blank');
+    _portalIdx = 1;
+    // Show the "next portal" UI
+    showNextPortalBtn();
+  }
+
+  function showNextPortalBtn() {
+    let el = document.getElementById('portalProgress');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'portalProgress';
+      el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;background:var(--c1);border:2px solid var(--vi);border-radius:12px;padding:16px 20px;box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:320px';
+      document.body.appendChild(el);
+    }
+    if (_portalIdx >= _portalQueue.length) {
+      el.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--gn);margin-bottom:4px">✅ Todos los portales abiertos</div><div style="font-size:11px;color:var(--t2)">Inicia sesión en cada tab. Luego pega el prompt de escaneo en Claude Code.</div><button onclick="this.parentElement.remove()" style="margin-top:8px;padding:5px 12px;border:none;border-radius:6px;background:var(--el);color:var(--t2);font-family:inherit;font-size:11px;cursor:pointer">Cerrar</button>';
+      return;
+    }
+    const next = _portalQueue[_portalIdx];
+    el.innerHTML = `<div style="font-size:11px;color:var(--t3);margin-bottom:4px">Portal ${_portalIdx}/${_portalQueue.length} abierto</div>
+      <div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">Siguiente: ${next.name}</div>
+      <button onclick="openNextPortal()" style="padding:8px 16px;border:none;border-radius:8px;background:var(--vi);color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;width:100%">🚀 Abrir ${next.name}</button>`;
+  }
+
+  function openNextPortal() {
+    if (_portalIdx < _portalQueue.length) {
+      window.open(_portalQueue[_portalIdx].url, '_blank');
+      _portalIdx++;
+      showNextPortalBtn();
+    }
+  }
+
+  function openSinglePortal(url) {
+    window.open(url, '_blank');
+  }
+
+  // ── ACADEMIC HISTORY TIMELINE ──
+  function renderHistoryTimeline() {
+    const el = document.getElementById('historyTimeline');
+    if (!el) return;
+
+    const HISTORY = [
+      { sem: 1, level: 'Técnica Profesional', subjects: 8, avg: 4.56, highlight: '5.0 en Cátedra Cunista I' },
+      { sem: 2, level: 'Técnica Profesional', subjects: 7, avg: 4.50, highlight: 'POO I, Cálculo Diferencial' },
+      { sem: 3, level: 'Técnica Profesional', subjects: 7, avg: 4.50, highlight: 'POO II, Redes 2, Física Eléctrica' },
+      { sem: 4, level: 'Técnica Profesional', subjects: 8, avg: 4.50, highlight: '🎓 TÍTULO TÉCNICO PROFESIONAL', milestone: true },
+      { sem: 5, level: 'Tecnología', subjects: 7, avg: 4.50, highlight: 'Prog. Web, BD Avanzadas, Álgebra Lineal' },
+      { sem: 6, level: 'Tecnología', subjects: 7, avg: 4.50, highlight: 'Diseño SW, Desarrollo Web, Cálc. Multivariado' },
+      { sem: 7, level: 'Tecnología', subjects: 8, avg: 4.56, highlight: '🎓 TÍTULO TECNÓLOGO EN DESARROLLO DE SOFTWARE', milestone: true },
+      { sem: 8, level: 'Ingeniería', subjects: 6, avg: null, highlight: '✅ 26V02 · 6 materias ganadas en este módulo · promedio sin cargar (escanear SGA)' },
+      { sem: 9, level: 'Ingeniería', subjects: currentSubjects().length, avg: null, highlight: `⏳ CURSANDO — Período ${detectPeriod()}`, current: true }
+    ];
+
+    el.innerHTML = HISTORY.map(h => {
+      const barWidth = h.avg ? Math.round((h.avg / 5.0) * 100) : 0;
+      const barColor = h.milestone ? 'var(--gn)' : h.current ? 'var(--am)' : 'var(--vi2)';
+      const borderStyle = h.milestone ? 'border-left:3px solid var(--gn)' : h.current ? 'border-left:3px solid var(--am)' : 'border-left:3px solid var(--bd)';
+
+      return `<div style="display:flex;gap:12px;padding:10px 14px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:6px;${borderStyle};align-items:center">
+        <div style="min-width:40px;text-align:center">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:${barColor}">S${h.sem}</div>
+          <div style="font-size:8px;color:var(--t3)">${h.level}</div>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:11px;color:var(--t2)">${h.subjects} materias</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:${h.avg?'var(--gn)':'var(--am)'}">${h.avg || '—'}</span>
+          </div>
+          <div style="background:var(--c1);border-radius:3px;height:4px;overflow:hidden${h.current?'':''};margin-bottom:4px">
+            <div style="width:${barWidth}%;height:100%;background:${barColor};border-radius:3px;transition:width .5s"></div>
+          </div>
+          <div style="font-size:10px;color:${h.milestone?'var(--gn)':h.current?'var(--am)':'var(--t3)'};font-weight:${h.milestone||h.current?'600':'400'}">${h.highlight}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── SUBJECT GUIDES — Step-by-step instructions per subject ──
+  const SUBJECT_GUIDES = {
+    mat_especiales: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Matemáticas Especiales (DIS31, Grupo 52247)',
+      evidenceType: 'Talleres PDF/Word + Quizzes online en la plataforma',
+      submitMethod: 'Subir archivo en la actividad correspondiente dentro del aula virtual. Los quizzes se responden directamente en Moodle.',
+      tips: [
+        'Revisa los materiales de cada semana ANTES de intentar los talleres',
+        'Los talleres normalmente se suben como PDF o Word — nombra el archivo con tu nombre y la actividad',
+        'Los quizzes tienen tiempo límite — prepárate antes de abrirlos',
+        'Si tienes dudas, contacta al profesor por el foro del curso o por correo CUN'
+      ],
+      weeklySteps: [
+        { title: 'Entra al aula virtual', desc: 'Ve a CUN Digital → Mis cursos → Matemáticas Especiales. Revisa si hay materiales nuevos o actividades habilitadas.', action: 'Cada lunes' },
+        { title: 'Estudia el material teórico', desc: 'Lee las guías, PDFs o videos que el profesor suba. Toma notas de transformadas de Laplace, series de Fourier y variable compleja.', action: 'Martes-Miércoles' },
+        { title: 'Resuelve el taller/actividad', desc: 'Descarga el taller, resuélvelo paso a paso. Usa herramientas como Wolfram Alpha o Symbolab para verificar tus respuestas.', action: 'Jueves-Viernes' },
+        { title: 'Sube tu evidencia', desc: 'En la sección de la actividad, clic en "Agregar entrega" → Sube tu archivo PDF/Word → Clic en "Guardar cambios".', action: 'Antes del deadline' },
+        { title: 'Verifica la calificación', desc: 'Después del cierre, revisa en SGA Campus → notr29 si la nota fue registrada.', action: 'Después del cierre' }
+      ]
+    },
+    ing_web: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Ingeniería Web (DIS34, Grupo 52211)',
+      evidenceType: 'Proyectos web (HTML/CSS/JS), repositorios GitHub, documentación técnica',
+      submitMethod: 'Subir ZIP del proyecto o link a repositorio GitHub en Moodle. Incluir README con instrucciones.',
+      tips: [
+        'Usa GitHub para versionar tu código — los profesores valoran esto',
+        'Siempre incluye un README.md explicando cómo ejecutar tu proyecto',
+        'Practica con MDN Web Docs y FreeCodeCamp',
+        'Despliega tus proyectos en GitHub Pages para demostración en vivo'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Ingeniería Web. Verifica proyectos, talleres y entregas de la semana.', action: 'Cada lunes' },
+        { title: 'Estudia la tecnología', desc: 'HTML5, CSS3, JavaScript, APIs REST, frameworks (React/Angular/Vue), patrones MVC, seguridad web.', action: 'Martes-Miércoles' },
+        { title: 'Desarrolla el proyecto', desc: 'Crea tu código en VS Code, prueba localmente, versiona en GitHub con commits descriptivos.', action: 'Miércoles-Viernes' },
+        { title: 'Prepara la entrega', desc: 'Haz ZIP del proyecto + README.md, o proporciona el link de GitHub. Incluye capturas de funcionamiento.', action: 'Antes del deadline' },
+        { title: 'Sube a Moodle', desc: 'Actividad → "Agregar entrega" → Sube ZIP o pega link GitHub → "Guardar cambios".', action: 'Antes del deadline' }
+      ]
+    },
+    inv_ciencia: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Inv. Ciencia y Tecnología (DIS36, Grupo 52218)',
+      evidenceType: 'Documentos de investigación: estado del arte, marco teórico, artículos con normas APA',
+      submitMethod: 'Subir documentos Word/PDF en Moodle. Los avances del proyecto de investigación se suben por etapas.',
+      tips: [
+        'Usa Google Scholar y Scielo para buscar artículos científicos',
+        'Aplica normas APA 7ª edición para todas las referencias',
+        'El proyecto de investigación se construye por entregas parciales — no dejes todo para el final',
+        'Usa Zotero o Mendeley para gestionar tus referencias bibliográficas'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → Inv. Ciencia y Tecnología. Verifica qué entrega parcial corresponde esta semana.', action: 'Cada lunes' },
+        { title: 'Investiga en fuentes', desc: 'Busca artículos en Google Scholar, Scielo, IEEE. Lee y extrae ideas relevantes para tu tema.', action: 'Martes-Miércoles' },
+        { title: 'Redacta tu avance', desc: 'Escribe la sección correspondiente: planteamiento, marco teórico, metodología, etc. Usa normas APA.', action: 'Jueves-Viernes' },
+        { title: 'Sube tu entrega', desc: 'Actividad → "Agregar entrega" → Sube Word/PDF con normas APA → "Guardar cambios".', action: 'Antes del deadline' },
+        { title: 'Participa en foros', desc: 'Si hay foros de discusión sobre temas de investigación, participa con aportes fundamentados.', action: 'Cuando estén habilitados' }
+      ]
+    },
+    english_beginner: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Virtual English - Beginner 1 (A1I01, Grupo 50608)',
+      evidenceType: 'Actividades interactivas, quizzes de vocabulario, grabaciones de audio, foros en inglés',
+      submitMethod: 'Completar actividades directamente en Moodle. Algunas requieren grabación de audio o video.',
+      tips: [
+        'Practica diariamente con Duolingo o BBC Learning English además del curso',
+        'Las grabaciones de audio: usa un ambiente silencioso, habla claro',
+        'Lee las instrucciones EN INGLÉS — es parte del aprendizaje',
+        'Participa en los foros escribiendo en inglés aunque sea básico'
+      ],
+      weeklySteps: [
+        { title: 'Revisa el aula virtual', desc: 'CUN Digital → English Beginner 1. Verifica lecciones y actividades de la semana.', action: 'Cada lunes' },
+        { title: 'Estudia el vocabulario', desc: 'Repasa las palabras y frases nuevas. Usa flashcards o apps como Anki.', action: 'Diario (15 min)' },
+        { title: 'Completa las actividades', desc: 'Quizzes, ejercicios de gramática, listening activities — todo se hace dentro de Moodle.', action: 'Martes-Jueves' },
+        { title: 'Graba audio/video si aplica', desc: 'Algunas actividades piden pronunciación. Graba con tu celular y sube el archivo.', action: 'Cuando se requiera' },
+        { title: 'Participa en foros', desc: 'Escribe en inglés. No importa si cometes errores — la participación cuenta.', action: 'Antes del cierre del foro' }
+      ]
+    },
+    placement_test: {
+      platform: 'CUN Digital (Moodle)',
+      courseUrl: 'https://cdigital.cun.edu.co/',
+      howToAccess: 'CUN Digital → Mis cursos → Placement Test BE Plus (CE1026, Grupo 5TB01)',
+      evidenceType: 'Test de ubicación online — se presenta una sola vez',
+      submitMethod: 'El test se realiza directamente en la plataforma. No hay archivo que subir.',
+      tips: [
+        'Este test determina tu nivel de inglés — no lo presentes sin prepararte',
+        'Tiene secciones de reading, listening, grammar y writing',
+        'Una vez lo inicies, debes completarlo — no se puede pausar',
+        'Tu resultado define en qué nivel de inglés te ubican'
+      ],
+      weeklySteps: [
+        { title: 'Verifica disponibilidad', desc: 'Entra a CUN Digital → Placement Test. Revisa si el test ya está habilitado.', action: 'Inicio del período' },
+        { title: 'Prepárate', desc: 'Repasa gramática básica, vocabulario general, y practica listening con BBC o podcasts.', action: '2-3 días antes' },
+        { title: 'Presenta el test', desc: 'Asegúrate de tener buena conexión a internet. El test tiene tiempo límite. Lee cada pregunta cuidadosamente.', action: 'Cuando estés listo' },
+        { title: 'Revisa tu resultado', desc: 'El resultado aparece automáticamente. Te ubicarán en el nivel que corresponda.', action: 'Después del test' }
+      ]
+    }
+  };
+
+  // ── SHOW TASK GUIDE MODAL ──
+  function showTaskGuide(subjId) {
+    const subj = SUBJECTS.find(s => s.id === subjId);
+    if (!subj) return;
+    const guide = SUBJECT_GUIDES[subjId];
+    if (!guide) return;
+
+    const tasks = getTasks();
+    const subjTasks = tasks.filter(t => t.subj === subjId);
+    const pending = subjTasks.filter(t => !t.done);
+    const done = subjTasks.filter(t => t.done);
+    const overdue = pending.filter(t => t.due && daysBetween(todayStr(), t.due) < 0);
+
+    // Header
+    const headerEl = document.getElementById('tgHeader');
+    headerEl.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span style="font-size:28px">${subj.icon}</span>
+        <div>
+          <div style="font-size:16px;font-weight:700">${subj.name}</div>
+          <div style="font-size:11px;color:var(--t3)">${subj.code} · Grupo ${subj.group} · ${subj.credits} créditos · ${subj.type}${subj.professor ? ` · 👨‍🏫 ${subj.professor}` : ''}</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--t2);margin-top:4px">${subj.desc}</div>`;
+
+    // Body
+    let html = '';
+
+    // Status badges
+    html += `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="tg-badge" style="background:${pending.length?'rgba(234,179,8,.1)':'rgba(34,197,94,.1)'};color:${pending.length?'var(--am)':'var(--gn)'};border:1px solid ${pending.length?'rgba(234,179,8,.2)':'rgba(34,197,94,.2)'}">📝 ${pending.length} pendientes</span>
+      <span class="tg-badge" style="background:rgba(34,197,94,.1);color:var(--gn);border:1px solid rgba(34,197,94,.2)">✅ ${done.length} completadas</span>
+      ${overdue.length ? `<span class="tg-badge" style="background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.2)">🔴 ${overdue.length} vencidas</span>` : ''}
+    </div>`;
+
+    // Info box — how to access
+    html += `<div class="tg-info">
+      <strong>📍 ¿Dónde está?</strong> ${guide.howToAccess}<br>
+      <strong>📎 Tipo de evidencia:</strong> ${guide.evidenceType}<br>
+      <strong>📤 ¿Cómo se entrega?</strong> ${guide.submitMethod}
+    </div>`;
+
+    // Pending tasks with guide
+    if (pending.length > 0) {
+      html += `<div class="tg-section">
+        <div class="tg-section-title">📋 Tareas pendientes</div>`;
+      pending.forEach(t => {
+        const daysLeft = t.due ? daysBetween(todayStr(), t.due) : null;
+        const dueColor = daysLeft !== null ? (daysLeft < 0 ? 'var(--rd)' : daysLeft <= 2 ? 'var(--or)' : 'var(--t3)') : 'var(--t3)';
+        const dueText = daysLeft !== null ? (daysLeft < 0 ? `Vencida hace ${Math.abs(daysLeft)}d` : daysLeft === 0 ? 'HOY' : `${daysLeft}d restantes`) : 'Sin fecha';
+        html += `<div class="tg-task-item">
+          <div class="atask-check${t.done?' done':''}" onclick="SYS.toggleTask(${t.id});SYS.showTaskGuide('${subjId}')" style="cursor:pointer">${t.done?'✓':''}</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:500">${esc(t.text)}</div>
+            <div style="font-size:10px;color:${dueColor};margin-top:2px">${t.due ? formatDate(t.due) + ' · ' : ''}${dueText}</div>
+          </div>
+          <button onclick="SYS.deleteTask(${t.id});SYS.showTaskGuide('${subjId}')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px">✕</button>
+        </div>`;
+      });
+      html += '</div>';
+    }
+
+    // Weekly workflow steps
+    html += `<div class="tg-section">
+      <div class="tg-section-title">📅 ¿Qué hacer cada semana? — Paso a paso</div>`;
+    guide.weeklySteps.forEach((step, i) => {
+      html += `<div class="tg-step">
+        <div class="tg-step-num">${i + 1}</div>
+        <div class="tg-step-content">
+          <div class="tg-step-title">${step.title}</div>
+          <div class="tg-step-desc">${step.desc}</div>
+          <div style="margin-top:4px;font-size:9px;padding:2px 7px;background:var(--vg);border:1px solid rgba(124,58,237,.15);border-radius:4px;color:var(--vi2);display:inline-block">⏰ ${step.action}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+
+    // Tips
+    html += `<div class="tg-section">
+      <div class="tg-section-title">💡 Tips importantes</div>
+      <div class="tg-warn">
+        ${guide.tips.map(t => `<div style="padding:2px 0">• ${t}</div>`).join('')}
+      </div>
+    </div>`;
+
+    // Quick links
+    html += `<div style="display:flex;gap:6px;flex-wrap:wrap">
+      <a href="${guide.courseUrl}" target="_blank" rel="noopener" class="tg-link">🎓 Abrir CUN Digital</a>
+      ${subj.resources.map(r => `<a href="${r}" target="_blank" rel="noopener" class="tg-link" style="background:var(--el);color:var(--vi2);border:1px solid rgba(124,58,237,.15)">📎 ${new URL(r).hostname.replace('www.','')}</a>`).join('')}
+    </div>`;
+
+    document.getElementById('tgBody').innerHTML = html;
+    document.getElementById('taskGuideOverlay').classList.add('vis');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Paso a paso de una entrega: guía del código + el ítem del parte que apunta a ella.
+  function _guideFor(s, c) {
+    const ref = s.id + ':' + c.id;
+    const it = getWeekLive().flatMap(w => w.items || []).find(x => _cronoRefs(x).includes(ref));
+    const base = GUIDES[c.id] || (GUIDE_KIND.find(([re]) => re.test(c.id)) || [])[1] || {};
+    const links = [...((it && it.links) || []), ...(base.links || [])];
+    if (s.cdigital_id) links.push({ label: 'Abrir el aula', url: `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` });
+    // Lo que ya está como botón dentro de un paso no se repite abajo.
+    const inSteps = new Set((base.steps || []).flatMap(x => x && x.link ? [x.link.url, x.link.label] : []));
+    return {
+      why: (it && it.why) || base.why || '',
+      mins: base.mins || null,
+      steps: base.steps || ((it && it.steps) || []),
+      links: links.filter((l, i) => !inSteps.has(l.url) && !inSteps.has(l.label) && links.findIndex(x => (x.url || x.nb) === (l.url || l.nb)) === i),
+      src: base.src || '',
+      // Meta del parte cuando difiere de la fecha del cronograma (p. ej. ritmo de la docente ya pasado).
+      goal: it && it.due && it.due.slice(0, 10) !== c.date ? it.due.slice(0, 10) : null,
+    };
+  }
+  function _dueTxt(due, done) {
+    if (done) return ['Hecho', 'var(--gn)'];
+    if (!due) return ['Sin fecha', 'var(--t3)'];
+    const d = daysBetween(todayStr(), due);
+    if (d < 0) return [`Vencido hace ${-d} día${d === -1 ? '' : 's'}`, 'var(--rd)'];
+    if (d === 0) return ['Cierra hoy', 'var(--rd)'];
+    return [`Cierra en ${d} día${d === 1 ? '' : 's'} · ${formatDate(due)}`, d <= 3 ? 'var(--am)' : 'var(--t2)'];
+  }
+  function openStep(sid, eid) {
+    const s = getSubjects().find(x => x.id === sid);
+    const c = s && (s.cronograma || []).find(x => x.id === eid);
+    if (!c) return;
+    const g = _guideFor(s, c);
+    const [stTxt, stCol] = _dueTxt(c.date, c.done);
+    document.getElementById('tgHeader').innerHTML = `
+      <div style="font-size:12px;color:var(--t3)">${s.icon} ${esc(s.name)}</div>
+      <div style="font-size:17px;font-weight:700;line-height:1.35;margin:4px 34px 8px 0">${esc(c.title)}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span class="ps-pill" style="color:${stCol};border-color:${stCol}">${stTxt}</span>
+        ${g.goal && !c.done ? `<span class="ps-pill" style="color:var(--vi2);border-color:var(--vi2)">Tu meta: ${wlFmtDue(g.goal)}</span>` : ''}
+        ${g.mins ? `<span class="ps-pill">≈ ${g.mins} min</span>` : ''}
+      </div>`;
+    const link = l => l.nb
+      ? `<button class="ps-go ps-go-alt" onclick="SYS.closeGuide();SYS.openNb('${esc(String(l.nb).split(':')[0])}','${esc(String(l.nb).split(':')[1])}')">📓 ${esc(l.label)}</button>`
+      : `<a class="ps-go ps-go-alt" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`;
+    const steps = g.steps.map(x => typeof x === 'string' ? { t: x } : x);
+    document.getElementById('tgBody').innerHTML = `
+      ${g.why ? `<p class="ps-why">${esc(g.why)}</p>` : ''}
+      ${steps.length ? `<ol class="ps-steps">${steps.map(x => `<li class="ps-step"><p>${esc(x.t)}</p>${x.link ? `<a class="ps-go" href="${esc(x.link.url)}" target="_blank" rel="noopener">${esc(x.link.label)} ↗</a>` : ''}</li>`).join('')}</ol>`
+        : `<p class="ps-why">Todavía no tengo el paso a paso verificado de esta entrega. Pídemelo en el chat y lo cargo aquí.</p>`}
+      ${g.links.length ? `<div class="ps-links-h">Enlaces directos</div><div class="ps-links">${g.links.map(link).join('')}</div>` : ''}
+      ${g.src ? `<p class="ps-src">Fuente: ${esc(g.src)}</p>` : ''}
+      <div class="ps-foot">
+        <button class="ps-done" onclick="SYS.toggleCronoEntry('${s.id}','${c.id}');SYS.closeGuide()">${c.done ? 'Marcar como pendiente' : '✓ Ya lo hice'}</button>
+        <button class="ps-close" onclick="SYS.closeGuide()">Cerrar</button>
+      </div>`;
+    document.getElementById('taskGuideOverlay').classList.add('vis');
+    document.body.style.overflow = 'hidden';
+  }
+  // Lista "Ponte al día": lo pendiente del período, vencido primero y luego lo que cierra antes.
+  function catchUpHtml(subjects) {
+    const today = todayStr();
+    const rows = subjects.flatMap(s => (s.cronograma || []).filter(c => !c.done && c.date && daysBetween(today, c.date) <= 14).map(c => ({ s, c })));
+    if (!rows.length) return '';
+    rows.sort((a, b) => a.c.date.localeCompare(b.c.date));
+    const groups = [
+      ['Vencido', 'var(--rd)', r => r.c.date < today],
+      ['Esta semana', 'var(--am)', r => r.c.date >= today && daysBetween(today, r.c.date) <= 7],
+      ['La semana siguiente', 'var(--t2)', r => daysBetween(today, r.c.date) > 7],
+    ];
+    let n = 0;
+    return `<section class="pd-wrap" aria-label="Ponte al día">
+      <div class="pd-h">Ponte al día, en este orden</div>
+      <div class="pd-sub">Lo vencido primero. Cada fila tiene su paso a paso con los enlaces directos.</div>
+      ${groups.map(([label, col, f]) => {
+        const g = rows.filter(f);
+        if (!g.length) return '';
+        return `<div class="pd-group" style="color:${col}">${label} · ${g.length}</div>` + g.map(({ s, c }) => {
+          const [txt, tc] = _dueTxt(c.date, false);
+          return `<div class="pd-row">
+            <span class="pd-n">${++n}</span>
+            <span class="pd-t">${s.icon} ${esc(c.title)} <span style="color:var(--t3);font-size:11.5px">· ${esc(s.name)}</span></span>
+            <span class="pd-d" style="color:${tc}">${txt}</span>
+            <button class="ps-btn" onclick="SYS.openStep('${s.id}','${c.id}')">Ver paso a paso</button>
+          </div>`;
+        }).join('');
+      }).join('')}
+    </section>`;
+  }
+
+  function closeGuide() {
+    document.getElementById('taskGuideOverlay').classList.remove('vis');
+    document.body.style.overflow = '';
+  }
+
+  // ── CLASS SESSION STORE ──
+  const CS_KEY = 'class_sessions';
+  // One-time migration: fix double-prefix bug (sys_sys_class_sessions → sys_class_sessions)
+  (() => { try { const old = localStorage.getItem('sys_sys_class_sessions'); if (old && !localStorage.getItem('sys_class_sessions')) { localStorage.setItem('sys_class_sessions', old); localStorage.removeItem('sys_sys_class_sessions'); } else if (old) { const merged = [...JSON.parse(old), ...JSON.parse(localStorage.getItem('sys_class_sessions') || '[]')]; const unique = merged.filter((s, i, a) => a.findIndex(x => x.id === s.id) === i); localStorage.setItem('sys_class_sessions', JSON.stringify(unique)); localStorage.removeItem('sys_sys_class_sessions'); } } catch {} })();
+  function getClassSessions() { return db.get(CS_KEY, []); }
+  function saveClassSessions(arr) {
+    db.set(CS_KEY, arr);
+    if (window.CLOUD) arr.forEach(s => CLOUD.push('class_sessions', { ...s, id: String(s.id), updated_at: new Date().toISOString() }));
+  }
+
+  function deleteClassSession(id) {
+    if (window.CLOUD) CLOUD.remove('class_sessions', String(id));
+    saveClassSessions(getClassSessions().filter(s => s.id !== id));
+    renderClassSessions();
+  }
+
+  function updateClassStatus(id, status) {
+    const arr = getClassSessions();
+    const s = arr.find(x => x.id === id);
+    if (s) { s.status = status; saveClassSessions(arr); renderClassSessions(); }
+  }
+
+  // Called by Claude via JS injection after analysis
+  function injectClassSession(data) {
+    const arr = getClassSessions();
+    const existing = arr.findIndex(s => s.url === data.url);
+    const session = { id: data.id || Date.now(), url: data.url || '', subject_id: data.subject_id || 'general',
+      subject_name: data.subject_name || '', date: data.date || todayStr(), title: data.title || 'Clase sin título',
+      summary: data.summary || '', topics: data.topics || [], assignments: data.assignments || [],
+      resources: data.resources || [], status: data.status || 'pending', saved_at: new Date().toISOString() };
+    if (existing >= 0) arr[existing] = session; else arr.unshift(session);
+    saveClassSessions(arr);
+    renderClassSessions();
+    return '✅ Sesión guardada: ' + session.title;
+  }
+
+  function copyClassPrompt() {
+    const url = (document.getElementById('classUrl') || {}).value || '';
+    const subjEl = document.getElementById('classSubjSel');
+    const subj = subjEl ? getSubjects().find(s => s.id === subjEl.value) : null;
+    const subjName = subj ? subj.name + ' (' + subj.code + ')' : 'la materia';
+    const prompt = `CEREBRO: ANALIZA CLASE\nURL: ${url || '[pega la URL aquí]'}\nMateria: ${subjName}\n\n⚠️ PRERREQUISITO DEL USUARIO:\nAntes de pegar este prompt, abre la URL en TU Chrome (la misma ventana donde corre la extensión "Claude"), asegúrate de estar logueado en Google Drive con tu correo @cun.edu.co, y activa el panel de Transcripción del reproductor de Drive (click en ⋮ → Transcripción). Con el panel visible, pega este prompt.\n\nProtocolo (Chrome MCP — SOLO transcripción, NO ver frames del video):\n1. tabs_context_mcp → identifica la pestaña ya abierta con el título "Recording - Google Drive" del video. NO navegues a una URL nueva — usa la pestaña que el usuario ya preparó.\n2. javascript_tool → extrae el transcript del panel lateral con este selector probado:\n   const sidebar = Array.from(document.querySelectorAll('[aria-label*="ranscripci"]')).find(e => e.getAttribute('role') === 'complementary');\n   const lines = sidebar.innerText.split('\\n').filter(l => l.trim() && l.trim() !== 'Copiar enlace en esta transcripción' && l.trim() !== 'Cerrar hoja lateral' && l.trim() !== 'Transcripción');\n   window.__transcript = lines.join('\\n');\n3. Pre-procesa EN LA PÁGINA (no en tu contexto): parsea a segmentos [timestamp, texto], filtra por keywords (tarea|entrega|parcial|examen|quiz|fecha|plazo|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|cdigital|drive|http|recuerden|no olviden|para el|hasta el), y dame solo los hits relevantes + los últimos 25 segmentos (ahí están los anuncios de cierre).\n4. Con esos excerpts reales (verbatim, con timestamps), genera informe estructurado:\n   - Resumen ejecutivo (qué se vio — solo hechos verificables)\n   - Temas principales (lista de lo enseñado)\n   - Tareas detectadas (con cita verbatim del profesor + timestamp + fecha de entrega)\n   - Dónde/cómo entregar (plataforma, link, formato)\n   - Recursos mencionados (URLs, carpetas, materiales)\n5. Ejecuta SYS.injectClassSession() DIRECTAMENTE EN LA PESTAÑA REAL DEL USUARIO (https://mikel696.github.io/da-2026/frontend/systems.html), NO en localhost. Esa es la única forma de que llegue al Supabase del usuario.\n   SYS.injectClassSession({ url:'${url}', subject_id:'${subj ? subj.id : ''}', subject_name:'${subjName}', date:'YYYY-MM-DD', title:'...', summary:'...', topics:[], assignments:[{title,desc,due_date,submit_where,submit_how,evidence_type,moodle_url}], resources:[], status:'analyzed' })\n6. Verifica visualmente: showTab(6) → screenshot → confirmar que la tarjeta aparece en "Sesiones guardadas".\n\n🚨 REGLAS ANTI-HALLUCINACIÓN (obligatorias):\n- Si NO puedes conectar a Chrome MCP, NO inventes el contenido. Pide al usuario que verifique la extensión.\n- Si la transcripción está vacía o no hay panel, NO extrapoles. Reporta el problema y pide que el usuario active el panel.\n- NO uses curl/fetch contra Drive — falla con 401.\n- Solo datos verbatim del transcript. Toda tarea debe citar el timestamp + frase del profesor como evidencia.`;
+    if (navigator.clipboard) navigator.clipboard.writeText(prompt).catch(() => {});
+    const preview = document.getElementById('classPromptPreview');
+    const textEl = document.getElementById('classPromptText');
+    const copiedEl = document.getElementById('classPromptCopied');
+    if (preview) preview.style.display = 'block';
+    if (textEl) textEl.textContent = prompt;
+    if (copiedEl) { copiedEl.style.display = 'block'; setTimeout(() => copiedEl.style.display = 'none', 3000); }
+  }
+
+  function renderClassSessions() {
+    const el = document.getElementById('classSessionsList');
+    const countEl = document.getElementById('classSessionCount');
+    if (!el) return;
+    const sessions = getClassSessions();
+    if (countEl) countEl.textContent = sessions.length + ' sesión' + (sessions.length !== 1 ? 'es' : '');
+    if (!sessions.length) {
+      el.innerHTML = `<div class="cs-empty">📹 Aún no hay clases guardadas.<br><span style="font-size:11px">Pega el link de un video de clase arriba y copia el prompt para Claude.</span></div>`;
+      return;
+    }
+    const statusIcon = { pending: '⏳', in_progress: '🔄', done: '✅' };
+    const statusLabel = { pending: 'Pendiente', in_progress: 'En proceso', done: 'Completado' };
+    const statusCls = { pending: 'cs-status-pending', in_progress: 'cs-status-inprogress', done: 'cs-status-done' };
+    el.innerHTML = sessions.map(s => {
+      const subj = SUBJECTS.find(x => x.id === s.subject_id);
+      const clsCls = s.status === 'done' ? 'cs-done' : s.status === 'in_progress' ? 'cs-inprogress' : '';
+      const assigns = (s.assignments || []).map(a => `
+        <div class="cs-assign">
+          <div class="cs-assign-title">📌 ${esc(a.title)}</div>
+          ${a.desc ? `<div class="cs-assign-row"><span class="cs-assign-label">Descripción:</span>${esc(a.desc)}</div>` : ''}
+          ${a.due_date ? `<div class="cs-assign-row"><span class="cs-assign-label">Entrega:</span><strong style="color:var(--am)">${a.due_date}</strong></div>` : ''}
+          ${a.submit_where ? `<div class="cs-assign-row"><span class="cs-assign-label">Dónde:</span>${esc(a.submit_where)}</div>` : ''}
+          ${a.submit_how ? `<div class="cs-assign-row"><span class="cs-assign-label">Cómo:</span>${esc(a.submit_how)}</div>` : ''}
+          ${a.evidence_type ? `<div class="cs-assign-row"><span class="cs-assign-label">Evidencia:</span>${esc(a.evidence_type)}</div>` : ''}
+          ${a.moodle_url ? `<div class="cs-assign-row"><span class="cs-assign-label">Link:</span><a href="${a.moodle_url}" target="_blank" style="color:var(--cy)">${esc(a.moodle_url)}</a></div>` : ''}
+        </div>`).join('');
+      const topics = (s.topics || []).map(t => `<span class="cs-topic">${esc(t)}</span>`).join('');
+      return `
+      <div class="cs-card ${clsCls}" id="cs-${s.id}">
+        <div class="cs-head" onclick="SYS.toggleCS(${s.id})">
+          <div class="cs-icon">${subj ? subj.icon : '📹'}</div>
+          <div class="cs-info">
+            <div class="cs-title">${esc(s.title)}</div>
+            <div class="cs-meta">
+              <span>${subj ? subj.name : s.subject_name}</span>
+              <span>·</span><span>${s.date}</span>
+              <span>·</span><span class="${statusCls[s.status] || 'cs-status-pending'}">${statusIcon[s.status] || '⏳'} ${statusLabel[s.status] || 'Pendiente'}</span>
+              ${(s.assignments||[]).length ? `<span>· ${s.assignments.length} tarea${s.assignments.length!==1?'s':''}</span>` : ''}
+            </div>
+          </div>
+          <div class="cs-actions" onclick="event.stopPropagation()">
+            ${s.status !== 'done' ? `<button class="cs-btn cs-btn-status" onclick="SYS.updateClassStatus(${s.id},'${s.status==='pending'?'in_progress':'done'}')">${s.status==='pending'?'▶ Iniciar':'✅ Listo'}</button>` : `<button class="cs-btn cs-btn-status" onclick="SYS.updateClassStatus(${s.id},'pending')">↩ Reabrir</button>`}
+            <button class="cs-btn cs-btn-del" onclick="if(confirm('¿Eliminar esta sesión?'))SYS.deleteClassSession(${s.id})">🗑</button>
+          </div>
+        </div>
+        <div class="cs-body" id="csb-${s.id}">
+          ${s.url ? `<div style="margin-bottom:10px"><a href="${esc(s.url)}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--cy);word-break:break-all">🔗 ${esc(s.url)}</a></div>` : ''}
+          ${s.summary ? `<div class="cs-summary">${esc(s.summary)}</div>` : ''}
+          ${topics ? `<div class="cs-topics">${topics}</div>` : ''}
+          ${assigns || '<div style="font-size:11px;color:var(--t3);padding:8px 0">Sin actividades detectadas.</div>'}
+          ${(s.resources||[]).length ? `<div style="margin-top:10px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Recursos recomendados</div>${s.resources.map(r=>`<a href="${esc(r)}" target="_blank" style="display:block;font-size:11px;color:var(--cy);margin-bottom:3px;word-break:break-all">📎 ${esc(r)}</a>`).join('')}` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleCS(id) {
+    const body = document.getElementById('csb-' + id);
+    if (body) body.classList.toggle('open');
+  }
+
+  // ── SUBJECT CRUD ──────────────────────────────────────────────
+
+  const SM_COLORS = [
+    'hsl(200,80%,50%)','hsl(263,70%,55%)','hsl(320,60%,50%)','hsl(45,85%,50%)',
+    'hsl(15,70%,50%)','hsl(160,60%,40%)','hsl(0,65%,55%)','hsl(35,80%,50%)',
+    'hsl(240,70%,60%)','hsl(190,75%,45%)','hsl(280,55%,55%)','hsl(100,55%,40%)',
+  ];
+  const STATUSES = {
+    en_curso:  { label: 'En curso',  icon: '🟢' },
+    pendiente: { label: 'Pendiente', icon: '⏳' },
+    pausada:   { label: 'Pausada',   icon: '⏸' },
+    ganada:    { label: 'Ganada',    icon: '🏆' },
+    perdida:   { label: 'Perdida',   icon: '💔' },
+    retirada:  { label: 'Retirada',  icon: '🚪' },
+  };
+  const STATUS_ORDER = ['en_curso','pendiente','pausada','ganada','perdida','retirada'];
+  let _smEditId = null;
+
+  function setSubjectStatus(id, status) {
+    if (!STATUSES[status]) return;
+    const custom = db.get('subjects_custom', []);
+    const idx = custom.findIndex(s => s.id === id);
+    if (idx >= 0) {
+      custom[idx].status = status;
+      custom[idx]._updated = new Date().toISOString();
+    } else {
+      custom.push({ id, status, _updated: new Date().toISOString() });
+    }
+    db.set('subjects_custom', custom);
+    closeStatusMenu();
+    render();
+  }
+
+  function toggleStatusMenu(id) {
+    document.querySelectorAll('.subj-st-menu').forEach(m => {
+      if (m.id !== 'stMenu-' + id) m.classList.remove('on');
+    });
+    const menu = document.getElementById('stMenu-' + id);
+    if (menu) menu.classList.toggle('on');
+  }
+
+  function closeStatusMenu() {
+    document.querySelectorAll('.subj-st-menu').forEach(m => m.classList.remove('on'));
+  }
+
+  // Close status menu on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.subj-st-wrap')) closeStatusMenu();
+  });
+
+  // ── SUBJECT FILTER STATE ──
+  let _subjFilter = 'actual';
+  function setSubjFilter(f) { _subjFilter = f; render(); }
+
+  // Marcar una entrega guarda una copia completa del cronograma en subjects_custom.
+  // Sin este merge por id, esa copia tapaba para siempre las fechas y entregas que
+  // se agreguen después en el código. Del usuario se conserva: done, su fecha si la
+  // cambió, y las entregas que él mismo creó.
+  function _mergeSubj(s, o) {
+    if (!o) return s;
+    const m = { ...s, ...o };
+    if (Array.isArray(s.cronograma) && Array.isArray(o.cronograma)) {
+      const oBy = Object.fromEntries(o.cronograma.map(c => [c.id, c]));
+      const baseIds = new Set(s.cronograma.map(c => c.id));
+      m.cronograma = [
+        ...s.cronograma.map(c => {
+          const u = oBy[c.id];
+          return u ? { ...c, done: u.done ?? c.done, date: u.date || c.date } : c;
+        }),
+        ...o.cronograma.filter(c => !baseIds.has(c.id)),
+      ];
+    }
+    return m;
+  }
+
+  function getSubjects() {
+    const custom = db.get('subjects_custom', []);
+    const hidden = new Set(db.get('subjects_hidden', []));
+    const overMap = Object.fromEntries(custom.map(s => [s.id, s]));
+    const hardIds = new Set(SUBJECTS.map(s => s.id));
+    const base = SUBJECTS.filter(s => !hidden.has(s.id)).map(s => _mergeSubj(s, overMap[s.id]));
+    const extras = custom.filter(s => !hardIds.has(s.id) && !hidden.has(s.id));
+    return [...base, ...extras];
+  }
+
+  function _saveSubj(subj) {
+    const custom = db.get('subjects_custom', []);
+    const idx = custom.findIndex(s => s.id === subj.id);
+    if (idx >= 0) custom[idx] = subj; else custom.push(subj);
+    db.set('subjects_custom', custom);
+  }
+
+  function deleteSubjectCRUD(id) {
+    const s = getSubjects().find(s => s.id === id);
+    if (!s) return;
+    if (!confirm(`¿Ocultar la materia "${s.name}"?\n\nLas tareas asociadas se conservan. Puedes rehidratarla volviendo a crearla con el mismo ID.`)) return;
+    const hidden = db.get('subjects_hidden', []);
+    if (!hidden.includes(id)) hidden.push(id);
+    db.set('subjects_hidden', hidden);
+    db.set('subjects_custom', db.get('subjects_custom', []).filter(c => c.id !== id));
+    render();
+  }
+
+  function openSubjectModal(id) {
+    // Si es nueva materia, generamos ID provisional para que los uploads funcionen antes del save.
+    _smEditId = id || ('subj_' + Date.now());
+    const ov = document.getElementById('smOv');
+    if (!ov) return;
+    const cp = document.getElementById('smColorPicks');
+    if (cp) cp.innerHTML = SM_COLORS.map(c => `<div class="sm-col-pick" style="background:${c}" data-c="${c}" onclick="SYS._smColor(this,'${c}')"></div>`).join('');
+    const sv = (eid, v) => { const e = document.getElementById(eid); if (e) e.value = v ?? ''; };
+    const s = id ? getSubjects().find(x => x.id === id) : null;
+    document.getElementById('smTitle').textContent = s ? 'Editar Materia' : 'Nueva Materia';
+    sv('smIcon', s?.icon || '📚');
+    sv('smCode', s?.code || '');
+    sv('smName', s?.name || '');
+    sv('smColor', s?.color || SM_COLORS[0]);
+    sv('smCredits', s?.credits ?? '');
+    sv('smGroup', s?.group || '');
+    sv('smType', s?.type || '');
+    sv('smSchedule', s?.schedule || '');
+    sv('smProfessor', s?.professor || '');
+    sv('smDesc', s?.desc || '');
+    sv('smCdigitalId', s?.cdigital_id || '');
+    sv('smLinkClase', s?.subject_links?.clase || '');
+    sv('smLinkGrab', s?.subject_links?.grabaciones || '');
+    sv('smLinkMat', s?.subject_links?.material || '');
+    sv('smStatus', s?.status || 'en_curso');
+    sv('smGrade', s?.grade ?? '');
+    document.querySelectorAll('#smColorPicks .sm-col-pick').forEach(el => el.classList.toggle('on', el.dataset.c === (s?.color || SM_COLORS[0])));
+    document.getElementById('smCronoList').innerHTML = (s?.cronograma || []).map((r, i) => _crRow(r, i)).join('');
+    _renderSmFiles(id);
+    ov.style.display = 'flex';
+  }
+
+  function closeSubjectModal() {
+    const ov = document.getElementById('smOv');
+    if (ov) ov.style.display = 'none';
+    _smEditId = null;
+  }
+
+  function _smColor(el, val) {
+    document.getElementById('smColor').value = val;
+    document.querySelectorAll('#smColorPicks .sm-col-pick').forEach(e => e.classList.remove('on'));
+    el.classList.add('on');
+  }
+
+  function _crRow(r, i) {
+    const rid = r.id || ('cr' + i);
+    return `<div class="cr-row" id="cr-${rid}">
+      <input class="sm-i" placeholder="Ej: Entrega Taller 1" value="${esc(r.title || '')}" data-crf="title" data-cri="${rid}">
+      <input class="sm-i" type="date" value="${r.date || ''}" data-crf="date" data-cri="${rid}">
+      <select class="sm-i" data-crf="type" data-cri="${rid}">
+        <option value="tarea"${r.type==='tarea'?' selected':''}>📋 Tarea</option>
+        <option value="parcial"${r.type==='parcial'?' selected':''}>📝 Parcial</option>
+        <option value="quiz"${r.type==='quiz'?' selected':''}>❓ Quiz</option>
+        <option value="proyecto"${r.type==='proyecto'?' selected':''}>🎯 Proyecto</option>
+        <option value="foro"${r.type==='foro'?' selected':''}>💬 Foro</option>
+        <option value="otro"${r.type==='otro'?' selected':''}>📌 Otro</option>
+      </select>
+      <button class="cr-del" onclick="SYS.removeCrono('${rid}')">✕</button>
+    </div>`;
+  }
+
+  function addCrono() {
+    const list = document.getElementById('smCronoList');
+    if (!list) return;
+    const id = 'cr' + Date.now();
+    const tmp = document.createElement('div');
+    tmp.innerHTML = _crRow({ id, title: '', date: '', type: 'tarea' });
+    list.appendChild(tmp.firstChild);
+  }
+
+  function removeCrono(rowId) {
+    const el = document.getElementById('cr-' + rowId);
+    if (el) el.remove();
+  }
+
+  function _readCrono() {
+    return Array.from(document.querySelectorAll('#smCronoList .cr-row')).map(row => {
+      const g = f => row.querySelector(`[data-crf="${f}"]`)?.value || '';
+      const id = row.querySelector('[data-cri]')?.dataset.cri || ('cr' + Date.now());
+      return { id, title: g('title'), date: g('date'), type: g('type') };
+    }).filter(r => r.title || r.date);
+  }
+
+  function saveSubjectModal() {
+    const gv = id => document.getElementById(id)?.value?.trim() || '';
+    const name = gv('smName');
+    if (!name) { alert('El nombre de la materia es obligatorio.'); return; }
+    const color = gv('smColor') || SM_COLORS[0];
+    const cdigId = parseInt(gv('smCdigitalId')) || null;
+    const sl = {};
+    const lc = gv('smLinkClase'); if (lc) sl.clase = lc;
+    const lg = gv('smLinkGrab');  if (lg) sl.grabaciones = lg;
+    const lm = gv('smLinkMat');   if (lm) sl.material = lm;
+    const id = _smEditId || ('subj_' + Date.now());
+    const gradeRaw = gv('smGrade');
+    const grade = gradeRaw === '' ? null : parseFloat(gradeRaw);
+    const subj = {
+      id, name, color,
+      code:      gv('smCode'),
+      icon:      gv('smIcon') || '📚',
+      credits:   parseInt(gv('smCredits')) || 0,
+      group:     gv('smGroup'),
+      type:      gv('smType'),
+      schedule:  gv('smSchedule'),
+      professor: gv('smProfessor'),
+      desc:      gv('smDesc'),
+      cdigital_id: cdigId,
+      subject_links: Object.keys(sl).length ? sl : undefined,
+      cronograma: _readCrono(),
+      status:    gv('smStatus') || 'en_curso',
+      grade:     grade != null && !isNaN(grade) ? grade : null,
+      _custom: true,
+      _updated: new Date().toISOString(),
+    };
+    // Conserva lo que el formulario no edita (notas, período, horario estructurado).
+    const prev = db.get('subjects_custom', []).find(c => c.id === id) || {};
+    if (!prev.period && !SUBJECTS.some(x => x.id === id)) subj.period = detectPeriod();
+    _saveSubj({ ...prev, ...subj });
+    closeSubjectModal();
+    render();
+  }
+
+  // ── FILE ATTACHMENTS (per subject) ──
+  function _getFiles(sid) { return db.get('subj_files_' + sid, []); }
+  function _setFiles(sid, arr) { db.set('subj_files_' + sid, arr); }
+
+  function _renderSmFiles(sid) {
+    const el = document.getElementById('smAttList');
+    if (!el) return;
+    if (!sid) { el.innerHTML = ''; return; }
+    const files = _getFiles(sid);
+    if (!files.length) { el.innerHTML = ''; return; }
+    const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', gif:'🖼️', zip:'🗜️', rar:'🗜️' };
+    el.innerHTML = files.map(f => {
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
+      const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+      const ic = isImg ? '🖼️' : (icMap[ext] || '📎');
+      const sz = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB';
+      return `<div class="att-c">
+        ${isImg ? `<img src="${f.data}" class="att-mini" onclick="SYS.openFileViewer('${sid}','${f.id}')" title="Click para ampliar">` : `<span class="att-ic">${ic}</span>`}
+        <span class="att-nm" title="${esc(f.name)}" ${isImg ? `onclick="SYS.openFileViewer('${sid}','${f.id}')" style="cursor:zoom-in"` : ''}>${esc(f.name)}</span>
+        <span class="att-sz">${sz}</span>
+        <button class="att-b" onclick="SYS.subjectFileDL('${sid}','${f.id}')" title="Descargar">⬇</button>
+        <button class="att-b" onclick="SYS.subjectFileDel('${sid}','${f.id}')" title="Eliminar">✕</button>
+      </div>`;
+    }).join('');
+  }
+
+  function subjectFileUpload(input) {
+    const sid = _smEditId;
+    if (!sid) return;
+    const existing = _getFiles(sid);
+    Array.from(input.files).forEach(f => {
+      if (f.size > 2 * 1024 * 1024) { alert(`"${f.name}" supera los 2 MB. Comprime e intenta de nuevo.`); return; }
+      const reader = new FileReader();
+      reader.onload = e => {
+        existing.push({ id: 'f' + Date.now(), name: f.name, type: f.type, size: f.size, data: e.target.result, added: new Date().toISOString() });
+        _setFiles(sid, existing);
+        _renderSmFiles(sid);
+      };
+      reader.readAsDataURL(f);
+    });
+    input.value = '';
+  }
+
+  function subjectFileDL(sid, fileId) {
+    const f = _getFiles(sid).find(x => x.id === fileId);
+    if (!f?.data) return;
+    const a = document.createElement('a');
+    a.href = f.data; a.download = f.name; a.click();
+  }
+
+  function subjectFileDel(sid, fileId) {
+    if (!confirm('¿Eliminar este archivo?')) return;
+    _setFiles(sid, _getFiles(sid).filter(f => f.id !== fileId));
+    _renderSmFiles(sid);
+    render();
+  }
+
+  // ── TOGGLE CRONOGRAMA ENTRY (mark as done/pending) ──
+  function toggleCronoEntry(sid, entryId) {
+    const ref = sid + ':' + entryId;
+    const c = _cronoEntry(ref);
+    if (!c) return;
+    const val = !c.done;
+    _setCronoSilent(ref, { done: val });
+    // La actividad de Semana en vivo que apunta a esta entrada queda con el mismo estado.
+    const st = getWeekState();
+    let touched = false;
+    getWeekLive().forEach(w => w.items.forEach(it => {
+      if (_cronoRefs(it).includes(ref)) { st[it.id] = { ...(st[it.id] || {}), done: val, ts: Date.now() }; touched = true; }
+    }));
+    if (touched) db.set('week_state', st);
+    render();
+  }
+
+  // ── IMAGE/FILE LIGHTBOX VIEWER ──
+  function openFileViewer(sid, fileId) {
+    const f = _getFiles(sid).find(x => x.id === fileId);
+    if (!f) return;
+    const isImage = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+    if (!isImage) { subjectFileDL(sid, fileId); return; }
+    let lb = document.getElementById('fileLightbox');
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.id = 'fileLightbox';
+      lb.className = 'lb-ov';
+      lb.onclick = (e) => { if (e.target === lb) closeFileViewer(); };
+      document.body.appendChild(lb);
+    }
+    lb.innerHTML = `<button class="lb-close" onclick="SYS.closeFileViewer()" title="Cerrar (Esc)">✕</button>
+      <button class="lb-dl" onclick="SYS.subjectFileDL('${sid}','${fileId}')" title="Descargar">⬇</button>
+      <div class="lb-content">
+        <img src="${f.data}" alt="${esc(f.name)}">
+        <div class="lb-caption">${esc(f.name)} · ${f.size > 1048576 ? (f.size/1048576).toFixed(1)+' MB' : Math.round(f.size/1024)+' KB'}</div>
+      </div>`;
+    lb.style.display = 'flex';
+  }
+
+  function closeFileViewer() {
+    const lb = document.getElementById('fileLightbox');
+    if (lb) lb.style.display = 'none';
+  }
+
+  // ESC closes lightbox
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeFileViewer();
+  });
+
+  // ── SYNC TASK SELECTS ──
+  function renderSubjTaskSelects() {
+    const p = detectPeriod();
+    const all = getSubjects();
+    const opt = s => `<option value="${s.id}">${s.icon} ${esc(s.name)}${s.code ? ' (' + esc(s.code) + ')' : ''}</option>`;
+    const cur = all.filter(s => isCurrentSubj(s, p)).map(opt).join('');
+    const old = all.filter(s => !isCurrentSubj(s, p)).map(opt).join('');
+    const grouped = `<optgroup label="Período ${p}">${cur}</optgroup>` + (old ? `<optgroup label="Historial">${old}</optgroup>` : '');
+    [['newTaskSubj', true], ['bulkSubj', true], ['classSubjSel', false]].forEach(([eid, withGeneral]) => {
+      const el = document.getElementById(eid);
+      if (!el) return;
+      const prev = el.value;
+      el.innerHTML = grouped + (withGeneral ? '<option value="general">📌 General</option>' : '');
+      if (prev && [...el.options].some(o => o.value === prev)) el.value = prev;
+    });
+  }
+
+  // ── EXPOSE GLOBALLY
+  window.showTab = showTab;
+  window.openCUNPortals = openCUNPortals;
+  window.openSinglePortal = openSinglePortal;
+  window.openNextPortal = openNextPortal;
+
+  // Run on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // ── Cloud Sync: pull tasks + sessions on sign-in ──
+  window.addEventListener('sb:signed_in', async () => {
+    if (!window.CLOUD) return;
+    await CLOUD.fullSync('sys_tasks', 'sys_tasks');
+    await CLOUD.fullSync('class_sessions', 'sys_class_sessions');
+    render();
+    renderClassSessions();
+  });
+
+  return { setNota, injectWeek, setWeekItem, setCrono, openNb, openStep, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
+})();
+window.SYS = SYS;
+
+// ═══════════════════════════════════════
+// NB — Notebook Module (inline per-subject in Materias tab)
+// ═══════════════════════════════════════
+const NB = (function() {
+  const KEY = 'sys_notebook';
+  // activePage maps subjectId → pageId (which page editor is open per subject)
+  const activePage = {};
+  // openSubjects: subjectIds whose dropdowns were open (preserved across re-render)
+  const openSubjects = new Set();
+  const saveTimers = {};
+  let lbCtx = null; // { subjectId, pageId, index }
+  // Paste-dialog context
+  const pim = { sid: null, dataUrl: null };
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
+  /** Save with quota check — surfaces clear alert when localStorage is full
+   *  instead of failing silently (was causing pages/images to silently drop). */
+  function save(data) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(data));
+    } catch (e) {
+      if (e && (e.name === 'QuotaExceededError' || /quota/i.test(e.message || ''))) {
+        if (window.NBShared && NBShared.quotaAlert) NBShared.quotaAlert(KEY, rerenderAll);
+        else alert('💾 El navegador se quedó sin espacio para el Cerebro (todos los módulos comparten ese espacio). No cierres esta pestaña y libera espacio.');
+      }
+      throw e;
+    }
+  }
+  function rerenderAll() {
+    if (window.SYS && SYS.render) SYS.render();
+    renderCustomList();
+  }
+  function getSubjectData(sid) {
+    const d = load();
+    if (!d[sid]) d[sid] = { pages: [], links: [], images: [] };
+    return d;
+  }
+
+  // ── PER-SUBJECT PANEL RENDERING ──
+  // Returns HTML for the notebook dropdown inside a subject card.
+  function renderSubjectPanel(sid) {
+    const d = load();
+    const sub = d[sid] || { pages: [] };
+    const pageCount = sub.pages.length;
+    const isOpen = openSubjects.has(sid);
+    const activeId = activePage[sid];
+    const page = activeId ? sub.pages.find(p => p.id === activeId) : null;
+
+    const pagesListHtml = pageCount ? sub.pages.map(p => {
+      const preview = (p.body || '').substring(0, 60).replace(/\n/g, ' ');
+      const isActive = activeId === p.id;
+      return `<div class="nb-entry${isActive ? ' open' : ''}">
+        <div class="nb-entry-h" onclick="NB.openPage('${sid}',${p.id})">
+          <div style="min-width:0;flex:1"><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length >= 60 ? '…' : ''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day: 'numeric', month: 'short' })}</span>
+            <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length ? '🔗'+p.links.length : ''} ${(p.images||[]).length ? '🖼'+p.images.length : ''}</span>
+            <button onclick="event.stopPropagation();NB.deletePage('${sid}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
+
+    const editorHtml = buildEditorHtml(sid, page);
+
+    return `<div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${sid}">
+      <div class="sj-drop-h" onclick="NB.toggleSubject('${sid}')">
+        <div>📓 Cuaderno <span class="sj-drop-count">(${pageCount} página${pageCount!==1?'s':''})</span></div>
+        <span class="sj-drop-arr">▶</span>
+      </div>
+      <div class="sj-drop-body">
+        <div class="sj-nb-toolbar">
+          <button onclick="NB.newPage('${sid}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
+          ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: sid, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
+        </div>
+        ${editorHtml}
+        <div class="sl" style="margin-top:12px">· páginas ·</div>
+        <div class="nb-entries">${pagesListHtml}</div>
+      </div>
+    </div>`;
+  }
+
+  // ── SHARED PAGE EDITOR HTML (used by subject + custom notebooks) ──
+  function renderBodyContent(body) {
+    if (!body) return '';
+    // If stored content already has tags (new rich format), render as-is.
+    if (/<[a-z][^>]*>/i.test(body)) return body;
+    // Otherwise escape (legacy plain-text content).
+    return esc(body);
+  }
+
+  function buildEditorHtml(sid, page) {
+    if (!page) return '';
+    const toolbarHtml = (window.NBShared && NBShared.toolbarHtml) ? NBShared.toolbarHtml(sid, 'NB') : '';
+    return `${toolbarHtml}
+      <div class="nb-page" style="margin-bottom:12px">
+        <div class="nb-header">
+          <input class="nb-title-inp" id="nbTitle-${sid}" value="${esc(page.title || '').replace(/"/g,'&quot;')}" placeholder="Título de la página..." oninput="NB.autoSave('${sid}')">
+          <span class="nb-saved" id="nbSaved-${sid}">✓ guardado</span>
+          <span class="nb-date">${new Date(page.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
+        <div class="nb-spine"></div>
+        <div class="nb-holes"><div class="nb-hole" style="top:24px"></div><div class="nb-hole" style="top:72px"></div><div class="nb-hole" style="top:120px"></div><div class="nb-hole" style="top:168px"></div><div class="nb-hole" style="top:216px"></div><div class="nb-hole" style="top:264px"></div><div class="nb-hole" style="top:312px"></div><div class="nb-hole" style="top:360px"></div></div>
+        <div class="nb-margin"></div>
+        <div class="nb-content" id="nbBody-${sid}" contenteditable="true" data-placeholder="Escribe tus apuntes aquí..." oninput="NB.autoSave('${sid}')">${renderBodyContent(page.body)}</div>
+      </div>
+      <div class="sl" style="margin-top:12px">· links de estudio ·</div>
+      <div id="nbLinks-${sid}">${renderLinksHtml(sid, page)}</div>
+      <div class="sl" style="margin-top:12px">· archivos adjuntos · <span style="font-size:9px;color:var(--t3);text-transform:none;letter-spacing:0;font-weight:400">(local — no sync)</span></div>
+      <div class="nb-att-list" id="nbAtt-${sid}">${renderAttachmentsHtml(sid, page)}</div>
+      <div class="sl" style="margin-top:12px">· imágenes ·</div>
+      <div class="nb-images" id="nbImages-${sid}">${renderImagesHtml(sid, page)}</div>`;
+  }
+
+  function renderLinksHtml(sid, page) {
+    if (!page.links || !page.links.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin links aún. Usa "🔗 Link".</div>';
+    return page.links.map((l, i) =>
+      `<div class="nb-link"><span class="nb-link-icon">🔗</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(l.label)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener" class="nb-link-url">${esc(l.url)}</a></div><button onclick="NB.removeLink('${sid}',${i})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:10px">✕</button></div>`
+    ).join('');
+  }
+
+  function renderImagesHtml(sid, page) {
+    if (!page.images || !page.images.length) return '<div style="font-size:11px;color:var(--t3);padding:4px 0;grid-column:1/-1">Sin imágenes. Usa "🖼️ Imagen HD" para pegar/arrastrar.</div>';
+    return page.images.map((im, i) => {
+      const src = im.thumbnail || im.data || '';
+      const orphan = im.id && !im.thumbnail && !im.data;
+      return `<div class="nb-img-card">
+        <button class="nb-img-del" onclick="event.stopPropagation();NB.removeImage('${sid}',${i})" title="Eliminar">✕</button>
+        <button class="nb-img-rename" onclick="event.stopPropagation();NB.renameImage('${sid}',${i})" title="Renombrar">✏</button>
+        ${orphan
+          ? '<div style="aspect-ratio:1;background:var(--el);display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:11px;text-align:center;padding:8px">📷<br>Solo en otro<br>dispositivo</div>'
+          : `<img src="${src}" alt="${esc(im.caption)}" onclick="NB.viewImage('${sid}',${i})">`}
+        <div class="nb-img-caption">${esc(im.caption || 'Sin nombre')}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function renameImage(sid, idx) {
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid] && d[sid].pages.find(p => p.id === pid);
+    if (!page || !page.images || !page.images[idx]) return;
+    const cur = page.images[idx].caption || '';
+    const next = prompt('Nombre / descripción de la imagen:', cur);
+    if (next === null) return;
+    page.images[idx].caption = next;
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
+  }
+
+  function renderAttachmentsHtml(sid, page) {
+    if (!window.NBShared) return '<div style="font-size:11px;color:var(--t3);padding:4px 0">Cargando módulo de adjuntos…</div>';
+    const atts = (page && page.attachments) || [];
+    return NBShared.renderAttachmentChips(atts, { onRemove: "NB.removeAttachment.bind(null,'"+sid+"')" });
+  }
+
+  async function attachFile(sid) {
+    if (!window.NBShared) return alert('Módulo de adjuntos no disponible.');
+    const pid = activePage[sid];
+    if (!pid) return alert('Primero crea o abre una página.');
+    const meta = await NBShared.pickAttachmentViaModal('cnb_' + sid + '_' + pid);
+    if (!meta) return; // user cancelled
+    const d = load();
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page.attachments) page.attachments = [];
+    page.attachments.push(meta);
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbAtt-' + sid);
+    if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
+  }
+
+  async function removeAttachment(sid, attId) {
+    if (!confirm('¿Eliminar este adjunto del dispositivo?')) return;
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid] && d[sid].pages.find(p => p.id === pid);
+    if (!page || !page.attachments) return;
+    page.attachments = page.attachments.filter(a => a.id !== attId);
+    page.updated = new Date().toISOString();
+    save(d);
+    if (window.NBShared) { try { await NBShared.deleteBlob(attId); } catch(e){} }
+    const el = document.getElementById('nbAtt-' + sid);
+    if (el) el.innerHTML = renderAttachmentsHtml(sid, page);
+  }
+
+  function restoreAfterRender() {
+    // Adjuntar paste handler (limpia HTML pegado) + checklist toggle a TODOS
+    // los editores de cuaderno renderizados en la página.
+    if (window.NBShared && NBShared.attachEditorHandlers) {
+      document.querySelectorAll('.nb-content[contenteditable="true"]').forEach(el => {
+        NBShared.attachEditorHandlers(el);
+      });
+    }
+    // Wire page selector bar (arrows + auto-scroll a tab activa)
+    if (window.NBShared && NBShared.wirePageBar) NBShared.wirePageBar(document);
+  }
+
+  // ── SUBJECT DROPDOWN TOGGLE ──
+  function toggleSubject(sid) {
+    const el = document.getElementById('sjNb-' + sid);
+    if (!el) return;
+    el.classList.toggle('on');
+    if (el.classList.contains('on')) openSubjects.add(sid);
+    else openSubjects.delete(sid);
+  }
+
+  // ── PAGE OPS ──
+  function isCustom(sid) { return typeof sid === 'string' && sid.startsWith('cnb_'); }
+  function refreshOwner(sid) {
+    if (isCustom(sid)) renderCustomList();
+    else if (window.SYS) SYS.render();
+  }
+
+  function newPage(sid) {
+    _flushPendingNB(sid);
+    const d = getSubjectData(sid);
+    const sub = d[sid];
+    const page = { id: Date.now(), title: '', body: '', links: [], images: [], created: new Date().toISOString(), updated: new Date().toISOString() };
+    sub.pages.unshift(page);
+    save(d);
+    activePage[sid] = page.id;
+    openSubjects.add(sid);
+    refreshOwner(sid);
+  }
+
+  async function openPage(sid, pid) {
+    _flushPendingNB(sid);
+    activePage[sid] = pid;
+    openSubjects.add(sid);
+    // Auto-migrate legacy {data} images to {id, thumbnail} on first open
+    if (window.NBShared) {
+      try {
+        const d = load();
+        const page = (d[sid]||{pages:[]}).pages.find(p => p.id === pid);
+        if (page && page.images && page.images.some(im => im && im.data && !im.id)) {
+          await NBShared.migrateLegacyImages(page);
+          if (page._migrated) { delete page._migrated; save(d); }
+        }
+      } catch(e) { /* migration failure is non-fatal */ }
+    }
+    refreshOwner(sid);
+  }
+
+  function deletePage(sid, pid) {
+    if (!confirm('¿Eliminar esta página?')) return;
+    _flushPendingNB(sid);
+    const d = load();
+    const sub = d[sid];
+    if (!sub) return;
+    sub.pages = sub.pages.filter(p => p.id !== pid);
+    save(d);
+    if (activePage[sid] === pid) delete activePage[sid];
+    refreshOwner(sid);
+  }
+
+  function _commitNow(sid){
+    const pid = activePage[sid];
+    if (!pid) return;
+    const d = load();
+    const sub = d[sid];
+    if (!sub) return;
+    const page = sub.pages.find(p => p.id === pid);
+    if (!page) return;
+    const tIn = document.getElementById('nbTitle-' + sid);
+    const bIn = document.getElementById('nbBody-' + sid);
+    const newTitle = tIn ? tIn.value : page.title;
+    const newBody  = bIn ? bIn.innerHTML : page.body;
+    // Sin cambios reales → NO re-sellar updated (evita envenenar el merge cross-device)
+    if (newTitle === page.title && newBody === page.body) return;
+    page.title = newTitle;
+    page.body  = newBody;
+    page.updated = new Date().toISOString();
+    save(d);
+    const badge = document.getElementById('nbSaved-' + sid);
+    if (badge) {
+      badge.classList.add('on');
+      clearTimeout(badge._t);
+      badge._t = setTimeout(() => badge.classList.remove('on'), 1200);
+    }
+  }
+  function autoSave(sid) {
+    clearTimeout(saveTimers[sid]);
+    saveTimers[sid] = setTimeout(() => _commitNow(sid), 500);
+  }
+  /* Flush ANTES de mover activePage[sid]: un timer pendiente que dispare después
+     del cambio de página buscaría la página nueva y descartaría la edición
+     (las mutaciones vía toolbar no pasan por focusout). */
+  function _flushPendingNB(sid){
+    if (saveTimers[sid]) { clearTimeout(saveTimers[sid]); delete saveTimers[sid]; _commitNow(sid); }
+  }
+  function flushAllNB(){
+    Object.keys(saveTimers).forEach(sid => { clearTimeout(saveTimers[sid]); _commitNow(sid); });
+  }
+  window.addEventListener('beforeunload', flushAllNB);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushAllNB(); });
+  document.addEventListener('focusout', (e) => {
+    const t = e.target; if (!t || !t.id) return;
+    if (t.id.startsWith('nbBody-')) _commitNow(t.id.slice(7));
+    else if (t.id.startsWith('nbTitle-')) _commitNow(t.id.slice(8));
+  });
+
+  // ── RICH-TEXT FORMAT ──
+  // Ensures the contenteditable has focus + an active selection before
+  // calling execCommand (otherwise Chrome silently no-ops).
+  function focusEditor(sid) {
+    const bIn = document.getElementById('nbBody-' + sid);
+    if (!bIn) return null;
+    if (document.activeElement !== bIn) bIn.focus();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) {
+      const r = document.createRange();
+      r.selectNodeContents(bIn);
+      r.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(r);
+    }
+    return bIn;
+  }
+
+  function fmt(sid, kind, value) {
+    const bIn = focusEditor(sid);
+    if (!bIn) return;
+    // Comandos extendidos centralizados en NBShared (listas, checklist, hr)
+    if (window.NBShared && NBShared.fmtExtended && NBShared.fmtExtended(kind)) {
+      autoSave(sid);
+      return;
+    }
+    try {
+      if (kind === 'bold') {
+        document.execCommand('bold', false, null);
+      } else if (kind === 'size') {
+        // execCommand fontSize accepts 1..7; we map S/M/L → 2/3/5.
+        const map = { s: '2', m: '3', l: '5' };
+        document.execCommand('fontSize', false, map[value] || '3');
+      } else if (kind === 'hl') {
+        const map = {
+          y: '#fff59d',   // yellow
+          g: '#a5d6a7',   // green
+          p: '#f8bbd0'    // pink
+        };
+        // styleWithCSS so backColor / foreColor produce inline CSS (not <font> tags).
+        try { document.execCommand('styleWithCSS', false, true); } catch (e) {}
+        // Force dark text so the highlighted portion is readable against the light fill
+        // (the default editor color is near-white — would disappear over yellow/green/pink).
+        document.execCommand('foreColor', false, '#1a1a1a');
+        // Try hiliteColor first (Firefox), fall back to backColor (Chrome).
+        if (!document.execCommand('hiliteColor', false, map[value] || '#fff59d')) {
+          document.execCommand('backColor', false, map[value] || '#fff59d');
+        }
+      } else if (kind === 'clear') {
+        // 1) Strip standard formatting in the current selection (bold, size, color, bg).
+        document.execCommand('removeFormat', false, null);
+        // 2) Remove URGENTE / HECHO badges — execCommand('removeFormat') doesn't touch
+        //    custom spans with classes, so we delete them manually.
+        removeLabelsInRange(bIn);
+      }
+    } catch (e) {
+      console.warn('NB.fmt failed:', e);
+    }
+    autoSave(sid);
+  }
+
+  // Remove any .rt-label spans inside the current selection (or all labels in the
+  // editor if the selection is collapsed / nothing is selected).
+  function removeLabelsInRange(bIn) {
+    const sel = window.getSelection();
+    const labels = Array.from(bIn.querySelectorAll('.rt-label'));
+    if (!labels.length) return;
+    if (!sel || !sel.rangeCount || sel.getRangeAt(0).collapsed) {
+      // No active selection → nuke every badge in this editor.
+      labels.forEach(el => el.remove());
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    labels.forEach(el => {
+      try { if (range.intersectsNode(el)) el.remove(); } catch (_) { /* old browsers */ }
+    });
+  }
+
+  function insertLabel(sid, type) {
+    const bIn = focusEditor(sid);
+    if (!bIn) return;
+    // onclick on the badge itself gives the user a one-click delete even without
+    // using the toolbar ✕ — UX shortcut requested by the user.
+    const html = type === 'urgent'
+      ? '<span class="rt-label rt-lbl-urgent" contenteditable="false" title="Click para eliminar" onclick="NB.removeLabelEl(this,\'' + sid + '\')">⚠ URGENTE</span>&nbsp;'
+      : '<span class="rt-label rt-lbl-done" contenteditable="false" title="Click para eliminar" onclick="NB.removeLabelEl(this,\'' + sid + '\')">✓ HECHO</span>&nbsp;';
+    try {
+      document.execCommand('insertHTML', false, html);
+    } catch (e) {
+      // Manual fallback
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        const frag = range.createContextualFragment(html);
+        range.deleteContents();
+        range.insertNode(frag);
+      }
+    }
+    autoSave(sid);
+  }
+
+  // Called when a badge is clicked — remove that specific badge and persist.
+  function removeLabelEl(el, sid) {
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+    autoSave(sid);
+  }
+
+  // ── LINKS ──
+  function addLink(sid) {
+    const pid = activePage[sid];
+    if (!pid) return alert('Primero abre o crea una página.');
+    const url = prompt('URL del link de estudio:');
+    if (!url) return;
+    const label = prompt('Nombre del link (opcional):') || url;
+    const d = load();
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page.links) page.links = [];
+    page.links.push({ url, label, added: new Date().toISOString() });
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbLinks-' + sid);
+    if (el) el.innerHTML = renderLinksHtml(sid, page);
+  }
+
+  function removeLink(sid, idx) {
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
+    page.links.splice(idx, 1);
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbLinks-' + sid);
+    if (el) el.innerHTML = renderLinksHtml(sid, page);
+  }
+
+  // ── IMAGES (HD) ──
+  /** Compress image for storage. Aligned with NBShared.compressImage so 10-SYS
+   *  and 13-NOT produce same-sized images. Reduced from 1920·92% to 1200·72%
+   *  → typical phone photo (3-5 MB) becomes 80-150 KB, fits localStorage AND
+   *  syncs reliably to Supabase JSONB. Falls back to NBShared if available. */
+  function compressImageToHD(srcDataUrl) {
+    if (window.NBShared && typeof NBShared.compressImage === 'function') {
+      return NBShared.compressImage(srcDataUrl);
+    }
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const maxDim = 1200;
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        try { resolve(canvas.toDataURL('image/jpeg', 0.72)); } catch (e) { reject(e); }
+      };
+      img.onerror = reject;
+      img.src = srcDataUrl;
+    });
+  }
+
+  /** Store image: full → IDB, thumbnail in payload (sync-safe). */
+  async function pushImage(sid, dataUrl, caption) {
+    const pid = activePage[sid];
+    if (!pid) return;
+    const d = load();
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page.images) page.images = [];
+    let rec;
+    if (window.NBShared && typeof NBShared.storeImageWithThumbnail === 'function') {
+      try {
+        rec = await NBShared.storeImageWithThumbnail(dataUrl, caption || '');
+      } catch (e) { console.warn('IDB image store failed, fallback to inline:', e); }
+    }
+    if (rec) {
+      page.images.push({ id: rec.id, thumbnail: rec.thumbnail, caption: rec.caption || caption || '', size: rec.size, addedAt: rec.addedAt });
+    } else {
+      page.images.push({ data: dataUrl, caption: caption || '', added: new Date().toISOString() });
+    }
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
+  }
+
+  async function removeImage(sid, idx) {
+    if (!confirm('¿Eliminar esta imagen?')) return;
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
+    const im = page.images[idx];
+    if (im && im.id && window.NBShared) { try { await NBShared.deleteImage(im.id); } catch(e){} }
+    page.images.splice(idx, 1);
+    page.updated = new Date().toISOString();
+    save(d);
+    const el = document.getElementById('nbImages-' + sid);
+    if (el) el.innerHTML = renderImagesHtml(sid, page);
+  }
+
+  // ── PASTE / DRAG / FILE DIALOG ──
+  function openPasteDialog(sid) {
+    const pid = activePage[sid];
+    if (!pid) { alert('Primero abre o crea una página.'); return; }
+    pim.sid = sid;
+    pim.dataUrl = null;
+    const ov = document.getElementById('pasteImgOverlay');
+    const preview = document.getElementById('pimPreview');
+    const cap = document.getElementById('pimCaption');
+    const save = document.getElementById('pimSave');
+    if (preview) preview.style.display = 'none';
+    if (cap) cap.value = '';
+    if (save) save.disabled = true;
+    const dz = document.getElementById('pimDropzone');
+    if (dz) {
+      dz.classList.remove('drag');
+      dz.querySelector('.pim-dz-icon').textContent = '📋';
+      dz.querySelector('.pim-dz-text').textContent = 'Pega o suelta tu imagen aquí';
+    }
+    ov.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => dz && dz.focus(), 50);
+  }
+
+  function closePasteDialog() {
+    const ov = document.getElementById('pasteImgOverlay');
+    if (ov) ov.classList.remove('on');
+    document.body.style.overflow = '';
+    pim.sid = null;
+    pim.dataUrl = null;
+  }
+
+  function pimPickFile() {
+    const input = document.getElementById('nbImgInput');
+    if (!input) return;
+    input.onchange = function(e) {
+      const f = e.target.files[0];
+      if (f) pimIngestFile(f);
+      e.target.value = '';
+    };
+    input.click();
+  }
+
+  function pimIngestFile(file) {
+    if (!file || !file.type.startsWith('image/')) { alert('El archivo no es una imagen.'); return; }
+    const reader = new FileReader();
+    reader.onload = ev => pimIngestDataUrl(ev.target.result, file.name || '');
+    reader.readAsDataURL(file);
+  }
+
+  async function pimIngestDataUrl(dataUrl, suggestedCaption) {
+    try {
+      const hd = await compressImageToHD(dataUrl);
+      pim.dataUrl = hd;
+      const img = document.getElementById('pimPreviewImg');
+      const preview = document.getElementById('pimPreview');
+      const cap = document.getElementById('pimCaption');
+      const save = document.getElementById('pimSave');
+      const dz = document.getElementById('pimDropzone');
+      if (img) img.src = hd;
+      if (preview) preview.style.display = 'flex';
+      if (cap && !cap.value && suggestedCaption) cap.value = suggestedCaption;
+      if (save) save.disabled = false;
+      if (dz) {
+        dz.querySelector('.pim-dz-icon').textContent = '✅';
+        dz.querySelector('.pim-dz-text').textContent = 'Listo para guardar';
+      }
+    } catch (e) {
+      alert('Error procesando la imagen: ' + e.message);
+    }
+  }
+
+  function pimSave() {
+    if (!pim.sid || !pim.dataUrl) return;
+    const cap = document.getElementById('pimCaption');
+    pushImage(pim.sid, pim.dataUrl, cap ? cap.value : '');
+    closePasteDialog();
+  }
+
+  // Paste event: handles Ctrl+V when modal is open
+  function handlePaste(e) {
+    const ov = document.getElementById('pasteImgOverlay');
+    if (!ov || !ov.classList.contains('on')) return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      if (it.type && it.type.startsWith('image/')) {
+        const f = it.getAsFile();
+        if (f) { e.preventDefault(); pimIngestFile(f); return; }
+      }
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    const dz = document.getElementById('pimDropzone');
+    if (dz) dz.classList.remove('drag');
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files[0]) pimIngestFile(files[0]);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    const dz = document.getElementById('pimDropzone');
+    if (dz) dz.classList.add('drag');
+  }
+
+  function handleDragLeave(e) {
+    const dz = document.getElementById('pimDropzone');
+    if (dz && e.target === dz) dz.classList.remove('drag');
+  }
+
+  // ── LIGHTBOX ──
+  async function viewImage(sid, idx) {
+    const d = load();
+    const pid = activePage[sid];
+    const page = d[sid].pages.find(p => p.id === pid);
+    if (!page || !page.images || !page.images[idx]) return;
+    lbCtx = { subjectId: sid, pageId: pid, index: idx };
+    const lb = document.getElementById('nbLightbox');
+    const img = document.getElementById('nbLbImg');
+    const cap = document.getElementById('nbLbCaption');
+    const im = page.images[idx];
+    // Resolve full image from IDB; fall back to legacy inline `data`
+    const fullUrl = window.NBShared
+      ? await NBShared.resolveImageData(im)
+      : (im.data || im.thumbnail);
+    if (!fullUrl) {
+      alert('No se pudo cargar la imagen original (puede estar solo en otro dispositivo).');
+      return;
+    }
+    img.src = fullUrl;
+    cap.textContent = `${idx + 1}/${page.images.length} — ${im.caption || ''}`;
+    lb.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImage() {
+    const lb = document.getElementById('nbLightbox');
+    if (lb) lb.classList.remove('on');
+    document.body.style.overflow = '';
+    lbCtx = null;
+  }
+
+  function prevImage() {
+    if (!lbCtx) return;
+    const d = load();
+    const page = d[lbCtx.subjectId].pages.find(p => p.id === lbCtx.pageId);
+    if (!page || !page.images || !page.images.length) return;
+    lbCtx.index = (lbCtx.index - 1 + page.images.length) % page.images.length;
+    viewImage(lbCtx.subjectId, lbCtx.index);
+  }
+
+  function nextImage() {
+    if (!lbCtx) return;
+    const d = load();
+    const page = d[lbCtx.subjectId].pages.find(p => p.id === lbCtx.pageId);
+    if (!page || !page.images || !page.images.length) return;
+    lbCtx.index = (lbCtx.index + 1) % page.images.length;
+    viewImage(lbCtx.subjectId, lbCtx.index);
+  }
+
+  // ── GLOBAL HOOKS ──
+  function init() {
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('nbLightbox');
+      const pim = document.getElementById('pasteImgOverlay');
+      if (pim && pim.classList.contains('on')) {
+        if (e.key === 'Escape') closePasteDialog();
+        return;
+      }
+      if (lb && lb.classList.contains('on')) {
+        if (e.key === 'Escape') closeImage();
+        else if (e.key === 'ArrowLeft') prevImage();
+        else if (e.key === 'ArrowRight') nextImage();
+      }
+    });
+    // Paste anywhere when paste-modal is open
+    document.addEventListener('paste', handlePaste);
+    // Drag/drop on dropzone
+    setTimeout(() => {
+      const dz = document.getElementById('pimDropzone');
+      if (!dz) return;
+      dz.addEventListener('dragover', handleDragOver);
+      dz.addEventListener('dragleave', handleDragLeave);
+      dz.addEventListener('drop', handleDrop);
+      dz.addEventListener('click', () => pimPickFile());
+    }, 100);
+  }
+
+  // ═══════════════════════════════════════
+  // CUSTOM NOTEBOOKS — User-defined notebooks for external courses
+  // (SQL Course, AWS Cloud, Python Bootcamp, etc.)
+  // ═══════════════════════════════════════
+  const META_KEY = 'sys_notebook_meta';
+
+  function loadMeta() { try { return JSON.parse(localStorage.getItem(META_KEY) || '[]'); } catch { return []; } }
+  function saveMeta(list) { localStorage.setItem(META_KEY, JSON.stringify(list)); }
+
+  function getCustoms() { return loadMeta(); }
+
+  function createCustom() {
+    const nameInp = document.getElementById('cnbNewName');
+    const iconHidden = document.getElementById('cnbNewIconValue');
+    const coverHidden = document.getElementById('cnbNewCoverValue');
+    const iconSel = document.getElementById('cnbNewIcon'); // legacy fallback
+    const name = (nameInp?.value || '').trim();
+    if (!name) { alert('Dale un nombre al cuaderno.'); return; }
+    const palette = ['#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1','#14b8a6'];
+    const list = loadMeta();
+    const id = 'cnb_' + Date.now();
+    list.push({
+      id, name,
+      icon: (iconHidden?.value || iconSel?.value || '📘'),
+      cover: (coverHidden?.value || 'c1'),
+      color: palette[list.length % palette.length],
+      created: new Date().toISOString(),
+    });
+    saveMeta(list);
+    // Initialize its data bucket
+    getSubjectData(id);
+    if (nameInp) nameInp.value = '';
+    openSubjects.add(id);
+    renderCustomList();
+  }
+
+  // Open design picker modal for new-notebook form
+  async function openDesignPicker() {
+    if (!window.NBShared) { alert('Módulo de diseño no cargado.'); return; }
+    const iconH = document.getElementById('cnbNewIconValue');
+    const coverH = document.getElementById('cnbNewCoverValue');
+    const nameInp = document.getElementById('cnbNewName');
+    const r = await NBShared.openDesignModal({
+      cover: coverH?.value || 'c1',
+      icon: iconH?.value || '📘',
+      name: nameInp?.value || '',
+    });
+    if (!r) return;
+    if (iconH) iconH.value = r.icon;
+    if (coverH) coverH.value = r.cover;
+    refreshNewFormPreview();
+  }
+
+  function refreshNewFormPreview() {
+    const iconH = document.getElementById('cnbNewIconValue');
+    const coverH = document.getElementById('cnbNewCoverValue');
+    const previewEl = document.getElementById('cnbDesignPreview');
+    const iconEl = document.getElementById('cnbDesignIconPreview');
+    if (previewEl && coverH) previewEl.className = 'nb-cover-' + coverH.value;
+    if (iconEl && iconH) iconEl.textContent = iconH.value;
+  }
+
+  // Open design picker modal for an existing custom notebook
+  async function editCustomDesign(id) {
+    if (!window.NBShared) { alert('Módulo de diseño no cargado.'); return; }
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    const r = await NBShared.openDesignModal({ cover: cnb.cover || 'c1', icon: cnb.icon, name: cnb.name });
+    if (!r) return;
+    cnb.cover = r.cover;
+    cnb.icon = r.icon;
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+
+  function renameCustom(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    const newName = prompt('Nuevo nombre del cuaderno:', cnb.name);
+    if (!newName || !newName.trim()) return;
+    cnb.name = newName.trim();
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+
+  function changeCustomIcon(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    const newIcon = prompt('Nuevo ícono (emoji):', cnb.icon);
+    if (!newIcon || !newIcon.trim()) return;
+    cnb.icon = newIcon.trim();
+    cnb.updated = new Date().toISOString();
+    saveMeta(list);
+    renderCustomList();
+  }
+
+  function deleteCustom(id) {
+    const list = loadMeta();
+    const cnb = list.find(c => c.id === id);
+    if (!cnb) return;
+    if (!confirm(`¿Eliminar el cuaderno "${cnb.name}" y todas sus páginas? Esta acción no se puede deshacer.`)) return;
+    saveMeta(list.filter(c => c.id !== id));
+    // Remove pages data
+    const d = load();
+    delete d[id];
+    save(d);
+    delete activePage[id];
+    openSubjects.delete(id);
+    renderCustomList();
+  }
+
+  /* Move custom notebook to another module (NB-ENGINE standard) */
+  function moveNotebook(id) {
+    if (!window.NBEngine) { alert('Motor de cuadernos no cargado.'); return; }
+    NBEngine.transferUI(id, '10-SYS', () => {
+      delete activePage[id];
+      openSubjects.delete(id);
+      renderCustomList();
+    });
+  }
+
+  // Render a custom notebook card — header with rename/delete + shared editor UI
+  function renderCustomCard(meta) {
+    const d = load();
+    const sub = d[meta.id] || { pages: [] };
+    const pageCount = sub.pages.length;
+    const isOpen = openSubjects.has(meta.id);
+    const activeId = activePage[meta.id];
+    const page = activeId ? sub.pages.find(p => p.id === activeId) : null;
+
+    const pagesListHtml = pageCount ? sub.pages.map(p => {
+      const preview = (p.body || '').substring(0, 60).replace(/\n/g, ' ');
+      const isActive = activeId === p.id;
+      return `<div class="nb-entry${isActive ? ' open' : ''}">
+        <div class="nb-entry-h" onclick="NB.openPage('${meta.id}',${p.id})">
+          <div style="min-width:0;flex:1"><div class="nb-entry-title">${esc(p.title || 'Sin título')}</div><div style="font-size:10px;color:var(--t3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(preview)}${preview.length >= 60 ? '…' : ''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="nb-entry-date">${new Date(p.updated || p.created).toLocaleDateString('es', { day: 'numeric', month: 'short' })}</span>
+            <span style="font-size:10px;color:var(--t3)">${(p.links||[]).length ? '🔗'+p.links.length : ''} ${(p.images||[]).length ? '🖼'+p.images.length : ''}</span>
+            <button onclick="event.stopPropagation();NB.deletePage('${meta.id}',${p.id})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;opacity:.5">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('') : '<div style="text-align:center;padding:14px;color:var(--t3);font-size:11px">Sin páginas. Haz click en "+ Nueva página".</div>';
+
+    const editorHtml = buildEditorHtml(meta.id, page);
+
+    const created = meta.created ? new Date(meta.created).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+    const cover = meta.cover || 'c1';
+
+    return `<div class="gc" style="border-left:3px solid ${meta.color};margin-bottom:12px;padding:0;overflow:visible"><!-- visible para sticky toolbar -->
+      <div class="nb-cover-card nb-cover-${cover}">
+        <div class="nb-cover-icon">${meta.icon}</div>
+        <div>
+          <div class="nb-cover-title">${esc(meta.name)}</div>
+          <div class="nb-cover-sub">${pageCount} página${pageCount!==1?'s':''}${created ? ' · creado ' + created : ''}</div>
+        </div>
+      </div>
+      <div style="padding:14px">
+      <div class="gc-h" style="margin-bottom:8px">
+        <div class="gc-t" style="font-size:13px;color:var(--t2)">⚙️ Personalización</div>
+        <div style="display:flex;gap:4px">
+          <button onclick="NB.editCustomDesign('${meta.id}')" title="Cambiar portada/ícono" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🎨 Diseño</button>
+          <button onclick="NB.renameCustom('${meta.id}')" title="Renombrar" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">✏️ Nombre</button>
+          <button onclick="NB.moveNotebook('${meta.id}')" title="Mover a otro módulo" style="background:none;border:1px solid var(--bd);color:var(--t2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">📦 Mover</button>
+          <button onclick="NB.deleteCustom('${meta.id}')" title="Eliminar" style="background:none;border:1px solid rgba(239,68,68,.3);color:var(--rd);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer">🗑</button>
+        </div>
+      </div>
+
+      <div class="sj-drop${isOpen ? ' on' : ''}" id="sjNb-${meta.id}" style="margin-top:8px">
+        <div class="sj-drop-h" onclick="NB.toggleSubject('${meta.id}')">
+          <div>📓 Contenido <span class="sj-drop-count">(click para ${isOpen?'cerrar':'abrir'})</span></div>
+          <span class="sj-drop-arr">▶</span>
+        </div>
+        <div class="sj-drop-body">
+          <div class="sj-nb-toolbar">
+            <button onclick="NB.newPage('${meta.id}')" style="background:var(--vi);color:#fff">+ Nueva página</button>
+            ${(window.NBShared && NBShared.pageJumpHtml) ? NBShared.pageJumpHtml({ nbId: meta.id, ns:'NB', pages: sub.pages, activePageId: activeId }) : ''}
+          </div>
+          ${editorHtml}
+          <div class="sl" style="margin-top:12px">· páginas ·</div>
+          <div class="nb-entries">${pagesListHtml}</div>
+        </div>
+      </div>
+      </div>
+    </div>`;
+  }
+
+  function toggleCustomEdit(id) {
+    const el = document.getElementById('nbDesignEdit-' + id);
+    if (!el) return;
+    el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
+  }
+
+  // Currently-selected custom notebook — survives re-renders within the session
+  // and is persisted to localStorage so it reopens on reload.
+  let activeCustomId = (function() {
+    try { return localStorage.getItem('sys_active_custom') || null; } catch { return null; }
+  })();
+
+  function selectCustom(id) {
+    activeCustomId = id || null;
+    try { localStorage.setItem('sys_active_custom', activeCustomId || ''); } catch {}
+    // Make the selected notebook auto-expand so the user sees its content immediately.
+    if (id) openSubjects.add(id);
+    renderCustomList();
+  }
+
+  function renderCustomList() {
+    const el = document.getElementById('cnbList');
+    if (!el) return;
+    const list = loadMeta();
+    if (!list.length) {
+      activeCustomId = null;
+      el.innerHTML = `<div class="gc" style="text-align:center;padding:40px 20px;color:var(--t3);border-style:dashed">
+        <div style="font-size:32px;margin-bottom:8px">📚</div>
+        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">Sin cuadernos aún</div>
+        <div style="font-size:12px">Crea tu primer cuaderno personalizado arriba.<br>Ej: "SQL Course", "AWS Cloud", "Python Bootcamp"...</div>
+      </div>`;
+      return;
+    }
+    // Default to the first notebook if the previously-selected one was deleted or never set
+    if (!activeCustomId || !list.find(m => m.id === activeCustomId)) {
+      activeCustomId = list[0].id;
+      try { localStorage.setItem('sys_active_custom', activeCustomId); } catch {}
+    }
+    const activeMeta = list.find(m => m.id === activeCustomId);
+    // Ensure the selected notebook is expanded so the editor is visible
+    if (activeCustomId) openSubjects.add(activeCustomId);
+
+    const options = list.map(m =>
+      `<option value="${m.id}"${m.id === activeCustomId ? ' selected' : ''}>${m.icon} ${esc(m.name)}</option>`
+    ).join('');
+
+    el.innerHTML = `
+      <div class="cnb-selector">
+        <label class="cnb-selector-lbl">Cuaderno activo</label>
+        <select class="cnb-selector-sel" onchange="NB.selectCustom(this.value)">${options}</select>
+        <span class="cnb-selector-hint">${list.length} cuaderno${list.length !== 1 ? 's' : ''} · selecciona uno para trabajar de forma independiente</span>
+      </div>
+      <div class="cnb-active">${renderCustomCard(activeMeta)}</div>
+    `;
+  }
+
+  function initPickers() { refreshNewFormPreview(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { init(); renderCustomList(); initPickers(); });
+  else setTimeout(() => { init(); renderCustomList(); initPickers(); }, 0);
+
+  // Re-render custom list on tab switch (when showTab(7) is hit)
+  window.addEventListener('sb:signed_in', () => setTimeout(renderCustomList, 300));
+
+  return {
+    renderSubjectPanel, restoreAfterRender, toggleSubject,
+    newPage, openPage, deletePage, autoSave,
+    fmt, insertLabel, removeLabelEl,
+    addLink, removeLink, removeImage, renameImage,
+    openPasteDialog, closePasteDialog, pimPickFile, pimSave,
+    viewImage, closeImage, prevImage, nextImage,
+    // Custom notebooks
+    getCustoms, createCustom, renameCustom, changeCustomIcon, deleteCustom, renderCustomList, selectCustom, moveNotebook, rerenderAll,
+    // New: covers + icons + attachments (modal-based)
+    openDesignPicker, editCustomDesign, refreshNewFormPreview, toggleCustomEdit,
+    attachFile, removeAttachment,
+  };
+})();
+window.NB = NB;
+
+/* ── Sync en vivo SIN interrumpir la edición (10-SYS) ──
+   Igual que 14-WORK / 13-NOT: si estás escribiendo NO se re-renderiza;
+   el cambio entra silencioso a localStorage y el render se difiere a
+   focusout. _commitNow lee localStorage fresco → no se pierde nada. */
+(function(){
+  function _editing(){ const a=document.activeElement; return !!(a && (a.isContentEditable || a.tagName==='INPUT' || a.tagName==='TEXTAREA')); }
+  let _pending=false;
+  function _safe(){ if(_editing()){ _pending=true; return; } _pending=false; try{ if(window.SYS && SYS.render) SYS.render(); }catch(e){ console.warn(e); } }
+  document.addEventListener('focusout', ()=>{ if(!_pending) return; setTimeout(()=>{ if(_pending && !_editing()) _safe(); }, 700); }, true);
+  window.addEventListener('cloud:realtime_change', (e)=>{ const k=e.detail&&e.detail.key; if(k && k.indexOf('sys_')===0) _safe(); });
+  window.addEventListener('cloud:auto_resynced', _safe);
+  window.addEventListener('cloud:sync_complete', _safe);
+})();

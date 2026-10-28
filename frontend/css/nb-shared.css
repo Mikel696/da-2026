@@ -1,0 +1,482 @@
+/* ═══════════════════════════════════════════════════════════════
+   DA-2026 · NB-SHARED CSS — Notebook covers, icons, attachments
+   Used by 10-SYS systems.html and 13-NOT notes.html
+═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   NOTEBOOK COVERS v2 — polished designs (F5 · 2026-05-19)
+   Every cover layers: base gradient + texture + top-left light sheen
+   + soft vignette for depth. Cover cards get a glass spine + lift.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── COVER PICKER GRID ────────────────────────────────────── */
+.nb-cover-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:11px;margin:10px 0}
+.nb-cover-opt{position:relative;height:84px;border-radius:12px;cursor:pointer;overflow:hidden;border:2px solid transparent;display:flex;align-items:flex-end;justify-content:center;padding:7px;transition:transform .18s cubic-bezier(.4,0,.2,1),box-shadow .18s cubic-bezier(.4,0,.2,1),border-color .15s}
+.nb-cover-opt::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.22),transparent 42%);pointer-events:none;z-index:1}
+.nb-cover-opt:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.nb-cover-opt.on{border-color:var(--ac, #8b5cf6);box-shadow:0 0 0 3px rgba(139,92,246,.3),0 8px 20px rgba(0,0,0,.4)}
+.nb-cover-opt.on::before{content:'✓';position:absolute;top:6px;right:8px;z-index:3;color:#fff;font-size:11px;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.nb-cover-lbl{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7);background:rgba(0,0,0,.4);padding:2px 7px;border-radius:5px;backdrop-filter:blur(3px);position:relative;z-index:2}
+
+/* ── COVER DESIGNS (12) · polished ───────────────────────── */
+.nb-cover-c1{background-image:radial-gradient(circle at 22% 18%,rgba(255,255,255,.3),transparent 45%),repeating-linear-gradient(48deg,transparent,transparent 9px,rgba(255,255,255,.06) 9px,rgba(255,255,255,.06) 10px),linear-gradient(150deg,#a78bfa 0%,#8b5cf6 45%,#6d28d9 100%)}
+.nb-cover-c2{background-image:radial-gradient(circle at 78% 16%,rgba(255,255,255,.34),transparent 44%),radial-gradient(circle at 30% 88%,rgba(0,0,0,.28),transparent 55%),linear-gradient(150deg,#34d399 0%,#10b981 48%,#065f46 100%)}
+.nb-cover-c3{background-image:radial-gradient(circle at 20% 16%,rgba(255,255,255,.28),transparent 42%),linear-gradient(0deg,transparent 94%,rgba(255,255,255,.16) 94%),linear-gradient(90deg,transparent 94%,rgba(255,255,255,.16) 94%),linear-gradient(150deg,#22d3ee 0%,#06b6d4 50%,#0e7490 100%);background-size:auto,15px 15px,15px 15px,100% 100%}
+.nb-cover-c4{background-image:radial-gradient(circle at 28% 24%,rgba(255,255,255,.4),transparent 48%),radial-gradient(circle at 82% 90%,rgba(0,0,0,.3),transparent 52%),linear-gradient(150deg,#fbbf24 0%,#f59e0b 50%,#b45309 100%)}
+.nb-cover-c5{background-image:radial-gradient(circle at 24% 20%,rgba(255,255,255,.34),transparent 46%),radial-gradient(circle at 76% 80%,rgba(255,255,255,.16),transparent 44%),linear-gradient(150deg,#f9a8d4 0%,#ec4899 48%,#9d174d 100%)}
+.nb-cover-c6{background-image:linear-gradient(160deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(150deg,#4b5563 0%,#1f2937 55%,#0a0a0a 100%);position:relative}
+.nb-cover-c6::before{content:'';position:absolute;inset:9px;border:1px solid rgba(255,255,255,.22);border-radius:7px;z-index:1}
+.nb-cover-c7{background-image:radial-gradient(ellipse at 30% 8%,rgba(255,255,255,.55),transparent 55%),repeating-linear-gradient(0deg,transparent,transparent 22px,rgba(180,83,9,.16) 22px,rgba(180,83,9,.16) 23px),linear-gradient(160deg,#fef3c7 0%,#fde68a 65%,#d97706 130%)}
+.nb-cover-c7 .nb-cover-lbl{color:#7c2d12;background:rgba(255,237,213,.7);text-shadow:none}
+.nb-cover-c8{background-image:linear-gradient(180deg,#dc2626 0%,#dc2626 13px,transparent 13px),repeating-linear-gradient(0deg,transparent,transparent 14px,#bfdbfe 14px,#bfdbfe 15px),linear-gradient(#fff,#fff)}
+.nb-cover-c8 .nb-cover-lbl{color:#1e3a8a;background:rgba(255,255,255,.9);text-shadow:none}
+.nb-cover-c9{background-image:radial-gradient(circle at 26% 22%,rgba(56,189,248,.3),transparent 50%),linear-gradient(0deg,transparent 90%,rgba(56,189,248,.45) 90%),linear-gradient(90deg,transparent 90%,rgba(56,189,248,.45) 90%),linear-gradient(150deg,#1e293b 0%,#0f172a 100%);background-size:auto,21px 21px,21px 21px,100% 100%}
+.nb-cover-c10{background-image:radial-gradient(circle at 24% 18%,rgba(255,255,255,.32),transparent 46%),linear-gradient(140deg,#fb923c 0%,#f97316 32%,#dc2626 62%,#7c3aed 100%)}
+.nb-cover-c11{background-image:radial-gradient(circle at 24% 24%,rgba(34,197,94,.4),transparent 42%),radial-gradient(circle at 78% 78%,rgba(20,184,166,.3),transparent 44%),linear-gradient(160deg,#065f46 0%,#064e3b 55%,#022c22 100%)}
+.nb-cover-c12{background-image:radial-gradient(circle at 28% 26%,rgba(124,58,237,.85),transparent 52%),radial-gradient(circle at 74% 74%,rgba(6,182,212,.7),transparent 52%),radial-gradient(circle at 60% 12%,rgba(255,255,255,.18),transparent 35%),linear-gradient(150deg,#1e1b4b 0%,#0f172a 60%,#000 100%)}
+
+/* Larger card-cover variant (notebook header) — glass spine + depth */
+.nb-cover-card{height:148px;border-radius:14px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:15px 16px;box-shadow:0 6px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.14);transition:transform .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1)}
+.nb-cover-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:7px;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(0,0,0,.34));z-index:3}
+.nb-cover-card::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.16),transparent 38%),linear-gradient(0deg,rgba(0,0,0,.34),transparent 48%);pointer-events:none;z-index:1}
+.nb-cover-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.18)}
+.nb-cover-card .nb-cover-icon{position:absolute;top:13px;left:18px;font-size:26px;z-index:2;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:13px;backdrop-filter:blur(8px);box-shadow:0 4px 12px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}
+.nb-cover-card .nb-cover-title{position:relative;z-index:2;color:#fff;font-family:'Newsreader',serif;font-size:22px;font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,.7);line-height:1.2}
+.nb-cover-card .nb-cover-sub{position:relative;z-index:2;color:rgba(255,255,255,.9);font-size:11px;text-shadow:0 1px 3px rgba(0,0,0,.6);margin-top:3px}
+.nb-cover-card.nb-cover-c7 .nb-cover-title,.nb-cover-card.nb-cover-c8 .nb-cover-title{color:#1e3a8a;text-shadow:none}
+.nb-cover-card.nb-cover-c7 .nb-cover-sub,.nb-cover-card.nb-cover-c8 .nb-cover-sub{color:#475569;text-shadow:none}
+.nb-cover-card.nb-cover-c7 .nb-cover-icon,.nb-cover-card.nb-cover-c8 .nb-cover-icon{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.12);box-shadow:0 3px 9px rgba(0,0,0,.15)}
+
+/* Small cover for list items */
+.nb-cover-mini{width:48px;height:60px;border-radius:7px;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.nb-cover-mini .nb-cover-lbl{display:none}
+.nb-cover-mini::after{content:'';position:absolute;left:4px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(0,0,0,.3))}
+
+/* ── ICON PICKER GROUPS · polished ────────────────────────── */
+.nb-icogrp{margin-bottom:12px}
+.nb-icogrp-h{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3, #52525b);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.nb-icogrp-h::after{content:'';flex:1;height:1px;background:var(--bd, #27272a)}
+.nb-icogrp-row{display:flex;flex-wrap:wrap;gap:5px}
+.nb-icobtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--bd, #27272a);background:linear-gradient(160deg,var(--el, #222228),var(--c1, #16161a));color:var(--tx, #fafafa);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;transition:transform .15s cubic-bezier(.4,0,.2,1),border-color .15s,box-shadow .15s}
+.nb-icobtn:hover{border-color:var(--ac, #8b5cf6);transform:translateY(-2px) scale(1.06);box-shadow:0 5px 14px rgba(0,0,0,.4)}
+.nb-icobtn:active{transform:translateY(0) scale(.98)}
+.nb-icobtn.on{border-color:var(--ac, #8b5cf6);background:linear-gradient(160deg,rgba(139,92,246,.22),rgba(139,92,246,.06));box-shadow:0 0 0 2px rgba(139,92,246,.3),0 4px 12px rgba(139,92,246,.2)}
+.nb-icobtn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(139,92,246,.4)}
+
+/* ═══════════════════════════════════════════════════════════════
+   FLUIDITY (F6 · 2026-05-19) — microinteractions across notebooks
+═══════════════════════════════════════════════════════════════ */
+/* notebook page entries · smooth hover + active lift */
+.nb-entry{transition:border-color .15s,background .15s,transform .12s}
+.nb-entry:hover{transform:translateX(2px)}
+.nb-entry-h{transition:background .15s}
+/* toolbar buttons · spring press */
+.nb-toolbar button,.nb-rt-btn{transition:transform .12s cubic-bezier(.34,1.56,.64,1),border-color .15s,background .15s,color .15s}
+.nb-toolbar button:active,.nb-rt-btn:active{transform:scale(.93)}
+.nb-rt-btn:hover{transform:translateY(-1px)}
+/* image cards · zoom-in feel */
+.nb-img-card{transition:transform .18s cubic-bezier(.4,0,.2,1),box-shadow .18s}
+.nb-img-card:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 10px 24px rgba(0,0,0,.45)}
+.nb-img-card img{transition:filter .2s}
+.nb-img-card:hover img{filter:brightness(1.06)}
+/* attachment chips · slide affordance */
+.nb-att{transition:border-color .15s,transform .12s,background .15s}
+.nb-att:hover{transform:translateX(2px)}
+.nb-att-btn{transition:transform .12s,color .15s,background .15s}
+.nb-att-btn:hover{transform:scale(1.15)}
+/* saved badge · gentle pulse-in */
+.nb-saved{transition:opacity .25s ease,transform .25s ease}
+.nb-saved:not(.on){opacity:0;transform:translateY(-3px)}
+.nb-saved.on{opacity:1;transform:translateY(0)}
+/* page editor fade-in when a page opens */
+.nb-page{animation:nbFadeUp .28s cubic-bezier(.4,0,.2,1)}
+@keyframes nbFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* design/drop modals · scale-in */
+.nbs-drop-overlay.on .nbs-drop-modal,.nbs-design-overlay.on .nbs-design-modal{animation:nbModalIn .22s cubic-bezier(.34,1.3,.64,1)}
+@keyframes nbModalIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+/* link rows */
+.nb-link{transition:border-color .15s,transform .12s}
+.nb-link:hover{transform:translateX(2px)}
+
+/* ── ATTACHMENT CHIPS ─────────────────────────────────────── */
+.nb-att-list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.nb-att{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:8px;transition:border-color .15s}
+.nb-att:hover{border-color:var(--bd2, #3f3f46)}
+.nb-att-ico{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+.nb-att-info{flex:1;min-width:0}
+.nb-att-name{font-size:12px;font-weight:500;color:var(--tx, #fafafa);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-att-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);margin-top:1px}
+.nb-att-btn{background:none;border:1px solid var(--bd, #27272a);color:var(--t2, #a1a1aa);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.nb-att-btn:hover{border-color:var(--ac, #8b5cf6);color:var(--ac, #8b5cf6)}
+.nb-att-btn.nb-att-del:hover{border-color:var(--rd, #ef4444);color:var(--rd, #ef4444)}
+
+/* ── IMAGE CARD: rename/caption inline edit ───────────────── */
+.nb-img-card .nb-img-rename{position:absolute;top:6px;right:30px;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:11px;padding:0}
+.nb-img-card:hover .nb-img-rename{display:flex}
+
+/* ── COVER PICKER MODAL HELPER ────────────────────────────── */
+.nb-pickergroup{margin-top:14px}
+.nb-pickergroup-h{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+
+/* ═══════════════════════════════════════════════════════════
+   UNIFIED DROP MODAL (nb-shared.js openDropModal)
+═══════════════════════════════════════════════════════════ */
+.nbs-drop-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;animation:nbsfade .2s ease}
+.nbs-drop-overlay.on{display:flex}
+@keyframes nbsfade{from{opacity:0}to{opacity:1}}
+.nbs-drop-modal{position:relative;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:14px;width:min(560px,95vw);max-height:90vh;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px;animation:nbspop .2s ease-out}
+@keyframes nbspop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.nbs-drop-close{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--t3, #52525b);font-size:18px;cursor:pointer;line-height:1;padding:4px;border-radius:6px;transition:all .15s}
+.nbs-drop-close:hover{color:var(--tx, #fafafa);background:var(--el, #222228)}
+.nbs-drop-head{padding-right:30px}
+.nbs-drop-title{font-family:'Newsreader','IBM Plex Sans',serif;font-size:18px;font-weight:600;color:var(--tx, #fafafa);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.nbs-drop-sub{font-size:11px;color:var(--t3, #52525b)}
+.nbs-drop-sub kbd{background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:4px;padding:1px 5px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t2, #a1a1aa)}
+.nbs-drop-link{color:var(--ac, var(--acid, #8b5cf6));cursor:pointer;text-decoration:underline;font-weight:500}
+.nbs-drop-link:hover{filter:brightness(1.15)}
+.nbs-drop-zone{min-height:170px;border:2px dashed var(--ac, var(--acid, #8b5cf6));border-radius:12px;padding:30px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--ag, rgba(139,92,246,.05));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;outline:none}
+.nbs-drop-zone:hover,.nbs-drop-zone:focus{background:var(--ag, rgba(139,92,246,.1));border-color:var(--a2, #a78bfa)}
+.nbs-drop-zone.drag{background:var(--ag, rgba(139,92,246,.18));border-color:var(--a2, #a78bfa);border-style:solid;transform:scale(1.01)}
+.nbs-drop-icon{font-size:36px;line-height:1}
+.nbs-drop-text{font-size:14px;font-weight:600;color:var(--tx, #fafafa)}
+.nbs-drop-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);letter-spacing:.5px}
+.nbs-drop-preview{display:none;flex-direction:column;align-items:center;gap:8px;width:100%}
+.nbs-drop-preview img{max-width:100%;max-height:200px;border-radius:8px;border:1px solid var(--bd, #27272a)}
+.nbs-drop-fileinfo{font-size:11px;color:var(--t2, #a1a1aa);text-align:center;width:100%}
+.nbs-drop-doc{display:flex;align-items:center;gap:10px;background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;padding:10px 14px;text-align:left;width:100%;justify-content:center}
+.nbs-drop-doc>span:first-child,.nbs-drop-doc{font-size:24px}
+.nbs-drop-doc-n{font-size:13px;font-weight:500;color:var(--tx, #fafafa);word-break:break-word}
+.nbs-drop-doc-m{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);margin-top:2px}
+.nbs-drop-caption{width:100%;background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;padding:10px 14px;color:var(--tx, #fafafa);font-family:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.nbs-drop-caption:focus{border-color:var(--ac, var(--acid, #8b5cf6))}
+.nbs-drop-actions{display:flex;gap:8px;justify-content:flex-end}
+.nbs-drop-btn{padding:9px 18px;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.nbs-drop-btn-cancel{background:var(--el, #222228);color:var(--t2, #a1a1aa);border:1px solid var(--bd, #27272a)}
+.nbs-drop-btn-cancel:hover{color:var(--tx, #fafafa);border-color:var(--bd2, #3f3f46)}
+.nbs-drop-btn-save{background:var(--ac, var(--acid, #8b5cf6));color:#fff}
+.nbs-drop-btn-save:hover:not(:disabled){filter:brightness(1.12)}
+.nbs-drop-btn-save:disabled{opacity:.4;cursor:not-allowed}
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN MODAL (NBShared.openDesignModal)
+═══════════════════════════════════════════════════════════ */
+.nbs-design-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;animation:nbsfade .2s ease}
+.nbs-design-overlay.on{display:flex}
+.nbs-design-modal{position:relative;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:14px;width:min(720px,95vw);max-height:90vh;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px;animation:nbspop .2s ease-out}
+.nbs-design-preview{margin:6px 0}
+.nbs-design-preview .nb-cover-card{height:120px}
+
+/* ═══════════════════════════════════════════════════════════
+   NOTEBOOK PAGE EDITOR — shared between 10-SYS and 13-NOT
+   Identical visual: spiral binding, ruled paper, red margin,
+   holes, header with title input + save badge, rich-text toolbar.
+═══════════════════════════════════════════════════════════ */
+/* overflow:visible (was hidden) so .nb-header inside can use position:sticky.
+   The spine/margin/holes remain absolute within .nb-page so visual is identical.
+   The rounded corners still clip via the parent CSS painted background. */
+.nb-page{background:linear-gradient(180deg,#1a1f2e 0%,#161a28 100%);border:1px solid #2a3144;border-radius:12px;overflow:visible;position:relative;box-shadow:2px 4px 20px rgba(0,0,0,.5),inset 0 0 80px rgba(0,0,0,.25)}
+.nb-page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(124,58,237,.04),transparent 60%);pointer-events:none;z-index:0}
+.nb-spine{position:absolute;left:36px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#4a3820,#6b5230,#4a3820);z-index:3;pointer-events:none;box-shadow:1px 0 4px rgba(0,0,0,.5),inset 1px 0 1px rgba(255,200,100,.1)}
+.nb-margin{position:absolute;left:72px;top:0;bottom:0;width:2px;background:rgba(255,80,100,.45);z-index:1;pointer-events:none;box-shadow:0 0 6px rgba(255,80,100,.25)}
+.nb-margin::after{content:'';position:absolute;left:4px;top:0;bottom:0;width:1px;background:rgba(255,80,100,.2)}
+.nb-holes{position:absolute;left:10px;top:0;bottom:0;width:24px;z-index:4;pointer-events:none}
+.nb-hole{width:16px;height:16px;border-radius:50%;background:#0a0d16;border:2px solid #2a3144;position:absolute;left:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.03)}
+/* Ruled paper: line stroke at y=23-24 in 32px line-box (text baseline ~20, descender ~23) */
+.nb-content{min-height:480px;padding:0 24px 16px 88px;background-image:repeating-linear-gradient(transparent,transparent 23px,rgba(120,160,230,.22) 23px,rgba(120,160,230,.22) 24px);background-size:100% 32px;background-position:0 0;line-height:32px;font-size:14px;color:#e4e8f4;outline:none;white-space:pre-wrap;word-wrap:break-word;font-family:'IBM Plex Mono',monospace;position:relative;z-index:2;caret-color:#8bb4ff;letter-spacing:.2px}
+.nb-content:empty::before{content:attr(data-placeholder);color:#5a6478;pointer-events:none;font-style:italic;line-height:32px}
+.nb-content:focus{background-image:repeating-linear-gradient(transparent,transparent 23px,rgba(139,180,255,.32) 23px,rgba(139,180,255,.32) 24px)}
+.nb-content,.nb-content *{line-height:32px}
+.nb-content p,.nb-content div,.nb-content li,.nb-content blockquote{margin:0;padding:0;line-height:32px}
+.nb-content h1,.nb-content h2,.nb-content h3,.nb-content h4,.nb-content h5,.nb-content h6{margin:0;padding:0;line-height:32px;font-weight:700}
+.nb-content h1{font-size:18px}.nb-content h2{font-size:16px}.nb-content h3{font-size:14px}
+.nb-content ul,.nb-content ol{margin:0;padding-left:22px;line-height:32px}
+.nb-content br{line-height:32px}
+.nb-content img{margin:0;max-width:100%}
+/* Page header — NO sticky · la toolbar es la sticky principal (top:48px).
+   Si el header también fuera sticky a top:48px, taparía la toolbar (z-index
+   mayor) y el usuario perdía las opciones de formato. */
+.nb-header{background:linear-gradient(135deg,#1f2638,#181d2c);border-bottom:2px solid #2a3144;padding:12px 16px 12px 88px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;border-radius:12px 12px 0 0;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.nb-header::before{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.4),transparent)}
+.nb-title-inp{background:none;border:none;color:#f0f2fa;font-family:'Newsreader',serif;font-size:18px;font-weight:600;outline:none;flex:1;letter-spacing:.3px}
+.nb-title-inp::placeholder{color:#5a6478;font-style:italic}
+.nb-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7a8399;background:rgba(0,0,0,.25);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.04)}
+.nb-saved{font-size:10px;color:var(--em, #10b981);margin-left:8px;opacity:0;transition:opacity .3s;font-family:'IBM Plex Mono',monospace}
+.nb-saved.on{opacity:1}
+
+/* Rich-text toolbar — STICKY so format buttons stay accessible when
+   scrolling through long notes. Sits below the page-level nav (48px).
+   z-index:10 → debe ser MAYOR que .nb-header (z:2) para que nunca quede
+   tapada al hacer scroll. */
+.nb-rt-toolbar{display:flex;gap:4px;flex-wrap:wrap;align-items:center;padding:8px 10px;background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:8px 8px 0 0;border-bottom:none;margin-bottom:0;position:sticky;top:48px;z-index:10;backdrop-filter:blur(8px);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.nb-rt-toolbar + .nb-page{border-top-left-radius:0;border-top-right-radius:0}
+.nb-rt-btn{background:var(--el, #222228);border:1px solid var(--bd, #27272a);color:var(--t2, #a1a1aa);border-radius:6px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1;transition:all .15s;min-width:28px;display:inline-flex;align-items:center;justify-content:center}
+.nb-rt-btn:hover{background:var(--vg, var(--ag, rgba(139,92,246,.08)));border-color:var(--vi, var(--ac, #7c3aed));color:var(--vi2, var(--a2, #a78bfa))}
+.nb-rt-btn:active{transform:scale(.95)}
+.nb-rt-btn b{font-weight:900}
+.nb-rt-sep{width:1px;height:18px;background:var(--bd, #27272a);margin:0 3px}
+.nb-rt-sz-s{font-size:9px}
+.nb-rt-sz-m{font-size:11px}
+.nb-rt-sz-l{font-size:14px;font-weight:800}
+.nb-rt-hl{width:24px;height:22px;padding:0;border-radius:5px}
+.nb-rt-hl-y{background:#fff59d;border-color:#d4c058}
+.nb-rt-hl-y:hover{background:#ffeb3b;border-color:#f4bb00}
+.nb-rt-hl-g{background:#a5d6a7;border-color:#5b9e5f}
+.nb-rt-hl-g:hover{background:#66bb6a;border-color:#2e7d32}
+.nb-rt-hl-p{background:#f8bbd0;border-color:#c48698}
+.nb-rt-hl-p:hover{background:#ec407a;border-color:#a31545}
+.nb-rt-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.5px;padding:4px 8px}
+.nb-rt-lbl-u{background:rgba(255,107,107,.15);border-color:rgba(255,107,107,.4);color:#ff8f8f}
+.nb-rt-lbl-u:hover{background:rgba(255,107,107,.3);color:#fff}
+.nb-rt-lbl-d{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.4);color:#6ee7a0}
+.nb-rt-lbl-d:hover{background:rgba(74,222,128,.28);color:#fff}
+.nb-rt-img{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.45);color:#c4b5fd;font-weight:600}
+.nb-rt-img:hover{background:rgba(139,92,246,.3);color:#fff;border-color:#a78bfa}
+.nb-rt-code{background:rgba(6,182,212,.15);border-color:rgba(6,182,212,.45);color:#67e8f9;font-family:'IBM Plex Mono',monospace;font-weight:600}
+.nb-rt-code:hover{background:rgba(6,182,212,.3);color:#fff;border-color:#22d3ee}
+.nb-rt-link{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#86efac;font-weight:600}
+.nb-rt-link:hover{background:rgba(34,197,94,.28);color:#fff;border-color:#22c55e}
+.nb-rt-attach{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#fcd34d;font-weight:600}
+.nb-rt-attach:hover{background:rgba(245,158,11,.28);color:#fff;border-color:#f59e0b}
+.nb-rt-btn:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+
+/* ══════════════════════════════════════════════════════════════
+   ESTRUCTURA CANÓNICA DE CUADERNO · estandarizada 10-SYS + 13-NOT + 14-WORK
+   Contenedor (.nb-shell), header de Personalización (.nb-perso),
+   dropdown de Contenido (.nb-drop), toolbar interna (.nb-inner-toolbar),
+   label de páginas (.nb-pages-label). Migradas desde systems.html para
+   que los 3 módulos compartan el mismo look exacto.
+══════════════════════════════════════════════════════════════ */
+.nb-shell{background:rgba(22,22,26,.75);backdrop-filter:blur(12px);border:1px solid rgba(124,58,237,.12);border-radius:var(--radius-lg,12px);padding:20px;margin-bottom:12px;transition:border-color .25s,transform .25s,box-shadow .25s}
+.nb-shell-body{padding:14px 0 0}
+.nb-perso{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.nb-perso-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;color:var(--tx,#f0f2fa)}
+.nb-perso-actions{display:flex;gap:4px;flex-wrap:wrap}
+.nb-perso-actions button{background:none;border:1px solid var(--bd,#27272a);color:var(--t2,#a1a1aa);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:background .15s,color .15s,border-color .15s}
+.nb-perso-actions button:hover{background:rgba(139,92,246,.12);color:var(--tx,#f0f2fa);border-color:rgba(139,92,246,.45)}
+.nb-perso-actions .nb-perso-del{border-color:rgba(239,68,68,.35);color:var(--rd,#ef4444)}
+.nb-perso-actions .nb-perso-del:hover{background:rgba(239,68,68,.18);color:#fff;border-color:#ef4444}
+
+.nb-drop{margin-top:10px;border:1px solid var(--bd,#27272a);border-radius:9px;overflow:visible;background:var(--el,#222228)}
+.nb-drop-h{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;user-select:none;font-size:12px;font-weight:600;transition:background .15s;color:var(--tx,#f0f2fa)}
+.nb-drop-h:hover{background:var(--c1,#16161a)}
+.nb-drop-h .nb-drop-arr{font-size:10px;color:var(--t3,#71717a);transition:transform .2s}
+.nb-drop.on .nb-drop-arr{transform:rotate(90deg);color:#a78bfa}
+.nb-drop-body{display:none;padding:10px 12px 12px;border-top:1px solid var(--bd,#27272a)}
+.nb-drop.on .nb-drop-body{display:block}
+.nb-drop-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3,#71717a);font-weight:400;margin-left:6px}
+
+.nb-inner-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.nb-inner-toolbar button{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
+
+.nb-pages-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1.5px;margin:12px 0 10px}
+
+/* ══════════════════════════════════════════════════════════════
+   PAGE SELECTOR BAR · barra de tabs sticky para navegar páginas
+   Genérico para 10-SYS · 13-NOT · 14-WORK
+══════════════════════════════════════════════════════════════ */
+.nb-page-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:linear-gradient(180deg,var(--c1,#16161a) 0%,var(--c1,#14141a) 100%);border:1px solid var(--bd,#27272a);border-radius:10px;margin:0 0 10px;position:sticky;top:48px;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+.nb-page-bar-scroll{flex:1;display:flex;gap:4px;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:rgba(139,92,246,.3) transparent;padding:2px 4px}
+.nb-page-bar-scroll::-webkit-scrollbar{height:4px}
+.nb-page-bar-scroll::-webkit-scrollbar-thumb{background:rgba(139,92,246,.35);border-radius:2px}
+.nb-page-bar-scroll::-webkit-scrollbar-track{background:transparent}
+.nb-page-tab{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:var(--el,#222228);border:1px solid var(--bd,#27272a);border-radius:7px;color:var(--t2,#a1a1aa);font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:background .15s,border-color .15s,color .15s,transform .15s;max-width:220px}
+.nb-page-tab:hover{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.45);color:var(--tx,#f0f2fa);transform:translateY(-1px)}
+.nb-page-tab.on{background:rgba(139,92,246,.22);border-color:#a78bfa;color:#fff;font-weight:600;box-shadow:0 1px 6px rgba(139,92,246,.3)}
+.nb-page-tab:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.55)}
+.nb-page-tab-ic{font-size:13px;line-height:1;flex-shrink:0}
+.nb-page-tab-n{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(139,92,246,.18);color:#a78bfa;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;flex-shrink:0}
+.nb-page-tab.on .nb-page-tab-n{background:rgba(255,255,255,.2);color:#fff}
+.nb-page-tab-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+.nb-page-bar-nav{flex-shrink:0;width:26px;height:26px;border-radius:6px;background:var(--el,#222228);border:1px solid var(--bd,#27272a);color:var(--t2,#a1a1aa);font-size:16px;font-weight:700;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+.nb-page-bar-nav:hover{background:rgba(139,92,246,.18);color:#a78bfa;border-color:rgba(139,92,246,.45)}
+.nb-page-bar-jump{flex-shrink:0;max-width:160px;padding:5px 8px;background:var(--el,#222228);border:1px solid var(--bd,#27272a);border-radius:7px;color:var(--t2,#a1a1aa);font-size:11px;font-family:inherit;cursor:pointer;transition:border-color .15s}
+.nb-page-bar-jump:hover{border-color:rgba(139,92,246,.55);color:var(--tx,#f0f2fa)}
+.nb-page-bar-jump:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+/* Compact dropdown embebido en toolbars del cuaderno · igual altura que los botones */
+.nb-page-jump-inline{flex:1 1 220px;min-width:180px;max-width:380px;padding:7px 10px;background:linear-gradient(180deg,rgba(139,92,246,.08),rgba(139,92,246,.04));border:1px solid rgba(139,92,246,.4);border-radius:7px;color:var(--tx,#f0f2fa);font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s}
+.nb-page-jump-inline:hover{background:rgba(139,92,246,.18);border-color:#a78bfa}
+.nb-page-jump-inline:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(139,92,246,.5)}
+.nb-page-jump-inline option{background:var(--c1,#16161a);color:var(--tx,#f0f2fa);font-weight:500}
+@media(max-width:768px){.nb-page-bar-nav{display:none}.nb-page-tab{max-width:160px}.nb-page-tab-t{max-width:120px}}
+
+/* ══════════════════════════════════════════════════════════════
+   CHIP DE IMAGEN · diseño NEON CYBERPUNK
+   - Altura 16px (cabe perfecto en línea de 32px del cuaderno · vertical-align:middle)
+   - Triple glow: cyan → violet → magenta · gradiente animado
+   - Borde cyan brillante · texto monospace mayúsculas con tracking
+   - Hover: glow intensificado + lift suave
+══════════════════════════════════════════════════════════════ */
+@keyframes nbImgChipPulse{
+  0%,100%{box-shadow:0 0 3px rgba(34,211,238,.45),0 0 6px rgba(139,92,246,.32),inset 0 0 6px rgba(34,211,238,.08)}
+  50%{box-shadow:0 0 5px rgba(34,211,238,.65),0 0 12px rgba(139,92,246,.48),inset 0 0 8px rgba(34,211,238,.15)}
+}
+.nb-content .nb-img-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:0 10px 0 8px;
+  background:linear-gradient(135deg,rgba(6,182,212,.18) 0%,rgba(139,92,246,.22) 50%,rgba(236,72,153,.14) 100%);
+  border:1px solid rgba(34,211,238,.6);
+  border-radius:999px;
+  color:#67e8f9;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8.5px;
+  font-weight:700;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  cursor:grab;
+  user-select:none;
+  vertical-align:middle;
+  margin:0 3px;
+  max-width:220px;
+  white-space:nowrap;
+  height:18px;
+  line-height:1;
+  position:relative;
+  text-shadow:0 0 4px rgba(34,211,238,.65);
+  animation:nbImgChipPulse 2.8s ease-in-out infinite;
+  transition:transform .18s cubic-bezier(.4,0,.2,1),border-color .18s,color .18s,background .18s;
+  box-sizing:border-box;
+}
+.nb-content .nb-img-chip:hover{
+  color:#fff;
+  border-color:#22d3ee;
+  background:linear-gradient(135deg,rgba(6,182,212,.4) 0%,rgba(139,92,246,.5) 50%,rgba(236,72,153,.32) 100%);
+  text-shadow:0 0 6px rgba(255,255,255,.95),0 0 10px rgba(34,211,238,.7);
+  transform:translateY(-1px) scale(1.04);
+  animation:none;
+  box-shadow:
+    0 0 6px rgba(34,211,238,.85),
+    0 0 14px rgba(139,92,246,.6),
+    0 0 24px rgba(236,72,153,.4),
+    inset 0 0 10px rgba(34,211,238,.18);
+}
+.nb-content .nb-img-chip:active{cursor:grabbing;transform:translateY(0) scale(.99)}
+.nb-content .nb-img-chip.nb-img-chip-dragging{opacity:.5;outline:1.5px dashed #22d3ee;outline-offset:3px;animation:none}
+.nb-content .nb-img-chip-ic{display:inline-flex;align-items:center;font-size:11px;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 3px rgba(34,211,238,.85)) drop-shadow(0 0 6px rgba(139,92,246,.5))}
+.nb-content .nb-img-chip-name{display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px;line-height:1}
+/* Marker visual cuando se está arrastrando un chip sobre el editor */
+.nb-content.nb-img-droptarget{outline:2px dashed rgba(167,139,250,.6);outline-offset:-2px;background:rgba(139,92,246,.04)}
+.nb-rt-imglist{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#c4b5fd;font-weight:600}
+.nb-rt-imglist:hover{background:rgba(139,92,246,.25);color:#fff;border-color:#a78bfa}
+
+/* Imágenes inline legacy (pre-P8) — quedan responsive en caso de no migrar */
+.nb-content .nb-img{max-width:100%;max-height:380px;height:auto;border-radius:8px;border:1px solid var(--bd, #27272a);box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:zoom-in;display:inline-block;margin:6px 4px;vertical-align:middle;transition:transform .2s,box-shadow .2s,border-color .2s}
+.nb-content .nb-img:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.5);border-color:#a78bfa}
+
+/* Code blocks inline · pre+code monospace dark con tag opcional de lenguaje */
+.nb-content .nb-code-wrap{position:relative;background:#0d1117;border:1px solid #1f2937;border-left:3px solid #22d3ee;border-radius:8px;padding:14px 14px 12px;margin:8px 0;font-family:'IBM Plex Mono',monospace;overflow:hidden}
+.nb-content .nb-code-lang{position:absolute;top:6px;right:8px;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#22d3ee;background:rgba(6,182,212,.12);padding:2px 7px;border-radius:4px;font-family:'IBM Plex Mono',monospace;user-select:none}
+.nb-content .nb-code{display:block;color:#e6edf3;font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:none;border:none;outline:none;min-height:1.5em;font-family:inherit;padding-right:60px}
+.nb-content .nb-code:focus{outline:none}
+.nb-content .nb-code-wrap:hover{border-left-color:#06b6d4}
+/* Botón × para eliminar bloques (code, etc) — siempre semi-visible para que el usuario lo descubra */
+.nb-block-del{position:absolute;top:6px;right:8px;width:24px;height:24px;border-radius:50%;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.55);color:#fca5a5;cursor:pointer;font-size:16px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;opacity:.55;transition:opacity .15s,background .15s,color .15s,transform .15s,border-color .15s;padding:0;font-family:inherit;z-index:2}
+.nb-content .nb-code-wrap{padding-right:42px}
+.nb-content .nb-code-wrap .nb-code-lang{right:42px}
+.nb-content .nb-code-wrap:hover .nb-block-del{opacity:1}
+.nb-block-del:hover{background:rgba(239,68,68,.4);color:#fff;border-color:#ef4444;transform:scale(1.12)}
+.nb-block-del:focus-visible{outline:none;opacity:1;box-shadow:0 0 0 2px rgba(239,68,68,.5)}
+
+/* Inline labels */
+.rt-label{display:inline-block;padding:1px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;vertical-align:middle;margin:0 2px;user-select:none;cursor:pointer;transition:opacity .15s,transform .15s}
+.rt-label:hover{opacity:.7;transform:scale(.96)}
+.rt-label::after{content:' ✕';opacity:0;font-size:9px;margin-left:2px;transition:opacity .15s}
+.rt-label:hover::after{opacity:.9}
+.rt-lbl-urgent{background:linear-gradient(135deg,rgba(255,70,70,.25),rgba(255,107,107,.18));color:#ff9595;border:1px solid rgba(255,107,107,.5);box-shadow:0 0 8px rgba(255,70,70,.25)}
+.rt-lbl-done{background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(74,222,128,.18));color:#6ee7a0;border:1px solid rgba(74,222,128,.5);box-shadow:0 0 8px rgba(34,197,94,.22);text-decoration:line-through;text-decoration-color:rgba(110,231,160,.6)}
+
+/* Highlight safety net */
+.nb-content [style*="background-color: rgb(255, 245, 157)"],
+.nb-content [style*="background-color: rgb(165, 214, 167)"],
+.nb-content [style*="background-color: rgb(248, 187, 208)"],
+.nb-content [style*="background-color:#fff59d"],
+.nb-content [style*="background-color:#a5d6a7"],
+.nb-content [style*="background-color:#f8bbd0"],
+.nb-content [style*="background:#fff59d"],
+.nb-content [style*="background:#a5d6a7"],
+.nb-content [style*="background:#f8bbd0"]{color:#1a1a1a !important;text-shadow:none}
+
+/* ── PASTE NORMALIZATION SAFETY NET ──────────────────────────────
+   Si algún texto pegado escapa al paste handler (browsers viejos),
+   forzamos line-height:32px y removemos margin/padding inline-styled.
+   Inline styles tienen specificity (1,0,0,0), por eso !important. */
+.nb-content *{line-height:32px !important}
+.nb-content p,.nb-content div,.nb-content li,.nb-content blockquote,
+.nb-content h1,.nb-content h2,.nb-content h3,.nb-content h4,.nb-content h5,.nb-content h6{
+  margin:0 !important;padding:0 !important;line-height:32px !important
+}
+/* Listas (ol/ul) sí necesitan padding-left para que se vean los markers */
+.nb-content ol,.nb-content ul{padding-left:24px !important;line-height:32px !important;color:#e4e8f4}
+.nb-content ol li,.nb-content ul li{line-height:32px !important;margin:0 !important;padding:0 !important;color:#e4e8f4}
+/* Markers en color claro · separados del fondo oscuro del cuaderno */
+.nb-content ol li::marker,.nb-content ul li::marker{color:#8bb4ff;font-weight:600}
+/* Override de cualquier <font color="#1a1a1a"> heredado del state previo */
+.nb-content ol li>font:not([color="#fff59d"]):not([color="#a5d6a7"]):not([color="#f8bbd0"]),
+.nb-content ul li>font:not([color="#fff59d"]):not([color="#a5d6a7"]):not([color="#f8bbd0"]){color:inherit !important}
+/* Preservar texto highlighted (que sí debe ser oscuro sobre fondo claro) */
+.nb-content ol li [style*="background-color: rgb(255, 245, 157)"],
+.nb-content ol li [style*="background-color: rgb(165, 214, 167)"],
+.nb-content ol li [style*="background-color: rgb(248, 187, 208)"],
+.nb-content ul li [style*="background-color: rgb(255, 245, 157)"],
+.nb-content ul li [style*="background-color: rgb(165, 214, 167)"],
+.nb-content ul li [style*="background-color: rgb(248, 187, 208)"]{color:#1a1a1a !important}
+/* HR separador */
+.nb-content hr{margin:0 !important;padding:0 !important;height:1px;border:none;background:rgba(120,160,230,.4);line-height:0 !important}
+
+/* ── CHECKLIST · ☐ / ✓ toggleable inline ─────────────────────── */
+.nb-check{display:inline-block;width:20px;text-align:center;cursor:pointer;font-weight:700;user-select:none;color:#8bb4ff;transition:color .12s,transform .1s;line-height:32px !important}
+.nb-check:hover{color:#a5d6a7;transform:scale(1.15)}
+.nb-check-done{color:#a5d6a7}
+/* Cuando un checkbox está done, tacha el resto de la línea */
+.nb-check-done ~ *{text-decoration:line-through;opacity:.6}
+
+/* ── WORD COUNT FOOTER ─────────────────────────────────────────── */
+.nb-wc-foot{display:flex;justify-content:flex-end;gap:12px;padding:6px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3, #52525b);background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-top:none;border-radius:0 0 12px 12px;margin-top:-1px}
+.nb-wc-foot span{color:var(--t2, #a1a1aa)}
+.nb-wc-foot b{color:var(--vi2, #a78bfa);font-weight:600}
+
+/* Notebook page entry list (saved pages) */
+.nb-entries{margin-top:16px}
+.nb-entry{background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s}
+.nb-entry:hover{border-color:var(--bd2, #3f3f46)}
+.nb-entry-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer}
+.nb-entry-h:hover{background:var(--el, #222228)}
+.nb-entry-title{font-size:13px;font-weight:600}
+.nb-entry-date{font-size:10px;color:var(--t3, #52525b);font-family:'IBM Plex Mono',monospace}
+
+/* Page editor toolbar with action buttons */
+.nb-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.nb-toolbar button{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
+
+/* Image grid */
+.nb-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:12px}
+.nb-img-card{background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;overflow:hidden;position:relative;cursor:pointer;transition:all .2s}
+.nb-img-card:hover{border-color:var(--vi, var(--ac, #7c3aed));transform:translateY(-2px)}
+.nb-img-card img{width:100%;height:120px;object-fit:cover;display:block}
+.nb-img-caption{padding:6px 8px;font-size:10px;color:var(--t2, #a1a1aa)}
+.nb-img-del{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);border:none;color:#fff;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.nb-img-card:hover .nb-img-del{display:flex}
+.nb-img-rename{position:absolute;top:4px;right:30px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);border:none;color:#fff;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.nb-img-card:hover .nb-img-rename{display:flex}
+
+/* Links */
+.nb-link{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--el, #222228);border:1px solid var(--bd, #27272a);border-radius:8px;margin-bottom:6px;text-decoration:none;color:var(--tx, #fafafa);font-size:12px;transition:all .2s}
+.nb-link:hover{border-color:var(--vi, var(--ac, #7c3aed));background:var(--vg, var(--ag, rgba(139,92,246,.08)))}
+.nb-link-icon{font-size:16px;flex-shrink:0}
+.nb-link-url{color:var(--t3, #52525b);font-size:10px;font-family:'IBM Plex Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Mobile */
+@media(max-width:768px){.nb-content{padding-left:56px}.nb-margin{left:48px}.nb-spine{left:24px}.nb-header{padding-left:56px}.nb-images{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}}
+
+/* ── 13-NOT specific tweaks (cuadernos panel) ─────────────── */
+.nb13-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.nb13-card{background:var(--c1, #16161a);border:1px solid var(--bd, #27272a);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s}
+.nb13-card:hover{border-color:var(--ac, #8b5cf6);transform:translateY(-1px)}
+.nb13-card-row{display:flex;align-items:center;gap:12px;padding:10px}
+.nb13-card-meta{flex:1;min-width:0}
+.nb13-card-title{font-size:14px;font-weight:600;color:var(--tx, #fafafa);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb13-card-sub{font-size:11px;color:var(--t3, #52525b);margin-top:2px}
+.nb13-card-actions{display:flex;gap:4px;flex-shrink:0}
+.nb13-card-actions button{background:none;border:1px solid var(--bd, #27272a);color:var(--t2, #a1a1aa);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer}
+.nb13-card-actions button:hover{border-color:var(--ac, #8b5cf6);color:var(--ac, #8b5cf6)}

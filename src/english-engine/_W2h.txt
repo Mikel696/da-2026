@@ -1,0 +1,136 @@
+supposedly|supuestamente|adv|eso dicen, sin confirmar|Supposedly it's true.|Supuestamente es cierto.
+allegedly|presuntamente|adv|se dice, sin probar|He allegedly lied.|Presuntamente mintió.
+reportedly|según se informa|adv|lo dicen las fuentes|Reportedly sold out.|Según se informa, se agotó.
+evidently|por lo visto|adv|salta a la vista|Evidently, she knew.|Por lo visto, lo sabía.
+presumably|presumiblemente|adv|es lo que se supone|Presumably he'll come.|Presumiblemente vendrá.
+slightly|ligeramente|adv|un poquito|Slightly better.|Ligeramente mejor.
+scarcely|apenas|adv|casi nada, formal|Scarcely a word.|Apenas una palabra.
+utterly|completamente|adv|refuerza lo negativo|Utterly lost.|Completamente perdido.
+totally|totalmente|adv|del todo|Totally worth it.|Vale totalmente la pena.
+entirely|enteramente|adv|sin que falte nada|Entirely my fault.|Enteramente culpa mía.
+completely|completamente|adv|al cien por cien|Completely different.|Completamente distinto.
+whichever|el que sea|det|da igual cuál|Whichever you prefer.|El que prefieras.
+furthermore|además|conj|añade un argumento|Furthermore, it's cheaper.|Además, es más barato.
+moreover|es más|conj|refuerza lo anterior|Moreover, he agreed.|Es más, estuvo de acuerdo.
+additionally|adicionalmente|adv|se suma a lo dicho|Additionally, we waited.|Adicionalmente, esperamos.
+similarly|de igual modo|adv|marca un parecido|Similarly, she left.|De igual modo, ella se fue.
+likewise|igualmente|adv|lo mismo digo|Likewise, thank you.|Igualmente, gracias.
+conversely|por el contrario|adv|marca lo opuesto|Conversely, it failed.|Por el contrario, falló.
+nonetheless|aun así|conj|a pesar de eso|Nonetheless, I tried.|Aun así, lo intenté.
+nevertheless|sin embargo|conj|igual que nonetheless|Nevertheless, we won.|Sin embargo, ganamos.
+accomplish|lograr|verbo|conseguir algo grande|What did we accomplish?|¿Qué logramos?
+attain|alcanzar|verbo|llegar a una meta|Attain your goal.|Alcanza tu meta.
+acquire|adquirir|verbo|hacerse con algo|Acquire a new skill.|Adquiere una destreza nueva.
+gather|reunir|verbo|juntar en un sitio|Gather your things.|Reúne tus cosas.
+assemble|montar|verbo|juntar las piezas|Assemble the parts.|Monta las piezas.
+compile|recopilar|verbo|juntar información|Compile the data.|Recopila los datos.
+diminish|disminuir|verbo|hacerse más pequeño|The pain diminished.|El dolor disminuyó.
+lower|bajar|verbo|también «más bajo»|Lower your voice.|Baja la voz.
+lessen|aminorar|verbo|reducir la intensidad|It lessens the risk.|Aminora el riesgo.
+enhance|realzar|verbo|hacer mejor lo que ya hay|Enhance the sound.|Realza el sonido.
+strengthen|fortalecer|verbo|hacer más fuerte|Strengthen the bond.|Fortalece el vínculo.
+reinforce|reforzar|verbo|añadir apoyo|Reinforce the wall.|Refuerza el muro.
+amplify|amplificar|verbo|hacer más grande o fuerte|Amplify the signal.|Amplifica la señal.
+magnify|agrandar|verbo|hacer ver más grande|It magnifies the problem.|Agranda el problema.
+dispute|disputar|verbo|no estar de acuerdo|I dispute that claim.|Discuto esa afirmación.
+strive|esforzarse|verbo|strove, striven|Strive for better.|Esfuérzate por más.
+endeavor|empeñarse|verbo|británico: endeavour|We endeavor to help.|Nos empeñamos en ayudar.
+pursue|perseguir (una meta)|verbo|ir detrás de algo|Pursue your dream.|Persigue tu sueño.
+hunt|cazar|verbo|también buscar con ganas|Hunt for answers.|Busca respuestas.
+abandon|abandonar|verbo|dejar tirado|Don't abandon ship.|No abandones el barco.
+surrender|rendirse|verbo|entregar las armas|Never surrender.|Nunca te rindas.
+yield|ceder|verbo|dar paso o producir|Yield to traffic.|Cede el paso.
+concede|conceder|verbo|admitir que el otro gana|I concede the point.|Te concedo ese punto.
+resist|resistir|verbo|no dejarse llevar|I can't resist.|No me puedo resistir.
+oppose|oponerse|verbo|estar en contra|They oppose the plan.|Se oponen al plan.
+protest|protestar|verbo|también «la protesta»|They protest in the street.|Protestan en la calle.
+rebel|rebelarse|verbo|también «el rebelde»|Rebel against it.|Rebélate contra eso.
+revolt|sublevarse|verbo|más fuerte que rebel|The people revolted.|El pueblo se sublevó.
+defend|defender|verbo|proteger de un ataque|Defend your point.|Defiende tu postura.
+preserve|conservar|verbo|mantener como está|Preserve the memory.|Conserva el recuerdo.
+wreck|destrozar|verbo|también «los restos»|You wrecked the car.|Destrozaste el coche.
+demolish|demoler|verbo|tirar abajo|They demolished it.|Lo demolieron.
+restore|restaurar|verbo|devolver a su estado|Restore the file.|Restaura el archivo.
+renew|renovar|verbo|volver a empezar algo|Renew your passport.|Renueva el pasaporte.
+revive|revivir|verbo|volver a la vida|Revive the song.|Revive la canción.
+invent|inventar|verbo|crear lo que no existía|Who invented this?|¿Quién inventó esto?
+craft|elaborar|verbo|también «el oficio»|Craft your story.|Elabora tu historia.
+construct|construir|verbo|más formal que build|Construct a bridge.|Construye un puente.
+envision|imaginar|verbo|verlo en la cabeza|I envision a change.|Imagino un cambio.
+visualize|visualizar|verbo|verlo con detalle|Visualize the ending.|Visualiza el final.
+recall|recordar|verbo|traer a la memoria|I recall that night.|Recuerdo aquella noche.
+recollect|rememorar|verbo|más formal que recall|As I recollect it.|Según lo rememoro.
+overlook|pasar por alto|verbo|también «dar a» (una vista)|Don't overlook it.|No lo pases por alto.
+perceive|percibir|verbo|darse cuenta de algo|I perceive a change.|Percibo un cambio.
+neglect|descuidar|verbo|no atender algo|Don't neglect yourself.|No te descuides.
+dismiss|descartar|verbo|también «despedir»|He dismissed the idea.|Descartó la idea.
+endorse|respaldar|verbo|apoyar en público|She endorsed him.|Lo respaldó.
+condemn|condenar|verbo|decir que está mal|They condemned it.|Lo condenaron.
+accuse|acusar|verbo|accuse someone OF|Don't accuse me.|No me acuses.
+compliment|halagar|verbo|también «el halago»|He complimented her voice.|Halagó su voz.
+congratulate|felicitar|verbo|dar la enhorabuena|Congratulate them.|Felicítalos.
+applaud|aplaudir|verbo|más formal que clap|The crowd applauded.|El público aplaudió.
+assure|asegurar|verbo|dar tranquilidad|I assure you.|Te lo aseguro.
+threaten|amenazar|verbo|avisar de un mal|Don't threaten me.|No me amenaces.
+caution|advertir|verbo|también «la cautela»|I caution you.|Te advierto.
+alert|alertar|verbo|también «la alerta»|Alert the team.|Alerta al equipo.
+entertain|entretener|verbo|hacer pasar el rato|Entertain the guests.|Entretén a los invitados.
+accompany|acompañar|verbo|ir con alguien|May I accompany you?|¿Puedo acompañarte?
+escort|escoltar|verbo|acompañar protegiendo|They escorted her out.|La escoltaron afuera.
+trail|seguir el rastro|verbo|también «el sendero»|The dog trailed him.|El perro le siguió el rastro.
+dodge|esquivar|verbo|apartarse de un golpe|Dodge the question.|Esquiva la pregunta.
+evade|eludir|verbo|escapar de una obligación|Evade the issue.|Elude el tema.
+flee|huir|verbo|fled, fled|They fled the city.|Huyeron de la ciudad.
+depart|partir|verbo|salir hacia otro sitio|The train departs soon.|El tren sale pronto.
+linger|quedarse|verbo|no acabar de irse|The smell lingers.|El olor se queda.
+hasten|apresurar|verbo|hacer que vaya más rápido|Hasten the process.|Apresura el proceso.
+postpone|posponer|verbo|dejar para más tarde|Postpone the trip.|Pospón el viaje.
+hesitate|dudar|verbo|no atreverse a decidir|Don't hesitate to ask.|No dudes en preguntar.
+commence|comenzar|verbo|muy formal, de empezar|The ceremony commences.|La ceremonia comienza.
+persist|persistir|verbo|seguir insistiendo|The problem persists.|El problema persiste.
+triumph|triunfar|verbo|también «el triunfo»|Love triumphs.|El amor triunfa.
+prevail|imponerse|verbo|acabar ganando|Truth will prevail.|La verdad se impondrá.
+falter|flaquear|verbo|perder fuerza a mitad|My voice faltered.|Me flaqueó la voz.
+collapse|derrumbarse|verbo|caerse del todo|The building collapsed.|El edificio se derrumbó.
+ascend|ascender|verbo|subir, formal|Ascend the stairs.|Asciende las escaleras.
+soar|remontar|verbo|volar muy alto|My spirits soared.|Se me levantó el ánimo.
+descend|descender|verbo|bajar, formal|Descend the hill.|Desciende la colina.
+plunge|hundirse de golpe|verbo|caer en picado|Prices plunged.|Los precios se hundieron.
+seal|sellar|verbo|cerrar del todo|Seal the envelope.|Sella el sobre.
+drain|vaciar|verbo|sacar todo el líquido|Drain the water.|Vacía el agua.
+untie|desatar|verbo|lo contrario de tie|Untie the knot.|Desata el nudo.
+loosen|aflojar|verbo|dejar menos apretado|Loosen your tie.|Aflójate la corbata.
+drag|arrastrar|verbo|llevar por el suelo|Don't drag it out.|No lo alargues.
+haul|acarrear|verbo|llevar algo pesado|Haul the boxes.|Acarrea las cajas.
+toss|lanzar (suave)|verbo|echar algo sin fuerza|Toss me the keys.|Lánzame las llaves.
+hurl|arrojar|verbo|lanzar con fuerza|He hurled it away.|Lo arrojó lejos.
+uncover|destapar|verbo|quitar lo que cubre|Uncover the truth.|Destapa la verdad.
+wrap|envolver|verbo|wrap up = terminar|Wrap the gift.|Envuelve el regalo.
+unfold|desplegar|verbo|también «ir pasando»|The story unfolds.|La historia se va desplegando.
+chop|picar|verbo|cortar en trozos|Chop the onion.|Pica la cebolla.
+shatter|hacer añicos|verbo|romper en mil pedazos|The glass shattered.|El vaso se hizo añicos.
+smash|estrellar|verbo|romper con fuerza|Smash the record.|Bate el récord.
+quiver|estremecerse|verbo|temblor pequeño|Her lip quivered.|Le tembló el labio.
+shiver|tiritar|verbo|temblar de frío|I shivered in the rain.|Tirité bajo la lluvia.
+rinse|enjuagar|verbo|pasar por agua|Rinse the cup.|Enjuaga la taza.
+scrub|fregar|verbo|frotar con fuerza|Scrub the floor.|Friega el suelo.
+polish|pulir|verbo|también «polaco»|Polish your shoes.|Saca brillo a los zapatos.
+dye|teñir|verbo|cambiar de color|She dyed her hair.|Se tiñó el pelo.
+stain|manchar|verbo|también «la mancha»|Coffee stains the cup.|El café mancha la taza.
+scribble|garabatear|verbo|escribir sin cuidado|I scribbled a note.|Garabateé una nota.
+erase|borrar|verbo|quitar lo escrito|Erase the board.|Borra la pizarra.
+scan|escanear|verbo|también leer por encima|Scan the code.|Escanea el código.
+converse|conversar|verbo|hablar con calma|We conversed for hours.|Conversamos horas.
+overhear|oír sin querer|verbo|overheard, overheard|I overheard them.|Los oí sin querer.
+eavesdrop|escuchar a escondidas|verbo|espiar la conversación|Don't eavesdrop.|No escuches a escondidas.
+peek|espiar|verbo|mirar un segundo|Take a peek.|Echa un vistazo.
+savor|saborear|verbo|británico: savour|Savor the moment.|Saborea el momento.
+stroke|acariciar|verbo|también «el derrame»|Stroke the cat.|Acaricia al gato.
+caress|acariciar|verbo|más suave y lento|A gentle caress.|Una caricia suave.
+inhale|inspirar|verbo|meter aire|Inhale slowly.|Inspira despacio.
+exhale|espirar|verbo|soltar el aire|Exhale and relax.|Espira y relájate.
+gasp|quedarse sin aire|verbo|de sorpresa o susto|She gasped.|Se quedó sin aliento.
+chuckle|reírse por lo bajo|verbo|risa corta y grave|He chuckled softly.|Se rió por lo bajo.
+smirk|sonreír con sorna|verbo|sonrisa de listillo|Wipe that smirk off.|Quítate esa sonrisita.
+sniffle|sorber por la nariz|verbo|al llorar o con frío|She sniffled quietly.|Sorbió en silencio.
+beam|sonreír radiante|verbo|también «el rayo»|She beamed at me.|Me sonrió radiante.

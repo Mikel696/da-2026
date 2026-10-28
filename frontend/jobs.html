@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Job Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/jobs.css">
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Job Tracker</span></div><div class="nv-r"><div class="badge badge-a"><span id="tA">0</span> apps</div></div></nav>
+<div class="wr">
+<div class="hero"><h1>Tu sistema para <em>conseguir</em> trabajo.</h1><p>Búsqueda avanzada por portal y rol · trilingüe ES/PT/EN · tracker kanban · estrategia competitiva.</p></div>
+<div class="stats"><div class="stat"><div class="sv" id="sD">1</div><div class="sl2">Días</div></div><div class="stat"><div class="sv" id="sA">0</div><div class="sl2">Aplicado</div></div><div class="stat"><div class="sv" id="sI">0</div><div class="sl2">Entrevista</div></div><div class="stat"><div class="sv" id="sO">0</div><div class="sl2">Finalista</div></div></div>
+
+<div class="tabs">
+<button class="tab on" data-p="rad">🔎 Radar</button>
+<button class="tab" data-p="li">🔵 LinkedIn</button>
+<button class="tab" data-p="ct">💼 Computrabajo</button>
+<button class="tab" data-p="pt">🔍 Job Portals</button>
+<button class="tab" data-p="tr">📋 Tracker</button>
+<button class="tab" data-p="str">🧠 Estrategia</button>
+</div>
+
+<!-- ═══ LINKEDIN ═══ -->
+<div class="pnl on" id="p-rad"><div id="p-radar-jobs"></div></div>
+
+<div class="pnl" id="p-li">
+<div class="lb">· linkedin · búsqueda avanzada por rol e idioma · clic para expandir ·</div>
+<div class="tip tip-v"><b>🔵 LinkedIn — Motor de búsqueda principal</b><p>Queries booleanas pre-optimizadas: <strong>8+ años CxP · trilingüe ES/PT/EN · SQL + Power BI · Teleperformance activo</strong>. Cada botón abre la búsqueda exacta en nueva pestaña. Los primeros acordeones están expandidos por defecto.</p></div>
+
+<div class="jsite-section" id="sec-li-ap">
+<div class="jsite-sec-hdr open" onclick="toggleSec('sec-li-ap')"><div><span class="jsite-icon">🏦</span> Cuentas por Pagar / Accounts Payable <span class="jsite-match">95%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body open"><div class="jsite-desc">Core skill. 8+ años Brinks + AP end-to-end + trilingüe = candidato top 5%. Remoto LATAM ordenado por fecha.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar+remoto&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-es">🇪🇸 CxP Español</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=contas+a+pagar+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-pt">🇧🇷 Contas a Pagar PT</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+remote&location=Latin+America&f_WT=2&f_E=2%2C3&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 AP English</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounts+payable%22+%22data+entry%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🎯 AP + Data Entry</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=cuentas+por+pagar&location=Colombia&f_WT=2&f_TPR=r604800&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📅 Últimos 7 días CO</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=shared+services+accounts+payable+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🏢 Shared Services</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-li-cm">
+<div class="jsite-sec-hdr open" onclick="toggleSec('sec-li-cm')"><div><span class="jsite-icon">🛡️</span> Content Moderator <span class="jsite-match">90%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body open"><div class="jsite-desc">Activo en Teleperformance 95%+ accuracy. Tu experiencia actual = match directo. Tres idiomas = triple alcance.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22moderador+de+contenido%22+remoto&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-es">🇪🇸 Moderador ES</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22moderador+conte%C3%BAdo%22+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-pt">🇧🇷 Moderador PT</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22content+moderator%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 Content Moderator EN</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22content+moderator%22+%22social+media%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📱 Social Media CM</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22content+moderator%22+remote&f_WT=2&f_TPR=r604800&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📅 Esta semana</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-li-aa">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-li-aa')"><div><span class="jsite-icon">🧮</span> Asistente / Auxiliar Contable <span class="jsite-match">88%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Tu técnico + 8 años = sobre-calificado = ventaja de entrada rápida. Presencial e híbrido también disponibles.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=asistente+contable+remoto&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-remote">🏠 Asistente Remoto</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=asistente+contable&location=Bogot%C3%A1%2C+Colombia&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 Presencial Bogotá</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounting+assistant%22+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 Accounting Asst EN</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22accounting+associate%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📋 Accounting Associate</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-li-cs">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-li-cs')"><div><span class="jsite-icon">📞</span> Customer Service / Atención al Cliente <span class="jsite-match">85%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Trilingüe ES/PT/EN = candidato premium para CS remoto. Flujo de ingresos rápido mientras aplicas a roles AP.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22servicio+al+cliente%22+remoto&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-es">🇪🇸 Servicio al Cliente</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22atendimento+ao+cliente%22+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-pt">🇧🇷 Atendimento PT</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22customer+service%22+remote+spanish&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 Customer Service EN</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22customer+support%22+bilingual+spanish+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">💬 Bilingüe ES/EN</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22customer+success%22+remote+latin+america&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🌟 Customer Success</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-li-de">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-li-de')"><div><span class="jsite-icon">⌨️</span> Data Entry / Digitación <span class="jsite-match">92%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Alta velocidad + precisión + trilingüe = candidato top. Entrada inmediata, menor fricción.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22digitador%22+OR+%22data+entry%22+remoto&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-es">🇪🇸 Data Entry ES</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22data+entry%22+remote+bilingual&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 Data Entry EN</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22data+entry%22+%22excel%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📊 DE + Excel</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22invoice+processing%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🧾 Invoice Processing</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-li-sk">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-li-sk')"><div><span class="jsite-icon">🎯</span> Por Mis Skills — Finanzas + Data <span class="jsite-match">Cruzado</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">SQL avanzado + Power BI + Excel experto + 8 años finanzas + 3 idiomas + Ing. Sistemas. Combinación exacta.</div>
+<div class="jsite-btns">
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22financial+data+analyst%22+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📊 Financial Data Analyst</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=bookkeeper+bilingual+spanish+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">📒 Bookkeeper Bilingüe</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22sql%22+%22analyst%22+remote&location=Latin+America&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🗃️ SQL Analyst</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22power+bi%22+analyst+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">⚡ Power BI Analyst</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=%22virtual+assistant%22+bilingual+remote&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-mix">🤖 VA Trilingüe</a>
+<a href="https://www.linkedin.com/jobs/search/?keywords=analista+de+dados+sql+remoto&location=Brazil&f_WT=2&sortBy=DD" target="_blank" class="jsite-btn jsite-btn-pt">🇧🇷 Analista de Dados</a>
+</div></div></div>
+</div>
+
+<!-- ═══ COMPUTRABAJO ═══ -->
+<div class="pnl" id="p-ct">
+<div class="lb">· computrabajo · bolsa de empleo colombia · búsqueda avanzada ·</div>
+<div class="tip tip-g"><b>💼 Computrabajo — Portal #1 en Colombia</b><p>Vacantes que no llegan a LinkedIn. Foco local. Combina con LinkedIn para cobertura máxima del mercado colombiano.</p></div>
+
+<div class="jsite-section" id="sec-ct-ap">
+<div class="jsite-sec-hdr open" onclick="toggleSec('sec-ct-ap')"><div><span class="jsite-icon">🏦</span> Cuentas por Pagar <span class="jsite-match">95%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body open"><div class="jsite-desc">Experiencia directa. Computrabajo indexa muchas vacantes PYME y multinacionales en CO que no publican en LinkedIn.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?pubdate=1" target="_blank" class="jsite-btn jsite-btn-remote">🏠 CxP Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=bogota" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 CxP Bogotá</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=colombia" target="_blank" class="jsite-btn jsite-btn-es">🌎 CxP Colombia</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-cuentas-por-pagar?q=ingles" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 CxP + Inglés</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-auxiliar-contable?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">📋 Auxiliar Contable</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-ct-cm">
+<div class="jsite-sec-hdr open" onclick="toggleSec('sec-ct-cm')"><div><span class="jsite-icon">🛡️</span> Moderador de Contenido <span class="jsite-match">90%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body open"><div class="jsite-desc">Experiencia Teleperformance activa. Alta demanda en plataformas de outsourcing colombianas.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-moderador-de-contenido?q=remoto" target="_blank" class="jsite-btn jsite-btn-remote">🏠 CM Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-moderador-de-contenido?q=bogota" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 CM Presencial</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-moderador?pubdate=1" target="_blank" class="jsite-btn jsite-btn-mix">📅 Nuevos hoy</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-moderador-de-redes-sociales?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">📱 Redes Sociales</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-ct-aa">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-ct-aa')"><div><span class="jsite-icon">🧮</span> Asistente / Auxiliar Contable <span class="jsite-match">88%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Roles de entrada rápida. Tu experiencia excede el nivel = ventaja directa en selección.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-asistente-contable?q=remoto" target="_blank" class="jsite-btn jsite-btn-remote">🏠 Asistente Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-asistente-contable?q=bogota" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 Asistente Bogotá</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-auxiliar-contable" target="_blank" class="jsite-btn jsite-btn-es">📋 Auxiliar Contable CO</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-asistente-contable?q=ingles" target="_blank" class="jsite-btn jsite-btn-en">🇺🇸 + Inglés</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-ct-cs">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-ct-cs')"><div><span class="jsite-icon">📞</span> Servicio al Cliente <span class="jsite-match">85%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Alta demanda. Tu trilingüismo te da ventaja significativa sobre el candidato promedio monolingüe en CO.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-servicio-al-cliente?q=remoto" target="_blank" class="jsite-btn jsite-btn-remote">🏠 CS Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-servicio-al-cliente?q=bogota" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 CS Presencial</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-servicio-al-cliente?q=bilingue" target="_blank" class="jsite-btn jsite-btn-mix">💬 Bilingüe ES/EN</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-atencion-al-cliente?pubdate=1" target="_blank" class="jsite-btn jsite-btn-mix">📅 Nuevos hoy</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-ct-de">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-ct-de')"><div><span class="jsite-icon">⌨️</span> Digitador / Data Entry <span class="jsite-match">92%</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Entrada inmediata. Alta precisión + velocidad + Excel = ventaja. Menor competencia que en LinkedIn.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-digitador?q=remoto" target="_blank" class="jsite-btn jsite-btn-remote">🏠 Digitador Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-digitador?q=bogota" target="_blank" class="jsite-btn jsite-btn-onsite">🏢 Digitador Bogotá</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-data-entry?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">💻 Data Entry Remoto</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-digitador?q=excel" target="_blank" class="jsite-btn jsite-btn-mix">📊 Digitador + Excel</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-ct-sk">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-ct-sk')"><div><span class="jsite-icon">🎯</span> Por Mis Skills — Tech + Finanzas <span class="jsite-match">Cruzado</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">SQL, Power BI, Excel avanzado, Ing. de Sistemas + finanzas. Búsquedas técnicas en Colombia.</div>
+<div class="jsite-btns">
+<a href="https://www.computrabajo.com.co/trabajo-de-analista-de-datos?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">📊 Analista de Datos</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-analista-power-bi?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">⚡ Power BI</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-analista-sql?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">🗃️ SQL Analyst</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-analista-financiero?q=remoto" target="_blank" class="jsite-btn jsite-btn-mix">📈 Analista Financiero</a>
+<a href="https://www.computrabajo.com.co/trabajo-de-contador?q=remoto+bilingue" target="_blank" class="jsite-btn jsite-btn-mix">📒 Contador Bilingüe</a>
+</div></div></div>
+</div>
+
+<!-- ═══ JOB PORTALS ═══ -->
+<div class="pnl" id="p-pt">
+<div class="lb">· portales adicionales · cobertura máxima · vacantes exclusivas ·</div>
+<div class="tip"><b>🔍 Portales Alternativos — Vacantes que LinkedIn no tiene</b><p>Indeed = volumen local. Torre = LATAM auto-match. GetOnBoard = startups tech. RemoteOK = USD global. Usa todos.</p></div>
+
+<div class="jsite-section" id="sec-pt-in">
+<div class="jsite-sec-hdr open" onclick="toggleSec('sec-pt-in')"><div><span class="jsite-icon">🔍</span> Indeed Colombia <span class="jsite-site-lbl">co.indeed.com</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body open"><div class="jsite-desc">Mayor volumen de vacantes en Colombia. Filtro: publicados últimos 7 días para garantizar frescura.</div>
+<div class="jsite-btns">
+<a href="https://co.indeed.com/jobs?q=%22cuentas+por+pagar%22+remoto&fromage=7" target="_blank" class="jsite-btn jsite-btn-es">🏦 CxP Remoto (7d)</a>
+<a href="https://co.indeed.com/jobs?q=%22content+moderator%22+OR+%22moderador+contenido%22&fromage=7" target="_blank" class="jsite-btn jsite-btn-mix">🛡️ Content Mod (7d)</a>
+<a href="https://co.indeed.com/jobs?q=%22asistente+contable%22+remoto&fromage=7" target="_blank" class="jsite-btn jsite-btn-mix">🧮 Asistente Contable</a>
+<a href="https://co.indeed.com/jobs?q=%22servicio+al+cliente%22+remoto&fromage=7" target="_blank" class="jsite-btn jsite-btn-es">📞 Servicio al Cliente</a>
+<a href="https://co.indeed.com/jobs?q=%22data+entry%22+remoto&fromage=7" target="_blank" class="jsite-btn jsite-btn-mix">⌨️ Data Entry (7d)</a>
+<a href="https://co.indeed.com/jobs?q=analista+sql+OR+%22power+bi%22+remoto" target="_blank" class="jsite-btn jsite-btn-mix">📊 SQL / Power BI</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-pt-to">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-pt-to')"><div><span class="jsite-icon">🗼</span> Torre.ai <span class="jsite-site-lbl">torre.ai · LATAM-first</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Plataforma LATAM-first con auto-matching por skills. Muchos roles pagan en USD desde LATAM.</div>
+<div class="jsite-btns">
+<a href="https://torre.ai/jobs?q=accounts+payable+remote&remote=true" target="_blank" class="jsite-btn jsite-btn-en">🏦 AP Remote</a>
+<a href="https://torre.ai/jobs?q=content+moderator+remote&remote=true" target="_blank" class="jsite-btn jsite-btn-mix">🛡️ Content Moderator</a>
+<a href="https://torre.ai/jobs?q=financial+analyst+remote&remote=true" target="_blank" class="jsite-btn jsite-btn-mix">📊 Financial Analyst</a>
+<a href="https://torre.ai/jobs?q=accounting+assistant&remote=true" target="_blank" class="jsite-btn jsite-btn-mix">🧮 Accounting Asst</a>
+<a href="https://torre.ai/jobs?q=customer+service+bilingual&remote=true" target="_blank" class="jsite-btn jsite-btn-mix">📞 CS Bilingüe</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-pt-gb">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-pt-gb')"><div><span class="jsite-icon">🚀</span> Get on Board <span class="jsite-site-lbl">getonbrd.com · tech LATAM</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Plataforma tech #1 LATAM. Startups + scale-ups. Sin inglés obligatorio. Roles en COP y USD.</div>
+<div class="jsite-btns">
+<a href="https://www.getonbrd.com/empleos/contabilidad-finanzas?remote=true" target="_blank" class="jsite-btn jsite-btn-mix">🏦 Finance / Contabilidad</a>
+<a href="https://www.getonbrd.com/empleos/data?remote=true" target="_blank" class="jsite-btn jsite-btn-mix">📊 Data Remoto</a>
+<a href="https://www.getonbrd.com/empleos/atencion-al-cliente?remote=true" target="_blank" class="jsite-btn jsite-btn-mix">📞 Atención al Cliente</a>
+<a href="https://www.getonbrd.com/empleos?remote=true&q=moderador" target="_blank" class="jsite-btn jsite-btn-mix">🛡️ Moderación</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-pt-ro">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-pt-ro')"><div><span class="jsite-icon">🌍</span> RemoteOK <span class="jsite-site-lbl" style="color:var(--am)">remoteok.com · USD</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Global 100% remoto. Paga en USD. Alta competencia pero alta remuneración. Tu inglés es el filtro de entrada.</div>
+<div class="jsite-btns">
+<a href="https://remoteok.com/remote-accounting-jobs" target="_blank" class="jsite-btn jsite-btn-en">🏦 Accounting / AP</a>
+<a href="https://remoteok.com/remote-finance-jobs" target="_blank" class="jsite-btn jsite-btn-mix">📊 Finance Remote</a>
+<a href="https://remoteok.com/remote-analyst-jobs" target="_blank" class="jsite-btn jsite-btn-mix">📈 Analyst Jobs</a>
+<a href="https://remoteok.com/remote-customer-support-jobs" target="_blank" class="jsite-btn jsite-btn-mix">📞 Customer Support</a>
+<a href="https://remoteok.com/remote-data-entry-jobs" target="_blank" class="jsite-btn jsite-btn-mix">⌨️ Data Entry</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-pt-el">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-pt-el')"><div><span class="jsite-icon">🇨🇴</span> Elempleo.com <span class="jsite-site-lbl">elempleo.com</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Portal tradicional Colombia. Empresas grandes que solo publican aquí. Complementa tu búsqueda nacional.</div>
+<div class="jsite-btns">
+<a href="https://www.elempleo.com/co/ofertas-empleo/cuentas-por-pagar" target="_blank" class="jsite-btn jsite-btn-es">🏦 Cuentas por Pagar</a>
+<a href="https://www.elempleo.com/co/ofertas-empleo/servicio-al-cliente" target="_blank" class="jsite-btn jsite-btn-es">📞 Servicio al Cliente</a>
+<a href="https://www.elempleo.com/co/ofertas-empleo/auxiliar-contable" target="_blank" class="jsite-btn jsite-btn-mix">🧮 Auxiliar Contable</a>
+<a href="https://www.elempleo.com/co/ofertas-empleo/digitacion" target="_blank" class="jsite-btn jsite-btn-mix">⌨️ Digitación</a>
+</div></div></div>
+
+<div class="jsite-section" id="sec-pt-bu">
+<div class="jsite-sec-hdr" onclick="toggleSec('sec-pt-bu')"><div><span class="jsite-icon">🌎</span> Bumeran LATAM <span class="jsite-site-lbl">bumeran.com</span></div><span class="jsite-arr">▸</span></div>
+<div class="jsite-sec-body"><div class="jsite-desc">Portal LATAM multimercado. Excelente para aplicar simultáneamente a Colombia, Argentina, Chile y México.</div>
+<div class="jsite-btns">
+<a href="https://www.bumeran.com.co/empleos-busqueda-cuentas-por-pagar.html" target="_blank" class="jsite-btn jsite-btn-es">🏦 CxP Colombia</a>
+<a href="https://www.bumeran.com.co/empleos-busqueda-moderador-de-contenido.html" target="_blank" class="jsite-btn jsite-btn-mix">🛡️ Moderador</a>
+<a href="https://www.bumeran.com.co/empleos-busqueda-servicio-al-cliente.html" target="_blank" class="jsite-btn jsite-btn-mix">📞 Servicio al Cliente</a>
+<a href="https://www.bumeran.com.co/empleos-busqueda-analista-de-datos.html" target="_blank" class="jsite-btn jsite-btn-mix">📊 Analista de Datos</a>
+</div></div></div>
+</div>
+
+<!-- ═══ TRACKER ═══ -->
+<div class="pnl" id="p-tr">
+<div class="lb">· pipeline de vacantes · master-detail ·</div>
+
+<!-- DASHBOARD ANALYTICS -->
+<div class="card" id="analyticsPanel" style="margin-bottom:12px;border:1px solid rgba(139,92,246,.15)">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+<div style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px">📊 Pipeline Analytics</div>
+<div style="font-size:10px;color:var(--t3)" id="analyticsUpdate">—</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px">
+<div class="meter" id="mSaved"><div class="meter-v" style="color:var(--a2)">0</div><div class="meter-l">Guardados</div></div>
+<div class="meter" id="mApplied"><div class="meter-v" style="color:var(--cy)">0</div><div class="meter-l">Aplicados</div></div>
+<div class="meter" id="mInterview"><div class="meter-v" style="color:var(--am)">0</div><div class="meter-l">Entrevista</div></div>
+<div class="meter" id="mFinalist"><div class="meter-v" style="color:var(--gn)">0</div><div class="meter-l">Finalista</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+<div style="background:var(--el);border-radius:7px;padding:8px;text-align:center">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--cy)" id="rateApply">0%</div>
+<div style="font-size:9px;color:var(--t3);text-transform:uppercase">Tasa Aplicación</div>
+<div style="font-size:8px;color:var(--t3)">Aplicados / Total</div>
+</div>
+<div style="background:var(--el);border-radius:7px;padding:8px;text-align:center">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--am)" id="rateInterview">0%</div>
+<div style="font-size:9px;color:var(--t3);text-transform:uppercase">Tasa Entrevista</div>
+<div style="font-size:8px;color:var(--t3)">Entrevistas / Aplicados</div>
+</div>
+<div style="background:var(--el);border-radius:7px;padding:8px;text-align:center">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--gn)" id="rateWin">0%</div>
+<div style="font-size:9px;color:var(--t3);text-transform:uppercase">Win Rate</div>
+<div style="font-size:8px;color:var(--t3)">Finalistas / Total</div>
+</div>
+</div>
+</div>
+
+<!-- DETAIL VIEWER (hidden until card click) -->
+<div class="dv" id="detailViewer">
+<div class="dv-head">
+<div class="dv-info">
+<div class="dv-role" id="dvRole">—</div>
+<div class="dv-co" id="dvCompany">—</div>
+<div style="font-size:10px;color:var(--t3)" id="dvMeta"></div>
+</div>
+<button class="dv-close" onclick="closeDetail()" title="Cerrar">✕</button>
+</div>
+<div class="dv-meters" id="dvMeters"></div>
+<div class="dv-body" id="dvBody"></div>
+<div class="dv-actions" id="dvActions"></div>
+</div>
+
+<!-- PROFILE TOGGLE BAR -->
+<div class="pbar" id="profileBar"></div>
+
+<!-- ADD VACANCY FORM -->
+<div class="form-card" id="addForm">
+<div class="form-grid">
+<input class="inp" id="fTitle" placeholder="Puesto *">
+<input class="inp" id="fCompany" placeholder="Empresa *">
+<input class="inp" id="fUrl" placeholder="URL (opc)" type="url">
+</div>
+<div class="form-grid" style="margin-top:5px">
+<select class="inp" id="fSource"><option value="">Fuente...</option><option>LinkedIn</option><option>Indeed</option><option>Computrabajo</option><option>Upwork</option><option>Torre</option><option>RemoteOK</option><option>Referral</option><option>Other</option></select>
+<select class="inp" id="fType"><option value="">Tipo...</option><option value="full-time">Full-time</option><option value="part-time">Part-time</option><option value="contract">Contract</option><option value="freelance">Freelance</option></select>
+<select class="inp" id="fStatus"><option value="saved">💾 Guardado</option><option value="applied">📤 Aplicado</option><option value="interview">🎯 Entrevista</option><option value="finalist">🏆 Finalista</option></select>
+</div>
+<button class="form-toggle" onclick="toggleFormExtra()"><span class="form-toggle-arrow" id="fArrow">▸</span> Perfil, salario y tags</button>
+<div class="form-extra" id="formExtra">
+<div class="form-grid">
+<select class="inp" id="fFocus"><option value="general">Foco: General</option><option value="AP">AP (Cuentas por Pagar)</option><option value="AR">AR (Cuentas por Cobrar)</option><option value="Bookkeeper">Bookkeeper</option><option value="Financial Analyst">Financial Analyst</option><option value="Data Analyst">Data Analyst</option><option value="Data Entry">Data Entry</option><option value="BI">BI / Power BI</option><option value="VA">Virtual Assistant</option></select>
+<select class="inp" id="fEnglish"><option value="">Inglés...</option><option value="not_required">No requerido</option><option value="basic">Básico</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option><option value="native">Nativo</option></select>
+<input class="inp" id="fSalary" type="number" placeholder="Salario USD/mes" min="0">
+</div>
+<div class="form-row" style="margin-top:5px">
+<div style="display:flex;gap:12px">
+<label class="form-chk"><input type="checkbox" id="fCpa"> Requiere CPA</label>
+<label class="form-chk"><input type="checkbox" id="fQa"> QA Exposure</label>
+</div>
+<select class="inp" id="fPriority"><option value="">Prioridad...</option><option value="high">Alta</option><option value="medium">Media</option><option value="low">Baja</option></select>
+</div>
+<div style="margin-top:5px">
+<div class="chip-wrap" id="chipWrap" onclick="document.getElementById('chipInput').focus()">
+<input class="chip-input" id="chipInput" placeholder="Tags (Enter para agregar)..." onkeydown="handleChipKey(event)">
+</div>
+</div>
+</div>
+<div class="form-actions">
+<button class="btn bg bs" onclick="addVacancy()">+ Agregar a VDB</button>
+<button class="btn bo bs" onclick="migrateManual()" id="btnMigrate" style="display:none">🔄 Migrar manual a VDB</button>
+</div>
+</div>
+
+<!-- WIN-RATE OPTIMIZER: Quick Searches -->
+<div class="card" id="quickSearchPanel" style="margin-bottom:12px;border:1px solid rgba(34,197,94,.12)">
+<div style="font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px">🎯 Búsquedas Rápidas — Win-Rate Optimizer</div>
+<div style="font-size:10px;color:var(--t3);margin-bottom:10px">Queries booleanas optimizadas para tu perfil cruzado (Contabilidad + Data Entry + Remoto LATAM). Click para abrir en nueva pestaña.</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px" id="quickSearchBtns"></div>
+</div>
+
+<!-- KANBAN PIPELINE -->
+<div class="kanban" id="kb"></div>
+
+<div style="text-align:center;padding:12px;font-size:10px;color:var(--t3)">
+Arrastra tarjetas entre columnas o usa los botones para avanzar. Click en una tarjeta para ver detalles.
+</div>
+</div>
+
+<!-- ═══ ESTRATEGIA ═══ -->
+<div class="pnl" id="p-str">
+<div class="lb">· ventaja competitiva · estrategia de búsqueda ·</div>
+
+<div class="tip-g tip"><b>🧠 TU POSICIONAMIENTO ÚNICO VS OTROS CANDIDATOS REMOTOS</b>
+<p>La mayoría de candidatos remotos LATAM tienen <strong>1 idioma + 1 skill</strong>. Tú tienes: <strong>3 idiomas + finanzas + SQL/BI + Ing. Sistemas</strong>. Eso te pone en el top 5% de candidatos para roles contables/financieros remotos.</p></div>
+
+<div class="card"><div class="card-t">🎯 Mapa de Ventajas Competitivas</div>
+<div class="grid-3">
+<div class="str-card"><h4>🏆 Tier 1 — Ganable</h4>
+<ul>
+<li>AP/CxP Analyst remoto LATAM</li>
+<li>Bookkeeper bilingüe para empresas US</li>
+<li>Financial Analyst + SQL</li>
+<li>Shared Services Finance</li>
+<li>Data Entry + Excel (freelance)</li>
+</ul>
+<p style="margin-top:6px;color:var(--gn);font-weight:600">Tu match: 85-95%</p></div>
+<div class="str-card"><h4>🎯 Tier 2 — Alcanzable</h4>
+<ul>
+<li>Financial Data Analyst</li>
+<li>Junior/Mid Data Analyst</li>
+<li>Power BI / BI Analyst</li>
+<li>Accounting Analyst</li>
+<li>VA financiero especializado</li>
+</ul>
+<p style="margin-top:6px;color:var(--am);font-weight:600">Tu match: 65-84%</p></div>
+<div class="str-card"><h4>⚡ Tier 3 — Stretch</h4>
+<ul>
+<li>AP Lead / Manager</li>
+<li>Senior Data Analyst</li>
+<li>Analytics Engineer</li>
+<li>Finance Manager</li>
+</ul>
+<p style="margin-top:6px;color:var(--or);font-weight:600">Tu match: 45-64%</p></div>
+</div></div>
+
+<div class="card"><div class="card-t">📅 Sprint Semanal de Búsqueda</div>
+<div class="grid-2">
+<div class="str-card"><h4>📌 Lunes-Miércoles</h4>
+<ul>
+<li><strong>5 aplicaciones/día</strong> a roles Tier 1</li>
+<li>Usar <a href="apply.html" style="color:var(--a2)">Application Command Center</a> para perfilar cada CV</li>
+<li>Personalizar cover letter por empresa</li>
+<li>Guardar cada aplicación en el Tracker</li>
+</ul></div>
+<div class="str-card"><h4>📌 Jueves-Viernes</h4>
+<ul>
+<li><strong>3 aplicaciones/día</strong> a roles Tier 2</li>
+<li><strong>2 mensajes LinkedIn</strong> a recruiters/hiring managers</li>
+<li>Revisar empresas del pool (pestaña Empresas)</li>
+<li>Follow-up a aplicaciones de la semana anterior</li>
+</ul></div>
+<div class="str-card"><h4>📌 Sábado</h4>
+<ul>
+<li><strong>1-2 propuestas Upwork/Fiverr</strong> (freelance)</li>
+<li>Actualizar perfil LinkedIn con keywords</li>
+<li>Practicar 3 preguntas de entrevista en inglés</li>
+<li>Revisar métricas del Tracker</li>
+</ul></div>
+<div class="str-card"><h4>📌 Domingo</h4>
+<ul>
+<li>Estudiar 1 skill gap (Tableau, NetSuite, etc.)</li>
+<li>Preparar lista de empresas para la semana</li>
+<li>Revisar vacantes nuevas del fin de semana</li>
+<li>Descansar — burnout = peor enemigo</li>
+</ul></div>
+</div></div>
+
+<div class="card"><div class="card-t">💰 Salary Intel — Remotos LATAM 2025-2026</div>
+<div class="grid-2">
+<div class="str-card"><h4>🏦 AP/CxP Remoto</h4>
+<ul>
+<li>Colombia: $3M-$6M COP/mes</li>
+<li>LATAM (USD): $1,200-$2,500/mes</li>
+<li>US-based remote: $2,000-$4,000/mes</li>
+</ul></div>
+<div class="str-card"><h4>📊 Data Analyst Remoto</h4>
+<ul>
+<li>Colombia: $4M-$8M COP/mes</li>
+<li>LATAM (USD): $1,500-$3,500/mes</li>
+<li>US-based remote: $3,000-$5,000/mes</li>
+</ul></div>
+<div class="str-card"><h4>📒 Bookkeeper Bilingüe</h4>
+<ul>
+<li>Clientes US: $1,500-$3,000 USD/mes</li>
+<li>Freelance: $20-40/hr USD</li>
+<li>Tu PT = premium +20%</li>
+</ul></div>
+<div class="str-card"><h4>⚡ Freelance Rates</h4>
+<ul>
+<li>Excel/Spreadsheets: $20-50/hr</li>
+<li>SQL/Database: $30-60/hr</li>
+<li>Power BI: $30-80/hr</li>
+<li>Data Entry: $10-20/hr</li>
+</ul></div>
+</div></div>
+
+<div class="card"><div class="card-t">🔑 Optimización LinkedIn para ATS</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">
+<div class="grid-2">
+<div class="str-card"><h4>📝 Headline</h4>
+<p>Actual: probablemente "Analyst" genérico.<br><strong>Ideal:</strong> "Accounts Payable Analyst | SQL & Power BI | Financial Data Analysis | Trilingual ES/PT/EN | Open to Remote"</p>
+<p style="margin-top:4px;color:var(--am)">Los recruiters buscan por keywords en el headline.</p></div>
+<div class="str-card"><h4>📋 About Section</h4>
+<p>Incluir: <strong>accounts payable, SQL, Power BI, financial analysis, Excel, data analysis, reconciliation, process improvement, trilingual</strong>.</p>
+<p style="margin-top:4px;color:var(--am)">Repetir keywords 2-3 veces naturalmente.</p></div>
+<div class="str-card"><h4>🛠️ Skills Section</h4>
+<p>Agregar exactamente estas skills (LinkedIn las indexa):</p>
+<div style="margin-top:4px"><span class="sk sk-g">Accounts Payable</span> <span class="sk sk-g">SQL</span> <span class="sk sk-g">Power BI</span> <span class="sk sk-g">Financial Analysis</span> <span class="sk sk-g">Excel</span> <span class="sk sk-v">Data Analysis</span> <span class="sk sk-v">Python</span> <span class="sk sk-y">Reconciliation</span></div></div>
+<div class="str-card"><h4>🚩 Red Flags en Ofertas</h4>
+<ul>
+<li style="color:var(--rd)">❌ "Unpaid trial" = scam</li>
+<li style="color:var(--rd)">❌ Sin nombre de empresa = sospechoso</li>
+<li style="color:var(--rd)">❌ "Requiere inversión inicial" = fraude</li>
+<li style="color:var(--am)">⚠ Glassdoor < 3.0 = investigar</li>
+<li style="color:var(--am)">⚠ Salario "competitivo" sin rango = negociar</li>
+<li style="color:var(--gn)">✅ Rango salarial visible = transparencia</li>
+</ul></div>
+</div></div></div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/jobs.js"></script>
+<script src="js/jobs-radar.js?v=p5"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{if(window.JOBRADAR)JOBRADAR.init();});</script>
+</body>
+</html>

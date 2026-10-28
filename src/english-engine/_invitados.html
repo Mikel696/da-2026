@@ -1,0 +1,13 @@
+<style>#syncBtn{display:none!important}</style>
+<script>
+/* Copia compartida: sin cuenta y sin nube. Se corrige lo que en esta versión
+   no es verdad — el botón de la nube (oculto arriba) y el aviso del Cuaderno,
+   que habla de una sincronización que esta copia no tiene. */
+document.addEventListener('DOMContentLoaded', function(){
+  var n = document.querySelector('#nb .note.info');
+  if(n) n.innerHTML = '<b>Se guarda en este navegador, en este computador.</b> ' +
+    'Esta copia no tiene cuenta ni nube: lo que escribas vive aquí, igual que un cuaderno de papel. ' +
+    'Usa <b>⬇ Exportar</b> para sacar una copia de respaldo y guardarla junto a tus cosas importantes. ' +
+    'Si borras los datos del navegador, el cuaderno se va con ellos.';
+});
+</script>

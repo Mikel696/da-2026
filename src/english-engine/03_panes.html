@@ -1,0 +1,72 @@
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE 1 · MÓDULO 1 · EL INVENTARIO DE PALABRAS
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="p1">
+  <div class="hero">
+    <div class="kick">módulo 1 · el inventario</div>
+    <h1>Las <em>4000 palabras</em> que te sostienen una conversación.</h1>
+    <p>Las <b style="color:var(--tx)">2000 primeras van por frecuencia real</b> de uso, no por alfabeto: esas solas ya son el 90% de lo que se habla. Las <b style="color:var(--tx)">2000 siguientes van por tema</b> —cuerpo, casa, naturaleza, trabajo, sentimientos, y el vocabulario que sale en las canciones—, porque a partir de cierto punto lo que falta no es lo más frecuente: es lo que aparece en lo que TÚ estás oyendo. Cada una trae su casilla en la estructura (qué pieza es), su colocación típica y una frase de ejemplo. Todo con audio.</p>
+  </div>
+
+  <div class="note info"><b>Cómo se lee cada tarjeta:</b> el número gris es su puesto de frecuencia. La etiqueta de color dice <b>qué pieza del molde ocupa</b> (verbo, sustantivo, auxiliar…). El recuadro monoespaciado es <b>el patrón</b> — la palabra casi nunca va sola, va pegada a otras. Memoriza el patrón, no la palabra.</div>
+
+  <div class="ctl-sentinel"></div>
+  <div class="ctl" id="ctl1">
+    <div class="ctl-row">
+      <input class="srch" id="q1" placeholder="Buscar en inglés o español…  (ej: get, tiempo, though)" autocomplete="off">
+      <span class="cnt">Mostrando <b id="n1">0</b> / <b id="n1tot">4000</b></span>
+      <button class="chip" id="fav1">★ Solo mis marcadas</button>
+      <button class="ctl-tog" data-tog="ctl1" title="Mostrar u ocultar los filtros">
+        <span class="lb">Filtros</span><span class="ar">▾</span>
+      </button>
+    </div>
+    <div class="ctl-row ctl-f">
+      <span class="ctl-lbl">Bloque</span>
+      <div id="bands" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    </div>
+    <div class="ctl-row ctl-f">
+      <span class="ctl-lbl">Pieza</span>
+      <div id="cats" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    </div>
+  </div>
+
+  <div class="wgrid" id="wlist"></div>
+  <button class="more" id="more1" style="display:none">Mostrar 200 más ↓</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANE 2 · MÓDULO 2 · LAS 1000 FRASES
+══════════════════════════════════════════════════════════ -->
+<div class="pane" id="p2">
+  <div class="hero">
+    <div class="kick">módulo 2 · el corazón del método</div>
+    <h1>1000 frases reales,<br>cada una <em>desarmada</em>.</h1>
+    <p>Este es el módulo donde de verdad se aprende. Cada frase viene con su <b style="color:var(--tx)">molde estructural</b> visible, el tiempo verbal que usa y una explicación de una línea — sin jerga gramatical. Aprendes el bloque completo, no las palabras sueltas.</p>
+  </div>
+
+  <div class="note info"><b>La regla de oro de este módulo:</b> nunca estudies una frase leyéndola. Dale 🔊, escúchala, repítela en voz alta hasta que te salga sin pensar, y recién ahí lee el molde para <i>ver por qué funciona</i>. El orden importa: <b>oído → boca → entendimiento</b>. Al revés no funciona.</div>
+
+  <div class="ctl-sentinel"></div>
+  <div class="ctl" id="ctl2">
+    <div class="ctl-row">
+      <input class="srch" id="q2" placeholder="Buscar frase en inglés o español…  (ej: how much, disculpa, would)" autocomplete="off">
+      <span class="cnt">Mostrando <b id="n2">0</b> / 1000</span>
+      <button class="chip" id="fav2">★ Solo mis marcadas</button>
+      <button class="ctl-tog" data-tog="ctl2" title="Mostrar u ocultar los filtros">
+        <span class="lb">Filtros</span><span class="ar">▾</span>
+      </button>
+    </div>
+    <div class="ctl-row ctl-f">
+      <span class="ctl-lbl">Situación</span>
+      <div id="funcs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    </div>
+    <div class="ctl-row ctl-f">
+      <span class="ctl-lbl">Tiempo</span>
+      <div id="tenses" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    </div>
+  </div>
+
+  <div id="plist"></div>
+  <button class="more" id="more2" style="display:none">Mostrar 150 más ↓</button>
+</div>

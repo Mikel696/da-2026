@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Accounting Professional System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/accounting.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-l">
+    <a href="index.html">← Cerebro</a>
+    <div class="nav-sep"></div>
+    <span class="nav-logo">Accounting Associate</span>
+  </div>
+  <div class="nav-r">
+    <div class="bdg bdg-xp"><span id="navXP">🔥 0</span></div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-sub">sistema profesional · AP/AR · LATAM remote</div>
+    <h1>From numbers to <em>strategic systems</em>.</h1>
+    <p>Glosario contable, Excel deep dive, simulador técnico y preparación de entrevistas STAR. Para cualquier rol AP/AR/Accounting Associate remoto.</p>
+  </div>
+
+  <div class="hst">
+    <div class="hs"><div class="hsv" id="sGloss">0/0</div><div class="hsl">Glosario</div></div>
+    <div class="hs"><div class="hsv" id="sExerc">0/0</div><div class="hsl">Ejercicios</div></div>
+    <div class="hs"><div class="hsv" id="sXP">0 XP</div><div class="hsl">Experiencia</div></div>
+    <div class="hs"><div class="hsv" id="sStreak">0🔥</div><div class="hsl">Racha</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="career">🚀 Ruta</button>
+    <button class="tab" data-p="glossary">📖 Glosario</button>
+    <button class="tab" data-p="excel">📊 Excel Lab</button>
+    <button class="tab" data-p="resources">🔗 Recursos</button>
+    <button class="tab" data-p="simulator">🤖 Simulador</button>
+    <button class="tab" data-p="interview">🎯 STAR Prep</button>
+  </div>
+
+  <!-- ─── PANELS ─── -->
+  <div class="pnl on" id="p-career"><div id="acct-career"></div></div>
+  <div class="pnl" id="p-glossary"><div id="acct-glossary"></div></div>
+  <div class="pnl" id="p-excel"><div id="acct-excel"></div></div>
+  <div class="pnl" id="p-resources"><div id="acct-resources"></div></div>
+  <div class="pnl" id="p-simulator"><div id="acct-simulator"></div></div>
+  <div class="pnl" id="p-interview"><div id="acct-interview"></div></div>
+
+</div>
+
+<!-- ─── Scripts (load order matters) ─── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/accounting.js"></script>
+</body>
+</html>

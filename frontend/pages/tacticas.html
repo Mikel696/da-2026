@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Tácticas Ocultas · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+<main class="main">
+  <div class="topbar">
+    <div><h1 class="page-title">⚡ Tácticas Ocultas</h1><span class="page-sub" id="greeting">...</span></div>
+    <div class="topbar-right">
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="box box-a" style="margin-bottom:24px;">
+      <strong>16 hacks de empleabilidad</strong> que la mayoría de guías no mencionan. Cada uno se basa en errores comunes que eliminan candidatos en cada etapa del proceso.
+    </div>
+    <div id="hacks-list"></div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="../js/core.js?v=p16"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const COLS = ['tl-a','tl-s','tl-e','tl-m','tl-p'];
+  document.getElementById('hacks-list').innerHTML = HACKS.map((h,i) => `
+    <div class="tactic">
+      <span class="tac-label ${COLS[i%5]}">${i+1}. ${h.cat}</span>
+      <div style="font-size:.95rem;color:var(--txt);line-height:1.75;">${h.text}</div>
+    </div>`).join('');
+});
+</script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js?v=p16"></script>
+<script src="../js/auth.js?v=p16"></script>
+<script src="../js/cloud-sync.js?v=p22"></script>
+</body>
+</html>

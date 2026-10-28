@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>DA-2026 · 14-WORK · Trabajo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos (orden importa · ANTES de los CSS específicos del módulo) -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/nb-shared.css?v=p21">
+<link rel="stylesheet" href="css/work.css?v=p23">
+</head>
+<body>
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a><div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span><div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">14-WORK · Trabajo</span>
+  </div>
+  <div class="nv-r">
+    <div class="bdg bdg-mod">💼 work</div>
+  </div>
+</nav>
+
+<div class="wr">
+  <div class="hero">
+    <h1>Trabajo · <em>en reconstrucción</em>.</h1>
+    <p>Este módulo se está rehaciendo como <b>Coach de trabajo</b>: implementación de proyectos y optimización de procesos con IA. El material interno del trabajo salió del sitio público el 28-oct-2026 y se guarda en privado.</p>
+  </div>
+
+  <div class="cd" style="margin-bottom:14px">
+    <div style="font-size:14px;font-weight:600;margin-bottom:4px">🔒 Tus registros siguen guardados</div>
+    <div style="font-size:12px;color:var(--t2);margin-bottom:10px">Casos, errores, aprendizajes, reuniones y apuntes viven en este navegador y en tu cuenta (se sincronizan al iniciar sesión). No están en el repositorio público. Vuelven a verse en el Coach. Para una copia de seguridad: <a href="pages/configurar.html" style="color:var(--ac)">Configurar → Respaldo</a>.</div>
+    <div class="stats" id="workPrivateCounts" style="flex-wrap:wrap"></div>
+  </div>
+
+  <div style="background:linear-gradient(90deg,rgba(6,182,212,.10),rgba(167,139,250,.08));border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px">
+    <span style="font-size:16px">☁</span>
+    <span style="color:var(--t2);flex:1;min-width:200px"><b style="color:var(--tx)">Cuadernos: <span id="sNbs">0</span>.</b> Se sincronizan solos al iniciar sesión y al volver a la pestaña.</span>
+    <button class="btn bo bs" title="Mueve las imágenes pegadas a almacenamiento separado (Storage + IndexedDB) y aligera los cuadernos. Seguro: no quita nada hasta confirmar que la copia subió." onclick="NBShared.optimizeImagesUI('work_nb_data', this, function(){ if(window.WorkNB&&WorkNB.render)WorkNB.render(); })">🗜️ Optimizar imágenes</button>
+    <span id="syncOutboxBadge" style="display:none;font-size:10.5px;font-family:'IBM Plex Mono',monospace;background:rgba(234,179,8,.15);border:1px solid #eab308;color:#eab308;border-radius:6px;padding:2px 8px"></span>
+  </div>
+  <script>
+  (function(){
+    const b=document.getElementById('syncOutboxBadge');
+    let _showT=null;
+    function paint(n){ if(!b)return; if(n>0){ b.style.display='inline-block'; b.textContent='⏳ '+n+' cambio'+(n===1?'':'s')+' sin subir'; } else { b.style.display='none'; } }
+    // El guardado normal sube en ~1.5s: NO avisamos por eso. Solo si queda pendiente >4s (backlog real).
+    function upd(n){ if(!b)return; clearTimeout(_showT); if(n>0){ _showT=setTimeout(()=>paint(n),4000); } else { paint(0); } }
+    window.addEventListener('cloud:outbox_change',e=>upd((e.detail&&e.detail.count)||0));
+    window.addEventListener('cloud:session_expired',()=>{ if(b){ b.style.display='inline-block'; b.style.borderColor='#ef4444'; b.style.color='#ef4444'; b.style.background='rgba(239,68,68,.12)'; b.textContent='🔒 Sesión vencida — iniciá sesión para subir los cambios en cola'; } });
+    window.addEventListener('cloud:quota_exceeded',e=>{ if(b){ b.style.display='inline-block'; b.style.borderColor='#ef4444'; b.style.color='#ef4444'; b.style.background='rgba(239,68,68,.12)'; b.textContent='💾 Espacio local lleno ('+((e.detail&&e.detail.key)||'')+') — la sync sigue pero esa sección no bajó'; } });
+    try{ upd(JSON.parse(localStorage.getItem('cloud_outbox')||'[]').length); }catch(e){}
+  })();
+  </script>
+
+  <!-- ═══ CUADERNOS ═══ -->
+  <div class="pnl on" id="p-nb">
+    <div class="cd" style="margin-bottom:14px">
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">📓 Nuevo cuaderno</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Cuadernos compartidos con 10-SYS y 13-NOT. Mismo editor: páginas, imágenes (IDB), adjuntos, auto-save.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <input class="inp" id="workNbName" placeholder="Nombre del cuaderno" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')WorkNB.create()">
+        <input type="hidden" id="workNbIconValue" value="💼">
+        <input type="hidden" id="workNbCoverValue" value="c6">
+        <button class="btn bo" onclick="WorkNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="workNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c6"></span><span id="workNbDesignIconPreview">💼</span> Diseño</button>
+        <button class="btn bg" onclick="WorkNB.create()">+ Crear</button>
+      </div>
+    </div>
+    <div id="workNbWrap"></div>
+  </div>
+</div>
+
+<!-- Auth chain (platform-wide rule — must load on every page) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<!-- 14-WORK · solo el motor de cuadernos -->
+<script src="js/nb-shared.js?v=p24"></script>
+<script src="js/nb-engine.js"></script>
+<script src="js/work.js?v=p34"></script>
+</body>
+</html>

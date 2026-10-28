@@ -1,0 +1,79 @@
+prejudice|prejuicio|sust|juzgar sin conocer|Fight prejudice.|Combate el prejuicio.
+discrimination|discriminación|sust|tratar peor a alguien|Racial discrimination.|Discriminación racial.
+racism|racismo|sust|discriminar por la raza|Speak up against racism.|Alza la voz contra el racismo.
+sexism|machismo|sust|discriminar por el sexo|Everyday sexism.|Machismo cotidiano.
+inequality|desigualdad|sust|unos tienen más que otros|Growing inequality.|Desigualdad creciente.
+injustice|injusticia|sust|lo que no es justo|A deep injustice.|Una injusticia profunda.
+oppression|opresión|sust|aplastar a un grupo|Years of oppression.|Años de opresión.
+privilege|privilegio|sust|la ventaja que no se gana|Check your privilege.|Revisa tu privilegio.
+charity|caridad|sust|también la organización|Give to charity.|Dona a una organización.
+donation|donación|sust|lo que se da sin cobrar|A small donation.|Una donación pequeña.
+solidarity|solidaridad|sust|estar con quien lo necesita|A gesture of solidarity.|Un gesto de solidaridad.
+pollution|contaminación|sust|lo que ensucia el aire o el agua|Air pollution.|Contaminación del aire.
+recycling|reciclaje|sust|volver a usar los materiales|Recycling bins.|Contenedores de reciclaje.
+emission|emisión|sust|lo que sale a la atmósfera|Carbon emissions.|Emisiones de carbono.
+carbon|carbono|sust|el del CO2|A carbon footprint.|Una huella de carbono.
+renewable|renovable|adj|que no se acaba|Renewable energy.|Energía renovable.
+sustainable|sostenible|adj|que se puede mantener|A sustainable model.|Un modelo sostenible.
+species|especie|sust|singular y plural igual|An endangered species.|Una especie en peligro.
+extinction|extinción|sust|cuando ya no queda ninguno|On the brink of extinction.|Al borde de la extinción.
+habitat|hábitat|sust|donde vive una especie|A natural habitat.|Un hábitat natural.
+ecosystem|ecosistema|sust|todo lo vivo de un sitio|A fragile ecosystem.|Un ecosistema frágil.
+biodiversity|biodiversidad|sust|la variedad de vida|Protect biodiversity.|Protege la biodiversidad.
+conservation|conservación|sust|cuidar lo natural|Wildlife conservation.|Conservación de la fauna.
+poverty|pobreza|sust|no tener lo básico|Living in poverty.|Viviendo en la pobreza.
+hunger|hambre|sust|la falta de comida|World hunger.|El hambre en el mundo.
+famine|hambruna|sust|el hambre de todo un pueblo|A terrible famine.|Una hambruna terrible.
+disease|enfermedad|sust|más grave que illness|A rare disease.|Una enfermedad rara.
+epidemic|epidemia|sust|se extiende por una zona|A local epidemic.|Una epidemia local.
+pandemic|pandemia|sust|se extiende por el mundo|During the pandemic.|Durante la pandemia.
+inflation|inflación|sust|cuando todo sube de precio|High inflation.|Inflación alta.
+recession|recesión|sust|cuando la economía cae|In a recession.|En recesión.
+unemployment|desempleo|sust|gente sin trabajo|Rising unemployment.|Desempleo en aumento.
+development|desarrollo|sust|hacer crecer algo|Software development.|Desarrollo de software.
+innovation|innovación|sust|traer algo nuevo|A wave of innovation.|Una ola de innovación.
+invention|invento|sust|lo que se inventó|A brilliant invention.|Un invento brillante.
+discovery|descubrimiento|sust|encontrar lo que ya estaba|An amazing discovery.|Un descubrimiento asombroso.
+breakthrough|avance decisivo|sust|el salto que lo cambia todo|A medical breakthrough.|Un avance médico.
+legacy|legado|sust|lo que dejas al irte|A lasting legacy.|Un legado duradero.
+nostalgia|nostalgia|sust|la pena dulce del pasado|A wave of nostalgia.|Una ola de nostalgia.
+ambition|ambición|sust|querer llegar lejos|A quiet ambition.|Una ambición callada.
+aspiration|aspiración|sust|a lo que apuntas|Her aspirations are high.|Sus aspiraciones son altas.
+murmur|murmullo|sust|sonido bajo y continuo|A murmur in the crowd.|Un murmullo entre la gente.
+roar|rugido|sust|también «rugir»|The roar of the crowd.|El rugido del público.
+rumble|retumbo|sust|ruido grave y lejano|The rumble of thunder.|El retumbo del trueno.
+thud|golpe sordo|sust|el ruido de algo que cae|A dull thud.|Un golpe sordo.
+flicker|parpadeo|sust|luz que va y viene|A flicker of hope.|Un destello de esperanza.
+flash|destello|sust|luz muy corta|A flash of light.|Un destello de luz.
+shimmer|reflejo tembloroso|sust|brillo que se mueve|A shimmer on the water.|Un reflejo en el agua.
+sparkle|chispeo|sust|brillo con puntitos|A sparkle in her eyes.|Un brillo en sus ojos.
+glitter|purpurina|sust|también «relucir»|Not all that glitters is gold.|No es oro todo lo que reluce.
+gleam|resplandor|sust|brillo limpio y breve|A gleam of hope.|Un resplandor de esperanza.
+blaze|llamarada|sust|fuego grande|A blaze of light.|Una llamarada de luz.
+gust|ráfaga|sust|golpe de viento|A gust of wind.|Una ráfaga de viento.
+gale|vendaval|sust|viento muy fuerte|A winter gale.|Un vendaval de invierno.
+whirlwind|torbellino|sust|también algo muy rápido|A whirlwind romance.|Un romance de torbellino.
+drizzle|llovizna|sust|lluvia muy fina|A light drizzle.|Una llovizna suave.
+shower|ducha / chaparrón|sust|la del baño · o la lluvia corta|Take a shower.|Dúchate.
+downpour|aguacero|sust|lluvia muy fuerte|Caught in a downpour.|Pillado en un aguacero.
+sleet|aguanieve|sust|entre lluvia y nieve|Sleet on the road.|Aguanieve en la carretera.
+blizzard|ventisca|sust|nieve con mucho viento|A winter blizzard.|Una ventisca de invierno.
+horizon|horizonte|sust|donde acaba la vista|On the horizon.|En el horizonte.
+skyline|perfil de la ciudad|sust|los edificios contra el cielo|The city skyline.|El perfil de la ciudad.
+landscape|paisaje|sust|el terreno que se ve|A beautiful landscape.|Un paisaje hermoso.
+scenery|paisaje|sust|lo que se ve alrededor|The scenery is stunning.|El paisaje es impresionante.
+panorama|panorámica|sust|vista amplia|A full panorama.|Una panorámica completa.
+voyage|travesía|sust|viaje largo por mar|A long voyage.|Una travesía larga.
+expedition|expedición|sust|viaje con un fin concreto|A long expedition.|Una expedición larga.
+quest|búsqueda|sust|viaje con una misión|A quest for meaning.|Una búsqueda de sentido.
+pilgrimage|peregrinación|sust|viaje con fe|A yearly pilgrimage.|Una peregrinación anual.
+compass|brújula|sust|marca el norte|Follow your compass.|Sigue tu brújula.
+detour|desvío|sust|el camino más largo|Take a detour.|Coge un desvío.
+baggage|equipaje|sust|también la carga emocional|Emotional baggage.|Carga emocional.
+trolley|carrito|sust|británico · para el equipaje|Get a trolley.|Coge un carrito.
+departure|salida|sust|cuando sale el transporte|The departure time.|La hora de salida.
+cancellation|cancelación|sust|cuando se anula|A last-minute cancellation.|Una cancelación de última hora.
+layover|escala|sust|la parada entre vuelos|A long layover.|Una escala larga.
+runway|pista|sust|donde despega el avión|On the runway.|En la pista.
+boarding|embarque|sust|subir al avión|Boarding starts now.|Empieza el embarque.
+aisle|pasillo|sust|entre los asientos|An aisle seat.|Un asiento de pasillo.

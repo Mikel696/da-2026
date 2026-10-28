@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>DA-2026 · Notas & Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/nb-shared.css?v=p21">
+<style>
+/* 13-NOT Notas & Journal · migrado al Design System v1.0 (2026-05-15)
+   Todos los tokens vienen del sistema canónico vía aliases. */
+body{line-height:var(--leading-normal)}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:1200px;margin:0 auto;padding:28px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--a2)}.hero p{font-size:12px;color:var(--t3)}
+.stats{display:flex;gap:1px;background:var(--bd);border-radius:var(--radius-md);overflow:hidden;margin-bottom:var(--space-5)}
+.st{flex:1;background:var(--c1);padding:12px;text-align:center;transition:background var(--transition-fast)}.st:first-child{border-radius:var(--radius-md) 0 0 var(--radius-md)}.st:last-child{border-radius:0 var(--radius-md) var(--radius-md) 0}.st:hover{background:var(--el)}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--a2)}.sla{font-size:9px;color:var(--t3);text-transform:uppercase}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:3px;margin-bottom:var(--space-5)}
+.tab{flex:1;padding:7px 10px;border-radius:var(--radius-sm);font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;font-family:inherit;transition:color var(--transition-fast),background var(--transition-fast)}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:18px;margin-bottom:10px;transition:border-color var(--transition-base)}
+.cd:hover{border-color:var(--bd2)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:var(--radius-sm);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:background var(--transition-fast),color var(--transition-fast),border-color var(--transition-fast),transform var(--transition-fast),filter var(--transition-fast)}
+.btn:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.bp{background:var(--ac);color:#fff}.bp:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.bo{background:var(--el);color:var(--t2);border:1px solid var(--bd)}.bo:hover{color:var(--tx);border-color:var(--bd2)}
+.bg{background:var(--gn);color:#001f0d}.bg:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.bs{padding:5px 9px;font-size:10px}
+.inp{width:100%;padding:8px 10px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:12px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.inp:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.txa{width:100%;min-height:120px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);padding:12px;color:var(--tx);font-family:'IBM Plex Mono',monospace;font-size:13px;resize:vertical;line-height:1.7;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.txa:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+/* TAGS */
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;cursor:pointer;transition:all .2s}
+.tag-study{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.tag-sql{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.tag-python{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.tag-idea{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.tag-work{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
+.tag-personal{background:rgba(249,115,22,.08);color:var(--or);border:1px solid rgba(249,115,22,.12)}
+.tag-journal{background:rgba(139,92,246,.08);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.tag.on{outline:2px solid var(--ac)}
+/* NOTE */
+.note{background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-md);padding:14px;margin-bottom:8px;position:relative;transition:border-color var(--transition-fast),transform var(--transition-fast),box-shadow var(--transition-fast)}
+.note:hover{border-color:var(--ac);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.note-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.note-title{font-size:14px;font-weight:600}
+.note-date{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace}
+.note-body{font-size:13px;color:var(--t2);line-height:1.7;white-space:pre-wrap}
+.note-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;opacity:0}.note:hover .note-del{opacity:1}
+/* SEARCH */
+.search{display:flex;gap:6px;margin-bottom:12px}
+.search-inp{flex:1;padding:10px 14px;background:var(--el);border:1px solid var(--bd);border-radius:var(--radius-sm);color:var(--tx);font-family:inherit;font-size:13px;transition:border-color var(--transition-fast),box-shadow var(--transition-fast)}
+.search-inp:focus{outline:none;border-color:var(--ac);box-shadow:var(--shadow-glow)}
+.search-inp::placeholder{color:var(--t3)}
+/* FILTER */
+.filter-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.ftag{font-size:10px;font-weight:600;padding:4px 10px;border-radius:var(--radius-full);cursor:pointer;transition:background var(--transition-fast),border-color var(--transition-fast),color var(--transition-fast);background:var(--el);border:1px solid var(--bd);color:var(--t2)}
+.ftag:hover,.ftag.on{background:var(--ag);border-color:rgba(139,92,246,.35);color:var(--a2)}
+.ftag:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}.stats{flex-wrap:wrap}.st{min-width:calc(50% - 1px)}}
+
+/* ═══════════ 13-NOT · Plan de desarrollo (notes-plan.js) ═══════════ */
+.np-head{margin-bottom:12px}
+.np-h1{font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:var(--tx)}
+.np-h2{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-top:3px}
+.np-premisa{background:var(--c1);border-left:2px solid var(--ac);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:11px 13px;font-size:12.5px;color:var(--t2);line-height:1.65;margin-bottom:12px}
+.np-criterios{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);margin-bottom:14px}
+.np-criterios summary{padding:10px 13px;cursor:pointer;font-size:12px;color:var(--a2);font-weight:500}
+.np-criterios summary:focus-visible{outline:none;box-shadow:var(--shadow-glow);border-radius:var(--radius-md)}
+.np-c-body{padding:0 13px 12px;display:flex;flex-direction:column;gap:8px}
+.np-crit{display:flex;gap:9px;align-items:flex-start}
+.np-c-n{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ac);background:var(--color-accent-bg);width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.np-crit b{font-size:12px;color:var(--tx);display:block}
+.np-crit em{font-style:normal;font-size:11px;color:var(--t3);line-height:1.55;display:block;margin-top:2px}
+.np-filtros{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.np-f{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-sm);padding:6px 11px;font-size:11px;color:var(--t2);cursor:pointer;font-family:inherit}
+.np-f:hover{color:var(--tx);border-color:var(--bd2)}
+.np-f.on{background:var(--color-accent-bg);border-color:var(--ac);color:var(--tx)}
+.np-f:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.np-ola{margin-bottom:22px}
+.np-o-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.np-o-id{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ac);font-weight:600}
+.np-o-t{font-size:15px;font-weight:600;color:var(--tx)}
+.np-o-n{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--t3);margin-left:auto}
+.np-o-porque{font-size:11.5px;color:var(--t3);line-height:1.6;margin-bottom:10px;max-width:74ch}
+.np-items{display:flex;flex-direction:column;gap:8px}
+.np-item{background:var(--c1);border:1px solid var(--bd);border-left-width:2px;border-radius:var(--radius-md);padding:12px 13px;display:flex;flex-direction:column;gap:6px}
+.np-pendiente{border-left-color:var(--bd2)}
+.np-hecho{border-left-color:var(--gn)}
+.np-a-decidir{border-left-color:var(--am)}
+.np-i-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.np-id{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--a2)}
+.np-mod{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--t2);background:var(--el);padding:2px 6px;border-radius:3px}
+.np-prio{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px}
+.np-P0{color:var(--rd);background:var(--color-red-bg)}
+.np-P1{color:var(--or);background:var(--color-orange-bg)}
+.np-P2{color:var(--am);background:var(--color-amber-bg)}
+.np-P3{color:var(--t3);background:var(--el)}
+.np-estado{font-size:9.5px;color:var(--t3);margin-left:auto;font-family:'IBM Plex Mono',monospace}
+.np-titulo{font-size:13.5px;font-weight:600;color:var(--tx);line-height:1.4}
+.np-campo{font-size:11.5px;color:var(--t2);line-height:1.6}
+.np-campo b{color:var(--t3);font-weight:500}
+.np-verif{background:var(--el);border-radius:var(--radius-sm);padding:7px 9px}
+.np-reusa{font-size:10.5px;color:var(--cy);background:var(--color-cyan-bg);border-radius:var(--radius-sm);padding:5px 8px}
+.np-hecho summary{padding:10px 13px;cursor:pointer;font-size:12px;color:var(--gn);font-weight:500}
+details.np-hecho{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);margin-top:16px}
+.np-h-body{padding:0 13px 12px;display:flex;flex-direction:column;gap:7px}
+.np-h-item{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;font-size:11.5px;color:var(--t2);line-height:1.55}
+.np-h-fecha{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--t3)}
+.np-h-mod{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--gn)}
+.np-h-que{flex:1;min-width:180px}
+.np-empty{background:var(--c1);border:1px dashed var(--bd2);border-radius:var(--radius-md);padding:26px;text-align:center;font-size:12.5px;color:var(--t2);display:flex;flex-direction:column;align-items:center;gap:10px}
+.np-pie{font-size:10.5px;color:var(--t3);line-height:1.6;margin-top:16px;padding-top:11px;border-top:1px solid var(--bd)}
+.np-pie code{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--a2)}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Notas & Journal</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Captura. Organiza. <em>Nunca olvides</em>.</h1><p>Notas de estudio, ideas, apuntes técnicos y journal diario. Todo buscable, todo etiquetado, nada se pierde.</p></div>
+<div class="stats"><div class="st"><div class="sv" id="sN">0</div><div class="sla">Notas</div></div><div class="st"><div class="sv" id="sJ">0</div><div class="sla">Journal</div></div><div class="st"><div class="sv" id="sW">0</div><div class="sla">Palabras</div></div><div class="st"><div class="sv" id="sS">0</div><div class="sla">Racha</div></div></div>
+
+<div class="tabs">
+<button class="tab on" data-p="new">✍️ Nueva Nota</button>
+<button class="tab" data-p="all">📋 Todas</button>
+<button class="tab" data-p="journal">📓 Journal</button>
+<button class="tab" data-p="notebooks">📚 Cuadernos</button>
+<button class="tab" data-p="graph">🗺️ Grafo</button>
+<button class="tab" data-p="plan">🗺️ Plan</button>
+</div>
+
+<!-- NEW NOTE -->
+<div class="pnl on" id="p-new">
+<div class="cd">
+<input class="inp" id="nTitle" placeholder="Título de la nota..." style="font-size:16px;font-weight:600;margin-bottom:8px">
+<div class="tags" id="tagPicker"></div>
+<textarea class="txa" id="nBody" placeholder="Escribe aquí... Puedes usar texto libre, código, lo que quieras. Se guarda todo."></textarea>
+<div style="display:flex;gap:6px;margin-top:8px">
+<button class="btn bg" onclick="saveNote()">💾 Guardar Nota</button>
+<button class="btn bo" onclick="clearNote()">🗑️ Limpiar</button>
+</div>
+</div>
+</div>
+
+<!-- ALL NOTES -->
+<div class="pnl" id="p-all">
+<div class="search"><input class="search-inp" id="searchInp" placeholder="🔍 Buscar en notas..." oninput="renderNotes()"></div>
+<div class="filter-tags" id="filterTags"></div>
+<div id="notesList"></div>
+</div>
+
+<!-- NOTEBOOKS -->
+<div class="pnl" id="p-notebooks">
+<div class="cd" style="margin-bottom:14px">
+  <div style="font-size:14px;font-weight:600;margin-bottom:4px">📓 Nuevo cuaderno</div>
+  <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Cuadernos con páginas, imágenes y archivos adjuntos (PDF / Word / Excel · hasta 50 MB c/u). Auto-save mientras escribes.</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+    <input class="inp" id="notNbName" placeholder="Nombre del cuaderno (ej: Mis Apuntes 2026)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')NotNB.create()">
+    <input type="hidden" id="notNbIconValue" value="📘">
+    <input type="hidden" id="notNbCoverValue" value="c1">
+    <select class="inp" id="notNbTpl" style="flex:0 1 230px;min-width:200px" title="Plantilla inicial · pre-genera páginas">
+      <option value="blank">⚪ Sin plantilla</option>
+      <option value="prog">💻 Lenguaje de programación</option>
+      <option value="algo">🧮 Algoritmo / Estructura de datos</option>
+      <option value="concept">🧠 Concepto académico</option>
+      <option value="workflow">🛠️ Workflow / Proyecto</option>
+    </select>
+    <button class="btn bo" onclick="NotNB.openDesignPicker()" style="display:flex;align-items:center;gap:6px"><span id="notNbDesignPreview" style="display:inline-block;width:18px;height:18px;border-radius:4px" class="nb-cover-c1"></span><span id="notNbDesignIconPreview">📘</span> Diseño</button>
+    <button class="btn bg" onclick="NotNB.create()">+ Crear</button>
+    <button class="btn bo" onclick="NBShared.optimizeImagesUI('not_nb_data', this, NotNB.render)" title="Mueve las imágenes pegadas en tus cuadernos a almacenamiento separado y libera espacio del navegador. Seguro: no quita nada hasta confirmar que la copia subió.">🗜️ Optimizar imágenes</button>
+  </div>
+  <div style="font-size:11px;color:var(--t3);margin-top:6px">Click en <b>Diseño</b> para portada/ícono · elegí una <b>plantilla</b> para que el cuaderno arranque con páginas pre-armadas (definición, ejemplos, sintaxis, etc).</div>
+</div>
+<div id="notNbWrap"></div>
+</div>
+
+<!-- GRAPH (13-NOT.P3 · F4 Knowledge Graph Canvas) -->
+<div class="pnl" id="p-plan"></div>
+
+<div class="pnl" id="p-graph">
+<div class="lb">· grafo de conocimiento · cada nota es un nodo ·</div>
+<div id="graphRoot"></div>
+</div>
+
+<!-- JOURNAL -->
+<div class="pnl" id="p-journal">
+<div class="cd">
+<div style="font-size:14px;font-weight:600;margin-bottom:8px">📓 ¿Cómo fue tu día?</div>
+<div style="font-size:11px;color:var(--t3);margin-bottom:8px" id="journalDate"></div>
+<textarea class="txa" id="jBody" style="min-height:150px" placeholder="¿Qué estudiaste hoy? ¿Qué lograste? ¿Qué aprendiste? ¿Cómo te sientes con tu progreso?"></textarea>
+<div style="display:flex;gap:6px;margin-top:8px">
+<button class="btn bg" onclick="saveJournal()">💾 Guardar</button>
+</div>
+</div>
+<div class="lb">· entradas anteriores ·</div>
+<div id="journalList"></div>
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on')}));
+
+const allTags=[
+{id:'study',label:'📚 Estudio',cls:'tag-study'},
+{id:'sql',label:'🗃️ SQL',cls:'tag-sql'},
+{id:'python',label:'🐍 Python',cls:'tag-python'},
+{id:'idea',label:'💡 Idea',cls:'tag-idea'},
+{id:'work',label:'💼 Trabajo',cls:'tag-work'},
+{id:'personal',label:'🏠 Personal',cls:'tag-personal'},
+];
+
+let selectedTags=[];
+let filterTag='all';
+
+// Tag picker
+document.getElementById('tagPicker').innerHTML=allTags.map(t=>'<span class="tag '+t.cls+'" data-id="'+t.id+'" onclick="toggleTag(\''+t.id+'\',this)">'+t.label+'</span>').join('');
+
+function toggleTag(id,el){
+const idx=selectedTags.indexOf(id);
+if(idx>=0){selectedTags.splice(idx,1);el.classList.remove('on')}
+else{selectedTags.push(id);el.classList.add('on')}
+}
+
+// Filter tags
+document.getElementById('filterTags').innerHTML='<span class="ftag on" data-f="all" onclick="setFilter(\'all\',this)">Todas</span>'+allTags.map(t=>'<span class="ftag" data-f="'+t.id+'" onclick="setFilter(\''+t.id+'\',this)">'+t.label+'</span>').join('');
+
+function setFilter(f,el){filterTag=f;document.querySelectorAll('.ftag').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderNotes()}
+
+// ═══ NOTES ═══
+function getNotes(){try{return JSON.parse(localStorage.getItem('sb_notes2')||'[]')}catch(e){return[]}}
+function setNotes(n){localStorage.setItem('sb_notes2',JSON.stringify(n))}
+
+function saveNote(){
+const title=document.getElementById('nTitle').value.trim();
+const body=document.getElementById('nBody').value.trim();
+if(!body)return alert('Escribe algo en la nota');
+const notes=getNotes();
+notes.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),title:title||'Sin título',body,tags:[...selectedTags],date:new Date().toISOString(),type:'note'});
+setNotes(notes);clearNote();renderNotes();updateStats();
+if(window.NOT&&NOT.onNotesChanged)NOT.onNotesChanged();
+alert('✅ Nota guardada');
+}
+
+function clearNote(){
+document.getElementById('nTitle').value='';document.getElementById('nBody').value='';
+selectedTags=[];document.querySelectorAll('#tagPicker .tag').forEach(t=>t.classList.remove('on'));
+}
+
+function delNote(i){const n=getNotes();n.splice(i,1);setNotes(n);renderNotes();updateStats()}
+
+function renderNotes(){
+const notes=getNotes().filter(n=>n.type==='note');
+const search=document.getElementById('searchInp')?.value.toLowerCase()||'';
+let filtered=notes;
+if(search)filtered=filtered.filter(n=>(n.title+n.body).toLowerCase().includes(search));
+if(filterTag!=='all')filtered=filtered.filter(n=>n.tags&&n.tags.includes(filterTag));
+
+document.getElementById('notesList').innerHTML=filtered.length?filtered.slice().reverse().map((n,ri)=>{
+const idx=notes.length-1-ri;const realIdx=getNotes().indexOf(n);
+return '<div class="note" data-note-id="'+(n.id||'')+'"><button class="note-del" onclick="delNote('+realIdx+')">✕</button><div class="note-h"><div class="note-title">'+n.title+'</div><div class="note-date">'+new Date(n.date).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</div></div>'+(n.tags&&n.tags.length?'<div class="tags">'+n.tags.map(t=>{const tag=allTags.find(x=>x.id===t);return tag?'<span class="tag '+tag.cls+'">'+tag.label+'</span>':''}).join('')+'</div>':'')+'<div class="note-body">'+n.body+'</div></div>';
+}).join(''):'<div style="text-align:center;padding:30px;color:var(--t3);font-size:12px">'+(search||filterTag!=='all'?'Sin resultados para esta búsqueda.':'Sin notas aún. Crea tu primera nota.')+'</div>';
+if(window.NOT&&NOT.afterRenderNotes)NOT.afterRenderNotes();
+}
+
+// ═══ JOURNAL ═══
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('journalDate').textContent=new Date().toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// Load today's journal if exists
+const todayJ=getNotes().find(n=>n.type==='journal'&&n.date.startsWith(today));
+if(todayJ)document.getElementById('jBody').value=todayJ.body;
+
+function saveJournal(){
+const body=document.getElementById('jBody').value.trim();
+if(!body)return;
+const notes=getNotes();
+const existIdx=notes.findIndex(n=>n.type==='journal'&&n.date.startsWith(today));
+if(existIdx>=0){notes[existIdx].body=body}
+else{notes.push({title:'Journal — '+new Date().toLocaleDateString('es',{day:'numeric',month:'short'}),body,tags:['personal'],date:new Date().toISOString(),type:'journal'})}
+setNotes(notes);renderJournal();updateStats();
+alert('✅ Journal guardado');
+}
+
+function renderJournal(){
+const journals=getNotes().filter(n=>n.type==='journal').reverse();
+document.getElementById('journalList').innerHTML=journals.length?journals.map(j=>'<div class="note"><div class="note-h"><div class="note-title">📓 '+j.title+'</div><div class="note-date">'+new Date(j.date).toLocaleDateString('es',{weekday:'short',day:'numeric',month:'short'})+'</div></div><div class="note-body">'+j.body+'</div></div>').join(''):'<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">Sin entradas de journal.</div>';
+}
+
+// ═══ STATS ═══
+function updateStats(){
+const all=getNotes();
+const notes=all.filter(n=>n.type==='note');
+const journals=all.filter(n=>n.type==='journal');
+const words=all.reduce((sum,n)=>sum+n.body.split(/\s+/).length,0);
+document.getElementById('sN').textContent=notes.length;
+document.getElementById('sJ').textContent=journals.length;
+document.getElementById('sW').textContent=words>999?(words/1000).toFixed(1)+'K':words;
+// Journal streak
+let streak=0;const d=new Date();
+for(let i=0;i<365;i++){
+const key=d.toISOString().split('T')[0];
+if(journals.some(j=>j.date.startsWith(key)))streak++;else if(i>0)break;
+d.setDate(d.getDate()-1);
+}
+document.getElementById('sS').textContent=streak+'🔥';
+}
+
+// Cleanup: remove Claude seed notes if they exist
+(function(){
+const notes=getNotes();
+const cleaned=notes.filter(n=>!(n.title&&n.title.startsWith('Claude Code')));
+if(cleaned.length!==notes.length){setNotes(cleaned);localStorage.removeItem('sb_notes_seed_v2')}
+})();
+
+renderNotes();renderJournal();updateStats();
+</script>
+<!-- Syntax highlighting para code blocks en cuadernos (13-NOT.P6) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<!-- 13-NOT Cuadernos sub-module -->
+<script src="js/nb-shared.js?v=p24"></script>
+<!-- Notebook Standard + cross-module transfer engine -->
+<script src="js/nb-engine.js"></script>
+<script src="js/notes-nb.js?v=p22"></script>
+<!-- 13-NOT Second Brain Layer (5 phases · CLI/Daily · Wiki-links · SRS pipeline · Graph · Organizer) -->
+<script src="js/notes-brain.js"></script>
+<script src="js/notes-plan.js?v=p1"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector('[data-p="plan"]');if(t)t.addEventListener("click",()=>{if(window.NOTPLAN)NOTPLAN.init();});});</script>
+</body>
+</html>

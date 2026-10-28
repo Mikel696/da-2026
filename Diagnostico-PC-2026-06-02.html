@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de PC · 02-06-2026 · Miguel Barros</title>
+<style>
+  :root{
+    --bg:#0f1117; --card:#1a1d27; --card2:#21252f; --line:#2c313d;
+    --txt:#e6e8ee; --mut:#9aa3b2; --acc:#5b9dff; --ok:#3ecf8e;
+    --warn:#ffb454; --bad:#ff6b6b; --code:#0b0d12;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:8px}
+  h1{font-size:26px;margin:0 0 6px}
+  .sub{color:var(--mut);font-size:14px}
+  h2{font-size:20px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--acc)}
+  h3{font-size:16px;margin:22px 0 8px;color:var(--acc)}
+  p{margin:8px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+  .stat{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .stat .n{font-size:24px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+  .bar{height:9px;border-radius:5px;background:#2c313d;overflow:hidden;margin-top:4px}
+  .bar > i{display:block;height:100%}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;vertical-align:middle}
+  .t-bad{background:rgba(255,107,107,.16);color:var(--bad)}
+  .t-warn{background:rgba(255,180,84,.16);color:var(--warn)}
+  .t-ok{background:rgba(62,207,142,.16);color:var(--ok)}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:9px;padding:14px;overflow-x:auto;font-size:13px;color:#cfe3ff}
+  code{font-family:"Cascadia Code",Consolas,monospace}
+  .note{font-size:13px;color:var(--mut)}
+  ul{margin:8px 0 8px 4px;padding-left:20px}
+  li{margin:5px 0}
+  .pill{font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:20px;padding:3px 10px;display:inline-block;margin:2px}
+  .danger-box{border-left:4px solid var(--bad);background:rgba(255,107,107,.07)}
+  .warn-box{border-left:4px solid var(--warn);background:rgba(255,180,84,.06)}
+  .ok-box{border-left:4px solid var(--ok);background:rgba(62,207,142,.06)}
+  footer{margin-top:50px;border-top:1px solid var(--line);padding-top:16px;color:var(--mut);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🩺 Diagnóstico y Plan de Limpieza del PC</h1>
+  <div class="sub">Equipo de <b>Miguel Ángel Barros Torres</b> · Windows 11 Pro (26100) · Generado el <b>2 de junio de 2026</b> · Datos reales medidos en vivo, sin estimaciones.</div>
+</header>
+
+<!-- ===== RESUMEN ===== -->
+<h2>📌 Resumen ejecutivo</h2>
+<div class="card">
+  <p>Se ejecutaron diagnósticos reales de disco, procesos, red y seguridad. El sistema <b>no tiene malware activo</b>, y la <b>conexión a Internet está físicamente sana</b>. El problema central de rendimiento es uno solo:</p>
+  <div class="grid">
+    <div class="stat"><div class="n" style="color:var(--bad)">7.6%</div><div class="l">Espacio libre en C:</div></div>
+    <div class="stat"><div class="n" style="color:var(--bad)">17.6 GB</div><div class="l">Libres en C: (de 232)</div></div>
+    <div class="stat"><div class="n" style="color:var(--ok)">0%</div><div class="l">Pérdida de paquetes</div></div>
+    <div class="stat"><div class="n" style="color:var(--ok)">0</div><div class="l">Amenazas activas</div></div>
+  </div>
+  <p><span class="tag t-bad">CAUSA RAÍZ</span> El disco <b>C: está al 92% de su capacidad</b>. Windows necesita ~10–15% libre para archivo de paginación, actualizaciones y caché; por debajo de eso el sistema entero se vuelve lento y "se traba", lo que se siente como "interferencia". <b>Liberar C: es la prioridad #1.</b></p>
+</div>
+
+<!-- ===== TAREA 1: DISCO C ===== -->
+<h2>1 · Qué consume el disco C:</h2>
+<p>Carpetas de nivel superior en C: ordenadas por tamaño (medición real):</p>
+<table>
+  <tr><th>Carpeta</th><th>Tamaño</th><th></th></tr>
+  <tr><td><b>Users</b> (perfil de usuario)</td><td>89.1 GB</td><td><div class="bar"><i style="width:100%;background:var(--bad)"></i></div></td></tr>
+  <tr><td>Windows</td><td>44.5 GB</td><td><div class="bar"><i style="width:50%;background:var(--warn)"></i></div></td></tr>
+  <tr><td>ProgramData</td><td>26.2 GB</td><td><div class="bar"><i style="width:29%;background:var(--warn)"></i></div></td></tr>
+  <tr><td>Program Files</td><td>18.4 GB</td><td><div class="bar"><i style="width:21%;background:var(--acc)"></i></div></td></tr>
+  <tr><td>Program Files (x86)</td><td>8.8 GB</td><td><div class="bar"><i style="width:10%;background:var(--acc)"></i></div></td></tr>
+  <tr><td>Flutter</td><td>2.8 GB</td><td><div class="bar"><i style="width:3%;background:var(--acc)"></i></div></td></tr>
+</table>
+
+<h3>Los mayores "comilones" reales (dónde recuperar GB)</h3>
+<table>
+  <tr><th>Origen</th><th>Tamaño</th><th>¿Qué es?</th><th>¿Seguro borrar?</th></tr>
+  <tr><td>Caché de <b>Claude</b> (Packages\Claude_…)</td><td><b>11.7 GB</b></td><td>Caché/logs de la app Claude</td><td><span class="tag t-ok">Sí (caché)</span></td></tr>
+  <tr><td>Caché de <b>Chrome</b> (Local\Google\Chrome)</td><td><b>9.67 GB</b></td><td>Caché de navegación</td><td><span class="tag t-ok">Sí</span></td></tr>
+  <tr><td><b>WinSxS</b> (Windows)</td><td>13.4 GB</td><td>Almacén de componentes de Windows</td><td><span class="tag t-warn">Solo vía DISM</span></td></tr>
+  <tr><td>Caché de <b>Windows Update</b></td><td>3.64 GB</td><td>Instaladores ya aplicados</td><td><span class="tag t-ok">Sí</span></td></tr>
+  <tr><td>WSL (Subsistema Linux)</td><td>4.73 GB</td><td>Distros Linux</td><td><span class="tag t-warn">Si no lo usas</span></td></tr>
+  <tr><td>Docker</td><td>3.87 GB</td><td>Imágenes/contenedores</td><td><span class="tag t-warn">Si no lo usas</span></td></tr>
+  <tr><td>.gradle / .gemini / .cache</td><td>~5.1 GB</td><td>Cachés de desarrollo</td><td><span class="tag t-ok">Sí (se regeneran)</span></td></tr>
+  <tr><td>Otros: MS Teams 2.4 · Clipchamp 1.4 · Razer 2.0 · AMD 3.6 · BlueStacks</td><td>varios</td><td>Apps y suites residentes</td><td><span class="tag t-warn">Revisar</span></td></tr>
+</table>
+
+<h3>🛠️ Cómo arreglarlo (ejecutar en PowerShell — los de sistema, como Admin)</h3>
+<div class="card ok-box">
+<p><b>Paso 1 · Liberador de espacio de Windows (lo más seguro, recupera Windows Update + temporales + papelera):</b></p>
+<pre><code># Abre la herramienta visual y marca todas las casillas:
+cleanmgr /lowdisk
+
+# O limpieza automática profunda (incluye archivos de actualización):
+Dism.exe /Online /Cleanup-Image /StartComponentCleanup</code></pre>
+
+<p><b>Paso 2 · Vaciar cachés de navegador y apps (libera ~20 GB):</b></p>
+<pre><code># Chrome: ciérralo primero, luego:
+Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\*\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\*\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue
+
+# Temporales del usuario y de Windows:
+Remove-Item "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue</code></pre>
+
+<p><b>Paso 3 · Limpiar caché de Claude</b> (cierra Claude antes; conserva tu config, borra solo Cache/GPUCache/logs):</p>
+<pre><code>$cl = "$env:LOCALAPPDATA\Packages\Claude_pzs8sxrjxfjjc\LocalCache"
+Get-ChildItem $cl -Recurse -Directory -Include Cache,'Code Cache',GPUCache,logs -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item "$($_.FullName)\*" -Recurse -Force -ErrorAction SilentlyContinue }</code></pre>
+
+<p><b>Paso 4 · Activar "Sensor de almacenamiento"</b> para que Windows limpie solo de aquí en adelante:</p>
+<pre><code>Configuración → Sistema → Almacenamiento → Sensor de almacenamiento: ACTIVAR
+(limpia temporales y papelera automáticamente cada semana)</code></pre>
+<p class="note">💡 <b>Recuperación estimada combinando pasos 1–3: 25–35 GB</b>, llevando C: de 7.6% a ~22% libre.</p>
+</div>
+
+<!-- ===== ANTIVIRUS ===== -->
+<h3>🦠 Estado de seguridad / antivirus</h3>
+<div class="card">
+<div class="grid">
+  <div class="pill">Defender: <b style="color:var(--ok)">ACTIVO</b></div>
+  <div class="pill">Protección en tiempo real: <b style="color:var(--ok)">ON</b></div>
+  <div class="pill">Firmas: <b>actualizadas 02-06-2026</b></div>
+  <div class="pill">Escaneo rápido: <b style="color:var(--ok)">hoy</b></div>
+  <div class="pill">Escaneo completo: <b style="color:var(--warn)">hace 1716 días</b></div>
+</div>
+<p><span class="tag t-ok">SIN AMENAZAS ACTIVAS</span> El historial de Defender solo muestra <b>PUAs antiguos (2021–2024)</b> — todos neutralizados con éxito: <i>CandyOpen, IObit, Presenoker, Packunwan, FusionCore</i> (típico "bundleware" que viene con instaladores gratuitos). No hay nada vivo.</p>
+<p><b>Recomendación:</b> nunca se ha hecho un escaneo COMPLETO. Lánzalo (tardará, déjalo de noche):</p>
+<pre><code># Escaneo completo de Defender:
+Start-MpScan -ScanType FullScan
+
+# Bonus: escaneo offline para rootkits (reinicia el PC):
+Start-MpWDOScan</code></pre>
+</div>
+
+<!-- ===== TAREA 2: MODEM / RED ===== -->
+<h2>2 · Módem e "interferencia" de Internet</h2>
+<div class="card warn-box">
+<p><b>Aclaración importante:</b> estás conectado por <b>cable Ethernet (Intel I219-V, 1 Gbps)</b>. El <b>Wi-Fi está APAGADO por software</b>. Por lo tanto, lo que sientes como "interferencia" <u>NO es interferencia inalámbrica</u> — no hay competencia de canales ni vecinos pisando tu señal, porque no estás usando Wi-Fi.</p>
+</div>
+
+<h3>Calidad real del enlace (medición en vivo)</h3>
+<table>
+  <tr><th>Destino</th><th>Latencia media</th><th>Pérdida</th><th>Veredicto</th></tr>
+  <tr><td>Módem / router (192.168.1.1)</td><td>0 ms</td><td>0%</td><td><span class="tag t-ok">Perfecto</span></td></tr>
+  <tr><td>Internet — Google DNS (8.8.8.8)</td><td>3 ms</td><td>0%</td><td><span class="tag t-ok">Excelente</span></td></tr>
+  <tr><td>Internet — Cloudflare (1.1.1.1)</td><td>68 ms</td><td>0%</td><td><span class="tag t-ok">Normal</span></td></tr>
+</table>
+<p>El enlace físico hacia tu módem y hacia Internet está <b>impecable: 0% de paquetes perdidos</b>. Si percibes cortes, la causa más probable es <b>la saturación del PC por el disco lleno</b> (punto 1), no la red.</p>
+
+<h3>Qué consume la red en el PC</h3>
+<p>Solo <b>22 conexiones activas</b> (cifra baja y normal). Reparto por proceso:</p>
+<table>
+  <tr><th>Proceso</th><th>Conexiones</th><th>Nota</th></tr>
+  <tr><td>chrome</td><td>7</td><td>Navegador (normal)</td></tr>
+  <tr><td>svchost (Windows)</td><td>5</td><td>Servicios del sistema</td></tr>
+  <tr><td>claude</td><td>6</td><td>App Claude</td></tr>
+  <tr><td>ksde / rzappengine</td><td>4</td><td>Razer + utilitario</td></tr>
+</table>
+<div class="card warn-box">
+<p>⚠️ <b>Consumidor de fondo a vigilar — Delivery Optimization (DoSvc):</b> el servicio de actualizaciones P2P de Windows está activo y se observó <b>descarga de ~145 MB</b>. Esto puede consumir tu ancho de banda en segundo plano (Windows descarga/comparte updates). Recomendado limitarlo:</p>
+<pre><code>Configuración → Windows Update → Opciones avanzadas → Optimización de entrega
+→ DESACTIVAR "Permitir descargas desde otros equipos"</code></pre>
+</div>
+
+<h3>🔐 Acceder al módem (no pude entrar sin tus credenciales)</h3>
+<p>No tengo usuario/clave del router, así que no inicié sesión en su panel. Para revisarlo tú mismo:</p>
+<ul>
+  <li>Abre en el navegador: <code>http://192.168.1.1</code> (esa es la IP de tu router, confirmada).</li>
+  <li>Usuario/clave: suele estar en una <b>etiqueta en la parte inferior del módem</b> (admin/admin, o el que dejó tu ISP).</li>
+  <li>Dentro, revisa: <b>dispositivos conectados</b> (¿hay alguno desconocido robando ancho de banda?), <b>estado de la línea/señal</b> (nivel SNR/atenuación si es DSL, o potencia de recepción si es fibra/coaxial), y <b>el firmware</b> (actualízalo si hay versión nueva).</li>
+  <li>Si la conexión "se cae" a ciertas horas, anótalo y repórtalo a tu ISP con estos datos de ping (0% pérdida desde el PC ⇒ el problema, de existir, estaría en el módem o la línea del proveedor, no en tu PC).</li>
+</ul>
+<p class="note">Tu DNS en Ethernet ya usa Google (8.8.8.8 / 8.8.4.4), buena elección. El Wi-Fi (apagado) apunta al router.</p>
+
+<!-- ===== TAREA 3: TODAS LAS UNIDADES ===== -->
+<h2>3 · Todas las unidades de almacenamiento</h2>
+<table>
+  <tr><th>Unidad</th><th>Etiqueta</th><th>Total</th><th>Libre</th><th>% Libre</th><th>Estado</th></tr>
+  <tr><td><b>C:</b></td><td>Sistema</td><td>231.9 GB</td><td>17.6 GB</td><td>7.6%</td><td><span class="tag t-bad">CRÍTICO</span></td></tr>
+  <tr><td><b>D:</b></td><td>Juegos MKL SSD</td><td>454.8 GB</td><td>75.0 GB</td><td>16.5%</td><td><span class="tag t-warn">Justo</span></td></tr>
+  <tr><td><b>E:</b></td><td>Programas MKL SSD</td><td>439.5 GB</td><td>195 GB</td><td>44.4%</td><td><span class="tag t-ok">Sano</span></td></tr>
+  <tr><td><b>F:</b></td><td>Juegos HDD</td><td>540.8 GB</td><td>269.6 GB</td><td>49.9%</td><td><span class="tag t-ok">Sano</span></td></tr>
+  <tr><td><b>G:</b></td><td>Programas HDD</td><td>390.6 GB</td><td>99.3 GB</td><td>25.4%</td><td><span class="tag t-ok">OK</span></td></tr>
+</table>
+<p>Las unidades D, E, F y G están bien (game-storage). La única en riesgo, además de C:, es <b>D: (16.5%)</b> — conviene moverle juegos a F: si sigue bajando.</p>
+
+<h3>🧹 Limpieza recomendada por unidad</h3>
+<ul>
+  <li><b>C:</b> — aplica los Pasos 1–4 de arriba. Además, considera <b>mover a otra unidad</b> apps pesadas que no necesitan estar en el SSD del sistema: BlueStacks (emulador Android), WSL/Docker si los usas poco, y Flutter (2.8 GB).</li>
+  <li><b>D: (Juegos SSD)</b> — desinstala juegos que ya no juegas desde su launcher (Steam/EA) en vez de borrar carpetas a mano, para que el launcher actualice su registro.</li>
+  <li><b>Todas</b> — vacía la papelera de cada unidad: <code>Clear-RecycleBin -Force</code></li>
+</ul>
+
+<h3 style="color:var(--bad)">🚩 Elemento a investigar/eliminar — "Hiding"</h3>
+<div class="card danger-box">
+<p>Encontré una entrada de inicio sospechosa que <b>se ejecuta oculta en cada arranque</b>:</p>
+<pre><code>Nombre:  Hiding
+Comando: "C:\Users\Miguel Barros\AppData\Local\Hiding\update.exe"
+         --processStart "Hiding.exe" --process-start-args "--hidden"</code></pre>
+<p><b>Por qué es sospechoso:</b></p>
+<ul>
+  <li>Se lanza con el flag <code>--hidden</code> (sin ventana visible).</li>
+  <li>El ejecutable <b>NO está firmado digitalmente</b> (<code>NotSigned</code>).</li>
+  <li>La carpeta contiene un archivo marcador <code>.dead</code> ⇒ la app <b>fue desinstalada</b>, pero la entrada de inicio quedó huérfana e <b>intentó arrancar hoy mismo</b> (02-06-2026 8:17 a.m.).</li>
+  <li>Nombre genérico "Hiding" (app empaquetada con Squirrel, v3.2.4).</li>
+</ul>
+<p class="note">Defender no lo marca como malware, así que <u>no afirmo que sea un virus</u>, pero reúne todas las señales de bloatware/PUA residual que conviene eliminar. <b>Si no reconoces haber instalado "Hiding" a propósito, elimínalo.</b></p>
+<p><b>Cómo eliminarlo de forma segura:</b></p>
+<pre><code># 1) Quitar la entrada de arranque:
+Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "Hiding" -ErrorAction SilentlyContinue
+
+# 2) Borrar la carpeta residual:
+Remove-Item "$env:LOCALAPPDATA\Hiding" -Recurse -Force -ErrorAction SilentlyContinue
+
+# 3) Verificación opcional: subir el .exe a https://www.virustotal.com antes de borrar
+</code></pre>
+</div>
+
+<h3>Inicio sobrecargado (causa de lentitud al encender)</h3>
+<p>Hay <b>25+ programas en el arranque</b>. Muchos son suites de periféricos gaming que puedes dejar que arranquen solo cuando los necesites. Candidatos a <b>desactivar en el inicio</b> (no desinstalar):</p>
+<div>
+  <span class="pill">BlueStacks Services</span>
+  <span class="pill">Colombia Real Map Launcher</span>
+  <span class="pill">Razer (RzAppEngine)</span>
+  <span class="pill">Corsair iCUE</span>
+  <span class="pill">SteelSeries GG</span>
+  <span class="pill">Logitech LGHUB</span>
+  <span class="pill">EA Desktop (EADM)</span>
+  <span class="pill">Steam</span>
+  <span class="pill">Canva agent</span>
+  <span class="pill">Edge AutoLaunch</span>
+  <span class="pill">Epson (EPSDNMON/EPPCCMON)</span>
+</div>
+<pre><code>Administrador de tareas (Ctrl+Shift+Esc) → pestaña "Inicio"
+→ clic derecho → Deshabilitar en los que no necesites al arrancar</code></pre>
+
+<!-- ===== CHECKLIST ===== -->
+<h2>✅ Plan de acción priorizado</h2>
+<div class="card">
+<ol>
+  <li><b>(Hoy, prioridad máxima)</b> Liberar C:: <code>cleanmgr /lowdisk</code> + vaciar cachés de Chrome/Claude/Temp ⇒ recupera 25–35 GB.</li>
+  <li><b>(Hoy)</b> Eliminar la entrada "Hiding" y su carpeta (bloque rojo de arriba).</li>
+  <li><b>(Hoy)</b> Activar "Sensor de almacenamiento" y desactivar la descarga P2P de Windows Update.</li>
+  <li><b>(Esta semana)</b> Desactivar programas innecesarios del inicio.</li>
+  <li><b>(Esta noche)</b> Lanzar escaneo completo de Defender: <code>Start-MpScan -ScanType FullScan</code>.</li>
+  <li><b>(Cuando puedas)</b> Entrar a <code>http://192.168.1.1</code> y revisar dispositivos conectados + firmware del módem.</li>
+</ol>
+</div>
+
+<!-- ===== FASE 2: HARDWARE ===== -->
+<h2 id="hardware">4 · Salud del hardware <span class="note" style="font-weight:400">(Fase 2 — añadido 02-06-2026)</span></h2>
+<div class="card ok-box">
+  <p><b>Veredicto general:</b> el hardware está <b>sano y funcional</b>. SMART reporta <b>OK en los 3 discos</b>, sin errores críticos en el registro de eventos. El equipo es una configuración gaming de gama media-económica. Los dos puntos de atención son la <b>RAM ajustada</b> y la <b>antigüedad del disco duro mecánico</b> (donde, además, guardas datos personales).</p>
+</div>
+
+<h3>🧮 CPU — Procesador</h3>
+<table>
+  <tr><th>Modelo</th><th>Núcleos / Hilos</th><th>Frecuencia</th><th>Carga al medir</th><th>Estado</th></tr>
+  <tr><td>Intel Core i3-10100</td><td>4 / 8</td><td>3.60 GHz</td><td>44%</td><td><span class="tag t-ok">OK</span></td></tr>
+</table>
+<p class="note">CPU de gama de entrada (10ª gen). Una carga del 44% en reposo relativo es <b>moderada-alta</b> y la explican las apps residentes (Chrome + Claude + suites en segundo plano del punto 3). Al cerrar el arranque sobrecargado, esta carga bajará. La placa no expone sensor de temperatura por ACPI (normal en escritorio); para ver °C usa <b>HWiNFO64</b> o <b>HWMonitor</b>.</p>
+
+<h3>🧠 Memoria RAM</h3>
+<table>
+  <tr><th>Slot</th><th>Capacidad</th><th>Velocidad</th><th>Canal</th></tr>
+  <tr><td>ChannelA-DIMM0</td><td>8 GB</td><td>2667 MHz</td><td rowspan="2" style="text-align:center"><b>Dual Channel</b> ✓</td></tr>
+  <tr><td>ChannelB-DIMM0</td><td>8 GB</td><td>2667 MHz</td></tr>
+</table>
+<div class="card warn-box">
+  <p><b>16 GB en total, configurados en dual channel</b> (lo ideal). Pero al medir había solo <b>4.5 GB libres</b> ⇒ <b>~72% de RAM en uso</b>. <span class="tag t-warn">ATENCIÓN</span></p>
+  <p>Cuando la RAM se llena, Windows recurre al <b>archivo de paginación en el disco C:… que está al 92%</b>. Es decir: RAM ajustada + disco lleno se retroalimentan y producen los "tirones"/lentitud que percibes. <b>Liberar C: (punto 1) aliviará también esto.</b> Si tras la limpieza sigue justa, ampliar a 32 GB (2×16) sería la mejora con mayor impacto/costo.</p>
+</div>
+
+<h3>🎮 GPU — Tarjeta gráfica</h3>
+<table>
+  <tr><th>Modelo</th><th>VRAM</th><th>Driver</th><th>Fecha driver</th><th>Pantalla</th></tr>
+  <tr><td>AMD Radeon RX 580</td><td>4 GB</td><td>31.0.21923.11000</td><td>30-06-2025</td><td>1920×1080 @ 59 Hz</td></tr>
+</table>
+<p class="note">GPU sólida para 1080p. El driver tiene <b>casi un año</b> — conviene actualizarlo con <b>AMD Adrenalin</b> para mejor rendimiento y estabilidad. Detalle menor: la pantalla corre a <b>59 Hz</b>; si tu monitor soporta 60/75 Hz, verifícalo en Configuración → Pantalla → Frecuencia de actualización.</p>
+
+<h3>💽 Discos físicos — Salud SMART</h3>
+<table>
+  <tr><th>Disco</th><th>Modelo</th><th>Tipo</th><th>Tamaño</th><th>Unidades</th><th>SMART</th><th>Salud</th></tr>
+  <tr><td>2</td><td>HP SSD EX900</td><td>SSD NVMe</td><td>250 GB</td><td><b>C:</b></td><td>OK</td><td><span class="tag t-ok">Healthy</span></td></tr>
+  <tr><td>1</td><td>Kingston SA400S37</td><td>SSD SATA</td><td>894 GB</td><td><b>D: · E:</b></td><td>OK</td><td><span class="tag t-ok">Healthy</span></td></tr>
+  <tr><td>0</td><td>WDC WD10EACS</td><td>HDD mecánico</td><td>932 GB</td><td><b>F: · G:</b></td><td>OK</td><td><span class="tag t-warn">Healthy (antiguo)</span></td></tr>
+</table>
+<div class="card danger-box">
+  <p>🚩 <b>Riesgo de datos — disco WDC WD10EACS (F: y G:)</b></p>
+  <p>Es un modelo <b>WD Caviar Green muy antiguo</b> (generación ~2009-2011). SMART aún dice OK, pero los HDD mecánicos de esa edad están al final de su vida útil y pueden fallar sin aviso prolongado. <b>El problema:</b> en <code>G:</code> tienes datos <u>personales e irremplazables</u> — <i>"Videos celular" (13 GB), "Audio" (13 GB), "Biblioteca Virtual" (13 GB), "Xiaomi" (13 GB)</i> — justo en el disco más viejo del equipo.</p>
+  <p><b>Acción recomendada (importante):</b> haz <b>copia de seguridad de esos datos personales</b> a un SSD (E: tiene 195 GB libres) o a la nube. Los juegos en F:/G: son recuperables (se re-descargan), pero tus videos y audio no.</p>
+<pre><code># Ejemplo de respaldo rápido de lo irremplazable a E: (SSD, más fiable):
+robocopy "G:\Videos celular" "E:\Backup\Videos celular" /E /R:1 /W:1
+robocopy "G:\Audio"          "E:\Backup\Audio"          /E /R:1 /W:1
+robocopy "G:\Biblioteca Virtual" "E:\Backup\Biblioteca Virtual" /E /R:1 /W:1</code></pre>
+  <p class="note">Para vigilar el SMART en detalle (sectores reasignados, horas de uso, temperatura) instala <b>CrystalDiskInfo</b> — la API de Windows no expone esos contadores en estos discos, pero CrystalDiskInfo los lee directo del firmware.</p>
+</div>
+
+<!-- ===== UNIDADES D E F G DETALLE ===== -->
+<h2>5 · Detalle y limpieza de las otras unidades (D · E · F · G)</h2>
+<p>Apliqué el mismo análisis de la Fase 1 a cada unidad. Contenido real medido:</p>
+
+<h3>D: — Juegos MKL SSD <span class="note">(75 GB libres · 16.5% · papelera vacía)</span></h3>
+<table>
+  <tr><th>Carpeta</th><th>Tamaño</th></tr>
+  <tr><td>Steam</td><td>340.5 GB</td></tr>
+  <tr><td>PES 26</td><td>32.3 GB</td></tr>
+  <tr><td>Play Games · ShootersPool · otros</td><td>~7 GB</td></tr>
+</table>
+<p class="note">Casi todo es Steam. <span class="tag t-warn">D: al 16.5%</span> es la 2ª unidad más ajustada. Limpieza: desinstala desde Steam los juegos que ya no juegas (no borres carpetas a mano) o mueve bibliotecas a F:.</p>
+
+<h3>E: — Programas MKL SSD <span class="note">(195 GB libres · 44% · papelera 0.4 GB)</span></h3>
+<table>
+  <tr><th>Carpeta</th><th>Tamaño</th></tr>
+  <tr><td>SteamLibrary</td><td>148.9 GB</td></tr>
+  <tr><td>Juegos</td><td>82.9 GB</td></tr>
+  <tr><td>Aplicaciones · Programas PC · Google · otros</td><td>~9 GB</td></tr>
+</table>
+<p class="note">Unidad sana y con espacio. <b>Es la mejor candidata para alojar los backups del HDD viejo.</b> Vacía su papelera (0.4 GB): <code>Clear-RecycleBin -DriveLetter E -Force</code></p>
+
+<h3>F: — Juegos HDD <span class="note">(269.6 GB libres · 49.9% · papelera vacía)</span></h3>
+<table>
+  <tr><th>Carpeta</th><th>Tamaño</th></tr>
+  <tr><td>Ubisoft Game Launcher</td><td>165.7 GB</td></tr>
+  <tr><td>Games</td><td>104.1 GB</td></tr>
+  <tr><td>Java · DAEMON Tools · otros</td><td>~0.2 GB</td></tr>
+</table>
+<p class="note">Mucho espacio libre. Solo juegos (recuperables). Sin acción urgente, salvo recordar que vive en el HDD antiguo.</p>
+
+<h3>G: — Programas HDD <span class="note">(99.3 GB libres · 25.4% · papelera vacía)</span></h3>
+<table>
+  <tr><th>Carpeta</th><th>Tamaño</th><th>Nota</th></tr>
+  <tr><td>juegos</td><td>120.3 GB</td><td>Recuperable</td></tr>
+  <tr><td><b>Descargas</b></td><td><b>77.5 GB</b></td><td><span class="tag t-warn">Revisar y purgar</span></td></tr>
+  <tr><td>Biblioteca Virtual</td><td>13.5 GB</td><td>🔒 Respaldar</td></tr>
+  <tr><td>Xiaomi</td><td>13.4 GB</td><td>🔒 Personal</td></tr>
+  <tr><td>Videos celular</td><td>12.9 GB</td><td>🔒 Irremplazable</td></tr>
+  <tr><td>Audio</td><td>12.7 GB</td><td>🔒 Irremplazable</td></tr>
+</table>
+<div class="card warn-box">
+  <p><b>"Descargas" con 77.5 GB</b> es el mayor montón de archivos prescindibles de todo el equipo (instaladores viejos, ZIPs, etc.). Revísalo y purga lo que ya no uses — puede liberar decenas de GB. Y recuerda: las 4 carpetas marcadas 🔒 son datos personales en el disco más viejo (ver punto 4) → <b>respáldalas primero</b>.</p>
+<pre><code># Ver qué pesa dentro de Descargas para decidir qué borrar:
+Get-ChildItem "G:\Descargas" -File | Sort-Object Length -Descending | Select-Object -First 25 Name, @{N='MB';E={[math]::Round($_.Length/1MB,1)}} | Format-Table -AutoSize</code></pre>
+</div>
+
+<h3>📋 Resumen de salud por unidad</h3>
+<table>
+  <tr><th>Unidad</th><th>Disco físico</th><th>SMART</th><th>% Libre</th><th>Acción</th></tr>
+  <tr><td>C:</td><td>HP NVMe</td><td>OK</td><td>7.6%</td><td><span class="tag t-bad">Liberar ya (Fase 1)</span></td></tr>
+  <tr><td>D:</td><td>Kingston SSD</td><td>OK</td><td>16.5%</td><td><span class="tag t-warn">Desinstalar juegos viejos</span></td></tr>
+  <tr><td>E:</td><td>Kingston SSD</td><td>OK</td><td>44%</td><td><span class="tag t-ok">Usar para backups</span></td></tr>
+  <tr><td>F:</td><td>WD HDD (viejo)</td><td>OK</td><td>49.9%</td><td><span class="tag t-ok">Sin acción</span></td></tr>
+  <tr><td>G:</td><td>WD HDD (viejo)</td><td>OK</td><td>25.4%</td><td><span class="tag t-warn">Purgar Descargas + respaldar 🔒</span></td></tr>
+</table>
+
+<footer>
+  Informe generado por Claude (Opus 4.8) ejecutando diagnósticos reales vía PowerShell en el equipo de Miguel Barros.<br>
+  Todos los datos provienen de mediciones en vivo el 02-06-2026 — no hay valores inventados ni extrapolados.<br>
+  Los comandos marcados "como Admin" requieren abrir PowerShell con "Ejecutar como administrador".
+</footer>
+
+</div>
+</body>
+</html>

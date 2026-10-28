@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · 🚀 Proyecto ATLAS · Ruta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/ruta.css">
+<style>
+/* 4-RUT · migrado al Design System v1.0 (2026-05-15) */
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal);-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav a{color:var(--t2);text-decoration:none;font-size:13px}.nav a:hover{color:var(--tx)}
+.nav-l{display:flex;align-items:center;gap:8px}.nav-sep{width:1px;height:16px;background:var(--bd)}
+.nav-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.nav-r{display:flex;gap:8px}.bdg{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.bdg-g{background:var(--gg);border:1px solid rgba(34,197,94,.15);color:var(--gn)}
+.bdg-a{background:var(--ag);border:1px solid rgba(139,92,246,.15);color:var(--a2)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+.rt-hero{margin-bottom:24px}.rt-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.rt-hero h1{font-family:'Newsreader',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}.rt-hero h1 em{font-style:italic;color:var(--gn)}
+.rt-hero p{font-size:13px;color:var(--t3);max-width:600px}
+.rt-stats{display:flex;gap:1px;background:var(--bd);border-radius:10px;overflow:hidden;margin-bottom:24px}
+.rt-s{flex:1;background:var(--c1);padding:12px;text-align:center}.rt-s:first-child{border-radius:10px 0 0 10px}.rt-s:last-child{border-radius:0 10px 10px 0}
+.rt-sv{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}.rt-sl2{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.rt-bar{width:100%;height:7px;background:var(--el);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.rt-bar-fill{height:100%;border-radius:4px;transition:width .6s;background:linear-gradient(90deg,var(--gn),var(--cy))}
+.rt-pbar{margin-bottom:24px}.rt-pbar-top{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;color:var(--t2)}
+.rt-pbar-top b{font-family:'IBM Plex Mono',monospace;color:var(--gn)}
+/* ROADMAP */
+.rt-road{display:flex;gap:4px;margin-bottom:24px;overflow-x:auto;padding-bottom:6px}
+.rt-rp{flex:1;min-width:110px;background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.rt-rp:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.rt-rp.on{border-color:var(--gn);box-shadow:0 0 0 1px var(--gn)}
+.rt-rp.done{border-color:var(--gn);background:rgba(34,197,94,.04)}
+.rt-rp.done::after{content:'✓';position:absolute;top:4px;right:6px;color:var(--gn);font-size:11px;font-weight:700}
+.rt-rp-n{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3)}.rt-rp-i{font-size:18px;margin:2px 0}.rt-rp-t{font-size:10px;font-weight:600}.rt-rp-w{font-size:9px;color:var(--t3)}
+/* SECTION LABEL */
+.rt-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 10px}
+/* PHASE PANEL */
+.rt-phase{display:none;animation:fu .3s ease}.rt-phase.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* CARD */
+.rt-card{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:20px;margin-bottom:12px;transition:border-color var(--transition-base)}
+.rt-card:hover{border-color:var(--bd2)}
+/* LESSON — EXPANDABLE */
+.rt-les{background:var(--c1);border:1px solid var(--bd);border-radius:10px;margin-bottom:6px;overflow:hidden;transition:border-color .2s}
+.rt-les:hover{border-color:var(--bd2)}
+.rt-les-head{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;transition:background .2s}
+.rt-les-head:hover{background:rgba(255,255,255,.02)}
+.rt-chk{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;transition:all .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px}
+.rt-chk:hover{border-color:var(--gn)}.rt-chk.done{background:var(--gn);border-color:var(--gn);color:#fff}
+.rt-les-info{flex:1;min-width:0}
+.rt-les-title{font-size:13px;font-weight:600}.rt-les-title.struck{text-decoration:line-through;color:var(--t3)}
+.rt-les-brief{font-size:11px;color:var(--t2)}
+.rt-les-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);flex-shrink:0}
+.rt-les-arrow{color:var(--t3);font-size:12px;transition:transform .3s;flex-shrink:0}
+.rt-les.open .rt-les-arrow{transform:rotate(180deg)}
+.rt-les-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.rt-les.open .rt-les-body{max-height:5000px}
+.rt-les-content{padding:0 16px 16px;border-top:1px solid var(--bd)}
+/* INSIDE LESSON */
+.rt-obj{font-size:12px;color:var(--t2);margin:12px 0 14px;line-height:1.6}
+.rt-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.rt-step-n{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--ag);color:var(--a2);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rt-step-body{flex:1;font-size:12px;line-height:1.6}
+.rt-step-body strong{color:var(--tx)}
+.rt-step-body a{color:var(--a2);text-decoration:none;border-bottom:1px solid rgba(167,139,250,.3)}
+.rt-step-body a:hover{color:var(--tx);border-color:var(--tx)}
+.rt-checkpoint{background:var(--gg);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:12px;color:var(--gn)}
+.rt-checkpoint b{display:block;margin-bottom:3px}
+/* RESOURCE LINK */
+.rt-link{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--el);border:1px solid var(--bd);border-radius:8px;margin-bottom:4px;text-decoration:none;color:var(--tx);transition:all .2s;font-size:12px}
+.rt-link:hover{border-color:var(--ac);transform:translateX(3px)}
+.rt-link-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:var(--gg);color:var(--gn);text-transform:uppercase;flex-shrink:0}
+/* TIP */
+.rt-tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:14px;margin-bottom:12px}
+.rt-tip b{color:var(--am);font-size:12px;display:block;margin-bottom:3px}
+.rt-tip p{font-size:12px;color:var(--t2)}.rt-tip strong{color:var(--tx)}
+/* NAV BUTTONS */
+.rt-pnav{display:flex;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid var(--bd)}
+.rt-pbtn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.rt-prev{background:var(--el);color:var(--t2)}.rt-prev:hover{color:var(--tx)}
+.rt-next{background:var(--gn);color:#fff}.rt-next:hover{background:#16a34a}
+/* LOG */
+.rt-log-area{width:100%;min-height:50px;background:var(--el);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:inherit;font-size:13px;resize:vertical}
+.rt-log-area:focus{outline:none;border-color:var(--gn);box-shadow:0 0 0 2px var(--gg)}
+.rt-log-e{padding:8px 10px;background:var(--el);border-radius:7px;margin-bottom:3px;font-size:12px}
+.rt-log-d{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:1px}
+/* SKILLS */
+.rt-skills{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.rt-sk{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--el);border:1px solid var(--bd);color:var(--t3)}
+.rt-sk.on{background:var(--gg);border-color:rgba(34,197,94,.15);color:var(--gn)}
+@media(max-width:768px){.wrap{padding:14px 12px}.rt-hero h1{font-size:22px}.rt-stats{flex-wrap:wrap}.rt-s{min-width:calc(50% - 1px)}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">🚀 Proyecto ATLAS · Ruta</span></div><div class="nav-r"><a href="#atlas" class="bdg bdg-a" style="text-decoration:none">🚀 ATLAS</a><div class="bdg bdg-g">📍 Fase <span id="curP">1</span>/7</div><div class="bdg bdg-a"><span id="gPct">0</span>%</div></div></nav>
+<div class="wrap">
+<div id="atlas"></div>
+<div id="atlasStub"></div>
+<div class="rt-label" style="margin-top:36px">· ruta data analyst clásica · 28 semanas ·</div>
+<div class="rt-hero"><div class="rt-sub">ruta de aprendizaje · 28 semanas</div><h1>De cero a <em>Data Analyst</em><br>en 7 meses.</h1><p>Cada lección te dice exactamente QUÉ estudiar, DÓNDE hacerlo y CÓMO ejecutarlo. Click en cualquier lección para ver la guía paso a paso. Tu progreso se guarda automáticamente.</p></div>
+<div class="rt-stats"><div class="rt-s"><div class="rt-sv" id="stL">0/0</div><div class="rt-sl2">Lecciones</div></div><div class="rt-s"><div class="rt-sv" id="stP">1</div><div class="rt-sl2">Fase</div></div><div class="rt-s"><div class="rt-sv" id="stPr">0</div><div class="rt-sl2">Proyectos</div></div><div class="rt-s"><div class="rt-sv" id="stD">0</div><div class="rt-sl2">Días</div></div></div>
+<div class="rt-pbar"><div class="rt-pbar-top"><span>Progreso total</span><b id="pLbl">0%</b></div><div class="rt-bar"><div class="rt-bar-fill" id="gBar" style="width:0%"></div></div></div>
+<div class="rt-road" id="road"></div>
+<div id="phaseBox"></div>
+<div class="rt-label" style="margin-top:32px">· diario de aprendizaje ·</div>
+<div class="rt-card"><div style="font-size:13px;font-weight:600;margin-bottom:8px">📝 ¿Qué aprendiste hoy?</div><textarea class="rt-log-area" id="logIn" placeholder="Escribe lo que estudiaste, dudas, logros..."></textarea><div style="margin-top:6px"><button class="rt-pbtn rt-next" onclick="addLog()" style="font-size:11px;padding:6px 12px">💾 Guardar</button></div><div id="logBox" style="margin-top:10px"></div></div>
+<div class="rt-label" style="margin-top:32px">· excel technical test simulator ·</div>
+<div id="excelDojoStub"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// RUTA DATA ANALYST — ENGINE WITH FULL GUIDES
+// ════════════════════════════════════════════
+
+const P=[
+// ═══ FASE 1: EXCEL ═══
+{id:1,icon:"📊",name:"Fundamentos & Excel",weeks:"Sem 1–4",color:"var(--gn)",
+desc:"Domina Excel como herramienta profesional de datos. La base de todo.",
+tip:"No subestimes Excel. Muchas empresas Fortune 500 lo usan diariamente. Un analista que domina Excel ya puede agregar valor desde el día 1.",
+skills:["Excel Fórmulas","Pivot Tables","Gráficos","Estadística","Limpieza de Datos"],
+lessons:[
+{id:"1-1",t:"¿Qué hace un Data Analyst?",d:"Roles, salarios, día a día real",time:"1h",
+guide:[
+{s:"Lee este artículo completo sobre el rol de Data Analyst",link:"https://www.coursera.org/articles/what-does-a-data-analyst-do-a-career-guide",ln:"Coursera — What Does a Data Analyst Do"},
+{s:"Mira este video de 15 min que explica las <strong>diferencias entre Data Analyst, Data Engineer y Data Scientist</strong>",link:"https://www.youtube.com/watch?v=93rKZs0MkgY",ln:"YouTube — Alex The Analyst"},
+{s:"Investiga salarios reales en tu región en <strong>Glassdoor</strong> buscando 'Data Analyst Remote'",link:"https://www.glassdoor.com/Salaries/data-analyst-salary-SRCH_KO0,12.htm",ln:"Glassdoor Salaries"},
+{s:"Escribe en tu diario de aprendizaje: ¿Por qué quieres ser Data Analyst? ¿En qué industria te ves?"},
+],check:"Puedes explicar en 30 segundos qué hace un Data Analyst y por qué es diferente de un Data Engineer o Scientist."},
+
+{id:"1-2",t:"Pensamiento Analítico",d:"Plantear preguntas de negocio y KPIs",time:"2h",
+guide:[
+{s:"Completa la <strong>Semana 1</strong> del curso gratuito de Google Data Analytics en Coursera (solo la primera semana es necesaria por ahora)",link:"https://www.coursera.org/professional-certificates/google-data-analytics",ln:"Google Data Analytics Certificate"},
+{s:"Lee sobre <strong>SMART questions</strong> y <strong>KPIs</strong>: ¿Qué es un buen indicador? ¿Cómo defines éxito?",link:"https://www.klipfolio.com/resources/articles/what-is-a-key-performance-indicator",ln:"Klipfolio — What is a KPI?"},
+{s:"Ejercicio: Elige una empresa que te guste (Netflix, Spotify, Rappi). <strong>Escribe 5 preguntas</strong> que un analista de datos podría responder para mejorar su negocio."},
+{s:"Para cada pregunta, define: ¿qué datos necesitarías? ¿qué KPI medirías?"},
+],check:"Puedes tomar un problema de negocio y convertirlo en preguntas medibles con KPIs claros."},
+
+{id:"1-3",t:"Estadística Descriptiva",d:"Media, mediana, desviación estándar, distribuciones",time:"3h",
+guide:[
+{s:"Completa estos módulos gratuitos en <strong>Khan Academy</strong>: Mean, Median, Mode → Standard Deviation → Distributions",link:"https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data",ln:"Khan Academy — Estadística"},
+{s:"Mira este video resumen de 20 min que cubre <strong>toda la estadística que necesita un Data Analyst</strong>",link:"https://www.youtube.com/watch?v=xxpc-HPKN28",ln:"YouTube — Statistics for Data Science"},
+{s:"Práctica: Abre Excel o Google Sheets. Ingresa estos datos de ventas ficticios: 120, 85, 200, 95, 150, 300, 110, 88, 175, 220. Calcula manualmente: <strong>media, mediana, moda, rango, desviación estándar</strong>."},
+{s:"Verifica tus cálculos usando las funciones de Excel: =AVERAGE(), =MEDIAN(), =MODE(), =STDEV()"},
+],check:"Puedes calcular e interpretar media, mediana, desviación estándar y explicar qué significan para un negocio."},
+
+{id:"1-4",t:"Excel: Fórmulas Básicas",d:"SUM, AVERAGE, COUNT, IF, CONCATENATE",time:"3h",
+guide:[
+{s:"Abre <strong>Google Sheets</strong> (gratis) o Excel. Crea un nuevo archivo llamado 'Práctica Fórmulas'",link:"https://sheets.google.com",ln:"Google Sheets"},
+{s:"Sigue este tutorial interactivo de <strong>ExcelJet</strong> para dominar las 10 fórmulas esenciales",link:"https://exceljet.net/formulas/basic-formulas",ln:"ExcelJet — Fórmulas Básicas"},
+{s:"Practica estas fórmulas una por una con datos inventados:<br>• <strong>SUM</strong>: suma ventas de una columna<br>• <strong>AVERAGE</strong>: promedio de calificaciones<br>• <strong>COUNT/COUNTA</strong>: contar celdas<br>• <strong>IF</strong>: =IF(A1>100,'Alto','Bajo')<br>• <strong>CONCATENATE</strong>: unir nombre + apellido"},
+{s:"Descarga este dataset de práctica y aplica las fórmulas sobre datos reales",link:"https://www.kaggle.com/datasets/vivek468/superstore-dataset-final",ln:"Kaggle — Superstore Dataset"},
+{s:"Aprende los <strong>5 atajos de teclado</strong> esenciales: Ctrl+C/V/Z, Ctrl+Shift+L (filtro), F2 (editar celda), Ctrl+D (copiar abajo), Alt+= (AutoSum)"},
+],check:"Puedes escribir fórmulas SUM, IF, AVERAGE de memoria y aplicas atajos de teclado fluidamente."},
+
+{id:"1-5",t:"Excel: Fórmulas Avanzadas",d:"VLOOKUP, INDEX-MATCH, SUMIFS, COUNTIFS",time:"4h",
+guide:[
+{s:"Sigue este tutorial completo de <strong>VLOOKUP</strong> con ejemplos prácticos. Es la fórmula #1 que te preguntarán en entrevistas",link:"https://exceljet.net/functions/vlookup-function",ln:"ExcelJet — VLOOKUP"},
+{s:"Luego aprende <strong>INDEX-MATCH</strong> (es mejor que VLOOKUP y te hará destacar)",link:"https://exceljet.net/formulas/index-and-match",ln:"ExcelJet — INDEX-MATCH"},
+{s:"Practica <strong>SUMIFS y COUNTIFS</strong>: suma/cuenta con múltiples condiciones. Ejemplo: 'Total de ventas en enero para la categoría Technology'",link:"https://exceljet.net/functions/sumifs-function",ln:"ExcelJet — SUMIFS"},
+{s:"Ejercicio completo: Con el dataset Superstore, responde usando fórmulas:<br>• ¿Cuál es la venta total por categoría? (SUMIFS)<br>• ¿Cuántos pedidos hubo en California? (COUNTIFS)<br>• Busca el nombre del producto con ID 'OFF-BI-10000545' (VLOOKUP o INDEX-MATCH)"},
+],check:"Puedes usar VLOOKUP e INDEX-MATCH sin googlear, y aplicas SUMIFS con 2+ condiciones."},
+
+{id:"1-6",t:"Excel: Tablas Dinámicas (Pivot Tables)",d:"La herramienta más poderosa de Excel",time:"4h",
+guide:[
+{s:"Mira este tutorial de 30 min que cubre <strong>TODO sobre Pivot Tables</strong>",link:"https://www.youtube.com/watch?v=UsdedFoTA68",ln:"YouTube — Leila Gharani: Pivot Tables"},
+{s:"Con el dataset Superstore, crea estas <strong>Pivot Tables</strong>:<br>• Ventas por Categoría y Sub-Categoría<br>• Ventas por Mes (agrupa fechas por mes)<br>• Top 10 productos por ganancia"},
+{s:"Aprende <strong>Slicers</strong>: agrega filtros visuales interactivos a tus pivots. Son los botones que hacen tus tablas se vean profesionales."},
+{s:"Practica <strong>Calculated Fields</strong>: crea un campo calculado de 'Margen de Ganancia' = Profit / Sales dentro de la pivot."},
+{s:"Guía completa escrita de referencia",link:"https://support.microsoft.com/en-us/office/create-a-pivottable-to-analyze-worksheet-data-a9a84538-bfe9-40a9-a8e9-f99134456576",ln:"Microsoft — Pivot Tables"},
+],check:"Puedes crear una pivot table en menos de 2 minutos, agregar slicers y un calculated field."},
+
+{id:"1-7",t:"Excel: Gráficos Profesionales",d:"Tipos de gráficos, diseño, mejores prácticas",time:"3h",
+guide:[
+{s:"Lee esta guía de <strong>qué gráfico usar según tus datos</strong> (cheatsheet esencial)",link:"https://extremepresentation.com/wp-content/uploads/choosing-a-good-chart-09-1.pdf",ln:"Chart Chooser — PDF"},
+{s:"En Excel/Sheets, crea estos gráficos con el dataset Superstore:<br>• <strong>Barras</strong>: ventas por categoría<br>• <strong>Líneas</strong>: ventas por mes (tendencia)<br>• <strong>Pie</strong>: distribución por región (solo si son 3-5 categorías)<br>• <strong>Scatter</strong>: relación ventas vs profit"},
+{s:"Aprende <strong>formato profesional</strong>: quita gridlines innecesarias, usa colores consistentes, agrega títulos claros, esconde el legendario si solo hay 1 serie."},
+{s:"Referencia de diseño",link:"https://www.storytellingwithdata.com/chart-guide",ln:"Storytelling with Data — Chart Guide"},
+],check:"Puedes elegir el gráfico correcto para cada situación y crear charts con formato profesional."},
+
+{id:"1-8",t:"Excel: Limpieza de Datos",d:"El 80% del trabajo real de un analista",time:"3h",
+guide:[
+{s:"Descarga este <strong>dataset sucio</strong> para practicar (o ensucia el Superstore tú mismo: duplica filas, agrega espacios, mezcla formatos de fecha)",link:"https://www.kaggle.com/datasets/saurabh21072001/dirty-data-for-cleaning",ln:"Kaggle — Dirty Data"},
+{s:"Practica estas técnicas de limpieza:<br>• <strong>Remove Duplicates</strong>: Data → Remove Duplicates<br>• <strong>Text to Columns</strong>: separar 'John,Smith' en 2 columnas<br>• <strong>Find & Replace</strong>: reemplazar errores masivamente<br>• <strong>TRIM</strong>: quitar espacios extra<br>• <strong>PROPER/UPPER/LOWER</strong>: estandarizar texto<br>• <strong>Data Validation</strong>: prevenir datos incorrectos"},
+{s:"Ejercicio: Toma un CSV sucio y déjalo perfecto para análisis. Documenta cada paso que hiciste."},
+],check:"Puedes tomar un dataset sucio y dejarlo limpio en 15 minutos usando todas las técnicas."},
+
+{id:"1-9",t:"🏗️ PROYECTO: Análisis de Ventas con Excel",d:"Tu primer proyecto completo de portafolio",time:"6h",
+guide:[
+{s:"Descarga el dataset <strong>Superstore</strong>",link:"https://www.kaggle.com/datasets/vivek468/superstore-dataset-final",ln:"Kaggle — Superstore"},
+{s:"<strong>Paso 1 — Limpieza</strong>: revisa duplicados, formatos de fecha, valores nulos. Documenta qué encontraste."},
+{s:"<strong>Paso 2 — Análisis con Pivot Tables</strong>: crea al menos 5 pivots que respondan preguntas de negocio (ventas por categoría, tendencia mensual, top clientes, margen por región, etc.)"},
+{s:"<strong>Paso 3 — Visualización</strong>: crea un dashboard en una hoja separada con 4-6 gráficos que cuenten una historia coherente."},
+{s:"<strong>Paso 4 — Insights</strong>: escribe 3-5 hallazgos clave y 2-3 recomendaciones accionables. Ejemplo: 'La categoría Furniture tiene el margen más bajo. Recomiendo revisar los descuentos en Tables.'"},
+{s:"<strong>Paso 5 — Publica</strong>: sube tu archivo a Google Drive y comparte el link. O mejor: haz capturas y publícalas en LinkedIn con tu análisis."},
+],check:"Tienes un proyecto completo con limpieza, análisis, visualización e insights que puedes mostrar en entrevistas."},
+]},
+
+// ═══ FASE 2: SQL ═══
+{id:2,icon:"🗃️",name:"SQL",weeks:"Sem 5–10",color:"var(--cy)",
+desc:"SQL es la habilidad #1 que piden en TODAS las ofertas. Es el idioma de los datos.",
+tip:"Practica SQL TODOS los días mínimo 30 minutos. SQLZoo para aprender, HackerRank para practicar, LeetCode para nivel entrevista.",
+skills:["SELECT","JOINs","GROUP BY","Subqueries","CTEs","Window Functions","Optimization"],
+lessons:[
+{id:"2-1",t:"SELECT, FROM, WHERE",d:"Tu primera consulta SQL",time:"3h",
+guide:[
+{s:"Completa los ejercicios 0-3 en <strong>SQLZoo</strong> (SELECT basics, SELECT from world, SELECT from nobel)",link:"https://sqlzoo.net/wiki/SQL_Tutorial",ln:"SQLZoo Tutorial"},
+{s:"Abre <strong>Mode Analytics SQL Tutorial</strong> y completa la sección 'Basic SQL'",link:"https://mode.com/sql-tutorial/introduction-to-sql",ln:"Mode — SQL Tutorial"},
+{s:"Practica estos operadores: =, !=, >, <, BETWEEN, IN, LIKE '%patrón%', IS NULL, IS NOT NULL, AND, OR, NOT"},
+{s:"Ejercicio: Escribe queries para responder:<br>• Todos los empleados del departamento 'Sales'<br>• Productos con precio entre 10 y 50<br>• Clientes cuyo nombre empiece con 'M'<br>• Pedidos donde el descuento NO es nulo"},
+],check:"Puedes filtrar datos con WHERE usando múltiples condiciones sin dudar."},
+
+{id:"2-2",t:"ORDER BY, LIMIT, DISTINCT, Aliases",d:"Ordenar, limitar y renombrar",time:"2h",
+guide:[
+{s:"Continúa en <strong>SQLZoo</strong> ejercicio 4 (SELECT within SELECT)",link:"https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial",ln:"SQLZoo — Subqueries intro"},
+{s:"Practica en <strong>HackerRank</strong>: completa los primeros 10 challenges de SQL Easy",link:"https://www.hackerrank.com/domains/sql?filters%5Bdifficulty%5D%5B%5D=easy",ln:"HackerRank SQL Easy"},
+{s:"Ejercicios clave:<br>• Top 10 productos más vendidos (ORDER BY + LIMIT)<br>• Ciudades únicas de clientes (DISTINCT)<br>• Renombrar columnas: SELECT revenue AS total_revenue"},
+],check:"Puedes ordenar resultados, limitar filas, eliminar duplicados y usar aliases profesionales."},
+
+{id:"2-3",t:"Funciones de Agregación + GROUP BY",d:"COUNT, SUM, AVG, MIN, MAX + HAVING",time:"4h",
+guide:[
+{s:"Completa SQLZoo ejercicio 5: <strong>SUM and COUNT</strong>",link:"https://sqlzoo.net/wiki/SUM_and_COUNT",ln:"SQLZoo — Aggregations"},
+{s:"Tutorial completo en Mode Analytics: <strong>SQL Aggregate Functions</strong>",link:"https://mode.com/sql-tutorial/sql-aggregate-functions",ln:"Mode — Aggregations"},
+{s:"Ejercicios esenciales:<br>• Total de ventas por país: SELECT country, SUM(sales) GROUP BY country<br>• Promedio de precio por categoría<br>• Número de pedidos por mes<br>• Solo categorías con más de 100 pedidos (HAVING COUNT(*) > 100)"},
+{s:"Completa 5 challenges de agregación en HackerRank",link:"https://www.hackerrank.com/domains/sql?filters%5Bsubdomains%5D%5B%5D=aggregation",ln:"HackerRank — Aggregation"},
+],check:"Puedes agrupar datos por cualquier columna y filtrar grupos con HAVING."},
+
+{id:"2-4",t:"JOINs: Conectar Tablas",d:"INNER, LEFT, RIGHT, FULL JOIN",time:"5h",
+guide:[
+{s:"Completa SQLZoo ejercicio 6: <strong>The JOIN operation</strong>",link:"https://sqlzoo.net/wiki/The_JOIN_operation",ln:"SQLZoo — JOINs"},
+{s:"Visualiza los JOINs con este <strong>diagrama interactivo</strong> (guárdalo como referencia)",link:"https://joins.spathon.com",ln:"Visual SQL JOINs"},
+{s:"Tutorial detallado en Mode: <strong>SQL Joins</strong>",link:"https://mode.com/sql-tutorial/sql-joins",ln:"Mode — SQL Joins"},
+{s:"Practica con el <strong>dataset de Brazilian E-commerce en BigQuery</strong>: tiene múltiples tablas relacionadas (orders, customers, products, sellers)",link:"https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",ln:"Kaggle — Brazilian E-commerce"},
+{s:"Ejercicios: JOIN orders con customers para ver nombre + pedido. LEFT JOIN para ver clientes SIN pedidos. Combina 3 tablas en un solo query."},
+{s:"Completa challenges de JOIN en HackerRank",link:"https://www.hackerrank.com/domains/sql?filters%5Bsubdomains%5D%5B%5D=join",ln:"HackerRank — JOINs"},
+],check:"Puedes unir 3+ tablas, elegir el JOIN correcto y explicar la diferencia entre INNER y LEFT."},
+
+{id:"2-5",t:"Subqueries y CTEs (WITH)",d:"Queries dentro de queries, organizadas",time:"4h",
+guide:[
+{s:"Tutorial de <strong>CTEs</strong> (Common Table Expressions) — la forma moderna de organizar queries complejas",link:"https://mode.com/sql-tutorial/sql-cte",ln:"Mode — CTEs"},
+{s:"Practica: Reescribe un query con subquery como CTE. Ejemplo:<br><strong>Subquery:</strong> SELECT * FROM orders WHERE customer_id IN (SELECT id FROM customers WHERE city='Madrid')<br><strong>CTE:</strong> WITH madrid_customers AS (SELECT id FROM customers WHERE city='Madrid') SELECT * FROM orders JOIN madrid_customers..."},
+{s:"Completa SQLZoo ejercicio 7: <strong>More JOIN operations</strong>",link:"https://sqlzoo.net/wiki/More_JOIN_operations",ln:"SQLZoo — More JOINs"},
+{s:"Ejercicio avanzado: Usa CTEs para calcular el revenue por cliente, luego filtrar solo clientes con revenue > promedio."},
+],check:"Puedes escribir CTEs multi-nivel y explicar cuándo usar subquery vs CTE."},
+
+{id:"2-6",t:"Window Functions",d:"ROW_NUMBER, RANK, LAG, LEAD, SUM OVER",time:"5h",
+guide:[
+{s:"Este es el <strong>mejor tutorial de Window Functions</strong> que existe (Mode Analytics)",link:"https://mode.com/sql-tutorial/sql-window-functions",ln:"Mode — Window Functions"},
+{s:"Video explicativo de 25 min",link:"https://www.youtube.com/watch?v=Ww71knvhQ-s",ln:"YouTube — Window Functions"},
+{s:"Funciones a dominar:<br>• <strong>ROW_NUMBER()</strong>: numerar filas en cada grupo<br>• <strong>RANK()/DENSE_RANK()</strong>: ranking con/sin gaps<br>• <strong>LAG()/LEAD()</strong>: valor anterior/siguiente (perfecto para comparar mes vs mes anterior)<br>• <strong>SUM() OVER</strong>: suma acumulada<br>• <strong>AVG() OVER</strong>: promedio móvil"},
+{s:"Ejercicio: Calcula la venta acumulada por mes. Calcula el crecimiento % mes vs mes usando LAG. Ranking de productos por ventas dentro de cada categoría."},
+{s:"Practica en LeetCode Database (Easy → Medium)",link:"https://leetcode.com/problemset/database/",ln:"LeetCode — SQL Problems"},
+],check:"Puedes usar ROW_NUMBER, LAG y SUM OVER con PARTITION BY sin googlear la sintaxis."},
+
+{id:"2-7",t:"CASE WHEN, Dates, Strings",d:"Lógica condicional y manipulación de datos",time:"3h",
+guide:[
+{s:"Tutorial de CASE WHEN — tu IF en SQL",link:"https://mode.com/sql-tutorial/sql-case",ln:"Mode — CASE"},
+{s:"Practica CASE WHEN:<br>• Categorizar ventas: CASE WHEN sales > 1000 THEN 'Alto' WHEN sales > 500 THEN 'Medio' ELSE 'Bajo' END<br>• Crear flags: CASE WHEN churn_date IS NOT NULL THEN 1 ELSE 0 END"},
+{s:"Funciones de fecha esenciales: EXTRACT(MONTH FROM date), DATE_TRUNC, DATE_DIFF, CURRENT_DATE"},
+{s:"Funciones de texto: UPPER, LOWER, CONCAT, SUBSTRING, LENGTH, REPLACE, TRIM"},
+],check:"Puedes crear columnas calculadas con CASE WHEN y manipular fechas y texto fluidamente."},
+
+{id:"2-8",t:"🏗️ PROYECTO: Análisis E-commerce con SQL",d:"Proyecto completo nivel entrevista",time:"8h",
+guide:[
+{s:"Abre <strong>BigQuery Sandbox</strong> (gratis, sin tarjeta)",link:"https://console.cloud.google.com/bigquery",ln:"Google BigQuery"},
+{s:"Carga el dataset Brazilian E-commerce o usa un dataset público de BigQuery (bigquery-public-data.thelook_ecommerce)"},
+{s:"Responde estas preguntas de negocio con SQL:<br>1. ¿Cuál es el revenue total por mes? ¿Tendencia?<br>2. Top 10 productos por revenue<br>3. ¿Cuál es el ticket promedio por categoría?<br>4. Customer Lifetime Value por segmento<br>5. Cohort analysis: retención por mes de primer compra<br>6. Crecimiento mes vs mes (usando LAG)"},
+{s:"Guarda todos tus queries en un archivo .sql o repositorio de GitHub. Comenta cada query explicando qué hace y qué insight revela."},
+{s:"Escribe un resumen de 5 insights clave como si fuera un email para tu jefe."},
+],check:"Tienes 6+ queries avanzados con JOINs, CTEs, Window Functions y un resumen de insights profesional."},
+]},
+
+// ═══ FASE 3: PYTHON ═══
+{id:3,icon:"🐍",name:"Python para Datos",weeks:"Sem 11–16",color:"var(--am)",
+desc:"Python te da superpoderes: automatización, análisis avanzado, visualización.",
+tip:"No intentes aprender TODO Python. Enfócate en pandas, matplotlib y el flujo de análisis. Lo demás lo aprenderás según lo necesites.",
+skills:["Python Básico","Pandas","Matplotlib","Seaborn","EDA","Google Colab"],
+lessons:[
+{id:"3-1",t:"Python Básico: Variables, Tipos, Loops",d:"Lo mínimo necesario para empezar con datos",time:"4h",
+guide:[
+{s:"Abre <strong>Google Colab</strong> — es un notebook de Python gratis en la nube. Cero instalación.",link:"https://colab.research.google.com",ln:"Google Colab"},
+{s:"Completa el <strong>micro-curso de Kaggle: Intro to Python</strong> (2-3 horas, interactivo)",link:"https://www.kaggle.com/learn/intro-to-programming",ln:"Kaggle Learn — Python"},
+{s:"Practica: variables (int, float, str, bool), listas, diccionarios, if/else, for loops, funciones básicas (def)"},
+{s:"No necesitas ser experto en Python. Necesitas saber lo suficiente para usar pandas."},
+],check:"Puedes crear funciones, usar loops y manipular listas/diccionarios básicos."},
+
+{id:"3-2",t:"Pandas: El Corazón del Análisis en Python",d:"DataFrames, leer CSV, explorar datos",time:"5h",
+guide:[
+{s:"Completa el <strong>micro-curso de Kaggle: Pandas</strong>",link:"https://www.kaggle.com/learn/pandas",ln:"Kaggle Learn — Pandas"},
+{s:"En Colab, practica:<br>• <strong>pd.read_csv()</strong>: cargar datos<br>• <strong>.head(), .info(), .describe(), .shape</strong>: explorar<br>• <strong>.loc[], .iloc[]</strong>: seleccionar filas/columnas<br>• <strong>Filtrar</strong>: df[df['sales'] > 1000]<br>• <strong>groupby()</strong>: agrupar y agregar<br>• <strong>merge()</strong>: unir DataFrames"},
+{s:"Descarga el dataset Superstore desde Kaggle y haz el mismo análisis que hiciste en Excel, pero ahora en Python.",link:"https://www.kaggle.com/datasets/vivek468/superstore-dataset-final",ln:"Kaggle — Superstore"},
+],check:"Puedes cargar un CSV, explorarlo, filtrarlo, agruparlo y unir DataFrames."},
+
+{id:"3-3",t:"Limpieza de Datos con Pandas",d:"fillna, dropna, apply, replace, astype",time:"4h",
+guide:[
+{s:"Tutorial completo de limpieza con pandas",link:"https://www.kaggle.com/learn/data-cleaning",ln:"Kaggle — Data Cleaning"},
+{s:"Practica: .isnull().sum(), .fillna(), .dropna(), .duplicated(), .drop_duplicates(), .replace(), .apply(), .astype()"},
+{s:"Ejercicio: toma un dataset sucio de Kaggle y documenta cada paso de limpieza en un notebook de Colab."},
+],check:"Puedes limpiar cualquier dataset con pandas: nulos, duplicados, tipos, formatos."},
+
+{id:"3-4",t:"Visualización: Matplotlib y Seaborn",d:"Gráficos profesionales en Python",time:"4h",
+guide:[
+{s:"Completa el <strong>micro-curso de Kaggle: Data Visualization</strong>",link:"https://www.kaggle.com/learn/data-visualization",ln:"Kaggle — Data Visualization"},
+{s:"Practica en Colab:<br>• plt.figure(), plt.bar(), plt.plot(), plt.scatter(), plt.hist()<br>• sns.heatmap(), sns.boxplot(), sns.countplot(), sns.pairplot()"},
+{s:"Galería de ejemplos de Seaborn para inspiración",link:"https://seaborn.pydata.org/examples/index.html",ln:"Seaborn Gallery"},
+],check:"Puedes crear 5+ tipos de gráficos y personalizar colores, títulos y tamaños."},
+
+{id:"3-5",t:"🏗️ PROYECTO: EDA Completo en Colab",d:"Tu primer notebook profesional de análisis",time:"10h",
+guide:[
+{s:"Elige un dataset de Kaggle que te interese (ej: Spotify songs, Netflix, videojuegos, COVID)",link:"https://www.kaggle.com/datasets",ln:"Kaggle Datasets"},
+{s:"Crea un notebook en Colab con estas secciones:<br>1. <strong>Introducción</strong>: ¿qué problema resuelves?<br>2. <strong>Carga y exploración</strong>: .head(), .info(), .describe()<br>3. <strong>Limpieza</strong>: nulos, duplicados, tipos<br>4. <strong>Análisis</strong>: groupby, correlaciones, tendencias<br>5. <strong>Visualización</strong>: mínimo 6 gráficos variados<br>6. <strong>Conclusiones</strong>: 3-5 insights accionables"},
+{s:"Publica tu notebook en Kaggle o súbelo a GitHub. Este es un proyecto de portafolio."},
+],check:"Tienes un notebook completo publicado que puedes mostrar en entrevistas."},
+]},
+
+// ═══ FASE 4: TABLEAU ═══
+{id:4,icon:"📈",name:"Tableau",weeks:"Sem 17–19",color:"var(--a2)",
+desc:"Dashboards interactivos que cuentan historias con datos.",
+tip:"Un buen dashboard NO muestra todos los datos. Muestra los INSIGHTS correctos para tomar DECISIONES. Menos es más.",
+skills:["Tableau Desktop","Dashboard Design","LOD Expressions","Storytelling"],
+lessons:[
+{id:"4-1",t:"Tableau: Conexión y Primeros Gráficos",d:"Drag-and-drop, sheets, filtros",time:"3h",
+guide:[
+{s:"Descarga <strong>Tableau Public</strong> (gratis)",link:"https://public.tableau.com/en-us/s/download",ln:"Descargar Tableau Public"},
+{s:"Completa los <strong>videos gratuitos de Tableau</strong> — módulos 'Getting Started' y 'Connecting to Data'",link:"https://www.tableau.com/learn/training/20244",ln:"Tableau Free Training"},
+{s:"Conecta el dataset Superstore (viene incluido en Tableau). Crea: barras de ventas por categoría, línea de tendencia mensual, mapa por estado."},
+],check:"Puedes conectar datos, crear 3 tipos de gráficos y aplicar filtros en Tableau."},
+
+{id:"4-2",t:"Tableau: Cálculos y LOD",d:"Calculated fields, table calculations, LOD expressions",time:"5h",
+guide:[
+{s:"Tutorial de calculated fields y LOD",link:"https://www.tableau.com/learn/tutorials/on-demand/lod-expressions",ln:"Tableau — LOD Tutorial"},
+{s:"Practica:<br>• Calculated field: Profit Ratio = SUM(Profit)/SUM(Sales)<br>• Table calc: Running Total, Percent of Total<br>• LOD: {FIXED [Category]: SUM([Sales])} — ventas fijas por categoría independiente de filtros"},
+{s:"Los LOD son lo que separa a un usuario básico de uno avanzado. Practica hasta que los domines."},
+],check:"Puedes crear calculated fields, table calculations y LOD FIXED sin ayuda."},
+
+{id:"4-3",t:"🏗️ PROYECTO: Dashboard Ejecutivo en Tableau",d:"Publicar en Tableau Public como portafolio",time:"8h",
+guide:[
+{s:"Crea un dashboard de 1 pantalla con:<br>• KPIs arriba (revenue, profit, orders, avg order value)<br>• Gráfico de tendencia mensual<br>• Tabla/mapa de performance por región<br>• Top 10 productos<br>• Filtros interactivos (categoría, fecha, región)"},
+{s:"Inspírate en dashboards de <strong>Makeover Monday</strong>",link:"https://www.makeovermonday.co.uk/gallery/",ln:"Makeover Monday Gallery"},
+{s:"Publica en Tableau Public y agrega el link a tu LinkedIn y GitHub",link:"https://public.tableau.com",ln:"Tableau Public"},
+],check:"Tienes un dashboard publicado en Tableau Public que puedes compartir como portafolio."},
+]},
+
+// ═══ FASE 5: POWER BI ═══
+{id:5,icon:"⚡",name:"Power BI",weeks:"Sem 20–22",color:"var(--or)",
+desc:"Power BI es la herramienta de BI más usada en empresas. Microsoft la integra con todo su ecosistema.",
+tip:"Power BI y Tableau son complementarios. Muchas empresas usan uno u otro. Saber ambos te hace más competitivo. Power BI es más popular en empresas grandes y LATAM.",
+skills:["Power BI Desktop","Power Query","DAX","Modelado","Dashboards","Publicación"],
+lessons:[
+{id:"5-1",t:"Power BI: Instalación y Primeros Pasos",d:"Interfaz, importar datos, crear visualizaciones",time:"3h",
+guide:[
+{s:"Descarga <strong>Power BI Desktop</strong> (gratis para Windows). Si usas Mac, puedes usar la versión web.",link:"https://powerbi.microsoft.com/es-es/desktop/",ln:"Descargar Power BI Desktop"},
+{s:"Completa el módulo <strong>'Get started with Power BI'</strong> de Microsoft Learn (gratuito, con sandbox)",link:"https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/",ln:"Microsoft Learn — Power BI"},
+{s:"Importa el dataset Superstore (CSV). Explora la interfaz: panel de visualizaciones, panel de campos, canvas, filtros."},
+{s:"Crea tus primeros 3 gráficos: barras (ventas por categoría), líneas (tendencia mensual), tarjeta KPI (total revenue)."},
+],check:"Puedes importar datos y crear visualizaciones básicas en Power BI."},
+
+{id:"5-2",t:"Power Query: Transformar Datos",d:"ETL visual dentro de Power BI",time:"4h",
+guide:[
+{s:"Completa <strong>'Clean, transform, and load data'</strong> en Microsoft Learn",link:"https://learn.microsoft.com/en-us/training/modules/clean-data-power-bi/",ln:"Microsoft Learn — Power Query"},
+{s:"En Power Query practica:<br>• <strong>Cambiar tipos</strong> de columna<br>• <strong>Filtrar filas</strong> y eliminar errores<br>• <strong>Merge Queries</strong>: unir tablas (equivalente a JOIN)<br>• <strong>Append Queries</strong>: apilar tablas (equivalente a UNION)<br>• <strong>Columnas personalizadas</strong>: crear cálculos<br>• <strong>Unpivot</strong>: transformar columnas en filas"},
+{s:"Mira este tutorial completo de Power Query (30 min)",link:"https://www.youtube.com/watch?v=0aeZX1l4JT4",ln:"YouTube — Power Query Tutorial"},
+],check:"Puedes limpiar y transformar datos usando Power Query sin escribir código."},
+
+{id:"5-3",t:"DAX: El Lenguaje de Power BI",d:"Measures, calculated columns, CALCULATE, ALL, FILTER",time:"6h",
+guide:[
+{s:"Completa <strong>'Use DAX in Power BI'</strong> en Microsoft Learn",link:"https://learn.microsoft.com/en-us/training/modules/dax-power-bi-models/",ln:"Microsoft Learn — DAX"},
+{s:"Las fórmulas DAX esenciales:<br>• <strong>SUM, AVERAGE, COUNT, DISTINCTCOUNT</strong>: básicas<br>• <strong>CALCULATE</strong>: la función más importante — cambia el contexto de filtro<br>• <strong>ALL</strong>: ignora filtros (ej: % del total)<br>• <strong>FILTER</strong>: filtra dentro de CALCULATE<br>• <strong>RELATED</strong>: traer datos de otra tabla<br>• <strong>Time Intelligence</strong>: TOTALYTD, SAMEPERIODLASTYEAR, DATEADD"},
+{s:"La mejor referencia de DAX que existe",link:"https://dax.guide",ln:"DAX Guide — Referencia Completa"},
+{s:"Ejercicios:<br>• Measure: Total Sales = SUM(Sales[Amount])<br>• Measure: YoY Growth = (Total Sales - CALCULATE(Total Sales, SAMEPERIODLASTYEAR(Calendar[Date]))) / ...<br>• Measure: % of Total = DIVIDE(Total Sales, CALCULATE(Total Sales, ALL(Products)))"},
+{s:"Video DAX para principiantes (1 hora)",link:"https://www.youtube.com/watch?v=QJw4HkagVWc",ln:"YouTube — DAX for Beginners"},
+],check:"Puedes crear measures con CALCULATE, time intelligence y % del total."},
+
+{id:"5-4",t:"Modelado de Datos en Power BI",d:"Relaciones, Star Schema, buenas prácticas",time:"3h",
+guide:[
+{s:"Completa <strong>'Model data in Power BI'</strong>",link:"https://learn.microsoft.com/en-us/training/modules/model-data-power-bi/",ln:"Microsoft Learn — Modelado"},
+{s:"Conceptos clave:<br>• <strong>Star Schema</strong>: tabla de hechos (ventas) + tablas de dimensiones (productos, clientes, tiempo)<br>• <strong>Relaciones</strong>: 1-to-many, dirección del filtro<br>• <strong>Tabla de calendario</strong>: CALENDARAUTO() — esencial para time intelligence<br>• <strong>Ocultar columnas</strong> innecesarias del panel de campos"},
+{s:"Ejercicio: Reorganiza tu modelo Superstore en Star Schema con tablas separadas."},
+],check:"Puedes diseñar un modelo Star Schema y explicar por qué es mejor que una tabla plana."},
+
+{id:"5-5",t:"Dashboards y Publicación",d:"Diseño profesional, interactividad, compartir",time:"4h",
+guide:[
+{s:"Diseña un dashboard con:<br>• <strong>Página 1</strong>: Executive Summary (KPIs, tendencia, distribución)<br>• <strong>Página 2</strong>: Detalle por producto/región<br>• <strong>Página 3</strong>: Análisis temporal (YoY, MoM)"},
+{s:"Mejores prácticas:<br>• Usa <strong>bookmarks</strong> para navegación entre páginas<br>• <strong>Slicers</strong> sincronizados entre páginas<br>• <strong>Tooltips</strong> personalizados<br>• Colores consistentes, fondo oscuro o claro (no mezclar)"},
+{s:"Publica en <strong>Power BI Service</strong> (gratis con cuenta Microsoft). O exporta como PDF para portafolio.",link:"https://app.powerbi.com",ln:"Power BI Service"},
+{s:"Galería de inspiración",link:"https://community.fabric.microsoft.com/t5/Data-Stories-Gallery/bd-p/DataStoriesGallery",ln:"Power BI Gallery"},
+],check:"Tienes un dashboard multi-página publicado con interactividad profesional."},
+
+{id:"5-6",t:"🏗️ PROYECTO: Dashboard Empresarial en Power BI",d:"Proyecto completo de portafolio",time:"10h",
+guide:[
+{s:"Elige un dataset nuevo (diferente al de Tableau). Sugerencias: <strong>HR Analytics, Financial Data, Marketing Campaign</strong>",link:"https://www.kaggle.com/datasets?search=business+analytics",ln:"Kaggle — Business Datasets"},
+{s:"Pipeline completo:<br>1. Importar y limpiar en <strong>Power Query</strong><br>2. Crear modelo <strong>Star Schema</strong><br>3. Crear <strong>measures DAX</strong> avanzados (YoY, %, CALCULATE)<br>4. Diseñar dashboard de <strong>3 páginas</strong><br>5. Agregar interactividad (slicers, bookmarks, drill-through)<br>6. Publicar y documentar"},
+{s:"Comparte en LinkedIn con un post explicando tu proceso y hallazgos."},
+],check:"Tienes un proyecto Power BI completo con Power Query, DAX y modelo Star Schema."},
+]},
+
+// ═══ FASE 6: CLOUD & TOOLS ═══
+{id:6,icon:"☁️",name:"Cloud & Git",weeks:"Sem 23–24",color:"var(--cy)",
+desc:"BigQuery, Git, APIs y automatización.",
+tip:"BigQuery es gratis hasta 1 TB/mes. Git es obligatorio para cualquier trabajo tech.",
+skills:["BigQuery","Git","GitHub","APIs","Automatización"],
+lessons:[
+{id:"6-1",t:"Google BigQuery",d:"SQL en la nube con datos masivos",time:"4h",
+guide:[
+{s:"Crea tu cuenta gratuita en <strong>BigQuery Sandbox</strong>",link:"https://console.cloud.google.com/bigquery",ln:"BigQuery Sandbox"},
+{s:"Explora datasets públicos: bigquery-public-data.thelook_ecommerce, bigquery-public-data.stackoverflow",link:"https://cloud.google.com/bigquery/public-data",ln:"BigQuery Public Datasets"},
+{s:"Ejecuta los mismos queries de tu proyecto SQL pero sobre millones de filas. Siente la velocidad de la nube."},
+],check:"Puedes crear proyectos en BigQuery y hacer queries sobre datasets públicos."},
+
+{id:"6-2",t:"Git & GitHub",d:"Control de versiones para tu portafolio",time:"3h",
+guide:[
+{s:"Crea tu cuenta en GitHub si aún no la tienes",link:"https://github.com",ln:"GitHub"},
+{s:"Mira este crash course de Git (1 hora)",link:"https://www.youtube.com/watch?v=RGOj5yH7evk",ln:"YouTube — Git Crash Course"},
+{s:"Practica: git init, git add, git commit, git push. Sube tu proyecto de SQL y tu notebook de Python."},
+],check:"Tienes un GitHub con 2+ repositorios de proyectos de datos."},
+
+{id:"6-3",t:"APIs y Automatización",d:"Obtener datos del mundo real con Python",time:"4h",
+guide:[
+{s:"Aprende a hacer requests a APIs con Python",link:"https://realpython.com/api-integration-in-python/",ln:"Real Python — APIs"},
+{s:"Ejercicio: obtener datos de una API pública (clima, crypto, noticias) y convertirlos en DataFrame con pandas."},
+{s:"Lista de APIs públicas gratuitas",link:"https://github.com/public-apis/public-apis",ln:"Public APIs List"},
+],check:"Puedes conectarte a una API, obtener JSON y convertirlo en DataFrame."},
+]},
+
+// ═══ FASE 7: JOB HUNT ═══
+{id:7,icon:"🚀",name:"Portfolio & Job Hunt",weeks:"Sem 25–28",color:"var(--or)",
+desc:"Prepara tu portafolio, CV, LinkedIn y consigue el trabajo.",
+tip:"3 proyectos bien hechos > 10 certificados. Muestra proceso, no solo resultado. Tu GitHub Y LinkedIn son tu CV.",
+skills:["Portfolio","CV ATS","LinkedIn","Entrevistas SQL","Behavioral","Networking"],
+lessons:[
+{id:"7-1",t:"Construir tu Portafolio",d:"3 proyectos + README profesional",time:"6h",
+guide:[
+{s:"Tu portafolio debe tener mínimo 3 proyectos:<br>1. <strong>Excel</strong>: Análisis de ventas con dashboard<br>2. <strong>SQL + Python</strong>: EDA completo con notebook<br>3. <strong>Tableau o Power BI</strong>: Dashboard interactivo publicado"},
+{s:"Para cada proyecto en GitHub, escribe un <strong>README.md</strong> profesional: título, descripción, screenshot, herramientas usadas, proceso, insights clave."},
+{s:"Inspiración de portafolios de Data Analysts",link:"https://www.youtube.com/watch?v=ocdqKdd4VnU",ln:"YouTube — Data Analyst Portfolio"},
+],check:"Tienes 3 proyectos en GitHub con READMEs profesionales y links a dashboards publicados."},
+
+{id:"7-2",t:"CV + LinkedIn",d:"ATS-friendly, keywords, networking",time:"4h",
+guide:[
+{s:"Crea tu CV en formato ATS-friendly (1 página)",link:"https://enhancv.com",ln:"Enhancv — CV Builder"},
+{s:"Optimiza tu <strong>LinkedIn</strong>: Headline con keywords (Data Analyst | SQL | Python | Tableau), About section con tu historia, Experience con métricas cuantificables."},
+{s:"Keywords esenciales: Data Analyst, SQL, Python, Tableau, Power BI, Excel, BigQuery, ETL, Dashboard, KPI, A/B Testing"},
+],check:"Tu CV y LinkedIn están optimizados con keywords y métricas cuantificables."},
+
+{id:"7-3",t:"Preparación de Entrevistas",d:"SQL en vivo, behavioral, case study",time:"5h",
+guide:[
+{s:"Practica SQL en vivo con timer en <strong>StrataScratch</strong>",link:"https://www.stratascratch.com",ln:"StrataScratch — SQL Interview"},
+{s:"Prepara respuestas STAR para: Tell me about yourself, Greatest strength/weakness, A time you failed, Why this role."},
+{s:"Usa la sección de <strong>Entrevistas de tu módulo de Inglés</strong> para practicar en inglés.",link:"english.html",ln:"English Academy — Entrevistas"},
+{s:"Preguntas reales por empresa en Glassdoor",link:"https://www.glassdoor.com/Interview/data-analyst-interview-questions-SRCH_KO0,12.htm",ln:"Glassdoor Interviews"},
+],check:"Puedes resolver un SQL challenge en 20 min y responder behavioral questions en inglés."},
+
+{id:"7-4",t:"🏗️ PROYECTO FINAL: End-to-End",d:"Tu obra maestra — el proyecto que te contratará",time:"15h",
+guide:[
+{s:"Elige un problema REAL que te apasione (puede ser de tu industria objetivo)."},
+{s:"Pipeline completo:<br>1. <strong>Pregunta de negocio</strong> clara<br>2. <strong>Obtención de datos</strong> (Kaggle, API, BigQuery)<br>3. <strong>Limpieza</strong> en Python<br>4. <strong>Análisis</strong> en SQL + Python<br>5. <strong>Dashboard</strong> en Tableau o Power BI<br>6. <strong>Presentación</strong> de insights (PDF o slides)<br>7. <strong>Publicación</strong> en GitHub + Tableau Public + LinkedIn"},
+{s:"Haz un post en LinkedIn presentando tu proyecto. Etiqueta empresas y recruiters de tu industria."},
+],check:"Tienes un proyecto end-to-end publicado que demuestra todo tu stack: SQL, Python, Viz, business thinking."},
+]},
+];
+
+// ─── STATE ───
+function getS(){try{return JSON.parse(localStorage.getItem('ruta5')||'{}')}catch(e){return{}}}
+function setS(s){localStorage.setItem('ruta5',JSON.stringify(s))}
+function isOk(id){return!!getS()[id]}
+function togL(id,ev){ev.stopPropagation();const s=getS();s[id]=!s[id];setS(s);render()}
+
+// ─── LOGS ───
+function getLogs(){try{return JSON.parse(localStorage.getItem('ruta_log5')||'[]')}catch(e){return[]}}
+function addLog(){const t=document.getElementById('logIn').value.trim();if(!t)return;const l=getLogs();l.push({t,d:new Date().toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})});localStorage.setItem('ruta_log5',JSON.stringify(l));document.getElementById('logIn').value='';renderLogs()}
+function renderLogs(){document.getElementById('logBox').innerHTML=getLogs().slice().reverse().slice(0,15).map(l=>'<div class="rt-log-e"><div class="rt-log-d">'+l.d+'</div>'+l.t+'</div>').join('')}
+
+// ─── PROGRESS ───
+function calcAll(){const s=getS();let t=0,d=0;P.forEach(p=>p.lessons.forEach(l=>{t++;if(s[l.id])d++}));return{t,d,pct:t?Math.round(d/t*100):0}}
+function calcPhase(p){const s=getS();let t=p.lessons.length,d=0;p.lessons.forEach(l=>{if(s[l.id])d++});return{t,d,pct:t?Math.round(d/t*100):0}}
+
+let aP=0;
+function setAP(i){aP=i;render();window.scrollTo({top:document.getElementById('phaseBox').offsetTop-60,behavior:'smooth'})}
+function togLesson(el){el.closest('.rt-les').classList.toggle('open')}
+
+// ─── RENDER ───
+function render(){
+const all=calcAll();
+// Stats
+document.getElementById('stL').textContent=all.d+'/'+all.t;
+document.getElementById('stP').textContent=aP+1;
+document.getElementById('stD').textContent=Math.max(1,Math.floor((new Date()-new Date(localStorage.getItem('ruta_st')||(localStorage.setItem('ruta_st',new Date().toISOString()),new Date().toISOString())))/864e5));
+document.getElementById('stPr').textContent=P.reduce((a,p)=>{const s=getS();const last=p.lessons[p.lessons.length-1];return a+(s[last.id]?1:0)},0);
+document.getElementById('gPct').textContent=all.pct;
+document.getElementById('pLbl').textContent=all.pct+'%';
+document.getElementById('gBar').style.width=all.pct+'%';
+document.getElementById('curP').textContent=aP+1;
+
+// Roadmap
+document.getElementById('road').innerHTML=P.map((p,i)=>{const pr=calcPhase(p);return'<div class="rt-rp'+(i===aP?' on':'')+(pr.pct===100?' done':'')+'" onclick="setAP('+i+')"><div class="rt-rp-n">FASE '+p.id+'</div><div class="rt-rp-i">'+p.icon+'</div><div class="rt-rp-t">'+p.name+'</div><div class="rt-rp-w">'+p.weeks+'</div><div class="rt-bar" style="margin-top:4px"><div class="rt-bar-fill" style="width:'+pr.pct+'%;background:'+p.color+'"></div></div></div>'}).join('');
+
+// Phase content
+const p=P[aP],pr=calcPhase(p);
+let h='<div class="rt-phase on"><div class="rt-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:16px;font-weight:600">'+p.icon+' Fase '+p.id+': '+p.name+'</div><span style="font-size:11px;color:var(--t3)">'+p.weeks+'</span></div><p style="font-size:13px;color:var(--t2);margin-bottom:10px">'+p.desc+'</p><div class="rt-bar"><div class="rt-bar-fill" style="width:'+pr.pct+'%;background:'+p.color+'"></div></div><div style="font-size:12px;color:var(--t2);margin-top:4px">'+pr.done+'/'+pr.total+' completadas ('+pr.pct+'%)</div><div class="rt-skills">'+p.skills.map(sk=>'<span class="rt-sk'+(pr.pct>=30?' on':'')+'">'+sk+'</span>').join('')+'</div></div>';
+h+='<div class="rt-tip"><b>💡 Tip</b><p>'+p.tip+'</p></div>';
+h+='<div class="rt-label">· lecciones — click para expandir ·</div>';
+
+p.lessons.forEach(l=>{
+const ok=isOk(l.id);
+h+='<div class="rt-les"><div class="rt-les-head" onclick="togLesson(this)"><div class="rt-chk'+(ok?' done':'')+'" onclick="togL(\''+l.id+'\',event)">'+(ok?'✓':'')+'</div><div class="rt-les-info"><div class="rt-les-title'+(ok?' struck':'')+'">'+l.t+'</div><div class="rt-les-brief">'+l.d+'</div></div><div class="rt-les-time">⏱ '+l.time+'</div><div class="rt-les-arrow">▼</div></div>';
+h+='<div class="rt-les-body"><div class="rt-les-content">';
+h+='<div class="rt-label" style="margin-top:12px">· paso a paso ·</div>';
+l.guide.forEach((g,gi)=>{
+h+='<div class="rt-step"><div class="rt-step-n">'+(gi+1)+'</div><div class="rt-step-body">'+g.s+(g.link?'<br><a href="'+g.link+'" target="_blank" rel="noopener">🔗 '+g.ln+'</a>':'')+'</div></div>';
+});
+if(l.check)h+='<div class="rt-checkpoint"><b>✅ Checkpoint — Sabes que lo dominas cuando:</b>'+l.check+'</div>';
+h+='</div></div></div>';
+});
+
+h+='<div class="rt-pnav">'+(aP>0?'<button class="rt-pbtn rt-prev" onclick="setAP('+(aP-1)+')">← Fase '+aP+'</button>':'<div></div>')+(aP<P.length-1?'<button class="rt-pbtn rt-next" onclick="setAP('+(aP+1)+')">Fase '+(aP+2)+' →</button>':'<div style="font-size:12px;color:var(--gn);font-weight:600">🎉 ¡Última fase!</div>')+'</div></div>';
+document.getElementById('phaseBox').innerHTML=h;
+renderLogs();
+}
+render();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/ruta.js"></script>
+<script src="js/atlas.js?v=32b"></script>
+</body>
+</html>

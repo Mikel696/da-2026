@@ -1,0 +1,127 @@
+
+/* ══════════════════════════════════════════════════════════════════════
+   CAPA DE ACABADO · lo que hace que las once secciones se sientan una sola
+   Va en un archivo aparte y solo AÑADE encima: si algo no gusta, se quita
+   esta capa del build y el documento vuelve exactamente a como estaba.
+
+   Tres reglas que no se tocan:
+   · Los seis colores de las piezas (suj/aux/ver/com/neg/wh) NO se alteran:
+     no son decoración, son lo que enseña el documento.
+   · Nada baja el contraste del texto. El brillo se pone en bordes, fondos
+     y acentos, nunca quitándole legibilidad a lo que hay que leer.
+   · Nada se mueve solo. Todo lo que se mueve aquí responde a algo que ha
+     hecho la persona: pasar el ratón, pulsar, acertar, fallar.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --grad: linear-gradient(100deg, #8b5cf6, #22d3ee 55%, #f472b6);
+  --grad-suave: linear-gradient(100deg, rgba(139,92,246,.16), rgba(34,211,238,.10) 55%, rgba(244,114,182,.12));
+  --glow: 0 0 0 1px rgba(139,92,246,.30), 0 10px 40px -14px rgba(139,92,246,.55);
+}
+
+/* ── Portadas ────────────────────────────────────────────────────────── */
+/* Un hilo de color al pie de la portada, en vez de la línea gris de siempre */
+.hero{ border-bottom:none; }
+.hero::before{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:1px; z-index:1;
+  background: linear-gradient(90deg, rgba(139,92,246,.55), rgba(34,211,238,.30) 45%, transparent 85%);
+}
+
+/* ── Jerarquía de sección ───────────────────────────────────────────────
+   Una regla corta encima ancla el bloque y da el ritmo de lectura. */
+h2.sec{ position:relative; padding-top:14px; }
+h2.sec::before{
+  content:""; position:absolute; top:0; left:0; width:34px; height:2px;
+  border-radius:2px; background: var(--ac); opacity:.9;
+}
+
+/* ── Tarjetas ────────────────────────────────────────────────────────── */
+.card:hover{ border-color: rgba(139,92,246,.30); box-shadow: var(--luz), var(--sh-3); }
+
+/* ── Avisos ──────────────────────────────────────────────────────────── */
+.note{ border-left-width:3px; box-shadow: var(--luz); }
+.note.info{ background: linear-gradient(90deg, rgba(34,211,238,.07), transparent 70%); }
+.note.ok{   background: linear-gradient(90deg, rgba(34,197,94,.07),  transparent 70%); }
+
+/* ── Números de sección ──────────────────────────────────────────────────
+   OJO: aquí puse primero un degradado recortado al texto y el número quedó
+   INVISIBLE. `h2.sec .n` gana en especificidad, así que su fondo sólido se
+   mantenía mientras mi `-webkit-text-fill-color:transparent` sí se aplicaba.
+   Lección: en una capa que solo añade, nada de text-fill transparente sin
+   controlar quién pone el fondo. Se tiñe el chip y punto. */
+h2.sec .n{
+  background: var(--grad-suave);
+  border-color: rgba(139,92,246,.42);
+  color: var(--ac2);
+}
+
+/* ── El Club, que es donde se juega ──────────────────────────────────── */
+.cf-m.on{ background: var(--grad); border-color:transparent; box-shadow: var(--glow); }
+.cf-card{
+  border-color: rgba(139,92,246,.34);
+  background:
+    radial-gradient(520px 220px at 50% -30%, rgba(139,92,246,.10), transparent 70%),
+    var(--bg2);
+}
+.cf-combo.vivo{ box-shadow: 0 0 0 1px rgba(234,179,8,.35), 0 0 22px -6px rgba(234,179,8,.55); }
+.cf-b.grande{ background: var(--grad); border-color:transparent; box-shadow: var(--glow); }
+.cf-b.grande:hover{ filter: brightness(1.1); }
+.cf-rango{ box-shadow: 0 0 34px -8px currentColor; }
+
+/* ── La hoja del cuaderno ────────────────────────────────────────────── */
+.nb-head{ border-bottom:1px solid var(--bd); }
+.nb-head::after{
+  content:""; display:block; height:2px;
+  background: linear-gradient(90deg, rgba(139,92,246,.55), rgba(34,211,238,.28) 50%, transparent 90%);
+}
+
+/* ── Se nota al tacto ───────────────────────────────────────────────────
+   Una sola regla para TODO lo que se pulsa: antes cada sección tenía la
+   suya, o ninguna. */
+.tab,.chip,.btn,.nbb,.more,.spk,.cf-m,.cf-b,.cf-op,.cf-bw,.bf-opt,.bf-pill,.bf-gap,
+.qz-o,.lab-c,.lab-v,.lab-b,.lab-op,.sg-b,.sg-v,.sg-ic,.sg-link,.pr-b,.pr-show,.pz-go,
+.wr-eb,.toast-act,.sg-nueva,.sg-pp,.emo-b,.dicb{
+  transition: background var(--tt), color var(--tt), border-color var(--tt),
+              box-shadow var(--tt), transform var(--tt);
+}
+.tab:active,.chip:active,.btn:active,.nbb:active,.more:active,.cf-m:active,.cf-b:active,
+.cf-op:active,.cf-bw:active,.bf-opt:active,.bf-pill:active,.bf-gap:active,.qz-o:active,
+.lab-c:active,.lab-v:active,.lab-b:active,.lab-op:active,.sg-b:active,.sg-v:active,
+.sg-link:active,.pr-b:active,.pr-show:active,.pz-go:active,.wr-eb:active,.sg-nueva:active{
+  transform: scale(.97);
+}
+@media(hover:hover) and (pointer:fine){
+  .tab:hover{ transform: translateY(-1px); }
+  .nbb:hover{ transform: translateY(-1px); }
+}
+
+/* ── Acertar se nota ────────────────────────────────────────────────────
+   Un destello corto y UNA vez. Nada de rebotes ni confeti: se está
+   estudiando. El fallo tiembla apenas, lo justo para mirarlo. */
+@keyframes acierto{
+  from{ box-shadow: 0 0 0 0 rgba(34,197,94,.55); }
+  to  { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+}
+@keyframes fallo{
+  0%,100%{ transform: translateX(0) }
+  25%{ transform: translateX(-4px) } 75%{ transform: translateX(4px) }
+}
+.qz-o.good,.bf-opt.good,.bf-gap.ok,.lab-op.bien,.cf-op.buena,.pr-b.yes:active{
+  animation: acierto .5s var(--ease) 1;
+}
+.qz-o.bad,.bf-opt.wrong,.bf-gap.bad,.lab-op.mal,.cf-op.mala{
+  animation: fallo .28s ease 1;
+}
+
+/* ── El glosario se ve que se puede tocar ────────────────────────────── */
+.gl{ text-underline-offset:3px; }
+.gl:hover,.gl:focus-visible{ background: var(--acbg); border-radius:3px; }
+
+/* ── Detalles que se notan al usarla ─────────────────────────────────── */
+::selection{ background: rgba(139,92,246,.34); color:#fff; }
+
+/* ── Nada de esto corre si el sistema pide menos movimiento ──────────── */
+@media (prefers-reduced-motion: reduce){
+  .qz-o.good,.bf-opt.good,.bf-gap.ok,.lab-op.bien,.cf-op.buena,
+  .qz-o.bad,.bf-opt.wrong,.bf-gap.bad,.lab-op.mal,.cf-op.mala{ animation:none }
+}

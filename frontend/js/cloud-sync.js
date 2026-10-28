@@ -1,0 +1,1632 @@
+/* ═══════════════════════════════════════════════════════════════
+   DA-2026 · Cloud Sync Layer — Offline-First Write-Through
+   ─────────────────────────────────────────────────────────────
+   Strategy:
+     WRITE → localStorage (instant) → Supabase (async, non-blocking)
+     READ  → localStorage (immediate render) + Supabase pull (merge)
+
+   Two sync tiers:
+     1. DEDICATED tables (vacancies, sys_tasks, class_sessions, user_prefs)
+        — record-level merge via _mergeByUpdatedAt
+     2. GENERIC app_state table (JSONB payload, one row per key)
+        — whole-key last-write-wins for everything else
+
+   localStorage.setItem proxy intercepts writes → auto-pushes to cloud.
+   Depends on: window.SB (supabase-client.js), window.AUTH (auth.js)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Cerebro launcher: iframe-mode detection ─────────────────────
+   When this page is loaded INSIDE the launcher's iframe (parent =
+   index.html with the left rail), hide:
+   - The "← Cerebro" back-link (rail handles navigation) — covers all
+     href variants: "index.html", "./index.html", "/index.html", "../index.html"
+   - The duplicate auth widget (the launcher already shows one)
+   - Backup pass: text-based matching for links containing "Cerebro"
+     to catch any non-href back-buttons that might exist in modules. */
+(function(){
+  if (window.self === window.top) return;
+  document.documentElement.classList.add('in-cerebro-frame');
+  const css = '.in-cerebro-frame #sb-auth-widget{display:none!important}'
+            + '.in-cerebro-frame a[href="index.html"],'
+            + '.in-cerebro-frame a[href="./index.html"],'
+            + '.in-cerebro-frame a[href="/index.html"],'
+            + '.in-cerebro-frame a[href$="/index.html"],'
+            + '.in-cerebro-frame a[href*="index.html#"],'
+            + '.in-cerebro-frame .nav-back,'
+            + '.in-cerebro-frame .back-cerebro{display:none!important}';
+  const s = document.createElement('style'); s.textContent = css;
+  (document.head || document.documentElement).appendChild(s);
+  // Belt-and-suspenders: text-based matcher for any leftover "← Cerebro" links
+  function hideTextual(){
+    const links = document.querySelectorAll('a, button');
+    links.forEach(el => {
+      const t = (el.textContent || '').trim().toLowerCase();
+      if (/^[\s←]*cerebro$/i.test(t) || /←\s*cerebro/i.test(t)) {
+        el.style.setProperty('display','none','important');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hideTextual);
+  } else { hideTextual(); }
+})();
+
+const CLOUD = (() => {
+
+  /* ══════════════════════════════════════════════════════════════
+     TIER 1 — Dedicated tables (existing logic, unchanged)
+  ══════════════════════════════════════════════════════════════ */
+
+  const TABLES = {
+    vacancies:      'vacancies',
+    sys_tasks:      'sys_tasks',
+    class_sessions: 'class_sessions',
+    user_prefs:     'user_prefs'
+  };
+
+  /* ── Field mapping: vacancies camelCase ↔ snake_case ── */
+  const _V_TO_DB = {
+    salaryInput:  'salary_input',
+    focusArea:    'focus_area',
+    appliedDate:  'applied_date',
+    followUpDate: 'follow_up_date',
+    foundDate:    'found_date',
+    updatedAt:    'updated_at'
+  };
+  const _V_TO_JS = Object.fromEntries(Object.entries(_V_TO_DB).map(([k,v])=>[v,k]));
+
+  function _toDb(table, record) {
+    if (table !== 'vacancies') return { ...record };
+    const out = {};
+    for (const [k, v] of Object.entries(record)) {
+      out[_V_TO_DB[k] || k] = v;
+    }
+    if (out.status && !out['column']) out['column'] = out.status;
+    return out;
+  }
+
+  function _toLocal(table, record) {
+    if (table !== 'vacancies') return { ...record };
+    const out = {};
+    for (const [k, v] of Object.entries(record)) {
+      out[_V_TO_JS[k] || k] = v;
+    }
+    return out;
+  }
+
+  /* ── Helpers ── */
+  function _uid()   { return window.AUTH?.getUserId() ?? null; }
+  function _ready() { return !!(window.SB && _uid()); }
+  /** key → { v, ts }: valores que no cupieron en disco (cuota llena). Solo en memoria. */
+  const _unsaved = new Map();
+
+  /* ── Access-token cache ──────────────────────────────────────────
+     `SB.auth.session()` es API v1 (síncrona) y NO existe en v2 → daba
+     undefined y el flush de cierre de pestaña terminaba mandando el
+     anon key como Bearer (RLS lo rechaza → guardado perdido en silencio).
+     Cacheamos el access_token con el listener async de v2; autoRefresh
+     lo mantiene fresco vía el evento TOKEN_REFRESHED. En `beforeunload`
+     leemos esta variable de forma síncrona — sin llamadas async. */
+  let _accessToken = null;
+  try {
+    SB.auth.getSession().then(({ data }) => { _accessToken = data?.session?.access_token ?? null; });
+    SB.auth.onAuthStateChange((_e, session) => { _accessToken = session?.access_token ?? null; });
+  } catch (e) { console.warn('[CLOUD] token cache init failed:', e); }
+
+  /* ── Queue: enqueue failed pushes for retry ── */
+  const _queue = [];
+  let _flushing = false;
+
+  function _enqueue(table, record, action) {
+    _queue.push({ table, record, action, ts: Date.now() });
+    _scheduleFlush();
+  }
+
+  function _scheduleFlush() {
+    if (_flushing || _queue.length === 0) return;
+    setTimeout(_flushQueue, 3000);
+  }
+
+  async function _flushQueue() {
+    if (!_ready() || _queue.length === 0) { _flushing = false; return; }
+    _flushing = true;
+    console.log('[CLOUD] Flushing queue:', _queue.length, 'items');
+    const batch = _queue.splice(0, _queue.length);
+    for (const item of batch) {
+      try {
+        if (item.action === 'upsert') {
+          const dbRecord = _toDb(item.table, item.record);
+          const { error } = await SB.from(TABLES[item.table])
+            .upsert({ ...dbRecord, user_id: _uid(), updated_at: new Date().toISOString() },
+                     { onConflict: 'id,user_id' });
+          if (error) { console.error('[CLOUD] flush upsert error:', item.table, error); _queue.push(item); }
+        } else if (item.action === 'delete') {
+          const { error } = await SB.from(TABLES[item.table]).delete().eq('id', item.record.id).eq('user_id', _uid());
+          if (error) console.error('[CLOUD] flush delete error:', item.table, error);
+        } else if (item.action === 'state_upsert') {
+          // Retry for app_state pushes — al confirmar, SACAR del outbox y alinear TS
+          // (sin esto el push se hacía pero el contador quedaba fantasma en "N sin subir")
+          await _pushStateRaw(item.record.key, item.record.payload);
+          _setLocalTs(item.record.key, Date.now());
+          _outboxRemove(item.record.key);
+        }
+      } catch (e) { console.error('[CLOUD] flush exception:', item.table, e); _queue.push(item); }
+    }
+    _flushing = false;
+    if (_queue.length > 0) _scheduleFlush();
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     TIER 1 — Public API (dedicated tables)
+  ══════════════════════════════════════════════════════════════ */
+
+  async function push(table, record) {
+    if (!_ready()) { console.warn('[CLOUD] push queued (not ready):', table, record.id); _enqueue(table, record, 'upsert'); return { error: 'not_ready' }; }
+    try {
+      const dbRecord = _toDb(table, record);
+      const { error } = await SB.from(TABLES[table])
+        .upsert({ ...dbRecord, user_id: _uid(), updated_at: new Date().toISOString() },
+                 { onConflict: 'id,user_id' });
+      if (error) { console.error('[CLOUD] push error:', table, record.id, error); _enqueue(table, record, 'upsert'); return { error }; }
+      console.log('[CLOUD] push OK:', table, record.id);
+      return { error: null };
+    } catch (e) {
+      console.error('[CLOUD] push exception:', table, record.id, e);
+      _enqueue(table, record, 'upsert');
+      return { error: e.message };
+    }
+  }
+
+  async function pull(table) {
+    if (!_ready()) { console.warn('[CLOUD] pull skipped (not ready):', table); return { data: null, error: 'not_ready' }; }
+    try {
+      const { data, error } = await SB.from(TABLES[table])
+        .select('*')
+        .eq('user_id', _uid())
+        .order('updated_at', { ascending: false });
+      if (error) { console.error('[CLOUD] pull error:', table, error); return { data: null, error }; }
+      const mapped = data ? data.map(r => _toLocal(table, r)) : null;
+      console.log('[CLOUD] pull OK:', table, mapped?.length ?? 0, 'records');
+      return { data: mapped, error: null };
+    } catch (e) {
+      console.error('[CLOUD] pull exception:', table, e);
+      return { data: null, error: e.message };
+    }
+  }
+
+  async function remove(table, id) {
+    if (!_ready()) { console.warn('[CLOUD] remove queued (not ready):', table, id); _enqueue(table, { id }, 'delete'); return; }
+    try {
+      const { error } = await SB.from(TABLES[table]).delete().eq('id', id).eq('user_id', _uid());
+      if (error) { console.error('[CLOUD] remove error:', table, id, error); return; }
+      console.log('[CLOUD] remove OK:', table, id);
+    } catch (e) {
+      console.error('[CLOUD] remove exception:', table, id, e);
+      _enqueue(table, { id }, 'delete');
+    }
+  }
+
+  async function syncDown(table, localKey, mergeStrategy) {
+    console.log('[CLOUD] syncDown:', table, mergeStrategy || 'latest_wins');
+    const { data, error } = await pull(table);
+    if (error || !data) return null;
+    if (mergeStrategy === 'cloud_wins') {
+      localStorage.setItem(localKey, JSON.stringify(data));
+      return data;
+    }
+    let local = [];
+    try { local = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch { /* skip */ }
+    const merged = _mergeByUpdatedAt(local, data);
+    localStorage.setItem(localKey, JSON.stringify(merged));
+    console.log('[CLOUD] syncDown merged:', table, merged.length, 'records');
+    return merged;
+  }
+
+  async function syncUp(table, localKey) {
+    if (!_ready()) return;
+    let local = [];
+    try { local = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch { return; }
+    for (const record of local) {
+      await push(table, record);
+    }
+  }
+
+  async function fullSync(table, localKey) {
+    if (!_ready()) { console.warn('[CLOUD] fullSync skipped (not ready):', table); return null; }
+    console.log('[CLOUD] fullSync START:', table);
+    const { data: cloud, error } = await pull(table);
+    if (error) { console.error('[CLOUD] fullSync pull failed:', table, error); return null; }
+    let local = [];
+    try { local = JSON.parse(localStorage.getItem(localKey) || '[]'); } catch { /* skip */ }
+    const merged = _mergeByUpdatedAt(local, cloud || []);
+    localStorage.setItem(localKey, JSON.stringify(merged));
+    const cloudIds = new Set((cloud || []).map(r => String(r.id)));
+    const localOnly = merged.filter(r => !cloudIds.has(String(r.id)));
+    console.log('[CLOUD] fullSync:', table, '| local:', local.length, '| cloud:', (cloud||[]).length, '| merged:', merged.length, '| toUpload:', localOnly.length);
+    for (const record of localOnly) {
+      await push(table, record);
+    }
+    console.log('[CLOUD] fullSync DONE:', table);
+    return merged;
+  }
+
+  /* ── Merge helper ── */
+  function _safeTs(val) {
+    if (!val) return 0;
+    const d = new Date(val);
+    return isNaN(d.getTime()) ? 0 : d.getTime();
+  }
+
+  function _mergeByUpdatedAt(local, cloud) {
+    const map = new Map();
+    for (const r of local) {
+      const rec = { ...r };
+      if (!rec.updated_at) {
+        const fallback = rec.saved_at || rec.created || rec.ts;
+        rec.updated_at = _safeTs(fallback) ? new Date(fallback).toISOString() : new Date().toISOString();
+      }
+      map.set(String(rec.id), rec);
+    }
+    for (const r of cloud) {
+      const key = String(r.id);
+      const existing = map.get(key);
+      if (!existing || _safeTs(r.updated_at) >= _safeTs(existing.updated_at)) {
+        map.set(key, r);
+      }
+    }
+    return [...map.values()];
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     TIER 2 — Generic app_state (JSONB payload, one row per key)
+  ══════════════════════════════════════════════════════════════ */
+
+  /* ── Sync Registry: static keys to sync via app_state ── */
+  const SYNC_REGISTRY = [
+    // Lápidas de borrado (derivadas en el proxy · merge por unión)
+    'cloud_tombstones',
+    // Arrays — user-generated data
+    'sb_goals', 'sb_habits', 'sb_reviews', 'sb_notes2', 'sb_ratings',
+    'eng_notes', 'eng_srs_deck', 'eng_tense_progress', 'eng_imported_lessons', 'eng_error_log', 'eng_daily_session', 'eng_practice_streak',
+    'ruta_log5', 'news_saved',
+    // Opaque state objects
+    'sb_prompts', 'sb_accounting', 'e4', 'ruta5', 'dojo_stats', 'excel_dojo', 'sys_notebook', 'sys_notebook_meta', 'sim_interview_chks', 'plab_h',
+    // 13-NOT Cuadernos (metadata only — attachment binaries stay local in IndexedDB)
+    'not_nb_meta', 'not_nb_data',
+    // 13-NOT · P4 · Mapas mentales por cuaderno (nodos + edges JSONB)
+    'not_nb_maps',
+    // 14-WORK (cases, errors, learnings, KB, notebooks)
+    'work_cases', 'work_errors', 'work_learnings', 'work_kb',
+    'work_nb_meta', 'work_nb_data',
+    // 14-WORK Workspace de Implementación (casos multi-cliente · 3 pilares · PRIVADO via RLS)
+    'work_impl',
+    // 14-WORK Ecosistema (Workflow doc, Mini-curso, Diccionario)
+    'work_eco_workflow', 'work_eco_course', 'work_eco_dict',
+    // 14-WORK KB attachment metadata (blobs viven en IDB local)
+    'work_kb_atts',
+    // 14-WORK · reuniones del proyecto
+    'work_moif_meetings',
+    // 14-WORK · checklist de la prueba técnica
+    'work_dota_progress',
+    // 15-MM Mind Map Studio (maps array; each holds jsMind node_tree data)
+    'tools_mindmaps',
+    // 15-MM Free Canvas (Miro-style: nodes + edges + view state per canvas)
+    'tools_canvases',
+    // 16-APA Document Studio (APA-formatted academic + personal docs)
+    'tools_apa_docs', 'apa_defaults',
+    // Config / prefs (small scalars)
+    'jt_profile', 'jt_form_expanded',
+    'sb_name', 'sb_streak', 'sb_start', 'sb_last', 'sb_hours', 'sb_pomo_total',
+    // ─── Sync Audit fixes · 2026-05-15b ───
+    // 1-IND Mission Control · tareas y workshop history
+    'sb_tasks', 'sb_ws_hist',
+    // 5-JOB Job Tracker · master key del módulo (vacancies/jobs array)
+    'jt8',
+    // 10-SYS Systems Engineering · cuaderno custom activo seleccionado
+    'sys_active_custom',
+    // 10-SYS Subject CRUD · materias custom (overrides + nuevas) + lista de ocultas
+    // Los binarios de adjuntos (sys_subj_files_*) viven solo local — no sync.
+    'sys_subjects_custom', 'sys_subjects_hidden', 'sys_subjects_collapsed',
+    // 10-SYS Semana en vivo · parte semanal que escribe Claude + checks de Miguel
+    // (separados: un parte nuevo nunca pisa un check hecho en otro device)
+    'sys_week_live', 'sys_week_state',
+    // 4-RUT Ruta Data Analyst · timestamp de inicio del journey
+    'ruta_st',
+    // ─── Bug Hunt fix · 2026-05-15j (Fase 3) ───
+    // 5-JOB · timestamp de inicio del tracker (para conteo de días cross-device)
+    'jt_s8',
+    // ─── 2-APP Second Brain · 2026-05-15 (2-APP.P3) ───
+    // Historial de análisis de vacantes (snapshots + outcomes para el Coach)
+    'app_analyses',
+    // ─── 4-RUT · Proyecto ATLAS · 2026-07-06 ───
+    // Ruta diaria (array), currículo/certs checkmarks (obj), meta/config (obj)
+    'atlas_daily', 'atlas_curr', 'atlas_meta',
+    // ─── 18-MUS Cerebro Musical · 2026-09-08 ───
+    // Catálogo de obras, progreso de la fábrica, identidad del universo y
+    // el estado del laboratorio (incluye patrones de ritmo hechos a mano).
+    // mus_tab queda local a propósito: cada device en su pestaña.
+    'mus_songs', 'mus_check', 'mus_univ', 'mus_lab',
+    // Proyecto del Estudio: pistas, patrones y mezcla. Pequeno (unos KB)
+    // porque guarda GRADOS y patrones, no audio. Las tomas de voz viven
+    // en IndexedDB local y no viajan.
+    'mus_proy'
+  ];
+
+  /* ── Dynamic key prefixes discovered at runtime ── */
+  const DYNAMIC_PREFIXES = ['fin_', 'sb_pomo_'];
+
+  /* ── Keys explicitly excluded from sync ── */
+  const SKIP_KEYS = new Set([
+    'news_cache',
+    // Dedicated-table keys handled by Tier 1:
+    'da_vacancies', 'sys_tasks', 'sys_class_sessions',
+    // 12-FIN · caché de mercado y preferencia de UI. Empiezan por 'fin_' y
+    // por eso DYNAMIC_PREFIXES los subiría solos: el caché son cientos de KB
+    // de series que se regeneran cada 6h contra la fuente oficial — no es
+    // dato del usuario y no tiene por qué viajar a Supabase.
+    'fin_mkt_cache', 'fin_ui_prefs',
+    // Estado de la calculadora flotante: se reescribe en CADA tecla. Si
+    // sincronizara, cada dígito tecleado dispararía un push a Supabase.
+    'fin_calc_state',
+    // Foto de mercados y titulares: se regenera sola desde data/world.json.
+    'fin_world_cache',
+    // Burbuja de noticias: caché regenerable + marca de qué día ya se miró.
+    'fin_news_cache', 'fin_news_seen',
+    // 🔒 LLAVES DE API. Exclusión de SEGURIDAD, no de eficiencia: empieza por
+    // 'fin_' y sin esta línea DYNAMIC_PREFIXES las subiría a Supabase. Un
+    // secreto que no viaja no se puede interceptar en el camino.
+    'fin_apikeys'
+  ]);
+
+  const _registrySet = new Set(SYNC_REGISTRY);
+
+  /** Check if a localStorage key should sync via app_state */
+  function _shouldSync(key) {
+    if (SKIP_KEYS.has(key)) return false;
+    if (_registrySet.has(key)) return true;
+    for (const p of DYNAMIC_PREFIXES) {
+      if (key.startsWith(p)) return true;
+    }
+    return false;
+  }
+
+  /** Safely parse a localStorage string value into JSONB-safe data */
+  function _safeParse(value) {
+    if (value === null || value === undefined) return null;
+    try { return JSON.parse(value); } catch { return value; }
+  }
+
+  /* ── app_state CRUD ── */
+
+  /** Push a single key's payload to app_state (fire-and-forget) */
+  async function _pushStateRaw(storeKey, payload) {
+    const { error } = await SB.from('app_state')
+      .upsert({
+        user_id:    _uid(),
+        store_key:  storeKey,
+        payload:    payload,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'user_id,store_key' });
+    if (error) throw error;
+  }
+
+  async function pushState(storeKey, payload) {
+    if (!_ready()) {
+      _outboxAdd(storeKey);
+      _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+      return;
+    }
+    try {
+      await _pushStateRaw(storeKey, payload);
+      console.log('[CLOUD] pushState OK:', storeKey);
+      _outboxRemove(storeKey);
+    } catch (e) {
+      console.error('[CLOUD] pushState error:', storeKey, e);
+      // Sesión vencida → auto-refresh (patrón family-system) y un reintento
+      const msg = String(e && (e.message || e));
+      if (/jwt|expired|401|invalid.*token|not.*auth/i.test(msg)) {
+        try {
+          await SB.auth.refreshSession();
+          await _pushStateRaw(storeKey, payload);
+          console.log('[CLOUD] pushState OK tras refresh de sesión:', storeKey);
+          _outboxRemove(storeKey);
+          return;
+        } catch (e2) {
+          console.warn('[CLOUD] sesión irrecuperable — cambios quedan en outbox');
+          window.dispatchEvent(new CustomEvent('cloud:session_expired'));
+        }
+      }
+      _outboxAdd(storeKey);
+      _queue.push({ table: 'app_state', record: { key: storeKey, payload }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+    }
+  }
+
+  /** Pull ALL app_state rows for the current user in one query */
+  async function _pullAllStates() {
+    if (!_ready()) return null;
+    try {
+      const { data, error } = await SB.from('app_state')
+        .select('store_key, payload, updated_at')
+        .eq('user_id', _uid());
+      if (error) { console.error('[CLOUD] pullAllStates error:', error); return null; }
+      // Convert to Map<storeKey, {payload, updated_at}>
+      const map = new Map();
+      for (const row of (data || [])) {
+        map.set(row.store_key, { payload: row.payload, updated_at: row.updated_at });
+      }
+      console.log('[CLOUD] pullAllStates OK:', map.size, 'keys');
+      return map;
+    } catch (e) {
+      console.error('[CLOUD] pullAllStates exception:', e);
+      return null;
+    }
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     fullSyncAll — Master orchestrator (called on sign-in)
+  ══════════════════════════════════════════════════════════════ */
+
+  let _syncing = false;
+  let _initialSyncDone = false;
+  let _bootRetryDelay = 10000;
+
+  async function fullSyncAll() {
+    if (!_ready()) { console.warn('[CLOUD] fullSyncAll skipped (not ready)'); return; }
+    if (_syncing) { console.warn('[CLOUD] fullSyncAll already in progress'); return; }
+    _syncing = true;
+    const t0 = performance.now();
+    console.log('[CLOUD] ══ fullSyncAll START ══');
+
+    try {
+      // ── Step 1: Dedicated tables (existing logic) ──
+      await fullSync('vacancies', 'da_vacancies');
+      await fullSync('sys_tasks', 'sys_tasks');
+
+      // ── Step 2: Pull all app_state rows in one query ──
+      const cloudMap = await _pullAllStates();
+      if (!cloudMap) {
+        // Antes: un fallo acá dejaba _initialSyncDone=false PARA SIEMPRE →
+        // sin poll de 45s, sin outbox-retry, sin realtime: la página quedaba
+        // muda hasta un reload. Ahora se reintenta solo con backoff.
+        console.warn('[CLOUD] fullSyncAll: pullAllStates failed — reintento en ' + (_bootRetryDelay/1000) + 's');
+        setTimeout(() => { if (!_initialSyncDone) fullSyncAll(); }, _bootRetryDelay);
+        _bootRetryDelay = Math.min(_bootRetryDelay * 2, 120000);
+        return;
+      }
+      _bootRetryDelay = 10000;
+
+      // ── Step 3: Reconcile static registry keys ──
+      for (const key of SYNC_REGISTRY) {
+        await _reconcileKey(key, cloudMap);
+      }
+
+      // ── Step 4: Discover and reconcile dynamic keys ──
+      // 4a. Local dynamic keys → push if not in cloud
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+        if (_registrySet.has(key)) continue; // already handled above
+        if (!_shouldSync(key)) continue;
+        await _reconcileKey(key, cloudMap);
+        cloudMap.delete(key); // mark as handled
+      }
+      // 4b. Cloud dynamic keys not in localStorage → pull down
+      for (const [key, cloud] of cloudMap.entries()) {
+        if (_registrySet.has(key)) continue; // already handled
+        if (SKIP_KEYS.has(key)) continue;
+        // This is a cloud-only dynamic key — write to localStorage
+        const matchesDynamic = DYNAMIC_PREFIXES.some(p => key.startsWith(p));
+        if (matchesDynamic) {
+          console.log('[CLOUD] fullSyncAll: cloud→local (new device):', key);
+          _safeWrite(key, JSON.stringify(cloud.payload));   // sin cupo, una key no aborta la hidratación entera
+        }
+      }
+
+      // ── Step 5: Flush any queued items ──
+      if (_queue.length > 0) _scheduleFlush();
+
+      _initialSyncDone = true;
+      console.log('[CLOUD] ══ fullSyncAll DONE ══ (' + Math.round(performance.now() - t0) + 'ms)');
+
+      // ── Step 6: Notify modules to re-render ──
+      window.dispatchEvent(new CustomEvent('cloud:sync_complete'));
+
+    } catch (e) {
+      console.error('[CLOUD] fullSyncAll exception:', e);
+    } finally {
+      _syncing = false;
+    }
+  }
+
+  /* ── STRUCTURAL MERGE para cuadernos (nested data) ─────────────
+   * Los cuadernos son objetos anidados {nbId:{pages:[...]}}: el LWW
+   * por key completa pierde páginas cuando dos devices divergen.
+   * Acá se mergea por página (gana p.updated más reciente; lo que
+   * existe en un solo lado se conserva). Empate → gana cloud.      */
+  const NB_DATA_KEYS = new Set(['work_nb_data', 'not_nb_data', 'sys_notebook']);
+  const NB_META_KEYS = new Set(['work_nb_meta', 'not_nb_meta', 'sys_notebook_meta']);
+
+  function _mergeNbData(local, cloud, tomb) {
+    const out = {};
+    const ids = new Set([...Object.keys(local || {}), ...Object.keys(cloud || {})]);
+    ids.forEach(id => {
+      const l = (local || {})[id], c = (cloud || {})[id];
+      // Lápida: si el cuaderno se borró DESPUÉS de su última página tocada, no revive
+      if (tomb && tomb[String(id)]) {
+        const last = [...((l && l.pages) || []), ...((c && c.pages) || [])]
+          .reduce((mx, pg) => String((pg && pg.updated) || '') > mx ? String(pg.updated) : mx, '');
+        if (String(tomb[String(id)]) >= last) return;
+      }
+      if (!l) { out[id] = c; return; }
+      if (!c) { out[id] = l; return; }
+      const byPage = {};
+      [...(c.pages || []), ...(l.pages || [])].forEach(p => {
+        if (!p || p.id == null) return;
+        const prev = byPage[p.id];
+        if (!prev || String(p.updated || '') > String(prev.updated || '')) byPage[p.id] = p;
+      });
+      out[id] = { ...c, ...l, pages: Object.values(byPage).sort((a, b) => String(a.created || '').localeCompare(String(b.created || ''))) };
+    });
+    return out;
+  }
+  function _mergeNbMeta(local, cloud, tomb) {
+    const by = {}; const ts = x => String((x && (x.updated || x.created)) || '');
+    [...(cloud || []), ...(local || [])].forEach(m => {
+      if (!m || m.id == null) return;
+      const p = by[m.id];
+      if (!p || ts(m) > ts(p)) by[m.id] = m;
+    });
+    if (tomb) Object.keys(by).forEach(id => { if (_isBuried(tomb, id, ts(by[id]))) delete by[id]; });
+    return Object.values(by);
+  }
+  /* ── MERGE ESTRUCTURAL GENÉRICO para arrays de entidades ───────
+   * El merge por página existía SOLO para cuadernos (6 keys). Todo lo demás
+   * anidado caía en LWW por key completa: si agregás un caso en el celular y
+   * otro distinto en el PC, gana el más nuevo por timestamp y el otro se
+   * pierde ENTERO. Es la misma clase de bug del 15-jul en módulos a los que
+   * todavía no les había tocado.
+   *
+   * ⚠️ Sólo entran keys cuya FORMA fue verificada leyendo el código que las
+   * escribe. Declarar mal una key acá corrompe datos: ante la duda, afuera.
+   *   - work_kb quedó AFUERA: es un string plano, no un array.
+   *   - ts = campo de fecha real de modificación cuando existe; donde sólo
+   *     hay fecha de creación, la unión igual evita perder entradas enteras. */
+  const ARRAY_MERGE_KEYS = {
+    tools_mindmaps:     { id: 'id', ts: 'updated'   },  // mindmap.js  · updated en cada edición
+    tools_canvases:     { id: 'id', ts: 'updated'   },  // canvas.js   · updated en cada edición
+    tools_apa_docs:     { id: 'id', ts: 'updated'   },  // apa.js      · updated en cada edición
+    work_eco_dict:      { id: 'id', ts: 'updated'   },  // work.js     · updated en cada entrada
+    work_impl:          { id: 'id', ts: 'updatedAt' },  // work.js     · updatedAt
+    work_cases:         { id: 'id', ts: 'date'      },  // work.js     · sólo fecha de alta
+    work_errors:        { id: 'id', ts: 'date'      },
+    work_learnings:     { id: 'id', ts: 'date'      },
+    work_moif_meetings: { id: 'id', ts: 'updated'   }
+  };
+
+  /* ── LÁPIDAS (tombstones) ──────────────────────────────────────
+   * Antes no existían: el merge era una unión pura de ids, así que borrar
+   * algo en un device y reconectar otro que todavía lo tenía lo RESUCITABA
+   * (y lo re-subía). Ahora, al escribir una key sincronizada, se detecta qué
+   * ids desaparecieron y se anota la fecha. La lápida sólo mata un item si es
+   * MÁS NUEVA que su última modificación — si editaste después de borrar en
+   * otro equipo, gana la edición. El sesgo siempre es a no perder datos.
+   * Se derivan acá, en el proxy, para no tener que tocar ningún módulo. */
+  const _TOMB_KEY = 'cloud_tombstones';
+  const _TOMB_TTL_MS = 60 * 864e5;   // 60 días
+
+  function _tombAll() { return _safeParse(localStorage.getItem(_TOMB_KEY)) || {}; }
+  function _tombFor(key) { return _tombAll()[key] || {}; }
+
+  /** Extrae el conjunto de ids de un valor, sea array de entidades u objeto. */
+  function _idsOf(key, val) {
+    const out = new Set();
+    if (!val) return out;
+    if (Array.isArray(val)) {
+      const cfg = ARRAY_MERGE_KEYS[key];
+      const idf = (cfg && cfg.id) || 'id';
+      val.forEach(it => { if (it && it[idf] != null) out.add(String(it[idf])); });
+    } else if (typeof val === 'object') {
+      Object.keys(val).forEach(k => out.add(String(k)));
+    }
+    return out;
+  }
+
+  /** Compara el valor anterior con el nuevo y anota los ids que se fueron. */
+  function _tombRecord(key, prevRaw, nextRaw) {
+    if (!ARRAY_MERGE_KEYS[key] && !NB_META_KEYS.has(key) && !NB_DATA_KEYS.has(key)) return;
+    try {
+      const before = _idsOf(key, _safeParse(prevRaw));
+      if (!before.size) return;
+      const after = _idsOf(key, _safeParse(nextRaw));
+      const gone = [...before].filter(id => !after.has(id));
+      if (!gone.length) return;
+      const all = _tombAll();
+      const mine = all[key] || (all[key] = {});
+      const now = new Date().toISOString();
+      gone.forEach(id => { mine[id] = now; });
+      _origSetItem(_TOMB_KEY, JSON.stringify(_tombPurge(all)));
+      _outboxAdd(_TOMB_KEY);
+      console.log('[CLOUD] lápidas anotadas en', key, gone);
+      if (_initialSyncDone && !_syncing) {
+        _setLocalTs(_TOMB_KEY, Date.now());
+        pushState(_TOMB_KEY, _tombAll());
+      }
+    } catch (e) { console.warn('[CLOUD] tombRecord falló para', key, e); }
+  }
+
+  function _tombPurge(all) {
+    const limit = new Date(Date.now() - _TOMB_TTL_MS).toISOString();
+    Object.keys(all || {}).forEach(k => {
+      Object.keys(all[k] || {}).forEach(id => { if (String(all[k][id]) < limit) delete all[k][id]; });
+      if (!Object.keys(all[k] || {}).length) delete all[k];
+    });
+    return all || {};
+  }
+
+  /** Unión de lápidas de los dos lados: gana la fecha de borrado más reciente. */
+  function _mergeTombstones(local, cloud) {
+    const out = {};
+    const keys = new Set([...Object.keys(local || {}), ...Object.keys(cloud || {})]);
+    keys.forEach(k => {
+      const a = (local || {})[k] || {}, b = (cloud || {})[k] || {};
+      const m = {};
+      new Set([...Object.keys(a), ...Object.keys(b)]).forEach(id => {
+        m[id] = String(a[id] || '') > String(b[id] || '') ? a[id] : b[id];
+      });
+      out[k] = m;
+    });
+    return _tombPurge(out);
+  }
+
+  /** ¿La lápida de este id es más nueva que su última modificación? */
+  function _isBuried(tomb, id, itemTs) {
+    const d = tomb[String(id)];
+    return !!d && String(d) >= String(itemTs || '');
+  }
+
+  /** Merge genérico de un array de entidades por id. Devuelve null si la
+   *  forma no es la esperada — así cae al LWW de siempre y nunca rompe. */
+  function _mergeArrayById(key, local, cloud) {
+    const cfg = ARRAY_MERGE_KEYS[key];
+    if (!cfg) return null;
+    if (!Array.isArray(local) || !Array.isArray(cloud)) return null;   // guarda de forma
+    const tomb = _tombFor(key);
+    const ts = x => String((x && (x[cfg.ts] || x.updated || x.updatedAt || x.date || x.created)) || '');
+    const by = new Map();
+    [...cloud, ...local].forEach(it => {
+      if (!it || it[cfg.id] == null) return;
+      const k = String(it[cfg.id]);
+      const prev = by.get(k);
+      if (!prev || ts(it) > ts(prev)) by.set(k, it);
+    });
+    by.forEach((it, k) => { if (_isBuried(tomb, k, ts(it))) by.delete(k); });
+    return [...by.values()];
+  }
+
+  /** Devuelve el merge estructural si la key lo soporta; null si no aplica. */
+  function _structuralMerge(key, localVal, cloudVal) {
+    try {
+      if (key === _TOMB_KEY) return _mergeTombstones(localVal, cloudVal);
+      if (NB_DATA_KEYS.has(key)) return _mergeNbData(localVal, cloudVal, _tombFor(key));
+      if (NB_META_KEYS.has(key)) return _mergeNbMeta(localVal, cloudVal, _tombFor(key));
+      if (ARRAY_MERGE_KEYS[key])  return _mergeArrayById(key, localVal, cloudVal);
+    } catch (e) { console.warn('[CLOUD] structuralMerge failed for', key, e); }
+    return null;
+  }
+
+  /** Escritura local con QUOTA-GUARD: una key que no entra NO aborta toda la sync.
+   *  Si no cabe en disco, el valor queda en `_unsaved` (memoria de esta pestaña) y
+   *  getItem lo devuelve: el módulo muestra lo que vino de la nube aunque el disco
+   *  siga con la copia vieja. Devuelve true en ambos casos (la pestaña tiene el valor);
+   *  el TS que selle el llamador va a memoria, no a disco (ver _setLocalTs). */
+  function _safeWrite(key, str) {
+    try { _origSetItem(key, str); _unsaved.delete(key); return true; }
+    catch (e) {
+      const u = _unsaved.get(key);
+      _unsaved.set(key, { v: str, ts: u ? u.ts : 0 });
+      console.error('[CLOUD] ✗ QUOTA al escribir', key, '(' + Math.round(str.length/1024) + 'KB) — queda en memoria; sync continúa con las demás keys');
+      window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(str.length/1024), cloud: true } }));
+      return true;
+    }
+  }
+
+  /** Escritura de una key de CUADERNO con red de seguridad anti-pérdida.
+   *  Si la nueva versión pierde contenido (menos imágenes/páginas/texto que
+   *  la local), snapshotea la local a IndexedDB ANTES de pisarla y avisa a
+   *  la UI. Así un device viejo que re-sella una versión pobre nunca borra
+   *  de forma permanente el contenido rico — siempre se puede restaurar. */
+  function _nbGuardedWrite(key, newStr) {
+    if (!NB_DATA_KEYS.has(key)) return _safeWrite(key, newStr);
+    try {
+      const oldObj = _safeParse(localStorage.getItem(key)) || {};
+      const newObj = _safeParse(newStr) || {};
+      const losses = (window.NBShared && NBShared.nbDetectRegression)
+        ? NBShared.nbDetectRegression(oldObj, newObj) : [];
+      if (losses.length) {
+        if (window.NBShared && NBShared.snapshotNb) NBShared.snapshotNb(key, oldObj, 'sync-regresion:' + key).catch(()=>{});
+        console.warn('[CLOUD] ⚠ regresión de cuaderno al sincronizar', key, '— snapshot guardado. Pérdidas:', losses);
+        window.dispatchEvent(new CustomEvent('cloud:nb_regression', { detail: { key, losses } }));
+      }
+    } catch (e) { /* la protección nunca debe bloquear la escritura */ }
+    return _safeWrite(key, newStr);
+  }
+
+  /**
+   * Reconcile a single localStorage key against the cloud map.
+   * First-sync safe: local data uploads if cloud is empty.
+   */
+  async function _reconcileKey(key, cloudMap, opts) {
+    const localRaw = localStorage.getItem(key);
+    const cloud    = cloudMap.get(key) || null;
+    const force    = opts && opts.forceCloudWin;
+
+    const localExists = localRaw !== null && localRaw !== '' && localRaw !== 'undefined';
+    const cloudExists = cloud !== null;
+
+    if (cloudExists && localExists) {
+      // Cuadernos → merge estructural por página (nunca pisa un lado entero)
+      const sm = _structuralMerge(key, _safeParse(localRaw), cloud.payload);
+      if (sm !== null) {
+        const mergedStr = JSON.stringify(sm);
+        if (!_deepEqual(sm, _safeParse(localRaw))) _nbGuardedWrite(key, mergedStr);
+        if (!_deepEqual(sm, cloud.payload)) {
+          console.log('[CLOUD] reconcile MERGE→both:', key);
+          await pushState(key, sm);
+          _setLocalTs(key, Date.now());
+        } else {
+          // Local y nube YA equivalentes → alinear el TS local con el de la nube.
+          // (Sellar Date.now() acá envenenaba el merge: el local quedaba "siempre
+          //  más nuevo" y la key reaparecía como "cambio sin subir" en cada carga.)
+          console.log('[CLOUD] reconcile MERGE (cloud ya completo):', key);
+          _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        }
+        return;
+      }
+      // Resto — compare timestamps (LWW por key)
+      const localTs = _getLocalTs(key);
+      const cloudTs = new Date(cloud.updated_at || 0).getTime();
+
+      if (force || cloudTs > localTs) {
+        // Cloud wins → overwrite local
+        console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
+        if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, cloudTs || Date.now());
+      } else {
+        // "Local más nuevo" por TIMESTAMP — pero SOLO subir si el CONTENIDO realmente
+        // difiere. Si es idéntico al cloud (lo normal una vez sincronizado), NO re-subir:
+        // solo alinear el TS. Deep-equal (inmune al orden de claves — el compare por
+        // string normalizado NO canonicaliza el orden y generaba re-pushes fantasma
+        // que alimentaban el ping-pong entre PCs).
+        if (_deepEqual(_safeParse(localRaw), cloud.payload)) {
+          _setLocalTs(key, cloudTs);                 // ya sincronizado → solo alinear, sin red
+        } else {
+          console.log('[CLOUD] reconcile local→cloud:', key);
+          await pushState(key, _safeParse(localRaw));
+          _setLocalTs(key, Date.now());
+        }
+      }
+    } else if (cloudExists && !localExists) {
+      console.log('[CLOUD] reconcile cloud→local (new):', key);
+      if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+    } else if (!cloudExists && localExists) {
+      console.log('[CLOUD] reconcile local→cloud (first):', key);
+      await pushState(key, _safeParse(localRaw));
+      _setLocalTs(key, Date.now());
+    }
+  }
+
+  /** Force pull cloud → local for ALL syncable keys, ignoring timestamps.
+   *  Resuelve casos donde local TS quedó stuck por encima del cloud. */
+  /** Devuelve un objeto con info diagnóstica del estado actual. */
+  function diagnostics() {
+    const out = {
+      sb_loaded: !!window.SB,
+      auth_loaded: !!window.AUTH,
+      uid: null,
+      session: null,
+      syncing: _syncing,
+      initial_sync_done: _initialSyncDone,
+      last_sync_age_s: _lastSyncTs ? Math.round((Date.now()-_lastSyncTs)/1000) : null,
+      queue_size: _queue.length,
+    };
+    try { out.uid = window.AUTH?.getUserId() ?? null; } catch {}
+    return out;
+  }
+
+  /** Espera (polling) a que la sync en curso termine. Hasta `timeoutMs` ms. */
+  async function _waitForSyncIdle(timeoutMs){
+    const start = Date.now();
+    while (_syncing && (Date.now() - start) < timeoutMs) {
+      await new Promise(r => setTimeout(r, 200));
+    }
+    return !_syncing;
+  }
+
+  async function forceResyncFromCloud() {
+    if (!window.SB)        return { ok:false, reason:'sb-not-loaded', detail:'window.SB is not initialized. supabase-client.js no cargó.' };
+    if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized. auth.js no cargó.' };
+    const uid = window.AUTH.getUserId();
+    if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero (botón en la nav superior).' };
+    // Si hay otra sync corriendo, esperá a que termine (hasta 20s) en vez de bailar out
+    if (_syncing) {
+      console.log('[CLOUD] forceResync: aguardando que termine la sync en curso…');
+      const ok = await _waitForSyncIdle(20000);
+      if (!ok) return { ok:false, reason:'syncing-timeout', detail:'La sincronización anterior tardó más de 20 segundos. Refresca la página y reintentá.' };
+    }
+    _syncing = true;
+    console.log('[CLOUD] ══ forceResyncFromCloud START · uid=', uid);
+    try {
+      const cloudMap = await _pullAllStates();
+      if (!cloudMap) return { ok:false, reason:'pull-failed', detail:'No se pudo descargar de app_state. Probable causa: RLS de la tabla app_state no configurada o tabla no existe. Verificá en Supabase dashboard → Database → Tables → app_state.' };
+      let applied = 0;
+      const keys = [];
+      for (const [key, cloud] of cloudMap.entries()) {
+        if (SKIP_KEYS.has(key)) continue;
+        const isSyncable = _registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p));
+        if (!isSyncable) continue;
+        // Cuadernos: ni siquiera el force pisa páginas locales — merge estructural + guard anti-pérdida
+        const smF = _structuralMerge(key, _safeParse(localStorage.getItem(key)), cloud.payload);
+        const wrote = NB_DATA_KEYS.has(key)
+          ? _nbGuardedWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload))
+          : _safeWrite(key, JSON.stringify(smF !== null ? smF : cloud.payload));
+        if (wrote) _setLocalTs(key, new Date(cloud.updated_at || 0).getTime());
+        keys.push(key);
+        applied++;
+      }
+      console.log('[CLOUD] forceResync DONE · applied:', applied, 'keys', keys);
+      window.dispatchEvent(new CustomEvent('cloud:force_resynced', { detail: { count: applied } }));
+      return { ok:true, count: applied, keys };
+    } catch (e) {
+      console.error('[CLOUD] forceResync exception:', e);
+      return { ok:false, reason:'exception', detail: e.message || String(e) };
+    } finally {
+      _syncing = false;
+    }
+  }
+
+  async function forcePushKey(key) {
+    if (!_ready()) return { ok:false, reason:'not-ready' };
+    const raw = localStorage.getItem(key);
+    if (raw === null) return { ok:false, reason:'no-local-data' };
+    try {
+      await _pushStateRaw(key, _safeParse(raw));
+      _setLocalTs(key, Date.now());
+      _outboxRemove(key);
+      console.log('[CLOUD] forcePush OK:', key);
+      return { ok:true };
+    } catch (e) {
+      console.error('[CLOUD] forcePush error:', key, e);
+      return { ok:false, reason:'exception', detail: e.message || String(e) };
+    }
+  }
+
+  async function forcePushAll() {
+    if (!window.SB)        return { ok:false, reason:'sb-not-loaded', detail:'window.SB is not initialized.' };
+    if (!window.AUTH)      return { ok:false, reason:'auth-not-loaded', detail:'window.AUTH is not initialized.' };
+    const uid = window.AUTH.getUserId();
+    if (!uid)              return { ok:false, reason:'not-authenticated', detail:'No hay sesión activa. Iniciá sesión primero.' };
+    if (_syncing) {
+      const ok = await _waitForSyncIdle(20000);
+      if (!ok) return { ok:false, reason:'syncing-timeout', detail:'La sincronización anterior tardó más de 20 segundos. Refresca la página y reintentá.' };
+    }
+    let pushed = 0, failed = 0;
+    const errors = [];
+    for (const key of SYNC_REGISTRY) {
+      const raw = localStorage.getItem(key);
+      if (raw === null) continue;
+      try {
+        await _pushStateRaw(key, _safeParse(raw));
+        _setLocalTs(key, Date.now());
+        _outboxRemove(key);
+        pushed++;
+      } catch (e) {
+        failed++;
+        errors.push(key + ': ' + (e.message||e));
+      }
+    }
+    console.log('[CLOUD] forcePushAll done · pushed:', pushed, 'failed:', failed);
+    return { ok:true, pushed, failed, errors };
+  }
+
+  /* ── Per-key timestamp tracking (stored in one localStorage key) ── */
+  const _TS_META_KEY = '_cloud_ts';
+
+  function _getTsMeta() {
+    try { return JSON.parse(localStorage.getItem(_TS_META_KEY) || '{}'); } catch { return {}; }
+  }
+  function _getLocalTs(key) {
+    const u = _unsaved.get(key);
+    return Math.max(_getTsMeta()[key] || 0, u ? u.ts : 0);
+  }
+  function _setLocalTs(key, ts) {
+    // Key que no cupo: el disco tiene la copia VIEJA. Sellarla en disco haría que,
+    // al recargar, esa copia vieja pareciera más nueva que la nube y la pisara.
+    // El sello vive en memoria junto al valor y muere con la pestaña.
+    const u = _unsaved.get(key);
+    if (u) { u.ts = ts; return; }
+    const meta = _getTsMeta();
+    meta[key] = ts;
+    try { _origSetItem(_TS_META_KEY, JSON.stringify(meta)); }
+    catch (e) { console.error('[CLOUD] ✗ QUOTA al sellar el TS de', key); }
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     localStorage.setItem Proxy — Automatic write-through
+     + OUTBOX persistente (patrón family-system): todo cambio real
+       queda en cola en disco hasta confirmar push — sobrevive
+       logout, refresh y crash. Nada se queda sin subir.
+  ══════════════════════════════════════════════════════════════ */
+
+  const _origSetItem = localStorage.setItem.bind(localStorage);
+  const _origGetItem = localStorage.getItem.bind(localStorage);
+  const _origRemoveItem = localStorage.removeItem.bind(localStorage);
+
+  /* CUOTA LLENA · `_unsaved` (declarado arriba, con los helpers) guarda lo que no
+     cupo en disco. getItem lo devuelve, así que ningún lector de esta pestaña
+     (módulos, flushes, outbox, pushNow, optimizeImages) ve ni sube la copia vieja. */
+  localStorage.getItem = function(key) {
+    const u = _unsaved.get(String(key));
+    return u ? u.v : _origGetItem(key);
+  };
+  localStorage.removeItem = function(key) { _unsaved.delete(String(key)); return _origRemoveItem(key); };
+  function _isQuotaErr(e) {
+    return !!e && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.code === 22 || /quota/i.test(e.message || ''));
+  }
+
+  const _OUTBOX_KEY = 'cloud_outbox';
+  function _outboxGet(){ try { return JSON.parse(localStorage.getItem(_OUTBOX_KEY)||'[]'); } catch { return []; } }
+  function _outboxSet(a){
+    try { _origSetItem(_OUTBOX_KEY, JSON.stringify(a)); }
+    catch (e) { console.error('[CLOUD] ✗ QUOTA al guardar la outbox'); }
+    window.dispatchEvent(new CustomEvent('cloud:outbox_change',{detail:{count:a.length}}));
+  }
+  function _outboxAdd(key){ const a=_outboxGet(); if(a.indexOf(key)===-1){ a.push(key); _outboxSet(a); } }
+  function _outboxRemove(key){ const a=_outboxGet(); const i=a.indexOf(key); if(i>=0){ a.splice(i,1); _outboxSet(a); } }
+  async function _flushOutbox(){
+    if (!_ready()) return;
+    const keys=_outboxGet(); if(!keys.length) return;
+    console.log('[CLOUD] outbox flush:', keys.length, 'keys', keys);
+    for(const key of keys.slice()){
+      const raw=localStorage.getItem(key);
+      if(raw===null){ _outboxRemove(key); continue; }
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
+      catch(e){ console.warn('[CLOUD] outbox push failed', key, e); }
+    }
+  }
+
+  // Debounce map: key → timeoutId (avoid flooding Supabase on rapid writes)
+  const _debounceMap = new Map();
+  const _DEBOUNCE_MS = 1500;
+
+  /** El disco no tiene sitio para un cambio de una key sincronizable. Antes el
+   *  proxy lanzaba y el cambio solo vivía en el DOM: ni disco ni nube (25-oct).
+   *  Ahora queda en memoria (getItem lo devuelve) y se sube desde ahí con el
+   *  debounce normal. Ni TS en disco ni outbox: la copia de disco es la vieja. */
+  function _quotaRescue(key, prev, value) {
+    const live = !_syncing && _initialSyncDone;
+    _unsaved.set(key, { v: value, ts: live ? Date.now() : 0 });   // en hidratación no se sella, como el camino normal
+    const cloud = live && _ready();
+    console.error('[CLOUD] ✗ QUOTA al guardar', key, '(' + Math.round(value.length/1024) + 'KB) —', cloud ? 'se sube a la nube desde memoria' : 'sin nube: solo vive en esta pestaña');
+    window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(value.length/1024), cloud } }));
+    if (!cloud || prev === value) return;
+    _tombRecord(key, prev, value);
+    if (_debounceMap.has(key)) clearTimeout(_debounceMap.get(key));
+    _debounceMap.set(key, setTimeout(() => {
+      _debounceMap.delete(key);
+      pushState(key, _safeParse(localStorage.getItem(key)));
+    }, _DEBOUNCE_MS));
+  }
+
+  localStorage.setItem = function(key, value) {
+    key = String(key); value = String(value);
+    const prev = localStorage.getItem(key);
+    // Always write to actual localStorage immediately
+    try {
+      _origSetItem(key, value);
+      _unsaved.delete(key);
+    } catch (e) {
+      const syncable = key !== _TS_META_KEY && key !== _OUTBOX_KEY && _shouldSync(key);
+      if (_isQuotaErr(e) && syncable) _quotaRescue(key, prev, value);
+      else if (_isQuotaErr(e)) window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(value.length/1024), cloud: false } }));
+      throw e;   // el módulo sigue avisando que el disco está lleno
+    }
+
+    // Skip non-syncable keys and our own metadata key
+    if (key === _TS_META_KEY || key === _OUTBOX_KEY) return;
+    if (!_shouldSync(key)) return;
+
+    // No-op write (mismo contenido) → no stamp, no push. Mata el timestamp
+    // poisoning de los re-saves de arranque en TODOS los módulos.
+    if (prev === value) return;
+
+    // Cambio REAL → a la outbox persistente SIEMPRE (aún deslogueado/hidratando)
+    _outboxAdd(key);
+
+    // Anotar qué ids desaparecieron, para que el borrado se propague y no resucite
+    _tombRecord(key, prev, value);
+
+    // Durante hidratación inicial no stampeamos TS (el motor está escribiendo)
+    if (_syncing || !_initialSyncDone) return;
+
+    // Update local timestamp
+    _setLocalTs(key, Date.now());
+
+    // Debounced push to cloud
+    if (_debounceMap.has(key)) clearTimeout(_debounceMap.get(key));
+    _debounceMap.set(key, setTimeout(() => {
+      _debounceMap.delete(key);
+      pushState(key, _safeParse(value));
+    }, _DEBOUNCE_MS));
+  };
+
+  /** Flush ALL pending debounced pushes immediately. */
+  async function _flushPendingPushes(){
+    if (_debounceMap.size === 0) return;
+    const keys = Array.from(_debounceMap.keys());
+    console.log('[CLOUD] flushPending · keys:', keys);
+    for (const key of keys) {
+      clearTimeout(_debounceMap.get(key));
+      _debounceMap.delete(key);
+      const raw = localStorage.getItem(key);
+      if (raw === null) continue;
+      // Al confirmar: alinear TS + sacar del outbox (sin esto el contador
+      // "N sin subir" quedaba fantasma hasta el retry de 20s y lightPull
+      // re-descargaba la key como si la nube fuera más nueva).
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
+      catch(e) { console.warn('[CLOUD] flushPending failed for', key, e); }
+    }
+  }
+
+  /** Sync flush on tab close / hide using sendBeacon as last-resort. */
+  function _flushPendingSync(){
+    if (_debounceMap.size === 0) return;
+    if (!_ready()) return;
+    const uid = _uid();
+    const keys = Array.from(_debounceMap.keys());
+    keys.forEach(key => {
+      clearTimeout(_debounceMap.get(key));
+      _debounceMap.delete(key);
+      const raw = localStorage.getItem(key);
+      if (raw === null) return;
+      // navigator.sendBeacon: fire-and-forget, survives page unload
+      try {
+        const body = JSON.stringify({
+          user_id: uid,
+          store_key: key,
+          payload: _safeParse(raw),
+          updated_at: new Date().toISOString(),
+        });
+        const url = SB.supabaseUrl + '/rest/v1/app_state?on_conflict=user_id,store_key';
+        const blob = new Blob([body], { type: 'application/json' });
+        // sendBeacon doesn't allow setting headers, so we fallback to fetch keepalive
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'apikey': SB.supabaseKey,
+            'Authorization': 'Bearer ' + (_accessToken || SB.supabaseKey),
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates,return=minimal',
+          },
+          body,
+          keepalive: true,
+        }).catch(()=>{});
+      } catch(e) { /* ignore */ }
+    });
+    console.log('[CLOUD] flushPending sync (beforeunload) · keys:', keys);
+  }
+
+  window.addEventListener('beforeunload', _flushPendingSync);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { _flushPendingPushes(); }
+  });
+
+  /** Push immediately bypassing debounce. Called for critical writes like deletes.
+   *  Si falla, dispara un evento cloud:push_failed para que la UI pueda mostrar warning. */
+  async function pushNow(key){
+    if (_debounceMap.has(key)) { clearTimeout(_debounceMap.get(key)); _debounceMap.delete(key); }
+    if (!_ready()) {
+      window.dispatchEvent(new CustomEvent('cloud:push_failed', { detail: { key, reason: 'not-ready' } }));
+      return { ok:false, reason:'not-ready' };
+    }
+    const raw = localStorage.getItem(key);
+    if (raw === null) return { ok:false, reason:'no-local-data' };
+    try {
+      await _pushStateRaw(key, _safeParse(raw));
+      _setLocalTs(key, Date.now());
+      _outboxRemove(key);
+      console.log('[CLOUD] pushNow OK:', key);
+      return { ok:true };
+    } catch (e) {
+      console.error('[CLOUD] pushNow FAILED:', key, e);
+      // Enqueue for retry
+      _queue.push({ table: 'app_state', record: { key, payload: _safeParse(raw) }, action: 'state_upsert', ts: Date.now() });
+      _scheduleFlush();
+      window.dispatchEvent(new CustomEvent('cloud:push_failed', { detail: { key, reason:'exception', detail: e.message||String(e), error: e } }));
+      return { ok:false, reason:'exception', detail: e.message||String(e) };
+    }
+  }
+
+
+  /* ══════════════════════════════════════════════════════════════
+     Event listeners
+  ══════════════════════════════════════════════════════════════ */
+
+  window.addEventListener('sb:signed_in', () => {
+    console.log('[CLOUD] sb:signed_in received — starting fullSyncAll + realtime');
+    setTimeout(() => { fullSyncAll().then(()=>_flushOutbox()).catch(()=>{}); setupRealtime(); }, 300);
+  });
+
+  /* ═══════════════════════════════════════════════════════════════
+     REALTIME — auto-pull cuando otro device cambia un key
+  ═══════════════════════════════════════════════════════════════ */
+  let _rtChannel = null;
+  function setupRealtime(){
+    if (!_ready()) return;
+    if (_rtChannel) return; // ya suscrito
+    const uid = _uid();
+    if (!uid) return;
+    try {
+      _rtChannel = SB.channel('app_state_changes_' + uid)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'app_state',
+          filter: 'user_id=eq.' + uid,
+        }, (payload) => {
+          handleRealtimeChange(payload);
+        })
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED') {
+            console.log('[CLOUD] realtime ✓ suscrito a app_state · uid=', uid);
+          } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+            console.warn('[CLOUD] realtime status:', status, '— probable: realtime no habilitado en la tabla app_state. Setup: ALTER PUBLICATION supabase_realtime ADD TABLE app_state;');
+            _rtChannel = null;
+          }
+        });
+    } catch (e) {
+      console.warn('[CLOUD] realtime setup exception:', e);
+    }
+  }
+  /* ── Igualdad PROFUNDA (independiente del orden de claves) ─────────
+     El compare por string fallaba cuando el mismo contenido venía con
+     otro orden de claves → el eco del propio push parecía "cambio
+     remoto", se reescribía localStorage y se re-renderizaba la UI en
+     CADA pausa de tipeo. Con deep-equal el eco muere en la puerta. */
+  function _deepEqual(a, b){
+    if (a === b) return true;
+    if (a === null || b === null || typeof a !== typeof b) return false;
+    if (typeof a !== 'object') return false;
+    const aArr = Array.isArray(a), bArr = Array.isArray(b);
+    if (aArr !== bArr) return false;
+    if (aArr) {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) if (!_deepEqual(a[i], b[i])) return false;
+      return true;
+    }
+    const ka = Object.keys(a), kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    for (const k of ka) if (!_deepEqual(a[k], b[k])) return false;
+    return true;
+  }
+
+  /* ── Detector de edición activa ────────────────────────────────────
+     REGLA DE ORO UX: la sync NUNCA toca la UI (ni el localStorage que
+     la respalda) mientras el usuario está escribiendo. "Editando" =
+     foco en editor/input O tipeó hace <4s (cubre pausas y clics). */
+  let _lastUserInput = 0;
+  ['input', 'keydown', 'compositionstart'].forEach(ev =>
+    document.addEventListener(ev, (e) => {
+      const t = e.target;
+      if (t && (t.isContentEditable || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) _lastUserInput = Date.now();
+    }, true));
+  function _userIsEditing(){
+    const a = document.activeElement;
+    if (a && (a.isContentEditable || a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) return true;
+    return (Date.now() - _lastUserInput) < 4000;
+  }
+
+  /* Cambios remotos que llegan MIENTRAS se edita → se guardan acá y se
+     aplican de una al quedar idle. Nada se pierde, nada interrumpe. */
+  const _rtDeferred = new Map();   // key → último payload de evento
+  setInterval(() => {
+    if (!_rtDeferred.size || _userIsEditing()) return;
+    const items = [..._rtDeferred.values()];
+    _rtDeferred.clear();
+    items.forEach(p => { try { handleRealtimeChange(p); } catch(e){} });
+  }, 2000);
+
+  function handleRealtimeChange(payload){
+    const evType = payload.eventType; // INSERT | UPDATE | DELETE
+    const row = payload.new || payload.old || {};
+    const key = row.store_key;
+    if (!key) return;
+    // Usuario escribiendo → diferir TODO (aplicación + render) hasta idle.
+    if (_userIsEditing()) { _rtDeferred.set(key, payload); return; }
+    console.log('[CLOUD] realtime ←', evType, key);
+    if (evType === 'DELETE') {
+      // Remove local key too — removeItem, NO escribir "null": los módulos
+      // hacen JSON.parse(getItem(k) || '[]') y un string "null" parsea a null
+      // rompiendo cualquier .length/.map sin try/catch.
+      if (localStorage.getItem(key) !== null) {
+        try { localStorage.removeItem(key); } catch(e) {}
+      }
+      window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: 'delete' } }));
+      return;
+    }
+    // INSERT or UPDATE → write new payload to local, stamp TS
+    const payloadVal = row.payload;
+    const cloudTs = new Date(row.updated_at || 0).getTime();
+    // Cuadernos → merge estructural: lo remoto entra SIEMPRE, sin pisar páginas locales
+    const _prevLocalRt = localStorage.getItem(key);
+    const _localObjRt = _safeParse(_prevLocalRt);
+    const smRt = _structuralMerge(key, _localObjRt, payloadVal);
+    if (smRt !== null) {
+      // Eco de mi propio cambio (o nada nuevo) → alinear TS y salir SIN escribir,
+      // SIN push y SIN evento. Deep-equal: inmune al orden de claves (el compare
+      // por string generaba un falso "cambió desde otro PC" en cada push propio).
+      if (_deepEqual(smRt, _localObjRt)) { _setLocalTs(key, cloudTs); return; }
+      const mergedStr = JSON.stringify(smRt);
+      if (_nbGuardedWrite(key, mergedStr)) _setLocalTs(key, cloudTs);
+      // Si el merge aporta algo que la nube no tiene, subirlo (converge y corta el loop)
+      if (!_deepEqual(smRt, payloadVal)) { pushNow(key).catch(()=>{}); }
+      window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
+      return;
+    }
+    // Only overwrite if cloud TS is newer than local TS (avoid clobbering local writes that haven't pushed yet)
+    const localTs = _getLocalTs(key);
+    if (cloudTs <= localTs) {
+      console.log('[CLOUD] realtime: local newer for', key, '— ignoring cloud event');
+      return;
+    }
+    // Sin cambio real (eco del propio push) → alinear TS, no re-render
+    if (_deepEqual(payloadVal, _localObjRt)) { _setLocalTs(key, cloudTs); return; }
+    if (_safeWrite(key, JSON.stringify(payloadVal))) _setLocalTs(key, cloudTs);
+    window.dispatchEvent(new CustomEvent('cloud:realtime_change', { detail: { key, type: evType.toLowerCase() } }));
+  }
+  function teardownRealtime(){
+    if (_rtChannel) { try { SB.removeChannel(_rtChannel); } catch{} _rtChannel = null; }
+  }
+
+  /* ── Polling de respaldo LIVIANO (resiliencia si realtime falla) ──
+     CLAVE de rendimiento: NO baja los payloads cada vez (work_nb_data
+     puede pesar MBs). El tick solo trae `store_key + updated_at` (bytes)
+     y compara contra el TS local. Solo descarga el payload COMPLETO de
+     las keys cuya nube es más nueva (cambio real). Si no cambió nada →
+     cero descarga de contenido. Realtime sigue siendo la vía instantánea;
+     esto es el respaldo. Solo con pestaña visible y sin sync en curso. ── */
+  /** Pull LIVIANO: trae solo timestamps, baja payload SOLO de lo que cambió.
+   *  Reusado por el poll de respaldo y por el resync al volver a la pestaña. */
+  async function _lightPull() {
+    if (!_ready()) return;
+    try {
+      // 1) Solo timestamps (bytes) — NO baja los MB de los cuadernos
+      let { data: heads, error } = await SB.from('app_state')
+        .select('store_key, updated_at')
+        .eq('user_id', _uid());
+      // Sesión vencida en el PULL (antes solo el push se auto-recuperaba):
+      // refresh + un reintento; si muere, avisar a la UI (badge 🔒).
+      if (error && /jwt|expired|401|invalid.*token/i.test(String(error.message||error))) {
+        try {
+          await SB.auth.refreshSession();
+          ({ data: heads, error } = await SB.from('app_state').select('store_key, updated_at').eq('user_id', _uid()));
+        } catch (e2) { window.dispatchEvent(new CustomEvent('cloud:session_expired')); return; }
+      }
+      if (error || !heads) return;
+      // 2) Keys sincronizables cuya nube es MÁS NUEVA que el local
+      const stale = [];
+      for (const row of heads) {
+        const key = row.store_key;
+        if (SKIP_KEYS.has(key)) continue;
+        if (!(_registrySet.has(key) || DYNAMIC_PREFIXES.some(p => key.startsWith(p)))) continue;
+        if (new Date(row.updated_at || 0).getTime() > _getLocalTs(key)) stale.push(key);
+      }
+      if (!stale.length) return;   // nada nuevo → cero descarga de payloads
+      // 3) Bajar el payload SOLO de las que cambiaron y reconciliar
+      const { data: full, error: e2 } = await SB.from('app_state')
+        .select('store_key, payload, updated_at')
+        .eq('user_id', _uid())
+        .in('store_key', stale);
+      if (e2 || !full) return;
+      const map = new Map(full.map(r => [r.store_key, { payload: r.payload, updated_at: r.updated_at }]));
+      for (const key of stale) { if (map.has(key)) await _reconcileKey(key, map); }
+    } catch (e) { /* silencioso — reintenta en el próximo tick */ }
+  }
+  setInterval(() => {
+    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    if (_userIsEditing()) return;   // jamás mover datos bajo los pies del usuario
+    _lightPull();
+  }, 45000);
+
+  /* ── Auto-recuperación del outbox (sin botón) ──────────────────────
+     Si quedó algo sin subir (push transitorio fallido), se reintenta
+     solo cada 20s. _flushOutbox quita del outbox al confirmar. Así el
+     contador "N sin subir" nunca se queda pegado esperando un reload. */
+  setInterval(() => {
+    if (document.hidden || _syncing || !_ready() || !_initialSyncDone) return;
+    if (_outboxGet().length) _flushOutbox().catch(()=>{});
+  }, 20000);
+
+  /* ── Volvió la red → recuperar todo lo pendiente de una ── */
+  window.addEventListener('online', () => {
+    if (!_ready()) return;
+    setTimeout(() => {
+      if (!_initialSyncDone) { fullSyncAll().then(()=>_flushOutbox()).catch(()=>{}); }
+      else { _lightPull(); _flushOutbox().catch(()=>{}); }
+    }, 1500);
+  });
+
+  /* ── Realtime caído (CHANNEL_ERROR anula _rtChannel) → re-suscribir solo ── */
+  setInterval(() => {
+    if (document.hidden || !_ready() || !_initialSyncDone) return;
+    if (!_rtChannel) setupRealtime();
+  }, 300000);
+
+  window.addEventListener('sb:signed_out', () => {
+    console.log('[CLOUD] sb:signed_out — clearing queue + teardown realtime');
+    _queue.length = 0;
+    _syncing = false;
+    teardownRealtime();
+  });
+
+  /* ── Auto-resync on tab visibility change ──
+     Cuando volvés a la pestaña después de N segundos, si la última sync
+     fue hace > 30 segundos, dispará una resync silenciosa para traer
+     cambios hechos en otro device.
+  */
+  let _lastSyncTs = 0;
+  window.addEventListener('cloud:sync_complete', () => { _lastSyncTs = Date.now(); });
+  window.addEventListener('cloud:force_resynced', () => { _lastSyncTs = Date.now(); });
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden) return;
+    if (!_ready() || _syncing) return;
+    const age = Date.now() - _lastSyncTs;
+    if (age < 30000) return; // less than 30s, skip
+    console.log('[CLOUD] tab focused after', Math.round(age/1000), 's — light pull');
+    // LIVIANO: solo trae lo que cambió en la nube (no re-descarga los MB de cuadernos
+    // en cada cambio de pestaña). Los cambios locales pendientes los sube el outbox-retry.
+    await _lightPull();
+    _lastSyncTs = Date.now();
+    window.dispatchEvent(new CustomEvent('cloud:auto_resynced'));
+  });
+
+
+  /* ══════════════════════════════════════════════════════════════
+     BADGE UNIVERSAL DE SYNC + PANEL DOCTOR (estándar en TODAS las páginas)
+     El 90% de los "no sincroniza" era invisible: sesión vencida, outbox
+     lleno, imágenes sin subir. Este badge lo hace obvio en cualquier
+     módulo y da botones de recuperación de 1 click.
+  ══════════════════════════════════════════════════════════════ */
+  let _sessionExpired = false;
+  let _nbRegression = false;   // se prendió una protección anti-pérdida → hay snapshot restaurable
+  window.addEventListener('cloud:session_expired', () => { _sessionExpired = true; _renderSyncBadge(); });
+  window.addEventListener('sb:signed_in',  () => { _sessionExpired = false; _renderSyncBadge(); });
+  window.addEventListener('sb:signed_out', () => { _renderSyncBadge(); });
+  window.addEventListener('cloud:nb_regression', () => { _nbRegression = true; _renderSyncBadge(); });
+
+  function _pendingImgs(){ try { return (JSON.parse(localStorage.getItem('nb_pending_uploads')||'[]')).length; } catch { return 0; } }
+  /** Lo que de verdad ocupa el disco de este origen (todas las keys, todos los
+   *  módulos) — con el getItem ORIGINAL: lo que vive solo en memoria no ocupa disco. */
+  function storageReport(){
+    let total = 0; const keys = [];
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i); const n = k.length + (_origGetItem(k) || '').length;
+        total += n; keys.push({ key: k, kb: Math.round(n / 1024) });
+      }
+    } catch {}
+    keys.sort((a, b) => b.kb - a.kb);
+    return { totalKB: Math.round(total / 1024), top: keys.slice(0, 5),
+             unsaved: [..._unsaved.keys()], cloud: _ready() && _initialSyncDone };
+  }
+  function _quotaMB(){ return Math.round(storageReport().totalKB / 1024 * 10) / 10; }
+  function doctor(){
+    const d = diagnostics();
+    d.outbox = _outboxGet().length;
+    d.pending_images = _pendingImgs();
+    d.realtime = !!_rtChannel;
+    d.session_expired = _sessionExpired;
+    d.local_mb = _quotaMB();
+    return d;
+  }
+
+  function _injectSyncBadge(){
+    if (window.self !== window.top) return;               // en iframe: lo muestra el padre
+    if (document.getElementById('cloudSyncBadge')) return;
+    const css = document.createElement('style');
+    css.textContent =
+      '#cloudSyncBadge{position:fixed;bottom:14px;right:14px;z-index:99990;display:flex;align-items:center;gap:6px;'+
+        'padding:6px 12px;border-radius:999px;font:600 11px "IBM Plex Mono",monospace;cursor:pointer;user-select:none;'+
+        'background:var(--card,#18181b);border:1px solid var(--bd,#27272a);color:var(--tx2,#d4d4d8);'+
+        'box-shadow:0 6px 24px rgba(0,0,0,.45);transition:border-color .2s,color .2s}'+
+      '#cloudSyncBadge.ok{border-color:rgba(16,185,129,.5);color:#34d399}'+
+      '#cloudSyncBadge.warn{border-color:rgba(245,158,11,.6);color:#fbbf24}'+
+      '#cloudSyncBadge.err{border-color:rgba(239,68,68,.7);color:#f87171}'+
+      '#cloudSyncPanel{position:fixed;bottom:52px;right:14px;z-index:99991;width:290px;display:none;'+
+        'background:var(--card,#18181b);border:1px solid var(--bd,#27272a);border-radius:12px;padding:14px;'+
+        'font:12px "IBM Plex Sans",sans-serif;color:var(--tx,#e4e4e7);box-shadow:0 16px 48px rgba(0,0,0,.6)}'+
+      '#cloudSyncPanel.open{display:block}'+
+      '#cloudSyncPanel .csp-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(63,63,70,.4);font-size:11px}'+
+      '#cloudSyncPanel .csp-row b{font-weight:600}'+
+      '#cloudSyncPanel .csp-btn{width:100%;margin-top:8px;padding:8px;border:none;border-radius:8px;cursor:pointer;'+
+        'font:600 12px "IBM Plex Sans",sans-serif;background:var(--ac,#7c3aed);color:#fff}'+
+      '#cloudSyncPanel .csp-btn.sec{background:var(--el,#27272a);color:var(--tx2,#d4d4d8)}';
+    document.head.appendChild(css);
+    const badge = document.createElement('div');
+    badge.id = 'cloudSyncBadge';
+    badge.onclick = () => { _renderSyncPanel(); document.getElementById('cloudSyncPanel').classList.toggle('open'); };
+    document.body.appendChild(badge);
+    const panel = document.createElement('div');
+    panel.id = 'cloudSyncPanel';
+    document.body.appendChild(panel);
+    _renderSyncBadge();
+    // Re-render por eventos propios + cambios desde OTRAS pestañas/iframes (storage)
+    ['cloud:outbox_change','cloud:sync_complete','cloud:auto_resynced','cloud:force_resynced',
+     'cloud:quota_exceeded','nb:pending_uploads','cloud:realtime_change'].forEach(ev =>
+      window.addEventListener(ev, _renderSyncBadge));
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cloud_outbox' || e.key === 'nb_pending_uploads') _renderSyncBadge();
+    });
+    setInterval(_renderSyncBadge, 10000);
+  }
+
+  function _renderSyncBadge(){
+    const el = document.getElementById('cloudSyncBadge');
+    if (!el) return;
+    const logged = !!(window.AUTH && AUTH.isLoggedIn && AUTH.isLoggedIn());
+    const outbox = _outboxGet().length, imgs = _pendingImgs();
+    let cls = '', txt = '';
+    if (_sessionExpired)      { cls = 'err';  txt = '🔒 sesión vencida'; }
+    else if (_nbRegression)   { cls = 'warn'; txt = '⚠ versión anterior guardada'; }
+    else if (!logged)         { cls = 'warn'; txt = '☁ sin sesión — no sincroniza'; }
+    else if (outbox + imgs)   { cls = 'warn'; txt = '⏳ ' + (outbox ? outbox + ' cambios' : '') + (outbox && imgs ? ' · ' : '') + (imgs ? imgs + ' img' : ''); }
+    else                      { cls = 'ok';   txt = '✓ sincronizado'; }
+    el.className = cls;
+    el.textContent = txt;
+    const panel = document.getElementById('cloudSyncPanel');
+    if (panel && panel.classList.contains('open')) _renderSyncPanel();
+  }
+
+  function _renderSyncPanel(){
+    const panel = document.getElementById('cloudSyncPanel');
+    if (!panel) return;
+    const d = doctor();
+    const logged = !!d.uid;
+    const age = d.last_sync_age_s == null ? '—' : (d.last_sync_age_s < 90 ? d.last_sync_age_s + 's' : Math.round(d.last_sync_age_s/60) + ' min');
+    panel.innerHTML =
+      '<div style="font-weight:700;margin-bottom:8px">☁ Estado de sincronización</div>'+
+      '<div class="csp-row"><span>Sesión</span><b>' + (d.session_expired ? '🔒 vencida' : (logged ? '🟢 activa' : '🔴 sin iniciar')) + '</b></div>'+
+      '<div class="csp-row"><span>Última sync</span><b>' + age + '</b></div>'+
+      '<div class="csp-row"><span>Cambios sin subir</span><b>' + d.outbox + '</b></div>'+
+      '<div class="csp-row"><span>Imágenes sin subir</span><b>' + d.pending_images + '</b></div>'+
+      '<div class="csp-row"><span>Tiempo real</span><b>' + (d.realtime ? '🟢 activo' : '⚪ apagado (poll 45s)') + '</b></div>'+
+      '<div class="csp-row" style="border-bottom:none"><span>Memoria local</span><b>' + d.local_mb + ' MB / ~10</b></div>'+
+      (!logged
+        ? '<div style="margin-top:8px;font-size:11px;color:#fbbf24">Sin sesión NADA sube ni baja de la nube. Los cambios quedan guardados en este PC y se suben al entrar.</div>'+
+          '<button class="csp-btn" onclick="window.AUTH&&AUTH.openModal()">Iniciar sesión</button>'
+        : '<button class="csp-btn" onclick="CLOUD.syncNow()">🔄 Sincronizar ahora</button>'+
+          '<button class="csp-btn sec" onclick="if(confirm(\'Baja TODO desde la nube (merge por página, no pisa lo local) y recarga. ¿Seguir?\')){CLOUD.forceResyncFromCloud().then(()=>location.reload())}">⬇ Traer de la nube y recargar</button>')+
+      '<button class="csp-btn sec" onclick="CLOUD._toggleHistory()">🕘 Versiones anteriores de cuadernos</button>'+
+      '<div id="cspHistory" style="display:none;margin-top:8px;max-height:200px;overflow-y:auto"></div>'+
+      '<button class="csp-btn sec" onclick="document.getElementById(\'cloudSyncPanel\').classList.remove(\'open\')">Cerrar</button>';
+  }
+
+  async function _toggleHistory(){
+    const box = document.getElementById('cspHistory');
+    if (!box) return;
+    if (box.style.display !== 'none') { box.style.display = 'none'; return; }
+    box.style.display = 'block';
+    box.innerHTML = '<div style="font-size:11px;color:var(--tx3,#a1a1aa);padding:6px">Cargando…</div>';
+    if (!(window.NBShared && NBShared.listNbHistory)) { box.innerHTML = '<div style="font-size:11px;padding:6px">Historial no disponible.</div>'; return; }
+    const NAMES = { sys_notebook:'⚙️ Ing. Sistemas', not_nb_data:'📝 Notas', work_nb_data:'🔧 Trabajo' };
+    const list = await NBShared.listNbHistory();
+    if (!list.length) { box.innerHTML = '<div style="font-size:11px;color:var(--tx3,#a1a1aa);padding:6px">Sin versiones guardadas. Aparecen automáticamente cuando una sincronización iba a reducir un cuaderno.</div>'; return; }
+    box.innerHTML = list.map(s => {
+      const when = new Date(s.savedAt).toLocaleString('es');
+      const sm = s.summary;
+      return '<div style="border:1px solid var(--bd,#27272a);border-radius:8px;padding:8px;margin-bottom:6px;font-size:11px">'+
+        '<div style="font-weight:600">' + (NAMES[s.storeKey]||s.storeKey) + '</div>'+
+        '<div style="color:var(--tx3,#a1a1aa)">' + when + ' · ' + sm.pages + ' pág · ' + sm.imgs + ' img · ' + Math.round(sm.chars/1000) + 'k car</div>'+
+        '<button class="csp-btn" style="margin-top:6px" onclick="CLOUD._restore(' + s.seq + ')">↩ Restaurar esta versión</button>'+
+        '</div>';
+    }).join('');
+  }
+  async function _restore(seq){
+    if (!confirm('Restaurar esta versión guardada. La versión actual se respalda primero (por si acaso) y luego se sube a la nube. ¿Seguir?')) return;
+    const r = await NBShared.restoreNbSnapshot(seq);
+    if (r.ok) { _nbRegression = false; alert('✓ Versión restaurada. Sincronizando…'); try { await syncNow(); } catch(e){} location.reload(); }
+    else alert('No se pudo restaurar: ' + (r.reason||'error'));
+  }
+
+  /** Sync manual integral: pull+push+outbox+imágenes. El botón del badge. */
+  async function syncNow(){
+    if (!_ready()) { if (window.AUTH) AUTH.openModal(); return { ok:false, reason:'not-ready' }; }
+    await fullSyncAll();
+    await _flushOutbox();
+    try { if (window.NBShared && NBShared.retryPendingUploads) await NBShared.retryPendingUploads(); } catch(e){}
+    // Repara el histórico: sube imágenes que Storage no tiene y este device sí
+    try { if (window.NBShared && NBShared.reuploadMissingImages) await NBShared.reuploadMissingImages(); } catch(e){}
+    _renderSyncBadge();
+    return { ok:true };
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _injectSyncBadge);
+  else _injectSyncBadge();
+
+  /* ══════════════════════════════════════════════════════════════
+     Public API
+  ══════════════════════════════════════════════════════════════ */
+
+  return {
+    // Tier 1 — dedicated tables
+    push, pull, remove, syncDown, syncUp, fullSync, TABLES,
+    // Tier 2 — app_state (JSONB)
+    pushState, fullSyncAll,
+    // Manual recovery
+    forceResyncFromCloud, forcePushKey, forcePushAll, diagnostics, doctor, syncNow,
+    // Historial / restauración de cuadernos (anti-pérdida)
+    _toggleHistory, _restore,
+    // Hooks internos (tests / diagnóstico)
+    _rtHandle: handleRealtimeChange, _isEditing: _userIsEditing, _deferredCount: () => _rtDeferred.size,
+    // Immediate push / realtime
+    pushNow, setupRealtime, teardownRealtime,
+    // Outbox persistente (cambios pendientes de subir)
+    flushOutbox: _flushOutbox, outboxCount: () => _outboxGet().length,
+    // Cuota: uso real del disco + keys que solo viven en memoria
+    storageReport,
+    // Utilities
+    SYNC_REGISTRY, DYNAMIC_PREFIXES,
+    // Merge estructural + lápidas (pruebas / diagnóstico)
+    _merge: { array: _mergeArrayById, nbData: _mergeNbData, nbMeta: _mergeNbMeta,
+              tombs: _mergeTombstones, structural: _structuralMerge },
+    _tomb: { all: _tombAll, forKey: _tombFor, record: _tombRecord, purge: _tombPurge },
+    ARRAY_MERGE_KEYS
+  };
+})();
+
+window.CLOUD = CLOUD;
+
+/* ═══════════════════════════════════════════════════════════════
+   IFRAME BACK-NAV INTERCEPTOR
+   ─────────────────────────────────────────────────────────────
+   Cuando un módulo se carga dentro del iframe stage de index.html,
+   los links "← Cerebro" (href="index.html") harían que el iframe
+   navegue a index.html, generando recursión visual (index dentro
+   de index). Este interceptor detecta el contexto iframe y, en
+   lugar de navegar, le pide al Cerebro padre que cierre el stage
+   con go('home'). Preserva ctrl/cmd-click para abrir en nueva tab.
+   También se aplica para evitar el bug reverso del rail lateral.
+═══════════════════════════════════════════════════════════════ */
+(function initBackNav(){
+  // Solo activa cuando el módulo vive dentro de un iframe (parent != self)
+  if (window === window.top) return;
+  function handler(e){
+    if (e.defaultPrevented) return;
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    if (link.target === '_blank') return;
+    const href = link.getAttribute('href');
+    const clean = href.split('#')[0].split('?')[0];
+    if (clean !== 'index.html' && clean !== '/' && clean !== './') return;
+    // Si el padre tiene Cerebro, usamos su router (mantiene URL hash y estado)
+    try {
+      if (window.parent && window.parent.Cerebro && typeof window.parent.Cerebro.go === 'function') {
+        e.preventDefault();
+        window.parent.Cerebro.go('home');
+        return;
+      }
+    } catch (err) { /* cross-origin u otra cosa: caer a navegación top */ }
+    // Fallback: navega el top window (cierra el iframe natural)
+    e.preventDefault();
+    try { window.top.location.href = href; } catch (err) { window.location.href = href; }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => document.addEventListener('click', handler));
+  } else {
+    document.addEventListener('click', handler);
+  }
+})();

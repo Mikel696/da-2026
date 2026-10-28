@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "actualizado": "2026-08-17",
+  "nota": "Un prompt por tarea del plan. Cada uno arranca una sesión autocontenida: trae el contexto mínimo necesario, el problema real, qué entrega y cómo se verifica. Nada de prompts genéricos de 40 líneas que hay que editar antes de usar — se copian y se pegan.",
+  "cabecera": "Sos el INGENIERO A CARGO de DA-2026 «Cerebro». Dirigís, decidís y ejecutás.\nREPO: E:\\Aplicaciones\\ANALISIS DE DATOS\\Pagina Web\\HTML\\da-2026\nLIVE: https://mikel696.github.io/da-2026/frontend/\nSTACK: Vanilla JS · IIFE · localStorage → render() → DOM · Supabase JSONB · sin frameworks.\n\nANTES DE TOCAR CÓDIGO leé: CLAUDE.md (mandato y reglas) · PROMPT_MANTENIMIENTO.md (chequeo de salud y trampas conocidas) · data/plan-cerebro.json (esta tarea).\n\nLAS 3 REGLAS QUE MÁS SE INCUMPLEN:\n1. Verificá en PRODUCCIÓN, no en preview. El preview pasó verde y el live salió roto más de una vez.\n2. Probá el COMPORTAMIENTO, no leas el código. ¿Sincroniza esa clave? Escribila y mirá la outbox.\n3. Un dato sin fuente no se muestra. Campo vacío + fecha del último valor bueno.\n\nAL CERRAR: actualizar el estado de la tarea en data/plan-cerebro.json, anotar en PROMPT_RUNS.md, commit y push.",
+  "prompts": [
+    {
+      "id": "O1.2",
+      "modulo": "2-APP",
+      "prioridad": "P0",
+      "titulo": "Del radar a la postulación",
+      "cuerpo": "TAREA O1.2 · Conectar el radar de 5-JOB con el analizador de 2-APP.\n\nEL PROBLEMA: 5-JOB ya extrae las palabras que cada vacante busca en el CV (campo `kw.tenes` y `kw.faltan` de data/jobs-feed.json). 2-APP tiene el analizador ATS y el tejedor de CV. No se conocen: hay que copiar y pegar la oferta a mano.\n\nQUÉ ENTREGA: botón «Preparar postulación» en cada tarjeta del radar → abre apply.html con la vacante ya cargada (título, empresa, descripción, palabras clave) y el análisis ATS corrido.\n\nCÓMO PASAR EL DATO: mirá primero cómo apply.html recibe hoy una vacante (hay un handler de ?clip=1). Reusá ese camino en vez de inventar otro.\n\nVERIFICACIÓN: desde una tarjeta del radar se llega a 2-APP con todo cargado sin teclear nada."
+    },
+    {
+      "id": "O2.1",
+      "modulo": "7-NEW",
+      "prioridad": "P0",
+      "titulo": "Noticias del lado servidor, con criterio",
+      "cuerpo": "TAREA O2.1 · Sacar el proxy de terceros de 7-NEW y darle criterio.\n\nEL PROBLEMA: news.html depende de api.rss2json.com — un tercero gratuito en el camino crítico, exactamente lo que reventó en 12-FIN el 11 de agosto (allorigins devolvió 522 solo a las peticiones del navegador). Y muestra un volcado de RSS sin filtrar por lo que a Miguel le sirve.\n\nQUÉ ENTREGA: scripts/fetch-news.mjs en la GitHub Action → frontend/data/news-feed.json → news.html lo lee del MISMO origen.\n\nCOPIÁ EL PATRÓN de scripts/fetch-world.mjs, que ya hace esto para prensa financiera: Promise.allSettled por fuente, dedupe, puntuación con el motivo visible, y _prev.mjs para que un fallo parcial no degrade el archivo.\n\nFUENTES: verificá cada RSS con una petición real antes de incluirlo. Temas: análisis de datos, IA aplicada, automatización, carrera en datos.\n\nVERIFICACIÓN: cero llamadas a rss2json desde el navegador, consola limpia, aviso de frescura que se pone ámbar si la Action no corrió."
+    },
+    {
+      "id": "O2.3",
+      "modulo": "3-ENG",
+      "prioridad": "P1",
+      "titulo": "Inglés con el material que vas a leer de verdad",
+      "cuerpo": "TAREA O2.3 · Alimentar 3-ENG con las descripciones reales de vacantes.\n\nEL PROBLEMA: el inglés es innegociable para el trabajo remoto, pero se practica con oraciones inventadas. Mientras tanto data/jobs-feed.json baja descripciones completas de vacantes reales en inglés todos los días.\n\nQUÉ ENTREGA:\n· vocabulario del día extraído de una vacante real, con enlace a la oferta\n· las palabras que más se repiten en las vacantes que le interesan\n· frases del sector para practicar pronunciación (ya hay TTS en el módulo)\n\nNO INVENTES vocabulario: todo término mostrado tiene que estar en el texto de una oferta real, y hay que poder abrir esa oferta.\n\nVERIFICACIÓN: cada palabra del día muestra de qué vacante salió y el enlace funciona."
+    },
+    {
+      "id": "O3.1",
+      "modulo": "4-RUT",
+      "prioridad": "P1",
+      "titulo": "ATLAS detecta el desvío",
+      "cuerpo": "TAREA O3.1 · Que la ruta avise cuando el plan y la realidad se separan.\n\nEL PROBLEMA: la Fase 1 estaba planeada para julio de 2026; el 14 de agosto el progreso marcaba 0%. El módulo muestra el plan pero no dice que el plan se corrió. Una ruta que no detecta el desvío es un póster.\n\nQUÉ ENTREGA: comparación entre la fase que tocaría por calendario y el avance real, con el desfase en días y una pregunta honesta — ¿se reprograma la ruta o se retoma el ritmo? Sin regaños ni gamificación falsa: el dato y la decisión.\n\nVERIFICACIÓN: con progreso 0% y la fase vencida, el módulo lo dice en la primera pantalla."
+    },
+    {
+      "id": "O4.1",
+      "modulo": "infra",
+      "prioridad": "P0",
+      "titulo": "Cuota de localStorage: medirla y protegerla",
+      "cuerpo": "TAREA O4.1 · Que un QuotaExceededError deje de tragarse en silencio.\n\nEL PROBLEMA: 4,8 MB medidos el 10 de agosto, techo típico 5-10 MB. Casi todo el código guarda con `try{...}catch{}` vacío: si la cuota se llena, la app dice «guardado» y NO guardó. Es un vector de pérdida de datos — P0 del mandato.\n\nQUÉ ENTREGA:\n· medición real del uso por clave (navigator.storage.estimate + suma por clave)\n· aviso visible al acercarse al techo, en el badge ☁ que ya existe\n· que el catch distinga QuotaExceededError y avise en vez de callarse\n\nEMPEZÁ POR MEDIR en el navegador real de Miguel antes de decidir umbrales.\n\nVERIFICACIÓN: llenar la cuota a propósito en una pestaña de prueba y confirmar que el sistema avisa en vez de perder el dato en silencio."
+    },
+    {
+      "id": "O2.2",
+      "modulo": "1-IND",
+      "prioridad": "P0",
+      "titulo": "El feed del dashboard está roto AHORA",
+      "cuerpo": "TAREA O2.2 · Sacar rss2json de 1-IND y barrer el código muerto.\n\nEL PROBLEMA — YA NO ES HIPOTÉTICO. Verificado el 17-ago desde el navegador:\n\n    fetch('https://api.rss2json.com/v1/api.json?rss_url=…') → **422**\n\n`index.html:renderFeed()` pide 4 feeds a ese proxy y los 4 fallan. El bloque «feed en vivo — noticias reales» del dashboard está vacío en producción y la consola escupe un 422 por intento. Es exactamente lo que reventó en 12-FIN el 11 de agosto: un tercero gratuito en el camino crítico.\n\nQUÉ ENTREGA: el dashboard lee un archivo del MISMO origen que genera la Action.\n· Si ya hiciste O2.1, `data/news-feed.json` existe → consumilo y listo.\n· Si no, hacé O2.1 primero: son el mismo recolector.\n\nCÓDIGO MUERTO A BARRER (verificado el 17-ago):\n· `js/core.js:313` define `loadLiveJobs()` — trae empleos de RemoteOK y **no la llama nadie**. 5-JOB ya tiene su radar. ⚠️ `core.js` SÍ se carga (desde `pages/configurar.html`, `empleos.html` e `ingles.html`), así que borrá la función, NO el archivo.\n· `js/index.js` también usa rss2json, pero ese archivo entero está huérfano — se resuelve en la tarea O4.5, no acá.\n\nVERIFICACIÓN: abrir el dashboard en PRODUCCIÓN y comprobar cero peticiones a rss2json en la pestaña Red, consola sin 422, y el bloque de novedades mostrando algo. Y `grep -rn loadLiveJobs` sin resultados fuera de los comentarios."
+    },
+    {
+      "id": "O3.2",
+      "modulo": "10-SYS",
+      "prioridad": "P2",
+      "titulo": "Que la pantalla no se contradiga sola",
+      "cuerpo": "TAREA O3.2 · Coherencia temporal en 10-SYS.\n\nEL PROBLEMA: el encabezado dice «26V02» y el contador dice «45 días restantes», pero esos 45 días son del fin de 26V03. Dos componentes leen períodos distintos y el usuario ve un número que pertenece a un período que el rótulo no nombra.\n\nMiguel marca el cierre de período a mano, así que NO hay que adivinar cuál está activo ni inventar el calendario del siguiente. El arreglo es que un solo período mande en toda la pantalla y que, si terminó, la interfaz lo diga.\n\nNO INVENTES materias ni fechas del período nuevo: sin evidencia de CDigital, campo vacío y pedirla.\n\nVERIFICACIÓN: rótulo, contador y materias hablan siempre del mismo período."
+    },
+    {
+      "id": "O4.2",
+      "modulo": "infra",
+      "prioridad": "P2",
+      "titulo": "El namespace da2026_ no sincroniza",
+      "cuerpo": "TAREA O4.2 · Resolver el namespace `da2026_`, que nunca sale del dispositivo.\n\nEL PROBLEMA (verificado el 17-ago): `frontend/js/core.js:20` define `DB.NS = 'da2026_'` y bajo ese prefijo guarda **6 claves**: `profile`, `xp`, `streak`, `tasks`, `notes`, `sessions`. El prefijo `da2026_` **no aparece en ninguna parte de `cloud-sync.js`** — `DYNAMIC_PREFIXES` es solo `['fin_', 'sb_pomo_']`. O sea: son locales para siempre. Si Miguel abre el Cerebro en el otro PC, su racha arranca de cero. Es el hallazgo #3 de la auditoría y sigue sin resolver.\n\nOJO: `DB` también lo usan `apply.js` y `dashboard.js`, así que el alcance es mayor que core.js.\n\nQUÉ ENTREGA: la decisión ejecutada, no un informe.\n· Si esos datos DEBEN cruzar dispositivos → sumar el prefijo al registro de sync y probarlo de verdad.\n· Si son locales por diseño (que es defendible: la racha de un equipo puede no significar nada en el otro) → dejarlos, pero **documentarlo donde se vea** y que la interfaz no prometa lo que no hace.\n\nLo que NO vale es dejarlo como está: hoy parece que sincroniza y no sincroniza.\n\nCÓMO PROBARLO (regla 2 del oficio: probá el comportamiento, no leas el código): escribí una clave `da2026_*` desde la consola y mirá si aparece en la outbox. No alcanza con que el `SYNC_REGISTRY` «se vea bien».\n\nCUIDADO — P0 del mandato: si decidís sincronizar, el primer pull en un dispositivo con datos viejos puede pisar los nuevos. Revisá cómo `_mergeByUpdatedAt` trata estas claves ANTES de habilitarlas, y probá con un backup hecho.\n\nVERIFICACIÓN: dos dispositivos (o dos perfiles del navegador) mostrando lo mismo — o la interfaz diciendo con todas las letras que ese dato es de este equipo."
+    },
+    {
+      "id": "O4.4",
+      "modulo": "13-NOT",
+      "prioridad": "P1",
+      "titulo": "CSS huérfano: cambios que no aplican y nadie nota",
+      "cuerpo": "TAREA O4.4 · Resolver css/notes.css, que se traga las ediciones en silencio.\n\nEL PROBLEMA: `frontend/notes.html` NO enlaza `css/notes.css`. Nunca lo hizo. Sus estilos viven embebidos en el bloque `<style>` de la página (líneas 17-78) y las hojas que carga son design-tokens, components, nb-shared y auth.\n\nEl archivo lleva meses recibiendo cambios que no aplican:\n· el commit da90c35 («ancho de página unificado a 1200px en los 3 módulos») lo editó creyendo que servía\n· el 17 de agosto le agregué 54 reglas del plan y en producción se veían sin estilo\n· `js/module-prompts.js:30` sigue documentando que 13-NOT usa `css/notes.css`, así que la próxima sesión vuelve a caer en lo mismo\n\nQUÉ ENTREGA: una decisión ejecutada, no un diagnóstico.\n1. Comparar las reglas de `css/notes.css` contra las embebidas en notes.html y contra `nb-shared.css`.\n2. Si hay algo único que DEBERÍA estar aplicando, moverlo al `<style>` de notes.html.\n3. Si no queda nada útil, borrar el archivo.\n4. En los dos casos, corregir la ficha de `module-prompts.js:30`.\n\nEXTENDÉ EL CHEQUEO: ¿hay más CSS huérfano? Cruzá cada `frontend/css/*.css` contra los `<link>` de las 28 páginas. Un archivo que nadie carga es una trampa esperando.\n\nVERIFICACIÓN: cambiá una regla a un color absurdo y confirmá que se ve (o que el archivo ya no existe). Hoy no cambia nada y eso es justo lo que no se nota."
+    },
+    {
+      "id": "O4.3",
+      "modulo": "docs",
+      "prioridad": "P2",
+      "titulo": "CEREBRO_STATE con resumen arriba",
+      "cuerpo": "TAREA O4.3 · Hacer legible el estado del proyecto.\n\nEL PROBLEMA: CEREBRO_STATE.md tiene 4.071 líneas en orden cronológico. Una sesión que «lee el estado» quema un contexto enorme antes de escribir una línea, y lo viejo pesa más que lo presente.\n\nQUÉ ENTREGA: arriba, un resumen del estado PRESENTE — una línea por módulo con su estado real y su última fecha. Abajo o en archivo aparte, el histórico completo (no se borra: es la memoria de por qué las cosas son como son).\n\nVERIFICACIÓN: leyendo solo las primeras 60 líneas se entiende en qué está cada módulo hoy."
+    },
+    {
+      "id": "O4.5",
+      "modulo": "infra",
+      "prioridad": "P1",
+      "titulo": "951 líneas de JavaScript que no carga nadie",
+      "cuerpo": "TAREA O4.5 · Barrer el JavaScript huérfano.\n\nEL PROBLEMA (verificado el 17-ago): TRES archivos sin una sola referencia en todo el repo — cero `<script src>`, cero carga dinámica.\n\n· `js/index.js` (425 líneas) — un «mission control» que era un intento previo de la Vista HOY.\n· `js/dashboard.js` (134 líneas).\n· `js/srs.js` (392 líneas) — el motor Leitner COMPLETO, con cajas 1-5 e intervalos 1/3/7/14/30. Funciona; simplemente nadie lo carga.\n\nY la documentación miente sobre esto: `prompts.html:1791` dice que 3-ENG usa `srs.js` y `:1805` dice que 13-NOT también. Las dos son falsas — por eso la próxima sesión vuelve a caer. Mismo patrón que `css/notes.css` (O4.4).\n\n⚠️ DOS CUIDADOS:\n1. `js/core.js` **SÍ se carga**, desde `pages/configurar.html`, `pages/empleos.html` y `pages/ingles.html`. No lo borres por parecerse.\n2. **`js/srs.js` NO se borra hasta resolver O2.5.** Puede que se rescate como el motor de repaso que hoy no existe.\n\nQUÉ ENTREGA: borrar `index.js` y `dashboard.js` (revisando antes si hay algo que rescatar), corregir las fichas de `module-prompts.js` y `prompts.html`, y extender el barrido: cruzar cada `frontend/js/*.js` contra los `<script src>` de las 28 páginas.\n\nVERIFICACIÓN: `grep -rn` de cada nombre antes de borrar. Después, abrir el dashboard en PRODUCCIÓN y confirmar que no se rompió nada."
+    },
+    {
+      "id": "O2.5",
+      "modulo": "3-ENG",
+      "prioridad": "P1",
+      "titulo": "No existe repaso espaciado: Flashcards solo baraja",
+      "cuerpo": "TAREA O2.5 · Que el repaso espaciado exista de verdad, o que el contador deje de prometerlo.\n\nEL PROBLEMA (verificado el 17-ago, y es más grande de lo que parecía):\n\nLa pestaña 🃏 Flashcards de `english.html` **no usa `eng_srs_deck`**. `js/eng.js:_buildFC()` arma un mazo en memoria desde el JSON (vocabulary + professional), lo baraja, y `rateFC()` solo suma XP. Sin cajas, sin fechas, sin persistencia.\n\nEl motor Leitner real — `js/srs.js`, 392 líneas, cajas 1-5, intervalos 1/3/7/14/30, con su UI de repaso ya escrita — **es huérfano**: ninguna página lo carga.\n\nConsecuencia: las tarjetas que Miguel crea desde 13-NOT o importa desde 3-ENG **no se pueden repasar en ningún lado**, y el contador de la sesión diaria le apuntaba a un mazo inaccesible (le mostraba 202).\n\nQUÉ ENTREGA — una decisión ejecutada:\n(a) Cablear `srs.js` a `english.html` usando `js/srs-core.js` como capa de datos (ya normaliza las tres formas históricas y define el vencimiento). Verificar que los ids del DOM que espera (`boxViz`, `reviewArea`, la lista del mazo) existan o crearlos.\n(b) O, si el repaso espaciado no le sirve a Miguel, borrar `srs.js` y quitar el paso SRS de la sesión diaria.\n\nLo que NO vale es dejarlo como está: el número existe y la práctica no.\n\n**PREGUNTALE A MIGUEL cuál de las dos antes de invertir.** Ya descartó una función por construirla sin consultar.\n\nVERIFICACIÓN: crear una tarjeta desde 13-NOT, repasarla en 3-ENG, calificarla como «good», y confirmar que sube de caja y NO reaparece hasta su fecha. Hoy eso es imposible."
+    }
+  ]
+}

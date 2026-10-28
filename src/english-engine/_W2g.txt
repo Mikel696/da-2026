@@ -1,0 +1,223 @@
+grandmother|abuela|sust|la madre de tu madre o padre|My grandmother's recipe.|La receta de mi abuela.
+grandfather|abuelo|sust|el padre de tu madre o padre|My grandfather taught me.|Mi abuelo me enseñó.
+grandma|abuelita|sust|cariñoso de grandmother|Call your grandma.|Llama a tu abuelita.
+grandpa|abuelito|sust|cariñoso de grandfather|Grandpa's old guitar.|La vieja guitarra del abuelito.
+cousin|primo|sust|el hijo de tu tío|My cousin from Cali.|Mi primo de Cali.
+nephew|sobrino|sust|el hijo de tu hermano|My little nephew.|Mi sobrino pequeño.
+niece|sobrina|sust|la hija de tu hermano|My niece is five.|Mi sobrina tiene cinco.
+twin|gemelo|sust|nacidos a la vez|My twin brother.|Mi hermano gemelo.
+stepmother|madrastra|sust|la mujer de tu padre|A kind stepmother.|Una madrastra amable.
+stepfather|padrastro|sust|el marido de tu madre|My stepfather taught me.|Mi padrastro me enseñó.
+sibling|hermano (sin género)|sust|hermano o hermana|I have three siblings.|Tengo tres hermanos.
+relative|pariente|sust|alguien de la familia|A distant relative.|Un pariente lejano.
+ancestor|antepasado|sust|los que vinieron antes|Our ancestors came here.|Nuestros antepasados vinieron aquí.
+descendant|descendiente|sust|los que vienen después|A descendant of theirs.|Un descendiente suyo.
+orphan|huérfano|sust|sin padres|An orphan boy.|Un niño huérfano.
+widow|viuda|sust|se le murió el marido|A young widow.|Una viuda joven.
+bride|novia (de boda)|sust|el día de la boda|The bride wore white.|La novia iba de blanco.
+groom|novio (de boda)|sust|el día de la boda|The groom was nervous.|El novio estaba nervioso.
+fiance|prometido|sust|con quien te vas a casar|Her fiance called.|Su prometido llamó.
+kindergarten|guardería|sust|antes del colegio|She starts kindergarten.|Empieza la guardería.
+elementary|primaria|sust|elementary school|Elementary school days.|Los días de primaria.
+college|universidad|sust|EE.UU. · R.U. es otro nivel|I went to college.|Fui a la universidad.
+diploma|diploma|sust|el papel del título|Frame your diploma.|Enmarca tu diploma.
+scholarship|beca|sust|estudiar con dinero ajeno|She won a scholarship.|Ganó una beca.
+tuition|matrícula|sust|lo que cuesta estudiar|Tuition went up.|Subió la matrícula.
+semester|semestre|sust|medio año escolar|A hard semester.|Un semestre duro.
+lecture|clase magistral|sust|también «sermonear»|A boring lecture.|Una clase aburrida.
+assignment|tarea|sust|el trabajo que mandan|Turn in the assignment.|Entrega la tarea.
+quiz|prueba corta|sust|examen pequeño|A pop quiz.|Una prueba sorpresa.
+midterm|parcial|sust|examen de mitad|Midterm exams.|Exámenes parciales.
+transcript|expediente|sust|también la transcripción|Request your transcript.|Pide tu expediente.
+campus|campus|sust|el recinto universitario|Across campus.|Por todo el campus.
+dorm|residencia|sust|de dormitory|My dorm room.|Mi cuarto en la residencia.
+cafeteria|comedor|sust|donde se come|The school cafeteria.|El comedor del colegio.
+principal|director|sust|el jefe del colegio|The principal called.|Llamó el director.
+biology|biología|sust|el estudio de la vida|Biology class.|Clase de biología.
+chemistry|química|sust|también la química entre dos|We have chemistry.|Tenemos química.
+physics|física|sust|el estudio de la materia|Physics is hard.|La física es difícil.
+geography|geografía|sust|el estudio de la Tierra|A geography test.|Un examen de geografía.
+literature|literatura|sust|el estudio de los libros|English literature.|Literatura inglesa.
+philosophy|filosofía|sust|el estudio del pensar|A philosophy class.|Una clase de filosofía.
+psychology|psicología|sust|el estudio de la mente|She studies psychology.|Estudia psicología.
+sociology|sociología|sust|el estudio de la sociedad|A sociology paper.|Un trabajo de sociología.
+economics|economía|sust|el estudio del dinero|He teaches economics.|Enseña economía.
+accounting|contabilidad|sust|llevar las cuentas|An accounting degree.|Una carrera de contabilidad.
+statistics|estadística|sust|el estudio de los datos|Statistics don't lie.|Las estadísticas no mienten.
+algebra|álgebra|sust|las letras en matemáticas|Algebra homework.|Deberes de álgebra.
+geometry|geometría|sust|figuras y ángulos|Geometry class.|Clase de geometría.
+calculus|cálculo|sust|derivadas e integrales|Calculus is tough.|El cálculo es duro.
+grammar|gramática|sust|las reglas del idioma|Perfect grammar.|Gramática perfecta.
+spelling|ortografía|sust|cómo se escriben las palabras|Check your spelling.|Revisa la ortografía.
+attorney|abogado|sust|EE.UU. · R.U. solicitor|Call my attorney.|Llama a mi abogado.
+jury|jurado|sust|quienes deciden en un juicio|The jury decided.|El jurado decidió.
+verdict|veredicto|sust|lo que decide el jurado|The verdict is in.|Ya hay veredicto.
+appeal|recurso / atractivo|sust|también «apelar»|File an appeal.|Presenta un recurso.
+lawsuit|demanda|sust|llevar a alguien a juicio|A lawsuit was filed.|Se presentó una demanda.
+clause|cláusula|sust|una parte del contrato|Read the clause.|Lee la cláusula.
+liability|responsabilidad|sust|de quién es la culpa legal|Limited liability.|Responsabilidad limitada.
+mayor|alcalde|sust|el jefe de la ciudad|The new mayor.|El nuevo alcalde.
+governor|gobernador|sust|el jefe de una región|The state governor.|El gobernador del estado.
+president|presidente|sust|el jefe del país o empresa|The president spoke.|El presidente habló.
+minister|ministro|sust|también pastor de iglesia|The prime minister.|El primer ministro.
+senator|senador|sust|del senado|A senator voted no.|Un senador votó no.
+parliament|parlamento|sust|donde se hacen las leyes|Parliament voted.|El parlamento votó.
+congress|congreso|sust|EE.UU. · las dos cámaras|Congress approved it.|El congreso lo aprobó.
+election|elección|sust|cuando se vota|Election day.|Día de elecciones.
+ballot|papeleta|sust|donde marcas tu voto|Cast your ballot.|Deposita tu voto.
+democracy|democracia|sust|manda el pueblo|A young democracy.|Una democracia joven.
+dictatorship|dictadura|sust|manda uno solo|Under a dictatorship.|Bajo una dictadura.
+republic|república|sust|sin rey|A federal republic.|Una república federal.
+constitution|constitución|sust|la ley más alta|The constitution says so.|Lo dice la constitución.
+immigrant|inmigrante|sust|quien llega a vivir|An immigrant family.|Una familia inmigrante.
+refugee|refugiado|sust|quien huye de su país|Refugee camps.|Campos de refugiados.
+border|frontera|sust|la línea entre países|Cross the border.|Cruza la frontera.
+visa|visado|sust|el permiso de entrada|Apply for a visa.|Solicita un visado.
+embassy|embajada|sust|tu país en otro país|Go to the embassy.|Ve a la embajada.
+brick|ladrillo|sust|para construir|A brick wall.|Un muro de ladrillo.
+concrete|hormigón|sust|también «concreto»|A concrete jungle.|Una jungla de hormigón.
+cement|cemento|sust|el polvo gris que pega|Mix the cement.|Mezcla el cemento.
+iron|hierro / plancha|sust|el metal o el aparato|An iron will.|Una voluntad de hierro.
+copper|cobre|sust|metal rojizo|Copper wire.|Cable de cobre.
+silver|plata|sust|el metal y el color|A silver ring.|Un anillo de plata.
+gold|oro|sust|el metal y el color|Good as gold.|Bueno como el oro.
+rubber|goma|sust|flexible y elástico|Rubber soles.|Suelas de goma.
+leather|cuero|sust|de la piel del animal|A leather jacket.|Una chaqueta de cuero.
+cotton|algodón|sust|tejido natural|A cotton shirt.|Una camisa de algodón.
+wool|lana|sust|de la oveja|A wool sweater.|Un jersey de lana.
+silk|seda|sust|suave y brillante|Smooth as silk.|Suave como la seda.
+cardboard|cartón|sust|papel grueso|A cardboard box.|Una caja de cartón.
+beige|beige|adj|entre blanco y marrón|A beige wall.|Una pared beige.
+purple|morado|adj|entre rojo y azul|Purple rain.|Lluvia morada.
+pink|rosa|adj|rojo claro|A pink dress.|Un vestido rosa.
+brown|marrón|adj|color tierra|Brown eyes.|Ojos marrones.
+gray|gris|adj|británico: grey|A gray sky.|Un cielo gris.
+grey|gris|adj|EE.UU.: gray|Grey clouds.|Nubes grises.
+golden|dorado|adj|del color del oro|Golden hour.|La hora dorada.
+turquoise|turquesa|adj|entre azul y verde|Turquoise water.|Agua turquesa.
+violet|violeta|adj|morado claro|Violet skies.|Cielos violeta.
+crimson|carmesí|adj|rojo muy oscuro|Crimson red.|Rojo carmesí.
+scarlet|escarlata|adj|rojo intenso|A scarlet dress.|Un vestido escarlata.
+ivory|marfil|adj|blanco cremoso|Ivory keys.|Teclas de marfil.
+dozen|docena|sust|doce|A dozen roses.|Una docena de rosas.
+pair|par|sust|dos que van juntos|A pair of shoes.|Un par de zapatos.
+triple|triple|adj|tres veces|A triple win.|Una triple victoria.
+chunk|trozo|sust|pedazo grande|A chunk of bread.|Un trozo de pan.
+bunch|montón / ramo|sust|a bunch of = un montón de|A bunch of flowers.|Un ramo de flores.
+pile|montón|sust|cosas apiladas|A pile of clothes.|Un montón de ropa.
+stack|pila|sust|puestas una sobre otra|A stack of books.|Una pila de libros.
+bundle|fajo|sust|atado en un paquete|A bundle of letters.|Un fajo de cartas.
+cent|centavo|sust|la centésima parte|Fifty cents.|Cincuenta centavos.
+dollar|dólar|sust|la moneda de EE.UU.|Twenty dollars.|Veinte dólares.
+euro|euro|sust|la moneda europea|Ten euros.|Diez euros.
+pension|pensión|sust|el dinero de jubilado|A small pension.|Una pensión pequeña.
+allowance|asignación|sust|dinero que te dan cada mes|A weekly allowance.|Una asignación semanal.
+inch|pulgada|sust|2,54 centímetros|Two inches long.|Dos pulgadas de largo.
+meter|metro|sust|británico: metre|A hundred meters.|Cien metros.
+kilometer|kilómetro|sust|británico: kilometre|Ten kilometers away.|A diez kilómetros.
+gram|gramo|sust|la milésima del kilo|Two hundred grams.|Doscientos gramos.
+kilogram|kilogramo|sust|mil gramos|Five kilograms.|Cinco kilogramos.
+ounce|onza|sust|unos 28 gramos|An ounce of gold.|Una onza de oro.
+liter|litro|sust|británico: litre|A liter of milk.|Un litro de leche.
+gallon|galón|sust|unos 3,8 litros|A gallon of gas.|Un galón de gasolina.
+temple|templo|sust|también la sien|An ancient temple.|Un templo antiguo.
+mosque|mezquita|sust|templo musulmán|The old mosque.|La mezquita antigua.
+prayer|oración|sust|lo que se reza|A silent prayer.|Una oración en silencio.
+priest|sacerdote|sust|el de la iglesia católica|The village priest.|El sacerdote del pueblo.
+pastor|pastor|sust|el de la iglesia protestante|Our pastor spoke.|Nuestro pastor habló.
+religion|religión|sust|el conjunto de creencias|Freedom of religion.|Libertad de religión.
+god|dios|sust|con mayúscula si es único|Oh my God.|Dios mío.
+heaven|cielo|sust|el de después de morir|Heaven knows.|Dios sabe.
+hell|infierno|sust|lo contrario de heaven|Go through hell.|Pasar un infierno.
+sin|pecado|sust|falta contra lo divino|A mortal sin.|Un pecado mortal.
+miracle|milagro|sust|lo que no se explica|It was a miracle.|Fue un milagro.
+blessing|bendición|sust|lo bueno que te cae|A blessing in disguise.|No hay mal que por bien no venga.
+ritual|ritual|sust|lo que se repite igual|My morning ritual.|Mi ritual de la mañana.
+tweet|tuit|sust|también «publicar en X»|A viral tweet.|Un tuit viral.
+reel|vídeo corto|sust|también «carrete»|Post a reel.|Publica un reel.
+follower|seguidor|sust|quien te sigue|A thousand followers.|Mil seguidores.
+subscriber|suscriptor|sust|quien se suscribe|New subscribers.|Nuevos suscriptores.
+influencer|influencer|sust|quien mueve opiniones|A music influencer.|Un influencer de música.
+viral|viral|adj|que se extiende solo|It went viral.|Se hizo viral.
+trending|en tendencia|adj|de lo que todos hablan|Trending now.|En tendencia ahora.
+hashtag|etiqueta|sust|la almohadilla|Use the hashtag.|Usa la etiqueta.
+notification|notificación|sust|el aviso del móvil|Turn off notifications.|Apaga las notificaciones.
+chat|charla|sust|también «charlar»|A quick chat.|Una charla rápida.
+inbox|bandeja de entrada|sust|donde llegan los mensajes|Check your inbox.|Mira tu bandeja.
+emoji|emoji|sust|la carita|Send an emoji.|Manda un emoji.
+meme|meme|sust|la broma que circula|A funny meme.|Un meme gracioso.
+blog|blog|sust|el diario en internet|Read my blog.|Lee mi blog.
+vlog|videoblog|sust|el blog en vídeo|A travel vlog.|Un videoblog de viajes.
+chess|ajedrez|sust|el juego del tablero|Play chess.|Juega al ajedrez.
+puzzle|rompecabezas|sust|también «desconcertar»|A hard puzzle.|Un rompecabezas difícil.
+dice|dados|sust|singular: die|Roll the dice.|Tira los dados.
+cheat|hacer trampa|verbo|también «engañar»|Don't cheat.|No hagas trampa.
+hostel|albergue|sust|barato y compartido|A youth hostel.|Un albergue juvenil.
+motel|motel|sust|hotel de carretera|A roadside motel.|Un motel de carretera.
+resort|complejo turístico|sust|hotel con todo|A beach resort.|Un complejo de playa.
+booking|reserva|sust|lo reservado|Confirm the booking.|Confirma la reserva.
+reservation|reserva|sust|también «reparo»|I have a reservation.|Tengo una reserva.
+checkout|salida|sust|dejar el hotel o pagar|Checkout is at noon.|La salida es a mediodía.
+lobby|vestíbulo|sust|la entrada del hotel|Wait in the lobby.|Espera en el vestíbulo.
+suite|suite|sust|habitación grande|A hotel suite.|Una suite de hotel.
+balcony|balcón|sust|el saliente con barandilla|From the balcony.|Desde el balcón.
+sightseeing|turismo|sust|ver los sitios|Go sightseeing.|Ve a hacer turismo.
+souvenir|recuerdo|sust|lo que te traes del viaje|A cheap souvenir.|Un recuerdo barato.
+landmark|punto emblemático|sust|lo que hay que ver|A famous landmark.|Un lugar emblemático.
+monument|monumento|sust|lo que recuerda algo|An old monument.|Un monumento antiguo.
+mall|centro comercial|sust|muchas tiendas juntas|Meet at the mall.|Nos vemos en el centro comercial.
+stall|puesto|sust|la mesa del mercado|A market stall.|Un puesto de mercado.
+vendor|vendedor|sust|quien vende en la calle|A street vendor.|Un vendedor callejero.
+warranty|garantía|sust|si se rompe, te lo cambian|A two-year warranty.|Dos años de garantía.
+shipping|envío|sust|lo que cuesta mandarlo|Free shipping.|Envío gratis.
+parcel|paquete|sust|británico · EE.UU. package|A small parcel.|Un paquete pequeño.
+furious|furioso|adj|muy enfadado|She was furious.|Estaba furiosa.
+annoyed|molesto|adj|un poco enfadado|I'm annoyed.|Estoy molesto.
+irritated|irritado|adj|más que annoyed|He looked irritated.|Parecía irritado.
+offended|ofendido|adj|herido en el orgullo|Don't be offended.|No te ofendas.
+betrayed|traicionado|adj|cuando te falla quien confiabas|I felt betrayed.|Me sentí traicionado.
+devastated|destrozado|adj|hundido del todo|She was devastated.|Estaba destrozada.
+heartbroken|con el corazón roto|adj|por un amor perdido|I'm heartbroken.|Tengo el corazón roto.
+crushed|hecho polvo|adj|aplastado por dentro|I was crushed.|Me quedé hecho polvo.
+defeated|derrotado|adj|que perdió|He felt defeated.|Se sintió derrotado.
+helpless|indefenso|adj|sin poder hacer nada|I felt helpless.|Me sentí indefenso.
+blessed|bendecido|adj|con suerte y gratitud|I feel blessed.|Me siento bendecido.
+lucky|afortunado|adj|con buena suerte|You're lucky.|Tienes suerte.
+fortunate|afortunado|adj|más formal que lucky|A fortunate turn.|Un giro afortunado.
+satisfied|satisfecho|adj|contento con el resultado|Are you satisfied?|¿Estás satisfecho?
+pleased|complacido|adj|contento y agradecido|Pleased to meet you.|Encantado de conocerte.
+relieved|aliviado|adj|se te quitó el peso|I'm so relieved.|Qué alivio siento.
+amused|divertido|adj|que le hace gracia|She looked amused.|Parecía divertida.
+entertained|entretenido|adj|pasándolo bien|Keep them entertained.|Manténlos entretenidos.
+thrilled|emocionadísimo|adj|muy contento|I'm thrilled.|Estoy emocionadísimo.
+ecstatic|eufórico|adj|felicidad extrema|The crowd was ecstatic.|El público estaba eufórico.
+overjoyed|desbordado de alegría|adj|más que happy|We were overjoyed.|Estábamos desbordados de alegría.
+anxious|ansioso|adj|con inquietud|I get anxious.|Me pongo ansioso.
+stressed|estresado|adj|con mucha presión|I'm stressed out.|Estoy estresado.
+tense|tenso|adj|sin poder relajarse|A tense silence.|Un silencio tenso.
+uneasy|intranquilo|adj|con mala sensación|I feel uneasy.|Me siento intranquilo.
+overwhelmed|desbordado|adj|con más de lo que puedes|I'm overwhelmed.|Estoy desbordado.
+drained|exprimido|adj|sin nada de energía|I feel drained.|Me siento exprimido.
+burnout|agotamiento|sust|quemado por el trabajo|Signs of burnout.|Señales de agotamiento.
+bold|audaz|adj|también «negrita»|A bold move.|Un movimiento audaz.
+daring|atrevido|adj|que se arriesga|A daring choice.|Una elección atrevida.
+reckless|imprudente|adj|sin medir el peligro|Reckless driving.|Conducción imprudente.
+cautious|cauto|adj|que va con cuidado|Be cautious.|Ve con cuidado.
+timid|tímido|adj|parecido a shy|A timid voice.|Una voz tímida.
+hesitant|dudoso|adj|que no se decide|A hesitant yes.|Un sí dudoso.
+brilliant|brillante|adj|también «genial» en R.U.|A brilliant idea.|Una idea brillante.
+genius|genio|sust|quien tiene un don enorme|A musical genius.|Un genio musical.
+talented|con talento|adj|que se le da bien|A talented singer.|Una cantante con talento.
+gifted|superdotado|adj|con un don natural|A gifted child.|Un niño superdotado.
+skilled|hábil|adj|que lo hace muy bien|A skilled player.|Un jugador hábil.
+experienced|con experiencia|adj|que ya lo ha hecho|An experienced teacher.|Un profesor con experiencia.
+amateur|aficionado|adj|no profesional|An amateur band.|Un grupo aficionado.
+beginner|principiante|sust|quien empieza|A beginner's guide.|Una guía para principiantes.
+novice|novato|sust|más formal que beginner|I'm still a novice.|Todavía soy novato.
+famous|famoso|adj|que todos conocen|A famous song.|Una canción famosa.
+known|conocido|adj|participio de know|A well-known band.|Un grupo muy conocido.
+unknown|desconocido|adj|que nadie conoce|An unknown artist.|Un artista desconocido.
+ordinary|corriente|adj|del montón|An ordinary day.|Un día corriente.
+remarkable|notable|adj|digno de mención|A remarkable voice.|Una voz notable.
+outstanding|sobresaliente|adj|por encima del resto|An outstanding performance.|Una actuación sobresaliente.
+impressive|impresionante|adj|que impresiona|That's impressive.|Eso es impresionante.

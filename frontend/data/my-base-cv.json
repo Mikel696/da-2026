@@ -1,0 +1,154 @@
+{
+  "contact": {
+    "name": "Miguel Ángel Barros Torres",
+    "email": "miguelbarros2416@gmail.com",
+    "phone": "+57 314 437 3585",
+    "linkedin": "linkedin.com/in/miguel-ángel-barros-torres-6b2460159",
+    "location": "Bogotá, Colombia",
+    "timezone": "UTC-5 (EST-adjacent)"
+  },
+  "summaries": {
+    "accounting": {
+      "en": "Results-oriented Accounts Payable professional with 7+ years of end-to-end AP experience in a multinational shared services environment. Led AP operations across multiple regions (Brazil & Caribbean), managing {kw:invoice validation}, {kw:supplier reconciliation}, and on-time payment execution. Advanced {kw:Excel} and {kw:SQL} skills drive {kw:KPI monitoring}, process improvements, and {kw:automation}. Trilingual (Spanish, Portuguese, English) with a Systems Engineering degree in progress.",
+      "es": "Profesional de Cuentas por Pagar orientado a resultados con 7+ años de experiencia end-to-end en entorno de servicios compartidos multinacional. Capacidad comprobada para liderar operaciones AP en múltiples regiones (Brasil y Caribe), gestionando {kw:validación de facturas}, {kw:conciliación de proveedores} y ejecución de pagos. {kw:Excel} avanzado y {kw:SQL} impulsan el monitoreo de {kw:KPIs} y {kw:automatización}. Trilingüe. Ingeniería de Sistemas en curso."
+    },
+    "data_entry": {
+      "en": "Detail-oriented {kw:data entry} professional with 8+ years in financial operations. High-speed data processing with 95%+ accuracy under strict SLAs. Expert in {kw:Excel}, {kw:spreadsheets}, and database management. Proven ability to handle high-volume {kw:invoice processing}, {kw:reconciliation}, and multi-currency operations. {kw:SQL} and {kw:Power BI} for reporting and analytics. Trilingual (ES/PT/EN). Remote-ready with dedicated office and 50+ Mbps.",
+      "es": "Profesional de {kw:data entry} orientado al detalle con 8+ años en operaciones financieras. Procesamiento de datos de alta velocidad con 95%+ precisión bajo SLAs estrictos. Experto en {kw:Excel}, {kw:hojas de cálculo} y gestión de bases de datos. Capacidad comprobada en {kw:procesamiento de facturas} y operaciones multi-moneda. {kw:SQL} y {kw:Power BI} para reporting. Trilingüe. 100% remoto."
+    },
+    "hybrid": {
+      "en": "Versatile financial operations professional with 8+ years combining {kw:accounting} expertise and {kw:data analysis} capabilities. Expert in {kw:SQL}, {kw:Excel}, and {kw:Power BI}. Proven results: 15% payment optimization, 60% discrepancy reduction at Brinks International. High-speed {kw:data entry} with 95%+ accuracy. Trilingual: Spanish (native), Portuguese (C1), English (B2+). Remote-ready, process-driven.",
+      "es": "Profesional versátil con 8+ años combinando expertise en {kw:contabilidad} y capacidades de {kw:análisis de datos}. Experto en {kw:SQL}, {kw:Excel} y {kw:Power BI}. Resultados: 15% optimización pagos, 60% reducción discrepancias en Brinks International. {kw:Data entry} de alta velocidad con 95%+ precisión. Trilingüe. 100% remoto."
+    }
+  },
+  "experience": [
+    {
+      "id": "brinks",
+      "titles": {
+        "accounting_en": "Accounts Payable Analyst — Regional AP Operations Lead",
+        "accounting_es": "Analista de Cuentas por Pagar — Líder Regional de Operaciones AP",
+        "data_entry_en": "Financial Operations Analyst — Data Processing & Reconciliation",
+        "data_entry_es": "Analista de Operaciones Financieras — Procesamiento de Datos & Conciliación",
+        "hybrid_en": "Financial Data Analyst — AP & Reporting",
+        "hybrid_es": "Analista de Datos Financieros — CxP & Reporting"
+      },
+      "company": "Brinks Incorporated",
+      "subtitle_en": "Global Security & Logistics — Shared Services",
+      "subtitle_es": "Shared Services Global — Seguridad & Logística",
+      "date_en": "June 2018 – January 2025 · Bogotá, Colombia",
+      "date_es": "Junio 2018 – Enero 2025 · Bogotá, Colombia",
+      "bullets": {
+        "accounting_en": [
+          "Led end-to-end {kw:Accounts Payable} operations for Brazil and Caribbean regions, overseeing {kw:invoice} intake, validation, coding, and {kw:supplier reconciliation} across 15+ vendors",
+          "Ensured on-time {kw:payments} in alignment with corporate policies, internal controls, and {kw:cash flow} priorities for two regional operations",
+          "Reviewed and approved AP {kw:reconciliations}, {kw:aging reports}, and {kw:monthly close} deliverables for multi-currency environments",
+          "Managed key {kw:vendor} relationships; resolved billing disputes achieving a 60% reduction in historical outstanding items",
+          "Monitored and reported AP {kw:KPIs} (aging, throughput, exceptions) using {kw:SQL} queries and {kw:Power BI} dashboards",
+          "Ensured {kw:compliance} with accounting standards, local {kw:tax} regulations (Brazil & Caribbean), and {kw:audit} requirements",
+          "Identified and executed {kw:process improvements}; built {kw:SQL}-based {kw:automations} that optimized payment tracking by 15%",
+          "Partnered with Treasury/Finance teams on {kw:cash flow} projections and payment scheduling across multiple currencies"
+        ],
+        "accounting_es": [
+          "Lideré operaciones end-to-end de {kw:Cuentas por Pagar} para Brasil y Caribe: recepción, {kw:validación de facturas}, codificación y {kw:conciliación} con 15+ proveedores",
+          "Aseguré {kw:pagos} puntuales alineados con políticas corporativas, controles internos y prioridades de {kw:flujo de caja}",
+          "Revisé y aprobé {kw:conciliaciones} AP, {kw:reportes de antigüedad} y entregables de {kw:cierre mensual} multi-moneda",
+          "Gestioné relaciones con {kw:proveedores} clave; resolví disputas logrando 60% de reducción en discrepancias históricas",
+          "Monitoreé {kw:KPIs} de AP usando {kw:SQL} y dashboards {kw:Power BI}",
+          "Aseguré {kw:cumplimiento} con normas contables, regulaciones {kw:tributarias} y requisitos de {kw:auditoría}",
+          "Ejecuté {kw:mejoras de procesos}; {kw:automatizaciones} {kw:SQL} que optimizaron seguimiento de pagos en 15%",
+          "Colaboré con Tesorería en proyecciones de {kw:flujo de caja} y programación de pagos multi-moneda"
+        ],
+        "data_entry_en": [
+          "Processed high-volume {kw:data entry} across financial systems for two regional operations (Brazil & Caribbean), maintaining 95%+ {kw:accuracy} under strict deadlines",
+          "Managed {kw:invoice processing} pipeline: intake, validation, three-way matching, and coding for 15+ vendors in multi-currency environments",
+          "Built {kw:Excel} templates and {kw:SQL} queries to automate repetitive {kw:data processing} tasks, reducing manual effort by 15%",
+          "Maintained {kw:data quality} standards across {kw:spreadsheets}, databases, and {kw:ERP} systems for {kw:financial reporting}",
+          "Created {kw:Power BI} {kw:dashboards} for real-time tracking of processing volumes, exceptions, and SLA compliance",
+          "Resolved 60% of historical data discrepancies through systematic {kw:reconciliation} and cross-referencing"
+        ],
+        "data_entry_es": [
+          "Procesé {kw:data entry} de alto volumen en sistemas financieros para dos operaciones regionales (Brasil y Caribe), manteniendo 95%+ {kw:precisión} bajo deadlines estrictos",
+          "Gestioné pipeline de {kw:procesamiento de facturas}: recepción, validación, matching y codificación para 15+ proveedores multi-moneda",
+          "Construí plantillas {kw:Excel} y consultas {kw:SQL} para automatizar tareas de {kw:procesamiento de datos}, reduciendo esfuerzo manual en 15%",
+          "Mantuve estándares de {kw:calidad de datos} en {kw:hojas de cálculo}, bases de datos y sistemas {kw:ERP}",
+          "Creé {kw:dashboards} {kw:Power BI} para tracking en tiempo real de volúmenes y cumplimiento de SLAs",
+          "Resolví 60% de discrepancias históricas mediante {kw:conciliación} sistemática"
+        ],
+        "hybrid_en": [
+          "Implemented complex {kw:SQL} queries analyzing large transactional datasets across two regional operations, optimizing {kw:payment} processes by 15%",
+          "Designed and automated {kw:financial reports} by querying databases directly, ensuring {kw:data} integrity for multi-currency environments",
+          "Built {kw:Power BI} {kw:dashboards} monitoring AP {kw:KPIs} (aging, throughput, exceptions) providing real-time visibility to leadership",
+          "Managed the full AP cycle for Brazil and Caribbean: {kw:invoice} validation, {kw:reconciliation}, {kw:payment} execution, {kw:monthly close}",
+          "Created {kw:SQL}-based {kw:automations} that reduced manual {kw:data processing} and improved tracking efficiency by 15%",
+          "Resolved 60% of historical discrepancies through {kw:data}-driven {kw:analysis} and systematic {kw:reconciliation}"
+        ],
+        "hybrid_es": [
+          "Implementé consultas {kw:SQL} complejas para analizar grandes datasets transaccionales, optimizando procesos de {kw:pago} en 15%",
+          "Diseñé y automaticé {kw:reportes financieros} consultando bases de datos, garantizando integridad de {kw:datos} multi-moneda",
+          "Construí {kw:dashboards} {kw:Power BI} de {kw:KPIs} de AP con visibilidad en tiempo real",
+          "Gestioné ciclo completo AP para Brasil/Caribe: {kw:facturas}, {kw:conciliación}, {kw:pagos}, {kw:cierre mensual}",
+          "Creé {kw:automatizaciones} {kw:SQL} que redujeron {kw:procesamiento} manual y mejoraron eficiencia en 15%",
+          "Resolví 60% de discrepancias históricas con {kw:análisis} data-driven y {kw:conciliación} sistemática"
+        ]
+      }
+    },
+    {
+      "id": "teleperformance",
+      "title_en": "Content Moderator — Spanish & Portuguese",
+      "title_es": "Moderador de Contenido — Español y Portugués",
+      "company": "Teleperformance",
+      "date_en": "August 2025 – Present · Bogotá (Remote)",
+      "date_es": "Agosto 2025 – Presente · Bogotá (Remoto)",
+      "bullets_en": [
+        "Manage multiple task queues simultaneously maintaining 95%+ {kw:accuracy} under strict SLAs",
+        "Analyze high-volume {kw:data} in Spanish and Portuguese for {kw:quality} compliance"
+      ],
+      "bullets_es": [
+        "Gestión de múltiples colas con {kw:precisión} 95%+ bajo SLAs estrictos",
+        "Análisis de {kw:datos} en español y portugués para cumplimiento de {kw:calidad}"
+      ]
+    },
+    {
+      "id": "express",
+      "title_en": "Control Desk Assistant — Financial Operations",
+      "title_es": "Auxiliar Mesa de Control — Operaciones Financieras",
+      "company": "Express Microfinanzas",
+      "date_en": "September 2016 – May 2018",
+      "date_es": "Septiembre 2016 – Mayo 2018",
+      "bullets_en": [
+        "Developed {kw:data}-driven credit risk analyses supporting loan portfolio decisions",
+        "Built internal tools that reduced operational response times by 30%"
+      ],
+      "bullets_es": [
+        "Análisis de riesgo crediticio basado en {kw:datos} impactando calidad de la cartera",
+        "Herramientas internas que redujeron tiempos de respuesta en 30%"
+      ]
+    }
+  ],
+  "education": {
+    "en": [
+      {"title": "B.S. Systems Engineering (8th Semester — In Progress)", "date": "Expected 2026"},
+      {"title": "Software Analysis & Development Technologist — SENA", "date": ""},
+      {"title": "Accounting Technician — Campo Alto", "date": ""}
+    ],
+    "es": [
+      {"title": "Ingeniería de Sistemas (8° Semestre — En Curso)", "date": "2026"},
+      {"title": "Tecnólogo Análisis y Desarrollo de Software — SENA", "date": ""},
+      {"title": "Técnico en Contabilidad — Campo Alto", "date": ""}
+    ]
+  },
+  "languages": [
+    {"name_en": "Spanish", "name_es": "Español", "level_en": "Native", "level_es": "Nativo", "pct": 100},
+    {"name_en": "Portuguese", "name_es": "Portugués", "level_en": "Advanced (C1)", "level_es": "Avanzado (C1)", "pct": 85},
+    {"name_en": "English", "name_es": "Inglés", "level_en": "Intermediate-Advanced (B2+)", "level_es": "Intermedio-Avanzado (B2+)", "pct": 65}
+  ],
+  "achievements": {
+    "en": ["60% AP discrepancy reduction", "15% payment process optimization", "30% faster response times", "Multi-region AP operations (BR/CAR)"],
+    "es": ["60% reducción discrepancias AP", "15% optimización de pagos", "30% mejora tiempos de respuesta", "Operaciones AP multi-región (BR/CAR)"]
+  },
+  "skills_pool": {
+    "accounting": ["End-to-End AP Management", "Invoice Validation", "Supplier Reconciliation", "Aging Reports", "KPI Monitoring", "Tax Compliance", "Process Optimization", "Monthly Close", "Cash Flow", "Bookkeeping"],
+    "tech": ["SQL (Advanced)", "Excel (Advanced)", "Power BI & Power Query", "Python / Pandas", "MySQL / PostgreSQL", "Microsoft 365", "Data Modeling", "Google Sheets", "ERP Systems"],
+    "data_entry": ["High-Speed Data Entry", "95%+ Accuracy Under SLAs", "Multi-Queue Management", "Spreadsheet Automation", "Data Quality Assurance", "Invoice Processing"]
+  }
+}

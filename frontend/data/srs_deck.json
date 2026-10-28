@@ -1,0 +1,17 @@
+[
+    { "q": "I am proficient in Python and SQL.", "a": "Soy competente en Python y SQL.", "h": "Tech Skills", "d": "Use it to boldly state your primary stack without sounding arrogant." },
+    { "q": "I have hands-on experience connecting APIs to our data pipeline.", "a": "Tengo experiencia práctica conectando APIs a nuestro pipeline de datos.", "h": "Tech Skills", "d": "Emphasizes practical, real-world experience over just theoretical knowledge." },
+    { "q": "The situation required scaling the pipeline to handle twice the volume.", "a": "La situación requería escalar el pipeline para manejar el doble del volumen.", "h": "STAR: Situation", "d": "Sets the context for a challenge you faced." },
+    { "q": "I was able to resolve the issue by refactoring the query logic.", "a": "Pude resolver el problema refactorizando la lógica de la consulta.", "h": "STAR: Action", "d": "Directly explains the impactful action you took." },
+    { "q": "The outcome resulted in a 30% decrease in processing time.", "a": "El resultado fue una disminución del 30% en el tiempo de procesamiento.", "h": "STAR: Result", "d": "Proves your value with hard numbers." },
+    { "q": "I'm sorry to cut you off, but the audio is lagging. Could you say that again?", "a": "Siento interrumpirte, pero el audio se está cortando. ¿Pordrías repetirlo?", "h": "Tech Issues", "d": "Polite way to interrupt when there are internet problems." },
+    { "q": "Let me share my screen to break this down.", "a": "Déjame compartir mi pantalla para desglosar esto.", "h": "Presenting", "d": "Great transition for visual explanations." },
+    { "q": "From my perspective, a better approach would be to...", "a": "Desde mi perspectiva, un mejor enfoque sería...", "h": "Push-back", "d": "Diplomatic way to disagree or propose an alternative." },
+    { "q": "When do you need this finalized?", "a": "¿Para cuándo necesitas que esto esté finalizado?", "h": "Negotiation", "d": "Clarifying strict deadlines." },
+    { "q": "What exactly does your company do?", "a": "¿A qué se dedica exactamente tu empresa?", "h": "Networking", "d": "Classic icebreaker at corporate events." },
+    { "q": "How did you get into this field?", "a": "¿Cómo entraste en este campo?", "h": "Networking", "d": "Shows genuine interest in the person's background." },
+    { "q": "Have you been working here long?", "a": "¿Llevas mucho tiempo trabajando aquí?", "h": "Small Talk", "d": "Light introductory question." },
+    { "q": "How is your week going so far?", "a": "¿Cómo va tu semana hasta ahora?", "h": "Small Talk", "d": "Friendly check-in before a meeting." },
+    { "q": "Could you point me to the nearest subway station?", "a": "¿Podrías indicarme dónde está la estación de metro más cercana?", "h": "Survival", "d": "Essential for urban travel." },
+    { "q": "Could I get a latte to go, please?", "a": "¿Me das un latte para llevar, por favor?", "h": "Survival", "d": "Basic coffee order." }
+]

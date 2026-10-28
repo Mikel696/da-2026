@@ -1,0 +1,233 @@
+apple|manzana|sust|la fruta más común|An apple a day.|Una manzana al día.
+banana|plátano|sust|la fruta amarilla|I bought bananas.|Compré plátanos.
+orange|naranja|sust|la fruta y el color|Orange juice, please.|Zumo de naranja, por favor.
+grape|uva|sust|plural: grapes|A bunch of grapes.|Un racimo de uvas.
+lemon|limón|sust|amarillo y ácido|A slice of lemon.|Una rodaja de limón.
+lime|lima|sust|verde y ácida|Lime in my drink.|Lima en mi bebida.
+peach|melocotón|sust|fruta de piel suave|A ripe peach.|Un melocotón maduro.
+pear|pera|sust|fruta con forma de campana|Pears in autumn.|Peras en otoño.
+cherry|cereza|sust|plural: cherries|Cherries on top.|Cerezas encima.
+berry|baya|sust|plural: berries|Wild berries.|Bayas silvestres.
+strawberry|fresa|sust|roja y de verano|Strawberry season.|Temporada de fresas.
+melon|melón|sust|grande y dulce|A cold melon.|Un melón frío.
+pineapple|piña|sust|de fuera dura|Pineapple on pizza.|Piña en la pizza.
+mango|mango|sust|fruta tropical|A ripe mango.|Un mango maduro.
+coconut|coco|sust|de la palmera|Coconut water.|Agua de coco.
+nut|fruto seco|sust|plural: nuts|I'm allergic to nuts.|Soy alérgico a los frutos secos.
+almond|almendra|sust|un fruto seco|Almond milk.|Leche de almendra.
+peanut|cacahuete|sust|el del aperitivo|Peanut butter.|Mantequilla de cacahuete.
+olive|aceituna|sust|también el olivo|Olive oil.|Aceite de oliva.
+tomato|tomate|sust|plural: tomatoes|Fresh tomatoes.|Tomates frescos.
+potato|patata|sust|plural: potatoes|Boiled potatoes.|Patatas cocidas.
+onion|cebolla|sust|hace llorar|Chop the onion.|Corta la cebolla.
+garlic|ajo|sust|muy fuerte de sabor|Too much garlic.|Demasiado ajo.
+pepper|pimienta / pimiento|sust|la especia o la verdura|Salt and pepper.|Sal y pimienta.
+carrot|zanahoria|sust|naranja y larga|Carrots and peas.|Zanahorias y guisantes.
+lettuce|lechuga|sust|la base de la ensalada|Wash the lettuce.|Lava la lechuga.
+cabbage|repollo|sust|verdura de hoja apretada|Cabbage soup.|Sopa de repollo.
+spinach|espinaca|sust|verde y de hoja|Spinach salad.|Ensalada de espinacas.
+bean|alubia|sust|plural: beans|Rice and beans.|Arroz con alubias.
+pea|guisante|sust|plural: peas|Green peas.|Guisantes verdes.
+corn|maíz|sust|británico: maize|Corn on the cob.|Mazorca de maíz.
+mushroom|champiñón|sust|también seta|Mushrooms on toast.|Champiñones en tostada.
+cucumber|pepino|sust|largo y verde|Cool as a cucumber.|Fresco como una lechuga.
+pumpkin|calabaza|sust|naranja y grande|Pumpkin pie.|Tarta de calabaza.
+herb|hierba (de cocina)|sust|para dar sabor|Fresh herbs.|Hierbas frescas.
+spice|especia|sust|para dar sabor fuerte|Add some spice.|Añade algo de especia.
+sauce|salsa|sust|lo líquido que acompaña|Tomato sauce.|Salsa de tomate.
+salad|ensalada|sust|verdura cruda|A green salad.|Una ensalada verde.
+sandwich|sándwich|sust|entre dos panes|A ham sandwich.|Un sándwich de jamón.
+burger|hamburguesa|sust|de hamburger|A burger and fries.|Una hamburguesa con patatas.
+fries|patatas fritas|sust|británico: chips|Order some fries.|Pide patatas fritas.
+pasta|pasta|sust|italiana|Pasta for dinner.|Pasta para cenar.
+noodle|fideo|sust|plural: noodles|Instant noodles.|Fideos instantáneos.
+cheese|queso|sust|de la leche|Bread and cheese.|Pan y queso.
+butter|mantequilla|sust|para untar|Butter on toast.|Mantequilla en la tostada.
+cream|nata|sust|también «crema»|Coffee with cream.|Café con nata.
+yogurt|yogur|sust|también yoghurt|Plain yogurt.|Yogur natural.
+jam|mermelada|sust|también «atasco»|Strawberry jam.|Mermelada de fresa.
+flour|harina|sust|para el pan|A cup of flour.|Una taza de harina.
+dough|masa|sust|harina con agua|Let the dough rest.|Deja reposar la masa.
+pie|tarta|sust|con base de masa|Apple pie.|Tarta de manzana.
+cookie|galleta|sust|británico: biscuit|Homemade cookies.|Galletas caseras.
+biscuit|galleta|sust|británico · EE.UU. es otro pan|Tea and biscuits.|Té con galletas.
+dessert|postre|sust|lo dulce del final|What's for dessert?|¿Qué hay de postre?
+meal|comida|sust|desayuno, almuerzo o cena|A good meal.|Una buena comida.
+recipe|receta|sust|cómo se cocina algo|My grandmother's recipe.|La receta de mi abuela.
+oven|horno|sust|para hornear|Put it in the oven.|Mételo al horno.
+stove|fogón|sust|donde van las sartenes|On the stove.|En el fogón.
+pan|sartén|sust|plana y con mango|Heat the pan.|Calienta la sartén.
+pot|olla|sust|honda, para hervir|A pot of soup.|Una olla de sopa.
+grill|parrilla|sust|también «asar»|Meat on the grill.|Carne a la parrilla.
+fridge|nevera|sust|de refrigerator|It's in the fridge.|Está en la nevera.
+freezer|congelador|sust|bajo cero|Ice in the freezer.|Hielo en el congelador.
+microwave|microondas|sust|calienta rápido|Use the microwave.|Usa el microondas.
+kettle|hervidor|sust|para el agua del té|Put the kettle on.|Pon el agua a hervir.
+mug|taza|sust|grande y con asa|A mug of coffee.|Una taza de café.
+jar|tarro|sust|de cristal, con tapa|A jar of honey.|Un tarro de miel.
+napkin|servilleta|sust|para limpiarse|Pass me a napkin.|Pásame una servilleta.
+tray|bandeja|sust|para llevar cosas|Carry the tray.|Lleva la bandeja.
+horse|caballo|sust|se monta|Ride a horse.|Monta a caballo.
+cow|vaca|sust|da leche|Cows in the field.|Vacas en el campo.
+pig|cerdo|sust|del que sale el jamón|Pigs in the mud.|Cerdos en el barro.
+sheep|oveja|sust|singular y plural igual|Ten sheep.|Diez ovejas.
+goat|cabra|sust|de monte|A mountain goat.|Una cabra montesa.
+duck|pato|sust|también «agacharse»|Ducks on the lake.|Patos en el lago.
+rabbit|conejo|sust|de orejas largas|A white rabbit.|Un conejo blanco.
+mouse|ratón|sust|plural: mice · también del ordenador|A quiet mouse.|Un ratón callado.
+rat|rata|sust|más grande que el ratón|Rats in the city.|Ratas en la ciudad.
+bear|oso|sust|también «soportar»|A brown bear.|Un oso pardo.
+wolf|lobo|sust|plural: wolves|A lone wolf.|Un lobo solitario.
+fox|zorro|sust|listo y rojizo|A clever fox.|Un zorro listo.
+deer|ciervo|sust|singular y plural igual|Deer in the forest.|Ciervos en el bosque.
+lion|león|sust|el rey de la selva|A lion's roar.|El rugido de un león.
+tiger|tigre|sust|de rayas|Eye of the tiger.|Ojo del tigre.
+elephant|elefante|sust|el más grande de tierra|An elephant never forgets.|Un elefante nunca olvida.
+monkey|mono|sust|trepa por los árboles|Monkeys in the trees.|Monos en los árboles.
+snake|serpiente|sust|sin patas|A snake in the grass.|Una serpiente en la hierba.
+frog|rana|sust|salta y croa|A green frog.|Una rana verde.
+turtle|tortuga|sust|con caparazón|Slow as a turtle.|Lento como una tortuga.
+spider|araña|sust|ocho patas|A spider web.|Una telaraña.
+bee|abeja|sust|hace la miel|Busy as a bee.|Ocupado como una abeja.
+ant|hormiga|sust|pequeña y trabajadora|Ants on the ground.|Hormigas en el suelo.
+mosquito|mosquito|sust|pica de noche|Mosquitoes at night.|Mosquitos de noche.
+butterfly|mariposa|sust|butterflies = nervios|Butterflies in my stomach.|Mariposas en el estómago.
+shark|tiburón|sust|del mar, con dientes|Swimming with sharks.|Nadando con tiburones.
+whale|ballena|sust|la más grande del mar|A blue whale.|Una ballena azul.
+dolphin|delfín|sust|listo y juguetón|Dolphins in the bay.|Delfines en la bahía.
+eagle|águila|sust|vuela muy alto|An eagle's eye.|Ojo de águila.
+owl|búho|sust|de noche|A night owl.|Un ave nocturna.
+crow|cuervo|sust|negro y ruidoso|Crows on the wire.|Cuervos en el cable.
+pigeon|paloma|sust|de ciudad|Pigeons in the square.|Palomas en la plaza.
+parrot|loro|sust|repite lo que oye|The parrot talks.|El loro habla.
+penguin|pingüino|sust|del frío, no vuela|Penguins on ice.|Pingüinos en el hielo.
+nest|nido|sust|donde vive el pájaro|A bird's nest.|Un nido de pájaro.
+tail|cola|sust|la parte de atrás|The dog wags its tail.|El perro mueve la cola.
+paw|pata|sust|de perro o gato|Give me your paw.|Dame la pata.
+claw|garra|sust|la uña del animal|Sharp claws.|Garras afiladas.
+feather|pluma|sust|del pájaro|Light as a feather.|Ligero como una pluma.
+fur|pelaje|sust|el pelo del animal|Soft fur.|Pelaje suave.
+horn|cuerno / bocina|sust|del animal o del coche|Blow the horn.|Toca la bocina.
+pants|pantalones|sust|británico: trousers|New pants.|Pantalones nuevos.
+jeans|vaqueros|sust|siempre en plural|Blue jeans.|Vaqueros azules.
+skirt|falda|sust|prenda de abajo|A long skirt.|Una falda larga.
+jacket|chaqueta|sust|más corta que el abrigo|A leather jacket.|Una chaqueta de cuero.
+sweater|jersey|sust|británico: jumper|A warm sweater.|Un jersey calentito.
+hoodie|sudadera con capucha|sust|con capucha|My old hoodie.|Mi vieja sudadera.
+sock|calcetín|sust|plural: socks|Clean socks.|Calcetines limpios.
+boot|bota|sust|zapato alto|Leather boots.|Botas de cuero.
+sandal|sandalia|sust|abierta, de verano|Summer sandals.|Sandalias de verano.
+hat|sombrero|sust|para la cabeza|Take off your hat.|Quítate el sombrero.
+scarf|bufanda|sust|plural: scarves|A red scarf.|Una bufanda roja.
+glove|guante|sust|plural: gloves|Warm gloves.|Guantes calentitos.
+zipper|cremallera|sust|británico: zip|The zipper is stuck.|La cremallera está atascada.
+pocket|bolsillo|sust|donde guardas cosas|Hands in my pockets.|Manos en los bolsillos.
+sleeve|manga|sust|la parte del brazo|Roll up your sleeves.|Arremángate.
+collar|cuello (de camisa)|sust|la parte de arriba|A white collar.|Un cuello blanco.
+heel|talón / tacón|sust|del pie o del zapato|High heels.|Tacones altos.
+fashion|moda|sust|lo que se lleva|Out of fashion.|Pasado de moda.
+outfit|conjunto|sust|toda la ropa junta|A nice outfit.|Un buen conjunto.
+costume|disfraz|sust|para una fiesta o teatro|A costume party.|Una fiesta de disfraces.
+jewelry|joyas|sust|británico: jewellery|Gold jewelry.|Joyas de oro.
+necklace|collar|sust|para el cuello|A silver necklace.|Un collar de plata.
+bracelet|pulsera|sust|para la muñeca|A thin bracelet.|Una pulsera fina.
+earring|pendiente|sust|para la oreja|Gold earrings.|Pendientes de oro.
+glasses|gafas|sust|siempre en plural|I need my glasses.|Necesito mis gafas.
+sunglasses|gafas de sol|sust|contra el sol|Wear sunglasses.|Ponte gafas de sol.
+purse|bolso|sust|EE.UU. · R.U. monedero|Her purse is red.|Su bolso es rojo.
+wallet|cartera|sust|para el dinero|I lost my wallet.|Perdí la cartera.
+backpack|mochila|sust|a la espalda|Pack your backpack.|Haz la mochila.
+umbrella|paraguas|sust|para la lluvia|Take an umbrella.|Llévate un paraguas.
+nose|nariz|sust|para oler|A runny nose.|La nariz que moquea.
+lip|labio|sust|plural: lips|Bite your lip.|Muérdete el labio.
+elbow|codo|sust|la mitad del brazo|Elbow on the table.|El codo en la mesa.
+wrist|muñeca|sust|entre mano y brazo|A watch on my wrist.|Un reloj en la muñeca.
+thumb|pulgar|sust|el dedo gordo|Thumbs up.|Pulgar arriba.
+hip|cadera|sust|plural: hips|Hands on her hips.|Manos en las caderas.
+ankle|tobillo|sust|entre pie y pierna|I twisted my ankle.|Me torcí el tobillo.
+muscle|músculo|sust|lo que da fuerza|Sore muscles.|Músculos doloridos.
+blood|sangre|sust|lo que corre por las venas|Blood on my hands.|Sangre en mis manos.
+lung|pulmón|sust|plural: lungs|Fill your lungs.|Llena los pulmones.
+stomach|estómago|sust|donde va la comida|An empty stomach.|El estómago vacío.
+liver|hígado|sust|órgano del cuerpo|Liver problems.|Problemas de hígado.
+kidney|riñón|sust|plural: kidneys|Kidney stones.|Piedras en el riñón.
+nerve|nervio|sust|nerves = nervios|You've got some nerve.|Qué cara tienes.
+joint|articulación|sust|donde se dobla el hueso|Stiff joints.|Articulaciones rígidas.
+spine|columna|sust|los huesos de la espalda|A chill down my spine.|Un escalofrío por la espalda.
+rib|costilla|sust|plural: ribs|Broken ribs.|Costillas rotas.
+flu|gripe|sust|de influenza|I have the flu.|Tengo gripe.
+cough|tos|sust|también el verbo|A bad cough.|Una tos fea.
+bruise|moratón|sust|la marca del golpe|A bruise on my arm.|Un moratón en el brazo.
+scar|cicatriz|sust|lo que queda de la herida|Scars tell stories.|Las cicatrices cuentan historias.
+rash|sarpullido|sust|manchas en la piel|A skin rash.|Un sarpullido en la piel.
+allergy|alergia|sust|plural: allergies|A nut allergy.|Alergia a los frutos secos.
+infection|infección|sust|cuando entran bacterias|An ear infection.|Una infección de oído.
+surgery|cirugía|sust|la operación|He needs surgery.|Necesita cirugía.
+injection|inyección|sust|la aguja|A painless injection.|Una inyección sin dolor.
+pill|pastilla|sust|se traga|Take one pill.|Tómate una pastilla.
+tablet|pastilla / tableta|sust|medicina o aparato|Two tablets a day.|Dos pastillas al día.
+drug|medicamento / droga|sust|los dos sentidos|A new drug.|Un medicamento nuevo.
+therapy|terapia|sust|el tratamiento|I started therapy.|Empecé terapia.
+symptom|síntoma|sust|la señal de la enfermedad|The first symptom.|El primer síntoma.
+diagnosis|diagnóstico|sust|lo que dice el médico|A clear diagnosis.|Un diagnóstico claro.
+clinic|clínica|sust|más pequeña que el hospital|A local clinic.|Una clínica del barrio.
+pharmacy|farmacia|sust|donde se compra la medicina|Go to the pharmacy.|Ve a la farmacia.
+dentist|dentista|sust|el de los dientes|A dentist appointment.|Cita con el dentista.
+patient|paciente|sust|también «paciente» de tener paciencia|The patient is fine.|El paciente está bien.
+checkup|revisión|sust|la visita de control|An annual checkup.|Una revisión anual.
+vaccine|vacuna|sust|para no enfermar|A new vaccine.|Una vacuna nueva.
+bandage|venda|sust|cubre la herida|Put on a bandage.|Ponte una venda.
+hammer|martillo|sust|para los clavos|Hit it with a hammer.|Dale con el martillo.
+screw|tornillo|sust|se enrosca|A loose screw.|Un tornillo suelto.
+screwdriver|destornillador|sust|para los tornillos|Pass the screwdriver.|Pasa el destornillador.
+drill|taladro|sust|también «taladrar»|Use the drill.|Usa el taladro.
+wrench|llave inglesa|sust|británico: spanner|Tighten it with a wrench.|Apriétalo con la llave.
+tape|cinta|sust|adhesiva o de grabar|A roll of tape.|Un rollo de cinta.
+glue|pegamento|sust|para pegar|A drop of glue.|Una gota de pegamento.
+rope|cuerda|sust|gruesa y fuerte|At the end of my rope.|Al límite de mis fuerzas.
+hook|gancho|sust|también el gancho de una canción|Hang it on the hook.|Cuélgalo del gancho.
+ladder|escalera (de mano)|sust|se apoya en la pared|Climb the ladder.|Sube la escalera.
+bucket|cubo|sust|para el agua|A bucket of water.|Un cubo de agua.
+broom|escoba|sust|para barrer|Grab the broom.|Coge la escoba.
+mop|fregona|sust|para el suelo mojado|Use the mop.|Usa la fregona.
+sponge|esponja|sust|absorbe el agua|A wet sponge.|Una esponja mojada.
+soap|jabón|sust|para lavarse|A bar of soap.|Una pastilla de jabón.
+detergent|detergente|sust|para la ropa|Add detergent.|Añade detergente.
+bin|cubo de basura|sust|británico · EE.UU. trash can|Throw it in the bin.|Tíralo al cubo.
+lamp|lámpara|sust|da luz|Turn on the lamp.|Enciende la lámpara.
+bulb|bombilla|sust|la que se funde|Change the bulb.|Cambia la bombilla.
+plug|enchufe|sust|también «enchufar»|Pull the plug.|Desenchúfalo.
+socket|toma de corriente|sust|donde va el enchufe|An empty socket.|Una toma libre.
+cable|cable|sust|el que lleva la corriente|A long cable.|Un cable largo.
+charger|cargador|sust|para la batería|Where's my charger?|¿Dónde está mi cargador?
+ice|hielo|sust|agua congelada|Ice in my drink.|Hielo en mi bebida.
+fog|niebla|sust|nube a ras de suelo|Fog on the road.|Niebla en la carretera.
+sunshine|sol (la luz)|sust|la luz cálida|You are my sunshine.|Eres mi sol.
+heat|calor|sust|temperatura alta|The summer heat.|El calor del verano.
+frost|escarcha|sust|hielo fino de la mañana|Frost on the window.|Escarcha en la ventana.
+hail|granizo|sust|bolas de hielo|Hail in April.|Granizo en abril.
+flood|inundación|sust|agua que lo cubre todo|After the flood.|Tras la inundación.
+drought|sequía|sust|cuando no llueve|A long drought.|Una sequía larga.
+earthquake|terremoto|sust|la tierra se mueve|An earthquake hit.|Hubo un terremoto.
+volcano|volcán|sust|monte que echa fuego|An active volcano.|Un volcán activo.
+tornado|tornado|sust|viento que gira|A tornado warning.|Aviso de tornado.
+hurricane|huracán|sust|tormenta enorme|Hurricane season.|Temporada de huracanes.
+forecast|pronóstico|sust|lo que dicen que va a pasar|The weather forecast.|El pronóstico del tiempo.
+football|fútbol americano|sust|EE.UU. · en R.U. es el fútbol|A football game.|Un partido de fútbol americano.
+basketball|baloncesto|sust|con canasta|Play basketball.|Juega al baloncesto.
+baseball|béisbol|sust|con bate y pelota|A baseball cap.|Una gorra de béisbol.
+tennis|tenis|sust|con raqueta|A tennis match.|Un partido de tenis.
+golf|golf|sust|con palos y hoyos|Play golf on Sunday.|Juega al golf el domingo.
+boxing|boxeo|sust|con guantes|Boxing gloves.|Guantes de boxeo.
+swimming|natación|sust|el deporte de nadar|Swimming lessons.|Clases de natación.
+running|correr|sust|el deporte|Running shoes.|Zapatillas de correr.
+cycling|ciclismo|sust|en bicicleta|Cycling in the hills.|Ciclismo por las colinas.
+skiing|esquí|sust|en la nieve|Skiing in winter.|Esquí en invierno.
+surfing|surf|sust|sobre las olas|Surfing the waves.|Surfeando las olas.
+climbing|escalada|sust|subir montañas o paredes|Rock climbing.|Escalada en roca.
+coach|entrenador|sust|quien dirige al equipo|A tough coach.|Un entrenador duro.
+player|jugador|sust|quien juega|The best player.|El mejor jugador.
+championship|campeonato|sust|el torneo grande|Win the championship.|Gana el campeonato.
+medal|medalla|sust|el premio que se cuelga|A gold medal.|Una medalla de oro.
+trophy|trofeo|sust|la copa del ganador|Lift the trophy.|Levanta el trofeo.
+referee|árbitro|sust|quien pita|The referee blew the whistle.|El árbitro pitó.

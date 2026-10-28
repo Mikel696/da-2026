@@ -1,0 +1,240 @@
+boat|barca|sust|más pequeño que el barco|A boat on the river.|Una barca en el río.
+bike|bici|sust|de bicycle|Ride your bike.|Monta en bici.
+motorcycle|moto|sust|también motorbike|A loud motorcycle.|Una moto ruidosa.
+subway|metro|sust|británico: underground|Take the subway.|Coge el metro.
+tram|tranvía|sust|va por raíles en la calle|The tram stops here.|El tranvía para aquí.
+helicopter|helicóptero|sust|vuela con hélices|A helicopter overhead.|Un helicóptero arriba.
+engine|motor|sust|lo que mueve el vehículo|Start the engine.|Arranca el motor.
+tire|neumático|sust|británico: tyre|A flat tire.|Un neumático pinchado.
+brake|freno|sust|también «frenar»|Hit the brakes.|Pisa el freno.
+fuel|combustible|sust|lo que quema el motor|Out of fuel.|Sin combustible.
+gas|gasolina / gas|sust|EE.UU. gasolina · R.U. petrol|Fill up the gas.|Llena de gasolina.
+passenger|pasajero|sust|quien va, no conduce|A quiet passenger.|Un pasajero callado.
+toll|peaje|sust|lo que se paga por pasar|Pay the toll.|Paga el peaje.
+professor|catedrático|sust|profesor de universidad|My favorite professor.|Mi catedrático favorito.
+scientist|científico|sust|quien investiga|A young scientist.|Una científica joven.
+artist|artista|sust|quien crea arte|A street artist.|Un artista callejero.
+musician|músico|sust|quien toca música|A great musician.|Un gran músico.
+singer|cantante|sust|quien canta|My favorite singer.|Mi cantante favorito.
+actor|actor|sust|quien actúa|A famous actor.|Un actor famoso.
+journalist|periodista|sust|quien escribe noticias|A brave journalist.|Una periodista valiente.
+chef|chef|sust|el cocinero jefe|The chef's special.|La especialidad del chef.
+baker|panadero|sust|quien hace el pan|The baker opens early.|El panadero abre pronto.
+farmer|granjero|sust|quien trabaja la tierra|A local farmer.|Un granjero de la zona.
+fisherman|pescador|sust|quien pesca|An old fisherman.|Un viejo pescador.
+builder|constructor|sust|quien construye|A skilled builder.|Un constructor hábil.
+plumber|fontanero|sust|el de las tuberías|Call a plumber.|Llama a un fontanero.
+electrician|electricista|sust|el de la corriente|We need an electrician.|Necesitamos un electricista.
+mechanic|mecánico|sust|el de los coches|A good mechanic.|Un buen mecánico.
+barber|barbero|sust|corta el pelo|At the barber shop.|En la barbería.
+tailor|sastre|sust|hace ropa a medida|A skilled tailor.|Un sastre hábil.
+pilot|piloto|sust|quien vuela el avión|The pilot spoke.|El piloto habló.
+officer|oficial / agente|sust|de policía o del ejército|A police officer.|Un agente de policía.
+guard|guardia|sust|quien vigila|The night guard.|El guardia de noche.
+cashier|cajero|sust|quien cobra|Ask the cashier.|Pregunta al cajero.
+clerk|dependiente|sust|quien atiende|The clerk was kind.|El dependiente fue amable.
+scared|asustado|adj|con miedo|I'm scared of the dark.|Me da miedo la oscuridad.
+selfish|egoísta|adj|solo piensa en sí|Don't be selfish.|No seas egoísta.
+generous|generoso|adj|lo contrario de selfish|A generous friend.|Un amigo generoso.
+lazy|perezoso|adj|no quiere trabajar|A lazy Sunday.|Un domingo perezoso.
+hardworking|trabajador|adj|que se esfuerza|A hardworking student.|Un estudiante trabajador.
+clever|listo|adj|que piensa rápido|A clever answer.|Una respuesta lista.
+stupid|tonto|adj|es una palabra dura|A stupid mistake.|Un error tonto.
+foolish|insensato|adj|más suave que stupid|A foolish choice.|Una decisión insensata.
+playful|juguetón|adj|con ganas de jugar|A playful tone.|Un tono juguetón.
+strict|estricto|adj|no perdona una|A strict teacher.|Un profesor estricto.
+friendly|simpático|adj|fácil de tratar|A friendly face.|Una cara amable.
+gloomy|sombrío|adj|triste y apagado|A gloomy day.|Un día sombrío.
+grumpy|gruñón|adj|de mal humor siempre|A grumpy neighbor.|Un vecino gruñón.
+moody|de humor cambiante|adj|hoy sí, mañana no|He's been moody lately.|Está de humor cambiante.
+stubborn|terco|adj|no cambia de idea|As stubborn as a mule.|Terco como una mula.
+humble|humilde|adj|sin presumir|Stay humble.|Sé humilde.
+arrogant|arrogante|adj|se cree superior|An arrogant reply.|Una respuesta arrogante.
+confident|seguro de sí|adj|con confianza|A confident voice.|Una voz segura.
+insecure|inseguro|adj|con dudas sobre sí mismo|I felt insecure.|Me sentí inseguro.
+mumble|farfullar|verbo|hablar sin vocalizar|Stop mumbling.|Deja de farfullar.
+mutter|murmurar|verbo|hablar bajo y molesto|He muttered something.|Murmuró algo.
+yell|berrear|verbo|gritar muy fuerte|Don't yell at me.|No me berrees.
+remark|comentar|verbo|también «un comentario»|She remarked on it.|Lo comentó.
+ponder|reflexionar|verbo|darle vueltas|I pondered the offer.|Reflexioné sobre la oferta.
+confess|confesar|verbo|admitir algo difícil|I have to confess.|Tengo que confesar.
+conceal|ocultar|verbo|más formal que hide|He concealed the truth.|Ocultó la verdad.
+violin|violín|sust|de cuerda y arco|She plays violin.|Toca el violín.
+flute|flauta|sust|de viento|A wooden flute.|Una flauta de madera.
+trumpet|trompeta|sust|de metal|A loud trumpet.|Una trompeta fuerte.
+saxophone|saxofón|sust|el del jazz|A saxophone solo.|Un solo de saxofón.
+bass|bajo|sust|el grave · se dice «beis»|Turn up the bass.|Sube el bajo.
+keyboard|teclado|sust|de música o de ordenador|Play the keyboard.|Toca el teclado.
+microphone|micrófono|sust|recoge la voz|Check the microphone.|Prueba el micrófono.
+headphone|auricular|sust|plural: headphones|Put on your headphones.|Ponte los auriculares.
+amplifier|amplificador|sust|sube el volumen|Plug in the amplifier.|Enchufa el amplificador.
+chord|acorde|sust|varias notas a la vez|Three chords and the truth.|Tres acordes y la verdad.
+tempo|tempo|sust|lo rápido que va|A slow tempo.|Un tempo lento.
+lyric|verso|sust|lyrics = la letra entera|One lyric stuck with me.|Un verso se me quedó.
+solo|solo|sust|cuando toca uno solo|A guitar solo.|Un solo de guitarra.
+genre|género|sust|el tipo de música|My favorite genre.|Mi género favorito.
+songwriter|compositor|sust|quien escribe canciones|A great songwriter.|Un gran compositor.
+producer|productor|sust|quien monta la grabación|The producer changed it.|El productor lo cambió.
+festival|festival|sust|muchos conciertos juntos|A summer festival.|Un festival de verano.
+paint|pintura|sust|también «pintar»|Fresh paint.|Pintura fresca.
+canvas|lienzo|sust|donde se pinta|A blank canvas.|Un lienzo en blanco.
+sketch|boceto|sust|dibujo rápido|A quick sketch.|Un boceto rápido.
+drawing|dibujo|sust|lo dibujado|A pencil drawing.|Un dibujo a lápiz.
+portrait|retrato|sust|el dibujo de una cara|A family portrait.|Un retrato de familia.
+sculpture|escultura|sust|arte en tres dimensiones|A stone sculpture.|Una escultura de piedra.
+gallery|galería|sust|donde se expone arte|An art gallery.|Una galería de arte.
+museum|museo|sust|guarda obras y objetos|Go to the museum.|Ve al museo.
+exhibit|exposición|sust|lo que se muestra|A new exhibit.|Una exposición nueva.
+shade|sombra / tono|sust|la sombra fresca o un tono de color|Sit in the shade.|Siéntate a la sombra.
+planet|planeta|sust|gira alrededor del sol|A distant planet.|Un planeta lejano.
+earth|tierra|sust|nuestro planeta|Down to earth.|Con los pies en la tierra.
+galaxy|galaxia|sust|millones de estrellas|A far galaxy.|Una galaxia lejana.
+comet|cometa|sust|deja una cola de luz|A comet in the sky.|Un cometa en el cielo.
+meteor|meteoro|sust|la estrella fugaz|A meteor shower.|Una lluvia de meteoros.
+orbit|órbita|sust|el camino alrededor|In orbit.|En órbita.
+gravity|gravedad|sust|lo que nos pega al suelo|Fighting gravity.|Luchando contra la gravedad.
+telescope|telescopio|sust|para ver lejos|Through the telescope.|Por el telescopio.
+astronaut|astronauta|sust|quien va al espacio|An astronaut's view.|La vista de un astronauta.
+satellite|satélite|sust|da vueltas al planeta|A weather satellite.|Un satélite meteorológico.
+beach|playa|sust|arena junto al mar|A day at the beach.|Un día de playa.
+jungle|selva|sust|bosque tropical espeso|The concrete jungle.|La jungla de asfalto.
+meadow|prado|sust|campo de hierba|A green meadow.|Un prado verde.
+cave|cueva|sust|hueco en la roca|Inside the cave.|Dentro de la cueva.
+cliff|acantilado|sust|pared de roca cortada|On the edge of a cliff.|Al borde del acantilado.
+waterfall|cascada|sust|agua que cae|Under the waterfall.|Bajo la cascada.
+pond|estanque|sust|agua pequeña y quieta|Ducks on the pond.|Patos en el estanque.
+swamp|pantano|sust|tierra encharcada|Deep in the swamp.|En lo hondo del pantano.
+middle|medio|sust|in the middle of|In the middle of the night.|En mitad de la noche.
+inside|dentro|prep|lo contrario de outside|Inside my head.|Dentro de mi cabeza.
+era|era|sust|un período largo|The end of an era.|El fin de una era.
+anniversary|aniversario|sust|el mismo día cada año|Our anniversary.|Nuestro aniversario.
+congratulations|felicidades|expr|siempre en plural|Congratulations on the job.|Felicidades por el trabajo.
+goodbye|adiós|expr|la despedida|It's not goodbye.|No es un adiós.
+farewell|despedida|sust|más solemne que goodbye|A last farewell.|Una última despedida.
+greeting|saludo|sust|lo que se dice al llegar|A warm greeting.|Un saludo cálido.
+invitation|invitación|sust|te llaman a algo|An open invitation.|Una invitación abierta.
+celebration|celebración|sust|la fiesta por algo|Time for celebration.|Hora de celebrar.
+ceremony|ceremonia|sust|el acto formal|A short ceremony.|Una ceremonia corta.
+bargain|ganga|sust|muy buen precio|What a bargain.|Vaya ganga.
+debit|débito|sust|debit card = tarjeta de débito|My debit card.|Mi tarjeta de débito.
+savings|ahorros|sust|siempre en plural|My savings are gone.|Se fueron mis ahorros.
+laptop|portátil|sust|el ordenador que se lleva|Open your laptop.|Abre el portátil.
+printer|impresora|sust|saca en papel|The printer is out of ink.|La impresora no tiene tinta.
+scanner|escáner|sust|pasa papel a digital|Use the scanner.|Usa el escáner.
+wifi|wifi|sust|internet sin cable|What's the wifi password?|¿Cuál es la clave del wifi?
+browser|navegador|sust|con lo que abres webs|Open your browser.|Abre el navegador.
+spreadsheet|hoja de cálculo|sust|filas y columnas|Send me the spreadsheet.|Mándame la hoja de cálculo.
+author|autor|sust|quien escribe|My favorite author.|Mi autor favorito.
+library|biblioteca|sust|donde están los libros|Quiet as a library.|Callado como una biblioteca.
+novel|novela|sust|también «novedoso»|A long novel.|Una novela larga.
+poem|poema|sust|texto en verso|A short poem.|Un poema corto.
+poetry|poesía|sust|el arte de los poemas|I write poetry.|Escribo poesía.
+essay|ensayo|sust|texto de opinión|A school essay.|Un ensayo escolar.
+letter|carta / letra|sust|el correo o el símbolo|A love letter.|Una carta de amor.
+diary|diario|sust|donde escribes tu día|My old diary.|Mi viejo diario.
+journal|diario / revista|sust|personal o académico|A science journal.|Una revista científica.
+magazine|revista|sust|sale cada semana o mes|A music magazine.|Una revista de música.
+newspaper|periódico|sust|las noticias en papel|Read the newspaper.|Lee el periódico.
+headline|titular|sust|el título de la noticia|Front page headline.|Titular de portada.
+prince|príncipe|sust|el hijo del rey|A young prince.|Un príncipe joven.
+princess|princesa|sust|la hija del rey|A fairy tale princess.|Una princesa de cuento.
+castle|castillo|sust|donde vive el rey|An old castle.|Un castillo viejo.
+knight|caballero|sust|el de la armadura|A knight in armor.|Un caballero con armadura.
+sword|espada|sust|arma larga y afilada|Draw your sword.|Desenvaina la espada.
+shield|escudo|sust|para protegerse|Raise your shield.|Levanta el escudo.
+crown|corona|sust|la del rey|Heavy is the crown.|Pesa la corona.
+throne|trono|sust|el asiento del rey|Take the throne.|Toma el trono.
+kingdom|reino|sust|lo que gobierna el rey|A small kingdom.|Un reino pequeño.
+empire|imperio|sust|muchos reinos juntos|The fall of an empire.|La caída de un imperio.
+treaty|tratado|sust|el acuerdo entre países|Sign the treaty.|Firma el tratado.
+army|ejército|sust|de tierra|Join the army.|Alístate al ejército.
+navy|armada|sust|de mar · también azul marino|The navy sailed.|La armada zarpó.
+gun|arma de fuego|sust|pistola o fusil|Put down the gun.|Baja el arma.
+bomb|bomba|sust|explota|A ticking bomb.|Una bomba a punto de estallar.
+dislike|no gustar|verbo|lo contrario de like|I dislike the cold.|No me gusta el frío.
+adore|adorar|verbo|querer muchísimo|I adore that song.|Adoro esa canción.
+despise|despreciar|verbo|odiar con desprecio|He despises lies.|Desprecia las mentiras.
+resent|guardar rencor|verbo|no perdonar por dentro|I resent that.|Me molesta eso.
+envy|envidiar|verbo|también «envidia»|I envy your calm.|Envidio tu calma.
+noon|mediodía|sust|las doce del día|Meet me at noon.|Nos vemos a mediodía.
+cheers|salud / gracias|expr|al brindar · o «gracias» en R.U.|Cheers, mate.|Salud, colega.
+siren|sirena|sust|la de la ambulancia|Sirens in the night.|Sirenas en la noche.
+buzz|zumbido|sust|el sonido de la abeja o el móvil|A buzz in my pocket.|Un zumbido en el bolsillo.
+beep|pitido|sust|sonido corto y agudo|One short beep.|Un pitido corto.
+crack|grieta|sust|también «crujir»|A crack in the wall.|Una grieta en la pared.
+bang|golpe seco|sust|ruido fuerte y corto|A loud bang.|Un golpe fuerte.
+boom|estruendo|sust|también «auge»|A distant boom.|Un estruendo a lo lejos.
+transparent|transparente|adj|se ve a través|Transparent glass.|Cristal transparente.
+opaque|opaco|adj|no se ve a través|An opaque wall.|Una pared opaca.
+colorful|colorido|adj|británico: colourful|A colorful dress.|Un vestido colorido.
+pale|pálido|adj|sin color en la cara|You look pale.|Estás pálido.
+vivid|vívido|adj|muy intenso|A vivid dream.|Un sueño muy vívido.
+faded|descolorido|adj|que perdió el color|Faded jeans.|Vaqueros descoloridos.
+blunt|romo / directo|adj|sin filo · o sin rodeos|A blunt answer.|Una respuesta sin rodeos.
+shallow|poco profundo|adj|también «superficial»|Shallow water.|Agua poco profunda.
+hollow|hueco|adj|vacío por dentro|A hollow promise.|Una promesa hueca.
+salty|salado|adj|con mucha sal|Too salty.|Demasiado salado.
+bland|soso|adj|sin sabor|Bland food.|Comida sosa.
+tasty|sabroso|adj|que sabe bien|A tasty meal.|Una comida sabrosa.
+disgusting|asqueroso|adj|que da asco|That's disgusting.|Eso es asqueroso.
+stale|rancio|adj|pasado de fresco|Stale bread.|Pan rancio.
+raw|crudo|adj|sin cocinar · o en carne viva|Raw emotion.|Emoción en carne viva.
+cooked|cocinado|adj|ya hecho|Well cooked.|Bien cocinado.
+frozen|congelado|adj|participio de freeze|Frozen in time.|Congelado en el tiempo.
+giant|gigante|adj|enorme|A giant step.|Un paso gigante.
+enormous|enorme|adj|muy muy grande|An enormous crowd.|Una multitud enorme.
+silent|silencioso|adj|sin ningún sonido|A silent night.|Una noche silenciosa.
+noisy|ruidoso|adj|con mucho ruido|A noisy street.|Una calle ruidosa.
+rapid|veloz|adj|más formal que fast|Rapid changes.|Cambios veloces.
+sudden|repentino|adj|sin avisar|A sudden stop.|Una parada repentina.
+delayed|retrasado|adj|que llega tarde|The flight is delayed.|El vuelo va retrasado.
+punctual|puntual|adj|siempre a la hora|Be punctual.|Sé puntual.
+timely|oportuno|adj|en el momento justo|A timely reminder.|Un recordatorio oportuno.
+overdue|atrasado|adj|que ya debía haber pasado|The payment is overdue.|El pago está atrasado.
+tricky|peliagudo|adj|difícil de manejar|A tricky question.|Una pregunta peliaguda.
+vague|vago / impreciso|adj|sin detalle claro|A vague answer.|Una respuesta vaga.
+dangerous|peligroso|adj|que puede hacer daño|A dangerous road.|Una carretera peligrosa.
+protected|protegido|adj|a salvo|A protected area.|Una zona protegida.
+exposed|expuesto|adj|sin protección|Left exposed.|Dejado al descubierto.
+vulnerable|vulnerable|adj|fácil de herir|I felt vulnerable.|Me sentí vulnerable.
+neat|pulcro|adj|limpio y ordenado|Neat handwriting.|Letra pulcra.
+filthy|mugriento|adj|muy sucio|Filthy hands.|Manos mugrientas.
+spotless|impecable|adj|sin una mancha|A spotless kitchen.|Una cocina impecable.
+vacant|libre|adj|sin ocupar|A vacant seat.|Un asiento libre.
+occupied|ocupado|adj|ya tomado|The room is occupied.|La habitación está ocupada.
+worn|desgastado|adj|participio de wear|Worn shoes.|Zapatos desgastados.
+wealthy|adinerado|adj|más formal que rich|A wealthy family.|Una familia adinerada.
+affordable|asequible|adj|que se puede pagar|An affordable price.|Un precio asequible.
+fragile|frágil|adj|se rompe fácil|Fragile as glass.|Frágil como el cristal.
+sturdy|robusto|adj|que aguanta|A sturdy table.|Una mesa robusta.
+delicate|delicado|adj|hay que tratarlo con cuidado|A delicate subject.|Un tema delicado.
+joyful|gozoso|adj|lleno de alegría|A joyful noise.|Un ruido alegre.
+miserable|desdichado|adj|muy infeliz|I felt miserable.|Me sentí fatal.
+unhappy|infeliz|adj|no contento|An unhappy ending.|Un final infeliz.
+delighted|encantado|adj|muy contento|I'm delighted.|Estoy encantado.
+depressed|deprimido|adj|hundido por dentro|He seemed depressed.|Parecía deprimido.
+conscious|consciente|adj|despierto y dándose cuenta|Fully conscious.|Plenamente consciente.
+unconscious|inconsciente|adj|sin sentido|He fell unconscious.|Cayó inconsciente.
+false|falso|adj|que no es cierto|A false alarm.|Una falsa alarma.
+fake|falso / de mentira|adj|hecho para engañar|A fake smile.|Una sonrisa falsa.
+genuine|genuino|adj|de verdad|A genuine friend.|Un amigo de verdad.
+authentic|auténtico|adj|el original|Authentic flavor.|Sabor auténtico.
+likely|probable|adj|que va a pasar|It's likely to rain.|Es probable que llueva.
+unlikely|improbable|adj|que no suele pasar|That's unlikely.|Eso es improbable.
+uncertain|incierto|adj|sin saber qué pasará|An uncertain future.|Un futuro incierto.
+definite|definitivo|adj|ya decidido|A definite answer.|Una respuesta definitiva.
+doubtful|dudoso|adj|que no convence|It's doubtful.|Es dudoso.
+trivial|trivial|adj|sin importancia|A trivial detail.|Un detalle trivial.
+crucial|crucial|adj|del todo necesario|A crucial moment.|Un momento crucial.
+optional|opcional|adj|si quieres|It's optional.|Es opcional.
+necessary|necesario|adj|hace falta sí o sí|Not necessary.|No hace falta.
+shared|compartido|adj|de más de uno|A shared dream.|Un sueño compartido.
+closed|cerrado|adj|lo contrario de open|Behind closed doors.|A puerta cerrada.
+regional|regional|adj|de una zona|A regional accent.|Un acento regional.
+precise|preciso|adj|exacto al detalle|A precise number.|Un número preciso.
+approximate|aproximado|adj|más o menos|An approximate time.|Una hora aproximada.
+incomplete|incompleto|adj|le falta algo|The form is incomplete.|El formulario está incompleto.
+finished|terminado|adj|ya acabado|I'm finished.|He terminado.
+unfinished|sin terminar|adj|a medias|An unfinished song.|Una canción sin terminar.
+partial|parcial|adj|solo una parte|A partial refund.|Un reembolso parcial.
+absent|ausente|adj|que no está|He was absent.|Estuvo ausente.

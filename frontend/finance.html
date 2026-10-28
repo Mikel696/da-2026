@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Finanzas Personales</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/finance.css">
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a>
+    <div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span>
+    <div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">Finanzas</span>
+  </div>
+</nav>
+
+<div class="wr">
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <h1>Tu centro <em>financiero</em>.</h1>
+    <p>Tu plata al día y las cifras oficiales del país, en el mismo lugar. Cada dato con su fuente y su fecha.</p>
+  </div>
+
+  <!-- ══ Secciones del módulo ══ -->
+  <nav class="secs" id="secNav" aria-label="Secciones de Finanzas">
+    <button class="sec on"   data-s="hoy"    aria-current="page">🎯 Hoy</button>
+    <button class="sec"      data-s="plata">💵 Mi plata</button>
+    <button class="sec"          data-s="col">🇨🇴 Colombia</button>
+    <button class="sec"          data-s="glob">🌍 Global</button>
+    <button class="sec"          data-s="radar">🔭 Radar</button>
+    <button class="sec"          data-s="intel">📚 Inteligencia</button>
+    <button class="sec"          data-s="lab">🧮 Laboratorio</button>
+    <button class="sec"          data-s="cfg">⚙️ Ajustes</button>
+  </nav>
+
+  <!-- ═══ SECCIÓN · HOY ═══ -->
+  <section class="sc on" id="s-hoy">
+    <div id="p-hoy"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · INTELIGENCIA ═══ -->
+  <section class="sc" id="s-intel"><div id="p-intel"></div></section>
+
+  <!-- ═══ SECCIÓN · LABORATORIO ═══ -->
+  <section class="sc" id="s-lab"><div id="p-lab"></div></section>
+
+  <!-- ═══ SECCIÓN · AJUSTES ═══ -->
+  <section class="sc" id="s-cfg"><div id="p-cfg"></div></section>
+
+  <!-- ═══ SECCIÓN · RADAR ═══ -->
+  <section class="sc" id="s-radar">
+    <div id="p-radar"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · COLOMBIA ═══ -->
+  <section class="sc" id="s-col">
+    <div id="p-col"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · GLOBAL ═══ -->
+  <section class="sc" id="s-glob">
+    <div id="p-glob"></div>
+  </section>
+
+  <!-- ═══ SECCIÓN · EN CONSTRUCCIÓN ═══ -->
+  <section class="sc" id="s-soon">
+    <div class="soon-card">
+      <div class="soon-ico" id="soonIco">🚧</div>
+      <h2 id="soonTitle">En construcción</h2>
+      <p id="soonBody"></p>
+      <a class="btn bo bs" href="index.html">← Volver al Cerebro</a>
+    </div>
+  </section>
+
+  <!-- ═══ SECCIÓN · MI PLATA (todo lo que ya existía) ═══ -->
+  <section class="sc" id="s-plata">
+
+  <!-- ── Month Navigation ── -->
+  <div class="month-nav" id="monthNav">
+    <button class="mn-btn" id="mnPrev">‹</button>
+    <span class="mn-label" id="mnLabel">—</span>
+    <button class="mn-btn" id="mnNext">›</button>
+  </div>
+
+  <!-- ── KPIs ── -->
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-v" style="color:var(--gn)" id="kInc">$0</div><div class="kpi-l">Ingresos</div></div>
+    <div class="kpi"><div class="kpi-v" style="color:var(--rd)" id="kExp">$0</div><div class="kpi-l">Gastos</div></div>
+    <div class="kpi"><div class="kpi-v" id="kBal">$0</div><div class="kpi-l">Balance</div></div>
+    <div class="kpi"><div class="kpi-v" style="color:var(--am)" id="kSav">$0</div><div class="kpi-l">Ahorro</div></div>
+  </div>
+
+  <!-- ── Tabs ── -->
+  <div class="tabs">
+    <button class="tab on" data-p="add">➕ Registrar</button>
+    <button class="tab" data-p="list">📋 Historial</button>
+    <button class="tab" data-p="cats">📊 Categorías</button>
+    <button class="tab" data-p="chart">📈 Gráfico</button>
+    <button class="tab" data-p="save">🎯 Meta Ahorro</button>
+  </div>
+
+  <!-- ═══ Panel 1: Registrar ═══ -->
+  <div class="pnl on" id="p-add">
+    <div class="cd">
+      <div style="font-size:14px;font-weight:600;margin-bottom:12px">Registrar movimiento</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Monto ($)</div>
+          <input class="inp" id="fAmt" type="number" placeholder="100000">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Descripción</div>
+          <input class="inp" id="fDesc" placeholder="Salario, almuerzo, etc.">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Categoría</div>
+          <select class="sel" id="fCat">
+            <option value="salary">💰 Salario</option>
+            <option value="freelance">💻 Freelance</option>
+            <option value="other_inc">📦 Otro Ingreso</option>
+            <option value="food" selected>🍔 Comida</option>
+            <option value="transport">🚌 Transporte</option>
+            <option value="housing">🏠 Vivienda/Arriendo</option>
+            <option value="services">📱 Servicios</option>
+            <option value="education">📚 Educación</option>
+            <option value="health">🏥 Salud</option>
+            <option value="entertainment">🎮 Entretenimiento</option>
+            <option value="clothing">👕 Ropa</option>
+            <option value="savings">🏦 Ahorro</option>
+            <option value="other_exp">📎 Otro Gasto</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Tipo</div>
+          <select class="sel" id="fType">
+            <option value="exp">📉 Gasto</option>
+            <option value="inc">📈 Ingreso</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;align-items:center">
+        <button class="btn bg" id="btnAdd">💾 Registrar</button>
+        <button class="btn bo" id="btnQuick">⚡ Gasto rápido</button>
+      </div>
+      <!-- Quick expense inline form (hidden by default) -->
+      <div class="quick-form" id="quickForm" style="display:none">
+        <input class="inp" id="qDesc" placeholder="¿En qué?">
+        <input class="inp" id="qAmt" type="number" placeholder="$" style="max-width:100px">
+        <button class="btn bg bs" id="qSubmit">✓</button>
+        <button class="btn bo bs" id="qCancel">✕</button>
+      </div>
+    </div>
+    <div class="lb">· últimos movimientos ·</div>
+    <div id="recentTx"></div>
+  </div>
+
+  <!-- ═══ Panel 2: Historial ═══ -->
+  <div class="pnl" id="p-list">
+    <div class="lb">· todos los movimientos del mes ·</div>
+    <div id="allTx"></div>
+  </div>
+
+  <!-- ═══ Panel 3: Categorías ═══ -->
+  <div class="pnl" id="p-cats">
+    <div class="cat-toggle" id="catToggle">
+      <button class="cat-btn on" data-cat="exp">📉 Gastos</button>
+      <button class="cat-btn" data-cat="inc">📈 Ingresos</button>
+    </div>
+    <div class="lb">· desglose por categoría ·</div>
+    <div class="cd" id="catBreak"></div>
+  </div>
+
+  <!-- ═══ Panel 4: Gráfico ═══ -->
+  <div class="pnl" id="p-chart">
+    <div class="lb">· gráfico mensual ·</div>
+    <div class="cd">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:600">Ingresos vs Gastos por día</span>
+        <div><span style="font-size:10px;color:var(--gn)">● Ingreso</span> <span style="font-size:10px;color:var(--rd)">● Gasto</span></div>
+      </div>
+      <div class="chart" id="dayChart"></div>
+    </div>
+  </div>
+
+  <!-- ═══ Panel 5: Meta Ahorro ═══ -->
+  <div class="pnl" id="p-save">
+    <div class="lb">· meta de ahorro ·</div>
+    <div class="cd">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">🎯 Define tu meta</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <input class="inp" id="savGoal" type="number" placeholder="Meta en $..." style="flex:1">
+        <input class="inp" id="savName" placeholder="Para qué..." style="flex:2">
+        <button class="btn bp" id="btnSavGoal">Guardar</button>
+      </div>
+      <div id="savInfo"></div>
+    </div>
+  </div>
+
+  </section><!-- /s-plata -->
+</div>
+
+<!-- ── Scripts ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/finance.js?v=p2"></script>
+<script src="js/fin-colombia.js?v=p8"></script>
+<script src="js/fin-co.js?v=p1"></script>
+<script src="js/fin-radar.js?v=p1"></script>
+<script src="js/fin-intel.js?v=p1"></script>
+<script src="js/fin-lab.js?v=p1"></script>
+<script src="js/fin-cfg.js?v=p1"></script>
+<script src="js/fin-world.js?v=p2"></script>
+<script src="js/fin-news.js?v=p2"></script>
+<script src="js/fin-calc.js?v=p2"></script>
+<script>
+/* ── Router de secciones de 12-FIN ──────────────────────────────
+   Las secciones sin construir muestran su fase real en vez de una
+   pantalla vacía o una UI de mentira. */
+(() => {
+  const SOON = {};   // 8 de 8 secciones construidas
+
+  const nav = document.getElementById('secNav');
+  if (!nav) return;
+
+  function show(id) {
+    document.querySelectorAll('.sc').forEach(s => s.classList.remove('on'));
+    nav.querySelectorAll('.sec').forEach(b => {
+      const on = b.dataset.s === id;
+      b.classList.toggle('on', on);
+      if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+
+    if (SOON[id]) {
+      const [ico, title, body] = SOON[id];
+      const fase = nav.querySelector(`[data-s="${id}"]`).dataset.fase;
+      document.getElementById('soonIco').textContent = ico;
+      document.getElementById('soonTitle').textContent = title + ' · llega en la Fase ' + fase;
+      document.getElementById('soonBody').textContent = body;
+      document.getElementById('s-soon').classList.add('on');
+    } else {
+      const el = document.getElementById('s-' + id);
+      if (el) el.classList.add('on');
+      if (id === 'hoy'  && window.FINCO)    FINCO.render();
+      if (id === 'glob' && window.FINWORLD)    FINWORLD.init();
+      if (id === 'col'  && window.FINCO_PANEL) FINCO_PANEL.init();
+      if (id === 'radar'&& window.FINRADAR)    FINRADAR.init();
+      if (id === 'intel'&& window.FININTEL)    FININTEL.init();
+      if (id === 'lab'  && window.FINLAB)      FINLAB.init();
+      if (id === 'cfg'  && window.FINCFG)      FINCFG.init();
+    }
+
+    try { localStorage.setItem('fin_ui_prefs', JSON.stringify({ sec: id })); } catch {}
+  }
+
+  nav.addEventListener('click', e => {
+    const b = e.target.closest('.sec');
+    if (b) show(b.dataset.s);
+  });
+
+  let start = 'hoy';
+  try {
+    const p = JSON.parse(localStorage.getItem('fin_ui_prefs') || 'null');
+    if (p && p.sec && (SOON[p.sec] || document.getElementById('s-' + p.sec))) start = p.sec;
+  } catch {}
+  show(start);
+
+  if (window.FINCO) FINCO.init();
+  // Fuera del router a propósito: la burbuja es fija y debe vivir en
+  // cualquier sección y a cualquier altura del scroll.
+  if (window.FINCALC) FINCALC.init();
+  if (window.FINNEWS) FINNEWS.init();
+})();
+</script>
+</body>
+</html>

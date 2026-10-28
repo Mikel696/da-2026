@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Herramientas — Hub de Ingeniería de Sistemas</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<style>
+/* 6-TOO · migrado al Design System v1.0 (2026-05-15) · reescrito a Mantenimiento del PC (2026-06-02) */
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:var(--leading-normal)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.nv{position:sticky;top:0;z-index:50;background:rgba(9,9,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);height:48px;display:flex;align-items:center;padding:0 20px}
+.nv a{color:var(--t2);text-decoration:none;font-size:13px}.nv a:hover{color:var(--tx)}
+.nv-l{display:flex;align-items:center;gap:8px}.nv-sep{width:1px;height:16px;background:var(--bd)}.nv-logo{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--a2)}
+.wr{max-width:1100px;margin:0 auto;padding:24px 24px 60px}
+.hero{margin-bottom:20px}.hero h1{font-family:'Newsreader',serif;font-size:26px;font-weight:600;margin-bottom:4px}.hero h1 em{font-style:italic;color:var(--gn)}.hero p{font-size:12px;color:var(--t3);max-width:620px}
+.tabs{display:flex;gap:2px;background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:3px;margin-bottom:20px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:7px 10px;border-radius:var(--radius-sm);font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;text-align:center;border:none;background:none;white-space:nowrap;font-family:inherit;transition:color var(--transition-fast),background var(--transition-fast)}
+.tab:hover{color:var(--tx);background:var(--el)}.tab.on{color:#fff;background:var(--ac)}
+.tab:focus-visible{outline:none;box-shadow:var(--shadow-glow)}
+.pnl{display:none;animation:fu .3s ease}.pnl.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.lb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 8px}
+.card{background:var(--c1);border:1px solid var(--bd);border-radius:var(--radius-md);padding:18px;margin-bottom:10px;transition:border-color var(--transition-base)}
+.card:hover{border-color:var(--bd2)}
+.tip{background:linear-gradient(135deg,rgba(234,179,8,.04),rgba(249,115,22,.02));border:1px solid rgba(234,179,8,.1);border-radius:10px;padding:12px;margin-bottom:10px}
+.tip b{color:var(--am);font-size:11px;display:block;margin-bottom:2px}.tip p{font-size:11px;color:var(--t2)}.tip strong{color:var(--tx)}
+.tool{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--el);border:1px solid var(--bd);border-radius:10px;margin-bottom:5px;text-decoration:none;color:var(--tx);transition:all .2s}
+.tool:hover{border-color:var(--ac);transform:translateX(3px)}
+.tool-i{font-size:22px;flex-shrink:0}.tool-b{flex:1;min-width:0}.tool-n{font-size:13px;font-weight:600}.tool-d{font-size:10px;color:var(--t2);line-height:1.4}
+.tool-t{font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;text-transform:uppercase;flex-shrink:0}
+.tg{background:var(--gg);color:var(--gn);border:1px solid rgba(34,197,94,.12)}
+.ta{background:var(--ag);color:var(--a2);border:1px solid rgba(139,92,246,.12)}
+.to{background:var(--og);color:var(--or);border:1px solid rgba(249,115,22,.12)}
+.tc{background:var(--cg);color:var(--cy);border:1px solid rgba(6,182,212,.12)}
+.ty{background:var(--amg);color:var(--am);border:1px solid rgba(234,179,8,.12)}
+.tr{background:var(--rg);color:var(--rd);border:1px solid rgba(239,68,68,.12)}
+.hack{background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(6,182,212,.03));border:1px solid rgba(139,92,246,.12);border-radius:10px;padding:16px;margin-bottom:10px}
+.hack-title{font-size:14px;font-weight:700;color:var(--a2);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.hack-body{font-size:12px;color:var(--t2);line-height:1.7}
+.hack-body strong{color:var(--tx)}
+.cert{background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s}
+.cert:hover{border-color:var(--bd2)}
+.cert-icon{font-size:28px;flex-shrink:0}
+.cert-body{flex:1}
+.cert-name{font-size:14px;font-weight:600;margin-bottom:2px}
+.cert-org{font-size:11px;color:var(--a2);margin-bottom:4px}
+.cert-info{font-size:11px;color:var(--t2);line-height:1.6}
+.cert-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.cert-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+/* bloque de código copiable */
+.code{position:relative;background:#0b0d12;border:1px solid var(--bd);border-radius:9px;padding:12px 14px;margin:6px 0 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#cfe3ff;white-space:pre-wrap;overflow-x:auto;line-height:1.6}
+.copy{position:absolute;top:8px;right:8px;font-size:9px;font-weight:600;padding:3px 9px;border-radius:5px;background:var(--el);border:1px solid var(--bd);color:var(--t2);cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.5px}
+.copy:hover{color:var(--tx);border-color:var(--ac)}
+.copy.ok{color:var(--gn);border-color:var(--gn)}
+.step{display:flex;gap:10px;margin-bottom:6px}.step-n{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--ag);color:var(--a2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}.step-b{font-size:12px;color:var(--t2);line-height:1.6}.step-b strong{color:var(--tx)}
+@media(max-width:768px){.wr{padding:14px 12px}.hero h1{font-size:20px}}
+</style>
+</head>
+<body>
+<nav class="nv"><div class="nv-l"><a href="index.html">← Cerebro</a><div class="nv-sep"></div><span class="nv-logo">DA-2026</span><div class="nv-sep"></div><span style="font-size:11px;color:var(--t3)">Hub de Ingeniería de Sistemas</span></div></nav>
+<div class="wr">
+<div class="hero"><h1>Tu hub central de <em>Ingeniería de Sistemas</em>.</h1><p>Un solo lugar para dominar los temas de tu carrera: el <strong>Coach</strong> convierte cada caso real que ya viviste (el internet de Claro, el ACA de préstamos, este mismo Cerebro, el bug del sync) en secciones completas con analogías, simulaciones de empresa, kits de comandos y rutas de recursos. Más el centro de mantenimiento de tu PC de siempre.</p></div>
+
+<div class="tabs">
+<button class="tab on" data-p="coach">🎓 Coach Ing. Sistemas</button>
+<button class="tab" data-p="clean">🧹 Limpieza</button>
+<button class="tab" data-p="updates">⬆️ Actualizaciones</button>
+<button class="tab" data-p="upgrades">🛒 Calidad/Precio</button>
+<button class="tab" data-p="tips">💡 Tips</button>
+<button class="tab" data-p="prompts">🤖 Prompts</button>
+</div>
+
+<!-- ═══ LIMPIEZA ═══ -->
+<div class="pnl on" id="p-coach">
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><a href="pages/coach-sistemas.html" target="_blank" rel="noopener" style="font-size:11px;color:var(--a2);text-decoration:none;font-weight:600;padding:5px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--c1)">↗ Abrir en pestaña completa</a></div>
+<iframe src="pages/coach-sistemas.html" title="Coach de Ingeniería de Sistemas" style="width:100%;height:80vh;border:1px solid var(--bd);border-radius:12px;background:var(--bg)" loading="lazy"></iframe>
+</div>
+
+<div class="pnl" id="p-clean">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px">
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--rd)">7.6%</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">C: libre · crítico</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--am)">4.5 GB</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">RAM libre · ajustada</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">3/3</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Discos SMART OK</div></div>
+  <div class="card" style="margin-bottom:0;text-align:center;padding:14px"><div style="font-size:22px;font-weight:700;color:var(--gn)">0</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px">Amenazas activas</div></div>
+</div>
+<div class="tip" style="margin-bottom:14px"><b>🖥️ Tu equipo</b><p>Intel <strong>Core i3-10100</strong> (4C/8T) · <strong>16 GB RAM</strong> DDR4-2667 dual channel · <strong>Radeon RX 580</strong> 4 GB · 3 discos: HP NVMe 250 GB (C:) + Kingston SSD 894 GB (D:/E:) + WD HDD 932 GB <em>antiguo</em> (F:/G:) · Ethernet 1 Gbps. <strong>Prioridad #1: liberar C: y aliviar la RAM.</strong></p></div>
+<div class="tip"><b>🧹 Regla de oro</b><p>Mantén siempre <strong>≥15% libre en C:</strong>. Por debajo de eso Windows pagina al disco y todo se vuelve lento. Estos comandos son seguros: no tocan tus archivos, solo cachés y temporales que se regeneran. Ejecútalos en <strong>PowerShell</strong> (los marcados 🛡️ requieren "Ejecutar como administrador").</p></div>
+
+<div class="lb">· limpieza rápida — semanal (2 min) ·</div>
+<div class="card">
+  <div class="step"><div class="step-n">1</div><div class="step-b"><strong>Temporales del usuario y de Windows.</strong> Lo que más se acumula con el uso diario.</div></div>
+  <div class="code"><button class="copy">copiar</button>Remove-Item "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue</div>
+  <div class="step"><div class="step-n">2</div><div class="step-b"><strong>Vaciar la papelera</strong> de todas las unidades.</div></div>
+  <div class="code"><button class="copy">copiar</button>Clear-RecycleBin -Force -ErrorAction SilentlyContinue</div>
+  <div class="step"><div class="step-n">3</div><div class="step-b"><strong>Caché del navegador</strong> (cierra Chrome primero o quedarán archivos bloqueados).</div></div>
+  <div class="code"><button class="copy">copiar</button>Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache\*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Code Cache\*" -Recurse -Force -ErrorAction SilentlyContinue</div>
+</div>
+
+<div class="lb">· limpieza profunda — mensual (10–15 min) 🛡️ admin ·</div>
+<div class="card">
+  <div class="step"><div class="step-n">1</div><div class="step-b"><strong>Caché de Windows Update</strong> (~3.6 GB en tu equipo). Detiene servicios, borra y reinicia.</div></div>
+  <div class="code"><button class="copy">copiar</button>Stop-Service wuauserv,bits -Force
+Remove-Item "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force -ErrorAction SilentlyContinue
+Start-Service bits,wuauserv</div>
+  <div class="step"><div class="step-n">2</div><div class="step-b"><strong>Compactar WinSxS</strong> (almacén de componentes, 13.4 GB). Recupera versiones viejas de updates de forma segura.</div></div>
+  <div class="code"><button class="copy">copiar</button>Dism.exe /Online /Cleanup-Image /StartComponentCleanup</div>
+  <div class="step"><div class="step-n">3</div><div class="step-b"><strong>Caché de apps pesadas</strong> (Claude 11.7 GB, etc.). Cierra la app antes; conserva tu config, borra solo caché.</div></div>
+  <div class="code"><button class="copy">copiar</button>$cl="$env:LOCALAPPDATA\Packages\Claude_pzs8sxrjxfjjc\LocalCache"
+Get-ChildItem $cl -Recurse -Directory -Include Cache,'Code Cache',GPUCache -ErrorAction SilentlyContinue | ForEach-Object { Remove-Item "$($_.FullName)\*" -Recurse -Force -ErrorAction SilentlyContinue }</div>
+</div>
+
+<div class="lb">· automatización — actívalo una vez ·</div>
+<div class="hack"><div class="hack-title">⚙️ Sensor de almacenamiento</div><div class="hack-body">Windows puede limpiar temporales y papelera <strong>solo, cada semana</strong>. Actívalo en <strong>Configuración → Sistema → Almacenamiento → Sensor de almacenamiento</strong>. Es la forma de no volver a llegar al 92% de disco lleno.</div></div>
+
+<div class="tip" style="background:linear-gradient(135deg,rgba(239,68,68,.05),rgba(239,68,68,.02));border-color:rgba(239,68,68,.15)"><b style="color:var(--rd)">⛔ Qué NO borrar nunca</b><p>No borres a mano: <strong>C:\Windows\WinSxS</strong> (usa solo DISM), <strong>System Volume Information</strong>, <strong>$Recycle.Bin</strong> (usa Clear-RecycleBin), ni la carpeta <strong>Temp\claude</strong> mientras yo trabajo. Tampoco borres carpetas de juegos/programas a mano: desinstálalos desde su launcher.</p></div>
+</div>
+
+<!-- ═══ ACTUALIZACIONES ═══ -->
+<div class="pnl" id="p-updates">
+<div class="lb">· software a actualizar — por prioridad ·</div>
+<div class="tip"><b>⬆️ Orden recomendado</b><p>Actualizar drivers y Windows mejora rendimiento, seguridad y estabilidad <strong>sin gastar un peso</strong>. Hazlo en este orden. En tu diagnóstico, el driver de la GPU tenía casi un año.</p></div>
+
+<div class="cert"><div class="cert-icon">🪟</div><div class="cert-body"><div class="cert-name">1 · Windows Update</div><div class="cert-org">Prioridad ALTA · gratis</div><div class="cert-info">Parches de seguridad y rendimiento. Revisa e instala todo lo pendiente, luego reinicia.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag tr">Seguridad</span></div></div></div>
+<div class="code"><button class="copy">copiar</button>Configuración → Windows Update → Buscar actualizaciones</div>
+
+<div class="cert"><div class="cert-icon">🎮</div><div class="cert-body"><div class="cert-name">2 · Driver de GPU — AMD Radeon RX 580</div><div class="cert-org">Prioridad ALTA · gratis</div><div class="cert-info">Tu driver databa de jun-2025. Actualízalo con <strong>AMD Software: Adrenalin Edition</strong> para mejor rendimiento y estabilidad gráfica.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag ta">+Rendimiento</span></div></div></div>
+<a href="https://www.amd.com/en/support/download/drivers.html" target="_blank" rel="noopener" class="tool"><div class="tool-i">→</div><div class="tool-b"><div class="tool-n">AMD Adrenalin — descargar driver</div><div class="tool-d">Detecta tu RX 580 automáticamente. Instala "Recommended".</div></div><span class="tool-t tg">Gratis</span></a>
+
+<div class="cert"><div class="cert-icon">🌐</div><div class="cert-body"><div class="cert-name">3 · Navegadores y apps</div><div class="cert-org">Prioridad MEDIA · gratis</div><div class="cert-info">Chrome/Edge: <code>chrome://settings/help</code>. Mantén también actualizados Claude, VS Code, Steam.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span></div></div></div>
+
+<div class="cert"><div class="cert-icon">🧩</div><div class="cert-body"><div class="cert-name">4 · Chipset Intel + BIOS de la placa</div><div class="cert-org">Prioridad BAJA · gratis (con cuidado)</div><div class="cert-info">Driver de chipset Intel mejora estabilidad. El BIOS solo actualízalo si tienes un problema concreto o vas a cambiar CPU — un corte de luz a mitad puede inutilizar la placa.</div><div class="cert-meta"><span class="cert-tag tg">Gratis</span><span class="cert-tag ty">Con cuidado</span></div></div></div>
+
+<div class="lb">· herramientas para ver el estado real ·</div>
+<a href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener" class="tool"><div class="tool-i">💽</div><div class="tool-b"><div class="tool-n">CrystalDiskInfo</div><div class="tool-d">SMART detallado de tus discos (sectores reasignados, horas, °C). Clave para vigilar el HDD WD antiguo.</div></div><span class="tool-t tg">Gratis</span></a>
+<a href="https://www.hwinfo.com/download/" target="_blank" rel="noopener" class="tool"><div class="tool-i">🌡️</div><div class="tool-b"><div class="tool-n">HWiNFO64</div><div class="tool-d">Temperaturas reales de CPU/GPU (la placa no las expone por ACPI). Útil para detectar sobrecalentamiento.</div></div><span class="tool-t tg">Gratis</span></a>
+</div>
+
+<!-- ═══ CALIDAD/PRECIO ═══ -->
+<div class="pnl" id="p-upgrades">
+<div class="tip"><b>🛒 Mejoras por relación impacto/precio</b><p>Tu i3-10100 + RX 580 son <strong>suficientes para análisis de datos</strong>. Los cuellos de botella reales son <strong>almacenamiento y RAM</strong>. Precios orientativos Colombia 2026 — verifica antes de comprar.</p></div>
+
+<div class="lb">· #1 — máximo impacto ·</div>
+<div class="cert"><div class="cert-icon">🥇</div><div class="cert-body"><div class="cert-name">SSD NVMe 1 TB (reemplazar el de 250 GB de C:)</div><div class="cert-org">~$180.000–280.000 COP · ⭐ mejor inversión</div><div class="cert-info">Tu C: vive al 92% lleno — es la causa #1 de lentitud. Pasar de 250 GB a 1 TB elimina el problema de raíz y da más velocidad. Requiere clonar/reinstalar Windows. Alternativa sin gasto: mover datos a D:/E:.</div><div class="cert-meta"><span class="cert-tag tg">Impacto ALTO</span><span class="cert-tag ta">$$ Bajo</span></div></div></div>
+
+<div class="lb">· #2 — gran impacto en multitarea ·</div>
+<div class="cert"><div class="cert-icon">🥈</div><div class="cert-body"><div class="cert-name">RAM 16 → 32 GB (2×16 GB DDR4-2666)</div><div class="cert-org">~$160.000–240.000 COP</div><div class="cert-info">Con solo 4.5 GB libres, al abrir Chrome + Claude + BlueStacks Windows empieza a paginar. 32 GB en dual channel te dan aire de sobra. Compatible con tu placa LGA1200.</div><div class="cert-meta"><span class="cert-tag tg">Impacto ALTO</span><span class="cert-tag ta">$$ Medio</span></div></div></div>
+
+<div class="lb">· #3 — fiabilidad de tus datos ·</div>
+<div class="cert"><div class="cert-icon">🥉</div><div class="cert-body"><div class="cert-name">Reemplazar el HDD WD WD10EACS (F:/G:)</div><div class="cert-org">~$200.000–320.000 COP (2 TB)</div><div class="cert-info">Es un disco de ~2009-2011. SMART dice OK hoy, pero tiene datos personales irremplazables (videos/audio del celular). Cámbialo por un HDD 2 TB nuevo o un SSD SATA. <strong>Mientras tanto: respáldalos ya.</strong></div><div class="cert-meta"><span class="cert-tag ty">Fiabilidad</span><span class="cert-tag ta">$$ Medio</span></div></div></div>
+
+<div class="lb">· opcional — solo si lo necesitas ·</div>
+<div class="cert"><div class="cert-icon">⚪</div><div class="cert-body"><div class="cert-name">CPU i5-10400 / i5-11400 (socket LGA1200)</div><div class="cert-org">Prioridad BAJA</div><div class="cert-info">Solo si el i3 se te queda corto en tareas pesadas. Para data analysis actual no es necesario. Aprovecha que tu placa lo soporta sin cambiar nada más.</div><div class="cert-meta"><span class="cert-tag to">Opcional</span></div></div></div>
+<div class="cert"><div class="cert-icon">⚪</div><div class="cert-body"><div class="cert-name">GPU — la RX 580 está bien</div><div class="cert-org">No cambiar por ahora</div><div class="cert-info">Cumple de sobra para 1080p y análisis de datos. Cambiarla sería gasto sin retorno para tu uso. Solo si te vuelcas al gaming exigente.</div><div class="cert-meta"><span class="cert-tag tg">Mantener</span></div></div></div>
+</div>
+
+<!-- ═══ TIPS ═══ -->
+<div class="pnl" id="p-tips">
+<div class="lb">· hábitos que mantienen el PC óptimo ·</div>
+
+<div class="hack"><div class="hack-title">💾 Regla de respaldo 3-2-1</div><div class="hack-body"><strong>3 copias</strong> de lo irremplazable, en <strong>2 medios</strong> distintos, <strong>1 fuera del PC</strong> (nube o disco externo). Tus videos/audio del celular están hoy en un solo disco viejo: viólalo y respáldalos a E: o a la nube hoy mismo.</div></div>
+
+<div class="hack"><div class="hack-title">🚀 Higiene del arranque</div><div class="hack-body">Tenías 25+ programas iniciando con Windows (Razer, Corsair, SteelSeries, BlueStacks, EA, Steam…). Desactiva en <strong>Administrador de tareas → Inicio</strong> los que no necesites al encender. Arrancan igual cuando abras su app. Resultado: enciende más rápido y con menos RAM ocupada.</div></div>
+
+<div class="hack"><div class="hack-title">📊 Mantén C: por debajo del 85%</div><div class="hack-body">Es el límite donde un SSD empieza a perder velocidad y Windows a sufrir. Si lo pasas seguido, es señal de que necesitas el SSD más grande (pestaña Calidad/Precio) o mover datos a otra unidad.</div></div>
+
+<div class="hack"><div class="hack-title">🌡️ Vigila temperaturas 2 veces al año</div><div class="hack-body">Abre HWiNFO64 bajo carga. CPU/GPU por encima de ~85 °C sostenidos = hora de limpiar polvo y revisar pasta térmica. Un PC limpio por dentro rinde y dura más.</div></div>
+
+<div class="hack"><div class="hack-title">🌐 Red por cable = tu mejor jugada</div><div class="hack-body">Ya usas Ethernet (1 Gbps, 0% pérdida de paquetes): es lo correcto, más estable que Wi-Fi. Si alguna vez sientes "cortes", primero descarta el disco lleno; luego revisa el módem en <strong>http://192.168.1.1</strong> y desactiva la descarga P2P de Windows Update (Configuración → Windows Update → Optimización de entrega).</div></div>
+
+<div class="hack"><div class="hack-title">🧹 Rutina mínima sostenible</div><div class="hack-body"><strong>Semanal:</strong> limpieza rápida (pestaña Limpieza). <strong>Mensual:</strong> limpieza profunda + buscar updates. <strong>Trimestral:</strong> revisar SMART con CrystalDiskInfo y depurar la carpeta Descargas. Con eso el PC se mantiene fino sin esfuerzo.</div></div>
+
+<div class="hack"><div class="hack-title">🛡️ Defender es suficiente</div><div class="hack-body">No instales 3 antivirus: se pelean entre sí y ralentizan todo. Windows Defender activo + sentido común basta. Lanza un escaneo completo de vez en cuando: <code>Start-MpScan -ScanType FullScan</code>.</div></div>
+</div>
+
+<!-- ═══ PROMPTS ═══ -->
+<div class="pnl" id="p-prompts">
+<div class="tip"><b>🤖 Prompts para que Claude haga el trabajo</b><p>Copia uno y pégamelo en una sesión de Claude Code en este equipo. Yo ejecuto el diagnóstico/limpieza real vía PowerShell y te reporto. Cada prompt es autosuficiente.</p></div>
+
+<div class="hack"><div class="hack-title">🧹 CEREBRO: LIMPIA MI PC</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: LIMPIA MI PC.
+Eres mi administrador de sistemas en este Windows. Ejecuta limpieza SEGURA paso a paso:
+1) Mide C: libre antes. 2) Borra temporales de usuario y Windows, papelera, caché de Chrome y de Claude. 3) 🛡️ Limpia caché de Windows Update y compacta WinSxS con DISM. 4) Mide C: libre después y reporta GB recuperados.
+Reglas: NO borres archivos personales, juegos ni programas. NO toques WinSxS a mano (solo DISM). Avísame antes de cualquier paso irreversible.</div></div>
+
+<div class="hack"><div class="hack-title">🩺 CEREBRO: DIAGNOSTICA HARDWARE</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: DIAGNOSTICA HARDWARE.
+Revisa la salud del equipo y dame un informe: CPU (modelo, carga), RAM (módulos, libre, dual channel), GPU (modelo, driver, fecha), y los 3 discos (modelo, tipo, tamaño, estado SMART, errores en el log de eventos). Marca en rojo cualquier riesgo (disco antiguo, RAM ajustada, driver viejo) y dame la acción recomendada de cada uno. Solo datos reales medidos, nada inventado.</div></div>
+
+<div class="hack"><div class="hack-title">📡 CEREBRO: REVISA MI RED</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: REVISA MI RED.
+Diagnostica mi conexión: identifica el gateway/módem, adaptador activo y DNS. Haz ping al módem, a 8.8.8.8 y a 1.1.1.1 (latencia y % de pérdida). Lista los procesos con más conexiones y revisa si la descarga P2P de Windows Update (DoSvc) está consumiendo banda. Dime si el problema está en mi PC, en el módem o en el proveedor, y cómo entrar a http://192.168.1.1 para revisarlo.</div></div>
+
+<div class="hack"><div class="hack-title">⬆️ CEREBRO: QUÉ ACTUALIZO</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: QUÉ ACTUALIZO.
+Revisa qué software y drivers de este PC conviene actualizar, por prioridad: Windows, driver de GPU, navegadores, chipset/BIOS. Dime la versión actual vs. lo disponible cuando puedas verificarlo, el impacto de cada actualización y el enlace oficial. Marca lo urgente (seguridad/rendimiento) vs. lo opcional.</div></div>
+
+<div class="hack"><div class="hack-title">💾 CEREBRO: RESPALDA MIS DATOS</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: RESPALDA MIS DATOS.
+En G: tengo datos personales irremplazables (Videos celular, Audio, Biblioteca Virtual, Xiaomi) sobre el HDD WD antiguo. Cópialos a E: (SSD, más fiable) con robocopy conservando estructura, verifica que la copia esté completa comparando tamaños y cantidad de archivos, y reporta. NO borres los originales hasta que yo confirme.</div></div>
+
+<div class="hack"><div class="hack-title">🗂️ CEREBRO: ORDENA UNA UNIDAD</div>
+<div class="code"><button class="copy">copiar</button>CEREBRO: ORDENA LA UNIDAD [letra].
+Analiza la unidad [letra]: lista las carpetas por tamaño, detecta archivos duplicados y temporales/instaladores viejos en Descargas, y propón una estructura por categorías. Muéstrame el plan ANTES de mover o borrar nada. Para lo dudoso, muévelo a una carpeta _CUARENTENA en vez de borrar. Nunca toques carpetas de juegos/programas instalados.</div></div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.pnl').forEach(x=>x.classList.remove('on'));
+t.classList.add('on');document.getElementById('p-'+t.dataset.p).classList.add('on');
+}));
+// copiar bloques de código
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+const code=b.parentElement.innerText.replace(/^copiar\s*/,'').trim();
+navigator.clipboard.writeText(code).then(()=>{const o=b.textContent;b.textContent='copiado ✓';b.classList.add('ok');setTimeout(()=>{b.textContent=o;b.classList.remove('ok')},1500)});
+}));
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+</body>
+</html>

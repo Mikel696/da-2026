@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Proyectos · DA-2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fira+Code:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<nav class="sidebar" id="sb"></nav>
+<button class="ham" id="ham"><span></span><span></span><span></span></button>
+<main class="main">
+  <div class="topbar">
+    <div><h1 class="page-title">🔬 Proyectos de Portafolio</h1><span class="page-sub" id="greeting">...</span></div>
+    <div class="topbar-right">
+      <span style="font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--acid);" id="gp-pct">0%</span>
+      <div class="gp-track"><div class="gp-fill" id="gp-fill"></div></div>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="box box-a" style="margin-bottom:24px;">
+      <strong>Regla de los 3 proyectos:</strong> Un portafolio con 3 proyectos bien documentados supera a un CV con 10 proyectos sin README. Calidad > cantidad. Cada proyecto debe demostrar una decisión de negocio.
+    </div>
+
+    <!-- PROYECTO 1 -->
+    <div class="tactic" style="margin-bottom:20px;border-left:3px solid var(--acid);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div><span class="tac-label tl-a">Proyecto 1 · SQL + Excel</span><h3 style="margin-top:8px;">Análisis de Ventas por Región — Superstore</h3></div>
+        <div style="display:flex;gap:8px;"><span class="tac-label tl-a" style="font-size:.62rem;">SQL</span><span class="tac-label tl-s" style="font-size:.62rem;">Excel</span><span class="tac-label tl-m" style="font-size:.62rem;">GitHub</span></div>
+      </div>
+      <div class="dash-grid" style="margin-bottom:16px;">
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;">
+          <div style="font-family:var(--fm);font-size:.65rem;color:var(--acid);margin-bottom:6px;">SITUACIÓN</div>
+          <p style="font-size:.85rem;color:var(--txt2);">Una empresa de retail tiene datos de 4 años de ventas pero no sabe qué regiones son rentables ni qué productos tienen márgenes negativos.</p>
+        </div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;">
+          <div style="font-family:var(--fm);font-size:.65rem;color:var(--sky);margin-bottom:6px;">TAREA</div>
+          <p style="font-size:.85rem;color:var(--txt2);">Analizar el dataset Superstore de Kaggle (9,994 registros) para identificar las 3 sub-categorías con mayor pérdida y recomendar acciones.</p>
+        </div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;">
+          <div style="font-family:var(--fm);font-size:.65rem;color:var(--mint);margin-bottom:6px;">RESULTADO ESPERADO</div>
+          <p style="font-size:.85rem;color:var(--txt2);">Dashboard en Sheets con 4 KPIs + informe ejecutivo de 1 página con recomendación de pricing cuantificada.</p>
+        </div>
+      </div>
+      <h4 style="font-family:var(--fh);font-weight:800;margin-bottom:10px;">Pasos de implementación:</h4>
+      <ul class="tasks">
+        <li class="ti" id="li-p1t1"><input type="checkbox" class="tc" id="p1t1"><label for="p1t1"><strong>Descargar dataset Superstore de Kaggle</strong>Ir a kaggle.com/datasets → buscar "sample superstore" → descargar CSV</label></li>
+        <li class="ti" id="li-p1t2"><input type="checkbox" class="tc" id="p1t2"><label for="p1t2"><strong>Importar a Google Sheets y explorar</strong>Columnas clave: Sales, Profit, Quantity, Discount, Sub-Category, Region</label></li>
+        <li class="ti" id="li-p1t3"><input type="checkbox" class="tc" id="p1t3"><label for="p1t3"><strong>Crear tablas dinámicas para los 4 KPIs</strong>Ventas totales, Profit Margin por sub-categoría, Top 5 productos, Trend mensual</label></li>
+        <li class="ti" id="li-p1t4"><input type="checkbox" class="tc" id="p1t4"><label for="p1t4"><strong>Escribir el informe ejecutivo con hallazgo + recomendación</strong>Formato: "Las sub-categorías X, Y, Z representan el 80% de las pérdidas. Recomendación: ..."</label></li>
+        <li class="ti" id="li-p1t5"><input type="checkbox" class="tc" id="p1t5"><label for="p1t5"><strong>Subir a GitHub con README formato STAR</strong>README.md con Situación, Tarea, Acción, Resultado + enlace a Sheets</label></li>
+      </ul>
+    </div>
+
+    <!-- PROYECTO 2 -->
+    <div class="tactic" style="margin-bottom:20px;border-left:3px solid var(--sky);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div><span class="tac-label tl-s">Proyecto 2 · Python + Pandas</span><h3 style="margin-top:8px;">EDA de Datos de Airbnb — Ciudad Objetivo</h3></div>
+        <div style="display:flex;gap:8px;"><span class="tac-label tl-a" style="font-size:.62rem;">Python</span><span class="tac-label tl-s" style="font-size:.62rem;">Pandas</span><span class="tac-label tl-m" style="font-size:.62rem;">Colab</span></div>
+      </div>
+      <div class="dash-grid" style="margin-bottom:16px;">
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--acid);margin-bottom:6px;">SITUACIÓN</div><p style="font-size:.85rem;color:var(--txt2);">El equipo de growth de una plataforma de alojamiento necesita entender qué factores determinan el precio de los listings y cuáles tienen mejor ocupación.</p></div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--sky);margin-bottom:6px;">TAREA</div><p style="font-size:.85rem;color:var(--txt2);">EDA completo del dataset Inside Airbnb de tu ciudad o una ciudad LATAM (Buenos Aires, CDMX, Bogotá, Santiago).</p></div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--mint);margin-bottom:6px;">RESULTADO ESPERADO</div><p style="font-size:.85rem;color:var(--txt2);">Notebook de Colab con 10+ visualizaciones + 5 insights de negocio con números + 3 recomendaciones.</p></div>
+      </div>
+      <h4 style="font-family:var(--fh);font-weight:800;margin-bottom:10px;">Pasos de implementación:</h4>
+      <ul class="tasks">
+        <li class="ti" id="li-p2t1"><input type="checkbox" class="tc" id="p2t1"><label for="p2t1"><strong>Descargar datos de insideairbnb.com</strong>Elige una ciudad LATAM con datos disponibles</label></li>
+        <li class="ti" id="li-p2t2"><input type="checkbox" class="tc" id="p2t2"><label for="p2t2"><strong>Perfil de nulos y duplicados</strong>df.isnull().sum() + df.duplicated().sum() + decisión documentada por columna</label></li>
+        <li class="ti" id="li-p2t3"><input type="checkbox" class="tc" id="p2t3"><label for="p2t3"><strong>Análisis de distribución de precios + outliers IQR</strong>Histograma + boxplot + identificar y documentar outliers</label></li>
+        <li class="ti" id="li-p2t4"><input type="checkbox" class="tc" id="p2t4"><label for="p2t4"><strong>Correlación entre variables y precio</strong>Heatmap Seaborn + scatter de top 3 correlaciones</label></li>
+        <li class="ti" id="li-p2t5"><input type="checkbox" class="tc" id="p2t5"><label for="p2t5"><strong>Subir notebook a GitHub con README STAR</strong>Asegúrate que el notebook corre de inicio a fin sin errores</label></li>
+      </ul>
+    </div>
+
+    <!-- PROYECTO 3 -->
+    <div class="tactic" style="border-left:3px solid var(--mint);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div><span class="tac-label tl-m">Proyecto 3 · Power BI / Tableau</span><h3 style="margin-top:8px;">Dashboard Ejecutivo de KPIs de Negocio</h3></div>
+        <div style="display:flex;gap:8px;"><span class="tac-label tl-m" style="font-size:.62rem;">Power BI</span><span class="tac-label tl-s" style="font-size:.62rem;">DAX</span><span class="tac-label tl-a" style="font-size:.62rem;">SQL</span></div>
+      </div>
+      <div class="dash-grid" style="margin-bottom:16px;">
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--acid);margin-bottom:6px;">SITUACIÓN</div><p style="font-size:.85rem;color:var(--txt2);">El equipo de liderazgo de una empresa de e-commerce revisa métricas en múltiples hojas de Excel cada semana. El proceso tarda 4 horas y los datos son inconsistentes.</p></div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--sky);margin-bottom:6px;">TAREA</div><p style="font-size:.85rem;color:var(--txt2);">Construir un dashboard ejecutivo con 4 KPIs en Power BI o Tableau usando el dataset Superstore (o el del proyecto 1).</p></div>
+        <div style="background:var(--ink3);border-radius:8px;padding:14px;"><div style="font-family:var(--fm);font-size:.65rem;color:var(--mint);margin-bottom:6px;">RESULTADO ESPERADO</div><p style="font-size:.85rem;color:var(--txt2);">Dashboard publicado en Tableau Public con URL pública + documento de narrativa ejecutiva de 1 página.</p></div>
+      </div>
+      <h4 style="font-family:var(--fh);font-weight:800;margin-bottom:10px;">Pasos de implementación:</h4>
+      <ul class="tasks">
+        <li class="ti" id="li-p3t1"><input type="checkbox" class="tc" id="p3t1"><label for="p3t1"><strong>Definir los 4 KPIs antes de abrir Power BI</strong>Revenue total, Profit Margin %, Top 5 categorías, Trend mensual YoY</label></li>
+        <li class="ti" id="li-p3t2"><input type="checkbox" class="tc" id="p3t2"><label for="p3t2"><strong>Construir modelo estrella en Power BI</strong>Tabla de hechos (ventas) + dimensiones (productos, fechas, regiones)</label></li>
+        <li class="ti" id="li-p3t3"><input type="checkbox" class="tc" id="p3t3"><label for="p3t3"><strong>Crear medidas DAX: CALCULATE + DATEADD</strong>Profit LY = CALCULATE([Profit], DATEADD(Dates[Date],-1,YEAR))</label></li>
+        <li class="ti" id="li-p3t4"><input type="checkbox" class="tc" id="p3t4"><label for="p3t4"><strong>Diseñar el layout (máx 5 gráficos, 4 KPI cards)</strong>Regla: 1 insight por gráfico. Título descriptivo + unidades siempre visibles</label></li>
+        <li class="ti" id="li-p3t5"><input type="checkbox" class="tc" id="p3t5"><label for="p3t5"><strong>Publicar en Tableau Public y copiar URL</strong>Agrega la URL a tu LinkedIn, README de GitHub y CV</label></li>
+      </ul>
+    </div>
+
+    <div class="box box-s" style="margin-top:24px;">
+      <strong>Después de los 3 proyectos:</strong> Usa el prompt "README Formato STAR" de la Biblioteca de IA para documentar cada uno. Un README bien escrito dobla las visitas al repo y las entrevistas obtenidas.
+    </div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="../js/core.js?v=p16"></script>
+<script>document.addEventListener('DOMContentLoaded', initTasks);</script>
+<!-- Auth chain: must load on every page so session persists platform-wide -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-client.js?v=p16"></script>
+<script src="../js/auth.js?v=p16"></script>
+<script src="../js/cloud-sync.js?v=p22"></script>
+</body>
+</html>

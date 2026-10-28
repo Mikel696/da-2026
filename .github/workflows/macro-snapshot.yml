@@ -1,0 +1,134 @@
+name: Foto diaria · datos y vacantes
+
+# Actualiza frontend/data/*.json en el repo Y publica el sitio.
+# El frontend lee esos archivos desde su MISMO origen: sin proxy, sin llaves,
+# sin CORS. (El proxy público que se usaba desde el navegador devolvió 522 en
+# producción — un tercero gratuito no puede estar en el camino crítico.)
+
+on:
+  schedule:
+    # ── Medido el 28-ago-2026 ──────────────────────────────────────────
+    # Hasta el 26-ago las tres corridas entraban con 21-43 min de retraso.
+    # Desde entonces GitHub empezó a soltarlas: retrasos de 3,4 h · 4,1 h ·
+    # 8,1 h, y dos de las tres franjas dejaron de dispararse. Resultado:
+    # datos de 16 h de antigüedad aunque la fuente estuviera perfecta.
+    #
+    # Dos cambios contra eso:
+    #  1. MINUTOS RAROS. El :20 (como :00, :15, :30) es de los más pedidos
+    #     y es justo donde GitHub encola y descarta. Ninguno redondo acá.
+    #  2. SEIS franjas en vez de tres, cada ~3 h. Aunque se caiga la mitad,
+    #     el dato no pasa de ~6 h. El repo es PÚBLICO: los minutos de
+    #     Actions son ilimitados, y el recolector no commitea si nada
+    #     cambió — repetir de verdad sale gratis.
+    - cron: '7 11 * * *'    # 06:07 en Colombia · tras publicarse la TRM
+    - cron: '23 14 * * *'   # 09:23 en Colombia
+    - cron: '41 17 * * *'   # 12:41 en Colombia
+    - cron: '9 20 * * *'    # 15:09 en Colombia
+    - cron: '37 23 * * *'   # 18:37 en Colombia
+    - cron: '51 2 * * *'    # 21:51 en Colombia
+  workflow_dispatch:        # botón manual en la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: macro-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Traer indicadores de Colombia
+        run: node scripts/fetch-macro.mjs
+
+      - name: Traer tasas de credito y tope de usura
+        run: node scripts/fetch-credit.mjs
+        continue-on-error: true
+        env:
+          # Token de Socrata (datos.gov.co). Sin el, las peticiones comparten
+          # un cupo estrecho por IP y las IP de los runners estan saturadas:
+          # por eso este paso falla desde el 22-ago aunque funcione desde un PC.
+          # Es OPCIONAL: si el secreto no existe llega vacio y el script sigue
+          # igual que hoy. Si llega mal, el script lo descarta al primer 403.
+          # Socrata acepta DOS credenciales y NO son intercambiables:
+          #   App Token -> cabecera X-App-Token   (no es secreto)
+          #   API Key   -> basica ID:SECRET       (el secret SI es sensible)
+          # Con poner UNA de las dos alcanza. Si no hay ninguna, sigue igual que hoy.
+          SOCRATA_APP_TOKEN:  ${{ secrets.SOCRATA_APP_TOKEN }}
+          SOCRATA_KEY_ID:     ${{ secrets.SOCRATA_KEY_ID }}
+          SOCRATA_KEY_SECRET: ${{ secrets.SOCRATA_KEY_SECRET }}
+
+      - name: Traer mercados y prensa financiera
+        run: node scripts/fetch-world.mjs
+        continue-on-error: true   # si el mundo falla, la foto de Colombia igual se commitea
+
+      - name: Traer vacantes para 5-JOB
+        run: node scripts/fetch-jobs.mjs
+        continue-on-error: true
+
+      - name: Commitear si cambió
+        id: commit
+        run: |
+          if [[ -z $(git status --porcelain frontend/data/) ]]; then
+            echo "Sin cambios — no se commitea ni se despliega."
+            echo "pushed=0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/data/
+          git commit -m "chore(12-FIN): foto diaria de datos $(date -u +%Y-%m-%d)"
+          git push
+          echo "pushed=1" >> $GITHUB_OUTPUT
+
+  # ══════════════════════════════════════════════════════════════════════
+  #  Sin este job, el dato se actualizaba en el repo y NUNCA llegaba al sitio.
+  #
+  #  GitHub no dispara workflows con los push hechos usando GITHUB_TOKEN
+  #  (protección anti-recursión documentada), así que el push del bot no
+  #  activaba deploy.yml. Medido el 2026-08-12: la Action commiteó a las
+  #  12:02 UTC y cuatro horas después Pages seguía sirviendo la foto de ayer.
+  #
+  #  El primer intento fue pedir el build por la API REST (/pages/builds).
+  #  Devolvió HTTP 403: ese endpoint solo sirve cuando Pages está en modo
+  #  "rama". Acá Pages está en modo "GitHub Actions" (ver deploy.yml), y el
+  #  único camino válido es desplegar con las acciones oficiales. Eso es
+  #  esto: los mismos pasos de deploy.yml, disparados desde acá.
+  # ══════════════════════════════════════════════════════════════════════
+  deploy:
+    needs: snapshot
+    if: needs.snapshot.outputs.pushed == '1'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write        # lo exige actions/deploy-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages           # mismo grupo que deploy.yml: se serializan, no compiten
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main          # el commit que el bot acaba de empujar, no el que disparó el run
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './'         # el repo entero, para que /frontend/ quede accesible
+
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4

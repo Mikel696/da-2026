@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Objetivos & Hábitos</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/goals.css">
+</head>
+<body>
+<nav class="nv">
+  <div class="nv-l">
+    <a href="index.html">← Cerebro</a>
+    <div class="nv-sep"></div>
+    <span class="nv-logo">DA-2026</span>
+    <div class="nv-sep"></div>
+    <span style="font-size:11px;color:var(--t3)">Objetivos & Hábitos</span>
+  </div>
+</nav>
+
+<div class="wr">
+
+  <div class="hero">
+    <h1>Define el rumbo. <em>Ejecuta</em> cada día.</h1>
+    <p>Objetivos a 30, 60 y 90 días. Hábitos diarios con rachas. Revisión semanal para ajustar el plan.</p>
+  </div>
+
+  <div class="stats">
+    <div class="st"><div class="sv" id="sG">0</div><div class="sl">Objetivos</div></div>
+    <div class="st"><div class="sv" id="sH">0</div><div class="sl">Hábitos</div></div>
+    <div class="st"><div class="sv" id="sR">0🔥</div><div class="sl">Racha máx</div></div>
+    <div class="st"><div class="sv" id="sP">0%</div><div class="sl">Completado</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="goals">🎯 Objetivos</button>
+    <button class="tab" data-p="habits">🔁 Hábitos</button>
+    <button class="tab" data-p="review">📝 Revisión</button>
+  </div>
+
+  <!-- ─── GOALS PANEL ─── -->
+  <div class="pnl on" id="p-goals">
+    <div class="tp">
+      <b>🎯 Sistema 30-60-90</b>
+      <p>Define metas claras con deadline. <strong>Regla: máximo 3 objetivos activos por periodo.</strong> Menos = más enfoque.</p>
+    </div>
+    <div class="cd">
+      <div style="display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:end">
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Objetivo</div>
+          <input class="inp" id="gText" placeholder="Ej: Completar curso Google Data Analytics">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--t3);margin-bottom:2px">Plazo</div>
+          <select class="sel" id="gPeriod">
+            <option value="30">30 días</option>
+            <option value="60">60 días</option>
+            <option value="90">90 días</option>
+          </select>
+        </div>
+        <button class="btn bg" id="addGoalBtn">+ Agregar</button>
+      </div>
+    </div>
+    <div class="lb">· 30 días — urgente ·</div><div id="g30"></div>
+    <div class="lb">· 60 días — importante ·</div><div id="g60"></div>
+    <div class="lb">· 90 días — estratégico ·</div><div id="g90"></div>
+  </div>
+
+  <!-- ─── HABITS PANEL ─── -->
+  <div class="pnl" id="p-habits">
+    <div class="tp">
+      <b>🔁 Hábitos diarios</b>
+      <p>Marca los hábitos que completes hoy. Los últimos <strong>7 días</strong> son visibles. La racha se acumula automáticamente.</p>
+    </div>
+    <div class="cd">
+      <div style="display:flex;gap:6px">
+        <input class="inp" id="hText" placeholder="Ej: Practicar SQL 30 min" style="flex:1">
+        <input class="inp" id="hIcon" placeholder="🎯" style="width:50px;text-align:center">
+        <button class="btn bg" id="addHabitBtn">+ Agregar</button>
+      </div>
+    </div>
+    <div id="habitList"></div>
+  </div>
+
+  <!-- ─── REVIEW PANEL ─── -->
+  <div class="pnl" id="p-review">
+    <div class="tp">
+      <b>📝 Revisión semanal</b>
+      <p>Cada semana reflexiona: ¿Qué logré? ¿Qué no hice? ¿Qué ajusto? <strong>Esto es lo que separa a los que avanzan de los que se estancan.</strong></p>
+    </div>
+    <div class="cd">
+      <textarea class="inp" id="revText" style="min-height:100px;resize:vertical" placeholder="¿Qué logré esta semana? ¿Qué no logré? ¿Qué cambio para la próxima?"></textarea>
+      <button class="btn bp" style="margin-top:6px" id="addReviewBtn">💾 Guardar revisión</button>
+    </div>
+    <div class="lb">· revisiones anteriores ·</div>
+    <div id="revList"></div>
+  </div>
+
+</div>
+
+<!-- ─── Scripts (load order matters) ─── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/goals.js"></script>
+</body>
+</html>

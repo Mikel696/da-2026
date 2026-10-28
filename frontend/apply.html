@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DA-2026 · Application Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- Design System v1.0 · tokens canónicos -->
+<link rel="stylesheet" href="css/design-tokens.css">
+<link rel="stylesheet" href="css/components.css">
+
+<link rel="stylesheet" href="css/apply.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+</head>
+<body>
+<nav class="nav">
+<div class="nav-l"><a href="index.html">← Cerebro</a><div class="nav-sep"></div><span class="nav-logo">DA-2026</span><div class="nav-sep"></div><span style="font-size:12px;color:var(--t3)">Application Command Center</span></div>
+<div class="nav-r"><div class="bdg bdg-v" id="navBadge">⚡ Listo</div></div>
+</nav>
+<div class="wrap">
+<div class="hero">
+<div class="hero-sub" id="heroSub">centro de comando · pega una vacante para comenzar</div>
+<h1>Analiza. <em>Perfila.</em> Conquista.</h1>
+<p>Pega cualquier Job Description → análisis avanzado → CV perfilado, cover letter, prep de entrevista y exportación PDF. Todo en tiempo real, guardado y sincronizado con el Job Tracker.</p>
+</div>
+
+<div class="tabs">
+<button class="tab on" data-p="analyzer">🔍 Analizador</button>
+<button class="tab" data-p="cv">📄 CV Perfilado<span class="notif" id="nCV"></span></button>
+<button class="tab" data-p="cover">✉️ Cover & Msgs<span class="notif" id="nCover"></span></button>
+<button class="tab" data-p="interview">🎯 Entrevista<span class="notif" id="nInt"></span></button>
+<button class="tab" data-p="prompt">🤖 Prompt Lab</button>
+<button class="tab" data-p="coach">📊 Coach</button>
+<button class="tab" data-p="wiki">📚 Wiki</button>
+<button class="tab" data-p="canvas">🗺️ Canvas</button>
+</div>
+
+<!-- TAB 1: ANALIZADOR -->
+<div class="pnl on" id="p-analyzer">
+<div class="sl">· analizador avanzado de vacantes ·</div>
+<div class="tip tip-v"><b>🔍 MOTOR DE PERFILAMIENTO v2</b>
+<p>1. Pega la JD completa. 2. Click "Analizar". 3. El motor genera: <strong>Match Score, ATS Score, Perfil Competitivo, CV EN/ES, Cover Letter, Entrevista</strong>. 4. Guarda en el Tracker para no perderla.</p></div>
+
+<div class="card">
+<div class="card-t">📋 Datos de la Vacante</div>
+<div class="grid-2" style="margin-bottom:8px">
+<input class="inp" id="inCompany" placeholder="Nombre de la empresa (ej: Google, Rappi...)">
+<input class="inp" id="inRole" placeholder="Cargo (ej: Data Analyst, AP Lead...)">
+</div>
+<div class="grid-2" style="margin-bottom:8px">
+<input class="inp" id="inUrl" placeholder="URL de la oferta (opcional)">
+<input class="inp" id="inSalary" placeholder="Salario mencionado (opcional, ej: $5M COP)">
+</div>
+<textarea class="txa" id="inJD" style="min-height:200px" placeholder="Pega aquí la descripción COMPLETA de la vacante (Job Description). Entre más detalle, mejor será el análisis y la generación de CV/Cover/Entrevista..."></textarea>
+<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+<button class="btn bp" onclick="runAnalysis()" id="btnAnalyze">🔍 Analizar y Generar Todo</button>
+<button class="btn bo" onclick="clearAnalysis()">🗑️ Limpiar</button>
+<button class="btn bo" onclick="loadSample()">📝 Cargar ejemplo</button>
+</div>
+</div>
+<div id="analysisResult"></div>
+</div>
+
+<!-- TAB 2: CV PERFILADO -->
+<div class="pnl" id="p-cv">
+<div class="sl">· smart cv weaver — perfilado dinámico ·</div>
+<div id="cvWeaverToolbar">
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="CVWeaver.autoProfile()">⚙️ Auto-Perfilar CV</button>
+<button class="btn bo" onclick="CVWeaver.exportPDF()">📄 Descargar PDF</button>
+</div>
+</div>
+<div id="cv-preview-canvas" contenteditable="true" style="background:#fff;border-radius:10px;overflow:hidden;min-height:200px;box-shadow:0 4px 24px rgba(0,0,0,.3)">
+<div class="empty"><div class="empty-icon">📄</div><h3>CV Perfilado pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Perfilar CV" para generar un CV dinámico con keywords ATS tejidas.</p></div>
+</div>
+<div id="cvContent" style="display:none"></div>
+</div>
+
+<!-- TAB 3: COVER & MSGS -->
+<div class="pnl" id="p-cover">
+<div class="sl">· cover weaver — cartas & mensajes dinámicos ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="CoverWeaver.autoRedact()">⚙️ Auto-Redactar Cover</button>
+</div>
+<div id="coverWeaverContent">
+<div class="empty"><div class="empty-icon">✉️</div><h3>Cover Letter pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Redactar Cover" para generar cartas con keywords ATS tejidas.</p></div>
+</div>
+<div id="coverContent" style="display:none"></div>
+</div>
+
+<!-- TAB 4: ENTREVISTA -->
+<div class="pnl" id="p-interview">
+<div class="sl">· interview weaver — preparación con TTS ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="InterviewWeaver.autoPrep()">⚙️ Auto-Preparar Entrevista</button>
+<button class="btn bo" onclick="if(speechSynthesis.speaking){speechSynthesis.cancel();}">⏹️ Detener Audio</button>
+</div>
+<div id="interviewWeaverContent">
+<div class="empty"><div class="empty-icon">🎯</div><h3>Prep de Entrevista pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Auto-Preparar" para generar preguntas rankeadas con TTS.</p></div>
+</div>
+<div id="interviewContent" style="display:none"></div>
+</div>
+
+<!-- TAB 5: PROMPT LAB -->
+<div class="pnl" id="p-prompt">
+<div class="sl">· prompt weaver — prompts IA dinámicos ·</div>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn bp" onclick="PromptWeaver.generate()">⚙️ Generar Prompts</button>
+</div>
+<div id="promptWeaverContent">
+<div class="empty"><div class="empty-icon">🤖</div><h3>Prompt Lab pendiente</h3><p>Analiza una vacante en "Analizador" y luego click "Generar Prompts" para crear 3 prompts IA personalizados para la vacante.</p></div>
+</div>
+</div>
+
+<!-- TAB 6: COACH (F3 · local correlation engine) -->
+<div class="pnl" id="p-coach">
+<div class="sl">· tu coach personal · 100% local · sin APIs externas ·</div>
+<div class="tip tip-v"><b>📊 Outcome Coach</b><p>Marcá el outcome (callback / entrevista / oferta / rechazado) en cada análisis del Historial. Cuando tengas 3+ vacantes con outcomes, este panel saca patrones: qué skills correlacionan con respuesta positiva, qué industrias funcionan mejor, qué cambios podrían subir tu callback rate.</p></div>
+<div id="appCoachPanel"></div>
+</div>
+
+<!-- TAB 7: WIKI (F4 · Job Market Wiki / Karpathy aggregator) -->
+<div class="pnl" id="p-wiki">
+<div class="sl">· wiki del mercado · conceptos extraídos del corpus ·</div>
+<div class="tip tip-v"><b>📚 Job Market Wiki</b><p>Mientras analizás vacantes, este wiki agrega los conceptos detectados: skills que el mercado pide, skills que tenés, tactical / power words / red flags. Click en un concepto → ver qué vacantes lo mencionan.</p></div>
+<div id="appWikiPanel"></div>
+</div>
+
+<!-- TAB 8: CANVAS (F5 · Career Canvas / visual pipeline) -->
+<div class="pnl" id="p-canvas">
+<div class="sl">· canvas de carrera · pipeline visual por outcome ·</div>
+<div class="tip tip-v"><b>🗺️ Career Canvas</b><p>Vista panorámica: cada vacante = nodo · columnas por estado (analizado → aplicado → callback → entrevista → oferta · o rechazado). Click un nodo para marcar/editar outcome. Cross-link con 5-JOB tracker.</p></div>
+<div id="appCanvasPanel"></div>
+</div>
+
+<!-- History container · visible debajo de todos los paneles, dentro del wrap -->
+<div id="appHistContainer" class="card" style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<div class="sl" style="margin:0">· historial de análisis (últimos 20) ·</div>
+<button class="btn bo bs" onclick="APP.showClipper()" title="Bookmarklet para capturar vacantes desde LinkedIn/Indeed/Computrabajo">📎 Web Clipper</button>
+</div>
+<div id="appHistList"></div>
+</div>
+
+</div>
+
+<!-- SAVE BAR (appears after analysis) -->
+<div class="save-bar" id="saveBar">
+<span style="font-size:12px;color:var(--t2)" id="saveBarLabel">💾 Vacante analizada</span>
+<button class="btn bg bs" onclick="saveToTracker()">💾 Guardar en Job Tracker</button>
+<a href="jobs.html#tracker" class="btn bo bs">📋 Ir al Tracker</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cloud-sync.js?v=p22"></script>
+<script src="js/ats-engine.js"></script>
+<script src="js/cv-weaver.js"></script>
+<script src="js/cover-weaver.js"></script>
+<script src="js/interview-weaver.js"></script>
+<script src="js/prompt-weaver.js"></script>
+<script src="js/apply.js"></script>
+<!-- 2-APP · Second Brain Layer (5 phases · History/CLI · Web Clipper · Coach · Wiki · Canvas) -->
+<script src="js/app-second-brain.js"></script>
+</body>
+</html>

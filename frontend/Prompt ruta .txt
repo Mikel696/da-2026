@@ -1,0 +1,7 @@
+Necesito reconstruir/mejorar mi "Sistema DA-2026" — app web multi-página 
+(HTML/CSS/JS puro, sin frameworks) desplegada en GitHub Pages.
+Stack: dark neon (--acid:#c8ff00), Bricolage Grotesque + Fira Code, 
+LocalStorage namespace 'da2026_', sistemas XP/racha/sesiones/notas.
+Archivos: index.html, css/main.css, js/core.js, js/dashboard.js, 
+pages/{ruta,sesion,prompts,ingles,proyectos,tacticas,empleos,recursos,configurar}.html
+[Indica qué página o función necesitas mejorar]
