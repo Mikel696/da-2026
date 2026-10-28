@@ -49,8 +49,12 @@ confidencialidad, no de datos: nada de Miguel se borró). Decisión y criterios 
   idénticos al original). En el primer intento se subió junto con `main` y no se sabe cuál de las dos disparó el
   bloqueo; se sube cuando la foto de 12-FIN haya corrido sola al menos una vez. `claude/sweet-swanson` (abril) se
   quedó solo en el historial.
-- **Pendiente:** secretos de Socrata en el repo nuevo (Miguel: son llaves) · que la foto de 12-FIN corra sola mañana ·
-  guardián con 0 nombres 7 noches seguidas · subir `claude/juegos-wip`.
+- **Socrata en el repo nuevo:** los secretos no viajan con el renombrado (`SOCRATA_KEY_ID`/`SECRET` se quedaron en el
+  historial). Miguel creó un App Token en datos.gov.co y lo guardó como `SOCRATA_APP_TOKEN` (basta ese solo). Foto
+  lanzada a mano (run 40729341516, éxito): el registro dice "Socrata autenticado con App Token (cupo alto)" y
+  `credit-co.json` salió completo (corte 16-oct, 4 tipos, 7 modalidades de usura, sin errores) y ya se sirve en vivo.
+- **Pendiente:** que la foto corra **sola** (programada) mañana · guardián con 0 nombres 7 noches seguidas · subir
+  `claude/juegos-wip` después de esa primera corrida programada.
 - **Clon local reconectado:** `origin` = repo nuevo, remoto `historial` = el privado; `main` sigue a `origin/main`;
   la rama vieja queda como `main-historial-20261028`. Las otras ramas locales `claude/*` son del historial viejo.
 - **Candado `pre-push`** en `.git/hooks/` del clon (con permiso de Miguel): rechaza subir al repo público cualquier
