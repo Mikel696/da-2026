@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-28 (14-WORK fuera del repo público: Fase A del plan privado, paso 1 hecho)
+- **Última actualización:** 2026-10-28 (14-WORK fuera del repo público y repo nuevo sin historial: Fase A del plan privado)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -27,11 +27,25 @@ confidencialidad, no de datos: nada de Miguel se borró). Decisión y criterios 
 - **Copia privada** de todo lo retirado: `E:\CLAUDE\PROYECTOS\14-WORK-archivo-privado\2026-10-28\` (tamaños
   verificados archivo por archivo contra el commit `36e3f47`). El texto completo sigue en el historial privado.
 - **Cache-bust:** `cloud-sync.js` p21 → **p22** en las **28** páginas (eran 29: `interview-sim.html` salió).
-- **Verificado en preview:** el cuaderno se crea, guarda y recarga; contadores; enlaces internos OK en 33 páginas;
-  index, 10-SYS, 15-MM y 8-PRO cargan; `pages/simetrik-kb` da 404. **Producción: pendiente.**
+- **Verificado en preview y en producción** (con la sesión real de Miguel, sin escribir datos): el cuaderno se crea,
+  guarda y recarga; enlaces internos OK en 33 páginas; las 8 URLs retiradas dan 404; login y sync (outbox 0) en
+  14-WORK, 10-SYS, inglés y English Engine.
 
-**Paso 2 (pendiente, necesita clics de Miguel):** renombrar el repo a `da-2026-historial` (privado), crear un
-`da-2026` nuevo y subir el árbol limpio como un solo commit. Sin eso, el historial público sigue mostrando lo retirado.
+## 🔒 14-WORK · Fase A, paso 2: el historial queda enterrado sin reescribirlo — miércoles 28-oct
+
+- **El repo viejo pasó a `Mikel696/da-2026-historial`, PRIVADO**, con sus Actions apagadas. Ahí está el historial
+  completo (nada se destruyó). Su `main` quedó en `6a58631`.
+- **`Mikel696/da-2026` es un repo NUEVO** (mismo nombre → misma URL, mismo origen, así que localStorage, Supabase y
+  enlaces siguen igual). Arrancó con un solo commit sin padres, `eec95e3`, con el árbol idéntico al de `6a58631`.
+  En un clon nuevo: 2 commits en total, `git log --all -i -G` con los nombres de clientes = 0, raíz vieja ausente.
+- **`claude/juegos-wip` portada** como `11e6bc5` encima del commit limpio (28 archivos idénticos al original).
+  `claude/sweet-swanson` (abril) se quedó solo en el historial.
+- **Clon local reconectado:** `origin` = repo nuevo, remoto `historial` = el privado; `main` sigue a `origin/main`;
+  la rama vieja queda como `main-historial-20261028`. Las otras ramas locales `claude/*` son del historial viejo.
+- **Candado `pre-push`** en `.git/hooks/` del clon (con permiso de Miguel): rechaza subir al repo público cualquier
+  rama que descienda de la raíz vieja `c0344e2`. Para retomar trabajo de una rama vieja: rama nueva desde
+  `origin/main` + cherry-pick o parche.
+- **Guardián nocturno:** cuenta los nombres de clientes en árbol e historial **sin escribirlos** en el informe.
 
 ---
 

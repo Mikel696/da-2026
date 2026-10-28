@@ -280,6 +280,9 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
   de reuniones. El nombre del empleador sí puede aparecer; su conocimiento interno no.
 - Lo de antes del 28-oct-2026 vive en el historial privado (`Mikel696/da-2026-historial`) y en
   `E:\CLAUDE\PROYECTOS\14-WORK-archivo-privado\`. **No se vuelve a copiar aquí**, ni en docs ni en prompts.
+- **El repo público arrancó de cero el 28-oct-2026** (commit sin padres `eec95e3`). Las ramas locales anteriores
+  descienden del historial viejo: **nunca se suben a `origin`**. El clon tiene un `pre-push` que las rechaza.
+  Para retomar algo de una rama vieja: rama nueva desde `origin/main` + cherry-pick o parche.
 - Lo privado de Miguel se lee de **Supabase tras iniciar sesión** (RLS), nunca de un JSON en `frontend/data/`.
 - Antes de cada commit que toque 14-WORK: `git grep -i` con cada nombre de la lista privada = 0.
   El guardián nocturno los cuenta cada noche **sin escribirlos** en su informe.
