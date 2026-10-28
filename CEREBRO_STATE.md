@@ -35,16 +35,32 @@ confidencialidad, no de datos: nada de Miguel se borró). Decisión y criterios 
 
 - **El repo viejo pasó a `Mikel696/da-2026-historial`, PRIVADO**, con sus Actions apagadas. Ahí está el historial
   completo (nada se destruyó). Su `main` quedó en `6a58631`.
-- **`Mikel696/da-2026` es un repo NUEVO** (mismo nombre → misma URL, mismo origen, así que localStorage, Supabase y
-  enlaces siguen igual). Arrancó con un solo commit sin padres, `eec95e3`, con el árbol idéntico al de `6a58631`.
-  En un clon nuevo: 2 commits en total, `git log --all -i -G` con los nombres de clientes = 0, raíz vieja ausente.
-- **`claude/juegos-wip` portada** como `11e6bc5` encima del commit limpio (28 archivos idénticos al original).
-  `claude/sweet-swanson` (abril) se quedó solo en el historial.
+- **`Mikel696/da-2026` es un repo NUEVO** (mismo nombre → misma URL, mismo origen: localStorage, Supabase y enlaces
+  siguen igual, comprobado abajo). Arrancó con un solo commit sin padres, `eec95e3`, árbol idéntico al de `6a58631`.
+  En un clon nuevo: solo commits de hoy encima de esa raíz, `git log --all -i -G` con los nombres de clientes = 0,
+  raíz vieja ausente.
+- **Incidente del mismo día (sitio caído ~40 min, 15:40–16:20 UTC):** el primer repo nuevo (creado 15:42 UTC) quedó
+  con Actions bloqueado **del lado de GitHub** después de la primera subida ("GitHub Actions is not currently
+  enabled" con la política en "Allow all"; re-guardar no sirvió; el modo rama + `.nojekyll` tampoco publicó porque
+  también necesita Actions). Miguel lo borró y se recreó (id 1437332105, 16:17 UTC): esta vez Pages en
+  "GitHub Actions" **antes** de subir y **solo `main`**. Actions registró los flujos y el despliegue salió verde.
+  Lección: en un repo nuevo, configurar Pages primero y subir de a una rama, mirando Actions entre cada subida.
+- **`claude/juegos-wip` preparada pero NO subida:** está en local como `publico-juegos-wip` (`11e6bc5`, 28 archivos
+  idénticos al original). En el primer intento se subió junto con `main` y no se sabe cuál de las dos disparó el
+  bloqueo; se sube cuando la foto de 12-FIN haya corrido sola al menos una vez. `claude/sweet-swanson` (abril) se
+  quedó solo en el historial.
+- **Pendiente:** secretos de Socrata en el repo nuevo (Miguel: son llaves) · que la foto de 12-FIN corra sola mañana ·
+  guardián con 0 nombres 7 noches seguidas · subir `claude/juegos-wip`.
 - **Clon local reconectado:** `origin` = repo nuevo, remoto `historial` = el privado; `main` sigue a `origin/main`;
   la rama vieja queda como `main-historial-20261028`. Las otras ramas locales `claude/*` son del historial viejo.
 - **Candado `pre-push`** en `.git/hooks/` del clon (con permiso de Miguel): rechaza subir al repo público cualquier
-  rama que descienda de la raíz vieja `c0344e2`. Para retomar trabajo de una rama vieja: rama nueva desde
-  `origin/main` + cherry-pick o parche.
+  rama que descienda de la raíz vieja `c0344e2` (sin importar mayúsculas ni formato de la URL; probado con 4
+  variantes). Para retomar trabajo de una rama vieja: rama nueva desde `origin/main` + cherry-pick o parche.
+- **Producción verificada en el repo recreado** (sesión real de Miguel, solo lectura): index, 10-SYS, inglés, English
+  Engine, finanzas y `macro-co.json` dan 200; las 8 URLs retiradas y el sitio de `da-2026-historial` dan 404; login y
+  sync completos con outbox 0 en 14-WORK (15 cuadernos), 10-SYS e inglés.
+- **Sin copias públicas conocidas** del material viejo: Wayback Machine sin capturas de `mikel696.github.io/da-2026/`,
+  Software Heritage nunca archivó el repo (28-oct).
 - **Guardián nocturno:** cuenta los nombres de clientes en árbol e historial **sin escribirlos** en el informe.
 
 ---
