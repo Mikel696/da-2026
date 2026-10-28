@@ -55,6 +55,15 @@ leyendo, no adivinando.
 ### Rutina de arranque de sesión
 Ver `PROMPT_MANTENIMIENTO.md` — trae el contexto completo, el chequeo de salud y la cola priorizada.
 
+### 🌙 Carril nocturno (desde 28-oct-2026, aprobado por Miguel)
+- El **guardián nocturno** (rutina en la nube, Sonnet) hace sus chequeos y, si nada sale rojo, **una** tarea
+  de `docs/noche/COLA.md`, **solo en la rama que dice la tarea** (`claude/juegos`, `claude/noche-AAAAMMDD`).
+  Nunca código en `main`. Límite: con 2 tareas en `[r]` (sin revisar) no produce más.
+- La sesión de día **Integrador** (Opus) revisa las `[r]`: preview en el navegador → fusionar → verificar en
+  producción → marcar `[x]` → rellenar la cola. Un juego se acepta solo cuando Miguel lo juega con su control.
+- **Criterio de abandono:** tras 6 ramas nocturnas, si menos de 2 se fusionaron sin rehacerlas, se apaga el paso 7.
+- Otras rutinas: inglés (diaria), sistemas (diaria), ingresos (lunes y jueves). Diseño completo en CEREBRO_STATE 28-oct.
+
 ---
 
 ## 🏛 ARQUITECTURA FINAL (INMUTABLE)

@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-28 (14-WORK fuera del repo público y repo nuevo sin historial: Fase A del plan privado)
+- **Última actualización:** 2026-10-28 (carril nocturno: el guardián hace una tarea de `docs/noche/COLA.md` por noche, en rama)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,25 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🌙 Agentes: carril nocturno para juegos y mejoras — miércoles 28-oct (tarde)
+
+Pedido de Miguel: agentes autónomos que lleven los 4 proyectos «en todos los frentes» sin dañar nada.
+`analisis-profundo` → **HACER DISTINTO**: no un enjambre, sino reorganizar las 4 rutinas que ya funcionan
+(las 4 dejaron commit la noche del 28-oct). Lo que frenaba inglés e ingresos eran decisiones de Miguel, no capacidad.
+- **Medido:** al arrancar una sesión aquí se cargan ~90 mil tokens; este CLAUDE.md pesa 35 KB (78 % de las
+  instrucciones). Skills = 9,5 mil tokens → **no se instala ninguna skill nueva**.
+- **Descartado, con razón:** un agente por módulo (cupo, choques en `cloud-sync.js`, sin navegador para
+  verificar) · agente «director» (gasta tokens en decidir lo que un horario fijo decide gratis) · packs de skills
+  de terceros (más carga en cada sesión, código ajeno).
+- **Montado:** paso 7 del guardián + `docs/noche/COLA.md` (19-JUE tareas 1-3) + vigía de ingresos a lunes y jueves.
+  Reglas en CLAUDE.md → «🌙 Carril nocturno».
+- **Éxito al 15-nov:** 0 commits de código de agentes en `main`, 0 archivos borrados, sala + juego 1 jugados por
+  Miguel con su control en producción, ≥ 2 de cada 3 ramas nocturnas fusionadas sin rehacer.
+- **Pendiente (sesión de día, Opus + `contraparte`):** dieta de este CLAUDE.md (protocolos por módulo a
+  `docs/protocolos/`, meta −40 % de carga al arrancar, medida con el uso de contexto antes y después).
 
 ---
 
