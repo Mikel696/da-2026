@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juegos · Cerebro</title>
+<meta name="description" content="19-JUE · Tres juegos 3D para jugar con control o teclado: carreras, shooter y arcade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juegos/css/juegos.css">
+</head>
+<body>
+<div class="vest">
+  <div class="barra">
+    <a href="index.html" data-nav>← Volver al Cerebro</a>
+    <span class="cod">19-JUE</span>
+  </div>
+
+  <section class="portada">
+    <div>
+      <h1>Sala de juegos</h1>
+      <p>Tres juegos en 3D que corren en el navegador. Se juegan con control (Xbox, PlayStation o uno genérico por Bluetooth) o con teclado y ratón.</p>
+      <div class="estado" id="estado" role="status">
+        <span class="luz"></span>
+        <div><b id="estadoTxt">Ningún control detectado</b><small id="estadoSub">Conéctalo por Bluetooth y pulsa cualquier botón: Chrome solo lo muestra después de una pulsación.</small></div>
+      </div>
+      <div class="ajustes">
+        <button id="optCalidad" type="button"></button>
+        <button id="optMusica" type="button"></button>
+        <button id="optEfectos" type="button"></button>
+        <button id="optVib" type="button"></button>
+        <button id="btnVibrar" type="button" data-nav><span>Probar vibración</span></button>
+        <button id="btnAsistente" type="button" data-nav hidden><span>Configurar control genérico</span></button>
+      </div>
+    </div>
+    <div>
+      <svg class="mando" id="mando" viewBox="0 0 520 330" role="img" aria-label="Control: se ilumina el botón que pulses">
+        <rect class="gat-fondo" x="92" y="8" width="96" height="30" rx="8"/><rect class="gat" id="gat6" x="92" y="38" width="96" height="0" rx="4"/>
+        <rect class="gat-fondo" x="332" y="8" width="96" height="30" rx="8"/><rect class="gat" id="gat7" x="332" y="38" width="96" height="0" rx="4"/>
+        <text class="rot" x="140" y="23" id="rot6">LT</text><text class="rot" x="380" y="23" id="rot7">RT</text>
+        <rect class="bt" id="b4" x="88" y="44" width="104" height="18" rx="9"/><rect class="bt" id="b5" x="328" y="44" width="104" height="18" rx="9"/>
+        <path class="cuerpo" d="M112 64 H408 C468 64 498 112 508 182 C518 252 504 318 456 318 C420 318 400 282 376 256 H144 C120 282 100 318 64 318 C16 318 2 252 12 182 C22 112 52 64 112 64 Z"/>
+        <circle class="stick" cx="150" cy="142" r="36"/><circle class="stick-cabeza" id="stickL" cx="150" cy="142" r="22"/>
+        <circle class="stick" cx="322" cy="226" r="36"/><circle class="stick-cabeza" id="stickR" cx="322" cy="226" r="22"/>
+        <rect class="bt" id="b12" x="182" y="192" width="24" height="26" rx="4"/><rect class="bt" id="b13" x="182" y="240" width="24" height="26" rx="4"/>
+        <rect class="bt" id="b14" x="156" y="217" width="28" height="24" rx="4"/><rect class="bt" id="b15" x="204" y="217" width="28" height="24" rx="4"/>
+        <rect class="bt" id="b8" x="222" y="132" width="30" height="16" rx="8"/><rect class="bt" id="b9" x="270" y="132" width="30" height="16" rx="8"/>
+        <circle class="bt" id="b3" cx="384" cy="110" r="19"/><circle class="bt" id="b2" cx="346" cy="148" r="19"/>
+        <circle class="bt" id="b1" cx="422" cy="148" r="19"/><circle class="bt" id="b0" cx="384" cy="186" r="19"/>
+        <text class="rot" id="rot3" x="384" y="110">Y</text><text class="rot" id="rot2" x="346" y="148">X</text>
+        <text class="rot" id="rot1" x="422" y="148">B</text><text class="rot" id="rot0" x="384" y="186">A</text>
+      </svg>
+      <div class="datos-pad" id="datosPad"></div>
+    </div>
+  </section>
+
+  <section class="juegos" id="juegos" aria-label="Juegos"></section>
+
+  <section class="dos">
+    <div>
+      <h3>Controles</h3>
+      <div class="pestanas" id="pestanas" role="tablist"></div>
+      <div id="tablaCtl"></div>
+    </div>
+    <div class="recs">
+      <h3>Tus récords</h3>
+      <div id="recs"></div>
+      <p class="vacio">Se guardan solo en este navegador.</p>
+    </div>
+  </section>
+
+  <section class="creditos" id="creditos">
+    <h3>Créditos y licencias</h3>
+    <dl id="creditosLista"></dl>
+    <p class="nota">Ningún modelo, textura, sonido o música de estos juegos viene de afuera: todo se genera con código en este repositorio. Por eso no hay assets de terceros que atribuir ni licencias dudosas. Los nombres de los juegos son propios; no imitan marcas comerciales.</p>
+  </section>
+</div>
+
+<dialog class="asistente" id="asistente">
+  <h3>Configurar control</h3>
+  <p class="vacio" id="asisInfo">Tu control no usa el mapa estándar. Pulsa lo que se pide; si no lo tiene, salta.</p>
+  <div class="paso" id="asisPaso"></div>
+  <div class="fila">
+    <button class="btn sec" type="button" id="asisSaltar">Saltar</button>
+    <button class="btn sec" type="button" id="asisBorrar">Borrar mapa</button>
+    <button class="btn" type="button" id="asisCerrar">Cerrar</button>
+  </div>
+</dialog>
+
+<script type="module" src="juegos/js/vestibulo.js"></script>
+</body>
+</html>

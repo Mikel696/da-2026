@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neón GP · Juegos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/juegos.css">
+<style>
+  body { --acento: var(--neon); }
+  body.corriendo { cursor: none; }
+  .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--titulo); color: var(--papel); text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); }
+  .hud .pos { position: absolute; left: 3vw; top: 3vh; line-height: 0.85; }
+  .hud .pos b { font-size: 96px; font-weight: 800; color: var(--neon); }
+  .hud .pos span { font-size: 40px; font-weight: 700; color: var(--papel-2); }
+  .hud .pos small { display: block; font-family: var(--texto); font-size: 17px; color: var(--papel-2); margin-top: 10px; }
+  .hud .tiempos { position: absolute; right: 3vw; top: 3vh; text-align: right; font-variant-numeric: tabular-nums; }
+  .hud .tiempos .total { font-size: 52px; font-weight: 700; line-height: 1; }
+  .hud .tiempos div { font-family: var(--texto); font-size: 16px; color: var(--papel-2); }
+  .hud .tiempos div b { color: var(--papel); font-weight: 600; }
+  .hud .velo { position: absolute; right: 3vw; bottom: 4vh; text-align: right; }
+  .hud .velo .kmh { font-size: 110px; font-weight: 800; line-height: 0.8; font-variant-numeric: tabular-nums; }
+  .hud .velo .uni { font-family: var(--texto); font-size: 16px; color: var(--papel-2); }
+  .hud .velo .marcha { font-size: 34px; color: var(--neon); margin-left: 10px; }
+  .nitro { display: flex; gap: 4px; justify-content: flex-end; margin-top: 10px; }
+  .nitro i { width: 22px; height: 12px; background: rgba(255, 255, 255, 0.12); transform: skewX(-20deg); }
+  .nitro i.on { background: #4fd3ff; box-shadow: 0 0 10px #4fd3ff; }
+  .nitro.usando i.on { background: #fff; }
+  .hud .mapa { position: absolute; left: 2.5vw; bottom: 3vh; width: 190px; height: 190px; opacity: 0.92; }
+  .msg { position: absolute; left: 50%; top: 24vh; transform: translateX(-50%); font-size: 48px; font-weight: 800; white-space: nowrap; opacity: 0; transition: opacity 180ms; }
+  .msg.ver { opacity: 1; }
+  .msg.aviso { color: #ff6b6b; }
+  .cuenta { position: fixed; left: 50%; top: 38%; transform: translate(-50%, -50%); z-index: 12; font-family: var(--titulo); font-weight: 800; font-size: 220px; line-height: 1; color: var(--papel); text-shadow: 0 0 60px rgba(255, 154, 60, 0.7); pointer-events: none; }
+  .cuenta.ya { color: var(--neon); }
+  .pista-ayuda { position: absolute; left: 50%; bottom: 3vh; transform: translateX(-50%); font-family: var(--texto); font-size: 14px; color: var(--papel-3); }
+  @media (max-width: 700px) { .hud .pos b { font-size: 64px; } .hud .velo .kmh { font-size: 72px; } .hud .mapa { width: 120px; height: 120px; } }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/addons/" } }</script>
+</head>
+<body class="juego">
+<canvas class="lienzo" id="lienzo"></canvas>
+<div class="cargando" id="cargando">Preparando la pista…</div>
+
+<div class="hud" id="hud" hidden>
+  <div class="pos"><b id="hPos">6</b><span id="hDe">/6</span><small id="hVuelta">Vuelta 1 de 3</small></div>
+  <div class="tiempos"><div class="total" id="hTotal">0:00.00</div><div>Vuelta <b id="hVueltaT">0:00.00</b></div><div>Mejor <b id="hMejor">—</b></div></div>
+  <div class="velo"><span class="kmh" id="hKmh">0</span><span class="marcha" id="hMarcha">1</span><div class="uni">km/h</div><div class="nitro" id="hNitro"></div></div>
+  <canvas class="mapa" id="hMapa" width="380" height="380"></canvas>
+  <div class="msg" id="hMsg"></div>
+  <div class="pista-ayuda" id="hAyuda"></div>
+</div>
+<div class="cuenta" id="cuenta" hidden></div>
+
+<section class="pantalla" id="pTitulo" hidden>
+  <div class="logo">Neón GP</div>
+  <p class="sub">Tres vueltas de noche contra cinco rivales. Derrapa en las curvas para cargar el nitro y úsalo en las rectas.</p>
+  <div class="menu">
+    <button type="button" data-nav id="mJugar">Correr</button>
+    <button type="button" id="mModo"></button>
+    <button type="button" id="mDif"></button>
+    <button type="button" id="mCal"></button>
+    <button type="button" data-nav id="mCtl">Controles</button>
+    <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
+  </div>
+  <div class="ayuda-menu" id="ayudaTitulo"></div>
+</section>
+
+<section class="pantalla" id="pPausa" hidden>
+  <h2>Pausa</h2>
+  <div class="menu">
+    <button type="button" data-nav data-atras id="pSeguir">Seguir</button>
+    <button type="button" data-nav id="pReiniciar">Reiniciar carrera</button>
+    <button type="button" data-nav id="pCtl">Controles</button>
+    <button type="button" data-nav id="pMenu">Menú principal</button>
+  </div>
+</section>
+
+<section class="pantalla" id="pControles" hidden>
+  <h2>Controles</h2>
+  <table class="tabla-fin" id="tablaCtl"></table>
+  <div class="menu"><button type="button" data-nav data-atras id="cVolver">Volver</button></div>
+</section>
+
+<section class="pantalla" id="pFin" hidden>
+  <h2 id="fTitulo">Carrera terminada</h2>
+  <p class="sub" id="fSub"></p>
+  <table class="tabla-fin" id="fTabla"></table>
+  <div class="menu">
+    <button type="button" data-nav id="fOtra">Otra carrera</button>
+    <button type="button" data-nav id="fMenu">Menú principal</button>
+  </div>
+</section>
+
+<script type="module" src="js/neon.js"></script>
+</body>
+</html>
