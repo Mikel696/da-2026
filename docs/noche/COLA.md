@@ -20,13 +20,15 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
 
 ## Tareas
 
-- [ ] **19-JUE · 1 · Sala de juegos.** Rama `claude/juegos` (ya existe: trabajar sobre ella). Leer primero
+- [r] **19-JUE · 1 · Sala de juegos.** Rama `claude/juegos` (ya existe: trabajar sobre ella). Leer primero
   `docs/sesiones/2026-10-23-juegos.md` (investigación, licencias y plan). Terminar el núcleo compartido
   (`frontend/juegos/js/`) y la sala `frontend/juegos.html`: 3 tarjetas (carreras, shooter, arcade; las tres
   «próximamente» por ahora), detector de control, probador de botones, tabla de controles y créditos con la
   licencia de cada base. Sin juegos todavía.
   *Verificación:* `node --check` a cada `.js` de `frontend/juegos/`; cada ruta del `importmap` y cada
   `import` relativo apunta a un archivo que existe; ningún archivo de terceros sin licencia MIT o Unlicense anotada.
+  > Rama `claude/juegos` · commit `ec5e041` · La sala ya existía casi completa; solo se puso Neón GP en «Próximamente» (su `js/neon.js` aún no existe) y se cambió el rótulo.
+  > Verificación OK: `node --check` sin fallos, imports relativos existen, three.js MIT con sumas SHA256 correctas, sala carga en navegador sin errores (3 tarjetas, 3 «Próximamente»).
 
 - [ ] **19-JUE · 2 · Juego 1 (carreras), parte A.** Rama `claude/juegos`. Juego **original**: no recrea ningún
   juego existente ni usa sus nombres, naves, pistas o marcas. Diseño tomado de `pmndrs/racing-game` (MIT),
