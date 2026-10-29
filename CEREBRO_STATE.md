@@ -25,6 +25,16 @@ Pedido de Miguel: agentes autónomos que lleven los 4 proyectos «en todos los f
   Reglas en CLAUDE.md → «🌙 Carril nocturno».
 - **Éxito al 15-nov:** 0 commits de código de agentes en `main`, 0 archivos borrados, sala + juego 1 jugados por
   Miguel con su control en producción, ≥ 2 de cada 3 ramas nocturnas fusionadas sin rehacer.
+- **Primera corrida real (manual, 29-oct 01:52 UTC, ~2 min):** informe `dc3a8af` en main (solo COLA + 2 informes,
+  0 borrados); tarea 19-JUE·1 marcada `[r]`, rama `claude/juegos` commit `ec5e041` (2 líneas: la sala ya estaba
+  casi completa en la base). **Verificado por mí en el navegador** (preview de la rama): carga, 3 tarjetas
+  «Próximamente», detector, probador, controles y créditos; sin errores propios. Cupo semanal 29 % → 30 % en
+  ese lapso, incluida mi revisión.
+- **🚨 Hallazgo de la corrida:** la copia de la nube traía un `main` local **del historial viejo** (con material
+  privado). No subió nada, pero un `pull --rebase` sobre historias distintas podía publicarlo. Cerrado con el
+  **paso 0** del prompt (`checkout -B main origin/main`, nunca `--force`, abortar ante 'unrelated histories') y el
+  conteo de nombres con `--remotes` en vez de `--all`. El mecánico de inglés lee da-2026 en el mismo entorno: no
+  sube nada ahí, pero podría estar leyendo el motor viejo → pendiente de aplicarle el mismo paso 0.
 - **Pendiente (sesión de día, Opus + `contraparte`):** dieta de este CLAUDE.md (protocolos por módulo a
   `docs/protocolos/`, meta −40 % de carga al arrancar, medida con el uso de contexto antes y después).
 
