@@ -1,16 +1,19 @@
-# Informe del guardián · 2026-10-29
+# Informe del guardián · 2026-10-29 (corrida 07:14 UTC)
 
-1. Versiones en lockstep: 🟢 cloud-sync.js?v=p22 (28 páginas), nb-shared.js?v=p24 (4). Una versión por archivo.
-2. Frescura de datos: 🟢 credit-co, jobs-feed, world, macro-co generados hoy/ayer (menos de 1 día).
-3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: 🟢 ningún href/src relativo apunta a un archivo inexistente (ignoradas plantillas JS).
-5. Seguridad: 🟢 sin claves ni tokens. Solo hay textos que mencionan «service_role» para decir que no está.
-   Nombres de clientes: 0 en el árbol, 0 en el historial de main (con palabra completa).
-   Nota: una búsqueda por subcadena corta da 1 coincidencia falsa en la raíz de main (dentro de otra palabra), no es un nombre de cliente.
-   Aviso: la copia local del repo traía una rama `main` vieja con historial anterior al 28-oct; no se subió nada de eso.
-6. Sesiones: 🟢 ningún archivo en docs/sesiones/ cambió en 48 h.
+Paso 0 hecho (main = origin/main; repo estaba superficial, se hizo unshallow).
 
-Cola: 19-JUE·1 Sala de juegos → rama claude/juegos, commit ec5e041. Neón GP pasó a «Próximamente» (su js/neon.js no existe aún); verificación OK (sintaxis, imports, licencia three.js MIT, carga en navegador sin errores). Marcada [r]; quedan 2 tareas [ ].
+1. Versiones: 🟢 cloud-sync.js?v=p22 ×28, nb-shared.js?v=p24 ×4. Una sola versión por archivo.
+2. Frescura: 🟢 credit-co, jobs-feed, macro-co, world generados hoy 02:48 UTC.
+3. Sintaxis: 🟢 node --check sin fallos.
+4. Enlaces internos: 🟢 solo falsos positivos (about:blank, "...", plantillas JS); ningún archivo realmente faltante.
+5. Seguridad: 🔴 nombres de clientes: 0 en el árbol, 1 en el historial.
+   - Commit eec95e3 (raíz pública del 28-oct), archivos frontend/pages/english-engine.html y
+     src/english-engine/08_app.js. Puede ser una coincidencia de subcadena dentro del vocabulario
+     (el árbol actual da 0 con palabra completa), pero no lo confirmé citando el texto. Decide Miguel.
+   - Claves: solo la anon pública de Supabase; sin service_role real, tokens ni sk-.
+6. Sesiones: 🟢 no existe docs/sesiones/.
 
-Arreglé: nada fuera de la tarea de la cola.
-Necesita decisión de Miguel: nada.
+Cola: no se hizo ninguna tarea (chequeo 5 en ROJO). Tarea 19-JUE·1 sigue en [r] (1 sola en espera).
+
+Arreglos: ninguno.
+Decisión de Miguel: revisar si la coincidencia del commit eec95e3 es real o solo una subcadena.
