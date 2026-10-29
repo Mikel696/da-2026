@@ -3,7 +3,7 @@
 
 export const JUEGOS = [
   {
-    id: 'neon', nombre: 'Neón GP', genero: 'Carreras', archivo: 'juegos/neon.html', color: '#ff9a3c',
+    id: 'neon', nombre: 'Neón GP', genero: 'Carreras', archivo: 'juegos/neon.html', color: '#ff9a3c', listo: false,
     lema: 'Circuito urbano de noche contra cinco rivales. Derrapa para cargar el nitro.',
     tabla: 'carrera', menorEsMejor: true, formato: 'tiempo',
     controles: [

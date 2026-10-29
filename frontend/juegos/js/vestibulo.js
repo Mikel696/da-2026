@@ -20,7 +20,7 @@ function pintarCarteles() {
     return `<button class="cartel" type="button" data-nav data-juego="${j.id}" style="--c:${j.color}" ${listo ? '' : 'aria-disabled="true"'}>
       <div class="arte arte-${j.id}" aria-hidden="true"></div>
       <div class="info"><span class="gen">${esc(j.genero)}</span><h2>${esc(j.nombre)}</h2><p>${esc(j.lema)}</p>
-      ${listo ? `<span class="rec">${m ? `Tu mejor marca: <b>${formato(j, m.v)}</b>` : 'Aún sin récord'}</span>` : '<span class="pronto">En construcción</span>'}</div></button>`;
+      ${listo ? `<span class="rec">${m ? `Tu mejor marca: <b>${formato(j, m.v)}</b>` : 'Aún sin récord'}</span>` : '<span class="pronto">Próximamente</span>'}</div></button>`;
   }).join('');
 }
 $('juegos').addEventListener('click', (e) => {
