@@ -22,6 +22,7 @@ Pedido: revisar portales, clases, eventos y correo. Parte `26V05-S6` inyectado d
   laboratorio es el de escalado y balanceo, "laboratorio seis". TI: va a 16 semanas y programa ACA 2 y Quiz 2 hasta el 3-nov.
 - **Grabaciones:** `get_video_info` exige `&drive_originator_app=303`.
 - Miguel pidió que Claude presentara los Parcial 2 con respuestas de otra IA. **No se hizo:** los presenta él.
+- **Parcial 2 presentados por Miguel** y verificados por intento. Plan de ACA en la carpeta del semestre y en el repo privado; S6 con plan del 2 al 8-nov. En BI el libro deja actividades fuera de los cortes: Miguel avisa al docente.
 - La corrida automática del 1-nov 21:35 quedó detenida en sus primeros pasos, sin inyectar nada. Si reanuda, revisar que no pise S6.
 
 ---
