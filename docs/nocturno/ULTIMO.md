@@ -1,13 +1,16 @@
-# Informe nocturno 2026-11-01
-1. Versiones en lockstep: 🟢 cloud-sync p22 (28 páginas), nb-shared p24 (4 páginas).
-2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados el 1-nov 02:32 UTC.
-3. Sintaxis: 🟢 `node --check` sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: 🟢 sin enlaces rotos a archivos (los avisos son plantillas de JavaScript, no enlaces).
-5. Seguridad: 🟢 sin service_role, tokens ni sk-. Solo la clave pública `anon` de Supabase (es pública por diseño).
-   Nombres de clientes: 0 en el árbol, 0 en el historial.
-6. Sesiones: 🟢 no existe docs/sesiones en main; nada que resumir.
-Cola: tarea 19-JUE·2 (Neón GP, parte A) hecha. Rama `claude/juegos`, commit `f26ab45`.
-  Verificación: `node --check` + navegador sin interfaz (carga sin errores, el coche acelera y gira, HUD y minimapa).
-  Queda en [r]: 2 tareas esperan revisión (1 y 2) → mañana la cola queda en espera hasta que el Integrador revise.
+# Informe nocturno 2026-11-02
+
+1. Versiones: 🟢 cloud-sync.js?v=p22 (28 páginas), nb-shared.js?v=p24 (4 páginas). Una sola versión por archivo.
+2. Frescura: 🟢 credit-co, jobs-feed, macro-co y world generados 2026-11-02 02:43 UTC (menos de 1 día).
+3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
+4. Enlaces internos: 🟢 ningún href/src relativo apunta a un archivo inexistente (lo que sale son plantillas de JavaScript, no enlaces).
+5. Seguridad: 🟢 sin service_role, sk-, tokens ni contraseñas (solo menciones en informes anteriores y la clave pública anon).
+   Nombres de clientes: 0 en el árbol, 1 en el historial (en bruto, por coincidencia de texto dentro de otra palabra: commit eec95e3,
+   archivos english-engine.html y src/english-engine/08_app.js). Con búsqueda de palabra completa da 0, así que parece falso
+   positivo (texto de vocabulario de inglés). 🟡 Miguel puede confirmarlo si quiere; no toqué nada.
+6. Sesiones: 🟢 no existe docs/sesiones/ (nada que resumir).
+
+Cola: cola en espera de revisión (2 tareas en [r]: 19-JUE·1 y 19-JUE·2, rama claude/juegos). No se hizo ninguna tarea.
+
 Arreglos: ninguno necesario.
-Necesita decisión de Miguel: jugar con su control la rama `claude/juegos` (sala + Neón GP parte A) para aceptarla.
+Decisión de Miguel: revisar y fusionar las tareas [r] de claude/juegos (Integrador) para que la cola avance.
