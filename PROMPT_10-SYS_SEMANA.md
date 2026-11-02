@@ -65,12 +65,14 @@ Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vista
    - `/grade/report/user/index.php?id=` → notas nuevas (cargarlas con `SYS.setNota`).
    - `core_message_get_conversations` → mensajes de docentes (TI da sus instrucciones por aquí).
 2. **Correo CUN** (Gmail con `?authuser=miguel.barros@cun.edu.co`): `after:<lunes>` sin promociones. Leer docentes, recordatorios y resúmenes Read AI.
-3. **Grabaciones**: Calendar CUN (`/calendar/r/week/AAAA/MM/DD?authuser=miguel.barros@cun.edu.co`) → adjuntos de cada evento → en `drive.google.com/drive/u/N/` `get_video_info?docid=ID` → `ttsurl` → pista `asr` en `fmt=json3`. El índice `u/N` cambia cuando Miguel reinicia sesión: resolverlo con `authuser=`.
+3. **Grabaciones**: Calendar CUN (`/calendar/r/week/AAAA/MM/DD?authuser=miguel.barros@cun.edu.co`) → adjuntos de cada evento → en `drive.google.com/drive/u/N/` `get_video_info?docid=ID&drive_originator_app=303` (sin ese parámetro da 404 desde el 1-nov-2026) → `ttsurl` → pista `asr` en `fmt=json3`. El índice `u/N` cambia cuando Miguel reinicia sesión: resolverlo con `authuser=`.
    - Leer **completas** las de materias con evaluación esa semana; para inglés basta filtrar por palabras clave y los últimos minutos.
    - "No tienes permiso" o "ya no existe" → decirlo en la tarjeta de la clase, nunca rellenar.
 4. **Armar el parte** (`id` = `<período>-S<n>`, ej. `26V05-S4`) con el esquema de abajo y **verificar cada cita contra el texto** antes de inyectar.
 5. **Inyectar** en la pestaña real `https://mikel696.github.io/da-2026/frontend/systems.html`: `SYS.injectWeek({...})` → `CLOUD.diagnostics()` / outbox en 0 → captura del Dashboard.
 6. Responder a Miguel en el chat con el resumen compacto (lo P0 primero) y anotar en `CEREBRO_STATE.md`.
+
+**Si Miguel puede estar presentando una evaluación:** CDigital se lee solo desde su Chrome, nunca desde otro navegador (una sola sesión). No pulsar "Entrar" en Dexway: abre una ventana emergente encima de su examen.
 
 ## Esquema
 

@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-10-28 (carril nocturno: el guardián hace una tarea de `docs/noche/COLA.md` por noche, en rama)
+- **Última actualización:** 2026-11-01 (10-SYS: parte S6 y revisión de portales)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,21 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 📡 10-SYS · Parte S6 y revisión de portales — domingo 1-nov (21:45-22:10)
+
+Pedido: revisar portales, clases, eventos y correo. Parte `26V05-S6` inyectado desde el Chrome de Miguel: 13 actividades,
+6 clases, ruta y plan del 1 al 8-nov. Nube 21:57, outbox 0.
+- **Leído:** 5 aulas, libro de notas, intentos, mensajes, eventos, correo CUN desde el 25-oct, 6 grabaciones.
+- **Sin leer:** Dexway (el botón Entrar abre ventana emergente; no reintentar si Miguel presenta), SGA (pide clave), CUN 360
+  (cerró la sesión al cargar).
+- **Novedades:** ACA de BI (PDF del 29-oct) y de Auditoría abren 2-nov y cierran 8-nov. Nube: el docente corrigió, el
+  laboratorio es el de escalado y balanceo, "laboratorio seis". TI: va a 16 semanas y programa ACA 2 y Quiz 2 hasta el 3-nov.
+- **Grabaciones:** `get_video_info` exige `&drive_originator_app=303`.
+- Miguel pidió que Claude presentara los Parcial 2 con respuestas de otra IA. **No se hizo:** los presenta él.
+- La corrida automática del 1-nov 21:35 quedó detenida en sus primeros pasos, sin inyectar nada. Si reanuda, revisar que no pise S6.
 
 ---
 
