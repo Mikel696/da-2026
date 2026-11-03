@@ -1,16 +1,17 @@
-# Informe nocturno 2026-11-02
+# Informe del guardián · 2026-11-03
 
-1. Versiones: 🟢 cloud-sync.js?v=p22 (28 páginas), nb-shared.js?v=p24 (4 páginas). Una sola versión por archivo.
-2. Frescura: 🟢 credit-co, jobs-feed, macro-co y world generados 2026-11-02 02:43 UTC (menos de 1 día).
-3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: 🟢 ningún href/src relativo apunta a un archivo inexistente (lo que sale son plantillas de JavaScript, no enlaces).
-5. Seguridad: 🟢 sin service_role, sk-, tokens ni contraseñas (solo menciones en informes anteriores y la clave pública anon).
-   Nombres de clientes: 0 en el árbol, 1 en el historial (en bruto, por coincidencia de texto dentro de otra palabra: commit eec95e3,
-   archivos english-engine.html y src/english-engine/08_app.js). Con búsqueda de palabra completa da 0, así que parece falso
-   positivo (texto de vocabulario de inglés). 🟡 Miguel puede confirmarlo si quiere; no toqué nada.
-6. Sesiones: 🟢 no existe docs/sesiones/ (nada que resumir).
+1. Versiones: 🟢 cloud-sync.js?v=p22 (28 páginas), nb-shared.js?v=p24 (4 páginas). Una sola versión cada uno.
+2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados hoy 04:00 UTC. Los demás JSON no traen fecha de generación.
+3. Sintaxis: 🟢 `node --check` sin fallos en frontend/js/ y frontend/.
+4. Enlaces internos: 🟢 sin archivos inexistentes (solo marcadores de plantilla dentro de scripts: about:blank, "...", x, mix, fav, words, phrases).
+5. Seguridad: 🟡 
+   - Claves: solo la clave `anon` de Supabase (pública por diseño, rol verificado "anon"). Sin service_role, tokens ni sk-.
+   - Nombres de clientes: 0 en el árbol, 1 en el historial (conteo con -G sin palabra completa).
+     Es el commit eec95e3 (english-engine.html y 08_app.js): coincidencia con una palabra técnica más larga
+     ("ytapi"); con palabra completa da 0. Falso positivo casi seguro; confirmado sin citar texto.
+6. Sesiones: sin cambios (no existe docs/sesiones/).
 
-Cola: cola en espera de revisión (2 tareas en [r]: 19-JUE·1 y 19-JUE·2, rama claude/juegos). No se hizo ninguna tarea.
-
+Cola: en espera de revisión (2 tareas en [r]: 19-JUE·1 y ·2, rama claude/juegos). No se hizo ninguna tarea nueva.
 Arreglos: ninguno necesario.
-Decisión de Miguel: revisar y fusionar las tareas [r] de claude/juegos (Integrador) para que la cola avance.
+Decisión de Miguel: revisar y fusionar las 2 tareas [r] de claude/juegos para que la cola avance.
+Nota: el clon vino superficial; se corrió fetch --unshallow antes de contar el historial.
