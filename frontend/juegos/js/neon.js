@@ -3,12 +3,14 @@
 // Licencia: MIT (código propio del proyecto, bajo la licencia del repositorio). Base de diseño: pmndrs/racing-game (MIT):
 // coche arcade con marchas y nitro, cámara de persecución. Reescrito en vanilla JS sobre three.js 0.186.1 (MIT, vendorizado).
 // Modelos, texturas y pista se generan en código; este archivo no incluye ningún archivo de terceros.
-// Parte A: una pista, un coche, teclado y mando, cámara de persecución, calidad. Vueltas, cronómetro y récord: parte B.
+// Parte A: una pista, un coche, teclado y mando, cámara de persecución, calidad.
+// Parte B: cuenta atrás, 3 vueltas, cronómetro, récord local (jue_records), sonido sintetizado, pausa navegable con el mando.
 import * as THREE from 'three';
 import { crearRender, texturaCanvas, cielo, Particulas } from './render.js';
-import { Entrada, BOTON } from './entrada.js';
-import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, lerp, amort } from './comun.js';
-import { iniciarAudio, ui } from './sonido.js';
+import { Entrada, BOTON, fijarVibracion, vibracionActiva } from './entrada.js';
+import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, amort, records, tiempo } from './comun.js';
+import { iniciarAudio, ui, audio, Musica, volumenes, fijarVolumen, sonidoActivo, fijarSonido } from './sonido.js';
+import { SonidoCoche, CANCION, sfx } from './neon-sonido.js';
 import { JUEGOS } from './catalogo.js';
 
 const $ = (id) => document.getElementById(id);
@@ -17,6 +19,8 @@ const ANCHO = 7;            // medio ancho de la pista (m)
 const MUESTRAS = 420;       // puntos con los que se mide la pista
 const MAX_KMH_MS = 62;      // velocidad máxima sin nitro (m/s ≈ 223 km/h)
 const MAX_NITRO_MS = 84;
+const VUELTAS = 3;
+const ATRAS = 4;             // la salida queda 4 muestras (~12 m) detrás de la línea de meta
 
 const inp = new Entrada({
   acciones: {
@@ -146,6 +150,22 @@ const texAsfalto = texturaCanvas(256, 256, (g, w, h) => {
   });
   scene.add(postes); scene.add(cabezas);
 }
+// Línea de salida y meta en la muestra 0: franja a cuadros y un pórtico luminoso (4 dibujos).
+{
+  const meta = new THREE.Group();
+  const tex = texturaCanvas(128, 32, (g, w, h) => {
+    for (let y = 0; y < 2; y++) for (let x = 0; x < 8; x++) { g.fillStyle = (x + y) % 2 ? '#111' : '#eee'; g.fillRect(x * 16, y * 16, 16, 16); }
+  }, { repetir: [1, 1] });
+  const franja = new THREE.PlaneGeometry(ANCHO * 2, 2.4); franja.rotateX(-Math.PI / 2);
+  const cuadros = new THREE.Mesh(franja, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }));
+  cuadros.position.y = 0.04; cuadros.receiveShadow = true; meta.add(cuadros);
+  const poste = new THREE.MeshStandardMaterial({ color: 0x2a2a3a, roughness: 0.6 });
+  for (const lado of [-1, 1]) { const p = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7.6, 0.5), poste); p.position.set(lado * (ANCHO + 0.9), 3.8, 0); meta.add(p); }
+  const barra = new THREE.Mesh(new THREE.BoxGeometry(ANCHO * 2 + 2.3, 0.7, 0.5), new THREE.MeshBasicMaterial({ color: 0xff9a3c }));
+  barra.position.y = 7.4; meta.add(barra);
+  meta.position.set(cx[0], 0, cz[0]); meta.rotation.y = Math.atan2(tx[0], tz[0]);
+  scene.add(meta);
+}
 // Ciudad de fondo: cajas con ventanas encendidas, lejos de la pista. Semilla fija: la misma ciudad siempre.
 {
   let s = 20261028; const rnd = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
@@ -196,22 +216,26 @@ scene.add(coche);
 const chispas = new Particulas(scene, Math.round(500 * R.q.particulas), { aditivo: true, suave: 0.6 });
 
 // ───────────── Estado del coche ─────────────
-const car = { x: 0, z: 0, h: 0, vx: 0, vz: 0, giro: 0, nitro: 0.4, usaNitro: false, derrapando: false, idx: 0, rueda: 0, vf: 0 };
+const car = { x: 0, z: 0, h: 0, vx: 0, vz: 0, giro: 0, nitro: 0.4, usaNitro: false, derrapando: false, idx: 0, rueda: 0, vf: 0, gas: 0 };
 function colocar(i) {
   car.idx = i; car.x = cx[i]; car.z = cz[i]; car.h = Math.atan2(tx[i], tz[i]);
   car.vx = car.vz = 0; car.giro = 0; car.vf = 0; car.usaNitro = false;
 }
-colocar(0);
+colocar(MUESTRAS - ATRAS);
 const cam = { yaw: car.h, pos: new THREE.Vector3(), modo: 0, fov: 68 };
 const MODOS_CAM = [{ dist: 9.5, alto: 3.6, mira: 2.2 }, { dist: 6.2, alto: 2.3, mira: 1.6 }, { dist: -0.4, alto: 1.15, mira: 6 }];
 
 function paso(dt) {
   const f = [Math.sin(car.h), Math.cos(car.h)], r = [-f[1], f[0]];
   let vf = car.vx * f[0] + car.vz * f[1], vl = car.vx * r[0] + car.vz * r[1];
-  const gas = inp.v('acelerar'), freno = inp.v('frenar'), volante = inp.e('giro');
-  const quiereDerrape = inp.p('derrapar') && Math.abs(vf) > 14;
-  car.derrapando = quiereDerrape;
-  car.usaNitro = inp.p('nitro') && car.nitro > 0.01 && vf > 8;
+  // Solo se conduce durante la carrera; tras la meta el coche frena solo.
+  const manda = carrera.fase === 'carrera';
+  const gas = manda ? inp.v('acelerar') : 0, freno = manda ? inp.v('frenar') : (vf > 0.5 ? 0.8 : 0), volante = manda ? inp.e('giro') : 0;
+  const quiereDerrape = manda && inp.p('derrapar') && Math.abs(vf) > 14;
+  car.derrapando = quiereDerrape; car.gas = gas;
+  const nitroAntes = car.usaNitro;
+  car.usaNitro = manda && inp.p('nitro') && car.nitro > 0.01 && vf > 8;
+  if (car.usaNitro && !nitroAntes) sfx.nitro();
 
   const tope = car.usaNitro ? MAX_NITRO_MS : MAX_KMH_MS;
   if (gas > 0.02) vf += (40 + (car.usaNitro ? 34 : 0)) * gas * Math.max(0, 1 - vf / tope) * dt * (vf < 0 ? 2.5 : 1);
@@ -236,7 +260,9 @@ function paso(dt) {
   car.vf = vf;
 
   // Límites de la pista: la valla empuja de vuelta; el golpe frena, sacude y hace vibrar el mando.
+  const idxAntes = car.idx;
   car.idx = cercano(car.x, car.z, car.idx);
+  seguirAvance(car.idx - idxAntes);
   const i = car.idx, nx = nrx(i), nz = nrz(i);
   const d = (car.x - cx[i]) * nx + (car.z - cz[i]) * nz, lim = ANCHO - 0.4;
   if (Math.abs(d) > lim) {
@@ -246,7 +272,7 @@ function paso(dt) {
     if (vn > 0) {
       car.vx -= nx * s * vn * 1.3; car.vz -= nz * s * vn * 1.3;
       const golpe = clamp(vn / 25, 0, 1);
-      if (golpe > 0.12) { sacudida.sumar(golpe * 0.7); inp.vibrar(golpe, golpe * 0.6, 160); chispasPared(s, golpe); }
+      if (golpe > 0.12) { sacudida.sumar(golpe * 0.7); inp.vibrar(golpe, golpe * 0.6, 160); chispasPared(s, golpe); sfx.golpe(golpe); }
     }
     const k = Math.exp(-1.2 * dt); car.vx *= k; car.vz *= k;
   }
@@ -307,8 +333,6 @@ function mover(dt) {
 const hKmh = $('hKmh'), hMarcha = $('hMarcha'), hNitro = $('hNitro'), hMapa = $('hMapa');
 const BARRAS = 5;
 for (let i = 0; i < BARRAS; i++) hNitro.appendChild(document.createElement('i'));
-document.querySelector('.hud .pos').hidden = true;
-document.querySelector('.hud .tiempos').hidden = true;
 const mapaBase = document.createElement('canvas'); mapaBase.width = mapaBase.height = 380;
 const mp = (() => {
   let a = Infinity, b = -Infinity, c = Infinity, d = -Infinity;
@@ -324,6 +348,9 @@ const mx = (x) => 380 - (mp.ox + x * mp.esc), my = (z) => 380 - (mp.oz + z * mp.
   for (let i = 0; i <= MUESTRAS; i++) { const j = i % MUESTRAS; i ? g.lineTo(mx(cx[j]), my(cz[j])) : g.moveTo(mx(cx[j]), my(cz[j])); }
   g.strokeStyle = 'rgba(0,0,0,0.55)'; g.lineWidth = 20; g.stroke();
   g.strokeStyle = '#8f86c8'; g.lineWidth = 10; g.stroke();
+  const ax = nrx(0) * ANCHO * 2.2, az = nrz(0) * ANCHO * 2.2;
+  g.strokeStyle = '#fff'; g.lineWidth = 4; g.beginPath();
+  g.moveTo(mx(cx[0] - ax), my(cz[0] - az)); g.lineTo(mx(cx[0] + ax), my(cz[0] + az)); g.stroke();
 }
 function pintarHud() {
   const kmh = Math.round(Math.abs(car.vf) * 3.6);
@@ -336,38 +363,156 @@ function pintarHud() {
   g.clearRect(0, 0, 380, 380); g.drawImage(mapaBase, 0, 0);
   g.fillStyle = '#ff9a3c'; g.beginPath(); g.arc(mx(car.x), my(car.z), 11, 0, 7); g.fill();
   g.strokeStyle = '#fff'; g.lineWidth = 3; g.stroke();
+  hPos.textContent = Math.min(VUELTAS, carrera.vuelta + 1);
+  hTotal.textContent = tiempo(carrera.t);
+  hVueltaT.textContent = tiempo(carrera.t - carrera.inicioVuelta);
+  hMejor.textContent = tiempo(mejorVuelta());
 }
-$('hAyuda').textContent = 'Pista libre · el recorrido con vueltas y tiempos llega en la parte B';
+$('hAyuda').textContent = 'Pausa: Esc o Start · Reaparecer en la pista: R o Select';
 
-// ───────────── Menús ─────────────
+// ───────────── Carrera: cuenta atrás, vueltas por avance sobre la pista, cronómetro y récord ─────────────
+// El avance se mide en muestras recorridas (con signo): ir en reversa lo descuenta, así que cruzar la meta
+// marcha atrás no suma vueltas. Una vuelta se cierra al acumular MUESTRAS más desde la salida.
+const hPos = $('hPos'), hTotal = $('hTotal'), hVueltaT = $('hVueltaT'), hMejor = $('hMejor'), hMsg = $('hMsg'), hCuenta = $('cuenta');
+$('hDe').textContent = '/' + VUELTAS; $('hVuelta').textContent = 'Vuelta';
+const carrera = { fase: 'menu', cuenta: 0, t: 0, vuelta: 0, inicioVuelta: 0, tiempos: [], avance: 0, contra: 0, finEspera: 0, recVuelta: null, puesto: -1, prev: null, total: 0 };
+let msgTimer = 0, cuentaMostrada = 4, ocultarCuenta = 0, avisoContra = false;
+
+function mensaje(txt, esAviso = false, seg = 1.6) { hMsg.textContent = txt; hMsg.classList.toggle('aviso', esAviso); hMsg.classList.add('ver'); msgTimer = seg; }
+function mejorVuelta() { let m = carrera.recVuelta; for (const v of carrera.tiempos) if (m == null || v < m) m = v; return m; }
+
+function seguirAvance(d) {
+  if (d > MUESTRAS / 2) d -= MUESTRAS; else if (d < -MUESTRAS / 2) d += MUESTRAS;
+  if (!d) return;
+  carrera.avance += d;
+  carrera.contra = d < 0 ? Math.min(30, carrera.contra - d) : Math.max(0, carrera.contra - d * 2);
+  while (carrera.fase === 'carrera' && carrera.avance >= (carrera.vuelta + 1) * MUESTRAS) cerrarVuelta();
+}
+function cerrarVuelta() {
+  const tv = carrera.t - carrera.inicioVuelta, antes = mejorVuelta();
+  carrera.tiempos.push(tv); carrera.inicioVuelta = carrera.t; carrera.vuelta++;
+  if (carrera.vuelta >= VUELTAS) { terminar(); return; }
+  sfx.vuelta(); inp.vibrar(0.3, 0.5, 120);
+  const mejor = antes == null || tv < antes;
+  mensaje((carrera.vuelta === VUELTAS - 1 ? 'Última vuelta' : 'Vuelta ' + (carrera.vuelta + 1)) + (mejor ? ' · mejor vuelta ' + tiempo(tv) : ''));
+}
+function terminar() {
+  const total = carrera.t, mejorV = Math.min(...carrera.tiempos);
+  carrera.fase = 'fin'; carrera.finEspera = 2; carrera.total = total;
+  carrera.prev = records.mejor('neon', DEF.tabla);
+  carrera.puesto = records.registrar('neon', DEF.tabla, +total.toFixed(3), true, { det: 'mejor vuelta ' + tiempo(mejorV) });
+  records.registrar('neon', 'vuelta', +mejorV.toFixed(3), true);
+  const record = carrera.puesto === 0;
+  mensaje(record ? '¡Nuevo récord!' : 'Meta', false, 2);
+  sfx.meta(record); inp.vibrar(0.6, 0.8, 300);
+}
+function pantallaFin() {
+  const record = carrera.puesto === 0, mejor = Math.min(...carrera.tiempos);
+  $('fTitulo').textContent = record ? '¡Nuevo récord!' : 'Carrera terminada';
+  const pos = carrera.puesto >= 0 ? `puesto ${carrera.puesto + 1} de tus 5 mejores` : 'fuera de tus 5 mejores';
+  $('fSub').textContent = `Tiempo total ${tiempo(carrera.total)} · ${pos}` + (carrera.prev && !record ? ` · tu récord: ${tiempo(carrera.prev.v)}` : '') + '. Se guarda solo en este navegador.';
+  $('fTabla').innerHTML = '<tr><th>Vuelta</th><th>Tiempo</th><th></th></tr>' + carrera.tiempos.map((v, i) =>
+    `<tr${v === mejor ? ' class="yo"' : ''}><td>${i + 1}</td><td>${tiempo(v)}</td><td>${v === mejor ? 'mejor vuelta' : '+' + (v - mejor).toFixed(2) + ' s'}</td></tr>`).join('');
+  document.body.classList.remove('corriendo'); hMsg.classList.remove('ver'); msgTimer = 0;
+  menus.abrir($('pFin'), 0);
+}
+function tickCuenta(dt) {
+  carrera.cuenta -= dt;
+  const n = Math.ceil(carrera.cuenta);
+  if (n === cuentaMostrada) return;
+  cuentaMostrada = n; hCuenta.hidden = false;
+  if (n > 0) { hCuenta.textContent = n; hCuenta.classList.remove('ya'); ui.cuenta(false); return; }
+  hCuenta.textContent = '¡YA!'; hCuenta.classList.add('ya'); ui.cuenta(true); inp.vibrar(0.2, 0.6, 150);
+  carrera.fase = 'carrera'; carrera.t = 0; ocultarCuenta = 0.8;
+}
+function avisos(dt) {
+  if (carrera.fase === 'carrera') {
+    const contra = carrera.contra > 10 && Math.abs(car.vf) > 4;
+    if (contra && !avisoContra) { avisoContra = true; mensaje('Sentido contrario', true, 1e9); }
+    else if (!contra && avisoContra) { avisoContra = false; msgTimer = 0.01; }
+  }
+  if (msgTimer > 0 && (msgTimer -= dt) <= 0) hMsg.classList.remove('ver');
+  if (ocultarCuenta > 0 && (ocultarCuenta -= dt) <= 0) hCuenta.hidden = true;
+}
+
+// ───────────── Sonido: APAGADO por defecto (jue_sonido). Encendido, arranca al primer gesto (tecla o clic) ─────────────
+let motor = null, motorEncendido = false, faltaGesto = null, sonidoOn = sonidoActivo();
+const musica = new Musica(CANCION);
+addEventListener('pointerdown', () => iniciarAudio());
+addEventListener('keydown', () => iniciarAudio());
+function sonidoCuadro() {
+  const falta = sonidoOn && !audio.activo();
+  if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }
+  if (!motor && audio.activo()) motor = new SonidoCoche();
+  if (!motor) return;
+  const activo = jugando && !pausado && carrera.fase !== 'menu';
+  if (activo !== motorEncendido) { motor.encender(activo); motorEncendido = activo; }
+  if (activo) {
+    const v = Math.abs(car.vf), marcha = Math.min(6, 1 + Math.floor(v / 11));
+    const frac = marcha < 6 ? (v - (marcha - 1) * 11) / 11 : Math.min(1, (v - 55) / 29);
+    const gas = carrera.fase === 'cuenta' ? inp.v('acelerar') : car.gas;
+    const lat = Math.abs(-car.vx * Math.cos(car.h) + car.vz * Math.sin(car.h));
+    const derrape = car.derrapando ? clamp(lat / 10, 0, 1) : clamp((lat - 6) / 10, 0, 0.6);
+    motor.actualizar(v < 1 ? 0.1 + gas * 0.5 : 0.2 + 0.8 * frac, gas, derrape, car.usaNitro);
+    if (!musica.sonando) musica.iniciar();
+  } else if (musica.sonando) musica.parar();
+}
+
+// ───────────── Menús (todos navegables con cruceta o stick, A elige, B vuelve, Start reanuda) ─────────────
 let jugando = false, pausado = false, ultimo = 0;
 const CONTROLES = DEF.controles;
 $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + CONTROLES.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
 $('mModo').hidden = true; $('mDif').hidden = true;
 opcion($('mCal'), NIVELES, nivel, 'Calidad', (q) => { fijarCalidad(q); location.reload(); });
 $('ayudaTitulo').textContent = 'Cambiar la calidad reinicia el juego. Con el mando: cruceta o stick para moverte por el menú, A para elegir, B para volver.';
+const PASOS_VOL = ['0%', '25%', '50%', '75%', '100%'];
+const aPaso = (v) => PASOS_VOL[Math.round(v * 4)];
+opcion($('pMusica'), PASOS_VOL, aPaso(volumenes().musica), 'Música', (v) => fijarVolumen('musica', parseInt(v, 10) / 100));
+opcion($('pEfectos'), PASOS_VOL, aPaso(volumenes().efectos), 'Efectos', (v) => { fijarVolumen('efectos', parseInt(v, 10) / 100); ui.ok(); });
+opcion($('pVib'), ['sí', 'no'], vibracionActiva() ? 'sí' : 'no', 'Vibración', (v) => { fijarVibracion(v === 'sí'); inp.vibracion = v === 'sí'; if (v === 'sí') inp.vibrar(0.5, 0.5, 150); });
+// Un solo interruptor de sonido en dos menús (título y pausa): ambos botones se repintan juntos.
+function pintarSonido() { for (const id of ['mSonido', 'pSonido']) $(id).innerHTML = `<span>Sonido</span><b>‹ ${sonidoOn ? 'sí' : 'no'} ›</b>`; }
+for (const id of ['mSonido', 'pSonido']) {
+  const b = $(id), cambiar = () => { sonidoOn = !sonidoOn; fijarSonido(sonidoOn); pintarSonido(); if (sonidoOn) ui.ok(); };
+  b.dataset.nav = 'opcion'; b.addEventListener('click', cambiar); b.addEventListener('ajustar', cambiar);
+}
+pintarSonido();
+function pintarRecordTitulo() {
+  const m = records.mejor('neon', DEF.tabla);
+  $('tRecord').textContent = m ? `Tu récord: ${tiempo(m.v)} · ${m.f}` : `Aún sin récord: completa ${VUELTAS} vueltas para marcarlo.`;
+}
 
-function empezar() {
-  iniciarAudio(); ui.ok();
+function nuevaCarrera() {
+  colocar(MUESTRAS - ATRAS); cam.yaw = car.h; car.nitro = 0.4;
+  const r = records.mejor('neon', 'vuelta');
+  Object.assign(carrera, { fase: 'cuenta', cuenta: 3, t: 0, vuelta: 0, inicioVuelta: 0, tiempos: [], avance: -ATRAS, contra: 0, finEspera: 0, recVuelta: r ? r.v : null, puesto: -1, prev: null });
+  cuentaMostrada = 4; ocultarCuenta = 0; avisoContra = false; msgTimer = 0; hMsg.classList.remove('ver');
   menus.cerrarTodo(); jugando = true; pausado = false;
   $('hud').hidden = false; document.body.classList.add('corriendo');
 }
+function empezar() { iniciarAudio(); ui.ok(); nuevaCarrera(); }
 function pausar() {
-  if (!jugando || pausado) return;
+  if (!jugando || pausado || menus.abierto) return;
   pausado = true; document.body.classList.remove('corriendo'); menus.abrir($('pPausa'), 0);
 }
 function seguir() { pausado = false; menus.cerrarTodo(); document.body.classList.add('corriendo'); }
-function alMenu() { jugando = false; pausado = false; $('hud').hidden = true; menus.cerrarTodo(); colocar(0); cam.yaw = car.h; menus.abrir($('pTitulo'), 0); }
-function reiniciar() { colocar(0); cam.yaw = car.h; seguir(); }
+function alMenu() {
+  jugando = false; pausado = false; carrera.fase = 'menu'; $('hud').hidden = true; hCuenta.hidden = true;
+  menus.cerrarTodo(); colocar(MUESTRAS - ATRAS); cam.yaw = car.h; pintarRecordTitulo(); menus.abrir($('pTitulo'), 0);
+}
+function aLaSala() { location.href = '../juegos.html'; }
 
 $('mJugar').addEventListener('click', empezar);
 $('mCtl').addEventListener('click', () => { ui.ok(); menus.abrir($('pControles'), 0); });
 $('pCtl').addEventListener('click', () => { ui.ok(); menus.abrir($('pControles'), 0); });
 $('cVolver').addEventListener('click', () => { ui.atras(); menus.cerrar(); });
-$('mSalir').addEventListener('click', () => { location.href = '../juegos.html'; });
+$('mSalir').addEventListener('click', aLaSala);
+$('pSalir').addEventListener('click', aLaSala);
 $('pSeguir').addEventListener('click', seguir);
-$('pReiniciar').addEventListener('click', reiniciar);
+$('pReiniciar').addEventListener('click', () => { ui.ok(); nuevaCarrera(); });
 $('pMenu').addEventListener('click', alMenu);
+$('fOtra').addEventListener('click', () => { ui.ok(); nuevaCarrera(); });
+$('fMenu').addEventListener('click', alMenu);
 document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); });
 inp.alDesconectar = () => pausar();
 addEventListener('keydown', (e) => { if (e.code === 'F3') { e.preventDefault(); medidor.alternar(); } });
@@ -378,6 +523,7 @@ function cuadro(t) {
   const dt = Math.min(0.05, (t - ultimo) / 1000 || 0.016); ultimo = t;
   medidor.inicio();
   inp.actualizar();
+  if (!audio.activo() && inp.botones[BOTON.A] > 0.5 && inp.previos[BOTON.A] <= 0.5) iniciarAudio();
   if (menus.abierto) {
     menus.actualizar(dt);
     if (pausado && inp.botones[BOTON.START] > 0.5 && inp.previos[BOTON.START] <= 0.5) $('pSeguir').click();
@@ -385,12 +531,20 @@ function cuadro(t) {
     if (inp.j('pausa')) pausar();
     else {
       if (inp.j('camara')) cam.modo = (cam.modo + 1) % MODOS_CAM.length;
-      if (inp.j('reaparecer')) { colocar(car.idx); ui.atras(); }
-      let resto = dt; while (resto > 0) { const s = Math.min(resto, 1 / 60); paso(s); resto -= s; }
+      if (carrera.fase === 'cuenta') tickCuenta(dt);
+      else {
+        if (carrera.fase === 'carrera' && inp.j('reaparecer')) { colocar(car.idx); ui.atras(); }
+        let resto = dt;
+        while (resto > 0) { const s = Math.min(resto, 1 / 60); if (carrera.fase === 'carrera') carrera.t += s; paso(s); resto -= s; }
+      }
       pintarHud();
     }
   }
-  if (jugando && !pausado) { efectos(dt); }
+  if (jugando && !pausado) {
+    efectos(dt); avisos(dt);
+    if (carrera.fase === 'fin' && (carrera.finEspera -= dt) <= 0) { carrera.fase = 'resultado'; pantallaFin(); }
+  }
+  sonidoCuadro();
   mover(dt);
   R.dibujar(scene, camara);
   medidor.fin(dt);
@@ -399,6 +553,9 @@ function cuadro(t) {
 $('cargando').remove();
 cam.pos.set(car.x - Math.sin(car.h) * 9.5, 0, car.z - Math.cos(car.h) * 9.5);
 efectos(0.016);
+pintarRecordTitulo();
 menus.abrir($('pTitulo'), 0);
 requestAnimationFrame(cuadro);
-window.__neon = { car, inp, scene, R, largo };
+// Para pruebas desde la consola (piloto automático, medir vueltas). No se usa en el juego.
+window.__neon = { car, inp, scene, R, largo, carrera, pista: { cx, cz, tx, tz, MUESTRAS },
+  sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: !!motor, musica: musica.sonando }) };

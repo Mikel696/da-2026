@@ -4,7 +4,7 @@
 export const JUEGOS = [
   {
     id: 'neon', nombre: 'Luciérnaga', genero: 'Carreras', archivo: 'juegos/neon.html', color: '#ff9a3c', listo: true,
-    lema: 'Circuito urbano de noche, pista libre. Derrapa en las curvas para cargar el nitro.',
+    lema: 'Contrarreloj de tres vueltas en un circuito urbano de noche. Derrapa en las curvas para cargar el nitro.',
     tabla: 'carrera', menorEsMejor: true, formato: 'tiempo',
     controles: [
       ['Acelerar', 'W · ↑', 'RT'], ['Frenar / reversa', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izq.'],

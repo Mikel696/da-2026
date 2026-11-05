@@ -3,6 +3,14 @@
 // AudioContext decide CUÁNDO suena (setTimeout solo arrastra el ritmo de forma audible).
 
 const VOL_KEY = 'jue_volumen';
+const SON_KEY = 'jue_sonido';
+
+/** El sonido arranca APAGADO: solo se crea el AudioContext cuando el jugador lo enciende (clave jue_sonido = 1). */
+export function sonidoActivo() { try { return localStorage.getItem(SON_KEY) === '1'; } catch (e) { return false; } }
+export function fijarSonido(si) {
+  try { localStorage.setItem(SON_KEY, si ? '1' : '0'); } catch (e) { /* sin almacenamiento: vale para esta partida */ }
+  if (si) iniciarAudio(); else if (ctx && ctx.state === 'running') ctx.suspend().catch(() => {});
+}
 let ctx = null, salida = null, busEfectos = null, busMusica = null, ruidoBuf = null;
 
 export function volumenes() {
@@ -23,6 +31,7 @@ function aplicar() {
 
 /** Llamar desde un gesto del usuario (tecla o clic). Chrome no cuenta un botón del control como gesto. */
 export function iniciarAudio() {
+  if (!sonidoActivo()) return null;
   if (!ctx) {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return null;
