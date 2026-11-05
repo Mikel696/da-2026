@@ -1,7 +1,7 @@
 // 19-JUE · Vestíbulo: detector de control en vivo, carteles, controles, récords y créditos.
 import { Entrada, glifo, guardarMapa, leerMapas, fijarVibracion, vibracionActiva } from './entrada.js';
 import { calidad, fijarCalidad, NIVELES, opcion, records, tiempo, aviso } from './comun.js';
-import { iniciarAudio, volumenes, fijarVolumen, ui } from './sonido.js';
+import { iniciarAudio, volumenes, fijarVolumen, ui, sonidoActivo, fijarSonido } from './sonido.js';
 import { JUEGOS, CREDITOS } from './catalogo.js';
 
 const $ = (id) => document.getElementById(id);
@@ -60,6 +60,8 @@ $('creditosLista').innerHTML = CREDITOS.map((c) => `<dt><a href="${c.url}" targe
 
 // ---------- Ajustes ----------
 opcion($('optCalidad'), NIVELES, calidad(), 'Calidad', (v) => fijarCalidad(v));
+// Sonido apagado por defecto: nadie se lleva un susto al abrir la sala. Vale para los tres juegos (jue_sonido).
+opcion($('optSonido'), ['no', 'sí'], sonidoActivo() ? 'sí' : 'no', 'Sonido', (v) => { fijarSonido(v === 'sí'); ui.ok(); });
 const pasos = ['0%', '25%', '50%', '75%', '100%'];
 const aPaso = (v) => pasos[Math.round(v * 4)];
 opcion($('optMusica'), pasos, aPaso(volumenes().musica), 'Música', (v) => fijarVolumen('musica', parseInt(v, 10) / 100));

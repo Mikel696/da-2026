@@ -34,6 +34,7 @@
   .msg.aviso { color: #ff6b6b; }
   .cuenta { position: fixed; left: 50%; top: 38%; transform: translate(-50%, -50%); z-index: 12; font-family: var(--titulo); font-weight: 800; font-size: 220px; line-height: 1; color: var(--papel); text-shadow: 0 0 60px rgba(255, 154, 60, 0.7); pointer-events: none; }
   .cuenta.ya { color: var(--neon); }
+  .rec-titulo { font-family: var(--titulo); font-size: 26px; font-weight: 700; color: var(--neon); margin: -14px 0 20px; }
   .pista-ayuda { position: absolute; left: 50%; bottom: 3vh; transform: translateX(-50%); font-family: var(--texto); font-size: 14px; color: var(--papel-3); }
   @media (max-width: 700px) { .hud .pos b { font-size: 64px; } .hud .velo .kmh { font-size: 72px; } .hud .mapa { width: 120px; height: 120px; } }
 </style>
@@ -44,7 +45,7 @@
 <div class="cargando" id="cargando">Preparando la pista…</div>
 
 <div class="hud" id="hud" hidden>
-  <div class="pos"><b id="hPos">6</b><span id="hDe">/6</span><small id="hVuelta">Vuelta 1 de 3</small></div>
+  <div class="pos"><b id="hPos">1</b><span id="hDe">/3</span><small id="hVuelta">Vuelta</small></div>
   <div class="tiempos"><div class="total" id="hTotal">0:00.00</div><div>Vuelta <b id="hVueltaT">0:00.00</b></div><div>Mejor <b id="hMejor">—</b></div></div>
   <div class="velo"><span class="kmh" id="hKmh">0</span><span class="marcha" id="hMarcha">1</span><div class="uni">km/h</div><div class="nitro" id="hNitro"></div></div>
   <canvas class="mapa" id="hMapa" width="380" height="380"></canvas>
@@ -55,16 +56,19 @@
 
 <section class="pantalla" id="pTitulo" hidden>
   <div class="logo">Luciérnaga</div>
-  <p class="sub">Circuito urbano de noche, pista libre. Derrapa en las curvas para cargar el nitro y úsalo en las rectas.</p>
+  <p class="sub">Tres vueltas contra el reloj en un circuito urbano de noche. Derrapa en las curvas para cargar el nitro y úsalo en las rectas.</p>
+  <p class="rec-titulo" id="tRecord"></p>
   <div class="menu">
     <button type="button" data-nav id="mJugar">Correr</button>
     <button type="button" id="mModo"></button>
     <button type="button" id="mDif"></button>
     <button type="button" id="mCal"></button>
+    <button type="button" id="mSonido"></button>
     <button type="button" data-nav id="mCtl">Controles</button>
     <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
   </div>
   <div class="ayuda-menu" id="ayudaTitulo"></div>
+  <div class="ayuda-menu" id="tSonido" hidden>Para oír el sonido, pulsa una tecla o haz clic una vez: el navegador no deja que un botón del control lo encienda.</div>
 </section>
 
 <section class="pantalla" id="pPausa" hidden>
@@ -72,8 +76,13 @@
   <div class="menu">
     <button type="button" data-nav data-atras id="pSeguir">Seguir</button>
     <button type="button" data-nav id="pReiniciar">Reiniciar carrera</button>
+    <button type="button" id="pSonido"></button>
+    <button type="button" id="pMusica"></button>
+    <button type="button" id="pEfectos"></button>
+    <button type="button" id="pVib"></button>
     <button type="button" data-nav id="pCtl">Controles</button>
     <button type="button" data-nav id="pMenu">Menú principal</button>
+    <button type="button" data-nav id="pSalir">Salir a la sala de juegos</button>
   </div>
 </section>
 
