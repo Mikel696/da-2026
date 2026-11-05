@@ -28,6 +28,9 @@ Pedido de Miguel: "módulos pequeños, cada uno con cada materia… quítame tod
 - Icono de Inglés 26V05: 🇺🇸 → 🗣️ (Windows pinta la bandera como "US").
 - **Verificado en local** con un parte ficticio (ningún dato real en el repo): abrir/cerrar, checks, ver hechas, paso a paso,
   ACAs (pasos, entrega ligada al cronograma, setAca/getAcas, datos mal formados), 375 px sin scroll horizontal.
+- **Producción, sin sesión** (`f5d6273`, `systems_logic.js?v=p37`): carga sin errores de consola, 6 bloques en 2 columnas,
+  aviso de "sin parte" y de "sin ACAs" correctos, abrir/cerrar un bloque y el bloque ACAs funcionan.
+- **Sin verificar:** la vista con datos reales y sesión iniciada (S6 no trae `acas`: el bloque ACAs dirá "sin ACAs").
 - **Pendiente:** cargar `acas` reales con `SYS.setAca` en la pestaña real con sesión (la próxima revisión del parte).
 
 ---
