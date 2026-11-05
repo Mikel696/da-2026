@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-01 (10-SYS: parte S6 y revisión de portales)
+- **Última actualización:** 2026-11-04 (10-SYS: módulos por materia y sección de ACAs)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,27 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧱 10-SYS · Módulos por materia y sección de ACAs — miércoles 4-nov
+
+Pedido de Miguel: "módulos pequeños, cada uno con cada materia… quítame todas esas listas" + "una sección de solo ACAS"
++ boceto: bloques grandes 2×3. **Hecho:**
+- **Dashboard y Materias abren con 6 bloques** (5 materias + 🎯 ACAs; 1 columna bajo 700 px). Cerrado: pendientes, lo
+  próximo que cierra con cuenta regresiva (≈ si es estimado) y estado del ACA. Abierto (uno a la vez, se recuerda en
+  `sys_tile_open`, solo local): urgente → ACA → esta semana → clases → más adelante → enlaces; lo hecho, en "ver hechas".
+  Mismos checks de siempre (`wlToggle`, `toggleCronoEntry`, `toggleTask`) y "Paso a paso".
+- **Listas largas plegadas, no borradas:** "Ver el parte completo" (Ruta/Prioridades/Clases/Centro/Próxima), "Ponte al
+  día" y "Fichas completas" (cuadernos, archivos, notas, historial). el encabezado del parte (alertas) y "Tu día" van bajo la rejilla; "Tu día" muestra 3 tareas y pliega el resto.
+- **Pestaña 🎯 ACAs** (`showTab(8)`, 3.ª en el menú): tarjeta por ACA con estado, fechas, grupo, siguiente paso, pasos con
+  casilla, reglas, evidencia y "✓ Ya la entregué". **API:** `SYS.setAca(id, patch)` / `SYS.getAcas()`; contrato en
+  `PROMPT_10-SYS_SEMANA.md`. Reinyectar un parte sin `acas` ya no las borra.
+- `showTab` va por número de panel, no por posición. `render()` aísla cada bloque: un parte mal formado ya no deja la página a medias.
+- Icono de Inglés 26V05: 🇺🇸 → 🗣️ (Windows pinta la bandera como "US").
+- **Verificado en local** con un parte ficticio (ningún dato real en el repo): abrir/cerrar, checks, ver hechas, paso a paso,
+  ACAs (pasos, entrega ligada al cronograma, setAca/getAcas, datos mal formados), 375 px sin scroll horizontal.
+- **Pendiente:** cargar `acas` reales con `SYS.setAca` en la pestaña real con sesión (la próxima revisión del parte).
 
 ---
 

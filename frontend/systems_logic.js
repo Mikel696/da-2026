@@ -90,21 +90,21 @@ const SYS = (() => {
     // curso 55500 (fechas y pesos por semana del Bloque I).
     // Los quizzes/parciales están ocultos en CDigital hasta que abren: la
     // fecha es el cierre de su semana, no la hora exacta de la actividad.
-    { id: 'inteligencia_negocios', period: '26V05', code: 'DIS38', name: 'Inteligencia de Negocios', group: '55500', icon: '📊', color: 'hsl(200,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+    { id: 'inteligencia_negocios', period: '26V05', code: 'DIS38', name: 'Inteligencia de Negocios', short: 'Inteligencia de Negocios', group: '55500', icon: '📊', color: 'hsl(200,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
       professor: 'FELIPE ALEXANDER GARZON', cdigital_id: 126973, schedule: 'Miércoles · 6:15-8:30 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '20:30' }],
       subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309' },
       desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Enfoque del docente: convertir datos en decisiones estratégicas y automatizar (Python + VS Code, luego n8n, Make, agentes). Quiz/parcial abiertos toda su semana y NO se reabren sin excusa reglamentaria; no repite temas: ver la grabación. Grabaciones: aula → "Accede a tus clases sincrónicas" (≈20 min después) o Calendar pidiendo acceso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
       cronograma: cronoB1('bi', true),
       resources: ['https://code.visualstudio.com/', 'https://learn.microsoft.com/es-es/power-bi/'] },
-    { id: 'auditoria_sistemas', period: '26V05', code: 'DIS39', name: 'Auditoría de Sistemas', group: '55506', icon: '🕵️', color: 'hsl(35,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+    { id: 'auditoria_sistemas', period: '26V05', code: 'DIS39', name: 'Auditoría de Sistemas', short: 'Auditoría de Sistemas', group: '55506', icon: '🕵️', color: 'hsl(35,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
       professor: 'ANDRES FELIPE CORREA ESPITIA', professor_email: 'andres_correa@cun.edu.co', cdigital_id: 126979, schedule: 'Jueves · 6:15-7:45 PM (Google Calendar)',
       clases: [{ dias: [4], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/xwj-puty-htw', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=8015935', material: 'https://chat.google.com/room/AAQAgOXXdn8' },
       desc: 'Período 26V05 · el docente fija el fin el 15-nov-2026. Asistencia opcional pero muy recomendada. Ing. de Sistemas, esp. en Educación en Tecnología (bases de datos, SQL, redes, ERP). La clase y su grabación salen en Google Calendar ("Evento sincrónico - AUDITORIA DE SISTEMAS"); la grabación del 1-oct pide solicitar acceso. Material = espacio de Google Chat del curso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
       cronograma: cronoB1('aud', true),
       resources: ['https://www.isaca.org/resources/cobit'] },
-    { id: 'computacion_nube', period: '26V05', code: 'DIS40', name: 'Computación en la Nube', group: '55516', icon: '☁️', color: 'hsl(190,75%,45%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
+    { id: 'computacion_nube', period: '26V05', code: 'DIS40', name: 'Computación en la Nube', short: 'Computación en la Nube', group: '55516', icon: '☁️', color: 'hsl(190,75%,45%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
       professor: 'MARIO ALEXANDER REALES MARTINEZ', professor_email: 'mario_reales@cun.edu.co', cdigital_id: 126989, schedule: 'Jueves · 6:15-7:45 PM · Tutoría viernes 6:15-7:15 PM',
       clases: [{ dias: [4], ini: '18:15', fin: '19:45' }, { dias: [5], ini: '18:15', fin: '19:15', tipo: 'tutoría' }],
       subject_links: { clase: 'https://meet.google.com/fdo-jdvs-cvr', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7953245', material: 'https://docs.google.com/document/d/1kc103c3OVBIsMqcNjyQmF95_R11nFPXu/edit' },
@@ -114,7 +114,7 @@ const SYS = (() => {
         { id: 'nub5_c', title: 'Tener usuario y contraseña de AWS Academy (los entrega el docente; pedirlos si no llegaron)', date: '2026-10-11', type: 'tarea' },
         { id: 'nub5_aws', title: 'Entrar por primera vez a AWS Academy (sin esto no hay ACA de Nube)', date: '2026-10-29', type: 'tarea' }],
       resources: ['https://aws.amazon.com/es/training/awsacademy/', 'https://learn.microsoft.com/es-es/training/azure/'] },
-    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · 8 semanas · 2 créditos', credits: 2,
+    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · 8 semanas · 2 créditos', credits: 2,
       professor: 'MANUEL ALBERTO SALGADO ALBA', professor_email: 'manuel_salgado@cun.edu.co', cdigital_id: 126584, schedule: 'Miércoles · 6:15-7:45 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/yxw-rjzb-qcs', material: 'https://cdigital.cun.edu.co/mod/resource/view.php?id=7994844' },
@@ -127,7 +127,7 @@ const SYS = (() => {
         { id: 'tiv_5', title: 'Actividades del 3er corte (semanas 6-8) — notas cerradas el 11-nov', date: '2026-11-11', type: 'proyecto' },
       ],
       resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
-    { id: 'english_b1_26v05', period: '26V05', code: 'A1I01', name: 'Virtual English - Beginner 1', group: '50610', icon: '🇺🇸', color: 'hsl(45,85%,50%)', type: 'Idiomas (IV001) · Bloque único',
+    { id: 'english_b1_26v05', period: '26V05', code: 'A1I01', name: 'Virtual English - Beginner 1', short: 'Inglés', group: '50610', icon: '🗣️', color: 'hsl(45,85%,50%)', type: 'Idiomas (IV001) · Bloque único',
       professor: 'ANYI MILENA ALVAREZ COGOLLO', cdigital_id: 130590, schedule: 'Lun tutoría · Mar-Vie la MISMA clase (elige un día) · 6:15-7:45 PM',
       clases: [{ dias: [1], ini: '18:15', fin: '19:45', tipo: 'tutoría' }, { dias: [2, 3, 4, 5], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7916129', grabaciones: 'https://drive.google.com/drive/folders/1RORZrxsNLbwpA309BTyhF6-gcpqFD_0A' },
@@ -973,7 +973,7 @@ const SYS = (() => {
     <div class="subj-list-toolbar">
       <button class="subj-list-btn" onclick="SYS.expandAllSubjects()">▼ Expandir todas</button>
       <button class="subj-list-btn" onclick="SYS.collapseAllSubjects()">▶ Colapsar todas</button>
-    </div>` + (_subjFilter === 'actual' ? catchUpHtml(cur) : '') + (visible.length === 0 ? `<div class="cs-empty">Sin materias en este estado.</div>` : '') + visible.map(s => {
+    </div>` + (visible.length === 0 ? `<div class="cs-empty">Sin materias en este estado.</div>` : '') + visible.map(s => {
       const subjTasks = tasks.filter(t => t.subj === s.id);
       const done = subjTasks.filter(t => t.done).length;
       const total = subjTasks.length;
@@ -1547,9 +1547,13 @@ const SYS = (() => {
   }
 
   // ── TAB SYSTEM ──
+  // Por número de panel (pnlN / data-tab="N"), no por posición: así una pestaña nueva
+  // puede ir en cualquier lugar del menú sin cambiar el número de las demás.
   function showTab(n) {
-    document.querySelectorAll('.pnl').forEach((p, i) => p.classList.toggle('on', i === n));
-    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('on', i === n));
+    const k = String(n);
+    document.querySelectorAll('.pnl').forEach(p => p.classList.toggle('on', p.id === 'pnl' + k));
+    document.querySelectorAll('.tabs .tab').forEach(t => t.classList.toggle('on', t.dataset.tab === k));
+    _placePanel('d'); _placePanel('m');
   }
 
   // ── RENDER: CUN HUB (Tab 6) ──
@@ -1797,10 +1801,12 @@ const SYS = (() => {
           ${sel !== today && days[today] ? `<button onclick="SYS.wlSet('day','${today}')" style="font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:inherit;background:var(--el);color:var(--vi2);border:1px solid var(--bd)">← volver a hoy</button>` : ''}
         </div>
         ${days[sel].focus ? `<div style="margin-top:10px;padding:9px 12px;border-radius:9px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.22);font-size:12px;line-height:1.55">🧭 <b>Enfoque:</b> ${esc(days[sel].focus)}</div>` : ''}
-        <div style="margin-top:10px">${pending.map(row).join('') || `<div style="padding:14px;border-radius:10px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);font-size:12.5px">✅ <b>Cumpliste lo de ${sel === today ? 'hoy' : 'este día'}.</b>${nextPrev.length ? ` Lo próximo (${WL_DAYS[new Date(tomorrow + 'T12:00').getDay()].toLowerCase()}): ${nextPrev.slice(0, 3).map(t => esc(t.title)).join(' · ')}.` : ''}</div>`}</div>
+        <div style="margin-top:10px">${pending.length > 3
+          ? pending.slice(0, 3).map(row).join('') + `<details id="dayMore"${_dayMoreOpen ? ' open' : ''} style="margin:2px 0 4px"><summary style="font-size:11.5px;color:var(--vi2);cursor:pointer;padding:2px 0">Ver ${pending.length - 3} más de ${sel === today ? 'hoy' : 'este día'}</summary><div style="margin-top:7px">${pending.slice(3).map(row).join('')}</div></details>`
+          : pending.map(row).join('') || `<div style="padding:14px;border-radius:10px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);font-size:12.5px">✅ <b>Cumpliste lo de ${sel === today ? 'hoy' : 'este día'}.</b>${nextPrev.length ? ` Lo próximo (${WL_DAYS[new Date(tomorrow + 'T12:00').getDay()].toLowerCase()}): ${nextPrev.slice(0, 3).map(t => esc(t.title)).join(' · ')}.` : ''}</div>`}</div>
         ${doneN ? `<div style="font-size:10.5px;color:#22c55e;margin:2px 0 4px">✓ ${doneN} hecha${doneN !== 1 ? 's' : ''} ${sel === today ? 'hoy' : 'este día'} (ya no se muestran)</div>` : ''}
         <div style="display:flex;gap:5px;margin-top:10px;overflow-x:auto;padding-bottom:2px">${strip}</div>
-        ${(w.advice || []).length ? `<details style="margin-top:10px" open><summary style="font-size:11px;font-weight:700;color:var(--vi2);cursor:pointer;text-transform:uppercase;letter-spacing:.5px">💡 Consejos del comandante</summary>
+        ${(w.advice || []).length ? `<details style="margin-top:10px"><summary style="font-size:11px;font-weight:700;color:var(--vi2);cursor:pointer;text-transform:uppercase;letter-spacing:.5px">💡 Consejos del comandante</summary>
           <ul style="margin:6px 0 0;padding-left:18px;font-size:11.5px;color:var(--t2);line-height:1.6">${w.advice.map(a => `<li>${esc(a)}</li>`).join('')}</ul></details>` : ''}`;
     } else {
       body = `<div style="font-size:14px;line-height:1.5">${weekLine}</div>`;
@@ -1830,6 +1836,7 @@ const SYS = (() => {
   function openNb(sid, pid) {
     const coll = db.get('subjects_collapsed', {});
     if (!coll[sid]) { coll[sid] = true; db.set('subjects_collapsed', coll); }
+    _openCardsFold();
     showTab(1);
     render();
     if (window.NB && NB.openPage) NB.openPage(sid, /^\d+$/.test(pid) ? Number(pid) : pid);
@@ -1978,6 +1985,14 @@ const SYS = (() => {
     if (!w || !w.id || !w.start || !w.end || !Array.isArray(w.items)) return '❌ Faltan id, start, end o items';
     const bad = w.items.filter(it => !it.id || !it.title || !WL_MODE[it.mode]);
     if (bad.length) return '❌ Ítems sin id/title/mode válido: ' + bad.map(it => it.id || it.title).join(', ');
+    if ('acas' in w) {
+      if (!Array.isArray(w.acas)) return '❌ acas debe ser una lista';
+      const badA = w.acas.filter(a => !a || !a.id || !a.subj || !a.title);
+      if (badA.length) return '❌ ACAs sin id/subj/title: ' + badA.map(a => (a && (a.id || a.title)) || '?').join(', ');
+    }
+    // Reinyectar el mismo parte sin `acas` no borra las ACAs que SYS.setAca() fue actualizando.
+    const prev = getWeekLive().find(x => x.id === w.id);
+    if (!('acas' in w) && prev && Array.isArray(prev.acas) && prev.acas.length) w = { ...w, acas: prev.acas };
     const weeks = getWeekLive().filter(x => x.id !== w.id);
     weeks.unshift({ ...w, injected: new Date().toISOString() });
     db.set('week_live', { weeks: weeks.sort((a, b) => b.start.localeCompare(a.start)).slice(0, 12) });
@@ -2048,10 +2063,8 @@ const SYS = (() => {
     const el = document.getElementById('weekLive');
     if (!el) return;
     const weeks = getWeekLive();
-    if (!weeks.length) {
-      el.innerHTML = `<div class="sl">· 📡 semana en vivo ·</div><div class="sd">Todavía no hay parte semanal. Pídele a Claude: <em>"actualiza Semana en vivo"</em> (protocolo en PROMPT_10-SYS_SEMANA.md).</div>`;
-      return;
-    }
+    // Sin parte, el aviso lo da el encabezado (renderWeekHead) y este desplegable se oculta.
+    if (!weeks.length) { el.innerHTML = ''; return; }
     // Por defecto, el parte más nuevo: el del sábado o domingo ya mira la semana que empieza.
     const w = weeks.find(x => x.id === wlView.week) || weeks[0];
     if (wlView.tab === 'ruta' && !(w.route || []).length) wlView.tab = 'prio';
@@ -2159,21 +2172,16 @@ const SYS = (() => {
     }
 
     const tabs = [...((w.route || []).length ? [['ruta', `🧭 Ruta (${w.route.length} pasos)`]] : []), ['prio', `🎯 Prioridades (${items.length - done})`], ['clases', `🎥 Clases (${(w.classes || []).length})`], ['mando', '🤖 Centro de mando'], ['next', '⏭ Próxima semana']];
+    // Título, corte, titular y alertas del parte vigente van arriba, en renderWeekHead().
+    // Aquí queda el parte completo: selector de semana, avance, pestañas y listas.
     el.innerHTML = `
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div>
-          <div class="sl" style="margin-bottom:4px">· 📡 semana en vivo ·</div>
-          <div style="font-size:17px;font-weight:700">${esc(w.title || w.id)}</div>
-          <div style="font-size:10.5px;color:var(--t3)">${formatDate(w.start)} → ${formatDate(w.end)} · parte de ${esc(w.cut || '')}${w.author ? ' · ' + esc(w.author) : ''}</div>
-        </div>
-        ${weeks.length > 1 ? `<select onchange="SYS.wlSet('week',this.value)" style="font-size:11px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;font-family:inherit">${weeks.map(x => `<option value="${esc(x.id)}" ${x.id === w.id ? 'selected' : ''}>${esc(x.title || x.id)}</option>`).join('')}</select>` : ''}
-      </div>
+      ${weeks.length > 1 ? `<label style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--t3);flex-wrap:wrap">Parte de la semana
+        <select onchange="SYS.wlSet('week',this.value)" style="font-size:11px;background:var(--el);color:var(--t2);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;font-family:inherit;max-width:100%">${weeks.map(x => `<option value="${esc(x.id)}" ${x.id === w.id ? 'selected' : ''}>${esc(x.title || x.id)}</option>`).join('')}</select></label>` : ''}
+      <div style="font-size:10.5px;color:var(--t3);margin-top:6px">${esc(w.title || w.id)} · ${formatDate(w.start)} → ${formatDate(w.end)}${w.cut ? ' · parte de ' + esc(w.cut) : ''}</div>
       <div style="display:flex;align-items:center;gap:8px;margin:10px 0 6px">
         <div style="flex:1;height:7px;background:var(--el);border-radius:4px;overflow:hidden;border:1px solid var(--bd)"><div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--vi),var(--tl))"></div></div>
         <span style="font-size:11px;color:var(--t2);white-space:nowrap">${done}/${items.length} hechas${p0open ? ` · <b style="color:#ef4444">${p0open} P0 abiertas</b>` : ''}</span>
       </div>
-      ${w.headline ? `<div style="font-size:12.5px;color:var(--t1,#e5e5e5);line-height:1.6;margin-bottom:8px">${esc(w.headline)}</div>` : ''}
-      ${(w.alerts || []).map(a => `<div style="font-size:11.5px;padding:7px 10px;border-radius:7px;margin-bottom:5px;${a.lvl === 'p0' ? 'background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)' : 'background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.22)'}">${a.lvl === 'p0' ? '🚨' : '⚠️'} ${esc(a.text)}</div>`).join('')}
       <div style="display:flex;gap:4px;flex-wrap:wrap;margin:10px 0 6px;border-bottom:1px solid var(--bd);padding-bottom:6px">${tabs.map(([k, l]) => chip(wlView.tab === k, l, `SYS.wlSet('tab','${k}')`)).join('')}</div>
       <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
         ${chip(wlView.subj === 'all', 'Todas', "SYS.wlSet('subj','all')")}
@@ -2193,12 +2201,546 @@ const SYS = (() => {
     }, 60000);
   }
 
+  // ══ MÓDULOS POR MATERIA (Dashboard y Materias) ══
+  // Un módulo pequeño por materia del período. Cerrado dice cuánto falta y qué cierra
+  // primero; abierto muestra TODO lo de esa materia por prioridad: urgente → ACA → esta
+  // semana → clases → más adelante → enlaces. Lo hecho se oculta.
+  // Fuentes: parte vigente (sys_week_live), checks (sys_week_state), cronograma
+  // (SUBJECTS + _mergeSubj), tareas propias (sys_tasks) y notas. No guarda nada nuevo
+  // en la nube: el módulo abierto se recuerda en sys_tile_open, que es solo local.
+  const ACA_ST = {
+    sin_publicar: { label: 'Sin publicar', cls: 'gray' },
+    sin_empezar:  { label: 'Sin empezar', cls: 'amber' },
+    en_curso:     { label: 'En curso', cls: 'violet' },
+    listo:        { label: 'Lista para entregar', cls: 'teal' },
+    entregado:    { label: 'Entregada', cls: 'green' },
+  };
+  const ACA_MODE = { grupo: '👥 En grupo', individual: '🙋 Individual', por_definir: '❔ Modalidad por definir' };
+  const TILE_KEY = 'sys_tile_open';
+  const _tileDone = {};
+  const H48 = 48 * 3600000;
+  const escA = s => esc(s == null ? '' : String(s)).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  const EST_MINI = '<span class="mt-est" title="Fecha estimada: todavía no está publicada">≈</span>';
+  const _short = s => s.short || s.name;
+  const _shortTitle = t => String(t || '').replace(/\s*\([^)]*\)/g, '').trim();
+  function _ms(d, startOfDay) { return d ? new Date(d.length === 10 ? d + (startOfDay ? 'T00:00' : 'T23:59') : d).getTime() : null; }
+
+  function _tileOpen(host) { try { return (JSON.parse(localStorage.getItem(TILE_KEY) || '{}') || {})[host] || null; } catch { return null; } }
+  function _setTileOpen(host, sid) {
+    try { const o = JSON.parse(localStorage.getItem(TILE_KEY) || '{}') || {}; o[host] = sid; localStorage.setItem(TILE_KEY, JSON.stringify(o)); } catch {}
+  }
+
+  // Cuenta regresiva en palabras: "cierra en 5 h 20 min", "mañana", "en 4 días".
+  function _cd(due) {
+    const ms = _ms(due) - Date.now();
+    if (ms < 0) return { txt: 'venció', cls: 'hot' };
+    const h = ms / 3600000;
+    if (h < 24) return { txt: `cierra en ${Math.floor(h)} h ${Math.floor((ms % 3600000) / 60000)} min`, cls: 'hot' };
+    const dd = daysBetween(todayStr(), due.slice(0, 10));
+    if (dd <= 1) return { txt: 'cierra mañana', cls: 'hot' };
+    return { txt: `en ${dd} días`, cls: ms <= H48 ? 'hot' : dd <= 7 ? 'warm' : '' };
+  }
+  function _cdHtml(due) { const c = _cd(due); return `<span class="mt-cd ${c.cls}" data-cd="${escA(due)}">${c.txt}</span>`; }
+
+  // ── ACAs: viven en la semana vigente de sys_week_live (`acas`); si esa semana no trae,
+  // se usan las de la más reciente que tenga. Lo que marca Miguel va en sys_week_state:
+  // 'aca:<id>' (entregada) y 'aca:<id>:<paso>' (paso hecho).
+  function _acasOf(w) { return w && Array.isArray(w.acas) ? w.acas : []; }
+  function _acaList() { const w = getWeekLive().find(x => _acasOf(x).length) || null; return { w, acas: _acasOf(w) }; }
+  function _acaStepDone(a, st, raw) { const v = raw['aca:' + a.id + ':' + st.id]; return !!(v && v.done); }
+  function _acaDone(a, raw) {
+    const v = raw['aca:' + a.id] && raw['aca:' + a.id].done;
+    if (v === true || v === false) return v;
+    if (a.crono) { const c = _cronoEntry(a.crono); if (c && c.done) return true; }
+    return a.status === 'entregado';
+  }
+  function _acaStatus(a, raw) {
+    if (_acaDone(a, raw)) return 'entregado';
+    if (a.status === 'entregado') return 'listo';
+    return ACA_ST[a.status] ? a.status : 'sin_empezar';
+  }
+  function _acaProgress(a, raw) { const s = a.steps || []; return { d: s.filter(x => _acaStepDone(a, x, raw)).length, n: s.length }; }
+  function _acaNext(a, raw) {
+    if (a.next) return a.next;
+    const s = (a.steps || []).find(x => !_acaStepDone(a, x, raw));
+    return s ? s.text : '';
+  }
+
+  // Para Claude desde la pestaña real: lee las ACAs con lo que Miguel ya marcó.
+  function getAcas() {
+    const { w, acas } = _acaList();
+    const raw = getWeekState();
+    return acas.map(a => ({ ...JSON.parse(JSON.stringify(a)), _week: w.id, _status: _acaStatus(a, raw),
+      _steps_done: (a.steps || []).filter(x => _acaStepDone(a, x, raw)).map(x => x.id) }));
+  }
+  // Fusiona `patch` en el ACA `id` de la semana vigente sin reinyectar el parte.
+  // steps se fusiona por id de paso ({id, _del:true} lo quita); group se fusiona campo a campo;
+  // el resto de campos se reemplaza. Si el ACA no existe, se crea con subj y title.
+  function setAca(id, patch) {
+    if (!id || !patch || typeof patch !== 'object') return '❌ Uso: SYS.setAca(id, { campos })';
+    if (patch.status && !ACA_ST[patch.status]) return '❌ status inválido: ' + patch.status + ' (vale: ' + Object.keys(ACA_ST).join(', ') + ')';
+    if (patch.mode && !ACA_MODE[patch.mode]) return '❌ mode inválido: ' + patch.mode + ' (vale: ' + Object.keys(ACA_MODE).join(', ') + ')';
+    if (patch.subj && !getSubjects().some(s => s.id === patch.subj)) return '❌ subj desconocido: ' + patch.subj;
+    const weeks = getWeekLive();
+    const cur = weeks[0];
+    if (!cur) return '❌ No hay parte: primero SYS.injectWeek({...})';
+    // La semana vigente hereda las ACAs de la última que las tenga: ninguna se pierde.
+    if (!_acasOf(cur).length) {
+      const src = weeks.find(x => x !== cur && _acasOf(x).length);
+      cur.acas = src ? JSON.parse(JSON.stringify(src.acas)) : [];
+    }
+    let a = cur.acas.find(x => x.id === id);
+    if (!a) {
+      if (!patch.subj || !patch.title) return '❌ ' + id + ' no existe: para crearla manda al menos subj y title';
+      a = { id, status: 'sin_empezar', mode: 'por_definir', steps: [] };
+      cur.acas.push(a);
+    }
+    const changed = [];
+    Object.keys(patch).forEach(k => {
+      if (k === 'id' || k.startsWith('_')) return;
+      changed.push(k);
+      if (k === 'steps' && Array.isArray(patch.steps)) {
+        const steps = (a.steps || []).slice();
+        patch.steps.forEach(p => {
+          if (!p || !p.id) return;
+          const i = steps.findIndex(x => x.id === p.id);
+          if (p._del) { if (i >= 0) steps.splice(i, 1); return; }
+          const clean = { ...p }; delete clean._del;
+          if (i >= 0) steps[i] = { ...steps[i], ...clean }; else steps.push(clean);
+        });
+        a.steps = steps;
+      } else if (k === 'group' && patch.group && typeof patch.group === 'object' && !Array.isArray(patch.group)) {
+        a.group = { ...(a.group || {}), ...patch.group };
+      } else a[k] = patch[k];
+    });
+    a.updated = new Date().toISOString();
+    db.set('week_live', { ...(db.get('week_live', {}) || {}), weeks: weeks.slice(0, 12) });
+    render();
+    return '✅ ' + id + ' en ' + cur.id + ' · ' + (changed.join(', ') || 'sin cambios');
+  }
+  function acaStep(aid, stepId) {
+    const k = 'aca:' + aid + ':' + stepId;
+    setWeekItem(k, { done: !(getWeekState()[k] || {}).done });
+  }
+  function acaDeliver(aid) {
+    const a = _acaList().acas.find(x => x.id === aid);
+    if (!a) return;
+    const val = !_acaDone(a, getWeekState());
+    if (a.crono) _setCronoSilent(a.crono, { done: val });
+    setWeekItem('aca:' + aid, { done: val });
+  }
+  function goAca(aid) {
+    showTab(8);
+    const card = document.getElementById('aca-' + aid);
+    if (card) { card.scrollIntoView({ block: 'start' }); card.focus({ preventScroll: true }); }
+  }
+
+  // ── Todo lo de una materia, clasificado ──
+  function _mtCtx() {
+    const weeks = getWeekLive();
+    return { weeks, w: weeks[0] || null, raw: getWeekState(), now: Date.now(), today: todayStr(), acas: _acaList().acas, tasks: getTasks() };
+  }
+  function _subjFeed(s, ctx) {
+    const { w, raw, now, today } = ctx;
+    const f = { urgent: [], week: [], later: [], past: [], done: [], acas: [], classes: [], next: [] };
+    const bucket = e => {
+      if (e.kind === 'day') return 'week';
+      const ms = _ms(e.due);
+      if (ms !== null && ms < now) return 'past';
+      if (e.prio === 'p0' || (ms !== null && ms - now <= H48)) return 'urgent';
+      if (ms === null) return e.kind === 'item' ? 'week' : 'later';
+      return ms - now <= 7 * 86400000 ? 'week' : 'later';
+    };
+    const push = e => { (e.done ? f.done : f[bucket(e)]).push(e); };
+    const covered = new Set();
+    f.acas = ctx.acas.filter(a => a.subj === s.id)
+      .sort((a, b) => (_ms(a.closes) || Infinity) - (_ms(b.closes) || Infinity));
+    f.acas.forEach(a => { if (a.crono) covered.add(a.crono); });
+
+    // 1. Actividades del parte (traen why, pasos, evidencia y enlaces)
+    const items = w ? (w.items || []) : [];
+    items.filter(it => it.subj === s.id).forEach(it => {
+      const refs = _cronoRefs(it);
+      refs.forEach(r => covered.add(r));
+      const ref = refs.find(r => r.split(':')[0] === s.id) || refs[0];
+      push({ kind: 'item', key: it.id, title: it.title, due: it.due || null, est: it.est, weight: it.weight, prio: it.prio,
+        mode: it.mode, why: it.why, steps: it.steps, ev: it.ev, links: it.links, step: ref ? ref.split(':') : null,
+        st: (raw[it.id] || {}).st, done: wlItemDone(it, raw) });
+    });
+    // 2. Plan del día que no es una actividad (p. ej. lecciones de Dexway): hoy y lo que quedó atrás
+    const seen = new Set();
+    if (w && w.days) Object.keys(w.days).sort().forEach(d => {
+      if (d > today) return;
+      ((w.days[d] || {}).tasks || []).forEach(t => {
+        if (!t || t.item || t.subj !== s.id) return;
+        const key = 'p:' + t.id;
+        if (seen.has(key)) return;
+        seen.add(key);
+        const done = !!(raw[key] && raw[key].done);
+        if (d < today && (done || t.opt)) return;
+        push({ kind: 'day', key, day: d, title: t.title, why: t.why, mins: t.mins, links: t.links, opt: t.opt, done });
+      });
+    });
+    // 3. Cronograma de la materia que no cubra ya una actividad o un ACA
+    (s.cronograma || []).forEach(c => {
+      const ref = s.id + ':' + c.id;
+      if (covered.has(ref)) return;
+      const info = c.type === 'otro';
+      if (info && !c.done && c.date && c.date < today) return;
+      push({ kind: 'crono', key: ref, title: c.title, due: c.date || null, est: c.est, type: c.type, info, step: [s.id, c.id], done: !!c.done });
+    });
+    // 4. Tareas propias de Miguel
+    ctx.tasks.filter(t => t.subj === s.id).forEach(t => push({ kind: 'task', key: t.id, title: t.text, due: t.due || null,
+      prio: getTaskPriority(t) === 'p0' ? 'p0' : null, done: !!t.done }));
+
+    const byDue = (a, b) => (_ms(a.due) || Infinity) - (_ms(b.due) || Infinity) || String(a.prio || 'p9').localeCompare(String(b.prio || 'p9'));
+    ['urgent', 'week', 'later', 'past'].forEach(k => f[k].sort(byDue));
+    f.done.sort((a, b) => (_ms(b.due) || 0) - (_ms(a.due) || 0));
+    // 5. Clases de las dos semanas más recientes y anticipos de la próxima
+    f.classes = ctx.weeks.slice(0, 2).flatMap(x => (x.classes || []).filter(c => c.subj === s.id)).slice(0, 3);
+    f.next = w ? (w.next || []).filter(n => n.subj === s.id) : [];
+
+    const counts = e => !e.info && !(e.kind === 'day' && e.opt);
+    f.pending = [...f.urgent, ...f.week, ...f.later].filter(counts).length;
+    f.urgentN = f.urgent.filter(counts).length;
+    f.nextDue = [...f.urgent, ...f.week, ...f.later].filter(e => e.due && e.kind !== 'day' && !e.info).sort(byDue)[0] || null;
+    return f;
+  }
+
+  // ── Piezas de HTML (las acciones van por data-mt: un solo manejador, ver _mtClick) ──
+  function _mtLink(l) {
+    if (!l || !l.label && !l.url && !l.nb) return '';
+    if (l.nb) return `<button type="button" class="mt-lk" data-mt="nb" data-nb="${escA(l.nb)}">📓 ${esc(l.label || 'Cuaderno')}</button>`;
+    if (!/^(https?:\/\/|mailto:|[\w.\-/]+\.html)/i.test(String(l.url || ''))) return '';
+    return `<a class="mt-lk" href="${escA(l.url)}" target="_blank" rel="noopener">${esc(l.label || 'Abrir')} ↗</a>`;
+  }
+  function _mtQuote(e) {
+    return `<blockquote class="mt-q">“${esc(e.q)}”<cite>${esc(e.src || '')}${e.t ? ' · ' + esc(e.t) : ''}</cite></blockquote>`;
+  }
+  function _mtDoneBtn(e) {
+    const lbl = e.done ? 'Deshacer' : '✓ Hecho';
+    const base = `type="button" class="mt-done${e.done ? ' undo' : ''}" aria-label="${e.done ? 'Marcar como pendiente' : 'Marcar como hecho'}: ${escA(e.title)}"`;
+    if (e.kind === 'crono') return `<button ${base} data-mt="crono" data-sid="${escA(e.step[0])}" data-eid="${escA(e.step[1])}">${lbl}</button>`;
+    if (e.kind === 'task') return `<button ${base} data-mt="task" data-id="${escA(e.key)}" data-num="${typeof e.key === 'number' ? 1 : 0}">${lbl}</button>`;
+    return `<button ${base} data-mt="wl" data-id="${escA(e.key)}">${lbl}</button>`;
+  }
+  function _mtRow(e, opt = {}) {
+    const today = todayStr();
+    const meta = [];
+    if (e.kind === 'day') meta.push(e.day < today ? `<span class="mt-tag warn">pendiente del ${formatDate(e.day)}</span>` : '<span>para hoy</span>');
+    else if (e.due) { if (!e.done) meta.push(_cdHtml(e.due)); meta.push(`<span>${wlFmtDue(e.due)}</span>`); }
+    if (e.mins) meta.push(`<span>⏱ ${esc(String(e.mins))} min</span>`);
+    if (e.mode && WL_MODE[e.mode]) meta.push(`<span title="${escA(WL_MODE[e.mode].tip)}">${WL_MODE[e.mode].ic} ${WL_MODE[e.mode].label}</span>`);
+    if (e.st) meta.push(`<span class="mt-tag">${esc(e.st)}</span>`);
+    if (e.opt) meta.push('<span class="mt-tag">opcional</span>');
+    if (e.kind === 'task') meta.push('<span class="mt-tag">tarea tuya</span>');
+    const title = `${esc(e.title)}${e.weight ? ` <span class="mt-w">· vale ${esc(e.weight)}</span>` : ''}${e.est && !e.done ? ' ' + EST_MINI : ''}`;
+    if (opt.compact) {
+      return `<div class="mt-row compact${e.done ? ' is-done' : ''}">
+        <span class="mt-row-d">${e.kind === 'day' ? formatDate(e.day) : e.due ? wlFmtDue(e.due) : 'sin fecha'}</span>
+        <span class="mt-row-t">${title}</span>${e.info && !e.done ? '' : _mtDoneBtn(e)}</div>`;
+    }
+    const steps = e.steps || [], ev = e.ev || [];
+    const whyInline = opt.why && e.why;
+    const det = steps.length || ev.length || (e.why && !whyInline)
+      ? `<details class="mt-det"><summary>Qué hacer${steps.length ? ` · ${steps.length} paso${steps.length !== 1 ? 's' : ''}` : ''}</summary>
+          ${e.why && !whyInline ? `<p class="mt-why">${esc(e.why)}</p>` : ''}
+          ${steps.length ? `<ol>${steps.map(x => `<li>${esc(typeof x === 'string' ? x : x.t)}</li>`).join('')}</ol>` : ''}
+          ${ev.map(_mtQuote).join('')}</details>` : '';
+    const acts = [];
+    if (e.step && !e.done) acts.push(`<button type="button" class="ps-btn ps-btn-sm" data-mt="step" data-sid="${escA(e.step[0])}" data-eid="${escA(e.step[1])}">Paso a paso</button>`);
+    (e.links || []).forEach(l => acts.push(_mtLink(l)));
+    acts.push(_mtDoneBtn(e));
+    return `<div class="mt-row${e.done ? ' is-done' : ''}">
+      <div class="mt-row-t">${title}</div>
+      ${meta.length ? `<div class="mt-row-m">${meta.join('')}</div>` : ''}
+      ${whyInline ? `<p class="mt-why">${esc(e.why)}</p>` : ''}
+      ${det}
+      <div class="mt-row-a">${acts.join('')}</div>
+    </div>`;
+  }
+  function _mtNote(n) {
+    return `<div class="mt-row compact note"><span class="mt-row-d">${esc(n.when || '')}</span><span class="mt-row-t">${esc(n.text)}${n.est ? ' ' + EST_MINI : ''}</span></div>`;
+  }
+  function _mtClass(c) {
+    const ok = c.rec === 'ok';
+    return `<details class="mt-cls"><summary><span>${esc(c.when || 'Clase')}</span><span class="mt-tag ${ok ? 'ok' : 'warn'}">${ok ? 'grabación leída' : esc(c.rec || 'sin grabación')}</span></summary>
+      ${(c.sum || []).length ? `<ul>${c.sum.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      ${(c.ev || []).map(_mtQuote).join('')}
+      ${(c.links || []).length ? `<div class="mt-row-a">${c.links.map(_mtLink).join('')}</div>` : ''}
+      ${c.src ? `<p class="mt-src">Fuente: ${esc(c.src)}</p>` : ''}</details>`;
+  }
+  function _mtAcaMini(a, raw) {
+    const st = _acaStatus(a, raw), S = ACA_ST[st], p = _acaProgress(a, raw), next = _acaNext(a, raw);
+    const n = ((a.group || {}).members || []).length;
+    const meta = [
+      a.closes ? `<span>cierra ${wlFmtDue(a.closes)}</span>` + (st !== 'entregado' ? _cdHtml(a.closes) : '') + (a.est ? EST_MINI : '') : '<span>sin fecha de cierre</span>',
+      `<span>${ACA_MODE[a.mode] || ACA_MODE.por_definir}${n ? ` · ${n} integrante${n !== 1 ? 's' : ''}` : ''}</span>`,
+      p.n ? `<span>${p.d} de ${p.n} pasos</span>` : '',
+    ].join('');
+    return `<div class="mt-aca-box">
+      <div class="mt-aca-h"><span class="aca-st st-${S.cls}">${S.label}</span><b>${esc(a.title)}</b>${a.weight ? `<span class="mt-w">vale ${esc(a.weight)}</span>` : ''}</div>
+      <div class="mt-row-m">${meta}</div>
+      ${next && st !== 'entregado' ? `<p class="mt-aca-next"><b>Siguiente paso:</b> ${esc(next)}</p>` : ''}
+      <div class="mt-row-a"><button type="button" class="ps-btn ps-btn-sm" data-mt="aca-go" data-id="${escA(a.id)}">Ver en ACAs</button></div>
+    </div>`;
+  }
+  function _mtTile(host, s, f, on, raw) {
+    const cnt = f.pending
+      ? `<b>${f.pending}</b> pendiente${f.pending !== 1 ? 's' : ''}${f.urgentN ? ` · <b class="hot">${f.urgentN} urgente${f.urgentN !== 1 ? 's' : ''}</b>` : ''}`
+      : '<span class="ok">✓ Al día</span>';
+    const nx = f.nextDue;
+    const a = f.acas.find(x => _acaStatus(x, raw) !== 'entregado') || f.acas[0];
+    let acaHtml = '';
+    if (a) { const S = ACA_ST[_acaStatus(a, raw)], p = _acaProgress(a, raw); acaHtml = `<span class="mt-aca st-${S.cls}">ACA · ${S.label}${p.n ? ` · ${p.d}/${p.n}` : ''}</span>`; }
+    return `<button type="button" class="mt-tile${on ? ' on' : ''}${f.urgentN ? ' hot' : ''}" id="mtt-${host}-${escA(s.id)}" style="--sc:${escA(s.color || 'var(--vi)')}"
+      aria-expanded="${on}"${on ? ` aria-controls="mtp-${host}"` : ''} data-mt="tile" data-host="${host}" data-sid="${escA(s.id)}">
+      <span class="mt-h"><span class="mt-ic" aria-hidden="true">${s.icon || '📚'}</span><span class="mt-nm">${esc(_short(s))}</span><span class="mt-arr" aria-hidden="true">${on ? '▴' : '▾'}</span></span>
+      <span class="mt-data">
+        <span class="mt-cnt">${cnt}</span>
+        ${nx ? `<span class="mt-nx">${_cdHtml(nx.due)}${nx.est ? EST_MINI : ''}<span class="mt-nx-t" title="${escA(nx.title)}">${esc(_shortTitle(nx.title))}</span></span>` : '<span class="mt-nx none">Sin fechas próximas</span>'}
+        ${acaHtml}
+      </span>
+    </button>`;
+  }
+  // Sexto bloque: lleva a la pestaña 🎯 ACAs con lo esencial a la vista.
+  function _mtAcaTile(ctx) {
+    const raw = ctx.raw, acas = ctx.acas;
+    const open = acas.filter(a => _acaStatus(a, raw) !== 'entregado');
+    const first = open.filter(a => a.closes).sort((a, b) => _ms(a.closes) - _ms(b.closes))[0];
+    const s = first && getSubjects().find(x => x.id === first.subj);
+    const steps = open.reduce((k, a) => { const p = _acaProgress(a, raw); return { d: k.d + p.d, n: k.n + p.n }; }, { d: 0, n: 0 });
+    const body = !acas.length ? '<span class="mt-cnt">Sin ACAs cargadas todavía</span><span class="mt-nx none">Aparecen cuando Claude actualiza la semana</span>'
+      : `<span class="mt-cnt">${open.length ? `<b>${open.length}</b> por entregar` : '<span class="ok">✓ Todas entregadas</span>'}${acas.length - open.length ? ` · ${acas.length - open.length} entregada${acas.length - open.length !== 1 ? 's' : ''}` : ''}</span>
+        ${first ? `<span class="mt-nx">${_cdHtml(first.closes)}${first.est ? EST_MINI : ''}<span class="mt-nx-t">${esc(s ? _short(s) : first.title)}</span></span>` : ''}
+        ${steps.n ? `<span class="mt-aca st-violet">${steps.d} de ${steps.n} pasos hechos</span>` : ''}`;
+    return `<button type="button" class="mt-tile mt-tile-aca" style="--sc:var(--vi)" data-mt="aca-tab" aria-label="Abrir la sección de ACAs">
+      <span class="mt-h"><span class="mt-ic" aria-hidden="true">🎯</span><span class="mt-nm">ACAs</span><span class="mt-arr" aria-hidden="true">↗</span></span>
+      <span class="mt-data">${body}</span>
+    </button>`;
+  }
+  function _mtPanel(host, s, f, ctx) {
+    const blk = (name, n, html, cls) => `<section class="mt-blk${cls ? ' ' + cls : ''}"><h4 class="mt-blk-h">${name}${n ? ` <span class="n">${n}</span>` : ''}</h4>${html}</section>`;
+    const g = gradeStats(s);
+    let grade = '';
+    if (g && g.done) {
+      const tail = g.left <= 0 || g.need === null ? ''
+        : g.need <= 0 ? ` · ya aseguraste ${g.meta.toFixed(1)}`
+        : g.need > 5 ? ` · para ${g.meta.toFixed(1)} ya no alcanza`
+        : ` · necesitas <b>${g.need.toFixed(2)}</b> en el ${g.left} % que falta`;
+      grade = `<p class="mt-grade">Notas: llevas <b>${g.acum.toFixed(2)}</b> de 5 con el ${g.done} % evaluado${tail}</p>`;
+    }
+    const out = [];
+    if (f.urgent.length) out.push(blk('Urgente', f.urgent.length, f.urgent.map(e => _mtRow(e, { why: true })).join(''), 'urg'));
+    if (f.acas.length) out.push(blk(f.acas.length > 1 ? 'ACAs' : 'ACA', null, f.acas.map(a => _mtAcaMini(a, ctx.raw)).join('')));
+    if (f.week.length) out.push(blk('Esta semana', f.week.length, f.week.map(e => _mtRow(e)).join('')));
+    if (f.classes.length) out.push(blk('Clases recientes', f.classes.length, f.classes.map(_mtClass).join('')));
+    if (f.later.length || f.next.length) out.push(blk('Más adelante', f.later.length + f.next.length,
+      f.later.map(e => _mtRow(e, { compact: true })).join('') + f.next.map(_mtNote).join('')));
+    if (!f.urgent.length && !f.week.length && !f.later.length && !f.acas.length) out.push(`<p class="mt-empty">Nada pendiente en ${esc(_short(s))}.</p>`);
+    const sl = s.subject_links || {};
+    const links = [
+      s.cdigital_id ? _mtLink({ label: '🎓 Aula en CDigital', url: `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}` }) : '',
+      sl.clase ? _mtLink({ label: '📡 Clase', url: sl.clase }) : '',
+      sl.grabaciones ? _mtLink({ label: '📹 Grabaciones', url: sl.grabaciones }) : '',
+      sl.material ? _mtLink({ label: '📂 Material', url: sl.material }) : '',
+      `<button type="button" class="mt-lk" data-mt="card" data-sid="${escA(s.id)}">📓 Cuaderno, archivos y notas</button>`,
+    ].join('');
+    out.push(blk('Enlaces', null, `<div class="mt-row-a">${links}</div>`));
+    const showDone = !!_tileDone[host + ':' + s.id];
+    const foot = [];
+    if (f.done.length) foot.push(`<button type="button" class="mt-more" data-mt="show-done" data-host="${host}" data-sid="${escA(s.id)}" aria-expanded="${showDone}">${showDone ? 'Ocultar hechas' : `Ver hechas (${f.done.length})`}</button>`);
+    const past = f.past.length ? `<details class="mt-past"><summary>⚠ ${f.past.length} con fecha pasada sin marcar</summary>
+        <p class="mt-src">Si ya lo hiciste, márcalo. Si de verdad quedó pendiente, déjalo así.</p>
+        ${f.past.map(e => _mtRow(e, { compact: true })).join('')}</details>` : '';
+    const sub = [s.code, s.schedule].filter(Boolean).map(esc).join(' · ');
+    return `<header class="mt-ph">
+        <div class="mt-ph-l"><h3 class="mt-pt"><span aria-hidden="true">${s.icon || '📚'}</span> ${esc(s.name)}</h3>${sub ? `<p class="mt-ps">${sub}</p>` : ''}</div>
+        <button type="button" class="mt-x" data-mt="tile" data-host="${host}" data-sid="${escA(s.id)}" aria-label="Cerrar ${escA(_short(s))}">✕</button>
+      </header>
+      ${grade}${out.join('')}
+      ${foot.length || past ? `<div class="mt-pf">${foot.join('')}${past}</div>` : ''}
+      ${showDone && f.done.length ? `<section class="mt-blk done"><h4 class="mt-blk-h">Hechas <span class="n">${f.done.length}</span></h4>${f.done.map(e => _mtRow(e, { compact: true })).join('')}</section>` : ''}`;
+  }
+
+  function renderTiles(host) {
+    const el = document.getElementById(host === 'd' ? 'subjTilesDash' : 'subjTilesMat');
+    if (!el) return;
+    const subs = currentSubjects();
+    if (!subs.length) { el.innerHTML = '<p class="mt-empty">No hay materias en curso en este período. Regístralas con el prompt 5 del CUN Hub.</p>'; return; }
+    const ctx = _mtCtx();
+    let open = _tileOpen(host);
+    if (open && !subs.some(s => s.id === open)) open = null;
+    const feeds = subs.map(s => ({ s, f: _subjFeed(s, ctx) }));
+    const cur = feeds.find(x => x.s.id === open);
+    el.innerHTML = `<div class="mt-grid" id="mtg-${host}">${feeds.map(({ s, f }) => _mtTile(host, s, f, s.id === open, ctx.raw)).join('')}${_mtAcaTile(ctx)}${cur
+      ? `<section class="mt-panel" id="mtp-${host}" style="--sc:${escA(cur.s.color || 'var(--vi)')}" aria-label="Todo de ${escA(cur.s.name)}">${_mtPanel(host, cur.s, cur.f, ctx)}</section>` : ''}</div>`;
+    _placePanel(host);
+  }
+  // El panel abierto va justo debajo de la fila de su módulo (la rejilla cambia de columnas
+  // según el ancho). Con la pestaña oculta no se puede medir: se recoloca al mostrarla.
+  function _placePanel(host) {
+    const g = document.getElementById('mtg-' + host);
+    const p = g && g.querySelector('.mt-panel');
+    if (!p) return;
+    const tiles = [...g.querySelectorAll('.mt-tile')];
+    const i = tiles.findIndex(t => t.classList.contains('on'));
+    const tpl = getComputedStyle(g).gridTemplateColumns || '';
+    if (i < 0 || !tpl || tpl === 'none' || /repeat|minmax/.test(tpl)) return;
+    const cols = Math.max(1, tpl.trim().split(/\s+/).length);
+    const end = Math.min(tiles.length - 1, Math.floor(i / cols) * cols + cols - 1);
+    if (tiles[end].nextElementSibling !== p) tiles[end].after(p);
+  }
+  function tileToggle(host, sid) {
+    const was = _tileOpen(host);
+    _setTileOpen(host, was === sid ? null : sid);
+    renderTiles(host);
+    const t = document.getElementById(`mtt-${host}-${sid}`);
+    if (t) t.focus({ preventScroll: true });
+    // Solo se mueve la página si el panel recién abierto quedó fuera de la vista: entonces
+    // el módulo pulsado sube arriba y su panel se ve justo debajo.
+    const p = document.getElementById('mtp-' + host);
+    if (p && t && was !== sid) { const r = p.getBoundingClientRect(); if (r.top > innerHeight - 140 || r.top < 0) t.scrollIntoView({ block: 'start' }); }
+  }
+
+  // ── Encabezado del parte (Dashboard): título, corte, titular y alertas ──
+  function renderWeekHead() {
+    const el = document.getElementById('weekHead');
+    if (!el) return;
+    const fold = document.getElementById('weekFold');
+    const w = getWeekLive()[0];
+    if (fold) fold.hidden = !w;
+    if (!w) {
+      el.innerHTML = `<p class="wh-empty">Todavía no hay parte de la semana en este navegador. Si ya existe, inicia sesión para traerlo de la nube; si no, pídele a Claude: <em>"actualiza Semana en vivo"</em>.</p>`;
+      return;
+    }
+    el.innerHTML = `<div class="wh-top"><h2 class="wh-t">${esc(w.title || w.id)}</h2>
+        <span class="wh-s">${formatDate(w.start)} → ${formatDate(w.end)}${w.cut ? ' · parte de ' + esc(w.cut) : ''}</span></div>
+      ${w.headline ? `<p class="wh-hl">${esc(w.headline)}</p>` : ''}
+      ${(w.alerts || []).map(a => `<p class="wh-al ${a.lvl === 'p0' ? 'p0' : 'p1'}">${a.lvl === 'p0' ? '🚨' : '⚠️'} ${esc(a.text)}</p>`).join('')}`;
+  }
+
+  // ── Pestaña 🎯 ACAs ──
+  function _acaCard(a, raw) {
+    const s = getSubjects().find(x => x.id === a.subj) || { icon: '📌', name: 'Sin materia', color: 'var(--vi)' };
+    const st = _acaStatus(a, raw), S = ACA_ST[st], p = _acaProgress(a, raw), done = st === 'entregado', next = _acaNext(a, raw);
+    const opensLater = a.opens && _ms(a.opens, true) > Date.now();
+    const members = (a.group || {}).members || [];
+    const steps = a.steps || [];
+    const date = (lbl, v, extra) => `<div class="aca-date"><span>${lbl}</span><b>${v ? wlFmtDue(v) : 'sin fecha'}</b>${extra || ''}</div>`;
+    return `<article class="aca-card${done ? ' is-done' : ''}" id="aca-${escA(a.id)}" tabindex="-1" style="--sc:${escA(s.color || 'var(--vi)')}">
+      <p class="aca-subj"><span aria-hidden="true">${s.icon || '📚'}</span> ${esc(_short(s))}</p>
+      <h3 class="aca-t">${esc(a.title)}</h3>
+      <div class="aca-pills"><span class="aca-st st-${S.cls}">${S.label}</span>${a.weight ? `<span class="aca-pill">Vale ${esc(a.weight)}</span>` : ''}<span class="aca-pill">${ACA_MODE[a.mode] || ACA_MODE.por_definir}</span></div>
+      <div class="aca-dates">
+        ${date('Abre', a.opens, opensLater ? `<span class="mt-cd warm">abre ${daysBetween(todayStr(), a.opens.slice(0, 10)) <= 1 ? 'mañana' : 'en ' + daysBetween(todayStr(), a.opens.slice(0, 10)) + ' días'}</span>` : '')}
+        ${date('Cierra', a.closes, (a.closes && !done ? _cdHtml(a.closes) : '') + (a.est ? ' ' + EST_MINI : ''))}
+      </div>
+      ${next && !done ? `<div class="aca-next"><span>Siguiente paso</span><p>${esc(next)}</p></div>` : ''}
+      ${steps.length ? `<div class="aca-prog"><div class="aca-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${p.n}" aria-valuenow="${p.d}" aria-label="Pasos hechos"><i style="width:${Math.round(p.d / p.n * 100)}%"></i></div><span>${p.d} de ${p.n} pasos</span></div>
+        <ol class="aca-steps">${steps.map(x => { const ok = _acaStepDone(a, x, raw); return `<li class="${ok ? 'ok' : ''}"><label><input type="checkbox" ${ok ? 'checked' : ''} data-mt="aca-step" data-aca="${escA(a.id)}" data-step="${escA(x.id)}"><span>${esc(x.text)}</span></label>${x.owner ? `<span class="aca-own">${esc(x.owner)}</span>` : ''}</li>`; }).join('')}</ol>` : ''}
+      ${members.length || (a.group || {}).notes ? `<div class="aca-sec"><h4>Grupo${members.length ? ` · ${members.length}` : ''}</h4>
+        ${members.length ? `<div class="aca-mem">${members.map(m => `<span>${esc(m.name)}${m.role ? ` <i>${esc(m.role)}</i>` : ''}</span>`).join('')}</div>` : ''}
+        ${a.group.notes ? `<p class="aca-notes">${esc(a.group.notes)}</p>` : ''}</div>` : ''}
+      ${(a.rules || []).length ? `<div class="aca-sec"><h4>Reglas y advertencias</h4><ul class="aca-rules">${a.rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul></div>` : ''}
+      ${(a.ev || []).length ? `<details class="aca-sec mt-det"><summary>De dónde sale · ${a.ev.length}</summary>${a.ev.map(_mtQuote).join('')}</details>` : ''}
+      ${(a.links || []).length ? `<div class="aca-sec mt-row-a">${a.links.map(_mtLink).join('')}</div>` : ''}
+      <div class="aca-foot">
+        <button type="button" class="mt-done${done ? ' undo' : ''}" data-mt="aca-deliver" data-id="${escA(a.id)}">${done ? 'Marcar como no entregada' : '✓ Ya la entregué'}</button>
+        ${a.updated ? `<span class="mt-src">Actualizada el ${formatDate(a.updated.slice(0, 10))}</span>` : ''}
+      </div>
+    </article>`;
+  }
+  function renderAcas() {
+    const el = document.getElementById('acaList');
+    if (!el) return;
+    const { w, acas } = _acaList();
+    const raw = getWeekState();
+    const active = acas.filter(a => _acaStatus(a, raw) !== 'entregado');
+    const tabN = document.getElementById('acaTabN');
+    if (tabN) tabN.textContent = active.length ? ` (${active.length})` : '';
+    if (!acas.length) {
+      el.innerHTML = `<div class="aca-empty"><b>Todavía no hay ACAs cargadas.</b> Cuando Claude actualice la semana ("actualiza Semana en vivo"), cada ACA aparece aquí con su grupo, sus pasos y su fecha de cierre. Si ya las cargó, inicia sesión para traerlas de la nube.</div>`;
+      return;
+    }
+    const sorted = acas.slice().sort((a, b) => (_acaStatus(a, raw) === 'entregado') - (_acaStatus(b, raw) === 'entregado')
+      || (_ms(a.closes) || Infinity) - (_ms(b.closes) || Infinity));
+    const first = sorted.find(a => _acaStatus(a, raw) !== 'entregado' && a.closes);
+    el.innerHTML = `<p class="aca-sum">${active.length} por entregar · ${acas.length - active.length} entregada${acas.length - active.length !== 1 ? 's' : ''}${first ? ` · la próxima cierra ${wlFmtDue(first.closes)}` : ''}<br><span class="mt-src">Datos del parte ${esc(w.title || w.id)}${w.cut ? ', cortado el ' + esc(w.cut) : ''}.</span></p>
+      <div class="aca-grid">${sorted.map(a => _acaCard(a, raw)).join('')}</div>`;
+  }
+
+  // Abre la ficha completa de una materia en 📚 Materias (cuaderno, archivos, notas).
+  function _openCardsFold() { const f = document.getElementById('subjCardsFold'); if (f) f.open = true; }
+  function openSubjCard(sid) {
+    const coll = db.get('subjects_collapsed', {});
+    if (!coll[sid]) { coll[sid] = true; db.set('subjects_collapsed', coll); }
+    if (!['actual', 'all'].includes(_subjFilter)) _subjFilter = 'actual';
+    _openCardsFold();
+    showTab(1);
+    render();
+    setTimeout(() => { const c = document.getElementById('subjCard-' + sid); if (c) c.scrollIntoView({ block: 'start' }); }, 60);
+  }
+
+  // Lista "Ponte al día" de Materias, ahora dentro de un desplegable cerrado.
+  function renderCatchUp() {
+    const el = document.getElementById('catchUpWrap');
+    if (!el) return;
+    const subs = currentSubjects();
+    const html = catchUpHtml(subs);
+    el.innerHTML = html;
+    const fold = document.getElementById('catchUpFold');
+    if (fold) fold.hidden = !html;
+    const n = document.getElementById('catchUpN');
+    if (n) { const today = todayStr(); n.textContent = subs.reduce((k, s) => k + (s.cronograma || []).filter(c => !c.done && c.date && daysBetween(today, c.date) <= 14).length, 0); }
+  }
+
+  // Un solo manejador para todos los botones de los módulos y de las ACAs.
+  function _mtClick(ev) {
+    const b = ev.target.closest('[data-mt]');
+    if (!b || b.tagName === 'INPUT') return;
+    const d = b.dataset;
+    switch (d.mt) {
+      case 'tile': tileToggle(d.host, d.sid); break;
+      case 'wl': wlToggle(d.id); break;
+      case 'crono': toggleCronoEntry(d.sid, d.eid); break;
+      case 'task': toggleTask(d.num === '1' ? Number(d.id) : d.id); break;
+      case 'step': openStep(d.sid, d.eid); break;
+      case 'nb': { const [sid, pid] = String(d.nb).split(':'); openNb(sid, pid); break; }
+      case 'card': openSubjCard(d.sid); break;
+      case 'show-done': _tileDone[d.host + ':' + d.sid] = !_tileDone[d.host + ':' + d.sid]; renderTiles(d.host); break;
+      case 'aca-go': goAca(d.id); break;
+      case 'aca-tab': { showTab(8); const p = document.getElementById('pnl8'); if (p) p.scrollIntoView({ block: 'start' }); break; }
+      case 'aca-deliver': acaDeliver(d.id); break;
+      default: return;
+    }
+  }
+  function _mtChange(ev) {
+    const i = ev.target;
+    if (i && i.dataset && i.dataset.mt === 'aca-step') acaStep(i.dataset.aca, i.dataset.step);
+  }
+  document.addEventListener('click', _mtClick);
+  document.addEventListener('change', _mtChange);
+  // "Tu día" muestra 3 tareas y pliega el resto; se recuerda si Miguel lo abrió aunque la tarjeta se vuelva a pintar.
+  let _dayMoreOpen = false;
+  document.addEventListener('toggle', e => { if (e.target && e.target.id === 'dayMore') _dayMoreOpen = e.target.open; }, true);
+  let _mtResize = null;
+  window.addEventListener('resize', () => { clearTimeout(_mtResize); _mtResize = setTimeout(() => { _placePanel('d'); _placePanel('m'); }, 150); });
+  // Las cuentas regresivas de módulos y ACAs se refrescan cada minuto.
+  setInterval(() => document.querySelectorAll('[data-cd]').forEach(n => { const c = _cd(n.dataset.cd); n.textContent = c.txt; n.className = 'mt-cd ' + c.cls; }), 60000);
+
   function render() {
     renderSubjTaskSelects();
-    renderStats();
-    renderActionNow();
     // Un parte mal formado no puede tumbar el resto del módulo.
-    try { renderWeekLive(); } catch (e) { console.warn('[10-SYS] Semana en vivo:', e); }
+    const safe = (fn, lbl) => { try { fn(); } catch (e) { console.warn('[10-SYS] ' + lbl + ':', e); } };
+    safe(renderStats, 'Números de arriba');
+    safe(renderActionNow, 'Tu día');
+    safe(renderWeekHead, 'Encabezado del parte');
+    safe(() => renderTiles('d'), 'Módulos del Dashboard');
+    safe(renderWeekLive, 'Semana en vivo');
+    safe(() => renderTiles('m'), 'Módulos de Materias');
+    safe(renderCatchUp, 'Ponte al día');
+    safe(renderAcas, 'ACAs');
     renderSubjectDetail();
     renderCalendar();
     renderDeadlines();
@@ -3102,6 +3644,10 @@ const SYS = (() => {
     getWeekLive().forEach(w => w.items.forEach(it => {
       if (_cronoRefs(it).includes(ref)) { st[it.id] = { ...(st[it.id] || {}), done: val, ts: Date.now() }; touched = true; }
     }));
+    // Igual con la ACA que apunta a esta entrada (`crono` del ACA): entregada en los dos lados.
+    _acaList().acas.forEach(a => {
+      if (a.crono === ref) { st['aca:' + a.id] = { ...(st['aca:' + a.id] || {}), done: val, ts: Date.now() }; touched = true; }
+    });
     if (touched) db.set('week_state', st);
     render();
   }
@@ -3178,7 +3724,7 @@ const SYS = (() => {
     renderClassSessions();
   });
 
-  return { setNota, injectWeek, setWeekItem, setCrono, openNb, openStep, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
+  return { setNota, injectWeek, setWeekItem, setCrono, setAca, getAcas, goAca, acaStep, acaDeliver, openSubjCard, openNb, openStep, wlSet, wlToggle, wlDelegate, addTask, toggleTask, deleteTask, bulkImport, exportData, importData, clearCompleted, deleteOverdueTasks, render, showTaskGuide, closeGuide, injectClassSession, deleteClassSession, updateClassStatus, copyClassPrompt, toggleCS, toggleSubjectDrop, addSubjectTask, openSubjectModal, closeSubjectModal, saveSubjectModal, deleteSubjectCRUD, addCrono, removeCrono, subjectFileUpload, subjectFileDL, subjectFileDel, _smColor, setSubjectStatus, toggleStatusMenu, setSubjFilter, toggleCronoEntry, openFileViewer, closeFileViewer, toggleSubjectCard, expandAllSubjects, collapseAllSubjects, toggleSkill, expandAllSkills, collapseAllSkills, openSkill };
 })();
 window.SYS = SYS;
 

@@ -6,7 +6,15 @@
 
 ## Qué es
 
-Una tarjeta en **10-SYS → 📡 Dashboard → Semana en vivo** con cuatro vistas:
+**Desde el 4-nov-2026 lo primero que ve Miguel son los módulos:** en 📡 Dashboard y en 📚 Materias, una rejilla de
+bloques grandes (uno por materia del período + uno de 🎯 ACAs). Cada bloque cerrado dice cuántos pendientes tiene, lo
+próximo que cierra con cuenta regresiva y el estado de su ACA; al abrirlo muestra todo lo de esa materia por prioridad:
+urgente (P0 o ≤ 48 h) → ACA → esta semana → clases recientes → más adelante → enlaces. Lo hecho se oculta ("ver hechas").
+Sale de las mismas llaves de abajo: **el parte bien armado es lo que llena los módulos.** Debajo de la rejilla van el
+encabezado del parte (título, corte, titular y alertas) y "Tu día" (3 tareas a la vista, el resto plegado). La pestaña
+**🎯 ACAs** tiene una tarjeta por ACA.
+
+El parte completo queda plegado en **Dashboard → "Ver el parte completo"**, con cuatro vistas:
 
 | Vista | Qué muestra |
 |---|---|
@@ -95,9 +103,39 @@ SYS.injectWeek({
   advice: ['consejo concreto', …],   // links admite { label, url } o { label, nb: 'materia:idPágina' }
   classes: [{ subj, when, rec: 'ok'|'sin grabación publicada'|'grabación sin permiso', src, sum: [], ev: [], links: [] }],
   next:    [{ when, subj, text, est? }],
+  acas:    [ACA, …],                 // ver abajo; si no se manda, se conservan las que ya tenía este parte.
+                                    // Si se manda, van TODAS: la pestaña lee solo la semana más reciente que traiga acas
   sources: ['...']
 })
 ```
+
+### ACAs (`acas` del parte · pestaña 🎯 ACAs y bloque ACA de cada materia)
+
+```js
+{ id: 'aca_bi', subj: 'inteligencia_negocios', title: '', weight: '34 %',
+  opens: 'AAAA-MM-DDTHH:MM', closes: 'AAAA-MM-DDTHH:MM', est: false,      // est: fecha sin publicar → se pinta ≈
+  status: 'sin_publicar'|'sin_empezar'|'en_curso'|'listo'|'entregado',
+  mode: 'grupo'|'individual'|'por_definir',
+  group: { members: [{ name, role }], notes: '' },                        // notes = lo acordado en el chat del grupo
+  next: '',                                                               // siguiente paso; vacío → el primer paso sin marcar
+  steps: [{ id, text, owner: 'Miguel'|'grupo'|'Claude' }],
+  rules: [''], ev: [{ q /*verbatim*/, src, t? }],
+  links: [{ label, url } | { label, nb: 'materia:idPágina' }],
+  cm: 7343030,                                                            // id de la actividad en CDigital
+  crono?: 'materia:entrada' }                                             // opcional: "entregada" se comparte con el cronograma
+```
+
+- **Lo que marca Miguel** va en `sys_week_state`: `aca:<id>` ("✓ Ya la entregué") y `aca:<id>:<idPaso>` (cada paso).
+  Su check explícito manda sobre `status`, igual que en las actividades.
+- **Actualizar sin reinyectar el parte:** `SYS.setAca(id, patch)` fusiona campos en el ACA de la semana vigente
+  (`steps` se fusiona por id de paso; `{ id, _del: true }` quita un paso; `group` se fusiona campo a campo; lo demás se
+  reemplaza). Si el ACA no existe, se crea mandando al menos `subj` y `title`. Si la semana vigente no tenía ACAs, primero
+  copia las de la última que las tenga. Devuelve un texto que empieza por ✅ o ❌.
+- **Leer antes de tocar:** `SYS.getAcas()` devuelve una copia de cada ACA con `_week`, `_status` (estado efectivo) y
+  `_steps_done` (pasos que Miguel ya marcó).
+- **Revisión rápida de cada sábado:** `SYS.getAcas()` → comparar con el aula y el chat del grupo →
+  `SYS.setAca('aca_bi', { status: 'en_curso', next: '…', steps: [{ id: 's4', text: '…', owner: 'grupo' }] })`.
+  Nombres de compañeros y notas del chat solo en el parte (Supabase), **nunca en el repo**.
 
 **Ids:** una actividad que pasa de una semana a la siguiente conserva su `id`; así su check y su estado
 siguen valiendo (el estado se guarda por id, no por semana).

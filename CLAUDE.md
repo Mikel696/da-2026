@@ -247,6 +247,13 @@ check con el cronograma (`wlToggle` ↔ `toggleCronoEntry`); `SYS.setCrono(refs,
 **El override de una materia guarda solo `cronograma`** (`_setCronoSilent`): guardar la materia entera congelaba
 desc, enlaces y horarios del código en `sys_subjects_custom`.
 
+**🧱 Módulos por materia y 🎯 ACAs (desde 4-nov-2026):** Dashboard y Materias abren con una rejilla 2×3 de bloques
+(5 materias + ACAs); cada bloque despliega todo lo de su materia por prioridad (`renderTiles`, `_subjFeed`). Las listas
+largas quedan plegadas ("Ver el parte completo", "Ponte al día", "Fichas completas"). Las ACAs viven en `semana.acas`
+(contrato en `PROMPT_10-SYS_SEMANA.md` → Esquema) y se actualizan sin reinyectar con `SYS.setAca(id, patch)` /
+`SYS.getAcas()`; los checks van en `sys_week_state` (`aca:<id>`, `aca:<id>:<paso>`). `showTab(n)` va por número de
+panel (`pnlN` / `data-tab`), no por posición: ACAs es `showTab(8)` aunque sale 3.ª en el menú.
+
 **Grabaciones de clase (verificado 8-oct-2026):** el evento de Calendar CUN (`/calendar/u/3/`) adjunta Recording + Chat + Transcript. El Transcript (Doc) da 403; el Recording se transcribe desde `drive.google.com` con `get_video_info?docid=ID&drive_originator_app=303` → `ttsurl` → pista `asr` `fmt=json3`, sin abrir el panel de Drive. Detalle en CEREBRO_STATE 2026-10-08.
 
 ### Tab 7 · Clases Perdidas (Missed Classes Analyzer) — DIRECT-FETCH PROTOCOL v2

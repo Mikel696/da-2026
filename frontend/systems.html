@@ -589,6 +589,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .lb-close:hover,.lb-dl:hover{background:rgba(255,255,255,.22)}
 .lb-caption{color:#e5e7eb;font-size:13px;text-align:center;font-family:'IBM Plex Mono',monospace;background:rgba(0,0,0,.4);padding:6px 12px;border-radius:6px;max-width:90vw;word-break:break-word}
 </style>
+<link rel="stylesheet" href="css/systems-modulos.css?v=1">
 </head>
 <body>
 <div class="orb orb-1"></div>
@@ -624,24 +625,34 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 </div>
 
 <div class="tabs">
-<button class="tab on" onclick="showTab(0)">📡 Dashboard</button>
-<button class="tab" onclick="showTab(1)">📚 Materias</button>
-<button class="tab" onclick="showTab(2)">📅 Calendario</button>
-<button class="tab" onclick="showTab(3)">🗺️ Malla Curricular</button>
-<button class="tab" onclick="showTab(4)">🏆 Certificaciones</button>
-<button class="tab" onclick="showTab(5)">🧠 CUN Hub</button>
-<button class="tab" onclick="showTab(6)">📹 Clases Perdidas</button>
-<button class="tab" onclick="showTab(7)">📓 Cuaderno</button>
+<button class="tab on" data-tab="0" onclick="showTab(0)">📡 Dashboard</button>
+<button class="tab" data-tab="1" onclick="showTab(1)">📚 Materias</button>
+<button class="tab" data-tab="8" onclick="showTab(8)">🎯 ACAs<span id="acaTabN"></span></button>
+<button class="tab" data-tab="2" onclick="showTab(2)">📅 Calendario</button>
+<button class="tab" data-tab="3" onclick="showTab(3)">🗺️ Malla Curricular</button>
+<button class="tab" data-tab="4" onclick="showTab(4)">🏆 Certificaciones</button>
+<button class="tab" data-tab="5" onclick="showTab(5)">🧠 CUN Hub</button>
+<button class="tab" data-tab="6" onclick="showTab(6)">📹 Clases Perdidas</button>
+<button class="tab" data-tab="7" onclick="showTab(7)">📓 Cuaderno</button>
 </div>
 
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
 <div class="pnl on" id="pnl0">
 
-<!-- ACTION NOW — Hero Card -->
+<!-- MÓDULOS POR MATERIA — lo primero del Dashboard: un bloque por materia + el de ACAs -->
+<div id="subjTilesDash" aria-label="Tus materias"></div>
+
+<!-- SEMANA EN VIVO — parte semanal de Claude (datos en sys_week_live, estado en sys_week_state).
+     Aquí solo el encabezado (título, corte, titular y alertas); el parte completo queda plegado. -->
+<div id="weekHead" class="wh"></div>
+
+<!-- TU DÍA — debajo de los módulos y de las alertas, compacto (3 tareas a la vista, el resto plegado) -->
 <div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 16px;margin-bottom:12px"></div>
 
-<!-- SEMANA EN VIVO — parte semanal de Claude (datos en sys_week_live, estado en sys_week_state) -->
-<div id="weekLive" style="background:rgba(22,22,26,.75);border:1px solid rgba(124,58,237,.25);border-radius:12px;padding:16px 18px;margin-bottom:16px"></div>
+<details class="mt-fold" id="weekFold" hidden>
+<summary>Ver el parte completo <span class="n">ruta, prioridades, clases, centro de mando y próxima semana</span></summary>
+<div class="mt-fold-b"><div id="weekLive"></div></div>
+</details>
 
 <div class="sl" style="margin-bottom:6px">· accesos ·</div>
 <div id="quickAccess" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div>
@@ -667,9 +678,26 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 
 <!-- ═══════ TAB 1: MATERIAS ═══════ -->
 <div class="pnl" id="pnl1">
+<div id="subjTilesMat" aria-label="Tus materias"></div>
 <div class="sl">· materias — período actual ·</div>
 <div class="sd" id="subjPeriodHdr"></div>
-<div id="subjectDetail"></div>
+
+<details class="mt-fold" id="catchUpFold" hidden>
+<summary>Lista "Ponte al día" <span class="n" id="catchUpN"></span></summary>
+<div class="mt-fold-b" id="catchUpWrap"></div>
+</details>
+
+<details class="mt-fold" id="subjCardsFold">
+<summary>Fichas completas <span class="n">cuaderno, archivos, notas, cronograma e historial de cada materia</span></summary>
+<div class="mt-fold-b"><div id="subjectDetail"></div></div>
+</details>
+</div>
+
+<!-- ═══════ TAB 8: ACAs (va 3.º en el menú; showTab usa el número del panel, no su posición) ═══════ -->
+<div class="pnl" id="pnl8">
+<div class="sl">· ACAs del período ·</div>
+<div class="sd">Una tarjeta por ACA: qué sigue, con quién la haces y cuándo cierra. Lo que cierra antes va primero; lo entregado, al final.</div>
+<div id="acaList"></div>
 </div>
 
 <!-- ═══════ TAB 2: CALENDARIO ═══════ -->
@@ -1020,6 +1048,6 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 <script src="js/cloud-sync.js?v=p22"></script>
 <script src="js/nb-shared.js?v=p24"></script>
 <script src="js/nb-engine.js"></script>
-<script src="systems_logic.js?v=p36"></script>
+<script src="systems_logic.js?v=p37"></script>
 </body>
 </html>

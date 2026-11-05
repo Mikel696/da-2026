@@ -1,0 +1,180 @@
+/* 10-SYS · módulos por materia, encabezado del parte y pestaña ACAs (4-nov-2026)
+   Mismos tokens que el resto del módulo (design-tokens.css + --vi/--vi2/--tl de systems.html).
+   El color de cada materia llega como --sc desde el HTML. Sin animaciones de entrada. */
+
+/* ── Encabezado del parte ── */
+.wh{margin:0 0 14px}
+.wh-top{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+.wh-t{font-size:17px;font-weight:700;line-height:1.25;margin:0}
+.wh-s{font-size:11.5px;color:var(--t3)}
+.wh-hl{font-size:13px;color:var(--t2);line-height:1.6;margin:6px 0 8px;max-width:80ch}
+.wh-al{font-size:12px;line-height:1.5;padding:7px 11px;border-radius:9px;margin:0 0 6px;border:1px solid rgba(234,179,8,.25);background:rgba(234,179,8,.07)}
+.wh-al.p0{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
+.wh-empty{font-size:12.5px;color:var(--t2);line-height:1.6;margin:0;padding:10px 12px;border:1px dashed var(--bd);border-radius:10px}
+
+/* ── Rejilla de módulos: bloques grandes e iguales, 2 columnas (1 en móvil) ── */
+.mt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:2px 0 18px}
+.mt-tile{display:flex;flex-direction:column;align-items:stretch;gap:14px;min-width:0;min-height:156px;text-align:left;padding:16px 18px 16px;border-radius:14px;
+  background:var(--c1);border:1px solid var(--bd);border-top:4px solid var(--sc,var(--vi));color:var(--tx);font-family:inherit;cursor:pointer;
+  transition:background-color .15s,border-color .15s}
+.mt-tile:hover{background:var(--el);border-color:var(--sc,var(--vi))}
+.mt-tile{scroll-margin-top:60px}
+.mt-tile:focus-visible{outline:2px solid var(--vi2);outline-offset:3px}
+.mt-tile.on{background:var(--el);border-color:var(--sc,var(--vi))}
+.mt-h{display:flex;align-items:center;gap:12px;min-width:0}
+.mt-ic{font-size:30px;line-height:1;flex-shrink:0}
+.mt-nm{flex:1;min-width:0;font-size:19px;font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.mt-arr{flex-shrink:0;font-size:13px;color:var(--t3)}
+.mt-data{margin-top:auto;display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0}
+.mt-cnt{font-size:13.5px;color:var(--t2)}
+.mt-cnt b{color:var(--tx)}
+.mt-cnt .hot{color:#f87171}
+.mt-cnt .ok{color:#4ade80}
+.mt-nx{display:flex;align-items:baseline;gap:8px;min-width:0;font-size:13px;color:var(--t2)}
+.mt-nx-t{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt-nx.none{font-style:italic}
+.mt-cd{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--t2);white-space:nowrap}
+.mt-cd.hot{color:#f87171;font-weight:600}
+.mt-cd.warm{color:var(--am)}
+.mt-est{display:inline-block;font-size:10.5px;line-height:1.3;color:var(--am);border:1px dashed var(--am);border-radius:5px;padding:0 4px;white-space:nowrap;cursor:help}
+.mt-aca{align-self:flex-start;max-width:100%;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid currentColor;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Colores de estado (ACA) */
+.st-gray{color:var(--t3)}
+.st-amber{color:var(--am)}
+.st-violet{color:var(--vi2)}
+.st-teal{color:var(--tl)}
+.st-green{color:#4ade80}
+
+/* ── Panel abierto de una materia ── */
+.mt-panel{grid-column:1/-1;scroll-margin-top:60px;min-width:0;background:var(--c1);border:1px solid var(--sc,var(--vi));border-top-width:3px;border-radius:12px;padding:14px 16px 14px}
+.mt-ph{display:flex;align-items:flex-start;gap:12px}
+.mt-ph-l{min-width:0;flex:1}
+.mt-pt{font-size:16px;font-weight:700;line-height:1.3;margin:0}
+.mt-ps{font-size:11.5px;color:var(--t3);margin:2px 0 0}
+.mt-x{flex-shrink:0;width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--el);color:var(--t2);font-size:14px;cursor:pointer;font-family:inherit}
+.mt-x:hover{color:var(--tx);border-color:var(--t3)}
+.mt-grade{font-size:12.5px;color:var(--t2);margin:8px 0 0;padding:7px 10px;border-radius:8px;background:var(--el)}
+.mt-blk{margin-top:14px}
+.mt-blk-h{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--t2);margin:0 0 7px}
+.mt-blk-h .n{font:600 11px 'IBM Plex Mono',monospace;color:var(--t3);background:var(--el);border-radius:999px;padding:1px 7px}
+.mt-blk.urg .mt-blk-h{color:#f87171}
+.mt-blk.urg .mt-row{border-color:rgba(248,113,113,.4);background:rgba(239,68,68,.05)}
+.mt-empty{font-size:12.5px;color:var(--t2);margin:12px 0 0}
+
+/* Fila de actividad */
+.mt-row{padding:9px 11px;border-radius:10px;background:var(--el);border:1px solid var(--bd);margin-bottom:6px;min-width:0}
+.mt-row-t{font-size:13px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}
+.mt-w{font-size:11px;font-weight:500;color:var(--am)}
+.mt-row-m{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 10px;font-size:11.5px;color:var(--t3);margin-top:3px}
+.mt-why{font-size:12px;color:var(--t2);line-height:1.55;margin:5px 0 0;max-width:80ch}
+.mt-row-a{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.mt-tag{font-size:10.5px;padding:0 6px;border-radius:5px;border:1px solid var(--bd);color:var(--t2)}
+.mt-tag.warn{border-color:rgba(234,179,8,.45);color:var(--am)}
+.mt-tag.ok{border-color:rgba(74,222,128,.4);color:#4ade80}
+.mt-done{margin-left:auto;font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;
+  background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.35);white-space:nowrap}
+.mt-done:hover{background:rgba(34,197,94,.2)}
+.mt-done.undo{background:transparent;color:var(--t3);border-color:var(--bd)}
+.mt-done:focus-visible,.mt-lk:focus-visible,.mt-x:focus-visible,.mt-more:focus-visible{outline:2px solid var(--vi2);outline-offset:2px}
+.mt-lk{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:4px 10px;border-radius:8px;background:var(--vg);border:1px solid rgba(124,58,237,.3);
+  color:var(--vi2);text-decoration:none;cursor:pointer;font-family:inherit;max-width:100%;overflow-wrap:anywhere;text-align:left}
+.mt-lk:hover{border-color:var(--vi2)}
+.mt-row.is-done{opacity:.6}
+.mt-row.is-done .mt-row-t{text-decoration:line-through}
+.mt-row.compact{display:flex;align-items:center;gap:10px;padding:6px 10px;margin-bottom:4px}
+.mt-row.compact .mt-row-d{flex-shrink:0;min-width:88px;font:500 11px 'IBM Plex Mono',monospace;color:var(--t3)}
+.mt-row.compact .mt-row-t{flex:1;font-size:12.5px;font-weight:500}
+.mt-row.compact .mt-done{margin-left:0;padding:3px 9px;font-size:11px}
+.mt-row.note{background:transparent;border-style:dashed}
+
+/* Desplegables dentro de una fila o bloque */
+.mt-det,.mt-cls,.mt-past{margin-top:6px}
+.mt-det>summary,.mt-cls>summary,.mt-past>summary{font-size:11.5px;color:var(--vi2);cursor:pointer;padding:2px 0}
+.mt-det ol,.mt-cls ul{margin:6px 0 4px;padding-left:20px;font-size:12px;color:var(--t2);line-height:1.55}
+.mt-cls{padding:8px 11px;border-radius:10px;background:var(--el);border:1px solid var(--bd);margin:0 0 6px}
+.mt-cls>summary{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--tx);font-size:12.5px;font-weight:600}
+.mt-q{margin:6px 0;padding:2px 0 2px 10px;border-left:2px solid var(--vi2);font-size:12px;color:var(--t2);line-height:1.5}
+.mt-q cite{display:block;font-style:normal;font-size:11px;color:var(--t3);margin-top:2px}
+.mt-src{font-size:11px;color:var(--t3);margin:4px 0}
+.mt-pf{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:14px;padding-top:10px;border-top:1px solid var(--bd)}
+.mt-more{background:none;border:none;padding:2px 0;font-family:inherit;font-size:12px;color:var(--vi2);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mt-past{width:100%}
+.mt-past>summary{color:var(--am)}
+.mt-blk.done .mt-blk-h{color:var(--t3)}
+.mt-aca-box{padding:10px 12px;border-radius:10px;background:var(--vg);border:1px solid rgba(124,58,237,.3);margin-bottom:6px}
+.mt-aca-h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:13px}
+.mt-aca-next{font-size:12.5px;line-height:1.5;margin:6px 0 0;color:var(--tx)}
+.mt-aca-next b{color:var(--vi2)}
+
+/* ── Desplegables grandes: parte completo, Ponte al día, fichas ── */
+.mt-fold{border:1px solid var(--bd);border-radius:12px;background:var(--c1);margin:0 0 12px}
+.mt-fold>summary{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;padding:12px 14px;font-size:13.5px;font-weight:600;color:var(--tx);cursor:pointer;list-style:none;border-radius:12px}
+.mt-fold>summary::-webkit-details-marker{display:none}
+.mt-fold>summary::before{content:'▸';color:var(--t3);transition:transform .15s}
+.mt-fold[open]>summary::before{transform:rotate(90deg)}
+.mt-fold>summary .n{font-size:11.5px;font-weight:400;color:var(--t3)}
+.mt-fold>summary:focus-visible{outline:2px solid var(--vi2);outline-offset:-2px}
+.mt-fold-b{padding:2px 14px 14px;min-width:0}
+.mt-fold .pd-wrap{border:none;background:none;padding:0;margin:0}
+.mt-fold .pd-h{display:none}
+
+/* ── Pestaña ACAs ── */
+.aca-sum{font-size:13px;color:var(--t2);line-height:1.6;margin:0 0 12px}
+.aca-empty{font-size:13px;color:var(--t2);line-height:1.6;padding:14px 16px;border:1px dashed var(--bd);border-radius:12px;max-width:72ch}
+.aca-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:12px;align-items:start}
+.aca-card{min-width:0;background:var(--c1);border:1px solid var(--bd);border-left:4px solid var(--sc,var(--vi));border-radius:12px;padding:14px 16px}
+.aca-card:focus-visible{outline:2px solid var(--vi2);outline-offset:2px}
+.aca-card.is-done{opacity:.72}
+.aca-subj{font-size:12px;color:var(--t3);margin:0}
+.aca-t{font-size:16.5px;font-weight:700;line-height:1.3;margin:3px 0 9px;overflow-wrap:anywhere}
+.aca-pills{display:flex;flex-wrap:wrap;gap:6px}
+.aca-st{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.aca-pill{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--bd);color:var(--t2)}
+.aca-dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 0}
+.aca-date{background:var(--el);border-radius:9px;padding:7px 10px;min-width:0}
+.aca-date span:first-child{display:block;font-size:11px;color:var(--t3)}
+.aca-date b{display:block;font-size:12.5px;font-weight:600}
+.aca-date .mt-cd{display:inline-block;margin-top:2px}
+.aca-next{margin:12px 0 0;padding:9px 12px;border-radius:10px;background:var(--vg);border:1px solid rgba(124,58,237,.35)}
+.aca-next span{font-size:11.5px;font-weight:700;color:var(--vi2)}
+.aca-next p{margin:2px 0 0;font-size:13.5px;line-height:1.5}
+.aca-prog{display:flex;align-items:center;gap:10px;margin:14px 0 4px;font-size:11.5px;color:var(--t3)}
+.aca-bar{flex:1;height:6px;border-radius:4px;background:var(--el);overflow:hidden}
+.aca-bar i{display:block;height:100%;background:var(--sc,var(--vi))}
+.aca-steps{list-style:none;margin:0;padding:0}
+.aca-steps li{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd)}
+.aca-steps li:last-child{border-bottom:none}
+.aca-steps label{flex:1;display:flex;align-items:flex-start;gap:9px;font-size:12.5px;line-height:1.45;cursor:pointer;min-width:0;overflow-wrap:anywhere}
+.aca-steps input{flex-shrink:0;width:17px;height:17px;margin:1px 0 0;accent-color:var(--vi);cursor:pointer}
+.aca-steps input:focus-visible{outline:2px solid var(--vi2);outline-offset:2px}
+.aca-steps li.ok label span{color:var(--t3);text-decoration:line-through}
+.aca-own{flex-shrink:0;font-size:10.5px;color:var(--t3);border:1px solid var(--bd);border-radius:5px;padding:0 6px;margin-top:1px}
+.aca-sec{margin-top:14px}
+.aca-sec h4{font-size:12.5px;font-weight:700;color:var(--t2);margin:0 0 6px}
+.aca-mem{display:flex;flex-wrap:wrap;gap:6px}
+.aca-mem span{font-size:12px;padding:3px 9px;border-radius:8px;background:var(--el);border:1px solid var(--bd)}
+.aca-mem i{font-style:normal;color:var(--t3)}
+.aca-notes{font-size:12px;color:var(--t2);line-height:1.55;margin:6px 0 0}
+.aca-rules{margin:0;padding-left:18px;font-size:12px;color:var(--t2);line-height:1.55}
+.aca-rules li::marker{color:var(--am)}
+.aca-foot{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-top:14px;padding-top:11px;border-top:1px solid var(--bd)}
+.aca-foot .mt-done{margin-left:0}
+
+#pnl8,.aca-card{scroll-margin-top:60px}
+@media (max-width:699px){
+  .mt-grid{grid-template-columns:1fr;gap:10px}
+  .mt-tile{min-height:0;gap:12px;padding:14px 15px}
+  .mt-ic{font-size:26px}
+  .mt-nm{font-size:17.5px}
+}
+@media (max-width:420px){
+  .mt-panel{padding:12px 12px 12px}
+  .mt-row.compact{flex-wrap:wrap;gap:4px 10px}
+  .mt-row.compact .mt-row-d{min-width:0}
+  .mt-row.compact .mt-row-t{flex-basis:100%;order:3}
+  .aca-card{padding:12px 13px}
+}
+@media (prefers-reduced-motion:reduce){
+  .mt-tile,.mt-fold>summary::before{transition:none}
+}
