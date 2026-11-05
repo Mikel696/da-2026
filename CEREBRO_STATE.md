@@ -11,6 +11,16 @@
 
 ---
 
+## 📡 10-SYS · ACA cargados y revisión nocturna diaria — miércoles 4-nov (19:00-20:40)
+
+- **ACA en el parte S6** (`acas`, 4: BI, Auditoría, Nube, TI) con estado, modalidad, pasos, reglas y evidencia de clase. Verificado en producción con sesión: 6 bloques con datos reales, pestaña ACAs (4) y bloque de Nube desplegado.
+- **TI:** el docente aclaró por correo que la materia es de 16 semanas con actividades finales hasta el 10-ene-2027; aún sin segundo corte.
+- **BI:** en la clase del 4-nov pidió no cargar el ACA hasta su orientación. Turnitin: sin bibliografía y más de 80 % = plagio.
+- **Inglés:** el icono 🇺🇸 venía de una copia vieja completa de la materia en `sys_subjects_custom` (anterior a `_setCronoSilent`); se quitó solo la clave `icon`. Esa copia todavía congela otros campos (desc, enlaces, horario): pendiente de limpiar con cuidado.
+- **Tarea local** `sys-semana-en-vivo` pasa a diaria (22:40) con permiso de Miguel: revisa CDigital, notas y ACA (usa `SYS.setAca`). Requiere PC encendido, Chrome abierto y CDigital con sesión; Miguel debe pulsar «Ejecutar ahora» una vez para dejar aprobados los permisos.
+- **Cola nocturna de 3-SISTEMAS:** 3 guías de ACA (Nube rol arquitecto, Auditoría, BI). Material de requisitos en el repo privado.
+
+---
 ## 🧱 10-SYS · Módulos por materia y sección de ACAs — miércoles 4-nov
 
 Pedido de Miguel: "módulos pequeños, cada uno con cada materia… quítame todas esas listas" + "una sección de solo ACAS"
