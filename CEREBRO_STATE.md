@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-04 (10-SYS: módulos por materia y sección de ACAs)
+- **Última actualización:** 2026-11-05 (3-ENG: 8 errores de vocabulario del QA nocturno)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,21 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🔤 3-ENG · 8 errores de vocabulario del QA nocturno — 4 y 5-nov
+
+- **Aplicados** (sección «Errores» de los lotes 29-oct a 5-nov del repo `ingles-curso`; 30 y 31-oct no tenían):
+  `_W.txt` 917 double, 1429 special, 1523 on hold, 1636 teenager, 1663 bottom, 1903 store, 1917 tax (`3d656a3`) y
+  `_W2a.txt` 90 panic (`b78ee0b`). Solo uso o ejemplos, por índice de línea con la palabra comprobada antes; el
+  orden no cambia, el progreso no se toca. Build reproducible: el HTML cambió solo esas 8 líneas.
+- **Verificado en producción** (5-nov): las 8 correcciones visibles en `APP.WORDS`; 8/8 auditorías en verde
+  (0/0/0/0, lab 0, morfo 0, club 0, glosario ok, song 0, busca ok, expr 0), 4231 palabras, 1000 frases, 11 pestañas
+  con contenido, 0 errores de consola. Las «dudas» de los lotes siguen abiertas: no se tocan sin revisión.
+- **Hallazgo, sin arreglar:** el corrector (`ANL.analizar`) da luz verde a «He don't speak English.» y «She don't
+  live in Bogotá.» (sí marca «He doesn't speaks» y «Where she lives?»). Falta la concordancia sujeto–auxiliar
+  `do/does`. Además «English» no está entre las 4231 palabras (sale «No puedo verificar»).
 
 ---
 
