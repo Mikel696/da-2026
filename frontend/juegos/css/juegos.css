@@ -8,8 +8,8 @@
   --papel-2: #a9b3c7;
   --papel-3: #75809a;
   --neon: #ff9a3c;
-  --bastion: #58e1ff;
-  --gravita: #c08bff;
+  --atalaya: #58e1ff;
+  --vaiven: #c08bff;
   --bien: #7be0a3;
   --mal: #ff6b6b;
   --acento: var(--neon);
@@ -80,11 +80,11 @@ a { color: inherit; }
   linear-gradient(to bottom, #120f24 0%, #3a1838 42%, #ff9a3c 43%, #1d1a2b 44%, #0e1220 100%); }
 .arte-neon::after { content: ''; position: absolute; left: 50%; top: 43%; width: 160%; height: 58%; transform: translateX(-50%) perspective(260px) rotateX(58deg); transform-origin: top;
   background: repeating-linear-gradient(to bottom, transparent 0 22px, rgba(255, 154, 60, 0.7) 22px 26px), linear-gradient(90deg, transparent 47%, rgba(255, 220, 160, 0.9) 49% 51%, transparent 53%); opacity: 0.55; }
-.arte-bastion { background:
+.arte-atalaya { background:
   radial-gradient(circle at 50% 40%, transparent 0 26px, rgba(88, 225, 255, 0.9) 27px 29px, transparent 30px),
   conic-gradient(from 45deg at 50% 40%, rgba(88, 225, 255, 0.12) 0 25%, transparent 0 50%, rgba(88, 225, 255, 0.12) 0 75%, transparent 0),
   linear-gradient(160deg, #0d1d2a, #13293a 50%, #0b1520); }
-.arte-gravita { background:
+.arte-vaiven { background:
   radial-gradient(circle at 42% 34%, #fff 0 4px, #e7d6ff 5px, #a271ff 34px, #4a2a8c 52px, transparent 53px),
   repeating-linear-gradient(45deg, rgba(192, 139, 255, 0.16) 0 2px, transparent 2px 28px),
   linear-gradient(200deg, #1d1438, #120e22); }

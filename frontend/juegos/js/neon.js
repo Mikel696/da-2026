@@ -1,4 +1,5 @@
-// 19-JUE · Neón GP · Juego 1 (carreras), parte A.
+// 19-JUE · Luciérnaga · Juego 1 (carreras). Archivos neon.* por el nombre de trabajo anterior (Neón GP, retirado el
+// 5-nov-2026 por parecido con un juego comercial existente).
 // Licencia: MIT (código propio del proyecto, bajo la licencia del repositorio). Base de diseño: pmndrs/racing-game (MIT):
 // coche arcade con marchas y nitro, cámara de persecución. Reescrito en vanilla JS sobre three.js 0.186.1 (MIT, vendorizado).
 // Modelos, texturas y pista se generan en código; este archivo no incluye ningún archivo de terceros.
