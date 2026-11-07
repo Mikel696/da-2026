@@ -2639,15 +2639,17 @@ const SYS = (() => {
     const c = _asArr((_acaFindStep(aid, sid) || {}).copy)[+i || 0];
     if (!c || !c.text) return;
     const ok = () => { if (!btn.dataset.lbl) btn.dataset.lbl = btn.textContent; btn.textContent = '✓ Copiado · pégalo con Ctrl + V'; setTimeout(() => { btn.textContent = btn.dataset.lbl; }, 2600); };
-    const fb = () => {
-      const ta = document.createElement('textarea');
-      ta.value = c.text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-      document.body.appendChild(ta); ta.select();
-      let done = false; try { done = document.execCommand('copy'); } catch (e) { /* sin portapapeles */ }
-      ta.remove();
-      if (done) ok(); else window.prompt('Copia este texto con Ctrl + C:', c.text);
-    };
-    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(c.text).then(ok, fb); else fb();
+    // Primero la copia síncrona dentro del clic: navigator.clipboard puede quedarse colgado sin
+    // resolver (visto el 6-nov en Chrome) y, pasado el clic, execCommand ya no tiene permiso.
+    const ta = document.createElement('textarea');
+    ta.value = c.text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    let done = false; try { done = document.execCommand('copy'); } catch (e) { /* sin portapapeles */ }
+    ta.remove();
+    if (done) return ok();
+    const manual = () => window.prompt('Copia este texto con Ctrl + C:', c.text);
+    if (!navigator.clipboard || !window.isSecureContext) return manual();
+    Promise.race([navigator.clipboard.writeText(c.text), new Promise((_, no) => setTimeout(no, 1500))]).then(ok, manual);
   }
   // Ventana aparte con letra grande, para arrastrarla a la otra pantalla mientras se graba.
   function acaScript(aid, sid) {
