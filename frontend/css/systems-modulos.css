@@ -150,6 +150,7 @@
 .aca-steps input:focus-visible{outline:2px solid var(--vi2);outline-offset:2px}
 .aca-steps li.ok label span{color:var(--t3);text-decoration:line-through}
 .aca-own{flex-shrink:0;font-size:10.5px;color:var(--t3);border:1px solid var(--bd);border-radius:5px;padding:0 6px;margin-top:1px}
+.aca-prio{display:inline-block;font-size:11.5px;font-weight:800;color:#0f1115;background:var(--am);border-radius:6px;padding:1px 8px;margin-right:4px}
 .aca-steps li{flex-wrap:wrap}
 .aca-x{flex-basis:100%;min-width:0;padding:4px 0 2px 26px}
 .aca-how{margin:0 0 6px;padding-left:18px;font-size:12px;color:var(--t2);line-height:1.55}

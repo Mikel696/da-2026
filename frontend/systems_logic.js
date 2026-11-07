@@ -2681,7 +2681,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
     const steps = a.steps || [];
     const date = (lbl, v, extra) => `<div class="aca-date"><span>${lbl}</span><b>${v ? wlFmtDue(v) : 'sin fecha'}</b>${extra || ''}</div>`;
     return `<article class="aca-card${done ? ' is-done' : ''}" id="aca-${escA(a.id)}" tabindex="-1" style="--sc:${escA(s.color || 'var(--vi)')}">
-      <p class="aca-subj"><span aria-hidden="true">${s.icon || '📚'}</span> ${esc(_short(s))}</p>
+      <p class="aca-subj">${a.prio && !done ? `<span class="aca-prio">Prioridad ${esc(a.prio)}${a.when ? ' · ' + esc(a.when) : ''}</span> ` : ''}<span aria-hidden="true">${s.icon || '📚'}</span> ${esc(_short(s))}</p>
       <h3 class="aca-t">${esc(a.title)}</h3>
       <div class="aca-pills"><span class="aca-st st-${S.cls}">${S.label}</span>${a.weight ? `<span class="aca-pill">Vale ${esc(a.weight)}</span>` : ''}<span class="aca-pill">${ACA_MODE[a.mode] || ACA_MODE.por_definir}</span></div>
       <div class="aca-dates">
@@ -2716,6 +2716,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
       return;
     }
     const sorted = acas.slice().sort((a, b) => (_acaStatus(a, raw) === 'entregado') - (_acaStatus(b, raw) === 'entregado')
+      || (a.prio || 99) - (b.prio || 99)
       || (_ms(a.closes) || Infinity) - (_ms(b.closes) || Infinity));
     const first = sorted.find(a => _acaStatus(a, raw) !== 'entregado' && a.closes);
     el.innerHTML = `<p class="aca-sum">${active.length} por entregar · ${acas.length - active.length} entregada${acas.length - active.length !== 1 ? 's' : ''}${first ? ` · la próxima cierra ${wlFmtDue(first.closes)}` : ''}<br><span class="mt-src">Datos del parte ${esc(w.title || w.id)}${w.cut ? ', cortado el ' + esc(w.cut) : ''}.</span></p>

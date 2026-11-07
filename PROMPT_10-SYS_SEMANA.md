@@ -123,6 +123,7 @@ SYS.injectWeek({
     links?: [{ label, url }],                                             // enlace DIRECTO a la actividad (/mod/assign/view.php?id=…)
     copy?: { label, text } | [{ label, text }],                           // botón 📋: mensajes, reseñas, rutas de archivos locales
     script?: { title, note?, label?, parts: [{ h, t }] } }],              // botón 🎬: guion en ventana aparte, letra grande
+  prio?: 1, when?: 'hoy',                                                 // orden de la pestaña: prioridad primero, luego cierre
   rules: [''], ev: [{ q /*verbatim*/, src, t? }],
   links: [{ label, url } | { label, nb: 'materia:idPágina' }],
   cm: 7343030,                                                            // id de la actividad en CDigital
