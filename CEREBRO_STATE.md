@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-05 (3-ENG: 8 errores de vocabulario del QA nocturno)
+- **Última actualización:** 2026-11-06 (10-SYS: la pestaña ACAs pasa a ser el plan de ejecución)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,25 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎯 10-SYS · ACAs = plan de ejecución con enlaces, copiar y guion — viernes 6-nov (22:15-23:00)
+
+**Pedido de Miguel (enfermo, sin poder el sábado):** "todo de los trabajos finales aquí, en orden de ejecución,
+explicado, con el link directo de CDigital, por prioridad de materia; no un HTML aparte, confuso". Ve los guiones
+en su segunda pantalla.
+
+- **Código (p38-p40):** cada paso de ACA admite `how` (sub-pasos), `links`, `copy` (mensajes, reseñas, rutas
+  locales: https no abre `file://`) y `script` (ventana aparte, letra 30 px, A−/A+). Las tarjetas se ordenan por
+  `prio` y luego por cierre; la píldora «Prioridad N · when» va arriba. Contrato en `PROMPT_10-SYS_SEMANA.md`.
+- **Trampa encontrada:** `navigator.clipboard.writeText` se quedó colgado sin resolver ni fallar en Chrome. El botón
+  copia primero con `execCommand` dentro del clic y deja el API de respaldo con tiempo límite (p40).
+- **Datos (Supabase, no repo):** 5 tarjetas. Nube (prio 1, 6 pasos, guion diapositivas 1-9), BI (2, mensaje hoy),
+  Auditoría (3, 9 pasos, guion de 7 diapositivas), Inglés `aca_en` nueva (4, cierre Dexway 13-nov), TI (5, Evaluación
+  Docente 2 y 3). Coevaluación: AUD abierta; Nube tras «Evalúa tu Entorno»; BI y TI bloqueadas por una encuesta con
+  fecha 2028/2030 (configuración de la CUN). Entregas de BI y Nube son individuales en CDigital.
+- **Verificado en producción:** 5 tarjetas en orden, cola de nube en 0, guion abre en ventana con 9 secciones.
 
 ---
 
