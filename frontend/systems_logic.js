@@ -2621,6 +2621,58 @@ const SYS = (() => {
   }
 
   // ── Pestaña 🎯 ACAs ──
+  // Un paso puede traer: how (sub-pasos explicados), links [{label,url}] (enlace directo a la
+  // actividad), copy {label,text} o lista (mensajes, reseñas, rutas de archivos: una página https
+  // no puede abrir file://) y script {title, note, parts:[{h,t}]} (guion para otra pantalla).
+  const _asArr = v => Array.isArray(v) ? v : v ? [v] : [];
+  function _acaStepX(a, x) {
+    const how = _asArr(x.how);
+    const ids = `data-aca="${escA(a.id)}" data-step="${escA(x.id)}"`;
+    const btns = _asArr(x.links).map(_mtLink).join('')
+      + _asArr(x.copy).map((c, i) => c && c.text ? `<button type="button" class="mt-lk" data-mt="aca-copy" ${ids} data-i="${i}">📋 ${esc(c.label || 'Copiar texto')}</button>` : '').join('')
+      + (x.script && _asArr(x.script.parts).length ? `<button type="button" class="mt-lk aca-scr" data-mt="aca-script" ${ids}>🎬 ${esc(x.script.label || 'Abrir el guion en otra ventana')}</button>` : '');
+    if (!how.length && !btns) return '';
+    return `<div class="aca-x">${how.length ? `<ol class="aca-how">${how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>` : ''}${btns ? `<div class="aca-xb">${btns}</div>` : ''}</div>`;
+  }
+  function _acaFindStep(aid, sid) { const a = _acaList().acas.find(x => x.id === aid); return a && (a.steps || []).find(s => s.id === sid); }
+  function acaCopy(btn, aid, sid, i) {
+    const c = _asArr((_acaFindStep(aid, sid) || {}).copy)[+i || 0];
+    if (!c || !c.text) return;
+    const ok = () => { if (!btn.dataset.lbl) btn.dataset.lbl = btn.textContent; btn.textContent = '✓ Copiado · pégalo con Ctrl + V'; setTimeout(() => { btn.textContent = btn.dataset.lbl; }, 2600); };
+    const fb = () => {
+      const ta = document.createElement('textarea');
+      ta.value = c.text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select();
+      let done = false; try { done = document.execCommand('copy'); } catch (e) { /* sin portapapeles */ }
+      ta.remove();
+      if (done) ok(); else window.prompt('Copia este texto con Ctrl + C:', c.text);
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(c.text).then(ok, fb); else fb();
+  }
+  // Ventana aparte con letra grande, para arrastrarla a la otra pantalla mientras se graba.
+  function acaScript(aid, sid) {
+    const sc = (_acaFindStep(aid, sid) || {}).script;
+    if (!sc) return;
+    const w = window.open('', 'guion_' + aid, 'width=1100,height=900');
+    if (!w) { alert('El navegador bloqueó la ventana del guion. Permite las ventanas emergentes de este sitio y vuelve a pulsar el botón.'); return; }
+    const parts = _asArr(sc.parts).map(p => `<section><h2>${esc(p.h)}</h2><p>${esc(p.t)}</p></section>`).join('');
+    w.document.open();
+    w.document.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(sc.title || 'Guion')}</title><style>
+:root{--fs:30px}*{box-sizing:border-box}body{margin:0;background:#0f1115;color:#f3f4f6;font-family:'Segoe UI',system-ui,sans-serif}
+header{position:sticky;top:0;background:#0f1115;border-bottom:1px solid #2a2f3a;padding:10px 24px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+h1{font-size:18px;margin:0 auto 0 0;font-weight:600;color:#c4b5fd}
+button{font:inherit;font-size:16px;background:#1f2430;color:#f3f4f6;border:1px solid #3a4150;border-radius:8px;padding:6px 14px;cursor:pointer}
+main{max-width:1050px;margin:0 auto;padding:12px 28px 70vh}
+.tip{font-size:16px;line-height:1.5;color:#9ca3af;margin:8px 0 4px}
+section{padding:20px 0;border-bottom:1px solid #2a2f3a}
+h2{font-size:calc(var(--fs)*.6);color:#fbbf24;margin:0 0 8px;font-weight:700}
+section p{font-size:var(--fs);line-height:1.55;margin:0}
+</style></head><body><header><h1>${esc(sc.title || 'Guion')}</h1><span style="color:#9ca3af;font-size:14px">Tamaño de letra</span><button type="button" onclick="z(-3)">A−</button><button type="button" onclick="z(3)">A+</button></header>
+<main>${sc.note ? `<p class="tip">${esc(sc.note)}</p>` : ''}${parts}</main>
+<script>var f=30;function z(d){f=Math.max(18,Math.min(60,f+d));document.documentElement.style.setProperty('--fs',f+'px')}<\/script></body></html>`);
+    w.document.close();
+    w.focus();
+  }
   function _acaCard(a, raw) {
     const s = getSubjects().find(x => x.id === a.subj) || { icon: '📌', name: 'Sin materia', color: 'var(--vi)' };
     const st = _acaStatus(a, raw), S = ACA_ST[st], p = _acaProgress(a, raw), done = st === 'entregado', next = _acaNext(a, raw);
@@ -2638,7 +2690,7 @@ const SYS = (() => {
       </div>
       ${next && !done ? `<div class="aca-next"><span>Siguiente paso</span><p>${esc(next)}</p></div>` : ''}
       ${steps.length ? `<div class="aca-prog"><div class="aca-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${p.n}" aria-valuenow="${p.d}" aria-label="Pasos hechos"><i style="width:${Math.round(p.d / p.n * 100)}%"></i></div><span>${p.d} de ${p.n} pasos</span></div>
-        <ol class="aca-steps">${steps.map(x => { const ok = _acaStepDone(a, x, raw); return `<li class="${ok ? 'ok' : ''}"><label><input type="checkbox" ${ok ? 'checked' : ''} data-mt="aca-step" data-aca="${escA(a.id)}" data-step="${escA(x.id)}"><span>${esc(x.text)}</span></label>${x.owner ? `<span class="aca-own">${esc(x.owner)}</span>` : ''}</li>`; }).join('')}</ol>` : ''}
+        <ol class="aca-steps">${steps.map(x => { const ok = _acaStepDone(a, x, raw); return `<li class="${ok ? 'ok' : ''}"><label><input type="checkbox" ${ok ? 'checked' : ''} data-mt="aca-step" data-aca="${escA(a.id)}" data-step="${escA(x.id)}"><span>${esc(x.text)}</span></label>${x.owner ? `<span class="aca-own">${esc(x.owner)}</span>` : ''}${_acaStepX(a, x)}</li>`; }).join('')}</ol>` : ''}
       ${members.length || (a.group || {}).notes ? `<div class="aca-sec"><h4>Grupo${members.length ? ` · ${members.length}` : ''}</h4>
         ${members.length ? `<div class="aca-mem">${members.map(m => `<span>${esc(m.name)}${m.role ? ` <i>${esc(m.role)}</i>` : ''}</span>`).join('')}</div>` : ''}
         ${a.group.notes ? `<p class="aca-notes">${esc(a.group.notes)}</p>` : ''}</div>` : ''}
@@ -2712,6 +2764,8 @@ const SYS = (() => {
       case 'aca-go': goAca(d.id); break;
       case 'aca-tab': { showTab(8); const p = document.getElementById('pnl8'); if (p) p.scrollIntoView({ block: 'start' }); break; }
       case 'aca-deliver': acaDeliver(d.id); break;
+      case 'aca-copy': acaCopy(b, d.aca, d.step, d.i); break;
+      case 'aca-script': acaScript(d.aca, d.step); break;
       default: return;
     }
   }

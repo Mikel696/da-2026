@@ -150,6 +150,13 @@
 .aca-steps input:focus-visible{outline:2px solid var(--vi2);outline-offset:2px}
 .aca-steps li.ok label span{color:var(--t3);text-decoration:line-through}
 .aca-own{flex-shrink:0;font-size:10.5px;color:var(--t3);border:1px solid var(--bd);border-radius:5px;padding:0 6px;margin-top:1px}
+.aca-steps li{flex-wrap:wrap}
+.aca-x{flex-basis:100%;min-width:0;padding:4px 0 2px 26px}
+.aca-how{margin:0 0 6px;padding-left:18px;font-size:12px;color:var(--t2);line-height:1.55}
+.aca-steps .aca-how li{display:list-item;padding:1px 0;border:none}
+.aca-xb{display:flex;flex-wrap:wrap;gap:6px}
+.aca-xb .aca-scr{border-color:var(--am);color:var(--am);font-weight:600}
+.aca-steps li.ok .aca-x{opacity:.55}
 .aca-sec{margin-top:14px}
 .aca-sec h4{font-size:12.5px;font-weight:700;color:var(--t2);margin:0 0 6px}
 .aca-mem{display:flex;flex-wrap:wrap;gap:6px}

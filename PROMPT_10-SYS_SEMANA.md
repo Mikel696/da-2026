@@ -118,7 +118,11 @@ SYS.injectWeek({
   mode: 'grupo'|'individual'|'por_definir',
   group: { members: [{ name, role }], notes: '' },                        // notes = lo acordado en el chat del grupo
   next: '',                                                               // siguiente paso; vacío → el primer paso sin marcar
-  steps: [{ id, text, owner: 'Miguel'|'grupo'|'Claude' }],
+  steps: [{ id, text, owner: 'Miguel'|'grupo'|'Claude',
+    how?: ['sub-paso explicado', …],                                      // se pinta como lista numerada bajo el paso
+    links?: [{ label, url }],                                             // enlace DIRECTO a la actividad (/mod/assign/view.php?id=…)
+    copy?: { label, text } | [{ label, text }],                           // botón 📋: mensajes, reseñas, rutas de archivos locales
+    script?: { title, note?, label?, parts: [{ h, t }] } }],              // botón 🎬: guion en ventana aparte, letra grande
   rules: [''], ev: [{ q /*verbatim*/, src, t? }],
   links: [{ label, url } | { label, nb: 'materia:idPágina' }],
   cm: 7343030,                                                            // id de la actividad en CDigital
@@ -136,6 +140,10 @@ SYS.injectWeek({
 - **Revisión rápida de cada sábado:** `SYS.getAcas()` → comparar con el aula y el chat del grupo →
   `SYS.setAca('aca_bi', { status: 'en_curso', next: '…', steps: [{ id: 's4', text: '…', owner: 'grupo' }] })`.
   Nombres de compañeros y notas del chat solo en el parte (Supabase), **nunca en el repo**.
+- **Pedido de Miguel (6-nov-2026):** cada paso en **orden de ejecución**, con el **enlace directo** a la actividad de
+  CDigital (no "entra a CDigital y busca") y todo lo que tenga que leer o pegar **dentro del paso** (guion, mensaje,
+  reseña). Un archivo local no se puede abrir desde la página (https no abre `file://`): va su ruta en `copy` y el `how`
+  dice "Win + E → pega la ruta en la barra de arriba → Enter". El guion se lee en su segunda pantalla: `script`.
 
 **Ids:** una actividad que pasa de una semana a la siguiente conserva su `id`; así su check y su estado
 siguen valiendo (el estado se guarda por id, no por semana).
