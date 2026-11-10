@@ -183,7 +183,7 @@ export function crearPista(def) {
   const sombra = (mesh, proyecta = false) => { mesh.receiveShadow = true; mesh.castShadow = proyecta; grupo.add(mesh); return mesh; };
 
   sombra(new THREE.Mesh(cinta(n, 5, (i, c, v) => { punto(i, (c / 2 - 1) * ancho[i], 0, v); v[3] = c / 4; v[4] = dist[i] / 12; }),
-    new THREE.MeshStandardMaterial({ map: T.asfalto, roughnessMap: T.brillo, normalMap: T.grano, normalScale: new THREE.Vector2(0.3, 0.3), roughness: 1, metalness: 0 })));
+    new THREE.MeshStandardMaterial({ map: T.asfalto, roughnessMap: T.brillo, normalMap: T.grano, normalScale: new THREE.Vector2(0.2, 0.2), roughness: 1, metalness: 0 })));
 
   const matHormigon = new THREE.MeshStandardMaterial({ map: T.hormigon, roughness: 0.88, metalness: 0, side: THREE.DoubleSide });
   const matRail = new THREE.MeshStandardMaterial({ color: 0xd5d9dd, roughness: 0.42, metalness: 0.35, side: THREE.DoubleSide });
@@ -224,9 +224,9 @@ export function crearPista(def) {
     lado.forEach((lista, d) => {
       if (!lista.length) return;
       const tex = d ? T.flechaI : T.flechaD;
-      const im = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.95, 0.7), new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: 0.32, roughness: 0.55 }), lista.length);
+      const im = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.66, 0.5), new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0xffffff, emissiveIntensity: 0.2, roughness: 0.55 }), lista.length);
       lista.forEach((i, k) => {
-        const sg = d ? 1 : -1; punto(i, sg * (ancho[i] + 1.05), 1.3, v3);
+        const sg = d ? 1 : -1; punto(i, sg * (ancho[i] + 1.12), 1.05, v3);
         q.setFromEuler(e.set(0, Math.atan2(-tx[i], -tz[i]), 0)); im.setMatrixAt(k, M4.compose(pos.set(v3[0], v3[1], v3[2]), q, uno));
       });
       grupo.add(im);

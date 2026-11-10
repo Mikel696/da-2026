@@ -142,7 +142,7 @@ export function crearCoche(E = RAIJIN, pintura = PINTURAS[0]) {
     disco: new THREE.MeshStandardMaterial({ color: 0x3a3b40, metalness: 0.85, roughness: 0.4 }),
     pinza: new THREE.MeshStandardMaterial({ color: new THREE.Color().setRGB(0.6, 0.03, 0.03), roughness: 0.4 }),
     cromo: new THREE.MeshStandardMaterial({ color: 0xc8ccd2, metalness: 1, roughness: 0.16 }),
-    faro: new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(3.4, 3.1, 2.5) }),
+    faro: new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(2.3, 2.1, 1.7) }),
     intermitente: new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(1.6, 0.55, 0.05) }),
     freno: new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(2.4, 0.1, 0.06) }),
     escapeLuz: new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(0, 0, 0) }),

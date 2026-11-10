@@ -100,7 +100,7 @@ const focos = [0, 1, 2].map(() => { const l = new THREE.SpotLight(new THREE.Colo
 function repartirFocos(x, z) {
   const cerca = P.farolas.map((f, k) => [k, (f.x - x) ** 2 + (f.z - z) ** 2]).sort((a, b) => a[1] - b[1]).slice(0, focos.length).map((a) => a[0]);
   for (const s of focos) if (!cerca.includes(s.f)) s.f = -1;
-  for (const k of cerca) if (!focos.some((s) => s.f === k)) { const s = focos.find((o) => o.f < 0); if (s) { s.f = k; const f = P.farolas[k]; s.l.position.set(f.x, f.y - 0.1, f.z); s.l.target.position.set(f.x, f.y - 7, f.z); s.l.intensity = 250; } }
+  for (const k of cerca) if (!focos.some((s) => s.f === k)) { const s = focos.find((o) => o.f < 0); if (s) { s.f = k; const f = P.farolas[k]; s.l.position.set(f.x, f.y - 0.1, f.z); s.l.target.position.set(f.x, f.y - 7, f.z); s.l.intensity = 150; } }
 }
 
 // ───────────── Coche ─────────────
@@ -157,7 +157,7 @@ function pantallaFin() {
   const record = carrera.puesto === 0, pr = carrera.previo;
   $('fTitulo').textContent = record ? 'Nuevo récord' : 'Abajo';
   $('fSub').textContent = record && pr ? `Le quitaste ${(pr.v - carrera.t).toFixed(2)} s a tu mejor bajada.` : record ? 'Primera bajada registrada. Ese es el tiempo a batir.'
-    : `Te faltaron ${(carrera.t - pr.v).toFixed(2)} s para tu mejor bajada.`;
+    : carrera.t - pr.v < 0.005 ? 'Igualaste tu mejor bajada.' : `Te faltaron ${(carrera.t - pr.v).toFixed(2)} s para tu mejor bajada.`;
   $('fTabla').innerHTML = `<tr class="yo"><td>Tiempo</td><td>${tiempo(carrera.t)}</td></tr><tr><td>Tu mejor bajada</td><td>${tiempo(record ? carrera.t : pr.v)}</td></tr>`
     + `<tr><td>Velocidad de punta</td><td>${Math.round(carrera.vmax)} km/h</td></tr><tr><td>Derrape</td><td>${carrera.puntos.toLocaleString('es-CO')} puntos</td></tr>`;
   document.body.classList.remove('corriendo'); hMsg.classList.remove('ver'); msgT = 0;
@@ -276,7 +276,7 @@ function vestirCoche(dt) {
 }
 
 // ───────────── Cámara ─────────────
-const cam = { yaw: 0, pos: new THREE.Vector3(), modo: 0, fov: 60, t: 0, listo: false, mirar: 0 };
+const cam = { yaw: 0, pos: new THREE.Vector3(), modo: 0, fov: 60, t: 0, listo: false, mirar: 0 }, camSup = { i: 0 };
 const MODOS = [{ dist: 6.2, alto: 2.0, mira: 1.2, adel: 2.4 }, { dist: 4.5, alto: 1.15, mira: 0.9, adel: 1.6 }, { capo: true }];
 function moverCamara(dt) {
   const vel = Math.hypot(veh.u, veh.v);
@@ -295,7 +295,12 @@ function moverCamara(dt) {
       const fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi);
       camara.position.set(veh.x + fxh * 0.75, veh.y + 1.08, veh.z + fzh * 0.75); camara.lookAt(veh.x + sx * 20, veh.y + 0.75 + (veh.sup.ty || 0) * 20, veh.z + sz * 20); fov = 68;
     } else {
-      const px = veh.x - sx * m.dist, pz = veh.z - sz * m.dist, py = Math.max(veh.y + m.alto, P.terreno(px, pz) + 0.75);
+      let px = veh.x - sx * m.dist, pz = veh.z - sz * m.dist;
+      // La cámara no sale de la carretera: en las horquillas se iba detrás del guardarraíl y atravesaba las señales.
+      P.consulta(px, pz, veh.sup.i, camSup);
+      const sobra = Math.abs(camSup.lat) - (camSup.ancho + 0.2);
+      if (sobra > 0) { const lado = Math.sign(camSup.lat); px -= camSup.rx * lado * sobra; pz -= camSup.rz * lado * sobra; }
+      const py = Math.max(veh.y + m.alto, P.terreno(px, pz) + 0.75);
       if (!cam.listo) { cam.pos.set(px, py, pz); cam.listo = true; }
       cam.pos.set(amort(cam.pos.x, px, 13, dt), amort(cam.pos.y, py, 7, dt), amort(cam.pos.z, pz, 13, dt));
       camara.position.copy(cam.pos); camara.lookAt(veh.x + sx * m.adel, veh.y + m.mira, veh.z + sz * m.adel);
@@ -443,15 +448,18 @@ inp.alPerderPad = () => pausar();
 addEventListener('keydown', (e) => { if (e.code === 'F3') { e.preventDefault(); medidor.alternar(); } });
 
 // ───────────── Bucle ─────────────
-function cuadro(t) {
-  requestAnimationFrame(cuadro);
-  const dt = Math.min(0.05, (t - ultimo) / 1000 || 0.016); ultimo = t;
+function cuadro(t) { requestAnimationFrame(cuadro); unCuadro(t); }
+// El cuadro va aparte del `requestAnimationFrame` a propósito: con la pestaña o el panel ocultos el navegador no
+// anima (0 cuadros) y las pruebas necesitan poder avanzar el juego a mano con `__lc.unCuadro(performance.now())`.
+function unCuadro(t) {
+  const dt = clamp((t - ultimo) / 1000 || 0.016, 0, 0.05); ultimo = Math.max(ultimo, t);
   medidor.inicio();
   inp.actualizar(); pintarPad();
   if (!audio.activo() && inp.botones[BOTON.A] > 0.5 && inp.previos[BOTON.A] <= 0.5) iniciarAudio();
   if (menus.abierto) {
     menus.actualizar(dt);
     if (pausado && inp.botones[BOTON.START] > 0.5 && inp.previos[BOTON.START] <= 0.5) $('pSeguir').click();
+    if (jugando && !pausado && carrera.fase === 'resultado') conducir(dt);   // detrás del resultado el coche termina de frenar, no se congela
   } else if (jugando) {
     if (inp.j('pausa')) pausar();
     else {
@@ -483,5 +491,5 @@ pintarMejor();
 menus.abrir($('pTitulo'), 0);
 requestAnimationFrame(cuadro);
 // Para pruebas desde la consola: estado, piloto automático y medición del motor sin altavoces. El juego no lo usa.
-window.__lc = { veh, P, renderer, scene, camara, carrera, inp, ent, auto, cam, coche, medirMotor, nuevaBajada,
+window.__lc = { veh, P, renderer, scene, camara, carrera, inp, ent, auto, cam, coche, medirMotor, nuevaBajada, unCuadro, tamano,
   sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo, musica: musica.sonando }) };
