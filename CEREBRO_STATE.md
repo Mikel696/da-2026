@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-09 (19-JUE: por qué el control no respondía + propuesta del juego de carreras)
+- **Última actualización:** 2026-11-10 (19-JUE: Miguel rechazó el tramo de Luciérnaga y cambió el juego a un convoy militar)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,28 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · El juego de carreras cambia a «Corredor» (convoy de suministros) — martes 10-nov
+
+- **Construido el 9-nov y NO publicado:** tramo de prueba de Luciérnaga (bajada de montaña de noche, cupé hecho por
+  secciones, conducción con derrape, sonido de motor sintetizado, HUD). En local cargó sin errores y el piloto
+  automático completó la bajada (37,6 s, 140 km/h de punta). Sin medir: fps a 1080p y el sonido.
+- **Miguel lo vio y lo rechazó** («dibujo de baja calidad») y cambió el encargo: una camioneta del ejército lleva
+  suministros por una vía con minas y drones; radar, torreta, defensas, rescate de heridos; «gráficos ultra realistas».
+- **Lección:** el aspecto «todo dibujado por código» tiene techo y ese techo no le sirve. El realismo exige texturas
+  escaneadas, cielos HDR y modelos de artista. La puerta del tramo de prueba funcionó: costó una sesión, no seis.
+- **Dónde está el código:** rama **local** `claude/convoy` (`9332087`, `932fbf0`), sin subir. `main` = lo publicado.
+  Se reutilizan carretera, conducción, sonido, cámara y piloto automático.
+- **Búsqueda de material libre (10-nov):** Poly Haven da cielos HDR, texturas y modelos CC0 sin cuenta. **No se
+  encontró camioneta militar ni dron realista gratis y CC0**; los de pago no pueden ir en un repo público.
+- **Bloqueado por una decisión de Miguel:** permiso para descargar material CC0 (30–60 MB estimados) y los
+  cargadores oficiales de three.js. Diseño, ruta y verdad sobre los gráficos: `docs/sesiones/2026-11-10-convoy-diseno.md`.
+- **No se promete «ultra realista»:** en el navegador se llega a materiales y luz reales, no a un juego de gran
+  estudio. Primer paso tras el permiso: un tramo de 300 m para que Miguel juzgue. Si no le sirve, no se hace aquí.
+- **Sin atender:** el mismo día pidió un cazador diario de ofertas con aviso al celular (reconstruir «Ofertas
+  reales» del inicio). No se empezó: va en una sesión propia.
 
 ---
 
