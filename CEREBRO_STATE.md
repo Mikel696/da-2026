@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-06 (10-SYS: la pestaña ACAs pasa a ser el plan de ejecución)
+- **Última actualización:** 2026-11-09 (19-JUE: por qué el control no respondía + propuesta del juego de carreras)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,52 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · El control no respondía: lo tapaba el volante — lunes 9-nov (19:45-20:40)
+
+**Pedido de Miguel:** llevar los 3 juegos «a lo más top», empezando por terminar el de carreras (gráficos de consola,
+varios escenarios, coches japoneses legendarios, sonido de motor, historia) y, lo más importante, arreglar el control
+Bluetooth, «no está sirviendo».
+
+- **Causa (reproducida con controles simulados, falta confirmarla con el control físico):** `entrada.js` elegía el
+  control con el `timestamp` más reciente. Windows tiene dos a la vez: el volante USB SHANWAN (aparece como
+  «Controlador de Xbox 360») y el mando «Xbox Wireless Controller» por Bluetooth (ambos en estado OK, leído con
+  `Get-PnpDevice`). El volante tiembla en reposo y renueva su timestamp en cada cuadro: con RT a fondo en el mando,
+  el juego aceleraba en **0 de 120 cuadros**. El adaptador Bluetooth no tenía nada que ver.
+- **Arreglo (`b89e3eb`):** manda el último control en el que se pulsó un botón; un stick solo le quita el turno al
+  control en uso si este lleva 20 cuadros quieto. Se puede fijar uno a mano (`jue_pad_pref`). `alPerderPad` avisa
+  cuando se va el control en uso (los juegos pausan con eso, no con cualquier desconexión). De paso: al mando de
+  Xbox se le pintaban los símbolos de PlayStation (la palabra «wireless controller» casaba primero).
+- **Sala de juegos:** con 2 o más controles muestra la lista, cuál está en uso y un botón para fijarlo.
+  Luciérnaga dice en el menú qué control escucha.
+- **Prueba de regresión:** `node scripts/prueba-entrada.mjs` → 9 casos (antes del arreglo fallaban 8 de 8).
+- **Verificado en producción** (Chrome 157 de Miguel, código servido por `mikel696.github.io`): volante que tiembla
+  + mando con RT → 120 de 120 cuadros con acelerador y giro; rótulo «A»; lista con los dos controles.
+  En local, con la sala y el juego animando: lista, fijar, automático, A arranca, RT acelera, Start pausa.
+- **Sin confirmar:** el control físico en manos de Miguel. Si el que usa es uno de los iPega (PG-9076 / PG-9156,
+  también emparejados), puede no traer mapa estándar: el asistente «Configurar control genérico» de la sala lo cubre.
+- **Trampa de verificación:** con el panel del navegador oculto o la pestaña de Chrome tapada, `requestAnimationFrame`
+  da 0 cuadros. La lógica se prueba llamando `inp.actualizar()` a mano; la interfaz, con el panel a la vista.
+- **Rastro que faltaba:** Luciérnaga parte B (vueltas, cronómetro, récord, sonido, pausa) entró a `main` el 5-nov
+  (`33f5d0b`) sin entrada aquí y con la cola nocturna diciendo «pendiente»: el guardián la habría rehecho. Cola corregida.
+- **Juegos fuera del carril nocturno:** 19-JUE lo lleva la sesión de día. Criterio del 28-oct («sala + juego 1 jugados
+  por Miguel con su control al 15-nov») no se podía cumplir con este fallo.
+
+**Propuesta para el juego de carreras (`analisis-profundo` → HACER DISTINTO; espera el sí de Miguel):**
+- El juego de hoy es un coche de cajas en una pista plana: no se «termina», se rehace sobre el mismo núcleo
+  (`entrada`, `comun`, `render`, `sonido`) con pistas y coches definidos como datos.
+- **Meta honesta:** aspecto de consola *estilizado* (noche, asfalto mojado, neón, faros), no fotorrealista: sin
+  modelos de artista no se llega a un Gran Turismo. Carreras callejeras japonesas de noche: montaña, autopista de
+  la bahía, ciudad con lluvia y costa al amanecer. 6 coches de arquetipo japonés con nombre propio (sin marcas:
+  repo público). Duelos 1 contra 1, historia con 4 jefes, contrarreloj con fantasma, derrape.
+- **Orden:** ① tramo de prueba (1 coche + 1 km de montaña con la luz y el sonido finales) que Miguel juzga en
+  producción → ② conducción y contrarreloj → ③ escenarios → ④ coches y sonidos → ⑤ rivales e historia → ⑥ pulido.
+  Estimado: 4 a 6 sesiones; cada una deja algo jugable publicado.
+- **Éxito, fijado antes de empezar:** ≥ 55 fps a 1080p en «alta» con la RX 580 en Chrome real; historia completable
+  solo con el mando; 0 errores de consola; 4 escenarios y 6 coches con sonido distinto. Si el tramo de prueba no
+  convence a Miguel, se evalúan texturas y cielos CC0 antes de construir lo ancho.
 
 ---
 
