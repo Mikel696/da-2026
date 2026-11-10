@@ -5,7 +5,9 @@ export const BOTON = { A: 0, B: 1, X: 2, Y: 3, LB: 4, RB: 5, LT: 6, RT: 7, SELEC
 
 const MAPAS_KEY = 'jue_pad_map';
 const VIB_KEY = 'jue_vibracion';
+const PREF_KEY = 'jue_pad_pref';
 const ZONA_MUERTA = 0.16;
+const QUIETO = 20;   // cuadros seguidos sin tocar el control en uso antes de cederle el turno al stick de otro
 
 const GLIFOS = {
   xbox: ['A', 'B', 'X', 'Y', 'LB', 'RB', 'LT', 'RT', 'View', 'Menu', 'LS', 'RS', '↑', '↓', '←', '→'],
@@ -15,12 +17,21 @@ const GLIFOS = {
 
 export function tipoPad(id) {
   const s = (id || '').toLowerCase();
-  if (/054c|dualshock|dualsense|playstation|wireless controller/.test(s)) return 'ps';
+  // Xbox primero: el mando de Xbox por Bluetooth se llama «Xbox Wireless Controller» y el de PlayStation,
+  // «Wireless Controller» a secas. Con el orden al revés, al de Xbox se le pintaban ✕ ○ □ △.
   if (/045e|xbox|xinput/.test(s)) return 'xbox';
+  if (/054c|dualshock|dualsense|playstation|wireless controller/.test(s)) return 'ps';
   return 'generico';
 }
 
 export function glifo(boton, tipo) { return (GLIFOS[tipo] || GLIFOS.generico)[boton] || '?'; }
+
+/** Nombre corto para mostrar: sin la coletilla técnica «(STANDARD GAMEPAD Vendor: … Product: …)». */
+export function nombrePad(id) {
+  const s = (id || '').replace(/\s*\((?:XInput )?STANDARD GAMEPAD[^)]*\)\s*$/i, '').replace(/\s*\(Vendor:[^)]*\)\s*$/i, '').trim();
+  return s || 'Control';
+}
+function leerPref() { try { return JSON.parse(localStorage.getItem(PREF_KEY)) || null; } catch (e) { return null; } }
 
 export function nombreTecla(code) {
   const m = { ArrowUp: '↑', ArrowDown: '↓', ArrowLeft: '←', ArrowRight: '→', Space: 'Espacio', ShiftLeft: 'Shift', ShiftRight: 'Shift',
@@ -82,6 +93,13 @@ export class Entrada {
     this.vibracion = vibracionActiva();
     this.ratonDX = 0; this.ratonDY = 0;
     this.alConectar = null; this.alDesconectar = null;
+    this.alPerderPad = null;   // se fue el control EN USO (no cualquiera): los juegos pausan con esto
+    this.pads = [];            // todos los controles conectados: [{ index, id, nombre, tipo, estandar, activo }]
+    this._est = new Map();     // por control: reposo de cada eje, botones del cuadro anterior, cuadros quieto
+    this._idx = -1;
+    this._fijo = null;
+    this._pref = leerPref();
+    this._firma = '';
     this._stickPrev = { x: 0, y: 0 };
     this._repetir = 0;
 
@@ -109,9 +127,7 @@ export class Entrada {
     this.recien = this._pend; this._pend = new Set();
     this.previos.set(this.botones);
     this.botones.fill(0); this.ejes.fill(0);
-    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
-    let gp = null;
-    for (const p of pads) if (p && p.connected && (!gp || p.timestamp > gp.timestamp)) gp = p;
+    const gp = this._elegir(navigator.getGamepads ? navigator.getGamepads() : []);
     this.pad = gp;
     if (!gp) return;
     this.padTipo = tipoPad(gp.id);
@@ -131,6 +147,68 @@ export class Entrada {
     let activo = Math.abs(lx) > 0.5 || Math.abs(ly) > 0.5 || Math.abs(rx) > 0.5 || Math.abs(ry) > 0.5;
     for (let i = 0; i < 16 && !activo; i++) if (this.botones[i] > 0.5) activo = true;
     if (activo) this.dispositivo = 'pad';
+  }
+
+  /** Decide qué control escucha el juego cuando hay varios. NUNCA por `timestamp`: un volante o un stick que
+   *  tiembla lo renueva en cada cuadro y le quitaba el turno al mando que el jugador tiene en las manos
+   *  (9-nov-2026: volante USB + mando Bluetooth → el mando no hacía nada). Manda el último control en el que
+   *  se PULSÓ un botón; mover un stick solo cuenta si el control en uso lleva un rato quieto. */
+  _elegir(lista) {
+    const vivos = [];
+    for (const gp of lista) {
+      if (!gp || !gp.connected) continue;
+      let e = this._est.get(gp.index);
+      if (!e || e.id !== gp.id) {
+        // Reposo de cada eje: un gatillo que llega como eje descansa en -1 y la cruceta tipo «hat» en 1,29, no en 0.
+        e = { id: gp.id, base: Array.from(gp.axes, (v) => (Math.abs(v) > 0.75 ? v : 0)), prev: new Uint8Array(gp.buttons.length), quieto: 0 };
+        this._est.set(gp.index, e);
+      }
+      let flanco = false, pulsado = false, desvio = 0;
+      for (let i = 0; i < gp.buttons.length; i++) {
+        const b = gp.buttons[i], on = b && (b.pressed || b.value > 0.5) ? 1 : 0;
+        if (on) { pulsado = true; if (!e.prev[i]) flanco = true; }
+        e.prev[i] = on;
+      }
+      for (let i = 0; i < gp.axes.length; i++) { const d = Math.abs(gp.axes[i] - (e.base[i] || 0)); if (d > desvio) desvio = d; }
+      e.quieto = pulsado || desvio > 0.25 ? 0 : e.quieto + 1;
+      vivos.push({ gp, e, flanco, desvio });
+    }
+    if (this._est.size > vivos.length) for (const k of [...this._est.keys()]) if (!vivos.some((v) => v.gp.index === k)) this._est.delete(k);
+
+    const actual = vivos.find((v) => v.gp.index === this._idx) || null;
+    if (this._idx >= 0 && !actual && this.alPerderPad) this.alPerderPad();
+    let elegido = actual;
+    this._fijo = null;
+    if (this._pref) {   // control fijado a mano en la sala de juegos
+      const mismos = vivos.filter((v) => v.gp.id === this._pref.id);
+      const f = mismos.find((v) => v.gp.index === this._pref.index) || mismos[0];
+      if (f) { elegido = f; this._fijo = f.gp.index; }
+    }
+    if (this._fijo === null && !(actual && actual.flanco)) {
+      const pulso = vivos.find((v) => v.flanco);
+      if (pulso) elegido = pulso;
+      else if (!actual) elegido = vivos.reduce((m, v) => (!m || v.desvio > m.desvio ? v : m), null);
+      else if (actual.e.quieto >= QUIETO) elegido = vivos.find((v) => v !== actual && v.desvio > 0.7) || actual;
+    }
+    this._idx = elegido ? elegido.gp.index : -1;
+
+    let firma = this._idx + '|' + this._fijo;
+    for (const v of vivos) firma += '|' + v.gp.index + v.gp.id + v.gp.mapping;
+    if (firma !== this._firma) {
+      this._firma = firma;
+      this.pads = vivos.map((v) => ({ index: v.gp.index, id: v.gp.id, nombre: nombrePad(v.gp.id), tipo: tipoPad(v.gp.id),
+        estandar: v.gp.mapping === 'standard', activo: v.gp.index === this._idx }));
+    }
+    return elegido ? elegido.gp : null;
+  }
+
+  /** Índice del control fijado a mano, o null si la elección es automática. */
+  get padFijo() { return this._fijo; }
+  /** Fija el control de ese índice (se recuerda entre visitas) o, con null, vuelve a la elección automática. */
+  fijarPad(index) {
+    const e = index == null ? null : this._est.get(index);
+    this._pref = e ? { id: e.id, index } : null;
+    try { if (this._pref) localStorage.setItem(PREF_KEY, JSON.stringify(this._pref)); else localStorage.removeItem(PREF_KEY); } catch (err) { /* vale para esta pestaña */ }
   }
 
   /** Valor 0..1 de una acción: tecla pulsada vale 1, un gatillo analógico vale lo que esté apretado. */

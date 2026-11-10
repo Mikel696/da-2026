@@ -514,7 +514,18 @@ $('pMenu').addEventListener('click', alMenu);
 $('fOtra').addEventListener('click', () => { ui.ok(); nuevaCarrera(); });
 $('fMenu').addEventListener('click', alMenu);
 document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); });
-inp.alDesconectar = () => pausar();
+inp.alPerderPad = () => pausar();
+// Qué control escucha el juego: con el volante USB enchufado hay dos, y hay que poder verlo sin salir a la sala.
+let padsVistos = null;
+function pintarPad() {
+  if (inp.pads === padsVistos) return;
+  padsVistos = inp.pads;
+  const p = inp.pads.find((x) => x.activo), n = inp.pads.length;
+  $('tPad').hidden = !p; if (!p) return;
+  $('tPad').textContent = `Control en uso: ${p.nombre}`
+    + (n > 1 ? ` · hay ${n} conectados: manda el último en el que pulses un botón (se puede fijar uno en la sala de juegos)` : '')
+    + (!p.estandar && !inp.mapas[p.id] ? ' · no usa el mapa estándar: configúralo en la sala de juegos' : '');
+}
 addEventListener('keydown', (e) => { if (e.code === 'F3') { e.preventDefault(); medidor.alternar(); } });
 
 // ───────────── Bucle ─────────────
@@ -523,6 +534,7 @@ function cuadro(t) {
   const dt = Math.min(0.05, (t - ultimo) / 1000 || 0.016); ultimo = t;
   medidor.inicio();
   inp.actualizar();
+  pintarPad();
   if (!audio.activo() && inp.botones[BOTON.A] > 0.5 && inp.previos[BOTON.A] <= 0.5) iniciarAudio();
   if (menus.abierto) {
     menus.actualizar(dt);

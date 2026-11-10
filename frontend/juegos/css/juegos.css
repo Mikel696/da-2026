@@ -43,6 +43,11 @@ a { color: inherit; }
 .estado.ok .luz { background: var(--bien); box-shadow: 0 0 12px var(--bien); }
 .estado.aviso .luz { background: var(--neon); }
 
+.varios { margin: -6px 0 18px; max-width: 52ch; }
+.varios p { margin: 0 0 10px; font-size: 14px; color: var(--papel-2); }
+.varios p b { color: var(--papel); font-weight: 600; }
+.varios button.on { border-color: var(--bien); }
+.varios button.on b { color: var(--bien); }
 .ajustes { display: flex; flex-wrap: wrap; gap: 8px; }
 .ajustes button, .chip { background: var(--asfalto-2); border: 1px solid var(--raya); border-radius: 999px; padding: 7px 14px; cursor: pointer; font-size: 14px; display: inline-flex; gap: 8px; align-items: center; }
 .ajustes button span { color: var(--papel-2); }

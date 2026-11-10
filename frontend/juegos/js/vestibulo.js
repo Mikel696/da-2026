@@ -94,8 +94,25 @@ function pintarEstado(gp) {
   for (let i = 0; i < 4; i++) $('rot' + i).textContent = glifo(i, inp.padTipo);
   $('rot6').textContent = glifo(6, inp.padTipo); $('rot7').textContent = glifo(7, inp.padTipo);
 }
+// Varios controles a la vez (el caso real: volante USB + mando Bluetooth): se ve cuál escucha el juego y se puede fijar.
+function pintarVarios() {
+  const n = inp.pads.length, fijo = inp.padFijo;
+  $('varios').hidden = n < 2; if (n < 2) return;
+  const foco = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.pad : null;
+  $('variosTxt').textContent = `Hay ${n} controles conectados.`;
+  $('variosLista').innerHTML = inp.pads.map((p) => `<button type="button" data-nav data-pad="${p.index}"${p.activo ? ' class="on"' : ''}>`
+    + `<span>${p.index + 1} · ${esc(p.nombre)}</span><b>${p.activo ? (fijo === p.index ? 'fijado' : 'en uso') : 'usar este'}</b></button>`).join('')
+    + (fijo !== null ? '<button type="button" data-nav data-pad="auto"><span>Elegir solo</span><b>automático</b></button>' : '');
+  if (foco != null) { const b = $('variosLista').querySelector(`[data-pad="${foco}"]`); if (b) b.focus({ preventScroll: true }); }
+}
+$('variosLista').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-pad]'); if (!b) return;
+  const auto = b.dataset.pad === 'auto';
+  inp.fijarPad(auto ? null : +b.dataset.pad); ui.ok();
+  aviso(auto ? 'El juego vuelve a elegir solo: manda el último control en el que pulses un botón' : 'Control fijado: el juego solo escucha este');
+});
 inp.alConectar = (gp) => { aviso('Control conectado'); ui.ok(); };
-inp.alDesconectar = () => { aviso('Control desconectado'); pintarEstado(null); ultimoId = null; };
+inp.alDesconectar = () => { aviso('Control desconectado'); };
 
 function pintarMando() {
   for (let i = 0; i < 16; i++) if (svgB[i] && i !== 6 && i !== 7) svgB[i].classList.toggle('on', inp.botones[i] > 0.5);
@@ -172,8 +189,8 @@ let tPrev = performance.now();
 function bucle(t) {
   const dt = Math.min(0.1, (t - tPrev) / 1000); tPrev = t;
   inp.actualizar();
-  const id = inp.pad ? inp.pad.id + inp.pad.mapping : null;
-  if (id !== ultimoId) { ultimoId = id; pintarEstado(inp.pad); }
+  // `inp.pads` solo se reemplaza cuando cambia algo: quién está conectado, cuál está en uso o cuál quedó fijado.
+  if (inp.pads !== ultimoId) { ultimoId = inp.pads; pintarEstado(inp.pad); pintarVarios(); }
   if (inp.pad) pintarMando();
   if (asis.activo) asisTick();
   else if (inp.pad && !$('asistente').open) {
