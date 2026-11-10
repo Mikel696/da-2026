@@ -11,10 +11,10 @@ import { Entrada, BOTON, fijarVibracion, vibracionActiva } from './entrada.js';
 import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, amort, records, tiempo } from './comun.js';
 import { iniciarAudio, ui, audio, Musica, volumenes, fijarVolumen, sonidoActivo, fijarSonido } from './sonido.js';
 import { SonidoCoche, CANCION, sfx } from './neon-sonido.js';
-import { JUEGOS } from './catalogo.js';
+import { ANTERIORES } from './catalogo.js';
 
 const $ = (id) => document.getElementById(id);
-const DEF = JUEGOS.find((j) => j.id === 'neon');
+const DEF = ANTERIORES.find((j) => j.id === 'neon');
 const ANCHO = 7;            // medio ancho de la pista (m)
 const MUESTRAS = 420;       // puntos con los que se mide la pista
 const MAX_KMH_MS = 62;      // velocidad máxima sin nitro (m/s ≈ 223 km/h)

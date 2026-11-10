@@ -1,14 +1,29 @@
 // 19-JUE · Fuente única de los juegos: el vestíbulo y cada juego leen de aquí nombres, colores,
 // controles y créditos. Si cambias un control en un juego, cámbialo aquí y en su tabla `acciones`.
 
-export const JUEGOS = [
+// El primer juego de carreras (circuito urbano, coche de cajas). Ya no sale en la sala: lo sustituye el tramo de
+// prueba del nuevo Luciérnaga. Sigue abriendo por su dirección (juegos/neon.html) hasta que Miguel acepte el nuevo.
+export const ANTERIORES = [
   {
-    id: 'neon', nombre: 'Luciérnaga', genero: 'Carreras', archivo: 'juegos/neon.html', color: '#ff9a3c', listo: true,
+    id: 'neon', nombre: 'Luciérnaga (circuito urbano)', genero: 'Carreras', archivo: 'juegos/neon.html', color: '#ff9a3c', listo: true,
     lema: 'Contrarreloj de tres vueltas en un circuito urbano de noche. Derrapa en las curvas para cargar el nitro.',
     tabla: 'carrera', menorEsMejor: true, formato: 'tiempo',
     controles: [
       ['Acelerar', 'W · ↑', 'RT'], ['Frenar / reversa', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izq.'],
       ['Derrapar', 'Espacio', 'B'], ['Nitro', 'Shift', 'A'], ['Cámara', 'C', 'Y'], ['Reaparecer', 'R', 'Select'], ['Pausa', 'Esc · P', 'Start'],
+    ],
+  },
+];
+
+export const JUEGOS = [
+  {
+    id: 'luciernaga', nombre: 'Luciérnaga', genero: 'Carreras', archivo: 'juegos/luciernaga.html', color: '#ffb35c', listo: true,
+    lema: 'Tramo de prueba: una bajada de montaña de noche por el Paso Hotaru. Un cupé de tracción trasera, dos horquillas y el reloj.',
+    tabla: 'hotaru', menorEsMejor: true, formato: 'tiempo',
+    controles: [
+      ['Acelerar', 'W · ↑', 'RT'], ['Frenar / marcha atrás', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izq.'],
+      ['Freno de mano', 'Espacio', 'A'], ['Mirar atrás', 'B', 'B'], ['Mirar alrededor', '—', 'Stick der.'],
+      ['Cámara', 'C', 'Y'], ['Volver a la carretera', 'R', 'Select'], ['Pausa', 'Esc · P', 'Start'],
     ],
   },
   {

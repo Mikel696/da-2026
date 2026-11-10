@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luciérnaga · Paso Hotaru</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/juegos.css">
+<style>
+  body { --sodio: #ffb35c; --luna: #9db4ff; --senal: #1f5fd0; --freno: #ff2d3d; --acento: var(--sodio); }
+  body.corriendo { cursor: none; }
+  .pantalla { background: linear-gradient(90deg, rgba(5, 7, 13, 0.86) 0%, rgba(5, 7, 13, 0.55) 42%, rgba(5, 7, 13, 0) 72%); }
+  .pantalla .kanji { font-family: 'Yu Gothic', 'Meiryo', 'Hiragino Sans', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 0.5em; color: var(--luna); margin: 0 0 2px 4px; }
+  .rec-titulo { font-family: var(--titulo); font-size: 26px; font-weight: 700; color: var(--sodio); margin: -14px 0 20px; }
+
+  .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--titulo); color: var(--papel); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75); font-variant-numeric: tabular-nums; }
+  /* Placa del lugar: como las señales de carretera japonesas, azul con filete blanco. */
+  .lugar { position: absolute; left: 2.6vw; top: 3vh; background: var(--senal); border-radius: 8px; padding: 7px 18px 8px; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.92), 0 6px 24px rgba(0, 0, 0, 0.5); text-shadow: none; line-height: 1; }
+  .lugar b { display: block; font-family: 'Yu Gothic', 'Meiryo', 'Hiragino Sans', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: 0.12em; }
+  .lugar span { font-family: var(--texto); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+  .avance { position: absolute; left: 2.6vw; top: calc(3vh + 78px); width: 230px; }
+  .avance i { display: block; height: 4px; background: rgba(255, 255, 255, 0.16); border-radius: 2px; overflow: hidden; }
+  .avance i u { display: block; height: 100%; width: 0; background: var(--sodio); }
+  .avance small { display: block; font-family: var(--texto); font-size: 14px; color: var(--papel-2); margin-top: 5px; }
+  .crono { position: absolute; right: 2.8vw; top: 2.6vh; text-align: right; }
+  .crono .t { font-size: 68px; font-weight: 700; line-height: 0.95; }
+  .crono div { font-family: var(--texto); font-size: 15px; color: var(--papel-2); }
+  .crono div b { color: var(--luna); font-weight: 600; }
+  .reloj { position: absolute; right: 1.6vw; bottom: 1.5vh; width: min(330px, 34vw); height: min(330px, 34vw); }
+  .mapa { position: absolute; left: 2.2vw; bottom: 2.6vh; width: 170px; height: 220px; opacity: 0.9; }
+  .derrape { position: absolute; left: 50%; bottom: 9vh; transform: translateX(-50%); text-align: center; opacity: 0; transition: opacity 160ms; }
+  .derrape.ver { opacity: 1; }
+  .derrape b { display: block; font-size: 54px; font-weight: 800; line-height: 0.9; color: var(--sodio); }
+  .derrape span { font-family: var(--texto); font-size: 15px; color: var(--papel-2); }
+  .derrape.perdido b { color: var(--freno); }
+  .msg { position: absolute; left: 50%; top: 22vh; transform: translateX(-50%); font-size: 50px; font-weight: 800; white-space: nowrap; opacity: 0; transition: opacity 180ms; }
+  .msg.ver { opacity: 1; }
+  .msg.aviso { color: var(--freno); }
+  .cuenta { position: fixed; left: 50%; top: 36%; transform: translate(-50%, -50%); z-index: 12; font-family: var(--titulo); font-weight: 800; font-size: 210px; line-height: 1; color: var(--papel); text-shadow: 0 0 60px rgba(255, 179, 92, 0.75); pointer-events: none; }
+  .cuenta.ya { color: var(--sodio); }
+  .pie { position: absolute; left: 50%; bottom: 1.6vh; transform: translateX(-50%); font-family: var(--texto); font-size: 13px; color: var(--papel-3); white-space: nowrap; }
+  @media (max-width: 760px) { .crono .t { font-size: 44px; } .mapa { display: none; } .lugar b { font-size: 22px; } .avance { width: 150px; top: calc(3vh + 64px); } .pie { display: none; } }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/addons/" } }</script>
+</head>
+<body class="juego">
+<canvas class="lienzo" id="lienzo"></canvas>
+<div class="cargando" id="cargando">Subiendo al Paso Hotaru…</div>
+
+<div class="hud" id="hud" hidden>
+  <div class="lugar"><b>蛍峠</b><span>Paso Hotaru · bajada</span></div>
+  <div class="avance"><i><u id="hAvance"></u></i><small id="hFalta"></small></div>
+  <div class="crono"><div class="t" id="hTiempo">0:00.00</div><div>Tu mejor bajada <b id="hMejor">—</b></div></div>
+  <canvas class="reloj" id="hReloj" width="660" height="660"></canvas>
+  <canvas class="mapa" id="hMapa" width="340" height="440"></canvas>
+  <div class="derrape" id="hDerrape"><b id="hDerrapeN">0</b><span id="hDerrapeT">derrape</span></div>
+  <div class="msg" id="hMsg"></div>
+  <div class="pie" id="hPie"></div>
+</div>
+<div class="cuenta" id="cuenta" hidden></div>
+
+<section class="pantalla" id="pTitulo" hidden>
+  <p class="kanji">蛍峠</p>
+  <div class="logo">Luciérnaga</div>
+  <p class="sub">Tramo de prueba: una bajada de 900 metros por el Paso Hotaru, de noche. Un coche, dos horquillas y el reloj.</p>
+  <p class="rec-titulo" id="tRecord"></p>
+  <div class="menu">
+    <button type="button" data-nav id="mJugar">Bajar el puerto</button>
+    <button type="button" id="mPintura"></button>
+    <button type="button" id="mAyuda"></button>
+    <button type="button" id="mCal"></button>
+    <button type="button" id="mSonido"></button>
+    <button type="button" data-nav id="mCtl">Controles</button>
+    <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
+  </div>
+  <div class="ayuda-menu" id="ayudaTitulo">Con el mando: cruceta o stick para moverte, A para elegir, B para volver. Cambiar la calidad recarga el juego.</div>
+  <div class="ayuda-menu" id="tPad" hidden></div>
+  <div class="ayuda-menu" id="tSonido" hidden>El sonido está encendido pero el navegador espera una tecla o un clic para dejarlo sonar: un botón del mando no le basta.</div>
+</section>
+
+<section class="pantalla" id="pPausa" hidden>
+  <h2>Pausa</h2>
+  <div class="menu">
+    <button type="button" data-nav data-atras id="pSeguir">Seguir</button>
+    <button type="button" data-nav id="pReiniciar">Volver a la salida</button>
+    <button type="button" id="pAyuda"></button>
+    <button type="button" id="pSonido"></button>
+    <button type="button" id="pMusica"></button>
+    <button type="button" id="pEfectos"></button>
+    <button type="button" id="pVib"></button>
+    <button type="button" data-nav id="pCtl">Controles</button>
+    <button type="button" data-nav id="pMenu">Menú principal</button>
+  </div>
+</section>
+
+<section class="pantalla" id="pControles" hidden>
+  <h2>Controles</h2>
+  <table class="tabla-fin" id="tablaCtl"></table>
+  <div class="menu"><button type="button" data-nav data-atras id="cVolver">Volver</button></div>
+</section>
+
+<section class="pantalla" id="pFin" hidden>
+  <h2 id="fTitulo">Abajo</h2>
+  <p class="sub" id="fSub"></p>
+  <table class="tabla-fin" id="fTabla"></table>
+  <div class="menu">
+    <button type="button" data-nav id="fOtra">Otra bajada</button>
+    <button type="button" data-nav id="fMenu">Menú principal</button>
+  </div>
+</section>
+
+<script type="module" src="js/luciernaga.js"></script>
+</body>
+</html>
