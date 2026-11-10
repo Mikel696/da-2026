@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corredor · tramo de realismo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/juegos.css">
+<style>
+  /* Paleta de campaña: arena del arcén, verde oliva de la chapa, ámbar de señal. Nada de neón: es de día. */
+  body { --arena: #d9c9a3; --oliva: #7d8a55; --ambar: #f2b33d; --alerta: #e2452f; --acento: var(--ambar); }
+  body.corriendo { cursor: none; }
+  .pantalla { background: linear-gradient(90deg, rgba(14, 15, 11, 0.82) 0%, rgba(14, 15, 11, 0.5) 40%, rgba(14, 15, 11, 0) 70%); }
+  .pantalla .logo { color: var(--arena); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6); }
+  .pantalla .clave { font-family: var(--texto); font-size: 15px; font-weight: 600; color: var(--ambar); margin: 0 0 4px 3px; }
+  .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--titulo); color: #f3efe4; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7); font-variant-numeric: tabular-nums; }
+  /* Tablero: una franja baja con la velocidad grande, la marcha y la barra de revoluciones. */
+  .tablero { position: absolute; right: 2.4vw; bottom: 3vh; display: grid; grid-template-columns: auto auto; column-gap: 14px; align-items: end; padding: 10px 18px 12px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--ambar); }
+  .tablero .kmh { font-size: 96px; font-weight: 800; line-height: 0.82; min-width: 2.1ch; text-align: right; }
+  .tablero .lado { padding-bottom: 4px; }
+  .tablero .lado b { display: block; font-size: 40px; font-weight: 700; line-height: 1; color: var(--ambar); }
+  .tablero .lado span { font-family: var(--texto); font-size: 14px; color: var(--papel-2); }
+  .tablero .rpm { grid-column: 1 / -1; height: 6px; margin-top: 10px; background: rgba(255, 255, 255, 0.16); }
+  .tablero .rpm i { display: block; height: 100%; width: 0; background: var(--arena); }
+  .tablero .rpm i.alto { background: var(--alerta); }
+  .mision { position: absolute; left: 2.4vw; top: 3vh; width: min(300px, 44vw); padding: 9px 14px 11px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--oliva); }
+  .mision b { display: block; font-size: 25px; font-weight: 700; line-height: 1.05; }
+  .mision small { display: block; font-family: var(--texto); font-size: 14px; color: var(--papel-2); margin: 3px 0 8px; }
+  .mision i { display: block; height: 4px; background: rgba(255, 255, 255, 0.16); }
+  .mision i u { display: block; height: 100%; width: 0; background: var(--ambar); }
+  .msg { position: absolute; left: 50%; top: 20vh; transform: translateX(-50%); padding: 8px 22px; background: rgba(14, 15, 11, 0.55); font-size: 38px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 200ms; }
+  .msg.ver { opacity: 1; }
+  .pie { position: absolute; left: 50%; bottom: 1.4vh; transform: translateX(-50%); font-family: var(--texto); font-size: 13px; color: rgba(243, 239, 228, 0.7); white-space: nowrap; }
+  @media (max-width: 760px) { .tablero .kmh { font-size: 60px; } .pie { display: none; } .msg { font-size: 24px; } }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/addons/" } }</script>
+</head>
+<body class="juego">
+<canvas class="lienzo" id="lienzo"></canvas>
+<div class="cargando" id="cargando">Cargando el corredor…</div>
+
+<div class="hud" id="hud" hidden>
+  <div class="mision"><b>Suministros al puesto de control</b><small id="hFalta"></small><i><u id="hAvance"></u></i></div>
+  <div class="tablero">
+    <div class="kmh" id="hKmh">0</div>
+    <div class="lado"><b id="hMarcha">1</b><span>km/h</span></div>
+    <div class="rpm"><i id="hRpm"></i></div>
+  </div>
+  <div class="msg" id="hMsg"></div>
+  <div class="pie">Pausa: Esc o Start · Cámara: C o Y · Volver al centro de la vía: R o Select</div>
+</div>
+
+<section class="pantalla" id="pTitulo" hidden>
+  <p class="clave">Tramo de realismo</p>
+  <div class="logo">Corredor</div>
+  <p class="sub">Una camioneta cargada, 760 metros de carretera y luz real. Todavía no hay minas ni drones: esto es para que juzgues cómo se ve y cómo se conduce.</p>
+  <div class="menu">
+    <button type="button" data-nav id="mJugar">Conducir</button>
+    <button type="button" id="mCal"></button>
+    <button type="button" id="mSonido"></button>
+    <button type="button" data-nav id="mCtl">Controles</button>
+    <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
+  </div>
+  <div class="ayuda-menu">Con el mando: cruceta o stick para moverte, A para elegir, B para volver. Cambiar la calidad recarga el tramo.</div>
+  <div class="ayuda-menu" id="tPad" hidden></div>
+  <div class="ayuda-menu" id="tSonido" hidden>El sonido está encendido, pero el navegador espera una tecla o un clic para dejarlo sonar: un botón del mando no le basta.</div>
+</section>
+
+<section class="pantalla" id="pPausa" hidden>
+  <h2>Pausa</h2>
+  <div class="menu">
+    <button type="button" data-nav data-atras id="pSeguir">Seguir</button>
+    <button type="button" data-nav id="pReiniciar">Volver a la salida</button>
+    <button type="button" id="pSonido"></button>
+    <button type="button" data-nav id="pCtl">Controles</button>
+    <button type="button" data-nav id="pMenu">Menú principal</button>
+  </div>
+</section>
+
+<section class="pantalla" id="pControles" hidden>
+  <h2>Controles</h2>
+  <table class="tabla-fin" id="tablaCtl"></table>
+  <div class="menu"><button type="button" data-nav data-atras id="cVolver">Volver</button></div>
+</section>
+
+<script type="module" src="js/corredor.js"></script>
+</body>
+</html>

@@ -28,7 +28,7 @@ export const RAIJIN = {
 };
 
 /** Curva suave por una tabla [[z, valor], …] sin rebasar entre puntos. */
-function curva(t) {
+export function curva(t) {
   const n = t.length, m = new Array(n);
   for (let k = 0; k < n; k++) {
     const a = k ? (t[k][1] - t[k - 1][1]) / (t[k][0] - t[k - 1][0]) : null, b = k < n - 1 ? (t[k + 1][1] - t[k][1]) / (t[k + 1][0] - t[k][0]) : null;
@@ -49,22 +49,25 @@ const SUB = [2, 2, 3, 4, 2, 5, 2, 3];
 const CLAVE = [0]; for (const s of SUB) CLAVE.push(CLAVE[CLAVE.length - 1] + s);
 const M = CLAVE[8] + 1, R = 2 * M - 2;
 
-function carroceria(E) {
+export function carroceria(E) {
   const fT = curva(E.techo), fH = curva(E.hombro), fM = curva(E.medio), fS = curva(E.suelo), fC = curva(E.cabina);
+  // Lo que cambia de un cupé a una camioneta: cuánto se estrecha arriba, cuánto sobresalen las aletas y el tamaño
+  // de la baldosa de textura (las coordenadas de textura siguen el contorno de cada sección, como desenrollarla).
+  const est = E.estrecha || [0.84, 0.69], aleta = E.aleta ?? 0.026, T = E.baldosa || 1.4, arco = E.paso + 0.08, acc = new Float32Array(M);
   // Dónde cortar: más fino en los pasos de rueda y en los extremos, y un corte exacto en cada borde de cristal.
   const set = new Set(), poner = (z) => set.add(Math.round(z * 1000) / 1000);
   for (let z = E.cola; z <= E.morro + 1e-6; z += 0.1) poner(z);
-  for (const zw of [E.ejeDel, E.ejeTras]) for (let z = zw - 0.46; z <= zw + 0.4601; z += 0.04) poner(z);
+  for (const zw of [E.ejeDel, E.ejeTras]) for (let z = zw - arco; z <= zw + arco + 1e-4; z += 0.04) poner(z);
   for (let k = 0; k < 6; k++) { poner(E.morro - k * 0.02); poner(E.cola + k * 0.02); }
   [...E.lateral, ...E.montante, ...E.parabrisas, ...E.luneta].forEach(poner);
   const zs = [...set].filter((z) => z >= E.cola - 1e-6 && z <= E.morro + 1e-6).sort((a, b) => a - b).filter((z, i, a) => !i || z - a[i - 1] > 0.013);
-  const S = zs.length, pos = new Float32Array((S * R + 2 * (R + 1)) * 3), dentro = new Uint8Array(S * R);
+  const S = zs.length, pos = new Float32Array((S * R + 2 * (R + 1)) * 3), uv = new Float32Array((S * R + 2 * (R + 1)) * 2), dentro = new Uint8Array(S * R);
   const K = [], medio = new Float32Array(M * 2);
   for (let si = 0; si < S; si++) {
     const z = zs[si], hw = fM(z), yF = fS(z), yS = fH(z), yT = fT(z), g = fC(z);
-    const wT = hw * lerp(0.84, 0.69, g), yE = lerp(lerp(yS, yT, 0.6), yT - 0.035, g);
+    const wT = hw * lerp(est[0], est[1], g), yE = lerp(lerp(yS, yT, 0.6), yT - 0.035, g);
     // Aletas: la carrocería se ensancha sobre cada rueda y se recoge hacia el hombro.
-    const hf = hw + 0.026 * (Math.exp(-(((z - E.ejeDel) / 0.42) ** 2)) + Math.exp(-(((z - E.ejeTras) / 0.42) ** 2)));
+    const hf = hw + aleta * (Math.exp(-(((z - E.ejeDel) / (E.paso + 0.035)) ** 2)) + Math.exp(-(((z - E.ejeTras) / (E.paso + 0.035)) ** 2)));
     K.length = 0;
     K.push([0, yF], [hw * 0.8, yF], [hf * 0.955, yF + 0.085], [hf, yF + 0.3], [hf * 0.975, yS - 0.1], [hw * 0.94, yS], [wT, yE], [wT * 0.55, lerp(yE, yT, 0.8)], [0, yT]);
     let o = 0;
@@ -73,8 +76,10 @@ function carroceria(E) {
       for (let k = 0; k < SUB[s]; k++) { const t = k / SUB[s]; medio[o++] = cr(p0[0], K[s][0], K[s + 1][0], p3[0], t); medio[o++] = cr(p0[1], K[s][1], K[s + 1][1], p3[1], t); }
     }
     medio[o++] = 0; medio[o++] = yT; medio[0] = 0;
+    for (let h = 1; h < M; h++) acc[h] = acc[h - 1] + Math.hypot(medio[h * 2] - medio[h * 2 - 2], medio[h * 2 + 1] - medio[h * 2 - 1]);
     for (let j = 0; j < R; j++) {
       const h = j < M ? j : R - j, v = (si * R + j) * 3;
+      uv[(si * R + j) * 2] = z / T; uv[(si * R + j) * 2 + 1] = (j < M ? acc[h] : -acc[h]) / T;
       let x = medio[h * 2] * (j < M ? 1 : -1), y = medio[h * 2 + 1], zz = z;
       if (h >= CLAVE[1] && h <= CLAVE[5]) for (const zw of [E.ejeDel, E.ejeTras]) {   // paso de rueda: lo de dentro se quita, el borde se lleva al círculo
         const dz = zz - zw, dy = y - E.radio, d = Math.hypot(dz, dy);
@@ -101,14 +106,14 @@ function carroceria(E) {
   // Tapas del morro y de la cola, con vértices propios para que queden planas.
   for (const [si, base, frente] of [[S - 1, S * R, true], [0, S * R + R + 1, false]]) {
     let cy = 0;
-    for (let j = 0; j < R; j++) { const v = (si * R + j) * 3, w = (base + j) * 3; pos[w] = pos[v]; pos[w + 1] = pos[v + 1]; pos[w + 2] = pos[v + 2]; cy += pos[v + 1] / R; }
-    const w = (base + R) * 3; pos[w] = 0; pos[w + 1] = cy; pos[w + 2] = zs[si];
+    for (let j = 0; j < R; j++) { const v = (si * R + j) * 3, w = (base + j) * 3; pos[w] = pos[v]; pos[w + 1] = pos[v + 1]; pos[w + 2] = pos[v + 2]; cy += pos[v + 1] / R; uv[(base + j) * 2] = pos[v] / T; uv[(base + j) * 2 + 1] = pos[v + 1] / T; }
+    const w = (base + R) * 3; pos[w] = 0; pos[w + 1] = cy; pos[w + 2] = zs[si]; uv[(base + R) * 2] = 0; uv[(base + R) * 2 + 1] = cy / T;
     for (let j = 0; j < R; j++) { const a = base + j, b = base + (j + 1) % R; if (frente) pintura.push(base + R, a, b); else pintura.push(base + R, b, a); }
   }
   const todo = new THREE.BufferGeometry();
-  todo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  todo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); todo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
   todo.setIndex([...pintura, ...cristal, ...bajos]); todo.computeVertexNormals();
-  const parte = (idx) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', todo.attributes.position); g.setAttribute('normal', todo.attributes.normal); g.setIndex(idx); return g; };
+  const parte = (idx) => { const g = new THREE.BufferGeometry(); for (const a of ['position', 'normal', 'uv']) g.setAttribute(a, todo.attributes[a]); g.setIndex(idx); return g; };
   return { pintura: parte(pintura), cristal: parte(cristal), bajos: parte(bajos) };
 }
 

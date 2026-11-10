@@ -8,3 +8,6 @@
   `examples/jsm/`, Octree, Capsule, el compositor de post-proceso (bloom + salida) y RoomEnvironment.
 - Para subir de versión: copiar los mismos archivos de la versión nueva, regenerar las sumas y
   jugar los 3 juegos antes de publicar (la API de three.js cambia entre versiones).
+- 10-nov-2026 · Para «Corredor» se añadieron, del mismo paquete y sin modificar: `loaders/GLTFLoader.js`,
+  `loaders/HDRLoader.js`, `utils/BufferGeometryUtils.js`, `utils/SkeletonUtils.js`, `postprocessing/GTAOPass.js`,
+  `shaders/GTAOShader.js`, `shaders/PoissonDenoiseShader.js` y `math/SimplexNoise.js`.

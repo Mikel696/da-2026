@@ -1,0 +1,490 @@
+{
+ "fuente": "Poly Haven",
+ "licencia": "CC0 1.0 (dominio público)",
+ "url": "https://polyhaven.com/license",
+ "descargado": "2026-11-10",
+ "assets": [
+  {
+   "id": "kloppenheim_06_puresky",
+   "nombre": "Kloppenheim 06 (Pure Sky)",
+   "tipo": "cielo",
+   "autores": [
+    "Greg Zaal",
+    "Jarod Guest"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/kloppenheim_06_puresky",
+   "archivos": [
+    {
+     "ruta": "cielo/kloppenheim_06_puresky_2k.hdr",
+     "bytes": 4434394,
+     "sha256": "99451201586489ef3288c97bfac2a2ac232a5491c51a1faf0ec8ea39f3ccd533"
+    }
+   ]
+  },
+  {
+   "id": "asphalt_02",
+   "nombre": "Asphalt 02",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/asphalt_02",
+   "archivos": [
+    {
+     "ruta": "tex/asphalt_02/diff_2k.jpg",
+     "bytes": 3075676,
+     "sha256": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c"
+    },
+    {
+     "ruta": "tex/asphalt_02/nor_2k.jpg",
+     "bytes": 4943950,
+     "sha256": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21"
+    },
+    {
+     "ruta": "tex/asphalt_02/arm_2k.jpg",
+     "bytes": 1299186,
+     "sha256": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea"
+    }
+   ]
+  },
+  {
+   "id": "rocky_terrain_02",
+   "nombre": "Rocky Terrain 02",
+   "tipo": "tex",
+   "autores": [
+    "Amal Kumar"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/rocky_terrain_02",
+   "archivos": [
+    {
+     "ruta": "tex/rocky_terrain_02/diff_1k.jpg",
+     "bytes": 843188,
+     "sha256": "d570c10b1d5302f4fde9e0e94f4cbab0d5e112fc3fe2b3b91c38a98bd3ddaf4b"
+    },
+    {
+     "ruta": "tex/rocky_terrain_02/nor_1k.jpg",
+     "bytes": 993692,
+     "sha256": "f4f9d9671c660f4e509e96d5da3091887dfd557e1353e313fa2d1dc789499ffd"
+    },
+    {
+     "ruta": "tex/rocky_terrain_02/arm_1k.jpg",
+     "bytes": 524868,
+     "sha256": "1894a2b068c006b27087703b8b8ffb9ac67af469481897d395f54735d699a8a1"
+    }
+   ]
+  },
+  {
+   "id": "sandy_gravel_02",
+   "nombre": "Sandy Gravel 02",
+   "tipo": "tex",
+   "autores": [
+    "Dario Barresi"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/sandy_gravel_02",
+   "archivos": [
+    {
+     "ruta": "tex/sandy_gravel_02/diff_1k.jpg",
+     "bytes": 947222,
+     "sha256": "c9d143db07db9a6be2eba285fae961d868520422ee5fa4d38d55da24f9968d51"
+    },
+    {
+     "ruta": "tex/sandy_gravel_02/nor_1k.jpg",
+     "bytes": 1185078,
+     "sha256": "36db1d118fb74885991ada4a3028f4fe346c65a8e3c75edea123c08856068e41"
+    },
+    {
+     "ruta": "tex/sandy_gravel_02/arm_1k.jpg",
+     "bytes": 820610,
+     "sha256": "c10a20b5736bf1785f12f1c6744d80450b98bf0ea8cb7128acb78df39688838f"
+    }
+   ]
+  },
+  {
+   "id": "green_metal_rust",
+   "nombre": "Green Metal Rust",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/green_metal_rust",
+   "archivos": [
+    {
+     "ruta": "tex/green_metal_rust/diff_1k.jpg",
+     "bytes": 212088,
+     "sha256": "4509ab0cb1cf6bf9b9f970450a41f83ebd9bff178006deae568ff34b404856fc"
+    },
+    {
+     "ruta": "tex/green_metal_rust/nor_1k.jpg",
+     "bytes": 121379,
+     "sha256": "8ecb28b0ea4026b740ce492e3f606f61a76bdce1f78cb2e29287bf9a56c54a80"
+    },
+    {
+     "ruta": "tex/green_metal_rust/arm_1k.jpg",
+     "bytes": 108674,
+     "sha256": "c1a48da0c5bba8f490497bbedadf4cb21d5387de8b3d49988c065e4b16805434"
+    }
+   ]
+  },
+  {
+   "id": "namaqualand_boulder_02",
+   "nombre": "Namaqualand Boulder 02",
+   "tipo": "mod",
+   "autores": [
+    "Greg Zaal",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/namaqualand_boulder_02",
+   "archivos": [
+    {
+     "ruta": "mod/namaqualand_boulder_02/namaqualand_boulder_02.gltf",
+     "bytes": 2818,
+     "sha256": "3c41b5946cd5b208673ec481a3969047665688b2fab1de99b57a7b4eedde099b"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_02/namaqualand_boulder_02.bin",
+     "bytes": 2297768,
+     "sha256": "0f6daa7ec9b1a92207c0b09b737ff1eec904aebc1c1eada778afa6e5eacd55c0"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_02/textures/namaqualand_boulder_02_nor_gl_1k.jpg",
+     "bytes": 1031460,
+     "sha256": "2407a9915ea0cf42b164d42f548618145da892b948327fff67bef6123790a5d7"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_02/textures/namaqualand_boulder_02_arm_1k.jpg",
+     "bytes": 796910,
+     "sha256": "e67643f5de3e2bfdd07fae1137eff0b9d86745a8c60ccac7e64b62e85ae9cee0"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_02/textures/namaqualand_boulder_02_diff_1k.jpg",
+     "bytes": 1010348,
+     "sha256": "e567620fa04906e023e3d3b49860dd32db39b368d72ecfc10ad005945fd4034d"
+    }
+   ]
+  },
+  {
+   "id": "namaqualand_boulder_05",
+   "nombre": "Namaqualand Boulder 05",
+   "tipo": "mod",
+   "autores": [
+    "Jenelle van Heerden",
+    "Dario Barresi"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/namaqualand_boulder_05",
+   "archivos": [
+    {
+     "ruta": "mod/namaqualand_boulder_05/namaqualand_boulder_05.gltf",
+     "bytes": 2872,
+     "sha256": "f8e5fd8fd981e889d621ba4e53170a52c47cd3053b8748ee7025ed1083f36a5f"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_05/textures/namaqualand_boulder_05_arm_1k.jpg",
+     "bytes": 713844,
+     "sha256": "1466c8467188f54c2fb655b05f9e1d0a9a93a366f3cd45878bcf6905487c5f3e"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_05/textures/namaqualand_boulder_05_nor_gl_1k.jpg",
+     "bytes": 1099873,
+     "sha256": "027359a8a79febee925cc29af3106cc12bdeed5bc91cb26f1d88f589c77f448d"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_05/namaqualand_boulder_05.bin",
+     "bytes": 2015628,
+     "sha256": "a60ade71de8612c873f9112159ed5d93dcba58979007a0915bc10d551a9ed03c"
+    },
+    {
+     "ruta": "mod/namaqualand_boulder_05/textures/namaqualand_boulder_05_diff_1k.jpg",
+     "bytes": 867775,
+     "sha256": "58d1fba55e16a56fe2d6e016ac75bcddfbc3bb2273ca8c9127f1de497c54db2a"
+    }
+   ]
+  },
+  {
+   "id": "wild_rooibos_bush",
+   "nombre": "Wild Rooibos Bush",
+   "tipo": "mod",
+   "autores": [
+    "James Ray Cock",
+    "Jenelle van Heerden"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/wild_rooibos_bush",
+   "archivos": [
+    {
+     "ruta": "mod/wild_rooibos_bush/wild_rooibos_bush.gltf",
+     "bytes": 23122,
+     "sha256": "7f3fb17e4606e33d0bc4239c4901c9610b4bd17fe26b6780ba11ab4493f25d29"
+    },
+    {
+     "ruta": "mod/wild_rooibos_bush/textures/wild_rooibos_bush_nor_gl_1k.jpg",
+     "bytes": 463170,
+     "sha256": "ffd557b4cb732d24988d41741398df150567f3ac9d1433f11b88d60158c953d4"
+    },
+    {
+     "ruta": "mod/wild_rooibos_bush/textures/wild_rooibos_bush_diff_1k.jpg",
+     "bytes": 374003,
+     "sha256": "d963cdaf769bc39bb57295d518b37cd9456168cf5e3b82fd59f58c98d3faf596"
+    },
+    {
+     "ruta": "mod/wild_rooibos_bush/textures/wild_rooibos_bush_arm_1k.jpg",
+     "bytes": 367273,
+     "sha256": "e0e512f263b8f1fe1c485e61912ba1ce5d42b397cf9a4e2b1786677e732bb84b"
+    },
+    {
+     "ruta": "mod/wild_rooibos_bush/wild_rooibos_bush.bin",
+     "bytes": 1236928,
+     "sha256": "7a3471b4d110fe9927f4a200191eae86fa3c0a08f8e8e797d22e94a1703322e1"
+    }
+   ]
+  },
+  {
+   "id": "shrub_04",
+   "nombre": "Shrub 04",
+   "tipo": "mod",
+   "autores": [
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/shrub_04",
+   "archivos": [
+    {
+     "ruta": "mod/shrub_04/shrub_04.gltf",
+     "bytes": 2882,
+     "sha256": "782832cbc57e96686b78c6ef9df6234c25f564f78421c8ed4bd42c3631f5aeae"
+    },
+    {
+     "ruta": "mod/shrub_04/textures/shrub_04_nor_gl_1k.jpg",
+     "bytes": 449241,
+     "sha256": "200d791e0474495bfc876ba1c289dade669c6a5b124647c55bc840a875f6b51c"
+    },
+    {
+     "ruta": "mod/shrub_04/textures/shrub_04_diff_1k.jpg",
+     "bytes": 373350,
+     "sha256": "0b0fa0a474753d13f3093858cea79d0de05da1e6a0c5d6e181cd351080980b6c"
+    },
+    {
+     "ruta": "mod/shrub_04/textures/shrub_04_arm_1k.jpg",
+     "bytes": 332957,
+     "sha256": "d1085df021928b29b0f38dde7e58e9a2e304c4e8d838e390b37cf57f8aa492e8"
+    },
+    {
+     "ruta": "mod/shrub_04/shrub_04.bin",
+     "bytes": 749084,
+     "sha256": "cb442c39682e54cc63f912aa78ab17a03566f947a61adbbbaaa6473166744f01"
+    }
+   ]
+  },
+  {
+   "id": "dead_tree_trunk_02",
+   "nombre": "Dead Tree Trunk 02",
+   "tipo": "mod",
+   "autores": [
+    "Jenelle van Heerden",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/dead_tree_trunk_02",
+   "archivos": [
+    {
+     "ruta": "mod/dead_tree_trunk_02/dead_tree_trunk_02.gltf",
+     "bytes": 2849,
+     "sha256": "b486ab1f0c7f4972e0eec97b19de53b26a34d09f07da5f9c2a70f8621f9e574c"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk_02/textures/dead_tree_trunk_02_diff_1k.jpg",
+     "bytes": 932059,
+     "sha256": "fac23e81ab5639dcde93db605e5dd94c65e0aa2b1fb4a303f37de9afbb9af5b4"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk_02/textures/dead_tree_trunk_02_arm_1k.jpg",
+     "bytes": 805609,
+     "sha256": "ea15561ce36572ebd0db3c997f70d68a76d4bcbfef7efb4f91c8fd3b5f766e62"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk_02/textures/dead_tree_trunk_02_nor_gl_1k.jpg",
+     "bytes": 1192056,
+     "sha256": "9b26c29b89afced0ddb91dbe6f917e59038bed5ba6076dfceb8d1b4b00ca04f7"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk_02/dead_tree_trunk_02.bin",
+     "bytes": 1974352,
+     "sha256": "2b1b7ca07d98396ddc1987e367dcff9734df16b62e997c14837512d134687ded"
+    }
+   ]
+  },
+  {
+   "id": "concrete_road_barrier",
+   "nombre": "Concrete Road Barrier",
+   "tipo": "mod",
+   "autores": [
+    "Amal Kumar"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/concrete_road_barrier",
+   "archivos": [
+    {
+     "ruta": "mod/concrete_road_barrier/concrete_road_barrier.gltf",
+     "bytes": 2868,
+     "sha256": "c371e87d303fff3f0c9fbe88520f7837514364e5c66aac3244e115ffa673d061"
+    },
+    {
+     "ruta": "mod/concrete_road_barrier/textures/concrete_road_barrier_nor_gl_1k.jpg",
+     "bytes": 961760,
+     "sha256": "c1072f51ff5c3d7158f0fbb0aa26e82b816b745b9f03639c4816832af2b37c52"
+    },
+    {
+     "ruta": "mod/concrete_road_barrier/textures/concrete_road_barrier_arm_1k.jpg",
+     "bytes": 619502,
+     "sha256": "b940847648012f2db8c24b16e07ad1e39b3bd33ea493203364deca209606e4b4"
+    },
+    {
+     "ruta": "mod/concrete_road_barrier/textures/concrete_road_barrier_diff_1k.jpg",
+     "bytes": 792641,
+     "sha256": "88b2d79829ffec7b11ac4d9c8554328f30b665d2c17f634197fde4f1ca8696fe"
+    },
+    {
+     "ruta": "mod/concrete_road_barrier/concrete_road_barrier.bin",
+     "bytes": 1374016,
+     "sha256": "64a4f9bc6e4af64d714a252c3c13428c430a60569deba3d52ca6b7dd3aa70d8c"
+    }
+   ]
+  },
+  {
+   "id": "metal_jerrycan",
+   "nombre": "Metal Jerrycan",
+   "tipo": "mod",
+   "autores": [
+    "Sean Buckley"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/metal_jerrycan",
+   "archivos": [
+    {
+     "ruta": "mod/metal_jerrycan/metal_jerrycan.gltf",
+     "bytes": 2793,
+     "sha256": "7ae6f2aa0b7f35e38baa89c1c243312848391a9d1c0e67acf02aa7dac32599ff"
+    },
+    {
+     "ruta": "mod/metal_jerrycan/textures/metal_jerrycan_nor_gl_1k.jpg",
+     "bytes": 885424,
+     "sha256": "88dd8f6566cc5faa8fee658777115b518642508f23ffa1917128dba9539ae14d"
+    },
+    {
+     "ruta": "mod/metal_jerrycan/textures/metal_jerrycan_diff_1k.jpg",
+     "bytes": 673499,
+     "sha256": "64781939c4b3f739c52c335d26473def75d736173f3cc11a50ac2876d511d123"
+    },
+    {
+     "ruta": "mod/metal_jerrycan/textures/metal_jerrycan_arm_1k.jpg",
+     "bytes": 988166,
+     "sha256": "fda20dd47d809fd5bd4cd29cd11e77fc2de97bd35569a7efb51fbf78705e659c"
+    },
+    {
+     "ruta": "mod/metal_jerrycan/metal_jerrycan.bin",
+     "bytes": 484676,
+     "sha256": "d84ce2528b28a477c5309fc289a50a3deb61287265a787bd728e639c5230408c"
+    }
+   ]
+  },
+  {
+   "id": "wooden_crate_02",
+   "nombre": "Wooden Crate 02",
+   "tipo": "mod",
+   "autores": [
+    "James Ray Cock",
+    "Jurita Burger"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/wooden_crate_02",
+   "archivos": [
+    {
+     "ruta": "mod/wooden_crate_02/wooden_crate_02.gltf",
+     "bytes": 4150,
+     "sha256": "e90985d317664668988cb95ce707784c94ab0ccc6d13c980ca789fa69a5cf7b6"
+    },
+    {
+     "ruta": "mod/wooden_crate_02/textures/wooden_crate_02_diff_1k.jpg",
+     "bytes": 716110,
+     "sha256": "a6e57123110d2899af9493c22b1918174f1c96c707e7126ac67738d98ee10c07"
+    },
+    {
+     "ruta": "mod/wooden_crate_02/textures/wooden_crate_02_arm_1k.jpg",
+     "bytes": 819577,
+     "sha256": "a76af97005a66fe8c7cdcabf20174f06813e6a6d5cd9502157c93a57f3c89d5a"
+    },
+    {
+     "ruta": "mod/wooden_crate_02/wooden_crate_02.bin",
+     "bytes": 150064,
+     "sha256": "e68e272641f704e5241e4108894f0b97363d511944db8b991a48787d0160ea5e"
+    },
+    {
+     "ruta": "mod/wooden_crate_02/textures/wooden_crate_02_nor_gl_1k.jpg",
+     "bytes": 546319,
+     "sha256": "59342f730c9f336950f796ef5e4c3b8c794ce5adbd54d98a2ecb679a7e4ae5e8"
+    }
+   ]
+  },
+  {
+   "id": "barrel_03",
+   "nombre": "Barrel 03",
+   "tipo": "mod",
+   "autores": [
+    "Serhii Khromov"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/barrel_03",
+   "archivos": [
+    {
+     "ruta": "mod/barrel_03/barrel_03.gltf",
+     "bytes": 2638,
+     "sha256": "80e2faf48b7423bb522b573e459d99c5656a16763285ec8268e957fc7d41f9b8"
+    },
+    {
+     "ruta": "mod/barrel_03/textures/barrel_03_diff_1k.jpg",
+     "bytes": 149997,
+     "sha256": "62feb27dfa9a0daf3f323fdc1ddc2d8e4a5996cf2c72fe50197b55c2b9cba7f3"
+    },
+    {
+     "ruta": "mod/barrel_03/barrel_03.bin",
+     "bytes": 44872,
+     "sha256": "10f3202e9ac9acf8dd896f1562c64db58311ffef89efb402d8433e03ad486427"
+    },
+    {
+     "ruta": "mod/barrel_03/textures/barrel_03_nor_gl_1k.jpg",
+     "bytes": 126707,
+     "sha256": "ade97c52985047858a4f38226a9b8a888e3a766ba0434700b4618fb25424c4b6"
+    },
+    {
+     "ruta": "mod/barrel_03/textures/barrel_03_arm_1k.jpg",
+     "bytes": 249922,
+     "sha256": "2cec2338b36d7322bef55e6a1d0884b223c5ed383cf986a58bfa461478c64c7e"
+    }
+   ]
+  },
+  {
+   "id": "kloofendal_48d_partly_cloudy_puresky",
+   "nombre": "Kloofendal 48d Partly Cloudy (Pure Sky)",
+   "tipo": "cielo",
+   "autores": [
+    "Greg Zaal",
+    "Jarod Guest"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky",
+   "archivos": [
+    {
+     "ruta": "cielo/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
+     "bytes": 5451493,
+     "sha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198"
+    }
+   ]
+  }
+ ]
+}

@@ -28,6 +28,13 @@
   cargadores oficiales de three.js. Diseño, ruta y verdad sobre los gráficos: `docs/sesiones/2026-11-10-convoy-diseno.md`.
 - **No se promete «ultra realista»:** en el navegador se llega a materiales y luz reales, no a un juego de gran
   estudio. Primer paso tras el permiso: un tramo de 300 m para que Miguel juzgue. Si no le sirve, no se hace aquí.
+- **Miguel autorizó descargar (10-nov) y el tramo de realismo quedó publicado sin enlazar:** `juegos/corredor.html`.
+  Cielo HDR, asfalto, tierra, rocas, arbustos y carga son escaneos reales de Poly Haven (CC0, 51,2 MB, créditos en
+  `juegos/assets/ph/CREDITOS.json`); la camioneta se arma en código con chapa escaneada. Medido: 60 fps a 1920×1080
+  en alta. **Falta que Miguel lo vea y decida.** Detalle y pendientes en el documento de diseño.
+- **Trampa de carpetas:** había otra sesión (ofertas) con cambios sin guardar en la carpeta principal. El juego se
+  trabaja en la copia aparte `.claude/worktrees/convoy` (rama `claude/convoy`) y se publica con
+  `git push origin HEAD:main` desde ahí, sin tocar la carpeta principal.
 - **Sin atender:** el mismo día pidió un cazador diario de ofertas con aviso al celular (reconstruir «Ofertas
   reales» del inicio). No se empezó: va en una sesión propia.
 

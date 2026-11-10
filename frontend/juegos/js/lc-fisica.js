@@ -6,6 +6,16 @@ import { clamp, lerp, suave } from './lc-util.js';
 import { ARCEN } from './lc-pista.js';
 
 export const AJUSTE = {
+  // Camioneta táctica 4x4 cargada: pesa, balancea, frena largo y no derrapa por potencia.
+  tactica: {
+    a: 1.55, b: 1.75, alto: 0.95, inercia: 2.7,
+    agarre: 0.94, B: 9.5, C: 1.3, suelta: 0.45,
+    fuerza: 1.6, marchas: [3.8, 2.3, 1.5, 1.05, 0.8], final: 4.1, radio: 0.46,
+    rpmMax: 4200, ralenti: 750,
+    arrastre: 0.0016, rodadura: 0.02, frenos: 8.5, reparto: 0.6,
+    giroMax: 0.5, giroVel: 2.2,
+    ayuda: 0.5,
+  },
   raijin: {
     a: 1.25, b: 1.42, alto: 0.5, inercia: 1.6,            // del centro de gravedad a cada eje; altura; inercia de giro
     agarre: 1.1, B: 13, C: 1.38, suelta: 0.82,           // llanta: pico a ~9,5°, conserva el 83 % derrapando
@@ -40,7 +50,7 @@ export class Vehiculo {
 
   /** ent = { gas 0..1, freno 0..1, giro -1..1 (derecha +), mano bool }. */
   paso(dt, ent, P) {
-    const A = this.aj, s = this.sup, L = A.a + A.b;
+    const A = this.aj, s = this.sup, L = A.a + A.b, kRpm = A.rpmMax / 8000;   // kRpm: un diésel de 4200 rpm usa la misma lógica que un motor de 8000
     let { u, v, r } = this;
     const uAbs = Math.abs(u), vel = Math.hypot(u, v);
 
@@ -52,22 +62,22 @@ export class Vehiculo {
     // Motor, turbo y caja automática.
     const rel = atras ? 3 : A.marchas[this.marcha - 1];
     const rpmRueda = uAbs / A.radio * rel * A.final * 9.5493;
-    const embrague = (this.marcha === 1 || atras) ? gas * 2700 * clamp(1 - uAbs / 9, 0, 1) : 0;
+    const embrague = (this.marcha === 1 || atras) ? gas * 2700 * kRpm * clamp(1 - uAbs / 9, 0, 1) : 0;
     const rpm = Math.min(A.rpmMax + 120, Math.max(rpmRueda * (1 + this.patinaje * 0.3), A.ralenti + embrague));
     this.rpm += (rpm - this.rpm) * (1 - Math.exp(-dt * 13));
     this.evento = '';
     if (this.cambio > 0) this.cambio -= dt;
     else if (!atras) {
-      const sube = lerp(4200, 7550, gas), baja = lerp(1900, 4300, gas);
+      const sube = lerp(4200, 7550, gas) * kRpm, baja = lerp(1900, 4300, gas) * kRpm;
       if (this.rpm > sube && this.marcha < A.marchas.length && this.patinaje < 0.3) { this.marcha++; this.cambio = 0.17; this.evento = 'sube'; }
-      else if (this.marcha > 1 && rpmRueda < baja && rpmRueda * A.marchas[this.marcha - 2] / rel < 7300) { this.marcha--; this.cambio = 0.13; this.evento = 'baja'; }
+      else if (this.marcha > 1 && rpmRueda < baja && rpmRueda * A.marchas[this.marcha - 2] / rel < 7300 * kRpm) { this.marcha--; this.cambio = 0.13; this.evento = 'baja'; }
     }
-    const objetivo = gas > 0.15 ? suave(2600, 4600, this.rpm) * gas : 0;
+    const objetivo = gas > 0.15 ? suave(2600 * kRpm, 4600 * kRpm, this.rpm) * gas : 0;
     if (this.gasPrev > 0.6 && gas < 0.25 && this.turbo > 0.55) this.soplido = this.turbo;   // válvula de alivio al soltar con presión
     this.gasPrev = gas;
     this.turbo += (objetivo - this.turbo) * (1 - Math.exp(-dt / (objetivo > this.turbo ? 0.5 : 0.16)));
     const limitador = this.rpm > A.rpmMax - 50;
-    let motor = (this.cambio > 0 || limitador) ? 0 : A.fuerza * rel * par(this.rpm) * (0.68 + 0.32 * this.turbo) * gas;
+    let motor = (this.cambio > 0 || limitador) ? 0 : A.fuerza * rel * par(this.rpm / kRpm) * (0.68 + 0.32 * this.turbo) * gas;
     if (limitador && gas > 0.5 && !this.evento) this.evento = 'corte';
     const sg = clamp(u / 0.5, -1, 1);
     const retencion = (1 - gas) * (0.3 + 1.1 * this.rpm / A.rpmMax) * rel / 3.2;
@@ -123,18 +133,19 @@ export class Vehiculo {
 
     // Guardarraíl o muro: devuelve el coche a la carretera, le quita velocidad y lo endereza.
     P.consulta(this.x, this.z, s.i, s);
-    const lim = s.ancho + 0.05 + ((s.lat > 0 ? s.muroDer : s.muroIzq) ? ARCEN - 0.97 : 0);
+    const blando = s.blando === true;   // borde sin muro ni guardarraíl: la vía te devuelve sin golpe
+    const lim = s.margen !== undefined ? s.ancho + s.margen : s.ancho + 0.05 + ((s.lat > 0 ? s.muroDer : s.muroIzq) ? ARCEN - 0.97 : 0);
     if (Math.abs(s.lat) > lim) {
       const lado = Math.sign(s.lat), exc = Math.abs(s.lat) - lim;
       this.x -= s.rx * lado * exc; this.z -= s.rz * lado * exc;
       const vn = (vx * s.rx + vz * s.rz) * lado;
       if (vn > 0) {
-        const vt = vx * s.tx + vz * s.tz, nvt = vt - Math.sign(vt) * Math.min(Math.abs(vt), vn * 0.5), nvn = -vn * 0.2 * lado;
+        const vt = vx * s.tx + vz * s.tz, nvt = vt - Math.sign(vt) * Math.min(Math.abs(vt), vn * (blando ? 0.1 : 0.5)), nvn = -vn * (blando ? 0 : 0.2) * lado;
         vx = s.rx * nvn + s.tx * nvt; vz = s.rz * nvn + s.tz * nvt;
         u = vx * sp + vz * cp; v = vx * cp - vz * sp;
         const rumbo = Math.atan2(s.tx, s.tz) + (vt < 0 ? Math.PI : 0);
-        this.psi += envolver(rumbo - this.psi) * clamp(vn / 14, 0.04, 0.45); r *= 0.35;
-        if (vn > 1.2) { this.golpe = Math.max(this.golpe, clamp(vn / 11, 0.1, 1)); this.ladoGolpe = lado; }
+        this.psi += envolver(rumbo - this.psi) * clamp(vn / 14, 0.04, blando ? 0.1 : 0.45); r *= blando ? 0.8 : 0.35;
+        if (vn > 1.2 && !blando) { this.golpe = Math.max(this.golpe, clamp(vn / 11, 0.1, 1)); this.ladoGolpe = lado; }
       }
       P.consulta(this.x, this.z, s.i, s);
     }
