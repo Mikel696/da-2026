@@ -75,5 +75,27 @@ lo que ya vio.
 ## Dónde quedó
 - [x] Trabajo anterior a salvo en `claude/convoy` (local, sin subir); `main` = lo publicado
 - [x] Búsqueda de material libre (arriba)
-- [ ] Permiso de Miguel para descargar material CC0
-- [ ] Tramo de realismo
+- [x] Permiso de Miguel para descargar material CC0 (10-nov, «Sí, autorizo»)
+- [x] Tramo de realismo construido y publicado sin enlazar en la sala: `frontend/juegos/corredor.html`
+- [ ] **Miguel lo ve con su mando y decide** si este nivel sirve de base
+- [ ] Paso 2: radar y minas
+
+## Tramo de realismo · lo que hay (10-nov)
+- **Material real (Poly Haven, CC0, 51,2 MB, 15 piezas):** 2 cielos HDR (soleado por defecto; `?cielo=nublado`), asfalto,
+  tierra, grava y chapa verde escaneados; 2 rocas, 2 arbustos, tronco, barrera de hormigón, bidón, caja y barril.
+  Cada archivo con autor, fuente y suma en `frontend/juegos/assets/ph/CREDITOS.json`.
+- **Cargadores oficiales de three 0.186.1** añadidos al vendor: GLTFLoader, HDRLoader, BufferGeometryUtils,
+  SkeletonUtils, GTAOPass y sus sombreadores (sumas en `SHA256SUMS.txt`).
+- **El sol sale del propio cielo:** `leerCielo` busca los píxeles más brillantes, mide cuánta luz dan y los quita del
+  entorno; esa luz pasa a un foco direccional con sombras. Así el sol no se cuenta dos veces.
+- **Camioneta:** carrocería por secciones (mismo generador del cupé, ahora con coordenadas de textura), chapa
+  escaneada teñida de oliva, ruedas con tacos, defensa, rejilla, torreta con arma (ya gira y cabecea: falta usarla),
+  antena y carga escaneada. `AJUSTE.tactica` en `lc-fisica.js`: diésel de 4200 rpm, 5 marchas, pesada.
+- **Medido en el panel (RX 580):** 1920×1080, calidad alta con oclusión ambiental: **60 fps** estables, 2,7 ms de CPU,
+  448 llamadas de dibujo, 7,8 M de triángulos por cuadro. Con 18 rocas daba 52-54 fps: cada roca escaneada son
+  ~98 000 triángulos y se dibuja hasta 3 veces por cuadro. El piloto automático recorre la vía sin salirse.
+- **Sin verificar:** el mando físico en este juego; el sonido (el motor sigue siendo el del cupé, falta el diésel).
+- **Pendiente conocido:** 448 llamadas pasan del presupuesto de 300 (la camioneta son ~120 piezas sueltas: fundirlas);
+  el campo se ve liso (faltan piedras pequeñas y vegetación ligera); el cielo a 2K se ve blando de cerca.
+- **Para probar en local:** vista previa `corredor` (sirve `.claude/worktrees/convoy/frontend` en el puerto 3463) y
+  abrir `/juegos/corredor`. En consola: `__co.salir(); __co.auto.on = true`.
