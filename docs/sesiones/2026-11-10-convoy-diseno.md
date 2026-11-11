@@ -81,7 +81,27 @@ lo que ya vio.
 - [x] Paso 2: radar y minas — publicado y enlazado en la sala (sustituye al juego viejo de carreras)
 - [ ] Miguel lo juega con su mando
 - [x] Paso 3: torreta y drones (11-nov) — tres tramos en el menú
-- [ ] Paso 4: inhibidor, humo, heridos y puestos de socorro
+- [x] Paso 4: inhibidor, humo, heridos y puesto de socorro (11-nov) — el récord pasa a ser un puntaje
+- [ ] Paso 5: ruta completa (varios tramos encadenados), sonido diésel y pulido
+
+## Paso 4 · inhibidor, humo, heridos y puntaje (11-nov)
+- **Inhibidor de señal** (LB / Q): 4 s, radio 70 m, recarga 14 s. Los drones al alcance pierden la señal: el suicida sigue a
+  ciegas, desviado, y cae (cuenta como neutralizado si se estrella lejos); bombardero y reconocimiento flotan a la deriva y
+  bajan, y el de reconocimiento pierde lo que había marcado. Burbuja azul que se expande.
+- **Cortina de humo** (X / G): 3 granadas por tramo; 5 nubes alrededor que duran 16 s. Dentro (9 m) los drones no te ven:
+  atacan el último punto donde te vieron, el bombardero no suelta y el de reconocimiento no marca. El humo se queda donde
+  se lanzó: sirve para detenerse, no para correr.
+- **Heridos** (`co-heridos.js`, `HERIDOS`: 2, 3 y 2 por tramo): en camilla a la orilla, con bengala de humo naranja visible
+  de lejos, marca verde en pantalla y en el radar. Se suben deteniéndose a menos de 7,5 m durante 4 s. Carpa de socorro (sin
+  emblema) en el puesto de control. Aviso si dejas uno atrás.
+- **Puntaje** (récord por tramo en `p1..p3`; la sala muestra el del 1): carga ×10 · herido 500 · dron 100 · mina superada 25 ·
+  blindaje ×5 · rapidez 10 por segundo bajo 1:30. Sin entrega no hay puntaje. Rescatar cuesta tiempo pero vale más.
+- **`__co.simular(seg)`**: corre la lógica sin dibujar. Con la app de Claude tapada por otra ventana, Windows deja el 3D en
+  2 cuadros por segundo aunque la tarjeta esté libre (medido: 31 % de uso, la sala sin 3D a 61 fps): así se prueba igual.
+- **Verificado (simulación en local):** tramo 3: 2 de 2 heridos, inhibidor contra un suicida en picada, 4 de 4 drones, 0 minas
+  pisadas, 3.453 puntos. Tramo 2: 3 de 3 heridos, 10 de 10 drones, sin daño, 4.145 puntos. Humo: «oculto» mientras sube un
+  herido. Encontró un fallo real: frenar a fondo parado mete la reversa; el piloto ahora se sujeta con el freno de mano.
+- **Sin verificar:** fps de esta versión (la ventana estaba tapada; la del paso 3 medía 60) y el mando físico de Miguel.
 
 ## Paso 3 · torreta y drones (11-nov)
 - **Tres tramos** (menú «Tramo», se recuerda en `jue_co_tramo`; `?tramo=N` para probar): 1 · Campo minado (la vía de

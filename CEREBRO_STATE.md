@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 3: torreta, drones y tres tramos)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 4: inhibidor, humo, heridos y puntaje)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,17 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · Corredor, paso 4: inhibidor, humo, heridos y puntaje — miércoles 11-nov
+
+- Miguel: «Sí, sigue». **Construido:** inhibidor de señal (LB), cortina de humo (X), heridos en camilla con bengala que se
+  suben deteniéndose 4 s, carpa de socorro, y el récord pasa a ser un **puntaje** (carga, heridos, drones, minas, blindaje,
+  rapidez).
+- **Verificado por simulación en local** (`__co.simular`): tramos 2 y 3 completos con todos los heridos, 4.145 y 3.453 puntos.
+  La ventana de Claude estaba tapada y el 3D iba a 2 fps (la versión anterior también): **fps de esta versión sin medir**.
+- **Siguiente (paso 5):** tramos encadenados en una ruta, sonido diésel y pulido. Detalle en el documento de diseño.
 
 ---
 

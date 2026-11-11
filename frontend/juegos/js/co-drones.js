@@ -2,6 +2,8 @@
 //  · suicida (FPV con carga hueca): se acerca alto y, a unos 65 m, se lanza en picada contra la camioneta.
 //  · bombardero (hexacóptero de carga): busca el punto de la vía por donde vas a pasar y suelta granadas.
 //  · reconocimiento (cuadricóptero con cámara): da vueltas alto; si lo dejas vivo, llama a dos suicidas.
+// Contra el inhibidor pierden la señal: el suicida sigue a ciegas y cae; los otros flotan a la deriva y bajan.
+// Dentro de una cortina de humo no te ven: atacan el último punto donde te vieron.
 // Se arman en código (no hay modelos realistas con licencia libre): las piezas de cada dron se funden en una sola
 // malla. Las oleadas son datos: [metros desde la salida, tipo, cuántos]. Ficticios: ningún modelo ni bando real.
 // Licencia: MIT (código propio).
@@ -65,7 +67,7 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
   const mCuerpo = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.3 });
   const mHelice = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.35, depthWrite: false, side: THREE.DoubleSide });
   const mLed = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(6, 0.25, 0.15) }), gLed = new THREE.SphereGeometry(0.018, 6, 4);
-  const V = new THREE.Vector3(), W = new THREE.Vector3(), tp = new THREE.Vector3(), vt = new THREE.Vector3();
+  const V = new THREE.Vector3(), W = new THREE.Vector3(), tp = new THREE.Vector3(), vt = new THREE.Vector3(), vista = new THREE.Vector3(), vistaV = new THREE.Vector3();
   let sig = 0, total = 0;
   const suelo = (x, z) => P.terreno(x, z);
 
@@ -127,13 +129,27 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
       else { d.vel.y = Math.min(d.vel.y, 0); cb.derribo(d, d.pos.clone(), false); }
       return true;
     },
-    actualizar(dt, veh, activa, t) {
+    /** Inhibidor: los drones vivos dentro del radio pierden la señal durante `dur` segundos. Devuelve cuántos. */
+    inhibir(x, y, z, radio, dur) {
+      let n = 0;
+      for (const d of lista) {
+        if (!d.viva || Math.hypot(d.pos.x - x, d.pos.y - y, d.pos.z - z) > radio) continue;
+        if (!(d.cegado > 0)) {   // al perder la señal el FPV sigue con la última orden, desviado y más lento
+          n++;
+          if (d.tipo === 'suicida') { const a = (Math.random() < 0.5 ? -1 : 1) * (0.35 + Math.random() * 0.3), c = Math.cos(a), s = Math.sin(a); d.vel.set(d.vel.x * c - d.vel.z * s, d.vel.y, d.vel.x * s + d.vel.z * c).multiplyScalar(0.6); }
+        }
+        d.cegado = Math.max(d.cegado || 0, dur); d.peligro = false;
+      }
+      return n;
+    },
+    actualizar(dt, veh, activa, t, oculto = false) {
       if (activa) {
         const recorrido = veh.sup.dist - P.dist[inicio];
         while (sig < oleadas.length && recorrido >= oleadas[sig][0]) { const [, tipo, n] = oleadas[sig++]; for (let k = 0; k < n; k++) nacer(tipo, veh, k, n); }
       }
       const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
       tp.set(veh.x, veh.y + 1.1, veh.z); vt.set(veh.u * sp + veh.v * cp, 0, veh.u * cp - veh.v * sp);
+      if (!oculto) { vista.copy(tp); vistaV.copy(vt); } else vistaV.set(0, 0, 0);   // en el humo atacan donde te vieron por última vez
       for (const d of [...lista]) {
         d.t += dt;
         if (!d.viva) {   // derribado: cae girando y dejando humo
@@ -142,6 +158,18 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
           if (d.pos.y <= suelo(d.pos.x, d.pos.z)) { quitar(d); cb.choque(d, d.pos.clone(), 0.3); }
           continue;
         }
+        if (d.cegado > 0) {   // sin señal
+          d.cegado -= dt; d.peligro = false; d.led.visible = false;
+          if (d.tipo === 'suicida') {
+            d.vel.y -= 6 * dt; d.pos.addScaledVector(d.vel, dt); d.obj.rotation.z += dt * 2;
+            if (d.pos.distanceTo(tp) < 2.6) { quitar(d); cb.impacto(d, d.pos.clone()); continue; }
+            if (d.pos.y < suelo(d.pos.x, d.pos.z) + 0.3) { quitar(d); cb.choque(d, d.pos.clone(), 0.6); continue; }
+          } else {
+            d.vel.multiplyScalar(Math.exp(-1.2 * dt)); d.vel.y = -1.5; d.pos.addScaledVector(d.vel, dt); d.marca = 0;
+            const piso = suelo(d.pos.x, d.pos.z) + 3; if (d.pos.y < piso) d.pos.y = piso;
+          }
+          d.x = d.pos.x; d.z = d.pos.z; continue;
+        }
         if (!activa && d.estado !== 'huir') { d.estado = 'huir'; d.peligro = false; }
         const dx = tp.x - d.pos.x, dz = tp.z - d.pos.z, dh = Math.hypot(dx, dz), dist = d.pos.distanceTo(tp);
         if (d.estado === 'huir') {
@@ -149,22 +177,22 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
           if (dist > 300) { quitar(d); continue; }
         } else if (d.tipo === 'suicida') {
           if (d.estado === 'acercarse') {
-            volar(d, tp.x + sp * 30, suelo(tp.x, tp.z) + d.def.alto[0], tp.z + cp * 30, d.def.vel, 14, dt);
+            volar(d, vista.x + sp * 30, suelo(vista.x, vista.z) + d.def.alto[0], vista.z + cp * 30, d.def.vel, 14, dt);
             if (dh < 65) { d.estado = 'picada'; d.t = 0; d.peligro = true; cb.aviso(d, 'picada'); }
           } else {
             const tt = dist / d.def.picada;
-            volar(d, tp.x + vt.x * tt, tp.y, tp.z + vt.z * tt, d.def.picada, 55, dt, false);
+            volar(d, vista.x + vistaV.x * tt, vista.y, vista.z + vistaV.z * tt, d.def.picada, 55, dt, false);
             if (dist < 2.6) { quitar(d); cb.impacto(d, d.pos.clone()); continue; }
             if (d.pos.y < suelo(d.pos.x, d.pos.z) + 0.3 || d.t > 9) { quitar(d); cb.choque(d, d.pos.clone(), 0.6); continue; }
           }
         } else if (d.tipo === 'bombardero') {
           const h = Math.max(5, d.pos.y - suelo(d.pos.x, d.pos.z)), tc = Math.sqrt(2 * h / 9.8);
-          const px = tp.x + vt.x * tc, pz = tp.z + vt.z * tc;
+          const px = vista.x + vistaV.x * tc, pz = vista.z + vistaV.z * tc;
           if (d.estado === 'acercarse') {
             volar(d, px, suelo(px, pz) + d.def.alto[0], pz, d.def.vel, 8, dt);
             const cae = Math.hypot(d.pos.x + d.vel.x * tc - px, d.pos.z + d.vel.z * tc - pz);   // dónde caería la granada ahora
             d.peligro = cae < 25;
-            if (d.bombas > 0 && cae < 4) { soltar(d); d.estado = 'retirarse'; d.t = 0; cb.aviso(d, 'bomba'); }
+            if (d.bombas > 0 && cae < 4 && !oculto) { soltar(d); d.estado = 'retirarse'; d.t = 0; cb.aviso(d, 'bomba'); }
             if (d.t > 30) d.estado = 'huir';
           } else if (d.estado === 'retirarse') {
             d.peligro = false;
@@ -173,8 +201,8 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
           }
         } else if (d.tipo === 'reconocimiento') {
           d.ang += dt * 0.28;
-          volar(d, tp.x + Math.cos(d.ang) * 55, suelo(tp.x, tp.z) + d.def.alto[0], tp.z + Math.sin(d.ang) * 55, d.def.vel, 6, dt);
-          if (d.detectada) d.marca += dt;
+          volar(d, vista.x + Math.cos(d.ang) * 55, suelo(vista.x, vista.z) + d.def.alto[0], vista.z + Math.sin(d.ang) * 55, d.def.vel, 6, dt);
+          if (d.detectada && !oculto) d.marca += dt;
           if (d.marca > 14) { cb.aviso(d, 'llamada'); for (let k = 0; k < 2; k++) nacer('suicida', veh, k, 2, true); d.estado = 'huir'; }
         }
         orientar(d, dt);

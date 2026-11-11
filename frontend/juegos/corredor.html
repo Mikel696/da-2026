@@ -35,6 +35,8 @@
   .estado-cam i { display: block; height: 6px; background: rgba(255, 255, 255, 0.16); }
   .estado-cam i u { display: block; height: 100%; width: 100%; background: var(--arena); transition: width 300ms; }
   .estado-cam i u.bajo { background: var(--alerta); }
+  .estado-cam em { grid-column: 2 / -1; font-style: normal; font-weight: 600; color: #f3efe4; }
+  .estado-cam i u.activo { background: #8fd0ff; }
   .estado-cam b { font-weight: 600; color: #f3efe4; min-width: 4ch; text-align: right; }
   .radar { position: absolute; left: 2.2vw; bottom: 3vh; }
   .radar canvas { display: block; width: 220px; height: 220px; }
@@ -58,6 +60,8 @@
   .blanco.fuera::before, .blanco.fuera::after { display: none; }
   .blanco.fuera b { display: block; }
   .blanco.peligro { color: var(--alerta); }
+  .blanco.herido { color: var(--bien); }
+  .blanco.cegado { color: #8fd0ff; }
   .blanco.fijo::before, .blanco.fijo::after { width: 14px; height: 14px; }
   .tablero .arma { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; margin-top: 8px; font-family: var(--texto); font-size: 12px; color: var(--papel-2); }
   .tablero .arma i { flex: 1; height: 4px; background: rgba(255, 255, 255, 0.16); }
@@ -78,6 +82,9 @@
     <div class="estado-cam">
       <span>Blindaje</span><i><u id="hBlindaje"></u></i><b id="hBlindajeN">100 %</b>
       <span>Carga</span><i><u id="hCarga"></u></i><b id="hCargaN">100 %</b>
+      <span>Inhibidor</span><i><u id="hInh"></u></i><b id="hInhN">listo</b>
+      <span>Humo</span><em id="hHumoN">3 granadas</em>
+      <span>Heridos</span><em id="hHeridosN">0 a bordo</em>
     </div>
   </div>
   <div id="hBlancos"></div>
@@ -91,7 +98,7 @@
     <div class="arma"><span id="hArmaT">Cañón</span><i><u id="hCalor"></u></i></div>
   </div>
   <div class="msg" id="hMsg"></div>
-  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RB o clic · Cámara: Y o C · Pausa: Start o Esc</div>
+  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RB o clic · Inhibidor: LB o Q · Humo: X o G · Pausa: Start o Esc</div>
 </div>
 
 <section class="pantalla" id="pTitulo" hidden>

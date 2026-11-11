@@ -125,7 +125,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
-| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros: minas, drones, radar y torreta; 3 tramos), shooter y arcade en camino |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros: minas, drones, heridos; radar, torreta, inhibidor y humo; 3 tramos con puntaje), shooter y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
@@ -504,7 +504,8 @@ porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `j
 4. **Sonido apagado al nacer (`jue_sonido`) y nunca se reproduce al probar.** En el Chrome de Miguel está encendido:
    verificar allí sin pulsar teclas ni hacer clic en la página.
 5. **Verificar con el panel a la vista** (oculto, `requestAnimationFrame` da 0 cuadros) y la lógica con el piloto
-   automático (`__co.auto`: `esquivar` minas, `tirador` derriba drones; `?tramo=N` elige el tramo). Medir fps a 1920×1080 en calidad alta: meta 60 con la RX 580.
+   automático (`__co.auto`: `esquivar`, `tirador`, `rescatar`, `equipo`; `?tramo=N` elige el tramo). Con la ventana de
+   Claude tapada el 3D cae a 2 fps: `__co.simular(seg)` corre la lógica sin dibujar. Medir fps a 1920×1080 en calidad alta: meta 60 con la RX 580.
 6. **Se trabaja en la copia aparte `.claude/worktrees/convoy`** (rama `claude/convoy`) y se publica con
    `git push origin HEAD:main`: la carpeta principal suele tener cambios sin guardar de otra sesión.
 

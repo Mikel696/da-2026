@@ -18,11 +18,11 @@ export const ANTERIORES = [
 export const JUEGOS = [
   {
     id: 'corredor', nombre: 'Corredor', genero: 'Misión', archivo: 'juegos/corredor.html', color: '#d9c9a3', listo: true,
-    lema: 'Lleva suministros en una camioneta por una carretera con minas y drones. El radar los marca; la torreta del techo te defiende.',
-    tabla: 'tramo1', menorEsMejor: true, formato: 'tiempo',
+    lema: 'Lleva suministros y rescata heridos por una carretera con minas y drones. Radar, torreta, inhibidor y humo.',
+    tabla: 'p1', menorEsMejor: false, formato: 'puntos',
     controles: [
       ['Acelerar', 'W · ↑', 'RT'], ['Frenar / marcha atrás', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izq.'],
-      ['Apuntar la torreta', 'Ratón · I J K L', 'Stick der.'], ['Disparar', 'Clic · F', 'RB'], ['Centrar la torreta', 'V', 'Clic stick der.'],
+      ['Apuntar la torreta', 'Ratón · I J K L', 'Stick der.'], ['Disparar', 'Clic · F', 'RB'], ['Centrar la torreta', 'V', 'Clic stick der.'], ['Inhibidor de señal', 'Q', 'LB'], ['Cortina de humo', 'G', 'X'],
       ['Freno de mano', 'Espacio', 'A'], ['Cámara', 'C', 'Y'], ['Volver al centro de la vía', 'R', 'Select'], ['Pausa', 'Esc · P', 'Start'],
     ],
   },
