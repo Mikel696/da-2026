@@ -145,6 +145,18 @@ lo que ya vio.
 - **Sin hacer:** sonido de lluvia (una grabación CC0 **requiere el permiso de Miguel** antes de descargarla). Cristales mojados,
   charcos y salpicaduras de las ruedas. Una prueba de física con agarre mojado en `prueba-fisica.mjs`.
 
+## Siguiente (sin empezar) · partida aún más completa
+«Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
+Lo que queda propuesto, en orden de valor:
+1. **Campaña encadenada:** misiones 4-7 seguidas con el estado que se arrastra (blindaje, carga, kits, heridos a bordo) y
+   puntaje total. Es lo que más alarga la partida sin más kilómetros de terreno.
+2. **Eventos nuevos por datos:** rescate con espera bajo fuego (herido que tarda 12 s con drones encima), enjambre de drones
+   en una sola oleada, paso estrecho entre restos quemados que obliga a frenar.
+3. **Puente o cruce de pueblo:** Poly Haven no tiene puentes ni casas de pueblo báltico enteros; habría que armarlos en
+   código con texturas escaneadas (como los campamentos). **Desvío por camino de tierra:** la vía es una sola cinta; un
+   ramal pide una segunda vía con su propia física y el terreno en trozos ya lo admite.
+4. Sonido de lluvia (permiso de Miguel) y una prueba de física con agarre mojado.
+
 ## Pedido de Miguel (11-nov) · hecho: 1 (paso 6a), 2 (paso 6b) y 3 (paso 6c, falta el sonido de lluvia)
 > «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,
 > lloviendo» · «más real sin comprometer la jugabilidad, bien optimizado».
