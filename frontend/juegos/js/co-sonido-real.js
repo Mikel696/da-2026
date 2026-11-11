@@ -6,9 +6,28 @@
 import { audio } from './sonido.js';
 
 const BASE = new URL('../assets/sonido/', import.meta.url).href;
-// Medido en las grabaciones (11-nov): el Detroit 6.2 V8 está al ralentí (~40 Hz de explosiones, 600 rpm) de 6,6 a 9,8 s
-// y a altas vueltas de 4,0 a 5,0 s. Cada archivo de explosiones trae varios estallidos: se arranca en uno de ellos.
-const MOTOR = { ralenti: [6.6, 9.8], vueltas: [4.0, 5.0] };
+// Medido en la grabación (9,9 s): ralentí estable (42 Hz de explosiones) de 6,4 a 9,2 s; acelerón de 3,8 a 5,2 s, estable
+// solo de 3,95 a 4,6 (63 Hz). Hasta el 11-nov se repetía 4,0-5,0 tal cual: el volumen caía dentro del bucle y cada segundo
+// sonaba un «tru tru» de tren. Ahora el ralentí se funde consigo mismo en la costura y las altas vueltas son una textura de
+// granos tomados al azar del tramo estable: no hay ciclo que se oiga.
+const MOTOR = { ralenti: [6.4, 9.2], vueltas: [3.95, 4.6] };
+
+/** Bucle sin costura: el final del tramo se funde (a igual potencia) con su principio. */
+function bucleSinCostura(ctx, buf, a, b, fundido = 0.35) {
+  const hz = buf.sampleRate, x = buf.getChannelData(0), i0 = Math.round(a * hz), F = Math.round(fundido * hz), n = Math.round((b - a) * hz) - F;
+  const out = ctx.createBuffer(1, n, hz), y = out.getChannelData(0);
+  for (let i = 0; i < n; i++) y[i] = x[i0 + i];
+  for (let i = 0; i < F; i++) { const t = i / F; y[i] = x[i0 + i] * Math.sqrt(t) + x[i0 + n + i] * Math.sqrt(1 - t); }
+  return out;
+}
+/** Textura continua: granos de 90 ms con ventana sen² al 50 % (suman exactamente 1), tomados al azar de [a, b]. */
+function textura(ctx, buf, a, b, seg = 5, grano = 0.09) {
+  const hz = buf.sampleRate, x = buf.getChannelData(0), G = Math.round(grano * hz), paso = G >> 1, n = Math.round(seg * hz / paso) * paso;
+  const tmp = new Float32Array(n + G), i0 = Math.round(a * hz), i1 = Math.round(b * hz) - G;
+  for (let p = 0; p < n; p += paso) { const s = i0 + Math.floor(Math.random() * (i1 - i0)); for (let i = 0; i < G; i++) tmp[p + i] += x[s + i] * Math.sin(Math.PI * i / G) ** 2; }
+  for (let i = 0; i < G; i++) tmp[i] += tmp[n + i];   // la cola vuelve al principio: el bucle cierra sin costura
+  const out = ctx.createBuffer(1, n, hz); out.getChannelData(0).set(tmp.subarray(0, n)); return out;
+}
 const EXPLOSIONES = [['explosion-1.ogg', [0.35, 1.4, 2.25, 3.6]], ['explosion-2.ogg', [0.6, 1.55, 2.7]], ['explosion-3.ogg', [1.2, 2.3, 2.9, 4.1, 4.95]]];
 const DISPAROS = ['disparo-30-06-1.wav', 'disparo-30-06-2.wav', 'disparo-ak-1.wav', 'disparo-ak-2.wav', 'disparo-ak-3.wav'];
 
@@ -32,7 +51,8 @@ export class SonidoReal {
     const bucle = (buf, [a, b]) => { const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.loopStart = a; s.loopEnd = b; s.start(0, a); return s; };
     const ganancia = (v = 0) => { const g = ctx.createGain(); g.gain.value = v; return g; };
     // Motor: dos capas de la misma grabación (ralentí y altas vueltas) que se mezclan según acelerador y vueltas.
-    this.mA = bucle(this.b.motor, MOTOR.ralenti); this.mB = bucle(this.b.motor, MOTOR.vueltas);
+    const fuente = (buf) => { const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.start(0); return s; };
+    this.mA = fuente(bucleSinCostura(ctx, this.b.motor, ...MOTOR.ralenti)); this.mB = fuente(textura(ctx, this.b.motor, ...MOTOR.vueltas));
     this.gA = ganancia(); this.gB = ganancia(); this.filtro = ctx.createBiquadFilter(); this.filtro.type = 'lowpass'; this.filtro.frequency.value = 2000;
     this.motor = ganancia();
     this.mA.connect(this.gA); this.mB.connect(this.gB); this.gA.connect(this.filtro); this.gB.connect(this.filtro); this.filtro.connect(this.motor); this.motor.connect(sal);

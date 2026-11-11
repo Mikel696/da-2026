@@ -81,6 +81,11 @@ for (const [nombre, kmh, fases] of [['Parada, volante a fondo y sin gas', 0, [[4
   const d = Math.hypot(v.x - x0, v.z - z0), tope = kmh ? 8 : 0.2;
   exigir(nombre + ': sin gas no se va', d <= tope && Math.abs(v.u) < 0.3, `se movió ${d.toFixed(2)} m (máx. ${tope}) y queda a ${(v.u * 3.6).toFixed(1)} km/h`);
 }
+{ const CUESTA = Object.assign({}, VIA, { consulta(x, z, d, o) { VIA.consulta(x, z, d, o); o.ty = 0.06; return o; } });   // pendiente del 6 %
+  const v = new Vehiculo(Object.assign({}, A)); v.colocar(CUESTA, 200, 1.6); const x0 = v.x, z0 = v.z;
+  for (let k = 0; k < 6 / dt; k++) v.paso(dt, { gas: 0, freno: 0, giro: k * dt < 3 ? 1 : -1, mano: false }, CUESTA);
+  const d = Math.hypot(v.x - x0, v.z - z0);
+  exigir('En una cuesta del 6 %, sin gas ni freno y girando: no rueda', d <= 0.2, `se movió ${d.toFixed(2)} m (máx. 0,2)`); }
 { const v = new Vehiculo(Object.assign({}, A)); v.colocar(CAMPO, 10, 0); let t60 = 0;
   for (let k = 0; k < 20 / dt && !t60; k++) { v.paso(dt, { gas: 1, freno: 0, giro: 0, mano: false }, CAMPO); if (v.u * 3.6 >= 60) t60 = k * dt; }
   exigir('De 0 a 60 km/h como una camioneta táctica', t60 >= 6 && t60 <= 10, `tarda ${t60.toFixed(1)} s (entre 6 y 10)`); }

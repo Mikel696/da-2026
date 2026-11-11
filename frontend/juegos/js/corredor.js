@@ -458,7 +458,7 @@ async function iniciar() {
     const d = Math.hypot(p.x - veh.x, p.z - veh.z); ruido({ dur: 1.1, vol: 0.55 * clamp(45 / (d + 10), 0.1, 1), tipo: 'bandpass', f: 800, f2: 260, q: 0.7, ataque: 0.004 });
   }
   function estelaCohete(p, v) {
-    humo.emitir(p.x, p.y, p.z, (Math.random() - 0.5) * 0.6, 0.35, (Math.random() - 0.5) * 0.6, 1.8 + Math.random(), 0.35, 0.55 * luz, 0.53 * luz, 0.5 * luz, 0.55, -0.15, 0.7, 2.4);
+    humo.emitir(p.x, p.y, p.z, (Math.random() - 0.5) * 0.6, 0.35, (Math.random() - 0.5) * 0.6, 1.4 + Math.random(), 0.3, 0.55 * luz, 0.53 * luz, 0.5 * luz, 0.32, -0.15, 0.7, 2.4);
     fuego.emitir(p.x, p.y, p.z, -v.x * 0.03, -v.y * 0.03, -v.z * 0.03, 0.06, 0.3, 2.6, 1.3, 0.4, 1, 0, 1, 0);
   }
   function impactoCohete(p) { explosion(p.x, p.y, p.z, 0.95, true); danar(30, 10, 'cohete', 0.9, ladoDe(p.x, p.z)); }
@@ -518,7 +518,7 @@ async function iniciar() {
   function humoDron(p) { humo.emitir(p.x, p.y, p.z, 0, 0.5, 0, 1.4, 0.5, 0.12 * luz, 0.11 * luz, 0.1 * luz, 0.6, -0.2, 0.6, 2); }
 
   // ───────────── Equipo: inhibidor de señal, cortina de humo y rescate ─────────────
-  const RECARGA_INH = 14, DURA_INH = 4, RADIO_INH = 70, nubes = [];
+  const RECARGA_INH = 14, DURA_INH = 4, RADIO_INH = 70, nubes = [], VIENTO = [0.9, 0.35];   // m/s: arrastra el humo de lado
   const burbuja = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 16), new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(0.5, 0.8, 1.8), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
   burbuja.visible = false; scene.add(burbuja); let burbujaT = 9;
   function usarInhibidor() {
@@ -532,7 +532,7 @@ async function iniciar() {
   function lanzarHumo() {
     if (est.fase !== 'ruta' || est.humoN <= 0) return;
     est.humoN--;
-    for (let k = 0; k < 5; k++) { const a = veh.psi + (k / 5) * Math.PI * 2 + 0.3, x = veh.x + Math.sin(a) * 6, z = veh.z + Math.cos(a) * 6; nubes.push({ x, y: P.terreno(x, z), z, t: -k * 0.08, dur: 16 }); }
+    for (let k = 0; k < 5; k++) { const a = veh.psi + (k / 5) * Math.PI * 2 + 0.3, x = veh.x + Math.sin(a) * 6, z = veh.z + Math.cos(a) * 6; nubes.push({ x, y: P.terreno(x, z), z, t: -k * 0.08, dur: 12 }); }
     mensaje(`Cortina de humo · quedan ${est.humoN}`, 2); inp.vibrar(0.25, 0.3, 150);
     for (let k = 0; k < 5; k++) ruido({ dur: 0.08, vol: 0.3, tipo: 'bandpass', f: 900, q: 1.5, en: audio.activo() ? audio.ctx.currentTime + k * 0.08 : 0 });
   }
@@ -548,15 +548,17 @@ async function iniciar() {
       const n = nubes[i]; n.t += dt;
       if (n.t > n.dur + 6) { nubes.splice(i, 1); continue; }
       if (n.t < 0) continue;
-      emitir(n.t < 1.2 ? 2 : n.t < n.dur ? 0.45 : 0, () => { const g = 0.78 + Math.random() * 0.12;
-        niebla.emitir(n.x + (Math.random() - 0.5) * 4, n.y + 0.5 + Math.random(), n.z + (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 1.6, 0.4 + Math.random() * 0.8, (Math.random() - 0.5) * 1.6,
-          5 + Math.random() * 3, 3 + Math.random() * 2, 0.5 * g * luz, 0.5 * g * luz, 0.49 * g * luz, 0.42, -0.08, 0.5, 1.6); });
+      // Más suave y más real (11-nov, «el humo satura»): la granada suelta un golpe denso que luego se adelgaza, y el viento
+      // lo arrastra de lado. Antes: partículas de 3-5 m al 42 % durante 16 s, una pared blanca.
+      emitir(n.t < 1 ? 1.2 : n.t < n.dur ? 0.28 : 0, () => { const g = 0.78 + Math.random() * 0.12, fino = n.t < 1 ? 1 : 1 - n.t / (n.dur * 1.6);
+        niebla.emitir(n.x + (Math.random() - 0.5) * 4, n.y + 0.4 + Math.random(), n.z + (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 1.2 + VIENTO[0], 0.3 + Math.random() * 0.6, (Math.random() - 0.5) * 1.2 + VIENTO[1],
+          4 + Math.random() * 2.5, 2.2 + Math.random() * 1.6, 0.55 * g * luz, 0.55 * g * luz, 0.54 * g * luz, 0.26 * fino, -0.05, 0.6, 1.4); });
       if (n.t < n.dur && Math.hypot(n.x - veh.x, n.z - veh.z) < 9) est.oculto = true;
     }
     for (const h of heridos.lista) {
       if (h.estado !== 'espera' || Math.hypot(h.x - veh.x, h.z - veh.z) > 350) continue;
-      emitir(0.5, () => { const g = 0.85 + Math.random() * 0.15;
-        bengalas.emitir(h.bengala.x, h.bengala.y + 0.1, h.bengala.z, (Math.random() - 0.5) * 0.6 + 0.4, 2 + Math.random() * 1.5, (Math.random() - 0.5) * 0.6, 5 + Math.random() * 2, 0.9, 0.95 * g * luz, 0.42 * g * luz, 0.12 * g * luz, 0.55, -0.15, 0.3, 2.6); });
+      emitir(0.3, () => { const g = 0.85 + Math.random() * 0.15;
+        bengalas.emitir(h.bengala.x, h.bengala.y + 0.1, h.bengala.z, (Math.random() - 0.5) * 0.6 + 0.4, 2 + Math.random() * 1.5, (Math.random() - 0.5) * 0.6, 5 + Math.random() * 2, 0.9, 0.95 * g * luz, 0.42 * g * luz, 0.12 * g * luz, 0.34, -0.15, 0.3, 2.6); });
     }
   }
   // Interceptores: B o E lanza uno desde la plataforma de carga; caza solo al dron más urgente que marque el radar.

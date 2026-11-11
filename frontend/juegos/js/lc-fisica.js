@@ -146,6 +146,9 @@ export class Vehiculo {
     const rp = (A.a * (Fyf * cd + Fxf * sd) - A.b * Fyr) / A.inercia - r * frenoGiro;
     u += (ax + v * r) * dt; v += (ay - u * r) * dt; r += rp * dt;
     if (vel < 2.5 && gas < 0.05) { const k = Math.exp(-dt * 4 * (1 - vel / 2.5)); v *= k; r *= k; if (freno < 0.05) u *= Math.exp(-dt * 0.4); }
+    // Retención en parado (el «auto hold» de un vehículo moderno): sin gas y casi quieta, se queda quieta aunque haya
+    // pendiente o se gire el volante. Antes, en la cuesta de la salida (4,4 %), rodaba sola y al girar se torcía.
+    if (A.automatica && gas < 0.05 && vel < 0.9) { const k = Math.exp(-dt * 14); u *= k; v *= k; r *= k; if (vel < 0.25) u = v = r = 0; }
 
     this.psi += r * dt;
     const sp = Math.sin(this.psi), cp = Math.cos(this.psi);
