@@ -1,0 +1,121 @@
+{
+ "licencias": "CC0 1.0 o dominio público (cada pieza dice cuál)",
+ "descargado": "2026-11-11",
+ "piezas": [
+  {
+   "archivo": "motor-detroit-62.ogg",
+   "uso": "Motor diésel Detroit 6.2 L V8 (el del Humvee original): motor de la camioneta",
+   "titulo": "Detroit62.ogg",
+   "autor": "Sixthstar (talk)",
+   "licencia": "CC0",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Detroit62.ogg",
+   "bytes": 63981,
+   "sha256": "cd54da2636d2f8cacc2b3690f4b648f0444240afca551c0564827cc13aa7f2c6"
+  },
+  {
+   "archivo": "ambiente-brisa-pajaros.ogg",
+   "uso": "Brisa con pájaros: ambiente del campo",
+   "titulo": "Gentle breeze and birds singing.ogg",
+   "autor": "ezwa",
+   "licencia": "Public domain",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Gentle_breeze_and_birds_singing.ogg",
+   "bytes": 422735,
+   "sha256": "399c31051dfe42f5f5af4bb2334b16aee9263ceaf594158654fa6f06d036d483"
+  },
+  {
+   "archivo": "ambiente-guerra-lejana.ogg",
+   "uso": "Tiroteo y explosiones que se alejan: combate lejano, muy bajo",
+   "titulo": "Dragout - War sounds (cc0) (freesound).ogg",
+   "autor": "Dragout",
+   "licencia": "CC0",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Dragout_-_War_sounds_(cc0)_(freesound).ogg",
+   "bytes": 767866,
+   "sha256": "b5c28ac9c10dc75a3ad2fa2e78ce73a6a8972999e65a6d5c632c747ef720041b"
+  },
+  {
+   "archivo": "explosion-1.ogg",
+   "uso": "Explosión",
+   "titulo": "Explosions-LS100150.ogg",
+   "autor": "Fg2",
+   "licencia": "Public domain",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Explosions-LS100150.ogg",
+   "bytes": 96986,
+   "sha256": "222e3c01756f190a202a352f628555f844544af171f58a8ca8a4122d536ff026"
+  },
+  {
+   "archivo": "explosion-2.ogg",
+   "uso": "Explosión",
+   "titulo": "Explosions-LS100152.ogg",
+   "autor": "Fg2",
+   "licencia": "Public domain",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Explosions-LS100152.ogg",
+   "bytes": 125437,
+   "sha256": "eff32169102f8c17470b24a7f9c6e97955e3380c829935c5bc6262eb2efe773b"
+  },
+  {
+   "archivo": "explosion-3.ogg",
+   "uso": "Explosión",
+   "titulo": "Explosions-LS100155.ogg",
+   "autor": "Fg2",
+   "licencia": "Public domain",
+   "fuente": "https://commons.wikimedia.org/wiki/File:Explosions-LS100155.ogg",
+   "bytes": 178517,
+   "sha256": "2cfdd1404d3e72d6cd2c4e611e160b038738766e41a2ea27adc94c2b7596e003"
+  },
+  {
+   "archivo": "disparo-30-06-1.wav",
+   "uso": "Disparo de la torreta (uno por bala; se alternan)",
+   "titulo": "Springfield 1917 .30-06 · B_24P.wav",
+   "autor": "Still North Media (The Free Firearm Sound Library)",
+   "licencia": "CC0 1.0",
+   "fuente": "https://opengameart.org/content/the-free-firearm-sound-library",
+   "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
+   "bytes": 67244,
+   "sha256": "fb71c25179dc4082580019815cc5338863c535f6f18c640b92cf467df25e9100"
+  },
+  {
+   "archivo": "disparo-30-06-2.wav",
+   "uso": "Disparo de la torreta (uno por bala; se alternan)",
+   "titulo": "Springfield 1917 .30-06 · B_24P.wav",
+   "autor": "Still North Media (The Free Firearm Sound Library)",
+   "licencia": "CC0 1.0",
+   "fuente": "https://opengameart.org/content/the-free-firearm-sound-library",
+   "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
+   "bytes": 67244,
+   "sha256": "8e94a5ac5a5f3b239944f824f34fab9be75444c8cb41fb5c49c90b9d7d3c0da0"
+  },
+  {
+   "archivo": "disparo-ak-1.wav",
+   "uso": "Disparo de la torreta (uno por bala; se alternan)",
+   "titulo": "AK-47 · C_28P.wav",
+   "autor": "Still North Media (The Free Firearm Sound Library)",
+   "licencia": "CC0 1.0",
+   "fuente": "https://opengameart.org/content/the-free-firearm-sound-library",
+   "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
+   "bytes": 57644,
+   "sha256": "906df0434a66a254904dfc9a11703a96b013326b3cde61b45e0c2728eb5cb7f3"
+  },
+  {
+   "archivo": "disparo-ak-2.wav",
+   "uso": "Disparo de la torreta (uno por bala; se alternan)",
+   "titulo": "AK-47 · C_28P.wav",
+   "autor": "Still North Media (The Free Firearm Sound Library)",
+   "licencia": "CC0 1.0",
+   "fuente": "https://opengameart.org/content/the-free-firearm-sound-library",
+   "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
+   "bytes": 57644,
+   "sha256": "6997927a34254cbb5df20ad94eb15d62656330ab574dd2453a51fb59ff5f19ed"
+  },
+  {
+   "archivo": "disparo-ak-3.wav",
+   "uso": "Disparo de la torreta (uno por bala; se alternan)",
+   "titulo": "AK-47 · C_28P.wav",
+   "autor": "Still North Media (The Free Firearm Sound Library)",
+   "licencia": "CC0 1.0",
+   "fuente": "https://opengameart.org/content/the-free-firearm-sound-library",
+   "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
+   "bytes": 57644,
+   "sha256": "dd85ab913f9510af8e04e5308d42baf4be3493eb15eff2d02f3cc7b971ff59fb"
+  }
+ ]
+}

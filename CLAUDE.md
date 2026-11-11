@@ -495,8 +495,9 @@ del 4»), no como índice de array. El dembow es `clap: [4,7,12,15]`.
 
 Sala `frontend/juegos.html`; cada juego es `frontend/juegos/<juego>.html` + `juegos/js/`. Usan módulos ES con importmap
 porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `juegos/vendor/three/`, con `SHA256SUMS.txt`).
-1. **Realismo con material real, no dibujado.** Miguel rechazó el aspecto procedural (10-nov). Cielos, texturas y modelos
-   escaneados de Poly Haven (CC0) en `juegos/assets/ph/`, cada pieza con autor, fuente y suma en `CREDITOS.json` y en los
+1. **Realismo con material real, no dibujado.** Miguel rechazó el aspecto procedural (10-nov) y el sonido sintetizado
+   (11-nov). Cielos, texturas y modelos escaneados de Poly Haven en `juegos/assets/ph/`; sonidos grabados en
+   `juegos/assets/sonido/`. Todo CC0 o dominio público, cada pieza con autor, fuente y suma en su `CREDITOS.json` y en los
    créditos de la sala. Nada de pago ni de licencia dudosa: el repo es público. Descargar más requiere su permiso.
 2. **Vías, campos de minas y vehículos son datos** (`TRAMO`, `CAMPO_1`, `TACTICA`, `AJUSTE`): un solo código los vuelve mundo.
 3. **Control:** manda el último mando en el que se pulsó un botón, nunca el `timestamp` (el volante USB tiembla y tapaba al

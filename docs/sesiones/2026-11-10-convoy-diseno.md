@@ -83,9 +83,21 @@ lo que ya vio.
 - [x] Paso 3: torreta y drones (11-nov) — tres tramos en el menú
 - [x] Paso 4: inhibidor, humo, heridos y puesto de socorro (11-nov) — el récord pasa a ser un puntaje
 - [x] Paso 5a: drones interceptores propios (pedido de Miguel, 11-nov) y motor diésel sintetizado provisional
-- [ ] **Sonido grabado real** (motor, disparos, explosiones, ambiente, drones): Miguel dijo que el sintetizado es «pésimo».
-  Necesita su permiso para descargar grabaciones CC0. Candidatos: armas de Still North Media (CC0, OpenGameArt);
-  motor, ambiente y drones en Freesound filtrando CC0 (bajar originales exige cuenta: Miguel la crea, Claude no).
+- [x] **Sonido grabado real** (11-nov, con su permiso): motor, disparos, explosiones y ambiente. Falta el dron (abajo).
+
+## Sonido grabado (11-nov)
+- **11 piezas, 1,87 MB, CC0 o dominio público** en `frontend/juegos/assets/sonido/`, cada una con autor, fuente y suma en
+  `CREDITOS.json`: motor **Detroit 6.2 L V8 diésel** (el del Humvee original; Commons, CC0); 5 disparos recortados de
+  **The Free Firearm Sound Library** de Still North Media (CC0, OpenGameArt: Springfield .30-06 y AK-47, pasados a mono
+  48 kHz con `recortar.mjs`); 3 grabaciones de explosiones, brisa con pájaros y un combate lejano (Commons).
+- **Descartado:** motores de OpenGameArt con CC-BY y GPL (el permiso fue para CC0). Freesound pide cuenta para los originales.
+- **Sin grabación libre: el zumbido de los drones** (Commons solo trae la palabra «quadcopter» pronunciada). Sigue sintetizado.
+- `co-sonido-real.js`: se descarga solo al encender el sonido; si falla, vuelve el sintetizado. Motor = dos bucles de la
+  misma grabación (ralentí 6,6–9,8 s y altas vueltas 4,0–5,0 s, medidos) mezclados por acelerador y vueltas; disparo = uno
+  de los 5 al azar con ±5 % de tono; explosión = un estallido de los 12 que traen los archivos, más bajo y apagado con la
+  distancia; ambiente en bucle y un combate lejano cada 35–75 s.
+- **Medido sin altavoces** (OfflineAudioContext): motor 0,07 → 0,14 de nivel al acelerar; ráfaga de 9 tiros/s pico 0,28;
+  explosión cercana pico ~1,0 (el compresor del juego la recorta). **Sin oír:** cómo suena de verdad; eso lo juzga Miguel.
 - [ ] Ruta completa (tramos encadenados): diseñada y aparcada, Miguel pidió antes lo de arriba
 
 ## Paso 5a · interceptores y diésel (11-nov)

@@ -46,6 +46,8 @@ export const CREDITOS = [
     uso: 'Motor 3D, vendorizado sin modificar. Del ejemplo games_fps vienen Octree y Capsule.' },
   { que: 'Poly Haven · 15 piezas escaneadas', quien: 'Greg Zaal, Jarod Guest, Rob Tuytel, Amal Kumar, Dario Barresi, Rico Cilliers, Jenelle van Heerden, James Ray Cock, Sean Buckley, Jurita Burger y Serhii Khromov', licencia: 'CC0 1.0 (dominio público)', url: 'https://polyhaven.com',
     uso: 'Corredor: cielos HDR, asfalto, tierra, grava y chapa escaneados; rocas, arbustos, tronco, barrera, bidón, caja y barril. Pieza por pieza, con autor y fuente, en juegos/assets/ph/CREDITOS.json.' },
+  { que: 'Sonidos grabados de Corredor · 11 piezas', quien: 'Still North Media (The Free Firearm Sound Library), Sixthstar, ezwa, Dragout y Fg2 en Wikimedia Commons', licencia: 'CC0 1.0 o dominio público', url: 'https://opengameart.org/content/the-free-firearm-sound-library',
+    uso: 'Motor diésel Detroit 6.2 V8, disparos de AK-47 y Springfield .30-06, explosiones, brisa con pájaros y un combate lejano. Pieza por pieza en juegos/assets/sonido/CREDITOS.json.' },
   { que: 'racing-game', quien: 'Poimandres (pmndrs)', licencia: 'MIT', url: 'https://github.com/pmndrs/racing-game',
     uso: 'Base de diseño de Luciérnaga: tuning de coche arcade, nitro, cámara de persecución, motor con marchas, tabla de tiempos. Reescrito en JavaScript sin React ni build.' },
   { que: 'games_fps (ejemplo de three.js)', quien: 'three.js authors', licencia: 'MIT', url: 'https://github.com/mrdoob/three.js/blob/dev/examples/games_fps.html',

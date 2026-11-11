@@ -30,6 +30,7 @@ import { crearInterceptores, INTERCEPTORES } from './co-interceptores.js';
 import { Radar } from './co-radar.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
+import { SonidoReal } from './co-sonido-real.js';
 import { JUEGOS } from './catalogo.js';
 
 const $ = (id) => document.getElementById(id);
@@ -320,6 +321,7 @@ async function iniciar() {
 
   // ───────────── Explosiones y daños ─────────────
   function sonExplosion(k, d) {
+    if (real.explosion(k, d)) return;   // grabación real; si no está cargada, la sintetizada de abajo
     const f = clamp(25 / (d + 5), 0.15, 1) * k;
     ruido({ dur: 1.7, vol: 0.9 * f, tipo: 'lowpass', f: 900, f2: 60, q: 0.7, ataque: 0.002 });
     tono({ f: 70, f2: 26, dur: 1.1, tipo: 'sine', vol: 0.9 * f });
@@ -555,7 +557,7 @@ async function iniciar() {
     for (let i = 0; i < 3; i++) fuego.emitir(boca.x, boca.y, boca.z, dir.x * 9 + (Math.random() - 0.5) * 2, dir.y * 9 + (Math.random() - 0.5) * 2, dir.z * 9 + (Math.random() - 0.5) * 2, 0.05 + Math.random() * 0.03, 0.32, 2.6, 1.6, 0.6, 1, 0, 6, 0.8);
     if (Math.random() < 0.5) humo.emitir(boca.x, boca.y, boca.z, dir.x * 2, 0.6, dir.z * 2, 0.6, 0.25, 0.5 * luz, 0.48 * luz, 0.45 * luz, 0.25, -0.3, 1.5, 3);
     sacudida.sumar(0.025); inp.vibrar(0.12, 0.3, 45);
-    ruido({ dur: 0.09, vol: 0.32, tipo: 'bandpass', f: 1500, f2: 450, q: 0.8 }); tono({ f: 120, f2: 55, dur: 0.07, tipo: 'square', vol: 0.12, filtro: 700 });
+    if (!real.disparo()) { ruido({ dur: 0.09, vol: 0.32, tipo: 'bandpass', f: 1500, f2: 450, q: 0.8 }); tono({ f: 120, f2: 55, dur: 0.07, tipo: 'square', vol: 0.12, filtro: 700 }); }
   }
   function alDron(d, p) {
     if (d.tipo === 'mina') { detonarMina(d); return; }
@@ -726,13 +728,19 @@ async function iniciar() {
   }
 
   // ───────────── Sonido (nace apagado) y menús ─────────────
-  const son = new Sonidos('diesel'); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
+  // Sonido: grabaciones reales (co-sonido-real.js) y el sintetizado de reserva por si no cargan.
+  const son = new Sonidos('diesel'), real = new SonidoReal(); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
   addEventListener('pointerdown', () => iniciarAudio()); addEventListener('keydown', () => iniciarAudio());
-  function sonidoCuadro() {
+  function sonidoCuadro(dt) {
     const falta = sonidoOn && !audio.activo(); if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }
     if (!son.preparar()) return;
-    const activo = jugando && !pausado && est.fase !== 'resultado' && est.integ > 0; son.encender(activo);
-    if (activo) son.actualizar({ rpm: veh.rpm, gas: veh.marcha < 0 ? ent.freno : ent.gas, turbo: veh.turbo * 0.7, chirrido: veh.chirrido, vel: Math.hypot(veh.u, veh.v), arcen: veh.arcen && Math.abs(veh.u) > 2, corte: veh.cambio > 0 });
+    real.cargar();
+    const activo = jugando && !pausado && est.fase !== 'resultado' && est.integ > 0;
+    if (real.listo) {   // con las grabaciones cargadas el motor sintetizado calla
+      son.encender(false);
+      real.actualizar({ activo, rn: (veh.rpm - AJUSTE.tactica.ralenti) / (AJUSTE.tactica.rpmMax - AJUSTE.tactica.ralenti), gas: veh.marcha < 0 ? ent.freno : ent.gas }, dt);
+    } else son.encender(activo);
+    if (activo && !real.listo) son.actualizar({ rpm: veh.rpm, gas: veh.marcha < 0 ? ent.freno : ent.gas, turbo: veh.turbo * 0.7, chirrido: veh.chirrido, vel: Math.hypot(veh.u, veh.v), arcen: veh.arcen && Math.abs(veh.u) > 2, corte: veh.cambio > 0 });
     // Zumbido del dron más cercano: más agudo el suicida en picada, más grave el bombardero.
     if (!zumb) {
       const c = audio.ctx, o1 = c.createOscillator(), o2 = c.createOscillator(), f = c.createBiquadFilter(), g = c.createGain();
@@ -819,11 +827,11 @@ async function iniciar() {
     moverCamara(dt);
     if (combate && est.fase !== 'resultado') combatir(dt);
     if (jugando && !$('hud').hidden) pintarHud();
-    sonidoCuadro();
+    sonidoCuadro(dt);
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, tramo: N_TRAMO,
+  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };

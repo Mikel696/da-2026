@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, drones interceptores; sonido real pendiente de permiso)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor con sonido grabado real)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,15 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🔊 19-JUE · Corredor, sonido grabado real — miércoles 11-nov
+
+- Miguel autorizó bajar grabaciones CC0. **En el juego:** motor diésel Detroit 6.2 V8 (el del Humvee), disparos de
+  .30-06 y AK-47 (Still North Media), explosiones, brisa con pájaros y combate lejano: 11 piezas, 1,87 MB, créditos en
+  `juegos/assets/sonido/CREDITOS.json` y en la sala. El zumbido de dron sigue sintetizado (no hay grabación libre).
+- Medido sin altavoces; una prueba atrapó un fallo mío (un comentario que anulaba una línea) antes de publicar.
 
 ---
 
