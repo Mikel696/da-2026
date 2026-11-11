@@ -290,7 +290,7 @@ async function iniciar() {
     const s = veh.sup, vel = Math.abs(veh.u);
     let pref = CARRIL, obj = CARRIL, peligro = false, parar = false;
     const h = this.rescatar ? heridos.lista.find((x) => x.estado === 'espera' && x.dist - s.dist > -6 && x.dist - s.dist < 60) : null;
-    if (h) { pref = obj = h.lado * 3.4; parar = h.dist - s.dist < 2 && Math.hypot(h.x - veh.x, h.z - veh.z) < RADIO_SUBIR; }
+    if (h) { pref = obj = h.lado * 3.4; parar = h.dist - s.dist < 2 && Math.hypot(h.x - veh.x, h.z - veh.z) < RADIO_SUBIR - 0.5; }
     if (this.esquivar) {
       const cerca = minas.lista.filter((m) => m.viva && m.detectada && m.dist > s.dist - 3 && m.dist < (h ? Math.min(s.dist + 48, h.dist + 8) : s.dist + 48));   // con un herido por subir, primero arrimarse
       if (cerca.length) {
@@ -309,7 +309,7 @@ async function iniciar() {
     for (let k = 0; k < 30 && s.i + k < P.n; k++) { const c = Math.abs(P.curv[s.i + k]); if (c > 0.003) vmax = Math.min(vmax, Math.sqrt(4.2 / c) + k * 0.4); }
     if (peligro) vmax = Math.min(vmax, 13);
     if (s.i > FIN - 26) vmax = Math.min(vmax, 9);
-    if (h) vmax = Math.min(vmax, Math.max(0, (h.dist - s.dist) * 0.45));
+    if (h) vmax = Math.min(vmax, Math.max(Math.hypot(h.x - veh.x, h.z - veh.z) < RADIO_SUBIR - 0.5 ? 0 : 1.3, (h.dist - s.dist) * 0.45));   // sin estar a su lado, sigue al paso (con la retención en parado no avanzaría solo)
     const pu = puestos.find((p) => !p.hecho && p.dist - s.dist > -8 && p.dist - s.dist < 70);
     if (pu) { vmax = Math.min(vmax, Math.max(0, (pu.dist - s.dist) * 0.45)); if (pu.dist - s.dist < 2.5) parar = true; }
     if (est.reparando || (this.equipo && est.integ <= 55 && est.kits > 0 && !enemigos().some((d) => d.viva && d.peligro))) parar = true;
