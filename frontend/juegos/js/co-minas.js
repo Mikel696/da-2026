@@ -17,6 +17,9 @@ export const CAMPO_1 = [
   [395, [0, -2.4]], [450, [1.6]], [505, [-0.8, 0.8]], [560, [2.45, 0.75, -3.6]], [615, [-0.75, 1.6, 3.0]],
 ];
 
+// Segundo campo, para el paso de las emboscadas: menos minas, más juntas, mezcladas con los tiradores.
+export const CAMPO_2 = [[0, [2.45, -0.75]], [55, [0.75]], [110, [-2.45, 1.6]], [170, [0]], [230, [2.45, -1.6, 0.75]], [290, [-0.75, 2.45]]];
+
 export function crearMinas(P, campo, inicio, tex) {
   const lista = [], o = {}, rnd = semilla(707);
   for (const [s, ls] of campo) for (const l of ls) {

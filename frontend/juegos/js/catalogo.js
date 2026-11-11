@@ -18,11 +18,11 @@ export const ANTERIORES = [
 export const JUEGOS = [
   {
     id: 'corredor', nombre: 'Corredor', genero: 'Misión', archivo: 'juegos/corredor.html', color: '#d9c9a3', listo: true,
-    lema: 'Lleva suministros y rescata heridos por una carretera con minas y drones. Radar, torreta, inhibidor y humo.',
-    tabla: 'p1', menorEsMejor: false, formato: 'puntos',
+    lema: 'Misión completa: de la base de salida a la base avanzada entre minas, drones y lanzacohetes. Rescata heridos y baja a reparar.',
+    tabla: 'p4', menorEsMejor: false, formato: 'puntos',
     controles: [
       ['Acelerar', 'W · ↑', 'RT'], ['Frenar · reversa: parado, suelta y vuelve a pisar', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izq.'],
-      ['Apuntar la torreta', 'Ratón · I J K L', 'Stick der.'], ['Disparar', 'Clic · F', 'RB'], ['Centrar la torreta', 'V', 'Clic stick der.'], ['Inhibidor de señal', 'Q', 'LB'], ['Cortina de humo', 'G', 'X'], ['Dron interceptor', 'E', 'B'],
+      ['Apuntar la torreta', 'Ratón · I J K L', 'Stick der.'], ['Disparar', 'Clic · F', 'RB'], ['Centrar la torreta', 'V', 'Clic stick der.'], ['Inhibidor de señal', 'Q', 'LB'], ['Cortina de humo', 'G', 'X'], ['Dron interceptor', 'E', 'B'], ['Bajar a reparar (parado)', 'T', 'Cruceta ↓'],
       ['Freno de mano', 'Espacio', 'A'], ['Cámara', 'C', 'Y'], ['Volver al centro de la vía', 'R', 'Select'], ['Pausa', 'Esc · P', 'Start'],
     ],
   },

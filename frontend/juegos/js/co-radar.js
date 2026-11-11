@@ -68,6 +68,13 @@ export class Radar {
         g.fillStyle = '#0e120b'; g.beginPath(); g.arc(x, y, 2.5, 0, VUELTA); g.fill();
         continue;
       }
+      if (o.tipo === 'tirador') {   // lanzacohetes: cuadrado, rojo mientras apunta
+        if (!o.viva) continue;
+        if (r2 > (R - 9) ** 2) { const s = (R - 9) / Math.sqrt(r2); x = c + (x - c) * s; y = c + (y - c) * s; }
+        g.fillStyle = o.peligro ? '#ff5a3a' : '#ffb340'; g.fillRect(x - 6, y - 6, 12, 12);
+        if (o.peligro) { g.strokeStyle = `rgba(255, 90, 58, ${0.75 - p * 0.55})`; g.lineWidth = 2; g.strokeRect(x - 9 - p * 4, y - 9 - p * 4, 18 + p * 8, 18 + p * 8); }
+        continue;
+      }
       if (o.tipo !== 'mina') {   // dron: rombo ámbar, rojo si está atacando; si está lejos, en el borde del radar
         if (!o.viva) continue;
         const fuera = r2 > (R - 9) ** 2;

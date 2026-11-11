@@ -22,6 +22,14 @@ function suavizar(a, radio, pases) {
   }
 }
 
+/** La misión completa: base de salida, valle minado, cielo hostil, paso de las emboscadas y base avanzada (~2,3 km).
+ *  Va casi recta en z a propósito: el terreno es una rejilla sobre el rectángulo que encierra la vía. */
+export const RUTA = {
+  id: 'ruta', ancho: 3.4, salida: 70,
+  puntos: [[0, -90], [0, -20], [0, 40], [14, 120], [-6, 210], [-30, 300], [-12, 390], [26, 470], [32, 550], [10, 640], [-14, 730], [-40, 820], [-30, 910], [0, 990],
+    [30, 1070], [40, 1160], [22, 1250], [-8, 1340], [-34, 1430], [-26, 1520], [4, 1610], [30, 1700], [26, 1790], [0, 1880], [-20, 1970], [-12, 2060], [0, 2140], [0, 2230]],
+};
+
 /** El mismo valle recorrido al revés: otra carretera para el jugador sin cargar otro terreno. */
 export const TRAMO_INVERSO = { ...TRAMO, id: 'tramo-inverso', puntos: TRAMO.puntos.slice().reverse() };
 

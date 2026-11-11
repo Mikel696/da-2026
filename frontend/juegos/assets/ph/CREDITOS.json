@@ -2,7 +2,7 @@
  "fuente": "Poly Haven",
  "licencia": "CC0 1.0 (dominio público)",
  "url": "https://polyhaven.com/license",
- "descargado": "2026-11-10",
+ "descargado": "2026-11-10 y 2026-11-11 (árboles, botiquín y estufa)",
  "assets": [
   {
    "id": "kloppenheim_06_puresky",
@@ -483,6 +483,211 @@
      "ruta": "cielo/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
      "bytes": 5451493,
      "sha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198"
+    }
+   ]
+  },
+  {
+   "id": "quiver_tree_01",
+   "nombre": "Quiver Tree 01",
+   "tipo": "mod",
+   "autores": [
+    "James Ray Cock",
+    "Dario Barresi",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/quiver_tree_01",
+   "archivos": [
+    {
+     "ruta": "mod/quiver_tree_01/quiver_tree_01.gltf",
+     "bytes": 5080,
+     "sha256": "aa6885a0fe43b274584851b0947e2209dc64afce1d20a75a1567e790a12d0722"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_trunk_arm_1k.jpg",
+     "bytes": 492139,
+     "sha256": "9271edcab1c7224aa6b9e64f0321ae54ad7c074557290cd366c3392e7c330ab7"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_trunk_diff_1k.jpg",
+     "bytes": 741115,
+     "sha256": "47963e7a274bf26da0a49019d01268f5dad9e8a2e6cd17fcd3ba1d2606517f57"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_leaf_nor_gl_1k.jpg",
+     "bytes": 898833,
+     "sha256": "4480bafa755e1886073546aca1fbd6da377c463849f18588c773460c61b4ed0a"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_trunk_nor_gl_1k.jpg",
+     "bytes": 940495,
+     "sha256": "430ccf8d2545f7fe1119433ef34a02111a81f907dfb4ee50654ffdad4b655438"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_leaf_arm_1k.jpg",
+     "bytes": 737159,
+     "sha256": "c0be7dd1b7dcc61fcbe252b2ca656b1ecf7633d9a1bb52cf7006bc97bf6c560c"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/quiver_tree_01.bin",
+     "bytes": 4413204,
+     "sha256": "20efdf4aa14825ffd01abb21535afd485a00022c96ad04c1269bb01c137bbe08"
+    },
+    {
+     "ruta": "mod/quiver_tree_01/textures/quiver_tree_01_leaf_diff_1k.jpg",
+     "bytes": 652456,
+     "sha256": "5622b466a950b74d296c3d066e0d28d85770232fd5624c5ab0f752de825fae18"
+    }
+   ]
+  },
+  {
+   "id": "quiver_tree_02",
+   "nombre": "Quiver Tree 02",
+   "tipo": "mod",
+   "autores": [
+    "Dario Barresi",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/quiver_tree_02",
+   "archivos": [
+    {
+     "ruta": "mod/quiver_tree_02/quiver_tree_02.gltf",
+     "bytes": 2809,
+     "sha256": "c92ea2f60defaa9c134f43ac606bb7564ade348f92b546ba91c87bc6365d1a56"
+    },
+    {
+     "ruta": "mod/quiver_tree_02/quiver_tree_02.bin",
+     "bytes": 2060604,
+     "sha256": "fd3598b4aea34bc6864452d2dbb37a04e4bfa7ad1ab6062a3b97c485fae258f3"
+    },
+    {
+     "ruta": "mod/quiver_tree_02/textures/quiver_tree_02_arm_1k.jpg",
+     "bytes": 759729,
+     "sha256": "5d12b154c534503b68766dca96f6486fa0faeb22734b300c58ede695deb2915e"
+    },
+    {
+     "ruta": "mod/quiver_tree_02/textures/quiver_tree_02_nor_gl_1k.jpg",
+     "bytes": 988408,
+     "sha256": "5073a1d9563331d8a7bc57a36cae9f1d1d69470395be0c460a12c57026b5f1f0"
+    },
+    {
+     "ruta": "mod/quiver_tree_02/textures/quiver_tree_02_diff_1k.jpg",
+     "bytes": 736321,
+     "sha256": "546a745ad765529d3c310178321e145909f4817b06679788ad24d29ec7eae7b7"
+    }
+   ]
+  },
+  {
+   "id": "dead_quiver_trunk",
+   "nombre": "Dead Quiver Trunk",
+   "tipo": "mod",
+   "autores": [
+    "James Ray Cock",
+    "Dario Barresi",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/dead_quiver_trunk",
+   "archivos": [
+    {
+     "ruta": "mod/dead_quiver_trunk/dead_quiver_trunk.gltf",
+     "bytes": 2833,
+     "sha256": "c130bce552d608057143e7f131f36e9c4e06a9b780947c85d4e5eb1cacfedbaf"
+    },
+    {
+     "ruta": "mod/dead_quiver_trunk/dead_quiver_trunk.bin",
+     "bytes": 411388,
+     "sha256": "2f2a74458c071801cde2287970a396d503ffe0ebf4dedc3c5f3b39024186c00a"
+    },
+    {
+     "ruta": "mod/dead_quiver_trunk/textures/dead_quiver_trunk_arm_1k.jpg",
+     "bytes": 514214,
+     "sha256": "7aa714956b606c2d4a929d4ab76490db4a45f23a1ec24c66f088867ef363f37a"
+    },
+    {
+     "ruta": "mod/dead_quiver_trunk/textures/dead_quiver_trunk_nor_gl_1k.jpg",
+     "bytes": 573241,
+     "sha256": "b3d987eba87112005529664455a82809da2325420021d494832dd8ba860eb62c"
+    },
+    {
+     "ruta": "mod/dead_quiver_trunk/textures/dead_quiver_trunk_diff_1k.jpg",
+     "bytes": 768713,
+     "sha256": "53015f7dc3cc9a5ad360439b63c72d90402314201255495684bf6a6499aef7e0"
+    }
+   ]
+  },
+  {
+   "id": "medical_box",
+   "nombre": "Medical Box",
+   "tipo": "mod",
+   "autores": [
+    "Ulan Cabanilla"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/medical_box",
+   "archivos": [
+    {
+     "ruta": "mod/medical_box/medical_box.gltf",
+     "bytes": 8820,
+     "sha256": "ae52391cf95b6ec6505530ad00c098a5bafb173f39371296da3ce9db6808f01f"
+    },
+    {
+     "ruta": "mod/medical_box/textures/medical_box_nor_gl_1k.jpg",
+     "bytes": 358278,
+     "sha256": "9afa38d3139b6cd9c022e371e3c53d2e8c21ab6cb2326a08e9457c506d82058c"
+    },
+    {
+     "ruta": "mod/medical_box/textures/medical_box_diff_1k.jpg",
+     "bytes": 674432,
+     "sha256": "64627e4be15f9a83a2d160b62e54bb9963f225c2312671b3d6d82928f7de19a9"
+    },
+    {
+     "ruta": "mod/medical_box/textures/medical_box_arm_1k.jpg",
+     "bytes": 805882,
+     "sha256": "eb61c506d05506fabd141a1a0caa130e305f81bb75847ab5dba7eaf621ad49c4"
+    },
+    {
+     "ruta": "mod/medical_box/medical_box.bin",
+     "bytes": 127972,
+     "sha256": "0104f7edd5da4cd1847bf4b3c23d6d4af14c16670827387b1f33048c554da189"
+    }
+   ]
+  },
+  {
+   "id": "barrel_stove",
+   "nombre": "Barrel Stove",
+   "tipo": "mod",
+   "autores": [
+    "MP"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/barrel_stove",
+   "archivos": [
+    {
+     "ruta": "mod/barrel_stove/barrel_stove.gltf",
+     "bytes": 2747,
+     "sha256": "33006d0166cda06b377b749553571220c9dcbb6f89d42d123d74d0308cf4df32"
+    },
+    {
+     "ruta": "mod/barrel_stove/textures/barrel_stove_diff_1k.jpg",
+     "bytes": 858608,
+     "sha256": "7661395a02b37db8dde222dd16947e41fa3b06d2ee9a198c57b6d015222afaeb"
+    },
+    {
+     "ruta": "mod/barrel_stove/textures/barrel_stove_nor_gl_1k.jpg",
+     "bytes": 228496,
+     "sha256": "533b75cb95ae236aab74c3a5b8ccbeff567b4a402c5bc3373c20c9afea48d680"
+    },
+    {
+     "ruta": "mod/barrel_stove/textures/barrel_stove_arm_1k.jpg",
+     "bytes": 789380,
+     "sha256": "f0ec5ddee6660953cad654e883e641f60e0c814afcbab2fa7c90a75843790145"
+    },
+    {
+     "ruta": "mod/barrel_stove/barrel_stove.bin",
+     "bytes": 267680,
+     "sha256": "09d7eb63b75a4a214fdb9f03349e5ddf990ea9865b3fbfb3fede6e5ccfa19e68"
     }
    ]
   }
