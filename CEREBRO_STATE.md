@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, conducción corregida: giro, freno, reversa, caja automática y cámara)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, misión completa, vehículo militar, lanzacohetes y reparación)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,25 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🪖 19-JUE · Corredor, la misión completa — miércoles 11-nov (noche)
+
+- **Pedidos de Miguel en la sesión:** conducción real, partida completa con bases de salida y llegada, árboles, vehículo
+  más militar, cámara más lejana, cambios y motor que suenen real, lanzacohetes escondidos, bajarse a reparar con el
+  enemigo encima, humo menos saturado. **Todo publicado y verificado** (commits `850e085`, `97c63ce`, `7d7bbdc`).
+- **Misión completa** (tramo 4, el que abre por defecto, récord `p4`): 2,4 km, base de salida → valle minado → puesto 1
+  → cielo hostil → puesto 2 → paso de las emboscadas → base avanzada. Piloto automático de punta a punta: 331 s, 0 minas
+  pisadas, 14 drones, 5 de 5 lanzacohetes, 6 de 7 heridos, blindaje 80 %, 7.170 puntos.
+- **Vehículo táctico blindado** (`co-camion.js` reescrito): placas biseladas, 39 mallas (antes ~120). **Campamentos**
+  (`co-campo.js`): gaviones, carpas, torre, barrera, vehículo estacionado. **Lanzacohetes** (`co-cohetes.js`).
+  **Reparación** (T / cruceta ↓): 16 s, +30 %, 2 kits. Árboles: áloes del desierto de Poly Haven (CC0, 19 MB).
+- **Parada no se mueve** (retención: en la cuesta de la salida rodaba a 1 km/h). **Motor**: el bucle de 1 s de un
+  acelerón era el «tru tru»; ahora textura de granos (repetición 78 % → 21 %, medido sin altavoces). **Humo** más suave.
+- **Rendimiento medido en su RX 580** (vista previa): 61-64 fps, 5-8 M triángulos por cuadro.
+- **Siguiente (pedido de Miguel, sin empezar):** el paisaje de un camino báltico y la guerra actual, misiones de noche,
+  tarde y lluvia. Tarea detallada en `docs/sesiones/2026-11-10-convoy-diseno.md` → «Próxima sesión».
 
 ---
 

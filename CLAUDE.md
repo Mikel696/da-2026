@@ -125,7 +125,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
-| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros: minas, drones, heridos; radar, torreta, interceptores, inhibidor y humo; 3 tramos con puntaje), shooter y arcade en camino |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (vehículo táctico con suministros: **misión completa** de 2,4 km con bases, puestos, minas, drones, lanzacohetes, heridos y reparación de campaña; radar, torreta, interceptores, inhibidor y humo), shooter y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
@@ -509,6 +509,13 @@ porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `j
    Claude tapada el 3D cae a 2 fps: `__co.simular(seg)` corre la lógica sin dibujar. Medir fps a 1920×1080 en calidad alta: meta 60 con la RX 580.
 6. **Se trabaja en la copia aparte `.claude/worktrees/convoy`** (rama `claude/convoy`) y se publica con
    `git push origin HEAD:main`: la carpeta principal suele tener cambios sin guardar de otra sesión.
+7. **Conducción: `node scripts/prueba-fisica.mjs` antes de publicar** (27 comprobaciones: cola que no se desliza al
+   girar, frenada recta, freno pisado quieta, reversa al soltar y volver a pisar, cuesta sin gas quieta, 0-60 de
+   camioneta, borde que contiene la carrocería). La llanta se opone siempre a su deslizamiento: |u|, nunca u con signo.
+8. **Sonido grabado sin bucles audibles:** nunca repetir tal cual un tramo que cambia (un acelerón): bucle con la costura
+   fundida o textura de granos al azar. Medirlo sin altavoces: parecido del volumen consigo mismo desplazado (< 30 %).
+9. **Vegetación por trozos con distancia de dibujo** (`LEJOS`, 450 m): con la vía larga, todo entra en cámara.
+   Presupuesto medido en la RX 580: 5-8 M de triángulos y ≤ 800 llamadas por cuadro, 60 fps.
 
 ---
 

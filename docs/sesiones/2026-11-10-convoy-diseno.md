@@ -85,6 +85,31 @@ lo que ya vio.
 - [x] Paso 5a: drones interceptores propios (pedido de Miguel, 11-nov) y motor diésel sintetizado provisional
 - [x] **Sonido grabado real** (11-nov, con su permiso): motor, disparos, explosiones y ambiente. Falta el dron (abajo).
 
+## Misión completa (11-nov, noche) · lo hecho
+- Conducción: 2 fallos reales en `lc-fisica.js` (signo de la llanta en reversa; el borde giraba media vuelta) + ABS,
+  control de estabilidad, subviraje, caja automática 4L80-E, retención en parado, reversa al soltar y volver a pisar.
+  Prueba: `node scripts/prueba-fisica.mjs`.
+- Vehículo táctico blindado, cámara lejana con retraso de brazo, misión de 2,4 km (tramo 4), campamentos, puestos,
+  lanzacohetes, reparación de campaña, áloes de Poly Haven, humo más suave, motor sin bucle audible.
+- **Sin verificar:** con el mando físico de Miguel; cómo suena de verdad (medido, no oído); el lanzamiento del cohete y
+  la herramienta del mecánico son sonidos sintetizados cortos.
+
+## Próxima sesión · pedido de Miguel (11-nov), sin empezar
+> «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,
+> lloviendo» · «más real sin comprometer la jugabilidad, bien optimizado».
+1. **Paisaje báltico** (lo más visible): llano con lomas suaves, campos verdes y bosque de pino y abedul a los lados,
+   cuneta con agua, asfalto gastado o grava. Material CC0 de Poly Haven (ya autorizado): pasto, suelo de bosque, cielo
+   nublado (`kloppenheim_06_puresky` ya está). **El bosque no cabe con modelos de 400 k a 17 M de triángulos:**
+   impostores (renderizar `fir_sapling` / `pine_sapling_small` a textura al cargar y plantar cientos de billboards
+   cruzados); modelos reales solo en los primeros 40 m.
+2. **Guerra actual, sin bandos ni insignias:** erizos antitanque y dientes de dragón, trincheras con sacos, vehículos
+   quemados al costado, cráteres, túneles de red antidrones sobre la vía, drones FPV con fibra óptica (inmunes al
+   inhibidor: obligan a usar la torreta).
+3. **Hora y clima por misión** (dato en `TRAMOS`): tarde (cielo HDR de atardecer), noche (cielo nocturno, faros y pilotos
+   con luz real, trazadoras que brillan, el radar como ojos), lluvia (partículas, asfalto mojado con menos roughness,
+   menos agarre en `lc-fisica`, sonido de lluvia CC0 con su permiso). Campaña: misiones 5-7 en la misma ruta.
+4. Mantener 60 fps en la RX 580 (`renderer.info`, `LEJOS`). Correr `node scripts/prueba-fisica.mjs` si se toca el agarre.
+
 ## Sonido grabado (11-nov)
 - **11 piezas, 1,87 MB, CC0 o dominio público** en `frontend/juegos/assets/sonido/`, cada una con autor, fuente y suma en
   `CREDITOS.json`: motor **Detroit 6.2 L V8 diésel** (el del Humvee original; Commons, CC0); 5 disparos recortados de
