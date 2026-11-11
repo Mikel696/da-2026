@@ -240,7 +240,7 @@ async function iniciar() {
   const est = Object.assign({ fase: 'titulo' }, CERO);
   const ent = { gas: 0, freno: 0, giro: 0, mano: false }, uT = { value: 0 }, salto = { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 };
   const mira = { yaw: 0, pitch: -0.04, quieto: 0, centrar: 0, fijo: null, acierto: 0, dist: 60 };
-  let jugando = false, pausado = false, ultimo = 0, acum = 0, padsVistos = null, msgT = 0;
+  let jugando = false, pausado = false, ultimo = 0, acum = 0, padsVistos = null, msgT = 0, avisoReversa = false, frenoQuieto = 0;
   const hMsg = $('hMsg');
   const mensaje = (txt, seg = 2.2, alerta = false) => { hMsg.textContent = txt; hMsg.classList.toggle('alerta', alerta); hMsg.classList.add('ver'); msgT = seg; };
   const mejor = () => records.mejor('corredor', TABLA);
@@ -273,7 +273,7 @@ async function iniciar() {
     if (s.i > FIN - 26) vmax = Math.min(vmax, 9);
     if (h) vmax = Math.min(vmax, Math.max(0, (h.dist - s.dist) * 0.45));
     ent.giro = clamp(-angulo(a) * 2.4, -1, 1); ent.gas = vel < vmax ? 0.8 : 0; ent.freno = vel > vmax + 1.5 ? clamp((vel - vmax) / 6, 0.2, 1) : 0; ent.mano = false;
-    if (parar) { ent.gas = 0; ent.freno = veh.u > 0.3 ? 1 : 0; ent.mano = true; }   // parado se sujeta con el de mano: frenar a fondo parado mete la reversa
+    if (parar) { ent.gas = 0; ent.freno = veh.u > 0.3 ? 1 : 0; ent.mano = true; }   // parado se sujeta con el de mano: con el freno pisado se queda quieta, pero el de mano no deja dudas
   } };
 
   function salir() {
@@ -590,8 +590,12 @@ async function iniciar() {
       const libre = est.fase !== 'ruta';
       if (auto.on || libre) { auto.pensar(); if (libre) { ent.gas = 0; ent.freno = veh.u > 0.4 ? 1 : 0; } }
       veh.paso(DT_F, ent, P);
-      if (veh.evento === 'sube' || veh.evento === 'baja') { son.cambio(veh.evento === 'sube'); inp.vibrar(0.2, 0.25, 70); }
-      if (veh.soplido > 0) { son.soplido(veh.soplido * 0.6); veh.soplido = 0; }
+      // Una vez por visita: quien se queda parado con el freno pisado (y no junto a un herido) se entera de cómo dar reversa.
+      if (!auto.on && !avisoReversa && est.fase === 'ruta' && veh.marcha > 0 && Math.abs(veh.u) < 0.2 && ent.freno > 0.5) {
+        if ((frenoQuieto += DT_F) > 1.5 && !heridos.lista.some((h) => h.estado === 'espera' && Math.hypot(h.x - veh.x, h.z - veh.z) < RADIO_SUBIR + 3)) { avisoReversa = true; mensaje('Reversa: suelta el freno y vuelve a pisarlo', 3); }
+      } else frenoQuieto = 0;
+      // Caja automática: el cambio se oye en la grabación del motor (las vueltas bajan resbalando), sin chasquidos sintetizados.
+      if (veh.evento === 'sube' || veh.evento === 'baja') inp.vibrar(0.08, 0.12, 90);
       if (veh.sup.i <= 1 && veh.u < 0) veh.u = 0;
       if (veh.sup.i >= P.n - 4 && veh.u > 0) veh.u = 0;
       if (est.fase === 'ruta') { est.t += DT_F; pisar(); if (est.fase === 'ruta' && veh.sup.i >= FIN) llegar(); }
@@ -638,22 +642,26 @@ async function iniciar() {
 
   // ───────────── Cámara: detrás de la torreta, mira hacia donde apuntas ─────────────
   const cam = { yaw: veh.psi, modo: 0, fov: 55, t: 0 };
-  const MODOS = [{ dist: 8.4, alto: 1.5 }, { dist: 5.8, alto: 1.1 }, { torreta: true }];
+  // Lejana (por defecto, la de un juego de conducción), cercana y desde la torreta. El ancla sigue a la camioneta con un
+  // pequeño retraso, como una cámara montada en un brazo: al acelerar se queda atrás y al frenar se acerca.
+  const MODOS = [{ dist: 12, alto: 1.9 }, { dist: 8.4, alto: 1.5 }, { torreta: true }], ancla = new THREE.Vector3(veh.x, veh.y, veh.z);
   function moverCamara(dt) {
     const vel = Math.hypot(veh.u, veh.v); let fov;
     if (est.fase === 'titulo') {
-      cam.t += dt; const a = veh.psi + 2.5 + cam.t * 0.13, r = 8.6 + Math.sin(cam.t * 0.17) * 0.9, px = veh.x + Math.sin(a) * r, pz = veh.z + Math.cos(a) * r;
+      cam.t += dt; const a = veh.psi + 2.5 + cam.t * 0.13, r = 11 + Math.sin(cam.t * 0.17) * 1.2, px = veh.x + Math.sin(a) * r, pz = veh.z + Math.cos(a) * r;
       camara.position.set(px, Math.max(veh.y + 1.7 + Math.sin(cam.t * 0.2) * 0.7, P.terreno(px, pz) + 0.6), pz); camara.lookAt(veh.x, veh.y + 1.15, veh.z); fov = 38; cam.yaw = veh.psi;
     } else {
       const m = MODOS[cam.modo];
+      if (ancla.distanceToSquared(V.set(veh.x, veh.y, veh.z)) > 400) ancla.copy(V);   // tras reaparecer, sin barrido
+      ancla.x = amort(ancla.x, veh.x, 7, dt); ancla.z = amort(ancla.z, veh.z, 7, dt); ancla.y = amort(ancla.y, veh.y + salto.y, 5, dt);
       cam.yaw = angulo(cam.yaw + angulo(veh.psi - cam.yaw) * (1 - Math.exp(-6 * dt)));
       const yaw = cam.yaw + mira.yaw, cpch = Math.cos(mira.pitch);
       camDir.set(Math.sin(yaw) * cpch, Math.sin(mira.pitch), Math.cos(yaw) * cpch);
       if (m.torreta) {
         camion.torreta.getWorldPosition(V); camara.position.set(V.x - camDir.x * 0.9, V.y + 0.55, V.z - camDir.z * 0.9); fov = 62;
       } else {
-        const dist = m.dist * (1 - 0.4 * Math.max(0, camDir.y)), px = veh.x - camDir.x * dist, pz = veh.z - camDir.z * dist;
-        camara.position.set(px, Math.max(veh.y + salto.y + 2.2 + m.alto - camDir.y * dist, P.terreno(px, pz) + 0.8, veh.y + 0.9), pz);
+        const dist = m.dist * (1 - 0.4 * Math.max(0, camDir.y)), px = ancla.x - camDir.x * dist, pz = ancla.z - camDir.z * dist;
+        camara.position.set(px, Math.max(ancla.y + 2.2 + m.alto - camDir.y * dist, P.terreno(px, pz) + 0.8, veh.y + 0.9), pz);
         fov = 52 + clamp(vel / 34, 0, 1) * 10;
       }
       camara.lookAt(V.copy(camara.position).addScaledVector(camDir, 50));

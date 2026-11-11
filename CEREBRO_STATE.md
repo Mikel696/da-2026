@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor con sonido grabado real)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, conducción corregida: giro, freno, reversa, caja automática y cámara)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,23 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🚙 19-JUE · Corredor, conducción corregida — miércoles 11-nov
+
+- Miguel: «se va de lado al girar, al frenar y en reversa; si no doy gas no se puede mover». **Dos fallos reales en
+  `lc-fisica.js`:** (1) en reversa la fuerza de las llantas tenía el signo cambiado (usaba `u` con signo): empujaban hacia
+  donde ya se deslizaba; parada y girando sin gas llegaba sola a 27 km/h y 26 m. (2) Al tocar el borde en reversa la
+  corrección la giraba media vuelta (rumbo de la velocidad, no de la vía). Además frenar hasta parar metía la reversa sola.
+- **Ahora (camioneta, `AJUSTE.tactica`):** ABS, control de estabilidad, más agarre atrás (subvira, no derrapa), volante que
+  pierde recorrido con la velocidad, reversa con freno pisado → quieta (reversa: soltar y volver a pisar; aviso una vez),
+  reversa limitada a 18 km/h, el borde contiene la carrocería entera. **Caja automática de 4 marchas con convertidor**
+  (relaciones 4L80-E, final 5,24, llantas de 37"): 0-60 en 7,3 s, máx. 111 km/h; el par baja en el cambio, no se corta.
+- Fuera el pitido sintetizado del cambio y el «pshhh» de válvula de turbo (un diésel no la lleva). Cámara lejana por
+  defecto (12 m, con retraso de brazo) y la cercana de antes como segunda.
+- **Prueba sin navegador: `node scripts/prueba-fisica.mjs`** (24 comprobaciones; con la física anterior fallan 16).
+  En el juego, tramo 3 con el piloto: 3 de 3 entregas, 0 minas pisadas, cola máx. 1,2°.
 
 ---
 
