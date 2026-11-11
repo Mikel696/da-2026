@@ -146,15 +146,16 @@ export function crearCamion(R, E = TACTICA) {
   // Placa frontal partida (por la ranura del centro pasa el cañón al cabecear), dos alas inclinadas y mirillas.
   { const escudo = [caja(0.42, 0.56, 0.035, -0.29, 0.3, 0.44), caja(0.42, 0.56, 0.035, 0.29, 0.3, 0.44), caja(0.16, 0.12, 0.035, 0, 0.52, 0.44)];
     for (const sx of [-1, 1]) escudo.push(caja(0.42, 0.5, 0.035, sx * 0.64, 0.28, 0.33, 0, sx * 0.62));
-    const mE = new THREE.Mesh(juntar(escudo), mats.pintura); mE.castShadow = true; torreta.add(mE);
-    const mN = new THREE.Mesh(juntar([caja(0.22, 0.07, 0.04, -0.29, 0.42, 0.465), caja(0.22, 0.07, 0.04, 0.29, 0.42, 0.465), tubo(0.05, 0.3, 0, 0.14, 0.1)]), mats.negro); torreta.add(mN);
+    mats.escudo = mats.pintura.clone(); mats.mirilla = mats.negro.clone(); mats.municion = mats.liso.clone();   // propios: se aclaran desde la cámara de torreta
+    const mE = new THREE.Mesh(juntar(escudo), mats.escudo); mE.castShadow = true; torreta.add(mE);
+    const mN = new THREE.Mesh(juntar([caja(0.22, 0.07, 0.04, -0.29, 0.42, 0.465), caja(0.22, 0.07, 0.04, 0.29, 0.42, 0.465), tubo(0.05, 0.3, 0, 0.14, 0.1)]), mats.mirilla); torreta.add(mN);
     const mC = new THREE.Mesh(juntar([caja(0.17, 0.045, 0.02, -0.29, 0.42, 0.49), caja(0.17, 0.045, 0.02, 0.29, 0.42, 0.49)]), mats.cristal); torreta.add(mC);
   }
   const arma = new THREE.Group(); arma.position.set(0, 0.28, 0.12); torreta.add(arma);
   { const piezas = [caja(0.13, 0.15, 0.55, 0, 0, 0.04), tubo(0.022, 0.95, 0, 0.012, 0.76, 'z', 8), tubo(0.036, 0.42, 0, 0.012, 0.48, 'z', 10), tubo(0.033, 0.09, 0, 0.012, 1.24, 'z', 8)];
     for (const sx of [-1, 1]) piezas.push(caja(0.03, 0.11, 0.03, sx * 0.06, -0.02, -0.28));   // empuñaduras
     const mA = new THREE.Mesh(juntar(piezas), mats.arma); mA.castShadow = true; arma.add(mA);
-    const caj = new THREE.Mesh(caja(0.2, 0.15, 0.13, -0.17, -0.02, 0.02), mats.liso); caj.castShadow = true; arma.add(caj);   // caja de munición
+    const caj = new THREE.Mesh(caja(0.2, 0.15, 0.13, -0.17, -0.02, 0.02), mats.municion); caj.castShadow = true; arma.add(caj);   // caja de munición
   }
 
   // Ruedas.
@@ -170,5 +171,11 @@ export function crearCamion(R, E = TACTICA) {
   const gs = new THREE.PlaneGeometry(3.1, 6.4); gs.rotateX(-Math.PI / 2);
   const som = new THREE.Mesh(gs, new THREE.MeshBasicMaterial({ map: mancha, transparent: true, depthWrite: false, opacity: 0.7 })); som.position.y = 0.04; som.renderOrder = 3; grupo.add(som);
 
-  return { grupo, cuerpo, ruedas, torreta, arma, carga, mats, E, luzFreno(k) { mats.piloto.emissiveIntensity = 0.15 + 3.2 * k; } };
+  let vista = false;
+  return { grupo, cuerpo, ruedas, torreta, arma, carga, mats, E, luzFreno(k) { mats.piloto.emissiveIntensity = 0.15 + 3.2 * k; },
+    /** Cámara de torreta: escudo, mirillas, arma y caja de munición casi transparentes (siguen dando sombra). */
+    verTorreta(si) {
+      if (si === vista) return; vista = si;
+      for (const [m, o] of [[mats.escudo, 0.16], [mats.mirilla, 0.16], [mats.municion, 0.25], [mats.arma, 0.45]]) { m.transparent = si; m.depthWrite = !si; m.opacity = si ? o : 1; m.needsUpdate = true; }
+    } };
 }

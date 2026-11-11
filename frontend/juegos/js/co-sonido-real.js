@@ -11,6 +11,16 @@ const BASE = new URL('../assets/sonido/', import.meta.url).href;
 // sonaba un «tru tru» de tren. Ahora el ralentí se funde consigo mismo en la costura y las altas vueltas son una textura de
 // granos tomados al azar del tramo estable: no hay ciclo que se oiga.
 const MOTOR = { ralenti: [6.4, 9.2], vueltas: [3.95, 4.6] };
+/**
+ * Mezcla del motor según vueltas (rn 0..1), acelerador y cambio de marcha. Pura: se mide sin altavoces.
+ * Al cambiar (corte) el acelerador cuenta como suelto y las altas vueltas bajan a la mitad: se oye el «corte» y después
+ * las vueltas, más bajas, vuelven a subir en la marcha nueva. La grabación al ralentí tiene una décima parte de la
+ * energía que a altas vueltas: por eso las ganancias tan distintas.
+ */
+export function mezclaMotor(e) {
+  const rn = Math.min(1, Math.max(0, e.rn)), g = e.corte ? 0.08 : e.gas, mezcla = Math.min(1, rn * 0.6 + g * 0.55);
+  return { rA: 0.95 + 1.1 * rn, rB: 0.66 + 0.86 * rn, gA: (1 - mezcla) * 4, gB: mezcla * 0.55 * (e.corte ? 0.45 : 1), f: 900 + 4500 * Math.max(g, rn * 0.6), m: e.activo ? 0.5 + 0.3 * g : 0 };
+}
 
 /** Bucle sin costura: el final del tramo se funde (a igual potencia) con su principio. */
 function bucleSinCostura(ctx, buf, a, b, fundido = 0.35) {
@@ -60,16 +70,15 @@ export class SonidoReal {
     const amb = bucle(this.b.brisa, [3, 29]); this.amb = ganancia(); amb.connect(this.amb); this.amb.connect(sal);
   }
 
-  /** e = { activo, rn (vueltas 0..1), gas 0..1 }. Llamar en cada cuadro. */
+  /** e = { activo, rn (vueltas 0..1), gas 0..1, corte (cambiando de marcha) }. Llamar en cada cuadro. */
   actualizar(e, dt) {
     if (!this.listo) return;
-    const t = audio.ctx.currentTime, set = (p, v, k = 0.06) => p.setTargetAtTime(v, t, k);
-    const rn = Math.min(1, Math.max(0, e.rn)), mezcla = Math.min(1, rn * 0.6 + e.gas * 0.55);
-    set(this.mA.playbackRate, 0.95 + 1.1 * rn); set(this.mB.playbackRate, 0.72 + 0.75 * rn);
-    // La grabación al ralentí tiene una décima parte de la energía que a altas vueltas: por eso las ganancias tan distintas.
-    set(this.gA.gain, (1 - mezcla) * 4); set(this.gB.gain, mezcla * 0.55);
-    set(this.filtro.frequency, 900 + 4500 * Math.max(e.gas, rn * 0.6));
-    set(this.motor.gain, e.activo ? 0.5 + 0.3 * e.gas : 0, 0.1);
+    const t = audio.ctx.currentTime, set = (p, v, k = 0.06) => p.setTargetAtTime(v, t, k), m = mezclaMotor(e), k = e.corte || this.corte ? 0.025 : 0.06;
+    this.corte = e.corte;
+    set(this.mA.playbackRate, m.rA); set(this.mB.playbackRate, m.rB);
+    set(this.gA.gain, m.gA, k); set(this.gB.gain, m.gB, k);
+    set(this.filtro.frequency, m.f, k);
+    set(this.motor.gain, m.m, 0.1);
     set(this.amb.gain, e.activo ? 3 : 0, 0.6);
     if (e.activo && (this.lejos -= dt) <= 0) { this.lejos = 35 + Math.random() * 40; this.combateLejano(); }
   }

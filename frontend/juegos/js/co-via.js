@@ -22,12 +22,17 @@ function suavizar(a, radio, pases) {
   }
 }
 
-/** La misión completa: base de salida, valle minado, cielo hostil, paso de las emboscadas y base avanzada (~2,3 km).
+/** La misión completa (~6 km): base de salida, valle minado, cielo hostil, paso de las emboscadas, línea de defensa,
+ *  bosque cerrado, último tramo y base avanzada. Hasta el 11-nov acababa a los 2,3 km (z = 2230).
  *  Va casi recta en z a propósito: el terreno es una rejilla sobre el rectángulo que encierra la vía. */
 export const RUTA = {
   id: 'ruta', ancho: 3.4, salida: 70,
   puntos: [[0, -90], [0, -20], [0, 40], [14, 120], [-6, 210], [-30, 300], [-12, 390], [26, 470], [32, 550], [10, 640], [-14, 730], [-40, 820], [-30, 910], [0, 990],
-    [30, 1070], [40, 1160], [22, 1250], [-8, 1340], [-34, 1430], [-26, 1520], [4, 1610], [30, 1700], [26, 1790], [0, 1880], [-20, 1970], [-12, 2060], [0, 2140], [0, 2230]],
+    [30, 1070], [40, 1160], [22, 1250], [-8, 1340], [-34, 1430], [-26, 1520], [4, 1610], [30, 1700], [26, 1790], [0, 1880], [-20, 1970], [-12, 2060], [0, 2140],
+    [20, 2230], [36, 2320], [44, 2410], [44, 2500], [37, 2590], [26, 2680], [15, 2770], [5, 2860], [-3, 2950], [-8, 3040], [-13, 3130], [-20, 3220],
+    [-28, 3310], [-36, 3400], [-42, 3490], [-44, 3580], [-39, 3670], [-28, 3760], [-13, 3850], [3, 3940], [16, 4030], [21, 4120], [18, 4210], [7, 4300],
+    [-8, 4390], [-24, 4480], [-37, 4570], [-45, 4660], [-48, 4750], [-48, 4840], [-46, 4930], [-45, 5020], [-43, 5110], [-41, 5200], [-37, 5290],
+    [-29, 5380], [-15, 5470], [2, 5560], [19, 5650], [34, 5740], [42, 5830], [42, 5920], [33, 6010], [33, 6090]],
 };
 
 /** El mismo valle recorrido al revés: otra carretera para el jugador sin cargar otro terreno. */
@@ -57,14 +62,25 @@ export function crearVia(def, M) {
 
   const bombeo = (l) => 0.045 * (1 - Math.min(1, (l / W) ** 2));   // el asfalto es más alto en el centro para escurrir
   function punto(i, l, dy, v) { v[0] = px[i] + rx[i] * l; v[1] = py[i] - l * peralte[i] + bombeo(l) + dy; v[2] = pz[i] + rz[i] * l; return v; }
-  function cercana(x, z, salto = 1) {
-    let mejor = 0, md = Infinity;
-    for (let i = 0; i < n; i += salto) { const d = (x - px[i]) ** 2 + (z - pz[i]) ** 2; if (d < md) { md = d; mejor = i; } }
+  // Muestra más cercana a (x, z). Con 6 km de vía, recorrer las 3.000 muestras por cada vértice del campo tardaba
+  // segundos: se agrupan en bloques de 24 con su centro y su radio, y solo se miran los bloques que pueden ganar.
+  const BL = 24, nb = Math.ceil(n / BL), bx = new Float32Array(nb), bz = new Float32Array(nb), br = new Float32Array(nb);
+  for (let b = 0; b < nb; b++) {
+    const a = b * BL, e = Math.min(n, a + BL), m = (a + e - 1) >> 1; bx[b] = px[m]; bz[b] = pz[m];
+    for (let i = a; i < e; i++) br[b] = Math.max(br[b], Math.hypot(px[i] - bx[b], pz[i] - bz[b]));
+  }
+  function cercana(x, z) {
+    let mejor = 0, md = Infinity, b0 = 0, bd = Infinity;
+    const mirar = (b) => { for (let i = b * BL, e = Math.min(n, i + BL); i < e; i++) { const d = (x - px[i]) ** 2 + (z - pz[i]) ** 2; if (d < md) { md = d; mejor = i; } } };
+    for (let b = 0; b < nb; b++) { const d = Math.hypot(x - bx[b], z - bz[b]) - br[b]; if (d < bd) { bd = d; b0 = b; } }
+    mirar(b0);
+    for (let b = 0; b < nb; b++) if (b !== b0 && Math.hypot(x - bx[b], z - bz[b]) - br[b] < Math.sqrt(md)) mirar(b);
     return mejor;
   }
   function consulta(x, z, desde, o) {
     let i = 0, md = Infinity;
-    const a = desde < 0 ? 0 : Math.max(0, desde - 12), b = desde < 0 ? n - 1 : Math.min(n - 1, desde + 12);
+    if (desde < 0) desde = cercana(x, z);
+    const a = Math.max(0, desde - 12), b = Math.min(n - 1, desde + 12);
     for (let k = a; k <= b; k++) { const d = (x - px[k]) ** 2 + (z - pz[k]) ** 2; if (d < md) { md = d; i = k; } }
     const s = clamp(((x - px[i]) * tx[i] + (z - pz[i]) * tz[i]) / PASO, -1, 1), j = s >= 0 ? Math.min(n - 1, i + 1) : Math.max(0, i - 1), f = Math.abs(s);
     const L = (arr) => arr[i] + (arr[j] - arr[i]) * f;
@@ -88,9 +104,7 @@ export function crearVia(def, M) {
   }
   const fuera = { d: 0, i: 0, lat: 0, q: 0, sale: false };
   function terreno(x, z) {
-    let i = cercana(x, z, 3), md = Infinity, k = i;
-    for (let j = Math.max(0, i - 3); j <= Math.min(n - 1, i + 3); j++) { const d = (x - px[j]) ** 2 + (z - pz[j]) ** 2; if (d < md) { md = d; k = j; } }
-    i = k;
+    const i = cercana(x, z), md = (x - px[i]) ** 2 + (z - pz[i]) ** 2;
     const d = Math.sqrt(md), lat = (x - px[i]) * rx[i] + (z - pz[i]) * rz[i], along = (x - px[i]) * tx[i] + (z - pz[i]) * tz[i];
     fuera.d = d; fuera.i = i; fuera.lat = lat; fuera.q = d - W; fuera.sale = (i === 0 && along < -0.5) || (i === n - 1 && along > 0.5);
     return alturaLado(i, lat, d - W, x, z);
@@ -152,7 +166,14 @@ export function crearVia(def, M) {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); g.setAttribute('color', new THREE.BufferAttribute(cc, 3));
     g.setIndex(new THREE.BufferAttribute(idx, 1)); g.computeVertexNormals();
-    pon(new THREE.Mesh(g, M.terreno));
+    const nor = g.attributes.normal.array, FILAS = 128;
+    for (let j0 = 0; j0 < nz - 1; j0 += FILAS) {
+      const j1 = Math.min(nz - 1, j0 + FILAS), v0 = j0 * nx, v1 = (j1 + 1) * nx, t = new THREE.BufferGeometry(), id = [];
+      t.setAttribute('position', new THREE.BufferAttribute(pos.slice(v0 * 3, v1 * 3), 3)); t.setAttribute('normal', new THREE.BufferAttribute(nor.slice(v0 * 3, v1 * 3), 3));
+      t.setAttribute('uv', new THREE.BufferAttribute(uv.slice(v0 * 2, v1 * 2), 2)); t.setAttribute('color', new THREE.BufferAttribute(cc.slice(v0 * 3, v1 * 3), 3));
+      for (let j = j0; j < j1; j++) for (let i = 0; i < nx - 1; i++) { const a = (j - j0) * nx + i, b = a + 1, c = a + nx, d = c + 1; id.push(a, c, b, b, c, d); }
+      t.setIndex(id); t.computeBoundingSphere(); pon(new THREE.Mesh(t, M.terreno));
+    }
   }
   return { def, n, px, py, pz, tx, ty, tz, rx, rz, curv, peralte, dist, largo: dist[n - 1], iInicio: Math.round(def.salida / PASO), grupo, base, terreno, fuera, consulta, punto, cercana, borde, limites, CUNETA };
 }

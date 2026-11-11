@@ -113,7 +113,26 @@ lo que ya vio.
   triángulos: los abetos jóvenes reales sumaban 4,4 M (imagen + sombra + oclusión). Corregido: sin sombra y máx. 9. La oclusión
   ambiental duplica llamadas y triángulos (323 → 612). **Sin verificar:** fps reales (la ventana estaba tapada: 20-24 fps).
 
-## Próxima sesión · pedido de Miguel (11-nov) · 1 hecho (paso 6a), 2 y 3 pendientes
+## Paso 6b · ruta de 6 km, guerra actual y arreglos de Miguel (11-nov)
+- **«El tramo sigue siendo igual de corto»:** su Chrome recordaba el tramo 3 (650 m). Ahora la misión completa mide **6,3 km**
+  (puntos nuevos en `RUTA`, de z 2230 a 6090) con 6 secciones y 5 puestos; el juego abre siempre en ella (clave nueva
+  `jue_co_mision`; los tramos cortos siguen en el menú). Piloto: **637 s** sin atascos, 34 de 34 drones, 14 de 14 lanzacohetes,
+  15 de 15 heridos, 1 mina pisada, 17.478 puntos. Carga en ~5 s: la búsqueda de la muestra más cercana va por bloques de 24
+  (`cercana`) y el campo se parte en trozos de 128 filas para que la cámara y la sombra descarten lo que no ven.
+- **Guerra actual** (`co-guerra.js`, datos `GUERRA_RUTA` / `GUERRA_TRAMO`, sin bandos ni insignias): erizos de acero oxidado,
+  dientes de dragón de hormigón en filas que cortan los campos, trincheras en zigzag con terraplén y sacos, 12 vehículos quemados
+  (el mismo blindado, chapa oxidada y hollín, humeando), cráteres de tierra quemada escaneada y **6 túneles de red antidrones**.
+  La red juega: un FPV o una granada que entra estalla en ella (daño de 9 a 6,5 m en vez de 26 encima).
+- **FPV de fibra óptica** (`fibra` en `co-drones.js`): ataca como el suicida pero el inhibidor no lo corta (aviso en pantalla);
+  se ve la fibra brillando detrás, desde un carrete en tierra. Solo torreta, interceptores o una red.
+- **Pedidos de Miguel en el camino:** cámara de torreta con escudo, mirillas y arma casi transparentes; motor que «desarrolla»
+  cada marcha y corta al cambiar (`mezclaMotor`, medido sin altavoces: altas vueltas 0,55 → 0,11 durante el corte); caja
+  automática de 6 marchas (Allison 1000, de memoria) en vez de 4: cambios a 44 y 75 km/h; al arrancar las vueltas ya no bajan
+  (el convertidor las sostiene a 2.170 rpm). 0 a 60 km/h en 6,5 s; `prueba-fisica` en verde.
+- **Ruedas «que se mueven sin haber acelerado»:** sin reproducir aún. Medido: el giro de la rueda coincide con lo que avanza
+  (0,136 m = 0,048 vueltas) y los gatillos del mando marcan 0 en reposo. Falta que Miguel diga en qué momento lo ve.
+
+## Próxima sesión · pedido de Miguel (11-nov) · 1 y 2 hechos (pasos 6a y 6b), 3 pendiente
 > «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,
 > lloviendo» · «más real sin comprometer la jugabilidad, bien optimizado».
 1. **Paisaje báltico** (lo más visible): llano con lomas suaves, campos verdes y bosque de pino y abedul a los lados,

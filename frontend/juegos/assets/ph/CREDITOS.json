@@ -2,7 +2,7 @@
  "fuente": "Poly Haven",
  "licencia": "CC0 1.0 (dominio público)",
  "url": "https://polyhaven.com/license",
- "descargado": "2026-11-10, 2026-11-11 (árboles, botiquín y estufa) y 2026-11-11 (paisaje báltico: pasto, bosque, helechos, tocones, rocas con musgo)",
+ "descargado": "2026-11-10, 2026-11-11 (árboles, botiquín y estufa) y 2026-11-11 (paisaje báltico: pasto, bosque, helechos, tocones, rocas con musgo) y 2026-11-11 (guerra: acero oxidado, hormigón, barro, tierra quemada y tela)",
  "assets": [
   {
    "id": "kloppenheim_06_puresky",
@@ -1001,6 +1001,146 @@
     }
    ],
    "nota": "Impostor: el modelo se fotografió una vez desde 3 ángulos (color y normales) con hornear.js y se guarda solo la foto en WebP; el modelo original no se sube. Original: 958 MB."
+  },
+  {
+   "id": "rusty_metal_02",
+   "nombre": "Rusty Metal 02",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/rusty_metal_02",
+   "archivos": [
+    {
+     "ruta": "tex/rusty_metal_02/diff_1k.jpg",
+     "bytes": 564932,
+     "sha256": "adaf094391518b6afe787a123942110aa88ef521c844f970b124420f5ed5d3d9"
+    },
+    {
+     "ruta": "tex/rusty_metal_02/nor_1k.jpg",
+     "bytes": 403156,
+     "sha256": "995197a62cac6fbb000e6e6591a3330a3b77ef069c4ac58f505b586b9bdbd97b"
+    },
+    {
+     "ruta": "tex/rusty_metal_02/arm_1k.jpg",
+     "bytes": 153031,
+     "sha256": "2982943ffe3273a65bf788b77fc0c7a4fd8227824386d065d13a8c8c0e07db10"
+    }
+   ],
+   "nota": "Uso: erizos antitanque, postes de las redes y chapa de los vehículos quemados."
+  },
+  {
+   "id": "chipped_concrete",
+   "nombre": "Chipped Concrete",
+   "tipo": "tex",
+   "autores": [
+    "Amal Kumar"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/chipped_concrete",
+   "archivos": [
+    {
+     "ruta": "tex/chipped_concrete/diff_1k.jpg",
+     "bytes": 716081,
+     "sha256": "2adf65fe5b702c8882480b04f1802b81d1e8868a03e7047504f5a77a726fd6ff"
+    },
+    {
+     "ruta": "tex/chipped_concrete/nor_1k.jpg",
+     "bytes": 990005,
+     "sha256": "531084848f6cfa994eb168cd3f8d1d0ffc0864f7998256f4deaa972f70aba304"
+    },
+    {
+     "ruta": "tex/chipped_concrete/arm_1k.jpg",
+     "bytes": 671185,
+     "sha256": "64ed4b6926c38151adb623946ab5235ce60293b1bdff4d69bfee2b6681fd8be5"
+    }
+   ],
+   "nota": "Uso: dientes de dragón."
+  },
+  {
+   "id": "burned_ground_01",
+   "nombre": "Burned Ground 01",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/burned_ground_01",
+   "archivos": [
+    {
+     "ruta": "tex/burned_ground_01/diff_1k.jpg",
+     "bytes": 1033112,
+     "sha256": "be83310cad64d23539e628f14525af651a03646f5a1cc6029bd19a9446ea72f9"
+    },
+    {
+     "ruta": "tex/burned_ground_01/nor_1k.jpg",
+     "bytes": 366727,
+     "sha256": "86125af02b64b05b0079dd6fa08ffae11878a3f9f50326a265e94c7a64cba865"
+    },
+    {
+     "ruta": "tex/burned_ground_01/arm_1k.jpg",
+     "bytes": 227733,
+     "sha256": "fb7f6cd3a2f240712bf6cb21ca2a54072da5a8a4a0cba897f93c3b435a2a8caa"
+    }
+   ],
+   "nota": "Uso: cráteres."
+  },
+  {
+   "id": "brown_mud_02",
+   "nombre": "Brown Mud 02",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/brown_mud_02",
+   "archivos": [
+    {
+     "ruta": "tex/brown_mud_02/diff_1k.jpg",
+     "bytes": 527741,
+     "sha256": "058b6f12493305ec6b47cb5ea77f013c9e7e58216b34af3700a3d3d7d821732d"
+    },
+    {
+     "ruta": "tex/brown_mud_02/nor_1k.jpg",
+     "bytes": 1397011,
+     "sha256": "9ca6f68d25599c98ba5e594df221f5653d93faceda1ba26a0babb1143e8c615f"
+    },
+    {
+     "ruta": "tex/brown_mud_02/arm_1k.jpg",
+     "bytes": 261722,
+     "sha256": "e747ee8ea4e3ca38aaa20acea1524b242c0b500abb93772c5a31aca112259f09"
+    }
+   ],
+   "nota": "Uso: trincheras."
+  },
+  {
+   "id": "denim_fabric",
+   "nombre": "Denim Fabric",
+   "tipo": "tex",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/denim_fabric",
+   "archivos": [
+    {
+     "ruta": "tex/denim_fabric/diff_1k.jpg",
+     "bytes": 886486,
+     "sha256": "d6d0254e2c90768482b0be8cfdc16e18117acc92bad00d406fd4b9be24facdec"
+    },
+    {
+     "ruta": "tex/denim_fabric/nor_1k.jpg",
+     "bytes": 474669,
+     "sha256": "de0e9c5ed5cce7dacd50a67be16c6d8b8dc036907638e3702729c2f60296094e"
+    },
+    {
+     "ruta": "tex/denim_fabric/arm_1k.jpg",
+     "bytes": 223457,
+     "sha256": "2f46deb1894bff05a9416f89ecdc42a33d8f879f5152d18b2e2dc3b6b675eb8e"
+    }
+   ],
+   "nota": "Uso: tela de los sacos terreros (teñida)."
   }
  ]
 }

@@ -2,7 +2,10 @@
 //  · suicida (FPV con carga hueca): se acerca alto y, a unos 65 m, se lanza en picada contra la camioneta.
 //  · bombardero (hexacóptero de carga): busca el punto de la vía por donde vas a pasar y suelta granadas.
 //  · reconocimiento (cuadricóptero con cámara): da vueltas alto; si lo dejas vivo, llama a dos suicidas.
+//  · fibra (FPV guiado por fibra óptica, como en la guerra de ahora): ataca como el suicida, pero no tiene señal de
+//    radio que cortar: el inhibidor no le hace nada. Solo la torreta, los interceptores o una red sobre la vía.
 // Contra el inhibidor pierden la señal: el suicida sigue a ciegas y cae; los otros flotan a la deriva y bajan.
+// Una red antidrones sobre la vía (cb.red) detiene a los FPV y a las granadas: estallan en la red, a 5 m de ti.
 // Dentro de una cortina de humo no te ven: atacan el último punto donde te vieron.
 // Se arman en código (no hay modelos realistas con licencia libre): las piezas de cada dron se funden en una sola
 // malla. Las oleadas son datos: [metros desde la salida, tipo, cuántos]. Ficticios: ningún modelo ni bando real.
@@ -14,12 +17,14 @@ export const OLEADAS = {
   2: [[60, 'reconocimiento', 1], [150, 'suicida', 1], [240, 'suicida', 2], [330, 'bombardero', 1], [430, 'suicida', 1], [450, 'bombardero', 1], [530, 'suicida', 2], [600, 'bombardero', 1]],
   3: [[130, 'suicida', 1], [300, 'bombardero', 1], [470, 'suicida', 2]],
 };
-export const NOMBRES = { suicida: 'Suicida', bombardero: 'Bombardero', reconocimiento: 'Reconocimiento' };
+export const NOMBRES = { suicida: 'Suicida', bombardero: 'Bombardero', reconocimiento: 'Reconocimiento', fibra: 'FPV de fibra' };
 const TIPOS = {
   suicida: { vida: 2, radio: 0.65, vel: 24, picada: 40, alto: [26, 38], mult: 1.8, escala: 1.4 },
   bombardero: { vida: 6, radio: 1.05, vel: 15, alto: [34, 44], mult: 1.8, escala: 1, bombas: 2 },
   reconocimiento: { vida: 3, radio: 0.75, vel: 18, alto: [62, 74], mult: 2.2, escala: 1.25 },
+  fibra: { vida: 2, radio: 0.65, vel: 21, picada: 37, alto: [16, 26], mult: 1.8, escala: 1.4, inmune: true },
 };
+const FPV = (t) => t === 'suicida' || t === 'fibra';
 const angulo = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 
 // ───────────── Modelos ─────────────
@@ -55,7 +60,10 @@ function modelos() {
   for (const sx of [-1, 1]) { rec.p.push(caja(0.015, 0.015, 0.3, sx * 0.09, -0.13, 0, 'carbono'), caja(0.012, 0.1, 0.012, sx * 0.09, -0.08, 0.08, 'carbono'), caja(0.012, 0.1, 0.012, sx * 0.09, -0.08, -0.08, 'carbono')); }
   const bomba = fusionar([cil(0.032, 0.032, 0.15, 0, 0, 0, 'oliva'), cil(0.032, 0, 0.06, 0, -0.105, 0, 'oliva'), caja(0.09, 0.05, 0.006, 0, 0.09, 0, 'oliva'), caja(0.006, 0.05, 0.09, 0, 0.09, 0, 'oliva')]);
   const junta = (m) => ({ cuerpo: fusionar(m.p), helices: fusionar(m.h) });
-  return { suicida: junta(fpv), bombardero: junta(hex), reconocimiento: junta(rec), bomba };
+  const fib = brazos(4, 0.16, 0.022, 0.02);   // el mismo FPV con la bobina de fibra atrás
+  fib.p.push(caja(0.07, 0.04, 0.19, 0, 0, 0, 'carbono'), caja(0.05, 0.032, 0.1, 0, 0.036, -0.01, 'bateria'), cil(0.032, 0.032, 0.22, 0, -0.04, 0.06, 'oliva', 'z'), cil(0, 0.032, 0.09, 0, -0.04, 0.215, 'oliva', 'z'),
+    cil(0.05, 0.05, 0.07, 0, 0.0, -0.15, 'gris', 'x'), cil(0.018, 0.018, 0.075, 0, 0.0, -0.15, 'metal', 'x'));
+  return { suicida: junta(fpv), bombardero: junta(hex), reconocimiento: junta(rec), fibra: junta(fib), bomba };
 }
 
 /**
@@ -67,6 +75,7 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
   const mCuerpo = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.3 });
   const mHelice = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.35, depthWrite: false, side: THREE.DoubleSide });
   const mLed = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(6, 0.25, 0.15) }), gLed = new THREE.SphereGeometry(0.018, 6, 4);
+  const mFibra = new THREE.LineBasicMaterial({ color: new THREE.Color().setRGB(0.85, 0.9, 0.95), transparent: true, opacity: 0.55, depthWrite: false }), TRAZO = 80;
   const V = new THREE.Vector3(), W = new THREE.Vector3(), tp = new THREE.Vector3(), vt = new THREE.Vector3(), vista = new THREE.Vector3(), vistaV = new THREE.Vector3();
   let sig = 0, total = 0;
   const suelo = (x, z) => P.terreno(x, z);
@@ -82,10 +91,26 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
     const d = { tipo, def, obj, led, rack, pos: obj.position, vel: new THREE.Vector3(), vida: def.vida, viva: true, detectada: false, peligro: false,
       estado: tipo === 'reconocimiento' ? 'orbitar' : 'acercarse', t: 0, marca: 0, bombas: def.bombas || 0, radio: def.radio * def.escala, mult: def.mult,
       rumbo: 0, ang: rnd() * 6.283, lado: rnd() < 0.5 ? -1 : 1, x, z };
+    if (tipo === 'fibra') {   // la fibra sale de un carrete en tierra, lejos, y se va desenrollando detrás del dron
+      const g = new THREE.BufferGeometry(), p = new Float32Array(TRAZO * 3); g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+      const ox = x + (x - P.px[P.cercana(x, z)]) * 3, oz = z + (z - P.pz[P.cercana(x, z)]) * 3;
+      p.set([ox, suelo(ox, oz) + 0.3, oz, x, y, z]); g.setDrawRange(0, 2);
+      d.fibra = new THREE.Line(g, mFibra); d.fibra.frustumCulled = false; d.fibraN = 2; d.fibraT = 0; scene.add(d.fibra);
+    }
     lista.push(d); total++;
     return d;
   }
-  function quitar(d) { scene.remove(d.obj); const k = lista.indexOf(d); if (k >= 0) lista.splice(k, 1); }
+  function quitar(d) { scene.remove(d.obj); if (d.fibra) { scene.remove(d.fibra); d.fibra.geometry.dispose(); } const k = lista.indexOf(d); if (k >= 0) lista.splice(k, 1); }
+  /** Rastro de la fibra: un punto cada 0,2 s; si se llena, se aclaran los del medio (el primero, el carrete, se queda). */
+  function tender(d, dt) {
+    d.fibraT += dt; const p = d.fibra.geometry.attributes.position;
+    if (d.fibraT > 0.2) {
+      d.fibraT = 0;
+      if (d.fibraN >= TRAZO) { for (let k = 1; k < TRAZO / 2; k++) p.setXYZ(k, p.getX(k * 2), p.getY(k * 2), p.getZ(k * 2)); d.fibraN = TRAZO / 2; }
+      d.fibraN++;
+    }
+    p.setXYZ(d.fibraN - 1, d.pos.x, d.pos.y, d.pos.z); p.needsUpdate = true; d.fibra.geometry.setDrawRange(0, d.fibraN);
+  }
 
   /** Aparece por delante (o por detrás) en la vía, apartado a un lado y alto. */
   function nacer(tipo, veh, k, n, detras = false) {
@@ -105,7 +130,7 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
     d.vel.add(W); d.pos.addScaledVector(d.vel, dt);
   }
   function orientar(d, dt) {
-    if (d.tipo === 'suicida' && d.estado === 'picada') { d.obj.lookAt(V.copy(d.pos).add(d.vel)); return; }
+    if (FPV(d.tipo) && d.estado === 'picada') { d.obj.lookAt(V.copy(d.pos).add(d.vel)); return; }
     const vh = Math.hypot(d.vel.x, d.vel.z);
     if (vh > 0.5) d.rumbo += angulo(Math.atan2(d.vel.x, d.vel.z) - d.rumbo) * (1 - Math.exp(-3 * dt));
     d.obj.rotation.set(clamp(vh / d.def.vel * 0.32, 0, 0.38), d.rumbo, Math.sin(d.t * 1.7) * 0.03, 'YXZ');
@@ -125,15 +150,17 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
       if (!d.viva) return false;
       d.vida -= dano; if (d.vida > 0) return false;
       d.viva = false; d.peligro = false;
-      if (d.tipo === 'suicida') { quitar(d); cb.derribo(d, d.pos.clone(), true); }   // la carga estalla en el aire
+      if (FPV(d.tipo)) { quitar(d); cb.derribo(d, d.pos.clone(), true); }   // la carga estalla en el aire
       else { d.vel.y = Math.min(d.vel.y, 0); cb.derribo(d, d.pos.clone(), false); }
       return true;
     },
     /** Inhibidor: los drones vivos dentro del radio pierden la señal durante `dur` segundos. Devuelve cuántos. */
+    inmunes: 0,
     inhibir(x, y, z, radio, dur) {
-      let n = 0;
+      let n = 0; this.inmunes = 0;
       for (const d of lista) {
         if (!d.viva || Math.hypot(d.pos.x - x, d.pos.y - y, d.pos.z - z) > radio) continue;
+        if (d.def.inmune) { this.inmunes++; continue; }   // la fibra no lleva señal de radio
         if (!(d.cegado > 0)) {   // al perder la señal el FPV sigue con la última orden, desviado y más lento
           n++;
           if (d.tipo === 'suicida') { const a = (Math.random() < 0.5 ? -1 : 1) * (0.35 + Math.random() * 0.3), c = Math.cos(a), s = Math.sin(a); d.vel.set(d.vel.x * c - d.vel.z * s, d.vel.y, d.vel.x * s + d.vel.z * c).multiplyScalar(0.6); }
@@ -170,12 +197,14 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
           }
           d.x = d.pos.x; d.z = d.pos.z; continue;
         }
+        if (d.fibra) tender(d, dt);
+        if (FPV(d.tipo) && cb.red && cb.red(d.pos)) { quitar(d); cb.enRed(d, d.pos.clone()); continue; }   // se enreda y estalla en la red
         if (!activa && d.estado !== 'huir') { d.estado = 'huir'; d.peligro = false; }
         const dx = tp.x - d.pos.x, dz = tp.z - d.pos.z, dh = Math.hypot(dx, dz), dist = d.pos.distanceTo(tp);
         if (d.estado === 'huir') {
           volar(d, d.pos.x - dx / (dh || 1) * 60, d.pos.y + 6, d.pos.z - dz / (dh || 1) * 60, d.def.vel, 10, dt);
           if (dist > 300) { quitar(d); continue; }
-        } else if (d.tipo === 'suicida') {
+        } else if (FPV(d.tipo)) {
           if (d.estado === 'acercarse') {
             volar(d, vista.x + sp * 30, suelo(vista.x, vista.z) + d.def.alto[0], vista.z + cp * 30, d.def.vel, 14, dt);
             if (dh < 65) { d.estado = 'picada'; d.t = 0; d.peligro = true; cb.aviso(d, 'picada'); }
@@ -211,6 +240,7 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
       }
       for (let i = bombas.length - 1; i >= 0; i--) {
         const b = bombas[i]; b.vel.y -= 9.8 * dt; b.obj.position.addScaledVector(b.vel, dt);
+        if (cb.red && cb.red(b.obj.position)) { scene.remove(b.obj); bombas.splice(i, 1); cb.enRed(null, b.obj.position.clone()); continue; }
         if (b.obj.position.y <= suelo(b.obj.position.x, b.obj.position.z)) { scene.remove(b.obj); bombas.splice(i, 1); cb.bomba(b.obj.position.clone()); }
       }
     },

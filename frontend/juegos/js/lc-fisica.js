@@ -10,9 +10,10 @@ export const AJUSTE = {
   tactica: {
     a: 1.55, b: 1.75, alto: 0.95, inercia: 2.7,
     agarre: 0.94, B: 9.5, C: 1.3, suelta: 0.45,
-    // Caja automática de 4 marchas con convertidor de par, relaciones de la 4L80-E y reducción final con cubos (5,24) de
-    // un vehículo táctico ligero; llantas de 37 pulgadas.
-    fuerza: 1.75, marchas: [2.48, 1.48, 1.0, 0.75], final: 5.24, radio: 0.47, automatica: [0.42, 0.32],
+    // Caja automática de 6 marchas con convertidor de par (relaciones de una Allison 1000, la de los tácticos actuales;
+    // de memoria, sin fuente a la vista) y reducción final con cubos (5,24); llantas de 37 pulgadas. Con la de 4 marchas
+    // casi todo el juego iba en segunda y no se oían los cambios (Miguel, 11-nov).
+    fuerza: 1.75, marchas: [3.10, 1.81, 1.41, 1.0, 0.71, 0.61], final: 5.24, radio: 0.47, automatica: [0.35, 0.28],
     rpmMax: 4200, ralenti: 750,
     arrastre: 0.0016, rodadura: 0.02, frenos: 8.5, reparto: 0.6,
     giroMax: 0.5, giroVel: 2.2,
@@ -75,10 +76,12 @@ export class Vehiculo {
     // Motor, turbo y caja automática.
     const rel = atras ? 3 : A.marchas[this.marcha - 1];
     const rpmRueda = uAbs / A.radio * rel * A.final * 9.5493;
-    const embrague = (this.marcha === 1 || atras) ? gas * 2700 * kRpm * clamp(1 - uAbs / 9, 0, 1) : 0;
+    // Arranque: el embrague (o el convertidor de par, que sostiene las vueltas de calado hasta que la rueda lo alcanza: así no
+    // bajan mientras aceleras, que sonaba a motor defectuoso).
+    const embrague = (this.marcha === 1 || atras) ? gas * 2700 * kRpm * (A.automatica ? 1 : clamp(1 - uAbs / 9, 0, 1)) : 0;
     const rpm = Math.min(A.rpmMax + 120, Math.max(rpmRueda * (1 + this.patinaje * 0.3), A.ralenti + embrague));
     // Con convertidor de par las vueltas bajan resbalando durante el cambio, no de golpe.
-    this.rpm += (rpm - this.rpm) * (1 - Math.exp(-dt * (this.cambio > 0 && A.automatica ? 4.5 : 13)));
+    this.rpm += (rpm - this.rpm) * (1 - Math.exp(-dt * (this.cambio > 0 && A.automatica ? 8 : 13)));
     this.evento = '';
     if (this.cambio > 0) this.cambio -= dt;
     else if (!atras) {

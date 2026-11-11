@@ -31,6 +31,7 @@ import { Radar } from './co-radar.js';
 import { crearEmboscadas, NOMBRE_TIRADOR, figura, PROPIO } from './co-cohetes.js';
 import { crearCampamento } from './co-campo.js';
 import { crearPaisaje } from './co-paisaje.js';
+import { crearGuerra, GUERRA_RUTA, GUERRA_TRAMO } from './co-guerra.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
 import { SonidoReal } from './co-sonido-real.js';
@@ -44,21 +45,27 @@ const BASE = new URL('../assets/ph/', import.meta.url).href;
 const CIELO = new URLSearchParams(location.search).get('cielo') === 'soleado' ? 'kloofendal_48d_partly_cloudy_puresky' : 'kloppenheim_06_puresky';
 const mover = (lista, d) => lista.map(([s, ...r]) => [s + d, ...r]);   // los datos de un tramo, corridos d metros
 const TRAMOS = {
-  1: { nombre: 'Campo minado', via: TRAMO, minas: CAMPO_1, drones: [], heridos: HERIDOS[1],
+  1: { nombre: 'Campo minado', via: TRAMO, minas: CAMPO_1, drones: [], heridos: HERIDOS[1], guerra: GUERRA_TRAMO,
     texto: 'Hay minas antitanque enterradas en las rodadas: el radar las marca y tú decides por dónde pasar. Estallan con el peso de una rueda, así que una mina que queda entre tus ruedas no te toca. También puedes volarlas a tiros desde lejos. Hay heridos en la orilla: los marca un humo naranja.' },
-  2: { nombre: 'Cielo hostil', via: TRAMO_INVERSO, minas: [], drones: OLEADAS[2], heridos: HERIDOS[2],
+  2: { nombre: 'Cielo hostil', via: TRAMO_INVERSO, minas: [], drones: OLEADAS[2], heridos: HERIDOS[2], guerra: GUERRA_TRAMO,
     texto: 'Sin minas, pero el cielo no está vacío: drones suicidas que se lanzan en picada, bombarderos que sueltan granadas por delante de ti y uno de reconocimiento que llama refuerzos si lo dejas vivo. La torreta del techo es tuya; el inhibidor les corta la señal y el humo te esconde mientras subes a los heridos.' },
-  3: { nombre: 'Corredor completo', via: TRAMO, minas: CAMPO_1, drones: OLEADAS[3], heridos: HERIDOS[3], emboscadas: [[380, 1, 1]],
+  3: { nombre: 'Corredor completo', via: TRAMO, minas: CAMPO_1, drones: OLEADAS[3], heridos: HERIDOS[3], emboscadas: [[380, 1, 1]], guerra: GUERRA_TRAMO,
     texto: 'Minas en la vía, drones en el aire y heridos que esperan. Maneja, mira el radar, dispara y decide a quién te detienes a recoger.' },
-  4: { nombre: 'Misión completa', via: RUTA, par: 330,
-    minas: mover(CAMPO_1, 40).concat(mover(CAMPO_2, 1590)), drones: mover(OLEADAS[2], 740).concat(mover(OLEADAS[3], 1500)),
-    heridos: [[270, -1], [510, 1], [920, 1], [1140, -1], [1300, 1], [1760, -1], [2020, 1]],
-    emboscadas: [[1250, -1, 1], [1700, 1, 2], [1960, -1, 1], [2080, 1, 1]], puestos: [730, 1480],
+  4: { nombre: 'Misión completa', via: RUTA, par: 830, guerra: GUERRA_RUTA,
+    minas: mover(CAMPO_1, 40).concat(mover(CAMPO_2, 1590), mover(CAMPO_2, 2800), mover(CAMPO_1, 4700)),
+    drones: mover(OLEADAS[2], 740).concat(mover(OLEADAS[3], 1500), [[2330, 'fibra', 1], [2600, 'fibra', 2], [2900, 'suicida', 1], [2950, 'fibra', 1], [3250, 'bombardero', 1],
+      [3600, 'bombardero', 1], [3780, 'reconocimiento', 1], [4000, 'fibra', 1], [4250, 'suicida', 2], [4420, 'bombardero', 1]], mover(OLEADAS[3], 4650),
+      [[5050, 'fibra', 2], [5400, 'suicida', 1], [5600, 'fibra', 1]]).sort((a, b) => a[0] - b[0]),
+    heridos: [[270, -1], [510, 1], [920, 1], [1140, -1], [1300, 1], [1760, -1], [2020, 1], [2420, 1], [2980, -1], [3380, 1], [3820, -1], [4320, 1], [4880, -1], [5330, 1], [5760, -1]],
+    emboscadas: [[1250, -1, 1], [1700, 1, 2], [1960, -1, 1], [2080, 1, 1], [3700, -1, 2], [3950, 1, 1], [4180, -1, 2], [4430, 1, 1], [5200, 1, 2], [5480, -1, 1]],
+    puestos: [730, 1480, 2240, 3480, 4580],
     secciones: [[0, 'Valle minado', 'minas antitanque en las rodadas: mira el radar'], [760, 'Cielo hostil', 'suicidas, bombarderos y un dron de reconocimiento'],
-      [1520, 'Paso de las emboscadas', 'minas, drones y lanzacohetes escondidos tras sacos']],
-    texto: 'La misión entera, de la base de salida a la base avanzada: el valle minado, el cielo hostil y el paso de las emboscadas. Dos puestos de control para reabastecer, y kits para bajar a reparar en el camino: cada parada cuesta tiempo y te deja expuesto.' },
+      [1520, 'Paso de las emboscadas', 'minas, drones y lanzacohetes escondidos tras sacos'],
+      [2270, 'Línea de defensa', 'trincheras, erizos y FPV de fibra: el inhibidor no los corta; la torreta y las redes sí'],
+      [3510, 'Bosque cerrado', 'emboscadas desde la linde del bosque y bombarderos'], [4610, 'Último tramo', 'minas, drones y lanzacohetes hasta la base avanzada']],
+    texto: 'La misión entera, unos 6 km de la base de salida a la base avanzada: el valle minado, el cielo hostil, el paso de las emboscadas, la línea de defensa, el bosque cerrado y el último tramo. Cinco puestos de control para reabastecer y kits para bajar a reparar: cada parada cuesta tiempo y te deja expuesto. Bajo las redes antidrones los FPV no pasan.' },
 };
-const N_TRAMO = (() => { const u = +new URLSearchParams(location.search).get('tramo'); if (TRAMOS[u]) return u; try { const v = +localStorage.getItem('jue_co_tramo'); return TRAMOS[v] ? v : 4; } catch (e) { return 4; } })();
+const N_TRAMO = (() => { const u = +new URLSearchParams(location.search).get('tramo'); if (TRAMOS[u]) return u; try { const v = +localStorage.getItem('jue_co_mision'); return TRAMOS[v] ? v : 4; } catch (e) { return 4; } })();
 const MIS = TRAMOS[N_TRAMO], TABLA = 'p' + N_TRAMO;   // puntaje (hasta el paso 3 se guardaba el tiempo en «tramoN»)
 const CARRIL = 1.6;                      // se circula por el centro del carril derecho
 const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
@@ -176,12 +183,13 @@ function repartir(gltf, matrices, { sombra = true, hojas = false } = {}) {
 }
 
 async function iniciar() {
-  const [cielo, tAsf, tTer, tGra, tMet, mBarrera, mBidon, mCaja, mBarril, mBotiquin, mEstufa, mJoven, mHelecho, mTocon, mRocas, mTronco, iAbeto, iPino, iJoven, iPasto] = await Promise.all([
+  const [cielo, tAsf, tTer, tGra, tMet, mBarrera, mBidon, mCaja, mBarril, mBotiquin, mEstufa, mJoven, mHelecho, mTocon, mRocas, mTronco, iAbeto, iPino, iJoven, iPasto, tOxido, tHormigon, tBarro, tQuemado, tTela] = await Promise.all([
     avance(new HDRLoader().loadAsync(`${BASE}cielo/${CIELO}_2k.hdr`)),
     textura('asphalt_02', '2k'), textura('leafy_grass', '1k'), textura('sandy_gravel_02', '1k'), textura('green_metal_rust', '1k'),
     modelo('concrete_road_barrier'), modelo('metal_jerrycan'), modelo('wooden_crate_02'), modelo('barrel_03'), modelo('medical_box'), modelo('barrel_stove'),
     modelo('fir_sapling'), modelo('fern_02'), modelo('tree_stump_01'), modelo('rock_moss_set_01'), modelo('dead_tree_trunk'),
     impostor('abeto'), impostor('pino'), impostor('abeto_joven'), impostor('pasto'),
+    textura('rusty_metal_02', '1k'), textura('chipped_concrete', '1k'), textura('brown_mud_02', '1k'), textura('burned_ground_01', '1k'), textura('denim_fabric', '1k'),
   ]);
 
   // Cielo y sol.
@@ -227,7 +235,8 @@ async function iniciar() {
   veh.colocar(P, SALIDA, CARRIL);
   const torreta = new Torreta(scene, camion, P);
   const minas = crearMinas(P, MIS.minas, SALIDA, tMet); scene.add(minas.grupo);
-  const drones = crearDrones(scene, P, SALIDA, MIS.drones, { aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
+  let guerra = null;
+  const drones = crearDrones(scene, P, SALIDA, MIS.drones, { red: (p) => !!guerra && guerra.enRed(p), enRed: enRedDron, aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
   const radar = new Radar($('hRadar'));
   const heridos = crearHeridos(scene, P, SALIDA, MIS.heridos);
   const propios = crearInterceptores(scene, (x, z) => P.terreno(x, z), { caza: cazaPropio, golpe: golpePropio, recuperado: recuperadoPropio });
@@ -241,7 +250,9 @@ async function iniciar() {
     mats: { grava: mVia.grava, hesco: material(tGra, { color: new THREE.Color().setRGB(0.5, 0.43, 0.33) }), liso: camion.mats.liso }, vehiculo: camion.grupo };
   const campos = [crearCampamento(scene, P, Math.max(14, SALIDA - 8), -1, 'base', RC), crearCampamento(scene, P, P.n - 24, 1, 'base', RC)];
   const puestos = (MIS.puestos || []).map((s, k) => { campos.push(crearCampamento(scene, P, indice(s), 1, 'puesto', RC)); return { n: k + 1, dist: P.dist[indice(s)], hecho: false, t: 0, avisado: false }; });
-  poblar(campos.concat(tiradores.lista.map((t) => ({ centro: new THREE.Vector3(t.x, t.y, t.z), radio: 3.5 }))));
+  const evitar = campos.concat(tiradores.lista.map((t) => ({ centro: new THREE.Vector3(t.x, t.y, t.z), radio: 3.5 })), heridos.lista.map((h) => ({ centro: new THREE.Vector3(h.x, h.y, h.z), radio: 3 })));
+  guerra = crearGuerra(scene, P, SALIDA, MIS.guerra, { tex: { oxido: tOxido, hormigon: tHormigon, barro: tBarro, quemado: tQuemado, tela: tTela }, vehiculo: camion.grupo, excluir: camion.carga, evitar });
+  poblar(evitar.concat(guerra.zonas));
   if (gtao) { const r0 = gtao.render.bind(gtao); gtao.render = (...a) => { paisaje.ocultarImpostores(true); r0(...a); paisaje.ocultarImpostores(false); }; }
   // El mecánico que baja a reparar (figura hecha en código, uniforme oliva).
   const mecanico = new THREE.Mesh(figura(false, PROPIO), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 })); mecanico.castShadow = true; mecanico.visible = false; scene.add(mecanico);
@@ -315,7 +326,7 @@ async function iniciar() {
   }
   const CONSEJO = {
     mina: 'Las minas van en las rodadas: una que queda entre tus ruedas no te toca, y también puedes volarlas a tiros desde lejos. Mira el radar antes de acelerar.',
-    dron: 'Los suicidas se lanzan en picada cuando están a unos 65 m: derríbalos antes, mientras se acercan. El radar los marca y la retícula se fija sola cuando apuntas cerca de uno.',
+    dron: 'Los suicidas se lanzan en picada cuando están a unos 65 m: derríbalos antes, mientras se acercan. El radar los marca y la retícula se fija sola cuando apuntas cerca de uno. Al FPV de fibra el inhibidor no le hace nada: torreta, interceptores, o espéralo bajo una red.',
     cohete: 'Los lanzacohetes se levantan detrás de sacos al costado de la vía y apuntan segundo y medio: bájalos con la torreta en ese momento, tírales humo (dentro no te ven) o cambia de velocidad cuando disparan, porque apuntan adonde vas a estar.',
     bomba: 'Los bombarderos sueltan la granada donde calculan que vas a pasar: cambia de velocidad cuando veas uno encima, o bájalo antes (aguanta seis tiros).',
   };
@@ -417,9 +428,14 @@ async function iniciar() {
 
   // ───────────── Drones ─────────────
   function avisoDron(d, que) {
-    if (que === 'picada') { mensaje('¡Suicida en picada!', 1.6, true); inp.vibrar(0.1, 0.45, 140); }
+    if (que === 'picada') { mensaje(d.tipo === 'fibra' ? '¡FPV de fibra en picada! El inhibidor no lo para' : '¡Suicida en picada!', 1.6, true); inp.vibrar(0.1, 0.45, 140); }
     else if (que === 'llamada') mensaje('El dron de reconocimiento marcó tu posición: vienen dos suicidas por detrás', 3.4, true);
     else if (que === 'bomba') mensaje('¡Bomba soltada!', 1.4, true);
+  }
+  /** Un FPV o una granada se quedó en la red antidrones: estalla a unos 5 m, mucho menos daño que encima. */
+  function enRedDron(d, p) {
+    explosion(p.x, p.y, p.z, 0.45, true); onda(p.x, p.y, p.z, 6.5, 9, 'dron');
+    if (d) { est.derribados++; mensaje(`${NOMBRES[d.tipo]} atrapado en la red`, 1.8); } else mensaje('La red detuvo una granada', 1.6);
   }
   function impactoDron(d, p) { explosion(p.x, p.y, p.z, 0.85, true); danar(26, 8, 'dron', 0.75, ladoDe(p.x, p.z)); }
   function choqueDron(d, p, k) {
@@ -508,7 +524,7 @@ async function iniciar() {
     if (est.fase !== 'ruta' || est.inhCarga < 1) return;
     est.inhCarga = 0; est.inhActivo = DURA_INH; burbujaT = 0; burbuja.visible = true;
     const n = drones.inhibir(veh.x, veh.y + 1, veh.z, RADIO_INH, 0.6);
-    mensaje(n ? `Inhibidor activo · ${n} ${n === 1 ? 'dron pierde' : 'drones pierden'} la señal` : 'Inhibidor activo · ningún dron al alcance', 2);
+    mensaje((n ? `Inhibidor activo · ${n} ${n === 1 ? 'dron pierde' : 'drones pierden'} la señal` : 'Inhibidor activo · ningún dron al alcance') + (drones.inmunes ? ' · el FPV de fibra no tiene señal: derríbalo' : ''), drones.inmunes ? 3 : 2, drones.inmunes > 0);
     inp.vibrar(0.3, 0.2, 200);
     tono({ f: 220, f2: 880, dur: 0.6, tipo: 'sawtooth', vol: 0.08, filtro: 1800 }); ruido({ dur: 0.8, vol: 0.12, tipo: 'bandpass', f: 3000, q: 3 });
   }
@@ -754,8 +770,8 @@ async function iniciar() {
       cam.yaw = angulo(cam.yaw + angulo(veh.psi - cam.yaw) * (1 - Math.exp(-6 * dt)));
       const yaw = cam.yaw + mira.yaw, cpch = Math.cos(mira.pitch);
       camDir.set(Math.sin(yaw) * cpch, Math.sin(mira.pitch), Math.cos(yaw) * cpch);
-      if (m.torreta) {
-        camion.torreta.getWorldPosition(V); camara.position.set(V.x - camDir.x * 0.9, V.y + 0.55, V.z - camDir.z * 0.9); fov = 62;
+      if (m.torreta) {   // desde la torreta: el escudo y las mirillas se vuelven casi transparentes para ver el camino
+        camion.torreta.getWorldPosition(V); camara.position.set(V.x - camDir.x * 0.9, V.y + 0.62, V.z - camDir.z * 0.9); fov = 62;
       } else {
         const dist = m.dist * (1 - 0.4 * Math.max(0, camDir.y)), px = ancla.x - camDir.x * dist, pz = ancla.z - camDir.z * dist;
         camara.position.set(px, Math.max(ancla.y + 2.2 + m.alto - camDir.y * dist, P.terreno(px, pz) + 0.8, veh.y + 0.9), pz);
@@ -765,6 +781,7 @@ async function iniciar() {
       if (veh.arcen && vel > 4) sacudida.sumar(0.5 * dt * 60 * 0.02);
       sacudida.aplicar(camara, dt);
     }
+    camion.verTorreta(est.fase !== 'titulo' && !!MODOS[cam.modo].torreta);
     cam.fov = amort(cam.fov, fov, 4, dt);
     if (Math.abs(camara.fov - cam.fov) > 0.04) { camara.fov = cam.fov; camara.updateProjectionMatrix(); }
     sol.position.set(veh.x + C.dir.x * 200, veh.y + C.dir.y * 200, veh.z + C.dir.z * 200); sol.target.position.set(veh.x, veh.y, veh.z);
@@ -846,7 +863,7 @@ async function iniciar() {
     const activo = jugando && !pausado && est.fase !== 'resultado' && est.integ > 0;
     if (real.listo) {   // con las grabaciones cargadas el motor sintetizado calla
       son.encender(false);
-      real.actualizar({ activo, rn: (veh.rpm - AJUSTE.tactica.ralenti) / (AJUSTE.tactica.rpmMax - AJUSTE.tactica.ralenti), gas: veh.marcha < 0 ? ent.freno : ent.gas }, dt);
+      real.actualizar({ activo, rn: (veh.rpm - AJUSTE.tactica.ralenti) / (AJUSTE.tactica.rpmMax - AJUSTE.tactica.ralenti), gas: veh.marcha < 0 ? ent.freno : ent.gas, corte: veh.cambio > 0.18 }, dt);
     } else son.encender(activo);
     if (activo && !real.listo) son.actualizar({ rpm: veh.rpm, gas: veh.marcha < 0 ? ent.freno : ent.gas, turbo: veh.turbo * 0.7, chirrido: veh.chirrido, vel: Math.hypot(veh.u, veh.v), arcen: veh.arcen && Math.abs(veh.u) > 2, corte: veh.cambio > 0 });
     // Zumbido del dron más cercano: más agudo el suicida en picada, más grave el bombardero.
@@ -857,14 +874,14 @@ async function iniciar() {
     }
     let cerca = null, dc = Infinity;
     for (const d of drones.lista) if (d.viva) { const k = d.pos.distanceTo(camara.position); if (k < dc) { dc = k; cerca = d; } }
-    const t = audio.ctx.currentTime, fq = !cerca ? 200 : cerca.tipo === 'suicida' ? (cerca.estado === 'picada' ? 560 : 330) : cerca.tipo === 'bombardero' ? 120 : 210;
+    const t = audio.ctx.currentTime, fq = !cerca ? 200 : (cerca.tipo === 'suicida' || cerca.tipo === 'fibra') ? (cerca.estado === 'picada' ? 560 : 330) : cerca.tipo === 'bombardero' ? 120 : 210;
     zumb.g.gain.setTargetAtTime(activo && cerca ? clamp(18 / dc, 0, 0.3) * (cerca.peligro ? 1.4 : 1) : 0, t, 0.1);
     zumb.o1.frequency.setTargetAtTime(fq, t, 0.2); zumb.o2.frequency.setTargetAtTime(fq * 1.013, t, 0.2); zumb.f.frequency.setTargetAtTime(fq * 2.5, t, 0.2);
   }
   $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + DEF.controles.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
   $('tClave').textContent = `Tramo ${N_TRAMO} · ${MIS.nombre}`; $('tSub').textContent = MIS.texto;
   const NOMBRES_TRAMO = Object.entries(TRAMOS).map(([n, t]) => `${n} · ${t.nombre}`);
-  opcion($('mTramo'), NOMBRES_TRAMO, NOMBRES_TRAMO[N_TRAMO - 1], 'Tramo', (v) => { try { localStorage.setItem('jue_co_tramo', String(NOMBRES_TRAMO.indexOf(v) + 1)); } catch (e) { /* vale para esta visita */ } location.href = location.pathname; });
+  opcion($('mTramo'), NOMBRES_TRAMO, NOMBRES_TRAMO[N_TRAMO - 1], 'Tramo', (v) => { try { localStorage.setItem('jue_co_mision', String(NOMBRES_TRAMO.indexOf(v) + 1)); } catch (e) { /* vale para esta visita */ } location.href = location.pathname; });
   opcion($('mCal'), NIVELES, nivel, 'Calidad', (v) => { fijarCalidad(v); location.reload(); });
   function pintarSonido() { for (const id of ['mSonido', 'pSonido']) $(id).innerHTML = `<span>Sonido</span><b>‹ ${sonidoOn ? 'sí' : 'no'} ›</b>`; }
   for (const id of ['mSonido', 'pSonido']) { const b = $(id), cambiar = () => { sonidoOn = !sonidoOn; fijarSonido(sonidoOn); pintarSonido(); if (sonidoOn) ui.ok(); }; b.dataset.nav = 'opcion'; b.addEventListener('click', cambiar); b.addEventListener('ajustar', cambiar); }
@@ -924,6 +941,8 @@ async function iniciar() {
         equipo(dt); eventosHeridos(heridos.actualizar(dt, veh, est.fase === 'ruta'));
         drones.actualizar(dt, veh, est.fase === 'ruta', uT.value, est.oculto);
         tiradores.actualizar(dt, veh, est.fase === 'ruta', est.oculto); mision(dt);
+        for (const p of guerra.humeantes) if (Math.random() < 0.18 && (p.x - veh.x) ** 2 + (p.z - veh.z) ** 2 < 260 * 260) humo.emitir(p.x + (Math.random() - 0.5) * 1.5, p.y, p.z + (Math.random() - 0.5) * 2, 0.4, 1.2 + Math.random(), 0.2, 2.6 + Math.random(), 0.7, 0.07 * luz, 0.065 * luz, 0.06 * luz, 0.5, -0.15, 0.5, 3.5);
+        { const bajo = est.fase === 'ruta' && guerra.bajoRed(veh.sup.dist); if (bajo && !est.bajoRed) mensaje('Túnel de red antidrones: aquí los FPV no pasan', 2.4); est.bajoRed = bajo; }
         { const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi); est.intEspera -= dt;
           propios.actualizar(dt, drones.lista, V3.set(veh.x, veh.y, veh.z), V4.set(veh.u * sp + veh.v * cp, 0, veh.u * cp - veh.v * sp), uT.value); }
         if (est.fase === 'ruta') radar.barrer(dt, veh, contactos());
@@ -940,7 +959,7 @@ async function iniciar() {
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
+  window.__co = { guerra, paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };
