@@ -80,7 +80,30 @@ lo que ya vio.
 - [x] Miguel aprobó el nivel visual como base (11-nov, «Sí, sigue»)
 - [x] Paso 2: radar y minas — publicado y enlazado en la sala (sustituye al juego viejo de carreras)
 - [ ] Miguel lo juega con su mando
-- [ ] Paso 3: torreta y drones
+- [x] Paso 3: torreta y drones (11-nov) — tres tramos en el menú
+- [ ] Paso 4: inhibidor, humo, heridos y puestos de socorro
+
+## Paso 3 · torreta y drones (11-nov)
+- **Tres tramos** (menú «Tramo», se recuerda en `jue_co_tramo`; `?tramo=N` para probar): 1 · Campo minado (la vía de
+  siempre, 19 minas) · 2 · Cielo hostil (la misma vía al revés, `TRAMO_INVERSO`, 10 drones en 8 oleadas, sin minas) ·
+  3 · Corredor completo (minas + 4 drones). Récord propio por tramo (`tramo1..3`); la sala muestra el del 1.
+- **Torreta** (`co-arma.js`): la cámara apunta (stick derecho / ratón) y el arma la sigue a su propia velocidad, así que
+  hay dos marcas: la retícula (dónde miras) y un círculo ámbar (dónde apunta el cañón). Balas reales a 650 m/s con
+  trazadora y caída; 9 tiros/s; el cañón se calienta y se traba hasta enfriarse. Apuntando al suelo compensa la caída
+  (a ras de suelo, 10 cm de caída son 4 m de error). Una bala que pasa a menos de 1 m de una mina la detona.
+- **Ayuda de puntería:** si la retícula pasa a menos de 7° de un dron marcado, se fija (se pone roja), lo sigue y el arma
+  apunta adelantada. Más fuerte con mando que con ratón.
+- **Drones** (`co-drones.js`, oleadas en `OLEADAS`): suicida (FPV con carga; a 65 m se lanza en picada; 2 tiros),
+  bombardero (hexacóptero; suelta granadas donde calcula que vas a pasar; 6 tiros) y reconocimiento (da vueltas alto;
+  si lo dejas vivo 14 s después de marcado, llama a dos suicidas por detrás). Modelos en código, sin bandos reales.
+  El radar los ve 1,8-2,2 veces más lejos que a las minas; en pantalla llevan marca con distancia o flecha en el borde.
+  Avisos «Suicida a las 2 · 140 m». Zumbido sintetizado del dron más cercano (solo con sonido encendido).
+- **Daño:** suicida que llega −26 % de blindaje; granada hasta −32 % según distancia; derribar un suicida cerca también
+  hace daño. Pantalla final con drones derribados y ataques recibidos, y un consejo según qué te destruyó.
+- **Verificado en local (panel a la vista):** tramo 2 con tirador automático: 4 drones derribados en 24 s sin daño; con el
+  tirador apagado 30 s, 3 impactos (blindaje 36 %) y entrega igual. Tramo 3 completo: 19 de 19 minas marcadas, 0 pisadas,
+  4 de 4 drones, 55,5 s, **60 fps, 238 llamadas de dibujo**. Mina detonada a tiros a 95 m. 0 errores de consola.
+- **Sin verificar:** puntería y disparo con el mando físico de Miguel; el ratón con captura de puntero (clic en la escena).
 
 ## Paso 2 · radar y minas (11-nov)
 - **Minas antitanque en las rodadas** (`co-minas.js`, campo `CAMPO_1`: 19 minas en 10 grupos). Estallan si una rueda pasa a

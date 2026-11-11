@@ -25,7 +25,7 @@ export function crearMinas(P, campo, inicio, tex) {
     const f = (d - P.dist[i]) / ((P.dist[i + 1] - P.dist[i]) || 1);
     const x = P.px[i] + (P.px[i + 1] - P.px[i]) * f + P.rx[i] * l, z = P.pz[i] + (P.pz[i + 1] - P.pz[i]) * f + P.rz[i] * l;
     P.consulta(x, z, -1, o);
-    lista.push({ tipo: 'mina', s, l, x, y: o.y, z, i, dist: d, giro: rnd() * 6.283, viva: true, detectada: false, pasada: false });
+    lista.push({ tipo: 'mina', s, l, x, y: o.y, z, pos: new THREE.Vector3(x, o.y + 0.05, z), radio: 1.0, i, dist: d, giro: rnd() * 6.283, viva: true, detectada: false, pasada: false });
   }
   const N = lista.length, grupo = new THREE.Group();
 

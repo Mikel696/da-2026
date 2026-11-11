@@ -20,7 +20,7 @@ export class Radar {
     for (const o of contactos) {
       if (!o.viva || o.detectada) continue;
       const dx = o.x - veh.x, dz = o.z - veh.z, fr = dx * sp + dz * cp, de = -dx * cp + dz * sp, d = Math.hypot(fr, de);
-      if (d > this.alcance) continue;
+      if (d > this.alcance * (o.mult || 1)) continue;   // mult: un dron en el aire se ve más lejos que una mina enterrada
       const b = (Math.atan2(de, fr) + VUELTA) % VUELTA;   // 0 = al frente, crece hacia la derecha
       if (a1 >= a0 ? b > a0 && b <= a1 : b > a0 || b <= a1) { o.detectada = true; nuevos.push({ o, d, de }); }
     }
@@ -54,8 +54,18 @@ export class Radar {
     const p = 0.5 + 0.5 * Math.sin(t * 7);
     for (const o of contactos) {
       if (o.viva && !o.detectada) continue;
-      const [x, y] = pant(o.x, o.z);
-      if ((x - c) ** 2 + (y - c) ** 2 > R * R) continue;
+      let [x, y] = pant(o.x, o.z);
+      const r2 = (x - c) ** 2 + (y - c) ** 2;
+      if (o.tipo !== 'mina') {   // dron: rombo ámbar, rojo si está atacando; si está lejos, en el borde del radar
+        if (!o.viva) continue;
+        const fuera = r2 > (R - 9) ** 2;
+        if (fuera) { const s = (R - 9) / Math.sqrt(r2); x = c + (x - c) * s; y = c + (y - c) * s; }
+        g.fillStyle = o.peligro ? '#ff5a3a' : '#ffb340';
+        g.beginPath(); g.moveTo(x, y - 9); g.lineTo(x + 7, y); g.lineTo(x, y + 9); g.lineTo(x - 7, y); g.closePath(); g.fill();
+        if (!fuera) { g.strokeStyle = `rgba(255, 179, 64, ${0.7 - p * 0.5})`; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 11 + p * 6, 0, VUELTA); g.stroke(); }
+        continue;
+      }
+      if (r2 > R * R) continue;
       if (!o.viva) { g.strokeStyle = 'rgba(190, 214, 150, 0.5)'; g.lineWidth = 2; g.beginPath(); g.moveTo(x - 5, y - 5); g.lineTo(x + 5, y + 5); g.moveTo(x + 5, y - 5); g.lineTo(x - 5, y + 5); g.stroke(); continue; }
       g.fillStyle = '#ff5a3a'; g.beginPath(); g.arc(x, y, 7, 0, VUELTA); g.fill();
       g.strokeStyle = `rgba(255, 90, 58, ${0.75 - p * 0.55})`; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 10 + p * 8, 0, VUELTA); g.stroke();

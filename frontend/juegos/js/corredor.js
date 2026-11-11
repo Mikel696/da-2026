@@ -1,8 +1,9 @@
-// 19-JUE · Corredor · Tramo 1: campo minado. Una camioneta táctica lleva suministros por 760 m de carretera rural
-// hasta un puesto de control. Hay minas antitanque enterradas en las rodadas; el radar las revela y el jugador decide
-// por dónde pasar. La luz, el cielo, el asfalto, la tierra, las rocas, los arbustos y la carga son material escaneado
-// (Poly Haven, CC0: ver assets/ph/CREDITOS.json). La camioneta y las minas se arman en código con chapa escaneada.
-// Este archivo orquesta: carga, escena, sol, posproceso, misión, cámara y HUD. Licencia: MIT (código propio).
+// 19-JUE · Corredor. Una camioneta táctica lleva suministros por 760 m de carretera rural hasta un puesto de control.
+// Tres tramos: 1 · campo minado (minas antitanque en las rodadas), 2 · cielo hostil (drones suicidas, bombarderos y de
+// reconocimiento), 3 · los dos a la vez. El radar revela minas y drones; la torreta del techo los derriba.
+// La luz, el cielo, el asfalto, la tierra, las rocas, los arbustos y la carga son material escaneado (Poly Haven, CC0:
+// ver assets/ph/CREDITOS.json). La camioneta, las minas y los drones se arman en código.
+// Este archivo orquesta: carga, escena, sol, posproceso, misión, puntería, cámara y HUD. Licencia: MIT (código propio).
 // Motor 3D: three.js 0.186.1 (MIT, vendorizado sin modificar).
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -18,9 +19,11 @@ import { Entrada, BOTON } from './entrada.js';
 import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, amort, records, tiempo } from './comun.js';
 import { iniciarAudio, ui, audio, sonidoActivo, fijarSonido, tono, ruido } from './sonido.js';
 import { semilla } from './lc-util.js';
-import { TRAMO, crearVia, ARCEN } from './co-via.js';
+import { TRAMO, TRAMO_INVERSO, crearVia, ARCEN } from './co-via.js';
 import { crearCamion } from './co-camion.js';
 import { crearMinas, CAMPO_1, RUEDAS, DISPARO } from './co-minas.js';
+import { crearDrones, OLEADAS, NOMBRES } from './co-drones.js';
+import { Torreta, VEL_BALA } from './co-arma.js';
 import { Radar } from './co-radar.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
@@ -32,14 +35,27 @@ const nivel = calidad(), q = PERFILES[nivel];
 const BASE = new URL('../assets/ph/', import.meta.url).href;
 // Dos cielos reales: soleado con nubes (por defecto) y nublado (añadir ?cielo=nublado a la dirección).
 const CIELO = new URLSearchParams(location.search).get('cielo') === 'nublado' ? 'kloppenheim_06_puresky' : 'kloofendal_48d_partly_cloudy_puresky';
+const TRAMOS = {
+  1: { nombre: 'Campo minado', via: TRAMO, minas: CAMPO_1, drones: [],
+    texto: 'Hay minas antitanque enterradas en las rodadas: el radar las marca y tú decides por dónde pasar. Estallan con el peso de una rueda, así que una mina que queda entre tus ruedas no te toca. También puedes volarlas a tiros desde lejos.' },
+  2: { nombre: 'Cielo hostil', via: TRAMO_INVERSO, minas: [], drones: OLEADAS[2],
+    texto: 'Sin minas, pero el cielo no está vacío: drones suicidas que se lanzan en picada, bombarderos que sueltan granadas por delante de ti y uno de reconocimiento que llama refuerzos si lo dejas vivo. La torreta del techo es tuya.' },
+  3: { nombre: 'Corredor completo', via: TRAMO, minas: CAMPO_1, drones: OLEADAS[3],
+    texto: 'Minas en la vía y drones en el aire a la vez. Maneja, mira el radar y dispara.' },
+};
+const N_TRAMO = (() => { const u = +new URLSearchParams(location.search).get('tramo'); if (TRAMOS[u]) return u; try { const v = +localStorage.getItem('jue_co_tramo'); return TRAMOS[v] ? v : 1; } catch (e) { return 1; } })();
+const MIS = TRAMOS[N_TRAMO], TABLA = 'tramo' + N_TRAMO;
 const CARRIL = 1.6;                      // se circula por el centro del carril derecho
 const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
 const inp = new Entrada({
   acciones: { acelerar: { k: ['KeyW', 'ArrowUp'], b: [BOTON.RT] }, frenar: { k: ['KeyS', 'ArrowDown'], b: [BOTON.LT] }, mano: { k: ['Space'], b: [BOTON.A] },
-    atras: { k: ['KeyB'], b: [BOTON.B] }, camara: { k: ['KeyC'], b: [BOTON.Y] }, reaparecer: { k: ['KeyR'], b: [BOTON.SELECT] } },
-  ejes: { giro: { neg: ['KeyA', 'ArrowLeft'], pos: ['KeyD', 'ArrowRight'], eje: 0, bneg: [BOTON.IZQ], bpos: [BOTON.DER] }, mirar: { eje: 2 } },
+    disparar: { k: ['Mouse0', 'KeyF'], b: [BOTON.RB] }, centrar: { k: ['KeyV'], b: [BOTON.R3] }, camara: { k: ['KeyC'], b: [BOTON.Y] }, reaparecer: { k: ['KeyR'], b: [BOTON.SELECT] } },
+  ejes: { giro: { neg: ['KeyA', 'ArrowLeft'], pos: ['KeyD', 'ArrowRight'], eje: 0, bneg: [BOTON.IZQ], bpos: [BOTON.DER] },
+    apuntarX: { neg: ['KeyJ'], pos: ['KeyL'], eje: 2 }, apuntarY: { neg: ['KeyI'], pos: ['KeyK'], eje: 3 } },
 });
 const menus = new Menus(inp), medidor = new Medidor(), sacudida = new Sacudida(0.12, 0.012);
+const angulo = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+const V = new THREE.Vector3(), V2 = new THREE.Vector3(), V3 = new THREE.Vector3(), V4 = new THREE.Vector3(), camDir = new THREE.Vector3(0, 0, 1);
 
 // ───────────── Render ─────────────
 const renderer = new THREE.WebGLRenderer({ canvas: $('lienzo'), antialias: false, powerPreference: 'high-performance', stencil: false });
@@ -158,7 +174,7 @@ async function iniciar() {
   scene.add(sol, sol.target);
 
   // Vía y terreno.
-  const P = crearVia(TRAMO, { asfalto: material(tAsf), grava: material(tGra, { color: new THREE.Color().setRGB(0.6, 0.56, 0.5) }), terreno: material(tTer, { vertexColors: true }) });
+  const P = crearVia(MIS.via, { asfalto: material(tAsf), grava: material(tGra, { color: new THREE.Color().setRGB(0.6, 0.56, 0.5) }), terreno: material(tTer, { vertexColors: true }) });
   scene.add(P.grupo);
 
   // Rocas, arbustos y troncos junto a la vía; barreras y barriles en el puesto de control del final.
@@ -193,32 +209,37 @@ async function iniciar() {
     scene.add(repartir(mBarrera, barr)); scene.add(repartir(mBarril, bar));
   }
 
-  // Camioneta, minas y radar.
+  // Camioneta, torreta, minas, drones y radar.
   const camion = crearCamion({ pintura: tMet, modelos: { caja: mCaja, bidon: mBidon, barril: mBarril } });
   scene.add(camion.grupo);
   const veh = new Vehiculo(Object.assign({}, AJUSTE.tactica));
   const SALIDA = P.iInicio, FIN = P.n - 30;
   veh.colocar(P, SALIDA, CARRIL);
-  const minas = crearMinas(P, CAMPO_1, SALIDA, tMet); scene.add(minas.grupo);
+  const torreta = new Torreta(scene, camion, P);
+  const minas = crearMinas(P, MIS.minas, SALIDA, tMet); scene.add(minas.grupo);
+  const drones = crearDrones(scene, P, SALIDA, MIS.drones, { aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
   const radar = new Radar($('hRadar'));
+  const contactos = () => (minas.lista.length ? minas.lista.concat(drones.lista) : drones.lista);
   const polvo = new Particulas(scene, Math.round(500 * q.particulas), { aditivo: false, suave: 1 });
-  const humo = new Particulas(scene, Math.round(900 * q.particulas), { aditivo: false, suave: 1 });
-  const fuego = new Particulas(scene, Math.round(320 * q.particulas), { aditivo: true, suave: 0.75 });
+  const humo = new Particulas(scene, Math.round(1000 * q.particulas), { aditivo: false, suave: 1 });
+  const fuego = new Particulas(scene, Math.round(420 * q.particulas), { aditivo: true, suave: 0.75 });
   const destello = new THREE.PointLight(new THREE.Color().setRGB(1, 0.62, 0.3), 0, 60, 2); scene.add(destello);
   const luz = Math.min(1.6, 0.16 * C.fuerza + 0.5), POLVO = [0.62 * luz, 0.55 * luz, 0.44 * luz];   // el polvo recibe el mismo sol que el suelo
 
   // ───────────── Misión ─────────────
-  const est = { fase: 'titulo', fin: 0, t: 0, integ: 100, carga: 100, golpes: 0, evitadas: 0, detectadas: 0, boom: 0, puesto: -1, previo: null };
+  const CERO = { fin: 0, t: 0, integ: 100, carga: 100, pisadas: 0, evitadas: 0, detectadas: 0, voladas: 0, derribados: 0, impactos: 0, causa: '', boom: 0, puesto: -1, previo: null };
+  const est = Object.assign({ fase: 'titulo' }, CERO);
   const ent = { gas: 0, freno: 0, giro: 0, mano: false }, uT = { value: 0 }, salto = { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 };
+  const mira = { yaw: 0, pitch: -0.04, quieto: 0, centrar: 0, fijo: null, acierto: 0, dist: 60 };
   let jugando = false, pausado = false, ultimo = 0, acum = 0, padsVistos = null, msgT = 0;
   const hMsg = $('hMsg');
   const mensaje = (txt, seg = 2.2, alerta = false) => { hMsg.textContent = txt; hMsg.classList.toggle('alerta', alerta); hMsg.classList.add('ver'); msgT = seg; };
-  const mejor = () => records.mejor('corredor', DEF.tabla);
+  const mejor = () => records.mejor('corredor', TABLA);
   const pintarMejor = () => { const m = mejor(); $('tRecord').textContent = m ? `Tu mejor entrega: ${tiempo(m.v)} · ${m.det || m.f}` : 'Aún sin entrega: llega al puesto de control para marcar el primer tiempo.'; };
 
   // Piloto automático: sigue el carril y, si `esquivar`, busca el hueco más cercano entre las minas que ya marcó el
-  // radar. Hoy sirve para probar; será la base de los vehículos del convoy.
-  const auto = { on: false, esquivar: true, lat: CARRIL, pensar() {
+  // radar; si `tirador`, maneja la torreta. Hoy sirve para probar; será la base de los vehículos del convoy.
+  const auto = { on: false, esquivar: true, tirador: true, fuego: false, lat: CARRIL, pensar() {
     const s = veh.sup, vel = Math.abs(veh.u);
     let obj = CARRIL, peligro = false;
     if (this.esquivar) {
@@ -239,76 +260,97 @@ async function iniciar() {
     for (let k = 0; k < 30 && s.i + k < P.n; k++) { const c = Math.abs(P.curv[s.i + k]); if (c > 0.003) vmax = Math.min(vmax, Math.sqrt(4.2 / c) + k * 0.4); }
     if (peligro) vmax = Math.min(vmax, 13);
     if (s.i > FIN - 26) vmax = Math.min(vmax, 9);
-    ent.giro = clamp(-Math.atan2(Math.sin(a), Math.cos(a)) * 2.4, -1, 1); ent.gas = vel < vmax ? 0.8 : 0; ent.freno = vel > vmax + 1.5 ? clamp((vel - vmax) / 6, 0.2, 1) : 0; ent.mano = false;
+    ent.giro = clamp(-angulo(a) * 2.4, -1, 1); ent.gas = vel < vmax ? 0.8 : 0; ent.freno = vel > vmax + 1.5 ? clamp((vel - vmax) / 6, 0.2, 1) : 0; ent.mano = false;
   } };
 
   function salir() {
-    veh.colocar(P, SALIDA, CARRIL); veh.aj.fuerza = AJUSTE.tactica.fuerza; cam.listo = false; auto.lat = CARRIL;
-    Object.assign(est, { fase: 'ruta', fin: 0, t: 0, integ: 100, carga: 100, golpes: 0, evitadas: 0, detectadas: 0, boom: 0, puesto: -1, previo: null });
-    Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
-    minas.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; });
+    veh.colocar(P, SALIDA, CARRIL); veh.aj.fuerza = AJUSTE.tactica.fuerza; auto.lat = CARRIL;
+    Object.assign(est, CERO, { fase: 'ruta' }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 }); Object.assign(mira, { yaw: 0, pitch: -0.04, quieto: 0, fijo: null });
+    minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; });
     menus.cerrarTodo(); jugando = true; pausado = false; $('hud').hidden = false; document.body.classList.add('corriendo');
-    mensaje('Lleva la carga al puesto de control · el radar marca las minas', 3.5);
+    mensaje(MIS.drones.length ? 'Lleva la carga al puesto de control · stick derecho apunta, RB dispara' : 'Lleva la carga al puesto de control · el radar marca las minas', 3.5);
   }
   function llegar() {
     est.fase = 'fin'; est.fin = 2.6; ui.cuenta(true); inp.vibrar(0.5, 0.7, 250);
     est.previo = mejor();
-    est.puesto = records.registrar('corredor', DEF.tabla, +est.t.toFixed(3), true, { det: `carga ${est.carga} % · blindaje ${est.integ} %` });
+    est.puesto = records.registrar('corredor', TABLA, +est.t.toFixed(3), true, { det: `carga ${est.carga} % · blindaje ${est.integ} %` + (MIS.drones.length ? ` · ${est.derribados} drones` : '') });
     mensaje(est.carga === 100 ? 'Carga completa en el puesto de control' : `Puesto de control · llega el ${est.carga} % de la carga`, 3);
   }
+  const CONSEJO = {
+    mina: 'Las minas van en las rodadas: una que queda entre tus ruedas no te toca, y también puedes volarlas a tiros desde lejos. Mira el radar antes de acelerar.',
+    dron: 'Los suicidas se lanzan en picada cuando están a unos 65 m: derríbalos antes, mientras se acercan. El radar los marca y la retícula se fija sola cuando apuntas cerca de uno.',
+    bomba: 'Los bombarderos sueltan la granada donde calculan que vas a pasar: cambia de velocidad cuando veas uno encima, o bájalo antes (aguanta seis tiros).',
+  };
   function pantalla(exito) {
     est.fase = 'resultado';
     const pr = est.previo;
     $('fTitulo').textContent = !exito ? 'Camioneta inutilizada' : est.carga === 100 ? 'Carga completa' : 'Carga entregada';
-    $('fSub').textContent = !exito ? 'Tres minas son demasiadas para el blindaje. Mira el radar antes de acelerar: las minas van en las rodadas, y una que queda entre tus ruedas no te toca.'
+    $('fSub').textContent = !exito ? 'El blindaje no aguantó. ' + (CONSEJO[est.causa] || '')
       : est.puesto === 0 ? (pr ? `Nuevo récord: le quitaste ${(pr.v - est.t).toFixed(1)} s a tu mejor entrega.` : 'Primera entrega registrada: ese es el tiempo a batir.')
       : `Tu mejor entrega sigue en ${tiempo(pr.v)}.`;
-    const filas = [['Tiempo', tiempo(est.t)], ['Carga entregada', (exito ? est.carga : 0) + ' %'], ['Blindaje', est.integ + ' %'],
-      ['Minas que marcó el radar', `${est.detectadas} de ${minas.lista.length}`], ['Minas pisadas', est.golpes]];
+    const filas = [['Tiempo', tiempo(est.t)], ['Carga entregada', (exito ? est.carga : 0) + ' %'], ['Blindaje', est.integ + ' %']];
+    if (MIS.minas.length) filas.push(['Minas que marcó el radar', `${est.detectadas} de ${minas.lista.length}`], ['Minas pisadas', est.pisadas], ['Minas voladas a tiros', est.voladas]);
+    if (MIS.drones.length) filas.push(['Drones derribados', `${est.derribados} de ${drones.total()}`], ['Ataques que te alcanzaron', est.impactos]);
     $('fTabla').innerHTML = filas.map(([a, b], i) => `<tr${i === 0 && exito ? ' class="yo"' : ''}><td>${a}</td><td>${b}</td></tr>`).join('');
     document.body.classList.remove('corriendo'); hMsg.classList.remove('ver'); msgT = 0; $('hud').hidden = true;
+    if (document.exitPointerLock && document.pointerLockElement) document.exitPointerLock();
     menus.abrir($('pFin'), 0);
   }
 
-  // ───────────── Minas: pisar, estallar ─────────────
-  function sonExplosion(k) {
-    ruido({ dur: 1.7, vol: 0.9 * k, tipo: 'lowpass', f: 900, f2: 60, q: 0.7, ataque: 0.002 });
-    tono({ f: 70, f2: 26, dur: 1.1, tipo: 'sine', vol: 0.9 * k });
-    ruido({ dur: 0.25, vol: 0.5 * k, tipo: 'bandpass', f: 2400, f2: 600, q: 1.2 });
+  // ───────────── Explosiones y daños ─────────────
+  function sonExplosion(k, d) {
+    const f = clamp(25 / (d + 5), 0.15, 1) * k;
+    ruido({ dur: 1.7, vol: 0.9 * f, tipo: 'lowpass', f: 900, f2: 60, q: 0.7, ataque: 0.002 });
+    tono({ f: 70, f2: 26, dur: 1.1, tipo: 'sine', vol: 0.9 * f });
+    ruido({ dur: 0.25, vol: 0.5 * f, tipo: 'bandpass', f: 2400, f2: 600, q: 1.2 });
   }
-  function explosion(x, y, z, k) {
-    const n = (base) => Math.round(base * k * q.particulas) + 6;
+  function explosion(x, y, z, k, aire = false) {
+    const n = (base) => Math.round(base * k * q.particulas) + 4;
     for (let i = 0, N = n(36); i < N; i++) {
       const a = Math.random() * 6.283, h = Math.random();
-      fuego.emitir(x + (Math.random() - 0.5) * 0.6, y + 0.3, z + (Math.random() - 0.5) * 0.6, Math.cos(a) * 5 * h, 3 + Math.random() * 9, Math.sin(a) * 5 * h,
-        0.22 + Math.random() * 0.35, 1.1 + Math.random() * 1.3, 2.6, 1.25 + Math.random() * 0.5, 0.3, 1, -2, 2.5, 1.6);
+      fuego.emitir(x + (Math.random() - 0.5) * 0.6, y + 0.3, z + (Math.random() - 0.5) * 0.6, Math.cos(a) * 5 * h * k, (aire ? (Math.random() - 0.5) * 8 : 3 + Math.random() * 9) * k, Math.sin(a) * 5 * h * k,
+        0.22 + Math.random() * 0.35, (1.1 + Math.random() * 1.3) * k, 2.6, 1.25 + Math.random() * 0.5, 0.3, 1, -2, 2.5, 1.6);
     }
-    for (let i = 0, N = n(70); i < N; i++) {   // tierra y piedras: suben y caen con la gravedad
+    if (!aire) for (let i = 0, N = n(70); i < N; i++) {   // tierra y piedras: suben y caen con la gravedad
       const a = Math.random() * 6.283, h = Math.random(), g = 0.6 + Math.random() * 0.4;
       humo.emitir(x, y + 0.2, z, Math.cos(a) * 7 * h, 5 + Math.random() * 11, Math.sin(a) * 7 * h, 1.3 + Math.random() * 1.1, 0.16 + Math.random() * 0.22, 0.2 * g * luz, 0.16 * g * luz, 0.12 * g * luz, 1, 9.8, 0.35, 0);
     }
-    for (let i = 0, N = n(36); i < N; i++) {   // columna de humo que se queda flotando
+    for (let i = 0, N = n(36); i < N; i++) {   // humo que se queda flotando
       const g = 0.75 + Math.random() * 0.3;
       humo.emitir(x + (Math.random() - 0.5) * 1.2, y + 0.6 + Math.random(), z + (Math.random() - 0.5) * 1.2, (Math.random() - 0.5) * 2, 1.5 + Math.random() * 3.5, (Math.random() - 0.5) * 2,
-        3.5 + Math.random() * 3, 1.6 + Math.random() * 1.2, 0.2 * g * luz, 0.19 * g * luz, 0.18 * g * luz, 0.4, -0.5, 0.7, 2.4);
+        3.5 + Math.random() * 3, (1.6 + Math.random() * 1.2) * Math.max(0.5, k), 0.2 * g * luz, 0.19 * g * luz, 0.18 * g * luz, 0.4, -0.5, 0.7, 2.4);
     }
-    destello.position.set(x, y + 1.2, z); destello.intensity = 300 * k;
-    fx.uniforms.uGolpe.value = Math.min(1, fx.uniforms.uGolpe.value + 0.9 * k);
-    sonExplosion(k);
+    destello.position.set(x, y + 1.2, z); destello.intensity = Math.max(destello.intensity, 300 * k);
+    const d = Math.hypot(x - veh.x, y - veh.y, z - veh.z);
+    fx.uniforms.uGolpe.value = Math.min(1, fx.uniforms.uGolpe.value + 0.9 * k * clamp(18 / (d + 4), 0, 1));
+    if (d < 30) sacudida.sumar(k * clamp(12 / (d + 6), 0, 0.8));
+    sonExplosion(k, d);
   }
-  function estallar(m, delantera) {
-    minas.estallar(m);
-    explosion(m.x, m.y, m.z, 1);
-    est.golpes++; est.integ = Math.max(0, est.integ - DANO_MINA); est.carga = Math.max(0, est.carga - CARGA_MINA);
+  /** Daño a la camioneta. fuerza 0..1 decide cuánto salta; cabeceo: −1 morro arriba, +1 cola arriba. */
+  function danar(dano, carga, causa, fuerza = 1, lado = 1, cabeceo = -1) {
+    if (est.fase !== 'ruta' || dano <= 0) return;
+    est.integ = Math.max(0, est.integ - dano); est.carga = Math.max(0, est.carga - carga); est.causa = causa;
+    if (causa !== 'mina') est.impactos++;
     const quedan = camion.carga.children.filter((o) => o.visible);   // la onda tira parte de la carga
-    for (let k = 0; k < 2 && quedan.length; k++) quedan.splice(Math.floor(Math.random() * quedan.length), 1)[0].visible = false;
+    for (let k = 0; k < (carga >= 12 ? 2 : carga > 0 ? 1 : 0) && quedan.length; k++) quedan.splice(Math.floor(Math.random() * quedan.length), 1)[0].visible = false;
     veh.aj.fuerza = AJUSTE.tactica.fuerza * (0.45 + 0.55 * est.integ / 100);   // motor tocado: tira menos
-    veh.u *= 0.42; veh.v += (Math.random() - 0.5) * 3; veh.r += (Math.random() - 0.5) * 1.4;
-    salto.vy = 3.3; salto.vp = (delantera ? -1 : 1) * 2.4; salto.vr = (m.l > veh.sup.lat ? 1 : -1) * 1.6;
-    sacudida.sumar(1); inp.vibrar(1, 1, 700);
+    veh.u *= 1 - 0.58 * fuerza; veh.v += (Math.random() - 0.5) * 3 * fuerza; veh.r += (Math.random() - 0.5) * 1.4 * fuerza;
+    salto.vy = Math.max(salto.vy, 3.3 * fuerza); salto.vp = cabeceo * 2.4 * fuerza; salto.vr = lado * 1.6 * fuerza;
+    inp.vibrar(fuerza, fuerza, 600);
     if (est.integ <= 0) { est.fase = 'perdida'; est.fin = 4; est.boom = 0.55; mensaje('Camioneta inutilizada', 4, true); }
-    else mensaje(`Mina · blindaje ${est.integ} % · carga ${est.carga} %`, 2.6, true);
+    else mensaje(`${causa === 'mina' ? 'Mina' : causa === 'bomba' ? 'Bomba' : 'Impacto de dron'} · blindaje ${est.integ} % · carga ${est.carga} %`, 2.6, true);
   }
+  const ladoDe = (x, z) => (-(x - veh.x) * Math.cos(veh.psi) + (z - veh.z) * Math.sin(veh.psi) > 0 ? 1 : -1);
+  /** Onda expansiva: daño que baja con la distancia al centro de la camioneta. */
+  function onda(x, y, z, radio, max, causa) {
+    const d = Math.hypot(x - veh.x, y - veh.y - 1, z - veh.z); if (d >= radio) return;
+    const k = 1 - d / radio; danar(Math.round(max * k), Math.round(max * k * 0.35), causa, k * 0.8, ladoDe(x, z));
+  }
+  function pisarMina(m, delantera) {
+    minas.estallar(m); explosion(m.x, m.y, m.z, 1); est.pisadas++;
+    danar(DANO_MINA, CARGA_MINA, 'mina', 1, m.l > veh.sup.lat ? 1 : -1, delantera ? -1 : 1);
+  }
+  function detonarMina(m) { minas.estallar(m); explosion(m.x, m.y, m.z, 0.9); est.voladas++; mensaje('Mina detonada a distancia', 1.8); onda(m.x, m.y, m.z, 10, 30, 'mina'); }
   function pisar() {
     const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
     for (const m of minas.lista) {
@@ -317,21 +359,131 @@ async function iniciar() {
       if (dx * dx + dz * dz > 20) { if (!m.pasada && m.dist < veh.sup.dist - 5) { m.pasada = true; est.evitadas++; } continue; }
       for (const [lx, lz] of RUEDAS) {
         const wx = veh.x + lx * cp + lz * sp, wz = veh.z - lx * sp + lz * cp;
-        if ((wx - m.x) ** 2 + (wz - m.z) ** 2 < DISPARO * DISPARO) { estallar(m, lz > 0); break; }
+        if ((wx - m.x) ** 2 + (wz - m.z) ** 2 < DISPARO * DISPARO) { pisarMina(m, lz > 0); break; }
       }
       if (est.fase !== 'ruta') return;
     }
   }
+
+  // ───────────── Drones ─────────────
+  function avisoDron(d, que) {
+    if (que === 'picada') { mensaje('¡Suicida en picada!', 1.6, true); inp.vibrar(0.1, 0.45, 140); }
+    else if (que === 'llamada') mensaje('El dron de reconocimiento marcó tu posición: vienen dos suicidas por detrás', 3.4, true);
+    else if (que === 'bomba') mensaje('¡Bomba soltada!', 1.4, true);
+  }
+  function impactoDron(d, p) { explosion(p.x, p.y, p.z, 0.85, true); danar(26, 8, 'dron', 0.75, ladoDe(p.x, p.z)); }
+  function choqueDron(d, p, k) { explosion(p.x, p.y, p.z, k); onda(p.x, p.y, p.z, 7, 24 * k, 'dron'); }
+  function derriboDron(d, p, estalla) {
+    est.derribados++; mensaje(`${NOMBRES[d.tipo]} derribado`, 1.6); inp.vibrar(0.2, 0.4, 120);
+    if (estalla) { explosion(p.x, p.y, p.z, 0.6, true); onda(p.x, p.y, p.z, 8, 16, 'dron'); }
+    else for (let i = 0; i < 14; i++) fuego.emitir(p.x, p.y, p.z, (Math.random() - 0.5) * 6, (Math.random() - 0.2) * 5, (Math.random() - 0.5) * 6, 0.3 + Math.random() * 0.3, 0.6, 2.4, 1.1, 0.3, 1, 4, 1, 1);
+  }
+  function bombaDron(p) { explosion(p.x, p.y, p.z, 0.75); onda(p.x, p.y, p.z, 9, 32, 'bomba'); }
+  function humoDron(p) { humo.emitir(p.x, p.y, p.z, 0, 0.5, 0, 1.4, 0.5, 0.12 * luz, 0.11 * luz, 0.1 * luz, 0.6, -0.2, 0.6, 2); }
+
   radar.alDetectar = (nuevos) => {
     if (est.fase !== 'ruta') return;
-    est.detectadas += nuevos.length;
-    const cerca = nuevos.reduce((a, b) => (b.d < a.d ? b : a)), l = cerca.o.l;
-    const lado = Math.abs(l) > TRAMO.ancho ? 'en el arcén' : Math.abs(l) < 0.45 ? 'sobre la línea central' : l > 0 ? 'en el carril derecho' : 'en el carril izquierdo';
-    mensaje(nuevos.length > 1 ? `${nuevos.length} minas a ${Math.round(cerca.d)} m` : `Mina a ${Math.round(cerca.d)} m · ${lado}`, 2.2, true);
-    tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07 });
-    if (audio.activo()) tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07, en: audio.ctx.currentTime + 0.12 });
-    inp.vibrar(0.05, 0.25, 60);
+    const ms = nuevos.filter((n) => n.o.tipo === 'mina'), ds = nuevos.filter((n) => n.o.tipo !== 'mina');
+    est.detectadas += ms.length;
+    const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
+    if (ds.length) {
+      const o = ds[0].o, dx = o.x - veh.x, dz = o.z - veh.z, b = Math.atan2(-dx * cp + dz * sp, dx * sp + dz * cp);
+      const hora = (((Math.round(b / (Math.PI / 6)) % 12) + 12) % 12) || 12;   // a las 12 = al frente, a las 3 = a la derecha
+      mensaje(`${NOMBRES[o.tipo]} a las ${hora} · ${Math.round(ds[0].d)} m`, 2.4, true);
+      tono({ f: 1560, dur: 0.07, tipo: 'sine', vol: 0.07 });
+      if (audio.activo()) tono({ f: 1560, dur: 0.07, tipo: 'sine', vol: 0.07, en: audio.ctx.currentTime + 0.1 });
+      inp.vibrar(0.05, 0.25, 60);
+    } else if (ms.length) {
+      const cerca = ms.reduce((a, b) => (b.d < a.d ? b : a)), l = cerca.o.l;
+      const lado = Math.abs(l) > TRAMO.ancho ? 'en el arcén' : Math.abs(l) < 0.45 ? 'sobre la línea central' : l > 0 ? 'en el carril derecho' : 'en el carril izquierdo';
+      mensaje(ms.length > 1 ? `${ms.length} minas a ${Math.round(cerca.d)} m` : `Mina a ${Math.round(cerca.d)} m · ${lado}`, 2.2, true);
+      tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07 });
+      if (audio.activo()) tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07, en: audio.ctx.currentTime + 0.12 });
+      inp.vibrar(0.05, 0.25, 60);
+    }
   };
+
+  // ───────────── Puntería y disparo ─────────────
+  /** Dónde hay que apuntar para darle: su posición dentro de lo que tarda la bala, más lo que cae la bala. */
+  function adelanto(d, out) {
+    torreta.boca(V3, V4); const t = d.pos.distanceTo(V3) / VEL_BALA;
+    return out.copy(d.pos).addScaledVector(d.vel, t).add(V.set(0, 4.9 * t * t, 0));
+  }
+  /** Lleva la mira hacia un dron (f = cuánto de la distancia se recorre en este cuadro). */
+  function tirarHacia(d, f) {
+    adelanto(d, V2); V.subVectors(V2, camara.position).normalize();
+    const yawT = angulo(Math.atan2(V.x, V.z) - cam.yaw), pitchT = clamp(Math.asin(clamp(V.y, -1, 1)), -0.22, 1.15);
+    mira.yaw = angulo(mira.yaw + angulo(yawT - mira.yaw) * Math.min(1, f)); mira.pitch += (pitchT - mira.pitch) * Math.min(1, f);
+  }
+  function apuntarMira(dt) {
+    const [mx, my] = inp.tomarRaton(), sx = inp.e('apuntarX'), sy = inp.e('apuntarY');
+    const mueve = Math.abs(sx) + Math.abs(sy) > 0.05 || mx !== 0 || my !== 0;
+    mira.yaw = angulo(mira.yaw + sx * 2.3 * dt + mx * 0.0022); mira.pitch = clamp(mira.pitch - sy * 1.5 * dt - my * 0.0022, -0.22, 1.15);
+    mira.quieto = mueve ? 0 : mira.quieto + dt;
+    if (inp.j('centrar')) mira.centrar = 0.5;
+    if ((mira.centrar -= dt) > 0 || (mira.quieto > 2.5 && !mira.fijo)) { const r = mira.centrar > 0 ? 9 : 1.4; mira.yaw = amort(mira.yaw, 0, r, dt); mira.pitch = amort(mira.pitch, -0.04, r, dt); }
+    mira.fijo = null; auto.fuego = false;
+    if (est.fase !== 'ruta') return;
+    if (auto.on && auto.tirador) {   // tirador automático (pruebas): el dron más cercano, primero el que ataca
+      let elegido = null, md = 250;
+      for (const d of drones.lista) if (d.viva && d.detectada) { const k = d.pos.distanceTo(camara.position) - (d.peligro ? 80 : 0); if (k < md) { md = k; elegido = d; } }
+      if (!elegido) return;
+      mira.fijo = elegido; tirarHacia(elegido, 1);
+      torreta.boca(V3, V4); adelanto(elegido, V2);
+      auto.fuego = V4.angleTo(V2.sub(V3).normalize()) < 0.03 && torreta.calor < 0.85 && elegido.pos.distanceTo(V3) < 240;
+      return;
+    }
+    // Ayuda de puntería: si la mira pasa a menos de 7° de un dron marcado, se fija y lo sigue.
+    let mejorA = 0.13;
+    for (const d of drones.lista) {
+      if (!d.viva || !d.detectada) continue;
+      V.subVectors(d.pos, camara.position); if (V.length() > 280) continue;
+      const a = V.angleTo(camDir); if (a < mejorA) { mejorA = a; mira.fijo = d; }
+    }
+    if (mira.fijo) tirarHacia(mira.fijo, (inp.dispositivo === 'pad' ? 3.5 : 1.2) * dt);
+  }
+  /** Punto del mundo en el centro de la pantalla: el suelo si el rayo lo toca antes de 300 m. */
+  function puntoMira(out) {
+    const o = camara.position; let lejos = 300;
+    for (let s = 6; s < 300; s += 6) {
+      const x = o.x + camDir.x * s, y = o.y + camDir.y * s, z = o.z + camDir.z * s;
+      if (y < P.terreno(x, z)) {   // afina entre la muestra anterior y esta: rasante, 6 m de paso son mucho error
+        let lo = s - 6, hi = s;
+        for (let k = 0; k < 6; k++) { const m = (lo + hi) / 2; if (o.y + camDir.y * m < P.terreno(o.x + camDir.x * m, o.z + camDir.z * m)) hi = m; else lo = m; }
+        lejos = hi; break;
+      }
+      if (y > o.y + 45) break;
+    }
+    return out.copy(o).addScaledVector(camDir, lejos);
+  }
+  function efectosTiro({ boca, dir }) {
+    for (let i = 0; i < 3; i++) fuego.emitir(boca.x, boca.y, boca.z, dir.x * 9 + (Math.random() - 0.5) * 2, dir.y * 9 + (Math.random() - 0.5) * 2, dir.z * 9 + (Math.random() - 0.5) * 2, 0.05 + Math.random() * 0.03, 0.32, 2.6, 1.6, 0.6, 1, 0, 6, 0.8);
+    if (Math.random() < 0.5) humo.emitir(boca.x, boca.y, boca.z, dir.x * 2, 0.6, dir.z * 2, 0.6, 0.25, 0.5 * luz, 0.48 * luz, 0.45 * luz, 0.25, -0.3, 1.5, 3);
+    sacudida.sumar(0.025); inp.vibrar(0.12, 0.3, 45);
+    ruido({ dur: 0.09, vol: 0.32, tipo: 'bandpass', f: 1500, f2: 450, q: 0.8 }); tono({ f: 120, f2: 55, dur: 0.07, tipo: 'square', vol: 0.12, filtro: 700 });
+  }
+  function alDron(d, p) {
+    if (d.tipo === 'mina') { detonarMina(d); return; }
+    for (let i = 0; i < 5; i++) fuego.emitir(p.x, p.y, p.z, (Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7, 0.12, 0.16, 3, 2.2, 1, 1, 6, 1, 0);
+    mira.acierto = 0.12; drones.impactar(d, 1);
+  }
+  function alSuelo(p) {
+    for (let i = 0; i < 4; i++) humo.emitir(p.x, p.y + 0.1, p.z, (Math.random() - 0.5) * 2, 1.5 + Math.random() * 2.5, (Math.random() - 0.5) * 2, 0.7 + Math.random() * 0.5, 0.35, POLVO[0] * 0.8, POLVO[1] * 0.8, POLVO[2] * 0.8, 0.6, 3, 1, 2);
+    if (Math.random() < 0.4) fuego.emitir(p.x, p.y + 0.05, p.z, (Math.random() - 0.5) * 4, 2 + Math.random() * 3, (Math.random() - 0.5) * 4, 0.1, 0.1, 2.6, 1.8, 0.8, 1, 9.8, 0.5, 0);
+    for (const m of minas.lista) if (m.viva && (p.x - m.x) ** 2 + (p.z - m.z) ** 2 < 1.21) { detonarMina(m); break; }
+  }
+  function combatir(dt) {
+    camara.updateMatrixWorld();
+    let objetivo;
+    if (mira.fijo && mira.fijo.viva) objetivo = adelanto(mira.fijo, V2);
+    else { objetivo = puntoMira(V2); torreta.boca(V3, V4); const tb = objetivo.distanceTo(V3) / VEL_BALA; objetivo.y += 4.9 * tb * tb; }   // casi a ras del suelo, 10 cm de caída son metros de error
+    torreta.boca(V3, V4); mira.dist = Math.max(15, objetivo.distanceTo(V3));
+    torreta.apuntar(dt, objetivo);
+    const tiro = torreta.gatillo(dt, est.fase === 'ruta' && (auto.on && auto.tirador ? auto.fuego : inp.p('disparar')));
+    if (tiro) efectosTiro(tiro);
+    // Las minas también son blanco: una bala que pasa a menos de 1 m de una la hace estallar.
+    torreta.actualizar(dt, minas.lista.length ? drones.lista.concat(minas.lista) : drones.lista, alDron, alSuelo);
+  }
 
   const DT_F = 1 / 120;
   function conducir(dt) {
@@ -354,7 +506,7 @@ async function iniciar() {
   function vestir(dt) {
     const s = veh.sup, vel = Math.hypot(veh.u, veh.v), fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi);
     const cuesta = (s.ty || 0) * (fxh * (s.tx || 0) + fzh * (s.tz || 1)), lateral = (s.peralte || 0) * (fxh * (s.tz || 1) - fzh * (s.tx || 0));
-    // Salto por una mina: la camioneta sube, cabecea y vuelve a caer sobre la suspensión.
+    // Salto por una explosión: la camioneta sube, cabecea y vuelve a caer sobre la suspensión.
     salto.vy -= 9.8 * dt; salto.y += salto.vy * dt; if (salto.y < 0) { salto.y = 0; salto.vy = salto.vy < -1 ? -salto.vy * 0.25 : 0; }
     salto.vp += (-salto.p * 70 - salto.vp * 7) * dt; salto.p += salto.vp * dt;
     salto.vr += (-salto.r * 70 - salto.vr * 7) * dt; salto.r += salto.vr * dt;
@@ -387,28 +539,27 @@ async function iniciar() {
     if ((tVib -= dt) <= 0 && jugando && !pausado) { tVib = 0.09; if (veh.arcen && vel > 3) inp.vibrar(0.4, 0.25, 100); else if (veh.chirrido > 0.2) inp.vibrar(veh.chirrido * 0.3, veh.chirrido * 0.6, 100); }
   }
 
-  // ───────────── Cámara ─────────────
-  const cam = { yaw: veh.psi, pos: new THREE.Vector3(), modo: 0, fov: 55, t: 0, listo: false, mirar: 0 };
-  const MODOS = [{ dist: 8.6, alto: 3.3, mira: 1.7, adel: 3 }, { dist: 6.2, alto: 2.2, mira: 1.5, adel: 2 }, { capo: true }];
+  // ───────────── Cámara: detrás de la torreta, mira hacia donde apuntas ─────────────
+  const cam = { yaw: veh.psi, modo: 0, fov: 55, t: 0 };
+  const MODOS = [{ dist: 8.4, alto: 1.5 }, { dist: 5.8, alto: 1.1 }, { torreta: true }];
   function moverCamara(dt) {
     const vel = Math.hypot(veh.u, veh.v); let fov;
     if (est.fase === 'titulo') {
       cam.t += dt; const a = veh.psi + 2.5 + cam.t * 0.13, r = 8.6 + Math.sin(cam.t * 0.17) * 0.9, px = veh.x + Math.sin(a) * r, pz = veh.z + Math.cos(a) * r;
-      camara.position.set(px, Math.max(veh.y + 1.7 + Math.sin(cam.t * 0.2) * 0.7, P.terreno(px, pz) + 0.6), pz); camara.lookAt(veh.x, veh.y + 1.15, veh.z); fov = 38; cam.listo = false;
+      camara.position.set(px, Math.max(veh.y + 1.7 + Math.sin(cam.t * 0.2) * 0.7, P.terreno(px, pz) + 0.6), pz); camara.lookAt(veh.x, veh.y + 1.15, veh.z); fov = 38; cam.yaw = veh.psi;
     } else {
       const m = MODOS[cam.modo];
-      cam.mirar = amort(cam.mirar, inp.p('atras') ? Math.PI : inp.e('mirar') * 1.9, 9, dt);
-      const obj = veh.psi + (vel > 5 ? Math.atan2(veh.v, Math.abs(veh.u)) * 0.5 : 0);
-      cam.yaw += Math.atan2(Math.sin(obj - cam.yaw), Math.cos(obj - cam.yaw)) * (1 - Math.exp(-4.5 * dt));
-      const a = cam.yaw + cam.mirar, sx = Math.sin(a), sz = Math.cos(a);
-      if (m.capo) { const fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi); camara.position.set(veh.x + fxh * 1.25, veh.y + salto.y + 1.62, veh.z + fzh * 1.25); camara.lookAt(veh.x + sx * 25, veh.y + 1.2 + (veh.sup.ty || 0) * 25, veh.z + sz * 25); fov = 66; }
-      else {
-        const px = veh.x - sx * m.dist, pz = veh.z - sz * m.dist, py = Math.max(veh.y + m.alto, P.terreno(px, pz) + 0.8);
-        if (!cam.listo) { cam.pos.set(px, py, pz); cam.listo = true; }
-        cam.pos.set(amort(cam.pos.x, px, 11, dt), amort(cam.pos.y, py, 6, dt), amort(cam.pos.z, pz, 11, dt));
-        camara.position.copy(cam.pos); camara.lookAt(veh.x + sx * m.adel, veh.y + m.mira, veh.z + sz * m.adel);
-        fov = 52 + clamp(vel / 34, 0, 1) * 12;
+      cam.yaw = angulo(cam.yaw + angulo(veh.psi - cam.yaw) * (1 - Math.exp(-6 * dt)));
+      const yaw = cam.yaw + mira.yaw, cpch = Math.cos(mira.pitch);
+      camDir.set(Math.sin(yaw) * cpch, Math.sin(mira.pitch), Math.cos(yaw) * cpch);
+      if (m.torreta) {
+        camion.torreta.getWorldPosition(V); camara.position.set(V.x - camDir.x * 0.9, V.y + 0.55, V.z - camDir.z * 0.9); fov = 62;
+      } else {
+        const dist = m.dist * (1 - 0.4 * Math.max(0, camDir.y)), px = veh.x - camDir.x * dist, pz = veh.z - camDir.z * dist;
+        camara.position.set(px, Math.max(veh.y + salto.y + 2.2 + m.alto - camDir.y * dist, P.terreno(px, pz) + 0.8, veh.y + 0.9), pz);
+        fov = 52 + clamp(vel / 34, 0, 1) * 10;
       }
+      camara.lookAt(V.copy(camara.position).addScaledVector(camDir, 50));
       if (veh.arcen && vel > 4) sacudida.sumar(0.5 * dt * 60 * 0.02);
       sacudida.aplicar(camara, dt);
     }
@@ -419,27 +570,70 @@ async function iniciar() {
   }
 
   // ───────────── HUD ─────────────
-  const hRpm = $('hRpm'), tramoM = P.dist[FIN] - P.dist[SALIDA];
+  const hRpm = $('hRpm'), hMira = $('hMira'), hCanon = $('hCanon'), tramoM = P.dist[FIN] - P.dist[SALIDA];
+  const blancos = Array.from({ length: 8 }, () => { const el = document.createElement('div'); el.className = 'blanco'; el.hidden = true; el.innerHTML = '<b>▲</b><span></span>'; $('hBlancos').appendChild(el); return el; });
   const barra = (id, v) => { const u = $(id); u.style.width = v + '%'; u.classList.toggle('bajo', v < 40); $(id + 'N').textContent = v + ' %'; };
+  /** Coloca un elemento en el punto de la pantalla que corresponde a `p`. Devuelve false si queda detrás de la cámara. */
+  function enPantalla(p, el) {
+    V.copy(p).project(camara);
+    if (V.z > 1) { el.hidden = true; return false; }
+    el.hidden = false; el.style.transform = `translate(${(V.x * 0.5 + 0.5) * innerWidth}px, ${(-V.y * 0.5 + 0.5) * innerHeight}px)`;
+    return true;
+  }
+  function pintarBlancos() {
+    let k = 0;
+    for (const d of drones.lista) {
+      if (!d.viva || !d.detectada || k >= blancos.length) continue;
+      const el = blancos[k++]; V.copy(d.pos).project(camara);
+      const delante = V.z < 1; let x = V.x, y = V.y;
+      const dentro = delante && Math.abs(x) < 0.92 && Math.abs(y) < 0.86;
+      if (!dentro) { if (!delante) { x = -x; y = -y; } const s = 1 / Math.max(Math.abs(x) / 0.9, Math.abs(y) / 0.82, 1e-3); x *= s; y *= s; }
+      el.hidden = false; el.style.transform = `translate(${(x * 0.5 + 0.5) * innerWidth}px, ${(-y * 0.5 + 0.5) * innerHeight}px)`;
+      el.className = 'blanco' + (dentro ? '' : ' fuera') + (d.peligro ? ' peligro' : '') + (d === mira.fijo ? ' fijo' : '');
+      if (!dentro) el.firstChild.style.transform = `rotate(${Math.atan2(x, y)}rad)`;
+      el.lastChild.textContent = `${NOMBRES[d.tipo]} · ${Math.round(d.pos.distanceTo(camara.position))} m`;
+    }
+    for (; k < blancos.length; k++) blancos[k].hidden = true;
+  }
   function pintarHud() {
     $('hKmh').textContent = Math.round(veh.kmh); $('hMarcha').textContent = veh.marcha < 0 ? 'R' : veh.marcha;
     hRpm.style.width = clamp(veh.rpm / AJUSTE.tactica.rpmMax, 0, 1) * 100 + '%'; hRpm.classList.toggle('alto', veh.rpm > AJUSTE.tactica.rpmMax * 0.9);
     const hecho = clamp((veh.sup.dist - P.dist[SALIDA]) / tramoM, 0, 1);
     $('hAvance').style.width = (hecho * 100).toFixed(1) + '%'; $('hFalta').textContent = hecho >= 1 ? 'En el puesto de control' : `Puesto de control a ${Math.round((1 - hecho) * tramoM)} m`;
     barra('hBlindaje', est.integ); barra('hCarga', est.carga);
-    radar.pintar(veh, P, minas.lista, uT.value); $('hAlcance').textContent = `Radar · alcance ${Math.round(radar.alcance)} m`;
+    radar.pintar(veh, P, contactos(), uT.value); $('hAlcance').textContent = `Radar · alcance ${Math.round(radar.alcance)} m`;
+    $('hCalor').style.width = (torreta.calor * 100).toFixed(0) + '%'; $('hCalor').classList.toggle('trabada', torreta.trabada);
+    $('hArmaT').textContent = torreta.trabada ? 'Cañón caliente' : 'Cañón';
+    mira.acierto -= 1 / 60;
+    hMira.className = 'mira' + (mira.fijo ? ' fija' : '') + (mira.acierto > 0 ? ' acierto' : '');
+    if (est.fase !== 'titulo') { torreta.boca(V3, V4); enPantalla(V2.copy(V3).addScaledVector(V4, mira.dist), hCanon); }
+    pintarBlancos();
   }
 
   // ───────────── Sonido (nace apagado) y menús ─────────────
-  const son = new Sonidos(); let sonidoOn = sonidoActivo(), faltaGesto = null;
+  const son = new Sonidos(); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
   addEventListener('pointerdown', () => iniciarAudio()); addEventListener('keydown', () => iniciarAudio());
   function sonidoCuadro() {
     const falta = sonidoOn && !audio.activo(); if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }
     if (!son.preparar()) return;
     const activo = jugando && !pausado && est.fase !== 'resultado' && est.integ > 0; son.encender(activo);
     if (activo) son.actualizar({ rpm: veh.rpm, gas: veh.marcha < 0 ? ent.freno : ent.gas, turbo: veh.turbo * 0.7, chirrido: veh.chirrido, vel: Math.hypot(veh.u, veh.v), arcen: veh.arcen && Math.abs(veh.u) > 2, corte: veh.cambio > 0 });
+    // Zumbido del dron más cercano: más agudo el suicida en picada, más grave el bombardero.
+    if (!zumb) {
+      const c = audio.ctx, o1 = c.createOscillator(), o2 = c.createOscillator(), f = c.createBiquadFilter(), g = c.createGain();
+      o1.type = o2.type = 'sawtooth'; f.type = 'bandpass'; f.Q.value = 1.2; g.gain.value = 0;
+      o1.connect(f); o2.connect(f); f.connect(g); g.connect(audio.efectos); o1.start(); o2.start(); zumb = { o1, o2, f, g };
+    }
+    let cerca = null, dc = Infinity;
+    for (const d of drones.lista) if (d.viva) { const k = d.pos.distanceTo(camara.position); if (k < dc) { dc = k; cerca = d; } }
+    const t = audio.ctx.currentTime, fq = !cerca ? 200 : cerca.tipo === 'suicida' ? (cerca.estado === 'picada' ? 560 : 330) : cerca.tipo === 'bombardero' ? 120 : 210;
+    zumb.g.gain.setTargetAtTime(activo && cerca ? clamp(18 / dc, 0, 0.3) * (cerca.peligro ? 1.4 : 1) : 0, t, 0.1);
+    zumb.o1.frequency.setTargetAtTime(fq, t, 0.2); zumb.o2.frequency.setTargetAtTime(fq * 1.013, t, 0.2); zumb.f.frequency.setTargetAtTime(fq * 2.5, t, 0.2);
   }
   $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + DEF.controles.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
+  $('tClave').textContent = `Tramo ${N_TRAMO} · ${MIS.nombre}`; $('tSub').textContent = MIS.texto;
+  const NOMBRES_TRAMO = Object.entries(TRAMOS).map(([n, t]) => `${n} · ${t.nombre}`);
+  opcion($('mTramo'), NOMBRES_TRAMO, NOMBRES_TRAMO[N_TRAMO - 1], 'Tramo', (v) => { try { localStorage.setItem('jue_co_tramo', String(NOMBRES_TRAMO.indexOf(v) + 1)); } catch (e) { /* vale para esta visita */ } location.href = location.pathname; });
   opcion($('mCal'), NIVELES, nivel, 'Calidad', (v) => { fijarCalidad(v); location.reload(); });
   function pintarSonido() { for (const id of ['mSonido', 'pSonido']) $(id).innerHTML = `<span>Sonido</span><b>‹ ${sonidoOn ? 'sí' : 'no'} ›</b>`; }
   for (const id of ['mSonido', 'pSonido']) { const b = $(id), cambiar = () => { sonidoOn = !sonidoOn; fijarSonido(sonidoOn); pintarSonido(); if (sonidoOn) ui.ok(); }; b.dataset.nav = 'opcion'; b.addEventListener('click', cambiar); b.addEventListener('ajustar', cambiar); }
@@ -449,13 +643,21 @@ async function iniciar() {
     const p = inp.pads.find((x) => x.activo), n = inp.pads.length; $('tPad').hidden = !p; if (!p) return;
     $('tPad').textContent = `Control en uso: ${p.nombre}` + (n > 1 ? ` · hay ${n} conectados: manda el último en el que pulses un botón` : '') + (!p.estandar && !inp.mapas[p.id] ? ' · no usa el mapa estándar: configúralo en la sala de juegos' : '');
   }
-  const pausar = () => { if (!jugando || pausado || menus.abierto) return; pausado = true; document.body.classList.remove('corriendo'); menus.abrir($('pPausa'), 0); };
+  const lienzo = $('lienzo');
+  const pausar = () => {
+    if (!jugando || pausado || menus.abierto) return; pausado = true; document.body.classList.remove('corriendo');
+    if (document.exitPointerLock && document.pointerLockElement) document.exitPointerLock();
+    menus.abrir($('pPausa'), 0);
+  };
   const seguir = () => { pausado = false; menus.cerrarTodo(); document.body.classList.add('corriendo'); };
   const alMenu = () => {
     jugando = false; pausado = false; est.fase = 'titulo'; est.integ = 100; $('hud').hidden = true; document.body.classList.remove('corriendo'); menus.cerrarTodo();
-    veh.colocar(P, SALIDA, CARRIL); minas.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
+    veh.colocar(P, SALIDA, CARRIL); minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
     pintarMejor(); menus.abrir($('pTitulo'), 0);
   };
+  // Con ratón: un clic sobre la escena lo captura para apuntar; Esc lo suelta y pausa.
+  lienzo.addEventListener('click', () => { if (jugando && !pausado && !menus.abierto && est.fase === 'ruta' && lienzo.requestPointerLock && document.pointerLockElement !== lienzo) lienzo.requestPointerLock(); });
+  document.addEventListener('pointerlockchange', () => { if (!document.pointerLockElement && jugando && est.fase === 'ruta') pausar(); });
   $('mJugar').addEventListener('click', () => { iniciarAudio(); ui.ok(); salir(); });
   for (const id of ['mCtl', 'pCtl']) $(id).addEventListener('click', () => { ui.ok(); menus.abrir($('pControles'), 0); });
   $('cVolver').addEventListener('click', () => { ui.atras(); menus.cerrar(); });
@@ -472,27 +674,34 @@ async function iniciar() {
     const dt = Math.min(0.05, (t - ultimo) / 1000 || 0.016); ultimo = t;
     medidor.inicio(); inp.actualizar(); pintarPad();
     if (!audio.activo() && inp.botones[BOTON.A] > 0.5 && inp.previos[BOTON.A] <= 0.5) iniciarAudio();
+    let combate = false;
     if (menus.abierto) { menus.actualizar(dt); if (pausado && inp.botones[BOTON.START] > 0.5 && inp.previos[BOTON.START] <= 0.5) $('pSeguir').click(); }
     else if (jugando) {
       if (inp.j('pausa')) pausar();
       else {
-        if (inp.j('camara')) { cam.modo = (cam.modo + 1) % MODOS.length; cam.listo = false; }
-        if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), CARRIL); cam.listo = false; ui.atras(); }
+        combate = true;
+        if (inp.j('camara')) { cam.modo = (cam.modo + 1) % MODOS.length; }
+        if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), CARRIL); ui.atras(); }
         if (!auto.on && est.fase === 'ruta') { ent.gas = inp.v('acelerar'); ent.freno = inp.v('frenar'); ent.giro = inp.e('giro'); ent.mano = inp.p('mano'); }
+        apuntarMira(dt);
         conducir(dt);
-        if (est.fase === 'ruta') radar.barrer(dt, veh, minas.lista);
-        pintarHud();
+        drones.actualizar(dt, veh, est.fase === 'ruta', uT.value);
+        if (est.fase === 'ruta') radar.barrer(dt, veh, contactos());
         if (est.boom > 0 && (est.boom -= dt) <= 0) explosion(veh.x + Math.sin(veh.psi) * 1.6, veh.y + 0.6, veh.z + Math.cos(veh.psi) * 1.6, 1.3);
         if ((est.fase === 'fin' || est.fase === 'perdida') && (est.fin -= dt) <= 0) pantalla(est.fase === 'fin');
       }
     }
     if (!pausado) { uT.value += dt; fx.uniforms.uT.value = uT.value; minas.actualizar(uT.value); vestir(dt); if (msgT > 0 && (msgT -= dt) <= 0) hMsg.classList.remove('ver'); }
-    sonidoCuadro(); moverCamara(dt);
+    camion.grupo.updateMatrixWorld(true);
+    moverCamara(dt);
+    if (combate && est.fase !== 'resultado') combatir(dt);
+    if (jugando && !$('hud').hidden) pintarHud();
+    sonidoCuadro();
     composer.render(); medidor.fin(dt);
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, radar, sol, C, gtao, salir,
+  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, torreta, radar, mira, sol, C, gtao, salir, tramo: N_TRAMO,
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };
 }
 iniciar().catch((e) => { console.error(e); $('cargando').textContent = 'No se pudo cargar el tramo: ' + e.message; });

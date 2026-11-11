@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Corredor · campo minado</title>
+<title>Corredor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
@@ -42,6 +42,27 @@
   .msg { position: absolute; left: 50%; top: 20vh; transform: translateX(-50%); padding: 8px 22px; background: rgba(14, 15, 11, 0.55); font-size: 36px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 200ms; }
   .msg.ver { opacity: 1; }
   .msg.alerta { border-left: 4px solid var(--alerta); }
+  /* Retícula: círculo con punto; se pone roja al fijar un dron y destella al acertar. La marca ámbar es el cañón real. */
+  .mira { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border: 2px solid rgba(243, 239, 228, 0.85); border-radius: 50%; box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); transition: transform 120ms, border-color 120ms; }
+  .mira::after { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: #f3efe4; }
+  .mira.fija { border-color: var(--alerta); transform: scale(0.8); }
+  .mira.acierto { border-color: #fff; transform: scale(1.25); }
+  .canon { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border: 2px solid var(--ambar); border-radius: 50%; }
+  /* Drones marcados por el radar: dos esquinas y la distancia; fuera de pantalla, una flecha en el borde. */
+  .blanco { position: absolute; left: 0; top: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; color: var(--ambar); }
+  .blanco::before, .blanco::after { content: ''; position: absolute; width: 10px; height: 10px; border: 2px solid currentColor; }
+  .blanco::before { left: 0; top: 0; border-right: 0; border-bottom: 0; }
+  .blanco::after { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+  .blanco b { display: none; position: absolute; left: 50%; top: 50%; margin: -10px 0 0 -8px; font-size: 18px; line-height: 20px; }
+  .blanco span { position: absolute; left: 50%; top: 38px; transform: translateX(-50%); white-space: nowrap; font-family: var(--texto); font-size: 12px; font-weight: 600; }
+  .blanco.fuera::before, .blanco.fuera::after { display: none; }
+  .blanco.fuera b { display: block; }
+  .blanco.peligro { color: var(--alerta); }
+  .blanco.fijo::before, .blanco.fijo::after { width: 14px; height: 14px; }
+  .tablero .arma { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; margin-top: 8px; font-family: var(--texto); font-size: 12px; color: var(--papel-2); }
+  .tablero .arma i { flex: 1; height: 4px; background: rgba(255, 255, 255, 0.16); }
+  .tablero .arma u { display: block; height: 100%; width: 0; background: var(--arena); }
+  .tablero .arma u.trabada { background: var(--alerta); }
   .pie { position: absolute; left: 50%; bottom: 1.4vh; transform: translateX(-50%); font-family: var(--texto); font-size: 13px; color: rgba(243, 239, 228, 0.7); white-space: nowrap; }
   @media (max-width: 760px) { .tablero .kmh { font-size: 60px; } .pie { display: none; } .msg { font-size: 22px; } .radar canvas { width: 150px; height: 150px; } }
 </style>
@@ -59,29 +80,34 @@
       <span>Carga</span><i><u id="hCarga"></u></i><b id="hCargaN">100 %</b>
     </div>
   </div>
+  <div id="hBlancos"></div>
+  <div class="mira" id="hMira"></div>
+  <div class="canon" id="hCanon" hidden></div>
   <div class="radar"><canvas id="hRadar" width="440" height="440"></canvas><small id="hAlcance"></small></div>
   <div class="tablero">
     <div class="kmh" id="hKmh">0</div>
     <div class="lado"><b id="hMarcha">1</b><span>km/h</span></div>
     <div class="rpm"><i id="hRpm"></i></div>
+    <div class="arma"><span id="hArmaT">Cañón</span><i><u id="hCalor"></u></i></div>
   </div>
   <div class="msg" id="hMsg"></div>
-  <div class="pie">Pausa: Esc o Start · Cámara: C o Y · Volver al centro: R o Select</div>
+  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RB o clic · Cámara: Y o C · Pausa: Start o Esc</div>
 </div>
 
 <section class="pantalla" id="pTitulo" hidden>
-  <p class="clave">Tramo 1 · Campo minado</p>
+  <p class="clave" id="tClave"></p>
   <div class="logo">Corredor</div>
-  <p class="sub">Lleva los suministros hasta el puesto de control. Hay minas antitanque enterradas en las rodadas: el radar las marca y tú decides por dónde pasar. Estallan con el peso de una rueda, así que una mina que queda entre tus ruedas no te toca.</p>
+  <p class="sub" id="tSub"></p>
   <p class="rec-titulo" id="tRecord"></p>
   <div class="menu">
     <button type="button" data-nav id="mJugar">Salir con la carga</button>
+    <button type="button" id="mTramo"></button>
     <button type="button" id="mCal"></button>
     <button type="button" id="mSonido"></button>
     <button type="button" data-nav id="mCtl">Controles</button>
     <button type="button" data-nav id="mSalir">Salir a la sala de juegos</button>
   </div>
-  <div class="ayuda-menu">Con el mando: cruceta o stick para moverte, A para elegir, B para volver. Cambiar la calidad recarga el tramo.</div>
+  <div class="ayuda-menu">Con el mando: cruceta o stick para moverte, A para elegir, B para volver. Cambiar de tramo o de calidad recarga el juego.</div>
   <div class="ayuda-menu" id="tPad" hidden></div>
   <div class="ayuda-menu" id="tSonido" hidden>El sonido está encendido, pero el navegador espera una tecla o un clic para dejarlo sonar: un botón del mando no le basta.</div>
 </section>

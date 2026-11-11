@@ -22,6 +22,9 @@ function suavizar(a, radio, pases) {
   }
 }
 
+/** El mismo valle recorrido al revés: otra carretera para el jugador sin cargar otro terreno. */
+export const TRAMO_INVERSO = { ...TRAMO, id: 'tramo-inverso', puntos: TRAMO.puntos.slice().reverse() };
+
 export function crearVia(def, M) {
   const curva = new THREE.CatmullRomCurve3(def.puntos.map(([x, z]) => new THREE.Vector3(x, 0, z)), false, 'centripetal');
   const n = Math.round(curva.getLength() / PASO) + 1, pts = curva.getSpacedPoints(n - 1), F = () => new Float32Array(n);

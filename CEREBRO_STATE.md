@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 2: minas y radar, publicado en la sala)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 3: torreta, drones y tres tramos)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,16 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · Corredor, paso 3: torreta y drones — miércoles 11-nov
+
+- Miguel: «Sí, sigue». **Construido:** torreta con balas reales (trazadora, caída, calentamiento), ayuda de puntería,
+  drones suicidas, bombarderos y de reconocimiento, y **tres tramos** en el menú (minas · drones · los dos).
+- **Verificado en local:** tramo 3 completo sin daño a 60 fps y 238 llamadas de dibujo; tramo 2 con y sin tirador
+  automático; mina volada a tiros. Detalle en `docs/sesiones/2026-11-10-convoy-diseno.md`.
+- **Siguiente (paso 4):** inhibidor, humo, heridos y puestos de socorro. **Sin verificar:** el mando físico de Miguel.
 
 ---
 
