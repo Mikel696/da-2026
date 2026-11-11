@@ -47,7 +47,7 @@ export function crearHeridos(scene, P, inicio, datos) {
   const lista = [], W = P.def.ancho, o = {};
   for (const [s, lado] of datos) {
     const d = P.dist[inicio] + s; let i = inicio; while (i < P.n - 2 && P.dist[i + 1] < d) i++;
-    const l = lado * (W + ARCEN + 2.5), x = P.px[i] + P.rx[i] * l, z = P.pz[i] + P.rz[i] * l, y = P.terreno(x, z);
+    const l = lado * (W + ARCEN + 0.7), x = P.px[i] + P.rx[i] * l, z = P.pz[i] + P.rz[i] * l, y = P.terreno(x, z);
     const obj = new THREE.Group(); obj.position.set(x, y, z); obj.rotation.y = Math.atan2(-P.tz[i], P.tx[i]);
     const m = new THREE.Mesh(gCamilla, mat); m.castShadow = true; m.receiveShadow = true; obj.add(m);
     const b = new THREE.Mesh(gBengala, mBengala); b.position.set(0.4, 0.11, lado * 0.9); b.rotation.z = 0.5; obj.add(b);

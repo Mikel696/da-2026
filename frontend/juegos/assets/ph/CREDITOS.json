@@ -2,7 +2,7 @@
  "fuente": "Poly Haven",
  "licencia": "CC0 1.0 (dominio público)",
  "url": "https://polyhaven.com/license",
- "descargado": "2026-11-10 y 2026-11-11 (árboles, botiquín y estufa)",
+ "descargado": "2026-11-10, 2026-11-11 (árboles, botiquín y estufa) y 2026-11-11 (paisaje báltico: pasto, bosque, helechos, tocones, rocas con musgo)",
  "assets": [
   {
    "id": "kloppenheim_06_puresky",
@@ -690,6 +690,317 @@
      "sha256": "09d7eb63b75a4a214fdb9f03349e5ddf990ea9865b3fbfb3fede6e5ccfa19e68"
     }
    ]
+  },
+  {
+   "id": "leafy_grass",
+   "nombre": "Leafy Grass",
+   "tipo": "tex",
+   "autores": [
+    "Charlotte Baglioni"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/leafy_grass",
+   "archivos": [
+    {
+     "ruta": "tex/leafy_grass/diff_1k.jpg",
+     "bytes": 1195394,
+     "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a"
+    },
+    {
+     "ruta": "tex/leafy_grass/nor_1k.jpg",
+     "bytes": 1466049,
+     "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6"
+    },
+    {
+     "ruta": "tex/leafy_grass/arm_1k.jpg",
+     "bytes": 1010081,
+     "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d"
+    }
+   ]
+  },
+  {
+   "id": "fir_sapling",
+   "nombre": "Fir Sapling",
+   "tipo": "mod",
+   "autores": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/fir_sapling",
+   "archivos": [
+    {
+     "ruta": "mod/fir_sapling/fir_sapling.gltf",
+     "bytes": 10979,
+     "sha256": "a9466ca9d8c5b9b2eeeeafd3ce426f8912dcbd98a7281bad8c734833eb35b186"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_twigs_nor_gl_1k.jpg",
+     "bytes": 474717,
+     "sha256": "34928b2a9d1f722d2f64a7da468c790ecaca9b89c00ac0878a9e0bad26748368"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_branches_diff_1k.jpg",
+     "bytes": 776633,
+     "sha256": "46d216526b6203dbd5dc3cfce5e49d7a4cc1770da2420faab45adf33671c7de4"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_twigs_diff_1k.jpg",
+     "bytes": 252678,
+     "sha256": "a9900fafad850deeb5f79b928fd7590bca9e8ec8734d2368d4c64bba8b0c5b22"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_branches_nor_gl_1k.jpg",
+     "bytes": 1137599,
+     "sha256": "dbe474f6cd593d51a19fb92a627ad900b9ab47dabd1bf60117a2cf9d110f79ea"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_twigs_arm_1k.jpg",
+     "bytes": 300249,
+     "sha256": "d1ec27a55bb67bfe5fa2c8a41a545dc71769934b142db56ad7c703d4146e1770"
+    },
+    {
+     "ruta": "mod/fir_sapling/textures/fir_sapling_branches_arm_1k.jpg",
+     "bytes": 793567,
+     "sha256": "44c32b056b78c1046aeeb44c973a1d1352ea12d0d7ef2425527555f1256a0964"
+    },
+    {
+     "ruta": "mod/fir_sapling/fir_sapling.bin",
+     "bytes": 21677180,
+     "sha256": "efdebfae6ee4b3ea20c7a85eb9f798ff4953259a3616bcff0b7e580b00f34f40"
+    },
+    {
+     "ruta": "imp/abeto_joven_color.webp",
+     "bytes": 113096,
+     "sha256": "1f54c66919ebaccf8f75548cbc71f9442fbcab851eaccf59b405337eac4126f4"
+    },
+    {
+     "ruta": "imp/abeto_joven_normal.webp",
+     "bytes": 167378,
+     "sha256": "b1ae90e36fb46d953086f8c2beef1b7377315817f72d3770c3b64691e8ef2cf1"
+    }
+   ],
+   "nota": "Modelo real a menos de 40 m de la cámara; más lejos, su foto (impostor)."
+  },
+  {
+   "id": "fern_02",
+   "nombre": "Fern 02",
+   "tipo": "mod",
+   "autores": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/fern_02",
+   "archivos": [
+    {
+     "ruta": "mod/fern_02/fern_02.gltf",
+     "bytes": 6899,
+     "sha256": "33974295ee19670af4877705fc7d91f33f42d6302f0d44a625e072271223031f"
+    },
+    {
+     "ruta": "mod/fern_02/textures/fern_02_arm_1k.jpg",
+     "bytes": 280359,
+     "sha256": "ebfb5d76ce9cbdaec20bcd22dce9b755f0b1b8650ef29ca13555e3e6961025d7"
+    },
+    {
+     "ruta": "mod/fern_02/textures/fern_02_diff_1k.jpg",
+     "bytes": 315705,
+     "sha256": "a828a6e7b4c01c826911e2eac4b3afc7457dab7b3b392a31c681ed88b7d50029"
+    },
+    {
+     "ruta": "mod/fern_02/textures/fern_02_nor_gl_1k.jpg",
+     "bytes": 367222,
+     "sha256": "45bce132c6e96a0864bc89ab5da51361ab3f4afa83a6669ae499ab5ca811f621"
+    },
+    {
+     "ruta": "mod/fern_02/fern_02.bin",
+     "bytes": 176176,
+     "sha256": "fe1abb762bcbbc7ad9e86925c8080437a62add257d9280e9142fdc85c226e64c"
+    }
+   ]
+  },
+  {
+   "id": "grass_medium_02",
+   "nombre": "Grass Medium 02",
+   "tipo": "impostor",
+   "autores": [
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/grass_medium_02",
+   "archivos": [
+    {
+     "ruta": "imp/pasto_color.webp",
+     "bytes": 82426,
+     "sha256": "9877ab3e963493881b0cc39922d2d5c1fb9edac19bfbafdf1841c7c46c0459e9"
+    },
+    {
+     "ruta": "imp/pasto_normal.webp",
+     "bytes": 67598,
+     "sha256": "66ceba59e6a9aa9c418685d7ca86adef45b5e91dfbbc831610fb9f4c40d38913"
+    }
+   ],
+   "nota": "Impostor: el modelo se fotografió una vez desde 3 ángulos (color y normales) con hornear.js y se guarda solo la foto en WebP; el modelo original no se sube. Matas de pasto: 26 copias del modelo juntas en un disco."
+  },
+  {
+   "id": "tree_stump_01",
+   "nombre": "Tree Stump 01",
+   "tipo": "mod",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/tree_stump_01",
+   "archivos": [
+    {
+     "ruta": "mod/tree_stump_01/tree_stump_01.gltf",
+     "bytes": 2793,
+     "sha256": "9c66ba87d693f35eb404acaa96e0eeff831c295b61a0a903795584cbcc3527c9"
+    },
+    {
+     "ruta": "mod/tree_stump_01/tree_stump_01.bin",
+     "bytes": 965380,
+     "sha256": "b4d9ca70b3c908c4a638fbd6a23ed96c84055bbbf14cf44b89e31ad59fa21e0a"
+    },
+    {
+     "ruta": "mod/tree_stump_01/textures/tree_stump_01_diff_1k.jpg",
+     "bytes": 907451,
+     "sha256": "781ebe420ac4d84f2e44b9e9937a596e3d5d90711d978a1392f8bf3771b5bf31"
+    },
+    {
+     "ruta": "mod/tree_stump_01/textures/tree_stump_01_nor_gl_1k.jpg",
+     "bytes": 1238404,
+     "sha256": "425117514b0386bb6df41cb64a61a624d2596472e05777483d4021b3285e3ceb"
+    },
+    {
+     "ruta": "mod/tree_stump_01/textures/tree_stump_01_arm_1k.jpg",
+     "bytes": 825646,
+     "sha256": "d845cd6ab45288c546267d059ebe1f8a737e174330fe9375e5f99e753f2f95d8"
+    }
+   ]
+  },
+  {
+   "id": "rock_moss_set_01",
+   "nombre": "Rock Moss Set 01",
+   "tipo": "mod",
+   "autores": [
+    "Kless Gyzen"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/rock_moss_set_01",
+   "archivos": [
+    {
+     "ruta": "mod/rock_moss_set_01/rock_moss_set_01.gltf",
+     "bytes": 9987,
+     "sha256": "c36675aca9c6b2be7785c2534cf413b03ec82a5a2a5407a2b1c0cdb0346c9727"
+    },
+    {
+     "ruta": "mod/rock_moss_set_01/textures/rock_moss_set_01_nor_gl_1k.jpg",
+     "bytes": 209975,
+     "sha256": "eb4aad3f207f1dc5b624d74ae240372171626a66912bd71adf7bd3e518181d6e"
+    },
+    {
+     "ruta": "mod/rock_moss_set_01/rock_moss_set_01.bin",
+     "bytes": 1466380,
+     "sha256": "de8360e6175879aaf02c171911069cf5f1852547f9ca7f10e440085dbcc3315e"
+    },
+    {
+     "ruta": "mod/rock_moss_set_01/textures/rock_moss_set_01_rough_1k.jpg",
+     "bytes": 82624,
+     "sha256": "4d6ec46623abd8e2cdb855f59c7ce31873ad61b36b60e4de579e9e776a497c6b"
+    },
+    {
+     "ruta": "mod/rock_moss_set_01/textures/rock_moss_set_01_diff_1k.jpg",
+     "bytes": 168099,
+     "sha256": "40cea65d8aa4ee73a93b04af19963834d061eee9779c3fc2c1cba76eef812ccc"
+    }
+   ]
+  },
+  {
+   "id": "dead_tree_trunk",
+   "nombre": "Dead Tree Trunk",
+   "tipo": "mod",
+   "autores": [
+    "Rob Tuytel"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/dead_tree_trunk",
+   "archivos": [
+    {
+     "ruta": "mod/dead_tree_trunk/dead_tree_trunk.gltf",
+     "bytes": 2812,
+     "sha256": "8baaf1ff66ba1f79acdceed0dc3797a882990a3abb10b18abe56762f34c26e39"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk/textures/dead_tree_trunk_arm_1k.jpg",
+     "bytes": 724384,
+     "sha256": "0e0f7d64ac4ee3a7e7861a48f4bbd1ec2c026facd8f48b756f6b5d4557af3fd3"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk/textures/dead_tree_trunk_nor_gl_1k.jpg",
+     "bytes": 1053075,
+     "sha256": "b7c393204c93f0c67535ff3b5d723b26598f9dbb2b5110b74249ab88189f026f"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk/textures/dead_tree_trunk_diff_1k.jpg",
+     "bytes": 713480,
+     "sha256": "bc31d7d23db90d90cfb568c583914eeec11b29716b79096818b706a9e3e0216c"
+    },
+    {
+     "ruta": "mod/dead_tree_trunk/dead_tree_trunk.bin",
+     "bytes": 2293788,
+     "sha256": "c1ac6b3195246e8647a28eee2fbfdd4712a045c7cf2dcb4f5abcc2d40a446ca6"
+    }
+   ]
+  },
+  {
+   "id": "fir_tree_01",
+   "nombre": "Fir Tree 01",
+   "tipo": "impostor",
+   "autores": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/fir_tree_01",
+   "archivos": [
+    {
+     "ruta": "imp/abeto_color.webp",
+     "bytes": 1436998,
+     "sha256": "293c90b07cf225121c8ea01357e0f9997e7c53b1beb6820809c4cad32aca114f"
+    },
+    {
+     "ruta": "imp/abeto_normal.webp",
+     "bytes": 1833922,
+     "sha256": "3af8d67e396abcf67db22638245619f46a0874e9b9dd42e7134d8291e52971c7"
+    }
+   ],
+   "nota": "Impostor: el modelo se fotografió una vez desde 3 ángulos (color y normales) con hornear.js y se guarda solo la foto en WebP; el modelo original no se sube. Original: 487 MB."
+  },
+  {
+   "id": "pine_tree_01",
+   "nombre": "Pine Tree 01",
+   "tipo": "impostor",
+   "autores": [
+    "Rob Tuytel",
+    "Rico Cilliers"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/pine_tree_01",
+   "archivos": [
+    {
+     "ruta": "imp/pino_color.webp",
+     "bytes": 2294688,
+     "sha256": "d77db7e0fb9988bd4ca117456742c310d963410418089c5fd2a79a0d3ef7554b"
+    },
+    {
+     "ruta": "imp/pino_normal.webp",
+     "bytes": 2559972,
+     "sha256": "6e99dabca795bfe58860d774814df15c84103a3689e50e6af09870144c51edf2"
+    }
+   ],
+   "nota": "Impostor: el modelo se fotografió una vez desde 3 ángulos (color y normales) con hornear.js y se guarda solo la foto en WebP; el modelo original no se sube. Original: 958 MB."
   }
  ]
 }

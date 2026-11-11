@@ -30,6 +30,7 @@ import { crearInterceptores, INTERCEPTORES } from './co-interceptores.js';
 import { Radar } from './co-radar.js';
 import { crearEmboscadas, NOMBRE_TIRADOR, figura, PROPIO } from './co-cohetes.js';
 import { crearCampamento } from './co-campo.js';
+import { crearPaisaje } from './co-paisaje.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
 import { SonidoReal } from './co-sonido-real.js';
@@ -39,8 +40,8 @@ const $ = (id) => document.getElementById(id);
 const DEF = JUEGOS.find((j) => j.id === 'corredor');
 const nivel = calidad(), q = PERFILES[nivel];
 const BASE = new URL('../assets/ph/', import.meta.url).href;
-// Dos cielos reales: soleado con nubes (por defecto) y nublado (añadir ?cielo=nublado a la dirección).
-const CIELO = new URLSearchParams(location.search).get('cielo') === 'nublado' ? 'kloppenheim_06_puresky' : 'kloofendal_48d_partly_cloudy_puresky';
+// Cielo báltico nublado por defecto; el soleado de antes con ?cielo=soleado en la dirección.
+const CIELO = new URLSearchParams(location.search).get('cielo') === 'soleado' ? 'kloofendal_48d_partly_cloudy_puresky' : 'kloppenheim_06_puresky';
 const mover = (lista, d) => lista.map(([s, ...r]) => [s + d, ...r]);   // los datos de un tramo, corridos d metros
 const TRAMOS = {
   1: { nombre: 'Campo minado', via: TRAMO, minas: CAMPO_1, drones: [], heridos: HERIDOS[1],
@@ -129,6 +130,12 @@ async function textura(id, res) {
 }
 const material = (t, extra = {}) => new THREE.MeshStandardMaterial(Object.assign({ map: t.map, normalMap: t.normalMap, roughnessMap: t.armMap, aoMap: t.armMap, roughness: 1, metalness: 0 }, extra));
 const modelo = (id) => avance(gl.loadAsync(`${BASE}mod/${id}/${id}.gltf`));
+/** Atlas de un impostor horneado (color con transparencia + normales). */
+async function impostor(id) {
+  const una = async (cual, color) => { const t = await avance(tl.loadAsync(`${BASE}imp/${id}_${cual}.webp`)); t.anisotropy = aniso; if (color) t.colorSpace = THREE.SRGBColorSpace; return t; };
+  const [c, n] = await Promise.all([una('color', true), una('normal', false)]);
+  return { c, n };
+}
 
 /** Lee el cielo HDR: encuentra el sol, mide cuánta luz da y devuelve un cielo sin sol para iluminar (el sol va aparte, con sombras). */
 function leerCielo(tex) {
@@ -169,19 +176,19 @@ function repartir(gltf, matrices, { sombra = true, hojas = false } = {}) {
 }
 
 async function iniciar() {
-  const [cielo, tAsf, tTer, tGra, tMet, mRoca1, mRoca2, mArb1, mArb2, mTronco, mBarrera, mBidon, mCaja, mBarril, mArbol1, mArbol2, mSeco, mBotiquin, mEstufa] = await Promise.all([
+  const [cielo, tAsf, tTer, tGra, tMet, mBarrera, mBidon, mCaja, mBarril, mBotiquin, mEstufa, mJoven, mHelecho, mTocon, mRocas, mTronco, iAbeto, iPino, iJoven, iPasto] = await Promise.all([
     avance(new HDRLoader().loadAsync(`${BASE}cielo/${CIELO}_2k.hdr`)),
-    textura('asphalt_02', '2k'), textura('rocky_terrain_02', '1k'), textura('sandy_gravel_02', '1k'), textura('green_metal_rust', '1k'),
-    modelo('namaqualand_boulder_02'), modelo('namaqualand_boulder_05'), modelo('wild_rooibos_bush'), modelo('shrub_04'), modelo('dead_tree_trunk_02'),
-    modelo('concrete_road_barrier'), modelo('metal_jerrycan'), modelo('wooden_crate_02'), modelo('barrel_03'),
-    modelo('quiver_tree_01'), modelo('quiver_tree_02'), modelo('dead_quiver_trunk'), modelo('medical_box'), modelo('barrel_stove'),
+    textura('asphalt_02', '2k'), textura('leafy_grass', '1k'), textura('sandy_gravel_02', '1k'), textura('green_metal_rust', '1k'),
+    modelo('concrete_road_barrier'), modelo('metal_jerrycan'), modelo('wooden_crate_02'), modelo('barrel_03'), modelo('medical_box'), modelo('barrel_stove'),
+    modelo('fir_sapling'), modelo('fern_02'), modelo('tree_stump_01'), modelo('rock_moss_set_01'), modelo('dead_tree_trunk'),
+    impostor('abeto'), impostor('pino'), impostor('abeto_joven'), impostor('pasto'),
   ]);
 
   // Cielo y sol.
   cielo.mapping = THREE.EquirectangularReflectionMapping;
   const C = leerCielo(cielo);
   scene.background = cielo; scene.environment = C.env; scene.environmentIntensity = 1; scene.backgroundIntensity = 1;
-  scene.fog = new THREE.FogExp2(C.bruma, 0.0011);
+  scene.fog = new THREE.FogExp2(C.bruma, 0.0017);   // bruma báltica: el bosque del fondo se aclara
   const sol = new THREE.DirectionalLight(C.sol, C.fuerza);
   if (q.sombras) {
     sol.castShadow = true; sol.shadow.mapSize.set(q.sombras * 2, q.sombras * 2);
@@ -191,43 +198,18 @@ async function iniciar() {
   scene.add(sol, sol.target);
 
   // Vía y terreno.
-  const mVia = { asfalto: material(tAsf), grava: material(tGra, { color: new THREE.Color().setRGB(0.6, 0.56, 0.5) }), terreno: material(tTer, { vertexColors: true }) };
+  const mVia = { asfalto: material(tAsf), grava: material(tGra, { color: new THREE.Color().setRGB(0.4, 0.44, 0.48) }), terreno: material(tTer, { vertexColors: true }),
+    agua: new THREE.MeshStandardMaterial({ color: new THREE.Color().setRGB(0.02, 0.024, 0.017), roughness: 0.1, metalness: 0 }) };   // agua turbia de cuneta: refleja el cielo
   const P = crearVia(MIS.via, mVia);
   scene.add(P.grupo);
 
-  // Rocas, arbustos, áloes y troncos junto a la vía (esquivando los campamentos); barreras y barriles al final.
-  // Cada trozo de vegetación es un grupo: se dibuja solo a menos de LEJOS de la cámara (más allá la bruma ya lo borra).
-  // Con la vía de 2,4 km, mirando a lo largo de la carretera entraban todos los trozos en cámara: 18 M de triángulos.
-  const trozosVeg = [], LEJOS = 450;
+  // Paisaje báltico (co-paisaje.js): bosque de abeto y pino, abetos jóvenes, pasto, helechos, tocones, rocas y troncos.
+  // Los trozos se dibujan solo a menos de LEJOS (el bosque, que es barato, hasta 2,2 veces más lejos).
+  const LEJOS = 450;
+  let paisaje = null;
   const poblar = (evitar) => {
-    const rnd = semilla(31), M4 = () => new THREE.Matrix4(), qn = new THREE.Quaternion(), e = new THREE.Euler(), p = new THREE.Vector3(), s = new THREE.Vector3();
-    const sembrar = (cuantos, dmin, dmax, tmin, tmax, hunde, inclina = 0.12, i0 = 6, i1 = P.n - 6) => {
-      const out = [];
-      for (let k = 0; out.length < cuantos && k < cuantos * 30; k++) {
-        const i = i0 + Math.floor(rnd() * (i1 - i0)), sg = rnd() < 0.5 ? -1 : 1, l = sg * (TRAMO.ancho + ARCEN + dmin + (rnd() ** 1.6) * (dmax - dmin));
-        const x = P.px[i] + P.rx[i] * l, z = P.pz[i] + P.rz[i] * l, y = P.terreno(x, z);
-        if (P.fuera.d < TRAMO.ancho + ARCEN + dmin - 0.2 || evitar.some((c) => (x - c.centro.x) ** 2 + (z - c.centro.z) ** 2 < c.radio * c.radio)) continue;
-        const t = tmin + rnd() * (tmax - tmin);
-        qn.setFromEuler(e.set((rnd() - 0.5) * inclina, rnd() * 6.283, (rnd() - 0.5) * inclina));
-        out.push(M4().compose(p.set(x, y - hunde * t, z), qn, s.set(t, t * (0.85 + rnd() * 0.3), t)));
-      }
-      return out;
-    };
-    // Densidad pensada para el tramo de 650 m, repartida en trozos de ~240 m para que el recorte por cámara funcione.
-    // Cada roca escaneada son ~98 000 triángulos y cada áloe 150 000-270 000: pocos, grandes y cerca de la vía.
-    const k = q.distancia, trozos = Math.max(1, Math.round(P.largo / 240)), escala = P.largo / 650 / trozos, n = (b) => Math.floor(b * escala + rnd());
-    for (let t = 0; t < trozos; t++) {
-      const i0 = 6 + Math.floor((P.n - 12) * t / trozos), i1 = 6 + Math.floor((P.n - 12) * (t + 1) / trozos), im = (i0 + i1) >> 1;
-      const grupoT = new THREE.Group(); grupoT.userData.centro = new THREE.Vector3(P.px[im], P.py[im], P.pz[im]); scene.add(grupoT); trozosVeg.push(grupoT);
-      grupoT.add(repartir(mRoca1, sembrar(n(4 * k), 2.5, 40, 0.7, 1.8, 0.12, 0.12, i0, i1)));
-      grupoT.add(repartir(mRoca2, sembrar(n(4 * k), 2.5, 40, 0.7, 2, 0.12, 0.12, i0, i1)));
-      grupoT.add(repartir(mTronco, sembrar(n(2), 4, 26, 0.8, 1.2, 0.1, 0.05, i0, i1), { sombra: false }));
-      grupoT.add(repartir(mArb1, sembrar(n(13 * k), 1.2, 40, 1.4, 2.8, 0.02, 0.05, i0, i1), { sombra: false, hojas: true }));
-      grupoT.add(repartir(mArb2, sembrar(n(15 * k), 0.6, 26, 2.2, 4.2, 0.01, 0.05, i0, i1), { sombra: false, hojas: true }));
-      grupoT.add(repartir(mArbol1, sembrar(n(2 * k), 9, 70, 1.4, 2.1, 0.04, 0.05, i0, i1)));
-      grupoT.add(repartir(mArbol2, sembrar(n(3 * k), 7, 60, 2.2, 3.4, 0.03, 0.05, i0, i1)));
-      grupoT.add(repartir(mSeco, sembrar(n(2), 6, 50, 1.1, 1.7, 0.04, 0.08, i0, i1), { sombra: false }));
-    }
+    const qn = new THREE.Quaternion(), e = new THREE.Euler(), p = new THREE.Vector3(), s = new THREE.Vector3(), M4 = () => new THREE.Matrix4();
+    paisaje = crearPaisaje(scene, P, { tex: { abeto: iAbeto, pino: iPino, joven: iJoven, pasto: iPasto }, mod: { joven: mJoven, helecho: mHelecho, tocon: mTocon, rocas: mRocas, tronco: mTronco }, evitar, msaa: q.msaa, densidad: Math.min(1, q.distancia) });
     const fin = P.n - 16, barr = [], bar = [];
     for (const [di, l] of [[0, -2.6], [0, -1.05], [-9, 1.05], [-9, 2.6]]) {
       const i = fin + di; qn.setFromEuler(e.set(0, Math.atan2(-P.rz[i], P.rx[i]), 0));
@@ -259,7 +241,8 @@ async function iniciar() {
     mats: { grava: mVia.grava, hesco: material(tGra, { color: new THREE.Color().setRGB(0.5, 0.43, 0.33) }), liso: camion.mats.liso }, vehiculo: camion.grupo };
   const campos = [crearCampamento(scene, P, Math.max(14, SALIDA - 8), -1, 'base', RC), crearCampamento(scene, P, P.n - 24, 1, 'base', RC)];
   const puestos = (MIS.puestos || []).map((s, k) => { campos.push(crearCampamento(scene, P, indice(s), 1, 'puesto', RC)); return { n: k + 1, dist: P.dist[indice(s)], hecho: false, t: 0, avisado: false }; });
-  poblar(campos);
+  poblar(campos.concat(tiradores.lista.map((t) => ({ centro: new THREE.Vector3(t.x, t.y, t.z), radio: 3.5 }))));
+  if (gtao) { const r0 = gtao.render.bind(gtao); gtao.render = (...a) => { paisaje.ocultarImpostores(true); r0(...a); paisaje.ocultarImpostores(false); }; }
   // El mecánico que baja a reparar (figura hecha en código, uniforme oliva).
   const mecanico = new THREE.Mesh(figura(false, PROPIO), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 })); mecanico.castShadow = true; mecanico.visible = false; scene.add(mecanico);
   let chispa = 0;
@@ -786,7 +769,7 @@ async function iniciar() {
     if (Math.abs(camara.fov - cam.fov) > 0.04) { camara.fov = cam.fov; camara.updateProjectionMatrix(); }
     sol.position.set(veh.x + C.dir.x * 200, veh.y + C.dir.y * 200, veh.z + C.dir.z * 200); sol.target.position.set(veh.x, veh.y, veh.z);
     fx.uniforms.uVel.value = est.fase === 'titulo' ? 0 : clamp((vel - 10) / 26, 0, 1);
-    for (const g of trozosVeg) g.visible = camara.position.distanceToSquared(g.userData.centro) < LEJOS * LEJOS;
+    paisaje.actualizar(camara.position, LEJOS);
   }
 
   // ───────────── HUD ─────────────
@@ -957,7 +940,7 @@ async function iniciar() {
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
+  window.__co = { paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };

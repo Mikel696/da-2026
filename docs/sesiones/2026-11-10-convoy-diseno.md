@@ -94,7 +94,23 @@ lo que ya vio.
 - **Sin verificar:** con el mando físico de Miguel; cómo suena de verdad (medido, no oído); el lanzamiento del cohete y
   la herramienta del mecánico son sonidos sintetizados cortos.
 
-## Próxima sesión · pedido de Miguel (11-nov), sin empezar
+## Paso 6a · paisaje báltico (11-nov)
+- **Hecho:** llanura con lomas suaves (relieve ÷2,3), campos de pasto escaneado (`leafy_grass`), bosque de abeto y pino a los
+  lados cuyo borde cambia a lo largo de la vía (22 a 94 m del centro: a ratos pegado, a ratos campo abierto), cuneta con agua
+  intermitente, arcén de grava gris, abetos jóvenes, matas de pasto, helechos, tocones, rocas con musgo y troncos caídos.
+  Cielo nublado (`kloppenheim_06_puresky`) por defecto; el soleado de antes con `?cielo=soleado`. Sin abedul: Poly Haven no tiene.
+- **Impostores horneados** (`scripts/hornear-impostores/`): `fir_tree_01` (4,2 M triángulos, 487 MB) y `pine_tree_01` (7 M, 958 MB)
+  se fotografiaron una vez desde 3 ángulos con color y normales → 8,5 MB de WebP en `assets/ph/imp/`. Cada árbol son 3 planos
+  cruzados (12 triángulos): ~17.000 árboles en la misión completa. `fir_sapling` es modelo real a menos de 40 m (máx. 12) y foto más lejos.
+- **Dos pasadas para el follaje** (`dosPasadas` en `co-paisaje.js`): primero solo profundidad, después color con profundidad
+  igual. Medido con el reloj de la tarjeta (1280×720, media): el paisaje pasó de **30 ms a 1,5 ms** por cuadro (bosque con sombra
+  12 ms, pasto 10 ms, helechos y tocones de 41-101 k triángulos 13 ms). El bosque no proyecta sombra. La oclusión ambiental no
+  ve los impostores (los dibujaría como paredes).
+- **Cuneta:** la malla del campo es de 2,5 m y no puede dibujar una zanja de 3 m: una franja fina sigue la vía hasta 14,5 m y
+  el campo se hunde debajo. Heridos ahora sobre la grava (2,4 m del asfalto), fuera del agua.
+- **Piloto, misión completa:** 257 s, 0 minas pisadas, 14 drones, 5 de 5 lanzacohetes, **7 de 7 heridos**, 8.478 puntos, sin atascos.
+
+## Próxima sesión · pedido de Miguel (11-nov) · 1 hecho (paso 6a), 2 y 3 pendientes
 > «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,
 > lloviendo» · «más real sin comprometer la jugabilidad, bien optimizado».
 1. **Paisaje báltico** (lo más visible): llano con lomas suaves, campos verdes y bosque de pino y abedul a los lados,

@@ -1,4 +1,4 @@
-// 19-JUE · Corredor · Vía. Una carretera rural de dos carriles sobre lomas secas: asfalto, arcén de grava, cuneta y
+// 19-JUE · Corredor · Vía. Una carretera rural báltica de dos carriles sobre lomas suaves: asfalto, arcén de grava, cuneta con agua y
 // terreno. La forma sale de una lista de puntos; el aspecto, de texturas escaneadas (Poly Haven, CC0) que llegan
 // en `M`. Devuelve también la consulta «¿dónde estoy?» que usa la conducción. Licencia: MIT (código propio).
 import * as THREE from 'three';
@@ -46,7 +46,7 @@ export function crearVia(def, M) {
   for (let i = 1; i < n - 1; i++) curv[i] = ((tx[i + 1] - tx[i - 1]) * rx[i] + (tz[i + 1] - tz[i - 1]) * rz[i]) / (2 * PASO);
   suavizar(curv, 2, 2);
   // Lomas largas y suaves, con ondulación media y rugosidad fina. La carretera las sigue, pero alisada.
-  const base = (x, z) => (fbm(x / 300 + 3.1, z / 300 + 7.7, 3) - 0.5) * 34 + (fbm(x / 70 + 1.3, z / 70 + 4.2, 2) - 0.5) * 5 + (fbm(x / 9 + 5, z / 9 + 2, 2) - 0.5) * 0.35;
+  const base = (x, z) => (fbm(x / 320 + 3.1, z / 320 + 7.7, 3) - 0.5) * 15 + (fbm(x / 80 + 1.3, z / 80 + 4.2, 2) - 0.5) * 2.6 + (fbm(x / 9 + 5, z / 9 + 2, 2) - 0.5) * 0.3;
   for (let i = 0; i < n; i++) py[i] = base(px[i], pz[i]);
   suavizar(py, 14, 4);
   for (let i = 0; i < n; i++) {
@@ -75,26 +75,57 @@ export function crearVia(def, M) {
     o.margen = MARGEN; o.blando = true; o.muroIzq = o.muroDer = false;
     return o;
   }
-  const fuera = { d: 0 };
+  // Al costado: grava, luego la cuneta con agua (centro a CUNETA m del asfalto) y el campo, que recupera su forma.
+  // q = distancia al borde del asfalto. El bosque empieza a `borde(s, lado)` m del centro: cambia a lo largo de la vía.
+  const Q0 = ARCEN + 0.45, CUNETA = 3.6, MEDIA = 1.45, HONDO = 0.75, AGUA = 0.47;
+  const zanja = (q) => -HONDO * (1 - suave(0, MEDIA, Math.abs(q - CUNETA)));
+  const borde = (s, lado) => 22 + 72 * suave(0.46, 0.7, fbm(s / 230 + (lado > 0 ? 13.1 : 3.7), lado * 4.3 + 0.7, 2));
+  function alturaLado(i, lat, q, x, z) {
+    const yb = py[i] - lat * peralte[i];
+    if (q <= 0) return yb + bombeo(lat);
+    if (q <= Q0) return yb - 0.02 - 0.2 * (q / Q0) ** 2;
+    return lerp(yb - 0.22, base(x, z), suave(CUNETA + MEDIA, 26, q)) + zanja(q);
+  }
+  const fuera = { d: 0, i: 0, lat: 0, q: 0, sale: false };
   function terreno(x, z) {
     let i = cercana(x, z, 3), md = Infinity, k = i;
     for (let j = Math.max(0, i - 3); j <= Math.min(n - 1, i + 3); j++) { const d = (x - px[j]) ** 2 + (z - pz[j]) ** 2; if (d < md) { md = d; k = j; } }
     i = k;
-    const d = Math.sqrt(md), lat = (x - px[i]) * rx[i] + (z - pz[i]) * rz[i], w0 = W + ARCEN, e = d - w0;
-    fuera.d = d;
-    if (e <= 0.4) return py[i] - lat * peralte[i] - 0.3;
-    const t = suave(0, 18, e);   // cuneta junto al arcén y luego el terreno recupera su forma
-    return lerp(py[i] - 0.2, base(x, z), t) - 0.5 * Math.exp(-(((e - 2.2) / 1.5) ** 2)) * (1 - t * 0.6);
+    const d = Math.sqrt(md), lat = (x - px[i]) * rx[i] + (z - pz[i]) * rz[i], along = (x - px[i]) * tx[i] + (z - pz[i]) * tz[i];
+    fuera.d = d; fuera.i = i; fuera.lat = lat; fuera.q = d - W; fuera.sale = (i === 0 && along < -0.5) || (i === n - 1 && along > 0.5);
+    return alturaLado(i, lat, d - W, x, z);
+  }
+  /** Color del suelo (multiplica la textura de pasto): pradera verde con manchas secas, orilla más seca, suelo de bosque. */
+  function colorSuelo(x, z, q, d, B, c) {
+    const m = 0.74 + 0.5 * fbm(x / 40 + 9, z / 40 + 3, 2), seco = suave(0.5, 0.76, fbm(x / 110, z / 110, 2)), orilla = 1 - suave(2.5, 10, q), bosque = suave(B - 6, B + 3, d);
+    const r = lerp(0.78 + seco * 0.3 + orilla * 0.14, 0.56, bosque), g = lerp(1.0 + seco * 0.04 - orilla * 0.03, 0.56, bosque), b = lerp(0.6 - seco * 0.1 - orilla * 0.04, 0.44, bosque);
+    c[0] = r * m; c[1] = g * m; c[2] = b * m;
   }
 
   // ───────────── Mallas ─────────────
-  const grupo = new THREE.Group(), rnd = semilla(2026);
+  const grupo = new THREE.Group(), rnd = semilla(2026), col = [0, 0, 0];
   const pon = (mesh, proyecta = false) => { mesh.receiveShadow = true; mesh.castShadow = proyecta; grupo.add(mesh); return mesh; };
   pon(new THREE.Mesh(cinta(n, 7, (i, c, v) => { const l = (c / 3 - 1) * W; punto(i, l, 0, v); v[3] = l / 5; v[4] = dist[i] / 5; }), M.asfalto));
   for (const sg of [-1, 1]) pon(new THREE.Mesh(cinta(n, 3, (i, c, v) => {
     const k = sg > 0 ? c / 2 : 1 - c / 2, l = sg * (W + k * (ARCEN + 0.45));
     v[0] = px[i] + rx[i] * l; v[1] = py[i] - l * peralte[i] - 0.02 - 0.2 * k * k; v[2] = pz[i] + rz[i] * l; v[3] = v[0] / 3; v[4] = v[2] / 3;
   }), M.grava));
+  // Orilla: una franja fina que sigue la vía hasta 14,5 m del asfalto y dibuja la cuneta (la malla del campo, de 2,5 m, no puede).
+  const QS = [Q0, 2.5, 2.85, 3.15, 3.4, 3.6, 3.8, 4.05, 4.35, 4.7, 5.05, 5.8, 7, 8.6, 10.5, 12.5, 14.5];
+  for (const sg of [-1, 1]) {
+    const cols = sg > 0 ? QS : QS.slice().reverse();
+    const g = cinta(n, cols.length, (i, c, v) => { const q = cols[c], l = sg * (W + q); v[0] = px[i] + rx[i] * l; v[2] = pz[i] + rz[i] * l; v[1] = alturaLado(i, l, q, v[0], v[2]); v[3] = v[0] / 4.5; v[4] = v[2] / 4.5; });
+    const p = g.attributes.position, cc = new Float32Array(p.count * 3);
+    for (let i = 0; i < n; i++) for (let c = 0; c < cols.length; c++) { const k = i * cols.length + c; colorSuelo(p.getX(k), p.getZ(k), cols[c], W + cols[c], borde(dist[i], sg), col); cc[k * 3] = col[0]; cc[k * 3 + 1] = col[1]; cc[k * 3 + 2] = col[2]; }
+    g.setAttribute('color', new THREE.BufferAttribute(cc, 3));
+    pon(new THREE.Mesh(g, M.terreno));
+    // Agua quieta en el fondo de la cuneta: horizontal de orilla a orilla; donde la tierra sube, la tapa. El nivel cambia a lo
+    // largo de la vía: en unos tramos hay charcos y en otros la cuneta está seca (el agua queda por debajo del fondo).
+    if (M.agua) pon(new THREE.Mesh(cinta(n, 2, (i, c, v) => {
+      const q = (sg > 0 ? c : 1 - c) ? CUNETA + 0.8 : CUNETA - 0.8, l = sg * (W + q);
+      v[0] = px[i] + rx[i] * l; v[2] = pz[i] + rz[i] * l; v[1] = py[i] - sg * (W + CUNETA) * peralte[i] - 0.22 - AGUA - 0.34 * suave(0.42, 0.6, fbm(dist[i] / 40 + sg * 7.3, 3.3, 2)); v[3] = v[0] / 6; v[4] = v[2] / 6;
+    }), M.agua));
+  }
   // Pintura vial gastada: dos líneas de borde continuas y la central a trazos (3 m pintados, 6 m sin pintar).
   const gastar = (g, w, h, cuanto) => { g.globalCompositeOperation = 'destination-out'; for (let k = 0; k < cuanto; k++) { g.fillStyle = `rgba(0,0,0,${0.3 + rnd() * 0.6})`; g.fillRect(rnd() * w, rnd() * h, 1 + rnd() * 4, 1 + rnd() * 10); } };
   const tBorde = texturaCanvas(32, 256, (g, w, h) => { g.clearRect(0, 0, w, h); g.fillStyle = '#d9d6cb'; g.fillRect(2, 0, w - 4, h); gastar(g, w, h, 240); });
@@ -103,25 +134,25 @@ export function crearVia(def, M) {
   const linea = (l0, mat, largoTex) => { const m = new THREE.Mesh(cinta(n, 2, (i, c, v) => { punto(i, l0 + c * 0.13, 0.012, v); v[3] = c; v[4] = dist[i] / largoTex; }), mat); m.receiveShadow = true; m.renderOrder = 1; grupo.add(m); };
   const mB = matLinea(tBorde); linea(-W + 0.22, mB, 8); linea(W - 0.35, mB, 8); linea(-0.065, matLinea(tCentro), 9);
 
-  // Terreno: malla regular recortada por la carretera, con manchas grandes de tono para que la textura no se repita a la vista.
+  // Campo: malla regular de 2,5 m. Junto a la vía se hunde bajo la orilla (que es la que se ve) para no asomar por ella.
+  let limites;
   {
     const paso = 2.5; let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
     for (let i = 0; i < n; i++) { x0 = Math.min(x0, px[i]); x1 = Math.max(x1, px[i]); z0 = Math.min(z0, pz[i]); z1 = Math.max(z1, pz[i]); }
-    x0 -= 170; x1 += 170; z0 -= 150; z1 += 150;
+    x0 -= 170; x1 += 170; z0 -= 150; z1 += 150; limites = [x0, x1, z0, z1];
     const nx = Math.ceil((x1 - x0) / paso) + 1, nz = Math.ceil((z1 - z0) / paso) + 1;
-    const pos = new Float32Array(nx * nz * 3), uv = new Float32Array(nx * nz * 2), col = new Float32Array(nx * nz * 3), idx = new Uint32Array((nx - 1) * (nz - 1) * 6);
+    const pos = new Float32Array(nx * nz * 3), uv = new Float32Array(nx * nz * 2), cc = new Float32Array(nx * nz * 3), idx = new Uint32Array((nx - 1) * (nz - 1) * 6);
     for (let j = 0, k = 0; j < nz; j++) for (let i = 0; i < nx; i++, k++) {
-      const x = x0 + i * paso, z = z0 + j * paso, m = 0.7 + 0.55 * fbm(x / 48 + 9, z / 48 + 3, 2), seco = fbm(x / 140, z / 140, 2);
-      pos[k * 3] = x; pos[k * 3 + 1] = terreno(x, z); pos[k * 3 + 2] = z; uv[k * 2] = x / 4.5; uv[k * 2 + 1] = z / 4.5;
-      // Junto a la vía la hierba está quemada por el polvo: el borde del arcén se funde con el campo en vez de cortarse.
-      const polvo = (1 - suave(W + ARCEN, W + ARCEN + 11, fuera.d)) * 0.75 + suave(0.55, 0.8, fbm(x / 22 + 4, z / 22 + 8, 2)) * 0.45;
-      col[k * 3] = m * (0.96 + seco * 0.16) * (1 + polvo * 0.55); col[k * 3 + 1] = m * (0.96 + seco * 0.06) * (1 + polvo * 0.16); col[k * 3 + 2] = m * (0.98 - seco * 0.12) * (1 - polvo * 0.3);
+      const x = x0 + i * paso, z = z0 + j * paso, y = terreno(x, z), q = fuera.q;
+      const hundir = fuera.sale ? (q < 0.5 ? 0.3 : 0) : q < 6.5 ? 0.9 : q < 9 ? lerp(0.9, 0.08, suave(6.5, 9, q)) : 0.08 * (1 - suave(12, 14.5, q));
+      pos[k * 3] = x; pos[k * 3 + 1] = y - hundir; pos[k * 3 + 2] = z; uv[k * 2] = x / 4.5; uv[k * 2 + 1] = z / 4.5;
+      colorSuelo(x, z, q, fuera.d, borde(dist[fuera.i], fuera.lat >= 0 ? 1 : -1), col); cc[k * 3] = col[0]; cc[k * 3 + 1] = col[1]; cc[k * 3 + 2] = col[2];
     }
     for (let j = 0, o = 0; j < nz - 1; j++) for (let i = 0; i < nx - 1; i++) { const a = j * nx + i, b = a + 1, c = a + nx, d = c + 1; idx[o++] = a; idx[o++] = c; idx[o++] = b; idx[o++] = b; idx[o++] = c; idx[o++] = d; }
     const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); g.setAttribute('color', new THREE.BufferAttribute(cc, 3));
     g.setIndex(new THREE.BufferAttribute(idx, 1)); g.computeVertexNormals();
     pon(new THREE.Mesh(g, M.terreno));
   }
-  return { def, n, px, py, pz, tx, ty, tz, rx, rz, curv, peralte, dist, largo: dist[n - 1], iInicio: Math.round(def.salida / PASO), grupo, base, terreno, fuera, consulta, punto, cercana };
+  return { def, n, px, py, pz, tx, ty, tz, rx, rz, curv, peralte, dist, largo: dist[n - 1], iInicio: Math.round(def.salida / PASO), grupo, base, terreno, fuera, consulta, punto, cercana, borde, limites, CUNETA };
 }
