@@ -139,6 +139,9 @@ lo que ya vio.
 - **Noche:** foco real que sale del morro (con sombra), faros y pilotos que brillan; las trazadoras ya brillaban (resplandor). Sin
   ver las minas, el radar es el que manda. **Lluvia:** 3.200 trazos de agua que siguen a la cámara, asfalto con rugosidad 0,38 y
   más oscuro, niebla densa y **agarre × 0,8**. Piloto con lluvia: 632 s, nunca pasó de 3,88 m del centro (límite 4,15), 15 de 15 heridos.
+- **Producción, noche, Chrome de Miguel (alta, 1920×911):** 13-14,5 ms de tarjeta, 658-816 llamadas, ~10 M de triángulos. La
+  oclusión ambiental duplicaba todo (sin ella: 350 llamadas, 4,9 M, 8,4 ms). Ahora no ve lo pequeño (helechos, tocones,
+  abetos jóvenes, objetos de guerra): 8,6 → 5,9 M y −1,2 ms. La sombra del foco de los faros cuesta 1,4 M y 0,5 ms.
 - **Sin hacer:** sonido de lluvia (una grabación CC0 **requiere el permiso de Miguel** antes de descargarla). Cristales mojados,
   charcos y salpicaduras de las ruedas. Una prueba de física con agarre mojado en `prueba-fisica.mjs`.
 

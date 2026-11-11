@@ -203,10 +203,13 @@ export function crearPaisaje(scene, P, { tex, mod, evitar, msaa, densidad = 1 })
       if (cuadro++ % 6 === 0) repartirJovenes(cam);
     },
     contar() { return { arboles: trozos.reduce((a, t) => a + t.grupo.children.reduce((b, g) => b + g.children[0].geometry.index.count / 6 / 3, 0), 0), jovenes: jovenes.length, reales: jovenes.filter((j) => j.real).length }; },
-    /** La oclusión ambiental dibuja la escena con su propio material, sin transparencias: los planos saldrían como paredes. */
+    /**
+     * La oclusión ambiental dibuja la escena otra vez con su propio material, sin transparencias: los planos saldrían como
+     * paredes. Tampoco ve lo pequeño (helechos, tocones, abetos jóvenes reales): medido, duplicaba 2,7 M de triángulos.
+     */
     ocultarImpostores(si) {
-      if (si) { vis = trozos.map((t) => [t.grupo.visible, t.cerca.visible]); for (const t of trozos) t.grupo.visible = t.cerca.visible = false; }
-      else if (vis) trozos.forEach((t, k) => { [t.grupo.visible, t.cerca.visible] = vis[k]; });
+      if (si) { vis = trozos.map((t) => [t.grupo.visible, t.cerca.visible, t.piso.visible]); for (const t of trozos) t.grupo.visible = t.cerca.visible = t.piso.visible = false; for (const rs of reales) for (const r of rs) r.im.visible = false; }
+      else if (vis) { trozos.forEach((t, k) => { [t.grupo.visible, t.cerca.visible, t.piso.visible] = vis[k]; }); for (const rs of reales) for (const r of rs) r.im.visible = true; }
     },
   };
 }

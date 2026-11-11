@@ -281,7 +281,7 @@ async function iniciar() {
   const evitar = campos.concat(tiradores.lista.map((t) => ({ centro: new THREE.Vector3(t.x, t.y, t.z), radio: 3.5 })), heridos.lista.map((h) => ({ centro: new THREE.Vector3(h.x, h.y, h.z), radio: 3 })));
   guerra = crearGuerra(scene, P, SALIDA, MIS.guerra, { tex: { oxido: tOxido, hormigon: tHormigon, barro: tBarro, quemado: tQuemado, tela: tTela }, vehiculo: camion.grupo, excluir: camion.carga, evitar });
   poblar(evitar.concat(guerra.zonas));
-  if (gtao) { const r0 = gtao.render.bind(gtao); gtao.render = (...a) => { paisaje.ocultarImpostores(true); r0(...a); paisaje.ocultarImpostores(false); }; }
+  if (gtao) { const r0 = gtao.render.bind(gtao); gtao.render = (...a) => { paisaje.ocultarImpostores(true); guerra.grupo.visible = false; r0(...a); guerra.grupo.visible = true; paisaje.ocultarImpostores(false); }; }
   // El mecánico que baja a reparar (figura hecha en código, uniforme oliva).
   const mecanico = new THREE.Mesh(figura(false, PROPIO), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 })); mecanico.castShadow = true; mecanico.visible = false; scene.add(mecanico);
   let chispa = 0;
