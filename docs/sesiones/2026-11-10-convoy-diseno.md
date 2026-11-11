@@ -77,8 +77,26 @@ lo que ya vio.
 - [x] Búsqueda de material libre (arriba)
 - [x] Permiso de Miguel para descargar material CC0 (10-nov, «Sí, autorizo»)
 - [x] Tramo de realismo construido y publicado sin enlazar en la sala: `frontend/juegos/corredor.html`
-- [ ] **Miguel lo ve con su mando y decide** si este nivel sirve de base
-- [ ] Paso 2: radar y minas
+- [x] Miguel aprobó el nivel visual como base (11-nov, «Sí, sigue»)
+- [x] Paso 2: radar y minas — publicado y enlazado en la sala (sustituye al juego viejo de carreras)
+- [ ] Miguel lo juega con su mando
+- [ ] Paso 3: torreta y drones
+
+## Paso 2 · radar y minas (11-nov)
+- **Minas antitanque en las rodadas** (`co-minas.js`, campo `CAMPO_1`: 19 minas en 10 grupos). Estallan si una rueda pasa a
+  menos de 38 cm: una mina que queda entre las ruedas no estalla. Tierra removida encima (casi invisible); el radar las marca
+  con anillo y baliza. Cada mina: −34 % de blindaje, −15 % de carga y cae parte de la carga; tres inutilizan la camioneta.
+- **Radar** (`co-radar.js`): haz que gira cada 1,5 s; detecta lo que barre dentro del alcance, que baja con la velocidad
+  (88 m parado, 34 m a 90 km/h). Pinta la vía, las minas y la camioneta a escala real. Genérico: los drones irán ahí.
+- **Explosión:** fogonazo, tierra que cae, columna de humo, cráter, salto y cabeceo de la camioneta, vibración del mando,
+  sonido (solo si está encendido). Blindaje bajo 70 %: humo del motor; bajo 35 %: humo negro y llamas.
+- **Misión:** llegar al puesto de control. Pantalla final con tiempo, carga, blindaje, minas marcadas y pisadas. Récord: el
+  tiempo, con carga y blindaje anotados.
+- **Verificado en local (panel a la vista):** piloto automático sin esquivar → pisa 3 minas en 23 s y la camioneta queda
+  inutilizada; esquivando con el radar → 19 de 19 marcadas, 0 pisadas, entrega en 55,5 s a 60 fps; 0 errores de consola.
+- **Sala:** Corredor ocupa la tarjeta de Carreras; el juego viejo pasó a `ANTERIORES` y sigue abriendo en `juegos/neon.html`.
+  Los créditos ya nombran a Poly Haven y la nota que decía «nada viene de afuera» se corrigió.
+- **Sin verificar:** el mando físico de Miguel en este juego; el sonido diésel (el motor sigue siendo el del cupé).
 
 ## Tramo de realismo · lo que hay (10-nov)
 - **Material real (Poly Haven, CC0, 51,2 MB, 15 piezas):** 2 cielos HDR (soleado por defecto; `?cielo=nublado`), asfalto,

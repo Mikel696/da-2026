@@ -85,6 +85,11 @@ a { color: inherit; }
   linear-gradient(to bottom, #120f24 0%, #3a1838 42%, #ff9a3c 43%, #1d1a2b 44%, #0e1220 100%); }
 .arte-neon::after { content: ''; position: absolute; left: 50%; top: 43%; width: 160%; height: 58%; transform: translateX(-50%) perspective(260px) rotateX(58deg); transform-origin: top;
   background: repeating-linear-gradient(to bottom, transparent 0 22px, rgba(255, 154, 60, 0.7) 22px 26px), linear-gradient(90deg, transparent 47%, rgba(255, 220, 160, 0.9) 49% 51%, transparent 53%); opacity: 0.55; }
+.arte-corredor { background: linear-gradient(to bottom, #8fb3d9 0%, #c9d6de 38%, #b9a77f 39%, #8c7a55 62%, #5d5136 100%); }
+.arte-corredor::after { content: ''; position: absolute; left: 50%; top: 39%; width: 150%; height: 62%; transform: translateX(-50%) perspective(240px) rotateX(60deg); transform-origin: top;
+  background: repeating-linear-gradient(to bottom, transparent 0 20px, rgba(236, 232, 218, 0.85) 20px 32px) center / 2.5% 100% no-repeat,
+    linear-gradient(90deg, transparent 31%, rgba(236, 232, 218, 0.9) 31% 32.5%, #46484b 32.5% 67.5%, rgba(236, 232, 218, 0.9) 67.5% 69%, transparent 69%); }
+.arte-corredor::before { content: ''; position: absolute; z-index: 1; left: 52%; top: 42%; width: 14px; height: 14px; border-radius: 50%; background: #e2452f; box-shadow: 0 0 0 6px rgba(226, 69, 47, 0.28), 0 0 22px rgba(226, 69, 47, 0.8); }
 .arte-atalaya { background:
   radial-gradient(circle at 50% 40%, transparent 0 26px, rgba(88, 225, 255, 0.9) 27px 29px, transparent 30px),
   conic-gradient(from 45deg at 50% 40%, rgba(88, 225, 255, 0.12) 0 25%, transparent 0 50%, rgba(88, 225, 255, 0.12) 0 75%, transparent 0),

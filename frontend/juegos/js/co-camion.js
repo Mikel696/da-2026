@@ -127,5 +127,5 @@ export function crearCamion(R, E = TACTICA) {
   const gs = new THREE.PlaneGeometry(3.1, 6.6); gs.rotateX(-Math.PI / 2);
   const som = new THREE.Mesh(gs, new THREE.MeshBasicMaterial({ map: mancha, transparent: true, depthWrite: false, opacity: 0.7 })); som.position.y = 0.04; som.renderOrder = 3; grupo.add(som);
 
-  return { grupo, cuerpo, ruedas, torreta, arma, mats, E, luzFreno(k) { mats.piloto.emissiveIntensity = 0.15 + 3.2 * k; } };
+  return { grupo, cuerpo, ruedas, torreta, arma, carga, mats, E, luzFreno(k) { mats.piloto.emissiveIntensity = 0.15 + 3.2 * k; } };
 }

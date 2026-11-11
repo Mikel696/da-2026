@@ -125,6 +125,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros por una vía minada, radar), shooter y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
@@ -489,6 +490,25 @@ del 4»), no como índice de array. El dembow es `clap: [4,7,12,15]`.
 
 ---
 
+
+## 🎮 PROTOCOLO 19-JUE · JUEGOS
+
+Sala `frontend/juegos.html`; cada juego es `frontend/juegos/<juego>.html` + `juegos/js/`. Usan módulos ES con importmap
+porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `juegos/vendor/three/`, con `SHA256SUMS.txt`).
+1. **Realismo con material real, no dibujado.** Miguel rechazó el aspecto procedural (10-nov). Cielos, texturas y modelos
+   escaneados de Poly Haven (CC0) en `juegos/assets/ph/`, cada pieza con autor, fuente y suma en `CREDITOS.json` y en los
+   créditos de la sala. Nada de pago ni de licencia dudosa: el repo es público. Descargar más requiere su permiso.
+2. **Vías, campos de minas y vehículos son datos** (`TRAMO`, `CAMPO_1`, `TACTICA`, `AJUSTE`): un solo código los vuelve mundo.
+3. **Control:** manda el último mando en el que se pulsó un botón, nunca el `timestamp` (el volante USB tiembla y tapaba al
+   mando Bluetooth). Prueba: `node scripts/prueba-entrada.mjs`.
+4. **Sonido apagado al nacer (`jue_sonido`) y nunca se reproduce al probar.** En el Chrome de Miguel está encendido:
+   verificar allí sin pulsar teclas ni hacer clic en la página.
+5. **Verificar con el panel a la vista** (oculto, `requestAnimationFrame` da 0 cuadros) y la lógica con el piloto
+   automático (`__co.auto`). Medir fps a 1920×1080 en calidad alta: meta 60 con la RX 580.
+6. **Se trabaja en la copia aparte `.claude/worktrees/convoy`** (rama `claude/convoy`) y se publica con
+   `git push origin HEAD:main`: la carpeta principal suele tener cambios sin guardar de otra sesión.
+
+---
 
 ## 📝 REGLA DE ORO: ACTUALIZAR SIEMPRE
 **CADA VEZ que se modifique código, datos o funcionalidad:**

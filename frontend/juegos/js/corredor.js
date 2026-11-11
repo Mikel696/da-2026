@@ -1,8 +1,9 @@
-// 19-JUE · Corredor · Tramo de realismo. Una camioneta táctica por una carretera rural de 760 m, de día.
-// Aquí la luz, el cielo, el asfalto, la tierra, las rocas, los arbustos y la carga son material real escaneado
-// (Poly Haven, CC0: ver assets/ph/CREDITOS.json). La camioneta se arma en código (no hay modelo libre) y se viste
-// con chapa escaneada. Este archivo orquesta: carga, escena, sol, posproceso, cámara, HUD.
-// Licencia: MIT (código propio). Motor 3D: three.js 0.186.1 (MIT, vendorizado sin modificar).
+// 19-JUE · Corredor · Tramo 1: campo minado. Una camioneta táctica lleva suministros por 760 m de carretera rural
+// hasta un puesto de control. Hay minas antitanque enterradas en las rodadas; el radar las revela y el jugador decide
+// por dónde pasar. La luz, el cielo, el asfalto, la tierra, las rocas, los arbustos y la carga son material escaneado
+// (Poly Haven, CC0: ver assets/ph/CREDITOS.json). La camioneta y las minas se arman en código con chapa escaneada.
+// Este archivo orquesta: carga, escena, sol, posproceso, misión, cámara y HUD. Licencia: MIT (código propio).
+// Motor 3D: three.js 0.186.1 (MIT, vendorizado sin modificar).
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -14,21 +15,25 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { PERFILES, Particulas } from './render.js';
 import { Entrada, BOTON } from './entrada.js';
-import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, amort } from './comun.js';
-import { iniciarAudio, ui, audio, sonidoActivo, fijarSonido } from './sonido.js';
+import { Menus, opcion, calidad, fijarCalidad, NIVELES, Medidor, Sacudida, clamp, amort, records, tiempo } from './comun.js';
+import { iniciarAudio, ui, audio, sonidoActivo, fijarSonido, tono, ruido } from './sonido.js';
 import { semilla } from './lc-util.js';
 import { TRAMO, crearVia, ARCEN } from './co-via.js';
 import { crearCamion } from './co-camion.js';
+import { crearMinas, CAMPO_1, RUEDAS, DISPARO } from './co-minas.js';
+import { Radar } from './co-radar.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
+import { JUEGOS } from './catalogo.js';
 
 const $ = (id) => document.getElementById(id);
+const DEF = JUEGOS.find((j) => j.id === 'corredor');
 const nivel = calidad(), q = PERFILES[nivel];
 const BASE = new URL('../assets/ph/', import.meta.url).href;
 // Dos cielos reales: soleado con nubes (por defecto) y nublado (añadir ?cielo=nublado a la dirección).
 const CIELO = new URLSearchParams(location.search).get('cielo') === 'nublado' ? 'kloppenheim_06_puresky' : 'kloofendal_48d_partly_cloudy_puresky';
-const CONTROLES = [['Acelerar', 'W · ↑', 'RT'], ['Frenar / marcha atrás', 'S · ↓', 'LT'], ['Girar', 'A D · ← →', 'Stick izquierdo'], ['Freno de mano', 'Espacio', 'A'],
-  ['Mirar atrás', 'B', 'B'], ['Mirar alrededor', '—', 'Stick derecho'], ['Cámara', 'C', 'Y'], ['Volver al centro de la vía', 'R', 'Select'], ['Pausa', 'Esc · P', 'Start']];
+const CARRIL = 1.6;                      // se circula por el centro del carril derecho
+const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
 const inp = new Entrada({
   acciones: { acelerar: { k: ['KeyW', 'ArrowUp'], b: [BOTON.RT] }, frenar: { k: ['KeyS', 'ArrowDown'], b: [BOTON.LT] }, mano: { k: ['Space'], b: [BOTON.A] },
     atras: { k: ['KeyB'], b: [BOTON.B] }, camara: { k: ['KeyC'], b: [BOTON.Y] }, reaparecer: { k: ['KeyR'], b: [BOTON.SELECT] } },
@@ -53,16 +58,21 @@ if (nivel === 'alta') {   // oclusión ambiental: la sombra suave donde dos cosa
   composer.addPass(gtao);
 }
 const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.12, 0.5, 1.4); bloom.enabled = q.bloom; composer.addPass(bloom);
+// Velocidad en los bordes, viñeta y grano; uGolpe = el fogonazo y la vista que se desdobla cuando estalla algo cerca.
 const fx = new ShaderPass({
-  uniforms: { tDiffuse: { value: null }, uVel: { value: 0 }, uT: { value: 0 } },
+  uniforms: { tDiffuse: { value: null }, uVel: { value: 0 }, uT: { value: 0 }, uGolpe: { value: 0 } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float uVel, uT; varying vec2 vUv;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uVel, uT, uGolpe; varying vec2 vUv;
     float h(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
     void main(){
       vec2 d = vUv - 0.5; float r2 = dot(d, d), f = uVel * 0.045 * smoothstep(0.03, 0.45, r2);
       vec3 c = vec3(0.0); float tot = 0.0;
       for (int i = 0; i < 6; i++){ float k = float(i) / 5.0, w = 1.0 - k * 0.5; c += texture2D(tDiffuse, vUv - d * f * k).rgb * w; tot += w; }
-      c /= tot; c *= 1.0 - smoothstep(0.16, 0.7, r2) * 0.28;
+      c /= tot;
+      float g = min(1.0, uGolpe * 2.0), ab = uGolpe * 0.05 * (0.2 + r2);
+      c.r = mix(c.r, texture2D(tDiffuse, vUv + d * ab).r, g); c.b = mix(c.b, texture2D(tDiffuse, vUv - d * ab).b, g);
+      c += vec3(1.0, 0.82, 0.62) * uGolpe * uGolpe * 0.16;
+      c *= 1.0 - smoothstep(0.16, 0.7, r2) * (0.28 + uGolpe * 0.3);
       c *= 1.0 + (h(vUv * 811.0 + fract(uT) * 37.0) - 0.5) * 0.035;
       gl_FragColor = vec4(max(c, 0.0), 1.0);
     }`,
@@ -175,34 +185,154 @@ async function iniciar() {
     scene.add(repartir(mArb1, sembrar(Math.round(13 * k), 1.2, 40, 1.4, 2.8, 0.02, 0.05), { sombra: false, hojas: true }));
     scene.add(repartir(mArb2, sembrar(Math.round(15 * k), 0.6, 26, 2.2, 4.2, 0.01, 0.05), { sombra: false, hojas: true }));
     const fin = P.n - 16, barr = [], bar = [];
-    for (const [di, l, giro] of [[0, -2.6, 0], [0, -1.05, 0], [-9, 1.05, 0], [-9, 2.6, 0]]) {
-      const i = fin + di; qn.setFromEuler(e.set(0, Math.atan2(-P.rz[i], P.rx[i]) + giro, 0));
+    for (const [di, l] of [[0, -2.6], [0, -1.05], [-9, 1.05], [-9, 2.6]]) {
+      const i = fin + di; qn.setFromEuler(e.set(0, Math.atan2(-P.rz[i], P.rx[i]), 0));
       barr.push(M4().compose(p.set(P.px[i] + P.rx[i] * l, P.py[i] - l * P.peralte[i], P.pz[i] + P.rz[i] * l), qn, s.set(1, 1, 1)));
     }
     for (const [di, l] of [[1, -3.9], [1, 0.1], [-8, 3.9], [-8, -0.1], [2, -4.6]]) { const i = fin + di; bar.push(M4().makeTranslation(P.px[i] + P.rx[i] * l, P.py[i] - l * P.peralte[i] - 0.02, P.pz[i] + P.rz[i] * l)); }
     scene.add(repartir(mBarrera, barr)); scene.add(repartir(mBarril, bar));
   }
 
-  // Camioneta.
+  // Camioneta, minas y radar.
   const camion = crearCamion({ pintura: tMet, modelos: { caja: mCaja, bidon: mBidon, barril: mBarril } });
   scene.add(camion.grupo);
   const veh = new Vehiculo(Object.assign({}, AJUSTE.tactica));
   const SALIDA = P.iInicio, FIN = P.n - 30;
-  veh.colocar(P, SALIDA, -1.6);
+  veh.colocar(P, SALIDA, CARRIL);
+  const minas = crearMinas(P, CAMPO_1, SALIDA, tMet); scene.add(minas.grupo);
+  const radar = new Radar($('hRadar'));
   const polvo = new Particulas(scene, Math.round(500 * q.particulas), { aditivo: false, suave: 1 });
-  const tono = Math.min(1.6, 0.16 * C.fuerza + 0.5), POLVO = [0.62 * tono, 0.55 * tono, 0.44 * tono];   // el polvo recibe el mismo sol que el suelo
+  const humo = new Particulas(scene, Math.round(900 * q.particulas), { aditivo: false, suave: 1 });
+  const fuego = new Particulas(scene, Math.round(320 * q.particulas), { aditivo: true, suave: 0.75 });
+  const destello = new THREE.PointLight(new THREE.Color().setRGB(1, 0.62, 0.3), 0, 60, 2); scene.add(destello);
+  const luz = Math.min(1.6, 0.16 * C.fuerza + 0.5), POLVO = [0.62 * luz, 0.55 * luz, 0.44 * luz];   // el polvo recibe el mismo sol que el suelo
 
-  // ───────────── Estado, conducción y reglas ─────────────
-  const est = { fase: 'titulo', fin: 0, t: 0 }, ent = { gas: 0, freno: 0, giro: 0, mano: false }, uT = { value: 0 };
+  // ───────────── Misión ─────────────
+  const est = { fase: 'titulo', fin: 0, t: 0, integ: 100, carga: 100, golpes: 0, evitadas: 0, detectadas: 0, boom: 0, puesto: -1, previo: null };
+  const ent = { gas: 0, freno: 0, giro: 0, mano: false }, uT = { value: 0 }, salto = { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 };
   let jugando = false, pausado = false, ultimo = 0, acum = 0, padsVistos = null, msgT = 0;
-  const hMsg = $('hMsg'), mensaje = (txt, seg = 2.2) => { hMsg.textContent = txt; hMsg.classList.add('ver'); msgT = seg; };
-  const auto = { on: false, pensar() {
-    const s = veh.sup, vel = Math.abs(veh.u), ad = Math.min(P.n - 1, s.i + 4 + Math.round(vel * 0.35)), a = Math.atan2(P.px[ad] - P.rx[ad] * 1.6 - veh.x, P.pz[ad] - P.rz[ad] * 1.6 - veh.z) - veh.psi;
-    let vmax = 24; for (let k = 0; k < 30 && s.i + k < P.n; k++) { const c = Math.abs(P.curv[s.i + k]); if (c > 0.003) vmax = Math.min(vmax, Math.sqrt(4.2 / c) + k * 0.4); }
+  const hMsg = $('hMsg');
+  const mensaje = (txt, seg = 2.2, alerta = false) => { hMsg.textContent = txt; hMsg.classList.toggle('alerta', alerta); hMsg.classList.add('ver'); msgT = seg; };
+  const mejor = () => records.mejor('corredor', DEF.tabla);
+  const pintarMejor = () => { const m = mejor(); $('tRecord').textContent = m ? `Tu mejor entrega: ${tiempo(m.v)} · ${m.det || m.f}` : 'Aún sin entrega: llega al puesto de control para marcar el primer tiempo.'; };
+
+  // Piloto automático: sigue el carril y, si `esquivar`, busca el hueco más cercano entre las minas que ya marcó el
+  // radar. Hoy sirve para probar; será la base de los vehículos del convoy.
+  const auto = { on: false, esquivar: true, lat: CARRIL, pensar() {
+    const s = veh.sup, vel = Math.abs(veh.u);
+    let obj = CARRIL, peligro = false;
+    if (this.esquivar) {
+      const cerca = minas.lista.filter((m) => m.viva && m.detectada && m.dist > s.dist - 3 && m.dist < s.dist + 48);
+      if (cerca.length) {
+        peligro = true; let mejorL = null, md = Infinity;
+        for (let c = -3.9; c <= 3.9001; c += 0.1) {
+          if (cerca.some((m) => Math.abs(c - RUEDAS[0][0] - m.l) < 0.62 || Math.abs(c + RUEDAS[0][0] - m.l) < 0.62)) continue;
+          const d = Math.abs(c - this.lat) * 0.6 + Math.abs(c - CARRIL) * 0.4;
+          if (d < md) { md = d; mejorL = c; }
+        }
+        if (mejorL !== null) obj = mejorL;
+      }
+    }
+    this.lat += clamp(obj - this.lat, -2.2 * DT_F, 2.2 * DT_F);
+    const ad = Math.min(P.n - 1, s.i + 4 + Math.round(vel * 0.35)), a = Math.atan2(P.px[ad] + P.rx[ad] * this.lat - veh.x, P.pz[ad] + P.rz[ad] * this.lat - veh.z) - veh.psi;
+    let vmax = this.esquivar ? 16 : 24;
+    for (let k = 0; k < 30 && s.i + k < P.n; k++) { const c = Math.abs(P.curv[s.i + k]); if (c > 0.003) vmax = Math.min(vmax, Math.sqrt(4.2 / c) + k * 0.4); }
+    if (peligro) vmax = Math.min(vmax, 13);
     if (s.i > FIN - 26) vmax = Math.min(vmax, 9);
     ent.giro = clamp(-Math.atan2(Math.sin(a), Math.cos(a)) * 2.4, -1, 1); ent.gas = vel < vmax ? 0.8 : 0; ent.freno = vel > vmax + 1.5 ? clamp((vel - vmax) / 6, 0.2, 1) : 0; ent.mano = false;
   } };
-  function salir() { veh.colocar(P, SALIDA, -1.6); cam.listo = false; est.fase = 'ruta'; est.fin = 0; est.t = 0; menus.cerrarTodo(); jugando = true; pausado = false; $('hud').hidden = false; document.body.classList.add('corriendo'); mensaje('Lleva la carga hasta el puesto de control', 3); }
+
+  function salir() {
+    veh.colocar(P, SALIDA, CARRIL); veh.aj.fuerza = AJUSTE.tactica.fuerza; cam.listo = false; auto.lat = CARRIL;
+    Object.assign(est, { fase: 'ruta', fin: 0, t: 0, integ: 100, carga: 100, golpes: 0, evitadas: 0, detectadas: 0, boom: 0, puesto: -1, previo: null });
+    Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
+    minas.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; });
+    menus.cerrarTodo(); jugando = true; pausado = false; $('hud').hidden = false; document.body.classList.add('corriendo');
+    mensaje('Lleva la carga al puesto de control · el radar marca las minas', 3.5);
+  }
+  function llegar() {
+    est.fase = 'fin'; est.fin = 2.6; ui.cuenta(true); inp.vibrar(0.5, 0.7, 250);
+    est.previo = mejor();
+    est.puesto = records.registrar('corredor', DEF.tabla, +est.t.toFixed(3), true, { det: `carga ${est.carga} % · blindaje ${est.integ} %` });
+    mensaje(est.carga === 100 ? 'Carga completa en el puesto de control' : `Puesto de control · llega el ${est.carga} % de la carga`, 3);
+  }
+  function pantalla(exito) {
+    est.fase = 'resultado';
+    const pr = est.previo;
+    $('fTitulo').textContent = !exito ? 'Camioneta inutilizada' : est.carga === 100 ? 'Carga completa' : 'Carga entregada';
+    $('fSub').textContent = !exito ? 'Tres minas son demasiadas para el blindaje. Mira el radar antes de acelerar: las minas van en las rodadas, y una que queda entre tus ruedas no te toca.'
+      : est.puesto === 0 ? (pr ? `Nuevo récord: le quitaste ${(pr.v - est.t).toFixed(1)} s a tu mejor entrega.` : 'Primera entrega registrada: ese es el tiempo a batir.')
+      : `Tu mejor entrega sigue en ${tiempo(pr.v)}.`;
+    const filas = [['Tiempo', tiempo(est.t)], ['Carga entregada', (exito ? est.carga : 0) + ' %'], ['Blindaje', est.integ + ' %'],
+      ['Minas que marcó el radar', `${est.detectadas} de ${minas.lista.length}`], ['Minas pisadas', est.golpes]];
+    $('fTabla').innerHTML = filas.map(([a, b], i) => `<tr${i === 0 && exito ? ' class="yo"' : ''}><td>${a}</td><td>${b}</td></tr>`).join('');
+    document.body.classList.remove('corriendo'); hMsg.classList.remove('ver'); msgT = 0; $('hud').hidden = true;
+    menus.abrir($('pFin'), 0);
+  }
+
+  // ───────────── Minas: pisar, estallar ─────────────
+  function sonExplosion(k) {
+    ruido({ dur: 1.7, vol: 0.9 * k, tipo: 'lowpass', f: 900, f2: 60, q: 0.7, ataque: 0.002 });
+    tono({ f: 70, f2: 26, dur: 1.1, tipo: 'sine', vol: 0.9 * k });
+    ruido({ dur: 0.25, vol: 0.5 * k, tipo: 'bandpass', f: 2400, f2: 600, q: 1.2 });
+  }
+  function explosion(x, y, z, k) {
+    const n = (base) => Math.round(base * k * q.particulas) + 6;
+    for (let i = 0, N = n(36); i < N; i++) {
+      const a = Math.random() * 6.283, h = Math.random();
+      fuego.emitir(x + (Math.random() - 0.5) * 0.6, y + 0.3, z + (Math.random() - 0.5) * 0.6, Math.cos(a) * 5 * h, 3 + Math.random() * 9, Math.sin(a) * 5 * h,
+        0.22 + Math.random() * 0.35, 1.1 + Math.random() * 1.3, 2.6, 1.25 + Math.random() * 0.5, 0.3, 1, -2, 2.5, 1.6);
+    }
+    for (let i = 0, N = n(70); i < N; i++) {   // tierra y piedras: suben y caen con la gravedad
+      const a = Math.random() * 6.283, h = Math.random(), g = 0.6 + Math.random() * 0.4;
+      humo.emitir(x, y + 0.2, z, Math.cos(a) * 7 * h, 5 + Math.random() * 11, Math.sin(a) * 7 * h, 1.3 + Math.random() * 1.1, 0.16 + Math.random() * 0.22, 0.2 * g * luz, 0.16 * g * luz, 0.12 * g * luz, 1, 9.8, 0.35, 0);
+    }
+    for (let i = 0, N = n(36); i < N; i++) {   // columna de humo que se queda flotando
+      const g = 0.75 + Math.random() * 0.3;
+      humo.emitir(x + (Math.random() - 0.5) * 1.2, y + 0.6 + Math.random(), z + (Math.random() - 0.5) * 1.2, (Math.random() - 0.5) * 2, 1.5 + Math.random() * 3.5, (Math.random() - 0.5) * 2,
+        3.5 + Math.random() * 3, 1.6 + Math.random() * 1.2, 0.2 * g * luz, 0.19 * g * luz, 0.18 * g * luz, 0.4, -0.5, 0.7, 2.4);
+    }
+    destello.position.set(x, y + 1.2, z); destello.intensity = 300 * k;
+    fx.uniforms.uGolpe.value = Math.min(1, fx.uniforms.uGolpe.value + 0.9 * k);
+    sonExplosion(k);
+  }
+  function estallar(m, delantera) {
+    minas.estallar(m);
+    explosion(m.x, m.y, m.z, 1);
+    est.golpes++; est.integ = Math.max(0, est.integ - DANO_MINA); est.carga = Math.max(0, est.carga - CARGA_MINA);
+    const quedan = camion.carga.children.filter((o) => o.visible);   // la onda tira parte de la carga
+    for (let k = 0; k < 2 && quedan.length; k++) quedan.splice(Math.floor(Math.random() * quedan.length), 1)[0].visible = false;
+    veh.aj.fuerza = AJUSTE.tactica.fuerza * (0.45 + 0.55 * est.integ / 100);   // motor tocado: tira menos
+    veh.u *= 0.42; veh.v += (Math.random() - 0.5) * 3; veh.r += (Math.random() - 0.5) * 1.4;
+    salto.vy = 3.3; salto.vp = (delantera ? -1 : 1) * 2.4; salto.vr = (m.l > veh.sup.lat ? 1 : -1) * 1.6;
+    sacudida.sumar(1); inp.vibrar(1, 1, 700);
+    if (est.integ <= 0) { est.fase = 'perdida'; est.fin = 4; est.boom = 0.55; mensaje('Camioneta inutilizada', 4, true); }
+    else mensaje(`Mina · blindaje ${est.integ} % · carga ${est.carga} %`, 2.6, true);
+  }
+  function pisar() {
+    const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
+    for (const m of minas.lista) {
+      if (!m.viva) continue;
+      const dx = m.x - veh.x, dz = m.z - veh.z;
+      if (dx * dx + dz * dz > 20) { if (!m.pasada && m.dist < veh.sup.dist - 5) { m.pasada = true; est.evitadas++; } continue; }
+      for (const [lx, lz] of RUEDAS) {
+        const wx = veh.x + lx * cp + lz * sp, wz = veh.z - lx * sp + lz * cp;
+        if ((wx - m.x) ** 2 + (wz - m.z) ** 2 < DISPARO * DISPARO) { estallar(m, lz > 0); break; }
+      }
+      if (est.fase !== 'ruta') return;
+    }
+  }
+  radar.alDetectar = (nuevos) => {
+    if (est.fase !== 'ruta') return;
+    est.detectadas += nuevos.length;
+    const cerca = nuevos.reduce((a, b) => (b.d < a.d ? b : a)), l = cerca.o.l;
+    const lado = Math.abs(l) > TRAMO.ancho ? 'en el arcén' : Math.abs(l) < 0.45 ? 'sobre la línea central' : l > 0 ? 'en el carril derecho' : 'en el carril izquierdo';
+    mensaje(nuevos.length > 1 ? `${nuevos.length} minas a ${Math.round(cerca.d)} m` : `Mina a ${Math.round(cerca.d)} m · ${lado}`, 2.2, true);
+    tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07 });
+    if (audio.activo()) tono({ f: 1180, dur: 0.08, tipo: 'sine', vol: 0.07, en: audio.ctx.currentTime + 0.12 });
+    inp.vibrar(0.05, 0.25, 60);
+  };
+
   const DT_F = 1 / 120;
   function conducir(dt) {
     acum = Math.min(acum + dt, 0.1);
@@ -215,7 +345,7 @@ async function iniciar() {
       if (veh.soplido > 0) { son.soplido(veh.soplido * 0.6); veh.soplido = 0; }
       if (veh.sup.i <= 1 && veh.u < 0) veh.u = 0;
       if (veh.sup.i >= P.n - 4 && veh.u > 0) veh.u = 0;
-      if (est.fase === 'ruta') { est.t += DT_F; if (veh.sup.i >= FIN) { est.fase = 'fin'; est.fin = 3.2; mensaje('Puesto de control alcanzado', 3); inp.vibrar(0.5, 0.7, 250); ui.cuenta(true); } }
+      if (est.fase === 'ruta') { est.t += DT_F; pisar(); if (est.fase === 'ruta' && veh.sup.i >= FIN) llegar(); }
     }
   }
 
@@ -224,7 +354,11 @@ async function iniciar() {
   function vestir(dt) {
     const s = veh.sup, vel = Math.hypot(veh.u, veh.v), fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi);
     const cuesta = (s.ty || 0) * (fxh * (s.tx || 0) + fzh * (s.tz || 1)), lateral = (s.peralte || 0) * (fxh * (s.tz || 1) - fzh * (s.tx || 0));
-    camion.grupo.position.set(veh.x, veh.y, veh.z); camion.grupo.rotation.set(-Math.atan(cuesta), veh.psi, lateral, 'YXZ');
+    // Salto por una mina: la camioneta sube, cabecea y vuelve a caer sobre la suspensión.
+    salto.vy -= 9.8 * dt; salto.y += salto.vy * dt; if (salto.y < 0) { salto.y = 0; salto.vy = salto.vy < -1 ? -salto.vy * 0.25 : 0; }
+    salto.vp += (-salto.p * 70 - salto.vp * 7) * dt; salto.p += salto.vp * dt;
+    salto.vr += (-salto.r * 70 - salto.vr * 7) * dt; salto.r += salto.vr * dt;
+    camion.grupo.position.set(veh.x, veh.y + salto.y, veh.z); camion.grupo.rotation.set(-Math.atan(cuesta) + salto.p, veh.psi, lateral + salto.r, 'YXZ');
     // Suspensión blanda y centro de gravedad alto: cabecea al frenar y se inclina en las curvas mucho más que un turismo.
     cabeceo = amort(cabeceo, clamp(-veh.gLon * 0.0075, -0.05, 0.075), 4.5, dt); balanceo = amort(balanceo, clamp(veh.gLat * 0.0095, -0.085, 0.085), 4, dt);
     const bache = vel > 1 ? (Math.sin(uT.value * 23 + veh.x * 0.7) * 0.004 + Math.sin(uT.value * 9.1 + veh.z * 0.31) * 0.007) * clamp(vel / 14, 0, 1) * (veh.arcen ? 3.2 : 1) : 0;
@@ -240,7 +374,16 @@ async function iniciar() {
       polvo.emitir(veh.x - fxh * 1.7 + lx, veh.y + 0.2, veh.z - fzh * 1.7 + lz, (Math.random() - 0.5) * 1.8 - fxh * vel * 0.08, 0.5 + Math.random() * 1.1, (Math.random() - 0.5) * 1.8 - fzh * vel * 0.08,
         1.2 + Math.random() * 1.1, 0.7, POLVO[0] * g, POLVO[1] * g, POLVO[2] * g, (veh.arcen ? 0.3 : 0.12) * fuerza + 0.03, -0.25, 0.7, 3.2);
     }
-    polvo.actualizar(dt, camara, altoPx);
+    // Motor tocado: humo gris bajo 70 % de blindaje; negro y con llamas bajo 35 %.
+    if (jugando && est.integ < 70 && Math.random() < (est.integ < 35 ? 0.9 : 0.45) * q.particulas + 0.05) {
+      const g = est.integ < 35 ? 0.35 : 0.75, hx = veh.x + fxh * 2.1, hz = veh.z + fzh * 2.1;
+      humo.emitir(hx + (Math.random() - 0.5) * 0.5, veh.y + salto.y + 1.4, hz + (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.6 - fxh * veh.u * 0.3, 1.2 + Math.random(), (Math.random() - 0.5) * 0.6 - fzh * veh.u * 0.3,
+        2 + Math.random() * 1.5, 0.5, 0.2 * g * luz, 0.19 * g * luz, 0.18 * g * luz, 0.35, -0.4, 0.8, 3);
+      if (est.integ < 35 && Math.random() < 0.3) fuego.emitir(hx, veh.y + salto.y + 1.3, hz, 0, 1.5, 0, 0.25, 0.45, 2.6, 1.1, 0.3, 1, -1, 1, 1);
+    }
+    polvo.actualizar(dt, camara, altoPx); humo.actualizar(dt, camara, altoPx); fuego.actualizar(dt, camara, altoPx);
+    destello.intensity = destello.intensity > 1 ? destello.intensity * Math.exp(-dt * 10) : 0;
+    fx.uniforms.uGolpe.value = Math.max(0, fx.uniforms.uGolpe.value - dt * 2.2);
     if ((tVib -= dt) <= 0 && jugando && !pausado) { tVib = 0.09; if (veh.arcen && vel > 3) inp.vibrar(0.4, 0.25, 100); else if (veh.chirrido > 0.2) inp.vibrar(veh.chirrido * 0.3, veh.chirrido * 0.6, 100); }
   }
 
@@ -258,7 +401,7 @@ async function iniciar() {
       const obj = veh.psi + (vel > 5 ? Math.atan2(veh.v, Math.abs(veh.u)) * 0.5 : 0);
       cam.yaw += Math.atan2(Math.sin(obj - cam.yaw), Math.cos(obj - cam.yaw)) * (1 - Math.exp(-4.5 * dt));
       const a = cam.yaw + cam.mirar, sx = Math.sin(a), sz = Math.cos(a);
-      if (m.capo) { const fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi); camara.position.set(veh.x + fxh * 1.25, veh.y + 1.62, veh.z + fzh * 1.25); camara.lookAt(veh.x + sx * 25, veh.y + 1.2 + (veh.sup.ty || 0) * 25, veh.z + sz * 25); fov = 66; }
+      if (m.capo) { const fxh = Math.sin(veh.psi), fzh = Math.cos(veh.psi); camara.position.set(veh.x + fxh * 1.25, veh.y + salto.y + 1.62, veh.z + fzh * 1.25); camara.lookAt(veh.x + sx * 25, veh.y + 1.2 + (veh.sup.ty || 0) * 25, veh.z + sz * 25); fov = 66; }
       else {
         const px = veh.x - sx * m.dist, pz = veh.z - sz * m.dist, py = Math.max(veh.y + m.alto, P.terreno(px, pz) + 0.8);
         if (!cam.listo) { cam.pos.set(px, py, pz); cam.listo = true; }
@@ -277,11 +420,14 @@ async function iniciar() {
 
   // ───────────── HUD ─────────────
   const hRpm = $('hRpm'), tramoM = P.dist[FIN] - P.dist[SALIDA];
+  const barra = (id, v) => { const u = $(id); u.style.width = v + '%'; u.classList.toggle('bajo', v < 40); $(id + 'N').textContent = v + ' %'; };
   function pintarHud() {
     $('hKmh').textContent = Math.round(veh.kmh); $('hMarcha').textContent = veh.marcha < 0 ? 'R' : veh.marcha;
     hRpm.style.width = clamp(veh.rpm / AJUSTE.tactica.rpmMax, 0, 1) * 100 + '%'; hRpm.classList.toggle('alto', veh.rpm > AJUSTE.tactica.rpmMax * 0.9);
     const hecho = clamp((veh.sup.dist - P.dist[SALIDA]) / tramoM, 0, 1);
     $('hAvance').style.width = (hecho * 100).toFixed(1) + '%'; $('hFalta').textContent = hecho >= 1 ? 'En el puesto de control' : `Puesto de control a ${Math.round((1 - hecho) * tramoM)} m`;
+    barra('hBlindaje', est.integ); barra('hCarga', est.carga);
+    radar.pintar(veh, P, minas.lista, uT.value); $('hAlcance').textContent = `Radar · alcance ${Math.round(radar.alcance)} m`;
   }
 
   // ───────────── Sonido (nace apagado) y menús ─────────────
@@ -290,10 +436,10 @@ async function iniciar() {
   function sonidoCuadro() {
     const falta = sonidoOn && !audio.activo(); if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }
     if (!son.preparar()) return;
-    const activo = jugando && !pausado; son.encender(activo);
+    const activo = jugando && !pausado && est.fase !== 'resultado' && est.integ > 0; son.encender(activo);
     if (activo) son.actualizar({ rpm: veh.rpm, gas: veh.marcha < 0 ? ent.freno : ent.gas, turbo: veh.turbo * 0.7, chirrido: veh.chirrido, vel: Math.hypot(veh.u, veh.v), arcen: veh.arcen && Math.abs(veh.u) > 2, corte: veh.cambio > 0 });
   }
-  $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + CONTROLES.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
+  $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + DEF.controles.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
   opcion($('mCal'), NIVELES, nivel, 'Calidad', (v) => { fijarCalidad(v); location.reload(); });
   function pintarSonido() { for (const id of ['mSonido', 'pSonido']) $(id).innerHTML = `<span>Sonido</span><b>‹ ${sonidoOn ? 'sí' : 'no'} ›</b>`; }
   for (const id of ['mSonido', 'pSonido']) { const b = $(id), cambiar = () => { sonidoOn = !sonidoOn; fijarSonido(sonidoOn); pintarSonido(); if (sonidoOn) ui.ok(); }; b.dataset.nav = 'opcion'; b.addEventListener('click', cambiar); b.addEventListener('ajustar', cambiar); }
@@ -305,12 +451,17 @@ async function iniciar() {
   }
   const pausar = () => { if (!jugando || pausado || menus.abierto) return; pausado = true; document.body.classList.remove('corriendo'); menus.abrir($('pPausa'), 0); };
   const seguir = () => { pausado = false; menus.cerrarTodo(); document.body.classList.add('corriendo'); };
-  const alMenu = () => { jugando = false; pausado = false; est.fase = 'titulo'; $('hud').hidden = true; document.body.classList.remove('corriendo'); menus.cerrarTodo(); veh.colocar(P, SALIDA, -1.6); menus.abrir($('pTitulo'), 0); };
+  const alMenu = () => {
+    jugando = false; pausado = false; est.fase = 'titulo'; est.integ = 100; $('hud').hidden = true; document.body.classList.remove('corriendo'); menus.cerrarTodo();
+    veh.colocar(P, SALIDA, CARRIL); minas.reiniciar(); camion.carga.children.forEach((o) => { o.visible = true; }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
+    pintarMejor(); menus.abrir($('pTitulo'), 0);
+  };
   $('mJugar').addEventListener('click', () => { iniciarAudio(); ui.ok(); salir(); });
   for (const id of ['mCtl', 'pCtl']) $(id).addEventListener('click', () => { ui.ok(); menus.abrir($('pControles'), 0); });
   $('cVolver').addEventListener('click', () => { ui.atras(); menus.cerrar(); });
   $('mSalir').addEventListener('click', () => { location.href = '../juegos.html'; });
   $('pSeguir').addEventListener('click', seguir); $('pReiniciar').addEventListener('click', () => { ui.ok(); salir(); }); $('pMenu').addEventListener('click', alMenu);
+  $('fOtra').addEventListener('click', () => { ui.ok(); salir(); }); $('fMenu').addEventListener('click', alMenu);
   document.addEventListener('visibilitychange', () => { if (document.hidden) pausar(); });
   inp.alPerderPad = () => pausar();
   addEventListener('keydown', (e) => { if (e.code === 'F3') { e.preventDefault(); medidor.alternar(); } });
@@ -326,19 +477,22 @@ async function iniciar() {
       if (inp.j('pausa')) pausar();
       else {
         if (inp.j('camara')) { cam.modo = (cam.modo + 1) % MODOS.length; cam.listo = false; }
-        if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), -1.6); cam.listo = false; ui.atras(); }
+        if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), CARRIL); cam.listo = false; ui.atras(); }
         if (!auto.on && est.fase === 'ruta') { ent.gas = inp.v('acelerar'); ent.freno = inp.v('frenar'); ent.giro = inp.e('giro'); ent.mano = inp.p('mano'); }
-        conducir(dt); pintarHud();
-        if (est.fase === 'fin' && (est.fin -= dt) <= 0) salir();
+        conducir(dt);
+        if (est.fase === 'ruta') radar.barrer(dt, veh, minas.lista);
+        pintarHud();
+        if (est.boom > 0 && (est.boom -= dt) <= 0) explosion(veh.x + Math.sin(veh.psi) * 1.6, veh.y + 0.6, veh.z + Math.cos(veh.psi) * 1.6, 1.3);
+        if ((est.fase === 'fin' || est.fase === 'perdida') && (est.fin -= dt) <= 0) pantalla(est.fase === 'fin');
       }
     }
-    if (!pausado) { uT.value += dt; fx.uniforms.uT.value = uT.value; vestir(dt); if (msgT > 0 && (msgT -= dt) <= 0) hMsg.classList.remove('ver'); }
+    if (!pausado) { uT.value += dt; fx.uniforms.uT.value = uT.value; minas.actualizar(uT.value); vestir(dt); if (msgT > 0 && (msgT -= dt) <= 0) hMsg.classList.remove('ver'); }
     sonidoCuadro(); moverCamara(dt);
     composer.render(); medidor.fin(dt);
   }
-  tamano(); $('cargando').remove(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
+  tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, sol, C, gtao, salir,
+  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, radar, sol, C, gtao, salir,
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };
 }
 iniciar().catch((e) => { console.error(e); $('cargando').textContent = 'No se pudo cargar el tramo: ' + e.message; });

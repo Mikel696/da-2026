@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Corredor · tramo de realismo</title>
+<title>Corredor · campo minado</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Saira:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/juegos.css">
 <style>
-  /* Paleta de campaña: arena del arcén, verde oliva de la chapa, ámbar de señal. Nada de neón: es de día. */
+  /* Paleta de campaña: arena del arcén, verde oliva de la chapa, ámbar de señal, rojo solo para el peligro. */
   body { --arena: #d9c9a3; --oliva: #7d8a55; --ambar: #f2b33d; --alerta: #e2452f; --acento: var(--ambar); }
   body.corriendo { cursor: none; }
-  .pantalla { background: linear-gradient(90deg, rgba(14, 15, 11, 0.82) 0%, rgba(14, 15, 11, 0.5) 40%, rgba(14, 15, 11, 0) 70%); }
+  .pantalla { background: linear-gradient(90deg, rgba(14, 15, 11, 0.84) 0%, rgba(14, 15, 11, 0.52) 42%, rgba(14, 15, 11, 0) 72%); }
   .pantalla .logo { color: var(--arena); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6); }
   .pantalla .clave { font-family: var(--texto); font-size: 15px; font-weight: 600; color: var(--ambar); margin: 0 0 4px 3px; }
+  .rec-titulo { font-family: var(--titulo); font-size: 24px; font-weight: 700; color: var(--ambar); margin: -14px 0 20px; }
   .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--titulo); color: #f3efe4; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7); font-variant-numeric: tabular-nums; }
-  /* Tablero: una franja baja con la velocidad grande, la marcha y la barra de revoluciones. */
   .tablero { position: absolute; right: 2.4vw; bottom: 3vh; display: grid; grid-template-columns: auto auto; column-gap: 14px; align-items: end; padding: 10px 18px 12px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--ambar); }
   .tablero .kmh { font-size: 96px; font-weight: 800; line-height: 0.82; min-width: 2.1ch; text-align: right; }
   .tablero .lado { padding-bottom: 4px; }
@@ -26,14 +26,24 @@
   .tablero .rpm i { display: block; height: 100%; width: 0; background: var(--arena); }
   .tablero .rpm i.alto { background: var(--alerta); }
   .mision { position: absolute; left: 2.4vw; top: 3vh; width: min(300px, 44vw); padding: 9px 14px 11px; background: rgba(14, 15, 11, 0.46); border-left: 3px solid var(--oliva); }
-  .mision b { display: block; font-size: 25px; font-weight: 700; line-height: 1.05; }
+  .mision > b { display: block; font-size: 25px; font-weight: 700; line-height: 1.05; }
   .mision small { display: block; font-family: var(--texto); font-size: 14px; color: var(--papel-2); margin: 3px 0 8px; }
-  .mision i { display: block; height: 4px; background: rgba(255, 255, 255, 0.16); }
-  .mision i u { display: block; height: 100%; width: 0; background: var(--ambar); }
-  .msg { position: absolute; left: 50%; top: 20vh; transform: translateX(-50%); padding: 8px 22px; background: rgba(14, 15, 11, 0.55); font-size: 38px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 200ms; }
+  .mision > i { display: block; height: 4px; background: rgba(255, 255, 255, 0.16); }
+  .mision > i u { display: block; height: 100%; width: 0; background: var(--ambar); }
+  /* Estado de la camioneta: dos barras que solo se ponen rojas cuando hay que preocuparse. */
+  .estado-cam { display: grid; grid-template-columns: auto 1fr auto; gap: 6px 10px; align-items: center; margin-top: 12px; font-family: var(--texto); font-size: 13px; color: var(--papel-2); }
+  .estado-cam i { display: block; height: 6px; background: rgba(255, 255, 255, 0.16); }
+  .estado-cam i u { display: block; height: 100%; width: 100%; background: var(--arena); transition: width 300ms; }
+  .estado-cam i u.bajo { background: var(--alerta); }
+  .estado-cam b { font-weight: 600; color: #f3efe4; min-width: 4ch; text-align: right; }
+  .radar { position: absolute; left: 2.2vw; bottom: 3vh; }
+  .radar canvas { display: block; width: 220px; height: 220px; }
+  .radar small { display: block; margin-top: 4px; text-align: center; font-family: var(--texto); font-size: 13px; color: var(--papel-2); }
+  .msg { position: absolute; left: 50%; top: 20vh; transform: translateX(-50%); padding: 8px 22px; background: rgba(14, 15, 11, 0.55); font-size: 36px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 200ms; }
   .msg.ver { opacity: 1; }
+  .msg.alerta { border-left: 4px solid var(--alerta); }
   .pie { position: absolute; left: 50%; bottom: 1.4vh; transform: translateX(-50%); font-family: var(--texto); font-size: 13px; color: rgba(243, 239, 228, 0.7); white-space: nowrap; }
-  @media (max-width: 760px) { .tablero .kmh { font-size: 60px; } .pie { display: none; } .msg { font-size: 24px; } }
+  @media (max-width: 760px) { .tablero .kmh { font-size: 60px; } .pie { display: none; } .msg { font-size: 22px; } .radar canvas { width: 150px; height: 150px; } }
 </style>
 <script type="importmap">{ "imports": { "three": "./vendor/three/build/three.module.js", "three/addons/": "./vendor/three/addons/" } }</script>
 </head>
@@ -42,22 +52,30 @@
 <div class="cargando" id="cargando">Cargando el corredor…</div>
 
 <div class="hud" id="hud" hidden>
-  <div class="mision"><b>Suministros al puesto de control</b><small id="hFalta"></small><i><u id="hAvance"></u></i></div>
+  <div class="mision">
+    <b>Suministros al puesto de control</b><small id="hFalta"></small><i><u id="hAvance"></u></i>
+    <div class="estado-cam">
+      <span>Blindaje</span><i><u id="hBlindaje"></u></i><b id="hBlindajeN">100 %</b>
+      <span>Carga</span><i><u id="hCarga"></u></i><b id="hCargaN">100 %</b>
+    </div>
+  </div>
+  <div class="radar"><canvas id="hRadar" width="440" height="440"></canvas><small id="hAlcance"></small></div>
   <div class="tablero">
     <div class="kmh" id="hKmh">0</div>
     <div class="lado"><b id="hMarcha">1</b><span>km/h</span></div>
     <div class="rpm"><i id="hRpm"></i></div>
   </div>
   <div class="msg" id="hMsg"></div>
-  <div class="pie">Pausa: Esc o Start · Cámara: C o Y · Volver al centro de la vía: R o Select</div>
+  <div class="pie">Pausa: Esc o Start · Cámara: C o Y · Volver al centro: R o Select</div>
 </div>
 
 <section class="pantalla" id="pTitulo" hidden>
-  <p class="clave">Tramo de realismo</p>
+  <p class="clave">Tramo 1 · Campo minado</p>
   <div class="logo">Corredor</div>
-  <p class="sub">Una camioneta cargada, 760 metros de carretera y luz real. Todavía no hay minas ni drones: esto es para que juzgues cómo se ve y cómo se conduce.</p>
+  <p class="sub">Lleva los suministros hasta el puesto de control. Hay minas antitanque enterradas en las rodadas: el radar las marca y tú decides por dónde pasar. Estallan con el peso de una rueda, así que una mina que queda entre tus ruedas no te toca.</p>
+  <p class="rec-titulo" id="tRecord"></p>
   <div class="menu">
-    <button type="button" data-nav id="mJugar">Conducir</button>
+    <button type="button" data-nav id="mJugar">Salir con la carga</button>
     <button type="button" id="mCal"></button>
     <button type="button" id="mSonido"></button>
     <button type="button" data-nav id="mCtl">Controles</button>
@@ -83,6 +101,16 @@
   <h2>Controles</h2>
   <table class="tabla-fin" id="tablaCtl"></table>
   <div class="menu"><button type="button" data-nav data-atras id="cVolver">Volver</button></div>
+</section>
+
+<section class="pantalla" id="pFin" hidden>
+  <h2 id="fTitulo">Carga entregada</h2>
+  <p class="sub" id="fSub"></p>
+  <table class="tabla-fin" id="fTabla"></table>
+  <div class="menu">
+    <button type="button" data-nav id="fOtra">Intentar de nuevo</button>
+    <button type="button" data-nav id="fMenu">Menú principal</button>
+  </div>
 </section>
 
 <script type="module" src="js/corredor.js"></script>

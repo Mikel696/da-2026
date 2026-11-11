@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-10 (19-JUE: Miguel rechazó el tramo de Luciérnaga y cambió el juego a un convoy militar)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 2: minas y radar, publicado en la sala)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,18 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · Corredor, paso 2: minas y radar — miércoles 11-nov
+
+- Miguel aprobó el tramo de realismo como base («Sí, sigue»). **Corredor ya está en la sala** en lugar del juego viejo de
+  carreras (que sigue abriendo en `juegos/neon.html`).
+- **Construido:** 19 minas antitanque en las rodadas (estallan con el peso de una rueda; entre las ruedas no), radar de
+  barrido cuyo alcance baja con la velocidad, explosión completa, daños con humo, pérdida de carga, fin de misión y récord.
+- **Verificado en local:** sin esquivar, 3 minas y camioneta inutilizada en 23 s; esquivando con el radar, 19 de 19
+  marcadas, 0 pisadas, 55,5 s, 60 fps. Detalle en `docs/sesiones/2026-11-10-convoy-diseno.md`.
+- **Siguiente (paso 3):** torreta y drones. **Sin verificar:** el mando físico de Miguel; el motor sigue sonando a cupé.
 
 ---
 
