@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, misión completa, vehículo militar, lanzacohetes y reparación)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor báltico de 6 km, guerra actual, tarde, noche y lluvia)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,23 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🌲 19-JUE · Corredor báltico, guerra actual, tarde, noche y lluvia — miércoles 11-nov (noche)
+
+- **Pedido de Miguel:** camino báltico, la guerra de ahora, misiones de tarde, noche y lluvia; en el camino pidió una ruta más
+  larga («el tramo sigue siendo igual de corto»), escudo transparente en la cámara de torreta, ruedas y motor más reales.
+- **Publicado y verificado** (`2432686`, `3897dc7`, `4897863` y el de clima): paisaje de pino y abeto con impostores horneados
+  (1,4 GB de modelos → 8,5 MB de fotos; follaje en dos pasadas: 30 ms → 1,5 ms), misión de **6,3 km** que abre por defecto,
+  erizos, dientes de dragón, trincheras, vehículos quemados, cráteres, túneles de red antidrones, FPV de fibra (el inhibidor no
+  lo corta), caja automática de 6 marchas con corte audible al cambiar, misiones 5-7 (tarde, noche con faros, lluvia con menos agarre).
+- **Piloto automático:** misión de 6 km en 637 s (lluvia 632 s), 34 de 34 drones, 15 de 15 heridos, sin atascos.
+- **Producción (Chrome de Miguel, alta, 1920×911):** tarjeta 11-12 ms por cuadro, 576-680 llamadas, triángulos dentro de 8 M
+  tras quitar la sombra a los abetos jóvenes. **Sin verificar:** fps con la ventana a la vista (estaba tapada: 20-24 fps).
+- **Pendiente:** sonido de lluvia (pide permiso de Miguel para bajar una grabación CC0); las ruedas «que se mueven sin acelerar»
+  no se reproducen (el giro coincide con lo que avanza): falta que Miguel diga en qué momento lo ve. Detalle en
+  `docs/sesiones/2026-11-10-convoy-diseno.md` → pasos 6a, 6b y 6c.
 
 ---
 

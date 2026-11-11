@@ -2,7 +2,7 @@
  "fuente": "Poly Haven",
  "licencia": "CC0 1.0 (dominio público)",
  "url": "https://polyhaven.com/license",
- "descargado": "2026-11-10, 2026-11-11 (árboles, botiquín y estufa) y 2026-11-11 (paisaje báltico: pasto, bosque, helechos, tocones, rocas con musgo) y 2026-11-11 (guerra: acero oxidado, hormigón, barro, tierra quemada y tela)",
+ "descargado": "2026-11-10, 2026-11-11 (árboles, botiquín y estufa) y 2026-11-11 (paisaje báltico: pasto, bosque, helechos, tocones, rocas con musgo) y 2026-11-11 (guerra: acero oxidado, hormigón, barro, tierra quemada y tela) y 2026-11-11 (cielos de tarde, noche y lluvia)",
  "assets": [
   {
    "id": "kloppenheim_06_puresky",
@@ -1141,6 +1141,63 @@
     }
    ],
    "nota": "Uso: tela de los sacos terreros (teñida)."
+  },
+  {
+   "id": "belfast_sunset_puresky",
+   "nombre": "Belfast Sunset (Pure Sky)",
+   "tipo": "cielo",
+   "autores": [
+    "Greg Zaal",
+    "Dimitrios Savva",
+    "Jarod Guest"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/belfast_sunset_puresky",
+   "archivos": [
+    {
+     "ruta": "cielo/belfast_sunset_puresky_2k.hdr",
+     "bytes": 4563204,
+     "sha256": "273003109ca1cfb798ce6b96e09ac8440f763d0ef0c376bbe77492613540b4a3"
+    }
+   ],
+   "nota": "Uso: misión de tarde."
+  },
+  {
+   "id": "kloppenheim_02_puresky",
+   "nombre": "Kloppenheim 02 (Pure Sky)",
+   "tipo": "cielo",
+   "autores": [
+    "Greg Zaal",
+    "Jarod Guest"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/kloppenheim_02_puresky",
+   "archivos": [
+    {
+     "ruta": "cielo/kloppenheim_02_puresky_2k.hdr",
+     "bytes": 5563538,
+     "sha256": "e06091a38c4c778b06123ba13dca8f2c91a21c13c14eec91048c5003815d21b8"
+    }
+   ],
+   "nota": "Uso: misión de noche."
+  },
+  {
+   "id": "kloofendal_overcast_puresky",
+   "nombre": "Kloofendal Overcast (Pure Sky)",
+   "tipo": "cielo",
+   "autores": [
+    "Greg Zaal"
+   ],
+   "licencia": "CC0 1.0",
+   "fuente": "https://polyhaven.com/a/kloofendal_overcast_puresky",
+   "archivos": [
+    {
+     "ruta": "cielo/kloofendal_overcast_puresky_2k.hdr",
+     "bytes": 4335717,
+     "sha256": "312b1b04b7f10057a4f1418abc59d1166c8933cc93fc72051502edaf8d6b2fcd"
+    }
+   ],
+   "nota": "Uso: misión con lluvia."
   }
  ]
 }

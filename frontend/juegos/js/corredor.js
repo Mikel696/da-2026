@@ -42,7 +42,7 @@ const DEF = JUEGOS.find((j) => j.id === 'corredor');
 const nivel = calidad(), q = PERFILES[nivel];
 const BASE = new URL('../assets/ph/', import.meta.url).href;
 // Cielo báltico nublado por defecto; el soleado de antes con ?cielo=soleado en la dirección.
-const CIELO = new URLSearchParams(location.search).get('cielo') === 'soleado' ? 'kloofendal_48d_partly_cloudy_puresky' : 'kloppenheim_06_puresky';
+const SOLEADO = new URLSearchParams(location.search).get('cielo') === 'soleado';
 const mover = (lista, d) => lista.map(([s, ...r]) => [s + d, ...r]);   // los datos de un tramo, corridos d metros
 const TRAMOS = {
   1: { nombre: 'Campo minado', via: TRAMO, minas: CAMPO_1, drones: [], heridos: HERIDOS[1], guerra: GUERRA_TRAMO,
@@ -65,8 +65,22 @@ const TRAMOS = {
       [3510, 'Bosque cerrado', 'emboscadas desde la linde del bosque y bombarderos'], [4610, 'Último tramo', 'minas, drones y lanzacohetes hasta la base avanzada']],
     texto: 'La misión entera, unos 6 km de la base de salida a la base avanzada: el valle minado, el cielo hostil, el paso de las emboscadas, la línea de defensa, el bosque cerrado y el último tramo. Cinco puestos de control para reabastecer y kits para bajar a reparar: cada parada cuesta tiempo y te deja expuesto. Bajo las redes antidrones los FPV no pasan.' },
 };
+// Las misiones 5-7 son la misión completa a otra hora o con otro tiempo: cambia el cielo (HDR de Poly Haven) y lo que trae.
+TRAMOS[5] = { ...TRAMOS[4], nombre: 'Misión de tarde', cielo: 'belfast_sunset_puresky', clima: 'tarde',
+  texto: 'La misión completa con el sol bajo: sombras largas, contraluz y drones recortados contra el cielo naranja. ' + TRAMOS[4].texto };
+TRAMOS[6] = { ...TRAMOS[4], nombre: 'Misión de noche', cielo: 'kloppenheim_02_puresky', clima: 'noche',
+  texto: 'De noche las minas no se ven: el radar son tus ojos. Faros encendidos, trazadoras que brillan y drones que solo delatan sus luces. ' + TRAMOS[4].texto };
+TRAMOS[7] = { ...TRAMOS[4], nombre: 'Misión con lluvia', cielo: 'kloofendal_overcast_puresky', clima: 'lluvia',
+  texto: 'Lluvia sobre el asfalto: la camioneta agarra menos, frena antes y la cortina de agua acorta la vista. ' + TRAMOS[4].texto };
+/** Hora y clima: exposición de la cámara, luz del cielo, niebla, sol (o luna), polvo y lo que cambia en la vía. */
+const ATMOS = {
+  dia: { exposicion: 1, ambiente: 1, niebla: 0.0017, sol: 1, polvo: 1 },
+  tarde: { exposicion: 0.9, ambiente: 0.95, niebla: 0.0013, sol: 1, polvo: 0.9 },
+  noche: { exposicion: 1.25, ambiente: 0.85, niebla: 0.0024, sol: 1, polvo: 0.22, faros: true, luna: 0.4 },
+  lluvia: { exposicion: 1.12, ambiente: 0.95, niebla: 0.0036, sol: 0.5, polvo: 0.55, lluvia: true, agarre: 0.8 },
+};
 const N_TRAMO = (() => { const u = +new URLSearchParams(location.search).get('tramo'); if (TRAMOS[u]) return u; try { const v = +localStorage.getItem('jue_co_mision'); return TRAMOS[v] ? v : 4; } catch (e) { return 4; } })();
-const MIS = TRAMOS[N_TRAMO], TABLA = 'p' + N_TRAMO;   // puntaje (hasta el paso 3 se guardaba el tiempo en «tramoN»)
+const MIS = TRAMOS[N_TRAMO], TABLA = 'p' + N_TRAMO, AT = ATMOS[MIS.clima || 'dia'];   // puntaje (hasta el paso 3 se guardaba el tiempo en «tramoN»)
 const CARRIL = 1.6;                      // se circula por el centro del carril derecho
 const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
 const KITS = 2, KITS_MAX = 3, REPARA = 16, REPARA_PCT = 30;   // reparación de campaña: kits, segundos de trabajo y blindaje que devuelve
@@ -163,7 +177,7 @@ function leerCielo(tex) {
   }
   const env = new THREE.DataTexture(sinSol, W, H, THREE.RGBAFormat, THREE.HalfFloatType);
   env.mapping = THREE.EquirectangularReflectionMapping; env.colorSpace = THREE.LinearSRGBColorSpace; env.minFilter = env.magFilter = THREE.LinearFilter; env.flipY = tex.flipY; env.needsUpdate = true;
-  const dir = new THREE.Vector3(sx, Math.abs(sy), sz).normalize(), E = Math.max(er, eg, eb, 1e-6);
+  const E = Math.max(er, eg, eb, 1e-6), dir = E > 1e-3 ? new THREE.Vector3(sx, Math.abs(sy), sz).normalize() : new THREE.Vector3(0.4, 0.75, -0.5).normalize();   // sin sol (noche): luz de arriba
   return { env, dir, sol: new THREE.Color().setRGB(er / E, eg / E, eb / E), fuerza: E, bruma: new THREE.Color().setRGB(hr / hn, hg / hn, hb / hn) };
 }
 
@@ -184,7 +198,7 @@ function repartir(gltf, matrices, { sombra = true, hojas = false } = {}) {
 
 async function iniciar() {
   const [cielo, tAsf, tTer, tGra, tMet, mBarrera, mBidon, mCaja, mBarril, mBotiquin, mEstufa, mJoven, mHelecho, mTocon, mRocas, mTronco, iAbeto, iPino, iJoven, iPasto, tOxido, tHormigon, tBarro, tQuemado, tTela] = await Promise.all([
-    avance(new HDRLoader().loadAsync(`${BASE}cielo/${CIELO}_2k.hdr`)),
+    avance(new HDRLoader().loadAsync(`${BASE}cielo/${SOLEADO ? 'kloofendal_48d_partly_cloudy_puresky' : (MIS.cielo || 'kloppenheim_06_puresky')}_2k.hdr`)),
     textura('asphalt_02', '2k'), textura('leafy_grass', '1k'), textura('sandy_gravel_02', '1k'), textura('green_metal_rust', '1k'),
     modelo('concrete_road_barrier'), modelo('metal_jerrycan'), modelo('wooden_crate_02'), modelo('barrel_03'), modelo('medical_box'), modelo('barrel_stove'),
     modelo('fir_sapling'), modelo('fern_02'), modelo('tree_stump_01'), modelo('rock_moss_set_01'), modelo('dead_tree_trunk'),
@@ -195,9 +209,11 @@ async function iniciar() {
   // Cielo y sol.
   cielo.mapping = THREE.EquirectangularReflectionMapping;
   const C = leerCielo(cielo);
-  scene.background = cielo; scene.environment = C.env; scene.environmentIntensity = 1; scene.backgroundIntensity = 1;
-  scene.fog = new THREE.FogExp2(C.bruma, 0.0017);   // bruma báltica: el bosque del fondo se aclara
-  const sol = new THREE.DirectionalLight(C.sol, C.fuerza);
+  scene.background = cielo; scene.environment = C.env; scene.environmentIntensity = AT.ambiente; scene.backgroundIntensity = 1;
+  renderer.toneMappingExposure = AT.exposicion;
+  scene.fog = new THREE.FogExp2(C.bruma, AT.niebla);   // bruma báltica: el bosque del fondo se aclara
+  // De noche el «sol» que se encuentra en el cielo es la luna (o nada): una luz fría y tenue que deja ver el contorno.
+  const sol = new THREE.DirectionalLight(AT.luna ? new THREE.Color().setRGB(0.62, 0.72, 1) : C.sol, AT.luna ? Math.min(C.fuerza, AT.luna) : C.fuerza * AT.sol);
   if (q.sombras) {
     sol.castShadow = true; sol.shadow.mapSize.set(q.sombras * 2, q.sombras * 2);
     Object.assign(sol.shadow.camera, { left: -42, right: 42, top: 42, bottom: -42, near: 10, far: 420 });
@@ -230,7 +246,19 @@ async function iniciar() {
   // Camioneta, torreta, minas, drones y radar.
   const camion = crearCamion({ pintura: tMet, modelos: { caja: mCaja, bidon: mBidon, barril: mBarril } });
   scene.add(camion.grupo);
-  const veh = new Vehiculo(Object.assign({}, AJUSTE.tactica));
+  const veh = new Vehiculo(Object.assign({}, AJUSTE.tactica, AT.agarre ? { agarre: AJUSTE.tactica.agarre * AT.agarre } : {}));   // con lluvia la llanta agarra menos
+  // Noche: faros con luz de verdad (un foco con sombra que sale del morro), faros y pilotos que brillan.
+  if (AT.faros) {
+    const faro = new THREE.SpotLight(new THREE.Color().setRGB(1, 0.94, 0.82), 2600, 150, 0.5, 0.55, 2);
+    faro.position.set(0, 1.25, camion.E.morro + 0.1); faro.target.position.set(0, -0.4, 40); camion.cuerpo.add(faro, faro.target);
+    if (q.sombras) { faro.castShadow = true; faro.shadow.mapSize.set(1024, 1024); faro.shadow.bias = -0.0005; faro.shadow.camera.near = 0.5; }
+    camion.mats.faro.emissiveIntensity = 7;
+    const lf = camion.luzFreno; camion.luzFreno = (k) => { lf(k); camion.mats.piloto.emissiveIntensity += 1.6; };
+    document.body.classList.add('noche');
+  }
+  // Lluvia: el asfalto mojado brilla (menos rugosidad, más oscuro) y una cortina de gotas sigue a la cámara.
+  if (AT.lluvia) { mVia.asfalto.roughness = 0.38; mVia.asfalto.color.setRGB(0.72, 0.72, 0.74); mVia.grava.roughness = 0.75; mVia.terreno.roughness = 0.88; }
+  const lluvia = AT.lluvia ? crearLluvia(Math.round(3200 * q.particulas)) : null;
   const SALIDA = P.iInicio, FIN = P.n - 30;
   veh.colocar(P, SALIDA, CARRIL);
   const torreta = new Torreta(scene, camion, P);
@@ -263,7 +291,7 @@ async function iniciar() {
   const niebla = new Particulas(scene, Math.round(1100 * q.particulas), { aditivo: false, suave: 1 });   // cortinas de humo
   const bengalas = new Particulas(scene, Math.round(500 * q.particulas), { aditivo: false, suave: 1 });   // humo naranja de los heridos
   const destello = new THREE.PointLight(new THREE.Color().setRGB(1, 0.62, 0.3), 0, 60, 2); scene.add(destello);
-  const luz = Math.min(1.6, 0.16 * C.fuerza + 0.5), POLVO = [0.62 * luz, 0.55 * luz, 0.44 * luz];   // el polvo recibe el mismo sol que el suelo
+  const luz = Math.min(1.6, 0.16 * C.fuerza + 0.5) * AT.polvo, POLVO = [0.62 * luz, 0.55 * luz, 0.44 * luz];   // el polvo recibe el mismo sol que el suelo
 
   // ───────────── Misión ─────────────
   const CERO = { fin: 0, t: 0, integ: 100, carga: 100, pisadas: 0, evitadas: 0, detectadas: 0, voladas: 0, derribados: 0, impactos: 0, causa: '', boom: 0, puesto: -1, previo: null,
@@ -758,6 +786,27 @@ async function iniciar() {
   // Lejana (por defecto, la de un juego de conducción), cercana y desde la torreta. El ancla sigue a la camioneta con un
   // pequeño retraso, como una cámara montada en un brazo: al acelerar se queda atrás y al frenar se acerca.
   const MODOS = [{ dist: 12, alto: 1.9 }, { dist: 8.4, alto: 1.5 }, { torreta: true }], ancla = new THREE.Vector3(veh.x, veh.y, veh.z);
+  /** Gotas de lluvia como trazos cortos en coordenadas del mundo; las que se alejan de la cámara reaparecen del otro lado. */
+  function crearLluvia(n) {
+    const g = new THREE.BufferGeometry(), pos = new Float32Array(n * 6), p = new Float32Array(n * 3), R = 26, ALTO = 22, VY = -17, VX = 2.2;
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const m = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: new THREE.Color().setRGB(0.62, 0.66, 0.72), transparent: true, opacity: 0.3, depthWrite: false }));
+    m.frustumCulled = false; scene.add(m);
+    for (let k = 0; k < n; k++) { p[k * 3] = (Math.random() - 0.5) * 2 * R; p[k * 3 + 1] = Math.random() * ALTO; p[k * 3 + 2] = (Math.random() - 0.5) * 2 * R; }
+    return {
+      mover(c, dt) {
+        for (let k = 0; k < n; k++) {
+          let x = p[k * 3] + VX * dt, y = p[k * 3 + 1] + VY * dt, z = p[k * 3 + 2];
+          while (y < c.y - 6) y += ALTO; while (y > c.y - 6 + ALTO) y -= ALTO;
+          while (x < c.x - R) x += 2 * R; while (x > c.x + R) x -= 2 * R;
+          while (z < c.z - R) z += 2 * R; while (z > c.z + R) z -= 2 * R;
+          p[k * 3] = x; p[k * 3 + 1] = y; p[k * 3 + 2] = z;
+          pos.set([x, y, z, x - VX * 0.035, y - VY * 0.035, z], k * 6);
+        }
+        g.attributes.position.needsUpdate = true;
+      },
+    };
+  }
   function moverCamara(dt) {
     const vel = Math.hypot(veh.u, veh.v); let fov;
     if (est.fase === 'titulo') {
@@ -787,6 +836,7 @@ async function iniciar() {
     sol.position.set(veh.x + C.dir.x * 200, veh.y + C.dir.y * 200, veh.z + C.dir.z * 200); sol.target.position.set(veh.x, veh.y, veh.z);
     fx.uniforms.uVel.value = est.fase === 'titulo' ? 0 : clamp((vel - 10) / 26, 0, 1);
     paisaje.actualizar(camara.position, LEJOS);
+    if (lluvia) lluvia.mover(camara.position, dt);
   }
 
   // ───────────── HUD ─────────────
@@ -959,7 +1009,7 @@ async function iniciar() {
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { guerra, paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
+  window.__co = { AT, guerra, paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };

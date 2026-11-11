@@ -125,7 +125,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
-| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (vehículo táctico con suministros: **misión completa** de 2,4 km con bases, puestos, minas, drones, lanzacohetes, heridos y reparación de campaña; radar, torreta, interceptores, inhibidor y humo), shooter y arcade en camino |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (vehículo táctico con suministros por un camino báltico: **misión completa** de 6,3 km con bases, 5 puestos, minas, drones (también FPV de fibra), lanzacohetes, heridos, reparación, erizos, trincheras, restos quemados y túneles de red antidrones; misiones de tarde, noche y lluvia), shooter y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 
@@ -516,6 +516,13 @@ porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `j
    fundida o textura de granos al azar. Medirlo sin altavoces: parecido del volumen consigo mismo desplazado (< 30 %).
 9. **Vegetación por trozos con distancia de dibujo** (`LEJOS`, 450 m): con la vía larga, todo entra en cámara.
    Presupuesto medido en la RX 580: 5-8 M de triángulos y ≤ 800 llamadas por cuadro, 60 fps.
+10. **Árboles = impostores horneados** (`scripts/hornear-impostores/`): el modelo escaneado se fotografía una vez y se planta
+   como 3 planos cruzados (`co-paisaje.js`, medidas en `IMP`). **Follaje con transparencia en dos pasadas** (`dosPasadas`:
+   profundidad y luego color con profundidad igual): un material pesado con alpha-test sobre filas superpuestas costó 30 ms.
+   El bosque no proyecta sombra; la oclusión ambiental no ve los impostores. Medir con `EXT_disjoint_timer_query_webgl2`.
+11. **Hora, clima y guerra son datos:** `clima` de cada misión → `ATMOS` (exposición, niebla, sol/luna, faros, lluvia y agarre);
+   `GUERRA_RUTA` / `GUERRA_TRAMO` en `co-guerra.js`. Las misiones 5-7 son la 4 con otro cielo. El juego abre en la misión
+   larga (`jue_co_mision`). Al cambiar la caja o el agarre, `prueba-fisica.mjs` en verde.
 
 ---
 

@@ -132,7 +132,17 @@ lo que ya vio.
 - **Ruedas «que se mueven sin haber acelerado»:** sin reproducir aún. Medido: el giro de la rueda coincide con lo que avanza
   (0,136 m = 0,048 vueltas) y los gatillos del mando marcan 0 en reposo. Falta que Miguel diga en qué momento lo ve.
 
-## Próxima sesión · pedido de Miguel (11-nov) · 1 y 2 hechos (pasos 6a y 6b), 3 pendiente
+## Paso 6c · tarde, noche y lluvia (11-nov)
+- **Misiones 5-7** = la misión completa con otra hora o tiempo (`TRAMOS[5..7]`, dato `clima` → `ATMOS` en `corredor.js`): exposición,
+  luz del cielo, niebla, sol o luna y polvo. Cielos HDR de Poly Haven: tarde `belfast_sunset_puresky` (sol casi en el horizonte,
+  contraluz), noche `kloppenheim_02_puresky` (estrellas y luna; la luna se limita a 0,4 de luz), lluvia `kloofendal_overcast_puresky`.
+- **Noche:** foco real que sale del morro (con sombra), faros y pilotos que brillan; las trazadoras ya brillaban (resplandor). Sin
+  ver las minas, el radar es el que manda. **Lluvia:** 3.200 trazos de agua que siguen a la cámara, asfalto con rugosidad 0,38 y
+  más oscuro, niebla densa y **agarre × 0,8**. Piloto con lluvia: 632 s, nunca pasó de 3,88 m del centro (límite 4,15), 15 de 15 heridos.
+- **Sin hacer:** sonido de lluvia (una grabación CC0 **requiere el permiso de Miguel** antes de descargarla). Cristales mojados,
+  charcos y salpicaduras de las ruedas. Una prueba de física con agarre mojado en `prueba-fisica.mjs`.
+
+## Pedido de Miguel (11-nov) · hecho: 1 (paso 6a), 2 (paso 6b) y 3 (paso 6c, falta el sonido de lluvia)
 > «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,
 > lloviendo» · «más real sin comprometer la jugabilidad, bien optimizado».
 1. **Paisaje báltico** (lo más visible): llano con lomas suaves, campos verdes y bosque de pino y abedul a los lados,
