@@ -125,7 +125,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 | `16-APA` | `apa.html` | APA Document Studio (Student Paper APA 7 + multi-page preview + Word toolbar) |
 | `17-IA` | `pages/ai-dojo.html` | 🟢 **AI Dojo** — el taller: proyectos multi-IA, misiones, criterio — **PRODUCCIÓN** |
 | `17-IA.b` | `pages/ai-engine.html` | 📚 AI Engine — la biblioteca de consulta (términos, catálogo, prompts) |
-| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros: minas, drones, heridos; radar, torreta, inhibidor y humo; 3 tramos con puntaje), shooter y arcade en camino |
+| `19-JUE` | `juegos.html` | 🎮 Sala de juegos: **Corredor** (camioneta con suministros: minas, drones, heridos; radar, torreta, interceptores, inhibidor y humo; 3 tramos con puntaje), shooter y arcade en camino |
 | `18-MUS` | `music.html` | 🟢 **Cerebro Musical** — teoría que suena, ADN de 10 géneros, fábrica idea→canción, arsenal, legal y negocio — **PRODUCCIÓN** |
 | `99-TAC` | `SistemaDA2026_Tactico.html` | Sistema Táctico DA-2026 (legacy) |
 

@@ -26,6 +26,7 @@ import { crearMinas, CAMPO_1, RUEDAS, DISPARO } from './co-minas.js';
 import { crearDrones, OLEADAS, NOMBRES } from './co-drones.js';
 import { Torreta, VEL_BALA } from './co-arma.js';
 import { crearHeridos, HERIDOS, RADIO_SUBIR } from './co-heridos.js';
+import { crearInterceptores, INTERCEPTORES } from './co-interceptores.js';
 import { Radar } from './co-radar.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
@@ -51,7 +52,7 @@ const CARRIL = 1.6;                      // se circula por el centro del carril 
 const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
 const inp = new Entrada({
   acciones: { acelerar: { k: ['KeyW', 'ArrowUp'], b: [BOTON.RT] }, frenar: { k: ['KeyS', 'ArrowDown'], b: [BOTON.LT] }, mano: { k: ['Space'], b: [BOTON.A] },
-    disparar: { k: ['Mouse0', 'KeyF'], b: [BOTON.RB] }, centrar: { k: ['KeyV'], b: [BOTON.R3] }, inhibidor: { k: ['KeyQ'], b: [BOTON.LB] }, humo: { k: ['KeyG'], b: [BOTON.X] }, camara: { k: ['KeyC'], b: [BOTON.Y] }, reaparecer: { k: ['KeyR'], b: [BOTON.SELECT] } },
+    disparar: { k: ['Mouse0', 'KeyF'], b: [BOTON.RB] }, centrar: { k: ['KeyV'], b: [BOTON.R3] }, inhibidor: { k: ['KeyQ'], b: [BOTON.LB] }, humo: { k: ['KeyG'], b: [BOTON.X] }, interceptor: { k: ['KeyE'], b: [BOTON.B] }, camara: { k: ['KeyC'], b: [BOTON.Y] }, reaparecer: { k: ['KeyR'], b: [BOTON.SELECT] } },
   ejes: { giro: { neg: ['KeyA', 'ArrowLeft'], pos: ['KeyD', 'ArrowRight'], eje: 0, bneg: [BOTON.IZQ], bpos: [BOTON.DER] },
     apuntarX: { neg: ['KeyJ'], pos: ['KeyL'], eje: 2 }, apuntarY: { neg: ['KeyI'], pos: ['KeyK'], eje: 3 } },
 });
@@ -222,7 +223,8 @@ async function iniciar() {
   const drones = crearDrones(scene, P, SALIDA, MIS.drones, { aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
   const radar = new Radar($('hRadar'));
   const heridos = crearHeridos(scene, P, SALIDA, MIS.heridos);
-  const contactos = () => minas.lista.concat(drones.lista, heridos.lista);
+  const propios = crearInterceptores(scene, (x, z) => P.terreno(x, z), { caza: cazaPropio, golpe: golpePropio, recuperado: recuperadoPropio });
+  const contactos = () => minas.lista.concat(drones.lista, heridos.lista, propios.lista);
   const polvo = new Particulas(scene, Math.round(500 * q.particulas), { aditivo: false, suave: 1 });
   const humo = new Particulas(scene, Math.round(1000 * q.particulas), { aditivo: false, suave: 1 });
   const fuego = new Particulas(scene, Math.round(420 * q.particulas), { aditivo: true, suave: 0.75 });
@@ -233,7 +235,7 @@ async function iniciar() {
 
   // ───────────── Misión ─────────────
   const CERO = { fin: 0, t: 0, integ: 100, carga: 100, pisadas: 0, evitadas: 0, detectadas: 0, voladas: 0, derribados: 0, impactos: 0, causa: '', boom: 0, puesto: -1, previo: null,
-    aBordo: 0, rescatados: 0, abandonados: 0, inhCarga: 1, inhActivo: 0, humoN: 3, oculto: false, puntos: 0 };
+    aBordo: 0, rescatados: 0, abandonados: 0, inhCarga: 1, inhActivo: 0, humoN: 3, oculto: false, puntos: 0, intN: INTERCEPTORES, intEspera: 0 };
   const est = Object.assign({ fase: 'titulo' }, CERO);
   const ent = { gas: 0, freno: 0, giro: 0, mano: false }, uT = { value: 0 }, salto = { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 };
   const mira = { yaw: 0, pitch: -0.04, quieto: 0, centrar: 0, fijo: null, acierto: 0, dist: 60 };
@@ -276,7 +278,7 @@ async function iniciar() {
   function salir() {
     veh.colocar(P, SALIDA, CARRIL); veh.aj.fuerza = AJUSTE.tactica.fuerza; auto.lat = CARRIL;
     Object.assign(est, CERO, { fase: 'ruta' }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 }); Object.assign(mira, { yaw: 0, pitch: -0.04, quieto: 0, fijo: null });
-    minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); heridos.reiniciar(); nubes.length = 0; camion.carga.children.forEach((o) => { o.visible = true; });
+    minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); heridos.reiniciar(); propios.reiniciar(); nubes.length = 0; camion.carga.children.forEach((o) => { o.visible = true; });
     menus.cerrarTodo(); jugando = true; pausado = false; $('hud').hidden = false; document.body.classList.add('corriendo');
     mensaje(MIS.drones.length ? 'Lleva la carga al puesto de control · stick derecho apunta, RB dispara' : 'Lleva la carga al puesto de control · el radar marca las minas', 3.5);
   }
@@ -294,7 +296,8 @@ async function iniciar() {
   /** Puntaje: lo que vale cada cosa, en filas [concepto, detalle, puntos]. */
   function puntaje() {
     const f = [['Carga entregada', est.carga + ' %', est.carga * 10]];
-    if (MIS.heridos.length) f.push(['Heridos a salvo', `${est.rescatados} de ${heridos.lista.length}`, est.rescatados * 500]);
+    const salvo = Math.max(est.rescatados, est.aBordo);
+    if (MIS.heridos.length) f.push(['Heridos a salvo', `${salvo} de ${heridos.lista.length}`, salvo * 500]);
     if (MIS.drones.length) f.push(['Drones neutralizados', `${est.derribados} de ${drones.total()}`, est.derribados * 100]);
     if (MIS.minas.length) f.push(['Minas superadas', `${est.evitadas + est.voladas} de ${minas.lista.length} · ${est.pisadas} pisadas`, (est.evitadas + est.voladas) * 25]);
     f.push(['Blindaje restante', est.integ + ' %', est.integ * 5], ['Rapidez', tiempo(est.t), Math.max(0, Math.round((90 - est.t) * 10))]);
@@ -444,6 +447,18 @@ async function iniciar() {
         bengalas.emitir(h.bengala.x, h.bengala.y + 0.1, h.bengala.z, (Math.random() - 0.5) * 0.6 + 0.4, 2 + Math.random() * 1.5, (Math.random() - 0.5) * 0.6, 5 + Math.random() * 2, 0.9, 0.95 * g * luz, 0.42 * g * luz, 0.12 * g * luz, 0.55, -0.15, 0.3, 2.6); });
     }
   }
+  // Interceptores: B o E lanza uno desde la plataforma de carga; caza solo al dron más urgente que marque el radar.
+  function lanzarInterceptor() {
+    if (est.fase !== 'ruta' || est.intN <= 0 || est.intEspera > 0) return;
+    est.intN--; est.intEspera = 0.6;
+    const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
+    propios.lanzar(V.set(veh.x - sp * 1.8, veh.y + salto.y + 1.8, veh.z - cp * 1.8), V2.set(veh.u * sp + veh.v * cp, 0, veh.u * cp - veh.v * sp));
+    mensaje(`Interceptor en el aire · quedan ${est.intN}`, 1.8); inp.vibrar(0.2, 0.35, 120);
+    ruido({ dur: 0.35, vol: 0.25, tipo: 'bandpass', f: 1200, f2: 2600, q: 1.2 });
+  }
+  function cazaPropio(d, e) { mensaje(`Interceptor tras el ${NOMBRES[e.tipo].toLowerCase()}`, 1.4); }
+  function golpePropio(d, e, p) { explosion(p.x, p.y, p.z, 0.35, true); drones.impactar(e, 99); }
+  function recuperadoPropio() { est.intN++; mensaje('Interceptor recuperado en la plataforma', 1.6); }
   function eventosHeridos(ev) {
     if (ev.subido) { est.aBordo++; mensaje(`Herido a bordo (${est.aBordo}) · llévalo al puesto de control`, 2.6); inp.vibrar(0.3, 0.5, 200); ui.ok(); }
     else if (ev.subiendo) mensaje(`Subiendo al herido · ${Math.round(ev.subiendo.prog * 100)} %`, 0.3);
@@ -456,6 +471,9 @@ async function iniciar() {
     const vivos = drones.lista.filter((d) => d.viva && !(d.cegado > 0));
     if (est.inhCarga >= 1 && vivos.some((d) => d.tipo === 'suicida' && d.estado === 'picada' && d.pos.distanceTo(V) < 60)) usarInhibidor();
     if (est.humoN > 0 && !est.oculto && Math.abs(veh.u) < 1 && heridos.lista.some((h) => h.estado === 'espera' && h.prog > 0) && vivos.some((d) => d.pos.distanceTo(V) < 160)) lanzarHumo();
+    // un interceptor por cada dron marcado que nadie persigue, si está a menos de 200 m
+    const libres = vivos.filter((d) => d.detectada && !propios.lista.some((o) => o.blanco === d) && d.pos.distanceTo(V) < 200);
+    if (libres.length > propios.lista.filter((o) => o.estado !== 'caza').length) lanzarInterceptor();
   }
 
   radar.alDetectar = (nuevos) => {
@@ -648,7 +666,7 @@ async function iniciar() {
 
   // ───────────── HUD ─────────────
   const hRpm = $('hRpm'), hMira = $('hMira'), hCanon = $('hCanon'), tramoM = P.dist[FIN] - P.dist[SALIDA];
-  const blancos = Array.from({ length: 8 }, () => { const el = document.createElement('div'); el.className = 'blanco'; el.hidden = true; el.innerHTML = '<b>▲</b><span></span>'; $('hBlancos').appendChild(el); return el; });
+  const blancos = Array.from({ length: 12 }, () => { const el = document.createElement('div'); el.className = 'blanco'; el.hidden = true; el.innerHTML = '<b>▲</b><span></span>'; $('hBlancos').appendChild(el); return el; });
   const barra = (id, v) => { const u = $(id); u.style.width = v + '%'; u.classList.toggle('bajo', v < 40); $(id + 'N').textContent = v + ' %'; };
   /** Coloca un elemento en el punto de la pantalla que corresponde a `p`. Devuelve false si queda detrás de la cámara. */
   function enPantalla(p, el) {
@@ -674,6 +692,10 @@ async function iniciar() {
       if (!d.viva || !d.detectada || k >= blancos.length) continue;
       marcar(blancos[k++], d.pos, (d.peligro ? ' peligro' : '') + (d === mira.fijo ? ' fijo' : '') + (d.cegado > 0 ? ' cegado' : ''), `${NOMBRES[d.tipo]}${d.cegado > 0 ? ' sin señal' : ''} · ${Math.round(d.pos.distanceTo(camara.position))} m`);
     }
+    for (const o of propios.lista) {
+      if (k >= blancos.length) continue;
+      marcar(blancos[k++], o.pos, ' propio', o.blanco ? `Interceptor → ${NOMBRES[o.blanco.tipo].toLowerCase()}` : 'Interceptor');
+    }
     for (const h of heridos.lista) {
       if (h.estado !== 'espera' || k >= blancos.length) continue;
       const dist = h.pos.distanceTo(camara.position); if (dist > 400) continue;
@@ -695,6 +717,8 @@ async function iniciar() {
     $('hHumoN').textContent = (est.humoN === 1 ? '1 granada' : est.humoN + ' granadas') + (est.oculto ? ' · oculto' : '');
     const quedan = heridos.lista.filter((h) => h.estado === 'espera').length;
     $('hHeridosN').textContent = `${est.aBordo} a bordo · ${quedan} en la vía`;
+    const enAire = propios.lista.length;
+    $('hIntN').textContent = `${est.intN} ${est.intN === 1 ? 'listo' : 'listos'}` + (enAire ? ` · ${enAire} en el aire` : '');
     mira.acierto -= 1 / 60;
     hMira.className = 'mira' + (mira.fijo ? ' fija' : '') + (mira.acierto > 0 ? ' acierto' : '');
     if (est.fase !== 'titulo') { torreta.boca(V3, V4); enPantalla(V2.copy(V3).addScaledVector(V4, mira.dist), hCanon); }
@@ -702,7 +726,7 @@ async function iniciar() {
   }
 
   // ───────────── Sonido (nace apagado) y menús ─────────────
-  const son = new Sonidos(); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
+  const son = new Sonidos('diesel'); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
   addEventListener('pointerdown', () => iniciarAudio()); addEventListener('keydown', () => iniciarAudio());
   function sonidoCuadro() {
     const falta = sonidoOn && !audio.activo(); if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }
@@ -743,7 +767,7 @@ async function iniciar() {
   const seguir = () => { pausado = false; menus.cerrarTodo(); document.body.classList.add('corriendo'); };
   const alMenu = () => {
     jugando = false; pausado = false; est.fase = 'titulo'; est.integ = 100; $('hud').hidden = true; document.body.classList.remove('corriendo'); menus.cerrarTodo();
-    veh.colocar(P, SALIDA, CARRIL); minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); heridos.reiniciar(); nubes.length = 0; camion.carga.children.forEach((o) => { o.visible = true; }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
+    veh.colocar(P, SALIDA, CARRIL); minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); heridos.reiniciar(); propios.reiniciar(); nubes.length = 0; camion.carga.children.forEach((o) => { o.visible = true; }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 });
     pintarMejor(); menus.abrir($('pTitulo'), 0);
   };
   // Con ratón: un clic sobre la escena lo captura para apuntar; Esc lo suelta y pausa.
@@ -779,10 +803,12 @@ async function iniciar() {
         if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), CARRIL); ui.atras(); }
         if (!auto.on && est.fase === 'ruta') { ent.gas = inp.v('acelerar'); ent.freno = inp.v('frenar'); ent.giro = inp.e('giro'); ent.mano = inp.p('mano'); }
         apuntarMira(dt);
-        if (est.fase === 'ruta') { if (inp.j('inhibidor')) usarInhibidor(); if (inp.j('humo')) lanzarHumo(); if (auto.on && auto.equipo) autoEquipo(); }
+        if (est.fase === 'ruta') { if (inp.j('inhibidor')) usarInhibidor(); if (inp.j('humo')) lanzarHumo(); if (inp.j('interceptor')) lanzarInterceptor(); if (auto.on && auto.equipo) autoEquipo(); }
         conducir(dt);
         equipo(dt); eventosHeridos(heridos.actualizar(dt, veh, est.fase === 'ruta'));
         drones.actualizar(dt, veh, est.fase === 'ruta', uT.value, est.oculto);
+        { const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi); est.intEspera -= dt;
+          propios.actualizar(dt, drones.lista, V3.set(veh.x, veh.y, veh.z), V4.set(veh.u * sp + veh.v * cp, 0, veh.u * cp - veh.v * sp), uT.value); }
         if (est.fase === 'ruta') radar.barrer(dt, veh, contactos());
         if (est.boom > 0 && (est.boom -= dt) <= 0) explosion(veh.x + Math.sin(veh.psi) * 1.6, veh.y + 0.6, veh.z + Math.cos(veh.psi) * 1.6, 1.3);
         if ((est.fase === 'fin' || est.fase === 'perdida') && (est.fin -= dt) <= 0) pantalla(est.fase === 'fin');
@@ -797,7 +823,7 @@ async function iniciar() {
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, puntaje, tramo: N_TRAMO,
+  window.__co = { veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };

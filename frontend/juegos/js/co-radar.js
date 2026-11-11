@@ -56,6 +56,11 @@ export class Radar {
       if (o.viva && !o.detectada) continue;
       let [x, y] = pant(o.x, o.z);
       const r2 = (x - c) ** 2 + (y - c) ** 2;
+      if (o.tipo === 'propio') {   // interceptor propio: triángulo azul
+        if (r2 > (R - 9) ** 2) { const s = (R - 9) / Math.sqrt(r2); x = c + (x - c) * s; y = c + (y - c) * s; }
+        g.fillStyle = '#5fb4ff'; g.beginPath(); g.moveTo(x, y - 8); g.lineTo(x + 6, y + 6); g.lineTo(x - 6, y + 6); g.closePath(); g.fill();
+        continue;
+      }
       if (o.tipo === 'herido') {
         if (!o.viva) continue;
         if (r2 > (R - 9) ** 2) { const s = (R - 9) / Math.sqrt(r2); x = c + (x - c) * s; y = c + (y - c) * s; }

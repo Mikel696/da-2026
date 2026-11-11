@@ -62,6 +62,8 @@
   .blanco.peligro { color: var(--alerta); }
   .blanco.herido { color: var(--bien); }
   .blanco.cegado { color: #8fd0ff; }
+  .blanco.propio { color: #5fb4ff; }
+  .blanco.propio::before, .blanco.propio::after { width: 6px; height: 6px; }
   .blanco.fijo::before, .blanco.fijo::after { width: 14px; height: 14px; }
   .tablero .arma { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; margin-top: 8px; font-family: var(--texto); font-size: 12px; color: var(--papel-2); }
   .tablero .arma i { flex: 1; height: 4px; background: rgba(255, 255, 255, 0.16); }
@@ -85,6 +87,7 @@
       <span>Inhibidor</span><i><u id="hInh"></u></i><b id="hInhN">listo</b>
       <span>Humo</span><em id="hHumoN">3 granadas</em>
       <span>Heridos</span><em id="hHeridosN">0 a bordo</em>
+      <span>Interceptores</span><em id="hIntN">4 listos</em>
     </div>
   </div>
   <div id="hBlancos"></div>
@@ -98,7 +101,7 @@
     <div class="arma"><span id="hArmaT">Cañón</span><i><u id="hCalor"></u></i></div>
   </div>
   <div class="msg" id="hMsg"></div>
-  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RB o clic · Inhibidor: LB o Q · Humo: X o G · Pausa: Start o Esc</div>
+  <div class="pie">Apuntar: stick derecho o ratón · Disparar: RB o clic · Inhibidor: LB o Q · Humo: X o G · Interceptor: B o E · Pausa: Start o Esc</div>
 </div>
 
 <section class="pantalla" id="pTitulo" hidden>

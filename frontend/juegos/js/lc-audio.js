@@ -17,8 +17,16 @@ function curvaSaturacion(k) {
   return c;
 }
 
+// Perfiles de motor. Un motor de cuatro tiempos explota cil/2 veces por vuelta: la nota es rpm × cil / 120 Hz.
+// El diésel suena más grave, abre menos el escape y añade el golpeteo de los inyectores al ritmo de las explosiones.
+export const PERFILES_MOTOR = {
+  cupe: { cil: 6, rpmMin: 900, rpmMax: 8000, base: 240, corte: 2300, abre: 2700, sub: 0.58, filo: 0.3, aullido: 0.16, golpeteo: 0, nivel: 1 },
+  diesel: { cil: 4, rpmMin: 750, rpmMax: 4200, base: 150, corte: 900, abre: 1300, sub: 0.82, filo: 0.12, aullido: 0.05, golpeteo: 0.5, nivel: 0.6 },
+};
+
 /** Arma el grafo sobre `ctx` y lo conecta a `destino`. Devuelve `fijar(estado, cuando, suavizado)`. */
-export function construir(ctx, destino, bufRuido) {
+export function construir(ctx, destino, bufRuido, perfil = PERFILES_MOTOR.cupe) {
+  const M = perfil;
   const G = (v = 0) => { const g = ctx.createGain(); g.gain.value = v; return g; };
   const osc = (tipo) => { const o = ctx.createOscillator(); o.type = tipo; o.start(); return o; };
   const fuenteRuido = () => { const s = ctx.createBufferSource(); s.buffer = bufRuido; s.loop = true; s.start(0, Math.random()); return s; };
@@ -51,15 +59,24 @@ export function construir(ctx, destino, bufRuido) {
   grillo.frequency.value = 4350; grillo2.frequency.value = 4720; bucle.buffer = env; bucle.loop = true; bucle.start();
   grillo.connect(gGrillo); grillo2.connect(gGrillo); bucle.connect(gGrillo.gain); gGrillo.connect(nivelGrillo); nivelGrillo.connect(maestro);
 
+  // Golpeteo del diésel: ruido agudo que se abre y se cierra al ritmo de las explosiones (onda cuadrada de 0 a 2×nivel).
+  let golpe = null;
+  if (M.golpeteo > 0) {
+    const bp = filtro('bandpass', 2600, 1.4), vca = G(0), ritmo = osc('square'), prof = G(0);
+    fuenteRuido().connect(bp); bp.connect(vca); vca.connect(maestro); ritmo.connect(prof); prof.connect(vca.gain);
+    golpe = { vca, ritmo, prof };
+  }
+
   /** e = { rpm, gas 0..1, turbo 0..1, chirrido 0..1, vel (m/s), arcen bool, corte bool } */
   function fijar(e, t = ctx.currentTime, tau = 0.03) {
     const set = (p, v, k = tau) => p.setTargetAtTime(v, t, k);
-    const rn = Math.min(1, Math.max(0, (e.rpm - 900) / 7100)), carga = e.corte ? 0 : e.gas, f = e.rpm / 20;
+    const rn = Math.min(1, Math.max(0, (e.rpm - M.rpmMin) / (M.rpmMax - M.rpmMin))), carga = e.corte ? 0 : e.gas, f = e.rpm * M.cil / 120;
     set(o.nota.frequency, f); set(o.nota2.frequency, f * 1.007); set(o.media.frequency, f * 0.5); set(o.doble.frequency, f * 2); set(o.aullido.frequency, f * 1.5);
-    set(g.media.gain, 0.58 - 0.28 * rn); set(g.doble.gain, 0.08 + 0.3 * rn); set(g.aullido.gain, 0.16 + 0.2 * carga);
+    set(g.media.gain, M.sub - 0.28 * rn); set(g.doble.gain, 0.08 * M.filo / 0.3 + M.filo * rn); set(g.aullido.gain, M.aullido + 0.2 * carga * M.aullido / 0.16);
     set(empuje.gain, 0.55 + 1.9 * carga);
-    set(paso.frequency, 240 + 2300 * rn + 2700 * carga * (0.3 + 0.7 * rn));
-    set(motor.gain, 0.15 + 0.3 * carga + 0.12 * rn);
+    set(paso.frequency, M.base + M.corte * rn + M.abre * carga * (0.3 + 0.7 * rn));
+    if (golpe) { const nivel = M.golpeteo * (0.05 + 0.06 * carga) * (1 - 0.5 * rn); set(golpe.ritmo.frequency, f); set(golpe.vca.gain, nivel); set(golpe.prof.gain, nivel); }
+    set(motor.gain, (0.15 + 0.3 * carga + 0.12 * rn) * M.nivel);
     set(admision.frequency, 500 + 1500 * rn); set(gAdm.gain, 0.03 + 0.17 * carga * rn);
     set(silbo.frequency, 3400 + 6800 * e.turbo, 0.08); set(gSilbo.gain, e.turbo * e.turbo * 0.03, 0.06); set(gSoplo.gain, e.turbo * 0.035, 0.06);
     const v = Math.min(1, e.vel / 70);
@@ -73,9 +90,9 @@ export function construir(ctx, destino, bufRuido) {
 
 /** El sonido del juego en vivo. No crea nada hasta que el jugador enciende el sonido (jue_sonido). */
 export class Sonidos {
-  constructor() { this.s = null; this.on = false; }
+  constructor(perfil = 'cupe') { this.s = null; this.on = false; this.perfil = PERFILES_MOTOR[perfil] || PERFILES_MOTOR.cupe; }
   get listo() { return !!this.s; }
-  preparar() { if (!this.s && audio.activo()) this.s = construir(audio.ctx, audio.efectos, audio.ruido); return !!this.s; }
+  preparar() { if (!this.s && audio.activo()) this.s = construir(audio.ctx, audio.efectos, audio.ruido, this.perfil); return !!this.s; }
   encender(si) {
     if (!this.preparar() || si === this.on) return;
     this.on = si; this.s.maestro.gain.setTargetAtTime(si ? 1 : 0, audio.ctx.currentTime, 0.08);
@@ -101,17 +118,18 @@ export class Sonidos {
 }
 
 /** Renderiza el motor sin altavoces y lo mide. Solo para pruebas: no suena nada. */
-export async function medirMotor(estado, seg = 1.2) {
+export async function medirMotor(estado, seg = 1.2, perfil = 'cupe') {
+  const M = PERFILES_MOTOR[perfil] || PERFILES_MOTOR.cupe;
   const sr = 44100, off = new OfflineAudioContext(1, Math.round(sr * seg), sr);
   const buf = off.createBuffer(1, sr * 2, sr), d = buf.getChannelData(0);
   for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-  const s = construir(off, off.destination, buf);
+  const s = construir(off, off.destination, buf, M);
   s.maestro.gain.value = 1; s.fijar(estado, 0, 0.005);
   const x = (await off.startRendering()).getChannelData(0), desde = Math.round(sr * 0.4);
   let pico = 0, suma = 0, malos = 0;
   for (let i = desde; i < x.length; i++) { const a = Math.abs(x[i]); if (!(a >= 0)) malos++; if (a > pico) pico = a; suma += x[i] * x[i]; }
   // Energía en la nota de explosión (rpm/20 Hz) frente a una frecuencia ajena, con un Goertzel de un solo punto.
   const tonoEn = (f) => { const w = 2 * Math.PI * f / sr, c = 2 * Math.cos(w); let a = 0, b = 0; for (let i = desde; i < x.length; i++) { const y = x[i] + c * a - b; b = a; a = y; } return Math.sqrt(a * a + b * b - c * a * b) / (x.length - desde); };
-  const f = estado.rpm / 20;
+  const f = estado.rpm * M.cil / 120;
   return { pico: +pico.toFixed(3), rms: +Math.sqrt(suma / (x.length - desde)).toFixed(4), malos, nota: +tonoEn(f).toFixed(5), ajena: +tonoEn(f * 1.37).toFixed(5) };
 }

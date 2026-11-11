@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor, paso 4: inhibidor, humo, heridos y puntaje)
+- **Última actualización:** 2026-11-11 (19-JUE: Corredor, drones interceptores; sonido real pendiente de permiso)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,15 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎮 19-JUE · Corredor, drones interceptores — miércoles 11-nov
+
+- Miguel: «quiero defenderme con algo más que la torreta… drones de interceptación» y «los sonidos son pésimos, quiero
+  sonido real». **Hecho:** interceptores propios (B), motor diésel sintetizado provisional. **Aparcado:** la ruta completa.
+- **Sonido real:** pendiente de su permiso para descargar grabaciones CC0 (candidatos en el documento de diseño).
+- **Verificado por simulación:** tramo 2 solo con interceptores e inhibidor, 7 de 10 drones y entrega; tramo 3 igual que antes.
 
 ---
 

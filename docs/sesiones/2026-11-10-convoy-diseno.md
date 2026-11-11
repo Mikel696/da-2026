@@ -82,7 +82,22 @@ lo que ya vio.
 - [ ] Miguel lo juega con su mando
 - [x] Paso 3: torreta y drones (11-nov) — tres tramos en el menú
 - [x] Paso 4: inhibidor, humo, heridos y puesto de socorro (11-nov) — el récord pasa a ser un puntaje
-- [ ] Paso 5: ruta completa (varios tramos encadenados), sonido diésel y pulido
+- [x] Paso 5a: drones interceptores propios (pedido de Miguel, 11-nov) y motor diésel sintetizado provisional
+- [ ] **Sonido grabado real** (motor, disparos, explosiones, ambiente, drones): Miguel dijo que el sintetizado es «pésimo».
+  Necesita su permiso para descargar grabaciones CC0. Candidatos: armas de Still North Media (CC0, OpenGameArt);
+  motor, ambiente y drones en Freesound filtrando CC0 (bajar originales exige cuenta: Miguel la crea, Claude no).
+- [ ] Ruta completa (tramos encadenados): diseñada y aparcada, Miguel pidió antes lo de arriba
+
+## Paso 5a · interceptores y diésel (11-nov)
+- **Drones interceptores** (`co-interceptores.js`, B o E, 4 por tramo): salen de la plataforma, eligen el dron marcado más
+  urgente que nadie persigue (primero el que ataca) y lo embisten a menos de 3 m. Sin blanco, hacen guardia a 22 m sobre la
+  camioneta 30 s y vuelven a la plataforma (se recuperan). El inhibidor no les afecta. Triángulo azul en el radar, marca
+  azul «Interceptor → bombardero» en pantalla. El piloto automático lanza uno por cada dron libre a menos de 200 m.
+- **Prueba (simulación, tramo 2, torreta apagada):** 4 interceptores + inhibidor derribaron 7 de 10 drones; 2 golpes
+  (blindaje 48 %); 3 de 3 heridos; 3.412 puntos. Solos no bastan: hay que combinarlos con la torreta.
+- **Motor diésel sintetizado** (`PERFILES_MOTOR.diesel` en `lc-audio.js`): 4 cilindros (nota = rpm/30), más grave, golpeteo
+  de inyectores. Medido sin altavoces: la nota domina (×90 sobre una ajena), pico 0,87. Provisional hasta tener grabaciones.
+- En el puntaje, un herido a bordo cuenta desde que sube (antes solo al llegar).
 
 ## Paso 4 · inhibidor, humo, heridos y puntaje (11-nov)
 - **Inhibidor de señal** (LB / Q): 4 s, radio 70 m, recarga 14 s. Los drones al alcance pierden la señal: el suicida sigue a
