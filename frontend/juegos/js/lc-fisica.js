@@ -23,7 +23,7 @@ export const AJUSTE = {
     abs: 0.85,             // ABS: ninguna rueda se bloquea al frenar, así que la cola no se cruza
     esc: 0.07,             // control de estabilidad: si la cola se desliza más de 4°, corta gas y frena el giro
     atrasMax: 5,           // la reversa no pasa de 18 km/h
-    medio: [1.08, 2.3],    // medio ancho y medio largo de la carrocería: el borde de la vía contiene la camioneta entera
+    medio: [1.08, 2.6],    // medio ancho y medio largo (con parachoques y repuesto): el borde de la vía contiene la camioneta entera
   },
   raijin: {
     a: 1.25, b: 1.42, alto: 0.5, inercia: 1.6,            // del centro de gravedad a cada eje; altura; inercia de giro
