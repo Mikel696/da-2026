@@ -101,7 +101,7 @@ lo que ya vio.
   Cielo nublado (`kloppenheim_06_puresky`) por defecto; el soleado de antes con `?cielo=soleado`. Sin abedul: Poly Haven no tiene.
 - **Impostores horneados** (`scripts/hornear-impostores/`): `fir_tree_01` (4,2 M triángulos, 487 MB) y `pine_tree_01` (7 M, 958 MB)
   se fotografiaron una vez desde 3 ángulos con color y normales → 8,5 MB de WebP en `assets/ph/imp/`. Cada árbol son 3 planos
-  cruzados (12 triángulos): ~17.000 árboles en la misión completa. `fir_sapling` es modelo real a menos de 40 m (máx. 12) y foto más lejos.
+  cruzados (12 triángulos): ~16.000 árboles en la misión completa. `fir_sapling` es modelo real a menos de 30 m (máx. 9, sin sombra) y foto más lejos.
 - **Dos pasadas para el follaje** (`dosPasadas` en `co-paisaje.js`): primero solo profundidad, después color con profundidad
   igual. Medido con el reloj de la tarjeta (1280×720, media): el paisaje pasó de **30 ms a 1,5 ms** por cuadro (bosque con sombra
   12 ms, pasto 10 ms, helechos y tocones de 41-101 k triángulos 13 ms). El bosque no proyecta sombra. La oclusión ambiental no
@@ -109,6 +109,9 @@ lo que ya vio.
 - **Cuneta:** la malla del campo es de 2,5 m y no puede dibujar una zanja de 3 m: una franja fina sigue la vía hasta 14,5 m y
   el campo se hunde debajo. Heridos ahora sobre la grava (2,4 m del asfalto), fuera del agua.
 - **Piloto, misión completa:** 257 s, 0 minas pisadas, 14 drones, 5 de 5 lanzacohetes, **7 de 7 heridos**, 8.478 puntos, sin atascos.
+- **Producción, Chrome de Miguel (calidad alta, 1920×911):** tarjeta 11-12 ms por cuadro, 576-680 llamadas, 6,3-10,9 M de
+  triángulos: los abetos jóvenes reales sumaban 4,4 M (imagen + sombra + oclusión). Corregido: sin sombra y máx. 9. La oclusión
+  ambiental duplica llamadas y triángulos (323 → 612). **Sin verificar:** fps reales (la ventana estaba tapada: 20-24 fps).
 
 ## Próxima sesión · pedido de Miguel (11-nov) · 1 hecho (paso 6a), 2 y 3 pendientes
 > «que el juego se vea como un camino de los bálticos, y esta guerra actual que tenemos» · «misiones de noche, tarde,

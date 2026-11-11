@@ -14,7 +14,7 @@ export const IMP = {
   joven: { K: 3, R: 0.481, H: 1.301, alturas: [1.301, 0.952, 0.736], alto: 984 },
   pasto: { K: 2, R: 0.716, H: 0.537, alturas: [0.537], alto: 216 },
 };
-const CERCA = 40, TROZO = 240, PROF = 72;   // modelo real a menos de 40 m; trozos de 240 m de vía; fondo del bosque plantado
+const CERCA = 30, TROZO = 240, PROF = 72;   // modelo real a menos de 30 m; trozos de 240 m de vía; fondo del bosque plantado
 
 /** Tres planos cruzados (o K) con la vista horneada de cada ángulo. Se añaden a `a` (arrays sueltos de una malla). */
 function plantar(a, imp, x, y, z, esc, giro, vari, t) {
@@ -177,7 +177,8 @@ export function crearPaisaje(scene, P, { tex, mod, evitar, msaa, densidad = 1 })
 
   // ── Abetos jóvenes: modelo real cerca, foto lejos. Se reasignan cada pocos cuadros según la distancia a la cámara.
   const vJoven = ['fir_sapling_a', 'fir_sapling_b', 'fir_sapling_c'].map((n) => piezas(mod.joven, n));
-  const CAP = 4, reales = vJoven.map((pz) => pz.map((p) => { const im = new THREE.InstancedMesh(p.geo, p.mat, CAP); im.count = 0; im.castShadow = true; im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return { im, p }; }));
+  // Sin sombra y como mucho 3 por variante: cada uno son ~145 000 triángulos y se dibujan dos veces (imagen y oclusión ambiental).
+  const CAP = 3, reales = vJoven.map((pz) => pz.map((p) => { const im = new THREE.InstancedMesh(p.geo, p.mat, CAP); im.count = 0; im.castShadow = false; im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return { im, p }; }));
   const gFoto = vJoven.map((_, v) => { const a = vacio(); plantar(a, IMP.joven, 0, 0, 0, 1, 0, v, [1, 1, 1]); return geometria(a); });
   const fotos = gFoto.map((g) => { const im = new THREE.InstancedMesh(g, mJoven, jovenes.length || 1); im.count = 0; im.frustumCulled = false; im.receiveShadow = true; scene.add(im); return im; });
   for (const j of jovenes) j.M = new THREE.Matrix4().compose(new THREE.Vector3(j.x, j.y, j.z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), j.giro), new THREE.Vector3(j.e, j.e * j.k, j.e));
