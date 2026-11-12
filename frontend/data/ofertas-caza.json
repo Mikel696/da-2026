@@ -2,46 +2,135 @@
   "revisado": "2026-11-12",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
-    { "id": "ropa", "nombre": "Ropa de marca original", "icono": "👟", "oferta": {
-      "titulo": "adidas Gazelle Indoor (azul, línea Mujer Originals)",
-      "tienda": "adidas Colombia (tienda oficial)",
-      "url": "https://www.adidas.co/zapatillas-gazelle-indoor/HQ8717.html",
-      "precio": "$274.975 COP",
-      "antes": "$549.950 COP",
-      "ahorro": 50,
-      "envio": "envío: ver en la tienda",
-      "vence": "",
-      "porque": "Clásico de adidas Originals a mitad de precio según la tienda oficial; el mayor descuento en tenis del outlet hoy (está en la sección de mujer: revisar tallas).",
-      "visto": "2026-11-12",
-      "imperdible": false
-    }, "nota": "" },
-    { "id": "tecnologia", "nombre": "Tecnología", "icono": "💻", "oferta": {
-      "titulo": "Consola portátil Lenovo Legion Go 8\" AMD Z2 Go · 16 GB RAM · SSD 1 TB",
-      "tienda": "Alkosto",
-      "url": "https://www.alkosto.com/consola-lenovo-legion-go-8-pulgadas-amd-z2-go-ram-16gb/p/198157043251",
-      "precio": "$2.599.070 COP",
-      "antes": "$3.999.000 COP",
-      "ahorro": 35,
-      "envio": "Envío gratis desde el mismo día (según la página)",
-      "vence": "",
-      "porque": "PC de juegos portátil con 35 % menos según la tienda y precio de referencia creíble; se descartó un portátil con «-69 %» cuyo precio anterior de $15.000.000 no es creíble.",
-      "visto": "2026-11-12",
-      "imperdible": false
-    }, "nota": "" },
-    { "id": "cursos", "nombre": "Cursos y diplomados", "icono": "🎓", "oferta": null, "nota": "Candidatas (DANE, Santander Open Academy) sin fecha de cierre vigente en la búsqueda y sin página confirmada hoy: se agotó el tope de páginas." },
-    { "id": "conciertos", "nombre": "Conciertos", "icono": "🎤", "oferta": {
-      "titulo": "Maluma · Loco X Volver World Tour 2027 · Bogotá, martes 9-feb-2027 (El Corazón de Bogotá - Arena)",
-      "tienda": "TuBoleta",
-      "url": "https://web.tuboleta.com/images/Eventos/Maluma-Loco-X-Volver-Bogota-2027/index.html",
-      "precio": "Desde $216.500 COP ($180.000 + $36.500 de servicio)",
-      "antes": "",
-      "ahorro": 0,
-      "envio": "Boleta digital: ver en la boletera",
-      "vence": "",
-      "porque": "Fecha nueva (las del 5, 6 y 7 están agotadas) y la venta general abre hoy 12-nov a las 12:00 m. con todos los medios de pago.",
-      "visto": "2026-11-12",
-      "imperdible": true
-    }, "nota": "" }
+    {
+      "id": "ropa",
+      "nombre": "Ropa de marca original",
+      "icono": "👟",
+      "ofertas": [
+        {
+          "titulo": "Tenis Nike Pacific de cuero, negros (hombre)",
+          "tienda": "Falabella · vendido por Nike",
+          "url": "https://www.falabella.com.co/falabella-co/product/158729199/tenis-hombre-nike-pacific-de-cuero-negro/158729207",
+          "precio": "$ 257.970",
+          "antes": "$ 429.950",
+          "ahorro": 40,
+          "envio": "envío gratis a domicilio",
+          "vence": "",
+          "colombia": "Lo vende la tienda oficial de Nike dentro de Falabella Colombia, con despacho a domicilio. Tallas 7 a 12 US.",
+          "porque": "Marca original vendida por la propia marca y 40 % menos sin necesitar tarjeta de la tienda: el mejor precio por ser original que vi hoy.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        },
+        {
+          "titulo": "Tenis Nike Vomero 18 de running (hombre)",
+          "tienda": "Falabella",
+          "url": "https://www.falabella.com.co/falabella-co/product/73637831/tenis-nike-vomero-18-hombre/73637837",
+          "precio": "$ 639.900",
+          "antes": "$ 799.990",
+          "ahorro": 20,
+          "envio": "despacho a domicilio, llega mañana",
+          "vence": "",
+          "colombia": "Lo vende Falabella Colombia, con despacho a domicilio.",
+          "porque": "Uno de los tenis de amortiguación más valorados de Nike. Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        },
+        {
+          "titulo": "Tenis Nike Shox R4, blanco y rojo (hombre)",
+          "tienda": "Falabella · vendido por Pacific Sport",
+          "url": "https://www.falabella.com.co/falabella-co/product/158009715/tenis-nike-shox-r4-hombre-blancorojo/158009717",
+          "precio": "$ 549.990",
+          "antes": "$ 909.990",
+          "ahorro": 40,
+          "envio": "envío gratis a domicilio",
+          "vence": "",
+          "colombia": "Vendedor externo dentro de Falabella Colombia (Pacific Sport), con despacho a domicilio.",
+          "porque": "40 % menos en un modelo de moda, pero lo vende una tienda externa y no Nike: revisa la garantía antes de pagar.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        }
+      ],
+      "nota": "Descartado: el outlet de adidas.co tenía unas Gazelle a mitad de precio, pero la página bloquea tu navegador («unable to give you access»)."
+    },
+    {
+      "id": "tecnologia",
+      "nombre": "Tecnología",
+      "icono": "💻",
+      "ofertas": [
+        {
+          "titulo": "Lenovo Legion Go S · AMD Z2 Go · 16 GB · 1 TB · pantalla de 8\"",
+          "tienda": "Falabella",
+          "url": "https://www.falabella.com.co/falabella-co/search?Ntt=legion%20go%20z2%20go",
+          "precio": "$ 2.599.900",
+          "antes": "",
+          "ahorro": 0,
+          "envio": "despacho a domicilio",
+          "vence": "",
+          "colombia": "Mismo precio comprobado en dos tiendas grandes de Colombia: Falabella (vendido por Falabella) y Alkosto ($ 2.599.070, envío gratis).",
+          "porque": "Un PC de juegos portátil para tu biblioteca de Steam con el mando. Cada tienda anuncia un descuento distinto (35 % y 57 %) porque inflan el «antes»: este es el precio de mercado de hoy, no una rebaja real.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        },
+        {
+          "titulo": "Samsung Galaxy S25 Ultra · 256 GB · 12 GB de RAM",
+          "tienda": "Alkosto",
+          "url": "https://www.alkosto.com/search?text=galaxy%20s25%20ultra",
+          "precio": "$ 3.999.990",
+          "antes": "$ 6.999.990",
+          "ahorro": 42,
+          "envio": "envío: ver en la tienda",
+          "vence": "",
+          "colombia": "Lo vende Alkosto, tienda colombiana con garantía directa.",
+          "porque": "Alta gama de 2025 por casi la mitad de su precio de salida. En Falabella un vendedor externo lo tiene en $ 3.449.900: más barato, pero sin la garantía de una tienda grande.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        },
+        {
+          "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB",
+          "tienda": "Alkosto",
+          "url": "https://www.alkosto.com/search?text=lenovo%20idea%20tab",
+          "precio": "$ 899.070",
+          "antes": "$ 1.699.000",
+          "ahorro": 47,
+          "envio": "envío: ver en la tienda",
+          "vence": "",
+          "colombia": "Lo vende Alkosto, tienda colombiana. En Falabella la misma tablet va de $ 880.000 a $ 1.039.000 según el vendedor.",
+          "porque": "Precio de mercado para una tablet de estudio con 8 GB de RAM y pantalla 2.5K. El «antes» está inflado: la comparación con Falabella es lo que vale.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        }
+      ],
+      "nota": ""
+    },
+    {
+      "id": "cursos",
+      "nombre": "Cursos y diplomados",
+      "icono": "🎓",
+      "ofertas": [],
+      "nota": "Hoy no hay una oferta real: Platzi está a precio normal (anual $ 999.000) y Talento Tech (MinTIC) no tiene convocatoria abierta. Revisado el 12-nov."
+    },
+    {
+      "id": "conciertos",
+      "nombre": "Conciertos",
+      "icono": "🎤",
+      "ofertas": [
+        {
+          "titulo": "Maluma · Loco X Volver World Tour 2027 · Bogotá, martes 9-feb-2027 (El Corazón de Bogotá - Arena)",
+          "tienda": "TuBoleta",
+          "url": "https://web.tuboleta.com/images/Eventos/Maluma-Loco-X-Volver-Bogota-2027/index.html",
+          "precio": "Desde $ 216.500 ($ 180.000 + $ 36.500 de servicio)",
+          "antes": "",
+          "ahorro": 0,
+          "envio": "boleta digital",
+          "vence": "",
+          "colombia": "Boletera oficial del evento en Colombia.",
+          "porque": "Fecha nueva (las del 5, 6 y 7 de febrero están agotadas); la venta general abrió el 12-nov.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        }
+      ],
+      "nota": "Para que busque los conciertos que te gustan, escribe tus artistas en OFERTAS-PREFERENCIAS.md."
+    }
   ],
   "avisos": []
 }

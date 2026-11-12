@@ -65,6 +65,8 @@
 .of-precio s{font-weight:400;color:var(--tx3);margin-left:6px}
 .of-precio i{font-style:normal;font-weight:600;color:var(--tx2);margin-left:6px}
 .of-vacio{padding:6px 10px 8px;font-size:10.5px;color:var(--tx3);line-height:1.5}
+.of-num{flex:none;width:17px;height:17px;border-radius:50%;background:var(--el);border:1px solid var(--bd);font-size:9.5px;display:inline-flex;align-items:center;justify-content:center;color:var(--tx2)}
+.of-co{font-size:10px;color:var(--gn,#22c55e);line-height:1.5;margin-top:3px}
 .task{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(39,39,42,.5)}.task:last-of-type{border-bottom:none}
 .task-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
 .task-check:hover{border-color:var(--gn)}.task-check.done{background:var(--gn);border-color:var(--gn);color:#fff}
@@ -251,18 +253,22 @@ function renderDeals(){
     const clases = ((caza && caza.clases) || []).map(c=>Object.assign({revisado: caza.revisado}, c));
     if(juegos && juegos.clase){ const j = Object.assign({revisado: juegos.revisado}, juegos.clase), p = clases.findIndex(c=>c.id==='cursos'); clases.splice(p<0?clases.length:p, 0, j); }
     if(!clases.length){ el.innerHTML='<div class="of-vacio">Sin conexión: no se pudieron leer las ofertas.</div>'; return; }
-    if(lab) lab.textContent = '· la mejor de cada clase · ' + clases.filter(c=>c.oferta).length + ' de ' + clases.length;
-    let html = '<div class="od-head">Una por clase: la mejor que se encontró, con la fecha en que se vio. Videojuegos se revisa solo varias veces al día; las demás, una vez al día.</div>';
+    // Hasta 3 por clase, en orden. `oferta` (una sola) es el formato del 11-nov: se sigue leyendo.
+    const lista = c => (c.ofertas || (c.oferta ? [c.oferta] : [])).filter(o => o && /^https?:\/\//.test(o.url||'')).slice(0, 3);
+    if(lab) lab.textContent = '· top 3 de cada clase · ' + clases.reduce((n,c)=>n+lista(c).length,0) + ' comprobadas';
+    let html = '<div class="od-head">Las 3 mejores de cada clase, comprobadas en la página de la tienda el día que dice cada una, y que se pueden comprar desde Colombia. El % que anuncian las tiendas suele venir inflado: lo que cuenta es la comparación que va en cada ficha.</div>';
     clases.forEach(c=>{
-      const o = c.oferta, d = dias(o ? (o.visto || c.revisado) : c.revisado);
+      const os = lista(c), d = dias(os.length ? (os[0].visto || c.revisado) : c.revisado);
       const edad = d==null ? 'sin revisar todavía' : d<=0 ? 'visto hoy' : d===1 ? 'visto ayer' : 'visto hace '+d+' días';
-      html += '<div class="od-cat"><div class="od-cat-t">'+esc(c.icono||'🔗')+' '+esc(c.nombre)+(o&&o.imperdible?' <span class="od-star">IMPERDIBLE</span>':'')+'</div>';
-      if(o && /^https?:\/\//.test(o.url||'')){
-        html += '<a href="'+esc(o.url)+'" target="_blank" rel="noopener"><div class="od-n">'+esc(o.titulo)+'<span class="ar">→</span></div>'
+      html += '<div class="od-cat"><div class="od-cat-t">'+esc(c.icono||'🔗')+' '+esc(c.nombre)+(os.some(o=>o.imperdible)?' <span class="od-star">IMPERDIBLE</span>':'')+'</div>';
+      os.forEach((o,k)=>{
+        html += '<a href="'+esc(o.url)+'" target="_blank" rel="noopener"><div class="od-n"><span class="of-num">'+(k+1)+'</span>'+esc(o.titulo)+(o.imperdible?' <span class="od-star">IMPERDIBLE</span>':'')+'<span class="ar">→</span></div>'
           + '<div class="of-precio">'+esc(o.precio)+(o.antes?'<s>'+esc(o.antes)+'</s>':'')+(o.ahorro?'<i>−'+esc(o.ahorro)+' %</i>':'')+'</div>'
           + '<div class="od-w">'+esc(o.tienda)+(o.envio?' · '+esc(o.envio):'')+(o.vence?' · hasta el '+esc(o.vence):'')+'</div>'
+          + (o.colombia?'<div class="of-co">✓ '+esc(o.colombia)+'</div>':'')
           + (o.porque?'<div class="od-w">'+esc(o.porque)+'</div>':'')+'</a>';
-      } else html += '<div class="of-vacio">'+esc(c.nota || 'Hoy no hay una oferta que valga la pena.')+'</div>';
+      });
+      if(!os.length || c.nota) html += '<div class="of-vacio">'+esc(c.nota || 'Hoy no hay una oferta que valga la pena.')+'</div>';
       html += '<div class="of-clase"><span'+(d!=null&&d>2?' class="of-viejo"':'')+'>'+edad+'</span></div></div>';
     });
     el.innerHTML = html;
