@@ -965,7 +965,7 @@ async function iniciar() {
 
   // ───────────── Sonido (nace apagado) y menús ─────────────
   // Sonido: grabaciones reales (co-sonido-real.js) y el sintetizado de reserva por si no cargan.
-  const son = new Sonidos('diesel'), real = new SonidoReal(); let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
+  const son = new Sonidos('diesel'), real = new SonidoReal(); real.conLluvia = !!AT.lluvia; let sonidoOn = sonidoActivo(), faltaGesto = null, zumb = null;
   addEventListener('pointerdown', () => iniciarAudio()); addEventListener('keydown', () => iniciarAudio());
   function sonidoCuadro(dt) {
     const falta = sonidoOn && !audio.activo(); if (falta !== faltaGesto) { faltaGesto = falta; $('tSonido').hidden = !falta; }

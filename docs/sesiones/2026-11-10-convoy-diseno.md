@@ -176,6 +176,15 @@ lo que ya vio.
   interceptores con sus blancos (o los drones cercanos) mezclado con la camioneta; el stick derecho la gira. Para que no se
   vea el borde del mundo, un **campo lejano** de celdas de 10 m hasta 340 m de la vía.
 
+## Paso 6f · lluvia grabada (12-nov, con su permiso)
+- 4 candidatas CC0 de Freesound medidas (nivel, variación, picos, graves/agudos, estéreo). Elegida **Rubaoliva 624645
+  «Heavy_Rain_Loop»** (361 KB): volumen parejo (6 %), sin picos, 87 % de agudos, estéreo real. Descartadas: cabina (apagada,
+  56 % graves), noche (goteos con picos de 29×), lluvia ligera (variación 28 %, eventos).
+- Solo la baja la misión con lluvia (`real.conLluvia`); bucle con costura fundida (`bucleSinCostura`, recorta el relleno del mp3);
+  con lluvia los pájaros casi callan. Medido sin altavoces: salto en la costura 2,5× el nivel (la lluvia sola llega a 9,3×),
+  nivel parejo a través de la costura, lluvia 0,046 frente al motor ~0,10.
+- **Voces de radio:** Miguel autorizó solo buscar y proponer (lista corta); no se descarga nada sin su sí.
+
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
 Lo que queda propuesto, en orden de valor:

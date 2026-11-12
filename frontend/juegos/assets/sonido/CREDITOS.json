@@ -1,6 +1,6 @@
 {
  "licencias": "CC0 1.0 o dominio público (cada pieza dice cuál)",
- "descargado": "2026-11-11 · 2026-11-12: motor de blindado (Freesound 405086, CC0)",
+ "descargado": "2026-11-11 · 2026-11-12: motor de blindado (Freesound 405086, CC0) · 2026-11-12: lluvia (Freesound 624645, CC0, con permiso de Miguel)",
  "piezas": [
   {
    "archivo": "motor-blindado.wav",
@@ -126,6 +126,17 @@
    "fuente": "https://freesound.org/people/kyles/sounds/405086/",
    "bytes": 3093,
    "sha256": "63b3a872668bd5d921d4669702b82e2d9dd003e53fc2484aa3b286f2ceffb27e"
+  },
+  {
+   "archivo": "lluvia-fuerte.mp3",
+   "uso": "Lluvia de la misión con lluvia (bucle con costura fundida en co-sonido-real.js)",
+   "titulo": "Heavy_Rain_Loop.wav",
+   "autor": "Rubaoliva",
+   "licencia": "CC0",
+   "fuente": "https://freesound.org/people/Rubaoliva/sounds/624645/",
+   "bytes": 361110,
+   "sha256": "c4a04f677ad4d601ac7fdd416cc189b2c4320d37d01e23ba46a543aceaee6fb6",
+   "nota": "Vista previa pública (mp3 de 128 kbps), 15,5 s, estéreo. Elegida entre 4 candidatas CC0 por medición: volumen parejo (6 %), sin picos (truenos o golpes), 87 % de agudos."
   }
  ]
 }

@@ -10,12 +10,26 @@ const BASE = new URL('../assets/sonido/', import.meta.url).href;
 // Motor: granular sobre la grabación de un blindado diésel (co-motor.js). Hasta el 12-nov eran dos bucles de un Detroit
 // 6.2 estirados de tono: «suena horrible» (Miguel). Vueltas del juego: 750-4200 rpm (AJUSTE.tactica).
 const RPM = { ralenti: 750, max: 4200 };
+/**
+ * Bucle sin costura: el final del tramo [a, b] se funde a igual potencia con su principio (todas las pistas).
+ * Sirve también para un mp3: se recortan sus extremos, que traen el relleno del codificador y harían un golpe.
+ */
+export function bucleSinCostura(ctx, buf, a, b, fundido = 0.4) {
+  const hz = buf.sampleRate, i0 = Math.round(a * hz), F = Math.round(fundido * hz), n = Math.round((b - a) * hz) - F;
+  const out = ctx.createBuffer(buf.numberOfChannels, n, hz);
+  for (let c = 0; c < buf.numberOfChannels; c++) {
+    const x = buf.getChannelData(c), y = out.getChannelData(c);
+    for (let i = 0; i < n; i++) y[i] = x[i0 + i];
+    for (let i = 0; i < F; i++) { const t = i / F; y[i] = x[i0 + i] * Math.sqrt(t) + x[i0 + n + i] * Math.sqrt(1 - t); }
+  }
+  return out;
+}
 
 const EXPLOSIONES = [['explosion-1.ogg', [0.35, 1.4, 2.25, 3.6]], ['explosion-2.ogg', [0.6, 1.55, 2.7]], ['explosion-3.ogg', [1.2, 2.3, 2.9, 4.1, 4.95]]];
 const DISPAROS = ['disparo-30-06-1.wav', 'disparo-30-06-2.wav', 'disparo-ak-1.wav', 'disparo-ak-2.wav', 'disparo-ak-3.wav'];
 
 export class SonidoReal {
-  constructor() { this.listo = false; this.estado = 'sin cargar'; this.b = {}; this.lejos = 25; }
+  constructor() { this.listo = false; this.estado = 'sin cargar'; this.b = {}; this.lejos = 25; this.conLluvia = false; }
 
   /** Descarga y decodifica las grabaciones (unos 1,9 MB). Solo con el sonido encendido. */
   async cargar() {
@@ -26,6 +40,7 @@ export class SonidoReal {
       this.mapa = await (await fetch(BASE + 'motor-blindado.json')).json();
       const todos = await Promise.all(['motor-blindado.wav', 'ambiente-brisa-pajaros.ogg', 'ambiente-guerra-lejana.ogg', ...EXPLOSIONES.map((e) => e[0]), ...DISPAROS].map(leer));
       this.b = { motor: todos[0], brisa: todos[1], guerra: todos[2], exp: todos.slice(3, 6), disp: todos.slice(6) };
+      if (this.conLluvia) this.b.lluvia = await leer('lluvia-fuerte.mp3');   // solo la misión con lluvia la baja (361 KB)
       this.montar(); this.listo = true; this.estado = 'listo';
     } catch (e) { this.estado = 'falló'; console.warn('Sonido grabado no disponible; sigue el sintetizado.', e); }
   }
@@ -40,6 +55,8 @@ export class SonidoReal {
     this.mg = new MotorGranular(ctx, this.b.motor, this.mapa, this.filtro, RPM);
     // Ambiente: brisa con pájaros, sin los extremos de la grabación (empieza y termina en silencio).
     const amb = bucle(this.b.brisa, [3, 29]); this.amb = ganancia(); amb.connect(this.amb); this.amb.connect(sal);
+    // Lluvia fuerte en bucle (Rubaoliva, Freesound 624645, CC0): siseo parejo, sin truenos ni golpes.
+    if (this.b.lluvia) { const s = ctx.createBufferSource(); s.buffer = bucleSinCostura(ctx, this.b.lluvia, 0.15, this.b.lluvia.duration - 0.15); s.loop = true; s.start(0); this.gLluvia = ganancia(); s.connect(this.gLluvia); this.gLluvia.connect(sal); }
   }
 
   /** e = { activo, rn (vueltas 0..1), gas 0..1, corte (cambiando de marcha) }. Llamar en cada cuadro. */
@@ -49,7 +66,8 @@ export class SonidoReal {
     this.mg.programar(t + 0.12, () => e);
     set(this.filtro.frequency, e.corte ? 900 : 1300 + 5200 * Math.max(g, e.rn * 0.5), e.corte ? 0.02 : 0.06);
     set(this.motor.gain, e.activo ? 0.9 : 0, 0.1);
-    set(this.amb.gain, e.activo ? 3 : 0, 0.6);
+    set(this.amb.gain, e.activo ? (this.gLluvia ? 0.8 : 3) : 0, 0.6);   // con lluvia los pájaros casi callan
+    if (this.gLluvia) set(this.gLluvia.gain, e.activo ? 3.5 : 0, 0.8);
     if (e.activo && (this.lejos -= dt) <= 0) { this.lejos = 14 + Math.random() * 20; this.combateLejano(); }   // ambiente de guerra: un tiroteo lejano cada 14-34 s
   }
 
