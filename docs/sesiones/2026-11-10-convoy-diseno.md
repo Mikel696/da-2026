@@ -183,7 +183,11 @@ lo que ya vio.
 - Solo la baja la misión con lluvia (`real.conLluvia`); bucle con costura fundida (`bucleSinCostura`, recorta el relleno del mp3);
   con lluvia los pájaros casi callan. Medido sin altavoces: salto en la costura 2,5× el nivel (la lluvia sola llega a 9,3×),
   nivel parejo a través de la costura, lluvia 0,046 frente al motor ~0,10.
-- **Voces de radio:** Miguel autorizó solo buscar y proponer (lista corta); no se descarga nada sin su sí.
+- **Voces de radio** (Miguel aprobó la lista: «Sí, las 4»): jamesrodavidson 192363, TimLwry 842801, DRFX 353712 (voces sin idioma
+  que se entienda) y SoundBiterSFX 732209 (pitido), CC0, 935 KB en `assets/sonido/radio/`. `crearRadio`: banda 420-2.600 Hz,
+  realce a 1,6 kHz, saturación suave y estática; trozo con voz elegido por energía; pitido al final del mensaje. Medido sin
+  altavoces: 4 % de energía bajo 300 Hz, 11-17 % sobre 3,2 kHz, sin golpes al entrar ni salir. No se pudo comprobar de oído
+  que ningún idioma se entienda.
 
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).

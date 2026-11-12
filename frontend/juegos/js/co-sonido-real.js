@@ -28,6 +28,40 @@ export function bucleSinCostura(ctx, buf, a, b, fundido = 0.4) {
 const EXPLOSIONES = [['explosion-1.ogg', [0.35, 1.4, 2.25, 3.6]], ['explosion-2.ogg', [0.6, 1.55, 2.7]], ['explosion-3.ogg', [1.2, 2.3, 2.9, 4.1, 4.95]]];
 const DISPAROS = ['disparo-30-06-1.wav', 'disparo-30-06-2.wav', 'disparo-ak-1.wav', 'disparo-ak-2.wav', 'disparo-ak-3.wav'];
 
+/**
+ * Radio del mando: trozos de voces de radio grabadas (CC0, sin idioma que se entienda) por una cadena de radio — banda de
+ * 420 a 2.600 Hz, un realce a 1,6 kHz y saturación suave — con estática encima, y el pitido de fin de mensaje.
+ * Pura respecto al contexto: se mide sin altavoces con un OfflineAudioContext. voces: [AudioBuffer], ruido: AudioBuffer.
+ */
+export function crearRadio(ctx, destino, voces, pitido, ruido) {
+  const hp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), pk = ctx.createBiquadFilter(), sat = ctx.createWaveShaper(), sal = ctx.createGain();
+  hp.type = 'highpass'; hp.frequency.value = 420; lp.type = 'lowpass'; lp.frequency.value = 2600; pk.type = 'peaking'; pk.frequency.value = 1600; pk.gain.value = 6; pk.Q.value = 0.9;
+  const curva = new Float32Array(1024); for (let i = 0; i < 1024; i++) { const x = i / 511.5 - 1; curva[i] = Math.tanh(2.6 * x) / Math.tanh(2.6); }
+  sat.curve = curva; sal.gain.value = 0.45; hp.connect(pk); pk.connect(sat); sat.connect(lp); lp.connect(sal); sal.connect(destino);
+  // Dónde hay voz en cada grabación: ventanas de 0,25 s con energía sobre la mediana.
+  const hablan = voces.map((b) => {
+    const x = b.getChannelData(0), V = Math.floor(0.25 * b.sampleRate), e = [];
+    for (let i = 0; i + V <= x.length; i += V) { let s = 0; for (let k = 0; k < V; k += 4) s += x[i + k] ** 2; e.push(s); }
+    const med = e.slice().sort((a, b) => a - b)[e.length >> 1]; return e.map((v, k) => (v > med ? k * 0.25 : -1)).filter((t) => t >= 0);
+  });
+  const tocar = (buf, cuando, desde, dur, vol, entrada = hp) => {
+    const s = ctx.createBufferSource(), g = ctx.createGain(); s.buffer = buf;
+    g.gain.setValueAtTime(0, cuando); g.gain.linearRampToValueAtTime(vol, cuando + 0.015); g.gain.setValueAtTime(vol, cuando + Math.max(0.02, dur - 0.04)); g.gain.linearRampToValueAtTime(0, cuando + dur);
+    s.connect(g); g.connect(entrada); s.start(cuando, desde, dur + 0.02); s.stop(cuando + dur + 0.03);
+  };
+  return {
+    /** Un mensaje: un trozo de voz de hasta 3,2 s con estática debajo. */
+    voz(dur, cuando = ctx.currentTime) {
+      const k = Math.floor(Math.random() * voces.length), b = voces[k], d = Math.min(3.2, Math.max(1.2, dur * 0.8));
+      const ini = hablan[k].filter((t) => t + d < b.duration), desde = ini.length ? ini[Math.floor(Math.random() * ini.length)] : 0;
+      tocar(b, cuando, desde, d, 1.1);
+      if (ruido) tocar(ruido, cuando, Math.random() * Math.max(0, ruido.duration - d - 0.1), d + 0.12, 0.05);
+    },
+    /** Fin de mensaje: el pitido del walkie, también por la radio. */
+    pitido(cuando = ctx.currentTime) { if (pitido) tocar(pitido, cuando, 0, Math.min(0.8, pitido.duration), 0.7); },
+  };
+}
+
 export class SonidoReal {
   constructor() { this.listo = false; this.estado = 'sin cargar'; this.b = {}; this.lejos = 25; this.conLluvia = false; }
 
@@ -41,6 +75,8 @@ export class SonidoReal {
       const todos = await Promise.all(['motor-blindado.wav', 'ambiente-brisa-pajaros.ogg', 'ambiente-guerra-lejana.ogg', ...EXPLOSIONES.map((e) => e[0]), ...DISPAROS].map(leer));
       this.b = { motor: todos[0], brisa: todos[1], guerra: todos[2], exp: todos.slice(3, 6), disp: todos.slice(6) };
       if (this.conLluvia) this.b.lluvia = await leer('lluvia-fuerte.mp3');   // solo la misión con lluvia la baja (361 KB)
+      try { this.b.radio = await Promise.all(['radio/radio-voces-1.mp3', 'radio/radio-voces-2.mp3', 'radio/radio-voces-3.mp3', 'radio/radio-pitido.mp3'].map(leer)); }
+      catch (e) { this.b.radio = null; }   // sin las voces, la radio sigue con pitido y estática sintetizados
       this.montar(); this.listo = true; this.estado = 'listo';
     } catch (e) { this.estado = 'falló'; console.warn('Sonido grabado no disponible; sigue el sintetizado.', e); }
   }
@@ -55,6 +91,7 @@ export class SonidoReal {
     this.mg = new MotorGranular(ctx, this.b.motor, this.mapa, this.filtro, RPM);
     // Ambiente: brisa con pájaros, sin los extremos de la grabación (empieza y termina en silencio).
     const amb = bucle(this.b.brisa, [3, 29]); this.amb = ganancia(); amb.connect(this.amb); this.amb.connect(sal);
+    if (this.b.radio) this.radio = crearRadio(ctx, sal, this.b.radio.slice(0, 3), this.b.radio[3], audio.ruido);
     // Lluvia fuerte en bucle (Rubaoliva, Freesound 624645, CC0): siseo parejo, sin truenos ni golpes.
     if (this.b.lluvia) { const s = ctx.createBufferSource(); s.buffer = bucleSinCostura(ctx, this.b.lluvia, 0.15, this.b.lluvia.duration - 0.15); s.loop = true; s.start(0); this.gLluvia = ganancia(); s.connect(this.gLluvia); this.gLluvia.connect(sal); }
   }

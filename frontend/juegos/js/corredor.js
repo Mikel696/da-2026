@@ -488,7 +488,12 @@ async function iniciar() {
   const NOMBRE_RADIO = { suicida: ['suicida', 'suicidas'], fibra: ['FPV de fibra', 'FPV de fibra'], bombardero: ['bombardero', 'bombarderos'], reconocimiento: ['dron de reconocimiento', 'drones de reconocimiento'] };
   const NUM = ['', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis'];
   function radio(txt) { if (est.fase === 'ruta' && colaRadio.length < 3 && !colaRadio.includes(txt)) colaRadio.push(txt); }
-  function estatica(dur) { if (!sonidoOn || !audio.activo()) return; tono({ f: 1500, dur: 0.06, tipo: 'sine', vol: 0.05 }); ruido({ dur, vol: 0.045, tipo: 'bandpass', f: 1900, q: 1.3 }); }
+  /** Sonido de la radio: voz grabada por la cadena de radio y pitido al final; sin grabaciones, pitido y estática sintetizados. */
+  function estatica(dur, mensaje = 0) {
+    if (!sonidoOn || !audio.activo()) return;
+    if (real.radio) { if (mensaje) real.radio.voz(mensaje); else real.radio.pitido(); return; }
+    tono({ f: 1500, dur: 0.06, tipo: 'sine', vol: 0.05 }); ruido({ dur, vol: 0.045, tipo: 'bandpass', f: 1900, q: 1.3 });
+  }
   /** Posición de reloj de un punto respecto al morro: las 12 delante, las 3 a la derecha, las 6 detrás. */
   const reloj = (x, z) => { const a = angulo(Math.atan2(x - veh.x, z - veh.z) - veh.psi); return ((Math.round(-a / (Math.PI / 6)) % 12) + 12) % 12 || 12; };
   function radioOleada(tipo, n, d) {
@@ -502,7 +507,7 @@ async function iniciar() {
     for (const t of tiradores.lista) if (t.viva && !t.radiado && t.dist - dv < 330 && t.dist > dv) { t.radiado = true; radio(`Sierra 04: lanzacohetes en la linde ${t.lado > 0 ? 'derecha' : 'izquierda'}, a ${Math.round((t.dist - dv) / 10) * 10} m.`); break; }
     for (const h of heridos.lista) if (h.estado === 'espera' && !h.radiado && h.dist - dv < 300 && h.dist > dv) { h.radiado = true; radio(`Herido en la orilla ${h.lado > 0 ? 'derecha' : 'izquierda'}, a ${Math.round((h.dist - dv) / 10) * 10} m: deténganse a su lado.`); break; }
     for (const r of guerra.tuneles) if (!r.radiado && r.d0 - dv < 260 && r.d0 > dv) { r.radiado = true; radio('Mando: red antidrones en 250 m. Bajo ella los FPV no pasan.'); }
-    if (colaRadio.length) { const txt = colaRadio.shift(); hRadio.textContent = txt; hRadio.classList.add('ver'); radioT = 2.8 + txt.length * 0.035; estatica(0.22); }
+    if (colaRadio.length) { const txt = colaRadio.shift(); hRadio.textContent = txt; hRadio.classList.add('ver'); radioT = 2.8 + txt.length * 0.035; estatica(0.22, radioT); }
   }
   function impactoDron(d, p) { explosion(p.x, p.y, p.z, 0.85, true); danar(26, 8, 'dron', 0.75, ladoDe(p.x, p.z)); }
   function choqueDron(d, p, k) {
