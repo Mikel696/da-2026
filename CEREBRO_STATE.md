@@ -11,6 +11,27 @@
 
 ---
 
+## 📡 10-SYS · Puesta al día tras la pausa: parte S7 — jueves 12-nov (18:20-19:30)
+
+La revisión nocturna no corría desde el 6-nov. Revisión completa con la sesión CUN iniciada por Miguel (la cuenta
+CUN de Google estaba cerrada en Chrome: sin ella no hay CDigital, correo, calendario ni grabaciones).
+- **Leído:** 5 aulas (estado, intentos, entregas, libro de calificaciones, mensajes), Dexway por LTI (avance por
+  lección, sin iniciar nada), correo y calendario CUN desde el 3-nov, PDF de clases de TI y grabación de TI del 11-nov.
+  Sin leer: grabación de BI del 11-nov («No tienes permiso»), Auditoría y Nube del 12-nov (en curso), inglés.
+- **Novedades:** inglés con Unidad 4 y examen final pendientes, cierre vie 13-nov 23:55. TI abrió ACA 2 y Quiz 2 del
+  segundo corte hasta el dom 15-nov (mensaje de CDigital del docente). Quiz 3 y autoevaluaciones de BI y Nube cierran
+  el sáb 14. El libro de calificaciones de BI sigue mal configurado y el de Nube con el tercer corte en 0 %.
+- **Datos (Supabase, no repo):** parte `26V05-S7` (16 actividades, 4 clases, ruta y plan del 12 al 15-nov), 5 ACA
+  con `SYS.setAca`, notas, cronograma y una sesión de clase de TI en «Clases Perdidas». Verificado leyendo de vuelta
+  desde Supabase, cola en 0 y Dashboard en producción.
+- **🐞 Hallazgo de sincronización, sin arreglar:** `SYS.setAca` aplicado ~2 s después de `SYS.injectWeek` se perdió:
+  la copia local volvió a la versión recién subida y la nueva nunca se subió (la subida tarda ~10-15 s y el eco de la
+  anterior llegó antes). Reaplicado de una vez, subió bien. Riesgo: dos escrituras seguidas de la misma llave en menos
+  de ~15 s. Lo tiene que diagnosticar una sesión aparte en `cloud-sync.js` (subir versión en lockstep si se toca).
+- **Desactualizado en el código:** la ficha de TI en `SUBJECTS` todavía dice «8 semanas» y «notas cierran el 11-nov».
+
+---
+
 ## 🪶 CLAUDE.md por módulos (tarea 15 del plan de optimización) — jueves 12-nov (noche)
 
 **Qué cambió:** `CLAUDE.md` pasó de 41.038 B / 535 líneas a **15.905 B / 213 líneas (−61 %)**. Los protocolos de un solo módulo (3-ENG build, 10-SYS,
