@@ -213,3 +213,57 @@ export function crearGuerra(scene, P, inicio, datos, { tex, vehiculo, excluir = 
     bajoRed(dist) { return tuneles.some((t) => dist >= t.d0 && dist <= t.d1); },
   };
 }
+
+/**
+ * El frente: la guerra que no te toca pero se ve y se oye. Fogonazos en el horizonte (a 350-1.100 m), una columna de humo
+ * donde cayó, ráfagas de trazadoras al cielo y el retumbo que llega con el retraso real del sonido (distancia / 343 m/s).
+ * cb: { humo(x, y, z), sonido(d, pan) } · ritmo: eventos más seguidos con el nivel. Barato: 1 malla de destellos y 1 de trazas.
+ */
+export function crearFrente(scene, P, cb, ritmo = 1) {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 64;
+  { const g = cv.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,240,200,1)'); gr.addColorStop(0.25, 'rgba(255,170,70,0.85)'); gr.addColorStop(1, 'rgba(255,90,20,0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); }
+  const tDest = new THREE.CanvasTexture(cv);
+  const MAXF = 6, MAXT = 48, destellos = [], trazas = [], ecos = [], M = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(), V = new THREE.Vector3(), Z = new THREE.Vector3(0, 0, 1);
+  const mDest = new THREE.MeshBasicMaterial({ map: tDest, color: new THREE.Color().setRGB(6, 3.2, 1.2), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+  const fl = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), mDest, MAXF); fl.frustumCulled = false; fl.count = 0; scene.add(fl);
+  const gT = new THREE.BoxGeometry(0.5, 0.5, 9); const mT = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(9, 4, 1), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+  const tr = new THREE.InstancedMesh(gT, mT, MAXT); tr.frustumCulled = false; tr.count = 0; scene.add(tr);
+  let sig = 3, sigT = 6;
+  const lejos = (veh, dmin, dmax) => { const a = veh.psi + (Math.random() < 0.85 ? (Math.random() - 0.5) * 2.6 : Math.PI + (Math.random() - 0.5) * 1.6), d = dmin + Math.random() * (dmax - dmin); const x = veh.x + Math.sin(a) * d, z = veh.z + Math.cos(a) * d; return { x, y: P.terreno(x, z), z, d, a }; };
+  return {
+    actualizar(dt, veh, cam, activo) {
+      if (activo && (sig -= dt) <= 0) {   // impacto de artillería en el horizonte
+        sig = (2.5 + Math.random() * 6) / ritmo;
+        const p = lejos(veh, 350, 1100);
+        if (destellos.length < MAXF) destellos.push({ ...p, t: 0, tam: 40 + Math.random() * 50 });
+        for (let k = 0; k < 4; k++) cb.humo(p.x + (Math.random() - 0.5) * 20, p.y + 4 + k * 6, p.z + (Math.random() - 0.5) * 20);
+        const pan = Math.sin(Math.atan2(p.x - veh.x, p.z - veh.z) - veh.psi);
+        ecos.push({ t: p.d / 343, d: p.d, pan: -pan });
+      }
+      if (activo && (sigT -= dt) <= 0) {   // ráfaga antiaérea: trazadoras que suben en abanico
+        sigT = (5 + Math.random() * 9) / ritmo;
+        const p = lejos(veh, 500, 1000), n = 6 + ((Math.random() * 8) | 0), az = Math.random() * 6.283;
+        for (let k = 0; k < n && trazas.length < MAXT; k++) {
+          const el = 0.6 + Math.random() * 0.5, a = az + (Math.random() - 0.5) * 0.35, v = 260 + Math.random() * 60;
+          trazas.push({ p: new THREE.Vector3(p.x, p.y + 2, p.z), v: new THREE.Vector3(Math.sin(a) * Math.cos(el), Math.sin(el), Math.cos(a) * Math.cos(el)).multiplyScalar(v), t: -k * 0.11, vida: 2.4 });
+        }
+      }
+      for (let k = ecos.length - 1; k >= 0; k--) if ((ecos[k].t -= dt) <= 0) { cb.sonido(ecos[k].d, ecos[k].pan); ecos.splice(k, 1); }
+      let n = 0;
+      for (let k = destellos.length - 1; k >= 0; k--) {
+        const f = destellos[k]; f.t += dt; if (f.t > 0.6) { destellos.splice(k, 1); continue; }
+        const e = f.tam * (f.t < 0.08 ? f.t / 0.08 : Math.max(0, 1 - (f.t - 0.08) / 0.52));
+        Q.copy(cam.quaternion); fl.setMatrixAt(n++, M.compose(V.set(f.x, f.y + f.tam * 0.25, f.z), Q, S.set(e, e * 0.75, 1)));
+      }
+      fl.count = n; fl.instanceMatrix.needsUpdate = true;
+      n = 0;
+      for (let k = trazas.length - 1; k >= 0; k--) {
+        const t = trazas[k]; t.t += dt; if (t.t < 0) continue; if (t.t > t.vida) { trazas.splice(k, 1); continue; }
+        t.v.y -= 9.8 * dt; t.p.addScaledVector(t.v, dt);
+        Q.setFromUnitVectors(Z, V.copy(t.v).normalize()); tr.setMatrixAt(n++, M.compose(t.p, Q, S.set(1, 1, 1)));
+      }
+      tr.count = n; tr.instanceMatrix.needsUpdate = true;
+    },
+    reiniciar() { destellos.length = trazas.length = ecos.length = 0; fl.count = tr.count = 0; },
+  };
+}

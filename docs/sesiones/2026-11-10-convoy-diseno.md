@@ -145,6 +145,22 @@ lo que ya vio.
 - **Sin hacer:** sonido de lluvia (una grabación CC0 **requiere el permiso de Miguel** antes de descargarla). Cristales mojados,
   charcos y salpicaduras de las ruedas. Una prueba de física con agarre mojado en `prueba-fisica.mjs`.
 
+## Paso 6d · dificultad que sube, ambiente de guerra y radio (11-nov)
+> «Más intensidad en el enemigo, que cada partida que pase sea más difícil, más lanzacohetes, drones, amenazas… un ambiente
+> de guerra, más audios de radio, más disparos a la distancia, más explosiones».
+- **Nivel** (`co-nivel.js`, `jue_co_nivel`, 1-10; sube con cada entrega; menú «Nivel» para elegirlo o volver al 1; el récord lo
+  anota). Por nivel k−1: oleadas × (1 + 0,22 k) y 12 m antes, FPV de fibra extra, +1 lanzacohetes por grupo cada 2 niveles y
+  grupos nuevos desde el 4, apuntan 1,6 → 0,9 s y recargan 7 → 4 s, minas extra solo si queda hueco para las dos ruedas.
+  Misión completa: nivel 1 = 34 drones, 14 lanzacohetes, 60 minas · nivel 3 = 50, 24 · nivel 5 = 90, 37.
+- **Piloto:** nivel 1 entrega (88 %), nivel 3 **3 de 3** (83, 62 y 92 %), nivel 5 entrega (57 %, 90/90 drones, 15/15 heridos).
+  El piloto apunta mejor que una persona: para Miguel los niveles altos serán bastante más duros.
+- **Frente** (`crearFrente` en `co-guerra.js`): fogonazos de artillería a 350-1.100 m con su columna de humo, ráfagas de
+  trazadoras al cielo y el retumbo que llega con el retraso del sonido (d/343 s), con paneo (`real.lejana`). Nivel 4: 19
+  fogonazos por minuto. Medido sin altavoces (OfflineAudioContext): a 400 m a la derecha, pico 0,42 y 36× más energía a la
+  derecha; a 1.000 m a la izquierda, pico 0,11. Tiroteo lejano grabado cada 14-34 s (antes 35-75).
+- **Radio del mando** (texto con pitido y estática sintetizados, solo con sonido): drones por posición de reloj y distancia,
+  lanzacohetes y heridos adelante, redes a 250 m y charla del frente cada 22-46 s. Voces o radio grabados: **pedir permiso**.
+
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
 Lo que queda propuesto, en orden de valor:

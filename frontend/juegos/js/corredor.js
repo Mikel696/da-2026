@@ -31,7 +31,8 @@ import { Radar } from './co-radar.js';
 import { crearEmboscadas, NOMBRE_TIRADOR, figura, PROPIO } from './co-cohetes.js';
 import { crearCampamento } from './co-campo.js';
 import { crearPaisaje } from './co-paisaje.js';
-import { crearGuerra, GUERRA_RUTA, GUERRA_TRAMO } from './co-guerra.js';
+import { crearGuerra, crearFrente, GUERRA_RUTA, GUERRA_TRAMO } from './co-guerra.js';
+import { leerNivel, fijarNivel, escalar, NIVEL_MAX } from './co-nivel.js';
 import { Vehiculo, AJUSTE } from './lc-fisica.js';
 import { Sonidos } from './lc-audio.js';
 import { SonidoReal } from './co-sonido-real.js';
@@ -80,7 +81,8 @@ const ATMOS = {
   lluvia: { exposicion: 1.12, ambiente: 0.95, niebla: 0.0036, sol: 0.5, polvo: 0.55, lluvia: true, agarre: 0.8 },
 };
 const N_TRAMO = (() => { const u = +new URLSearchParams(location.search).get('tramo'); if (TRAMOS[u]) return u; try { const v = +localStorage.getItem('jue_co_mision'); return TRAMOS[v] ? v : 4; } catch (e) { return 4; } })();
-const MIS = TRAMOS[N_TRAMO], TABLA = 'p' + N_TRAMO, AT = ATMOS[MIS.clima || 'dia'];   // puntaje (hasta el paso 3 se guardaba el tiempo en «tramoN»)
+// Nivel de dificultad: sube con cada entrega (co-nivel.js) y la misma misión trae más enemigo.
+const NIVEL = leerNivel(), MIS = escalar(TRAMOS[N_TRAMO], NIVEL), TABLA = 'p' + N_TRAMO, AT = ATMOS[MIS.clima || 'dia'];   // puntaje (hasta el paso 3 se guardaba el tiempo en «tramoN»)
 const CARRIL = 1.6;                      // se circula por el centro del carril derecho
 const DANO_MINA = 34, CARGA_MINA = 15;   // tres minas dejan la camioneta inutilizada
 const KITS = 2, KITS_MAX = 3, REPARA = 16, REPARA_PCT = 30;   // reparación de campaña: kits, segundos de trabajo y blindaje que devuelve
@@ -264,12 +266,12 @@ async function iniciar() {
   const torreta = new Torreta(scene, camion, P);
   const minas = crearMinas(P, MIS.minas, SALIDA, tMet); scene.add(minas.grupo);
   let guerra = null;
-  const drones = crearDrones(scene, P, SALIDA, MIS.drones, { red: (p) => !!guerra && guerra.enRed(p), enRed: enRedDron, aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
+  const drones = crearDrones(scene, P, SALIDA, MIS.drones, { oleada: radioOleada, red: (p) => !!guerra && guerra.enRed(p), enRed: enRedDron, aviso: avisoDron, impacto: impactoDron, choque: choqueDron, derribo: derriboDron, bomba: bombaDron, humo: humoDron });
   const radar = new Radar($('hRadar'));
   const heridos = crearHeridos(scene, P, SALIDA, MIS.heridos);
   const propios = crearInterceptores(scene, (x, z) => P.terreno(x, z), { caza: cazaPropio, golpe: golpePropio, recuperado: recuperadoPropio });
   NOMBRES.tirador = NOMBRE_TIRADOR;
-  const tiradores = crearEmboscadas(scene, P, SALIDA, MIS.emboscadas || [], { aviso: avisoCohete, disparo: disparoCohete, estela: estelaCohete, impacto: impactoCohete, suelo: sueloCohete, abatido: abatidoTirador });
+  const tiradores = crearEmboscadas(scene, P, SALIDA, MIS.emboscadas || [], { aviso: avisoCohete, disparo: disparoCohete, estela: estelaCohete, impacto: impactoCohete, suelo: sueloCohete, abatido: abatidoTirador }, MIS.cohetes);
   const enemigos = () => drones.lista.concat(tiradores.lista);
   const contactos = () => minas.lista.concat(drones.lista, heridos.lista, propios.lista, tiradores.lista);
   // Campamentos: base de salida, base avanzada de llegada y los puestos del camino. Después, la vegetación (los esquiva).
@@ -281,6 +283,11 @@ async function iniciar() {
   const evitar = campos.concat(tiradores.lista.map((t) => ({ centro: new THREE.Vector3(t.x, t.y, t.z), radio: 3.5 })), heridos.lista.map((h) => ({ centro: new THREE.Vector3(h.x, h.y, h.z), radio: 3 })));
   guerra = crearGuerra(scene, P, SALIDA, MIS.guerra, { tex: { oxido: tOxido, hormigon: tHormigon, barro: tBarro, quemado: tQuemado, tela: tTela }, vehiculo: camion.grupo, excluir: camion.carga, evitar });
   poblar(evitar.concat(guerra.zonas));
+  // El frente: fogonazos, humo y trazadoras lejanas; el retumbo llega con el retraso del sonido. Más seguido con el nivel.
+  const frente = crearFrente(scene, P, {
+    humo: (x, y, z) => humo.emitir(x, y, z, 0.8, 2.2, 0.3, 9 + Math.random() * 5, 9, 0.09 * luz, 0.085 * luz, 0.08 * luz, 0.5, -0.08, 0.1, 2.2),
+    sonido: (d, pan) => { if (sonidoOn && real.listo) real.lejana(d, pan); },
+  }, 1 + 0.15 * (NIVEL - 1));
   if (gtao) { const r0 = gtao.render.bind(gtao); gtao.render = (...a) => { paisaje.ocultarImpostores(true); guerra.grupo.visible = false; r0(...a); guerra.grupo.visible = true; paisaje.ocultarImpostores(false); }; }
   // El mecánico que baja a reparar (figura hecha en código, uniforme oliva).
   const mecanico = new THREE.Mesh(figura(false, PROPIO), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92 })); mecanico.castShadow = true; mecanico.visible = false; scene.add(mecanico);
@@ -344,12 +351,16 @@ async function iniciar() {
     Object.assign(est, CERO, { fase: 'ruta' }); Object.assign(salto, { y: 0, vy: 0, p: 0, vp: 0, r: 0, vr: 0 }); Object.assign(mira, { yaw: 0, pitch: -0.04, quieto: 0, fijo: null });
     minas.reiniciar(); drones.reiniciar(); torreta.reiniciar(); heridos.reiniciar(); propios.reiniciar(); tiradores.reiniciar(); nubes.length = 0; mecanico.visible = false; for (const pu of puestos) Object.assign(pu, { hecho: false, t: 0, avisado: false }); camion.carga.children.forEach((o) => { o.visible = true; });
     menus.cerrarTodo(); jugando = true; pausado = false; $('hud').hidden = false; document.body.classList.add('corriendo');
+    frente.reiniciar(); colaRadio.length = 0; radioT = 0; charlaT = 25; hRadio.classList.remove('ver');
+    for (const x of [...tiradores.lista, ...heridos.lista, ...guerra.tuneles]) x.radiado = false;
+    radio(`Mando a Sierra 07: nivel ${NIVEL}. Ruta abierta hasta el puesto ${MIS.puestos ? 1 : 'de control'}. Ojo con las minas en las rodadas.`);
     mensaje(MIS.drones.length ? 'Lleva la carga al puesto de control · stick derecho apunta, RB dispara' : 'Lleva la carga al puesto de control · el radar marca las minas', 3.5);
   }
   function llegar() {
     est.fase = 'fin'; est.fin = 2.6; ui.cuenta(true); inp.vibrar(0.5, 0.7, 250);
     est.rescatados = est.aBordo; est.puntos = puntaje().total; est.previo = mejor();
-    est.puesto = records.registrar('corredor', TABLA, est.puntos, false, { det: `${tiempo(est.t)} · ${est.rescatados} ${est.rescatados === 1 ? 'herido' : 'heridos'} a salvo` });
+    est.puesto = records.registrar('corredor', TABLA, est.puntos, false, { det: `${tiempo(est.t)} · ${est.rescatados} ${est.rescatados === 1 ? 'herido' : 'heridos'} a salvo · nivel ${NIVEL}` });
+    if (NIVEL < NIVEL_MAX) fijarNivel(NIVEL + 1);   // la próxima partida, más dura
     mensaje(est.carga === 100 ? 'Carga completa en el puesto de control' : `Puesto de control · llega el ${est.carga} % de la carga`, 3);
   }
   const CONSEJO = {
@@ -376,6 +387,7 @@ async function iniciar() {
     $('fSub').textContent = !exito ? 'El blindaje no aguantó: sin entrega no hay puntaje. ' + (CONSEJO[est.causa] || '')
       : est.puesto === 0 ? (pr ? `Nuevo récord: ${(est.puntos - pr.v).toLocaleString('es-CO')} puntos más que tu mejor entrega.` : 'Primera entrega registrada: ese es el puntaje a batir.')
       : `Tu mejor puntaje sigue en ${pr.v.toLocaleString('es-CO')}.`;
+    if (exito) $('fSub').textContent += NIVEL < NIVEL_MAX ? ` Nivel ${NIVEL} superado: la próxima partida es nivel ${NIVEL + 1}, con más drones, lanzacohetes y minas.` : ' Superaste el nivel más alto.';
     const filas = puntaje().filas.map(([a, b, c]) => [a, b, exito ? c : 0]);
     filas.push(['Total', '', exito ? est.puntos : 0]);
     $('fTabla').innerHTML = '<tr><th></th><th></th><th>Puntos</th></tr>' + filas.map(([a, b, c], i) => `<tr${i === filas.length - 1 ? ' class="yo"' : ''}><td>${a}</td><td>${b}</td><td>${c.toLocaleString('es-CO')}</td></tr>`).join('');
@@ -464,6 +476,33 @@ async function iniciar() {
   function enRedDron(d, p) {
     explosion(p.x, p.y, p.z, 0.45, true); onda(p.x, p.y, p.z, 6.5, 9, 'dron');
     if (d) { est.derribados++; mensaje(`${NOMBRES[d.tipo]} atrapado en la red`, 1.8); } else mensaje('La red detuvo una granada', 1.6);
+  }
+  // ───────────── Radio del mando ─────────────
+  // Texto en pantalla con pitido y estática sintetizados (solo si el sonido está encendido). Ficticio: ningún bando real.
+  const hRadio = $('hRadio'), colaRadio = []; let radioT = 0, charlaT = 25;
+  const CHARLA = ['Mando a todas las unidades: artillería activa al este. Mantengan la marcha.', 'Sierra 03 en posición, sin novedad en el cruce.',
+    'Atención: actividad de drones en todo el sector. Ojos al cielo.', 'Columna de suministro, aquí Mando: el próximo puesto tiene combustible y kits.',
+    'Sierra 05 reporta contacto en el bosque, a su izquierda. No se detengan.', 'Mando: el enemigo usa FPV de fibra. El inhibidor no sirve contra ellos.',
+    'Evacuación médica lista en la base avanzada. Traigan a los heridos.', 'Aquí Sierra 02: morteros al norte del valle. Sigan por la vía.',
+    'Mando: la red antidrones del sector aguanta. Úsenla para respirar.', 'Sierra 07, le cubrimos desde la loma. Adelante.'];
+  const NOMBRE_RADIO = { suicida: ['suicida', 'suicidas'], fibra: ['FPV de fibra', 'FPV de fibra'], bombardero: ['bombardero', 'bombarderos'], reconocimiento: ['dron de reconocimiento', 'drones de reconocimiento'] };
+  const NUM = ['', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis'];
+  function radio(txt) { if (est.fase === 'ruta' && colaRadio.length < 3 && !colaRadio.includes(txt)) colaRadio.push(txt); }
+  function estatica(dur) { if (!sonidoOn || !audio.activo()) return; tono({ f: 1500, dur: 0.06, tipo: 'sine', vol: 0.05 }); ruido({ dur, vol: 0.045, tipo: 'bandpass', f: 1900, q: 1.3 }); }
+  /** Posición de reloj de un punto respecto al morro: las 12 delante, las 3 a la derecha, las 6 detrás. */
+  const reloj = (x, z) => { const a = angulo(Math.atan2(x - veh.x, z - veh.z) - veh.psi); return ((Math.round(-a / (Math.PI / 6)) % 12) + 12) % 12 || 12; };
+  function radioOleada(tipo, n, d) {
+    const [uno, varios] = NOMBRE_RADIO[tipo] || [tipo, tipo];
+    radio(`Mando: ${NUM[n] || n} ${n > 1 ? varios : uno} a las ${reloj(d.pos.x, d.pos.z)}, ${Math.round(Math.hypot(d.pos.x - veh.x, d.pos.z - veh.z) / 10) * 10} m.${tipo === 'fibra' ? ' El inhibidor no los para: torreta.' : ''}`);
+  }
+  function radioCuadro(dt) {
+    if (radioT > 0) { if ((radioT -= dt) <= 0) { hRadio.classList.remove('ver'); estatica(0.1); } return; }
+    if ((charlaT -= dt) <= 0) { charlaT = (22 + Math.random() * 24) / (1 + 0.1 * (NIVEL - 1)); radio(CHARLA[(Math.random() * CHARLA.length) | 0]); }
+    const dv = veh.sup.dist;
+    for (const t of tiradores.lista) if (t.viva && !t.radiado && t.dist - dv < 330 && t.dist > dv) { t.radiado = true; radio(`Sierra 04: lanzacohetes en la linde ${t.lado > 0 ? 'derecha' : 'izquierda'}, a ${Math.round((t.dist - dv) / 10) * 10} m.`); break; }
+    for (const h of heridos.lista) if (h.estado === 'espera' && !h.radiado && h.dist - dv < 300 && h.dist > dv) { h.radiado = true; radio(`Herido en la orilla ${h.lado > 0 ? 'derecha' : 'izquierda'}, a ${Math.round((h.dist - dv) / 10) * 10} m: deténganse a su lado.`); break; }
+    for (const r of guerra.tuneles) if (!r.radiado && r.d0 - dv < 260 && r.d0 > dv) { r.radiado = true; radio('Mando: red antidrones en 250 m. Bajo ella los FPV no pasan.'); }
+    if (colaRadio.length) { const txt = colaRadio.shift(); hRadio.textContent = txt; hRadio.classList.add('ver'); radioT = 2.8 + txt.length * 0.035; estatica(0.22); }
   }
   function impactoDron(d, p) { explosion(p.x, p.y, p.z, 0.85, true); danar(26, 8, 'dron', 0.75, ladoDe(p.x, p.z)); }
   function choqueDron(d, p, k) {
@@ -931,6 +970,7 @@ async function iniciar() {
   $('tablaCtl').innerHTML = '<tr><th>Acción</th><th>Teclado</th><th>Mando</th></tr>' + DEF.controles.map(([a, t, m]) => `<tr><td>${a}</td><td>${t}</td><td>${m}</td></tr>`).join('');
   $('tClave').textContent = `Tramo ${N_TRAMO} · ${MIS.nombre}`; $('tSub').textContent = MIS.texto;
   const NOMBRES_TRAMO = Object.entries(TRAMOS).map(([n, t]) => `${n} · ${t.nombre}`);
+  opcion($('mNivel'), Array.from({ length: NIVEL_MAX }, (_, k) => String(k + 1)), String(NIVEL), 'Nivel', (v) => { fijarNivel(+v); location.href = location.pathname; });
   opcion($('mTramo'), NOMBRES_TRAMO, NOMBRES_TRAMO[N_TRAMO - 1], 'Tramo', (v) => { try { localStorage.setItem('jue_co_mision', String(NOMBRES_TRAMO.indexOf(v) + 1)); } catch (e) { /* vale para esta visita */ } location.href = location.pathname; });
   opcion($('mCal'), NIVELES, nivel, 'Calidad', (v) => { fijarCalidad(v); location.reload(); });
   function pintarSonido() { for (const id of ['mSonido', 'pSonido']) $(id).innerHTML = `<span>Sonido</span><b>‹ ${sonidoOn ? 'sí' : 'no'} ›</b>`; }
@@ -990,7 +1030,7 @@ async function iniciar() {
         conducir(dt);
         equipo(dt); eventosHeridos(heridos.actualizar(dt, veh, est.fase === 'ruta'));
         drones.actualizar(dt, veh, est.fase === 'ruta', uT.value, est.oculto);
-        tiradores.actualizar(dt, veh, est.fase === 'ruta', est.oculto); mision(dt);
+        tiradores.actualizar(dt, veh, est.fase === 'ruta', est.oculto); mision(dt); radioCuadro(dt); frente.actualizar(dt, veh, camara, est.fase === 'ruta');
         for (const p of guerra.humeantes) if (Math.random() < 0.18 && (p.x - veh.x) ** 2 + (p.z - veh.z) ** 2 < 260 * 260) humo.emitir(p.x + (Math.random() - 0.5) * 1.5, p.y, p.z + (Math.random() - 0.5) * 2, 0.4, 1.2 + Math.random(), 0.2, 2.6 + Math.random(), 0.7, 0.07 * luz, 0.065 * luz, 0.06 * luz, 0.5, -0.15, 0.5, 3.5);
         { const bajo = est.fase === 'ruta' && guerra.bajoRed(veh.sup.dist); if (bajo && !est.bajoRed) mensaje('Túnel de red antidrones: aquí los FPV no pasan', 2.4); est.bajoRed = bajo; }
         { const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi); est.intEspera -= dt;
@@ -1009,7 +1049,7 @@ async function iniciar() {
   }
   tamano(); $('cargando').remove(); pintarMejor(); menus.abrir($('pTitulo'), 0); requestAnimationFrame(cuadro);
   // Para pruebas desde la consola. El juego no lo usa.
-  window.__co = { AT, guerra, paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
+  window.__co = { NIVEL, MIS, frente, radio, AT, guerra, paisaje, composer, medidor, tiradores, puestos, campos, mecanico, reparar, cancelarReparacion, veh, P, renderer, scene, camara, est, inp, ent, auto, cam, camion, minas, drones, heridos, torreta, radar, mira, sol, C, gtao, salir, usarInhibidor, lanzarHumo, lanzarInterceptor, propios, puntaje, real, tramo: N_TRAMO,
     /** Simula `seg` segundos de juego sin dibujar: prueba la lógica aunque la ventana esté tapada y no haya cuadros. */
     simular: (seg, dt = 1 / 60) => { for (let t = 0; t < seg; t += dt) logica(dt); },
     sonido: () => ({ activado: sonidoOn, contexto: audio.ctx ? audio.ctx.state : null, motor: son.listo }) };

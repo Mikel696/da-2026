@@ -80,7 +80,7 @@ export class SonidoReal {
     set(this.filtro.frequency, m.f, k);
     set(this.motor.gain, m.m, 0.1);
     set(this.amb.gain, e.activo ? 3 : 0, 0.6);
-    if (e.activo && (this.lejos -= dt) <= 0) { this.lejos = 35 + Math.random() * 40; this.combateLejano(); }
+    if (e.activo && (this.lejos -= dt) <= 0) { this.lejos = 14 + Math.random() * 20; this.combateLejano(); }   // ambiente de guerra: un tiroteo lejano cada 14-34 s
   }
 
   /** De vez en cuando, un tiroteo lejano: la grabación entera, baja, apagada y a un lado. */
@@ -99,6 +99,19 @@ export class SonidoReal {
     const ctx = audio.ctx, s = ctx.createBufferSource(), g = ctx.createGain();
     s.buffer = this.b.disp[(Math.random() * this.b.disp.length) | 0]; s.playbackRate.value = 0.94 + Math.random() * 0.1;
     g.gain.value = 0.26; s.connect(g); g.connect(audio.efectos); s.start();
+    return true;
+  }
+
+  /** Explosión del frente, a cientos de metros: un retumbo grave, apagado y a un lado (pan −1..1). */
+  lejana(d, pan) {
+    if (!this.listo) return false;
+    const ctx = audio.ctx, t = ctx.currentTime, i = (Math.random() * EXPLOSIONES.length) | 0, golpes = EXPLOSIONES[i][1];
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(), p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    s.buffer = this.b.exp[i]; s.playbackRate.value = 0.7 + Math.random() * 0.15;
+    f.type = 'lowpass'; f.frequency.value = Math.max(160, 9000 / (1 + d / 35));
+    g.gain.setValueAtTime(0.55 * 160 / (d + 160), t); g.gain.setTargetAtTime(0.0001, t + 1.6, 0.5);
+    s.connect(f); f.connect(g); if (p) { p.pan.value = Math.max(-1, Math.min(1, pan)); g.connect(p); p.connect(audio.efectos); } else g.connect(audio.efectos);
+    s.start(t, Math.max(0, golpes[(Math.random() * golpes.length) | 0] - 0.03), 3);
     return true;
   }
 

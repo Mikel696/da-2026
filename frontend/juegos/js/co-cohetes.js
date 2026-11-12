@@ -51,7 +51,9 @@ function parapeto(rnd) {
 }
 
 /** emboscadas: [[s, lado, n], …] con s en metros desde `inicio`. cb: { aviso, disparo, estela, impacto, suelo, abatido } */
-export function crearEmboscadas(scene, P, inicio, emboscadas, cb) {
+/** opc (nivel de dificultad): { apunta, recarga, tiros }; sin opc, los valores de arriba. */
+export function crearEmboscadas(scene, P, inicio, emboscadas, cb, opc = {}) {
+  const AP = opc.apunta ?? APUNTA, RE = opc.recarga ?? RECARGA, TI = opc.tiros ?? TIROS;
   const rnd = semilla(5150), mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0 });
   const gFig = figura(), lista = [], cohetes = [], W = P.def.ancho + ARCEN;
   const gCohete = mergeGeometries([new THREE.CylinderGeometry(0.035, 0.035, 0.55, 8).rotateX(Math.PI / 2), new THREE.ConeGeometry(0.06, 0.22, 8).rotateX(Math.PI / 2).translate(0, 0, 0.36)]);
@@ -96,12 +98,12 @@ export function crearEmboscadas(scene, P, inicio, emboscadas, cb) {
       for (const t of lista) {
         if (!t.viva) { if (t.caer < 1) { t.caer = Math.min(1, t.caer + dt * 2.2); t.cuerpo.rotation.x = -t.caer * 1.45; t.cuerpo.position.y = Math.max(t.cuerpo.position.y - dt * 1.2, -0.15); } continue; }
         const dS = t.dist - veh.sup.dist, lejos = Math.hypot(t.x - veh.x, t.z - veh.z), enRango = activa && dS < VISTA && dS > -50 && lejos < ALCANCE;
-        if (t.estado === 'oculto' && enRango) { t.estado = 'apunta'; t.t = APUNTA + rnd() * 0.5; t.detectada = true; t.peligro = true; cb.aviso(t, lejos); }
+        if (t.estado === 'oculto' && enRango) { t.estado = 'apunta'; t.t = AP + rnd() * 0.5; t.detectada = true; t.peligro = true; cb.aviso(t, lejos); }
         else if (t.estado === 'apunta') {
           if (!enRango) { t.estado = 'recarga'; t.t = 0; t.peligro = false; }
           else if (oculto) t.t = Math.max(t.t, 0.5);   // dentro del humo no te ve: sigue buscándote
-          else if ((t.t -= dt) <= 0) { disparar(t, veh, oculto); t.tiros++; t.estado = t.tiros >= TIROS ? 'agachado' : 'recarga'; t.t = RECARGA; t.peligro = false; }
-        } else if (t.estado === 'recarga' && (t.t -= dt) <= 0 && enRango) { t.estado = 'apunta'; t.t = APUNTA; t.peligro = true; cb.aviso(t, lejos); }
+          else if ((t.t -= dt) <= 0) { disparar(t, veh, oculto); t.tiros++; t.estado = t.tiros >= TI ? 'agachado' : 'recarga'; t.t = RE; t.peligro = false; }
+        } else if (t.estado === 'recarga' && (t.t -= dt) <= 0 && enRango) { t.estado = 'apunta'; t.t = AP; t.peligro = true; cb.aviso(t, lejos); }
         const dePie = t.estado === 'apunta';
         t.cuerpo.position.y += ((dePie ? 0 : AGACHADO) - t.cuerpo.position.y) * Math.min(1, dt * 6);
         if (dePie) { const obj = t.obj.rotation.y, mira = Math.atan2(veh.x - t.x, veh.z - t.z); t.obj.rotation.y = obj + Math.atan2(Math.sin(mira - obj), Math.cos(mira - obj)) * Math.min(1, dt * 5); }

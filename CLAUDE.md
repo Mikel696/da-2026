@@ -523,6 +523,8 @@ porque three.js 0.186.1 solo se distribuye así (vendorizado sin modificar en `j
 11. **Hora, clima y guerra son datos:** `clima` de cada misión → `ATMOS` (exposición, niebla, sol/luna, faros, lluvia y agarre);
    `GUERRA_RUTA` / `GUERRA_TRAMO` en `co-guerra.js`. Las misiones 5-7 son la 4 con otro cielo. El juego abre en la misión
    larga (`jue_co_mision`). Al cambiar la caja o el agarre, `prueba-fisica.mjs` en verde.
+12. **Dificultad por nivel** (`co-nivel.js`, `jue_co_nivel`): `escalar(MIS, nivel)` sobre los datos. Toda regla nueva de
+   dificultad se prueba con el piloto en los niveles 1, 3 y 5 (el 3, al menos 2 de 3) y las minas extra siempre dejan hueco.
 
 ---
 

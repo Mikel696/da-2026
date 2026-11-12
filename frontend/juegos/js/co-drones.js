@@ -172,7 +172,7 @@ export function crearDrones(scene, P, inicio, oleadas, cb) {
     actualizar(dt, veh, activa, t, oculto = false) {
       if (activa) {
         const recorrido = veh.sup.dist - P.dist[inicio];
-        while (sig < oleadas.length && recorrido >= oleadas[sig][0]) { const [, tipo, n] = oleadas[sig++]; for (let k = 0; k < n; k++) nacer(tipo, veh, k, n); }
+        while (sig < oleadas.length && recorrido >= oleadas[sig][0]) { const [, tipo, n] = oleadas[sig++]; let d = null; for (let k = 0; k < n; k++) d = nacer(tipo, veh, k, n); if (cb.oleada && d) cb.oleada(tipo, n, d); }
       }
       const sp = Math.sin(veh.psi), cp = Math.cos(veh.psi);
       tp.set(veh.x, veh.y + 1.1, veh.z); vt.set(veh.u * sp + veh.v * cp, 0, veh.u * cp - veh.v * sp);
