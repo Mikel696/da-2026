@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-12 (1-IND: «Ofertas de hoy», la mejor oferta de cada clase + cazador diario)
+- **Última actualización:** 2026-11-12 (1-IND: «Ofertas de hoy» pasa a top 3 por clase, comparado en 7 plataformas)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,31 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🦅 1-IND · «Ofertas de hoy» pasa a top 3 por clase, comparado y comprable desde Colombia — 12-nov (tarde)
+
+**Pedido de Miguel:** el enlace de adidas.co de la primera cacería lo bloqueó («unable to give you access»); quiere
+al menos un top 3 analizado de verdad, comprable desde Colombia, buscando también en Amazon, eBay, Mercado Libre,
+Dafiti «y todas las plataformas»: «ser un halcón con las ofertas».
+
+- **Videojuegos** (`fetch-deals.mjs`): top 3 confirmado contra la tienda de Steam **para Colombia** (`appdetails cc=co`,
+  precio en pesos) con reseñas de SteamSpy (≥ 85 % positivas sobre ≥ 5.000). El resumen oficial de reseñas de Steam
+  (`appreviews`) redirige a la portada desde nov-2026. Epic gratis solo pasa delante si vale ≥ 60.000 COP.
+- **Formato:** cada clase lleva `ofertas` (hasta 3) y cada oferta un campo `colombia` (cómo se comprobó que se compra
+  desde aquí) que la sección pinta con «✓». Se sigue leyendo el formato de una sola oferta.
+- **Cacería del 12-nov hecha a mano** en el Chrome de Miguel, comparando Amazon, Mercado Libre, Dafiti, Falabella,
+  Alkosto y Éxito (eBay sin revisar ese día). Hallazgos: el «antes» de Alkosto y Falabella está inflado (el mismo
+  producto anuncia 35 % y 57 %); Falabella pone primero el precio con su tarjeta CMR; Amazon muestra envío y cargos a
+  Colombia porque Miguel tiene sesión y dirección allí (**nunca copiar esa dirección**); en Mercado Libre apareció un
+  S25 Ultra 1,47 M más barato de una cuenta sin nombre ni historial: descartado.
+- **Cazador diario reescrito** (`SKILL.md` de `cazador-de-ofertas`): tabla de las 7 plataformas con su URL de búsqueda,
+  costo puesto en Colombia con la TRM de `macro-co.json`, reglas de confianza del vendedor por plataforma, `antes` =
+  la siguiente tienda más barata (no el que anuncia la tienda), tres productos distintos, adidas.co prohibido.
+- **Verificado en producción** (Chrome de Miguel): «top 3 de cada clase · 10 comprobadas», 10 sellos, 0 errores.
+  El segundo despliegue (Amazon y Mercado Libre en ropa y tecnología, `82d1f02`) quedó en la cola de GitHub al cerrar.
+- **Pendiente:** cursos sin oferta real hoy; conciertos sin gustos de Miguel (preferencias vacías).
 
 ---
 
