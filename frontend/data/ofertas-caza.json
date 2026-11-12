@@ -1,11 +1,47 @@
 {
-  "revisado": null,
+  "revisado": "2026-11-12",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
-    { "id": "ropa", "nombre": "Ropa de marca original", "icono": "👟", "oferta": null, "nota": "Aún sin primera cacería." },
-    { "id": "tecnologia", "nombre": "Tecnología", "icono": "💻", "oferta": null, "nota": "Aún sin primera cacería." },
-    { "id": "cursos", "nombre": "Cursos y diplomados", "icono": "🎓", "oferta": null, "nota": "Aún sin primera cacería." },
-    { "id": "conciertos", "nombre": "Conciertos", "icono": "🎤", "oferta": null, "nota": "Aún sin primera cacería." }
+    { "id": "ropa", "nombre": "Ropa de marca original", "icono": "👟", "oferta": {
+      "titulo": "adidas Gazelle Indoor (azul, línea Mujer Originals)",
+      "tienda": "adidas Colombia (tienda oficial)",
+      "url": "https://www.adidas.co/zapatillas-gazelle-indoor/HQ8717.html",
+      "precio": "$274.975 COP",
+      "antes": "$549.950 COP",
+      "ahorro": 50,
+      "envio": "envío: ver en la tienda",
+      "vence": "",
+      "porque": "Clásico de adidas Originals a mitad de precio según la tienda oficial; el mayor descuento en tenis del outlet hoy (está en la sección de mujer: revisar tallas).",
+      "visto": "2026-11-12",
+      "imperdible": false
+    }, "nota": "" },
+    { "id": "tecnologia", "nombre": "Tecnología", "icono": "💻", "oferta": {
+      "titulo": "Consola portátil Lenovo Legion Go 8\" AMD Z2 Go · 16 GB RAM · SSD 1 TB",
+      "tienda": "Alkosto",
+      "url": "https://www.alkosto.com/consola-lenovo-legion-go-8-pulgadas-amd-z2-go-ram-16gb/p/198157043251",
+      "precio": "$2.599.070 COP",
+      "antes": "$3.999.000 COP",
+      "ahorro": 35,
+      "envio": "Envío gratis desde el mismo día (según la página)",
+      "vence": "",
+      "porque": "PC de juegos portátil con 35 % menos según la tienda y precio de referencia creíble; se descartó un portátil con «-69 %» cuyo precio anterior de $15.000.000 no es creíble.",
+      "visto": "2026-11-12",
+      "imperdible": false
+    }, "nota": "" },
+    { "id": "cursos", "nombre": "Cursos y diplomados", "icono": "🎓", "oferta": null, "nota": "Candidatas (DANE, Santander Open Academy) sin fecha de cierre vigente en la búsqueda y sin página confirmada hoy: se agotó el tope de páginas." },
+    { "id": "conciertos", "nombre": "Conciertos", "icono": "🎤", "oferta": {
+      "titulo": "Maluma · Loco X Volver World Tour 2027 · Bogotá, martes 9-feb-2027 (El Corazón de Bogotá - Arena)",
+      "tienda": "TuBoleta",
+      "url": "https://web.tuboleta.com/images/Eventos/Maluma-Loco-X-Volver-Bogota-2027/index.html",
+      "precio": "Desde $216.500 COP ($180.000 + $36.500 de servicio)",
+      "antes": "",
+      "ahorro": 0,
+      "envio": "Boleta digital: ver en la boletera",
+      "vence": "",
+      "porque": "Fecha nueva (las del 5, 6 y 7 están agotadas) y la venta general abre hoy 12-nov a las 12:00 m. con todos los medios de pago.",
+      "visto": "2026-11-12",
+      "imperdible": true
+    }, "nota": "" }
   ],
   "avisos": []
 }
