@@ -22,6 +22,10 @@
 - **Piloto automático:** misión de 6 km en 637 s (lluvia 632 s), 34 de 34 drones, 15 de 15 heridos, sin atascos.
 - **Después (pedido nuevo):** nivel de dificultad que sube con cada entrega (`co-nivel.js`, nivel 3 ganado 3 de 3 por el
   piloto, nivel 5 también), frente lejano con fogonazos, humo, trazadoras y retumbos con retraso, y radio del mando en pantalla.
+- **12-nov:** motor granular con la grabación real de un blindado diésel (Freesound 405086, CC0; reemplaza al Detroit que «sonaba
+  horrible»): medido sin altavoces, sigue las vueltas, corta en cada cambio, repetición 12-33 % (antes 75 %). Cámara
+  panorámica (cuarto modo) que encuadra la pelea de los interceptores, con campo lejano hasta 340 m. **Sin oír:** el motor
+  nuevo en su PC; eso lo juzga Miguel.
 - **Producción (Chrome de Miguel, alta, 1920×911):** tarjeta 11-12 ms por cuadro, 576-680 llamadas, triángulos dentro de 8 M
   tras quitar la sombra a los abetos jóvenes. **Sin verificar:** fps con la ventana a la vista (estaba tapada: 20-24 fps).
 - **Pendiente:** sonido de lluvia (pide permiso de Miguel para bajar una grabación CC0); las ruedas «que se mueven sin acelerar»
