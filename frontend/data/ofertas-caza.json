@@ -1,0 +1,11 @@
+{
+  "revisado": null,
+  "por": "cazador diario (tarea programada de Claude)",
+  "clases": [
+    { "id": "ropa", "nombre": "Ropa de marca original", "icono": "👟", "oferta": null, "nota": "Aún sin primera cacería." },
+    { "id": "tecnologia", "nombre": "Tecnología", "icono": "💻", "oferta": null, "nota": "Aún sin primera cacería." },
+    { "id": "cursos", "nombre": "Cursos y diplomados", "icono": "🎓", "oferta": null, "nota": "Aún sin primera cacería." },
+    { "id": "conciertos", "nombre": "Conciertos", "icono": "🎤", "oferta": null, "nota": "Aún sin primera cacería." }
+  ],
+  "avisos": []
+}

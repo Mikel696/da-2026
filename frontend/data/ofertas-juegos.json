@@ -1,0 +1,26 @@
+{
+  "revisado": "2026-11-11",
+  "fuentes": [
+    "Epic Games Store",
+    "CheapShark (Steam)"
+  ],
+  "criterio": "Primero un juego de pago que hoy esté gratis; si no hay, la mayor rebaja de Steam entre juegos con nota de prensa ≥ 85 y ≥ 85 % de reseñas positivas.",
+  "clase": {
+    "id": "juegos",
+    "nombre": "Videojuegos",
+    "icono": "🎮",
+    "oferta": {
+      "titulo": "Flotsam",
+      "tienda": "Epic Games Store",
+      "url": "https://store.epicgames.com/es-ES/p/flotsam-266287",
+      "precio": "Gratis",
+      "antes": "33.500 COP",
+      "ahorro": 100,
+      "vence": "2026-11-12",
+      "porque": "Juego de pago que hoy se reclama gratis y queda tuyo para siempre.",
+      "imperdible": false,
+      "visto": "2026-11-11"
+    },
+    "nota": ""
+  }
+}
