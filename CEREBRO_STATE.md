@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-12 noche (plan de optimización entregado; las rutinas nocturnas siguen apagadas desde el 6-nov)
+- **Última actualización:** 2026-11-12 noche (CLAUDE.md partido por módulos en `.claude/rules/`; rutinas reactivadas con el calendario nuevo)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,30 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🪶 CLAUDE.md por módulos (tarea 15 del plan de optimización) — jueves 12-nov (noche)
+
+**Qué cambió:** `CLAUDE.md` pasó de 41.038 B / 535 líneas a **15.905 B / 213 líneas (−61 %)**. Los protocolos de un solo módulo (3-ENG build, 10-SYS,
+14-WORK, 17-IA, 18-MUS, 19-JUE) están ahora en **`.claude/rules/<módulo>.md`**, con `paths:` que apuntan a los archivos de ese módulo. En `CLAUDE.md`
+queda lo transversal (contexto, mandato, arquitectura, nomenclatura, integridad, código, persistencia) y una tabla «PROTOCOLOS POR MÓDULO» con una fila por módulo.
+El contenido movido no cambió (comprobado línea por línea contra el original; solo se reemplazó el encabezado de la regla «nada interno»).
+
+**Confirmado en la documentación oficial** (code.claude.com/docs/en/memory): una regla con `paths` se carga cuando Claude **lee, escribe o edita** un archivo que
+coincide (también con `cat`/`head` de un solo archivo); **no con Grep ni sin tocar archivos**; sin `paths` carga al arrancar. Rutas relativas a la carpeta que contiene `.claude/`;
+en una copia de trabajo (worktree) cargan las reglas de esa copia si la sesión arranca dentro de ella. Para depurar: hook `InstructionsLoaded` o `claude --debug`.
+
+**Trampas a recordar:**
+- **10-SYS por Chrome** (CDigital, «Semana en vivo») no toca ningún archivo del módulo → su regla no se dispara sola. `CLAUDE.md` lo dice en la tabla y la sesión debe leer
+  `.claude/rules/10-sys.md` a mano. La tarea local `sys-semana-en-vivo` aún dice «el bloque PROTOCOLO 10-SYS de CLAUDE.md»; la tabla la reenvía al archivo nuevo.
+- La regla **«nada interno en este repo»** (nacida en 14-WORK) se quedó en `CLAUDE.md` como bloque «REPO PÚBLICO»: vale para cualquier archivo.
+- `.gitignore` ahora es `.claude/*` + `!.claude/rules/`: se versionan solo las reglas; `settings.local.json`, `launch.json` y `worktrees/` siguen fuera.
+- Una copia de trabajo vieja (p. ej. `claude/convoy`) hereda las reglas al hacer `git rebase origin/main`.
+- Una sesión ya abierta conserva el `CLAUDE.md` viejo en su contexto: la ganancia se ve en sesiones **nuevas**.
+
+**Fuera del repo, misma noche:** `INICIO.html` (sección «Sala de máquinas»: tabla de automatizaciones con hora de Colombia y último informe), `ARRANCAR.cmd` (abre Claude + CDigital + INICIO)
+y poda de la memoria de Claude (46 → 33 notas, índice 8.773 → 4.504 B). Todo apuntado en `E:\CLAUDE\PROYECTOS\ESTADO.md`.
 
 ---
 

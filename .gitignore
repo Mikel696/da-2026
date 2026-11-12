@@ -25,4 +25,6 @@ node_modules/
 # Temporary files
 *.tmp
 *.log
-.claude/
+# .claude/: no se sube nada salvo las reglas por módulo (.claude/rules/). Lo demás (settings.local, worktrees, launch.json) sigue fuera.
+.claude/*
+!.claude/rules/
