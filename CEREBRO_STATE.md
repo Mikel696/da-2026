@@ -26,6 +26,9 @@
   horrible»): medido sin altavoces, sigue las vueltas, corta en cada cambio, repetición 12-33 % (antes 75 %). Cámara
   panorámica (cuarto modo) que encuadra la pelea de los interceptores, con campo lejano hasta 340 m. **Sin oír:** el motor
   nuevo en su PC; eso lo juzga Miguel.
+- **12-nov, con su permiso:** lluvia grabada en la misión con lluvia (Rubaoliva 624645, CC0) y voces de radio grabadas en la
+  radio del mando (4 grabaciones CC0 de Freesound, cadena de radio con estática y pitido). Medidas sin altavoces y verificadas en
+  producción. **Sin oír:** si algún idioma se llega a entender en las voces.
 - **Producción (Chrome de Miguel, alta, 1920×911):** tarjeta 11-12 ms por cuadro, 576-680 llamadas, triángulos dentro de 8 M
   tras quitar la sombra a los abetos jóvenes. **Sin verificar:** fps con la ventana a la vista (estaba tapada: 20-24 fps).
 - **Pendiente:** sonido de lluvia (pide permiso de Miguel para bajar una grabación CC0); las ruedas «que se mueven sin acelerar»
