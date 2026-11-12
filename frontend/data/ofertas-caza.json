@@ -8,16 +8,16 @@
       "icono": "👟",
       "ofertas": [
         {
-          "titulo": "Tenis Nike Pacific de cuero, negros (hombre)",
-          "tienda": "Falabella · vendido por Nike",
-          "url": "https://www.falabella.com.co/falabella-co/product/158729199/tenis-hombre-nike-pacific-de-cuero-negro/158729207",
-          "precio": "$ 257.970",
-          "antes": "$ 429.950",
-          "ahorro": 40,
-          "envio": "envío gratis a domicilio",
+          "titulo": "Tenis Nike Pacific (hombre) · talla 11, color Team Crimson/blanco/negro",
+          "tienda": "Amazon · vendido por Amazon",
+          "url": "https://www.amazon.com/-/es/Nike-Hombre-Pacific-Zapatos-casuales/dp/B0FDWD6RHR",
+          "precio": "US$ 62,14 (≈ $ 205.000)",
+          "antes": "",
+          "ahorro": 0,
+          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 21-nov",
           "vence": "",
-          "colombia": "Lo vende la tienda oficial de Nike dentro de Falabella Colombia, con despacho a domicilio. Tallas 7 a 12 US.",
-          "porque": "Marca original vendida por la propia marca y 40 % menos sin necesitar tarjeta de la tienda: el mejor precio por ser original que vi hoy.",
+          "colombia": "La ficha dice «Sin cargos de importación y envío gratis a Colombia» y lo vende Amazon. Se paga en dólares con tarjeta: tu banco cobra la conversión.",
+          "porque": "El precio más bajo de los cuatro sitios comparados (≈ $ 205.000 al dólar oficial de $ 3.297). En Colombia: Dafiti $ 233.900 (blanco, vendido por Dafiti); Falabella y Mercado Libre $ 257.970 (negro, Nike). En Amazon el precio cambia con la talla y el color.",
           "visto": "2026-11-12",
           "imperdible": false
         },
@@ -45,18 +45,32 @@
           "envio": "envío gratis a domicilio",
           "vence": "",
           "colombia": "Vendedor externo dentro de Falabella Colombia (Pacific Sport), con despacho a domicilio.",
-          "porque": "40 % menos en un modelo de moda, pero lo vende una tienda externa y no Nike: revisa la garantía antes de pagar.",
+          "porque": "40 % menos en un modelo de moda, pero lo vende una tienda externa y no Nike: revisa la garantía antes de pagar. Sin comparar en otras tiendas.",
           "visto": "2026-11-12",
           "imperdible": false
         }
       ],
-      "nota": "Descartado: el outlet de adidas.co tenía unas Gazelle a mitad de precio, pero la página bloquea tu navegador («unable to give you access»)."
+      "nota": "Comparado en Amazon, Dafiti, Falabella y Mercado Libre. Descartado: el outlet de adidas.co tenía unas Gazelle a mitad de precio, pero la página bloquea tu navegador."
     },
     {
       "id": "tecnologia",
       "nombre": "Tecnología",
       "icono": "💻",
       "ofertas": [
+        {
+          "titulo": "Samsung Galaxy S25 Ultra · 256 GB · Titanium Black · nuevo",
+          "tienda": "Mercado Libre · vendido por ITECHNOLOGY",
+          "url": "https://www.mercadolibre.com.co/samsung-galaxy-s25-ultra-256gb-titanium-black/p/MCO45517552",
+          "precio": "$ 3.129.900",
+          "antes": "$ 3.999.990",
+          "ahorro": 22,
+          "envio": "envío gratis",
+          "vence": "",
+          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo, 12 meses de garantía de fábrica.",
+          "porque": "$ 870.090 menos que en Alkosto ($ 3.999.990), que es el «antes» que se muestra aquí (no el que anuncia la tienda). Descartado otro a $ 2.529.000: lo vende una cuenta sin nombre ni historial.",
+          "visto": "2026-11-12",
+          "imperdible": false
+        },
         {
           "titulo": "Lenovo Legion Go S · AMD Z2 Go · 16 GB · 1 TB · pantalla de 8\"",
           "tienda": "Falabella",
@@ -67,21 +81,7 @@
           "envio": "despacho a domicilio",
           "vence": "",
           "colombia": "Mismo precio comprobado en dos tiendas grandes de Colombia: Falabella (vendido por Falabella) y Alkosto ($ 2.599.070, envío gratis).",
-          "porque": "Un PC de juegos portátil para tu biblioteca de Steam con el mando. Cada tienda anuncia un descuento distinto (35 % y 57 %) porque inflan el «antes»: este es el precio de mercado de hoy, no una rebaja real.",
-          "visto": "2026-11-12",
-          "imperdible": false
-        },
-        {
-          "titulo": "Samsung Galaxy S25 Ultra · 256 GB · 12 GB de RAM",
-          "tienda": "Alkosto",
-          "url": "https://www.alkosto.com/search?text=galaxy%20s25%20ultra",
-          "precio": "$ 3.999.990",
-          "antes": "$ 6.999.990",
-          "ahorro": 42,
-          "envio": "envío: ver en la tienda",
-          "vence": "",
-          "colombia": "Lo vende Alkosto, tienda colombiana con garantía directa.",
-          "porque": "Alta gama de 2025 por casi la mitad de su precio de salida. En Falabella un vendedor externo lo tiene en $ 3.449.900: más barato, pero sin la garantía de una tienda grande.",
+          "porque": "Un PC de juegos portátil para tu biblioteca de Steam con el mando. Es lo más barato de todas partes: en Amazon la de 512 GB cuesta US$ 829 (≈ $ 2.733.000) y en Mercado Libre pasa de $ 4.200.000. Las tiendas inflan el «antes» (35 % y 57 %): este es el precio de mercado, no una rebaja.",
           "visto": "2026-11-12",
           "imperdible": false
         },
@@ -90,8 +90,8 @@
           "tienda": "Alkosto",
           "url": "https://www.alkosto.com/search?text=lenovo%20idea%20tab",
           "precio": "$ 899.070",
-          "antes": "$ 1.699.000",
-          "ahorro": 47,
+          "antes": "",
+          "ahorro": 0,
           "envio": "envío: ver en la tienda",
           "vence": "",
           "colombia": "Lo vende Alkosto, tienda colombiana. En Falabella la misma tablet va de $ 880.000 a $ 1.039.000 según el vendedor.",
@@ -100,7 +100,7 @@
           "imperdible": false
         }
       ],
-      "nota": ""
+      "nota": "Comparado en Alkosto, Falabella, Mercado Libre y Amazon."
     },
     {
       "id": "cursos",
