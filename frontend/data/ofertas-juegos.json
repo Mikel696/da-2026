@@ -1,26 +1,56 @@
 {
   "revisado": "2026-11-12",
   "fuentes": [
-    "Epic Games Store",
-    "CheapShark (Steam)"
+    "Epic Games Store (Colombia)",
+    "Steam (Colombia)",
+    "CheapShark"
   ],
-  "criterio": "Primero un juego de pago que hoy esté gratis; si no hay, la mayor rebaja de Steam entre juegos con nota de prensa ≥ 85 y ≥ 85 % de reseñas positivas.",
+  "criterio": "Juego de pago gratis hoy, o rebaja de 50 % o más en la tienda de Steam para Colombia, con 85 % o más de reseñas positivas sobre 5.000 o más.",
   "clase": {
     "id": "juegos",
     "nombre": "Videojuegos",
     "icono": "🎮",
-    "oferta": {
-      "titulo": "Flotsam",
-      "tienda": "Epic Games Store",
-      "url": "https://store.epicgames.com/es-ES/p/flotsam-266287",
-      "precio": "Gratis",
-      "antes": "33.500 COP",
-      "ahorro": 100,
-      "vence": "2026-11-12",
-      "porque": "Juego de pago que hoy se reclama gratis y queda tuyo para siempre.",
-      "imperdible": false,
-      "visto": "2026-11-12"
-    },
+    "ofertas": [
+      {
+        "titulo": "Euro Truck Simulator 2",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/227300/",
+        "precio": "COL$ 12.999",
+        "antes": "COL$ 51.999",
+        "ahorro": 75,
+        "vence": "2026-11-24",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "97 % de 766.668 reseñas de jugadores son positivas.",
+        "imperdible": false,
+        "visto": "2026-11-12"
+      },
+      {
+        "titulo": "Frostpunk",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/323190/",
+        "precio": "COL$ 7.000",
+        "antes": "COL$ 70.000",
+        "ahorro": 90,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "93 % de 115.396 reseñas de jugadores son positivas.",
+        "imperdible": true,
+        "visto": "2026-11-12"
+      },
+      {
+        "titulo": "This War of Mine",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/282070/",
+        "precio": "COL$ 4.750",
+        "antes": "COL$ 47.500",
+        "ahorro": 90,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "94 % de 82.150 reseñas de jugadores son positivas.",
+        "imperdible": true,
+        "visto": "2026-11-12"
+      }
+    ],
     "nota": ""
   }
 }
