@@ -174,6 +174,21 @@ export function crearVia(def, M) {
       for (let j = j0; j < j1; j++) for (let i = 0; i < nx - 1; i++) { const a = (j - j0) * nx + i, b = a + 1, c = a + nx, d = c + 1; id.push(a, c, b, b, c, d); }
       t.setIndex(id); t.computeBoundingSphere(); pon(new THREE.Mesh(t, M.terreno));
     }
+    // Campo lejano: celdas de 10 m hasta 340 m de la vía, medio metro por debajo del campo detallado (que lo tapa donde existe).
+    // Desde la cámara panorámica se veía el borde del mundo a 170 m.
+    const PL = 10, X0 = x0 - 170, X1 = x1 + 170, Z0 = z0 - 170, Z1 = z1 + 170, mx = Math.ceil((X1 - X0) / PL) + 1, mz = Math.ceil((Z1 - Z0) / PL) + 1;
+    const lp = new Float32Array(mx * mz * 3), lu = new Float32Array(mx * mz * 2), lc = new Float32Array(mx * mz * 3), li = [];
+    for (let j = 0, k = 0; j < mz; j++) for (let i = 0; i < mx; i++, k++) {
+      const x = X0 + i * PL, z = Z0 + j * PL, y = terreno(x, z);
+      lp[k * 3] = x; lp[k * 3 + 1] = y - 0.6; lp[k * 3 + 2] = z; lu[k * 2] = x / 4.5; lu[k * 2 + 1] = z / 4.5;
+      colorSuelo(x, z, fuera.q, fuera.d, borde(dist[fuera.i], fuera.lat >= 0 ? 1 : -1), col); lc[k * 3] = col[0]; lc[k * 3 + 1] = col[1]; lc[k * 3 + 2] = col[2];
+    }
+    for (let j = 0; j < mz - 1; j++) for (let i = 0; i < mx - 1; i++) {
+      const cx0 = X0 + i * PL, cz0 = Z0 + j * PL; if (cx0 >= x0 && cx0 + PL <= x1 && cz0 >= z0 && cz0 + PL <= z1) continue;   // ahí ya está el campo detallado
+      const a = j * mx + i, b = a + 1, c = a + mx, d = c + 1; li.push(a, c, b, b, c, d);
+    }
+    const gl = new THREE.BufferGeometry(); gl.setAttribute('position', new THREE.BufferAttribute(lp, 3)); gl.setAttribute('uv', new THREE.BufferAttribute(lu, 2)); gl.setAttribute('color', new THREE.BufferAttribute(lc, 3));
+    gl.setIndex(li); gl.computeVertexNormals(); const ml = new THREE.Mesh(gl, M.terreno); ml.receiveShadow = true; grupo.add(ml);
   }
   return { def, n, px, py, pz, tx, ty, tz, rx, rz, curv, peralte, dist, largo: dist[n - 1], iInicio: Math.round(def.salida / PASO), grupo, base, terreno, fuera, consulta, punto, cercana, borde, limites, CUNETA };
 }

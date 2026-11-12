@@ -824,7 +824,23 @@ async function iniciar() {
   const cam = { yaw: veh.psi, modo: 0, fov: 55, t: 0 };
   // Lejana (por defecto, la de un juego de conducción), cercana y desde la torreta. El ancla sigue a la camioneta con un
   // pequeño retraso, como una cámara montada en un brazo: al acelerar se queda atrás y al frenar se acerca.
-  const MODOS = [{ dist: 12, alto: 1.9 }, { dist: 8.4, alto: 1.5 }, { torreta: true }], ancla = new THREE.Vector3(veh.x, veh.y, veh.z);
+  const MODOS = [{ dist: 12, alto: 1.9, nombre: 'Cámara de persecución' }, { dist: 8.4, alto: 1.5, nombre: 'Cámara cercana' }, { torreta: true, nombre: 'Cámara de la torreta' },
+    { panoramica: true, nombre: 'Cámara panorámica: la pelea en el aire' }], ancla = new THREE.Vector3(veh.x, veh.y, veh.z);
+  // Panorámica: alta y detrás, mirando al centro de la pelea (interceptores y sus blancos, o los drones cercanos) mezclado con
+  // la camioneta, para ver cómo tus interceptores derriban a los otros sin perder de vista la vía. El stick derecho la gira.
+  const foco = new THREE.Vector3(veh.x, veh.y, veh.z), F = new THREE.Vector3();
+  function focoPelea() {
+    let n = 0, abre = 0; F.set(0, 0, 0);
+    for (const o of propios.lista) if (o.blanco && o.blanco.viva) { F.add(o.pos).add(o.blanco.pos); n += 2; }
+    if (!n) for (const d of drones.lista) if (d.viva && d.detectada && Math.hypot(d.pos.x - veh.x, d.pos.z - veh.z) < 260) { F.add(d.pos); n++; }
+    if (!n) { F.set(veh.x + Math.sin(veh.psi) * 18, veh.y + 2, veh.z + Math.cos(veh.psi) * 18); return 0; }
+    F.multiplyScalar(1 / n);
+    for (const o of propios.lista) if (o.blanco && o.blanco.viva) abre = Math.max(abre, o.pos.distanceTo(F), o.blanco.pos.distanceTo(F));
+    for (const d of drones.lista) if (d.viva && d.detectada && d.pos.distanceTo(F) < 200) abre = Math.max(abre, d.pos.distanceTo(F));
+    F.lerp(V.set(veh.x, veh.y + 2, veh.z), 0.4);   // la camioneta siempre cuenta: que no se salga del cuadro
+    F.y = Math.min(F.y, veh.y + 18);   // el de reconocimiento vuela a 70 m: sin tope la cámara se iba al cielo
+    return Math.max(abre, F.distanceTo(V));
+  }
   /** Gotas de lluvia como trazos cortos en coordenadas del mundo; las que se alejan de la cámara reaparecen del otro lado. */
   function crearLluvia(n) {
     const g = new THREE.BufferGeometry(), pos = new Float32Array(n * 6), p = new Float32Array(n * 3), R = 26, ALTO = 22, VY = -17, VX = 2.2;
@@ -858,7 +874,13 @@ async function iniciar() {
       cam.yaw = angulo(cam.yaw + angulo(veh.psi - cam.yaw) * (1 - Math.exp(-6 * dt)));
       const yaw = cam.yaw + mira.yaw, cpch = Math.cos(mira.pitch);
       camDir.set(Math.sin(yaw) * cpch, Math.sin(mira.pitch), Math.cos(yaw) * cpch);
-      if (m.torreta) {   // desde la torreta: el escudo y las mirillas se vuelven casi transparentes para ver el camino
+      if (m.panoramica) {
+        const abre = focoPelea(); foco.x = amort(foco.x, F.x, 2.2, dt); foco.y = amort(foco.y, F.y, 2.2, dt); foco.z = amort(foco.z, F.z, 2.2, dt);
+        const dist = clamp(30 + abre * 0.9, 30, 75), baja = clamp(0.5 + mira.pitch * 0.6, 0.18, 1.1), yaw = cam.yaw + mira.yaw;
+        const px = foco.x - Math.sin(yaw) * Math.cos(baja) * dist, pz = foco.z - Math.cos(yaw) * Math.cos(baja) * dist;
+        camara.position.set(px, Math.max(Math.min(foco.y + Math.sin(baja) * dist, veh.y + 34), P.terreno(px, pz) + 3), pz);
+        camDir.subVectors(foco, camara.position).normalize(); fov = 64;
+      } else if (m.torreta) {   // desde la torreta: el escudo y las mirillas se vuelven casi transparentes para ver el camino
         camion.torreta.getWorldPosition(V); camara.position.set(V.x - camDir.x * 0.9, V.y + 0.62, V.z - camDir.z * 0.9); fov = 62;
       } else {
         const dist = m.dist * (1 - 0.4 * Math.max(0, camDir.y)), px = ancla.x - camDir.x * dist, pz = ancla.z - camDir.z * dist;
@@ -1022,7 +1044,7 @@ async function iniciar() {
       if (inp.j('pausa')) pausar();
       else {
         combate = true;
-        if (inp.j('camara')) { cam.modo = (cam.modo + 1) % MODOS.length; }
+        if (inp.j('camara')) { cam.modo = (cam.modo + 1) % MODOS.length; mensaje(MODOS[cam.modo].nombre, 1.4); }
         if (est.fase === 'ruta' && inp.j('reaparecer')) { veh.colocar(P, clamp(veh.sup.i, 2, P.n - 6), CARRIL); ui.atras(); }
         if (!auto.on && est.fase === 'ruta') { ent.gas = est.reparando || est.subir > 0 ? 0 : inp.v('acelerar'); if (est.reparando && inp.v('acelerar') > 0.3) cancelarReparacion(); ent.freno = inp.v('frenar'); ent.giro = inp.e('giro'); ent.mano = inp.p('mano'); }
         apuntarMira(dt);
