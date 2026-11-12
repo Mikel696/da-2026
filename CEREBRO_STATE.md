@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-11 (19-JUE: Corredor báltico de 6 km, guerra actual, tarde, noche y lluvia)
+- **Última actualización:** 2026-11-12 (1-IND: «Ofertas de hoy», la mejor oferta de cada clase + cazador diario)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,39 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎁 1-IND · «Ofertas de hoy»: la mejor oferta de cada clase, actualizada sola — 11 y 12-nov
+
+**Pedido de Miguel (10-nov):** rehacer «Ofertas reales» (35 sitios fijos, sin tocar desde abril): una sola oferta por
+clase, la mejor (ropa de marca original con descuento y envío, tecnología, videojuegos, cursos y diplomados,
+conciertos), que se actualice sola cada día, que no se rompa con el tiempo y que avise al celular cuando haya una imperdible.
+
+- **Dos motores, porque las fuentes no son iguales (medido 10-nov):**
+  - **Videojuegos por script** (`scripts/fetch-deals.mjs`, en la foto diaria de `macro-snapshot.yml`, seis veces al día):
+    Epic (juego de pago gratis hoy, precio en COP) y, si no hay, CheapShark (rebajas de Steam con nota ≥ 85 y ≥ 85 %
+    de reseñas positivas). CheapShark exige un User-Agent con nombre. Si fallan las dos, el archivo no se toca.
+    Imperdible = juego regalado de 60.000 COP o más, o rebaja ≥ 90 % de un juego con nota ≥ 88 y 20 000 reseñas.
+  - **Ropa, tecnología, cursos y conciertos por el cazador diario** (tarea programada local `cazador-de-ofertas`,
+    7:43 a. m., modo Auto): busca en la web, **abre la página de la tienda oficial y lee el precio ahí** antes de
+    publicar; sin confirmar, la clase queda vacía. Trabaja en su propia copia `E:\CLAUDE\PROYECTOS\cazador-ofertas\repo`
+    (nunca en esta carpeta) y sube solo `frontend/data/ofertas-caza.json`. Avisa con PushNotification solo si hay
+    algo imperdible y nuevo; tope 3 avisos por semana; la lista `avisos` evita repetir.
+  - La búsqueda pública de Mercado Libre da **403** sin cuenta: por eso ropa y tecnología no van por script.
+- **Preferencias de Miguel fuera del repo público:** `E:\CLAUDE\PROYECTOS\OFERTAS-PREFERENCIAS.md` (ciudad, marcas,
+  tallas, topes, artistas). Vacío = criterio general.
+- **La sección** (`renderDeals` en `index.html`): cinco clases, cada una con su fecha («visto hoy», «hace N días»,
+  ámbar si pasa de 2 días); clase sin oferta = hueco con su motivo. Solo enlaza http(s) y escapa todo el texto.
+- **Verificado:** en local con datos simulados (4 clases llenas, una vieja, un enlace `javascript:` que no se pinta,
+  texto con etiquetas que se escapa, sin red → «Sin conexión»). **En producción** (Chrome de Miguel, 12-nov): botón
+  «Ofertas de hoy · la mejor de cada clase · 1 de 5», videojuegos con Flotsam gratis en Epic, 0 errores de consola.
+  La foto diaria del 12-nov ya regeneró `ofertas-juegos.json` sola.
+- **Sin confirmar:** la primera corrida del cazador empezó el 12-nov a las 10:52 (la app estaba cerrada a las 7:43) y
+  seguía navegando al cerrar esta sesión: no se sabe aún si publicó ni si el aviso al celular llega (necesita Remote
+  Control conectado). Revisar con `list_task_runs` de `cazador-de-ofertas` y `frontend/data/ofertas-caza.json`.
+- **Límite que hay que decirle:** la tarea programada corre solo con la app de Claude abierta; si está cerrada a las
+  7:43, corre al abrirla.
 
 ---
 
