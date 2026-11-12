@@ -49,6 +49,18 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
   el mando. *Verificación:* la de la tarea 2.
   > Hecha de día el 5-nov (`33f5d0b`, ya en `main`); seguía marcada pendiente y el guardián la habría rehecho.
 
+- [ ] **3-ENG · 4 · El corrector deja pasar «He don't speak English».** Rama nueva `claude/noche-AAAAMMDD`.
+  Hallazgo del 5-nov (CEREBRO_STATE, entrada «8 errores de vocabulario»): el analizador de frases (`ANL`, en
+  `src/english-engine/08_app.js`; ubícalo con `grep -n "ANL" src/english-engine/08_app.js`) marca bien «He
+  doesn't speaks» y «Where she lives?» pero da luz verde a «He don't speak English.» y «She don't live in
+  Bogotá.». Falta la regla de concordancia sujeto–auxiliar: he/she/it y un sustantivo singular van con
+  *doesn't / does*; I/you/we/they con *don't / do*. Mismo tono y formato que las reglas vecinas. Lee antes
+  `src/english-engine/README.md` (sus tres trampas). Edita **solo las piezas** de `src/english-engine/` y corre
+  `bash src/english-engine/build.sh`; nunca edites el HTML construido a mano. *Verificación:* el build termina
+  sin error; `git diff --stat` muestra solo `08_app.js` y `frontend/pages/english-engine.html`; en la nota deja
+  las 4 frases de prueba (2 que ahora deben marcarse y «He doesn't speak English.» / «They don't live here.» que
+  deben seguir en verde) para que el Integrador las pruebe en el navegador y corra las 8 auditorías.
+
 ## Hecho
 - 9-nov-2026 · Tareas 1, 2 y 3 de 19-JUE están en `main` (fusionadas el 5-nov). Falta la aceptación de Miguel con
   su control: no se pudo dar porque el juego escuchaba al volante USB en vez del mando (arreglado en `b89e3eb`).

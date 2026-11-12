@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-12 (1-IND: «Ofertas de hoy» pasa a top 3 por clase, comparado en 7 plataformas)
+- **Última actualización:** 2026-11-12 noche (plan de optimización entregado; las rutinas nocturnas siguen apagadas desde el 6-nov)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,33 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧭 Plan de optimización y actualización completa — jueves 12-nov (noche)
+
+**Pedido de Miguel:** depurar frentes y ejecuciones automáticas, proteger el PC, un solo comando, máquina de clips,
+¿pasar al plan de 100 USD?, vigilancia diaria de IA. `analisis-profundo` → **HACER DISTINTO**; `contraparte` → CORREGIR
+(corregido). **El plan es privado** (`E:\CLAUDE\PROYECTOS\PLAN-OPTIMIZACION-2026-11.html`, enlazado desde INICIO y el
+Plan Maestro); aquí solo lo que toca al Cerebro.
+
+- **🚨 El guardián nocturno está apagado desde el 6-nov** (Miguel pausó las 4 rutinas de la nube y la revisión de
+  10-SYS «hasta nueva orden»). Último informe: 6-nov, todo verde. Desde entonces se publicaron juegos y ofertas sin
+  esa revisión. Propuesto: encenderlo primero; inglés mar/vie, sistemas lun/jue hasta el 22-nov, vigía semanal los
+  lunes (IA + clips), 10-SYS lun/mié/sáb. Pendiente del sí de Miguel: **no se encendió nada**.
+- **Cola nocturna vacía** (3 de 3 tareas `[x]`): el paso 7 del guardián no tiene qué hacer.
+- **Copias de trabajo:** 11 además de la carpeta principal. Limpias y ya en main: `sys-modulos-acas`, `agent-a976…`,
+  `fase-a-cierre`, `vibrant-euclid`. Con cambios sin guardar: `integrar-juegos` (6 archivos), `ofertas-eventos`
+  (4 nuevos), `elastic-nobel` (1). Historial viejo: `kind-saha`, `lucid-hertz`, `ofertas-eventos`, `elastic-nobel` →
+  `git bundle` a `E:\CLAUDE\PROYECTOS\respaldos\` antes de quitar nada.
+- **Ejecutado con el sí de Miguel (ítem por ítem):** 50 sesiones archivadas (reversible) y 6 copias limpias quitadas
+  con `git worktree remove` (sin `--force`); las 6 ramas siguen. El bundle no hizo falta: los commits de kind-saha y
+  lucid-hertz ya están en `historial/main`. Quedan 5 copias: convoy, corredor-baltico, integrar-juegos,
+  ofertas-eventos y elastic-nobel. **No aprobó por ahora** reactivar rutinas ni la prueba de clips.
+- **Plan Max:** no por ahora (la semana nunca pasó del 40 %; los cortes fueron de la ventana de 5 horas). Precios
+  leídos en claude.com/pricing el 12-nov.
+- **Medido para la tarea «partir CLAUDE.md»:** esta sesión arrancó con 16,9 mil tokens de instrucciones y memoria.
+  Antes de mover protocolos a `.claude/rules/`, confirmar en la documentación oficial que Claude Code lo admite.
 
 ---
 
