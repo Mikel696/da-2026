@@ -1,16 +1,17 @@
 {
  "licencias": "CC0 1.0 o dominio público (cada pieza dice cuál)",
- "descargado": "2026-11-11",
+ "descargado": "2026-11-11 · 2026-11-12: motor de blindado (Freesound 405086, CC0)",
  "piezas": [
   {
-   "archivo": "motor-detroit-62.ogg",
-   "uso": "Motor diésel Detroit 6.2 L V8 (el del Humvee original): motor de la camioneta",
-   "titulo": "Detroit62.ogg",
-   "autor": "Sixthstar (talk)",
+   "archivo": "motor-blindado.wav",
+   "uso": "Motor del vehículo táctico: blindado diésel que pasa de ralentí a un acelerón fuerte (motor granular, co-motor.js)",
+   "titulo": "truck large diesel or military tank APC armored personnel carrier accelerate big rev and pull away… Saravena, Colombia 2016.flac",
+   "autor": "kyles",
    "licencia": "CC0",
-   "fuente": "https://commons.wikimedia.org/wiki/File:Detroit62.ogg",
-   "bytes": 63981,
-   "sha256": "cd54da2636d2f8cacc2b3690f4b648f0444240afca551c0564827cc13aa7f2c6"
+   "fuente": "https://freesound.org/people/kyles/sounds/405086/",
+   "bytes": 840044,
+   "sha256": "40fb2e14101719ff90a3214baaa2419dab624605bdea5a444e0c1ebbd01240c7",
+   "nota": "Recorte de 0 a 17,5 s de la vista previa pública (mp3 de 128 kbps), mono, 24 kHz, 16 bit. motor-blindado.json es el mapa de vueltas medido (frecuencia de encendido por autocorrelación) con scripts/hornear-impostores/tono.js. Reemplaza al Detroit 6.2 de Commons (12-nov-2026)."
   },
   {
    "archivo": "ambiente-brisa-pajaros.ogg",
@@ -116,6 +117,15 @@
    "nota": "Un disparo recortado con su eco de la grabación original (96 kHz, 24 bits, estéreo), pasado a mono 48 kHz 16 bits y normalizado.",
    "bytes": 57644,
    "sha256": "dd85ab913f9510af8e04e5308d42baf4be3493eb15eff2d02f3cc7b971ff59fb"
+  },
+  {
+   "archivo": "motor-blindado.json",
+   "uso": "Mapa de vueltas de motor-blindado.wav (dato propio derivado de la grabación)",
+   "autor": "medido en este proyecto",
+   "licencia": "CC0",
+   "fuente": "https://freesound.org/people/kyles/sounds/405086/",
+   "bytes": 3093,
+   "sha256": "63b3a872668bd5d921d4669702b82e2d9dd003e53fc2484aa3b286f2ceffb27e"
   }
  ]
 }

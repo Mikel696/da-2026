@@ -4,40 +4,13 @@
 // El zumbido de los drones sigue sintetizado: no se encontró una grabación libre de un dron real.
 // Licencia: MIT (código propio).
 import { audio } from './sonido.js';
+import { MotorGranular } from './co-motor.js';
 
 const BASE = new URL('../assets/sonido/', import.meta.url).href;
-// Medido en la grabación (9,9 s): ralentí estable (42 Hz de explosiones) de 6,4 a 9,2 s; acelerón de 3,8 a 5,2 s, estable
-// solo de 3,95 a 4,6 (63 Hz). Hasta el 11-nov se repetía 4,0-5,0 tal cual: el volumen caía dentro del bucle y cada segundo
-// sonaba un «tru tru» de tren. Ahora el ralentí se funde consigo mismo en la costura y las altas vueltas son una textura de
-// granos tomados al azar del tramo estable: no hay ciclo que se oiga.
-const MOTOR = { ralenti: [6.4, 9.2], vueltas: [3.95, 4.6] };
-/**
- * Mezcla del motor según vueltas (rn 0..1), acelerador y cambio de marcha. Pura: se mide sin altavoces.
- * Al cambiar (corte) el acelerador cuenta como suelto y las altas vueltas bajan a la mitad: se oye el «corte» y después
- * las vueltas, más bajas, vuelven a subir en la marcha nueva. La grabación al ralentí tiene una décima parte de la
- * energía que a altas vueltas: por eso las ganancias tan distintas.
- */
-export function mezclaMotor(e) {
-  const rn = Math.min(1, Math.max(0, e.rn)), g = e.corte ? 0.08 : e.gas, mezcla = Math.min(1, rn * 0.6 + g * 0.55);
-  return { rA: 0.95 + 1.1 * rn, rB: 0.66 + 0.86 * rn, gA: (1 - mezcla) * 4, gB: mezcla * 0.55 * (e.corte ? 0.45 : 1), f: 900 + 4500 * Math.max(g, rn * 0.6), m: e.activo ? 0.5 + 0.3 * g : 0 };
-}
+// Motor: granular sobre la grabación de un blindado diésel (co-motor.js). Hasta el 12-nov eran dos bucles de un Detroit
+// 6.2 estirados de tono: «suena horrible» (Miguel). Vueltas del juego: 750-4200 rpm (AJUSTE.tactica).
+const RPM = { ralenti: 750, max: 4200 };
 
-/** Bucle sin costura: el final del tramo se funde (a igual potencia) con su principio. */
-function bucleSinCostura(ctx, buf, a, b, fundido = 0.35) {
-  const hz = buf.sampleRate, x = buf.getChannelData(0), i0 = Math.round(a * hz), F = Math.round(fundido * hz), n = Math.round((b - a) * hz) - F;
-  const out = ctx.createBuffer(1, n, hz), y = out.getChannelData(0);
-  for (let i = 0; i < n; i++) y[i] = x[i0 + i];
-  for (let i = 0; i < F; i++) { const t = i / F; y[i] = x[i0 + i] * Math.sqrt(t) + x[i0 + n + i] * Math.sqrt(1 - t); }
-  return out;
-}
-/** Textura continua: granos de 90 ms con ventana sen² al 50 % (suman exactamente 1), tomados al azar de [a, b]. */
-function textura(ctx, buf, a, b, seg = 5, grano = 0.09) {
-  const hz = buf.sampleRate, x = buf.getChannelData(0), G = Math.round(grano * hz), paso = G >> 1, n = Math.round(seg * hz / paso) * paso;
-  const tmp = new Float32Array(n + G), i0 = Math.round(a * hz), i1 = Math.round(b * hz) - G;
-  for (let p = 0; p < n; p += paso) { const s = i0 + Math.floor(Math.random() * (i1 - i0)); for (let i = 0; i < G; i++) tmp[p + i] += x[s + i] * Math.sin(Math.PI * i / G) ** 2; }
-  for (let i = 0; i < G; i++) tmp[i] += tmp[n + i];   // la cola vuelve al principio: el bucle cierra sin costura
-  const out = ctx.createBuffer(1, n, hz); out.getChannelData(0).set(tmp.subarray(0, n)); return out;
-}
 const EXPLOSIONES = [['explosion-1.ogg', [0.35, 1.4, 2.25, 3.6]], ['explosion-2.ogg', [0.6, 1.55, 2.7]], ['explosion-3.ogg', [1.2, 2.3, 2.9, 4.1, 4.95]]];
 const DISPAROS = ['disparo-30-06-1.wav', 'disparo-30-06-2.wav', 'disparo-ak-1.wav', 'disparo-ak-2.wav', 'disparo-ak-3.wav'];
 
@@ -50,7 +23,8 @@ export class SonidoReal {
     this.estado = 'cargando';
     try {
       const ctx = audio.ctx, leer = async (f) => ctx.decodeAudioData(await (await fetch(BASE + f)).arrayBuffer());
-      const todos = await Promise.all(['motor-detroit-62.ogg', 'ambiente-brisa-pajaros.ogg', 'ambiente-guerra-lejana.ogg', ...EXPLOSIONES.map((e) => e[0]), ...DISPAROS].map(leer));
+      this.mapa = await (await fetch(BASE + 'motor-blindado.json')).json();
+      const todos = await Promise.all(['motor-blindado.wav', 'ambiente-brisa-pajaros.ogg', 'ambiente-guerra-lejana.ogg', ...EXPLOSIONES.map((e) => e[0]), ...DISPAROS].map(leer));
       this.b = { motor: todos[0], brisa: todos[1], guerra: todos[2], exp: todos.slice(3, 6), disp: todos.slice(6) };
       this.montar(); this.listo = true; this.estado = 'listo';
     } catch (e) { this.estado = 'falló'; console.warn('Sonido grabado no disponible; sigue el sintetizado.', e); }
@@ -60,12 +34,10 @@ export class SonidoReal {
     const ctx = audio.ctx, sal = audio.efectos;
     const bucle = (buf, [a, b]) => { const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.loopStart = a; s.loopEnd = b; s.start(0, a); return s; };
     const ganancia = (v = 0) => { const g = ctx.createGain(); g.gain.value = v; return g; };
-    // Motor: dos capas de la misma grabación (ralentí y altas vueltas) que se mezclan según acelerador y vueltas.
-    const fuente = (buf) => { const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.start(0); return s; };
-    this.mA = fuente(bucleSinCostura(ctx, this.b.motor, ...MOTOR.ralenti)); this.mB = fuente(textura(ctx, this.b.motor, ...MOTOR.vueltas));
-    this.gA = ganancia(); this.gB = ganancia(); this.filtro = ctx.createBiquadFilter(); this.filtro.type = 'lowpass'; this.filtro.frequency.value = 2000;
-    this.motor = ganancia();
-    this.mA.connect(this.gA); this.mB.connect(this.gB); this.gA.connect(this.filtro); this.gB.connect(this.filtro); this.filtro.connect(this.motor); this.motor.connect(sal);
+    // Motor: trocitos de la grabación elegidos por vueltas (co-motor.js) → filtro (más brillante con carga) → volumen.
+    this.filtro = ctx.createBiquadFilter(); this.filtro.type = 'lowpass'; this.filtro.frequency.value = 2000; this.motor = ganancia();
+    this.filtro.connect(this.motor); this.motor.connect(sal);
+    this.mg = new MotorGranular(ctx, this.b.motor, this.mapa, this.filtro, RPM);
     // Ambiente: brisa con pájaros, sin los extremos de la grabación (empieza y termina en silencio).
     const amb = bucle(this.b.brisa, [3, 29]); this.amb = ganancia(); amb.connect(this.amb); this.amb.connect(sal);
   }
@@ -73,12 +45,10 @@ export class SonidoReal {
   /** e = { activo, rn (vueltas 0..1), gas 0..1, corte (cambiando de marcha) }. Llamar en cada cuadro. */
   actualizar(e, dt) {
     if (!this.listo) return;
-    const t = audio.ctx.currentTime, set = (p, v, k = 0.06) => p.setTargetAtTime(v, t, k), m = mezclaMotor(e), k = e.corte || this.corte ? 0.025 : 0.06;
-    this.corte = e.corte;
-    set(this.mA.playbackRate, m.rA); set(this.mB.playbackRate, m.rB);
-    set(this.gA.gain, m.gA, k); set(this.gB.gain, m.gB, k);
-    set(this.filtro.frequency, m.f, k);
-    set(this.motor.gain, m.m, 0.1);
+    const t = audio.ctx.currentTime, set = (p, v, k = 0.06) => p.setTargetAtTime(v, t, k), g = e.corte ? 0 : e.gas;
+    this.mg.programar(t + 0.12, () => e);
+    set(this.filtro.frequency, e.corte ? 900 : 1300 + 5200 * Math.max(g, e.rn * 0.5), e.corte ? 0.02 : 0.06);
+    set(this.motor.gain, e.activo ? 0.9 : 0, 0.1);
     set(this.amb.gain, e.activo ? 3 : 0, 0.6);
     if (e.activo && (this.lejos -= dt) <= 0) { this.lejos = 14 + Math.random() * 20; this.combateLejano(); }   // ambiente de guerra: un tiroteo lejano cada 14-34 s
   }

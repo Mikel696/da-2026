@@ -161,6 +161,21 @@ lo que ya vio.
 - **Radio del mando** (texto con pitido y estática sintetizados, solo con sonido): drones por posición de reloj y distancia,
   lanzacohetes y heridos adelante, redes a 250 m y charla del frente cada 22-46 s. Voces o radio grabados: **pedir permiso**.
 
+## Paso 6e · motor granular y cámara panorámica (12-nov)
+> «Debes cambiar el sonido del motor, suena horrible… adapta de acuerdo a los cambios de marcha» · «una cámara panorámica para
+> ver cómo los drones interceptores derriban a los otros».
+- **Búsqueda (Freesound, filtro CC0, con su permiso):** 8 candidatos; se midió cada uno (periodicidad y rango de la frecuencia
+  de encendido). Elegido **kyles 405086**, un blindado diésel que pasa de ralentí (37 Hz) a un acelerón fuerte (100 Hz) en 17 s;
+  recorte de 0-17,5 s a WAV de 24 kHz (840 KB) + mapa de vueltas medido (`motor-blindado.json`, `scripts/hornear-impostores/tono.js`).
+- **Motor granular** (`co-motor.js`): cada ~55 ms suena un trocito de 0,11 s del instante cuyas vueltas pide el juego (no se
+  estira un bucle), ventana seno², solape con algo de azar, volumen suavizado, con carga pesan los trocitos fuertes y al cambiar
+  corta. **Medido sin altavoces** con una aceleración a fondo: el tono sigue las vueltas (40 Hz al ralentí; 78 → 117 Hz en
+  primera; cambio: cae a 84; 84 → 124 en segunda), al soltar baja a 42 Hz y suena más bajo; sin golpes (salto máximo 1,5×
+  el nivel); repetición 12-33 % según régimen (el Detroit de antes: 75-78 %). **Sin oír:** cómo le suena a Miguel.
+- **Cámara panorámica** (cuarto modo, C / Y): alta y detrás (30-75 m, tope 34 m de altura), mirando al centro de la pelea de los
+  interceptores con sus blancos (o los drones cercanos) mezclado con la camioneta; el stick derecho la gira. Para que no se
+  vea el borde del mundo, un **campo lejano** de celdas de 10 m hasta 340 m de la vía.
+
 ## Siguiente (sin empezar) · partida aún más completa
 «Quiero que la partida sea más larga, completa» (11-nov): la ruta ya pasó de 2,4 a 6,3 km (paso 6b, ~10,6 min con el piloto).
 Lo que queda propuesto, en orden de valor:
