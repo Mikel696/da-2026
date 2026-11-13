@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-13 tarde (fix P0 de cloud-sync p23: un cambio hecho durante una re-sync ya no se pierde)
+- **Última actualización:** 2026-11-13 noche (fix P0 de cloud-sync p24: lo editado sin sesión o sin red ya no se pierde al entrar)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,49 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🛡 CORE · P0 · Lo editado sin sesión o sin red se perdía al entrar — viernes 13-nov noche (cloud-sync p24, `b430664`)
+
+**Qué pasaba:** mientras la hidratación inicial no termina (página abierta sin sesión, sin internet, o con Supabase/DNS
+caídos) el candado no ponía hora a **ningún** cambio, tampoco a los de Miguel. Al entrar, si la hora local de esa key
+había quedado detrás de la nube (basta con que la pestaña anterior se cerrara justo después de guardar: la subida sale
+por keepalive con una hora posterior), la nube ganaba y el cambio se perdía sin aviso. Rompía la garantía offline-first.
+**Arreglo:** en hidratación se sella un cambio si es **del usuario** (`_isUserEdit`): `pointerdown`/`keydown` reales
+(isTrusted) hace menos de 10 s **y** la key ya tiene hora en este equipo. Un default o una migración de arranque no
+tiene clic; un equipo nuevo no tiene hora: ninguno de los dos pisa la nube. Con disco lleno el sello va a memoria
+(`_unsaved`), nunca a disco. No escucha `input`/`change`: los dispara el autocompletado del navegador al cargar.
+**De paso, la cola (los dos «vistos y sin tocar» de p23 y un tercero del mismo tipo):**
+- `_confirmPushed`: una subida confirmada saca la key de la outbox solo si el local no cambió mientras viajaba. Antes
+  «N sin subir» mentía unos segundos.
+- `_flushQueue`: el reintento de una subida fallida sube el valor local **actual**. Antes subía la copia del momento
+  del fallo: tras un corte breve de internet, esa copia vieja reemplazaba en la nube un cambio más nuevo y el contador
+  quedaba en 0 (los otros equipos veían la versión vieja hasta que este recargara).
+- **Verificado (simulador):** `node scripts/prueba-sync-carrera.mjs` → 17 escenarios. Con p23 fallan 6 (sin sesión, sin
+  red con y sin evento `online`, disco lleno, y los dos de la cola); con p24, 0. Romper a propósito cada condición hace
+  fallar su escenario: sin exigir clic → migración; sin exigir hora previa → equipo nuevo; con `input` → autocompletado;
+  sellar en disco una key en `_unsaved` → disco lleno.
+- **Verificado (producción, 13-nov ~21:15 UTC, claves `fin_zz_prueba_p24*`, ya borradas):** el `cloud-sync.js` servido
+  tiene el mismo SHA-256 que el del repo y las 28 páginas publicadas cargan `?v=p24`. Prueba de comportamiento en
+  Chrome: las claves se subieron y se cerró la página enseguida (keepalive). Después, en `pages/design-system.html`
+  (mismo origen, sin Supabase: equivale a «sin sesión») se cargó el motor p24: tras un clic real, el cambio en `a`
+  recibió hora; `b`, escrita 11 s después sin clic, no. Al volver a `index.html` con sesión: `a` = el cambio (local y
+  nube) y `b` = lo de la nube (candado intacto). Cola en vivo: la 1.ª subida de `c` se confirmó 195 ms después del 2.º
+  cambio y la key siguió en la outbox hasta la 2.ª (1757 ms); final v2 en local y nube. Filas reales: 69 antes y 69
+  después, ninguna con `updated_at` posterior al inicio de la prueba.
+- **Sin verificar en producción:** el flujo con cierre e inicio de sesión de verdad (no se cierra la sesión de Miguel;
+  el «sin sesión» se simuló con una página sin Supabase) y el de «sin red» (cubiertos por el simulador sobre los bytes
+  servidos).
+- **Límites conocidos (decisiones, no fallos):** (1) en un equipo que nunca vio una key, lo escrito antes de entrar
+  pierde contra la nube: se prefiere perder esa edición a reemplazar todo el historial de la key con lo de un equipo
+  vacío; las keys con merge (cuadernos, arrays por id) se mezclan igual. (2) lo que se inyecta por Chrome
+  (`javascript_exec`, 10-SYS) no tiene clic real: inyectar siempre con sesión iniciada y la página ya sincronizada.
+  (3) gana lo último por key: una edición sin sesión en un equipo desactualizado le gana a un cambio más viejo de otro
+  equipo, como siempre ha sido con red.
+- **Visto y sin tocar:** al entrar, `_flushOutbox` vuelve a subir una key aunque la nube haya ganado en el reconcile
+  (mismo contenido, `updated_at` nuevo). No pierde datos, pero adelanta la hora de la nube.
+- **Pendiente:** las pestañas abiertas antes del deploy siguen con p23 hasta recargarlas.
 
 ---
 
@@ -31,7 +74,7 @@ en `_quotaRescue` (cuota llena: el sello sigue en memoria, nunca en disco) y `_t
   dejó local 2 y nube 2. La nube guarda el `updated_at` que manda el cliente (sin trigger), así que se descarta un
   desfase de relojes. Ninguna fila real de Miguel cambió durante las pruebas; `sys_week_live` sigue con 5 ACA en S7.
 - **Pendiente:** las pestañas del Cerebro que ya estaban abiertas siguen con p22 hasta recargarlas.
-- **Visto y sin tocar (siguientes candidatos):** (1) el éxito de un push en vuelo saca la key de la outbox aunque haya
+- **Visto y sin tocar (✅ los dos arreglados en p24, ver arriba):** (1) el éxito de un push en vuelo saca la key de la outbox aunque haya
   un cambio más nuevo pendiente: no pierde datos (el sello lo protege), pero el contador "N sin subir" miente unos
   segundos. (2) Lo escrito sin sesión o sin red **desde el arranque** nunca se sella (la hidratación inicial no termina):
   al iniciar sesión, la nube gana. Es el costo del candado anti-defaults; arreglarlo pide distinguir defaults de
