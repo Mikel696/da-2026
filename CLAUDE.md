@@ -85,6 +85,12 @@ Estos cuatro pilares definen el sistema. **No los rompas, no los reemplaces, no 
   **Solo la primera `fullSyncAll`** (`_hydrating()`): supabase-js re-emite SIGNED_IN cada vez que la pestaña vuelve a estar
   visible y eso relanza `fullSyncAll`; un cambio hecho ahí se sella y se sube. Extender el lock a esas re-syncs perdió un
   `setAca` el 12-nov. Regresión: `node scripts/prueba-sync-carrera.mjs`.
+  **Excepción (p24, 13-nov):** sin sesión o sin red la hidratación no termina; ahí una **edición del usuario** sí se
+  sella (`_isUserEdit`: `pointerdown`/`keydown` reales hace <10 s **y** la key ya tiene TS en este equipo). Un default o
+  una migración de arranque no tiene clic; un equipo nuevo no tiene TS: ninguno de los dos pisa la nube. No sumar
+  `input`/`change` (los dispara el autocompletado al cargar).
+- **Outbox:** una subida confirmada saca la key solo si el local no cambió mientras viajaba (`_confirmPushed`), y el
+  reintento de la cola sube el valor local **actual**, nunca la copia del momento del fallo (p24).
 - **Cuota llena (desde 27-oct, p21):** si el disco no admite una key sincronizable, el valor queda en memoria
   (`_unsaved`), el `getItem` envuelto lo devuelve y se sube igual; el proxy relanza el error para que el módulo
   avise (`NBShared.quotaAlert`). **Nunca sellar `_cloud_ts` en disco para una key en `_unsaved`** (su copia de

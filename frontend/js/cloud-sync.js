@@ -132,6 +132,7 @@ const CLOUD = (() => {
     _flushing = true;
     console.log('[CLOUD] Flushing queue:', _queue.length, 'items');
     const batch = _queue.splice(0, _queue.length);
+    const statesDone = new Set();   // varias subidas fallidas de la misma key → un solo reintento
     for (const item of batch) {
       try {
         if (item.action === 'upsert') {
@@ -144,11 +145,17 @@ const CLOUD = (() => {
           const { error } = await SB.from(TABLES[item.table]).delete().eq('id', item.record.id).eq('user_id', _uid());
           if (error) console.error('[CLOUD] flush delete error:', item.table, error);
         } else if (item.action === 'state_upsert') {
-          // Retry for app_state pushes — al confirmar, SACAR del outbox y alinear TS
-          // (sin esto el push se hacía pero el contador quedaba fantasma en "N sin subir")
-          await _pushStateRaw(item.record.key, item.record.payload);
-          _setLocalTs(item.record.key, Date.now());
-          _outboxRemove(item.record.key);
+          // Reintento de app_state: sube lo que hay AHORA en local, no la copia del momento del fallo.
+          // Antes subía esa copia vieja: si entretanto un cambio más nuevo ya había subido, la nube
+          // volvía atrás y el contador quedaba en 0 (13-nov). Al confirmar: TS + fuera de la outbox.
+          const key = item.record.key;
+          if (statesDone.has(key)) continue;
+          const raw = localStorage.getItem(key);
+          if (raw === null) { _outboxRemove(key); continue; }
+          await _pushStateRaw(key, _safeParse(raw));
+          _setLocalTs(key, Date.now());
+          _confirmPushed(key, raw);
+          statesDone.add(key);
         }
       } catch (e) { console.error('[CLOUD] flush exception:', item.table, e); _queue.push(item); }
     }
@@ -418,10 +425,11 @@ const CLOUD = (() => {
       _scheduleFlush();
       return;
     }
+    const raw = localStorage.getItem(storeKey);   // lo que hay en local al salir la subida (ver _confirmPushed)
     try {
       await _pushStateRaw(storeKey, payload);
       console.log('[CLOUD] pushState OK:', storeKey);
-      _outboxRemove(storeKey);
+      _confirmPushed(storeKey, raw);
     } catch (e) {
       console.error('[CLOUD] pushState error:', storeKey, e);
       // Sesión vencida → auto-refresh (patrón family-system) y un reintento
@@ -431,7 +439,7 @@ const CLOUD = (() => {
           await SB.auth.refreshSession();
           await _pushStateRaw(storeKey, payload);
           console.log('[CLOUD] pushState OK tras refresh de sesión:', storeKey);
-          _outboxRemove(storeKey);
+          _confirmPushed(storeKey, raw);
           return;
         } catch (e2) {
           console.warn('[CLOUD] sesión irrecuperable — cambios quedan en outbox');
@@ -906,7 +914,7 @@ const CLOUD = (() => {
     try {
       await _pushStateRaw(key, _safeParse(raw));
       _setLocalTs(key, Date.now());
-      _outboxRemove(key);
+      _confirmPushed(key, raw);
       console.log('[CLOUD] forcePush OK:', key);
       return { ok:true };
     } catch (e) {
@@ -932,7 +940,7 @@ const CLOUD = (() => {
       try {
         await _pushStateRaw(key, _safeParse(raw));
         _setLocalTs(key, Date.now());
-        _outboxRemove(key);
+        _confirmPushed(key, raw);
         pushed++;
       } catch (e) {
         failed++;
@@ -998,6 +1006,11 @@ const CLOUD = (() => {
   }
   function _outboxAdd(key){ const a=_outboxGet(); if(a.indexOf(key)===-1){ a.push(key); _outboxSet(a); } }
   function _outboxRemove(key){ const a=_outboxGet(); const i=a.indexOf(key); if(i>=0){ a.splice(i,1); _outboxSet(a); } }
+  /* Una subida confirmada saca la key de la outbox solo si lo que hay en local sigue siendo lo que
+     se subió. Si mientras viajaba llegó un cambio más nuevo (en esta u otra pestaña: el disco es
+     compartido), ese sigue pendiente. Antes salía igual y «N sin subir» mentía hasta la siguiente
+     subida (13-nov). `raw` = getItem leído justo antes de subir (respeta _unsaved). */
+  function _confirmPushed(key, raw){ if (localStorage.getItem(key) === raw) _outboxRemove(key); }
   async function _flushOutbox(){
     if (!_ready()) return;
     const keys=_outboxGet(); if(!keys.length) return;
@@ -1005,7 +1018,7 @@ const CLOUD = (() => {
     for(const key of keys.slice()){
       const raw=localStorage.getItem(key);
       if(raw===null){ _outboxRemove(key); continue; }
-      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _confirmPushed(key, raw); }
       catch(e){ console.warn('[CLOUD] outbox push failed', key, e); }
     }
   }
@@ -1014,13 +1027,33 @@ const CLOUD = (() => {
   const _debounceMap = new Map();
   const _DEBOUNCE_MS = 1500;
 
+  /* EDICIÓN SIN SESIÓN O SIN RED (p24, 13-nov) · Mientras la hidratación inicial no termina
+     (página abierta sin sesión, sin internet, o el primer segundo de carga) el candado no sella:
+     así un default de arranque no le gana a la nube. Pero tampoco sellaba lo que el USUARIO
+     cambiaba en ese rato, y al iniciar sesión la nube lo pisaba. Ahora sí se sella cuando es
+     una edición del usuario:
+       · hubo un clic, toque o tecla REAL (isTrusted) hace menos de 10 s — un default o una
+         migración de arranque corre solo, sin nadie que toque nada. Solo pointerdown y keydown:
+         input/change también los dispara el autocompletado del navegador al cargar; y
+       · este equipo ya sincronizó esa key alguna vez (tiene TS) — en un equipo nuevo, lo escrito
+         antes de ver la nube no la pisa entera: gana la nube (o el merge, si la key lo tiene).
+     No se sube en ese momento: la key ya está en la outbox y sale al terminar la hidratación. */
+  const _GESTURE_MS = 10000;
+  let _lastGesture = 0;
+  ['pointerdown', 'keydown'].forEach(ev =>
+    document.addEventListener(ev, (e) => { if (e && e.isTrusted) _lastGesture = Date.now(); }, true));
+  function _isUserEdit(key) {
+    return (Date.now() - _lastGesture) < _GESTURE_MS && _getLocalTs(key) > 0;
+  }
+
   /** El disco no tiene sitio para un cambio de una key sincronizable. Antes el
    *  proxy lanzaba y el cambio solo vivía en el DOM: ni disco ni nube (25-oct).
    *  Ahora queda en memoria (getItem lo devuelve) y se sube desde ahí con el
    *  debounce normal. Ni TS en disco ni outbox: la copia de disco es la vieja. */
   function _quotaRescue(key, prev, value) {
     const live = !_hydrating();
-    _unsaved.set(key, { v: value, ts: live ? Date.now() : 0 });   // en hidratación no se sella, como el camino normal
+    const edit = !live && prev !== value && _isUserEdit(key);
+    _unsaved.set(key, { v: value, ts: (live || edit) ? Date.now() : 0 });   // en hidratación solo se sella una edición del usuario (en memoria, nunca en disco)
     const cloud = live && _ready();
     console.error('[CLOUD] ✗ QUOTA al guardar', key, '(' + Math.round(value.length/1024) + 'KB) —', cloud ? 'se sube a la nube desde memoria' : 'sin nube: solo vive en esta pestaña');
     window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(value.length/1024), cloud } }));
@@ -1061,8 +1094,9 @@ const CLOUD = (() => {
     // Anotar qué ids desaparecieron, para que el borrado se propague y no resucite
     _tombRecord(key, prev, value);
 
-    // Durante la hidratación INICIAL no sellamos ni subimos (ver _hydrating); en una re-sync sí
-    if (_hydrating()) return;
+    // Durante la hidratación INICIAL no sellamos ni subimos (ver _hydrating); en una re-sync sí.
+    // Excepción: una edición del usuario se sella (ver _isUserEdit) y la sube la outbox al terminar.
+    if (_hydrating()) { if (_isUserEdit(key)) _setLocalTs(key, Date.now()); return; }
 
     // Update local timestamp
     _setLocalTs(key, Date.now());
@@ -1088,7 +1122,7 @@ const CLOUD = (() => {
       // Al confirmar: alinear TS + sacar del outbox (sin esto el contador
       // "N sin subir" quedaba fantasma hasta el retry de 20s y lightPull
       // re-descargaba la key como si la nube fuera más nueva).
-      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _outboxRemove(key); }
+      try { await _pushStateRaw(key, _safeParse(raw)); _setLocalTs(key, Date.now()); _confirmPushed(key, raw); }
       catch(e) { console.warn('[CLOUD] flushPending failed for', key, e); }
     }
   }
@@ -1149,7 +1183,7 @@ const CLOUD = (() => {
     try {
       await _pushStateRaw(key, _safeParse(raw));
       _setLocalTs(key, Date.now());
-      _outboxRemove(key);
+      _confirmPushed(key, raw);
       console.log('[CLOUD] pushNow OK:', key);
       return { ok:true };
     } catch (e) {

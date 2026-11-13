@@ -3,6 +3,8 @@
 //
 // Origen (12-nov-2026): en 10-SYS, `SYS.setAca` escrito ~2 s después de `SYS.injectWeek` sobre `sys_week_live` se
 // perdió: la copia local volvió al parte recién subido y el cambio nuevo nunca llegó a la nube. Hubo que reaplicarlo.
+// 13-nov (p24): lo editado sin sesión o sin red desde que abre la página tampoco puede perderse al entrar, y los
+// defaults de arranque siguen sin pisar la nube (escenarios «sin sesión», «sin red» y «candado sin sesión»).
 //
 // Cómo prueba: carga el `cloud-sync.js` REAL en un contexto aislado (node:vm) con un navegador mínimo, un reloj
 // virtual (los temporizadores avanzan cuando la prueba lo dice) y una nube falsa con latencia y eco en tiempo real.
@@ -49,13 +51,15 @@ function crearReloj(inicio) {
 
 /* ── Nube falsa (tabla app_state + eco en tiempo real) ── */
 function crearNube(reloj) {
-  const n = { filas: new Map(), canales: new Set(), latencia: 300, ecoMs: 150, tiempoReal: true, upserts: [] };
+  // caida = sin internet: supabase-js no lanza, devuelve { error } (como un fetch que falla)
+  const n = { filas: new Map(), canales: new Set(), latencia: 300, ecoMs: 150, tiempoReal: true, caida: false, upserts: [] };
   const fila = (k) => n.filas.get(k);
   function pedir(q) {
     const lat = typeof n.latencia === 'function' ? n.latencia(q) : n.latencia;
     return new Promise((ok) => {
       let resp;
       reloj.setTimeout(() => {   // el servidor aplica a mitad del viaje
+        if (n.caida) { resp = { data: null, error: { message: 'TypeError: Failed to fetch' } }; return; }
         if (q.tabla !== 'app_state') { resp = { data: [], error: null }; return; }
         if (q.op === 'upsert') {
           const r = q.fila, previa = n.filas.has(r.store_key);
@@ -108,9 +112,11 @@ function crearNube(reloj) {
   return n;
 }
 
-/* ── Una pestaña del sitio: window + document mínimos y el motor real cargado ── */
-function abrirPestana(reloj, nube, almacen, nombre = 'A') {
+/* ── Una pestaña del sitio: window + document mínimos y el motor real cargado ──
+   opciones.sesion = false → la página abre sin sesión iniciada (auth.js no emite nada hasta el login). */
+function abrirPestana(reloj, nube, almacen, nombre = 'A', opciones = {}) {
   const log = [];
+  let uid = opciones.sesion === false ? null : 'u1';
   // Temporizadores y canales propios de esta pestaña: al cerrarla se apagan (como una recarga de verdad).
   const mios = new Set();
   const st = (fn, ms, ...a) => { const id = reloj.setTimeout(fn, ms, ...a); mios.add(id); return id; };
@@ -127,9 +133,18 @@ function abrirPestana(reloj, nube, almacen, nombre = 'A') {
     createElement: () => ({ style: { setProperty() {} }, classList: { add() {}, toggle() {}, contains: () => false }, appendChild() {} }),
     head: { appendChild() {} }, body: { appendChild() {} }, documentElement: { classList: { add() {} } },
   });
+  // Un clic o una tecla de verdad (isTrusted) no se puede fabricar con dispatchEvent: se guardan los oyentes
+  // del documento y usuarioToca() los llama con un evento marcado como real.
+  const oyentesDoc = new Map();
+  const docAdd = doc.addEventListener.bind(doc);
+  doc.addEventListener = (t, fn, o) => { if (!oyentesDoc.has(t)) oyentesDoc.set(t, []); oyentesDoc.get(t).push(fn); docAdd(t, fn, o); };
   const ls = {
     getItem: (k) => (almacen.has(String(k)) ? almacen.get(String(k)) : null),
-    setItem: (k, v) => { almacen.set(String(k), String(v)); },
+    // almacen.lleno(k, v) → true simula el disco lleno (QuotaExceededError) para esa escritura
+    setItem: (k, v) => {
+      if (almacen.lleno && almacen.lleno(String(k), String(v))) { const e = new Error('The quota has been exceeded.'); e.name = 'QuotaExceededError'; throw e; }
+      almacen.set(String(k), String(v));
+    },
     removeItem: (k) => { almacen.delete(String(k)); },
     key: (i) => [...almacen.keys()][i] ?? null,
     get length() { return almacen.size; },
@@ -144,7 +159,7 @@ function abrirPestana(reloj, nube, almacen, nombre = 'A') {
     // Solo lo usa el flush de cierre (fetch keepalive a /rest/v1/app_state): llega a la nube como un upsert más.
     fetch: (_url, o) => { const f = JSON.parse(o.body); return cliente.from('app_state').upsert(f).then(() => ({ ok: true })); },
     SB: cliente,
-    AUTH: { getUserId: () => 'u1', isLoggedIn: () => true, openModal() {} },
+    AUTH: { getUserId: () => uid, isLoggedIn: () => !!uid, openModal() {} },
   };
   win.window = win; win.self = win; win.top = win; win.parent = win; win.globalThis = win;
   vm.createContext(win);
@@ -154,7 +169,12 @@ function abrirPestana(reloj, nube, almacen, nombre = 'A') {
     set: (k, v) => win.localStorage.setItem(k, JSON.stringify(v)),
     get: (k) => { const r = win.localStorage.getItem(k); return r === null ? undefined : JSON.parse(r); },
     outbox: () => JSON.parse(win.localStorage.getItem('cloud_outbox') || '[]'),
-    iniciarSesion: () => win.dispatchEvent(new CustomEvent('sb:signed_in')),   // auth.js: INITIAL_SESSION o SIGNED_IN
+    iniciarSesion: () => { uid = 'u1'; win.dispatchEvent(new CustomEvent('sb:signed_in')); },   // auth.js: INITIAL_SESSION o SIGNED_IN
+    // El usuario hace clic en la página (p. ej. el botón que guarda): el módulo escribe justo después.
+    usuarioToca: () => { for (const fn of oyentesDoc.get('pointerdown') || []) fn({ type: 'pointerdown', isTrusted: true, target: { tagName: 'BUTTON' } }); },
+    // El autocompletado del navegador rellena un campo al cargar: eventos reales, pero nadie tocó nada.
+    navegadorAutocompleta: () => { for (const t of ['input', 'change']) for (const fn of oyentesDoc.get(t) || []) fn({ type: t, isTrusted: true, target: { tagName: 'INPUT' } }); },
+    volvioLaRed: () => win.dispatchEvent(new Event('online')),
     // supabase-js v2 vuelve a emitir SIGNED_IN cada vez que la pestaña vuelve a estar visible → fullSyncAll otra vez
     volverALaPestana: () => { doc.hidden = false; doc.visibilityState = 'visible'; doc.dispatchEvent(new Event('visibilitychange')); win.dispatchEvent(new CustomEvent('sb:signed_in')); },
     syncing: () => win.CLOUD.diagnostics().syncing,
@@ -261,7 +281,178 @@ escenario('candado intacto · equipo nuevo: el default que escribe un módulo al
   return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
 });
 
-/* ── Ejecutar. Pasa si la 2.ª escritura queda en la copia local, en la nube y tras recargar la página. ── */
+/* ── Sin sesión o sin red DESDE EL ARRANQUE (la hidratación inicial no termina hasta el login o la red) ──
+   Punto de partida realista: este equipo ya sincronizó K = V1 y la pestaña se cerró enseguida (la subida salió
+   por keepalive): la hora local de K quedó un poco por detrás de la de la nube. */
+async function equipoQueYaSincronizo() {
+  const { reloj, nube, almacen, a } = await montar();
+  a.set(K, V1);
+  await reloj.avanzar(200);
+  a.cerrar();
+  await reloj.avanzar(5000);
+  if (!igual(nube.valor(K), V1)) throw new Error('la preparación no dejó V1 en la nube');
+  return { reloj, nube, almacen };
+}
+// Otro equipo (su propio disco) entra, ve la nube y deja K = valor.
+async function otroEquipoEscribe(reloj, nube, valor) {
+  const c = abrirPestana(reloj, nube, new Map(), 'C');
+  c.iniciarSesion();
+  await reloj.avanzar(5000);
+  c.set(K, valor);
+  await reloj.avanzar(10000);
+  c.cerrar();
+}
+
+escenario('sin sesión · edita con la sesión cerrada y después entra: la nube no le gana', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  await reloj.avanzar(2000);           // la página cargó; sin sesión no arranca la hidratación
+  b.usuarioToca();
+  b.set(K, V2);                        // el clic guarda el cambio
+  await reloj.avanzar(30000);          // sigue trabajando sin sesión
+  b.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('sin red · abre con sesión pero sin internet, edita y después vuelve la red', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  nube.caida = true;
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();                   // INITIAL_SESSION llega sin red: la sesión vive en el disco
+  await reloj.avanzar(2000);           // la primera fullSyncAll falla y queda reintentando
+  if (b.win.CLOUD.diagnostics().initial_sync_done) throw new Error('el escenario no logró una hidratación pendiente');
+  b.usuarioToca();
+  b.set(K, V2);
+  await reloj.avanzar(3000);
+  nube.caida = false;
+  b.volvioLaRed();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('sin red · vuelve el servidor sin evento «online» (DNS o Supabase caídos): el reintento solo sube la edición', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  nube.caida = true;
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(2000);           // falla; el reintento automático sale a los ~10 s
+  b.usuarioToca();
+  b.set(K, V2);
+  await reloj.avanzar(3000);
+  nube.caida = false;                  // Windows nunca perdió la red: no hay evento «online»
+  await reloj.avanzar(30000);
+  if (!b.win.CLOUD.diagnostics().initial_sync_done) throw new Error('el reintento automático no completó la hidratación');
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('candado sin sesión · equipo nuevo: los defaults de arranque escritos antes de entrar no pisan la nube', async () => {
+  const reloj = crearReloj(Date.UTC(2026, 10, 12, 23, 50, 0));
+  const nube = crearNube(reloj);
+  nube.filas.set(K, { user_id: 'u1', store_key: K, payload: V2, updated_at: new Date(reloj.ahora - 864e5).toISOString() });
+  const almacen = new Map();
+  const a = abrirPestana(reloj, nube, almacen, 'A', { sesion: false });
+  a.set(K, { weeks: [] });             // el módulo arranca sin datos (sin clic de nadie)
+  await reloj.avanzar(20000);
+  a.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('candado sin sesión · equipo nuevo: lo escrito antes de ver la nube no la pisa entera, aunque haya clic', async () => {
+  const reloj = crearReloj(Date.UTC(2026, 10, 12, 23, 50, 0));
+  const nube = crearNube(reloj);
+  nube.filas.set(K, { user_id: 'u1', store_key: K, payload: V2, updated_at: new Date(reloj.ahora - 864e5).toISOString() });
+  const almacen = new Map();
+  const a = abrirPestana(reloj, nube, almacen, 'A', { sesion: false });
+  a.set(K, { weeks: [] });             // default de arranque
+  await reloj.avanzar(2000);
+  a.usuarioToca();
+  a.set(K, V1);                        // edita sobre el módulo vacío: este equipo nunca vio K en la nube
+  await reloj.avanzar(5000);
+  a.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('candado sin sesión · equipo viejo: una migración de arranque (sin clic) no pisa lo más nuevo de otro equipo', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  await otroEquipoEscribe(reloj, nube, V2);
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  b.set(K, { ...V1, version: 2 });     // el módulo migra al arrancar lo que tenía este disco (V1, viejo)
+  await reloj.avanzar(20000);
+  b.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('candado sin sesión · el autocompletado del navegador al cargar no convierte una migración en «edición del usuario»', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  await otroEquipoEscribe(reloj, nube, V2);
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  b.navegadorAutocompleta();           // Chrome rellena el correo del formulario de entrada
+  b.set(K, { ...V1, version: 2 });     // y el módulo migra al arrancar lo viejo de este disco
+  await reloj.avanzar(20000);
+  b.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('sin sesión · gana lo último: una edición vieja sin sesión pierde ante un cambio posterior de otro equipo', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  await reloj.avanzar(2000);
+  b.usuarioToca();
+  b.set(K, { weeks: [{ id: 'S7', acas: ['aca_vieja'] }] });
+  await reloj.avanzar(5000);
+  await otroEquipoEscribe(reloj, nube, V2);   // después, otro equipo cambia K
+  b.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('sin sesión y disco lleno · la edición vive en memoria, se sella solo en memoria y sube al entrar', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  const tsDisco = () => JSON.parse(almacen.get('_cloud_ts') || '{}')[K];
+  const antes = tsDisco();
+  almacen.lleno = (k) => k === K;      // el disco ya no acepta escrituras de K
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  await reloj.avanzar(2000);
+  b.usuarioToca();
+  try { b.set(K, V2); } catch (e) { if (e.name !== 'QuotaExceededError') throw e; }   // el módulo avisa «disco lleno»
+  if (tsDisco() !== antes) throw new Error('selló en disco la hora de una key que no cupo (su copia de disco es la vieja)');
+  await reloj.avanzar(5000);
+  b.iniciarSesion();
+  await reloj.avanzar(15000);
+  if (tsDisco() !== antes) throw new Error('al entrar selló en disco la hora de una key que solo vive en memoria');
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+/* ── La cola de pendientes («N sin subir») ── */
+escenario('cola · la subida de V1 no saca de la cola a V2, que todavía no subió', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 1200 } });
+  a.set(K, V1);
+  await reloj.avanzar(1600);           // la subida de V1 va en camino (responde a los 2,7 s)
+  a.set(K, V2);                        // su subida sale a los 3,1 s
+  await reloj.avanzar(1300);           // V1 ya respondió; V2 todavía no salió
+  if (!a.outbox().includes(K)) throw new Error('la confirmación de V1 sacó de la cola a V2, que sigue sin subir');
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('cola · el reintento de una subida fallida no reemplaza en la nube un cambio más nuevo', async () => {
+  const { reloj, nube, almacen, a } = await montar();
+  nube.caida = true;                   // se cae el internet un momento
+  a.set(K, V1);
+  await reloj.avanzar(2000);           // la subida de V1 falla → queda en la cola de reintentos (3 s)
+  nube.caida = false;
+  a.set(K, V2);                        // volvió la red: V2 sube por el camino normal antes del reintento
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+/* ── Ejecutar. Pasa si el valor correcto (V2 en todos los escenarios) queda en la copia local, en la nube y
+      tras recargar la página. ── */
 let fallos = 0;
 const igual = (x, y) => JSON.stringify(x) === JSON.stringify(y);
 for (const { nombre, fn } of escenarios) {
@@ -282,12 +473,12 @@ for (const { nombre, fn } of escenarios) {
     fallos++;
     if (err) console.log('   error:', err.stack || err.message);
     else {
-      const ver = (x) => (igual(x, V2) ? '2.ª' : igual(x, V1) ? '1.ª (se perdió la 2.ª)' : JSON.stringify(x));
+      const ver = (x) => (igual(x, V2) ? 'V2 (correcto)' : igual(x, V1) ? 'V1 (se perdió V2)' : JSON.stringify(x));
       console.log(`   al terminar → local: ${ver(r.local)} · nube: ${ver(r.enNube)} · outbox: ${JSON.stringify(r.outbox)}`);
       console.log(`   tras recargar → local: ${ver(tras.local)} · nube: ${ver(tras.nube)}`);
     }
     if (VERBOSE && r) for (const p of r.pestanas) console.log(p.log.filter((l) => /fullSync|reconcile|realtime|pushState|outbox|flushPending/.test(l)).join('\n'));
   }
 }
-console.log(fallos ? `\n${fallos} de ${escenarios.length} escenarios pierden la segunda escritura.` : `\nLos ${escenarios.length} escenarios conservan la segunda escritura.`);
+console.log(fallos ? `\n${fallos} de ${escenarios.length} escenarios terminan con un valor equivocado.` : `\nLos ${escenarios.length} escenarios terminan con el valor correcto.`);
 process.exit(fallos ? 1 : 0);
