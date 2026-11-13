@@ -13371,6 +13371,22 @@ const ANL = (() => {
         pal[i-1] + ' no ' + sig, pal[i-1] + ' ' + aux + ' ' + sig);
     });
 
+    // R2b · concordancia sujeto–auxiliar: he/she/it llevan doesn't; I/you/we/they, don't.
+    // El tokenizador ya expande «don't» a «do not». Solo pronombres personales pegados al auxiliar.
+    pal.forEach((w, i) => {
+      if(i === 0 || pal[i+1] !== 'not' || (w !== 'do' && w !== 'does')) return;
+      const suj = pal[i-1];
+      const sig = pal[i+2] || '…';
+      if(w === 'do' && ['he','she','it'].includes(suj))
+        add('rojo','R2b',"Con «" + suj + "» va «doesn't», no «don't»",
+          "Con <b>he / she / it</b> el auxiliar es <b>does</b> (y <b>doesn't</b> en negativo). <b>Don't</b> es para I, you, we, they. Y después de doesn't el verbo queda sin -s.",
+          suj + " don't " + sig, suj + " doesn't " + sig);
+      else if(w === 'does' && ['i','you','we','they'].includes(suj))
+        add('rojo','R2b',"Con «" + suj + "» va «don't», no «doesn't»",
+          "<b>Doesn't</b> es solo para <b>he / she / it</b>. Con I, you, we, they el negativo es <b>don't</b>.",
+          suj + " doesn't " + sig, suj + " don't " + sig);
+    });
+
     /* Arma la pregunta BIEN a partir de las palabras de una afirmación.
        Antes esto anteponía «Do/Does/Did» siempre, así que para «you can
        drive?» proponía «Do you can drive?» — enseñar mal es peor que no
