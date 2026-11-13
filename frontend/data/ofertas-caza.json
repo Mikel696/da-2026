@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-12",
+  "revisado": "2026-11-13",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
@@ -11,14 +11,14 @@
           "titulo": "Tenis Nike Pacific (hombre) · talla 11, color Team Crimson/blanco/negro",
           "tienda": "Amazon · vendido por Amazon",
           "url": "https://www.amazon.com/-/es/Nike-Hombre-Pacific-Zapatos-casuales/dp/B0FDWD6RHR",
-          "precio": "US$ 62,14 (≈ $ 205.000)",
+          "precio": "US$ 62,13 (≈ $ 205.000)",
           "antes": "",
           "ahorro": 0,
-          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 21-nov",
+          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 22 o 23-nov",
           "vence": "",
-          "colombia": "La ficha dice «Sin cargos de importación y envío gratis a Colombia» y lo vende Amazon. Se paga en dólares con tarjeta: tu banco cobra la conversión.",
-          "porque": "El precio más bajo de los cuatro sitios comparados (≈ $ 205.000 al dólar oficial de $ 3.297). En Colombia: Dafiti $ 233.900 (blanco, vendido por Dafiti); Falabella y Mercado Libre $ 257.970 (negro, Nike). En Amazon el precio cambia con la talla y el color.",
-          "visto": "2026-11-12",
+          "colombia": "La ficha dice «Sin cargos de importación y envío gratis a Colombia» y lo vende Amazon Export Sales LLC. Se paga en dólares con tarjeta: tu banco cobra la conversión.",
+          "porque": "Precio revisado hoy en Amazon (≈ $ 205.000 con la TRM de $ 3.301,91 del 13-nov). Ayer era lo más barato frente a Dafiti ($ 233.900) y Falabella/Mercado Libre ($ 257.970); esas tiendas no se volvieron a abrir hoy. El precio cambia con la talla y el color.",
+          "visto": "2026-11-13",
           "imperdible": false
         },
         {
@@ -26,31 +26,17 @@
           "tienda": "Falabella",
           "url": "https://www.falabella.com.co/falabella-co/product/73637831/tenis-nike-vomero-18-hombre/73637837",
           "precio": "$ 639.900",
-          "antes": "$ 799.990",
-          "ahorro": 20,
+          "antes": "$ 659.960",
+          "ahorro": 3,
           "envio": "despacho a domicilio, llega mañana",
           "vence": "",
           "colombia": "Lo vende Falabella Colombia, con despacho a domicilio.",
-          "porque": "Uno de los tenis de amortiguación más valorados de Nike. Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900.",
-          "visto": "2026-11-12",
-          "imperdible": false
-        },
-        {
-          "titulo": "Tenis Nike Shox R4, blanco y rojo (hombre)",
-          "tienda": "Falabella · vendido por Pacific Sport",
-          "url": "https://www.falabella.com.co/falabella-co/product/158009715/tenis-nike-shox-r4-hombre-blancorojo/158009717",
-          "precio": "$ 549.990",
-          "antes": "$ 909.990",
-          "ahorro": 40,
-          "envio": "envío gratis a domicilio",
-          "vence": "",
-          "colombia": "Vendedor externo dentro de Falabella Colombia (Pacific Sport), con despacho a domicilio.",
-          "porque": "40 % menos en un modelo de moda, pero lo vende una tienda externa y no Nike: revisa la garantía antes de pagar. Sin comparar en otras tiendas.",
-          "visto": "2026-11-12",
+          "porque": "Uno de los tenis de amortiguación más valorados de Nike. Comparado hoy: Nike oficial en Mercado Libre lo vende en $ 659.960 (los más baratos allí son usados). Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900. Sin comparar en Amazon.",
+          "visto": "2026-11-13",
           "imperdible": false
         }
       ],
-      "nota": "Comparado en Amazon, Dafiti, Falabella y Mercado Libre. Descartado: el outlet de adidas.co tenía unas Gazelle a mitad de precio, pero la página bloquea tu navegador."
+      "nota": "Hoy quedan dos. Descartado: los Nike Shox R4 de Pacific Sport en Falabella (no se volvieron a abrir ni se compararon en otras tiendas). adidas.co no se usa: bloquea el navegador."
     },
     {
       "id": "tecnologia",
@@ -59,55 +45,70 @@
       "ofertas": [
         {
           "titulo": "Samsung Galaxy S25 Ultra · 256 GB · Titanium Black · nuevo",
-          "tienda": "Mercado Libre · vendido por ITECHNOLOGY",
-          "url": "https://www.mercadolibre.com.co/samsung-galaxy-s25-ultra-256gb-titanium-black/p/MCO45517552",
-          "precio": "$ 3.129.900",
-          "antes": "$ 3.999.990",
-          "ahorro": 22,
-          "envio": "envío gratis",
+          "tienda": "Mercado Libre · vendido por ULTRAPHONE70",
+          "url": "https://www.mercadolibre.com.co/p/MCO45517552/s",
+          "precio": "$ 3.309.900",
+          "antes": "$ 3.899.990",
+          "ahorro": 15,
+          "envio": "envío gratis, llega en 4 o 5 días",
           "vence": "",
-          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo, 12 meses de garantía de fábrica.",
-          "porque": "$ 870.090 menos que en Alkosto ($ 3.999.990), que es el «antes» que se muestra aquí (no el que anuncia la tienda). Descartado otro a $ 2.529.000: lo vende una cuenta sin nombre ni historial.",
-          "visto": "2026-11-12",
+          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo. Ojo: hoy una cuenta sin nombre ni ventas (empieza por «AD2026…») aparece más barata en esta y otras fichas de Mercado Libre; no le compres a ella.",
+          "porque": "Alkosto lo tiene hoy en $ 3.899.990 (y $ 3.999.990). El de ayer a $ 3.129.900 (ITECHNOLOGY) ya no aparece. Descartado: $ 2.890.000 de una cuenta de 0 ventas creada hoy, y $ 3.139.429 desde EE. UU. con $ 970.085 de importación. Sin comparar hoy en Amazon.",
+          "visto": "2026-11-13",
+          "imperdible": false
+        },
+        {
+          "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
+          "tienda": "Mercado Libre · Tienda oficial de Mercado Libre",
+          "url": "https://www.mercadolibre.com.co/tablet-lenovo-ideatab-128gb-8gb-ram-11-pulgadas-grey-teclado-pen/p/MCO59811604",
+          "precio": "$ 895.440",
+          "antes": "$ 925.900",
+          "ahorro": 3,
+          "envio": "envío: ver en la tienda",
+          "vence": "",
+          "colombia": "La vende la tienda oficial de Mercado Libre (MercadoLíder Platinum, más de 1.000 vendidas), nueva, 12 meses de garantía de fábrica. Ojo: hoy una cuenta sin nombre ni ventas (empieza por «AD2026…») aparece más barata en esta y otras fichas de Mercado Libre; no le compres a ella.",
+          "porque": "Por el precio de la tablet sola en Alkosto ($ 899.070) aquí trae teclado y lápiz; la tienda oficial de Lenovo en Mercado Libre la tiene en $ 925.900. Sirve para estudiar y tomar apuntes. Sin comparar en Amazon.",
+          "visto": "2026-11-13",
           "imperdible": false
         },
         {
           "titulo": "Lenovo Legion Go S · AMD Z2 Go · 16 GB · 1 TB · pantalla de 8\"",
-          "tienda": "Falabella",
-          "url": "https://www.falabella.com.co/falabella-co/search?Ntt=legion%20go%20z2%20go",
-          "precio": "$ 2.599.900",
-          "antes": "",
-          "ahorro": 0,
-          "envio": "despacho a domicilio",
-          "vence": "",
-          "colombia": "Mismo precio comprobado en dos tiendas grandes de Colombia: Falabella (vendido por Falabella) y Alkosto ($ 2.599.070, envío gratis).",
-          "porque": "Un PC de juegos portátil para tu biblioteca de Steam con el mando. Es lo más barato de todas partes: en Amazon la de 512 GB cuesta US$ 829 (≈ $ 2.733.000) y en Mercado Libre pasa de $ 4.200.000. Las tiendas inflan el «antes» (35 % y 57 %): este es el precio de mercado, no una rebaja.",
-          "visto": "2026-11-12",
-          "imperdible": false
-        },
-        {
-          "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB",
           "tienda": "Alkosto",
-          "url": "https://www.alkosto.com/search?text=lenovo%20idea%20tab",
-          "precio": "$ 899.070",
+          "url": "https://www.alkosto.com/consola-lenovo-legion-go-8-pulgadas-amd-z2-go-ram-16gb/p/198157043251",
+          "precio": "$ 2.599.070",
           "antes": "",
           "ahorro": 0,
           "envio": "envío: ver en la tienda",
           "vence": "",
-          "colombia": "Lo vende Alkosto, tienda colombiana. En Falabella la misma tablet va de $ 880.000 a $ 1.039.000 según el vendedor.",
-          "porque": "Precio de mercado para una tablet de estudio con 8 GB de RAM y pantalla 2.5K. El «antes» está inflado: la comparación con Falabella es lo que vale.",
-          "visto": "2026-11-12",
+          "colombia": "Lo vende Alkosto, tienda colombiana, con despacho a domicilio.",
+          "porque": "Un PC de juegos portátil para tu biblioteca de Steam. Precio de mercado, no una rebaja: Alkosto anuncia «antes $ 3.999.000», pero ayer Falabella tenía el mismo precio, Amazon la de 512 GB a US$ 829 y Mercado Libre más de $ 4.200.000 (comparación del 12-nov; hoy solo se reabrió Alkosto).",
+          "visto": "2026-11-13",
           "imperdible": false
         }
       ],
-      "nota": "Comparado en Alkosto, Falabella, Mercado Libre y Amazon."
+      "nota": "Comparado hoy en Mercado Libre y Alkosto; Amazon y Falabella son de ayer."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
-      "ofertas": [],
-      "nota": "Hoy no hay una oferta real: Platzi está a precio normal (anual $ 999.000) y Talento Tech (MinTIC) no tiene convocatoria abierta. Revisado el 12-nov."
+      "ofertas": [
+        {
+          "titulo": "Platzi Plan Expert anual (todas las escuelas: datos, IA, programación e inglés)",
+          "tienda": "Platzi",
+          "url": "https://platzi.com/precios/",
+          "precio": "$ 798.900 al año",
+          "antes": "$ 999.000",
+          "ahorro": 20,
+          "envio": "acceso en línea",
+          "vence": "2026-11-15",
+          "colombia": "Platzi vende en pesos colombianos en su propia página.",
+          "porque": "El 12-nov el mismo plan estaba a $ 999.000 en esta página, así que el descuento es real; el contador dice que termina en menos de 2 días. Trae certificados digitales y la escuela de inglés. No se comparó con otras plataformas.",
+          "visto": "2026-11-13",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una. No se revisaron becas ni cursos gratis hoy (Talento Tech no tenía convocatoria el 12-nov)."
     },
     {
       "id": "conciertos",
@@ -124,12 +125,12 @@
           "envio": "boleta digital",
           "vence": "",
           "colombia": "Boletera oficial del evento en Colombia.",
-          "porque": "Fecha nueva (las del 5, 6 y 7 de febrero están agotadas); la venta general abrió el 12-nov.",
-          "visto": "2026-11-12",
+          "porque": "Fecha nueva (las del 5, 6 y 7 de febrero siguen agotadas); venta general abierta, revisado hoy en TuBoleta.",
+          "visto": "2026-11-13",
           "imperdible": false
         }
       ],
-      "nota": "Para que busque los conciertos que te gustan, escribe tus artistas en OFERTAS-PREFERENCIAS.md."
+      "nota": "Para que busque los conciertos que te gustan, escribe tus artistas en OFERTAS-PREFERENCIAS.md. Hoy no se buscaron eventos nuevos."
     }
   ],
   "avisos": []
