@@ -473,11 +473,22 @@ const CLOUD = (() => {
   let _syncing = false;
   let _initialSyncDone = false;
   let _bootRetryDelay = 10000;
+  let _initialRun = false;   // corre la PRIMERA fullSyncAll (hidratación)
+
+  /* SYNC-LOCK · solo durante la hidratación inicial: ahí los módulos escriben defaults
+     antes de que llegue la nube y sellarlos los haría "más nuevos" que los datos reales.
+     Una re-sync posterior NO congela al usuario (supabase-js re-emite SIGNED_IN cada vez
+     que la pestaña vuelve a estar visible → fullSyncAll). Antes el lock cubría también
+     esas re-syncs: un cambio hecho en ese momento quedaba sin sello y sin push, y el eco
+     de la subida anterior o el reconcile lo pisaban con la versión vieja (12-nov,
+     sys_week_live: setAca 2 s después de injectWeek). Prueba: scripts/prueba-sync-carrera.mjs */
+  function _hydrating() { return !_initialSyncDone || _initialRun; }
 
   async function fullSyncAll() {
     if (!_ready()) { console.warn('[CLOUD] fullSyncAll skipped (not ready)'); return; }
     if (_syncing) { console.warn('[CLOUD] fullSyncAll already in progress'); return; }
     _syncing = true;
+    _initialRun = !_initialSyncDone;
     const t0 = performance.now();
     console.log('[CLOUD] ══ fullSyncAll START ══');
 
@@ -539,6 +550,7 @@ const CLOUD = (() => {
       console.error('[CLOUD] fullSyncAll exception:', e);
     } finally {
       _syncing = false;
+      _initialRun = false;
     }
   }
 
@@ -651,7 +663,7 @@ const CLOUD = (() => {
       _origSetItem(_TOMB_KEY, JSON.stringify(_tombPurge(all)));
       _outboxAdd(_TOMB_KEY);
       console.log('[CLOUD] lápidas anotadas en', key, gone);
-      if (_initialSyncDone && !_syncing) {
+      if (!_hydrating()) {
         _setLocalTs(_TOMB_KEY, Date.now());
         pushState(_TOMB_KEY, _tombAll());
       }
@@ -1007,7 +1019,7 @@ const CLOUD = (() => {
    *  Ahora queda en memoria (getItem lo devuelve) y se sube desde ahí con el
    *  debounce normal. Ni TS en disco ni outbox: la copia de disco es la vieja. */
   function _quotaRescue(key, prev, value) {
-    const live = !_syncing && _initialSyncDone;
+    const live = !_hydrating();
     _unsaved.set(key, { v: value, ts: live ? Date.now() : 0 });   // en hidratación no se sella, como el camino normal
     const cloud = live && _ready();
     console.error('[CLOUD] ✗ QUOTA al guardar', key, '(' + Math.round(value.length/1024) + 'KB) —', cloud ? 'se sube a la nube desde memoria' : 'sin nube: solo vive en esta pestaña');
@@ -1049,8 +1061,8 @@ const CLOUD = (() => {
     // Anotar qué ids desaparecieron, para que el borrado se propague y no resucite
     _tombRecord(key, prev, value);
 
-    // Durante hidratación inicial no stampeamos TS (el motor está escribiendo)
-    if (_syncing || !_initialSyncDone) return;
+    // Durante la hidratación INICIAL no sellamos ni subimos (ver _hydrating); en una re-sync sí
+    if (_hydrating()) return;
 
     // Update local timestamp
     _setLocalTs(key, Date.now());

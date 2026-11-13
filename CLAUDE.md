@@ -82,6 +82,9 @@ Estos cuatro pilares definen el sistema. **No los rompas, no los reemplaces, no 
 - **Proxy de escritura:** El override de `localStorage.setItem` en `cloud-sync.js` intercepta cada `setItem` declarado en el manifest, lo persiste localmente PRIMERO y luego dispara `CLOUD.push()` en background.
 - **Garantía:** La app funciona 100% sin red. Sync es decoración, no dependencia.
 - **Sync-lock:** durante hidratación inicial, el proxy ignora `setItem` para evitar timestamp poisoning en device fresco.
+  **Solo la primera `fullSyncAll`** (`_hydrating()`): supabase-js re-emite SIGNED_IN cada vez que la pestaña vuelve a estar
+  visible y eso relanza `fullSyncAll`; un cambio hecho ahí se sella y se sube. Extender el lock a esas re-syncs perdió un
+  `setAca` el 12-nov. Regresión: `node scripts/prueba-sync-carrera.mjs`.
 - **Cuota llena (desde 27-oct, p21):** si el disco no admite una key sincronizable, el valor queda en memoria
   (`_unsaved`), el `getItem` envuelto lo devuelve y se sube igual; el proxy relanza el error para que el módulo
   avise (`NBShared.quotaAlert`). **Nunca sellar `_cloud_ts` en disco para una key en `_unsaved`** (su copia de

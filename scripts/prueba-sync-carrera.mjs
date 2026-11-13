@@ -1,0 +1,293 @@
+// CORE · Prueba de regresión de cloud-sync.js: dos escrituras seguidas de la misma key no pueden perder la segunda.
+// Uso: node scripts/prueba-sync-carrera.mjs [otro-cloud-sync.js]   (código 1 si algo falla; VERBOSE=1 imprime el log del motor)
+//
+// Origen (12-nov-2026): en 10-SYS, `SYS.setAca` escrito ~2 s después de `SYS.injectWeek` sobre `sys_week_live` se
+// perdió: la copia local volvió al parte recién subido y el cambio nuevo nunca llegó a la nube. Hubo que reaplicarlo.
+//
+// Cómo prueba: carga el `cloud-sync.js` REAL en un contexto aislado (node:vm) con un navegador mínimo, un reloj
+// virtual (los temporizadores avanzan cuando la prueba lo dice) y una nube falsa con latencia y eco en tiempo real.
+// Nada sale a internet ni toca Supabase.
+import vm from 'node:vm';
+import { readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const aqui = dirname(fileURLToPath(import.meta.url));
+// Otra versión del motor: node scripts/prueba-sync-carrera.mjs ruta/a/cloud-sync.js (p. ej. `git show <commit>:frontend/js/cloud-sync.js`)
+const CODIGO = readFileSync(process.argv[2] || resolve(aqui, '../frontend/js/cloud-sync.js'), 'utf8');
+const VERBOSE = !!process.env.VERBOSE;
+
+/* ── Reloj virtual compartido por la nube y todas las pestañas ── */
+function crearReloj(inicio) {
+  const r = { ahora: inicio, timers: new Map(), seq: 0 };
+  r.setTimeout = (fn, ms = 0, ...a) => { const id = ++r.seq; r.timers.set(id, { at: r.ahora + Math.max(0, +ms || 0), fn, a, n: id }); return id; };
+  r.setInterval = (fn, ms = 0, ...a) => { const id = ++r.seq; r.timers.set(id, { at: r.ahora + Math.max(1, +ms || 0), fn, a, n: id, cada: Math.max(1, +ms || 0) }); return id; };
+  r.clear = (id) => { r.timers.delete(id); };
+  r.drenar = () => new Promise((ok) => setImmediate(ok));
+  r.avanzar = async (ms) => {
+    const fin = r.ahora + ms;
+    await r.drenar();
+    for (;;) {
+      let sig = null;
+      for (const [id, t] of r.timers) if (t.at <= fin && (!sig || t.at < sig.t.at || (t.at === sig.t.at && t.n < sig.t.n))) sig = { id, t };
+      if (!sig) break;
+      r.ahora = sig.t.at;
+      if (sig.t.cada) { sig.t.at += sig.t.cada; sig.t.n = ++r.seq; } else r.timers.delete(sig.id);
+      try { sig.t.fn(...sig.t.a); } catch (e) { console.error('timer lanzó', e); }
+      await r.drenar(); await r.drenar();
+    }
+    r.ahora = fin;
+    await r.drenar();
+  };
+  const DateBase = Date;
+  r.Date = class extends DateBase {
+    constructor(...a) { if (a.length === 0) super(r.ahora); else super(...a); }
+    static now() { return r.ahora; }
+  };
+  return r;
+}
+
+/* ── Nube falsa (tabla app_state + eco en tiempo real) ── */
+function crearNube(reloj) {
+  const n = { filas: new Map(), canales: new Set(), latencia: 300, ecoMs: 150, tiempoReal: true, upserts: [] };
+  const fila = (k) => n.filas.get(k);
+  function pedir(q) {
+    const lat = typeof n.latencia === 'function' ? n.latencia(q) : n.latencia;
+    return new Promise((ok) => {
+      let resp;
+      reloj.setTimeout(() => {   // el servidor aplica a mitad del viaje
+        if (q.tabla !== 'app_state') { resp = { data: [], error: null }; return; }
+        if (q.op === 'upsert') {
+          const r = q.fila, previa = n.filas.has(r.store_key);
+          const guardada = { user_id: r.user_id, store_key: r.store_key, payload: JSON.parse(JSON.stringify(r.payload)), updated_at: r.updated_at };
+          n.filas.set(r.store_key, guardada);
+          n.upserts.push({ key: r.store_key, at: reloj.ahora, payload: guardada.payload, updated_at: r.updated_at });
+          if (n.tiempoReal) for (const c of n.canales) {
+            const ev = { eventType: previa ? 'UPDATE' : 'INSERT', new: JSON.parse(JSON.stringify(guardada)), old: {} };
+            reloj.setTimeout(() => { if (n.canales.has(c)) c.cb(ev); }, n.ecoMs);
+          }
+          resp = { error: null };
+        } else if (q.op === 'delete') {
+          for (const k of [...n.filas.keys()]) if (q.filtros.every(([op, col, v]) => op !== 'eq' || col !== 'store_key' || v === k)) n.filas.delete(k);
+          resp = { error: null };
+        } else {
+          let data = [...n.filas.values()];
+          for (const [op, col, v] of q.filtros) {
+            if (op === 'eq') data = data.filter((x) => x[col] === v);
+            if (op === 'in') data = data.filter((x) => v.includes(x[col]));
+          }
+          resp = { data: JSON.parse(JSON.stringify(data)), error: null };
+        }
+      }, lat / 2);
+      reloj.setTimeout(() => ok(resp), lat);
+    });
+  }
+  n.cliente = () => ({
+    supabaseUrl: 'https://nube.falsa', supabaseKey: 'anon',
+    from(tabla) {
+      const q = { tabla, op: 'select', filtros: [] };
+      const b = {
+        select() { if (q.op !== 'upsert') q.op = 'select'; return b; },
+        eq(c, v) { q.filtros.push(['eq', c, v]); return b; },
+        in(c, v) { q.filtros.push(['in', c, v]); return b; },
+        order() { return b; },
+        upsert(f) { q.op = 'upsert'; q.fila = JSON.parse(JSON.stringify(f)); return b; },
+        delete() { q.op = 'delete'; return b; },
+        then(ok, mal) { return pedir(q).then(ok, mal); },
+      };
+      return b;
+    },
+    channel() {
+      const c = { cb: null, on(_t, _f, cb) { c.cb = cb; return c; }, subscribe(st) { n.canales.add(c); if (st) reloj.setTimeout(() => st('SUBSCRIBED'), 0); return c; } };
+      return c;
+    },
+    removeChannel(c) { n.canales.delete(c); },
+    auth: { getSession: async () => ({ data: { session: { access_token: 'tok' } } }), onAuthStateChange() {}, refreshSession: async () => ({}) },
+  });
+  n.valor = (k) => (fila(k) ? fila(k).payload : undefined);
+  return n;
+}
+
+/* ── Una pestaña del sitio: window + document mínimos y el motor real cargado ── */
+function abrirPestana(reloj, nube, almacen, nombre = 'A') {
+  const log = [];
+  // Temporizadores y canales propios de esta pestaña: al cerrarla se apagan (como una recarga de verdad).
+  const mios = new Set();
+  const st = (fn, ms, ...a) => { const id = reloj.setTimeout(fn, ms, ...a); mios.add(id); return id; };
+  const si = (fn, ms, ...a) => { const id = reloj.setInterval(fn, ms, ...a); mios.add(id); return id; };
+  const cliente = nube.cliente();
+  const canalOrig = cliente.channel;
+  const misCanales = new Set();
+  cliente.channel = (...a) => { const c = canalOrig(...a); misCanales.add(c); return c; };
+  const et = new EventTarget();
+  const doc = new EventTarget();
+  Object.assign(doc, {
+    hidden: false, visibilityState: 'visible', readyState: 'complete', activeElement: null,
+    getElementById: () => null, querySelectorAll: () => [],
+    createElement: () => ({ style: { setProperty() {} }, classList: { add() {}, toggle() {}, contains: () => false }, appendChild() {} }),
+    head: { appendChild() {} }, body: { appendChild() {} }, documentElement: { classList: { add() {} } },
+  });
+  const ls = {
+    getItem: (k) => (almacen.has(String(k)) ? almacen.get(String(k)) : null),
+    setItem: (k, v) => { almacen.set(String(k), String(v)); },
+    removeItem: (k) => { almacen.delete(String(k)); },
+    key: (i) => [...almacen.keys()][i] ?? null,
+    get length() { return almacen.size; },
+  };
+  const consola = {};
+  for (const m of ['log', 'warn', 'error', 'info', 'debug']) consola[m] = (...a) => { log.push(`[${nombre} ${new Date(reloj.ahora).toISOString().slice(17, 23)}] ${m}: ` + a.map((x) => (typeof x === 'string' ? x : JSON.stringify(x))).join(' ')); };
+  const win = {
+    addEventListener: et.addEventListener.bind(et), removeEventListener: et.removeEventListener.bind(et), dispatchEvent: et.dispatchEvent.bind(et),
+    document: doc, localStorage: ls, console: consola, CustomEvent, Event, EventTarget, Blob, JSON, Math, Map, Set, Promise, Array, Object, String, Number, Error,
+    setTimeout: st, clearTimeout: reloj.clear, setInterval: si, clearInterval: reloj.clear,
+    Date: reloj.Date, performance: { now: () => reloj.ahora }, navigator: { onLine: true },
+    // Solo lo usa el flush de cierre (fetch keepalive a /rest/v1/app_state): llega a la nube como un upsert más.
+    fetch: (_url, o) => { const f = JSON.parse(o.body); return cliente.from('app_state').upsert(f).then(() => ({ ok: true })); },
+    SB: cliente,
+    AUTH: { getUserId: () => 'u1', isLoggedIn: () => true, openModal() {} },
+  };
+  win.window = win; win.self = win; win.top = win; win.parent = win; win.globalThis = win;
+  vm.createContext(win);
+  vm.runInContext(CODIGO, win, { filename: 'cloud-sync.js' });
+  const p = {
+    win, log, nombre,
+    set: (k, v) => win.localStorage.setItem(k, JSON.stringify(v)),
+    get: (k) => { const r = win.localStorage.getItem(k); return r === null ? undefined : JSON.parse(r); },
+    outbox: () => JSON.parse(win.localStorage.getItem('cloud_outbox') || '[]'),
+    iniciarSesion: () => win.dispatchEvent(new CustomEvent('sb:signed_in')),   // auth.js: INITIAL_SESSION o SIGNED_IN
+    // supabase-js v2 vuelve a emitir SIGNED_IN cada vez que la pestaña vuelve a estar visible → fullSyncAll otra vez
+    volverALaPestana: () => { doc.hidden = false; doc.visibilityState = 'visible'; doc.dispatchEvent(new Event('visibilitychange')); win.dispatchEvent(new CustomEvent('sb:signed_in')); },
+    syncing: () => win.CLOUD.diagnostics().syncing,
+    cerrar: () => {
+      win.dispatchEvent(new Event('beforeunload'));
+      for (const id of mios) reloj.clear(id);
+      for (const c of misCanales) nube.canales.delete(c);
+    },
+  };
+  return p;
+}
+
+/* ── Escenarios ── */
+const K = 'sys_week_live';   // la key del incidente (LWW por key completa, sin merge estructural)
+const V1 = { weeks: [{ id: 'S7', acas: [] }] };                     // injectWeek: parte nuevo, sin ACA
+const V2 = { weeks: [{ id: 'S7', acas: ['aca_en', 'aca_bi'] }] };   // setAca: el mismo parte con ACA
+
+async function montar(opciones = {}) {
+  const reloj = crearReloj(Date.UTC(2026, 10, 12, 23, 50, 0));
+  const nube = crearNube(reloj);
+  Object.assign(nube, opciones.nube || {});
+  const almacen = new Map();
+  const a = abrirPestana(reloj, nube, almacen, 'A');
+  a.iniciarSesion();
+  await reloj.avanzar(5000);   // hidratación inicial completa
+  return { reloj, nube, almacen, a };
+}
+
+const escenarios = [];
+const escenario = (nombre, fn) => escenarios.push({ nombre, fn });
+
+escenario('control · dos escrituras a 2 s, sin re-sync, con eco en tiempo real', async () => {
+  const { reloj, nube, almacen, a } = await montar();
+  a.set(K, V1);
+  await reloj.avanzar(2000);
+  a.set(K, V2);
+  await reloj.avanzar(10000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('incidente · la 2.ª escritura cae mientras corre la re-sync al volver a la pestaña (push del 1.º en vuelo)', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 1200 } });
+  a.set(K, V1);
+  await reloj.avanzar(1600);           // el debounce (1,5 s) ya disparó: la subida del parte va en camino
+  a.volverALaPestana();                // supabase-js emite SIGNED_IN → fullSyncAll a los 300 ms
+  await reloj.avanzar(400);
+  if (!a.syncing()) throw new Error('el escenario no logró escribir durante la re-sync');
+  a.set(K, V2);                        // setAca ~2 s después de injectWeek
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('incidente sin tiempo real · pestaña en segundo plano (canal caído), re-sync al volver', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 600 } });
+  nube.tiempoReal = false;
+  a.set(K, V1);
+  await reloj.avanzar(3000);           // el parte ya está en la nube; el eco nunca llega
+  a.volverALaPestana();
+  await reloj.avanzar(400);
+  if (!a.syncing()) throw new Error('el escenario no logró escribir durante la re-sync');
+  a.set(K, V2);
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('re-sync manual · CLOUD.syncNow() mientras se escribe', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 800 } });
+  a.set(K, V1);
+  await reloj.avanzar(3000);
+  a.win.CLOUD.syncNow();
+  await reloj.avanzar(100);
+  a.set(K, V2);
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('dos pestañas · B re-sincroniza al volver mientras A escribe dos veces', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 900 } });
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(6000);
+  a.set(K, V1);
+  await reloj.avanzar(1600);
+  b.volverALaPestana();
+  a.volverALaPestana();
+  await reloj.avanzar(400);
+  a.set(K, V2);
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a, b], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+escenario('candado intacto · equipo nuevo: el default que escribe un módulo al arrancar no pisa la nube', async () => {
+  const reloj = crearReloj(Date.UTC(2026, 10, 12, 23, 50, 0));
+  const nube = crearNube(reloj);
+  nube.latencia = 600;
+  nube.filas.set(K, { user_id: 'u1', store_key: K, payload: V2, updated_at: new Date(reloj.ahora - 864e5).toISOString() });
+  const almacen = new Map();
+  const a = abrirPestana(reloj, nube, almacen, 'A');
+  a.iniciarSesion();
+  await reloj.avanzar(400);
+  if (!a.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
+  a.set(K, { weeks: [] });             // el módulo arranca sin datos y guarda su estado vacío
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
+});
+
+/* ── Ejecutar. Pasa si la 2.ª escritura queda en la copia local, en la nube y tras recargar la página. ── */
+let fallos = 0;
+const igual = (x, y) => JSON.stringify(x) === JSON.stringify(y);
+for (const { nombre, fn } of escenarios) {
+  let r = null, err = null, tras = null;
+  try {
+    r = await fn();
+    // Recargar: se cierran las pestañas (beforeunload incluido) y se abre una nueva sobre el mismo disco y la misma nube.
+    for (const p of r.pestanas) p.cerrar();
+    const nueva = abrirPestana(r.reloj, r.nube, r.almacen, 'R');
+    nueva.iniciarSesion();
+    await r.reloj.avanzar(15000);
+    tras = { local: nueva.get(K), nube: r.nube.valor(K) };
+    r.pestanas.push(nueva);
+  } catch (e) { err = e; }
+  const ok = !err && igual(r.local, V2) && igual(r.enNube, V2) && igual(tras.local, V2) && igual(tras.nube, V2);
+  console.log(`${ok ? '✅' : '❌'} ${nombre}`);
+  if (!ok) {
+    fallos++;
+    if (err) console.log('   error:', err.stack || err.message);
+    else {
+      const ver = (x) => (igual(x, V2) ? '2.ª' : igual(x, V1) ? '1.ª (se perdió la 2.ª)' : JSON.stringify(x));
+      console.log(`   al terminar → local: ${ver(r.local)} · nube: ${ver(r.enNube)} · outbox: ${JSON.stringify(r.outbox)}`);
+      console.log(`   tras recargar → local: ${ver(tras.local)} · nube: ${ver(tras.nube)}`);
+    }
+    if (VERBOSE && r) for (const p of r.pestanas) console.log(p.log.filter((l) => /fullSync|reconcile|realtime|pushState|outbox|flushPending/.test(l)).join('\n'));
+  }
+}
+console.log(fallos ? `\n${fallos} de ${escenarios.length} escenarios pierden la segunda escritura.` : `\nLos ${escenarios.length} escenarios conservan la segunda escritura.`);
+process.exit(fallos ? 1 : 0);
