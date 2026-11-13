@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-12",
+  "revisado": "2026-11-13",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -12,6 +12,19 @@
     "icono": "🎮",
     "ofertas": [
       {
+        "titulo": "Euro Truck Simulator 2",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/227300/",
+        "precio": "COL$ 12.999",
+        "antes": "COL$ 51.999",
+        "ahorro": 75,
+        "vence": "2026-11-24",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "97 % de 766.847 reseñas de jugadores son positivas.",
+        "imperdible": false,
+        "visto": "2026-11-13"
+      },
+      {
         "titulo": "Frostpunk",
         "tienda": "Steam",
         "url": "https://store.steampowered.com/app/323190/",
@@ -22,7 +35,7 @@
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
         "porque": "93 % de 115.433 reseñas de jugadores son positivas.",
         "imperdible": true,
-        "visto": "2026-11-12"
+        "visto": "2026-11-13"
       },
       {
         "titulo": "This War of Mine",
@@ -35,20 +48,7 @@
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
         "porque": "94 % de 82.150 reseñas de jugadores son positivas.",
         "imperdible": true,
-        "visto": "2026-11-12"
-      },
-      {
-        "titulo": "Borderlands 2",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/49520/",
-        "precio": "COL$ 4.000",
-        "antes": "COL$ 40.000",
-        "ahorro": 90,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "90 % de 210.936 reseñas de jugadores son positivas.",
-        "imperdible": false,
-        "visto": "2026-11-12"
+        "visto": "2026-11-13"
       }
     ],
     "nota": ""
