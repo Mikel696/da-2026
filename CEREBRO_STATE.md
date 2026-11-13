@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-12 noche (CLAUDE.md partido por módulos en `.claude/rules/`; rutinas reactivadas con el calendario nuevo)
+- **Última actualización:** 2026-11-13 tarde (fix P0 de cloud-sync p23: un cambio hecho durante una re-sync ya no se pierde)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,34 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🛡 CORE · P0 · Un cambio escrito durante una re-sync se perdía — viernes 13-nov (cloud-sync p23, `388423f`)
+
+**Qué pasó (12-nov):** `SYS.setAca` aplicado ~2 s después de `SYS.injectWeek` sobre `sys_week_live` se perdió en la
+copia local y en la nube; la cola quedó en 0. Hubo que reaplicarlo a mano.
+**Causa raíz:** el sync-lock del proxy (`if (_syncing || !_initialSyncDone) return`) congelaba los `setItem` durante
+**toda** `fullSyncAll`, no solo la hidratación inicial. supabase-js re-emite `SIGNED_IN` cada vez que la pestaña vuelve
+a estar visible (visto en producción: cada `javascript_exec` de Chrome trae la pestaña al frente) y eso relanza
+`fullSyncAll`. Un cambio hecho en esos segundos quedaba **sin sello y sin push**; el eco de la subida anterior —en esta
+o en **otra pestaña abierta del Cerebro**, que comparte el localStorage— o el reconcile lo veían "más viejo" que la nube
+y lo pisaban con la versión anterior.
+**Arreglo:** `_hydrating()` = solo la primera `fullSyncAll`. En una re-sync el cambio se sella y se sube. Mismo criterio
+en `_quotaRescue` (cuota llena: el sello sigue en memoria, nunca en disco) y `_tombRecord`. Cache-bust p22 → p23 en las 28 páginas.
+- **Verificado (simulador):** `node scripts/prueba-sync-carrera.mjs` carga el motor real con una nube falsa y reloj
+  virtual. Con el motor de antes, 3 de 6 escenarios pierden la 2.ª escritura; con p23, 0 de 6. Incluye un caso de control
+  del candado: en un equipo nuevo, el default que escribe un módulo al arrancar no pisa la nube.
+- **Verificado (producción, claves de prueba `fin_zz_prueba_*`, ya borradas):** con p22, la prueba D perdió la 2.ª
+  escritura (local 1, nube 1, outbox vacía), igual que el 12-nov. Con p23, la misma prueba ×3 y después de recargar
+  dejó local 2 y nube 2. La nube guarda el `updated_at` que manda el cliente (sin trigger), así que se descarta un
+  desfase de relojes. Ninguna fila real de Miguel cambió durante las pruebas; `sys_week_live` sigue con 5 ACA en S7.
+- **Pendiente:** las pestañas del Cerebro que ya estaban abiertas siguen con p22 hasta recargarlas.
+- **Visto y sin tocar (siguientes candidatos):** (1) el éxito de un push en vuelo saca la key de la outbox aunque haya
+  un cambio más nuevo pendiente: no pierde datos (el sello lo protege), pero el contador "N sin subir" miente unos
+  segundos. (2) Lo escrito sin sesión o sin red **desde el arranque** nunca se sella (la hidratación inicial no termina):
+  al iniciar sesión, la nube gana. Es el costo del candado anti-defaults; arreglarlo pide distinguir defaults de
+  ediciones reales.
 
 ---
 
@@ -24,7 +52,7 @@ CUN de Google estaba cerrada en Chrome: sin ella no hay CDigital, correo, calend
 - **Datos (Supabase, no repo):** parte `26V05-S7` (16 actividades, 4 clases, ruta y plan del 12 al 15-nov), 5 ACA
   con `SYS.setAca`, notas, cronograma y una sesión de clase de TI en «Clases Perdidas». Verificado leyendo de vuelta
   desde Supabase, cola en 0 y Dashboard en producción.
-- **🐞 Hallazgo de sincronización, sin arreglar:** `SYS.setAca` aplicado ~2 s después de `SYS.injectWeek` se perdió:
+- **🐞 Hallazgo de sincronización (✅ arreglado el 13-nov, cloud-sync p23: ver la entrada CORE de arriba):** `SYS.setAca` aplicado ~2 s después de `SYS.injectWeek` se perdió:
   la copia local volvió a la versión recién subida y la nueva nunca se subió (la subida tarda ~10-15 s y el eco de la
   anterior llegó antes). Reaplicado de una vez, subió bien. Riesgo: dos escrituras seguidas de la misma llave en menos
   de ~15 s. Lo tiene que diagnosticar una sesión aparte en `cloud-sync.js` (subir versión en lockstep si se toca).
