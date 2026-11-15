@@ -191,6 +191,7 @@ function abrirPestana(reloj, nube, almacen, nombre = 'A', opciones = {}) {
 const K = 'sys_week_live';   // la key del incidente (LWW por key completa, sin merge estructural)
 const V1 = { weeks: [{ id: 'S7', acas: [] }] };                     // injectWeek: parte nuevo, sin ACA
 const V2 = { weeks: [{ id: 'S7', acas: ['aca_en', 'aca_bi'] }] };   // setAca: el mismo parte con ACA
+const V1b = { weeks: [{ id: 'S7', acas: ['aca_en'] }] };            // un paso intermedio entre V1 y V2
 
 async function montar(opciones = {}) {
   const reloj = crearReloj(Date.UTC(2026, 10, 12, 23, 50, 0));
@@ -278,6 +279,8 @@ escenario('candado intacto · equipo nuevo: el default que escribe un módulo al
   if (!a.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
   a.set(K, { weeks: [] });             // el módulo arranca sin datos y guarda su estado vacío
   await reloj.avanzar(15000);
+  // Ganó la nube: no hay nada que subir. Re-subir su copia con hora nueva la haría parecer editada.
+  if (nube.upserts.some((u) => u.key === K)) throw new Error('volvió a subir a la nube una key en la que ganó la nube');
   return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
 });
 
@@ -302,6 +305,73 @@ async function otroEquipoEscribe(reloj, nube, valor) {
   await reloj.avanzar(10000);
   c.cerrar();
 }
+
+/* ── Escrituras de un módulo SIN clic mientras corre la hidratación inicial (15-nov) ──
+   10-SYS, 13-nov 23:18: `SYS.setNota` por javascript_exec unos segundos después de cargar `systems.html` se perdió
+   en local y en la nube; repetido con la página ya estable, quedó. Lo inyectado por Chrome no es un clic real. */
+escenario('arranque · un módulo escribe (sin clic) antes de que la hidratación revise su key, y la nube no cambió', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(500);            // la hidratación empezó; todavía no llegó a K
+  if (!b.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
+  b.set(K, V2);                        // SYS.setNota desde javascript_exec
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('arranque · el eco de la subida que hace la hidratación no pisa lo que un módulo escribió mientras viajaba', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  // La sesión anterior dejó en este disco un cambio más nuevo que la nube, sin subir (p. ej. editado sin sesión).
+  almacen.set(K, JSON.stringify(V1b));
+  const ts = JSON.parse(almacen.get('_cloud_ts')); ts[K] = reloj.ahora; almacen.set('_cloud_ts', JSON.stringify(ts));
+  await reloj.avanzar(1000);
+  nube.latencia = 1200;                // el eco en tiempo real llega antes que la respuesta de la subida
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(300 + 3 * 1200 + 300);   // hidratación: 3 consultas y arranca la subida de V1b
+  if (!b.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
+  b.set(K, V2);                        // el módulo escribe mientras V1b viaja
+  await reloj.avanzar(20000);
+  return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('arranque · otra pestaña abierta no pisa lo que un módulo escribe mientras esta se hidrata (visto en producción 15-nov)', async () => {
+  const { reloj, nube, almacen, a } = await montar({ nube: { latencia: 1200 } });
+  const otra = abrirPestana(reloj, nube, almacen, 'O');   // p. ej. index.html abierto en otra pestaña
+  otra.iniciarSesion();
+  await reloj.avanzar(8000);
+  a.set(K, V1);
+  await reloj.avanzar(150);
+  a.cerrar();                          // recarga enseguida: V1 sube por keepalive y su eco llega a la otra pestaña
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(365);
+  if (!b.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
+  b.set(K, V2);                        // el módulo escribe por código antes de que llegue el eco
+  await reloj.avanzar(25000);
+  return { reloj, nube, almacen, pestanas: [otra, b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('arranque · la base de una hidratación ya terminada no decide la carga siguiente', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();   // K = V1
+  const b = abrirPestana(reloj, nube, almacen, 'B');
+  b.iniciarSesion();
+  await reloj.avanzar(500);
+  if (!b.syncing()) throw new Error('el escenario no logró escribir durante la hidratación inicial');
+  b.set(K, V1b);                       // escritura por código durante la hidratación (base: V1)
+  await reloj.avanzar(10000);          // hidratación terminada: V1b ya está en la nube
+  b.set(K, V2);                        // cambio normal…
+  nube.caida = true;                   // …y se cae la red antes de que suba
+  await reloj.avanzar(200);
+  b.cerrar();                          // ni el keepalive llega: V2 queda solo en este disco, con su hora
+  await reloj.avanzar(3000);
+  nube.caida = false;
+  const c = abrirPestana(reloj, nube, almacen, 'C2');
+  c.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [c], local: c.get(K), enNube: nube.valor(K), outbox: c.outbox() };
+});
 
 escenario('sin sesión · edita con la sesión cerrada y después entra: la nube no le gana', async () => {
   const { reloj, nube, almacen } = await equipoQueYaSincronizo();
@@ -384,6 +454,35 @@ escenario('candado sin sesión · equipo viejo: una migración de arranque (sin 
   b.iniciarSesion();
   await reloj.avanzar(15000);
   return { reloj, nube, almacen, pestanas: [b], local: b.get(K), enNube: nube.valor(K), outbox: b.outbox() };
+});
+
+escenario('candado sin sesión · equipo viejo: migración sin clic, RECARGA antes de entrar, y no pisa lo de otro equipo', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  await otroEquipoEscribe(reloj, nube, V2);
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  b.set(K, { ...V1, version: 2 });     // migración de arranque sobre lo viejo de este disco
+  await reloj.avanzar(5000);
+  b.cerrar();                          // recarga, todavía sin sesión: la base no puede quedarse en memoria
+  const c = abrirPestana(reloj, nube, almacen, 'C2', { sesion: false });
+  await reloj.avanzar(5000);
+  c.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [c], local: c.get(K), enNube: nube.valor(K), outbox: c.outbox() };
+});
+
+escenario('sin sesión · edita, RECARGA y después entra: la edición sigue ganando', async () => {
+  const { reloj, nube, almacen } = await equipoQueYaSincronizo();
+  const b = abrirPestana(reloj, nube, almacen, 'B', { sesion: false });
+  await reloj.avanzar(2000);
+  b.usuarioToca();
+  b.set(K, V2);
+  await reloj.avanzar(5000);
+  b.cerrar();
+  const c = abrirPestana(reloj, nube, almacen, 'C2', { sesion: false });
+  await reloj.avanzar(5000);
+  c.iniciarSesion();
+  await reloj.avanzar(15000);
+  return { reloj, nube, almacen, pestanas: [c], local: c.get(K), enNube: nube.valor(K), outbox: c.outbox() };
 });
 
 escenario('candado sin sesión · el autocompletado del navegador al cargar no convierte una migración en «edición del usuario»', async () => {

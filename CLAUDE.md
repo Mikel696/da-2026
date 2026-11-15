@@ -85,10 +85,16 @@ Estos cuatro pilares definen el sistema. **No los rompas, no los reemplaces, no 
   **Solo la primera `fullSyncAll`** (`_hydrating()`): supabase-js re-emite SIGNED_IN cada vez que la pestaña vuelve a estar
   visible y eso relanza `fullSyncAll`; un cambio hecho ahí se sella y se sube. Extender el lock a esas re-syncs perdió un
   `setAca` el 12-nov. Regresión: `node scripts/prueba-sync-carrera.mjs`.
-  **Excepción (p24, 13-nov):** sin sesión o sin red la hidratación no termina; ahí una **edición del usuario** sí se
-  sella (`_isUserEdit`: `pointerdown`/`keydown` reales hace <10 s **y** la key ya tiene TS en este equipo). Un default o
-  una migración de arranque no tiene clic; un equipo nuevo no tiene TS: ninguno de los dos pisa la nube. No sumar
-  `input`/`change` (los dispara el autocompletado al cargar).
+  **Escrituras durante la hidratación (p25, 15-nov):** la hidratación tarda (~8 s de `pullAllStates` en systems.html; sin
+  sesión o sin red no termina). Un cambio sobre una key que este equipo ya sincronizó (tiene TS) **se sella con su hora
+  real aunque venga de código** (`_hydWrite`), y el reconcile de esa key decide **por contenido**: si la nube trae el
+  valor que había antes del cambio (la base), gana lo local; si la nube cambió por otro lado, gana la nube salvo un cambio
+  del usuario (`pointerdown`/`keydown` reales hace <10 s), que compite por hora. Equipo nuevo (sin TS): no se sella.
+  Base y origen viven en disco (`_cloud_hyd`, no se sincroniza) y se borran al terminar la hidratación: sobreviven a una
+  recarga sin sesión, y una base vieja nunca decide la carga siguiente.
+  Sin hora, el tiempo real de **otra pestaña abierta** pisaba la escritura (perdió un `SYS.setNota` inyectado a los 6 s,
+  13-nov). No sumar `input`/`change` al gesto (los dispara el autocompletado al cargar). Cuando gana la nube, la key sale
+  de la outbox.
 - **Outbox:** una subida confirmada saca la key solo si el local no cambió mientras viajaba (`_confirmPushed`), y el
   reintento de la cola sube el valor local **actual**, nunca la copia del momento del fallo (p24).
 - **Cuota llena (desde 27-oct, p21):** si el disco no admite una key sincronizable, el valor queda en memoria

@@ -549,6 +549,7 @@ const CLOUD = (() => {
       if (_queue.length > 0) _scheduleFlush();
 
       _initialSyncDone = true;
+      localStorage.removeItem(_HYD_KEY);   // bases ya usadas; lo escrito después se sella y sube normal
       console.log('[CLOUD] ══ fullSyncAll DONE ══ (' + Math.round(performance.now() - t0) + 'ms)');
 
       // ── Step 6: Notify modules to re-render ──
@@ -727,6 +728,11 @@ const CLOUD = (() => {
     return [...by.values()];
   }
 
+  /** Keys que se mezclan por estructura (no compiten por hora). */
+  function _isStructural(key) {
+    return key === _TOMB_KEY || NB_DATA_KEYS.has(key) || NB_META_KEYS.has(key) || !!ARRAY_MERGE_KEYS[key];
+  }
+
   /** Devuelve el merge estructural si la key lo soporta; null si no aplica. */
   function _structuralMerge(key, localVal, cloudVal) {
     try {
@@ -809,11 +815,20 @@ const CLOUD = (() => {
       // Resto — compare timestamps (LWW por key)
       const localTs = _getLocalTs(key);
       const cloudTs = new Date(cloud.updated_at || 0).getTime();
+      let cloudWins = force || cloudTs > localTs;
+      // Escrita mientras la hidratación estaba pendiente (ver _hydWrite): decide el contenido, no la hora.
+      const hyd = force ? null : _hydAll()[key];
+      if (hyd) {
+        const sobreLaNube = _deepEqual(_safeParse(hyd.b), cloud.payload);
+        cloudWins = sobreLaNube ? false : (hyd.u ? cloudTs > localTs : true);
+      }
 
-      if (force || cloudTs > localTs) {
-        // Cloud wins → overwrite local
+      if (cloudWins) {
+        // Cloud wins → overwrite local. Lo local queda igual a la nube: nada pendiente que subir
+        // (antes la outbox volvía a subir esta copia con hora nueva y la nube parecía editada).
         console.log('[CLOUD] reconcile cloud→local:', key, force?'(forced)':'');
         if (_safeWrite(key, JSON.stringify(cloud.payload))) _setLocalTs(key, cloudTs || Date.now());
+        _outboxRemove(key);
       } else {
         // "Local más nuevo" por TIMESTAMP — pero SOLO subir si el CONTENIDO realmente
         // difiere. Si es idéntico al cloud (lo normal una vez sincronizado), NO re-subir:
@@ -1027,23 +1042,40 @@ const CLOUD = (() => {
   const _debounceMap = new Map();
   const _DEBOUNCE_MS = 1500;
 
-  /* EDICIÓN SIN SESIÓN O SIN RED (p24, 13-nov) · Mientras la hidratación inicial no termina
-     (página abierta sin sesión, sin internet, o el primer segundo de carga) el candado no sella:
-     así un default de arranque no le gana a la nube. Pero tampoco sellaba lo que el USUARIO
-     cambiaba en ese rato, y al iniciar sesión la nube lo pisaba. Ahora sí se sella cuando es
-     una edición del usuario:
-       · hubo un clic, toque o tecla REAL (isTrusted) hace menos de 10 s — un default o una
-         migración de arranque corre solo, sin nadie que toque nada. Solo pointerdown y keydown:
-         input/change también los dispara el autocompletado del navegador al cargar; y
-       · este equipo ya sincronizó esa key alguna vez (tiene TS) — en un equipo nuevo, lo escrito
-         antes de ver la nube no la pisa entera: gana la nube (o el merge, si la key lo tiene).
+  /* ESCRITURAS DURANTE LA HIDRATACIÓN INICIAL (p25, 15-nov) · La hidratación tarda: sin sesión o
+     sin red no termina, y con sesión `pullAllStates` baja todos los payloads (~8 s en systems.html,
+     medido 15-nov). Antes (p24) lo escrito ahí sin clic quedaba SIN hora: cualquier copia de la nube
+     —el reconcile, el eco de una subida, o el tiempo real de OTRA pestaña abierta, que comparte el
+     disco— parecía más nueva y lo pisaba. Se perdió así un `SYS.setNota` inyectado por Chrome a los
+     6 s de cargar (13-nov). Ahora:
+       · Key que este equipo ya sincronizó (tiene TS): el cambio se sella con su hora real, venga de
+         un clic o de código. Se guarda el valor que tenía antes (la base) para el reconcile.
+       · Key sin TS (equipo nuevo): no se sella; lo escrito antes de ver la nube no la pisa entera.
+       · El reconcile de una key escrita aquí decide por CONTENIDO (ver _reconcileKey): si la nube
+         trae la base, lo local es más nuevo y gana; si la nube cambió por otro lado, gana la nube,
+         salvo un cambio del usuario (clic o tecla real hace <10 s), que compite por hora como siempre.
+         Así un default o una migración de arranque sobre datos viejos sigue sin pisar la nube.
+     Solo pointerdown y keydown: input/change también los dispara el autocompletado al cargar.
+     Base y origen van a disco (`_cloud_hyd`, no se sincroniza) hasta la próxima hidratación completa:
+     el sello sobrevive a una recarga y la base también, o una migración sin clic hecha sin sesión y
+     recargada antes de entrar volvería a competir por hora y pisaría lo más nuevo de otro equipo.
      No se sube en ese momento: la key ya está en la outbox y sale al terminar la hidratación. */
   const _GESTURE_MS = 10000;
   let _lastGesture = 0;
   ['pointerdown', 'keydown'].forEach(ev =>
     document.addEventListener(ev, (e) => { if (e && e.isTrusted) _lastGesture = Date.now(); }, true));
-  function _isUserEdit(key) {
-    return (Date.now() - _lastGesture) < _GESTURE_MS && _getLocalTs(key) > 0;
+  const _HYD_KEY = '_cloud_hyd';   // { key: { b: valor crudo antes del 1.er cambio, u: hubo clic o tecla real } }
+  function _hydAll() { try { return JSON.parse(localStorage.getItem(_HYD_KEY) || '{}') || {}; } catch { return {}; } }
+  /** Cambio real durante la hidratación inicial: anota base y origen. true = se sella. */
+  function _hydWrite(key, prev) {
+    if (!(_getLocalTs(key) > 0)) return false;
+    const user = (Date.now() - _lastGesture) < _GESTURE_MS;
+    if (_isStructural(key)) return true;   // se mezclan por estructura: no compiten por hora
+    const all = _hydAll();
+    const e = all[key] || (all[key] = { b: prev, u: false });   // la base es la de ANTES del 1.er cambio
+    if (user) e.u = true;
+    try { _origSetItem(_HYD_KEY, JSON.stringify(all)); return true; }
+    catch (err) { console.error('[CLOUD] ✗ QUOTA al guardar la base de', key, '— solo se sella si fue el usuario'); return e.u; }
   }
 
   /** El disco no tiene sitio para un cambio de una key sincronizable. Antes el
@@ -1052,8 +1084,8 @@ const CLOUD = (() => {
    *  debounce normal. Ni TS en disco ni outbox: la copia de disco es la vieja. */
   function _quotaRescue(key, prev, value) {
     const live = !_hydrating();
-    const edit = !live && prev !== value && _isUserEdit(key);
-    _unsaved.set(key, { v: value, ts: (live || edit) ? Date.now() : 0 });   // en hidratación solo se sella una edición del usuario (en memoria, nunca en disco)
+    const edit = !live && prev !== value && _hydWrite(key, prev);
+    _unsaved.set(key, { v: value, ts: (live || edit) ? Date.now() : 0 });   // sello en memoria, nunca en disco (ver _hydWrite)
     const cloud = live && _ready();
     console.error('[CLOUD] ✗ QUOTA al guardar', key, '(' + Math.round(value.length/1024) + 'KB) —', cloud ? 'se sube a la nube desde memoria' : 'sin nube: solo vive en esta pestaña');
     window.dispatchEvent(new CustomEvent('cloud:quota_exceeded', { detail: { key, kb: Math.round(value.length/1024), cloud } }));
@@ -1095,8 +1127,8 @@ const CLOUD = (() => {
     _tombRecord(key, prev, value);
 
     // Durante la hidratación INICIAL no sellamos ni subimos (ver _hydrating); en una re-sync sí.
-    // Excepción: una edición del usuario se sella (ver _isUserEdit) y la sube la outbox al terminar.
-    if (_hydrating()) { if (_isUserEdit(key)) _setLocalTs(key, Date.now()); return; }
+    // Excepción: un cambio sobre una key que este equipo ya conoce se sella (ver _hydWrite); lo sube la outbox al terminar.
+    if (_hydrating()) { if (_hydWrite(key, prev)) _setLocalTs(key, Date.now()); return; }
 
     // Update local timestamp
     _setLocalTs(key, Date.now());
