@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-13",
+  "revisado": "2026-11-15",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
@@ -11,14 +11,14 @@
           "titulo": "Tenis Nike Pacific (hombre) · talla 11, color Team Crimson/blanco/negro",
           "tienda": "Amazon · vendido por Amazon",
           "url": "https://www.amazon.com/-/es/Nike-Hombre-Pacific-Zapatos-casuales/dp/B0FDWD6RHR",
-          "precio": "US$ 62,13 (≈ $ 205.000)",
+          "precio": "US$ 62,13 (≈ $ 206.000)",
           "antes": "",
           "ahorro": 0,
-          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 22 o 23-nov",
+          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 25-nov",
           "vence": "",
           "colombia": "La ficha dice «Sin cargos de importación y envío gratis a Colombia» y lo vende Amazon Export Sales LLC. Se paga en dólares con tarjeta: tu banco cobra la conversión.",
-          "porque": "Precio revisado hoy en Amazon (≈ $ 205.000 con la TRM de $ 3.301,91 del 13-nov). Ayer era lo más barato frente a Dafiti ($ 233.900) y Falabella/Mercado Libre ($ 257.970); esas tiendas no se volvieron a abrir hoy. El precio cambia con la talla y el color.",
-          "visto": "2026-11-13",
+          "porque": "Precio de mercado, no una rebaja: hoy Dafiti tiene el Pacific de hombre blanco en $ 210.900 y Mercado Libre desde $ 257.970 (≈ $ 206.000 con la TRM de $ 3.316,70 del 14-nov). El precio de Amazon cambia con la talla y el color.",
+          "visto": "2026-11-15",
           "imperdible": false
         },
         {
@@ -28,15 +28,15 @@
           "precio": "$ 639.900",
           "antes": "$ 659.960",
           "ahorro": 3,
-          "envio": "despacho a domicilio, llega mañana",
+          "envio": "despacho a domicilio",
           "vence": "",
           "colombia": "Lo vende Falabella Colombia, con despacho a domicilio.",
-          "porque": "Uno de los tenis de amortiguación más valorados de Nike. Comparado hoy: Nike oficial en Mercado Libre lo vende en $ 659.960 (los más baratos allí son usados). Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900. Sin comparar en Amazon.",
-          "visto": "2026-11-13",
+          "porque": "Comparado hoy: Nike en Mercado Libre $ 659.960 a $ 809.990. Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900. Descartado: en Amazon aparece desde US$ 110, pero lo venden terceros (uno revisado tiene 78 % de calificaciones positivas) y Amazon no lo vende directamente.",
+          "visto": "2026-11-15",
           "imperdible": false
         }
       ],
-      "nota": "Hoy quedan dos. Descartado: los Nike Shox R4 de Pacific Sport en Falabella (no se volvieron a abrir ni se compararon en otras tiendas). adidas.co no se usa: bloquea el navegador."
+      "nota": "Hoy quedan dos. No apareció un tercer producto que pasara las tres pruebas. adidas.co no se usa: bloquea el navegador."
     },
     {
       "id": "tecnologia",
@@ -48,27 +48,27 @@
           "tienda": "Mercado Libre · vendido por ULTRAPHONE70",
           "url": "https://www.mercadolibre.com.co/p/MCO45517552/s",
           "precio": "$ 3.309.900",
-          "antes": "$ 3.899.990",
-          "ahorro": 15,
-          "envio": "envío gratis, llega en 4 o 5 días",
+          "antes": "$ 3.799.990",
+          "ahorro": 13,
+          "envio": "envío gratis, llega el miércoles",
           "vence": "",
-          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo. Ojo: hoy una cuenta sin nombre ni ventas (empieza por «AD2026…») aparece más barata en esta y otras fichas de Mercado Libre; no le compres a ella.",
-          "porque": "Alkosto lo tiene hoy en $ 3.899.990 (y $ 3.999.990). El de ayer a $ 3.129.900 (ITECHNOLOGY) ya no aparece. Descartado: $ 2.890.000 de una cuenta de 0 ventas creada hoy, y $ 3.139.429 desde EE. UU. con $ 970.085 de importación. Sin comparar hoy en Amazon.",
-          "visto": "2026-11-13",
+          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo. La ficha dice «¡Última en Stock!».",
+          "porque": "Alkosto lo tiene hoy en $ 3.799.990 (y $ 3.999.990). Descartado: $ 3.139.429 desde EE. UU. con $ 970.085 de costos de importación, y BOGOTAPRODUCTOS ($ 3.346.435) marcado «No brinda buena atención». En Amazon solo salió reacondicionado o versión internacional.",
+          "visto": "2026-11-15",
           "imperdible": false
         },
         {
           "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
-          "tienda": "Mercado Libre · Tienda oficial de Mercado Libre",
-          "url": "https://www.mercadolibre.com.co/tablet-lenovo-ideatab-128gb-8gb-ram-11-pulgadas-grey-teclado-pen/p/MCO59811604",
-          "precio": "$ 895.440",
-          "antes": "$ 925.900",
-          "ahorro": 3,
-          "envio": "envío: ver en la tienda",
+          "tienda": "Mercado Libre · vendido por bytech",
+          "url": "https://www.mercadolibre.com.co/p/MCO59811604/s",
+          "precio": "$ 889.000",
+          "antes": "",
+          "ahorro": 0,
+          "envio": "envío gratis, llega miércoles o jueves",
           "vence": "",
-          "colombia": "La vende la tienda oficial de Mercado Libre (MercadoLíder Platinum, más de 1.000 vendidas), nueva, 12 meses de garantía de fábrica. Ojo: hoy una cuenta sin nombre ni ventas (empieza por «AD2026…») aparece más barata en esta y otras fichas de Mercado Libre; no le compres a ella.",
-          "porque": "Por el precio de la tablet sola en Alkosto ($ 899.070) aquí trae teclado y lápiz; la tienda oficial de Lenovo en Mercado Libre la tiene en $ 925.900. Sirve para estudiar y tomar apuntes. Sin comparar en Amazon.",
-          "visto": "2026-11-13",
+          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 10.000 ventas, producto nuevo.",
+          "porque": "Precio de mercado: en la misma ficha DISTRIMAK la tiene en $ 894.900, la tienda oficial de Mercado Libre en $ 895.440 y otra oferta en $ 925.900. Por lo que cuesta la tablet sola trae teclado y lápiz; sirve para estudiar y tomar apuntes. Sin comparar hoy en Amazon ni Alkosto.",
+          "visto": "2026-11-15",
           "imperdible": false
         },
         {
@@ -78,15 +78,15 @@
           "precio": "$ 2.599.070",
           "antes": "",
           "ahorro": 0,
-          "envio": "envío: ver en la tienda",
+          "envio": "envío gratis",
           "vence": "",
           "colombia": "Lo vende Alkosto, tienda colombiana, con despacho a domicilio.",
-          "porque": "Un PC de juegos portátil para tu biblioteca de Steam. Precio de mercado, no una rebaja: Alkosto anuncia «antes $ 3.999.000», pero ayer Falabella tenía el mismo precio, Amazon la de 512 GB a US$ 829 y Mercado Libre más de $ 4.200.000 (comparación del 12-nov; hoy solo se reabrió Alkosto).",
-          "visto": "2026-11-13",
+          "porque": "Un PC de juegos portátil para tu biblioteca de Steam. Precio de mercado, no una rebaja: Alkosto anuncia «antes $ 3.999.000», pero hoy Falabella la vende en $ 2.599.900. Descartado en Mercado Libre: la más barata nueva ($ 2.091.697) viene de China sin vendedor comprobado; las otras son usadas o de caja abierta.",
+          "visto": "2026-11-15",
           "imperdible": false
         }
       ],
-      "nota": "Comparado hoy en Mercado Libre y Alkosto; Amazon y Falabella son de ayer."
+      "nota": ""
     },
     {
       "id": "cursos",
@@ -103,12 +103,12 @@
           "envio": "acceso en línea",
           "vence": "2026-11-15",
           "colombia": "Platzi vende en pesos colombianos en su propia página.",
-          "porque": "El 12-nov el mismo plan estaba a $ 999.000 en esta página, así que el descuento es real; el contador dice que termina en menos de 2 días. Trae certificados digitales y la escuela de inglés. No se comparó con otras plataformas.",
-          "visto": "2026-11-13",
+          "porque": "El 12-nov el mismo plan estaba a $ 999.000 en esta página, así que el descuento es real. Hoy el contador decía que terminaba en menos de una hora: puede que ya no esté. Trae certificados digitales y la escuela de inglés. No se comparó con otras plataformas.",
+          "visto": "2026-11-15",
           "imperdible": false
         }
       ],
-      "nota": "Solo una. No se revisaron becas ni cursos gratis hoy (Talento Tech no tenía convocatoria el 12-nov)."
+      "nota": "Solo una. No se revisaron becas ni cursos gratis hoy (se agotó el tope de páginas)."
     },
     {
       "id": "conciertos",
@@ -126,7 +126,7 @@
           "vence": "",
           "colombia": "Boletera oficial del evento en Colombia.",
           "porque": "Fecha nueva (las del 5, 6 y 7 de febrero siguen agotadas); venta general abierta, revisado hoy en TuBoleta.",
-          "visto": "2026-11-13",
+          "visto": "2026-11-15",
           "imperdible": false
         }
       ],
