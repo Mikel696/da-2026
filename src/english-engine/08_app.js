@@ -3631,8 +3631,16 @@ const ANL = (() => {
        Solo pronombres personales: con sustantivos («The police don't…», «My
        family don't…») el número no se adivina sin riesgo de gritar en falso.
        Recorre `t` (CON puntuación), no `pal`: sin la coma, «Take it, don't
-       wait» juntaba «it» con «don't» y marcaba inglés correcto como error. */
+       wait» juntaba «it» con «don't» y marcaba inglés correcto como error.
+       «it» y «you» se escriben igual de sujeto que de objeto: en «What I told
+       you doesn't matter» o «People who saw it don't care» son objeto y el
+       auxiliar es de otro sujeto. Por eso esos dos solo cuentan al abrir la
+       frase o detrás de coma o conjunción («It don't work», «but it don't…»);
+       «I think it don't work» se deja pasar antes que gritar en falso. */
     const TER = ['he','she','it'], NOTER = ['i','you','we','they'];
+    const ABRE = new Set([',',';',':','and','but','or','so','because','if','when','while',
+                          'that','although','though','unless','until','since']);
+    const sujSeguro = k => (t[k] !== 'it' && t[k] !== 'you') || k === 0 || ABRE.has(t[k-1]);
     const verS = s => s === 'i' ? 'I' : s;
     const sinS = v => (v && LEX.es3ra(v) && LEX.raiz(v)) || v;
     const may = s => s.charAt(0).toUpperCase() + s.slice(1);   // mayusIni se declara más abajo
@@ -3640,6 +3648,7 @@ const ANL = (() => {
       if(w !== 'do' && w !== 'does') return;
       // Negativa: «he don't speak», «they doesn't care»
       if(i > 0 && t[i+1] === 'not'){
+        if(!sujSeguro(i-1)) return;
         const suj = t[i-1];
         const sig = t[i+2] && /[a-z]/.test(t[i+2]) ? t[i+2] : '…';
         if(w === 'do' && TER.includes(suj))
@@ -4002,7 +4011,9 @@ const ANL = (() => {
     ["He doesn't speak English.",'verde'], ["They don't live here.",'verde'],
     ["Take it, don't wait.",'verde'], ["I said it, don't worry.",'verde'],
     ['Why do it like that?','verde'], ['Does he work?','verde'],
-    ['What does it mean?','verde'], ["Why don't you come?",'verde']
+    ['What does it mean?','verde'], ["Why don't you come?",'verde'],
+    ["What I told you doesn't matter.",'verde'], ["People who saw it don't believe it.",'verde'],
+    ["But it don't work.",'rojo'], ["I know that you doesn't care.",'rojo']
   ];
   function probar(){
     const fallos = [];
