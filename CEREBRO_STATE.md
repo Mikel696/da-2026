@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-13 noche (fix P0 de cloud-sync p24: lo editado sin sesión o sin red ya no se pierde al entrar)
+- **Última actualización:** 2026-11-15 (fix P0 de cloud-sync p25: lo que un módulo escribe durante la hidratación ya no se pierde)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,40 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🛡 CORE · P0 · Lo que un módulo escribía durante la hidratación se perdía — domingo 15-nov (cloud-sync p25, `7d7730d`)
+
+**Qué pasó (13-nov 23:18, reportado por 10-SYS):** `SYS.setNota` inyectado por Chrome a los 6 s de cargar `systems.html`
+se perdió en local y en la nube; `sys_subjects_custom` quedó en Supabase con hora nueva pero sin la nota. Repetido con la
+página ya estable, quedó.
+**Causa raíz (medida en producción):** la hidratación inicial de `systems.html` tarda ~12 s (`pullAllStates` baja los 69
+payloads en ~8 s). Lo escrito ahí **sin clic** quedaba sin hora (p24 solo sellaba con clic real; `javascript_exec` no
+lo es). Cualquier copia de la nube parecía más nueva y lo pisaba: en producción lo hizo el tiempo real de **otra
+pestaña abierta** del Cerebro (disco compartido); en el simulador también el reconcile y el eco de una subida. Después la
+outbox volvía a subir la copia vieja con hora nueva: la huella exacta del reporte.
+**Arreglo:** un cambio durante la hidratación sobre una key que este equipo ya sincronizó se sella con su hora real,
+venga de clic o de código (`_hydWrite`). El candado pasa a decidir por **contenido** en el reconcile: si la nube trae el
+valor que había antes del cambio (la base), gana lo local; si la nube cambió por otro lado, gana la nube salvo un cambio
+del usuario. Base y origen en disco (`_cloud_hyd`, no se sincroniza) hasta el final de la hidratación. Equipo nuevo (sin
+hora): no se sella, como siempre. Cuando gana la nube, la key sale de la outbox (no re-sube la copia vieja).
+- **Verificado (simulador):** `node scripts/prueba-sync-carrera.mjs` → 23 escenarios; p24 falla 4, p25 ninguno. Quitar
+  cualquiera de las 4 piezas (sello, contenido, base en disco, salida de la outbox) hace fallar su escenario. La revisión
+  adversarial encontró que con la base solo en memoria una recarga sin sesión reabría el candado: corregido y con escenario.
+- **Verificado (producción, 15-nov 17:33–17:43 UTC, claves `fin_zz_prueba_p25*`, ya borradas):** reproducido con p24
+  (iframe de `systems.html` recargado justo después de un cambio y escritura por código a los 365 ms: perdida en local y
+  nube, re-subida la copia vieja a los 8,4 s). Con p25, la misma prueba a los 357 ms: sellada, base guardada, y al
+  terminar v2 en local y nube, `_cloud_hyd` borrado y outbox vacía. El `cloud-sync.js` servido tiene el mismo SHA-256 que
+  el del repo y las 28 páginas cargan `?v=p25`. Ninguna clave de prueba quedó en nube, local, horas ni outbox; 69 filas reales.
+- **Filas reales con hora nueva durante la prueba:** `sys_week_live`, `sys_week_state` y `sys_subjects_custom` a las
+  17:41:19 UTC. No las subió esta prueba: ocurrió antes de que existiera el iframe con p25, ningún motor de la pestaña de
+  prueba registró subida de esas keys (solo recibió el aviso y lo ignoró por «local newer», o sea, las escribió otra
+  pestaña del mismo Chrome) y la sesión 10-SYS estuvo activa hasta las 17:42 UTC. Autoría de 10-SYS: por tiempos, sin
+  confirmar con ella.
+- **Límite conocido:** dos equipos que cambian la misma key durante la hidratación de uno de ellos siguen compitiendo por
+  hora (gana lo último), como siempre con LWW.
+- **Pendiente:** las pestañas abiertas antes del deploy siguen con p24 hasta recargarlas. 10-SYS: recargar antes de inyectar.
 
 ---
 
