@@ -39,11 +39,12 @@
   historial de git en los dos archivos.
 - **Verificado en producción** (Chrome de Miguel): «🎁 Ofertas de hoy · 3 pasan el filtro», Hitman: Absolution,
   Streets of Rage 4 y Red Orchestra 2 con su sello, las 4 clases del cazador vacías con su motivo, 0 errores de consola.
-- **Pendiente — necesita a Miguel:** el `SKILL.md` nuevo del cazador (piso 20/40, conciertos solo de sus artistas, sin
-  repetir 14 días, empezar por las páginas de ofertas) **no se aplicó**: el clasificador de permisos negó cambiar la tarea
-  programada. Propuesta y copia del anterior en la carpeta de notas de la sesión (`cazador-SKILL-propuesto.md`,
-  `cazador-SKILL-antes-15nov.md`). Hasta aplicarlo, el cazador corre con las reglas viejas y **borra `vistos`** al
-  reescribir el archivo; el piso del panel evita que se vea «lo normal», pero no evita repeticiones con ≥ 20 %.
+- **`SKILL.md` del cazador reescrito y aplicado** (Miguel lo aprobó: «Sí, aplícalas»; el primer intento lo negó el
+  clasificador de permisos): piso 20 % ropa y tecnología, cursos gratis/beca/40 %, conciertos solo de sus artistas,
+  sin repetir 14 días con `vistos` (nunca se borra la lista), y empieza por las páginas de ofertas del día. Copia de las
+  reglas viejas y la propuesta en la carpeta de notas de la sesión. **Sin confirmar:** la primera corrida con las
+  reglas nuevas es el 16-nov a las 7:42 (solo con la app abierta). Revisar con `list_task_runs` que publicó y que
+  `ofertas-caza.json` conserva `vistos`.
 - **Pendiente — Miguel:** llenar `E:\CLAUDE\PROYECTOS\OFERTAS-PREFERENCIAS.md` (marcas, talla, qué busca, artistas,
   géneros de juego). Es lo que más sube la puntería; vacío, el cazador busca a ciegas.
 - **Visto de paso, sin tocar:** el lector de noticias falla con HTTP 422 en `api.rss2json.com` (Xataka, Genbeta,
