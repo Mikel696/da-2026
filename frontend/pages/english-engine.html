@@ -13371,20 +13371,47 @@ const ANL = (() => {
         pal[i-1] + ' no ' + sig, pal[i-1] + ' ' + aux + ' ' + sig);
     });
 
-    // R2b · concordancia sujeto–auxiliar: he/she/it llevan doesn't; I/you/we/they, don't.
-    // El tokenizador ya expande «don't» a «do not». Solo pronombres personales pegados al auxiliar.
-    pal.forEach((w, i) => {
-      if(i === 0 || pal[i+1] !== 'not' || (w !== 'do' && w !== 'does')) return;
-      const suj = pal[i-1];
-      const sig = pal[i+2] || '…';
-      if(w === 'do' && ['he','she','it'].includes(suj))
-        add('rojo','R2b',"Con «" + suj + "» va «doesn't», no «don't»",
-          "Con <b>he / she / it</b> el auxiliar es <b>does</b> (y <b>doesn't</b> en negativo). <b>Don't</b> es para I, you, we, they. Y después de doesn't el verbo queda sin -s.",
-          suj + " don't " + sig, suj + " doesn't " + sig);
-      else if(w === 'does' && ['i','you','we','they'].includes(suj))
-        add('rojo','R2b',"Con «" + suj + "» va «don't», no «doesn't»",
-          "<b>Doesn't</b> es solo para <b>he / she / it</b>. Con I, you, we, they el negativo es <b>don't</b>.",
-          suj + " doesn't " + sig, suj + " don't " + sig);
+    /* R2b · concordancia sujeto–auxiliar: he/she/it llevan does; I/you/we/they, do.
+       Solo pronombres personales: con sustantivos («The police don't…», «My
+       family don't…») el número no se adivina sin riesgo de gritar en falso.
+       Recorre `t` (CON puntuación), no `pal`: sin la coma, «Take it, don't
+       wait» juntaba «it» con «don't» y marcaba inglés correcto como error. */
+    const TER = ['he','she','it'], NOTER = ['i','you','we','they'];
+    const verS = s => s === 'i' ? 'I' : s;
+    const sinS = v => (v && LEX.es3ra(v) && LEX.raiz(v)) || v;
+    const may = s => s.charAt(0).toUpperCase() + s.slice(1);   // mayusIni se declara más abajo
+    t.forEach((w, i) => {
+      if(w !== 'do' && w !== 'does') return;
+      // Negativa: «he don't speak», «they doesn't care»
+      if(i > 0 && t[i+1] === 'not'){
+        const suj = t[i-1];
+        const sig = t[i+2] && /[a-z]/.test(t[i+2]) ? t[i+2] : '…';
+        if(w === 'do' && TER.includes(suj))
+          add('rojo','R2b',"Con «" + suj + "» va «doesn't», no «don't»",
+            "Con <b>he / she / it</b> el auxiliar es <b>does</b> (y <b>doesn't</b> en negativo). <b>Don't</b> es para I, you, we, they. Y después de doesn't el verbo queda sin -s.",
+            suj + " don't " + sig, suj + " doesn't " + sinS(sig));
+        else if(w === 'does' && NOTER.includes(suj))
+          add('rojo','R2b',"Con «" + verS(suj) + "» va «don't», no «doesn't»",
+            "<b>Doesn't</b> es solo para <b>he / she / it</b>. Con I, you, we, they el negativo es <b>don't</b>.",
+            verS(suj) + " doesn't " + sig, verS(suj) + " don't " + sig);
+        return;
+      }
+      /* Pregunta: «Do he work?», «Where does they live?». Exige un verbo detrás
+         del pronombre, y con «do» deja fuera «it»: «Why do it like that?» es
+         inglés correcto (it es el objeto). «who» puede ser el sujeto. */
+      if(!pregunta) return;
+      if(!(i === 0 || t[i-1] === ',' || (LEX.WH.has(t[i-1]) && t[i-1] !== 'who'))) return;
+      const suj = t[i+1], v = t[i+2];
+      if(!v || !LEX.esVerboForma(v) || LEX.AUX.has(v)) return;
+      const ini = (i === 0 || t[i-1] === ',') ? '' : t[i-1] + ' ';
+      if(w === 'do' && (suj === 'he' || suj === 'she'))
+        add('rojo','R2b',"Con «" + suj + "» la pregunta va con «does»",
+          "Con <b>he / she / it</b> la pregunta se arma con <b>does</b>, y el verbo queda sin -s: <i>Does she work?</i> <b>Do</b> es para I, you, we, they.",
+          may(ini + 'do ' + suj + ' ' + v), may(ini + 'does ' + suj + ' ' + sinS(v)));
+      else if(w === 'does' && NOTER.includes(suj))
+        add('rojo','R2b',"Con «" + verS(suj) + "» la pregunta va con «do»",
+          "<b>Does</b> es solo para <b>he / she / it</b>. Con I, you, we, they la pregunta va con <b>do</b>: <i>Do they work?</i>",
+          may(ini + 'does ' + verS(suj) + ' ' + v), may(ini + 'do ' + verS(suj) + ' ' + v));
     });
 
     /* Arma la pregunta BIEN a partir de las palabras de una afirmación.
@@ -13711,7 +13738,15 @@ const ANL = (() => {
     ['I have been working here for two years.','verde'],
     ["I don't know if he is coming.",'verde'],
     ['She will have finished by then.','verde'],
-    ['Why have you finished university?','verde']
+    ['Why have you finished university?','verde'],
+    // R2b · concordancia sujeto–auxiliar (15-nov)
+    ["He don't speak English.",'rojo'], ["She don't live in Bogotá.",'rojo'],
+    ["It don't work.",'rojo'], ["They doesn't care.",'rojo'],
+    ['Do he work?','rojo'], ['Where does they live?','rojo'],
+    ["He doesn't speak English.",'verde'], ["They don't live here.",'verde'],
+    ["Take it, don't wait.",'verde'], ["I said it, don't worry.",'verde'],
+    ['Why do it like that?','verde'], ['Does he work?','verde'],
+    ['What does it mean?','verde'], ["Why don't you come?",'verde']
   ];
   function probar(){
     const fallos = [];
