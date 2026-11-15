@@ -176,8 +176,8 @@ for (const o of top) vistos.set(o._id, { id: o._id, titulo: o.titulo, salio: hoy
 const ofertas = top.map(({ _id, _cop, _usd, _puntos, ...o }) => ({ ...o, visto: hoy }));
 const regla = 'en su precio más bajo registrado (o a menos de 10 %), con rebaja de 50 % o más en Steam Colombia y 85 % o más de reseñas positivas sobre 5.000 o más, y que no haya salido en los últimos 14 días';
 const nota = ofertas.length === 3 ? '' : ofertas.length
-  ? `Hoy solo ${ofertas.length === 1 ? 'hay una nueva' : 'hay dos nuevas'} ${regla}.`
-  : `Hoy no hay ningún juego nuevo ${regla}. Se vuelve a revisar varias veces al día.`;
+  ? `De los juegos revisados hoy, solo ${ofertas.length === 1 ? 'uno está' : 'dos están'} ${regla}.`
+  : `De los juegos revisados hoy, ninguno está ${regla}. Se vuelve a revisar varias veces al día.`;
 const salida = {
   revisado: hoy,
   fuentes: ['Epic Games Store (Colombia)', 'Steam (Colombia)', 'CheapShark (rebajas y precio más bajo registrado)', 'SteamSpy (reseñas)'],
