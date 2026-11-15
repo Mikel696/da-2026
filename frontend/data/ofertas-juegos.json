@@ -3,54 +3,123 @@
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
-    "CheapShark"
+    "CheapShark (rebajas y precio más bajo registrado)",
+    "SteamSpy (reseñas)"
   ],
-  "criterio": "Juego de pago gratis hoy, o rebaja de 50 % o más en la tienda de Steam para Colombia, con 85 % o más de reseñas positivas sobre 5.000 o más.",
+  "criterio": "Juego de pago que Epic regala hoy, o juego en su precio más bajo registrado (o a menos de 10 %), con rebaja de 50 % o más en Steam Colombia y 85 % o más de reseñas positivas sobre 5.000 o más, y que no haya salido en los últimos 14 días.",
   "clase": {
     "id": "juegos",
     "nombre": "Videojuegos",
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Euro Truck Simulator 2",
+        "titulo": "Hitman: Absolution",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/227300/",
-        "precio": "COL$ 12.999",
-        "antes": "COL$ 51.999",
-        "ahorro": 75,
-        "vence": "2026-11-24",
+        "url": "https://store.steampowered.com/app/203140/",
+        "precio": "COL$ 6.150",
+        "antes": "COL$ 61.500",
+        "ahorro": 90,
+        "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "97 % de 767.548 reseñas de jugadores son positivas.",
+        "porque": "Te ahorras $ 55.350. Es su precio más bajo registrado (US$ 1.99, CheapShark). 93 % de 50.415 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
         "imperdible": false,
         "visto": "2026-11-15"
       },
       {
-        "titulo": "Borderlands 2",
+        "titulo": "Streets of Rage 4",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/49520/",
+        "url": "https://store.steampowered.com/app/985890/",
+        "precio": "COL$ 14.700",
+        "antes": "COL$ 58.800",
+        "ahorro": 75,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 44.100. Es su precio más bajo registrado (US$ 6.24, CheapShark). 93 % de 17.435 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-15"
+      },
+      {
+        "titulo": "Red Orchestra 2: Heroes of Stalingrad with Rising Storm",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/35450/",
         "precio": "COL$ 4.000",
         "antes": "COL$ 40.000",
         "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "90 % de 210.980 reseñas de jugadores son positivas.",
-        "imperdible": false,
-        "visto": "2026-11-15"
-      },
-      {
-        "titulo": "The Elder Scrolls V: Skyrim Special Edition",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/489830/",
-        "precio": "COL$ 23.999",
-        "antes": "COL$ 119.999",
-        "ahorro": 80,
-        "vence": "2026-11-18",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "94 % de 224.057 reseñas de jugadores son positivas.",
+        "porque": "Te ahorras $ 36.000. Es su precio más bajo registrado (US$ 1.99, CheapShark). 94 % de 24.916 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
         "imperdible": false,
         "visto": "2026-11-15"
       }
     ],
     "nota": ""
-  }
+  },
+  "vistos": [
+    {
+      "id": "203140",
+      "titulo": "Hitman: Absolution",
+      "salio": "2026-11-15",
+      "cop": 6150,
+      "usd": 1.99
+    },
+    {
+      "id": "35450",
+      "titulo": "Red Orchestra 2: Heroes of Stalingrad with Rising Storm",
+      "salio": "2026-11-15",
+      "cop": 4000,
+      "usd": 1.99
+    },
+    {
+      "id": "985890",
+      "titulo": "Streets of Rage 4",
+      "salio": "2026-11-15",
+      "cop": 14700,
+      "usd": 6.24
+    },
+    {
+      "id": "489830",
+      "titulo": "The Elder Scrolls V: Skyrim Special Edition",
+      "salio": "2026-11-14",
+      "cop": 23999,
+      "usd": 0
+    },
+    {
+      "id": "227300",
+      "titulo": "Euro Truck Simulator 2",
+      "salio": "2026-11-12",
+      "cop": 12999,
+      "usd": 0
+    },
+    {
+      "id": "282070",
+      "titulo": "This War of Mine",
+      "salio": "2026-11-12",
+      "cop": 4750,
+      "usd": 0
+    },
+    {
+      "id": "323190",
+      "titulo": "Frostpunk",
+      "salio": "2026-11-12",
+      "cop": 7000,
+      "usd": 0
+    },
+    {
+      "id": "49520",
+      "titulo": "Borderlands 2",
+      "salio": "2026-11-12",
+      "cop": 4000,
+      "usd": 0
+    },
+    {
+      "id": "epic:flotsam-266287",
+      "titulo": "Flotsam",
+      "salio": "2026-11-11",
+      "cop": 0,
+      "usd": 0
+    }
+  ]
 }

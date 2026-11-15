@@ -77,7 +77,7 @@ jobs:
 
       - name: Traer la mejor oferta de videojuegos
         run: node scripts/fetch-deals.mjs
-        continue-on-error: true   # si fallan Epic y CheapShark, se conserva el archivo anterior
+        continue-on-error: true   # si falla CheapShark, se conserva el archivo anterior
 
       - name: Commitear si cambió
         id: commit

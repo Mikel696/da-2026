@@ -6,132 +6,122 @@
       "id": "ropa",
       "nombre": "Ropa de marca original",
       "icono": "👟",
-      "ofertas": [
-        {
-          "titulo": "Tenis Nike Pacific (hombre) · talla 11, color Team Crimson/blanco/negro",
-          "tienda": "Amazon · vendido por Amazon",
-          "url": "https://www.amazon.com/-/es/Nike-Hombre-Pacific-Zapatos-casuales/dp/B0FDWD6RHR",
-          "precio": "US$ 62,13 (≈ $ 206.000)",
-          "antes": "",
-          "ahorro": 0,
-          "envio": "envío gratis a Colombia, sin cargos de importación, llega el 25-nov",
-          "vence": "",
-          "colombia": "La ficha dice «Sin cargos de importación y envío gratis a Colombia» y lo vende Amazon Export Sales LLC. Se paga en dólares con tarjeta: tu banco cobra la conversión.",
-          "porque": "Precio de mercado, no una rebaja: hoy Dafiti tiene el Pacific de hombre blanco en $ 210.900 y Mercado Libre desde $ 257.970 (≈ $ 206.000 con la TRM de $ 3.316,70 del 14-nov). El precio de Amazon cambia con la talla y el color.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        },
-        {
-          "titulo": "Tenis Nike Vomero 18 de running (hombre)",
-          "tienda": "Falabella",
-          "url": "https://www.falabella.com.co/falabella-co/product/73637831/tenis-nike-vomero-18-hombre/73637837",
-          "precio": "$ 639.900",
-          "antes": "$ 659.960",
-          "ahorro": 3,
-          "envio": "despacho a domicilio",
-          "vence": "",
-          "colombia": "Lo vende Falabella Colombia, con despacho a domicilio.",
-          "porque": "Comparado hoy: Nike en Mercado Libre $ 659.960 a $ 809.990. Con la tarjeta CMR de Falabella queda en $ 559.900; sin ella, $ 639.900. Descartado: en Amazon aparece desde US$ 110, pero lo venden terceros (uno revisado tiene 78 % de calificaciones positivas) y Amazon no lo vende directamente.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        }
-      ],
-      "nota": "Hoy quedan dos. No apareció un tercer producto que pasara las tres pruebas. adidas.co no se usa: bloquea el navegador."
+      "ofertas": [],
+      "nota": "Hoy nada pasa el filtro nuevo: los Nike Pacific estaban a precio de mercado y los Vomero 18 apenas 3 % por debajo de Mercado Libre (se pide 20 % o más frente a otra tienda grande). Además ya salían desde el 12-nov. La próxima cacería busca solo rebajas de verdad."
     },
     {
       "id": "tecnologia",
       "nombre": "Tecnología",
       "icono": "💻",
-      "ofertas": [
-        {
-          "titulo": "Samsung Galaxy S25 Ultra · 256 GB · Titanium Black · nuevo",
-          "tienda": "Mercado Libre · vendido por ULTRAPHONE70",
-          "url": "https://www.mercadolibre.com.co/p/MCO45517552/s",
-          "precio": "$ 3.309.900",
-          "antes": "$ 3.799.990",
-          "ahorro": 13,
-          "envio": "envío gratis, llega el miércoles",
-          "vence": "",
-          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 1.000 ventas, producto nuevo. La ficha dice «¡Última en Stock!».",
-          "porque": "Alkosto lo tiene hoy en $ 3.799.990 (y $ 3.999.990). Descartado: $ 3.139.429 desde EE. UU. con $ 970.085 de costos de importación, y BOGOTAPRODUCTOS ($ 3.346.435) marcado «No brinda buena atención». En Amazon solo salió reacondicionado o versión internacional.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        },
-        {
-          "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
-          "tienda": "Mercado Libre · vendido por bytech",
-          "url": "https://www.mercadolibre.com.co/p/MCO59811604/s",
-          "precio": "$ 889.000",
-          "antes": "",
-          "ahorro": 0,
-          "envio": "envío gratis, llega miércoles o jueves",
-          "vence": "",
-          "colombia": "Vendedor colombiano en Mercado Libre: MercadoLíder con más de 10.000 ventas, producto nuevo.",
-          "porque": "Precio de mercado: en la misma ficha DISTRIMAK la tiene en $ 894.900, la tienda oficial de Mercado Libre en $ 895.440 y otra oferta en $ 925.900. Por lo que cuesta la tablet sola trae teclado y lápiz; sirve para estudiar y tomar apuntes. Sin comparar hoy en Amazon ni Alkosto.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        },
-        {
-          "titulo": "Lenovo Legion Go S · AMD Z2 Go · 16 GB · 1 TB · pantalla de 8\"",
-          "tienda": "Alkosto",
-          "url": "https://www.alkosto.com/consola-lenovo-legion-go-8-pulgadas-amd-z2-go-ram-16gb/p/198157043251",
-          "precio": "$ 2.599.070",
-          "antes": "",
-          "ahorro": 0,
-          "envio": "envío gratis",
-          "vence": "",
-          "colombia": "Lo vende Alkosto, tienda colombiana, con despacho a domicilio.",
-          "porque": "Un PC de juegos portátil para tu biblioteca de Steam. Precio de mercado, no una rebaja: Alkosto anuncia «antes $ 3.999.000», pero hoy Falabella la vende en $ 2.599.900. Descartado en Mercado Libre: la más barata nueva ($ 2.091.697) viene de China sin vendedor comprobado; las otras son usadas o de caja abierta.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        }
-      ],
-      "nota": ""
+      "ofertas": [],
+      "nota": "Hoy nada pasa el filtro nuevo: el Galaxy S25 Ultra estaba 13 % por debajo de Alkosto (se pide 20 % o más) y la tablet Lenovo y la Legion Go S, a precio de mercado. Además ya salían desde el 12-nov. La próxima cacería busca solo rebajas de verdad."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
-      "ofertas": [
-        {
-          "titulo": "Platzi Plan Expert anual (todas las escuelas: datos, IA, programación e inglés)",
-          "tienda": "Platzi",
-          "url": "https://platzi.com/precios/",
-          "precio": "$ 798.900 al año",
-          "antes": "$ 999.000",
-          "ahorro": 20,
-          "envio": "acceso en línea",
-          "vence": "2026-11-15",
-          "colombia": "Platzi vende en pesos colombianos en su propia página.",
-          "porque": "El 12-nov el mismo plan estaba a $ 999.000 en esta página, así que el descuento es real. Hoy el contador decía que terminaba en menos de una hora: puede que ya no esté. Trae certificados digitales y la escuela de inglés. No se comparó con otras plataformas.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        }
-      ],
-      "nota": "Solo una. No se revisaron becas ni cursos gratis hoy (se agotó el tope de páginas)."
+      "ofertas": [],
+      "nota": "Hoy nada pasa el filtro nuevo: el plan anual de Platzi tenía 20 % (se pide gratis con certificado, beca o 40 % o más) y la promoción vencía hoy."
     },
     {
       "id": "conciertos",
       "nombre": "Conciertos",
       "icono": "🎤",
-      "ofertas": [
-        {
-          "titulo": "Maluma · Loco X Volver World Tour 2027 · Bogotá, martes 9-feb-2027 (El Corazón de Bogotá - Arena)",
-          "tienda": "TuBoleta",
-          "url": "https://web.tuboleta.com/images/Eventos/Maluma-Loco-X-Volver-Bogota-2027/index.html",
-          "precio": "Desde $ 216.500 ($ 180.000 + $ 36.500 de servicio)",
-          "antes": "",
-          "ahorro": 0,
-          "envio": "boleta digital",
-          "vence": "",
-          "colombia": "Boletera oficial del evento en Colombia.",
-          "porque": "Fecha nueva (las del 5, 6 y 7 de febrero siguen agotadas); venta general abierta, revisado hoy en TuBoleta.",
-          "visto": "2026-11-15",
-          "imperdible": false
-        }
-      ],
-      "nota": "Para que busque los conciertos que te gustan, escribe tus artistas en OFERTAS-PREFERENCIAS.md. Hoy no se buscaron eventos nuevos."
+      "ofertas": [],
+      "nota": "Un concierto solo es oferta si es de un artista tuyo: escribe en OFERTAS-PREFERENCIAS.md a quién no te perderías y el cazador te avisa cuando anuncie fecha en Colombia o abra la venta."
     }
   ],
-  "avisos": []
+  "avisos": [],
+  "vistos": [
+    {
+      "url": "https://www.mercadolibre.com.co/p/MCO59811604/s",
+      "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
+      "precio": "$ 889.000",
+      "salio": "2026-11-15"
+    },
+    {
+      "url": "https://platzi.com/precios/",
+      "titulo": "Platzi Plan Expert anual (todas las escuelas: datos, IA, programación e inglés)",
+      "precio": "$ 798.900 al año",
+      "salio": "2026-11-13"
+    },
+    {
+      "url": "https://www.mercadolibre.com.co/p/MCO45517552/s",
+      "titulo": "Samsung Galaxy S25 Ultra · 256 GB · Titanium Black · nuevo",
+      "precio": "$ 3.309.900",
+      "salio": "2026-11-13"
+    },
+    {
+      "url": "https://www.mercadolibre.com.co/tablet-lenovo-ideatab-128gb-8gb-ram-11-pulgadas-grey-teclado-pen/p/MCO59811604",
+      "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
+      "precio": "$ 895.440",
+      "salio": "2026-11-13"
+    },
+    {
+      "url": "https://web.tuboleta.com/images/Eventos/Maluma-Loco-X-Volver-Bogota-2027/index.html",
+      "titulo": "Maluma · Loco X Volver World Tour 2027 · Bogotá, martes 9-feb-2027 (El Corazón de Bogotá - Arena)",
+      "precio": "Desde $ 216.500 ($ 180.000 + $ 36.500 de servicio)",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.adidas.co/zapatillas-gazelle-indoor/HQ8717.html",
+      "titulo": "adidas Gazelle Indoor (azul, línea Mujer Originals)",
+      "precio": "$274.975 COP",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.alkosto.com/consola-lenovo-legion-go-8-pulgadas-amd-z2-go-ram-16gb/p/198157043251",
+      "titulo": "Consola portátil Lenovo Legion Go 8\" AMD Z2 Go · 16 GB RAM · SSD 1 TB",
+      "precio": "$ 2.599.070",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.alkosto.com/search?text=galaxy%20s25%20ultra",
+      "titulo": "Samsung Galaxy S25 Ultra · 256 GB · 12 GB de RAM",
+      "precio": "$ 3.999.990",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.alkosto.com/search?text=lenovo%20idea%20tab",
+      "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB",
+      "precio": "$ 899.070",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.amazon.com/-/es/Nike-Hombre-Pacific-Zapatos-casuales/dp/B0FDWD6RHR",
+      "titulo": "Tenis Nike Pacific (hombre) · talla 11, color Team Crimson/blanco/negro",
+      "precio": "US$ 62,13 (≈ $ 206.000)",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.falabella.com.co/falabella-co/product/158009715/tenis-nike-shox-r4-hombre-blancorojo/158009717",
+      "titulo": "Tenis Nike Shox R4, blanco y rojo (hombre)",
+      "precio": "$ 549.990",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.falabella.com.co/falabella-co/product/158729199/tenis-hombre-nike-pacific-de-cuero-negro/158729207",
+      "titulo": "Tenis Nike Pacific de cuero, negros (hombre)",
+      "precio": "$ 257.970",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.falabella.com.co/falabella-co/product/73637831/tenis-nike-vomero-18-hombre/73637837",
+      "titulo": "Tenis Nike Vomero 18 de running (hombre)",
+      "precio": "$ 639.900",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.falabella.com.co/falabella-co/search?Ntt=legion%20go%20z2%20go",
+      "titulo": "Lenovo Legion Go S · AMD Z2 Go · 16 GB · 1 TB · pantalla de 8\"",
+      "precio": "$ 2.599.900",
+      "salio": "2026-11-12"
+    },
+    {
+      "url": "https://www.mercadolibre.com.co/samsung-galaxy-s25-ultra-256gb-titanium-black/p/MCO45517552",
+      "titulo": "Samsung Galaxy S25 Ultra · 256 GB · Titanium Black · nuevo",
+      "precio": "$ 3.129.900",
+      "salio": "2026-11-12"
+    }
+  ]
 }

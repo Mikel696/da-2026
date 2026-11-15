@@ -61,6 +61,7 @@
 .of-clase{font-size:10px;color:var(--tx3);padding:2px 6px 0;display:flex;justify-content:space-between;gap:8px}
 .of-clase b{color:var(--tx2);font-weight:600}
 .of-viejo{color:#f59e0b}
+.of-min{font-size:9px;font-weight:700;color:var(--em);border:1px solid var(--em);padding:0 5px;border-radius:4px;margin-left:6px;vertical-align:1px}
 .of-precio{font-size:12px;font-weight:700;color:var(--em);margin-top:3px}
 .of-precio s{font-weight:400;color:var(--tx3);margin-left:6px}
 .of-precio i{font-style:normal;font-weight:600;color:var(--tx2);margin-left:6px}
@@ -254,21 +255,31 @@ function renderDeals(){
     if(juegos && juegos.clase){ const j = Object.assign({revisado: juegos.revisado}, juegos.clase), p = clases.findIndex(c=>c.id==='cursos'); clases.splice(p<0?clases.length:p, 0, j); }
     if(!clases.length){ el.innerHTML='<div class="of-vacio">Sin conexión: no se pudieron leer las ofertas.</div>'; return; }
     // Hasta 3 por clase, en orden. `oferta` (una sola) es el formato del 11-nov: se sigue leyendo.
-    const lista = c => (c.ofertas || (c.oferta ? [c.oferta] : [])).filter(o => o && /^https?:\/\//.test(o.url||'')).slice(0, 3);
-    if(lab) lab.textContent = '· top 3 de cada clase · ' + clases.reduce((n,c)=>n+lista(c).length,0) + ' comprobadas';
-    let html = '<div class="od-head">Las 3 mejores de cada clase, comprobadas en la página de la tienda el día que dice cada una, y que se pueden comprar desde Colombia. El % que anuncian las tiendas suele venir inflado: lo que cuenta es la comparación que va en cada ficha.</div>';
+    // El piso de cada clase se aplica también aquí: si el cazador se equivoca, «precio de mercado» no se pinta (15-nov).
+    const PISO = {ropa:20, tecnologia:20, cursos:40};
+    const pasa = (c,o) => !(c.id in PISO) || +o.ahorro >= PISO[c.id];
+    const todas = c => (c.ofertas || (c.oferta ? [c.oferta] : [])).filter(o => o && /^https?:\/\//.test(o.url||''));
+    const lista = c => todas(c).filter(o => pasa(c,o)).slice(0, 3);
+    const n = clases.reduce((k,c)=>k+lista(c).length,0);
+    if(lab) lab.textContent = '· ' + n + (n===1 ? ' pasa el filtro' : ' pasan el filtro');
+    let html = '<div class="od-head">Solo rebajas de verdad, nuevas y comprables desde Colombia. Juegos: en su precio más bajo registrado. Ropa y tecnología: 20 % o más por debajo de otra tienda grande, comparado ese día (el % que anuncian las tiendas no cuenta). Nada se repite en 14 días; si hoy no hay nada bueno, la clase queda vacía y dice qué se revisó.</div>';
+    const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    const fecha = f => /^\d{4}-\d{2}-\d{2}$/.test(f||'') ? (+f.slice(8))+'-'+MES[+f.slice(5,7)-1] : '';
     clases.forEach(c=>{
-      const os = lista(c), d = dias(os.length ? (os[0].visto || c.revisado) : c.revisado);
-      const edad = d==null ? 'sin revisar todavía' : d<=0 ? 'visto hoy' : d===1 ? 'visto ayer' : 'visto hace '+d+' días';
+      const os = lista(c), f = os.length ? (os[0].visto || c.revisado) : c.revisado, d = dias(f);
+      const edad = d==null ? 'sin revisar todavía' : (d<=0 ? 'revisado hoy' : d===1 ? 'revisado ayer' : 'revisado hace '+d+' días') + ' · ' + fecha(f);
       html += '<div class="od-cat"><div class="od-cat-t">'+esc(c.icono||'🔗')+' '+esc(c.nombre)+(os.some(o=>o.imperdible)?' <span class="od-star">IMPERDIBLE</span>':'')+'</div>';
       os.forEach((o,k)=>{
         html += '<a href="'+esc(o.url)+'" target="_blank" rel="noopener"><div class="od-n"><span class="of-num">'+(k+1)+'</span>'+esc(o.titulo)+(o.imperdible?' <span class="od-star">IMPERDIBLE</span>':'')+'<span class="ar">→</span></div>'
-          + '<div class="of-precio">'+esc(o.precio)+(o.antes?'<s>'+esc(o.antes)+'</s>':'')+(o.ahorro?'<i>−'+esc(o.ahorro)+' %</i>':'')+'</div>'
+          + '<div class="of-precio">'+esc(o.precio)+(o.antes?'<s>'+esc(o.antes)+'</s>':'')+(o.ahorro?'<i>−'+esc(o.ahorro)+' %</i>':'')+(o.minimo===true?' <span class="of-min">mínimo histórico</span>':'')+'</div>'
           + '<div class="od-w">'+esc(o.tienda)+(o.envio?' · '+esc(o.envio):'')+(o.vence?' · hasta el '+esc(o.vence):'')+'</div>'
           + (o.colombia?'<div class="of-co">✓ '+esc(o.colombia)+'</div>':'')
           + (o.porque?'<div class="od-w">'+esc(o.porque)+'</div>':'')+'</a>';
       });
-      if(!os.length || c.nota) html += '<div class="of-vacio">'+esc(c.nota || 'Hoy no hay una oferta que valga la pena.')+'</div>';
+      const fuera = todas(c).filter(o => !pasa(c,o)).length;
+      // La nota del cazador describe su lista; si aquí se escondió algo, ya no cuadra con lo que se ve.
+      if(fuera) html += '<div class="of-vacio">'+fuera+(fuera===1?' no llega':' no llegan')+' al '+PISO[c.id]+' % de rebaja real: no se '+(fuera===1?'muestra':'muestran')+'.</div>';
+      else if(!os.length || c.nota) html += '<div class="of-vacio">'+esc(c.nota || 'Hoy no hay una oferta que valga la pena.')+'</div>';
       html += '<div class="of-clase"><span'+(d!=null&&d>2?' class="of-viejo"':'')+'>'+edad+'</span></div></div>';
     });
     el.innerHTML = html;
