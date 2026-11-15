@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-15 (3-ENG: regla R2b del corrector verificada en producción y cola nocturna recargada · fix P0 de cloud-sync p25)
+- **Última actualización:** 2026-11-15 (1-IND: «Ofertas de hoy» solo con rebajas de verdad y juegos que rotan · 3-ENG: regla R2b del corrector verificada en producción y cola nocturna recargada · fix P0 de cloud-sync p25)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,46 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎁 1-IND · «Ofertas de hoy»: solo rebajas de verdad, y los juegos ya no se repiten — domingo 15-nov (`413301a`, `0ec6a0b`)
+
+**Queja de Miguel:** «esta sección de ofertas está súper mal, nada bueno me traes, solo lo normal, los juegos no avanzan».
+
+- **Medido antes de tocar nada:**
+  - Cazador diario (ropa, tecnología, cursos, conciertos): los **mismos 7 productos** del 12 al 15-nov (corridas del 12,
+    13 y 15; el 14 no corrió). Cuatro a «precio de mercado» (`ahorro: 0`), dos con 3 % y 13 %. Causas en su `SKILL.md`:
+    dejaba entrar «precio de mercado», decía «una oferta de ayer se queda si sigue igual» (corridas de ~4 min que solo
+    re-verificaban) y buscaba producto por producto, no desde las páginas de ofertas. Preferencias vacías.
+  - Juegos (`fetch-deals.mjs`): el archivo sí se regeneraba 6 veces al día, pero el top 3 rotaba entre 5 clásicos
+    (Euro Truck 2, Borderlands 2, Skyrim, Frostpunk, This War of Mine). El grupo de candidatas era de ~17 (10 destacadas
+    de Steam CO + 13 de CheapShark) y el orden por % × reseñas premiaba siempre a los mismos.
+- **Criterio nuevo (juegos, en el script):** rebaja ≥ 50 % en Steam Colombia, en su **precio más bajo registrado o a
+  menos de 10 %** (`cheapestPriceEver` de CheapShark, en dólares; la rebaja en Colombia tiene que ser la misma ±2 puntos),
+  ≥ 85 % de ≥ 5.000 reseñas (SteamSpy; si no tiene el juego, las de Steam vía CheapShark), **sin repetir en 14 días**
+  (`vistos` en el JSON, con el día en que salió; vuelve antes solo si bajó 10 %). Orden: pesos ahorrados × calidad.
+  Candidatas: 6 páginas de CheapShark (332 únicas el 15-nov, 28 en su mínimo). Imperdible = en su mínimo, ahorro ≥ 60.000
+  COP, ≥ 90 % de ≥ 20.000 reseñas (mismo listón que Epic). Epic < 60.000 COP solo llena un puesto libre.
+  Si CheapShark cae, el archivo no se toca; si nada cumple, clase vacía con su motivo.
+- **Probado el comportamiento:** misma fecha dos veces → «Sin cambios»; `HOY=2026-11-16` y `17` → 3 juegos distintos cada
+  día; CheapShark tumbado a mano → archivo intacto; fuentes arriba pero nada cumple → vacía con nota.
+- **Panel (`renderDeals`):** criterio a la vista, «revisado hoy · 15-nov», sello «mínimo histórico en US$», contador
+  «N pasan el filtro», y **piso propio** (20 % ropa y tecnología, 40 % cursos, gratis/beca pasa): aunque el cazador
+  publique «precio de mercado», no se pinta y se dice cuántas quedaron fuera.
+- **Datos de hoy:** lo del cazador no pasa el criterio → clases vacías con su motivo; `vistos` sembrado desde el
+  historial de git en los dos archivos.
+- **Verificado en producción** (Chrome de Miguel): «🎁 Ofertas de hoy · 3 pasan el filtro», Hitman: Absolution,
+  Streets of Rage 4 y Red Orchestra 2 con su sello, las 4 clases del cazador vacías con su motivo, 0 errores de consola.
+- **Pendiente — necesita a Miguel:** el `SKILL.md` nuevo del cazador (piso 20/40, conciertos solo de sus artistas, sin
+  repetir 14 días, empezar por las páginas de ofertas) **no se aplicó**: el clasificador de permisos negó cambiar la tarea
+  programada. Propuesta y copia del anterior en la carpeta de notas de la sesión (`cazador-SKILL-propuesto.md`,
+  `cazador-SKILL-antes-15nov.md`). Hasta aplicarlo, el cazador corre con las reglas viejas y **borra `vistos`** al
+  reescribir el archivo; el piso del panel evita que se vea «lo normal», pero no evita repeticiones con ≥ 20 %.
+- **Pendiente — Miguel:** llenar `E:\CLAUDE\PROYECTOS\OFERTAS-PREFERENCIAS.md` (marcas, talla, qué busca, artistas,
+  géneros de juego). Es lo que más sube la puntería; vacío, el cazador busca a ciegas.
+- **Visto de paso, sin tocar:** el lector de noticias falla con HTTP 422 en `api.rss2json.com` (Xataka, Genbeta,
+  El Economista, Portafolio).
 
 ---
 
