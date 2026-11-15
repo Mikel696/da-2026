@@ -51,14 +51,21 @@ cambio muere en el próximo build.**
 ### Para añadir palabras
 
 ```bash
-# 1 · Escribe las nuevas en un _W2z.txt (o en uno existente)
-# 2 · Comprueba formato y duplicados ANTES de construir:
-node src/english-engine/revisa.js _W2*.txt --limpia
+# 1 · Escribe las nuevas AL FINAL de _W2m.txt (o en un _W2n.txt nuevo: va detrás en el build)
+# 2 · Comprueba formato y duplicados ANTES de construir. Desde esta carpeta:
+#     revisa.js lee _W.txt de la carpeta actual y desde la raíz falla.
+cd src/english-engine && node revisa.js _W2*.txt && cd ../..
 # 3 · Construye y verifica en el navegador
 bash src/english-engine/build.sh
 ```
 
-`revisa.js` quita las repetidas y avisa de campos vacíos o categorías inválidas. Lo que **no**
+**Solo al final, y `--limpia` solo sobre lo nuevo.** Los favoritos (`eng_fav_w`) se guardan por
+**número** de palabra: una línea metida o quitada en medio hace que cada favorito de detrás
+apunte a otra palabra, sin ningún error. Por eso `--limpia` (que reescribe el archivo quitando
+repetidas) no se pasa sobre `_W2*.txt` enteros: el 15-nov el build tenía 4231 palabras y
+`revisa.js` contaba 4230 únicas, o sea que hay una repetida vieja que `--limpia` quitaría.
+
+`revisa.js` avisa de repetidas, campos vacíos o categorías inválidas. Lo que **no**
 puede comprobar es si el ejemplo usa de verdad la palabra: eso necesita el lematizador y se
 hace en el navegador (ver más abajo).
 
@@ -243,15 +250,12 @@ Lo que hay ahora, **en un solo sitio** (`07_css2.css`):
   once. Ahora se desliza con anclaje, barra de scroll fina y la siguiente
   pestaña asomando cortada por el borde.
 
-**Lo que falta y no se puede hacer desde CSS:** al cambiar de pestaña, la tira
-no se desplaza sola para enseñar la que está activa. En móvil eso significa que
-si abres «Método» y recargas, la tira arranca por «Estructura» y la activa queda
-fuera de vista. Se arregla con **una línea** en el `onclick` de las pestañas de
-`08_app.js`:
-
-```js
-b.scrollIntoView({ inline: 'center', block: 'nearest' });
-```
+**Lo que el CSS no podía hacer (ya resuelto en JavaScript):** al cambiar de
+pestaña, la tira se desplaza sola para enseñar la activa. Está en el `onclick`
+de las pestañas de `08_app.js` (`b.scrollIntoView({ inline:'center',
+block:'nearest' })`, **sin** `behavior:'smooth'`: dos scrolls suaves a la vez se
+cancelan). Al recargar, `go(lastTab)` hace `click()` en la pestaña guardada, así
+que también cubre el caso «abres Método y recargas».
 
 ### Cómo se comprueba que la capa visual no rompió nada
 

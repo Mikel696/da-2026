@@ -49,7 +49,7 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
   el mando. *Verificación:* la de la tarea 2.
   > Hecha de día el 5-nov (`33f5d0b`, ya en `main`); seguía marcada pendiente y el guardián la habría rehecho.
 
-- [r] **3-ENG · 4 · El corrector deja pasar «He don't speak English».** Rama nueva `claude/noche-AAAAMMDD`.
+- [x] **3-ENG · 4 · El corrector deja pasar «He don't speak English».** Rama nueva `claude/noche-AAAAMMDD`.
   Hallazgo del 5-nov (CEREBRO_STATE, entrada «8 errores de vocabulario»): el analizador de frases (`ANL`, en
   `src/english-engine/08_app.js`; ubícalo con `grep -n "ANL" src/english-engine/08_app.js`) marca bien «He
   doesn't speaks» y «Where she lives?» pero da luz verde a «He don't speak English.» y «She don't live in
@@ -62,6 +62,32 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
   deben seguir en verde) para que el Integrador las pruebe en el navegador y corra las 8 auditorías.
   > Rama `claude/noche-20261113` · commit `b392c3e` · Nueva regla R2b en `08_app.js` (he/she/it + don't y I/you/we/they + doesn't se marcan en rojo; solo pronombres, no sustantivos singulares) y HTML reconstruido con build.sh.
   > Verificación: navegador sin interfaz sobre el HTML construido: «He don't speak English.» y «She don't live in Bogotá.» dan 1 rojo; «He doesn't speak English.» y «They don't live here.» dan 0. Falsos positivos [0,0,0,0]; auditorías LAB/MORFO/CLUB/GL/SONG/BUSCA/EXPR en verde; sin errores de consola. Falta probar en producción tras fusionar.
+  > **Integrador 15-nov:** build reproducible (mismo SHA-256). En el preview, la regla marcaba en rojo inglés correcto:
+  > «Take it, don't wait.» y «I said it, don't worry.» (recorría las palabras sin la coma). Corregido antes de fusionar
+  > (`7ecc659`): recorre los tokens con puntuación, añade las preguntas («Do he work?», «Where does they live?») y
+  > 14 casos a `ANL.CASOS`. En `main` (`436962e` + `7ecc659`) y **verificado en producción**: las 4 frases y las 3
+  > vecinas (excepto «My brother don't like it.», que sigue en verde: los sustantivos quedan fuera a propósito),
+  > `ANL.probar()` 80/80, falsos positivos 0/0/0/0, las 8 auditorías en verde, 11 pestañas visibles, 0 errores de
+  > consola y la caja «Escribir» muestra R2b con la luz roja.
+  > Después, `contraparte` encontró otro: «What I told you doesn't matter.» y «People who saw it don't believe it.»
+  > en rojo («you» e «it» de objeto). Corregido el mismo día (esos dos solo cuentan al abrir la frase o tras coma o
+  > conjunción), 4 casos más (84) y vuelto a verificar en producción.
+
+- [ ] **3-ENG · 5 · «English» y «Spanish» no están en el vocabulario.** Rama nueva `claude/noche-AAAAMMDD`.
+  Hallazgo del 5-nov (CEREBRO_STATE, entrada «8 errores de vocabulario»): en «He doesn't speak English.» el
+  corrector añade «No puedo verificar: english». El 15-nov se comprobó que tampoco está «Spanish»:
+  `grep -i "^english|\|^spanish|" src/english-engine/_W*.txt` no devuelve nada. Lee antes
+  `src/english-engine/README.md` (formato y trampas).
+  Añade **dos líneas al final de `src/english-engine/_W2m.txt`**, una por palabra, con el formato
+  `inglés|español|categoría|uso|ejemplo EN|ejemplo ES`, categoría `sust` y la palabra con mayúscula, como `Monday`
+  en `_W.txt`. **Solo al final de ese archivo:** los favoritos de Miguel (`eng_fav_w`) se guardan por número de
+  palabra, y una línea metida en medio cambiaría a qué palabra apunta cada favorito de detrás. Después, desde
+  `src/english-engine/` (el script lee `_W.txt` de la carpeta actual): `node revisa.js _W2*.txt`, **sin** `--limpia`;
+  luego `bash src/english-engine/build.sh` desde la raíz. Nunca edites el HTML construido a mano.
+  *Verificación:* `revisa.js` da 0 problemas y pasa de 4230 a 4232; el build dice **4233 palabras** (hoy 4231);
+  `git diff --stat` muestra solo `_W2m.txt` y `frontend/pages/english-engine.html`; `git diff src/english-engine/_W2m.txt`
+  son 2 líneas añadidas al final y ninguna cambiada. En la nota, la frase de prueba para el Integrador: «He doesn't
+  speak English.» ya no debe decir «No puedo verificar».
 
 ## Hecho
 - 9-nov-2026 · Tareas 1, 2 y 3 de 19-JUE están en `main` (fusionadas el 5-nov). Falta la aceptación de Miguel con

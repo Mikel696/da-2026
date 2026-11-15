@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-15 (fix P0 de cloud-sync p25: lo que un módulo escribe durante la hidratación ya no se pierde)
+- **Última actualización:** 2026-11-15 (3-ENG: regla R2b del corrector verificada en producción y cola nocturna recargada · fix P0 de cloud-sync p25)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,40 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🔤 3-ENG · El corrector ya marca «He don't speak English» — domingo 15-nov (Integrador del carril nocturno)
+
+- **Primera tarea nocturna de código revisada y publicada.** El guardián dejó la regla R2b (concordancia sujeto–auxiliar)
+  en `claude/noche-20261113` (`b392c3e`). Build reproducible: reconstruido sale con el mismo SHA-256.
+- **La revisión encontró dos falsos positivos** (inglés correcto en rojo), ninguno cubierto por las 4 frases de la
+  nota ni por las 8 auditorías (en las 1000 frases y los 4231 ejemplos no hay ninguna con esa forma):
+  1. «Take it, don't wait.» — la regla recorría las palabras sin la coma. Corregido antes de fusionar (`7ecc659`):
+     recorre los tokens con puntuación; además cubre la pregunta («Do he work?», «Where does they live?»; deja fuera
+     «Why do it like that?») y la sugerencia quita la -s.
+  2. «What I told you doesn't matter.», «People who saw it don't believe it.» — lo encontró `contraparte` **después**
+     de publicar: «you» e «it» se escriben igual de objeto que de sujeto. Estuvo en producción unas horas del 15-nov.
+     Corregido en `fix(3-ENG)` del mismo día: esos dos solo cuentan al abrir la frase o tras coma o conjunción.
+  `ANL.CASOS` suma 18 casos de R2b (84 en total).
+- **Verificado en producción** (`pages/english-engine.html`, con el primer arreglo): las 4 frases de la nota y
+  «It don't work.» / «Do he work?» en rojo; `ANL.probar()` 80/80; falsos positivos 0/0/0/0; las 8 auditorías en
+  verde; 4231 palabras, 1000 frases, 11 pestañas visibles; 0 errores de consola; la caja «Escribir» pinta R2b con
+  la luz roja. El segundo arreglo se volvió a verificar en producción tras publicarlo (ver COLA, tarea 4).
+- **Límites, a propósito** (siguen en verde; un corrector que grita en falso es peor que uno que calla):
+  «My brother don't like it.» (con sustantivos el número no se adivina: «The police don't…», «My family don't…»);
+  «I think it don't work.» (tras un verbo, «it» puede ser objeto); «Who does you trust?» (con «who» de sujeto la
+  frase puede ser correcta).
+- **Cola nocturna:** 3-ENG · 4 en `[x]`; nueva `[ ]` 3-ENG · 5 (añadir «English» y «Spanish» al final de `_W2m.txt`,
+  verificable con `revisa.js` y el build). El README decía que faltaba desplazar la tira de pestañas: ya estaba hecho
+  (`08_app.js`, `scrollIntoView` en el `onclick`); se corrigió el README en vez de encolar una tarea falsa.
+- **Lección para el Integrador:** probar también frases correctas **parecidas** a las que la regla marca (con coma,
+  con el pronombre de objeto, en pregunta, en oraciones de relativo), no solo las de la nota. Y pasar `contraparte`
+  **antes** de publicar, no después: el segundo falso positivo llegó a producción por ese orden.
+- **README del motor:** «Para añadir palabras» mandaba correr `revisa.js --limpia` desde la raíz. Desde la raíz
+  falla, y `--limpia` quitaría la palabra repetida que ya hay (4231 en el build, 4230 únicas), con lo que los
+  favoritos, guardados por número, apuntarían a otras palabras. Corregido el texto; la repetida sigue sin tocar.
+
 
 ---
 
