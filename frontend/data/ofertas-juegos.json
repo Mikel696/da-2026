@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-15",
+  "revisado": "2026-11-16",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Hitman: Absolution",
+        "titulo": "Legion TD 2 - Multiplayer Tower Defense",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/203140/",
-        "precio": "COL$ 6.150",
-        "antes": "COL$ 61.500",
-        "ahorro": 90,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 55.350. Es su precio más bajo registrado (US$ 1.99, CheapShark). 93 % de 50.454 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-15"
-      },
-      {
-        "titulo": "Streets of Rage 4",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/985890/",
-        "precio": "COL$ 14.700",
+        "url": "https://store.steampowered.com/app/469600/",
+        "precio": "COL$ 11.760",
         "antes": "COL$ 58.800",
-        "ahorro": 75,
+        "ahorro": 80,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 44.100. Es su precio más bajo registrado (US$ 6.24, CheapShark). 93 % de 17.444 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 47.040. Es su precio más bajo registrado (US$ 4.99, CheapShark). 87 % de 12.692 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-15"
+        "visto": "2026-11-16"
       },
       {
-        "titulo": "Red Orchestra 2: Heroes of Stalingrad with Rising Storm",
+        "titulo": "WitchSpring R",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/35450/",
-        "precio": "COL$ 4.000",
-        "antes": "COL$ 40.000",
+        "url": "https://store.steampowered.com/app/1958220/",
+        "precio": "COL$ 40.500",
+        "antes": "COL$ 81.000",
+        "ahorro": 50,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 40.500. Es su precio más bajo registrado (US$ 17.49, CheapShark). 96 % de 6.536 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-16"
+      },
+      {
+        "titulo": "For The King",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/527230/",
+        "precio": "COL$ 3.100",
+        "antes": "COL$ 31.000",
         "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 36.000. Es su precio más bajo registrado (US$ 1.99, CheapShark). 94 % de 24.920 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 27.900. Es su precio más bajo registrado (US$ 1.99, CheapShark). 87 % de 31.260 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-15"
+        "visto": "2026-11-16"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1958220",
+      "titulo": "WitchSpring R",
+      "salio": "2026-11-16",
+      "cop": 40500,
+      "usd": 17.49
+    },
+    {
+      "id": "469600",
+      "titulo": "Legion TD 2 - Multiplayer Tower Defense",
+      "salio": "2026-11-16",
+      "cop": 11760,
+      "usd": 4.99
+    },
+    {
+      "id": "527230",
+      "titulo": "For The King",
+      "salio": "2026-11-16",
+      "cop": 3100,
+      "usd": 1.99
+    },
     {
       "id": "203140",
       "titulo": "Hitman: Absolution",
