@@ -73,7 +73,7 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
   > en rojo («you» e «it» de objeto). Corregido el mismo día (esos dos solo cuentan al abrir la frase o tras coma o
   > conjunción), 4 casos más (84) y vuelto a verificar en producción.
 
-- [ ] **3-ENG · 5 · «English» y «Spanish» no están en el vocabulario.** Rama nueva `claude/noche-AAAAMMDD`.
+- [r] **3-ENG · 5 · «English» y «Spanish» no están en el vocabulario.** Rama nueva `claude/noche-AAAAMMDD`.
   Hallazgo del 5-nov (CEREBRO_STATE, entrada «8 errores de vocabulario»): en «He doesn't speak English.» el
   corrector añade «No puedo verificar: english». El 15-nov se comprobó que tampoco está «Spanish»:
   `grep -i "^english|\|^spanish|" src/english-engine/_W*.txt` no devuelve nada. Lee antes
@@ -88,6 +88,8 @@ en el navegador, fusiona a `main` y comprueba en producción. Aprobado por Migue
   `git diff --stat` muestra solo `_W2m.txt` y `frontend/pages/english-engine.html`; `git diff src/english-engine/_W2m.txt`
   son 2 líneas añadidas al final y ninguna cambiada. En la nota, la frase de prueba para el Integrador: «He doesn't
   speak English.» ya no debe decir «No puedo verificar».
+  > Rama `claude/noche-20261116` · commit `5a32284` · Añadidas «English» y «Spanish» al final de `_W2m.txt` (2 líneas, ninguna cambiada).
+  > Verificación: `revisa.js` 0 problemas y 4232 palabras; build dice 4233 palabras; `git diff --stat` solo `_W2m.txt` y `english-engine.html` (+2 cada uno). No se probó la frase en navegador: falta que el Integrador la compruebe.
 
 ## Hecho
 - 9-nov-2026 · Tareas 1, 2 y 3 de 19-JUE están en `main` (fusionadas el 5-nov). Falta la aceptación de Miguel con
