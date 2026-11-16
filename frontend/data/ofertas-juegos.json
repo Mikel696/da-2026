@@ -13,6 +13,34 @@
     "icono": "🎮",
     "ofertas": [
       {
+        "titulo": "Like a Dragon Gaiden: The Man Who Erased His Name",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/2375550/",
+        "precio": "COL$ 42.599",
+        "antes": "COL$ 212.999",
+        "ahorro": 80,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 170.400. Es su precio más bajo registrado (US$ 9.99, CheapShark). 97 % de 10.331 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-16"
+      },
+      {
+        "titulo": "Lost Judgment",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/2058190/",
+        "precio": "COL$ 22.798",
+        "antes": "COL$ 113.990",
+        "ahorro": 80,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 91.192. Es su precio más bajo registrado (US$ 7.99, CheapShark). 94 % de 7.666 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-16"
+      },
+      {
         "titulo": "Legion TD 2 - Multiplayer Tower Defense",
         "tienda": "Steam",
         "url": "https://store.steampowered.com/app/469600/",
@@ -22,34 +50,6 @@
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
         "porque": "Te ahorras $ 47.040. Es su precio más bajo registrado (US$ 4.99, CheapShark). 87 % de 12.692 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-16"
-      },
-      {
-        "titulo": "WitchSpring R",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1958220/",
-        "precio": "COL$ 40.500",
-        "antes": "COL$ 81.000",
-        "ahorro": 50,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 40.500. Es su precio más bajo registrado (US$ 17.49, CheapShark). 96 % de 6.536 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-16"
-      },
-      {
-        "titulo": "For The King",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/527230/",
-        "precio": "COL$ 3.100",
-        "antes": "COL$ 31.000",
-        "ahorro": 90,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 27.900. Es su precio más bajo registrado (US$ 1.99, CheapShark). 87 % de 31.260 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-16"
@@ -64,6 +64,20 @@
       "salio": "2026-11-16",
       "cop": 40500,
       "usd": 17.49
+    },
+    {
+      "id": "2058190",
+      "titulo": "Lost Judgment",
+      "salio": "2026-11-16",
+      "cop": 22798,
+      "usd": 7.99
+    },
+    {
+      "id": "2375550",
+      "titulo": "Like a Dragon Gaiden: The Man Who Erased His Name",
+      "salio": "2026-11-16",
+      "cop": 42599,
+      "usd": 9.99
     },
     {
       "id": "469600",
