@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-15",
+  "revisado": "2026-11-16",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
@@ -7,21 +7,36 @@
       "nombre": "Ropa de marca original",
       "icono": "👟",
       "ofertas": [],
-      "nota": "Hoy nada pasa el filtro nuevo: los Nike Pacific estaban a precio de mercado y los Vomero 18 apenas 3 % por debajo de Mercado Libre (se pide 20 % o más frente a otra tienda grande). Además ya salían desde el 12-nov. La próxima cacería busca solo rebajas de verdad."
+      "nota": "Revisadas las ofertas del día de Mercado Libre (ropa y calzado). Las rebajas grandes eran de la tienda oficial adidas, pero Dafiti tiene lo mismo al mismo precio, o sea precio de mercado: Descartado: adidas Lite Racer 4.0 hombre ($ 137.472 en Mercado Libre, $ 137.900 en Dafiti); adidas Terrex Anylander ID0895 ($ 227.970 en los dos). Falabella no tenía esos modelos."
     },
     {
       "id": "tecnologia",
       "nombre": "Tecnología",
       "icono": "💻",
-      "ofertas": [],
-      "nota": "Hoy nada pasa el filtro nuevo: el Galaxy S25 Ultra estaba 13 % por debajo de Alkosto (se pide 20 % o más) y la tablet Lenovo y la Legion Go S, a precio de mercado. Además ya salían desde el 12-nov. La próxima cacería busca solo rebajas de verdad."
+      "ofertas": [
+        {
+          "titulo": "Monitor gamer Samsung Odyssey G5 de 27\" · QHD 2560×1440 · 200 Hz · 1 ms (LS27FG530, G53F)",
+          "tienda": "Mercado Libre",
+          "url": "https://www.mercadolibre.com.co/monitor-gamer-samsung-odyssey-g5-27-2k-200hz-1ms/up/MCOU4212827031",
+          "precio": "$ 673.774",
+          "antes": "$ 915.000",
+          "ahorro": 26,
+          "envio": "Envío gratis (la ficha daba llegada al día siguiente)",
+          "vence": "",
+          "colombia": "Vendido por dreamtech dentro de Mercado Libre Colombia (MercadoLíder, más de 10 mil ventas), nuevo, garantía de fábrica de 12 meses, devolución gratis 30 días, despacho a domicilio.",
+          "porque": "26 % menos que la siguiente más barata comprobada hoy: Falabella $ 915.000 (vendedor Tecnoplaza Colombia); Amazon US$ 228,99 + US$ 104,77 de envío e importación = US$ 333,76 (≈ $ 1.107.000 con TRM $ 3.316,70 del 14-nov). Alkosto no lo tiene. Monitor 2K de 200 Hz para jugar en PC y para trabajar con tablas y tableros.",
+          "visto": "2026-11-16",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una pasa las cuatro pruebas. Descartado: tablet Galaxy Tab A11 8 GB/128 GB a $ 471.900 en Mercado Libre (21 % bajo Alkosto, $ 599.930, pero Amazon trae la de 64 GB puesta en Colombia por US$ 132,79 ≈ $ 440.000, así que la rebaja no es clara); monitores LG 27U411 y Samsung F320 (Alkosto los tiene con la misma rebaja); Lenovo IdeaPad Slim 3 i5-13420H (Alkosto no tiene el mismo modelo para comparar)."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
       "ofertas": [],
-      "nota": "Hoy nada pasa el filtro nuevo: el plan anual de Platzi tenía 20 % (se pide gratis con certificado, beca o 40 % o más) y la promoción vencía hoy."
+      "nota": "Revisados AvanzaTEC del MinTIC (Power BI, Introducción al análisis de datos de Microsoft, Ruta 5 IA y Ciencia de Datos de Cisco, SQL de Oracle: gratis y con certificado, pero las inscripciones cerraron el 30-oct-2026) y la oferta de ICETEX del 10-nov (solo para beneficiarios de ICETEX y sin certificado anunciado). Nada abierto hoy que pase la prueba."
     },
     {
       "id": "conciertos",
@@ -33,6 +48,12 @@
   ],
   "avisos": [],
   "vistos": [
+    {
+      "url": "https://www.mercadolibre.com.co/monitor-gamer-samsung-odyssey-g5-27-2k-200hz-1ms/up/MCOU4212827031",
+      "titulo": "Monitor gamer Samsung Odyssey G5 de 27\" · QHD 2560×1440 · 200 Hz · 1 ms (LS27FG530, G53F)",
+      "precio": "$ 673.774",
+      "salio": "2026-11-16"
+    },
     {
       "url": "https://www.mercadolibre.com.co/p/MCO59811604/s",
       "titulo": "Tablet Lenovo Idea Tab 11\" · 8 GB · 128 GB · con teclado y lápiz",
