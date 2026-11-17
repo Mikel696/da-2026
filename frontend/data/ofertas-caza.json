@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-16",
+  "revisado": "2026-11-17",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
@@ -7,7 +7,7 @@
       "nombre": "Ropa de marca original",
       "icono": "👟",
       "ofertas": [],
-      "nota": "Revisadas las ofertas del día de Mercado Libre (ropa y calzado). Las rebajas grandes eran de la tienda oficial adidas, pero Dafiti tiene lo mismo al mismo precio, o sea precio de mercado: Descartado: adidas Lite Racer 4.0 hombre ($ 137.472 en Mercado Libre, $ 137.900 en Dafiti); adidas Terrex Anylander ID0895 ($ 227.970 en los dos). Falabella no tenía esos modelos."
+      "nota": "Revisadas las ofertas del día de Mercado Libre (ropa y calzado): casi todas son de la tienda oficial adidas y Dafiti tiene los mismos modelos con poca diferencia. Descartado: adidas Duramo SL 2 hombre ($ 209.970 en Mercado Libre, $ 244.900 en Dafiti: 14 %); Lite Racer 4.0 y Response Pace siguen el mismo patrón y ya salieron como precio de mercado el 16-nov."
     },
     {
       "id": "tecnologia",
@@ -15,28 +15,43 @@
       "icono": "💻",
       "ofertas": [
         {
-          "titulo": "Monitor gamer Samsung Odyssey G5 de 27\" · QHD 2560×1440 · 200 Hz · 1 ms (LS27FG530, G53F)",
-          "tienda": "Mercado Libre",
-          "url": "https://www.mercadolibre.com.co/monitor-gamer-samsung-odyssey-g5-27-2k-200hz-1ms/up/MCOU4212827031",
-          "precio": "$ 673.774",
-          "antes": "$ 915.000",
-          "ahorro": 26,
-          "envio": "Envío gratis (la ficha daba llegada al día siguiente)",
+          "titulo": "Tablet Xiaomi Pad 8 · 11,2\" · 8 GB RAM · 256 GB · con teclado y lápiz",
+          "tienda": "Mercado Libre (Tienda oficial Xiaomi)",
+          "url": "https://www.mercadolibre.com.co/tablet-xiaomi-pad-8-gray-8gb-ram-256gb-keyboard-pen-gris-oscuro/p/MCO74051884",
+          "precio": "$ 1.919.900",
+          "antes": "$ 2.699.030",
+          "ahorro": 29,
+          "envio": "Envío gratis, llega mañana (Full); quedan 2 unidades",
           "vence": "",
-          "colombia": "Vendido por dreamtech dentro de Mercado Libre Colombia (MercadoLíder, más de 10 mil ventas), nuevo, garantía de fábrica de 12 meses, devolución gratis 30 días, despacho a domicilio.",
-          "porque": "26 % menos que la siguiente más barata comprobada hoy: Falabella $ 915.000 (vendedor Tecnoplaza Colombia); Amazon US$ 228,99 + US$ 104,77 de envío e importación = US$ 333,76 (≈ $ 1.107.000 con TRM $ 3.316,70 del 14-nov). Alkosto no lo tiene. Monitor 2K de 200 Hz para jugar en PC y para trabajar con tablas y tableros.",
-          "visto": "2026-11-16",
+          "colombia": "Vendido por la Tienda oficial Xiaomi en Mercado Libre Colombia (MercadoLíder Platinum, +10 mil ventas), producto nuevo, despacho a domicilio, 12 meses de garantía de fábrica.",
+          "porque": "Alkosto vende la misma tablet 8 GB/256 GB sola, sin teclado ni lápiz, a $ 2.699.030; Falabella el mismo combo con teclado y lápiz a $ 2.699.900; Amazon no la trae. La ficha de Mercado Libre dice «Redmi Pad 8» en el campo modelo: es la Xiaomi Pad 8 del título, revísalo antes de comprar. Sirve para clases y estudio con lápiz.",
+          "visto": "2026-11-17",
           "imperdible": false
         }
       ],
-      "nota": "Solo una pasa las cuatro pruebas. Descartado: tablet Galaxy Tab A11 8 GB/128 GB a $ 471.900 en Mercado Libre (21 % bajo Alkosto, $ 599.930, pero Amazon trae la de 64 GB puesta en Colombia por US$ 132,79 ≈ $ 440.000, así que la rebaja no es clara); monitores LG 27U411 y Samsung F320 (Alkosto los tiene con la misma rebaja); Lenovo IdeaPad Slim 3 i5-13420H (Alkosto no tiene el mismo modelo para comparar)."
+      "nota": "Solo una pasa las cuatro pruebas. Revisadas las ofertas de Mercado Libre (electrónica y computación) y de Alkosto. Descartado: audífonos Sony WH-1000XM6 ($ 1.499.900 en Mercado Libre y en Alkosto: precio de mercado); portátil ASUS TUF F16 RTX 3050 (Alkosto $ 3.499.050, pero Mercado Libre desde $ 2.899.900: Alkosto no es la oferta y la diferencia es 17 %); monitor Xiaomi A27Qi (no hay el mismo modelo en Alkosto para comparar); monitor Samsung Odyssey G5 (ya salió el 16-nov y sigue igual). Alkosto anuncia sus «Hiperofertas» en 2 días."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
-      "ofertas": [],
-      "nota": "Revisados AvanzaTEC del MinTIC (Power BI, Introducción al análisis de datos de Microsoft, Ruta 5 IA y Ciencia de Datos de Cisco, SQL de Oracle: gratis y con certificado, pero las inscripciones cerraron el 30-oct-2026) y la oferta de ICETEX del 10-nov (solo para beneficiarios de ICETEX y sin certificado anunciado). Nada abierto hoy que pase la prueba."
+      "ofertas": [
+        {
+          "titulo": "Coursera Plus anual (acceso a +10.000 cursos: datos, IA, TI; Google, IBM, Microsoft, Meta)",
+          "tienda": "Coursera",
+          "url": "https://www.coursera.org/courseraplus",
+          "precio": "US$ 143,40 al año (≈ $ 475.600)",
+          "antes": "US$ 239 al año",
+          "ahorro": 40,
+          "envio": "Digital",
+          "vence": "2026-11-30",
+          "colombia": "Coursera vende la suscripción a Colombia en línea; se paga en dólares con tarjeta y el banco cobra la conversión (TRM $ 3.316,70 del 14-nov-2026, Superfinanciera).",
+          "porque": "La misma página muestra el precio normal US$ 239 y la oferta US$ 143,40 (40 %) hasta el 30-nov-2026. Incluye los certificados profesionales de Google Data Analytics, IBM y Microsoft que encajan con análisis de datos e IA. Antes de pagar, haz la prueba gratis de 7 días.",
+          "visto": "2026-11-17",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una pasa la prueba hoy. No se encontró ningún curso gratis con certificado ni beca con inscripción abierta en esta corrida."
     },
     {
       "id": "conciertos",
@@ -48,6 +63,18 @@
   ],
   "avisos": [],
   "vistos": [
+    {
+      "url": "https://www.coursera.org/courseraplus",
+      "titulo": "Coursera Plus anual (acceso a +10.000 cursos: datos, IA, TI; Google, IBM, Microsoft, Meta)",
+      "precio": "US$ 143,40 al año (≈ $ 475.600)",
+      "salio": "2026-11-17"
+    },
+    {
+      "url": "https://www.mercadolibre.com.co/tablet-xiaomi-pad-8-gray-8gb-ram-256gb-keyboard-pen-gris-oscuro/p/MCO74051884",
+      "titulo": "Tablet Xiaomi Pad 8 · 11,2\" · 8 GB RAM · 256 GB · con teclado y lápiz",
+      "precio": "$ 1.919.900",
+      "salio": "2026-11-17"
+    },
     {
       "url": "https://www.mercadolibre.com.co/monitor-gamer-samsung-odyssey-g5-27-2k-200hz-1ms/up/MCOU4212827031",
       "titulo": "Monitor gamer Samsung Odyssey G5 de 27\" · QHD 2560×1440 · 200 Hz · 1 ms (LS27FG530, G53F)",
