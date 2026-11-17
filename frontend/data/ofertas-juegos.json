@@ -13,43 +13,43 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Like a Dragon Gaiden: The Man Who Erased His Name",
+        "titulo": "Kingdom Come: Deliverance II",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/2375550/",
-        "precio": "COL$ 42.599",
-        "antes": "COL$ 212.999",
+        "url": "https://store.steampowered.com/app/1771300/",
+        "precio": "COL$ 74.246",
+        "antes": "COL$ 224.989",
+        "ahorro": 67,
+        "vence": "2026-11-30",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 150.743. Es su precio más bajo registrado (US$ 19.79, CheapShark). 94 % de 148.441 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": true,
+        "visto": "2026-11-16"
+      },
+      {
+        "titulo": "Like a Dragon: Infinite Wealth",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/2072450/",
+        "precio": "COL$ 41.998",
+        "antes": "COL$ 209.990",
         "ahorro": 80,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 170.400. Es su precio más bajo registrado (US$ 9.99, CheapShark). 97 % de 10.331 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 167.992. Es su precio más bajo registrado (US$ 13.99, CheapShark). 90 % de 16.550 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-16"
       },
       {
-        "titulo": "Lost Judgment",
+        "titulo": "SONIC X SHADOW GENERATIONS",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/2058190/",
-        "precio": "COL$ 22.798",
-        "antes": "COL$ 113.990",
-        "ahorro": 80,
+        "url": "https://store.steampowered.com/app/2513280/",
+        "precio": "COL$ 37.747",
+        "antes": "COL$ 150.990",
+        "ahorro": 75,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 91.192. Es su precio más bajo registrado (US$ 7.99, CheapShark). 94 % de 7.666 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-16"
-      },
-      {
-        "titulo": "Legion TD 2 - Multiplayer Tower Defense",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/469600/",
-        "precio": "COL$ 11.760",
-        "antes": "COL$ 58.800",
-        "ahorro": 80,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 47.040. Es su precio más bajo registrado (US$ 4.99, CheapShark). 87 % de 12.695 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 113.243. Es su precio más bajo registrado (US$ 12.49, CheapShark). 97 % de 12.452 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-16"
@@ -58,6 +58,13 @@
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1771300",
+      "titulo": "Kingdom Come: Deliverance II",
+      "salio": "2026-11-16",
+      "cop": 74246,
+      "usd": 19.79
+    },
     {
       "id": "1958220",
       "titulo": "WitchSpring R",
@@ -73,11 +80,25 @@
       "usd": 7.99
     },
     {
+      "id": "2072450",
+      "titulo": "Like a Dragon: Infinite Wealth",
+      "salio": "2026-11-16",
+      "cop": 41998,
+      "usd": 13.99
+    },
+    {
       "id": "2375550",
       "titulo": "Like a Dragon Gaiden: The Man Who Erased His Name",
       "salio": "2026-11-16",
       "cop": 42599,
       "usd": 9.99
+    },
+    {
+      "id": "2513280",
+      "titulo": "SONIC X SHADOW GENERATIONS",
+      "salio": "2026-11-16",
+      "cop": 37747,
+      "usd": 12.49
     },
     {
       "id": "469600",
