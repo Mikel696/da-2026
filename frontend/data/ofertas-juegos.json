@@ -41,15 +41,15 @@
         "visto": "2026-11-17"
       },
       {
-        "titulo": "ENDER LILIES: Quietus of the Knights",
+        "titulo": "Teenage Mutant Ninja Turtles: Shredder's Revenge",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1369630/",
-        "precio": "COL$ 13.400",
-        "antes": "COL$ 33.500",
+        "url": "https://store.steampowered.com/app/1361510/",
+        "precio": "COL$ 23.520",
+        "antes": "COL$ 58.800",
         "ahorro": 60,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 20.100. Es su precio más bajo registrado (US$ 9.99, CheapShark). 94 % de 43.642 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 35.280. Es su precio más bajo registrado (US$ 9.99, CheapShark). 95 % de 13.069 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-17"
@@ -63,6 +63,13 @@
       "titulo": "Sonic Frontiers",
       "salio": "2026-11-17",
       "cop": 28497,
+      "usd": 9.99
+    },
+    {
+      "id": "1361510",
+      "titulo": "Teenage Mutant Ninja Turtles: Shredder's Revenge",
+      "salio": "2026-11-17",
+      "cop": 23520,
       "usd": 9.99
     },
     {
