@@ -13,6 +13,20 @@
     "icono": "🎮",
     "ofertas": [
       {
+        "titulo": "Call of Duty: Black Ops III",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/311210/",
+        "precio": "COL$ 66.074",
+        "antes": "COL$ 264.299",
+        "ahorro": 75,
+        "vence": "2026-12-01",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 198.225. Es su precio más bajo registrado (US$ 14.99, CheapShark). 89 % de 159.147 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-17"
+      },
+      {
         "titulo": "Sonic Frontiers",
         "tienda": "Steam",
         "url": "https://store.steampowered.com/app/1237320/",
@@ -21,7 +35,7 @@
         "ahorro": 75,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 85.493. Es su precio más bajo registrado (US$ 9.99, CheapShark). 90 % de 22.927 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 85.493. Es su precio más bajo registrado (US$ 9.99, CheapShark). 90 % de 22.933 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-17"
@@ -36,20 +50,6 @@
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
         "porque": "Te ahorras $ 44.100. Es su precio más bajo registrado (US$ 6.24, CheapShark). 89 % de 5.157 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-17"
-      },
-      {
-        "titulo": "Teenage Mutant Ninja Turtles: Shredder's Revenge",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1361510/",
-        "precio": "COL$ 23.520",
-        "antes": "COL$ 58.800",
-        "ahorro": 60,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 35.280. Es su precio más bajo registrado (US$ 9.99, CheapShark). 95 % de 13.069 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-17"
@@ -78,6 +78,13 @@
       "salio": "2026-11-17",
       "cop": 13400,
       "usd": 9.99
+    },
+    {
+      "id": "311210",
+      "titulo": "Call of Duty: Black Ops III",
+      "salio": "2026-11-17",
+      "cop": 66074,
+      "usd": 14.99
     },
     {
       "id": "715560",
