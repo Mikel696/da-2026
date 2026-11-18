@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-17",
+  "revisado": "2026-11-18",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Call of Duty: Black Ops III",
+        "titulo": "Hi-Fi RUSH",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/311210/",
-        "precio": "COL$ 66.074",
-        "antes": "COL$ 264.299",
-        "ahorro": 75,
-        "vence": "2026-12-01",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 198.225. Es su precio más bajo registrado (US$ 14.99, CheapShark). 89 % de 159.166 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-17"
-      },
-      {
-        "titulo": "Sonic Frontiers",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1237320/",
-        "precio": "COL$ 28.497",
-        "antes": "COL$ 113.990",
-        "ahorro": 75,
+        "url": "https://store.steampowered.com/app/1817230/",
+        "precio": "COL$ 53.955",
+        "antes": "COL$ 119.900",
+        "ahorro": 55,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 85.493. Es su precio más bajo registrado (US$ 9.99, CheapShark). 90 % de 22.933 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 65.945. Es su precio más bajo registrado (US$ 13.49, CheapShark). 97 % de 27.614 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-17"
+        "imperdible": true,
+        "visto": "2026-11-18"
       },
       {
-        "titulo": "Eastshade",
+        "titulo": "Echo Point Nova",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/715560/",
-        "precio": "COL$ 14.700",
+        "url": "https://store.steampowered.com/app/1836730/",
+        "precio": "COL$ 29.400",
         "antes": "COL$ 58.800",
-        "ahorro": 75,
+        "ahorro": 50,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 44.100. Es su precio más bajo registrado (US$ 6.24, CheapShark). 89 % de 5.157 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 29.400. Es su precio más bajo registrado (US$ 12.49, CheapShark). 98 % de 5.810 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-17"
+        "visto": "2026-11-18"
+      },
+      {
+        "titulo": "Heat Signature",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/268130/",
+        "precio": "COL$ 6.400",
+        "antes": "COL$ 32.000",
+        "ahorro": 80,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 25.600. Es su precio más bajo registrado (US$ 2.99, CheapShark). 95 % de 6.876 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-18"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1817230",
+      "titulo": "Hi-Fi RUSH",
+      "salio": "2026-11-18",
+      "cop": 53955,
+      "usd": 13.49
+    },
+    {
+      "id": "1836730",
+      "titulo": "Echo Point Nova",
+      "salio": "2026-11-18",
+      "cop": 29400,
+      "usd": 12.49
+    },
+    {
+      "id": "268130",
+      "titulo": "Heat Signature",
+      "salio": "2026-11-18",
+      "cop": 6400,
+      "usd": 2.99
+    },
     {
       "id": "1237320",
       "titulo": "Sonic Frontiers",
