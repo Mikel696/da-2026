@@ -1,10 +1,15 @@
-# Guardián nocturno · 2026-11-17
-1. Versiones en lockstep: VERDE (cloud-sync p25 ×28, nb-shared p24 ×4; una sola versión por archivo).
-2. Frescura de datos: VERDE (credit-co, jobs-feed, macro-co y world generados hoy 05:1x UTC; los otros JSON son planes con fecha propia, no alimentados por la Action).
-3. Sintaxis: VERDE (node --check sin fallos en frontend/js y frontend).
-4. Enlaces internos: VERDE (11 avisos, todos falsos: «about:blank», «...», «x», «mix», «fav», «words», «phrases», texto suelto en plantillas JS).
-5. Seguridad: VERDE. Sin claves ni tokens (solo menciones en informes anteriores). Nombres de clientes: 0 en el árbol, 0 en el historial publicado (con límite de palabra).
-6. Sesiones: sin archivos nuevos en docs/sesiones en 48 h (lo último es del 11-nov).
-Cola: no hice ninguna tarea. Hay 1 tarea en [r] (3-ENG · 5, rama claude/noche-20261116) y ninguna en [ ]: la cola está vacía de pendientes.
-Arreglos: ninguno necesario.
-Decisiones para Miguel: ninguna urgente. Pendiente de día (Integrador): revisar 3-ENG · 5 en el navegador, fusionar y rellenar la cola; sin tareas nuevas el guardián solo hace chequeos.
+# Informe del guardián · 2026-11-18
+
+1. Versiones en lockstep: 🟢 cloud-sync.js?v=p25 (28 páginas), nb-shared.js?v=p24 (4). Una sola versión por archivo.
+2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados hoy 04:41 UTC. (plan-cerebro, recommendations y my-base-cv llevan fecha manual, no automática.)
+3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
+4. Enlaces internos: 🟢 ninguno roto (solo plantillas JS que el chequeo confunde con rutas).
+5. Seguridad: 🟢 sin service_role, sk- ni tokens. Solo la clave anon pública de Supabase (es pública por diseño).
+   Nombres de clientes: 0 en el árbol, 0 en el historial (coincidencias de texto parcial descartadas con palabra completa).
+6. Sesiones (48 h): 🟢 juegos (investigación y plan, 23-oct), luciernaga-diseno (diseño, 9-nov), convoy-diseno (diseño del Corredor, 10-nov). Sin cambios nuevos de contenido.
+
+Cola: cola en espera de revisión no aplica (1 sola tarea en [r]); pero no hay tareas [ ] pendientes. No se hizo ninguna.
+  Pendiente de revisión: 3-ENG · 5 (rama claude/noche-20261116, commit 5a32284).
+
+Arreglé: nada (no hubo nada que arreglar).
+Necesita decisión de Miguel: llenar la cola (no quedan tareas [ ]) y revisar/fusionar la tarea 3-ENG · 5.
