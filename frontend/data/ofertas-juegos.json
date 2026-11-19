@@ -13,43 +13,43 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "FINAL FANTASY XII THE ZODIAC AGE",
+        "titulo": "Dead Space",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/595520/",
-        "precio": "COL$ 47.100",
-        "antes": "COL$ 157.000",
-        "ahorro": 70,
+        "url": "https://store.steampowered.com/app/1693980/",
+        "precio": "COL$ 23.499",
+        "antes": "COL$ 234.999",
+        "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 109.900. Es su precio más bajo registrado (US$ 14.99, CheapShark). 90 % de 8.608 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 211.500. Es su precio más bajo registrado (US$ 5.99, CheapShark). 91 % de 64.610 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
-        "imperdible": false,
+        "imperdible": true,
         "visto": "2026-11-19"
       },
       {
-        "titulo": "CRISIS CORE –FINAL FANTASY VII– REUNION",
+        "titulo": "It Takes Two",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1608070/",
-        "precio": "COL$ 57.750",
-        "antes": "COL$ 165.000",
-        "ahorro": 65,
-        "vence": "",
+        "url": "https://store.steampowered.com/app/1426210/",
+        "precio": "COL$ 31.999",
+        "antes": "COL$ 159.999",
+        "ahorro": 80,
+        "vence": "2026-12-03",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 107.250. Es su precio más bajo registrado (US$ 17.49, CheapShark). 90 % de 7.418 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 128.000. Es su precio más bajo registrado (US$ 7.99, CheapShark). 96 % de 221.310 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
-        "imperdible": false,
+        "imperdible": true,
         "visto": "2026-11-19"
       },
       {
-        "titulo": "Trials of Mana",
+        "titulo": "Battlefield 1",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/924980/",
-        "precio": "COL$ 41.970",
-        "antes": "COL$ 139.900",
-        "ahorro": 70,
+        "url": "https://store.steampowered.com/app/1238840/",
+        "precio": "COL$ 7.999",
+        "antes": "COL$ 159.999",
+        "ahorro": 95,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 97.930. Es su precio más bajo registrado (US$ 14.99, CheapShark). 92 % de 5.450 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 152.000. Es su precio más bajo registrado (US$ 1.99, CheapShark). 86 % de 203.321 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-19"
@@ -59,11 +59,32 @@
   },
   "vistos": [
     {
+      "id": "1238840",
+      "titulo": "Battlefield 1",
+      "salio": "2026-11-19",
+      "cop": 7999,
+      "usd": 1.99
+    },
+    {
+      "id": "1426210",
+      "titulo": "It Takes Two",
+      "salio": "2026-11-19",
+      "cop": 31999,
+      "usd": 7.99
+    },
+    {
       "id": "1608070",
       "titulo": "CRISIS CORE –FINAL FANTASY VII– REUNION",
       "salio": "2026-11-19",
       "cop": 57750,
       "usd": 17.49
+    },
+    {
+      "id": "1693980",
+      "titulo": "Dead Space",
+      "salio": "2026-11-19",
+      "cop": 23499,
+      "usd": 5.99
     },
     {
       "id": "595520",
