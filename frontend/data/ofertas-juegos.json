@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-18",
+  "revisado": "2026-11-19",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Life is Strange: True Colors",
+        "titulo": "FINAL FANTASY XII THE ZODIAC AGE",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/936790/",
-        "precio": "COL$ 59.700",
-        "antes": "COL$ 199.000",
+        "url": "https://store.steampowered.com/app/595520/",
+        "precio": "COL$ 47.100",
+        "antes": "COL$ 157.000",
         "ahorro": 70,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 139.300. Es su precio más bajo registrado (US$ 17.99, CheapShark). 89 % de 12.432 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 109.900. Es su precio más bajo registrado (US$ 14.99, CheapShark). 90 % de 8.608 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-18"
+        "visto": "2026-11-19"
       },
       {
-        "titulo": "OCTOPATH TRAVELER",
+        "titulo": "CRISIS CORE –FINAL FANTASY VII– REUNION",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/921570/",
-        "precio": "COL$ 55.350",
-        "antes": "COL$ 184.500",
+        "url": "https://store.steampowered.com/app/1608070/",
+        "precio": "COL$ 57.750",
+        "antes": "COL$ 165.000",
+        "ahorro": 65,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 107.250. Es su precio más bajo registrado (US$ 17.49, CheapShark). 90 % de 7.418 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-19"
+      },
+      {
+        "titulo": "Trials of Mana",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/924980/",
+        "precio": "COL$ 41.970",
+        "antes": "COL$ 139.900",
         "ahorro": 70,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 129.150. Es su precio más bajo registrado (US$ 17.99, CheapShark). 85 % de 14.166 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 97.930. Es su precio más bajo registrado (US$ 14.99, CheapShark). 92 % de 5.450 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-18"
-      },
-      {
-        "titulo": "FINAL FANTASY VII REMAKE INTERGRADE",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1462040/",
-        "precio": "COL$ 24.300",
-        "antes": "COL$ 135.000",
-        "ahorro": 82,
-        "vence": "2026-12-02",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 110.700. Es su precio más bajo registrado (US$ 7.19, CheapShark). 87 % de 45.893 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-18"
+        "visto": "2026-11-19"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1608070",
+      "titulo": "CRISIS CORE –FINAL FANTASY VII– REUNION",
+      "salio": "2026-11-19",
+      "cop": 57750,
+      "usd": 17.49
+    },
+    {
+      "id": "595520",
+      "titulo": "FINAL FANTASY XII THE ZODIAC AGE",
+      "salio": "2026-11-19",
+      "cop": 47100,
+      "usd": 14.99
+    },
+    {
+      "id": "924980",
+      "titulo": "Trials of Mana",
+      "salio": "2026-11-19",
+      "cop": 41970,
+      "usd": 14.99
+    },
     {
       "id": "1462040",
       "titulo": "FINAL FANTASY VII REMAKE INTERGRADE",
