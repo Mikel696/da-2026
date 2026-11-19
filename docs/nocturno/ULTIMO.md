@@ -1,15 +1,18 @@
-# Informe del guardián · 2026-11-18
+# Informe del guardián · 2026-11-19
 
-1. Versiones en lockstep: 🟢 cloud-sync.js?v=p25 (28 páginas), nb-shared.js?v=p24 (4). Una sola versión por archivo.
-2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados hoy 04:41 UTC. (plan-cerebro, recommendations y my-base-cv llevan fecha manual, no automática.)
+1. Versiones en lockstep: 🟢 cloud-sync.js?v=p25 (28 páginas), nb-shared.js?v=p24 (4 páginas). Una sola versión cada una.
+2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados el 19-nov 04:28 UTC (menos de 4 h).
 3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: 🟢 ninguno roto (solo plantillas JS que el chequeo confunde con rutas).
-5. Seguridad: 🟢 sin service_role, sk- ni tokens. Solo la clave anon pública de Supabase (es pública por diseño).
-   Nombres de clientes: 0 en el árbol, 0 en el historial (coincidencias de texto parcial descartadas con palabra completa).
-6. Sesiones (48 h): 🟢 juegos (investigación y plan, 23-oct), luciernaga-diseno (diseño, 9-nov), convoy-diseno (diseño del Corredor, 10-nov). Sin cambios nuevos de contenido.
+4. Enlaces internos: 🟢 ningún href/src relativo roto (los 11 hallazgos del script eran texto dentro de código JS, no enlaces).
+5. Seguridad: 🟢 sin service_role, tokens ni sk-. Solo aparece la clave `anon` pública de Supabase (rol anon, esperado).
+   Nombres de clientes: 0 en el árbol, 0 en el historial (la búsqueda por fragmento solo dio «ytapi», palabra ajena).
+6. Sesiones recientes (48 h):
+   - 2026-10-23-juegos.md: investigación y plan de la sala de juegos.
+   - 2026-11-09-luciernaga-diseno.md: diseño de un juego (Luciérnaga).
+   - 2026-11-10-convoy-diseno.md: Corredor pasa a ser el convoy de suministros; retoma en «Dónde quedó».
 
-Cola: cola en espera de revisión no aplica (1 sola tarea en [r]); pero no hay tareas [ ] pendientes. No se hizo ninguna.
-  Pendiente de revisión: 3-ENG · 5 (rama claude/noche-20261116, commit 5a32284).
+Cola: cola en espera de revisión / sin tareas nuevas. Hay 1 tarea en [r] (3-ENG · 5, rama claude/noche-20261116, commit 5a32284) y ninguna en [ ]. No se hizo trabajo de cola.
 
-Arreglé: nada (no hubo nada que arreglar).
-Necesita decisión de Miguel: llenar la cola (no quedan tareas [ ]) y revisar/fusionar la tarea 3-ENG · 5.
+Arreglos: ninguno necesario.
+
+Para Miguel / Integrador: revisar la tarea 3-ENG · 5 (probar «He doesn't speak English.» en navegador y fusionar) y rellenar la cola con tareas nuevas.
