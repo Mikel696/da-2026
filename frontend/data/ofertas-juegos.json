@@ -13,20 +13,6 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Forza Horizon 5",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1551360/",
-        "precio": "COL$ 85.960",
-        "antes": "COL$ 214.900",
-        "ahorro": 60,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 128.940. Es su precio más bajo registrado (US$ 23.99, CheapShark). 89 % de 263.078 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-20"
-      },
-      {
         "titulo": "Metro Exodus",
         "tienda": "Steam",
         "url": "https://store.steampowered.com/app/412020/",
@@ -36,6 +22,20 @@
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
         "porque": "Te ahorras $ 101.691. Es su precio más bajo registrado (US$ 2.99, CheapShark). 90 % de 119.167 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-20"
+      },
+      {
+        "titulo": "Pillars of Eternity",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/291650/",
+        "precio": "COL$ 18.725",
+        "antes": "COL$ 74.900",
+        "ahorro": 75,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 56.175. Es su precio más bajo registrado (US$ 7.49, CheapShark). 88 % de 17.065 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-20"
@@ -71,6 +71,13 @@
       "salio": "2026-11-20",
       "cop": 10000,
       "usd": 4.99
+    },
+    {
+      "id": "291650",
+      "titulo": "Pillars of Eternity",
+      "salio": "2026-11-20",
+      "cop": 18725,
+      "usd": 7.49
     },
     {
       "id": "412020",
