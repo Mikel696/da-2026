@@ -13,43 +13,43 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Pentiment",
+        "titulo": "Against the Storm",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1205520/",
-        "precio": "COL$ 22.475",
-        "antes": "COL$ 89.900",
-        "ahorro": 75,
+        "url": "https://store.steampowered.com/app/1336490/",
+        "precio": "COL$ 11.980",
+        "antes": "COL$ 59.900",
+        "ahorro": 80,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 67.425. Es su precio más bajo registrado (US$ 4.99, CheapShark). 95 % de 7.746 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 47.920. Es su precio más bajo registrado (US$ 5.99, CheapShark). 95 % de 33.719 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-21"
       },
       {
-        "titulo": "FINAL FANTASY IX",
+        "titulo": "Battle Brothers",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/377840/",
-        "precio": "COL$ 19.410",
-        "antes": "COL$ 64.700",
+        "url": "https://store.steampowered.com/app/365360/",
+        "precio": "COL$ 17.970",
+        "antes": "COL$ 59.900",
         "ahorro": 70,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 45.290. Es su precio más bajo registrado (US$ 6.29, CheapShark). 95 % de 12.629 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 41.930. Es su precio más bajo registrado (US$ 8.99, CheapShark). 88 % de 26.487 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-21"
       },
       {
-        "titulo": "Just Cause 2",
+        "titulo": "Darkwood",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/8190/",
-        "precio": "COL$ 4.620",
-        "antes": "COL$ 46.200",
+        "url": "https://store.steampowered.com/app/274520/",
+        "precio": "COL$ 3.990",
+        "antes": "COL$ 39.900",
         "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 41.580. Es su precio más bajo registrado (US$ 1.49, CheapShark). 90 % de 41.121 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 35.910. Es su precio más bajo registrado (US$ 1.99, CheapShark). 95 % de 22.641 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-21"
@@ -64,6 +64,27 @@
       "salio": "2026-11-21",
       "cop": 22475,
       "usd": 4.99
+    },
+    {
+      "id": "1336490",
+      "titulo": "Against the Storm",
+      "salio": "2026-11-21",
+      "cop": 11980,
+      "usd": 5.99
+    },
+    {
+      "id": "274520",
+      "titulo": "Darkwood",
+      "salio": "2026-11-21",
+      "cop": 3990,
+      "usd": 1.99
+    },
+    {
+      "id": "365360",
+      "titulo": "Battle Brothers",
+      "salio": "2026-11-21",
+      "cop": 17970,
+      "usd": 8.99
     },
     {
       "id": "377840",
