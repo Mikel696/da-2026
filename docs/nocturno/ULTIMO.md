@@ -1,17 +1,16 @@
-# Informe nocturno · 2026-11-20
+# Informe del guardián · 2026-11-21
 
-1. Versiones: 🟢 cloud-sync.js?v=p25 (28 páginas) y nb-shared.js?v=p24 (4 páginas); una sola versión por archivo.
-2. Frescura de datos: 🟢 credit-co, jobs-feed, macro-co y world generados hoy (04:14–04:18 UTC). ofertas-juegos revisado 19-nov, ofertas-caza 17-nov (el cazador diario no publicó el 18, 19 ni 20; no es de la Action). Los demás JSON no traen fecha de generación o son estáticos (fechas de ago-2026 en english-survival, plan-cerebro, prompts-plan).
-3. Sintaxis: 🟢 node --check sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: 🟢 ninguno roto. Los avisos que salen (about:blank, "...", x, mix, fav, words, phrases) son texto dentro de plantillas JS, no archivos.
-5. Seguridad: 🟢 sin service_role real, tokens ni sk- (solo menciones en informes viejos). Nombres de clientes: 0 en el árbol, 0 en el historial.
-6. Sesiones (últimas 48 h): sin cambios; los 3 archivos de docs/sesiones/ son de oct y nov y no se tocaron.
+1. Versiones en lockstep: VERDE. cloud-sync.js?v=p25 en 28 páginas; nb-shared.js?v=p24 en 4 páginas. Una sola versión por archivo.
+2. Frescura de datos: VERDE. credit-co, jobs-feed, macro-co y world generados hoy 21-nov (04:15 UTC). deals/ofertas revisados el 17 y el 20-nov. Los demás JSON son estáticos (sin fecha de generación).
+3. Sintaxis: VERDE. node --check sin fallos en frontend/js/ y frontend/.
+4. Enlaces internos: VERDE. Ninguno roto de verdad (solo texto de código que parece enlace: about:blank, «...», «x», «mix», «fav», «words», «phrases»).
+5. Seguridad: VERDE. Sin service_role, sin tokens ni sk-. Solo aparece la clave anon de Supabase (pública por diseño). Nombres de clientes: 0 en el árbol, 0 en el historial publicado como palabra completa. Nota: una de las búsquedas por trozo de texto (sin límite de palabra) da 7 commits, incluido el raíz eec95e3; son coincidencias dentro de otras palabras, no el nombre. Miguel puede revisarlo si quiere (hashes: 6f09977 32aac2e 3aadb13 142153e 9c58d5e dba63f1 eec95e3).
+6. Sesiones: sin archivos en docs/sesiones/ modificados en las últimas 48 h.
 
-Cola: en espera de revisión. Hay 1 tarea en [r] (3-ENG · 5, rama claude/noche-20261116, commit 5a32284) y ninguna [ ] pendiente. No se hizo tarea nueva.
+Cola: no se hizo nada. Solo hay 1 tarea en [r] (3-ENG · 5, rama claude/noche-20261116, commit 5a32284, sin revisar desde el 16-nov) y ninguna en [ ]. La cola está vacía: hay que rellenarla.
 
-Arreglos: ninguno necesario.
+Arreglos: ninguno necesario (no se creó rama).
 
-Para Miguel / el Integrador:
-- Revisar y fusionar 3-ENG · 5 (probar «He doesn't speak English.» en el navegador).
-- La cola quedó sin tareas [ ]: hay que rellenarla si se quiere que el guardián siga produciendo.
-- El cazador de ofertas lleva 3 días sin publicar (último 17-nov).
+Necesita decisión de Miguel / Integrador:
+- Revisar y fusionar claude/noche-20261116 (3-ENG · 5).
+- Rellenar docs/noche/COLA.md con tareas nuevas.
