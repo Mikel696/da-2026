@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-20",
+  "revisado": "2026-11-21",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Metro Exodus",
+        "titulo": "Pentiment",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/412020/",
-        "precio": "COL$ 11.298",
-        "antes": "COL$ 112.989",
-        "ahorro": 90,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 101.691. Es su precio más bajo registrado (US$ 2.99, CheapShark). 90 % de 119.187 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-20"
-      },
-      {
-        "titulo": "Pillars of Eternity",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/291650/",
-        "precio": "COL$ 18.725",
-        "antes": "COL$ 74.900",
+        "url": "https://store.steampowered.com/app/1205520/",
+        "precio": "COL$ 22.475",
+        "antes": "COL$ 89.900",
         "ahorro": 75,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 56.175. Es su precio más bajo registrado (US$ 7.49, CheapShark). 88 % de 17.065 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 67.425. Es su precio más bajo registrado (US$ 4.99, CheapShark). 95 % de 7.746 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-20"
+        "visto": "2026-11-21"
       },
       {
-        "titulo": "Oxygen Not Included",
+        "titulo": "FINAL FANTASY IX",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/457140/",
-        "precio": "COL$ 10.050",
-        "antes": "COL$ 33.500",
+        "url": "https://store.steampowered.com/app/377840/",
+        "precio": "COL$ 19.410",
+        "antes": "COL$ 64.700",
         "ahorro": 70,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 23.450. Es su precio más bajo registrado (US$ 7.49, CheapShark). 97 % de 136.494 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 45.290. Es su precio más bajo registrado (US$ 6.29, CheapShark). 95 % de 12.629 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-20"
+        "visto": "2026-11-21"
+      },
+      {
+        "titulo": "Just Cause 2",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/8190/",
+        "precio": "COL$ 4.620",
+        "antes": "COL$ 46.200",
+        "ahorro": 90,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 41.580. Es su precio más bajo registrado (US$ 1.49, CheapShark). 90 % de 41.121 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-21"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1205520",
+      "titulo": "Pentiment",
+      "salio": "2026-11-21",
+      "cop": 22475,
+      "usd": 4.99
+    },
+    {
+      "id": "377840",
+      "titulo": "FINAL FANTASY IX",
+      "salio": "2026-11-21",
+      "cop": 19410,
+      "usd": 6.29
+    },
+    {
+      "id": "8190",
+      "titulo": "Just Cause 2",
+      "salio": "2026-11-21",
+      "cop": 4620,
+      "usd": 1.49
+    },
     {
       "id": "1551360",
       "titulo": "Forza Horizon 5",
