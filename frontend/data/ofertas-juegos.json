@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-21",
+  "revisado": "2026-11-22",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Against the Storm",
+        "titulo": "The Escapists 2",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1336490/",
-        "precio": "COL$ 11.980",
-        "antes": "COL$ 59.900",
-        "ahorro": 80,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 47.920. Es su precio más bajo registrado (US$ 5.99, CheapShark). 95 % de 33.725 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-21"
-      },
-      {
-        "titulo": "Battle Brothers",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/365360/",
-        "precio": "COL$ 17.970",
-        "antes": "COL$ 59.900",
-        "ahorro": 70,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 41.930. Es su precio más bajo registrado (US$ 8.99, CheapShark). 88 % de 26.491 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-21"
-      },
-      {
-        "titulo": "Darkwood",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/274520/",
-        "precio": "COL$ 3.990",
-        "antes": "COL$ 39.900",
+        "url": "https://store.steampowered.com/app/641990/",
+        "precio": "COL$ 4.000",
+        "antes": "COL$ 40.000",
         "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 35.910. Es su precio más bajo registrado (US$ 1.99, CheapShark). 95 % de 22.649 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 36.000. Es su precio más bajo registrado (US$ 1.99, CheapShark). 91 % de 26.588 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-21"
+        "visto": "2026-11-22"
+      },
+      {
+        "titulo": "Tangle Tower",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/359510/",
+        "precio": "COL$ 9.500",
+        "antes": "COL$ 47.500",
+        "ahorro": 80,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 38.000. Es su precio más bajo registrado (US$ 3.99, CheapShark). 95 % de 6.699 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-22"
+      },
+      {
+        "titulo": "Supraland",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/813630/",
+        "precio": "COL$ 6.200",
+        "antes": "COL$ 31.000",
+        "ahorro": 80,
+        "vence": "",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 24.800. Es su precio más bajo registrado (US$ 3.99, CheapShark). 96 % de 12.555 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": true,
+        "imperdible": false,
+        "visto": "2026-11-22"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "359510",
+      "titulo": "Tangle Tower",
+      "salio": "2026-11-22",
+      "cop": 9500,
+      "usd": 3.99
+    },
+    {
+      "id": "641990",
+      "titulo": "The Escapists 2",
+      "salio": "2026-11-22",
+      "cop": 4000,
+      "usd": 1.99
+    },
+    {
+      "id": "813630",
+      "titulo": "Supraland",
+      "salio": "2026-11-22",
+      "cop": 6200,
+      "usd": 3.99
+    },
     {
       "id": "1205520",
       "titulo": "Pentiment",
