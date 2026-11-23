@@ -11,6 +11,15 @@
 
 ---
 
+## 📡 10-SYS · Arranca el Bloque II — lunes 23-nov
+- Bloque I cerrado en CDigital. El 23-nov aparecieron 3 cursos del **Segundo Bloque** (23-nov → 19-ene-2027): Animación Básica
+  (124452), Plan de Negocio Aplicado (124529) e Investigación de Operaciones (123284). TI sigue (bloque único, tercer corte al 10-ene).
+- Parte `26V05-S9` inyectado (6 actividades) y verificado en Supabase, cola 0. Las materias nuevas van con `subj:'general'`
+  porque **aún no están en `SUBJECTS`**: pendiente registrarlas (prompt 5 del CUN Hub) para que tengan bloque en el Dashboard.
+- La revisión nocturna de la madrugada no pudo leer CDigital ni el correo (pedían iniciar sesión); se completó de día.
+
+---
+
 ## 🎁 1-IND · «Ofertas de hoy»: solo rebajas de verdad, y los juegos ya no se repiten — domingo 15-nov (`413301a`, `0ec6a0b`)
 
 **Queja de Miguel:** «esta sección de ofertas está súper mal, nada bueno me traes, solo lo normal, los juegos no avanzan».
