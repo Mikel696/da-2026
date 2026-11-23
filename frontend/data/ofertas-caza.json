@@ -1,71 +1,42 @@
 {
-  "revisado": "2026-11-21",
+  "revisado": "2026-11-23",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
       "id": "ropa",
       "nombre": "Ropa de marca original",
       "icono": "👟",
-      "ofertas": [
-        {
-          "titulo": "Tenis adidas Runfalcon 6 de running, negros, hombre (IH9532)",
-          "tienda": "Mercado Libre (Tienda oficial adidas)",
-          "url": "https://www.mercadolibre.com.co/tenis-hombre-adidas-running-runfalcon-6-negros-ih9532/up/MCOU3936555933",
-          "precio": "$ 149.975",
-          "antes": "$ 209.900 (Falabella)",
-          "ahorro": 28,
-          "envio": "Envío gratis (la ficha dice que llega mañana)",
-          "vence": "",
-          "colombia": "Vendido en pesos por la Tienda oficial de adidas dentro de Mercado Libre Colombia (MercadoLíder Platinum, +10 mil ventas), nuevo, tallas 39 a 43 CO.",
-          "porque": "Falabella tiene el Runfalcon 6 Cloudfoam de hombre desde $ 209.900 (precio que puede ser con tarjeta CMR; sin ella, $ 239.900); Dafiti $ 275.900; Amazon US$ 46 + US$ 21,61 de envío = US$ 67,61 (≈ $ 234.000, vendedor externo Sunmoson1013). 28 % menos que la siguiente tienda; el color exacto puede variar entre tiendas.",
-          "visto": "2026-11-21",
-          "imperdible": false
-        }
-      ],
-      "nota": "Solo una pasa las cuatro pruebas. Revisadas las ofertas del día de Mercado Libre (ropa y calzado); comparado en Dafiti, Falabella y Amazon. Sin revisar por tope de páginas: adidas Runblaze ($ 114.975), Nike Flex Train ($ 247.651), Under Armour Assert 11 ($ 199.900) y Puma Milenio Tech ($ 244.900) de la misma página de ofertas."
+      "ofertas": [],
+      "nota": "Vacía hoy. Revisadas las ofertas del día de Mercado Libre (ropa y calzado). Descartados: adidas Response Pace KJ1772 a $ 144.900 (tienda oficial adidas) y el buzo adidas Essentials French Terry JD1874 a $ 156.900, porque no se encontraron en Falabella, Dafiti ni Amazon para comparar el mismo modelo; adidas Runfalcon 6 ya salió el 21-nov. Sin revisar por tope de páginas: adidas Astrastar KI7107 ($ 171.900) y Cloudfoam Flex KJ7278 ($ 142.471)."
     },
     {
       "id": "tecnologia",
       "nombre": "Tecnología",
       "icono": "💻",
-      "ofertas": [
-        {
-          "titulo": "Portátil ASUS Vivobook S16 · Ryzen 9 270 · 16 GB RAM · SSD 512 GB · 16\" 144 Hz (M3607HA)",
-          "tienda": "Mercado Libre (Tienda oficial Ultra Gamer)",
-          "url": "https://www.mercadolibre.com.co/notebook-asus-vivobook-s16-ryzen-9-16gb-ram-512-gb-ssd-gris-gris/p/MCO53607728",
-          "precio": "$ 2.729.900",
-          "antes": "$ 4.449.050 (Alkosto)",
-          "ahorro": 38,
-          "envio": "Envío gratis (la ficha dice que llega mañana)",
-          "vence": "",
-          "colombia": "Vendido en pesos por la Tienda oficial Ultra Gamer dentro de Mercado Libre Colombia (MercadoLíder Gold, +1000 ventas), producto nuevo, despacho a domicilio y 30 días de devolución.",
-          "porque": "Alkosto vende el mismo M3607HA (Ryzen 9 270, 16 GB, 512 GB; referencia RP082W, la de Mercado Libre es RP067W) a $ 4.449.050; Amazon y Falabella no tienen esta configuración (en Amazon el Vivobook S16 2026 más barato está en US$ 1.044,99). Un portátil de 8 núcleos para Python, Power BI y SQL a 38 % menos que en Alkosto.",
-          "visto": "2026-11-21",
-          "imperdible": true
-        },
-        {
-          "titulo": "Celular Xiaomi Redmi Note 15 Pro+ 5G · 512 GB · 12 GB RAM (Mocha Brown)",
-          "tienda": "Mercado Libre (Tienda oficial de Xiaomi)",
-          "url": "https://www.mercadolibre.com.co/xiaomi-redmi-note-15-pro-5g-512gb12gb-mocha-brown/p/MCO64883202",
-          "precio": "$ 1.717.000",
-          "antes": "$ 2.339.050 (Alkosto, incluye power bank 165W)",
-          "ahorro": 26,
-          "envio": "Envío gratis (la ficha dice que llega mañana)",
-          "vence": "",
-          "colombia": "Vendido en pesos por la Tienda oficial de Xiaomi dentro de Mercado Libre Colombia (MercadoLíder Platinum, +10 mil ventas), nuevo, despacho a domicilio.",
-          "porque": "Alkosto lo vende a $ 2.339.050 con un power bank de regalo; Falabella solo tiene el Pro (no el Pro+) y Amazon no lo vende con envío a Colombia. 26 % menos que Alkosto, aunque sin el power bank.",
-          "visto": "2026-11-21",
-          "imperdible": false
-        }
-      ],
-      "nota": "Dos pasan las cuatro pruebas. Revisadas las ofertas del día de Mercado Libre; comparado en Alkosto, Falabella y Amazon. Descartados: monitor Samsung Odyssey G5 27\" ($ 673.774, igual precio que el 16-nov: ya salió); monitor Xiaomi A27Qi ($ 577.999, sin otra tienda grande que lo venda para comparar). No se abrieron las páginas de ofertas de Alkosto, Amazon, Falabella ni Dafiti (tope de 30 páginas)."
+      "ofertas": [],
+      "nota": "Vacía hoy. Revisadas las ofertas del día de Mercado Libre; comparado en Alkosto y Amazon. Descartados: control DualSense a $ 249.900 (Alkosto igual, $ 249.900: precio de mercado); monitor Samsung 27\" F320 a $ 385.945 (Alkosto $ 469.930: 18 %, menos del 20 %); monitor Samsung 24\" S32 LS24F320 a $ 287.023, portátil HP 200 G2a Ryzen 5 a $ 1.399.900, Redmi Note 15 Pro 512 GB a $ 1.109.900 y monitor Xiaomi G34WQi a $ 1.034.999, porque Alkosto y Amazon no venden ese mismo modelo. No se abrieron las páginas de ofertas de Alkosto, Amazon, Falabella ni Dafiti (tope de páginas)."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
-      "ofertas": [],
-      "nota": "Vacía hoy. Coursera Plus anual sigue en US$ 143,40 (antes US$ 239, hasta el 30-nov-2026), el mismo precio que ya salió el 17-nov: no se repite. Platzi Expert anual está en $ 748.900 (antes $ 999.000): 25 %, por debajo del 40 % que exige la regla, y solo 6 % menos que el 13-nov. No se encontró curso gratis con certificado ni beca abierta en esta corrida."
+      "ofertas": [
+        {
+          "titulo": "DataCamp Premium anual (Python, SQL, Power BI, IA; con certificaciones)",
+          "tienda": "DataCamp (sitio oficial)",
+          "url": "https://www.datacamp.com/pricing",
+          "precio": "US$ 5 al mes facturado al año: US$ 60 (≈ $ 207.700)",
+          "antes": "US$ 13 al mes facturado al año: US$ 156 (≈ $ 540.100), tachado en la misma página",
+          "ahorro": 62,
+          "envio": "Digital: acceso en línea",
+          "vence": "",
+          "colombia": "Abierta hoy desde Colombia: la página muestra este «Special price» en dólares. Se paga en US$ con tarjeta y el banco cobra la conversión (TRM $ 3.461,92 del 21-nov-2026, datos.gov.co). No se llegó al pago, así que el cobro final no se comprobó.",
+          "porque": "62 % menos que el precio normal que la misma página muestra tachado (US$ 13/mes). Más de 810 cursos y rutas de analista de datos en Python, SQL y Power BI, justo su trabajo; la página no dice hasta cuándo dura el precio.",
+          "visto": "2026-11-23",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una pasa las pruebas. Coursera Plus anual sigue en US$ 143,40 (antes US$ 239, hasta el 30-nov-2026), el mismo precio que salió el 17-nov: no se repite. No se encontró curso gratis con certificado ni beca abierta en esta corrida."
     },
     {
       "id": "conciertos",
@@ -77,6 +48,12 @@
   ],
   "avisos": [],
   "vistos": [
+    {
+      "url": "https://www.datacamp.com/pricing",
+      "titulo": "DataCamp Premium anual (Python, SQL, Power BI, IA; con certificaciones)",
+      "precio": "US$ 5 al mes facturado al año: US$ 60 (≈ $ 207.700)",
+      "salio": "2026-11-23"
+    },
     {
       "url": "https://www.mercadolibre.com.co/tenis-hombre-adidas-running-runfalcon-6-negros-ih9532/up/MCOU3936555933",
       "titulo": "Tenis adidas Runfalcon 6 de running, negros, hombre (IH9532)",
