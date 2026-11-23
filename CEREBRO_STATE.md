@@ -35,6 +35,9 @@
   `Evidencias de notas - INFORME (2026-11-23).html`. Las notas NO van al repo. Hallazgos: SGA aún no carga el Bloque I; las aulas
   de 26V02 e Inglés 26V05 ya no abren en CDigital; Inglés 26I02 tiene nota en SGA aunque el Cerebro lo daba por «pausada» (Miguel
   lo revisa). Códigos según SGA: TI = DIS41 (no ISD37), IO DIS37, Plan de Negocio DIS42, Animación ELSC3 (`?v=p44`).
+- **TI tenía una copia completa congelada en `sys_subjects_custom`** (del 14-nov: code, desc, type, horario…) que tapaba el código.
+  Se limpió en la pestaña real dejando solo `id`, `cronograma`, `notas` (idénticos, comprobado) y `_updated`; Supabase lo confirma
+  y producción ya muestra DIS41. Las de BI/Aud/Nube/Inglés quizá tengan copias iguales: no estorban (están en Historial).
 - **Pendiente:** horario de IO; recapturar el Bloque I cuando SGA lo cargue; Inglés 26V05 sin nota visible; imagen oficial del calendario del Bloque II (para quitar las marcas ≈).
 
 ---
