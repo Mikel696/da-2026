@@ -1,5 +1,5 @@
 {
-  "revisado": "2026-11-22",
+  "revisado": "2026-11-23",
   "fuentes": [
     "Epic Games Store (Colombia)",
     "Steam (Colombia)",
@@ -13,51 +13,72 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "The Escapists 2",
+        "titulo": "Hotline Miami 2: Wrong Number",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/641990/",
-        "precio": "COL$ 4.000",
-        "antes": "COL$ 40.000",
-        "ahorro": 90,
+        "url": "https://store.steampowered.com/app/274170/",
+        "precio": "COL$ 5.625",
+        "antes": "COL$ 37.500",
+        "ahorro": 85,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 36.000. Es su precio más bajo registrado (US$ 1.99, CheapShark). 91 % de 26.588 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 31.875. Es su precio más bajo registrado (US$ 2.24, CheapShark). 94 % de 70.550 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-22"
+        "visto": "2026-11-23"
       },
       {
-        "titulo": "Tangle Tower",
+        "titulo": "Pillars of Eternity II: Deadfire",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/359510/",
-        "precio": "COL$ 9.500",
-        "antes": "COL$ 47.500",
-        "ahorro": 80,
+        "url": "https://store.steampowered.com/app/560130/",
+        "precio": "COL$ 12.475",
+        "antes": "COL$ 49.900",
+        "ahorro": 75,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 38.000. Es su precio más bajo registrado (US$ 3.99, CheapShark). 95 % de 6.699 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 37.425. Es su precio más bajo registrado (US$ 4.99, CheapShark). 87 % de 14.755 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-22"
+        "visto": "2026-11-23"
       },
       {
-        "titulo": "Supraland",
+        "titulo": "Citizen Sleeper",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/813630/",
-        "precio": "COL$ 6.200",
-        "antes": "COL$ 31.000",
-        "ahorro": 80,
+        "url": "https://store.steampowered.com/app/1578650/",
+        "precio": "COL$ 14.699",
+        "antes": "COL$ 48.999",
+        "ahorro": 70,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 24.800. Es su precio más bajo registrado (US$ 3.99, CheapShark). 96 % de 12.559 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 34.300. Es su precio más bajo registrado (US$ 5.99, CheapShark). 93 % de 8.105 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
-        "visto": "2026-11-22"
+        "visto": "2026-11-23"
       }
     ],
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1578650",
+      "titulo": "Citizen Sleeper",
+      "salio": "2026-11-23",
+      "cop": 14699,
+      "usd": 5.99
+    },
+    {
+      "id": "274170",
+      "titulo": "Hotline Miami 2: Wrong Number",
+      "salio": "2026-11-23",
+      "cop": 5625,
+      "usd": 2.24
+    },
+    {
+      "id": "560130",
+      "titulo": "Pillars of Eternity II: Deadfire",
+      "salio": "2026-11-23",
+      "cop": 12475,
+      "usd": 4.99
+    },
     {
       "id": "359510",
       "titulo": "Tangle Tower",
