@@ -91,21 +91,21 @@ const SYS = (() => {
     // Los quizzes/parciales están ocultos en CDigital hasta que abren: la
     // fecha es el cierre de su semana, no la hora exacta de la actividad.
     { id: 'inteligencia_negocios', period: '26V05', code: 'DIS38', name: 'Inteligencia de Negocios', short: 'Inteligencia de Negocios', group: '55500', icon: '📊', color: 'hsl(200,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
-      professor: 'FELIPE ALEXANDER GARZON', cdigital_id: 126973, schedule: 'Miércoles · 6:15-8:30 PM (Google Meet)',
+      hasta: '2026-11-22', professor: 'FELIPE ALEXANDER GARZON', cdigital_id: 126973, schedule: 'Miércoles · 6:15-8:30 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '20:30' }],
       subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7896309' },
       desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Enfoque del docente: convertir datos en decisiones estratégicas y automatizar (Python + VS Code, luego n8n, Make, agentes). Quiz/parcial abiertos toda su semana y NO se reabren sin excusa reglamentaria; no repite temas: ver la grabación. Grabaciones: aula → "Accede a tus clases sincrónicas" (≈20 min después) o Calendar pidiendo acceso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
       cronograma: cronoB1('bi', true),
       resources: ['https://code.visualstudio.com/', 'https://learn.microsoft.com/es-es/power-bi/'] },
     { id: 'auditoria_sistemas', period: '26V05', code: 'DIS39', name: 'Auditoría de Sistemas', short: 'Auditoría de Sistemas', group: '55506', icon: '🕵️', color: 'hsl(35,80%,50%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
-      professor: 'ANDRES FELIPE CORREA ESPITIA', professor_email: 'andres_correa@cun.edu.co', cdigital_id: 126979, schedule: 'Jueves · 6:15-7:45 PM (Google Calendar)',
+      hasta: '2026-11-22', professor: 'ANDRES FELIPE CORREA ESPITIA', professor_email: 'andres_correa@cun.edu.co', cdigital_id: 126979, schedule: 'Jueves · 6:15-7:45 PM (Google Calendar)',
       clases: [{ dias: [4], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/xwj-puty-htw', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=8015935', material: 'https://chat.google.com/room/AAQAgOXXdn8' },
       desc: 'Período 26V05 · el docente fija el fin el 15-nov-2026. Asistencia opcional pero muy recomendada. Ing. de Sistemas, esp. en Educación en Tecnología (bases de datos, SQL, redes, ERP). La clase y su grabación salen en Google Calendar ("Evento sincrónico - AUDITORIA DE SISTEMAS"); la grabación del 1-oct pide solicitar acceso. Material = espacio de Google Chat del curso. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
       cronograma: cronoB1('aud', true),
       resources: ['https://www.isaca.org/resources/cobit'] },
     { id: 'computacion_nube', period: '26V05', code: 'DIS40', name: 'Computación en la Nube', short: 'Computación en la Nube', group: '55516', icon: '☁️', color: 'hsl(190,75%,45%)', type: 'Disciplinares · Bloque I', esquema: 'cun_b8',
-      professor: 'MARIO ALEXANDER REALES MARTINEZ', professor_email: 'mario_reales@cun.edu.co', cdigital_id: 126989, schedule: 'Jueves · 6:15-7:45 PM · Tutoría viernes 6:15-7:15 PM',
+      hasta: '2026-11-22', professor: 'MARIO ALEXANDER REALES MARTINEZ', professor_email: 'mario_reales@cun.edu.co', cdigital_id: 126989, schedule: 'Jueves · 6:15-7:45 PM · Tutoría viernes 6:15-7:15 PM',
       clases: [{ dias: [4], ini: '18:15', fin: '19:45' }, { dias: [5], ini: '18:15', fin: '19:15', tipo: 'tutoría' }],
       subject_links: { clase: 'https://meet.google.com/fdo-jdvs-cvr', grabaciones: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7953245', material: 'https://docs.google.com/document/d/1kc103c3OVBIsMqcNjyQmF95_R11nFPXu/edit' },
       desc: 'Período 26V05 · Bloque I (28 Sep - 22 Nov 2026). Ruta práctica en AWS: el docente da credenciales de AWS Academy Cloud Foundations (curso de 10 semanas, opcional, con insignia) y los laboratorios van en el Sandbox. ACA anunciado: video de ~10 min mostrando funcionando un laboratorio de escalado + balanceo de carga (grupo de la misma ficha o individual). Contacto solo por correo (no da WhatsApp). Material = syllabus.',
@@ -114,11 +114,11 @@ const SYS = (() => {
         { id: 'nub5_c', title: 'Tener usuario y contraseña de AWS Academy (los entrega el docente; pedirlos si no llegaron)', date: '2026-10-11', type: 'tarea' },
         { id: 'nub5_aws', title: 'Entrar por primera vez a AWS Academy (sin esto no hay ACA de Nube)', date: '2026-10-29', type: 'tarea' }],
       resources: ['https://aws.amazon.com/es/training/awsacademy/', 'https://learn.microsoft.com/es-es/training/azure/'] },
-    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · 8 semanas · 2 créditos', credits: 2,
+    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único (16 semanas) · 2 créditos', credits: 2,
       professor: 'MANUEL ALBERTO SALGADO ALBA', professor_email: 'manuel_salgado@cun.edu.co', cdigital_id: 126584, schedule: 'Miércoles · 6:15-7:45 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/yxw-rjzb-qcs', material: 'https://cdigital.cun.edu.co/mod/resource/view.php?id=7994844' },
-      desc: 'Período 26V05 · 8 semanas (28 Sep - 22 Nov 2026). REGLA DEL DOCENTE: no resolver NADA en la plataforma (quiz, parciales, ACA) hasta que él dé instrucciones: lo que hay ahí es de semestres anteriores. Todo el contenido, preguntas y respuestas de quiz/parcial van en su archivo "Clases ... P0" (📂 Material), que actualiza cada clase. Notas cierran el 11-nov. Grabaciones: Google Calendar del correo CUN → evento de la clase → archivo rojo.',
+      desc: 'Período 26V05 · bloque único: 16 semanas, actividades finales hasta el 10-ene-2027 (correo del docente, 4-nov-2026). REGLA DEL DOCENTE: no resolver NADA en la plataforma (quiz, parciales, ACA) hasta que él dé instrucciones: lo que hay ahí es de semestres anteriores. Todo el contenido, preguntas y respuestas de quiz/parcial van en su archivo "Clases ... P0" (📂 Material), que actualiza cada clase. Notas cierran el 11-nov. Grabaciones: Google Calendar del correo CUN → evento de la clase → archivo rojo.',
       cronograma: [
         { id: 'tiv_1', title: 'Leer el archivo de clase P0 (métodos inductivo y deductivo, ejemplo de metodología)', date: '2026-10-13', type: 'tarea' },
         { id: 'tiv_2', title: 'Clase 14-oct: el docente da las instrucciones del quiz y parcial del 1er corte', date: '2026-10-14', type: 'tarea' },
@@ -147,6 +147,39 @@ const SYS = (() => {
         { id: 'en5_5', title: 'Evaluación de plataforma',                                   date: '2026-11-13', type: 'otro' },
       ],
       resources: ['english.html', 'https://www.bbc.co.uk/learningenglish/'] },
+
+    // ── 26V05 · SEGUNDO BLOQUE · verificado en CDigital, correo y Calendar CUN el 2026-11-23 ──
+    // Sin código de asignatura publicado (se deja vacío). `cm` = id de la actividad en el aula.
+    { id: 'animacion_basica', period: '26V05', code: '', name: 'Animación Básica', short: 'Animación Básica', group: '55593', icon: '🎞️', color: 'hsl(285,65%,58%)', type: 'Bloque II', esquema: 'cun_b8',
+      hasta: '2027-01-19', professor: 'CAMILO AUGUSTO CARDONA PATIÑO', cdigital_id: 124452, schedule: 'Lunes · 6:15-7:45 PM (Google Meet) · 8 sesiones',
+      clases: [{ dias: [1], ini: '18:15', fin: '19:45' }],
+      subject_links: { clase: 'https://meet.google.com/egu-pgbv-fue', tutoria: 'https://meet.google.com/bup-uady-pcg' },
+      desc: 'Período 26V05 · Segundo Bloque (curso 23-nov-2026 → 19-ene-2027). Clase los lunes, 8 sesiones. Tutorías en otro Meet (bup-uady-pcg), horario sin confirmar. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
+      cronograma: [
+        { id: 'anim5_tq', title: '"Te queremos conocer" (cierra 23:59)', date: '2026-11-30', type: 'tarea', cm: 8293961 },
+        ...cronoB2('anim', { 0: 8293964, 2: 8293973, 3: 8293974, 4: 8293978, 5: 8293982, 6: 8293983, 7: 8293987, 8: 8293991, 9: 8293992, 12: 8293996, 13: 8293997, 10: 8293998, 14: 8293999 }, { 14: '2027-01-09' }),
+      ] },
+    { id: 'plan_negocio_aplicado', period: '26V05', code: '', name: 'Plan de Negocio Aplicado', short: 'Plan de Negocio', group: '55535', icon: '💼', color: 'hsl(145,55%,42%)', type: 'Bloque II',
+      professor: 'OSCAR JAVIER MORENO MARTINEZ', cdigital_id: 124529, schedule: 'Dos invitaciones: martes y miércoles · 6:15-7:45 PM (sin confirmar si son grupos distintos)',
+      clases: [{ dias: [2], ini: '18:15', fin: '19:45', tipo: 'invitación 1 de 2', link: 'https://meet.google.com/gkf-bsbf-eza' }, { dias: [3], ini: '18:15', fin: '19:45', tipo: 'invitación 2 de 2', link: 'https://meet.google.com/gyn-veii-hvo' }],
+      subject_links: { clase: 'https://meet.google.com/gkf-bsbf-eza', clase_mie: 'https://meet.google.com/gyn-veii-hvo' },
+      desc: 'Período 26V05 · Segundo Bloque. Estructura propia (no es el calendario estándar de 8 semanas): Quiz y Parcial por corte, y dos ACAs al final. Calendar trae dos invitaciones (martes Meet gkf-bsbf-eza y miércoles Meet gyn-veii-hvo): falta confirmar con el docente a cuál corresponde Miguel.',
+      cronograma: [
+        { id: 'pna5_in', title: 'Actividades introductorias (vence 1:59 PM)', date: '2026-12-06', type: 'tarea' },
+        { id: 'pna5_tq', title: '"Te queremos conocer"', date: '2026-12-13', type: 'tarea', cm: 8318808 },
+        { id: 'pna5_ed1', title: 'Evaluación docente · primer corte (abre el 7-dic)', date: '', type: 'tarea' },
+        { id: 'pna5_ed2', title: 'Evaluación docente · segundo corte (abre el 21-dic)', date: '', type: 'tarea' },
+        { id: 'pna5_qp', title: 'Quiz y Parcial de cada corte (fechas sin publicar)', date: '', type: 'quiz' },
+        { id: 'pna5_ed3', title: 'Evaluación docente · tercer corte (abre el 4-ene)', date: '', type: 'tarea' },
+        { id: 'pna5_aca', title: 'ACA Final (abre el 28-dic, cierra 11:55 PM)', date: '2027-01-03', type: 'proyecto', cm: 8318879 },
+        { id: 'pna5_acp', title: 'ACA Presentación del proyecto de aula (abre el 28-dic, cierra 11:55 PM)', date: '2027-01-03', type: 'proyecto', cm: 8326665 },
+      ] },
+    { id: 'investigacion_operaciones', period: '26V05', code: '', name: 'Investigación de Operaciones', short: 'Inv. de Operaciones', group: '55545', icon: '📐', color: 'hsl(20,80%,55%)', type: 'Bloque II', esquema: 'cun_b8',
+      professor: 'DAVID GUILLERMO GAONA RAMIREZ', cdigital_id: 123284, schedule: '',
+      clases: [],
+      subject_links: {},
+      desc: 'Período 26V05 · Segundo Bloque. Sin invitación de clase en Calendar todavía: revisar Avisos del aula.',
+      cronograma: cronoB2('io', { 0: 7183337, 2: 7183344, 3: 7183345, 4: 7183349, 5: 7183353, 6: 7183354, 7: 7183358, 8: 7183362, 9: 7183366, 12: 7183370, 13: 7183371, 14: 7183372, 10: 7183373 }) },
   ];
 
   // Cronograma estándar de una materia del Bloque I 26V05 (pesos del calendario oficial).
@@ -167,6 +200,29 @@ const SYS = (() => {
       { id: p + '5_12', title: 'Evalúa tu Entorno (desbloquea Autoevaluación y Coevaluación)', date: '2026-11-14', type: 'tarea' },
       { id: p + '5_10', title: 'Quiz 3 (2%) · Coevaluación (2%) · Autoevaluación (2%)', date: '2026-11-14', type: 'quiz' },
       { id: p + '5_11', title: 'Cierre de notas',                                date: '2026-11-22', type: 'otro' },
+    ];
+  }
+
+  // Cronograma estándar del Bloque II 26V05. Sin calendario oficial del bloque, cada fecha es el
+  // cierre de su semana en BLOCK_PLANS (Bloque I + 8 semanas) y va marcada ≈ estimada, salvo las
+  // que vengan en `real`. `cm`: id de cada actividad en CDigital, por número de entrada.
+  function cronoB2(p, cm = {}, real = {}) {
+    const E = (n, title, date, type) => ({ id: p + '5_' + n, title, date: real[n] || date, type, est: !real[n], ...(cm[n] ? { cm: cm[n] } : {}) });
+    return [
+      E(0,  'Abrir el Acuerdo Pedagógico (desbloquea la Evaluación docente 1)', '2026-11-29', 'tarea'),
+      E(2,  'Evaluación docente 1 (desbloquea Quiz 1 y Parcial 1)', '2026-12-06', 'tarea'),
+      E(3,  'Quiz 1 (10%)', '2026-12-06', 'quiz'),
+      E(4,  'Parcial 1 (20% → 1er Corte 30%)', '2026-12-13', 'parcial'),
+      E(5,  'Evaluación docente 2 (desbloquea Quiz 2 y Parcial 2)', '2026-12-20', 'tarea'),
+      E(6,  'Quiz 2 (10%)', '2026-12-20', 'quiz'),
+      E(7,  'Parcial 2 (20% → 2do Corte 30%)', '2026-12-27', 'parcial'),
+      E(8,  'Evaluación docente 3 (desbloquea ACA Final y Quiz 3)', '2027-01-03', 'tarea'),
+      E(9,  'ACA Final (34%)', '2027-01-03', 'proyecto'),
+      E(12, 'Evalúa tu Entorno (desbloquea Autoevaluación y Coevaluación)', '2027-01-09', 'tarea'),
+      E(10, 'Quiz 3 (2%)', '2027-01-09', 'quiz'),
+      E(13, 'Autoevaluación (2%)', '2027-01-09', 'quiz'),
+      E(14, 'Coevaluación (2%)', '2027-01-09', 'quiz'),
+      E(11, 'Cierre de notas', '2027-01-17', 'otro'),
     ];
   }
 
@@ -278,9 +334,9 @@ const SYS = (() => {
   };
   // Guía por tipo de entrega del cronograma estándar del Bloque I (cronoB1).
   const GUIDE_KIND = [
-    [/^(bi|aud|nub)5_[47]$/, { mins: 90, steps: QUIZ_STEPS, why: 'Vale 20 % del corte. Lo presentas tú; yo te dejo la guía y el simulacro.' }],
-    [/^(bi|aud|nub)5_[36]$/, { mins: 30, steps: QUIZ_STEPS, why: 'Vale 10 % del corte.' }],
-    [/^(bi|aud|nub)5_[258]$/, { mins: 5, why: 'Es la evaluación del docente: es tu opinión, no hay respuestas correctas. Además desbloquea las actividades siguientes.', steps: [
+    [/^(bi|aud|nub|anim|io)5_[47]$/, { mins: 90, steps: QUIZ_STEPS, why: 'Vale 20 % del corte. Lo presentas tú; yo te dejo la guía y el simulacro.' }],
+    [/^(bi|aud|nub|anim|io)5_[36]$/, { mins: 30, steps: QUIZ_STEPS, why: 'Vale 10 % del corte.' }],
+    [/^(bi|aud|nub|anim|io)5_[258]$/, { mins: 5, why: 'Es la evaluación del docente: es tu opinión, no hay respuestas correctas. Además desbloquea las actividades siguientes.', steps: [
       'Ábrela con su botón (o desde el aula, en la semana que corresponde).',
       'Pulsa "Responda a las preguntas".',
       'Contesta cada pregunta sobre el docente.',
@@ -359,7 +415,8 @@ const SYS = (() => {
       { week: 7, start: '2026-05-11', end: '2026-05-16', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)', weight: 6,  cut: 3, cutLabel: 'Tercer Corte 40%' },
       { week: 8, start: '2026-05-18', end: '2026-05-24', name: 'Cierre de Notas',                                      weight: 0,  cut: 3 },
     ] },
-    '26V05': { label: 'Bloque I · 26V05', source: 'Calendario académico virtual · aula Inteligencia de Negocios 55500 (CDigital, 29-sep-2026)', weeks: [
+    // Un período con dos bloques lleva una lista: blockWeek() toma el bloque que no ha terminado.
+    '26V05': [{ label: 'Bloque I · 26V05', source: 'Calendario académico virtual · aula Inteligencia de Negocios 55500 (CDigital, 29-sep-2026)', weeks: [
       { week: 1, start: '2026-09-28', end: '2026-10-04', name: 'Introducción',                                         weight: 0,  cut: 1 },
       { week: 2, start: '2026-10-05', end: '2026-10-11', name: 'Quiz 1 · Evaluación docente 1',                        weight: 10, cut: 1 },
       { week: 3, start: '2026-10-12', end: '2026-10-18', name: 'Parcial 1',                                            weight: 20, cut: 1, cutLabel: 'Primer Corte 30%' },
@@ -369,6 +426,16 @@ const SYS = (() => {
       { week: 7, start: '2026-11-09', end: '2026-11-14', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)', weight: 6,  cut: 3, cutLabel: 'Tercer Corte 40%' },
       { week: 8, start: '2026-11-16', end: '2026-11-22', name: 'Cierre de notas',                                      weight: 0,  cut: 3 },
     ] },
+    { label: 'Bloque II · 26V05', source: 'Sin imagen oficial del Bloque II todavía: las 8 semanas del Bloque I corridas al Segundo Bloque del PDF institucional (23-nov → 17-ene). Lo confirman el ACA Final de Plan de Negocio (28-dic → 3-ene) y la Coevaluación de Animación (cierra el 9-ene)', weeks: [
+      { week: 1, start: '2026-11-23', end: '2026-11-29', name: 'Introducción',                                         weight: 0,  cut: 1 },
+      { week: 2, start: '2026-11-30', end: '2026-12-06', name: 'Quiz 1 · Evaluación docente 1',                        weight: 10, cut: 1 },
+      { week: 3, start: '2026-12-07', end: '2026-12-13', name: 'Parcial 1',                                            weight: 20, cut: 1, cutLabel: 'Primer Corte 30%' },
+      { week: 4, start: '2026-12-14', end: '2026-12-20', name: 'Quiz 2 · Evaluación docente 2',                        weight: 10, cut: 2 },
+      { week: 5, start: '2026-12-21', end: '2026-12-27', name: 'Parcial 2',                                            weight: 20, cut: 2, cutLabel: 'Segundo Corte 30%' },
+      { week: 6, start: '2026-12-28', end: '2027-01-03', name: 'ACA Final',                                            weight: 34, cut: 3 },
+      { week: 7, start: '2027-01-04', end: '2027-01-09', name: 'Quiz 3 (2%) + Coevaluación (2%) + Autoevaluación (2%)', weight: 6,  cut: 3, cutLabel: 'Tercer Corte 40%' },
+      { week: 8, start: '2027-01-11', end: '2027-01-17', name: 'Cierre de notas',                                      weight: 0,  cut: 3 },
+    ] }],
   };
 
   // ── MALLA CURRICULAR (10 semesters, from official PDF) ──
@@ -825,7 +892,9 @@ const SYS = (() => {
   }
 
   // Materias sin período (creadas a mano) cuentan como actuales mientras estén en curso.
+  // `hasta`: último día de la materia (las de un bloque terminan antes que el período).
   function isCurrentSubj(s, period = detectPeriod()) {
+    if (s.hasta && s.hasta < todayStr()) return false;
     return s.period ? s.period === period : (s.status || 'en_curso') === 'en_curso';
   }
   function currentSubjects() {
@@ -834,9 +903,10 @@ const SYS = (() => {
   }
 
   function blockWeek(period = detectPeriod()) {
-    const plan = BLOCK_PLANS[period];
-    if (!plan) return null;
+    const plans = [].concat(BLOCK_PLANS[period] || []);
+    if (!plans.length) return null;
     const t = todayStr();
+    const plan = plans.find(p => t <= p.weeks[p.weeks.length - 1].end) || plans[plans.length - 1];
     const weeks = plan.weeks;
     const cur = weeks.find(w => t >= w.start && t <= w.end) || null;
     const next = weeks.find(w => t < w.start) || null;
@@ -854,7 +924,7 @@ const SYS = (() => {
         const dow = d.getDay() || 7;
         if (!c.dias.includes(dow)) continue;
         if (i === 0 && c.fin < hhmm) continue;
-        out.push({ s, day: i, date: d, ini: c.ini, fin: c.fin, tipo: c.tipo || '', live: i === 0 && c.ini <= hhmm && hhmm <= c.fin });
+        out.push({ s, day: i, date: d, ini: c.ini, fin: c.fin, tipo: c.tipo || '', link: c.link || '', live: i === 0 && c.ini <= hhmm && hhmm <= c.fin });
       }
     }));
     // Una clase que se repite varios días (inglés) solo cuenta su próxima ocurrencia.
@@ -1736,7 +1806,7 @@ const SYS = (() => {
 
     const dayName = c => c.day === 0 ? 'Hoy' : c.day === 1 ? 'Mañana' : ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][c.date.getDay()] + ' ' + c.date.getDate();
     const classHtml = upcomingClasses(6).slice(0, 6).map(c => {
-      const link = c.s.subject_links && c.s.subject_links.clase;
+      const link = c.link || (c.s.subject_links && c.s.subject_links.clase);
       return `<a ${link ? `href="${esc(link)}" target="_blank" rel="noopener"` : ''} title="${esc(c.s.name)} · ${c.ini}-${c.fin}${link ? ' · entrar' : ''}"
         style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--el);border:1px solid ${c.live ? 'var(--gn)' : 'var(--bd)'};font-size:11px;color:var(--t2);text-decoration:none;white-space:nowrap">
         <b style="color:${c.day === 0 ? 'var(--am)' : 'var(--vi2)'}">${c.live ? '🔴 en vivo' : dayName(c)}</b>${c.ini} ${c.s.icon} ${esc(c.s.code || c.s.name)}${c.tipo ? ' · ' + esc(c.tipo) : ''}</a>`;
@@ -2387,7 +2457,8 @@ const SYS = (() => {
       if (covered.has(ref)) return;
       const info = c.type === 'otro';
       if (info && !c.done && c.date && c.date < today) return;
-      push({ kind: 'crono', key: ref, title: c.title, due: c.date || null, est: c.est, type: c.type, info, step: [s.id, c.id], done: !!c.done });
+      const links = c.cm && s.cdigital_id ? [{ label: '🎓 Abrir en el aula', url: `https://cdigital.cun.edu.co/course/view.php?id=${s.cdigital_id}#module-${c.cm}` }] : null;
+      push({ kind: 'crono', key: ref, title: c.title, due: c.date || null, est: c.est, type: c.type, info, step: [s.id, c.id], links, done: !!c.done });
     });
     // 4. Tareas propias de Miguel
     ctx.tasks.filter(t => t.subj === s.id).forEach(t => push({ kind: 'task', key: t.id, title: t.text, due: t.due || null,

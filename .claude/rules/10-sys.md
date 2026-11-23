@@ -28,13 +28,21 @@ paths:
 - ISD37 Trabajo de Investigación en Ingeniería · 55520 · MANUEL ALBERTO SALGADO ALBA · 126584 · **16 semanas, actividades finales hasta el 10-ene-2027 (correo del docente, 4-nov-2026)**, mié 6:15-7:45 PM; regla: no resolver nada en la plataforma sin sus instrucciones (todo va en su PDF "Clases ... P0"). **Caso aparte:** da las instrucciones de cada corte en clase, en ese PDF y por **mensaje de CDigital** (no por correo) — revisar las tres fuentes en cada parte
 - A1I01 Virtual English Beginner 1 · 50610 (26I05) · ANYI MILENA ALVAREZ COGOLLO · L-V 6:15-7:45 PM · 130590
 - Se excluye a propósito "INDUCCION TICS - ESTUDIANTES" (28494).
+- **Bloque II (23-nov-2026 → 17-ene-2027, registrado el 23-nov):** Animación Básica · 55593 · CAMILO AUGUSTO CARDONA PATIÑO ·
+  lun 6:15-7:45 PM · 124452 · Plan de Negocio Aplicado · 55535 · OSCAR JAVIER MORENO MARTINEZ · dos invitaciones (mar y mié
+  6:15-7:45 PM, sin confirmar cuál) · 124529 · estructura propia · Investigación de Operaciones · 55545 · DAVID GUILLERMO GAONA
+  RAMIREZ · sin horario · 123284. Sus fechas salen de `cronoB2()` con `est: true` (sin imagen oficial del Bloque II).
+- BI, Auditoría y Nube llevan `hasta: '2026-11-22'`: desde el 23-nov pasan solas a 🗂 Historial.
 - 26V02 (8vo) quedó en 🗂 Historial: 6 ganadas, English 50608 y Placement en "pausada".
 
 **Cómo se registra un período nuevo** (prompt 5 del CUN Hub): cada materia en `SUBJECTS` con
 `period`, `code`, `group`, `cdigital_id`, `professor` (Participantes → rol Profesor), `clases`
 `[{dias:[1..7], ini, fin}]` + `schedule` + `subject_links.clase` (Próximos eventos / Meet),
-`cronograma` y `esquema: 'cun_b8'` si sigue el calendario de 8 semanas. Añadir `BLOCK_PLANS[período]`.
-`detectPeriod()` toma el período más reciente de las materias "en curso": no hay que tocar nada más.
+`cronograma` y `esquema: 'cun_b8'` si sigue el calendario de 8 semanas. Añadir `BLOCK_PLANS[período]`
+(una lista si el período tiene dos bloques: `blockWeek()` toma el que no ha terminado).
+`detectPeriod()` toma el período más reciente de las materias "en curso". Una materia de bloque lleva `hasta`
+(último día): pasada esa fecha sale del Dashboard aunque el período siga. Una entrada del cronograma puede llevar
+`cm` (id de la actividad) y el bloque de la materia le pone el botón "Abrir en el aula". Una clase puede llevar su propio `link`.
 Los quizzes están **ocultos** hasta que abren → su fecha es el cierre de la semana del calendario.
 Sin fecha publicada: o se deja vacía, o se estima con método explícito y `est: true` (se pinta "≈ estimada"). Nunca una estimada sin marca.
 Las evaluaciones de CDigital se desbloquean por **requisito** (Acuerdo → Eval. docente N → Quiz/Parcial), no por fecha: esos pasos van en el cronograma.
