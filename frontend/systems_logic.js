@@ -2516,7 +2516,7 @@ const SYS = (() => {
     const det = steps.length || ev.length || (e.why && !whyInline)
       ? `<details class="mt-det"><summary>Qué hacer${steps.length ? ` · ${steps.length} paso${steps.length !== 1 ? 's' : ''}` : ''}</summary>
           ${e.why && !whyInline ? `<p class="mt-why">${esc(e.why)}</p>` : ''}
-          ${steps.length ? `<ol>${steps.map(x => `<li>${esc(typeof x === 'string' ? x : x.t)}</li>`).join('')}</ol>` : ''}
+          ${steps.length ? `<ol>${steps.map(_mtStep).join('')}</ol>` : ''}
           ${ev.map(_mtQuote).join('')}</details>` : '';
     const acts = [];
     if (e.step && !e.done) acts.push(`<button type="button" class="ps-btn ps-btn-sm" data-mt="step" data-sid="${escA(e.step[0])}" data-eid="${escA(e.step[1])}">Paso a paso</button>`);
@@ -2529,6 +2529,14 @@ const SYS = (() => {
       ${det}
       <div class="mt-row-a">${acts.join('')}</div>
     </div>`;
+  }
+  // Paso del parte: texto, o { t, link: {label,url}, copy: 'texto listo para pegar', copyLabel }.
+  // El texto a pegar se muestra completo (para leerlo antes) y se copia con un toque.
+  function _mtStep(x) {
+    if (typeof x === 'string') return `<li>${esc(x)}</li>`;
+    const extra = (x.copy ? `<blockquote class="mt-copy">${esc(x.copy)}</blockquote>` : '')
+      + ((x.link || x.copy) ? `<div class="mt-row-a">${x.link ? _mtLink(x.link) : ''}${x.copy ? `<button type="button" class="mt-lk" data-mt="copy" data-v="${escA(x.copy)}">📋 ${esc(x.copyLabel || 'Copiar texto')}</button>` : ''}</div>` : '');
+    return `<li>${esc(x.t)}${extra}</li>`;
   }
   function _mtNote(n) {
     return `<div class="mt-row compact note"><span class="mt-row-d">${esc(n.when || '')}</span><span class="mt-row-t">${esc(n.text)}${n.est ? ' ' + EST_MINI : ''}</span></div>`;
