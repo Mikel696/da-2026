@@ -17,6 +17,16 @@
 - Parte `26V05-S9` inyectado (6 actividades) y verificado en Supabase, cola 0. Las materias nuevas van con `subj:'general'`
   porque **aún no están en `SUBJECTS`**: pendiente registrarlas (prompt 5 del CUN Hub) para que tengan bloque en el Dashboard.
 - La revisión nocturna de la madrugada no pudo leer CDigital ni el correo (pedían iniciar sesión); se completó de día.
+- **Registradas (`46028a2`, systems_logic `?v=p41`):** las 3 materias en `SUBJECTS` (sin código de asignatura: no está publicado).
+  Animación e IO con `cronoB2()` (esquema cun_b8, fechas ≈ estimadas: semana del Bloque I + 8; verdaderas solo «Te queremos
+  conocer» 30-nov y Coevaluación 9-ene); Plan de Negocio con cronograma propio (fechas del aula, aperturas sin fecha de cierre
+  quedan vacías). Cada entrada con `cm` trae botón «Abrir en el aula». Campo nuevo `hasta`: BI, Auditoría y Nube
+  (`2026-11-22`) pasaron solas a 🗂 Historial. `BLOCK_PLANS['26V05']` es ahora una lista con los dos bloques.
+- **Parte S9 reasignado** con `SYS.injectWeek` en la pestaña real: ningún ítem queda en `general`; `s9_acuerdos` se partió en
+  Animación + `s9_acuerdo_io` (IO), ambos ligados a su Acuerdo del cronograma. Supabase `app_state.sys_week_live` lo confirma.
+- **Verificado en producción** (23-nov, 2:05 p. m.): Dashboard = TI, Inglés, Animación, Plan de Negocio, Inv. de Operaciones + ACAs;
+  «Semana 1/8» del Bloque II. **Pendiente:** confirmar a cuál invitación de Plan de Negocio (mar o mié) pertenece Miguel; horario
+  de IO; imagen oficial del calendario del Bloque II (para quitar las marcas ≈); decidir si Inglés (cerró el 13-nov) sale también.
 
 ---
 
