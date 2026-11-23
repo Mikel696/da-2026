@@ -2506,7 +2506,8 @@ const SYS = (() => {
     if (e.opt) meta.push('<span class="mt-tag">opcional</span>');
     if (e.kind === 'task') meta.push('<span class="mt-tag">tarea tuya</span>');
     const title = `${esc(e.title)}${e.weight ? ` <span class="mt-w">· vale ${esc(e.weight)}</span>` : ''}${e.est && !e.done ? ' ' + EST_MINI : ''}`;
-    if (opt.compact) {
+    // Una actividad del parte con pasos no se compacta: sus pasos (texto para pegar, enlaces) son lo útil.
+    if (opt.compact && !(e.kind === 'item' && !e.done && (e.steps || []).length)) {
       return `<div class="mt-row compact${e.done ? ' is-done' : ''}">
         <span class="mt-row-d">${e.kind === 'day' ? formatDate(e.day) : e.due ? wlFmtDue(e.due) : 'sin fecha'}</span>
         <span class="mt-row-t">${title}</span>${e.info && !e.done ? '' : _mtDoneBtn(e)}</div>`;
