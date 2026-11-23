@@ -1,14 +1,18 @@
-# Informe del guardián · 2026-11-22
+# Informe nocturno · 2026-11-23
 
-1. Versiones en lockstep: VERDE. cloud-sync.js?v=p25 en 28 páginas; nb-shared.js?v=p24 en 4. Una sola versión por archivo.
-2. Frescura de datos: VERDE. credit-co, jobs-feed, macro-co y world generados hoy 22-nov (03:27 UTC). ofertas-caza y ofertas-juegos revisados el 21-nov. Los demás JSON son estáticos (sin fecha de generación).
-3. Sintaxis: VERDE. node --check sin fallos en frontend/js/ y frontend/.
-4. Enlaces internos: VERDE. Ninguno roto de verdad (solo texto de código que parece enlace: about:blank, «...», «x», «mix», «fav», «words», «phrases»).
-5. Seguridad: VERDE. Sin service_role, tokens ni sk-. Solo la clave anon de Supabase (pública por diseño). Nombres de clientes: 0 en el árbol, 0 en el historial publicado (como palabra completa).
-6. Sesiones: sin archivos en docs/sesiones/ modificados en las últimas 48 h.
+1. 🟢 Versiones: cloud-sync.js p25 (28 páginas) y nb-shared.js p24 (4 páginas). Una sola versión de cada una.
+2. 🟢 Datos: los JSON con fecha (crédito, empleos, macro, mundo) se generaron hoy 23-nov ~04:00 UTC. La Action corre.
+3. 🟢 Sintaxis: `node --check` sin fallos en todos los .js de frontend/js/ y frontend/.
+4. 🟢 Enlaces: no hay href/src a archivos inexistentes (solo plantillas de JavaScript, que no cuentan).
+5. 🟢 Seguridad: sin service_role, tokens ni sk- reales (solo menciones en informes viejos).
+   Nombres de clientes: 0 en el árbol, 0 en el historial como palabra completa. (Una búsqueda por
+   fragmento de texto sí coincide en 7 commits de informes y en el motor de inglés, pero es parte de otras
+   palabras; con palabra completa da 0. No es un nombre de cliente.)
+6. 🟢 Sesiones: no hay archivos modificados en docs/sesiones/ en las últimas 48 h.
 
-Cola: no se hizo nada. No hay tareas en [ ]; solo 1 en [r] (3-ENG · 5, rama claude/noche-20261116, commit 5a32284, sin revisar). La cola está vacía: hay que rellenarla.
+Cola: sin tarea nueva. Hay 1 tarea en [r] (3-ENG · 5, rama claude/noche-20261116, commit 5a32284) esperando
+revisión del Integrador y ninguna tarea [ ] pendiente. Nada que hacer esta noche.
 
-Arreglos: ninguno necesario (no se creó rama).
-
-Necesita decisión de Miguel: revisar la tarea [r] pendiente y recargar la cola con nuevas tareas.
+Arreglos: ninguno necesario.
+Decisiones de Miguel: ninguna. Para el Integrador: revisar y fusionar 3-ENG · 5 y rellenar la cola
+(sin tareas [ ] el guardián solo hace chequeos).
