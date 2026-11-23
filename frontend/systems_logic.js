@@ -2590,6 +2590,28 @@ const SYS = (() => {
       <span class="mt-data">${body}</span>
     </button>`;
   }
+  // Ficha de la materia: los datos que piden los formularios de la CUN (Reglas de participación,
+  // evaluaciones, solicitudes). Un dato sin fuente sale como hueco, nunca adivinado.
+  // La cédula no se escribe aquí: este archivo es público.
+  function _mtFicha(s) {
+    const rows = [
+      ['Docente (facilitador)', s.professor],
+      ['Correo del docente', s.professor_email],
+      ['Código de la asignatura', s.code],
+      ['Nombre de la asignatura', s.name],
+      ['Número de grupo (ficha)', s.group],
+      ['Período', s.period],
+      ['Programa académico', 'Ingeniería de Sistemas'],
+      ['Modalidad', 'Virtual'],
+      ['Estudiante', 'Miguel Angel Barros Torres'],
+      ['Horario de clase', s.schedule],
+    ];
+    const cell = ([k, v]) => `<div class="mt-fi"><span class="mt-fi-k">${esc(k)}</span>${v
+      ? `<button type="button" class="mt-fi-v" data-mt="copy" data-v="${escA(v)}" title="Copiar">${esc(v)}<span aria-hidden="true">📋</span></button>`
+      : '<span class="mt-fi-v none">Sin dato verificado</span>'}</div>`;
+    return `<details class="mt-blk mt-ficha" open><summary class="mt-blk-h">🪪 Ficha de la materia <span class="mt-fi-h">· para formularios · toca un dato para copiarlo</span></summary>
+      <div class="mt-fi-g">${rows.map(cell).join('')}<div class="mt-fi"><span class="mt-fi-k">Cédula</span><span class="mt-fi-v none">La tuya (no se guarda en esta página pública)</span></div></div></details>`;
+  }
   function _mtPanel(host, s, f, ctx) {
     const blk = (name, n, html, cls) => `<section class="mt-blk${cls ? ' ' + cls : ''}"><h4 class="mt-blk-h">${name}${n ? ` <span class="n">${n}</span>` : ''}</h4>${html}</section>`;
     const g = gradeStats(s);
@@ -2629,7 +2651,7 @@ const SYS = (() => {
         <div class="mt-ph-l"><h3 class="mt-pt"><span aria-hidden="true">${s.icon || '📚'}</span> ${esc(s.name)}</h3>${sub ? `<p class="mt-ps">${sub}</p>` : ''}</div>
         <button type="button" class="mt-x" data-mt="tile" data-host="${host}" data-sid="${escA(s.id)}" aria-label="Cerrar ${escA(_short(s))}">✕</button>
       </header>
-      ${grade}${out.join('')}
+      ${grade}${_mtFicha(s)}${out.join('')}
       ${foot.length || past ? `<div class="mt-pf">${foot.join('')}${past}</div>` : ''}
       ${showDone && f.done.length ? `<section class="mt-blk done"><h4 class="mt-blk-h">Hechas <span class="n">${f.done.length}</span></h4>${f.done.map(e => _mtRow(e, { compact: true })).join('')}</section>` : ''}`;
   }
@@ -2708,19 +2730,21 @@ const SYS = (() => {
   function _acaFindStep(aid, sid) { const a = _acaList().acas.find(x => x.id === aid); return a && (a.steps || []).find(s => s.id === sid); }
   function acaCopy(btn, aid, sid, i) {
     const c = _asArr((_acaFindStep(aid, sid) || {}).copy)[+i || 0];
-    if (!c || !c.text) return;
-    const ok = () => { if (!btn.dataset.lbl) btn.dataset.lbl = btn.textContent; btn.textContent = '✓ Copiado · pégalo con Ctrl + V'; setTimeout(() => { btn.textContent = btn.dataset.lbl; }, 2600); };
+    if (c && c.text) _copyText(btn, c.text, '✓ Copiado · pégalo con Ctrl + V');
+  }
+  function _copyText(btn, text, okLabel) {
+    const ok = () => { if (!btn.dataset.lbl) btn.dataset.lbl = btn.innerHTML; btn.textContent = okLabel; setTimeout(() => { btn.innerHTML = btn.dataset.lbl; }, 2600); };
     // Primero la copia síncrona dentro del clic: navigator.clipboard puede quedarse colgado sin
     // resolver (visto el 6-nov en Chrome) y, pasado el clic, execCommand ya no tiene permiso.
     const ta = document.createElement('textarea');
-    ta.value = c.text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
     document.body.appendChild(ta); ta.select();
     let done = false; try { done = document.execCommand('copy'); } catch (e) { /* sin portapapeles */ }
     ta.remove();
     if (done) return ok();
-    const manual = () => window.prompt('Copia este texto con Ctrl + C:', c.text);
+    const manual = () => window.prompt('Copia este texto con Ctrl + C:', text);
     if (!navigator.clipboard || !window.isSecureContext) return manual();
-    Promise.race([navigator.clipboard.writeText(c.text), new Promise((_, no) => setTimeout(no, 1500))]).then(ok, manual);
+    Promise.race([navigator.clipboard.writeText(text), new Promise((_, no) => setTimeout(no, 1500))]).then(ok, manual);
   }
   // Ventana aparte con letra grande, para arrastrarla a la otra pantalla mientras se graba.
   function acaScript(aid, sid) {
@@ -2839,6 +2863,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
       case 'aca-tab': { showTab(8); const p = document.getElementById('pnl8'); if (p) p.scrollIntoView({ block: 'start' }); break; }
       case 'aca-deliver': acaDeliver(d.id); break;
       case 'aca-copy': acaCopy(b, d.aca, d.step, d.i); break;
+      case 'copy': _copyText(b, d.v, '✓ Copiado'); break;
       case 'aca-script': acaScript(d.aca, d.step); break;
       default: return;
     }

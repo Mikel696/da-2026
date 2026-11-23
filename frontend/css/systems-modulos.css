@@ -62,6 +62,23 @@
 .mt-blk.urg .mt-row{border-color:rgba(248,113,113,.4);background:rgba(239,68,68,.05)}
 .mt-empty{font-size:12.5px;color:var(--t2);margin:12px 0 0}
 
+/* Ficha de la materia (datos para formularios) */
+.mt-ficha>summary{cursor:pointer;list-style:none}
+.mt-ficha>summary::-webkit-details-marker{display:none}
+.mt-ficha>summary::after{content:'▾';margin-left:auto;color:var(--t3);font-size:12px}
+.mt-ficha:not([open])>summary::after{content:'▸'}
+.mt-fi-h{font-weight:400;font-size:11.5px;color:var(--t3)}
+.mt-fi-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px;padding:10px;border-radius:10px;background:var(--el);border:1px solid var(--bd)}
+.mt-fi{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mt-fi-k{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--t3)}
+.mt-fi-v{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:500;line-height:1.35;color:var(--tx);text-align:left;
+  background:transparent;border:1px solid transparent;border-radius:7px;padding:4px 7px;margin-left:-7px;cursor:pointer;font-family:inherit;overflow-wrap:anywhere}
+.mt-fi-v span{font-size:11px;opacity:.45;flex-shrink:0}
+button.mt-fi-v:hover{border-color:var(--vi2);background:var(--vg)}
+button.mt-fi-v:hover span{opacity:1}
+button.mt-fi-v:focus-visible{outline:2px solid var(--vi2);outline-offset:1px}
+.mt-fi-v.none{cursor:default;color:var(--am);font-size:12px;font-style:italic}
+
 /* Fila de actividad */
 .mt-row{padding:9px 11px;border-radius:10px;background:var(--el);border:1px solid var(--bd);margin-bottom:6px;min-width:0}
 .mt-row-t{font-size:13px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}

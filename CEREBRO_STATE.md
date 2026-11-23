@@ -38,6 +38,9 @@
 - **TI tenía una copia completa congelada en `sys_subjects_custom`** (del 14-nov: code, desc, type, horario…) que tapaba el código.
   Se limpió en la pestaña real dejando solo `id`, `cronograma`, `notas` (idénticos, comprobado) y `_updated`; Supabase lo confirma
   y producción ya muestra DIS41. Las de BI/Aud/Nube/Inglés quizá tengan copias iguales: no estorban (están en Historial).
+- **🪪 Ficha de la materia** (`_mtFicha`, `?v=p45`, css `?v=4`): primer bloque del panel de cada materia con docente, correo,
+  código, nombre, grupo (ficha), período, programa, modalidad, estudiante y horario; tocar un dato lo copia (`_copyText`, que
+  ahora también usa `acaCopy`). Sin fuente → «Sin dato verificado». La cédula NO va (archivo público).
 - **Pendiente:** horario de IO; recapturar el Bloque I cuando SGA lo cargue; Inglés 26V05 sin nota visible; imagen oficial del calendario del Bloque II (para quitar las marcas ≈).
 
 ---
