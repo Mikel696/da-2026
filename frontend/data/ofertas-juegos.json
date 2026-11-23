@@ -13,43 +13,43 @@
     "icono": "🎮",
     "ofertas": [
       {
-        "titulo": "Hotline Miami 2: Wrong Number",
+        "titulo": "Detroit: Become Human",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/274170/",
-        "precio": "COL$ 5.625",
-        "antes": "COL$ 37.500",
-        "ahorro": 85,
+        "url": "https://store.steampowered.com/app/1222140/",
+        "precio": "COL$ 12.990",
+        "antes": "COL$ 129.900",
+        "ahorro": 90,
+        "vence": "2026-11-30",
+        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
+        "porque": "Te ahorras $ 116.910. Está a 9 % de su precio más bajo registrado (US$ 3.65 el 2025-12-11, CheapShark). 96 % de 233.390 reseñas de jugadores son positivas (SteamSpy).",
+        "minimo": false,
+        "imperdible": false,
+        "visto": "2026-11-23"
+      },
+      {
+        "titulo": "Divinity: Original Sin - Enhanced Edition",
+        "tienda": "Steam",
+        "url": "https://store.steampowered.com/app/373420/",
+        "precio": "COL$ 7.500",
+        "antes": "COL$ 75.000",
+        "ahorro": 90,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 31.875. Es su precio más bajo registrado (US$ 2.24, CheapShark). 94 % de 70.550 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 67.500. Es su precio más bajo registrado (US$ 3.99, CheapShark). 89 % de 27.958 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-23"
       },
       {
-        "titulo": "Pillars of Eternity II: Deadfire",
+        "titulo": "Workers & Resources: Soviet Republic",
         "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/560130/",
-        "precio": "COL$ 12.475",
-        "antes": "COL$ 49.900",
+        "url": "https://store.steampowered.com/app/784150/",
+        "precio": "COL$ 19.975",
+        "antes": "COL$ 79.900",
         "ahorro": 75,
         "vence": "",
         "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 37.425. Es su precio más bajo registrado (US$ 4.99, CheapShark). 87 % de 14.755 reseñas de jugadores son positivas (SteamSpy).",
-        "minimo": true,
-        "imperdible": false,
-        "visto": "2026-11-23"
-      },
-      {
-        "titulo": "Citizen Sleeper",
-        "tienda": "Steam",
-        "url": "https://store.steampowered.com/app/1578650/",
-        "precio": "COL$ 14.699",
-        "antes": "COL$ 48.999",
-        "ahorro": 70,
-        "vence": "",
-        "colombia": "Precio en pesos que ve una cuenta de Steam de Colombia (consultado a Steam hoy).",
-        "porque": "Te ahorras $ 34.300. Es su precio más bajo registrado (US$ 5.99, CheapShark). 93 % de 8.105 reseñas de jugadores son positivas (SteamSpy).",
+        "porque": "Te ahorras $ 59.925. Es su precio más bajo registrado (US$ 9.99, CheapShark). 91 % de 25.439 reseñas de jugadores son positivas (SteamSpy).",
         "minimo": true,
         "imperdible": false,
         "visto": "2026-11-23"
@@ -58,6 +58,13 @@
     "nota": ""
   },
   "vistos": [
+    {
+      "id": "1222140",
+      "titulo": "Detroit: Become Human",
+      "salio": "2026-11-23",
+      "cop": 12990,
+      "usd": 3.99
+    },
     {
       "id": "1578650",
       "titulo": "Citizen Sleeper",
@@ -73,11 +80,25 @@
       "usd": 2.24
     },
     {
+      "id": "373420",
+      "titulo": "Divinity: Original Sin - Enhanced Edition",
+      "salio": "2026-11-23",
+      "cop": 7500,
+      "usd": 3.99
+    },
+    {
       "id": "560130",
       "titulo": "Pillars of Eternity II: Deadfire",
       "salio": "2026-11-23",
       "cop": 12475,
       "usd": 4.99
+    },
+    {
+      "id": "784150",
+      "titulo": "Workers & Resources: Soviet Republic",
+      "salio": "2026-11-23",
+      "cop": 19975,
+      "usd": 9.99
     },
     {
       "id": "359510",
