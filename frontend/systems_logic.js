@@ -114,7 +114,7 @@ const SYS = (() => {
         { id: 'nub5_c', title: 'Tener usuario y contraseña de AWS Academy (los entrega el docente; pedirlos si no llegaron)', date: '2026-10-11', type: 'tarea' },
         { id: 'nub5_aws', title: 'Entrar por primera vez a AWS Academy (sin esto no hay ACA de Nube)', date: '2026-10-29', type: 'tarea' }],
       resources: ['https://aws.amazon.com/es/training/awsacademy/', 'https://learn.microsoft.com/es-es/training/azure/'] },
-    { id: 'trabajo_investigacion', period: '26V05', code: 'ISD37', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único (16 semanas) · 2 créditos', credits: 2,
+    { id: 'trabajo_investigacion', period: '26V05', code: 'DIS41', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único (16 semanas) · 2 créditos', credits: 2,
       professor: 'MANUEL ALBERTO SALGADO ALBA', professor_email: 'manuel_salgado@cun.edu.co', cdigital_id: 126584, schedule: 'Miércoles · 6:15-7:45 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/yxw-rjzb-qcs', material: 'https://cdigital.cun.edu.co/mod/resource/view.php?id=7994844' },
@@ -149,8 +149,8 @@ const SYS = (() => {
       resources: ['english.html', 'https://www.bbc.co.uk/learningenglish/'] },
 
     // ── 26V05 · SEGUNDO BLOQUE · verificado en CDigital, correo y Calendar CUN el 2026-11-23 ──
-    // Sin código de asignatura publicado (se deja vacío). `cm` = id de la actividad en el aula.
-    { id: 'animacion_basica', period: '26V05', code: '', name: 'Animación Básica', short: 'Animación Básica', group: '55593', icon: '🎞️', color: 'hsl(285,65%,58%)', type: 'Bloque II', esquema: 'cun_b8',
+    // Códigos de asignatura: reporte "Notas registradas" de SGA (23-nov). `cm` = id de la actividad en el aula.
+    { id: 'animacion_basica', period: '26V05', code: 'ELSC3', name: 'Animación Básica', short: 'Animación Básica', group: '55593', icon: '🎞️', color: 'hsl(285,65%,58%)', type: 'Bloque II', esquema: 'cun_b8',
       hasta: '2027-01-19', professor: 'CAMILO AUGUSTO CARDONA PATIÑO', cdigital_id: 124452, schedule: 'Lunes · 6:15-7:45 PM (Google Meet) · 8 sesiones',
       clases: [{ dias: [1], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/egu-pgbv-fue', tutoria: 'https://meet.google.com/bup-uady-pcg' },
@@ -159,7 +159,7 @@ const SYS = (() => {
         { id: 'anim5_tq', title: '"Te queremos conocer" (cierra 23:59)', date: '2026-11-30', type: 'tarea', cm: 8293961 },
         ...cronoB2('anim', { 0: 8293964, 2: 8293973, 3: 8293974, 4: 8293978, 5: 8293982, 6: 8293983, 7: 8293987, 8: 8293991, 9: 8293992, 12: 8293996, 13: 8293997, 10: 8293998, 14: 8293999 }, { 14: '2027-01-09' }),
       ] },
-    { id: 'plan_negocio_aplicado', period: '26V05', code: '', name: 'Plan de Negocio Aplicado', short: 'Plan de Negocio', group: '55535', icon: '💼', color: 'hsl(145,55%,42%)', type: 'Bloque II',
+    { id: 'plan_negocio_aplicado', period: '26V05', code: 'DIS42', name: 'Plan de Negocio Aplicado', short: 'Plan de Negocio', group: '55535', icon: '💼', color: 'hsl(145,55%,42%)', type: 'Bloque II',
       professor: 'OSCAR JAVIER MORENO MARTINEZ', professor_email: 'oscar_morenom@cun.edu.co', cdigital_id: 124529, schedule: 'La MISMA clase martes o miércoles (elige un día) · 6:15-7:45 PM',
       clases: [{ dias: [2], ini: '18:15', fin: '19:45', tipo: 'elige un día', link: 'https://meet.google.com/gkf-bsbf-eza' }, { dias: [3], ini: '18:15', fin: '19:45', tipo: 'elige un día', link: 'https://meet.google.com/gyn-veii-hvo' }],
       subject_links: { clase: 'https://meet.google.com/gkf-bsbf-eza', clase_mie: 'https://meet.google.com/gyn-veii-hvo' },
@@ -174,7 +174,7 @@ const SYS = (() => {
         { id: 'pna5_aca', title: 'ACA Final (abre el 28-dic, cierra 11:55 PM)', date: '2027-01-03', type: 'proyecto', cm: 8318879 },
         { id: 'pna5_acp', title: 'ACA Presentación del proyecto de aula (abre el 28-dic, cierra 11:55 PM)', date: '2027-01-03', type: 'proyecto', cm: 8326665 },
       ] },
-    { id: 'investigacion_operaciones', period: '26V05', code: '', name: 'Investigación de Operaciones', short: 'Inv. de Operaciones', group: '55545', icon: '📐', color: 'hsl(20,80%,55%)', type: 'Bloque II', esquema: 'cun_b8',
+    { id: 'investigacion_operaciones', period: '26V05', code: 'DIS37', name: 'Investigación de Operaciones', short: 'Inv. de Operaciones', group: '55545', icon: '📐', color: 'hsl(20,80%,55%)', type: 'Bloque II', esquema: 'cun_b8',
       professor: 'DAVID GUILLERMO GAONA RAMIREZ', cdigital_id: 123284, schedule: '',
       clases: [],
       subject_links: {},
