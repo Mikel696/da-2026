@@ -151,7 +151,7 @@ const SYS = (() => {
     // ── 26V05 · SEGUNDO BLOQUE · verificado en CDigital, correo y Calendar CUN el 2026-11-23 ──
     // Códigos de asignatura: reporte "Notas registradas" de SGA (23-nov). `cm` = id de la actividad en el aula.
     { id: 'animacion_basica', period: '26V05', code: 'ELSC3', name: 'Animación Básica', short: 'Animación Básica', group: '55593', icon: '🎞️', color: 'hsl(285,65%,58%)', type: 'Bloque II', esquema: 'cun_b8',
-      hasta: '2027-01-19', professor: 'CAMILO AUGUSTO CARDONA PATIÑO', cdigital_id: 124452, schedule: 'Lunes · 6:15-7:45 PM (Google Meet) · 8 sesiones',
+      hasta: '2027-01-19', professor: 'CAMILO AUGUSTO CARDONA PATIÑO', professor_email: 'camilo_cardona@cun.edu.co', cdigital_id: 124452, schedule: 'Lunes · 6:15-7:45 PM (Google Meet) · 8 sesiones',
       clases: [{ dias: [1], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/egu-pgbv-fue', tutoria: 'https://meet.google.com/bup-uady-pcg' },
       desc: 'Período 26V05 · Segundo Bloque (curso 23-nov-2026 → 19-ene-2027). Clase los lunes, 8 sesiones. Tutorías en otro Meet (bup-uady-pcg), horario sin confirmar. En Participantes también figura EDWARD ORVEY OVALLE ARIAS.',
