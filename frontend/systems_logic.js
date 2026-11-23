@@ -160,10 +160,10 @@ const SYS = (() => {
         ...cronoB2('anim', { 0: 8293964, 2: 8293973, 3: 8293974, 4: 8293978, 5: 8293982, 6: 8293983, 7: 8293987, 8: 8293991, 9: 8293992, 12: 8293996, 13: 8293997, 10: 8293998, 14: 8293999 }, { 14: '2027-01-09' }),
       ] },
     { id: 'plan_negocio_aplicado', period: '26V05', code: '', name: 'Plan de Negocio Aplicado', short: 'Plan de Negocio', group: '55535', icon: '💼', color: 'hsl(145,55%,42%)', type: 'Bloque II',
-      professor: 'OSCAR JAVIER MORENO MARTINEZ', cdigital_id: 124529, schedule: 'Dos invitaciones: martes y miércoles · 6:15-7:45 PM (sin confirmar si son grupos distintos)',
-      clases: [{ dias: [2], ini: '18:15', fin: '19:45', tipo: 'invitación 1 de 2', link: 'https://meet.google.com/gkf-bsbf-eza' }, { dias: [3], ini: '18:15', fin: '19:45', tipo: 'invitación 2 de 2', link: 'https://meet.google.com/gyn-veii-hvo' }],
+      professor: 'OSCAR JAVIER MORENO MARTINEZ', professor_email: 'oscar_morenom@cun.edu.co', cdigital_id: 124529, schedule: 'La MISMA clase martes o miércoles (elige un día) · 6:15-7:45 PM',
+      clases: [{ dias: [2], ini: '18:15', fin: '19:45', tipo: 'elige un día', link: 'https://meet.google.com/gkf-bsbf-eza' }, { dias: [3], ini: '18:15', fin: '19:45', tipo: 'elige un día', link: 'https://meet.google.com/gyn-veii-hvo' }],
       subject_links: { clase: 'https://meet.google.com/gkf-bsbf-eza', clase_mie: 'https://meet.google.com/gyn-veii-hvo' },
-      desc: 'Período 26V05 · Segundo Bloque. Estructura propia (no es el calendario estándar de 8 semanas): Quiz y Parcial por corte, y dos ACAs al final. Calendar trae dos invitaciones (martes Meet gkf-bsbf-eza y miércoles Meet gyn-veii-hvo): falta confirmar con el docente a cuál corresponde Miguel.',
+      desc: 'Período 26V05 · Segundo Bloque. Estructura propia (no es el calendario estándar de 8 semanas): Quiz y Parcial por corte, y dos ACAs al final. Correo de bienvenida del docente (23-nov): los encuentros son martes (Meet gkf-bsbf-eza) o miércoles (Meet gyn-veii-hvo), se elige el que acomode y no hace falta ir a los dos. La primera semana es inducción: asistencia indispensable. Leer el adjunto "Reglas de clase PNA 26V05" de ese correo.',
       cronograma: [
         { id: 'pna5_in', title: 'Actividades introductorias (vence 1:59 PM)', date: '2026-12-06', type: 'tarea' },
         { id: 'pna5_tq', title: '"Te queremos conocer"', date: '2026-12-13', type: 'tarea', cm: 8318808 },

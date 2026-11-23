@@ -29,8 +29,8 @@ paths:
 - A1I01 Virtual English Beginner 1 · 50610 (26I05) · ANYI MILENA ALVAREZ COGOLLO · L-V 6:15-7:45 PM · 130590
 - Se excluye a propósito "INDUCCION TICS - ESTUDIANTES" (28494).
 - **Bloque II (23-nov-2026 → 17-ene-2027, registrado el 23-nov):** Animación Básica · 55593 · CAMILO AUGUSTO CARDONA PATIÑO ·
-  lun 6:15-7:45 PM · 124452 · Plan de Negocio Aplicado · 55535 · OSCAR JAVIER MORENO MARTINEZ · dos invitaciones (mar y mié
-  6:15-7:45 PM, sin confirmar cuál) · 124529 · estructura propia · Investigación de Operaciones · 55545 · DAVID GUILLERMO GAONA
+  lun 6:15-7:45 PM · 124452 · Plan de Negocio Aplicado · 55535 · OSCAR JAVIER MORENO MARTINEZ · la misma clase mar o mié
+  6:15-7:45 PM, se elige una (correo del docente, 23-nov) · 124529 · estructura propia · Investigación de Operaciones · 55545 · DAVID GUILLERMO GAONA
   RAMIREZ · sin horario · 123284. Sus fechas salen de `cronoB2()` con `est: true` (sin imagen oficial del Bloque II).
 - BI, Auditoría y Nube llevan `hasta: '2026-11-22'` e Inglés `hasta: '2026-11-13'` (cierre de actividades): desde el 23-nov
   están en 🗂 Historial (decisión de Miguel para Inglés, 23-nov).

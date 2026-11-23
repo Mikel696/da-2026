@@ -25,8 +25,11 @@
 - **Parte S9 reasignado** con `SYS.injectWeek` en la pestaña real: ningún ítem queda en `general`; `s9_acuerdos` se partió en
   Animación + `s9_acuerdo_io` (IO), ambos ligados a su Acuerdo del cronograma. Supabase `app_state.sys_week_live` lo confirma.
 - **Verificado en producción** (23-nov, 2:05 p. m.): Dashboard = TI, Inglés, Animación, Plan de Negocio, Inv. de Operaciones + ACAs;
-  «Semana 1/8» del Bloque II. **Pendiente:** confirmar a cuál invitación de Plan de Negocio (mar o mié) pertenece Miguel; horario
-  de IO; imagen oficial del calendario del Bloque II (para quitar las marcas ≈); decidir si Inglés (cerró el 13-nov) sale también.
+  «Semana 1/8» del Bloque II.
+- **Después (mismo día):** Inglés también a Historial (`hasta: '2026-11-13'`, decisión de Miguel). Correo CUN revisado (últimos 4 días):
+  el de bienvenida de Plan de Negocio (imagen, 23-nov) aclara que martes y miércoles son **la misma clase, se elige una**, y que la 1.ª
+  semana es inducción con asistencia indispensable; trae adjunto «Reglas de clase PNA 26V05» (sin leer). El resto: invitaciones ya
+  conocidas y boletines. **Pendiente:** horario de IO; imagen oficial del calendario del Bloque II (para quitar las marcas ≈).
 
 ---
 
