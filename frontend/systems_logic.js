@@ -128,7 +128,7 @@ const SYS = (() => {
       ],
       resources: ['https://scholar.google.com/', 'https://www.scielo.org/'] },
     { id: 'english_b1_26v05', period: '26V05', code: 'A1I01', name: 'Virtual English - Beginner 1', short: 'Inglés', group: '50610', icon: '🗣️', color: 'hsl(45,85%,50%)', type: 'Idiomas (IV001) · Bloque único',
-      professor: 'ANYI MILENA ALVAREZ COGOLLO', cdigital_id: 130590, schedule: 'Lun tutoría · Mar-Vie la MISMA clase (elige un día) · 6:15-7:45 PM',
+      hasta: '2026-11-13', professor: 'ANYI MILENA ALVAREZ COGOLLO', cdigital_id: 130590, schedule: 'Lun tutoría · Mar-Vie la MISMA clase (elige un día) · 6:15-7:45 PM',
       clases: [{ dias: [1], ini: '18:15', fin: '19:45', tipo: 'tutoría' }, { dias: [2, 3, 4, 5], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://cdigital.cun.edu.co/mod/googlemeet/view.php?id=7916129', grabaciones: 'https://drive.google.com/drive/folders/1RORZrxsNLbwpA309BTyhF6-gcpqFD_0A' },
       desc: 'Período 26I05 · Bloque único. Calendario del curso ("Fechas importantes 26i05"): inicio lun 28-sep, CIERRE DE ACTIVIDADES vie 13-nov-2026, novedades de matrícula 28-sep a 9-oct. Nota (Guía de Inicio 2026C): 92% actividades en Dexway + 4% autoevaluación + 4% coevaluación. El examen final va con proctoring: cédula original a la mano, lugar privado y silencioso. Reemplaza la matrícula 50608 del 26V02.',

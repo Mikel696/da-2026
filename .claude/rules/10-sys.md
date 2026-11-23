@@ -32,7 +32,8 @@ paths:
   lun 6:15-7:45 PM · 124452 · Plan de Negocio Aplicado · 55535 · OSCAR JAVIER MORENO MARTINEZ · dos invitaciones (mar y mié
   6:15-7:45 PM, sin confirmar cuál) · 124529 · estructura propia · Investigación de Operaciones · 55545 · DAVID GUILLERMO GAONA
   RAMIREZ · sin horario · 123284. Sus fechas salen de `cronoB2()` con `est: true` (sin imagen oficial del Bloque II).
-- BI, Auditoría y Nube llevan `hasta: '2026-11-22'`: desde el 23-nov pasan solas a 🗂 Historial.
+- BI, Auditoría y Nube llevan `hasta: '2026-11-22'` e Inglés `hasta: '2026-11-13'` (cierre de actividades): desde el 23-nov
+  están en 🗂 Historial (decisión de Miguel para Inglés, 23-nov).
 - 26V02 (8vo) quedó en 🗂 Historial: 6 ganadas, English 50608 y Placement en "pausada".
 
 **Cómo se registra un período nuevo** (prompt 5 del CUN Hub): cada materia en `SUBJECTS` con
