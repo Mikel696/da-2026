@@ -41,6 +41,15 @@
 - **🪪 Ficha de la materia** (`_mtFicha`, `?v=p45`, css `?v=4`): primer bloque del panel de cada materia con docente, correo,
   código, nombre, grupo (ficha), período, programa, modalidad, estudiante y horario; tocar un dato lo copia (`_copyText`, que
   ahora también usa `acaCopy`). Sin fuente → «Sin dato verificado». La cédula NO va (archivo público).
+- **Pasos con texto listo** (`_mtStep`, `?v=p47`, css `?v=5`): un paso del parte puede ser `{t, link, copy, copyLabel}`;
+  muestra el texto completo y un botón 📋. Parte S9: `s9_anim_conocer` con presentación + comentario a un compañero y
+  enlaces directos; nuevos `s9_io_conocer` (IO también tiene foro de bienvenida, cm 7183334, sin cierre; su enunciado es una
+  plantilla de otro curso) y `s9_pna_conocer` (cierra 13-dic 00:00). Sin dato verificado → [corchetes] (ciudad, conocimiento previo).
+- **Carpetas del Bloque II** en `E:\Ing de Sistemas CUN\Semestre 9` (Animacion Basica, Plan de Negocio Aplicado, Investigacion de
+  Operaciones): 01-04 + LEEME con ficha y los textos. Correo de Animación: camilo_cardona@cun.edu.co (invitación de Calendar).
+  Ninguna aula nueva trae formulario de «Reglas de participación»; PNA tiene «Reglas de clase» (pptx, cm 8318787).
+- **GitHub Pages falla a ratos** (23-nov, 23:40-23:54): «No artifacts named github-pages… re-run later». Un commit nuevo lo
+  resolvió las veces que pasó. No es el código.
 - **Pendiente:** horario de IO; recapturar el Bloque I cuando SGA lo cargue; Inglés 26V05 sin nota visible; imagen oficial del calendario del Bloque II (para quitar las marcas ≈).
 
 ---
