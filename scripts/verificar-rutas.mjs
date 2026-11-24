@@ -37,6 +37,9 @@ for (const r of rutas.rutas || []) {
     if (!p.recurso && !p.enlace) mal(`${donde}: necesita un recurso o un enlace interno`);
     if (p.recurso) {
       if (!p.recurso.nombre || !p.recurso.proveedor) mal(`${donde}: al recurso le falta nombre o proveedor`);
+      // «gratis» solo donde la propia fuente lo dice (comprobado el 24-nov): UiPath Academy («free online Academy
+      // training») y Automate the Boring Stuff («Free to read under a Creative Commons license»).
+      if (/grat/i.test(p.recurso.proveedor || '') && !/^(UiPath|Al Sweigart)\b/.test(p.recurso.proveedor)) mal(`${donde}: dice «gratis» sin que la fuente lo diga (${p.recurso.proveedor})`);
       if (!/^https:\/\//.test(p.recurso.url || '')) mal(`${donde}: el recurso no es https`);
       else externos.set(p.recurso.url, donde);
     }

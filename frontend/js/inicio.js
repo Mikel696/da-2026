@@ -72,7 +72,8 @@ const INICIO = (() => {
     {n:'14',s:'WOR',fam:'carrera',nombre:'Trabajo',c:'Trabajo',url:'work.html',id:'work',pre:['work_'],grande:'',
      d:'El mapa del rol con rutas de estudio, y tus cuadernos de trabajo.',
      info(){ const r = LS.json('work_rutas');
-       if (len(r)) return {stats:[[r.filter(x => x && x.tipo === 'ruta' && x.empezada).length,'rutas empezadas'],[r.filter(x => x && x.tipo === 'paso' && x.hecho).length,'pasos hechos']]};
+       const em = len(r) ? r.filter(x => x && x.tipo === 'ruta' && x.empezada).length : 0, ph = len(r) ? r.filter(x => x && x.tipo === 'paso' && x.hecho).length : 0;
+       if (em || ph) return {stats:[[em, em === 1 ? 'ruta empezada' : 'rutas empezadas'],[ph, ph === 1 ? 'paso hecho' : 'pasos hechos']]};
        const d = LS.json('work_nb_data'); if (!len(d)) return null;
        return {stats:[[len(d),'cuadernos'],[Object.values(d).reduce((k,x) => k + len(x && x.pages), 0),'páginas']]}; }},
     {n:'17',s:'IA',fam:'ia',nombre:'AI Dojo',c:'Dojo IA',url:'pages/ai-dojo.html',id:'aidojo',pre:['ia_'],grande:'',

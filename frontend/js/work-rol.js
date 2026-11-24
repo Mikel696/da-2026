@@ -67,7 +67,7 @@ const WorkRol = (function(){
     const sig = g.siguiente ? `<p class="avance-sig">Si terminas ${esc(g.siguiente.competencia)}, subes a ${g.siguiente.pct} %. <button type="button" class="avance-ir" data-ir-ruta="${esc(g.siguiente.ruta)}">Ver esa ruta</button></p>` : '';
     return `<section class="avance" aria-labelledby="avanceT">
         <h3 id="avanceT">Tu avance</h3>
-        <p class="avance-frase">Hoy cubres el <b>${g.pct} %</b> de lo que piden las ${n} vacantes.</p>
+        <p class="avance-frase">Con tu perfil y lo que llevas de tus rutas, cubres el <b>${g.pct} %</b> de lo que piden las ${n} vacantes.</p>
         <span class="avance-barra" role="img" aria-label="${g.pct} %"><i style="width:${g.pct}%"></i></span>
         ${sig}${lista}
         <details class="avance-como"><summary>Cómo se calcula</summary><p>Cada habilidad pesa según cuántas vacantes de la muestra la piden (en total suman ${total}). Las que figuran en tu perfil cuentan completas; las que tienen ruta cuentan con lo que llevas de su ruta; las demás, cero. «En tu perfil» es la lista del radar de 5-JOB, escrita en agosto: si algo no es cierto, el % también cambia.</p></details>
@@ -122,7 +122,7 @@ const WorkRol = (function(){
       const abierta = r && rutaAbierta === r.id;
       const nom = r
         ? `<button type="button" class="rol-nom rol-abrir" data-ruta="${esc(r.id)}" aria-expanded="${abierta}" aria-controls="ruta-${esc(r.id)}">${esc(c.nombre)}<small>${abierta ? 'Cerrar la ruta' : 'Ver ruta de estudio'}</small></button>`
-        : `<span class="rol-nom">${esc(c.nombre)}</span>`;
+        : `<span class="rol-nom">${esc(c.nombre)}${c.perfil !== 'si' && R && R.rutas().length ? '<small class="rol-sin-ruta">Sin ruta todavía</small>' : ''}</span>`;
       const p = r ? R.pct(r.id) : 0;
       const fila = `<li class="rol-fila${abierta ? ' abierta' : ''}">${nom}${tira(c.vacantes, n, e.cls)}<span class="rol-cuenta"><b>${c.vacantes}</b> de ${n}<small class="rol-est ${e.cls}">${e.txt}</small>${p ? `<small class="rol-ruta-pct">ruta al ${p} %</small>` : ''}</span></li>`;
       return fila + (abierta ? renderRuta(r, c, D) : '');

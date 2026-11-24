@@ -1,6 +1,6 @@
 {
  "version": "2026-11-24",
- "nota": "Rutas de estudio de 14-WORK. Cada enlace se comprobó (HTTP 200) el 24-nov-2026 con scripts/verificar-rutas.mjs. Sin duraciones: ninguna se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
+ "nota": "Rutas de estudio de 14-WORK. Cada enlace se comprobó (HTTP 200) el 24-nov-2026 con scripts/verificar-rutas.mjs. Sin duraciones ni «gratis» donde la fuente no lo dice: nada se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
  "rutas": [
   {
    "id": "python",
@@ -12,21 +12,21 @@
      "id": "python-1",
      "titulo": "Programar desde cero, en el navegador",
      "aprender": ["Qué es una variable y un tipo de dato", "Cómo se escribe y se usa una función", "Leer un error sin asustarse"],
-     "recurso": { "nombre": "Intro to Programming", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/intro-to-programming" },
+     "recurso": { "nombre": "Intro to Programming", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/intro-to-programming" },
      "practica": "Escribe una función que reciba una lista de montos y devuelva el total, el promedio y el mayor. Pega el código y lo que entendiste en esta página."
     },
     {
      "id": "python-2",
      "titulo": "Python para trabajar con datos",
      "aprender": ["Listas y diccionarios", "Condiciones y bucles", "Usar librerías"],
-     "recurso": { "nombre": "Python", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/python" },
+     "recurso": { "nombre": "Python", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/python" },
      "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado."
     },
     {
      "id": "python-3",
      "titulo": "Tablas con pandas",
      "aprender": ["Cargar un CSV en una tabla", "Filtrar, agrupar y resumir", "Guardar el resultado"],
-     "recurso": { "nombre": "Pandas", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/pandas" },
+     "recurso": { "nombre": "Pandas", "proveedor": "Kaggle Learn (en inglés, interactivo)", "url": "https://www.kaggle.com/learn/pandas" },
      "practica": "Descarga un conjunto de datos público de datos.gov.co, cárgalo con pandas y saca un resumen por categoría. Anota aquí el enlace del conjunto que usaste.",
      "enlace": { "modulo": "4-RUT", "url": "ruta.html", "texto": "Fase «Python para Datos» en la Ruta Data Analyst" }
     },
@@ -56,7 +56,7 @@
      "id": "ia-generativa-1",
      "titulo": "Qué es y cómo funciona",
      "aprender": ["Qué es un modelo de lenguaje", "Qué es un agente", "Por qué a veces inventa"],
-     "recurso": { "nombre": "Introducción a la inteligencia artificial y los agentes generativos", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/" },
+     "recurso": { "nombre": "Introducción a la inteligencia artificial y los agentes generativos", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/" },
      "practica": "Explica en esta página, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar un dato."
     },
     {
@@ -85,7 +85,7 @@
      "id": "ia-generativa-5",
      "titulo": "IA dentro de un proceso",
      "aprender": ["Qué es una aplicación o un agente de IA", "Dónde entra la IA en un proceso", "Cómo medir el tiempo que ahorra"],
-     "recurso": { "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/" },
+     "recurso": { "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/" },
      "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar."
     }
    ]
@@ -144,7 +144,7 @@
      "id": "power-automate-1",
      "titulo": "Qué es y qué automatiza",
      "aprender": ["Flujos en la nube y de escritorio", "Desencadenadores y acciones", "Qué tareas conviene automatizar"],
-     "recurso": { "nombre": "Introducción a Power Automate", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/" },
+     "recurso": { "nombre": "Introducción a Power Automate", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/" },
      "practica": "Lista 5 tareas de tu semana que se repiten y marca cuáles podrían ser un flujo y por qué."
     },
     {
@@ -238,7 +238,7 @@
      "titulo": "Vocabulario de procesos y automatización",
      "aprender": ["Las palabras que se repiten en las vacantes", "Usarlas en una frase propia"],
      "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🃏 Flashcards" },
-     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés, gratis)", "url": "https://www.bbc.co.uk/learningenglish/" },
+     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés)", "url": "https://www.bbc.co.uk/learningenglish/" },
      "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…)."
     },
     {
@@ -253,7 +253,7 @@
      "titulo": "Entender reuniones",
      "aprender": ["Escuchar a distintos acentos", "Frases para pedir que repitan o aclaren"],
      "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestañas 👂 Understand y 💬 Conversations" },
-     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés, gratis)", "url": "https://www.bbc.co.uk/learningenglish/" },
+     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés)", "url": "https://www.bbc.co.uk/learningenglish/" },
      "practica": "Escucha un episodio y anota 5 frases que usarías en una reunión con un cliente."
     },
     {

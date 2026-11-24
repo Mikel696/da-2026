@@ -598,6 +598,18 @@ escenario('rutas · marca pasos con la sesión cerrada y después entra: sube y 
   return { ...r, a: b, pestanas: [b, r.c] };
 }, esperado(JSON.stringify([['python:python-1', true]])));
 
+escenario('rutas · empezar, borrar y volver a empezar: la lápida vieja no entierra lo nuevo (visto en producción 24-nov)', async () => {
+  const r = await dosEquipos();
+  const ruta = (at) => ({ id: 'python', tipo: 'ruta', ruta: 'python', empezada: new Date(at).toISOString(), nb: 'work_nb_ruta_python', updated: new Date(at).toISOString() });
+  r.a.set(KR, [paso('python-1', true, r.reloj.ahora), ruta(r.reloj.ahora)]);
+  await r.reloj.avanzar(10000);
+  r.a.set(KR, []);                                   // la limpieza de la prueba en producción: deja lápidas
+  await r.reloj.avanzar(10000);
+  r.a.set(KR, [paso('python-1', true, r.reloj.ahora), ruta(r.reloj.ahora)]);   // Miguel la empieza de verdad
+  await r.reloj.avanzar(20000);
+  return { ...r, pestanas: [r.a, r.c] };
+}, esperado(JSON.stringify([['python', undefined], ['python:python-1', true]])));
+
 escenario('rutas · los dos equipos crean el cuaderno de la ruta: queda uno solo', async () => {
   const r = await dosEquipos();
   const nb = (at) => [{ id: 'work_nb_ruta_python', name: 'Ruta · Python', icon: '🐍', cover: 'c6', created: new Date(at).toISOString() }];

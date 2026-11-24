@@ -295,3 +295,4 @@ body { line-height: var(--leading-normal); }
   .avance-rutas li .avance-mini{grid-column:1 / -1;grid-row:2}
   .ruta-aprender,.ruta-rec,.ruta-prac{margin-left:0}
 }
+.rol-sin-ruta{display:block;font-size:11px;color:var(--t2);margin-top:1px}
