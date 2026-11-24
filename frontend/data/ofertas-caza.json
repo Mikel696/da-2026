@@ -1,42 +1,57 @@
 {
-  "revisado": "2026-11-23",
+  "revisado": "2026-11-24",
   "por": "cazador diario (tarea programada de Claude)",
   "clases": [
     {
       "id": "ropa",
       "nombre": "Ropa de marca original",
       "icono": "👟",
-      "ofertas": [],
-      "nota": "Vacía hoy. Revisadas las ofertas del día de Mercado Libre (ropa y calzado). Descartados: adidas Response Pace KJ1772 a $ 144.900 (tienda oficial adidas) y el buzo adidas Essentials French Terry JD1874 a $ 156.900, porque no se encontraron en Falabella, Dafiti ni Amazon para comparar el mismo modelo; adidas Runfalcon 6 ya salió el 21-nov. Sin revisar por tope de páginas: adidas Astrastar KI7107 ($ 171.900) y Cloudfoam Flex KJ7278 ($ 142.471)."
+      "ofertas": [
+        {
+          "titulo": "Tenis Under Armour Charged Edge de entrenamiento, hombre, blanco/blanco/negro (3026727-100, horma normal)",
+          "tienda": "Amazon",
+          "url": "https://www.amazon.com/dp/B0C8JRPP8Z",
+          "precio": "US$ 39,86 (≈ $ 139.700)",
+          "antes": "$ 199.900 en Dafiti (vendido por Under Armour)",
+          "ahorro": 30,
+          "envio": "Envío gratis a Colombia, sin cargos de importación (entrega estimada 6-dic)",
+          "vence": "",
+          "colombia": "Ficha abierta con dirección en Colombia: «Sin cargos de importación y envío gratis a Colombia»; remitente y vendedor Amazon.com. Se paga en dólares y el banco cobra la conversión (TRM $ 3.505,92 del 24-nov-2026, datos.gov.co).",
+          "porque": "Mismo modelo y color (3026727-100): Dafiti $ 199.900 (tienda oficial Under Armour); Mercado Libre tienda oficial UA $ 261.339 (negro). El precio de Amazon se vio en talla 8; la variante extra ancha sale a US$ 41,96. Zapatilla de gimnasio de marca original para uso diario.",
+          "visto": "2026-11-24",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una pasa las pruebas. Revisadas las ofertas Black Days de Alkosto y Black Friday de Amazon. Descartado: Under Armour Surge 5 (Amazon US$ 45,50 ≈ $ 159.500 frente a $ 194.935 en la tienda oficial UA de Mercado Libre: 18 %, menos del 20 %)."
     },
     {
       "id": "tecnologia",
       "nombre": "Tecnología",
       "icono": "💻",
-      "ofertas": [],
-      "nota": "Vacía hoy. Revisadas las ofertas del día de Mercado Libre; comparado en Alkosto y Amazon. Descartados: control DualSense a $ 249.900 (Alkosto igual, $ 249.900: precio de mercado); monitor Samsung 27\" F320 a $ 385.945 (Alkosto $ 469.930: 18 %, menos del 20 %); monitor Samsung 24\" S32 LS24F320 a $ 287.023, portátil HP 200 G2a Ryzen 5 a $ 1.399.900, Redmi Note 15 Pro 512 GB a $ 1.109.900 y monitor Xiaomi G34WQi a $ 1.034.999, porque Alkosto y Amazon no venden ese mismo modelo. No se abrieron las páginas de ofertas de Alkosto, Amazon, Falabella ni Dafiti (tope de páginas)."
+      "ofertas": [
+        {
+          "titulo": "Teclado mecánico EPOMAKER x Aula F75 · 75 % inalámbrico (2,4 GHz/Bluetooth/USB-C), hot-swap, perilla",
+          "tienda": "Amazon",
+          "url": "https://www.amazon.com/dp/B0CNT61VMZ",
+          "precio": "US$ 55,24 (≈ $ 193.700)",
+          "antes": "≈ $ 252.600 en eBay (US$ ≈ 72: $ 169.110 + $ 83.444 de envío, vendedor cmauction 99,9 %)",
+          "ahorro": 23,
+          "envio": "Envío gratis a Colombia, sin cargos de importación (entrega estimada 28-dic a 12-ene)",
+          "vence": "",
+          "colombia": "Ficha abierta con dirección en Colombia: «Sin cargos de importación y envío gratis a Colombia»; enviado por Amazon, vendido por EPOMAKER (tienda de la marca). Se paga en dólares y el banco cobra la conversión (TRM $ 3.505,92 del 24-nov-2026).",
+          "porque": "Mercado Libre $ 292.363 (Aula F75 Pro, BROSTOCK MercadoLíder +100 ventas: 34 % más caro); eBay ≈ $ 252.600 con envío (precio de la búsqueda; eBay puede sumar cargos de importación). El precio de Amazon es el del switch LEOBOG Reaper, color azul claro; otros colores pueden variar. Teclado 75 % para trabajar con datos y jugar en PC.",
+          "visto": "2026-11-24",
+          "imperdible": false
+        }
+      ],
+      "nota": "Solo una pasa las pruebas. Revisadas las ofertas Black Days de Alkosto y Black Friday de Amazon; comparado en Mercado Libre, Falabella y eBay. Descartados por precio de mercado: parlante Sony ULT Tower 9AC ($ 2.099.900 igual en Alkosto y Falabella; la tienda Sony de Mercado Libre lo tiene en $ 4.099.900) y audífonos Sony ULT Wear ($ 499.900 igual en Alkosto y Mercado Libre). Sin revisar por tope de páginas: Motorola Gmax 256 GB ($ 1.099.050) y Redmi Note 17 Pro ($ 1.699.050) de Alkosto."
     },
     {
       "id": "cursos",
       "nombre": "Cursos y diplomados",
       "icono": "🎓",
-      "ofertas": [
-        {
-          "titulo": "DataCamp Premium anual (Python, SQL, Power BI, IA; con certificaciones)",
-          "tienda": "DataCamp (sitio oficial)",
-          "url": "https://www.datacamp.com/pricing",
-          "precio": "US$ 5 al mes facturado al año: US$ 60 (≈ $ 207.700)",
-          "antes": "US$ 13 al mes facturado al año: US$ 156 (≈ $ 540.100), tachado en la misma página",
-          "ahorro": 62,
-          "envio": "Digital: acceso en línea",
-          "vence": "",
-          "colombia": "Abierta hoy desde Colombia: la página muestra este «Special price» en dólares. Se paga en US$ con tarjeta y el banco cobra la conversión (TRM $ 3.461,92 del 21-nov-2026, datos.gov.co). No se llegó al pago, así que el cobro final no se comprobó.",
-          "porque": "62 % menos que el precio normal que la misma página muestra tachado (US$ 13/mes). Más de 810 cursos y rutas de analista de datos en Python, SQL y Power BI, justo su trabajo; la página no dice hasta cuándo dura el precio.",
-          "visto": "2026-11-23",
-          "imperdible": false
-        }
-      ],
-      "nota": "Solo una pasa las pruebas. Coursera Plus anual sigue en US$ 143,40 (antes US$ 239, hasta el 30-nov-2026), el mismo precio que salió el 17-nov: no se repite. No se encontró curso gratis con certificado ni beca abierta en esta corrida."
+      "ofertas": [],
+      "nota": "Vacía hoy. Platzi Expert anual en Black Friday a $ 748.900 (antes $ 999.000, hasta el 27-nov): 25 %, menos del 40 % que exige la regla, y solo 6 % menos que el 13-nov. Coursera Plus sigue en US$ 143,40 (igual que el 17-nov): no se repite. DataCamp salió ayer. No se encontró curso gratis con certificado ni beca abierta."
     },
     {
       "id": "conciertos",
@@ -48,6 +63,18 @@
   ],
   "avisos": [],
   "vistos": [
+    {
+      "url": "https://www.amazon.com/dp/B0CNT61VMZ",
+      "titulo": "Teclado mecánico EPOMAKER x Aula F75 · 75 % inalámbrico (2,4 GHz/Bluetooth/USB-C), hot-swap, perilla",
+      "precio": "US$ 55,24 (≈ $ 193.700)",
+      "salio": "2026-11-24"
+    },
+    {
+      "url": "https://www.amazon.com/dp/B0C8JRPP8Z",
+      "titulo": "Tenis Under Armour Charged Edge de entrenamiento, hombre, blanco/blanco/negro (3026727-100, horma normal)",
+      "precio": "US$ 39,86 (≈ $ 139.700)",
+      "salio": "2026-11-24"
+    },
     {
       "url": "https://www.datacamp.com/pricing",
       "titulo": "DataCamp Premium anual (Python, SQL, Power BI, IA; con certificaciones)",
