@@ -1,0 +1,269 @@
+{
+ "version": "2026-11-24",
+ "nota": "Rutas de estudio de 14-WORK. Cada enlace se comprobó (HTTP 200) el 24-nov-2026 con scripts/verificar-rutas.mjs. Sin duraciones: ninguna se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
+ "rutas": [
+  {
+   "id": "python",
+   "competencia": "Python",
+   "icono": "🐍",
+   "queEs": "Un lenguaje de programación sencillo de leer. En estos puestos se usa para limpiar datos, unir archivos, conectar sistemas por API y automatizar tareas que hoy se hacen a mano en Excel.",
+   "pasos": [
+    {
+     "id": "python-1",
+     "titulo": "Programar desde cero, en el navegador",
+     "aprender": ["Qué es una variable y un tipo de dato", "Cómo se escribe y se usa una función", "Leer un error sin asustarse"],
+     "recurso": { "nombre": "Intro to Programming", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/intro-to-programming" },
+     "practica": "Escribe una función que reciba una lista de montos y devuelva el total, el promedio y el mayor. Pega el código y lo que entendiste en esta página."
+    },
+    {
+     "id": "python-2",
+     "titulo": "Python para trabajar con datos",
+     "aprender": ["Listas y diccionarios", "Condiciones y bucles", "Usar librerías"],
+     "recurso": { "nombre": "Python", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/python" },
+     "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado."
+    },
+    {
+     "id": "python-3",
+     "titulo": "Tablas con pandas",
+     "aprender": ["Cargar un CSV en una tabla", "Filtrar, agrupar y resumir", "Guardar el resultado"],
+     "recurso": { "nombre": "Pandas", "proveedor": "Kaggle Learn (en inglés, interactivo, gratis)", "url": "https://www.kaggle.com/learn/pandas" },
+     "practica": "Descarga un conjunto de datos público de datos.gov.co, cárgalo con pandas y saca un resumen por categoría. Anota aquí el enlace del conjunto que usaste.",
+     "enlace": { "modulo": "4-RUT", "url": "ruta.html", "texto": "Fase «Python para Datos» en la Ruta Data Analyst" }
+    },
+    {
+     "id": "python-4",
+     "titulo": "Automatizar Excel y archivos",
+     "aprender": ["Leer y escribir hojas de Excel con openpyxl", "Recorrer carpetas de archivos", "Marcar filas con problemas"],
+     "recurso": { "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel", "proveedor": "Al Sweigart (en inglés, libro gratis en línea)", "url": "https://automatetheboringstuff.com/3e/chapter14.html" },
+     "practica": "Une tres hojas de Excel con el mismo formato en una sola y marca las filas con monto vacío. Usa datos ficticios."
+    },
+    {
+     "id": "python-5",
+     "titulo": "Traer datos de una API",
+     "aprender": ["Qué es una API y qué devuelve (JSON)", "Pedir datos con requests", "Qué hacer si la API falla"],
+     "recurso": { "nombre": "Requests: Quickstart", "proveedor": "Documentación oficial de requests (en inglés)", "url": "https://requests.readthedocs.io/en/latest/user/quickstart/" },
+     "practica": "Trae la TRM del día desde la API pública de datos.gov.co (https://www.datos.gov.co/resource/32sa-8pi3.json, publicada por la Superintendencia Financiera) e imprímela con su fecha."
+    }
+   ]
+  },
+  {
+   "id": "ia-generativa",
+   "competencia": "IA generativa (LLM, ChatGPT, Copilot)",
+   "icono": "🤖",
+   "queEs": "Herramientas como ChatGPT, Claude o Copilot que escriben, resumen y analizan a partir de un encargo en lenguaje natural. En estos puestos se pide saber encargarles bien, comprobar lo que producen y meterlas en un proceso de la empresa.",
+   "pasos": [
+    {
+     "id": "ia-generativa-1",
+     "titulo": "Qué es y cómo funciona",
+     "aprender": ["Qué es un modelo de lenguaje", "Qué es un agente", "Por qué a veces inventa"],
+     "recurso": { "nombre": "Introducción a la inteligencia artificial y los agentes generativos", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/modules/fundamentals-generative-ai/" },
+     "practica": "Explica en esta página, con tus palabras, qué es un modelo de lenguaje y por qué puede inventar un dato."
+    },
+    {
+     "id": "ia-generativa-2",
+     "titulo": "Encargar bien",
+     "aprender": ["Dar contexto, formato y criterio de éxito", "Dejar que la IA te pregunte", "Guardar una plantilla de encargo"],
+     "recurso": { "nombre": "Cursos de Anthropic", "proveedor": "Anthropic (en inglés)", "url": "https://anthropic.skilljar.com/" },
+     "practica": "Haz las misiones del cinturón Blanco del AI Dojo (de «El mismo encargo, dos veces» a «Tu primera plantilla») y guarda aquí tu plantilla de encargo para documentar un proceso.",
+     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Blanco (Encargar)" }
+    },
+    {
+     "id": "ia-generativa-3",
+     "titulo": "Comprobar lo que produce",
+     "aprender": ["Cazar una alucinación", "Marcar qué se puede verificar", "No aceptar la complacencia"],
+     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Amarillo (Verificar)" },
+     "practica": "Haz las misiones del cinturón Amarillo (de «Caza tu primera alucinación» a «La escalera aplicada»). Después pide un resumen de un documento público y marca cada afirmación como comprobada o no."
+    },
+    {
+     "id": "ia-generativa-4",
+     "titulo": "Elegir la herramienta para cada tarea",
+     "aprender": ["Comparar dos IA con la misma tarea", "Cuándo usar un modelo pequeño", "Trabajar con documentos en vez de memoria"],
+     "enlace": { "modulo": "17-IA", "url": "pages/ai-dojo.html", "texto": "AI Dojo · cinturón Naranja (Elegir)" },
+     "practica": "Haz las misiones del cinturón Naranja y termina con «Tu tabla personal, versión 1»: qué IA usas para qué tarea y por qué."
+    },
+    {
+     "id": "ia-generativa-5",
+     "titulo": "IA dentro de un proceso",
+     "aprender": ["Qué es una aplicación o un agente de IA", "Dónde entra la IA en un proceso", "Cómo medir el tiempo que ahorra"],
+     "recurso": { "nombre": "Introducción a las aplicaciones y agentes de inteligencia artificial", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/paths/get-started-ai-apps-agents/" },
+     "practica": "Toma un proceso repetitivo (caso ficticio o público), describe cómo es hoy y cómo sería con IA, y estima el tiempo ahorrado con una cuenta que puedas explicar."
+    }
+   ]
+  },
+  {
+   "id": "requerimientos",
+   "competencia": "Levantamiento de requerimientos (discovery)",
+   "icono": "🧭",
+   "queEs": "Entender qué necesita el área o el cliente antes de construir: preguntar, observar el proceso, escribir lo que se va a hacer y cómo se sabrá que funcionó. Es la primera fase de toda implementación.",
+   "pasos": [
+    {
+     "id": "requerimientos-1",
+     "titulo": "Qué es levantar requerimientos",
+     "aprender": ["Requerimiento funcional y no funcional", "Quiénes participan", "Los errores que más se repiten"],
+     "recurso": { "nombre": "Requirements Gathering", "proveedor": "Asana (en inglés)", "url": "https://asana.com/es/resources/requirements-gathering" },
+     "practica": "Escribe 5 requerimientos funcionales y 3 no funcionales para un caso ficticio: conciliar automáticamente los pagos de una tienda en línea."
+    },
+    {
+     "id": "requerimientos-2",
+     "titulo": "La reunión de descubrimiento",
+     "aprender": ["Preparar la primera reunión", "Qué preguntar y a quién", "Dejar acuerdos por escrito"],
+     "recurso": { "nombre": "Reuniones de lanzamiento del proyecto", "proveedor": "Atlassian Team Playbook (en español)", "url": "https://www.atlassian.com/es/team-playbook/plays/project-kickoff" },
+     "practica": "Escribe el guion de 10 preguntas para la primera reunión con el área que pide la automatización del caso ficticio."
+    },
+    {
+     "id": "requerimientos-3",
+     "titulo": "Del proceso de hoy al nuevo (AS-IS / TO-BE)",
+     "aprender": ["Los símbolos básicos de BPMN", "Dibujar el proceso actual", "Dibujar el proceso propuesto"],
+     "recurso": { "nombre": "BPMN: Business Process Model and Notation", "proveedor": "Camunda (en inglés)", "url": "https://camunda.com/bpmn/" },
+     "practica": "Dibuja el proceso actual y el propuesto del caso ficticio en demo.bpmn.io y pega las dos imágenes en esta página.",
+     "enlace": { "modulo": "web", "url": "https://demo.bpmn.io/", "texto": "Dibujar en demo.bpmn.io (gratis, en el navegador)" }
+    },
+    {
+     "id": "requerimientos-4",
+     "titulo": "Historias de usuario y criterios de aceptación",
+     "aprender": ["El formato «Como… quiero… para…»", "Criterios de aceptación", "Épicas e historias"],
+     "recurso": { "nombre": "Historias de usuario con ejemplos y plantilla", "proveedor": "Atlassian (en español)", "url": "https://www.atlassian.com/es/agile/project-management/user-stories" },
+     "practica": "Convierte tus requerimientos del paso 1 en 5 historias de usuario, cada una con sus criterios de aceptación."
+    },
+    {
+     "id": "requerimientos-5",
+     "titulo": "El documento de requerimientos",
+     "aprender": ["Qué lleva un documento de requisitos", "Alcance: qué sí y qué no", "Cómo se medirá el éxito"],
+     "recurso": { "nombre": "¿Qué es un documento de requisitos de producto (PRD)?", "proveedor": "Atlassian (en español)", "url": "https://www.atlassian.com/es/agile/product-management/requirements" },
+     "practica": "Junta todo en un documento de una página: objetivo, alcance, requerimientos, historias y cómo se medirá. Es una pieza de portafolio: márcala como caso ficticio."
+    }
+   ]
+  },
+  {
+   "id": "power-automate",
+   "competencia": "Power Automate / Power Platform",
+   "icono": "⚡",
+   "queEs": "La herramienta de Microsoft para automatizar sin programar: flujos en la nube (correos, aprobaciones, archivos) y flujos de escritorio que repiten clics en el PC. La versión de escritorio funciona en Windows 10 y 11 con una cuenta Microsoft (según los requisitos que publica Microsoft).",
+   "pasos": [
+    {
+     "id": "power-automate-1",
+     "titulo": "Qué es y qué automatiza",
+     "aprender": ["Flujos en la nube y de escritorio", "Desencadenadores y acciones", "Qué tareas conviene automatizar"],
+     "recurso": { "nombre": "Introducción a Power Automate", "proveedor": "Microsoft Learn (en español, gratis)", "url": "https://learn.microsoft.com/es-es/training/modules/get-started-flows/" },
+     "practica": "Lista 5 tareas de tu semana que se repiten y marca cuáles podrían ser un flujo y por qué."
+    },
+    {
+     "id": "power-automate-2",
+     "titulo": "Instalar Power Automate para escritorio",
+     "aprender": ["Instalarlo en Windows", "Iniciar sesión con tu cuenta Microsoft", "Conocer la grabadora"],
+     "recurso": { "nombre": "Instalar Power Automate", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/install" },
+     "practica": "Instálalo, abre la grabadora y graba un flujo corto cualquiera. Anota aquí qué grabaste y qué te sorprendió."
+    },
+    {
+     "id": "power-automate-3",
+     "titulo": "Tu primer flujo de escritorio",
+     "aprender": ["Crear un flujo paso a paso", "Variables y carpetas", "Probar y corregir"],
+     "recurso": { "nombre": "Crear flujos de escritorio", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/create-flow" },
+     "practica": "Haz un flujo que mueva los PDF de la carpeta Descargas a una carpeta por mes."
+    },
+    {
+     "id": "power-automate-4",
+     "titulo": "Aprobaciones en la nube",
+     "aprender": ["Cómo funciona una aprobación", "Quién pide y quién aprueba", "Qué pasa si se rechaza"],
+     "recurso": { "nombre": "Crear y probar un flujo de aprobación", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/modern-approvals" },
+     "practica": "Diseña una aprobación de gastos ficticia: quién la pide, quién aprueba, qué pasa si se rechaza y a quién se avisa."
+    },
+    {
+     "id": "power-automate-5",
+     "titulo": "Fundamentos de Power Platform",
+     "aprender": ["Power Apps, Power BI y Power Automate juntos", "Dataverse en una frase", "Qué evalúa la certificación PL-900"],
+     "recurso": { "nombre": "Aspectos básicos de Power Platform (PL-900)", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/credentials/certifications/power-platform-fundamentals/" },
+     "practica": "Marca qué temas de la guía de estudio ya dominas y cuáles te faltan. Con eso decides si te presentas al examen."
+    }
+   ]
+  },
+  {
+   "id": "rpa",
+   "competencia": "RPA (UiPath, Automation Anywhere)",
+   "icono": "🦾",
+   "queEs": "Robots de software que usan las aplicaciones como lo haría una persona: abren pantallas, copian, pegan y llenan formularios. Sirven cuando un sistema no tiene API. UiPath y Automation Anywhere aparecen en vacantes de la muestra.",
+   "pasos": [
+    {
+     "id": "rpa-1",
+     "titulo": "Qué es RPA y cuándo conviene",
+     "aprender": ["Robot de software contra integración por API", "Procesos buenos y malos para RPA", "Robot atendido y desatendido"],
+     "recurso": { "nombre": "UiPath Academy", "proveedor": "UiPath (en inglés, cursos gratis con cuenta)", "url": "https://academy.uipath.com/" },
+     "practica": "De tu lista de tareas repetitivas, elige 2 que sean buenas para un robot y explica por qué."
+    },
+    {
+     "id": "rpa-2",
+     "titulo": "Tu primer robot, en tu propio PC",
+     "aprender": ["Power Automate para escritorio también es RPA", "Grabar y luego limpiar lo grabado", "Leer datos de una pantalla"],
+     "recurso": { "nombre": "Introducción a flujos de escritorio", "proveedor": "Microsoft Learn (en español)", "url": "https://learn.microsoft.com/es-es/power-automate/desktop-flows/introduction" },
+     "practica": "Graba un robot que abra un sitio público, copie un dato y lo pegue en Excel."
+    },
+    {
+     "id": "rpa-3",
+     "titulo": "UiPath por dentro",
+     "aprender": ["UiPath Studio por dentro", "Secuencias y flujos", "Manejo de errores"],
+     "recurso": { "nombre": "UiPath Academy", "proveedor": "UiPath (en inglés, cursos gratis con cuenta)", "url": "https://academy.uipath.com/" },
+     "practica": "Termina el primer curso de la ruta para principiantes de UiPath Academy y anota aquí los 3 conceptos que más te sirvieron."
+    },
+    {
+     "id": "rpa-4",
+     "titulo": "Automation Anywhere",
+     "aprender": ["Su plataforma y su academia", "En qué se parece y en qué no a UiPath"],
+     "recurso": { "nombre": "Automation Anywhere University", "proveedor": "Automation Anywhere (en inglés)", "url": "https://pathfinder.automationanywhere.com/university" },
+     "practica": "Haz una tabla con UiPath, Automation Anywhere y Power Automate para escritorio: qué necesitas para practicar con cada uno y qué te pareció más fácil."
+    },
+    {
+     "id": "rpa-5",
+     "titulo": "Un proceso de punta a punta",
+     "aprender": ["Diseñar antes de grabar", "Medir el antes y el después", "Documentar para que otro lo use"],
+     "enlace": { "modulo": "5-JOB", "url": "jobs.html#linkedin", "texto": "Ver vacantes de automatización en 5-JOB" },
+     "practica": "Automatiza un proceso ficticio completo (leer correos de prueba, sacar montos y llenar un Excel). Documenta el antes y el después con el tiempo medido."
+    }
+   ]
+  },
+  {
+   "id": "ingles",
+   "competencia": "Inglés",
+   "icono": "🗣️",
+   "queEs": "26 de las 39 vacantes lo piden o están escritas en inglés. Para este rol cuenta sobre todo hablar con clientes, escribir documentos y defender una propuesta en una entrevista.",
+   "pasos": [
+    {
+     "id": "ingles-1",
+     "titulo": "Entrevistas para el rol",
+     "aprender": ["Contar tu experiencia hacia la implementación", "Preguntas típicas de estos puestos", "Respuestas cortas con ejemplos"],
+     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🎯 Interviews" },
+     "practica": "Prepara tu respuesta a «Tell me about yourself» enfocada en implementación y procesos, y escribe aquí la versión final."
+    },
+    {
+     "id": "ingles-2",
+     "titulo": "Vocabulario de procesos y automatización",
+     "aprender": ["Las palabras que se repiten en las vacantes", "Usarlas en una frase propia"],
+     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🃏 Flashcards" },
+     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés, gratis)", "url": "https://www.bbc.co.uk/learningenglish/" },
+     "practica": "Agrega a tus tarjetas 20 palabras de las vacantes de la muestra (requirements, stakeholder, rollout, workflow…)."
+    },
+    {
+     "id": "ingles-3",
+     "titulo": "Escribir correos y documentos de trabajo",
+     "aprender": ["Correos claros a un cliente", "Resumir un avance", "Corregir tus errores frecuentes"],
+     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestañas 💼 Professional y 🔍 Errores" },
+     "practica": "Escribe en inglés el resumen de una de tus prácticas de las otras rutas y corrígelo con la pestaña de errores."
+    },
+    {
+     "id": "ingles-4",
+     "titulo": "Entender reuniones",
+     "aprender": ["Escuchar a distintos acentos", "Frases para pedir que repitan o aclaren"],
+     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestañas 👂 Understand y 💬 Conversations" },
+     "recurso": { "nombre": "BBC Learning English", "proveedor": "BBC (en inglés, gratis)", "url": "https://www.bbc.co.uk/learningenglish/" },
+     "practica": "Escucha un episodio y anota 5 frases que usarías en una reunión con un cliente."
+    },
+    {
+     "id": "ingles-5",
+     "titulo": "Defender una propuesta",
+     "aprender": ["Explicar por qué conviene automatizar algo", "Responder una objeción"],
+     "enlace": { "modulo": "3-ENG", "url": "english.html", "texto": "Inglés · pestaña 🛡️ Defenderme" },
+     "practica": "Prepara cómo explicarías en inglés, en un minuto, por qué una de tus automatizaciones de práctica conviene."
+    }
+   ]
+  }
+ ]
+}
