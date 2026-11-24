@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 (14-WORK: Mapa del rol en producción, primer módulo de O5.5 · antes: 1-IND portada «Cerebro 2», O5.1 y O5.2 hechas)
+- **Última actualización:** 2026-11-24 noche (14-WORK: rutas de estudio en producción, cloud-sync p26 · antes: Mapa del rol, primer módulo de O5.5)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,38 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🛤 14-WORK · Rutas de estudio dentro del mapa — martes 24-nov (noche)
+
+Pedido de Miguel al ver el mapa: «que cada item me dé la ruta de estudio de cada cosa, cuadernos especializados para
+cada cosa, quiero comenzar […] interconectado, interactivo, con seguimiento de proceso, en lenguaje natural que debo
+aprender en qué porcentaje». Aprobó el diseño («Sí, apruebo»). Diseño y plan: `docs/superpowers/specs|plans/2026-11-24-rutas-de-estudio*`.
+
+- **Qué hay:** 6 rutas (Python, IA generativa, requerimientos, Power Automate, RPA, inglés), 30 pasos en
+  `data/rutas.json`. Cada paso: qué aprender, un recurso oficial (23 enlaces externos con 200 el 24-nov) o un enlace al
+  Cerebro (AI Dojo por cinturón y misión, 3-ENG por pestaña, 4-RUT, 5-JOB) y una práctica con caso ficticio. Clic en la
+  habilidad → panel bajo la fila; «Empezar» crea el cuaderno «Ruta · X» (una página por paso) y lo abre. Arriba, «Tu
+  avance»: «Con tu perfil y lo que llevas de tus rutas, cubres el 56 %…», la ruta que más lo sube (inglés → 65 %), las
+  rutas empezadas y cómo se calcula. La portada cuenta rutas empezadas y pasos hechos.
+- **P0:** `work_rutas` en `SYNC_REGISTRY` + `ARRAY_MERGE_KEYS` (registro por registro; desmarcar no borra). **cloud-sync
+  p25 → p26 en las 28 páginas.** `prueba-sync-carrera.mjs`: 28/28, con 5 escenarios de rutas (dos equipos, desmarcar,
+  sin sesión —falla con p25—, re-empezar tras lápidas, cuaderno único).
+- **Pruebas:** `scripts/verificar-rutas.mjs` (habilidades, ids, enlaces, «gratis» solo con fuente); lógica 9/9 y mapa 17
+  comprobaciones en simulación (scratchpad, sin versionar).
+- **Verificado en producción con su sesión (`debea94`):** abrir ruta, marcar paso (20 % / 57 %, subió a la nube en 1,5 s),
+  recargar (persiste), Empezar (cuaderno con 5 páginas, abierto), portada (1 ruta, 1 paso), 10-SYS y 13-NOT con p26 sin
+  errores, 375 px sin desborde (marco). **Todo deshecho después** para que Miguel elija con qué ruta empezar: 16
+  cuadernos, `work_nb_data` del mismo tamaño exacto (928.203), `work_rutas` vacío en disco y en la nube.
+- **Contraparte: CORREGIR → corregido.** «Gratis» sin fuente en 8 pasos (Kaggle, Microsoft Learn, BBC: sus páginas no lo
+  dicen; queda solo en UiPath y Automate the Boring Stuff); la frase del % ahora dice de dónde sale; las 8 brechas sin
+  ruta dicen «Sin ruta todavía». Antes, en la construcción: fuera «gratis con Windows 11», «el más pedido» y «edición
+  gratuita» (sin fuente). La simulación cazó que marcar un paso cerraba el panel (atributo duplicado).
+- **Ficha 14WOR:** desarrollo 3 → 4.
+- **Pendiente:** rutas para las 8 brechas restantes (agentes, low-code, mapeo de procesos, ERP, n8n/Zapier, CRM, prompts,
+  ML); que Miguel confirme la lista «ya lo tienes»; su celular real sin probar. Revisión final: autorrevisión (la regla de
+  la sesión no permite lanzar subagentes sin que Miguel lo pida).
 
 ---
 

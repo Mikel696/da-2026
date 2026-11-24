@@ -340,6 +340,12 @@
   ],
   "hecho": [
     {
+      "id": "H8",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-24",
+      "que": "Rutas de estudio dentro del Mapa del rol: 6 rutas (Python, IA generativa, requerimientos, Power Automate, RPA, inglés) con 30 pasos, recursos comprobados, prácticas con caso ficticio, cuaderno por ruta y % por ruta y global. El avance (work_rutas) se mezcla registro por registro entre equipos (cloud-sync p26). Faltan rutas para 8 brechas. Desarrollo de 14-WORK: 3 → 4."
+    },
+    {
       "id": "H7",
       "modulo": "14-WORK",
       "fecha": "2026-11-24",

@@ -17,11 +17,20 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
 ### Lo que queda en el sitio
 | Archivo | Qué hace |
 |---|---|
-| `frontend/work.html` | Cascarón: aviso, **Mapa del rol**, conteo de registros privados, cuadernos |
+| `frontend/work.html` | Cascarón: aviso, **Mapa del rol** con **rutas de estudio**, conteo de registros privados, cuadernos |
 | `frontend/js/work.js` | Solo `WorkNB` (editor de cuadernos sobre `nb-shared.js`) + `WorkShell` (cuenta registros, solo lee) |
 | `frontend/js/work-rol.js` | `WorkRol` (24-nov): pinta el mapa del rol. **Solo lee** `data/rol-objetivo.json` y `data/jobs-feed.json`; no escribe en localStorage; sin red usa Cache Storage `work-datos` y lo dice |
 | `frontend/data/rol-objetivo.json` | Muestra fechada (24-nov-2026): 39 vacantes de LinkedIn (Colombia, último mes), 25 habilidades contadas en sus descripciones, estado «en tu perfil» según `YA_TIENE` de `scripts/fetch-jobs.mjs`. Solo datos públicos de vacantes. Se regenera con una muestra nueva (no la toca la foto diaria) |
-| `frontend/css/work.css` | Estilos · acento cyan `#06b6d4` · bloque `.rol-*` del mapa |
+| `frontend/js/work-rutas.js` | `WorkRutas` (24-nov): rutas de estudio. Lee `data/rutas.json`; escribe **solo** `work_rutas` y, al pulsar «Empezar», el cuaderno de la ruta vía `WorkNB.ensureNotebook` (id `work_nb_ruta_<ruta>`, páginas con id numérico fijo 8e15 + FNV-1a del paso) |
+| `frontend/data/rutas.json` | 6 rutas, 30 pasos. Comprobar con `node scripts/verificar-rutas.mjs` antes de publicar (habilidades del mapa, ids, enlaces con 200, «gratis» solo donde la fuente lo dice) |
+| `frontend/css/work.css` | Estilos · acento cyan `#06b6d4` · bloques `.rol-*` (mapa), `.avance-*` y `.ruta-*` (rutas) |
+
+### `work_rutas` · avance de las rutas (P0)
+- Array de registros `{id, tipo:'ruta'|'paso', ruta, hecho?, empezada?, nb?, updated}`; ids `'<ruta>'` y `'<ruta>:<paso>'`.
+- En `SYNC_REGISTRY` y en `ARRAY_MERGE_KEYS` (`{id, ts:'updated'}`): dos equipos no se pisan; desmarcar = `hecho:false`
+  con hora nueva (no borrar). Pruebas: `node scripts/prueba-sync-carrera.mjs` (escenarios «rutas ·»).
+- El 24-nov la verificación en producción se deshizo y dejó lápidas de `python` y `python:python-1`: no estorban
+  (escenario «empezar, borrar y volver a empezar»).
 
 ### Mapa del rol · cómo se rehace la muestra
 - Se lee a mano en LinkedIn con la sesión de Miguel (el radar no puede leer LinkedIn): las 3 búsquedas de 5-JOB → pestaña
