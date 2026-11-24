@@ -95,6 +95,9 @@ main{max-width:1320px;margin:0 auto;padding:clamp(22px,3.5vw,40px) clamp(14px,3.
 
 /* ── Bento de módulos ── */
 .bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+/* Si el navegador pinta antes de que inicio.js llene las tarjetas, lo de abajo no se ve hasta que estén:
+   así no salta (CLS 0,61 medido en producción el 24-nov). */
+.bento:empty ~ .mas,.bento:empty ~ .sec{visibility:hidden}
 .card{--c:var(--estudio);--mx:50%;--my:0%;position:relative;grid-column:span 3;min-height:210px;padding:18px 18px 16px;overflow:hidden;
   display:flex;flex-direction:column;transition:border-color .25s,translate .25s,box-shadow .25s}
 .card.g5{grid-column:span 5} .card.g4{grid-column:span 4}
