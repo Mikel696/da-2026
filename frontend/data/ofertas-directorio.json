@@ -15,6 +15,11 @@
           "para": "Ofertas del día de todo. Compra a vendedores con MercadoLíder y muchas ventas."
         },
         {
+          "nombre": "HotSale Colombia",
+          "url": "https://www.hotsale.com.co/",
+          "para": "La jornada de descuentos en línea de Colombia (la de 2026 fue del 16 al 23 de octubre). En su página salen las fechas de la próxima."
+        },
+        {
           "nombre": "Alkosto · Ofertas",
           "url": "https://www.alkosto.com/ofertas",
           "para": "Tecnología y electrodomésticos; aquí aparecen sus temporadas, como Black Days."
@@ -50,7 +55,7 @@
       "id": "precio",
       "icono": "📉",
       "nombre": "¿Es rebaja de verdad?",
-      "nota": "Un «50 % OFF» sobre un precio inflado la semana pasada no es descuento. Para tiendas colombianas no hay historial de precios confiable: compara el mismo modelo en dos tiendas.",
+      "nota": "Un «50 % OFF» sobre un precio inflado la semana pasada no es descuento. Para tiendas colombianas no encontramos un historial de precios confiable (24-nov): compara el mismo modelo en dos tiendas.",
       "sitios": [
         {
           "nombre": "Keepa",
@@ -181,7 +186,7 @@
         {
           "nombre": "Notion for Education",
           "url": "https://www.notion.com/product/notion-for-education",
-          "para": "El plan Plus de Notion gratis con correo de universidad."
+          "para": "Beneficios de Notion para estudiantes con correo de universidad."
         },
         {
           "nombre": "Canva Educación",

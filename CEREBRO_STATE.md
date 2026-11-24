@@ -16,7 +16,7 @@
 **Miguel:** «esa búsqueda de ofertas es muy básica, mala; déjala fija con las mejores páginas de descuentos, promociones,
 eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y tecnología básicos y atrasados».
 
-- **Ofertas (hecho):** `frontend/data/ofertas-directorio.json`, 44 páginas en 7 grupos (tiendas y su página de ofertas,
+- **Ofertas (hecho):** `frontend/data/ofertas-directorio.json`, 45 páginas en 7 grupos (44 + HotSale, que sumó la revisión de contraparte) (tiendas y su página de ofertas,
   ¿rebaja de verdad?, conciertos y eventos, juegos, estudiante, cursos, cupones Udemy). Enlaces comprobados el 24-nov:
   36 con HTTP 200; los 8 con 403 (anti-robots) se abrieron después en el Chrome de Miguel: 7 bien, y **Éxito `/ofertas`
   era una página «Error 404»** con estado 200 → cambiado a `exito.com/ofertas-y-promociones` (verificado). Mercado Libre
@@ -24,11 +24,11 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
   Amazon Luna (`luna.amazon.com/claims`), Sofía Plus lleva a Betowa (`betowa.sena.edu.co/oferta`), eTicket y La Tiquetera
   quedaron dentro de Ticketmaster Colombia, Cyberlunes ahora se llama HotSale (CCCE).
   Black Friday y Cyber Monday **se calculan** (día después del 4.º jueves de noviembre) y salen 30 días antes; no hay
-  fechas escritas a mano. Botón: «🎁 Ofertas y eventos · 44 páginas».
+  fechas escritas a mano. Botón: «🎁 Ofertas y eventos · 45 páginas».
 - **Fuera:** `ofertas-caza.json`, `ofertas-juegos.json`, `scripts/fetch-deals.mjs` y su paso en `macro-snapshot.yml`;
   `recommendations.json` (solo lo leía el panel viejo). La tarea programada local `cazador-de-ofertas` quedó **pausada,
   no borrada** (ya había corrido hoy a las 7:43 y publicado `aa0ab44`). `OFERTAS-PREFERENCIAS.md` ya no hace falta.
-- **Verificado en producción** (Chrome de Miguel, tras `0ad46d6`): botón «🎁 Ofertas y eventos · 44 páginas», 7 grupos,
+- **Verificado en producción** (Chrome de Miguel, tras `0ad46d6`): botón «🎁 Ofertas y eventos · 45 páginas», 7 grupos,
   44 enlaces que abren en pestaña nueva, aviso «Black Friday en 3 días (27-nov) · Cyber Monday en 6 días (30-nov)».
 - **GitHub Pages falló dos veces seguidas** (`0a51c40`, `cdf127d`: «No artifacts named github-pages»); publicó al tercer
   intento (commit vacío `0ad46d6`). Medido: 6 de 15 despliegues fallaron desde el 23-nov → tarea **O5.6**.
