@@ -1,5 +1,5 @@
 /* 1-IND · Portada «Cerebro 2» (O5.2, 24-nov-2026) · diseño del boceto v3 que Miguel aprobó el 24-nov:
-   cabina futurista, fluida y funcional. Lo principal son los módulos con sus datos vivos; los nodos, para las noticias. */
+   cabina futurista, fluida y funcional. Lo principal son los módulos con sus datos vivos. El radar de noticias salió el 24-nov: no servía para nada concreto. */
 @view-transition { navigation: auto; }
 :root{
   --fondo:#060A12; --vidrio:rgba(16,26,44,.58); --vidrio-2:rgba(22,34,56,.72); --borde:rgba(148,190,255,.13); --borde-2:rgba(148,190,255,.24);
@@ -134,32 +134,20 @@ main{max-width:1320px;margin:0 auto;padding:clamp(22px,3.5vw,40px) clamp(14px,3.
 .chip.dormido b{opacity:.6}
 
 /* ── Secundario ── */
-.sec{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:28px}
+.sec{margin-top:28px}
 .panel{padding:18px}
 .panel h2{font-size:16px;font-weight:700;font-stretch:110%;display:flex;align-items:center;gap:10px}
 .panel h2 small{margin-left:auto;font-size:12px;font-weight:400;color:var(--texto-2);font-stretch:100%;text-align:right}
 .panel .sub{font-size:12px;color:var(--texto-2);margin:2px 0 12px}
-.pulso{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-height:240px}
+.pulso{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;min-height:120px}
 .medida{padding:11px 12px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.05)}
 .medida .v{white-space:nowrap;font-size:21px;font-weight:700;font-stretch:108%;line-height:1.1}
 .medida .l{font-size:12px;color:var(--texto)}
 .medida svg{display:block;width:100%;height:26px;margin-top:6px}
 .medida .f{font-size:11px;color:var(--texto-2);margin-top:3px;line-height:1.35}
-.ofertas-btn{margin-top:12px;display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:12px;cursor:pointer;
+.ofertas-btn{margin-top:12px;display:flex;align-items:center;gap:10px;width:min(100%,420px);padding:11px 14px;border-radius:12px;cursor:pointer;
   background:linear-gradient(90deg,rgba(255,200,97,.14),rgba(255,200,97,.04));border:1px solid rgba(255,200,97,.35);font-weight:600;text-align:left}
 .ofertas-btn small{margin-left:auto;font-weight:400;color:var(--texto-2)}
-.radar #radar{min-height:200px}
-.radar svg{width:100%;height:auto;display:block}
-.radar .hilo{stroke:rgba(148,190,255,.22);stroke-width:1}
-.radar .nodo{cursor:pointer}
-.radar .nodo circle{fill:color-mix(in oklab,var(--c) 30%,#0B1424);stroke:var(--c);stroke-width:1.2;transition:r .2s}
-.radar .nodo:hover circle,.radar .nodo:focus circle,.radar .nodo.on circle{fill:var(--c)}
-.radar .fuente{font-size:12px;fill:var(--texto-2);text-anchor:middle}
-@media (prefers-reduced-motion:no-preference){ .radar .grupo{animation:flota 9s ease-in-out infinite alternate} @keyframes flota{to{translate:0 -7px}} }
-.lector{min-height:62px;margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.05)}
-.lector a{text-decoration:none;font-weight:600;line-height:1.35;display:block}
-.lector a:hover{text-decoration:underline;text-underline-offset:3px}
-.lector small{display:block;color:var(--texto-2);font-size:12px;margin-top:3px}
 .vacio{font-size:13px;color:var(--texto-2)}
 .guardado{color:var(--alerta)}
 
@@ -233,7 +221,7 @@ dialog,[popover]{color:var(--texto);background:#0D1626;border:1px solid var(--bo
   @keyframes entra{from{opacity:0;translate:0 14px}}
 }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
-@media (max-width:1080px){ .card,.card.g4,.card.g5{grid-column:span 6} .sec{grid-template-columns:1fr} }
+@media (max-width:1080px){ .card,.card.g4,.card.g5{grid-column:span 6} .pulso{grid-template-columns:1fr 1fr} }
 @media (max-width:768px){
   :root{--rail:48px}
   .rail-inicio{width:36px;height:36px}

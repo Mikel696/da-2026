@@ -1,4 +1,4 @@
-/* 1-IND · Portada «Cerebro 2» (O5.2, 24-nov-2026), sobre el boceto v3 que Miguel aprobó el 24-nov.
+/* 1-IND · Portada «Cerebro 2» (O5.2, 24-nov-2026), sobre el boceto v3 que Miguel aprobó el 24-nov (sin el radar de noticias: lo quitó él).
    SOLO LECTURA: no escribe ninguna key de localStorage. Cada lectura llama a localStorage.getItem en ese momento:
    con cloud-sync cargado es el envuelto, que también devuelve lo que no cupo en disco (p21).
    Se carga antes que la cadena de sesión (CDN de Supabase) para pintar sin esperarla; vuelve a pintar con cada
@@ -262,33 +262,6 @@ const INICIO = (() => {
     tarjetas();
   }
 
-  // ── Radar de noticias: nodos por fuente; lo secundario va en nodos, lo principal en tarjetas ──
-  function radar(r){
-    const caja = $('radar'), lector = $('lector'), w = r && r.d;
-    const ns = (w && w.news || []).filter(n => /^https:\/\//.test(n.link||'')).slice(0,20);
-    if (!ns.length) { caja.innerHTML = '<p class="vacio">No se pudieron leer los titulares y no hay copia guardada. Vuelve a cargar con internet.</p>'; lector.hidden = true; return; }
-    $('radarFecha').innerHTML = 'del '+dia(w.generatedAt)+(r.guardado ? '<br><span class="guardado">copia guardada, sin conexión</span>' : '');
-    const fuentes = [...new Set(ns.map(n => n.source))].slice(0,6), col = ['var(--info)','var(--ia)','var(--vida)','var(--estudio)','var(--carrera)','var(--alerta)'];
-    const W = 640, H = 300;
-    let s = '<svg viewBox="0 0 '+W+' '+H+'" role="group" aria-label="Titulares por fuente">';
-    s += '<circle cx="'+W/2+'" cy="'+H/2+'" r="130" fill="none" stroke="rgba(148,190,255,.08)"/><circle cx="'+W/2+'" cy="'+H/2+'" r="70" fill="none" stroke="rgba(148,190,255,.06)"/>';
-    fuentes.forEach((f,i) => {
-      const a = (i/fuentes.length)*Math.PI*2 - Math.PI/2, gx = W/2 + Math.cos(a)*200, gy = H/2 + Math.sin(a)*95;
-      const suyos = ns.filter(n => n.source === f), pts = suyos.map((n,j) => { const b = j*2.4; return [gx + Math.cos(b)*(14+j*7), gy + Math.sin(b)*(10+j*5)]; });
-      s += '<g class="grupo" style="--c:'+col[i]+';animation-delay:-'+(i*1.7)+'s">';
-      s += pts.slice(1).map((p,j) => '<line class="hilo" x1="'+pts[j][0]+'" y1="'+pts[j][1]+'" x2="'+p[0]+'" y2="'+p[1]+'"/>').join('');
-      s += suyos.map((n,j) => { const nuevo = Date.now() - Date.parse(n.date) < 6*36e5;
-        return '<a class="nodo" href="'+esc(n.link)+'" target="_blank" rel="noopener" data-t="'+ns.indexOf(n)+'" aria-label="'+esc(n.title+', '+n.source)+'"><circle cx="'+pts[j][0].toFixed(1)+'" cy="'+pts[j][1].toFixed(1)+'" r="'+(nuevo?8:6)+'"/></a>'; }).join('');
-      s += '<text class="fuente" x="'+gx.toFixed(1)+'" y="'+(gy + (gy < H/2 ? -30 : 44)).toFixed(1)+'">'+esc(f)+' · '+suyos.length+'</text></g>';
-    });
-    caja.innerHTML = s + '</svg>';
-    const leer = i => { const n = ns[i]; if (!n) return; caja.querySelectorAll('.nodo').forEach(x => x.classList.toggle('on', +x.dataset.t === i));
-      lector.innerHTML = '<a href="'+esc(n.link)+'" target="_blank" rel="noopener">'+esc(n.title)+'</a><small>'+esc(n.source)+', '+dia(n.date)+'</small>'; };
-    caja.addEventListener('pointerover', e => { const a = e.target.closest('.nodo'); if (a) leer(+a.dataset.t); });
-    caja.addEventListener('focusin', e => { const a = e.target.closest('.nodo'); if (a) leer(+a.dataset.t); });
-    leer(0);
-  }
-
   // ── Ofertas: directorio fijo; Black Friday y Cyber Monday se calculan, no se escriben a mano ──
   function ofertas(r){
     const cuerpo = $('ofertasCuerpo'), d = r && r.d;
@@ -311,8 +284,7 @@ const INICIO = (() => {
   const EXTRA = [
     {s:'RES', nombre:'Descargar respaldo', d:'tus datos en un .json', hacer:() => { $('cuenta').showPopover(); $('respaldo').focus(); }},
     {s:'OFE', nombre:'Ofertas y eventos', d:'directorio de páginas', hacer:() => $('ofertas').showPopover()},
-    {s:'PUL', nombre:'Pulso de Colombia', d:'dólar, tasas, inflación', hacer:() => $('pulso').scrollIntoView({behavior:'smooth'})},
-    {s:'RAD', nombre:'Radar de noticias', d:'titulares del día', hacer:() => $('radar').scrollIntoView({behavior:'smooth'})}];
+    {s:'PUL', nombre:'Pulso de Colombia', d:'dólar, tasas, inflación', hacer:() => $('pulso').scrollIntoView({behavior:'smooth'})}];
   let vis = [], sel = 0;
   const norm = t => t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
   function pintarPaleta(){
@@ -343,7 +315,6 @@ const INICIO = (() => {
       const det = $('detalle'); if (det.open && det.dataset.k) detalle(porK(det.dataset.k));
     });
     Promise.all([traer('data/macro-co.json'), traer('data/jobs-feed.json')]).then(([m, j]) => pulso(m, j));
-    traer('data/world.json').then(radar);
     traer('data/ofertas-directorio.json').then(ofertas);
 
     // Luz que sigue al mouse dentro de cada tarjeta (una variable CSS; sin repintar nada).
