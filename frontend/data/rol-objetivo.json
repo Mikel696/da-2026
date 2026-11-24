@@ -1,0 +1,960 @@
+{
+ "rol": "Implementador de procesos con IA",
+ "definicion": "Lleva una herramienta o una automatización (con o sin IA) a la operación de una empresa: entiende el proceso, lo rediseña, lo implementa con el cliente o el área y mide el resultado.",
+ "muestra": {
+  "fecha": "2026-11-24",
+  "fuente": "LinkedIn Empleos, leído a mano en la sesión de Miguel",
+  "filtro": "Colombia · publicadas en los últimos 30 días",
+  "busquedas": [
+   "AI automation",
+   "automatización de procesos",
+   "implementation specialist"
+  ],
+  "resultadosPorBusqueda": "más de 99 cada una",
+  "criterio": "Entra si el título es de implementación, automatización de procesos o IA aplicada a operaciones. Fuera: ingeniería de software, desarrollo, QA, ciencia de datos, diseño, ventas y marketing.",
+  "n": 39
+ },
+ "perfil": {
+  "fuente": "Lo que el radar de 5-JOB anota como «ya lo tienes» (scripts/fetch-jobs.mjs, lista YA_TIENE) y el inglés en progreso."
+ },
+ "familias": {
+  "implementacion": 13,
+  "automatizacion": 23,
+  "ia": 8
+ },
+ "modalidad": {
+  "remoto": 8,
+  "hibrido": 17,
+  "sin dato": 1,
+  "presencial": 13
+ },
+ "nivel": {
+  "senior": 9,
+  "sin dato": 27,
+  "junior": 3
+ },
+ "competencias": [
+  {
+   "nombre": "Inglés",
+   "perfil": "progreso",
+   "vacantes": 26
+  },
+  {
+   "nombre": "Documentación",
+   "perfil": "si",
+   "vacantes": 23
+  },
+  {
+   "nombre": "APIs e integraciones",
+   "perfil": "si",
+   "vacantes": 18
+  },
+  {
+   "nombre": "Mejora continua (Lean, Six Sigma)",
+   "perfil": "si",
+   "vacantes": 18
+  },
+  {
+   "nombre": "Gestión del cambio y capacitación a usuarios",
+   "perfil": "si",
+   "vacantes": 17
+  },
+  {
+   "nombre": "Levantamiento de requerimientos",
+   "perfil": "no",
+   "vacantes": 17
+  },
+  {
+   "nombre": "Trato con clientes y áreas (stakeholders)",
+   "perfil": "si",
+   "vacantes": 17
+  },
+  {
+   "nombre": "Python",
+   "perfil": "no",
+   "vacantes": 14
+  },
+  {
+   "nombre": "Power BI u otra herramienta BI",
+   "perfil": "si",
+   "vacantes": 13
+  },
+  {
+   "nombre": "Indicadores y ROI",
+   "perfil": "si",
+   "vacantes": 13
+  },
+  {
+   "nombre": "IA generativa (LLM, ChatGPT, Copilot)",
+   "perfil": "no",
+   "vacantes": 12
+  },
+  {
+   "nombre": "Gestión de proyectos (Agile, Scrum)",
+   "perfil": "si",
+   "vacantes": 12
+  },
+  {
+   "nombre": "Power Automate / Power Platform",
+   "perfil": "no",
+   "vacantes": 10
+  },
+  {
+   "nombre": "RPA (UiPath, Automation Anywhere)",
+   "perfil": "no",
+   "vacantes": 10
+  },
+  {
+   "nombre": "SQL",
+   "perfil": "si",
+   "vacantes": 9
+  },
+  {
+   "nombre": "Agentes de IA o chatbots",
+   "perfil": "no",
+   "vacantes": 8
+  },
+  {
+   "nombre": "Excel",
+   "perfil": "si",
+   "vacantes": 8
+  },
+  {
+   "nombre": "Finanzas, contabilidad o conciliaciones",
+   "perfil": "si",
+   "vacantes": 8
+  },
+  {
+   "nombre": "Low-code / no-code",
+   "perfil": "no",
+   "vacantes": 6
+  },
+  {
+   "nombre": "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+   "perfil": "no",
+   "vacantes": 6
+  },
+  {
+   "nombre": "ERP (SAP, NetSuite, Oracle)",
+   "perfil": "no",
+   "vacantes": 6
+  },
+  {
+   "nombre": "n8n, Zapier o Make",
+   "perfil": "no",
+   "vacantes": 4
+  },
+  {
+   "nombre": "CRM (Salesforce, HubSpot)",
+   "perfil": "no",
+   "vacantes": 4
+  },
+  {
+   "nombre": "Prompts",
+   "perfil": "no",
+   "vacantes": 3
+  },
+  {
+   "nombre": "Machine learning",
+   "perfil": "no",
+   "vacantes": 1
+  }
+ ],
+ "vacantes": [
+  {
+   "titulo": "Sr RPA (Power Automate & Automation Anywhere)",
+   "empresa": "Coderio",
+   "lugar": "Área metropolitana de Bucaramanga (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4490773922/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "Low-code / no-code",
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "SQL",
+    "Python",
+    "Excel",
+    "APIs e integraciones",
+    "Documentación"
+   ]
+  },
+  {
+   "titulo": "Consultor de Transformación Digital e IA",
+   "empresa": "BEXTechnology",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion",
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4491594454/",
+   "competencias": [
+    "Gestión del cambio y capacitación a usuarios"
+   ]
+  },
+  {
+   "titulo": "Onboarding Automation Lead (AI)",
+   "empresa": "Alegra",
+   "lugar": "Colombia (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "senior",
+   "familias": [
+    "implementacion",
+    "automatizacion",
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4486588795/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "APIs e integraciones",
+    "Documentación",
+    "Indicadores y ROI",
+    "ERP (SAP, NetSuite, Oracle)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Data Automation Specialist",
+   "empresa": "Lenovo",
+   "lugar": "Puente Aranda",
+   "modalidad": "sin dato",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4489031280/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "SQL",
+    "Python",
+    "Power BI u otra herramienta BI",
+    "APIs e integraciones",
+    "Trato con clientes y áreas (stakeholders)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Analista Junior de Automatización (Enfoque Negocio / Business Analytics)",
+   "empresa": "Marsh",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "junior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4490536788/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "Python",
+    "Excel",
+    "Power BI u otra herramienta BI",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Levantamiento de requerimientos",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Senior Automation Analyst (Business Systems Analysis)",
+   "empresa": "WTW",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4486384990/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "SQL",
+    "APIs e integraciones",
+    "Mejora continua (Lean, Six Sigma)",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "AI Operations Efficiency Specialist",
+   "empresa": "Set 2 Close",
+   "lugar": "Colombia (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "sin dato",
+   "familias": [
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492731129/",
+   "competencias": [
+    "Low-code / no-code",
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Prompts",
+    "SQL",
+    "Python",
+    "APIs e integraciones",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Documentación",
+    "CRM (Salesforce, HubSpot)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Automation Process Analyst",
+   "empresa": "Omnicom Production Latam",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4494411182/",
+   "competencias": [
+    "RPA (UiPath, Automation Anywhere)",
+    "Low-code / no-code",
+    "Agentes de IA o chatbots",
+    "APIs e integraciones",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Profesional de Automatización Power Platform",
+   "empresa": "Gamma Recruitment",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492494022/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "Low-code / no-code",
+    "Power BI u otra herramienta BI",
+    "Mejora continua (Lean, Six Sigma)",
+    "Documentación"
+   ]
+  },
+  {
+   "titulo": "Process Analyst Low Code e IA Copilot",
+   "empresa": "Consultec-TI",
+   "lugar": "Área metropolitana de Bucaramanga (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion",
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4489949175/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "n8n, Zapier o Make",
+    "Low-code / no-code",
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Power BI u otra herramienta BI",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Documentación",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Analista de Soporte y Automatizador",
+   "empresa": "Autonomic Mind",
+   "lugar": "Área metropolitana de Medellín (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4483100562/",
+   "competencias": [
+    "n8n, Zapier o Make",
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Python",
+    "APIs e integraciones",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Automation Lead",
+   "empresa": "Omnicom Production Latam",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4493672512/",
+   "competencias": [
+    "RPA (UiPath, Automation Anywhere)",
+    "Low-code / no-code",
+    "Agentes de IA o chatbots",
+    "APIs e integraciones",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Customer Service Automation & Data Analyst",
+   "empresa": "GM Financial",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4477733759/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "Excel",
+    "Power BI u otra herramienta BI",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Documentación",
+    "Indicadores y ROI",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "AI Operations Specialist",
+   "empresa": "SellCord",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4485531670/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "APIs e integraciones",
+    "Gestión del cambio y capacitación a usuarios",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Jefe de Transformación e IA",
+   "empresa": "Banco Santander Colombia",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion",
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4486063446/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "SQL",
+    "Python",
+    "Excel",
+    "Power BI u otra herramienta BI",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Trato con clientes y áreas (stakeholders)",
+    "CRM (Salesforce, HubSpot)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Especialista de Inteligencia Artificial",
+   "empresa": "Financiera de Desarrollo Nacional",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4493795364/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "Python",
+    "APIs e integraciones",
+    "Levantamiento de requerimientos",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Analista de procesos",
+   "empresa": "Altipal S.A.S",
+   "lugar": "Ciudad Bolivar (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4487982603/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "Machine learning",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Levantamiento de requerimientos",
+    "Documentación"
+   ]
+  },
+  {
+   "titulo": "Analista de Datos y Automatización Junior",
+   "empresa": "Lagobo S.A.",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "junior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492085351/",
+   "competencias": [
+    "SQL",
+    "Python",
+    "Excel",
+    "Power BI u otra herramienta BI",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Analista de Automatización y Reporting I&O",
+   "empresa": "Inetum",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492055400/",
+   "competencias": [
+    "Python",
+    "Power BI u otra herramienta BI",
+    "APIs e integraciones",
+    "Mejora continua (Lean, Six Sigma)",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Arquitecto(a) de hiperautomatización junior",
+   "empresa": "Banco de Bogotá",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "junior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492977989/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "RPA (UiPath, Automation Anywhere)",
+    "n8n, Zapier o Make",
+    "Power BI u otra herramienta BI",
+    "APIs e integraciones",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)"
+   ]
+  },
+  {
+   "titulo": "PROFESIONAL PROCESOS",
+   "empresa": "TOTTO",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4490714804/",
+   "competencias": [
+    "RPA (UiPath, Automation Anywhere)",
+    "Excel",
+    "Mejora continua (Lean, Six Sigma)"
+   ]
+  },
+  {
+   "titulo": "Analista de Procesos",
+   "empresa": "Turia GBS",
+   "lugar": "Medellín (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4491160867/",
+   "competencias": [
+    "Excel",
+    "Mejora continua (Lean, Six Sigma)",
+    "Indicadores y ROI",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Invoice-to-Pay (I2P) Global Process Owner",
+   "empresa": "Johnson & Johnson MedTech",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4494183299/",
+   "competencias": [
+    "RPA (UiPath, Automation Anywhere)",
+    "Power BI u otra herramienta BI",
+    "APIs e integraciones",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Indicadores y ROI",
+    "ERP (SAP, NetSuite, Oracle)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Ingeniero de Procesos",
+   "empresa": "Buk",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4473382927/",
+   "competencias": [
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Trato con clientes y áreas (stakeholders)",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Senior Data Operations & Automation Analyst",
+   "empresa": "Empresa confidencial",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "senior",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4491894949/",
+   "competencias": [
+    "Power Automate / Power Platform",
+    "SQL",
+    "Python",
+    "Power BI u otra herramienta BI",
+    "Mejora continua (Lean, Six Sigma)",
+    "Documentación",
+    "Indicadores y ROI",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Implementation Specialist - US",
+   "empresa": "Simetrik",
+   "lugar": "Colombia (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4481806646/",
+   "competencias": [
+    "Prompts",
+    "SQL",
+    "Python",
+    "Excel",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Implementation Consultant",
+   "empresa": "Pismo",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4475817930/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "APIs e integraciones",
+    "Mejora continua (Lean, Six Sigma)",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Analista de implementación",
+   "empresa": "IFX Networks",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4493904782/",
+   "competencias": [
+    "Mejora continua (Lean, Six Sigma)",
+    "Documentación",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Sr. Implementation Consultant",
+   "empresa": "Visa",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "senior",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4489663716/",
+   "competencias": [
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Senior Implementation Analyst",
+   "empresa": "Octave",
+   "lugar": "Bogotá (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "senior",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4494037549/",
+   "competencias": [
+    "APIs e integraciones",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Cloud Data and Analytics Consultant, Professional Services",
+   "empresa": "Google",
+   "lugar": "Bogotá (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4489557356/",
+   "competencias": [
+    "Python",
+    "Gestión del cambio y capacitación a usuarios",
+    "Trato con clientes y áreas (stakeholders)",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Data Solutions Implementation Specialist",
+   "empresa": "Amadeus",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4492195009/",
+   "competencias": [
+    "SQL",
+    "Python",
+    "Power BI u otra herramienta BI",
+    "APIs e integraciones",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Trato con clientes y áreas (stakeholders)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "CRM & Automation Specialist",
+   "empresa": "Bia Energy",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "automatizacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4485399304/",
+   "competencias": [
+    "n8n, Zapier o Make",
+    "APIs e integraciones",
+    "Levantamiento de requerimientos",
+    "ERP (SAP, NetSuite, Oracle)",
+    "CRM (Salesforce, HubSpot)"
+   ]
+  },
+  {
+   "titulo": "Agentic Process Consultant",
+   "empresa": "AspenView Technology Partners",
+   "lugar": "Colombia (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "sin dato",
+   "familias": [
+    "ia"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4488540009/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "Prompts",
+    "Power BI u otra herramienta BI",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "Trato con clientes y áreas (stakeholders)",
+    "ERP (SAP, NetSuite, Oracle)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Implementation Support Specialist",
+   "empresa": "Neostella",
+   "lugar": "Medellín (Presencial)",
+   "modalidad": "presencial",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4472638051/",
+   "competencias": [
+    "APIs e integraciones",
+    "Documentación",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Shopify CRO Implementation Specialist",
+   "empresa": "Escend Media",
+   "lugar": "Colombia (En remoto)",
+   "modalidad": "remoto",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4490760988/",
+   "competencias": [
+    "Gestión de proyectos (Agile, Scrum)",
+    "Indicadores y ROI",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Consultor de Implementación Oracle NetSuite",
+   "empresa": "IFX Networks",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4484227984/",
+   "competencias": [
+    "Mejora continua (Lean, Six Sigma)",
+    "Gestión de proyectos (Agile, Scrum)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Documentación",
+    "ERP (SAP, NetSuite, Oracle)",
+    "Finanzas, contabilidad o conciliaciones",
+    "Inglés"
+   ]
+  },
+  {
+   "titulo": "Especialista en Control de Asistencia - Customer Onboarding",
+   "empresa": "Buk",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4478807436/",
+   "competencias": [
+    "Documentación",
+    "Indicadores y ROI"
+   ]
+  },
+  {
+   "titulo": "Deployment Strategist",
+   "empresa": "Salesforce",
+   "lugar": "Bogotá (Híbrido)",
+   "modalidad": "hibrido",
+   "nivel": "sin dato",
+   "familias": [
+    "implementacion"
+   ],
+   "url": "https://www.linkedin.com/jobs/view/4475018085/",
+   "competencias": [
+    "IA generativa (LLM, ChatGPT, Copilot)",
+    "Agentes de IA o chatbots",
+    "Python",
+    "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
+    "Gestión del cambio y capacitación a usuarios",
+    "Levantamiento de requerimientos",
+    "Trato con clientes y áreas (stakeholders)",
+    "Indicadores y ROI",
+    "ERP (SAP, NetSuite, Oracle)",
+    "CRM (Salesforce, HubSpot)",
+    "Inglés"
+   ]
+  }
+ ]
+}
