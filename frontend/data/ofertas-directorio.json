@@ -1,0 +1,293 @@
+{
+  "verificado": "2026-11-24",
+  "nota": "Directorio fijo: las páginas donde aparecen las rebajas, no una lista de productos. Se revisa a mano; ningún robot lo cambia.",
+  "clases": [
+    {
+      "id": "tiendas",
+      "icono": "🛒",
+      "nombre": "Tiendas grandes · su página de ofertas",
+      "nota": "Empieza aquí. Antes de pagar, mira el mismo modelo en otra tienda de esta lista.",
+      "sitios": [
+        {
+          "nombre": "Mercado Libre · Ofertas",
+          "url": "https://www.mercadolibre.com.co/ofertas",
+          "top": true,
+          "para": "Ofertas del día de todo. Compra a vendedores con MercadoLíder y muchas ventas."
+        },
+        {
+          "nombre": "Alkosto · Ofertas",
+          "url": "https://www.alkosto.com/ofertas",
+          "para": "Tecnología y electrodomésticos; aquí aparecen sus temporadas, como Black Days."
+        },
+        {
+          "nombre": "Ktronix · Ofertas",
+          "url": "https://www.ktronix.com/ofertas",
+          "para": "Tecnología (mismo grupo que Alkosto): portátiles, celulares, gaming."
+        },
+        {
+          "nombre": "Falabella",
+          "url": "https://www.falabella.com.co/falabella-co",
+          "para": "Ropa, tecnología y hogar. Sus eventos de descuento salen en la portada."
+        },
+        {
+          "nombre": "Éxito · Ofertas",
+          "url": "https://www.exito.com/ofertas",
+          "para": "Tecnología, mercado y hogar."
+        },
+        {
+          "nombre": "Dafiti",
+          "url": "https://www.dafiti.com.co/",
+          "para": "Ropa y calzado de marca con envío a domicilio."
+        },
+        {
+          "nombre": "Amazon · Ofertas",
+          "url": "https://www.amazon.com/deals",
+          "para": "Envía a Colombia: en la ficha mira «cargos de importación» antes de decidir."
+        }
+      ]
+    },
+    {
+      "id": "precio",
+      "icono": "📉",
+      "nombre": "¿Es rebaja de verdad?",
+      "nota": "Un «50 % OFF» sobre un precio inflado la semana pasada no es descuento. Para tiendas colombianas no hay historial de precios confiable: compara el mismo modelo en dos tiendas.",
+      "sitios": [
+        {
+          "nombre": "Keepa",
+          "url": "https://keepa.com/",
+          "top": true,
+          "para": "Historial de precios de Amazon: ves si hoy de verdad está más barato que de costumbre."
+        },
+        {
+          "nombre": "CamelCamelCamel",
+          "url": "https://camelcamelcamel.com/",
+          "para": "Lo mismo para Amazon, con alerta por correo cuando baja al precio que tú pongas."
+        }
+      ]
+    },
+    {
+      "id": "eventos",
+      "icono": "🎟️",
+      "nombre": "Conciertos y eventos",
+      "nota": "Compra solo en la boletería oficial del evento: la reventa no tiene respaldo.",
+      "sitios": [
+        {
+          "nombre": "Songkick",
+          "url": "https://www.songkick.com/",
+          "top": true,
+          "para": "Sigues a tus artistas y te avisa cuando anuncian fecha cerca de ti. Hace solo lo que hacía el cazador, gratis."
+        },
+        {
+          "nombre": "Bandsintown",
+          "url": "https://www.bandsintown.com/",
+          "para": "Alternativa a Songkick: sigues artistas y te avisa de sus fechas."
+        },
+        {
+          "nombre": "Tuboleta",
+          "url": "https://www.tuboleta.com/",
+          "top": true,
+          "para": "La boletería más grande de Colombia: conciertos, deportes, teatro."
+        },
+        {
+          "nombre": "Ticketmaster Colombia",
+          "url": "https://www.ticketmaster.co/",
+          "para": "Absorbió a eTicket y La Tiquetera: varios conciertos grandes se venden aquí."
+        },
+        {
+          "nombre": "TaquillaLive",
+          "url": "https://www.taquillalive.com/",
+          "para": "Conciertos y festivales; a veces abre con fila virtual."
+        }
+      ]
+    },
+    {
+      "id": "juegos",
+      "icono": "🎮",
+      "nombre": "Juegos gratis y precios reales",
+      "nota": "",
+      "sitios": [
+        {
+          "nombre": "Epic Games · gratis",
+          "url": "https://store.epicgames.com/es-ES/free-games",
+          "top": true,
+          "para": "Uno o más juegos gratis cada semana; se quedan en tu cuenta para siempre."
+        },
+        {
+          "nombre": "Amazon Luna · juegos con Prime",
+          "url": "https://luna.amazon.com/claims/",
+          "para": "Antes Prime Gaming: juegos de PC gratis cada mes si tienes Prime."
+        },
+        {
+          "nombre": "GOG · regalos",
+          "url": "https://www.gog.com/en/partner/free_games",
+          "para": "Juegos gratis sin DRM de vez en cuando."
+        },
+        {
+          "nombre": "IsThereAnyDeal",
+          "url": "https://isthereanydeal.com/",
+          "top": true,
+          "para": "Compara todas las tiendas y te dice el precio más bajo que ha tenido un juego."
+        },
+        {
+          "nombre": "SteamDB · rebajas",
+          "url": "https://steamdb.info/sales/",
+          "para": "Las rebajas de Steam con su mínimo histórico al lado."
+        },
+        {
+          "nombre": "SteamDB · calendario",
+          "url": "https://steamdb.info/sales/history/",
+          "para": "Cuándo empiezan las grandes rebajas de Steam (otoño, invierno, verano)."
+        },
+        {
+          "nombre": "Steam · ofertas",
+          "url": "https://store.steampowered.com/specials/",
+          "para": "La tienda en pesos colombianos."
+        },
+        {
+          "nombre": "Humble Bundle",
+          "url": "https://www.humblebundle.com/",
+          "para": "Paquetes de juegos y libros a precio de paquete."
+        }
+      ]
+    },
+    {
+      "id": "estudiante",
+      "icono": "🎓",
+      "nombre": "Gratis o más barato por ser estudiante",
+      "nota": "Lo que más plata vale y casi nadie reclama. Se pide con tu correo @cun.edu.co.",
+      "sitios": [
+        {
+          "nombre": "GitHub Student Pack",
+          "url": "https://education.github.com/pack",
+          "top": true,
+          "para": "Decenas de herramientas de pago gratis: dominios, nube, Copilot, cursos."
+        },
+        {
+          "nombre": "Azure for Students",
+          "url": "https://azure.microsoft.com/es-es/free/students/",
+          "top": true,
+          "para": "Crédito en la nube de Microsoft sin tarjeta de crédito."
+        },
+        {
+          "nombre": "JetBrains Student Pack",
+          "url": "https://www.jetbrains.com/community/education/",
+          "para": "PyCharm, DataGrip y todos sus programas gratis mientras estudies."
+        },
+        {
+          "nombre": "Figma Education",
+          "url": "https://www.figma.com/education/",
+          "para": "Figma de pago gratis para estudiantes."
+        },
+        {
+          "nombre": "Notion for Education",
+          "url": "https://www.notion.com/product/notion-for-education",
+          "para": "El plan Plus de Notion gratis con correo de universidad."
+        },
+        {
+          "nombre": "Canva Educación",
+          "url": "https://www.canva.com/education/",
+          "para": "Canva para estudiantes y docentes."
+        },
+        {
+          "nombre": "Spotify Premium Estudiantes",
+          "url": "https://www.spotify.com/co-es/student/",
+          "para": "Premium a precio de estudiante en Colombia."
+        },
+        {
+          "nombre": "Google Skills",
+          "url": "https://www.skills.google/",
+          "para": "Cursos y laboratorios de Google Cloud e IA."
+        }
+      ]
+    },
+    {
+      "id": "cursos",
+      "icono": "📚",
+      "nombre": "Cursos y certificados gratis",
+      "nota": "Certificaciones que sí pesan en una hoja de vida.",
+      "sitios": [
+        {
+          "nombre": "SENA · oferta educativa",
+          "url": "https://betowa.sena.edu.co/oferta",
+          "top": true,
+          "para": "Formación técnica, tecnológica y complementaria del Estado, gratis."
+        },
+        {
+          "nombre": "Talento Tech · MinTIC",
+          "url": "https://talentotech.gov.co/",
+          "top": true,
+          "para": "Programa del Gobierno para formarse en tecnología."
+        },
+        {
+          "nombre": "Kaggle Learn",
+          "url": "https://www.kaggle.com/learn",
+          "para": "Python, SQL, pandas y machine learning cortos y prácticos."
+        },
+        {
+          "nombre": "Microsoft Learn",
+          "url": "https://learn.microsoft.com/es-es/training/",
+          "para": "Rutas gratis de Power BI, Azure y datos; la base de sus certificaciones."
+        },
+        {
+          "nombre": "Cisco NetAcad",
+          "url": "https://www.netacad.com/",
+          "para": "Redes, ciberseguridad y Python con insignia de Cisco."
+        },
+        {
+          "nombre": "CS50 · Harvard",
+          "url": "https://cs50.harvard.edu/x/",
+          "para": "El curso de introducción a la programación más famoso, gratis."
+        },
+        {
+          "nombre": "freeCodeCamp en español",
+          "url": "https://www.freecodecamp.org/espanol/",
+          "para": "Programación y datos con certificados gratis."
+        },
+        {
+          "nombre": "Class Central · gratis",
+          "url": "https://www.classcentral.com/collection/top-free-online-courses",
+          "para": "Buscador de cursos gratis de todas las universidades."
+        },
+        {
+          "nombre": "edX",
+          "url": "https://www.edx.org/",
+          "para": "Cursos de universidades; muchos se pueden auditar gratis."
+        },
+        {
+          "nombre": "Coursera · gratis",
+          "url": "https://www.coursera.org/courses?query=free",
+          "para": "Cursos gratis; el certificado se paga o se pide con ayuda financiera."
+        }
+      ]
+    },
+    {
+      "id": "cupones",
+      "icono": "🏷️",
+      "nombre": "Cupones Udemy · cursos de pago, gratis",
+      "nota": "Cupones al 100 % que caducan en horas: inscríbete y el curso queda tuyo.",
+      "sitios": [
+        {
+          "nombre": "Real.Discount",
+          "url": "https://www.real.discount/",
+          "top": true,
+          "para": "El agregador más grande de cupones de Udemy."
+        },
+        {
+          "nombre": "DiscUdemy",
+          "url": "https://www.discudemy.com/",
+          "para": "Lista diaria de cupones gratis."
+        },
+        {
+          "nombre": "CouponScorpion",
+          "url": "https://couponscorpion.com/",
+          "para": "Cupones al 100 % del día."
+        },
+        {
+          "nombre": "UdemyFreebies",
+          "url": "https://www.udemyfreebies.com/",
+          "para": "Otra lista diaria; sirve cuando las demás se repiten."
+        }
+      ]
+    }
+  ]
+}

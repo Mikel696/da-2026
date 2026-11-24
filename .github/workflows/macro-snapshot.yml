@@ -75,10 +75,6 @@ jobs:
         run: node scripts/fetch-jobs.mjs
         continue-on-error: true
 
-      - name: Traer la mejor oferta de videojuegos
-        run: node scripts/fetch-deals.mjs
-        continue-on-error: true   # si falla CheapShark, se conserva el archivo anterior
-
       - name: Commitear si cambió
         id: commit
         run: |
