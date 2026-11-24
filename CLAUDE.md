@@ -101,6 +101,9 @@ Estos cuatro pilares definen el sistema. **No los rompas, no los reemplaces, no 
   (`_unsaved`), el `getItem` envuelto lo devuelve y se sube igual; el proxy relanza el error para que el módulo
   avise (`NBShared.quotaAlert`). **Nunca sellar `_cloud_ts` en disco para una key en `_unsaved`** (su copia de
   disco es la vieja) y nunca leer el disco con `Storage.prototype.getItem` para decidir qué subir.
+- **Imágenes de cuadernos (O5.0, 24-nov):** el body guarda solo una miniatura de 320 px en `data-preview`; la foto va a
+  Supabase Storage + IDB. Lo que llenó el disco (91 %) fueron previews viejas de 1280 px: `NBShared.optimizeImages` las
+  aligera sin pisar la HD que ya está en Storage. Tope de Chrome medido: 10,00 MiB (UTF-16, key + valor).
 
 ### 3. State-Driven Rendering
 - **No hay binding reactivo.** Cada módulo expone una función `render()` (o `renderX()` por panel) que lee localStorage y reconstruye el HTML del contenedor.

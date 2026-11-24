@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 (1-IND: ofertas pasa a directorio fijo de 44 páginas y se apaga el cazador · plan «Cerebro 2» propuesto como ola O5, esperando a Miguel)
+- **Última actualización:** 2026-11-24 (O5.0: disco del navegador de 91 % a 56,6 %, cuadernos aligerados; falta la prueba sin red · antes: 1-IND ofertas fijas y ola O5)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,43 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 💾 O5.0 · Disco del navegador: de 91 % a 56,6 % — martes 24-nov
+
+**Causa medida** (solo lectura, desde una pestaña en `data/plan-cerebro.json`, sin código del sitio): el 75 % del
+localStorage eran previews de 1280 px (~85 K caracteres c/u) incrustadas en `data-preview` de los chips de imagen,
+herencia del pipeline viejo. `work_nb_data` en la nube: 36 chips, 3.087 K de 3.647 K caracteres. Ni historial
+duplicado ni texto. Detalle en las notas de la sesión (carpeta side-session-notes, `O5.0-medicion-cuota.md`).
+
+- **Salida elegida con Miguel** (no IndexedDB detrás del proxy: obligaba a cambiar el arranque de las 28 páginas en el
+  motor de sync y la nube seguía recibiendo 7 MB por guardado): `NBShared.optimizeImages` (`bed8cc4`) deja cada
+  preview pesada (> 30 K) en miniatura de 320 px y guarda la foto en Supabase Storage + IDB. **`cloud-sync.js` no se tocó.**
+  Corrige 3 fallos del botón 🗜️ viejo: pisaba con `upsert` la HD de 1920 px que ya estaba en Storage; borraba la
+  preview entera (el otro equipo sin red no veía nada); y `nbRichness` contaba el base64 como texto (aligerar daba
+  una falsa «regresión» en el otro equipo). Además: exige sesión + primera sync terminada, guarda copia del cuaderno
+  en el historial (IDB) antes de escribir, aplica sobre el cuaderno releído, y sube `updated` solo +1 ms (gana a la
+  misma versión pesada en el merge por página; cualquier edición real de otro equipo le sigue ganando).
+- **nb-shared `p27`** en las 4 páginas que lo cargan (mindmap, notes, systems, work). `prueba-sync-carrera.mjs`: 23/23.
+- **Prueba de ensayo en producción** (cuaderno inventado, key sin sincronizar): 2 previews de 75 K → 14 K, texto y
+  página sin imagen intactos, `updated` +1 ms solo en la página tocada, la foto que ya estaba en Storage NO se pisó,
+  copia en historial, segunda corrida no hace nada. Todo lo de ensayo se borró (Storage volvió a 53 objetos).
+- **Aplicado en el Chrome de Miguel:** 14-WORK 3.647 K → 906 K (23 fotos), 10-SYS 876 K → 423 K (9), 13-NOT 451 K →
+  364 K (2); 0 pendientes, 0 errores; los 3 iguales en la nube (comparación canónica, la JSONB reordena campos).
+  `work_nb_data` volvió al disco (antes vivía solo en memoria por p21).
+- **Verificado en producción:** tope **medido** 10,00 MiB (relleno temporal de 51 ms, borrado), uso **56,6 %**;
+  0 errores QUOTA y 0 errores de consola al recargar 14-WORK y la portada; un cambio en `work_nb_data` queda en disco,
+  se lee desde una página sin código del sitio y sigue tras reabrir 14-WORK (y se borró después).
+- **Sin confirmar / pendiente:** la prueba con el **cable desconectado** (criterio literal de O5.0; Claude no puede
+  cortar la red sin perder el control del navegador) → O5.0 sigue `pendiente` hasta que Miguel la haga.
+  Para 24 fotos de 14-WORK la copia en la nube es la de 1280 px (la de 1920, si existe, está en el IDB del PC del
+  trabajo y no se sube porque el id ya existe). Una pestaña abierta con nb-shared viejo puede marcar una «regresión»
+  falsa al sincronizar: no pierde nada (guarda copia); se arregla recargando.
+- **Siguiente riesgo:** adjuntos de materia de 10-SYS (`sys_subj_files_*`) en base64 en localStorage, solo locales;
+  uno de 2 MB ocupa ~5,3 MiB, más que el margen libre (4,3 MiB). Hoy hay uno de 0,97 MiB.
+- **Pages falló 4 veces seguidas** (`bed8cc4`, `f07ca08`, `05b6e32`, `e1045cd`: «No artifacts named github-pages»,
+  con el artefacto de 136 MB sí subido); publicó al 5.º (`93479a9`). Suma evidencia a O5.6.
 
 ---
 

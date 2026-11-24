@@ -263,11 +263,11 @@
           "modulo": "infra",
           "estado": "pendiente",
           "prioridad": "P0",
-          "titulo": "El disco del navegador está lleno: va antes que el diseño",
+          "titulo": "El disco del navegador estaba lleno: aligerado al 56,6 %, falta la prueba sin red",
           "problema": "Medido el 24-nov en el Chrome de Miguel: localStorage con 164 keys y ~9,3 MB (en UTF-16), contra un tope de ~10 MB. work_nb_data ocupa 4,2 MB en disco y la versión nueva ya no cabe: consola «QUOTA al escribir work_nb_data (3647KB) — queda en memoria». Lo que no cabe vive solo en memoria y en la nube (p21): sin red y con la pestaña cerrada, ese cambio se pierde. Siguen sys_notebook (1,7 MB), un archivo de materia (0,97 MB) y not_nb_data (0,9 MB). Es O4.1, pendiente desde el 17-ago, ya no como riesgo sino como hecho.",
           "entrega": "Primero medir qué ocupa dentro de cada cuaderno (¿imágenes en base64?). Después, la salida de menor riesgo: sacar lo pesado de localStorage (IndexedDB detrás del mismo proxy, o Supabase Storage para imágenes, ver SUPABASE_STORAGE_SETUP.md). Toca cloud-sync: regla 7 y prueba de carrera.",
-          "verificacion": "Uso de localStorage < 60 % del tope, 0 errores QUOTA en la consola de producción, y escribir un cambio en el cuaderno de 14-WORK con la red cortada → recargar → sigue ahí.",
-          "reusa": "NBShared.quotaAlert y _unsaved de cloud-sync (p21); scripts/prueba-sync-carrera.mjs."
+          "verificacion": "Uso de localStorage < 60 % del tope, 0 errores QUOTA en la consola de producción, y escribir un cambio en el cuaderno de 14-WORK con la red cortada → recargar → sigue ahí. AVANCE 24-nov (bed8cc4, publicado en 93479a9): el 75 % del peso eran previews de 1280 px incrustadas en los chips de imagen; optimizeImages las deja en miniatura de 320 px con la foto en Supabase Storage. Medido en producción: tope 10,00 MiB, uso 56,6 % (antes 91 %), 0 errores QUOTA en 14-WORK y la portada, los 3 cuadernos iguales en la nube. Un cambio en work_nb_data queda en disco y sigue ahí leído sin código del sitio y tras reabrir. FALTA: la prueba con el cable desconectado (Miguel, 3 min); hasta eso no pasa a hecho.",
+          "reusa": "NBShared.quotaAlert y _unsaved de cloud-sync (p21); scripts/prueba-sync-carrera.mjs. Siguiente riesgo: los adjuntos de materia de 10-SYS (sys_subj_files_*) se guardan en base64 en localStorage; uno de 2 MB ocupa ~5,3 MiB, más que el margen libre (4,3 MiB)."
         },
         {
           "id": "O5.1",
