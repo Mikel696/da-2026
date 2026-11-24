@@ -114,7 +114,7 @@ const SYS = (() => {
         { id: 'nub5_c', title: 'Tener usuario y contraseña de AWS Academy (los entrega el docente; pedirlos si no llegaron)', date: '2026-10-11', type: 'tarea' },
         { id: 'nub5_aws', title: 'Entrar por primera vez a AWS Academy (sin esto no hay ACA de Nube)', date: '2026-10-29', type: 'tarea' }],
       resources: ['https://aws.amazon.com/es/training/awsacademy/', 'https://learn.microsoft.com/es-es/training/azure/'] },
-    { id: 'trabajo_investigacion', period: '26V05', code: 'DIS41', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único (16 semanas) · 2 créditos', credits: 2,
+    { id: 'trabajo_investigacion', period: '26V05', code: 'DIS41', name: 'Trabajo de Investigación en Ingeniería', short: 'Trabajo de Investigación', group: '55520', icon: '🔬', color: 'hsl(320,60%,50%)', type: 'Investigación · Bloque único (16 semanas) · 2 créditos', credits: 2, esquema: 'cun_ti',
       professor: 'MANUEL ALBERTO SALGADO ALBA', professor_email: 'manuel_salgado@cun.edu.co', cdigital_id: 126584, schedule: 'Miércoles · 6:15-7:45 PM (Google Meet)',
       clases: [{ dias: [3], ini: '18:15', fin: '19:45' }],
       subject_links: { clase: 'https://meet.google.com/yxw-rjzb-qcs', material: 'https://cdigital.cun.edu.co/mod/resource/view.php?id=7994844' },
@@ -361,6 +361,17 @@ const SYS = (() => {
       { k: 'q3', label: 'Quiz 3', w: 2, cut: 3 },
       { k: 'co', label: 'Coevaluación', w: 2, cut: 3 },
       { k: 'au', label: 'Autoevaluación', w: 2, cut: 3 },
+    ],
+    // Trabajo de Investigación (bloque único): pesos del libro de calificaciones de CDigital (23-nov-2026).
+    // Corte 3 = 40 % × (ACA Final 85,42 % · Quiz 3 10,42 % · Coevaluación 4,17 %). La Autoevaluación va fuera de la nota única.
+    cun_ti: [
+      { k: 'q1', label: 'Quiz 1', w: 10, cut: 1 },
+      { k: 'p1', label: 'Parcial 1', w: 20, cut: 1 },
+      { k: 'aca2', label: 'ACA 2', w: 20, cut: 2 },
+      { k: 'q2', label: 'Quiz 2', w: 10, cut: 2 },
+      { k: 'aca', label: 'ACA Final', w: 34.17, cut: 3 },
+      { k: 'q3', label: 'Quiz 3', w: 4.17, cut: 3 },
+      { k: 'co', label: 'Coevaluación', w: 1.66, cut: 3 },
     ],
   };
 
@@ -2665,6 +2676,133 @@ const SYS = (() => {
       ${showDone && f.done.length ? `<section class="mt-blk done"><h4 class="mt-blk-h">Hechas <span class="n">${f.done.length}</span></h4>${f.done.map(e => _mtRow(e, { compact: true })).join('')}</section>` : ''}`;
   }
 
+  // ══ TABLERO DEL DASHBOARD ══
+  // No repite los bloques de 📚 Materias: responde qué sigue, qué viene en 14 días, en qué punto del
+  // bloque vas y cómo van las notas. Todo sale de las mismas fuentes (parte, cronogramas, clases, notas).
+  const DB_DAYS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  const _dStr = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  function _dbEvents(ctx) {
+    const out = [];
+    currentSubjects().forEach(s => {
+      const f = _subjFeed(s, ctx);
+      // Una entrega del cronograma sin fecha (p. ej. "abre el 7-dic") no compite por "lo siguiente".
+      [...f.urgent, ...f.week, ...f.later].forEach(e => { if (!e.done && !e.info && e.kind !== 'day' && (e.due || e.kind === 'item')) out.push({ ...e, s }); });
+      out._past = (out._past || 0) + f.past.filter(e => !e.info).length;
+    });
+    const far = ctx.now + 7 * 86400000;
+    // Primero lo marcado P0; después por cierre. Sin fecha cuenta como "dentro de una semana".
+    out.sort((a, b) => ((b.prio === 'p0') - (a.prio === 'p0')) || ((_ms(a.due) || far) - (_ms(b.due) || far)));
+    return out;
+  }
+  function _dbNext(evs) {
+    if (!evs.length) return `<div class="db-next empty"><p class="db-next-t">No hay nada pendiente con fecha.</p><p class="db-next-s">Cuando Claude actualice la semana, aquí sale lo primero que toca.</p></div>`;
+    const e = evs[0], s = e.s;
+    const link = (e.links || []).find(l => l && l.url);
+    const acts = [link ? `<a class="db-btn main" href="${escA(link.url)}" target="_blank" rel="noopener">${esc(link.label || 'Abrir')}</a>` : '',
+      // Los pasos del parte (texto para pegar, enlaces) valen más que la guía genérica del cronograma.
+      e.step && !(e.steps && e.steps.length) ? `<button type="button" class="db-btn" data-mt="step" data-sid="${escA(e.step[0])}" data-eid="${escA(e.step[1])}">Paso a paso</button>` : '',
+      e.steps && e.steps.length ? `<button type="button" class="db-btn" data-mt="db-go" data-sid="${escA(s.id)}">Ver los pasos</button>` : '',
+      _mtDoneBtn(e)].join('');
+    const after = evs.slice(1, 4).map(x => `<li><span class="db-dot" style="--sc:${escA(x.s.color)}"></span><span class="db-after-t">${esc(_shortTitle(x.title))}</span><span class="db-after-d">${x.due ? wlFmtDue(x.due) : 'sin fecha'}</span></li>`).join('');
+    return `<div class="db-next" style="--sc:${escA(s.color || 'var(--vi)')}">
+      <div class="db-next-m"><span class="db-chip">${s.icon || '📚'} ${esc(_short(s))}</span>${e.due ? _cdHtml(e.due) : '<span class="mt-cd">sin fecha de cierre</span>'}${e.est ? EST_MINI : ''}</div>
+      <h2 class="db-next-t">${esc(_shortTitle(e.title))}</h2>
+      ${e.why ? `<p class="db-next-s">${esc(e.why)}</p>` : ''}
+      <div class="db-next-a">${acts}</div>
+      ${after ? `<div class="db-after"><span class="db-after-h">Después</span><ul>${after}</ul></div>` : ''}
+    </div>`;
+  }
+  function _dbQuincena(evs) {
+    const now = new Date(), hhmm = now.toTimeString().slice(0, 5);
+    const subs = currentSubjects();
+    const days = Array.from({ length: 14 }, (_, i) => new Date(now.getFullYear(), now.getMonth(), now.getDate() + i));
+    const byDay = {};
+    evs.forEach(e => { if (e.due) (byDay[e.due.slice(0, 10)] = byDay[e.due.slice(0, 10)] || []).push(e); });
+    const col = (d, i) => {
+      const key = _dStr(d), dow = d.getDay() || 7;
+      const cls = subs.flatMap(s => (s.clases || []).filter(c => c.dias.includes(dow)).map(c => ({ s, c })))
+        .sort((a, b) => a.c.ini.localeCompare(b.c.ini));
+      const dl = byDay[key] || [];
+      const chips = [
+        ...cls.map(({ s, c }) => `<button type="button" class="db-cls${c.tipo ? ' alt' : ''}${i === 0 && c.fin < hhmm ? ' gone' : ''}" style="--sc:${escA(s.color)}" data-mt="db-go" data-sid="${escA(s.id)}"
+            title="${escA(s.name + ' · ' + c.ini + '-' + c.fin + (c.tipo ? ' · ' + c.tipo : ''))}"><b>${c.ini}</b> ${esc(s.code || _short(s))}</button>`),
+        ...dl.map(e => `<button type="button" class="db-dl${e.est ? ' est' : ''}${e.prio === 'p0' ? ' p0' : ''}" style="--sc:${escA(e.s.color)}" data-mt="db-go" data-sid="${escA(e.s.id)}"
+            title="${escA(e.s.name + ': ' + e.title + (e.est ? ' (fecha estimada)' : ''))}">${esc(_shortTitle(e.title))}</button>`),
+      ];
+      const more = chips.length > 5 ? `<span class="db-more">+${chips.length - 4} más</span>` : '';
+      return `<div class="db-day${i === 0 ? ' is-today' : ''}${dow > 5 ? ' wknd' : ''}${i === 7 ? ' wk2' : ''}">
+        <div class="db-dh"><span>${i === 0 ? 'hoy' : i === 1 ? 'mañana' : DB_DAYS[d.getDay()]}</span><b>${d.getDate()}</b></div>
+        <div class="db-db">${(more ? chips.slice(0, 4) : chips).join('')}${more}</div></div>`;
+    };
+    return `<div class="db-q" role="list" aria-label="Los próximos 14 días">${days.map(col).join('')}</div>
+      <p class="db-legend"><span class="db-cls lg">clase</span><span class="db-dl lg">entrega</span><span class="db-dl est lg">fecha estimada</span><span class="db-legend-n">Toca cualquier cosa para abrir su materia.</span></p>`;
+  }
+  function _dbBloque() {
+    const period = detectPeriod(), bw = blockWeek(period), today = todayStr();
+    const subs = currentSubjects();
+    let html = '';
+    if (bw) {
+      const w = bw.plan.weeks;
+      const inBlock = subs.filter(s => s.esquema === 'cun_b8' || /Bloque II/.test(s.type || ''));
+      html += `<div class="db-tl"><div class="db-tl-h"><b>${esc(bw.plan.label)}</b><span>${inBlock.map(s => s.icon).join(' ')}</span>
+        <span class="db-tl-r">${bw.cur ? `semana ${bw.cur.week} de ${bw.total}` : bw.before ? 'todavía no empieza' : 'terminado'}</span></div>
+        <div class="db-weeks">${w.map(x => `<div class="db-wk c${x.cut}${bw.cur && bw.cur.week === x.week ? ' now' : today > x.end ? ' past' : ''}" title="${escA(`Semana ${x.week} · ${formatDate(x.start)} a ${formatDate(x.end)} · ${x.name}`)}">
+          <span class="db-wk-n">${x.week}</span><span class="db-wk-t">${esc(x.name.replace(/\s*\(.*?\)/g, ''))}</span>${x.weight ? `<span class="db-wk-w">${x.weight} %</span>` : ''}</div>`).join('')}</div>
+        <div class="db-cuts">${[1, 2, 3].map(c => { const ws = w.filter(x => x.cut === c); const lbl = (ws.find(x => x.cutLabel) || {}).cutLabel || `Corte ${c}`; return `<span style="flex:${ws.length}">${esc(lbl)}</span>`; }).join('')}</div></div>`;
+    }
+    // Materias de bloque único: una barra del inicio del período a su última entrega.
+    const cal = CALENDAR[period] || {};
+    subs.filter(s => !(s.esquema === 'cun_b8' || /Bloque II/.test(s.type || ''))).forEach(s => {
+      const start = (cal.academic || {}).start;
+      const end = (s.cronograma || []).map(c => c.date).filter(Boolean).sort().pop();
+      if (!start || !end || end <= start) return;
+      const total = daysBetween(start, end), gone = Math.min(total, Math.max(0, daysBetween(start, today)));
+      const pct = Math.round(gone / total * 100);
+      html += `<div class="db-tl one" style="--sc:${escA(s.color)}"><div class="db-tl-h"><b>${s.icon} ${esc(_short(s))}</b><span>bloque único</span>
+          <span class="db-tl-r">${formatDate(start)} → ${formatDate(end)} · faltan ${Math.max(0, daysBetween(today, end))} días</span></div>
+        <div class="db-bar"><i style="width:${pct}%"></i><span class="db-bar-now" style="left:${pct}%"></span></div></div>`;
+    });
+    return html || '<p class="db-empty">Sin plan del bloque cargado para este período.</p>';
+  }
+  function _dbNotas() {
+    const rows = currentSubjects().map(s => {
+      const g = gradeStats(s);
+      if (!g) return '';
+      const name = `<span class="db-n-name">${s.icon} ${esc(_short(s))}</span>`;
+      if (!g.done) {
+        const first = (s.cronograma || []).filter(c => !c.done && /quiz|parcial/.test(c.type) && c.date).sort((a, b) => a.date.localeCompare(b.date))[0];
+        return `<div class="db-n none">${name}<span class="db-n-txt">Sin notas todavía${first ? `: la primera llega con «${esc(_shortTitle(first.title))}» ${first.est ? '≈ ' : ''}${formatDate(first.date)}` : ''}.</span></div>`;
+      }
+      const tone = g.avg >= 4.5 ? 'hi' : g.avg >= 3.5 ? 'mid' : 'lo';
+      const need = g.left <= 0 ? `Nota final ${g.acum.toFixed(2)}.` : g.need <= 0 ? `Ya aseguraste ${g.meta.toFixed(1)} aunque saques 0 en lo que falta.`
+        : `Para cerrar en ${g.meta.toFixed(1)} te basta con ${g.need.toFixed(2)} en el ${Math.round(g.left)} % que falta.`;
+      return `<div class="db-n" style="--sc:${escA(s.color)}">${name}
+        <div class="db-n-bar ${tone}" title="${escA(`${Math.round(g.done)} % del curso evaluado`)}"><i style="width:${g.done}%"></i></div>
+        <span class="db-n-avg"><b>${g.avg.toFixed(2)}</b> en el ${Math.round(g.done)} % evaluado</span>
+        <span class="db-n-txt">${need}</span></div>`;
+    }).join('');
+    return rows ? rows + '<p class="db-note">Calculado con las notas que tienes registradas en cada materia (📚 Materias → Notas). La oficial es la de SGA.</p>'
+      : '<p class="db-empty">Las materias de este período no tienen esquema de notas.</p>';
+  }
+  function renderDashboard() {
+    const el = document.getElementById('dbBoard');
+    if (!el) return;
+    const ctx = _mtCtx(), evs = _dbEvents(ctx);
+    const past = evs._past ? `<button type="button" class="db-past" data-mt="db-go" data-sid="">⚠ ${evs._past} entrega${evs._past !== 1 ? 's' : ''} con fecha pasada sin marcar: revísalas en Materias</button>` : '';
+    el.innerHTML = `${_dbNext(evs)}${past}
+      <section class="db-sec"><h3 class="db-h">Los próximos 14 días</h3>${_dbQuincena(evs)}</section>
+      <div class="db-pair">
+        <section class="db-sec"><h3 class="db-h">En qué punto del bloque vas</h3>${_dbBloque()}</section>
+        <section class="db-sec"><h3 class="db-h">Cómo vas con las notas</h3>${_dbNotas()}</section>
+      </div>`;
+  }
+  function dbGo(sid) {
+    showTab(1);
+    if (sid) { _setTileOpen('m', sid); renderTiles('m'); }
+    const t = sid && document.getElementById('mtt-m-' + sid);
+    (t || document.getElementById('pnl1')).scrollIntoView({ block: 'start' });
+  }
+
   function renderTiles(host) {
     const el = document.getElementById(host === 'd' ? 'subjTilesDash' : 'subjTilesMat');
     if (!el) return;
@@ -2873,6 +3011,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
       case 'aca-deliver': acaDeliver(d.id); break;
       case 'aca-copy': acaCopy(b, d.aca, d.step, d.i); break;
       case 'copy': _copyText(b, d.v, '✓ Copiado'); break;
+      case 'db-go': dbGo(d.sid); break;
       case 'aca-script': acaScript(d.aca, d.step); break;
       default: return;
     }
@@ -2898,7 +3037,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
     safe(renderStats, 'Números de arriba');
     safe(renderActionNow, 'Tu día');
     safe(renderWeekHead, 'Encabezado del parte');
-    safe(() => renderTiles('d'), 'Módulos del Dashboard');
+    safe(renderDashboard, 'Tablero del Dashboard');
     safe(renderWeekLive, 'Semana en vivo');
     safe(() => renderTiles('m'), 'Módulos de Materias');
     safe(renderCatchUp, 'Ponte al día');

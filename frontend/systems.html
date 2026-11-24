@@ -589,7 +589,7 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 .lb-close:hover,.lb-dl:hover{background:rgba(255,255,255,.22)}
 .lb-caption{color:#e5e7eb;font-size:13px;text-align:center;font-family:'IBM Plex Mono',monospace;background:rgba(0,0,0,.4);padding:6px 12px;border-radius:6px;max-width:90vw;word-break:break-word}
 </style>
-<link rel="stylesheet" href="css/systems-modulos.css?v=5">
+<link rel="stylesheet" href="css/systems-modulos.css?v=6">
 </head>
 <body>
 <div class="orb orb-1"></div>
@@ -639,19 +639,18 @@ body{font-family:'Outfit','IBM Plex Sans',sans-serif;background:var(--bg);color:
 <!-- ═══════ TAB 0: DASHBOARD ═══════ -->
 <div class="pnl on" id="pnl0">
 
-<!-- MÓDULOS POR MATERIA — lo primero del Dashboard: un bloque por materia + el de ACAs -->
-<div id="subjTilesDash" aria-label="Tus materias"></div>
+<!-- TABLERO — lo siguiente, los próximos 14 días, el bloque y las notas (renderDashboard).
+     Los bloques por materia viven solo en 📚 Materias. -->
+<div id="dbBoard" class="db"></div>
 
-<!-- SEMANA EN VIVO — parte semanal de Claude (datos en sys_week_live, estado en sys_week_state).
-     Aquí solo el encabezado (título, corte, titular y alertas); el parte completo queda plegado. -->
+<!-- SEMANA EN VIVO — encabezado del parte (titular y avisos); el detalle queda plegado. -->
 <div id="weekHead" class="wh"></div>
 
-<!-- TU DÍA — debajo de los módulos y de las alertas, compacto (3 tareas a la vista, el resto plegado) -->
-<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 16px;margin-bottom:12px"></div>
-
 <details class="mt-fold" id="weekFold" hidden>
-<summary>Ver el parte completo <span class="n">ruta, prioridades, clases, centro de mando y próxima semana</span></summary>
-<div class="mt-fold-b"><div id="weekLive"></div></div>
+<summary>Ver el parte completo <span class="n">tu día, ruta, prioridades, clases y próxima semana</span></summary>
+<div class="mt-fold-b">
+<div id="actionNow" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.05));border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 16px;margin-bottom:12px"></div>
+<div id="weekLive"></div></div>
 </details>
 
 <div class="sl" style="margin-bottom:6px">· accesos ·</div>
@@ -1048,6 +1047,6 @@ Ingeniería de Sistemas · CUN Virtual · Mission Control 2026
 <script src="js/cloud-sync.js?v=p25"></script>
 <script src="js/nb-shared.js?v=p24"></script>
 <script src="js/nb-engine.js"></script>
-<script src="systems_logic.js?v=p49"></script>
+<script src="systems_logic.js?v=p50"></script>
 </body>
 </html>
