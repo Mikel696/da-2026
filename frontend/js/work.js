@@ -90,6 +90,32 @@ const WorkNB = (function(){
     if (nameInp) nameInp.value = '';
     setActive(id); activePageId = null; render();
   }
+  /* Cuaderno de una ruta de estudio (work-rutas.js). Id fijo: si dos equipos lo crean, la mezcla de cuadernos los
+     une. Devuelve el id, o null si no cupo en el disco (no escribe la lista si las páginas no entraron). */
+  function ensureNotebook(id, nombre, icono, paginas){
+    const list = loadMeta(), data = loadData();
+    const enLista = list.some(n => n.id === id);
+    if (enLista && data[id]) return id;
+    const ahora = Date.now();
+    try {
+      if (!data[id]) {
+        data[id] = { pages: (paginas || []).map((p, i) => ({ id: p.id, title: p.title, body: p.body, images: [], attachments: [], links: [],
+          created: new Date(ahora + i).toISOString(), updated: new Date(ahora + i).toISOString() })) };
+        saveData(data);
+      }
+      if (!enLista) {
+        list.push({ id, name: nombre, icon: icono || '🧭', cover: 'c6', color: PALETTE[list.length % PALETTE.length], created: new Date(ahora).toISOString() });
+        saveMeta(list);
+      }
+    } catch (e) { return null; }
+    return id;
+  }
+  function open(id){
+    if (activeNbId) _flushPending(activeNbId);
+    setActive(id); activePageId = null; render();
+    const w = document.getElementById('workNbWrap');
+    if (w && w.scrollIntoView) w.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   function rename(id){
     const list = loadMeta(); const nb = list.find(n => n.id === id); if (!nb) return;
     const next = prompt('Nombre del cuaderno:', nb.name);
@@ -517,7 +543,7 @@ const WorkNB = (function(){
   else setTimeout(render, 0);
 
   return {
-    create, rename, remove, render, selectActive, moveNotebook,
+    create, rename, remove, render, selectActive, moveNotebook, ensureNotebook, open,
     openDesignPicker, refreshNewFormPreview, editDesign,
     newPage, openPage, deletePage, autoSave,
     fmt, insertLabel, removeLabelEl,
