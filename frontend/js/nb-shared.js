@@ -85,12 +85,15 @@
      un snapshot acá → toda pérdida es recuperable con 1 click.
      Guardado en IDB (no localStorage) para no competir por la cuota.
   ══════════════════════════════════════════════════════════════ */
+  const _B64_RE = /data:[a-z0-9.+\/-]+;base64,[A-Za-z0-9+\/=]+/gi;
   function nbRichness(obj){
     const out = {};
     for (const nbId of Object.keys(obj || {})){
       const pages = (obj[nbId] && obj[nbId].pages) || [];
       let chars = 0, imgs = 0;
-      for (const p of pages){ const b = (p && p.body) || ''; chars += b.length; imgs += (b.match(/nb-img-chip|data-img-id/g) || []).length; }
+      // `chars` mide TEXTO: el base64 de una imagen no cuenta. Si contara, reducir una
+      // preview a miniatura (optimizeImages) se leía como «perdió texto» en el otro equipo.
+      for (const p of pages){ const b = (p && p.body) || ''; chars += b.replace(_B64_RE, '').length; imgs += (b.match(/nb-img-chip|data-img-id/g) || []).length; }
       out[nbId] = { chars, imgs, pages: pages.length };
     }
     return out;
@@ -2047,71 +2050,135 @@
   }
 
   /* ── PUBLIC API ────────────────────────────────────────────── */
-  /** MIGRACIÓN MANUAL (botón) · libera el peso de las imágenes ya pegadas.
-   *  Mueve la HD de cada chip con `data-preview` inline (~180KB) a Supabase
-   *  Storage + IDB, y quita el `data-preview` del body → la JSONB queda liviana.
-   *  FAIL-SAFE: solo quita el preview si la HD subió OK a Storage (si está en
-   *  cola/offline, lo conserva y se podrá re-correr). IDEMPOTENTE: ignora chips
-   *  ya migrados. NO toca nada más del body (remoción por string exacto).
+  /* Preview «pesada» = la de 1280 px que dejaba el pipeline viejo (~85K caracteres c/u).
+     Las imágenes nuevas ya entran con miniatura de 320 px (~9K): no se tocan. */
+  const _PV_HEAVY = 30000;
+  const _THUMB_OPTS = { maxDim: 320, quality: 0.55 };   // la misma miniatura de _insertImageFromFile
+
+  /** Ids de lo que ya está en Storage (carpeta del usuario). null si no se pudo listar. */
+  async function _storageIds(uid){
+    const ids = new Set();
+    try {
+      for (let offset = 0; ; offset += 1000) {
+        const { data, error } = await window.SB.storage.from(BUCKET).list(uid, { limit: 1000, offset });
+        if (error) return null;
+        (data || []).forEach(f => ids.add(f.name));
+        if (!data || data.length < 1000) return ids;
+      }
+    } catch(e) { return null; }
+  }
+
+  /** ALIGERAR CUADERNOS (botón 🗜️ y aviso de disco lleno · O5.0, 24-nov).
+   *  Cada chip con preview pesada queda con una MINIATURA de 320 px; la foto completa
+   *  vive en Supabase Storage (+ IDB de este equipo) y se abre desde ahí.
+   *   · Solo con sesión y la primera sync terminada: antes, la copia local puede ser
+   *     vieja y subirla pisaría lo que trajo la nube.
+   *   · Nunca sube encima de una foto que ya está en Storage (allá suele estar la HD de
+   *     1920 px; la preview es peor). Antes la pisaba con upsert.
+   *   · Solo cambia un chip si su foto completa está confirmada en Storage.
+   *   · Copia del cuaderno entero al historial (IDB) antes de escribir; sin copia, no escribe.
+   *   · Aplica sobre el cuaderno RELEÍDO al final (las subidas tardan) y por string exacto:
+   *     si la página cambió mientras tanto, ese chip no se toca.
+   *   · `updated` sube 1 ms: la versión liviana le gana a la MISMA versión pesada en el
+   *     merge por página, y cualquier edición real de otro equipo le sigue ganando a ella.
    *  @param dataKey 'work_nb_data' | 'not_nb_data' | 'sys_notebook'
-   *  @returns {scanned, optimized, pending, errors, freedKB} */
+   *  @returns {ok, reason?, scanned, optimized, pending, errors, freedKB} */
   async function optimizeImages(dataKey){
-    let data; try { data = JSON.parse(localStorage.getItem(dataKey) || '{}'); } catch { return { ok:false, reason:'parse' }; }
-    if (!data || typeof data !== 'object') return { ok:false, reason:'empty' };
+    const count = { scanned:0, optimized:0, pending:0, errors:0, freedKB:0 };
+    let data; try { data = JSON.parse(localStorage.getItem(dataKey) || '{}'); } catch { return { ok:false, reason:'parse', ...count }; }
+    if (!data || typeof data !== 'object' || !Object.keys(data).length) return { ok:false, reason:'empty', ...count };
+    const rep = window.CLOUD && CLOUD.storageReport ? CLOUD.storageReport() : null;
+    if (!rep || !rep.cloud) return { ok:false, reason:'no-cloud', ...count };
+    const uid = await _currentUserId();
+    if (!uid) return { ok:false, reason:'no-cloud', ...count };
+    const inStorage = await _storageIds(uid);
+    if (!inStorage) return { ok:false, reason:'storage-list', ...count };
+
+    // 1) Chips pesados (parse de solo lectura: el body no se re-serializa)
     const parser = new DOMParser();
-    let scanned=0, optimized=0, pending=0, errors=0, freed=0;
-    for (const nbId of Object.keys(data)) {
-      const nb = data[nbId];
-      if (!nb || !Array.isArray(nb.pages)) continue;
-      for (const page of nb.pages) {
+    const heavy = new Map();   // preview → ids (la misma foto puede estar en dos chips)
+    for (const nb of Object.values(data)) {
+      for (const page of ((nb && nb.pages) || [])) {
         if (!page || typeof page.body !== 'string' || page.body.indexOf('data-preview') === -1) continue;
-        // 1) Extraer {id, preview} de los chips (parse read-only — no re-serializa el body)
-        const doc = parser.parseFromString(page.body, 'text/html');
-        const chips = [...doc.querySelectorAll('.nb-img-chip[data-preview]')]
-          .map(c => ({ id: c.getAttribute('data-img-id'), preview: c.getAttribute('data-preview') || '' }));
-        for (const { id, preview } of chips) {
-          if (!preview) continue;
-          scanned++;
-          if (!id) continue;   // sin id no se puede keyear en Storage → conservar
-          try {
-            // Fuente HD: IDB full (origin) si está; si no, el propio preview inline
-            let hd = null; try { hd = await getImage(id); } catch(e){}
-            if (!hd) { hd = preview; try { await putImage(id, hd); } catch(e){} }
-            const r = await cloudUploadAttachment(id, await _dataUrlToFile(hd, id + '.jpg'));
-            if (r && r.ok) {
-              const needle = ' data-preview="' + preview + '"';
-              if (page.body.indexOf(needle) !== -1) {
-                page.body = page.body.replace(needle, '');
-                page.updated = new Date().toISOString();
-                freed += Math.round(needle.length / 1024);
-                optimized++;
-              }
-            } else {
-              pending++;   // quedó en cola de reintento → NO se quita el preview (seguro)
-            }
-          } catch(e) { errors++; }
-        }
+        parser.parseFromString(page.body, 'text/html').querySelectorAll('.nb-img-chip[data-preview]').forEach(c => {
+          const pv = c.getAttribute('data-preview') || '', id = c.getAttribute('data-img-id');
+          if (id && pv.length > _PV_HEAVY && /^data:image\//.test(pv)) heavy.set(pv, (heavy.get(pv) || new Set()).add(id));
+        });
       }
     }
-    if (optimized) {
-      try { localStorage.setItem(dataKey, JSON.stringify(data)); }
-      catch(e) { return { ok:false, reason:'quota-save', scanned, optimized, pending, errors, freedKB:freed }; }
+    count.scanned = heavy.size;
+    if (!heavy.size) return { ok:true, ...count };
+
+    // 2) Foto completa a salvo en Storage, después la miniatura
+    const swap = new Map();    // preview → miniatura
+    for (const [pv, ids] of heavy) {
+      try {
+        let safe = true;
+        for (const id of ids) {
+          let hd = null; try { hd = await getImage(id); } catch(e){}
+          if (!hd) { try { await putImage(id, pv); } catch(e){} }   // HD sin red en este equipo
+          if (inStorage.has(id)) continue;
+          const r = await cloudUploadAttachment(id, await _dataUrlToFile(hd || pv, id + '.jpg'));
+          if (!r || !r.ok) safe = false;
+        }
+        if (!safe) { count.pending++; continue; }   // en cola: el chip se queda como está
+        const thumb = await compressImage(pv, _THUMB_OPTS);
+        if (thumb && thumb.length < pv.length) swap.set(pv, thumb); else count.errors++;
+      } catch(e) { count.errors++; }
     }
-    return { ok:true, scanned, optimized, pending, errors, freedKB:freed };
+    if (!swap.size) return { ok:true, ...count };
+
+    // 3) Releer, respaldar, aplicar y guardar
+    let fresh; try { fresh = JSON.parse(localStorage.getItem(dataKey) || '{}'); } catch { return { ok:false, reason:'parse', ...count }; }
+    if (!(await snapshotNb(dataKey, fresh, 'optimizar-imagenes'))) return { ok:false, reason:'snapshot', ...count };
+    let freed = 0;
+    for (const nb of Object.values(fresh)) {
+      for (const page of ((nb && nb.pages) || [])) {
+        if (!page || typeof page.body !== 'string') continue;
+        let body = page.body;
+        for (const [pv, thumb] of swap) {
+          const parts = body.split('data-preview="' + pv + '"');
+          if (parts.length < 2) continue;
+          body = parts.join('data-preview="' + thumb + '"');
+          freed += (parts.length - 1) * (pv.length - thumb.length);
+          count.optimized += parts.length - 1;
+        }
+        if (body === page.body) continue;
+        page.body = body;
+        const t = Date.parse(page.updated), next = isNaN(t) ? '' : new Date(t + 1).toISOString();
+        if (next > String(page.updated || '')) page.updated = next;
+      }
+    }
+    count.freedKB = Math.round(freed / 1024);
+    if (!count.optimized) return { ok:true, ...count };
+    try { localStorage.setItem(dataKey, JSON.stringify(fresh)); }
+    catch(e) { return { ok:false, reason:'quota-save', ...count }; }
+    return { ok:true, ...count };
+  }
+
+  const _OPT_WHY = {
+    'no-cloud': 'Hace falta la sesión iniciada y que termine la sincronización (el indicador ☁ abajo a la derecha). Espera unos segundos y reintenta.',
+    'storage-list': 'No se pudo consultar la nube de imágenes. Revisa la conexión y reintenta.',
+    'snapshot': 'No se pudo guardar la copia de seguridad previa, así que no se tocó nada.',
+    'quota-save': 'Las fotos completas ya están en la nube, pero el cuaderno aligerado no cupo al guardarse.'
+  };
+  function _optReport(r){
+    if (!r.ok && _OPT_WHY[r.reason]) return '⚠️ No se aligeró\n\n' + _OPT_WHY[r.reason];
+    return (r.optimized ? '✅ Listo' : 'ℹ️ No había imágenes pesadas en este cuaderno') +
+      '\n\nImágenes aligeradas: ' + r.optimized + '\nLiberado: ~' + r.freedKB + ' KB' +
+      '\nEn cola (se reintenta sola con sesión y red): ' + r.pending + '\nErrores: ' + r.errors;
   }
 
   /** Botón 🗜️ — el mismo flujo en 10-SYS, 13-NOT y 14-WORK. Solo corre si el
    *  usuario confirma: reescribe sus cuadernos. */
   async function optimizeImagesUI(dataKey, btn, onDone){
-    if (!confirm('🗜️ Optimizar imágenes\n\nMueve las imágenes pegadas en tus cuadernos a almacenamiento separado y aligera la sincronización. Es seguro: no se borra nada hasta confirmar que la copia subió a la nube.\n\n¿Continuar?')) return;
+    if (!confirm('🗜️ Aligerar imágenes\n\nCada foto pesada de este cuaderno queda como miniatura; la foto completa se guarda en la nube y se abre desde ahí al hacer clic. Es seguro: antes se guarda una copia del cuaderno en el historial y ninguna foto se cambia sin confirmar que la completa está en la nube.\n\n¿Continuar?')) return;
     const label = btn && btn.textContent;
     if (btn) { btn.textContent = '🗜️ Optimizando…'; btn.disabled = true; }
     try {
       const r = await optimizeImages(dataKey);
       if (r.reason === 'parse' || r.reason === 'empty') { alert('No hay cuaderno que optimizar.'); return; }
-      alert((r.ok ? '✅ Listo' : '⚠️ Las imágenes subieron, pero el cuaderno no cupo al guardarse') +
-            '\n\nImágenes movidas: ' + r.optimized + '\nLiberado: ~' + r.freedKB + ' KB' +
-            '\nEn cola (se reintenta sola con sesión y red): ' + r.pending + '\nErrores: ' + r.errors);
+      alert(_optReport(r));
       if (typeof onDone === 'function') onDone();
     } catch(e) { alert('Error: ' + (e && e.message || e)); }
     finally { if (btn) { btn.textContent = label; btn.disabled = false; } }
@@ -2142,18 +2209,18 @@
     const heavy = rep.top.map(t => '• ' + (_HEAVY_LABEL[t.key] || t.key) + ' · ' + fmt(t.kb) + ' KB').join('\n');
     const safe = rep.unsaved.indexOf(dataKey) !== -1 && rep.cloud;
     const raw = localStorage.getItem(dataKey) || '';
-    const pv = raw.match(/data-preview=\\?"[^"\\]*/g) || [];
+    const pv = (raw.match(/data-preview=\\?"[^"\\]*/g) || []).filter(m => m.length > _PV_HEAVY);
     const pvKB = Math.round(pv.reduce((s, m) => s + m.length, 0) / 1024);
     let msg = '💾 El navegador se quedó sin espacio para el Cerebro\n\n' +
       'Ocupado: ' + fmt(rep.totalKB) + ' KB, el máximo que este navegador admite para el sitio (todos los módulos comparten ese espacio).\n\nLo que más pesa:\n' + heavy + '\n\n' +
       (safe ? '✅ Tu último cambio se está subiendo a la nube: no se pierde, pero este navegador no lo puede guardar.'
             : '⚠️ Tu último cambio solo vive en esta pestaña (no hay sesión con la nube). No la cierres hasta liberar espacio.');
     if (!pv.length) { alert(msg + '\n\nEste cuaderno no tiene imágenes que aligerar: usa el botón 🗜️ del cuaderno que más pesa.'); return; }
-    msg += '\n\n¿Optimizar ahora las ' + pv.length + ' imágenes pegadas en este cuaderno (≈ ' + fmt(pvKB) + ' KB)?' +
-           '\nSe mueven a almacenamiento aparte; no se borra nada hasta confirmar que la copia subió.';
+    msg += '\n\n¿Aligerar ahora las ' + pv.length + ' imágenes pesadas de este cuaderno (≈ ' + fmt(pvKB) + ' KB)?' +
+           '\nQuedan como miniatura y la foto completa va a la nube; antes se guarda una copia del cuaderno en el historial.';
     if (confirm(msg)) {
       optimizeImages(dataKey).then(r => {
-        alert('🗜️ Imágenes movidas: ' + r.optimized + ' · liberado ~' + (r.freedKB || 0) + ' KB · en cola: ' + (r.pending || 0) + ' · errores: ' + (r.errors || 0));
+        alert(_optReport(r));
         if (typeof onDone === 'function') onDone();
       }).catch(e => alert('Error: ' + (e && e.message || e)));
     }
@@ -2161,7 +2228,7 @@
 
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p26-2026-10-27',
+    VERSION: 'p27-2026-11-24',
     pendingUploadsCount, retryPendingUploads, reuploadMissingImages,
     // Historial de versiones / anti-pérdida
     nbRichness, nbDetectRegression, snapshotNb, listNbHistory, getNbSnapshot, restoreNbSnapshot,
