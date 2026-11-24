@@ -30,8 +30,10 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
   no borrada** (ya había corrido hoy a las 7:43 y publicado `aa0ab44`). `OFERTAS-PREFERENCIAS.md` ya no hace falta.
 - **Verificado en producción** (Chrome de Miguel, tras `0ad46d6`): botón «🎁 Ofertas y eventos · 45 páginas», 7 grupos,
   44 enlaces que abren en pestaña nueva, aviso «Black Friday en 3 días (27-nov) · Cyber Monday en 6 días (30-nov)».
-- **GitHub Pages falló dos veces seguidas** (`0a51c40`, `cdf127d`: «No artifacts named github-pages»); publicó al tercer
-  intento (commit vacío `0ad46d6`). Medido: 6 de 15 despliegues fallaron desde el 23-nov → tarea **O5.6**.
+- **GitHub Pages falló 3 de 5 veces hoy** (`0a51c40`, `cdf127d`, `0bbc386`: «No artifacts named github-pages»); cada
+  vez publicó un commit vacío (`0ad46d6`, `86b1713`). Medido antes: 6 de 15 desde el 23-nov → tarea **O5.6**.
+  Producción verificada tras `86b1713`: 45 páginas, HotSale, Éxito corregido, 0 errores de consola. Ojo: Pages sirve el
+  JSON con `max-age=600`, así que un cambio al directorio tarda hasta 10 min en verse.
 - **⚠️ P0 encontrado de paso — el disco del navegador está lleno.** Consola de producción: «QUOTA al escribir
   work_nb_data (3647KB) — queda en memoria». localStorage con 164 keys y ~9,3 MB (UTF-16) de un tope de ~10 MB;
   `work_nb_data` 4,2 MB, `sys_notebook` 1,7 MB. El mecanismo p21 lo mantiene en memoria y lo sube, pero sin red y con la
