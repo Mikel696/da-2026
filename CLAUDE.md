@@ -104,6 +104,8 @@ Estos cuatro pilares definen el sistema. **No los rompas, no los reemplaces, no 
 - **Imágenes de cuadernos (O5.0, 24-nov):** el body guarda solo una miniatura de 320 px en `data-preview`; la foto va a
   Supabase Storage + IDB. Lo que llenó el disco (91 %) fueron previews viejas de 1280 px: `NBShared.optimizeImages` las
   aligera sin pisar la HD que ya está en Storage. Tope de Chrome medido: 10,00 MiB (UTF-16, key + valor).
+- **Adjuntos de materia 10-SYS (24-nov):** el archivo va al IDB de NBShared + Supabase Storage (`sysf_<sid>_<fid>`); en
+  `sys_subj_files_<sid>` (solo local) queda la ficha. Nunca volver a guardar un binario en base64 en localStorage.
 
 ### 3. State-Driven Rendering
 - **No hay binding reactivo.** Cada módulo expone una función `render()` (o `renderX()` por panel) que lee localStorage y reconstruye el HTML del contenedor.
