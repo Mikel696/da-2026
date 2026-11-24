@@ -1,6 +1,6 @@
 {
  "rol": "Implementador de procesos con IA",
- "definicion": "Lleva una herramienta o una automatización (con o sin IA) a la operación de una empresa: entiende el proceso, lo rediseña, lo implementa con el cliente o el área y mide el resultado.",
+ "definicion": "Según las vacantes de la muestra: lleva una herramienta o una automatización (con o sin IA) a la operación de una empresa: entiende el proceso, lo rediseña, lo implementa con el cliente o el área y mide el resultado.",
  "muestra": {
   "fecha": "2026-11-24",
   "fuente": "LinkedIn Empleos, leído a mano en la sesión de Miguel",
@@ -12,7 +12,8 @@
   ],
   "resultadosPorBusqueda": "más de 99 cada una",
   "criterio": "Entra si el título es de implementación, automatización de procesos o IA aplicada a operaciones. Fuera: ingeniería de software, desarrollo, QA, ciencia de datos, diseño, ventas y marketing.",
-  "n": 39
+  "n": 39,
+  "metodo": "Una habilidad cuenta si la descripción la nombra. El inglés cuenta también cuando la oferta está escrita en inglés (6 de las 26). Conteo revisado el mismo día: «requerimientos» suelto (en Colombia también significa «solicitudes»), «casos de uso», «tareas manuales» y «capa transversal» ya no suman."
  },
  "perfil": {
   "fuente": "Lo que el radar de 5-JOB anota como «ya lo tienes» (scripts/fetch-jobs.mjs, lista YA_TIENE) y el inglés en progreso."
@@ -42,7 +43,7 @@
   {
    "nombre": "Documentación",
    "perfil": "si",
-   "vacantes": 23
+   "vacantes": 22
   },
   {
    "nombre": "APIs e integraciones",
@@ -50,7 +51,7 @@
    "vacantes": 18
   },
   {
-   "nombre": "Mejora continua (Lean, Six Sigma)",
+   "nombre": "Mejora y optimización de procesos (Lean, Six Sigma)",
    "perfil": "si",
    "vacantes": 18
   },
@@ -60,14 +61,9 @@
    "vacantes": 17
   },
   {
-   "nombre": "Levantamiento de requerimientos",
-   "perfil": "no",
-   "vacantes": 17
-  },
-  {
    "nombre": "Trato con clientes y áreas (stakeholders)",
    "perfil": "si",
-   "vacantes": 17
+   "vacantes": 16
   },
   {
    "nombre": "Python",
@@ -93,6 +89,11 @@
    "nombre": "Gestión de proyectos (Agile, Scrum)",
    "perfil": "si",
    "vacantes": 12
+  },
+  {
+   "nombre": "Levantamiento de requerimientos (discovery)",
+   "perfil": "no",
+   "vacantes": 11
   },
   {
    "nombre": "Power Automate / Power Platform",
@@ -258,9 +259,9 @@
     "Python",
     "Excel",
     "Power BI u otra herramienta BI",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Trato con clientes y áreas (stakeholders)",
     "Inglés"
    ]
@@ -280,8 +281,8 @@
     "RPA (UiPath, Automation Anywhere)",
     "SQL",
     "APIs e integraciones",
-    "Mejora continua (Lean, Six Sigma)",
-    "Levantamiento de requerimientos",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "Inglés"
@@ -327,9 +328,9 @@
     "Agentes de IA o chatbots",
     "APIs e integraciones",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "Inglés"
@@ -350,7 +351,7 @@
     "RPA (UiPath, Automation Anywhere)",
     "Low-code / no-code",
     "Power BI u otra herramienta BI",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Documentación"
    ]
   },
@@ -372,7 +373,7 @@
     "IA generativa (LLM, ChatGPT, Copilot)",
     "Power BI u otra herramienta BI",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
     "Documentación",
@@ -414,9 +415,9 @@
     "Low-code / no-code",
     "Agentes de IA o chatbots",
     "APIs e integraciones",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "Inglés"
@@ -438,7 +439,7 @@
     "Agentes de IA o chatbots",
     "Excel",
     "Power BI u otra herramienta BI",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión del cambio y capacitación a usuarios",
     "Documentación",
     "Indicadores y ROI",
@@ -482,7 +483,6 @@
     "Power BI u otra herramienta BI",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
     "Trato con clientes y áreas (stakeholders)",
     "CRM (Salesforce, HubSpot)",
     "Inglés"
@@ -503,7 +503,6 @@
     "Agentes de IA o chatbots",
     "Python",
     "APIs e integraciones",
-    "Levantamiento de requerimientos",
     "Inglés"
    ]
   },
@@ -522,9 +521,9 @@
     "RPA (UiPath, Automation Anywhere)",
     "Machine learning",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación"
    ]
   },
@@ -560,8 +559,7 @@
     "Python",
     "Power BI u otra herramienta BI",
     "APIs e integraciones",
-    "Mejora continua (Lean, Six Sigma)",
-    "Levantamiento de requerimientos",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Documentación",
     "Indicadores y ROI"
    ]
@@ -584,7 +582,7 @@
     "APIs e integraciones",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)"
    ]
@@ -602,7 +600,7 @@
    "competencias": [
     "RPA (UiPath, Automation Anywhere)",
     "Excel",
-    "Mejora continua (Lean, Six Sigma)"
+    "Mejora y optimización de procesos (Lean, Six Sigma)"
    ]
   },
   {
@@ -617,7 +615,7 @@
    "url": "https://www.linkedin.com/jobs/view/4491160867/",
    "competencias": [
     "Excel",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Indicadores y ROI",
     "Finanzas, contabilidad o conciliaciones",
     "Inglés"
@@ -638,10 +636,10 @@
     "Power BI u otra herramienta BI",
     "APIs e integraciones",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "Indicadores y ROI",
@@ -661,10 +659,8 @@
    ],
    "url": "https://www.linkedin.com/jobs/view/4473382927/",
    "competencias": [
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
-    "Trato con clientes y áreas (stakeholders)",
     "Indicadores y ROI"
    ]
   },
@@ -683,7 +679,7 @@
     "SQL",
     "Python",
     "Power BI u otra herramienta BI",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Documentación",
     "Indicadores y ROI",
     "Inglés"
@@ -704,7 +700,6 @@
     "SQL",
     "Python",
     "Excel",
-    "Levantamiento de requerimientos",
     "Documentación",
     "Finanzas, contabilidad o conciliaciones",
     "Inglés"
@@ -723,7 +718,7 @@
    "competencias": [
     "IA generativa (LLM, ChatGPT, Copilot)",
     "APIs e integraciones",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "Inglés"
@@ -740,7 +735,7 @@
    ],
    "url": "https://www.linkedin.com/jobs/view/4493904782/",
    "competencias": [
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Documentación",
     "Indicadores y ROI"
    ]
@@ -813,7 +808,6 @@
     "APIs e integraciones",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
     "Trato con clientes y áreas (stakeholders)",
     "Finanzas, contabilidad o conciliaciones",
     "Inglés"
@@ -832,7 +826,7 @@
    "competencias": [
     "n8n, Zapier o Make",
     "APIs e integraciones",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "ERP (SAP, NetSuite, Oracle)",
     "CRM (Salesforce, HubSpot)"
    ]
@@ -853,10 +847,10 @@
     "Prompts",
     "Power BI u otra herramienta BI",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "Trato con clientes y áreas (stakeholders)",
     "ERP (SAP, NetSuite, Oracle)",
@@ -907,10 +901,10 @@
    ],
    "url": "https://www.linkedin.com/jobs/view/4484227984/",
    "competencias": [
-    "Mejora continua (Lean, Six Sigma)",
+    "Mejora y optimización de procesos (Lean, Six Sigma)",
     "Gestión de proyectos (Agile, Scrum)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Documentación",
     "ERP (SAP, NetSuite, Oracle)",
     "Finanzas, contabilidad o conciliaciones",
@@ -928,7 +922,6 @@
    ],
    "url": "https://www.linkedin.com/jobs/view/4478807436/",
    "competencias": [
-    "Documentación",
     "Indicadores y ROI"
    ]
   },
@@ -948,7 +941,7 @@
     "Python",
     "Mapeo de procesos (BPMN, AS-IS / TO-BE)",
     "Gestión del cambio y capacitación a usuarios",
-    "Levantamiento de requerimientos",
+    "Levantamiento de requerimientos (discovery)",
     "Trato con clientes y áreas (stakeholders)",
     "Indicadores y ROI",
     "ERP (SAP, NetSuite, Oracle)",

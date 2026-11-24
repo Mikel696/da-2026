@@ -199,7 +199,7 @@ body { line-height: var(--leading-normal); }
 .rol-cab h2{font-family:var(--font-display);font-size:15px;font-weight:400;font-style:italic;color:var(--t2);margin:0}
 .rol-nombre{font-family:var(--font-display);font-size:28px;font-weight:600;letter-spacing:-.4px;line-height:1.15;margin:2px 0 8px;color:var(--tx)}
 .rol-def{font-size:14px;color:var(--t2);max-width:68ch;margin:0 0 8px;line-height:1.6}
-.rol-fuente{font-size:12px;color:var(--t3);margin:0;max-width:80ch}
+.rol-fuente{font-size:12px;color:var(--t2);margin:0;max-width:80ch}
 .rol-hechos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:18px 0 20px;padding:14px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
 .rol-hechos p{margin:0;font-size:13px;line-height:1.55;color:var(--tx)}
 .rol-comp-cab{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -214,7 +214,7 @@ body { line-height: var(--leading-normal); }
 .rol-leyenda span::before{content:"";display:inline-block;width:8px;height:11px;border-radius:1.5px;margin-right:5px;vertical-align:-1px}
 .rol-leyenda .si::before{background:var(--rol-si)}.rol-leyenda .no::before{background:var(--rol-no)}.rol-leyenda .pr::before{background:var(--rol-pr)}
 .rol-lista{list-style:none;margin:0;padding:0}
-.rol-fila{display:grid;grid-template-columns:minmax(180px,260px) minmax(0,1fr) 150px;align-items:center;gap:14px;padding:5px 0}
+.rol-fila{display:grid;grid-template-columns:minmax(180px,260px) minmax(0,470px) minmax(130px,auto);justify-content:start;align-items:center;gap:14px;padding:5px 0}
 .rol-fila+.rol-fila{border-top:1px solid rgba(39,39,42,.6)}
 .rol-nom{font-size:13px;color:var(--tx);line-height:1.35}
 .rol-tira{display:grid;grid-template-columns:repeat(39,minmax(0,1fr));gap:2px;max-width:470px}
@@ -224,7 +224,7 @@ body { line-height: var(--leading-normal); }
 .rol-cuenta b{font-size:15px;color:var(--tx);font-weight:600}
 .rol-est{display:block;font-size:11px}
 .rol-est.si{color:var(--rol-si)}.rol-est.no{color:var(--rol-no)}.rol-est.pr{color:var(--rol-pr)}
-.rol-nota{font-size:12px;color:var(--t3);line-height:1.55;max-width:80ch;margin:12px 0 0}
+.rol-nota{font-size:12px;color:var(--t2);line-height:1.55;max-width:80ch;margin:12px 0 0}
 .rol-donde{margin-top:20px;padding-top:16px;border-top:1px solid var(--bd)}
 .rol-radar{font-size:13px;color:var(--t2);line-height:1.6;max-width:80ch;margin:8px 0 10px}
 .rol-radar b{color:var(--tx)}

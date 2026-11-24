@@ -52,7 +52,7 @@ const WorkRol = (function(){
     const j = radar.d.jobs || [];
     const n = j.filter(x => esDelRol(x.titulo || '')).length;
     const cuando = radar.d.generatedAt ? `${fecha(radar.d.generatedAt)}, ${hora(radar.d.generatedAt)}` : 'fecha desconocida';
-    return `<p class="rol-radar">El radar de 5-JOB trae <b>${n}</b> vacante${n === 1 ? '' : 's'} del rol entre las ${j.length} que muestra (datos del ${esc(cuando)}${radar.guardado ? ', copia guardada sin conexión' : ''}). El radar no puede leer LinkedIn, donde se publica la mayoría: para eso están las búsquedas del rol en 5-JOB.</p>`;
+    return `<p class="rol-radar">El radar de 5-JOB trae <b>${n}</b> vacante${n === 1 ? '' : 's'} del rol entre las ${j.length} que muestra (datos del ${esc(cuando)}${radar.guardado ? ', copia guardada sin conexión' : ''}). El radar no lee LinkedIn, que es de donde salió la muestra de este mapa: para eso están las búsquedas del rol en 5-JOB.</p>`;
   }
 
   function render(){
@@ -92,9 +92,9 @@ const WorkRol = (function(){
             <button type="button" data-rol-filtro="faltan" aria-pressed="${soloFaltan}">Solo las que no están en tu perfil</button>
           </div>
         </div>
-        <p class="rol-leyenda">Cada cuadro es una vacante de la muestra. Lleno: la descripción pide esa habilidad. Color: <span class="si">en tu perfil</span>, <span class="no">no figura en tu perfil</span>, <span class="pr">en progreso</span>.</p>
+        <p class="rol-leyenda">Cada tira tiene un cuadro por vacante de la muestra; los llenos son las que piden esa habilidad. Color: <span class="si">en tu perfil</span>, <span class="no">no figura en tu perfil</span>, <span class="pr">en progreso</span>.</p>
         <ol class="rol-lista">${filas}</ol>
-        <p class="rol-nota">Cómo se cuenta: una habilidad cuenta si la descripción la nombra. «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra.</p>
+        <p class="rol-nota">Cómo se cuenta: ${esc(M.metodo || 'una habilidad cuenta si la descripción la nombra.')} «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra.</p>
       </section>
       <section class="rol-donde" aria-labelledby="rolDondeT">
         <h3 id="rolDondeT">Dónde verlas hoy</h3>
