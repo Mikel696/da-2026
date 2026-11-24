@@ -1,6 +1,5 @@
 /* 1-IND · Portada «Cerebro 2» (O5.2, 24-nov-2026) · diseño del boceto v3 que Miguel aprobó el 24-nov:
    cabina futurista, fluida y funcional. Lo principal son los módulos con sus datos vivos. El radar de noticias salió el 24-nov: no servía para nada concreto. */
-@view-transition { navigation: auto; }
 :root{
   --fondo:#060A12; --vidrio:rgba(16,26,44,.58); --vidrio-2:rgba(22,34,56,.72); --borde:rgba(148,190,255,.13); --borde-2:rgba(148,190,255,.24);
   --texto:#E8F0FF; --texto-2:#93A4C3; --texto-3:#8090AC;
