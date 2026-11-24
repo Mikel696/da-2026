@@ -47,6 +47,7 @@ for (const r of rutas.rutas || []) {
       if (!p.enlace.texto || !p.enlace.url) mal(`${donde}: al enlace le falta texto o url`);
       else if (/^https?:/.test(p.enlace.url)) externos.set(p.enlace.url, donde);
       else internos.set(p.enlace.url.split('#')[0], donde);
+      if (/grat/i.test(p.enlace.texto || '')) mal(`${donde}: el enlace dice «gratis» sin fuente (${p.enlace.texto})`);
     }
   });
 }

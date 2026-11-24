@@ -116,7 +116,7 @@
      "aprender": ["Los símbolos básicos de BPMN", "Dibujar el proceso actual", "Dibujar el proceso propuesto"],
      "recurso": { "nombre": "BPMN: Business Process Model and Notation", "proveedor": "Camunda (en inglés)", "url": "https://camunda.com/bpmn/" },
      "practica": "Dibuja el proceso actual y el propuesto del caso ficticio en demo.bpmn.io y pega las dos imágenes en esta página.",
-     "enlace": { "modulo": "web", "url": "https://demo.bpmn.io/", "texto": "Dibujar en demo.bpmn.io (gratis, en el navegador)" }
+     "enlace": { "modulo": "web", "url": "https://demo.bpmn.io/", "texto": "Dibujar en demo.bpmn.io (en el navegador)" }
     },
     {
      "id": "requerimientos-4",
