@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "actualizado": "2026-08-17",
+  "actualizado": "2026-11-24",
   "titulo": "Plan de desarrollo del Cerebro",
   "premisa": "Llevar los 16 módulos al nivel de 12-FIN y 5-JOB. Ese nivel tiene una definición concreta, no es una sensación — está en los 7 criterios de abajo. Un módulo 'terminado' es el que los cumple todos.",
   "criterios": [
@@ -250,6 +250,68 @@
           "entrega": "Barrer los tres. srs.js NO se borra hasta resolver O2.5 (puede que se rescate). Corregir las fichas de module-prompts.js y prompts.html. ⚠️ js/core.js SÍ se carga, desde pages/configurar.html, empleos.html e ingles.html.",
           "verificacion": "grep -rn del nombre de cada archivo en todo el repo antes de borrar. Después, index.html sigue funcionando igual.",
           "reusa": "Mismo barrido que O4.4, pero para .js: cruzar cada frontend/js/*.js contra los <script src> de las 28 páginas."
+        }
+      ]
+    },
+    {
+      "id": "O5",
+      "titulo": "Cerebro 2 · la página a otro nivel, sin decirle a Miguel qué hacer",
+      "porque": "24-nov, Miguel: «el diseño es muy básico; la funcionalidad y la tecnología, atrasadas». Medido ese día en la portada: contadores que no miden nada, un Quick Workshop en inglés que solo copia un prompt, noticias por un tercero que falla (rss2json), textos viejos (8vo semestre, Luciérnaga, Brinks), un video de 4,2 MB, el saludo con comillas. En el sitio: 19 de 34 páginas usan el sistema de diseño, no hay PWA ni service worker, ninguna transición entre páginas, 3 archivos JS que no carga nadie. Dos reglas mandan: (1) la Vista HOY se descartó (O1.1): nada de esto le dice qué hacer con su tiempo; (2) la tecnología nueva es la de la plataforma web, sin frameworks. Descartado con razón: React/Next u otro framework (build y reescritura del motor de sync, el origen de los incidentes P0); un chat de IA dentro del sitio (pide una API key en un sitio público o un backend de pago); rehacer los 20 módulos de una (30+ sesiones que compiten con el Bloque II).",
+      "items": [
+        {
+          "id": "O5.1",
+          "modulo": "1-IND",
+          "estado": "a-decidir",
+          "prioridad": "P1",
+          "titulo": "Boceto de la portada nueva para que Miguel elija",
+          "problema": "Miguel decide viendo, no leyendo. Construir el sistema de diseño sin que haya visto la dirección es arriesgar una sesión entera.",
+          "entrega": "Una página de prueba (sin publicar) con la dirección recomendada: lanzador de módulos con el estado real de cada uno (de cuándo es su dato), buscador Ctrl+K, sin contadores ni Workshop. Una propuesta, no un menú.",
+          "verificacion": "Miguel dice «sí, esa» o qué cambia. Hasta eso no se toca index.html.",
+          "reusa": "css/design-tokens.css y pages/design-system.html (v1)."
+        },
+        {
+          "id": "O5.2",
+          "modulo": "1-IND",
+          "estado": "a-decidir",
+          "prioridad": "P1",
+          "titulo": "Sistema de diseño v2 y portada nueva",
+          "problema": "La portada es un folleto: lista de módulos con descripciones viejas y widgets que fallan o no miden nada.",
+          "entrega": "Tokens y componentes con CSS moderno (container queries, :has(), nesting, popover y dialog nativos), transiciones entre páginas (View Transitions entre documentos), Ctrl+K para saltar a cualquier módulo o sección. Fuera: contadores, Workshop, cita del día y el video de 4,2 MB.",
+          "verificacion": "Lighthouse móvil de la portada medido antes y después (meta: Rendimiento y Accesibilidad ≥ 90). Con internet cortado la portada sigue completa y dice de cuándo son sus datos. 0 errores de consola en producción.",
+          "reusa": "El router actual de la portada (Cerebro.go) y el rail de módulos."
+        },
+        {
+          "id": "O5.3",
+          "modulo": "infra",
+          "estado": "a-decidir",
+          "prioridad": "P1",
+          "titulo": "Instalable y abre sin internet (PWA)",
+          "problema": "Los datos son offline-first, pero las páginas no: sin red no abre nada que el navegador no tenga en caché por casualidad. Tampoco se instala como app en el celular.",
+          "entrega": "manifest + service worker. HTML y JS siempre de la red primero; la caché solo cuando no hay red. Un service worker que sirva un cloud-sync.js viejo traería de vuelta la deriva de motor del 15-jul.",
+          "verificacion": "Se instala en el PC y en el celular. Modo avión: abre la portada y los módulos ya visitados. Subir la versión de cloud-sync y comprobar que todas las pestañas cargan la nueva.",
+          "reusa": "Regla 7 de CLAUDE.md (cache-bust en lockstep)."
+        },
+        {
+          "id": "O5.4",
+          "modulo": "infra",
+          "estado": "a-decidir",
+          "prioridad": "P1",
+          "titulo": "Lo roto y lo muerto primero: O2.2 y O4.5",
+          "problema": "Llevan pendientes desde el 17-ago y son justo lo que hace sentir viejo el sitio: la portada depende de rss2json (falla con HTTP 422) y hay JS que no carga nadie.",
+          "entrega": "Hacer O2.2 (noticias de la portada sin rss2json, del lado servidor en la foto diaria) y O4.5 (barrer el JS muerto).",
+          "verificacion": "La de cada tarea.",
+          "reusa": "scripts/fetch-world.mjs ya trae prensa del lado servidor."
+        },
+        {
+          "id": "O5.5",
+          "modulo": "todos",
+          "estado": "a-decidir",
+          "prioridad": "P2",
+          "titulo": "Cada módulo al diseño v2, en orden de uso medido",
+          "problema": "Rediseñar un módulo que Miguel no abre es cupo perdido. Hoy nadie sabe cuáles usa.",
+          "entrega": "Primero medir el uso (última escritura por módulo en Supabase y en _cloud_ts). Después, un módulo por sesión. Los que no usa se proponen para archivar (11-ACC ya está en O3.3).",
+          "verificacion": "Lista de uso medida y fechada antes de migrar el primero.",
+          "reusa": "cloud-sync.js guarda la hora de cada key sincronizada."
         }
       ]
     }

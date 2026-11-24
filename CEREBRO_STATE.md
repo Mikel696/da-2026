@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-15 (1-IND: «Ofertas de hoy» solo con rebajas de verdad y juegos que rotan · 3-ENG: regla R2b del corrector verificada en producción y cola nocturna recargada · fix P0 de cloud-sync p25)
+- **Última actualización:** 2026-11-24 (1-IND: ofertas pasa a directorio fijo de 44 páginas y se apaga el cazador · plan «Cerebro 2» propuesto como ola O5, esperando a Miguel)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,35 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎁 1-IND · Ofertas: directorio fijo, cazador apagado — martes 24-nov
+
+**Miguel:** «esa búsqueda de ofertas es muy básica, mala; déjala fija con las mejores páginas de descuentos, promociones,
+eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y tecnología básicos y atrasados».
+
+- **Ofertas (hecho):** `frontend/data/ofertas-directorio.json`, 44 páginas en 7 grupos (tiendas y su página de ofertas,
+  ¿rebaja de verdad?, conciertos y eventos, juegos, estudiante, cursos, cupones Udemy). Enlaces comprobados el 24-nov:
+  36 con HTTP 200; los 8 con 403 son anti-robots (Éxito, CamelCamelCamel, Bandsintown, Epic, SteamDB ×2, Canva,
+  Class Central), no caídas: falta abrirlos en un navegador. Cambios del mundo encontrados al comprobar: Prime Gaming ahora es
+  Amazon Luna (`luna.amazon.com/claims`), Sofía Plus lleva a Betowa (`betowa.sena.edu.co/oferta`), eTicket y La Tiquetera
+  quedaron dentro de Ticketmaster Colombia, Cyberlunes ahora se llama HotSale (CCCE).
+  Black Friday y Cyber Monday **se calculan** (día después del 4.º jueves de noviembre) y salen 30 días antes; no hay
+  fechas escritas a mano. Botón: «🎁 Ofertas y eventos · 44 páginas».
+- **Fuera:** `ofertas-caza.json`, `ofertas-juegos.json`, `scripts/fetch-deals.mjs` y su paso en `macro-snapshot.yml`;
+  `recommendations.json` (solo lo leía el panel viejo). La tarea programada local `cazador-de-ofertas` quedó **pausada,
+  no borrada** (ya había corrido hoy a las 7:43 y publicado `aa0ab44`). `OFERTAS-PREFERENCIAS.md` ya no hace falta.
+- **GitHub Pages volvió a fallar** al publicar `0a51c40` («Deploy to GitHub Pages: failure»), igual que el 23-nov. Este
+  commit lo relanza.
+- **«Cerebro 2» (propuesto, sin empezar):** ola **O5** en `plan-cerebro.json`, toda en `a-decidir` hasta que Miguel diga sí.
+  El análisis cambió la idea de entrada: la portada «Hoy» que le dice qué hacer ya la descartó él el 17-ago (O1.1), así
+  que la portada nueva es lanzador + buscador Ctrl+K + estado de cada módulo, no un gestor de su día. Tecnología nueva =
+  plataforma web 2026 (View Transitions, popover, container queries, PWA), sin frameworks. Orden: O5.1 boceto para que
+  elija → O5.2 diseño v2 y portada → O5.3 PWA (red primero para HTML/JS, por la deriva de motor del 15-jul) → O5.4 lo
+  roto y lo muerto (O2.2, O4.5) → O5.5 módulos por uso medido.
+- **Visto de paso, sin tocar:** el saludo dice «Buenos días, "Miguel Barros"» con comillas (el nombre se guardó así en
+  `sb_name`); `js/index.js`, `js/dashboard.js` y `js/notes.js` no los carga ninguna página.
 
 ---
 
