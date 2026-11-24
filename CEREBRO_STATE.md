@@ -18,8 +18,9 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
 
 - **Ofertas (hecho):** `frontend/data/ofertas-directorio.json`, 44 páginas en 7 grupos (tiendas y su página de ofertas,
   ¿rebaja de verdad?, conciertos y eventos, juegos, estudiante, cursos, cupones Udemy). Enlaces comprobados el 24-nov:
-  36 con HTTP 200; los 8 con 403 son anti-robots (Éxito, CamelCamelCamel, Bandsintown, Epic, SteamDB ×2, Canva,
-  Class Central), no caídas: falta abrirlos en un navegador. Cambios del mundo encontrados al comprobar: Prime Gaming ahora es
+  36 con HTTP 200; los 8 con 403 (anti-robots) se abrieron después en el Chrome de Miguel: 7 bien, y **Éxito `/ofertas`
+  era una página «Error 404»** con estado 200 → cambiado a `exito.com/ofertas-y-promociones` (verificado). Mercado Libre
+  `/ofertas` también abre bien en el navegador (a un robot lo manda a verificar la cuenta). Cambios del mundo encontrados al comprobar: Prime Gaming ahora es
   Amazon Luna (`luna.amazon.com/claims`), Sofía Plus lleva a Betowa (`betowa.sena.edu.co/oferta`), eTicket y La Tiquetera
   quedaron dentro de Ticketmaster Colombia, Cyberlunes ahora se llama HotSale (CCCE).
   Black Friday y Cyber Monday **se calculan** (día después del 4.º jueves de noviembre) y salen 30 días antes; no hay
@@ -27,14 +28,21 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
 - **Fuera:** `ofertas-caza.json`, `ofertas-juegos.json`, `scripts/fetch-deals.mjs` y su paso en `macro-snapshot.yml`;
   `recommendations.json` (solo lo leía el panel viejo). La tarea programada local `cazador-de-ofertas` quedó **pausada,
   no borrada** (ya había corrido hoy a las 7:43 y publicado `aa0ab44`). `OFERTAS-PREFERENCIAS.md` ya no hace falta.
-- **GitHub Pages volvió a fallar** al publicar `0a51c40` («Deploy to GitHub Pages: failure»), igual que el 23-nov. Este
-  commit lo relanza.
+- **Verificado en producción** (Chrome de Miguel, tras `0ad46d6`): botón «🎁 Ofertas y eventos · 44 páginas», 7 grupos,
+  44 enlaces que abren en pestaña nueva, aviso «Black Friday en 3 días (27-nov) · Cyber Monday en 6 días (30-nov)».
+- **GitHub Pages falló dos veces seguidas** (`0a51c40`, `cdf127d`: «No artifacts named github-pages»); publicó al tercer
+  intento (commit vacío `0ad46d6`). Medido: 6 de 15 despliegues fallaron desde el 23-nov → tarea **O5.6**.
+- **⚠️ P0 encontrado de paso — el disco del navegador está lleno.** Consola de producción: «QUOTA al escribir
+  work_nb_data (3647KB) — queda en memoria». localStorage con 164 keys y ~9,3 MB (UTF-16) de un tope de ~10 MB;
+  `work_nb_data` 4,2 MB, `sys_notebook` 1,7 MB. El mecanismo p21 lo mantiene en memoria y lo sube, pero sin red y con la
+  pestaña cerrada ese cambio se pierde. Tarea **O5.0**, primera de la ola (es O4.1 hecha realidad).
 - **«Cerebro 2» (propuesto, sin empezar):** ola **O5** en `plan-cerebro.json`, toda en `a-decidir` hasta que Miguel diga sí.
   El análisis cambió la idea de entrada: la portada «Hoy» que le dice qué hacer ya la descartó él el 17-ago (O1.1), así
   que la portada nueva es lanzador + buscador Ctrl+K + estado de cada módulo, no un gestor de su día. Tecnología nueva =
-  plataforma web 2026 (View Transitions, popover, container queries, PWA), sin frameworks. Orden: O5.1 boceto para que
-  elija → O5.2 diseño v2 y portada → O5.3 PWA (red primero para HTML/JS, por la deriva de motor del 15-jul) → O5.4 lo
-  roto y lo muerto (O2.2, O4.5) → O5.5 módulos por uso medido.
+  plataforma web 2026 (View Transitions, popover, container queries, PWA), sin frameworks. Orden: **O5.0 disco lleno
+  (P0, pendiente: no espera el sí del diseño)** → O5.1 boceto para que elija → O5.2 diseño v2 y portada → O5.3 PWA (red
+  primero para HTML/JS, por la deriva de motor del 15-jul) → O5.4 lo roto y lo muerto (O2.2, O4.5) → O5.5 módulos por
+  uso medido → O5.6 publicación estable.
 - **Visto de paso, sin tocar:** el saludo dice «Buenos días, "Miguel Barros"» con comillas (el nombre se guardó así en
   `sb_name`); `js/index.js`, `js/dashboard.js` y `js/notes.js` no los carga ninguna página.
 

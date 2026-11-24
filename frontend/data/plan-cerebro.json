@@ -259,6 +259,17 @@
       "porque": "24-nov, Miguel: «el diseño es muy básico; la funcionalidad y la tecnología, atrasadas». Medido ese día en la portada: contadores que no miden nada, un Quick Workshop en inglés que solo copia un prompt, noticias por un tercero que falla (rss2json), textos viejos (8vo semestre, Luciérnaga, Brinks), un video de 4,2 MB, el saludo con comillas. En el sitio: 19 de 34 páginas usan el sistema de diseño, no hay PWA ni service worker, ninguna transición entre páginas, 3 archivos JS que no carga nadie. Dos reglas mandan: (1) la Vista HOY se descartó (O1.1): nada de esto le dice qué hacer con su tiempo; (2) la tecnología nueva es la de la plataforma web, sin frameworks. Descartado con razón: React/Next u otro framework (build y reescritura del motor de sync, el origen de los incidentes P0); un chat de IA dentro del sitio (pide una API key en un sitio público o un backend de pago); rehacer los 20 módulos de una (30+ sesiones que compiten con el Bloque II).",
       "items": [
         {
+          "id": "O5.0",
+          "modulo": "infra",
+          "estado": "pendiente",
+          "prioridad": "P0",
+          "titulo": "El disco del navegador está lleno: va antes que el diseño",
+          "problema": "Medido el 24-nov en el Chrome de Miguel: localStorage con 164 keys y ~9,3 MB (en UTF-16), contra un tope de ~10 MB. work_nb_data ocupa 4,2 MB en disco y la versión nueva ya no cabe: consola «QUOTA al escribir work_nb_data (3647KB) — queda en memoria». Lo que no cabe vive solo en memoria y en la nube (p21): sin red y con la pestaña cerrada, ese cambio se pierde. Siguen sys_notebook (1,7 MB), un archivo de materia (0,97 MB) y not_nb_data (0,9 MB). Es O4.1, pendiente desde el 17-ago, ya no como riesgo sino como hecho.",
+          "entrega": "Primero medir qué ocupa dentro de cada cuaderno (¿imágenes en base64?). Después, la salida de menor riesgo: sacar lo pesado de localStorage (IndexedDB detrás del mismo proxy, o Supabase Storage para imágenes, ver SUPABASE_STORAGE_SETUP.md). Toca cloud-sync: regla 7 y prueba de carrera.",
+          "verificacion": "Uso de localStorage < 60 % del tope, 0 errores QUOTA en la consola de producción, y escribir un cambio en el cuaderno de 14-WORK con la red cortada → recargar → sigue ahí.",
+          "reusa": "NBShared.quotaAlert y _unsaved de cloud-sync (p21); scripts/prueba-sync-carrera.mjs."
+        },
+        {
           "id": "O5.1",
           "modulo": "1-IND",
           "estado": "a-decidir",
@@ -312,6 +323,17 @@
           "entrega": "Primero medir el uso (última escritura por módulo en Supabase y en _cloud_ts). Después, un módulo por sesión. Los que no usa se proponen para archivar (11-ACC ya está en O3.3).",
           "verificacion": "Lista de uso medida y fechada antes de migrar el primero.",
           "reusa": "cloud-sync.js guarda la hora de cada key sincronizada."
+        },
+        {
+          "id": "O5.6",
+          "modulo": "infra",
+          "estado": "pendiente",
+          "prioridad": "P1",
+          "titulo": "La publicación falla 1 de cada 3 veces",
+          "problema": "De los 15 despliegues entre el 23-nov 23:40 y el 24-nov 14:21 (UTC), 6 fallaron con «No artifacts named github-pages were found» (GitHub decía Pages y Actions operativos). Cada fallo deja producción en la versión anterior hasta un commit nuevo. Se publica la raíz entera: 167 MB en 2092 archivos, 146 MB son assets de 19-JUE. Sospecha, sin probar: el tamaño o actions/upload-pages-artifact@v3.",
+          "entrega": "Probar de a una: subir upload-pages-artifact a v4; si sigue, sacar del paquete lo que no se sirve (docs, scripts, src) o los assets que el juego no carga. Medir antes y después.",
+          "verificacion": "10 despliegues seguidos sin fallo, contados en la API de Actions.",
+          "reusa": ".github/workflows/deploy.yml y el job de despliegue de macro-snapshot.yml (los dos publican)."
         }
       ]
     }
