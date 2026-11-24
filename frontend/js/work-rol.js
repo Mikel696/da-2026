@@ -77,7 +77,7 @@ const WorkRol = (function(){
         <h2>Mapa del rol</h2>
         <p class="rol-nombre">${esc(D.rol)}</p>
         <p class="rol-def">${esc(D.definicion)}</p>
-        <p class="rol-fuente">Foto del ${fecha(M.fecha)} (hace ${d} día${d === 1 ? '' : 's'}): ${n} vacantes reales de ${esc(M.fuente.split(',')[0])}, ${esc(M.filtro.toLowerCase())}.${datos.guardado ? ' Sin conexión: copia guardada en este navegador.' : ''}</p>
+        <p class="rol-fuente">Foto del ${fecha(M.fecha)} (${d === 0 ? 'hoy' : `hace ${d} día${d === 1 ? '' : 's'}`}): ${n} vacantes reales de ${esc(M.fuente.split(',')[0])}, ${esc(M.filtro)}.${datos.guardado ? ' Sin conexión: copia guardada en este navegador.' : ''}</p>
       </header>
       <div class="rol-hechos">
         <p>Se publica como ${esc(fam)}. Una vacante puede ser de dos.</p>
