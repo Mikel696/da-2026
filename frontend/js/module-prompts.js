@@ -15,7 +15,7 @@
 
 /* ── Module metadata (compact · matches CO_MODULE in prompts.html) ── */
 const MODULES = {
-  '1-IND':  { name:'Dashboard · Mission Control', files:'index.html (inline JS)', keys:'sb_tasks · sb_ws_hist · sb_name · sb_streak · sb_start · sb_last · sb_hours · sb_pomo_* (DYN)', notes:'Hub · links to 16 modules · quick tasks · workshop history · global streak.' },
+  '1-IND':  { name:'Portada · Cerebro 2', files:'index.html + css/inicio.css + js/inicio.js + data/modulos.json', keys:'SOLO LECTURA (no escribe keys) · lee las de cada módulo, _cloud_ts y sb_name · copia de data/*.json en Cache Storage', notes:'Tarjetas con datos vivos de 7 módulos, detalle con evaluación, HUD, avatar con sync, login y respaldo, Ctrl+K, rail + router en iframe (Cerebro.go).' },
   '2-APP':  { name:'Application Command Center', files:'apply.html + css/apply.css', keys:'(no persistent state · 5 sub-sections: ATS/CV/Cover/Interview/Prompts)', notes:'html2pdf integrated.' },
   '3-ENG':  { name:'English Academy + Interview Dojo', files:'english.html + css/english.css + js/eng.js + js/english.js + js/srs.js + data/english-data.json + data/english-dojo.json', keys:'e4 · eng_notes · eng_srs_deck · dojo_stats', notes:'20 grammar rules · 130+ vocab · SRS Leitner · Dojo (TTS+STT).' },
   '4-RUT':  { name:'Data Analyst Path + Excel Tech Test', files:'ruta.html + css/ruta.css + js/ruta.js + data/ruta-data.json', keys:'ruta5 · ruta_log5 · ruta_st · excel_dojo', notes:'5-phase roadmap · AI roleplay · Excel split-panel + drills.' },

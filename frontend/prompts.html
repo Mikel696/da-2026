@@ -1784,7 +1784,7 @@ const CO_VERSION='2026-05-15.B';
 const CO_GLOBAL_FILES='frontend/css/design-tokens.css (Design System v1.0 · tokens canónicos + aliases), frontend/css/components.css (.ds-* prefixed), frontend/js/supabase-client.js, frontend/js/auth.js, frontend/js/cloud-sync.js (SYNC_REGISTRY + DYNAMIC_PREFIXES + smartSync + realtime postgres_changes), frontend/js/nb-shared.js (covers/icons/attachments + Supabase Storage upload/download), frontend/css/nb-shared.css, frontend/js/notes-nb.js (13-NOT), frontend/js/module-prompts.js (8-PRO · 48 prompts modulares), CEREBRO_STATE.md, MEMORY.md, Modelo.md (Obsidian Second Brain reference)';
 
 const CO_MODULE={
-'1-IND':{name:'Dashboard · Mission Control',files:'frontend/index.html (inline JS)',state:'sb_tasks, sb_ws_hist, sb_name, sb_streak, sb_start, sb_last, sb_hours, sb_pomo_* (DYNAMIC_PREFIX)',notes:'Migrado a Design System v1.0 (Fase 2.1). Hub central · enlaces a los 16 módulos · tareas rápidas · workshop history · streak global. Auth widget overlaps top-right de la nav (#sb-auth-widget).'},
+'1-IND':{name:'Portada · Cerebro 2',files:'frontend/index.html + css/inicio.css + js/inicio.js + data/modulos.json',state:'SOLO LECTURA: no escribe keys. Lee las de cada módulo, _cloud_ts y sb_name; copia de data/*.json en Cache Storage (inicio-datos)',notes:'O5.2 (24-nov-2026), sobre el boceto v3 aprobado. Tarjetas con datos vivos de 7 módulos, detalle con la evaluación de data/modulos.json, HUD, avatar con sync, login y respaldo, Ctrl+K, rail + router en iframe (Cerebro.go, hashes #systems…). La cadena de sesión carga con defer.'},
 'HOME':{name:'(alias) Dashboard',files:'frontend/index.html',state:'(ver 1-IND)',notes:'Alias legacy de 1-IND.'},
 '2-APP':{name:'Application Command Center',files:'frontend/apply.html + css/apply.css',state:'(sin storage propio relevante · 5 sub-sec: ATS/CV/Cover/Interview/Prompts)',notes:'Migrado a Design System v1.0 (Fase 2.6). html2pdf integrado.'},
 'APPLY':{name:'(alias) Application Center',files:'frontend/apply.html',state:'(ver 2-APP)',notes:'Alias legacy.'},
@@ -2253,7 +2253,7 @@ renderHist();
 // 🧩 Módulos · render se auto-dispara desde js/module-prompts.js (DOMContentLoaded)
 </script>
 <!-- 🧩 Módulos · 48 prompts modulares (16 × 3) -->
-<script src="js/module-prompts.js?v=p2"></script>
+<script src="js/module-prompts.js?v=p3"></script>
 <!-- 🚀 Plan · un prompt por tarea de data/plan-cerebro.json -->
 <script src="js/prompts-plan.js?v=p2"></script>
 <script>document.addEventListener('DOMContentLoaded',()=>{ if(window.PROMPTSPLAN) PROMPTSPLAN.init(); });</script>
