@@ -306,6 +306,8 @@ const CLOUD = (() => {
     // 14-WORK (cases, errors, learnings, KB, notebooks)
     'work_cases', 'work_errors', 'work_learnings', 'work_kb',
     'work_nb_meta', 'work_nb_data',
+    // 14-WORK · rutas de estudio (24-nov): un registro por ruta empezada y por paso marcado
+    'work_rutas',
     // 14-WORK Workspace de Implementación (casos multi-cliente · 3 pilares · PRIVADO via RLS)
     'work_impl',
     // 14-WORK Ecosistema (Workflow doc, Mini-curso, Diccionario)
@@ -625,7 +627,8 @@ const CLOUD = (() => {
     work_cases:         { id: 'id', ts: 'date'      },  // work.js     · sólo fecha de alta
     work_errors:        { id: 'id', ts: 'date'      },
     work_learnings:     { id: 'id', ts: 'date'      },
-    work_moif_meetings: { id: 'id', ts: 'updated'   }
+    work_moif_meetings: { id: 'id', ts: 'updated'   },
+    work_rutas:         { id: 'id', ts: 'updated'   }   // work-rutas.js · updated en cada marca; desmarcar no borra
   };
 
   /* ── LÁPIDAS (tombstones) ──────────────────────────────────────

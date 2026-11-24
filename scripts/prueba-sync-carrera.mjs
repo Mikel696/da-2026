@@ -205,7 +205,8 @@ async function montar(opciones = {}) {
 }
 
 const escenarios = [];
-const escenario = (nombre, fn) => escenarios.push({ nombre, fn });
+// comprobar(r, nueva) es opcional: para escenarios de otra key. Devuelve true o el texto de lo que salió mal.
+const escenario = (nombre, fn, comprobar) => escenarios.push({ nombre, fn, comprobar });
 
 escenario('control · dos escrituras a 2 s, sin re-sync, con eco en tiempo real', async () => {
   const { reloj, nube, almacen, a } = await montar();
@@ -550,12 +551,72 @@ escenario('cola · el reintento de una subida fallida no reemplaza en la nube un
   return { reloj, nube, almacen, pestanas: [a], local: a.get(K), enNube: nube.valor(K), outbox: a.outbox() };
 });
 
+/* ── 14-WORK · rutas de estudio (24-nov): el avance vive en `work_rutas`, un registro por paso. Dos equipos que
+      marcan pasos distintos no se pueden pisar, y desmarcar después tiene que ganar. ── */
+const KR = 'work_rutas';
+const paso = (id, hecho, at) => ({ id: 'python:' + id, tipo: 'paso', ruta: 'python', hecho, updated: new Date(at).toISOString() });
+const pasos = (v) => JSON.stringify((Array.isArray(v) ? v : []).map((x) => [x.id, x.hecho]).sort());
+async function dosEquipos() {
+  const { reloj, nube, almacen, a } = await montar();
+  const c = abrirPestana(reloj, nube, new Map(), 'C');   // otro equipo: su propio disco
+  c.iniciarSesion();
+  await reloj.avanzar(5000);
+  return { reloj, nube, almacen, a, c };
+}
+const esperado = (quiere) => (r, nueva) => {
+  const vistos = { nube: pasos(r.nube.valor(KR)), A: pasos(r.a.get(KR)), C: pasos(r.c.get(KR)), recargada: pasos(nueva.get(KR)) };
+  const mal = Object.entries(vistos).filter(([, v]) => v !== quiere);
+  return mal.length ? mal.map(([d, v]) => `${d}: ${v}`).join(' · ') + ` (quería ${quiere})` : true;
+};
+
+escenario('rutas · dos equipos marcan pasos distintos casi a la vez: se conservan los dos', async () => {
+  const r = await dosEquipos();
+  r.a.set(KR, [paso('python-1', true, r.reloj.ahora)]);
+  r.c.set(KR, [paso('python-2', true, r.reloj.ahora + 50)]);
+  await r.reloj.avanzar(20000);
+  return { ...r, pestanas: [r.a, r.c] };
+}, esperado(JSON.stringify([['python:python-1', true], ['python:python-2', true]])));
+
+escenario('rutas · desmarcar en otro equipo después gana', async () => {
+  const r = await dosEquipos();
+  r.a.set(KR, [paso('python-1', true, r.reloj.ahora)]);
+  await r.reloj.avanzar(10000);
+  r.c.set(KR, [paso('python-1', false, r.reloj.ahora)]);
+  await r.reloj.avanzar(20000);
+  return { ...r, pestanas: [r.a, r.c] };
+}, esperado(JSON.stringify([['python:python-1', false]])));
+
+escenario('rutas · marca pasos con la sesión cerrada y después entra: sube y el otro equipo lo recibe', async () => {
+  const r = await dosEquipos();
+  r.a.cerrar();
+  const b = abrirPestana(r.reloj, r.nube, r.almacen, 'B', { sesion: false });   // mismo disco que A, sin sesión
+  await r.reloj.avanzar(3000);
+  b.set(KR, [paso('python-1', true, r.reloj.ahora)]);
+  await r.reloj.avanzar(5000);
+  b.iniciarSesion();
+  await r.reloj.avanzar(20000);
+  return { ...r, a: b, pestanas: [b, r.c] };
+}, esperado(JSON.stringify([['python:python-1', true]])));
+
+escenario('rutas · los dos equipos crean el cuaderno de la ruta: queda uno solo', async () => {
+  const r = await dosEquipos();
+  const nb = (at) => [{ id: 'work_nb_ruta_python', name: 'Ruta · Python', icon: '🐍', cover: 'c6', created: new Date(at).toISOString() }];
+  r.a.set('work_nb_meta', nb(r.reloj.ahora));
+  r.c.set('work_nb_meta', nb(r.reloj.ahora + 50));
+  await r.reloj.avanzar(20000);
+  return { ...r, pestanas: [r.a, r.c] };
+}, (r, nueva) => {
+  const n = (v) => (Array.isArray(v) ? v : []).filter((x) => x.id === 'work_nb_ruta_python').length;
+  const vistos = { nube: n(r.nube.valor('work_nb_meta')), A: n(r.a.get('work_nb_meta')), C: n(r.c.get('work_nb_meta')), recargada: n(nueva.get('work_nb_meta')) };
+  return Object.values(vistos).every((x) => x === 1) || `cuadernos con ese id → ${JSON.stringify(vistos)}`;
+});
+
 /* ── Ejecutar. Pasa si el valor correcto (V2 en todos los escenarios) queda en la copia local, en la nube y
       tras recargar la página. ── */
 let fallos = 0;
 const igual = (x, y) => JSON.stringify(x) === JSON.stringify(y);
-for (const { nombre, fn } of escenarios) {
-  let r = null, err = null, tras = null;
+for (const { nombre, fn, comprobar } of escenarios) {
+  let r = null, err = null, tras = null, motivo = null;
   try {
     r = await fn();
     // Recargar: se cierran las pestañas (beforeunload incluido) y se abre una nueva sobre el mismo disco y la misma nube.
@@ -565,12 +626,14 @@ for (const { nombre, fn } of escenarios) {
     await r.reloj.avanzar(15000);
     tras = { local: nueva.get(K), nube: r.nube.valor(K) };
     r.pestanas.push(nueva);
+    if (comprobar) { const c = comprobar(r, nueva); if (c !== true) motivo = c; }
   } catch (e) { err = e; }
-  const ok = !err && igual(r.local, V2) && igual(r.enNube, V2) && igual(tras.local, V2) && igual(tras.nube, V2);
+  const ok = !err && (comprobar ? !motivo : igual(r.local, V2) && igual(r.enNube, V2) && igual(tras.local, V2) && igual(tras.nube, V2));
   console.log(`${ok ? '✅' : '❌'} ${nombre}`);
   if (!ok) {
     fallos++;
     if (err) console.log('   error:', err.stack || err.message);
+    else if (motivo) console.log('   ' + motivo);
     else {
       const ver = (x) => (igual(x, V2) ? 'V2 (correcto)' : igual(x, V1) ? 'V1 (se perdió V2)' : JSON.stringify(x));
       console.log(`   al terminar → local: ${ver(r.local)} · nube: ${ver(r.enNube)} · outbox: ${JSON.stringify(r.outbox)}`);
