@@ -245,3 +245,53 @@ body { line-height: var(--leading-normal); }
   .rol-tira{grid-column:1 / -1;grid-row:2;max-width:none}
   .rol-cuenta{text-align:right}
 }
+
+/* ═══ Rutas de estudio (24-nov-2026) · panel bajo la fila y «Tu avance» ═══ */
+.rol button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.rol-abrir{background:none;border:0;padding:0;margin:0;font:inherit;font-size:13px;color:var(--tx);text-align:left;cursor:pointer;line-height:1.35}
+.rol-abrir small{display:block;font-size:11px;color:var(--ac);margin-top:1px}
+.rol-abrir:hover small{text-decoration:underline}
+.rol-fila.abierta{background:rgba(6,182,212,.05);border-radius:var(--radius-sm)}
+.rol-ruta-pct{display:block;font-size:11px;color:var(--ac)}
+.avance-barra{display:block;height:8px;border-radius:4px;background:var(--rol-vacio);overflow:hidden}
+.avance-barra i,.avance-mini i{display:block;height:100%;background:var(--rol-si);border-radius:4px}
+.avance{margin:18px 0 0;padding:16px 18px;border:1px solid rgba(6,182,212,.28);border-radius:var(--radius-md);background:rgba(6,182,212,.04)}
+.avance-frase{font-family:var(--font-display);font-size:22px;line-height:1.3;margin:4px 0 10px;color:var(--tx)}
+.avance-frase b{color:var(--ac);font-weight:600}
+.avance-sig{font-size:13px;color:var(--t2);margin:10px 0 0}
+.avance-ir{background:none;border:1px solid rgba(6,182,212,.45);color:var(--ac);border-radius:var(--radius-sm);font:inherit;font-size:12px;padding:2px 9px;cursor:pointer;margin-left:4px}
+.avance-ir:hover{background:rgba(6,182,212,.1)}
+.avance-rutas{list-style:none;margin:12px 0 0;padding:0}
+.avance-rutas li{display:grid;grid-template-columns:minmax(120px,210px) minmax(60px,180px) 44px auto;align-items:center;gap:10px;font-size:13px;padding:4px 0}
+.avance-mini{display:block;height:6px;border-radius:3px;background:var(--rol-vacio);overflow:hidden}
+.avance-como{margin-top:10px}
+.avance-como summary{font-size:12px;color:var(--t2);cursor:pointer}
+.avance-como p{font-size:12px;color:var(--t2);line-height:1.55;max-width:80ch;margin:6px 0 0}
+.ruta{list-style:none;margin:4px 0 14px;padding:16px 18px;border-left:3px solid var(--ac);border-radius:0 var(--radius-md) var(--radius-md) 0;background:var(--el)}
+.ruta-cab{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ruta-ico{font-size:24px;line-height:1}
+.ruta-tit{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0;color:var(--tx)}
+.ruta-pct{font-size:12px;color:var(--t2);margin:2px 0 0}
+.ruta-barra{flex:1;min-width:120px;max-width:240px}
+.ruta-que{font-size:13.5px;color:var(--tx);line-height:1.6;max-width:72ch;margin:12px 0 6px}
+.ruta-piden{font-size:12px;color:var(--t2);max-width:80ch;margin:0}
+.ruta-pasos{list-style:none;margin:12px 0 0;padding:0}
+.ruta-paso{padding:11px 0;border-top:1px solid var(--bd)}
+.ruta-paso label{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:600;color:var(--tx);cursor:pointer}
+.ruta-paso input{width:17px;height:17px;margin:2px 0 0;accent-color:#06b6d4;flex:none}
+.ruta-paso.hecho label span{color:var(--t2)}
+.ruta-aprender{margin:6px 0 0 26px;padding-left:16px;font-size:12.5px;color:var(--t2);line-height:1.5}
+.ruta-rec,.ruta-prac{margin:5px 0 0 26px;font-size:12.5px;color:var(--t2);line-height:1.5;max-width:76ch}
+.ruta-rec a{color:var(--ac);text-decoration:none;border-bottom:1px solid rgba(6,182,212,.4)}
+.ruta-rec a:hover{border-bottom-color:var(--ac)}
+.ruta-prac b{color:var(--tx)}
+.ruta-acc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--bd)}
+.ruta-nota{font-size:12px;color:var(--t2)}
+@media(max-width:760px){
+  .ruta{padding:14px 12px}
+  .ruta-barra{flex-basis:100%;max-width:none}
+  .avance-frase{font-size:19px}
+  .avance-rutas li{grid-template-columns:1fr auto;gap:4px 10px}
+  .avance-rutas li .avance-mini{grid-column:1 / -1;grid-row:2}
+  .ruta-aprender,.ruta-rec,.ruta-prac{margin-left:0}
+}

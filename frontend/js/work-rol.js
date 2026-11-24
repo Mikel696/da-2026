@@ -1,6 +1,7 @@
-/* 14-WORK · Mapa del rol (24-nov-2026). Solo lee: data/rol-objetivo.json (muestra fechada de vacantes reales)
-   y data/jobs-feed.json (radar de 5-JOB). No escribe en localStorage. Las vacantes son de 5-JOB: aquí solo se
-   cuentan y se enlaza allá. Sin red, usa la última copia buena (Cache Storage) y lo dice. */
+/* 14-WORK · Mapa del rol (24-nov-2026). Lee data/rol-objetivo.json (muestra fechada de vacantes reales) y
+   data/jobs-feed.json (radar de 5-JOB). Él no escribe en localStorage: marcar pasos y crear cuadernos lo hace
+   WorkRutas (work-rutas.js). Las vacantes son de 5-JOB: aquí solo se cuentan y se enlaza allá. Sin red, usa la
+   última copia buena (Cache Storage) y lo dice. */
 const WorkRol = (function(){
   const CACHE = 'work-datos';
   const ESTADO = {
@@ -19,7 +20,7 @@ const WorkRol = (function(){
   const IA_ROL = /operations|operaciones|process|procesos|transformaci|efficiency|eficiencia|adoption|adopci|enablement|consultant|consultor|analyst|analista|specialist|especialista|lead|l[ií]der|jefe|manager/i;
   const esDelRol = t => !FUERA.test(t) && (FAM.implementacion.test(t) || FAM.automatizacion.test(t) || (FAM.ia.test(t) && IA_ROL.test(t)));
 
-  let datos = null, radar = null, soloFaltan = false;
+  let datos = null, radar = null, soloFaltan = false, rutaAbierta = null;
 
   function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -55,6 +56,58 @@ const WorkRol = (function(){
     return `<p class="rol-radar">El radar de 5-JOB trae <b>${n}</b> vacante${n === 1 ? '' : 's'} del rol entre las ${j.length} que muestra (datos del ${esc(cuando)}${radar.guardado ? ', copia guardada sin conexión' : ''}). El radar no lee LinkedIn, que es de donde salió la muestra de este mapa: para eso están las búsquedas del rol en 5-JOB.</p>`;
   }
 
+  /* «Tu avance»: el % global en una frase, la ruta que más lo sube y las rutas empezadas. */
+  function renderAvance(D){
+    const R = window.WorkRutas;
+    if (!R || !R.rutas().length) return '';
+    const g = R.global(D), n = D.muestra.n;
+    const total = D.competencias.reduce((s, c) => s + c.vacantes, 0);
+    const empezadas = R.rutas().filter(r => R.empezada(r.id) || R.pct(r.id) > 0);
+    const lista = empezadas.length ? `<ul class="avance-rutas">${empezadas.map(r => `<li><span>${esc(r.icono || '')} ${esc(R.nombreCorto(r))}</span><span class="avance-mini" role="img" aria-label="${R.pct(r.id)} %"><i style="width:${R.pct(r.id)}%"></i></span><span>${R.pct(r.id)} %</span><button type="button" class="avance-ir" data-ir-ruta="${esc(r.id)}">Seguir</button></li>`).join('')}</ul>` : '';
+    const sig = g.siguiente ? `<p class="avance-sig">Si terminas ${esc(g.siguiente.competencia)}, subes a ${g.siguiente.pct} %. <button type="button" class="avance-ir" data-ir-ruta="${esc(g.siguiente.ruta)}">Ver esa ruta</button></p>` : '';
+    return `<section class="avance" aria-labelledby="avanceT">
+        <h3 id="avanceT">Tu avance</h3>
+        <p class="avance-frase">Hoy cubres el <b>${g.pct} %</b> de lo que piden las ${n} vacantes.</p>
+        <span class="avance-barra" role="img" aria-label="${g.pct} %"><i style="width:${g.pct}%"></i></span>
+        ${sig}${lista}
+        <details class="avance-como"><summary>Cómo se calcula</summary><p>Cada habilidad pesa según cuántas vacantes de la muestra la piden (en total suman ${total}). Las que figuran en tu perfil cuentan completas; las que tienen ruta cuentan con lo que llevas de su ruta; las demás, cero. «En tu perfil» es la lista del radar de 5-JOB, escrita en agosto: si algo no es cierto, el % también cambia.</p></details>
+      </section>`;
+  }
+
+  /* Panel de una ruta, debajo de su fila. */
+  function renderRuta(r, c, D){
+    const R = window.WorkRutas;
+    const empresas = [...new Set(D.vacantes.filter(v => v.competencias.includes(c.nombre)).map(v => v.empresa))];
+    const nombres = empresas.slice(0, 8).join(', ') + (empresas.length > 8 ? ` y ${empresas.length - 8} más` : '');
+    const hechos = r.pasos.filter(p => R.hecho(r.id, p.id)).length, p = R.pct(r.id);
+    const pasos = r.pasos.map((s, i) => {
+      const ok = R.hecho(r.id, s.id);
+      return `<li class="ruta-paso${ok ? ' hecho' : ''}">
+          <label><input type="checkbox" data-paso="${esc(s.id)}" data-de="${esc(r.id)}"${ok ? ' checked' : ''}> <span>${i + 1}. ${esc(s.titulo)}</span></label>
+          <ul class="ruta-aprender">${s.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+          ${s.recurso ? `<p class="ruta-rec">Recurso: <a href="${esc(s.recurso.url)}" target="_blank" rel="noopener">${esc(s.recurso.nombre)}</a> · ${esc(s.recurso.proveedor)}</p>` : ''}
+          ${s.enlace ? `<p class="ruta-rec">En el Cerebro: <a href="${esc(s.enlace.url)}"${/^https?:/.test(s.enlace.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(s.enlace.texto)}</a></p>` : ''}
+          <p class="ruta-prac"><b>Práctica:</b> ${esc(s.practica)}</p>
+        </li>`;
+    }).join('');
+    const nb = R.empezada(r.id) ? 'work_nb_ruta_' + r.id : '';
+    return `<li class="ruta" id="ruta-${esc(r.id)}" role="region" aria-label="Ruta de estudio: ${esc(R.nombreCorto(r))}">
+        <div class="ruta-cab">
+          <span class="ruta-ico" aria-hidden="true">${esc(r.icono || '')}</span>
+          <div><p class="ruta-tit">Ruta · ${esc(R.nombreCorto(r))}</p><p class="ruta-pct">Ruta al ${p} % · ${hechos} de ${r.pasos.length} pasos</p></div>
+          <span class="avance-barra ruta-barra" role="img" aria-label="${p} %"><i style="width:${p}%"></i></span>
+        </div>
+        <p class="ruta-que">${esc(r.queEs)}</p>
+        <p class="ruta-piden">La piden ${c.vacantes} de las ${D.muestra.n} vacantes, entre ellas ${esc(nombres)}.</p>
+        <ol class="ruta-pasos">${pasos}</ol>
+        <div class="ruta-acc">${nb
+          ? `<button type="button" class="btn bo bs" data-cuaderno="${esc(nb)}">Abrir mi cuaderno de ${esc(R.nombreCorto(r))}</button>`
+          : `<button type="button" class="btn bp bs" data-empezar="${esc(r.id)}">Empezar: crear mi cuaderno de ${esc(R.nombreCorto(r))}</button>`}
+          <span class="ruta-nota">El cuaderno trae una página por paso, con la práctica y espacio para tus apuntes.</span>
+        </div>
+      </li>`;
+  }
+
   function render(){
     const el = document.getElementById('workRol');
     if (!el) return;
@@ -62,9 +115,17 @@ const WorkRol = (function(){
     if (!datos) { el.innerHTML = '<p class="rol-nota">No se pudo cargar el mapa del rol y este navegador no tiene copia guardada. Revisa la conexión y recarga la página.</p>'; return; }
     const D = datos.d, M = D.muestra, n = M.n;
     const comp = soloFaltan ? D.competencias.filter(c => c.perfil !== 'si') : D.competencias;
+    const R = window.WorkRutas;
     const filas = comp.map(c => {
       const e = ESTADO[c.perfil] || ESTADO.no;
-      return `<li class="rol-fila"><span class="rol-nom">${esc(c.nombre)}</span>${tira(c.vacantes, n, e.cls)}<span class="rol-cuenta"><b>${c.vacantes}</b> de ${n}<small class="rol-est ${e.cls}">${e.txt}</small></span></li>`;
+      const r = R && R.rutaDe(c.nombre);
+      const abierta = r && rutaAbierta === r.id;
+      const nom = r
+        ? `<button type="button" class="rol-nom rol-abrir" data-ruta="${esc(r.id)}" aria-expanded="${abierta}" aria-controls="ruta-${esc(r.id)}">${esc(c.nombre)}<small>${abierta ? 'Cerrar la ruta' : 'Ver ruta de estudio'}</small></button>`
+        : `<span class="rol-nom">${esc(c.nombre)}</span>`;
+      const p = r ? R.pct(r.id) : 0;
+      const fila = `<li class="rol-fila${abierta ? ' abierta' : ''}">${nom}${tira(c.vacantes, n, e.cls)}<span class="rol-cuenta"><b>${c.vacantes}</b> de ${n}<small class="rol-est ${e.cls}">${e.txt}</small>${p ? `<small class="rol-ruta-pct">ruta al ${p} %</small>` : ''}</span></li>`;
+      return fila + (abierta ? renderRuta(r, c, D) : '');
     }).join('');
     const famL = Object.entries(D.familias).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} de ${FAMILIA[k] || k}`);
     const fam = famL.length > 1 ? famL.slice(0, -1).join(', ') + ' y ' + famL[famL.length - 1] : famL.join('');
@@ -79,6 +140,7 @@ const WorkRol = (function(){
         <p class="rol-def">${esc(D.definicion)}</p>
         <p class="rol-fuente">Foto del ${fecha(M.fecha)} (${d === 0 ? 'hoy' : `hace ${d} día${d === 1 ? '' : 's'}`}): ${n} vacantes reales de ${esc(M.fuente.split(',')[0])}, ${esc(M.filtro)}.${datos.guardado ? ' Sin conexión: copia guardada en este navegador.' : ''}</p>
       </header>
+      ${renderAvance(D)}
       <div class="rol-hechos">
         <p>Se publica como ${esc(fam)}. Una vacante puede ser de dos.</p>
         <p>${mod.remoto || 0} remotas, ${mod.hibrido || 0} híbridas y ${mod.presencial || 0} presenciales${mod['sin dato'] ? `; ${mod['sin dato']} no lo dice` : ''}.</p>
@@ -112,14 +174,53 @@ const WorkRol = (function(){
     const el = document.getElementById('workRol');
     if (!el) return;
     datos = undefined; radar = undefined; render();
+    const foco = sel => { const x = el.querySelector(sel); if (x && x.focus) x.focus(); return x; };
     el.addEventListener('click', e => {
-      const b = e.target.closest('[data-rol-filtro]');
-      if (!b) return;
-      soloFaltan = b.dataset.rolFiltro === 'faltan';
-      render();
-      const sel = el.querySelector(`[data-rol-filtro="${soloFaltan ? 'faltan' : 'todas'}"]`);
-      if (sel) sel.focus();
+      const f = e.target.closest('[data-rol-filtro]');
+      if (f) {
+        soloFaltan = f.dataset.rolFiltro === 'faltan';
+        render(); foco(`[data-rol-filtro="${soloFaltan ? 'faltan' : 'todas'}"]`);
+        return;
+      }
+      const t = e.target.closest('[data-ruta]');
+      if (t) {
+        rutaAbierta = rutaAbierta === t.dataset.ruta ? null : t.dataset.ruta;
+        render(); foco(`[data-ruta="${t.dataset.ruta}"]`);
+        return;
+      }
+      const ir = e.target.closest('[data-ir-ruta]');
+      if (ir) {
+        rutaAbierta = ir.dataset.irRuta;
+        render();
+        const b = foco(`[data-ruta="${rutaAbierta}"]`);
+        if (b && b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      const em = e.target.closest('[data-empezar]');
+      if (em && window.WorkRutas) {
+        const id = WorkRutas.empezar(em.dataset.empezar);
+        render();
+        if (id && window.WorkNB && WorkNB.open) WorkNB.open(id);
+        else if (!id) { const r = el.querySelector(`#ruta-${em.dataset.empezar} .ruta-nota`); if (r) r.textContent = 'No se pudo crear el cuaderno: el espacio del navegador está lleno o el editor no cargó. Tus pasos marcados siguen guardados.'; }
+        return;
+      }
+      const cu = e.target.closest('[data-cuaderno]');
+      if (cu && window.WorkNB) {
+        const r = cu.dataset.cuaderno.replace('work_nb_ruta_', '');
+        const id = WorkRutas.empezar(r) || cu.dataset.cuaderno;   // si lo borraste, se vuelve a crear
+        WorkNB.open(id);
+      }
     });
+    el.addEventListener('change', e => {
+      const c = e.target.closest('[data-paso]');
+      if (!c || !window.WorkRutas) return;
+      WorkRutas.marcar(c.dataset.de, c.dataset.paso, !!c.checked);
+      render(); foco(`[data-paso="${c.dataset.paso}"]`);
+    });
+    // Otro equipo marcó pasos: la nube los trae y el mapa se vuelve a pintar.
+    window.addEventListener('cloud:realtime_change', e => { if (e.detail && e.detail.key === 'work_rutas') render(); });
+    window.addEventListener('cloud:sync_complete', () => render());
+    if (window.WorkRutas) await WorkRutas.cargar();
     datos = await traer('data/rol-objetivo.json');
     render();
     radar = await traer('data/jobs-feed.json');
