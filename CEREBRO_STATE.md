@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 (1-IND: portada «Cerebro 2» en producción, O5.1 y O5.2 hechas · antes: 10-SYS adjuntos fuera de localStorage, O5.0 cuadernos aligerados)
+- **Última actualización:** 2026-11-24 (14-WORK: Mapa del rol en producción, primer módulo de O5.5 · antes: 1-IND portada «Cerebro 2», O5.1 y O5.2 hechas)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,47 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧭 14-WORK · Mapa del rol (O5.5, primer módulo; B1 del coach) — martes 24-nov
+
+Miguel eligió empezar O5.5 por 14-WORK y aprobó el mapa del rol («Sí, construye el Mapa del rol»).
+
+- **Medido antes de tocar (producción, su Chrome):** 0 errores, sync OK, 16 cuadernos / 72 páginas, pero el último
+  cambio de contenido fue el 6-oct (abr 44 páginas, may 7, jun 18, sep 1, oct 2). Registros privados sin cambios desde
+  junio. 5-JOB: 12 vacantes guardadas, todas del objetivo viejo; radar con reglas del perfil anterior.
+- **El supuesto que tumbaba todo, comprobado primero:** con las reglas del rol, el radar veía ~4 de 687 vacantes vivas.
+  En LinkedIn (Colombia, último mes) cada búsqueda daba más de 99 resultados y en las primeras páginas había 39 del rol
+  (corte acordado: < 10 → rol vecino). El rol existe; **el radar no lo ve** porque casi ninguna de esas empresas publica
+  por Greenhouse, Lever o Ashby (probados 40 nombres, unas 35 empresas; UiPath, n8n, Zapier, Workato y Celonis: 0 vacantes del rol para LatAm).
+- **Entregado:** `data/rol-objetivo.json` (muestra fechada) + `js/work-rol.js` (solo lee) + bloque `.rol-*` en `work.css`.
+  Tira de 39 cuadros por habilidad, filtro «solo las que no están en tu perfil», cuántas del rol trae hoy el radar y
+  enlaces a 5-JOB (una sola puerta de vacantes; el mapa no escribe en el tablero). Sin red: copia en Cache Storage
+  `work-datos`, con aviso.
+- **5-JOB re-apuntado:** `fetch-jobs.mjs` con señales del rol (implementación, automatización de procesos, IA en
+  operaciones; pesan 12) y 15 palabras clave nuevas; **arreglado el escape de `palabrasClave`** (el reemplazo era el texto
+  de un comentario, restos de un parche viejo). `jobs-companies.json`: + Addi, Bia Energy, Coderio; fuera Bitso (404
+  diario, el radar salía «parcial»). Corrida local: 6 del rol entre 60, `partial: false`. `jobs.html`: LinkedIn abre con las
+  3 búsquedas del mapa; fuera «Content Moderator».
+- **Lo que piden (39 vacantes):** inglés 26 (6 solo por estar escritas en inglés), documentación 22, APIs 18, mejora de
+  procesos 18, gestión del cambio 17, stakeholders 16. **No figuran en su perfil:** Python 14, IA generativa 12,
+  levantamiento de requerimientos 11, Power Automate 10, RPA 10, agentes de IA 8.
+- **Contraparte: CORREGIR → corregido.** «Requerimientos» suelto (en Colombia también es «solicitudes»), «casos de uso»,
+  «tareas manuales» y «capa transversal» inflaban 3 habilidades: requerimientos 17 → 11 (dejó de ser la brecha n.º 1),
+  documentación 23 → 22, stakeholders 17 → 16. Releídas las 39 descripciones. También: la pantalla decía «LinkedIn, donde
+  se publica la mayoría» (no medido) y no explicaba la regla del inglés.
+- **Verificado en producción** (`ea087b1`, su sesión): 25 filas, filtro (14), 39 vacantes con enlace (primera y última
+  abren la vacante correcta), localStorage idéntico antes y después (168 keys), sin red con copia, sin red y sin copia
+  (mensaje claro), 0 errores, 375 px sin desborde (marco de 375 px; su celular real sin probar). 5-JOB: sección nueva
+  arriba, radar con 60 tarjetas, 0 errores.
+- **Pages falló 3 veces seguidas** (`4b9f9c0`, `15ac031`, `99a6d19`: «No artifacts named github-pages», GitHub decía todo
+  operativo); salió al cuarto. Más evidencia para O5.6.
+- **Ficha 14WOR:** desarrollo 2 → 3 (mapa con datos reales fechados + conteo vivo del radar; falta simulador y portafolio).
+- **Sin confirmar:** el radar nuevo corriendo en Actions (la foto diaria de las 16:12 es anterior al cambio); la revisión de
+  Miguel. **Pendiente:** que Miguel confirme o corrija la lista «ya lo tienes» (`YA_TIENE`, escrita en agosto); 5-JOB
+  muestra «NaN días» en su cabecera (anterior a esta sesión, sin investigar); siguiente paso del coach: B1b, perfil y LinkedIn
+  con las palabras del mapa.
 
 ---
 

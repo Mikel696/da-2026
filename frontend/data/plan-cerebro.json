@@ -319,8 +319,8 @@
           "estado": "pendiente",
           "prioridad": "P2",
           "titulo": "Cada módulo al siguiente nivel, en orden de valor para Miguel",
-          "problema": "24-nov, Miguel: «no solo te bases en lo que cambiaron este mes; analiza el nivel de desarrollo de cada módulo y lo que me aporta a mi vida, trabajo, estudio, día a día». Evaluación del 24-nov (en boceto-cerebro2.html, objeto EVAL): desarrollo medido (código, datos automáticos, mantenimiento, si funciona) y aporte juzgado con sus metas (CUN, implementador de procesos con IA, inglés para trabajo remoto, ingresos, día a día). Uso medido en su Chrome (_cloud_ts): con cambios en noviembre 10-SYS, 13-NOT, 14-WORK, 3-ENG, 18-MUS; sin cambios desde jun-ago 12-FIN, 5-JOB, 2-APP, 4-RUT, 8-PRO, 16-APA, 15-MM, 17-IA (dojo).",
-          "entrega": "Orden propuesto (Miguel lo corrige): 1) 14-WORK, aporte 5 y desarrollo 2: el coach de procesos con IA. 2) Fusiones que bajan superficie (P2): 2-APP + 5-JOB en un solo módulo de carrera; 8-PRO y 17-IA.b dentro de 17-IA; 6-TOO dentro de 10-SYS. 3) Rehacer 7-NEW con datos del servidor o quitarlo (la portada ya trae titulares). 4) 4-RUT actualizada a su meta. 5) Archivar 9-GOA y 11-ACC, solo con su sí (O3.3). 12-FIN, 17-IA y 18-MUS están bien hechos y casi no se usan: llevarlos a la mano en la portada, no reescribirlos. Un módulo por sesión, verificando en producción.",
+          "problema": "24-nov, Miguel: «no solo te bases en lo que cambiaron este mes; analiza el nivel de desarrollo de cada módulo y lo que me aporta a mi vida, trabajo, estudio, día a día». Evaluación del 24-nov (en data/modulos.json, la lee la portada): desarrollo medido (código, datos automáticos, mantenimiento, si funciona) y aporte juzgado con sus metas (CUN, implementador de procesos con IA, inglés para trabajo remoto, ingresos, día a día). Uso medido en su Chrome (_cloud_ts): con cambios en noviembre 10-SYS, 13-NOT, 14-WORK, 3-ENG, 18-MUS; sin cambios desde jun-ago 12-FIN, 5-JOB, 2-APP, 4-RUT, 8-PRO, 16-APA, 15-MM, 17-IA (dojo).",
+          "entrega": "Orden propuesto (Miguel lo corrige): 1) 14-WORK, aporte 5 y desarrollo 2: el coach de procesos con IA. Primer paso hecho el 24-nov (H7: mapa del rol); sigue B1b, perfil y LinkedIn con las palabras del mapa. 2) Fusiones que bajan superficie (P2): 2-APP + 5-JOB en un solo módulo de carrera; 8-PRO y 17-IA.b dentro de 17-IA; 6-TOO dentro de 10-SYS. 3) 7-NEW: archivarlo o rehacerlo solo si sirve para una decisión concreta (el 24-nov Miguel quitó el radar de noticias de la portada por inútil). 4) 4-RUT actualizada a su meta. 5) Archivar 9-GOA y 11-ACC, solo con su sí (O3.3). 12-FIN, 17-IA y 18-MUS están bien hechos y casi no se usan: llevarlos a la mano en la portada, no reescribirlos. Un módulo por sesión, verificando en producción.",
           "verificacion": "Antes de tocar cada módulo: medir qué funciona y qué no en producción con sus datos. Después: la ficha de la portada sube su nivel de desarrollo con la evidencia que lo justifica.",
           "reusa": "cloud-sync.js guarda la hora de cada key sincronizada."
         },
@@ -339,6 +339,12 @@
     }
   ],
   "hecho": [
+    {
+      "id": "H7",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-24",
+      "que": "Mapa del rol (paso B1 del coach): 39 vacantes reales de implementación y automatización con IA leídas en LinkedIn (Colombia, último mes) y las 25 habilidades que piden, cada una marcada «en tu perfil» o «no figura». El radar de 5-JOB y sus búsquedas de LinkedIn ya apuntan a ese rol. Desarrollo de 14-WORK: 2 → 3."
+    },
     {
       "id": "H6",
       "modulo": "3-ENG",
