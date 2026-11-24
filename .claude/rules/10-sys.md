@@ -65,7 +65,7 @@ check con el cronograma (`wlToggle` ↔ `toggleCronoEntry`); `SYS.setCrono(refs,
 **El override de una materia guarda solo `cronograma`** (`_setCronoSilent`): guardar la materia entera congelaba
 desc, enlaces y horarios del código en `sys_subjects_custom`.
 
-**🧱 Módulos por materia y 🎯 ACAs (desde 4-nov-2026):** Dashboard y Materias abren con una rejilla 2×3 de bloques
+**🧱 Módulos por materia y 🎯 ACAs (desde 4-nov-2026):** Materias abre con una rejilla de bloques (desde el 24-nov el Dashboard ya no: tiene su propio tablero, `renderDashboard`: lo siguiente, la quincena, el bloque y las notas)
 (5 materias + ACAs); cada bloque despliega todo lo de su materia por prioridad (`renderTiles`, `_subjFeed`). Las listas
 largas quedan plegadas ("Ver el parte completo", "Ponte al día", "Fichas completas"). Las ACAs viven en `semana.acas`
 (contrato en `PROMPT_10-SYS_SEMANA.md` → Esquema) y se actualizan sin reinyectar con `SYS.setAca(id, patch)` /

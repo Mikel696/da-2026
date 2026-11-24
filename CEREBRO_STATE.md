@@ -48,6 +48,15 @@
 - **Carpetas del Bloque II** en `E:\Ing de Sistemas CUN\Semestre 9` (Animacion Basica, Plan de Negocio Aplicado, Investigacion de
   Operaciones): 01-04 + LEEME con ficha y los textos. Correo de Animación: camilo_cardona@cun.edu.co (invitación de Calendar).
   Ninguna aula nueva trae formulario de «Reglas de participación»; PNA tiene «Reglas de clase» (pptx, cm 8318787).
+- **TI corregido:** el 2.º corte salía pendiente aunque Miguel ya lo había presentado. Ahora está marcado `tiv_4` (setCrono) y el
+  `tiv_5` lleva la fecha real del 3.er corte (10-ene). Nota del ACA 2 registrada con `setNota('aca2')` (de CDigital). TI tiene
+  esquema `cun_ti` con los pesos del libro de calificaciones de CDigital.
+- **🧭 Dashboard nuevo** (`renderDashboard`, `?v=p51`, css `?v=7`). Pedido de Miguel: «no repitas las tarjetas de Materias».
+  Los bloques por materia salen del Dashboard (quedan en 📚 Materias); «Tu día» pasa al parte plegado. Ahora lo forman:
+  **Lo siguiente** (una acción grande con cuenta regresiva y botones), **La quincena** (14 días: clases como barras y entregas
+  como puntos, con el color de cada materia, hoy en turquesa), **En qué punto del bloque vas** (8 semanas con cortes + barra de
+  TI) y **Cómo vas con las notas** (promedio de lo evaluado + lo que falta para 3.0 y para 4.5). Tocar algo abre su materia
+  (`dbGo`). Avisos viejos del parte S9 quitados. Verificado en producción con datos reales.
 - **GitHub Pages falla a ratos** (23-nov, 23:40-23:54): «No artifacts named github-pages… re-run later». Un commit nuevo lo
   resolvió las veces que pasó. No es el código.
 - **Pendiente:** horario de IO; recapturar el Bloque I cuando SGA lo cargue; Inglés 26V05 sin nota visible; imagen oficial del calendario del Bloque II (para quitar las marcas ≈).

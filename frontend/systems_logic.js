@@ -2717,7 +2717,9 @@ const SYS = (() => {
     const subs = currentSubjects();
     const days = Array.from({ length: 14 }, (_, i) => new Date(now.getFullYear(), now.getMonth(), now.getDate() + i));
     const byDay = {};
-    evs.forEach(e => { if (e.due) (byDay[e.due.slice(0, 10)] = byDay[e.due.slice(0, 10)] || []).push(e); });
+    // Las actividades del parte que son una clase ya salen como barra de clase: no se repiten.
+    evs.forEach(e => { if (e.due && !(e.kind === 'item' && /\bclase\b/i.test(e.title))) (byDay[e.due.slice(0, 10)] = byDay[e.due.slice(0, 10)] || []).push(e); });
+    const lbl = t => _shortTitle(t).replace(/^[^:«]{2,32}:\s*/, '');
     const col = (d, i) => {
       const key = _dStr(d), dow = d.getDay() || 7;
       const cls = subs.flatMap(s => (s.clases || []).filter(c => c.dias.includes(dow)).map(c => ({ s, c })))
@@ -2727,7 +2729,7 @@ const SYS = (() => {
         ...cls.map(({ s, c }) => `<button type="button" class="db-cls${c.tipo ? ' alt' : ''}${i === 0 && c.fin < hhmm ? ' gone' : ''}" style="--sc:${escA(s.color)}" data-mt="db-go" data-sid="${escA(s.id)}"
             title="${escA(s.name + ' · ' + c.ini + '-' + c.fin + (c.tipo ? ' · ' + c.tipo : ''))}"><b>${c.ini}</b> ${esc(s.code || _short(s))}</button>`),
         ...dl.map(e => `<button type="button" class="db-dl${e.est ? ' est' : ''}${e.prio === 'p0' ? ' p0' : ''}" style="--sc:${escA(e.s.color)}" data-mt="db-go" data-sid="${escA(e.s.id)}"
-            title="${escA(e.s.name + ': ' + e.title + (e.est ? ' (fecha estimada)' : ''))}">${esc(_shortTitle(e.title))}</button>`),
+            title="${escA(e.s.name + ': ' + e.title + (e.est ? ' (fecha estimada)' : ''))}">${esc(lbl(e.title))}</button>`),
       ];
       const more = chips.length > 5 ? `<span class="db-more">+${chips.length - 4} más</span>` : '';
       return `<div class="db-day${i === 0 ? ' is-today' : ''}${dow > 5 ? ' wknd' : ''}${i === 7 ? ' wk2' : ''}">
@@ -2774,8 +2776,11 @@ const SYS = (() => {
         return `<div class="db-n none">${name}<span class="db-n-txt">Sin notas todavía${first ? `: la primera llega con «${esc(_shortTitle(first.title))}» ${first.est ? '≈ ' : ''}${formatDate(first.date)}` : ''}.</span></div>`;
       }
       const tone = g.avg >= 4.5 ? 'hi' : g.avg >= 3.5 ? 'mid' : 'lo';
-      const need = g.left <= 0 ? `Nota final ${g.acum.toFixed(2)}.` : g.need <= 0 ? `Ya aseguraste ${g.meta.toFixed(1)} aunque saques 0 en lo que falta.`
-        : `Para cerrar en ${g.meta.toFixed(1)} te basta con ${g.need.toFixed(2)} en el ${Math.round(g.left)} % que falta.`;
+      // Dos metas: la mínima para ganar (la de la materia, 3.0 por defecto) y la de excelencia (4.5).
+      const needFor = m => (m * 100 - g.acum * 100) / g.left;
+      const tgt = m => { const x = needFor(m); return x <= 0 ? `${m.toFixed(1)} ya está asegurado` : x > 5 ? `${m.toFixed(1)} ya no alcanza` : `para ${m.toFixed(1)} necesitas ${x.toFixed(2)}`; };
+      const need = g.left <= 0 ? `Nota final ${g.acum.toFixed(2)}.`
+        : `En el ${Math.round(g.left)} % que falta: ${tgt(g.meta)} · ${tgt(Math.max(4.5, g.meta))}.`;
       return `<div class="db-n" style="--sc:${escA(s.color)}">${name}
         <div class="db-n-bar ${tone}" title="${escA(`${Math.round(g.done)} % del curso evaluado`)}"><i style="width:${g.done}%"></i></div>
         <span class="db-n-avg"><b>${g.avg.toFixed(2)}</b> en el ${Math.round(g.done)} % evaluado</span>
