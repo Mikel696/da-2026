@@ -1210,12 +1210,11 @@ const SYS = (() => {
             <div class="sj-drop-body">
               <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
                 ${files.map(f => {
-                  const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
                   const delBtn = `<button class="att-thumb-del" onclick="event.stopPropagation();SYS.subjectFileDel('${s.id}','${f.id}')" title="Eliminar">✕</button>`;
-                  if (isImg) {
+                  if (_isImg(f)) {
                     return `<div class="att-thumb" onclick="SYS.openFileViewer('${s.id}','${f.id}')" title="${esc(f.name)}">
                       ${delBtn}
-                      <img src="${f.data}" alt="${esc(f.name)}">
+                      <img ${_imgAttr(s.id, f)} alt="${esc(f.name)}">
                       <div class="att-thumb-cap">${esc(f.name)}</div>
                     </div>`;
                   }
@@ -1245,6 +1244,7 @@ const SYS = (() => {
 
     // After DOM insertion, restore any open page editors
     if (window.NB && NB.restoreAfterRender) NB.restoreAfterRender();
+    _hydrateFileImgs();
   }
 
   // ── NOTAS · acumulado y nota necesaria en lo que falta ──
@@ -3157,6 +3157,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
     const SEED_TASKS = [];
 
     render();
+    _migrateFiles();
   }
 
   // ── CUN PORTAL OPENER ──
@@ -3881,8 +3882,79 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
   }
 
   // ── FILE ATTACHMENTS (per subject) ──
+  // El archivo vive en el IDB de NBShared (id `bid`) y se sube a Supabase Storage; en
+  // localStorage (`sys_subj_files_<sid>`, solo local) queda la ficha: id, name, type, size, added, bid.
+  // Una ficha con `data` es del formato viejo (base64 en localStorage): la convierte _migrateFiles().
+  const FILE_MAX = 50 * 1024 * 1024;
+  const _fileUrls = new Map(); // bid → object URL, mientras la pestaña siga abierta
   function _getFiles(sid) { return db.get('subj_files_' + sid, []); }
-  function _setFiles(sid, arr) { db.set('subj_files_' + sid, arr); }
+  // Sin el try de db.set: si la ficha no cabe, quien llama tiene que enterarse.
+  function _setFiles(sid, arr) { localStorage.setItem(NS + 'subj_files_' + sid, JSON.stringify(arr)); }
+  function _isImg(f) { return /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name); }
+  function _fileBid(sid, id) { return 'sysf_' + sid + '_' + id; }
+  function _blobMeta(f) { return { name: f.name, type: f.type, size: f.size, ext: NBShared.extOf(f.name), addedAt: f.added }; }
+
+  async function _fileBlob(f) {
+    if (!f.bid || !window.NBShared) return null;
+    const rec = await NBShared.getBlob(f.bid).catch(() => null);
+    if (rec && rec.blob) return rec.blob;
+    const cloud = await NBShared.cloudDownloadAttachment(f.bid);
+    if (cloud) NBShared.putBlob(f.bid, cloud, _blobMeta(f)).catch(() => {});
+    return cloud;
+  }
+  async function _fileUrl(f) {
+    if (f.data) return f.data;
+    if (_fileUrls.has(f.bid)) return _fileUrls.get(f.bid);
+    const b = await _fileBlob(f);
+    if (!b) return null;
+    const u = URL.createObjectURL(b);
+    _fileUrls.set(f.bid, u);
+    return u;
+  }
+  // La imagen sale del IDB (asíncrono): se pinta sin src y se completa después.
+  function _imgAttr(sid, f) {
+    const u = f.data || _fileUrls.get(f.bid);
+    return (u ? `src="${u}" ` : '') + `data-sysf="${sid}|${f.id}"`;
+  }
+  function _hydrateFileImgs() {
+    document.querySelectorAll('img[data-sysf]:not([src])').forEach(async img => {
+      const [sid, fid] = img.dataset.sysf.split('|');
+      const f = _getFiles(sid).find(x => x.id === fid);
+      const u = f && await _fileUrl(f);
+      if (u) img.src = u;
+      else img.alt = '⚠ No está en este equipo';
+    });
+  }
+
+  // Formato viejo → nuevo. La ficha pierde `data` solo cuando el IDB devuelve el archivo
+  // del mismo tamaño; si algo falla, el base64 sigue en localStorage y se reintenta al recargar.
+  async function _migrateFiles() {
+    if (!window.NBShared || !NBShared.putBlob) return;
+    const pre = NS + 'subj_files_';
+    let moved = 0;
+    for (const k of Object.keys(localStorage).filter(k => k.startsWith(pre))) {
+      const sid = k.slice(pre.length);
+      for (const f of _getFiles(sid).filter(x => x.data && !x.bid)) {
+        try {
+          const blob = await (await fetch(f.data)).blob();
+          const bid = _fileBid(sid, f.id);
+          await NBShared.putBlob(bid, blob, _blobMeta({ ...f, size: blob.size }));
+          const rec = await NBShared.getBlob(bid);
+          if (!rec || !rec.blob || rec.blob.size !== blob.size) throw new Error('el IDB no devolvió el archivo completo');
+          const now = _getFiles(sid); // releída: otra pestaña pudo tocar la lista
+          const cur = now.find(x => x.id === f.id);
+          if (!cur || cur.data !== f.data) continue;
+          delete cur.data;
+          cur.bid = bid;
+          cur.size = blob.size;
+          _setFiles(sid, now);
+          moved++;
+          NBShared.cloudUploadAttachment(bid, blob);
+        } catch (e) { console.warn('[10-SYS] adjunto sin migrar, sigue en localStorage:', f.name, e); }
+      }
+    }
+    if (moved) { console.log('[10-SYS] adjuntos movidos de localStorage al IDB:', moved); render(); }
+  }
 
   function _renderSmFiles(sid) {
     const el = document.getElementById('smAttList');
@@ -3893,46 +3965,61 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
     const icMap = { pdf:'📄', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊', ppt:'📑', pptx:'📑', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', gif:'🖼️', zip:'🗜️', rar:'🗜️' };
     el.innerHTML = files.map(f => {
       const ext = (f.name.split('.').pop() || '').toLowerCase();
-      const isImg = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+      const isImg = _isImg(f);
       const ic = isImg ? '🖼️' : (icMap[ext] || '📎');
       const sz = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB';
       return `<div class="att-c">
-        ${isImg ? `<img src="${f.data}" class="att-mini" onclick="SYS.openFileViewer('${sid}','${f.id}')" title="Click para ampliar">` : `<span class="att-ic">${ic}</span>`}
+        ${isImg ? `<img ${_imgAttr(sid, f)} class="att-mini" onclick="SYS.openFileViewer('${sid}','${f.id}')" title="Click para ampliar">` : `<span class="att-ic">${ic}</span>`}
         <span class="att-nm" title="${esc(f.name)}" ${isImg ? `onclick="SYS.openFileViewer('${sid}','${f.id}')" style="cursor:zoom-in"` : ''}>${esc(f.name)}</span>
         <span class="att-sz">${sz}</span>
         <button class="att-b" onclick="SYS.subjectFileDL('${sid}','${f.id}')" title="Descargar">⬇</button>
         <button class="att-b" onclick="SYS.subjectFileDel('${sid}','${f.id}')" title="Eliminar">✕</button>
       </div>`;
     }).join('');
+    _hydrateFileImgs();
   }
 
-  function subjectFileUpload(input) {
+  async function subjectFileUpload(input) {
     const sid = _smEditId;
-    if (!sid) return;
-    const existing = _getFiles(sid);
-    Array.from(input.files).forEach(f => {
-      if (f.size > 2 * 1024 * 1024) { alert(`"${f.name}" supera los 2 MB. Comprime e intenta de nuevo.`); return; }
-      const reader = new FileReader();
-      reader.onload = e => {
-        existing.push({ id: 'f' + Date.now(), name: f.name, type: f.type, size: f.size, data: e.target.result, added: new Date().toISOString() });
-        _setFiles(sid, existing);
-        _renderSmFiles(sid);
-      };
-      reader.readAsDataURL(f);
-    });
+    const list = Array.from(input.files || []);
     input.value = '';
+    if (!sid || !list.length) return;
+    if (!window.NBShared || !NBShared.putBlob) { alert('El módulo de adjuntos no cargó. Recarga la página e intenta de nuevo.'); return; }
+    for (const file of list) {
+      if (file.size > FILE_MAX) { alert(`"${file.name}" supera los 50 MB.`); continue; }
+      const f = { id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), name: file.name, type: file.type, size: file.size, added: new Date().toISOString() };
+      f.bid = _fileBid(sid, f.id);
+      try {
+        await NBShared.putBlob(f.bid, file, _blobMeta(f));
+      } catch (e) { alert(`No se pudo guardar "${file.name}" en este equipo.\n\n${(e && e.message) || e}`); continue; }
+      try {
+        _setFiles(sid, _getFiles(sid).concat(f));
+      } catch (e) {
+        NBShared.deleteBlob(f.bid).catch(() => {});
+        alert(`"${file.name}" no se agregó: el disco del navegador está lleno.`);
+        continue;
+      }
+      NBShared.cloudUploadAttachment(f.bid, file);
+    }
+    _renderSmFiles(sid);
+    render();
   }
 
-  function subjectFileDL(sid, fileId) {
+  async function subjectFileDL(sid, fileId) {
     const f = _getFiles(sid).find(x => x.id === fileId);
-    if (!f?.data) return;
-    const a = document.createElement('a');
-    a.href = f.data; a.download = f.name; a.click();
+    if (!f) return;
+    if (f.data) { const a = document.createElement('a'); a.href = f.data; a.download = f.name; a.click(); return; }
+    if (window.NBShared) await NBShared.downloadAttachment(f.bid, f.name);
   }
 
   function subjectFileDel(sid, fileId) {
     if (!confirm('¿Eliminar este archivo?')) return;
-    _setFiles(sid, _getFiles(sid).filter(f => f.id !== fileId));
+    const f = _getFiles(sid).find(x => x.id === fileId);
+    _setFiles(sid, _getFiles(sid).filter(x => x.id !== fileId));
+    if (f && f.bid) {
+      if (_fileUrls.has(f.bid)) { URL.revokeObjectURL(_fileUrls.get(f.bid)); _fileUrls.delete(f.bid); }
+      if (window.NBShared) NBShared.deleteBlob(f.bid).catch(() => {});
+    }
     _renderSmFiles(sid);
     render();
   }
@@ -3959,11 +4046,12 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
   }
 
   // ── IMAGE/FILE LIGHTBOX VIEWER ──
-  function openFileViewer(sid, fileId) {
+  async function openFileViewer(sid, fileId) {
     const f = _getFiles(sid).find(x => x.id === fileId);
     if (!f) return;
-    const isImage = /^image\//.test(f.type) || /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
-    if (!isImage) { subjectFileDL(sid, fileId); return; }
+    if (!_isImg(f)) { subjectFileDL(sid, fileId); return; }
+    const src = await _fileUrl(f);
+    if (!src) { alert(`"${f.name}" no está en este equipo ni en la nube.`); return; }
     let lb = document.getElementById('fileLightbox');
     if (!lb) {
       lb = document.createElement('div');
@@ -3975,7 +4063,7 @@ section p{font-size:var(--fs);line-height:1.55;margin:0}
     lb.innerHTML = `<button class="lb-close" onclick="SYS.closeFileViewer()" title="Cerrar (Esc)">✕</button>
       <button class="lb-dl" onclick="SYS.subjectFileDL('${sid}','${fileId}')" title="Descargar">⬇</button>
       <div class="lb-content">
-        <img src="${f.data}" alt="${esc(f.name)}">
+        <img src="${src}" alt="${esc(f.name)}">
         <div class="lb-caption">${esc(f.name)} · ${f.size > 1048576 ? (f.size/1048576).toFixed(1)+' MB' : Math.round(f.size/1024)+' KB'}</div>
       </div>`;
     lb.style.display = 'flex';

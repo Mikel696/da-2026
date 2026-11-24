@@ -2228,7 +2228,7 @@
 
   window.NBShared = {
     attachCleanPaste, attachChecklistToggle, attachEditorHandlers,
-    VERSION: 'p27-2026-11-24',
+    VERSION: 'p28-2026-11-24',
     pendingUploadsCount, retryPendingUploads, reuploadMissingImages,
     // Historial de versiones / anti-pérdida
     nbRichness, nbDetectRegression, snapshotNb, listNbHistory, getNbSnapshot, restoreNbSnapshot,
@@ -2239,7 +2239,7 @@
     _insertImageFromFile, _openImageHD, _migrateInlineImagesToChips,
     COVERS, ICON_GROUPS, ALL_ICONS,
     iconForExt, fmtBytes, extOf,
-    pickAndStoreAttachment, downloadAttachment, deleteBlob, getBlob,
+    pickAndStoreAttachment, downloadAttachment, putBlob, deleteBlob, getBlob,
     // Cloud sync
     cloudUploadAttachment, cloudDownloadAttachment, cloudDeleteAttachment,
     renderAttachmentChips, renderCoverPicker, renderIconPicker,
