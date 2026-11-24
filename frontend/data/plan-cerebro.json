@@ -272,18 +272,18 @@
         {
           "id": "O5.1",
           "modulo": "1-IND",
-          "estado": "a-decidir",
+          "estado": "pendiente",
           "prioridad": "P1",
           "titulo": "Boceto de la portada nueva para que Miguel elija",
           "problema": "Miguel decide viendo, no leyendo. Construir el sistema de diseño sin que haya visto la dirección es arriesgar una sesión entera.",
-          "entrega": "Una página de prueba (sin publicar) con la dirección recomendada: lanzador de módulos con el estado real de cada uno (de cuándo es su dato), buscador Ctrl+K, sin contadores ni Workshop. Una propuesta, no un menú.",
+          "entrega": "Hecho el 24-nov, esperando el veredicto de Miguel: frontend/boceto-cerebro2.html (solo en el PC de Miguel, fuera de git por .git/info/exclude; se ve con el servidor local da-2026 en localhost:3456). Dirección: la tabla periódica del Cerebro sobre una pizarra. Cada módulo es un elemento con su número y sus tres letras, color por familia (Estudio, Trabajo y carrera, IA y creación, Vida, Escribir-pensar-leer); al pasar el mouse se llena la ficha. Debajo: Pulso de Colombia (TRM, tasa BanRep, inflación, desempleo, vacantes, cada uno con fecha y fuente), Titulares de world.json (sin rss2json), Ofertas en un popover nativo y buscador Ctrl+K en un dialog nativo. Sin contadores, Workshop, pomodoro ni cita.",
           "verificacion": "Miguel dice «sí, esa» o qué cambia. Hasta eso no se toca index.html.",
           "reusa": "css/design-tokens.css y pages/design-system.html (v1)."
         },
         {
           "id": "O5.2",
           "modulo": "1-IND",
-          "estado": "a-decidir",
+          "estado": "pendiente",
           "prioridad": "P1",
           "titulo": "Sistema de diseño v2 y portada nueva",
           "problema": "La portada es un folleto: lista de módulos con descripciones viejas y widgets que fallan o no miden nada.",
@@ -294,7 +294,7 @@
         {
           "id": "O5.3",
           "modulo": "infra",
-          "estado": "a-decidir",
+          "estado": "pendiente",
           "prioridad": "P1",
           "titulo": "Instalable y abre sin internet (PWA)",
           "problema": "Los datos son offline-first, pero las páginas no: sin red no abre nada que el navegador no tenga en caché por casualidad. Tampoco se instala como app en el celular.",
@@ -305,7 +305,7 @@
         {
           "id": "O5.4",
           "modulo": "infra",
-          "estado": "a-decidir",
+          "estado": "pendiente",
           "prioridad": "P1",
           "titulo": "Lo roto y lo muerto primero: O2.2 y O4.5",
           "problema": "Llevan pendientes desde el 17-ago y son justo lo que hace sentir viejo el sitio: la portada depende de rss2json (falla con HTTP 422) y hay JS que no carga nadie.",
@@ -316,7 +316,7 @@
         {
           "id": "O5.5",
           "modulo": "todos",
-          "estado": "a-decidir",
+          "estado": "pendiente",
           "prioridad": "P2",
           "titulo": "Cada módulo al diseño v2, en orden de uso medido",
           "problema": "Rediseñar un módulo que Miguel no abre es cupo perdido. Hoy nadie sabe cuáles usa.",

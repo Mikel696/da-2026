@@ -45,6 +45,17 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
   (P0, pendiente: no espera el sí del diseño)** → O5.1 boceto para que elija → O5.2 diseño v2 y portada → O5.3 PWA (red
   primero para HTML/JS, por la deriva de motor del 15-jul) → O5.4 lo roto y lo muerto (O2.2, O4.5) → O5.5 módulos por
   uso medido → O5.6 publicación estable.
+- **Miguel aprobó la ola O5** («Sí, adelante»): todo pasó de `a-decidir` a `pendiente`. O5.0 corre en su propia sesión.
+- **O5.1 · boceto hecho, esperando su veredicto:** `frontend/boceto-cerebro2.html`, **solo local** (excluido en
+  `.git/info/exclude`, no se publica). Se ve con el servidor `da-2026` de `.claude/launch.json` → `localhost:3456/boceto-cerebro2.html`.
+  Dirección: **tabla periódica del Cerebro sobre una pizarra** (fondo `#16262B`, tizas por familia, tipografía Archivo con
+  su eje de ancho). Cada módulo es un elemento con su número y sus tres letras; al pasar el mouse se llena la ficha. Debajo:
+  Pulso de Colombia (TRM, tasa BanRep, inflación, desempleo, vacantes: cada uno con fecha y fuente, de `macro-co.json` y
+  `jobs-feed.json`), Titulares de `world.json` (sin rss2json), Ofertas en un `popover` nativo y buscador **Ctrl+K** en un
+  `<dialog>`. Fuera: contadores, Workshop, pomodoro (en su Chrome marcaba 0 sesiones) y la cita del día.
+  Probado en el navegador del app: 1440 px (5 familias en una fila), 375 px (sin desborde, 4 por fila), Ctrl+K filtra y
+  abre, el popover trae las 45 páginas, 0 errores propios en consola. **No probado:** en producción ni con su sesión.
+  Familias nuevas: TOO pasó a Estudio; APA, MM y NEW forman «Escribir, pensar, leer».
 - **Visto de paso, sin tocar:** el saludo dice «Buenos días, "Miguel Barros"» con comillas (el nombre se guardó así en
   `sb_name`); `js/index.js`, `js/dashboard.js` y `js/notes.js` no los carga ninguna página.
 
