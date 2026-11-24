@@ -127,7 +127,7 @@ Todos los módulos del proyecto se identifican con un Número y las 3 primeras l
 
 | Código | Archivo | Descripción |
 |---|---|---|
-| `1-IND` | `index.html` | Dashboard Principal & Mission Control |
+| `1-IND` | `index.html` | Portada «Cerebro 2» (24-nov): tarjetas con datos vivos, rail + router en iframe, Ctrl+K. **Solo lectura**; CSS/JS en `inicio.css`/`inicio.js`, evaluación en `data/modulos.json` |
 | `2-APP` | `apply.html` | Application Command Center (ATS, CV Weaver, Cover, Interview, Prompts) |
 | `3-ENG` | `english.html` | English Academy & Interview Dojo (TTS + STT) |
 | `4-RUT` | `ruta.html` | Ruta Data Analyst & Excel Tech Test Simulator |

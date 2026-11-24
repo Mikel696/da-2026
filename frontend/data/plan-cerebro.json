@@ -272,23 +272,23 @@
         {
           "id": "O5.1",
           "modulo": "1-IND",
-          "estado": "pendiente",
+          "estado": "hecho",
           "prioridad": "P1",
           "titulo": "Boceto de la portada nueva para que Miguel elija",
           "problema": "Miguel decide viendo, no leyendo. Construir el sistema de diseño sin que haya visto la dirección es arriesgar una sesión entera.",
           "entrega": "Hecho el 24-nov, esperando el veredicto de Miguel: frontend/boceto-cerebro2.html (solo en el PC de Miguel, fuera de git por .git/info/exclude; se ve con el servidor local da-2026 en localhost:3456). Dirección: la tabla periódica del Cerebro sobre una pizarra. Cada módulo es un elemento con su número y sus tres letras, color por familia (Estudio, Trabajo y carrera, IA y creación, Vida, Escribir-pensar-leer); al pasar el mouse se llena la ficha. Debajo: Pulso de Colombia (TRM, tasa BanRep, inflación, desempleo, vacantes, cada uno con fecha y fuente), Titulares de world.json (sin rss2json), Ofertas en un popover nativo y buscador Ctrl+K en un dialog nativo. Sin contadores, Workshop, pomodoro ni cita.",
-          "verificacion": "Miguel dice «sí, esa» o qué cambia. Hasta eso no se toca index.html.",
+          "verificacion": "HECHO el 24-nov: tres vueltas; Miguel aprobó la v3 (aurora, tarjetas de vidrio con datos vivos, detalle con evaluación, HUD, avatar, Ctrl+K). Pasó a la portada real en O5.2 y el boceto se borró.",
           "reusa": "css/design-tokens.css y pages/design-system.html (v1)."
         },
         {
           "id": "O5.2",
           "modulo": "1-IND",
-          "estado": "pendiente",
+          "estado": "hecho",
           "prioridad": "P1",
           "titulo": "Sistema de diseño v2 y portada nueva",
           "problema": "La portada es un folleto: lista de módulos con descripciones viejas y widgets que fallan o no miden nada.",
           "entrega": "Tokens y componentes con CSS moderno (container queries, :has(), nesting, popover y dialog nativos), transiciones entre páginas (View Transitions entre documentos), Ctrl+K para saltar a cualquier módulo o sección. Fuera: contadores, Workshop, cita del día y el video de 4,2 MB.",
-          "verificacion": "Lighthouse móvil de la portada medido antes y después (meta: Rendimiento y Accesibilidad ≥ 90). Con internet cortado la portada sigue completa y dice de cuándo son sus datos. 0 errores de consola en producción.",
+          "verificacion": "HECHO el 24-nov (5809b57 … 78d3876). Lighthouse móvil en producción: antes rendimiento sin medir (NO_LCP), accesibilidad 91, 4,4 MB; después rendimiento 90/89/88, accesibilidad 100, buenas prácticas 100, SEO 100, 207 KB. Con todas las peticiones fallando la portada sigue completa y dice «copia guardada, sin conexión» con la fecha. 0 errores de consola en producción, con sesión y sync. Queda: rendimiento estable ≥ 90 (servir la fuente desde el sitio). El radar de noticias salió por pedido de Miguel.",
           "reusa": "El router actual de la portada (Cerebro.go) y el rail de módulos."
         },
         {

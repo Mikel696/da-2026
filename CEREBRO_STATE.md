@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 (10-SYS: adjuntos de materia fuera de localStorage, disco 56,6 % → 47,1 % · antes: O5.0 cuadernos aligerados, 1-IND ofertas fijas)
+- **Última actualización:** 2026-11-24 (1-IND: portada «Cerebro 2» en producción, O5.1 y O5.2 hechas · antes: 10-SYS adjuntos fuera de localStorage, O5.0 cuadernos aligerados)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,45 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧠 1-IND · Portada «Cerebro 2» en producción (O5.1 + O5.2) — martes 24-nov
+
+El boceto v3 que Miguel aprobó ya es la portada real (`5809b57`, `c6078a3`, `f93d8f3`, `78d3876`). El boceto se borró.
+
+- **Archivos:** `index.html` (estructura) + `css/inicio.css` + `js/inicio.js` + `data/modulos.json` (evaluación de los 19
+  módulos —desarrollo, aporte, cómo aprovecharlo, veredicto— y sus conexiones). Tarjetas con datos vivos de 7 módulos,
+  «Más módulos», detalle lateral (`<dialog>`), HUD (sincronización, disco, módulos activos, último cambio), avatar con
+  sesión, «Iniciar sesión» (abre el login de `auth.js`), respaldo .json y «Cerrar sesión», Ctrl+K, Pulso de Colombia, Ofertas.
+- **Rail + router en iframe: se quedó** (`Cerebro.go`, hashes `#systems`…). Evidencia: cloud-sync depende de él (dentro
+  del iframe oculta «← Cerebro» y el botón de sesión duplicado, y llama a `parent.Cerebro.go('home')`). Ahora muestra los
+  códigos (SYS, NOT…) en el orden de la evaluación. Con un módulo abierto vuelve el botón de sesión de siempre; en la
+  portada la cuenta vive en el avatar.
+- **Solo lectura, probado por comportamiento:** 0 cambios en localStorage tras recargar y usar detalle, buscador, cuenta,
+  ofertas y eventos de sync. Lecturas por `localStorage.getItem` en el momento (el envuelto de cloud-sync). El nombre se
+  muestra sin comillas; `sb_name` intacto. Ya no hay `prompt()` del nombre.
+- **Fuera:** contadores, Quick Workshop, pomodoro, cita, `brain.mp4` (4,2 MB, borrado: nadie más lo usaba), feed de
+  rss2json. **Radar de noticias: lo quitó Miguel** («una pérdida de tiempo si no puedes implementar los nodos en algo
+  productivo»). 7-NEW quedó evaluado «archivar o rehacer solo si sirve para una decisión concreta». Sin `@view-transition`
+  (al recargar tiraba `InvalidStateError` en consola y no aportaba: los módulos abren en el iframe).
+- **Sin red:** cada `data/*.json` guarda su última copia buena en Cache Storage (`inicio-datos`, no localStorage) y la
+  portada dice «copia guardada, sin conexión» con la fecha. Probado con todas las peticiones fallando: tarjetas, pulso,
+  ofertas y evaluación completos.
+- **Cadena de sesión con `defer` solo en index** (mismo orden; corre antes de `DOMContentLoaded`). cloud-sync sigue `p25`
+  en las 28 páginas. En producción: INITIAL_SESSION, fullSyncAll con 70 keys, realtime suscrito, 0 errores.
+- **CLS 0,61 encontrado en producción y corregido** (`c6078a3`): a veces Chrome pinta antes de que `inicio.js` llene las
+  tarjetas; lo de abajo queda oculto (`.bento:empty ~ …`) hasta que existan.
+- **Lighthouse móvil, producción.** Antes: rendimiento sin medir (NO_LCP en 2 de 2), accesibilidad 91, BP 93, SEO 80,
+  4,4 MB. Después (versión final `78d3876`, 3 corridas): rendimiento 90 / 89 / 88, accesibilidad 100, BP 100, SEO 100,
+  CLS ≤ 0,005, 207 KB. **La meta de rendimiento ≥ 90 se toca pero no se sostiene (1 de 3).** Probé `defer` en inicio.js, pedir los datos después de `load` y
+  `display=optional` en la fuente: ninguno la movió (revertidos). Siguiente palanca: servir la fuente Archivo (90 KB,
+  hoy desde Google) desde el propio sitio.
+- **Sin confirmar:** el celular real de Miguel (probado a 375 px emulado y con Lighthouse móvil). Con el CDN de Supabase
+  caído, `supabase-client.js` y `auth.js` tiran 2 errores en consola: pasa en las 28 páginas, no es de la portada.
+- **Pages falló 2 de 5 despliegues** (`c6078a3`, `f93d8f3`: paso «Deploy to GitHub Pages»); se relanzaron con un commit.
+  Suma evidencia a O5.6.
+- **Siguiente (Miguel, 24-nov): «comenzar a mejorar todos los módulos»** → O5.5, en el orden de `data/modulos.json`.
 
 ---
 
