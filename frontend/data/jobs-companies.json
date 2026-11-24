@@ -13,12 +13,17 @@
     { "slug": "ebanx",           "nombre": "EBANX",             "ats": "greenhouse", "que": "Pagos transfronterizos · Brasil/LatAm" },
     { "slug": "vtex",            "nombre": "VTEX",              "ats": "greenhouse", "que": "Plataforma de e-commerce · LatAm" },
     { "slug": "wildlifestudios", "nombre": "Wildlife Studios",  "ats": "greenhouse", "que": "Gaming · Brasil · mucha analítica" },
-    { "slug": "bitso",           "nombre": "Bitso",             "ats": "greenhouse", "que": "Exchange cripto más grande de LatAm" },
     { "slug": "laika",           "nombre": "Laika",             "ats": "greenhouse", "que": "E-commerce de mascotas · Colombia" },
     { "slug": "yuno",            "nombre": "Yuno",              "ats": "lever",      "que": "Infraestructura de pagos · colombiana" },
     { "slug": "fintual",         "nombre": "Fintual",           "ats": "lever",      "que": "Inversión automatizada · Chile/México" },
     { "slug": "belvo",           "nombre": "Belvo",             "ats": "ashby",      "que": "Open finance LatAm · datos bancarios" },
     { "slug": "simetrik",        "nombre": "Simetrik",          "ats": "ashby",      "que": "Tu empresa — movilidad interna" },
-    { "slug": "bold",            "nombre": "Bold",              "ats": "ashby",      "que": "Pagos · Colombia" }
+    { "slug": "bold",            "nombre": "Bold",              "ats": "ashby",      "que": "Pagos · Colombia" },
+    { "slug": "addi",            "nombre": "Addi",              "ats": "ashby",      "que": "Compra ahora, paga después · Colombia · rol objetivo (verificada 2026-11-24)" },
+    { "slug": "biaenergy",       "nombre": "Bia Energy",        "ats": "lever",      "que": "Energía · Bogotá · publica CRM y automatización (verificada 2026-11-24)" },
+    { "slug": "coderio",         "nombre": "Coderio",           "ats": "lever",      "que": "Software · LatAm · publica RPA y transformación digital (verificada 2026-11-24)" }
+  ],
+  "retiradas": [
+    { "slug": "bitso", "ats": "greenhouse", "fecha": "2026-11-24", "por": "HTTP 404 en Greenhouse; no aparece en Lever ni Ashby. Dejaba el radar «parcial» todos los días." }
   ]
 }

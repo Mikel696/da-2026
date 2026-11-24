@@ -59,13 +59,18 @@ const TOP = 60;
    Ing. de Sistemas CUN · SQL, Excel, Power BI, conciliaciones,
    contabilidad AP/AR · español nativo, inglés en progreso. */
 
-/* ROL — al menos UNA tiene que aparecer para que la vacante entre. */
+/* ROL — al menos UNA tiene que aparecer para que la vacante entre.
+   Rol objetivo desde el 24-nov-2026 (14-WORK · Mapa del rol): implementador de procesos con IA.
+   Sus tres familias van primero y pesan más; el perfil anterior se queda debajo. */
 const SENALES_ROL = [
+  { re: /(implementation (specialist|consultant|analyst|manager|lead)|analista de implementaci|consultor(a)? de implementaci|onboarding (specialist|lead|manager)|deployment strategist|professional services)/i, p: 12, t: 'implementación — rol objetivo' },
+  { re: /(automation (analyst|specialist|lead|consultant|strategist)|analista de automatizaci|automatizaci[oó]n de procesos|process automation|\brpa\b|power automate|power platform|hiperautomatizaci|low.?code)/i, p: 12, t: 'automatización de procesos — rol objetivo' },
+  { re: /(ai operations|ai automation|ai (process|enablement|adoption|transformation)|agentic process|transformaci[oó]n (digital )?e ia|procesos con ia|ia aplicada)/i, p: 12, t: 'IA en operaciones — rol objetivo' },
+  { re: /(process (analyst|owner|improvement|excellence)|analista de procesos|ingenier[oa] de procesos|business process|mejora continua)/i, p: 8, t: 'procesos' },
   { re: /(reconcil|conciliaci)/i,                              p: 12, t: 'conciliaciones — tu especialidad' },
   { re: /(data analyst|analista de datos)/i,                   p: 10, t: 'analista de datos' },
   { re: /(business intelligence|bi analyst|analista bi)/i,     p: 10, t: 'BI' },
   { re: /(financial analyst|analista financiero)/i,            p: 9,  t: 'analista financiero' },
-  { re: /(implementation (specialist|consultant|analyst|manager)|onboarding specialist)/i, p: 9, t: 'implementación — lo que hacés hoy' },
   { re: /(accounts payable|accounts receivable|contabilidad|accounting|bookkeep)/i, p: 7, t: 'contabilidad' },
   { re: /(reporting analyst|analytics (analyst|specialist|manager)|data (engineer|specialist|scientist))/i, p: 7, t: 'analítica' },
   { re: /(operations analyst|analista de operaciones|business analyst|analista de negocio)/i, p: 6, t: 'analista de operaciones o negocio' },
@@ -190,7 +195,10 @@ const VOCABULARIO = [
   'KPI','OKR','Agile','Scrum','Lean','Six Sigma','Process Improvement',
   'Reconciliation','Accounts Payable','Accounts Receivable','GAAP','IFRS','Audit',
   'Financial Modeling','Budgeting','Forecast','Cash Flow','P&L','Close Process',
-  'Stakeholder','Cross-functional','Documentation','Training','Onboarding','Implementation'
+  'Stakeholder','Cross-functional','Documentation','Training','Onboarding','Implementation',
+  // rol objetivo (24-nov-2026): las que más piden las vacantes de implementación y automatización con IA
+  'Power Automate','Power Platform','RPA','UiPath','Automation Anywhere','n8n','Zapier','Low-code',
+  'LLM','Generative AI','Prompt','AI Agents','BPMN','Change Management','Requirements'
 ];
 
 /* Lo que Miguel YA puede sostener en una entrevista, según su experiencia real
@@ -206,7 +214,7 @@ function palabrasClave(texto) {
   const t = String(texto || '');
   if (t.length < 200) return null;          // sin descripción no se inventa nada
   const hallados = VOCABULARIO.filter(k => {
-    const re = new RegExp('(^|[^a-zA-Z])' + k.replace(/[.*+?^${}()|[]\]/g, '\/* ═══ Puntaje, con motivos visibles ═══ */') + '([^a-zA-Z]|$)', 'i');
+    const re = new RegExp('(^|[^a-zA-Z])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-zA-Z]|$)', 'i');
     return re.test(t);
   });
   if (!hallados.length) return null;
