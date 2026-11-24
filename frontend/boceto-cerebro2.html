@@ -182,7 +182,7 @@ dialog,[popover]{color:var(--texto);background:#0D1626;border:1px solid var(--bo
 #ofertas .grupo a{display:block;padding:5px 0;text-decoration:none}
 #ofertas .grupo a b{font-weight:600} #ofertas .grupo a:hover b{text-decoration:underline;text-underline-offset:3px}
 #ofertas .grupo a span{display:block;font-size:12px;color:var(--texto-2);line-height:1.35}
-.top{font-style:normal;white-space:nowrap;font-size:11px;font-weight:700;color:#08101C;background:var(--estudio);border-radius:4px;padding:0 5px;margin-left:6px}
+.empieza{font-style:normal;white-space:nowrap;font-size:11px;font-weight:700;color:#08101C;background:var(--estudio);border-radius:4px;padding:0 5px;margin-left:6px}
 .temporada{margin:0 0 16px;padding:10px 12px;border-radius:10px;background:rgba(255,200,97,.12);font-size:14px;column-span:all}
 #paleta{width:min(640px,94vw);margin:12vh auto auto}
 #paleta input{width:100%;padding:17px 20px;background:none;border:0;border-bottom:1px solid var(--borde);color:var(--texto);font:inherit;font-size:17px;outline:none}
@@ -285,9 +285,10 @@ const M = [
    info(){ const w = (LS.json('sys_week_live')||{}).weeks || []; if (!w.length) return null;
      const cur = w.find(x => x.start <= hoyISO && hoyISO <= x.end) || w[0], st = LS.json('sys_week_state') || {}, it = cur.items || [];
      const hechas = it.filter(i => st[i.id] && st[i.id].done).length;
-     const prox = it.filter(i => !(st[i.id] && st[i.id].done) && i.due).sort((a,b) => a.due < b.due ? -1 : 1)[0];
+     const abiertas = it.filter(i => !(st[i.id] && st[i.id].done) && i.due).sort((a,b) => a.due < b.due ? -1 : 1);
+     const prox = abiertas.find(i => i.due.slice(0,10) >= hoyISO);
      return {stats:[[hechas+'/'+it.length,'hechas en el parte '+cur.id],[w.length,'partes guardados']], prog:it.length ? hechas/it.length : 0,
-       linea: prox ? 'Siguiente: «'+prox.title+'», vence el '+dia(prox.due)+'.' : 'El parte '+cur.id+' no tiene actividades abiertas.'}; }},
+       linea: prox ? 'Siguiente: «'+prox.title+'», vence el '+dia(prox.due)+'.' : abiertas.length ? 'El parte '+cur.id+' no tiene fechas por venir; '+abiertas.length+' con fecha pasada sin marcar.' : 'El parte '+cur.id+' no tiene actividades abiertas.'}; }},
   {n:'13',s:'NOT',fam:'vida',nombre:'Notas',c:'Notas',url:'notes.html',pre:['not_'],grande:'g4',
    nivel:4,aporte:5,sirve:['Estudio','Trabajo','Día a día'],ver:'Núcleo: ya rinde',d:'Notas, diario y cuadernos con repaso espaciado.',
    como:'Un cuaderno por tema y tarjetas de repaso espaciado para fijar lo de cada materia y lo del trabajo.',
@@ -510,7 +511,7 @@ traer('data/ofertas-directorio.json').then(d => {
     aviso = '<p class="temporada">Black Friday '+c(dB,bf)+'. Cyber Monday '+c(dC,cm)+'.</p>'; break;
   }
   cuerpo.innerHTML = aviso + d.clases.map(c => '<div class="grupo"><h3>'+esc(c.nombre)+'</h3>'+c.sitios.map(s =>
-    '<a href="'+esc(s.url)+'" target="_blank" rel="noopener"><b>'+esc(s.nombre)+'</b>'+(s.top?'<i class="top">Empieza aquí</i>':'')+'<span>'+esc(s.para)+'</span></a>').join('')+'</div>').join('');
+    '<a href="'+esc(s.url)+'" target="_blank" rel="noopener"><b>'+esc(s.nombre)+'</b>'+(s.top?'<i class="empieza">Empieza aquí</i>':'')+'<span>'+esc(s.para)+'</span></a>').join('')+'</div>').join('');
 });
 
 // ── Buscador (Ctrl K) ──
