@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerebro 2 · boceto de portada</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<style>
+/* Boceto O5.1 v2 (24-nov-2026). SOLO LECTURA: esta página nunca escribe en localStorage ni carga cloud-sync.
+   Dirección: la tabla periódica del Cerebro sobre una pizarra; cada módulo es un elemento (número + tres letras). */
+@view-transition { navigation: auto; }
+:root{
+  --pizarra:#16262B; --pizarra-2:#1D3137; --pizarra-3:#233B42; --trazo:#2C464D; --tiza:#E9F0EC; --tiza-2:#A3B8B3;
+  --estudio:#F2C14E; --carrera:#F49AA8; --ia:#B7A6F5; --vida:#86D4B0; --info:#8CC4EA; --alerta:#F2A65A; --mal:#F07A7A;
+  --tile:clamp(60px, 5.4vw, 88px);
+  --sombra:0 1px 0 #ffffff0d inset, 0 18px 40px -22px #000c;
+  color-scheme:dark; font-family:'Archivo', system-ui, sans-serif; font-feature-settings:"tnum" 1;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--pizarra);color:var(--tiza);min-height:100dvh;font-size:15px;line-height:1.5;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 55% at 22% -5%, #21414A 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 95% 10%, #1E3440 0%, transparent 70%)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--tiza);outline-offset:3px;border-radius:8px}
+
+/* ── Barra ── */
+.barra{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:14px clamp(16px,4vw,48px);
+  background:color-mix(in oklab,var(--pizarra) 82%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--trazo)}
+.marca{font-weight:800;font-stretch:125%;font-size:19px;text-decoration:none}
+.buscar{margin-left:auto;display:flex;align-items:center;gap:12px;min-width:min(360px,50vw);padding:9px 12px 9px 14px;
+  background:var(--pizarra-2);border:1px solid var(--trazo);border-radius:10px;color:var(--tiza-2);font-size:14px;cursor:pointer;text-align:left}
+.buscar:hover{border-color:#3E5F68;color:var(--tiza)}
+.buscar kbd{margin-left:auto;font:inherit;font-size:12px;padding:1px 7px;border:1px solid var(--trazo);border-radius:6px}
+.avatar{--anillo:var(--tiza-2);position:relative;width:40px;height:40px;border-radius:50%;cursor:pointer;border:0;padding:0;
+  background:conic-gradient(var(--anillo) 0 100%);display:grid;place-items:center}
+.avatar .ini{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#2E5560,#1A2E34);
+  font-weight:800;font-stretch:112%;font-size:13px;letter-spacing:.02em}
+.avatar[data-s="ok"]{--anillo:var(--vida)} .avatar[data-s="pend"]{--anillo:var(--alerta)} .avatar[data-s="off"]{--anillo:var(--mal)}
+
+/* ── Saludo y vistas ── */
+main{padding:clamp(20px,3.5vw,40px) clamp(16px,4vw,48px) 64px;max-width:1360px;margin:0 auto}
+.saludo{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px;margin-bottom:22px}
+.saludo h1{font-size:clamp(24px,2.6vw,32px);font-weight:700;font-stretch:108%;line-height:1.15}
+.saludo p{color:var(--tiza-2);font-size:14px;margin-top:4px}
+.vistas{margin-left:auto;display:flex;padding:3px;border:1px solid var(--trazo);border-radius:10px;background:var(--pizarra-2)}
+.vistas button{border:0;background:none;padding:6px 14px;border-radius:7px;cursor:pointer;color:var(--tiza-2);font-weight:600;font-size:14px}
+.vistas button[aria-pressed="true"]{background:var(--pizarra-3);color:var(--tiza);box-shadow:var(--sombra)}
+
+/* ── La tabla ── */
+.mesa{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(20px,3vw,36px);align-items:start}
+.lienzo{view-transition-name:lienzo;min-height:300px}
+.tabla{display:flex;flex-wrap:wrap;gap:22px 18px}
+.familia{--c:var(--estudio)}
+.familia h2{font-size:13px;font-weight:600;color:var(--c);margin:0 0 8px;padding-bottom:5px;border-bottom:2px solid color-mix(in oklab,var(--c) 55%,transparent)}
+.familia ol{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,var(--tile));gap:6px}
+.el{position:relative;display:grid;grid-template-rows:auto 1fr auto;width:var(--tile);aspect-ratio:1;padding:6px 7px;text-decoration:none;border-radius:9px;
+  border:1px solid color-mix(in oklab,var(--c) 34%,var(--trazo));background:linear-gradient(160deg,color-mix(in oklab,var(--c) 16%,var(--pizarra-2)),color-mix(in oklab,var(--c) 6%,var(--pizarra-2)));
+  box-shadow:var(--sombra);transition:box-shadow .2s,border-color .2s,translate .2s}
+.el:hover,.el[aria-current="true"]{border-color:var(--c);box-shadow:0 1px 0 #ffffff14 inset,0 10px 28px -12px color-mix(in oklab,var(--c) 70%,transparent);translate:0 -2px}
+.el .n{font-size:11px;color:var(--tiza-2);line-height:1}
+.el .s{align-self:center;font-weight:800;font-stretch:118%;font-size:calc(var(--tile)*.3);line-height:1;color:var(--c);letter-spacing:-.01em}
+.el .s sub,.sim sub{font-size:.42em;font-weight:600;vertical-align:baseline;margin-left:1px}
+.el .pie{display:flex;justify-content:space-between;gap:4px;font-size:10px;line-height:1.15}
+.el .nom{color:var(--tiza);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.el .ult{color:var(--tiza-2);flex:none}
+.el.dormido .s{opacity:.5} .el.dormido{background:var(--pizarra-2)}
+.el .vivo{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--vida);box-shadow:0 0 0 3px color-mix(in oklab,var(--vida) 22%,transparent)}
+.f-carrera{--c:var(--carrera)} .f-ia{--c:var(--ia)} .f-vida{--c:var(--vida)} .f-info{--c:var(--info)}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-size:12px;color:var(--tiza-2)}
+.leyenda i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--vida);margin-right:6px;vertical-align:1px}
+
+/* ── La red ── */
+.red svg{width:100%;height:auto;display:block}
+.red .lazo{fill:none;stroke:#3B5A62;stroke-width:1.4;transition:stroke .2s,opacity .2s}
+.red .lazo.on{stroke:var(--tiza);stroke-width:2}
+.red.foco .lazo:not(.on){opacity:.18}
+.red .nodo{cursor:pointer}
+.red .nodo circle{fill:color-mix(in oklab,var(--c) 16%,var(--pizarra-2));stroke:color-mix(in oklab,var(--c) 60%,var(--trazo));stroke-width:1.5;transition:stroke-width .2s}
+.red .nodo text{fill:var(--c);font-weight:800;font-stretch:115%;font-size:15px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.red .nodo:hover circle,.red .nodo.on circle{stroke:var(--c);stroke-width:3}
+.red .nodo.dormido{opacity:.5}
+.red .centro circle{fill:#24414A;stroke:var(--tiza-2)} .red .centro text{fill:var(--tiza);font-size:13px}
+.red .etq{font-size:12px;fill:var(--tiza-2);text-anchor:middle}
+.red .nota{font-size:12px;color:var(--tiza-2);margin-top:8px}
+
+/* ── Ficha ── */
+.ficha{--c:var(--estudio);position:sticky;top:84px;border:1px solid var(--trazo);border-radius:16px;padding:22px 22px 20px;box-shadow:var(--sombra);
+  background:linear-gradient(180deg,color-mix(in oklab,var(--c) 12%,var(--pizarra-2)),var(--pizarra-2) 62%)}
+.ficha .cab{display:flex;align-items:flex-start;gap:16px}
+.ficha .sim{font-weight:900;font-stretch:125%;font-size:62px;line-height:.9;color:var(--c)}
+.ficha .cod{font-size:13px;color:var(--tiza-2);margin-top:4px}
+.ficha h3{font-size:21px;font-weight:700;line-height:1.2;margin:14px 0 6px;font-stretch:105%}
+.ficha .des{color:var(--tiza-2);font-size:14px}
+.ficha .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}
+.ficha .stat{padding:9px 10px;border-radius:10px;background:#0000002e;border:1px solid #ffffff0a}
+.ficha .stat b{display:block;font-size:20px;font-weight:700;font-stretch:108%;line-height:1.1}
+.ficha .stat span{font-size:12px;color:var(--tiza-2);line-height:1.3;display:block;margin-top:2px}
+.ficha .linea{margin-top:10px;font-size:13px;line-height:1.45}
+.ficha .linea small{color:var(--tiza-2)}
+.ficha .lazos{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ficha .lazos button{border:1px solid var(--trazo);background:none;border-radius:999px;padding:2px 10px;font-size:12px;cursor:pointer;color:var(--tiza-2)}
+.ficha .lazos button:hover{color:var(--tiza);border-color:var(--tiza-2)}
+.ficha .acciones{display:flex;gap:8px;margin-top:18px}
+.ficha .abrir{padding:9px 16px;border-radius:10px;background:var(--c);color:#14201F;font-weight:700;text-decoration:none}
+.ficha .otra{padding:9px 12px;border-radius:10px;border:1px solid var(--trazo);text-decoration:none;font-size:14px;color:var(--tiza-2)}
+.ficha .otra:hover{color:var(--tiza);border-color:var(--tiza-2)}
+
+.ficha .eval{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;font-size:12px;color:var(--tiza-2)}
+.barras{display:flex;gap:3px;margin-top:4px}.barras i{flex:1;height:6px;border-radius:3px;background:#ffffff14}.barras i.on{background:var(--c)}
+.ficha .sirve{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.ficha .sirve i{font-style:normal;font-size:12px;padding:2px 9px;border-radius:999px;background:color-mix(in oklab,var(--c) 18%,transparent);color:var(--tiza)}
+.ficha .como{margin-top:10px;font-size:14px;line-height:1.5}.ficha .ver{margin-top:8px;font-size:13px;font-weight:700;color:var(--c)}
+.ficha{max-height:calc(100dvh - 100px);overflow:auto}
+.valor .cuad{fill:color-mix(in oklab,var(--q) 6%,transparent);stroke:color-mix(in oklab,var(--q) 25%,transparent)}
+.valor .q{font-size:14px;font-weight:700;fill:var(--tiza-2)}
+.valor .eje{font-size:13px;fill:var(--tiza-2)}.valor .eje.t{font-size:13px;font-weight:600}
+/* ── Debajo ── */
+.bajo{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3vw,40px);margin-top:44px;padding-top:28px;border-top:1px solid var(--trazo)}
+.bajo h2{font-size:17px;font-weight:700;font-stretch:110%;margin-bottom:4px}
+.bajo .sub{font-size:13px;color:var(--tiza-2);margin-bottom:14px}
+.pulso{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px}
+.medida{padding:12px 14px;border:1px solid var(--trazo);border-radius:12px;background:var(--pizarra-2);box-shadow:var(--sombra)}
+.medida .v{white-space:nowrap;font-size:23px;font-weight:700;font-stretch:108%;line-height:1.1}
+.medida .l{font-size:13px;margin-top:2px}
+.medida svg{display:block;width:100%;height:30px;margin-top:8px}
+.medida .f{font-size:12px;color:var(--tiza-2);margin-top:4px;line-height:1.35}
+.titulares{list-style:none;padding:0}
+.titulares li+li{border-top:1px solid var(--trazo)}
+.titulares a{display:block;padding:10px 0;text-decoration:none}
+.titulares a:hover .t{text-decoration:underline;text-underline-offset:3px}
+.titulares .t{font-weight:600;line-height:1.35}
+.titulares .q{font-size:12px;color:var(--tiza-2);margin-top:2px}
+.vacio{font-size:13px;color:var(--tiza-2);padding:10px 0}
+.ofertas-btn{margin-top:22px;display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;cursor:pointer;
+  background:color-mix(in oklab,var(--estudio) 10%,var(--pizarra-2));border:1px solid color-mix(in oklab,var(--estudio) 40%,var(--trazo));font-weight:600;text-align:left}
+.ofertas-btn small{margin-left:auto;font-weight:400;color:var(--tiza-2)}
+
+/* ── Paneles nativos ── */
+[popover],dialog{background:var(--pizarra-2);color:var(--tiza);border:1px solid #3E5F68;border-radius:16px;padding:0;box-shadow:0 30px 80px #0009}
+::backdrop{background:#0a131680;backdrop-filter:blur(3px)}
+#cuenta{position:fixed;inset:auto;top:64px;right:clamp(12px,4vw,48px);width:min(360px,92vw);padding:18px}
+#cuenta .quien{display:flex;gap:12px;align-items:center}
+#cuenta .quien .ini{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#2E5560,#1A2E34);font-weight:800;font-stretch:112%}
+#cuenta .quien b{display:block} #cuenta .quien span{font-size:13px;color:var(--tiza-2)}
+#cuenta h4{font-size:13px;font-weight:600;margin:16px 0 6px;color:var(--tiza-2)}
+#cuenta .barra-disco{height:8px;border-radius:99px;background:#0000004d;overflow:hidden}
+#cuenta .barra-disco i{display:block;height:100%;border-radius:99px;background:var(--vida)}
+#cuenta .barra-disco.alto i{background:var(--mal)}
+#cuenta p{font-size:13px;line-height:1.45;margin-top:6px}
+#cuenta .resp{margin-top:14px;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--vida);background:color-mix(in oklab,var(--vida) 14%,transparent);font-weight:700;cursor:pointer}
+#cuenta .resp small{display:block;font-weight:400;color:var(--tiza-2);font-size:12px}
+#ofertas{width:min(760px,94vw);max-height:84dvh;margin:auto;overflow:auto}
+#ofertas header{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--pizarra-2);border-bottom:1px solid var(--trazo)}
+#ofertas header h2{font-size:18px;font-stretch:110%}
+#ofertas header button{margin-left:auto;background:none;border:1px solid var(--trazo);border-radius:8px;padding:5px 10px;cursor:pointer}
+#ofertas .cuerpo{padding:16px 20px 22px;columns:2 300px;column-gap:28px}
+#ofertas .grupo{break-inside:avoid;margin-bottom:18px}
+#ofertas .grupo h3{font-size:14px;margin-bottom:6px}
+#ofertas .grupo a{display:block;padding:5px 0;text-decoration:none}
+#ofertas .grupo a b{font-weight:600}
+#ofertas .grupo a span{display:block;font-size:12px;color:var(--tiza-2);line-height:1.35}
+#ofertas .grupo a:hover b{text-decoration:underline;text-underline-offset:3px}
+.top{font-style:normal;white-space:nowrap;font-size:11px;font-weight:700;color:#14201F;background:var(--estudio);border-radius:4px;padding:0 5px;margin-left:6px}
+.temporada{margin:0 0 16px;padding:10px 12px;border-radius:9px;background:color-mix(in oklab,var(--estudio) 14%,transparent);font-size:14px;column-span:all}
+#paleta{width:min(620px,94vw);margin:12vh auto auto}
+#paleta input{width:100%;padding:16px 18px;background:none;border:0;border-bottom:1px solid var(--trazo);color:var(--tiza);font:inherit;font-size:17px;outline:none}
+#paleta ul{list-style:none;padding:6px;max-height:52dvh;overflow:auto}
+#paleta li{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;cursor:pointer}
+#paleta li[aria-selected="true"]{background:#2A434A}
+#paleta li .s{width:48px;font-weight:800;font-stretch:118%;color:var(--c,var(--tiza))}
+#paleta li .d{font-size:12px;color:var(--tiza-2);margin-left:auto;text-align:right}
+#paleta .pie{font-size:12px;color:var(--tiza-2);padding:8px 16px 12px;border-top:1px solid var(--trazo)}
+
+@media (prefers-reduced-motion:no-preference){
+  .familia{animation:entra .5s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*70ms)}
+  @keyframes entra{from{opacity:0;translate:0 8px}}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} ::view-transition-group(*){animation:none!important} }
+@media (max-width:1020px){ .mesa{grid-template-columns:1fr} .ficha{position:static} .bajo{grid-template-columns:1fr} }
+@media (max-width:640px){
+  :root{--tile:calc((100vw - 32px - 18px)/4)}
+  .tabla{display:grid;grid-template-columns:1fr;gap:18px}
+  .familia ol{grid-template-columns:repeat(4,1fr)} .el{width:auto}
+  .buscar{min-width:0;flex:1} .buscar span{display:none}
+  .barra{gap:10px} .vistas{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header class="barra">
+  <a class="marca" href="index.html">Cerebro</a>
+  <button class="buscar" id="abrirPaleta" aria-haspopup="dialog">Buscar o ir a un módulo<span></span><kbd>Ctrl K</kbd></button>
+  <button class="avatar" id="avatar" popovertarget="cuenta" aria-label="Tu cuenta y tus datos"><span class="ini" id="ini">·</span></button>
+</header>
+
+<div id="cuenta" popover></div>
+
+<main>
+  <div class="saludo">
+    <div><h1 id="hola">Hola</h1><p id="estado"></p></div>
+    <div class="vistas" role="group" aria-label="Cómo ver los módulos">
+      <button data-v="tabla" aria-pressed="true">Tabla</button><button data-v="red" aria-pressed="false">Red</button><button data-v="valor" aria-pressed="false">Valor</button>
+    </div>
+  </div>
+  <section class="mesa" aria-label="Módulos">
+    <div class="lienzo" id="lienzo"></div>
+    <aside class="ficha" id="ficha" aria-live="polite"></aside>
+  </section>
+
+  <section class="bajo">
+    <div>
+      <h2>Pulso de Colombia</h2>
+      <p class="sub">Datos oficiales con su fecha y su ventana. Vienen de la foto diaria de 12-FIN.</p>
+      <div class="pulso" id="pulso"><p class="vacio">Leyendo los datos…</p></div>
+      <button class="ofertas-btn" popovertarget="ofertas">Ofertas y eventos <small id="ofertasN"></small></button>
+    </div>
+    <div>
+      <h2>Titulares</h2>
+      <p class="sub" id="titSub">Economía y mercados, traídos del lado del servidor.</p>
+      <ul class="titulares" id="titulares"><li class="vacio">Leyendo los titulares…</li></ul>
+    </div>
+  </section>
+</main>
+
+<div id="ofertas" popover>
+  <header><h2>Ofertas y eventos</h2><button popovertarget="ofertas" popovertargetaction="hide">Cerrar</button></header>
+  <div class="cuerpo" id="ofertasCuerpo"></div>
+</div>
+
+<dialog id="paleta" aria-label="Buscar o ir a un módulo">
+  <input id="q" type="search" placeholder="Escribe un módulo, un código (SYS, 12) o un tema" autocomplete="off" aria-controls="resultados">
+  <ul id="resultados" role="listbox"></ul>
+  <p class="pie">Flechas para moverte, Enter para abrir, Esc para cerrar.</p>
+</dialog>
+
+<script>
+'use strict';
+// ── Lectura (nunca escritura) del disco del navegador ──
+const LS = {
+  raw: k => { try { return localStorage.getItem(k); } catch { return null; } },
+  json: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  keys: () => { try { return Object.keys(localStorage); } catch { return []; } }
+};
+const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dia = iso => { const [y,m,d] = String(iso).slice(0,10).split('-'); return (+d)+' '+MES[m-1]; };
+const mes = iso => { const [y,m] = String(iso).slice(0,10).split('-'); return MES[m-1]+' '+y; };
+const num = (v,dec=0) => new Intl.NumberFormat('es-CO',{minimumFractionDigits:dec,maximumFractionDigits:dec}).format(v);
+const traer = u => fetch(u,{cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null);
+const hoyISO = (() => { const h = new Date(); return h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0')+'-'+String(h.getDate()).padStart(2,'0'); })();
+const len = v => Array.isArray(v) ? v.length : (v && typeof v === 'object') ? Object.keys(v).length : 0;
+const hace = ms => { const d = Math.floor((Date.now()-ms)/864e5); return d<=0 ? 'hoy' : d===1 ? 'ayer' : d<30 ? d+' d' : d<365 ? Math.round(d/30)+' m' : '+1 a'; };
+const haceLargo = ms => { const d = Math.floor((Date.now()-ms)/864e5); return d<=0 ? 'hoy' : d===1 ? 'ayer' : 'hace '+d+' días ('+dia(new Date(ms).toISOString())+')'; };
+const DATOS = {};
+
+// ── Los módulos. pre: prefijos de sus keys (para «último cambio»). info(): lo que se lee de sus datos, sin escribir nada.
+const FAMILIAS = [
+  {id:'estudio', nombre:'Estudio', mods:[
+    {n:'10', s:'SYS', nombre:'Ingeniería de Sistemas', c:'Sistemas', url:'systems.html', pre:['sys_'], d:'Tus materias de la CUN en el 9.º semestre: actividades, notas y el bloque en curso.',
+     info(){ const w = (LS.json('sys_week_live')||{}).weeks || []; if (!w.length) return null;
+       const cur = w.find(x => x.start <= hoyISO && hoyISO <= x.end) || w[0], st = LS.json('sys_week_state') || {}, it = cur.items || [];
+       const hechas = it.filter(i => st[i.id] && st[i.id].done).length;
+       const prox = it.filter(i => !(st[i.id] && st[i.id].done) && i.due).sort((a,b) => a.due < b.due ? -1 : 1)[0];
+       return {stats:[[hechas+' de '+it.length, 'actividades hechas en el parte '+cur.id], [w.length, 'partes semanales guardados']],
+               linea: prox ? 'Siguiente en el parte: «'+prox.title+'»'+(prox.weight?' ('+prox.weight+')':'')+', vence el '+dia(prox.due)+'.' : 'El parte '+cur.id+' no tiene actividades abiertas.'}; }},
+    {n:'3',  s:'ENG', nombre:'English Academy', c:'Inglés', url:'english.html', pre:['eng_','dojo_'], d:'Gramática, vocabulario, conversación y el Dojo de entrevistas, con voz.',
+     info(){ const deck = LS.json('eng_srs_deck'), tp = LS.json('eng_tense_progress') || {}, sk = LS.json('eng_streak');
+       const vistos = Object.values(tp).filter(x => x && x.viewed).length, dom = Object.values(tp).filter(x => x && x.mastered).length;
+       if (!len(deck) && !vistos) return null;
+       return {stats:[[num(len(deck)), 'tarjetas en tu mazo'], [dom+' de '+vistos, 'tiempos verbales dominados de los que viste']],
+               linea: sk && sk.last ? 'Última sesión de práctica registrada: '+dia(sk.last)+'.' : ''}; }},
+    {n:'4',  s:'RUT', nombre:'Ruta Data Analyst', c:'Ruta datos', url:'ruta.html', pre:['ruta','excel_','atlas_'], d:'De Excel a Power BI en 7 fases, con simulador de pruebas técnicas de Excel.'},
+    {n:'6',  s:'TOO', nombre:'Hub de Sistemas', c:'Hub', url:'tools.html', pre:[], d:'Temas de la carrera con casos reales, y mantenimiento del PC.'}]},
+  {id:'carrera', nombre:'Trabajo y carrera', mods:[
+    {n:'14', s:'WOR', nombre:'Trabajo', c:'Trabajo', url:'work.html', pre:['work_'], d:'Tus cuadernos de trabajo. El coach de procesos con IA está en obra.',
+     info(){ const d = LS.json('work_nb_data'); if (!len(d)) return null; const pags = Object.values(d).reduce((k,x) => k + len(x && x.pages), 0);
+       return {stats:[[len(d), 'cuadernos'], [pags, 'páginas']], linea:'Conteo del disco del navegador; si el cuaderno no cupo (cuota llena), la última versión está en la nube.'}; }},
+    {n:'5',  s:'JOB', nombre:'Job Tracker', c:'Vacantes', url:'jobs.html', pre:['jt_','da_vacancies'], dato:'jobs', d:'El radar diario de vacantes y tu tablero de postulaciones.',
+     info(){ const v = LS.json('da_vacancies'), j = DATOS.jobs; if (!len(v) && !j) return null;
+       return {stats:[[len(v), 'vacantes guardadas en tu tablero'], ...(j ? [[j.relevantes, 'relevantes en el radar del '+dia(j.fecha)]] : [])], linea: j ? 'De '+num(j.revisadas)+' revisadas ese día.' : ''}; }},
+    {n:'2',  s:'APP', nombre:'Application Center', c:'Postular', url:'apply.html', pre:['app_','apply_'], d:'Analiza una vacante y arma la hoja de vida, la carta y la entrevista.',
+     info(){ const a = LS.json('app_analyses'); return len(a) ? {stats:[[len(a), 'vacantes analizadas']]} : null; }},
+    {n:'11', s:'ACC', nombre:'Contabilidad', c:'Contabilidad', url:'accounting.html', pre:[], d:'Ruta de contabilidad, ADP y entrevistas con el método STAR.'}]},
+  {id:'ia', nombre:'IA y creación', mods:[
+    {n:'17', s:'IA',  nombre:'AI Dojo', c:'Dojo', url:'pages/ai-dojo.html', pre:['ia_'], d:'El taller: proyectos con varias IA, misiones por cinturones y criterio.',
+     info(){ const s = LS.json('ia_streak'); return s && s.last ? {stats:[], linea:'Última práctica registrada: '+dia(s.last)+'.'} : null; }},
+    {n:'17', s:'IA', sub:'b', nombre:'AI Engine', c:'Biblioteca', url:'pages/ai-engine.html', pre:[], d:'La biblioteca: términos, catálogo de herramientas y prompts.'},
+    {n:'18', s:'MUS', nombre:'Cerebro Musical', c:'Música', url:'music.html', pre:['mus_'], d:'Teoría que suena, el ADN de 10 géneros y la fábrica de canciones.',
+     info(){ const p = LS.json('mus_proy'); return p && p.titulo ? {stats:[[p.bpm || '—', 'BPM'], [len(p.pistas), 'pistas']], linea:'Proyecto abierto: «'+p.titulo+'»'+(p.creado?', creado el '+dia(p.creado):'')+'.'} : null; }},
+    {n:'8',  s:'PRO', nombre:'Prompt Lab', c:'Prompts', url:'prompts.html', pre:['plab_'], d:'Prompts listos por tarea y el plan del Cerebro.',
+     info(){ const h = LS.json('plab_h'); return len(h) ? {stats:[[len(h), 'prompts optimizados en tu historial']]} : null; }}]},
+  {id:'vida', nombre:'Vida', mods:[
+    {n:'12', s:'FIN', nombre:'Finanzas', c:'Finanzas', url:'finance.html', pre:['fin_'], dato:'macro', d:'Datos oficiales de Colombia, calculadoras y tus cuentas.',
+     info(){ const m = LS.keys().filter(k => /^fin_\d{4}-\d{2}$/.test(k)).length;
+       return {stats:[[m, 'meses con movimientos registrados']], linea: DATOS.macro ? 'Foto de datos oficiales del '+dia(DATOS.macro)+': dólar, tasas, inflación, PIB y desempleo.' : ''}; }},
+    {n:'13', s:'NOT', nombre:'Notas', c:'Notas', url:'notes.html', pre:['not_'], d:'Notas, diario y cuadernos con repaso espaciado.',
+     info(){ const meta = LS.json('not_nb_meta'), d = LS.json('not_nb_data'); if (!len(meta) && !len(d)) return null;
+       const pags = d ? Object.values(d).reduce((k,x) => k + len(x && x.pages), 0) : 0;
+       return {stats:[[len(meta) || len(d), 'cuadernos'], [pags, 'páginas']]}; }},
+    {n:'9',  s:'GOA', nombre:'Objetivos', c:'Objetivos', url:'goals.html', pre:['sb_goals'], d:'Metas a 30, 60 y 90 días, y hábitos.',
+     info(){ const g = LS.json('sb_goals'); return len(g) ? {stats:[[len(g), 'metas'], [g.filter(x => x.done).length, 'cumplidas']]} : null; }},
+    {n:'19', s:'JUE', nombre:'Juegos', c:'Juegos', url:'juegos.html', pre:['jue_'], d:'Corredor: una misión de 6,3 km para jugar con control o teclado.',
+     info(){ const r = LS.json('jue_records'); if (!r) return null; let n = 0; Object.values(r).forEach(j => Object.values(j||{}).forEach(a => n += len(a)));
+       return {stats:[[n, 'récords guardados']]}; }}]},
+  {id:'info', nombre:'Escribir, pensar, leer', mods:[
+    {n:'16', s:'APA', nombre:'APA Document Studio', c:'APA 7', url:'apa.html', pre:['apa_','tools_apa_docs'], d:'Trabajos académicos en APA 7 con vista previa por páginas.',
+     info(){ const a = LS.json('tools_apa_docs'); return len(a) ? {stats:[[len(a), 'documentos']]} : null; }},
+    {n:'15', s:'MM',  nombre:'Mind Map Studio', c:'Mapas', url:'mindmap.html', pre:['tools_mindmaps','tools_canvases'], d:'Mapas mentales y un lienzo libre para ordenar ideas.',
+     info(){ const m = LS.json('tools_mindmaps'), c = LS.json('tools_canvases'); return len(m) || len(c) ? {stats:[[len(m), 'mapas mentales'], [len(c), 'lienzos libres']]} : null; }},
+    {n:'7',  s:'NEW', nombre:'Noticias', c:'Noticias', url:'news.html', pre:['news_'], d:'Noticias de datos, IA y tecnología.'}]}
+];
+const todos = FAMILIAS.flatMap(f => f.mods.map(m => Object.assign(m, {fam:f, k:m.n+m.s+(m.sub||'')})));
+const porK = k => todos.find(m => m.k === k);
+// Evaluación del 24-nov-2026. «nivel» (desarrollo) se mide: código, datos automáticos, mantenimiento y si funciona hoy.
+// «aporte» es juicio, con las metas de Miguel: CUN 9.º semestre, pasar a implementador de procesos con IA, inglés para
+// trabajo remoto, ingresos propios y el día a día. Él la corrige; no es un dato.
+const EVAL = {
+  '10SYS':{nivel:5, aporte:5, sirve:['Estudio'], ver:'Núcleo: ya rinde', como:'El parte de cada semana trae lo que vence, con pasos y texto listo para pegar; los cuadernos guardan los apuntes de cada materia.'},
+  '13NOT':{nivel:4, aporte:5, sirve:['Estudio','Trabajo','Día a día'], ver:'Núcleo: ya rinde', como:'Un cuaderno por tema y tarjetas de repaso espaciado para fijar lo de cada materia y lo del trabajo.'},
+  '3ENG': {nivel:5, aporte:5, sirve:['Trabajo','Ingresos'], ver:'Núcleo: ya rinde', como:'El mazo de tarjetas y el Dojo de entrevistas son el entrenamiento para un trabajo remoto; el curso de inglés es el producto que decidiste vender.'},
+  '14WOR':{nivel:2, aporte:5, sirve:['Trabajo'], ver:'Mejorar primero: vale mucho y está verde', como:'Hoy son cuadernos. El coach de procesos con IA que falta es justo tu meta en el trabajo.'},
+  '17IA': {nivel:4, aporte:4, sirve:['Trabajo'], ver:'Úsalo más', como:'Proyectos con varias IA y misiones por cinturones: entrena lo que pide ser implementador de procesos con IA.'},
+  '17IAb':{nivel:3, aporte:3, sirve:['Trabajo'], ver:'Fusionar con 17-IA', como:'Consulta de términos y herramientas cuando el Dojo te la pida.'},
+  '18MUS':{nivel:4, aporte:4, sirve:['Ingresos','Día a día'], ver:'Úsalo más', como:'La fábrica lleva una idea a canción vendible, con teoría que suena y el ADN de cada género.'},
+  '8PRO': {nivel:3, aporte:3, sirve:['Trabajo'], ver:'Fusionar con 17-IA', como:'Prompts listos por tarea y un prompt por cada tarea del plan del Cerebro.'},
+  '12FIN':{nivel:5, aporte:4, sirve:['Día a día'], ver:'Úsalo más: muy desarrollado y casi sin uso', como:'Dólar, tasas, usura y calculadoras con datos oficiales para decidir un crédito o un ahorro; tus cuentas mes a mes.'},
+  '5JOB': {nivel:4, aporte:3, sirve:['Trabajo'], ver:'Fusionar con 2-APP', como:'El radar revisa cientos de vacantes cada día y deja las relevantes; sirve el día que busques un trabajo remoto o mejor pagado.'},
+  '2APP': {nivel:4, aporte:3, sirve:['Trabajo'], ver:'Fusionar con 5-JOB', como:'Pegas una vacante y arma hoja de vida, carta y preparación de entrevista en inglés o español.'},
+  '4RUT': {nivel:3, aporte:3, sirve:['Trabajo','Estudio'], ver:'Mejorar: actualizarla a tu meta', como:'La ruta Excel, SQL, Python y Power BI con simulador de pruebas de Excel; sirve para subir de analista.'},
+  '11ACC':{nivel:2, aporte:1, sirve:['Trabajo'], ver:'Archivar (tarea O3.3, tú decides)', como:'Se hizo para otra vacante (ADP, nómina); casi nada se cruza con tu trabajo de hoy.'},
+  '9GOA': {nivel:2, aporte:1, sirve:['Día a día'], ver:'Archivar', como:'Guarda metas y hábitos; pediste que la página no te recuerde tareas, y tiene una sola meta, ya cumplida.'},
+  '19JUE':{nivel:4, aporte:3, sirve:['Día a día'], ver:'Mantener', como:'Descanso con tu control: una misión completa de 6,3 km por un camino báltico.'},
+  '16APA':{nivel:3, aporte:4, sirve:['Estudio'], ver:'Mantener y abrirlo desde 10-SYS', como:'Entregas escritas en APA 7 con vista previa por páginas, como las de Plan de Negocio Aplicado.'},
+  '15MM': {nivel:3, aporte:3, sirve:['Estudio'], ver:'Mantener', como:'Mapas mentales sobre tus cuadernos para ver un tema completo de un vistazo antes de un parcial.'},
+  '7NEW': {nivel:1, aporte:2, sirve:['Día a día'], ver:'Rehacer o fusionar con la portada', como:'Su fuente (rss2json) falla; los titulares de esta portada ya llegan por la foto diaria.'},
+  '6TOO': {nivel:2, aporte:2, sirve:['Estudio'], ver:'Fusionar con 10-SYS', como:'Temas de la carrera con casos y mantenimiento del PC; se cruza con lo que ya hace 10-SYS.'}
+};
+todos.forEach(m => Object.assign(m, EVAL[m.k] || {}));
+const barras = n => '<span class="barras" aria-label="'+n+' de 5">'+[1,2,3,4,5].map(i => '<i'+(i<=n?' class="on"':'')+'></i>').join('')+'</span>';
+
+const simbolo = m => esc(m.s) + (m.sub ? '<sub>'+esc(m.sub)+'</sub>' : '');
+const codigo = m => m.n+'-'+m.s+(m.sub?'.'+m.sub:'');
+
+// Conexiones reales, leídas del código el 24-nov-2026 (scripts compartidos y keys que un módulo lee de otro).
+const LAZOS = [
+  ['10SYS','13NOT','comparten el motor de cuadernos'], ['10SYS','14WOR','comparten el motor de cuadernos'], ['13NOT','14WOR','comparten el motor de cuadernos'],
+  ['15MM','13NOT','mapas sobre tus cuadernos'], ['15MM','10SYS','mapas sobre tus cuadernos'], ['15MM','14WOR','mapas sobre tus cuadernos'],
+  ['16APA','10SYS','usa datos de 10-SYS'], ['3ENG','13NOT','Notas e Inglés se leen entre sí'], ['5JOB','2APP','las mismas vacantes'],
+  ['13NOT','8PRO','el plan del Cerebro'], ['8PRO','11ACC','prompts para ese módulo'], ['8PRO','3ENG','prompts para ese módulo'], ['8PRO','4RUT','prompts para ese módulo'],
+  ['12FIN','IND','alimenta el pulso de la portada'], ['5JOB','IND','alimenta la portada con el radar']];
+const lazosDe = k => LAZOS.filter(l => l[0] === k || l[1] === k).map(l => ({otro: l[0] === k ? l[1] : l[0], que: l[2]}));
+
+// Último cambio por módulo, de _cloud_ts (la hora en que cloud-sync selló cada key en este navegador).
+const TS = LS.json('_cloud_ts') || {};
+todos.forEach(m => { let u = 0; for (const [k,t] of Object.entries(TS)) if (m.pre.some(p => k.startsWith(p)) && +t > u) u = +t; m.ult = u; });
+
+// ── Saludo, estado y avatar ──
+const nombre = (LS.raw('sb_name') || '').replace(/["“”]/g,'').trim();
+const auth = LS.json('sb-mbuhlxypuvlxxylryjzi-auth-token'), correo = auth && auth.user && auth.user.email;
+{
+  const h = new Date(), p = h.getHours() < 12 ? 'Buenos días' : h.getHours() < 19 ? 'Buenas tardes' : 'Buenas noches';
+  document.getElementById('hola').textContent = p + (nombre ? ', '+nombre.split(/\s+/)[0] : '');
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const conDatos = todos.filter(m => m.ult).sort((a,b) => b.ult - a.ult);
+  document.getElementById('estado').textContent = dias[h.getDay()]+' '+h.getDate()+' de '+['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][h.getMonth()]
+    + (conDatos.length ? '. '+conDatos.filter(m => Date.now()-m.ult < 30*864e5).length+' módulos con cambios en los últimos 30 días; el último, '+codigo(conDatos[0])+' '+hace(conDatos[0].ult)+'.' : '.');
+  const ini = (nombre || correo || '?').split(/[\s@.]+/).filter(Boolean).slice(0,2).map(x => x[0].toUpperCase()).join('');
+  document.getElementById('ini').textContent = ini;
+}
+function cuenta(){
+  const out = LS.json('cloud_outbox'), pend = len(out), av = document.getElementById('avatar');
+  const s = !navigator.onLine ? 'off' : !auth ? 'nada' : pend ? 'pend' : 'ok';
+  av.dataset.s = s;
+  const estadoTxt = {off:'Sin internet: los cambios quedan en este navegador y suben al volver la conexión.', nada:'Sin sesión iniciada en este navegador: los datos no se respaldan en la nube.',
+    pend: pend+(pend===1?' cambio espera':' cambios esperan')+' para subir a la nube.', ok:'Todo lo de este navegador está subido a la nube.'}[s];
+  let bytes = 0; const ks = LS.keys(); ks.forEach(k => bytes += (k.length + (LS.raw(k)||'').length) * 2);
+  const TOPE = 10 * 1048576, pct = Math.min(100, Math.round(bytes / TOPE * 100));
+  const ultimo = Math.max(0, ...Object.values(TS).map(Number).filter(Boolean));
+  const resp = ks.filter(k => !/^sb-.*-auth-token$/.test(k) && !k.startsWith('karen_'));
+  document.getElementById('cuenta').innerHTML =
+    '<div class="quien"><span class="ini">'+esc(document.getElementById('ini').textContent)+'</span><div><b>'+esc(nombre || 'Sin nombre')+'</b><span>'+esc(correo || 'sin sesión')+'</span></div></div>'+
+    '<h4>Sincronización</h4><p>'+esc(estadoTxt)+(ultimo ? ' Último cambio sellado: '+esc(haceLargo(ultimo))+'.' : '')+'</p>'+
+    '<h4>Disco del navegador</h4><div class="barra-disco'+(pct>=85?' alto':'')+'"><i style="width:'+pct+'%"></i></div>'+
+    '<p>≈ '+num(bytes/1048576,1)+' MB de unos 10 MB que da Chrome ('+pct+' %).'+(pct>=85 ? ' Está casi lleno: lo que no cabe queda solo en memoria y en la nube. Se arregla en la tarea O5.0.' : '')+'</p>'+
+    '<button class="resp" id="respaldo">Descargar respaldo<small>'+resp.length+' keys de este navegador en un archivo .json. No incluye tu sesión.</small></button>';
+  document.getElementById('respaldo').onclick = () => {
+    const datos = {}; resp.forEach(k => datos[k] = LS.raw(k));
+    const blob = new Blob([JSON.stringify({exportado:new Date().toISOString(), origen:location.origin, keys:datos})], {type:'application/json'});
+    const a = Object.assign(document.createElement('a'), {href:URL.createObjectURL(blob), download:'cerebro-respaldo-'+hoyISO+'.json'});
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  };
+}
+cuenta(); addEventListener('online', cuenta); addEventListener('offline', cuenta);
+
+// ── Ficha ──
+const ficha = document.getElementById('ficha');
+let actual = todos[0];
+function verFicha(m){
+  if (!m) return; actual = m;
+  ficha.style.setProperty('--c', 'var(--'+m.fam.id+')');
+  document.querySelectorAll('[aria-current="true"]').forEach(e => e.removeAttribute('aria-current'));
+  document.querySelectorAll('[data-k="'+m.k+'"]').forEach(e => e.setAttribute('aria-current','true'));
+  document.querySelectorAll('.red .nodo').forEach(n => n.classList.toggle('on', n.dataset.k === m.k));
+  document.querySelectorAll('.red .lazo').forEach(l => l.classList.toggle('on', l.dataset.a === m.k || l.dataset.b === m.k));
+  let i = null; try { i = m.info ? m.info() : null; } catch { i = null; }
+  const lz = lazosDe(m.k);
+  ficha.innerHTML = '<div class="cab"><div class="sim">'+simbolo(m)+'</div><div class="cod">'+esc(codigo(m))+'<br>'+esc(m.fam.nombre)+'</div></div>'+
+    '<h3>'+esc(m.nombre)+'</h3><p class="des">'+esc(m.d)+'</p>'+
+    (m.nivel ? '<div class="eval"><div><span>Desarrollo</span>'+barras(m.nivel)+'</div><div><span>Te aporta hoy</span>'+barras(m.aporte)+'</div></div>'+
+      '<p class="sirve">'+m.sirve.map(x => '<i>'+esc(x)+'</i>').join('')+'</p><p class="como"><b>Cómo aprovecharlo.</b> '+esc(m.como)+'</p><p class="ver">'+esc(m.ver)+'</p>' : '')+
+    (i && i.stats && i.stats.length ? '<div class="stats">'+i.stats.map(([v,l]) => '<div class="stat"><b>'+esc(typeof v==='number'?num(v):v)+'</b><span>'+esc(l)+'</span></div>').join('')+'</div>' : '')+
+    (i && i.linea ? '<p class="linea">'+esc(i.linea)+'</p>' : '')+
+    '<p class="linea"><small>'+(m.ult ? 'Último cambio en este navegador: '+esc(haceLargo(m.ult))+'.' : !m.pre.length ? 'Este módulo no guarda datos propios.' : i ? 'La sincronización no registra la hora de su último cambio en este navegador.' : 'Sin datos en este navegador todavía.')+'</small></p>'+
+    (lz.length ? '<div class="lazos">'+lz.map(x => { const o = porK(x.otro); return '<button data-ir="'+esc(x.otro)+'" title="'+esc(x.que)+'">'+(o ? esc(codigo(o)) : 'Portada')+'</button>'; }).join('')+'</div>' : '')+
+    '<div class="acciones"><a class="abrir" href="'+esc(m.url)+'">Abrir '+esc(m.c)+'</a><a class="otra" href="'+esc(m.url)+'" target="_blank" rel="noopener">Pestaña nueva</a></div>';
+}
+ficha.addEventListener('click', e => { const b = e.target.closest('[data-ir]'); if (b && porK(b.dataset.ir)) verFicha(porK(b.dataset.ir)); });
+
+// ── Vista Tabla ──
+const lienzo = document.getElementById('lienzo');
+function tabla(){
+  lienzo.className = 'lienzo';
+  lienzo.innerHTML = '<div class="tabla">'+FAMILIAS.map((f,i) =>
+    '<section class="familia f-'+f.id+'" style="--i:'+i+'"><h2>'+esc(f.nombre)+'</h2><ol>'+
+    f.mods.map(m => '<li><a class="el'+(m.ult && Date.now()-m.ult > 45*864e5 ? ' dormido' : '')+'" href="'+esc(m.url)+'" data-k="'+esc(m.k)+'" aria-label="'+esc(codigo(m)+', '+m.nombre+(m.ult?', último cambio '+hace(m.ult):''))+'">'+
+      '<span class="n">'+esc(m.n)+'</span><span class="s">'+simbolo(m)+'</span><span class="pie"><span class="nom">'+esc(m.c)+'</span>'+(m.ult?'<span class="ult">'+hace(m.ult)+'</span>':'')+'</span>'+
+      (m.dato ? '<span class="vivo" title="Trae datos que se actualizan solos"></span>' : '')+'</a></li>').join('')+'</ol></section>').join('')+'</div>'+
+    '<p class="leyenda"><span><i></i>se actualiza solo</span><span>«hoy», «9 d», «3 m»: último cambio en este navegador</span><span>tenue: sin cambios hace más de 45 días</span></p>';
+}
+// ── Vista Red: nodos por familia alrededor de la portada; las líneas son las conexiones reales ──
+function red(){
+  lienzo.className = 'lienzo red';
+  const W = 1000, H = 600, cx = W/2, cy = H/2, pos = {IND:[cx,cy]};
+  const ang = [-155,-90,-25,35,145];
+  FAMILIAS.forEach((f,i) => f.mods.forEach((m,j) => {
+    const a = (ang[i] + (j - (f.mods.length-1)/2) * 17) * Math.PI/180, r = 1 + (j % 2) * .16;
+    pos[m.k] = [cx + Math.cos(a)*350*r*.92, cy + Math.sin(a)*215*r];
+  }));
+  const curva = (a,b) => { const [x1,y1] = pos[a], [x2,y2] = pos[b], mx = (x1+x2)/2, my = (y1+y2)/2; return 'M'+x1+' '+y1+' Q'+(mx+(cx-mx)*.35)+' '+(my+(cy-my)*.35)+' '+x2+' '+y2; };
+  let s = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Red de módulos y sus conexiones">';
+  s += LAZOS.map(([a,b,q]) => '<path class="lazo" data-a="'+a+'" data-b="'+b+'" d="'+curva(a,b)+'"><title>'+esc(q)+'</title></path>').join('');
+  s += '<g class="nodo centro"><circle cx="'+cx+'" cy="'+cy+'" r="40"/><text x="'+cx+'" y="'+cy+'">Portada</text></g>';
+  FAMILIAS.forEach((f,i) => { const a = ang[i]*Math.PI/180; s += '<text class="etq" x="'+(cx+Math.cos(a)*350*1.3)+'" y="'+(cy+Math.sin(a)*215*1.38)+'" style="fill:var(--'+f.id+')">'+esc(f.nombre)+'</text>'; });
+  todos.forEach(m => { const [x,y] = pos[m.k];
+    s += '<a class="nodo'+(m.ult && Date.now()-m.ult > 45*864e5 ? ' dormido' : '')+'" href="'+esc(m.url)+'" data-k="'+m.k+'" style="--c:var(--'+m.fam.id+')" aria-label="'+esc(codigo(m)+', '+m.nombre)+'">'+
+         '<circle cx="'+x+'" cy="'+y+'" r="27"/><text x="'+x+'" y="'+y+'">'+esc(m.s)+(m.sub?esc(m.sub):'')+'</text></a>'; });
+  lienzo.innerHTML = s + '</svg><p class="nota">'+LAZOS.length+' conexiones reales, leídas del código el 24-nov: motores compartidos y datos que un módulo toma de otro. Los nodos sin líneas trabajan solos.</p>';
+}
+// ── Vista Valor: desarrollo (medido) contra aporte (juicio), en cuadrantes ──
+function valor(){
+  lienzo.className = 'lienzo red valor';
+  const X0 = 110, X1 = 970, Y0 = 560, Y1 = 30, cw = (X1-X0)/5, ch = (Y0-Y1)/5;
+  const cx = n => X0 + (n-.5)*cw, cy = a => Y0 - (a-.5)*ch;
+  const celdas = {}; todos.forEach(m => (celdas[m.nivel+'-'+m.aporte] ||= []).push(m));
+  let s = '<svg viewBox="0 0 1000 640" role="img" aria-label="Módulos por desarrollo y por lo que te aportan">';
+  const xm = X0 + 3*cw, ym = Y0 - 3*ch;
+  s += '<rect class="cuad" x="'+xm+'" y="'+Y1+'" width="'+(X1-xm)+'" height="'+(ym-Y1)+'" style="--q:var(--vida)"/>'+
+       '<rect class="cuad" x="'+X0+'" y="'+Y1+'" width="'+(xm-X0)+'" height="'+(ym-Y1)+'" style="--q:var(--estudio)"/>'+
+       '<rect class="cuad" x="'+xm+'" y="'+ym+'" width="'+(X1-xm)+'" height="'+(Y0-ym)+'" style="--q:var(--info)"/>'+
+       '<rect class="cuad" x="'+X0+'" y="'+ym+'" width="'+(xm-X0)+'" height="'+(Y0-ym)+'" style="--q:var(--carrera)"/>';
+  s += '<text class="q" x="'+(X1-10)+'" y="'+(Y1+22)+'" text-anchor="end">Ya rinden: úsalos</text>'+
+       '<text class="q" x="'+(X0+10)+'" y="'+(Y1+22)+'">Valen mucho y están verdes: mejorar</text>'+
+       '<text class="q" x="'+(X1-10)+'" y="'+(Y0-12)+'" text-anchor="end">Bien hechos, aportan poco hoy: fusionar o guardar</text>'+
+       '<text class="q" x="'+(X0+10)+'" y="'+(Y0-12)+'">Poco desarrollo y poco aporte: simplificar</text>';
+  for (let i = 1; i <= 5; i++) s += '<text class="eje" x="'+cx(i)+'" y="'+(Y0+24)+'" text-anchor="middle">'+i+'</text><text class="eje" x="'+(X0-14)+'" y="'+cy(i)+'" text-anchor="end" dominant-baseline="central">'+i+'</text>';
+  s += '<text class="eje t" x="'+((X0+X1)/2)+'" y="'+(Y0+52)+'" text-anchor="middle">Desarrollo del módulo (medido en el código)</text>'+
+       '<text class="eje t" transform="translate(28 '+((Y0+Y1)/2)+') rotate(-90)" text-anchor="middle">Lo que te aporta hoy (mi evaluación)</text>';
+  Object.values(celdas).forEach(g => g.forEach((m,i) => {
+    const cols = Math.min(g.length, 3), fila = Math.floor(i/3), col = i % 3, enFila = Math.min(cols, g.length - fila*3);
+    const x = cx(m.nivel) + (col - (enFila-1)/2)*54, y = cy(m.aporte) + (fila - (Math.ceil(g.length/3)-1)/2)*50;
+    s += '<a class="nodo'+(m.ult && Date.now()-m.ult > 45*864e5 ? ' dormido' : '')+'" href="'+esc(m.url)+'" data-k="'+m.k+'" style="--c:var(--'+m.fam.id+')" aria-label="'+esc(codigo(m)+', desarrollo '+m.nivel+', aporte '+m.aporte)+'">'+
+         '<circle cx="'+x+'" cy="'+y+'" r="23"/><text x="'+x+'" y="'+y+'">'+esc(m.s)+(m.sub?esc(m.sub):'')+'</text></a>';
+  }));
+  lienzo.innerHTML = s + '</svg><p class="nota">El desarrollo se midió el 24-nov: tamaño y estado del código, datos automáticos, mantenimiento y si funciona hoy. Lo que te aporta es mi evaluación con tus metas (CUN, trabajo con IA, inglés, ingresos, día a día): si un módulo está mal puesto, dime cuál. Tenue: sin cambios hace más de 45 días.</p>';
+}
+let vista = 'tabla';
+function pintarVista(){ vista === 'red' ? red() : vista === 'valor' ? valor() : tabla(); verFicha(actual); }
+document.querySelector('.vistas').addEventListener('click', e => {
+  const b = e.target.closest('button[data-v]'); if (!b || b.dataset.v === vista) return;
+  vista = b.dataset.v; document.querySelectorAll('.vistas button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  document.startViewTransition ? document.startViewTransition(pintarVista) : pintarVista();
+});
+const sobre = e => { const a = e.target.closest('[data-k]'); if (a && porK(a.dataset.k)) { verFicha(porK(a.dataset.k)); lienzo.classList.toggle('foco', lienzo.classList.contains('red')); } };
+lienzo.addEventListener('pointerover', sobre); lienzo.addEventListener('focusin', sobre);
+lienzo.addEventListener('pointerleave', () => lienzo.classList.remove('foco'));
+pintarVista();
+
+// ── Pulso: cada dato con su fecha, su fuente y su ventana ──
+const linea = (serie, desde, color) => {
+  const pts = (serie||[]).filter(p => p[0] >= desde); if (pts.length < 2) return '';
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const d = pts.map((p,i) => (i?'L':'M')+((p[0]-x0)/(x1-x0||1)*200).toFixed(1)+' '+(28-(p[1]-y0)/(y1-y0||1)*26).toFixed(1)).join(' ');
+  return '<svg viewBox="0 0 200 30" preserveAspectRatio="none" aria-hidden="true"><path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>';
+};
+Promise.all([traer('data/macro-co.json'), traer('data/jobs-feed.json')]).then(([macro, jobs]) => {
+  const el = document.getElementById('pulso'), out = [], D = macro && macro.data, ahora = Date.now();
+  if (D) {
+    const fila = (k, valor, cuando, dias, ventana) => D[k] && D[k].value != null && out.push('<div class="medida"><div class="v">'+valor(D[k].value)+'</div><div class="l">'+esc(D[k].label)+'</div>'+
+      linea(D[k].series, ahora - dias*864e5, 'var(--vida)')+'<div class="f">'+cuando(D[k].asOf)+'. Línea: '+ventana+'. '+esc(D[k].source)+'</div></div>');
+    fila('trm', v => '$ '+num(v,2), a => 'Vigente el '+dia(a), 90, 'últimos 90 días');
+    fila('policy', v => num(v,2)+' %', a => 'Efectiva anual, al '+dia(a), 365, '12 meses');
+    fila('cpi', v => num(v,2)+' %', a => 'Anual, a '+mes(a), 365, '12 meses');
+    fila('unemp', v => num(v,1)+' %', a => 'A '+mes(a), 365, '12 meses');
+    DATOS.macro = macro.generatedAt;
+  }
+  if (jobs && jobs.resumen) {
+    DATOS.jobs = {relevantes:jobs.resumen.relevantes, revisadas:jobs.resumen.revisadas, fecha:jobs.generatedAt};
+    out.push('<div class="medida"><div class="v">'+num(jobs.resumen.relevantes)+'</div><div class="l">Vacantes relevantes</div><div class="f">De '+num(jobs.resumen.revisadas)+' revisadas el '+dia(jobs.generatedAt)+'. Radar de 5-JOB.</div></div>');
+  }
+  el.innerHTML = out.length ? out.join('') : '<p class="vacio">No se pudo leer la foto diaria. Los módulos funcionan igual; vuelve a cargar con internet para ver los datos.</p>';
+  verFicha(actual);
+});
+
+traer('data/world.json').then(w => {
+  const ul = document.getElementById('titulares'), ns = (w && w.news || []).filter(n => /^https:\/\//.test(n.link||'')).slice(0,5);
+  if (!ns.length) { ul.innerHTML = '<li class="vacio">No se pudieron leer los titulares. Vuelve a cargar con internet.</li>'; return; }
+  document.getElementById('titSub').textContent = 'Economía y mercados, traídos del lado del servidor el '+dia(w.generatedAt)+'.';
+  ul.innerHTML = ns.map(n => '<li><a href="'+esc(n.link)+'" target="_blank" rel="noopener"><div class="t">'+esc(n.title)+'</div><div class="q">'+esc(n.source)+', '+dia(n.date)+'</div></a></li>').join('');
+});
+
+// ── Ofertas: el mismo directorio fijo de la portada actual ──
+traer('data/ofertas-directorio.json').then(d => {
+  const cuerpo = document.getElementById('ofertasCuerpo');
+  if (!d) { cuerpo.innerHTML = '<p class="vacio">No se pudo leer el directorio. Vuelve a cargar con internet.</p>'; return; }
+  document.getElementById('ofertasN').textContent = d.clases.reduce((k,c) => k + c.sitios.length, 0)+' páginas';
+  const hoy = new Date(); hoy.setHours(0,0,0,0); let aviso = '';
+  for (const y of [hoy.getFullYear(), hoy.getFullYear()+1]) {
+    const n1 = new Date(y,10,1), j = 1 + ((4 - n1.getDay() + 7) % 7) + 21, bf = new Date(y,10,j+1), cm = new Date(y,10,j+4);
+    const dB = Math.round((bf-hoy)/864e5), dC = Math.round((cm-hoy)/864e5);
+    if (dC < 0) continue; if (dB > 30) break;
+    const c = (x,f) => x===0 ? 'es hoy' : x<0 ? 'ya empezó' : x===1 ? 'es mañana' : 'en '+x+' días ('+f.getDate()+' '+MES[f.getMonth()]+')';
+    aviso = '<p class="temporada">Black Friday '+c(dB,bf)+'. Cyber Monday '+c(dC,cm)+'.</p>'; break;
+  }
+  cuerpo.innerHTML = aviso + d.clases.map(c => '<div class="grupo"><h3>'+esc(c.nombre)+'</h3>'+c.sitios.map(s =>
+    '<a href="'+esc(s.url)+'" target="_blank" rel="noopener"><b>'+esc(s.nombre)+'</b>'+(s.top?'<i class="top">Empieza aquí</i>':'')+'<span>'+esc(s.para)+'</span></a>').join('')+'</div>').join('');
+});
+
+// ── Buscador (Ctrl K) ──
+const paleta = document.getElementById('paleta'), q = document.getElementById('q'), lista = document.getElementById('resultados');
+const EXTRA = [
+  {s:'RED', nombre:'Ver la red de módulos', d:'conexiones reales', hacer:() => document.querySelector('.vistas [data-v="red"]').click()},
+  {s:'RES', nombre:'Descargar respaldo', d:'tus datos en un .json', hacer:() => document.getElementById('respaldo').click()},
+  {s:'OFE', nombre:'Ofertas y eventos', d:'directorio de páginas', hacer:() => document.getElementById('ofertas').showPopover()},
+  {s:'PUL', nombre:'Pulso de Colombia', d:'dólar, tasas, inflación', hacer:() => document.getElementById('pulso').scrollIntoView({behavior:'smooth'})},
+  {s:'TIT', nombre:'Titulares', d:'economía y mercados', hacer:() => document.getElementById('titulares').scrollIntoView({behavior:'smooth'})}];
+let vis = [], sel = 0;
+const norm = t => t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+function pintar(){
+  const t = norm(q.value.trim());
+  const cands = [...todos.map(m => ({...m, texto:norm(m.n+' '+m.s+' '+m.c+' '+m.nombre+' '+m.d+' '+m.fam.nombre)})), ...EXTRA.map(x => ({...x, texto:norm(x.s+' '+x.nombre+' '+x.d)}))];
+  vis = t ? cands.filter(c => t.split(/\s+/).every(p => c.texto.includes(p))) : cands;
+  sel = Math.min(sel, Math.max(vis.length-1, 0));
+  lista.innerHTML = vis.length ? vis.map((c,i) => '<li role="option" data-i="'+i+'" aria-selected="'+(i===sel)+'" style="--c:var(--'+(c.fam?c.fam.id:'tiza')+')"><span class="s">'+esc(c.s)+(c.sub?esc(c.sub):'')+'</span><span>'+esc(c.nombre)+'</span><span class="d">'+esc(c.fam ? codigo(c)+(c.ult?', '+hace(c.ult):'') : c.d)+'</span></li>').join('')
+    : '<li class="vacio">Nada con «'+esc(q.value)+'». Prueba con el código de tres letras o el número del módulo.</li>';
+}
+function ir(c){ if (!c) return; paleta.close(); c.hacer ? c.hacer() : location.assign(c.url); }
+function abrirPaleta(){ q.value=''; sel=0; pintar(); paleta.showModal(); q.focus(); }
+document.getElementById('abrirPaleta').addEventListener('click', abrirPaleta);
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); paleta.open ? paleta.close() : abrirPaleta(); }
+  else if (e.key === '/' && !paleta.open && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); abrirPaleta(); }
+});
+q.addEventListener('input', () => { sel = 0; pintar(); });
+q.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = (sel + (e.key==='ArrowDown'?1:-1) + vis.length) % Math.max(vis.length,1); pintar(); lista.querySelector('[aria-selected="true"]')?.scrollIntoView({block:'nearest'}); }
+  else if (e.key === 'Enter') { e.preventDefault(); ir(vis[sel]); }
+});
+lista.addEventListener('click', e => { const li = e.target.closest('li[data-i]'); if (li) ir(vis[+li.dataset.i]); });
+paleta.addEventListener('click', e => { if (e.target === paleta) paleta.close(); });
+</script>
+</body>
+</html>
