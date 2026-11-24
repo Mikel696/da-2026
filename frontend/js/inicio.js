@@ -70,8 +70,10 @@ const INICIO = (() => {
        if (!len(deck) && !v) return null;
        return {stats:[[num(len(deck)),'tarjetas en tu mazo'],[dm+'/'+v,'tiempos dominados']], linea: sk && sk.last ? 'Última práctica: '+dia(sk.last)+'.' : ''}; }},
     {n:'14',s:'WOR',fam:'carrera',nombre:'Trabajo',c:'Trabajo',url:'work.html',id:'work',pre:['work_'],grande:'',
-     d:'Tus cuadernos de trabajo. El coach de procesos con IA está en obra.',
-     info(){ const d = LS.json('work_nb_data'); if (!len(d)) return null;
+     d:'El mapa del rol con rutas de estudio, y tus cuadernos de trabajo.',
+     info(){ const r = LS.json('work_rutas');
+       if (len(r)) return {stats:[[r.filter(x => x && x.tipo === 'ruta' && x.empezada).length,'rutas empezadas'],[r.filter(x => x && x.tipo === 'paso' && x.hecho).length,'pasos hechos']]};
+       const d = LS.json('work_nb_data'); if (!len(d)) return null;
        return {stats:[[len(d),'cuadernos'],[Object.values(d).reduce((k,x) => k + len(x && x.pages), 0),'páginas']]}; }},
     {n:'17',s:'IA',fam:'ia',nombre:'AI Dojo',c:'Dojo IA',url:'pages/ai-dojo.html',id:'aidojo',pre:['ia_'],grande:'',
      d:'El taller: proyectos con varias IA, misiones por cinturones y criterio.',
