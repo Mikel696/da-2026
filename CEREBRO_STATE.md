@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 (O5.0: disco del navegador de 91 % a 56,6 %, cuadernos aligerados; falta la prueba sin red · antes: 1-IND ofertas fijas y ola O5)
+- **Última actualización:** 2026-11-24 (10-SYS: adjuntos de materia fuera de localStorage, disco 56,6 % → 47,1 % · antes: O5.0 cuadernos aligerados, 1-IND ofertas fijas)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,34 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 📎 10-SYS · Adjuntos de materia fuera de localStorage: disco 56,6 % → 47,1 % — martes 24-nov
+
+**Riesgo que cierra** (el «siguiente riesgo» de O5.0): `sys_subj_files_<sid>` guardaba cada archivo en base64 dentro de
+localStorage; uno de 2 MB (el máximo de entonces) ocupaba ~5,3 MiB y ya no cabía en el margen libre (4,3 MiB).
+
+- **Medido antes** (Chrome de Miguel, producción, desde una página sin código del sitio): 1 adjunto, «Crono Redes.png»,
+  371.955 bytes, key de 0,946 MiB; uso total 5,659 MiB = 56,6 %. Es de una materia **borrada** (`subj_1779842340935`
+  está en `sys_subjects_hidden`): ninguna pantalla lo mostraba. Se conserva igual.
+- **Copia previa:** IndexedDB `da2026_respaldo` → store `kv` → id `sys_subj_files_subj_1779842340935@2026-11-24` (el JSON
+  original entero; SHA-256 de la imagen `7f4ebbc7…0d7da1`). Se puede borrar cuando Miguel quiera; no la lee nadie.
+- **Cambio (`3d7a1b8`):** el archivo va al IDB de NBShared (`da2026_nb/attachments`, id `sysf_<sid>_<fid>`) y a Supabase
+  Storage (`attachments/<uid>/sysf_…`); en localStorage queda solo la ficha `{id,name,type,size,added,bid}`.
+  `_migrateFiles()` convierte las fichas viejas al cargar 10-SYS y quita el base64 **solo** si el IDB devuelve el
+  archivo del mismo tamaño. Tope por archivo 2 MB → 50 MB (el de los cuadernos). Si la ficha no cabe, avisa y no deja
+  el archivo huérfano (antes `db.set` fallaba en silencio). nb-shared `p28` (exporta `putBlob`) en las 4 páginas;
+  systems_logic `p52`. `cloud-sync.js` no se tocó.
+- **Verificado en producción** (Chrome de Miguel): la ficha quedó en 165 caracteres; todas las `sys_subj_files_*` suman
+  444 bytes; la imagen en IDB, en Storage y la que entrega ⬇ tienen la **misma huella SHA-256** que la original; la
+  miniatura carga (896×498) también tras recargar. Subida real de un archivo de 1,5 MB por el selector: sin alertas ni
+  errores en la consola (ni QUOTA), ficha de 353 caracteres, misma huella en IDB y Storage; se borró después y
+  Storage volvió a 1 objeto `sysf_`. Uso total **47,1 %**.
+- **Sin confirmar:** el límite por archivo del bucket `attachments` (si es menor que 50 MB, un archivo grande queda en
+  este equipo y la cola reintenta subirlo cada 60 s). **Pendiente / fuera de alcance:** la ficha sigue solo local
+  (otro equipo no ve los adjuntos; si se borran los datos del sitio, el archivo queda en Storage sin pantalla que lo
+  liste). Una pestaña abierta con el código viejo muestra la miniatura rota hasta recargar (no pierde nada).
 
 ---
 
@@ -42,7 +70,8 @@ duplicado ni texto. Detalle en las notas de la sesión (carpeta side-session-not
   trabajo y no se sube porque el id ya existe). Una pestaña abierta con nb-shared viejo puede marcar una «regresión»
   falsa al sincronizar: no pierde nada (guarda copia); se arregla recargando.
 - **Siguiente riesgo:** adjuntos de materia de 10-SYS (`sys_subj_files_*`) en base64 en localStorage, solo locales;
-  uno de 2 MB ocupa ~5,3 MiB, más que el margen libre (4,3 MiB). Hoy hay uno de 0,97 MiB.
+  uno de 2 MB ocupa ~5,3 MiB, más que el margen libre (4,3 MiB). Hoy hay uno de 0,97 MiB. → **Resuelto el mismo día**
+  (sección de arriba, `3d7a1b8`).
 - **Pages falló 4 veces seguidas** (`bed8cc4`, `f07ca08`, `05b6e32`, `e1045cd`: «No artifacts named github-pages»,
   con el artefacto de 136 MB sí subido); publicó al 5.º (`93479a9`). Suma evidencia a O5.6.
 
@@ -83,16 +112,20 @@ eventos» y «pasa a otro nivel la página completa: diseño, funcionalidad y te
   primero para HTML/JS, por la deriva de motor del 15-jul) → O5.4 lo roto y lo muerto (O2.2, O4.5) → O5.5 módulos por
   uso medido → O5.6 publicación estable.
 - **Miguel aprobó la ola O5** («Sí, adelante»): todo pasó de `a-decidir` a `pendiente`. O5.0 corre en su propia sesión.
-- **O5.1 · boceto hecho, esperando su veredicto:** `frontend/boceto-cerebro2.html`, **solo local** (excluido en
-  `.git/info/exclude`, no se publica). Se ve con el servidor `da-2026` de `.claude/launch.json` → `localhost:3456/boceto-cerebro2.html`.
-  Dirección: **tabla periódica del Cerebro sobre una pizarra** (fondo `#16262B`, tizas por familia, tipografía Archivo con
-  su eje de ancho). Cada módulo es un elemento con su número y sus tres letras; al pasar el mouse se llena la ficha. Debajo:
-  Pulso de Colombia (TRM, tasa BanRep, inflación, desempleo, vacantes: cada uno con fecha y fuente, de `macro-co.json` y
-  `jobs-feed.json`), Titulares de `world.json` (sin rss2json), Ofertas en un `popover` nativo y buscador **Ctrl+K** en un
-  `<dialog>`. Fuera: contadores, Workshop, pomodoro (en su Chrome marcaba 0 sesiones) y la cita del día.
-  Probado en el navegador del app: 1440 px (5 familias en una fila), 375 px (sin desborde, 4 por fila), Ctrl+K filtra y
-  abre, el popover trae las 45 páginas, 0 errores propios en consola. **No probado:** en producción ni con su sesión.
-  Familias nuevas: TOO pasó a Estudio; APA, MM y NEW forman «Escribir, pensar, leer».
+- **O5.1 · boceto v3 publicado aparte, esperando su veredicto:** `frontend/boceto-cerebro2.html` (noindex, sin enlace desde la
+  portada, **solo lectura**: 0 `setItem`, no carga cloud-sync). Tres vueltas con Miguel el 24-nov: v1 tabla periódica minimalista → «más
+  información, más premium, avatar, nodos, botones» → v2 con vistas Red y Valor → **«esto no… una interfaz futurista, fluida y funcional;
+  los nodos para noticias, cosas secundarias»** (las vistas Red y Valor salieron). v3: fondo aurora con rejilla, vidrio, 7 tarjetas grandes
+  con datos vivos leídos de su localStorage (SYS, NOT, ENG, WOR, IA, MUS, FIN), los otros 12 en «Más módulos», panel lateral de detalle
+  (`<dialog>`) con la evaluación, HUD (sincronización, disco, módulos activos, último cambio), avatar con anillo de estado y respaldo
+  descargable, Ctrl+K, pulso con líneas de 90 días / 12 meses y **radar de noticias en nodos** (world.json, hilos por fuente).
+  Verificado en producción con sus datos (Chrome, 24-nov): «Buenos días, Miguel.», parte S9 1/9, 14 cuadernos/44 páginas en NOT,
+  16/72 en WORK, 202 tarjetas de inglés, «Idea en Reggaetón» 95 BPM, TRM .506, disco 47 %, 20 nodos de noticias, detalle abre.
+  **Miguel pidió analizar cada módulo por desarrollo y aporte, no solo por uso del mes:** objeto `M` del boceto (nivel medido en código,
+  aporte juzgado con sus metas) y orden en O5.5. Uso medido (`_cloud_ts`): noviembre SYS, NOT, WORK, ENG, MUS; jun-ago FIN, JOB, APP,
+  RUT, PRO, APA, MM.
+- **O5.6 en marcha:** 7 de 8 despliegues fallaron entre 14:43 y 15:11 UTC (de las dos sesiones). `upload-pages-artifact` v3 → v4 en
+  `deploy.yml` y `macro-snapshot.yml` (`9408231`): los 2 siguientes salieron bien. Meta: 10 seguidos, contados en la API de Actions.
 - **Visto de paso, sin tocar:** el saludo dice «Buenos días, "Miguel Barros"» con comillas (el nombre se guardó así en
   `sb_name`); `js/index.js`, `js/dashboard.js` y `js/notes.js` no los carga ninguna página.
 
