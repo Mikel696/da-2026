@@ -340,6 +340,12 @@
   ],
   "hecho": [
     {
+      "id": "H11",
+      "modulo": "14-WORK",
+      "fecha": "2026-11-25",
+      "que": "Rutas didácticas (Miguel: «las rutas más didácticas, más trabajado»; aprobó la muestra de Python): las 25 rutas y sus 108 estaciones con la idea comparada con Excel o el trabajo, el video con sus capítulos, tareas con casilla, código para copiar, resultado esperado y errores típicos; «Escuchar la idea» con la voz del navegador. El verificador ejecuta los 11 programas de ejemplo (Python y SQL) contra la salida que prometen. Contraparte corrigió 4 nombres de acciones de Power Automate y 20 descripciones de videos."
+    },
+    {
       "id": "H10",
       "modulo": "14-WORK",
       "fecha": "2026-11-24",

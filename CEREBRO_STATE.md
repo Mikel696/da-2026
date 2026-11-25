@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-24 noche (14-WORK: panel de juego; limpieza de cuadernos 47,2 % → 35,5 % · antes: rutas para las 25 habilidades)
+- **Última actualización:** 2026-11-25 (14-WORK: las 25 rutas en formato didáctico, 108 estaciones · antes: panel de juego y limpieza de cuadernos)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,41 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🎓 14-WORK · Rutas didácticas: las 25, estación por estación — miércoles 25-nov
+
+Miguel: «las rutas más didácticas, más trabajado». Vio una muestra (la ruta de Python en el lienzo del centro de
+mando) y aprobó: «Sí, constrúyela».
+
+- **Vista nueva (`js/work-ruta-vista.js`, solo pinta):** arriba la idea en una frase con una comparación (Excel o
+  el trabajo), «Escuchar la idea» (voz del navegador, sin red), para qué sirve en el trabajo y cuántas vacantes la
+  piden; un mapa de estaciones (Hecha · Te toca · Después, todas abiertas); la estación elegida en 4 bloques:
+  1 Entiéndelo (tabla lo que ya conoces → lo nuevo, y una hoja de Excel dibujada cuando ayuda), 2 Míralo (tarjeta del
+  video con los minutos de sus capítulos, recurso y enlace al Cerebro), 3 Hazlo (tareas con casilla + código con
+  «Copiar»), 4 Compruébalo (valores esperados, salida exacta, errores típicos y «Ya lo comprobé» = +10 XP). Al marcar,
+  la estación queda a la vista con «Seguir con la…». Color por disciplina (IA, Automatización, Datos, Procesos,
+  Personas, Negocio), el mismo de la propuesta del centro de mando. Fuente Archivo (Google Fonts) para títulos.
+- **Contenido (`data/rutas.json`):** las 25 rutas traen `disciplina`, `frase`, 3 `usos` y `portafolio`; cada una de
+  las 108 estaciones trae `logro`, `idea`, `mira`, `hazlo`, `comprueba`, `errores` y, cuando aplica, `hoja` y
+  `codigo` (Python, SQL, Excel, DAX, JSON o plantilla). Todo caso y monto es ficticio y lo dice.
+- **Avance:** las tareas de «Hazlo» se guardan en `work_rutas` como `{id:'<ruta>:<paso>:<i>', tipo:'tarea'}`; no
+  cambian el % ni suman XP (lo dan las estaciones). Mismo merge por registro que los pasos.
+- **Verificador estricto (`scripts/verificar-rutas.mjs`):** exige el formato en las 25 y **ejecuta 11 programas**
+  (7 de Python con el intérprete del PC, 4 de SQL con `node:sqlite`) contra la salida exacta que promete cada
+  estación (la de la TRM, contra un patrón porque cambia cada día). Roto a propósito: detecta salida cambiada en
+  Python y en SQL y un bloque faltante.
+- **Contraparte (CORREGIR, aplicado):** 4 nombres de acciones de Power Automate no coincidían con Microsoft Learn
+  en español («Para cada» es **For each**, «Extraer datos de página web», «Obtener la fecha y hora actuales»,
+  «Convertir fecha y hora a texto»); 20 textos «mira» afirmaban cosas de videos que nadie vio (p. ej. «la parte de
+  compras» de un curso de Odoo que no la tiene): se reescribieron con los **capítulos que publica cada video**
+  (descripciones leídas el 25-nov) y la tarjeta dice «No lo revisamos completo». Confirmado con fuente: lecciones de
+  Kaggle y SQLBolt, nodos de n8n, las 18 misiones del AI Dojo citadas, el límite de 1.000 filas de Socrata.
+- **Pruebas:** simulación con la vista nueva 43 comprobaciones (estaciones, tareas sin XP, «Seguir con la…»,
+  salida de pandas), la vieja 32, sync 28/28; vista previa local: las 108 estaciones recorridas a 1366 y 375 px sin
+  desbordes ni errores (en celular los títulos largos se salían: arreglado).
+- **Sin confirmar:** la voz real (probada sin sonido, por regla); «Copiar» en su navegador; su celular real.
 
 ---
 

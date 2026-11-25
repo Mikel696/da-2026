@@ -95,7 +95,7 @@
       ],
       "resaltar": 4
      },
-     "mira": "Mira la primera parte del video: variables, listas y funciones. Con eso basta para esta estación.",
+     "mira": "Es un curso largo: mira «Tu primer programa» (17:15) hasta «Tipos de datos» (36:37), luego «Listas» (1:55:33) y «Funciones» (3:03:42). Los minutos son los capítulos de la descripción del video.",
      "hazlo": [
       "Abre la lección 1 de Intro to Programming en Kaggle y sigue sus celdas.",
       "Escribe la función resumen que ves abajo y pruébala con tu lista.",
@@ -287,7 +287,7 @@
        ]
       ]
      },
-     "mira": "Fíjate en tres momentos del video: cómo carga el archivo, cómo filtra filas y cómo agrupa. Lo demás lo puedes ver después.",
+     "mira": "Mira tres capítulos: «Carga de datos» (3:59), «Filtrado de filas» (12:29) y «Agrupación y agregación de datos» (25:23).",
      "hazlo": [
       "Haz en Kaggle las 4 primeras lecciones del curso Pandas: leer, seleccionar, resumir y agrupar.",
       "Corre el código de abajo. Trae los datos dentro del programa para que funcione sin archivos.",
@@ -563,7 +563,7 @@
        ]
       ]
      },
-     "mira": "Mira la primera parte del curso: qué es la IA y cómo funcionan los modelos de lenguaje.",
+     "mira": "Mira de «¿Qué es la IA y cómo usarla?» (6:10) a «Chatbots: ChatGPT, Gemini, Copilot y Claude» (19:48).",
      "hazlo": [
       "Haz el módulo de Microsoft Learn de esta estación (en español).",
       "Pregúntale a una IA la TRM de ayer y compárala con la de datos.gov.co.",
@@ -1423,7 +1423,7 @@
        ]
       ]
      },
-     "mira": "Mira cómo arma los 3 flujos del video y fíjate en qué es el desencadenador de cada uno.",
+     "mira": "Mira cómo arma los 3 flujos. Los tipos de flujo (programado, automatizado e instantáneo) se explican entre 1:49 y 2:47: cada uno se diferencia por lo que lo dispara.",
      "hazlo": [
       "Haz el módulo «Introducción a Power Automate» de Microsoft Learn.",
       "Lista 5 tareas de tu semana que se repiten, sin datos internos.",
@@ -1574,7 +1574,7 @@
        ],
        [
         "Repetir con cada archivo",
-        "Para cada"
+        "For each"
        ],
        [
         "Crear la carpeta del mes",
@@ -1594,7 +1594,7 @@
      ],
      "codigo": {
       "lenguaje": "texto",
-      "texto": "1. Obtener fecha y hora actual              → %FechaActual%\n2. Convertir fecha y hora en texto          → formato yyyy-MM → %Mes%\n3. Crear carpeta                             → Prueba\\%Mes%\n4. Obtener archivos de la carpeta            → Prueba, filtro *.pdf → %Archivos%\n5. Para cada %Archivo% en %Archivos%\n6.     Mover archivos                        → %Archivo% a Prueba\\%Mes%\n7. Fin"
+      "texto": "1. Obtener la fecha y hora actuales          → %FechaActual%\n2. Convertir fecha y hora a texto            → formato yyyy-MM → %Mes%\n3. Crear carpeta                             → Prueba\\%Mes%\n4. Obtener archivos de la carpeta            → Prueba, filtro *.pdf → %Archivos%\n5. For each %Archivo% en %Archivos%\n6.     Mover archivos                        → %Archivo% a Prueba\\%Mes%\n7. Fin"
      },
      "comprueba": {
       "texto": "Después de ejecutarlo:",
@@ -1838,7 +1838,7 @@
        ]
       ]
      },
-     "mira": "El video compara las 4 herramientas de RPA más usadas. Fíjate en qué dice de cuándo conviene cada una.",
+     "mira": "El video compara 4 herramientas de RPA, una por capítulo, y cierra con conclusiones (11:19). Fíjate en qué dice de cada una.",
      "hazlo": [
       "Mira el video.",
       "De tus tareas repetitivas (ruta de Power Automate, estación 1), elige 2 buenas para un robot.",
@@ -1901,7 +1901,7 @@
        ],
        [
         "Leer un dato de la pantalla",
-        "Extraer datos de la página web"
+        "Extraer datos de página web"
        ],
        [
         "Abrir Excel",
@@ -1997,7 +1997,7 @@
        ]
       ]
      },
-     "mira": "Sigue en el video la parte de instalación y la primera secuencia. Lo demás lo verás en la academia.",
+     "mira": "Es un curso largo: sigue «Descargar e instalar UiPath» (2:40) y «Crea tu primer bot» (4:52). «Manejo de excepciones» (56:04) es el Try Catch de la tabla.",
      "hazlo": [
       "Crea tu cuenta en UiPath Academy (la creas tú) y empieza la ruta para principiantes.",
       "Termina el primer curso de esa ruta.",
@@ -2259,7 +2259,7 @@
        ]
       ]
      },
-     "mira": "El video da consejos para responder preguntas de entrevista en inglés. Fíjate en cómo arma respuestas cortas con un ejemplo.",
+     "mira": "Mira las partes «Make Your Answers More Concise» (1:56) y «How to Add Structure to Your Answers» (11:50).",
      "hazlo": [
       "Mira el video.",
       "Escribe tu respuesta con las 4 partes de la tabla, en máximo 6 frases.",
@@ -2699,7 +2699,7 @@
        ]
       ]
      },
-     "mira": "El video explica Zapier con disparadores y acciones. Es la misma idea en las tres herramientas.",
+     "mira": "El video explica qué es Zapier y cómo conecta aplicaciones entre sí. La idea de disparador y acciones es la misma en las tres herramientas.",
      "hazlo": [
       "Mira el video.",
       "Elige 3 tareas repetitivas.",
@@ -2783,7 +2783,7 @@
        ]
       ]
      },
-     "mira": "Fíjate en cómo el video prueba cada nodo por separado antes de seguir con el siguiente.",
+     "mira": "Mira «Creando el primer flujo» (5:00) y «Obtención de datos (HTTP Request)» (6:59): son los nodos que vas a usar. La parte del servidor VPS sobra si usas n8n en la nube.",
      "hazlo": [
       "Sigue la guía «Build your first workflow» de n8n (la cuenta la creas tú).",
       "Arma los 4 nodos de la tabla; en HTTP Request usa la dirección de abajo.",
@@ -2859,7 +2859,7 @@
        ]
       ]
      },
-     "mira": "El curso express del video arma escenarios en Make desde cero. Sigue la parte de crear y programar un escenario.",
+     "mira": "Mira «Conceptos básicos de Make» (3:50) y «Tipos de escenarios» (10:35). Lo de OpenAI puede esperar.",
      "hazlo": [
       "Haz el primer curso de Make Academy (la cuenta la creas tú).",
       "Repite en Make el flujo de la estación 2: programación, petición HTTP y hoja de cálculo.",
@@ -2943,7 +2943,7 @@
        ]
       ]
      },
-     "mira": "El curso de n8n del video es largo: busca la parte de errores. La misión del AI Dojo «Un flujo con red» practica justo esto.",
+     "mira": "Es un curso largo: mira la parte «Debug» (1:25:50). La misión del AI Dojo «Un flujo con red» practica justo los avisos de error.",
      "hazlo": [
       "Haz en el AI Dojo la misión «Un flujo con red».",
       "En tu flujo de la TRM, activa los reintentos en HTTP Request y crea un flujo de error que te mande un correo.",
@@ -3907,7 +3907,7 @@
       "texto": "Convierte el texto en JSON. Responde solo con el JSON, sin explicación.\nFormato: [{\"fecha\": \"AAAA-MM-DD\", \"monto\": número, \"estado\": \"aprobado\" o \"rechazado\"}]\nSi un dato no aparece, escribe null. No inventes datos.\n\nTexto: El 3 de noviembre de 2026 se aprobó un pago de $120.000 y el 4 se rechazó uno de $80.000."
      },
      "comprueba": {
-      "texto": "La respuesta correcta es solo esto, sin una frase antes ni después:",
+      "texto": "Debe llegar algo así, sin una frase antes ni después (los espacios pueden variar; las llaves y los tipos no):",
       "salidaEjemplo": "[{\"fecha\": \"2026-11-03\", \"monto\": 120000, \"estado\": \"aprobado\"},\n {\"fecha\": \"2026-11-04\", \"monto\": 80000, \"estado\": \"rechazado\"}]",
       "nota": "Si agrega «Aquí está tu JSON:», no cumplió: otra máquina no podría leerlo."
      },
@@ -4150,7 +4150,7 @@
        ]
       ]
      },
-     "mira": "El video explica los tres tipos de aprendizaje con ejemplos. El curso de Google (en inglés) sirve para profundizar.",
+     "mira": "El video explica el aprendizaje supervisado, el no supervisado y el de refuerzo. El curso de Google (en inglés) sirve para profundizar.",
      "hazlo": [
       "Mira el video.",
       "Haz la introducción del Machine Learning Crash Course de Google.",
@@ -4417,7 +4417,7 @@
        ]
       ]
      },
-     "mira": "Busca en el video la parte de SELECT, WHERE y ORDER BY. No hace falta verlo completo para esta estación.",
+     "mira": "Es un curso largo: mira «Consulta de datos: SELECT» (1:33:38), «WHERE» (1:46:23) y «ORDER BY» (1:49:51). No hace falta verlo completo.",
      "hazlo": [
       "Haz en SQLBolt las lecciones 1 a 4 (consultas, condiciones y orden). Cada una se corrige sola.",
       "Abre sqliteonline.com, pega primero la tabla de práctica y córrela; luego pega la consulta.",
@@ -4512,7 +4512,7 @@
        ]
       ]
      },
-     "mira": "El video muestra cómo un analista pasa de una pregunta a una consulta. Fíjate en cómo escribe primero la pregunta en palabras.",
+     "mira": "Mira el capítulo «SQL en mi trabajo» (4:38): un analista cuenta cómo usa SQL en su día a día.",
      "hazlo": [
       "Escribe en el cuaderno tres preguntas: ¿cuánto entró cada día?, ¿cuánto hay por estado? y ¿cuáles son los pagos más grandes?",
       "En sqliteonline.com, pega la tabla de práctica y luego las tres consultas de abajo.",
@@ -4904,7 +4904,7 @@
        ]
       ]
      },
-     "mira": "El video recorre la tabla dinámica de principio a fin. Repite cada paso en tu Excel mientras lo ves.",
+     "mira": "Repite cada paso en tu Excel mientras lo ves. Las zonas de la tabla dinámica (filas, valores, columnas y filtro) están entre 6:03 y 7:41.",
      "hazlo": [
       "Copia en Excel la hoja de ejemplo (5 ventas ficticias) y conviértela en tabla con Ctrl+T.",
       "Insertar → Tabla dinámica: Mes en Filas, Vendedor en Columnas y Venta en Valores.",
@@ -5026,7 +5026,7 @@
        ]
       ]
      },
-     "mira": "Mira el video completo: compara BUSCARX con BUSCARV y muestra el caso de «no encontrado».",
+     "mira": "Es corto (6 minutos): presenta BUSCARX como reemplazo de BUSCARV. Míralo completo.",
      "hazlo": [
       "Haz dos hojas ficticias. Pagos: F-01 100, F-02 250, F-03 80. Facturas: F-01 100, F-03 90, F-04 40.",
       "En Pagos, escribe las dos fórmulas de abajo en C2 y D2 y arrástralas hacia abajo.",
@@ -5313,7 +5313,7 @@
        ]
       ]
      },
-     "mira": "El curso del video va de los datos al reporte. Para esta estación basta la parte de cargar datos y crear visuales.",
+     "mira": "Es un curso largo: para esta estación mira «Cómo conectar y actualizar datos» (19:32) y «Cómo crear visualizaciones» (1:12:13).",
      "hazlo": [
       "Instala Power BI Desktop (es para Windows) y descarga en CSV un conjunto de datos.gov.co.",
       "Cárgalo con Obtener datos y revisa en Transformar datos que montos y fechas tengan el tipo correcto.",
@@ -5402,7 +5402,7 @@
        ]
       ]
      },
-     "mira": "El video explica DAX para principiantes desde Excel. Fíjate en la diferencia entre columna calculada y medida.",
+     "mira": "El video presenta DAX para principiantes. Míralo con Power BI abierto y prueba cada fórmula.",
      "hazlo": [
       "Crea una tabla Calendario (Modelado → Nueva tabla: Calendario = CALENDARAUTO()) y márcala como tabla de fechas.",
       "Relaciona Calendario[Date] con la fecha de tus ventas en la vista Modelo.",
@@ -5658,7 +5658,7 @@
        ]
       ]
      },
-     "mira": "El video de EDteam explica qué es una API con ejemplos. Después, lee en MDN la parte de peticiones y respuestas.",
+     "mira": "El video de EDteam explica qué es una API. Después, lee en MDN la parte de peticiones y respuestas.",
      "hazlo": [
       "Mira el video y lee las generalidades de HTTP en MDN.",
       "Pega en el navegador la dirección de abajo y mira la respuesta.",
@@ -5742,7 +5742,7 @@
        ]
       ]
      },
-     "mira": "El tutorial del video recorre Postman en español. Sigue la parte de hacer una petición GET y leer la respuesta.",
+     "mira": "El tutorial recorre Postman en español. Úsalo para ubicarte en la pantalla antes de armar tu petición.",
      "hazlo": [
       "Instala Postman o usa su versión web (la cuenta la creas tú).",
       "Haz un GET a https://www.datos.gov.co/resource/32sa-8pi3.json con los parámetros $order = vigenciadesde DESC y $limit = 1.",
@@ -6008,7 +6008,7 @@
        ]
       ]
      },
-     "mira": "El video modela un proceso en BPMN paso a paso. Repite cada símbolo en demo.bpmn.io mientras lo ves.",
+     "mira": "El video explica cada grupo de símbolos: eventos (0:55), actividades (2:27), compuertas (3:24) y piscinas y carriles (6:11). Dibuja cada uno en demo.bpmn.io mientras lo ves.",
      "hazlo": [
       "Mira el video y lee la guía de Camunda.",
       "Dibuja en demo.bpmn.io cómo se pagan los servicios en tu casa.",
@@ -6097,7 +6097,7 @@
        ]
       ]
      },
-     "mira": "El video compara el AS-IS con el TO-BE. Para esta estación, quédate con cómo se levanta el AS-IS.",
+     "mira": "El video (2 minutos) explica la diferencia entre AS-IS y TO-BE. La guía de Asana muestra cómo se arma el mapa.",
      "hazlo": [
       "Mira el video y lee la guía de Asana (en español).",
       "Mapea en demo.bpmn.io un proceso ficticio de conciliación de pagos hecho a mano.",
@@ -6708,7 +6708,7 @@
        ]
       ]
      },
-     "mira": "El video de EDteam explica Scrum, el marco ágil más usado. La guía de Atlassian explica qué es ágil.",
+     "mira": "El video de EDteam explica Scrum: qué es una metodología ágil (0:46), los roles (3:13) y el sprint (14:00). La guía de Atlassian explica qué es ágil.",
      "hazlo": [
       "Mira el video y lee la guía de Atlassian.",
       "Toma la implementación ficticia de la ruta de requerimientos.",
@@ -7763,7 +7763,7 @@
        ]
       ]
      },
-     "mira": "El video explica la matriz de stakeholders con un ejemplo. La guía de Asana (en español) sirve de repaso.",
+     "mira": "El video explica cómo usar una matriz de interesados en un proyecto. La guía de Asana (en español) sirve de repaso.",
      "hazlo": [
       "Mira el video y lee la guía de Asana.",
       "Lista las personas y áreas de un proyecto ficticio de automatización.",
@@ -8537,7 +8537,7 @@
        ]
       ]
      },
-     "mira": "El curso del video presenta Odoo para principiantes. Sigue la parte de compras e inventario.",
+     "mira": "Mira hasta el capítulo «Módulos» (9:25 a 23:12): cómo crear la cuenta y activar los módulos. El recorrido de la compra lo haces tú con los pasos de esta estación.",
      "hazlo": [
       "Crea una prueba de Odoo (la cuenta la creas tú) con los módulos de Compras y Contabilidad.",
       "Haz una compra ficticia de punta a punta: pedido, recepción y factura.",
@@ -9413,9 +9413,9 @@
        ]
       ]
      },
-     "mira": "Este paso no tiene video propio: el curso Pandas de Kaggle (en inglés) tiene una lección para unir tablas.",
+     "mira": "Este paso no tiene video propio: la lección «Renaming and Combining» del curso Pandas de Kaggle (en inglés) explica cómo unir tablas.",
      "hazlo": [
-      "Repasa en Kaggle la lección del curso Pandas que une tablas.",
+      "Repasa en Kaggle la lección «Renaming and Combining» del curso Pandas.",
       "Corre el código de abajo con las mismas partidas de la estación 2 y compáralo con tu Excel.",
       "Cronometra cuánto tardas con cada método y anota los dos tiempos."
      ],

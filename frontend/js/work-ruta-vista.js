@@ -39,7 +39,7 @@ const WorkRutaVista = (function(){
 
   function idea(p){
     const d = p.idea;
-    const filas = d.filas.map(([a, b]) => `<div class="rv-par"><span class="rv-par-a">${esc(a)}</span><span class="rv-par-fl" aria-hidden="true">→</span>${d.codigo ? `<code class="rv-par-b">${esc(b)}</code>` : `<span class="rv-par-b">${esc(b)}</span>`}</div>`).join('');
+    const filas = d.filas.map(([a, b]) => `<div class="rv-par" role="row"><span class="rv-par-a" role="cell">${esc(a)}</span><span class="rv-par-fl" aria-hidden="true">→</span>${d.codigo ? `<code class="rv-par-b" role="cell">${esc(b)}</code>` : `<span class="rv-par-b" role="cell">${esc(b)}</span>`}</div>`).join('');
     return `<article class="rv-b rv-b-idea">
         <p class="rv-b-n"><span>1</span>${esc(d.titulo)}</p>
         <div class="rv-idea">
@@ -56,7 +56,8 @@ const WorkRutaVista = (function(){
     const v = p.video ? `<a class="rv-video" href="${esc(p.video.url)}" target="_blank" rel="noopener">
           <span class="rv-play">${svg(I_PLAY, 22, ' fill="currentColor" stroke="none"')}</span>
           <span class="rv-video-t">${esc(p.video.titulo)}</span>
-          <span class="rv-video-c">${esc(p.video.canal)} · YouTube</span></a>` : '';
+          <span class="rv-video-c">${esc(p.video.canal)} · YouTube</span></a>
+        <p class="rv-rec">Elegido por su canal y su título; los minutos que se citan son los capítulos que publica el video. No lo revisamos completo.</p>` : '';
     const rec = p.recurso ? `<p class="rv-rec">${p.video ? 'Para practicar' : 'Recurso'}: <a href="${esc(p.recurso.url)}" target="_blank" rel="noopener">${esc(p.recurso.nombre)}</a> · ${esc(p.recurso.proveedor)}</p>` : '';
     const enl = p.enlace ? `<p class="rv-rec">En el Cerebro: <a href="${esc(p.enlace.url)}"${ext(p.enlace.url)}>${esc(p.enlace.texto)}</a></p>` : '';
     return `<article class="rv-b rv-b-mira">
