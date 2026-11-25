@@ -1,6 +1,6 @@
 {
  "version": "2026-11-25",
- "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Cada enlace se comprobó (HTTP 200) y cada video con oEmbed de YouTube (título y canal exactos) el 24-nov-2026 con scripts/verificar-rutas.mjs. Videos elegidos por canal reconocido, vistas y español primero. Sin duraciones ni «gratis» donde la fuente no lo dice: nada se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
+ "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Formato didáctico (25-nov-2026): cada estación trae lo que logras, la idea comparada con algo que ya conoces (Excel o el trabajo), cómo usar el video o el recurso, qué hacer, cómo comprobarlo y los errores típicos. scripts/verificar-rutas.mjs comprueba cada enlace (HTTP 200), cada video con oEmbed de YouTube (título y canal exactos) y ejecuta cada programa de Python y SQL para confirmar la salida que promete. Videos elegidos por canal reconocido, vistas y español primero; nadie los vio completos. Sin duraciones ni «gratis» donde la fuente no lo dice. Los casos y montos de práctica son ficticios; nada interno del trabajo.",
  "rutas": [
   {
    "id": "python",
@@ -8399,6 +8399,14 @@
    "id": "erp",
    "competencia": "ERP (SAP, NetSuite, Oracle)",
    "icono": "🏭",
+   "disciplina": "Negocio",
+   "frase": "Un ERP es la columna vertebral de una empresa: compras, inventario, ventas y contabilidad viven en un solo sistema, y lo que pasa en un área se refleja solo en las demás.",
+   "usos": [
+    "Entender de dónde salen los datos que concilias: facturas, pagos y asientos.",
+    "Participar en una implementación: qué se configura, qué se migra y qué se prueba.",
+    "Definir qué datos le pasa el ERP a otro sistema, en qué formato y cada cuánto."
+   ],
+   "portafolio": "El recorrido de una compra en Odoo (pedido, recepción, factura y asiento) y las fases de implementación de un ERP para una empresa ficticia.",
    "queEs": "El sistema central donde una empresa lleva contabilidad, compras, inventario y facturación. En la muestra lo piden 6 de las 39 vacantes.",
    "pasos": [
     {
@@ -8418,7 +8426,71 @@
       "titulo": "Qué es un ERP y para qué sirve - Definición de ERP - Aplimedia",
       "canal": "Aplimedia",
       "url": "https://www.youtube.com/watch?v=7_r7rGHmh1c"
-     }
+     },
+     "logro": "dibujar los módulos de un ERP y qué información pasa entre ellos.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "Si cada área tuviera su Excel",
+       "En un ERP"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Compras anota el pedido en su hoja",
+        "Módulo de compras: la orden queda en el sistema"
+       ],
+       [
+        "Bodega anota lo que llegó en otra hoja",
+        "Módulo de inventario: la recepción suma al stock"
+       ],
+       [
+        "Contabilidad copia la factura a mano",
+        "Módulo contable: la factura genera el asiento"
+       ],
+       [
+        "Cada mes alguien cruza las tres hojas",
+        "Los datos ya están conectados"
+       ]
+      ]
+     },
+     "mira": "El video explica qué es un ERP y para qué sirve. SAP Learning (en inglés) tiene cursos introductorios si quieres más.",
+     "hazlo": [
+      "Mira el video.",
+      "Dibuja los módulos de compras, inventario y contabilidad, con flechas de lo que pasa entre ellos.",
+      "Escribe sobre cada flecha qué documento viaja: pedido, recepción, factura o asiento."
+     ],
+     "comprueba": {
+      "texto": "Tu dibujo está completo si tiene:",
+      "valores": [
+       [
+        "Módulos",
+        "3 o más"
+       ],
+       [
+        "Flechas",
+        "con su documento"
+       ],
+       [
+        "Origen del asiento",
+        "señalado"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Creer que el ERP es solo contabilidad.",
+       "Lo contable sale de lo que pasa en compras, ventas e inventario."
+      ],
+      [
+       "Olvidar que todo está conectado.",
+       "Un error en compras termina en contabilidad."
+      ],
+      [
+       "Pensar que todos los ERP son iguales.",
+       "SAP, Oracle, NetSuite y Odoo comparten la idea, no las pantallas."
+      ]
+     ]
     },
     {
      "id": "erp-2",
@@ -8437,7 +8509,71 @@
       "titulo": "Curso de Odoo para principiantes y desarrolladores (Odoo, Odoo.sh, y Odoo.com)",
       "canal": "Fazt",
       "url": "https://www.youtube.com/watch?v=jzpp-sLP-gI"
-     }
+     },
+     "logro": "recorrer una compra de punta a punta y ver el asiento que genera.",
+     "idea": {
+      "titulo": "Entiéndelo paso a paso",
+      "columnas": [
+       "Paso en Odoo",
+       "Qué queda registrado"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Crear la solicitud de presupuesto y confirmar el pedido",
+        "La orden de compra"
+       ],
+       [
+        "Recibir los productos",
+        "La entrada al inventario"
+       ],
+       [
+        "Crear la factura del proveedor",
+        "La cuenta por pagar"
+       ],
+       [
+        "Confirmar la factura",
+        "El asiento: al debe el gasto o el inventario, al haber la cuenta por pagar"
+       ]
+      ]
+     },
+     "mira": "El curso del video presenta Odoo para principiantes. Sigue la parte de compras e inventario.",
+     "hazlo": [
+      "Crea una prueba de Odoo (la cuenta la creas tú) con los módulos de Compras y Contabilidad.",
+      "Haz una compra ficticia de punta a punta: pedido, recepción y factura.",
+      "Abre el asiento que generó la factura y cópialo en el cuaderno."
+     ],
+     "comprueba": {
+      "texto": "En el asiento de la factura debes ver dos lados que suman lo mismo:",
+      "valores": [
+       [
+        "Debe",
+        "gasto o inventario"
+       ],
+       [
+        "Haber",
+        "cuentas por pagar"
+       ],
+       [
+        "Diferencia",
+        "0"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Saltarse la recepción.",
+       "Sin recibir, el inventario no sube y la factura no cuadra con lo recibido."
+      ],
+      [
+       "Usar datos reales de una empresa.",
+       "Es una prueba: todo ficticio."
+      ],
+      [
+       "Buscar el asiento en Compras.",
+       "Está en Contabilidad, dentro de la factura confirmada."
+      ]
+     ]
     },
     {
      "id": "erp-3",
@@ -8452,7 +8588,75 @@
       "nombre": "SAP Learning",
       "proveedor": "SAP (en inglés)",
       "url": "https://learning.sap.com/"
-     }
+     },
+     "logro": "escribir las fases de implementación de un ERP y qué sale de cada una.",
+     "idea": {
+      "titulo": "Entiéndelo fase por fase",
+      "columnas": [
+       "Fase",
+       "Qué sale de ella"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Levantamiento",
+        "Cómo trabaja hoy la empresa y qué necesita (ruta de requerimientos)"
+       ],
+       [
+        "Diseño y configuración",
+        "El ERP ajustado: plan de cuentas, impuestos y aprobaciones"
+       ],
+       [
+        "Migración de datos",
+        "Clientes, proveedores, productos y saldos iniciales cargados y cuadrados"
+       ],
+       [
+        "Pruebas",
+        "Casos de punta a punta firmados por los usuarios"
+       ],
+       [
+        "Salida en vivo y soporte",
+        "Fecha de corte, capacitación y acompañamiento las primeras semanas"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: en SAP Learning (en inglés) busca un curso introductorio de implementación.",
+     "hazlo": [
+      "Explora SAP Learning y busca un curso introductorio de implementación.",
+      "Escribe las fases para una empresa ficticia, por ejemplo una distribuidora de 20 personas.",
+      "Anota qué sale de cada fase y quién lo aprueba."
+     ],
+     "comprueba": {
+      "texto": "Tu plan está completo si tiene:",
+      "valores": [
+       [
+        "Fases",
+        "5"
+       ],
+       [
+        "Entregable",
+        "1 por fase"
+       ],
+       [
+        "Aprobador",
+        "1 por fase"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Migrar datos sucios.",
+       "Lo que entra mal al ERP sale mal en cada reporte: limpia antes."
+      ],
+      [
+       "Probar solo con el equipo técnico.",
+       "Los usuarios deben probar sus casos del día a día."
+      ],
+      [
+       "Arrancar sin saldos cuadrados.",
+       "Los saldos iniciales del ERP deben cuadrar con el sistema anterior."
+      ]
+     ]
     },
     {
      "id": "erp-4",
@@ -8467,7 +8671,79 @@
       "nombre": "Generalidades del protocolo HTTP",
       "proveedor": "MDN (en español)",
       "url": "https://developer.mozilla.org/es/docs/Web/HTTP/Guides/Overview"
-     }
+     },
+     "logro": "definir qué datos le pasa el ERP a otro sistema, en qué formato y cada cuánto.",
+     "idea": {
+      "titulo": "Entiéndelo con un ejemplo ficticio: del ERP a un sistema de conciliación",
+      "columnas": [
+       "Pregunta",
+       "Respuesta"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Qué datos?",
+        "Facturas y pagos: número, fecha, valor y tercero"
+       ],
+       [
+        "¿En qué formato?",
+        "JSON por API, o un CSV con columnas fijas"
+       ],
+       [
+        "¿Cada cuánto?",
+        "Cada hora, o una vez al día al cierre"
+       ],
+       [
+        "¿Qué pasa si falla?",
+        "Reintento y aviso; nunca se pierde un registro"
+       ],
+       [
+        "¿Cómo se sabe que llegó todo?",
+        "Contando registros y sumando valores en los dos lados"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: repasa en MDN las generalidades de HTTP (ruta de APIs, estación 1).",
+     "hazlo": [
+      "Repasa las generalidades de HTTP en MDN.",
+      "Responde las 5 preguntas para un ERP ficticio que manda datos a un sistema de conciliación.",
+      "Escribe un registro de ejemplo en JSON con los campos que elegiste, como el de abajo."
+     ],
+     "codigo": {
+      "lenguaje": "json",
+      "texto": "{\n  \"tipo\": \"factura\",\n  \"numero\": \"FV-1001\",\n  \"fecha\": \"2026-11-24\",\n  \"tercero\": \"Cliente de prueba S.A.S.\",\n  \"valor\": 1190000,\n  \"moneda\": \"COP\"\n}"
+     },
+     "comprueba": {
+      "texto": "Tu diseño está completo si tiene:",
+      "valores": [
+       [
+        "Preguntas respondidas",
+        "5"
+       ],
+       [
+        "Registro en JSON",
+        "1"
+       ],
+       [
+        "Control",
+        "conteo y suma"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Mandar todo cada vez.",
+       "Si cada hora mandas todo el histórico, el sistema se llena: manda solo lo nuevo."
+      ],
+      [
+       "No poder saber si faltó algo.",
+       "Sin conteo ni suma de control, un registro perdido pasa inadvertido."
+      ],
+      [
+       "Formatos que cambian sin aviso.",
+       "Si el ERP cambia una columna, la integración se rompe: acuerden el formato por escrito."
+      ]
+     ]
     }
    ]
   },
@@ -8475,6 +8751,14 @@
    "id": "crm",
    "competencia": "CRM (Salesforce, HubSpot)",
    "icono": "📇",
+   "disciplina": "Negocio",
+   "frase": "Un CRM es la libreta de clientes de toda la empresa: quiénes son, qué se les ha vendido y en qué va cada negocio, en un solo lugar que todos consultan.",
+   "usos": [
+    "Saber en qué etapa va cada negocio y qué sigue.",
+    "Que ventas, servicio y finanzas vean la misma información del cliente.",
+    "Automatizar lo que pasa cuando se gana un negocio: la factura y el aviso a finanzas."
+   ],
+   "portafolio": "Una cuenta de práctica de HubSpot con contactos y negocios ficticios, y el diseño de la automatización «negocio ganado → factura → aviso a finanzas».",
    "queEs": "El sistema donde una empresa registra a sus clientes y sus oportunidades de venta. En la muestra lo piden 4 de las 39 vacantes.",
    "pasos": [
     {
@@ -8494,7 +8778,67 @@
       "titulo": "Qué es un CRM?",
       "canal": "HubSpot Español",
       "url": "https://www.youtube.com/watch?v=cgNTtM44-Dk"
-     }
+     },
+     "logro": "saber qué datos guarda un CRM y qué área usa cada uno.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "Si lo llevaras en Excel",
+       "En un CRM"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Una hoja de contactos",
+        "Contactos: las personas"
+       ],
+       [
+        "Una hoja de empresas",
+        "Empresas: a quién pertenece cada contacto"
+       ],
+       [
+        "Una hoja de oportunidades con su estado",
+        "Negocios, con sus etapas"
+       ],
+       [
+        "Notas sueltas de llamadas",
+        "Actividades: llamadas, correos y tareas ligadas al cliente"
+       ]
+      ]
+     },
+     "mira": "El video de HubSpot Español explica qué es un CRM en pocos minutos.",
+     "hazlo": [
+      "Mira el video.",
+      "Lista qué datos de un cliente guarda un CRM.",
+      "Al lado de cada dato, escribe qué área lo usa: ventas, servicio o finanzas."
+     ],
+     "comprueba": {
+      "texto": "Tu lista está lista si tiene:",
+      "valores": [
+       [
+        "Datos",
+        "8 o más"
+       ],
+       [
+        "Área",
+        "1 por dato"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Creer que el CRM es solo de ventas.",
+       "Servicio y finanzas también lo consultan."
+      ],
+      [
+       "Duplicar clientes.",
+       "Dos fichas del mismo cliente dividen su historia."
+      ],
+      [
+       "Texto libre para todo.",
+       "Las etapas y los estados van en listas, para poder contarlos."
+      ]
+     ]
     },
     {
      "id": "crm-2",
@@ -8514,7 +8858,75 @@
       "titulo": "Cómo Usar el CRM de HubSpot: Tutorial Completo en Español 2026",
       "canal": "HubSpot Español",
       "url": "https://www.youtube.com/watch?v=YSb7wuel69A"
-     }
+     },
+     "logro": "registrar contactos y negocios en HubSpot y moverlos por sus etapas.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que haces",
+      "columnas": [
+       "Lo que haces",
+       "En HubSpot"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Anotar un cliente nuevo",
+        "Crear un contacto"
+       ],
+       [
+        "Abrir una oportunidad de venta",
+        "Crear un negocio y asociarlo al contacto"
+       ],
+       [
+        "Mover la oportunidad cuando avanza",
+        "Arrastrar el negocio a la siguiente etapa"
+       ],
+       [
+        "Recordar llamar el martes",
+        "Crear una tarea con fecha"
+       ]
+      ]
+     },
+     "mira": "El tutorial del video recorre el CRM de HubSpot en español. Síguelo con tu cuenta de práctica abierta.",
+     "hazlo": [
+      "Crea una cuenta de práctica en HubSpot (la creas tú; usa solo datos ficticios).",
+      "Registra 5 contactos y 2 negocios ficticios.",
+      "Mueve un negocio por las etapas hasta «ganado» y crea una tarea de seguimiento."
+     ],
+     "comprueba": {
+      "texto": "Tu cuenta de práctica tiene:",
+      "valores": [
+       [
+        "Contactos",
+        "5"
+       ],
+       [
+        "Negocios",
+        "2"
+       ],
+       [
+        "Ganados",
+        "1"
+       ],
+       [
+        "Tareas",
+        "1"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar datos de personas reales.",
+       "Para practicar, todo ficticio."
+      ],
+      [
+       "Negocios sin contacto.",
+       "Asócialos siempre: si no, nadie sabe con quién es."
+      ],
+      [
+       "Etapas que nadie actualiza.",
+       "El tablero sirve si refleja lo que pasa hoy."
+      ]
+     ]
     },
     {
      "id": "crm-3",
@@ -8528,7 +8940,75 @@
       "nombre": "Trailhead",
       "proveedor": "Salesforce (en español)",
       "url": "https://trailhead.salesforce.com/es"
-     }
+     },
+     "logro": "reconocer en Salesforce lo que ya aprendiste en HubSpot.",
+     "idea": {
+      "titulo": "Entiéndelo con HubSpot",
+      "columnas": [
+       "En HubSpot",
+       "En Salesforce"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Contacto",
+        "Contact"
+       ],
+       [
+        "Empresa",
+        "Account"
+       ],
+       [
+        "Negocio",
+        "Opportunity"
+       ],
+       [
+        "Etapas del negocio",
+        "Stages de la oportunidad"
+       ],
+       [
+        "Alguien que todavía no es cliente",
+        "Lead"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: Trailhead (en español) enseña Salesforce con módulos cortos y ejercicios.",
+     "hazlo": [
+      "Entra a Trailhead (la cuenta la creas tú) y haz un módulo de introducción a Salesforce.",
+      "Comprueba la tabla de equivalencias con lo que viste.",
+      "Anota en el cuaderno en qué se parece y en qué no a HubSpot."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes:",
+      "valores": [
+       [
+        "Módulo",
+        "1 terminado"
+       ],
+       [
+        "Equivalencias",
+        "5 comprobadas"
+       ],
+       [
+        "Diferencias",
+        "anotadas"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Aprender las pantallas de memoria.",
+       "Cambian con cada versión: aprende los objetos y cómo se relacionan."
+      ],
+      [
+       "Saltarse los ejercicios.",
+       "Trailhead se aprende haciendo."
+      ],
+      [
+       "Confundir Lead con Contact.",
+       "El lead aún no compra; al convertirlo pasa a contacto, cuenta y oportunidad."
+      ]
+     ]
     },
     {
      "id": "crm-4",
@@ -8542,7 +9022,75 @@
       "nombre": "Zapier Guides",
       "proveedor": "Zapier (en inglés)",
       "url": "https://zapier.com/resources/guides"
-     }
+     },
+     "logro": "diseñar la automatización que factura y avisa a finanzas cuando se gana un negocio.",
+     "idea": {
+      "titulo": "Entiéndelo paso a paso",
+      "columnas": [
+       "Paso",
+       "Dónde pasa"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Un negocio pasa a «ganado»",
+        "El disparador, en el CRM"
+       ],
+       [
+        "Se crea la factura con los datos del negocio",
+        "La acción, en el ERP o el sistema de facturación"
+       ],
+       [
+        "Se avisa a finanzas",
+        "Un correo o mensaje automático"
+       ],
+       [
+        "Si falta un dato (NIT o valor), no se factura",
+        "Una condición que detiene y avisa"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: las guías de Zapier (en inglés) explican disparadores y acciones entre aplicaciones.",
+     "hazlo": [
+      "Lee una guía de Zapier sobre disparadores y acciones.",
+      "Diseña la automatización de abajo para tu caso ficticio.",
+      "Agrega qué pasa si falta un dato y quién lo corrige."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "Disparador: el negocio pasa a la etapa «ganado» (CRM)\nCondición: ¿tiene NIT, valor y fecha?\n  Sí → crear la factura en el ERP con esos datos\n       → avisar a finanzas con el número de factura\n  No → avisar al vendedor qué dato falta; no se factura"
+     },
+     "comprueba": {
+      "texto": "Tu diseño está completo si tiene:",
+      "valores": [
+       [
+        "Disparador",
+        "1"
+       ],
+       [
+        "Acciones",
+        "2"
+       ],
+       [
+        "Si falta un dato",
+        "camino definido"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Facturar sin validar.",
+       "Un NIT mal escrito en el CRM termina en una factura mal hecha."
+      ],
+      [
+       "Duplicar facturas.",
+       "Si el negocio vuelve a «ganado», el flujo no debe facturar otra vez."
+      ],
+      [
+       "Que nadie revise al principio.",
+       "Las primeras semanas, una persona aprueba antes de enviar."
+      ]
+     ]
     }
    ]
   },
@@ -8550,6 +9098,14 @@
    "id": "finanzas",
    "competencia": "Finanzas, contabilidad o conciliaciones",
    "icono": "💰",
+   "disciplina": "Negocio",
+   "frase": "Conciliar es como revisar tu extracto contra tus apuntes: cada movimiento del banco debe tener su pareja en tu registro, y lo que no la tenga se explica.",
+   "usos": [
+    "Comprobar que el banco y la contabilidad cuentan la misma historia.",
+    "Encontrar y explicar las diferencias antes del cierre.",
+    "Automatizar el cruce para dedicar el tiempo a las diferencias."
+   ],
+   "portafolio": "Un caso de conciliación con datos ficticios resuelto en Excel y en Python, con el tiempo antes y después y sin nada de tu empleo.",
    "queEs": "Conciliar es comprobar que dos registros del mismo dinero coinciden (el banco y la contabilidad, una pasarela de pagos y las ventas) y explicar las diferencias. En la muestra lo piden 8 de las 39 vacantes.",
    "pasos": [
     {
@@ -8570,7 +9126,120 @@
       "titulo": "Paso a paso para realizar la conciliación bancaria",
       "canal": "Actualícese Video",
       "url": "https://www.youtube.com/watch?v=9uN_qESnXms"
-     }
+     },
+     "logro": "hacer una conciliación bancaria y explicar cada diferencia.",
+     "idea": {
+      "titulo": "Entiéndelo con las partidas típicas",
+      "columnas": [
+       "Partida",
+       "Qué la causa"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Cheque girado y no cobrado",
+        "Está en libros; el banco todavía no lo registra"
+       ],
+       [
+        "Consignación en tránsito",
+        "Está en libros; el banco la registra después"
+       ],
+       [
+        "Comisión o 4x1000 del banco",
+        "Está en el banco; falta registrarla en libros"
+       ],
+       [
+        "Intereses abonados",
+        "Están en el banco; faltan en libros"
+       ],
+       [
+        "Error de digitación",
+        "Un lado tiene otro valor: se corrige"
+       ]
+      ]
+     },
+     "hoja": {
+      "columnas": [
+       "A",
+       "B"
+      ],
+      "filas": [
+       [
+        "Concepto",
+        "Valor"
+       ],
+       [
+        "Saldo según el banco",
+        "5.230.000"
+       ],
+       [
+        "− Cheque no cobrado",
+        "−300.000"
+       ],
+       [
+        "+ Consignación en tránsito",
+        "+500.000"
+       ],
+       [
+        "= Banco ajustado",
+        "5.430.000"
+       ],
+       [
+        "Saldo según libros",
+        "5.400.000"
+       ],
+       [
+        "− Comisión del banco",
+        "−20.000"
+       ],
+       [
+        "+ Intereses",
+        "+50.000"
+       ],
+       [
+        "= Libros ajustado",
+        "5.430.000"
+       ]
+      ],
+      "resaltar": 8
+     },
+     "mira": "El video de Actualícese hace una conciliación bancaria paso a paso. El artículo del mismo sitio sirve de guía.",
+     "hazlo": [
+      "Mira el video y lee el artículo de Actualícese.",
+      "Copia en Excel la conciliación de ejemplo (ficticia) y comprueba que los dos saldos ajustados dan igual.",
+      "Arma tu propio mes ficticio con 15 movimientos y 3 diferencias, y concílialo."
+     ],
+     "comprueba": {
+      "texto": "En el ejemplo, los dos lados ajustados deben quedar iguales:",
+      "valores": [
+       [
+        "Banco ajustado",
+        "5.430.000"
+       ],
+       [
+        "Libros ajustado",
+        "5.430.000"
+       ],
+       [
+        "Diferencia",
+        "0"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Ajustar el lado equivocado.",
+       "Lo que el banco aún no registra ajusta al banco; lo que falta en libros ajusta a libros."
+      ],
+      [
+       "Forzar el cuadre.",
+       "Una diferencia sin explicar se investiga, no se esconde en «otros»."
+      ],
+      [
+       "Olvidar el 4x1000 y las comisiones.",
+       "Son pequeñas, pero aparecen cada mes."
+      ]
+     ]
     },
     {
      "id": "finanzas-2",
@@ -8590,7 +9259,114 @@
       "titulo": "Cómo hacer una CONCILIACIÓN BANCARIA en EXCEL ✅",
       "canal": "Contador Contado",
       "url": "https://www.youtube.com/watch?v=JguCZCEl5Jg"
-     }
+     },
+     "logro": "cruzar dos listas en Excel y dejar las partidas abiertas a la vista.",
+     "idea": {
+      "titulo": "Entiéndelo paso a paso",
+      "columnas": [
+       "Paso",
+       "En Excel"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Armar una llave con referencia y valor",
+        "=A2&\"|\"&TEXTO(C2;\"0\")"
+       ],
+       [
+        "Ver si la llave existe en el otro lado",
+        "=SI(CONTAR.SI(Banco!D:D; D2)>0; \"OK\"; \"Abierta\")"
+       ],
+       [
+        "Contar las abiertas",
+        "=CONTAR.SI(E:E; \"Abierta\")"
+       ],
+       [
+        "Sumar lo que falta conciliar",
+        "=SUMAR.SI(E:E; \"Abierta\"; C:C)"
+       ]
+      ]
+     },
+     "hoja": {
+      "columnas": [
+       "A",
+       "B",
+       "C",
+       "D",
+       "E"
+      ],
+      "filas": [
+       [
+        "Ref.",
+        "Fecha",
+        "Valor",
+        "Llave",
+        "Estado"
+       ],
+       [
+        "P-01",
+        "3-nov",
+        "120000",
+        "P-01|120000",
+        "OK"
+       ],
+       [
+        "P-02",
+        "3-nov",
+        "80000",
+        "P-02|80000",
+        "Abierta"
+       ],
+       [
+        "P-03",
+        "4-nov",
+        "200000",
+        "P-03|200000",
+        "OK"
+       ]
+      ]
+     },
+     "mira": "El video hace una conciliación bancaria completa en Excel. La guía de CFI (en inglés) explica los tipos de conciliación.",
+     "hazlo": [
+      "Haz dos hojas ficticias. Libros: P-01 120.000, P-02 80.000 y P-03 200.000. Banco: P-01 120.000, P-03 200.000 y B-09 15.000.",
+      "Escribe la llave (columna D) en las dos hojas y el estado (columna E) en Libros, con las fórmulas de abajo.",
+      "Haz también el estado en Banco, contra Libros, y arma el resumen de abiertas."
+     ],
+     "codigo": {
+      "lenguaje": "excel",
+      "texto": "D2: =A2&\"|\"&TEXTO(C2;\"0\")\nE2: =SI(CONTAR.SI(Banco!D:D; D2)>0; \"OK\"; \"Abierta\")\n\nResumen\nAbiertas:             =CONTAR.SI(E:E; \"Abierta\")\nValor por conciliar:  =SUMAR.SI(E:E; \"Abierta\"; C:C)"
+     },
+     "comprueba": {
+      "texto": "Con las dos listas de ejemplo debe quedar una partida abierta de cada lado:",
+      "valores": [
+       [
+        "Abierta en libros",
+        "P-02 · 80.000"
+       ],
+       [
+        "Abierta en banco",
+        "B-09 · 15.000"
+       ],
+       [
+        "Conciliadas",
+        "2"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Cruzar solo por valor.",
+       "Dos pagos de 80.000 se confunden: usa referencia y valor juntos."
+      ],
+      [
+       "Valores con formatos distintos.",
+       "120000 como número y «120.000» como texto no cruzan: TEXTO(C2;\"0\") los iguala."
+      ],
+      [
+       "Cruzar en un solo sentido.",
+       "Haz el cruce desde los dos lados: lo abierto del banco también cuenta."
+      ]
+     ]
     },
     {
      "id": "finanzas-3",
@@ -8605,7 +9381,81 @@
       "nombre": "Pandas",
       "proveedor": "Kaggle Learn (en inglés, interactivo)",
       "url": "https://www.kaggle.com/learn/pandas"
-     }
+     },
+     "logro": "hacer la misma conciliación con Python y comparar el tiempo con Excel.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que hiciste en Excel",
+      "columnas": [
+       "En Excel",
+       "Con pandas"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Dos hojas: Libros y Banco",
+        "libros y banco (dos tablas)"
+       ],
+       [
+        "La llave: referencia y valor",
+        "on=[\"ref\", \"valor\"]"
+       ],
+       [
+        "Cruzar desde los dos lados",
+        "how=\"outer\", indicator=True"
+       ],
+       [
+        "La columna Estado",
+        "both → conciliada, left_only → solo en libros"
+       ],
+       [
+        "SUMAR.SI de las abiertas",
+        "cruce.groupby(\"estado\")[\"valor\"].sum()"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el curso Pandas de Kaggle (en inglés) tiene una lección para unir tablas.",
+     "hazlo": [
+      "Repasa en Kaggle la lección del curso Pandas que une tablas.",
+      "Corre el código de abajo con las mismas partidas de la estación 2 y compáralo con tu Excel.",
+      "Cronometra cuánto tardas con cada método y anota los dos tiempos."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "import pandas as pd\n\nlibros = pd.DataFrame({\n    \"ref\": [\"P-01\", \"P-02\", \"P-03\"],\n    \"valor\": [120000, 80000, 200000],\n})\nbanco = pd.DataFrame({\n    \"ref\": [\"P-01\", \"P-03\", \"B-09\"],\n    \"valor\": [120000, 200000, 15000],\n})\n\ncruce = libros.merge(banco, on=[\"ref\", \"valor\"], how=\"outer\", indicator=True)\ncruce[\"estado\"] = cruce[\"_merge\"].astype(str).map({\n    \"both\": \"conciliada\",\n    \"left_only\": \"solo en libros\",\n    \"right_only\": \"solo en banco\",\n})\nprint(cruce[[\"ref\", \"valor\", \"estado\"]])\nprint(cruce.groupby(\"estado\")[\"valor\"].sum())"
+     },
+     "comprueba": {
+      "texto": "El resultado debe coincidir con tu Excel de la estación 2:",
+      "valores": [
+       [
+        "Conciliadas",
+        "2 · 320.000"
+       ],
+       [
+        "Solo en libros",
+        "P-02 · 80.000"
+       ],
+       [
+        "Solo en banco",
+        "B-09 · 15.000"
+       ]
+      ],
+      "salida": "    ref   valor          estado\n0  B-09   15000   solo en banco\n1  P-01  120000      conciliada\n2  P-02   80000  solo en libros\n3  P-03  200000      conciliada\nestado\nconciliada        320000\nsolo en banco      15000\nsolo en libros     80000\nName: valor, dtype: int64",
+      "nota": "Con 6 partidas Excel puede ser igual de rápido; la diferencia se nota con miles de filas o cuando repites el cruce cada día."
+     },
+     "errores": [
+      [
+       "Cruzar solo por referencia.",
+       "Si cambió el valor, la referencia cruza pero el dinero no: usa las dos columnas."
+      ],
+      [
+       "Montos como texto.",
+       "«120.000» no es igual a 120000: conviértelos a número antes."
+      ],
+      [
+       "Olvidar indicator=True.",
+       "Sin esa columna no sabes de qué lado quedó cada partida."
+      ]
+     ]
     },
     {
      "id": "finanzas-4",
@@ -8619,7 +9469,79 @@
       "modulo": "11-ACC",
       "url": "accounting.html",
       "texto": "Contabilidad (11-ACC)"
-     }
+     },
+     "logro": "repasar los conceptos contables que aparecen en una conciliación.",
+     "idea": {
+      "titulo": "Entiéndelo en una frase por concepto",
+      "columnas": [
+       "Concepto",
+       "En una frase"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Cuentas por cobrar",
+        "Lo que los clientes le deben a la empresa"
+       ],
+       [
+        "Cuentas por pagar",
+        "Lo que la empresa le debe a sus proveedores"
+       ],
+       [
+        "Asiento contable",
+        "El registro de un hecho, con un debe y un haber que suman igual"
+       ],
+       [
+        "Partida doble",
+        "Todo movimiento afecta al menos dos cuentas"
+       ],
+       [
+        "Cierre de mes",
+        "Revisar, conciliar y ajustar antes de dar los números por buenos"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Contabilidad del Cerebro (11-ACC) trae estos conceptos.",
+     "hazlo": [
+      "Abre 11-ACC y repasa cuentas por cobrar, cuentas por pagar y asientos.",
+      "Escribe el asiento de una venta a crédito ficticia de 1.000.000 y el de su cobro.",
+      "Relaciona cada asiento con lo que verías en una conciliación."
+     ],
+     "comprueba": {
+      "texto": "Los asientos de la venta y del cobro (sin impuestos, para simplificar):",
+      "valores": [
+       [
+        "Venta · debe",
+        "Clientes 1.000.000"
+       ],
+       [
+        "Venta · haber",
+        "Ingresos 1.000.000"
+       ],
+       [
+        "Cobro · debe",
+        "Bancos 1.000.000"
+       ],
+       [
+        "Cobro · haber",
+        "Clientes 1.000.000"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Un debe y un haber que no suman igual.",
+       "Si no cuadran, el asiento está mal."
+      ],
+      [
+       "Confundir vender con cobrar.",
+       "La venta crea la cuenta por cobrar; el cobro la cancela."
+      ],
+      [
+       "Olvidar los impuestos en la vida real.",
+       "Aquí se simplificó: una factura real lleva IVA y retenciones."
+      ]
+     ]
     },
     {
      "id": "finanzas-5",
@@ -8633,7 +9555,75 @@
       "modulo": "5-JOB",
       "url": "jobs.html#linkedin",
       "texto": "Ver vacantes en 5-JOB"
-     }
+     },
+     "logro": "escribir un caso de portafolio con problema, solución y resultado medido.",
+     "idea": {
+      "titulo": "Entiéndelo por partes",
+      "columnas": [
+       "Parte del caso",
+       "Qué escribes"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "El problema",
+        "Qué se conciliaba, cada cuánto y cuánto tardaba (ficticio)"
+       ],
+       [
+        "La solución",
+        "Cómo lo resolviste con Python, paso a paso"
+       ],
+       [
+        "El resultado",
+        "El tiempo antes y después, medido en tus pruebas"
+       ],
+       [
+        "Lo que aprendiste",
+        "Qué harías distinto"
+       ],
+       [
+        "La advertencia",
+        "«Caso con datos ficticios; no proviene de ningún empleador»"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio. Antes de escribir, mira en 5-JOB qué piden las vacantes de conciliación.",
+     "hazlo": [
+      "Escribe el caso con las 5 partes, en una página.",
+      "Agrega el código de la estación 3 y una tabla con el antes y el después.",
+      "Mira en 5-JOB 2 vacantes que pidan conciliaciones y comprueba que tu caso responde a lo que piden."
+     ],
+     "comprueba": {
+      "texto": "Tu caso está listo si tiene:",
+      "valores": [
+       [
+        "Partes",
+        "5"
+       ],
+       [
+        "Código",
+        "incluido"
+       ],
+       [
+        "Datos",
+        "ficticios y marcados"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Usar datos o nombres de tu trabajo.",
+       "Todo ficticio: nombres, montos y procesos."
+      ],
+      [
+       "Contar solo la técnica.",
+       "Empieza por el problema y el resultado; la técnica va en medio."
+      ],
+      [
+       "Números sin medir.",
+       "El antes y el después salen de tus pruebas cronometradas."
+      ]
+     ]
     }
    ]
   }

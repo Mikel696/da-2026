@@ -248,6 +248,7 @@ const WorkRol = (function(){
       }
       const c = e.target.closest('[data-paso]');
       if (!c || !window.WorkRutas) return;
+      estacion[c.dataset.de] = c.dataset.paso;   // la estación sigue a la vista, con «Seguir con la…»
       WorkRutas.marcar(c.dataset.de, c.dataset.paso, !!c.checked);
       render(); foco(`[data-paso="${c.dataset.paso}"]`);
     });

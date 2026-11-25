@@ -1,6 +1,7 @@
 // 14-WORK · Verifica frontend/data/rutas.json antes de publicarlo (código 1 si algo falla).
 // Uso: node scripts/verificar-rutas.mjs
-// Comprueba: cada ruta apunta a una habilidad que existe en rol-objetivo.json; ids únicos; cada paso trae qué
+// Comprueba: cada ruta apunta a una habilidad que existe en rol-objetivo.json; ids únicos; formato didáctico completo
+// (25-nov) y cada programa de Python o SQL da la salida que promete su estación; cada paso trae qué
 // aprender, una práctica y al menos un recurso (https) o un enlace interno; los enlaces externos responden 200 hoy
 // y los internos existen en frontend/. Un enlace roto o una habilidad mal escrita no se publican.
 import { readFile, access } from 'node:fs/promises';
@@ -62,9 +63,7 @@ for (const r of rutas.rutas || []) {
 const DISCIPLINAS = new Set(['IA', 'Automatización', 'Datos', 'Procesos', 'Personas', 'Negocio']);
 const texto = (v) => typeof v === 'string' && v.trim().length > 0;
 const programas = [];   // código que se ejecuta para comprobar que da lo que la estación dice
-const sinFormato = [];   // PROVISIONAL mientras se escriben las 25: se quita al terminar
 for (const r of rutas.rutas || []) {
-  if (!r.frase) { sinFormato.push(r.id); continue; }
   if (!DISCIPLINAS.has(r.disciplina)) mal(`${r.id}: disciplina «${r.disciplina}» no es una de las 6`);
   if (!texto(r.frase)) mal(`${r.id}: falta la frase`);
   if (!Array.isArray(r.usos) || r.usos.length !== 3 || !r.usos.every(texto)) mal(`${r.id}: necesita 3 usos`);
@@ -159,6 +158,5 @@ await Promise.all([...externos].map(async ([u, donde]) => {
   } catch (e) { mal(`${donde}: ${u} no respondió (${e.message})`); }
 }));
 
-if (sinFormato.length) console.warn(`(provisional) ${sinFormato.length} rutas aún sin formato didáctico`);
 if (errores.length) { console.error(`✗ ${errores.length} problema(s):\n  ` + errores.join('\n  ')); process.exit(1); }
 console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen`);
