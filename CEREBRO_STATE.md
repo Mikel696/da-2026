@@ -1,6 +1,6 @@
 # ESTADO DEL CEREBRO DA-2026
 
-- **Última actualización:** 2026-11-25 (14-WORK: certificación de referencia y oficial gratis en las 25 rutas · antes: centro de mando)
+- **Última actualización:** 2026-11-25 (14-WORK: ruta de Python por puntos con recursos medidos, muestra para Miguel · antes: certificaciones en las 25 rutas)
 - **Estado global:** 🟢 PRODUCCIÓN — Todos los módulos críticos online en GitHub Pages
 - **Live URL:** https://mikel696.github.io/da-2026/frontend/
 - **Modo de trabajo:** 🛠 Mantenimiento continuo — ver `MANDATO DE INGENIERÍA` en CLAUDE.md
@@ -8,6 +8,46 @@
 - **📍 El plan vive en `frontend/data/plan-cerebro.json`** — no en este archivo, no en un `.md`.
   Se lee desde 13-NOT (pestaña 🗺️ Plan) y desde 8-PRO (pestaña 🚀 Plan, un prompt listo por tarea).
   Cuando termines una tarea, cambiá su `estado` ahí: las dos vistas se actualizan solas.
+
+---
+
+## 🧭 14-WORK · Ruta de Python por puntos (muestra) — miércoles 25-nov
+
+Crítica textual de Miguel: «tarjetas de solo texto, no me das la ruta de cómo aprenderlo, con recursos, los videos son
+viejos… actualización, reseñas, me gustas… dejas abajo las certificaciones… qué aprender primero, cómo complementar
+entre habilidades… más interactiva, tipo videojuego». A mitad del trabajo aclaró: **«No quiero juegos en el módulo…
+videojuego es solo para la interfaz… no quiero jugar en el módulo»**. Análisis profundo: HACER DISTINTO (la ruta se
+arma hacia atrás desde el temario oficial del examen; «cómo se combina» medido en las vacantes; sin mecánicas de juego).
+
+- **Medido antes de construir:** los 3 videos de la ruta vieja eran de 2020-2021 (Miguel tenía razón). La página pública
+  de YouTube da fecha, vistas y me gusta exactos. El PCEP ahora es **PCEP-30-03** (35 preguntas, 50 min, 70 %, 5 años;
+  temario revisado el 2-nov-2026, 5 temas con peso). **Python Essentials 1 está en español**, gratis, 30 h, 30
+  laboratorios, 2.261.085 inscritos (su página en inglés) e insignia de Cisco (comprobado en su Chrome; antes la ruta
+  decía «en inglés, sin certificación»). Kaggle Python y Pandas dan certificado sin costo (en su Chrome).
+- **Vista nueva (`js/work-ruta-puntos.js`, solo pinta; WorkRol la usa si la ruta trae `medido`):** meta arriba con el
+  examen, sus temas y en qué punto se aprenden y 3 credenciales gratis; camino de 5 puntos (hexágonos, el trazo se
+  enciende hasta donde vas) con la bandera PCEP-30-03 después del punto 3 y el portafolio al final; antes conviene
+  (Excel) / se pide junto con (en las 14 vacantes que piden Python: Inglés 11, SQL 8, APIs 7, Power BI 7, con el total
+  de las 39 al lado) / te abre (APIs, finanzas, ML); el punto con el video principal medido y los capítulos que abren el
+  video en su minuto, el curso con lo que muestra su página, «Más opciones» y «Descartados y por qué», y la práctica de
+  siempre (Excel, Hazlo, Compruébalo). «Ya lo aprendí: marcar el punto N», sin XP.
+- **Recursos (corte 25-nov):** Roelcode abr-2026 (puntos 1-2, capítulos que siguen el temario), Enrique Barros jun-2026
+  (pandas), Código Espinoza abr-2025 (Excel), midudev mar-2025 (APIs); clásicos con su razón: EvoAcademy 2024,
+  luisetindev 2024, EDteam 2019. Mismos ids de punto: el avance de Miguel no se toca.
+- **Verificador:** vuelve a medir los 19 videos (fecha, vistas, me gusta, duración) y los 31 capítulos citados; exige
+  razón a lo descartado y a lo de más de 24 meses. Roto a propósito: caza fecha falsa, me gusta inflados, capítulo
+  inventado, clásico sin razón, descartado sin razón, precio que la página no dice y ruta inexistente. El mismo
+  verificador cazó un error mío: había contado como recientes dos videos de 2024 (pandas y APIs) y se cambiaron.
+- **Contraparte (CORREGIR, aplicado):** dos superlativos falsos («el más visto del último año» de un video de 20 meses;
+  «el de pandas más visto» cuando otro medido tenía 287.072 vistas), «ya puedes presentarlo» (no medido), una razón de
+  descarte sin comprobar, los inscritos de la página en inglés sin decirlo.
+- **Pruebas:** simulación nueva 27/27 (fuera del repo, `simular-puntos.cjs`), sync 28/28, vista previa 1366 y 375 px
+  sin desbordes. **Producción** (`0676d27`; Pages falló por O5.6 y salió con `6167a72`): en su Chrome con sesión,
+  sincronizado, 0 errores, `work_rutas` idéntico antes y después (Python solo «empezada»), cuaderno intacto.
+- **Pendiente:** el sí de Miguel al enfoque; después las otras 24 por lotes (un commit y un despliegue por lote).
+  **Preguntarle:** el centro de mando sigue con XP, rango, misiones y logros (él lo aprobó el 25-nov) y ahora dijo «no
+  quiero jugar en el módulo». Su cuaderno «Ruta · Python» conserva los enlaces viejos (no se reescribe para no tocar
+  sus apuntes).
 
 ---
 

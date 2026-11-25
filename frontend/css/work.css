@@ -637,7 +637,8 @@ code.rv-par-b{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:color
 .rp-perfil{font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px}
 .rp-perfil.si{background:color-mix(in srgb,var(--rol-si) 22%,transparent);color:#9FE9F7}
 .rp-perfil.pr{background:color-mix(in srgb,var(--rol-pr) 25%,transparent);color:#D3C6FF}
-.rp-junto li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(50px,1fr) auto;gap:10px;align-items:center}
+.rp-junto li{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(36px,.7fr) auto;gap:10px;align-items:center}
+.rp-junto .rp-ruta-ir,.rp-combina .rp-ruta-ir{overflow-wrap:normal;word-break:normal;hyphens:manual}
 .rp-junto .rp-ruta-ir{min-height:30px;font-size:12.5px;padding:2px 10px}
 .rp-junto-b{height:8px;border-radius:4px;background:rgba(148,190,255,.12);overflow:hidden}
 .rp-junto-b i{display:block;height:100%;background:var(--d);border-radius:4px}
