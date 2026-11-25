@@ -30,7 +30,8 @@
      "evidencia": [
       "Enroll for the course for free"
      ]
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de Python."
    },
    "queEs": "Un lenguaje de programación sencillo de leer. En estos puestos se usa para limpiar datos, unir archivos, conectar sistemas por API y automatizar tareas que hoy se hacen a mano en Excel.",
    "pasos": [
@@ -550,7 +551,8 @@
       "Register | FREE",
       "certificate of completion"
      ]
-    }
+    },
+    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna pide AI-900 ni otra concreta."
    },
    "queEs": "Herramientas como ChatGPT, Claude o Copilot que escriben, resumen y analizan a partir de un encargo en lenguaje natural. En estos puestos se pide saber encargarles bien, comprobar lo que producen y meterlas en un proceso de la empresa.",
    "pasos": [
@@ -983,7 +985,8 @@
      "evidencia": [
       "Free modules"
      ]
-    }
+    },
+    "enVacantes": "1 de 39 pide «una certificación en análisis de negocio, mejora de procesos o gestión de proyectos» sin nombrar una; ninguna nombra CBAP ni ECBA."
    },
    "queEs": "Entender qué necesita el área o el cliente antes de construir: preguntar, observar el proceso, escribir lo que se va a hacer y cómo se sabrá que funcionó. Es la primera fase de toda implementación.",
    "pasos": [
@@ -1440,7 +1443,8 @@
     "camino": {
      "texto": "La credencial oficial Microsoft Applied Skills «Create and manage automated processes by using Power Automate» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026) y las guías no coinciden en si es gratis: compruébalo al entrar.",
      "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-and-manage-automated-processes-with-power-automate/"
-    }
+    },
+    "enVacantes": "3 de 39 mencionan certificaciones de Microsoft Power Platform, todas como deseables; ninguna nombra un código (PL-200, PL-900)."
    },
    "queEs": "La herramienta de Microsoft para automatizar sin programar: flujos en la nube (correos, aprobaciones, archivos) y flujos de escritorio que repiten clics en el PC. La versión de escritorio funciona en Windows 10 y 11 con una cuenta Microsoft (según los requisitos que publica Microsoft).",
    "pasos": [
@@ -1879,7 +1883,8 @@
      "evidencia": [
       "offers free, online training"
      ]
-    }
+    },
+    "enVacantes": "3 de 39 mencionan una certificación de RPA: 2 de Automation Anywhere y 1 de UiPath, como deseables."
    },
    "queEs": "Robots de software que usan las aplicaciones como lo haría una persona: abren pantallas, copian, pegan y llenan formularios. Sirven cuando un sistema no tiene API. UiPath y Automation Anywhere aparecen en vacantes de la muestra.",
    "pasos": [
@@ -2319,7 +2324,8 @@
       "free certification"
      ],
      "nota": "Sirve para tu CV y LinkedIn; no reemplaza a IELTS o TOEFL cuando una empresa los exige."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 pide un examen (TOEFL, IELTS, Cambridge); 4 piden un nivel: B1 (1), B2 (2) y B2+ (1)."
    },
    "queEs": "26 de las 39 vacantes lo piden o están escritas en inglés. Para este rol cuenta sobre todo hablar con clientes, escribir documentos y defender una propuesta en una entrevista.",
    "pasos": [
@@ -2773,7 +2779,8 @@
      "evidencia": [
       "100% free"
      ]
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de n8n, Zapier o Make."
    },
    "queEs": "Herramientas para conectar aplicaciones y automatizar tareas uniendo bloques: cuando llega un correo, guarda el adjunto; cuando entra un formulario, crea una fila y avisa. Zapier y Make funcionan en la nube; n8n también se puede instalar en un equipo propio.",
    "pasos": [
@@ -3134,7 +3141,8 @@
     "camino": {
      "texto": "La credencial oficial Microsoft Applied Skills «Create and manage canvas apps with Power Apps» se gana con un laboratorio práctico. Microsoft no publica su precio en la página (25-nov-2026): compruébalo al entrar.",
      "url": "https://learn.microsoft.com/en-us/credentials/applied-skills/create-manage-canvas-apps-power-apps/"
-    }
+    },
+    "enVacantes": "3 de 39 mencionan certificaciones de Power Platform (Power Apps, Power Automate) y 1 de Appian, como deseables."
    },
    "queEs": "Construir aplicaciones sencillas (formularios, registros, aprobaciones) con piezas visuales y poco o nada de código, para que un área resuelva un proceso sin un desarrollo largo.",
    "pasos": [
@@ -3498,7 +3506,8 @@
      "evidencia": [
       "The certification process is completely free"
      ]
-    }
+    },
+    "enVacantes": "1 de 39 valora «certificaciones en inteligencia artificial» sin nombrar una; ninguna nombra una de agentes."
    },
    "queEs": "Un agente es una IA que no solo responde: sigue pasos, usa herramientas (buscar, leer un archivo, llamar a una API) y decide qué hacer después. Un chatbot es la versión que conversa con clientes o empleados.",
    "pasos": [
@@ -3861,7 +3870,8 @@
       "Register | FREE",
       "certificate of completion"
      ]
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de prompts."
    },
    "queEs": "Un prompt es el encargo que le escribes a una IA. Con contexto, formato, ejemplos y un criterio de éxito, el resultado es más útil y más fácil de comprobar.",
    "pasos": [
@@ -4207,7 +4217,8 @@
      "evidencia": [
       "Building AI is a free online course"
      ]
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de machine learning."
    },
    "queEs": "Que un programa aprenda patrones a partir de datos para predecir o clasificar, por ejemplo qué transacción parece sospechosa. En la muestra lo pide 1 de las 39 vacantes.",
    "pasos": [
@@ -4563,7 +4574,8 @@
     "gratis": null,
     "camino": {
      "texto": "SQLBolt y el curso Intro to SQL de Kaggle son gratis, pero no dan una certificación oficial."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de SQL."
    },
    "queEs": "El lenguaje para pedirle datos a una base de datos: filtrar, unir tablas y resumir. Es la forma más común de sacar información de los sistemas de una empresa.",
    "pasos": [
@@ -5024,7 +5036,8 @@
     "gratis": null,
     "camino": {
      "texto": "No hay una certificación oficial de Excel gratis."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de Excel."
    },
    "queEs": "La herramienta donde viven muchos procesos antes de automatizarlos: cruzar tablas, resumir y revisar datos.",
    "pasos": [
@@ -5488,7 +5501,8 @@
     "gratis": null,
     "camino": {
      "texto": "No hay una certificación oficial de Power BI gratis. Microsoft a veces regala vales de examen en campañas; al 25-nov-2026 no encontré una activa."
-    }
+    },
+    "enVacantes": "1 de 39 valora «certificaciones en analítica de datos» sin nombrar una; ninguna pide PL-300."
    },
    "queEs": "Tableros que se actualizan a partir de los datos, para que un área vea sus indicadores sin pedir reportes a mano.",
    "pasos": [
@@ -5854,7 +5868,8 @@
       "are free"
      ],
      "nota": "Lo dice un artículo de Workato de 2020: comprueba que siga gratis al registrarte."
-    }
+    },
+    "enVacantes": "1 de 39 prefiere «una certificación profesional de nube» sin decir cuál; ninguna nombra una de APIs."
    },
    "queEs": "Una API es la puerta por la que un sistema le pide datos o acciones a otro. Integrar es conectar esas puertas para que la información pase sola, sin copiar y pegar.",
    "pasos": [
@@ -6228,7 +6243,8 @@
       "Cost Free"
      ],
      "nota": "Es de minería de procesos: descubrir el proceso real a partir de los datos. Complementa el BPMN."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de BPMN o mapeo de procesos."
    },
    "queEs": "Dibujar un proceso paso a paso, con quién hace qué, para verlo completo antes de cambiarlo. BPMN es la notación estándar; AS-IS es como funciona hoy y TO-BE como funcionará.",
    "pasos": [
@@ -6597,7 +6613,8 @@
       "Exam Cost $0"
      ],
      "nota": "Es el nivel de entrada; la Green Belt es un nivel más alto."
-    }
+    },
+    "enVacantes": "2 de 39 mencionan Lean Six Sigma como certificación; una pide Green o Black Belt, como preferible."
    },
    "queEs": "Métodos para hacer un proceso más rápido y con menos errores: Lean busca quitar lo que no agrega valor; Six Sigma, reducir la variación con datos, siguiendo las fases DMAIC.",
    "pasos": [
@@ -6972,7 +6989,8 @@
       "Free Primary Lifetime Membership"
      ],
      "nota": "SCRUMstudy no es Scrum.org: son certificaciones distintas."
-    }
+    },
+    "enVacantes": "3 de 39: 2 piden PMP (en 1 es obligatoria) y 1 acepta «una certificación ágil»; ninguna nombra PSM ni CSM."
    },
    "queEs": "Organizar el trabajo para entregar a tiempo: Scrum trabaja en ciclos cortos con roles y reuniones fijas; Kanban muestra el trabajo en un tablero y limita lo que se hace a la vez.",
    "pasos": [
@@ -7339,7 +7357,8 @@
     "gratis": null,
     "camino": {
      "texto": "No encontré una certificación oficial de gestión del cambio gratis."
-    }
+    },
+    "enVacantes": "1 de 39 menciona Prosci, entre otras certificaciones que acepta."
    },
    "queEs": "Lograr que la gente adopte de verdad una herramienta o un proceso nuevo: entender qué necesita cada persona para cambiar, comunicarlo y capacitar.",
    "pasos": [
@@ -7700,7 +7719,8 @@
     "gratis": null,
     "camino": {
      "texto": "El curso Technical Writing de Google (en la estación 3) es gratis."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de documentación."
    },
    "queEs": "Dejar por escrito cómo funciona un proceso o una automatización para que otra persona lo pueda usar, revisar o mantener sin depender de quien lo hizo.",
    "pasos": [
@@ -8058,7 +8078,8 @@
     "gratis": null,
     "camino": {
      "texto": "Mira la ruta de Gestión de proyectos y su certificación gratis (Scrum Fundamentals Certified)."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de trato con stakeholders."
    },
    "queEs": "Las personas y áreas que ganan o pierden con un proyecto: saber quiénes son, qué esperan y cómo informarles. En la muestra lo piden 16 de las 39 vacantes.",
    "pasos": [
@@ -8406,7 +8427,8 @@
     "gratis": null,
     "camino": {
      "texto": "Demuéstralo en tu portafolio: un tablero con tus 3 indicadores y el cálculo del ROI de esta ruta."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de indicadores o ROI."
    },
    "queEs": "Medir si algo funcionó: un indicador (KPI) dice cómo va un proceso; el retorno de la inversión (ROI) compara lo que costó un cambio con lo que ahorra o produce.",
    "pasos": [
@@ -8772,7 +8794,8 @@
     "gratis": null,
     "camino": {
      "texto": "No encontré una certificación oficial de ERP gratis que pudiera confirmar en una página oficial."
-    }
+    },
+    "enVacantes": "Ninguna de las 39 nombra una certificación de ERP (SAP, NetSuite, Oracle)."
    },
    "queEs": "El sistema central donde una empresa lleva contabilidad, compras, inventario y facturación. En la muestra lo piden 6 de las 39 vacantes.",
    "pasos": [
@@ -9144,7 +9167,8 @@
      ],
      "comprobadoEnNavegador": "2026-11-25",
      "nota": "La página se arma en el navegador: se comprobó a mano el 25-nov-2026."
-    }
+    },
+    "enVacantes": "2 de 39: 1 pide certificaciones de HubSpot (Revenue Operations o Platform Consulting) y 1 de Salesforce (Data Cloud Consultant, Agentforce Specialist…)."
    },
    "queEs": "El sistema donde una empresa registra a sus clientes y sus oportunidades de venta. En la muestra lo piden 4 de las 39 vacantes.",
    "pasos": [
@@ -9504,7 +9528,8 @@
     "gratis": null,
     "camino": {
      "texto": "No encontré una certificación oficial gratis de conciliaciones o contabilidad."
-    }
+    },
+    "enVacantes": "1 de 39 valora CPA, CIMA, CMA o APICS, como un plus."
    },
    "queEs": "Conciliar es comprobar que dos registros del mismo dinero coinciden (el banco y la contabilidad, una pasarela de pagos y las ventas) y explicar las diferencias. En la muestra lo piden 8 de las 39 vacantes.",
    "pasos": [

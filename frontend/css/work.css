@@ -370,6 +370,8 @@ body { line-height: var(--leading-normal); }
 .cm-habs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .cm-hab{width:100%;min-height:44px;display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:10px;border:0;background:rgba(148,190,255,.05);color:var(--cmt);font:inherit;font-size:13.5px;text-align:left;cursor:pointer}
 .cm-disc.abierta{flex-basis:100%}
+.rv-cert-vac{margin:10px 0 0;padding:10px 12px;border-radius:10px;font-size:13.5px;line-height:1.5;color:var(--rv2,#C9D6EE);background:rgba(92,225,255,.07);border:1px solid rgba(92,225,255,.22)}
+.rv-cert-vac b{color:var(--rvt,#E8F0FF)}
 .cm-ruta-caja{list-style:none;margin:6px 0 0;padding:0}
 .cm-hab[aria-expanded="true"]{background:color-mix(in srgb,var(--d) 22%,transparent);box-shadow:inset 0 0 0 1px var(--d)}
 .cm-hab:hover{background:color-mix(in srgb,var(--d) 14%,transparent)}

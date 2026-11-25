@@ -127,7 +127,8 @@ const WorkRutaVista = (function(){
           <article class="rv-cert-b"><p class="rv-cert-k">La de referencia</p>${izq}</article>
           <article class="rv-cert-b${g ? ' ok' : ''}"><p class="rv-cert-k">${g ? 'La oficial gratis' : 'Oficial y gratis: no la hay'}</p>${der}</article>
         </div>
-        <p class="rv-cert-pie">«De referencia» quiere decir que la emite el dueño de la herramienta o del estándar; no está medida como la más pedida. Revisado el ${esc(fechaCorta(c.revisado))} en la página de cada emisor; los precios cambian por país y por fecha.${nota ? ' ' + esc(nota) : ''}</p>
+        ${c.enVacantes ? `<p class="rv-cert-vac"><b>Lo que piden las vacantes:</b> ${esc(c.enVacantes)}</p>` : ''}
+        <p class="rv-cert-pie">«De referencia» quiere decir que la emite el dueño de la herramienta o del estándar. Lo que piden las vacantes se midió el 25-nov-2026 leyendo las 39 de la muestra; cuenta lo que piden o valoran al candidato, no las certificaciones que la empresa ofrece como beneficio. Revisado el ${esc(fechaCorta(c.revisado))} en la página de cada emisor; los precios cambian por país y por fecha.${nota ? ' ' + esc(nota) : ''}</p>
       </section>`;
   }
 

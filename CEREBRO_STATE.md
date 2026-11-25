@@ -40,6 +40,13 @@ estudios; ir más allá de lo común». Análisis profundo: **HACER DISTINTO**.
 
 ## 🕹 14-WORK · Centro de mando — miércoles 25-nov
 
+- **Certificaciones medidas en las 39 vacantes (25-nov, pedido de Miguel):** se releyeron las 39 de la muestra (página pública de
+  LinkedIn para invitados) y se revisó a mano cada mención: 12 piden o valoran una certificación concreta. Las más nombradas:
+  Microsoft Power Platform (3, deseable), Automation Anywhere (2), PMP (2; obligatoria en 1), Lean Six Sigma (2); una vez UiPath,
+  Appian, HubSpot, Salesforce, Prosci, «ágil», nube y CPA/CIMA/CMA. Ninguna pide examen de inglés (4 piden nivel B1–B2+), ni PL-300,
+  ni Python, ni SQL, ni SAP. Cada ruta lo dice en «Lo que piden las vacantes» (`certificacion.enVacantes`). Falsos positivos
+  descartados: sello B Corp, «certificación» de pagos con tarjeta y certificaciones ofrecidas como beneficio.
+
 - **Después (pedido de Miguel):** se quitó el panel «Lo que piden» (las tiras de 39 cuadros) del Mapa del rol: cada habilidad de
   las tarjetas de disciplina abre su ruta **dentro de su tarjeta** (la tarjeta pasa a ancho completo; otro clic la cierra;
   «Iniciar misión» la abre en su estación). `WorkRol.rutaHtml()` le pasa la ruta a `WorkJuego`; los clics se escuchan en el
