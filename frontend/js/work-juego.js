@@ -102,7 +102,7 @@ const WorkJuego = (function(){
   }
 
   function disciplinas(D, E){
-    const R = E.R;
+    const R = E.R, abierta = window.WorkRol && WorkRol.abierta ? WorkRol.abierta() : null;
     return DISC.map(nombre => {
       const rs = E.rutas.filter(r => r.disciplina === nombre);
       if (!rs.length) return '';
@@ -113,10 +113,12 @@ const WorkJuego = (function(){
       const nivel = Math.floor(hechos / PASOS_NIVEL_DISC);
       const filas = comps.map(({ r, c: k }) => {
         const [cls, txt] = ESTADO[k.perfil] || ESTADO.no, p = R.pct(r.id);
-        return `<li><button type="button" class="cm-hab" data-ir="${esc(r.id)}" aria-label="${esc(`${k.nombre}: ${txt}; la piden ${k.vacantes} de ${D.muestra.n} vacantes; ruta al ${p} %. Abre la ruta.`)}">
+        const on = r.id === abierta;
+        return `<li><button type="button" class="cm-hab" data-ir="${esc(r.id)}" aria-expanded="${on}" aria-label="${esc(`${k.nombre}: ${txt}; la piden ${k.vacantes} de ${D.muestra.n} vacantes; ruta al ${p} %. ${on ? 'Cierra' : 'Abre'} su ruta aquí.`)}">
             <span class="cm-punto ${cls}" aria-hidden="true"></span><span class="cm-hab-n">${esc(R.nombreCorto(r))}</span>${p ? `<span class="cm-hab-p">${p} %</span>` : ''}<span class="cm-hab-v">${k.vacantes} / ${D.muestra.n}</span></button></li>`;
       }).join('');
-      return `<article class="cm-disc" style="--d:${c}">
+      const aqui = rs.some(r => r.id === abierta);
+      return `<article class="cm-disc${aqui ? ' abierta' : ''}" style="--d:${c}">
           <div class="cm-disc-cab">
             <span class="cm-ico">${svg(ICO[nombre], 22)}</span>
             <div class="cm-disc-t"><p class="cm-disc-n">${esc(nombre)}</p><p class="cm-etq">${enPerfil} de ${comps.length} en tu perfil${enProg.length ? ` · ${enProg.map(x => esc(R.nombreCorto(x.r).toLowerCase())).join(', ')} en progreso` : ''}</p></div>
@@ -124,6 +126,7 @@ const WorkJuego = (function(){
           </div>
           <div class="cm-disc-barra"><span class="cm-barra" role="img" aria-label="${hechos} de ${total} estaciones"><i style="width:${total ? Math.round(hechos / total * 100) : 0}%"></i></span><span>${hechos} / ${total} estaciones</span></div>
           <ul class="cm-habs">${filas}</ul>
+          ${aqui ? `<ul class="cm-ruta-caja">${WorkRol.rutaHtml()}</ul>` : ''}
         </article>`;
     }).join('');
   }
@@ -202,7 +205,7 @@ const WorkJuego = (function(){
       <section aria-labelledby="cmDiscT">
         <div class="cm-sec-cab"><h3 id="cmDiscT">Disciplinas</h3><p>Las 25 habilidades del rol en 6 disciplinas. Cada una sube un nivel cada ${PASOS_NIVEL_DISC} estaciones.</p></div>
         <div class="cm-discs">${disciplinas(D, E)}</div>
-        <p class="cm-leyenda"><span class="si">En tu perfil</span><span class="no">No figura en tu perfil</span><span class="pr">En progreso</span><span>A la derecha: cuántas de las ${M.n} vacantes la piden. Clic en una habilidad abre su ruta.</span></p>
+        <p class="cm-leyenda"><span class="si">En tu perfil</span><span class="no">No figura en tu perfil</span><span class="pr">En progreso</span><span>A la derecha: cuántas de las ${M.n} vacantes la piden. Clic en una habilidad abre su ruta aquí mismo; otro clic la cierra.</span></p>
       </section>
       <section class="cm-fila2">
         <article class="cm-panel cm-logros" aria-labelledby="cmLogT"><h3 id="cmLogT">Vitrina de logros</h3><ul>${logros}</ul></article>

@@ -20,7 +20,7 @@ const WorkRol = (function(){
   const IA_ROL = /operations|operaciones|process|procesos|transformaci|efficiency|eficiencia|adoption|adopci|enablement|consultant|consultor|analyst|analista|specialist|especialista|lead|l[ií]der|jefe|manager/i;
   const esDelRol = t => !FUERA.test(t) && (FAM.implementacion.test(t) || FAM.automatizacion.test(t) || (FAM.ia.test(t) && IA_ROL.test(t)));
 
-  let datos = null, radar = null, soloFaltan = false, rutaAbierta = null;
+  let datos = null, radar = null, rutaAbierta = null;
   const estacion = {};   // ruta → estación que se está mirando (solo en memoria)
 
   function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
@@ -42,11 +42,6 @@ const WorkRol = (function(){
     return null;
   }
 
-  function tira(n, total, cls){
-    let h = '';
-    for (let i = 0; i < total; i++) h += `<i class="${i < n ? cls : ''}"></i>`;
-    return `<span class="rol-tira" style="grid-template-columns:repeat(${total},minmax(0,1fr))" role="img" aria-label="${n} de ${total} vacantes">${h}</span>`;
-  }
 
   function renderRadar(){
     if (radar === undefined) return '<p class="rol-radar">Leyendo el radar de 5-JOB…</p>';
@@ -100,19 +95,6 @@ const WorkRol = (function(){
     if (datos === undefined) { el.innerHTML = '<p class="rol-nota">Cargando el mapa del rol…</p>'; return; }
     if (!datos) { el.innerHTML = '<p class="rol-nota">No se pudo cargar el mapa del rol y este navegador no tiene copia guardada. Revisa la conexión y recarga la página.</p>'; return; }
     const D = datos.d, M = D.muestra, n = M.n;
-    const comp = soloFaltan ? D.competencias.filter(c => c.perfil !== 'si') : D.competencias;
-    const R = window.WorkRutas;
-    const filas = comp.map(c => {
-      const e = ESTADO[c.perfil] || ESTADO.no;
-      const r = R && R.rutaDe(c.nombre);
-      const abierta = r && rutaAbierta === r.id;
-      const nom = r
-        ? `<button type="button" class="rol-nom rol-abrir" data-ruta="${esc(r.id)}" aria-expanded="${abierta}" aria-controls="ruta-${esc(r.id)}">${esc(c.nombre)}<small>${abierta ? 'Cerrar la ruta' : 'Ver ruta de estudio'}</small></button>`
-        : `<span class="rol-nom">${esc(c.nombre)}${c.perfil !== 'si' && R && R.rutas().length ? '<small class="rol-sin-ruta">Sin ruta todavía</small>' : ''}</span>`;
-      const p = r ? R.pct(r.id) : 0;
-      const fila = `<li class="rol-fila${abierta ? ' abierta' : ''}">${nom}${tira(c.vacantes, n, e.cls)}<span class="rol-cuenta"><b>${c.vacantes}</b> de ${n}<small class="rol-est ${e.cls}">${e.txt}</small>${p ? `<small class="rol-ruta-pct">ruta al ${p} %</small>` : ''}</span></li>`;
-      return fila + (abierta ? renderRuta(r, c, D) : '');
-    }).join('');
     const famL = Object.entries(D.familias).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} de ${FAMILIA[k] || k}`);
     const fam = famL.length > 1 ? famL.slice(0, -1).join(', ') + ' y ' + famL[famL.length - 1] : famL.join('');
     const abierta = !!el.querySelector('details.rol-muestra[open]');
@@ -131,18 +113,7 @@ const WorkRol = (function(){
         <p>${mod.remoto || 0} remotas, ${mod.hibrido || 0} híbridas y ${mod.presencial || 0} presenciales${mod['sin dato'] ? `; ${mod['sin dato']} no lo dice` : ''}.</p>
         <p>${niv.senior || 0} piden perfil senior o de liderazgo y ${niv.junior || 0} dicen junior; las otras ${n - (niv.senior || 0) - (niv.junior || 0)} no lo dicen en el título.</p>
       </div>
-      <section class="rol-comp" aria-labelledby="rolCompT">
-        <div class="rol-comp-cab">
-          <h3 id="rolCompT">Lo que piden</h3>
-          <div class="rol-filtro" role="group" aria-label="Qué habilidades ver">
-            <button type="button" data-rol-filtro="todas" aria-pressed="${!soloFaltan}">Todas</button>
-            <button type="button" data-rol-filtro="faltan" aria-pressed="${soloFaltan}">Solo las que no están en tu perfil</button>
-          </div>
-        </div>
-        <p class="rol-leyenda">Cada tira tiene un cuadro por vacante de la muestra; los llenos son las que piden esa habilidad. Color: <span class="si">en tu perfil</span>, <span class="no">no figura en tu perfil</span>, <span class="pr">en progreso</span>.</p>
-        <ol class="rol-lista">${filas}</ol>
-        <p class="rol-nota">Cómo se cuenta: ${esc(M.metodo || 'una habilidad cuenta si la descripción la nombra.')} «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra.</p>
-      </section>
+      <p class="rol-nota">Cómo se cuenta: ${esc(M.metodo || 'una habilidad cuenta si la descripción la nombra.')} «En tu perfil» es lo que el radar de 5-JOB anota que ya manejas; el inglés está en progreso. Que algo no figure no quiere decir que no lo sepas: quiere decir que tu perfil todavía no lo muestra. Las 25 habilidades, con su ruta, están arriba en las tarjetas de disciplina.</p>
       <section class="rol-donde" aria-labelledby="rolDondeT">
         <h3 id="rolDondeT">Dónde verlas hoy</h3>
         ${renderRadar()}
@@ -156,16 +127,20 @@ const WorkRol = (function(){
     if (window.WorkJuego) WorkJuego.render(D);
   }
 
-  /* El juego (nodos, «Ver esa ruta», «Seguir») abre una ruta aquí. */
-  /* El centro de mando abre una ruta aquí; con `paso` la deja en esa estación (las misiones). */
+  /* El centro de mando abre la ruta dentro de la tarjeta de su disciplina (25-nov): otro clic en la misma habilidad la
+     cierra; con `paso` (las misiones) siempre la abre en esa estación. */
   function abrir(id, paso){
-    rutaAbierta = id;
+    rutaAbierta = rutaAbierta === id && !paso ? null : id;
     if (paso) estacion[id] = paso;
-    const R = window.WorkRutas, D = datos && datos.d;
-    if (soloFaltan && R && D && D.competencias.some(c => c.perfil === 'si' && (R.rutaDe(c.nombre) || {}).id === id)) soloFaltan = false;
     render();
-    const el = document.getElementById('workRol'), b = el && el.querySelector(`[data-ruta="${id}"]`);
-    if (b) { if (b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); if (b.focus) b.focus({ preventScroll: true }); }
+    const v = rutaAbierta && document.getElementById('ruta-' + rutaAbierta);
+    if (v && v.scrollIntoView) v.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  /* El HTML de la ruta abierta, para que WorkJuego lo pinte dentro de su tarjeta. */
+  function rutaHtml(){
+    const R = window.WorkRutas, D = datos && datos.d;
+    const r = rutaAbierta && R && R.ruta(rutaAbierta), c = r && D && D.competencias.find(k => k.nombre === r.competencia);
+    return r && c ? renderRuta(r, c, D) : '';
   }
 
   /* «Escuchar la idea»: la voz del navegador (speechSynthesis). Otro clic la detiene. Chrome carga las voces tarde
@@ -207,25 +182,15 @@ const WorkRol = (function(){
     const el = document.getElementById('workRol');
     if (!el) return;
     datos = undefined; radar = undefined; render();
-    const foco = sel => { const x = el.querySelector(sel); if (x && x.focus) x.focus(); return x; };
-    el.addEventListener('click', e => {
-      const f = e.target.closest('[data-rol-filtro]');
-      if (f) {
-        soloFaltan = f.dataset.rolFiltro === 'faltan';
-        render(); foco(`[data-rol-filtro="${soloFaltan ? 'faltan' : 'todas'}"]`);
-        return;
-      }
-      const t = e.target.closest('[data-ruta]');
-      if (t) {
-        rutaAbierta = rutaAbierta === t.dataset.ruta ? null : t.dataset.ruta;
-        render(); foco(`[data-ruta="${t.dataset.ruta}"]`);
-        return;
-      }
+    // La ruta abierta vive dentro del centro de mando (#workJuego): los clics se escuchan en el contenedor de los dos.
+    const raiz = el.parentElement || el;
+    const foco = sel => { const x = raiz.querySelector(sel); if (x && x.focus) x.focus(); return x; };
+    raiz.addEventListener('click', e => {
       const es = e.target.closest('[data-estacion]');
       if (es) {
         estacion[es.dataset.de] = es.dataset.estacion;
         render();
-        const det = el.querySelector(`#ruta-${es.dataset.de} .rv-det`);
+        const det = raiz.querySelector(`#ruta-${es.dataset.de} .rv-det`);
         foco(`[data-estacion="${es.dataset.estacion}"]`);
         if (det && det.scrollIntoView && window.matchMedia && matchMedia('(max-width: 760px)').matches) det.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
@@ -239,7 +204,7 @@ const WorkRol = (function(){
         const id = WorkRutas.empezar(em.dataset.empezar);
         render();
         if (id && window.WorkNB && WorkNB.open) WorkNB.open(id);
-        else if (!id) { const r = el.querySelector(`#ruta-${em.dataset.empezar} .ruta-nota`); if (r) r.textContent = 'No se pudo crear el cuaderno: el espacio del navegador está lleno o el editor no cargó. Tus pasos marcados siguen guardados.'; }
+        else if (!id) { const r = raiz.querySelector(`#ruta-${em.dataset.empezar} .ruta-nota`); if (r) r.textContent = 'No se pudo crear el cuaderno: el espacio del navegador está lleno o el editor no cargó. Tus pasos marcados siguen guardados.'; }
         return;
       }
       const cu = e.target.closest('[data-cuaderno]');
@@ -249,7 +214,7 @@ const WorkRol = (function(){
         WorkNB.open(id);
       }
     });
-    el.addEventListener('change', e => {
+    raiz.addEventListener('change', e => {
       const t = e.target.closest('[data-tarea]');
       if (t && window.WorkRutas) {
         WorkRutas.marcarTarea(t.dataset.de, t.dataset.pasoDe, t.dataset.tarea, !!t.checked);
@@ -272,7 +237,7 @@ const WorkRol = (function(){
     render();
   }
 
-  return { init, render, esDelRol, abrir };
+  return { init, render, esDelRol, abrir, rutaHtml, abierta: () => rutaAbierta };
 })();
 window.WorkRol = WorkRol;
 document.addEventListener('DOMContentLoaded', () => WorkRol.init());

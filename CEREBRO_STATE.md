@@ -40,6 +40,11 @@ estudios; ir más allá de lo común». Análisis profundo: **HACER DISTINTO**.
 
 ## 🕹 14-WORK · Centro de mando — miércoles 25-nov
 
+- **Después (pedido de Miguel):** se quitó el panel «Lo que piden» (las tiras de 39 cuadros) del Mapa del rol: cada habilidad de
+  las tarjetas de disciplina abre su ruta **dentro de su tarjeta** (la tarjeta pasa a ancho completo; otro clic la cierra;
+  «Iniciar misión» la abre en su estación). `WorkRol.rutaHtml()` le pasa la ruta a `WorkJuego`; los clics se escuchan en el
+  contenedor de los dos.
+
 Miguel rechazó la constelación del 24-nov («quiero algo más trabajado, que parezca un centro de control de un juego
 5 estrellas, que me motive a jugar, a aprender»). Vio la propuesta en el lienzo «Centro de mando 14-WORK · propuesta»
 y aprobó: «Sí, constrúyelo».

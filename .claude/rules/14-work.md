@@ -17,7 +17,7 @@ implementación de proyectos y optimización de procesos con IA. El plan está *
 ### Lo que queda en el sitio
 | Archivo | Qué hace |
 |---|---|
-| `frontend/work.html` | Cascarón: aviso, **Mapa del rol** con **rutas de estudio**, conteo de registros privados, cuadernos |
+| `frontend/work.html` | Cascarón: aviso, **centro de mando** (cada habilidad abre su ruta dentro de su tarjeta), **Mapa del rol** (sin la lista «Lo que piden» desde el 25-nov), conteo de registros privados, cuadernos |
 | `frontend/js/work.js` | Solo `WorkNB` (editor de cuadernos sobre `nb-shared.js`) + `WorkShell` (cuenta registros, solo lee) |
 | `frontend/js/work-rol.js` | `WorkRol` (24-nov): pinta el mapa del rol. **Solo lee** `data/rol-objetivo.json` y `data/jobs-feed.json`; no escribe en localStorage; sin red usa Cache Storage `work-datos` y lo dice |
 | `frontend/data/rol-objetivo.json` | Muestra fechada (24-nov-2026): 39 vacantes de LinkedIn (Colombia, último mes), 25 habilidades contadas en sus descripciones, estado «en tu perfil» según `YA_TIENE` de `scripts/fetch-jobs.mjs`. Solo datos públicos de vacantes. Se regenera con una muestra nueva (no la toca la foto diaria) |
