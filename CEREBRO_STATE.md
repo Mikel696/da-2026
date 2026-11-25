@@ -17,7 +17,7 @@ Miguel: «las rutas más didácticas, más trabajado». Vio una muestra (la ruta
 mando) y aprobó: «Sí, constrúyela».
 
 - **Vista nueva (`js/work-ruta-vista.js`, solo pinta):** arriba la idea en una frase con una comparación (Excel o
-  el trabajo), «Escuchar la idea» (voz del navegador, sin red), para qué sirve en el trabajo y cuántas vacantes la
+  el trabajo), «Escuchar la idea» (voz del navegador; prefiere una voz instalada en el equipo, espera a que Chrome cargue las voces), para qué sirve en el trabajo y cuántas vacantes la
   piden; un mapa de estaciones (Hecha · Te toca · Después, todas abiertas); la estación elegida en 4 bloques:
   1 Entiéndelo (tabla lo que ya conoces → lo nuevo, y una hoja de Excel dibujada cuando ayuda), 2 Míralo (tarjeta del
   video con los minutos de sus capítulos, recurso y enlace al Cerebro), 3 Hazlo (tareas con casilla + código con

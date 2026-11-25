@@ -166,14 +166,22 @@ const WorkRol = (function(){
     if (b) { if (b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); if (b.focus) b.focus({ preventScroll: true }); }
   }
 
-  /* «Escuchar la idea»: la voz del navegador (speechSynthesis), sin red. Otro clic la detiene. */
-  function escuchar(b){
+  /* «Escuchar la idea»: la voz del navegador (speechSynthesis). Otro clic la detiene. Chrome carga las voces tarde
+     (getVoices() llega vacío al primer clic): se esperan hasta 1,5 s. Se prefiere una voz instalada en el equipo:
+     las de Google en línea cortan los textos largos y necesitan red (medido en su Chrome el 25-nov: 3 voces locales
+     es-ES y 2 de Google en línea). */
+  function vocesListas(s){
+    if (s.getVoices().length) return Promise.resolve(s.getVoices());
+    return new Promise(ok => { const fin = () => ok(s.getVoices()); s.addEventListener('voiceschanged', fin, { once: true }); setTimeout(fin, 1500); });
+  }
+  async function escuchar(b){
     const s = window.speechSynthesis, r = window.WorkRutas && WorkRutas.ruta(b.dataset.escuchar);
     const txt = b.querySelector('span');
     if (!s || !window.SpeechSynthesisUtterance || !r) { if (txt) txt.textContent = 'Este navegador no tiene voz'; return; }
     if (s.speaking) { s.cancel(); return; }
     const u = new SpeechSynthesisUtterance(WorkRutaVista.textoOir(r));
-    const voces = s.getVoices(), v = voces.find(x => /^es[-_](CO|MX|US|419)/i.test(x.lang)) || voces.find(x => /^es/i.test(x.lang));
+    const es = (await vocesListas(s)).filter(x => /^es/i.test(x.lang)), latam = x => /^es[-_](CO|MX|US|419)/i.test(x.lang);
+    const v = es.find(x => x.localService && latam(x)) || es.find(x => x.localService) || es.find(latam) || es[0];
     if (v) u.voice = v;
     u.lang = v ? v.lang : 'es-CO'; u.rate = 0.95;
     const fin = () => { b.setAttribute('aria-pressed', 'false'); if (txt) txt.textContent = 'Escuchar la idea'; };
