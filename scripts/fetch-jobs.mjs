@@ -63,10 +63,10 @@ const TOP = 60;
    Rol objetivo desde el 24-nov-2026 (14-WORK · Mapa del rol): implementador de procesos con IA.
    Sus tres familias van primero y pesan más; el perfil anterior se queda debajo. */
 const SENALES_ROL = [
-  { re: /(implementation (specialist|consultant|analyst|manager|lead)|analista de implementaci|consultor(a)? de implementaci|onboarding (specialist|lead|manager)|deployment strategist|professional services)/i, p: 12, t: 'implementación — rol objetivo' },
-  { re: /(automation (analyst|specialist|lead|consultant|strategist)|analista de automatizaci|automatizaci[oó]n de procesos|process automation|\brpa\b|power automate|power platform|hiperautomatizaci|low.?code)/i, p: 12, t: 'automatización de procesos — rol objetivo' },
-  { re: /(ai operations|ai automation|ai (process|enablement|adoption|transformation)|agentic process|transformaci[oó]n (digital )?e ia|procesos con ia|ia aplicada)/i, p: 12, t: 'IA en operaciones — rol objetivo' },
-  { re: /(process (analyst|owner|improvement|excellence)|analista de procesos|ingenier[oa] de procesos|business process|mejora continua)/i, p: 8, t: 'procesos' },
+  { re: /(implementation (specialist|consultant|analyst|manager|lead)|analista de implementaci|consultor(a)? de implementaci|onboarding (specialist|lead|manager)|deployment strategist|professional services)/i, p: 12, t: 'implementación — rol objetivo', soloTitulo: true },
+  { re: /(automation (analyst|specialist|lead|consultant|strategist)|analista de automatizaci|automatizaci[oó]n de procesos|process automation|\brpa\b|power automate|power platform|hiperautomatizaci|low.?code)/i, p: 12, t: 'automatización de procesos — rol objetivo', soloTitulo: true },
+  { re: /(ai operations|ai automation|ai (process|enablement|adoption|transformation)|agentic process|transformaci[oó]n (digital )?e ia|procesos con ia|ia aplicada)/i, p: 12, t: 'IA en operaciones — rol objetivo', soloTitulo: true },
+  { re: /(process (analyst|owner|improvement|excellence)|analista de procesos|ingenier[oa] de procesos|business process|mejora continua)/i, p: 8, t: 'procesos', soloTitulo: true },
   { re: /(reconcil|conciliaci)/i,                              p: 12, t: 'conciliaciones — tu especialidad' },
   { re: /(data analyst|analista de datos)/i,                   p: 10, t: 'analista de datos' },
   { re: /(business intelligence|bi analyst|analista bi)/i,     p: 10, t: 'BI' },
@@ -236,6 +236,9 @@ function puntuar(j) {
   const mirar = (lista, esRol) => {
     for (const sig of lista) {
       const enTitulo = sig.re.test(titulo);
+      // Las señales del rol objetivo miran solo el cargo: casi toda descripción menciona IA o automatización y
+      // marcaba «PR & Events Specialist» o «Accountant» como rol objetivo (foto del 25-nov).
+      if (sig.soloTitulo && !enTitulo) continue;
       if (enTitulo || sig.re.test(texto)) {
         score += enTitulo ? sig.p * 2 : sig.p;
         if (!motivos.includes(sig.t)) motivos.push(sig.t);
