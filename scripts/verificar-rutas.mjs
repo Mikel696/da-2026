@@ -4,8 +4,13 @@
 // aprender, una práctica y al menos un recurso (https) o un enlace interno; los enlaces externos responden 200 hoy
 // y los internos existen en frontend/. Un enlace roto o una habilidad mal escrita no se publican.
 import { readFile, access } from 'node:fs/promises';
-import { resolve, dirname } from 'node:path';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { resolve, dirname, join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+const require = createRequire(import.meta.url);
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'frontend');
 const errores = [];
@@ -52,6 +57,70 @@ for (const r of rutas.rutas || []) {
   });
 }
 
+// Formato didáctico (25-nov): cada ruta trae disciplina, frase, 3 usos y portafolio; cada estación, lo que logras,
+// la idea con algo que ya conoces, cómo usar el video o recurso, qué hacer, cómo comprobarlo y los errores típicos.
+const DISCIPLINAS = new Set(['IA', 'Automatización', 'Datos', 'Procesos', 'Personas', 'Negocio']);
+const texto = (v) => typeof v === 'string' && v.trim().length > 0;
+const programas = [];   // código que se ejecuta para comprobar que da lo que la estación dice
+const sinFormato = [];   // PROVISIONAL mientras se escriben las 25: se quita al terminar
+for (const r of rutas.rutas || []) {
+  if (!r.frase) { sinFormato.push(r.id); continue; }
+  if (!DISCIPLINAS.has(r.disciplina)) mal(`${r.id}: disciplina «${r.disciplina}» no es una de las 6`);
+  if (!texto(r.frase)) mal(`${r.id}: falta la frase`);
+  if (!Array.isArray(r.usos) || r.usos.length !== 3 || !r.usos.every(texto)) mal(`${r.id}: necesita 3 usos`);
+  if (!texto(r.portafolio)) mal(`${r.id}: falta el portafolio`);
+  for (const p of r.pasos || []) {
+    const donde = `${r.id} › ${p.id}`;
+    if (!texto(p.logro)) mal(`${donde}: falta «logro»`);
+    const id = p.idea || {};
+    if (!texto(id.titulo) || !Array.isArray(id.columnas) || id.columnas.length !== 2) mal(`${donde}: la idea necesita título y 2 columnas`);
+    if (!Array.isArray(id.filas) || id.filas.length < 3 || !id.filas.every((f) => Array.isArray(f) && f.length === 2 && f.every(texto))) mal(`${donde}: la idea necesita 3 o más filas de 2 celdas`);
+    if (p.hoja && (!Array.isArray(p.hoja.filas) || !p.hoja.filas.every((f) => Array.isArray(f) && f.length === p.hoja.columnas.length))) mal(`${donde}: la hoja tiene filas de largo distinto a sus columnas`);
+    if (!texto(p.mira)) mal(`${donde}: falta «mira»`);
+    if (!Array.isArray(p.hazlo) || p.hazlo.length < 2 || p.hazlo.length > 4 || !p.hazlo.every(texto)) mal(`${donde}: «hazlo» necesita de 2 a 4 tareas`);
+    const c = p.comprueba || {};
+    if (!texto(c.texto)) mal(`${donde}: falta el texto de «comprueba»`);
+    if (c.valores && !c.valores.every((v) => Array.isArray(v) && v.length === 2 && v.every(texto))) mal(`${donde}: valores de «comprueba» mal formados`);
+    if (!Array.isArray(p.errores) || p.errores.length < 2 || p.errores.length > 3 || !p.errores.every((e) => Array.isArray(e) && e.length === 2 && e.every(texto))) mal(`${donde}: necesita 2 o 3 errores típicos [qué, cómo]`);
+    if (p.codigo) {
+      if (!['python', 'sql', 'excel', 'dax', 'texto', 'json'].includes(p.codigo.lenguaje) || !texto(p.codigo.texto)) mal(`${donde}: código sin lenguaje válido o vacío`);
+      if ((c.salida || c.patron) && ['python', 'sql'].includes(p.codigo.lenguaje)) programas.push({ donde, codigo: p.codigo, c });
+      else if (['python', 'sql'].includes(p.codigo.lenguaje)) mal(`${donde}: el código ${p.codigo.lenguaje} necesita «salida» o «patron» para comprobarlo`);
+    }
+  }
+}
+
+// Ejecutar cada programa: Python con el intérprete del PC (en una carpeta temporal), SQL con node:sqlite en memoria.
+const limpia = (s) => s.replace(/\r/g, '').split('\n').map((l) => l.replace(/\s+$/, '')).join('\n').replace(/\n+$/, '');
+function salidaSql(sql) {
+  const { DatabaseSync } = require('node:sqlite');
+  const db = new DatabaseSync(':memory:');
+  const lineas = [];
+  for (const st of sql.split(/;\s*(?:\n|$)/).map((s) => s.trim()).filter(Boolean)) {
+    const sinComentarios = st.replace(/^(--[^\n]*\n\s*)+/, '');
+    if (/^(select|with)\b/i.test(sinComentarios)) for (const fila of db.prepare(st).all()) lineas.push(Object.values(fila).map((v) => v === null ? 'NULL' : String(v)).join(' | '));
+    else db.exec(st);
+  }
+  return lineas.join('\n');
+}
+let corridos = 0;
+for (const { donde, codigo, c } of programas) {
+  let out;
+  try {
+    if (codigo.lenguaje === 'python') {
+      const tmp = mkdtempSync(join(tmpdir(), 'ruta-'));
+      const py = spawnSync(process.platform === 'win32' ? 'python3' : 'python3', ['-I', '-X', 'utf8', '-'], { input: codigo.texto, cwd: tmp, encoding: 'utf8', timeout: 60000 });
+      rmSync(tmp, { recursive: true, force: true });
+      if (py.status !== 0) { mal(`${donde}: el programa falló:\n${(py.stderr || py.error || '').toString().slice(-600)}`); continue; }
+      out = py.stdout;
+    } else out = salidaSql((codigo.preparar ? codigo.preparar + ';\n' : '') + codigo.texto);
+  } catch (e) { mal(`${donde}: no se pudo ejecutar (${e.message})`); continue; }
+  const o = limpia(out);
+  if (c.salida !== undefined && o !== limpia(c.salida)) mal(`${donde}: la salida real no es la que dice la estación.\n--- dice:\n${c.salida}\n--- sale:\n${o}`);
+  else if (c.patron && !new RegExp(c.patron).test(o)) mal(`${donde}: la salida «${o}» no cumple el patrón ${c.patron}`);
+  else corridos++;
+}
+
 // Las 25 habilidades del mapa tienen ruta (pedido de Miguel, 24-nov) y cada ruta trae al menos un video.
 for (const c of rol.competencias) if (!(rutas.rutas || []).some((r) => r.competencia === c.nombre)) mal(`la habilidad «${c.nombre}» no tiene ruta`);
 const videos = new Map();   // url → {titulo, canal, donde}
@@ -90,5 +159,6 @@ await Promise.all([...externos].map(async ([u, donde]) => {
   } catch (e) { mal(`${donde}: ${u} no respondió (${e.message})`); }
 }));
 
+if (sinFormato.length) console.warn(`(provisional) ${sinFormato.length} rutas aún sin formato didáctico`);
 if (errores.length) { console.error(`✗ ${errores.length} problema(s):\n  ` + errores.join('\n  ')); process.exit(1); }
-console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes`);
+console.log(`✓ ${rutas.rutas.length} rutas, ${pasos} pasos, ${ok200} enlaces externos con 200, ${videosOk} videos comprobados, ${internos.size} enlaces internos existentes, ${corridos} programas ejecutados con la salida que dicen`);

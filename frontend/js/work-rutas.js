@@ -35,6 +35,9 @@ const WorkRutas = (function(){
   function hecho(rutaId, pasoId){ const r = leer().find(x => x.id === rutaId + ':' + pasoId); return !!(r && r.hecho); }
   function empezada(rutaId){ const r = leer().find(x => x.id === rutaId && x.tipo === 'ruta'); return !!(r && r.empezada); }
   function marcar(rutaId, pasoId, si){ poner({ id: rutaId + ':' + pasoId, tipo: 'paso', ruta: rutaId, hecho: !!si, updated: new Date().toISOString() }); }
+  /* Tareas de «Hazlo» dentro de una estación (25-nov): ayudan a seguir el avance, pero el % lo dan las estaciones. */
+  function tarea(rutaId, pasoId, i){ const r = leer().find(x => x.id === rutaId + ':' + pasoId + ':' + i); return !!(r && r.hecho); }
+  function marcarTarea(rutaId, pasoId, i, si){ poner({ id: rutaId + ':' + pasoId + ':' + i, tipo: 'tarea', ruta: rutaId, hecho: !!si, updated: new Date().toISOString() }); }
   function fraccion(rutaId){
     const r = ruta(rutaId);
     if (!r || !r.pasos.length) return 0;
@@ -69,11 +72,15 @@ const WorkRutas = (function(){
   }
   function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   function paginaHtml(p){
-    let h = `<h3>Qué aprender</h3><ul>${p.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    let h = p.logro ? `<p><b>Al terminar podrás</b> ${esc(p.logro)}</p>` : '';
+    h += `<h3>Qué aprender</h3><ul>${p.aprender.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
     if (p.recurso) h += `<h3>Recurso</h3><p><a href="${esc(p.recurso.url)}" target="_blank" rel="noopener">${esc(p.recurso.nombre)}</a> · ${esc(p.recurso.proveedor)}</p>`;
     if (p.video) h += `<h3>Video</h3><p><a href="${esc(p.video.url)}" target="_blank" rel="noopener">${esc(p.video.titulo)}</a> · ${esc(p.video.canal)}</p>`;
     if (p.enlace) h += `<h3>En el Cerebro</h3><p><a href="${esc(p.enlace.url)}" target="_blank" rel="noopener">${esc(p.enlace.texto)}</a></p>`;
-    h += `<h3>Práctica</h3><p>${esc(p.practica)}</p><h3>Mis apuntes</h3><p><br></p>`;
+    if (p.hazlo) h += `<h3>Hazlo</h3><ol>${p.hazlo.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`;
+    if (p.codigo) h += `<pre>${esc(p.codigo.texto)}</pre>`;
+    if (p.comprueba) h += `<h3>Compruébalo</h3><p>${esc(p.comprueba.texto)}${p.comprueba.valores ? ' ' + p.comprueba.valores.map(v => v.join(': ')).map(esc).join(' · ') : ''}</p>`;
+    h += `<h3>Práctica</h3><p>${esc(p.practica)}</p><h3>Mi código y mis resultados</h3><p><br></p><h3>Mis apuntes</h3><p><br></p>`;
     return h;
   }
 
@@ -89,6 +96,6 @@ const WorkRutas = (function(){
     return id;
   }
 
-  return { cargar, rutas, ruta, rutaDe, nombreCorto, hecho, empezada, marcar, pct, global, empezar, datos: () => datos, registros: () => leer() };
+  return { cargar, rutas, ruta, rutaDe, nombreCorto, hecho, empezada, marcar, tarea, marcarTarea, pct, global, empezar, datos: () => datos, registros: () => leer() };
 })();
 window.WorkRutas = WorkRutas;

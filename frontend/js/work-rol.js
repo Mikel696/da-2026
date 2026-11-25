@@ -21,6 +21,7 @@ const WorkRol = (function(){
   const esDelRol = t => !FUERA.test(t) && (FAM.implementacion.test(t) || FAM.automatizacion.test(t) || (FAM.ia.test(t) && IA_ROL.test(t)));
 
   let datos = null, radar = null, soloFaltan = false, rutaAbierta = null;
+  const estacion = {};   // ruta → estación que se está mirando (solo en memoria)
 
   function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -59,6 +60,7 @@ const WorkRol = (function(){
   /* Panel de una ruta, debajo de su fila. */
   function renderRuta(r, c, D){
     const R = window.WorkRutas;
+    if (r.frase && window.WorkRutaVista) return WorkRutaVista.html(r, c, D, estacion[r.id], R);
     const empresas = [...new Set(D.vacantes.filter(v => v.competencias.includes(c.nombre)).map(v => v.empresa))];
     const nombres = empresas.slice(0, 8).join(', ') + (empresas.length > 8 ? ` y ${empresas.length - 8} más` : '');
     const hechos = r.pasos.filter(p => R.hecho(r.id, p.id)).length, p = R.pct(r.id);
@@ -164,6 +166,33 @@ const WorkRol = (function(){
     if (b) { if (b.scrollIntoView) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); if (b.focus) b.focus({ preventScroll: true }); }
   }
 
+  /* «Escuchar la idea»: la voz del navegador (speechSynthesis), sin red. Otro clic la detiene. */
+  function escuchar(b){
+    const s = window.speechSynthesis, r = window.WorkRutas && WorkRutas.ruta(b.dataset.escuchar);
+    const txt = b.querySelector('span');
+    if (!s || !window.SpeechSynthesisUtterance || !r) { if (txt) txt.textContent = 'Este navegador no tiene voz'; return; }
+    if (s.speaking) { s.cancel(); return; }
+    const u = new SpeechSynthesisUtterance(WorkRutaVista.textoOir(r));
+    const voces = s.getVoices(), v = voces.find(x => /^es[-_](CO|MX|US|419)/i.test(x.lang)) || voces.find(x => /^es/i.test(x.lang));
+    if (v) u.voice = v;
+    u.lang = v ? v.lang : 'es-CO'; u.rate = 0.95;
+    const fin = () => { b.setAttribute('aria-pressed', 'false'); if (txt) txt.textContent = 'Escuchar la idea'; };
+    u.onend = fin; u.onerror = fin;
+    b.setAttribute('aria-pressed', 'true'); if (txt) txt.textContent = 'Detener';
+    s.speak(u);
+  }
+
+  async function copiar(b){
+    const r = window.WorkRutas && WorkRutas.ruta(b.closest('.rv').id.replace('ruta-', ''));
+    const p = r && r.pasos.find(x => x.id === b.dataset.copiar);
+    if (!p || !p.codigo) return;
+    let ok = false;
+    try { await navigator.clipboard.writeText(p.codigo.texto); ok = true; } catch {}
+    const viejo = b.innerHTML;
+    b.textContent = ok ? 'Copiado' : 'Selecciónalo y cópialo a mano';
+    setTimeout(() => { b.innerHTML = viejo; }, 1800);
+  }
+
   async function init(){
     const el = document.getElementById('workRol');
     if (!el) return;
@@ -182,6 +211,19 @@ const WorkRol = (function(){
         render(); foco(`[data-ruta="${t.dataset.ruta}"]`);
         return;
       }
+      const es = e.target.closest('[data-estacion]');
+      if (es) {
+        estacion[es.dataset.de] = es.dataset.estacion;
+        render();
+        const det = el.querySelector(`#ruta-${es.dataset.de} .rv-det`);
+        foco(`[data-estacion="${es.dataset.estacion}"]`);
+        if (det && det.scrollIntoView && window.matchMedia && matchMedia('(max-width: 760px)').matches) det.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      const oy = e.target.closest('[data-escuchar]');
+      if (oy) { escuchar(oy); return; }
+      const cp = e.target.closest('[data-copiar]');
+      if (cp) { copiar(cp); return; }
       const em = e.target.closest('[data-empezar]');
       if (em && window.WorkRutas) {
         const id = WorkRutas.empezar(em.dataset.empezar);
@@ -198,6 +240,12 @@ const WorkRol = (function(){
       }
     });
     el.addEventListener('change', e => {
+      const t = e.target.closest('[data-tarea]');
+      if (t && window.WorkRutas) {
+        WorkRutas.marcarTarea(t.dataset.de, t.dataset.pasoDe, t.dataset.tarea, !!t.checked);
+        render(); foco(`[data-tarea="${t.dataset.tarea}"][data-paso-de="${t.dataset.pasoDe}"]`);
+        return;
+      }
       const c = e.target.closest('[data-paso]');
       if (!c || !window.WorkRutas) return;
       WorkRutas.marcar(c.dataset.de, c.dataset.paso, !!c.checked);

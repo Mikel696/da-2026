@@ -1,11 +1,19 @@
 {
- "version": "2026-11-24",
+ "version": "2026-11-25",
  "nota": "Rutas de estudio de 14-WORK: una por cada una de las 25 habilidades del mapa. Cada enlace se comprobó (HTTP 200) y cada video con oEmbed de YouTube (título y canal exactos) el 24-nov-2026 con scripts/verificar-rutas.mjs. Videos elegidos por canal reconocido, vistas y español primero. Sin duraciones ni «gratis» donde la fuente no lo dice: nada se inventa. Los casos de práctica son ficticios y se marcan como tales; nada interno del trabajo.",
  "rutas": [
   {
    "id": "python",
    "competencia": "Python",
    "icono": "🐍",
+   "disciplina": "Datos",
+   "frase": "Python es a tus tareas repetitivas lo que una fórmula es a una celda de Excel: la escribes una vez y repite el trabajo por ti.",
+   "usos": [
+    "Cruzar dos archivos de pagos y encontrar los que no aparecen, sin BUSCARV fila por fila.",
+    "Repetir el mismo reporte cada semana sin volver a armarlo a mano.",
+    "Traer datos de un sistema por su API, como la TRM, y dejarlos en una hoja."
+   ],
+   "portafolio": "Dos programas que puedes enseñar en una entrevista: uno que une varios Excel y marca las filas con huecos, y otro que trae la TRM del día desde datos.gov.co.",
    "queEs": "Un lenguaje de programación sencillo de leer. En estos puestos se usa para limpiar datos, unir archivos, conectar sistemas por API y automatizar tareas que hoy se hacen a mano en Excel.",
    "pasos": [
     {
@@ -26,7 +34,110 @@
       "titulo": "Aprende Python - Curso de Python desde Cero",
       "canal": "freeCodeCamp Español",
       "url": "https://www.youtube.com/watch?v=DLikpfc64cA"
-     }
+     },
+     "logro": "escribir una función que haga cuentas por ti.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En Python"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "La columna B con los montos",
+        "montos = [100, 250, 50]"
+       ],
+       [
+        "=SUMA(B2:B4)",
+        "sum(montos)"
+       ],
+       [
+        "=MAX(B2:B4)",
+        "max(montos)"
+       ],
+       [
+        "=PROMEDIO(B2:B4)",
+        "sum(montos) / len(montos)"
+       ],
+       [
+        "Una fórmula que tú creas y reutilizas",
+        "def resumen(montos):"
+       ]
+      ]
+     },
+     "hoja": {
+      "columnas": [
+       "A",
+       "B"
+      ],
+      "filas": [
+       [
+        "Concepto",
+        "Monto"
+       ],
+       [
+        "Pago 1",
+        "100"
+       ],
+       [
+        "Pago 2",
+        "250"
+       ],
+       [
+        "Pago 3",
+        "50"
+       ],
+       [
+        "Total",
+        "=SUMA(B2:B4) → 400"
+       ]
+      ],
+      "resaltar": 4
+     },
+     "mira": "Mira la primera parte del video: variables, listas y funciones. Con eso basta para esta estación.",
+     "hazlo": [
+      "Abre la lección 1 de Intro to Programming en Kaggle y sigue sus celdas.",
+      "Escribe la función resumen que ves abajo y pruébala con tu lista.",
+      "Pega el código y el resultado en tu cuaderno de la ruta."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "def resumen(montos):\n    total = sum(montos)\n    promedio = total / len(montos)\n    mayor = max(montos)\n    return total, promedio, mayor\n\nprint(resumen([100, 250, 50]))"
+     },
+     "comprueba": {
+      "texto": "Con la lista 100, 250 y 50, tu función debe darte:",
+      "valores": [
+       [
+        "Total",
+        "400"
+       ],
+       [
+        "Promedio",
+        "133,33"
+       ],
+       [
+        "Mayor",
+        "250"
+       ]
+      ],
+      "salida": "(400, 133.33333333333334, 250)",
+      "nota": "El promedio largo es normal: redondear lo ves en la estación 2."
+     },
+     "errores": [
+      [
+       "Olvidar los dos puntos.",
+       "La línea def resumen(montos) termina en «:»."
+      ],
+      [
+       "Quitar los espacios del comienzo.",
+       "En Python la sangría dice qué está dentro de la función."
+      ],
+      [
+       "Escribir Sum o MAX.",
+       "Python distingue mayúsculas: es sum y max, en minúscula."
+      ]
+     ]
     },
     {
      "id": "python-2",
@@ -41,7 +152,85 @@
       "proveedor": "Kaggle Learn (en inglés, interactivo)",
       "url": "https://www.kaggle.com/learn/python"
      },
-     "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado."
+     "practica": "Con una lista de transacciones inventadas (caso ficticio), cuenta cuántas hay por estado y suma el total de cada estado.",
+     "logro": "contar y sumar transacciones por estado, como CONTAR.SI y SUMAR.SI.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En Python"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Una fila de la tabla",
+        "{\"estado\": \"aprobado\", \"monto\": 120}"
+       ],
+       [
+        "La tabla completa",
+        "pagos = [fila1, fila2, fila3]"
+       ],
+       [
+        "Arrastrar la fórmula hacia abajo",
+        "for p in pagos:"
+       ],
+       [
+        "=SI(B2=\"aprobado\"; …)",
+        "if p[\"estado\"] == \"aprobado\":"
+       ],
+       [
+        "=SUMAR.SI(B:B; \"aprobado\"; C:C)",
+        "totales[estado] = totales.get(estado, 0) + p[\"monto\"]"
+       ],
+       [
+        "=REDONDEAR(A1; 2)",
+        "round(numero, 2)"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el curso Python de Kaggle explica cada tema con ejemplos cortos y ejercicios que se corrigen solos.",
+     "hazlo": [
+      "Haz en Kaggle las lecciones de condiciones, listas, bucles y diccionarios del curso Python.",
+      "Copia el código de abajo, córrelo y cambia un estado para ver cómo cambian los conteos.",
+      "Agrega un pago nuevo a la lista y comprueba que el total de su estado sube."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "pagos = [\n    {\"id\": 1, \"estado\": \"aprobado\", \"monto\": 120},\n    {\"id\": 2, \"estado\": \"rechazado\", \"monto\": 80},\n    {\"id\": 3, \"estado\": \"aprobado\", \"monto\": 200},\n    {\"id\": 4, \"estado\": \"pendiente\", \"monto\": 50},\n    {\"id\": 5, \"estado\": \"aprobado\", \"monto\": 30},\n]\n\ncuantos = {}\ntotales = {}\nfor p in pagos:\n    estado = p[\"estado\"]\n    cuantos[estado] = cuantos.get(estado, 0) + 1\n    totales[estado] = totales.get(estado, 0) + p[\"monto\"]\n\nprint(cuantos)\nprint(totales)\nprint(round(totales[\"aprobado\"] / cuantos[\"aprobado\"], 2))"
+     },
+     "comprueba": {
+      "texto": "Con los 5 pagos de ejemplo (ficticios) debes ver:",
+      "valores": [
+       [
+        "Aprobados",
+        "3 · 350"
+       ],
+       [
+        "Rechazados",
+        "1 · 80"
+       ],
+       [
+        "Pendientes",
+        "1 · 50"
+       ]
+      ],
+      "salida": "{'aprobado': 3, 'rechazado': 1, 'pendiente': 1}\n{'aprobado': 350, 'rechazado': 80, 'pendiente': 50}\n116.67",
+      "nota": "La última línea es el promedio de los aprobados (350 ÷ 3) redondeado a 2 decimales."
+     },
+     "errores": [
+      [
+       "Usar = para comparar.",
+       "= guarda un valor; == pregunta si dos cosas son iguales."
+      ],
+      [
+       "KeyError al sumar.",
+       "Pasa cuando pides una llave que aún no existe: por eso se usa .get(estado, 0), que da 0 la primera vez."
+      ],
+      [
+       "«Aprobado» no es «aprobado».",
+       "Python distingue mayúsculas también dentro del texto."
+      ]
+     ]
     },
     {
      "id": "python-3",
@@ -66,7 +255,81 @@
       "titulo": "Pandas en 30 minutos (Python)",
       "canal": "Leonardo Kuffo",
       "url": "https://www.youtube.com/watch?v=8ASjvOIyyl8"
-     }
+     },
+     "logro": "resumir un archivo por categoría, como una tabla dinámica.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "Con pandas"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Abrir el archivo CSV",
+        "df = pd.read_csv(\"pagos.csv\")"
+       ],
+       [
+        "Filtrar la columna estado",
+        "df[df[\"estado\"] == \"aprobado\"]"
+       ],
+       [
+        "Tabla dinámica: suma de monto por categoría",
+        "df.groupby(\"categoria\")[\"monto\"].sum()"
+       ],
+       [
+        "Contar filas por categoría",
+        "df[\"categoria\"].value_counts()"
+       ],
+       [
+        "Guardar como…",
+        "resumen.to_csv(\"resumen.csv\")"
+       ]
+      ]
+     },
+     "mira": "Fíjate en tres momentos del video: cómo carga el archivo, cómo filtra filas y cómo agrupa. Lo demás lo puedes ver después.",
+     "hazlo": [
+      "Haz en Kaggle las 4 primeras lecciones del curso Pandas: leer, seleccionar, resumir y agrupar.",
+      "Corre el código de abajo. Trae los datos dentro del programa para que funcione sin archivos.",
+      "Descarga un conjunto público de datos.gov.co, cámbialo por pd.read_csv(\"tu_archivo.csv\") y anota su enlace en el cuaderno."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "import io\nimport pandas as pd\n\ncsv = \"\"\"categoria,estado,monto\nservicios,aprobado,120\ntransporte,aprobado,45\nservicios,rechazado,80\ncomida,aprobado,60\ntransporte,aprobado,30\ncomida,aprobado,25\n\"\"\"\ndf = pd.read_csv(io.StringIO(csv))\n\naprobados = df[df[\"estado\"] == \"aprobado\"]\nresumen = aprobados.groupby(\"categoria\")[\"monto\"].agg([\"count\", \"sum\"])\nprint(resumen)"
+     },
+     "comprueba": {
+      "texto": "Solo con los pagos aprobados, el resumen por categoría debe dar:",
+      "valores": [
+       [
+        "Comida",
+        "2 · 85"
+       ],
+       [
+        "Servicios",
+        "1 · 120"
+       ],
+       [
+        "Transporte",
+        "2 · 75"
+       ]
+      ],
+      "salida": "            count  sum\ncategoria             \ncomida          2   85\nservicios       1  120\ntransporte      2   75",
+      "nota": "count es cuántos pagos hay; sum, cuánto suman. Es la misma tabla dinámica que harías en Excel."
+     },
+     "errores": [
+      [
+       "Escribir la columna distinto.",
+       "df[\"Monto\"] no es df[\"monto\"]: copia el nombre tal como viene en el archivo."
+      ],
+      [
+       "Creer que el filtro cambió la tabla.",
+       "Filtrar crea una tabla nueva: guárdala en otra variable, como aprobados."
+      ],
+      [
+       "El CSV viene con punto y coma.",
+       "Si tu archivo usa «;», escribe pd.read_csv(\"archivo.csv\", sep=\";\")."
+      ]
+     ]
     },
     {
      "id": "python-4",
@@ -86,7 +349,81 @@
       "titulo": "Automatizar Excel con Python | Leer y procesar archivos con Pandas",
       "canal": "DATA SCIENCE PROJECT",
       "url": "https://www.youtube.com/watch?v=JL9RMCS4Sho"
-     }
+     },
+     "logro": "unir varios Excel en uno sin copiar y pegar, y marcar las filas con huecos.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "A mano en Excel",
+       "Con Python"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Abrir uno por uno los archivos de la carpeta",
+        "for archivo in Path(\"meses\").glob(\"*.xlsx\"):"
+       ],
+       [
+        "Agregar una columna con el nombre del archivo",
+        "hoja[\"archivo\"] = nombre"
+       ],
+       [
+        "Copiar y pegar las filas debajo de las anteriores",
+        "pd.concat(partes, ignore_index=True)"
+       ],
+       [
+        "Filtrar las celdas vacías",
+        "todo[\"monto\"].isna()"
+       ],
+       [
+        "Guardar como consolidado.xlsx",
+        "todo.to_excel(\"consolidado.xlsx\", index=False)"
+       ]
+      ]
+     },
+     "mira": "El video usa pandas para leer y procesar archivos de Excel, igual que el código de abajo. El capítulo 14 del libro sirve después, si quieres dar formato a las celdas.",
+     "hazlo": [
+      "Crea una carpeta de práctica y corre ahí el código de abajo: primero fabrica 3 archivos ficticios y luego los une.",
+      "Abre consolidado.xlsx y comprueba que trae las 5 filas y la columna revisar.",
+      "Cambia la parte 1 por la línea del for con Path para que lea los Excel reales de una carpeta."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "import pandas as pd\n\n# 1. Fabrica tres archivos de práctica (con tus archivos reales, esta parte sobra)\nmeses = {\n    \"enero.xlsx\": [[\"F-01\", 100], [\"F-02\", None]],\n    \"febrero.xlsx\": [[\"F-03\", 250]],\n    \"marzo.xlsx\": [[\"F-04\", None], [\"F-05\", 40]],\n}\nfor nombre, filas in meses.items():\n    pd.DataFrame(filas, columns=[\"factura\", \"monto\"]).to_excel(nombre, index=False)\n\n# 2. Únelos en uno solo\npartes = []\nfor nombre in meses:\n    hoja = pd.read_excel(nombre)\n    hoja[\"archivo\"] = nombre\n    partes.append(hoja)\ntodo = pd.concat(partes, ignore_index=True)\n\n# 3. Marca las filas sin monto y guarda\ntodo[\"revisar\"] = todo[\"monto\"].isna()\ntodo.to_excel(\"consolidado.xlsx\", index=False)\nprint(todo)\nprint(\"Filas a revisar:\", todo[\"revisar\"].sum())"
+     },
+     "comprueba": {
+      "texto": "El consolidado debe traer las filas de los 3 archivos y marcar 2 para revisar:",
+      "valores": [
+       [
+        "Filas",
+        "5"
+       ],
+       [
+        "Para revisar",
+        "2"
+       ],
+       [
+        "Archivos",
+        "3"
+       ]
+      ],
+      "salida": "  factura  monto       archivo  revisar\n0    F-01  100.0    enero.xlsx    False\n1    F-02    NaN    enero.xlsx     True\n2    F-03  250.0  febrero.xlsx    False\n3    F-04    NaN    marzo.xlsx     True\n4    F-05   40.0    marzo.xlsx    False\nFilas a revisar: 2",
+      "nota": "NaN quiere decir «celda vacía». Por eso F-02 y F-04 quedan en True."
+     },
+     "errores": [
+      [
+       "El archivo está abierto en Excel.",
+       "Windows no deja escribir encima: sale PermissionError. Ciérralo y vuelve a correr."
+      ],
+      [
+       "Encabezados distintos entre archivos.",
+       "Si uno dice «Monto» y otro «monto», concat los pone en columnas separadas."
+      ],
+      [
+       "Olvidar index=False.",
+       "Aparece una columna extra con 0, 1, 2… al principio del Excel."
+      ]
+     ]
     },
     {
      "id": "python-5",
@@ -101,7 +438,68 @@
       "proveedor": "Documentación oficial de requests (en inglés)",
       "url": "https://requests.readthedocs.io/en/latest/user/quickstart/"
      },
-     "practica": "Trae la TRM del día desde la API pública de datos.gov.co (https://www.datos.gov.co/resource/32sa-8pi3.json, publicada por la Superintendencia Financiera) e imprímela con su fecha."
+     "practica": "Trae la TRM del día desde la API pública de datos.gov.co (https://www.datos.gov.co/resource/32sa-8pi3.json, publicada por la Superintendencia Financiera) e imprímela con su fecha.",
+     "logro": "traer la TRM del día sin abrir el navegador.",
+     "idea": {
+      "titulo": "Entiéndelo con algo que ya haces",
+      "columnas": [
+       "Cuando pides un dato a otra área",
+       "Con una API"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "La ventanilla a la que le escribes",
+        "url = \"https://www.datos.gov.co/resource/32sa-8pi3.json\""
+       ],
+       [
+        "Lo que pides: solo el dato más reciente",
+        "params = {\"$order\": \"vigenciadesde DESC\", \"$limit\": 1}"
+       ],
+       [
+        "Enviar la solicitud y esperar máximo 20 segundos",
+        "requests.get(url, params=params, timeout=20)"
+       ],
+       [
+        "La respuesta llega como una tabla de registros",
+        "r.json()  →  [{\"valor\": \"…\", \"unidad\": \"COP\", …}]"
+       ],
+       [
+        "Si la ventanilla está cerrada, anotarlo y seguir",
+        "except requests.RequestException as e:"
+       ]
+      ]
+     },
+     "mira": "La guía rápida de requests muestra cómo hacer una petición y leer la respuesta. Lee hasta la parte de JSON: es lo único que usa este paso.",
+     "hazlo": [
+      "Abre en el navegador la dirección de la API (la de la variable url) y mira el JSON que devuelve.",
+      "Corre el código de abajo. Necesita internet.",
+      "Desconecta el wifi y córrelo otra vez: debe decir que no pudo, sin cerrarse con un error rojo."
+     ],
+     "codigo": {
+      "lenguaje": "python",
+      "texto": "import requests\n\nurl = \"https://www.datos.gov.co/resource/32sa-8pi3.json\"\nparams = {\"$order\": \"vigenciadesde DESC\", \"$limit\": 1}\n\ntry:\n    r = requests.get(url, params=params, timeout=20)\n    r.raise_for_status()\n    dato = r.json()[0]\n    print(\"TRM:\", dato[\"valor\"], dato[\"unidad\"], \"del\", dato[\"vigenciadesde\"][:10])\nexcept requests.RequestException as e:\n    print(\"No se pudo traer la TRM:\", e)"
+     },
+     "comprueba": {
+      "texto": "Debe salir una sola línea con el valor y la fecha. El 25-nov-2026 salió así; el tuyo será el del día en que lo corras:",
+      "salidaEjemplo": "TRM: 3592.03 COP del 2026-11-25",
+      "patron": "^TRM: \\d+(\\.\\d+)? COP del \\d{4}-\\d{2}-\\d{2}$",
+      "nota": "La API manda el valor como texto. Para hacer cuentas con él, conviértelo con float(dato[\"valor\"])."
+     },
+     "errores": [
+      [
+       "Olvidar el timeout.",
+       "Sin él, el programa puede quedarse esperando para siempre si la API no responde."
+      ],
+      [
+       "Sumar el valor como si fuera número.",
+       "Viene entre comillas («\"3592.03\"»): conviértelo con float() antes."
+      ],
+      [
+       "Quitar el try.",
+       "Sin try/except, un corte de internet cierra el programa con un error largo en vez de un aviso claro."
+      ]
+     ]
     }
    ]
   },
@@ -993,6 +1391,14 @@
    "id": "sql",
    "competencia": "SQL",
    "icono": "🗄️",
+   "disciplina": "Datos",
+   "frase": "SQL es pedirle a la base de datos lo mismo que haces con filtros y tablas dinámicas en Excel, pero escrito en una frase que se puede repetir.",
+   "usos": [
+    "Sacar de un sistema solo los pagos de un día o de un estado, sin exportar todo a Excel.",
+    "Unir dos tablas (pagos y clientes) y encontrar los registros que no cruzan.",
+    "Calcular saldos acumulados por cliente sin arrastrar fórmulas."
+   ],
+   "portafolio": "Una consulta a la API pública de la TRM explicada paso a paso, más tus consultas de práctica con pagos ficticios: muestran que sabes filtrar, agrupar y unir tablas.",
    "queEs": "El lenguaje para pedirle datos a una base de datos: filtrar, unir tablas y resumir. Es la forma más común de sacar información de los sistemas de una empresa.",
    "pasos": [
     {
@@ -1013,7 +1419,82 @@
       "titulo": "Curso COMPLETO de SQL y BASES DE DATOS Desde Cero para PRINCIPIANTES",
       "canal": "MoureDev by Brais Moure",
       "url": "https://www.youtube.com/watch?v=OuJerKzV5T0"
-     }
+     },
+     "logro": "filtrar, ordenar, contar y sumar una tabla con una consulta.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En SQL"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "La hoja con los pagos",
+        "FROM pagos"
+       ],
+       [
+        "Elegir qué columnas ver",
+        "SELECT id, cliente, monto"
+       ],
+       [
+        "Filtro: estado = aprobado",
+        "WHERE estado = 'aprobado'"
+       ],
+       [
+        "Ordenar de mayor a menor",
+        "ORDER BY monto DESC"
+       ],
+       [
+        "=CONTAR y =SUMA al pie de la columna",
+        "SELECT COUNT(*), SUM(monto)"
+       ]
+      ]
+     },
+     "mira": "Busca en el video la parte de SELECT, WHERE y ORDER BY. No hace falta verlo completo para esta estación.",
+     "hazlo": [
+      "Haz en SQLBolt las lecciones 1 a 4 (consultas, condiciones y orden). Cada una se corrige sola.",
+      "Abre sqliteonline.com, pega primero la tabla de práctica y córrela; luego pega la consulta.",
+      "Cambia 'aprobado' por 'rechazado' y anota en el cuaderno qué cambió."
+     ],
+     "codigo": {
+      "lenguaje": "sql",
+      "preparar": "CREATE TABLE pagos (id INTEGER, fecha TEXT, cliente TEXT, estado TEXT, monto INTEGER);\nINSERT INTO pagos VALUES\n (1, '2026-11-02', 'Ana', 'aprobado', 120),\n (2, '2026-11-02', 'Luis', 'rechazado', 80),\n (3, '2026-11-03', 'Ana', 'aprobado', 200),\n (4, '2026-11-03', 'Marta', 'pendiente', 50),\n (5, '2026-11-04', 'Luis', 'aprobado', 30),\n (6, '2026-11-04', 'Marta', 'aprobado', 90)",
+      "texto": "SELECT id, cliente, monto\nFROM pagos\nWHERE estado = 'aprobado'\nORDER BY monto DESC;\n\nSELECT COUNT(*) AS cuantos, SUM(monto) AS total\nFROM pagos\nWHERE estado = 'aprobado';"
+     },
+     "comprueba": {
+      "texto": "Con los 6 pagos de práctica (ficticios) debes ver 4 aprobados, del más grande al más chico, y su conteo y total:",
+      "valores": [
+       [
+        "Aprobados",
+        "4"
+       ],
+       [
+        "Total aprobado",
+        "440"
+       ],
+       [
+        "El mayor",
+        "200"
+       ]
+      ],
+      "salida": "3 | Ana | 200\n1 | Ana | 120\n6 | Marta | 90\n5 | Luis | 30\n4 | 440",
+      "nota": "Aquí cada fila se muestra con «|» entre columnas; el editor en línea la muestra como tabla."
+     },
+     "errores": [
+      [
+       "Texto entre comillas dobles.",
+       "En SQL el texto va entre comillas simples: 'aprobado'. Las dobles son para nombres de columnas."
+      ],
+      [
+       "Cambiar el orden de las partes.",
+       "Siempre va SELECT, FROM, WHERE y al final ORDER BY."
+      ],
+      [
+       "Olvidar el punto y coma entre dos consultas.",
+       "Sin «;» el editor cree que es una sola consulta y marca error."
+      ]
+     ]
     },
     {
      "id": "sql-2",
@@ -1033,7 +1514,82 @@
       "titulo": "¿Cómo uso SQL como Data Analyst? Análisis de Datos con SQL",
       "canal": "Eze Talamona",
       "url": "https://www.youtube.com/watch?v=6i670_GQQGA"
-     }
+     },
+     "logro": "convertir una pregunta de negocio en una consulta que agrupa y resume.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En SQL"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Tabla dinámica con la fecha en Filas",
+        "GROUP BY fecha"
+       ],
+       [
+        "Suma de monto en Valores",
+        "SUM(monto) AS total"
+       ],
+       [
+        "Cuenta de pagos en Valores",
+        "COUNT(*) AS pagos"
+       ],
+       [
+        "Filtrar la tabla dinámica: total mayor a 100",
+        "HAVING SUM(monto) > 100"
+       ],
+       [
+        "Los 10 más grandes",
+        "ORDER BY monto DESC LIMIT 10"
+       ]
+      ]
+     },
+     "mira": "El video muestra cómo un analista pasa de una pregunta a una consulta. Fíjate en cómo escribe primero la pregunta en palabras.",
+     "hazlo": [
+      "Escribe en el cuaderno tres preguntas: ¿cuánto entró cada día?, ¿cuánto hay por estado? y ¿cuáles son los pagos más grandes?",
+      "En sqliteonline.com, pega la tabla de práctica y luego las tres consultas de abajo.",
+      "Agrega HAVING SUM(monto) > 200 a la consulta por estado y anota qué estados quedan."
+     ],
+     "codigo": {
+      "lenguaje": "sql",
+      "preparar": "CREATE TABLE pagos (id INTEGER, fecha TEXT, cliente TEXT, estado TEXT, monto INTEGER);\nINSERT INTO pagos VALUES\n (1, '2026-11-02', 'Ana', 'aprobado', 120),\n (2, '2026-11-02', 'Luis', 'rechazado', 80),\n (3, '2026-11-03', 'Ana', 'aprobado', 200),\n (4, '2026-11-03', 'Marta', 'pendiente', 50),\n (5, '2026-11-04', 'Luis', 'aprobado', 30),\n (6, '2026-11-04', 'Marta', 'aprobado', 90)",
+      "texto": "SELECT fecha, COUNT(*) AS pagos, SUM(monto) AS total\nFROM pagos\nGROUP BY fecha\nORDER BY fecha;\n\nSELECT estado, COUNT(*) AS pagos, SUM(monto) AS total\nFROM pagos\nGROUP BY estado\nORDER BY total DESC;\n\nSELECT id, cliente, monto\nFROM pagos\nORDER BY monto DESC\nLIMIT 3;"
+     },
+     "comprueba": {
+      "texto": "Las tres respuestas, con los pagos de práctica:",
+      "valores": [
+       [
+        "2-nov",
+        "200"
+       ],
+       [
+        "Aprobados",
+        "440"
+       ],
+       [
+        "Pago mayor",
+        "200"
+       ]
+      ],
+      "salida": "2026-11-02 | 2 | 200\n2026-11-03 | 2 | 250\n2026-11-04 | 2 | 120\naprobado | 4 | 440\nrechazado | 1 | 80\npendiente | 1 | 50\n3 | Ana | 200\n1 | Ana | 120\n6 | Marta | 90",
+      "nota": "Las 3 primeras líneas son por día, las 3 siguientes por estado y las 3 últimas, los pagos más grandes."
+     },
+     "errores": [
+      [
+       "Poner una columna en SELECT que no está en GROUP BY.",
+       "Si agrupas por fecha, las demás columnas deben ir dentro de SUM, COUNT o similares."
+      ],
+      [
+       "Usar WHERE para filtrar un total.",
+       "WHERE filtra filas antes de agrupar; para filtrar el total se usa HAVING."
+      ],
+      [
+       "No revisar el resultado.",
+       "Suma a mano un grupo pequeño y compáralo: así sabes que la consulta dice la verdad."
+      ]
+     ]
     },
     {
      "id": "sql-3",
@@ -1048,7 +1604,78 @@
       "nombre": "Intro to SQL",
       "proveedor": "Kaggle Learn (en inglés, interactivo)",
       "url": "https://www.kaggle.com/learn/intro-to-sql"
-     }
+     },
+     "logro": "unir dos tablas y encontrar los registros que no cruzan.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En SQL"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Dos hojas: pagos y clientes",
+        "FROM pagos p JOIN clientes c"
+       ],
+       [
+        "BUSCARV del nombre por el código del cliente",
+        "ON c.id = p.cliente_id"
+       ],
+       [
+        "Los que dan #N/D",
+        "LEFT JOIN … WHERE c.id IS NULL"
+       ],
+       [
+        "Un cliente repetido en la hoja duplica el resultado",
+        "GROUP BY id HAVING COUNT(*) > 1"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la lección «Joining Data» del curso de Kaggle lo explica con dibujos de las dos tablas.",
+     "hazlo": [
+      "Haz en Kaggle la lección «Joining Data» del curso Intro to SQL.",
+      "En sqliteonline.com, pega las dos tablas de práctica y luego las dos consultas.",
+      "Agrega un cliente nuevo con id 4 y vuelve a correr: el pago 12 debe dejar de aparecer como huérfano."
+     ],
+     "codigo": {
+      "lenguaje": "sql",
+      "preparar": "CREATE TABLE clientes (id INTEGER, nombre TEXT);\nINSERT INTO clientes VALUES (1, 'Ana'), (2, 'Luis'), (3, 'Marta');\nCREATE TABLE pagos (id INTEGER, cliente_id INTEGER, monto INTEGER);\nINSERT INTO pagos VALUES (10, 1, 120), (11, 2, 80), (12, 4, 60), (13, 1, 200), (14, NULL, 35)",
+      "texto": "-- Pagos con su cliente\nSELECT p.id, c.nombre, p.monto\nFROM pagos p\nJOIN clientes c ON c.id = p.cliente_id\nORDER BY p.id;\n\n-- Pagos sin cliente\nSELECT p.id, p.cliente_id, p.monto\nFROM pagos p\nLEFT JOIN clientes c ON c.id = p.cliente_id\nWHERE c.id IS NULL\nORDER BY p.id;"
+     },
+     "comprueba": {
+      "texto": "De los 5 pagos de práctica, 3 cruzan con un cliente y 2 no:",
+      "valores": [
+       [
+        "Con cliente",
+        "3"
+       ],
+       [
+        "Sin cliente",
+        "2"
+       ],
+       [
+        "Huérfanos",
+        "12 y 14"
+       ]
+      ],
+      "salida": "10 | Ana | 120\n11 | Luis | 80\n13 | Ana | 200\n12 | 4 | 60\n14 | NULL | 35",
+      "nota": "NULL quiere decir «sin dato». El pago 12 apunta a un cliente que no existe y el 14 no tiene cliente."
+     },
+     "errores": [
+      [
+       "Usar JOIN para buscar lo que falta.",
+       "JOIN solo deja lo que cruza; para ver lo que no cruza se usa LEFT JOIN y IS NULL."
+      ],
+      [
+       "Escribir = NULL.",
+       "Nada es igual a NULL: se pregunta con IS NULL."
+      ],
+      [
+       "No mirar duplicados.",
+       "Si un cliente está dos veces, cada pago suyo sale dos veces y los totales se inflan."
+      ]
+     ]
     },
     {
      "id": "sql-4",
@@ -1063,7 +1690,78 @@
       "nombre": "Advanced SQL",
       "proveedor": "Kaggle Learn (en inglés, interactivo)",
       "url": "https://www.kaggle.com/learn/advanced-sql"
-     }
+     },
+     "logro": "calcular saldos acumulados y rankings sin arrastrar fórmulas.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En SQL"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Saldo: =D2+C3 arrastrado hacia abajo",
+        "SUM(monto) OVER (ORDER BY fecha)"
+       ],
+       [
+        "Empezar el saldo de cero en cada cliente",
+        "PARTITION BY cliente"
+       ],
+       [
+        "Mirar la celda de arriba",
+        "LAG(monto) OVER (…)"
+       ],
+       [
+        "=JERARQUIA.EQV(C2; C:C)",
+        "RANK() OVER (ORDER BY monto DESC)"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la lección «Analytic Functions» del curso Advanced SQL de Kaggle trae ejemplos de acumulados.",
+     "hazlo": [
+      "Haz en Kaggle la lección «Analytic Functions» del curso Advanced SQL.",
+      "En sqliteonline.com, pega la tabla de movimientos y luego las dos consultas.",
+      "Comprueba a mano el saldo de Ana: 100, luego 100 − 40 y luego + 60."
+     ],
+     "codigo": {
+      "lenguaje": "sql",
+      "preparar": "CREATE TABLE movimientos (cliente TEXT, fecha TEXT, monto INTEGER);\nINSERT INTO movimientos VALUES\n ('Ana', '2026-11-01', 100), ('Ana', '2026-11-03', -40), ('Ana', '2026-11-05', 60),\n ('Luis', '2026-11-02', 200), ('Luis', '2026-11-04', -50)",
+      "texto": "SELECT cliente, fecha, monto,\n       SUM(monto) OVER (PARTITION BY cliente ORDER BY fecha) AS saldo,\n       LAG(monto) OVER (PARTITION BY cliente ORDER BY fecha) AS anterior\nFROM movimientos\nORDER BY cliente, fecha;\n\nSELECT cliente, fecha, monto,\n       RANK() OVER (ORDER BY monto DESC) AS puesto\nFROM movimientos\nORDER BY puesto\nLIMIT 3;"
+     },
+     "comprueba": {
+      "texto": "El saldo de cada cliente arranca en su primer movimiento:",
+      "valores": [
+       [
+        "Saldo final de Ana",
+        "120"
+       ],
+       [
+        "Saldo final de Luis",
+        "150"
+       ],
+       [
+        "Puesto 1",
+        "Luis, 200"
+       ]
+      ],
+      "salida": "Ana | 2026-11-01 | 100 | 100 | NULL\nAna | 2026-11-03 | -40 | 60 | 100\nAna | 2026-11-05 | 60 | 120 | -40\nLuis | 2026-11-02 | 200 | 200 | NULL\nLuis | 2026-11-04 | -50 | 150 | 200\nLuis | 2026-11-02 | 200 | 1\nAna | 2026-11-01 | 100 | 2\nAna | 2026-11-05 | 60 | 3",
+      "nota": "La columna anterior sale NULL en el primer movimiento de cada cliente porque no tiene uno antes."
+     },
+     "errores": [
+      [
+       "Olvidar ORDER BY dentro de OVER.",
+       "Sin él, el acumulado no sabe en qué orden sumar y da el total de una vez."
+      ],
+      [
+       "Olvidar PARTITION BY.",
+       "El saldo de Luis seguiría sumando sobre el de Ana."
+      ],
+      [
+       "Fechas guardadas como 2/11/2026.",
+       "Ordenan mal como texto: guárdalas como 2026-11-02."
+      ]
+     ]
     },
     {
      "id": "sql-5",
@@ -1077,7 +1775,63 @@
       "nombre": "API Endpoints",
       "proveedor": "Socrata, la plataforma de datos.gov.co (en inglés)",
       "url": "https://dev.socrata.com/docs/endpoints.html"
-     }
+     },
+     "logro": "pedirle a una API pública solo los datos que necesitas, con una consulta en la dirección.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que ya sabes de SQL",
+      "columnas": [
+       "En SQL",
+       "En la dirección de datos.gov.co (SoQL)"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "SELECT vigenciadesde, valor",
+        "$select=vigenciadesde,valor"
+       ],
+       [
+        "WHERE fecha entre el 1 y el 30",
+        "$where=vigenciadesde between '…' and '…'"
+       ],
+       [
+        "ORDER BY vigenciadesde",
+        "$order=vigenciadesde ASC"
+       ],
+       [
+        "LIMIT 10",
+        "$limit=10"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la página de Socrata (la plataforma de datos.gov.co) explica cada parámetro con ejemplos.",
+     "hazlo": [
+      "Copia la dirección de abajo, pégala en el navegador y mira la respuesta.",
+      "Cambia las fechas al mes anterior y vuelve a pedirla.",
+      "Escribe en el cuaderno qué hace cada parte (select, where, order), como si se lo explicaras a alguien en una entrevista."
+     ],
+     "codigo": {
+      "lenguaje": "texto",
+      "texto": "https://www.datos.gov.co/resource/32sa-8pi3.json?$select=vigenciadesde,valor&$where=vigenciadesde between '2026-11-01T00:00:00' and '2026-11-30T00:00:00'&$order=vigenciadesde ASC"
+     },
+     "comprueba": {
+      "texto": "Debe llegar una lista de registros con fecha y valor, ordenada por fecha. El 25-nov-2026 llegaron 14; empezaba así:",
+      "salidaEjemplo": "[{\"vigenciadesde\":\"2026-11-04T00:00:00.000\",\"valor\":\"3235.59\"}\n,{\"vigenciadesde\":\"2026-11-05T00:00:00.000\",\"valor\":\"3221.19\"}\n, …]",
+      "nota": "Noviembre arranca el 4 porque un registro puede valer varios días: el que empieza el 31-oct cubre hasta el 3-nov (fin de semana y festivo)."
+     },
+     "errores": [
+      [
+       "Olvidar el signo $.",
+       "Sin él la API no entiende select ni where."
+      ],
+      [
+       "Fecha sin la hora.",
+       "La API compara fechas completas: escribe '2026-11-01T00:00:00'."
+      ],
+      [
+       "Espacios en la dirección.",
+       "El navegador los cambia solo por %20; en Python pásalos en params y requests lo hace por ti."
+      ]
+     ]
     }
    ]
   },
@@ -1085,6 +1839,14 @@
    "id": "excel",
    "competencia": "Excel",
    "icono": "📗",
+   "disciplina": "Datos",
+   "frase": "Excel es el taller donde nacen casi todos los procesos: dominarlo bien es lo que te deja ver qué parte se puede automatizar después.",
+   "usos": [
+    "Resumir miles de filas por mes y por responsable con una tabla dinámica.",
+    "Cruzar pagos contra facturas y marcar los que no aparecen.",
+    "Detectar qué parte de un reporte semanal se repite y conviene automatizar."
+   ],
+   "portafolio": "Un libro de Excel con datos ficticios que cruza dos listas con BUSCARX, las resume con una tabla dinámica y explica qué parte automatizarías.",
    "queEs": "La herramienta donde viven muchos procesos antes de automatizarlos: cruzar tablas, resumir y revisar datos.",
    "pasos": [
     {
@@ -1105,7 +1867,118 @@
       "titulo": "Tablas Dinámicas en Excel - Todo lo que necesitas saber 😎",
       "canal": "A2 Capacitación: Excel",
       "url": "https://www.youtube.com/watch?v=rpSAvYQfNeo"
-     }
+     },
+     "logro": "resumir una tabla por mes y por persona en un minuto.",
+     "idea": {
+      "titulo": "Entiéndelo con preguntas",
+      "columnas": [
+       "Lo que quieres saber",
+       "Dónde va en la tabla dinámica"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "¿Cuánto se vendió cada mes?",
+        "Mes en Filas y Venta en Valores"
+       ],
+       [
+        "¿Y cuánto vendió cada persona?",
+        "Vendedor en Columnas"
+       ],
+       [
+        "Ver solo a una persona",
+        "Vendedor en Filtros"
+       ],
+       [
+        "Contar ventas en vez de sumarlas",
+        "Configuración de campo de valor → Cuenta"
+       ],
+       [
+        "Llegaron datos nuevos",
+        "Clic derecho → Actualizar"
+       ]
+      ]
+     },
+     "hoja": {
+      "columnas": [
+       "A",
+       "B",
+       "C"
+      ],
+      "filas": [
+       [
+        "Mes",
+        "Vendedor",
+        "Venta"
+       ],
+       [
+        "Ene",
+        "Ana",
+        "100"
+       ],
+       [
+        "Ene",
+        "Luis",
+        "80"
+       ],
+       [
+        "Feb",
+        "Ana",
+        "120"
+       ],
+       [
+        "Feb",
+        "Luis",
+        "60"
+       ],
+       [
+        "Feb",
+        "Ana",
+        "40"
+       ]
+      ]
+     },
+     "mira": "El video recorre la tabla dinámica de principio a fin. Repite cada paso en tu Excel mientras lo ves.",
+     "hazlo": [
+      "Copia en Excel la hoja de ejemplo (5 ventas ficticias) y conviértela en tabla con Ctrl+T.",
+      "Insertar → Tabla dinámica: Mes en Filas, Vendedor en Columnas y Venta en Valores.",
+      "Agrega una venta nueva, actualiza la tabla dinámica y mira cómo cambia el total."
+     ],
+     "comprueba": {
+      "texto": "Con las 5 ventas de ejemplo, la tabla dinámica debe mostrar:",
+      "valores": [
+       [
+        "Enero",
+        "180"
+       ],
+       [
+        "Febrero",
+        "220"
+       ],
+       [
+        "Ana en total",
+        "260"
+       ],
+       [
+        "Total general",
+        "400"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Filas vacías o títulos repetidos en los datos.",
+       "La tabla dinámica toma mal el rango: convierte los datos en tabla (Ctrl+T) antes."
+      ],
+      [
+       "Olvidar actualizar.",
+       "La tabla dinámica no se recalcula sola: clic derecho → Actualizar."
+      ],
+      [
+       "Montos guardados como texto.",
+       "Si un número está pegado a la izquierda de la celda es texto, y la tabla dinámica lo cuenta en vez de sumarlo."
+      ]
+     ]
     },
     {
      "id": "excel-2",
@@ -1125,7 +1998,113 @@
       "titulo": "BuscarX - La MEJOR fórmula de Excel?",
       "canal": "Excel para Todos",
       "url": "https://www.youtube.com/watch?v=iPmkPviJiKo"
-     }
+     },
+     "logro": "cruzar pagos contra facturas y marcar los que no aparecen o no coinciden.",
+     "idea": {
+      "titulo": "Entiéndelo con lo que ya usas",
+      "columnas": [
+       "Con BUSCARV",
+       "Con BUSCARX"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "=BUSCARV(A2; Facturas!A:B; 2; FALSO)",
+        "=BUSCARX(A2; Facturas!A:A; Facturas!B:B)"
+       ],
+       [
+        "#N/D cuando no lo encuentra",
+        "4.º dato: \"No aparece\""
+       ],
+       [
+        "La respuesta debe estar a la derecha",
+        "Puede estar a cualquier lado"
+       ],
+       [
+        "Contar columnas (el 2)",
+        "Señalas la columna de la respuesta"
+       ]
+      ]
+     },
+     "hoja": {
+      "columnas": [
+       "A",
+       "B",
+       "C",
+       "D"
+      ],
+      "filas": [
+       [
+        "Factura",
+        "Pagado",
+        "Facturado",
+        "Estado"
+       ],
+       [
+        "F-01",
+        "100",
+        "100",
+        "OK"
+       ],
+       [
+        "F-02",
+        "250",
+        "No aparece",
+        "Revisar"
+       ],
+       [
+        "F-03",
+        "80",
+        "90",
+        "Diferencia"
+       ]
+      ]
+     },
+     "mira": "Mira el video completo: compara BUSCARX con BUSCARV y muestra el caso de «no encontrado».",
+     "hazlo": [
+      "Haz dos hojas ficticias. Pagos: F-01 100, F-02 250, F-03 80. Facturas: F-01 100, F-03 90, F-04 40.",
+      "En Pagos, escribe las dos fórmulas de abajo en C2 y D2 y arrástralas hacia abajo.",
+      "Haz el cruce al revés (desde Facturas) para encontrar la factura sin pago."
+     ],
+     "codigo": {
+      "lenguaje": "excel",
+      "texto": "C2: =BUSCARX(A2; Facturas!A:A; Facturas!B:B; \"No aparece\")\nD2: =SI(C2=\"No aparece\"; \"Revisar\"; SI(C2=B2; \"OK\"; \"Diferencia\"))"
+     },
+     "comprueba": {
+      "texto": "Cada pago queda con su estado, y el cruce al revés encuentra una factura sin pago:",
+      "valores": [
+       [
+        "OK",
+        "F-01"
+       ],
+       [
+        "Revisar",
+        "F-02"
+       ],
+       [
+        "Diferencia",
+        "F-03"
+       ],
+       [
+        "Factura sin pago",
+        "F-04"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Rangos de distinto tamaño.",
+       "Sale #¡VALOR!: la columna donde buscas y la de la respuesta deben tener las mismas filas."
+      ],
+      [
+       "Sale #¿NOMBRE?",
+       "Tu Excel es anterior a 2021 y no trae BUSCARX: usa BUSCARV o Excel en la web."
+      ],
+      [
+       "Comas entre los datos de la fórmula.",
+       "Si tu Excel usa coma decimal (lo normal en Colombia), los datos se separan con punto y coma."
+      ]
+     ]
     },
     {
      "id": "excel-3",
@@ -1144,7 +2123,75 @@
       "nombre": "Ayuda y formación de Excel",
       "proveedor": "Soporte de Microsoft (en español)",
       "url": "https://support.microsoft.com/es-es/excel/"
-     }
+     },
+     "logro": "resolver una prueba técnica de Excel con tiempo y saber en qué fallas.",
+     "idea": {
+      "titulo": "Lo que suelen pedir y con qué se resuelve",
+      "columnas": [
+       "Lo que te piden",
+       "La fórmula o herramienta"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "Traer un dato de otra tabla",
+        "=BUSCARX(A2; Tabla2[Id]; Tabla2[Monto])"
+       ],
+       [
+        "Sumar con dos condiciones",
+        "=SUMAR.SI.CONJUNTO(C:C; A:A; \"Ana\"; B:B; \"Feb\")"
+       ],
+       [
+        "Contar repetidos",
+        "=CONTAR.SI(A:A; A2)>1"
+       ],
+       [
+        "Marcar si cumple dos cosas",
+        "=SI(Y(C2>100; D2=\"OK\"); \"Sí\"; \"No\")"
+       ],
+       [
+        "Limpiar espacios de sobra",
+        "=ESPACIOS(A2)"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: usa la ayuda de Microsoft cuando una función no te salga, y el simulador del Cerebro para practicar con reloj.",
+     "hazlo": [
+      "Haz una ronda completa del simulador de prueba técnica de 4-RUT.",
+      "Anota en el cuaderno tus 3 errores y la fórmula correcta de cada uno.",
+      "Repite la ronda otro día y compara tu tiempo."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tienes en el cuaderno:",
+      "valores": [
+       [
+        "Rondas",
+        "2"
+       ],
+       [
+        "Errores anotados",
+        "3"
+       ],
+       [
+        "Fórmula corregida",
+        "1 por error"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Referencias que se mueven al arrastrar.",
+       "Fija la celda con $ (tecla F4): $A$2 no se mueve."
+      ],
+      [
+       "Empezar sin leer todo el enunciado.",
+       "Léelo completo primero: a veces la última línea cambia lo que piden."
+      ],
+      [
+       "Quedarse pegado en una pregunta.",
+       "Sáltala y vuelve al final; el tiempo cuenta."
+      ]
+     ]
     },
     {
      "id": "excel-4",
@@ -1164,7 +2211,75 @@
       "nombre": "Automate the Boring Stuff, capítulo 14: hojas de Excel",
       "proveedor": "Al Sweigart (en inglés, libro gratis en línea)",
       "url": "https://automatetheboringstuff.com/3e/chapter14.html"
-     }
+     },
+     "logro": "ver qué parte de una hoja que haces a mano puede hacerla una máquina.",
+     "idea": {
+      "titulo": "Entiéndelo con tu semana",
+      "columnas": [
+       "Lo que haces a mano",
+       "Quién lo puede hacer"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Descargar el archivo del sistema",
+        "Power Automate para escritorio, o una API si el sistema la tiene"
+       ],
+       [
+        "Copiar y pegar en la plantilla",
+        "Python con pandas, o Power Query en el mismo Excel"
+       ],
+       [
+        "Aplicar fórmulas y filtros",
+        "Python o Power Query"
+       ],
+       [
+        "Revisar las diferencias raras",
+        "Tú: el criterio queda en una persona"
+       ],
+       [
+        "Enviar el reporte por correo",
+        "Power Automate en la nube"
+       ]
+      ]
+     },
+     "mira": "El video muestra un flujo de Power Automate para escritorio que trabaja con Excel. Míralo pensando en tu propia hoja.",
+     "hazlo": [
+      "Elige una hoja que actualizas a mano cada semana (sin datos internos: describe solo los pasos).",
+      "Escribe sus pasos, uno por línea, y cuánto tarda cada uno.",
+      "Marca al lado de cada paso quién lo podría hacer: Python, Power Automate o tú."
+     ],
+     "comprueba": {
+      "texto": "Tu página está lista si tiene:",
+      "valores": [
+       [
+        "Pasos",
+        "5 o más"
+       ],
+       [
+        "Minutos por paso",
+        "anotados"
+       ],
+       [
+        "Revisión humana",
+        "al menos 1"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Querer automatizarlo todo.",
+       "Lo que exige criterio (decidir si una diferencia es error) se queda en una persona."
+      ],
+      [
+       "No medir el tiempo de hoy.",
+       "Sin el antes no podrás mostrar cuánto ahorra la automatización."
+      ],
+      [
+       "Describir datos del trabajo.",
+       "Escribe los pasos en general, sin nombres de clientes ni sistemas internos."
+      ]
+     ]
     }
    ]
   },
@@ -1172,6 +2287,14 @@
    "id": "power-bi",
    "competencia": "Power BI u otra herramienta BI",
    "icono": "📊",
+   "disciplina": "Datos",
+   "frase": "Power BI es una tabla dinámica que se actualiza sola y que cualquiera puede mirar sin pedirte el archivo.",
+   "usos": [
+    "Mostrar a un área sus indicadores del día sin armar el reporte a mano.",
+    "Unir datos de varias fuentes en un solo tablero.",
+    "Comparar este mes contra el anterior con una medida que se recalcula sola."
+   ],
+   "portafolio": "Un reporte de una página con datos públicos de datos.gov.co: 3 visuales, una medida DAX de variación y una nota de qué pregunta responde y para quién.",
    "queEs": "Tableros que se actualizan a partir de los datos, para que un área vea sus indicadores sin pedir reportes a mano.",
    "pasos": [
     {
@@ -1192,7 +2315,76 @@
       "titulo": "Curso de Power BI desde Cero (Completo): datos, gráficos y reporte profesional",
       "canal": "datdata",
       "url": "https://www.youtube.com/watch?v=vufMFnWpINo"
-     }
+     },
+     "logro": "armar un reporte de una página con datos públicos.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En Power BI"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Abrir el archivo",
+        "Obtener datos → Excel o CSV"
+       ],
+       [
+        "Limpiar columnas antes de usarlas",
+        "Transformar datos (Power Query)"
+       ],
+       [
+        "Insertar un gráfico",
+        "Panel Visualizaciones"
+       ],
+       [
+        "Segmentación de datos",
+        "Segmentación (slicer)"
+       ],
+       [
+        "Mandar el archivo por correo",
+        "Publicar en el servicio de Power BI"
+       ]
+      ]
+     },
+     "mira": "El curso del video va de los datos al reporte. Para esta estación basta la parte de cargar datos y crear visuales.",
+     "hazlo": [
+      "Instala Power BI Desktop (es para Windows) y descarga en CSV un conjunto de datos.gov.co.",
+      "Cárgalo con Obtener datos y revisa en Transformar datos que montos y fechas tengan el tipo correcto.",
+      "Arma una página con 3 visuales: una tarjeta con el total, barras por categoría y una línea por fecha."
+     ],
+     "comprueba": {
+      "texto": "Tu reporte está listo si tiene:",
+      "valores": [
+       [
+        "Visuales",
+        "3"
+       ],
+       [
+        "Páginas",
+        "1"
+       ],
+       [
+        "Segmentación",
+        "1"
+       ]
+      ],
+      "nota": "Anota en el cuaderno el enlace del conjunto que usaste: un dato sin fuente no se muestra."
+     },
+     "errores": [
+      [
+       "Montos como texto.",
+       "En Transformar datos, cambia el tipo de la columna a Número decimal."
+      ],
+      [
+       "Fechas que no ordenan.",
+       "La columna debe ser tipo Fecha, no texto."
+      ],
+      [
+       "No poder publicar.",
+       "El servicio de Power BI pide una cuenta de trabajo o estudiante; para practicar basta Power BI Desktop."
+      ]
+     ]
     },
     {
      "id": "power-bi-2",
@@ -1212,7 +2404,80 @@
       "titulo": "Dax para Principiantes",
       "canal": "A2 Capacitación: Excel",
       "url": "https://www.youtube.com/watch?v=rKreQw9JGvo"
-     }
+     },
+     "logro": "crear medidas que se recalculan solas, como el total y la variación contra el mes anterior.",
+     "idea": {
+      "titulo": "Entiéndelo con Excel",
+      "columnas": [
+       "En Excel",
+       "En DAX"
+      ],
+      "codigo": true,
+      "filas": [
+       [
+        "=SUMA(C:C)",
+        "SUM(Ventas[Monto])"
+       ],
+       [
+        "=PROMEDIO(C:C)",
+        "AVERAGE(Ventas[Monto])"
+       ],
+       [
+        "=SUMAR.SI(B:B; \"Feb\"; C:C)",
+        "CALCULATE([Total], Ventas[Mes] = \"Feb\")"
+       ],
+       [
+        "=SI.ERROR(A2/B2; 0)",
+        "DIVIDE([A], [B])"
+       ],
+       [
+        "BUSCARV entre dos hojas",
+        "Una relación entre tablas en la vista Modelo"
+       ]
+      ]
+     },
+     "mira": "El video explica DAX para principiantes desde Excel. Fíjate en la diferencia entre columna calculada y medida.",
+     "hazlo": [
+      "Crea una tabla Calendario (Modelado → Nueva tabla: Calendario = CALENDARAUTO()) y márcala como tabla de fechas.",
+      "Relaciona Calendario[Date] con la fecha de tus ventas en la vista Modelo.",
+      "Crea las 4 medidas de abajo con Nueva medida y ponlas en una tabla por mes."
+     ],
+     "codigo": {
+      "lenguaje": "dax",
+      "texto": "Total = SUM(Ventas[Monto])\nPromedio = AVERAGE(Ventas[Monto])\nTotal mes anterior = CALCULATE([Total], DATEADD(Calendario[Date], -1, MONTH))\nVariación % = DIVIDE([Total] - [Total mes anterior], [Total mes anterior])"
+     },
+     "comprueba": {
+      "texto": "Con las ventas de ejemplo de la ruta de Excel (enero 180 y febrero 220), en la fila de febrero debes ver:",
+      "valores": [
+       [
+        "Total",
+        "220"
+       ],
+       [
+        "Mes anterior",
+        "180"
+       ],
+       [
+        "Variación",
+        "22,2 %"
+       ]
+      ],
+      "nota": "(220 − 180) ÷ 180 = 0,222. Dale formato de porcentaje a la medida para verlo como 22,2 %."
+     },
+     "errores": [
+      [
+       "Usar una columna calculada para un total.",
+       "La columna se calcula fila por fila; los totales y porcentajes van como medida."
+      ],
+      [
+       "DATEADD sin tabla de fechas.",
+       "Las funciones de tiempo necesitan una tabla de fechas continua y marcada como tal."
+      ],
+      [
+       "Dividir con /.",
+       "Si el mes anterior es 0 sale error; DIVIDE devuelve vacío."
+      ]
+     ]
     },
     {
      "id": "power-bi-3",
@@ -1227,7 +2492,71 @@
       "nombre": "Introducción al análisis de datos de Microsoft",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/training/paths/data-analytics-microsoft/"
-     }
+     },
+     "logro": "decidir qué pregunta responde un tablero, para quién es y cada cuánto se actualiza.",
+     "idea": {
+      "titulo": "Entiéndelo con ejemplos",
+      "columnas": [
+       "En vez de…",
+       "Mejor…"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "«¿Cómo vamos?»",
+        "«¿Cuántos pagos quedaron sin conciliar esta semana y por qué?»"
+       ],
+       [
+        "Muchos gráficos en una página",
+        "Un visual por pregunta"
+       ],
+       [
+        "Todos los datos que hay",
+        "Los datos que cambian una decisión"
+       ],
+       [
+        "Se actualiza cuando alguien se acuerda",
+        "Cada día a una hora fija, y se ve la fecha del dato"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: el módulo de Microsoft Learn explica qué hace un analista antes de armar un tablero.",
+     "hazlo": [
+      "Haz el módulo de Microsoft Learn «Introducción al análisis de datos».",
+      "Escribe arriba de tu reporte, en una frase, la pregunta que responde.",
+      "Anota en el cuaderno quién lo usaría, cada cuánto se actualiza y qué decisión ayuda a tomar."
+     ],
+     "comprueba": {
+      "texto": "Tu reporte tiene una ficha con:",
+      "valores": [
+       [
+        "Pregunta",
+        "1 frase"
+       ],
+       [
+        "Quién lo usa",
+        "1 rol"
+       ],
+       [
+        "Actualización",
+        "cada cuánto"
+       ]
+      ]
+     },
+     "errores": [
+      [
+       "Empezar por los gráficos.",
+       "Primero la pregunta; los visuales salen de ella."
+      ],
+      [
+       "Esconder la fecha del dato.",
+       "Todo número lleva su corte: pon «datos al…» en el tablero."
+      ],
+      [
+       "Hacerlo para todos.",
+       "Un tablero para todos no le sirve a nadie: elige un usuario."
+      ]
+     ]
     },
     {
      "id": "power-bi-4",
@@ -1241,7 +2570,57 @@
       "nombre": "Asociado Analista de Datos de Power BI (PL-300)",
       "proveedor": "Microsoft Learn (en español)",
       "url": "https://learn.microsoft.com/es-es/credentials/certifications/data-analyst-associate/"
-     }
+     },
+     "logro": "saber qué te falta para presentar la certificación PL-300.",
+     "idea": {
+      "titulo": "Lo que pide la guía y dónde lo practicaste",
+      "columnas": [
+       "Área de la guía de estudio",
+       "Dónde lo practicaste en esta ruta"
+      ],
+      "codigo": false,
+      "filas": [
+       [
+        "Preparar los datos (Power Query)",
+        "Estación 1"
+       ],
+       [
+        "Modelar: relaciones y DAX",
+        "Estación 2"
+       ],
+       [
+        "Visualizar y analizar",
+        "Estaciones 1 y 3"
+       ],
+       [
+        "Publicar y compartir de forma segura",
+        "Todavía no: necesita el servicio de Power BI"
+       ]
+      ]
+     },
+     "mira": "Este paso no tiene video propio: la página de la certificación en Microsoft Learn trae la guía de estudio con cada tema.",
+     "hazlo": [
+      "Abre la guía de estudio de PL-300 desde la página de la certificación.",
+      "Marca cada tema como «lo domino», «lo vi» o «me falta».",
+      "Pon una fecha a cada «me falta» y decide si te presentas al examen."
+     ],
+     "comprueba": {
+      "texto": "La estación está hecha cuando tu cuaderno tiene las tres listas (domino, vi, me falta) y una fecha para cada pendiente."
+     },
+     "errores": [
+      [
+       "Estudiar sin la guía.",
+       "La guía dice exactamente qué evalúan: úsala como lista de chequeo."
+      ],
+      [
+       "Solo leer.",
+       "Cada tema se aprende haciéndolo en Power BI Desktop."
+      ],
+      [
+       "Confiar en fechas o precios de memoria.",
+       "Revisa en la página oficial el precio y las fechas del examen el día que decidas."
+      ]
+     ]
     }
    ]
   },
